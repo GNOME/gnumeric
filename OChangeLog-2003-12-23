@@ -1,3 +1,8 @@
+2002-03-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* workbook.c (workbook_sheet_reorganize) : implement adding of
+	  multiple sheets
+
 2002-03-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/sheet.c (sheet_new) : initialize sheet->index_in_wb

@@ -1271,7 +1271,6 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 		the_sheets = changed_names;
 		while (the_names) {
 			Sheet *sheet = the_sheets->data;
-			
 			if (sheet == NULL) {
 				char *name = the_names->data;
 				Sheet *a_new_sheet ;
@@ -1284,41 +1283,47 @@ workbook_sheet_reorganize (WorkbookControl *wbc,
 				if (free_name)
 					g_free (name);
 				workbook_sheet_attach (wb, a_new_sheet, NULL);
-				sheet_set_dirty (a_new_sheet, TRUE);
-				*new_sheets = g_slist_prepend (	*new_sheets, a_new_sheet);
+				*new_sheets = g_slist_prepend (*new_sheets, a_new_sheet);
 			}
 			the_names = the_names->next;
 			the_sheets = the_sheets->next;
 		}
-		*new_sheets = g_slist_reverse (*new_sheets);
-		new_sheet = *new_sheets;
+		new_sheet = *new_sheets = g_slist_reverse (*new_sheets);
 	}
 
 /* reordering */
 	this_sheet = new_order;
 	while (this_sheet) {
+		gboolean an_old_sheet = TRUE;
 		Sheet *sheet = this_sheet->data;
 
 		if (new_sheets && sheet == NULL) {
 			sheet = new_sheet->data;
 			new_sheet = new_sheet->next;
+			an_old_sheet = FALSE;
 		}
 		if (sheet != NULL) {
 			old_pos = sheet->index_in_wb;
 			if (new_pos != old_pos) {
+				int max_pos = MAX (old_pos, new_pos);
+				int min_pos = MIN (old_pos, new_pos);
+
 				g_ptr_array_remove_index (wb->sheets, old_pos);
 				g_ptr_array_insert (wb->sheets, sheet, new_pos);
+				for (; max_pos >= min_pos ; max_pos--) {
+					Sheet *sheet = g_ptr_array_index (wb->sheets, max_pos);
+					sheet->index_in_wb = max_pos;
+				}
 				WORKBOOK_FOREACH_CONTROL (wb, view, control,
 							  wb_control_sheet_move (control, 
 										 sheet, new_pos););
-				sheet_set_dirty (sheet, TRUE);
+				if (an_old_sheet)
+					sheet_set_dirty (sheet, TRUE);
 			}
 			new_pos++;
 		}
 		this_sheet = this_sheet->next;
 	}
-	if (new_order)
-		workbook_sheet_index_update (wb, 0);
 	return FALSE;
 }
 

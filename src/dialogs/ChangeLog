@@ -1,3 +1,16 @@
+2002-03-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* sheet-order.glade : add buttons
+	* cell-sort.glade : reorder buttons
+	* dialog-sheet-order.c (cb_row_inserted) : deleted
+	(cb_selection_changed) : add more buttons
+	(populate_sheet_list) : remove "row_inserted" handler
+	(move_cb) : move wb_view_sheet_focus to cb_selection_changed
+	(cb_add_clicked) : new
+	(cb_duplicate_clicked) : new stub
+	(cb_delete_clicked) : new stub
+	(dialog_sheet_order) : add handlers to new buttons
+
 2002-03-06  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-solver.c: Solver rewrite related changes.  Things are not

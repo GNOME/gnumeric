@@ -31,6 +31,9 @@ typedef struct {
 	GtkListStore *model;
 	GtkWidget *up_btn;
 	GtkWidget *down_btn;
+	GtkWidget *add_btn;
+	GtkWidget *duplicate_btn;
+	GtkWidget *delete_btn;
 	GtkWidget *ok_btn;
 	GtkWidget *cancel_btn;
 
@@ -101,7 +104,12 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 	GtkTreeIter  iter;
 	GtkTreeIter this_iter;
 	gint row;
+	Sheet *sheet;
 	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->sheet_list);
+	
+	gtk_widget_set_sensitive (state->add_btn, TRUE);
+	gtk_widget_set_sensitive (state->duplicate_btn, FALSE);
+	gtk_widget_set_sensitive (state->delete_btn, FALSE);
 
 	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
 		gtk_widget_set_sensitive (state->up_btn, FALSE);
@@ -114,27 +122,15 @@ cb_selection_changed (GtkTreeSelection *ignored, SheetManager *state)
 
 	row = location_of_iter (&iter, state->model);
 	gtk_widget_set_sensitive (state->down_btn,
-				  gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
-					       &this_iter, NULL, row+1));
-}
+				  gtk_tree_model_iter_nth_child  
+				  (GTK_TREE_MODEL (state->model),
+				   &this_iter, NULL, row+1));
 
-static void
-cb_row_inserted (GtkTreeModel *tree_model,
-		 GtkTreePath  *path,
-		 GtkTreeIter  *iter,
-		 SheetManager *state)
-{
-	GValue value = {0, };
-	Sheet *sheet;
-
-	gtk_tree_model_get_value (GTK_TREE_MODEL (state->model),
-		iter, SHEET_POINTER, &value);
-	sheet = g_value_get_pointer (&value);
-	g_value_unset (&value);
-
-	if (sheet != NULL) {
-		puts (sheet->name_unquoted);
-	}
+	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
+			    SHEET_POINTER, &sheet, -1);
+	if (sheet != NULL)
+		wb_view_sheet_focus (
+			wb_control_view (WORKBOOK_CONTROL (state->wbcg)), sheet);
 }
 
 /* Add all of the sheets to the sheet_list */
@@ -191,9 +187,6 @@ populate_sheet_list (SheetManager *state)
 	g_signal_connect (selection,
 		"changed",
 		G_CALLBACK (cb_selection_changed), state);
-	g_signal_connect (GTK_TREE_MODEL (state->model),
-		"row_inserted",
-		G_CALLBACK (cb_row_inserted), state);
 
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->sheet_list));
 }
@@ -231,16 +224,40 @@ move_cb (SheetManager *state, gint direction)
 	g_free (name);
 	g_free (new_name);
 
-	wb_view_sheet_focus (
-		wb_control_view (WORKBOOK_CONTROL (state->wbcg)),
-		sheet);
-
 	/* this is a little hack-ish, but we need to refresh the buttons */
 	cb_selection_changed (NULL, state);
 }
 
 static void cb_up   (GtkWidget *w, SheetManager *state) { move_cb (state, -1); }
 static void cb_down (GtkWidget *w, SheetManager *state) { move_cb (state,  1); }
+
+static void
+cb_add_clicked (GtkWidget *ignore, SheetManager *state)
+{
+	GtkTreeIter iter;
+	GtkTreeSelection  *selection = gtk_tree_view_get_selection (state->sheet_list);
+
+	gtk_list_store_append (state->model, &iter);
+	gtk_list_store_set (state->model, &iter,
+			    SHEET_NAME, _("<new>"),
+			    SHEET_NEW_NAME, "",
+			    SHEET_POINTER, NULL,
+			    IS_EDITABLE_COLUMN,	TRUE,   
+			    -1);
+	gtk_tree_selection_select_iter (selection, &iter);
+}
+
+static void
+cb_duplicate_clicked (GtkWidget *ignore, SheetManager *state)
+{
+	g_warning ("'Duplicate' not implemented\n");
+}
+
+static void
+cb_delete_clicked (GtkWidget *ignore, SheetManager *state)
+{
+	g_warning ("'Remove' not implemented\n");
+}
 
 static void
 cb_cancel_clicked (GtkWidget *ignore, SheetManager *state)
@@ -282,6 +299,8 @@ cb_ok_clicked (GtkWidget *ignore, SheetManager *state)
 	}
 
 	new_order = g_slist_reverse (new_order);
+	new_names = g_slist_reverse (new_names);
+	changed_names = g_slist_reverse (changed_names);
 
 	this_new = new_order;
 	this_old = state->old_order;
@@ -343,12 +362,17 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	state->dialog     = glade_xml_get_widget (gui, "sheet-order-dialog");
 	state->up_btn     = glade_xml_get_widget (gui, "up_button");
 	state->down_btn   = glade_xml_get_widget (gui, "down_button");
+	state->add_btn   = glade_xml_get_widget (gui, "add_button");
+	state->duplicate_btn   = glade_xml_get_widget (gui, "duplicate_button");
+	state->delete_btn   = glade_xml_get_widget (gui, "delete_button");
 	state->ok_btn  = glade_xml_get_widget (gui, "ok_button");
 	state->cancel_btn  = glade_xml_get_widget (gui, "cancel_button");
 	state->old_order  = NULL;
 
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->up_btn),   0., .5, 0., 0.);
 	gtk_button_stock_alignment_set (GTK_BUTTON (state->down_btn), 0., .5, 0., 0.);
+	gtk_button_stock_alignment_set (GTK_BUTTON (state->add_btn), 0., .5, 0., 0.);
+	gtk_button_stock_alignment_set (GTK_BUTTON (state->delete_btn), 0., .5, 0., 0.);
 
 	populate_sheet_list (state);
 
@@ -358,6 +382,15 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (state->down_btn),
 		"clicked",
 		G_CALLBACK (cb_down), state);
+	g_signal_connect (G_OBJECT (state->add_btn),
+		"clicked",
+		G_CALLBACK (cb_add_clicked), state);
+	g_signal_connect (G_OBJECT (state->duplicate_btn),
+		"clicked",
+		G_CALLBACK (cb_duplicate_clicked), state);
+	g_signal_connect (G_OBJECT (state->delete_btn),
+		"clicked",
+		G_CALLBACK (cb_delete_clicked), state);
 	g_signal_connect (G_OBJECT (state->ok_btn),
 		"clicked",
 		G_CALLBACK (cb_ok_clicked), state);
