@@ -1,3 +1,9 @@
+2003-06-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	for Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* format-selector.glade: arrange items to be more aligned and conform
+	  to HIG. Remove the unused delete button for custom styles.
+
 2003-06-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* print.glade: use stock buttons

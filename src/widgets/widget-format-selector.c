@@ -86,10 +86,11 @@ typedef enum {
 	F_CUSTOM_EXPLANATION,
 
 	F_SEPARATOR,
-	F_SYMBOL_LABEL,	F_SYMBOL,	F_DELETE,
-	F_ENTRY,		F_LIST_SCROLL,	F_LIST,
-	F_DECIMAL_SPIN,	F_NEGATIVE_SCROLL,
-	F_NEGATIVE,
+	F_SYMBOL_LABEL,		F_SYMBOL,
+	F_ENTRY,
+	F_LIST_LABEL,		F_LIST_SCROLL,		F_LIST,
+	F_DECIMAL_SPIN,	
+	F_NEGATIVE_LABEL,	F_NEGATIVE_SCROLL,	F_NEGATIVE,
 	F_DECIMAL_LABEL,	F_CODE_LABEL,	F_SYMBOL_BOX,
 	F_DECIMAL_BOX,	F_CODE_BOX,	F_MAX_WIDGET
 } FormatWidget;
@@ -394,6 +395,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
 			F_SEPARATOR,
+			F_NEGATIVE_LABEL,
 			F_NEGATIVE_SCROLL,
 			F_NEGATIVE,
 			F_MAX_WIDGET
@@ -408,6 +410,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 			F_SYMBOL_BOX,
 			F_SYMBOL_LABEL,
 			F_SYMBOL,
+			F_NEGATIVE_LABEL,
 			F_NEGATIVE_SCROLL,
 			F_NEGATIVE,
 			F_MAX_WIDGET
@@ -426,6 +429,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		/* Date */
 		{
 			F_DATE_EXPLANATION,
+			F_LIST_LABEL,
 			F_LIST_SCROLL,
 			F_LIST,
 			F_MAX_WIDGET
@@ -433,6 +437,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		/* Time */
 		{
 			F_TIME_EXPLANATION,
+			F_LIST_LABEL,
 			F_LIST_SCROLL,
 			F_LIST,
 			F_MAX_WIDGET
@@ -448,6 +453,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		/* Fraction */
 		{
 			F_FRACTION_EXPLANATION,
+			F_LIST_LABEL,
 			F_LIST_SCROLL,
 			F_LIST,
 			F_MAX_WIDGET
@@ -476,7 +482,7 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 			F_CODE_BOX,
 			F_CODE_LABEL,
 			F_ENTRY,
-			F_DELETE,
+			F_LIST_LABEL,
 			F_LIST_SCROLL,
 			F_LIST,
 			F_MAX_WIDGET
@@ -731,7 +737,7 @@ populate_menu (NumberFormatSelector *nfs)
 	GtkTreeSelection  *selection;
 	GtkTreeIter iter;
 	GtkCellRenderer *renderer;
-	char const **categories = format_category_names;
+	char const * const *categories = format_category_names;
 
 	nfs->format.menu_model = GTK_TREE_MODEL(gtk_list_store_new 
 						(1, G_TYPE_STRING));
@@ -784,15 +790,21 @@ nfs_init (NumberFormatSelector *nfs)
 		"format_special_explanation",
 		"format_custom_explanation",
 
-		"format_separator",	"format_symbol_label",
-		"format_symbol_select",	"format_delete",
+		"format_separator",
+		"format_symbol_label",
+		"format_symbol_select",
 		"format_entry",
-		"format_list_scroll",	"format_list",
+		"format_list_label",
+		"format_list_scroll",
+		"format_list",
 		"format_number_decimals",
+		"format_negatives_label",
 		"format_negatives_scroll",
 		"format_negatives",
-		"format_decimal_label",	"format_code_label",
-		"format_symbol_box",	"format_decimal_box",
+		"format_decimal_label",
+		"format_code_label",
+		"format_symbol_box",
+		"format_decimal_box",
 		"format_code_box",
 		NULL
 	};

@@ -1,3 +1,14 @@
+2003-06-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* widget-format-selector.c: remove warning 
+
+2003-06-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	for Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* widget-format-selector.c (fmt_dialog_enable_widgets): add
+	  format_list and negative_list label handling. Remove custom style
+	  delete button handling.
+
 2003-06-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* widget-format-selector.h: move private data into 
