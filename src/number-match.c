@@ -467,13 +467,17 @@ print_regex_error (int ret)
 			 "The regular expression had unbalanced `\\{' and `\\}'.\n");
 		break;
 
+#ifdef REG_EBOL
 	case REG_EBOL:
 		fprintf (stderr, "Found ^ not at the beginning.\n");
 		break;
+#endif
 
+#ifdef REG_EEOL
 	case REG_EEOL:
 		fprintf (stderr, "Found $ not at the end.\n");
 		break;
+#endif
 
 	case REG_ERANGE:
 		fprintf (stderr,
@@ -483,10 +487,6 @@ print_regex_error (int ret)
 	case REG_ESPACE:
 		fprintf (stderr,
 			 "`regcomp' ran out of memory.\n");
-		break;
-
-	case REG_OK:
-		/* Nothing.  */
 		break;
 
 	default:
@@ -517,7 +517,7 @@ format_match_define (const char *format)
 		return FALSE;
 
 	ret = regcomp (&r, regexp, REG_EXTENDED | REG_ICASE);
-	if (ret != REG_OK) {
+	if (ret != 0) {
 		g_warning ("expression %s\nproduced:%s\n", format, regexp);
 		print_regex_error (ret);
 		g_free (regexp);
