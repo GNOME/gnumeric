@@ -405,14 +405,20 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 					sheet_col_get_info (sheet, r->start.col);
 				GSList *tmp = ptr;
 				ptr = *lag = tmp->next;
-				g_slist_free_1 (tmp);
-				merged_active = g_slist_insert_sorted (merged_active, r,
-							(GCompareFunc)merged_col_cmp);
-				MERGE_DEBUG (r, " : unused -> active\n");
+				if (r->end.row < row) {
+					tmp->next = merged_used;
+					merged_used = tmp;
+					MERGE_DEBUG (r, " : unused -> used\n");
+				} else {
+					g_slist_free_1 (tmp);
+					merged_active = g_slist_insert_sorted (merged_active, r,
+								(GCompareFunc)merged_col_cmp);
+					MERGE_DEBUG (r, " : unused -> active\n");
 
-				if (ci->visible)
-					item_grid_draw_merged_range (drawable, ig,
+					if (ci->visible)
+						item_grid_draw_merged_range (drawable, ig,
 						diff_x, y, &view, r, draw_selection);
+				}
 			} else {
 				lag = &(ptr->next);
 				ptr = ptr->next;
@@ -452,7 +458,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 
 					ptr = merged_active;
 					merged_active = merged_active->next;
-					if (r->end.row == row) {
+					if (r->end.row <= row) {
 						clear_bottom = FALSE;
 						ptr->next = merged_used;
 						merged_used = ptr;

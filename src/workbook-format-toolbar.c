@@ -677,16 +677,16 @@ cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbc
 
 	case 21 : /* all */
 		for (i = STYLE_BORDER_HORIZ; i <= STYLE_BORDER_VERT; ++i)
-			borders [i] =
-			    style_border_fetch (STYLE_BORDER_THIN, style_color_black (),
-						style_border_get_orientation (i));
+			borders [i] = style_border_fetch (STYLE_BORDER_THIN,
+				style_color_black (),
+				style_border_get_orientation (i));
 		/* fall through */
 
 	case 22 : /* outside */
 		for (i = STYLE_BORDER_TOP; i <= STYLE_BORDER_RIGHT; ++i)
-			borders [i] =
-			    style_border_fetch (STYLE_BORDER_THIN, style_color_black (),
-						style_border_get_orientation (i));
+			borders [i] = style_border_fetch (STYLE_BORDER_THIN,
+				style_color_black (),
+				style_border_get_orientation (i));
 		break;
 
 	case 23 : /* thick_outside */

@@ -710,13 +710,18 @@ dependent_unlink_sheet (Sheet *sheet)
 void
 dependent_changed (Dependent *dep, gboolean queue_recalc)
 {
+	static CellPos const pos = { 0, 0 };
+
 	g_return_if_fail (dep != NULL);
 
-	dependent_link (dep, NULL);
+	/* A pos should not be necessary, but supply one just in case.  If a
+	 * user specifies a relative reference this is probably what they want.
+	 */
+	dependent_link (dep, &pos);
 
 	if (queue_recalc) {
 		if (dep->sheet->workbook->priv->recursive_dirty_enabled)
-			cb_dependent_queue_recalc (dep, NULL);
+			cb_dependent_queue_recalc (dep,  NULL);
 		else
 			dependent_queue_recalc (dep);
 	}

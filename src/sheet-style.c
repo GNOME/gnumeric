@@ -963,7 +963,7 @@ style_row (MStyle *style, int start_col, int end_col, StyleRow *sr)
 
 	if (left != none && border_null (sr->vertical [i]))
 		sr->vertical [i] = left;
-	v = (right != none) ? right : left;
+	v = border_null (right) ? left : right;
 
 	while (i <= end) {
 		sr->styles [i] = style;

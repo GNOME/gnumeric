@@ -722,7 +722,7 @@ gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *ee)
 		return TRUE;
 
 	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (ee));
-	return (cursor_pos > 0) && split_char_p (text [cursor_pos-1]);
+	return (cursor_pos <= 0) || split_char_p (text [cursor_pos-1]);
 }
 
 /**

@@ -1,3 +1,8 @@
+2001-11-13  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumeric-expr-entry.c (gnumeric_expr_entry_rangesel_meaningful) :
+	handle empty entries correctly.
+
 2001-11-10  Jody Goldberg <jgoldberg@home.com>
 
 	* gnumeric-expr-entry.c (gnumeric_expr_entry_rangesel_meaningful) :

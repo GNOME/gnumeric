@@ -1,3 +1,14 @@
+2001-11-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-style.c (style_row) : Fix Frob's magic mystery borders.
+
+	* src/eval.c (dependent_changed) : Add some crash protection.
+
+2001-11-12  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-grid.c (item_grid_draw) : fix handling of completely hidden
+	  merges.
+
 2001-11-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (average_tool) : handle `group-by' and `labels'
