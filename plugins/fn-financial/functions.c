@@ -992,7 +992,7 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 
 	rate  = 1 - powgnum ((salvage / cost), (1 / life));
 	rate *= 1000;
-	rate  = floor (rate+0.5) / 1000;
+	rate  = floorgnum (rate + 0.5) / 1000;
 
 	total = cost * rate * month / 12;
 
@@ -1213,7 +1213,7 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 	for (n = 0; tmp; n++)
 	        tmp /= 10;
 
-	floored = floor (fractional_dollar);
+	floored = floorgnum (fractional_dollar);
 	rest = fractional_dollar - floored;
 
 	return value_new_float (floored + rest * gpow10 (n) / fraction);
@@ -1254,7 +1254,7 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 	for (n = 0; tmp; n++)
 	        tmp /= 10;
 
-	floored = floor (fractional_dollar);
+	floored = floorgnum (fractional_dollar);
 	rest = fractional_dollar - floored;
 
 	return value_new_float (floored + rest * fraction / gpow10 (n));

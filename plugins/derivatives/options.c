@@ -1,5 +1,4 @@
-/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t;
-c-basic-offset: 8 -*- */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * Options pricing
  *
@@ -70,7 +69,7 @@ static gnum_float
 n_d(gnum_float x)
 {
 	gnum_float gfresult;
-	gfresult = 1 / sqrtgnum(2 * M_PIgnum) * expgnum(-pow(x , 2) / 2);
+	gfresult = 1 / sqrtgnum(2 * M_PIgnum) * expgnum(-powgnum (x, 2) / 2);
 	return gfresult;
 }
 
@@ -101,15 +100,15 @@ cum_biv_norm_dist1 (gnum_float a, gnum_float b, gnum_float rho)
 
 	gnum_float x[] = {0.24840615, 0.39233107, 0.21141819, 0.03324666, 0.00082485334};
 	gnum_float y[] = {0.10024215, 0.48281397, 1.0609498, 1.7797294, 2.6697604};
-	a1 = a / sqrtgnum (2 * (1 - pow (rho , 2)));
-	b1 = b / sqrtgnum (2 * (1 - pow (rho , 2)));
+	a1 = a / sqrtgnum (2 * (1 - powgnum (rho, 2)));
+	b1 = b / sqrtgnum (2 * (1 - powgnum (rho, 2)));
 
 	if (a <= 0 && b <= 0 && rho <= 0) {
 		for (i = 0;i!=5;++i)
 			for (j = 0; j!=5; ++j)
 				sum = sum + x[i] * x[j] * expgnum (a1 * (2 * y[i] - a1) + b1 * (2 *
 y[j] - b1) + 2 * rho * (y[i] - a1) * (y[j] - b1));
-		return (sqrtgnum (1 - pow (rho , 2)) / M_PIgnum * sum);
+		return (sqrtgnum (1 - powgnum (rho, 2)) / M_PIgnum * sum);
 	} else if (a <= 0 && b >= 0 && rho >= 0)
 		return (calc_N (a) - cum_biv_norm_dist1 (a,-b,-rho));
 	else if (a >= 0 && b <= 0 && rho >= 0) 
@@ -117,10 +116,10 @@ y[j] - b1) + 2 * rho * (y[i] - a1) * (y[j] - b1));
 	else if (a >= 0 && b >= 0 && rho <= 0)
 		return (calc_N (a) + calc_N (b) - 1 + cum_biv_norm_dist1 (-a,-b,rho));
 	else if ((a * b * rho) > 0) {
-		rho1 = (rho * a - b) * Sgn (a) / sqrtgnum (pow (a , 2) - 2 * rho * a
-							   * b + pow (b , 2));
-		rho2 = (rho * b - a) * Sgn (b) / sqrtgnum (pow (a , 2) - 2 * rho * a
-							   * b + pow (b , 2));
+		rho1 = (rho * a - b) * Sgn (a) / sqrtgnum (powgnum (a, 2) - 2 * rho * a
+							   * b + powgnum (b, 2));
+		rho2 = (rho * b - a) * Sgn (b) / sqrtgnum (powgnum (a, 2) - 2 * rho * a
+							   * b + powgnum (b, 2));
 		delta = (1 - Sgn (a) * Sgn (b)) / 4;
 		return (cum_biv_norm_dist1 (a,0.0,rho1) + cum_biv_norm_dist1
 			(b,0.0,rho2) - delta);
@@ -165,7 +164,7 @@ opt_bs1 (char const *call_put_flag,
 	gnum_float d1;
 	gnum_float d2;
 
-	d1 = (loggnum (s / x) + (b + pow (v , 2) / 2) * t) / (v * sqrtgnum (t));
+	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum (t));
 	d2 = d1 - v * sqrtgnum (t);
 
 	if (!strcmp(call_put_flag , "c"))
@@ -230,7 +229,7 @@ opt_bs_delta1 (char const* call_put_flag,
 	gnum_float d1;
 	gnum_float gfresult = 0;
 
-	d1 = (loggnum (s / x) + (b + pow (v , 2) / 2) * t) / (v * sqrtgnum
+	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum
 							      (t));
 
 	if (!strcmp(call_put_flag , "c"))
@@ -301,7 +300,7 @@ opt_bs_gamma1 (gnum_float s,gnum_float x,gnum_float t,gnum_float r,gnum_float v,
 {
 	gnum_float d1;
 
-	d1 = (loggnum (s / x) + (b + pow (v , 2) / 2) * t) / (v * sqrtgnum
+	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum
 							      (t));
 	return (expgnum ((b - r) * t) * n_d (d1) / (s * v *
 						    sqrtgnum (t)));
@@ -360,7 +359,7 @@ opt_bs_theta1 (char const *call_put_flag,
 	gnum_float d1, d2;
 	gnum_float gfresult =0;
 
-	d1 = (loggnum (s / x) + (b + pow (v , 2) / 2) * t) / (v * sqrtgnum
+	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum
 							      (t));
 	d2 = d1 - v * sqrtgnum (t);
 
@@ -435,7 +434,7 @@ opt_bs_vega1 (gnum_float s,gnum_float x,gnum_float t,gnum_float r,gnum_float v,g
 {
 	gnum_float d1;
 
-	d1 = (loggnum (s / x) + (b + pow (v , 2) / 2) * t) / (v * sqrtgnum(t));
+	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum(t));
 	return (s * expgnum ((b - r) * t) * n_d (d1) * sqrtgnum(t));
 }
 
@@ -494,7 +493,7 @@ opt_bs_rho1 (char const *call_put_flag,gnum_float s, gnum_float x, gnum_float t,
 	gnum_float gfresult =0;
 
 
-	d1 = (loggnum (s / x) + (b + pow (v , 2) / 2) * t) / (v * sqrtgnum
+	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum
 							      (t));
 	d2 = d1 - v * sqrtgnum (t);
 	if (!strcmp(call_put_flag , "c")) {
@@ -573,7 +572,7 @@ opt_bs_carrycost1 (char const *call_put_flag, gnum_float s, gnum_float x, gnum_f
 	gnum_float gfresult = 0;
 
 
-	d1 = (loggnum (s / x) + (b + pow (v , 2) / 2) * t) / (v * sqrtgnum
+	d1 = (loggnum (s / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum
 							      (t));
 	if (!strcmp(call_put_flag , "c"))
 		gfresult =  (t * s * expgnum ((b - r) * t) * calc_N (d1));
@@ -646,7 +645,7 @@ opt_garman_kohlhagen1(char const *call_put_flag,
 
 	gnum_float d1, d2;
 
-	d1 = (loggnum(s / x) + (r - rf + pow(v , 2) / 2) * t) / (v * sqrtgnum(t));
+	d1 = (loggnum(s / x) + (r - rf + powgnum (v, 2) / 2) * t) / (v * sqrtgnum(t));
 	d2 = d1 - v * sqrtgnum(t);
 	if (strcmp(call_put_flag , "c"))
 		return (s * expgnum(-rf * t) * calc_N(d1) - x * expgnum(-r * t) * calc_N(d2));
@@ -711,7 +710,7 @@ opt_french1 (char const *call_put_flag, gnum_float s, gnum_float  x, gnum_float 
 {
 	gnum_float d1, d2;
 
-	d1 = (loggnum(s / x) + b * t + pow(v , 2) / 2 * t1) / (v * sqrtgnum(t1));
+	d1 = (loggnum(s / x) + b * t + powgnum (v, 2) / 2 * t1) / (v * sqrtgnum(t1));
 	d2 = d1 - v * sqrtgnum(t1);
 
 	if (!strcmp(call_put_flag , "c"))
@@ -779,13 +778,13 @@ opt_jump_diff1 (char const *call_put_flag, gnum_float s, gnum_float x, gnum_floa
 	gnum_float Z, vi;
 	int i;
 
-	delta = sqrtgnum(gamma * pow(v , 2) / lambda);
-	Z = sqrtgnum(pow(v , 2) - lambda * pow(delta , 2));
+	delta = sqrtgnum(gamma * powgnum (v, 2) / lambda);
+	Z = sqrtgnum(powgnum (v, 2) - lambda * powgnum (delta, 2));
 	sum = 0;
 	for(i = 0; i!=11; ++i)
 	{
-		vi = sqrtgnum(pow(Z , 2) + pow(delta , 2) * (i / t));
-		sum = sum + expgnum(-lambda * t) * pow((lambda * t) , i) / fact(i) *
+		vi = sqrtgnum(powgnum (Z, 2) + powgnum (delta, 2) * (i / t));
+		sum = sum + expgnum(-lambda * t) * powgnum ((lambda * t) , i) / fact(i) *
 			opt_bs1(call_put_flag, s, x, t, r, r, vi);
 	}
 	return sum;
@@ -837,11 +836,11 @@ opt_miltersen_schwartz1 (char const *call_put_flag, gnum_float p_t, gnum_float f
 	gnum_float d1, d2;
 	gnum_float gfresult;
 
-	vz = pow(v_s , 2) * t1 + 2 * v_s * (v_f * rho_sf * 1 / kappa_f * (t1 - 1 / kappa_f * expgnum(-kappa_f * t2) * (expgnum(kappa_f * t1) - 1))
+	vz = powgnum (v_s, 2) * t1 + 2 * v_s * (v_f * rho_sf * 1 / kappa_f * (t1 - 1 / kappa_f * expgnum(-kappa_f * t2) * (expgnum(kappa_f * t1) - 1))
 					    - v_e * rho_se * 1 / kappa_e * (t1 - 1 / kappa_e * expgnum(-kappa_e * t2) * (expgnum(kappa_e * t1) - 1)))
-		+ pow(v_e , 2) * 1 / pow(kappa_e , 2) * (t1 + 1 / (2 * kappa_e) * expgnum(-2 * kappa_e * t2) * (expgnum(2 * kappa_e * t1) - 1)
+		+ powgnum (v_e, 2) * 1 / powgnum (kappa_e, 2) * (t1 + 1 / (2 * kappa_e) * expgnum(-2 * kappa_e * t2) * (expgnum(2 * kappa_e * t1) - 1)
 							 - 2 * 1 / kappa_e * expgnum(-kappa_e * t2) * (expgnum(kappa_e * t1) - 1))
-		+ pow(v_f , 2) * 1 / pow(kappa_f , 2) * (t1 + 1 / (2 * kappa_f) * expgnum(-2 * kappa_f * t2) * (expgnum(2 * kappa_f * t1) - 1)
+		+ powgnum (v_f, 2) * 1 / powgnum (kappa_f, 2) * (t1 + 1 / (2 * kappa_f) * expgnum(-2 * kappa_f * t2) * (expgnum(2 * kappa_f * t1) - 1)
 							 - 2 * 1 / kappa_f * expgnum(-kappa_f * t2) * (expgnum(kappa_f * t1) - 1))
 		- 2 * v_e * v_f * rho_ef * 1 / kappa_e * 1 / kappa_f * (t1 - 1 / kappa_e * expgnum(-kappa_e * t2) * (expgnum(kappa_e * t1) - 1)
 									- 1 / kappa_f * expgnum(-kappa_f * t2) * (expgnum(kappa_f * t1) - 1)
@@ -855,8 +854,8 @@ opt_miltersen_schwartz1 (char const *call_put_flag, gnum_float p_t, gnum_float f
 
 	vz = sqrtgnum(vz);
 
-	d1 = (loggnum(f_t / x) - vxz + pow(vz , 2) / 2) / vz;
-	d2 = (loggnum(f_t / x) - vxz - pow(vz , 2) / 2) / vz;
+	d1 = (loggnum(f_t / x) - vxz + powgnum (vz, 2) / 2) / vz;
+	d2 = (loggnum(f_t / x) - vxz - powgnum (vz, 2) / 2) / vz;
 
 	if (!strcmp(call_put_flag , "c"))
 		gfresult = p_t * (f_t * expgnum(-vxz) * calc_N(d1) - x * calc_N(d2));
@@ -955,7 +954,7 @@ static gnum_float opt_rgw1(gnum_float s, gnum_float x, gnum_float t1, gnum_float
 	ci = opt_bs1("c", i, x, t2 - t1, r, v,0);
 
 	/* search algorithm to find the critical stock price i*/
-	while (fabs(ci - i - d + x) > epsilon && HighS - LowS > epsilon)
+	while (gnumabs(ci - i - d + x) > epsilon && HighS - LowS > epsilon)
 	{
 		if ((ci - i - d + x) < 0)
 			HighS = i;
@@ -968,9 +967,9 @@ static gnum_float opt_rgw1(gnum_float s, gnum_float x, gnum_float t1, gnum_float
 
 
 
-	a1 = (loggnum(sx / x) + (r + pow(v , 2) / 2) * t2) / (v * sqrtgnum(t2));
+	a1 = (loggnum(sx / x) + (r + powgnum (v, 2) / 2) * t2) / (v * sqrtgnum(t2));
 	a2 = a1 - v * sqrtgnum(t2);
-	b1 = (loggnum(sx / i) + (r + pow(v , 2) / 2) * t1) / (v * sqrtgnum(t1));
+	b1 = (loggnum(sx / i) + (r + powgnum (v, 2) / 2) * t1) / (v * sqrtgnum(t1));
 	b2 = b1 - v * sqrtgnum(t1);
 
 	gfresult = sx * calc_N(b1) + sx * cum_biv_norm_dist1(a1, -b1, -sqrtgnum(t1 / t2))
@@ -1067,13 +1066,13 @@ opt_BAW_call(gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float 
 	else
 	{
 		sk = NRA_c(x, t, r, b, v);
-		n = 2 * b / pow(v , 2);
-		k = 2 * r / (pow(v , 2) * (1 - expgnum(-r * t)));
-		d1 = (loggnum(sk / x) + (b + pow(v , 2) / 2) * t) / (v * sqrtgnum(t));
-		q2 = (-(n - 1) + sqrtgnum(pow((n - 1) , 2) + 4 * k)) / 2;
+		n = 2 * b / powgnum (v, 2);
+		k = 2 * r / (powgnum (v, 2) * (1 - expgnum(-r * t)));
+		d1 = (loggnum(sk / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum(t));
+		q2 = (-(n - 1) + sqrtgnum(powgnum ((n - 1), 2) + 4 * k)) / 2;
 		a2 = (sk / q2) * (1 - expgnum((b - r) * t) * calc_N(d1));
 		if (s < sk)
-			gfresult = opt_bs1("c", s, x, t, r, v,b) + a2 * pow((s / sk) , q2);
+			gfresult = opt_bs1("c", s, x, t, r, v,b) + a2 * powgnum ((s / sk) , q2);
 		else
 			gfresult = s - x;
 
@@ -1097,16 +1096,16 @@ NRA_c(gnum_float x, gnum_float  t, gnum_float r, gnum_float b, gnum_float v)
 	gnum_float bi, e;
 
 	/* Calculation of seed value, si */
-	n = 2 * b / pow(v , 2);
-	m = 2 * r / pow(v , 2);
-	q2u = (-(n - 1) + sqrtgnum(pow((n - 1) , 2) + 4 * m)) / 2;
+	n = 2 * b / powgnum (v, 2);
+	m = 2 * r / powgnum (v, 2);
+	q2u = (-(n - 1) + sqrtgnum(powgnum ((n - 1), 2) + 4 * m)) / 2;
 	su = x / (1 - 1 / q2u);
 	h2 = -(b * t + 2 * v * sqrtgnum(t)) * x / (su - x);
 	si = x + (su - x) * (1 - expgnum(h2));
 
-	k = 2 * r / (pow(v , 2) * (1 - expgnum(-r * t)));
-	d1 = (loggnum(si / x) + (b + pow(v , 2) / 2) * t) / (v * sqrtgnum(t));
-	q2 = (-(n - 1) + sqrtgnum(pow((n - 1) , 2) + 4 * k)) / 2;
+	k = 2 * r / (powgnum (v, 2) * (1 - expgnum(-r * t)));
+	d1 = (loggnum(si / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum(t));
+	q2 = (-(n - 1) + sqrtgnum(powgnum ((n - 1), 2) + 4 * k)) / 2;
 	LHS = si - x;
 	RHS = opt_bs1("c", si, x, t, r, v, b) + (1 - expgnum((b - r) * t) * calc_N(d1)) * si / q2;
 	bi = expgnum((b - r) * t) * calc_N(d1) * (1 - 1 / q2)
@@ -1114,10 +1113,10 @@ NRA_c(gnum_float x, gnum_float  t, gnum_float r, gnum_float b, gnum_float v)
 	e = 0.000001;
 
 	/* Newton Raphson algorithm for finding critical price si */
-	while ((fabs(LHS - RHS) / x) > e)
+	while ((gnumabs(LHS - RHS) / x) > e)
 	{
 		si = (x + RHS - bi * si) / (1 - bi);
-		d1 = (loggnum(si / x) + (b + pow(v , 2) / 2) * t) / (v * sqrtgnum(t));
+		d1 = (loggnum(si / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum(t));
 		LHS = si - x;
 		RHS = opt_bs1("c", si, x, t, r, v, b) + (1 - expgnum((b - r) * t) * calc_N(d1)) * si / q2;
 		bi = expgnum((b - r) * t) * calc_N(d1) * (1 - 1 / q2)
@@ -1134,14 +1133,14 @@ opt_BAW_put (gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_float 
 	gnum_float gfresult;
 
 	sk = NRA_p(x, t, r, b, v);
-	n = 2 * b / pow(v , 2);
-	k = 2 * r / (pow(v , 2) * (1 - expgnum(-r * t)));
-	d1 = (loggnum(sk / x) + (b + pow(v , 2) / 2) * t) / (v * sqrtgnum(t));
-	q1 = (-(n - 1) - sqrtgnum(pow((n - 1) , 2) + 4 * k)) / 2;
+	n = 2 * b / powgnum (v, 2);
+	k = 2 * r / (powgnum (v, 2) * (1 - expgnum(-r * t)));
+	d1 = (loggnum(sk / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum(t));
+	q1 = (-(n - 1) - sqrtgnum(powgnum ((n - 1), 2) + 4 * k)) / 2;
 	a1 = -(sk / q1) * (1 - expgnum((b - r) * t) * calc_N(-d1));
 
 	if (s > sk)
-		gfresult = opt_bs1("p", s, x, t, r, v, b) + a1 * pow((a1 / sk) , q1);
+		gfresult = opt_bs1("p", s, x, t, r, v, b) + a1 * powgnum ((a1 / sk) , q1);
 	else
 		gfresult = x - s;
 
@@ -1161,16 +1160,16 @@ NRA_p(gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v)
 	gnum_float bi, e;
 
 	/* Calculation of seed value, si */
-	n = 2 * b / pow(v , 2);
-	m = 2 * r / pow(v , 2);
-	q1u = (-(n - 1) - sqrtgnum(pow((n - 1) , 2) + 4 * m)) / 2;
+	n = 2 * b / powgnum (v, 2);
+	m = 2 * r / powgnum (v, 2);
+	q1u = (-(n - 1) - sqrtgnum(powgnum ((n - 1), 2) + 4 * m)) / 2;
 	su = x / (1 - 1 / q1u);
 	h1 = (b * t - 2 * v * sqrtgnum(t)) * x / (x - su);
 	si = su + (x - su) * expgnum(h1);
 
-	k = 2 * r / (pow(v , 2) * (1 - expgnum(-r * t)));
-	d1 = (loggnum(si / x) + (b + pow(v , 2) / 2) * t) / (v * sqrtgnum(t));
-	q1 = (-(n - 1) - sqrtgnum(pow((n - 1) , 2) + 4 * k)) / 2;
+	k = 2 * r / (powgnum (v, 2) * (1 - expgnum(-r * t)));
+	d1 = (loggnum(si / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum(t));
+	q1 = (-(n - 1) - sqrtgnum(powgnum ((n - 1), 2) + 4 * k)) / 2;
 	LHS = x - si;
 	RHS = opt_bs1("p", si, x, t, r, v, b) - (1 - expgnum((b - r) * t) * calc_N(-d1)) * si / q1;
 	bi = -expgnum((b - r) * t) * calc_N(-d1) * (1 - 1 / q1)
@@ -1178,9 +1177,9 @@ NRA_p(gnum_float x, gnum_float t, gnum_float r, gnum_float b, gnum_float v)
 	e = 0.000001;
 
 	/* Newton Raphson algorithm for finding critical price si */
-	while((fabs(LHS - RHS) / x) > e) {
+	while((gnumabs(LHS - RHS) / x) > e) {
 		si = (x - RHS + bi * si) / (1 + bi);
-		d1 = (loggnum(si / x) + (b + pow(v , 2) / 2) * t) / (v * sqrtgnum(t));
+		d1 = (loggnum(si / x) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum(t));
 		LHS = x - si;
 		RHS = opt_bs1("p", si, x, t, r, v, b) - (1 - expgnum((b - r) * t) * calc_N(-d1)) * si / q1;
 		bi = -expgnum((b - r) * t) * calc_N(-d1) * (1 - 1 / q1)
@@ -1250,16 +1249,16 @@ opt_bjerStens1_c(gnum_float s, gnum_float x, gnum_float t, gnum_float r, gnum_fl
 		gfresult = opt_bs1("c", s, x, t, r, v, b);
 	else
 	{
-		Beta = (1 / 2 - b / pow(v , 2)) + sqrtgnum(pow((b / pow(v , 2) - 1 / 2) , 2) + 2 * r / pow(v , 2));
+		Beta = (1 / 2 - b / powgnum (v, 2)) + sqrtgnum(powgnum ((b / powgnum (v, 2) - 1 / 2), 2) + 2 * r / powgnum (v, 2));
 		BInfinity = Beta / (Beta - 1) * x;
 		B0 = gf_max(x, r / (r - b) * x);
 		ht = -(b * t + 2 * v * sqrtgnum(t)) * B0 / (BInfinity - B0);
 		I = B0 + (BInfinity - B0) * (1 - expgnum(ht));
-		alpha = (I - x) * pow(I , (-Beta));
+		alpha = (I - x) * powgnum (I , (-Beta));
 		if (s >= I)
 			gfresult = s - x;
 		else
-			gfresult = alpha * pow(s , Beta) - alpha * phi(s, t, Beta, I, I, r, b, v) + phi(s, t, 1, I, I, r, b, v) - phi(s, t, 1, x, I, r, b, v) - x * phi(s, t, 0, I, I, r, b, v) + x * phi(s, t, 0, x, I, r, b, v);
+			gfresult = alpha * powgnum (s , Beta) - alpha * phi(s, t, Beta, I, I, r, b, v) + phi(s, t, 1, I, I, r, b, v) - phi(s, t, 1, x, I, r, b, v) - x * phi(s, t, 0, I, I, r, b, v) + x * phi(s, t, 0, x, I, r, b, v);
 	} /*end if statement*/
 
 	return gfresult;
@@ -1272,10 +1271,10 @@ phi(gnum_float s, gnum_float t, gnum_float gamma, gnum_float H, gnum_float I, gn
 	gnum_float d;
 	gnum_float gfresult;
 
-	lambda = (-r + gamma * b + 0.5 * gamma * (gamma - 1) * pow(v , 2)) * t;
-	d = -(loggnum(s / H) + (b + (gamma - 0.5) * pow(v , 2)) * t) / (v * sqrtgnum(t));
-	kappa = 2 * b / (pow(v , 2)) + (2 * gamma - 1);
-	gfresult = expgnum(lambda) * pow(s , gamma) * (calc_N(d) - pow((I / s) , kappa) * calc_N(d - 2 * loggnum(I / s) / (v * sqrtgnum(t))));
+	lambda = (-r + gamma * b + 0.5 * gamma * (gamma - 1) * powgnum (v, 2)) * t;
+	d = -(loggnum(s / H) + (b + (gamma - 0.5) * powgnum (v, 2)) * t) / (v * sqrtgnum(t));
+	kappa = 2 * b / (powgnum (v, 2)) + (2 * gamma - 1);
+	gfresult = expgnum(lambda) * powgnum (s , gamma) * (calc_N(d) - powgnum ((I / s) , kappa) * calc_N(d - 2 * loggnum(I / s) / (v * sqrtgnum(t))));
 
 	return gfresult;
 } /*end func*/
@@ -1389,7 +1388,7 @@ opt_time_switch(FunctionEvalInfo *ei, Value *argv[])
 
 	if (Z != 0) {
 		for (i = 1; i < n; ++i) {
-			d = (loggnum(s / x) + (b - pow(v , 2) / 2) * i * dt) / (v * sqrtgnum(i * dt));
+			d = (loggnum(s / x) + (b - powgnum (v, 2) / 2) * i * dt) / (v * sqrtgnum(i * dt));
 			sum = sum + calc_N(Z * d) * dt;
 		}
 		gfresult = a * expgnum (-r * t) * sum + dt * a * expgnum(-r * t) * m;
@@ -1433,8 +1432,8 @@ opt_simple_chooser(FunctionEvalInfo *ei, Value *argv[])
 
 	gnum_float d, y;
 
-	d = (loggnum(s / x) + (b + pow(v , 2) / 2) * t2) / (v * sqrtgnum(t2));
-	y = (loggnum(s / x) + b * t2 + pow(v , 2) * t1 / 2) / (v * sqrtgnum(t1));
+	d = (loggnum(s / x) + (b + powgnum (v, 2) / 2) * t2) / (v * sqrtgnum(t2));
+	y = (loggnum(s / x) + b * t2 + powgnum (v, 2) * t1 / 2) / (v * sqrtgnum(t1));
 
 	gfresult = s * expgnum((b - r) * t2) * calc_N(d) - x * expgnum(-r * t2) * calc_N(d - v * sqrtgnum(t2))
 		- s * expgnum((b - r) * t2) * calc_N(-y) + x * expgnum(-r * t2) * calc_N(-y + v * sqrtgnum(t1));
@@ -1481,10 +1480,10 @@ opt_complex_chooser(FunctionEvalInfo *ei, Value *argv[])
 	gnum_float rho1, rho2, I;
 
 	I = opt_crit_val_chooser(s, xc, xp, t, tc, tp, r, b, v);
-	d1 = (loggnum(s / I) + (b + pow(v , 2) / 2) * t) / (v * sqrtgnum(t));
+	d1 = (loggnum(s / I) + (b + powgnum (v, 2) / 2) * t) / (v * sqrtgnum(t));
 	d2 = d1 - v * sqrtgnum(t);
-	y1 = (loggnum(s / xc) + (b + pow(v , 2) / 2) * tc) / (v * sqrtgnum(tc));
-	y2 = (loggnum(s / xp) + (b + pow(v , 2) / 2) * tp) / (v * sqrtgnum(tp));
+	y1 = (loggnum(s / xc) + (b + powgnum (v, 2) / 2) * tc) / (v * sqrtgnum(tc));
+	y2 = (loggnum(s / xp) + (b + powgnum (v, 2) / 2) * tp) / (v * sqrtgnum(tp));
 	rho1 = sqrtgnum(t / tc);
 	rho2 = sqrtgnum(t / tp);
 
@@ -1535,7 +1534,7 @@ opt_crit_val_chooser(gnum_float s,gnum_float xc,gnum_float xp,gnum_float t,
 	di = dc - dp;
 	epsilon = 0.001;
 	/* Newton-Raphson */
-	while (fabs(yi) > epsilon)
+	while (gnumabs(yi) > epsilon)
 	{
 		sv = sv - (yi) / di;
 		ci = opt_bs1("c", sv, xc, tc - t, r, v, b);
@@ -1579,9 +1578,9 @@ opt_on_options(FunctionEvalInfo *ei, Value *argv[])
 	I = CriticalValueOptionsOnOptions(call_put_flag, x1, x2, t2 - t1, r, b, v);
 
 	rho = sqrtgnum(t1 / t2);
-	y1 = (loggnum(s / I) + (b + pow(v , 2) / 2) * t1) / (v * sqrtgnum(t1));
+	y1 = (loggnum(s / I) + (b + powgnum (v, 2) / 2) * t1) / (v * sqrtgnum(t1));
 	y2 = y1 - v * sqrtgnum(t1);
-	z1 = (loggnum(s / x1) + (b + pow(v , 2) / 2) * t2) / (v * sqrtgnum(t2));
+	z1 = (loggnum(s / x1) + (b + powgnum (v, 2) / 2) * t2) / (v * sqrtgnum(t2));
 	z2 = z1 - v * sqrtgnum(t2);
 
 	if (!strcmp (type_flag , "cc"))
@@ -1632,7 +1631,7 @@ CriticalValueOptionsOnOptions (char const *call_put_flag, gnum_float x1, gnum_fl
 
 	/* Newton-Raphson algorithm */
 	epsilon = 0.0001;
-	while (fabs(ci - x2) > epsilon) {
+	while (gnumabs(ci - x2) > epsilon) {
 		si = si - (ci - x2) / di;
 		ci = opt_bs1(call_put_flag, si, x1, t, r, v, b);
 		di = opt_bs_delta1(call_put_flag, si, x1, t, r, v, b);
@@ -1659,16 +1658,16 @@ opt_extendible_writer (FunctionEvalInfo *ei, Value *argv[])
 
 	gnum_float rho, z1, z2;
 	rho = sqrtgnum(t1 / t2);
-	z1 = (loggnum(s / x2) + (b + pow(v , 2) / 2) * t2) / (v * sqrtgnum(t2));
-	z2 = (loggnum(s / x1) + (b + pow(v , 2) / 2) * t1) / (v * sqrtgnum(t1));
+	z1 = (loggnum(s / x2) + (b + powgnum (v, 2) / 2) * t2) / (v * sqrtgnum(t2));
+	z2 = (loggnum(s / x1) + (b + powgnum (v, 2) / 2) * t1) / (v * sqrtgnum(t1));
 
 	if (!strcmp(call_put_flag , "c"))
 		gfresult = opt_bs1(call_put_flag, s, x1, t1, r, v, b) +
 			s * expgnum((b - r) * t2) * cum_biv_norm_dist1(z1, -z2, -rho) -
-			x2 * expgnum(-r * t2) * cum_biv_norm_dist1(z1 - sqrtgnum(pow(v , 2) * t2), -z2 + sqrtgnum(pow(v , 2) * t1), -rho);
+			x2 * expgnum(-r * t2) * cum_biv_norm_dist1(z1 - sqrtgnum(powgnum (v, 2) * t2), -z2 + sqrtgnum(powgnum (v, 2) * t1), -rho);
 	else if (!strcmp(call_put_flag , "p"))
 		gfresult = opt_bs1(call_put_flag, s, x1, t1, r, v, b) +
-			x2 * expgnum(-r * t2) * cum_biv_norm_dist1(-z1 + sqrtgnum(pow(v , 2) * t2), z2 - sqrtgnum(pow(v , 2) * t1), -rho) -
+			x2 * expgnum(-r * t2) * cum_biv_norm_dist1(-z1 + sqrtgnum(powgnum (v, 2) * t2), z2 - sqrtgnum(powgnum (v, 2) * t1), -rho) -
 			s * expgnum((b - r) * t2) * cum_biv_norm_dist1(-z1, z2, -rho);
 	else
 		gfresult = -123;

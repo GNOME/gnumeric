@@ -1358,7 +1358,7 @@ analysis_tool_ztest_engine_run (data_analysis_output_t *dao,
 		z = (mean_1 - mean_2 - info->mean_diff) /
 			sqrtgnum (info->var1 / variable_1->data->len  + info->var2 /
 				  variable_2->data->len);
-		p = pnorm (fabs (z), 0, 1, FALSE, FALSE);
+		p = pnorm (gnumabs (z), 0, 1, FALSE, FALSE);
 	}
 
 	/* Labels */
@@ -1533,7 +1533,7 @@ analysis_tool_ttest_paired_engine_run (data_analysis_output_t *dao,
 
 	if (var_diff_error == 0) {
 		t = (mean_diff - info->mean_diff) / sqrtgnum (var_diff / difference->len);
-		p = pt (fabs (t), df, FALSE, FALSE);
+		p = pt (gnumabs (t), df, FALSE, FALSE);
 	}
 
 
@@ -1686,7 +1686,7 @@ analysis_tool_ttest_eqvar_engine_run (data_analysis_output_t *dao,
 		if (var != 0) {
 			t = (mean_1 - mean_2 - info->mean_diff) /
 				sqrtgnum (var / variable_1->data->len + var / variable_2->data->len);
-			p = pt (fabs (t), df, FALSE, FALSE);
+			p = pt (gnumabs (t), df, FALSE, FALSE);
 		}
 	}
 
@@ -1828,7 +1828,7 @@ analysis_tool_ttest_neqvar_engine_run (data_analysis_output_t *dao,
 
 		t =  (mean_1 - mean_2 - info->mean_diff) /
 			sqrtgnum (var_1 / variable_1->data->len + var_2 / variable_2->data->len);
-		p = pt (fabs (t), df, FALSE, FALSE);
+		p = pt (gnumabs (t), df, FALSE, FALSE);
 	}
 
 	/* Labels */

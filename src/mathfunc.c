@@ -441,7 +441,7 @@ void pnorm_both(gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gbo
 	temp = (xnum + c[7]) / (xden + d[7]);
 
 #define do_del(X)							\
-	xsq = floor(X * SIXTEN) / SIXTEN;				\
+	xsq = floorgnum(X * SIXTEN) / SIXTEN;				\
 	del = (X - xsq) * (X + xsq);					\
 	if(log_p) {							\
 	    *cum = (-xsq * xsq * 0.5) + (-del * 0.5) + loggnum(temp);	\
@@ -1688,7 +1688,7 @@ gnum_float qgamma(gnum_float p, gnum_float alpha, gnum_float scale, gboolean low
 /* NaNs propagated correctly */
 
 
-int chebyshev_init(gnum_float *dos, int nos, gnum_float eta)
+static int chebyshev_init(gnum_float *dos, int nos, gnum_float eta)
 {
     int i, ii;
     gnum_float err;
@@ -4459,7 +4459,7 @@ static void K_bessel(gnum_float *x, gnum_float *alpha, long *nb,
 		/* ----------------------------------------------------------
 		   Calculation of K(ALPHA+1,X)/K(ALPHA,X),  1.0 <= X <= 4.0
 		   ----------------------------------------------------------*/
-		d2 = floor(estm[0] / ex + estm[1]);
+		d2 = floorgnum(estm[0] / ex + estm[1]);
 		m = (long) d2;
 		d1 = d2 + d2;
 		d2 -= .5;
@@ -4473,7 +4473,7 @@ static void K_bessel(gnum_float *x, gnum_float *alpha, long *nb,
 		   Calculation of I(|ALPHA|,X) and I(|ALPHA|+1,X) by backward
 		   recurrence and K(ALPHA,X) from the wronskian
 		   -----------------------------------------------------------*/
-		d2 = floor(estm[2] * ex + estm[3]);
+		d2 = floorgnum(estm[2] * ex + estm[3]);
 		m = (long) d2;
 		c = gnumabs(nu);
 		d3 = c + c;
@@ -4507,7 +4507,7 @@ static void K_bessel(gnum_float *x, gnum_float *alpha, long *nb,
 		   Calculation of K(ALPHA,X) and K(ALPHA+1,X)/K(ALPHA,X), by
 		   backward recurrence, for  X > 4.0
 		   ----------------------------------------------------------*/
-		dm = floor(estm[4] / ex + estm[5]);
+		dm = floorgnum(estm[4] / ex + estm[5]);
 		m = (long) dm;
 		d2 = dm - .5;
 		d2 *= d2;
@@ -5080,7 +5080,7 @@ random_logistic (gnum_float a)
 		x = random_01 ();
 	} while (x == 0 || x == 1);
 
-	return a * log (x / (1 - x));
+	return a * loggnum (x / (1 - x));
 }
 
 /*

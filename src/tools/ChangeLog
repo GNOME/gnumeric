@@ -1,3 +1,8 @@
+2002-10-14  Morten Welinder  <terra@diku.dk>
+
+	* analysis-tools.c (analysis_tool_ttest_neqvar_engine_run): Use
+	gnumabs, not fabs.
+
 2002-10-10  Morten Welinder  <terra@diku.dk>
 
 	* dao.h (data_analysis_output_t): Avoid "gboolean ... : 1".

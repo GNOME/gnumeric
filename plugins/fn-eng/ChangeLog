@@ -1,3 +1,8 @@
+2002-10-14  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (val_to_base): Use fmodgnum and floorgnum for better
+	precision.
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9

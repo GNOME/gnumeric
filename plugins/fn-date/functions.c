@@ -325,8 +325,8 @@ gnumeric_datedif (FunctionEvalInfo *ei, Value **argv)
 	GDate *gdate1, *gdate2;
 	Value *result;
 
-	date1 = floor (value_get_as_float (argv [0]));
-	date2 = floor (value_get_as_float (argv [1]));
+	date1 = floorgnum (value_get_as_float (argv [0]));
+	date2 = floorgnum (value_get_as_float (argv [1]));
 	opt = value_peek_string (argv[2]);
 
 	if (date1 > date2) {

@@ -58,6 +58,7 @@ Morten:
 	* Improve precision of GEOMEAN and PRODUCT.
 	* Fix MOD for non-integer (or just huge) args.
 	* Fix division by zero in MROUND.
+	* Fix a bunch of gnum_float issues.
 
 Nicolas Peninguy:
 	* Use regexps to classify currency and accounting formats

@@ -125,7 +125,7 @@ datetime_timet_to_serial_raw (time_t t)
 int
 datetime_serial_raw_to_serial (gnum_float raw)
 {
-	return (int) floor (raw + HALF_SEC);
+	return (int) floorgnum (raw + HALF_SEC);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -178,7 +178,7 @@ int
 datetime_serial_raw_to_seconds (gnum_float raw)
 {
 	raw += HALF_SEC;
-	return (raw - floor (raw)) * SECS_PER_DAY;
+	return (raw - floorgnum (raw)) * SECS_PER_DAY;
 }
 
 /* ------------------------------------------------------------------------- */

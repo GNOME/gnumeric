@@ -822,7 +822,7 @@ parameter_errors (RegressionFunction f,
 		for (i = 0; i < p_dim; i++)
 			/* FIXME: these were "[i][j]" which makes no sense.  */
 			errors[i] = (A[i][i] != 0
-				     ? 1 / sqrt (A[i][i])
+				     ? 1 / sqrtgnum (A[i][i])
 				     : -1);
 	}
 
@@ -930,7 +930,7 @@ non_linear_regression (RegressionFunction f,
 			r /= 10;
 			par = tmp_par;
 
-			if (abs (chi_pos - chi_pre) < DELTA)
+			if (gnumabs (chi_pos - chi_pre) < DELTA)
 				break;
 
 			chi_pre = chi_pos;

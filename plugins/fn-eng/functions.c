@@ -101,8 +101,8 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 		return value_new_error (ei->pos, _("Unimplemented"));
 
 	for (digit = max - 1; digit >= 0; digit--) {
-		int thisdigit = fmod (v + 0.5, dest_base);
-		v = floor ((v + 0.5) / dest_base);
+		int thisdigit = fmodgnum (v + 0.5, dest_base);
+		v = floorgnum ((v + 0.5) / dest_base);
 		buffer[digit] = 
 			thisdigit["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 	}

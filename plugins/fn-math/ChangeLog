@@ -1,5 +1,11 @@
 2002-10-14  Morten Welinder  <terra@diku.dk>
 
+	* functions.c (gnumeric_even): Use fmodgnum.
+	(gnumeric_odd): Ditto.
+	(gnumeric_mround): Ditto.
+
+2002-10-14  Morten Welinder  <terra@diku.dk>
+
 	* functions.c (gnumeric_mround): Fix =MROUND(x,0) to be XL
 	compatible.  (Barf.)
 

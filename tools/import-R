@@ -123,7 +123,7 @@ sub import_file {
 	    s/pnorm5/pnorm/g;
 	    s/qnorm5/qnorm/g;
 
-	    s/\b(trunc|ftrunc)\b/floor/g;
+	    s/\b(trunc|ftrunc)\b/floorgnum/g;
 
 	    # Somewhat risky.
 	    s/\%([-0-9.]*)([efgEFG])/\%$1\" GNUM_FORMAT_$2 \"/g;

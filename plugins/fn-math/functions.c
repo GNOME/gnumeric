@@ -1578,7 +1578,7 @@ gnumeric_even (FunctionEvalInfo *ei, Value **argv)
 		number = -number;
 	}
 	ceiled = ceilgnum (number);
-	if (fmod (ceiled, 2) == 0)
+	if (fmodgnum (ceiled, 2) == 0)
 	        if (number > ceiled)
 		        return value_new_int ((int) (sign * (ceiled + 2)));
 		else
@@ -1616,7 +1616,7 @@ gnumeric_odd (FunctionEvalInfo *ei, Value **argv)
 		number = -number;
 	}
 	ceiled = ceilgnum (number);
-	if (fmod (ceiled, 2) == 1)
+	if (fmodgnum (ceiled, 2) == 1)
 	        if (number > ceiled)
 		        return value_new_int ((int) (sign * (ceiled + 2)));
 		else
@@ -1982,8 +1982,8 @@ gnumeric_mround (FunctionEvalInfo *ei, Value **argv)
 		multiple = -multiple;
 	}
 
-	mod = fmod (number, multiple);
-	div = number-mod;
+	mod = fmodgnum (number, multiple);
+	div = number - mod;
 
         return value_new_float (sign * (
 		div + ((mod + accuracy_limit >= multiple / 2) ? multiple : 0)));

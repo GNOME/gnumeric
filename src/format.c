@@ -1499,7 +1499,7 @@ fmt_general_int (int val, int col_width)
 		if (val < 0) {
 			/* leave space for minus sign */
 			col_width--;
-			log_val = ceil (log10 (-val));
+			log_val = ceil (log10 ((unsigned int)-val));
 		} else
 			log_val = (val > 0) ? ceil (log10 (val)) : 0;
 
