@@ -53,6 +53,7 @@ EXTRA_DIST = \
 	foo-canvas-marshal.list	\
 	libfoocanvas.pc.in
 
+
 CLEANFILES = foo-canvas-marshal.h foo-canvas-marshal.c
 
 DONT_DIST_SOURCE = $(BUILT_SOURCES)

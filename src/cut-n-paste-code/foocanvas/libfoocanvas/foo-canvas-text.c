@@ -982,6 +982,7 @@ foo_canvas_text_set_property (GObject            *object,
 		double w = fabs (g_value_get_double (value));
 		pango_layout_set_width (text->layout,
 			w * text->item.canvas->pixels_per_unit * PANGO_SCALE);
+
 		break;
 	}
 
