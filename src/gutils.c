@@ -197,7 +197,7 @@ gnumeric_strcase_hash (gconstpointer v)
 }
 
 static guint32
-january_1900()
+january_1900 (void)
 {
 	static guint32 julian = 0;
 

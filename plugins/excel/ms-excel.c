@@ -1297,7 +1297,7 @@ ms_excel_sheet_destroy (MS_EXCEL_SHEET * sheet)
 }
 
 static MS_EXCEL_WORKBOOK *
-ms_excel_workbook_new ()
+ms_excel_workbook_new (void)
 {
 	MS_EXCEL_WORKBOOK *ans = (MS_EXCEL_WORKBOOK *) g_malloc (sizeof (MS_EXCEL_WORKBOOK));
 

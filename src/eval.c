@@ -239,7 +239,7 @@ static void
 dependency_remove_cell (gpointer key, gpointer value, gpointer the_cell)
 {
 	DependencyRange *range = value;
-	GList *list = range->cell_list;
+	GList *list;
 
 	list = g_list_find (range->cell_list, the_cell);
 	if (!list)
@@ -413,6 +413,12 @@ cell_queue_recalc_list (GList *list)
 	wb = ((Sheet *)(first_cell->sheet))->workbook;
 
 	wb->eval_queue = g_list_concat (wb->eval_queue, list);
+
+	while (list) {
+		Cell *cell = list->data;
+		cell->flags |= CELL_QUEUED_FOR_RECALC;
+		list = list->next;
+	}
 }
 
 static Cell *

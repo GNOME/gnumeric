@@ -482,30 +482,33 @@ static char *help_combin = {
 float_t
 combin (int n, int k)
 {
-	return fact(n) / (fact(k) * fact(n-k));
+	if (n >= 15) {
+		float_t res;
+
+		res = exp (lgamma (n + 1) - lgamma (k + 1) - lgamma (n - k + 1));
+		return floor (res + 0.5);  /* Round, just in case.  */
+	} else {
+		float_t res;
+
+		res = fact (n) / fact (k) / fact (n - k);
+		return res;
+	}
 }
 
 static Value *
 gnumeric_combin (struct FunctionDefinition *id,
 		 Value *argv [], char **error_string)
 {
-	Value *res;
-	float_t n, k;
+	int n ,k;
 
-	if (argv [0]->type == VALUE_INTEGER &&
-	    argv [1]->type == VALUE_INTEGER &&
-	    argv[0]->v.v_int >= argv[1]->v.v_int){
-		n = argv [0]->v.v_int;
-		k = argv [1]->v.v_int;
-	} else {
-		*error_string = _("#NUM!");
-		return NULL;
-	}
-	
-	res = g_new (Value, 1);
-	res->type = VALUE_INTEGER;
-	res->v.v_int = combin ((int)n, (int)k);
-	return res;
+	n = value_get_as_int (argv[0]);
+	k = value_get_as_int (argv[1]);
+
+	if (k >= 0 && n >= k)
+		return value_float (combin (n ,k));
+
+	*error_string = _("#NUM!");
+	return NULL;
 }
 
 static char *help_floor = {
@@ -671,7 +674,7 @@ gnumeric_mod (struct FunctionDefinition *i,
 	      Value *argv [], char **error_string)
 {
 	int a,b;
-	
+
 	a = value_get_as_int (argv[0]) ;
 	b = value_get_as_int (argv[1]) ;
 	/* Obscure handling of C's mod function */

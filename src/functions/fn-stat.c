@@ -650,7 +650,6 @@ gnumeric_varp (Sheet *sheet, GList *expr_node_list, int eval_col,
 	       int eval_row, char **error_string)
 {
 	stat_closure_t cl;
-	float_t ans, num;
 
 	setup_stat_closure (&cl);
 
@@ -688,7 +687,6 @@ gnumeric_var (Sheet *sheet, GList *expr_node_list, int eval_col,
 	      int eval_row, char **error_string)
 {
 	stat_closure_t cl;
-	float_t ans, num;
 
 	setup_stat_closure (&cl);
 

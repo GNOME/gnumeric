@@ -1,3 +1,7 @@
+1999-05-04  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel.c (ms_excel_workbook_new): Fix argument list.
+
 1999-05-02  Michael Meeks  <michael@imaginator.com>
 
 	* ms-excel.c (biff_get_externsheet_name): Converted to return

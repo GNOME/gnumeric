@@ -1,3 +1,16 @@
+1999-05-04  Morten Welinder  <terra@diku.dk>
+
+	* src/eval.c (dependency_remove_cell): Remove unused assignment.
+	(cell_queue_recalc_list): Mark queued cells as being so.
+
+	* src/fn-math.c (gnumeric_combin): Clean up.
+	(combin): Handle large numbers carefully.
+
+	* src/utils.c (january_1900): Fix argument list.
+
+	* src/fn-stat.c (gnumeric_var): Remove unused variable.
+	(gnumeric_varp): Ditto.
+
 1999-05-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-math: Added ROUND().
