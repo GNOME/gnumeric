@@ -50,11 +50,7 @@ point_is_inside_range (ItemEdit *item_edit, const char *text, Range *range)
 	int from, to;
 	RangeRef *ref = NULL;
 
-	if ((text = gnumeric_char_start_expr_p (text)) == NULL)
-		return FALSE;
-
 	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (item_edit->entry));
-
 	if (parse_surrounding_ranges  (text, cursor_pos, sheet,
 				       TRUE, &from, &to, &ref)) {
 		/* If the range is on another sheet ignore it */
@@ -473,6 +469,13 @@ entry_event (GtkEntry *entry, GdkEvent *event, GnomeCanvasItem *item)
 	return TRUE;
 }
 
+static int
+entry_cursor_event (GtkEntry *entry, GParamSpec *pspec, GnomeCanvasItem *item)
+{
+	entry_changed (entry, item);
+	return TRUE;
+}
+
 static void
 item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
@@ -499,8 +502,8 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		"key-press-event",
 		G_CALLBACK (entry_event), item_edit);
 	item_edit->signal_button_press = g_signal_connect_after (G_OBJECT (entry),
-		"button-press-event",
-		G_CALLBACK (entry_event), item_edit);
+		"notify::cursor-position",
+		G_CALLBACK (entry_cursor_event), item_edit);
 
 	scan_for_range (item_edit, "");
 

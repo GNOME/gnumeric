@@ -1,5 +1,13 @@
 2002-04-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/item-edit.h (point_is_inside_range) : don't call 
+	  gnumeric_char_start_expr_p since it changes the cursor position
+	(entry_cursor_event) : new
+	(item_edit_set_arg) : use notify::cursor-position rather than 
+	  button-press-event
+
+2002-04-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/parse-util.c (parse_surrounding_ranges) : new, code extracted
 	  from src/widgets/gnumeric-expr-entry.c 
 	* src/parse-util.h (parse_surrounding_ranges) : new
