@@ -596,7 +596,7 @@ value_is_empty_cell (Value const *v)
  * This object should not be copied, or returned to a user visible routine.
  */
 Value *
-value_terminate()
+value_terminate (void)
 {
 	static Value * term = NULL;
 

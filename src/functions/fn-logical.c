@@ -221,7 +221,8 @@ gnumeric_if (FunctionEvalInfo *ei, GList *expr_node_list)
 
 /***************************************************************************/
 
-void logical_functions_init()
+void
+logical_functions_init (void)
 {
 	FunctionCategory *cat = function_get_category (_("Logical"));
 

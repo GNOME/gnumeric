@@ -13,8 +13,8 @@
 
 /***************************************************************************/
 
-void misc_functions_init()
+void
+misc_functions_init (void)
 {
 	FunctionCategory *cat = function_get_category (_("Miscellaneous"));
-
 }

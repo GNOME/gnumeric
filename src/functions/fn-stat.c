@@ -4027,7 +4027,8 @@ gnumeric_slope (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-void stat_functions_init()
+void
+stat_functions_init (void)
 {
 	FunctionCategory *cat = function_get_category (_("Statistics"));
 
@@ -4188,4 +4189,3 @@ void stat_functions_init()
 	function_add_nodes (cat, "ztest",  0,      "",
 			    &help_ztest, gnumeric_ztest);
 }
-

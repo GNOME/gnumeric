@@ -1290,7 +1290,7 @@ match_again:
 /***************************************************************************/
 
 void
-string_functions_init ()
+string_functions_init (void)
 {
 	FunctionCategory *cat = function_get_category (_("String"));
 

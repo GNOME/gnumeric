@@ -1692,7 +1692,8 @@ out:
 
 /***************************************************************************/
 
-void finance_functions_init()
+void
+finance_functions_init (void)
 {
 	FunctionCategory *cat = function_get_category (_("Financial"));
 

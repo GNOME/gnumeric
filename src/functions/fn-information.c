@@ -843,7 +843,8 @@ gnumeric_type (FunctionEvalInfo *ei, GList *expr_node_list)
 
 /***************************************************************************/
 
-void information_functions_init()
+void
+information_functions_init (void)
 {
 	FunctionCategory *cat = function_get_category (_("Information"));
 

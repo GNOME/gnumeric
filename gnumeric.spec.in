@@ -16,7 +16,7 @@ Docdir: 	%{prefix}/doc
 
 Requires: gnome-libs >= 1.0.0
 Requires: guile >= 1.3
-Requires: gnome-print >= 0.3
+Requires: gnome-print >= 0.6
 Requires: libglade >= 0.2
 
 %description

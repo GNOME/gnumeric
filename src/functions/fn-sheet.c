@@ -97,7 +97,8 @@ gnumeric_selection (FunctionEvalInfo *ei, Value *argv [])
 
 /***************************************************************************/
 
-void sheet_functions_init()
+void
+sheet_functions_init (void)
 {
 	FunctionCategory *cat = function_get_category (_("Sheet"));
 

@@ -1,8 +1,25 @@
+1999-09-14  Morten Welinder  <terra@diku.dk>
+
+	* src/dialogs/dialog-analysis-tools.c (tools): Make static.
+
+	* src/functions/fn-eng.c (eng_functions_init): Arg fix.
+	* src/functions/fn-string.c (string_functions_init): Ditto.
+	* src/functions/fn-stat.c (stat_functions_init): Ditto.
+	* src/functions/fn-sheet.c (sheet_functions_init): Ditto.
+	* src/functions/fn-misc.c (misc_functions_init): Ditto.
+	* src/functions/fn-math.c (math_functions_init): Ditto.
+	* src/functions/fn-lookup.c (lookup_functions_init): Ditto.
+	* src/functions/fn-logical.c (logical_functions_init): Ditto.
+	* src/functions/fn-information.c (information_functions_init):
+ 	Ditto.
+	* src/functions/fn-financial.c (finance_functions_init): Ditto.
+	* src/value.c (value_terminate): Ditto.
+
+	* gnumeric.spec.in (Requires): Update gnome-print dependency.
+
 1999-09-14  Karl Eichwalder  <ke@suse.de>
 
 	* src/workbook.c: The "import" item needs dots; it opens a dialog.
-
-1999-09-14  Karl Eichwalder  <ke@suse.de>
 
 	* DEPENDS: Add gnome-print.
 

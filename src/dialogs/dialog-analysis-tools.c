@@ -67,7 +67,7 @@ typedef struct {
 
 
 
-tool_list_t tools[] = {
+static tool_list_t tools[] = {
         { { N_("Anova: Single Factor"), NULL },
 	  dialog_anova_single_factor_tool },
         { { N_("Anova: Two-Factor Without Replication"), NULL },

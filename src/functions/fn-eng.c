@@ -1838,7 +1838,8 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-void eng_functions_init()
+void
+eng_functions_init (void)
 {
 	FunctionCategory *cat = function_get_category (_("Engineering"));
 

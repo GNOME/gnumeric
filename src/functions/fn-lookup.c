@@ -1041,7 +1041,8 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-void lookup_functions_init()
+void
+lookup_functions_init (void)
 {
 	FunctionCategory *cat = function_get_category (_("Data / Lookup"));
 
