@@ -3765,6 +3765,19 @@ ms_excel_read_dval (BiffQuery *q, ExcelSheet *esheet)
 	}
 }
 
+static guchar *
+read_utf16_str (int word_len, guint8 const *data)
+{
+	int i;
+	gunichar2 *uni_text = g_alloca (word_len * sizeof (gunichar2));
+
+	/* be wary about endianness */
+	for (i = 0 ; i < word_len ; i++, data += 2)
+		uni_text [i] = GSF_LE_GET_GUINT16 (data);
+
+	return g_utf16_to_utf8 (uni_text, word_len, NULL, NULL, NULL);
+}
+
 static void
 ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 {
@@ -3783,7 +3796,7 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 		0xc0, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x46,
 	};
 	Range	r;
-	guint32 options, len, i;
+	guint32 options, len;
 	guint16 next_opcode;
 	guint8 const *data = q->data;
 	guchar *description = NULL;
@@ -3804,61 +3817,48 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 	data += 32;
 	/* description */
 	if (options & 0x14) {
-		gunichar2 *uni_text;
-
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
-		g_return_if_fail (data+len-q->data <= (int)q->length);
-
-		/* be wary about endianness */
-		uni_text = g_new (gunichar2, len);
-		for (i = 0 ; i < len ; i++)
-			uni_text [i] = GSF_LE_GET_GUINT16 (data + i*2);
-
-		description = g_utf16_to_utf8 (uni_text, len, NULL, NULL, NULL);
-		g_free (uni_text);
+		g_return_if_fail (data + len*2 - q->data <= (int)q->length);
+		description = read_utf16_str (len, data);
 		data += len*2;
 	}
 
 	/* target frame */
 	if (options & 0x8) {
-		gunichar2 *uni_text;
-
 		len = GSF_LE_GET_GUINT32 (data);
 		data += 4;
-		g_return_if_fail (data+len-q->data <= (int)q->length);
-
-		/* be wary about endianness */
-		uni_text = g_new (gunichar2, len);
-		for (i = 0 ; i < len ; i++)
-			uni_text [i] = GSF_LE_GET_GUINT16 (data + i*2);
-
-		target = g_utf16_to_utf8 (uni_text, -1, NULL, NULL, NULL);
-		g_free (uni_text);
+		g_return_if_fail (data + len*2 - q->data <= (int)q->length);
+		target = read_utf16_str (len, data);
 		data += len*2;
 	}
 
 	/* file with UNC */
 	if ((options & 0x1e3) == 0x003 && !memcmp (data, url_guid, sizeof (url_guid))) {
-		gunichar2 *uni_text;
 		guchar *url;
 
 		len = GSF_LE_GET_GUINT32 (data + sizeof (url_guid));
 		data += 4 + sizeof (url_guid);
-		g_return_if_fail (data+len-q->data <= (int)q->length);
 
-		/* be wary about endianness */
-		uni_text = g_new (gunichar2, len);
-		for (i = 0 ; i < len ; i++)
-			uni_text [i] = GSF_LE_GET_GUINT16 (data + i*2);
+		g_return_if_fail (data + len*2 - q->data <= (int)q->length);
 
-		url = g_utf16_to_utf8 (uni_text, -1, NULL, NULL, NULL);
+		url = read_utf16_str (len, data);
 		link = g_object_new (gnm_hlink_url_get_type (), NULL);
 		gnm_hlink_url_set_target (link, url);
-		g_free (uni_text);
 		g_free (url);
 	} else if ((options & 0x1e1) == 0x001 && !memcmp (data, file_guid, sizeof (file_guid))) {
 		range_dump (&r, " <-- local file\n");
+
+		data += sizeof (file_guid);
+		printf ("up count %hu\n", GSF_LE_GET_GUINT16 (data));
+		len = GSF_LE_GET_GUINT32 (data + 2);
+		data += 6;
+
+		g_return_if_fail (data+len-q->data <= (int)q->length);
+		data += len;
+
+		gsf_mem_dump (data, 34);
+
 	} else if ((options & 0x1e3) == 0x103) {
 		range_dump (&r, " <-- unc file\n");
 	} else if ((options & 0x1eb) == 0x008) {
@@ -3870,13 +3870,15 @@ ms_excel_read_hlink (BiffQuery *q, ExcelSheet *esheet)
 	if (ms_biff_query_peek_next (q, &next_opcode) &&
 	    next_opcode == BIFF_LINK_TIP) {
 		ms_biff_query_next (q);
-		/* TODO */
+		tip = read_utf16_str ((q->length - 10)/ 2, q->data + 10);
 	}
 
 	if (link != NULL) {
 		MStyle *style = mstyle_new ();
 		mstyle_set_hlink (style, link);
 		sheet_style_apply_range	(esheet->gnum_sheet, &r, style);
+		if (tip != NULL)
+			gnm_hlink_set_tip  (link, tip);
 	}
 
 	g_free (description);
