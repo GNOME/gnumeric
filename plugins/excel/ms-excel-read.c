@@ -387,7 +387,8 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 			SheetObject *so = obj->gnum_obj;
 			switch (obj->excel_type) {
 
-			case 0x06: sheet_object_text_set_text (so, label);
+			case 0x0E: /* label or text box */
+			case 0x06: gnm_so_text_set_text (so, label);
 				   break;
 			case 0x07: sheet_widget_button_set_label (so, label);
 				   break;
@@ -432,7 +433,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		color = ms_sheet_map_color (esheet, obj,
 			MS_OBJ_ATTR_FILL_COLOR);
 		if (color != NULL)
-			sheet_object_graphic_fill_color_set (so, color);
+			gnm_so_graphic_set_fill_color (so, color);
 		break;
 	}
 	case 0x02:
@@ -446,9 +447,9 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 				MS_OBJ_ATTR_FILL_COLOR);
 		outline_color = ms_sheet_map_color (esheet, obj,
 			MS_OBJ_ATTR_OUTLINE_COLOR);
-		sheet_object_graphic_fill_color_set (so, fill_color);
+		gnm_so_graphic_set_fill_color (so, fill_color);
 		if (outline_color)
-			sheet_object_filled_outline_color_set (so, outline_color);
+			gnm_so_filled_set_outline_color (so, outline_color);
 		break;
 	}
 
@@ -462,21 +463,21 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 
 		so = g_object_new (sheet_object_text_get_type (), NULL);
 
-		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED)) {
-			color = ms_sheet_map_color (esheet, obj,
-				MS_OBJ_ATTR_FILL_COLOR);
-			sheet_object_graphic_fill_color_set (so, color);
-		}
+		if (ms_obj_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
+			gnm_so_graphic_set_fill_color (so,
+				ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_FILL_COLOR));
+		else
+			/* default is None */
+			gnm_so_graphic_set_fill_color (so, NULL);
 
-		color = ms_sheet_map_color (esheet, obj,
-			MS_OBJ_ATTR_OUTLINE_COLOR);
-		if (color)
-			sheet_object_filled_outline_color_set (so, color);
+		/* default is none */
+		gnm_so_filled_set_outline_color (so,
+			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR));
 
 		color = ms_sheet_map_color (esheet, obj,
 			MS_OBJ_ATTR_FONT_COLOR);
-		if (color)
-			sheet_object_test_font_color_set (so, color);
+		if (color) /* gnumeric default is fine */
+			gnm_so_text_set_font_color (so, color);
 		break;
 	}
 
@@ -502,11 +503,11 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		break;
 	}
 	case 0x09: so = g_object_new (sheet_object_polygon_get_type (), NULL);
-		   sheet_object_polygon_set_points (SHEET_OBJECT (so),
+		   gnm_so_polygon_set_points (SHEET_OBJECT (so),
 			ms_obj_attr_get_array (obj, MS_OBJ_ATTR_POLYGON_COORDS, NULL));
-		   sheet_object_polygon_fill_color_set (so, 
+		   gnm_so_polygon_set_fill_color (so, 
 			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_FILL_COLOR));
-		   sheet_object_polygon_outline_color_set (so, 
+		   gnm_so_polygon_set_outline_color (so, 
 			ms_sheet_map_color (esheet, obj, MS_OBJ_ATTR_OUTLINE_COLOR));
 		   break;
 

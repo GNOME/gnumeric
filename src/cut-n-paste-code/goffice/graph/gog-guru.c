@@ -518,7 +518,7 @@ cb_graph_guru_add_item (GtkWidget *w, GraphGuruState *s)
 }
 
 static void
-cb_graph_guru_delete_item (GtkWidget *w, GraphGuruState *s)
+cb_graph_guru_delete_item (GraphGuruState *s)
 {
 	if (s->prop_object != NULL) {
 		GtkTreeIter iter;
@@ -532,26 +532,54 @@ cb_graph_guru_delete_item (GtkWidget *w, GraphGuruState *s)
 		g_object_unref (obj);
 	}
 }
+
 static void
-cb_graph_guru_prec_first (GtkWidget *w, GraphGuruState *s)
+update_prec_menu (GraphGuruState *s, gboolean inc_ok, gboolean dec_ok)
 {
-	g_warning ("first");
+	gtk_widget_set_sensitive (s->prec.first,    inc_ok);
+	gtk_widget_set_sensitive (s->prec.inc,	    inc_ok);
+	gtk_widget_set_sensitive (s->prec.dec,	    dec_ok);
+	gtk_widget_set_sensitive (s->prec.last,	    dec_ok);
+	gtk_widget_set_sensitive (s->prec.menu,	    dec_ok | inc_ok);
+}
+
+static gboolean
+cb_reordered_find (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter *iter,
+		   GraphGuruState *s)
+{
+	GogObject *obj;
+	gtk_tree_model_get (model, iter, PLOT_ATTR_OBJECT, &obj, -1);
+	if (obj == s->search_target) {
+		gtk_tree_store_move_after (s->prop_model, &s->prop_iter, iter);
+		return TRUE;
+	}
+
+	return FALSE;
 }
 static void
-cb_graph_guru_prec_inc (GtkWidget *w, GraphGuruState *s)
+reorder (GraphGuruState *s, gboolean inc, gboolean goto_max)
 {
-	g_warning ("inc");
+	gboolean inc_ok, dec_ok;
+	GogObject *after;
+
+	g_return_if_fail (s->search_target == NULL);
+
+	after = gog_object_reorder (s->prop_object, inc, goto_max);
+	if (after != NULL) {
+		s->search_target = after;
+		gtk_tree_model_foreach (GTK_TREE_MODEL (s->prop_model),
+			(GtkTreeModelForeachFunc) cb_reordered_find, s);
+		s->search_target = NULL;
+	} else
+		gtk_tree_store_move_after (s->prop_model, &s->prop_iter, NULL);
+
+	gog_object_can_reorder (s->prop_object, &inc_ok, &dec_ok);
+	update_prec_menu (s, inc_ok, dec_ok);
 }
-static void
-cb_graph_guru_prec_dec (GtkWidget *w, GraphGuruState *s)
-{
-	g_warning ("dec");
-}
-static void
-cb_graph_guru_prec_last (GtkWidget *w, GraphGuruState *s)
-{
-	g_warning ("last");
-}
+static void cb_prec_first (GraphGuruState *s) { reorder (s, TRUE,  TRUE); }
+static void cb_prec_inc	  (GraphGuruState *s) { reorder (s, TRUE,  FALSE); }
+static void cb_prec_dec   (GraphGuruState *s) { reorder (s, FALSE, FALSE); }
+static void cb_prec_last  (GraphGuruState *s) { reorder (s, FALSE, TRUE); }
 
 struct type_menu_create {
 	GraphGuruState *state;
@@ -732,11 +760,7 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 
 	gtk_widget_set_sensitive (s->delete_button, delete_ok);
 	gtk_widget_set_sensitive (s->add_menu,	    add_ok);
-	gtk_widget_set_sensitive (s->prec.first,    inc_ok);
-	gtk_widget_set_sensitive (s->prec.inc,	    inc_ok);
-	gtk_widget_set_sensitive (s->prec.dec,	    dec_ok);
-	gtk_widget_set_sensitive (s->prec.last,	    dec_ok);
-	gtk_widget_set_sensitive (s->prec.menu,	    dec_ok | inc_ok);
+	update_prec_menu (s, inc_ok, dec_ok);
 }
 
 static gboolean
@@ -858,17 +882,17 @@ populate_graph_item_list (GogObject *obj, GogObject *select, GraphGuruState *s,
 	closure = g_cclosure_new (G_CALLBACK (cb_obj_name_changed), s, NULL);
 	g_object_watch_closure (G_OBJECT (s->prop_view), closure);
 	g_signal_connect_closure (G_OBJECT (obj),
-		"name_changed",
+		"name-changed",
 		closure, FALSE);
 	closure = g_cclosure_new (G_CALLBACK (cb_obj_child_added), s, NULL);
 	g_object_watch_closure (G_OBJECT (s->prop_view), closure);
 	g_signal_connect_closure (G_OBJECT (obj),
-		"child_added",
+		"child-added",
 		closure, FALSE);
 	closure = g_cclosure_new (G_CALLBACK (cb_obj_child_removed), s, NULL);
 	g_object_watch_closure (G_OBJECT (s->prop_view), closure);
 	g_signal_connect_closure (G_OBJECT (obj),
-		"child_removed",
+		"child-removed",
 		closure, FALSE);
 
 	children = gog_object_get_children (obj);
@@ -961,21 +985,21 @@ graph_guru_init_format_page (GraphGuruState *s)
 	s->prec.first = glade_xml_get_widget (s->gui, "first_precedence");
 	s->prec.last  = glade_xml_get_widget (s->gui, "last_precedence");
 
-	g_signal_connect (G_OBJECT (s->delete_button),
+	g_signal_connect_swapped (G_OBJECT (s->delete_button),
 		"activate",
 		G_CALLBACK (cb_graph_guru_delete_item), s);
-	g_signal_connect (G_OBJECT (s->prec.first),
+	g_signal_connect_swapped (G_OBJECT (s->prec.first),
 		"activate",
-		G_CALLBACK (cb_graph_guru_prec_first), s);
-	g_signal_connect (G_OBJECT (s->prec.inc),
+		G_CALLBACK (cb_prec_first), s);
+	g_signal_connect_swapped (G_OBJECT (s->prec.inc),
 		"activate",
-		G_CALLBACK (cb_graph_guru_prec_inc), s);
-	g_signal_connect (G_OBJECT (s->prec.dec),
+		G_CALLBACK (cb_prec_inc), s);
+	g_signal_connect_swapped (G_OBJECT (s->prec.dec),
 		"activate",
-		G_CALLBACK (cb_graph_guru_prec_dec), s);
-	g_signal_connect (G_OBJECT (s->prec.last),
+		G_CALLBACK (cb_prec_dec), s);
+	g_signal_connect_swapped (G_OBJECT (s->prec.last),
 		"activate",
-		G_CALLBACK (cb_graph_guru_prec_last), s);
+		G_CALLBACK (cb_prec_last), s);
 
 	/* Load up the sample view and make it fill the entire canvas */
 	w = glade_xml_get_widget (s->gui, "sample_canvas");

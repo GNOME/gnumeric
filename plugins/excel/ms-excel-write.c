@@ -3732,6 +3732,12 @@ excel_write_sheet (ExcelWriteState *ewb, ExcelWriteSheet *esheet)
 	ms_biff_put_commit (ewb->bp);
 */
 
+	if (ewb->export_macros) {
+		ms_biff_put_var_next (ewb->bp, BIFF_CODENAME);
+		excel_write_string (ewb->bp, esheet->gnum_sheet->name_unquoted,
+				    STR_TWO_BYTE_LENGTH);
+		ms_biff_put_commit (ewb->bp);
+	}
 	excel_write_EOF (ewb->bp);
 	g_array_free (dbcells, TRUE);
 }
@@ -4049,6 +4055,14 @@ write_workbook (ExcelWriteState *ewb)
 		for (i = 0; i < len; i++)
 			GSF_LE_SET_GUINT16 (data + i*2, i + 1);
 		ms_biff_put_commit (bp);
+
+		if (ewb->export_macros) {
+			ms_biff_put_len_next (bp, BIFF_OBPROJ, 0);
+			ms_biff_put_commit (bp);
+			ms_biff_put_var_next (bp, BIFF_CODENAME);
+			excel_write_string (bp, "ThisWorkbook", STR_TWO_BYTE_LENGTH);
+			ms_biff_put_commit (bp);
+		}
 	}
 
 	data = ms_biff_put_len_next (bp, BIFF_FNGROUPCOUNT, 2);

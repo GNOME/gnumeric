@@ -1,3 +1,9 @@
+2003-11-14  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=68794
+	* src/selection.c (sv_selection_to_plot) : default to rows
+	  when rows == cols
+
 2003-11-06  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=126389

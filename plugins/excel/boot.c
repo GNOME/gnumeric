@@ -22,6 +22,7 @@
 #include "module-plugin-defs.h"
 
 #include "excel.h"
+#include "ms-excel-write.h"
 #include "boot.h"
 #include "ms-excel-util.h"
 #include "ms-excel-read.h"
@@ -113,7 +114,8 @@ excel_file_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 }
 
 static void
-excel_read_metadata (GsfInfileMSOle *ole, char const *name, GnmCmdContext *context)
+excel_read_metadata (Workbook *wb,
+		     GsfInfileMSOle *ole, char const *name, GnmCmdContext *context)
 {
 	GError   *err = NULL;
 	GsfInput *stream = gsf_infile_child_by_name (GSF_INFILE (ole), name);
@@ -124,6 +126,9 @@ excel_read_metadata (GsfInfileMSOle *ole, char const *name, GnmCmdContext *conte
 			gnm_cmd_context_error_import (context, err->message);
 			g_error_free (err);
 		}
+		gsf_input_seek (stream, 0, G_SEEK_SET);
+		g_object_set_data_full (G_OBJECT (wb), name,
+			gsf_structured_blob_read (stream), g_object_unref);
 		g_object_unref (G_OBJECT (stream));
 	}
 }
@@ -181,14 +186,20 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 	excel_read_workbook (context, wbv, stream, &is_double_stream_file);
 	g_object_unref (G_OBJECT (stream));
 
-	excel_read_metadata (ole, "\05SummaryInformation", GNM_CMD_CONTEXT (context));
-	excel_read_metadata (ole, "\05DocumentSummaryInformation", GNM_CMD_CONTEXT (context));
+	excel_read_metadata (wb, ole, "\05SummaryInformation", GNM_CMD_CONTEXT (context));
+	excel_read_metadata (wb, ole, "\05DocumentSummaryInformation", GNM_CMD_CONTEXT (context));
 
 	/* See if there are any macros to keep around */
-	stream = gsf_infile_child_by_name (GSF_INFILE (ole), "_VBA_PROJECT_CUR");
+	stream = gsf_infile_child_by_name (GSF_INFILE (ole), "\01CompObj");
 	if (stream != NULL) {
-		g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_MACROS",
-			gsf_structured_blob_read (stream), g_object_unref);
+		GsfInput *macros = gsf_infile_child_by_name (GSF_INFILE (ole), "_VBA_PROJECT_CUR");
+		if (macros != NULL) {
+			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_COMPOBJ",
+				gsf_structured_blob_read (stream), g_object_unref);
+			g_object_set_data_full (G_OBJECT (wb), "MS_EXCEL_MACROS",
+				gsf_structured_blob_read (macros), g_object_unref);
+			g_object_unref (G_OBJECT (macros));
+		}
 		g_object_unref (G_OBJECT (stream));
 	}
 
@@ -214,7 +225,7 @@ excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	GsfOutput *content;
 	GsfOutfileMSOle *outfile;
 	ExcelWriteState *ewb = NULL;
-	GsfStructuredBlob *macros;
+	GsfStructuredBlob *blob;
 
 	io_progress_message (context, _("Preparing to save..."));
 	io_progress_range_push (context, 0.0, 0.1);
@@ -223,7 +234,10 @@ excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	if (ewb == NULL)
 		return;
 
+	wb = wb_view_workbook (wbv);
 	outfile = gsf_outfile_msole_new (output);
+	ewb->export_macros = (biff8 &&
+		NULL != g_object_get_data (G_OBJECT (wb), "MS_EXCEL_MACROS"));
 
 	io_progress_message (context, _("Saving file..."));
 	io_progress_range_push (context, 0.1, 1.0);
@@ -234,23 +248,33 @@ excel_save (IOContext *context, WorkbookView const *wbv, GsfOutput *output,
 	excel_write_state_free (ewb);
 	io_progress_range_pop (context);
 
-	wb = wb_view_workbook (wbv);
-	content = gsf_outfile_new_child (GSF_OUTFILE (outfile),
-		"\05DocumentSummaryInformation", FALSE);
-	gsf_msole_metadata_write (content, TRUE, NULL);
-	gsf_output_close (content);
-	g_object_unref (G_OBJECT (content));
+	blob = g_object_get_data (G_OBJECT (wb), "\05DocumentSummaryInformation");
+	if (blob == NULL) {
+		content = gsf_outfile_new_child (GSF_OUTFILE (outfile),
+			"\05DocumentSummaryInformation", FALSE);
+		gsf_msole_metadata_write (content, TRUE, NULL);
+		gsf_output_close (content);
+		g_object_unref (G_OBJECT (content));
+	} else
+		gsf_structured_blob_write (blob, GSF_OUTFILE (outfile));
 
-	content = gsf_outfile_new_child (GSF_OUTFILE (outfile),
-		"\05SummaryInformation", FALSE);
-	gsf_msole_metadata_write (content, FALSE, NULL);
-	gsf_output_close (content);
-	g_object_unref (G_OBJECT (content));
+	blob = g_object_get_data (G_OBJECT (wb), "\05SummaryInformation");
+	if (blob == NULL) {
+		content = gsf_outfile_new_child (GSF_OUTFILE (outfile),
+			"\05SummaryInformation", FALSE);
+		gsf_msole_metadata_write (content, FALSE, NULL);
+		gsf_output_close (content);
+		g_object_unref (G_OBJECT (content));
+	} else
+		gsf_structured_blob_write (blob, GSF_OUTFILE (outfile));
 
 	/* restore the macros we loaded */
-	macros = g_object_get_data (G_OBJECT (wb), "MS_EXCEL_MACROS");
-	if (macros != NULL)
-		gsf_structured_blob_write (macros, GSF_OUTFILE (outfile));
+	blob = g_object_get_data (G_OBJECT (wb), "MS_EXCEL_COMPOBJ");
+	if (blob != NULL)
+		gsf_structured_blob_write (blob, GSF_OUTFILE (outfile));
+	blob = g_object_get_data (G_OBJECT (wb), "MS_EXCEL_MACROS");
+	if (blob != NULL)
+		gsf_structured_blob_write (blob, GSF_OUTFILE (outfile));
 
 	gsf_output_close (GSF_OUTPUT (outfile));
 	g_object_unref (G_OBJECT (outfile));

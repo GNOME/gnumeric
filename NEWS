@@ -74,6 +74,17 @@ Jody:
 	* x axis label vertical alignment
 	http://bugzilla.gnome.org/show_bug.cgi?id=125986
 	* Extend 'is_auto' support.
+	* Fix round tripping of imported xls macros.
+	http://bugzilla.gnome.org/show_bug.cgi?id=125416
+	* Enabled the object re-ordering buttons
+	http://bugzilla.gnome.org/show_bug.cgi?id=126775
+	* Be smarter when all the values are the same
+	http://bugzilla.gnome.org/show_bug.cgi?id=126908
+	* Set label and text box outline/background to XL defaults
+	http://bugzilla.gnome.org/show_bug.cgi?id=68794
+	* default to rows when rows == cols
+	* Support minor ticks
+	* Tune chart axis ticks to avoid anti-aliasing blur
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

@@ -1,3 +1,23 @@
+2003-11-15  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-axis.c (gog_axis_view_render) : support minor ticks and
+	  tune placement to work around anti-aliasing blur.
+
+	* graph/gog-grid.c (gog_grid_view_render) : tune the cheat to work
+	  around anti-aliasing blur.
+
+2003-11-14  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=126775
+	* graph/gog-axis.c (gog_axis_update) : be smarter when min == max.
+
+2003-11-13  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-guru.c (cb_obj_children_reordered) : implement.
+	(cb_reordered_find) : new.
+
+	* graph/gog-object.c (gog_object_can_reorder) : implement.
+
 2003-11-13  Jody Goldberg <jody@gnome.org>
 
 	* graph/plugins/plot_barcol/gog-barcol.c (gog_barcol_view_render) :

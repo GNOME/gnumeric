@@ -12,9 +12,6 @@ Release Critical
     : text in boxes for text-xls/pivot.xls is white ??
     : guia.xls complains of problems importing autofilter
 
-* gnome print
-    - Print to file name always output.ps	(FIXED IN GP HEAD, has it been back ported ?)
-
 Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=123781
     : non reproducible, possibly hp specific

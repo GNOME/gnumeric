@@ -85,24 +85,21 @@ gog_object_class_init (GObjectClass *klass)
 		G_STRUCT_OFFSET (GogObjectClass, child_added),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE,
-		1, G_TYPE_OBJECT);
+		G_TYPE_NONE,	1, G_TYPE_OBJECT);
 	gog_object_signals [CHILD_REMOVED] = g_signal_new ("child-removed",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GogObjectClass, child_removed),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE,
-		1, G_TYPE_OBJECT);
+		G_TYPE_NONE,	1, G_TYPE_OBJECT);
 	gog_object_signals [CHILD_NAME_CHANGED] = g_signal_new ("child-name-changed",
 		G_TYPE_FROM_CLASS (gog_klass),
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GogObjectClass, child_name_changed),
 		NULL, NULL,
 		g_cclosure_marshal_VOID__OBJECT,
-		G_TYPE_NONE,
-		1, G_TYPE_OBJECT);
+		G_TYPE_NONE,	1, G_TYPE_OBJECT);
 	gog_object_signals [CHILDREN_REORDERED] = g_signal_new ("children-reordered",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
@@ -110,7 +107,6 @@ gog_object_class_init (GObjectClass *klass)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-
 	gog_object_signals [NAME_CHANGED] = g_signal_new ("name-changed",
 		G_TYPE_FROM_CLASS (klass),
 		G_SIGNAL_RUN_LAST,
@@ -447,10 +443,19 @@ gog_object_possible_additions (GogObject const *parent)
 	return NULL;
 }
 
+/**
+ * gog_object_can_reorder :
+ * @obj : #GogObject
+ * @inc_ok : possibly NULL pointer.
+ * @dec_ok : possibly NULL pointer.
+ *
+ * If @obj can move forward or backward in its parents child list
+ **/
 void
 gog_object_can_reorder (GogObject const *obj, gboolean *inc_ok, gboolean *dec_ok)
 {
 	GogObject const *parent;
+	GSList *ptr;
 
 	g_return_if_fail (GOG_OBJECT (obj) != NULL);
 
@@ -462,20 +467,86 @@ gog_object_can_reorder (GogObject const *obj, gboolean *inc_ok, gboolean *dec_ok
 	if (obj->parent == NULL || gog_object_get_graph (obj) == NULL)
 		return;
 	parent = obj->parent;
-	if (inc_ok != NULL)
-		*inc_ok = TRUE;
-	if (dec_ok != NULL)
+	ptr = parent->children;
+
+	g_return_if_fail (ptr != NULL);
+
+	/* find a pointer to the previous sibling */
+	if (ptr->data != obj) {
+		while (ptr->next != NULL && ptr->next->data != obj)
+			ptr = ptr->next;
+
+		g_return_if_fail (ptr->next != NULL);
+
+		if (inc_ok != NULL &&
+		    !gog_role_cmp (((GogObject *)ptr->data)->role, obj->role))
+			*inc_ok = TRUE;
+
+		ptr = ptr->next;
+	}
+
+	/* ptr now points at @obj */
+	if (dec_ok != NULL && ptr->next != NULL &&
+	    !gog_role_cmp (obj->role, ((GogObject *)ptr->next->data)->role))
 		*dec_ok = TRUE;
-	/* gog_role_cmp (GogObjectRole const *a, GogObjectRole const *b) */
 }
 
-void
-gog_object_reorder (GogObject const *obj, int dir)
+/**
+ * gog_object_reorder :
+ * @obj : #GogObject
+ * @inc :
+ * @goto_max :
+ *
+ * Returns the object just before @obj in the new ordering.
+ **/
+GogObject *
+gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
 {
+	GogObject *parent, *obj_follows;
+	GSList **ptr, *tmp;
+
 	g_return_if_fail (GOG_OBJECT (obj) != NULL);
 
-	g_signal_emit (G_OBJECT (obj),
+	if (obj->parent == NULL || gog_object_get_graph (obj) == NULL)
+		return;
+	parent = obj->parent;
+
+	if (inc)
+		parent->children = g_slist_reverse (parent->children);
+
+	for (ptr = &parent->children; *ptr != NULL && (*ptr)->data != obj ;)
+		ptr = &(*ptr)->next;
+
+	g_return_if_fail (*ptr != NULL);
+	g_return_if_fail ((*ptr)->next != NULL);
+
+	tmp = *ptr;
+	*ptr = tmp->next;
+	ptr = &(*ptr)->next;
+
+	while (goto_max && *ptr != NULL &&
+	       !gog_role_cmp (obj->role, ((GogObject *)((*ptr)->data))->role))
+		ptr = &(*ptr)->next;
+
+	tmp->next = *ptr;
+	*ptr = tmp;
+
+	if (inc)
+		parent->children = g_slist_reverse (parent->children);
+
+	if (parent->children->data != obj) {
+		for (tmp = parent->children ; tmp->next->data != obj ; )
+			tmp = tmp->next;
+		obj_follows = tmp->data;
+	} else
+		obj_follows = NULL;
+
+	/* Pass the sibling that precedes obj, or NULL if is the head */
+	g_signal_emit (G_OBJECT (parent),
 		gog_object_signals [CHILDREN_REORDERED], 0);
+	gog_object_emit_changed (parent, TRUE);
+
+	return obj_follows;
 }
 
 /**

@@ -77,6 +77,21 @@ gog_chart_get_property (GObject *obj, guint param_id,
 }
 
 static void
+gog_chart_children_reordered (GogObject *obj)
+{
+	GSList *ptr, *accum = NULL;
+	GogChart *chart = GOG_CHART (obj);
+
+	for (ptr = obj->children; ptr != NULL ; ptr = ptr->next)
+		if (IS_GOG_PLOT (ptr->data))
+			accum = g_slist_prepend (accum, ptr->data);
+	g_slist_free (chart->plots);
+	chart->plots = g_slist_reverse (accum);
+
+	gog_chart_request_cardinality_update (chart);
+}
+
+static void
 role_plot_post_add (GogObject *parent, GogObject *plot)
 {
 	GogChart *chart = GOG_CHART (parent);
@@ -206,6 +221,7 @@ gog_chart_class_init (GogObjectClass *gog_klass)
 
 	gog_klass->view_type = gog_chart_view_get_type ();
 	gog_klass->update    = gog_chart_update;
+	gog_klass->children_reordered = gog_chart_children_reordered;
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 }
 

@@ -41,7 +41,7 @@ enum {
 	PLOT_PROP_VARY_STYLE_BY_ELEMENT
 };
 
-static GObjectClass *parent_klass;
+static GObjectClass *plot_parent_klass;
 
 static void
 gog_plot_finalize (GObject *obj)
@@ -52,8 +52,8 @@ gog_plot_finalize (GObject *obj)
 
 	gog_plot_axis_clear (plot, GOG_AXIS_SET_ALL); /* just in case */
 
-	if (parent_klass != NULL && parent_klass->finalize != NULL)
-		(parent_klass->finalize) (obj);
+	if (plot_parent_klass != NULL && plot_parent_klass->finalize != NULL)
+		(plot_parent_klass->finalize) (obj);
 }
 
 static gboolean
@@ -161,6 +161,21 @@ gog_plot_get_property (GObject *obj, guint param_id,
 }
 
 static void
+gog_plot_children_reordered (GogObject *obj)
+{
+	GSList *ptr, *accum = NULL;
+	GogPlot *plot = GOG_PLOT (obj);
+
+	for (ptr = obj->children; ptr != NULL ; ptr = ptr->next)
+		if (IS_GOG_SERIES (ptr->data))
+			accum = g_slist_prepend (accum, ptr->data);
+	g_slist_free (plot->series);
+	plot->series = g_slist_reverse (accum);
+
+	gog_plot_request_cardinality_update (plot);
+}
+
+static void
 gog_plot_class_init (GogObjectClass *gog_klass)
 {
 	static GogObjectRole const roles[] = {
@@ -172,8 +187,7 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 	};
 	GObjectClass *gobject_klass = (GObjectClass *) gog_klass;
 
-	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
-	parent_klass = g_type_class_peek_parent (gog_klass);
+	plot_parent_klass = g_type_class_peek_parent (gog_klass);
 	gobject_klass->finalize		= gog_plot_finalize;
 	gobject_klass->set_property	= gog_plot_set_property;
 	gobject_klass->get_property	= gog_plot_get_property;
@@ -182,6 +196,9 @@ gog_plot_class_init (GogObjectClass *gog_klass)
 			"Use a different style for each segments",
 			FALSE,
 			G_PARAM_READWRITE|GOG_PARAM_PERSISTENT));
+
+	gog_klass->children_reordered = gog_plot_children_reordered;
+	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 }
 
 static void

@@ -87,6 +87,7 @@ struct _ExcelWriteState {
 	} sst;
 
 	unsigned obj_count;
+	gboolean export_macros;
 };
 
 #define XF_RESERVED 21

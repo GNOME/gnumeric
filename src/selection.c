@@ -1312,8 +1312,8 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 	unsigned i, count, cur_dim = 0, num_series = 1;
 	gboolean has_header, as_cols;
 
-	/* Excel docs claim that rows == cols uses cols */
-	gboolean default_to_cols = (num_cols <= num_rows);
+	/* Excel docs claim that rows == cols uses rows */
+	gboolean default_to_cols = (num_cols < num_rows);
 
 	desc = gog_plot_description (plot);
 	series = gog_plot_new_series (plot);

@@ -130,7 +130,8 @@ GogObject   *gog_object_add_by_name	 (GogObject *parent,
 					  char const *role, GogObject *child);
 void		  gog_object_can_reorder (GogObject const *obj,
 					  gboolean *inc_ok, gboolean *dec_ok);
-void		  gog_object_reorder	 (GogObject const *obj, int dir);
+GogObject	 *gog_object_reorder	 (GogObject const *obj,
+					  gboolean inc, gboolean goto_max);
 GogObjectPosition gog_object_get_pos	 (GogObject const *obj);
 gboolean	  gog_object_set_pos	 (GogObject *obj, GogObjectPosition p);
 

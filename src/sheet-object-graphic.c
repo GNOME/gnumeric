@@ -44,6 +44,7 @@ typedef enum {
 	SHEET_OBJECT_OVAL	= 102
 } SheetObjectGraphicType;
 
+#define IS_SHEET_OBJECT_GRAPHIC(o) (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_GRAPHIC_TYPE))
 #define SHEET_OBJECT_GRAPHIC(o)       (G_TYPE_CHECK_INSTANCE_CAST((o), SHEET_OBJECT_GRAPHIC_TYPE, SheetObjectGraphic))
 #define SHEET_OBJECT_GRAPHIC_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_OBJECT_GRAPHIC_TYPE, SheetObjectGraphicClass))
 
@@ -70,14 +71,14 @@ sheet_object_graphic_get_graphic (SheetObject *so, FooCanvasItem *item)
 }
 
 /**
- * sheet_object_graphic_fill_color_set :
+ * gnm_so_graphic_set_fill_color :
  * @so :
  * @color :
  *
  * Absorb the colour reference.
  */
 void
-sheet_object_graphic_fill_color_set (SheetObject *so, GnmColor *color)
+gnm_so_graphic_set_fill_color (SheetObject *so, GnmColor *color)
 {
 	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
 	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
@@ -223,7 +224,7 @@ sheet_object_graphic_read_xml (SheetObject *so,
 	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPHIC (so), TRUE);
 	sog = SHEET_OBJECT_GRAPHIC (so);
 
-	sheet_object_graphic_fill_color_set (so,
+	gnm_so_graphic_set_fill_color (so,
 		xml_node_get_color (tree, "FillColor"));
 
 	if (xml_node_get_int (tree, "Type", &tmp))
@@ -404,7 +405,7 @@ cb_dialog_graphic_config_cancel_clicked (GtkWidget *button, DialogGraphicData *s
 	SheetObject *so = SHEET_OBJECT (state->sog);
 
 	sheet_object_graphic_width_set (state->sog, state->width);
-	sheet_object_graphic_fill_color_set (so,
+	gnm_so_graphic_set_fill_color (so,
 		state->fill_color);
 	state->fill_color = NULL;
 
@@ -450,7 +451,7 @@ cb_fill_color_changed (GtkWidget *cc, GdkColor *color,
 		       gboolean is_custom, gboolean by_user, gboolean is_default,
 		       DialogGraphicData *state)
 {
-	sheet_object_graphic_fill_color_set (SHEET_OBJECT (state->sog),
+	gnm_so_graphic_set_fill_color (SHEET_OBJECT (state->sog),
 		color_combo_get_style_color (cc));
 	foo_canvas_item_set (state->arrow, "fill_color_gdk", color, NULL);
 }
@@ -669,7 +670,7 @@ typedef struct {
 static SheetObjectGraphicClass *sheet_object_filled_parent_class;
 
 void
-sheet_object_filled_outline_color_set (SheetObject *so, GnmColor *color)
+gnm_so_filled_set_outline_color (SheetObject *so, GnmColor *color)
 {
 	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
 	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
@@ -785,7 +786,7 @@ sheet_object_filled_read_xml (SheetObject *so,
 	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), TRUE);
 	sof = SHEET_OBJECT_FILLED (so);
 
-	sheet_object_filled_outline_color_set (so,
+	gnm_so_filled_set_outline_color (so,
 		xml_node_get_color (tree, "OutlineColor"));
 
 	return sheet_object_graphic_read_xml (so, ctxt, tree);
@@ -873,7 +874,7 @@ cb_fillcolor_changed (GtkWidget *cc, GdkColor *color,
 		      gboolean is_custom, gboolean by_user, gboolean is_default,
 		      SheetObject *so)
 {
-	sheet_object_graphic_fill_color_set (so,
+	gnm_so_graphic_set_fill_color (so,
 		color_combo_get_style_color (cc));
 }
 
@@ -882,7 +883,7 @@ cb_outlinecolor_changed (GtkWidget *cc, GdkColor *color,
 			 gboolean is_custom, gboolean by_user, gboolean is_default,
 			 SheetObject *so)
 {
-	sheet_object_filled_outline_color_set (so,
+	gnm_so_filled_set_outline_color (so,
 		color_combo_get_style_color (cc));
 }
 
@@ -899,10 +900,10 @@ cb_dialog_filled_config_cancel_clicked (GtkWidget *button, DialogFilledData *sta
 	SheetObject *so = SHEET_OBJECT (state->sof);
 
 	sheet_object_graphic_width_set (sog, state->width);
-	sheet_object_graphic_fill_color_set (so,
+	gnm_so_graphic_set_fill_color (so,
 		state->fill_color);
 	state->fill_color = NULL;
-	sheet_object_filled_outline_color_set (so,
+	gnm_so_filled_set_outline_color (so,
 		state->outline_color);
 	state->outline_color = NULL;
 
@@ -1145,7 +1146,7 @@ sheet_object_filled_init (GObject *obj)
 
 	sof = SHEET_OBJECT_FILLED (obj);
 	sof->outline_color = style_color_new_name ("black");
-	sheet_object_graphic_fill_color_set (SHEET_OBJECT (sof),
+	gnm_so_graphic_set_fill_color (SHEET_OBJECT (sof),
 		style_color_new_name ("white"));
 }
 
@@ -1169,12 +1170,6 @@ typedef struct {
 	SheetObjectClass parent_class;
 } SheetObjectPolygonClass;
 static SheetObjectClass *sheet_object_polygon_parent_class;
-
-SheetObject *
-sheet_object_polygon_new (void)
-{
-	return g_object_new (SHEET_OBJECT_POLYGON_TYPE, NULL);
-}
 
 static void
 sheet_object_polygon_finalize (GObject *object)
@@ -1339,7 +1334,7 @@ GSF_CLASS (SheetObjectPolygon, sheet_object_polygon,
 	   SHEET_OBJECT_TYPE);
 
 void
-sheet_object_polygon_set_points (SheetObject *so, GArray *pairs)
+gnm_so_polygon_set_points (SheetObject *so, GArray *pairs)
 {
 	FooCanvasPoints *points;
 	unsigned i;
@@ -1361,7 +1356,7 @@ sheet_object_polygon_set_points (SheetObject *so, GArray *pairs)
 }
 
 void
-sheet_object_polygon_fill_color_set (SheetObject *so, GnmColor *color)
+gnm_so_polygon_set_fill_color (SheetObject *so, GnmColor *color)
 {
 	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (so);
 	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
@@ -1377,7 +1372,7 @@ sheet_object_polygon_fill_color_set (SheetObject *so, GnmColor *color)
 }
 
 void
-sheet_object_polygon_outline_color_set (SheetObject *so, GnmColor *color)
+gnm_so_polygon_set_outline_color (SheetObject *so, GnmColor *color)
 {
 	SheetObjectPolygon *sop = SHEET_OBJECT_POLYGON (so);
 	GdkColor *gdk = (color != NULL) ? &color->color : NULL;
@@ -1406,7 +1401,7 @@ typedef struct {
 static SheetObjectFilledClass *sheet_object_text_parent_class;
 
 void
-sheet_object_text_set_text (SheetObject *so, char const *str)
+gnm_so_text_set_text (SheetObject *so, char const *str)
 {
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
 
@@ -1431,8 +1426,8 @@ sheet_object_text_init_full (SheetObjectText *sot, char const *text)
 {
 	sot->label = g_strdup (text);
 #if 0
-	sheet_object_graphic_fill_color_set (SHEET_OBJECT (sot) NULL);
-	sheet_object_filled_fill_color_set (SHEET_OBJECT (sot) NULL);
+	gnm_so_graphic_set_fill_color (SHEET_OBJECT (sot) NULL);
+	gnm_so_filled_set_outline_color (SHEET_OBJECT (sot) NULL);
 #endif
 }
 
@@ -1520,8 +1515,6 @@ sheet_object_text_update_bounds (SheetObject *so, GObject *view)
 		foo_canvas_item_show (FOO_CANVAS_ITEM (view));
 	else
 		foo_canvas_item_hide (FOO_CANVAS_ITEM (view));
-
-
 }
 
 static gboolean
@@ -1605,7 +1598,7 @@ GSF_CLASS (SheetObjectText, sheet_object_text,
 	   SHEET_OBJECT_FILLED_TYPE);
 
 void
-sheet_object_test_font_color_set (SheetObject *so, GnmColor *color)
+gnm_so_text_set_font_color (SheetObject *so, GnmColor *color)
 {
 	SheetObjectText *sot = SHEET_OBJECT_TEXT (so);
 	GdkColor *gdk = (color != NULL) ? &color->color : NULL;

@@ -2070,7 +2070,7 @@ cb_format_leak (gpointer key, gpointer value, gpointer user_data)
 {
 	GnmFormat *format = value;
 
-	fprintf (stderr, "Leaking style-format at %p [%s].\n",
+	fprintf (stderr, "Leaking gnm-format at %p [%s].\n",
 		 format, format->format);
 }
 
