@@ -181,7 +181,10 @@ gnumeric_goal_seek (Workbook *wb, Sheet *sheet,
 		(void) goal_seek_eval (oldx, &ydummy, &evaldata);
 	}
 
+	sheet_cell_calc_span (change_cell, SPANCALC_RESIZE);
+	sheet_flag_status_update_cell (change_cell);
 	sheet_redraw_cell (change_cell);
+
 	return status;
 }
 
@@ -382,19 +385,13 @@ dialog_loop:
 			goto dialog_loop;
 		}
 
-		change_cell = sheet_cell_get (sheet, change_cell_col, change_cell_row);
-		if (change_cell != NULL && cell_has_expr (change_cell)) {
+		change_cell = sheet_cell_fetch (sheet, change_cell_col, change_cell_row);
+		if (cell_has_expr (change_cell)) {
 	                gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR,
 					 _("The cell named in 'By changing cell' "
 					   "must not contain a formula"));
 			focus_on_entry (change_entry);
 			goto dialog_loop;
-		}
-
-		if (change_cell == NULL) {
-		        change_cell = sheet_cell_new (sheet, change_cell_col, change_cell_row);
-			/* FIXME : Why do we need to assign a value ?? */
-			sheet_cell_set_value (change_cell, value_new_empty(), NULL);
 		}
 
 		text = gtk_entry_get_text (GTK_ENTRY (xmin_entry));

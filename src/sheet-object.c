@@ -15,6 +15,7 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "sheet-object.h"
+
 #include <gal/widgets/e-cursors.h>
 
 #ifdef ENABLE_BONOBO

@@ -12,7 +12,6 @@
 #include "gnumeric-sheet.h"
 #include "color.h"
 #include "clipboard.h"
-#include "gal/widgets/e-cursors.h"
 #include "selection.h"
 #include "workbook.h"
 #include "workbook-edit.h"
@@ -20,6 +19,7 @@
 #include "cmd-edit.h"
 #include "commands.h"
 #include "ranges.h"
+#include <gal/widgets/e-cursors.h>
 
 static GnomeCanvasItem *item_cursor_parent_class;
 

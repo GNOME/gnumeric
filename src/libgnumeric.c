@@ -21,7 +21,6 @@
 #include "plugin.h"
 #include "format.h"
 #include "workbook.h"
-#include "gal/widgets/e-cursors.h"
 #include "number-match.h"
 #include "main.h"
 #include "expr-name.h"
@@ -33,6 +32,8 @@
 #include "color.h"
 
 #include "../plugins/excel/boot.h"
+
+#include <gal/widgets/e-cursors.h>
 #include <glade/glade.h>
 #include <glade/glade-xml.h>
 

@@ -13,7 +13,6 @@
 #include "item-debug.h"
 #include "color.h"
 #include "dialogs.h"
-#include "gal/widgets/e-cursors.h"
 #include "gnumeric-util.h"
 #include "clipboard.h"
 #include "selection.h"
@@ -31,6 +30,8 @@
 #include "commands.h"
 #include "parse-util.h"
 #include "cmd-edit.h"
+
+#include <gal/widgets/e-cursors.h>
 
 #undef PAINT_DEBUG
 

@@ -14,8 +14,8 @@
 #include "parse-util.h"
 #include "command-context-gui.h"
 #include "style.h"
-#include "gal/widgets/e-colors.h"
 #include "workbook.h"
+#include <gal/widgets/e-colors.h>
 #ifdef ENABLE_BONOBO
 #	include <bonobo.h>
 #endif

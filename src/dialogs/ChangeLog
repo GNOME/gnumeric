@@ -1,3 +1,13 @@
+2000-09-18  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-solver.c (dialog_solver) : No need to create a cell manually
+	  and fill with empty.  sheet_cell_fetch will handle that.
+
+	* dialog-goal-seek.c (dialog_goal_seek) : No need to create cell
+	  locally.
+	(gnumeric_goal_seek) : Update size, span, and status region for the
+	  cell that was being tweaked.  While solving we did not update it.
+
 2000-09-17  Morten Welinder  <terra@diku.dk>
 
 	* dialog-autoformat.c (dialog_autoformat): Free "info" only when

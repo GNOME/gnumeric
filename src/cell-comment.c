@@ -8,9 +8,9 @@
 #include "gnumeric.h"
 #include "cell.h"
 #include "cell-comment.h"
-#include "gal/widgets/e-cursors.h"
 #include "sheet-view.h"
 #include "gnumeric-sheet.h"
+#include <gal/widgets/e-cursors.h>
 
 static void
 cell_comment_cancel_timer (Cell *cell)

@@ -39,6 +39,7 @@ struct _GraphSeries {
 
 	GraphSeriesType type;
 	gboolean	is_column;
+	gboolean	has_header;
 	Range		range;	/* TODO : add support for discontinuous */
 
 	CORBA_Object    vector_ref;
@@ -75,7 +76,7 @@ static GtkType graph_series_get_type (void);
 static GNOME_Gnumeric_SeqScalar *
 graph_series_seq_scalar (GraphSeries *series)
 {
-	int i;
+	int i, len;
 	Value *v;
 	EvalPos pos;
 	GNOME_Gnumeric_SeqScalar *values;
@@ -84,13 +85,14 @@ graph_series_seq_scalar (GraphSeries *series)
 	pos.eval.row = pos.eval.col = 0;
 	v = eval_expr (&pos, series->dep.expression, EVAL_PERMIT_NON_SCALAR);
 
-	i = value_area_get_height  (&pos, v);
+	len = value_area_get_height  (&pos, v);
 	values = GNOME_Gnumeric_SeqScalar__alloc ();
-	values->_length = values->_maximum = i;
-	values->_buffer = CORBA_sequence_CORBA_double_allocbuf (i);
+	values->_length = values->_maximum = len;
+	values->_buffer = CORBA_sequence_CORBA_double_allocbuf (len);
 
 	/* FIXME : This is dog slow */
-	while (i-- > 0) {
+	/* TODO : How to handle a changed header */
+	for (i = series->has_header ? 1 : 0; i < len ; ++i) {
 		Value const *elem = series->is_column
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
@@ -104,7 +106,7 @@ graph_series_seq_scalar (GraphSeries *series)
 static GNOME_Gnumeric_SeqDate *
 graph_series_seq_date (GraphSeries *series)
 {
-	int i;
+	int i, len;
 	Value *v;
 	EvalPos pos;
 	GNOME_Gnumeric_SeqDate *values;
@@ -113,13 +115,14 @@ graph_series_seq_date (GraphSeries *series)
 	pos.eval.row = pos.eval.col = 0;
 	v = eval_expr (&pos, series->dep.expression, EVAL_PERMIT_NON_SCALAR);
 
-	i = value_area_get_height  (&pos, v);
+	len = value_area_get_height  (&pos, v);
 	values = GNOME_Gnumeric_SeqDate__alloc ();
-	values->_length = values->_maximum = i;
-	values->_buffer = CORBA_sequence_CORBA_long_allocbuf (i);
+	values->_length = values->_maximum = len;
+	values->_buffer = CORBA_sequence_CORBA_long_allocbuf (len);
 
 	/* FIXME : This is dog slow */
-	while (i-- > 0) {
+	/* TODO : How to handle a changed header */
+	for (i = series->has_header ? 1 : 0; i < len ; ++i) {
 		Value const *elem = series->is_column
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
@@ -131,7 +134,7 @@ graph_series_seq_date (GraphSeries *series)
 static GNOME_Gnumeric_SeqString *
 graph_series_seq_string (GraphSeries *series)
 {
-	int i;
+	int i, len;
 	Value *v;
 	EvalPos pos;
 	GNOME_Gnumeric_SeqString *values;
@@ -140,13 +143,14 @@ graph_series_seq_string (GraphSeries *series)
 	pos.eval.row = pos.eval.col = 0;
 	v = eval_expr (&pos, series->dep.expression, EVAL_PERMIT_NON_SCALAR);
 
-	i = value_area_get_height  (&pos, v);
+	len = value_area_get_height  (&pos, v);
 	values = GNOME_Gnumeric_SeqString__alloc ();
-	values->_length = values->_maximum = i;
-	values->_buffer = CORBA_sequence_CORBA_string_allocbuf (i);
+	values->_length = values->_maximum = len;
+	values->_buffer = CORBA_sequence_CORBA_string_allocbuf (len);
 
 	/* FIXME : This is dog slow */
-	while (i-- > 0) {
+	/* TODO : How to handle a changed header */
+	for (i = series->has_header ? 1 : 0; i < len ; ++i) {
 		Value const *elem = series->is_column
 			? value_area_get_x_y (&pos, v, 0, i)
 			: value_area_get_x_y (&pos, v, i, 0);
@@ -201,13 +205,16 @@ graph_series_eval (Dependent *dep)
 
 
 static char *
-series_get_name (GraphSeries const *series, char const *prefix)
+series_get_name (GraphSeries *series, char const *prefix)
 {
 	static int counter = 0;
 
 	++counter;
-	if (range_has_header (series->dep.sheet, &series->range,
-			      series->is_column)) {
+	series->has_header = range_has_header (series->dep.sheet,
+						&series->range,
+						series->is_column);
+
+	if (series->has_header) {
 		Cell const *cell = sheet_cell_get (series->dep.sheet,
 						   series->range.start.col,
 						   series->range.start.row);

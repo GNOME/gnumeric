@@ -14,6 +14,7 @@
 #include "color.h"
 #include "application.h"
 #include "gnumeric-util.h"
+
 #include <gal/widgets/e-colors.h>
 
 #undef DEBUG_REF_COUNT

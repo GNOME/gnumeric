@@ -590,15 +590,17 @@ sheet_reposition_comments (Sheet const * const sheet,
  *    if the supplied cell location is the edit cursor, or part of the
  *    selected region.
  *
- * @sheet :
- * @pos :
+ * @cell : The cell that has changed.
  *
  * Will cause the format toolbar, the edit area, and the auto expressions to be
  * updated if appropriate.
  */
 void
-sheet_flag_status_update_cell (Sheet const *sheet, CellPos const *pos)
+sheet_flag_status_update_cell (Cell const *cell)
 {
+	Sheet const *sheet = cell->base.sheet;
+	CellPos const *pos = &cell->pos;
+
 	/* if a part of the selected region changed value update
 	 * the auto expressions
 	 */
@@ -1190,7 +1192,7 @@ sheet_cell_set_text (Cell *cell, char const *str)
 	}
 	if (format)
 		style_format_unref (format);
-	sheet_flag_status_update_cell (cell->base.sheet, &cell->pos);
+	sheet_flag_status_update_cell (cell);
 }
 
 void
@@ -1198,7 +1200,7 @@ sheet_cell_set_expr (Cell *cell, ExprTree *expr)
 {
 	/* No need to do anything until recalc */
 	cell_set_expr (cell, expr, NULL);
-	sheet_flag_status_update_cell (cell->base.sheet, &cell->pos);
+	sheet_flag_status_update_cell (cell);
 }
 
 /*
@@ -1219,7 +1221,7 @@ sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt)
 	cell_set_value (cell, v, opt_fmt);
 	sheet_cell_calc_span (cell, SPANCALC_RESIZE);
 	cell_content_changed (cell);
-	sheet_flag_status_update_cell (cell->base.sheet, &cell->pos);
+	sheet_flag_status_update_cell (cell);
 }
 
 /**
@@ -1940,7 +1942,7 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 		sheet_redraw_cell_region (sheet,
 					  cell->pos.col, cell->pos.row,
 					  cell->pos.col, cell->pos.row);
-		sheet_flag_status_update_cell (sheet, &cell->pos);
+		sheet_flag_status_update_cell (cell);
 	}
 
 	sheet_cell_remove_simple (sheet, cell);

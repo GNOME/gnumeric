@@ -266,7 +266,7 @@ void	    sheet_redraw_headers          (Sheet const *sheet,
 					   gboolean const col, gboolean const row,
 					   Range const * r /* optional == NULL */);
 
-void	    sheet_flag_status_update_cell (Sheet const *sheet, CellPos const *pos);
+void	    sheet_flag_status_update_cell (Cell const *cell);
 void	    sheet_flag_status_update_range(Sheet const *sheet, Range const *range);
 void        sheet_flag_selection_change   (Sheet const *sheet);
 void        sheet_update                  (Sheet const *sheet);

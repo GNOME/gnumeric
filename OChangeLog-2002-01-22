@@ -1,3 +1,7 @@
+2000-09-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_flag_status_update_cell) : Adjust signature.
+
 2000-09-17  Morten Welinder  <terra@diku.dk>
 
 	* src/main.c (gnumeric_main): Init colours earlier.

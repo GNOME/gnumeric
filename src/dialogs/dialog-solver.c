@@ -870,12 +870,7 @@ main_dialog:
 					GTK_ENTRY(target_entry)->text_length);
 		goto main_dialog;
 	}
-	target_cell = sheet_cell_get (sheet, target_cell_col, target_cell_row);
-	if (target_cell == NULL) {
-	        target_cell = sheet_cell_new (sheet, target_cell_col,
-					      target_cell_row);
-		sheet_cell_set_value (target_cell, value_new_empty (), NULL);
-	}
+	target_cell = sheet_cell_fetch (sheet, target_cell_col, target_cell_row);
 	ov_target = value_get_as_float (target_cell->value);
 
 	/* Parse input cells entry */

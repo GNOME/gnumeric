@@ -15,7 +15,6 @@
 #include "gnumeric-util.h"
 #include "sheet-object-container.h"
 #include "color.h"
-#include "gal/widgets/e-cursors.h"
 #include "selection.h"
 #include "parse-util.h"
 #include "ranges.h"
@@ -24,6 +23,7 @@
 #include "workbook-edit.h"
 #include "workbook.h"
 #include "commands.h"
+#include <gal/widgets/e-cursors.h>
 
 static GnomeCanvasClass *sheet_parent_class;
 
