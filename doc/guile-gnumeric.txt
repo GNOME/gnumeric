@@ -1,7 +1,7 @@
 Adding formulas to gnumeric using the guile plugin
 --------------------------------------------------
 
-Ariel Rios <jarios@usa.net>
+Ariel Rios <ariel@arcavia.com>
 
 This paper will introduce the guile plugin as a convenient,
 efficient and easy way to adding formulas unto gnumeric.
@@ -108,3 +108,5 @@ This function is already included on the gnumeric distribution.
 @DESCRIPTION=Returns the fibonnacci computation for number."
 fibo)
 
+You are now able to use you newly designed formula with:
+=FIBO(number)
