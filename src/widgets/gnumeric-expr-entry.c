@@ -839,8 +839,10 @@ gnm_expr_entry_thaw (GnumericExprEntry *gee)
 {
 	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
 
-	if (gee->freeze_count > 0 && (--gee->freeze_count) == 0)
+	if (gee->freeze_count > 0 && (--gee->freeze_count) == 0) {
 		gee_rangesel_update_text (gee);
+		g_signal_emit (G_OBJECT (gee), signals [UPDATE], 0);
+	}
 }
 
 /**
