@@ -1214,7 +1214,7 @@ ms_excel_sheet_set_version (MS_EXCEL_SHEET *sheet, eBiff_version ver)
 	sheet->ver = ver ;
 }
 
-void
+static void
 ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx,
 		       int col, int row, const char *text)
 {
@@ -1227,6 +1227,19 @@ ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx,
 	}
 	else
 		cell_set_text_simple (cell, "") ;
+	ms_excel_set_cell_xf (sheet, cell, xfidx);
+}
+
+static void
+ms_excel_sheet_insert_val (MS_EXCEL_SHEET * sheet, int xfidx,
+			   int col, int row, const Value *v)
+{
+	Cell *cell;
+	g_return_if_fail (v);
+	g_return_if_fail (sheet);
+	cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+	sheet->blank = 0 ;
+	cell_set_value_simple (cell, v);
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
 }
 
@@ -1409,12 +1422,12 @@ ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 
 /**
  * Unpacks a MS Excel RK structure,
- * This needs to return / insert sensibly to keep precision / accelerate
  **/
-static double
+static Value *
 biff_get_rk (guint8 *ptr)
 {
 	LONG number;
+	Value *ans=NULL;
 	guint8 tmp[8];
 	int lp;
 	double answer;
@@ -1425,17 +1438,6 @@ biff_get_rk (guint8 *ptr)
 	number = BIFF_GETLONG (ptr);
 	type = (number & 0x3);
 	switch (type){
-/*	case eIEEE:
-		tmp[li] = 0;
-		tmp[hi] = *((LONG *)(ptr)) & 0xfffffffc;
-		answer = BIFF_GETDOUBLE (((BYTE *) tmp));
-		break;
-	case eIEEEx100:
-		tmp[li] = 0;
-		tmp[hi] = *((LONG *)(ptr)) & 0xfffffffc;
-		answer = BIFF_GETDOUBLE (((BYTE *) tmp));
-		answer /= 100.0;
-		break;*/
 	case eIEEE:
 	case eIEEEx100:
 		for (lp=0;lp<4;lp++) {
@@ -1445,19 +1447,19 @@ biff_get_rk (guint8 *ptr)
 
 		answer = BIFF_GETDOUBLE(tmp);
 		answer /= (type == eIEEEx100)?100.0:1.0;
-
+		ans = value_float (answer);
 		break;
 	case eInt:
-		answer = (double) (number >> 2);
+		ans = value_int ((number>>2));
 		break;
 	case eIntx100:
-		answer = ((double) (number >> 2)) / 100.0;
+		if (number%100==0)
+			ans = value_int ((number>>2)/100);
+		else
+			ans = value_float ((number>>2)/100.0);
 		break;
-	default:
-		printf ("You don't exist go away\n");
-		answer = 0;
 	}
-	return answer ;
+	return ans;
 }
 
 /**
@@ -1595,20 +1597,19 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	}
 	case BIFF_RK: /* See: S59DDA.HTM */
 	{
-		char buf[MS_EXCEL_DOUBLE_FORMAT_LEN];
+		Value *v = biff_get_rk(q->data+6);
 		
 /*		printf ("RK number : 0x%x, length 0x%x\n", q->opcode, q->length);
 		dump (q->data, q->length);*/
-		snprintf (buf, MS_EXCEL_DOUBLE_FORMAT_LEN-1,
-			  MS_EXCEL_DOUBLE_FORMAT, biff_get_rk(q->data+6));
-		ms_excel_sheet_insert (sheet, EX_GETXF (q), EX_GETCOL (q), EX_GETROW (q), buf);
+		ms_excel_sheet_insert_val (sheet, EX_GETXF (q), EX_GETCOL (q),
+					   EX_GETROW (q), v);
 		break;
 	}
 	case BIFF_MULRK: /* S59DA8.HTM */
 	{
 		guint32 col, row, lastcol;
-		char buf[MS_EXCEL_DOUBLE_FORMAT_LEN];
 		guint8 *ptr = q->data;
+		Value *v;
 
 /*		printf ("MULRK\n") ;
 		dump (q->data, q->length) ; */
@@ -1621,9 +1622,9 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		g_assert (lastcol>=col) ;
 		while (col<=lastcol)
 		{ /* 2byte XF, 4 byte RK */
-			snprintf (buf, MS_EXCEL_DOUBLE_FORMAT_LEN,
-				  MS_EXCEL_DOUBLE_FORMAT, biff_get_rk(ptr+2)) ;
-			ms_excel_sheet_insert(sheet, BIFF_GETWORD(ptr), col, row, buf) ;
+			v = biff_get_rk(ptr+2);
+			ms_excel_sheet_insert_val (sheet, BIFF_GETWORD(ptr),
+						   col, row, v) ;
 			col++ ;
 			ptr+= 6 ;
 		}

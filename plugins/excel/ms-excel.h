@@ -43,9 +43,6 @@ typedef struct {
 	guint32 data_len ;
 } BIFF_SHARED_FORMULA ;
 
-extern void ms_excel_sheet_insert          (MS_EXCEL_SHEET *sheet,
-					    int xfidx, int col,
-					    int row, const char *text) ;
 extern char *ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
 					    int shr_col, int shr_row,
 					    int col, int row) ;

@@ -1,3 +1,15 @@
+1999-05-02  Michael Meeks  <michael@imaginator.com>
+
+	* ms-formula.c (ms_excel_parse_formula): Removed annoying
+	debug killing performance.
+
+	* ms-excel.c (ms_excel_sheet_insert_val): Created.
+	(biff_get_rk): Removed impossible clause.
+	Returns a Value now for speed; also increases accuracy.
+	(ms_excel_read_cell): BIFF_RK, BIFF_MULRK: Removed nasty
+	buffer and ugly printf.
+	(ms_excel_sheet_insert): Made static, & removed from .h
+
 1999-04-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* ms-ole.c (ms_ole_new): Applied patch from Michael Meeks to allow

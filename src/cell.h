@@ -116,6 +116,8 @@ char       *value_format                 (Value *value, StyleFormat *format, cha
 
 void        cell_set_text                (Cell *cell, const char *text);
 void        cell_set_text_simple         (Cell *cell, const char *text);
+void        cell_set_value               (Cell *cell, const Value *v);
+void        cell_set_value_simple        (Cell *cell, const Value *v);
 void        cell_content_changed         (Cell *cell);
 void        cell_set_formula             (Cell *cell, const char *text);
 void        cell_set_formula_tree        (Cell *cell, ExprTree *formula);

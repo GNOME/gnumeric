@@ -986,8 +986,10 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				name_idx = BIFF_GETWORD(cur) ;
 			txt = biff_name_data_get_name (sheet, name_idx);
 			if (!txt) {
-				printf ("FIXME: Ptg Name not found: %d\n", name_idx) ;
-				dump(mem, length) ;
+				if (FORMULA_DEBUG>0) {
+					printf ("FIXME: Ptg Name not found: %d\n", name_idx) ;
+					dump(mem, length) ;
+				}
 				parse_list_push_raw (stack, g_strdup("Unknown name"), NO_PRECEDENCE) ;
 			} else
 				parse_list_push_raw (stack, g_strdup(txt), NO_PRECEDENCE) ;

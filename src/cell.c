@@ -536,6 +536,67 @@ cell_render_value (Cell *cell)
 	g_free (str);
 }
 
+
+/*
+ * Sets the value for a cell:
+ *
+ * This is kind of an internal function and should be only called by
+ * routines that know what they are doing.  These are the important
+ * differences from cell_set_value:
+ *
+ *    - It does not queue redraws (so you have to queue the redraw yourself
+ *      or queue a full redraw).
+ *
+ *    - It does not queue any recomputations.  You have to queue the recompute
+ *      yourself.
+ */
+void
+cell_set_value_simple (Cell *cell, const Value *v)
+{
+	struct lconv *lconv;
+	
+	g_return_if_fail (cell);
+	g_return_if_fail (v);
+
+	cell_modified (cell);
+
+	if (cell->entered_text)
+		string_unref (cell->entered_text);
+	cell->entered_text = NULL;
+					 
+	if (cell->value)
+		value_release (cell->value);
+	
+	if (cell->parsed_node){
+		sheet_cell_formula_unlink (cell);
+
+		expr_tree_unref (cell->parsed_node);
+		cell->parsed_node = NULL;
+	}
+
+	cell->value = v;
+	cell_render_value (cell);
+}
+
+/*
+ * cell_set_value
+ *
+ * Changes the value of a cell
+ */
+void
+cell_set_value (Cell *cell, const Value *v)
+{
+	g_return_if_fail (cell);
+	g_return_if_fail (v);
+	
+	cell_queue_redraw (cell);
+
+	cell_set_value_simple (cell, v);
+	cell_content_changed (cell);
+
+	cell_queue_redraw (cell);
+}
+
 /*
  * Sets the text for a cell:
  *
@@ -642,9 +703,7 @@ cell_set_text_simple (Cell *cell, const char *text)
 		cell->value = v;
 		
 		cell_render_value (cell);
-	}
-
-	
+	}	
 }
 
 /*
