@@ -350,7 +350,7 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *event)
 	case GDK_KP_Delete:
 	case GDK_Delete:
 		if (scg->current_object != NULL) {
-			cmd_object_delete (sc->wbc, scg->current_object);
+			cmd_object_delete (sc->wbc, scg->current_object, NULL);
 			return TRUE;
 		}
 		sc_mode_edit (sc);

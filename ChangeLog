@@ -1,3 +1,16 @@
+2004-09-28  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_object_delete) : Take an optional descriptor
+	  string.  All callers changed.
+
+	* src/application.c (gnm_app_clipboard_cut_copy_obj) : Use
+	  cmd_object_delete for cuts to get undo.
+
+	* src/sheet-object.c (sheet_objects_relocate) : properly clear the
+	  sheet before we unref an object.
+	(sheet_objects_get) : use range_contained.
+	(sheet_objects_clear) : ditto.  This simplifies undo/redo.
+
 2004-09-27  Jody Goldberg <jody@gnome.org>
 
 	* src/application.c (gnm_app_clipboard_cut_copy_obj) : translate the

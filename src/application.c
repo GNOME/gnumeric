@@ -24,12 +24,14 @@
 #include "ranges.h"
 #include "sheet-object.h"
 #include "pixmaps/gnumeric-stock-pixbufs.h"
+#include "commands.h"
 
 #include <gnumeric-gconf.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtkiconfactory.h>
 #include <gtk/gtkselection.h>
+#include <glib/gi18n.h>
 
 #define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
 #define GNM_APP_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST((k),	 GNM_APP_TYPE, GnmAppClass))
@@ -288,11 +290,9 @@ gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
 		sv_weak_ref (sv, &(app->clipboard_sheet_view));
 
 		app->clipboard_copied_contents = cellregion_new	(sheet);
-		if (is_cut) {
-			g_object_ref (so);
-			sheet_object_clear_sheet (so);
-		} else
-			so = sheet_object_dup (so);
+		if (is_cut)
+			cmd_object_delete (wbc, so, _("Cut Object"));
+		so = sheet_object_dup (so);
 
 		r = (GnmRange *) sheet_object_get_range	(so);
 		range_translate (r,

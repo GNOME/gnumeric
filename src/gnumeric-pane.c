@@ -808,7 +808,7 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event, GnmPane *pane)
 
 	case GDK_BUTTON_RELEASE:
 		if (pane->drag_object != so ||
-		    pane->drag_button != event->button.button)
+		    pane->drag_button != (int)event->button.button)
 			return FALSE;
 
 		cmd_object_move (WORKBOOK_CONTROL (scg_get_wbcg (scg)),

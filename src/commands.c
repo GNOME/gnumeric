@@ -846,8 +846,8 @@ cmd_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	r.start = r.end = me->pos.eval;
 	clipboard_paste_region (me->old_contents,
-				paste_target_init (&pt, me->cmd.sheet, &r, PASTE_CONTENT | PASTE_FORMATS),
-				GNM_CMD_CONTEXT (wbc));
+		paste_target_init (&pt, me->cmd.sheet, &r, PASTE_CONTENT | PASTE_FORMATS),
+		GNM_CMD_CONTEXT (wbc));
 
 	return FALSE;
 }
@@ -1242,9 +1242,10 @@ cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	else
 		range_init (&r, 0, index, SHEET_MAX_COLS-1, index+me->count-1);
 
+#warning fix object handling
 	clipboard_paste_region (me->contents,
-				paste_target_init (&pt, me->sheet, &r, PASTE_ALL_TYPES),
-				GNM_CMD_CONTEXT (wbc));
+		paste_target_init (&pt, me->sheet, &r, PASTE_ALL_TYPES),
+		GNM_CMD_CONTEXT (wbc));
 	cellregion_unref (me->contents);
 	me->contents = NULL;
 
@@ -4477,7 +4478,8 @@ cmd_object_delete_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_object_delete (WorkbookControl *wbc, SheetObject *so)
+cmd_object_delete (WorkbookControl *wbc, SheetObject *so,
+		   char const *name)
 {
 	GObject *object;
 	CmdObjectDelete *me;
@@ -4492,7 +4494,7 @@ cmd_object_delete (WorkbookControl *wbc, SheetObject *so)
 
 	me->cmd.sheet = sheet_object_get_sheet (so);
 	me->cmd.size = 1;
-	me->cmd.cmd_descriptor = g_strdup (_("Delete object"));
+	me->cmd.cmd_descriptor = g_strdup (name ? name : _("Delete Object"));
 
 	return command_push_undo (wbc, object);
 }

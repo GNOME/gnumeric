@@ -77,7 +77,7 @@ cb_so_push_to_back (SheetObject *so, SheetControl *sc)
 static void
 cb_so_delete (SheetObject *so, SheetControl *sc)
 {
-	cmd_object_delete (sc_wbc (sc), so);
+	cmd_object_delete (sc_wbc (sc), so, NULL);
 }
 static void
 cb_so_configure (SheetObject *so, SheetControl *sc)
@@ -381,7 +381,7 @@ sheet_object_get_sheet (SheetObject const *so)
 /**
  * sheet_object_clear_sheet :
  * @so :
- */
+ **/
 gboolean
 sheet_object_clear_sheet (SheetObject *so)
 {
@@ -635,8 +635,10 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 		for (ptr = copy; ptr != NULL ; ptr = ptr->next ) {
 			SheetObject *so = SHEET_OBJECT (ptr->data);
 			GnmRange const *r  = &so->anchor.cell_bound;
-			if (range_contains (&dest, r->start.col, r->start.row))
+			if (range_contains (&dest, r->start.col, r->start.row)) {
+				sheet_object_clear_sheet (so);
 				g_object_unref (G_OBJECT (so));
+			}
 		}
 		g_list_free (copy);
 	}
@@ -664,6 +666,7 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
 				sheet_object_update_bounds (so, NULL);
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row)) {
+			sheet_object_clear_sheet (so);
 			g_object_unref (G_OBJECT (so));
 			continue;
 		}
@@ -682,7 +685,8 @@ sheet_objects_relocate (GnmExprRelocateInfo const *rinfo, gboolean update)
  * @t     : The type of object to lookup
  *
  * Returns a list of which the caller must free (just the list not the content).
- * Containing all objects of exactly the specified type (inheritence does not count).
+ * Containing all objects of exactly the specified type (inheritence does not count)
+ * that are completely contained by @r.
  */
 GSList *
 sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
@@ -697,7 +701,7 @@ sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
 
 		if (t == G_TYPE_NONE || t == G_OBJECT_TYPE (obj)) {
 			SheetObject *so = SHEET_OBJECT (obj);
-			if (r == NULL || range_overlap (r, &so->anchor.cell_bound))
+			if (r == NULL || range_contained (&so->anchor.cell_bound, r))
 				res = g_slist_prepend (res, so);
 		}
 	}
@@ -711,7 +715,7 @@ sheet_objects_get (Sheet const *sheet, GnmRange const *r, GType t)
  * @r     : an optional range to look in
  *
  * removes the objects in the region.
- */
+ **/
 void
 sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t)
 {
@@ -724,8 +728,10 @@ sheet_objects_clear (Sheet const *sheet, GnmRange const *r, GType t)
 		next = ptr->next;
 		if (t == G_TYPE_NONE || t == G_OBJECT_TYPE (obj)) {
 			SheetObject *so = SHEET_OBJECT (obj);
-			if (r == NULL || range_overlap (r, &so->anchor.cell_bound))
+			if (r == NULL || range_contained (&so->anchor.cell_bound, r)) {
+				sheet_object_clear_sheet (so);
 				g_object_unref (G_OBJECT (so));
+			}
 		}
 	}
 }
