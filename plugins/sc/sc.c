@@ -405,7 +405,7 @@ sc_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	textline = gsf_input_textline_new (input);
 	error = sc_parse_sheet (textline, sheet, ic);
 	if (error != NULL) {
-		workbook_sheet_detach (wb, sheet);
+		workbook_sheet_detach (wb, sheet, FALSE);
 		gnumeric_io_error_info_set (io_context, error);
 	}
 	g_object_unref (G_OBJECT (textline));

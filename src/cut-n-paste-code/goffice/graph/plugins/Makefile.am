@@ -1,1 +1,1 @@
-SUBDIRS = plot_pie plot_barcol # plot_xy
+SUBDIRS = plot_pie plot_barcol plot_xy

@@ -767,7 +767,7 @@ command_undo_sheet_delete (Sheet* sheet)
 	}
 
 	sheet_deps_destroy (sheet);
-	workbook_sheet_detach (wb, sheet);
+	workbook_sheet_detach (wb, sheet, FALSE);
 
 	return (TRUE);
 }
@@ -790,7 +790,7 @@ command_redo_sheet_delete (Sheet* sheet)
 	}
 
 	sheet_deps_destroy (sheet);
-	workbook_sheet_detach (wb, sheet);
+	workbook_sheet_detach (wb, sheet, FALSE);
 
 	return (TRUE);
 }

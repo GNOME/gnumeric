@@ -52,9 +52,6 @@ gog_line_update_stacked_and_percentage (GogPlot1_5d *model,
 	unsigned i, j;
 	double abs_sum, minimum, maximum, sum, tmp;
 
-	if (model->type == GOG_1_5D_NORMAL)
-		return;
-
 	for (i = model->num_elements ; i-- > 0 ; ) {
 		abs_sum = sum = 0.;
 		minimum = maximum = 0.;

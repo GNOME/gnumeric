@@ -1193,7 +1193,6 @@ static gboolean
 BC_R(scatter)(XLChartHandler const *handle,
 	      XLChartReadState *s, BiffQuery *q)
 {
-#if 0
 	g_return_val_if_fail (s->plot == NULL, TRUE);
 	s->plot = gog_plot_new_by_name ("GogXYPlot");
 	g_return_val_if_fail (s->plot != NULL, TRUE);
@@ -1204,26 +1203,28 @@ BC_R(scatter)(XLChartHandler const *handle,
 		/* Has bubbles */
 		if (flags & 0x01) {
 			guint16 const size_type = GSF_LE_GET_GUINT16 (q->data+2);
-			e_xml_set_bool_prop_by_name (fmt, (xmlChar *)"has_bubbles", TRUE);
-			if (!(flags & 0x02))
-				xmlNewChild (fmt, fmt->ns, (xmlChar *)"hide_negatives", NULL);
-			if (flags & 0x04)
-				xmlNewChild (fmt, fmt->ns, (xmlChar *)"in_3d", NULL);
-
 #if 0
+			if (!(flags & 0x02))	/* hide negatives */
+			if (flags & 0x04)	/* in_3d */
+
 			/* huh ? */
 			xml_node_set_int (fmt, "percentage_largest_tochart",
 					  GSF_LE_GET_GUINT16 (q->data));
-#endif
 			xmlNewChild (fmt, fmt->ns,
 				     (xmlChar *)((size_type == 2)
 					     ? "bubble_sized_as_width"
 					     : "bubble_sized_as_area"),
 				     NULL);
+	g_object_set (G_OBJECT (s->plot),
+		"type",			type,
+		/* "in_3d",		in_3d, */
+		NULL);
+
+#endif
 		}
 	}
 
-#endif
+	d(1, fprintf (stderr, "scatter;"););
 	return FALSE;
 }
 

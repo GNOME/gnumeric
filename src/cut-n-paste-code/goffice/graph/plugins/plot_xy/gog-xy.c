@@ -25,6 +25,7 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-axis.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
 
@@ -44,77 +45,76 @@ enum {
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-static GObjectClass *xy_parent_klass;
+static GogObjectClass *xy_parent_klass;
 static GType gog_xy_view_get_type (void);
+
+#define GOG_XY_PLOT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_XY_PLOT_TYPE, GogXYPlotClass))
 
 static char const *
 gog_xy_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 {
-	return N_("PlotXY");
-}
-
-static gboolean
-gog_xy_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
-{
-	unsigned i, n;
-	GogXYPlot const *model = GOG_XY_PLOT (plot);
-	GogSeries const *series = plot->series->data; /* start with the first */
-	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
-	GogStyle *style;
-	GODataVector *labels;
-	char *label;
-
-#if 0
-	i = 0;
-	n = model->base.cardinality;
-	style = gog_style_dup (series->base.style);
-	labels = NULL;
-	if (series->values[0].data != NULL)
-		labels = GO_DATA_VECTOR (series->values[0].data);
-	for ( ; i < n ; i++) {
-		gog_theme_init_style (theme, style, GOG_OBJECT (series),
-			model->base.index_num + i);
-		label = (labels != NULL)
-			? go_data_vector_get_str (labels, i) : NULL;
-		if (label == NULL)
-			label = g_strdup_printf ("%d", i);
-		(handler) (i, style, label, data);
-		g_free (label);
-	}
-	g_object_unref (style);
-#endif
-
-	return TRUE;
+	return N_("XYPlot");
 }
 
 static void
 gog_xy_plot_update (GogObject *obj)
 {
+	GogXYPlot *model = GOG_XY_PLOT (obj);
+	GogXYSeries const *series;
+	double x_min, x_max, y_min, y_max, tmp_min, tmp_max;
+	GSList *ptr;
+
+	x_min = y_min = DBL_MAX;
+	x_max = y_max = DBL_MIN;
+	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
+		series = ptr->data;
+		if (!gog_series_is_valid (GOG_SERIES (series)))
+			continue;
+
+		go_data_vector_get_minmax (GO_DATA_VECTOR (
+			series->base.values[0].data), &tmp_min, &tmp_max);
+		if (x_min > tmp_min) x_min = tmp_min;
+		if (x_max < tmp_max) x_max = tmp_max;
+
+		go_data_vector_get_minmax (GO_DATA_VECTOR (
+			series->base.values[1].data), &tmp_min, &tmp_max);
+		if (y_min > tmp_min) y_min = tmp_min;
+		if (y_max < tmp_max) y_max = tmp_max;
+	}
+
+	if (model->x.minimum != x_min || model->x.maximum != x_max)
+		gog_axis_bound_changed (model->base.axis[0], GOG_OBJECT (model),
+			(model->x.minimum = x_min), (model->x.maximum = x_max));
+	if (model->y.minimum != y_min || model->y.maximum != y_max)
+		gog_axis_bound_changed (model->base.axis[1], GOG_OBJECT (model),
+			(model->y.minimum = y_min), (model->y.maximum = y_max));
+
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+	if (xy_parent_klass->update)
+		xy_parent_klass->update (obj);
 }
 
 static GogAxisSet
 gog_plot_xy_axis_set_pref (GogPlot const *plot)
 {
-	return GOG_AXIS_SET_XY; /* do some magic later for 3d */
+	return GOG_AXIS_SET_XY;
 }
 
 static gboolean
 gog_plot_xy_axis_set_is_valid (GogPlot const *plot, GogAxisSet type)
 {
-	return type == GOG_AXIS_SET_XY; /* do some magic later for 3d */
+	return type == GOG_AXIS_SET_XY;
 }
 
 static gboolean
 gog_plot_xy_axis_set_assign (GogPlot *plot, GogAxisSet type)
 {
-	return type == GOG_AXIS_SET_XY; /* do some magic later for 3d */
+	return type == GOG_AXIS_SET_XY;
 }
 
 static void
 gog_xy_plot_class_init (GogPlotClass *plot_klass)
 {
-	GObjectClass *gobject_klass = (GObjectClass *) plot_klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
 
 	xy_parent_klass = g_type_class_peek_parent (plot_klass);
@@ -137,7 +137,6 @@ gog_xy_plot_class_init (GogPlotClass *plot_klass)
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type  = gog_xy_series_get_type ();
-	plot_klass->foreach_elem = gog_xy_plot_foreach_elem;
 	plot_klass->axis_set_pref     = gog_plot_xy_axis_set_pref;
 	plot_klass->axis_set_is_valid = gog_plot_xy_axis_set_is_valid;
 	plot_klass->axis_set_assign   = gog_plot_xy_axis_set_assign;
@@ -162,6 +161,86 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogXYPlot const *model = GOG_XY_PLOT (view->model);
 	GogXYSeries const *series;
+	unsigned n, tmp;
+	GSList *ptr;
+	double const *x_vals, *y_vals;
+	double x, y, x_min, x_max, x_off, x_scale, y_min, y_max, y_off, y_scale;
+	ArtVpath	path[3];
+	GogStyle const *style;
+	gboolean prev_valid, show_marks, show_lines;
+
+	if (!gog_axis_get_bounds (model->base.axis[0], &x_min, &x_max) ||
+	    x_min >= x_max)
+		return;
+	x_scale = view->residual.w / (x_max - x_min);
+	x_off   = view->residual.x - x_scale * x_min;
+	x_min   = view->residual.x;
+	x_max   = x_min + view->residual.w;
+
+	if (!gog_axis_get_bounds (model->base.axis[1], &y_min, &y_max) ||
+	    y_min >= y_max)
+		return;
+	y_scale = - view->residual.h / (y_max - y_min);
+	y_off   =   view->residual.y + view->residual.h - y_scale * y_min;
+	y_min   = view->residual.y;
+	y_max   = y_min + view->residual.h;
+
+	path[0].code = ART_MOVETO;
+	path[1].code = ART_LINETO;
+	path[2].code = ART_END;
+	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
+		series = ptr->data;
+
+		if (!gog_series_is_valid (GOG_SERIES (series)))
+			continue;
+
+		x_vals = go_data_vector_get_values (
+			GO_DATA_VECTOR (series->base.values[0].data));
+		y_vals = go_data_vector_get_values (
+			GO_DATA_VECTOR (series->base.values[1].data));
+		n = go_data_vector_get_len (
+			GO_DATA_VECTOR (series->base.values[0].data));
+		tmp = go_data_vector_get_len (
+			GO_DATA_VECTOR (series->base.values[1].data));
+
+		if (n > tmp)
+			n = tmp;
+		if (tmp <= 0)
+			continue;
+
+		style = GOG_STYLED_OBJECT (series)->style;
+		show_marks = gog_style_is_marker_visible (style);
+		show_lines = gog_style_is_line_visible (style);
+		if (!show_marks && !show_lines)
+			continue;
+
+		prev_valid = FALSE;
+		gog_renderer_push_style (view->renderer, style);
+		while (n-- > 0) {
+			x = *x_vals++;
+			y = *y_vals++;
+			if (finite (x) && finite (y)) {
+#warning move map into axis
+				x = x_off + x_scale * x;
+				y = y_off + y_scale * y;
+				if (show_marks)
+					gog_renderer_draw_marker (view->renderer, x, y);
+
+				if (show_lines) {
+					if (prev_valid) {
+						path[0].x = x;
+						path[0].y = y;
+						gog_renderer_draw_path (view->renderer, path);
+					}
+					path[1].x = x;
+					path[1].y = y;
+					prev_valid = TRUE;
+				}
+			} else
+				prev_valid = FALSE;
+		}
+		gog_renderer_pop_style (view->renderer);
+	}
 }
 
 static GogObject *

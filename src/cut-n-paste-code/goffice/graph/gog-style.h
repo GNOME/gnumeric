@@ -105,6 +105,8 @@ void	   gog_style_set_marker		(GogStyle *style, GOMarker *marker);
 void	   gog_style_set_font		(GogStyle *style,
 					 PangoFontDescription *desc);
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
+gboolean   gog_style_is_marker_visible	(GogStyle const *style);
+gboolean   gog_style_is_line_visible	(GogStyle const *style);
 
 GtkWidget *gog_style_editor		(GogObject *obj, CommandContext *cc,
 					 GtkWidget *optional_notebook, guint32 enable);

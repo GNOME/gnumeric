@@ -65,6 +65,9 @@
 
 2003-09-04  Jody Goldberg <jody@gnome.org>
 
+	* graph/plugins/plot_barcol/gog-1.5d.c (gog_plot1_5d_update) : don't
+	  force 0.  That will be handled at the axis level.
+
 	* graph/gog-style.c : move the marker editor back into the main style
 	  editor rather than being distinct.
 

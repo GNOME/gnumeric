@@ -1,3 +1,15 @@
+2003-09-06  Jody Goldberg <jody@gnome.org>
+
+	* src/dependent.c (dependent_clear_dynamic_deps) : Just remove the
+	  DynamicDep record from the hash that will free it as necessary.
+	(dynamic_dep_free) : free the containing DynDep too, not just content.
+	(invalidate_refs) : Ignore dynamic deps, we could not delete them with
+	  things disconnected.
+	(cb_find_dynamic_deps) : new.
+	(dep_hash_destroy) : split out to cleanly handle dynamic deps
+	(do_deps_destroy) : Collect dyn deps before invalidating, then queue
+	  any of them that are external for recalc.
+
 2003-09-06  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-object-graph.c (sheet_object_graph_populate_menu):

@@ -992,41 +992,10 @@ dependent_add_dynamic_dep (Dependent *dep, ValueRange const *v)
 		workbook_link_3d_dep (dep);
 }
 
-static void
-dynamic_dep_free (DynamicDep *dyn)
-{
-	Dependent *dep = dyn->container;
-	CellPos const *pos = (dependent_is_cell (dep))
-		? &DEP_TO_CELL(dep)->pos : &dummy;
-	ValueRange *v;
-	GSList *ptr;
-
-	for (ptr = dyn->singles ; ptr != NULL ; ptr = ptr->next) {
-		v = ptr->data;
-		unlink_single_dep (&dyn->base, pos, &v->cell.a);
-		value_release ((Value *)v);
-	}
-	g_slist_free (dyn->singles);
-	dyn->singles = NULL;
-
-	for (ptr = dyn->ranges ; ptr != NULL ; ptr = ptr->next) {
-		v = ptr->data;
-		unlink_cellrange_dep (&dyn->base, pos, &v->cell.a, &v->cell.b);
-		value_release ((Value *)v);
-	}
-	g_slist_free (dyn->ranges);
-	dyn->ranges = NULL;
-
-	if (dyn->base.flags & DEPENDENT_HAS_3D)
-		workbook_unlink_3d_dep (&dyn->base);
-}
-
-static void
+static inline void
 dependent_clear_dynamic_deps (Dependent *dep)
 {
-	DynamicDep *dyn = g_hash_table_lookup (dep->sheet->deps->dynamic_deps, dep);
-	if (dyn != NULL)
-		dynamic_dep_free (dyn);
+	g_hash_table_remove (dep->sheet->deps->dynamic_deps, dep);
 }
 
 /*****************************************************************************/
@@ -1782,17 +1751,21 @@ dependents_relocate (GnmExprRelocateInfo const *info)
 inline static void
 invalidate_refs (Dependent *dep, GnmExprRewriteInfo const *rwinfo)
 {
-	GnmExpr const *newtree = gnm_expr_rewrite (dep->expression, rwinfo);
+	/* Ignore any linger dynamic deps, they'll get cleared soon */
+	if (dependent_type (dep) != DEPENDENT_DYNAMIC_DEP) {
 
-	/* We are told this dependent depends on this region, hence if newtree
-	 * is null then either
-	 * 1) we did not depend on it ( ie. serious breakage )
-	 * 2j we had a duplicate reference and we have already removed it.
-	 * 3) We depended on things via a name which will be invalidated elsewhere
-	 */
-	if (newtree != NULL) {
-		dependent_set_expr (dep, newtree);
-		gnm_expr_unref (newtree);
+		/* We are told this dependent depends on this region, hence if
+		 * newtree is null then either
+		 * 1) we did not depend on it ( ie. serious breakage )
+		 * 2) we had a duplicate reference and we have already removed it.
+		 * 3) We depended on things via a name which will be
+		 *    invalidated elsewhere */
+		GnmExpr const *newtree =
+			gnm_expr_rewrite (dep->expression, rwinfo);
+		if (newtree != NULL) {
+			dependent_set_expr (dep, newtree);
+			gnm_expr_unref (newtree);
+		}
 	}
 }
 
@@ -1801,11 +1774,10 @@ invalidate_refs (Dependent *dep, GnmExprRewriteInfo const *rwinfo)
  * This is tightly coupled with do_deps_destroy.
  */
 static void
-cb_dep_hash_invalidate (G_GNUC_UNUSED gpointer key, gpointer value,
-			gpointer closure)
+cb_dep_hash_invalidate (G_GNUC_UNUSED gpointer key,
+			DependencyAny *depany,
+			GnmExprRewriteInfo const *rwinfo)
 {
-	GnmExprRewriteInfo const *rwinfo = closure;
-	DependencyAny *depany = value;
 #ifndef ENABLE_MICRO_HASH
 	GSList *deps = depany->deps;
 	GSList *ptr = deps;
@@ -1853,6 +1825,32 @@ cb_dep_hash_invalidate (G_GNUC_UNUSED gpointer key, gpointer value,
 	 * to use right here).
 	 */
 #endif
+}
+
+static void
+cb_find_dynamic_deps (G_GNUC_UNUSED gpointer key,
+		      DependencyAny *depany, GSList **res)
+{
+	GSList *accum = *res;
+	dep_collection_foreach_dep (depany->deps, dep,
+		if (dependent_type (dep) == DEPENDENT_DYNAMIC_DEP)
+			accum = g_slist_prepend (accum, ((DynamicDep *)dep)->container););
+	*res = accum;
+}
+
+static void
+dep_hash_destroy (GHashTable *hash, GnmExprRewriteInfo const *rwinfo,
+		  GSList **extern_dyn_dep)
+{
+	/* Collect external dynamic dependencies (even within the current wb
+	 * for GNM_EXPR_REWRITE_WORKBOOK), DynDeps can not be relocated */
+	g_hash_table_foreach (hash,
+		(GHFunc) &cb_find_dynamic_deps, (gpointer) extern_dyn_dep);
+
+	/* now we invalidate things, being careful to ignore DynDeps */
+	g_hash_table_foreach (hash,
+		(GHFunc) &cb_dep_hash_invalidate, (gpointer)rwinfo);
+	g_hash_table_destroy (hash);
 }
 
 static void
@@ -1905,6 +1903,8 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 {
 	DependentFlags filter = DEPENDENT_LINK_FLAGS; /* unlink everything */
 	GnmDepContainer *deps;
+	GSList *ptr, *next, *local_dyn_deps, *dyn_deps = NULL;
+	Dependent *dep;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -1932,11 +1932,8 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 		int i;
 		for (i = (SHEET_MAX_ROWS-1)/BUCKET_SIZE; i >= 0 ; i--) {
 			GHashTable *hash = deps->range_hash[i];
-			if (hash != NULL) {
-				g_hash_table_foreach (hash,
-					&cb_dep_hash_invalidate, (gpointer)rwinfo);
-				g_hash_table_destroy (hash);
-			}
+			if (hash != NULL)
+				dep_hash_destroy (hash, rwinfo, &dyn_deps);
 		}
 		g_free (deps->range_hash);
 		deps->range_hash = NULL;
@@ -1947,14 +1944,59 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 	}
 
 	if (deps->single_hash) {
-		g_hash_table_foreach (deps->single_hash,
-			&cb_dep_hash_invalidate, (gpointer)rwinfo);
-		g_hash_table_destroy (deps->single_hash);
+		dep_hash_destroy (deps->single_hash, rwinfo, &dyn_deps);
 		deps->single_hash = NULL;
 	}
 	if (deps->single_pool) {
 		gnm_mem_chunk_destroy (deps->single_pool, TRUE);
 		deps->single_pool = NULL;
+	}
+
+	/* Now that we have tossed all deps to this sheet we can queue the
+	 * external dyn deps for recalc and free them */
+	ptr = dyn_deps;
+	dyn_deps = local_dyn_deps = NULL;
+	for (; ptr != NULL ; ptr = next) {
+		dep = ptr->data;
+		next = ptr->next;
+		if (dep->sheet != sheet) {
+			if (dep->flags & DEPENDENT_HAS_DYNAMIC_DEPS) {
+				dependent_clear_dynamic_deps (dep);
+				dep->flags &= ~DEPENDENT_HAS_DYNAMIC_DEPS;
+			}
+			ptr->next = dyn_deps;
+			dyn_deps = ptr;
+		} else {
+			ptr->next = local_dyn_deps;
+			local_dyn_deps = ptr;
+		}
+	}
+	g_slist_free (local_dyn_deps);
+
+	/* Filter workbook local deps for GNM_EXPR_REWRITE_WORKBOOK */
+	if (rwinfo->type == GNM_EXPR_REWRITE_WORKBOOK) {
+		Workbook const *target = rwinfo->u.workbook;
+		ptr = dyn_deps;
+		dyn_deps = local_dyn_deps = NULL;
+		for (; ptr != NULL ; ptr = next) {
+			dep = ptr->data;
+			next = ptr->next;
+			if (dep->sheet->workbook != target) {
+				ptr->next = dyn_deps;
+				dyn_deps = ptr;
+			} else {
+				ptr->next = local_dyn_deps;
+				local_dyn_deps = ptr;
+			}
+		}
+	}
+	dependent_queue_recalc_list (dyn_deps);
+	g_slist_free (dyn_deps);
+	g_slist_free (local_dyn_deps);
+
+	if (deps->dynamic_deps) {
+		g_hash_table_destroy (deps->dynamic_deps);
+		deps->dynamic_deps = NULL;
 	}
 
 	if (deps->referencing_names) {
@@ -1985,11 +2027,6 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 		dependents_link (accum, rwinfo);
 
 		g_hash_table_destroy (names);
-	}
-
-	if (deps->dynamic_deps) {
-		g_hash_table_destroy (deps->dynamic_deps);
-		deps->dynamic_deps = NULL;
 	}
 
 	/* TODO : when we support inter-app depends we'll need a new flag */
@@ -2090,6 +2127,36 @@ workbook_recalc_all (Workbook *wb)
 	workbook_recalc (wb);
 	WORKBOOK_FOREACH_VIEW (wb, view,
 		sheet_update (wb_view_cur_sheet (view)););
+}
+
+static void
+dynamic_dep_free (DynamicDep *dyn)
+{
+	Dependent *dep = dyn->container;
+	CellPos const *pos = (dependent_is_cell (dep))
+		? &DEP_TO_CELL(dep)->pos : &dummy;
+	ValueRange *v;
+	GSList *ptr;
+
+	for (ptr = dyn->singles ; ptr != NULL ; ptr = ptr->next) {
+		v = ptr->data;
+		unlink_single_dep (&dyn->base, pos, &v->cell.a);
+		value_release ((Value *)v);
+	}
+	g_slist_free (dyn->singles);
+	dyn->singles = NULL;
+
+	for (ptr = dyn->ranges ; ptr != NULL ; ptr = ptr->next) {
+		v = ptr->data;
+		unlink_cellrange_dep (&dyn->base, pos, &v->cell.a, &v->cell.b);
+		value_release ((Value *)v);
+	}
+	g_slist_free (dyn->ranges);
+	dyn->ranges = NULL;
+
+	if (dyn->base.flags & DEPENDENT_HAS_3D)
+		workbook_unlink_3d_dep (&dyn->base);
+	g_free (dyn);
 }
 
 GnmDepContainer *

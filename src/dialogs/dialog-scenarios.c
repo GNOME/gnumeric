@@ -463,7 +463,7 @@ scenarios_cancel_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			wb_control_sheet_focus (wbc, state->base.sheet);
 
 		/* Delete a report sheet. */
-		workbook_sheet_detach (state->base.wb, sheet);
+		workbook_sheet_detach (state->base.wb, sheet, FALSE);
 	}
 
 	/* Recover the deleted scenarios. */

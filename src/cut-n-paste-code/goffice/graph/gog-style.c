@@ -1327,6 +1327,19 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 	return a->outline.width != b->outline.width ||
 		!go_font_eq (a->font.font, b->font.font);
 }
+gboolean
+gog_style_is_marker_visible (GogStyle const *style)
+{
+#warning TODO : make this smarter
+	return style->marker != NULL;
+}
+
+gboolean
+gog_style_is_line_visible (GogStyle const *style)
+{
+#warning TODO : make this smarter
+	return style->line.width >= 0;
+}
 
 /**
  * gog_style_set_marker :

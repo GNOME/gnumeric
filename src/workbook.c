@@ -121,7 +121,7 @@ workbook_finalize (GObject *wb_object)
 	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
 
-		workbook_sheet_detach (wb, sheet);
+		workbook_sheet_detach (wb, sheet, FALSE);
 	}
 	g_list_free (sheets);
 
@@ -958,11 +958,12 @@ cb_tweak_3d (Dependent *dep, gpointer value, GnmExprRewriteInfo *rwinfo)
  * workbook_sheet_detach:
  * @wb: workbook.
  * @sheet: the sheet that we want to detach from the workbook
+ * @recalc : force a recalc afterward
  *
  * Detaches @sheet from the workbook @wb.
  */
 gboolean
-workbook_sheet_detach (Workbook *wb, Sheet *sheet)
+workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
 {
 	Sheet *focus = NULL;
 	int sheet_index;
@@ -1020,7 +1021,7 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 	sheet_destroy (sheet);
 	post_sheet_index_change (wb);
 
-	if (focus != NULL)
+	if (recalc && focus != NULL)
 		workbook_recalc_all (wb);
 
 	return TRUE;
@@ -1105,7 +1106,7 @@ workbook_sheet_delete (Sheet *sheet)
 	sheet_deps_destroy (sheet);
 
 	/* All is fine, remove the sheet */
-	workbook_sheet_detach (wb, sheet);
+	workbook_sheet_detach (wb, sheet, TRUE);
 
 	g_signal_emit (G_OBJECT (wb), signals [SHEET_DELETED], 0);
 }

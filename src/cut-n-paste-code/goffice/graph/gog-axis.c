@@ -330,9 +330,12 @@ gog_axis_get_pos (GogAxis const *axis)
 }
 
 gboolean
-gog_axis_get_bounds (GogAxis const *axis, double *min, double *max)
+gog_axis_get_bounds (GogAxis const *axis, double *min_val, double *max_val)
 {
 	g_return_val_if_fail (GOG_AXIS (axis) != NULL, FALSE);
+
+	*min_val = axis->min_val;
+	*max_val = axis->max_val;
 
 	return TRUE;
 }
@@ -381,6 +384,10 @@ gog_axis_bound_changed (GogAxis *axis, GogObject *contrib,
 			double low, double high)
 {
 	g_return_if_fail (GOG_AXIS (axis) != NULL);
+
+#warning crap
+	axis->min_val = low;
+	axis->max_val = high;
 
 	gog_object_request_update (GOG_OBJECT (axis));
 }

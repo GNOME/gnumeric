@@ -29,6 +29,10 @@ G_BEGIN_DECLS
 
 typedef struct {
 	GogPlot	base;
+
+	struct {
+		double minimum, maximum;
+	} x, y;
 } GogXYPlot;
 
 #define GOG_XY_PLOT_TYPE	(gog_xy_plot_get_type ())

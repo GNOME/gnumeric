@@ -118,9 +118,6 @@ gog_barcol_update_stacked_and_percentage (GogPlot1_5d *model,
 	unsigned i, j;
 	double neg_sum, pos_sum, tmp;
 
-	if (GOG_1_5D_NORMAL == model->type)
-		return;
-
 	for (i = model->num_elements ; i-- > 0 ; ) {
 		neg_sum = pos_sum = 0.;
 		for (j = model->num_series ; j-- > 0 ; ) {

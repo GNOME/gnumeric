@@ -133,7 +133,8 @@ gog_plot1_5d_update (GogObject *obj)
 
 	old_minimum =  model->minimum;
 	old_maximum =  model->maximum;
-	model->minimum = model->maximum = 0; /* ensure that 0 is include */
+	model->minimum = DBL_MAX;
+	model->maximum = DBL_MIN;
 	num_elements = num_series = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
@@ -160,7 +161,9 @@ gog_plot1_5d_update (GogObject *obj)
 	}
 	model->num_series = num_series;
 
-	if (num_elements > 0 && num_series > 0) {
+	if (num_elements <= 0 || num_series <= 0)
+		model->minimum = model->maximum = 0.;
+	else if (model->type != GOG_1_5D_NORMAL) {
 		vals = g_alloca (num_series * sizeof (double *));
 		lengths = g_alloca (num_series * sizeof (unsigned));
 		i = 0;
@@ -176,8 +179,7 @@ gog_plot1_5d_update (GogObject *obj)
 		}
 
 		klass->update_stacked_and_percentage (model, vals, lengths);
-	} else
-		model->minimum = model->maximum = 0.;
+	}
 
 	if (old_minimum != model->minimum || old_maximum != model->maximum)
 		gog_axis_bound_changed (

@@ -22,7 +22,7 @@ Sheet      *workbook_sheet_by_index	 (Workbook const *wb, int i);
 Sheet      *workbook_sheet_by_name       (Workbook const *wb, char const *sheet_name);
 void        workbook_sheet_attach        (Workbook *wb, Sheet *new_sheet,
 					  Sheet const *insert_after);
-gboolean    workbook_sheet_detach        (Workbook *wb, Sheet *sheet);
+gboolean    workbook_sheet_detach        (Workbook *wb, Sheet *sheet, gboolean recalc);
 Sheet	   *workbook_sheet_add		 (Workbook *wb,
 					  Sheet const *insert_after,
 					  gboolean make_dirty);

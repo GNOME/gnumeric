@@ -211,7 +211,7 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 	} else {
 		/* the user has cancelled */
                 /* the caller should notice that we have no sheets */
-		workbook_sheet_detach (book, sheet);
+		workbook_sheet_detach (book, sheet, TRUE);
 	}
 
 	g_free (data);
@@ -371,7 +371,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 		workbook_recalc (book);
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
 	} else {
-		workbook_sheet_detach (book, sheet);
+		workbook_sheet_detach (book, sheet, TRUE);
 		gnumeric_error_read (COMMAND_CONTEXT (context),
 			_("Parse error while trying to parse data into sheet"));
 	}
