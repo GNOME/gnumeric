@@ -1,3 +1,82 @@
+1999-09-28  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/workbook-format-toolbar.c (change_selection_font): re-implement.
+
+	* src/mstyle.c (dump_style_list): Add. (check_sorted): use it.
+
+	* src/xml-io.c (xml_write_names): remove unused 'm'
+	(xml_write_cell, xml_read_style_region): hacked.
+	(xml_read_cell, add_style): ditto.
+
+	* src/ranges.c (range_set_style): use attach_old.
+
+	* src/sheet.c (sheet_style_attach): Use a Range.
+	(sheet_style_attach_old): Deprecated copy.
+
+	* src/workbook-format-toolbar.c (change_selection_font, set_new_font),
+	(set_font_size, modify_cell_format, set_cell_fore_color),
+	(set_cell_back_color): use cell_get_style.
+	(apply_style_to_selection): update to MStyle.
+	(apply_style_to_range): Update.
+	Seriously hack style apply code.
+
+	* src/sheet-autofill.c (autofill_cell): cell_get_style.
+
+	* src/print-cell.c (print_cell): cell_get_style.
+
+	* src/corba-sheet.c: style API dummied out.
+
+	* src/functions/fn-information.c (gnumeric_cell): cell_get_style.
+
+	* src/sheet.c (zoom_cell_style): kill for now. (sheet_cell_add): 
+	hack more.
+
+	* src/cell.h: kill public style element.
+
+	* src/cell.c (cell_destroy): ditto.
+
+	* src/dialogs/dialog-cell-format.c (cells_get_format),
+	(create_align_page, create_coloring_page): use cell_get_style.
+
+	* src/item-grid.c (item_grid_paint_empty_cell): Kill default style
+	check.
+
+	* src/sheet.c (sheet_cell_add): comment out style bits.
+	(sheet_destroy_styles): mstyle_destroy.
+	(sheet_set_zoom_factor): add warning.
+
+	* src/print-cell.c (print_empty_cell): fix style_compute.
+	(print_cell_text): use cell_get_style.
+
+	* src/workbook.h: Remove old inline 'style' in Workbook.
+
+	* src/xml-io.c (xml_workbook_write, xml_workbook_read): ditto.
+
+	* src/sheet.h: move range dependant Style bits here + include glib.h
+	
+	* src/style.h: Split typedefs from enum's & structs 
+
+1999-09-27  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/style.c (mstyle_style_new): add. (style_new): deprecate.
+
+	* src/mstyle.[ch]: Created.
+
+	* src/item-edit.c (item_edit_update): fix style_compute.
+
+	* src/item-grid.c (item_grid_paint_empty_cell): ditto.
+
+	* src/clipboard.c (paste_cell_flags): Hack.
+
+	* src/cell-draw.c (sheet_view_font, cell_draw): use cell_get_style
+
+	* src/sheet.c (sheet_style_compute): remove non_default_style_flags
+	argument.
+
+	* src/cell.c (cell_render_value, cell_get_text): Use cell_get_style
+	(cell_set_formula, cell_calc_dimensions): ditto.
+	(cell_get_style): implement.
+
 1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/workbook.c (workbook_do_destroy): rename name clean.

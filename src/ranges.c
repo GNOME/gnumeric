@@ -205,7 +205,7 @@ range_list_foreach (GSList *ranges, void (*callback)(Cell *cell, void *data),
  * This routine attaches the style to the cell ranges specified.
  */
 void
-range_set_style (GSList *ranges, Style *style)
+range_set_style (GSList *ranges, MStyle *style)
 {
 	GSList *l;
 
@@ -220,7 +220,8 @@ range_set_style (GSList *ranges, Style *style)
 		a = value->v.cell_range.cell_a;
 		b = value->v.cell_range.cell_b;
 
-		sheet_style_attach (a.sheet, a.col, a.row, b.col, b.row, style);
+		sheet_style_attach_old (a.sheet, a.col, a.row,
+					b.col, b.row, style);
 	}
 }
 

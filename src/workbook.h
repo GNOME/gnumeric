@@ -68,9 +68,6 @@ struct _Workbook {
 	String     *auto_expr_desc;
 	GnomeCanvasItem  *auto_expr_label;
 	
-	/* Styles */
-	Style      style;
-
 	/* The sheets */ 
 	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */
 

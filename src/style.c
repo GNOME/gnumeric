@@ -402,6 +402,7 @@ style_new (void)
 	style->valign      = VALIGN_CENTER;
 	style->orientation = ORIENT_HORIZ;
 
+	g_warning ("Style new is deprecated: root it out");
 	if (0) {
 		static int warning_shown;
 
@@ -412,6 +413,69 @@ style_new (void)
 		}
 	}
 
+	return style;
+}
+
+Style *
+style_mstyle_new (MStyleElement *e, guint len)
+{
+	Style *style;
+
+	style = g_new0 (Style, 1);
+
+	style->valid_flags = STYLE_ALL;
+
+	style->format      = style_format_new ("General");
+	style->border      = style_border_new_plain ();
+	style->halign      = HALIGN_GENERAL;
+	style->valign      = VALIGN_CENTER;
+	style->orientation = ORIENT_HORIZ;
+	style->fit_in_cell = 0;
+
+	if (len > MSTYLE_ELEMENT_MAX_BLANK) {
+		gchar *name;
+		int    bold, italic;
+		double scale;
+		
+		if (e[MSTYLE_FONT_NAME].type)
+			name = e[MSTYLE_FONT_NAME].u.font.name;
+		else
+			name = DEFAULT_FONT;
+		if (e[MSTYLE_FONT_BOLD].type)
+			bold = e[MSTYLE_FONT_BOLD].u.font.bold;
+		else
+			bold = 0;
+		if (e[MSTYLE_FONT_ITALIC].type)
+			italic = e[MSTYLE_FONT_ITALIC].u.font.italic;
+		else
+			italic = 0;
+		if (e[MSTYLE_FONT_SIZE].type)
+			scale =  e[MSTYLE_FONT_SIZE].u.font.size;
+		else
+			scale = 1.0;
+
+		if (bold || italic || (name != DEFAULT_FONT) || (scale != 1.0))
+			style->font = style_font_new (name, DEFAULT_SIZE,
+						      scale, bold, italic);
+		else {
+			style->font = gnumeric_default_font;
+			style_font_ref (style->font);
+		}
+	}
+
+	/* Styles that will show up on blank cells */
+	if (e[MSTYLE_COLOR_FORE].type) {
+		style->fore_color = e[MSTYLE_COLOR_FORE].u.color.fore;
+		style_color_ref (style->fore_color);
+	} else
+		style->fore_color = style_color_new (0, 0, 0);
+
+	if (e[MSTYLE_COLOR_BACK].type) {
+		style->back_color = e[MSTYLE_COLOR_BACK].u.color.back;
+		style_color_ref (style->back_color);
+	} else
+		style->back_color = style_color_new (0xffff, 0xffff, 0xffff);
+	
 	return style;
 }
 
@@ -611,6 +675,8 @@ color_hash (gconstpointer v)
 void
 style_merge_to (Style *target, Style *source)
 {
+	g_warning ("Deprecated style_merge_to");
+/*	
 	if (!(target->valid_flags & STYLE_FORMAT))
 		if (source->valid_flags & STYLE_FORMAT){
 			target->valid_flags |= STYLE_FORMAT;
@@ -660,7 +726,7 @@ style_merge_to (Style *target, Style *source)
 		if (source->valid_flags & STYLE_PATTERN){
 			target->valid_flags |= STYLE_PATTERN;
 			target->pattern = source->pattern;
-		}
+			}*/
 }
 
 static void

@@ -68,7 +68,7 @@ html_write_cell32 (FILE *fp, Cell *cell)
 	if (!cell) {	/* empty cell */
 		fprintf (fp, "\t<TD>\n");
 	} else {
-		style = cell->style;
+		style = cell_get_style (cell);
 		if (!style) {
 			/* is this case posible? */
 			fprintf (fp, "\t<TD>");
@@ -126,7 +126,7 @@ html_write_cell40 (FILE *fp, Cell *cell)
 	if (!cell) {	/* empty cell */
 		fprintf (fp, "\t<TD>\n");
 	} else {
-		style = cell->style;
+		style = cell_get_style (cell);
 		if (!style) {
 			/* is this case posible? */
 			fprintf (fp, "\t<TD>");
@@ -352,7 +352,7 @@ html_cell_bold (Cell *cell)
 
 	if (!cell)
 		return;
-	style = cell->style;
+	style = cell_get_style (cell);
 	if (!style)
 		return;
 	cf = style->font;
@@ -376,7 +376,7 @@ html_cell_italic (Cell *cell)
 
 	if (!cell)
 		return;
-	style = cell->style;
+	style = cell_get_style (cell);
 	if (!style)
 		return;
 	cf = style->font;
@@ -466,9 +466,10 @@ html_read (Workbook *wb, const char *filename)
 					str = html_get_string (p, &flags);
 					cell = sheet_cell_fetch (sheet, col, row);
 					if (str && cell) {
+						Style *style = cell_get_style (cell);
 						/* set the attributes of the cell
 						 */
-						if (cell->style && cell->style->font && flags) {
+						if (style && style->font && flags) {
 							if (flags & HTML_BOLD) {
 								html_cell_bold (cell);
 							}

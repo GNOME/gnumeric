@@ -18,7 +18,7 @@ void        range_list_foreach_all  (GSList *ranges,
 void        range_list_foreach      (GSList *ranges,
 				     void (*callback)(Cell *cell, void *data),
 				     void *data);
-void        range_set_style         (GSList *ranges, Style *style);
+void        range_set_style         (GSList *ranges, MStyle *style);
 
 gboolean    range_is_singleton (Range const *r);
 gboolean    range_equal        (Range const *a, Range const *b);

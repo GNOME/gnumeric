@@ -253,30 +253,32 @@ item_grid_invert_gc (ItemGrid *item_grid)
 static int
 item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int x1, int y1)
 {
-	GdkGC       *gc     = item_grid->gc;
+	GdkGC      *gc     = item_grid->gc;
 	int         count;
 	int         w, h;
+	Style      *style;
 
+	style = cell_get_style (cell);
 	/* setup foreground */
 	gdk_gc_set_foreground (gc, &item_grid->default_color);
 	if (cell->render_color)
 		gdk_gc_set_foreground (gc, &cell->render_color->color);
 	else {
-		if (cell->style->valid_flags & STYLE_FORE_COLOR)
-			gdk_gc_set_foreground (gc, &cell->style->fore_color->color);
+		if (style->valid_flags & STYLE_FORE_COLOR)
+			gdk_gc_set_foreground (gc, &style->fore_color->color);
 	}
 
-	if (cell->style->valid_flags & STYLE_BACK_COLOR){
-		gdk_gc_set_background (gc, &cell->style->back_color->color);
+	if (style->valid_flags & STYLE_BACK_COLOR){
+		gdk_gc_set_background (gc, &style->back_color->color);
 	}
 
 
 	w = cell->col->pixels;
 	h = cell->row->pixels;
-	if ((cell->style->valid_flags & STYLE_PATTERN) && cell->style->pattern){
+	if ((style->valid_flags & STYLE_PATTERN) && style->pattern){
 #if 0
 		GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
-		int p = cell->style->pattern - 1;
+		int p = style->pattern - 1;
 
 		/*
 		 * Next two lines are commented since the pattern display code of the cell
@@ -293,9 +295,9 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	}
 
 	if ((gnumeric_debugging > 0) &&
-	    (cell->style->valid_flags & STYLE_BORDER) &&
-	    cell->style->border) {
-		StyleBorder     *b = cell->style->border;
+	    (style->valid_flags & STYLE_BORDER) &&
+	    style->border) {
+		StyleBorder     *b = style->border;
 		GdkGC           *gc;
 		StyleBorderType  t;
 
@@ -336,7 +338,7 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 {
 	Style *style;
 	
-	style = sheet_style_compute (item_grid->sheet, col, row, NULL);
+	style = sheet_style_compute (item_grid->sheet, col, row);
 
 	if (style->valid_flags & (STYLE_PATTERN | STYLE_FORE_COLOR)){
 		/* FIXME: set the GC here */
@@ -345,10 +347,10 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	if ((style->valid_flags & STYLE_BACK_COLOR) && (style->back_color)){
 		Sheet *sheet = item_grid->sheet_view->sheet;
 		
-		if (style->back_color == sheet->default_style->back_color){
+/*		if (style->back_color == sheet->default_style->back_color){
 			style_destroy (style);
 			return;
-		}
+			}*/
 
 		gdk_gc_set_foreground (item_grid->empty_gc, &style->back_color->color);
 		gdk_draw_rectangle (

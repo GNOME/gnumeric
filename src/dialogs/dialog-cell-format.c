@@ -192,14 +192,14 @@ cells_get_format (CellList *cells)
 	StyleFormat *last_format;
 	
 	for (last_format = NULL; cells; cells = cells->next){
-		Cell *cell = cells->data;
+		Style *style = cell_get_style (cells->data);
 
-		if (!last_format){
-			last_format = cell->style->format;
+		if (!last_format) {
+			last_format = style->format;
 			continue;
 		}
 
-		if (cell->style->format != last_format)
+		if (style->format != last_format)
 			return NULL;
 	}
 
@@ -445,16 +445,17 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 	 * not, right now this is broken in that regard
 	 */
 	if (cells){
-		ha    = ((Cell *) (cells->data))->style->halign;
-		va    = ((Cell *) (cells->data))->style->valign;
-		autor = ((Cell *) (cells->data))->style->fit_in_cell;
+		Style *style = cell_get_style (cells->data);
+		ha    = style->halign;
+		va    = style->valign;
+		autor = style->fit_in_cell;
 		
 		for (ok = 1, l = cells; l; l = l->next){
-			Cell *cell = l->data;
+			Style *style = cell_get_style (l->data);
 			
-			if (cell->style->halign != ha ||
-			    cell->style->valign != va ||
-			    cell->style->fit_in_cell != autor){
+			if (style->halign != ha ||
+			    style->valign != va ||
+			    style->fit_in_cell != autor){
 				ok = 0;
 				break;
 			}
@@ -712,16 +713,16 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 	 * style regions to figure out what to check and what
 	 * not, right now this is broken in that regard
 	 */
-	if (cells){
-		Cell *cell = (Cell *) cells->data;
+	if (cells) {
+		Style *style = cell_get_style (cells->data);
 		
-		fore_red   = cell->style->fore_color->color.red;
-		fore_green = cell->style->fore_color->color.green;
-		fore_blue  = cell->style->fore_color->color.blue;
+		fore_red   = style->fore_color->color.red;
+		fore_green = style->fore_color->color.green;
+		fore_blue  = style->fore_color->color.blue;
 			     
-		back_red   = cell->style->back_color->color.red;
-		back_green = cell->style->back_color->color.green;
-		back_blue  = cell->style->back_color->color.blue;
+		back_red   = style->back_color->color.red;
+		back_green = style->back_color->color.green;
+		back_blue  = style->back_color->color.blue;
 
 		/*
 		 * What follows is ugly: I believe we should use the method illustrated
@@ -751,21 +752,21 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 		 * second one is the equivalent for background
 		 */
 		for (ok_fore = 1, l = cells; l; l = l->next){
-			Cell *cell = l->data;
+			Style *style = cell_get_style (l->data);
 
-			if (cell->style->fore_color->color.red != fore_red ||
-			    cell->style->fore_color->color.green != fore_green ||
-			    cell->style->fore_color->color.blue != fore_blue){
+			if (style->fore_color->color.red != fore_red ||
+			    style->fore_color->color.green != fore_green ||
+			    style->fore_color->color.blue != fore_blue){
 				ok_fore = 0;
 				break;
 			}
 		}
 		for (ok_back = 1, l = cells; l; l = l->next){
-			Cell *cell = l->data;
+			Style *style = cell_get_style (l->data);
 
-			if (cell->style->back_color->color.red != back_red ||
-			    cell->style->back_color->color.green != back_green ||
-			    cell->style->back_color->color.blue != back_blue){
+			if (style->back_color->color.red != back_red ||
+			    style->back_color->color.green != back_green ||
+			    style->back_color->color.blue != back_blue){
 				ok_back = 0;
 				break;
 			}
@@ -976,11 +977,12 @@ cell_properties_apply (GtkObject *w, int page, CellList *cells)
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
 		
-		sheet_style_attach (
+		g_warning ("No style attachment");
+/*		sheet_style_attach (
 			sheet,
 			ss->user.start.col, ss->user.start.row,
 			ss->user.end.col,   ss->user.end.row,
-			style);
+			style);*/
 	}
 }
 

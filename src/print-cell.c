@@ -168,7 +168,7 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 static void
 print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double base_y)
 {
-	Style *style = cell->style;
+	Style *style = cell_get_style (cell);
 	GnomeFont *print_font = style->font->font;
 	double text_width;
 	double font_height;
@@ -179,7 +179,7 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 	cell_get_span (cell, &start_col, &end_col);
 	
 	text_width = gnome_font_get_width_string (print_font, cell->text->str);
-	font_height = cell->style->font->size;
+	font_height = style->font->size;
 		
 	if (text_width > cell->col->units && cell_is_number (cell)){
 		print_overflow (context, cell);
@@ -192,12 +192,13 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 	else
 		do_multi_line = FALSE;
 
-	if (do_multi_line){
+	if (do_multi_line) {
 		GList *lines, *l;
 		int line_count, x_offset, y_offset;
 		double inter_space;
 		
-		lines = cell_split_text (print_font, cell->text->str, cell->col->units);
+		lines = cell_split_text (print_font, cell->text->str,
+					 cell->col->units);
 		line_count = g_list_length (lines);
 		
 		{
@@ -357,13 +358,14 @@ static void
 print_cell (GnomePrintContext *context, Cell *cell,
 	    double x1, double y1, double x2, double y2)
 {
-	StyleColor *fore = cell->style->fore_color;
+	Style *style = cell_get_style (cell);
+	StyleColor *fore = style->fore_color;
 	
 	g_assert (cell != NULL);
 
 	gnome_print_setrgbcolor (context, 0, 0, 0);
-	print_cell_border (context, cell->style->border, x1, y1, x2, y2);
-	print_cell_background (context, cell->style->back_color, x1, y1, x2, y2);
+	print_cell_border (context, style->border, x1, y1, x2, y2);
+	print_cell_background (context, style->back_color, x1, y1, x2, y2);
 	
 	gnome_print_setrgbcolor (context,
 				 fore->red   / (double) 0xfff,
@@ -381,7 +383,7 @@ print_empty_cell (GnomePrintContext *context, Sheet *sheet, int col, int row,
 {
 	Style *style;
 
-	style = sheet_style_compute (sheet, col, row, NULL);
+	style = sheet_style_compute (sheet, col, row);
 	print_cell_background (context, style->back_color, x1, y1, x2, y2);
 	
 	style_destroy (style);

@@ -712,7 +712,6 @@ xml_write_style (parse_xml_context_t *ctxt, Style *style, int style_idx)
 static xmlNodePtr
 xml_write_names (parse_xml_context_t *ctxt, GList *names)
 {
-	GList      *m;
 	xmlNodePtr  cur;
 
 	if (!names)
@@ -1262,10 +1261,10 @@ xml_read_style_region (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	child = tree->childs;
 	if (child != NULL)
 		style = xml_read_style (ctxt, child, NULL);
-	if (style != NULL)
-		sheet_style_attach (ctxt->sheet, start_col, start_row, end_col,
-				    end_row, style);
-
+/*	if (style != NULL)
+		sheet_style_attach_old (ctxt->sheet, start_col, start_row, end_col,
+		end_row, style);*/
+	g_warning ("read_style_region");
 }
 
 /*
@@ -1442,8 +1441,10 @@ xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
 	char *text;
 	int style_id;
 
-	style_id = GPOINTER_TO_INT (g_hash_table_lookup (ctxt->style_table, cell->style));
-	g_assert (style_id != 0);
+/*	style_id = GPOINTER_TO_INT (g_hash_table_lookup (ctxt->style_table, cell->style));
+	g_assert (style_id != 0);*/
+	g_warning ("hacked style write");
+	style_id = 0;
 	
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xml_set_value_int (cur, "Col", cell->col->pos);
@@ -1507,40 +1508,43 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	 * Old format includes the Style online
 	 */
 	if (xml_get_value_int (tree, "Style", &style_idx)){
-		Style *s;
+/*		Style *s;
 		
 		style_read = TRUE;
 		s = g_hash_table_lookup (ctxt->style_table, GINT_TO_POINTER (style_idx));
 		if (s) {
 			Style *copy;
 
-			/*
+*//*
 			 * The main style is the style we read, but this
 			 * style might be incomplete (ie, older formats might
 			 * not have full styles.
 			 *
 			 * so we merge the missing bits from the current cell
 			 * style
-			 */
+			 *//*
 			copy = style_duplicate (s);
 			style_merge_to (copy, ret->style);
 			style_destroy (ret->style);
 			ret->style = copy;
 		} else {
 			printf ("Error: could not find style %d\n", style_idx);
-		}
+			}*/
+		g_warning ("Style read hacked");
 	}
 	
 	childs = tree->childs;
 	while (childs != NULL) {
 		if (!strcmp (childs->name, "Style")) {
-			if (!style_read){
+			if (!style_read) {
+/*
 				style = xml_read_style (ctxt, childs, NULL);
 				if (style){
 					style_merge_to (style, ret->style);
 					style_destroy (ret->style);
 					ret->style = style;
-				}
+					}*/
+				g_warning ("Hacked");
 			}
 		}
 		if (!strcmp (childs->name, "Content"))
@@ -1604,14 +1608,15 @@ add_style (gpointer key, gpointer value, gpointer data)
 	Cell *cell = (Cell *) value;
 	xmlNodePtr child;
 	
-	if (g_hash_table_lookup (ctxt->style_table, cell->style))
+/*	if (g_hash_table_lookup (ctxt->style_table, cell->style))
 		return;
 
 	child = xml_write_style (ctxt, cell->style, ctxt->style_count);
 	xmlAddChild (ctxt->style_node, child);
 		     
 	g_hash_table_insert (ctxt->style_table, cell->style, GINT_TO_POINTER (ctxt->style_count));
-	ctxt->style_count++;
+	ctxt->style_count++;*/
+	g_warning ("add style hacked");
 	
 }
 
@@ -1926,9 +1931,9 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 	if (child)
 		xmlAddChild (cur, child);
 
-	child = xml_write_style (ctxt, &wb->style, -1);
+/*	child = xml_write_style (ctxt, &wb->style, -1);
 	if (child)
-		xmlAddChild (cur, child);
+	xmlAddChild (cur, child);*/
 
 	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "Geometry", NULL);
 	xml_set_value_int (child, "Width", wb->toplevel->allocation.width);
@@ -2019,9 +2024,9 @@ xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
 /*      gtk_widget_set_usize(wb->toplevel, width, height); */
 	}
 
-	child = xml_search_child (tree, "Style");
+/*	child = xml_search_child (tree, "Style");
 	if (child != NULL)
-		xml_read_style (ctxt, child, &wb->style);
+	xml_read_style (ctxt, child, &wb->style);*/
 
 	child = xml_search_child (tree, "Sheets");
 	if (child == NULL)

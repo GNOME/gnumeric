@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_SHEET_H
 #define GNUMERIC_SHEET_H
 
+#include <glib.h>
+
 typedef struct _Workbook	Workbook;
 typedef struct _Sheet		Sheet;
 
@@ -12,6 +14,12 @@ typedef struct {
 typedef struct {
 	CellPos start, end;
 } Range;
+
+typedef struct {
+	gchar   *name;
+	guint32  stamp;
+	GArray  *elements;
+} MStyle;
 
 typedef struct {
 	/* TODO : Remove this.  It should be part of the sheet cursor
@@ -48,6 +56,7 @@ typedef struct {
 
 #include "value.h"
 #include "solver.h"
+#include "mstyle.h"
 #include "style.h"
 #include "expr.h"
 #include "str.h"
@@ -63,7 +72,7 @@ typedef GList ColStyleList;
 
 typedef struct {
 	Range  range;
-	Style  *style;
+	MStyle  *style;
 } StyleRegion;
 
 typedef enum {
@@ -132,8 +141,6 @@ struct _Sheet {
 	String      *editing_saved_text;
 	Cell        *editing_cell;
 	int         editing;
-
-	Style       *default_style;
 
 	/* Objects */
 	SheetModeType mode;	/* Sheet mode */
@@ -285,8 +292,9 @@ void        sheet_row_set_selection       (Sheet *sheet,
 void        sheet_set_selection           (Sheet *sheet, SheetSelection const *ss);
 				       
 Style      *sheet_style_compute           (Sheet const *sheet,
-					   int col, int row,
-					   int *non_default_style_flags);
+					   int col, int row);
+Style      *sheet_style_compute_blank     (Sheet const *sheet,
+					   int col, int row);
 
 /* Redraw */
 void        sheet_compute_visible_ranges  (Sheet const *sheet);
@@ -324,10 +332,12 @@ void        sheet_shift_cols              (Sheet *sheet,
 				           int start_col, int end_col,
 				           int row,       int count);
 
-void        sheet_style_attach            (Sheet *sheet,
+void        sheet_style_attach            (Sheet  *sheet, Range   range,
+					   MStyle  *style);
+void        sheet_style_attach_old        (Sheet *sheet,
 					   int    start_col, int start_row,
 					   int    end_col,   int end_row,
-					   Style  *style);
+					   MStyle  *style);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 void        sheet_update_controls         (Sheet *sheet);

@@ -102,7 +102,10 @@ cell_split_text (GdkFont *font, char const *text, int const width)
 static GdkFont *
 sheet_view_font (SheetView *sheet_view, Cell *cell)
 {
-	return style_font_gdk_font (cell->style->font);
+	Style *style = cell_get_style (cell);
+	GdkFont *tmp = style_font_gdk_font (style->font);
+	style_destroy (style);
+	return tmp;
 }
 
 /*
@@ -111,7 +114,7 @@ sheet_view_font (SheetView *sheet_view, Cell *cell)
 int 
 cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
 {
-	Style        *style = cell->style;
+	Style        *style = cell_get_style (cell);
 	GdkFont      *font;
 	GdkRectangle rect;
 	
@@ -131,7 +134,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 	width  = COL_INTERNAL_WIDTH (cell->col);
 	height = ROW_INTERNAL_HEIGHT (cell->row);
 
-	font_height = style_font_get_height (cell->style->font);
+	font_height = style_font_get_height (style->font);
 	
 	halign = cell_get_horizontal_align (cell);
 
@@ -139,6 +142,7 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 	if (width < cell->width && cell_is_number (cell)){
 		draw_overflow (drawable, gc, font, x1 + cell->col->margin_a, y1, text_base,
 			       width, height);
+		style_destroy (style);
 		return 1;
 	}
 
@@ -319,6 +323,9 @@ cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, 
 		} while (halign == HALIGN_FILL && total < rect.width && len >0);
 	}
 
+	style_destroy (style);
 	return end_col - start_col + 1;
 }
+
+
 

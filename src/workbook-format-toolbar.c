@@ -73,6 +73,22 @@ center_cmd (GtkWidget *widget, Workbook *wb)
 	set_selection_halign (wb, HALIGN_CENTER);
 }
 
+/** 
+ * apply_style_to_selection:
+ * @style: style to be attached
+ *
+ * This routine attaches @style to the various SheetSelections
+ *
+ */
+static void
+apply_style_to_selection (Sheet *sheet, MStyle *style)
+{
+	Range const * range = selection_first_range (sheet);
+
+	g_warning ("Fixme: applying style to first range only");
+	sheet_style_attach (sheet, *range, style);
+	sheet_set_dirty (sheet, TRUE);
+}
 
 /*
  * change_selection_font
@@ -84,35 +100,25 @@ center_cmd (GtkWidget *widget, Workbook *wb)
 static void
 change_selection_font (Workbook *wb, int bold, int italic)
 {
+	MStyleElement e;
 	Sheet *sheet;
 	GList *cells, *l;
 
 	sheet = workbook_get_current_sheet (wb);
-	/*
-	 * TODO : switch to selection_apply, but for now we don't care about
-	 * intersection
-	 */
-	cells = selection_to_list (sheet, TRUE);
 
-	for (l = cells; l; l = l->next){
-		StyleFont *cell_font;
-		Cell *cell = l->data;
-		StyleFont *f;
-
-		cell_font = cell->style->font;
-
-		f = style_font_new (
-			cell_font->font_name,
-			cell_font->size,
-			cell_font->scale,
-			bold == -1 ? cell_font->is_bold : bold,
-			italic == -1 ? cell_font->is_italic : italic);
-
-		if (f)
-			cell_set_font_from_style (cell, f);
+	if (bold >= 0) {
+		e.type = MSTYLE_FONT_BOLD;
+		e.u.font.bold = bold;
+		apply_style_to_selection (sheet,
+					  mstyle_new_elem (NULL, e));
 	}
 
-	g_list_free (cells);
+	if (italic >= 0) {
+		e.type = MSTYLE_FONT_ITALIC;
+		e.u.font.italic = italic;
+		apply_style_to_selection (sheet,
+					  mstyle_new_elem (NULL, e));
+	}
 }
 
 static void
@@ -127,174 +133,49 @@ italic_cmd (GtkToggleButton *t, Workbook *wb)
 	change_selection_font (wb, -1, t->active);
 }
 
-/** 
- * apply_style_to_selection:
- * @style: style to be attached
- * @cb: callback routine to invoke to apply to individual cells
- *
- * This routine attaches @style to the various SheetSelections
- * and then invokes @cb for each existing cell on the selection
- *
- * This is of course, not as good as it should be, due to the
- * fact that our style flags have a very bad granularity (they
- * are too general), so the result is that the empty-cells do
- * not always get the correct style, but rather an aproximation
- * (ie, font size application would also set the font name).
- */
-typedef void (*style_apply_callback) (Cell *cell, Style *style, void *closure);
-
-typedef struct {
-	style_apply_callback callback;
-	Style *style;
-	void  *user_closure;
-} apply_style_closure_t;
-
-static Value *
-relay_apply (Sheet *sheet, int col, int row, Cell *cell, void *_closure)
-{
-	apply_style_closure_t *c = _closure;
-
-	(*c->callback)(cell, c->style, c->user_closure);
-
-	return NULL;
-}
-
-static void
-apply_style_to_range (Sheet *sheet, 
-		      int start_col, int start_row,
-		      int end_col,   int end_row,
-		      void *closure)
-{
-	Style *copy;
-	apply_style_closure_t *c = closure;
-
-	copy = style_duplicate (c->style);
-	sheet_style_attach (
-		sheet, start_col, start_row, end_col, end_row, copy);
-	sheet_cell_foreach_range (
-		sheet, TRUE,
-		start_col, start_row, end_col, end_row,
-		relay_apply, closure);
-}
-                                    
-static void
-apply_style_to_selection (Sheet *sheet, Style *style, style_apply_callback callback_fn, void *closure)
-{
-	apply_style_closure_t c;
-
-	c.style = style;
-	c.callback = callback_fn;
-	c.user_closure = closure;
-
-	selection_apply (sheet, apply_style_to_range, FALSE, &c);
-	style_destroy (style);
-	sheet_set_dirty (sheet, TRUE);
-}
-
-static void
-set_new_font (Cell *cell, Style *style, void *closure)
-{
-	StyleFont *new_font, *cell_font;
-	char *font_name = closure;
-	
-	cell_font = cell->style->font;
-
-	new_font = style_font_new (
-		font_name,
-		cell_font->size,
-		cell_font->scale,
-		cell_font->is_bold,
-		cell_font->is_italic);
-	
-	if (new_font)
-		cell_set_font_from_style (cell, new_font);
-	
-}
-
 static void
 change_font_in_selection_cmd (GtkMenuItem *item, Workbook *wb)
 {
 	Sheet *sheet;
 	const char *font_name = gtk_object_get_user_data (GTK_OBJECT (item));
-	Style *style;
-	double size;
+	MStyleElement e;
 
 	wb->priv->current_font_name = font_name;
 	
 	sheet = workbook_get_current_sheet (wb);
 
-	size = atof (gtk_entry_get_text (GTK_ENTRY (wb->priv->size_widget)));
-	if (size <= 0.0)
-		return;
-	
-	/*
-	 * First, create a new font with the defaults
-	 * and apply this to all the selections
-	 */
-	style = style_new_empty ();
-	style->valid_flags |= STYLE_FONT;
-	style->font = style_font_new (
-		font_name,
-		size,
-		sheet->last_zoom_factor_used,
-		0, 0);
+	e.type = MSTYLE_FONT_NAME;
+	e.u.font.name = g_strdup (font_name);
+	g_warning ("Testme");
 
-	apply_style_to_selection (sheet, style, set_new_font, (char *) font_name);
-}
-
-static void
-set_font_size (Cell *cell, Style *style, void *closure)
-{
-	StyleFont *new_font, *cell_font;
-	double *size = closure;
-
-	cell_font = cell->style->font;
-
-	new_font = style_font_new (
-		cell_font->font_name,
-		*size,
-		cell_font->scale,
-		cell_font->is_bold,
-		cell_font->is_italic);
-
-	if (new_font)
-		cell_set_font_from_style (cell, new_font);
+	apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
 }
 
 static void
 change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 {
-	Style *style = style_new_empty ();
 	Sheet *sheet = workbook_get_current_sheet (wb);
+	MStyleElement e;
 	double size;
 
 	size = atof (gtk_entry_get_text (entry));
-	if (size < 0.0){
+	if (size < 0.0) {
 		gtk_entry_set_text (entry, "12");
 		return;
 	}
-
-	style->valid_flags |= STYLE_FONT;
-	style->font = style_font_new (
-		wb->priv->current_font_name,
-		size,
-		sheet->last_zoom_factor_used,
-		0, 0);
 	
-	apply_style_to_selection (sheet, style, set_font_size, &size);
+	e.type = MSTYLE_FONT_SIZE;
+	e.u.font.size = size;
+	
+	apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
 	workbook_focus_current_sheet (sheet->workbook);
-}
-
-static void
-set_cell_format_style (Cell *cell, Style *style, void *closure)
-{
-	cell_set_format_from_style (cell, style->format);
 }
 
 static void
 do_apply_style_to_selection (Sheet *sheet, const char *format)
 {
-	Style *style;
+/*	MStyle *style;
+	MStyleElement e;
 	const char *real_format = strchr (_(format), ':');
 
 	if (real_format)
@@ -306,7 +187,11 @@ do_apply_style_to_selection (Sheet *sheet, const char *format)
 	style->valid_flags = STYLE_FORMAT;
 	style->format = style_format_new (real_format);
 
-	apply_style_to_selection (sheet, style, set_cell_format_style, NULL);
+	e.type = MSTYLE_FONT_SIZE;
+	e.u.font.size = size;
+
+	apply_style_to_selection (sheet, style, set_cell_format_style, NULL);*/
+	g_warning ("Fixme format");
 }
 
 static void
@@ -334,7 +219,8 @@ typedef char *(*format_modify_fn) (const char *format);
 static Value *
 modify_cell_format (Sheet *sheet, int col, int row, Cell *cell, void *closure)
 {
-	StyleFormat *sf = cell->style->format;
+	Style *style = cell_get_style (cell);
+	StyleFormat *sf = style->format;
 	format_modify_fn modify_format = closure;
 	char *new_fmt;
 		
@@ -437,49 +323,28 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	GNOMEUIINFO_END
 };
 
-/*
- * Routines for handling the foreground color change for cells
- */
-static void
-set_cell_fore_color (Cell *cell, Style *style, void *closure)
-{
-	style_color_ref (cell->style->back_color);
-	cell_set_color_from_style (cell, style->fore_color, cell->style->back_color);
-	style_color_unref (cell->style->back_color);
-}
-
 static void
 fore_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
-	Style *fore_style;
+	MStyleElement e;
 
-	fore_style = style_new_empty ();
-	fore_style->valid_flags = STYLE_FORE_COLOR;
-	fore_style->fore_color = style_color_new (color->red, color->green, color->blue);
+	e.type = MSTYLE_COLOR_FORE;
+	e.u.color.fore = style_color_new (color->red, color->green, color->blue);
 
-	apply_style_to_selection (sheet, fore_style, set_cell_fore_color, NULL);
-}
-
-static void
-set_cell_back_color (Cell *cell, Style *style, void *closure)
-{
-	style_color_ref (cell->style->fore_color);
-	cell_set_color_from_style (cell, cell->style->fore_color, style->back_color);
-	style_color_unref (cell->style->fore_color);
+	apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
 }
 
 static void
 back_color_changed (ColorCombo *cc, GdkColor *color, int color_index, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
-	Style *back_style;
+	MStyleElement e;
 
-	back_style = style_new_empty ();
-	back_style->valid_flags = STYLE_BACK_COLOR;
-	back_style->back_color = style_color_new (color->red, color->green, color->blue);
+	e.type = MSTYLE_COLOR_BACK;
+	e.u.color.back = style_color_new (color->red, color->green, color->blue);
 
-	apply_style_to_selection (sheet, back_style, set_cell_back_color, NULL);
+	apply_style_to_selection (sheet, mstyle_new_elem (NULL, e));
 }
 
 /*

@@ -49,7 +49,7 @@ epsf_write_cell (FILE *fp, Cell *cell, float x, float y)
 	if (!cell) {	/* empty cell */
 		return;
 	} else {
-		style = cell->style;
+		style = cell_get_style (cell);
 		if (!style) {
 			/* is this case posible? */
 			return;

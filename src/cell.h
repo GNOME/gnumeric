@@ -77,7 +77,6 @@ struct _Cell {
 	/* Type of the content and the actual parsed content */
 	ExprTree    *parsed_node;	/* Parse tree with the expression */
 	Value       *value;		/* Last value computed */
-	Style       *style;		/* The Cell's style */
 
 	StyleColor  *render_color;      /* If a manually entered color has been selected */
 
@@ -149,8 +148,9 @@ void        cell_set_border              (Cell *cell,
 					  StyleColor *border_color [4]);
 void        cell_set_alignment           (Cell *cell, int halign, int valign,
 					  int orientation, int auto_return);
-void        cell_set_halign              (Cell *cell, StyleHAlignFlags halign);
+void        cell_set_halign              (Cell *cell, StyleHAlignFlags const halign);
 void        cell_set_rendered_text       (Cell *cell, const char *rendered_text);
+Style      *cell_get_style               (Cell *cell);
 void        cell_relocate                (Cell *cell,
 					  int col_diff, int row_diff);
 void        cell_get_span                (Cell *cell, int *col1, int *col2);

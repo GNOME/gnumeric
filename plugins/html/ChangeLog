@@ -1,3 +1,15 @@
+1999-09-28  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* html.c (html_write_cell32): Update style api.
+	(html_cell_bold, html_read, html_write_cell40): ditto.
+
+	* latex.c (html_write_wb_latex2e, html_write_wb_latex): 
+	ditto.
+
+	* roff.c (write_wb_roff): ditto.
+
+	* epsf.c (epsf_write_cell): ditto.
+
 13/07/99 (rasca)
 
 	* latex.c: small fixes to use the right font for latex2e output

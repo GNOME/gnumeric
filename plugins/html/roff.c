@@ -95,7 +95,7 @@ write_wb_roff (Workbook *wb, FILE *fp)
 				if (!cell) {
 					fprintf (fp, "l");
 				} else {
-					style = cell->style;
+					style = cell_get_style (cell);
 					if (style->halign & HALIGN_RIGHT)
 						fprintf (fp, "r");
 					else if (style->halign & HALIGN_CENTER)

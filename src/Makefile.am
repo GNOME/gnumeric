@@ -93,6 +93,8 @@ GNUMERIC_BASE_SOURCES =				\
 	main.h					\
 	mathfunc.c				\
 	mathfunc.h				\
+	mstyle.c				\
+	mstyle.h				\
 	number-match.c				\
 	number-match.h				\
 	numbers.h				\

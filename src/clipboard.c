@@ -89,8 +89,10 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
 		cell = sheet_cell_get (dest_sheet,
 				       target_col,
 				       target_row);
-		if (cell && c_copy->u.cell)
-			cell_set_style (cell, c_copy->u.cell->style);
+		if (cell && c_copy->u.cell) {
+			g_warning ("Fixme set style");
+/*			cell_set_style (cell, c_copy->u.cell->style); */
+		}
 	} else {
 		Cell *new_cell;
 		

@@ -105,7 +105,7 @@ html_write_wb_latex (Workbook *wb, const char *filename)
 					else
 						fprintf (fp, "\t\n");
 				} else {
-					style = cell->style;
+					style = cell_get_style (cell);
 					if (!style) {
 						/* is this case posible? */
 						fprintf (fp, "\t&");
@@ -201,7 +201,7 @@ html_write_wb_latex2e (Workbook *wb, const char *filename)
 					else
 						fprintf (fp, "\t\n");
 				} else {
-					style = cell->style;
+					style = cell_get_style (cell);
 					if (!style) {
 						/* is this case posible? */
 						fprintf (fp, "\t&");

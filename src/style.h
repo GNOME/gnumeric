@@ -4,77 +4,12 @@
 #include <gdk/gdk.h>
 #include <libgnomeprint/gnome-font.h>
 
-typedef struct {
-        char     *format;
-	int      want_am_pm;
-        char     restriction_type;
-        int      restriction_value;
-} StyleFormatEntry;
-
-typedef struct {
-	int      ref_count;
-        GList    *format_list;  /* Of type StyleFormatEntry. */
-	char     *format;
-} StyleFormat;
-
-typedef struct {
-	int                ref_count;
-	char              *font_name;
-	double             size;
-	double             scale;
-	GnomeDisplayFont  *dfont;
-	GnomeFont         *font;
-
-	unsigned int is_bold:1;
-	unsigned int is_italic:1;
-} StyleFont;
-
-typedef struct {
-	int      ref_count;
-	GdkColor color;
-	char     *name;
-	gushort  red;
-	gushort  green;
-	gushort  blue;
-} StyleColor;
-
-/**
- *  The order or the following two records
- * is assumed in xml-io
- **/
-typedef enum {
- 	BORDER_NONE,
- 	BORDER_THIN,
- 	BORDER_MEDIUM,
- 	BORDER_DASHED,
- 	BORDER_DOTTED,
- 	BORDER_THICK,
- 	BORDER_DOUBLE,
- 	BORDER_HAIR,
-
- 	BORDER_MAX
-} StyleBorderType;
-
-typedef enum {
-	STYLE_TOP    = 0,
- 	STYLE_BOTTOM = 1,
- 	STYLE_LEFT   = 2,
- 	STYLE_RIGHT  = 3,
- 	STYLE_ORIENT_MAX  = 4
-} StyleBorderOrient;
-
-typedef struct {
-	int      ref_count;
-
-	/**
-	 * if the value is BORDER_NONE, then the respective
-	 * color is not allocated, otherwise, it has a
-	 * valid color.
-	 * NB. Use StyleBorderOrient to get orientation
-	 **/
- 	StyleBorderType type[STYLE_ORIENT_MAX];
- 	StyleColor  *color[STYLE_ORIENT_MAX];
-} StyleBorder;
+typedef struct _Style            Style;
+typedef struct _StyleFont        StyleFont;
+typedef struct _StyleColor       StyleColor;
+typedef struct _StyleBorder      StyleBorder;
+typedef struct _StyleFormat      StyleFormat;
+typedef struct _StyleFormatEntry StyleFormatEntry;
 
 /* Alignment definitions */
 typedef enum {
@@ -100,6 +35,80 @@ typedef enum {
 	ORIENT_VERT_VERT_TEXT2 = 8
 } StyleOrientation;
 
+/**
+ *  The order of the following two records
+ * is assumed in xml-io
+ **/
+typedef enum {
+ 	BORDER_NONE,
+ 	BORDER_THIN,
+ 	BORDER_MEDIUM,
+ 	BORDER_DASHED,
+ 	BORDER_DOTTED,
+ 	BORDER_THICK,
+ 	BORDER_DOUBLE,
+ 	BORDER_HAIR,
+
+ 	BORDER_MAX
+} StyleBorderType;
+
+typedef enum {
+	STYLE_TOP    = 0,
+ 	STYLE_BOTTOM = 1,
+ 	STYLE_LEFT   = 2,
+ 	STYLE_RIGHT  = 3,
+ 	STYLE_ORIENT_MAX  = 4
+} StyleBorderOrient;
+
+#include "mstyle.h"
+
+struct _StyleFormatEntry {
+        char     *format;
+	int      want_am_pm;
+        char     restriction_type;
+        int      restriction_value;
+};
+
+struct _StyleFormat {
+	int      ref_count;
+        GList    *format_list;  /* Of type StyleFormatEntry. */
+	char     *format;
+};
+
+struct _StyleFont {
+	int                ref_count;
+	char              *font_name;
+	double             size;
+	double             scale;
+	GnomeDisplayFont  *dfont;
+	GnomeFont         *font;
+
+	unsigned int is_bold:1;
+	unsigned int is_italic:1;
+};
+
+struct _StyleColor {
+	int      ref_count;
+	GdkColor color;
+	char     *name;
+	gushort  red;
+	gushort  green;
+	gushort  blue;
+};
+
+struct _StyleBorder {
+	int      ref_count;
+
+	/**
+	 * if the value is BORDER_NONE, then the respective
+	 * color is not allocated, otherwise, it has a
+	 * valid color.
+	 * NB. Use StyleBorderOrient to get orientation
+	 **/
+ 	StyleBorderType type[STYLE_ORIENT_MAX];
+ 	StyleColor  *color[STYLE_ORIENT_MAX];
+};
+
 #define STYLE_FORMAT       1
 #define STYLE_FONT         2
 #define STYLE_BORDER       4
@@ -113,7 +122,7 @@ typedef enum {
 #define STYLE_ALL (STYLE_FORMAT | STYLE_FONT | STYLE_BORDER | STYLE_ALIGN | \
 		   STYLE_PATTERN | STYLE_FORE_COLOR | STYLE_BACK_COLOR)
 
-typedef struct {
+struct _Style {
 	StyleFormat   *format;
 	StyleFont     *font;
 	StyleBorder   *border;
@@ -127,12 +136,13 @@ typedef struct {
 	unsigned int fit_in_cell:1;
 	
 	unsigned char valid_flags;
-} Style;
+};
 
 void           style_init  	      (void);
 void	       style_shutdown         (void);
 
 Style         *style_new   	      (void);
+Style         *style_mstyle_new       (MStyleElement *e, guint len);
 void           style_merge_to         (Style *target, Style *source);
 Style         *style_duplicate        (const Style *style);
 void           style_destroy          (Style *style);

@@ -477,7 +477,7 @@ Sheet_cell_get_format (PortableServer_Servant servant,
 		       const CORBA_long row,
 		       CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+/*	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
 
 	verify_col_val (col, NULL);
@@ -485,10 +485,12 @@ Sheet_cell_get_format (PortableServer_Servant servant,
 	
 	cell = sheet_cell_get (sheet, col, row);
 	if (cell){
-		return CORBA_string_dup (cell->style->format->format);
+		Style *style = cell_get_style (cell);
+		return CORBA_string_dup (style->format->format);
 	} else {
 		return CORBA_string_dup ("");
-	}
+		}*/
+	g_warning ("dummy");
 }
 
 static void
@@ -499,28 +501,31 @@ Sheet_cell_set_font (PortableServer_Servant servant,
 		     const CORBA_double points,
 		     CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+/*	Sheet *sheet = sheet_from_servant (servant);
 	StyleFont *style_font;
 	Cell *cell;
+	Style *style;
 
 	verify_col (col);
 	verify_row (row);
 	
 	cell = sheet_cell_fetch (sheet, col, row);
-
+	style = cell_get_style (cell);
 	style_font = style_font_new (
 		font, points, sheet->last_zoom_factor_used,
-		cell->style->font->is_bold,
-		cell->style->font->is_italic);
+		style->font->is_bold,
+		style->font->is_italic);
 
 	if (style_font)
-		cell_set_font_from_style (cell, style_font);
+	cell_set_font_from_style (cell, style_font);*/
+	g_warning ("dummy");
+
 }
 
 static CORBA_char *
 Sheet_cell_get_font (PortableServer_Servant servant, const CORBA_long col, const CORBA_long row, CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+/*	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
 
 	verify_col_val (col, NULL);
@@ -529,7 +534,9 @@ Sheet_cell_get_font (PortableServer_Servant servant, const CORBA_long col, const
 	cell = sheet_cell_get (sheet, col, row);
 	if (cell){
 		return CORBA_string_dup (cell->style->font->font_name);
-	} else {
+		} else*/ {
+	g_warning ("dummy");
+
 		return CORBA_string_dup ("");
 	}
 }
@@ -539,14 +546,16 @@ Sheet_cell_set_comment (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
 			const CORBA_char * comment, CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+/*	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
 
 	verify_col (col);
 	verify_row (row);
 	
 	cell = sheet_cell_fetch (sheet, col, row);
-	cell_set_comment (cell, comment);
+	cell_set_comment (cell, comment);*/
+	g_warning ("dummy");
+
 }
 
 static CORBA_char *
@@ -572,7 +581,7 @@ Sheet_cell_set_foreground (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
 			   const CORBA_char * color, CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+/*	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
 	GdkColor c;
 
@@ -582,7 +591,9 @@ Sheet_cell_set_foreground (PortableServer_Servant servant,
 	gdk_color_parse (color, &c);
 	cell = sheet_cell_fetch (sheet, col, row);
 
-	cell_set_foreground (cell, c.red, c.green, c.blue);
+	cell_set_foreground (cell, c.red, c.green, c.blue);*/
+	g_warning ("dummy");
+
 }
 
 static CORBA_char *
@@ -602,7 +613,7 @@ Sheet_cell_set_background (PortableServer_Servant servant,
 			   const CORBA_long col, const CORBA_long row,
 			   const CORBA_char * color, CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+/*	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
 	GdkColor c;
 
@@ -612,7 +623,9 @@ Sheet_cell_set_background (PortableServer_Servant servant,
 	gdk_color_parse (color, &c);
 	cell = sheet_cell_fetch (sheet, col, row);
 
-	cell_set_background (cell, c.red, c.green, c.blue);
+	cell_set_background (cell, c.red, c.green, c.blue);*/
+	g_warning ("dummy");
+
 }
 
 static CORBA_char *
@@ -647,7 +660,7 @@ Sheet_cell_get_pattern (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
 			CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+/*	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
 	
 	verify_col_val (col, 0);
@@ -657,7 +670,9 @@ Sheet_cell_get_pattern (PortableServer_Servant servant,
 	if (cell)
 		return cell->style->pattern;
 	else
-		return 0;
+	return 0;*/
+	g_warning ("dummy");
+
 }
 
 static void
@@ -737,7 +752,7 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 			  CORBA_long * orientation, CORBA_boolean * auto_return,
 			  CORBA_Environment *ev)
 {
-	Sheet *sheet = sheet_from_servant (servant);
+/*	Sheet *sheet = sheet_from_servant (servant);
 	Cell *cell;
 	
 	verify_col (col);
@@ -794,7 +809,9 @@ Sheet_cell_get_alignment (PortableServer_Servant servant,
 		*orientation = 0;
 		*auto_return = 0;
 		return;
-	}
+		}*/
+	g_warning ("dummy");
+
 }
 
 static void
