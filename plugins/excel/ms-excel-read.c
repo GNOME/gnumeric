@@ -3022,7 +3022,6 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 static gboolean
 ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 {
-	guint32 const blankSheetPos = q->streamPos + q->length + 4;
 	PrintInformation *pi;
 
 	g_return_val_if_fail (wb != NULL, FALSE);
@@ -3052,21 +3051,6 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 
 		switch (q->ls_op) {
 		case BIFF_EOF:
-			if (q->streamPos == blankSheetPos) /* || sheet->blank) */ {
-#ifndef NO_DEBUG_EXCEL
-				if (ms_excel_read_debug > 1)
-					printf ("Blank sheet\n");
-				if (ms_excel_read_debug > 5)
-					printf ("BIFF_EOF\n");
-#endif
-				if (ms_excel_workbook_detach (sheet->wb, sheet)) {
-					ms_excel_sheet_destroy (sheet);
-					sheet = NULL;
-					return FALSE;
-				} else
-					printf ("Serious error detaching sheet '%s'\n",
-						sheet->gnum_sheet->name);
-			}
 			style_optimize (sheet, -1, -1);
 			return TRUE;
 
@@ -3368,9 +3352,8 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 				guint16 const pageBreakZoom = MS_OLE_GET_GUINT16(q->data + 10);
 				guint16 const normalZoom = MS_OLE_GET_GUINT16(q->data + 12);
 
-				if (ms_excel_read_debug > 2) {
+				if (ms_excel_read_debug > 2)
 					printf ("%hx %hx\n", normalZoom, pageBreakZoom);
-				}
 #endif
 			}
 			break;
@@ -3381,9 +3364,7 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			}
 		}
 	}
-	if (ms_excel_workbook_detach (sheet->wb, sheet))
-		ms_excel_sheet_destroy (sheet);
-	sheet = NULL;
+
 	printf ("Error, hit end without EOF\n");
 
 	return FALSE;
@@ -3586,11 +3567,29 @@ ms_excel_read_workbook (CommandContext *context, Workbook *workbook,
 				else
 				{
 					ExcelSheet *sheet = ms_excel_workbook_get_sheet (wb, current_sheet);
+					gboolean    kill  = FALSE;
+
 					ms_excel_sheet_set_version (sheet, ver->version);
-					if (ms_excel_read_sheet   (sheet, q, wb)) {
+					if (ms_excel_read_sheet (sheet, q, wb)) {
 						ms_excel_sheet_realize_objs (sheet);
-						ms_excel_sheet_destroy_objs (sheet);
+
+						if (sheet_is_pristine (sheet->gnum_sheet) &&
+						    current_sheet > 0)
+							kill = TRUE;
+					} else
+						kill = TRUE;
+
+					ms_excel_sheet_destroy_objs (sheet);
+
+					if (kill) {
+#ifndef NO_DEBUG_EXCEL
+						if (ms_excel_read_debug > 1)
+							printf ("Blank or broken sheet %d\n", current_sheet);
+#endif
+						if (ms_excel_workbook_detach (sheet->wb, sheet))
+							ms_excel_sheet_destroy (sheet);
 					}
+
 					current_sheet++;
 				}
 			} else if (ver->type == eBiffTChart)

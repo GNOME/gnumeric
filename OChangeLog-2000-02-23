@@ -1,3 +1,7 @@
+2000-02-06  Michael Meeks  <michael@helixcode.com>
+
+	* src/sheet-object.c (sheet_object_construct): mark sheet as modified.
+
 2000-02-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/mathfunc.[ch], src/functions/fn-math.c: Moved mdeterm, mmult

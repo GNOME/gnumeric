@@ -1,3 +1,10 @@
+2000-02-06  Michael Meeks  <michael@helixcode.com>
+
+	* ms-excel-read.c (ms_excel_read_workbook): Move failed sheet removal
+	here + add pristine culling instead of 0 byte in sheet header, may
+	introduce bugs but will help fix sheet_is_pristine. Fix potential
+	sheet object leak. (ms_excel_read_sheet): do not detach in error case.
+
 2000-01-30  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (write_sheet): Correct the max no. of rows check.

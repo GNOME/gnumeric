@@ -191,7 +191,7 @@ summary_item_dump (SummaryItem *sit)
 static gint
 g_str_case_equal (gconstpointer v, gconstpointer v2)
 {
-  return g_strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
+	  return g_strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
 }
 
 /* a char* hash function from ASU */

@@ -140,6 +140,8 @@ sheet_object_construct (SheetObject *so, Sheet *sheet)
 	so->bbox_points = gnome_canvas_points_new (2);
 
 	sheet->objects  = g_list_prepend (sheet->objects, so);
+
+	sheet->modified = TRUE;
 }
 
 void
