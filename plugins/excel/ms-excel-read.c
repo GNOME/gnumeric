@@ -5241,8 +5241,8 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			if (ms_biff_query_set_decrypt (q, "VelvetSweatshop"))
 				break;
 			do {
-				char *passwd = cmd_context_get_password (COMMAND_CONTEXT (ewb->context),
-					_("This file is encrypted"));
+				const char *filename = workbook_get_filename (ewb->gnum_wb);
+				char *passwd = cmd_context_get_password (COMMAND_CONTEXT (ewb->context), filename);
 				if (passwd == NULL) {
 					problem_loading = _("No password supplied");
 					break;

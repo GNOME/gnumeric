@@ -1,3 +1,8 @@
+2002-12-30  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (excel_read_workbook): Pass filename to
+	cmd_context_get_password.
+
 2002-12-30  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (excel_formula_shared): Return NULL on failure,

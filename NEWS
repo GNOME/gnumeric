@@ -10,7 +10,9 @@ Jody:
 	* Lower right of merge extends sheet bounds.
 
 Jon Kåre:
-	* Open DB connections read only
+	* Open DB connections read only.
+	* Improve password dialog.
+	* Show password dialog also for files given on command line.
 
 Morten:
 	* Fix crash when no undo information is wanted.

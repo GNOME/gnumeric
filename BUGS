@@ -7,7 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    - Add a password dialog to io-context-gtk
     - format-template.c, line 1221: FALSE used where pointer expected.
 
 Pending Patches

@@ -1,3 +1,33 @@
+2002-12-30  Jon K Hellan  <hellan@acm.org>
+
+	* src/application.c (gnumeric_application_setup_icons): Add
+	Gnumeric_Protection_Yes_Dialog.
+
+	* src/pixmaps/protection_yes_48.png: Add.
+
+	* src/pixmaps/Makefile.am:  Add protection_yes_48.png.
+
+	* src/workbook-control-gui.c (cb_accept_password): Move to
+	dialogs/dialog-password.c.
+	(wbcg_get_password): Most of it moved to dialog_get_password in 
+	dialogs/dialog-password.c.
+	
+	* src/io-context-gtk.c (icg_get_password): New function which
+	implements CommandContext::get_password.
+	(icg_class_init): Connect icg_get_password.
+
+	* src/command-context.[ch] (cmd_context_get_password): Rename 2nd
+	parameter from 'msg' to 'filename'.
+
+	* src/command-context-priv.h (CommandContextClass.get_password):
+	Ditto.
+
+	* src/command-context-stderr.c (ccs_get_password): Ditto.
+
+	* src/workbook-control-component.c (wbcc_get_password): Ditto.
+
+	* src/io-context.c (ioc_get_password): Ditto.
+
 2002-12-30  Morten Welinder  <terra@diku.dk>
 
 	* src/formats.c (currency_date_format_init): Don't use undefined
