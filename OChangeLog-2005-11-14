@@ -1,3 +1,8 @@
+2004-04-20  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (stf_parse_sheet): Handle the case of more
+	columns than we have room for in the sheet.
+
 2004-04-19  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* README: Corrected the Debian package names.
