@@ -43,8 +43,8 @@ SheetObject *sheet_object_container_new      (Sheet *sheet,
 					      double x1, double y1,
 					      double x2, double y2,
 					      const char *object_name);
-void         sheet_object_container_land     (SheetObject *so);
-
+gboolean     sheet_object_container_land     (SheetObject *so,
+					      const gchar *fname);
 /*
  * Graphics
  */
@@ -53,3 +53,5 @@ SheetObject *sheet_object_graphic_new        (Sheet *sheet,
 					      double x2, double y2);
 
 #endif /* GNUMERIC_SHEET_OBJECT_CONTAINER_H */
+
+

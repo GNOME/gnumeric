@@ -146,7 +146,7 @@ get_file_name (void)
                             "clicked",
                             GTK_SIGNAL_FUNC(gtk_main_quit), NULL);
 
-	gtk_widget_show (fs);
+	gtk_widget_show (GTK_WIDGET (fs));
 	gtk_main ();
 	
         filename = g_strdup (gtk_file_selection_get_filename (fs));
@@ -156,18 +156,28 @@ get_file_name (void)
 	return filename;
 }
 
-void
-sheet_object_container_land (SheetObject *so)
+/**
+ * sheet_object_container_land:
+ * @so: Sheet Object
+ * @fname: Optional file name
+ * 
+ * Creates client site for object, and binds object to it.
+ * Loads data from specified file. If no filename specified
+ * we are prompted for it.
+ * 
+ * Returns: success.
+ **/
+gboolean
+sheet_object_container_land (SheetObject *so, const gchar *fname)
 {
 	SheetObjectContainer *soc;
-	GnomeObjectClient *component;
 	GList *l;
 	
-	g_return_if_fail (so != NULL);
-	g_return_if_fail (IS_SHEET_OBJECT (so));
+	g_return_val_if_fail (so != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET_OBJECT (so), FALSE);
 
 	soc = SHEET_OBJECT_CONTAINER (so);
-	g_return_if_fail (soc->client_site == NULL);
+	g_return_val_if_fail (soc->client_site == NULL, FALSE);
 	
 	/*
 	 * 1. Kill the temporary objects we used for
@@ -186,14 +196,14 @@ sheet_object_container_land (SheetObject *so)
 	if (!soc->repoid)
 		soc->repoid = gnome_bonobo_select_goad_id (_("Select an object"), NULL);
 	if (!soc->repoid)
-		return;
+		return FALSE;
 	
 	soc->object_server = gnome_object_activate_with_goad_id (NULL, soc->repoid, 0, NULL);
 	if (!soc->object_server)
-		return;
+		return FALSE;
 	
 	if (!gnome_client_site_bind_embeddable (soc->client_site, soc->object_server))
-		return;
+		return FALSE;
 
 	/*
 	 * 3.a
@@ -207,16 +217,17 @@ sheet_object_container_land (SheetObject *so)
 			gnome_object_corba_objref (GNOME_OBJECT (soc->object_server)),
 			"IDL:GNOME/PersistFile:1.0", &ev);
 		if (ev._major == CORBA_NO_EXCEPTION && ret != CORBA_OBJECT_NIL){
-
-				char *file;
-				
+			char *file;
+			if (!fname)
 				file = get_file_name ();
-				if (file){
-					GNOME_PersistFile_load (ret, file, &ev);
-				}
-				GNOME_Unknown_unref ((GNOME_Unknown) ret, &ev);
-				CORBA_Object_release (ret, &ev);
-				g_free (file);
+			else
+				file = g_strdup (fname);
+			if (file){
+				GNOME_PersistFile_load (ret, file, &ev);
+			}
+			GNOME_Unknown_unref ((GNOME_Unknown) ret, &ev);
+			CORBA_Object_release (ret, &ev);
+			g_free (file);
 		} else {
 			GNOME_PersistStream ret;
 			
@@ -227,8 +238,11 @@ sheet_object_container_land (SheetObject *so)
 				if (ret != CORBA_OBJECT_NIL){
 					char *file;
 					
-					file = get_file_name ();
-					if (file){
+					if (!fname)
+						file = get_file_name ();
+					else
+						file = g_strdup (fname);
+					if (file) {
 						GnomeStream *stream;
 						
 						stream = gnome_stream_fs_open (file, GNOME_Storage_READ);
@@ -274,6 +288,8 @@ sheet_object_container_land (SheetObject *so)
 		item = make_container_item (so, sheet_view, view_widget);
 		so->realized_list = g_list_prepend (so->realized_list, item);
 	}
+
+	return TRUE;
 }
 
 static GnomeCanvasItem *
@@ -377,7 +393,12 @@ sheet_object_container_creation_finished (SheetObject *so)
 	SheetObjectContainer *soc = SHEET_OBJECT_CONTAINER (so);
 	
 	if (soc->client_site == NULL)
-		sheet_object_container_land (so);
+		if (!sheet_object_container_land (so, NULL)) {
+			char *msg = g_strdup_printf ("Failed trying to instantiate '%s'",
+						     soc->repoid?soc->repoid:"No ID!");
+			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
+			g_free (msg);
+		}
 }
 
 static void

@@ -165,11 +165,10 @@ Workbook *
 workbook_read (const char *filename)
 {
 	Workbook *wb = NULL;
-	char *s;
 
 	g_return_val_if_fail (filename != NULL, NULL);
 
-	if (!g_file_exists (filename)){
+	if (!g_file_exists (filename)) {
 		wb = workbook_new_with_sheets (1);
 		workbook_set_filename (wb, filename);
 
@@ -177,8 +176,13 @@ workbook_read (const char *filename)
 	}
 
 	wb = workbook_new ();
-	if (!workbook_load_from (wb, filename)){
-		gtk_object_destroy (GTK_OBJECT (wb));
+	if (!workbook_load_from (wb, filename)) {
+		char *s;
+#ifdef ENABLE_BONOBO
+		gnome_object_destroy (GTK_OBJECT (wb));
+#else
+		gtk_object_destroy   (GTK_OBJECT (wb));
+#endif
 		wb = NULL;
 		
 		s = g_strdup_printf (
@@ -258,7 +262,11 @@ workbook_import (Workbook *parent, const char *filename)
 		
 		wb = workbook_new ();
 		if (!fo->open (wb, filename)){
-			gtk_object_destroy (GTK_OBJECT (wb));
+#ifdef ENABLE_BONOBO
+		        gnome_object_destroy (GTK_OBJECT (wb));
+#else
+			gtk_object_destroy   (GTK_OBJECT (wb));
+#endif
 		} else
 			workbook_mark_clean (wb);
 	}

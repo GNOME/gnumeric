@@ -158,6 +158,53 @@ sheet_object_construct (SheetObject *sheet_object, Sheet *sheet)
 	sheet->objects = g_list_prepend (sheet->objects, sheet_object);
 }
 
+void
+sheet_object_drop_file (Sheet *sheet, gint x, gint y, const char *fname)
+{
+#if ENABLE_BONOBO
+	const char *mime_type;
+	const char *mime_goad_id;
+	char *msg = NULL;
+	
+	g_return_if_fail (sheet != NULL);
+
+	if (!(mime_type = gnome_mime_type (fname))) {
+		msg = g_strdup_printf ("unknown mime type for '%s'", (char *)fname);
+		gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
+	} else if (!(mime_goad_id = gnome_mime_get_value (mime_type, "bonobo-goad-id"))) {
+		msg = g_strdup_printf ("no mime mapping for '%s'", mime_type);
+		gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
+	} else {
+		GnumericSheet *gsheet;
+		SheetObject   *obj;
+		ObjectCoords   pos;
+
+		printf ("So far so good: the goad id = '%s'\n", mime_goad_id);
+
+		g_return_if_fail (sheet->sheet_views != NULL);
+		g_return_if_fail (sheet->sheet_views->data != NULL);
+
+		gsheet = GNUMERIC_SHEET (((SheetView *)sheet->sheet_views->data)->sheet_view);
+		pos.x = x;
+		pos.y = y;
+		window_to_world (GNOME_CANVAS (gsheet), &pos.x, &pos.y);
+
+		obj = sheet_object_container_new (sheet, pos.x, pos.y, pos.x+100.0, pos.y+100.0,
+						  mime_goad_id);
+		if (!sheet_object_container_land (obj, fname)) {
+			char *msg = g_strdup_printf ("Failed to bind or create client site for '%s'",
+						     mime_goad_id);
+			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
+			gnome_object_destroy (GNOME_OBJECT (obj));
+			g_free (msg);
+		} else
+			sheet_object_realize (obj);
+	}
+	if (msg)
+		g_free (msg);
+#endif
+}
+
 /*
  * sheet_view_object_realize
  *

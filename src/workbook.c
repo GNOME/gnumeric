@@ -28,6 +28,7 @@
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/gnome-persist-file.h>
+#include "sheet-object-container.h"
 #include "embeddable-grid.h"
 #endif
 
@@ -877,7 +878,8 @@ filenames_dropped (GtkWidget * widget,
 		   gint              y,
 		   GtkSelectionData *selection_data,
 		   guint             info,
-		   guint             time)
+		   guint             time,
+		   Workbook         *wb)
 {
 	GList *names, *tmp_list;
 
@@ -889,6 +891,9 @@ filenames_dropped (GtkWidget * widget,
 
 		if ((new_wb = workbook_read (tmp_list->data)))
 			gtk_widget_show (new_wb->toplevel);
+		else
+		        sheet_object_drop_file (workbook_get_current_sheet (wb),
+						x, y, tmp_list->data);
 
 		tmp_list = tmp_list->next;
 	}
@@ -1963,7 +1968,7 @@ workbook_get_type (void)
 {
 	static GtkType type = 0;
 
-	if (!type){
+	if (!type) {
 		GtkTypeInfo info = {
 			"Workbook",
 			sizeof (Workbook),
@@ -2061,7 +2066,7 @@ workbook_new (void)
 
 	gtk_signal_connect (GTK_OBJECT(wb->toplevel),
 			    "drag_data_received",
-			    GTK_SIGNAL_FUNC(filenames_dropped), NULL);
+			    GTK_SIGNAL_FUNC(filenames_dropped), wb);
 
 	/* clipboard setup */
 	x_clipboard_bind_workbook (wb);

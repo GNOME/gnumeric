@@ -30,4 +30,19 @@ Or to put / get files to / from an OLE file use:
 or
 	./ole somefile.xls get <stream name> <filename>
 
-1999-07-07 Michael Meeks <michael@imaginator.com>
+FAQ's:
+
+1. Why is the code so complicated ?
+
+	Well, this is rather beyond our control. In order to support the several
+different versions of the stream some complexity is unnavoidable. Furthermore
+the structure of the streams whilst logical has to be mapped to gnumeric's
+structure which can be another source of complexity.
+
+	Due to several bad design decisions made in the format ( favouring memory
+savings over elegance, speed and maintainability ) the abstraction of the lower
+biff-records will become more and more integraly tied into the upper layers to
+remove problems with 'continue' records in several places.
+
+1999-09-03 Michael Meeks <michael@imaginator.com>
+

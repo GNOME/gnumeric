@@ -39,6 +39,8 @@ typedef struct {
 
 GtkType sheet_object_get_type  (void);
 void    sheet_object_construct (SheetObject *sheet_object, Sheet *sheet);
+void    sheet_object_drop_file (Sheet *sheet, gint x, gint y,
+				const char *fname);
 
 /*
  * Sheet modes
@@ -58,10 +60,6 @@ void             sheet_object_realize        (SheetObject *object);
 void             sheet_object_unrealize      (SheetObject *object);
 
 void             sheet_object_make_current   (Sheet *sheet,
-					      SheetObject *object);
-
-/* Registers the object in the Sheet, otherwise we cant keep track of it */
-void             sheet_object_register       (Sheet *sheet,
 					      SheetObject *object);
 
 SheetObject     *sheet_object_create_line    (Sheet *sheet,   int is_arrow,

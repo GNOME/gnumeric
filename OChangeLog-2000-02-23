@@ -1,3 +1,32 @@
+1999-09-07  Michael Meeks  <michael@imaginator.com>
+
+	* src/pixmaps.h: Added button.xpm
+
+	* src/sheet-object.c (sheet_object_drop_file): Created.
+
+	* src/workbook.c (filenames_dropped): Move component d&d guts into
+	sheet-object.
+
+	* src/file.c (workbook_import, workbook_read): Add bonobo_object
+	_destroy if we have bonobo.
+
+1999-09-03  Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet-object-container.c (sheet_object_container_land): Add
+	return type to denote if we created and bound correctly.
+	(sheet_object_container_creation_finished): Add warning on failure.
+	(get_file_name): Kill warning.
+
+1999-09-01  Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet-object-container.c (sheet_object_container_land): Add
+	optional file argument and document.
+	(sheet_object_container_creation_finished): update call's args.
+
+	* src/sheet-object.h: Removed redundant sheet_object_register.
+
+	* src/workbook.c (filenames_dropped): Hacked.
+
 1999-09-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/format.c (format_number): "\" is an escape character for the
