@@ -1,0 +1,208 @@
+<sect1 id="autofill">
+  <title>Автозаполнение</title>
+  
+  <para>При работе с электронными таблицами часто возникает необходимость
+    добавить набор ячеек, которые содержат последовательность чисел, дат или
+    других значений. Хотя это может быть выполнени вручную, Gnumeric предоставляет
+    возможность автозаполнения, позволяя с легкостью вводить такого рода
+    последовательности.</para>
+  
+  <para>Типичным случаем того, когда вы можете захотеть воспользоваться этой возможностью
+    ввода последовательности чисел, может быть список номеров деталей или, например,
+    телеканалов. Чтобы создать такой список, все что должен сделать пользователь
+    это ввести первое число в ячейку, нажать на указатель автозаполнения 
+    в нижнем правом углу рамки ячейка и протянуть его в направлении заполнения.
+     Если, например, первая ячейка содержит '1', то протягивание кнопки автозаполнения
+    (см. <xref linkend="celltobautofilled">) вниз на три или четыре ячейки будет
+     автоматически заполнять ячейки числами '1','2','3' и '4'.(см. <xref linkend="cellsautofilled">)</para>
+
+  <procedure>
+    <title>Автозаполнение диапазона ячеек</title>
+    <step performance="required">
+      <para>Выберите ячейку, с которой будет начинаться область автозаполнения</para></step>
+    
+    <step performance="required">
+      <para>Введите начальное значение в эту ячейку</para></step>
+    
+    <step performance="required">
+      <para>Нажмите на маленький прямоугольник в нижнем правом углу первой ячейки
+	и переместите его до конца области заполнения.</para></step>
+
+    <step performance="required">
+      <para>Отпустите кнопку мыши. Ячейки в выделенной области будут заполнены
+	соответствующими величинами</para></step>
+  </procedure>
+  
+  
+  <figure id="celltobautofilled">
+    <title>Ячейка с 'зерном' для автозаполнения.</title>
+    <screenshot>
+       <graphic fileref="images/autofill-1.jpg"></graphic>
+    </screenshot>
+  </figure>
+  
+  <figure id="cellsautofilled">
+    <title>Автозаполненные ячейки</title>
+    <screenshot>
+      <graphic fileref="images/autofill-2.jpg"></graphic>
+    </screenshot>
+  </figure>
+  
+  <para>Также легко и быстро как создавать последовательность чисел увеличивающихся 
+    на единицу, автозаполнение позволяет сделать и многое другое. Следующий простейший
+    пример -  это автозаполнение с шагом не равным единице. Например, чтобы создать
+    последовательность, которая состоит из нечетных чисел начиная с 11, просто 
+    введите '11' в одну ячейку и '13' в следующую ячейку. Затем выделите их и вытяните 
+    выделение так, чтобы накрыть ячейки, которые должны быть автозаполнены. 
+    Если, например, вы выделите следующие 5 ячеек, то они будут заполнены
+    числами '15','17','19','21' и '23.' См. <xref linkend="seedcellautofillsequence">
+    и <xref linkend="autofillsequence">.</para>
+  
+  
+  <figure id="seedcellautofillsequence">
+    <title>Первоначальные ячейки для заполнения.</title>
+    <screenshot>
+      <graphic fileref="images/autofill-3.jpg"></graphic>
+    </screenshot>
+  </figure>
+  
+  <figure id="autofillsequence">
+    <title>Ячейки заполненные нужной последовательностью.</title>
+    <screenshot>
+      <graphic fileref="images/autofill-4.jpg"></graphic>
+    </screenshot>
+  </figure>
+
+  <sect2>
+    <title>Заполнение датами</title>
+    
+    <para>Ох, числа это слишком просто! На самом деле неприятно вводить
+      даты, время и другую информацию. Но не стоит беспокоиться, Gnumeric
+      поможет вам и в этом. Gnumeric обладает способностью автозаполнения
+      дат, месяцев, дней недели и так далее.</para>
+    
+   <para> Например, представьте себе типичную бухгалтерскую накладную, в которой
+      все расписано по месяцам. Поэтому вполне обычна потребность заполнять ячейки
+      последовательностями месяцев в году. Сделать это очень просто, выполнив 
+      действия подобные тем, которые производятся при заполнении числами.</para>
+    
+    <para>Например, чтобы начиная с ячейки B2 заполнить следующие 12 ячеек названиями
+      месяцев, введите "Январь" в B2. Затем нажмите на кнопку заполнения,
+      протяните курсор через следующие 12 ячеек и отпустите. Проще некуда. См. <xref
+	linkend="datefillseed">, <xref linkend="datebeingfilled">, и 
+	  <xref linkend="cellsfilled">. </para>
+    
+   <figure id="datefillseed">
+      <title>Ячейка с датой служит основой для заполнения.</title>
+      <screenshot> 
+	<graphic fileref="images/autofill-5ru.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <figure id="datebeingfilled">
+      <title>Заполненные ячейки.</title>
+      <screenshot>
+	<graphic fileref="images/autofill-6ru.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <figure id="cellsfilled">
+      <title>Ряд ячеек заполненных названиями месяцев.</title>
+      <screenshot>
+	<graphic fileref="images/autofill-7ru.jpg"></graphic>
+      </screenshot>
+ </figure>
+    
+    <para> Другой пример строк, которые могут заполняться автоматически включает
+      названия дней недели (Понедельник,Вторник...) и их сокращения (Пон, Втр ...),
+      и сокращения названий месяцев (Янв, Фев ...) </para>
+    
+    <para> More string fill types to follow </para>
+   </sect2>
+  
+  
+  <sect2>
+    <title>Автозаполнение строк и чисел</title>
+    
+    <para>Gnumeric пытается разумно автозаполнять числовые значения входящие
+      в текстовые строки. Таким образом можно заполнять строки вроде
+      "9 lives to live","8 lives to live" ("5 секунд. Полет нормальный.",
+      "6 секунд. Полет нормальный."), и т.п. </para>
+
+    <para>См. <xref linkend="autofillexamples"> for some contrived examples.</para>
+    
+    <figure id="autofillexamples">
+      <title>Несколько простых примеров автозаполнения.</title>
+      <screenshot>
+	<graphic fileref="images/autofill-8.jpg"></graphic>
+      </screenshot>
+    </figure>
+  </sect2>
+
+  <sect2>
+    <title>Автозаполнение формул</title>
+    
+    <para>Возможно наиболее полезной из всех возможностей автозаполнения
+      является возможность автозаполнения формул. Практически это работает
+      также как все другие способы автозаполнения; только передает значения функций.
+      </para>
+    
+    <para>См. <xref linkend="autofillfunction1"> и <xref linkend="autofillfunction2">
+	  для простых примеров.</para>
+
+    <figure id="autofillfunction1">
+      <title>Автозаполнение формулы.</title>
+      <screenshot>
+	<graphic fileref="images/autofill-9.jpg"></graphic>
+      </screenshot>
+    </figure> 
+    
+    <figure id="autofillfunction2">
+      <title>Автозаполнение формулой нескольких ячеек.</title>
+      <screenshot>
+	<graphic fileref="images/autofill-10.jpg"></graphic>
+      </screenshot>
+    </figure> 
+    
+  </sect2>
+  
+  <sect2>
+    <title>Дополнительные замечания по автозаполнению</title>
+    
+
+    <itemizedlist>
+      <listitem>
+	<para>Автозаполнение работает только вниз и вправо от выбранной ячейки.</para>
+      </listitem>
+      <listitem>
+	<para>Чтобы сделать последовательность убывающей, а не увеличивающейся,
+	 введите наибольшее значение в первой ячейке, затем следующее значение во
+	 второй ячейке и выберите затем их обе как в первом шаге описаном ранее. </para>
+      </listitem>
+      <listitem>
+	<para>Начиная последовательность более чем с двумя исходными значениями
+	  вы можете получить неожиданные результаты. Будьте внимательны.</para>
+      </listitem>
+      
+
+    </itemizedlist>
+  </sect2>
+  
+</sect1>
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         
+

@@ -1,0 +1,1948 @@
+//Два сквозных прохода//
+@FUNCTION=LCM
+@SYNTAX=LCM(number1,number2,...)
+@DESCRIPTION=LCM возвращает наименьшее общее кратное целых чисел.
+Наименьшее общее кратное - это наименьшее положительное число, которое
+делится на все целые заданные аргументы. 
+Если любой из аргументов меньше единицы, LCM возвращает ошибку #NUM!. 
+@SEEALSO=GCD
+
+@FUNCTION=IMARGUMENT
+@SYNTAX=IMARGUMENT(inumber)
+@DESCRIPTION=IMARGUMENT возвращает the argument theta of комплексного числа.
+@SEEALSO=
+
+@FUNCTION=RANDBETWEEN
+@SYNTAX=RANDBETWEEN(bottom,top)
+@DESCRIPTION=Функция RANDBETWEEN возвращает случайное целое число между @bottom и @top.
+Если @bottom или @top не целое, дробная часть отбрасывается.
+Если @bottom > @top, RANDBETWEEN возвращает ошибку #NUM!.
+@SEEALSO=RAND
+
+@FUNCTION=COSH
+@SYNTAX=COSH(x)
+@DESCRIPTION=Функция COSH возвращает гиперболический косинус @x, который
+математически определяется как (exp(@x) + exp(-@x)) / 2. @x задан в радианах. 
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+Эта функция принимает только один аргумент.
+@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP
+
+@FUNCTION=REPT
+@SYNTAX=REPT(string,num)
+@DESCRIPTION=Возвращает @num повторений @string.
+@SEEALSO=CONCATENATE
+
+@FUNCTION=DEGREES
+@SYNTAX=DEGREES(x)
+@DESCRIPTION=Вычисляет количество градусов равное @x радиан.
+Строки и пустые ячейки в качестве аргументов функции игнорируются. 
+@SEEALSO=RADIANS, PI
+
+@FUNCTION=NOMINAL
+@SYNTAX=NOMINAL(b1,b2)
+@DESCRIPTION=Вычисляет the nominal interest rate from a given effective rate.
+Nominal interest rate is given by a formula:
+
+nper * (( 1 + r ) ^ (1 / nper) - 1 )
+где:
+
+r = effective interest rate
+nper = number of periods used for compounding
+@SEEALSO=EFFECT
+
+@FUNCTION=ISODD
+@SYNTAX=ISODD()
+@DESCRIPTION=ISODD возвращает TRUE если число нечетное. 
+@SEEALSO=
+
+@FUNCTION=RSQ
+@SYNTAX=RSQ(array1,array2)
+@DESCRIPTION=RSQ возвращает квадрат коэффициента корреляции Пирсона для двух наборов данных.
+Строки и пустые ячейки в качестве аргументов игнорируются.
+@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND
+
+@FUNCTION=COLUMN
+@SYNTAX=COLUMN([reference])
+@DESCRIPTION=Функция COLUMN возвращает массив номеров столбцов taking a default
+argument of the containing cell position.
+Если @reference не массив и не диапазон, COLUMN возвращает ошибку #VALUE!.
+@SEEALSO=COLUMNS,ROW,ROWS
+
+@FUNCTION=RATE
+@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])
+@DESCRIPTION=Вычисляет rate of an investment.
+@SEEALSO=PV,FV
+
+@FUNCTION=DPRODUCT
+@SYNTAX=DPRODUCT(database,field,criteria)
+@DESCRIPTION=Функция DPRODUCT возвращает произведение чисел в столбцах
+которые удовлетворяют указанным условиям. @database - диапазон ячеек,
+в котором строки соответствуют записям, а столбцы - полям данных.
+Первая строка @database содержит метки для каждого столбца.
+@field указывает какой столбец используется в функции. Если @field целое число,
+например, 2, то используется второй столбец. @field также может быть меткой
+столбца. @criteria - диапазон ячеек, который содержит указанные условия.
+Первая строка @criteria должна содержать метки полей, к которым применяется
+@criteria. Ячейки под метками указывают условия, например, ">3" или "<9". 
+@SEEALSO=DSUM
+
+@FUNCTION=FDIST
+@SYNTAX=FDIST(x,dof1,dof2)
+@DESCRIPTION=Функция FDIST возвращает F-распределение. @dof1 is
+the numerator степеней свободы и @dof2 is the denominator степеней свободы.
+Если @x < 0 или @dof1 < 1 или @dof2 < 1, FDIST возвращает ошибку #NUM!.
+@SEEALSO=FINV
+
+@FUNCTION=ISEVEN
+@SYNTAX=ISEVEN()
+@DESCRIPTION=ISEVEN возвращает TRUE если число четное. 
+@SEEALSO=
+
+@FUNCTION=ZTEST
+@SYNTAX=ZTEST(ref,x)
+@DESCRIPTION=ZTEST возвращает двустороннюю вероятность z-критерия.
+@ref - набор данных, а @x - тестируемая величина.
+Если @ref содержит меньше двух элементов данных ZTEST возвращает ошибку #DIV/0!.
+@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE
+
+@FUNCTION=DMIN
+@SYNTAX=DMIN(database,field,criteria)
+@DESCRIPTION=Функция DMIN возвращает наименьшее число в столбце, которое
+удовлетворяет указанным условиям. @database - диапазон ячеек, в котором
+строки соответствуют записям, а столбцы - полям данных. Первая строка
+@database содержит метки для каждого столбца. @field указывает какой столбец
+используется в функции. Если @field целое число, например 2, используется второй столбец.
+@field также может быть меткой столбца. @criteria - диапазон ячеек, которые
+содержат указанные условия. Первая строка @criteria должна содержать метки полей,
+к которым применяются эти условия. Ячейки под метками указывают условия, например ">3" или "<9". 
+@SEEALSO=DMAX
+
+@FUNCTION=WEEKDAY
+@SYNTAX=WEEKDAY (serial_number)
+@DESCRIPTION=Преобразует серийное число в день недели.  FIXME: explain.
+Заметьте, что Gnumeric выполняет за вас преобразование строки в серийный номер, поэтому вы можете вводить дату как строку.
+@SEEALSO=MONTH, TIME, NOW, YEAR
+
+@FUNCTION=PRODUCT
+@SYNTAX=PRODUCT(value1, value2, ...)
+@DESCRIPTION=PRODUCT возвращает произведение всех значений и содержимого ячеек указанных в списке аргументов.
+@SEEALSO=SUM, COUNT
+
+@FUNCTION=MULTINOMIAL
+@SYNTAX=MULTINOMIAL(value1, value2, ...)
+@DESCRIPTION=MULTINOMIAL возвращает отношение факториала суммы аргументов к произведению их факториалов. 
+@SEEALSO=SUM
+
+@FUNCTION=IMSIN
+@SYNTAX=IMSIN(inumber)
+@DESCRIPTION=IMSIN возвращает синус комплексного числа.
+@SEEALSO=IMCOS
+
+@FUNCTION=COS
+@SYNTAX=COS(x)
+@DESCRIPTION=Функция COS возвращает косинус @x, где @x задан в радианах.  
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+Эта функция принимает только один аргумент.
+@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES
+
+@FUNCTION=EXP
+@SYNTAX=EXP(x)
+@DESCRIPTION=Вычисляет значение e (основание натурального логарифма) в степени @x. 
+Применение этой функции к строке или пустой ячейке возвращает ошибку.
+@SEEALSO=LOG, LOG2, LOG10
+
+@FUNCTION=ASIN
+@SYNTAX=ASIN(x)
+@DESCRIPTION=Функция ASIN вычисляет арксинус @x; то есть величину, синус которой равен @x.
+Если @x выпадает из диапазона от -1 до 1, ASIN возвращает ошибку 'asin - domain error'   
+Строки и пустые ячейки в качестве аргументов функции игнорируются. Эта функция принимает только один аргумент.
+@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS
+
+@FUNCTION=TRIMMEAN
+@SYNTAX=TRIMMEAN(ref,percent)
+@DESCRIPTION=TRIMMEAN возвращает среднее of the interior of набора данных.
+@ref список чисел, среднее которых вы хотите вычислить, @percent
+ - процент чисел исключаемых из среднего. Например, если @percent=0.2 и набор данных содержит 40 чисел,
+ 8 чисел вырезаются из набора данных (40 x 0.2), 4 из верхней и 4 из нижней части набора.
+@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE
+
+@FUNCTION=FLOOR
+@SYNTAX=FLOOR(x,significance)
+@DESCRIPTION=Функция FLOOR округляет @x до ближайшего меньшего кратного @significance.
+По умолчанию @significance равно 1. Если @x < @significance, результат 0.
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=CEIL, ABS, INT
+
+@FUNCTION=GCD
+@SYNTAX=GCD(number1,number2,...)
+@DESCRIPTION=GCD возвращает наибольший общий делитель аргументов. 
+Если любой из аргументов меньше 0, GCD возвращает ошибку #NUM!. 
+@SEEALSO=LCM
+
+@FUNCTION=CHOOSE
+@SYNTAX=CHOOSE(index[,value1][,value2]...)
+@DESCRIPTION=CHOOSE возвращает значение элемента расположенного на @index-ном месте в списке.
+@index округляется до целого при необходимости. Если @index < 1 или @index > числа значений,
+CHOOSE возвращает ошибку #VAL!.
+@SEEALSO=IF
+
+@FUNCTION=POISSON
+@SYNTAX=POISSON(x,mean,cumulative)
+@DESCRIPTION=Функция POISSON возвращает распределение Пуассона (Poisson).
+@x - число событий, @mean - ожидаемое числовое значение, @cumulative описывает
+будет ли возвращаться сумма функции Пуассона от 0 до @x. Если @x не
+целое, дробная часть отбрасывается. Если @x <= 0 POISSON возвращает ошибку
+#NUM!. Если @mean <= 0 POISSON возвращает ошибку #NUM!.
+@SEEALSO=POISSON
+
+@FUNCTION=SYD
+@SYNTAX=SYD(cost,salvage value,life,period)
+@DESCRIPTION=Вычисляет the sum-of-years digits depriciation for anasset
+based on its cost, salvage value, anticipated life and aparticular period.
+Формула для sum-of-years digits depriciation is:
+Depriciation expense = ( cost - salvage value ) * (life-period+1) * 2 / life * (life + 1)
+	cost = cost of an asset when acquired (market value)	salvage_value = amount you get when asset sold at the end of life	life = anticipated life of an asset	period = period for which we need the expense
+@SEEALSO=SLN
+
+@FUNCTION=MID
+@SYNTAX=MID(string, position, length)
+@DESCRIPTION=Возвращает подстроку из @string начиная с @position и длиной @length символов.
+@SEEALSO=LEFT, RIGHT
+
+@FUNCTION=ASINH
+@SYNTAX=ASINH(x)
+@DESCRIPTION=Функция ASINH вычисляет обратный гиперболический синус @x; то есть величину, гиперболический синус которой равен @x. 
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+Эта функция принимает только один аргумент.
+@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS
+
+@FUNCTION=EXPONDIST
+@SYNTAX=EXPONDIST(x,y,cumulative)
+@DESCRIPTION=Функция EXPONDIST возвращает экспоненциальное распределение.
+Если @cumulative имеет значение FALSE, то возвращается  @y * exp (-@y*@x),
+в противном случае возвращается  1 - exp (-@y*@x).
+Если @x < 0 или @y <= 0 возвращается ошибка.
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=POISSON
+
+@FUNCTION=UPPER
+@SYNTAX=UPPER(text)
+@DESCRIPTION=Возвращает строку @text преобразованную к заглавным буквам.
+@SEEALSO=LOWER
+
+@FUNCTION=HARMEAN
+@SYNTAX=HARMEAN(b1, b2, ...)
+@DESCRIPTION=HARMEAN возвращает гармоническое среднее N чисел.
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE
+
+@FUNCTION=CONVERT
+@SYNTAX=CONVERT(number,from_unit,to_unit)
+@DESCRIPTION=CONVERT производит преобразование из одной системы измерений в другую.
+Например, вы можете конвертировать вес в фунтах в вес в граммах.
+@number - величина, которую вы хотите преобразовать, @from_unit указывает единицы измерения этой величины,
+и @to_unit - единицы измерения результата.
+@from_unit и @to_unit могут быть любыми из следующих:
+
+Вес и масса:
+'g'    Грамм
+'sg'   Жетон
+'lbm'  Фунт
+'u'    U (атомный вес)
+'ozm'  Унция
+
+Расстояние:
+'m'    Метр
+'mi'   Законная миля
+'Nmi'  Морская миля
+'in'   Дюйм
+'ft'   Фут
+'yd'   Ярд
+'ang'  Ангстрем
+'Pica' Пика
+
+Время:
+'yr'   Год
+'day'  День
+'hr'   Час
+'mn'   Минута
+'sec'  Секунда
+
+Давление:
+'Pa'   Паскаль
+'atm'  Атмосфера
+'mmHg' мм.рт.ст.
+
+Сила:
+'N'    Ньютон
+'dyn'  Дина
+'lbf'  Pound force
+
+Энергия:
+'J'    Джоуль
+'e'    Эрг
+'c'    Термодинамическая калория
+'cal'  IT калория
+'eV'   Электрон-вольт
+'HPh'  Лошадиная сила - час
+'Wh'   Ватт-час
+'flb'  Foot-pound
+'BTU'  Британская тепловая единица
+
+Мощность:
+'HP'   Лошадиная сила
+'W'    Ватт
+
+Магнетизм:
+'T'    Тесла
+'ga'   Гаусс
+
+Температура:
+'C'    Градусы Цельсия
+'F'    Градусы Фаренгейта
+'K'    Градусы Кельвина
+
+Меры жидкостей:
+'tsp'  Чайная ложка
+'tbs'  Столовая ложка
+'oz'   Жидкая унция
+'cup'  Чашка
+'pt'   Пинта
+'qt'   Кварта
+'gal'  Галлон
+'l'    Литр
+
+Для метрических единиц может использоваться любой из следующих префиксов:
+'E'  экза   1E+18
+'P'  пета   1E+15
+'T'  тера   1E+12
+'G'  гига   1E+09
+'M'  мега   1E+06
+'k'  кило   1E+03
+'h'  гекто  1E+02
+'e'  дека   1E+01
+'d'  деци   1E-01
+'c'  санти  1E-02
+'m'  милли  1E-03
+'u'  микро  1E-06
+'n'  нано   1E-09
+'p'  пико   1E-12
+'f'  фемто  1E-15
+'a'  атто   1E-18
+
+Если @from_unit и @to_unit относятся к различным типам CONVERT возвращает ошибку #NUM!.
+@SEEALSO=
+
+@FUNCTION=LOG
+@SYNTAX=LOG(x[,base])
+@DESCRIPTION=Вычисляет логарифм @x по заданному основанию. Если основание не задано LOG возвращает десятичный логарифм. 
+@SEEALSO=LN, LOG2, LOG10
+
+@FUNCTION=HYPGEOMDIST
+@SYNTAX=HYPGEOMDIST(x,n,M,N)
+@DESCRIPTION=Функция HYPGEOMDIST возвращает гипергеометрическое распределение.
+@x - число успехов в образце, @n - число испытаний, @M - полное число успехов,
+а @N is thepopulation size. Если @x,@n,@M или @N не целые, то дробная часть отбрасывается.
+Если @x,@n,@M или @N < 0 HYPGEOMDIST возвращает ошибку #NUM!.
+Если @x > @M или @n > @N HYPGEOMDIST возвращает ошибку #NUM!.
+@SEEALSO=BINOMDIST,POISSON
+
+@FUNCTION=IMABS
+@SYNTAX=IMABS(inumber)
+@DESCRIPTION=IMABS возвращает абсолютное значение комплексного числа.
+@SEEALSO=IMAGINARY,IMREAL
+
+@FUNCTION=AVEDEV
+@SYNTAX=AVEDEV(n1, n2, ...)
+@DESCRIPTION=AVEDEV возвращает среднее абсолютное отклонение набора данных от их медианы. 
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=STDEV
+
+@FUNCTION=SINH
+@SYNTAX=SINH(x)
+@DESCRIPTION=Функция SINH возвращает гиперболический синус @x, который математически определяется как (exp(@x) - exp(-@x)) / 2.
+Строки и пустые ячейки в качестве аргументов функции игнорируются. Эта функция принимает только один аргумент.
+@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP
+
+@FUNCTION=NORMDIST
+@SYNTAX=NORMDIST(x,mean,stdev,cumulative)
+@DESCRIPTION=Функция NORMDIST возвращает нормальное кумулятивное распределение.
+@x - величина, для которой вы хотите получить распределение, @mean - медиана распределения,
+@stdev - стандартное отклонение. Если @stdev равно 0, NORMDIST возвращает ошибку #DIV/0!. 
+@SEEALSO=POISSON
+
+@FUNCTION=GEOMEAN
+@SYNTAX=GEOMEAN(b1, b2, ...)
+@DESCRIPTION=GEOMEAN возвращает геометрическое среднее своих аргументов.
+Оно равняется корню степени числа аргументов из их произведения.
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE
+
+@FUNCTION=TIME
+@SYNTAX=TIME (hours,minutes,seconds)
+@DESCRIPTION=Возвращает дробь представляющую время дня.
+@SEEALSO=HOUR
+
+@FUNCTION=MIN
+@SYNTAX=MIN(b1, b2, ...)
+@DESCRIPTION=MIN возвращает значение наименьшего из своих аргументов.
+Отрицательные числа считаются меньшими чем положительные.
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=MAX,ABS
+
+@FUNCTION=MEDIAN
+@SYNTAX=MEDIAN(n1, n2, ...)
+@DESCRIPTION=MEDIAN возвращает среднее число в данном наборе чисел.
+Cтроки и пустые ячейки в качестве аргументов игнорируются.
+Если число аргументов четное, MEDIAN возвращает среднее двух чисел в середине набора.
+@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM
+
+@FUNCTION=GAMMAINV
+@SYNTAX=GAMMAINV(p,alpha,beta)
+@DESCRIPTION=Функция GAMMAINV возвращает обратное кумулятивное гамма-распределение.
+Если @p < 0 или @p > 1 GAMMAINV возвращает ошибку #NUM!. Если @alpha <= 0 или @beta <= 0 GAMMAINV возвращает ошибку #NUM!. 
+@SEEALSO=GAMMADIST
+
+@FUNCTION=IMSUB
+@SYNTAX=IMSUB(inumber,inumber)
+@DESCRIPTION=IMSUB возвращает разность двух комплексных чисел.
+@SEEALSO=IMSUM
+
+@FUNCTION=ISTEXT
+@SYNTAX=ISTEXT()
+@DESCRIPTION=ISTEXT возвращает TRUE если значение - текст. 
+@SEEALSO=
+
+@FUNCTION=SQRT
+@SYNTAX=SQRT(x)
+@DESCRIPTION=Функция SQRT возвращает квадратный корень @x.
+Если @x отрицательное, SQRT возвращает ошибку #NUM!.
+Эта функция принимает только один аргумент.
+@SEEALSO=POW
+
+@FUNCTION=INTERCEPT
+@SYNTAX=INTERCEPT(known_y's,known_x's)
+@DESCRIPTION=Функция INTERCEPT вычисляет точку, в которой линия линейной регрессии
+пересекает ось Y. Если @known_x или @known_y не содержат данных или содержат
+разное количество значений, INTERCEPT возвращает ошибку #N/A!.
+Если дисперсия @known_x равно 0, INTERCEPT возвращает ошибку #DIV/0. 
+@SEEALSO=FORECAST,TREND
+
+@FUNCTION=LEN
+@SYNTAX=LEN(string)
+@DESCRIPTION=Возвращает длину строки @string в символах.
+@SEEALSO=CHAR, CODE
+
+@FUNCTION=RIGHT
+@SYNTAX=RIGHT(text[,num_chars])
+@DESCRIPTION=Возвращает правые @num_chars символов или правый символ если @num_chars не указано.
+@SEEALSO=MID, LEFT
+
+@FUNCTION=PERMUT
+@SYNTAX=PERMUT(n,k)
+@DESCRIPTION=Функция PERMUT возвращает число выборов из @n по @k.
+@n - число об`ектов, @k - число об`ектов в каждой выборке.
+Если @n = 0 или @n < @k PERMUT возвращает ошибку #NUM!.
+@SEEALSO=COMBIN
+
+@FUNCTION=AVERAGEA
+@SYNTAX=AVERAGEA(number1,number2,...)
+@DESCRIPTION=AVERAGEA возвращает среднее переданных аргументов.
+Текстовые и логические значения учитываются при вычислениях.
+Если ячейка содержит текст или логическое значение FALSE, ее значение
+принимается равным 0. Если логическое значение аргумента TRUE, его значение
+принимается равным 1. Обратите внимание, что пустые ячейки не учитываются.
+@SEEALSO=AVERAGE
+
+@FUNCTION=PERCENTRANK
+@SYNTAX=PERCENTRANK(array,x[,significance])
+@DESCRIPTION=Функция PERCENTRANK возвращает the rank of a data point в наборе данных.
+@array - диапазон числовых значений, @x is the data point which you want to rank, and
+the optional @significance указывает число значимых цифр для возвращаемого значения.
+Если @significance опущено, PERCENTRANK использует 3 цифры. Если @array не содержит
+данных, PERCENTRANK возвращает ошибку #NUM!. Если @significance < 1, PERCENTRANK
+возвращает ошибку #NUM!. Если @x не совпадает ни с одним значением в @array
+или @x совпадает с несколькими значениями, PERCENTRANK интерполирует возвращаемое значение.
+@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL
+
+@FUNCTION=DATE
+@SYNTAX=DATE (год,месяц,день)
+@DESCRIPTION=Вычисляет число дней с 1-ого января 1900 года (серийное число даты) для заданного @года, @месяца и @дня.
+@День может быть отрицательным (отсчитанным назад) и относиться к предыдущему месяцу.
+@год должен быть не меньше 1900.
+@SEEALSO=TODAY, NOW
+
+@FUNCTION=STEYX
+@SYNTAX=STEYX(known_y's,known_x's)
+@DESCRIPTION=Функция STEYX возвращает стандартную ошибку of the predicted
+y-value для каждого @x в регрессии. Если @known_y и @known_x пустые или имеют разное число аргументов, то STEYX возвращает ошибку #N/A!.
+@SEEALSO=PEARSON,RSQ,SLOPE
+
+@FUNCTION=OCT2BIN
+@SYNTAX=OCT2BIN(number[,places])
+@DESCRIPTION=Функция OCT2BIN преобразует восьмеричное число в двоичное. @places необязательное поле, указывающее дополнение нулями до заданного числа символов.
+Если @places слишком мало или отрицательное, OCT2BIN возвращает ошибку #NUM!
+@SEEALSO=BIN2OCT
+
+@FUNCTION=IMCONJUGATE
+@SYNTAX=IMCONJUGATE(inumber)
+@DESCRIPTION=IMCONJUGATE возвращает complex conjugate комплексного числа.
+@SEEALSO=IMAGINARY,IMREAL
+
+@FUNCTION=SUMIF
+@SYNTAX=SUMIF(range,criteria[,actual_range])
+@DESCRIPTION=Функция SUMIF складывает значения в заданном диапазоне удовлетворяющие заданному @criteria.
+Если @actual_range задан, SUMIF складывает те значения в @actual_range, для которых соответствующие
+значения в @range удовлетворяют заданному @criteria. 
+@SEEALSO=COUNTIF,SUM
+
+@FUNCTION=IMREAL
+@SYNTAX=IMREAL(inumber)
+@DESCRIPTION=IMREAL возвращает действительный коэффициент комплексного числа.
+@SEEALSO=IMAGINARY
+
+@FUNCTION=IMSUM
+@SYNTAX=IMSUM(inumber,inumber)
+@DESCRIPTION=IMSUM возвращает сумму двух комплексных чисел.
+@SEEALSO=IMSUB
+
+@FUNCTION=SERIESSUM
+@SYNTAX=SERIESSUM(x,n,m,coefficients)
+@DESCRIPTION=Функция SERIESSUM возвращает the sum of a power series.
+@x is the base of the power serie, @n is the initial power to raise @x,
+@m is the increment to the power for each term in the series,
+а @coefficients - коэффициент, на который умножается каждый successive power of @x. 
+@SEEALSO=COUNT,SUM
+
+@FUNCTION=LEFT
+@SYNTAX=LEFT(text[,num_chars])
+@DESCRIPTION=Возвращает левые @num_chars символов или левый символ, если @num_chars не указанно.
+@SEEALSO=MID, RIGHT
+
+@FUNCTION=DURATION
+@SYNTAX=DURATION(rate,pv,fv)
+@DESCRIPTION=Вычисляет число периодов необходимых для того, чтобы investment
+достигли желаемого значения. Эта функция подобна FV и PV с той разницей, что
+нам не нужно указывать direction of cash flows e.g. -100 для cash outflow
+и +100 для cash inflow.
+@SEEALSO=PPMT,PV,FV
+
+@FUNCTION=COMPLEX
+@SYNTAX=COMPLEX(real,im[,suffix])
+@DESCRIPTION=COMPLEX возвращает комплексное число в виде @x + @yi.
+@real - действительная, а @im - мнимая часть комплексного числа. @suffix -
+суффикс мнимой части, если он опущен, COMPLEX по умолчанию использует 'i'.
+Если @suffix не 'i' и не 'j', COMPLEX возвращает ошибку #VALUE!.
+@SEEALSO=
+
+@FUNCTION=DEC2HEX
+@SYNTAX=DEC2HEX(number[,places])
+@DESCRIPTION=Функция DEC2HEX преобразует десятичное число в шестнадцатиричное.
+@places не обязательное поле указывающее заполнение нулями до нужного числа знаков.
+Если @places слишком мало или отрицательное, DEC2HEX возвращает ошибку #NUM!.
+@SEEALSO=HEX2DEC
+
+@FUNCTION=COLUMNS
+@SYNTAX=COLUMNS(reference)
+@DESCRIPTION=Функция COLUMNS возвращает число столбцов в диапазоне или массиве @reference.
+Если @reference не массив или диапазон, COLUMNS возвращает ошибку #VALUE!.
+@SEEALSO=COLUMN,ROW,ROWS
+
+@FUNCTION=LN
+@SYNTAX=LN(x)
+@DESCRIPTION=LN возвращает натуральный логарифм @x. 
+@SEEALSO=EXP, LOG2, LOG10
+
+@FUNCTION=DGET
+@SYNTAX=DGET(database,field,criteria)
+@DESCRIPTION=Функция DGET возвращает одно значение из столбца, которое удовлетворяет указаным условиям. 
+@database - диапазон ячеек, в котором строки соответствуют записям, а столбцы - полям данных. Первая строка @database содержит метки для каждого столбца. 
+@field указывает какой столбец используется в функции. Если @field целое число, например 2, используется второй столбец. @field также может быть меткой столбца. 
+@criteria - диапазон ячеек, которые содержат указанные условия. Первая строка @criteria должна содержать метки полей, к которым применяются эти условия.
+Ячейки под метками указывают условия, например ">3" или "<9". 
+Если нет значений удовлетворяющих условиям, DGET возвращает ошибку #VALUE!.
+Если условиям удовлетворяет несколько значений, DGET возвращает ошибку #NUM!. 
+@SEEALSO=DCOUNT
+
+@FUNCTION=DATEVALUE
+@SYNTAX=DATEVALUE(date_str)
+@DESCRIPTION=DATEVALUE возвращает серийный номер даты.  @date_str - строка, которая содержит дату.  Например, DATEVALUE("1/1/1999") равняется 36160. 
+@SEEALSO=DATE
+
+@FUNCTION=COUNTBLANK
+@SYNTAX=COUNTBLANK(range)
+@DESCRIPTION=COUNTBLANK возвращает число пустых ячеек в диапазоне. 
+@SEEALSO=COUNT
+
+@FUNCTION=AVERAGE
+@SYNTAX=AVERAGE(value1, value2,...)
+@DESCRIPTION=Вычисляет среднее всех значений и содержимого ячеек переданных в виде списка аргументов. Это равносильно сумме аргументов деленной на их количество.
+@SEEALSO=SUM, COUNT
+
+@FUNCTION=CORREL
+@SYNTAX=CORREL(array1,array2)
+@DESCRIPTION=CORREL возвращает коэффициент корреляции двух наборов данных.
+Строки и пустые ячейки в качестве аргументов игнорируются.
+@SEEALSO=COVAR,FISHER,FISHERINV
+
+@FUNCTION=SUMSQ
+@SYNTAX=SUMSQ(value1, value2, ...)
+@DESCRIPTION=SUMSQ возвращает сумму квадратов всех значений и содержимого ячеек переданных в виде списка аргументов. 
+@SEEALSO=SUM, COUNT
+
+@FUNCTION=IMPRODUCT
+@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])
+@DESCRIPTION=IMPRODUCT возвращает произведение заданных комплексных чисел.
+@SEEALSO=IMDIV
+
+@FUNCTION=CHAR
+@SYNTAX=CHAR(x)
+@DESCRIPTION=Возвращает ascii символ представляемый числом @x.
+@SEEALSO=CODE
+
+@FUNCTION=PMT
+@SYNTAX=PMT(rate,nper,pv,fv,type)
+@DESCRIPTION=Вычисляет the present value of an investment.
+@SEEALSO=PPMT,PV,FV
+
+@FUNCTION=DAY
+@SYNTAX=DAY (serial_number)
+@DESCRIPTION=Преобразует серийное число в день.
+Заметьте, что Gnumeric выполняет за вас преобразование строки в серийный номер, поэтому вы можете вводить дату как строку.
+@SEEALSO=MONTH, TIME, NOW, YEAR
+
+@FUNCTION=SQRTPI
+@SYNTAX=SQRTPI(x)
+@DESCRIPTION=Функция SQRTPI возвращает квадратный корень @x умноженного на число Пи. 
+@SEEALSO=PI
+
+@FUNCTION=FISHER
+@SYNTAX=FISHER(x)
+@DESCRIPTION=Функция FISHER возвращает преобразование Фишера для @x.
+Если @x не является числом, FISHER возвращает ошибку #VALUE!. Если @x<=-1 или @x>=1 FISHER возвращает ошибку #NUM!
+@SEEALSO=SKEW
+
+@FUNCTION=VARA
+@SYNTAX=VARA(number1,number2,...)
+@DESCRIPTION=VARA возвращает дисперсию based on a sample.
+Текстовые и логические значения также учитываются в вычислениях.
+Если ячейка содержит текст или логическое значение FALSE, то ее значение принимается равным 0.
+Если логическое значение аргумента TRUE, то оно принимается равным 1.
+Обратите внимание, что пустые ячейки не учитываются.
+@SEEALSO=VAR,VARPA
+
+@FUNCTION=DMAX
+@SYNTAX=DMAX(database,field,criteria)
+@DESCRIPTION=Функция DMAX возвращает наибольшее число в столбце удовлетворяющее указанным условиям. 
+@database - диапазон ячеек, в котором строки соответствуют записям, а столбцы - полям данных. Первая строка @database содержит метки для каждого столбца. 
+@field указывает какой столбец используется в функции. Если @field целое число, например 2, используется второй столбец. @field также может быть меткой столбца. 
+@criteria - диапазон ячеек, которые содержат указанные условия. Первая строка @criteria должна содержать метки полей, к которым применяются эти условия. Ячейки под метками указывают условия, например ">3" или "<9". 
+@SEEALSO=DMIN
+
+@FUNCTION=ISLOGICAL
+@SYNTAX=ISLOGICAL()
+@DESCRIPTION=ISLOGICAL возвращает TRUE если величина является логической. 
+@SEEALSO=
+
+@FUNCTION=ATAN2
+@SYNTAX=ATAN2(b1,b2)
+@DESCRIPTION=Функция ATAN2 вычисляет арктангенс двух переменных @b1 и @b2.
+Это подобно вычислению арктангенса @b2 / @b1, за исключением того, что знак обоих аргументов используется для определения квадранта результата.
+Результат выдается в радианах. Строки и пустые ячейки в качестве аргументов функции игнорируются. 
+@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS
+
+@FUNCTION=MINA
+@SYNTAX=MINA(number1,number2,...)
+@DESCRIPTION=MINA возвращает наименьшее значение из переданных аргументов.
+Текстовые и логические значения также учитываются в вычислениях. Если ячейка содержит текст или логическое значение FALSE, то ее значение принимается равным 0.
+Если логическое значение аргумента TRUE, то оно принимается равным 1.
+Обратите внимание, что пустые ячейки не учитываются.
+@SEEALSO=MIN,MAXA
+
+@FUNCTION=LOOKUP
+@SYNTAX=LOOKUP(value,vector1,vector2)
+@DESCRIPTION=Функция LOOKUP ищет в @vector1 строку с индексом @value и возвращает
+содержимое @value2 с этим индексом строки. Если диапазон is longer than it is wide
+then the sense of the search is rotated. Alternatively a single array can be used.
+Если LOOKUP не удается найти @value, используется наибольшее значение меньшее чем @value.
+Данные должны быть отсортированы. Если @value меньше чем первое значение, LOOKUP возвращает ошибку #N/A!.
+@SEEALSO=VLOOKUP,HLOOKUP
+
+@FUNCTION=CEIL
+@SYNTAX=CEIL(x)
+@DESCRIPTION=Функция CEIL округляет @x до ближайшего большего целого.
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=ABS, FLOOR, INT
+
+@FUNCTION=HEX2DEC
+@SYNTAX=HEX2DEC(x)
+@DESCRIPTION=Функция HEX2DEC преобразует шестнадцатиричное число в десятичное.
+@SEEALSO=DEC2HEX
+
+@FUNCTION=MINUTE
+@SYNTAX=MINUTE (serial_number)
+@DESCRIPTION=Преобразует серийное число в минуты. Минуты возвращаются как целое в диапазона от 0 до 59.
+Заметьте, что Gnumeric выполняет за вас преобразование строки в серийный номер, поэтому вы можете вводить дату как строку.
+@SEEALSO=HOUR, NOW, TIME, SECOND
+
+@FUNCTION=VARPA
+@SYNTAX=VARPA(number1,number2,...)
+@DESCRIPTION=VARPA возвращает дисперсию based on the entire population.
+Текстовые и логические значения также учитываются в вычислениях.
+Если ячейка содержит текст или логическое значение FALSE, то ее значение принимается равным 0.
+Если логическое значение аргумента TRUE, то оно принимается равным 1.
+Обратите внимание, что пустые ячейки не учитываются.
+@SEEALSO=VARP,VARP
+
+@FUNCTION=NOT
+@SYNTAX=NOT(number)
+@DESCRIPTION=Выполняет функцию логического отрицания: результат TRUE если число равно 0;
+в противном случае результат FALSE.
+@SEEALSO=AND, OR
+
+@FUNCTION=TINV
+@SYNTAX=TINV(p,dof)
+@DESCRIPTION=Функция TINV возвращает обратное двустороннее t-распределение
+(распределение Student'а). Если @p < 0 или @p > 1 или @dof < 1, TINV возвращает ошибку #NUM!.
+@SEEALSO=TDIST,TTEST
+
+@FUNCTION=TAN
+@SYNTAX=TAN(x)
+@DESCRIPTION=Функция TAN возвращает тангенс @x, где @x задан в радианах.
+Строки и пустые ячейки в качестве аргументов функции игнорируются. Эта функция принимает только один аргумент.
+@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS
+
+@FUNCTION=SUMXMY2
+@SYNTAX=SUMXMY2(array1,array2)
+@DESCRIPTION=Функция SUMXMY2 возвращает сумму квадратов разностей соответствующих значений в двух массивах.
+@array1 - первый массив или диапазон ячеек с данными и @array2 - второй. SUMXMY2 равняется SUM (x-y)^2. 
+Строки и пустые ячейки в качестве аргументов игнорируются.
+Если @array1 и @array2 имеют различное число элементов, SUMXMY2 возвращает ошибку #N/A!. 
+@SEEALSO=SUMSQ
+
+@FUNCTION=NOW
+@SYNTAX=NOW ()
+@DESCRIPTION=Возвращает серийный номер для даты и времени на момент выполнения.
+Серийные номера в Gnumeric представляют следующее: целая часть - число дней с 1-ого января 1900 года. Дробная часть представляет остаток дня и отображается в часы, минуты и секунды.
+Например: .0 представляет начало дня, а 0.5 - полдень
+@SEEALSO=TODAY, NOW
+
+@FUNCTION=NA
+@SYNTAX=NA()
+@DESCRIPTION=NA возвращает #N/A. 
+@SEEALSO=
+
+@FUNCTION=BETAINV
+@SYNTAX=BETAINV(p,alpha,beta[,a,b])
+@DESCRIPTION=Функция BETAINV возвращает обратное кумулятивное бета-распределение.
+@a is the optional lower bound of @x и @b is the optinal upper bound of @x.
+Если @a не задано, BETAINV использует 0. Если @b не задано, BETAINV использует 1.
+Если @p < 0 или @p > 1 BETAINV возвращает ошибку #NUM!. Если @alpha <= 0
+или @beta <= 0 или @a >= @b, BETAINV возвращает ошибку #NUM!.
+@SEEALSO=BETADIST
+
+@FUNCTION=ROWS
+@SYNTAX=ROWS(reference)
+@DESCRIPTION=Функция ROWS возвращает число строк в диапазоне или массиве @reference.
+Если @reference не массив и не диапазон, ROWS возвращает ошибку #VALUE!.
+@SEEALSO=COLUMN,ROW,ROWS
+
+@FUNCTION=DSTDEVP
+@SYNTAX=DSTDEVP(database,field,criteria)
+@DESCRIPTION=Функция DSTDEVP возвращает стандартное отклонение of a population
+based on the entire populations. The populations consists of numbers that match
+conditions specified. 
+@database - диапазон ячеек, в котором строки соответствуют записям, а столбцы - полям данных. Первая строка @database содержит метки для каждого столбца. 
+@field указывает какой столбец используется в функции. Если @field целое число, например 2, используется второй столбец. @field также может быть меткой столбца. 
+@criteria - диапазон ячеек, которые содержат указанные условия. Первая строка @criteria должна содержать метки полей, к которым применяются эти условия. Ячейки под метками указывают условия, например ">3" или "<9". 
+@SEEALSO=DSTDEV
+
+@FUNCTION=CHITEST
+@SYNTAX=CHITEST(actual_range,theoretical_range)
+@DESCRIPTION=Функция CHITEST возвращает критерий независимости распределения Хи-квадрат.
+@actual_range - диапазон, который содержит наблюдаемые значения величин.
+@theoretical_range - диапазон, который содержит ожидаемые значения величин. 
+@SEEALSO=CHIDIST,CHIINV
+
+@FUNCTION=CRITBINOM
+@SYNTAX=CRITBINOM(trials,p,alpha)
+@DESCRIPTION=Функция CRITBINOM возвращает наименьшее значение, для которого
+thecumulative is больше чем или равно заданной величине.
+@n - число испытаний, @p - вероятность успеха в испытании, а @alpha -  criterion value. 
+Если @trials не целое, то дробная часть отбрасывается. Если @trials < 0 CRITBINOM возвращает ошибку #NUM!.
+Если @p < 0 или @p > 1 CRITBINOM возвращает ошибку #NUM!. Если @alpha < 0 или @alpha > 1 CRITBINOM возвращает ошибку #NUM!. 
+@SEEALSO=BINOMDIST
+
+@FUNCTION=SUMPRODUCT
+@SYNTAX=SUMPRODUCT(range1,range2,...)
+@DESCRIPTION=Функция SUMPRODUCT перемножает соответствующие элементы данных в заданных массивах
+или диапазонах, и затем возвращает сумму этих произведений.
+Если элемент массива не является числом, его значение принимается равным 0. 
+Если массивы или диапазоны аргументов имеют разные размеры, SUMPRODUCT возвращает ошибку #VALUE!. 
+@SEEALSO=SUM,PRODUCT
+
+@FUNCTION=INT
+@SYNTAX=INT(b1, b2, ...)
+@DESCRIPTION=Функция INT округляет b1 до ближайшего целого.
+Здесь "ближайшее" означает ближайшее к 0.
+Равносильно FLOOR(b1) для @b1 >= 0, и CEIL(b1) для @b1 < 0. 
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=FLOOR, CEIL, ABS
+
+@FUNCTION=BINOMDIST
+@SYNTAX=BINOMDIST(n,trials,p,cumulative)
+@DESCRIPTION=Функция BINOMDIST возвращает биномиальное распределение.
+@n - число успехов, @trials - общее число независимых испытаний, @p - вероятность успеха испытания,
+а @cumulative указывает будет ли возвращаться сумма биномиальной функции от 0 до @n.
+Применение этой функции к строке или пустой ячейке возвращает ошибку.
+Если @n или @trials не целые, то дробная часть отбрасывается.
+Если @n < 0 или @trials < 0 BINOMDIST возвращает ошибку #NUM!.
+Если @n > @trials BINOMDIST возвращает ошибку #NUM!.
+Если @p < 0 или @p > 1 BINOMDIST возвращает ошибку #NUM!.
+@SEEALSO=POISSON
+
+@FUNCTION=IMLOG2
+@SYNTAX=IMLOG2(inumber)
+@DESCRIPTION=IMLOG2 возвращает логарифм комплексного числа по основанию 2.
+@SEEALSO=IMLN,IMLOG10
+
+@FUNCTION=VARP
+@SYNTAX=VARP(b1, b2, ...)
+@DESCRIPTION=VARP вычисляет дисперсию набора чисел, в котором каждое число
+is a member of a population и the set is the entire population.
+(VARP также известна как N-дисперсия.)
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=STDEV,VAR,MEAN
+
+@FUNCTION=EXACT
+@SYNTAX=EXACT(string1, string2)
+@DESCRIPTION=Возвращает TRUE, если @string1 в точности совпадает с @string2 (эта функция чувствительна к регистру).
+@SEEALSO=LEN
+
+@FUNCTION=EDATE
+@SYNTAX=EDATE(serial_number,months)
+@DESCRIPTION=EDATE возвращает серийный номер даты, которая задана числом месяцев до или после данной даты.
+@date - серийное число initial date и @months - число месяцев до (отрицательное число) или после (положительное число) initial date.
+Если @months не целое, то дробная часть отбрасывается.
+@SEEALSO=DATE
+
+@FUNCTION=DVAR
+@SYNTAX=DVAR(database,field,criteria)
+@DESCRIPTION=Функция DVAR возвращает the estimate of дисперсию of a population based on a sample.
+The populations consists of numbers that match conditions specified. 
+@database - диапазон ячеек, в котором строки соответствуют записям,
+а столбцы - полям данных. Первая строка @database содержит метки для каждого
+столбца. @field указывает какой столбец используется в функции. Если @field
+целое число, например 2, используется второй столбец. @field также может быть
+меткой столбца. @criteria - диапазон ячеек, которые содержат указанные условия.
+Первая строка @criteria должна содержать метки полей, к которым применяются эти
+условия. Ячейки под метками указывают условия, например ">3" или "<9". 
+@SEEALSO=DVARP
+
+@FUNCTION=YEAR
+@SYNTAX=YEAR (serial_number)
+@DESCRIPTION=Преобразует серийное число в год.
+Заметьте, что Gnumeric выполняет за вас преобразование строки в серийный номер, поэтому вы можете вводить дату как строку.
+@SEEALSO=DAY, MONTH, TIME, NOW
+
+@FUNCTION=LOWER
+@SYNTAX=LOWER(text)
+@DESCRIPTION=Возвращает строку @text преобразованную к строчным символам.
+@SEEALSO=UPPER
+
+@FUNCTION=TIMEVALUE
+@SYNTAX=TIMEVALUE (timetext)
+@DESCRIPTION=Возвращает дробь представляющую время дня числом между 0 и 1.
+@SEEALSO=HOUR
+
+@FUNCTION=DEC2OCT
+@SYNTAX=DEC2OCT(number[,places])
+@DESCRIPTION=Функция DEC2OCT преобразует десятичное число в восьмеричное.
+@places не обязательное поле указывающее заполнение нулями до нужного числа знаков.
+Если @places слишком маленькое или отрицательное, DEC2OCT возвращает ошибку #NUM!.
+@SEEALSO=OCT2DEC
+
+@FUNCTION=RAND
+@SYNTAX=RAND()
+@DESCRIPTION=Возвращает случайное число большее или равное 0 и меньшее 1.
+@SEEALSO=
+
+@FUNCTION=KURT
+@SYNTAX=KURT(n1, n2, ...)
+@DESCRIPTION=KURT возвращает an unbiased estimate of the kurtosis набора данных.
+Обратите внимание, что this is only meaningful is the underlying distribution
+really has a fourth moment.  The kurtosis is offset by three так что нормальное
+распределение будет иметь zero kurtosis.
+Строки и пустые ячейки в качестве аргументов игнорируются.
+Если задано меньше четырех чисел или все они равны KURT возвращает ошибку #DIV/0!.
+@SEEALSO=AVERAGE,VAR,SKEW,KURTP
+
+@FUNCTION=BIN2DEC
+@SYNTAX=BIN2DEC(x)
+@DESCRIPTION=Функция BIN2DEC преобразует двоичное число в десятичное.
+@SEEALSO=DEC2BIN
+
+@FUNCTION=ERF
+@SYNTAX=ERF(lower_limit[,upper_limit])
+@DESCRIPTION=Функция ERF возвращает the integral of the error function между указанными пределами.
+Если @upper_limit опущен, ERF возвращает интеграл между 0 и @lower_limit.
+Если @lower_limit или @upper_limit не числовые, ERF возвращает ошибку #VALUE!.
+Если @lower_limit < 0 или @upper_limit < 0, ERF возвращает ошибку #NUM!.
+@SEEALSO=ERFC
+
+@FUNCTION=MAX
+@SYNTAX=MAX(b1, b2, ...)
+@DESCRIPTION=MAX возвращает значение наибольшего аргумента. Отрицательные числа считаются
+меньшими чем положительные. Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=MIN,ABS
+
+@FUNCTION=NEGBINOMDIST
+@SYNTAX=NEGBINOMDIST(f,t,p)
+@DESCRIPTION=Функция NEGBINOMDIST возвращает отрицательное биномиальное распределение.
+@f - число неуспехов, @t - пороговое число успехов, @p - вероятность успеха.
+Если @f или @t не целое, дробная часть отбрасывается. Если (@f + @t -1) <= 0 NEGBINOMDIST возвращает ошибку #NUM!.
+Если @p < 0 или @p > 1 NEGBINOMDIST возвращает ошибку #NUM!.
+@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT
+
+@FUNCTION=DOLLARDE
+@SYNTAX=DOLLARDE(fractional_dollar,fraction)
+@DESCRIPTION=DOLLARDE преобразует цену в долларах выраженную дробью в цену в долларах выраженную десятичным числом.
+Если @fraction не целое, дробная часть отбрасывается. Если @fraction<=0 DOLLARDE возвращает ошибку #NUM!.
+@SEEALSO=DOLLARFR
+
+@FUNCTION=MROUND
+@SYNTAX=MROUND(number,multiple)
+@DESCRIPTION=Функция MROUND округляет заданное число до ближайшего кратного @multiple.
+@number - число, которое вы хотите округлить, а @multiple - число, до кратного которому вы производите округление.
+Например: MROUND(1.7, 0.2) равняется 1.8. 
+Если @number и @multiple имеют различные знаки, MROUND возвращает ошибку #NUM!.
+@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP
+
+@FUNCTION=DEVSQ
+@SYNTAX=DEVSQ(n1, n2, ...)
+@DESCRIPTION=DEVSQ возвращает сумму квадратов отклонений набора данных от sample mean.
+Строки и пустые ячейки в качестве аргументов игнорируются.
+@SEEALSO=STDEV
+
+@FUNCTION=SELECTION
+@SYNTAX=SELECTION(x)
+@DESCRIPTION=Функция SELECTION возвращает список со значениями в текущей позиции курсора мыши.
+Обычно это используется для реализации вычисления значений "на лету".
+@SEEALSO=
+
+@FUNCTION=ROUND
+@SYNTAX=ROUND(number[,digits])
+@DESCRIPTION=Функция ROUND округляет заданное число. @number - число, которое вы хотите округлить,
+а @digits - число цифр, до которого производится округление. 
+Если @digits меньше 0, @number округляется до заданного числа разрядов.
+Если @digits 0 или не указано, @number округляется до ближайшего целого.
+Если @digits больше 0, @number округляется до заданного числа разрядов после десятичной точки. 
+Например, ROUND(1234.56,1) равно 1234.6, а ROUND(3456.78,-2) равно 3500.
+@SEEALSO=ROUNDDOWN,ROUNDUP
+
+@FUNCTION=VALUE
+@SYNTAX=VALUE(text)
+@DESCRIPTION=Возвращает численное значение @text.
+@SEEALSO=DOLLAR, FIXED, TEXT
+
+@FUNCTION=FIND
+@SYNTAX=FIND(string1,string2[,start])
+@DESCRIPTION=Возвращает позицию @string1 в @string2 (чувствительно к регистру),
+поиск производится с позиции @start (или с 1, если значение @start не задано).
+@SEEALSO=EXACT, LEN, MID, SEARCH
+
+@FUNCTION=WEIBULL
+@SYNTAX=WEIBULL(x,alpha,beta,cumulative)
+@DESCRIPTION=Функция WEIBULL возвращает распределение Weibull.
+Если @cumulative имеет значение TRUE возвращается  1 - exp (-(@x/@beta)^@alpha),
+в противном случае возвращается  (@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/@beta^@alpha)). 
+Если @x < 0 или @alpha <= 0 или @beta <= 0 WEIBULL возвращает ошибку #NUM!.
+@SEEALSO=POISSON
+
+@FUNCTION=BIN2HEX
+@SYNTAX=BIN2HEX(number[,places])
+@DESCRIPTION=Функция BIN2HEX преобразует двоичное число в шестнадцатиричное.
+@places не обязательное поле указывающее заполнение нулями до нужного числа знаков.
+Если @places слишком мало или отрицательное BIN2HEX возвращает ошибку #NUM!.
+@SEEALSO=HEX2BIN
+
+@FUNCTION=NPV
+@SYNTAX=NPV(rate,v1,v2,...)
+@DESCRIPTION=Вычисляет the net present value of an investment.
+@SEEALSO=PV
+
+@FUNCTION=VLOOKUP
+@SYNTAX=VLOOKUP(value,range,column,[approximate])
+@DESCRIPTION=Функция VLOOKUP finds the row in range that has a first column
+similar to value. Если @approximate <> TRUE, то она ищет строку с точным равенством.
+Если @approximate = TRUE, то значения должны быть отсортированы в порядке
+возрастания для корректного выполнения; в этом случае функция находит строку со
+значением меньшим чем @value.  it возвращает the value in the row found at a 1
+based offset in column columns into the @range.
+Возвращается ошибка #NUM!, если @column < 0. Возвращается ошибка #REF!,
+если @column выпадает из @range.
+@SEEALSO=HLOOKUP
+
+@FUNCTION=DAVERAGE
+@SYNTAX=DAVERAGE(database,field,criteria)
+@DESCRIPTION=Функция DAVERAGE возвращает среднее значение тех величин в списке или @database, которые удовлетворяют указанным условиям. 
+@database - диапазон ячеек, в котором строки соответствуют записям, а столбцы - полям данных. Первая строка @database содержит метки для каждого столбца. 
+@field указывает какой столбец используется в функции. Если @field целое число, например 2, используется второй столбец. @field также может быть меткой столбца. 
+@criteria - диапазон ячеек, которые содержат указанные условия. Первая строка @criteria должна содержать метки полей, к которым применяются эти условия. Ячейки под метками указывают условия, например ">3" или "<9". 
+@SEEALSO=DCOUNT
+
+@FUNCTION=LOGNORMDIST
+@SYNTAX=LOGNORMDIST(x,mean,stdev)
+@DESCRIPTION=Функция LOGNORMDIST возвращает the lognormal распределение.
+@x - значение, для которого вы хотите получить распределение, @mean - медиана распределения, а @stdev - стандартное отклонение распределения.
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+Если @stdev = 0 LOGNORMDIST возвращает ошибку #DIV/0!.
+Если @x<=0, @mean<0 или @stdev<0 LOGNORMDIST возвращает ошибку #NUM!. 
+@SEEALSO=NORMDIST
+
+@FUNCTION=RANK
+@SYNTAX=RANK(x,ref[,order])
+@DESCRIPTION=RANK возвращает the rank of a number в списке чисел.
+@x - число для которого вы хотите найти rank, @ref - список чисел,
+а @order указывает to rank numbers.  Если @order = 0, числа are ranked
+в убывающем порядке, в противном случае числа are ranked в возрастающем порядке.
+@SEEALSO=PERCENTRANK
+
+@FUNCTION=BESSELJ
+@SYNTAX=BESSELJ(x,y)
+@DESCRIPTION=Функция BESSELJ возвращает функцию Бесселя (Bessel) c @x is where
+the function is evaluated. @y - порядок функции Бесселя, если не целое, дробная
+часть отбрасывается. Если @x или @y не числовые BESSELJ возвращает ошибку
+#VALUE!. Если @y < 0 BESSELJ возвращает ошибку #NUM!.
+@SEEALSO=BESSELJ,BESSELK,BESSELY
+
+@FUNCTION=ADDRESS
+@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])
+@DESCRIPTION=ADDRESS возвращает адрес ячейки как текст для указанных номеров строки и столбца. 
+Если @abs_num = 1 или опущено, ADDRESS возвращает абсолютные значения.
+Если @abs_num = 2, ADDRESS возвращает абсолютное значение для строки и относительное для столбца.
+Если @abs_num = 3, ADDRESS возвращает относительное значение для строки и абсолютное для столбца.
+Если @abs_num = 4, ADDRESS возвращает относительные значения.
+Если @abs_num > 4 ADDRESS возвращает ошибку #NUM!. 
+@a1 - логическое значение, которое указывает стиль ссылки.
+Если @a1 имеет значение TRUE или опущено, ADDRESS возвращает ссылку в стиле A1, т.е. $D$4.
+В противном случае ADDRESS возвращает ссылку в стиле R1C1, т.е. R4C4.
+@text указывает название таблицы используемое для внешних ссылок.  
+Если @row_num < 1 или @col_num < 1, ADDRESS возвращает ошибку #NUM!. 
+@SEEALSO=
+
+@FUNCTION=SIGN
+@SYNTAX=SIGN(num)
+@DESCRIPTION=Функция SIGN возвращает 1, если @num положительное; 0, если оно 0; -1, если оно отрицательное.
+@SEEALSO=
+
+@FUNCTION=REPLACE
+@SYNTAX=REPLACE(old,start,num,new)
+@DESCRIPTION=Возвращает @old с @new замещающим @num символов начиная с позиции @start.
+@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM
+
+@FUNCTION=GAMMADIST
+@SYNTAX=GAMMADIST(x,alpha,beta,cum)
+@DESCRIPTION=Функция GAMMADIST возвращает гамма-распределение.
+Если @cum равно TRUE, GAMMADIST возвращает incomplete гамма-функцию,
+в противном случае возвращает вероятность mass function.
+Если @x < 0 или @alpha <= 0 или @beta <= 0, GAMMADIST возвращает ошибку #NUM!.
+@SEEALSO=GAMMAINV
+
+@FUNCTION=SKEW
+@SYNTAX=SKEW(n1, n2, ...)
+@DESCRIPTION=SKEW возвращает an unbiased estimate for коэффициент асимметричности распределения.
+Заметьте, что это имеет значение если распределение действительно имеет третий момент.
+Коэффициент асимметричности симметричного (например, нормального) распределения равен 0.
+Строки и пустые ячейки в качестве аргументов игнорируются.
+Если задано меньше чем три числа, SKEW возвращает ошибку #DIV/0!.
+@SEEALSO=AVERAGE,VAR,SKEWP,KURT
+
+@FUNCTION=CHIINV
+@SYNTAX=CHIINV(p,dof)
+@DESCRIPTION=Функция CHIINV возвращает обратное одностороннее распределение Хи-квадрат.
+Если @p < 0 или @p > 1 или @dof < 1 CHIINV возвращает ошибку #NUM!. 
+@SEEALSO=CHIDIST,CHITEST
+
+@FUNCTION=CODE
+@SYNTAX=CODE(char)
+@DESCRIPTION=Возвращает код ASCII для символа @char.
+@SEEALSO=CHAR
+
+@FUNCTION=ERROR
+@SYNTAX=ERROR(text)
+@DESCRIPTION=Возвращает указанную ошибку.
+@SEEALSO=ISERROR
+
+@FUNCTION=LOGINV
+@SYNTAX=LOGINV(p,mean,stdev)
+@DESCRIPTION=Функция LOGINV возвращает обратное логарифмическое кумулятивное распределение.
+@p - задает вероятность соответствущего нормального распределения, @mean - арифметическое
+среднее распределения, а @stdev - стандартное отклонение распределения.
+Если @p < 0 или @p > 1 или @stdev <= 0 LOGINV возвращает ошибку #NUM!. 
+@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST
+
+@FUNCTION=ISNA
+@SYNTAX=ISNA()
+@DESCRIPTION=ISNA возвращает TRUE если значение соответствует значению ошибки #N/A!. 
+@SEEALSO=
+
+@FUNCTION=ROUNDDOWN
+@SYNTAX=ROUNDDOWN(number[,digits])
+@DESCRIPTION=Функция ROUNDDOWN округляет заданное число до меньшего.
+@number - число, которое вы хотите округлить, а @digits - число цифр до которого вы хотите округлить @number.
+Если @digits > 0, @number округляется до меньшего с данным числом разрядов.
+Если @digits = 0 или опущено, @number округляется до ближайшего меньшего целого.
+Если @digits < 0, @number округляется до меньшего с заданным числом знаков после десятичной точки. 
+Например, ROUNDDOWN() = , ROUNDDOWN() = , ROUNDDOWN() = .
+@SEEALSO=ROUNDUP
+
+@FUNCTION=SUMX2MY2
+@SYNTAX=SUMX2MY2(array1,array2)
+@DESCRIPTION=Функция SUMX2MY2 возвращает сумму разностей квадратов соответствующих значений в двух массивах.
+@array1 - первый массив или диапазон data points и @array2 - второй массив или диапазон data points. SUMX2MY2 равно SUM (@x^2-@y^2). 
+Строки и пустые ячейки в качестве аргументов игнорируются.
+Если @array1 и @array2 имеют различное число data points, SUMX2MY2 возвращает ошибку #N/A!. 
+@SEEALSO=SUMSQ
+
+@FUNCTION=VAR
+@SYNTAX=VAR(b1, b2, ...)
+@DESCRIPTION=VAR estimates дисперсию of a sample of a population. To get the
+true дисперсию of a complete population используйте @VARP (VAR также известна как
+N-1-дисперсия.  Under reasonable conditions, it is the maximum-likelihood
+estimator for the true variance.)
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=VARP,STDEV
+
+@FUNCTION=HEX2OCT
+@SYNTAX=HEX2OCT(number[,places])
+@DESCRIPTION=Функция HEX2OCT преобразует шестнадцатиричное число в восьмеричное.
+@places не обязательное поле указывающее заполнение нулями до нужного числа знаков.
+Если @places слишком мало или отрицательное HEX2OCT возвращает ошибку #NUM!.
+@SEEALSO=BIN2HEX
+
+@FUNCTION=STDEVPA
+@SYNTAX=STDEVPA(number1,number2,...)
+@DESCRIPTION=STDEVPA возвращает стандартное отклонение based on the entire population.
+Текстовые и логические значения также учитываются в вычислениях.
+Если ячейка содержит текст или логическое значение FALSE, то ее значение принимается равным 0.
+Если логическое значение аргумента TRUE, то оно принимается равным 1.
+Обратите внимание, что пустые ячейки не учитываются.
+@SEEALSO=STDEVA,STDEVP
+
+@FUNCTION=DAY
+@SYNTAX=DAYS360 (date1,date2,method)
+@DESCRIPTION=Возвращает число дней с @date1 до @date2 в соответствии с 360-дневным календарем, в котором предполагается, что каждый месяц имеет 30 дней.
+Если @method имеет значение TRUE, используется европейский метод. В этом случае, если в месяце 31 день, считается что их 30.
+Если @method имеет значение FALSE или опущен, используется метод США. Это что-то вроде индустриального стандарта.
+Заметьте, что Gnumeric выполняет за вас преобразование строки в серийный номер, поэтому вы можете вводить дату как строку.
+@SEEALSO=MONTH, TIME, NOW, YEAR
+
+@FUNCTION=DVARP
+@SYNTAX=DVARP(database,field,criteria)
+@DESCRIPTION=Функция DVARP возвращает дисперсию of a population based on the
+entire populations. The populations consists of numbers которые удовлетворяют
+указанным условиям. @database - диапазон ячеек, в котором строки соответствуют записям,
+а столбцы - полям данных. Первая строка @database содержит метки для каждого
+столбца. @field указывает какой столбец используется в функции. Если @field
+целое число, например 2, используется второй столбец. @field также может быть
+меткой столбца. @criteria - диапазон ячеек, которые содержат указанные условия.
+Первая строка @criteria должна содержать метки полей, к которым применяются эти
+условия. Ячейки под метками указывают условия, например ">3" или "<9". 
+@SEEALSO=DVAR
+
+@FUNCTION=FINV
+@SYNTAX=TINV(p,dof)
+@DESCRIPTION=Функция FINV возвращает обратное F- распределение.
+Если @p < 0 или @p > 1 или @dof1 < 1 или @dof2 < 1, то FINV возвращает ошибку #NUM!.
+@SEEALSO=FDIST
+
+@FUNCTION=IMCOS
+@SYNTAX=IMCOS(inumber)
+@DESCRIPTION=IMCOS возвращает косинус комплексного числа.
+@SEEALSO=IMSIN
+
+@FUNCTION=IMDIV
+@SYNTAX=IMDIV(inumber,inumber)
+@DESCRIPTION=IMDIV возвращает the quotient of двух комплексных чисел.
+@SEEALSO=IMPRODUCT
+
+@FUNCTION=ISBLANK
+@SYNTAX=ISBLANK()
+@DESCRIPTION=ISBLANK возвращает TRUE если значение is blank. 
+@SEEALSO=
+
+@FUNCTION=SECOND
+@SYNTAX=SECOND (serial_number)
+@DESCRIPTION=Преобразует серийное число в секунды. Секунды возвращаются как целое в диапазоне от 0 до 59.
+Заметьте, что Gnumeric выполняет за вас преобразование строки в серийный номер, поэтому вы можете вводить дату как строку.
+@SEEALSO=HOUR, MINUTE, NOW, TIME
+
+@FUNCTION=IMEXP
+@SYNTAX=IMEXP(inumber)
+@DESCRIPTION=IMEXP возвращает the exponential of комплексного числа.
+@SEEALSO=IMLN
+
+@FUNCTION=ACOS
+@SYNTAX=ACOS(x)
+@DESCRIPTION=Функция ACOS вычисляет арккосинус @x; то есть величину, косинус которой равен @x.
+Если @x попадает вне диапазона от -1 до 1, ACOS возвращает ошибку 'acos - domain error'.  Значение возвращается в радианах. 
+Строки и пустые ячейки в качестве аргументов функции игнорируются. Эта функция принимает только один аргумент.
+@SEEALSO=COS, SIN, DEGREES, RADIANS
+
+@FUNCTION=STANDARDIZE
+@SYNTAX=STANDARDIZE(x,mean,stdev)
+@DESCRIPTION=Функция STANDARDIZE возвращает нормализованное значение.
+@x - число, которое будет нормализовано, @mean - медиана распределения, @stdev - стандартное отклонение распределения.
+Если @stddev = 0, STANDARDIZE возвращает ошибку #DIV/0!.
+@SEEALSO=AVERAGE
+
+@FUNCTION=BESSELY
+@SYNTAX=BESSELY(x,y)
+@DESCRIPTION=Функция BESSELY возвращает функцию Неймана (Neumann), Вебера (Weber) или Бесселя (Bessel).
+@x is where the function is evaluated. @y - порядок функции Бесселя, если не целое, дробная часть
+отбрасывается. Если @x или @n не числовые BESSELY возвращает ошибку #VALUE!. Если @n < 0 BESSELY
+возвращает ошибку #NUM!.
+@SEEALSO=BESSELJ,BESSELK,BESSELY
+
+@FUNCTION=SIN
+@SYNTAX=SIN(x)
+@DESCRIPTION=Функция SIN возвращает синус @x, где @x задан в радианах.
+Строки и пустые ячейки в качестве аргументов функции игнорируются. Эта функция принимает только один аргумент.
+@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES
+
+@FUNCTION=EFFECT
+@SYNTAX=EFFECT(b1,b2)
+@DESCRIPTION=Вычисляет the effective interest rate from a given nominal rate.
+Effective interest rate вычисляется по следующей формуле:
+
+         r( 1 + ------ ) ^ nper - 1       nper
+где:
+
+r = nominal interest rate (stated in yearly terms)
+nper = number of periods used for compounding
+Например, credit cards will list an APR (annual percentage rate) which is a nominal interest rate.
+Например, если вы хотите to find out how much you are actually paying interest
+on your credit card that states an APR of 19% that is compounded monthly you would
+type in:
+=EFFECT(.19,12) and you would get .2075 or 20.75%.
+That is the effective percentage you will pay on your loan.
+@SEEALSO=NOMINAL
+
+@FUNCTION=OFFSET
+@SYNTAX=OFFSET(range,row,col,height,width)
+@DESCRIPTION=Функция OFFSET возвращает диапазон ячеек. Диапазон ячеек начинается
+со смещения (@col,@row) от @range, и имеет высоту @height и ширину @width.
+Если @range не является диапазоном или ссылкой, OFFSET возвращает #VALUE!.
+@SEEALSO=COLUMN,COLUMNS,ROWS
+
+@FUNCTION=OR
+@SYNTAX=OR(b1, b2, ...)
+@DESCRIPTION=Выполняет функцию "логическое ИЛИ": результат TRUE, если любое
+из значений TRUE. b1...bN - выражения, которые должны принимать значение TRUE
+или FALSE. Если аргумент целое или дробное число равное 0, его значение принимается равным
+FALSE, а в остальных случаях TRUE. Если аргумент является строкой или пустой ячейкой,
+то он игнорируется.  Если нет ни одного аргумента с логическим значением, то возвращается
+ошибка #VALUE!.
+@SEEALSO=AND, NOT
+
+@FUNCTION=TYPE
+@SYNTAX=TYPE()
+@DESCRIPTION=TYPE возвращает число определяющее тип данных значения. 
+@SEEALSO=
+
+@FUNCTION=QUOTIENT
+@SYNTAX=QUOTIENT(num,den)
+@DESCRIPTION=Функция QUOTIENT возвращает целую часть результата деления. @num - делимое, @den - делитель. 
+@SEEALSO=MOD
+
+@FUNCTION=FORECAST
+@SYNTAX=FORECAST(x,known_y's,known_x's)
+@DESCRIPTION=Функция FORECAST estimates a future value according to existing
+values using simple linear regression.  The estimated future value is a y-value
+for a given x-value (@x). 
+Если @known_x или @known_y не содержат данных или содержат различное количество
+значений, FORECAST возвращает ошибку #N/A!. Если дисперсия @known_x = 0, FORECAST возвращает #DIV/0 error. 
+@SEEALSO=INTERCEPT,TREND
+
+@FUNCTION=BIN2OCT
+@SYNTAX=BIN2OCT(number[,places])
+@DESCRIPTION=Функция BIN2OCT преобразует двоичное число в восьмеричное.
+@places не обязательное поле указывающее заполнение нулями до нужного числа знаков.
+Если @places слишком мало или отрицательное BIN2OCT возвращает ошибку #NUM!.
+@SEEALSO=OCT2BIN
+
+@FUNCTION=CHIDIST
+@SYNTAX=CHIDIST(x,dof)
+@DESCRIPTION=Функция CHIDIST возвращает одностороннее распределение Хи-квадрат. @dof - число степеней свободы.
+Если @dof не целое, дробная часть отбрасывается. Если @dof < 1 CHIDIST возвращает ошибку #NUM!.
+@SEEALSO=CHIINV,CHITEST
+
+@FUNCTION=CONFIDENCE
+@SYNTAX=CONFIDENCE(x,stddev,size)
+@DESCRIPTION=Функция CONFIDENCE возвращает доверительный интервал для среднего.
+@x - уровень значимости, @stddev - стандартное отклонение, @size - об'ем выборки.
+Если @size не целое, дробная часть отбрасывается. Если @size < 0 CONFIDENCE возвращает ошибку #NUM!. Если @size = 0 CONFIDENCE возвращает ошибку #DIV/0!.
+@SEEALSO=AVERAGE
+
+@FUNCTION=PI
+@SYNTAX=PI()
+@DESCRIPTION=Функция PI возвращает значение числа Пи как определяется по M_PI.
+Эта функция вызывается без аргументов.
+@SEEALSO=
+
+@FUNCTION=COUNT
+@SYNTAX=COUNT(b1, b2, ...)
+@DESCRIPTION=Возвращает общее число переданных целых или дробных числовых аргументов.
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=AVERAGE
+
+@FUNCTION=IMPOWER
+@SYNTAX=IMPOWER(inumber,number)
+@DESCRIPTION=IMPOWER возвращает комплексное число возведенное в степень.
+@inumber - комплексное число, а @number - степень, в которую вы хотите его возвести.
+@SEEALSO=IMEXP,IMLN
+
+@FUNCTION=NORMSINV
+@SYNTAX=NORMSINV(p)
+@DESCRIPTION=Функция NORMSINV возвращает обратное стандартное нормальное кумулятивное распределение.
+@p задает вероятность соответствующего нормального распределения.
+Если @p < 0 или @p > 1 NORMSINV возвращает ошибку #NUM!. 
+@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST
+
+@FUNCTION=CELL
+@SYNTAX=CELL()
+@DESCRIPTION=CELL возвращает информацию о форматировании, положении и содержимом ячейки. 
+@SEEALSO=
+
+@FUNCTION=DSUM
+@SYNTAX=DSUM(database,field,criteria)
+@DESCRIPTION=Функция DSUM возвращает сумму чисел в столбцах удовлетворяющих указанным условиям. 
+@database - диапазон ячеек, в котором строки соответствуют записям, а столбцы - полям данных. Первая строка @database содержит метки для каждого столбца. 
+@field указывает какой столбец используется в функции. Если @field целое число, например 2, используется второй столбец. @field также может быть меткой столбца. 
+@criteria - диапазон ячеек, которые содержат указанные условия. Первая строка @criteria должна содержать метки полей, к которым применяются эти условия. Ячейки под метками указывают условия, например ">3" или "<9". 
+@SEEALSO=DPRODUCT
+
+@FUNCTION=LOG2
+@SYNTAX=LOG2(x)
+@DESCRIPTION=Вычисляет двоичный логарифм @x. 
+Применение этой функции к строке или пустой ячейке возвращает ошибку. 
+@SEEALSO=EXP, LOG10, LOG
+
+@FUNCTION=ABS
+@SYNTAX=ABS(b1)
+@DESCRIPTION=Выполняет функцию абсолютного значения (модуля): у результата отбрасывается отрицательный знак
+(если он был). Эта функция может быть выполнена для целых или дробных чисел.
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=CEIL, FLOOR
+
+@FUNCTION=PEARSON
+@SYNTAX=PEARSON(array1,array2)
+@DESCRIPTION=PEARSON возвращает коэффициент корреляции Пирсона (Pearson) для двух наборов данных.
+Строки и пустые ячейки в качестве аргументов игнорируются.
+@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX
+
+@FUNCTION=IMAGINARY
+@SYNTAX=IMAGINARY(inumber)
+@DESCRIPTION=IMAGINARY возвращает мнимую часть комплексного числа.
+@SEEALSO=IMREAL
+
+@FUNCTION=ROW
+@SYNTAX=ROW([reference])
+@DESCRIPTION=Функция ROW возвращает массив номеров строк taking
+a default argument of the containing cell position.
+Если @reference не является массивом или ссылкой, ROW возвращает ошибку #VALUE!.
+@SEEALSO=COLUMN,COLUMNS,ROWS
+
+@FUNCTION=ATANH
+@SYNTAX=ATANH(x)
+@DESCRIPTION=Функция ATANH вычисляет обратный гиперболический тангенс @x; то есть число, гиперболический тангенс которого равен @x.
+Если модуль @x больше чем 1.0,  ATANH возвращает ошибку 'atanh: domain error'.
+Строки и пустые ячейки в качестве аргументов функции игнорируются. Эта функция принимает только один аргумент.
+@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS
+
+@FUNCTION=ERFC
+@SYNTAX=ERFC(x)
+@DESCRIPTION=Функция ERFC возвращает интеграл the complimentary error
+function в пределах от 0 до @x.
+Если @x не является числом, ERFC возвращает ошибку #VALUE!. Если @x < 0, ERFC возвращает ошибку #NUM!.
+@SEEALSO=ERF
+
+@FUNCTION=N
+@SYNTAX=N()
+@DESCRIPTION=N возвращает значение преобразованное в число. Строки содержащие содержащие текст превращаются в 0. 
+@SEEALSO=
+
+@FUNCTION=ROMAN
+@SYNTAX=ROMAN(number[,type])
+@DESCRIPTION=Функция ROMAN преобразует арабское число в текстовую строку представляющую римское число.
+@number - число, которое вы хотите преобразовать, а @type - желаетельный тип римского числа. 
+Если @type = 0 или опущено, ROMAN возвращает классическое римское число.
+Типы 1,2,3, и 4 еще не реализованы. Если @number отрицательное или больше чем 3999, ROMAN возвращает ошибку #VALUE!. 
+@SEEALSO=
+
+@FUNCTION=POWER
+@SYNTAX=POWER(x,y)
+@DESCRIPTION=Возвращает значение @x в степени @y.
+Применение этой функции к строке или пустой ячейке возвращает ошибку.
+@SEEALSO=EXP
+
+@FUNCTION=NORMSDIST
+@SYNTAX=NORMSDIST(x)
+@DESCRIPTION=Функция NORMSDIST возвращает стандартное нормальное кумулятивное распределение.
+@x - значение, для которого вы хотите получить распределение.
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=NOMRDIST
+
+@FUNCTION=STDEVA
+@SYNTAX=STDEVA(number1,number2,...)
+@DESCRIPTION=STDEVA возвращает стандартное отклонение based on a sample. Текстовые и логические значения также учитываются в вычислениях.  Если ячейка содержит текст или логическое значение FALSE, то ее значение принимается равным 0.  Если логическое значение аргумента TRUE, то оно принимается равным 1.  Обратите внимание, что пустые ячейки не учитываются.
+@SEEALSO=STDEV,STDEVPA
+
+@FUNCTION=TTEST
+@SYNTAX=TTEST(array1,array2,tails,type)
+@DESCRIPTION=Функция TTEST возвращает вероятность Student's t-Test. 
+@array1 - первый набор данных и @array2 - второй набор данных. Если @tails = 1,
+TTEST использует одностороннее распределение, а если @tails = 2, TTEST использует
+двустороннее распределение. @type определяет вид теста:
+1  Paired test
+2  Two-sample equal variance
+3  Two-sample unequal variance
+
+Если наборы данных содержат различное число данных и test is paired (@type = 1), TTEST возвращает ошибку #N/A!.
+У @tails и @type при необходимости отбрасывается дробная часть. Если @tails не равно 1 или 2, TTEST возвращает ошибку #NUM!.
+Если @type не равно 1,2 или 3, TTEST возвращает ошибку #NUM!.
+@SEEALSO=FDIST,FINV
+
+@FUNCTION=NPER
+@SYNTAX=NPER(rate,pmt,pv,fv,type)
+@DESCRIPTION=Вычисляет количество of periods of an investment.
+@SEEALSO=PPMT,PV,FV
+
+@FUNCTION=STDEV
+@SYNTAX=STDEV(b1, b2, ...)
+@DESCRIPTION=STDEV возвращает стандартное отклонение набора чисел рассматривая эти числа как members of a population.
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=VAR,MEAN
+
+@FUNCTION=MOD
+@SYNTAX=MOD(number,divisor)
+@DESCRIPTION=Implements modulo arithmetic. Returns the remainder when @divisor is divided into @number.
+Возвращает #DIV/0!, если делитель равен 0.
+@SEEALSO=INT,FLOOR,CEIL
+
+@FUNCTION=FACTDOUBLE
+@SYNTAX=FACTDOUBLE(number)
+@DESCRIPTION=Функция FACTDOUBLE возвращает двойной факториал числа (n!! равен произведению
+всех чисел через одно от n до 1 или 2.  3!!= 3*1= 3, 6!!= 6*4*2=48). 
+Если @number не целое, дробная часть отбрасывается. Если @number отрицательное,
+FACTDOUBLE возвращает ошибку #NUM!. 
+@SEEALSO=FACT
+
+@FUNCTION=GAMMALN
+@SYNTAX=GAMMALN(x)
+@DESCRIPTION=Функция GAMMALN возвращает натуральный логарифм гамма-функции.
+Если @x не является числом, GAMMALN возвращает ошибку #VALUE!.
+Если @x <= 0, GAMMALN возвращает ошибку #NUM!.
+@SEEALSO=POISSON
+
+@FUNCTION=SMALL
+@SYNTAX=SMALL(n1, n2, ..., k)
+@DESCRIPTION=SMALL возвращает k-ое наименьшее значение в наборе данных.
+Если набор данных пуст, SMALL возвращает ошибку #NUM!.
+Если k<=0 или k больше чем данных в наборе, SMALL возвращает ошибку #NUM!.
+@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE
+
+@FUNCTION=OCT2DEC
+@SYNTAX=OCT2DEC(x)
+@DESCRIPTION=Функция OCT2DEC преобразует восьмеричное число в десятичное.
+@SEEALSO=DEC2OCT
+
+@FUNCTION=T
+@SYNTAX=T(value)
+@DESCRIPTION=Возвращает @value если это текст, в противном случае возвращает пустую строку.
+@SEEALSO=CELL, N, VALUE
+
+@FUNCTION=NORMINV
+@SYNTAX=NORMINV(p,mean,stdev)
+@DESCRIPTION=Функция NORMINV возвращает обратное нормальное кумулятивное распределение.
+@p задает вероятность соответствующего нормального распределения, @mean - арифметическое среднее распределения, а @stdev - стандартное отклонение распределения.
+Если @p < 0 или @p > 1 или @stdev <= 0 NORMINV возвращает ошибку #NUM!. 
+@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST
+
+@FUNCTION=PV
+@SYNTAX=PV(rate,nper,pmt,fv,type)
+@DESCRIPTION=Вычисляет present value of an investment.
+@SEEALSO=FV
+
+@FUNCTION=DOLLAR
+@SYNTAX=DOLLAR(num,[decimals])
+@DESCRIPTION=Возвращает @num отформатированное как валюта.
+@SEEALSO=FIXED, TEXT, VALUE
+
+@FUNCTION=TANH
+@SYNTAX=TANH(x)
+@DESCRIPTION=Функция TANH возвращает гиперболический тангенс @x, который математически определяется как sinh(@x) / cosh(@x). 
+Строки и пустые ячейки в качестве аргументов функции игнорируются. Эта функция принимает только один аргумент.
+@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS
+
+@FUNCTION=SUBSTITUTE
+@SYNTAX=SUBSTITUTE(text, old, new [,num])
+@DESCRIPTION=Заменяет @old на @new в @text. Замещение применяется только к @num вхождениям @old в @text,
+если @num не задано происходит только одна замена.
+@SEEALSO=REPLACE, TRIM
+
+@FUNCTION=TODAY
+@SYNTAX=TODAY ()
+@DESCRIPTION=Возвращает серийный номер для текущего дня (число дней прошедших с 1-ого января 1900 года)
+@SEEALSO=TODAY, NOW
+
+@FUNCTION=FV
+@SYNTAX=FV(rate,nper,pmt,pv,type)
+@DESCRIPTION=Вычисляет future value of an investment.
+@SEEALSO=PV,PMT,PPMT
+
+@FUNCTION=PPMT
+@SYNTAX=PPMT(rate,per,nper,pv,fv,type)
+@DESCRIPTION=Вычисляет the amount of a payment of an annuity going towards principal.
+По формуле:
+PPMT(per) = PMT - IPMT(per)
+где:
+PMT = Payment received on annuity
+IPMT(per) = amount of interest for period per
+@SEEALSO=IPMT,PV,FV
+
+@FUNCTION=PROPER
+@SYNTAX=PROPER(string)
+@DESCRIPTION=Возвращает @string с преобразованными к заглавным первыми буквами каждого слова.
+@SEEALSO=LOWER, UPPER
+
+@FUNCTION=DELTA
+@SYNTAX=DELTA(x[,y])
+@DESCRIPTION=Функция DELTA сравнивает численное равенство двух аргументов,
+возвращая 1 в случае равенства. @y не обязательный аргумент, по умолчанию  равен 0.
+Если любой из аргументов не является числом, DELTA возвращает ошибку #VALUE!.
+@SEEALSO=EXACT,GESTEP
+
+@FUNCTION=CEILING
+@SYNTAX=CEILING(x,significance)
+@DESCRIPTION=Функция CEILING округляет @x до большего ближайшего кратного @significance. 
+Если @x или @significance не являются числами, CEILING возвращает ошибку #VALUE!.
+Если @x и @significance имеют различные знаки, CEILING возвращает ошибку #NUM!.
+@SEEALSO=CEIL
+
+@FUNCTION=KURTP
+@SYNTAX=KURTP(n1, n2, ...)
+@DESCRIPTION=KURTP возвращает the population kurtosis of набора данных.
+Строки и пустые ячейки в качестве аргументов игнорируются.
+Если задано меньше двух чисел или все они равны, KURTP возвращает ошибку #DIV/0!.
+@SEEALSO=AVERAGE,VARP,SKEWP,KURT
+
+@FUNCTION=IMLOG10
+@SYNTAX=IMLOG10(inumber)
+@DESCRIPTION=IMLOG10 возвращает десятичный логарифм комплексного числа.
+@SEEALSO=IMLN,IMLOG2
+
+@FUNCTION=AND
+@SYNTAX=AND(b1, b2, ...)
+@DESCRIPTION=Выполняет функцию "логическое И": результат TRUE, если значения всех выражений TRUE,
+в противном случае результат - FALSE.
+b1...bN - выражения, которые должны принимать значения TRUE или FALSE.
+Если аргумент целое или дробное число равное 0, его значение принимается равным
+FALSE, а в остальных случаях TRUE. Если аргумент является строкой или пустой ячейкой,
+то он игнорируется.  Если нет ни одного аргумента с логическим значением, то возвращается
+ошибка #VALUE!.
+@SEEALSO=OR, NOT
+
+@FUNCTION=ODD
+@SYNTAX=ODD(number)
+@DESCRIPTION=Функция ODD возвращает число округленное до ближайшего нечетного целого. 
+@SEEALSO=EVEN
+
+@FUNCTION=MAXA
+@SYNTAX=MAXA(number1,number2,...)
+@DESCRIPTION=MAXA возвращает значение наибольшего из переданных аргументов.
+Текстовые и логические значения также учитываются в вычислениях. Если ячейка содержит текст или логическое значение FALSE, то ее значение принимается равным 0.  Если логическое значение аргумента TRUE, то оно принимается равным 1.  Обратите внимание, что пустые ячейки не учитываются.
+@SEEALSO=MAX,MINA
+
+@FUNCTION=ISNONTEXT
+@SYNTAX=ISNONTEXT()
+@DESCRIPTION=ISNONTEXT возвращает TRUE, если значение не является текстом. 
+@SEEALSO=
+
+@FUNCTION=SUM
+@SYNTAX=SUM(value1, value2, ...)
+@DESCRIPTION=Вычисляет сумму всех значений и содержимого ячеек в списке аргументов. 
+@SEEALSO=AVERAGE, COUNT
+
+@FUNCTION=MONTH
+@SYNTAX=MONTH (serial_number)
+@DESCRIPTION=Преобразует серийное число в месяц.
+Заметьте, что Gnumeric выполняет за вас преобразование строки в серийный номер, поэтому вы можете вводить дату как строку.
+@SEEALSO=DAY, TIME, NOW, YEAR
+
+@FUNCTION=ISERR
+@SYNTAX=ISERR()
+@DESCRIPTION=ISERR возвращает TRUE, если значение является любой ошибкой кроме #N/A. 
+@SEEALSO=
+
+@FUNCTION=BETADIST
+@SYNTAX=BETADIST(x,alpha,beta[,a,b])
+@DESCRIPTION=Функция BETADIST возвращает кумулятивное бета-распределение.
+@a is the optional lower bound of @x и @b is the optional upper bound of @x.
+Если @a не задано, BETADIST использует 0. Если @b не задано, BETADIST использует 1.
+Если @x < @a или @x > @b, BETADIST возвращает ошибку #NUM!.
+Если @alpha <= 0 или beta <= 0, BETADIST возвращает ошибку #NUM!.
+Если @a >= @b, BETADIST возвращает ошибку #NUM!.
+@SEEALSO=BETAINV
+
+@FUNCTION=FIXED
+@SYNTAX=FIXED(num, [decimals, no_commas])
+@DESCRIPTION=Возвращает @num как форматированную строку с @decimals числом знаков после десятичной точки,
+опуская разрадные запятые если указан аргумент @no_commas.
+@SEEALSO=
+
+@FUNCTION=STDEVP
+@SYNTAX=STDEVP(b1, b2, ...)
+@DESCRIPTION=STDEVP возвращает стандартное отклонение набора чисел рассматривая эти числа как members of a complete population.
+Строки и пустые ячейки в качестве аргументов функции игнорируются.
+@SEEALSO=STDEV,VAR,MEAN
+
+@FUNCTION=DEC2BIN
+@SYNTAX=DEC2BIN(number[,places])
+@DESCRIPTION=Функция DEC2BIN преобразует десятичное число в двоичное. @places не обязательное поле указывающее заполнение нулями до нужного числа знаков.
+Если @places слишком мало или отрицательное, DEC2BIN возвращает ошибку #NUM!.
+@SEEALSO=BIN2DEC
+
+@FUNCTION=HLOOKUP
+@SYNTAX=HLOOKUP(value,range,row,[approximate])
+@DESCRIPTION=Функция HLOOKUP ищет the col in range that has a first row cell
+similar to value.  If approximate is not true it finds the col with an exact
+equivilance.  If approximate is true, then the values must be sorted in order
+of ascending value for correct function; in this case it finds the col with
+value less than value it возвращает the value in the col found at a 1 based
+offset in row rows into the range.
+Возвращает #NUM!, если @row < 0. Возвращает #REF!, если @row falls outside @range.
+@SEEALSO=VLOOKUP
+
+@FUNCTION=MMULT
+@SYNTAX=MMULT(array1,array2)
+@DESCRIPTION=Функция MMULT возвращает матричное произведение двух массивов.
+The result is an array with the same number of rows as @array1 and the same
+number of columns as @array2.
+@SEEALSO=SUMPRODUCT
+
+@FUNCTION=LOG10
+@SYNTAX=LOG10(x)
+@DESCRIPTION=Вычисляет десятичный логарифм @x. 
+Применение этой функции к строке или пустой ячейке возвращает ошибку. 
+@SEEALSO=EXP, LOG2, LOG
+
+@FUNCTION=DCOUNT
+@SYNTAX=DCOUNT(database,field,criteria)
+@DESCRIPTION=Функция DCOUNT counts the cells that contain numbers in a database that match conditions specified. 
+@database - диапазон ячеек, в котором строки соответствуют записям, а столбцы - полям данных. Первая строка @database содержит метки для каждого столбца. 
+@field указывает какой столбец используется в функции. Если @field целое число, например 2, используется второй столбец. @field также может быть меткой столбца. 
+@criteria - диапазон ячеек, которые содержат указанные условия. Первая строка @criteria должна содержать метки полей, к которым применяются эти условия. Ячейки под метками указывают условия, например ">3" или "<9". 
+@SEEALSO=DAVERAGE
+
+@FUNCTION=COUNTA
+@SYNTAX=COUNTA(b1, b2, ...)
+@DESCRIPTION=Возвращает переданное число аргументов не включая пустые ячейки.
+@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM
+
+@FUNCTION=SUBTOTAL
+@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)
+@DESCRIPTION=Функция SUBTOTAL возвращает a subtotal заданного списка аргументов.
+@function_nbr - число указывающее какая функция используется для вычисления
+the subtotal.
+Доступны следующие функции:
+1   AVERAGE
+2   COUNT
+3   COUNTA
+4   MAX
+5   MIN
+6   PRODUCT
+7   STDEV
+8   STDEVP
+9   SUM
+10   VAR
+11   VARP
+@SEEALSO=COUNT,SUM
+
+@FUNCTION=CLEAN
+@SYNTAX=CLEAN(string)
+@DESCRIPTION=Удаляет из строки @string любые непечатаемые символы.
+@SEEALSO=
+
+@FUNCTION=MODE
+@SYNTAX=MODE(n1, n2, ...)
+@DESCRIPTION=MODE возвращает наиболее часто встречающееся в наборе данных число.
+Если в наборе данных есть несколько чисел с одинаково большой частотой MODE возвращает первое
+из них. Строки и пустые ячейки игнорируются. Если набор данных не содержит повторяющихся чисел,
+MODE возвращает ошибку #N/A!.
+@SEEALSO=AVERAGE,MEDIAN
+
+@FUNCTION=DCOUNTA
+@SYNTAX=DCOUNTA(database,field,criteria)
+@DESCRIPTION=Функция DCOUNTA считает ячейки, которые содержат данные в @database удовлетворяющие указанным условиям. 
+@database - диапазон ячеек, в котором строки соответствуют записям, а столбцы - полям данных. Первая строка @database содержит метки для каждого столбца. 
+@field указывает какой столбец используется в функции. Если @field целое число, например 2, используется второй столбец. @field также может быть меткой столбца. 
+@criteria - диапазон ячеек, которые содержат указанные условия. Первая строка @criteria должна содержать метки полей, к которым применяются эти условия. Ячейки под метками указывают условия, например ">3" или "<9". 
+@SEEALSO=DCOUNT
+
+@FUNCTION=SUMX2PY2
+@SYNTAX=SUMX2PY2(array1,array2)
+@DESCRIPTION=Функция SUMX2PY2 возвращает сумму сумм квадратов соответствующих значений в двух массивах. @array1 - первый массив или диапазон данных и @array2 - второй массив или диапазон данных.
+SUMX2PY2 равняется SUM (@x^2+@y^2). 
+Строки и пустые ячейки в качестве аргументов игнорируются.
+Если @array1 и @array2 имеют различный размер, SUMX2PY2 возвращает ошибку #N/A!. 
+@SEEALSO=SUMSQ
+
+@FUNCTION=FTEST
+@SYNTAX=FTEST(array1,array2)
+@DESCRIPTION=Функция FTEST возвращает одностороннюю вероятность того, что
+дисперсии в двух заданных наборах данных различаются незначимо. 
+@SEEALSO=FDIST,FINV
+
+@FUNCTION=SKEWP
+@SYNTAX=SKEWP(n1, n2, ...)
+@DESCRIPTION=SKEW возвращает the population асимметричность набора данных.
+Строки и пустые ячейки в качестве аргументов игнорируются.
+Если задано меньше двух чисел, SKEWP возвращает ошибку #DIV/0!.
+@SEEALSO=AVERAGE,VARP,SKEW,KURTP
+
+@FUNCTION=ISNUMBER
+@SYNTAX=ISNUMBER()
+@DESCRIPTION=ISNUMBER возвращает TRUE если значение является числом. 
+@SEEALSO=
+
+@FUNCTION=RADIANS
+@SYNTAX=RADIANS(x)
+@DESCRIPTION=Вычисляет число радиан равное @x градусам. 
+Строки и пустые ячейки в качестве аргументов функции игнорируются. 
+@SEEALSO=PI,DEGREES
+
+@FUNCTION=IPMT
+@SYNTAX=IPMT(rate,per,nper,pv,fv,type)
+@DESCRIPTION=Вычисляет the amount of a payment of an annuity going towards interest.
+Формула для IPMT:
+
+IPMT(PER) = PMT - PRINCIPAL(PER-1) * INTEREST_RATE
+где:
+PMT = Payment received on annuity
+PRINCIPA(per-1) = amount of the remaining principal from last period
+@SEEALSO=PPMT,PV,FV
+
+@FUNCTION=ISREF
+@SYNTAX=ISREF()
+@DESCRIPTION=ISREF возвращает TRUE если значение является ссылкой. 
+@SEEALSO=
+
+@FUNCTION=ROUNDUP
+@SYNTAX=ROUNDUP(number[,digits])
+@DESCRIPTION=Функция ROUNDUP округляет заданное число до большего, away from zero.
+@number - число которое вы хотите округлить, @digits - число цифр, до которого вы хотите округлить округлить это число.
+Если @digits > 0, @number округляется вверх до данного числа цифр.
+Если @digits = 0 или опущено, @number округляется вверх до ближайшего целого.
+Если @digits < 0, @number округляется до заданного числа знаков после десятичной точки.
+@SEEALSO=ROUNDDOWN
+
+@FUNCTION=DSTDEV
+@SYNTAX=DSTDEV(database,field,criteria)
+@DESCRIPTION=Функция DSTDEV возвращает the estimate of стандартного отклонения of a population based on a sample.
+The populations consists of numbers that match conditions specified. 
+@database - диапазон ячеек, в котором строки соответствуют записям, а столбцы - полям данных. Первая строка @database содержит метки для каждого столбца. 
+@field указывает какой столбец используется в функции. Если @field целое число, например 2, используется второй столбец. @field также может быть меткой столбца. 
+@criteria - диапазон ячеек, которые содержат указанные условия. Первая строка @criteria должна содержать метки полей, к которым применяются эти условия. Ячейки под метками указывают условия, например ">3" или "<9". 
+@SEEALSO=DSTDEVP
+
+@FUNCTION=SUMA
+@SYNTAX=SUMA(value1, value2, ...)
+@DESCRIPTION=Вычисляет сумму всех значений и содержимого ячеек из списка аргументов. Текстовые и логические значения также учитываются в вычислениях.  Если ячейка содержит текст или логическое значение FALSE, то ее значение принимается равным 0. Если логическое значение аргумента TRUE, то оно принимается равным 1. Обратите внимание, что пустые ячейки не учитываются.
+@SEEALSO=AVERAGE, SUM, COUNT
+
+@FUNCTION=IMTAN
+@SYNTAX=IMTAN(inumber)
+@DESCRIPTION=IMTAN возвращает тангенс комплексного числа.
+@SEEALSO=IMTAN
+
+@FUNCTION=FISHERINV
+@SYNTAX=FISHERINV(y)
+@DESCRIPTION=Функция FISHERINV возвращает обратное преобразование Фишера (Fisher) для @x. 
+Если @x не является числом, FISHER возвращает ошибку #VALUE!.
+@SEEALSO=FISHER
+
+@FUNCTION=ATAN
+@SYNTAX=ATAN(x)
+@DESCRIPTION=Функция ATAN вычисляет арктангенс @x; то есть такое число, тангенс которого равен @x. Значение возвращается в радианах.
+Строки и пустые ячейки в качестве аргументов функции игнорируются. Эта функция принимает только один аргумент.
+@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS
+
+@FUNCTION=SLN
+@SYNTAX=SLN(cost,salvage value,life)
+@DESCRIPTION=Вычисляет the straight line depriciation for anasset based on its cost, salvage value and anticipated life.
+Формула для straight line depriciation:
+Depriciation expense = ( cost - salvage value ) / life
+	cost = cost of an asset when acquired (market value)	salvage_value = amount you get when asset sold at the end of life	life = anticipated life of an asset
+@SEEALSO=SYD
+
+@FUNCTION=LARGE
+@SYNTAX=LARGE(n1, n2, ..., k)
+@DESCRIPTION=Функция LARGE возвращает  k-ое наибольшее значение в наборе данных.
+Если набор данных пуст, LARGE возвращает ошибку #NUM!.
+Если @k<=0 или @k больше количества переданных значений, LARGE возвращает ошибку #NUM!.
+@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL
+
+@FUNCTION=HEX2BIN
+@SYNTAX=HEX2BIN(number[,places])
+@DESCRIPTION=Функция HEX2BIN преобразует шестнадцатиричное число в двоичное.
+@places не обязательное поле указывающее заполнение нулями до нужного числа знаков.
+Если @places слишком мало или отрицательное, HEX2BIN возвращает ошибку #NUM!.
+@SEEALSO=BIN2HEX
+
+@FUNCTION=GESTEP
+@SYNTAX=GESTEP(x[,y])
+@DESCRIPTION=Функция GESTEP проверяет, что @x >= y, возвращая 1 если это так, и 0 в противном случае.
+@y не обязательный параметр, по умолчанию используется 0.
+Если любой из аргументов не является числом, GESTEP возвращает ошибку #VALUE!.
+@SEEALSO=DELTA
+
+@FUNCTION=TDIST
+@SYNTAX=TDIST(x,dof,tails)
+@DESCRIPTION=Функция TDIST возвращает t-распределение (распределение Student'а). @dof - число степеней свободы, @tails равно 1 или 2 depending on whether you want one-tailed or two-tailed распределение.
+Если @dof < 1, TDIST возвращает ошибку #NUM!. Если @tails не равно 1 или 2, TDIST возвращает ошибку #NUM!.
+@SEEALSO=TINV,TTEST
+
+@FUNCTION=HOUR
+@SYNTAX=HOUR (serial_number)
+@DESCRIPTION=Преобразует серийный номер в часы. Значение часа возвращается как целое в диапазоне от 0 (12:00 A.M.) до 23 (11:00 P.M.)
+Заметьте, что Gnumeric выполняет за вас преобразование строки в серийный номер, поэтому вы можете вводить дату как строку.
+@SEEALSO=MINUTE, NOW, TIME, SECOND
+
+@FUNCTION=FACT
+@SYNTAX=FACT(x)
+@DESCRIPTION=Вычисляет факториал @x. То есть, @x!
+Применение этой функции к строке или пустой ячейке возвращает ошибку.
+@SEEALSO=
+
+@FUNCTION=SLOPE
+@SYNTAX=SLOPE(known_y's,known_x's)
+@DESCRIPTION=SLOPE возвращает the slope of the linear regression line.
+@SEEALSO=STDEV,STDEVPA
+
+@FUNCTION=COVAR
+@SYNTAX=COVAR(array1,array2)
+@DESCRIPTION=COVAR возвращает ковариацию двух наборов данных.
+Строки и пустые ячейки в качестве аргументов игнорируются.
+@SEEALSO=CORREL,FISHER,FISHERINV
+
+@FUNCTION=DOLLARFR
+@SYNTAX=DOLLARFR(decimal_dollar,fraction)
+@DESCRIPTION=DOLLARFR преобразует цену выраженную числом с десятичной точкой в цену выраженную дробью. 
+Если @fraction не целое, дробная часть отбрасывается. Если @fraction<=0 DOLLARDE возвращает ошибку #NUM!.
+@SEEALSO=DOLLARDE
+
+@FUNCTION=OCT2HEX
+@SYNTAX=OCT2HEX(number[,places])
+@DESCRIPTION=Функция OCT2HEX преобразует восьмеричное число в шестнадцатиричное.
+@places не обязательное поле указывающее заполнение нулями до нужного числа знаков.
+Если @places слишком мало или отрицательное, OCT2HEX возвращает ошибку #NUM!.
+@SEEALSO=OCT2HEX
+
+@FUNCTION=COMBIN
+@SYNTAX=COMBIN(n,k)
+@DESCRIPTION=Вычисляет число комбинаций из @n по @k.
+Если аргументы не являются числами или отрицательные числа, а также если @n < @k, COMBIN возвращает ошибку.
+@SEEALSO=
+
+@FUNCTION=EVEN
+@SYNTAX=EVEN(number)
+@DESCRIPTION=Функция EVEN возвращает @number округленное до ближайшего четного целого. 
+@SEEALSO=ODD
+
+@FUNCTION=IF
+@SYNTAX=IF(condition[,if-true,if-false])
+@DESCRIPTION=Use the IF statement to evaluate conditionally other expressions IF evaluates @condition.
+Если @condition возвращает не нулевое значение, результат IF равен значению выражения @if-true,
+в противном случае IF возвращает значение выражения @if-false. Если опущено, @if-true по умолчанию равно TRUE, а @if-false - FALSE.
+@SEEALSO=
+
+@FUNCTION=IMSQRT
+@SYNTAX=IMSQRT(inumber)
+@DESCRIPTION=IMSQRT возвращает квадратный корень комплексного числа.
+@SEEALSO=IMEXP
+
+@FUNCTION=COUNTIF
+@SYNTAX=COUNTIF(range,criteria)
+@DESCRIPTION=Функция COUNTIF подсчитывает число ячеек в заданном диапазоне удовлетворяющее заданному критерию.
+@SEEALSO=COUNT,SUMIF
+
+@FUNCTION=ACOSH
+@SYNTAX=ACOSH(x)
+@DESCRIPTION=Функция ACOSH вычисляет обратный гиперболический косинус @x; то есть
+величину, гиперболический косинус которой равен @x. Если @x меньше чем 1.0,
+acosh() возвращает ошибку  'acosh - domain error'
+Строки и пустые ячейки в качестве аргументов функции игнорируются. Эта функция принимает только один аргумент.
+@SEEALSO=ACOS, DEGREES, RADIANS 
+
+@FUNCTION=TRIM
+@SYNTAX=TRIM(text)
+@DESCRIPTION=Возвращает @text с единичными пробелами между словами.
+@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE
+
+@FUNCTION=TRUNC
+@SYNTAX=TRUNC(number[,digits])
+@DESCRIPTION=Функция TRUNC возвращает значение @number truncated указанного числа цифр.
+Если @digits пропущено, то по умолчанию @digits равно 0.
+@SEEALSO=
+
+@FUNCTION=PROB
+@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])
+@DESCRIPTION=Функция PROB возвращает the probability that values in a range or an array are between two limits.
+Если @upper_limit не задан, PROB возвращает the probability that values in @x_range are equal to @lower_limit.
+Если сумма вероятностей в @prob_range не равняется 1, PROB возвращает ошибку #NUM!.
+Если любое значение в @prob_range <=0 или > 1, PROB возвращает ошибку #NUM!.
+Если @x_range и @prob_range содержат различное число of data entries, PROB возвращает ошибку #N/A!.
+@SEEALSO=BINOMDIST,CRITBINOM
+
+@FUNCTION=SEARCH
+@SYNTAX=SEARCH(text,within[,start_num])
+@DESCRIPTION=Возвращает положение символа или текстовой строки в другой строке.
+@text - искомый символ или строка. @within - строка, в которой вы хотите искать.
+@start_num - начальная позиция для поиска в @within. Если @start_num опущено,
+оно принимается за 1. Поиск не является чувствительным к регистру. 
+@text может содержать символ wildcard (*) и вопросительный знак (?) для управления поиском.
+Знак вопроса соответствует одному любому символу, а wildcard соответствует любой,
+в том числе пустой строке. Если вы хотите искать вопросительный знак или звездочку,
+используйте перед ними тильду (~). 
+Если @text не найден, SEARCH возвращает ошибку #VALUE!.
+Если @start_num меньше чем 1 или больше чем длина @within, SEARCH возвращает ошибку #VALUE!. 
+@SEEALSO=FIND
+
+@FUNCTION=CONCATENATE
+@SYNTAX=CONCATENATE(string1[,string2...])
+@DESCRIPTION=Возвращает up appended strings.
+@SEEALSO=LEFT, MID, RIGHT
+
+@FUNCTION=ISERROR
+@SYNTAX=ISERROR(exp)
+@DESCRIPTION=Возвращает значение TRUE, если выражение содержит ошибку.
+@SEEALSO=ERROR
+
+@FUNCTION=INFO
+@SYNTAX=INFO()
+@DESCRIPTION=INFO возвращает информацию о текущем окружении. 
+@SEEALSO=
+
+@FUNCTION=ERROR.TYPE
+@SYNTAX=ERROR(exp)
+@DESCRIPTION=FIXME
+@SEEALSO=ISERROR
+
+@FUNCTION=IMLN
+@SYNTAX=IMLN(inumber)
+@DESCRIPTION=IMLN возвращает натуральный логарифм комплексного числа.
+(Результат будет иметь мнимую часть между -Пи и +Пи. Натуральный логарифм не однозначно определен на комплексных числах.
+Вы может понадобиться добавить или вычесть an even multiple of pi to the imaginary part.)
+@SEEALSO=IMEXP

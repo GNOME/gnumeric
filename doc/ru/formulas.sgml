@@ -1,0 +1,123 @@
+<sect1 id="formulas">
+  <title>Формулы</title>
+  
+  <para>Формулы исключительно полезны в электронных таблицах (FIX! в оригинале
+   по всей видимости идиома). Формула может принимать в качестве аргументов почти все,
+    включая одиночные числа, ссылки на ячейки, диапазоны ячеек, массивы ячеек
+    и т.д. </para>
+  
+  
+  <sect2>
+    <title>Синтаксис</title>
+    
+    <para> Формулы отличаются от обычных данных знаком '=' в качестве 
+      первого символа. Все что находится за знаком '=' рассматривается
+      как формула, а не как строка. </para>
+    
+    <para> Простейшая формула использует только стандартные математические
+     операторы и символы. +,-,*,/ интерпретируются именно так как можно было
+     бы ожидать от них.  +,- могут быть использованы как унарные операторы
+     для указания знака, как и следовало ожидать. </para>
+      
+    <example id="standardoperators">
+      <title>Примеры стандартных операторов</title>
+      <programlisting>
+	=5+5            возвращает 10.
+	
+	=5-4            возвращает 1.
+	
+	=-5             возвращает -5.
+	
+	=5*5            возвращает 25.
+	
+	=(5*5)+11       возвращает 36.
+	
+	=(5*)+(49/7)    возвращает 32.
+      </programlisting>
+    </example>
+  </sect2>
+  
+  
+  <sect2>
+    <title>Использование функций</title>
+    
+    <para>Большинство стандартных математических, бухгалтерских, статистических
+      и научных вычислений реализуются в терминах функций. Функции в виде:</para>
+    
+    <example id="basicfunctionsyntax">
+      <title>Основной синтаксис функций</title>
+      <programlisting>
+	=FUNCTION(аргументы)
+      </programlisting>
+    </example>
+    
+    <para> Хотя в документации обычно функции написаны заглавными буквами,
+      в действительности регистр в их записи не важен.</para>
+	
+	<example id="funxtionsyntax">
+	  <title>Некоторые примеры синтаксиса функций</title>
+	  <programlisting>
+	    =SUM(A1,A2,A4,B5)
+	    
+            =AVERAGE(A1:A16)
+	    
+            =EXP(1)
+	    
+	    =PI()
+	    
+            =MIN(A1,A2,B6)
+	  </programlisting>
+	</example>
+
+	<para>Where a function takes multiple arguments such as the
+	SUM example, the number of arguments effectively unlimited.</para>
+  </sect2>
+
+  <sect2>
+  <title>Names</title>
+  <para>Names help to simplify complex formulae. A name is assinged to
+  a formula which will be evaluated when it is referred to in another
+  formula. Names are particularly useful for labeling cell ranges.</para>
+
+	<example id="namesyntax">
+	<title>Examples of name usage</title>
+	<para>If DataBase is defined as '$A$1:$B$500' and
+	E_Constant is defined as 2.71828182845 then we can have:</para>
+  	  <programlisting>
+	    =VLOOKUP (C1, "gnu", DataBase, 2, 0)
+
+	    =LN(E_Constant)
+
+	    =SUM(DataBase, E_Constant)
+	  </programlisting>
+	</example>
+
+  <para>Names are defined using the <guimenu>Insert</guimenu>
+  <guimenuitem>Name</guimenuitem> dialog. This allows manipulation of
+  all the names in the related workbook. A name is restrained from taking
+  that of a function, since this would cause confusion.</para>
+
+  <para>In addition to the names you define there are built in names:</para>
+  <itemizedlist>
+    <listitem>Sheet_Title: this returns the name of the current sheet</listitem>
+  </itemizedlist>
+  </sect2>
+</sect1>
+
+
+<!-- Keep this comment at the end of the file
+Local variables:
+mode: sgml
+sgml-omittag:t
+sgml-shorttag:t
+sgml-minimize-attributes:nil
+sgml-always-quote-attributes:t
+sgml-indent-step:2
+sgml-indent-data:t
+sgml-parent-document:nil
+sgml-exposed-tags:nil
+sgml-local-catalogs:nil
+sgml-local-ecat-files:nil
+End:
+-->                         
+

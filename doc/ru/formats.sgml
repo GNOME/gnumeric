@@ -1,0 +1,46 @@
+<sect1 id="editing-selections">
+  <title>Формат ячеек в Gnumeric</title>
+
+  <para>Gnumeric предоставляет широкий диапазон возможностей форматирования 
+  для данных введенных в ячейки. Числа отображаются в соответствии с
+  кодом формата, который описывает желаемый вами способ представления 
+  информации.</para>
+
+  <para>Чтобы применить формат к ячейке(ам), вы должны выделить область ячеек,
+  к которым он должен быть применен и затем вызвать диалоговое окно формата ячеек.
+  Диалоговое окно формата ячейки может быть вызвано из главного меню Gnumeric
+  пункт "Формат/Ячейки" или из контекстнозависимого менб в таблице
+  (оно активируется при нажатии правой кнопки мыши).</para>
+
+  <sect2>
+     <title>Коды форматирования</title>
+
+  </sect2>
+
+  <sect2>
+     <title>Условные коды форматирования</title>
+
+  </sect2>
+
+  <sect2>
+     <title>Добавление цветов к формату</title>
+
+  </sect2>
+
+</sect1>
+
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             

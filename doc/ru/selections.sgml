@@ -1,0 +1,210 @@
+<sect1 id="editing-selections">
+  <title>Редактирование ячеек с использованием выделения</title>
+  
+  <para>Существуют различные способы использования выделения для облегчения
+    редактирования ячеек в таблице. </para>
+  
+  <para>Например, в имеющееся выделение ячеек (связанное или несвязанное)
+   могут быть введены данные. Клавиша <keycap>Enter</keycap> будет подтверждать
+    ввод данных и перемещать курсор к следующей ячейке вниз в выделении (при
+    достижении последней ячейки в столбце курсор будет перемещаться в верхнюю
+    ячейку следующего столбца, из последней ячейки последнего столбца курсор
+    переместится в верхнюю ячейку первого столбца).
+    Клавиша <keycap>tab</keycap> будет перемещать курсор к самой правой ячейке
+    (при достижении последней ячейки в строке курсор будет перемещаться в первую
+    ячейку следующей строки, из последней ячейки последней строки курсор
+    переместится в первую ячейку верхней строки).</para>
+  
+  <para><keycombo><keycap>Shift</keycap><keycap>Enter</keycap></keycombo>
+    инвертирует <keycap>Enter</keycap> (перемещение происходит к предыдущей
+    ячейке в выделении, вверх), тогда как <keycombo><keycap>Shift</keycap><keycap>Tab</keycap></keycombo>
+    инвертирует <keycap>Tab</keycap> (курсор перемещается влево).</para>
+
+  <sect2>
+    
+    <title>Простые выделения</title>
+    
+    <para>Активная ячейка обозначается двойной темной линией с маленьким квадратиком
+     в нижнем правом углу. Активной является та ячейка, которая находится в фокусе 
+      и будет принимать любой ввод с клавиатуры</para>
+    
+    
+    <figure id="activecell">
+      <title>Активная ячейка.</title>
+      <screenshot>
+	<graphic fileref="images/selection-2.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+
+    <para>Чтобы сделать ячейку активной выделенной ячейкой, переместите курсор
+      в форме белого креста к ячейке и нажмите <mousebutton>MB1</mousebutton>.</para> 
+    
+    <figure id="activecellcursor">
+      <title>Активная ячейка с курсором.</title>
+      <screenshot>
+	<graphic fileref="images/selection-1.jpg"></graphic>
+      </screenshot>
+    </figure>   
+  </sect2>
+  
+  <sect2>
+    <title>Выделение нескольких ячеек</title>
+    
+    <para>Выделение нескольких ячеек обозначается двойной темной линией вокруг
+      области выделения. Верхняя левая ячейка выглядит очень похоже на единственную
+      выделенную ячейку, тогда как остальное выделение имеет инверсный цвет.</para>
+    
+    <figure id="multicellselect">
+      <title>Многоячеечное выделение</title>
+      <screenshot>
+	<graphic fileref="images/selection-3.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <para>Чтобы выделить связанную область ячеек, щелкните на ячейке курсором
+      в форме белого креста и протащите выделение пока оно не покроет область, 
+      которую вы хотите выделить после чего отпустите кнопку мыши.</para>
+    
+    <figure id="multicellsect2">
+      <title>Несколько ячеек выделенные с помощью курсора.</title> 
+      <screenshot>
+        <graphic fileref="images/selection-4.jpg"></graphic>
+      </screenshot>
+    </figure>
+
+  </sect2>
+  
+  <sect2>
+    <title>Несвязанное выделение</title>
+    
+    <para>Чтобы выделить несколько ячеек, которые могут быть несвязанными между собой,
+      используйте <keycombo><keycap>Ctrl</keycap></keycombo>+<mousebutton>MB1</mousebutton> и 
+	drag to argument an existing selection. 
+	Ячейки могут добавляться индивидуально или как часть других выделений.</para>
+    
+    <figure id="dicontselect">
+      <title>Несвязанное выделение ячеек.</title>
+      <screenshot>
+	<graphic fileref="images/selection-5.jpg"></graphic>
+      </screenshot>
+    </figure> 
+    
+    
+  </sect2>
+  
+  
+ <sect2>
+    <title>Комбинации клавиш</title>
+    
+    <para>Наиболее быстрый путь выделить большую область ячеек, особенно когда 
+      вы уже используете клавиатуру - это использование инструментов выделения с
+      клавиатуры. Основной способ - нажать клавиши <keycombo><keycap>Shift</keycap><keycap>arrow</keycap></keycombo>
+      чтобы сделать новое выделение.</para>
+    
+    <para>Чтобы выделить всю строку ячеек, нажмите Shift+space. Это равносильно 
+     нажатию на кнопку метки строки слева от таблицы.</para> 
+    
+ <figure id="selectrow">
+      <title>Выделение всей строки.</title>
+      <screenshot>
+	<graphic fileref="images/selection-8.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    
+    <para>Чтобы выделить весь столбец ячеек, нажмите <keycombo><keycap>Ctrl</keycap><keycap>
+	  Space</keycap></keycombo>. Это равносильно нажатию на кнопку метки столбца вверху таблицы.</para>
+
+    <figure id="selectcol">
+      <title>Выделение всего столбца.</title>
+      <screenshot>
+	<graphic fileref="images/selection-9.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <para>Чтобы выделить всю таблицу, нажмите 
+      <keycombo><keycap>Ctrl</keycap><keycap>A</keycap></keycombo>. Это равносильно
+      нажатию на кнопку в верхнем левом углу таблицы.</para>
+    
+    <figure id="selectall">
+      <title>Выделение всей таблицы.</title>
+      <screenshot>
+	<graphic fileref="images/selection-10.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    
+    <itemizedlist>
+      <listitem>
+	<para>
+	  <keycombo><keycap>Shift</keycap><keycap>Arrow</keycap></keycombo>
+	  : Выделение клавишами управления курсором.</para></listitem>
+      
+      <listitem>
+	<para>
+	  <keycombo><keycap>Shift</keycap><keycap>Space</keycap></keycombo>
+	  : Выделение текущей строки. </para></listitem>
+
+      <listitem>
+	<para>
+	  <keycombo><keycap>Ctrl</keycap><keycap>Space</keycap></keycombo>
+	  : Выделение текущего столбца.</para></listitem>
+      
+      <listitem>
+	<para>
+	  <keycombo><keycap>Ctrl</keycap><keycap>A</keycap></keycombo>
+	  : Выделение всей таблицы.</para></listitem>
+      
+    </itemizedlist>
+    
+    
+
+  </sect2>
+  
+  <sect2>
+    <title>Заполнение области одинаковым текстом или значением.</title>
+    <para> Для набора ячеек, которые необходимо заполнить одинаковым значением,
+      простейший путь сделать выделение используя один из описанных ранее методов, 
+      затем ввести значение в одну из ячеек как обычно, но подтвердить ввод нажатием не
+      <keycap>Enter</keycap>, а <keycombo><keycap>Ctrl</keycap><keycap>Enter</keycap></keycombo>.
+      При этом выделение будет заполнено значением введенным в эту клетку.</para>
+    
+    <para>В тех случаях когда вы хотите заполнить ячейки последовательностью чисел, дат или 
+      других упорядоченных данных, вы можете использовать возможность автозаполнения.</para>
+    
+    
+    <figure id="cellselectfillbefore">
+      <title>Выделение нескольких ячеек.</title>
+      <screenshot>
+	<graphic fileref="images/selection-6.jpg"></graphic>
+      </screenshot>
+    </figure>  
+    
+    <figure id="cellselectfillafter">
+      <title>Выделение нескольких ячеек заполненных одинаковым значением.</title>
+      <screenshot>
+	<graphic fileref="images/selection-7.jpg"></graphic> 
+      </screenshot>
+    </figure>
+    
+  </sect2>
+  
+</sect1>
+
+
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             
