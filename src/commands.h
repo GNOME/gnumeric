@@ -71,5 +71,7 @@ gboolean cmd_search_replace     (WorkbookControl *wbc, Sheet *sheet, SearchRepla
 
 gboolean cmd_colrow_std_size    (WorkbookControl *wbc, Sheet *sheet,
 				 gboolean is_cols, double new_default);
-				 
+
+gboolean cmd_zoom               (WorkbookControl *wbc, GSList *sheets, double factor);
+
 #endif /* GNUMERIC_COMMANDS_H */

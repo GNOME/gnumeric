@@ -1,8 +1,9 @@
 Gnumeric 0.65
 
 Almer:
-	* Fix a variety of bugs
-	* Improve parser error messages
+	* Fix a variety of bugs.
+	* Improve parser error messages.
+	* Implement Undo/Redo for Zoom.
 
 Chema:
 	* GNUMERIC_ENABLE_XL_OVERWRITE

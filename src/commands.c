@@ -3443,7 +3443,122 @@ cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
 
 /******************************************************************/
 
+#define CMD_ZOOM_TYPE        (cmd_zoom_get_type ())
+#define CMD_ZOOM(o)     (GTK_CHECK_CAST ((o), CMD_ZOOM_TYPE, CmdZoom))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	GSList		*sheets;
+	double		 new_factor;
+	double          *old_factors;
+} CmdZoom;
+
+GNUMERIC_MAKE_COMMAND (CmdZoom, cmd_zoom);
+
+static gboolean
+cmd_zoom_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdZoom *me = CMD_ZOOM (cmd);
+	GSList *l;
+	int i;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->sheets != NULL, TRUE);
+	g_return_val_if_fail (me->old_factors != NULL, TRUE);
+	
+	for (i = 0, l = me->sheets; l != NULL; l = l->next, i++) {
+		Sheet *sheet = l->data;
+		
+		sheet_set_zoom_factor (sheet, me->old_factors[i], FALSE, TRUE);
+	}
+	
+	return FALSE;
+}
+
+static gboolean
+cmd_zoom_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdZoom *me = CMD_ZOOM (cmd);
+	GSList *l;
+	
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->sheets != NULL, TRUE);
+
+	for (l = me->sheets; l != NULL; l = l->next) {
+		Sheet *sheet = l->data;
+		
+		sheet_set_zoom_factor (sheet, me->new_factor, FALSE, TRUE);
+	}
+	
+	return FALSE;
+}
+
+static void
+cmd_zoom_destroy (GtkObject *cmd)
+{
+	CmdZoom *me = CMD_ZOOM (cmd);
+	
+	if (me->sheets)
+		g_slist_free (me->sheets);
+	if (me->old_factors)
+		g_free (me->old_factors);
+		
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_zoom (WorkbookControl *wbc, GSList *sheets, double factor)
+{
+	GtkObject *obj;
+	CmdZoom *me;
+	GString *namelist;
+	GSList *l;
+	int i;
+	
+	g_return_val_if_fail (wbc != NULL, TRUE);
+	g_return_val_if_fail (sheets != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_ZOOM_TYPE);
+	me = CMD_ZOOM (obj);
+
+	/* Store the specs for the object */
+	me->sheets = sheets;
+	me->old_factors = g_new0 (double, g_slist_length (sheets));
+	me->new_factor  = factor;
+
+	/* Make a list of all sheets to zoom and save zoom factor for each */
+	namelist = g_string_new ("");
+	for (i = 0, l = me->sheets; l != NULL; l = l->next, i++) {
+		Sheet *sheet = l->data;
+
+		namelist = g_string_append (namelist, sheet->name_unquoted);
+		me->old_factors[i] = sheet->last_zoom_factor_used;
+		
+		if (l->next)
+			namelist = g_string_append (namelist, ", ");
+	}
+
+	/* Make sure the string doesn't get overly wide */
+	if (strlen (namelist->str) > MAX_DESCRIPTOR_WIDTH) {
+		g_string_truncate (namelist, MAX_DESCRIPTOR_WIDTH - 3);
+		g_string_append (namelist, "...");
+	}
+	
+	me->parent.sheet = NULL;
+	me->parent.size = 1;
+	me->parent.cmd_descriptor =
+		g_strdup_printf (_("Zoom %s to %.0f%%"), namelist->str, factor * 100);
+
+	g_string_free (namelist, TRUE);
+	
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+
 /* TODO :
  * - SheetObject creation & manipulation.
- * - Zoom
  */

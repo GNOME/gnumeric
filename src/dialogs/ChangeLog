@@ -1,3 +1,7 @@
+2001-04-29  Almer S. Tigelaar  <almer@gnome.org>
+
+	* dialog-zoom.c (dialog_zoom_impl): Use cmd_zoom.
+
 2001-04-26  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-goal-seek.c (goal_seek_eval) : Merge in some of boc's

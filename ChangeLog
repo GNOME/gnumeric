@@ -1,3 +1,13 @@
+2001-04-29  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/commands.c (cmd_zoom) : Implement zoom undo/redo
+	(cmd_zoom_destroy) : Idem.
+	(cmd_zoom_redo): Idem.
+	(cmd_zoom_undo): Idem.
+
+	* src/workbook-control-gui.c (cb_change_zoom):
+	Use cmd_zoom here.
+
 2001-04-28  Jody Goldberg <jgoldberg@home.com>
 
 	* src/style-border.c (print_hline) : handle offset of screen coords vs

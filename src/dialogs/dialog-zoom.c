@@ -10,6 +10,7 @@
 #include <glade/glade.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "commands.h"
 #include "dialogs.h"
 #include "workbook-control.h"
 #include "workbook.h"
@@ -143,10 +144,17 @@ dialog_zoom_impl (WorkbookControlGUI *wbcg, Sheet *cur_sheet, GladeXML  *gui)
 	res = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (res == 0) {
 		float const new_zoom = gtk_spin_button_get_value_as_int(zoom) / 100.;
+		GSList *sheets = NULL;
+		
 		for (l = list->selection; l != NULL ; l = l->next) {
 			Sheet * s = gtk_clist_get_row_data (list, GPOINTER_TO_INT(l->data));
-			sheet_set_zoom_factor (s, new_zoom, FALSE, TRUE);
+			
+			sheets = g_slist_prepend (sheets, s);
 		}
+		sheets = g_slist_reverse (sheets);
+		
+		/* The GSList of sheet passed will be freed by cmd_zoom */
+		cmd_zoom (WORKBOOK_CONTROL (wbcg), sheets, new_zoom);
 	}
 
 	/* If the user closed the dialog with prejudice, its already destroyed */
