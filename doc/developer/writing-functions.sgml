@@ -1,0 +1,257 @@
+
+Writing builtin functions for Gnumeric:
+---------------------------------------
+
+Functions in Gnumeric should be registered in the symbol table, to
+register a function you just need to prepare a function definition
+record. 
+
+For example, a simple routine to sum two numbers, you would do:
+
+char *help_add2numbers = "ADD2NUMBERS: Adds two numbers";
+
+FunctionDefinition add_two_numbers = 
+{ "add2numers", "ff", "number1,number2", help_add2numbers, NULL, add2numbers }
+
+The first C declaration defines the HELP associated with this
+function.
+
+The second declaration is our function definition record:  the name of
+the function is the first parameter (this is how the function will be
+exposed to Gnumeric), the next parameter tells gnumeric that we are
+expecting two floating point arguments.  The third parameter describes
+the symbolic names for the arguments (in case our function supports
+them, this allows users to specify named paramters); The fourth
+parameter links in the help description.
+
+Now, our routine is pretty simple: it will always require two arguments
+to be passed, so we can let Gnumeric deal with argument count and we
+can let the Gnumeric engine compute the values in the expression for
+us.  So, for this case we leave the fift parameter set as NULL and set
+the sixth parameter to point to the function that will do the function
+evaluation. 
+
+Now, to register the function we just do:
+
+register_add2numbers ()
+{
+	symbol_install (global_symbol_table, add_two_numbers.name, 
+			SYMBOL_FUNCTION, &add_two_numbers);
+}
+
+When the user calls the function "ADD2NUMBERS" in a Gnumeric
+expression, our routine will be invoked, this is how the add2numbers
+function signature looks like:
+
+static Value *
+add2numbers (FunctionDefinition *fn_def, Value *argv [], char **error_string)
+{
+	
+}
+
+The function should return a newly allocated Value structure.
+Arguments are passed in the argv array and they contain Value
+structures (look in gnumeric/src/expr.h for the definition of the
+Value structure).
+
+The first parameter, fn_def is a pointer to the FunctionDefinition
+structure that was used to define this function.  This is normally
+ignored, but some functions might want to access this (for example, a
+single function callback might implement various functions and can
+figure how it was invoked by poking at this value)
+
+
+Here is the actual implementation:
+
+static Value *
+add2numbers (FunctionDefinition *fn_def, Value *argv [], char **error_string)
+{
+	Value *result;
+	float number_a, number_b;
+
+	switch (argv [0].type){
+	case VALUE_INTEGER:
+		number_a = argv [0].v.v_int;
+		break;
+
+	case VALUE_FLOAT:
+		number_a = argv [0].v.v_float;
+		break;
+
+	default:
+		*error_string = "Invalid argument type";
+		return NULL;
+	}
+
+	switch (argv [1].type){
+	case VALUE_INTEGER:
+		number_a = argv [1].v.v_int;
+		break;
+
+	case VALUE_FLOAT:
+		number_a = argv [1].v.v_float;
+		break;
+
+	default:
+		*error_string = "Invalid argument type";
+		return NULL;
+	}
+
+	result = value_float (number_a + number_b);
+
+	return result;
+}
+
+Note that although typechecking is done in upper layers, both INTEGER
+and FLOAT types are passed through the 'f' function declaration token.
+It is of course good practice to provide a sensible default: case.
+
+If there is an error during the function processing, *error_string
+should be set to the error message describing what went wrong and the
+NULL value should be returned.
+
+Return values and Strings.
+--------------------------
+
+There are a couple of utility functions provided by Gnumeric to create 
+Values: these are value_float and value_int, they take respectively 
+a double and an integer as their first parameter.
+
+Other value types have to be created manually (there is no utility
+function yet).  Sometimes you might want to do something more complex, 
+so you might want as well create the Value yourself even if the result
+is a float or an integer (for performance reasons, reuse reasons, or
+the way your procedure is used), you can use this code snippet to
+create a Value Float as well:
+
+	/* 
+	 * the line below is equivalent to:
+	 * result = (Value *) malloc (sizeof (Value));
+	 *
+	 */
+	result = g_new (Value, 1);
+	result->type = VALUE_FLOAT;
+	result->v.v_float = your_number
+
+Values of type string are created like this:
+
+	Value *value_string;
+
+	value_string = g_new (Value, 1);
+	v->v.str = string_get ("String");
+
+Notice that the field "v.str" is of type (String *) not of type char
+*.  Strings unlike char * are read-only structures, you should under
+no circustance modify the value returned by string_get.  They are
+designed to be shared between various Gnumeric components, so they
+keep a reference count.
+
+When you are done with a String, you should call the string_unref
+routine on the String. 
+
+
+Functions with some optional arguments
+--------------------------------------
+
+Gnumeric support three types of functions:
+
+* Fixed number of arguments ( dealt with above )
+* Optional argument functions and
+* Variable argument functions.
+
+The difference between the latter two is that eg. the SUM ()
+function will take an indefinate amount of arguments, whereas the
+ERF function is best described ERF(lower limit[,upper_limit]).
+In this instance, it is not worth the complexity of manualy
+traversing the raw expression tree as in SUM. Instead using the
+standard type checking the argument can be specified as optional,
+and if unspecified a NULL will be passed in the appropriate
+argv[] entry. Hence for erf (fn-eng.c):
+
+{ "erf",  "f|f",  "lower,upper", &help_erf, NULL, gnumeric_erf  },
+
+	Note "f|f" specifying  'upper' is optional. Any arguments that
+appear after a '|' symbol in the function definition string are
+deemed optional.
+
+	Hence in the code, it is vital to check optional pointers
+before assuming they are valid hence:
+
+static Value *
+gnumeric_erf (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	float_t ans, lower, upper=0.0 ;
+
+	lower = value_get_as_double(argv[0]) ;
+	if (argv[1])
+		upper = value_get_as_double(argv[1]) ;
+...
+}
+
+	Note there must be a default value for optional arguments.
+Here upper has a default value of 0.0.
+
+
+Functions with a variable number of arguments
+---------------------------------------------
+
+In this case, the function writer is presented with the raw expression
+tree data as a list, to traverse himself.
+
+If you want to implement a function that takes a variable number of
+arguments you have to change your FunctionDefinition:  instead of
+setting the fifth parameter as NULL and the sixth pointing to your
+function, you should set the sixth parameter to NULL and you fill in
+the fifth parameter, like this:
+
+char *help_factadd = "Adds all of its arguments";
+
+{ "addall", "", "",  help_addall, addall, NULL }
+
+We will now implement addall, a function that takes any number and
+kind of arguments: strings, integers, floating point numbers, arrays
+and cell ranges.  
+
+This is a simple usage of addall, lets imagine cell A1 contains the
+value 5 and the cell A2 contains the value 3.
+
+addall (1)			returns 1
+addall (1,2)			returns 3
+addall (a1:a3)			returns 8
+addall (a1:a3,1)		returns 9
+
+Here is the function signature for addall:
+
+Value *
+addall (void *sheet, GList *expr_node_list, int eval_col, 
+	int eval_row, char **error_string)
+
+As usual, this routine would return a newly allocated Value or NULL if
+an error is found (and in that case, error_string would be set to
+point to a message describing the problem).
+
+The first argument points to a (Sheet *) structure, and the second
+argument is a linked list (a GList) that contains (ExprTree *) nodes.
+
+The eval_col and eval_row parameters are used to inform the function
+in which context the expression should be evaluated (ie, from which
+cell it is being invoked) and it is used when invoking the expr_eval
+function.
+
+
+Function Tokens
+---------------
+
+There are several function tokens to cover most situations.
+
+f : A floating point (double) value.
+s : A string (char*)
+b : A boolean
+r : A Range eg. A1:A5 - See 'A'
+a : An Array eg. {1,2,3;4,5,6} ( a 3x2 array ) - See 'A'
+A : Either an Array or a Range: Use the
+    value_area set of functions to simplify the code.
+    see expr.h.
+? : Any type, the type must be checked from value->type.
+| : This designates that the arguments in the token string
+    following this character are optional.
