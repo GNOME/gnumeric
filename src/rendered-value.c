@@ -192,7 +192,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 
 	res->layout = layout = pango_layout_new (context);
 	str = res->rendered_text->str;
-	pango_layout_set_text (layout, str, strlen (str));
+	pango_layout_set_text (layout, str, -1);
 
 	attrs = mstyle_get_pango_attrs (mstyle);
 #if 0
