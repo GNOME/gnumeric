@@ -2217,10 +2217,9 @@ xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree,
 		        c->type = "<=";
 			break;
 		}
-		write_constraint_str (buf, c->lhs.col, c->lhs.row, c->rhs.col,
-				      c->rhs.row, c->type, c->cols, c->rows);
-		c->str = g_new (char, strlen (buf)+1);
-		strcpy (c->str, buf);
+		c->str = write_constraint_str (c->lhs.col, c->lhs.row,
+					       c->rhs.col, c->rhs.row,
+					       c->type, c->cols, c->rows);
 
 		param->constraints = g_slist_append (param->constraints, c);
 		child = xml_search_child (child, "Constr");
@@ -3235,4 +3234,3 @@ xml_init (void)
 	file_format_register_save (".gnumeric", desc, FILE_FL_AUTO,
 				   gnumeric_xml_write_workbook);
 }
-

@@ -267,8 +267,9 @@ simplex_copy_table (float_t *table, int cols, int rows)
 	return tbl;
 }
 
-int solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_tbl,
-		    float_t **final_tbl)
+int
+solver_simplex (Workbook *wb, Sheet *sheet, float_t **init_tbl,
+		float_t **final_tbl)
 {
         int i, n;
 	SolverParameters *param = &sheet->solver_parameters;
@@ -537,9 +538,10 @@ make_solver_arrays (Sheet *sheet, SolverParameters *param, int n_variables,
 	return 0;
 }
 
-int solver_affine_scaling (Workbook *wb, Sheet *sheet,
-			   float_t **x,    /* the optimal solution */
-			   float_t **sh_pr /* the shadow prizes */)
+int
+solver_affine_scaling (Workbook *wb, Sheet *sheet,
+		       float_t **x,    /* the optimal solution */
+		       float_t **sh_pr /* the shadow prizes */)
 {
 	SolverParameters *param = &sheet->solver_parameters;
 	GSList           *constraints;
@@ -626,30 +628,37 @@ int solver_affine_scaling (Workbook *wb, Sheet *sheet,
 	return SOLVER_LP_OPTIMAL;
 }
 
-void
-write_constraint_str (char *buf, int lhs_col, int lhs_row, int rhs_col,
-		      int rhs_row, char *type_str, int cols, int rows)
+char *
+write_constraint_str (int lhs_col, int lhs_row, int rhs_col,
+		      int rhs_row, const char *type_str, int cols, int rows)
 {
+	GString *buf = g_string_new ("");
+	char *result;
+
 	if (cols == 1 && rows == 1)
-	        sprintf(buf, "%s %s ", cell_coord_name (lhs_col, lhs_row), type_str);
+		g_string_sprintfa (buf, "%s %s ", cell_coord_name (lhs_col, lhs_row), type_str);
 	else {
-	        sprintf(buf, "%s", cell_coord_name (lhs_col, lhs_row));
-		strcat (buf, ":");
-		strcat (buf, cell_coord_name (lhs_col+cols-1, lhs_row+rows-1));
-		strcat (buf, " ");
-		strcat (buf, type_str);
-		strcat (buf, " ");
+	        g_string_append (buf, cell_coord_name (lhs_col, lhs_row));
+		g_string_append_c (buf, ':');
+		g_string_append (buf, cell_coord_name (lhs_col + cols-1, lhs_row + rows - 1));
+		g_string_append_c (buf, ' ');
+		g_string_append (buf, type_str);
+		g_string_append_c (buf, ' ');
 	}
 
 	if (strcmp (type_str, "Int") != 0 && strcmp (type_str, "Bool") != 0) {
 	        if (cols == 1 && rows == 1)
-		        strcat(buf, cell_coord_name(rhs_col, rhs_row));
+		        g_string_append (buf, cell_coord_name (rhs_col, rhs_row));
 		else {
-		        strcat(buf, cell_coord_name(rhs_col, rhs_row));
-			strcat(buf, ":");
-		        strcat(buf, cell_coord_name(rhs_col+cols-1, rhs_row+rows-1));
+		        g_string_append (buf, cell_coord_name (rhs_col, rhs_row));
+			g_string_append_c (buf, ':');
+		        g_string_append (buf, cell_coord_name (rhs_col + cols - 1, rhs_row + rows - 1));
 		}
 	}
+
+	result = buf->str;
+	g_string_free (buf, FALSE);
+	return result;
 }
 
 static void

@@ -66,7 +66,7 @@ void solver_lp_reports (Workbook *wb, Sheet *sheet, GSList *ov,
 			gboolean answer, gboolean sensitivity, 
 			gboolean limits);
 
-void write_constraint_str (char *buf, int lhs_col, int lhs_row, int rhs_col,
-			   int rhs_row, char *type_str, int cols, int rows);
+char *write_constraint_str (int lhs_col, int lhs_row, int rhs_col, int rhs_row,
+			    const char *type_str, int cols, int rows);
 
 #endif

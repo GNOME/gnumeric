@@ -113,17 +113,13 @@ dialog_solver_options (Workbook *wb, Sheet *sheet)
 }
 
 static int
-add_constraint(constraint_dialog_t *constraint_dialog,
-	       int lhs_col, int lhs_row, int rhs_col, int rhs_row,
-	       int cols, int rows, char *type_str)
+add_constraint (constraint_dialog_t *constraint_dialog,
+		int lhs_col, int lhs_row, int rhs_col, int rhs_row,
+		int cols, int rows, const char *type_str)
 {
 	SolverConstraint *constraint;
-	char             constraint_buf[512];
-	char             *constraint_str[2] = { constraint_buf, NULL };
+	char             *constraint_str[2] = { NULL, NULL };
 	gint             row;
-
-	write_constraint_str (constraint_buf, lhs_col, lhs_row, rhs_col,
-			      rhs_row, type_str, cols, rows);
 
 	constraint = g_new (SolverConstraint, 1);
 	constraint->lhs.col = lhs_col;
@@ -132,12 +128,12 @@ add_constraint(constraint_dialog_t *constraint_dialog,
 	constraint->rhs.row = rhs_row;
 	constraint->cols = cols;
 	constraint->rows = rows;
+	constraint->str = constraint_str[0] =
+	  write_constraint_str (lhs_col, lhs_row, rhs_col, rhs_row,
+				type_str, cols, rows);
+	constraint->type = g_strdup (type_str);
 
 	row = gtk_clist_append (constraint_dialog->clist, constraint_str);
-	constraint->type = g_malloc (strlen (type_str) + 1);
-	strcpy (constraint->type, type_str);
-	constraint->str = g_malloc (strlen (constraint_buf)+1);
-	strcpy (constraint->str, constraint_buf);
 	constraint_dialog->constraints =
 	        g_slist_append(constraint_dialog->constraints,
 			       (gpointer) constraint);
@@ -380,8 +376,7 @@ loop:
 	v = gnumeric_dialog_run (data->wb, GNOME_DIALOG (dia));
 
 	if (v == 0) {
-	        gchar buf[512];
-	        gchar *constraint_str[2] = { buf, NULL };
+	        gchar *constraint_str[2] = { NULL, NULL };
 	        entry = gtk_entry_get_text (GTK_ENTRY (lhs_entry));
 		txt = (gchar *) cell_pos_name (&constraint->lhs);
 		if (strcmp (entry, txt) != 0) {
@@ -449,13 +444,12 @@ loop:
 		constraint->cols = lhs_cols;
 		constraint->rows = lhs_rows;
 
-		write_constraint_str (buf, constraint->lhs.col,
-				      constraint->lhs.row, constraint->rhs.col,
-				      constraint->rhs.row, constraint->type,
-				      constraint->cols, constraint->rows);
+		constraint->str = constraint_str[0] =
+			write_constraint_str (constraint->lhs.col, constraint->lhs.row,
+					      constraint->rhs.col, constraint->rhs.row,
+					      constraint->type,
+					      constraint->cols, constraint->rows);
 
-		constraint->str = g_malloc (strlen (buf)+1);
-		strcpy (constraint->str, buf);
 	        gtk_clist_remove (data->clist, selected_row);
 	        gtk_clist_insert (data->clist, selected_row, constraint_str);
 		gtk_clist_set_row_data (data->clist, selected_row,
@@ -792,15 +786,16 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 	row = 0;
 	for (cur=constraint_dialog->constraints; cur != NULL; cur=cur->next) {
 	        SolverConstraint *c = (SolverConstraint *) cur->data;
-		gchar buf[256];
-	        gchar *tmp[] = { buf, NULL };
+	        gchar *tmp[] = { NULL, NULL };
 
-		write_constraint_str (buf, c->lhs.col, c->lhs.row, c->rhs.col,
-				      c->rhs.row, c->type, c->cols, c->rows);
+		tmp[0] = write_constraint_str (c->lhs.col, c->lhs.row,
+					       c->rhs.col, c->rhs.row,
+					       c->type, c->cols, c->rows);
 
 	        gtk_clist_append (GTK_CLIST (constraint_list), tmp);
 		gtk_clist_set_row_data (GTK_CLIST (constraint_list), row++,
 					(gpointer) c);
+		g_free (tmp[0]);
 	}
 
 	gtk_widget_grab_focus (target_entry);

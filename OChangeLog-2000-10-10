@@ -1,5 +1,9 @@
 2000-06-30  Morten Welinder  <terra@diku.dk>
 
+	* src/solver-lp.c (write_constraint_str): Return an allocated
+ 	string instead of taking an unsized buffer.  Constify.  All
+ 	callers changed.
+
 	* plugins/Makefile.am (SUBDIRS): Delete text, ff-csv, and sample
  	plugins.  Separate the remaining ones into file formats and
  	functions.
