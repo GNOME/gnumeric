@@ -1,3 +1,9 @@
+2004-10-27  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gnumeric.desktop.in, gnumeric.keys.in: Changed
+	"comma-separated-values" to "text/comma-separated-values", as a "MIME
+	type" without a slash in it is rejected by "update-desktop-database".
+
 2004-10-26  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* schemas/gnumeric-dialogs.schemas.in: Fixed Typo
