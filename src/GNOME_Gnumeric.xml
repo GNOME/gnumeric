@@ -3,12 +3,13 @@
 	<cmd name="FileNew"
 	    _label="_New"
 	    _tip="Create a new spreadsheet"
-	    pixtype="stock" pixname="gtk-new"/>
+	    pixtype="stock" pixname="gtk-new"
+	    accel="*Control*n"/>
 	<cmd name="FileOpen"
 	    _label="_Open..."
 	    _tip="Open a spreadsheet"
 	    pixtype="stock" pixname="gtk-open"
-	    accel="F3"/>
+	    accel="*Control*o"/>
 	<cmd name="FileSave"
 	    _label="_Save"
 	    _tip="Save the current file"
@@ -21,21 +22,22 @@
 
 	<cmd name="FilePageSetup"
 	    _label="Page Set_up..."
-	    _tip="Setup the page settings for your current printer"
-	    pixtype="stock" pixname="gtk-print"/>
+	    _tip="Setup the page settings for your current printer"/>
+	<cmd name="FilePrintPreview"
+	    _label="Print Previe_w..."
+	    _tip="Print preview"
+	    pixtype="stock" pixname="gtk-print-preview"
+	    accel="*Shift*Control*p"/>
 	<cmd name="FilePrint"
 	    _label="_Print..."
 	    _tip="Print the current file"
 	    pixtype="stock" pixname="gtk-print"
 	    accel="*Control*p"/>
-	<cmd name="FilePrintPreview"
-	    _label="Print Pre_view..."
-	    _tip="Print preview"
-	    pixtype="stock" pixname="gtk-print-preview"/>
 
 	<cmd name="FileSummary"
-	    _label="P_roperties..."
-	    _tip="Edit descriptive information"/>
+	    _label="Proper_ties..."
+	    _tip="Edit descriptive information"
+	    pixtype="stock" pixname="gtk-properties"/>
 
 	<cmd name="FilePreferences"
 	    _label="Preferen_ces..."
@@ -48,8 +50,8 @@
 	    pixtype="stock" pixname="gtk-close"
 	    accel="*Control*w"/>
 	<cmd name="FileExit"
-	    _label="E_xit"
-	    _tip="Exit the program"
+	    _label="_Quit"
+	    _tip="Quit the application"
 	    pixtype="stock" pixname="gtk-quit"
 	    accel="*Control*q"/>
 
@@ -97,7 +99,7 @@
 	    _label="Co_mments"
 	    _tip="Clear the selected cells' comments"/>
 	<cmd name="EditClearContent"
-	    _label="_Content"
+	    _label="_Contents"
 	    _tip="Clear the selected cells' contents"/>
 
 	<cmd name="SheetDisplayFormulas"	type="toggle" state="0"
@@ -162,8 +164,8 @@
 	         related to printing, it should use this placeholder. -->
 	    <placeholder name="PrintOperations">
 	        <menuitem name="FilePageSetup" verb=""/>
-	        <menuitem name="FilePrint" verb=""/>
 	        <menuitem name="FilePrintPreview" verb=""/>
+	        <menuitem name="FilePrint" verb=""/>
 	    </placeholder>
 
 	    <separator/>
@@ -209,7 +211,7 @@
 		    _tip="Make a copy of the current sheet"/>
 
 		<menuitem name="InsertSheet" verb=""
-		    _label="_Insert new"
+		    _label="_Insert"
 		    _tip="Insert a new sheet"/>
 
 		<menuitem name="SheetChangeName" verb=""
@@ -255,7 +257,7 @@
 	    <submenu name="Fill" _label="_Fill">
 	        <menuitem name="EditFillAutofill" verb=""
 		    _label="Auto_fill"
-		    _top="Automatically fill the current selection"/>
+		    _tip="Automatically fill the current selection"/>
 
 		<menuitem name="ToolsMerge" verb=""
 		    _label="Merge..."
@@ -341,7 +343,7 @@
 	    <menuitem name="InsertGraph" verb="GraphGuru"
 		pixtype="stock" pixname="Gnumeric_GraphGuru"
 		_label="_Graph..."
-		_tip="Invoke the graph guru to create a graph"/>
+		_tip="Launch the Graph Guru"/>
 
             <!-- These don't work yet for Gnome 2 
 	    <menuitem name="InsertComponent" verb=""
@@ -381,7 +383,8 @@
 	    <menuitem name="InsertHyperlink" verb=""
 		pixtype="stock" pixname="Gnumeric_Link_Add"
 		_label="Hyper_link..."
-		_tip="Insert a Hyperlink"/>
+		_tip="Insert a Hyperlink"
+		accel="*Control*k"/>
 
 	    <submenu name="Special" _label="S_pecial">
 
@@ -516,7 +519,7 @@
 
 	    <menuitem name="ToolsSimulation" verb=""
 		_label="_Risk Simulation..."
-		_tip="Test decision alternatives by using monte carlo simulation to find out probable outputs and risks related to them"/>
+		_tip="Test decision alternatives by using Monte Carlo simulation to find out probable outputs and risks related to them"/>
 
 	    <separator/>
 
@@ -588,7 +591,7 @@
 	    <menuitem name="DataSort" verb=""
 		pixtype="stock" pixname="gtk-sort-ascending"
 		_label="_Sort..."
-		_tip="Sorts the selected cells"/>
+		_tip="Sort the selected region"/>
 
 	    <submenu name="Filter" _label="_Filter">
 
@@ -630,12 +633,12 @@
 
 		<menuitem name="DataOutlineGroup" verb=""
 		    pixtype="stock" pixname="Gnumeric_Group"
-		    _label="_Group"
+		    _label="_Group..."
 		    _tip="Add an outline group"/>
 
 		<menuitem name="DataOutlineUngroup" verb=""
 		    pixtype="stock" pixname="Gnumeric_Ungroup"
-		    _label="_Ungroup"
+		    _label="_Ungroup..."
 		    _tip="Remove an outline group"/>
 
 	        <separator/>
@@ -705,19 +708,19 @@
 	<toolitem name="Cut"
 	    pixtype="stock" pixname="gtk-cut"
 	    _label="Cut"
-	    _tip="Mark the current selection for movement"
+	    _tip="Cut the selection to the clipboard"
 	    verb="EditCut"/>
 
 	<toolitem name="Copy"
 	    pixtype="stock" pixname="gtk-copy"
 	    _label="Copy"
-	    _tip="Copy the current selection to the clipboard"
+	    _tip="Copy the selection to the clipboard"
 	    verb="EditCopy"/>
 
 	<toolitem name="Paste"
 	    pixtype="stock" pixname="gtk-paste"
 	    _label="Paste"
-	    _tip="Paste the contents of the clipboard or cut buffer"
+	    _tip="Paste the contents of the clipboard"
 	    verb="EditPaste"/>
 
 	<separator/>
@@ -730,7 +733,7 @@
 
 	<toolitem name="InsertHyperlink"
 	    pixtype="stock" pixname="Gnumeric_Link_Add"
-	    _label="Hyper_link..."
+	    _label="Hyperlink"
 	    _tip="Insert a Hyperlink"
 	    verb="InsertHyperlink"/>
 
@@ -742,20 +745,20 @@
 
 	<toolitem name="FunctionGuru"
 	    pixtype="stock" pixname="Gnumeric_FormulaGuru"
-	    _label="Function Guru"
-	    _tip="Edit a formula in the current cell"
+	    _label="Function"
+	    _tip="Edit a function in the current cell"
 	    verb="FunctionGuru"/>
 
 	<toolitem name="SortAscending"
 	    pixtype="stock" pixname="gtk-sort-ascending"
 	    _label="Sort Ascending"
-	    _tip="Sorts the selected region in ascending order based on the first column selected"
+	    _tip="Sort the selected region in ascending order based on the first column selected"
 	    verb="SortAscending"/>
 
 	<toolitem name="SortDescending"
 	    pixtype="stock" pixname="gtk-sort-descending"
 	    _label="Sort Descending"
-	    _tip="Sorts the selected region in descending order based on the first column selected"
+	    _tip="Sort the selected region in descending order based on the first column selected"
 	    verb="SortDescending"/>
 
 	<separator/>
@@ -794,50 +797,50 @@
 	    pixtype="stock" pixname="gtk-select-font"
 	    _label="Font"/>
 
-	<control name="FontSize" _tip="Font Size" vdisplay="none"/>
+	<control name="FontSize" _tip="Font size" vdisplay="none"/>
 
 	<toolitem type="toggle" name="FontBold"
 	    pixtype="stock" pixname="gtk-bold"
 	    _label="Bold"
-	    _tip="Make font bold"
+	    _tip="Bold"
 	    verb="FontBold"/>
 
 	<toolitem type="toggle" name="FontItalic"
 	    pixtype="stock" pixname="gtk-italic"
-	    _label="Italicize"
-	    _tip="Make font italic"
+	    _label="Italic"
+	    _tip="Italic"
 	    verb="FontItalic"/>
 
 	<toolitem type="toggle" name="FontUnderline"
 	    pixtype="stock" pixname="gtk-underline"
 	    _label="Underline"
-	    _tip="Underlines the text"
+	    _tip="Underline"
 	    verb="FontUnderline"/>
 
 	<separator/>
 
 	<toolitem type="toggle" name="Left"
 	    pixtype="stock" pixname="gtk-justify-left"
-	    _label="Left"
-	    _tip="Left justifies the contents of each cell"
+	    _label="Left Align"
+	    _tip="Left align"
 	    verb="AlignLeft"/>
 
 	<toolitem type="toggle" name="Center"
 	    pixtype="stock" pixname="gtk-justify-center"
 	    _label="Center"
-	    _tip="Centers the text in each selection"
+	    _tip="Center"
 	    verb="AlignCenter"/>
 
 	<toolitem type="toggle" name="gtk-justify-right"
 	    pixtype="stock" pixname="gtk-justify-right"
-	    _label="Right"
-	    _tip="Right justifies the contents of each cell"
+	    _label="Right Align"
+	    _tip="Right align"
 	    verb="AlignRight"/>
 
 	<toolitem type="toggle" name="CenterAcrossSelection"
 	    pixtype="stock" pixname="Gnumeric_CenterAcrossSelection"
-	    _label="CenterAcrossSelection"
-	    _tip="Centers across the selected cells"
+	    _label="Center Across Selection"
+	    _tip="Center across the selected cells"
 	    verb="CenterAcrossSelection"/>
 
 	<toolitem name="Merge"
@@ -857,31 +860,31 @@
 	<toolitem name="Money"
 	    pixtype="stock" pixname="Gnumeric_FormatAsMoney"
 	    _label="Money"
-	    _tip="Sets the format of the selected cells to monetary"
+	    _tip="Set the format of the selected cells to monetary"
 	    verb="FormatAsMoney"/>
 
 	<toolitem name="Percent"
 	    pixtype="stock" pixname="Gnumeric_FormatAsPercent"
 	    _label="Percent"
-	    _tip="Sets the format of the selected cells to percentage"
+	    _tip="Set the format of the selected cells to percentage"
 	    verb="FormatAsPercent"/>
 
 	<toolitem name="Thousands"
 	    pixtype="stock" pixname="Gnumeric_FormatThousandSeparator"
-	    _label="Thousand separator"
-	    _tip="Sets the format of the selected cells to include a thousands separator"
+	    _label="Thousands Separator"
+	    _tip="Set the format of the selected cells to include a thousands separator"
 	    verb="FormatWithThousands"/>
 
 	<toolitem name="IncreasePrecision"
 	    pixtype="stock" pixname="Gnumeric_FormatAddPrecision"
 	    _label="Increase Precision"
-	    _tip="Increases the number of decimals displayed"
+	    _tip="Increase the number of decimals displayed"
 	    verb="FormatIncreasePrecision"/>
 
 	<toolitem name="DecreasePrecision"
 	    pixtype="stock" pixname="Gnumeric_FormatRemovePrecision"
 	    _label="Decrease Precision"
-	    _tip="Decreases the number of decimals displayed"
+	    _tip="Decrease the number of decimals displayed"
 	    verb="FormatDecreasePrecision"/>
 
 	<separator/>
@@ -889,12 +892,12 @@
 	<toolitem name="DecreaseIndent"
 	    pixtype="stock" pixname="gnome-stock-text-unindent"
 	    _label="Decrease Indent"
-	    _tip="Aligns the contents to the left and decreases the indent"
+	    _tip="Align the contents to the left and decrease the indent"
 	    verb="FormatDecreaseIndent"/>
 	<toolitem name="IncreaseIndent"
 	    pixtype="stock" pixname="gnome-stock-text-indent"
 	    _label="Increase Indent"
-	    _tip="Aligns the contents to the left and increases the indent"
+	    _tip="Align the contents to the left and increase the indent"
 	    verb="FormatIncreaseIndent"/>
 
 	<separator/>
@@ -954,22 +957,22 @@
 	<toolitem name="Line"
 	    pixtype="stock" pixname="Gnumeric_ObjectLine"
 	    _label="Line"
-	    _tip="Create a line" verb="CreateLine"/>
+	    _tip="Create a line object" verb="CreateLine"/>
 
 	<toolitem name="Arrow"
 	    pixtype="stock" pixname="Gnumeric_ObjectArrow"
 	    _label="Arrow"
-	    _tip="Create an arrow" verb="CreateArrow"/>
+	    _tip="Create an arrow object" verb="CreateArrow"/>
 
 	<toolitem name="Rectangle"
 	    pixtype="stock" pixname="Gnumeric_ObjectRectangle"
 	    _label="Rectangle"
-	    _tip="Draw a rectangle" verb="CreateRectangle"/>
+	    _tip="Create a rectangle object" verb="CreateRectangle"/>
 
 	<toolitem name="Ellipse"
 	    pixtype="stock" pixname="Gnumeric_ObjectEllipse"
 	    _label="Ellipse"
-	    _tip="Draw an ellipse" verb="CreateEllipse"/>
+	    _tip="Create an ellipse object" verb="CreateEllipse"/>
 
     </dockitem>
     <keybindings>

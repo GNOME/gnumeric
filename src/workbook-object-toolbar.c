@@ -127,46 +127,46 @@ cmd_create_ellipse (GtkWidget *widget, WorkbookControlGUI *wbcg)
 #ifndef WITH_BONOBO
 static GnomeUIInfo workbook_object_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Label"), N_("Creates a label"),
+		N_("Label"), N_("Create a label"),
 		&cmd_create_label, "Gnumeric_ObjectLabel"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Frame"), N_("Creates a frame"),
+		N_("Frame"), N_("Create a frame"),
 		&cmd_create_frame, "Gnumeric_ObjectFrame"),
 #if 0
 	/* not useful until we have scripts */
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Button"), N_("Creates a button"),
+		N_("Button"), N_("Create a button"),
 		&cmd_create_button, "Gnumeric_ObjectButton"),
 #endif
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Scrollbar"), N_("Creates a scrollbar"),
+		N_("Scrollbar"), N_("Create a scrollbar"),
 		&cmd_create_scrollbar, "Gnumeric_ObjectScrollbar"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Checkbox"), N_("Creates a checkbox"),
+		N_("Checkbox"), N_("Create a checkbox"),
 		&cmd_create_checkbox, "Gnumeric_ObjectCheckbox"),
 #if 0
 	/* need to think about how to manage groups */
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("RadioButton"), N_("Creates a radio button"),
+		N_("RadioButton"), N_("Create a radio button"),
 		&cmd_create_radiobutton, "Gnumeric_ObjectRadiobutton"),
 #endif
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("List"), N_("Creates a list"),
+		N_("List"), N_("Create a list"),
 		&cmd_create_list, "Gnumeric_ObjectList"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Combo"), N_("Creates a combo box"),
+		N_("Combo Box"), N_("Create a combo box"),
 		&cmd_create_combo, "Gnumeric_ObjectCombo"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Line"), N_("Creates a line object"),
+		N_("Line"), N_("Create a line object"),
 		cmd_create_line, "Gnumeric_ObjectLine"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Arrow"), N_("Creates an arrow object"),
+		N_("Arrow"), N_("Create an arrow object"),
 		cmd_create_arrow, "Gnumeric_ObjectArrow"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Rectangle"), N_("Creates a rectangle object"),
+		N_("Rectangle"), N_("Create a rectangle object"),
 		cmd_create_rectangle, "Gnumeric_ObjectRectangle"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Ellipse"), N_("Creates an ellipse object"),
+		N_("Ellipse"), N_("Create an ellipse object"),
 		cmd_create_ellipse, "Gnumeric_ObjectEllipse"),
 
 	GNOMEUIINFO_END

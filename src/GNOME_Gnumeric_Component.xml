@@ -1,21 +1,21 @@
 <Root>
     <commands>
 	<cmd name="FilePageSetup"
-	    _label="Page S_etup..."
-	    _tip="Setup the page settings for your current printer"
-	    pixtype="stock" pixname="gtk-print"/>
+	    _label="Page Set_up..."
+	    _tip="Setup the page settings for your current printer"/>
+	<cmd name="FilePrintPreview"
+	    _label="Print Previe_w..."
+	    _tip="Print preview"
+	    pixtype="stock" pixname="gtk-print-preview"/>
 	<cmd name="FilePrint"
 	    _label="_Print..."
 	    _tip="Print the current file"
 	    pixtype="stock" pixname="gtk-print"/>
-	<cmd name="FilePrintPreview"
-	    _label="Print Pre_view..."
-	    _tip="Print preview"
-	    pixtype="stock" pixname="gtk-print-preview"/>
 
 	<cmd name="FileSummary"
-	    _label="P_roperties"
-	    _tip="View descriptive information"/>
+	    _label="Proper_ties..."
+	    _tip="View descriptive information"
+	    pixtype="stock" pixname="gtk-properties"/>
 
         <!-- 
         Cut, Paste and Clear are included to get sensible texts in the
@@ -47,9 +47,12 @@
             <placeholder name="File Items Placeholder">
 	        <placeholder name="PrintOperations">
 	            <menuitem name="FilePageSetup" verb=""/>
-	            <menuitem name="FilePrint" verb=""/>
 	            <menuitem name="FilePrintPreview" verb=""/>
+	            <menuitem name="FilePrint" verb=""/>
 	        </placeholder>
+
+	        <separator/>
+
 	        <menuitem name="FileSummary" verb=""/>
 	    </placeholder>
 	</submenu>

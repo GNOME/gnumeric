@@ -401,24 +401,24 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 
 	/* Button to replace font and size selectors in vertical mode */
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Select font"), N_("Font selector"),
+		N_("Font"), N_("Font selector"),
 		&cb_font_name, "Font"),
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Bold"), N_("Sets the bold font"),
+		N_("Bold"), N_("Bold"),
 		&cb_font_bold, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_BOLD,
 		'b', GDK_CONTROL_MASK
 	},
 
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Italic"), N_("Makes the font italic"),
+		N_("Italic"), N_("Italic"),
 		&cb_font_italic, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_ITALIC,
 		'i', GDK_CONTROL_MASK
 	},
 
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Underline"), N_("Underlines the font"),
+		N_("Underline"), N_("Underline"),
 		&cb_font_underline, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_UNDERLINE,
 		'u', GDK_CONTROL_MASK
@@ -427,19 +427,19 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	GNOMEUIINFO_SEPARATOR,
 
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Left align"), N_("Left justifies the cell contents"),
+		N_("Left Align"), N_("Left align"),
 		&cb_align_left, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_JUSTIFY_LEFT },
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Center"), N_("Centers the cell contents"),
+		N_("Center"), N_("Center"),
 		&cb_align_center, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_JUSTIFY_CENTER },
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Right align"), N_("Right justifies the cell contents"),
+		N_("Right Align"), N_("Right align"),
 		&cb_align_right, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, GTK_STOCK_JUSTIFY_RIGHT },
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Center across selection"), N_("Center across selection"),
+		N_("Center Across Selection"), N_("Center across the selected cells"),
 		&cb_center_across_selection, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, "Gnumeric_CenterAcrossSelection" },
 	GNOMEUIINFO_ITEM_STOCK (
@@ -452,28 +452,28 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Money format"), N_("Sets the format of the selected cells to monetary"),
+		N_("Money"), N_("Set the format of the selected cells to monetary"),
 		cb_format_as_money, "Gnumeric_FormatAsMoney"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Percent"), N_("Sets the format of the selected cells to percentage"),
+		N_("Percent"), N_("Set the format of the selected cells to percentage"),
 		cb_format_as_percent, "Gnumeric_FormatAsPercent"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Thousand separator"), N_("Sets the format of the selected cells to include a thousands separator"),
+		N_("Thousands Separator"), N_("Set the format of the selected cells to include a thousands separator"),
 		cb_format_with_thousands, "Gnumeric_FormatThousandSeparator"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Add decimals"), N_("Increases the number of decimals displayed"),
+		N_("Increase Precision"), N_("Increase the number of decimals displayed"),
 		cb_format_inc_precision, "Gnumeric_FormatAddPrecision"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Remove decimals"), N_("Decreases the number of decimals displayed"),
+		N_("Decrease Precision"), N_("Decrease the number of decimals displayed"),
 		cb_format_dec_precision, "Gnumeric_FormatRemovePrecision"),
 
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Decrease Indent"), N_("Aligns the contents to the left and decreases the indent"),
+		N_("Decrease Indent"), N_("Align the contents to the left and decrease the indent"),
 		cb_format_dec_indent, GNOME_STOCK_PIXMAP_TEXT_UNINDENT),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Increase Indent"), N_("Aligns the contents to the left and increases the indent"),
+		N_("Increase Indent"), N_("Align the contents to the left and increase the indent"),
 		cb_format_inc_indent, GNOME_STOCK_PIXMAP_TEXT_INDENT),
 
 	GNOMEUIINFO_SEPARATOR,
@@ -867,7 +867,7 @@ workbook_create_format_toolbar (WorkbookControlGUI *wbcg)
 	gnumeric_toolbar_insert_with_eventbox (
 		GTK_TOOLBAR (toolbar), fontsel, _("Font selector"), NULL, 0);
 	gnumeric_toolbar_insert_with_eventbox (
-		GTK_TOOLBAR (toolbar), fontsize, _("Font Size"), NULL, 1);
+		GTK_TOOLBAR (toolbar), fontsize, _("Font size"), NULL, 1);
 	gnumeric_toolbar_append_with_eventbox (
 		GTK_TOOLBAR (toolbar),
 		border_combo, _("Borders"), NULL);

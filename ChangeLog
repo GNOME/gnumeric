@@ -1,3 +1,9 @@
+2002-11-27  Morten Welinder  <terra@diku.dk>
+
+	(From Evert's patch in bug #99429.)
+	* src/history.c (history_menu_locate_separator): This now needs to
+	link to the preferences menu item.
+
 2002-11-27  Christian Neumair  <chris@gnome-de.org>
 
 	* .cvsignore: Updated.

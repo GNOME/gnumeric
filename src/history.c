@@ -124,15 +124,15 @@ history_menu_locate_separator (WorkbookControlGUI *wbcg, MenuPos *res)
 /*
  * xgettext:
  * This string must translate to exactly the same strings as the
- * 'Print Preview...' item in the
+ * 'Preferences...' item in the
  * 'File' menu
  */
-	char const *menu_name = _("_File/Print Pre_view...");
+	char const *menu_name = _("_File/Preferen_ces...");
 	res->menu = gnome_app_find_menu_pos (GNOME_APP (wbcg->toplevel)->menubar,
 					    menu_name, &res->pos);
 	if (res->menu == NULL)
 		g_warning ("Probable mis-translation. '%s' : was not found. "
-			   "Does this match the '_File/Print Pre_view...' menu exactly ?",
+			   "Does this match the '_File/Preferen_ces...' menu exactly ?",
 			   menu_name);
 }
 

@@ -3137,24 +3137,23 @@ static GnomeUIInfo workbook_menu_file [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("Page Set_up..."),
 			       N_("Setup the page settings for your current printer"),
 				cb_file_page_setup),
-	GNOMEUIINFO_MENU_PRINT_ITEM (cb_file_print, NULL),
-	GNOMEUIINFO_ITEM_STOCK (N_("Print Pre_view..."), N_("Print Preview"),
+	GNOMEUIINFO_ITEM_STOCK (N_("Print Previe_w..."), N_("Print preview"),
 				cb_file_print_preview, GTK_STOCK_PRINT_PREVIEW),
+	GNOMEUIINFO_MENU_PRINT_ITEM (cb_file_print, NULL),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_NONE (N_("P_roperties..."),
+	GNOMEUIINFO_ITEM_STOCK (N_("Proper_ties..."),
 			       N_("Edit descriptive information"),
-			       cb_file_summary),
+			       cb_file_summary, GTK_STOCK_PROPERTIES),
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Preferen_ces..."),
 			       N_("Change Gnumeric Preferences"),
 			       cb_file_preferences, GTK_STOCK_PREFERENCES),
 
-	GNOMEUIINFO_MENU_CLOSE_ITEM (cb_file_close, NULL),
-
 	GNOMEUIINFO_SEPARATOR,
 
+	GNOMEUIINFO_MENU_CLOSE_ITEM (cb_file_close, NULL),
 	GNOMEUIINFO_MENU_EXIT_ITEM (cb_file_quit, NULL),
 	GNOMEUIINFO_END
 };
@@ -3200,7 +3199,7 @@ static GnomeUIInfo workbook_menu_edit_select [] = {
 	  NULL, 0, 0, '/', GDK_CONTROL_MASK },
 
 	{ GNOME_APP_UI_ITEM, N_("Select _Depends"),
-	  N_("Select all the cells that depend on the current edit cell."),
+	  N_("Select all the cells that depend on the current edit cell"),
 	  cb_edit_select_depend, NULL,
 	  NULL, 0, 0, 0, 0 },
 	GNOMEUIINFO_END
@@ -3211,7 +3210,7 @@ static GnomeUIInfo workbook_menu_edit_fill [] = {
 		N_("Automatically fill the current selection"),
 		cb_edit_fill_autofill),
 	GNOMEUIINFO_ITEM_NONE (N_("Merge..."),
-		N_("Merges columnar data into a sheet creating duplicate sheets for each row."),
+		N_("Merges columnar data into a sheet creating duplicate sheets for each row"),
 		cb_tools_merge),
 	GNOMEUIINFO_ITEM_NONE (N_("_Tabulate Dependency..."),
 		N_("Make a table of a cell's value as a function of other cells"),
@@ -3464,13 +3463,13 @@ static GnomeUIInfo workbook_menu_format_sheet [] = {
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
 	},
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Hide _Column Header"),
+		N_("Hide _Column Headers"),
 		N_("Toggle whether or not to display column headers"),
 		cb_sheet_pref_hide_col_header, NULL, NULL,
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
 	},
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Hide _Row Header"),
+		N_("Hide _Row Headers"),
 		N_("Toggle whether or not to display row headers"),
 		cb_sheet_pref_hide_row_header, NULL, NULL,
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
@@ -3596,7 +3595,7 @@ static GnomeUIInfo workbook_menu_tools_analysis [] = {
 
 static GnomeUIInfo workbook_menu_tools [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Plug-ins..."),
-		N_("Manage available plugin modules."),
+		N_("Manage available plugin modules"),
 		cb_tools_plugins),
 
 	GNOMEUIINFO_SEPARATOR,
@@ -3619,7 +3618,7 @@ static GnomeUIInfo workbook_menu_tools [] = {
 		cb_tools_solver),
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Risk Simulation..."),
-		N_("Test decision alternatives by using monte carlo simulation "
+		N_("Test decision alternatives by using Monte Carlo simulation "
 		   "to find out probable outputs and risks related to them"),
 		cb_tools_simulation),
 
@@ -3690,7 +3689,7 @@ static GnomeUIInfo workbook_menu_data_filter [] = {
 /* Data menu */
 static GnomeUIInfo workbook_menu_data [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("_Sort..."),
-		N_("Sorts the selected region."),
+		N_("Sort the selected region"),
 		cb_data_sort, GTK_STOCK_SORT_ASCENDING),
 	GNOMEUIINFO_SUBTREE(N_("_Filter"), workbook_menu_data_filter),
 	GNOMEUIINFO_ITEM_NONE (N_("_Validate..."),
@@ -3732,34 +3731,34 @@ static GnomeUIInfo workbook_menu [] = {
 
 static GnomeUIInfo workbook_standard_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("New"), N_("Creates a new workbook"),
+		N_("New"), N_("Create a new workbook"),
 		cb_file_new, GTK_STOCK_NEW),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Open"), N_("Opens an existing workbook"),
+		N_("Open"), N_("Open an existing workbook"),
 		cb_file_open, GTK_STOCK_OPEN),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Save"), N_("Saves the workbook"),
+		N_("Save"), N_("Save the current workbook"),
 		cb_file_save, GTK_STOCK_SAVE),
 
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Print"), N_("Prints the workbook"),
+		N_("Print"), N_("Print the workbook"),
 		cb_file_print, GTK_STOCK_PRINT),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Print Preview"), N_("Print Preview"),
+		N_("Print Preview"), N_("Print preview"),
 		cb_file_print_preview, GTK_STOCK_PRINT_PREVIEW),
 
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Cut"), N_("Cuts the selection to the clipboard"),
+		N_("Cut"), N_("Cut the selection to the clipboard"),
 		cb_edit_cut, GTK_STOCK_CUT),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Copy"), N_("Copies the selection to the clipboard"),
+		N_("Copy"), N_("Copy the selection to the clipboard"),
 		cb_edit_copy, GTK_STOCK_COPY),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Paste"), N_("Pastes the clipboard"),
+		N_("Paste"), N_("Paste the contents of the clipboard"),
 		cb_edit_paste, GTK_STOCK_PASTE),
 
 	GNOMEUIINFO_SEPARATOR,
@@ -3778,28 +3777,28 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("Hyper_link..."),
+	{ GNOME_APP_UI_ITEM, N_("Hyperlink"),
 	  N_("Insert a Hyperlink"),
 	  cb_insert_hyperlink, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, "Gnumeric_Link_Add", 'k', GDK_CONTROL_MASK },
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Sum"),
-		N_("Sum into the current cell."),
+		N_("Sum into the current cell"),
 		cb_autosum, "Gnumeric_AutoSum"),
 	GNOMEUIINFO_ITEM_STOCK (N_("Function"),
-		N_("Edit a function in the current cell."),
+		N_("Edit a function in the current cell"),
 		cb_formula_guru, "Gnumeric_FormulaGuru"),
 
 	GNOMEUIINFO_ITEM_STOCK (N_("Sort Ascending"),
-		N_("Sorts the selected region in ascending order based on the first column selected."),
+		N_("Sort the selected region in ascending order based on the first column selected"),
 		cb_sort_ascending, GTK_STOCK_SORT_ASCENDING),
 	GNOMEUIINFO_ITEM_STOCK (N_("Sort Descending"),
-		N_("Sorts the selected region in descending order based on the first column selected."),
+		N_("Sort the selected region in descending order based on the first column selected"),
 		cb_sort_descending, GTK_STOCK_SORT_DESCENDING),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (N_("_Graph"),
+	GNOMEUIINFO_ITEM_STOCK (N_("Graph Guru"),
 		N_("Launch the Graph Guru"),
 		cb_launch_graph_guru, "Gnumeric_GraphGuru"),
 
@@ -4006,13 +4005,13 @@ workbook_create_standard_toolbar (WorkbookControlGUI *wbcg)
 		workbook_standard_toolbar, "StandardToolbar", 1, 0, 0);
 	gnumeric_toolbar_insert_with_eventbox (
 		GTK_TOOLBAR (wbcg->standard_toolbar),
-					       undo, _("Undo"), NULL, TB_UNDO_POS);
+					       undo, _("Undo the last action"), NULL, TB_UNDO_POS);
 	gnumeric_toolbar_insert_with_eventbox (
 		GTK_TOOLBAR (wbcg->standard_toolbar),
-					       redo, _("Redo"), NULL, TB_REDO_POS);
+					       redo, _("Redo the undone action"), NULL, TB_REDO_POS);
 	gnumeric_toolbar_append_with_eventbox (
 		GTK_TOOLBAR (wbcg->standard_toolbar),
-					       zoom, _("Zoom"), NULL);
+					       zoom, _("Zoom the spreadsheet in or out"), NULL);
 	g_signal_connect (G_OBJECT(wbcg->standard_toolbar),
 		"orientation-changed",
 		G_CALLBACK (workbook_standard_toolbar_orient), wbcg);
