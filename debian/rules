@@ -67,7 +67,6 @@ confflags :=	--prefix=/usr --sysconfdir=/etc \
 		--localstatedir=/var/lib \
 		--libexecdir=/usr/bin \
                 --enable-compile-warnings=minimum \
-                --enable-iso-c \
 		$(features)
 
 ifeq ($(DEB_BUILD_GNU_TYPE), $(DEB_HOST_GNU_TYPE))
@@ -164,11 +163,6 @@ install: build
 	# Plugins are not intended as stand-alone executables
 	find `pwd`/debian/tmp/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
 
-	# Change DTD reference from a URL to a local path for document
-	# registration
-	find `pwd`/debian/tmp -type f -name '*.xml' -exec \
-		perl -i -pe 's,http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd,/usr/share/sgml/docbook/dtd/xml/4.1.2/docbookx.dtd,' {} \;
-
 	# Remove unwanted files: static libraries and documentation sources
 	find `pwd`/debian/tmp/usr/ -name '*.a' -print0 | xargs -0 rm -f
 	find `pwd`/debian/tmp/ -name '*.sgml' -print0 | xargs -0 rm -f
@@ -192,7 +186,7 @@ install: build
 
 	dh_link -pgnumeric-doc usr/share/pixmaps/gnome-logo-icon.png usr/share/gnome/help/gnumeric/C/stylesheet/gnome-logo-icon.png 
 	# For the callout pngs
-	dh_link -pgnumeric-doc usr/share/sgml/docbook/stylesheet/xsl/nwalsh/images/ usr/share/gnome/help/gnumeric/C/images
+	dh_link -pgnumeric-doc usr/share/xml/docbook/stylesheet/nwalsh/images/ usr/share/gnome/help/gnumeric/C/images
 
 	# Link to fix the Help buttons in dialogs
 	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric usr/share/gnumeric/$(upstreamversion)/gnome/help/gnumeric

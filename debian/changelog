@@ -1,3 +1,15 @@
+gnumeric (1.2.6-1) unstable; urgency=medium
+
+  * New upstream bugfix release, bringing roundtrip saving of macros in xls.
+  * [debian/rules] Don't configure --enable-iso-c; with gcc 2.95 it breaks the
+    build. (Closes: #218710)
+  * [debian/rules] No longer change the DTD reference to a local file as
+    scrollkeeper 0.3.13 and newer default to not using the network to retrieve
+    required DTDs.
+  * [debian/rules] Update the link for the docbook images .
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri,  6 Feb 2004 15:33:49 +0100
+
 gnumeric (1.2.5-2) unstable; urgency=high
 
   * [debian/rules] Touch up the generated HTML documentation so references and
