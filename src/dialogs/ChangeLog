@@ -1,3 +1,35 @@
+2002-05-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-printer-setup.c : replace UnitName by GnomePrintUnit* in
+	  state, use gnome-print unit selector rather than our own
+	(unit_into_to_points) : remove
+	(spin_button_set_bound) : work in points only, don't modify values but
+	  range only
+	(get_paper_psheight) : default height should be 0 rather than 1.
+	(get_printable_height) : use gnome_print_convert_distance, return height 
+	  in points
+	(set_vertical_bounds) : simplify
+	(draw_margin) : use gnome_print_convert_distance
+	(draw_margins) : header and footer should be on top
+	(canvas_update) : also update unit selector unit
+	(spin_button_adapt_to_unit) : disable, needs to be implemented in 
+	  libgnomeprintui
+	(do_convert) : remove
+	(convert_to_*) : remove
+	(listeners_convert) : remove
+	(add_unit) : remove
+	(unit_changed) : save unit, use accessor method to get value from
+	  spin button
+	(unit_editor_configure) : replace UnitName by GnomePrintUnit*, use 
+	  gnome-print unit selector rather than our own
+	(cb_unit_selector_changed) : new
+	(do_setup_margin) : use gnome-print unit selector rather than our own
+	(unit_info_to_print_unit) : replace UnitName by GnomePrintUnit*
+	  NOTE: we should change PrintUnit to use  GnomePrintUnit* rather than
+	  UnitName
+	(do_fetch_margins) : adjust arguments to unit_info_to_print_unit
+	* print.glade : remove option-menu-units
+
 2002-05-15  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-printer-setup.c (create_hf_preview_canvas) : size

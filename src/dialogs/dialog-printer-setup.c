@@ -37,6 +37,7 @@
 
 #include <libgnome/gnome-i18n.h>
 #include <libgnomeprint/gnome-print-master.h>
+#include <libgnomeprint/gnome-print-unit.h>
 #include <libgnomeprintui/gnome-print-paper-selector.h>
 #include <glade/glade.h>
 
@@ -101,12 +102,12 @@ typedef enum {
 } MarginOrientation;
 
 typedef struct {
-	UnitName   unit;
 	double     value;
 	GtkSpinButton *spin;
 	GtkAdjustment *adj;
 
 	GnomeCanvasItem *line;
+	GnomePrintUnit const *unit;
 	MarginOrientation orientation;
 	double bound_x1, bound_y1, bound_x2, bound_y2;
 	PreviewInfo *pi;
@@ -119,13 +120,12 @@ typedef struct {
 	PrintInformation *pi;
 	GtkWidget        *dialog;
 	GtkWidget        *sheet_selector;
+	GtkWidget        *unit_selector;
 
 	struct {
 		UnitInfo top, bottom, left, right;
 		UnitInfo header, footer;
 	} margins;
-
-	GList *conversion_listeners;
 
 	PrintOrientation orientation;
 	PrintOrientation current_orientation;
@@ -163,53 +163,29 @@ static void fetch_settings (PrinterSetupState *state);
 static void printer_setup_state_free (PrinterSetupState *state);
 static void do_hf_customize (gboolean header, PrinterSetupState *state);
 
-#if 0
-static double
-unit_into_to_points (UnitInfo *ui)
-{
-	return unit_convert (ui->value, ui->unit, UNIT_POINTS);
-}
-#endif
-
 /**
  * spin_button_set_bound
  * @spin           spinbutton
  * @space_to_grow  how much higher value may go
- * @space_unit     unit space_to_grow_is measured in
- * @spin_unit      unit spinbutton uses
- *
+  *
  * Allow the value in spin button to increase by at most space_to_grow.
  * If space_to_grow is negative, e.g. after paper size change,
  * spin_button_set_bound adjusts the margin and returns a less
  *  negative space_to_grow.
  */
-static double
-spin_button_set_bound (GtkSpinButton *spin, double space_to_grow,
-		       UnitName space_unit, UnitName spin_unit)
+static void
+spin_button_set_bound (UnitInfo *unit, double space_to_grow)
 {
-	GtkAdjustment *adjustment;
+	double value;
 
-	g_return_val_if_fail (GTK_IS_SPIN_BUTTON (spin), 1); /* Arbitrary */
-	adjustment = gtk_spin_button_get_adjustment (spin);
-	g_return_val_if_fail (GTK_IS_ADJUSTMENT (adjustment), 1); /* Ditto */
+	g_return_if_fail (unit != NULL);
+	g_return_if_fail (GTK_IS_SPIN_BUTTON (unit->spin));
 
-	space_to_grow = unit_convert (space_to_grow, space_unit, spin_unit);
+	value = space_to_grow;
+	gnome_print_convert_distance (&value, GNOME_PRINT_PS_UNIT, unit->unit);
+	gtk_spin_button_set_range (unit->spin, 0, value);
 
-	if (space_to_grow + EPSILON < 0) {
-
-		double shrink = MIN (-space_to_grow, (double)adjustment->value);
-
-		space_to_grow += shrink;
-		adjustment->upper = adjustment->value - shrink;
-		gtk_adjustment_changed (adjustment);
-		adjustment->value = adjustment->upper;
-		gtk_adjustment_value_changed (adjustment);
-	} else {
-		adjustment->upper = adjustment->value + space_to_grow;
-		gtk_adjustment_changed (adjustment);
-	}
-
-	return unit_convert (space_to_grow, spin_unit, space_unit);
+	return;
 }
 
 /**
@@ -245,58 +221,51 @@ get_paper_psheight (PrinterSetupState *state)
 							  &width, &height))
 		return height;
 	else
-		return 1.0;
+		return 0.0;
 }
 
 /**
- * get_printable_height
+ * get_printable_height (in points)
  * @state :
- * @unit unit
  *
- * Return page height minus margins, header and footer in specified unit.
  */
 static double
-get_printable_height (PrinterSetupState *state, UnitName unit)
+get_printable_height (PrinterSetupState *state)
 {
-	double header = 0, footer = 0, left = 0, right = 0;
-	print_info_get_margins   (state->pi, &header, &footer, &left, &right);
-	return unit_convert (get_paper_psheight (state) - header - footer, UNIT_POINTS, unit)
-		- unit_convert (state->margins.header.value,
-				state->margins.header.unit, unit)
-		- unit_convert (state->margins.footer.value,
-				state->margins.footer.unit, unit);
+	double top = 0, bottom = 0, left = 0, right = 0, height;
+	double header = state->margins.header.value;
+	double footer = state->margins.footer.value;
+	
+	print_info_get_margins   (state->pi, &top, &bottom, &left, &right);
+	gnome_print_convert_distance (&header, state->margins.header.unit, GNOME_PRINT_PS_UNIT);
+	gnome_print_convert_distance (&footer, state->margins.footer.unit, GNOME_PRINT_PS_UNIT);
+
+	height = get_paper_psheight (state) - top - bottom - header - footer;
+
+	return height;
 }
 
 /**
  * set_vertical_bounds
  * @state :
- * @margin_fixed  margin to remain unchanged
  * @unit          unit
  *
- * Set the upper bounds for top/bottom margins, headers and footers.
- * If margin_fixed is one of those margins, it kept unchanged. This is to
- * avoid the possibility of an endless loop.
+ * Set the upper bounds for headers and footers.
  */
 static void
-set_vertical_bounds (PrinterSetupState *state,
-		     MarginOrientation margin_fixed,
-		     UnitName unit)
+set_vertical_bounds (PrinterSetupState *state)
 {
-	double printable_height = get_printable_height (state, unit);
+	double printable_height = get_printable_height (state);
+	double header = state->margins.header.value;
+	double footer = state->margins.footer.value;
 
-	if (margin_fixed != MARGIN_HEADER)
-		printable_height
-			= spin_button_set_bound (state->margins.header.spin,
-						 printable_height,
-						 unit,
-						 state->margins.header.unit);
+	gnome_print_convert_distance (&header, state->margins.header.unit, GNOME_PRINT_PS_UNIT);
+	gnome_print_convert_distance (&footer, state->margins.footer.unit, GNOME_PRINT_PS_UNIT);
 
-	if (margin_fixed != MARGIN_FOOTER)
-		printable_height
-			= spin_button_set_bound (state->margins.footer.spin,
-						 printable_height,
-						 unit,
-						 state->margins.footer.unit);
+	spin_button_set_bound (&state->margins.header,
+			       MAX (0, printable_height) + header);
+	spin_button_set_bound (&state->margins.footer,
+			       MAX (0, printable_height) + footer);
 }
 
 static void
@@ -354,7 +323,9 @@ make_line (GnomeCanvasGroup *g, double x1, double y1, double x2, double y2)
 static void
 draw_margin (UnitInfo *uinfo, PrinterSetupState *state)
 {
-	double x1, y1, x2, y2;
+	double x1, y1, x2, y2, value;
+	GnomePrintUnit const *gp_unit = gnome_print_unit_selector_get_unit (
+		GNOME_PRINT_UNIT_SELECTOR (state->unit_selector));
 	double top = 0, bottom = 0, left = 0, right = 0;
 	print_info_get_margins (state->pi, &top, &bottom, &left, &right);
 
@@ -394,15 +365,15 @@ draw_margin (UnitInfo *uinfo, PrinterSetupState *state)
 			y1 = y2;
 		break;
 	case MARGIN_HEADER:
-		y1 += (uinfo->pi->scale * top + 
-		       uinfo->pi->scale * unit_convert (uinfo->value,
-							uinfo->unit, UNIT_POINTS));
+		value = uinfo->value;
+		gnome_print_convert_distance (&value, gp_unit, GNOME_PRINT_PS_UNIT);		
+		y1 += (uinfo->pi->scale * top + uinfo->pi->scale * value);
 		y2 = y1;
 		break;
 	case MARGIN_FOOTER:
-		y2 -= (uinfo->pi->scale * bottom + 
-		       uinfo->pi->scale * unit_convert (uinfo->value,
-							uinfo->unit, UNIT_POINTS));
+		value = uinfo->value;
+		gnome_print_convert_distance (&value, gp_unit, GNOME_PRINT_PS_UNIT);		
+		y2 -= (uinfo->pi->scale * bottom + uinfo->pi->scale * value);
 		y1 = y2;
 		break;
 	default:
@@ -435,12 +406,6 @@ create_margin (PrinterSetupState *state,
 static void
 draw_margins (PrinterSetupState *state, double x1, double y1, double x2, double y2)
 {
-	/* Headers & footers */
-	create_margin (state, &state->margins.header, MARGIN_HEADER,
-		       x1, y1, x2, y2);
-	create_margin (state, &state->margins.footer, MARGIN_FOOTER,
-		       x1, y1, x2, y2);
-
 	/* Margins */
 	create_margin (state, &state->margins.left, MARGIN_LEFT,
 		       x1, y1, x2, y2);
@@ -449,6 +414,12 @@ draw_margins (PrinterSetupState *state, double x1, double y1, double x2, double 
 	create_margin (state, &state->margins.top, MARGIN_TOP,
 		       x1, y1, x2, y2);
 	create_margin (state, &state->margins.bottom, MARGIN_BOTTOM,
+		       x1, y1, x2, y2);
+
+	/* Headers & footers */
+	create_margin (state, &state->margins.header, MARGIN_HEADER,
+		       x1, y1, x2, y2);
+	create_margin (state, &state->margins.footer, MARGIN_FOOTER,
 		       x1, y1, x2, y2);
 }
 
@@ -510,10 +481,21 @@ preview_page_create (PrinterSetupState *state)
 static void
 canvas_update (PrinterSetupState *state)
 {
-		preview_page_destroy (state);
-		preview_page_create (state);
-		set_vertical_bounds (state, MARGIN_NONE,
-				     state->margins.top.unit);
+	guchar *unit_txt;
+	
+	preview_page_destroy (state);
+	preview_page_create (state);
+	set_vertical_bounds (state);
+	
+	unit_txt = gnome_print_config_get (state->pi->print_config, GNOME_PRINT_KEY_PREF_UNIT);
+	if (unit_txt) {
+		gnome_print_unit_selector_set_unit (GNOME_PRINT_UNIT_SELECTOR 
+						    (state->unit_selector), 
+						    gnome_print_unit_get_by_abbreviation 
+						    (unit_txt));
+		g_free (unit_txt);
+	}
+	
 }
 
 static void 
@@ -525,6 +507,11 @@ notebook_flipped (GtkNotebook *notebook,
 	if (page_num == HF_PAGE)
 		canvas_update (state);	
 }
+
+#warning Implement spin_button_adapt_to_unit in libgnomeprintui
+#if 0
+
+/* FIXME: We are keeping this code here as a reminder to implement it in libgnomeprintui */
 
 /**
  * spin_button_adapt_to_unit
@@ -575,86 +562,15 @@ spin_button_adapt_to_unit (GtkSpinButton *spin, UnitName new_unit)
 	gtk_spin_button_set_digits (spin, digits);
 }
 
-static void
-do_convert (UnitInfo *target, UnitName new_unit)
-{
-	double new_value;
-
-	if (target->unit == new_unit)
-		return;
-	new_value = unit_convert (target->value, target->unit, new_unit);
-
-	spin_button_adapt_to_unit (target->spin, new_unit);
-	target->adj->value = target->value = new_value;
-	target->unit = new_unit;
-
-	gtk_spin_button_set_value (target->spin, target->value);
-}
-
-static void
-convert_to_pt (UnitInfo *target)
-{
-	do_convert (target, UNIT_POINTS);
-}
-
-static void
-convert_to_mm (UnitInfo *target)
-{
-	do_convert (target, UNIT_MILLIMETER);
-}
-
-static void
-convert_to_cm (UnitInfo *target)
-{
-	do_convert (target, UNIT_CENTIMETER);
-}
-
-static void
-convert_to_in (UnitInfo *target)
-{
-	do_convert (target, UNIT_INCH);
-}
-
-static void
-listeners_convert (GtkWidget *item, void (*convert) (UnitInfo *))
-{
-	PrinterSetupState *state;
-	GList *l;
-
-	state = gtk_object_get_data (GTK_OBJECT (item), "dialog-print-info");
-	g_return_if_fail (state != NULL);
-
-	for (l = state->conversion_listeners; l; l = l->next)
-		(convert) ((UnitInfo *) l->data);
-}
-
-static void
-add_unit (GtkWidget *menu, int i, PrinterSetupState *state,
-	  void (*convert)(UnitInfo *))
-{
-	GtkWidget *item;
-
-	item = gtk_menu_item_new_with_label (unit_name_get_short_name (i, TRUE));
-	gtk_widget_show (item);
-	gtk_menu_append (GTK_MENU (menu), item);
-
-	gtk_object_set_data (GTK_OBJECT (item),
-			     "dialog-print-info", (gpointer) state);
-	g_signal_connect (G_OBJECT (item),
-		"activate",
-		G_CALLBACK (listeners_convert), convert);
-}
-
+#endif
 
 static void
 unit_changed (GtkSpinButton *spin_button, UnitInfo_cbdata *data)
 {
-	data->target->value = data->target->adj->value;
-
-	set_vertical_bounds (data->state,
-			     data->target->orientation,
-			     data->target->unit);
-
+	data->target->value = gtk_adjustment_get_value (data->target->adj);
+	data->target->unit = gnome_print_unit_selector_get_unit (
+		GNOME_PRINT_UNIT_SELECTOR (data->state->unit_selector));
+	set_vertical_bounds (data->state);
 	/* Adjust the display to the current values */
 	draw_margin (data->target, data->state);
 }
@@ -684,15 +600,15 @@ unit_deactivated (GtkSpinButton *spin_button,
 static void
 unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 		       const char *spin_name,
-		       double init_points, UnitName unit)
+		       double init_points)
 {
 	GtkSpinButton *spin;
 	UnitInfo_cbdata *cbdata;
 
 	spin = GTK_SPIN_BUTTON (glade_xml_get_widget (state->gui, spin_name));
 
-	target->unit = unit;
-	target->value = unit_convert (init_points, UNIT_POINTS, target->unit);
+	target->value = init_points;
+	target->unit = GNOME_PRINT_PS_UNIT                               ;
 
 	target->adj = GTK_ADJUSTMENT (gtk_adjustment_new (
 		target->value,
@@ -702,7 +618,6 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				      GTK_WIDGET (spin));
 	gtk_widget_set_usize (GTK_WIDGET (target->spin), 60, 0);
-	spin_button_adapt_to_unit (target->spin, unit);
 
 	cbdata = g_new (UnitInfo_cbdata, 1);
 	cbdata->state = state;
@@ -713,16 +628,30 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 	g_signal_connect (G_OBJECT (target->spin),
 		"focus_out_event",
 		G_CALLBACK (unit_deactivated), cbdata);
+	gnome_print_unit_selector_add_adjustment (GNOME_PRINT_UNIT_SELECTOR (state->unit_selector),
+						  target->adj);
 	gtk_signal_connect_full (
-		GTK_OBJECT (target->spin), "changed",
+		GTK_OBJECT (target->spin), "value-changed",
 		G_CALLBACK (unit_changed),
 		NULL,
 		cbdata,
 		(GtkDestroyNotify)g_free,
 		FALSE, FALSE);
-	state->conversion_listeners
-		= g_list_append (state->conversion_listeners, (gpointer) target);
 }
+
+static void
+cb_unit_selector_changed (GnomePrintUnitSelector *sel, PrinterSetupState *state)
+{
+	const GnomePrintUnit *unit;
+	
+	g_return_if_fail (state != NULL);
+
+	unit = gnome_print_unit_selector_get_unit (sel);
+	if (unit)
+		gnome_print_config_set (state->pi->print_config, GNOME_PRINT_KEY_PREF_UNIT, 
+					unit->abbr);
+}
+
 
 /**
  * Each margin is stored with a unit. We use the top margin unit for display
@@ -737,7 +666,7 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 static void
 do_setup_margin (PrinterSetupState *state)
 {
-	GtkWidget *option_menu, *menu;
+	GtkWidget *table;
 	GtkBox *container;
 	PrintMargins *pm;
 	UnitName displayed_unit;
@@ -757,27 +686,18 @@ do_setup_margin (PrinterSetupState *state)
 	gtk_widget_set_usize (state->preview.canvas, PREVIEW_X, PREVIEW_Y);
 	gtk_widget_show (state->preview.canvas);
 
-	option_menu = glade_xml_get_widget (state->gui, "option-menu-units");
-	/* Remove the menu built with glade
-	   - it is there only to get the option menu properly sized */
-	gtk_option_menu_remove_menu (GTK_OPTION_MENU (option_menu));
-	menu = gtk_menu_new ();
-
-	add_unit (menu, UNIT_POINTS, state, convert_to_pt);
-	add_unit (menu, UNIT_MILLIMETER, state, convert_to_mm);
-	add_unit (menu, UNIT_CENTIMETER, state, convert_to_cm);
-	add_unit (menu, UNIT_INCH, state, convert_to_in);
-
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (option_menu), menu);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (option_menu),
-				     displayed_unit);
+	table = glade_xml_get_widget (state->gui, "margin-table");
+	state->unit_selector = gnome_print_unit_selector_new (GNOME_PRINT_UNIT_ABSOLUTE);
+	gtk_table_attach (GTK_TABLE (table), state->unit_selector, 1, 2, 1, 2, 
+			  GTK_FILL, GTK_FILL | GTK_SHRINK, 0, 0);
+	g_signal_connect (G_OBJECT (state->unit_selector), "modified",
+			  G_CALLBACK (cb_unit_selector_changed), state);
+	gtk_widget_show (state->unit_selector);
 
 	unit_editor_configure (&state->margins.header, state, "spin-header",
-			       MAX (pm->top.points - header, 0.0),
-			       displayed_unit);
+			       MAX (pm->top.points - header, 0.0));
 	unit_editor_configure (&state->margins.footer, state, "spin-footer",
-			       MAX (pm->bottom.points - footer, 0.0),
-			       displayed_unit);
+			       MAX (pm->bottom.points - footer, 0.0));
 
 	container = GTK_BOX (glade_xml_get_widget (state->gui,
 						   "container-margin-page"));
@@ -1678,8 +1598,6 @@ printer_setup_state_free (PrinterSetupState *state)
 	print_info_free (state->pi);
 	g_free (state->pi_header);
 	g_free (state->pi_footer);
-	g_list_free (state->conversion_listeners);
-	state->conversion_listeners = NULL;
 	g_free (state);
 }
 
@@ -1716,13 +1634,26 @@ do_fetch_page (PrinterSetupState *state)
 }
 
 static PrintUnit
-unit_info_to_print_unit (UnitInfo *ui)
+unit_info_to_print_unit (UnitInfo *ui, PrinterSetupState *state)
 {
 	PrintUnit u;
+	const GnomePrintUnit *gp_unit = gnome_print_unit_selector_get_unit (
+		GNOME_PRINT_UNIT_SELECTOR (state->unit_selector));
 
-	u.desired_display = ui->unit;
-        u.points = unit_convert (ui->value, ui->unit, UNIT_POINTS);
+        u.points = ui->value;
+	gnome_print_convert_distance (&u.points, gp_unit, GNOME_PRINT_PS_UNIT);
 
+	if (!strcmp (gp_unit->abbr, "mm"))
+		u.desired_display = UNIT_MILLIMETER;
+	else if
+		(!strcmp (gp_unit->abbr, "pt"))
+		u.desired_display = UNIT_POINTS;
+	else if 
+		(!strcmp (gp_unit->abbr, "in"))
+		u.desired_display = UNIT_INCH;
+	else
+		/* FIXME: this makes meters become centimeters*/
+		u.desired_display = UNIT_CENTIMETER;
 	return u;
 }
 
@@ -1742,8 +1673,8 @@ do_fetch_margins (PrinterSetupState *state)
 
 	print_info_get_margins   (state->pi, &header, &footer, &left, &right);
 
-	m->top = unit_info_to_print_unit (&state->margins.header);
-	m->bottom = unit_info_to_print_unit (&state->margins.footer);
+	m->top = unit_info_to_print_unit (&state->margins.header, state);
+	m->bottom = unit_info_to_print_unit (&state->margins.footer, state);
 
 	m->top.points += header;
 	m->bottom.points += footer;

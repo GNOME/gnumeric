@@ -10,6 +10,8 @@ typedef enum {
 	PRINT_ORIENT_VERTICAL
 } PrintOrientation;
 
+/* FIXME: rather than using `UnitName' we should be using GnomePrintUnits*/
+
 typedef enum {
 	UNIT_POINTS,
 	UNIT_MILLIMETER,
