@@ -112,10 +112,7 @@ typedef struct {
 	GHashTable *table;
 	gboolean invalidate_hash;
 
-	/*
-	 * Dimensions of the application area
-	 */
-	int x1, y1, x2, y2;
+	Range dimension;
 
 	/*
 	 * Category it came from.
@@ -151,9 +148,6 @@ TemplateMember       *format_template_member_new          (void);
 TemplateMember       *format_template_member_clone        (TemplateMember *member);
 void                  format_template_member_free         (TemplateMember *member);
 
-Range                 format_template_member_get_rect     (TemplateMember *member,
-							   int x1, int y1, int x2, int y2);
-
 FormatColRowInfo      format_template_member_get_row_info  (TemplateMember *member);
 FormatColRowInfo      format_template_member_get_col_info  (TemplateMember *member);
 FreqDirection         format_template_member_get_direction (TemplateMember *member);
@@ -185,6 +179,7 @@ void                  format_template_attach_member            (FormatTemplate *
 void                  format_template_detach_member            (FormatTemplate *ft, TemplateMember *member);
 MStyle               *format_template_get_style                (FormatTemplate *ft, int row, int col);
 void                  format_template_apply_to_sheet_regions   (FormatTemplate *ft, Sheet *sheet, GSList *regions);
+gboolean	      format_template_check_valid	       (FormatTemplate *ft, GSList *regions);
 
 char                 *format_template_get_filename             (FormatTemplate *ft);
 char                 *format_template_get_name                 (FormatTemplate *ft);

@@ -2517,46 +2517,30 @@ xml_write_selection_clipboard (XmlParseContext *ctxt, Sheet *sheet)
 	xmlNodePtr styles;
 	xmlNodePtr cells;
 	xmlNodePtr cell_xml;
-	GSList *range_list;
-	GSList *iterator;
+	GSList *range_list, *ptr;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "ClipboardRange", NULL);
 	if (cur == NULL)
 		return NULL;
 
-	/*
-	 * Write styles
-	 */
+	/* Write styles */
 	range_list = selection_get_ranges (sheet, FALSE);
-
-	iterator = range_list;
-	while (iterator) {
-		Range *range = iterator->data;
-
+	for (ptr = range_list; ptr != NULL ; ptr = ptr->next) {
+		Range const *range = ptr->data;
 		styles = xml_write_styles (ctxt,
-					   sheet_style_get_list (sheet, range));
-
+			sheet_style_get_list (sheet, range));
 		if (styles)
 			xmlAddChild (cur, styles);
-
-		iterator = g_slist_next (iterator);
 	}
+	range_fragment_free (range_list);
 
-	/*
-	 * Write cells
-	 */
+	/* Write selected regions */
 	cells = xmlNewChild (cur, ctxt->ns, "Cells", NULL);
 	ctxt->parent = cells;
 
-	/*
-	 * NOTE : We also free the ranges in the range list in the next while loop
-	 *        and the range list itself
-	 */
-
-	iterator = range_list;
-	while (iterator) {
+	for (ptr = range_list; ptr != NULL ; ptr = ptr->next) {
 		int row, col;
-		Range *range = iterator->data;
+		Range *range = ptr->data;
 
 		for (row = range->start.row; row <= range->end.row; row++) {
 
@@ -2571,9 +2555,8 @@ xml_write_selection_clipboard (XmlParseContext *ctxt, Sheet *sheet)
 			}
 		}
 
+		/* NOTE : The list is being invalidated */
 		g_free (range);
-
-		iterator = g_slist_next (iterator);
 	}
 	g_slist_free (range_list);
 

@@ -377,7 +377,6 @@ range_contained (Range const *a, Range const *b)
  * range_split_ranges:
  * @hard: The region that is split against
  * @soft: The region that is split
- * @copy_fn: the function used to create the copies or NULL.
  *
  * Splits soft into several chunks, and returns the still
  * overlapping remainder of soft as the first list item
@@ -385,9 +384,8 @@ range_contained (Range const *a, Range const *b)
  *
  * Return value: A list of fragments.
  **/
-GList *
-range_split_ranges (Range const *hard, Range const *soft,
-		    RangeCopyFn copy_fn)
+GSList *
+range_split_ranges (Range const *hard, Range const *soft)
 {
 	/*
 	 * There are lots of cases so think carefully.
@@ -400,31 +398,24 @@ range_split_ranges (Range const *hard, Range const *soft,
 	 * NB. We prefer to have long columns at the expense
 	 *     of long rows.
 	 */
-	GList *split  = NULL;
+	GSList *split  = NULL;
 	Range *middle, *sp;
 	gboolean split_left  = FALSE;
 	gboolean split_right = FALSE;
 
 	g_return_val_if_fail (range_overlap (hard, soft), NULL);
 
-	if (copy_fn)
-		middle = copy_fn (soft);
-	else {
-		middle = g_new (Range, 1);
-		*middle = *soft;
-	}
+	middle = g_new (Range, 1);
+	*middle = *soft;
 
 	/* Split off left entirely */
 	if (hard->start.col > soft->start.col) {
-		if (copy_fn)
-			sp = copy_fn (middle);
-		else
-			sp = g_new (Range, 1);
+		sp = g_new (Range, 1);
 		sp->start.col = soft->start.col;
 		sp->start.row = soft->start.row;
 		sp->end.col   = hard->start.col - 1;
 		sp->end.row   = soft->end.row;
-		split = g_list_prepend (split, sp);
+		split = g_slist_prepend (split, sp);
 
 		middle->start.col = hard->start.col;
 		split_left = TRUE;
@@ -432,15 +423,12 @@ range_split_ranges (Range const *hard, Range const *soft,
 
 	/* Split off right entirely */
 	if (hard->end.col < soft->end.col) {
-		if (copy_fn)
-			sp = copy_fn (middle);
-		else
-			sp = g_new (Range, 1);
+		sp = g_new (Range, 1);
 		sp->start.col = hard->end.col + 1;
 		sp->start.row = soft->start.row;
 		sp->end.col   = soft->end.col;
 		sp->end.row   = soft->end.row;
-		split = g_list_prepend (split, sp);
+		split = g_slist_prepend (split, sp);
 
 		middle->end.col = hard->end.col;
 		split_right = TRUE;
@@ -450,60 +438,48 @@ range_split_ranges (Range const *hard, Range const *soft,
 	if (split_left && split_right) {
 		if (hard->start.row > soft->start.row) {
 			/* The top middle bit */
-			if (copy_fn)
-				sp = copy_fn (middle);
-			else
-				sp = g_new (Range, 1);
+			sp = g_new (Range, 1);
 			sp->start.col = hard->start.col;
 			sp->start.row = soft->start.row;
 			sp->end.col   = hard->end.col;
 			sp->end.row   = hard->start.row - 1;
-			split = g_list_prepend (split, sp);
+			split = g_slist_prepend (split, sp);
 
 			middle->start.row = hard->start.row;
 		} /* else shared edge */
 	} else if (split_left) {
 		if (hard->start.row > soft->start.row) {
 			/* The top middle + right bits */
-			if (copy_fn)
-				sp = copy_fn (middle);
-			else
-				sp = g_new (Range, 1);
+			sp = g_new (Range, 1);
 			sp->start.col = hard->start.col;
 			sp->start.row = soft->start.row;
 			sp->end.col   = soft->end.col;
 			sp->end.row   = hard->start.row - 1;
-			split = g_list_prepend (split, sp);
+			split = g_slist_prepend (split, sp);
 
 			middle->start.row = hard->start.row;
 		} /* else shared edge */
 	} else if (split_right) {
 		if (hard->start.row > soft->start.row) {
 			/* The top middle + left bits */
-			if (copy_fn)
-				sp = copy_fn (middle);
-			else
-				sp = g_new (Range, 1);
+			sp = g_new (Range, 1);
 			sp->start.col = soft->start.col;
 			sp->start.row = soft->start.row;
 			sp->end.col   = hard->end.col;
 			sp->end.row   = hard->start.row - 1;
-			split = g_list_prepend (split, sp);
+			split = g_slist_prepend (split, sp);
 
 			middle->start.row = hard->start.row;
 		} /* else shared edge */
 	} else {
 		if (hard->start.row > soft->start.row) {
 			/* Hack off the top bit */
-			if (copy_fn)
-				sp = copy_fn (middle);
-			else
-				sp = g_new (Range, 1);
+			sp = g_new (Range, 1);
 			sp->start.col = soft->start.col;
 			sp->start.row = soft->start.row;
 			sp->end.col   = soft->end.col;
 			sp->end.row   = hard->start.row - 1;
-			split = g_list_prepend (split, sp);
+			split = g_slist_prepend (split, sp);
 
 			middle->start.row = hard->start.row;
 		} /* else shared edge */
@@ -513,66 +489,54 @@ range_split_ranges (Range const *hard, Range const *soft,
 	if (split_left && split_right) {
 		if (hard->end.row < soft->end.row) {
 			/* The bottom middle bit */
-			if (copy_fn)
-				sp = copy_fn (middle);
-			else
-				sp = g_new (Range, 1);
+			sp = g_new (Range, 1);
 			sp->start.col = hard->start.col;
 			sp->start.row = hard->end.row + 1;
 			sp->end.col   = hard->end.col;
 			sp->end.row   = soft->end.row;
-			split = g_list_prepend (split, sp);
+			split = g_slist_prepend (split, sp);
 
 			middle->end.row = hard->end.row;
 		} /* else shared edge */
 	} else if (split_left) {
 		if (hard->end.row < soft->end.row) {
 			/* The bottom middle + right bits */
-			if (copy_fn)
-				sp = copy_fn (middle);
-			else
-				sp = g_new (Range, 1);
+			sp = g_new (Range, 1);
 			sp->start.col = hard->start.col;
 			sp->start.row = hard->end.row + 1;
 			sp->end.col   = soft->end.col;
 			sp->end.row   = soft->end.row;
-			split = g_list_prepend (split, sp);
+			split = g_slist_prepend (split, sp);
 
 			middle->end.row = hard->end.row;
 		} /* else shared edge */
 	} else if (split_right) {
 		if (hard->end.row < soft->end.row) {
 			/* The bottom middle + left bits */
-			if (copy_fn)
-				sp = copy_fn (middle);
-			else
-				sp = g_new (Range, 1);
+			sp = g_new (Range, 1);
 			sp->start.col = soft->start.col;
 			sp->start.row = hard->end.row + 1;
 			sp->end.col   = hard->end.col;
 			sp->end.row   = soft->end.row;
-			split = g_list_prepend (split, sp);
+			split = g_slist_prepend (split, sp);
 
 			middle->end.row = hard->end.row;
 		} /* else shared edge */
 	} else {
 		if (hard->end.row < soft->end.row) {
 			/* Hack off the bottom bit */
-			if (copy_fn)
-				sp = copy_fn (middle);
-			else
-				sp = g_new (Range, 1);
+			sp = g_new (Range, 1);
 			sp->start.col = soft->start.col;
 			sp->start.row = hard->end.row + 1;
 			sp->end.col   = soft->end.col;
 			sp->end.row   = soft->end.row;
-			split = g_list_prepend (split, sp);
+			split = g_slist_prepend (split, sp);
 
 			middle->end.row = hard->end.row;
 		} /* else shared edge */
 	}
 
-	return g_list_prepend (split, middle);
+	return g_slist_prepend (split, middle);
 }
 
 /**
@@ -595,42 +559,39 @@ range_dup (Range const *a)
  * range_fragment:
  * @a: Range a
  * @b: Range b
- * @copy_fn: Optional copy fn.
  *
- * Fragments the ranges into totaly overlapping regions,
- * optional copy_fn ( NULL ) for default, copies the ranges.
- * NB. commutative.
+ * Fragments the ranges into totaly non-overlapping regions,
  *
  * Return value: A list of fragmented ranges or at minimum
  * simply a and b.
  **/
-GList *
+GSList *
 range_fragment (Range const *a, Range const *b)
 {
-	GList *split, *ans = NULL;
+	GSList *split, *ans = NULL;
 
-	split = range_split_ranges (a, b, NULL);
-	ans   = g_list_concat (ans, split);
+	split = range_split_ranges (a, b);
+	ans   = g_slist_concat (ans, split);
 
-	split = range_split_ranges (b, a, NULL);
+	split = range_split_ranges (b, a);
 	if (split) {
 		g_free (split->data);
-		split = g_list_remove (split, split->data);
+		split = g_slist_remove (split, split->data);
 	}
-	ans = g_list_concat (ans, split);
+	ans = g_slist_concat (ans, split);
 
 	return ans;
 }
 
 void
-range_fragment_free (GList *fragments)
+range_fragment_free (GSList *fragments)
 {
-	GList *l = fragments;
+	GSList *l = fragments;
 
-	for (l = fragments; l; l = g_list_next (l))
+	for (l = fragments; l; l = l->next)
 		g_free (l->data);
 
-	g_list_free (fragments);
+	g_slist_free (fragments);
 }
 
 /**

@@ -3673,7 +3673,7 @@ sheet_move_range (WorkbookControl *wbc,
 	 */
 	*reloc_storage = NULL;
 	if (!out_of_range) {
-		GList *invalid;
+		GSList *invalid;
 		ExprRelocateInfo reloc_info;
 
 		/*
@@ -3686,9 +3686,9 @@ sheet_move_range (WorkbookControl *wbc,
 		 */
 		if (rinfo->origin_sheet == rinfo->target_sheet &&
 		    range_overlap (&rinfo->origin, &dst))
-			invalid = range_split_ranges (&rinfo->origin, &dst, NULL);
+			invalid = range_split_ranges (&rinfo->origin, &dst);
 		else
-			invalid = g_list_append (NULL, range_dup (&dst));
+			invalid = g_slist_append (NULL, range_dup (&dst));
 
 		reloc_info.origin_sheet = reloc_info.target_sheet = rinfo->target_sheet;;
 		reloc_info.col_offset = SHEET_MAX_COLS; /* send to infinity */
@@ -3696,7 +3696,7 @@ sheet_move_range (WorkbookControl *wbc,
 
 		while (invalid) {
 			Range *r = invalid->data;
-			invalid = g_list_remove (invalid, r);
+			invalid = g_slist_remove (invalid, r);
 			if (!range_overlap (r, &rinfo->origin)) {
 				reloc_info.origin = *r;
 				*reloc_storage = g_slist_concat (*reloc_storage,

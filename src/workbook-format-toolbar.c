@@ -118,7 +118,7 @@ cb_merge_cells (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	GSList *range_list = selection_get_ranges (sheet, FALSE);
 	cmd_merge_cells (wbc, sheet, range_list);
-	g_slist_free (range_list);
+	range_fragment_free (range_list);
 }
 
 static void
@@ -128,10 +128,7 @@ cb_unmerge_cells (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	GSList *range_list = selection_get_ranges (sheet, FALSE);
 	cmd_unmerge_cells (wbc, sheet, range_list);
-
-	/* FIXME : clean up the range_list_destroy fiasco and create a version
-	 * for ranges distinct from the version from cellranges */
-	g_slist_free (range_list);
+	range_fragment_free (range_list);
 }
 
 /*

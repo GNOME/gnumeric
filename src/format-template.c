@@ -300,10 +300,7 @@ format_template_member_free (TemplateMember *member)
 /**
  * format_template_member_get_rect:
  * @member:
- * @x1:
- * @y1:
- * @x2:
- * @y2:
+ * @r:
  *
  * Get the rectangular area covered by the TemplateMember @member in the parent
  * rectangle @x1, @y1, @x2, @y2.
@@ -313,27 +310,25 @@ format_template_member_free (TemplateMember *member)
  * Return value: a Range containing the effective rectangle of @member
  **/
 Range
-format_template_member_get_rect (TemplateMember *member, int x1, int y1, int x2, int y2)
+format_template_member_get_rect (TemplateMember *member, Range const *r)
 {
-	Range r;
+	Range res;
 
-	r.start.row = r.end.row = 0;
-	r.start.col = r.end.col = 0;
+	res.start.row = res.end.row = 0;
+	res.start.col = res.end.col = 0;
 
-	g_return_val_if_fail (member != NULL, r);
+	g_return_val_if_fail (member != NULL, res);
 
-	/*
-	 * Calculate where the top left of the rectangle will come
-	 */
+	/* Calculate where the top left of the rectangle will come */
 	if (member->row.offset_gravity > 0)
-		r.start.row = y1 + member->row.offset;
+		res.start.row = r->start.row + member->row.offset;
 	else
-		r.end.row = y2 - member->row.offset;
+		res.end.row = r->end.row - member->row.offset;
 
 	if (member->col.offset_gravity > 0)
-		r.start.col = x1 + member->col.offset;
+		res.start.col = r->start.col + member->col.offset;
 	else
-		r.end.col = x2 - member->col.offset;
+		res.end.col = r->end.col - member->col.offset;
 
 	/*
 	 * Now that we know these coordinates we'll calculate the
@@ -341,29 +336,29 @@ format_template_member_get_rect (TemplateMember *member, int x1, int y1, int x2,
 	 */
 	if (member->row.offset_gravity > 0) {
 		if (member->row.size > 0)
-			r.end.row = r.start.row + member->row.size - 1;
+			res.end.row = res.start.row + member->row.size - 1;
 		else
-			r.end.row = y2 + member->row.size;
+			res.end.row = r->end.row + member->row.size;
 	} else {
 		if (member->row.size > 0)
-			r.start.row = r.end.row - member->row.size + 1;
+			res.start.row = res.end.row - member->row.size + 1;
 		else
-			r.start.row = y1 - member->row.size;
+			res.start.row = r->start.row - member->row.size;
 	}
 
 	if (member->col.offset_gravity > 0) {
 		if (member->col.size > 0)
-			r.end.col = r.start.col + member->col.size - 1;
+			res.end.col = res.start.col + member->col.size - 1;
 		else
-			r.end.col = x2 + member->col.size;
+			res.end.col = r->end.col + member->col.size;
 	} else {
 		if (member->col.size > 0)
-			r.start.col = r.end.col - member->col.size + 1;
+			res.start.col = res.end.col - member->col.size + 1;
 		else
-			r.start.col = x1 - member->col.size;
+			res.start.col = r->start.col - member->col.size;
 	}
 
-	return r;
+	return res;
 }
 
 /******************************************************************************
@@ -528,8 +523,7 @@ format_template_new (WorkbookControl *context)
 	ft->table     = hash_table_create ();
 	ft->invalidate_hash = TRUE;
 
-	ft->x1 = ft->y1 = 0;
-	ft->x2 = ft->y2 = 0;
+	range_init (&ft->dimension, 0,0,0,0);
 
 	return ft;
 }
@@ -608,10 +602,7 @@ format_template_clone (FormatTemplate *ft)
 	clone->patterns  = ft->patterns;
 	clone->alignment = ft->alignment;
 
-	clone->x1        = ft->x1;
-	clone->y1        = ft->y1;
-	clone->x2        = ft->x2;
-	clone->y2        = ft->y2;
+	clone->dimension = ft->dimension;
 
 	clone->invalidate_hash = TRUE;
 
@@ -834,16 +825,16 @@ typedef void (* PCalcCallback) (FormatTemplate *ft, Range *r, MStyle *mstyle, gp
 /**
  * format_template_range_check:
  * @ft: Format template
- * @s: Target range
- * @display_error: If TRUE will display an error message if @s is not appropriate for @ft.
+ * @r: Target range
+ * @display_error: If TRUE will display an error message if @r is not appropriate for @ft.
  *
- * Check wether range @s is big enough to apply format template @ft to it.
+ * Check whether range @r is big enough to apply format template @ft to it.
  * If this is not the case an error message WILL be displayed if @display_error is TRUE
  *
  * Return value: TRUE if @s is big enough, FALSE if not.
  **/
 static gboolean
-format_template_range_check (FormatTemplate *ft, Range s, gboolean display_error)
+format_template_range_check (FormatTemplate *ft, Range const *r, gboolean display_error)
 {
 	GSList *iterator;
 	int diff_col_high = -1;
@@ -855,12 +846,11 @@ format_template_range_check (FormatTemplate *ft, Range s, gboolean display_error
 	iterator = ft->members;
 	while (iterator) {
 		TemplateMember *member = iterator->data;
-		Range r = format_template_member_get_rect (member, s.start.col, s.start.row,
-							   s.end.col, s.end.row);
+		Range range = format_template_member_get_rect (member, r);
 
-		if (!range_valid (&r)) {
-			int diff_col = (r.start.col - r.end.col);
-			int diff_row = (r.start.row - r.end.row);
+		if (!range_valid (&range)) {
+			int diff_col = (range.start.col - range.end.col);
+			int diff_row = (range.start.row - range.end.row);
 
 			if (diff_col > diff_col_high)
 				diff_col_high = diff_col;
@@ -875,8 +865,8 @@ format_template_range_check (FormatTemplate *ft, Range s, gboolean display_error
 	}
 
 	if (invalid_range_seen && display_error) {
-		int diff_row_high_ft = diff_row_high + (s.end.row - s.start.row) + 1;
-		int diff_col_high_ft = diff_col_high + (s.end.col - s.start.col) + 1;
+		int diff_row_high_ft = diff_row_high + range_height (r);
+		int diff_col_high_ft = diff_col_high + range_width (r);
 		char *errmsg;
 
 		if (diff_col_high > 0 && diff_row_high > 0) {
@@ -922,7 +912,7 @@ format_template_range_check (FormatTemplate *ft, Range s, gboolean display_error
  *
  **/
 static void
-format_template_calculate (FormatTemplate *ft, Range s, PCalcCallback pc, gpointer cb_data)
+format_template_calculate (FormatTemplate *ft, Range const *r, PCalcCallback pc, gpointer cb_data)
 {
 	GSList *iterator;
 
@@ -935,16 +925,14 @@ format_template_calculate (FormatTemplate *ft, Range s, PCalcCallback pc, gpoint
 	while (iterator) {
 		TemplateMember *member = iterator->data;
 		MStyle *mstyle = format_template_member_get_style (member);
-		Range r = format_template_member_get_rect (member, s.start.col, s.start.row,
-								   s.end.col, s.end.row);
+		Range range = format_template_member_get_rect (member, r);
 
-		if (member->direction == FREQ_DIRECTION_NONE) {
+		if (member->direction == FREQ_DIRECTION_NONE)
+			pc (ft, &range, mstyle_copy (mstyle), cb_data);
 
-			pc (ft, &r, mstyle_copy (mstyle), cb_data);
-
-		} else if (member->direction == FREQ_DIRECTION_HORIZONTAL) {
+		else if (member->direction == FREQ_DIRECTION_HORIZONTAL) {
 			int col_repeat = member->repeat;
-			Range hr = r;
+			Range hr = range;
 
 			while (col_repeat != 0) {
 				pc (ft, &hr, mstyle_copy (mstyle), cb_data);
@@ -955,16 +943,16 @@ format_template_calculate (FormatTemplate *ft, Range s, PCalcCallback pc, gpoint
 				if (member->repeat != -1)
 					col_repeat--;
 				else {
-					if (hr.start.row > s.end.row)
+					if (hr.start.row > r->end.row)
 						break;
 				}
 
-				if (hr.start.row > s.end.row - member->edge)
+				if (hr.start.row > r->end.row - member->edge)
 					break;
 			}
 		} else if (member->direction == FREQ_DIRECTION_VERTICAL) {
 			int row_repeat = member->repeat;
-			Range vr = r;
+			Range vr = range;
 
 			while (row_repeat != 0) {
 				pc (ft, &vr, mstyle_copy (mstyle), cb_data);
@@ -975,11 +963,11 @@ format_template_calculate (FormatTemplate *ft, Range s, PCalcCallback pc, gpoint
 				if (member->repeat != -1)
 					row_repeat--;
 				else {
-					if (vr.start.row > s.end.row)
+					if (vr.start.row > r->end.row)
 						break;
 				}
 
-				if (vr.start.row > s.end.row - member->edge)
+				if (vr.start.row > r->end.row - member->edge)
 					break;
 			}
 		}
@@ -1026,7 +1014,7 @@ cb_format_hash_style (FormatTemplate *ft, Range *r, MStyle *mstyle, GHashTable *
 static void
 format_template_recalc_hash (FormatTemplate *ft)
 {
-	Range s;
+	Range r;
 
 	g_return_if_fail (ft != NULL);
 
@@ -1035,16 +1023,13 @@ format_template_recalc_hash (FormatTemplate *ft)
 
 	g_hash_table_freeze (ft->table);
 
-	s.start.col = ft->x1;
-	s.end.col   = ft->x2;
-	s.start.row = ft->y1;
-	s.end.row   = ft->y2;
+	r = ft->dimension;
 
 	/*
 	 * If the range check fails then the template it simply too *huge*
 	 * so we don't display an error dialog.
 	 */
-	if (!format_template_range_check (ft, s, FALSE)) {
+	if (!format_template_range_check (ft, &r, FALSE)) {
 
 		g_warning ("Template %s is too large, hash can't be calculated", ft->name->str);
 		g_hash_table_thaw (ft->table);
@@ -1052,7 +1037,7 @@ format_template_recalc_hash (FormatTemplate *ft)
 		return;
 	}
 
-	format_template_calculate (ft, s, (PCalcCallback) cb_format_hash_style, ft->table);
+	format_template_calculate (ft, &r, (PCalcCallback) cb_format_hash_style, ft->table);
 
 	g_hash_table_thaw (ft->table);
 }
@@ -1117,6 +1102,23 @@ cb_format_sheet_style (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *shee
 }
 
 /**
+ * format_template_check_valid :
+ * @ft :
+ * @regions :
+ *
+ * check to see if the @regions are able to contain the support template @ft.
+ */
+gboolean
+format_template_check_valid (FormatTemplate *ft, GSList *regions)
+{
+	for (; regions != NULL ; regions = regions->next)
+		if (!format_template_range_check (ft, regions->data, TRUE))
+			return FALSE;
+
+	return TRUE;
+}
+
+/**
  * format_template_apply_to_sheet_regions:
  * @ft: FormatTemplate
  * @sheet: the Target sheet
@@ -1127,34 +1129,9 @@ cb_format_sheet_style (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *shee
 void
 format_template_apply_to_sheet_regions (FormatTemplate *ft, Sheet *sheet, GSList *regions)
 {
-	GSList *region = NULL;
-
-	/*
-	 * First check for range validity
-	 */
-	region = regions;
-	while (region) {
-		Range s = *((Range const *) region->data);
-
-		/*
-		 * Check if the selected range is valid
-		 * if it's not we will abort to avoid a 'spray'
-		 * of error dialogs on screen.
-		 */
-		if (!format_template_range_check (ft, s, TRUE))
-			return;
-
-		region = g_slist_next (region);
-	}
-
-	/*
-	 * Apply the template to all regions
-	 */
-	for (region = regions; region != NULL ; region = region->next) {
-		Range s = *((Range const *) region->data);
-		format_template_calculate (ft, s,
+	for (; regions != NULL ; regions = regions->next)
+		format_template_calculate (ft, regions->data,
 			(PCalcCallback) cb_format_sheet_style, sheet);
-	}
 }
 
 /******************************************************************************
@@ -1330,10 +1307,10 @@ format_template_set_filter (FormatTemplate *ft,
 void
 format_template_set_size (FormatTemplate *ft, int x1, int y1, int x2, int y2)
 {
-	ft->x1 = x1;
-	ft->y1 = y1;
-	ft->x2 = x2;
-	ft->y2 = y2;
+	ft->dimension.start.col = x1;
+	ft->dimension.start.row = y1;
+	ft->dimension.end.col = x2;
+	ft->dimension.end.row = y2;
 
 	ft->invalidate_hash = TRUE;
 }

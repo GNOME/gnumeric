@@ -13,6 +13,10 @@ Jody:
 	* Fix outline mode. 
 	* Add keyboard support to sheet objects.
 	* Add warning when xls imports non-ole file.
+	* Continue audit and clean out some old code.
+	* Validate autoformat template before storing undo.
+	* Fix leaks.
+	* Fix centering while printing scaled regions.
 
 Jukka:
 	* Improved function documentation.

@@ -795,12 +795,8 @@ cmd_area_set_text_destroy (GtkObject *cmd)
 			cellregion_free (l->data);
 		me->old_content = NULL;
 	}
-	if (me->selection != NULL) {
-		GSList *l;
-		for (l = me->selection ; l != NULL ; l = g_slist_remove (l, l->data))
-			g_free (l->data);
-		me->selection = NULL;
-	}
+	range_fragment_free (me->selection);
+	me->selection = NULL;
 
 	gnumeric_command_destroy (cmd);
 }
@@ -1235,12 +1231,8 @@ cmd_clear_destroy (GtkObject *cmd)
 			cellregion_free (l->data);
 		me->old_content = NULL;
 	}
-	if (me->selection != NULL) {
-		GSList *l;
-		for (l = me->selection ; l != NULL ; l = g_slist_remove (l, l->data))
-			g_free (l->data);
-		me->selection = NULL;
-	}
+	range_fragment_free (me->selection);
+	me->selection = NULL;
 
 	gnumeric_command_destroy (cmd);
 }
@@ -1433,12 +1425,8 @@ cmd_format_destroy (GtkObject *cmd)
 		me->old_styles = NULL;
 	}
 
-	if (me->selection != NULL) {
-		GSList *l;
-		for (l = me->selection ; l != NULL ; l = g_slist_remove (l, l->data))
-			g_free (l->data);
-		me->selection = NULL;
-	}
+	range_fragment_free (me->selection);
+	me->selection = NULL;
 
 	gnumeric_command_destroy (cmd);
 }
@@ -2385,7 +2373,7 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdPasteCut *me = CMD_PASTE_CUT (cmd);
 	Range  tmp, valid_range;
-	GList *frag;
+	GSList *frag;
 
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->paste_content == NULL, TRUE);
@@ -2403,11 +2391,11 @@ cmd_paste_cut_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	 * need to store any portions of src content that are moving off the
 	 * sheet.
 	 */
-	frag = range_split_ranges (&valid_range, &tmp, NULL);
+	frag = range_split_ranges (&valid_range, &tmp);
 	while (frag) {
 		PasteContent *pc = g_new (PasteContent, 1);
 		Range *r = frag->data;
-		frag = g_list_remove (frag, r);
+		frag = g_slist_remove (frag, r);
 
 		if (!range_overlap (&valid_range, r))
 			(void) range_translate (r, -me->info.col_offset,
@@ -2847,7 +2835,7 @@ typedef struct {
 
 	Sheet          *sheet;
 
-	GSList         *selections;  /* Selections on the sheet */
+	GSList         *selection;  /* Selections on the sheet */
 	GSList         *old_styles;  /* Older styles, one style_list per selection range*/
 
 	FormatTemplate *ft;         /* Template that has been applied */
@@ -2864,7 +2852,7 @@ cmd_autoformat_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	if (me->old_styles) {
 		GSList *l1 = me->old_styles;
-		GSList *l2 = me->selections;
+		GSList *l2 = me->selection;
 
 		for (; l1; l1 = l1->next, l2 = l2->next) {
 			Range *r;
@@ -2891,7 +2879,7 @@ cmd_autoformat_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	format_template_apply_to_sheet_regions (me->ft, me->sheet, me->selections);
+	format_template_apply_to_sheet_regions (me->ft, me->sheet, me->selection);
 
 	return FALSE;
 }
@@ -2916,14 +2904,8 @@ cmd_autoformat_destroy (GtkObject *cmd)
 		me->old_styles = NULL;
 	}
 
-	if (me->selections != NULL) {
-		GSList *l;
-
-		for (l = me->selections ; l != NULL ; l = g_slist_remove (l, l->data))
-			g_free (l->data);
-
-		me->selections = NULL;
-	}
+	range_fragment_free (me->selection);
+	me->selection = NULL;
 
 	format_template_free (me->ft);
 
@@ -2948,15 +2930,21 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 
+	l = selection_get_ranges (sheet, FALSE); /* Regions may overlap */
+	if (!format_template_check_valid (ft, l)) {
+		range_fragment_free (l);
+		return TRUE;
+	}
+
 	obj = gtk_type_new (CMD_AUTOFORMAT_TYPE);
 	me = CMD_AUTOFORMAT (obj);
 
-	me->sheet       = sheet;
-	me->selections  = selection_get_ranges (sheet, FALSE); /* Regions may overlap */
-	me->ft          = ft;
+	me->sheet     = sheet;
+	me->selection = l;
+	me->ft        = ft;
 
 	me->old_styles = NULL;
-	for (l = me->selections; l; l = l->next) {
+	for (l = me->selection; l; l = l->next) {
 		CmdFormatOldStyle *os;
 		Range range = *((Range const *) l->data);
 
@@ -2977,7 +2965,7 @@ cmd_autoformat (WorkbookControl *wbc, Sheet *sheet, FormatTemplate *ft)
 	me->parent.sheet = sheet;
 	me->parent.size = 1;  /* FIXME?  */
 
-	names = range_list_to_string (me->selections);
+	names = range_list_to_string (me->selection);
 	me->parent.cmd_descriptor = g_strdup_printf (_("Autoformatting %s"),
 						     names->str);
 	g_string_free (names, TRUE);

@@ -1,5 +1,27 @@
 2001-11-11  Jody Goldberg <jgoldberg@home.com>
 
+	* src/ranges.c (range_split_ranges) : remove the unused copy_fn
+	  arg and convert to using GSList.
+	(range_fragment) : convert to GSList..
+	(range_fragment_free) : ditto.
+
+	* src/format-template.c : Convert several things to use Range *.
+	(format_template_check_valid) : split out from.
+	(format_template_apply_to_sheet_regions) : here.
+
+	* src/commands.c (cmd_autoformat) : Use format_template_check_valid.
+	(cmd_area_set_text_destroy) : range_fragment_free instead of doing it
+	  ourselves.
+	(cmd_clear_destroy) : ditto.
+	(cmd_format_destroy) : ditto.
+	(cmd_autoformat_destroy) : ditto.
+
+	* src/xml-io.c (xml_write_selection_clipboard) : fix leak.
+	* src/workbook-format-toolbar.c (cb_unmerge_cells) : ditto.
+	(cb_merge_cells) : ditto.
+
+2001-11-11  Jody Goldberg <jgoldberg@home.com>
+
 	* src/print.c (print_page) : fix horiz/vert centering in the presence
 	  of scaling.
 

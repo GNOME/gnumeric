@@ -266,7 +266,7 @@ sheet_selection_set_internal (Sheet *sheet,
 	}
 
 	if (range_overlap (&old_sel, &new_sel)) {
-		GList *ranges, *l;
+		GSList *ranges, *l;
 		/*
 		 * Compute the blocks that need to be repainted: those that
 		 * are in the complement of the intersection.

@@ -91,11 +91,9 @@ char const *range_name          (Range const *src);
 void        range_dump          (Range const *src, char const *suffix);
 Range      *range_dup		(Range const *src);
 
-typedef Range *(*RangeCopyFn) (Range const *r);
-GList      *range_split_ranges    (Range const *hard, Range const *soft,
-				   RangeCopyFn copy_fn);
-GList      *range_fragment        (Range const *a, Range const *b);
-void        range_fragment_free   (GList *fragments);
+GSList     *range_split_ranges    (Range const *hard, Range const *soft);
+GSList     *range_fragment        (Range const *a, Range const *b);
+void        range_fragment_free   (GSList *fragments);
 
 GlobalRange *global_range_new     (Sheet *sheet, Range const *r);
 void         global_range_free    (GlobalRange *gr);
