@@ -155,6 +155,8 @@ install: build
 		localstatedir=`pwd`/../debian/tmp/var/lib \
 		libexecdir=`pwd`/../debian/tmp/usr/bin
 
+	cd build/schemas && install -m 644 -o root -g root -p *.schemas `pwd`/../../debian/gnumeric/usr/share/gconf/schemas/
+
 	# Plugins are not intended as stand-alone executables
 	find `pwd`/debian/tmp/usr/lib/gnumeric/*/plugins -type f -print0 | xargs -0 chmod a-x
 
