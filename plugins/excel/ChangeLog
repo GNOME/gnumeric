@@ -1,3 +1,8 @@
+2004-02-09  Morten Welinder  <terra@gnome.org>
+
+	* ms-biff.c (ms_biff_query_next): Change to return gboolean and
+	fix the g_return_val_if_fail results.
+
 2004-02-04  Jody Goldberg <jody@gnome.org>
 
 	* ms-excel-read.c (excel_read_CODENAME) : new routine to store the

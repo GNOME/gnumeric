@@ -356,12 +356,12 @@ ms_biff_query_peek_next (BiffQuery *q, guint16 *opcode)
 /**
  * Returns FALSE if has hit end
  **/
-int
+gboolean
 ms_biff_query_next (BiffQuery *q)
 {
 	guint8 const *data;
 
-	g_return_val_if_fail (q != NULL, 0);
+	g_return_val_if_fail (q != NULL, FALSE);
 
 	if (gsf_input_eof (q->input))
 		return FALSE;
@@ -387,7 +387,7 @@ ms_biff_query_next (BiffQuery *q)
 	q->ls_op  = (q->opcode&0xff);
 
 	/* no biff record should be larger than around 20,000 */
-	g_return_val_if_fail (q->length < 20000, 0);
+	g_return_val_if_fail (q->length < 20000, FALSE);
 
 	if (q->length > 0) {
 		q->data = (guint8 *)gsf_input_read (q->input, q->length, NULL);

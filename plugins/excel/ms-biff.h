@@ -60,8 +60,8 @@ gboolean    ms_biff_query_set_decrypt (BiffQuery *q, MsBiffVersion version,
 				       char const *password);
 
 /* Updates the BiffQuery structure with the next BIFF record
- * returns: 1 for succes, and 0 for EOS(tream) */
-int         ms_biff_query_next        (BiffQuery *);
+ * returns: TRUE for succes, and FALSE for EOS(tream) */
+gboolean    ms_biff_query_next        (BiffQuery *);
 gboolean    ms_biff_query_peek_next   (BiffQuery *, guint16 *opcode);
 void        ms_biff_query_destroy     (BiffQuery *);
 void        ms_biff_query_dump	      (BiffQuery *);
