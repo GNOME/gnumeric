@@ -115,6 +115,18 @@
 	    _label="Hide _Row Headers"
 	    _tip="Toggle whether or not to display row headers" />
 
+	<cmd name="SheetDisplayOutlines"	type="toggle" state="0"
+	    _label="Display _Outlines"
+	    _tip="Toggle whether or not to display outline groups" />
+
+	<cmd name="SheetOutlineBelow"		type="toggle" state="0"
+	    _label="Oulines _Below"
+	    _tip="Toggle whether to display row outlines on top or bottom" />
+
+	<cmd name="SheetOutlineRight"		type="toggle" state="0"
+	    _label="Oulines _Right"
+	    _tip="Toggle whether to display column outlines on the left or right" />
+
 	<cmd name="HelpAbout"
 	    _label="_About..."
 	    _tip="About this application"

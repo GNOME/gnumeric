@@ -1,3 +1,8 @@
+2001-04-23  Morten Welinder  <terra@diku.dk>
+
+	* src/GNOME_Gnumeric.xml: Define a few more outline commands, just
+ 	to shut up bonobo.
+
 2001-04-22  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_colrow_outline_change) : Extend logic to support
