@@ -1,5 +1,9 @@
 2002-04-26  Jon K Hellan  <hellan@acm.org>
 
+	* src/bonobo-io.c (get_bytes_from_compressed_stream): Fix typo
+
+2002-04-26  Jon K Hellan  <hellan@acm.org>
+
 	* src/bonobo-io.c (struct StreamIOCtxt): Context data structure
 	for reading a PersistStream. 
 	(get_raw_bytes_from_stream): New function. Read raw bytes from the

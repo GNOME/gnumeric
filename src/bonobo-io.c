@@ -85,7 +85,7 @@ get_bytes_from_compressed_stream (StreamIOCtxt *sc, char *buffer, int len)
 	zstream->avail_out = len;
 
 	while (zstream->avail_out != 0) {
-		if (zstream->avail_in == 0)
+		if (zstream->avail_in == 0) {
 			zstream->avail_in =
 				get_raw_bytes_from_stream (sc, sc->infbuf,
 							   sc->infbsiz);
