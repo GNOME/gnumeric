@@ -183,7 +183,7 @@ unregister_allocation (void const *data)
 
 /* Bison/Yacc internals */
 static int  yylex (void);
-static int  yyerror (char *s);
+static int  yyerror (const char *s);
 
 typedef struct {
 	/* The expression being parsed */
@@ -957,7 +957,7 @@ yylex (void)
 }
 
 int
-yyerror (char *s)
+yyerror (const char *s)
 {
 #if 0
 	printf ("Error: %s\n", s);

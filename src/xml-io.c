@@ -273,7 +273,7 @@ xml_node_set_print_unit (xmlNodePtr node, char const *name,
 			 PrintUnit const *pu)
 {
 	xmlNodePtr  child;
-	char       *txt = "points";
+	const char *txt = "points";
 	xmlChar       *tstr;
 
 	if (pu == NULL || name == NULL)
@@ -1031,7 +1031,8 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 }
 
 static void
-xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree, char *name, PrintRepeatRange *range)
+xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree,
+			     const char *name, PrintRepeatRange *range)
 {
 	xmlNodePtr child;
 

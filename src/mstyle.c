@@ -851,7 +851,7 @@ mstyle_to_string (const MStyle *style)
 	GString *ans;
 	char *txt_ans;
 
-	g_return_val_if_fail (style != NULL, "(null)");
+	g_return_val_if_fail (style != NULL, g_strdup ("(null)"));
 
 	ans = g_string_new ("Elements : ");
 	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {

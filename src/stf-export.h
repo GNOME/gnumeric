@@ -6,7 +6,7 @@
 /*
  * Callback functions
  */
-typedef gboolean    (* StfEWriteFunc)                       (char *string, gpointer data);
+typedef gboolean (* StfEWriteFunc) (const char *string, gpointer data);
 
 typedef enum {
 	TERMINATOR_TYPE_LINEFEED        = 1 << 0, /* \n */

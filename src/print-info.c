@@ -20,7 +20,7 @@
 #include <libgnome/gnome-config.h>
 #include <string.h>
 
-static PrintHF predefined_formats [] = {
+static const PrintHF predefined_formats [] = {
 	{ "",                 "",                             "" },
 	{ "",                 N_("Page &[PAGE]"),             "" },
 	{ "",                 N_("Page &[PAGE] of &[PAGES]"), "" },
@@ -574,7 +574,7 @@ render_time (GString *target, HFRenderInfo *info, const char *args)
 	render_value_with_format (target, time_format, info);
 }
 
-static struct {
+static const struct {
 	char *name;
 	void (*render)(GString *target, HFRenderInfo *info, const char *args);
 } render_ops [] = {

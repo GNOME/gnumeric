@@ -490,7 +490,7 @@ gnumeric_keyed_dialog (WorkbookControlGUI *wbcg, GtkWindow *dialog, const char *
  * Returns TRUE if dialog found, FALSE if not.
  */
 gboolean
-gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, char *key)
+gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg, const char *key)
 {
 	GtkWidget *dialog;
 

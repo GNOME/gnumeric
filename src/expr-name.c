@@ -532,8 +532,8 @@ name_sheet_title (FunctionEvalInfo *ei, Value **args)
 		return value_new_string (ei->pos->sheet->name_quoted);
 }
 
-static struct {
-	gchar        *name;
+static const struct {
+	gchar *name;
 	FunctionArgs *fn;
 } builtins[] =
 {

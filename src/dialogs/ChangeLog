@@ -1,3 +1,20 @@
+2002-02-20  Morten Welinder  <terra@diku.dk>
+
+	* dialog-printer-setup.c (do_setup_page): Constify.
+
+	* dialog-paste-special.c (paste_types, paste_ops): Constify.
+
+	* dialog-cell-format.c (cb_validation_error_action_deactivate):
+ 	Constify.
+
+	* dialog-analysis-tools.c (dialog_tool_init): Constify.
+
+	* dialog-stf-preview.c (stf_preview_draw_box): Constify.
+	(stf_preview_draw_line): Constify.
+	(stf_preview_draw_text): Constify.
+
+	* dialog-printer-setup.c (unit_editor_configure): Constify.
+
 2002-02-18  Jody Goldberg <jody@gnome.org>
 
 	* dialog-cell-format.c (fmt_dialog_impl) : fix signature

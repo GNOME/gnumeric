@@ -485,7 +485,8 @@ dialog_tool_init_buttons (GenericToolState *state, GtkSignalFunc ok_function)
  *
  **/
 static gboolean
-dialog_tool_init (GenericToolState *state, char *gui_name, char *dialog_name,
+dialog_tool_init (GenericToolState *state, const char *gui_name,
+		  const char *dialog_name,
 		  GtkSignalFunc ok_function, GtkSignalFunc sensitivity_cb,
 		  GnumericExprEntryFlags flags)
 {

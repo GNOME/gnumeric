@@ -56,7 +56,7 @@ typedef enum { SUMMARY_I_CODEPAGE,
 	       SUMMARY_I_MAX } SummaryItemBuiltin;
 
 /* Builtin names: use summary_item_name[SUMMARY_I_TITLE] */
-extern gchar *summary_item_name[SUMMARY_I_MAX];
+extern const gchar *summary_item_name[SUMMARY_I_MAX];
 
 /*
  *  Each Summary Item has a name it is hashed on,

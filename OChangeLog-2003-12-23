@@ -1,3 +1,30 @@
+2002-02-20  Morten Welinder  <terra@diku.dk>
+
+	* src/parser.y (yyerror): Constify.
+
+	* src/xml-io.c (xml_node_set_print_unit): Constify.
+	(xml_read_print_repeat_range): Constify.
+
+	* src/summary.c (summary_item_name): Constify.
+
+	* src/print-info.c (predefined_formats, render_ops): Constify.
+
+	* src/expr-name.c (builtins): Constify.
+
+	* src/complex.c (complex_to_string): Constify.
+
+	* src/commands.c (cmd_set_text): Constify.
+	(cmd_area_set_text): Constify.
+
+	* src/mstyle.c (mstyle_to_string): Missing g_strdup added for
+ 	sanity check, just in case.
+	* src/summary.c (summary_item_as_text): Ditto.
+	* src/value.c (value_get_as_string): Ditto.
+
+	* configure.in (CFLAGS): Add -Wwrite-strings, if possible.
+
+	* src/gui-util.c (gnumeric_dialog_raise_if_exists): Constify.
+
 2002-02-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (regression_tool) : use only values

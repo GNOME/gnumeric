@@ -18,7 +18,7 @@
 
 #define BUTTON_PASTE_LINK 0
 
-static struct {
+static const struct {
 	char *name;
 	int  disables_second_group;
 } paste_types[] = {
@@ -29,7 +29,7 @@ static struct {
 	{ NULL, 0 }
 };
 
-static char *paste_ops[] = {
+static const char *paste_ops[] = {
 	N_("None"),
 	N_("Add "),
 	N_("Subtract"),

@@ -46,7 +46,7 @@ AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource)
 GNOME_COMPILE_WARNINGS
 set_mode_warnings=yes
 if test "$GCC" = "yes" -a "$set_more_warnings" != "no"; then
-	for option in -Wsign-promo -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts ; do
+	for option in -Wsign-promo -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
 		AC_MSG_CHECKING([whether gcc understands $option])

@@ -2064,7 +2064,7 @@ cb_validation_error_action_deactivate (GtkMenuShell *ignored, FormatState *state
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg), flag);
 
 	if (flag) {
-		char *s = NULL;
+		const char *s = NULL;
 
 		switch (index) {
 		case 1 : s = "gnome-error.png";		break;
@@ -2076,10 +2076,10 @@ cb_validation_error_action_deactivate (GtkMenuShell *ignored, FormatState *state
 		}
 
 	     	if (s != NULL) {
-			s = gnome_pixmap_file (s);
-			g_return_if_fail (s != NULL);
-			gtk_image_set_from_file (state->validation.error.image, s);
-			g_free (s);
+			char *sfile = gnome_pixmap_file (s);
+			g_return_if_fail (sfile != NULL);
+			gtk_image_set_from_file (state->validation.error.image, sfile);
+			g_free (sfile);
 		}
 		gtk_widget_show (GTK_WIDGET (state->validation.error.image));
 	} else

@@ -28,7 +28,7 @@ void       gnumeric_keyed_dialog (WorkbookControlGUI *wbcg,
 				  GtkWindow *dialog,
 				  const char *key);
 gboolean   gnumeric_dialog_raise_if_exists (WorkbookControlGUI *wbcg,
-					    char *key);
+					    const char *key);
 void       gnumeric_editable_enters (GtkWindow *window, GtkWidget *w);
 void       gnumeric_combo_enters (GtkWindow *window, GtkCombo *combo);
 void       gnumeric_toolbar_insert_with_eventbox (GtkToolbar *toolbar,

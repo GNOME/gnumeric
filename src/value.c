@@ -541,7 +541,7 @@ value_get_as_string (Value const *v)
 				g_return_val_if_fail (val->type == VALUE_STRING ||
 						      val->type == VALUE_FLOAT ||
 						      val->type == VALUE_INTEGER,
-						      "Duff Array contents");
+						      g_strdup ("Duff Array contents"));
 				if (x)
 					g_string_append_c (str, row_sep);
 				if (val->type == VALUE_STRING)

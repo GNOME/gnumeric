@@ -24,7 +24,7 @@
  *  The field names are summary_item_name[i] prefixed with "glade_".
  *
  */
-gchar *summary_item_name[] = {
+const gchar *summary_item_name[] = {
 	"codepage",
 	"title",
 	"subject",
@@ -128,7 +128,7 @@ summary_item_as_text (const SummaryItem *sit)
 		if (sit->v.boolean == 1)
 			return g_strdup ("True");
 
-		return "Unrecognized boolean value";
+		return g_strdup ("Unrecognized boolean value");
 
 	case SUMMARY_SHORT:
 		return g_strdup_printf ("%d", sit->v.short_i);

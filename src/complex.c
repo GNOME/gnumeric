@@ -23,8 +23,8 @@ complex_to_string (const complex_t *src, const char *reformat,
 {
 	char *re_buffer = NULL;
 	char *im_buffer = NULL;
-	char *sign = "";
-	char *suffix = "";
+	const char *sign = "";
+	const char *suffix = "";
 	char *res;
 	char suffix_buffer[2];
 

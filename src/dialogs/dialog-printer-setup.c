@@ -733,7 +733,8 @@ unit_deactivated (GtkSpinButton *spin_button,
 
 static void
 unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
-		       char *spin_name, double init_points, UnitName unit)
+		       const char *spin_name,
+		       double init_points, UnitName unit)
 {
 	GtkSpinButton *spin;
 	UnitInfo_cbdata *cbdata;
@@ -1467,7 +1468,7 @@ do_setup_page (PrinterSetupState *state)
 	GtkCombo *first_page_combo, *paper_size_combo;
 	GtkTable *table;
 	GladeXML *gui;
-	char *toggle;
+	const char *toggle;
 
 	gui = state->gui;
 	table = GTK_TABLE (glade_xml_get_widget (gui, "table-orient"));

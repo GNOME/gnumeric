@@ -49,7 +49,8 @@
  * returns : the width of the rendered text
  **/
 static double
-stf_preview_draw_text (GnomeCanvasGroup *group, char *text, GdkFont *font, char *color, double x, double y)
+stf_preview_draw_text (GnomeCanvasGroup *group, const char *text,
+		       GdkFont *font, const char *color, double x, double y)
 {
 	GnomeCanvasText *canvastext;
 	double textwidth;
@@ -87,7 +88,8 @@ stf_preview_draw_text (GnomeCanvasGroup *group, char *text, GdkFont *font, char 
  * returns : nothing
  **/
 static void
-stf_preview_draw_line (GnomeCanvasGroup *group, char *color, double x1, double y1, double x2, double y2)
+stf_preview_draw_line (GnomeCanvasGroup *group, const char *color,
+		       double x1, double y1, double x2, double y2)
 {
 	GnomeCanvasPoints *points = gnome_canvas_points_new (2);
 
@@ -121,7 +123,8 @@ stf_preview_draw_line (GnomeCanvasGroup *group, char *color, double x1, double y
  * returns : nothing
  **/
 static void
-stf_preview_draw_box (GnomeCanvasGroup *group, char *color, double x1, double y1, double x2, double y2)
+stf_preview_draw_box (GnomeCanvasGroup *group, const char *color,
+		      double x1, double y1, double x2, double y2)
 {
 	gnome_canvas_item_new (group, GNOME_TYPE_CANVAS_RECT,
 		"x1", x1,	"y1", y1,

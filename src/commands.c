@@ -627,7 +627,7 @@ cmd_set_text (WorkbookControl *wbc,
 {
 	GObject *obj;
 	CmdSetText *me;
-	gchar *pad = "";
+	const gchar *pad = "";
 	gchar *text, *corrected_text, *tmp, c = '\0';
 	Cell const *cell;
 
@@ -826,7 +826,8 @@ cmd_area_set_text (WorkbookControl *wbc, ParsePos const *pos,
 {
 	GObject *obj;
 	CmdAreaSetText *me;
-	gchar *text, *pad = "";
+	gchar *text;
+	const gchar *pad = "";
 
 	obj = g_object_new (CMD_AREA_SET_TEXT_TYPE, NULL);
 	me = CMD_AREA_SET_TEXT (obj);
