@@ -1,20 +1,50 @@
 msgid ""
 msgstr ""
+"POT-Creation-Date: 1999-05-18 07:20-0500\n"
+"Content-Type: text/plain; charset=\n"
 "Date: 1999-04-30 12:12:02+0000\n"
 "From: Bobo Rajec,BSP Consulting,+42 7 5330 017,, <bobo@bobo.bspc.sk>\n"
-"Content-Type: text/plain; charset=\n"
-"Xgettext-Options: --default-domain=gnumeric --directory=.. --add-comments --keyword=_ --keyword=N_ --files-from=./POTFILES.in\n"
-"Files: plugins/excel/boot.c plugins/guile/plugin.c plugins/python/python.c plugins/stat/stat.c src/about.c src/dates.c src/dialog-cell-format.c src/dialog-define-names.c src/dialog-delete-cells.c src/dialog-goto-cell.c src/dialog-insert-cells.c src/dialog-paste-special.c src/dialog-zoom.c src/dump.c src/expr.c src/file.c src/fn-date.c src/fn-math.c src/fn-misc.c src/fn-sheet.c src/fn-string.c src/format.c src/formats.c src/gnumeric-sheet.c src/gnumeric-util.c src/item-cursor.c src/item-grid.c src/main.c src/number-match.c src/plugin-manager.c src/plugin.c src/sheet-autofill.c src/sheet-view.c src/sheet.c src/workbook.c src/xml-io.c\n"
+"Xgettext-Options: --default-domain=gnumeric --directory=.. --add-comments "
+"--keyword=_ --keyword=N_ --files-from=./POTFILES.in\n"
+"Files: plugins/excel/boot.c plugins/guile/plugin.c plugins/python/python.c "
+"plugins/stat/stat.c src/about.c src/dates.c src/dialog-cell-format.c "
+"src/dialog-define-names.c src/dialog-delete-cells.c src/dialog-goto-cell.c "
+"src/dialog-insert-cells.c src/dialog-paste-special.c src/dialog-zoom.c "
+"src/dump.c src/expr.c src/file.c src/fn-date.c src/fn-math.c src/fn-misc.c "
+"src/fn-sheet.c src/fn-string.c src/format.c src/formats.c "
+"src/gnumeric-sheet.c src/gnumeric-util.c src/item-cursor.c src/item-grid.c "
+"src/main.c src/number-match.c src/plugin-manager.c src/plugin.c "
+"src/sheet-autofill.c src/sheet-view.c src/sheet.c src/workbook.c "
+"src/xml-io.c\n"
 
-#: plugins/excel/boot.c:66
+#: plugins/excel/boot.c:74
+msgid "Saving over old files disabled for safety"
+msgstr ""
+
+#: plugins/excel/boot.c:82
+msgid "Can't open"
+msgstr ""
+
+#: plugins/excel/boot.c:115
 msgid "Microsoft(R) Excel file format"
+msgstr "Súborový formát Microsoft(R) Excel"
+
+#: plugins/excel/boot.c:116
+#, fuzzy
+msgid "Excel(R) 98 file format"
+msgstr "Súborový formát Microsoft(R) Excel"
+
+#: plugins/excel/boot.c:117
+#, fuzzy
+msgid "Excel(R) 95 file format"
 msgstr "Súborový formát Microsoft(R) Excel"
 
 #: plugins/guile/plugin.c:220
 msgid "Argument must be a Guile expression"
 msgstr "Argument musí by» Guile výraz"
 
-#: plugins/guile/plugin.c:241 src/expr.c:609 src/fn-math.c:1151 src/fn-sheet.c:37 src/fn-string.c:302
+#: plugins/guile/plugin.c:241 src/expr.c:711 src/fn-math.c:1509
+#: src/fn-sheet.c:37 src/fn-string.c:302
 msgid "Invalid number of arguments"
 msgstr "Neplatný poèet argumentov"
 
@@ -62,7 +92,7 @@ msgstr "Modul Gnumeric/Python inicializovaný\n"
 msgid "Python Plugin"
 msgstr "Doplnok Python"
 
-#: plugins/stat/stat.c:20
+#: plugins/stat/stat.c:27
 msgid "OLD Statistics Plugin, not required anymore"
 msgstr "STARÝ ©tatistický doplnok, u¾ sa nevy¾aduje"
 
@@ -330,6 +360,7 @@ msgstr "Text"
 msgid "Money"
 msgstr "Peòa¾né"
 
+#. 1. Categories
 #: src/dialog-cell-format.c:256
 msgid "Categories"
 msgstr "Kategórie"
@@ -356,7 +387,8 @@ msgstr "V¹eobecné"
 msgid "Left"
 msgstr "Doµava"
 
-#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369 src/workbook.c:979
+#: src/dialog-cell-format.c:360 src/dialog-cell-format.c:369
+#: src/workbook.c:990
 msgid "Center"
 msgstr "Na stred"
 
@@ -385,6 +417,7 @@ msgstr "Dolu"
 msgid "Vertical"
 msgstr "Zvislo"
 
+#. Horizontal alignment
 #: src/dialog-cell-format.c:430
 msgid "Horizontal"
 msgstr "Vodorovne"
@@ -398,7 +431,8 @@ msgid "Text color"
 msgstr "Farba textu"
 
 #. The radio buttons
-#: src/dialog-cell-format.c:606 src/dialog-cell-format.c:639 src/dialog-paste-special.c:28
+#: src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
+#: src/dialog-paste-special.c:28
 msgid "None"
 msgstr "®iadna"
 
@@ -466,7 +500,7 @@ msgstr "vyma¾ bunky"
 msgid "Delete cells"
 msgstr "Vyma¾ bunky"
 
-#: src/dialog-delete-cells.c:32 src/item-grid.c:533
+#: src/dialog-delete-cells.c:32 src/item-grid.c:534
 msgid "Delete"
 msgstr "Vyma¾"
 
@@ -506,7 +540,7 @@ msgstr "vlo¾ bunky"
 msgid "Insert cells"
 msgstr "Vlo¾ bunky"
 
-#: src/dialog-insert-cells.c:33 src/item-grid.c:532
+#: src/dialog-insert-cells.c:33 src/item-grid.c:533
 msgid "Insert"
 msgstr "Vlo¾"
 
@@ -554,7 +588,7 @@ msgstr "Vynásob"
 msgid "Divide"
 msgstr "Vydeµ"
 
-#: src/dialog-paste-special.c:56 src/item-grid.c:530
+#: src/dialog-paste-special.c:56 src/item-grid.c:531
 msgid "Paste special"
 msgstr "Vlo¾ inak"
 
@@ -575,109 +609,162 @@ msgid "Custom"
 msgstr "Vlastná"
 
 #: src/dialog-zoom.c:84
+#, c-format
 msgid "Zoom factor should be at least 50%"
 msgstr "Mierka by mala by» minimálne 50 %"
 
 #: src/dialog-zoom.c:90
+#, c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "Mierka by mala by» maximálne 900 %"
 
-#: src/dump.c:29
+#: src/dump.c:31
+#, c-format
 msgid "Can not create file %s\n"
 msgstr "Nemô¾em vytvori» súbor %s\n"
 
-#: src/expr.c:31
+#: src/expr.c:34
 msgid "Syntax error"
 msgstr "Chyba v syntaxi"
 
-#: src/expr.c:35
+#: src/expr.c:38
 msgid "Missing quote"
 msgstr "Chýbajúca úvodzovka"
 
-#: src/expr.c:39
+#: src/expr.c:42
 msgid "Impossible!"
 msgstr "Nemo¾né!"
 
-#: src/expr.c:674 src/expr.c:954 src/expr.c:1149 src/fn-misc.c:63 src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98 src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271 src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:571 src/fn-string.c:612 src/fn-string.c:681 src/fn-string.c:726
+#: src/expr.c:776 src/expr.c:1056 src/expr.c:1251 src/fn-misc.c:63
+#: src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98
+#: src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271
+#: src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:571
+#: src/fn-string.c:612 src/fn-string.c:681 src/fn-string.c:726
 msgid "Type mismatch"
 msgstr "Chyba typu"
 
-#: src/expr.c:751
+#: src/expr.c:853
 msgid "Function does not exist"
 msgstr "Funkcia neexistuje"
 
-#: src/expr.c:755
+#: src/expr.c:857
 msgid "Calling non-function"
 msgstr "Volanie èohosi, èo nie je funkcia"
 
-#: src/expr.c:895
+#: src/expr.c:997
 msgid "Type error"
 msgstr "Chyba typu"
 
-#: src/expr.c:1004 src/expr.c:1041
+#: src/expr.c:1106 src/expr.c:1143
 msgid "Division by zero"
 msgstr "Delenie nulou"
 
-#: src/expr.c:1129
+#: src/expr.c:1231
 msgid "Reference to newborn cell"
 msgstr "Referencia na novú bunku"
 
-#: src/expr.c:1164
+#: src/expr.c:1266
 msgid "Unknown evaluation error"
 msgstr "Neznáma chyba pri vyhodnocovaní"
 
-#: src/file.c:218
+#: src/file.c:220
 msgid "File format:"
 msgstr "Formát súboru:"
 
-#: src/file.c:257
+#: src/file.c:259
 msgid "Save workbook as"
 msgstr "Ulo¾ ako"
 
-#: src/file.c:289
+#: src/file.c:291
 msgid "Sorry, there are no file savers loaded, I can not save"
 msgstr "Sorry, ale nemám naèítané ¾iadne funkcie na ukladanie"
 
-#: src/file.c:327
+#: src/file.c:329
 msgid "Load file"
 msgstr "Naèítaj súbor"
 
-#: src/fn-date.c:18
+#: src/fn-date.c:19
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
-"@DESCRIPTION=Computes the number of days since the 1st of january of 1900(the date serial number) for the given year, month and day.\n"
-"The day might be negative (to count backwards) and it is relative to the previous month.  The years should be at least 1900\n"
+"@DESCRIPTION=Computes the number of days since the 1st of january of "
+"1900(the date serial number) for the given year, month and day.\n"
+"The day might be negative (to count backwards) and it is relative to the "
+"previous month.  The years should be at least 1900\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/fn-date.c:46
+#: src/fn-date.c:47
 msgid "Invalid month or year"
 msgstr "Neplatný mesiac alebo rok"
 
-#: src/fn-date.c:61
+#: src/fn-date.c:62
 msgid "Invalid day"
 msgstr "Neplatný deò"
 
-#: src/fn-date.c:71
+#: src/fn-date.c:73
+msgid ""
+"@FUNCTION=DATEVALUE\n"
+"@SYNTAX=DATEVALUE(date_str)\n"
+"@DESCRIPTION=DATEVALUE returns the serial number of the date.  @date_str is "
+"the string that contains the date.  For example, DATEVALUE(\"1/1/1999\") "
+"equals to 36160. \n"
+"@SEEALSO=DATE"
+msgstr ""
+
+#. -0
+#: src/fn-date.c:94 src/fn-date.c:147 src/fn-math.c:168 src/fn-math.c:225
+#: src/fn-math.c:626 src/fn-math.c:771 src/fn-math.c:776 src/fn-math.c:833
+#: src/fn-math.c:1038 src/fn-math.c:1046 src/fn-math.c:1160 src/fn-math.c:1631
+#: src/fn-math.c:1705 src/fn-math.c:1735 src/fn-math.c:1921 src/fn-math.c:1982
+msgid "#NUM!"
+msgstr ""
+
+#: src/fn-date.c:100 src/fn-date.c:137 src/fn-math.c:490 src/fn-math.c:510
+#: src/fn-math.c:553 src/fn-math.c:573 src/fn-math.c:619 src/fn-math.c:909
+#: src/fn-math.c:935 src/fn-math.c:1363 src/fn-math.c:1974 src/fn-math.c:2064
+#: src/fn-math.c:2082 src/fn-math.c:2161 src/fn-math.c:2179 src/fn-math.c:2258
+#: src/fn-math.c:2276
+msgid "#VALUE!"
+msgstr ""
+
+#: src/fn-date.c:108
+msgid ""
+"@FUNCTION=EDATE\n"
+"@SYNTAX=EDATE(serial_number,months)\n"
+"@DESCRIPTION=EDATE returns the serial number of the date that is the "
+"specified number of months before or after a given date.  @date is the "
+"serial number of the initial date and @months is the number of months before "
+"(negative number) or after (positive number) the initial date. \n"
+"If @months is not an integer, it is truncated. \n"
+"@SEEALSO=DATE"
+msgstr ""
+
+#: src/fn-date.c:155
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
-"@DESCRIPTION=Returns the serial number for today (the number of days elapsed since the 1st of January of 1900)\n"
+"@DESCRIPTION=Returns the serial number for today (the number of days elapsed "
+"since the 1st of January of 1900)\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/fn-date.c:100
+#: src/fn-date.c:184
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
-"@DESCRIPTION=Returns the serial number for the date and time at the time it is evaluated.\n"
-"Serial Numbers in Gnumeric are represented as follows:The integral part is the number of days since the 1st of January of 1900.  The decimal part represent the fraction of the day and is mapped into hour, minutes and seconds\n"
-"For example: .0 represents the beginning of the day, and 0.5 represents noon\n"
+"@DESCRIPTION=Returns the serial number for the date and time at the time it "
+"is evaluated.\n"
+"Serial Numbers in Gnumeric are represented as follows:The integral part is "
+"the number of days since the 1st of January of 1900.  The decimal part "
+"represent the fraction of the day and is mapped into hour, minutes and "
+"seconds\n"
+"For example: .0 represents the beginning of the day, and 0.5 represents "
+"noon\n"
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 
-#: src/fn-date.c:140
+#: src/fn-date.c:224
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -685,57 +772,66 @@ msgid ""
 "@SEEALSO=HOUR"
 msgstr ""
 
-#: src/fn-date.c:167
+#: src/fn-date.c:251
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
-"@DESCRIPTION=Converts a serial number to an hour.  The hour is returned as an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)\n"
-"Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string\n"
+"@DESCRIPTION=Converts a serial number to an hour.  The hour is returned as "
+"an integer in the range 0 (12:00 A.M.) to 23 (11:00 P.M.)\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/fn-date.c:182
+#: src/fn-date.c:266
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
-"@DESCRIPTION=Converts a serial number to a minute.  The minute is returned as an integer in the range 0 to 59\n"
-"Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string\n"
+"@DESCRIPTION=Converts a serial number to a minute.  The minute is returned "
+"as an integer in the range 0 to 59\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
 
-#: src/fn-date.c:197
+#: src/fn-date.c:281
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
-"@DESCRIPTION=Converts a serial number to a second.  The second is returned as an integer in the range 0 to 59\n"
-"Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string\n"
+"@DESCRIPTION=Converts a serial number to a second.  The second is returned "
+"as an integer in the range 0 to 59\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
 
-#: src/fn-date.c:235
+#: src/fn-date.c:319
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a year.\n"
-"Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
 
-#: src/fn-date.c:249
+#: src/fn-date.c:333
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a month.\n"
-"Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
 
-#: src/fn-date.c:263
+#: src/fn-date.c:347
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
 "@DESCRIPTION=Converts a serial number to a day.\n"
-"Note that Gnumeric will perform regular string to serial number conversion for you, so you can enter a date as a string\n"
+"Note that Gnumeric will perform regular string to serial number conversion "
+"for you, so you can enter a date as a string\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
 
@@ -748,95 +844,138 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:40
+#: src/fn-math.c:146
+msgid ""
+"@FUNCTION=GCD\n"
+"@SYNTAX=GCD(a,b)\n"
+"@DESCRIPTION=GCD returns the greatest common divisor of two numbers. \n"
+"If any of the arguments is less than zero, GCD returns #NUM! error. \n"
+"@SEEALSO=LCM"
+msgstr ""
+
+#: src/fn-math.c:176
+msgid ""
+"@FUNCTION=LCM\n"
+"@SYNTAX=LCM(number1,number2,...)\n"
+"@DESCRIPTION=LCM returns the least common multiple of integers.  The least "
+"common multiple is the smallest positive number that is a multiple of all "
+"integer arguments given. \n"
+"If any of the arguments is less than one, LCM returns #NUM! error. \n"
+"@SEEALSO=GCD"
+msgstr ""
+
+#: src/fn-math.c:233
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
-"@DESCRIPTION=Implements the Absolute Value function:  the result is to drop the negative sign (if present).  This can be done for integers and floating point numbers.\n"
+"@DESCRIPTION=Implements the Absolute Value function:  the result is to drop "
+"the negative sign (if present).  This can be done for integers and floating "
+"point numbers.\n"
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
 
-#: src/fn-math.c:60
+#: src/fn-math.c:253
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
-"@DESCRIPTION=The ACOS function calculates the arc cosine of x; that  is the value whose cosine is x.  If x  falls  outside  the  range -1 to 1, ACOS fails and returns the error 'acos - domain error'.  The value it returns is in radians. \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@DESCRIPTION=The ACOS function calculates the arc cosine of x; that  is the "
+"value whose cosine is x.  If x  falls  outside  the  range -1 to 1, ACOS "
+"fails and returns the error 'acos - domain error'.  The value it returns is "
+"in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:83
+#: src/fn-math.c:276
 msgid "acos - domain error"
 msgstr ""
 
-#: src/fn-math.c:90
+#: src/fn-math.c:283
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=The ACOSH  function  calculates  the inverse hyperbolic cosine of x; that is the value whose hyperbolic cosine is x. If x is less than 1.0, acosh() returns the error  'acosh - domain error'\n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@DESCRIPTION=The ACOSH  function  calculates  the inverse hyperbolic cosine "
+"of x; that is the value whose hyperbolic cosine is x. If x is less than 1.0, "
+"acosh() returns the error  'acosh - domain error'\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
 "@SEEALSO=ACOS, DEGREES, RADIANS "
 msgstr ""
 
-#: src/fn-math.c:113
+#: src/fn-math.c:306
 msgid "acosh - domain error"
 msgstr ""
 
-#: src/fn-math.c:120
+#: src/fn-math.c:313
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
-"@DESCRIPTION=The ASIN function calculates the arc sine of x; that is the value whose sine is x. If x falls outside  the  range -1 to 1, ASIN fails and returns the error 'asin - domain error'   \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@DESCRIPTION=The ASIN function calculates the arc sine of x; that is the "
+"value whose sine is x. If x falls outside  the  range -1 to 1, ASIN fails "
+"and returns the error 'asin - domain error'   \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:142
+#: src/fn-math.c:335
 msgid "asin - domain error"
 msgstr ""
 
-#: src/fn-math.c:149
+#: src/fn-math.c:342
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
-"@DESCRIPTION=The ASINH  function  calculates  the inverse hyperbolic  sine of x; that is the value whose hyperbolic sine is x. \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@DESCRIPTION=The ASINH  function  calculates  the inverse hyperbolic  sine "
+"of x; that is the value whose hyperbolic sine is x. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
 "@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:171
+#: src/fn-math.c:364
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
-"@DESCRIPTION=The ATAN function calculates the arc tangent of x; that  is the value whose tangent is x.Return value is in radians.\n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@DESCRIPTION=The ATAN function calculates the arc tangent of x; that  is the "
+"value whose tangent is x.Return value is in radians.\n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:195
+#: src/fn-math.c:388
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic tangent of x; that is the value whose  hyperbolic  tangent is  x.   If  the  absolute value of x is greater than 1.0,  ATANH returns an error of 'atanh: domain error'      \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@DESCRIPTION=The  ATANH  function  calculates  the inverse hyperbolic "
+"tangent of x; that is the value whose  hyperbolic  tangent is  x.   If  the  "
+"absolute value of x is greater than 1.0,  ATANH returns an error of 'atanh: "
+"domain error'      \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:219
+#: src/fn-math.c:412
 msgid "atanh: domain error"
 msgstr ""
 
-#: src/fn-math.c:226
+#: src/fn-math.c:419
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
-"@DESCRIPTION=The ATAN2 function calculates the arc tangent of the two variables b1 and b2.  It is similar to calculating  the  arc tangent  of b2 / b1, except that the signs of both arguments are used to determine the quadrant of the result. The result is in Radians.\n"
+"@DESCRIPTION=The ATAN2 function calculates the arc tangent of the two "
+"variables b1 and b2.  It is similar to calculating  the  arc tangent  of b2 "
+"/ b1, except that the signs of both arguments are used to determine the "
+"quadrant of the result. The result is in Radians.\n"
 "Performing this function on a string or empty cell simply does nothing. \n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:251
+#: src/fn-math.c:444
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -845,43 +984,58 @@ msgid ""
 "@SEEALSO=ABS, FLOOR, INT"
 msgstr ""
 
-#: src/fn-math.c:271
+#: src/fn-math.c:464
+msgid ""
+"@FUNCTION=COUNTIF\n"
+"@SYNTAX=COUNTIF(range,criteria)\n"
+"@DESCRIPTION=COUNTIF function counts the number of cells in the given range "
+"that meet the given criteria. \n"
+"@SEEALSO=COUNT,SUMIF"
+msgstr ""
+
+#: src/fn-math.c:526
+msgid ""
+"@FUNCTION=SUMIF\n"
+"@SYNTAX=SUMIF(range,criteria)\n"
+"@DESCRIPTION=SUMIF function sums the values in the given range that meet the "
+"given criteria. \n"
+"@SEEALSO=COUNTIF,SUM"
+msgstr ""
+
+#: src/fn-math.c:594
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
-"@DESCRIPTION=The CEILING function rounds x up to the nearest multiple of significance. \n"
-"If x or significance is non-numeric CEILING returns #VALUE! error. If n and significance have different signs CEILING returns #NUM! error. \n"
+"@DESCRIPTION=The CEILING function rounds x up to the nearest multiple of "
+"significance. \n"
+"If x or significance is non-numeric CEILING returns #VALUE! error. If n and "
+"significance have different signs CEILING returns #NUM! error. \n"
 "@SEEALSO=CEIL"
 msgstr ""
 
-#: src/fn-math.c:296 src/fn-math.c:1005 src/fn-math.c:1566 src/fn-math.c:1584 src/fn-math.c:1663 src/fn-math.c:1681 src/fn-math.c:1760 src/fn-math.c:1778
-msgid "#VALUE!"
-msgstr ""
-
-#. -0
-#: src/fn-math.c:303 src/fn-math.c:448 src/fn-math.c:453 src/fn-math.c:501 src/fn-math.c:680 src/fn-math.c:688 src/fn-math.c:802 src/fn-math.c:1273 src/fn-math.c:1347 src/fn-math.c:1377
-msgid "#NUM!"
-msgstr ""
-
-#: src/fn-math.c:328
+#: src/fn-math.c:651
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
-"@DESCRIPTION=The  COS  function  returns  the cosine of x, where x is given in radians.  \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@DESCRIPTION=The  COS  function  returns  the cosine of x, where x is given "
+"in radians.  \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/fn-math.c:349
+#: src/fn-math.c:672
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
-"@DESCRIPTION=The COSH  function  returns the hyperbolic cosine of x,  which is defined mathematically as (exp(x) + exp(-x)) / 2.    x is in radians. \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@DESCRIPTION=The COSH  function  returns the hyperbolic cosine of x,  which "
+"is defined mathematically as (exp(x) + exp(-x)) / 2.    x is in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
 
-#: src/fn-math.c:371
+#: src/fn-math.c:694
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -890,16 +1044,17 @@ msgid ""
 "@SEEALSO=RADIANS, PI"
 msgstr ""
 
-#: src/fn-math.c:393
+#: src/fn-math.c:716
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
-"@DESCRIPTION=Computes the value of e(the base of natural logarithmns) raised to the power of x. \n"
+"@DESCRIPTION=Computes the value of e(the base of natural logarithmns) raised "
+"to the power of x. \n"
 "Performing this function on a string or empty cell returns an error.\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
 
-#: src/fn-math.c:421
+#: src/fn-math.c:744
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -909,17 +1064,18 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:469
+#: src/fn-math.c:792
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
 "@DESCRIPTION=Computes the number of combinations.\n"
-"Performing this function on a non-integer or a negative number returns an error. Also if n is less than k returns an error.\n"
+"Performing this function on a non-integer or a negative number returns an "
+"error. Also if n is less than k returns an error.\n"
 "\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:512
+#: src/fn-math.c:838
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x)\n"
@@ -928,29 +1084,35 @@ msgid ""
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
 
-#: src/fn-math.c:532
+#: src/fn-math.c:858
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
-"@DESCRIPTION=The INT function round b1 now to the nearest int. Where 'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >0, amd CEIL(b1) for b1 < 0. \n"
+"@DESCRIPTION=The INT function round b1 now to the nearest int. Where "
+"'nearest' implies being closer to zero. Equivalent to FLOOR(b1) for b1 >0, "
+"amd CEIL(b1) for b1 < 0. \n"
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
 
-#: src/fn-math.c:559
+#: src/fn-math.c:885
 msgid ""
 "@FUNCTION=LOG\n"
-"@SYNTAX=LOG(x)\n"
-"@DESCRIPTION=Computes the natural logarithm  of x. \n"
-"Performing this function on a string or empty cell returns an error. \n"
+"@SYNTAX=LOG(x[,base])\n"
+"@DESCRIPTION=Computes the logarithm of x in the given base.  If no base is "
+"given LOG returns the logarithm in base 10. \n"
+"@SEEALSO=LN, LOG2, LOG10"
+msgstr ""
+
+#: src/fn-math.c:917
+msgid ""
+"@FUNCTION=LN\n"
+"@SYNTAX=LN(x)\n"
+"@DESCRIPTION=LN returns the natural logarithm of x. \n"
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 
-#: src/fn-math.c:578
-msgid "log: domain error"
-msgstr ""
-
-#: src/fn-math.c:585
+#: src/fn-math.c:943
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -959,7 +1121,7 @@ msgid ""
 "@SEEALSO=EXP"
 msgstr ""
 
-#: src/fn-math.c:605
+#: src/fn-math.c:963
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -968,11 +1130,11 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: src/fn-math.c:624
+#: src/fn-math.c:982
 msgid "log2: domain error"
 msgstr ""
 
-#: src/fn-math.c:631
+#: src/fn-math.c:989
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -981,23 +1143,24 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: src/fn-math.c:651
+#: src/fn-math.c:1009
 msgid "log10: domain error"
 msgstr ""
 
-#: src/fn-math.c:658
+#: src/fn-math.c:1016
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
-"@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when divisor is divided into abs(number).\n"
+"@DESCRIPTION=Implements modulo arithmetic.Returns the remainder when divisor "
+"is divided into abs(number).\n"
 "Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
 
-#: src/fn-math.c:692
+#: src/fn-math.c:1050
 msgid "#DIV/0!"
 msgstr ""
 
-#: src/fn-math.c:700
+#: src/fn-math.c:1058
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1006,34 +1169,39 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: src/fn-math.c:722
+#: src/fn-math.c:1080
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
-"@DESCRIPTION=Returns a random number greater than or equal to 0 and less than 1.\n"
+"@DESCRIPTION=Returns a random number greater than or equal to 0 and less "
+"than 1.\n"
 "\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:741
+#: src/fn-math.c:1099
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
-"@DESCRIPTION=The SIN function returns the sine of x, where x is given  in radians. \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@DESCRIPTION=The SIN function returns the sine of x, where x is given  in "
+"radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/fn-math.c:762
+#: src/fn-math.c:1120
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
-"@DESCRIPTION=The SINH  function  returns  the  hyperbolic sine of x, which is defined mathematically as (exp(x) - exp(-x)) / 2.  x is in radians. \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@DESCRIPTION=The SINH  function  returns  the  hyperbolic sine of x, which "
+"is defined mathematically as (exp(x) - exp(-x)) / 2.  x is in radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: src/fn-math.c:784
+#: src/fn-math.c:1142
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -1042,57 +1210,65 @@ msgid ""
 "@SEEALSO=POW"
 msgstr ""
 
-#: src/fn-math.c:809
+#: src/fn-math.c:1167
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
-"@DESCRIPTION=Computes the sum of all the values and cells referenced in the argument list. \n"
+"@DESCRIPTION=Computes the sum of all the values and cells referenced in the "
+"argument list. \n"
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/fn-math.c:900
+#: src/fn-math.c:1258
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
-"@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and cells referenced in the argument list. \n"
+"@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and "
+"cells referenced in the argument list. \n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/fn-math.c:955
+#: src/fn-math.c:1313
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
-"@DESCRIPTION=MULTINOMIAL returns the ratio of the factorial of a sum of values to the product of factorials. \n"
+"@DESCRIPTION=MULTINOMIAL returns the ratio of the factorial of a sum of "
+"values to the product of factorials. \n"
 "@SEEALSO=SUM"
 msgstr ""
 
-#: src/fn-math.c:1013
+#: src/fn-math.c:1371
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
-"@DESCRIPTION=PRODUCT returns the product of all the values and cells referenced in the argument list. \n"
+"@DESCRIPTION=PRODUCT returns the product of all the values and cells "
+"referenced in the argument list. \n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/fn-math.c:1068
+#: src/fn-math.c:1426
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
-"@DESCRIPTION=The TAN function  returns the tangent of x, where x is given in radians. \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@DESCRIPTION=The TAN function  returns the tangent of x, where x is given in "
+"radians. \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1089
+#: src/fn-math.c:1447
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
-"@DESCRIPTION= The TANH function returns the hyperbolic tangent of x,  which is defined mathematically as sinh(x) / cosh(x). \n"
-"Performing this function on a string or empty cell simply does nothing. This function only takes one argument.\n"
+"@DESCRIPTION= The TANH function returns the hyperbolic tangent of x,  which "
+"is defined mathematically as sinh(x) / cosh(x). \n"
+"Performing this function on a string or empty cell simply does nothing. This "
+"function only takes one argument.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/fn-math.c:1110
+#: src/fn-math.c:1468
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1101,126 +1277,203 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1130
+#: src/fn-math.c:1488
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
-"@DESCRIPTION=The TRUNC function returns the value of number truncated to the number of digits specified.  If digits is omited then digits defaults to zero.\n"
+"@DESCRIPTION=The TRUNC function returns the value of number truncated to the "
+"number of digits specified.  If digits is omited then digits defaults to "
+"zero.\n"
 "\n"
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1187
+#: src/fn-math.c:1545
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
-"@DESCRIPTION=EVEN function returns the number rounded up to the nearest even integer. \n"
+"@DESCRIPTION=EVEN function returns the number rounded up to the nearest even "
+"integer. \n"
 "@SEEALSO=ODD"
 msgstr ""
 
-#: src/fn-math.c:1219
+#: src/fn-math.c:1577
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
-"@DESCRIPTION=ODD function returns the number rounded up to the nearest odd integer. \n"
+"@DESCRIPTION=ODD function returns the number rounded up to the nearest odd "
+"integer. \n"
 "@SEEALSO=EVEN"
 msgstr ""
 
-#: src/fn-math.c:1251
+#: src/fn-math.c:1609
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
 "@DESCRIPTION=FACTDOUBLE function returns the double factorial of a number. \n"
-"If @number is not an integer, it is truncated. If @number is negative FACTDOUBLE returns #NUM! error. \n"
+"If @number is not an integer, it is truncated. If @number is negative "
+"FACTDOUBLE returns #NUM! error. \n"
 "@SEEALSO=FACT"
 msgstr ""
 
-#: src/fn-math.c:1282
+#: src/fn-math.c:1640
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
-"@DESCRIPTION=QUOTIENT function returns the integer portion of a division. @num is the divided and @den is the divisor. \n"
+"@DESCRIPTION=QUOTIENT function returns the integer portion of a division. "
+"@num is the divided and @den is the divisor. \n"
 "@SEEALSO=MOD"
 msgstr ""
 
-#: src/fn-math.c:1304
+#: src/fn-math.c:1662
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(num)\n"
-"@DESCRIPTION=SIGN function returns 1 if the number is positive, zero if the number is 0, and -1 if the number is negative. \n"
+"@DESCRIPTION=SIGN function returns 1 if the number is positive, zero if the "
+"number is 0, and -1 if the number is negative. \n"
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-math.c:1330
+#: src/fn-math.c:1688
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
-"@DESCRIPTION=SQRTPI function returns the square root of a number multiplied by pi. \n"
+"@DESCRIPTION=SQRTPI function returns the square root of a number multiplied "
+"by pi. \n"
 "@SEEALSO=PI"
 msgstr ""
 
-#: src/fn-math.c:1355
+#: src/fn-math.c:1713
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
-"@DESCRIPTION=RANDBETWEEN function returns a random integer number between @bottom and @top. \n"
-"If @bottom or @top is non-integer it is truncated. If @bottom > @top RANDBETWEEN returns #NUM! error. \n"
+"@DESCRIPTION=RANDBETWEEN function returns a random integer number between "
+"@bottom and @top. \n"
+"If @bottom or @top is non-integer it is truncated. If @bottom > @top "
+"RANDBETWEEN returns #NUM! error. \n"
 "@SEEALSO=RAND"
 msgstr ""
 
-#: src/fn-math.c:1381 src/fn-math.c:1593 src/fn-math.c:1690 src/fn-math.c:1787
+#: src/fn-math.c:1739 src/fn-math.c:2091 src/fn-math.c:2188 src/fn-math.c:2285
 msgid "#N/A!"
 msgstr ""
 
-#: src/fn-math.c:1389
+#: src/fn-math.c:1747
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
-"@DESCRIPTION=ROUNDDOWN function rounds a given number down, towards zero. @number is the number you want rounded down and @digits is the number of digits to which you want to round that number. \n"
-"If digits is greater than zero, number is rounded down to the given number of digits. If digits is zero or omitted, number is rounded down to the nearest integer. If digits is less than zero, number is rounded down to the left of the decimal point. \n"
+"@DESCRIPTION=ROUNDDOWN function rounds a given number down, towards zero. "
+"@number is the number you want rounded down and @digits is the number of "
+"digits to which you want to round that number. \n"
+"If digits is greater than zero, number is rounded down to the given number "
+"of digits. If digits is zero or omitted, number is rounded down to the "
+"nearest integer. If digits is less than zero, number is rounded down to the "
+"left of the decimal point. \n"
 "@SEEALSO=ROUNDUP"
 msgstr ""
 
-#: src/fn-math.c:1436
+#: src/fn-math.c:1794
+msgid ""
+"@FUNCTION=ROUND\n"
+"@SYNTAX=ROUND(number[,digits])\n"
+"@DESCRIPTION=ROUND function rounds a given number. @number is the number you "
+"want rounded and @digits is the number of digits to which you want to round "
+"that number. \n"
+"If digits is greater than zero, number is rounded to the given number of "
+"digits. If digits is zero or omitted, number is rounded to the nearest "
+"integer. If digits is less than zero, number is rounded to the left of the "
+"decimal point. \n"
+"@SEEALSO=ROUNDDOWN,ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1841
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
-"@DESCRIPTION=ROUNDUP function rounds a given number up, away from zero. @number is the number you want rounded up and @digits is the number of digits to which you want to round that number. \n"
-"If digits is greater than zero, number is rounded up to the given number of digits. If digits is zero or omitted, number is rounded up to the nearest integer. If digits is less than zero, number is rounded up to the left of the decimal point. \n"
+"@DESCRIPTION=ROUNDUP function rounds a given number up, away from zero. "
+"@number is the number you want rounded up and @digits is the number of "
+"digits to which you want to round that number. \n"
+"If digits is greater than zero, number is rounded up to the given number of "
+"digits. If digits is zero or omitted, number is rounded up to the nearest "
+"integer. If digits is less than zero, number is rounded up to the left of "
+"the decimal point. \n"
 "@SEEALSO=ROUNDDOWN"
 msgstr ""
 
-#: src/fn-math.c:1522
+#: src/fn-math.c:1892
+msgid ""
+"@FUNCTION=MROUND\n"
+"@SYNTAX=MROUND(number,multiple)\n"
+"@DESCRIPTION=MROUND function rounds a given number to the desired multiple. "
+"@number is the number you want rounded and @multiple is the the multiple to "
+"which you wnat to round the number. For example, MROUND(1.7, 0.2) equals "
+"1.8. \n"
+"If the number and the multiple have different sign, MROUND returns #NUM! "
+"error. \n"
+"@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
+msgstr ""
+
+#: src/fn-math.c:1938
+msgid ""
+"@FUNCTION=ROMAN\n"
+"@SYNTAX=ROMAN(number[,type])\n"
+"@DESCRIPTION=ROMAN function returns an arabic number in the roman numeral "
+"style, as text. @number is the number you want to convert and @type is the "
+"type of roman numeral you want. \n"
+"If @type is 0 or it is omitted, ROMAN returns classic roman numbers. Types "
+"1,2,3, and 4 are not implemented yet. If @number is negative or greater than "
+"3999, ROMAN returns #VALUE! error. \n"
+"@SEEALSO="
+msgstr ""
+
+#: src/fn-math.c:1987
+msgid "#Unimplemented!"
+msgstr ""
+
+#: src/fn-math.c:2020
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
-"@DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2MY2 is SUM (x^2-y^2). \n"
+"@DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares "
+"of corresponding values in two arrays. @array1 is the first array or range "
+"of data points and @array2 is the second array or range of data points. The "
+"equation of SUMX2MY2 is SUM (x^2-y^2). \n"
 "Strings and empty cells are simply ignored.\n"
-"If @array1 and @array2 have different number of data points, SUMX2MY2 returns #N/A! error. \n"
+"If @array1 and @array2 have different number of data points, SUMX2MY2 "
+"returns #N/A! error. \n"
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:1570 src/fn-math.c:1588 src/fn-math.c:1667 src/fn-math.c:1685 src/fn-math.c:1764 src/fn-math.c:1782
+#: src/fn-math.c:2068 src/fn-math.c:2086 src/fn-math.c:2165 src/fn-math.c:2183
+#: src/fn-math.c:2262 src/fn-math.c:2280
 msgid "Array version not implemented!"
 msgstr ""
 
-#: src/fn-math.c:1619
+#: src/fn-math.c:2117
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
-"@DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2PY2 is SUM (x^2+y^2). \n"
+"@DESCRIPTION=SUMX2PY2 function returns the sum of the sum of squares of "
+"corresponding values in two arrays. @array1 is the first array or range of "
+"data points and @array2 is the second array or range of data points. The "
+"equation of SUMX2PY2 is SUM (x^2+y^2). \n"
 "Strings and empty cells are simply ignored.\n"
-"If @array1 and @array2 have different number of data points, SUMX2PY2 returns #N/A! error. \n"
+"If @array1 and @array2 have different number of data points, SUMX2PY2 "
+"returns #N/A! error. \n"
 "@SEEALSO=SUMSQ"
 msgstr ""
 
-#: src/fn-math.c:1716
+#: src/fn-math.c:2214
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
-"@DESCRIPTION=SUMXMY2 function returns the sum of squares of differences of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMXMY2 is SUM (x-y)^2. \n"
+"@DESCRIPTION=SUMXMY2 function returns the sum of squares of differences of "
+"corresponding values in two arrays. @array1 is the first array or range of "
+"data points and @array2 is the second array or range of data points. The "
+"equation of SUMXMY2 is SUM (x-y)^2. \n"
 "Strings and empty cells are simply ignored.\n"
-"If @array1 and @array2 have different number of data points, SUMXMY2 returns #N/A! error. \n"
+"If @array1 and @array2 have different number of data points, SUMXMY2 returns "
+"#N/A! error. \n"
 "@SEEALSO=SUMSQ"
 msgstr ""
 
@@ -1250,7 +1503,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(x)\n"
-"@DESCRIPTION=The SELECTION function returns a list with the values in the current mouse cursor. This is usually used to implement on-the-flight computation of values\n"
+"@DESCRIPTION=The SELECTION function returns a list with the values in the "
+"current mouse cursor. This is usually used to implement on-the-flight "
+"computation of values\n"
 "@SEEALSO="
 msgstr ""
 
@@ -1274,7 +1529,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
-"@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this routine is case sensitive).\n"
+"@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this "
+"routine is case sensitive).\n"
 "@SEEALSO=LEN"
 msgstr ""
 
@@ -1290,7 +1546,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
-"@DESCRIPTION=Returns the leftmost num_chars characters or the left character if num_chars is not specified\n"
+"@DESCRIPTION=Returns the leftmost num_chars characters or the left character "
+"if num_chars is not specified\n"
 "@SEEALSO=MID, RIGHT"
 msgstr ""
 
@@ -1306,7 +1563,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
-"@DESCRIPTION=Returns a substring from @string starting at @position for @length characters.\n"
+"@DESCRIPTION=Returns a substring from @string starting at @position for "
+"@length characters.\n"
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
 
@@ -1318,7 +1576,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
-"@DESCRIPTION=Returns the rightmost num_chars characters or the right character if num_chars is not specified\n"
+"@DESCRIPTION=Returns the rightmost num_chars characters or the right "
+"character if num_chars is not specified\n"
 "@SEEALSO=MID, LEFT"
 msgstr ""
 
@@ -1347,7 +1606,8 @@ msgid ""
 msgstr ""
 
 #. start position too high or low
-#: src/fn-string.c:353 src/fn-string.c:433 src/fn-string.c:440 src/fn-string.c:479
+#: src/fn-string.c:353 src/fn-string.c:433 src/fn-string.c:440
+#: src/fn-string.c:479
 msgid "Invalid argument"
 msgstr ""
 
@@ -1363,7 +1623,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
-"@DESCRIPTION=Returns position of @string1 in @string2 (case-sesitive), searching only from character @start onwards (assumed 1 if omitted)\n"
+"@DESCRIPTION=Returns position of @string1 in @string2 (case-sesitive), "
+"searching only from character @start onwards (assumed 1 if omitted)\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 msgstr ""
 
@@ -1371,15 +1632,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
-"@DESCRIPTION=Returns @num as a formatted string with @decimals numbers after the decimal point, omitting commas if requested by @no_commas\n"
+"@DESCRIPTION=Returns @num as a formatted string with @decimals numbers after "
+"the decimal point, omitting commas if requested by @no_commas\n"
 "@SEEALSO="
 msgstr ""
 
-#.
-#. * proper could be a LOT nicer
-#. * (e.g. "US Of A" -> "US of A", "Cent'S Worth" -> "Cent's Worth")
-#. * but this is how Excel does it
-#.
 #: src/fn-string.c:556
 msgid ""
 "@FUNCTION=PROPER\n"
@@ -1400,7 +1657,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
-"@DESCRIPTION=Returns @value if and only if it is text, otherwise a blank string\n"
+"@DESCRIPTION=Returns @value if and only if it is text, otherwise a blank "
+"string\n"
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
 
@@ -1424,7 +1682,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
-"@DESCRIPTION=Replaces @old with @new in @text.  Substitutions are only applied to instance @num of @old in @text, otherwise every one is changed.\n"
+"@DESCRIPTION=Replaces @old with @new in @text.  Substitutions are only "
+"applied to instance @num of @old in @text, otherwise every one is changed.\n"
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
 
@@ -1436,36 +1695,44 @@ msgid ""
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
 
-#: src/format.c:388
+#: src/format.c:389
 msgid "black"
 msgstr ""
 
-#: src/format.c:389
+#: src/format.c:390
 msgid "blue"
 msgstr ""
 
-#: src/format.c:390
+#: src/format.c:391
 msgid "cyan"
 msgstr ""
 
-#: src/format.c:391
+#: src/format.c:392
 msgid "green"
 msgstr ""
 
-#: src/format.c:392
+#: src/format.c:393
 msgid "magenta"
 msgstr ""
 
-#: src/format.c:393
+#: src/format.c:394
 msgid "red"
 msgstr ""
 
-#: src/format.c:394
+#: src/format.c:395
 msgid "white"
 msgstr ""
 
-#: src/format.c:395
+#: src/format.c:396
 msgid "yellow"
+msgstr ""
+
+#: src/format.c:1026
+msgid "CELLRANGE"
+msgstr ""
+
+#: src/format.c:1029
+msgid "ARRAY"
 msgstr ""
 
 #: src/formats.c:17
@@ -1629,10 +1896,12 @@ msgid "[h]:mm:ss"
 msgstr ""
 
 #: src/formats.c:74
+#, c-format
 msgid "0%"
 msgstr ""
 
 #: src/formats.c:75
+#, c-format
 msgid "0.00%"
 msgstr ""
 
@@ -1668,99 +1937,106 @@ msgstr ""
 msgid "$#,##0.00_);[red]($#,##0.00)"
 msgstr ""
 
-#: src/gnumeric-sheet.c:889
+#: src/gnumeric-sheet.c:890
+#, c-format
 msgid "75%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:892
+#: src/gnumeric-sheet.c:893
+#, c-format
 msgid "50%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:895
+#: src/gnumeric-sheet.c:896
+#, c-format
 msgid "25%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:898
+#: src/gnumeric-sheet.c:899
+#, c-format
 msgid "12%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:901
+#: src/gnumeric-sheet.c:902
+#, c-format
 msgid "6%"
 msgstr ""
 
-#: src/gnumeric-sheet.c:904
+#: src/gnumeric-sheet.c:905
 msgid "Horizontal lines"
 msgstr "Vodorovné èiary"
 
-#: src/gnumeric-sheet.c:907
+#: src/gnumeric-sheet.c:908
 msgid "Vertical lines"
 msgstr "Zvislé èiary"
 
-#: src/gnumeric-sheet.c:910 src/gnumeric-sheet.c:913 src/gnumeric-sheet.c:916 src/gnumeric-sheet.c:919
+#: src/gnumeric-sheet.c:911 src/gnumeric-sheet.c:914 src/gnumeric-sheet.c:917
+#: src/gnumeric-sheet.c:920
 msgid "Diagonal lines"
 msgstr "Diagonálne èiary"
 
-#: src/gnumeric-sheet.c:922
+#: src/gnumeric-sheet.c:923
 msgid "Crossed diagonals"
 msgstr "Prekrí¾ené diagonály"
 
-#: src/gnumeric-sheet.c:925
+#: src/gnumeric-sheet.c:926
 msgid "Bricks"
 msgstr "Tehly"
 
-#: src/item-cursor.c:498
+#: src/item-cursor.c:499
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
-msgstr "Presúvané bunky prepí¹u obsah existujúcich buniek\n"
+msgstr ""
+"Presúvané bunky prepí¹u obsah existujúcich buniek\n"
 "v tomto rozsahu. Chcete nahradi» obsah buniek v tomto regióne?"
 
-#: src/item-cursor.c:579 src/item-grid.c:528 src/workbook.c:967
+#: src/item-cursor.c:580 src/item-grid.c:529 src/workbook.c:978
 msgid "Copy"
 msgstr "Skopíruj"
 
-#: src/item-cursor.c:580
+#: src/item-cursor.c:581
 msgid "Move"
 msgstr "Presuò"
 
-#: src/item-cursor.c:581
+#: src/item-cursor.c:582
 msgid "Copy formats"
 msgstr "Skopíruj formát"
 
-#: src/item-cursor.c:582
+#: src/item-cursor.c:583
 msgid "Copy values"
 msgstr "Skopíruj hodnoty"
 
-#: src/item-cursor.c:583
+#: src/item-cursor.c:584
 msgid "Shift cells down and copy"
 msgstr "Posuò bunky dole a skopíruj"
 
-#: src/item-cursor.c:584
+#: src/item-cursor.c:585
 msgid "Shift cells right and copy"
 msgstr "Posuò bunky doprava a skopíruj"
 
-#: src/item-cursor.c:585
+#: src/item-cursor.c:586
 msgid "Shift cells down and move"
 msgstr "Posuò bunky dole a presuò"
 
-#: src/item-cursor.c:586
+#: src/item-cursor.c:587
 msgid "Shift cells right and move"
 msgstr "Posuò bunky doprava a presuò"
 
-#: src/item-grid.c:527 src/workbook.c:964
+#: src/item-grid.c:528 src/workbook.c:975
 msgid "Cut"
 msgstr "Vysekni"
 
-#: src/item-grid.c:529 src/workbook.c:970
+#: src/item-grid.c:530 src/workbook.c:981
 msgid "Paste"
 msgstr "Vlo¾"
 
-#: src/item-grid.c:534
+#: src/item-grid.c:535
 msgid "Erase content"
 msgstr "Vyma¾ obsah"
 
-#: src/item-grid.c:536
+#: src/item-grid.c:537
 msgid "Cell format"
 msgstr "Formát bunky"
 
@@ -1816,475 +2092,484 @@ msgstr "Funkcia init_plugin vrátila chybu"
 msgid "Plugin is still in use.\n"
 msgstr "Prídavok sa stále pou¾íva.\n"
 
-#: src/sheet-view.c:336 src/sheet-view.c:410
+#: src/sheet-view.c:337 src/sheet-view.c:411
+#, c-format
 msgid "Row: %d"
 msgstr "Riadok: %d"
 
-#: src/sheet-view.c:343 src/sheet-view.c:382
+#: src/sheet-view.c:344 src/sheet-view.c:383
+#, c-format
 msgid "Column: %s"
 msgstr "Ståpec: %s"
 
-#: src/sheet.c:664
+#: src/sheet.c:668
 msgid "ERROR"
 msgstr "CHYBA"
 
-#: src/sheet.c:2491
+#: src/sheet.c:2548
 msgid "The command `"
 msgstr "Príkaz `"
 
-#: src/sheet.c:2493
+#: src/sheet.c:2550
 msgid "' can not be performed with multiple selections"
 msgstr "' sa nedá vykona» s viacnásobným výberom"
 
-#: src/sheet.c:2508
+#: src/sheet.c:2565
 msgid "copy"
 msgstr "Skopíruj"
 
-#: src/sheet.c:2533
+#: src/sheet.c:2590
 msgid "cut"
 msgstr "Vysekni"
 
-#: src/sheet.c:2582
+#: src/sheet.c:2639
 msgid "paste"
 msgstr "Vlo¾"
 
-#: src/sheet.c:3455
+#: src/sheet.c:3532
+#, c-format
 msgid "I was not able to activate object %s"
 msgstr "Objekt %s sa nedá aktivova»"
 
-#: src/sheet.c:3467
+#: src/sheet.c:3544
 msgid "I was unable to the bind object"
 msgstr "Objekt sa nedá naviaza»"
 
-#: src/workbook.c:356
+#: src/workbook.c:367
 msgid "Warning"
 msgstr "Varovanie"
 
-#: src/workbook.c:364
+#: src/workbook.c:375
+#, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Zo¹it %s obsahuje zmeny, ktoré neboli ulo¾ené, ulo¾i» ?"
 
-#: src/workbook.c:367
+#: src/workbook.c:378
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Zo¹it obsahuje zmeny, ktoré neboli ulo¾ené, ulo¾i» ?"
 
-#: src/workbook.c:555
+#: src/workbook.c:566
 msgid "Insert cols"
 msgstr "Vlo¾ ståpce"
 
-#: src/workbook.c:571
+#: src/workbook.c:582
 msgid "Insert rows"
 msgstr "Vlo¾ riadky"
 
-#: src/workbook.c:667
+#: src/workbook.c:678
 msgid ">mm/dd/yyyy"
 msgstr ""
 
-#: src/workbook.c:686
+#: src/workbook.c:697
 msgid ">hh:mm"
 msgstr ""
 
-#: src/workbook.c:770
+#: src/workbook.c:781
 msgid "_New"
 msgstr "_Nový"
 
-#: src/workbook.c:770
+#: src/workbook.c:781
 msgid "Create a new spreadsheet"
 msgstr "Vytvorí nový zo¹it"
 
-#: src/workbook.c:781
+#: src/workbook.c:792
 msgid "Plu_g-ins..."
 msgstr "P_rídavky"
 
-#: src/workbook.c:781
+#: src/workbook.c:792
 msgid "Gnumeric plugins"
 msgstr "Pridané funkcie"
 
-#: src/workbook.c:795
+#: src/workbook.c:806
 msgid "_All"
 msgstr "_V¹etko"
 
-#: src/workbook.c:796
+#: src/workbook.c:807
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Vyma¾e formáty, komentáre a obsah vybraných buniek"
 
-#: src/workbook.c:798
+#: src/workbook.c:809
 msgid "_Formats"
 msgstr "_Formáty"
 
-#: src/workbook.c:799
+#: src/workbook.c:810
 msgid "Clear the selected cells' formats"
 msgstr "Vyma¾e formátovanie vybraných buniek"
 
-#: src/workbook.c:800
+#: src/workbook.c:811
 msgid "_Comments"
 msgstr "_Komentáre"
 
-#: src/workbook.c:801
+#: src/workbook.c:812
 msgid "Clear the selected cells' comments"
 msgstr "Vyma¾e komentáre vybraných buniek"
 
-#: src/workbook.c:802
+#: src/workbook.c:813
 msgid "_Content"
 msgstr "_Obsah"
 
-#: src/workbook.c:803
+#: src/workbook.c:814
 msgid "Clear the selected cells' contents"
 msgstr "Vyma¾e obsah vybraných buniek"
 
-#: src/workbook.c:811
+#: src/workbook.c:822
 msgid "P_aste special..."
 msgstr "Vlo¾ _inak..."
 
-#: src/workbook.c:812
+#: src/workbook.c:823
 msgid "C_lear"
 msgstr "_Vyma¾"
 
-#: src/workbook.c:813
+#: src/workbook.c:824
 msgid "Clear the selected cell(s)"
 msgstr "Vyma¾e vybrané bunky"
 
-#: src/workbook.c:817
+#: src/workbook.c:828
 msgid "_Select All"
 msgstr "V_yber v¹etko"
 
-#: src/workbook.c:818
+#: src/workbook.c:829
 msgid "Select all cells in the spreadsheet"
 msgstr "Vyberie v¹etky bunky v zo¹ite"
 
-#: src/workbook.c:820
+#: src/workbook.c:831
 msgid "_Goto cell.."
 msgstr "_Skoè na bunku..."
 
-#: src/workbook.c:821
+#: src/workbook.c:832
 msgid "Jump to a specified cell"
 msgstr "Skoèí na zadanú bunku"
 
-#: src/workbook.c:827
+#: src/workbook.c:838
 msgid "Insert object..."
 msgstr "Vlo¾ objekt..."
 
-#: src/workbook.c:828
+#: src/workbook.c:839
 msgid "Inserts a Bonobo object"
 msgstr "Vlo¾í Bonono objekt"
 
-#: src/workbook.c:835
+#: src/workbook.c:846
 msgid "_Define cell names"
 msgstr "_Definuje mená buniek"
 
-#: src/workbook.c:839
+#: src/workbook.c:850
 msgid "_Recalculate"
 msgstr "_Prepoèítaj"
 
-#: src/workbook.c:840
+#: src/workbook.c:851
 msgid "Recalculate the spreadsheet"
 msgstr "Prepoèíta zo¹it"
 
-#: src/workbook.c:848
+#: src/workbook.c:859
 msgid "_Zoom..."
 msgstr "_Mierka"
 
-#: src/workbook.c:849
+#: src/workbook.c:860
 msgid "Zoom the spreadsheet in or out"
 msgstr "Zmení zväè¹enie/zmen¹enie zo¹itu"
 
-#: src/workbook.c:856
+#: src/workbook.c:867
 msgid "Current _date"
 msgstr "Aktuálny dátu_m"
 
-#: src/workbook.c:857
+#: src/workbook.c:868
 msgid "Insert the current data into the selected cell(s)"
 msgstr "Vlo¾í aktuálny dátum do vybraných buniek"
 
-#: src/workbook.c:860
+#: src/workbook.c:871
 msgid "Current _time"
 msgstr "Aktuálny èa_s"
 
-#: src/workbook.c:861
+#: src/workbook.c:872
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Vlo¾í aktuálny èas do vybraných buniek"
 
-#: src/workbook.c:868 src/workbook.c:916
+#: src/workbook.c:879 src/workbook.c:925
 msgid "_Sheet"
 msgstr "_Zo¹it"
 
-#: src/workbook.c:868
+#: src/workbook.c:879
 msgid "Insert a new spreadsheet"
 msgstr "Vlo¾í nový zo¹it"
 
-#: src/workbook.c:870 src/workbook.c:908
+#: src/workbook.c:881 src/workbook.c:919
 msgid "_Cells..."
 msgstr "_Bunky..."
 
-#: src/workbook.c:870
+#: src/workbook.c:881
 msgid "Insert new cells"
 msgstr "Vlo¾í nové bunky"
 
-#: src/workbook.c:872
+#: src/workbook.c:883
 msgid "_Rows"
 msgstr "_Riadky"
 
-#: src/workbook.c:872
+#: src/workbook.c:883
 msgid "Insert new rows"
 msgstr "Vlo¾í nové riadky"
 
-#: src/workbook.c:874
+#: src/workbook.c:885
 msgid "C_olumns"
 msgstr "_Ståpce"
 
-#: src/workbook.c:874
+#: src/workbook.c:885
 msgid "Insert new columns"
 msgstr "Vlo¾í nové ståpce"
 
-#: src/workbook.c:879
+#: src/workbook.c:890
 msgid "_Add/modify comment"
 msgstr "_Pridaj/modifikuj komentár"
 
-#: src/workbook.c:880
+#: src/workbook.c:891
 msgid "Edit the selected cell's comment"
 msgstr "Edituje obsah vybranej bunky"
 
-#: src/workbook.c:881
+#: src/workbook.c:892
 msgid "_Special"
 msgstr "_Iné"
 
-#: src/workbook.c:890 src/workbook.c:896
+#: src/workbook.c:901 src/workbook.c:907
 msgid "_Autoadjust"
 msgstr "_Automatické prispôsobenie"
 
-#: src/workbook.c:891
+#: src/workbook.c:902
 msgid "_Width"
 msgstr "©írka"
 
-#: src/workbook.c:897
+#: src/workbook.c:908
 msgid "_Height"
 msgstr "_Vý¹ka"
 
-#: src/workbook.c:902
+#: src/workbook.c:913
 msgid "_Change name"
 msgstr "_Zmeò meno"
 
-#: src/workbook.c:909
+#: src/workbook.c:920
 msgid "Modify the formatting of the selected cells"
 msgstr "Modifikuje formát vybraných buniek"
 
-#: src/workbook.c:911
-msgid "_Sort"
-msgstr "_Triedenie"
-
-#: src/workbook.c:912
-msgid "Sort the selected cells"
-msgstr "Utriedi vybrané bunky"
-
-#: src/workbook.c:914
+#: src/workbook.c:923
 msgid "C_olumn"
 msgstr "_Ståpec"
 
-#: src/workbook.c:915
+#: src/workbook.c:924
 msgid "_Row"
 msgstr "_Riadok"
 
-#. Tools menu
-#: src/workbook.c:923
+#: src/workbook.c:932
+msgid "_Sort"
+msgstr "_Triedenie"
+
+#: src/workbook.c:933
+msgid "Sort the selected cells"
+msgstr "Utriedi vybrané bunky"
+
+#: src/workbook.c:934
 msgid "_Goal Seek..."
 msgstr "_Hµadanie cieµa"
 
-#: src/workbook.c:925
+#: src/workbook.c:936
 msgid "_Solver..."
 msgstr "Rie¹enia"
 
-#: src/workbook.c:941
+#: src/workbook.c:952
 msgid "_Insert"
 msgstr "_Vlo¾"
 
-#: src/workbook.c:942
+#: src/workbook.c:953
 msgid "F_ormat"
 msgstr "F_ormát"
 
-#: src/workbook.c:943
+#: src/workbook.c:954
 msgid "_Tools"
 msgstr "_Nástroje"
 
-#: src/workbook.c:952
+#: src/workbook.c:963
 msgid "New"
 msgstr "Nový"
 
-#: src/workbook.c:952
+#: src/workbook.c:963
 msgid "Creates a new sheet"
 msgstr "Vytvorí nový zo¹it"
 
-#: src/workbook.c:955
+#: src/workbook.c:966
 msgid "Open"
 msgstr "Otvor"
 
-#: src/workbook.c:955
+#: src/workbook.c:966
 msgid "Opens an existing workbook"
 msgstr "Otvorí existujúci zo¹it"
 
-#: src/workbook.c:958
+#: src/workbook.c:969
 msgid "Save"
 msgstr "Ulo¾"
 
-#: src/workbook.c:958
+#: src/workbook.c:969
 msgid "Saves the workbook"
 msgstr "Ulo¾í zo¹it"
 
-#: src/workbook.c:964
+#: src/workbook.c:975
 msgid "Cuts the selection to the clipboard"
 msgstr "Vysekne výber do schránky"
 
-#: src/workbook.c:967
+#: src/workbook.c:978
 msgid "Copies the selection to the clipboard"
 msgstr "Vlo¾í výber do schránky"
 
-#: src/workbook.c:970
+#: src/workbook.c:981
 msgid "Pastes the clipboard"
 msgstr "Vlo¾í obsah schránky"
 
-#: src/workbook.c:976
+#: src/workbook.c:987
 msgid "Left align"
 msgstr "Zarovnaj doµava"
 
-#: src/workbook.c:976
+#: src/workbook.c:987
 msgid "Left justifies the cell contents"
 msgstr "Zarovná obsah buniek doµava"
 
-#: src/workbook.c:979
+#: src/workbook.c:990
 msgid "Centers the cell contents"
 msgstr "Zarovná obsah buniek na stred"
 
-#: src/workbook.c:982
+#: src/workbook.c:993
 msgid "Right align"
 msgstr "Zarovnaj doprava"
 
-#: src/workbook.c:982
+#: src/workbook.c:993
 msgid "Right justifies the cell contents"
 msgstr "Zarovná obsah buniek doprava"
 
-#: src/workbook.c:987
+#: src/workbook.c:998
 msgid "Bold"
 msgstr "Tuèné"
 
-#: src/workbook.c:987
+#: src/workbook.c:998
 msgid "Sets the bold font"
 msgstr "Zmení písmo na tuèné"
 
-#: src/workbook.c:990
+#: src/workbook.c:1001
 msgid "Italic"
 msgstr "Kurzíva"
 
-#: src/workbook.c:990
+#: src/workbook.c:1001
 msgid "Makes the font italic"
 msgstr "Zmení písmo na kurzívu"
 
-#: src/workbook.c:997
+#: src/workbook.c:1008
 msgid "Graphic"
 msgstr "Obrázok"
 
-#: src/workbook.c:997
+#: src/workbook.c:1008
 msgid "Creates a graphic in the spreadsheet"
 msgstr "Vlo¾í obrázok do dokumentu"
 
-#: src/workbook.c:1001
+#: src/workbook.c:1012
 msgid "Line"
 msgstr "Èiara"
 
-#: src/workbook.c:1001
+#: src/workbook.c:1012
 msgid "Creates a line object"
 msgstr "Nakreslí èiaru"
 
-#: src/workbook.c:1004
+#: src/workbook.c:1015
 msgid "Arrow"
 msgstr "©ípka"
 
-#: src/workbook.c:1004
+#: src/workbook.c:1015
 msgid "Creates an arrow object"
 msgstr "Nakreslí ¹ípku"
 
-#: src/workbook.c:1007
+#: src/workbook.c:1018
 msgid "Rectangle"
 msgstr "Obdå¾nik"
 
-#: src/workbook.c:1007
+#: src/workbook.c:1018
 msgid "Creates a rectangle object"
 msgstr "Nakreslí obdå¾nik"
 
-#: src/workbook.c:1010
+#: src/workbook.c:1021
 msgid "Ellipse"
 msgstr "Elipsa"
 
-#: src/workbook.c:1010
+#: src/workbook.c:1021
 msgid "Creates an ellipse object"
 msgstr "Nakreslí elipsu"
 
-#: src/workbook.c:1091
+#: src/workbook.c:1135
 msgid "You should introduce a valid cell name"
 msgstr "Mali by ste zada» platné meno bunky"
 
-#: src/workbook.c:1098
+#: src/workbook.c:1142
 msgid "Column out of range"
 msgstr "Ståpec mimo rozsah"
 
-#: src/workbook.c:1104
+#: src/workbook.c:1148
 msgid "Row number out of range"
 msgstr "Èíslo riadku mimo rozsah"
 
-#: src/workbook.c:1252
+#: src/workbook.c:1237
+msgid "Selection must be a single range"
+msgstr ""
+
+#: src/workbook.c:1349
 msgid "Sum"
 msgstr "Súèet"
 
-#: src/workbook.c:1253
+#: src/workbook.c:1350
 msgid "Min"
 msgstr "Min"
 
-#: src/workbook.c:1254
+#: src/workbook.c:1351
 msgid "Max"
 msgstr "Max"
 
-#: src/workbook.c:1255
+#: src/workbook.c:1352
 msgid "Average"
 msgstr "Priemer"
 
-#: src/workbook.c:1256
+#: src/workbook.c:1353
 msgid "Count"
 msgstr "Poèet"
 
-#: src/workbook.c:1447
+#: src/workbook.c:1544
 msgid "Untitled.gnumeric"
 msgstr "bez-mena.gnumeric"
 
-#: src/workbook.c:1541
+#: src/workbook.c:1641
 msgid "Zoom out"
 msgstr "Zmen¹i"
 
-#: src/workbook.c:1548
+#: src/workbook.c:1648
 msgid "Zoom in"
 msgstr "Zväè¹i"
 
-#: src/workbook.c:1633
+#: src/workbook.c:1733
+#, c-format
 msgid "Are you sure you want to remove the sheet called `%s' "
 msgstr "Ste si istý, ¾e chcete odstráni» list nazvaný `%s' "
 
-#: src/workbook.c:1652
+#: src/workbook.c:1752
 msgid "Other sheets depend on the values on this sheet, I can not remove it"
 msgstr "Iné listy závisia na hodnotách v tomto liste, nemô¾em ho odstráni»"
 
-#: src/workbook.c:1672
+#: src/workbook.c:1772
 msgid "Add another sheet"
 msgstr "Pridaj ïal¹í list"
 
-#: src/workbook.c:1673
+#: src/workbook.c:1773
 msgid "Remove this sheet"
 msgstr "Odstráò tento list"
 
-#: src/workbook.c:1930 src/workbook.c:1966
+#: src/workbook.c:2030 src/workbook.c:2066
+#, c-format
 msgid "Sheet %d"
 msgstr "List %d"
 
-#: src/workbook.c:2030
+#: src/workbook.c:2130
 msgid "Gnumeric: "
 msgstr "Gnumeric: "
 
-#: src/xml-io.c:1645
+#: src/xml-io.c:1653
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"

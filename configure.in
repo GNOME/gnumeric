@@ -141,6 +141,8 @@ AM_CONDITIONAL(GNOME_SUPPORT, true)
 AM_CONDITIONAL(LIBGLADE_FULLDIST, false)
 XML_LIBS=`gnome-config --libs xml`
 XML_CFLAGS=`gnome-config --cflags xml`/gnome-xml
+AC_CHECK_PROG(GTKDOC, gtkdoc-mkdb, true, false)
+AM_CONDITIONAL(HAVE_GTK_DOC, $GTKDOC)
 AC_SUBST(XML_LIBS)
 AC_SUBST(XML_CFLAGS)
 
@@ -153,6 +155,8 @@ wizards/Makefile
 wizards/graphics/Makefile
 libglade/Makefile
 libglade/glade/Makefile
+libglade/doc/Makefile
+libglade/macros/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/es/Makefile

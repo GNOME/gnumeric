@@ -2,6 +2,11 @@ $state = 0;
 
 while (<>){
   if (/^\@FUNCTION=(.*)/){
+    if ($state){
+	printf "\n";
+        print "      </refsect1>\n";
+        print "    </refentry>\n\n";
+    }
     $func=$1;
     $state = 0;
     print "\n\n";
@@ -55,5 +60,6 @@ while (<>){
   if ($state){
     chop;
     print "        <para>$_</para>";
+  } else {
   }
 }

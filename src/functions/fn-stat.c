@@ -1984,7 +1984,8 @@ static char *help_skew = {
 	   "\n"
 	   "Strings and empty cells are simply ignored."
 	   "\n"
-	   "If less than three numbers are given SKEW returns #DIV/0! error. "
+	   "If less than three numbers are given SKEW returns #DIV/0! error."
+	   "\n"
 	   "@SEEALSO=VAR")
 };
 
@@ -2953,6 +2954,7 @@ static char *help_kurt = {
            "\n"
            "If fewer than four numbers are given or all of them are equal "
            "KURT returns #DIV/0! error. "
+	   "\n"
            "@SEEALSO=VAR")
 };
 

@@ -17,6 +17,7 @@
 <listitem><para><link linkend="gnumeric-AVERAGE">AVERAGE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-BESSELJ">BESSELJ</link></para></listitem>
 <listitem><para><link linkend="gnumeric-BESSELY">BESSELY</link></para></listitem>
+<listitem><para><link linkend="gnumeric-BETADIST">BETADIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-BIN2DEC">BIN2DEC</link></para></listitem>
 <listitem><para><link linkend="gnumeric-BIN2HEX">BIN2HEX</link></para></listitem>
 <listitem><para><link linkend="gnumeric-BIN2OCT">BIN2OCT</link></para></listitem>
@@ -24,47 +25,73 @@
 <listitem><para><link linkend="gnumeric-CEIL">CEIL</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CEILING">CEILING</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CHAR">CHAR</link></para></listitem>
+<listitem><para><link linkend="gnumeric-CHIDIST">CHIDIST</link></para></listitem>
+<listitem><para><link linkend="gnumeric-CHIINV">CHIINV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CHOOSE">CHOOSE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CLEAN">CLEAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CODE">CODE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-COLUMN">COLUMN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-COLUMN">COLUMN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-COMBIN">COMBIN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COMPLEX">COMPLEX</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CONCATENATE">CONCATENATE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CONFIDENCE">CONFIDENCE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-CONVERT">CONVERT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CORREL">CORREL</link></para></listitem>
 <listitem><para><link linkend="gnumeric-COS">COS</link></para></listitem>
 <listitem><para><link linkend="gnumeric-COSH">COSH</link></para></listitem>
 <listitem><para><link linkend="gnumeric-COUNT">COUNT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COUNTA">COUNTA</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COUNTBLANK">COUNTBLANK</link></para></listitem>
+<listitem><para><link linkend="gnumeric-COUNTIF">COUNTIF</link></para></listitem>
 <listitem><para><link linkend="gnumeric-COVAR">COVAR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-CRITBINOM">CRITBINOM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DATE">DATE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DATEVALUE">DATEVALUE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DAVERAGE">DAVERAGE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DAY">DAY</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DCOUNT">DCOUNT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DCOUNTA">DCOUNTA</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DEC2BIN">DEC2BIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DEC2HEX">DEC2HEX</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DEC2OCT">DEC2OCT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DEGREES">DEGREES</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DELTA">DELTA</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DEVSQ">DEVSQ</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DGET">DGET</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DMAX">DMAX</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DMIN">DMIN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DOLLAR">DOLLAR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DOLLARDE">DOLLARDE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DOLLARFR">DOLLARFR</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DPRODUCT">DPRODUCT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DSTDEV">DSTDEV</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DSTDEVP">DSTDEVP</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DSUM">DSUM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-DURATION">DURATION</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DVAR">DVAR</link></para></listitem>
+<listitem><para><link linkend="gnumeric-DVARP">DVARP</link></para></listitem>
+<listitem><para><link linkend="gnumeric-EDATE">EDATE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EFFECT">EFFECT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ERF">ERF</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ERFC">ERFC</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ERROR">ERROR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EVEN">EVEN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXACT">EXACT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXP">EXP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-EXPONDIST">EXPONDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FACT">FACT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FACTDOUBLE">FACTDOUBLE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-FDIST">FDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FIND">FIND</link></para></listitem>
+<listitem><para><link linkend="gnumeric-FINV">FINV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FISHER">FISHER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FISHERINV">FISHERINV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FIXED">FIXED</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FLOOR">FLOOR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-FV">FV</link></para></listitem>
+<listitem><para><link linkend="gnumeric-GAMMADIST">GAMMADIST</link></para></listitem>
+<listitem><para><link linkend="gnumeric-GAMMAINV">GAMMAINV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GAMMALN">GAMMALN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GCD">GCD</link></para></listitem>
 <listitem><para><link linkend="gnumeric-GEOMEAN">GEOMEAN</link></para></listitem>
@@ -77,6 +104,23 @@
 <listitem><para><link linkend="gnumeric-HOUR">HOUR</link></para></listitem>
 <listitem><para><link linkend="gnumeric-HYPGEOMDIST">HYPGEOMDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-IF">IF</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMABS">IMABS</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMAGINARY">IMAGINARY</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMAGINARY">IMAGINARY</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMARGUMENT">IMARGUMENT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMCONJUGATE">IMCONJUGATE</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMCOS">IMCOS</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMDIV">IMDIV</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMEXP">IMEXP</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMLN">IMLN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMLOG10">IMLOG10</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMLOG2">IMLOG2</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMPOWER">IMPOWER</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMPRODUCT">IMPRODUCT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMSIN">IMSIN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMSQRT">IMSQRT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMSUB">IMSUB</link></para></listitem>
+<listitem><para><link linkend="gnumeric-IMSUM">IMSUM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-INT">INT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-IPMT">IPMT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ISERROR">ISERROR</link></para></listitem>
@@ -85,11 +129,13 @@
 <listitem><para><link linkend="gnumeric-LCM">LCM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LEFT">LEFT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LEN">LEN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-LN">LN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOG">LOG</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOG10">LOG10</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOG2">LOG2</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOGINV">LOGINV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOGNORMDIST">LOGNORMDIST</link></para></listitem>
+<listitem><para><link linkend="gnumeric-LOOKUP">LOOKUP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-LOWER">LOWER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MAX">MAX</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MEDIAN">MEDIAN</link></para></listitem>
@@ -99,6 +145,8 @@
 <listitem><para><link linkend="gnumeric-MOD">MOD</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MODE">MODE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-MONTH">MONTH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MROUND">MROUND</link></para></listitem>
+<listitem><para><link linkend="gnumeric-MULTINOMIAL">MULTINOMIAL</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NEGBINOMDIST">NEGBINOMDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NOMINAL">NOMINAL</link></para></listitem>
 <listitem><para><link linkend="gnumeric-NORMDIST">NORMDIST</link></para></listitem>
@@ -122,6 +170,9 @@
 <listitem><para><link linkend="gnumeric-POISSON">POISSON</link></para></listitem>
 <listitem><para><link linkend="gnumeric-POWER">POWER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PPMT">PPMT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-PROB">PROB</link></para></listitem>
+<listitem><para><link linkend="gnumeric-PROB">PROB</link></para></listitem>
+<listitem><para><link linkend="gnumeric-PRODUCT">PRODUCT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PROPER">PROPER</link></para></listitem>
 <listitem><para><link linkend="gnumeric-PV">PV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-QUOTIENT">QUOTIENT</link></para></listitem>
@@ -132,6 +183,10 @@
 <listitem><para><link linkend="gnumeric-REPLACE">REPLACE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-REPT">REPT</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RIGHT">RIGHT</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ROMAN">ROMAN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ROUND">ROUND</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ROUNDDOWN">ROUNDDOWN</link></para></listitem>
+<listitem><para><link linkend="gnumeric-ROUNDUP">ROUNDUP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ROW">ROW</link></para></listitem>
 <listitem><para><link linkend="gnumeric-ROWS">ROWS</link></para></listitem>
 <listitem><para><link linkend="gnumeric-RSQ">RSQ</link></para></listitem>
@@ -150,11 +205,18 @@
 <listitem><para><link linkend="gnumeric-STDEVP">STDEVP</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SUBSTITUTE">SUBSTITUTE</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SUM">SUM</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SUMIF">SUMIF</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SUMSQ">SUMSQ</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SUMX2MY2">SUMX2MY2</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SUMX2PY2">SUMX2PY2</link></para></listitem>
+<listitem><para><link linkend="gnumeric-SUMXMY2">SUMXMY2</link></para></listitem>
 <listitem><para><link linkend="gnumeric-SYD">SYD</link></para></listitem>
 <listitem><para><link linkend="gnumeric-T">T</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TAN">TAN</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TANH">TANH</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TDIST">TDIST</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TIME">TIME</link></para></listitem>
+<listitem><para><link linkend="gnumeric-TINV">TINV</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TODAY">TODAY</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TRIM">TRIM</link></para></listitem>
 <listitem><para><link linkend="gnumeric-TRIMMEAN">TRIMMEAN</link></para></listitem>
@@ -226,6 +288,53 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-SUMX2PY2">SUMX2PY2</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SUMX2PY2</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SUMX2PY2(array1,array2)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>SUMX2PY2 function returns the sum of the sum of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2PY2 is SUM (x^2+y^2). </para>
+        <para>Strings and empty cells are simply ignored.</para>        <para>If @array1 and @array2 have different number of data points, SUMX2PY2 returns #N/A! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SUMSQ">SUMSQ</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ROMAN">ROMAN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ROMAN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ROMAN(number[,type])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>ROMAN function returns an arabic number in the roman numeral style, as text. @number is the number you want to convert and @type is the type of roman numeral you want. </para>
+        <para>If @type is 0 or it is omitted, ROMAN returns classic roman numbers. Types 1,2,3, and 4 are not implemented yet. If @number is negative or greater than 3999, ROMAN returns #VALUE! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-TANH">TANH</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -267,13 +376,11 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>CORREL returns the value of index @index.index is rounded to an integer if it is not.</para>
+        <para>CHOOSE returns the value of index @index.index is rounded to an integer if it is not.</para>
         <para>if index < 1 or index > number of values: returns #VAL!.</para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-COVAR">COVAR</link>
-,         <link linkend="gnumeric-FISHER">FISHER</link>
-,         <link linkend="gnumeric-FISHERINV">FISHERINV</link>
+      <para>        <link linkend="gnumeric-IF">IF</link>
       </para>
     </refsect1>
   </refentry>
@@ -433,6 +540,31 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-COUNTIF">COUNTIF</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COUNTIF</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COUNTIF(range,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>COUNTIF function counts the number of cells in the given range that meet the given criteria. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-COUNT">COUNT</link>
+,         <link linkend="gnumeric-SUMIF">SUMIF</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-AVEDEV">AVEDEV</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -452,6 +584,26 @@
       </para>
     </refsect1>
   </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-CONVERT">CONVERT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>CONVERT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>CONVERT(number,from_unit,to_unit)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>CONVERT returns a conversion from one measurement system to another.  For example, you can convert a weight in pounds to a weight in grams.  @number is the value you want to convert, @from_unit specifies the unit of the number, and @to_unit is the unit for the result. </para>
+        <para>@from_unit and @to_unit can be any of the following:</para>        <para></para>        <para>Weight and mass:</para>        <para>'g'    Gram</para>        <para>'sg'   Slug</para>        <para>'lbm'  Pound</para>        <para>'u'    U (atomic mass)</para>        <para>'ozm'  Ounce</para>        <para></para>        <para>Distance:</para>        <para>'m'    Meter</para>        <para>'mi'   Statute mile</para>        <para>'Nmi'  Nautical mile</para>        <para>'in'   Inch</para>        <para>'ft'   Foot</para>        <para>'yd'   Yard</para>        <para>'ang'  Angstrom</para>        <para>'Pica' Pica</para>        <para></para>        <para>Time:</para>        <para>'yr'   Year</para>        <para>'day'  Day</para>        <para>'hr'   Hour</para>        <para>'mn'   Minute</para>        <para>'sec'  Second</para>        <para></para>        <para>Pressure:</para>        <para>'Pa'   Pascal</para>        <para>'atm'  Atmosphere</para>        <para>'mmHg' mm of Mercury</para>        <para></para>        <para>Force:</para>        <para>'N'    Newton</para>        <para>'dyn'  Dyne</para>        <para>'lbf'  Pound force</para>        <para></para>        <para>Energy:</para>        <para>'J'    Joule</para>        <para>'e'    Erg</para>        <para>'c'    Thermodynamic calorie</para>        <para>'cal'  IT calorie</para>        <para>'eV'   Electron volt</para>        <para>'HPh'  Horsepower-hour</para>        <para>'Wh'   Watt-hour</para>        <para>'flb'  Foot-pound</para>        <para>'BTU'  BTU</para>        <para></para>        <para>Power:</para>        <para>'HP'   Horsepower</para>        <para>'W'    Watt</para>        <para>Magnetism:</para>        <para>'T'    Tesla</para>        <para>'ga'   Gauss</para>        <para></para>        <para>Temperature:</para>        <para>'C'    Degree Celsius</para>        <para>'F'    Degree Fahrenheit</para>        <para>'K'    Degree Kelvin</para>        <para></para>        <para>Liquid measure:</para>        <para>'tsp'  Teaspoon</para>        <para>'tbs'  Tablespoon</para>        <para>'oz'   Fluid ounce</para>        <para>'cup'  Cup</para>        <para>'pt'   Pint</para>        <para>'qt'   Quart</para>        <para>'gal'  Gallon</para>        <para>'l'    Liter</para>        <para></para>        <para>For metric units any of the following prefixes can be used:</para>        <para>'E'  exa    1E+18</para>        <para>'P'  peta   1E+15</para>        <para>'T'  tera   1E+12</para>        <para>'G'  giga   1E+09</para>        <para>'M'  mega   1E+06</para>        <para>'k'  kilo   1E+03</para>        <para>'h'  hecto  1E+02</para>        <para>'e'  dekao  1E+01</para>        <para>'d'  deci   1E-01</para>        <para>'c'  centi  1E-02</para>        <para>'m'  milli  1E-03</para>        <para>'u'  micro  1E-06</para>        <para>'n'  nano   1E-09</para>        <para>'p'  pico   1E-12</para>        <para>'f'  femto  1E-15</para>        <para>'a'  atto   1E-18</para>        <para></para>        <para>If @from_unit and @to_unit are different types, CONVERT returns #NUM! error. @SEEALSO=</para>        <para></para>
+      </refsect1>
+    </refentry>
 
 
 
@@ -568,7 +720,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The BIN2HEX function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>The BIN2HEX function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
         <para>if places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -610,31 +762,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-MODE">MODE</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>MODE</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>MODE(n1, n2, ...)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>MODE returns the most common number of the data set. If the data set has many most common numbers MODE returns the first one of them. </para>
-        <para>Strings and empty cells are simply ignored.If the data set does not contain any duplicates MODE returns #N/A! error.</para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-AVERAGE">AVERAGE</link>
-,         <link linkend="gnumeric-MEDIAN">MEDIAN</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-MONTH">MONTH</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -654,6 +781,31 @@
 ,         <link linkend="gnumeric-TIME">TIME</link>
 ,         <link linkend="gnumeric-NOW">NOW</link>
 ,         <link linkend="gnumeric-YEAR">YEAR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-MODE">MODE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MODE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MODE(n1, n2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>MODE returns the most common number of the data set. If the data set has many most common numbers MODE returns the first one of them. </para>
+        <para>Strings and empty cells are simply ignored.If the data set does not contain any duplicates MODE returns #N/A! error.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-AVERAGE">AVERAGE</link>
+,         <link linkend="gnumeric-MEDIAN">MEDIAN</link>
       </para>
     </refsect1>
   </refentry>
@@ -698,6 +850,10 @@
         <title>Description</title>
         <para>Implements modulo arithmetic.Returns the remainder when divisor is divided into abs(number).</para>
         <para>Returns #DIV/0! if divisor is zero.@SEEALSO=INT,FLOOR,CEIL</para>        <para></para>
+      </refsect1>
+    </refentry>
+
+
 
   <refentry>
     <refmeta>
@@ -812,11 +968,36 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The HEX2BIN function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>The HEX2BIN function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
         <para>if places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-BIN2HEX">BIN2HEX</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMCONJUGATE">IMCONJUGATE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMCONJUGATE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMCONJUGATE(inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMCONJUGATE returns the complex conjugate of a complex number. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMAGINARY">IMAGINARY</link>
+,         <link linkend="gnumeric-IMREAL">IMREAL</link>
       </para>
     </refsect1>
   </refentry>
@@ -874,31 +1055,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-AND">AND</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>AND</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>AND(b1, b2, ...)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>Implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.</para>
-        <para>b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. </para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-OR">OR</link>
-,         <link linkend="gnumeric-NOT">NOT</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-ATAN">ATAN</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -927,6 +1083,55 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMAGINARY">IMAGINARY</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMAGINARY</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMREAL(inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMREAL returns the real coefficient of a complex number. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMAGINARY">IMAGINARY</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-AND">AND</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>AND</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>AND(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Implements the logical AND function: the result is TRUE if all of the expression evaluates to TRUE, otherwise it returns FALSE.</para>
+        <para>b1, trough bN are expressions that should evaluate to TRUE or FALSE. If an integer or floating point value is provided zero is considered FALSE and anything else is TRUE.</para>        <para>If the values contain strings or empty cells those values are ignored.  If no logical values are provided, then the error '#VALUE!' is returned. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-OR">OR</link>
+,         <link linkend="gnumeric-NOT">NOT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-ODD">ODD</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -943,6 +1148,30 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-EVEN">EVEN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-NORMDIST">NORMDIST</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>NORMDIST</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>NORMDIST(x,mean,stdev,cumulative)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The NORMDIST function returns the normal cumulative distribution. @x is the value for which you want the distribution, @mean is the mean of the distribution, @stdev is the standard deviation. </para>
+        <para>Performing this function on a string or empty cell simply does nothing. if stdev=0 NORMDIST returns #DIV/0! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-POISSON">POISSON</link>
       </para>
     </refsect1>
   </refentry>
@@ -979,22 +1208,22 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-NORMDIST">NORMDIST</refentrytitle><refmiscinfo></refmiscinfo>
+      <refentrytitle><anchor id="gnumeric-IMAGINARY">IMAGINARY</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
-      <refname>NORMDIST</refname>
+      <refname>IMAGINARY</refname>
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>NORMDIST(x,mean,stdev,cumulative)</synopsis>
+      <synopsis>IMAGINARY(inumber)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The NORMDIST function returns the normal cumulative distribution. @x is the value for which you want the distribution, @mean is the mean of the distribution, @stdev is the standard deviation. </para>
-        <para>Performing this function on a string or empty cell simply does nothing. if stdev=0 NORMDIST returns #DIV/0! error. </para>
+        <para>IMAGINARY returns the imaginary coefficient of a complex number. </para>
+
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-POISSON">POISSON</link>
+      <para>        <link linkend="gnumeric-IMREAL">IMREAL</link>
       </para>
     </refsect1>
   </refentry>
@@ -1020,6 +1249,55 @@
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-AVERAGE">AVERAGE</link>
 ,         <link linkend="gnumeric-COUNT">COUNT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-PRODUCT">PRODUCT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>PRODUCT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>PRODUCT(value1, value2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>PRODUCT returns the product of all the values and cells referenced in the argument list. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SUM">SUM</link>
+,         <link linkend="gnumeric-COUNT">COUNT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-COUNTBLANK">COUNTBLANK</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COUNTBLANK</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COUNTBLANK(range)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>COUNTBLANK returns the number of blank cells in a range. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-COUNT">COUNT</link>
       </para>
     </refsect1>
   </refentry>
@@ -1128,6 +1406,33 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-LARGE">LARGE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LARGE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LARGE(n1, n2, ..., k)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>LARGE returns the k-th largest value in a data set. </para>
+        <para>If data set is empty LARGE returns #NUM! error. If k<=0 or k is greater than the number of data items given LARGE returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PERCENTILE">PERCENTILE</link>
+,         <link linkend="gnumeric-PERCENTRANK">PERCENTRANK</link>
+,         <link linkend="gnumeric-QUARTILE">QUARTILE</link>
+,         <link linkend="gnumeric-SMALL">SMALL</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-NORMINV">NORMINV</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1156,33 +1461,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-LARGE">LARGE</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>LARGE</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>LARGE(n1, n2, ..., k)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>LARGE returns the k-th largest value in a data set. </para>
-        <para>If data set is empty LARGE returns #NUM! error. If k<=0 or k is greater than the number of data items given LARGE returns #NUM! error. </para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-PERCENTILE">PERCENTILE</link>
-,         <link linkend="gnumeric-PERCENTRANK">PERCENTRANK</link>
-,         <link linkend="gnumeric-QUARTILE">QUARTILE</link>
-,         <link linkend="gnumeric-SMALL">SMALL</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-STANDARDIZE">STANDARDIZE</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1199,6 +1477,79 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-AVERAGE">AVERAGE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TDIST">TDIST</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TDIST</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TDIST(x,dof,tails)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>TDIST function returns the Student's t-distribution. @dof is the degree of freedom and @tails is 1 or 2 depending on wheater you want one-tailed or two-tailed distribution. </para>
+        <para>If @dof < 1 TDIST returns #NUM! error. If @tails is neither 1 or 2 TDIST returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TINV">TINV</link>
+,         <link linkend="gnumeric-TTEST">TTEST</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-SQRTPI">SQRTPI</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SQRTPI</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SQRTPI(number)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>SQRTPI function returns the square root of a number multiplied by pi. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PI">PI</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-CRITBINOM">CRITBINOM</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>CRITBINOM</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>CRITBINOM(trials,p,alpha)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The CRITBINOM function returns the smallest value for which thecumulative is creater than or equal to a given value. @n is the number of trials, @p is the probability of success in trials, and @alpha is the criterion value. Performing this function on a string or empty cell simply does nothing. </para>
+        <para>if trials is a non-integer it is truncated. if trials < 0 CRITBINOM returns #NUM! error. if p < 0 or p > 1 CRITBINOM returns #NUM! error. if alpha < 0 or alpha > 1 CRITBINOM returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BINOMDIST">BINOMDIST</link>
       </para>
     </refsect1>
   </refentry>
@@ -1234,46 +1585,24 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-CRITBINOM">CRITBINOM</refentrytitle><refmiscinfo></refmiscinfo>
+      <refentrytitle><anchor id="gnumeric-COVAR">COVAR</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
-      <refname>CRITBINOM</refname>
+      <refname>COVAR</refname>
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>CRITBINOM(trials,p,alpha)</synopsis>
+      <synopsis>COVAR(array1,array2)</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The CRITBINOM function returns the smallest value for which thecumulative is creater than or equal to a given value. @n is the number of trials, @p is the probability of success in trials, and @alpha is the criterion value. Performing this function on a string or empty cell simply does nothing. </para>
-        <para>if trials is a non-integer it is truncated. if trials < 0 CRITBINOM returns #NUM! error. if p < 0 or p > 1 CRITBINOM returns #NUM! error. if alpha < 0 or alpha > 1 CRITBINOM returns #NUM! error. </para>
+        <para>COVAR returns the covariance of two data sets. </para>
+        <para>Strings and empty cells are simply ignored.</para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-BINOMDIST">BINOMDIST</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
-      <refentrytitle><anchor id="gnumeric-SQRTPI">SQRTPI</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>SQRTPI</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>SQRTPI(x)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>The SQRTPI function returns the square root of PI * x. </para>
-        <para>if x < 0 a #NUM! error is returned.</para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-ERF">ERF</link>
+      <para>        <link linkend="gnumeric-CORREL">CORREL</link>
+,         <link linkend="gnumeric-FISHER">FISHER</link>
+,         <link linkend="gnumeric-FISHERINV">FISHERINV</link>
       </para>
     </refsect1>
   </refentry>
@@ -1298,32 +1627,6 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-SKEW">SKEW</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
-      <refentrytitle><anchor id="gnumeric-COVAR">COVAR</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>COVAR</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>COVAR(array1,array2)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>COVAR returns the covariance of two data sets. </para>
-        <para>Strings and empty cells are simply ignored.</para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-CORREL">CORREL</link>
-,         <link linkend="gnumeric-FISHER">FISHER</link>
-,         <link linkend="gnumeric-FISHERINV">FISHERINV</link>
       </para>
     </refsect1>
   </refentry>
@@ -1406,6 +1709,80 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-PROB">PROB</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>PROB</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>PROB(range_x,prob_range,lower_limit[,upper_limit])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>PROB function returns the probability that values in a range or an array are between two limits. If @upper_limit is not given, PROB returns the probability that values in @x_range are equal to @lower_limit.</para>
+        <para>If the sum of the probabilities in @prob_range is not equal to 1 PROB returns #NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns #NUM! error. If @x_range and @prob_range contain a different number of data entries, PROB returns #N/A! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BINOMDIST">BINOMDIST</link>
+,         <link linkend="gnumeric-CRITBINOM">CRITBINOM</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-LOOKUP">LOOKUP</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LOOKUP</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LOOKUP(value,vector1,vector2)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The LOOKUP function finds the row index of 'value' in vector1 and returns the contents of value2 at that row index.If the area is longer than it is wide then the sense of the search is rotated. Alternatively a single array can be used.</para>
+        <para>If LOOKUP can't find value it uses the next largest value less than value.The data must be sorted</para>        <para>If value is smaller than the first value it returns #N/A</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-VLOOKUP">VLOOKUP</link>
+,         <link linkend="gnumeric-HLOOKUP">HLOOKUP</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMPRODUCT">IMPRODUCT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMPRODUCT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMPRODUCT(inumber,inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMPRODUCT returns the product of two complex numbers. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMDIV">IMDIV</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-OR">OR</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1446,7 +1823,8 @@
         <para></para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>      </para>
+      <para>        <link linkend="gnumeric-ERROR">ERROR</link>
+      </para>
     </refsect1>
   </refentry>
 
@@ -1508,6 +1886,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMLN">IMLN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMLN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMLN(inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMLN returns the natural logarithm of a complex number. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMEXP">IMEXP</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-TRUNC">TRUNC</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1549,6 +1951,30 @@
       <para>        <link linkend="gnumeric-ACOS">ACOS</link>
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
 ,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DPRODUCT">DPRODUCT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DPRODUCT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DPRODUCT(database,field,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DPRODUCT function returns the product of numbers in a column that match conditions specified. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DSUM">DSUM</link>
       </para>
     </refsect1>
   </refentry>
@@ -1612,6 +2038,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-SUMXMY2">SUMXMY2</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SUMXMY2</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SUMXMY2(array1,array2)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>SUMXMY2 function returns the sum of squares of differences of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMXMY2 is SUM (x-y)^2. </para>
+        <para>Strings and empty cells are simply ignored.</para>        <para>If @array1 and @array2 have different number of data points, SUMXMY2 returns #N/A! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SUMSQ">SUMSQ</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-SLN">SLN</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1625,6 +2075,10 @@
         <title>Description</title>
         <para>Calculates the straight line depriciation for anasset based on its cost, salvage value and anticipated life.</para>
         <para>Formula for straight line depriciation is:</para>        <para>Depriciation expense = ( cost - salvage value ) / life</para>        <para>	cost = cost of an asset when acquired (market value)	salvage_value = amount you get when asset sold at the end of life	life = anticipated life of an asset@SEEALSO=SYD</para>        <para></para>
+      </refsect1>
+    </refentry>
+
+
 
   <refentry>
     <refmeta>
@@ -1668,6 +2122,55 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMPOWER">IMPOWER</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMPOWER</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMPOWER(inumber,number)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMPOWER returns a complex number raised to a power.  @inumber is the complex number to be raised to a power and @number is the power to which you want to raise the complex number. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMEXP">IMEXP</link>
+,         <link linkend="gnumeric-IMLN">IMLN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DAVERAGE">DAVERAGE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DAVERAGE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DAVERAGE(database,field,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DAVERAGE function returns the average of the values in a list or database that match conditions specified. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DCOUNT">DCOUNT</link>
+      </para>
     </refsect1>
   </refentry>
 
@@ -1720,6 +2223,128 @@
 ,         <link linkend="gnumeric-HARMEAN">HARMEAN</link>
 ,         <link linkend="gnumeric-MEDIAN">MEDIAN</link>
 ,         <link linkend="gnumeric-MODE">MODE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DMIN">DMIN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DMIN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DMIN(database,field,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DMIN function returns the smallest number in a column that match conditions specified. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DMAX">DMAX</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ROUNDUP">ROUNDUP</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ROUNDUP</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ROUNDUP(number[,digits])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>ROUNDUP function rounds a given number up, away from zero. @number is the number you want rounded up and @digits is the number of digits to which you want to round that number. </para>
+        <para>If digits is greater than zero, number is rounded up to the given number of digits. If digits is zero or omitted, number is rounded up to the nearest integer. If digits is less than zero, number is rounded up to the left of the decimal point. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ROUNDDOWN">ROUNDDOWN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-BETADIST">BETADIST</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>BETADIST</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>BETADIST(x,alpha,beta)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>BETADIST function returns the cumulative beta distribution. </para>
+        <para>If @x < 0 or @x > 1 BETADIST returns #NUM! error. If @alpha <= 0 or beta <= 0, BETADIST returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BETAINV">BETAINV</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-MROUND">MROUND</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MROUND</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MROUND(number,multiple)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>MROUND function rounds a given number to the desired multiple. @number is the number you want rounded and @multiple is the the multiple to which you wnat to round the number. For example, MROUND(1.7, 0.2) equals 1.8. </para>
+        <para>If the number and the multiple have different sign, MROUND returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ROUNDDOWN">ROUNDDOWN</link>
+,         <link linkend="gnumeric-ROUND">ROUND</link>
+,         <link linkend="gnumeric-ROUNDUP">ROUNDUP</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-FDIST">FDIST</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>FDIST</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>FDIST(x,dof1,dof2)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>FDIST function returns the F probability distribution. @dof1 is the numerator degrees of freedom and @dof2 is the denominator degrees of freedom. </para>
+        <para>If @x < 0 FDIST returns #NUM! error. If @dof1 < 1 or @dof2 < 1, GAMMADIST returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-FINV">FINV</link>
       </para>
     </refsect1>
   </refentry>
@@ -1798,6 +2423,10 @@
         <title>Description</title>
         <para>Calculates the present value of an investment.@SEEALSO=FV</para>
         <para></para>
+      </refsect1>
+    </refentry>
+
+
 
   <refentry>
     <refmeta>
@@ -1814,6 +2443,58 @@
         <title>Description</title>
         <para>Calculates the future value of an investment.@SEEALSO=PV,PMT,PPMT</para>
         <para></para>
+      </refsect1>
+    </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMSIN">IMSIN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMSIN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMSIN(inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMSIN returns the sine of a complex number. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMCOS">IMCOS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-LCM">LCM</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LCM</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LCM(number1,number2,...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>LCM returns the least common multiple of integers.  The least common multiple is the smallest positive number that is a multiple of all integer arguments given. </para>
+        <para>If any of the arguments is less than one, LCM returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-GCD">GCD</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
 
   <refentry>
     <refmeta>
@@ -1838,22 +2519,6 @@
   </refentry>
 
 
-
-  <refentry>
-    <refmeta>
-      <refentrytitle><anchor id="gnumeric-LCM">LCM</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>LCM</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>LCM(n1,n2)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>Returns the least common multiplier of N1 and N2.</para>
-        <para></para>
 
   <refentry>
     <refmeta>
@@ -1883,6 +2548,31 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-CHIINV">CHIINV</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>CHIINV</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>CHIINV(p,dof)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The CHIINV function returns the inverse of the one-tailed probability of the chi-squared distribution. CHIINV uses an iterative algorithm for calculating the result. If CHIINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. </para>
+        <para>If @p < 0 or @p > 1 or @dof < 1 CHIINV returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-CHIDIST">CHIDIST</link>
+,         <link linkend="gnumeric-CHITEST">CHITEST</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-ASINH">ASINH</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -1903,6 +2593,30 @@
 ,         <link linkend="gnumeric-COS">COS</link>
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
 ,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-GAMMAINV">GAMMAINV</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>GAMMAINV</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>GAMMAINV(p,alpha,beta)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The GAMMAINV function returns the inverse of the cumulative gamma distribution. If GAMMAINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. </para>
+        <para>If @p < 0 or @p > 1 GAMMAINV returns #NUM! error. If @alpha <= 0 or @beta <= 0 GAMMAINV returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-GAMMADIST">GAMMADIST</link>
       </para>
     </refsect1>
   </refentry>
@@ -1998,31 +2712,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-HYPGEOMDIST">HYPGEOMDIST</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>HYPGEOMDIST</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>HYPGEOMDIST(x,n,M,N)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>The HYPGEOMDIST function returns the hypergeometric distribution @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.</para>
-        <para>Performing this function on a string or empty cell returns an error.if x,n,M or N is a non-integer it is truncated. if x,n,M or N < 0 HYPGEOMDIST returns #NUM! error. if x > M or n > N HYPGEOMDIST returns #NUM! error. </para>
-    </refsect1>
-    <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-BINOMDIST">BINOMDIST</link>
-,         <link linkend="gnumeric-POISSON">POISSON</link>
-      </para>
-    </refsect1>
-  </refentry>
-
-
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-UPPER">UPPER</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -2070,6 +2759,31 @@
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
 ,         <link linkend="gnumeric-RADIANS">RADIANS</link>
 ,         <link linkend="gnumeric-EXP">EXP</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-HYPGEOMDIST">HYPGEOMDIST</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>HYPGEOMDIST</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>HYPGEOMDIST(x,n,M,N)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The HYPGEOMDIST function returns the hypergeometric distribution @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.</para>
+        <para>Performing this function on a string or empty cell returns an error.if x,n,M or N is a non-integer it is truncated. if x,n,M or N < 0 HYPGEOMDIST returns #NUM! error. if x > M or n > N HYPGEOMDIST returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BINOMDIST">BINOMDIST</link>
+,         <link linkend="gnumeric-POISSON">POISSON</link>
       </para>
     </refsect1>
   </refentry>
@@ -2128,6 +2842,53 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMARGUMENT">IMARGUMENT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMARGUMENT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMARGUMENT(inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMARGUMENT returns the argument theta of a complex number. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-MULTINOMIAL">MULTINOMIAL</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>MULTINOMIAL</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>MULTINOMIAL(value1, value2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>MULTINOMIAL returns the ratio of the factorial of a sum of values to the product of factorials. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SUM">SUM</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-FISHERINV">FISHERINV</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -2163,7 +2924,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The OCT2BIN function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>The OCT2BIN function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
         <para>if places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -2192,6 +2953,31 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-POW">POW</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMABS">IMABS</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMABS</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMABS(inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMABS returns the absolute value of a complex number. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMAGINARY">IMAGINARY</link>
+,         <link linkend="gnumeric-IMREAL">IMREAL</link>
       </para>
     </refsect1>
   </refentry>
@@ -2283,6 +3069,54 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-GAMMADIST">GAMMADIST</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>GAMMADIST</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>GAMMADIST(x,alpha,beta,cum)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>GAMMADIST function returns the gamma distribution. If @cum is TRUE GAMMADIST returns the incomplete gamma function, otherwise it returns the probability mass function. </para>
+        <para>If @x < 0 GAMMADIST returns #NUM! error. If @alpha <= 0 or beta <= 0, GAMMADIST returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-GAMMAINV">GAMMAINV</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-GCD">GCD</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>GCD</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>GCD(a,b)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>GCD returns the greatest common divisor of two numbers. </para>
+        <para>If any of the arguments is less than zero, GCD returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-LCM">LCM</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-EFFECT">EFFECT</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -2299,6 +3133,30 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-NOMINAL">NOMINAL</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMSUB">IMSUB</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMSUB</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMSUB(inumber,inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMSUB returns the difference of two complex numbers. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMSUM">IMSUM</link>
       </para>
     </refsect1>
   </refentry>
@@ -2333,22 +3191,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-GCD">GCD</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>GCD</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>GCD(n1,n2)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>Returns the greatest common divisor of N1 and N2.</para>
-        <para></para>
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-SYD">SYD</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -2362,6 +3204,10 @@
         <title>Description</title>
         <para>Calculates the sum-of-years digits depriciation for anasset based on its cost, salvage value, anticipated life and aparticular period.</para>
         <para>Formula for sum-of-years digits depriciation is:</para>        <para>Depriciation expense = ( cost - salvage value ) * (life-period+1) * 2 / life * (life + 1)</para>        <para>	cost = cost of an asset when acquired (market value)	salvage_value = amount you get when asset sold at the end of life	life = anticipated life of an asset	period = period for which we need the expense@SEEALSO=SLN</para>        <para></para>
+      </refsect1>
+    </refentry>
+
+
 
   <refentry>
     <refmeta>
@@ -2473,7 +3319,7 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>SUBSTITUTE(text, old, new [,num]</synopsis>
+      <synopsis>SUBSTITUTE(text, old, new [,num])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
@@ -2483,6 +3329,31 @@
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-REPLACE">REPLACE</link>
 ,         <link linkend="gnumeric-TRIM">TRIM</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMLOG2">IMLOG2</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMLOG2</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMLOG2(inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMLOG2 returns the logarithm of a complex number in base 2. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMLN">IMLN</link>
+,         <link linkend="gnumeric-IMLOG10">IMLOG10</link>
       </para>
     </refsect1>
   </refentry>
@@ -2527,7 +3398,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The OCT2HEX function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>The OCT2HEX function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
         <para>if places is too small or negative #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -2572,17 +3443,67 @@
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>LOG(x)</synopsis>
+      <synopsis>LOG(x[,base])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Computes the natural logarithm  of x. </para>
-        <para>Performing this function on a string or empty cell returns an error. </para>
+        <para>Computes the logarithm of x in the given base.  If no base is given LOG returns the logarithm in base 10. </para>
+
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-EXP">EXP</link>
+      <para>        <link linkend="gnumeric-LN">LN</link>
 ,         <link linkend="gnumeric-LOG2">LOG2</link>
 ,         <link linkend="gnumeric-LOG10">LOG10</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-PROB">PROB</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>PROB</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>PROB(known_y's,known_x's)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>STEYX function returns the standard error of the predicted y-value for each x in the regression.  </para>
+        <para>If @known_y's and @known_x's are empty or have a different number of arguments then STEYX returns #N/A! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-PEARSON">PEARSON</link>
+,         <link linkend="gnumeric-RSQ">RSQ</link>
+,         <link linkend="gnumeric-SLOPE">SLOPE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DGET">DGET</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DGET</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DGET(database,field,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DGET function returns a single value from a column that match conditions specified. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>        <para>If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DCOUNT">DCOUNT</link>
       </para>
     </refsect1>
   </refentry>
@@ -2615,6 +3536,55 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-SUMIF">SUMIF</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SUMIF</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SUMIF(range,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>SUMIF function sums the values in the given range that meet the given criteria. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-COUNTIF">COUNTIF</link>
+,         <link linkend="gnumeric-SUM">SUM</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMSUM">IMSUM</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMSUM</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMSUM(inumber,inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMSUM returns the sum of two complex numbers. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMSUB">IMSUB</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-MIN">MIN</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -2632,6 +3602,30 @@
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-MAX">MAX</link>
 ,         <link linkend="gnumeric-ABS">ABS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-ROUNDDOWN">ROUNDDOWN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ROUNDDOWN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ROUNDDOWN(number[,digits])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>ROUNDDOWN function rounds a given number down, towards zero. @number is the number you want rounded down and @digits is the number of digits to which you want to round that number. </para>
+        <para>If digits is greater than zero, number is rounded down to the given number of digits. If digits is zero or omitted, number is rounded down to the nearest integer. If digits is less than zero, number is rounded down to the left of the decimal point. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ROUNDUP">ROUNDUP</link>
       </para>
     </refsect1>
   </refentry>
@@ -2786,6 +3780,55 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-DMAX">DMAX</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DMAX</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DMAX(database,field,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DMAX function returns the largest number in a column that match conditions specified. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DMIN">DMIN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-SUMSQ">SUMSQ</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SUMSQ</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SUMSQ(value1, value2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>SUMSQ returns the sum of the squares of all the values and cells referenced in the argument list. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SUM">SUM</link>
+,         <link linkend="gnumeric-COUNT">COUNT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-NORMSDIST">NORMSDIST</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -2879,6 +3922,31 @@
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-LOWER">LOWER</link>
 ,         <link linkend="gnumeric-UPPER">UPPER</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-TINV">TINV</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>TINV</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TINV(p,dof)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The TINV function returns the inverse of the two-tailed Student's t-distribution. TINV uses an iterative algorithm for calculating the result. If TINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. </para>
+        <para>If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-TDIST">TDIST</link>
+,         <link linkend="gnumeric-TTEST">TTEST</link>
       </para>
     </refsect1>
   </refentry>
@@ -3052,7 +4120,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The BESSELY function returns the Neumann, Weber or Bessel function. x is where the function is evaluated. y is the order of the bessel function, if non-integer it is truncated. </para>
+        <para>The BESSELY function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated. </para>
         <para>if x or n are not numeric a #VALUE! error is returned.if n < 0 a #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -3085,6 +4153,83 @@
       <para>        <link linkend="gnumeric-STDEV">STDEV</link>
 ,         <link linkend="gnumeric-VAR">VAR</link>
 ,         <link linkend="gnumeric-MEAN">MEAN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DCOUNT">DCOUNT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DCOUNT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DCOUNT(database,field,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DCOUNT function counts the cells that contain numbers in a database that match conditions specified. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DAVERAGE">DAVERAGE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-COUNTA">COUNTA</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COUNTA</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COUNTA(b1, b2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Returns the number of arguments passed not including empty cells.</para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-AVERAGE">AVERAGE</link>
+,         <link linkend="gnumeric-COUNT">COUNT</link>
+,         <link linkend="gnumeric-DCOUNT">DCOUNT</link>
+,         <link linkend="gnumeric-DCOUNTA">DCOUNTA</link>
+,         <link linkend="gnumeric-PRODUCT">PRODUCT</link>
+,         <link linkend="gnumeric-SUM">SUM</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DVAR">DVAR</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DVAR</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DVAR(database,field,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DVAR function returns the estimate of variance of a population based on a sample. The populations consists of numbers that match conditions specified. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DVARP">DVARP</link>
       </para>
     </refsect1>
   </refentry>
@@ -3133,6 +4278,10 @@
         <title>Description</title>
         <para>Calculates the present value of an investment.@SEEALSO=PPMT,PV,FV</para>
         <para></para>
+      </refsect1>
+    </refentry>
+
+
 
   <refentry>
     <refmeta>
@@ -3159,22 +4308,6 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-KURT">KURT</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>KURT</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>KURT(n1, n2, ...)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>KURT returns the kurtosis of a data set. </para>
-        <para>Strings and empty cells are simply ignored.</para>        <para>If fewer than four numbers are given or all of them are equal KURT returns #DIV/0! error. @SEEALSO=VAR</para>        <para></para>
-
-  <refentry>
-    <refmeta>
       <refentrytitle><anchor id="gnumeric-DAY">DAY</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3194,6 +4327,51 @@
 ,         <link linkend="gnumeric-TIME">TIME</link>
 ,         <link linkend="gnumeric-NOW">NOW</link>
 ,         <link linkend="gnumeric-YEAR">YEAR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-KURT">KURT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>KURT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>KURT(n1, n2, ...)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>KURT returns the kurtosis of a data set. </para>
+        <para>Strings and empty cells are simply ignored.</para>        <para>If fewer than four numbers are given or all of them are equal KURT returns #DIV/0! error. @SEEALSO=VAR</para>        <para></para>
+      </refsect1>
+    </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-CHIDIST">CHIDIST</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>CHIDIST</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>CHIDIST(x,dof)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>CHIDIST function returns the one-tailed probability of the chi-squared distribution. @dof is the number of degrees of freedom.</para>
+        <para>If @dof is non-integer it is truncated. If @dof < 1 CHIDIST returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-CHIINV">CHIINV</link>
+,         <link linkend="gnumeric-CHITEST">CHITEST</link>
       </para>
     </refsect1>
   </refentry>
@@ -3253,6 +4431,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-EDATE">EDATE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>EDATE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>EDATE(serial_number,months)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>EDATE returns the serial number of the date that is the specified number of months before or after a given date.  @date is the serial number of the initial date and @months is the number of months before (negative number) or after (positive number) the initial date. </para>
+        <para>If @months is not an integer, it is truncated. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DATE">DATE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-CONFIDENCE">CONFIDENCE</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3293,6 +4495,50 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-UPPER">UPPER</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-COMPLEX">COMPLEX</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>COMPLEX</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>COMPLEX(real,im[,suffix])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>COMPLEX returns a complex number of the form x + yi. @real is the real and @im is the imaginary coefficient of the complex number.  @suffix is the suffix for the imaginary coefficient.  If it is omitted, COMPLEX uses 'i' by default. </para>
+        <para>If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! error. @SEEALSO=</para>        <para></para>
+      </refsect1>
+    </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DSTDEV">DSTDEV</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DSTDEV</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DSTDEV(database,field,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DSTDEV function returns the estimate of the standard deviation of a population based on a sample. The populations consists of numbers that match conditions specified. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DSTDEVP">DSTDEVP</link>
       </para>
     </refsect1>
   </refentry>
@@ -3375,6 +4621,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-HEX2OCT">HEX2OCT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>HEX2OCT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>HEX2OCT(number[,places])</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The HEX2OCT function converts a binary number to a hexadecimal number.  @places is an optional field, specifying to zero pad to that number of spaces.</para>
+        <para>if places is too small or negative #NUM! error is returned.</para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-BIN2HEX">BIN2HEX</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-NOT">NOT</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3400,22 +4670,23 @@
 
   <refentry>
     <refmeta>
-      <refentrytitle><anchor id="gnumeric-HEX2OCT">HEX2OCT</refentrytitle><refmiscinfo></refmiscinfo>
+      <refentrytitle><anchor id="gnumeric-ROUND">ROUND</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
-      <refname>HEX2OCT</refname>
+      <refname>ROUND</refname>
       <refpurpose></refpurpose>
     </refnamediv>
     <refsynopsisdiv>
-      <synopsis>HEX2OCT(number[,places])</synopsis>
+      <synopsis>ROUND(number[,digits])</synopsis>
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The HEX2OCT function converts a binary number to a hexadecimal number.places is an optional field, specifying to zero pad to that number of spaces.</para>
-        <para>if places is too small or negative #NUM! error is returned.</para>
+        <para>ROUND function rounds a given number. @number is the number you want rounded and @digits is the number of digits to which you want to round that number. </para>
+        <para>If digits is greater than zero, number is rounded to the given number of digits. If digits is zero or omitted, number is rounded to the nearest integer. If digits is less than zero, number is rounded to the left of the decimal point. </para>
     </refsect1>
     <refsect1><title>See also</title>
-      <para>        <link linkend="gnumeric-BIN2HEX">BIN2HEX</link>
+      <para>        <link linkend="gnumeric-ROUNDDOWN">ROUNDDOWN</link>
+,         <link linkend="gnumeric-ROUNDUP">ROUNDUP</link>
       </para>
     </refsect1>
   </refentry>
@@ -3505,6 +4776,29 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-SIGN">SIGN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SIGN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SIGN(num)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>SIGN function returns 1 if the number is positive, zero if the number is 0, and -1 if the number is negative. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-NOW">NOW</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3543,22 +4837,10 @@
         <title>Description</title>
         <para>SKEW returns the skewness of a distribution. </para>
         <para>Strings and empty cells are simply ignored.</para>        <para>If less than three numbers are given SKEW returns #DIV/0! error. @SEEALSO=VAR</para>        <para></para>
+      </refsect1>
+    </refentry>
 
-  <refentry>
-    <refmeta>
-      <refentrytitle><anchor id="gnumeric-SIGN">SIGN</refentrytitle><refmiscinfo></refmiscinfo>
-    </refmeta>
-    <refnamediv>
-      <refname>SIGN</refname>
-      <refpurpose></refpurpose>
-    </refnamediv>
-    <refsynopsisdiv>
-      <synopsis>SIGN(number)</synopsis>
-    </refsynopsisdiv>
-      <refsect1>
-        <title>Description</title>
-        <para>Returns -1 if NUMBER is less than 0, 1 if NUMBER</para>
-        <para>is greater than 0 and 0 if NUMBER is equal 0.</para>        <para></para>
+
 
   <refentry>
     <refmeta>
@@ -3707,6 +4989,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-ERROR">ERROR</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>ERROR</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>ERROR(text)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>Return the specified error</para>
+        <para></para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-ISERROR">ISERROR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-DOLLARDE">DOLLARDE</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3720,6 +5026,10 @@
         <title>Description</title>
         <para>DOLLARDE converts a dollar price expressed as a fraction into a dollar price expressed as a decimal number. </para>
         <para>If fraction is non-integer it is truncated. If fraction<=0 DOLLARDE returns #NUM! error. @SEEALSO=DOLLARFR</para>        <para></para>
+      </refsect1>
+    </refentry>
+
+
 
   <refentry>
     <refmeta>
@@ -3734,11 +5044,35 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>The ERF function returns the integral of the error function between the limits. If the upper limit ommitted ERF returns the integral between zero and the lower limit</para>
+        <para>The ERF function returns the integral of the error function between the limits.  If the upper limit ommitted ERF returns the integral between zero and the lower limit</para>
         <para>if either lower or upper are not numeric a #VALUE! error is returned.if either lower or upper are < 0 a #NUM! error is returned.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-ERFC">ERFC</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-FINV">FINV</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>FINV</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>TINV(p,dof)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>The FINV function returns the inverse of the F probability distribution. FINV uses an iterative algorithm for calculating the result. If FINV does not converge (accuracy within +/- 3x10^7) after 100 iterations, the function returns #N/A! error. </para>
+        <para>If @p < 0 or @p > 1 FINV returns #NUM! error. If @dof1 < 0 or @dof2 > 1 FINV returns #NUM! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-FDIST">FDIST</link>
       </para>
     </refsect1>
   </refentry>
@@ -3788,6 +5122,30 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-OCT2BIN">OCT2BIN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMSQRT">IMSQRT</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMSQRT</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMSQRT(inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMSQRT returns the square root of a complex number. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMEXP">IMEXP</link>
       </para>
     </refsect1>
   </refentry>
@@ -3852,6 +5210,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-DVARP">DVARP</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DVARP</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DVARP(database,field,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DVARP function returns the variance of a population based on the entire populations. The populations consists of numbers that match conditions specified. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DVAR">DVAR</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-NPV">NPV</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3865,6 +5247,10 @@
         <title>Description</title>
         <para>Calculates the net present value of an investment.@SEEALSO=PV</para>
         <para></para>
+      </refsect1>
+    </refentry>
+
+
 
   <refentry>
     <refmeta>
@@ -3920,6 +5306,102 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMCOS">IMCOS</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMCOS</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMCOS(inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMCOS returns the cosine of a complex number. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMSIN">IMSIN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMDIV">IMDIV</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMDIV</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMDIV(inumber,inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMDIV returns the quotient of two complex numbers. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMPRODUCT">IMPRODUCT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMEXP">IMEXP</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMEXP</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMEXP(inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMEXP returns the exponential of a complex number. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMLN">IMLN</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DSTDEVP">DSTDEVP</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DSTDEVP</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DSTDEVP(database,field,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DSTDEVP function returns the standard deviation of a population based on the entire populations. The populations consists of numbers that match conditions specified. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DSTDEV">DSTDEV</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-EXPONDIST">EXPONDIST</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -3957,6 +5439,34 @@
         <title>Description</title>
         <para>DOLLARFR converts a decimal dollar price into a dollar price expressed as a fraction. </para>
         <para>If fraction is non-integer it is truncated. If fraction<=0 DOLLARDE returns #NUM! error. @SEEALSO=DOLLARDE</para>        <para></para>
+      </refsect1>
+    </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DCOUNTA">DCOUNTA</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DCOUNTA</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DCOUNTA(database,field,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DCOUNTA function counts the cells that contain data in a database that match conditions specified. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DCOUNT">DCOUNT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
 
   <refentry>
     <refmeta>
@@ -3976,6 +5486,56 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DEC2OCT">DEC2OCT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-DSUM">DSUM</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DSUM</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DSUM(database,field,criteria)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DSUM function returns the sum of numbers in a column that match conditions specified. </para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column. </para>        <para>@field specifies which column is used in the function. If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column. </para>        <para>@criteria is the range of cells which contains the specified conditions. The first row of a criteria should contain the labels of the fields for which the criterias are for. Cells below the label specify coditions, for example, ``>3'' or ``<9''. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DPRODUCT">DPRODUCT</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-LN">LN</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>LN</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>LN(x)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>LN returns the natural logarithm of x. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-EXP">EXP</link>
+,         <link linkend="gnumeric-LOG2">LOG2</link>
+,         <link linkend="gnumeric-LOG10">LOG10</link>
       </para>
     </refsect1>
   </refentry>
@@ -4046,7 +5606,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>Returns the total number of arguments passed.</para>
+        <para>Returns the total number of integer or floating point arguments passed.</para>
         <para>Performing this function on a string or empty cell simply does nothing.</para>
     </refsect1>
     <refsect1><title>See also</title>
@@ -4107,6 +5667,30 @@
 
   <refentry>
     <refmeta>
+      <refentrytitle><anchor id="gnumeric-DATEVALUE">DATEVALUE</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>DATEVALUE</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>DATEVALUE(date_str)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>DATEVALUE returns the serial number of the date.  @date_str is the string that contains the date.  For example, DATEVALUE("1/1/1999") equals to 36160. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-DATE">DATE</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
       <refentrytitle><anchor id="gnumeric-NPER">NPER</refentrytitle><refmiscinfo></refmiscinfo>
     </refmeta>
     <refnamediv>
@@ -4120,6 +5704,10 @@
         <title>Description</title>
         <para>Calculates number of periods of an investment.@SEEALSO=PPMT,PV,FV</para>
         <para></para>
+      </refsect1>
+    </refentry>
+
+
 
   <refentry>
     <refmeta>
@@ -4139,6 +5727,30 @@
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-HLOOKUP">HLOOKUP</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-SUMX2MY2">SUMX2MY2</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>SUMX2MY2</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>SUMX2MY2(array1,array2)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>SUMX2MY2 function returns the sum of the difference of squares of corresponding values in two arrays. @array1 is the first array or range of data points and @array2 is the second array or range of data points. The equation of SUMX2MY2 is SUM (x^2-y^2). </para>
+        <para>Strings and empty cells are simply ignored.</para>        <para>If @array1 and @array2 have different number of data points, SUMX2MY2 returns #N/A! error. </para>
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-SUMSQ">SUMSQ</link>
       </para>
     </refsect1>
   </refentry>
@@ -4168,6 +5780,31 @@
 ,         <link linkend="gnumeric-COS">COS</link>
 ,         <link linkend="gnumeric-DEGREES">DEGREES</link>
 ,         <link linkend="gnumeric-RADIANS">RADIANS</link>
+      </para>
+    </refsect1>
+  </refentry>
+
+
+
+  <refentry>
+    <refmeta>
+      <refentrytitle><anchor id="gnumeric-IMLOG10">IMLOG10</refentrytitle><refmiscinfo></refmiscinfo>
+    </refmeta>
+    <refnamediv>
+      <refname>IMLOG10</refname>
+      <refpurpose></refpurpose>
+    </refnamediv>
+    <refsynopsisdiv>
+      <synopsis>IMLOG10(inumber)</synopsis>
+    </refsynopsisdiv>
+      <refsect1>
+        <title>Description</title>
+        <para>IMLOG10 returns the logarithm of a complex number in base 10. </para>
+
+    </refsect1>
+    <refsect1><title>See also</title>
+      <para>        <link linkend="gnumeric-IMLN">IMLN</link>
+,         <link linkend="gnumeric-IMLOG2">IMLOG2</link>
       </para>
     </refsect1>
   </refentry>
