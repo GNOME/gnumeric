@@ -52,7 +52,9 @@ Jody:
 	* Respect 0 as no-compression for xml export
 
 Jon Kåre:
-	* Fix the CORBA plugin
+	* Fix the CORBA plugin.
+	* Add pangoft2 dependency.
+	http://bugzilla.gnome.org/show_bug.cgi?id=153701
 
 Morten:
 	http://bugzilla.gnome.org/show_bug.cgi?id=152511

@@ -1,3 +1,8 @@
+2004-10-05  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in (gnumeric_reqs): Add pangoft2 requirement.  (Fixes
+	#153701.)
+
 2004-10-04  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : Add a test for mkfifo
