@@ -50,7 +50,6 @@
     <widget>
       <class>GtkEntry</class>
       <name>font-style-entry</name>
-      <width>80</width>
       <editable>False</editable>
       <text_visible>True</text_visible>
       <text_max_length>0</text_max_length>
@@ -58,31 +57,6 @@
       <child>
 	<left_attach>1</left_attach>
 	<right_attach>2</right_attach>
-	<top_attach>1</top_attach>
-	<bottom_attach>2</bottom_attach>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<xexpand>True</xexpand>
-	<yexpand>False</yexpand>
-	<xshrink>False</xshrink>
-	<yshrink>False</yshrink>
-	<xfill>True</xfill>
-	<yfill>False</yfill>
-      </child>
-    </widget>
-
-    <widget>
-      <class>GtkEntry</class>
-      <name>font-size-entry</name>
-      <width>60</width>
-      <can_focus>True</can_focus>
-      <editable>True</editable>
-      <text_visible>True</text_visible>
-      <text_max_length>0</text_max_length>
-      <text></text>
-      <child>
-	<left_attach>2</left_attach>
-	<right_attach>3</right_attach>
 	<top_attach>1</top_attach>
 	<bottom_attach>2</bottom_attach>
 	<xpad>0</xpad>
@@ -177,7 +151,6 @@
     <widget>
       <class>GtkEntry</class>
       <name>font-name-entry</name>
-      <width>110</width>
       <has_focus>True</has_focus>
       <editable>False</editable>
       <text_visible>True</text_visible>
@@ -245,18 +218,19 @@
     </widget>
 
     <widget>
-      <class>GtkScrolledWindow</class>
-      <name>scrolledwindow1</name>
-      <height>120</height>
-      <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
-      <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
-      <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
-      <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+      <class>GtkEntry</class>
+      <name>font-size-entry</name>
+      <width>60</width>
+      <can_focus>True</can_focus>
+      <editable>True</editable>
+      <text_visible>True</text_visible>
+      <text_max_length>0</text_max_length>
+      <text></text>
       <child>
-	<left_attach>0</left_attach>
-	<right_attach>1</right_attach>
-	<top_attach>2</top_attach>
-	<bottom_attach>3</bottom_attach>
+	<left_attach>2</left_attach>
+	<right_attach>3</right_attach>
+	<top_attach>1</top_attach>
+	<bottom_attach>2</bottom_attach>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
 	<xexpand>False</xexpand>
@@ -264,32 +238,8 @@
 	<xshrink>False</xshrink>
 	<yshrink>False</yshrink>
 	<xfill>True</xfill>
-	<yfill>True</yfill>
+	<yfill>False</yfill>
       </child>
-
-      <widget>
-	<class>GtkCList</class>
-	<name>font-name-list</name>
-	<can_focus>True</can_focus>
-	<columns>1</columns>
-	<column_widths>80</column_widths>
-	<selection_mode>GTK_SELECTION_SINGLE</selection_mode>
-	<show_titles>False</show_titles>
-	<shadow_type>GTK_SHADOW_IN</shadow_type>
-
-	<widget>
-	  <class>GtkLabel</class>
-	  <child_name>CList:title</child_name>
-	  <name>label7</name>
-	  <label>label7</label>
-	  <justify>GTK_JUSTIFY_CENTER</justify>
-	  <wrap>False</wrap>
-	  <xalign>0.5</xalign>
-	  <yalign>0.5</yalign>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	</widget>
-      </widget>
     </widget>
 
     <widget>
@@ -306,8 +256,8 @@
 	<bottom_attach>3</bottom_attach>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
-	<xexpand>False</xexpand>
-	<yexpand>False</yexpand>
+	<xexpand>True</xexpand>
+	<yexpand>True</yexpand>
 	<xshrink>False</xshrink>
 	<yshrink>False</yshrink>
 	<xfill>True</xfill>
@@ -341,8 +291,57 @@
 
     <widget>
       <class>GtkScrolledWindow</class>
-      <name>scrolledwindow3</name>
+      <name>scrolledwindow1</name>
+      <height>120</height>
       <hscrollbar_policy>GTK_POLICY_AUTOMATIC</hscrollbar_policy>
+      <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
+      <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
+      <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
+      <child>
+	<left_attach>0</left_attach>
+	<right_attach>1</right_attach>
+	<top_attach>2</top_attach>
+	<bottom_attach>3</bottom_attach>
+	<xpad>0</xpad>
+	<ypad>0</ypad>
+	<xexpand>True</xexpand>
+	<yexpand>True</yexpand>
+	<xshrink>False</xshrink>
+	<yshrink>False</yshrink>
+	<xfill>True</xfill>
+	<yfill>True</yfill>
+      </child>
+
+      <widget>
+	<class>GtkCList</class>
+	<name>font-name-list</name>
+	<can_focus>True</can_focus>
+	<columns>1</columns>
+	<column_widths>80</column_widths>
+	<selection_mode>GTK_SELECTION_SINGLE</selection_mode>
+	<show_titles>False</show_titles>
+	<shadow_type>GTK_SHADOW_IN</shadow_type>
+
+	<widget>
+	  <class>GtkLabel</class>
+	  <child_name>CList:title</child_name>
+	  <name>label7</name>
+	  <label>label7</label>
+	  <justify>GTK_JUSTIFY_CENTER</justify>
+	  <wrap>False</wrap>
+	  <xalign>0.5</xalign>
+	  <yalign>0.5</yalign>
+	  <xpad>0</xpad>
+	  <ypad>0</ypad>
+	</widget>
+      </widget>
+    </widget>
+
+    <widget>
+      <class>GtkScrolledWindow</class>
+      <name>scrolledwindow3</name>
+      <width>60</width>
+      <hscrollbar_policy>GTK_POLICY_NEVER</hscrollbar_policy>
       <vscrollbar_policy>GTK_POLICY_AUTOMATIC</vscrollbar_policy>
       <hupdate_policy>GTK_UPDATE_CONTINUOUS</hupdate_policy>
       <vupdate_policy>GTK_UPDATE_CONTINUOUS</vupdate_policy>
@@ -354,7 +353,7 @@
 	<xpad>0</xpad>
 	<ypad>0</ypad>
 	<xexpand>False</xexpand>
-	<yexpand>False</yexpand>
+	<yexpand>True</yexpand>
 	<xshrink>False</xshrink>
 	<yshrink>False</yshrink>
 	<xfill>True</xfill>

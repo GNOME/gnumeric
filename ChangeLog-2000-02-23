@@ -10,6 +10,12 @@
 	* src/sheet-view.c (sheet_view_set_zoom_factor) : Scale itembar
 	  fonts when we zoom.
 
+	From Jon K Hellan  <hellan@acm.org>
+	* src/dialogs/font-sel.glade : removed the explicit sizes for
+	  font name entry and font style entry. Added explicit size to
+	  the scroll window around font size list, added y expand to the
+	  scroll windows.
+
 1999-11-13  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet-style.c (sheet_selection_get_unique_style): kill bug
