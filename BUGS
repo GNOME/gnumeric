@@ -49,8 +49,7 @@ Pending Patches
 
 7) Expr Parser
     7.1) Move the host of flags into an GnmExprConventions      (DONE)
-    7.2) Use conventions obj to generate strings too
-    7.3) extend gnm_expr_as_string to handle 1.0 vs 1.1 style rangerefs
+    7.2) Use conventions obj to generate strings
 
 8) Reinstate auto-format
     8.1) Add characterization (units) to StyleFormat
@@ -61,7 +60,7 @@ Pending Patches
 
 13) export plugins
     13.1) UTF-8 -> ??
-    13.2) Use gsf
+    13.2) Use gsf						(DONE)
 
 14) Polish up Open and Save
     14.1) merge open and import dialogs				(DONE)
