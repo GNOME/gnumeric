@@ -1,5 +1,14 @@
 2001-04-12  Jody Goldberg <jgoldberg@home.com>
 
+	* src/Makefile.am : rename gnumeric.xml GNOME_Gnumeric.xml.
+
+	* src/sheet.c (sheet_col_add) : update the max outline_level.
+	(sheet_row_add) : ditto.
+
+	* src/xml-io.c (xml_read_colrow_info) : restore the col/row outline
+	  level data.
+	(xml_write_colrow_info) : store it here.
+
 	* src/colrow.c (colrow_set_visibility) : don't collapse things unless
 	  they are at the end of the region.  Always uncollapse things.
 

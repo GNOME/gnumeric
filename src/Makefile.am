@@ -265,7 +265,9 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	sheet-object-container.c		\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
-	sheet-object-item.h
+	sheet-object-item.h			\
+	workbook-control-bonobo.h 		\
+	workbook-control-bonobo.c
 
 gnumeric_SOURCES =				\
 	main.c					\
@@ -315,7 +317,7 @@ dist-hook:
 #	$(GNOME_XML_LIB) 		\
 #	$(INTLLIBS)
 
-EXTRA_DIST = portability.h.in gnumeric.xml
+EXTRA_DIST = portability.h.in GNOME_Gnumeric.xml
 
 uidir=$(datadir)/gnome/ui
-ui_DATA = gnumeric.xml
+ui_DATA = GNOME_Gnumeric.xml

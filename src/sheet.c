@@ -511,6 +511,8 @@ sheet_col_add (Sheet *sheet, ColRowInfo *cp)
 		*segment = g_new0 (ColRowSegment, 1);
 	(*segment)->info[COLROW_SUB_INDEX (col)] = cp;
 
+	if (cp->outline_level > sheet->cols.max_outline_level)
+		sheet->cols.max_outline_level = cp->outline_level;
 	if (col > sheet->cols.max_used){
 		sheet->cols.max_used = col;
 		sheet->priv->resize_scrollbar = TRUE;
@@ -530,6 +532,8 @@ sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 		*segment = g_new0 (ColRowSegment, 1);
 	(*segment)->info[COLROW_SUB_INDEX (row)] = rp;
 
+	if (rp->outline_level > sheet->rows.max_outline_level)
+		sheet->rows.max_outline_level = rp->outline_level;
 	if (rp->pos > sheet->rows.max_used){
 		sheet->rows.max_used = row;
 		sheet->priv->resize_scrollbar = TRUE;

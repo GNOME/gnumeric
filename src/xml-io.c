@@ -1659,8 +1659,14 @@ xml_write_colrow_info (ColRowInfo *info, void *user_data)
 			xml_set_value_points (cur, "Unit", prev->size_pts);
 			xml_set_value_int (cur, "MarginA", prev->margin_a);
 			xml_set_value_int (cur, "MarginB", prev->margin_b);
-			xml_set_value_int (cur, "HardSize", prev->hard_size);
-			xml_set_value_int (cur, "Hidden", !prev->visible);
+			if (prev->hard_size)
+				xml_set_value_int (cur, "HardSize", TRUE);
+			if (!prev->visible)
+				xml_set_value_int (cur, "Hidden", TRUE);
+			if (prev->is_collapsed)
+				xml_set_value_int (cur, "Collapsed", TRUE);
+			if (prev->outline_level > 0)
+				xml_set_value_int (cur, "OutlineLevel", prev->outline_level);
 
 			if (closure->rle_count > 1)
 				xml_set_value_int (cur, "Count", closure->rle_count);
@@ -2564,6 +2570,10 @@ xml_read_colrow_info (XmlParseContext *ctxt, xmlNodePtr tree,
 		info->hard_size = val;
 	if (xml_get_value_int (tree, "Hidden", &val) && val)
 		info->visible = FALSE;
+	if (xml_get_value_int (tree, "Collapsed", &val) && val)
+		info->is_collapsed = TRUE;
+	if (xml_get_value_int (tree, "OutlineLevel", &val) && val > 0)
+		info->outline_level = val;
 	if (xml_get_value_int (tree, "Count", &count))
 		return count;
 	return 1;
