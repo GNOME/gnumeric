@@ -1900,9 +1900,6 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	cmd_format (workbook_command_context_gui (state->sheet->workbook),
 		    state->sheet, state->result, borders);
 
-	if (mstyle_is_element_set (state->result, MSTYLE_FONT_SIZE))        
-		sheet_selection_height_update (state->sheet);     
-
 	cell_thaw_redraws ();
 	mstyle_unref (state->result);
 	sheet_update_controls (state->sheet);

@@ -42,4 +42,7 @@ void          col_row_set_visiblity        (Sheet *sheet, gboolean const is_col,
 					    gboolean const visible,
 					    ColRowVisList list);
 
+/* Recalculate the height of all the rows in the range */
+void          rows_height_update (Sheet *sheet, Range const * range);
+
 #endif /* GNUMERIC_COLROW_H */

@@ -70,12 +70,11 @@ static WORKBOOK_PARENT_CLASS *workbook_parent_class;
 /* Workbook signals */
 enum {
 	SHEET_ENTERED,
-	CELL_ENTERED,
 	LAST_SIGNAL
 };
 
 static gint workbook_signals [LAST_SIGNAL] = {
-	0, /* SHEET_ENTERED, CELL_ENTERED */
+	0, /* SHEET_ENTERED */
 };
 
 static void workbook_set_arg (GtkObject *object, GtkArg *arg, guint arg_id);
@@ -1749,8 +1748,8 @@ workbook_parse_and_jump (Workbook *wb, const char *text)
 	if (parse_cell_name (text, &col, &row, TRUE, NULL)){
 		Sheet *sheet = wb->current_sheet;
 
-		sheet_make_cell_visible (sheet, col, row);
 		sheet_cursor_set (sheet, col, row, col, row, col, row);
+		sheet_make_cell_visible (sheet, col, row);
 		return TRUE;
 	}
 
@@ -3520,12 +3519,13 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 	/* Save the results before changing focus */
 	if (accept) {
 		/* TODO : Get a context */
-		/* Store the old value for undo */
 		GtkEntry * const entry = GTK_ENTRY (sheet->workbook->ea_input);
 		char     * const txt = gtk_entry_get_text (entry);
 		r.start = r.end = sheet->cursor.edit_pos;
-		if (!cmd_set_text (NULL, sheet, &r.start, txt))
-			sheet_set_text (sheet, txt, &r);
+		/* Store the old value for undo */
+		/* TODO : What should we do in case of failure ?
+		 * maybe another parameter that will force an end ? */
+		(void )cmd_set_text (NULL, sheet, &r.start, txt);
 	} else {
 		/* Redraw the cell contents in case there was a span */
 		int const c = sheet->cursor.edit_pos.col;
@@ -3551,6 +3551,4 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 
 	if (accept)
 		workbook_recalc (wb);
-
-	sheet_load_cell_val (sheet);
 }

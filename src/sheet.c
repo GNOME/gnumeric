@@ -156,6 +156,19 @@ sheet_new (Workbook *wb, const char *name)
 
 	sheet = g_new0 (Sheet, 1);
 	sheet->private = g_new0 (SheetPrivate, 1);
+#ifdef ENABLE_BONOBO
+	sheet->private->corba_server = NULL;
+	sheet->private->sheet_vectors = NULL;
+#endif
+	/* FIXME : Init to true for safety eventually
+	 * this should be FALSE
+	 */
+	sheet->private->edit_pos_changed = TRUE;
+	sheet->private->selection_content_changed = TRUE;
+	sheet->private->recompute_visibility = TRUE;
+	sheet->private->reposition_row_comment = 0;
+	sheet->private->reposition_col_comment = 0;
+
 	sheet->signature = SHEET_SIGNATURE;
 	sheet->workbook = wb;
 	sheet->name = g_strdup (name);
@@ -458,6 +471,66 @@ sheet_reposition_comments (Sheet const * const sheet,
 	}
 }
 
+/**
+ * sheet_flag_status_update_cell:
+ *    flag the sheet as requiring an update to the status display
+ *    if the supplied cell location is the edit cursor, or part of the
+ *    selected region.
+ *
+ * @sheet :
+ * @col :
+ * @row :
+ *
+ * Will cause the format toolbar, the edit area, and the auto expressions to be
+ * updated if appropriate.
+ */
+void
+sheet_flag_status_update_cell (Sheet const *sheet,
+			       int const col, int const row)
+{
+	/* if a part of the selected region changed value update
+	 * the auto expressions
+	 */
+	if (sheet_is_cell_selected (sheet, col, row))
+		sheet->private->selection_content_changed = TRUE;
+
+	/* If the edit cell changes value update the edit area
+	 * and the format toolbar
+	 */
+	if (col == sheet->cursor.edit_pos.col &&
+	    row == sheet->cursor.edit_pos.row)
+		sheet->private->edit_pos_changed = TRUE;
+}
+
+/**
+ * sheet_flag_status_update_range:
+ *    flag the sheet as requiring an update to the status display
+ *    if the supplied cell location contains the edit cursor, or intersects of
+ *    the selected region.
+ *
+ * @sheet :
+ * @range :
+ *
+ * Will cause the format toolbar, the edit area, and the auto expressions to be
+ * updated if appropriate.
+ */
+void
+sheet_flag_status_update_range (Sheet const *sheet,
+				Range const * const range)
+{
+	/* if a part of the selected region changed value update
+	 * the auto expressions
+	 */
+	if (sheet_is_range_selected (sheet, range))
+		sheet->private->selection_content_changed = TRUE;
+
+	/* If the edit cell changes value update the edit area
+	 * and the format toolbar
+	 */
+	if (range_contains(range, sheet->cursor.edit_pos.col, sheet->cursor.edit_pos.row))
+		sheet->private->edit_pos_changed = TRUE;
+}
+
 /*
  * sheet_update : Should be called after a logical command has finished processing
  *    to request redraws for any pending events
@@ -476,8 +549,8 @@ sheet_update (Sheet const *sheet)
 		sheet_reposition_comments (sheet,
 					   p->reposition_row_comment,
 					   p->reposition_col_comment);
-		p->reposition_row_comment = SHEET_MAX_COLS;
-		p->reposition_col_comment = SHEET_MAX_ROWS;
+		p->reposition_row_comment = SHEET_MAX_ROWS;
+		p->reposition_col_comment = SHEET_MAX_COLS;
 	}
 
 	if (p->recompute_visibility) {
@@ -491,6 +564,20 @@ sheet_update (Sheet const *sheet)
 		p->recompute_visibility = FALSE;
 		sheet_compute_visible_ranges (sheet);
 		sheet_redraw_all (sheet);
+	}
+
+	/* FIXME FIXME FIXME : We need to set these in lots more places
+	 * especially when changing ranges
+	 */
+	if (sheet->private->edit_pos_changed) {
+		sheet->private->edit_pos_changed = FALSE;
+		sheet_load_cell_val (sheet);
+		sheet_update_controls (sheet);
+	}
+
+	if (sheet->private->selection_content_changed) {
+		sheet->private->selection_content_changed = FALSE;
+		sheet_update_auto_expr (sheet);
 	}
 }
 
@@ -816,7 +903,7 @@ sheet_recompute_spans_for_col (Sheet *sheet, int col)
 }
 
 void
-sheet_update_auto_expr (Sheet *sheet)
+sheet_update_auto_expr (Sheet const *sheet)
 {
 	Value *v;
 	Workbook *wb = sheet->workbook;
@@ -829,7 +916,8 @@ sheet_update_auto_expr (Sheet *sheet)
 
 	if (wb->auto_expr) {
 		EvalPosition pos;
-		eval_pos_init (&pos, sheet, 0, 0);
+		/* const_cast */
+		eval_pos_init (&pos, (Sheet *)sheet, 0, 0);
 		v = eval_expr (&pos, wb->auto_expr);
 		if (v) {
 			char *s;
@@ -895,6 +983,8 @@ sheet_set_text (Sheet *sheet, char const *text, Range const * r)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
+	sheet_flag_status_update_range (sheet, r);
+
 	/* If its not a formula see if there is a prefered format. */
 	if (!gnumeric_char_start_expr_p (*text) || text[1] == '\0' || text[0] == '\'') {
 		closure_set_cell_value	closure;
@@ -924,13 +1014,16 @@ sheet_set_text (Sheet *sheet, char const *text, Range const * r)
 /**
  * Load the edit line with the value of the cell under the cursor
  * for @sheet.
+ *
+ * FIXME : 1) Move to workbook
+ *         2) when ready move to workbook-view
+ *         3) add flag for use by sheet_update.
  */
 void
-sheet_load_cell_val (Sheet *sheet)
+sheet_load_cell_val (Sheet const *sheet)
 {
 	GtkEntry *entry;
 	Cell     *cell;
-	char     *text;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -940,14 +1033,12 @@ sheet_load_cell_val (Sheet *sheet)
 			       sheet->cursor.edit_pos.col,
 			       sheet->cursor.edit_pos.row);
 
-	if (cell)
-		text = cell_get_text (cell);
-	else
-		text = g_strdup ("");
-
-	gtk_entry_set_text (entry, text);
-
-	g_free (text);
+	if (cell) {
+		char *text = cell_get_text (cell);
+		gtk_entry_set_text (entry, text);
+		g_free (text);
+	} else
+		gtk_entry_set_text (entry, "");
 }
 
 /**
@@ -957,7 +1048,7 @@ sheet_load_cell_val (Sheet *sheet)
  * what the status of various toolbar feedback controls should be
  */
 void
-sheet_update_controls (Sheet *sheet)
+sheet_update_controls (Sheet const *sheet)
 {
 	MStyle *mstyle;
 
@@ -1454,7 +1545,7 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 static Value *
 fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	if (!sheet_selection_is_cell_selected (sheet, col, row))
+	if (!sheet_is_cell_selected (sheet, col, row))
 		return value_terminate ();
 	else
 		return NULL;
@@ -2002,49 +2093,28 @@ sheet_make_cell_visible (Sheet *sheet, int col, int row)
 	}
 }
 
-/**
- * sheet_cursor_move:
- * @sheet: Which sheet's cursor to move
- * @col:   destination column
- * @row:   destination row
- * @clear_selection:       Clear the old selection if we move.
- * @add_dest_to_selection: Add the new cursor location to the
- *                         selection if we move.
- *
- * Adjusts the cursor location for the specified sheet, optionaly
- * clearing the old selection and adding the new cursor to the selection.
- * Be careful when manging the selection when the 'move' returns to the
- * current location.
- */
 void
-sheet_cursor_move (Sheet *sheet, int col, int row,
-		   gboolean clear_selection, gboolean add_dest_to_selection)
+sheet_set_edit_pos (Sheet *sheet, int col, int row)
 {
-	GList *l;
-	int old_row, old_col;
+	int old_col, old_row;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	workbook_finish_editing (sheet->workbook, TRUE);
-
 	old_col = sheet->cursor.edit_pos.col;
 	old_row = sheet->cursor.edit_pos.row;
-	sheet->cursor.edit_pos.col = col;
-	sheet->cursor.edit_pos.row = row;
 
-	for (l = sheet->sheet_views; l; l = l->next){
-		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
+	if (old_col != col || old_row != row) {
+		sheet->private->edit_pos_changed = TRUE;
 
-		gnumeric_sheet_set_cursor_bounds (gsheet, col, row, col, row);
-	}
-	sheet_load_cell_val (sheet);
+		/* Redraw before change */
+		sheet_redraw_cell_region (sheet,
+					  old_col, old_row, old_col, old_row);
+		sheet->cursor.edit_pos.col = col;
+		sheet->cursor.edit_pos.row = row;
 
-	if (old_row != row || old_col != col) {
-		if (clear_selection)
-			sheet_selection_reset_only (sheet);
-		if (add_dest_to_selection)
-			sheet_selection_add (sheet, col, row);
+		/* Redraw after change */
+		sheet_redraw_cell_region (sheet, col, row, col, row);
 	}
 }
 
@@ -2059,20 +2129,31 @@ sheet_cursor_set (Sheet *sheet,
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
+	/* FIXME : this should not be here */
 	workbook_finish_editing (sheet->workbook, TRUE);
 
-	/* Redraw the old edit cell */
-	if (sheet->cursor.edit_pos.col != edit_col ||
-	    sheet->cursor.edit_pos.row != edit_row) {
-		sheet_redraw_cell_region (sheet,
-					  sheet->cursor.edit_pos.col,
-					  sheet->cursor.edit_pos.row,
-					  sheet->cursor.edit_pos.col,
-					  sheet->cursor.edit_pos.row);
-		sheet->cursor.edit_pos.col = edit_col;
-		sheet->cursor.edit_pos.row = edit_row;
-		sheet_load_cell_val (sheet);
-	}
+#if 0
+	fprintf (stderr, "extend to %s%d\n", col_name(col), row+1);
+	fprintf (stderr, "edit %s%d\n", col_name(sheet->cursor.edit_pos.col), sheet->cursor.edit_pos.row+1);
+	fprintf (stderr, "base %s%d\n", col_name(sheet->cursor.base_corner.col), sheet->cursor.base_corner.row+1);
+	fprintf (stderr, "move %s%d\n", col_name(sheet->cursor.move_corner.col), sheet->cursor.move_corner.row+1);
+#endif
+
+#if 0
+	/* Be sure that the edit_pos is contained in the new_sel area */
+	if (sheet->cursor.edit_pos.col < ss->user.start.col)
+		sheet->cursor.edit_pos.col = ss->user.start.col;
+	else if (sheet->cursor.edit_pos.col > ss->user.end.col)
+		sheet->cursor.edit_pos.col = ss->user.end.col;
+
+	if (sheet->cursor.edit_pos.row < ss->user.start.row)
+		sheet->cursor.edit_pos.row = ss->user.start.row;
+	else if (sheet->cursor.edit_pos.row > ss->user.end.row)
+		sheet->cursor.edit_pos.row = ss->user.end.row;
+#endif
+
+	/* Change the edit position */
+	sheet_set_edit_pos (sheet, edit_col, edit_row);
 
 	sheet->cursor.base_corner.col = base_col;
 	sheet->cursor.base_corner.row = base_row;
@@ -2088,78 +2169,6 @@ sheet_cursor_set (Sheet *sheet,
 			MAX (base_col, move_col),
 			MAX (base_row, move_row));
 	}
-}
-
-/**
- * sheet_fill_selection_with:
- * @sheet:	 Which sheet we are operating on.
- * @str:	 The text to fill the selection with.
- * @is_array:    A flag to differentiate between filling and array formulas.
- *
- * Checks to ensure that none of the ranges being filled contain a subset of
- * an array-formula.
- */
-void
-sheet_fill_selection_with (CommandContext *context, Sheet *sheet,
-			   const char *str, gboolean const is_array)
-{
-	GList *l;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (str != NULL);
-
-	/* Check for array subdivision */
-	for (l = sheet->selections; l; l = l->next)
-	{
-		SheetSelection *ss = l->data;
-		if (!sheet_check_for_partial_array (sheet,
-						    ss->user.start.row,ss->user.start.col,
-						    ss->user.end.row, ss->user.end.col)) {
-			gnumeric_error_splits_array (context);
-			return;
-		}
-	}
-
-	/*
-	 * Only enter an array formula if
-	 *   1) the text is a formula
-	 *   2) It's entered as an array formula
-	 *   3) There is only one 1 selection
-	 */
-	l = sheet->selections;
-	if (*str == '=' && is_array && l != NULL && l->next == NULL) {
-		char *error_string = NULL;
-		SheetSelection *ss = l->data;
-		ParsePosition pp;
-		ExprTree *expr =
-			expr_parse_string (str + 1,
-					   parse_pos_init (&pp, sheet->workbook,
-							   ss->user.start.col,
-							   ss->user.start.row),
-					   NULL, &error_string);
-		if (expr) {
-			cell_set_array_formula (sheet,
-						ss->user.start.row, ss->user.start.col,
-						ss->user.end.row, ss->user.end.col,
-						expr);
-			workbook_recalc (sheet->workbook);
-			return;
-		}
-
-		/* Fall through and paste the error string */
-		str = error_string;
-
-		g_return_if_fail (str != NULL);
-	}
-
-	cell_freeze_redraws ();
-	for (; l; l = l->next){
-		SheetSelection *ss = l->data;
-		sheet_set_text (sheet, str, &ss->user);
-	}
-	cell_thaw_redraws ();
-	workbook_recalc (sheet->workbook);
 }
 
 void
@@ -2953,8 +2962,9 @@ sheet_move_range (CommandContext *context,
 	/* 1. Fix references to and from the cells which are moving */
 	/* All we really want is the workbook so either sheet will do */
 
-	/* FIXME : Avoid leaking and free the reloc list for now.  When undo
-	 * for paste_cut is ready we will need this list
+	/* 
+	 * move can never move something off the edge, so we do not need the
+	 * list.
 	 */
 	workbook_expr_unrelocate_free (
 		workbook_expr_relocate (rinfo->origin_sheet->workbook, rinfo));

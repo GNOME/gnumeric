@@ -4,8 +4,10 @@
 #include "gnumeric.h"
 
 /* Selection management */
+gboolean    sheet_is_all_selected        (Sheet const * const sheet);
+gboolean    sheet_is_cell_selected       (Sheet const * const sheet, int col, int row);
+gboolean    sheet_is_range_selected      (Sheet const * const sheet, Range const *r);
 void        sheet_select_all             (Sheet *sheet);
-int         sheet_is_all_selected        (Sheet *sheet);
 void        sheet_selection_extend_to    (Sheet *sheet, int col, int row);
 void        sheet_selection_extend       (Sheet *sheet, int count, gboolean jump_to_boundaries,
 					  gboolean const horizontal);
@@ -26,10 +28,7 @@ CellList   *sheet_selection_to_list      (Sheet *sheet);
 void        sheet_cell_list_free         (CellList *cell_list);
 char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
 
-void        sheet_selection_changed_hook (Sheet *sheet);
-
-/* Operations on the selection */
-void        sheet_selection_height_update     (Sheet *sheet);
+void        sheet_selection_changed_hook (Sheet const *sheet);
 
 /* Cut/Copy/Paste on the workbook selection */
 gboolean    sheet_selection_copy              (CommandContext *context, Sheet *sheet);
@@ -40,7 +39,6 @@ void        sheet_selection_paste             (CommandContext *context, Sheet *s
 void        sheet_selection_walk_step         (Sheet *sheet,
 					       gboolean const forward,
 					       gboolean const horizontal);
-int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 
 gboolean    selection_contains_colrow         (Sheet *sheet, int colrow, gboolean is_col);
 

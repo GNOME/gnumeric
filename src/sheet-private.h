@@ -8,6 +8,8 @@ struct _SheetPrivate {
 	GSList          *sheet_vectors;
 #endif
 	/* TODO Add span recomputation here too. */
+	gboolean	 edit_pos_changed; /* either location or content */
+	gboolean	 selection_content_changed;
 	gboolean	 recompute_visibility;
 	int		 reposition_row_comment;
 	int		 reposition_col_comment;

@@ -1,3 +1,63 @@
+2000-04-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_class_init) : Remove CELL_CHANGED.
+	(workbook_finish_editing) : At LAST! cmd_set_text is responsible for
+	  setting the text directly :-)
+
+	* src/workbook-format-toolbar.c (change_font_size_in_selection_cmd) :
+	  cmd_format takes care of the height adjustments.
+	* src/dialogs/dialog-cell-format.c (cb_fmt_dialog_dialog_apply) : Ditto.
+
+	* src/sheet.c (Sheet): Add flags edit_pos_changed, selection_content_changed.
+	(sheet_new) : init them.
+	(sheet_flag_status_update_cell) : New function that sets the flags.
+	(sheet_flag_status_update_range) : Ditto.
+	(sheet_update) : Fix typo. Add support for new flags.
+	(sheet_update_auto_expr) : Const correctness.
+	(sheet_update_controls) : Ditto.
+	(sheet_load_cell_val) : Ditto. Delete unused signal.
+	(sheet_set_text) : Use sheet_flag_status_update_range.
+	(sheet_set_edit_pos) : New routine.
+	(sheet_cursor_move) : Delete.
+	(sheet_fill_selection_with) : Remove.
+
+	* src/selection.c (sheet_selection_changed_hook) : const correctness.
+	(sheet_selection_change) : merge into sheet_selection_set.
+	(sheet_selection_extend_to) : Use sheet_selection_set.
+	(sheet_selection_set) : Merge with sheet_selection_change and use the
+	  sheet_cursor accessors rather than changing things directly.
+	(sheet_selection_walk_step) : Use sheet_selection_set, and sheet_set_edit_pos.
+
+	(sheet_is_all_selected) : const correctness.
+	(sheet_is_cell_selected) : New routine.
+	(sheet_is_range_selected) : New routine.
+
+	* src/item-grid.c (item_grid_draw_background) : Adjust to rename of
+	* sheet_selection_is_cell_selected -> sheet_is_cell_selected.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Cleanup the
+	  logic for creating fills and arrays so that it can have undo
+	  support.
+	  - Change the heuristic for selecting what type of characters can start
+	    an edit session.  Rather than using fixed Latin1 centric codes,
+	    guess that the 'length' field of the event is >0 if the character is
+	    printable.  Be more careful NOT to forward characters to the entry
+	    if we are not editing.
+	  - Use sheet_update.
+
+	* src/commands.c (command_pop_list_top) : Delete.
+	(cmd_format_redo) : Apply the height adjustment here.
+	(cmd_set_area_*) : Implement.
+	(*) : Use sheet_update.
+
+	* src/colrow.c (rows_height_update) : Moved here and generalized from
+	  sheet_selection_height_update.
+
+	* src/clipboard.c (sheet_paste_selection) : No need to call
+	  sheet_cursor_set.  sheet_selection_add_range already does that.
+	(clipboard_paste_region) : Flag updates to the status display if
+	  something changes.
+
 2000-04-04  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet-view.c (sheet_view_set_zoom_factor): Call

@@ -8,6 +8,7 @@
  */
 #include <config.h>
 #include "gnumeric-type-util.h"
+#include "gnumeric-util.h"
 #include "commands.h"
 #include "sheet.h"
 #include "workbook.h"
@@ -229,28 +230,6 @@ command_redo (CommandContext *context, Workbook *wb)
 }
 
 /*
- * command_list_pop_top : utility routine to free the top command on
- *        the undo list, and to regenerate the menus if needed.
- *
- * @cmd_list : The set of commands to free from.
- */
-void
-command_list_pop_top_undo (Workbook *wb)
-{
-	GtkObject *cmd;
-	
-	g_return_if_fail (wb->undo_commands != NULL);
-
-	cmd = GTK_OBJECT (wb->undo_commands->data);
-	g_return_if_fail (cmd != NULL);
-
-	gtk_object_unref (cmd);
-	wb->undo_commands = g_slist_remove (wb->undo_commands,
-					    wb->undo_commands->data);
-	undo_redo_menu_labels (wb);
-}
-
-/*
  * command_list_release : utility routine to free the resources associated
  *    with a list of commands.
  *
@@ -347,11 +326,7 @@ cmd_set_text_undo (GnumericCommand *cmd, CommandContext *context)
 
 	me->text = new_text;
 
-	/* Move back to the cell that was edited, and update the edit area */
-	sheet_cursor_set (me->pos.sheet,
-			  me->pos.eval.col, me->pos.eval.row,
-			  me->pos.eval.col, me->pos.eval.row,
-			  me->pos.eval.col, me->pos.eval.row);
+	sheet_update (me->pos.sheet);
 
 	return FALSE;
 }
@@ -385,7 +360,7 @@ cmd_set_text (CommandContext *context,
 	CmdSetText *me;
 	gchar *pad = "";
 	gchar *text;
-	Cell  *cell;
+	gboolean trouble;
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (new_text != NULL, TRUE);
@@ -398,14 +373,7 @@ cmd_set_text (CommandContext *context,
 	/* Store the specs for the object */
 	me->pos.sheet = sheet;
 	me->pos.eval = *pos;
-
-	/* Save the new value so we can redo */
-	cell = sheet_cell_get (me->pos.sheet,
-			       me->pos.eval.col,
-			       me->pos.eval.row);
-
-	me->text = (cell == NULL || cell->value == NULL || cell->value->type == VALUE_EMPTY)
-	    ? NULL : cell_get_text (cell);
+	me->text = g_strdup (new_text);
 
 	/* Limit the size of the descriptor to something reasonable */
 	if (strlen(new_text) > max_descriptor_width) {
@@ -422,8 +390,193 @@ cmd_set_text (CommandContext *context,
 	if (*pad)
 		g_free (text);
 
+	trouble = cmd_set_text_redo (GNUMERIC_COMMAND (me), context);
+
 	/* Register the command object */
-	return command_push_undo (sheet->workbook, obj, FALSE);
+	return command_push_undo (sheet->workbook, obj, trouble);
+}
+
+/******************************************************************/
+
+#define CMD_AREA_SET_TEXT_TYPE        (cmd_area_set_text_get_type ())
+#define CMD_AREA_SET_TEXT(o)          (GTK_CHECK_CAST ((o), CMD_AREA_SET_TEXT_TYPE, CmdAreaSetText))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	Sheet	*sheet;
+	char 	*text; 
+	gboolean as_array;
+	GSList	*old_content;
+	GSList	*selection;
+} CmdAreaSetText;
+
+GNUMERIC_MAKE_COMMAND (CmdAreaSetText, cmd_area_set_text);
+
+static gboolean
+cmd_area_set_text_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
+	GSList *ranges;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->selection != NULL, TRUE);
+	g_return_val_if_fail (me->old_content != NULL, TRUE);
+
+	for (ranges = me->selection; ranges != NULL ; ranges = ranges->next) {
+		Range const * const r = ranges->data;
+		CellRegion * c;
+
+		g_return_val_if_fail (me->old_content != NULL, TRUE);
+
+		c = me->old_content->data;
+		clipboard_paste_region (context, c, me->sheet,
+					r->start.col, r->start.row,
+					PASTE_VALUES, GDK_CURRENT_TIME);
+		clipboard_release (c);
+		me->old_content = g_slist_remove (me->old_content, c);
+	}
+	g_return_val_if_fail (me->old_content == NULL, TRUE);
+
+	sheet_set_dirty (me->sheet, TRUE);
+	workbook_recalc (me->sheet->workbook);
+	sheet_update (me->sheet);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
+	ExprTree *expr = NULL;
+	GSList *l;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* Check for array subdivision */
+	for (l = me->selection; l != NULL; l = l->next)
+	{
+		Range const *r = l->data;
+		if (!sheet_check_for_partial_array (me->sheet,
+						    r->start.row, r->start.col,
+						    r->end.row, r->end.col)) {
+			gnumeric_error_splits_array (context);
+			return TRUE;
+		}
+	}
+
+	/*
+	 * Only enter an array formula if
+	 *   1) the text is a formula
+	 *   2) It's entered as an array formula
+	 *   3) There is only one 1 selection
+	 */
+	l = me->selection;
+	if (gnumeric_char_start_expr_p (*me->text) && me->text[1] != '\0' &&
+	    me->as_array && l != NULL && l->next == NULL) {
+		Range const * const r = l->data;
+		char *error_string = NULL;
+		ParsePosition pp;
+		expr = expr_parse_string (me->text + 1,
+			    parse_pos_init (&pp, me->sheet->workbook,
+					    r->start.col, r->start.row),
+			    NULL, &error_string);
+
+		if (expr == NULL)
+			return TRUE;
+	}
+
+	/* If everything is ok then store previous contents 
+	 * and perform the operation
+	 */
+	cell_freeze_redraws ();
+	for (l = me->selection ; l != NULL ; l = l->next) {
+		Range const * const r = l->data;
+		me->old_content = g_slist_prepend (me->old_content,
+			clipboard_copy_cell_range (me->sheet,
+						   r->start.col, r->start.row,
+						   r->end.col, r->end.row));
+
+		/* If there is a is an expression then this was an array */
+		if (expr != NULL) 
+			cell_set_array_formula (me->sheet,
+						r->start.row, r->start.col,
+						r->end.row, r->end.col,
+						expr);
+		else
+			sheet_set_text (me->sheet, me->text, r);
+	}
+	cell_thaw_redraws ();
+
+	sheet_set_dirty (me->sheet, TRUE);
+	workbook_recalc (me->sheet->workbook);
+	sheet_update (me->sheet);
+
+	return FALSE;
+}
+static void
+cmd_area_set_text_destroy (GtkObject *cmd)
+{
+	CmdAreaSetText *me = CMD_AREA_SET_TEXT (cmd);
+
+	g_free (me->text);
+
+	if (me->old_content != NULL) {
+		GSList *l;
+		for (l = me->old_content ; l != NULL ; l = g_slist_remove (l, l->data))
+			clipboard_release (l->data);
+		me->old_content = NULL;
+	}
+	if (me->selection != NULL) {
+		GSList *l;
+		for (l = me->selection ; l != NULL ; l = g_slist_remove (l, l->data))
+			g_free (l->data);
+		me->selection = NULL;
+	}
+
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_area_set_text (CommandContext *context, Sheet *sheet,
+		   char const * const new_text, gboolean const as_array)
+{
+	static int const max_descriptor_width = 15;
+
+	GtkObject *obj;
+	CmdAreaSetText *me;
+	gboolean trouble;
+	gchar *text, *pad = "";
+
+	obj = gtk_type_new (CMD_AREA_SET_TEXT_TYPE);
+	me = CMD_AREA_SET_TEXT (obj);
+
+	/* Store the specs for the object */
+	me->sheet    = sheet;
+	me->text     = g_strdup (new_text);
+	me->as_array    = as_array;
+	me->selection   = selection_get_ranges (sheet, FALSE /* No intersection */);
+	me->old_content = NULL;
+
+	if (strlen(new_text) > max_descriptor_width) {
+		pad = "..."; /* length of 3 */
+		text = g_strndup (new_text,
+				  max_descriptor_width - 3);
+	} else
+		text = (gchar *) new_text;
+
+	me->parent.cmd_descriptor =
+	    g_strdup_printf (_("Typing \"%s%s\""), text, pad);
+
+	if (*pad)
+		g_free (text);
+
+	trouble = cmd_area_set_text_redo (GNUMERIC_COMMAND (me), context);
+
+	/* Register the command object */
+	return command_push_undo (me->sheet->workbook, obj, trouble);
 }
 
 /******************************************************************/
@@ -498,9 +651,9 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 	workbook_expr_unrelocate (me->sheet->workbook, me->reloc_storage);
 	me->reloc_storage = NULL;
 
+	sheet_set_dirty (me->sheet, TRUE);
 	workbook_recalc (me->sheet->workbook);
 	sheet_update (me->sheet);
-	sheet_load_cell_val (me->sheet);
 
 	return trouble;
 }
@@ -546,9 +699,9 @@ cmd_ins_del_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 						    me->count, &me->reloc_storage);
 	}
 
+	sheet_set_dirty (me->sheet, TRUE);
 	workbook_recalc (me->sheet->workbook);
 	sheet_update (me->sheet);
-	sheet_load_cell_val (me->sheet);
 
 	return trouble;
 }
@@ -698,8 +851,9 @@ cmd_clear_undo (GnumericCommand *cmd, CommandContext *context)
 	}
 	g_return_val_if_fail (me->old_content == NULL, TRUE);
 
+	sheet_set_dirty (me->sheet, TRUE);
 	workbook_recalc (me->sheet->workbook);
-	sheet_load_cell_val (me->sheet);
+	sheet_update (me->sheet);
 
 	return FALSE;
 }
@@ -728,8 +882,9 @@ cmd_clear_redo (GnumericCommand *cmd, CommandContext *context)
 				    me->clear_flags);
 	}
 
+	sheet_set_dirty (me->sheet, TRUE);
 	workbook_recalc (me->sheet->workbook);
-	sheet_load_cell_val (me->sheet);
+	sheet_update (me->sheet);
 
 	return FALSE;
 }
@@ -832,6 +987,8 @@ cmd_format_undo (GnumericCommand *cmd, CommandContext *context)
 		}
 	}
 	
+	sheet_set_dirty (me->sheet, TRUE);
+	workbook_recalc (me->sheet->workbook);
 	sheet_update (me->sheet);
 
 	return FALSE;
@@ -842,8 +999,16 @@ cmd_format_redo (GnumericCommand *cmd, CommandContext *context)
 {
 	CmdFormat *me = CMD_FORMAT (cmd);
 	GSList    *l;
+	gboolean   font_change;
 
 	g_return_val_if_fail (me != NULL, TRUE);
+
+	font_change =
+	    (mstyle_is_element_set  (me->new_style, MSTYLE_FONT_NAME) ||
+	     mstyle_is_element_set  (me->new_style, MSTYLE_FONT_BOLD) ||
+	     mstyle_is_element_set  (me->new_style, MSTYLE_FONT_ITALIC) ||
+	     mstyle_is_element_set  (me->new_style, MSTYLE_FONT_UNDERLINE) ||
+	     mstyle_is_element_set  (me->new_style, MSTYLE_FONT_SIZE));
 
 	for (l = me->selection; l; l = l->next) {
 		if (me->borders)
@@ -853,16 +1018,13 @@ cmd_format_redo (GnumericCommand *cmd, CommandContext *context)
 			mstyle_ref (me->new_style);
 			sheet_range_apply_style (me->sheet, l->data,
 						 me->new_style);
+			if (font_change)
+				rows_height_update (me->sheet, l->data);
 		}
 	}
 
-#if 0
-	/* FIXME : finish this. */
-	if (mstyle_is_element_set  (me->new_style, MSTYLE_FONT_SIZE))
-		sheet_selection_height_update (sheet);
-#endif
-
 	sheet_set_dirty (me->sheet, TRUE);
+	workbook_recalc (me->sheet->workbook);
 	sheet_update (me->sheet);
 
 	return FALSE;
@@ -1084,7 +1246,10 @@ cmd_set_date_time_undo (GnumericCommand *cmd, CommandContext *context)
 	} else
 		cell_set_value (cell, value_new_empty ());
 
-	sheet_load_cell_val (me->pos.sheet);
+	sheet_set_dirty (me->pos.sheet, TRUE);
+	workbook_recalc (me->pos.sheet->workbook);
+	sheet_update (me->pos.sheet);
+
 	return FALSE;
 }
 
@@ -1133,8 +1298,10 @@ cmd_set_date_time_redo (GnumericCommand *cmd, CommandContext *context)
 
 	cell_set_value (cell, v);
 	cell_set_format (cell, prefered_format+1);
+
+	sheet_set_dirty (me->pos.sheet, TRUE);
 	workbook_recalc (me->pos.sheet->workbook);
-	sheet_load_cell_val (me->pos.sheet);
+	sheet_update (me->pos.sheet);
 
 	return FALSE;
 }
@@ -1317,6 +1484,10 @@ cmd_sort_undo (GnumericCommand *cmd, CommandContext *context)
 
 	sort_position (me->sheet, me->range, me->data, me->columns);
 
+	sheet_set_dirty (me->sheet, TRUE);
+	workbook_recalc (me->sheet->workbook);
+	sheet_update (me->sheet);
+
 	return FALSE;
 }
 
@@ -1328,6 +1499,10 @@ cmd_sort_redo (GnumericCommand *cmd, CommandContext *context)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	sort_contents (me->sheet, me->range, me->data, me->columns);
+
+	sheet_set_dirty (me->sheet, TRUE);
+	workbook_recalc (me->sheet->workbook);
+	sheet_update (me->sheet);
 
 	return FALSE;
 }
@@ -1404,6 +1579,9 @@ cmd_hide_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 	col_row_set_visiblity (me->sheet, me->is_cols,
 			       !me->visible, me->elements);
 
+	sheet_set_dirty (me->sheet, TRUE);
+	sheet_update (me->sheet);
+
 	return FALSE;
 }
 
@@ -1416,6 +1594,9 @@ cmd_hide_row_col_redo (GnumericCommand *cmd, CommandContext *context)
 
 	col_row_set_visiblity (me->sheet, me->is_cols,
 			       me->visible, me->elements);
+
+	sheet_set_dirty (me->sheet, TRUE);
+	sheet_update (me->sheet);
 
 	return FALSE;
 }
@@ -1623,10 +1804,13 @@ cmd_colrow_resize (CommandContext *context,
 }
 
 /******************************************************************/
-/* TODO : Make a list of commands that should have undo support
+/*
+ * Complete colrow risize
+ *
+ * TODO : Make a list of commands that should have undo support
  *        that do not even have stubs
  *
+ * - paste copy
  * - Autofill
- * - Array formula creation.
  * - SheetObject creation & manipulation.
  */

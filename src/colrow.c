@@ -125,3 +125,30 @@ col_row_set_visiblity (Sheet *sheet, gboolean const is_col,
 	sheet_redraw_all (sheet);
 	sheet_redraw_headers (sheet, TRUE, TRUE, NULL);
 }
+
+static gboolean
+cb_set_row_height (Sheet *sheet, ColRowInfo *info, void *dummy)
+{
+	/* If the size was not set by the user then auto resize */
+	if (!info->hard_size) {
+		int const new_size = sheet_row_size_fit_pixels (sheet, info->pos);
+		sheet_row_set_size_pixels (sheet, info->pos, new_size, FALSE);
+	}
+	return FALSE;
+}
+
+/**
+ * rows_height_update
+ * @sheet:  The sheet,
+ * @range:  The range whose rows should be resized.
+ *
+ * Use this function having changed the font size to auto
+ * resize the row heights to make the text fit nicely.
+ **/
+void
+rows_height_update (Sheet *sheet, Range const * range)
+{
+	sheet_foreach_colrow (sheet, &sheet->rows,
+			      range->start.row, range->end.row,
+			      &cb_set_row_height, NULL);
+}

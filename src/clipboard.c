@@ -359,11 +359,6 @@ sheet_paste_selection (CommandContext *context, Sheet *sheet,
 		paste_width,  paste_height,
 		pc->paste_flags);
 
-	sheet_cursor_set (pc->dest_sheet,
-			  pc->dest_col, pc->dest_row,
-			  pc->dest_col, pc->dest_row,
-			  end_col,      end_row);
-
 	/* Make the newly pasted region the selection */
 	sheet_selection_reset_only (pc->dest_sheet);
 	sheet_selection_add_range (pc->dest_sheet,
@@ -715,6 +710,7 @@ clipboard_paste_region (CommandContext *context,
 {
 	clipboard_paste_closure_t *data;
 	
+	g_return_if_fail (region != NULL);
 	g_return_if_fail (dest_sheet != NULL);
 	g_return_if_fail (IS_SHEET (dest_sheet));
 
@@ -725,6 +721,15 @@ clipboard_paste_region (CommandContext *context,
 	data->dest_row     = dest_row;
 	data->paste_flags  = paste_flags;
 
+	{
+		/* Flag potential changes in the status area */
+		Range tmp;
+		tmp.start.col = dest_col;
+		tmp.start.row = dest_row;
+		tmp.end.col = dest_col + region->cols;
+		tmp.end.row = dest_row + region->rows;
+		sheet_flag_status_update_range (dest_sheet, &tmp);
+	}
 	/*
 	 * If we own the selection, there is no need to ask X for
 	 * the selection: we do the paste from our internal buffer.

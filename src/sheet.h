@@ -148,8 +148,7 @@ void        sheet_cursor_set             (Sheet *sheet,
 					  int edit_col, int edit_row,
 					  int base_col, int base_row,
 					  int move_col, int move_row);
-void        sheet_cursor_move            (Sheet *sheet, int col, int row,
-					  gboolean clear_selection, gboolean add_dest_to_selection);
+void        sheet_set_edit_pos           (Sheet *sheet, int col, int row);
 void        sheet_make_cell_visible      (Sheet *sheet, int col, int row);
 
 /* Cell management */
@@ -294,6 +293,8 @@ gboolean       sheet_check_for_partial_array (Sheet *sheet,
 					      int end_row, int end_col);
 
 /* Redraw */
+void	    sheet_flag_status_update_cell (Sheet const *sheet, int const col, int const row);
+void	    sheet_flag_status_update_range(Sheet const *sheet, Range const * const range);
 void        sheet_update                  (Sheet const *sheet);
 void        sheet_compute_visible_ranges  (Sheet const *sheet);
 void        sheet_redraw_cell_region      (Sheet const *sheet,
@@ -305,7 +306,7 @@ void	    sheet_redraw_headers          (Sheet const *sheet,
 void        sheet_redraw_range            (Sheet const *sheet, Range const *sheet_selection);
 void        sheet_redraw_all              (Sheet const *sheet);
 
-void        sheet_update_auto_expr        (Sheet *sheet);
+void        sheet_update_auto_expr        (Sheet const *sheet);
 
 void        sheet_mark_clean              (Sheet *sheet);
 void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
@@ -317,8 +318,8 @@ void        sheet_move_range              (CommandContext *context,
 
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
-void        sheet_update_controls         (Sheet *sheet);
-void        sheet_load_cell_val           (Sheet *sheet);
+void        sheet_update_controls         (Sheet const *sheet);
+void        sheet_load_cell_val           (Sheet const *sheet);
 void        sheet_set_text                (Sheet *sheet, char const *text, Range const * r);
 
 int         sheet_col_selection_type      (Sheet const *sheet, int col);
@@ -375,9 +376,6 @@ gboolean  sheet_delete_rows (CommandContext *context, Sheet *sheet,
 void      sheet_shift_rows  (CommandContext *context, Sheet *sheet,
 			     int col,
 			     int start_row, int end_row, int count);
-
-void  sheet_fill_selection_with (CommandContext *context, Sheet *sheet,
-				 const char *text, gboolean const is_array);
 
 void sheet_adjust_preferences (Sheet const *sheet);
 

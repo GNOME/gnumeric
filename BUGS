@@ -4,6 +4,7 @@ and longer term bugs.
 
 Release Critical
 ----------------
+- Morten has identified a major leak in the style code.
 
 Long term breakage
 ------------------

@@ -176,9 +176,6 @@ change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 	cmd_format (workbook_command_context_gui (wb),
 		    sheet, mstyle, NULL);
 
-	/* FIXME : This should be part of cmd_format */
-	sheet_selection_height_update (sheet);
-
 	workbook_focus_current_sheet (sheet->workbook);
 }
 

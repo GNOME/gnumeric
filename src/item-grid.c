@@ -277,7 +277,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *item_grid,
 	int const h    = ri->size_pixels;
 
 	gboolean const is_selected = !(sheet->cursor.edit_pos.col == col && sheet->cursor.edit_pos.row == row) &&
-	    sheet_selection_is_cell_selected (sheet, col, row);
+	    sheet_is_cell_selected (sheet, col, row);
 
 	if (gnumeric_background_set_gc (mstyle, gc, item_grid->canvas_item.canvas, is_selected))
 		/* Fill the entire cell including the right & left grid line */

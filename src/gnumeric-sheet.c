@@ -88,6 +88,7 @@ move_cursor (GnumericSheet *gsheet, int col, int row, gboolean clear_selection)
 	if (clear_selection)
 		sheet_selection_reset_only (sheet);
 
+	/* Set the cursor BEFORE making it visible to decrease flicker */
 	sheet_cursor_set (sheet, col, row, col, row, col, row);
 	sheet_make_cell_visible (sheet, col, row);
 
@@ -687,12 +688,12 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_KP_Home:
 	case GDK_Home:
 		if ((event->state & GDK_CONTROL_MASK) != 0){
-			sheet_make_cell_visible (sheet, 0, 0);
+			/* Set the cursor BEFORE making it visible to decrease flicker */
 			sheet_cursor_set (sheet, 0, 0, 0, 0, 0, 0);
+			sheet_make_cell_visible (sheet, 0, 0);
 			break;
 		} else
 			(*movefn_horizontal)(gsheet, -sheet->cursor.edit_pos.col, FALSE);
-
 		break;
 
 	case GDK_KP_Delete:
@@ -707,38 +708,22 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_Return:
 		if ((event->state & GDK_CONTROL_MASK) != 0){
 			if (wb->editing){
-				Cell *cell;
-				char *text;
-				gboolean const is_array =
-				    (event->state & GDK_SHIFT_MASK);
+				gboolean const is_array = (event->state & GDK_SHIFT_MASK);
+				char * const text = gtk_entry_get_text (GTK_ENTRY (gsheet->entry));
 
-				/* Be careful to restore the editing sheet */
-				sheet = wb->editing_sheet;
-				workbook_finish_editing (wb, TRUE);
+				/* Be careful to use the editing sheet */
+				gboolean const trouble =
+				    cmd_area_set_text (workbook_command_context_gui (wb),
+						       wb->editing_sheet, text, is_array);
 
-				/* An undo record is placed on the stack
-				 * for the pseudo SetText associated with the
-				 * corner cell.
+				/* If the assignment was successful finish
+				 * editing but do NOT store the results
 				 */
-				command_list_pop_top_undo (wb);
-
-				cell = sheet_cell_get (sheet,
-						       sheet->cursor.edit_pos.col,
-						       sheet->cursor.edit_pos.row);
-
-				/* I am assuming workbook_finish_editing
-				 * will always create the cell with the given
-				 * input (based on the fact that workbook->editined
-				 * was set when we entered this part of the code
-				 */
-				g_return_val_if_fail (cell != NULL, 1);
-				text = cell_get_text (cell);
-				sheet_fill_selection_with (workbook_command_context_gui (wb),
-							   sheet, text, is_array);
-				g_free (text);
-			} else {
+				if (!trouble)
+					workbook_finish_editing (wb, FALSE);
+			} else
 				gtk_widget_grab_focus (gsheet->entry);
-			}
+
 			return 1;
 		}
 		/* fall down */
@@ -784,15 +769,18 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			if ((event->state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
 				return 0;
 
-			if ((event->keyval >= 0x20 && event->keyval <= 0xff) ||
-			    (event->keyval >= GDK_KP_Add && event->keyval <= GDK_KP_9))
-				workbook_start_editing_at_cursor (wb, TRUE, TRUE);
+			/* If the character is not printable do not start editing */
+			if (event->length == 0)
+				return 0;
+
+			workbook_start_editing_at_cursor (wb, TRUE, TRUE);
 		}
 		gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
 
 		/* Forward the keystroke to the input line */
 		return gtk_widget_event (gsheet->entry, (GdkEvent *) event);
 	}
+	sheet_update (sheet);
 
 	return TRUE;
 }
@@ -1313,17 +1301,6 @@ gnumeric_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (widget), FALSE);
 }
-
-#if 0
-static gint
-gnumeric_button_press (GtkWidget *widget, GdkEventButton *event)
-{
-	if (!GTK_WIDGET_HAS_FOCUS (widget))
-		gtk_widget_grab_focus (widget);
-
-	return FALSE;
-}
-#endif
 
 static void
 gnumeric_sheet_class_init (GnumericSheetClass *Class)
