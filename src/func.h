@@ -10,7 +10,7 @@
 /* Setup of the symbol table */
 void functions_init     (void);
 /* Used to build manual */
-void function_dump_defs (const char *filename);
+void function_dump_defs (char const *filename);
 
 /******************************************************************************/
 /* Function category support */
@@ -25,7 +25,7 @@ struct _FunctionCategory {
 FunctionCategory *function_get_category     (gchar const *name);
 FunctionCategory *function_get_category_with_translation (gchar const *name,
                                                           gchar const *translation);
-FunctionCategory *function_category_get_nth (gint const n);
+FunctionCategory *function_category_get_nth (gint n);
 void function_category_add_func (FunctionCategory *, FunctionDefinition *);
 void function_category_remove_func (FunctionCategory *category, FunctionDefinition *fn_def);
 
@@ -62,16 +62,52 @@ void function_category_remove_func (FunctionCategory *category, FunctionDefiniti
  * "ff|ss" where the strings are optional
  **/
 
-void func_ref	(FunctionDefinition *fn_def);
-void func_unref (FunctionDefinition *fn_def);
-gint func_get_ref_count (FunctionDefinition *fn_def);
+/* These are not supported yet */
+typedef enum {
+	FUNCTION_RETURNS_ARRAY = 0x01, /* eg transpose(), mmult() */
+	FUNCTION_RECALC_ALWAYS = 0x02, /* eg now(), today() */
 
+	/* For functions that are not exactly compatible with various import
+	 * formats.  We need to recalc their results to avoid changing values
+	 * unexpectedly when we recalc later.  This probably needs to be done
+	 * on a per import format basis.  It may not belong here.
+	 */
+	FUNCTION_RECALC_ONLOAD = 0x04
+
+	/* TODO : Are there other forms or recalc we need to think about ? */
+} FunctionFlags;
+
+typedef void     (*FuncLinkHandle)  (FunctionEvalInfo *ei);
 typedef gboolean (*FunctionGetFullInfoCallback) (FunctionDefinition *fn_def,
-                                                 const gchar **args_ptr,
-                                                 const gchar **arg_names_ptr,
-                                                 const gchar ***help_ptr,
+                                                 gchar const **args_ptr,
+                                                 gchar const **arg_names_ptr,
+                                                 gchar const ***help_ptr,
                                                  FunctionArgs **fn_args_ptr,
                                                  FunctionNodes **fn_nodes_ptr);
+
+struct _FunctionDefinition {
+	FunctionGetFullInfoCallback get_full_info_callback;
+	FunctionFlags flags;
+	gchar   const *name;
+	gchar   const *named_arguments;
+	gchar   const **help;
+	FuncType       fn_type;
+	union {
+		FunctionNodes *fn_nodes;
+		struct {
+			char const *arg_spec;
+			FunctionArgs  *func;
+			int min_args, max_args;
+			char *arg_types;
+		} args;
+	} fn;
+	FuncLinkHandle link, unlink;
+	gpointer     user_data;
+	gint         ref_count;
+};
+void func_ref	 (FunctionDefinition *fn_def);
+void func_unref  (FunctionDefinition *fn_def);
+gint func_get_ref_count (FunctionDefinition *fn_def);
 
 FunctionDefinition *func_lookup_by_name	(gchar const *fn_name,
                                          Workbook const *optional_scope);
@@ -99,28 +135,31 @@ gpointer function_def_get_user_data    (FunctionDefinition const *fn_def);
 void     function_def_set_user_data    (FunctionDefinition *fn_def,
                                         gpointer user_data);
 
-const char *function_def_get_name      (FunctionDefinition const *fn_def);
+char const *function_def_get_name      (FunctionDefinition const *fn_def);
 void        function_def_count_args    (FunctionDefinition const *fn_def,
                                         gint *min, int *max);
 char        function_def_get_arg_type  (FunctionDefinition const *fn_def,
                                         gint arg_idx);
 
+void function_set_link_handlers (FunctionDefinition *fn_def,
+				 FuncLinkHandle link, FuncLinkHandle unlink);
+
 Value *function_call_with_list	     (FunctionEvalInfo *ei, ExprList *args);
-Value *function_call_with_values     (const EvalPos *ep, const gchar *name,
+Value *function_call_with_values     (EvalPos const *ep, gchar const *name,
                                       gint argc, Value *values []);
 Value *function_def_call_with_values (EvalPos const *ep, FunctionDefinition const *fn,
                                       gint argc, Value *values []);
 
 /* Utilies to interate through ranges and argument lists */
-typedef Value * (*FunctionIterateCB) (const EvalPos *ep,
+typedef Value * (*FunctionIterateCB) (EvalPos const *ep,
                                       Value *value, gpointer user_data);
-Value *function_iterate_argument_values	(const EvalPos     *ep,
+Value *function_iterate_argument_values	(EvalPos const	   *ep,
                                          FunctionIterateCB  cb,
                                          gpointer           user_data,
                                          ExprList          *expr_node_list,
                                          gboolean           strict,
                                          gboolean           ignore_blank);
-Value *function_iterate_do_value	(const EvalPos      *ep,
+Value *function_iterate_do_value	(EvalPos const      *ep,
                                      FunctionIterateCB   cb,
                                      gpointer            user_data,
                                      Value              *value,
@@ -138,7 +177,7 @@ typedef struct {
 } TokenizedHelp;
 
 TokenizedHelp *tokenized_help_new     (FunctionDefinition const *fn_def);
-const gchar   *tokenized_help_find    (TokenizedHelp *tok, const gchar *token);
+gchar   const *tokenized_help_find    (TokenizedHelp *tok, gchar const *token);
 void           tokenized_help_destroy (TokenizedHelp *tok);
 
 #endif /* GNUMERIC_FUNC_H */

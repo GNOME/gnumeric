@@ -1,5 +1,10 @@
 2002-03-02  Jody Goldberg <jody@gnome.org>
 
+	* src/eval.c (handle_tree_deps) : Use hooks for per dependent
+	  link/unlink for each function.
+
+2002-03-02  Jody Goldberg <jody@gnome.org>
+
 	* src/global-gnome-font.c : Use string chunk.
 
 	* src/sheet-object-cell-comment.c :  This is a GObject now.

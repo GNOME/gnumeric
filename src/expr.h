@@ -137,6 +137,7 @@ typedef Value *(FunctionNodes) (FunctionEvalInfo *ei, ExprList *nodes);
 struct _FunctionEvalInfo {
 	EvalPos const *pos;
 	FunctionDefinition const *func_def;
+	ExprFunction const *func_call;
 };
 
 #define expr_parse_str_simple(expr_text, pp) \

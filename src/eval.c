@@ -34,6 +34,7 @@
 #include "expr.h"
 #include "expr-name.h"
 #include "cell.h"
+#include "func.h"
 #include "sheet.h"
 
 #define BUCKET_SIZE	128
@@ -744,6 +745,26 @@ handle_tree_deps (Dependent *dep, CellPos const *pos,
 	 */
 	case OPER_FUNCALL: {
 		ExprList *l;
+
+		if (operation == ADD_DEPS) {
+			if (tree->func.func->link) {
+				EvalPos		 ep;
+				FunctionEvalInfo fei;
+				fei.pos = eval_pos_init (&ep, dep->sheet, pos);
+				fei.func_def  = tree->func.func;
+				fei.func_call = (ExprFunction const *)tree;
+				tree->func.func->link (&fei);
+			}
+		} else {
+			if (tree->func.func->unlink) {
+				EvalPos		 ep;
+				FunctionEvalInfo fei;
+				fei.pos = eval_pos_init (&ep, dep->sheet, pos);
+				fei.func_def  = tree->func.func;
+				fei.func_call = (ExprFunction const *)tree;
+				tree->func.func->unlink (&fei);
+			}
+		}
 
 		for (l = tree->func.arg_list; l; l = l->next)
 			handle_tree_deps (dep, pos, l->data, operation);

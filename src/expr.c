@@ -809,8 +809,9 @@ expr_eval_real (ExprTree const *expr, EvalPos const *pos,
 
 	case OPER_FUNCALL: {
 		FunctionEvalInfo ei;
-		ei.func_def = expr->func.func;
 		ei.pos = pos;
+		ei.func_def  = expr->func.func;
+		ei.func_call = (ExprFunction const *)expr;
 
 		/*if (flags & EVAL_PERMIT_NON_SCALAR)*/
 		return function_call_with_list (&ei, expr->func.arg_list);
