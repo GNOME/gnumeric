@@ -463,6 +463,8 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 					/*
 					 * Optimization: advance over every
 					 * cell we already painted on
+					 *
+					 * FIXME : This will lose borders.
 					 */
 					end_col = cell->col->pos + count;
 

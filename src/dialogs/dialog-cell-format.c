@@ -911,6 +911,31 @@ cb_font_preview_color (GtkObject *obj, guint r, guint g, guint b, guint a,
 static void
 cb_font_changed (GtkWidget *widget, GtkStyle *previous_style, FormatState *state)
 {
+	FontSelector *font_sel;
+	GnomeDisplayFont *gnome_display_font;
+	GnomeFont *gnome_font;
+	char *family_name;
+	double height;
+
+	g_return_if_fail (state != NULL);
+	font_sel = state->font.selector;
+	g_return_if_fail (font_sel != NULL);
+	gnome_display_font = font_sel->display_font;
+
+	if (!gnome_display_font)
+		return;
+
+	gnome_font = gnome_display_font->gnome_font;
+	family_name = gnome_font->fontmap_entry->familyname;
+	height = gnome_display_font->gnome_font->size;
+
+	mstyle_set_font_name   (state->result, family_name);
+	mstyle_set_font_size   (state->result, gnome_font->size);
+	mstyle_set_font_bold   (state->result,
+				gnome_font->fontmap_entry->weight_code >=
+				GNOME_FONT_BOLD);
+	mstyle_set_font_italic (state->result, gnome_font->fontmap_entry->italic);
+
 	fmt_dialog_changed (state);
 }
 
@@ -1461,6 +1486,10 @@ cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 	cell_freeze_redraws ();
 	
 	sheet_selection_apply_style (state->sheet, state->result);
+
+	if (mstyle_is_element_set  (state->result, MSTYLE_FONT_SIZE))
+		sheet_selection_height_update (state->sheet);
+
 	sheet_selection_set_border  (state->sheet,
 				     border_get_mstyle (state, BORDER_TOP),
 				     border_get_mstyle (state, BORDER_BOTTOM),

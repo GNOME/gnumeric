@@ -301,7 +301,7 @@ void           sheet_style_delete_colrow        (Sheet *sheet, int pos, int coun
 void           sheet_style_relocate             (const struct expr_relocate_info *rinfo);
 void           sheet_selection_apply_style      (Sheet *sheet, MStyle *style);
 MStyle        *sheet_selection_get_unique_style (Sheet *sheet);
-void           sheet_selection_height_update    (Sheet *sheet, double height);
+void           sheet_selection_height_update    (Sheet *sheet);
 void           sheet_selection_set_border       (Sheet *sheet,
 						 MStyleBorder *top,
 						 MStyleBorder *bottom,

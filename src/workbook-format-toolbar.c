@@ -141,7 +141,7 @@ change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 	mstyle_set_font_size (mstyle, size);
 	
 	sheet_selection_apply_style (sheet, mstyle);
-	sheet_selection_height_update (sheet, size);
+	sheet_selection_height_update (sheet);
 	workbook_focus_current_sheet (sheet->workbook);
 }
 
@@ -486,7 +486,7 @@ workbook_feedback_set (Workbook *workbook, MStyle *style)
 	g_return_if_fail (mstyle_is_element_set (style, MSTYLE_FONT_NAME));
 	{
 		const char *font_name = mstyle_get_font_name (style);
-		void *np;
+		void *np = NULL;
 		
 		workbook->priv->current_font_name = font_name;
 

@@ -509,7 +509,7 @@ sheet_row_info_set_height (Sheet *sheet, ColRowInfo *ri, int height, gboolean he
 	g_return_if_fail (ri != NULL);
 
 	if (height_set_by_user)
-		ri->hard_size = 1;
+		ri->hard_size = TRUE;
 
 	ri->pixels = height;
 	colrow_set_units (sheet, ri);

@@ -1088,34 +1088,26 @@ selection_foreach_range (Sheet *sheet,
 }
 
 static gboolean
-cb_set_row_height(Sheet *sheet, ColRowInfo *info, void *height)
+cb_set_row_height(Sheet *sheet, ColRowInfo *info, void *dummy)
 {
-	/* TODO : Only do this for rows which have default or auto heights.
-	 *        Only shrink if there is nothing with a bigger font.
-	 *
-	 *        Bug 3364
-	 *
-	 * Solution.  We will need to maintain a flag in the ColRow struct
-	 * to distinguish between user selected size and auto selected size.
-	 *
-	 * We will also need to reuse the auto size code from double clicking
-	 * on the dividers.
-	 */
-	sheet_row_set_internal_height (sheet, info, *((double *)height));
+	/* If the size was not set by the user then auto resize */
+	if (!info->hard_size) {
+		int const new_size = sheet_row_size_fit (sheet, info->pos);
+		sheet_row_set_internal_height (sheet, info, new_size);
+	}
 	return FALSE;
 }
 
 /**
  * sheet_selection_height_update:
  * @sheet:  The sheet,
- * @height: The font height.
  * 
- *  Use this function having changed the font height to auto
+ * Use this function having changed the font height to auto
  * resize the row heights to make the text fit nicely.
  *
  **/
 void
-sheet_selection_height_update (Sheet *sheet, double height)
+sheet_selection_height_update (Sheet *sheet)
 {
 	GList *l;
 
@@ -1124,6 +1116,6 @@ sheet_selection_height_update (Sheet *sheet, double height)
 
 		sheet_foreach_colrow (sheet, &sheet->rows,
 				      ss->user.start.row, ss->user.end.row,
-				      &cb_set_row_height, &height);
+				      &cb_set_row_height, NULL);
 	}
 }

@@ -1,5 +1,14 @@
 1999-11-06  Jody Goldberg <jgoldberg@home.com>
 
+	* src/selection.c (sheet_selection_height_update) : Call the
+	  autoresize code for non user sized rows.  Do not just hard code the
+	  new height.
+
+	* src/dialogs/dialog-cell-format.c (cb_font_changed) : Apply changes
+	  to the font.
+	(cb_fmt_dialog_dialog_apply) : Call sheet_selection_height_update if
+	  the font changed.
+
 	* src/sheet-view.c (sheet_view_set_zoom_factor) : Smaill patch from
 	  Federico Mena Quintero to improve item-bar resize while zoomed.
 
