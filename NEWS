@@ -21,6 +21,10 @@ Morten:
 	* Improve goal seek for the case without a proper df.
 	* Fix XIRR.
 
+Jon Kåre:
+	* Improve bonobo control
+	* Install bonobo control
+
 --------------------------------------------------------------------------
 Gnumeric 1.1.3
 
