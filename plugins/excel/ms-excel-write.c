@@ -341,6 +341,7 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelSheet *container)
 	static guint8 const expr_ref []   = { 0x02, 0, 0x1c, 0x17 };
 	static guint8 const zeros []	  = { 0, 0, 0, 0, 0 ,0 };
 	static guint8 const magic_addin[] = { 0x01, 0x3a };
+	static guint8 const magic_self[]  = { 0x01, 0x4 };
 	unsigned i, num_sheets = ewb->sheets->len;
 	guint8 *data;
 	GnmFunc *func;
@@ -371,9 +372,12 @@ excel_write_externsheets_v7 (ExcelWriteState *ewb, ExcelSheet *container)
 		ms_biff_put_commit (ewb->bp);
 	}
 
-	/* Add a magic addin externsheet */
+	/* Add magic externsheets for addin functions and self refs */
 	ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
 	ms_biff_put_var_write (ewb->bp, magic_addin, sizeof magic_addin);
+	ms_biff_put_commit (ewb->bp);
+	ms_biff_put_var_next (ewb->bp, BIFF_EXTERNSHEET);
+	ms_biff_put_var_write (ewb->bp, magic_self, sizeof magic_self);
 	ms_biff_put_commit (ewb->bp);
 
 	for (i = 0; i < ewb->externnames->len ; i++) {

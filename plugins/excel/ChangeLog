@@ -1,3 +1,8 @@
+2002-12-15  Jody Goldberg <jody@gnome.org>
+
+	* ms-container.c (ms_container_finalize) : cull out unused
+	  placeholders.
+
 2002-12-13  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-read.c : Tack on a 'shared' flag in alot of places to

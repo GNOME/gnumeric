@@ -323,10 +323,18 @@ name_refer_circular (char const *name, GnmExpr const *expr)
  * @name:
  * @expr: if expr == NULL then create a placeholder with value #NAME?
  * @error_msg:
+ * @link_to_container:
  *
  * Absorbs the reference to @expr.
  * If @error_msg is non NULL it may hold a pointer to a translated descriptive
  * string.  NOTE : caller is responsible for freeing the error message.
+ *
+ * The reference semantics of the new expression are
+ * 1) new names with @link_to_container TRUE are referenced by the container.
+ *    The caller DOES NOT OWN a reference to the result, and needs to add their
+ *    own.
+ * 2) if @link_to_container is FALSE the the caller DOES OWN a reference, and
+ *    can free the result by unrefing the name.
  **/
 GnmNamedExpr *
 expr_name_add (ParsePos const *pp, char const *name,

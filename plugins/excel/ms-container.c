@@ -70,8 +70,16 @@ ms_container_finalize (MSContainer *container)
 	}
 	if (container->names != NULL) {
 		for (i = container->names->len; i-- > 0 ; )
-			if (g_ptr_array_index (container->names, i) != NULL)
-				expr_name_unref (g_ptr_array_index (container->names, i));
+			if (g_ptr_array_index (container->names, i) != NULL) {
+				GnmNamedExpr *nexpr = g_ptr_array_index (container->names, i);
+				if (nexpr != NULL) {
+					/* NAME placeholders need removal, EXTERNNAME placeholders
+					 * will no be active */
+					if (nexpr->active && nexpr->is_placeholder && nexpr->ref_count == 2)
+						expr_name_remove (nexpr);
+					expr_name_unref (nexpr);
+				}
+			}
 		g_ptr_array_free (container->names, TRUE);
 		container->names = NULL;
 	}
