@@ -96,7 +96,27 @@ ms_container_realize_objs (MSContainer *container)
 	GList *l;
 
 	g_return_if_fail (container != NULL);
+	g_return_if_fail (container->vtbl != NULL);
+	g_return_if_fail (container->vtbl->realize_obj != NULL);
 
 	for (l = container->obj_queue; l; l = g_list_next (l))
 		(void) (*container->vtbl->realize_obj) (container, l->data);
+}
+
+/**
+ * ms_container_parse_expr:
+ *
+ * @c : The container
+ * @data : the encoded expression
+ * @length : the size of the encoded expression
+ *
+ * Attempts to parse the encoded expression in the context of the container.
+ */
+ExprTree *
+ms_container_parse_expr (MSContainer *c, guint8 const *data, int length)
+{
+	g_return_val_if_fail (c != NULL, NULL);
+	g_return_val_if_fail (c->vtbl != NULL, NULL);
+	g_return_val_if_fail (c->vtbl->parse_expr != NULL, NULL);
+	return (*c->vtbl->parse_expr) (c, data, length);
 }

@@ -2374,12 +2374,42 @@ ms_sheet_obj_create (MSContainer *container, MSObj *obj)
 	return so ? GTK_OBJECT (so) : NULL;
 }
 
+static ExprTree *
+ms_sheet_parse_expr_internal (ExcelSheet *e_sheet, guint8 const *data, int length)
+{
+	ParsePos pp;
+	Workbook *wb;
+	Sheet *sheet;
+	ExprTree *expr;
+	char *tmp;
+
+	g_return_val_if_fail (length > 0, NULL);
+
+	sheet = e_sheet->gnum_sheet;
+	wb = (sheet == NULL) ? e_sheet->wb->gnum_wb : NULL;
+	expr = ms_excel_parse_formula (e_sheet->wb, e_sheet, data,
+				       0, 0, FALSE, length, NULL);
+	tmp = expr_tree_as_string (expr, parse_pos_init (&pp, wb, sheet, 0, 0));
+	puts (tmp);
+	g_free (tmp);
+
+	return expr;
+}
+
+static ExprTree *
+ms_sheet_parse_expr (MSContainer *container, guint8 const *data, int length)
+{
+	return ms_sheet_parse_expr_internal ((ExcelSheet *)container,
+					     data, length);
+}
+
 static ExcelSheet *
 ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 {
 	static MSContainerClass const vtbl = {
 	    &ms_sheet_obj_realize,
-	    &ms_sheet_obj_create
+	    &ms_sheet_obj_create,
+	    &ms_sheet_parse_expr
 	};
 
 	ExcelSheet *ans = (ExcelSheet *) g_malloc (sizeof (ExcelSheet));
@@ -2507,10 +2537,24 @@ ms_excel_sheet_destroy (ExcelSheet *sheet)
 	g_free (sheet);
 }
 
+static ExprTree *
+ms_wb_parse_expr (MSContainer *container, guint8 const *data, int length)
+{
+	ExcelSheet dummy_sheet;
+
+	dummy_sheet.container.ver = container->ver;
+	dummy_sheet.wb = (ExcelWorkbook *)container;
+	dummy_sheet.gnum_sheet = NULL;
+	dummy_sheet.shared_formulae = NULL;
+	return ms_sheet_parse_expr_internal (&dummy_sheet, data, length);
+}
+
 static ExcelWorkbook *
 ms_excel_workbook_new (MsBiffVersion ver)
 {
 	static MSContainerClass const vtbl = {
+		NULL, NULL,
+		&ms_wb_parse_expr
 	};
 
 	ExcelWorkbook *ans = (ExcelWorkbook *) g_malloc (sizeof (ExcelWorkbook));

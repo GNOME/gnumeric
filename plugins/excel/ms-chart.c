@@ -34,7 +34,6 @@ typedef struct
 	MsBiffVersion	 ver;
 	guint32		 prev_opcode;
 	ExcelWorkbook	*wb;
-	ExcelSheet	*sheet;
 
 	GnumericChart	*chart;
 } ExcelChart;
@@ -184,42 +183,18 @@ BC_R(ai)(ExcelChartHandler const *handle,
 	switch (ref_type) {
 	case 0 : puts ("Use default categories"); break;
 	case 1 : puts ("Text/Value entered directly"); break;
-	case 2 : puts ("Linked to Worksheet"); break;
+	case 2 : puts ("Linked to Container"); break;
 	case 4 : puts ("'Error reported' what the heck is this ??"); break;
 	default :
 		 printf ("UKNOWN : reference type (%x)\n", ref_type);
 	};
 
-	/* (2) == linked to workbook */
+	/* (2) == linked to container */
 	if (ref_type == 2) {
-		ExcelSheet dummy_sheet, *s_ptr;
-		ParsePos pp;
-		Workbook *wb;
-		Sheet *sheet;
-		ExprTree *expr;
-		char *tmp;
-
-		g_return_val_if_fail (length > 0, TRUE);
-
-		s_ptr = chart->sheet;
-		if (s_ptr == NULL) {
-			/* FIXME : Simulate a sheet until we can parse without one */
-			dummy_sheet.container.ver = chart->container.ver;
-			dummy_sheet.wb = chart->wb;
-			dummy_sheet.gnum_sheet = NULL;
-			dummy_sheet.shared_formulae = NULL;
-			s_ptr = &dummy_sheet;
-		}
-
-		sheet = s_ptr->gnum_sheet;
-		wb = (sheet == NULL) ? chart->wb->gnum_wb : NULL;
-		expr = ms_excel_parse_formula (chart->wb, s_ptr, q->data+8,
-					       0, 0, FALSE, length, NULL);
-		tmp = expr_tree_as_string (expr,
-					   parse_pos_init (&pp, wb, sheet,0,0));
-		puts (tmp);
-		expr_tree_unref (expr);
-		g_free (tmp);
+		ExprTree *expr = ms_container_parse_expr (chart->parent,
+							  q->data+8, length);
+		if (expr)
+			expr_tree_unref (expr);
 	} else
 		g_return_val_if_fail (length == 0, TRUE);
 
@@ -2036,7 +2011,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver)
 
 	state.container.ver = ver;
 	state.depth = 0;
-	state.sheet = NULL;
+	state.wb = NULL;	/* FIXME : should have a container_get_format */
 	state.prev_opcode = 0xdead; /* Invalid */
 	state.parent = container;
 	state.chart = gnumeric_chart_new ();

@@ -1,3 +1,11 @@
+2000-12-20  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (BC_R(ai)) : Use ms_container_parse_expr.
+
+	* ms-container.c (ms_container_parse_expr) : new function.
+
+	* ms-excel-read.c (ms_sheet_parse_expr_internal) : implement parse_expr.
+
 2000-12-17 Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.61
