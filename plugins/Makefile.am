@@ -17,4 +17,4 @@ else
 GUILE_DIR =
 endif
 
-SUBDIRS = sample stat excel corba $(PYTHON) $(PERL) $(GUILE_DIR)
+SUBDIRS = sample stat excel $(PYTHON) $(PERL) $(GUILE_DIR)
