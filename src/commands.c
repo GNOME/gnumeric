@@ -2151,10 +2151,15 @@ MAKE_GNM_COMMAND (CmdColRowHide, cmd_colrow_hide, cmd_colrow_hide_repeat);
  * cmd_colrow_hide_correct_selection :
  *
  * Try to ensure that the selection/cursor is set to a visible row/col
+ *
+ * Added to fix bug 38179
+ * Removed because the result is irritating and the bug is actually XL
+ * compatibile
  **/
 static void
 cmd_colrow_hide_correct_selection (CmdColRowHide *me, WorkbookControl *wbc)
 {
+#if 0
 	int x, y, index;
 	SheetView *sv = sheet_get_view (me->cmd.sheet,
 		wb_control_view (wbc));
@@ -2175,6 +2180,7 @@ cmd_colrow_hide_correct_selection (CmdColRowHide *me, WorkbookControl *wbc)
 			sv_selection_add_range (sv, y, x, 0, x,
 						SHEET_MAX_COLS - 1, x);
 	}
+#endif
 }
 
 static gboolean

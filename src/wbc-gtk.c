@@ -1114,7 +1114,7 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 		entry.name = toggle_name;
 		entry.stock_id = NULL;
 		entry.label = name;
-		entry.accelerator = (0 == strcmp (name, "StandardToolbar")) ? "<control>8" : NULL;
+		entry.accelerator = (0 == strcmp (name, "StandardToolbar")) ? "<control>7" : NULL;
 		entry.tooltip = tooltip;
 		entry.callback = G_CALLBACK (cb_toolbar_activate);
 		entry.is_active = TRUE;

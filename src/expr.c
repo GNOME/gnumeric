@@ -1738,8 +1738,14 @@ cellrange_relocate (GnmValue const *v, GnmExprRelocateInfo const *rinfo)
 	case CELLREF_NO_RELOCATE :	break;
 	case CELLREF_RELOCATE_FROM_IN :  needs = 0x4;	break;
 	case CELLREF_RELOCATE_FROM_OUT : needs |= 0x2;	break;
-	case CELLREF_RELOCATE_ERR : return gnm_expr_new_constant (
-		value_new_error_REF (NULL));
+	case CELLREF_RELOCATE_ERR :
+#if 0
+		if (needs == 0 &&
+		    (rinfo->col_offset == 0 || rinfo->row_offset == 0)) {
+		}
+#endif
+		return gnm_expr_new_constant (
+			value_new_error_REF (NULL));
 	}
 
 	if (needs != 0) {

@@ -1756,6 +1756,7 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 		scg_cursor_visible (scg, FALSE);
 		scg_object_update_bbox (scg, so, NULL);
 		scg_set_display_cursor (scg);
+		scg_unant (SHEET_CONTROL (scg));
 		wb_control_menu_state_update (WORKBOOK_CONTROL (scg->wbcg),
 			MS_CLIPBOARD);
 	}
