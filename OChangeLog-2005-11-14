@@ -1,3 +1,8 @@
+2003-06-23  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/main-application.c (warn_about_ancient_gnumerics): change
+	  Gnumeric URL
+	
 2003-06-23  Morten Welinder  <terra@gnome.org>
 
 	* src/item-edit.c (item_edit_event): Use gnm_widget_set_cursor.

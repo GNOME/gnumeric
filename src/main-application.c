@@ -116,7 +116,7 @@ warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
 					 "and that new features have been added in the meantime.\n"
 					 "\n"
 					 "Please consider upgrading before reporting any bugs.\n"
-					 "Consult http://www.gnumeric.org/ for details.\n"
+					 "Consult http://www.gnome.org/projects/gnumeric/ for details.\n"
 					 "\n"
 					 "-- The Gnumeric Team."));
 	}
