@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0\n"
-"POT-Creation-Date: 2002-05-29 13:51-0400\n"
+"POT-Creation-Date: 2002-05-29 18:00-0400\n"
 "PO-Revision-Date: 2002-03-26 15:41+0100\n"
 "Last-Translator: Stanislav Višňovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
@@ -11292,22 +11292,26 @@ msgstr "Obmedzenia:"
 #: src/dialogs/dialog-function-select.c:355
 #: src/dialogs/dialog-plugin-manager.c:709
 #: src/dialogs/plugin-manager.glade.h:8 src/format-template.c:404
-#: src/tools/solver/reports-write.c:163 src/tools/solver/reports-write.c:185
-#: src/tools/solver/reports-write.c:212 src/tools/solver/reports-write.c:319
-#: src/tools/solver/reports-write.c:365 src/tools/solver/reports-write.c:477
-#: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:716
+#: src/tools/solver/reports-write.c:164 src/tools/solver/reports-write.c:186
+#: src/tools/solver/reports-write.c:213 src/tools/solver/reports-write.c:320
+#: src/tools/solver/reports-write.c:366 src/tools/solver/reports-write.c:478
+#: src/tools/solver/reports-write.c:485 src/tools/solver/reports-write.c:773
 #: src/workbook-control.c:238
 msgid "Name"
 msgstr "Meno"
 
 #: plugins/mps/mps.c:267 src/dialogs/dialog-plugin-manager.c:714
-#: src/dialogs/dialog-preferences.c:510 src/tools/solver/reports-write.c:320
-#: src/tools/solver/reports-write.c:366 src/tools/solver/reports-write.c:478
-#: src/tools/solver/reports-write.c:485
+#: src/dialogs/dialog-preferences.c:510 src/tools/solver/reports-write.c:321
+#: src/tools/solver/reports-write.c:367 src/tools/solver/reports-write.c:479
+#: src/tools/solver/reports-write.c:486
 msgid "Value"
 msgstr "Hodnoty"
 
+#.
+#. * Fill in the labels of `General Info' section.
+#.
 #: plugins/mps/mps.c:268 src/dialogs/dialog-formula-guru.c:812
+#: src/tools/solver/reports-write.c:602
 msgid "Type"
 msgstr "Typ"
 
@@ -11315,11 +11319,12 @@ msgstr "Typ"
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:270 src/tools/solver/reports-write.c:216
+#: plugins/mps/mps.c:270 src/tools/solver/reports-write.c:217
 msgid "Slack"
 msgstr "Nepresný"
 
-#: plugins/mps/mps.c:271 src/tools/solver/reports-write.c:215
+#: plugins/mps/mps.c:271 src/tools/solver/reports-write.c:216
+#: src/tools/solver/reports-write.c:603
 msgid "Status"
 msgstr "Stav"
 
@@ -14824,7 +14829,7 @@ msgid "A _header"
 msgstr "_Hlavička A"
 
 #: src/dialogs/cell-sort.glade.h:2 src/dialogs/print.glade.h:10
-#: src/tools/solver/reports-write.c:801
+#: src/tools/solver/reports-write.c:863
 msgid "Options"
 msgstr "Možnosti"
 
@@ -15711,10 +15716,10 @@ msgstr "List"
 #. * Fill in the labels of `Target Cell' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:291 src/dialogs/tabulate.glade.h:1
-#: src/tools/solver/reports-write.c:162 src/tools/solver/reports-write.c:184
-#: src/tools/solver/reports-write.c:211 src/tools/solver/reports-write.c:318
-#: src/tools/solver/reports-write.c:364 src/tools/solver/reports-write.c:476
-#: src/tools/solver/reports-write.c:483
+#: src/tools/solver/reports-write.c:163 src/tools/solver/reports-write.c:185
+#: src/tools/solver/reports-write.c:212 src/tools/solver/reports-write.c:319
+#: src/tools/solver/reports-write.c:365 src/tools/solver/reports-write.c:477
+#: src/tools/solver/reports-write.c:484
 msgid "Cell"
 msgstr "Bunka"
 
@@ -15973,7 +15978,7 @@ msgid "Custom footer configuration"
 msgstr "Vlastné nastavenie pätičky"
 
 #: src/dialogs/dialog-random-generator.c:101
-#: src/tools/solver/reports-write.c:766
+#: src/tools/solver/reports-write.c:826
 msgid "Discrete"
 msgstr "Diskrétne"
 
@@ -17698,9 +17703,9 @@ msgstr "Automatické škálovanie"
 msgid "B_y Changing Cells: "
 msgstr "_Zmenou buniek:"
 
-#: src/dialogs/solver.glade.h:9 src/tools/solver/reports-write.c:281
-#: src/tools/solver/reports-write.c:442 src/tools/solver/reports-write.c:598
-#: src/tools/solver/reports-write.c:627 src/tools/solver/reports-write.c:629
+#: src/dialogs/solver.glade.h:9 src/tools/solver/reports-write.c:282
+#: src/tools/solver/reports-write.c:443 src/tools/solver/reports-write.c:651
+#: src/tools/solver/reports-write.c:682 src/tools/solver/reports-write.c:684
 msgid "Constraints"
 msgstr "Obmedzenia"
 
@@ -17720,8 +17725,8 @@ msgstr "Max _iterácií"
 msgid "Max _Time (sec.)"
 msgstr "Max ča_s (sek.)"
 
-#. Set the `Assumptions'.
-#: src/dialogs/solver.glade.h:15 src/tools/solver/reports-write.c:762
+#: src/dialogs/solver.glade.h:15 src/tools/solver/reports-write.c:813
+#: src/tools/solver/reports-write.c:821
 msgid "Model Assumptions:"
 msgstr ""
 
@@ -20948,7 +20953,7 @@ msgstr "Kumulatívne %"
 msgid "Histogram (%s)"
 msgstr "Histogram"
 
-#: src/tools/analysis-tools.c:4122 src/tools/solver/reports-write.c:692
+#: src/tools/analysis-tools.c:4122 src/tools/solver/reports-write.c:749
 msgid "Real"
 msgstr "Reálna"
 
@@ -21003,63 +21008,63 @@ msgstr "Pravdepodobnosti nemôžu byť všetky 0."
 msgid "Random Numbers (%s)"
 msgstr "Náhodné čísla"
 
-#: src/tools/solver/reports-write.c:107
+#: src/tools/solver/reports-write.c:108
 msgid "Gnumeric Solver"
 msgstr "Riešiteľ Gnumeric"
 
-#: src/tools/solver/reports-write.c:113
+#: src/tools/solver/reports-write.c:114
 msgid "Worksheet:"
 msgstr "List:"
 
-#: src/tools/solver/reports-write.c:120
+#: src/tools/solver/reports-write.c:121
 msgid "Report Created: "
 msgstr "Vytvorená správa:"
 
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:149 src/tools/solver/reports-write.c:277
+#: src/tools/solver/reports-write.c:150 src/tools/solver/reports-write.c:278
 msgid "Answer Report"
 msgstr "Odpoveď"
 
-#: src/tools/solver/reports-write.c:164 src/tools/solver/reports-write.c:186
+#: src/tools/solver/reports-write.c:165 src/tools/solver/reports-write.c:187
 msgid "Original Value"
 msgstr "Pôvodná hodnota"
 
-#: src/tools/solver/reports-write.c:165 src/tools/solver/reports-write.c:187
+#: src/tools/solver/reports-write.c:166 src/tools/solver/reports-write.c:188
 msgid "Final Value"
 msgstr "Cieľová hodnota"
 
-#: src/tools/solver/reports-write.c:213
+#: src/tools/solver/reports-write.c:214
 msgid "Cell Value"
 msgstr "Hodnota bunky"
 
-#: src/tools/solver/reports-write.c:214
+#: src/tools/solver/reports-write.c:215
 msgid "Formula"
 msgstr "Vzorec"
 
 #. Set `Status' column
 #. FIXME
-#: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:243
+#: src/tools/solver/reports-write.c:238 src/tools/solver/reports-write.c:244
 msgid "Binding"
 msgstr "Záväzný"
 
-#: src/tools/solver/reports-write.c:245
+#: src/tools/solver/reports-write.c:246
 msgid "Not Binding"
 msgstr "Nezáväzný"
 
-#: src/tools/solver/reports-write.c:262 src/tools/solver/reports-write.c:930
+#: src/tools/solver/reports-write.c:263 src/tools/solver/reports-write.c:995
 msgid "Assume that all variables are integer."
 msgstr ""
 
-#: src/tools/solver/reports-write.c:272
+#: src/tools/solver/reports-write.c:273
 msgid "Target Cell (Maximize)"
 msgstr "Cieľová bunka (Maximalizácia)"
 
-#: src/tools/solver/reports-write.c:274
+#: src/tools/solver/reports-write.c:275
 msgid "Target Cell (Minimize)"
 msgstr "Cieľová bunka (Minimalizácia)"
 
 #. Fill in other titles.
-#: src/tools/solver/reports-write.c:280 src/tools/solver/reports-write.c:441
+#: src/tools/solver/reports-write.c:281 src/tools/solver/reports-write.c:442
 msgid "Adjustable Cells"
 msgstr "Upraviteľné bunky"
 
@@ -21067,63 +21072,63 @@ msgstr "Upraviteľné bunky"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:298 src/tools/solver/reports-write.c:438
+#: src/tools/solver/reports-write.c:299 src/tools/solver/reports-write.c:439
 msgid "Sensitivity Report"
 msgstr "Správa o citlivosti"
 
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
-#: src/tools/solver/reports-write.c:312 src/tools/solver/reports-write.c:358
+#: src/tools/solver/reports-write.c:313 src/tools/solver/reports-write.c:359
 msgid "Final"
 msgstr "Finálny"
 
-#: src/tools/solver/reports-write.c:313
+#: src/tools/solver/reports-write.c:314
 msgid "Reduced"
 msgstr "Zmenšený"
 
-#: src/tools/solver/reports-write.c:314
+#: src/tools/solver/reports-write.c:315
 msgid "Objective"
 msgstr "Objektívny"
 
-#: src/tools/solver/reports-write.c:315 src/tools/solver/reports-write.c:316
-#: src/tools/solver/reports-write.c:361 src/tools/solver/reports-write.c:362
+#: src/tools/solver/reports-write.c:316 src/tools/solver/reports-write.c:317
+#: src/tools/solver/reports-write.c:362 src/tools/solver/reports-write.c:363
 msgid "Allowable"
 msgstr "Odpočítateľný"
 
-#: src/tools/solver/reports-write.c:321
+#: src/tools/solver/reports-write.c:322
 msgid "Cost"
 msgstr "Cena"
 
-#: src/tools/solver/reports-write.c:322
+#: src/tools/solver/reports-write.c:323
 msgid "Coefficient"
 msgstr "Koeficient"
 
-#: src/tools/solver/reports-write.c:323 src/tools/solver/reports-write.c:369
+#: src/tools/solver/reports-write.c:324 src/tools/solver/reports-write.c:370
 msgid "Increase"
 msgstr "Zvýšenie"
 
-#: src/tools/solver/reports-write.c:324 src/tools/solver/reports-write.c:370
+#: src/tools/solver/reports-write.c:325 src/tools/solver/reports-write.c:371
 msgid "Decrease"
 msgstr "Zníženie"
 
-#: src/tools/solver/reports-write.c:359
+#: src/tools/solver/reports-write.c:360
 msgid "Shadow"
 msgstr "Tieň"
 
-#: src/tools/solver/reports-write.c:360
+#: src/tools/solver/reports-write.c:361
 msgid "Constraint"
 msgstr "Obmedzenie"
 
-#: src/tools/solver/reports-write.c:367
+#: src/tools/solver/reports-write.c:368
 msgid "Price"
 msgstr "Cena"
 
-#: src/tools/solver/reports-write.c:368
+#: src/tools/solver/reports-write.c:369
 msgid "R.H. Side"
 msgstr "Pravá strana"
 
-#: src/tools/solver/reports-write.c:405 src/tools/solver/reports-write.c:413
+#: src/tools/solver/reports-write.c:406 src/tools/solver/reports-write.c:414
 msgid "Infinity"
 msgstr "Nekonečno"
 
@@ -21131,35 +21136,35 @@ msgstr "Nekonečno"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:459 src/tools/solver/reports-write.c:564
+#: src/tools/solver/reports-write.c:460 src/tools/solver/reports-write.c:569
 msgid "Limits Report"
 msgstr "Správa limitoch"
 
 #.
 #. * Fill in the labels.
 #.
-#: src/tools/solver/reports-write.c:475 src/tools/solver/reports-write.c:488
-#: src/tools/solver/reports-write.c:493
+#: src/tools/solver/reports-write.c:476 src/tools/solver/reports-write.c:489
+#: src/tools/solver/reports-write.c:494
 msgid "Target"
 msgstr "Cieľ"
 
-#: src/tools/solver/reports-write.c:482
+#: src/tools/solver/reports-write.c:483
 msgid "Adjustable"
 msgstr "Upraviteľné"
 
-#: src/tools/solver/reports-write.c:487
+#: src/tools/solver/reports-write.c:488
 msgid "Lower"
 msgstr "Spodný"
 
-#: src/tools/solver/reports-write.c:489 src/tools/solver/reports-write.c:494
+#: src/tools/solver/reports-write.c:490 src/tools/solver/reports-write.c:495
 msgid "Limit"
 msgstr "Limit"
 
-#: src/tools/solver/reports-write.c:490 src/tools/solver/reports-write.c:495
+#: src/tools/solver/reports-write.c:491 src/tools/solver/reports-write.c:496
 msgid "Result"
 msgstr "Výsledok"
 
-#: src/tools/solver/reports-write.c:492
+#: src/tools/solver/reports-write.c:493
 msgid "Upper"
 msgstr "Horný"
 
@@ -21167,165 +21172,216 @@ msgstr "Horný"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:584 src/tools/solver/reports-write.c:794
+#: src/tools/solver/reports-write.c:589 src/tools/solver/reports-write.c:855
 msgid "Performance Report"
 msgstr "Správa o výkone"
 
+#: src/tools/solver/reports-write.c:609
+#, fuzzy
+msgid "Minimization"
+msgstr "Zväčšenie"
+
+#: src/tools/solver/reports-write.c:612
+#, fuzzy
+msgid "Maximization"
+msgstr "Zväčšenie"
+
+#: src/tools/solver/reports-write.c:615
+#, fuzzy
+msgid "Target value search"
+msgstr "Začať hľadanie"
+
+#: src/tools/solver/reports-write.c:622
+msgid "Optimal solution found"
+msgstr ""
+
+#: src/tools/solver/reports-write.c:625
+msgid "Unbounded problem"
+msgstr ""
+
+#: src/tools/solver/reports-write.c:628
+msgid "Infeasible problem"
+msgstr ""
+
+#: src/tools/solver/reports-write.c:632
+#, fuzzy
+msgid "Maximum number of iterations exceeded: optimization interupted"
+msgstr ""
+"Presiahnutý maximálny počet iterácií. Optimálnu hodnotu sa nepodarilo nájsť."
+
+#: src/tools/solver/reports-write.c:637
+msgid "Maximum time exceeded: optimization interupted"
+msgstr ""
+
 #.
-#. * Fill in the labels of `General Statistics' section.
+#. * Fill in the labels of `Problem Size' section.
 #.
-#: src/tools/solver/reports-write.c:597
+#: src/tools/solver/reports-write.c:650
 msgid "Variables"
 msgstr "Premenné"
 
-#: src/tools/solver/reports-write.c:599
+#: src/tools/solver/reports-write.c:652
 msgid "Int Constraints"
 msgstr "Celočíselné obmedzenia"
 
-#: src/tools/solver/reports-write.c:600
+#: src/tools/solver/reports-write.c:653
 msgid "Bool Constraints"
 msgstr "Pravdivostné obmedzenia"
 
-#: src/tools/solver/reports-write.c:601 src/tools/solver/reports-write.c:634
+#: src/tools/solver/reports-write.c:654 src/tools/solver/reports-write.c:689
 msgid "Number of"
 msgstr "Počet "
 
 #.
 #. * Fill in the labels of `Data Sparsity' section.
 #.
-#: src/tools/solver/reports-write.c:624
+#: src/tools/solver/reports-write.c:679
 msgid "Matrix"
 msgstr "Matica"
 
-#: src/tools/solver/reports-write.c:625
+#: src/tools/solver/reports-write.c:680
 msgid "Elements"
 msgstr "Prvky"
 
-#: src/tools/solver/reports-write.c:626 src/tools/solver/reports-write.c:630
+#: src/tools/solver/reports-write.c:681 src/tools/solver/reports-write.c:685
 msgid "Non-zeros in"
 msgstr "Nenulové v"
 
-#: src/tools/solver/reports-write.c:628 src/tools/solver/reports-write.c:632
+#: src/tools/solver/reports-write.c:683 src/tools/solver/reports-write.c:687
 msgid "Zeros in"
 msgstr "Nulové v"
 
-#: src/tools/solver/reports-write.c:631 src/tools/solver/reports-write.c:633
+#: src/tools/solver/reports-write.c:686 src/tools/solver/reports-write.c:688
 msgid "Obj. fn"
 msgstr "Obj. fn"
 
-#: src/tools/solver/reports-write.c:635
+#: src/tools/solver/reports-write.c:690
 msgid "Ratio"
 msgstr "Pomer"
 
 #.
 #. * Fill in the labels of `Computing Time' section.
 #.
-#: src/tools/solver/reports-write.c:690
+#: src/tools/solver/reports-write.c:747
 msgid "User"
 msgstr "Používateľ"
 
-#: src/tools/solver/reports-write.c:691
+#: src/tools/solver/reports-write.c:748
 msgid "System"
 msgstr "Systém"
 
-#: src/tools/solver/reports-write.c:693
+#: src/tools/solver/reports-write.c:750
 msgid "Time (sec.)"
 msgstr "Čas (sek.)"
 
 #.
 #. * Fill in the labels of `System Information' section.
 #.
-#: src/tools/solver/reports-write.c:713
+#: src/tools/solver/reports-write.c:770
 msgid "CPU Model"
 msgstr "Model CPU"
 
-#: src/tools/solver/reports-write.c:714
+#: src/tools/solver/reports-write.c:771
 msgid "CPU MHz"
 msgstr "CPU MHz"
 
-#: src/tools/solver/reports-write.c:715
+#: src/tools/solver/reports-write.c:772
 msgid "OS"
 msgstr "OS"
 
 #. Set the `CPU Model'.
-#: src/tools/solver/reports-write.c:728 src/tools/solver/reports-write.c:731
-#: src/tools/solver/reports-write.c:736
+#: src/tools/solver/reports-write.c:785 src/tools/solver/reports-write.c:788
+#: src/tools/solver/reports-write.c:793
 msgid "Unknown"
 msgstr "Neznámy"
 
-#: src/tools/solver/reports-write.c:741
+#: src/tools/solver/reports-write.c:798
 #, c-format
 msgid "%s (%s)"
 msgstr "%s (%s)"
 
-#: src/tools/solver/reports-write.c:755
+#: src/tools/solver/reports-write.c:812
 msgid "Algorithm:"
 msgstr "Algoritmus:"
 
-#. Set the `Algorithm'.
-#: src/tools/solver/reports-write.c:758
-msgid "LP Solve 3.2"
-msgstr "LP Solve 3.2"
-
-#: src/tools/solver/reports-write.c:770
-#, fuzzy
-msgid "Non-Negative"
-msgstr "Predpokladať _nezáporné"
-
-#. Set `Autoscaling'.
-#: src/tools/solver/reports-write.c:774
+#: src/tools/solver/reports-write.c:814
 #, fuzzy
 msgid "Autoscaling:"
 msgstr "Automatické škálovanie"
 
-#: src/tools/solver/reports-write.c:776
+#: src/tools/solver/reports-write.c:815
+#, fuzzy
+msgid "Max Iterations:"
+msgstr "Max _iterácií"
+
+#: src/tools/solver/reports-write.c:816
+#, fuzzy
+msgid "Max Time:"
+msgstr "Max :"
+
+#. Set the options.
+#: src/tools/solver/reports-write.c:820
+msgid "LP Solve 3.2"
+msgstr "LP Solve 3.2"
+
+#: src/tools/solver/reports-write.c:829
+#, fuzzy
+msgid "Non-Negative"
+msgstr "Predpokladať _nezáporné"
+
+#: src/tools/solver/reports-write.c:834
 msgid "Yes"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:778
+#: src/tools/solver/reports-write.c:836
 #, fuzzy
 msgid "No"
 msgstr "Žiadne"
 
 #. Fill in other titles.
-#: src/tools/solver/reports-write.c:797
-msgid "General Statistics"
-msgstr "Všeobecná štatistika"
+#: src/tools/solver/reports-write.c:858
+#, fuzzy
+msgid "General Information"
+msgstr "Informácie"
 
-#: src/tools/solver/reports-write.c:798
+#: src/tools/solver/reports-write.c:859
+msgid "Problem Size"
+msgstr ""
+
+#: src/tools/solver/reports-write.c:860
 msgid "Data Sparsity"
 msgstr "Hustota dát"
 
-#: src/tools/solver/reports-write.c:799
+#: src/tools/solver/reports-write.c:861
 msgid "Computing Time"
 msgstr "Čas výpočtu"
 
-#: src/tools/solver/reports-write.c:800
+#: src/tools/solver/reports-write.c:862
 msgid "System Information"
 msgstr "Systémové informácie"
 
-#: src/tools/solver/reports-write.c:816 src/tools/solver/reports-write.c:950
+#: src/tools/solver/reports-write.c:878 src/tools/solver/reports-write.c:1015
 msgid "Program Report"
 msgstr "Správa o programe"
 
-#: src/tools/solver/reports-write.c:939
+#: src/tools/solver/reports-write.c:1004
 msgid "Assume that all variables take only positive values."
 msgstr ""
 
-#: src/tools/solver/reports-write.c:955
+#: src/tools/solver/reports-write.c:1020
 msgid "Minimize"
 msgstr "Minimalizovať"
 
-#: src/tools/solver/reports-write.c:958
+#: src/tools/solver/reports-write.c:1023
 msgid "Maximize"
 msgstr "Maximalizovať"
 
-#: src/tools/solver/reports-write.c:961
+#: src/tools/solver/reports-write.c:1026
 msgid "Equal to"
 msgstr "Rovnaké ako"
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:967
+#: src/tools/solver/reports-write.c:1032
 msgid "Subject to"
 msgstr "Vzhľadom na"
 
@@ -21333,7 +21389,7 @@ msgstr "Vzhľadom na"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports-write.c:982 src/tools/solver/reports-write.c:995
+#: src/tools/solver/reports-write.c:1047 src/tools/solver/reports-write.c:1060
 msgid "Dual Program Report"
 msgstr "Dvojitá správa o programe"
 
@@ -22001,6 +22057,9 @@ msgstr "Nie je súbor so zošitom Gnumeric"
 #: src/xml-io.c:3450
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
+
+#~ msgid "General Statistics"
+#~ msgstr "Všeobecná štatistika"
 
 #~ msgid "Invalid arguments"
 #~ msgstr "Neplatné argumenty"
