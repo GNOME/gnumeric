@@ -1,3 +1,8 @@
+1999-05-13  Kjartan Maraas  <kmaraas@online.no>
+
+	* src/Gnumeric.idl: s/#include <gnome-object.idl>/
+	  #include <GnomeObject.idl>, to make it compile.
+	  
 1999-05-13  Michael Meeks  <michael@imaginator.com>
 
 	* src/Gnumeric-impl.c: Fixes killing this file by
