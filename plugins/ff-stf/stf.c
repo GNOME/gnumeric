@@ -311,6 +311,9 @@ stf_cleanup_plugin (PluginData *pd)
 /*	file_format_unregister_save (stf_write_workbook); */
 }
 
+#define STF_TITLE _("Structured Text File (STF) module")
+#define STF_DESCR _("This plugin reads sheets using CSV/Fixed encoding while allowing fine-tuning of the import process")
+
 /**
  * init_plugin
  * @pd : a plugin data struct
@@ -333,14 +336,15 @@ init_plugin (CommandContext *context, PluginData *pd)
 	file_format_register_open (1, desc, NULL, stf_read_workbook);
 
 	/*    desc = _("Structured Text File format (*.stf)");
-	      file_format_register_save (".stf", desc, stf_write_workbook);*/
-	
-	desc = _("Structured Text File (STF) module");
-	pd->title = g_strdup (desc);
-	pd->can_unload = stf_can_unload;
-	pd->cleanup_plugin = stf_cleanup_plugin;
+	      file_format_register_save (".stf", desc, stf_write_workbook); */
 
-	glade_gnome_init ();
+	if (plugin_data_init (pd, stf_can_unload, stf_cleanup_plugin,
+			      STF_TITLE, STF_DESCR))
+	  {
+	          glade_gnome_init();
+		  return PLUGIN_OK;
+	  }
+	else
+	          return PLUGIN_ERROR;
 
-	return PLUGIN_OK;
 }

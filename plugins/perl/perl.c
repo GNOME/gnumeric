@@ -24,6 +24,15 @@ no_unloading_for_me (PluginData *pd)
 	return 0;
 }
 
+static void
+no_cleanup_for_me (PluginData *pd)
+{
+        return;
+}
+
+#define PERL_TITLE _("Perl Plugin")
+#define PERL_DESCR _("This plugin enables PERL support in Gnumeric")
+
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
@@ -32,10 +41,6 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
-
-	/* Initialize Gnumeric plugin information. */
-	pd->can_unload = no_unloading_for_me;
-	pd->title = "Perl Plugin";
 
 	/* Initialize the Perl interpreter. */
 	arg = gnome_unconditional_datadir_file("gnumeric/perl/lib");
@@ -47,5 +52,10 @@ init_plugin (CommandContext *context, PluginData *pd)
 	perl_parse(gnumeric_perl_interp, xs_init, 3, argv, NULL);
 	perl_run(gnumeric_perl_interp);
 
-	return PLUGIN_OK;
+	if (plugin_data_init (pd, no_unloading_for_me, no_cleanup_for_me,
+			      PERL_TITLE, PERL_DESCR))
+	        return PLUGIN_OK;
+	else
+	        return PLUGIN_ERROR;
+
 }

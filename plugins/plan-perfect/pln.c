@@ -938,6 +938,8 @@ pln_cleanup_plugin (PluginData *pd)
 	file_format_unregister_open (NULL, pln_read_workbook);
 }
 
+#define PLN_TITLE _("Plan Perfect Format (PLN) module")
+#define PLN_DESCR _("This plugin handles Plan Perfect Formatted Documents")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData * pd)
@@ -950,10 +952,10 @@ init_plugin (CommandContext *context, PluginData * pd)
 	desc = _("Plan Perfect Format (PLN) import");
 	file_format_register_open (1, desc, NULL, pln_read_workbook);
 
-	desc = _("Plan Perfect Format (PLN) module");
-	pd->title = g_strdup (desc);
-	pd->can_unload = pln_can_unload;
-	pd->cleanup_plugin = pln_cleanup_plugin;
+	if (plugin_data_init (pd, pln_can_unload, pln_cleanup_plugin,
+			      PLN_TITLE, PLN_DESCR))
+	        return PLUGIN_OK;
+	else
+	        return PLUGIN_ERROR;
 
-	return PLUGIN_OK;
 }

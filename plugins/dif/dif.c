@@ -453,9 +453,10 @@ dif_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (NULL, dif_read_workbook);
 	file_format_unregister_save (dif_write_workbook);
-	g_free (pd->title);
 }
 
+#define DIF_TITLE _("Data Interchange Format (CSV) module")
+#define DIF_DESCR _("This plugin can read and write information stored in the Data Interchange Format (*.dif)")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData * pd)
@@ -471,10 +472,9 @@ init_plugin (CommandContext *context, PluginData * pd)
 	desc = _("Data Interchange Format (*.dif)");
 	file_format_register_save (".dif", desc, dif_write_workbook);
 
-	desc = _("Data Interchange Format (CSV) module");
-	pd->title = g_strdup (desc);
-	pd->can_unload = dif_can_unload;
-	pd->cleanup_plugin = dif_cleanup_plugin;
-
-	return PLUGIN_OK;
+	if (plugin_data_init (pd, dif_can_unload, dif_cleanup_plugin,
+			      DIF_TITLE, DIF_DESCR))
+	        return PLUGIN_OK;
+	else
+	        return PLUGIN_ERROR;
 }

@@ -5,6 +5,7 @@
  * Authors:
  *   Tom Dyas (tdyas@romulus.rutgers.edu)
  *   Dom Lachowicz - libglade stuff (dominicl@seas.upenn.edu)
+ *                 - look for a new version of this dialog RSN
  */
 #include <config.h>
 #include <glib.h>
@@ -34,8 +35,8 @@ add_to_clist (PluginData *pd, GtkWidget *clist)
 	gchar *data[2];
 	gint row;
 
-	data [0] = pd->title;
-	data [1] = g_module_name (pd->handle);
+	data [0] = plugin_data_get_title (pd);
+	data [1] = plugin_data_get_filename (pd);
 
 	row = gtk_clist_append (GTK_CLIST (clist), data);
 	gtk_clist_set_row_data (GTK_CLIST (clist), row, pd);

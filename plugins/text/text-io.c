@@ -444,7 +444,6 @@ text_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (NULL, text_read_workbook);
 	file_format_unregister_save (text_write_workbook);
-	g_free (pd->title);
 }
 
 static int
@@ -452,6 +451,9 @@ text_can_unload (PluginData *pd)
 {
 	return TRUE;
 }
+
+#define TEXT_TITLE _("TXT (simple text import/export plugin)")
+#define TEXT_DESCR _("This plugin can save/read Gnumeric Sheets using an simple text encoding.")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
@@ -461,9 +463,10 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	text_init ();
 
-	pd->can_unload = text_can_unload;
-	pd->cleanup_plugin = text_cleanup_plugin;
-	pd->title = g_strdup (_("TXT (simple text import/export plugin)"));
+	if (plugin_data_init (pd, text_can_unload, text_cleanup_plugin,
+			      TEXT_TITLE, TEXT_DESCR))
+	        return PLUGIN_OK;
+	else
+	        return PLUGIN_ERROR;
 
-	return PLUGIN_OK;
 }

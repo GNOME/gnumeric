@@ -1,3 +1,63 @@
+2000-02-24  Michael Meeks  <michael@helixcode.com>
+
+	* src/plugin.c (plugin_close): expand.
+
+2000-02-23  Dom Lachowicz <dominicl@seas.upenn.edu>
+
+	* src/widgets/widget-color-combo.[ch]:
+	In function color_table_construct() - moved tool_tip in order to
+	plug memory leak(called gtk_tooltips_new() too many times)
+	
+	* src/functions/fn-database.c (gnumeric_daverage): add error for
+	-'ive count
+
+2000-02-23  Dom Lachowicz <dominicl@seas.upenn.edu>
+
+	* src/plugin.[ch]: Additions to API -- Made struct _PluginData private
+	Added field 'initialized' to PluginData to keep track of whether 
+	   the plugin has gone through init yet or not
+	Added field 'descr' - a paragraph description of the plugin
+	plugin_load() - Updated to use initialized field
+	New function: static void plugin_close() - shuts down plugin
+	Updated plugin_load() and plugin_unload() to use plugin_close() --
+	   lots of duplicated code
+	New functions to reflect new privateness of PluginData struct: 
+	   plugin_data_init()
+           plugin_data_get_filename()
+	   plugin_data_get_title()
+	   plugin_data_get_descr()
+	   plugin_data_set_private_data()
+	   plugin_data_get_private_data()
+	
+	* plugins/dif/dif.c
+	* plugins/ff-csv/csv-io.c
+	* plugins/ff-stf/stf.c
+	* plugins/gda/plugin-gda.c
+	* plugins/html/boot.c
+	* plugins/lotus-123/boot.c
+	* plugins/oleo/boot.c
+	* plugins/plan-perfect/pln.c
+	* plugins/sample/plugin-sample.c
+	* plugins/sc/sc.c
+	* plugins/sylk/sylk.c
+	* plugins/text/text-io.c
+	* plugins/xbase/boot.c:
+	Changed init_plugin() in each to use new plugin API, specifically
+	They all call plugin_data_init() now
+	Changed the respective cleanup functions to not g_free() the title or
+	descriptions
+	
+	* plugins/gb/plugin.c: in addition to the above statement, I changed
+	cleanup() and init_plugin() to use plugin_data_[get|set]_private_data
+
+	* plugins/guile/plugin.c
+	* plugins/perl/perl.c
+	* plugins/python/python.c: added function no_cleanup_for_me() which
+	does absolutely nothing for completeness
+
+	* src/dialogs/dialog-plugin-manager.c: Changed add_to_clist() to use
+	new plugin_data_get_XXX() methods
+
 2000-02-23  Matthias Warkus  <mawa@iname.com>
 
 	* gnome-spreadsheet.png, gnome-xls.png: Removed. They have been

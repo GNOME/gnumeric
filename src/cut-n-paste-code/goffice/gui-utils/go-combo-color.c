@@ -191,6 +191,7 @@ color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols,
 	GtkWidget *cust_label;
 	GtkWidget *cust_color;
 	GtkWidget *table;
+	GtkTooltips *tool_tip;
 	int total, row, col;
 	
 	table = gtk_table_new (ncols, nrows, 0);
@@ -203,12 +204,12 @@ color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols,
 				    GTK_SIGNAL_FUNC(desc_label_clicked), cc);
 	}
 
+	tool_tip = gtk_tooltips_new();
 	total = 0;
 	for (row = 0; row < nrows; row++){
 		for (col = 0; col < ncols; col++){
 			GtkWidget *button;
 			GtkWidget *canvas;
-			GtkTooltips *tool_tip;
 			int pos;
 
 			pos = row * ncols + col;
@@ -241,7 +242,6 @@ color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols,
 				"fill_color", color_names [pos].color,
 				NULL);
 
-			tool_tip = gtk_tooltips_new();
 			gtk_tooltips_set_tip (tool_tip, button, _(color_names [pos].name),
 					      "Private+Unused");
 
@@ -299,6 +299,7 @@ color_combo_construct (ColorCombo *cc, char **icon,
 	cc->preview_button = gtk_button_new ();
 	if (!gnome_preferences_get_toolbar_relief_btn ())
 	  gtk_button_set_relief (GTK_BUTTON (cc->preview_button), GTK_RELIEF_NONE);
+
 	gtk_widget_push_visual (gdk_imlib_get_visual ());
 	gtk_widget_push_colormap (gdk_imlib_get_colormap ());
 	cc->preview_canvas = GNOME_CANVAS (gnome_canvas_new ());
@@ -455,12 +456,16 @@ color_combo_new (char **icon, char const * const no_color_label)
 	return color_combo_new_with_vals (icon, no_color_label, 8, 5, default_colors);
 }
 
+/*
+ * Set the color combo to some pre-defined GdkColor
+ */
 void
 color_combo_select_color (ColorCombo *cc, GdkColor *color)
 {
 	g_return_if_fail (cc != NULL);
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 	g_return_if_fail (cc->items != NULL);
+	/* g_return_if_fail (color != NULL) */
 
 	set_color (cc, color, COLOR_COPY);
 	gnome_canvas_item_set (
@@ -469,6 +474,9 @@ color_combo_select_color (ColorCombo *cc, GdkColor *color)
 		NULL);
 }
 
+/*
+ * Resets color in ColorCombo cc to its default state
+ */
 void
 color_combo_select_clear (ColorCombo *cc)
 {

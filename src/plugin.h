@@ -13,19 +13,9 @@ typedef enum {
 	PLUGIN_QUIET_ERROR /* Plugin has already displayed an error */
 } PluginInitResult;
 
-struct _PluginData
-{
-	gchar   *file_name;
-	GModule *handle;
-
-	PluginInitResult (*init_plugin)    (CommandContext *, PluginData *);
-	int     (*can_unload)     (PluginData *);
-	void    (*cleanup_plugin) (PluginData *);
-	gchar   *title;
-	
-	/* filled in by plugin */
-	void    *private_data;
-};
+typedef PluginInitResult (*PluginInitFn) (CommandContext *, PluginData *);
+typedef void             (*PluginCleanupFn) (PluginData *);
+typedef int              (*PluginCanUnloadFn) (PluginData *);
 
 extern GList *plugin_list;
 
@@ -39,5 +29,16 @@ void           plugin_unload         (CommandContext *context, PluginData *pd);
 
 gboolean       plugin_version_mismatch  (CommandContext *cmd, PluginData *pd,
 					 char const * const plugin_version);
+
+void           *plugin_data_set_user_data (PluginData *pd, void *user_data);
+void           *plugin_data_get_user_data (PluginData *pd);
+
+gboolean       plugin_data_init      (PluginData *pd, PluginCanUnloadFn can_unload_fn,
+				      PluginCleanupFn cleanup_fn,
+				      const gchar *title, const gchar *descr);
+
+const gchar    *plugin_data_get_filename (PluginData *pd);
+const gchar    *plugin_data_get_title    (PluginData *pd);
+const gchar    *plugin_data_get_descr    (PluginData *pd);
 
 #endif /* GNUMERIC_PLUGIN_H */

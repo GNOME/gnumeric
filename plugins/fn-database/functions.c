@@ -548,7 +548,10 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 	g_slist_free(cells);
 	free_criterias(criterias);
 
-        return value_new_float (sum / count);
+	if ( count > 0 )
+	        return value_new_float (sum / count);
+	else
+	        return value_new_error (ei->pos, gnumeric_err_NUM);
 }
 
 /***************************************************************************/

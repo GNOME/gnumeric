@@ -306,9 +306,10 @@ csv_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (NULL, csv_read_workbook);
 	file_format_unregister_save (csv_write_workbook);
-	g_free (pd->title);
 }
 
+#define CSV_TITLE _("Comma Separated Value (CSV) module")
+#define CSV_DESCR _("This plugin reads and writes comma separated value formatted data (*.csv)")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
@@ -325,9 +326,10 @@ init_plugin (CommandContext *context, PluginData *pd)
 	file_format_register_save (".csv", desc, csv_write_workbook);
 
 	desc = _("Comma Separated Value (CSV) module");
-	pd->title = g_strdup (desc);
-	pd->can_unload = csv_can_unload;
-	pd->cleanup_plugin = csv_cleanup_plugin;
 
-	return PLUGIN_OK;
+	if (plugin_data_init (pd, csv_can_unload, csv_cleanup_plugin,
+			      CSV_TITLE, CSV_DESCR))
+	        return PLUGIN_OK;
+	else
+	        return PLUGIN_ERROR;
 }

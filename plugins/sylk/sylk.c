@@ -495,9 +495,10 @@ static void
 sylk_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (sylk_probe, sylk_read_workbook);
-	g_free (pd->title);
 }
 
+#define SYLK_TITLE _("MultiPlan (SYLK) file import module")
+#define SYLK_DESCR _("This is the MultiPlan (SYLK) file import module. It enables file import of SYLK files")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData * pd)
@@ -508,9 +509,10 @@ init_plugin (CommandContext *context, PluginData * pd)
 	file_format_register_open (1, _("MultiPlan (SYLK) import"),
 				   sylk_probe, sylk_read_workbook);
 
-	pd->can_unload     = sylk_can_unload;
-	pd->cleanup_plugin = sylk_cleanup_plugin;
-	pd->title = g_strdup (_("MultiPlan (SYLK) file import module"));
+	if (plugin_data_init (pd, sylk_can_unload, sylk_cleanup_plugin,
+			      SYLK_TITLE, SYLK_DESCR))
+	        return PLUGIN_OK;
+	else
+	        return PLUGIN_ERROR;
 
-	return PLUGIN_OK;
 }

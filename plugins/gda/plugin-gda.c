@@ -241,12 +241,14 @@ cleanup_plugin (PluginData *pd)
 {
 	Symbol *sym;
 
-	g_free (pd->title);
 	sym = symbol_lookup (global_symbol_table, "execSQL");
 	if (sym)
 		symbol_unref(sym);
 }
 
+
+#define GDA_TITLE _("Database Access")
+#define GDA_DESCR _("This plugin allows for database access in Gnumeric")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData* pd)
@@ -257,9 +259,11 @@ init_plugin (CommandContext *context, PluginData* pd)
 		return PLUGIN_QUIET_ERROR;
 
 	install_symbols(plugin_functionp, "GDA Plugin");
-	pd->can_unload = can_unload;
-	pd->cleanup_plugin = cleanup_plugin;
-	pd->title = g_strdup("Database Access");
 
-	return PLUGIN_OK;
+	if (plugin_data_init (pd, can_unload, cleanup_plugin,
+			      GDA_TITLE, GDA_DESCR))
+	  return PLUGIN_OK;
+	else
+	  return PLUGIN_ERROR;
+
 }

@@ -444,9 +444,10 @@ sc_cleanup_plugin (PluginData *pd)
 	g_return_if_fail (pd);
 
 	file_format_unregister_open (NULL, sc_read_workbook);
-	g_free (pd->title);
 }
 
+#define SC_TITLE _("SC/xspread file import")
+#define SC_DESCR _("This plugin enables file import of SC/xspread files")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData * pd)
@@ -460,10 +461,10 @@ init_plugin (CommandContext *context, PluginData * pd)
 
 	file_format_register_open (1, desc, NULL, sc_read_workbook);
 
-	pd->can_unload     = sc_can_unload;
-	pd->cleanup_plugin = sc_cleanup_plugin;
-	pd->title = g_strdup (desc);
-
-	return PLUGIN_OK;
+	if (plugin_data_init (pd, sc_can_unload, sc_cleanup_plugin,
+			      SC_TITLE, SC_DESCR))
+	        return PLUGIN_OK;
+	else
+	        return PLUGIN_ERROR;
 }
 

@@ -291,6 +291,15 @@ no_unloading_for_me (PluginData *pd)
 	return 0;
 }
 
+static void
+no_cleanup_for_me (PluginData *pd)
+{
+        return;
+}
+
+#define PY_TITLE _("Python Plugin")
+#define PY_DESCR _("This plugin provides for rudimentary Python language support in Gnumeric")
+
 PluginInitResult
 init_plugin (CommandContext *context, PluginData * pd)
 {
@@ -298,9 +307,6 @@ init_plugin (CommandContext *context, PluginData * pd)
 
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
-
-	pd->can_unload = no_unloading_for_me;
-	pd->title = g_strdup (_("Python Plugin"));
 
 	/* initialize the python interpreter */
 	Py_SetProgramName ("gnumeric");
@@ -333,5 +339,10 @@ init_plugin (CommandContext *context, PluginData * pd)
 		g_free(name);
 	}
 
-	return PLUGIN_OK;
+	if (plugin_data_init (pd, no_unloading_for_me, no_cleanup_for_me,
+			      PY_TITLE, PY_DESCR))
+	        return PLUGIN_OK;
+	else
+	        return PLUGIN_ERROR;
+
 }

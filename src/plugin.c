@@ -3,6 +3,8 @@
  *
  * Author:
  *    Tom Dyas (tdyas@romulus.rutgers.edu)
+ * Additional Functions and Cleanups:
+ *    Dom Lachowicz (dominicl@seas.upenn.edu)
  */
 
 #include <config.h>
@@ -17,6 +19,27 @@
 #include "plugin.h"
 #include "workbook-view.h"
 #include "command-context.h"
+
+/*
+ * This structure is private
+ */
+struct _PluginData
+{
+	gchar   *file_name;
+	GModule *handle;
+
+        PluginInitFn init_plugin;
+        PluginCleanupFn cleanup_plugin;
+        PluginCanUnloadFn can_unload;
+
+	gchar   *title;
+        gchar   *descr;
+
+        gboolean initialized;
+	
+	/* filled in by plugin */
+	void    *user_data;
+};
 
 GList *plugin_list = NULL;
 
@@ -46,20 +69,45 @@ plugin_version_mismatch  (CommandContext *context, PluginData *pd,
 	return mismatch;
 }
 
+static void
+plugin_close (PluginData *pd)
+{
+        g_return_if_fail (pd != NULL );
+
+	if (pd->handle)
+		g_module_close (pd->handle);
+	pd->handle = NULL;
+
+	if (pd->file_name)
+		g_free (pd->file_name);
+	pd->file_name = NULL;
+
+	if (pd->title)
+		g_free (pd->title);
+	pd->title = NULL;
+
+	if (pd->descr)
+		g_free (pd->descr);
+	pd->descr = NULL;
+
+	g_free (pd);
+}
+
 PluginData *
 plugin_load (CommandContext *context, const gchar *modfile)
 {
 	PluginData *data;
-	PluginInitResult res;
+	PluginInitResult res = PLUGIN_OK; /* start out optimistic */
 
 	g_return_val_if_fail (modfile != NULL, NULL);
 	
 	data = g_new0 (PluginData, 1);
-	if (!data){
+	if (!data) {
 		g_print ("allocation error");
 		return NULL;
 	}
 	
+	data->initialized = FALSE;
 	data->file_name = g_strdup (modfile);
 	data->handle = g_module_open (modfile, 0);
 	if (!data->handle) {
@@ -90,9 +138,7 @@ plugin_load (CommandContext *context, const gchar *modfile)
 	return data;
 
  error:
-	g_module_close (data->handle);
-	g_free (data->file_name);
-	g_free (data);
+	plugin_close (data);
 	return NULL;
 }
 
@@ -111,10 +157,7 @@ plugin_unload (CommandContext *context, PluginData *pd)
 		pd->cleanup_plugin (pd);
 
 	plugin_list = g_list_remove (plugin_list, pd);
-
-	g_module_close (pd->handle);
-	g_free (pd->file_name);
-	g_free (pd);
+	plugin_close (pd);
 }
 
 static void
@@ -166,3 +209,67 @@ plugins_init (CommandContext *context)
 	load_all_plugins (context);
 }
 
+/*
+ * Initializes PluginData structure
+ */
+gboolean       
+plugin_data_init (PluginData *pd, PluginCanUnloadFn can_unload_fn,
+		  PluginCleanupFn cleanup_fn,
+		  const gchar *title, const gchar *descr)
+{
+        g_return_val_if_fail (pd != NULL, FALSE);
+        g_return_val_if_fail (can_unload_fn != NULL, FALSE);
+	g_return_val_if_fail (cleanup_fn != NULL, FALSE);
+	g_return_val_if_fail (pd->initialized == FALSE, FALSE);
+
+	/* mark as initialized - don't init an already init()'d plugin */
+	pd->initialized = TRUE;
+
+	pd->title = g_strdup (title);
+	pd->descr = g_strdup (descr);
+	pd->can_unload = can_unload_fn;
+	pd->cleanup_plugin = cleanup_fn;
+
+	return TRUE;
+}
+
+const gchar *
+plugin_data_get_filename (PluginData *pd)
+{
+        return pd->file_name;
+}
+
+const gchar *
+plugin_data_get_title (PluginData *pd)
+{
+        return pd->title;
+}
+
+const gchar *
+plugin_data_get_descr (PluginData *pd)
+{
+        return pd->descr;
+}
+
+/*
+ * Sets the plugin's private data to 'priv_data'
+ * Returns the previous data stored or NULL if none
+ */
+void *
+plugin_data_set_user_data (PluginData *pd, void *user_data)
+{
+        void *data = pd->user_data;
+
+	pd->user_data = user_data;
+
+	return data;
+}
+
+/*
+ * Returns the private data of this plugin
+ */
+void *
+plugin_data_get_user_data (PluginData *pd)
+{
+        return pd->user_data;
+}

@@ -32,11 +32,13 @@ cleanup_plugin (PluginData *pd)
 {
 	Symbol *sym;
 
-	g_free (pd->title);
 	sym = symbol_lookup (global_symbol_table, "plusone");
 	if (sym)
 		symbol_unref (sym);
 }
+
+#define SAMPLE_TITLE _("PlusOne Plugin")
+#define SAMPLE_DESCR _("Sample Gnumeric Plugin")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
@@ -49,10 +51,11 @@ init_plugin (CommandContext *context, PluginData *pd)
 	cat = function_get_category (_("Sample Plugin"));
 	function_add_args (cat, "plusone", "f", "number", NULL, func_plusone);
 
-	pd->can_unload     = can_unload;
-	pd->cleanup_plugin = cleanup_plugin;
-	pd->title = g_strdup ("PlusOne Plugin");
+	if (plugin_data_init (pd, can_unload, cleanup_plugin,
+			      SAMPLE_TITLE, SAMPLE_DESCR))
+	        return PLUGIN_OK;
+	else
+	        return PLUGIN_ERROR;
 
-	return PLUGIN_OK;
 }
 

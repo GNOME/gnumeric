@@ -1,3 +1,7 @@
+2000-02-24  Michael Meeks  <michael@helixcode.com>
+
+	* plugin.c (cleanup): fiddle.
+
 2000-02-23  Michael Meeks  <michael@helixcode.com>
 
 	* plugin.c (parse_file): fixup.

@@ -106,9 +106,11 @@ dont_unload (PluginData *pd)
 static void
 cleanup (PluginData *pd)
 {
-	if (pd->private_data)
-		gbrun_context_destroy (pd->private_data);
-	pd->private_data = NULL;
+	void *user_data;
+
+	if ((user_data = plugin_data_get_user_data (pd)))
+		gbrun_context_destroy (user_data);
+	plugin_data_set_user_data (pd, NULL);
 
 	gbrun_shutdown ();
 	gb_shutdown ();
@@ -240,6 +242,9 @@ cb_register_functions (gpointer key, gpointer value, gpointer user_data)
 	function_def_set_user_data (fndef, fd);
 }
 
+#define GB_TITLE _("Gnome Basic Plugin")
+#define GB_DESCR _("This plugin enables Gnome Basic support in Gnumeric")
+
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
@@ -266,10 +271,13 @@ init_plugin (CommandContext *context, PluginData *pd)
 	}
 	g_free (fname);
 
-	pd->can_unload     = dont_unload;
-	pd->cleanup_plugin = cleanup;
-	pd->title          = g_strdup(_("Gnome Basic Plugin"));
-	pd->private_data   = c.rc;
+	plugin_data_set_user_data (pd, c.rc);
+
+	if (plugin_data_init (pd, dont_unload, cleanup,
+			      GB_TITLE, GB_DESCR))
+		return PLUGIN_OK;
+	else
+		return PLUGIN_ERROR;
 
 	return PLUGIN_OK;
 }

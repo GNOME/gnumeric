@@ -81,8 +81,10 @@ static void
 lotus_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (lotus_probe, lotus_load);
-	g_free (pd->title);
 }
+
+#define LOTUS_TITLE _("Lotus 123 file import/export plugin")
+#define LOTUS_DESCR _("This plugin is used for Lotus 123 file import/export")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
@@ -94,9 +96,10 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	file_format_register_open (50, descr, lotus_probe, lotus_load);
 
-	pd->can_unload     = lotus_can_unload;
-	pd->cleanup_plugin = lotus_cleanup_plugin;
-	pd->title = g_strdup (_("Lotus 123 file import/export plugin"));
+	if (plugin_data_init (pd, lotus_can_unload, lotus_cleanup_plugin,
+			      LOTUS_TITLE, LOTUS_DESCR))
+	        return PLUGIN_OK;
+	else
+	        return PLUGIN_ERROR;
 
-	return PLUGIN_OK;
 }

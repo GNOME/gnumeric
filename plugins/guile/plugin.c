@@ -110,7 +110,7 @@ value_to_scm (Value *val, CellRef cell_ref)
 				ls = gh_eval_str("'()");
 
 				for(i = 0; i < y; i++)
-					for(ii = 0; i < x; i++)
+					for (ii = 0; i < x; i++)
 						ls = scm_cons(val->v.array.vals[ii][i], ls);
 				return ls;
 			}
@@ -445,6 +445,15 @@ no_unloading_for_me (PluginData *pd)
 	return 0;
 }
 
+static void
+no_cleanup_for_me (PluginData *pd)
+{
+	return;
+}
+
+#define GUILE_TITLE _("Guile Plugin")
+#define GUILE_DESCR _("This plugin enables Guile(scheme) support in Gnumeric")
+
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
 {
@@ -461,9 +470,6 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	function_add_nodes (cat, "scm_apply", 0, "symbol", NULL, func_scm_apply);
 
-	pd->can_unload = no_unloading_for_me;
-	pd->title = g_strdup(_("Guile Plugin"));
-
 	scm_make_gsubr ("cell-value", 1, 0, 0, scm_cell_value);
 	scm_make_gsubr ("cell-expr", 1, 0, 0, scm_cell_expr);
 	scm_make_gsubr ("set-cell-string!", 2, 0, 0, scm_set_cell_string);
@@ -477,6 +483,10 @@ init_plugin (CommandContext *context, PluginData *pd)
 				  "    (display (string-append \"could not read Guile plug-in init file\" filename \"\n\"))))"),
 		  scm_cons (scm_makfrom0str (init_file_name), SCM_EOL),
 		  SCM_EOL);
+
+	if (!plugin_data_init (pd, no_unloading_for_me, no_cleanup_for_me,
+			      GUILE_TITLE, GUILE_DESCR))
+		return PLUGIN_ERROR;
 
 	return PLUGIN_OK;
 }

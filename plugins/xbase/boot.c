@@ -203,8 +203,10 @@ static void
 xbase_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (xbase_probe, xbase_load);
-	g_free (pd->title);
 }
+
+#define XBASE_TITLE _("XBase file import/export plugin")
+#define XBASE_DESCR _("This plugin enables XBase file import/export")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
@@ -217,9 +219,10 @@ init_plugin (CommandContext *context, PluginData *pd)
 	/* We register XBase format with a precendence of 100 */
 	file_format_register_open (100, descr, xbase_probe, xbase_load);
 
-	pd->can_unload = xbase_can_unload;
-	pd->cleanup_plugin = xbase_cleanup_plugin;
-	pd->title = g_strdup (_("XBase file import/export plugin"));
+	if (plugin_data_init (pd, xbase_can_unload, xbase_cleanup_plugin,
+			      XBASE_TITLE, XBASE_DESCR))
+	        return PLUGIN_OK;
+	else
+	        return PLUGIN_ERROR;
 
-	return PLUGIN_OK;
 }

@@ -81,8 +81,10 @@ static void
 oleo_cleanup_plugin (PluginData *pd)
 {
 	file_format_unregister_open (oleo_probe, oleo_load);
-	g_free (pd->title);
 }
+
+#define OLEO_TITLE _("GNU Oleo import plugin")
+#define OLEO_DESCR _("This plugin enables importion of GNU Oleo documents")
 
 PluginInitResult
 init_plugin (CommandContext *context, PluginData *pd)
@@ -94,9 +96,10 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	file_format_register_open (100, descr, oleo_probe, oleo_load);
 
-	pd->can_unload     = oleo_can_unload;
-	pd->cleanup_plugin = oleo_cleanup_plugin;
-	pd->title = g_strdup (_("GNU Oleo import plugin"));
+	if (plugin_data_init (pd, oleo_can_unload, oleo_cleanup_plugin,
+			      OLEO_TITLE, OLEO_DESCR))
+	        return PLUGIN_OK;
+	else
+	        return PLUGIN_ERROR;
 
-	return PLUGIN_OK;
 }
