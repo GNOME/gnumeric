@@ -1,5 +1,8 @@
 1998-09-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/item-cursor.c (item_cursor_do_drop): Use button-1 to select
+	an option on the popup menu.
+
 	* src/fn-date.c: New file, implements various date and time
 	manipulation routines.
 	

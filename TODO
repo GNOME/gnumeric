@@ -8,12 +8,6 @@ GNOME Spread Sheet task list
 
 * Sheet
 
-** Cursors
-
-   The cursors for the GnumericSheet should be similar to Excel ones
-(so that user can have visual feed back on when it is ok to drag an
-object).
-
 * EDITION
 
 ** Paste special 

@@ -23,6 +23,8 @@ dump_func_help (gpointer key, gpointer value, gpointer user_data)
 void
 dump_functions (char *filename)
 {
+	g_return_if_fail (filename != NULL);
+	
 	if ((output_file = fopen (filename, "w")) == NULL){
 		printf ("Can not create file %s\n", filename);
 		exit (1);

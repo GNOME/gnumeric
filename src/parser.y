@@ -7,7 +7,7 @@
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)
  */
-	
+#include <config.h>
 #include <glib.h>
 #include <ctype.h>
 #include <string.h>

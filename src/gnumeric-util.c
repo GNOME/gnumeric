@@ -64,10 +64,13 @@ popup_menu_item_activated (GtkWidget *item, void *value)
 }
 
 int
-run_popup_menu (GdkEvent *event, char **strings)
+run_popup_menu (GdkEvent *event, int button, char **strings)
 {
 	GtkWidget *menu;
 	int i;
+
+	g_return_val_if_fail (event != NULL, -1);
+	g_return_val_if_fail (strings != NULL, -1);
 
 	/* Create the popup menu */
 	menu = gtk_menu_new ();

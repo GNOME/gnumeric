@@ -559,7 +559,7 @@ item_cursor_do_drop (ItemCursor *item_cursor, GdkEvent *event)
 
 	/* Find out what to do */
 	if (event->button.button == 3)
-		action = (ActionType) run_popup_menu (event, drop_context_actions);
+		action = (ActionType) run_popup_menu (event, 1, drop_context_actions);
 	else if (event->button.state & GDK_CONTROL_MASK)
 		action = ACTION_COPY_CELLS;
 	else

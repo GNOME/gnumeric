@@ -82,4 +82,11 @@ documentation for these:
 	  range and then hold down the shift key while making the size
 	  of the selection cursor bigger.
 
-	- 
+	- An expression is evaluated constantly on top of the current
+	  selection.  There is a number of pre-defined auto-compute
+	  expressions, you can change this by right clicking on this
+	  expression (it is on the bottom right corner)
+
+	- If you drag a selection with button 3 instead of button one
+	  there is no default action, rather, a menu pops up with 
+	  a list of possibel options on actions to perform.
