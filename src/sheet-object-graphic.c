@@ -10,6 +10,7 @@
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
 #include <libgnomeprint/gnome-print.h>
+#include <math.h>
 #include "gnumeric.h"
 #include "sheet-control-gui.h"
 #include "gnumeric-canvas.h"
@@ -19,6 +20,8 @@
 #include "sheet-object-impl.h"
 
 #include <gal/util/e-util.h>
+#include <gal/widgets/e-colors.h>
+#include <gal/widgets/widget-color-combo.h>
 
 /* These are persisted */
 typedef enum {
@@ -31,9 +34,9 @@ typedef enum {
 #define SHEET_OBJECT_GRAPHIC_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_GRAPHIC_TYPE))
 
 typedef struct {
-	SheetObject     parent_object;
-	String            *color;
-	int               width;
+	SheetObject  parent_object;
+	GdkColor    *fill_color;
+	double       width;
 	SheetObjectGraphicType type;
 } SheetObjectGraphic;
 typedef struct {
@@ -42,42 +45,37 @@ typedef struct {
 static SheetObjectClass *sheet_object_graphic_parent_class;
 
 static void
-sheet_object_graphic_color_set (SheetObjectGraphic *sog, char const *color)
+sheet_object_graphic_fill_color_set (SheetObjectGraphic *sog,
+				     GdkColor *color)
 {
 	SheetObject *so = SHEET_OBJECT (sog);
 	GList *l;
 
-	String *tmp = string_get (color);
-	if (sog->color)
-		string_unref (sog->color);
-	sog->color = tmp;
+	sog->fill_color = color;
 
 	for (l = so->realized_list; l; l = l->next)
-		gnome_canvas_item_set (l->data, "fill_color", tmp->str, NULL);
+		gnome_canvas_item_set (l->data, "fill_color_gdk", color, NULL);
 }
 
 static void
-sheet_object_graphic_width_set (SheetObjectGraphic *sog, int width)
+sheet_object_graphic_width_set (SheetObjectGraphic *sog, double width)
 {
 	SheetObject *so = SHEET_OBJECT (sog);
 	GList *l;
 
 	sog->width = width;
 	for (l = so->realized_list; l; l = l->next)
-		gnome_canvas_item_set (l->data, "width_units", width, NULL);
+		gnome_canvas_item_set (l->data, "width_units", width,
+				       NULL);
 }
 
 SheetObject *
 sheet_object_line_new (gboolean is_arrow)
 {
 	SheetObjectGraphic *sog;
-	SheetObject *so;
 
-	so = gtk_type_new (sheet_object_graphic_get_type ());
-	sog = SHEET_OBJECT_GRAPHIC (so);
-	sog->type  = is_arrow ? SHEET_OBJECT_ARROW : SHEET_OBJECT_LINE;
-	sog->color = string_get ("black");
-	sog->width = 1;
+	sog = gtk_type_new (SHEET_OBJECT_GRAPHIC_TYPE);
+	sog->type = is_arrow ? SHEET_OBJECT_ARROW : SHEET_OBJECT_LINE;
 
 	return SHEET_OBJECT (sog);
 }
@@ -85,9 +83,10 @@ sheet_object_line_new (gboolean is_arrow)
 static void
 sheet_object_graphic_destroy (GtkObject *object)
 {
-	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (object);
+	SheetObjectGraphic *sog;
+	
+	sog = SHEET_OBJECT_GRAPHIC (object);
 
-	string_unref (sog->color);
 	GTK_OBJECT_CLASS (sheet_object_graphic_parent_class)->destroy (object);
 }
 
@@ -107,8 +106,8 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 		item = gnome_canvas_item_new (
 			gcanvas->object_group,
 			gnome_canvas_line_get_type (),
-			"fill_color",    sog->color->str,
-			"width_units",   (double) sog->width,
+			"fill_color_gdk", sog->fill_color,
+			"width_units", sog->width,
 			NULL);
 		break;
 
@@ -116,8 +115,8 @@ sheet_object_graphic_new_view (SheetObject *so, SheetControlGUI *scg)
 		item = gnome_canvas_item_new (
 			gcanvas->object_group,
 			gnome_canvas_line_get_type (),
-			"fill_color",    sog->color->str,
-			"width_units",   (double) sog->width,
+			"fill_color_gdk", sog->fill_color,
+			"width_units", sog->width,
 			"arrow_shape_a", 8.0,
 			"arrow_shape_b", 10.0,
 			"arrow_shape_c", 3.0,
@@ -150,20 +149,22 @@ static gboolean
 sheet_object_graphic_read_xml (SheetObject *so,
 			       XmlParseContext const *ctxt, xmlNodePtr tree)
 {
-	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
-	char *color = xmlGetProp (tree, "Color");
-	int tmp;
+	SheetObjectGraphic *sog;
+	double width;
+	int tmp = 0;
+	GdkColor *color = NULL;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPHIC (so), TRUE);
+	sog = SHEET_OBJECT_GRAPHIC (so);
+
+	color = xml_get_value_color (tree, "FillColor");
+	sheet_object_graphic_fill_color_set (sog, color);
 
 	if (xml_get_value_int (tree, "Type", &tmp))
 		sog->type = tmp;
-	if (xml_get_value_int (tree, "Width", &tmp))
-		sheet_object_graphic_width_set (sog, tmp);
-	if (xml_get_value_int (tree, "Direction", &tmp))
-		so->direction = tmp;
-	if (color != NULL) {
-		sheet_object_graphic_color_set (sog, color);
-		xmlFree (color);
-	}
+
+	xml_get_value_double (tree, "Width", &width);
+	sheet_object_graphic_width_set (sog, width);
 
 	return FALSE;
 }
@@ -172,13 +173,14 @@ static gboolean
 sheet_object_graphic_write_xml (SheetObject const *so,
 				XmlParseContext const *ctxt, xmlNodePtr tree)
 {
-	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
+	SheetObjectGraphic *sog;
+	
+	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPHIC (so), TRUE);
+	sog = SHEET_OBJECT_GRAPHIC (so);
 
+	xml_set_value_color (tree, "FillColor", sog->fill_color);
 	xml_set_value_int (tree, "Type", sog->type);
-	xml_set_value_int (tree, "Width", sog->width);
-	xml_set_value_cstr (tree, "Color", sog->color->str);
-	if (so->direction != SO_DIR_UNKNOWN)
-		xml_set_value_int (tree, "Direction", so->direction);
+	xml_set_value_double (tree, "Width", sog->width, -1);
 
 	return FALSE;
 }
@@ -186,82 +188,241 @@ sheet_object_graphic_write_xml (SheetObject const *so,
 static SheetObject *
 sheet_object_graphic_clone (SheetObject const *so, Sheet *sheet)
 {
-	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
+	SheetObjectGraphic *sog;
 	SheetObjectGraphic *new_sog;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPHIC (so), NULL);
+	sog = SHEET_OBJECT_GRAPHIC (so);
 
 	new_sog = SHEET_OBJECT_GRAPHIC (gtk_type_new (GTK_OBJECT_TYPE (sog)));
 
 	new_sog->type  = sog->type;
 	new_sog->width = sog->width;
-	new_sog->color = sog->color ? string_ref (sog->color) : NULL;
+	new_sog->fill_color = sog->fill_color;
 
 	return SHEET_OBJECT (new_sog);
 }
 
 static void
-sheet_object_graphic_print (SheetObject const *so, SheetObjectPrintInfo const *pi)
+sheet_object_graphic_print (SheetObject const *so,
+			    SheetObjectPrintInfo const *pi)
 {
+#ifdef ENABLE_BONOBO
+	SheetObjectGraphic *sog;
 	double coords [4];
+	double x1 = 0.0, y1 = 0.0, x2 = 0.0, y2 = 0.0;
+	GnomePrintMeta *meta;
+	GnomePrintContext *ctx;
+
+	g_return_if_fail (IS_SHEET_OBJECT_GRAPHIC (so));
+	sog = SHEET_OBJECT_GRAPHIC (so);
 
 	sheet_object_position_pts (so, coords);
-#if 0
-	GnomePrintContext *ctx;
-	double x, y;
 
 	if (so->type == SHEET_OBJECT_ARROW) {
 		static gboolean warned = FALSE;
-		g_warning ("FIXME: I print arrows as lines");
+		if (!warned)
+			g_warning ("FIXME: I print arrows as lines");
 		warned = TRUE;
 	}
 
-	ctx = GNOME_PRINT_CONTEXT (bonobo_print_data_get_meta (pi->pd));
-
+	meta = bonobo_print_data_get_meta (pi->pd);
+	ctx = GNOME_PRINT_CONTEXT (meta);
+	
 	gnome_print_gsave (ctx);
 
-	x = coords [0];
-	y = coords [1];
-	gnome_print_moveto (ctx,
-			    pi->print_x + (x - pi->x) * pi->print_x_scale,
-			    pi->print_y - (y - pi->y) * pi->print_y_scale);
+	if (sog->fill_color) {
+		switch (so->direction) {
+		case SO_DIR_UP_RIGHT:
+		case SO_DIR_DOWN_RIGHT:
+			x1 = coords [0];
+			x2 = coords [2];
+			break;
+		case SO_DIR_UP_LEFT:
+		case SO_DIR_DOWN_LEFT:
+			x1 = coords [2];
+			x2 = coords [0];
+			break;
+		default:
+			g_warning ("Cannot guess direction!");
+			gnome_print_grestore (ctx);
+			return;
+		}
 
-	x = coords [2];
-	y = coords [3];
-	gnome_print_lineto (ctx,
-			    pi->print_x + (x - pi->x) * pi->print_x_scale,
-			    pi->print_y - (y - pi->y) * pi->print_y_scale);
+		switch (so->direction) {
+		case SO_DIR_UP_LEFT:
+		case SO_DIR_UP_RIGHT:
+			y1 = coords [3];
+			y2 = coords [1];
+			break;
+		case SO_DIR_DOWN_LEFT:
+		case SO_DIR_DOWN_RIGHT:
+			y1 = coords [1];
+			y2 = coords [3];
+			break;
+		default:
+			g_warning ("Cannot guess direction!");
+			gnome_print_grestore (ctx);
+			return;
+		}
 
-	gnome_print_stroke (ctx);
+		gnome_print_setrgbcolor (ctx, (double) sog->fill_color->red,
+					      (double) sog->fill_color->green,
+					      (double) sog->fill_color->blue);
+		gnome_print_setlinewidth (ctx, sog->width);
+		gnome_print_newpath (ctx);
+		gnome_print_moveto (ctx, x1, y1);
+		gnome_print_lineto (ctx, x2, y2);
+		gnome_print_stroke (ctx);
+	}
+	
 	gnome_print_grestore (ctx);
+#else
+	g_warning (PACKAGE " has been compiled without bonobo support. "
+		   "Objects will not be printed.");
 #endif
+}
+
+typedef struct
+{
+	SheetObjectGraphic *sog;
+	GtkWidget *fill_color_combo;
+	GtkObject *border_adjustment;
+	GdkColor *fill_color;
+	double width;
+} DialogGraphicData;
+
+static gboolean
+cb_dialog_graphic_close (GnomeDialog *dialog, DialogGraphicData *data)
+{
+	g_free (data);
+
+	return (FALSE);
+}
+
+static void
+cb_dialog_graphic_clicked (GnomeDialog *dialog, int button,
+			   DialogGraphicData *data)
+{
+	GdkColor *color;
+
+	switch (button) {
+	case 0: /* Ok */
+	case 1: /* Apply */
+		color = color_combo_get_color (
+				COLOR_COMBO (data->fill_color_combo));
+		sheet_object_graphic_fill_color_set (data->sog, color);
+		sheet_object_graphic_width_set (data->sog,
+			GTK_ADJUSTMENT (data->border_adjustment)->value);
+		if (button == 0)
+			gnome_dialog_close (dialog);
+		break;
+	case 2: /* Cancel */
+		sheet_object_graphic_fill_color_set (data->sog,
+						     data->fill_color);
+		sheet_object_graphic_width_set (data->sog, data->width);
+		gnome_dialog_close (dialog);
+		break;
+	default:
+		g_warning ("Unhandled button %i.", button);
+		break;
+	}
+}
+
+static void
+sheet_object_graphic_user_config (SheetObject *so, SheetControlGUI *scg)
+{
+	GtkWidget *dialog, *table, *label, *spin; 
+	SheetObjectGraphic *sog;
+	DialogGraphicData *data;
+
+	g_return_if_fail (IS_SHEET_OBJECT_GRAPHIC (so));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+
+	sog = SHEET_OBJECT_GRAPHIC (so);
+
+	dialog = gnome_dialog_new (_("Configure line or arrow"),
+				   GNOME_STOCK_BUTTON_OK,
+				   GNOME_STOCK_BUTTON_APPLY,
+				   GNOME_STOCK_BUTTON_CANCEL, NULL);
+	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
+
+	table = gtk_table_new (2, 2, FALSE);
+	gtk_table_set_col_spacings (GTK_TABLE (table), 10);
+	gtk_table_set_row_spacings (GTK_TABLE (table), 10);
+	gtk_widget_show (table);
+	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (dialog)->vbox), table);
+	label = gtk_label_new (_("Color"));
+	gtk_widget_show (label);
+	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 0, 1);
+	label = gtk_label_new (_("Border width"));
+	gtk_widget_show (label);
+	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 1, 2); 
+	
+	data = g_new0 (DialogGraphicData, 1);
+	data->sog = sog;
+
+	data->fill_color_combo = color_combo_new (NULL, _("Transparent"), NULL,
+					color_group_fetch ("color", so));
+	color_combo_set_color (COLOR_COMBO (data->fill_color_combo), 
+			       sog->fill_color);
+	data->fill_color = sog->fill_color;
+	
+	data->border_adjustment = gtk_adjustment_new ((float) sog->width, 1.0,
+						      100.0, 1.0, 5.0, 1.0);
+	spin = gtk_spin_button_new (GTK_ADJUSTMENT (data->border_adjustment),
+				    1, 0);
+	data->width = sog->width; 
+	
+	gtk_widget_show (data->fill_color_combo);
+	gtk_widget_show (spin); 
+	
+	gtk_table_attach_defaults (GTK_TABLE (table),
+				   data->fill_color_combo, 1, 2, 0, 1);
+	gtk_table_attach_defaults (GTK_TABLE (table), spin, 1, 2, 1, 2);
+
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
+			    GTK_SIGNAL_FUNC (cb_dialog_graphic_clicked), data);
+	gtk_signal_connect (GTK_OBJECT (dialog), "close",
+			    GTK_SIGNAL_FUNC (cb_dialog_graphic_close), data);
+
+	gtk_widget_show (dialog);
 }
 
 static void
 sheet_object_graphic_class_init (GtkObjectClass *object_class)
 {
-	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+	SheetObjectClass *sheet_object_class;
 
-	sheet_object_graphic_parent_class = gtk_type_class (sheet_object_get_type ());
+	sheet_object_graphic_parent_class = gtk_type_class (SHEET_OBJECT_TYPE);
 
 	/* Object class method overrides */
 	object_class->destroy = sheet_object_graphic_destroy;
 
 	/* SheetObject class method overrides */
+	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->update_bounds = sheet_object_graphic_update_bounds;
 	sheet_object_class->new_view	  = sheet_object_graphic_new_view;
 	sheet_object_class->read_xml	  = sheet_object_graphic_read_xml;
 	sheet_object_class->write_xml	  = sheet_object_graphic_write_xml;
 	sheet_object_class->print         = sheet_object_graphic_print;
 	sheet_object_class->clone         = sheet_object_graphic_clone;
+	sheet_object_class->user_config   = sheet_object_graphic_user_config;
 	sheet_object_class->rubber_band_directly = TRUE;
 }
 
 static void
 sheet_object_graphic_init (GtkObject *obj)
 {
-	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (obj);
-	SheetObject *so = SHEET_OBJECT (obj);
+	SheetObjectGraphic *sog;
+	SheetObject *so;
 	
-	sog->type = SHEET_OBJECT_LINE;
+	sog = SHEET_OBJECT_GRAPHIC (obj);
+	sog->fill_color = g_new0 (GdkColor, 1);
+	e_color_alloc_gdk (sog->fill_color);
+	sog->width = 1.0;
+
+	so = SHEET_OBJECT (obj);
 	so->direction = SO_DIR_NONE_MASK;
 }
 
@@ -276,13 +437,12 @@ E_MAKE_TYPE (sheet_object_graphic, "SheetObjectGraphic", SheetObjectGraphic,
  *
  * Derivative of SheetObjectGraphic, with filled parameter
  */
-#define SHEET_OBJECT_FILLED_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_FILLED_TYPE, SheetObjectFilledClass))
+#define IS_SHEET_OBJECT_FILLED_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_FILLED_TYPE, SheetObjectFilledClass))
 
 typedef struct {
 	SheetObjectGraphic parent_object;
 
-	String      *fill_color;
-	int         pattern;
+	GdkColor *outline_color;
 } SheetObjectFilled;
 
 typedef struct {
@@ -292,58 +452,37 @@ typedef struct {
 static SheetObjectGraphicClass *sheet_object_filled_parent_class;
 
 static void
-sheet_object_filled_color_set (SheetObjectFilled *sof, char const *fill_color)
+sheet_object_filled_outline_color_set (SheetObjectFilled *sof, GdkColor *color)
 {
-	String *tmp = string_get (fill_color);
 	SheetObject *so = SHEET_OBJECT (sof);
 	GList *l;
 
-	if (sof->fill_color)
-		string_unref (sof->fill_color);
-	sof->fill_color = tmp;
+	sof->outline_color = color;
 	for (l = so->realized_list; l; l = l->next)
-		gnome_canvas_item_set (l->data, "fill_color", tmp->str, NULL);
-}
-
-static void
-sheet_object_filled_pattern_set (SheetObjectFilled *sof, int pattern)
-{
-#if 0
-	SheetObject *so = SHEET_OBJECT (sof);
-	GList *l;
-#endif
-
-	sof->pattern = pattern;
-	/* TODO : what was supposed to go here */
+		gnome_canvas_item_set (l->data, "outline_color_gdk", color,
+				       NULL);
 }
 
 SheetObject *
 sheet_object_box_new (gboolean is_oval)
 {
-	SheetObject *so;
 	SheetObjectFilled *sof;
 	SheetObjectGraphic *sog;
 
-	so = gtk_type_new (sheet_object_filled_get_type ());
-	sog = SHEET_OBJECT_GRAPHIC (so);
+	sof = gtk_type_new (SHEET_OBJECT_FILLED_TYPE);
+
+	sog = SHEET_OBJECT_GRAPHIC (sof);
 	sog->type = is_oval ? SHEET_OBJECT_OVAL : SHEET_OBJECT_BOX;
-	sog->width = 1;
-	sog->color = string_get ("black");
 
-	sof = SHEET_OBJECT_FILLED (so);
-	sof->pattern = 0;
-	sof->fill_color = NULL;
-
-	return so;
+	return SHEET_OBJECT (sof);
 }
 
 static void
 sheet_object_filled_destroy (GtkObject *object)
 {
-	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
-
-	if (sof->fill_color)
-		string_unref (sof->fill_color);
+	SheetObjectFilled *sof;
+	
+	sof = SHEET_OBJECT_FILLED (object);
 
 	GTK_OBJECT_CLASS (sheet_object_filled_parent_class)->destroy (object);
 }
@@ -353,10 +492,14 @@ sheet_object_filled_update_bounds (SheetObject *so, GtkObject *view,
 				   SheetControlGUI *scg)
 {
 	double coords [4];
+
 	scg_object_view_position (scg, so, coords);
+	
 	gnome_canvas_item_set (GNOME_CANVAS_ITEM (view),
-		"x1", coords [0], "y1", coords [1],
-		"x2", coords [2], "y2", coords [3],
+		"x1", MIN (coords [0], coords [2]),
+		"x2", MAX (coords [0], coords [2]),
+		"y1", MIN (coords [1], coords [3]),
+		"y2", MAX (coords [1], coords [3]),
 		NULL);
 }
 
@@ -365,28 +508,23 @@ sheet_object_filled_new_view (SheetObject *so, SheetControlGUI *scg)
 {
 	/* FIXME : this is bogus */
 	GnumericCanvas *gcanvas = scg_pane (scg, 0);
-	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
-	SheetObjectFilled  *sof = SHEET_OBJECT_FILLED (so);
-	GnomeCanvasItem *item = NULL;
-	GtkType type;
+	SheetObjectGraphic *sog;
+	SheetObjectFilled  *sof;
+	GnomeCanvasItem *item;
 
-	g_return_val_if_fail (IS_SHEET_OBJECT (so), NULL);
+	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), NULL);
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), NULL);
-
-	switch (sog->type) {
-	case SHEET_OBJECT_BOX:	type = gnome_canvas_rect_get_type (); break;
-	case SHEET_OBJECT_OVAL: type = gnome_canvas_ellipse_get_type (); break;
-	default:
-		type = 0;
-		g_assert_not_reached ();
-	}
+	sof = SHEET_OBJECT_FILLED (so);
+	sog = SHEET_OBJECT_GRAPHIC (so);
 
 	item = gnome_canvas_item_new (
-		gcanvas->object_group, type,
-		"fill_color",    sof->fill_color ? sof->fill_color->str : NULL,
-		"outline_color", sog->color->str,
-		"width_units",   (double) sog->width,
-		NULL);
+		gcanvas->object_group,
+		(sog->type == SHEET_OBJECT_OVAL) ?
+					gnome_canvas_ellipse_get_type () : 
+					gnome_canvas_rect_get_type (),
+		"fill_color_gdk", sog->fill_color,
+		"outline_color_gdk", sof->outline_color,
+		"width_units", sog->width, NULL);
 
 	scg_object_register (so, item);
 	return GTK_OBJECT (item);
@@ -396,17 +534,14 @@ static gboolean
 sheet_object_filled_read_xml (SheetObject *so,
 			      XmlParseContext const *ctxt, xmlNodePtr tree)
 {
-	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
-	char *fill_color = xmlGetProp (tree, "FillColor");
-	int pattern;
+	SheetObjectFilled *sof;
+	GdkColor *color = NULL;
 
-	if (fill_color != NULL) {
-		sheet_object_filled_color_set (sof, fill_color);
-		xmlFree (fill_color);
-	}
+	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), TRUE);
+	sof = SHEET_OBJECT_FILLED (so);
 
-	if (xml_get_value_int (tree, "Pattern", &pattern))
-		sheet_object_filled_pattern_set (sof, pattern);
+	color = xml_get_value_color (tree, "OutlineColor");
+	sheet_object_filled_outline_color_set (sof, color);
 
 	return sheet_object_graphic_read_xml (so, ctxt, tree);
 }
@@ -415,52 +550,332 @@ static gboolean
 sheet_object_filled_write_xml (SheetObject const *so, 
 			       XmlParseContext const *ctxt, xmlNodePtr tree)
 {
-	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
+	SheetObjectFilled *sof;
+	
+	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), TRUE);
+	sof = SHEET_OBJECT_FILLED (so);
 
-	if (sof->fill_color != NULL)
-		xml_set_value_cstr (tree, "FillColor", sof->fill_color->str);
-	xml_set_value_int (tree, "Pattern", sof->pattern);
+	xml_set_value_color (tree, "OutlineColor", sof->outline_color);
+
 	return sheet_object_graphic_write_xml (so, ctxt, tree);
 }
 
 static SheetObject *
 sheet_object_filled_clone (SheetObject const *so, Sheet *sheet)
 {
-	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
+	SheetObjectFilled *sof;
 	SheetObjectFilled *new_sof;
 	SheetObject *new_so;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT_FILLED (so), NULL);
+	sof = SHEET_OBJECT_FILLED (so);
 
 	new_so = sheet_object_graphic_clone (so, sheet);
 	new_sof = SHEET_OBJECT_FILLED (new_so);
 
-	new_sof->pattern    = sof->pattern;
-	new_sof->fill_color = sof->fill_color ? string_ref (sof->fill_color) : NULL;
+	new_sof->outline_color = sof->outline_color;
 
 	return SHEET_OBJECT (new_sof);
+}
+
+typedef struct 
+{
+	SheetObjectFilled *sof;
+	GtkWidget *fill_color_combo;
+	GtkWidget *outline_color_combo;
+	GtkObject *border_adjustment;
+	GdkColor *outline_color;
+	GdkColor *fill_color;
+	double width;
+} DialogFilledData;
+
+static gboolean
+cb_dialog_filled_close (GnomeDialog *dialog, DialogFilledData *data)
+{
+	g_free (data);
+
+	return (FALSE);
+}
+
+static void
+cb_dialog_filled_clicked (GnomeDialog *dialog, int button,
+			  DialogFilledData *data)
+{
+	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (data->sof);
+	GdkColor *color;
+
+	switch (button) {
+	case 0: /* Ok */
+	case 1: /* Apply */
+		color = color_combo_get_color (
+				COLOR_COMBO (data->outline_color_combo));
+		sheet_object_filled_outline_color_set (data->sof, color);
+		color = color_combo_get_color (
+				COLOR_COMBO (data->fill_color_combo));
+		sheet_object_graphic_fill_color_set (sog, color);
+		sheet_object_graphic_width_set (sog, 
+			GTK_ADJUSTMENT (data->border_adjustment)->value);
+		if (button == 0)
+			gnome_dialog_close (dialog);
+		break;
+	case 2: /* Cancel */
+		sheet_object_graphic_fill_color_set (sog, data->fill_color);
+		sheet_object_graphic_width_set (sog, data->width);
+		sheet_object_filled_outline_color_set (data->sof, 
+						       data->outline_color);
+		gnome_dialog_close (dialog);
+		break;
+	default:
+		g_warning ("Unhandled button %i.", button);
+		break;
+	}
+}
+
+static void
+sheet_object_filled_user_config (SheetObject *so, SheetControlGUI *scg)
+{
+	GtkWidget *dialog, *table, *label, *spin; 
+	SheetObjectFilled *sof;
+	SheetObjectGraphic *sog;
+	DialogFilledData *data;
+
+	g_return_if_fail (IS_SHEET_OBJECT_FILLED (so));
+	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
+
+	sof = SHEET_OBJECT_FILLED (so);
+	sog = SHEET_OBJECT_GRAPHIC (so);
+
+	dialog = gnome_dialog_new (_("Configure filled object"),
+				   GNOME_STOCK_BUTTON_OK,
+				   GNOME_STOCK_BUTTON_APPLY,
+				   GNOME_STOCK_BUTTON_CANCEL, NULL);
+	gnome_dialog_set_close (GNOME_DIALOG (dialog), FALSE);
+
+	table = gtk_table_new (2, 3, FALSE);
+	gtk_table_set_col_spacings (GTK_TABLE (table), 10);
+	gtk_table_set_row_spacings (GTK_TABLE (table), 10);
+	gtk_widget_show (table);
+	gtk_container_add (GTK_CONTAINER (GNOME_DIALOG (dialog)->vbox), table);
+	label = gtk_label_new (_("Outline color"));
+	gtk_widget_show (label);
+	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 0, 1);
+	label = gtk_label_new (_("Fill color"));
+	gtk_widget_show (label);
+	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 1, 2);
+	label = gtk_label_new (_("Border width"));
+	gtk_widget_show (label);
+	gtk_table_attach_defaults (GTK_TABLE (table), label, 0, 1, 2, 3);
+
+	data = g_new0 (DialogFilledData, 1);
+	data->sof = sof;
+
+	data->outline_color_combo = color_combo_new (NULL, _("Transparent"),
+				NULL, color_group_fetch ("outline_color", so));
+	color_combo_set_color (COLOR_COMBO (data->outline_color_combo),
+			       sof->outline_color);
+	data->outline_color = sof->outline_color;
+
+	data->fill_color_combo = color_combo_new (NULL, _("Transparent"),
+				NULL, color_group_fetch ("fill_color", so));
+	color_combo_set_color (COLOR_COMBO (data->fill_color_combo), 
+			       sog->fill_color);
+	data->fill_color = sog->fill_color;
+	
+	data->border_adjustment = gtk_adjustment_new ((float) sog->width, 1.0,
+						      100.0, 1.0, 5.0, 1.0);
+	spin = gtk_spin_button_new (GTK_ADJUSTMENT (data->border_adjustment),
+						    1, 0);
+	data->width = sog->width;
+
+	gtk_widget_show (data->fill_color_combo);
+	gtk_widget_show (data->outline_color_combo);
+	gtk_widget_show (spin);
+
+	gtk_table_attach_defaults (GTK_TABLE (table),
+				   data->outline_color_combo, 1, 2, 0, 1);
+	gtk_table_attach_defaults (GTK_TABLE (table),
+				   data->fill_color_combo, 1, 2, 1, 2);
+	gtk_table_attach_defaults (GTK_TABLE (table), spin, 1, 2, 2, 3);
+
+	gtk_signal_connect (GTK_OBJECT (dialog), "clicked",
+			    GTK_SIGNAL_FUNC (cb_dialog_filled_clicked), data);
+	gtk_signal_connect (GTK_OBJECT (dialog), "close",
+			    GTK_SIGNAL_FUNC (cb_dialog_filled_close), data);
+
+	gtk_widget_show (dialog);
+}
+
+#ifdef ENABLE_BONOBO
+static void
+make_rect (GnomePrintContext *ctx, double x1, double x2, double y1, double y2)
+{
+	gnome_print_moveto (ctx, x1, y1);
+	gnome_print_lineto (ctx, x2, y1);
+	gnome_print_lineto (ctx, x2, y2);
+	gnome_print_lineto (ctx, x1, y2);
+	gnome_print_lineto (ctx, x1, y1);
+}
+
+/*
+ * The following lines are copy and paste from dia. The ellipse logic has been 
+ * slightly adapted. I have _no_ idea what's going on...
+ */
+
+/* This constant is equal to sqrt(2)/3*(8*cos(pi/8) - 4 - 1/sqrt(2)) - 1.
+ * Its use should be quite obvious.
+ */
+#define ELLIPSE_CTRL1 0.26521648984
+/* this constant is equal to 1/sqrt(2)*(1-ELLIPSE_CTRL1).
+ * Its use should also be quite obvious.
+ */
+#define ELLIPSE_CTRL2 0.519570402739
+#define ELLIPSE_CTRL3 M_SQRT1_2
+/* this constant is equal to 1/sqrt(2)*(1+ELLIPSE_CTRL1).
+ * Its use should also be quite obvious.
+ */
+#define ELLIPSE_CTRL4 0.894643159635
+
+static void
+make_ellipse (GnomePrintContext *ctx,
+	      double x1, double x2, double y1, double y2)
+{
+	double width  = x2 - x1;
+	double height = y2 - y1;
+	double center_x = x1 + width / 2.0;
+	double center_y = y1 + height / 2.0;
+	double cw1 = ELLIPSE_CTRL1 * width / 2.0;
+	double cw2 = ELLIPSE_CTRL2 * width / 2.0;
+	double cw3 = ELLIPSE_CTRL3 * width / 2.0;
+	double cw4 = ELLIPSE_CTRL4 * width / 2.0;
+	double ch1 = ELLIPSE_CTRL1 * height / 2.0;
+	double ch2 = ELLIPSE_CTRL2 * height / 2.0;
+	double ch3 = ELLIPSE_CTRL3 * height / 2.0;
+	double ch4 = ELLIPSE_CTRL4 * height / 2.0;
+
+	gnome_print_moveto (ctx, x1, center_y);
+	gnome_print_curveto (ctx,
+			     x1,             center_y - ch1,
+			     center_x - cw4, center_y - ch2,
+			     center_x - cw3, center_y - ch3);
+	gnome_print_curveto (ctx,
+			     center_x - cw2, center_y - ch4,
+			     center_x - cw1, y1,
+			     center_x,       y1);
+	gnome_print_curveto (ctx,
+			     center_x + cw1, y1,
+			     center_x + cw2, center_y - ch4,
+			     center_x + cw3, center_y - ch3);
+	gnome_print_curveto (ctx,
+			     center_x + cw4, center_y - ch2,
+			     x2,             center_y - ch1,
+			     x2,             center_y);
+	gnome_print_curveto (ctx,
+			     x2,             center_y + ch1,
+			     center_x + cw4, center_y + ch2,
+			     center_x + cw3, center_y + ch3);
+	gnome_print_curveto (ctx,
+			     center_x + cw2, center_y + ch4,
+			     center_x + cw1, y2,
+			     center_x,       y2);
+	gnome_print_curveto (ctx,
+			     center_x - cw1, y2,
+			     center_x - cw2, center_y + ch4,
+			     center_x - cw3, center_y + ch3);
+	gnome_print_curveto (ctx,
+			     center_x - cw4, center_y + ch2,
+			     x1,             center_y + ch1,
+			     x1,             center_y); 
+}
+#endif
+
+static void
+sheet_object_filled_print (SheetObject const *so,
+			   SheetObjectPrintInfo const *pi)
+{
+#ifdef ENABLE_BONOBO
+	SheetObjectFilled *sof;
+	SheetObjectGraphic *sog;
+	double coords [4];
+	double width, height;
+	GnomePrintMeta *meta;
+	GnomePrintContext *ctx;
+
+	g_return_if_fail (IS_SHEET_OBJECT_FILLED (so));
+	sof = SHEET_OBJECT_FILLED (so);
+	sog = SHEET_OBJECT_GRAPHIC (so);
+
+	sheet_object_position_pts (so, coords);
+	width  = coords [2] - coords [0];
+	height = coords [3] - coords [1];
+
+	meta = bonobo_print_data_get_meta (pi->pd);
+	ctx = GNOME_PRINT_CONTEXT (meta);
+
+	gnome_print_gsave (ctx);
+
+	if (sof->outline_color) {
+		gnome_print_setlinewidth (ctx, sog->width);
+		gnome_print_setrgbcolor (ctx,
+					 (double) sof->outline_color->red,
+					 (double) sof->outline_color->green,
+					 (double) sof->outline_color->blue); 
+		gnome_print_newpath (ctx);
+		if (sog->type == SHEET_OBJECT_OVAL)
+			make_ellipse (ctx, 0.0, width, 0.0, height);
+		else
+			make_rect (ctx, 0.0, width, 0.0, height);
+		gnome_print_closepath (ctx);
+		gnome_print_stroke (ctx);
+	}
+
+	if (sog->fill_color) {
+		gnome_print_setrgbcolor (ctx,
+					 (double) sog->fill_color->red,
+					 (double) sog->fill_color->green,
+					 (double) sog->fill_color->blue);
+		gnome_print_newpath (ctx);
+		if (sog->type == SHEET_OBJECT_OVAL)
+			make_ellipse (ctx, 0.0, width, 0.0, height);
+		else
+			make_rect (ctx, 0.0, width, 0.0, height);
+		gnome_print_fill (ctx);
+	}
+
+	gnome_print_grestore (ctx);
+#else
+	g_warning (PACKAGE " has been compiled without bonobo support. "
+		   "Objects will not be printed.");
+#endif
 }
 
 static void
 sheet_object_filled_class_init (GtkObjectClass *object_class)
 {
-	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (object_class);
-	sheet_object_filled_parent_class = gtk_type_class (sheet_object_graphic_get_type ());
+	SheetObjectClass *sheet_object_class;
+
+	sheet_object_filled_parent_class = gtk_type_class (SHEET_OBJECT_GRAPHIC_TYPE);
 
 	object_class->destroy		  = sheet_object_filled_destroy;
+
+	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  = sheet_object_filled_new_view;
 	sheet_object_class->update_bounds = sheet_object_filled_update_bounds;
 	sheet_object_class->read_xml	  = sheet_object_filled_read_xml;
 	sheet_object_class->write_xml	  = sheet_object_filled_write_xml;
 	sheet_object_class->clone         = sheet_object_filled_clone;
+	sheet_object_class->user_config   = sheet_object_filled_user_config;
+	sheet_object_class->print         = sheet_object_filled_print;
 	sheet_object_class->rubber_band_directly = TRUE;
 }
 
 static void
 sheet_object_filled_init (GtkObject *obj)
 {
-	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (obj);
-	SheetObject *so = SHEET_OBJECT (obj);
-	sog->type = SHEET_OBJECT_BOX;
-	so->direction = SO_DIR_UNKNOWN;
+	SheetObjectFilled *sof;
+	
+	sof = SHEET_OBJECT_FILLED (obj);
+	sof->outline_color = g_new0 (GdkColor, 1);
+	e_color_alloc_gdk (sof->outline_color);
 }
 
 E_MAKE_TYPE (sheet_object_filled, "SheetObjectFilled", SheetObjectFilled,

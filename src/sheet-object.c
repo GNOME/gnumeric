@@ -389,24 +389,13 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 {
 	SheetObject *so;
 	char *tmp;
+	GtkObject *obj;
 
-	/* Old crufty IO */
-	if (!strcmp (tree->name, "Rectangle")){
-		so = sheet_object_box_new (FALSE);
-	} else if (!strcmp (tree->name, "Ellipse")){
-		so = sheet_object_box_new (TRUE);
-	} else if (!strcmp (tree->name, "Arrow")){
-		so = sheet_object_line_new (TRUE);
-	} else if (!strcmp (tree->name, "Line")){
-		so = sheet_object_line_new (FALSE);
-	} else {
-		GtkObject *obj;
-		obj = gtk_object_new (gtk_type_from_name (tree->name), NULL);
-		so = SHEET_OBJECT (obj);
-	}
-
-	if (so == NULL)
-		return NULL;
+	obj = gtk_object_new (gtk_type_from_name (tree->name), NULL);
+	if (!obj)
+		return (NULL);
+	
+	so = SHEET_OBJECT (obj);
 
 	if (SO_CLASS (so)->read_xml &&
 	    SO_CLASS (so)->read_xml (so, ctxt, tree)) {
@@ -441,6 +430,8 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 			so->anchor_type[count] = i[count];
 		xmlFree (tmp);
 	}
+
+	xml_get_value_int (tree, "Direction", &so->direction);
 
 	sheet_object_set_sheet (so, ctxt->sheet);
 	return so;
@@ -480,6 +471,7 @@ sheet_object_write_xml (SheetObject const *so, XmlParseContext const *ctxt)
 		  so->anchor_type [0], so->anchor_type [1],
 		  so->anchor_type [2], so->anchor_type [3]);
 	xml_set_value_cstr (tree, "ObjectAnchorType", buffer);
+	xml_set_value_int (tree, "Direction", so->direction);
 
 	return tree;
 }

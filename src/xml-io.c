@@ -45,6 +45,7 @@
 #include <errno.h>
 #include <zlib.h>
 #include <gal/util/e-xml-utils.h>
+#include <gal/widgets/e-colors.h>
 #include <gnome.h>
 #include <locale.h>
 #include <math.h>
@@ -318,14 +319,15 @@ xml_get_value_float (xmlNodePtr node, const char *name, float *val)
  * Get a double value for a node either carried as an attibute or as
  * the content of a child.
  */
-static int
+gboolean
 xml_get_value_double (xmlNodePtr node, const char *name, double *val)
 {
 	int res;
 	char *ret;
 
 	ret = xml_value_get (node, name);
-	if (ret == NULL) return 0;
+	if (ret == NULL)
+		return FALSE;
 	res = sscanf (ret, "%lf", val);
 	g_free (ret);
 
@@ -392,8 +394,8 @@ xml_set_value_int (xmlNodePtr node, const char *name, int val)
  * Set a double value for a node either carried as an attibute or as
  * the content of a child.
  */
-static void
-xml_set_prop_double (xmlNodePtr node, const char *name, double val,
+void
+xml_set_value_double (xmlNodePtr node, const char *name, double val,
 		     int precision)
 {
 	char str[101 + DBL_DIG];
@@ -415,7 +417,7 @@ xml_set_prop_double (xmlNodePtr node, const char *name, double val,
 static void
 xml_set_value_points (xmlNodePtr node, const char *name, double val)
 {
-	xml_set_prop_double (node, name, val, POINT_SIZE_PRECISION);
+	xml_set_value_double (node, name, val, POINT_SIZE_PRECISION);
 }
 
 static void
@@ -571,6 +573,23 @@ xml_get_color_value (xmlNodePtr node, const char *name, StyleColor **color)
 	return 0;
 }
 
+GdkColor *xml_get_value_color (xmlNodePtr node, const char *name)
+{
+	GdkColor   *color;
+	StyleColor *style_color;
+
+	if (xml_get_color_value (node, name, &style_color)) {
+		color = g_new0 (GdkColor, 1);
+		color->red   = style_color->color.red;
+		color->green = style_color->color.green;
+		color->blue  = style_color->color.blue;
+		e_color_alloc_gdk (color);
+		style_color_unref (style_color);
+		return (color);
+	} else
+		return (NULL);
+}
+
 /*
  * Set a color value for a node either carried as an attibute or as
  * the content of a child.
@@ -598,6 +617,19 @@ xml_set_color_value (xmlNodePtr node, const char *name, StyleColor *val)
 		child = child->next;
 	}
 	xmlSetProp (node, name, str);
+}
+
+void
+xml_set_value_color (xmlNodePtr node, const char *name, const GdkColor *color)
+{
+	StyleColor *style_color;
+
+	if (!color)
+		return;
+
+	style_color = style_color_new (color->red, color->green, color->blue);
+	xml_set_color_value (node, name, style_color);
+	style_color_unref (style_color);
 }
 
 /**

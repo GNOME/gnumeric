@@ -1,3 +1,18 @@
+2001-08-11  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
+	* src/sheet-object-graphic.c: Use GdkColors instead of strings. 
+	Implemented printing. Objects aren't in the right place though. Still 
+	needs some tuning. Configuration implemented (border width, outline
+	color, fill color).
+	* src/sheet-object-graphic.h: Be consistent, rename
+	IS_SHEET_GRAPHIC_OBJECT -> IS_SHEET_OBJECT_GRAPHIC and
+	IS_SHEET_FILLED_OBJECT -> IS_SHEET_OBJECT_FILLED
+	* sheet-object.c: (sheet_object_read_xml): Remove "Old crufty IO"
+	(quoted from code). Get and set the direction here instead of in
+	sheet-object-graphic.
+	* src/xml-io.[c,h]: Make xml_[get,set]_value_double and 
+	xml_[get,set]_value_color public.
+
 2001-08-09  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_get_decimal) : Fix a problem in locale's with

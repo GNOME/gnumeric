@@ -9,6 +9,7 @@
 #ifndef GNUMERIC_XML_IO_H
 #define GNUMERIC_XML_IO_H
 
+#include <gdk/gdktypes.h>
 #ifdef ENABLE_BONOBO
 #include <bonobo/bonobo-stream.h>
 #endif
@@ -107,6 +108,14 @@ String *     xml_get_value_string  (xmlNodePtr node, const char *name);
 void         xml_set_value_string  (xmlNodePtr node, const char *name, const String *val);
 gboolean     xml_get_value_int     (xmlNodePtr node, const char *name, int *val);
 void         xml_set_value_int     (xmlNodePtr node, const char *name, int val);
+
+GdkColor *xml_get_value_color   (xmlNodePtr node, const char *name);
+void      xml_set_value_color   (xmlNodePtr node, const char *name,
+			         const GdkColor *color);
+gboolean  xml_get_value_double  (xmlNodePtr node, const char *name, double *val);
+void      xml_set_value_double  (xmlNodePtr node, const char *name, double val,
+				 int precision);
+
 
 xmlNodePtr   xml_write_style       (XmlParseContext *ctxt, MStyle *style);
 MStyle      *xml_read_style        (XmlParseContext *ctxt, xmlNodePtr tree);
