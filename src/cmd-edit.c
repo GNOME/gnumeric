@@ -299,7 +299,7 @@ cmd_paste (CommandContext *context, PasteTarget const *pt, guint32 time)
 
 		/* Validate the size & shape of the target here. */
 		int const cols = (src_range->end.col - src_range->start.col);
-		int const rows = (src_range->end.row - src_range->start.col);
+		int const rows = (src_range->end.row - src_range->start.row);
 
 		Range dst = pt->range;
 

@@ -710,7 +710,7 @@ sheet_update (Sheet const *sheet)
 
 	if (p->recompute_spans) {
 		p->recompute_spans = FALSE;
-		sheet_calc_spans (sheet, SPANCALC_RESIZE |
+		sheet_calc_spans (sheet, SPANCALC_RESIZE|SPANCALC_RENDER |
 				  (p->recompute_visibility ?
 				   SPANCALC_NO_DRAW : SPANCALC_SIMPLE));
 	}
@@ -3222,9 +3222,6 @@ sheet_move_range (CommandContext *context,
 	/* 8. Notify sheet of pending update */
 	rinfo->origin_sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (rinfo->origin_sheet, &rinfo->origin);
-
-	/* FIXME FIXME FIXME : these should be at the command level */
-	sheet_update (rinfo->origin_sheet);
 }
 
 /**
@@ -3255,6 +3252,9 @@ sheet_shift_rows (CommandContext *context, Sheet *sheet,
 	rinfo.row_offset = 0;
 
 	sheet_move_range (context, &rinfo);
+
+	/* FIXME FIXME FIXME : these should be at the command level */
+	sheet_update (rinfo.origin_sheet);
 }
 
 /**
@@ -3284,6 +3284,9 @@ sheet_shift_cols (CommandContext *context, Sheet *sheet,
 	rinfo.row_offset = count;
 
 	sheet_move_range (context, &rinfo);
+
+	/* FIXME FIXME FIXME : these should be at the command level */
+	sheet_update (rinfo.origin_sheet);
 }
 
 double *

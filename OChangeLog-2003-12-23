@@ -1,5 +1,17 @@
 2000-05-27  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_update) : When recalulating all spans, we may
+	  need to render some cells too.
+	(sheet_move_range) : Do not call sheet_update here.
+	(sheet_shift_rows) : Call it here.
+	(sheet_shift_cols) : and here.
+
+	* src/commands.c (cmd_paste_cut_undo) : Do a recalc.
+	(cmd_paste_cut_redo) : No need to force a status range update, move
+	  already did that.
+
+	* src/cmd-edit.c (cmd_paste) : typo.
+
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Chift/Ctrl
 	  space are not active while editing.
 

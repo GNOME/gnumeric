@@ -535,9 +535,6 @@ cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
 			sheet_range_set_text (&me->pos, r, me->text);
 	}
 
-	sheet_set_dirty (me->pos.sheet, TRUE);
-	workbook_recalc (me->pos.sheet->workbook);
-
 	/*
 	 * Now that things have been filled in and recalculated we can generate
 	 * the spans.  Non expression cells need to be rendered.
@@ -550,6 +547,8 @@ cmd_area_set_text_redo (GnumericCommand *cmd, CommandContext *context)
 		sheet_range_calc_spans (me->pos.sheet, *r, SPANCALC_RENDER);
 	}
 
+	sheet_set_dirty (me->pos.sheet, TRUE);
+	workbook_recalc (me->pos.sheet->workbook);
 	sheet_update (me->pos.sheet);
 
 	return FALSE;
@@ -1724,6 +1723,7 @@ cmd_paste_cut_undo (GnumericCommand *cmd, CommandContext *context)
 	sheet_flag_status_update_range (me->info.target_sheet, NULL /* force update */);
 
 	sheet_set_dirty (me->info.target_sheet, TRUE);
+	workbook_recalc (me->info.target_sheet->workbook);
 	sheet_update (me->info.target_sheet);
 
 	return FALSE;
@@ -1750,12 +1750,10 @@ cmd_paste_cut_redo (GnumericCommand *cmd, CommandContext *context)
 			     tmp.start.col, tmp.start.row,
 			     tmp.end.col, tmp.end.row);
 
-	sheet_set_dirty (me->info.target_sheet, TRUE);
 	sheet_move_range (context, &me->info);
 
-	/* Force update of the status area */
-	sheet_flag_status_update_range (me->info.target_sheet, NULL /* force update */);
-
+	sheet_set_dirty (me->info.target_sheet, TRUE);
+	workbook_recalc (me->info.target_sheet->workbook);
 	sheet_update (me->info.target_sheet);
 
 	return FALSE;
