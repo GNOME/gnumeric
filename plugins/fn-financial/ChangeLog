@@ -1,3 +1,9 @@
+2003-07-05  Jody Goldberg <jody@gnome.org>
+
+	* functions.c : s/sequrity/security/
+	s/depriciation/depreciation/
+	Remove the duplication of the arg decriptors for SLN
+
 2003-07-01  Jody Goldberg <jody@gnome.org>
 
 	* sc-fin.c : ditch sc's daycount routines
