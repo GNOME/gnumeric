@@ -37,6 +37,9 @@
  * since this function is not only slow, but memory
  * intensive it should be used wisely & sparingly and
  * over small ranges.
+ *
+ * FIXME: This routine has space for some serious
+ *        optimization.
  * 
  **/
 void
@@ -44,7 +47,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 {
 	GList *l, *a;
 	GList *style_list;
-	int    overlapping = 0, len = 0;
+	int    overlapping = 0, len = 0, i;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -59,8 +62,7 @@ sheet_style_optimize (Sheet *sheet, Range range)
 	for (l = sheet->style_list; l; l = l->next) {
 		StyleRegion *sr = l->data;
 		if (range_overlap (&sr->range, &range)) {
-			style_list = g_list_prepend (style_list,
-						     sr->style);
+			style_list = g_list_prepend (style_list, sr);
 			overlapping++;
 		}
 		len++;
@@ -70,7 +72,9 @@ sheet_style_optimize (Sheet *sheet, Range range)
 		g_warning ("there are %d overlaps out of %d = %g%%",
 			   overlapping, len, (double)((1.0 * overlapping) / len));
 
-	/* See if any are adjacent to each other */
+	/*
+	 * Merge any identical Range regions
+	 */
 	for (a = style_list; a; a = a->next) {
 
 		StyleRegion *sra = a->data;
@@ -81,34 +85,82 @@ sheet_style_optimize (Sheet *sheet, Range range)
 			StyleRegion *srb = b->data;
 			GList *next = g_list_next (b);
 
+			if (STYLE_DEBUG) {
+				printf ("Compare equal iteration: ");
+				range_dump (&sra->range);
+				printf (" to ");
+				range_dump (&srb->range);
+				printf ("\n");
+			}
+
 			if (range_equal (&sra->range, &srb->range)) {
 				MStyle *tmp;
 				
-				tmp = sra->style;
-				sra->style = mstyle_merge (tmp, srb->style);
-				mstyle_unref (tmp);
-
-				style_list = g_list_remove (style_list, srb);
-				g_free (srb);
 				if (STYLE_DEBUG)
-					g_warning ("testme: Two equal ranges, merged");
-			}
+					printf ("testme: Two equal ranges, merged\n");
 
-			if (range_adjacent (&sra->range, &srb->range) &&
-			    mstyle_equal   ( sra->style,  srb->style)) {
-				if (STYLE_DEBUG)
-					g_warning ("testme: Merging two ranges");
-				
-				sra->range = range_merge (&sra->range, &srb->range);
-				style_list = g_list_remove (style_list, srb);
-				
-				mstyle_unref (srb->style);
-				g_free (srb);
+				tmp = mstyle_merge (sra->style, srb->style);
+				if (tmp) {
+					style_list = g_list_remove (style_list, srb);
+					sheet->style_list = g_list_remove (sheet->style_list, srb);
+					mstyle_unref (sra->style);
+					sra->style = tmp;
+					mstyle_unref (srb->style);
+					g_free (srb);
+				} else
+					g_warning ("failed mstyle_merge!");
 			}
 
 			b = next;
 		}
 	}
+
+	/*
+	 * Allow to coalesce in X sense, then again in Y sense.
+	 */
+	for (i = 0; i < 2; i++) {
+		/*
+		 * Cull adjacent identical Style ranges.
+		 */
+		for (a = style_list; a; a = a->next) {
+			
+			StyleRegion *sra = a->data;
+			GList       *b;
+			
+			b = a->next;
+			while (b) {
+				StyleRegion *srb = b->data;
+				GList *next = g_list_next (b);
+				
+				if (STYLE_DEBUG) {
+					printf ("Compare adjacent iteration: ");
+					range_dump (&sra->range);
+					printf (" to ");
+					range_dump (&srb->range);
+					printf ("\n");
+				}
+				
+				if (range_adjacent (&sra->range, &srb->range)) {
+					if (mstyle_equal  ( sra->style,  srb->style)) {
+						if (STYLE_DEBUG)
+							printf ("testme: Merging two ranges\n");
+						
+						sra->range = range_merge (&sra->range, &srb->range);
+						style_list = g_list_remove (style_list, srb);
+						sheet->style_list = g_list_remove (sheet->style_list, srb);
+						
+						mstyle_unref (srb->style);
+						g_free (srb);
+					} else if (STYLE_DEBUG)
+						printf ("Regions adjacent but not equal\n");
+				}
+				
+				b = next;
+			}
+		}
+	}
+
+	g_list_free (style_list);
 }
 
 /**
@@ -149,9 +201,11 @@ sheet_style_attach (Sheet *sheet, Range range,
 	sheet->style_list = g_list_prepend (sheet->style_list, sr);
 
 	if (STYLE_DEBUG) {
-		printf ("Attaching style");
+		printf ("Attaching ");
 		mstyle_dump (sr->style);
+		printf ("to cell ");
 		range_dump (&sr->range);
+		printf ("\n");
 	}
 		
 	/* FIXME: Need to clip range against view port */
@@ -234,7 +288,8 @@ sheet_selection_apply_style_cb (Sheet *sheet,
 				Range const *range,
 				gpointer user_data)
 {
-	sheet_style_attach (sheet, *range, user_data);
+	sheet_style_attach   (sheet, *range, user_data);
+	sheet_style_optimize (sheet, *range);
 }
 
 /** 

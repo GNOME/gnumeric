@@ -1,3 +1,24 @@
+1999-10-11  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/mstyle.c (mstyle_equal): add quick initial pointer equality test.
+	(mstyle_element_equal): add precondition + debug.
+	(mstyle_elements_equal): add debug.
+
+	* src/sheet-style.c (sheet_style_optimize): Actualy remove culled
+	regions from the sheet style list as well as the temporary one.
+
+1999-10-10  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (sheet_style_optimize): fix big leak.
+	(sheet_style_optimize): fix _stupid_ bug killing the optimizer.
+	re-hash order things are done in + add failed merge case.
+	(sheet_selection_apply_style_cb): add optimize.
+	(sheet_style_optimize): fix mamouth drop-through bug.
+
+	* src/mstyle.c (mstyle_elements_equal): update.
+
+	* src/sheet-style.c (sheet_style_attach): make debug look nice.
+
 1999-10-10  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/mstyle.c (mstyle_element_dump): dump the default name instead.
@@ -3197,3 +3218,4 @@
 
 	* src/eval.c (add_cell_range_deps): Use eval_sheet, and make
 	warning more correct.
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   

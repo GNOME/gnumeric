@@ -52,34 +52,6 @@ static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 /* TODO : enable diagonal */
 #define STYLE_ORIENT_MAX 4
 
-/*static guint16
-ms_bug_get_padding (const BiffQuery *q, guint16 opcode)
-{
-	guint8 ls_op = (opcode & 0x00ff);
-	guint ans=0;
-
-	switch (ls_op)
-	{
-	case BIFF_SST:
-		ans=1;
-		break;
-	case BIFF_MS_O_DRAWING_GROUP:
-	case BIFF_MS_O_DRAWING:
-		ans=0;
-		break;
-	default:
-#if BIFF_DEBUG > 0
-		printf ("Unknown padding to fix bug on record 0x%x\n", opcode);
-#endif
-		break;
-	}
-#if BIFF_DEBUG > 0
-	printf ("ms_bug_get_padding 0x%x = %d\n",
-		opcode, ans);
-#endif
-	return ans;
-}*/
-
 void
 ms_excel_unexpected_biff (BiffQuery *q, char const *const state)
 {
@@ -270,7 +242,7 @@ biff_get_error_text (const guint8 err)
 	switch (err)
 	{
 	case 0:  buf = gnumeric_err_NULL;  break;
-	case 7:  buf = gnumeric_err_DIV0; break;
+	case 7:  buf = gnumeric_err_DIV0;  break;
 	case 15: buf = gnumeric_err_VALUE; break;
 	case 23: buf = gnumeric_err_REF;   break;
 	case 29: buf = gnumeric_err_NAME;  break;
@@ -1127,9 +1099,7 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 	if (cell->row->pos > sheet->style_optimize.start.row + 2) {
 		sheet_style_optimize (sheet->gnum_sheet, sheet->style_optimize);
 
-		sheet->style_optimize.start.col = cell->col->pos;
-		sheet->style_optimize.start.row = cell->row->pos;
-		sheet->style_optimize.end = sheet->style_optimize.start;
+		sheet->style_optimize.start = sheet->style_optimize.end;
 	} else {
 		if (cell->col->pos > sheet->style_optimize.end.col)
 			sheet->style_optimize.end.col   = cell->col->pos;

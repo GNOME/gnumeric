@@ -119,8 +119,11 @@ static gboolean
 mstyle_element_equal (const MStyleElement a,
 		      const MStyleElement b)
 {
-	if (a.type != b.type)
+	if ((a.type == MSTYLE_ELEMENT_UNSET ||
+	     b.type == MSTYLE_ELEMENT_UNSET) && a.type != b.type)
 		return FALSE;
+
+	g_return_val_if_fail (a.type == b.type, FALSE);
 
 	switch (a.type) {
 	case MSTYLE_ANY_COLOR:
@@ -175,6 +178,7 @@ mstyle_element_equal (const MStyleElement a,
 	default:
 		return TRUE;
 	}
+
 	return FALSE;
 }
 
@@ -187,9 +191,14 @@ mstyle_elements_equal (const MStyleElement *a,
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
 
-	for (i = 0; i < MSTYLE_ELEMENT_MAX && mstyle_element_equal (a[i], b[i]); i++);
+	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++)
+		if (!mstyle_element_equal (a[i], b[i])) {
+			if (STYLE_DEBUG)
+				printf ("%s mismatch\n", mstyle_names[i]);
+			return FALSE;
+		}
 
-	return (i == MSTYLE_ELEMENT_MAX);
+	return TRUE;
 }
 
 MStyleElement
@@ -444,6 +453,9 @@ mstyle_equal (const MStyle *a, const MStyle *b)
 
 	g_return_val_if_fail (a != NULL, FALSE);
 	g_return_val_if_fail (b != NULL, FALSE);
+
+	if (a == b)
+		return TRUE;
 
 	if (pa->name || pb->name)
 		g_warning ("Named style equal unimplemented");

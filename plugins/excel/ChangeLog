@@ -1,7 +1,13 @@
+1999-10-11  Michael Meeks  <mmeeks@gnu.org>
+
+	* ms-excel-read.c (ms_excel_set_cell_xf): better optimize region
+	generation.
+
 1999-10-10  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-read.c (ms_excel_sheet_new): Initialize range.
 	(ms_excel_set_cell_xf): Add range optimization.
+	(ms_bug_get_padding): Kill.
 
 	* ms-excel-read.h (ExcelSheet): Add style_optimize field.
 
