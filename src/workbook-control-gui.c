@@ -3087,7 +3087,7 @@ static GnomeUIInfo workbook_menu_tools_two_means [] = {
 		N_("Comparing two population means for two paired samples.: t-test"),
 		cb_tools_ttest_paired),
 
-	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, E_qual Var.: T-Test"),
+	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, _Equal Var.: T-Test"),
 		N_("Comparing two population means for two unpaired samples "
 		   "from pop. with equal var.: t-test"),
 		cb_tools_ttest_equal_var),

@@ -534,7 +534,7 @@
 		    _label="_Paired Samples: T-Test"
 		    _tip="Comparing two population means for two paired samples.: t-test"/>
 	        <menuitem name="ToolTTestEqualVar" verb=""
-		    _label="Unpaired Samples, E_qual Var.: T-Test"
+		    _label="Unpaired Samples, _Equal Var.: T-Test"
 		    _tip="Comparing two population means for two unpaired samples from pop. with equal var.: t-test"/>
 	        <menuitem name="ToolTTestUnequalVar" verb=""
 		    _label="Unpaired Samples, _Unequal Var.: T-Test"

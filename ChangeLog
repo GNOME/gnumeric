@@ -1,3 +1,9 @@
+2002-04-09  Morten Welinder  <terra@diku.dk>
+
+	* configure.in (bind_textdomain_codeset): Add -lintl when needed.
+
+	* src/workbook-control-gui.c: s/E_qual/_Equal/.
+
 2002-04-08  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/workbook-control-gui.c (hide_show_detail_real) : new

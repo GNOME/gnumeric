@@ -936,7 +936,10 @@ gnm_mem_chunk_free (gnm_mem_chunk *chunk, gpointer mem)
 	}
 }
 
-
+/*
+ * Loop over all non-freed memory in the chunk.  It's safe to allocate or free
+ * from the chunk in the callback.
+ */
 void
 gnm_mem_chunk_foreach_leak (gnm_mem_chunk *chunk, GFunc cb, gpointer user)
 {
