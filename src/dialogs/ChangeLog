@@ -1,3 +1,8 @@
+2000-12-27  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-define-names.c (cb_name_guru_add) : bug 36049
+	  for now assume that all names are reltive to A1.
+
 2000-12-20  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-delete-cells.c (dialog_delete_cells) : move test for

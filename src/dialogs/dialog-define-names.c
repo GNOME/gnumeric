@@ -447,9 +447,13 @@ cb_name_guru_add (NameGuruState *state)
 	if (!name || (name[0] == '\0'))
 		return TRUE;
 
-	pp = parse_pos_init (&pos, state->wb, state->sheet,
+	pp = parse_pos_init (&pos, state->wb, state->sheet, 0, 0);
+	/*
+	 * expr name uses 0,0 for now.  Figure out what to do with this
+	 * eventually.
 			     state->sheet->edit_pos.col,
 			     state->sheet->edit_pos.row);
+			     */
 
 	expr_name = expr_name_lookup (pp, name);
 
