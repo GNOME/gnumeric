@@ -83,8 +83,21 @@ html_read_content (htmlNodePtr cur, xmlBufferPtr buf, MStyle *mstyle, xmlBufferP
 				xmlAttrPtr   props;
 				props = ptr->properties;
 				while (props) {
-					if (xmlStrEqual (props->name, "href") && props->children)
+					if (xmlStrEqual (props->name, "href") && props->children) {
 						htmlNodeDump (a_buf, doc, props->children);
+						xmlBufferAdd (a_buf, "\n", -1);
+					}
+					props = props->next;
+				}
+			}
+			if (xmlStrEqual (ptr->name, "img")) {
+				xmlAttrPtr   props;
+				props = ptr->properties;
+				while (props) {
+					if (xmlStrEqual (props->name, "src") && props->children) {
+						htmlNodeDump (a_buf, doc, props->children);
+						xmlBufferAdd (a_buf, "\n", -1);
+					}
 					props = props->next;
 				}
 			}
