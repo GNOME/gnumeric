@@ -8,6 +8,9 @@ Andreas:
 	* Rewrite descriptive statistics analysis tool dialog to use a 
           glade template and the gnumeric-expr-entry widget.
 
+Christopher Keith Fairbairn:
+	* Add a 'Fill' menu connection to autofill.
+
 Jody:
 	* Enable XL import for graphs.
 	* Add simple bucketing of range dependencies.
@@ -15,7 +18,8 @@ Jody:
 	* Cleanup the DOM based xml import/export utilities.
 	* Remove irritating frame around bonobo objects.
 	* Improve sheet object menus.
-	* What eval queue?
+	* Remove the eval queue
+	* Improve INDIRECT.
 	* Fix handling of mixed mode references.
 	* Correct sensitivity of menus & toolbars.
 	* Some initial guess work on how to import conditional XL formats.
@@ -28,8 +32,11 @@ Jukka:
 	  format and creates a spreadsheet model of it.  Currently, the
 	  bounds and ranges are not implemented yet.
 
+Marc Johnson:
+	* The POI project has contributed an xml schema for .gnumeric files.
+
 Morten:
-	* Speed up font handling a bit.
+	* Speed up font handling.
 	* Speed up dependency handling.
 	* Eliminate deep recursion during dependency dirtying.
 	* Fix the python and python-loader modules.  (Work around mind-
