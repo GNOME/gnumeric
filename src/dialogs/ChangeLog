@@ -1,3 +1,7 @@
+2002-10-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-cell-sort.c (cb_add_clicked): plug leak
+
 2002-10-07  Jody Goldberg <jody@gnome.org>
 
 	* cell-format.glade : restore the information that glade convert

@@ -554,6 +554,8 @@ static void cb_add_clicked (GtkWidget *w, SortFlowState *state)
 	grange_sort = value_to_global_range (state->sel);
 	grange_add = value_to_global_range (range_add);
 
+	value_release (range_add);
+
 	if (range_intersection (&intersection, &grange_sort->range, &grange_add->range)) {
 
 		if (state->is_cols) {
