@@ -865,7 +865,7 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 			handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
 			UNLINK_DEP (dep);
 /* FIXME FIXME FIXME : Massive hack !  rework dependent linkage cycle after release */
-		} if (!dependent_is_cell (dep))
+		} else if (!dependent_is_cell (dep))
 			handle_tree_deps (dep, pos, dep->expression, REMOVE_DEPS);
 
 		dep->flags &= ~(DEPENDENT_IN_EXPR_LIST | DEPENDENT_NEEDS_RECALC);
