@@ -11,8 +11,7 @@
       <guimenu><accel>F</accel>ile</guimenu>/
       <guimenuitem><accel>S</accel>ave</guimenuitem> menuitem. There
       is also a buttonbar <guibutton>Save</guibutton> (see <xref
-      linkend="toolbar-buttons">).  All these methods are equivalent
-      .
+      linkend="toolbar-buttons">).  All these methods are equivalent.
     </para>
 
     <!-- FIXME is this proper? --> 
@@ -120,7 +119,21 @@
   
   <sect1 id="file-format">
     <title>File format</title>
+
+    <para> In the <guimenuitem>Save as..</guimenuitem> dialog you can choose between
+    various file formats. (see <xref linkend="fileformatdialog">)</para>
+    <figure  id="fileformatdialog">
+    <title>File Format Selector</title>
+    <screenshot id="fileformatdialog-shot">
+	<graphic fileref="figures/files-formats-list.png" format="PNG"></graphic>
+    </screenshot>
+    </figure>
+  <para>Most of these formats are provided by plug-ins. If they don't appear on your list of 
+  available plug-ins use the <guimenuitem>Tools Plug-ins...</guimenuitem> menu item to 
+  verify that the appropriate plug-in has been loaded.</para>
     
+  <sect2 id="file-format-default">
+  <title>Gnumeric XML File Format</title>
     <para>The default file format an Gnumeric's native format is a xml
       based file.  The file format is a ascii text based xml
       format. It is however, typically written and read in a gzip
@@ -130,7 +143,78 @@
     <para>The uncompressed format is human readable and designed to be
       easily parsed. It is very extensible.
     </para>
-      
+  </sect2>
+  <sect2 id="file-format-dif">
+  <title>Data Interchange Format</title>
+  <para>This format is supported by the <quote>Data Interchange Format (DIF) 
+  module</quote> plug-in.</para>
+  </sect2>
+  <sect2 id="file-format-dvi">
+  <title>DVI TeX Format</title>
+  <para>This format is supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
+  <para>Creation of a dvi file with gnumeric requires that <keycap>groff</keycap> has 
+  been installed. If a complete TeX installation is available it is probably advisable 
+  to use the LaTeX format (<xref linkend="file-format-latex">) instead, since the
+  created LaTeX file can be extensively customized before creating the dvi file from it.</para>
+  </sect2>
+  <sect2 id="file-format-xl">
+  <title><trademark>Excel</trademark> (R) 95 File Format</title>
+  <para>This format is supported by the <quote><trademark>Microsoft(R) Excel</trademark></quote> plug-in.</para>
+  </sect2>
+  <sect2 id="file-format-efs">
+  <title>Experimental Bonobo EFS Format</title>
+  <para>This format is supported by the <quote>EXPERIMENTAL SAX based XML</quote> plug-in.</para>
+  </sect2>
+  <sect2 id="file-format-po">
+  <title>Gnome Glossary PO File Format</title>
+  <para>This format is supported by the <quote>Gnome Glossary</quote> plug-in.</para>
+  </sect2>
+  <sect2 id="file-format-html">
+  <title>HTML File Formats</title>
+  <para>These formats are supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
+  <sect3 id="file-format-html32">
+  <title>HTML 3.2 File Format</title>
+  <para>Gnumeric can create HTML 3.2 files. All sheets of the current workbook are exported. 
+  The tables in the HTML 3.2 file contain all cells, whether visible or not, including merged
+  cells and spans. Horizontal as well as vertical alignment is preserved, as are font colours 
+  and some font characteristics (italic, bold). These files also include an appropriate 
+  preamble.
+  </para> 
+  </sect3>
+  <sect3 id="file-format-html40">
+  <title>HTML 4.0 File Format</title>
+  <para>Gnumeric can create HTML 4.0 files. All sheets of the current workbook are exported. 
+  The tables in the HTML 4.0 file contain all cells, whether visible or not, including merged
+  cells and spans. Horizontal as well as vertical alignment is preserved, as are some font 
+  characteristics (italic, bold) and cell background colours. These files also include an 
+  appropriate preamble.</para>
+  </sect3>
+  <sect3 id="file-format-html40f">
+  <title>HTML Fragment Format</title>
+  <para>Gnumeric can create HTML 4.0 fragments. All sheets of the current workbook are exported. 
+  The tables in such a fragment file contain all cells, whether visible or not, including merged
+  cells and spans. Horizontal as well as vertical alignment is preserved, as are some font 
+  characteristics (italic, bold) as well as  cell background and font colours. These files 
+  do <emphasis>not</emphasis> contain any preamble. Note that each tag used in these files is valid 
+  in some HTML version, the combination of these tags in a gnumeric generated HTML fragment may 
+  not be. </para>
+  </sect3>
+  </sect2>
+  <sect2 id="file-format-latex">
+  <title>Latex 2e Format</title>
+  <para>This format is supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
+  <para>The created LaTeX file can either be input into another LaTeX file or latexed 
+  independently. See the content of the created file for various customization options. </para>
+  </sect2>
+  <sect2 id="file-format-csv">
+  <title>Test Format</title>
+  <para>This format exports gnumeric spreadsheets as straight text, e. g. 
+  in the form of comma separated fields.</para>
+  </sect2>
+  <sect2 id="file-format-troff">
+  <title>TROFF Format</title>
+  <para>This format is supported by the <quote>HTML &amp; TeX</quote> plug-in.</para>
+  </sect2>
   </sect1>
 
 &autosave;

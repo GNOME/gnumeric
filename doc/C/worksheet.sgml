@@ -889,7 +889,7 @@
 	data being entered into the cell can be canceled by pressing
 	the red X button
 	<guibutton>
-	  <inlinegraphic fileref="figures/worksheet-data-4.jpg">
+	  <inlinegraphic fileref="figures/worksheet-data-4.png">
 	  </inlinegraphic>
 	</guibutton>.
       </para>
