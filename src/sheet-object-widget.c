@@ -46,7 +46,7 @@
 #include "dialogs.h"
 #include "xml-io.h"
 #include "dialogs/help.h"
-#include "widgets/gnumeric-combo-text.h"
+#include <goffice/gui-utils/go-combo-text.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <libxml/globals.h>
@@ -1864,7 +1864,7 @@ sheet_widget_combo_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview
 	GtkWidget *combo;
 
 	swl->being_updated = TRUE;
-	combo = gnm_combo_text_new (NULL);
+	combo = go_combo_text_new (NULL);
 	GTK_WIDGET_UNSET_FLAGS (combo, GTK_CAN_FOCUS);
 	swl->being_updated = FALSE;
 	return combo;

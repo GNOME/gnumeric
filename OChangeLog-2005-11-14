@@ -1,3 +1,8 @@
+2004-05-26  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* src/sheet-object-widget.c: (sheet_widget_combo_create_widget):
+	replaced GnmComboText by GoComboText.
+
 2004-05-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/application.c: add "Gnumeric_Visible" icon
