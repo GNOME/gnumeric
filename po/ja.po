@@ -24739,11 +24739,11 @@ msgstr "目的のセルを設定(_S):"
 
 #: src/dialogs/summary.glade.h:2
 msgid "<span weight=\"bold\">Document Summary Information</span>"
-msgstr "<span weight=\"bold\"ドキュメントの要約情報</span>"
+msgstr "<span weight=\"bold\">ドキュメントの要約情報</span>"
 
 #: src/dialogs/summary.glade.h:3
 msgid "C_omments:"
-msgstr "注記(_O):"
+msgstr "コメント(_O):"
 
 #: src/dialogs/summary.glade.h:4
 msgid "Com_pany:"
@@ -28079,34 +28079,30 @@ msgid "pink"
 msgstr "ピンク"
 
 #: src/widgets/color-palette.c:599
-#, fuzzy
 msgid "light orange"
-msgstr "右寄せ"
+msgstr "明るいオレンジ"
 
 #: src/widgets/color-palette.c:600 src/widgets/color-palette.c:612
 msgid "light yellow"
-msgstr ""
+msgstr "明るい黄"
 
 #: src/widgets/color-palette.c:601
-#, fuzzy
 msgid "light green"
-msgstr "右寄せ"
+msgstr "明るい緑"
 
 #: src/widgets/color-palette.c:602
-#, fuzzy
 msgid "light cyan"
-msgstr "右寄せ"
+msgstr "明るいシアン"
 
 #: src/widgets/color-palette.c:603 src/widgets/color-palette.c:613
 msgid "light blue"
-msgstr ""
+msgstr "明るい青"
 
 #: src/widgets/color-palette.c:604 src/widgets/color-palette.c:617
 msgid "light purple"
-msgstr ""
+msgstr "明るい紫"
 
 #: src/widgets/color-palette.c:605
-#, fuzzy
 msgid "white"
 msgstr "白"
 
@@ -28116,7 +28112,7 @@ msgstr "紫青"
 
 #: src/widgets/color-palette.c:614
 msgid "dark purple"
-msgstr ""
+msgstr "暗い紫"
 
 #: src/widgets/color-palette.c:616
 msgid "sky blue"
@@ -28124,7 +28120,7 @@ msgstr "スカイブルー"
 
 #: src/widgets/gnumeric-expr-entry.c:1239
 msgid "Expecting a single range"
-msgstr ""
+msgstr "一つの範囲を想定しています"
 
 #: src/widgets/gnumeric-optionmenu.c:199
 msgid "Menu"
