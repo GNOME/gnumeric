@@ -2203,6 +2203,7 @@ static const char *help_euro = {
 	   "    ESP     (Spain)\n"
 	   "    FIM     (Finland)\n"
 	   "    FRF     (France)\n"
+	   "    GRD     (Greek)\n"
 	   "    IEP     (Ireland)\n"
 	   "    ITL     (Italy)\n"
 	   "    LUF     (Luxemburg)\n"
@@ -2251,6 +2252,10 @@ gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 		        return value_new_float (GNUM_const (0.787564));
 		else if (strncmp ("ITL", str, 3) == 0)
 		        return value_new_float (GNUM_const (1936.27));
+		break;
+	case 'G':
+	        if (strncmp ("GRD", str, 3) == 0)
+		        return value_new_float (GNUM_const (340.75));
 		break;
 	case 'L':
 	        if (strncmp ("LUX", str, 3) == 0)

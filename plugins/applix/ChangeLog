@@ -1,3 +1,13 @@
+2002-06-14  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c : convert to gsf input and restructure quite a bit to
+	  be more flexible, add support for applix-5, and support
+	  hidden/locked formats.
+
+2002-06-13  Jody Goldberg <jody@gnome.org>
+
+	* boot.c : convert to libgsf.
+
 2002-05-29  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.4

@@ -23,47 +23,40 @@
  */
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include "io-context.h"
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
 #include "applix.h"
-#include "workbook-view.h"
-#include "workbook.h"
 
-#include <stdio.h>
+#include <plugin.h>
+#include <plugin-util.h>
+#include <module-plugin-defs.h>
+#include <workbook-view.h>
+#include <workbook.h>
+
+#include <gsf/gsf-input.h>
 #include <string.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean applix_file_probe (GnumFileOpener const *fo, char const *file_name,
+gboolean applix_file_probe (GnumFileOpener const *fo, GsfInput *input,
                             FileProbeLevel pl);
 void     applix_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                           WorkbookView *wb_view, char const *filename);
+                           WorkbookView *wb_view, GsfInput *input);
 
 gboolean
-applix_file_probe (GnumFileOpener const *fo, char const *file_name, FileProbeLevel pl)
+applix_file_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	gboolean res = FALSE;
-	FILE *file = fopen (file_name, "r");
-	if (file == NULL) {
-		res = applix_read_header (file);
-		fclose (file);
-	}
-	return res;
+	static guint8 const signature[] = "*BEGIN SPREADSHEETS VERSION";
+	guint8 const *header;
+
+	return !gsf_input_seek (input, 0, GSF_SEEK_SET) &&
+		NULL != (header = gsf_input_read (input, sizeof (signature)-1, NULL)) &&
+		0 == memcmp (header, signature, sizeof (signature)-1);
 }
 
 void
 applix_file_open (GnumFileOpener const *fo, IOContext *io_context,
-                  WorkbookView *wb_view, char const *filename)
+                  WorkbookView *wb_view, GsfInput *input)
 {
-	ErrorInfo *error;
-	FILE *file = gnumeric_fopen_error_info (filename, "r", &error);
-	if (file != NULL) {
-		applix_read (io_context, wb_view, file);
-		fclose (file);
-	} else
-		gnumeric_io_error_info_set (io_context, error);
+	applix_read (io_context, wb_view, input);
 }
 
 void
