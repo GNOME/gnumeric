@@ -1,3 +1,8 @@
+2004-09-06  Jody Goldberg <jody@gnome.org>
+
+	* gui-utils/go-color-palette.c (go_color_palette_setup) : warning
+	  suppression
+
 2004-09-05  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=151628

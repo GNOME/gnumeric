@@ -439,7 +439,7 @@ go_color_palette_setup (GOColorPalette *pal,
 {
 	GtkWidget	*w, *table;
 	GtkTooltips	*tip;
-	int pos, row, col;
+	int pos, row, col = 0;
 
 	table = gtk_table_new (cols, rows, FALSE);
 
