@@ -1,3 +1,7 @@
+2004-11-18  Morten Welinder  <terra@gnome.org>
+
+	* src/print.c (sheet_print): Fix leak for preview.  (#158566)
+
 2004-11-15  Jody Goldberg <jody@gnome.org>
 
 	* src/stf.c (stf_init) : register some suffixes and mime types
