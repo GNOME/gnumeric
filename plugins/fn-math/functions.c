@@ -85,57 +85,6 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 
 	return NULL;
 }
-
-typedef struct {
-        GSList              *list;
-        criteria_test_fun_t fun;
-        GnmValue               *test_value;
-        int                 num;
-        int                 total_num;
-        gboolean            actual_range;
-        gnm_float          sum;
-        GSList              *current;
-} math_criteria_t;
-
-static GnmValue *
-callback_function_criteria (Sheet *sheet, int col, int row,
-			    GnmCell *cell, void *user_data)
-{
-        math_criteria_t *mm = user_data;
-	GnmValue           *v;
-
-	mm->total_num++;
-	if (cell != NULL) {
-		cell_eval (cell);
-		switch (cell->value->type) {
-		case VALUE_BOOLEAN:
-		case VALUE_INTEGER:
-		case VALUE_FLOAT:
-		case VALUE_STRING:
-			v = value_dup (cell->value);
-			break;
-		case VALUE_EMPTY:
-		default:
-			v = NULL;
-		}
-	} else
-		v = NULL;
-
-	if (mm->fun (v, mm->test_value)) {
-	        if (mm->actual_range) {
-		        mm->list = g_slist_append (mm->list,
-				GINT_TO_POINTER (mm->total_num));
-			if (v != NULL)
-				value_release (v);
-		} else
-		        mm->list = g_slist_append (mm->list, v);
-		mm->num++;
-	} else if (v != NULL)
-	        value_release (v);
-
-	return NULL;
-}
-
 /***************************************************************************/
 
 static char const *help_gcd = {
@@ -553,53 +502,57 @@ static char const *help_countif = {
 	   "@SEEALSO=COUNT,SUMIF")
 };
 
+typedef struct {
+        criteria_test_fun_t  test;
+        GnmValue            *test_value;
+	unsigned int	     count;
+} CountIfClosure;
+
+static GnmValue *
+cb_countif (Sheet *sheet, int col, int row, GnmCell *cell,
+	    CountIfClosure *res)
+{
+	if (cell == NULL)
+		return NULL;
+	cell_eval (cell);
+	switch (cell->value->type) {
+	case VALUE_BOOLEAN: case VALUE_INTEGER: case VALUE_FLOAT:
+	case VALUE_STRING:
+		if ((res->test) (cell->value, res->test_value))
+			res->count++;
+	default: break;
+	}
+	return NULL;
+}
+
 static GnmValue *
 gnumeric_countif (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        GnmValue           *range = argv[0];
-	Sheet           *sheet;
-	CellIterFlags    iter_flags;
+        GnmValueRange const *r = &argv[0]->v_range;
+	Sheet		*sheet;
+	GnmValue        *problem;
+	CellIterFlags	 iter_flags;
+	CountIfClosure   res;
 
-	math_criteria_t  items;
-	GnmValue           *ret;
-	GSList          *list;
-
-	items.num  = 0;
-	items.total_num = 0;
-	items.list = NULL;
-	items.actual_range = FALSE;
-
-	if ((!VALUE_IS_NUMBER (argv[1]) && argv[1]->type != VALUE_STRING)
-	    || (range->type != VALUE_CELLRANGE))
+	/* XL has some limitations on @range that we currently emulate, but do
+	 * not need to.
+	 * 1) @range must be a range, arrays are not supported
+	 * 2) @range can not be 3d */
+	if (r->type != VALUE_CELLRANGE ||
+	    (sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) !=
+		    eval_sheet (r->cell.b.sheet, ei->pos->sheet) ||
+	    (!VALUE_IS_NUMBER (argv[1]) && argv[1]->type != VALUE_STRING))
 	        return value_new_error_VALUE (ei->pos);
 
-	parse_criteria (argv[1], &items.fun, &items.test_value, &iter_flags,
+	parse_criteria (argv[1], &res.test, &res.test_value, &iter_flags,
 		workbook_date_conv (ei->pos->sheet->workbook));
-
-	sheet = eval_sheet (range->v_range.cell.a.sheet, ei->pos->sheet);
-	ret = sheet_foreach_cell_in_range (sheet,
-		iter_flags,
-		range->v_range.cell.a.col,
-		range->v_range.cell.a.row,
-		range->v_range.cell.b.col,
-		range->v_range.cell.b.row,
-		callback_function_criteria,
-		&items);
-	value_release (items.test_value);
-
-	if (ret != NULL)
+	problem = sheet_foreach_cell_in_range (sheet, iter_flags,
+		r->cell.a.col, r->cell.a.row, r->cell.b.col, r->cell.b.row,
+		(CellIterFunc) &cb_countif, &res);
+	value_release (res.test_value);
+	if (NULL != problem)
 	        return value_new_error_VALUE (ei->pos);
-
-        list = items.list;
-
-	while (list != NULL) {
-		if (list->data != NULL)
-			value_release (list->data);
-		list = list->next;
-	}
-	g_slist_free (items.list);
-
-	return value_new_int (items.num);
+	return value_new_int (res.count);
 }
 
 /***************************************************************************/
@@ -627,123 +580,97 @@ static char const *help_sumif = {
 	   "@SEEALSO=COUNTIF, SUM")
 };
 
+typedef struct {
+        criteria_test_fun_t  test;
+        GnmValue            *test_value;
+
+	Sheet		*target_sheet;
+	GnmCellPos	 offset;
+	gnm_float	 sum;
+} SumIfClosure;
+
 static GnmValue *
-callback_function_sumif (Sheet *sheet, int col, int row,
-			 GnmCell *cell, void *user_data)
+cb_sumif (Sheet *sheet, int col, int row, GnmCell *cell,
+	  SumIfClosure *res)
 {
-        math_criteria_t *mm = user_data;
-	gnm_float       v = 0.;
-
-	/* If we have finished the list there is no need to bother */
-	if (mm->current == NULL)
-	        return NULL;
-
-	/* We have not reached the next selected element yet.
-	 * This implies that summing a range containing an error
-	 * where the criteria does not select the error is OK.
-	 */
-	if (++(mm->total_num) != GPOINTER_TO_INT (mm->current->data))
+	if (cell == NULL)
 		return NULL;
-
-	if (cell != NULL) {
-		cell_eval (cell);
-		switch (cell->value->type) {
-		case VALUE_BOOLEAN:	v = cell->value->v_bool.val ? 1 : 0;
-			break;
-		case VALUE_INTEGER:	v = cell->value->v_int.val; break;
-		case VALUE_FLOAT:	v = cell->value->v_float.val; break;
-
-		case VALUE_STRING:
-		case VALUE_EMPTY:
-			break;
-
-		default:
-			return VALUE_TERMINATE;
+	cell_eval (cell);
+	switch (cell->value->type) {
+	case VALUE_BOOLEAN: case VALUE_INTEGER: case VALUE_FLOAT:
+	case VALUE_STRING:
+		if ((res->test) (cell->value, res->test_value)) {
+			if (NULL != res->target_sheet) {
+				cell = sheet_cell_get (res->target_sheet,
+					col + res->offset.col, row + res->offset.row);
+				if (cell != NULL) {
+					cell_eval (cell);
+					switch (cell->value->type) {
+					case VALUE_INTEGER:	res->sum += cell->value->v_int.val; break;
+					case VALUE_FLOAT:	res->sum += cell->value->v_float.val; break;
+					default : break;
+					}
+				}
+			} else
+				res->sum += value_get_as_float (cell->value);
 		}
-		mm->sum += v;
+	default:
+		break;
 	}
-	mm->current = mm->current->next;
-
 	return NULL;
 }
 
 static GnmValue *
 gnumeric_sumif (FunctionEvalInfo *ei, GnmValue **argv)
 {
-        GnmValue          *range = argv[0];
-	GnmValue          *actual_range = argv[2];
+        GnmValueRange const *r = &argv[0]->v_range;
+	Sheet		*sheet;
+	GnmValue        *problem;
+	CellIterFlags	 iter_flags;
+	SumIfClosure	 res;
+	int		 tmp, col_end, row_end;
 
-	math_criteria_t items;
-	GnmValue          *ret;
-	gnm_float      sum;
-	GSList         *list;
-	CellIterFlags   iter_flags;
-
-	items.num  = 0;
-	items.total_num = 0;
-	items.list = NULL;
-
-	if (range->type != VALUE_CELLRANGE ||
-	    !(VALUE_IS_NUMBER (argv[1]) || argv[1]->type == VALUE_STRING))
+	/* XL has some limitations on @range that we currently emulate, but do
+	 * not need to.
+	 * 1) @range must be a range, arrays are not supported
+	 * 2) @range can not be 3d */
+	if (r->type != VALUE_CELLRANGE ||
+	    (sheet = eval_sheet (r->cell.a.sheet, ei->pos->sheet)) !=
+		    eval_sheet (r->cell.b.sheet, ei->pos->sheet) ||
+	    (!VALUE_IS_NUMBER (argv[1]) && argv[1]->type != VALUE_STRING))
 	        return value_new_error_VALUE (ei->pos);
 
-	parse_criteria (argv[1], &items.fun, &items.test_value, &iter_flags,
+	col_end = r->cell.b.col;
+	row_end = r->cell.b.row;
+	if (NULL != argv[2]) {
+		GnmValueRange const *target = &argv[2]->v_range;
+		res.target_sheet = eval_sheet (target->cell.a.sheet, ei->pos->sheet);
+		if (res.target_sheet != eval_sheet (target->cell.b.sheet, ei->pos->sheet))
+			return value_new_error_VALUE (ei->pos);
+		res.offset.col = target->cell.a.col - r->cell.a.col;
+		res.offset.row = target->cell.a.row - r->cell.a.row;
+
+		/* no need to search items with no value */
+		tmp = target->cell.b.col - target->cell.a.col;
+		if (tmp < (r->cell.b.col - r->cell.a.col))
+			col_end = r->cell.a.col + tmp;
+		tmp = target->cell.b.row - target->cell.a.row;
+		if (tmp < (r->cell.b.row - r->cell.a.row))
+			row_end = r->cell.a.row + tmp;
+	} else
+		res.target_sheet = NULL;
+
+	res.sum = 0.;
+	parse_criteria (argv[1], &res.test, &res.test_value, &iter_flags,
 		workbook_date_conv (ei->pos->sheet->workbook));
-	items.actual_range = (actual_range != NULL);
-	ret = sheet_foreach_cell_in_range (
-		eval_sheet (range->v_range.cell.a.sheet, ei->pos->sheet),
-		/*
-		 * Do not ignore empty cells if there is a
-		 * target range.  We need the orders of the source values to
-		 * line up with the values of the target range.
-		 */
-		(actual_range == NULL) ? iter_flags : CELL_ITER_ALL,
+	problem = sheet_foreach_cell_in_range (sheet, iter_flags,
+		r->cell.a.col, r->cell.a.row, col_end, row_end,
+		(CellIterFunc) &cb_sumif, &res);
+	value_release (res.test_value);
 
-		range->v_range.cell.a.col,
-		range->v_range.cell.a.row,
-		range->v_range.cell.b.col,
-		range->v_range.cell.b.row,
-		callback_function_criteria,
-		&items);
-	value_release (items.test_value);
-
-	if (ret != NULL)
+	if (NULL != problem)
 	        return value_new_error_VALUE (ei->pos);
-
-	if (actual_range == NULL) {
-	        list = items.list;
-		sum = 0;
-
-		while (list != NULL) {
-		        GnmValue *v = list->data;
-
-			if (v != NULL) {
-			        sum += value_get_as_float (v);
-				value_release (v);
-			}
-			list = list->next;
-		}
-	} else {
-	      items.current = items.list;
-	      items.sum = items.total_num = 0;
- 	      ret = sheet_foreach_cell_in_range (
-			eval_sheet (actual_range->v_range.cell.a.sheet,
-				    ei->pos->sheet),
-			/* Empty cells too.  Criteria and results must align */
-			CELL_ITER_ALL,
-
-			actual_range->v_range.cell.a.col,
-			actual_range->v_range.cell.a.row,
-			actual_range->v_range.cell.b.col,
-			actual_range->v_range.cell.b.row,
-			callback_function_sumif,
-			&items);
-	      sum = items.sum;
-	}
-
-	g_slist_free (items.list);
-
-	return value_new_float (sum);
+	return value_new_float (res.sum);
 }
 
 /***************************************************************************/

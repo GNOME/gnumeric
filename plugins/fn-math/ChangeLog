@@ -1,3 +1,13 @@
+2005-02-09  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (gnumeric_sumif) : rework to use a less stupid
+	  algorithm.  This is significantly faster and handles differences in
+	  the shape of the target range and the src range.  It also explicitly
+	  dis-allows 3d refs (we could support this even if XL does not) and
+	  removes the use of TRUE==1 for XL compat.
+	(gnumeric_countif) : ditto.  Keeping a list of values just so that we
+	  could count them was silly.
+
 2005-02-09  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_pi): Revert to classical value.
