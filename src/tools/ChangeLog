@@ -1,5 +1,7 @@
 2002-08-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* simulation.c: Added range, count and confidence level reporting.
+	
 	* simulation.c (simulation_tool, create_reports,
 	eval_inputs_list): Added the generations of the statistics of the
 	input variables too.

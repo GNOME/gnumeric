@@ -40,6 +40,7 @@
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
+#include <mathfunc.h>
 #include "simulation.h"
 
 typedef enum {
@@ -57,23 +58,31 @@ typedef struct {
 	gnum_float *var;
 	gnum_float *skew;
 	gnum_float *kurtosis;
+	gnum_float *range;
+	gnum_float *confidence;
+	gnum_float *lower;
+	gnum_float *upper;
 	int        *errmask;
 } simstats_t;
 
 static void
 init_stats (simstats_t *stats, simulation_t *sim)
 {
-	stats->min      = g_new (gnum_float, sim->n_vars);
-	stats->max      = g_new (gnum_float, sim->n_vars);
-	stats->mean     = g_new (gnum_float, sim->n_vars);
-	stats->median   = g_new (gnum_float, sim->n_vars);
-	stats->median   = g_new (gnum_float, sim->n_vars);
-	stats->mode     = g_new (gnum_float, sim->n_vars);
-	stats->stddev   = g_new (gnum_float, sim->n_vars);
-	stats->var      = g_new (gnum_float, sim->n_vars);
-	stats->skew     = g_new (gnum_float, sim->n_vars);
-	stats->kurtosis = g_new (gnum_float, sim->n_vars);
-	stats->errmask  = g_new (int, sim->n_vars);
+	stats->min        = g_new (gnum_float, sim->n_vars);
+	stats->max        = g_new (gnum_float, sim->n_vars);
+	stats->mean       = g_new (gnum_float, sim->n_vars);
+	stats->median     = g_new (gnum_float, sim->n_vars);
+	stats->median     = g_new (gnum_float, sim->n_vars);
+	stats->mode       = g_new (gnum_float, sim->n_vars);
+	stats->stddev     = g_new (gnum_float, sim->n_vars);
+	stats->var        = g_new (gnum_float, sim->n_vars);
+	stats->skew       = g_new (gnum_float, sim->n_vars);
+	stats->kurtosis   = g_new (gnum_float, sim->n_vars);
+	stats->range      = g_new (gnum_float, sim->n_vars);
+	stats->confidence = g_new (gnum_float, sim->n_vars);
+	stats->lower      = g_new (gnum_float, sim->n_vars);
+	stats->upper      = g_new (gnum_float, sim->n_vars);
+	stats->errmask    = g_new (int, sim->n_vars);
 }
 
 static void
@@ -88,6 +97,10 @@ free_stats (simstats_t *stats, simulation_t *sim)
 	g_free (stats->var);
 	g_free (stats->skew);
 	g_free (stats->kurtosis);
+	g_free (stats->range);
+	g_free (stats->confidence);
+	g_free (stats->lower);
+	g_free (stats->upper);
 	g_free (stats->errmask);
 }
 
@@ -220,6 +233,19 @@ create_stats (simulation_t *sim, gnum_float **outputs, simstats_t *stats)
 			stats->errmask [i] |= KurtosisErr;
 		else
 			stats->kurtosis [i] = x;
+
+		/* Range */
+		stats->range [i] = stats->max [i] - stats->min [i];
+
+		/* Confidence (95%) */
+		stats->confidence [i] = -qnorm (0.05, 0, 1, TRUE, FALSE)
+			* (stats->stddev [i] / sqrtgnum (sim->n_iterations));
+
+		/* Lower Confidence (95%) */
+		stats->lower [i] = stats->mean [i] - stats->confidence [i] / 2;
+
+		/* upper Confidence (95%) */
+		stats->upper [i] = stats->mean [i] + stats->confidence [i] / 2;
 	}
 }
 
@@ -243,16 +269,21 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 
 	rinc = sim->n_vars + 4;
 	for (n = 0, t = sim->first_round; t <= sim->last_round; t++, n++) {
-		dao_set_cell (dao, 2, 6 + n * rinc, _("Min"));
-		dao_set_cell (dao, 3, 6 + n * rinc, _("Mean"));
-		dao_set_cell (dao, 4, 6 + n * rinc, _("Max"));
-		dao_set_cell (dao, 5, 6 + n * rinc, _("Median"));
-		dao_set_cell (dao, 6, 6 + n * rinc, _("Mode"));
-		dao_set_cell (dao, 7, 6 + n * rinc, _("Std. Dev."));
-		dao_set_cell (dao, 8, 6 + n * rinc, _("Variance"));
-		dao_set_cell (dao, 9, 6 + n * rinc, _("Skewness"));
+		dao_set_cell (dao,  2, 6 + n * rinc, _("Min"));
+		dao_set_cell (dao,  3, 6 + n * rinc, _("Mean"));
+		dao_set_cell (dao,  4, 6 + n * rinc, _("Max"));
+		dao_set_cell (dao,  5, 6 + n * rinc, _("Median"));
+		dao_set_cell (dao,  6, 6 + n * rinc, _("Mode"));
+		dao_set_cell (dao,  7, 6 + n * rinc, _("Std. Dev."));
+		dao_set_cell (dao,  8, 6 + n * rinc, _("Variance"));
+		dao_set_cell (dao,  9, 6 + n * rinc, _("Skewness"));
 		dao_set_cell (dao, 10, 6 + n * rinc, _("Kurtosis"));
-		dao_set_bold (dao, 1, 6 + n * rinc, 10, 6 + n * rinc);
+		dao_set_cell (dao, 11, 6 + n * rinc, _("Range"));
+		dao_set_cell (dao, 12, 6 + n * rinc, _("Count"));
+		dao_set_cell (dao, 13, 6 + n * rinc, _("Confidence (95 %)"));
+		dao_set_cell (dao, 14, 6 + n * rinc, _("Lower Limit (95 %)"));
+		dao_set_cell (dao, 15, 6 + n * rinc, _("Upper Limit (95 %)"));
+		dao_set_bold (dao,  1, 6 + n * rinc, 15, 6 + n * rinc);
 
 		for (i = 0; i < sim->n_vars; i++) {
 			dao_set_cell (dao, 1, i + 7 + n * rinc,
@@ -283,6 +314,22 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 				(dao, 10, i + 7 + n * rinc,
 				 stats [t].kurtosis [i],
 				 ! (stats [t].errmask [i] & KurtosisErr));
+			dao_set_cell_float (dao, 11, i + 7 + n * rinc,
+					    stats [t].range [i]);
+			dao_set_cell_float (dao, 12, i + 7 + n * rinc,
+					    sim->n_iterations);
+			dao_set_cell_float_na
+				(dao, 13, i + 7 + n * rinc,
+				 stats [t].confidence [i],
+				 ! (stats [t].errmask [i] & StddevErr));
+			dao_set_cell_float_na
+				(dao, 14, i + 7 + n * rinc,
+				 stats [t].lower [i],
+				 ! (stats [t].errmask [i] & StddevErr));
+			dao_set_cell_float_na
+				(dao, 15, i + 7 + n * rinc,
+				 stats [t].upper [i],
+				 ! (stats [t].errmask [i] & StddevErr));
 		}
 	}
 
@@ -291,7 +338,7 @@ create_reports (WorkbookControl *wbc, simulation_t *sim, simstats_t *stats,
 	 * Autofit columns to make the sheet more readable.
 	 */
 
-	dao_autofit_these_columns (dao, 0, 10);
+	dao_autofit_these_columns (dao, 0, 15);
 
 
 	/*

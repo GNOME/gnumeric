@@ -26,9 +26,10 @@ Jukka:
 	* Function documentation improvements.
 	* Implemented standard errors output for the exponential
           smoothing tool.
-	* Started the implementation of the `Risk Simulation Tool'.
-	  You cannot find it in XL, you have to pay more to get it as
-	  an extra add-on.
+	* Implemented the `Risk Simulation Tool'.  You cannot find it in
+	  XL, you have to pay more to get it as an extra add-in.
+	* Implemented SIMTABLE() function related to the risk simulation
+	  tool.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.6
