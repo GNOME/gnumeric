@@ -406,7 +406,15 @@ cell_set_value (Cell *cell, Value *v, char const * optional_format)
 		cell->format = style_format_new (optional_format);
 	cell->value = v;
 	cell_render_value (cell);
-	cell->u.entered_text = string_ref (cell->rendered_value->rendered_text);
+
+	/* Be careful that a value passes as a string stays a string */
+	if (v->type == VALUE_STRING) {
+		/* TODO : add new string routine to avoid the extra copy */
+		char *tmp = g_strconcat ("\'", v->v_str.val->str, NULL);
+		cell->u.entered_text = string_get (tmp);
+		g_free (tmp);
+	} else
+		cell->u.entered_text = string_ref (cell->rendered_value->rendered_text);
 }
 
 /*

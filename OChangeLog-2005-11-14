@@ -1,5 +1,9 @@
 2000-05-08  Jody Goldberg <jgoldberg@home.com>
 
+	* src/cell.c (cell_set_value) : When guessing what the entered text
+	  was for a supplied string value prepend a \' to ensure that the
+	  value stays a string, and so that blank cells work better.
+
 	* src/sheet.c (sheet_cell_calc_span) : redraw the bounding range when
 	  interupting spans.
 	(sheet_clear_region) : Respan ranges that were interupted by the
