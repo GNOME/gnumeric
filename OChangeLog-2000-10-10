@@ -2,6 +2,9 @@
 
 	* src/sheet-style.c (sheet_unique_cb): Plug leak.
 
+	* src/sheet-view.c (sheet_view_comment_relocate): Leak plug (for
+ 	Jody).
+
 2000-04-09  Michael Meeks  <michael@helixcode.com>
 
 	* src/print.c (print_page_object): implement.
