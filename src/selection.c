@@ -158,10 +158,9 @@ selection_is_simple (CommandContext *context, Sheet const *sheet,
 	if (g_list_length (sheet->selections) == 1)
 		return TRUE;
 
-	msg = g_strconcat (
-		_("The command `"),
-		command_name,
-		_("' cannot be performed with multiple selections"), NULL);
+	msg = g_strdup_printf (
+		_("The command `%s' cannot be performed with multiple selections"),
+		command_name);
 	gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
 	g_free (msg);
 

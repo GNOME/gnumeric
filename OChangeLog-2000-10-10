@@ -1,3 +1,17 @@
+2000-04-14  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/selection.c (selection_is_simple): Use an
+	internationalizable version of the message here.
+
+2000-04-10  Miguel de Icaza  <miguel@gnu.org>
+
+	* Lots of files: replaces utils.h for gutils.h
+
+	* renamed utils.h to gutils.h to avoid the compilation problem on
+	some Unices (yes, fixing the Makefile would have done it, but
+	utils.h was still a lame name;  Of course gutils.h is not any
+	better, but it is now don). 
+
 2000-04-14  Michael Meeks  <michael@helixcode.com>
 
 	* src/*: s/ENABLE_BONOBO_PRINT/ENABLE_BONOBO/
