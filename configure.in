@@ -93,7 +93,6 @@ if test "x${Z_DIR}" != "x"; then
 else
 	Z_LIBS="-lz"
 fi
-AC_DEFINE([HAVE_LIBZ], [], [Have compression library])
 AC_SUBST(Z_CPPFLAGS)
 AC_SUBST(Z_LIBS)
 
