@@ -10,17 +10,17 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include <glade/glade.h>
-#include <bonobo/gnome-bonobo.h>
+#include <bonobo.h>
 #include "graphic-context.h"
 
 #define GUPPI_ID "Guppi_component"
 
-static GnomeObjectClient *
+static BonoboObjectClient *
 launch_guppi (void)
 {
-	GnomeObjectClient *object_server;
+	BonoboObjectClient *object_server;
 
-	object_server = gnome_object_activate_with_goad_id (NULL, GUPPI_ID, 0, NULL);
+	object_server = bonobo_object_activate_with_goad_id (NULL, GUPPI_ID, 0, NULL);
 
 	return object_server;
 }
@@ -29,18 +29,18 @@ WizardGraphicContext *
 graphic_context_new (Workbook *wb, GladeXML *gui)
 {
 	WizardGraphicContext *gc;
-	GnomeClientSite *client_site;
-	GnomeContainer *container;
-	GnomeObjectClient *object_server;
+	BonoboClientSite *client_site;
+	BonoboContainer *container;
+	BonoboObjectClient *object_server;
 	
 	g_return_val_if_fail (wb != NULL, NULL);
 
 	/*
 	 * Configure our container end
 	 */
-	container = GNOME_CONTAINER (gnome_container_new ());
-	client_site = gnome_client_site_new (container);
-	gnome_container_add (container, GNOME_OBJECT (client_site));
+	container = BONOBO_CONTAINER (bonobo_container_new ());
+	client_site = bonobo_client_site_new (container);
+	bonobo_container_add (container, BONOBO_OBJECT (client_site));
 	
 	/*
 	 * Launch server
@@ -52,7 +52,7 @@ graphic_context_new (Workbook *wb, GladeXML *gui)
 	/*
 	 * Bind them together
 	 */
-	if (!gnome_client_site_bind_component (client_site, object_server)){
+	if (!bonobo_client_site_bind_embeddable (client_site, object_server)){
 		gtk_object_unref (GTK_OBJECT (client_site));
 		gtk_object_unref (GTK_OBJECT (container));
 		gtk_object_unref (GTK_OBJECT (object_server));

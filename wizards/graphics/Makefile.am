@@ -4,16 +4,18 @@
 # Author: Miguel de Icaza (miguel@kernel.org)
 #
 
-noinst_LIBRARIES = libwizard.a
+wizarddir = $(libdir)/gnumeric/wizards/$(VERSION)
 
-libwizard_a_SOURCES =			\
+wizard_LTLIBRARIES = libwizard_graphics.la
+
+libwizard_graphics_la_SOURCES =		\
 	main.c				\
 	graphic-context.c		\
 	graphic-type.c			\
 	graphic-context.h		\
 	wizard.h
 
-libwizard_a_LIBADD =			\
+libwizard_graphics_la_LIBADD =		\
 	$(GNOME_LIBDIR) 		\
 	$(GNOMEUI_LIBS)			\
 	$(INTLLIBS)

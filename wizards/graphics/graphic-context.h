@@ -38,9 +38,9 @@ typedef struct {
 	String          *plot_title;
 	String          *y_axis_label;
 
-	GnomeObjectClient *guppi;
-	GnomeClientSite   *client_site;
-	GnomeContainer    *container;
+	BonoboObjectClient *guppi;
+	BonoboClientSite   *client_site;
+	BonoboContainer    *container;
 } WizardGraphicContext;
 
 #define GC_SIGNATURE ((('G' << 8) | ('C' << 8)) | 'o')

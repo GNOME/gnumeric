@@ -9,6 +9,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include <libgnorba/gnorba.h>
 #include <glade/glade.h>
 #include "gnumeric-util.h"
 #include "wizard.h"
@@ -38,7 +39,6 @@ remove_placeholders (GtkContainer *container)
 static void
 customize (GladeXML *gui, WizardGraphicContext *gc)
 {
-	GtkNotebook *n;
 	int i;
 	
 	/* Now, customize the GUI */
@@ -48,6 +48,7 @@ customize (GladeXML *gui, WizardGraphicContext *gc)
 	fill_graphic_types (gui, gc);
 
 	for (i = 0; i < 6; i++){
+		BonoboViewFrame *view_frame;
 		GtkContainer *container;
 		GtkWidget *view;
 		char *name;
@@ -56,8 +57,9 @@ customize (GladeXML *gui, WizardGraphicContext *gc)
 		container = GTK_CONTAINER (glade_xml_get_widget (gui, name));
 		g_free (name);
 		
-		view = gnome_component_new_view (gc->guppi);
-
+		view_frame = bonobo_client_site_new_view (gc->guppi);
+		view = bonobo_view_frame_get_wrapper (view_frame);
+		
 		/*
 		 * Add the widget to the container.  Remove any
 		 * placeholders that might have been left by libglade
@@ -147,7 +149,6 @@ static void
 my_wizard (Workbook *wb)
 {
 	GladeXML *gui;
-	GtkWidget *n;
 	WizardGraphicContext *gc;
 
 	bonobo_init (gnome_CORBA_ORB (), NULL, NULL);
