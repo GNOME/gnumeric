@@ -432,17 +432,16 @@ stf_write_workbook (GnmFileSaver const *fs, IOContext *context,
 static gboolean
 csv_tsv_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 {
-	if (pl == FILE_PROBE_FILE_NAME) {
-		char const *name = gsf_input_name (input);
-		if (name == NULL)
-			return FALSE;
-		name = gsf_extension_pointer (name);
-		return (name != NULL &&
-		        (g_ascii_strcasecmp (name, "csv") == 0 ||
-			 g_ascii_strcasecmp (name, "tsv") == 0));
-	} else if (pl == FILE_PROBE_CONTENT)
-		return TRUE;
-	return FALSE;
+	/* always probe by name.  We can not really tell what encoding is in use
+	 * so its hard to spot invalid data, and we do not want stuff to just
+	 * get sucked in by default */
+	char const *name = gsf_input_name (input);
+	if (name == NULL)
+		return FALSE;
+	name = gsf_extension_pointer (name);
+	return (name != NULL &&
+		(g_ascii_strcasecmp (name, "csv") == 0 ||
+		 g_ascii_strcasecmp (name, "tsv") == 0));
 }
 
 void

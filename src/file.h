@@ -92,6 +92,8 @@ void         gnm_file_opener_open (GnmFileOpener const *fo, gchar const *opt_enc
 char const *gnm_file_opener_get_id		  (GnmFileOpener const *fo);
 char const *gnm_file_opener_get_description	  (GnmFileOpener const *fo);
 gboolean    gnm_file_opener_is_encoding_dependent (GnmFileOpener const *fo);
+gboolean    gnm_file_opener_can_probe		  (GnmFileOpener const *fo,
+						   FileProbeLevel pl);
 
 /*
  * GnmFileSaver

@@ -1,3 +1,19 @@
+2003-09-22  Jody Goldberg <jody@gnome.org>
+
+	* src/stf.c (csv_tsv_probe) : probe only by name.  Always accepting
+	  content turned this into a catch all importer.
+
+	* src/plugin-service.c (gnm_plugin_file_opener_can_probe) : new.
+	(gnm_plugin_file_opener_class_init) : hook it up.
+
+	* src/file.c (gnm_file_opener_can_probe_real) : new.
+	(gnm_file_opener_class_init) : link it up.
+	(gnm_file_opener_can_probe) : call it here.
+
+	* src/workbook-view.c (wb_view_new_from_input) : be more explicit
+	  about when not to probe for content.  The underlying code is in
+	  desperate need of cleanup.
+
 2003-09-21  Jody Goldberg <jody@gnome.org>
 
 	* src/stf.c (stf_text_to_columns) : relax requirements, blanks and

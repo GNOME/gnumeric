@@ -14,6 +14,8 @@
 struct _GnmFileOpenerClass {
 	GObjectClass parent_class;
 
+	gboolean  (*can_probe) (GnmFileOpener const *fo,
+				FileProbeLevel pl);
 	gboolean  (*probe) (GnmFileOpener const *fo,
 	                    GsfInput *input,
 	                    FileProbeLevel pl);

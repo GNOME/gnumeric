@@ -522,6 +522,16 @@ gnm_plugin_file_opener_init (GnmPluginFileOpener *fo)
 }
 
 static gboolean
+gnm_plugin_file_opener_can_probe (GnmFileOpener const *fo, FileProbeLevel pl)
+{
+	GnmPluginFileOpener *pfo = GNM_PLUGIN_FILE_OPENER (fo);
+	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (pfo->service);
+	if (pl == FILE_PROBE_FILE_NAME)
+		return service_file_opener->file_patterns != NULL;
+	return service_file_opener->has_probe;
+}
+
+static gboolean
 gnm_plugin_file_opener_probe (GnmFileOpener const *fo, GsfInput *input,
                                FileProbeLevel pl)
 {
@@ -610,6 +620,7 @@ gnm_plugin_file_opener_class_init (GnmPluginFileOpenerClass *klass)
 {
 	GnmFileOpenerClass *gnm_file_opener_klass = GNM_FILE_OPENER_CLASS (klass);
 
+	gnm_file_opener_klass->can_probe = gnm_plugin_file_opener_can_probe;
 	gnm_file_opener_klass->probe = gnm_plugin_file_opener_probe;
 	gnm_file_opener_klass->open = gnm_plugin_file_opener_open;
 }

@@ -23,6 +23,7 @@ Jody:
 	* Accept blank lines in text to cols.
 	* Provide a cleaner work around for 
 	    http://bugzilla.gnome.org/show_bug.cgi?id=121543
+	* Re-enable the probe functions in plugins
 
 Nick Lamb:
 	* Improve import of ancient xls.

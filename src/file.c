@@ -52,6 +52,12 @@ gnm_file_opener_finalize (GObject *obj)
 }
 
 static gboolean
+gnm_file_opener_can_probe_real (GnmFileOpener const *fo, FileProbeLevel pl)
+{
+	return fo->probe_func != NULL;
+}
+
+static gboolean
 gnm_file_opener_probe_real (GnmFileOpener const *fo, GsfInput *input,
                              FileProbeLevel pl)
 {
@@ -84,6 +90,7 @@ gnm_file_opener_class_init (GnmFileOpenerClass *klass)
 {
 	G_OBJECT_CLASS (klass)->finalize = gnm_file_opener_finalize;
 
+	klass->can_probe = gnm_file_opener_can_probe_real;
 	klass->probe = gnm_file_opener_probe_real;
 	klass->open = gnm_file_opener_open_real;
 }
@@ -202,6 +209,13 @@ gnm_file_opener_is_encoding_dependent (GnmFileOpener const *fo)
 	return fo->encoding_dependent;
 }
 
+gboolean
+gnm_file_opener_can_probe (GnmFileOpener const *fo, FileProbeLevel pl)
+{
+	g_return_val_if_fail (IS_GNM_FILE_OPENER (fo), FALSE);
+
+	return GNM_FILE_OPENER_METHOD (fo, can_probe) (fo, pl);
+}
 
 
 
