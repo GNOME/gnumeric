@@ -1,3 +1,7 @@
+2002-10-18  Morten Welinder  <terra@diku.dk>
+
+	* applix-read.c (applix_read_impl): Plug leak.
+
 2002-10-04  Jody Goldberg <jody@gnome.org>
 
 	* applix-read.c (applix_read_view) : ignore named views.

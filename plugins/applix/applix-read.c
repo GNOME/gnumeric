@@ -1365,7 +1365,8 @@ applix_read_impl (ApplixReadState *state)
 			d (0, printf ("Applix load : Saved with revision %d.%d",
 				      major_rev, minor_rev););
 		} else if (!a_strncmp (buffer, "Current Doc Real Name:")) {
-			real_name = g_strdup (buffer + 22);
+			g_free (real_name);
+			real_name = NULL;  /* FIXME? g_strdup (buffer + 22); */
 
 		} else if (!strcmp (buffer, "COLORMAP")) {
 			if (applix_read_colormap (state))

@@ -72,6 +72,9 @@ stf_open_and_read (GsfInput *input)
 	size_t    readsize;  
 	gsf_off_t size = gsf_input_size (input);
 
+	if (gsf_input_seek (input, 0, G_SEEK_SET))
+		return NULL;
+
 	readsize = (size_t) size;
 	if ((gsf_off_t) readsize != size) /* Check for overflow */
 		return NULL;
@@ -381,6 +384,9 @@ stf_read_default_probe (GnumFileOpener const *fo, GsfInput *input, FileProbeLeve
 	guint8 const *data;
 	gsf_off_t remain;
 	int len;
+
+	if (pl < FILE_PROBE_CONTENT_FULL)
+		return FALSE;
 
 	if (gsf_input_seek (input, 0, G_SEEK_SET))
 		return FALSE;

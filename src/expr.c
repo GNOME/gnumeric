@@ -1952,6 +1952,23 @@ gnm_expr_get_range (GnmExpr const *expr)
 }
 
 /**
+ * gnm_expr_get_constant:
+ * @expr :
+ *
+ * If this expression consists of just a constant, return it.
+ */
+Value const *
+gnm_expr_get_constant (GnmExpr const *expr)
+{
+	g_return_val_if_fail (expr != NULL, NULL);
+
+	if (expr->any.oper != GNM_EXPR_OP_CONSTANT)
+		return NULL;
+
+	return expr->constant.value;
+}
+
+/**
  * gnm_expr_is_rangeref :
  * @expr :
  * 

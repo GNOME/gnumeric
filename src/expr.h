@@ -56,7 +56,8 @@ GnmExpr const *gnm_expr_new_array	(int x, int y, int cols, int rows,
 GnmExpr const *gnm_expr_new_set		(GnmExprList *args);
 
 GnmExpr const *gnm_expr_first_func   (GnmExpr const *expr);
-Value	      *gnm_expr_get_range    (GnmExpr const *expr) ;
+Value	      *gnm_expr_get_range    (GnmExpr const *expr);
+Value const *  gnm_expr_get_constant (GnmExpr const *expr);
 GnmFunc       *gnm_expr_get_func_def (GnmExpr const *expr);
 
 void	  gnm_expr_ref		     (GnmExpr const *expr);

@@ -639,6 +639,11 @@ wb_view_new_from_input  (GsfInput *input,
 		for (pl = FILE_PROBE_FILE_NAME; pl < FILE_PROBE_LAST && optional_fmt == NULL; pl++) {
 			for (l = get_file_openers (); l != NULL; l = l->next) {
 				GnumFileOpener const *tmp_fo = GNUM_FILE_OPENER (l->data);
+#if 0
+				printf ("Trying format %s at level %d...\n",
+					gnum_file_opener_get_id (tmp_fo),
+					(int)pl);
+#endif
 				if (gnum_file_opener_probe (tmp_fo, input, pl)) {
 					optional_fmt = tmp_fo;
 					break;

@@ -599,20 +599,20 @@ exp:	  CONSTANT 	{ $$ = $1; }
 
 function : STRING '(' arg_list ')' {
 		char const *name = $1->constant.value->v_str.val->str;
-		GnmFunc *f = gnm_func_lookup (name,
-			state->pos->wb);
+		GnmFunc *f = gnm_func_lookup (name, state->pos->wb);
+		GnmFunc *newf = NULL;
 
 		/* THINK TODO: Do we want to make this workbook-local??  */
 		if (f == NULL && state->create_placeholder_for_unknown_func)
-			f = gnm_func_add_placeholder (name, "", TRUE);
+			newf = f = gnm_func_add_placeholder (name, "", TRUE);
 
-		unregister_allocation ($3);
+		/* We're done with the function name.  */
 		unregister_allocation ($1); gnm_expr_unref ($1);
 
 		if (f == NULL) {
-			gnm_expr_list_unref ($3);
 			YYERROR;
 		} else {
+			unregister_allocation ($3);
 			$$ = register_expr_allocation (gnm_expr_new_funcall (f, $3));
 		}
 	}

@@ -522,6 +522,7 @@ gnm_func_add_placeholder (char const *name, char const *type,
 		unknown_cat = gnm_func_group_fetch (unknown_cat_name);
 
 	memset (&desc, 0, sizeof (GnmFuncDescriptor));
+	/* FIXME: if copied, the name is leaked.  */
 	desc.name	  = copy_name ? g_strdup (name) : name;
 	desc.arg_spec	  = NULL;
 	desc.arg_names	  = "...";

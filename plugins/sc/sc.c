@@ -25,6 +25,7 @@
 #include "cell.h"
 #include "style.h"
 #include "sheet.h"
+#include "expr.h"
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-textline.h>
@@ -195,7 +196,7 @@ err_out:
 }
 
 
-#if SC_EXPR_PARSE_WORKS
+#if 0
 static GSList *
 sc_parse_cell_name_list (Sheet *sheet, const char *cell_name_str,
 		         int *error_flag)
@@ -236,51 +237,16 @@ sc_parse_cell_name_list (Sheet *sheet, const char *cell_name_str,
 	g_free (buf);
 	return cells;
 }
-
-
-static gboolean
-sc_parse_let_expr (Sheet *sheet, const char *cmd, const char *str, int col, int row)
-{
-	char *error = NULL;
-	GnmExpr *tree;
-	Cell *cell;
-
-	g_return_val_if_fail (sheet, FALSE);
-	g_return_val_if_fail (cmd, FALSE);
-	g_return_val_if_fail (str, FALSE);
-	g_return_val_if_fail (col >= 0, FALSE);
-	g_return_val_if_fail (row >= 0, FALSE);
-
-	tree = expr_parse_string (str, NULL, NULL, &error);
-	if (!tree) {
-		g_warning ("cannot parse cmd='%s',str='%s',col=%d,row=%d.",
-			   cmd, str, col, row);
-		goto out;
-	}
-
-	/* FIXME FIXME FIXME sc/xspread rows start at A0 not A1.  we must
-	 * go through and fixup each row number in each cell reference */
-
-	cell = sheet_cell_fetch (sheet, col, row);
-	if (!cell)
-		return FALSE;
-
-	cell_set_expr (cell, tree, NULL);
-
-	/* fall through */
-
-out:
-	if (tree) gnm_expr_unref (tree); /* XXX correct? */
-	return TRUE;
-}
 #endif
 
 
 static gboolean
 sc_parse_let (Sheet *sheet, const char *cmd, const char *str, int col, int row)
 {
+	const GnmExpr *tree;
 	Cell *cell;
-	Value *v;
+	ParsePos pos;
+	const Value *v;
 
 	g_return_val_if_fail (sheet, FALSE);
 	g_return_val_if_fail (cmd, FALSE);
@@ -288,27 +254,28 @@ sc_parse_let (Sheet *sheet, const char *cmd, const char *str, int col, int row)
 	g_return_val_if_fail (col >= 0, FALSE);
 	g_return_val_if_fail (row >= 0, FALSE);
 
-	if (!*str)
-		return FALSE;
-
-	/* it's an expression not a simple value, handle elsewhere */
-	if (*str == '@')
-#if SC_EXPR_PARSE_WORKS
-		return sc_parse_let_expr (sheet, cmd, str, col, row);
-#else
-		return TRUE;
-#endif
-
 	cell = sheet_cell_fetch (sheet, col, row);
 	if (!cell)
 		return FALSE;
 
-	v = value_new_float (atof(str));
-	if (!v)
-		return FALSE;
+	/* FIXME FIXME FIXME sc/xspread rows start at A0 not A1.  we must
+	 * go through and fixup each row number in each cell reference */
+	tree = gnm_expr_parse_str_simple (str, parse_pos_init_cell (&pos, cell));
+	if (!tree) {
+		g_warning ("cannot parse cmd='%s', str='%s', col=%d, row=%d.",
+			   cmd, str, col, row);
+		goto out;
+	}
 
-	cell_set_value (cell, v);
+	v = gnm_expr_get_constant (tree);
+	if (v && VALUE_IS_NUMBER (v)) {
+		cell_set_value (cell, value_duplicate (v));
+	} else {
+		cell_set_expr (cell, tree);
+	}
 
+out:
+	if (tree) gnm_expr_unref (tree); 
 	return TRUE;
 }
 
@@ -363,8 +330,9 @@ sc_parse_line (Sheet *sheet, char *buf)
 		}
 	}
 
-#if 0
-	fprintf (stderr, "unhandled directive: '%s'\n", buf);
+#if 1
+	g_warning ("sc importer: unhandled directive: '%-.*s'",
+		   cmdlen, buf);
 #endif
 
 	return TRUE;
@@ -394,12 +362,6 @@ sc_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	Sheet	  *sheet;
 	GsfInputTextline *textline;
 
-	if (!sc_file_probe (NULL, input, FILE_PROBE_CONTENT_FULL)) {
-		gnumeric_io_error_info_set (io_context,
-			error_info_new_str (_("Not an SC File")));
-		return;
-	}
-
 	wb    = wb_view_workbook (wb_view);
 	name  = workbook_sheet_get_free_name (wb, "SC", FALSE, TRUE);
 	sheet = sheet_new (wb, name);
@@ -423,8 +385,20 @@ sc_file_probe (GnumFileOpener const *fo, GsfInput *input,
 	       FileProbeLevel pl)
 {
 	char const *header = NULL;
+
 	if (!gsf_input_seek (input, 0, G_SEEK_SET))
 		header = gsf_input_read (input, sizeof (signature)-1, NULL);
 	return header != NULL &&
 	    memcmp (header, signature, sizeof (signature)-1) == 0;
 }
+
+
+/*
+ * http://www.thule.no/haynie/cpumods/a2620/docs/commrc.sc.txt:
+ * format B 20 2
+ *
+ * http://www.mcs.kent.edu/system/documentation/xspread/demo_func
+ * format A 15 2 0
+ * goto C7
+ *
+ */

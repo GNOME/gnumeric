@@ -1,3 +1,16 @@
+2002-10-18  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (gnm_expr_get_constant): New function.
+
+	* src/stf.c (stf_open_and_read): Seek to beginning of input, just
+	in case.
+	(stf_read_default_probe): Don't probe at file name level.
+
+2002-10-17  Morten Welinder  <terra@diku.dk>
+
+	* src/sheet.c (sheet_rename): Make sure workbook's sheet name hash
+	stays valid.
+
 2002-10-17  Morten Welinder  <terra@diku.dk>
 
 	* src/expr-name.c (expr_name_by_name): New function.
