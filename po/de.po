@@ -47,8 +47,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
-"POT-Creation-Date: 2002-08-14 17:14+0200\n"
-"PO-Revision-Date: 2002-08-14 17:11+0100\n"
+"POT-Creation-Date: 2002-08-15 02:04+0200\n"
+"PO-Revision-Date: 2002-08-15 02:04+0100\n"
 "Last-Translator: Christian Neumair <christian-neumair@web.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -69,7 +69,7 @@ msgstr "Gnumeric-Arbeitsbuch-Betrachterfabrik"
 
 #: gnumeric.desktop.in.h:1
 msgid "Gnumeric Spreadsheet"
-msgstr "Tabellenkalkulation"
+msgstr "Gnumeric"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
@@ -86,12 +86,12 @@ msgstr "Fehlende Zeichen für die Zeichenkodierung"
 #: plugins/applix/applix-read.c:173
 #, c-format
 msgid "Invalid characters for in encoding '%c%c'"
-msgstr ""
+msgstr "Ungültige Zeichen für Kodierung »%c%c«"
 
 #: plugins/applix/applix-read.c:999
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
-msgstr ""
+msgstr "Ausdruck hat nicht mit »=« begonnen? »%s«"
 
 #: plugins/applix/applix-read.c:1010
 #, c-format
@@ -371,8 +371,8 @@ msgstr "Finanzfunktionen"
 msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
-#: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4782
-#: plugins/mps/mps.c:639 src/xml-io.c:3351
+#: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4783
+#: plugins/mps/mps.c:639 src/xml-io.c:3384
 msgid "Reading file..."
 msgstr "Datei wird gelesen..."
 
@@ -463,47 +463,47 @@ msgstr "»%s« konnte nicht geöffnet werden: %s"
 msgid "Saving file..."
 msgstr "Datei wird gespeichert..."
 
-#: plugins/excel/ms-excel-read.c:933
+#: plugins/excel/ms-excel-read.c:934
 msgid "#UNKNOWN!"
 msgstr "#UNBEKANNT!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1067 plugins/oleo/oleo.c:362
+#: plugins/excel/ms-excel-read.c:1068 plugins/oleo/oleo.c:362
 #: plugins/psiconv/psiconv-read.c:500 src/dialogs/dialog-sheet-order.c:416
 #: src/dialogs/dialog-sheet-order.c:420
 #, c-format
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:1070
+#: plugins/excel/ms-excel-read.c:1071
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1073
+#: plugins/excel/ms-excel-read.c:1074
 #, c-format
 msgid "Chart%d"
 msgstr "Diagramm%d"
 
-#: plugins/excel/ms-excel-read.c:1076
+#: plugins/excel/ms-excel-read.c:1077
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4663
+#: plugins/excel/ms-excel-read.c:4664
 msgid "external references"
 msgstr "externe Bezüge"
 
-#: plugins/excel/ms-excel-read.c:4941
+#: plugins/excel/ms-excel-read.c:4942
 msgid "This file is encrypted"
 msgstr "Diese Datei ist verschlüsselt"
 
-#: plugins/excel/ms-excel-read.c:4943
+#: plugins/excel/ms-excel-read.c:4944
 msgid "Invalid password"
 msgstr "Ungültiges Passwort"
 
-#: plugins/excel/ms-excel-read.c:5067
+#: plugins/excel/ms-excel-read.c:5068
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es konnte kein gültiges MS-Excel-Arbeitsbuch aufgefunden werden."
 
@@ -2017,7 +2017,7 @@ msgstr "Datenbank / Zeit"
 
 #: plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
-msgstr ""
+msgstr "Funktionen, um Werte in Datenbanken zu suchen"
 
 #: plugins/fn-date/functions.c:52
 #, fuzzy
@@ -3320,7 +3320,7 @@ msgstr "Ingenieurswissenschaftliche Funktionen"
 
 #: plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
-msgstr ""
+msgstr "Funktionen für komplexe Zahlen, Basiskonversionen und mehr "
 
 #: plugins/fn-financial/functions.c:398
 msgid ""
@@ -5482,7 +5482,7 @@ msgstr "Zahl"
 
 #: plugins/fn-logical/functions.c:367
 msgid "condition,if true,if false"
-msgstr ""
+msgstr "Zustand, falls WAHR, falls FALSCH"
 
 #: plugins/fn-logical/plugin.xml.in.h:1
 msgid "Functions for manipulating truth values"
@@ -5812,7 +5812,7 @@ msgstr ""
 
 #: plugins/fn-lookup/functions.c:1171 plugins/fn-math/functions.c:3156
 msgid "array"
-msgstr "Array"
+msgstr "Feld"
 
 #: plugins/fn-lookup/plugin.xml.in.h:1
 msgid "Functions for looking up values in ranges"
@@ -7266,7 +7266,7 @@ msgstr "Bereich,Bereich,"
 #: plugins/fn-stat/functions.c:5187 plugins/fn-stat/functions.c:5189
 #: plugins/fn-stat/functions.c:5281 plugins/fn-stat/functions.c:5293
 msgid "array1,array2"
-msgstr "Array1,Array2"
+msgstr "Feld1,Feld2"
 
 #: plugins/fn-math/functions.c:3158 plugins/fn-math/functions.c:3161
 msgid "array,matrix_type,bandsize"
@@ -9764,7 +9764,7 @@ msgstr ""
 
 #: plugins/fn-stat/functions.c:5183
 msgid "trials,p,alpha"
-msgstr ""
+msgstr "Versuche,p,Alpha"
 
 #: plugins/fn-stat/functions.c:5185
 msgid "ref,ref,"
@@ -9796,11 +9796,11 @@ msgstr ""
 
 #: plugins/fn-stat/functions.c:5209
 msgid "x,known y's,known x's"
-msgstr ""
+msgstr "x,Bekannte Y, Bekannte X"
 
 #: plugins/fn-stat/functions.c:5211
 msgid "data_array,bins_array"
-msgstr ""
+msgstr "Daten_Feld,Klassen_Feld"
 
 #: plugins/fn-stat/functions.c:5213
 msgid "arr1,arr2"
@@ -9856,7 +9856,7 @@ msgstr ""
 
 #: plugins/fn-stat/functions.c:5277
 msgid "array,k"
-msgstr "Array,k"
+msgstr "Feld,k"
 
 #: plugins/fn-stat/functions.c:5279
 msgid "array,x,significance"
@@ -11155,7 +11155,7 @@ msgstr "Python-Ausnahme (%s)"
 
 #: plugins/python-loader/py-gnumeric.c:457
 msgid "Python list is not an array"
-msgstr "Python-Liste ist kein Array"
+msgstr "Python-Liste ist kein Feld"
 
 #: plugins/python-loader/py-gnumeric.c:464
 #, c-format
@@ -11311,7 +11311,7 @@ msgstr "Fehler beim Öffnen der xbase-Datei."
 
 #: plugins/xbase/boot.c:170 src/dialogs/dialog-goto-cell.c:280
 #: src/dialogs/print.glade.h:20 src/workbook.c:946 src/workbook.c:1216
-#: src/xml-io.c:3097
+#: src/xml-io.c:3130
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -11466,7 +11466,7 @@ msgstr "Breite der markierten Spalten ändern"
 
 #: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:145
 msgid "Checkbox"
-msgstr "Checkbox"
+msgstr "Kontrollkästchen"
 
 #: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2930
 msgid "Clear the selected cells' comments"
@@ -11560,59 +11560,59 @@ msgstr "Kovarianz"
 
 #: src/GNOME_Gnumeric.xml.h:49
 msgid "Create a button"
-msgstr "Knopf erzeugen"
+msgstr "Einen Knopf erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:50
 msgid "Create a checkbox"
-msgstr "Checkbox erzeugen"
+msgstr "Ein Kontrollkästchen erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:51
 msgid "Create a combo box"
-msgstr "Kombinationsfeld erzeugen"
+msgstr "Ein Kombinationsfeld erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:52
 msgid "Create a frame"
-msgstr "Rahmen erzeugen"
+msgstr "Einen Rahmen erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:53
 msgid "Create a label"
-msgstr "Beschriftung erzeugen"
+msgstr "Eine Beschriftung erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:54
 msgid "Create a line"
-msgstr "Linie erzeugen"
+msgstr "Eine Linie erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:55
 msgid "Create a list"
-msgstr "Liste erzeugen"
+msgstr "Eine Liste erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:3068
 msgid "Create a new shared view of the workbook"
-msgstr "Neue gemeinsame Ansicht eines Arbeitsbuchs erzeugen"
+msgstr "Eine neue gemeinsame Ansicht eines Arbeitsbuchs erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2887
 msgid "Create a new spreadsheet"
-msgstr "Neues Arbeitsblatt erzeugen"
+msgstr "Eine neues Arbeitsblatt erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3071
 msgid "Create a new unshared view of the workbook"
-msgstr "Neue nicht gemeinsame Ansicht eines Arbeitsbuchs erzeugen"
+msgstr "Eine neue, nicht gemeinsame Ansicht eines Arbeitsbuchs erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:59
 msgid "Create a new workbook"
-msgstr "Neues Arbeitsbuch anlegen"
+msgstr "Eine neues Arbeitsbuch anlegen"
 
 #: src/GNOME_Gnumeric.xml.h:60
 msgid "Create a radio button"
-msgstr "Radiobutton erzeugen"
+msgstr "Einen Radiobutton erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:61
 msgid "Create a scrollbar"
-msgstr "Scrollleiste erzeugen"
+msgstr "Eine Scrollleiste erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:62
 msgid "Create an arrow"
-msgstr "Pfeil erzeugen"
+msgstr "Einen Pfeil erzeugen"
 
 #: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1395
 msgid "Cu_t"
@@ -11723,7 +11723,7 @@ msgstr "V_orhersage"
 
 #: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3463
 msgid "F_ormat"
-msgstr "F_ormate"
+msgstr "_Formate"
 
 #: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3425
 msgid "Filter data with given criteria"
@@ -12058,7 +12058,6 @@ msgid "P_roperties..."
 msgstr "E_igenschaften..."
 
 #: src/GNOME_Gnumeric.xml.h:166 src/GNOME_Gnumeric_Component.xml.h:5
-#, fuzzy
 msgid "Page S_etup..."
 msgstr "Sei_teneinstellungen..."
 
@@ -12415,11 +12414,11 @@ msgstr "Die letzte Operation rückgängig machen"
 
 #: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3287
 msgid "Unpaired Samples, _Equal Var.: T-Test"
-msgstr ""
+msgstr "Ungepaarte Stichproben, _gleiche Varianzen: T-Test"
 
 #: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3292
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
-msgstr ""
+msgstr "Ungepaarte Stichproben, _ungleiche Varianzen: T-Test"
 
 #: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3439
 msgid "Validate input with preset criteria"
@@ -12493,7 +12492,7 @@ msgstr "_Konsolidieren..."
 
 #: src/GNOME_Gnumeric.xml.h:264
 msgid "_Content"
-msgstr "_Inhalt"
+msgstr "I_nhalt"
 
 #: src/GNOME_Gnumeric.xml.h:265 src/item-cursor.c:1012
 #: src/sheet-control-gui.c:1397
@@ -12568,7 +12567,7 @@ msgstr "_Funktion..."
 
 #: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3244
 msgid "_Gnumeric..."
-msgstr "_Einstellungen..."
+msgstr "_Tabellenkalkulation..."
 
 #: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3362
 msgid "_Goal Seek..."
@@ -12627,7 +12626,7 @@ msgstr "N_eu einfügen"
 
 #: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3297
 msgid "_Known Variances or Large Sample: Z-Test"
-msgstr ""
+msgstr "_Bekannte Varianzen oder große Stichprobe: Z-Test"
 
 #: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:2998
 #: src/workbook-control-gui.c:3192
@@ -12652,7 +12651,7 @@ msgstr "_Objekt..."
 
 #: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3258
 msgid "_One Factor"
-msgstr "_Ein Faktor"
+msgstr "_Einfaktoriell"
 
 #: src/GNOME_Gnumeric.xml.h:302
 msgid "_Open..."
@@ -12773,11 +12772,11 @@ msgstr "_Werkzeuge"
 
 #: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3261
 msgid "_Two Factor"
-msgstr "_Zwei Faktoren"
+msgstr "_Zweifaktoriell"
 
 #: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3339
 msgid "_Two Variances: FTest"
-msgstr ""
+msgstr "_Zwei Varianzen: F-Test"
 
 #: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:1122
 msgid "_Undo"
@@ -12795,7 +12794,7 @@ msgstr "_Hervorholen"
 
 #: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3438
 msgid "_Validate..."
-msgstr "ü_berprüfen..."
+msgstr "Ü_berprüfen..."
 
 #: src/GNOME_Gnumeric.xml.h:334
 msgid "_View"
@@ -12956,11 +12955,11 @@ msgstr "Spalte %s versetzen"
 #: src/command-context-stderr.c:100 src/workbook-control-gui.c:1302
 #, c-format
 msgid "Would split array %s"
-msgstr "Würde das Array »%s« aufteilen."
+msgstr "Würde das Feld »%s« aufteilen."
 
 #: src/command-context-stderr.c:103 src/workbook-control-gui.c:1304
 msgid "Would split an array"
-msgstr "Würde ein Array aufteilen"
+msgstr "Würde ein Feld aufteilen"
 
 #: src/commands.c:221
 #, c-format
@@ -13317,9 +13316,8 @@ msgid "Rename sheet '%s' '%s'"
 msgstr "Blatt umbenennen: Von »%s« in »%s«"
 
 #: src/commands.c:4418
-#, fuzzy
 msgid "Changing Tab Colors"
-msgstr "Ändern: Format von %s"
+msgstr "Reiterfarben werden geändert"
 
 #: src/commands.c:4421
 msgid "Changing Sheet Protection"
@@ -13345,9 +13343,8 @@ msgid "Merging data into %s"
 msgstr "Daten werden in %s übernommen"
 
 #: src/commands.c:5020
-#, fuzzy
 msgid "Changing summary info"
-msgstr "Ändern: Format von %s"
+msgstr "Zusammenfassungs-Infos werden geändert"
 
 #: src/commands.c:5111
 msgid "Raise object"
@@ -13367,40 +13364,40 @@ msgstr ""
 
 #: src/commands.c:5238
 #, c-format
-msgid "Print Setup For %s"
-msgstr ""
+msgid "Page Setup For %s"
+msgstr "Seiteneinstellungen für %s"
 
 #: src/commands.c:5240
-msgid "Print Setup For All Sheets"
-msgstr ""
+msgid "Page Setup For All Sheets"
+msgstr "Seiteneinstellungen für alle Arbeitsblätter"
 
 #: src/dates.c:17
 msgid "*Sun"
-msgstr "*Son"
+msgstr "*So"
 
 #: src/dates.c:18
 msgid "*Mon"
-msgstr "*Mon"
+msgstr "*Mo"
 
 #: src/dates.c:19
 msgid "*Tue"
-msgstr "*Die"
+msgstr "*Di"
 
 #: src/dates.c:20
 msgid "*Wed"
-msgstr "*Mit"
+msgstr "*Mi"
 
 #: src/dates.c:21
 msgid "*Thu"
-msgstr "*Don"
+msgstr "*Do"
 
 #: src/dates.c:22
 msgid "*Fri"
-msgstr "*Fre"
+msgstr "*Fr"
 
 #: src/dates.c:23
 msgid "*Sat"
-msgstr "*Sam"
+msgstr "*Sa"
 
 #: src/dates.c:29
 msgid "Sunday"
@@ -13612,7 +13609,7 @@ msgstr "0,05"
 
 #: src/dialogs/anova-one.glade.h:2
 msgid "ANOVA - Single Factor"
-msgstr "1-Faktor Varianzanalyse"
+msgstr "Varianzanalyse - einfaktoriell"
 
 #: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:5
 #: src/dialogs/correlation.glade.h:2 src/dialogs/covariance.glade.h:2
@@ -13665,7 +13662,7 @@ msgstr "Ausgabe"
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:10
 #: src/dialogs/variance-tests.glade.h:7
 msgid "Retain Output Range Comments"
-msgstr ""
+msgstr "Kommentare im Ausgabebereich beibehalten"
 
 #: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:11
 #: src/dialogs/correlation.glade.h:9 src/dialogs/covariance.glade.h:9
@@ -13677,7 +13674,7 @@ msgstr ""
 #: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:11
 #: src/dialogs/variance-tests.glade.h:8
 msgid "Retain Output Range Formatting"
-msgstr ""
+msgstr "Formatierung im Ausgabebereich beibehalten"
 
 #: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:12
 msgid "_Alpha = "
@@ -13719,7 +13716,7 @@ msgstr "1"
 
 #: src/dialogs/anova-two.glade.h:3
 msgid "ANOVA - Two-Factor"
-msgstr "2-Faktor Varianzanalyse"
+msgstr "Varianzanalyse - zweifaktoriell"
 
 #: src/dialogs/anova-two.glade.h:8
 msgid "Number of Rows _Per Sample:"
@@ -13765,7 +13762,7 @@ msgstr "E_rster Buchstabe"
 
 #: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:109
 msgid "_General"
-msgstr "_Allgemeines"
+msgstr "_Allgemein"
 
 #: src/dialogs/autocorrect.glade.h:11
 msgid "_INitial CApitals"
@@ -14042,7 +14039,7 @@ msgstr "Zellen formatieren"
 
 #: src/dialogs/cell-format.glade.h:39
 msgid "Formatted Sample"
-msgstr ""
+msgstr "Formatiertes Beispiel"
 
 # CHECK
 #: src/dialogs/cell-format.glade.h:40
@@ -14066,9 +14063,8 @@ msgid "In a list"
 msgstr "In einer Liste"
 
 #: src/dialogs/cell-format.glade.h:44
-#, fuzzy
 msgid "In-_cell dropdown"
-msgstr "Dropdown-Menüs in Zellen"
+msgstr "Dropdown-Menüs in _Zellen"
 
 #: src/dialogs/cell-format.glade.h:45
 msgid "Information  (allows invalid input)"
@@ -14385,35 +14381,35 @@ msgstr "Text um_brechen"
 
 #: src/dialogs/cell-format.glade.h:129
 msgid "min <= val <= max         (between)"
-msgstr "Min <= Wert <= Max     (zwischen)"
+msgstr "Min <= Wert <= Max                (zwischen)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
-msgstr "Eingabe != Wert               (ungleich)"
+msgstr "Eingabe != Wert                      (ungleich)"
 
 #: src/dialogs/cell-format.glade.h:131
 msgid "val <  bound                  (less than)"
-msgstr "Wert < Schranke                (kleiner als)"
+msgstr "Wert < Schranke                     (kleiner als)"
 
 #: src/dialogs/cell-format.glade.h:132
 msgid "val <= min || max <= val (not between)"
-msgstr "Wert <= Min  oder  Max <= Wert  (nicht dazwischen)"
+msgstr "Wert <= Min oder Max <= Wert (nicht dazwischen)"
 
 #: src/dialogs/cell-format.glade.h:133
 msgid "val <=bound                  (less than or equal to)"
-msgstr "Wert <= Schranke              (höchstens)"
+msgstr "Wert <= Schranke                   (höchstens)"
 
 #: src/dialogs/cell-format.glade.h:134
 msgid "val == bound                 (equal to)"
-msgstr "Eingabe == Wert              (gleich)"
+msgstr "Eingabe == Wert                     (gleich)"
 
 #: src/dialogs/cell-format.glade.h:135
 msgid "val >  bound                  (greater than)"
-msgstr "Wert > Schranke                (größer als)"
+msgstr "Wert > Schranke                     (größer als)"
 
 #: src/dialogs/cell-format.glade.h:136
 msgid "val >=bound                  (greater than or equal to)"
-msgstr "Wert >= Schranke              (wenigstens)"
+msgstr "Wert >= Schranke                   (wenigstens)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -14445,9 +14441,8 @@ msgid "Sort..."
 msgstr "Sortieren..."
 
 #: src/dialogs/cell-sort.glade.h:8
-#, fuzzy
 msgid "_Preserves Formats"
-msgstr "_Bewahrt Formatierungen"
+msgstr "Zellformatierungen _beibehalten"
 
 #: src/dialogs/cell-sort.glade.h:9
 msgid "_Right-Left"
@@ -14554,16 +14549,16 @@ msgid ""
 "The left column contains labels, these will not be consolidated, but used as "
 "key for comparison"
 msgstr ""
-"Die linke Spalte enthält Bezeichner. Diese werden nicht konsolidiert, "
-"sondern als Schlüssel für Vergleiche verwendet"
+"Die linke Spalte enthält Beschriftungen. Diese werden nicht konsolidiert, "
+"sondern als Schlüssel zum Vergleich verwendet"
 
 #: src/dialogs/consolidate.glade.h:22
 msgid ""
 "The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
 msgstr ""
-"Die erste Zeile enthält Bezeichner. Diese werden nicht konsolidiert, sondern "
-"als Schlüssel für Vergleiche verwendet"
+"Die erste Zeile enthält Beschriftungen. Diese werden nicht konsolidiert, "
+"sondern als Schlüssel zum Vergleich verwendet"
 
 #: src/dialogs/consolidate.glade.h:23
 msgid "Values"
@@ -14590,7 +14585,6 @@ msgid "_Function:"
 msgstr "_Funktion:"
 
 #: src/dialogs/consolidate.glade.h:30
-#, fuzzy
 msgid "_Put:"
 msgstr "_Einsetzen:"
 
@@ -14670,7 +14664,7 @@ msgstr "Sean Atkinson, Funktionen und X-Base-Import."
 
 #: src/dialogs/dialog-about.c:46
 msgid "Michel Berkelaar, Simplex algorithm for Solver (LP Solve)."
-msgstr ""
+msgstr "Michel Berkelaar, Simplex-Algorithmus zur Lösungssuche (LP Solve)."
 
 #: src/dialogs/dialog-about.c:47
 msgid "Grandma Chema Celorio, Tester and sheet copy."
@@ -14694,7 +14688,7 @@ msgstr "J.H.M. Dassen (Ray), Debian-Pakete"
 
 #: src/dialogs/dialog-about.c:52
 msgid "Jeroen Dirks, Simplex algorithm for Solver (LP Solve)."
-msgstr ""
+msgstr "Jeroen Dirks, Simplex-Algorithmus zur Lösungssuche (LP Solve)."
 
 #: src/dialogs/dialog-about.c:53
 msgid "Tom Dyas, plugin support."
@@ -14806,8 +14800,9 @@ msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
 msgstr "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
 
 #: src/dialogs/dialog-about.c:106
+#, fuzzy
 msgid "A production ready spreadsheet"
-msgstr ""
+msgstr "Eine produktiv einsetzbare Tabellenkalkulation"
 
 #. Translate the following string with the names of all translators for this locale.
 #: src/dialogs/dialog-about.c:109
@@ -14818,7 +14813,8 @@ msgstr ""
 "Andreas J. Gülzow\n"
 "Christian Meyer\n"
 "Matthias Warkus\n"
-"Karsten Weiss"
+"Karsten Weiss\n"
+"Christian Neumair"
 
 #: src/dialogs/dialog-about.c:114
 msgid "Gnumeric Home Page"
@@ -15006,8 +15002,8 @@ msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
-"Die gegeben Eingabe sollte zumindest zwei Spalten mit Daten und die Titel "
-"umfassen."
+"Der gegeben Eingabebereich sollte mindestens zwei Spalten mit Daten und die "
+"Titel umfassen."
 
 #: src/dialogs/dialog-analysis-tools.c:2832
 #, fuzzy
@@ -15152,7 +15148,7 @@ msgstr "Beim Lesen der Kategorieenliste trat ein Fehler auf."
 #: src/dialogs/dialog-autoformat.c:665 src/format.c:1657 src/format.c:1749
 #: src/format.c:1758 src/format.c:1827 src/plugin-service.c:230
 msgid "General"
-msgstr "Allgemeines"
+msgstr "Allgemein"
 
 #: src/dialogs/dialog-autosave.c:75
 #, c-format
@@ -15407,7 +15403,7 @@ msgstr "Eingabedaten"
 
 #: src/dialogs/dialog-merge.c:378
 msgid "Merge Field"
-msgstr "Übernahmefeld"
+msgstr "Zusammenführungsfeld"
 
 #: src/dialogs/dialog-paste-special.c:40
 msgid "All"
@@ -15555,6 +15551,8 @@ msgstr "FALSCH"
 #: src/dialogs/dialog-preferences.c:657
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
+"Die Objekte auf dieser Seite legen das Verhalten des Systems zum "
+"Rückgängigmachen und Widerherstellen fest."
 
 #: src/dialogs/dialog-preferences.c:796
 msgid ""
@@ -15784,9 +15782,8 @@ msgid "N_umber of Failures"
 msgstr "An_zahl der Fehlschläge"
 
 #: src/dialogs/dialog-random-generator.c:158
-#, fuzzy
 msgid "Pareto"
-msgstr "K-größte"
+msgstr "Pareto"
 
 #: src/dialogs/dialog-random-generator.c:160
 msgid "Poisson"
@@ -15927,10 +15924,10 @@ msgid ""
 msgstr ""
 
 #: src/dialogs/dialog-solver.c:713
-#, fuzzy
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
-msgstr "Der Zielzellenwert konvergiert nicht."
+msgstr ""
+"Der angegebene Zielzellenwert konvergiert nicht!  Das Programm ist unbegrenzt"
 
 #: src/dialogs/dialog-solver.c:727
 msgid ""
@@ -15943,12 +15940,16 @@ msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
 msgstr ""
+"Die Maximale Anzahl an Iterationen ist erschöpft. Es konnte kein optimaler "
+"Wert gefunden werden."
 
 #: src/dialogs/dialog-solver.c:756
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
 msgstr ""
+"Die maximale Zeit ist verstrichen. In der vorgegebenen Zeit konnte kein "
+"optimaler Wert gefunden werden."
 
 #: src/dialogs/dialog-solver.c:799
 msgid "Unknown error."
@@ -16489,7 +16490,7 @@ msgstr "Sie sollten eine gültige Zahl als Minimum festlegen."
 
 #: src/dialogs/dialog-tabulate.c:435
 msgid "The maximum value should be bigger than the minimum"
-msgstr ""
+msgstr "Der maximale Wert sollte größer sein als der Minimale"
 
 #: src/dialogs/dialog-tabulate.c:443
 msgid "You should introduce a valid number as step size"
@@ -16567,7 +16568,7 @@ msgstr "Auswahl _einpassen %"
 
 #: src/dialogs/exp-smoothing.glade.h:1
 msgid "0.2"
-msgstr ""
+msgstr "0.2"
 
 #: src/dialogs/exp-smoothing.glade.h:4 src/tools/analysis-tools.c:2686
 #: src/tools/analysis-tools.c:2689
@@ -16744,7 +16745,7 @@ msgstr "Pro_zente"
 
 #: src/dialogs/histogram.glade.h:17
 msgid "Pre_determined Bins"
-msgstr ""
+msgstr "_Vorbestimmte Klassen"
 
 #: src/dialogs/histogram.glade.h:20
 msgid "Ro_ws"
@@ -16759,11 +16760,11 @@ msgstr "Num"
 
 #: src/dialogs/histogram.glade.h:23
 msgid "_Calculated Bins"
-msgstr ""
+msgstr "_Berechnete Klassen"
 
 #: src/dialogs/histogram.glade.h:26
 msgid "_N:"
-msgstr ""
+msgstr "_N:"
 
 #: src/dialogs/histogram.glade.h:28
 msgid "_Options"
@@ -16859,7 +16860,7 @@ msgstr "_Ungleich"
 
 #: src/dialogs/merge.glade.h:1
 msgid "Merge Range:"
-msgstr "Zusammenführungsbereich"
+msgstr "Zusammenführungsbereich:"
 
 #: src/dialogs/moving-averages.glade.h:1
 msgid "3"
@@ -17002,7 +17003,7 @@ msgstr "_Bereich drucken:"
 
 #: src/dialogs/print.glade.h:16
 msgid "Print setup"
-msgstr "Ausdruck einrichten"
+msgstr "Seiteneinstellungen"
 
 #: src/dialogs/print.glade.h:17
 msgid "R_ight, then down"
@@ -17350,9 +17351,8 @@ msgid "_Expressions"
 msgstr "Ausdrücke"
 
 #: src/dialogs/search-replace.glade.h:41
-#, fuzzy
 msgid "_Fail"
-msgstr "Fehlschlag"
+msgstr "_Fehlschlag"
 
 # Accelerator missing
 #: src/dialogs/search-replace.glade.h:42 src/dialogs/search.glade.h:29
@@ -17489,9 +17489,8 @@ msgid "_Regular expression"
 msgstr "Regulärer Ausdruck"
 
 #: src/dialogs/sheet-order.glade.h:1
-#, fuzzy
 msgid "Manage Sheets..."
-msgstr "Blätter _verwalten..."
+msgstr "Blätter verwalten..."
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Configure Arrow/Line"
@@ -17511,7 +17510,7 @@ msgstr "Abstand vom Anfangspunkt zur Außenseite des Stiels"
 
 #: src/dialogs/so-checkbox.glade.h:1
 msgid "Checkbox Configure"
-msgstr "Checkbox konfigurieren"
+msgstr "Kontrollkästchen konfigurieren"
 
 #: src/dialogs/so-fill.glade.h:1
 msgid "Configure Filled Object"
@@ -17523,7 +17522,7 @@ msgstr "Scrollleiste konfigurieren"
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Integer (Discrete)"
-msgstr ""
+msgstr "_Ganzzahl (Diskret) annehmen"
 
 #: src/dialogs/solver.glade.h:5
 msgid "Assume _Non-Negative"
@@ -17693,7 +17692,7 @@ msgstr "Zellen löschen"
 
 #: src/dialogs/tabulate.glade.h:3
 msgid "Make one long list of coordinates and values"
-msgstr ""
+msgstr "Eine lange Liste mit Koordinaten und Werten erstellen"
 
 #: src/dialogs/tabulate.glade.h:4
 msgid "Maximum"
@@ -17797,15 +17796,15 @@ msgstr "Eingebaut"
 msgid "Error: no sheet"
 msgstr "Fehler: kein Blatt"
 
-#: src/expr.c:682
+#: src/expr.c:683
 msgid "Internal type error"
 msgstr "Interner Typenfehler"
 
-#: src/expr.c:855
+#: src/expr.c:856
 msgid "Unknown operator"
 msgstr "Unbekannter Operator"
 
-#: src/expr.c:1100
+#: src/expr.c:1101
 msgid "Unknown evaluation error"
 msgstr "Unbekannter Auswertungsfehler"
 
@@ -17935,11 +17934,11 @@ msgstr "FELD"
 #. 2002/08/04 Updated to match iso 4217
 #: src/formats.c:258
 msgid "United Arab Emirates, Dirhams"
-msgstr "Vereinigte Arab. Emirate, Dirhams"
+msgstr "Vereinigte Arab. Emirate-Dirham"
 
 #: src/formats.c:259
 msgid "Afghanistan, Afghanis"
-msgstr "Afghanistan, Afghani"
+msgstr "Afghanischer Afghani"
 
 #: src/formats.c:260
 msgid "Albania, Leke"
@@ -17951,19 +17950,19 @@ msgstr "Armenischer Dram"
 
 #: src/formats.c:262
 msgid "Netherlands Antilles, Guilders"
-msgstr "Niederländische Antillen, Gulden"
+msgstr "Niederländische Antillen-Gulden"
 
 #: src/formats.c:263
 msgid "Angola, Kwanza"
-msgstr "Angola, Angolanischer Kwanza"
+msgstr "Angolanischer Kwanza"
 
 #: src/formats.c:264
 msgid "Argentina, Pesos"
-msgstr "Argentinien, Peso"
+msgstr "Argentinischer Peso"
 
 #: src/formats.c:265
 msgid "Australia, Dollars"
-msgstr "Australien, Dollar"
+msgstr "Australischer Dollar"
 
 #: src/formats.c:266
 msgid "Aruba, Guilders"
@@ -17975,11 +17974,11 @@ msgstr "Aserbaidschan-Manat"
 
 #: src/formats.c:268
 msgid "Bosnia and Herzegovina, Convertible Marka"
-msgstr "Bosnien-Herzigowina, konvertierbare Marka"
+msgstr "Bosnisch-Herzegowinische konvertierbare Marka"
 
 #: src/formats.c:269
 msgid "Barbados, Dollars"
-msgstr "Barbados, Dollar"
+msgstr "Barbados-Dollar"
 
 #: src/formats.c:270
 msgid "Bangladesh, Taka"
@@ -17995,27 +17994,27 @@ msgstr "Bahrain-Dinar"
 
 #: src/formats.c:273
 msgid "Burundi, Francs"
-msgstr "Burundi, Franc"
+msgstr "Burundi-Franc"
 
 #: src/formats.c:274
 msgid "Bermuda, Dollars"
-msgstr "Bermuda, Dollar"
+msgstr "Bermuda-Dollar"
 
 #: src/formats.c:275
 msgid "Brunei Darussalam, Dollars"
-msgstr "Brunei Darussalam, Dollar"
+msgstr "Brunei-Dollar"
 
 #: src/formats.c:276
 msgid "Bolivia, Bolivianos"
-msgstr "Bolivien, Boliviano"
+msgstr "Bolivianischer Boliviano"
 
 #: src/formats.c:277
 msgid "Brazil, Brazil Real"
-msgstr "Brasilien, Brasilianischer Real"
+msgstr "Brasilianischer Real"
 
 #: src/formats.c:278
 msgid "Bahamas, Dollars"
-msgstr "Bahamas, Dollar"
+msgstr "Bahama-Dollar"
 
 #: src/formats.c:279
 msgid "Bhutan, Ngultrum"
@@ -18023,31 +18022,31 @@ msgstr "Bhutanischer Ngultrum"
 
 #: src/formats.c:280
 msgid "Botswana, Pulas"
-msgstr "Botswana, Pula"
+msgstr "Botsuanischer Pula"
 
 #: src/formats.c:281
 msgid "Belarus, Rubles"
-msgstr "Belarussland, Rubel"
+msgstr "Belarussischer Rubel"
 
 #: src/formats.c:282
 msgid "Belize, Dollars"
-msgstr "Belize, Dollar"
+msgstr "Belize-Dollar"
 
 #: src/formats.c:283
 msgid "Canada, Dollars"
-msgstr "Kanada, Dollar"
+msgstr "Kanadischer Dollar"
 
 #: src/formats.c:284
 msgid "Congo/Kinshasa, Congolese Francs"
-msgstr "Kongo/Kinshasa, Kongolesische Francs"
+msgstr "Kongolesische Francs"
 
 #: src/formats.c:285
 msgid "Switzerland, Francs"
-msgstr "Schweiz, Franken"
+msgstr "Schweizer Franken"
 
 #: src/formats.c:286
 msgid "Chile, Pesos"
-msgstr "Chile, Peso"
+msgstr "Chilenischer Peso"
 
 #: src/formats.c:287
 msgid "China, Yuan Renminbi"
@@ -18055,15 +18054,15 @@ msgstr "Chinesischer Renminbi Yuan"
 
 #: src/formats.c:288
 msgid "Colombia, Pesos"
-msgstr "Kolumbien, Peso"
+msgstr "Kolumbianischer Peso"
 
 #: src/formats.c:289
 msgid "Costa Rica, Colones"
-msgstr "Costa Rica, Colón"
+msgstr "Costa-Rica-Colón"
 
 #: src/formats.c:290
 msgid "Cuba, Pesos"
-msgstr "Kuba, Peso"
+msgstr "Kubanischer Peso"
 
 #: src/formats.c:291
 msgid "Cape Verde, Escudos"
@@ -18071,7 +18070,7 @@ msgstr "Kap-Verde-Escudo"
 
 #: src/formats.c:292
 msgid "Cyprus, Pounds"
-msgstr "Zypern, Pfund"
+msgstr "Zypern-Pfund"
 
 #: src/formats.c:293
 msgid "Czech Republic, Koruny"
@@ -18079,11 +18078,11 @@ msgstr "Tschechische Krone"
 
 #: src/formats.c:294
 msgid "Djibouti, Francs"
-msgstr "Djibouti, Franc"
+msgstr "Dschibuti-Franc"
 
 #: src/formats.c:295
 msgid "Denmark, Kroner"
-msgstr "Dänemark, Kronen"
+msgstr "Dänische Kronen"
 
 #: src/formats.c:296
 msgid "Dominican Republic, Pesos"
@@ -18099,11 +18098,11 @@ msgstr "Estnische Krone"
 
 #: src/formats.c:299
 msgid "Egypt, Pounds"
-msgstr "Ägypten, Ägyptisches Pfund"
+msgstr "Ägyptisches Pfund"
 
 #: src/formats.c:300
 msgid "Eritrea, Nakfa"
-msgstr ""
+msgstr "Eritreische Nakfa"
 
 #: src/formats.c:301
 msgid "Ethiopia, Birr"
@@ -18111,27 +18110,27 @@ msgstr "Äthiopischer Birr"
 
 #: src/formats.c:302
 msgid "Euro Member Countries, Euro"
-msgstr "Euro-Mitgliedsstaaten, Euro"
+msgstr "Euro"
 
 #: src/formats.c:303
 msgid "Fiji, Dollars"
-msgstr "Fidschi, Dollar"
+msgstr "Fidschi-Dollar"
 
 #: src/formats.c:304
 msgid "Falkland Islands (Malvinas), Pounds"
-msgstr "Falklandinseln (Malvinen), Pfund"
+msgstr "Falkland-Pfund"
 
 #: src/formats.c:305
 msgid "United Kingdom, Pounds"
-msgstr "Vereinigtes Königreich, Pfund"
+msgstr "Britisches Pfund"
 
 #: src/formats.c:306
 msgid "Georgia, Lari"
-msgstr ""
+msgstr "Georga-Lari"
 
 #: src/formats.c:307
 msgid "Guernsey, Pounds"
-msgstr ""
+msgstr "Guernsey-Pfund"
 
 #: src/formats.c:308
 msgid "Ghana, Cedis"
@@ -18139,7 +18138,7 @@ msgstr "Ghanaischer Cedi"
 
 #: src/formats.c:309
 msgid "Gibraltar, Pounds"
-msgstr "Gibraltar, Pfund"
+msgstr "Gibraltar-Pfund"
 
 #: src/formats.c:310
 msgid "Gambia, Dalasi"
@@ -18147,7 +18146,7 @@ msgstr "Gambischer Dalasi"
 
 #: src/formats.c:311
 msgid "Guinea, Francs"
-msgstr "Guinea, Franc"
+msgstr "Guinea-Franc"
 
 #: src/formats.c:312
 msgid "Guatemala, Quetzales"
@@ -18155,7 +18154,7 @@ msgstr "Guatemaltekischer Quetzal"
 
 #: src/formats.c:313
 msgid "Guyana, Dollars"
-msgstr "Guyana, Dollar"
+msgstr "Guyana-Dollar"
 
 #: src/formats.c:314
 msgid "Hong Kong, Dollars"
@@ -18187,7 +18186,7 @@ msgstr "Israelischer Neuer Schekel"
 
 #: src/formats.c:321
 msgid "Isle of Man, Pounds"
-msgstr "Isle of Man, Pfund"
+msgstr "Isle of Man-Pfund"
 
 #: src/formats.c:322
 msgid "India, Rupees"
@@ -18207,7 +18206,7 @@ msgstr "Isländische Krone"
 
 #: src/formats.c:326
 msgid "Jersey, Pounds"
-msgstr "Jersey, Pfund"
+msgstr "Jersey-Pfund"
 
 #: src/formats.c:327
 msgid "Jamaica, Dollars"
@@ -18223,7 +18222,7 @@ msgstr "Japanischer Yen"
 
 #: src/formats.c:330
 msgid "Kenya, Shillings"
-msgstr "Kenia, Schilling"
+msgstr "Kenianischer Schilling"
 
 #: src/formats.c:331
 msgid "Kyrgyzstan, Soms"
@@ -18231,19 +18230,19 @@ msgstr "Kirgisistan-Som"
 
 #: src/formats.c:332
 msgid "Cambodia, Riels"
-msgstr "Kampodschanische Riel"
+msgstr "Kampodschanischer Riel"
 
 #: src/formats.c:333
 msgid "Comoros, Francs"
-msgstr "Komoren, Franc"
+msgstr "Komoren-Franc"
 
 #: src/formats.c:334
 msgid "Korea (North), Won"
-msgstr "Korea (Nord), Won"
+msgstr "Südkoreanischer Won"
 
 #: src/formats.c:335
 msgid "Korea (South), Won"
-msgstr "Korea (Süd), Won"
+msgstr "Nordkoreanischer Won"
 
 #: src/formats.c:336
 msgid "Kuwait, Dinars"
@@ -18267,11 +18266,11 @@ msgstr "Libanesisches Pfund"
 
 #: src/formats.c:341
 msgid "Sri Lanka, Rupees"
-msgstr "Sri-Lanka, Rupie"
+msgstr "Sri-Lanka-Rupie"
 
 #: src/formats.c:342
 msgid "Liberia, Dollars"
-msgstr "Liberia, Dollar"
+msgstr "Liberianischer Dollar"
 
 #: src/formats.c:343
 msgid "Lesotho, Maloti"
@@ -18283,7 +18282,7 @@ msgstr "Litauischer Litas"
 
 #: src/formats.c:345
 msgid "Latvia, Lati"
-msgstr ""
+msgstr "Lettischer Lats"
 
 #: src/formats.c:346
 msgid "Libya, Dinars"
@@ -18295,11 +18294,11 @@ msgstr "Marokkanischer Dirham"
 
 #: src/formats.c:348
 msgid "Moldova, Lei"
-msgstr "Moldavien, Leu"
+msgstr "Moldawischer Leu"
 
 #: src/formats.c:349
 msgid "Madagascar, Malagasy Francs"
-msgstr "Madagaskar, Madagaskar-Franc"
+msgstr "Madagaskar-Franc"
 
 #: src/formats.c:350
 msgid "Macedonia, Denars"
@@ -18307,11 +18306,11 @@ msgstr "Mazedonischer Denar"
 
 #: src/formats.c:351
 msgid "Myanmar (Burma), Kyats"
-msgstr "Myanmar (Burma), Kyat"
+msgstr "Myanmarischer (Burmesischer) Kyat"
 
 #: src/formats.c:352
 msgid "Mongolia, Tugriks"
-msgstr "Mongolei, Tugrik"
+msgstr "Mongolischer Tugrik"
 
 #: src/formats.c:353
 msgid "Macau, Patacas"
@@ -18323,15 +18322,15 @@ msgstr "Mauretanische Ouguiya"
 
 #: src/formats.c:355
 msgid "Malta, Liri"
-msgstr "Malta, Lira"
+msgstr "Maltesische Lire"
 
 #: src/formats.c:356
 msgid "Mauritius, Rupees"
-msgstr "Mauritius, Rupie"
+msgstr "Mauritius-Rupie"
 
 #: src/formats.c:357
 msgid "Maldives (Maldive Islands), Rufiyaa"
-msgstr ""
+msgstr "Maledivische Rufiyaa"
 
 #: src/formats.c:358
 msgid "Malawi, Kwachas"
@@ -18339,7 +18338,7 @@ msgstr "Malawi-Kwacha"
 
 #: src/formats.c:359
 msgid "Mexico, Pesos"
-msgstr "Mexico, Peso"
+msgstr "Mexikanischer Peso"
 
 #: src/formats.c:360
 msgid "Malaysia, Ringgits"
@@ -18351,11 +18350,11 @@ msgstr "Mosambikanischer Metical"
 
 #: src/formats.c:362
 msgid "Namibia, Dollars"
-msgstr "Namimbia, Dollar"
+msgstr "Namimbischer Dollar"
 
 #: src/formats.c:363
 msgid "Nigeria, Nairas"
-msgstr "Nigeria, Naira"
+msgstr "Nigerianische Naira"
 
 #: src/formats.c:364
 msgid "Nicaragua, Gold Cordobas"
@@ -18363,39 +18362,39 @@ msgstr "Nicaraguanischer Córdoba"
 
 #: src/formats.c:365
 msgid "Norway, Krone"
-msgstr "Norwegen, Krone"
+msgstr "Norwegische Krone"
 
 #: src/formats.c:366
 msgid "Nepal, Nepal Rupees"
-msgstr "Nepal, Nepalesische Rupie"
+msgstr "Nepalesische Rupie"
 
 #: src/formats.c:367
 msgid "New Zealand, Dollars"
-msgstr "Neuseeland, Dollar"
+msgstr "Neuseeländischer Dollar"
 
 #: src/formats.c:368
 msgid "Oman, Rials"
-msgstr ""
+msgstr "Omanischer Rial"
 
 #: src/formats.c:369
 msgid "Panama, Balboa"
-msgstr "Panama, Balboa"
+msgstr "Panamaischer Balboa"
 
 #: src/formats.c:370
 msgid "Peru, Nuevos Soles"
-msgstr "Peru, Nuevos Soles"
+msgstr "Peruanischer Sol"
 
 #: src/formats.c:371
 msgid "Papua New Guinea, Kina"
-msgstr "Papua New Guinea, Kina"
+msgstr "Papua-Neuguinea-Kina"
 
 #: src/formats.c:372
 msgid "Philippines, Pesos"
-msgstr "Philipinen, Pesos"
+msgstr "Philipinischer Peso"
 
 #: src/formats.c:373
 msgid "Pakistan, Rupees"
-msgstr "Pakistan, Rupien"
+msgstr "Pakistanische Rupie"
 
 #: src/formats.c:374
 msgid "Poland, Zlotych"
@@ -18403,35 +18402,35 @@ msgstr "Polnischer Zloty"
 
 #: src/formats.c:375
 msgid "Paraguay, Guarani"
-msgstr "Paraguay, Guarani"
+msgstr "Paraguayischer Guarani"
 
 #: src/formats.c:376
 msgid "Qatar, Rials"
-msgstr "Katar, Riyal"
+msgstr "Katar-Rial"
 
 #: src/formats.c:377
 msgid "Romania, Lei"
-msgstr "Rumänien, Leu"
+msgstr "Rumänischer Leu"
 
 #: src/formats.c:378
 msgid "Russia, Rubles"
-msgstr "Russland, Rubel"
+msgstr "Russischer Rubel"
 
 #: src/formats.c:379
 msgid "Rwanda, Rwanda Francs"
-msgstr "Ruanda, Ruanda-Franc"
+msgstr "Ruanda-Franc"
 
 #: src/formats.c:380
 msgid "Saudi Arabia, Riyals"
-msgstr "Saudi-Arabien, Riyal"
+msgstr "Saudi Riyal"
 
 #: src/formats.c:381
 msgid "Solomon Islands, Dollars"
-msgstr "Solomon-Inseln, Dollar"
+msgstr "Solomon-Dollar "
 
 #: src/formats.c:382
 msgid "Seychelles, Rupees"
-msgstr "Seychellen, Rupien"
+msgstr "Seychellen-Rupie"
 
 #: src/formats.c:383
 msgid "Sudan, Dinars"
@@ -18439,19 +18438,19 @@ msgstr "Sudanesischer Denar"
 
 #: src/formats.c:384
 msgid "Sweden, Kronor"
-msgstr "Schweden, Kronen"
+msgstr "Schwedische Krone"
 
 #: src/formats.c:385
 msgid "Singapore, Dollars"
-msgstr "Singapur, Dollar"
+msgstr "Singapur-Dollar"
 
 #: src/formats.c:386
 msgid "Saint Helena, Pounds"
-msgstr "St. Helena, Pfund"
+msgstr "St. Helena-Pfund"
 
 #: src/formats.c:387
 msgid "Slovenia, Tolars"
-msgstr "Slowenien, Tolar"
+msgstr "Slowenischer Tolar"
 
 #: src/formats.c:388
 msgid "Slovakia, Koruny"
@@ -18459,15 +18458,15 @@ msgstr "Slowakische Krone"
 
 #: src/formats.c:389
 msgid "Sierra Leone, Leones"
-msgstr "Sierra Leone, Leone"
+msgstr "Sierraleonische Leone"
 
 #: src/formats.c:390
 msgid "Somalia, Shillings"
-msgstr "Somalia, Schilling"
+msgstr "Somalischer Schilling"
 
 #: src/formats.c:391
 msgid "Seborga, Luigini"
-msgstr ""
+msgstr "Seborganischer Lugigino"
 
 #: src/formats.c:392
 msgid "Suriname, Guilders"
@@ -18483,7 +18482,7 @@ msgstr "El-Salvador-Colón"
 
 #: src/formats.c:395
 msgid "Syria, Pounds"
-msgstr "Syrien, Pfund"
+msgstr "Syrisches Pfund"
 
 #: src/formats.c:396
 msgid "Swaziland, Emalangeni"
@@ -18495,7 +18494,7 @@ msgstr "Thailändischer Baht"
 
 #: src/formats.c:398
 msgid "Tajikistan, Rubles"
-msgstr "Tadschikistan, Rubel"
+msgstr "Tadschikischer Rubel"
 
 #: src/formats.c:399
 msgid "Turkmenistan, Manats"
@@ -18511,23 +18510,23 @@ msgstr "Tongaische Pa'anga"
 
 #: src/formats.c:402
 msgid "Turkey, Liras"
-msgstr "Türkei, Türkische Lira"
+msgstr "Türkische Lire"
 
 #: src/formats.c:403
 msgid "Trinidad and Tobago, Dollars"
-msgstr "Trinidad und Tobago, Dollar"
+msgstr "Trinidad/Tobago-Dollar"
 
 #: src/formats.c:404
 msgid "Tuvalu, Tuvalu Dollars"
-msgstr ""
+msgstr "Tuvalu-Dollar"
 
 #: src/formats.c:405
 msgid "Taiwan, New Dollars"
-msgstr "Taiwan, Neue Dollar"
+msgstr "Taiwanesischer Dollar"
 
 #: src/formats.c:406
 msgid "Tanzania, Shillings"
-msgstr "Tanzania, Schilling"
+msgstr "Tansania-Schilling"
 
 #: src/formats.c:407
 msgid "Ukraine, Hryvnia"
@@ -18539,7 +18538,7 @@ msgstr "Uganda-Schilling"
 
 #: src/formats.c:409
 msgid "United States of America, Dollars"
-msgstr "Vereinigte Staaten von Amerika, Dollars"
+msgstr "US-Dollar"
 
 #: src/formats.c:410
 msgid "Uruguay, Pesos"
@@ -18567,18 +18566,17 @@ msgstr "Samoanischer Tala"
 
 #: src/formats.c:416
 msgid "Communaute Financiere Africaine BEAC, Francs"
-msgstr ""
+msgstr "CFA-Francs (BEAC)"
 
 #: src/formats.c:417
 msgid "Silver, Ounces"
-msgstr ""
+msgstr "Silber, Unze"
 
 #: src/formats.c:418
 msgid "Gold, Ounces"
 msgstr "Gold, Unzen"
 
 #: src/formats.c:419
-#, fuzzy
 msgid "East Caribbean Dollars"
 msgstr "Ostkaribik-Dollar"
 
@@ -18588,11 +18586,11 @@ msgstr ""
 
 #: src/formats.c:421
 msgid "Communaute Financiere Africaine BCEAO, Francs"
-msgstr ""
+msgstr "CFA-Francs (BEACO)"
 
 #: src/formats.c:422
 msgid "Palladium Ounces"
-msgstr "Palladium Unze"
+msgstr "Palladium Unzen"
 
 #: src/formats.c:423
 msgid "Comptoirs Francais du Pacifique Francs"
@@ -18604,7 +18602,7 @@ msgstr "Platinum, Unzen"
 
 #: src/formats.c:425
 msgid "Yemen, Rials"
-msgstr "Jemen, Rial"
+msgstr "Jemen-Rial"
 
 #: src/formats.c:426
 msgid "Yugoslavia, New Dinars"
@@ -18612,7 +18610,7 @@ msgstr "Jugoslawischer Dinar"
 
 #: src/formats.c:427
 msgid "South Africa, Rand"
-msgstr "Südafrika, Rand"
+msgstr "Südafrikanischer Rand"
 
 #: src/formats.c:428
 msgid "Zambia, Kwacha"
@@ -18620,7 +18618,7 @@ msgstr "Sambischer Kwacha"
 
 #: src/formats.c:429
 msgid "Zimbabwe, Zimbabwe Dollars"
-msgstr "Simbabwe, Simbabwe-Dollar"
+msgstr "Simbabwe-Dollar"
 
 #: src/formats.c:562
 msgid "[Red]"
@@ -18872,18 +18870,22 @@ msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "modfgnum."
 msgstr ""
+"Diese Gnumeric Version wurde mit unzureichender modfgnum-Präzision kompiliert"
 
 #: src/gutils.c:523
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "frexpgnum."
 msgstr ""
+"Diese Gnumeric Version wurde mit unzureichender frexpgnum-Präzision "
+"kompiliert"
 
 #: src/gutils.c:576
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
 msgstr ""
+"Diese Gnumeric Version wurde mit unzureichender yngnum-Präzision kompiliert"
 
 #.
 #. * xgettext:
@@ -18899,12 +18901,12 @@ msgstr "_Datei/Druck_vorschau..."
 msgid "File/"
 msgstr "Datei/"
 
-#: src/hlink.c:144
+#: src/hlink.c:149
 #, fuzzy
 msgid "Link target"
 msgstr "Zum Ein_passen schrumpfen"
 
-#: src/hlink.c:240
+#: src/hlink.c:245
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Die Adresse »%s« konnte nicht aktiviert werden"
@@ -18925,9 +18927,9 @@ msgid ""
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
-"Die verschobenen Zellen werden den Inhalt vorhandener Zellen\n"
-"in diesem Wertebereich überschreiben.  Soll ich den Inhalt\n"
-"dieses Bereichs ersetzen?"
+"Die verschobenen Zellen werden den Inhalt vorhandener\n"
+"Zellen in diesem Wertebereich überschreiben.  Soll der\n"
+"Inhalt dieses Bereichs ersetzt werden?"
 
 #: src/item-cursor.c:1009
 msgid "_Move"
@@ -19120,7 +19122,7 @@ msgstr "Name »%s« existiert im Arbeitsbuch »%s« nicht"
 #, c-format
 msgid "The character %c cannot be used to separate array elements"
 msgstr ""
-"Der Buchstabe »%c« kann nicht benutzt werden um Array Elemente zu trennen."
+"Der Buchstabe »%c« kann nicht benutzt werden um Feldelemente zu trennen."
 
 #: src/parser.y:916 src/parser.y:926 src/parser.y:959
 msgid "The number is out of range"
@@ -19204,7 +19206,7 @@ msgstr "Datei weist keine »plugin_cleanup_general«-Funktion auf."
 #: src/plugin-loader-module.c:507 src/plugin-loader-module.c:651
 #, c-format
 msgid "File doesn't contain \"%s\" array."
-msgstr "Datei weist keine »%s«-Array auf."
+msgstr "Datei weist kein »%s«-Feld auf."
 
 #: src/plugin-loader-module.c:588
 #, c-format
@@ -19618,7 +19620,7 @@ msgstr "_Blätter"
 
 #: src/print.c:1227
 msgid "Printing failed"
-msgstr "Drucken ist fehlgeschlagen"
+msgstr "Drucken fehlgeschlagen"
 
 #: src/search.c:136
 msgid "Search string must not be empty."
@@ -19708,8 +19710,7 @@ msgstr "_Zeilenhöhe..."
 # 2001-07-15 06:40:24 CEST -ke-
 #: src/sheet-merge.c:80
 msgid "There is already a merged region that intersects"
-msgstr ""
-"Es gibt bereits einen verschmolzenen Bereich, der diesen überschneidet."
+msgstr "Ein bereits zusammengeführter Bereich überschneidet diesen"
 
 #: src/sheet-object-bonobo.c:242
 msgid "Open..."
@@ -19732,7 +19733,7 @@ msgstr "Transparent"
 #: src/sheet-object-widget.c:979
 #, c-format
 msgid "CheckBox %d"
-msgstr "Checkbox %d"
+msgstr "Kontrollkästchen %d"
 
 #: src/sheet.c:1944
 msgid "Target region contains merged cells"
@@ -19744,7 +19745,7 @@ msgstr "kann nicht auf zusammengeführte Zellen angewendet werden"
 
 #: src/sheet.c:2016
 msgid "cannot operate on array formulae"
-msgstr "kann nicht auf Array-Formeln angewendet werden"
+msgstr "kann nicht auf Feld-Formeln angewendet werden"
 
 #: src/sheet.c:3136
 msgid "Insert Columns"
@@ -19802,14 +19803,6 @@ msgstr "Text-Import (konfigurierbar)"
 #: src/stf.c:369
 msgid "Text export (configurable)"
 msgstr "Text-Import (konfigurierbar)"
-
-#. xgettext:
-#. * The name of the default font for this locale.
-#. * Preferably something with the correct encoding.
-#.
-#: src/style.c:173
-msgid "fixed"
-msgstr "bereinigt"
 
 #: src/tools/analysis-tools.c:214 src/tools/analysis-tools.c:3301
 #, c-format
@@ -20477,11 +20470,11 @@ msgstr "Optimale Lösung gefunden"
 
 #: src/tools/solver/reports-write.c:586
 msgid "Unbounded problem"
-msgstr ""
+msgstr "Unendliches Problem"
 
 #: src/tools/solver/reports-write.c:589
 msgid "Infeasible problem"
-msgstr ""
+msgstr "Problem nicht durchführbar"
 
 #: src/tools/solver/reports-write.c:593
 msgid "Maximum number of iterations exceeded: optimization interupted"
@@ -20685,42 +20678,42 @@ msgstr ""
 "Einige der Eingabezellen enthalten nicht-numerische Werte. Geben Sie einen "
 "gültigen Eingabebereich an."
 
-#: src/validation.c:141
+#: src/validation.c:144
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Zelle %s darf nicht leer sein"
 
-#: src/validation.c:158
+#: src/validation.c:161
 #, c-format
 msgid "'%s' is an error"
 msgstr "»%s« ist ein Fehler"
 
-#: src/validation.c:168
+#: src/validation.c:171
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "»%s« ist kein gültiges Datum"
 
-#: src/validation.c:170
+#: src/validation.c:173
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "»%s« ist keine gültige Zeit"
 
-#: src/validation.c:172
+#: src/validation.c:175
 #, c-format
 msgid "'%s' is not a number"
 msgstr "»%s« ist keine gültige Zahl"
 
-#: src/validation.c:185
+#: src/validation.c:188
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "»%s« ist keine gültige Ganzzahl"
 
-#: src/validation.c:279
+#: src/validation.c:282
 #, c-format
 msgid "%s is not true."
 msgstr "%s ist nicht wahr."
 
-#: src/validation.c:293
+#: src/validation.c:296
 #, fuzzy
 msgid ""
 "That value is invalid.\n"
@@ -20730,7 +20723,7 @@ msgstr ""
 "Nur bestimmte Werte sind in dieser Zelle erlaubt."
 
 # CHECK
-#: src/validation.c:300
+#: src/validation.c:303
 #, fuzzy
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: Validierung"
@@ -21234,11 +21227,11 @@ msgstr "Einen Knopf erzeugen"
 
 #: src/workbook-object-toolbar.c:142
 msgid "Creates a scrollbar"
-msgstr "Erzeigt eine Scrollleiste"
+msgstr "Eine Scrollleiste erzeugen"
 
 #: src/workbook-object-toolbar.c:145
 msgid "Creates a checkbox"
-msgstr "Eine Checkbox erzeugen"
+msgstr "Ein Kontrollkästchen erzeugen"
 
 #: src/workbook-object-toolbar.c:150
 msgid "RadioButton"
@@ -21246,35 +21239,35 @@ msgstr "Radiobutton"
 
 #: src/workbook-object-toolbar.c:150
 msgid "Creates a radio button"
-msgstr "Radiobutton erzeugen"
+msgstr "Einen Radiobutton erzeugen"
 
 #: src/workbook-object-toolbar.c:154
 msgid "Creates a list"
-msgstr "Liste erzeugen"
+msgstr "Eine Liste erzeugen"
 
 #: src/workbook-object-toolbar.c:157
 msgid "Combo"
-msgstr "Combo"
+msgstr "Kombifeld"
 
 #: src/workbook-object-toolbar.c:157
 msgid "Creates a combo box"
-msgstr "Erzeugt ein Kombinationsfeld"
+msgstr "Ein Kombinationsfeld erzeugen"
 
 #: src/workbook-object-toolbar.c:160
 msgid "Creates a line object"
-msgstr "Linienobjekt erzeugen"
+msgstr "Ein Linienobjekt erzeugen"
 
 #: src/workbook-object-toolbar.c:163
 msgid "Creates an arrow object"
-msgstr "Pfeilobjekt erzeugen"
+msgstr "Ein Pfeilobjekt erzeugen"
 
 #: src/workbook-object-toolbar.c:166
 msgid "Creates a rectangle object"
-msgstr "Rechteckobjekt erzeugen"
+msgstr "Ein Rechteckobjekt erzeugen"
 
 #: src/workbook-object-toolbar.c:169
 msgid "Creates an ellipse object"
-msgstr "Ellipsenobjekt erzeugen"
+msgstr "Ein Ellipsenobjekt erzeugen"
 
 #: src/workbook-view.c:247
 #, c-format
@@ -21311,25 +21304,25 @@ msgstr "Es gibt bereits ein Blatt mit dem Namen"
 msgid "You may not use this name twice"
 msgstr "Sie dürfen diesen Namen nicht zweimal verwenden"
 
-#: src/xml-io.c:2810
+#: src/xml-io.c:2843
 msgid "Unparsable xml in clipboard"
 msgstr "Nicht parsebares XML in der Zwischenablage"
 
-#: src/xml-io.c:2817
+#: src/xml-io.c:2850
 msgid "Clipboard is in unknown format"
 msgstr "Zwischenablage hat ein unbekanntes Format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3224
+#: src/xml-io.c:3257
 msgid "Processing file..."
 msgstr "Datei wird eingelesen..."
 
-#: src/xml-io.c:3390
+#: src/xml-io.c:3423
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 
-#: src/xml-io.c:3450
+#: src/xml-io.c:3483
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
