@@ -25,22 +25,22 @@
             <property name="visible">yes</property>
 
             <child>
-              <widget class="GtkButton" id="ok_button">
+              <widget class="GtkButton" id="close_button">
                 <property name="can_default">yes</property>
                 <property name="can_focus">yes</property>
                 <property name="visible">yes</property>
-                <property name="label">gtk-ok</property>
+                <property name="label">gtk-close</property>
                 <property name="use_stock">yes</property>
                 <property name="use_underline">yes</property>
               </widget>
             </child>
 
             <child>
-              <widget class="GtkButton" id="close_button">
+              <widget class="GtkButton" id="ok_button">
                 <property name="can_default">yes</property>
                 <property name="can_focus">yes</property>
                 <property name="visible">yes</property>
-                <property name="label">gtk-close</property>
+                <property name="label">gtk-ok</property>
                 <property name="use_stock">yes</property>
                 <property name="use_underline">yes</property>
               </widget>

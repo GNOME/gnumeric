@@ -25,53 +25,53 @@
             <property name="spacing">5</property>
             <property name="visible">yes</property>
 
-                <child>
-                  <widget class="GtkButton" id="applybutton">
-                    <property name="can_default">yes</property>
-                    <property name="can_focus">yes</property>
-                    <property name="relief">GTK_RELIEF_NORMAL</property>
-                    <property name="visible">yes</property>
-                    <property name="label">gtk-apply</property>
-                    <property name="use_stock">yes</property>
-                    <property name="use_underline">yes</property>
-                  </widget>
-                </child>
+            <child>
+              <widget class="GtkButton" id="helpbutton">
+                <property name="can_default">yes</property>
+                <property name="can_focus">yes</property>
+                <property name="relief">GTK_RELIEF_NORMAL</property>
+                <property name="visible">yes</property>
+                <property name="label">gtk-help</property>
+                <property name="use_stock">yes</property>
+                <property name="use_underline">yes</property>
+              </widget>
+            </child>
 
-                <child>
-                  <widget class="GtkButton" id="closebutton">
-                    <property name="can_default">yes</property>
-                    <property name="can_focus">yes</property>
-                    <property name="relief">GTK_RELIEF_NORMAL</property>
-                    <property name="visible">yes</property>
-                    <property name="label">gtk-close</property>
-                    <property name="use_stock">yes</property>
-                    <property name="use_underline">yes</property>
-                  </widget>
-                </child>
+            <child>
+              <widget class="GtkButton" id="applybutton">
+                <property name="can_default">yes</property>
+                <property name="can_focus">yes</property>
+                <property name="relief">GTK_RELIEF_NORMAL</property>
+                <property name="visible">yes</property>
+                <property name="label">gtk-apply</property>
+                <property name="use_stock">yes</property>
+                <property name="use_underline">yes</property>
+              </widget>
+            </child>
 
-                <child>
-                  <widget class="GtkButton" id="cancelbutton">
-                    <property name="can_default">yes</property>
-                    <property name="can_focus">yes</property>
-                    <property name="relief">GTK_RELIEF_NORMAL</property>
-                    <property name="visible">yes</property>
-                    <property name="label">gtk-cancel</property>
-                    <property name="use_stock">yes</property>
-                    <property name="use_underline">yes</property>
-                  </widget>
-                </child>
+            <child>
+              <widget class="GtkButton" id="cancelbutton">
+                <property name="can_default">yes</property>
+                <property name="can_focus">yes</property>
+                <property name="relief">GTK_RELIEF_NORMAL</property>
+                <property name="visible">yes</property>
+                <property name="label">gtk-cancel</property>
+                <property name="use_stock">yes</property>
+                <property name="use_underline">yes</property>
+              </widget>
+            </child>
 
-                <child>
-                  <widget class="GtkButton" id="helpbutton">
-                    <property name="can_default">yes</property>
-                    <property name="can_focus">yes</property>
-                    <property name="relief">GTK_RELIEF_NORMAL</property>
-                    <property name="visible">yes</property>
-                    <property name="label">gtk-help</property>
-                    <property name="use_stock">yes</property>
-                    <property name="use_underline">yes</property>
-                  </widget>
-                </child>
+            <child>
+              <widget class="GtkButton" id="closebutton">
+                <property name="can_default">yes</property>
+                <property name="can_focus">yes</property>
+                <property name="relief">GTK_RELIEF_NORMAL</property>
+                <property name="visible">yes</property>
+                <property name="label">gtk-close</property>
+                <property name="use_stock">yes</property>
+                <property name="use_underline">yes</property>
+              </widget>
+            </child>
           </widget>
           <packing>
             <property name="padding">0</property>

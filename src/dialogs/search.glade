@@ -34,6 +34,19 @@
                 <property name="use_underline">yes</property>
               </widget>
             </child>
+
+            <child>
+              <widget class="GtkButton" id="close_button">
+                <property name="tooltip" translatable="yes">Dismiss search center</property>
+                <property name="can_default">yes</property>
+                <property name="can_focus">yes</property>
+                <property name="visible">yes</property>
+                <property name="label">gtk-close</property>
+                <property name="use_stock">yes</property>
+                <property name="use_underline">yes</property>
+              </widget>
+            </child>
+
             <child>
               <widget class="GtkButton" id="prev_button">
                 <property name="tooltip" translatable="yes">Show previous match</property>
@@ -53,18 +66,6 @@
                 <property name="can_focus">yes</property>
                 <property name="visible">yes</property>
                 <property name="label">gtk-go-forward</property>
-                <property name="use_stock">yes</property>
-                <property name="use_underline">yes</property>
-              </widget>
-            </child>
-
-            <child>
-              <widget class="GtkButton" id="close_button">
-                <property name="tooltip" translatable="yes">Dismiss search center</property>
-                <property name="can_default">yes</property>
-                <property name="can_focus">yes</property>
-                <property name="visible">yes</property>
-                <property name="label">gtk-close</property>
                 <property name="use_stock">yes</property>
                 <property name="use_underline">yes</property>
               </widget>
