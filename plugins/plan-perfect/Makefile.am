@@ -1,8 +1,10 @@
 # Do not build by default until we are ready.
 if WITH_PLAN_PERFECT
-PP_TARGET = gnum_plan_perfect.la
+PP_LTLIBRARIES_TARGET = plan_perfect.la
+PP_DATA_TARGET = plugin.xml
 else
-PP_TARGET =
+PP_LTLIBRARIES_TARGET =
+PP_DATA_TARGET =
 endif
 
 INCLUDES = \
@@ -10,6 +12,8 @@ INCLUDES = \
     -I$(includedir)	-I$(top_srcdir)/src		\
     $(GNOME_INCLUDEDIR)
 
-gnumeric_plugin_LTLIBRARIES = $(PP_TARGET)
-gnum_plan_perfect_la_LDFLAGS = -module -avoid-version
-gnum_plan_perfect_la_SOURCES = pln.h pln.c
+gnumeric_plugin_plan_perfectdir = $(gnumeric_plugindir)/plan_perfect
+gnumeric_plugin_plan_perfect_DATA = $(PP_DATA_TARGET)
+gnumeric_plugin_plan_perfect_LTLIBRARIES = $(PP_LTLIBRARIES_TARGET)
+plan_perfect_la_LDFLAGS = -module -avoid-version
+plan_perfect_la_SOURCES = pln.h pln.c

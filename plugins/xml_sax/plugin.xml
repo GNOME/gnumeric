@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<gnumeric_plugin_group>
+<plugin id="Gnumeric_xml2">
+	<information name="EXPERIMENTAL XML" description="The next generation sax based xml I/O subsystem"/>
+	<activation type="g_module" module_file="xml2.so"/>
+</plugin>
+</gnumeric_plugin_group>

@@ -12,6 +12,7 @@
 #include <ctype.h>
 #include <gnome.h>
 #include "plugin.h"
+#include "plugin-util.h"
 #include "gnumeric.h"
 #include "io-context.h"
 #include "workbook-view.h"
@@ -21,6 +22,8 @@
 #include "file.h"
 #include "cell.h"
 #include "style.h"
+
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
 
 typedef struct {
 	/* input data */
@@ -37,6 +40,7 @@ typedef enum {
 	RIGHTSTRING,
 } sc_string_cmd_t;
 
+static FileOpenerId sc_opener_id;
 
 /* we can't use parse_cell_name b/c it doesn't support 0 bases (A0, B0, ...) */
 static gboolean
@@ -390,7 +394,7 @@ sc_parse_sheet (IOContext *context, sc_file_state_t *src)
 
 static int
 sc_read_workbook (IOContext *context, WorkbookView *wb_view,
-		  const char *filename)
+                  const char *filename, gpointer user_data)
 {
 	/*
 	 * TODO : When there is a reasonable error reporting
@@ -418,7 +422,7 @@ sc_read_workbook (IOContext *context, WorkbookView *wb_view,
 	src.sheet = sheet_new (book, name);
 
 	workbook_sheet_attach (book, src.sheet, NULL);
-	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, NULL);
+	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
 	g_free (name);
 
 	result = sc_parse_sheet (context, &src);
@@ -429,41 +433,30 @@ sc_read_workbook (IOContext *context, WorkbookView *wb_view,
 }
 
 
-static int
-sc_can_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
-	g_return_val_if_fail (pd, TRUE);
+	g_return_val_if_fail (pinfo != NULL, TRUE);
 
-	/* We can always unload */
 	return TRUE;
 }
 
-
-static void
-sc_cleanup_plugin (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-	g_return_if_fail (pd);
+	g_return_val_if_fail (pinfo != NULL, TRUE);
 
-	file_format_unregister_open (NULL, sc_read_workbook);
+	file_format_unregister_open (sc_opener_id);
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData * pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-	g_return_val_if_fail (pd, -1);
+	g_return_val_if_fail (pinfo != NULL, FALSE);
 
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
+	sc_opener_id = file_format_register_open (1, _("SC/xspread file import"),
+	                                          NULL, sc_read_workbook, NULL);
 
-	file_format_register_open (1,
-				   _("SC/xspread file import"),
-				   NULL, sc_read_workbook);
-
-	if (plugin_data_init (pd, sc_can_unload, sc_cleanup_plugin,
-			      _("SC/XSpread "),
-			      _("Imports SC/XSpread files")))
-	        return PLUGIN_OK;
-	else
-	        return PLUGIN_ERROR;
+	return TRUE;
 }
-

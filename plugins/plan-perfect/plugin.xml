@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<gnumeric_plugin_group>
+<plugin id="Gnumeric_plan_perfect">
+	<information name="Plan Perfect" description="Imports Plan Perfect Formatted Documents"/>
+	<activation type="g_module" module_file="plan_perfect.so"/>
+</plugin>
+</gnumeric_plugin_group>

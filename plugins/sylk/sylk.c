@@ -14,12 +14,15 @@
 #include <errno.h>
 #include "gnumeric.h"
 #include "plugin.h"
+#include "plugin-util.h"
 #include "file.h"
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "cell.h"
 #include "value.h"
+
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
 
 #define arraysize(x)     (sizeof(x)/sizeof(*(x)))
 
@@ -64,6 +67,7 @@ typedef struct {
 	unsigned hide_def_gridlines : 1;	/* sheet-wide */
 } sylk_file_state_t;
 
+static FileOpenerId sylk_opener_id;
 
 /* why?  because we must handle Mac text files, and because I'm too lazy to make it fast */
 static char *
@@ -426,7 +430,7 @@ sylk_parse_sheet (IOContext *context, sylk_file_state_t *src)
 
 static int
 sylk_read_workbook (IOContext *context, WorkbookView *wb_view,
-		    const char *filename)
+                    const char *filename, gpointer user_data)
 {
 	/*
 	 * TODO : When there is a reasonable error reporting
@@ -453,7 +457,7 @@ sylk_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 	workbook_sheet_attach (book, src.sheet, NULL);
 	g_free (name);
-	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, NULL);
+	workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
 
 	result = sylk_parse_sheet (context, &src);
 
@@ -464,7 +468,7 @@ sylk_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 
 static gboolean
-sylk_probe (const char *filename)
+sylk_probe (const char *filename, gpointer user_data)
 {
 	char buf [32] = "";
 	FILE *f;
@@ -485,34 +489,25 @@ sylk_probe (const char *filename)
 }
 
 
-static int
-sylk_can_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
-	/* We can always unload */
 	return TRUE;
 }
 
-
-static void
-sylk_cleanup_plugin (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-	file_format_unregister_open (sylk_probe, sylk_read_workbook);
+	file_format_unregister_open (sylk_opener_id);
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData * pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-	if (plugin_version_mismatch (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
+	sylk_opener_id = file_format_register_open (
+	                 1, _("MultiPlan (SYLK) import"),
+	                 sylk_probe, sylk_read_workbook, NULL);
 
-	file_format_register_open (1, _("MultiPlan (SYLK) import"),
-				   sylk_probe, sylk_read_workbook);
-
-	if (plugin_data_init (pd, sylk_can_unload, sylk_cleanup_plugin,
-			      _("MultiPlan (SYLK)"),
-			      _("Imports MultiPlan (SYLK) files")))
-	        return PLUGIN_OK;
-	else
-	        return PLUGIN_ERROR;
-
+	return TRUE;
 }

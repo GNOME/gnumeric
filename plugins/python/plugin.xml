@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<gnumeric_plugin_group>
+<plugin id="Gnumeric_python">
+	<information name="Python Plugin" description="This plugin provides Python language support in Gnumeric"/>
+	<activation type="g_module" module_file="python.so"/>
+</plugin>
+</gnumeric_plugin_group>

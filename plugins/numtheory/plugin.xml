@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<gnumeric_plugin_group>
+<plugin id="Gnumeric_numtheory">
+	<information name="Number Theory" description="Several basic utilities for prime numbers, pi, phi, sigma. It also hold some simple bitwise operations"/>
+	<activation type="g_module" module_file="numtheory.so"/>
+</plugin>
+</gnumeric_plugin_group>

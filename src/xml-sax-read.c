@@ -47,6 +47,13 @@
 #include <gnome-xml/parser.h>
 #include <gnome-xml/parserInternals.h>
 
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+
+static FileOpenerId xml2_opener_id;
+#if 0
+static FileSaverId xml2_saver_id;
+#endif
+
 typedef struct _XML2ParseState XML2ParseState;
 
 /*****************************************************************************/
@@ -166,7 +173,7 @@ xml2ParseRange (CHAR const * const *attrs, Range *res)
  * returns 0 in case of success, -1 otherwise.
  */
 static int
-xml2_write (WorkbookControl *context, Workbook *wb, char const *filename)
+xml2_write (WorkbookControl *context, Workbook *wb, char const *filename, gpointer user_data)
 {
 	g_return_val_if_fail (wb != NULL, -1);
 	g_return_val_if_fail (filename != NULL, -1);
@@ -1060,7 +1067,7 @@ xml2UnknownState (XML2ParseState *state, CHAR const *name)
  * passes, then we return TRUE
  */
 static gboolean
-xml2_probe (const char *filename)
+xml2_probe (const char *filename, gpointer user_data)
 {
 	return TRUE;
 }
@@ -1497,7 +1504,7 @@ static xmlSAXHandler xml2SAXParser = {
 
 static int
 xml2_read (IOContext *context, WorkbookView *wb_view,
-	   char const *filename)
+           char const *filename)
 {
 	xmlParserCtxtPtr ctxt;
 	XML2ParseState state;
@@ -1531,53 +1538,45 @@ xml2_read (IOContext *context, WorkbookView *wb_view,
 
 static int
 xml2_open (IOContext *context, WorkbookView *wb_view,
-	   char const *filename)
+           char const *filename, gpointer user_data)
 {
 	int res = xml2_read (context, wb_view, filename);
-	if (res == 0)
+	if (res == 0) {
 		workbook_set_saveinfo (wb_view_workbook (wb_view), filename,
-				       FILE_FL_MANUAL, NULL);
+		                       FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
+	}
 	return res;
 }
 
-static int
-xml2_can_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
 	return TRUE;
 }
 
-static void
-xml2_cleanup_plugin (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-	file_format_unregister_open (&xml2_probe, &xml2_open);
+	file_format_unregister_open (xml2_opener_id);
 #if 0
-	file_format_unregister_save (&xml2_write);
+	file_format_unregister_save (xml_saver_id);
 #endif
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData *pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-
-	if (plugin_version_mismatch (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
-
-	if (plugin_data_init (pd, &xml2_can_unload, &xml2_cleanup_plugin,
-			      _("EXPERIMENTAL XML"),
-			      _("The next generation sax based xml I/O subsystem"))) {
-
-		/* low priority for now */
-		file_format_register_open (1,
-					   _("EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"),
-					   NULL, &xml2_open);
+	/* low priority for now */
+	xml2_opener_id = file_format_register_open (
+	                 1, _("EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"),
+	                 NULL, &xml2_open, NULL);
 
 #if 0
-		file_format_register_save (".gnumeric",
-					   _("Gnumeric (*.gnumeric) XML based file format"),
-					   FILE_FL_MANUAL, &xml2_write);
+	xml2_saver_id = file_format_register_save (
+	                ".gnumeric", _("Gnumeric (*.gnumeric) XML based file format"),
+	                FILE_FL_MANUAL, &xml2_write, NULL);
 #endif
-		return PLUGIN_OK;
-	}
 
-	return PLUGIN_ERROR;
+	return TRUE;
 }

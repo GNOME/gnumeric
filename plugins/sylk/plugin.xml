@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<gnumeric_plugin_group>
+<plugin id="Gnumeric_sylk">
+	<information name="MultiPlan (SYLK)" description="Imports MultiPlan (SYLK) files"/>
+	<activation type="g_module" module_file="sylk.so"/>
+</plugin>
+</gnumeric_plugin_group>

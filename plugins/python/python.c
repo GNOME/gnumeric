@@ -14,11 +14,14 @@
 #include "gnumeric.h"
 #include "func.h"
 #include "plugin.h"
+#include "plugin-util.h"
 #include "gutils.h"
 #include "value.h"
 #include "command-context.h"
 
 #include "Python.h"
+
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
 
 /* Classes we define in Python code, and where we define them. */
 #define GNUMERIC_DEFS_MODULE "gnumeric_defs"
@@ -869,37 +872,30 @@ initgnumeric(void)
 		PyDict_SetItemString(d, "error", GnumericError);
 }
 
-static int
-no_unloading_for_me (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
 	return FALSE;
 }
 
-static void
-no_cleanup_for_me (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-        return;
+	return TRUE;
 }
-
-#define PY_TITLE _("Python Plugin")
-#define PY_DESCR \
-_("This plugin provides Python language support in Gnumeric")
 
 /**
  * init_plugin
- * @context Command context
- * @pd      PluginData
+ * @pinfo    PluginInfo
  *
  * Initialize the plugin. Returns result.
  */
-PluginInitResult
-init_plugin (CommandContext *context, PluginData * pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-	char *exc_string;
+	gchar *exc_string;
 
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
-
+	*ret_error = NULL;
 	/* initialize the python interpreter */
 	Py_SetProgramName ("gnumeric");
 	Py_Initialize ();
@@ -909,10 +905,11 @@ init_plugin (CommandContext *context, PluginData * pd)
 	if (PyErr_Occurred ()) {
 		exc_string = string_from_exception ();
 		PyErr_Print (); /* Also do a full traceback to stderr */
-		gnumeric_error_plugin (context, exc_string);
+		*ret_error = error_info_new_printf (
+		             _("Unhandled Python exception: %s"), exc_string);
 		g_free (exc_string);
 		Py_Finalize ();
-		return PLUGIN_QUIET_ERROR;
+		return FALSE;
 	}
 
 	/* plugin stuff */
@@ -943,10 +940,5 @@ init_plugin (CommandContext *context, PluginData * pd)
 		g_free(dir);
 	}
 
-	if (plugin_data_init (pd, no_unloading_for_me, no_cleanup_for_me,
-			      PY_TITLE, PY_DESCR))
-	        return PLUGIN_OK;
-	else
-	        return PLUGIN_ERROR;
-
+	return TRUE;
 }

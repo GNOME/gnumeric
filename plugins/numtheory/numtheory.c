@@ -13,8 +13,11 @@
 #include "gnumeric.h"
 #include "func.h"
 #include "plugin.h"
+#include "plugin-util.h"
 #include "value.h"
 #include <limits.h>
+
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
 
 #ifndef WORD_BIT
 #define WORD_BIT (sizeof (int) * CHAR_BIT)
@@ -533,8 +536,8 @@ static const char *function_names[] = {
 static const int function_count =
 	sizeof (function_names) / sizeof (function_names[0]);
 
-static int
-can_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
 	int i, excess = 0;
 
@@ -547,8 +550,8 @@ can_unload (PluginData *pd)
 	return excess == 0;
 }
 
-static void
-cleanup_plugin (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
 	int i;
 
@@ -561,15 +564,13 @@ cleanup_plugin (PluginData *pd)
 
 	g_free (prime_table);
 	prime_table = 0;
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData *pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
 	FunctionCategory *cat;
-
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
 
 	cat = function_get_category (_("Number Theory"));
 
@@ -602,10 +603,5 @@ init_plugin (CommandContext *context, PluginData *pd)
         function_add_args (cat, "bitrshift", "ff",
 			   "N,N", &help_bitrshift, func_bitrshift);
 
-	if (plugin_data_init (pd, can_unload, cleanup_plugin,
-			      _("Number Theory"),
-			      _("Several basic utilities for prime numbers, pi, phi, sigma. It also hold some simple bitwise operations")))
-	        return PLUGIN_OK;
-	else
-	        return PLUGIN_ERROR;
+	return TRUE;
 }

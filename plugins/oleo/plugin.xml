@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<gnumeric_plugin_group>
+<plugin id="Gnumeric_oleo">
+	<information name="GNU Oleo" description="Imports GNU Oleo documents"/>
+	<activation type="g_module" module_file="oleo.so"/>
+</plugin>
+</gnumeric_plugin_group>

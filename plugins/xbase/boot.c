@@ -25,6 +25,9 @@
 #include "file.h"
 #include "xbase.h"
 #include "plugin.h"
+#include "plugin-util.h"
+
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
 
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
 
@@ -69,8 +72,10 @@ xb_setdouble (guint8 *p, double d)
 
 #endif
 
+static FileOpenerId xbase_opener_id;
+
 static gboolean
-xbase_probe (const char *filename)
+xbase_probe (const char *filename, gpointer user_data)
 {
 	return filename != NULL &&
 	       g_strcasecmp ("dbf", g_extension_pointer (filename)) == 0;
@@ -143,7 +148,7 @@ xbase_field_as_value (XBrecord *record, guint num)
 
 static int
 xbase_load (IOContext *context, WorkbookView *wb_view,
-	    const char *filename)
+            const char *filename, gpointer user_data)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 	XBfile *file;
@@ -167,7 +172,7 @@ xbase_load (IOContext *context, WorkbookView *wb_view,
 	sheet = sheet_new (wb, g_basename (name));
 	g_free (name);
 	workbook_sheet_attach (wb, sheet, NULL);
-	workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, NULL);
+	workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
 
 	field = 0;
 	while (field < file->fields) {
@@ -193,34 +198,26 @@ xbase_load (IOContext *context, WorkbookView *wb_view,
 	return 0;
 }
 
-static int
-xbase_can_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
 	return TRUE;
 }
 
-static void
-xbase_cleanup_plugin (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-	file_format_unregister_open (xbase_probe, xbase_load);
+	file_format_unregister_open (xbase_opener_id);
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData *pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
-
 	/* We register XBase format with a precendence of 100 */
-	file_format_register_open (100,
-				   _("Xbase (*.dbf) file format"),
-				   &xbase_probe, &xbase_load);
+	xbase_opener_id = file_format_register_open (100,
+	                                             _("Xbase (*.dbf) file format"),
+	                                             &xbase_probe, &xbase_load, NULL);
 
-	if (plugin_data_init (pd, &xbase_can_unload, &xbase_cleanup_plugin,
-			      _("XBase"),
-			      _("Imports XBase files")))
-	        return PLUGIN_OK;
-	else
-	        return PLUGIN_ERROR;
-
+	return TRUE;
 }

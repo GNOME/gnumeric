@@ -18,11 +18,16 @@
 #include <math.h>
 #include <gnome.h>
 #include "plugin.h"
+#include "plugin-util.h"
 #include "gnumeric.h"
 #include "file.h"
 #include "value.h"
 #include "cell.h"
 #include "workbook.h"
+#include "workbook-view.h"
+#include "command-context.h"
+
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
 
 typedef struct {
 	char const *data, *cur;
@@ -37,6 +42,8 @@ typedef struct {
 	/* Font width should really be calculated, but it's too hard right now */
 #define PLN_BYTE(pointer) (((int)((*(pointer)))) & 0xFF)
 #define PLN_WORD(pointer) (PLN_BYTE(pointer) + PLN_BYTE((pointer) + 1) * 256)
+
+static FileOpenerId pln_opener_id;
 
 static const char* formula1[] =
 {
@@ -875,22 +882,24 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 }
 
 static int
-pln_read_workbook (CommandContext *context, WorkbookView *view,
-		   char const *filename)
+pln_read_workbook (IOContext *context, WorkbookView *view,
+                   char const *filename, gpointer unused)
 {
 	int result = 0;
 	int len;
 	struct stat sbuf;
 	char const *data;
 	int const fd = open(filename, O_RDONLY);
+	Workbook *book = wb_view_workbook (view);
+
 	if (fd < 0) {
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_error_read (COMMAND_CONTEXT (context), g_strerror (errno));
 		return -1;
 	}
 
 	if (fstat(fd, &sbuf) < 0) {
 		close (fd);
-		gnumeric_error_read (context, g_strerror (errno));
+		gnumeric_error_read (COMMAND_CONTEXT (context), g_strerror (errno));
 		return -1;
 	}
 
@@ -908,18 +917,17 @@ pln_read_workbook (CommandContext *context, WorkbookView *view,
 		workbook_sheet_attach (book, src.sheet, NULL);
 		g_free (name);
 
-		result = pln_parse_sheet (context, &src);
+		result = pln_parse_sheet (COMMAND_CONTEXT (context), &src);
 
 		if (result != 0)
 			workbook_sheet_detach (book, src.sheet);
 		else
-			workbook_set_saveinfo (book, filename,
-					       FILE_FL_MANUAL, NULL);
+			workbook_set_saveinfo (book, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
 
 		munmap((char *)data, len);
 	} else {
 		result = -1;
-		gnumeric_error_read (context, _("Unable to mmap the file"));
+		gnumeric_error_read (COMMAND_CONTEXT (context), _("Unable to mmap the file"));
 	}
 	close(fd);
 
@@ -931,33 +939,26 @@ pln_read_workbook (CommandContext *context, WorkbookView *view,
 #define PAGE_SIZE (BUFSIZ*8)
 #endif
 
-static int
-pln_can_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
 	/* We can always unload */
 	return TRUE;
 }
 
-
-static void
-pln_cleanup_plugin (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-	file_format_unregister_open (NULL, pln_read_workbook);
+	file_format_unregister_open (pln_opener_id);
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData * pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
+	pln_opener_id = file_format_register_open (
+	                1, _("Plan Perfect Format (PLN) import"),
+	                NULL, pln_read_workbook, NULL);
 
-	file_format_register_open (1, _("Plan Perfect Format (PLN) import"),
-				   NULL, pln_read_workbook);
-
-	if (plugin_data_init (pd, pln_can_unload, pln_cleanup_plugin,
-			      _("Plan Perfect"),
-			      _("Imports Plan Perfect Formatted Documents")))
-	        return PLUGIN_OK;
-	else
-	        return PLUGIN_ERROR;
+	return TRUE;
 }

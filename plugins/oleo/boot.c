@@ -27,9 +27,14 @@
 
 #include "oleo.h"
 #include "plugin.h"
+#include "plugin-util.h"
+
+gchar gnumeric_plugin_version[] = GNUMERIC_VERSION;
+
+static FileOpenerId oleo_opener_id;
 
 static gboolean
-oleo_probe (const char *filename)
+oleo_probe (const char *filename, gpointer user_data)
 {
 	return filename != NULL &&
 	       g_strcasecmp ("oleo", g_extension_pointer (filename)) == 0;
@@ -37,7 +42,7 @@ oleo_probe (const char *filename)
 
 static int
 oleo_load (IOContext *context, WorkbookView *wb_view,
-	   const char *filename)
+           const char *filename, gpointer user_data)
 {
 	Workbook *wb = wb_view_workbook (wb_view);
 	int ret;
@@ -45,38 +50,30 @@ oleo_load (IOContext *context, WorkbookView *wb_view,
 	ret = oleo_read (context, wb, filename);
 
 	if (ret == 0)
-		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, NULL);
+		workbook_set_saveinfo (wb, filename, FILE_FL_MANUAL, FILE_SAVER_ID_INVAID);
 
 	return ret;
 }
 
-static int
-oleo_can_unload (PluginData *pd)
+gboolean
+can_deactivate_plugin (PluginInfo *pinfo)
 {
 	return TRUE;
 }
 
-static void
-oleo_cleanup_plugin (PluginData *pd)
+gboolean
+cleanup_plugin (PluginInfo *pinfo)
 {
-	file_format_unregister_open (oleo_probe, oleo_load);
+	file_format_unregister_open (oleo_opener_id);
+	return TRUE;
 }
 
-PluginInitResult
-init_plugin (CommandContext *context, PluginData *pd)
+gboolean
+init_plugin (PluginInfo *pinfo, ErrorInfo **ret_error)
 {
-	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
-		return PLUGIN_QUIET_ERROR;
+	oleo_opener_id = file_format_register_open (
+	                 100, _("GNU Oleo (*.oleo) file format"),
+	                 &oleo_probe, &oleo_load, NULL);
 
-	file_format_register_open (100,
-				   _("GNU Oleo (*.oleo) file format"),
-				   &oleo_probe, &oleo_load);
-
-	if (plugin_data_init (pd, &oleo_can_unload, &oleo_cleanup_plugin,
-			      _("GNU Oleo"),
-			      _("Imports GNU Oleo documents")))
-	        return PLUGIN_OK;
-	else
-	        return PLUGIN_ERROR;
-
+	return TRUE;
 }
