@@ -296,7 +296,7 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 struct assign_closure {
 	double minimum, maximum;
 	double *vals;
-	unsigned real_len;
+	unsigned last;
 	unsigned i;
 };
 
@@ -329,7 +329,7 @@ cb_assign_val (Sheet *sheet, int col, int row,
 	} else
 		res = value_get_as_float (v);
 
-	dat->real_len = dat->i;
+	dat->last = dat->i;
 	dat->vals[dat->i++] = res;
 	if (dat->minimum > res)
 		dat->minimum = res;
@@ -376,11 +376,12 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 		closure.minimum = G_MINDOUBLE;
 		closure.maximum = G_MAXDOUBLE;
 		closure.vals = dat->values;
-		closure.real_len = closure.i = 0;
+		closure.last = -1;
+		closure.i = 0;
 		sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
 			r.start.col, r.start.row, r.end.col, r.end.row,
 			(CellIterFunc)cb_assign_val, &closure);
-		dat->len = closure.real_len;
+		dat->len = closure.last + 1;
 		break;
 
 	case VALUE_ARRAY :
