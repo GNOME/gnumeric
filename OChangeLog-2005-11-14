@@ -1,3 +1,7 @@
+2004-03-13  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* plugins/excel/ms-chart.c: (scatter): import bubble plots options.
+
 2004-03-12  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* src/graph.c (gnm_go_data_vector_load_values): changed initial maximum
