@@ -262,9 +262,11 @@ char        *value_get_as_string   (const Value *value);
 void         value_dump            (const Value *value);
 
 /* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
-guint        value_area_get_width  (Value *v);
-guint        value_area_get_height (Value *v);
-const Value *value_area_get_at_x_y (Value *v, guint x, guint y);
+/* The EvalPosition provides a Sheet context; this allows
+   calculation of relative references. 'x','y' give the position */
+guint        value_area_get_width  (const EvalPosition *ep, Value *v);
+guint        value_area_get_height (const EvalPosition *ep, Value *v);
+const Value *value_area_get_at_x_y (const EvalPosition *ep, Value *v, guint x, guint y);
 
 Value       *value_array_new       (guint width, guint height);
 void         value_array_set       (Value *array, guint col, guint row, Value *v);

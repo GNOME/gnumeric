@@ -784,7 +784,7 @@ value_array_copy_to (Value *v, const Value *src)
 }
 
 guint
-value_area_get_width (Value *v)
+value_area_get_width (const EvalPosition *ep, Value *v)
 {
 	g_return_val_if_fail (v, 0);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
@@ -792,18 +792,19 @@ value_area_get_width (Value *v)
 
 	if (v->type == VALUE_ARRAY)
 		return v->v.array.x;
-	else {
+	else { /* FIXME: 3D references, may not clip correctly */
+		Sheet *sheeta = v->v.cell_range.cell_a.sheet ?
+			v->v.cell_range.cell_a.sheet:ep->sheet;
 		guint ans = v->v.cell_range.cell_b.col -
 			    v->v.cell_range.cell_a.col + 1;
-		if (v->v.cell_range.cell_a.sheet && 
-		    v->v.cell_range.cell_a.sheet->max_col_used < ans)
-			ans = v->v.cell_range.cell_a.sheet->max_col_used+1;
+		if (sheeta && sheeta->max_col_used < ans) /* Clip */
+			ans = sheeta->max_col_used+1;
 		return ans;
 	}
 }
 
 guint
-value_area_get_height (Value *v)
+value_area_get_height (const EvalPosition *ep, Value *v)
 {
 	g_return_val_if_fail (v, 0);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
@@ -811,49 +812,54 @@ value_area_get_height (Value *v)
 
 	if (v->type == VALUE_ARRAY)
 		return v->v.array.y;
-	else {
+	else { /* FIXME: 3D references, may not clip correctly */
+		Sheet *sheeta = v->v.cell_range.cell_a.sheet ?
+			v->v.cell_range.cell_a.sheet:ep->sheet;
 		guint ans = v->v.cell_range.cell_b.row -
 		            v->v.cell_range.cell_a.row + 1;
-		if (v->v.cell_range.cell_a.sheet && 
-		    v->v.cell_range.cell_a.sheet->max_row_used < ans)
-			ans = v->v.cell_range.cell_a.sheet->max_row_used+1;
+		if (sheeta && sheeta->max_row_used < ans) /* Clip */
+			ans = sheeta->max_row_used+1;
 		return ans;
 	}
 }
 
 const Value *
-value_area_get_at_x_y (Value *v, guint x, guint y)
+value_area_get_at_x_y (const EvalPosition *ep, Value *v, guint x, guint y)
 {
 	g_return_val_if_fail (v, 0);
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
 			      v->type == VALUE_CELLRANGE,
-			     value_new_int (0));
+			      value_zero);
 
 	if (v->type == VALUE_ARRAY){
 		g_return_val_if_fail (v->v.array.x < x &&
 				      v->v.array.y < y,
-				     value_new_int (0));
+				      value_zero);
 		return v->v.array.vals [x][y];
 	} else {
 		CellRef *a, *b;
 		Cell *cell;
+		Sheet *sheet;
 
 		a = &v->v.cell_range.cell_a;
 		b = &v->v.cell_range.cell_b;
+		/* Fixme: these need to be altered to use 'ep' to calc.
+		   non relative values if necessary */
 		g_return_val_if_fail (!a->col_relative, value_zero);
 		g_return_val_if_fail (!b->col_relative, value_zero);
 		g_return_val_if_fail (!a->row_relative, value_zero);
 		g_return_val_if_fail (!b->row_relative, value_zero);
 		g_return_val_if_fail (a->col<=b->col, value_zero);
 		g_return_val_if_fail (a->row<=b->row, value_zero);
-		g_return_val_if_fail (a->sheet,       value_zero);
+		sheet = a->sheet?a->sheet:ep->sheet;
+		g_return_val_if_fail (sheet,          value_zero);
 
 		/* Speedup */
 		if (a->sheet->max_col_used < a->col+x ||
 		    a->sheet->max_row_used < a->row+y)
 			return value_zero;
 
-		cell = sheet_cell_get (a->sheet, a->col+x, a->row+y);
+		cell = sheet_cell_get (sheet, a->col+x, a->row+y);
 
 		if (cell && cell->value)
 			return cell->value;
