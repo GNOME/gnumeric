@@ -1,7 +1,7 @@
 Gnumeric 1.1.9
 
 Andreas:
-	* Fix #92367
+	* Fix #92367, #94300
 
 Christian Neumair:
 	* Made most dialogs HIG compliant.
