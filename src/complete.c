@@ -39,7 +39,7 @@ complete_construct (Complete *complete,
 	complete->notify_closure = notify_closure;
 }
 
-void
+static void
 complete_destroy (GtkObject *object)
 {
 	Complete *complete = COMPLETE (object);

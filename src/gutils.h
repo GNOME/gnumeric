@@ -16,10 +16,10 @@ gint      gnumeric_strcase_equal (gconstpointer v, gconstpointer v2);
  */
 char *    gnumeric_sys_lib_dir    (const char *subdir);
 char *    gnumeric_sys_data_dir   (const char *subdir);
-char *    gnumeric_sys_glade_dir  ();
-char *    gnumeric_sys_plugin_dir ();
+char *    gnumeric_sys_glade_dir  (void);
+char *    gnumeric_sys_plugin_dir (void);
 
 char *    gnumeric_usr_dir        (const char *subdir);
-char *    gnumeric_usr_plugin_dir ();
+char *    gnumeric_usr_plugin_dir (void);
 
 #endif /* GNUMERIC_UTILS_H */

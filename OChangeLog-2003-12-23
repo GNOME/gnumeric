@@ -1,3 +1,12 @@
+2000-05-01  Morten Welinder  <terra@diku.dk>
+
+	* src/gutils.c (gnumeric_usr_plugin_dir, gnumeric_sys_plugin_dir,
+ 	gnumeric_sys_glade_dir): fix prototype.  (C isn't C++.)
+
+	* src/complete.c (complete_destroy): Static.
+
+	* src/regression.c: Inlcude <string.h> for memset.
+
 2000-05-01  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* configure.in:

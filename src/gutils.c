@@ -113,8 +113,8 @@ gnumeric_sys_lib_dir (const char *subdir)
 #define GLADE_SUFFIX	"glade"
 #define PLUGIN_SUFFIX	"plugins"
 
-char * gnumeric_sys_glade_dir ()  { return gnumeric_sys_data_dir (GLADE_SUFFIX); }
-char * gnumeric_sys_plugin_dir () { return gnumeric_sys_lib_dir (PLUGIN_SUFFIX); }
+char * gnumeric_sys_glade_dir (void)  { return gnumeric_sys_data_dir (GLADE_SUFFIX); }
+char * gnumeric_sys_plugin_dir (void) { return gnumeric_sys_lib_dir (PLUGIN_SUFFIX); }
 
 char *
 gnumeric_usr_dir (const char *subdir)
@@ -126,4 +126,4 @@ gnumeric_usr_dir (const char *subdir)
 	return NULL;
 }
 
-char * gnumeric_usr_plugin_dir () { return gnumeric_usr_dir (PLUGIN_SUFFIX); }
+char * gnumeric_usr_plugin_dir (void) { return gnumeric_usr_dir (PLUGIN_SUFFIX); }
