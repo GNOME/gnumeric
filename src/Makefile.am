@@ -99,6 +99,7 @@ GNUMERIC_BASE_SOURCES =				\
 	formats.c				\
 	func.c					\
 	func.h					\
+	func-utils.h				\
 	format.c				\
 	format.h				\
 	global-gnome-font.c			\
