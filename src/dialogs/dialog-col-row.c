@@ -1,5 +1,5 @@
 /**
- * dialog-col-row.c:  Sets the magnification factor
+ * dialog-col-row.c:  group/ungroup dialog
  *
  * Author:
  *        Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -23,6 +23,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <commands.h>
@@ -124,7 +125,7 @@ dialog_col_row (WorkbookControlGUI *wbcg,  char const *operation,
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"row-height.html");
+		GNUMERIC_HELP_LINK_GROUP_UNGROUP);
 
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",

@@ -25,6 +25,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <commands.h>
@@ -217,7 +218,7 @@ dialog_scenario_add (WorkbookControlGUI *wbcg)
 	state = g_new (ScenariosState, 1);
 
 	if (dialog_tool_init (&state->base, wbcg, wb_control_cur_sheet (wbc),
-			      "scenario-add.html",
+			      GNUMERIC_HELP_LINK_SCENARIOS_ADD,
 			      "scenario-add.glade", "ScenarioAdd",
 			      _("_Changing cells:"), NULL, error_str,
 			      "ScenarioAdd",
@@ -639,7 +640,7 @@ dialog_scenarios (WorkbookControlGUI *wbcg)
 	state->base.wb = wb_control_workbook (wbc);
 
 	if (dialog_tool_init (&state->base, wbcg, sheet,
-			      "scenario-view.html",
+			      GNUMERIC_HELP_LINK_SCENARIOS_VIEW,
 			      "scenario-manager.glade", "Scenarios",
 			      _("Results:"), NULL, error_str, "Scenarios",
 			      G_CALLBACK (scenarios_ok_clicked_cb),

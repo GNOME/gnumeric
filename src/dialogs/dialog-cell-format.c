@@ -25,6 +25,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <sheet.h>
 #include <sheet-view.h>
@@ -2339,7 +2340,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "helpbutton"),
-		"formatting.html");
+		GNUMERIC_HELP_LINK_CELL_FORMAT);
 
 	state->ok_button = glade_xml_get_widget (state->gui, "okbutton");
 	g_signal_connect (G_OBJECT (state->ok_button),

@@ -23,6 +23,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <commands.h>
@@ -270,7 +271,7 @@ dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"zoom.html");
+		GNUMERIC_HELP_LINK_ZOOM);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       ZOOM_DIALOG_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),

@@ -19,6 +19,7 @@
 #include "style-color.h"
 #include "sheet-object-impl.h"
 #include "workbook-edit.h"
+#include "dialogs/help.h"
 
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
@@ -584,7 +585,8 @@ sheet_object_graphic_user_config (SheetObject *so, SheetControl *sc)
 	/* a candidate for merging into attach guru */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		(sog->type != SHEET_OBJECT_ARROW) ? "so-line.html" : "so-arrow.html");
+		(sog->type != SHEET_OBJECT_ARROW) ? GNUMERIC_HELP_LINK_SO_LINE
+		: GNUMERIC_HELP_LINK_SO_ARROW);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 		SHEET_OBJECT_CONFIG_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),
@@ -983,7 +985,7 @@ sheet_object_filled_user_config (SheetObject *so, SheetControl *sc)
 
 	/* a candidate for merging into attach guru */
 	gnumeric_init_help_button (glade_xml_get_widget (state->gui, "help_button"),
-		"so-filled.html");
+		GNUMERIC_HELP_LINK_SO_FILLED);
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 		SHEET_OBJECT_CONFIG_KEY);
 	g_object_set_data_full (G_OBJECT (state->dialog),

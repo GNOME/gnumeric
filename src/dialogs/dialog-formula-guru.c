@@ -27,6 +27,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <parse-util.h>
 #include <gui-util.h>
@@ -867,7 +868,7 @@ dialog_formula_guru_init (FormulaGuruState *state)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"cell-sort.html");
+		GNUMERIC_HELP_LINK_FORMULA_GURU);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) dialog_formula_guru_destroy);
 

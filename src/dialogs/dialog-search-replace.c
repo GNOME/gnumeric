@@ -23,6 +23,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <search.h>
@@ -277,10 +278,9 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 		"focus-in-event",
 		G_CALLBACK (range_focused), dd);
 
-/* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
-		"search-replace.html");
+		GNUMERIC_HELP_LINK_SEARCH_REPLACE);
 
 	gtk_widget_show_all (dialog->vbox);
 	gtk_widget_grab_focus (gnome_entry_gtk_entry (dd->search_text));

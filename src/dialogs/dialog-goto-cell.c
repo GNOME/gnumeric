@@ -26,6 +26,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <workbook-priv.h> /* for Workbook::names */
@@ -309,7 +310,7 @@ dialog_goto_init (GotoState *state)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"cell-sort.html");
+		GNUMERIC_HELP_LINK_GOTO_CELL);
 
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",

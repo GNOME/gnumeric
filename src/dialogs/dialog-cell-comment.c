@@ -22,6 +22,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <sheet.h>
@@ -142,7 +143,7 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"cell-comment.html");
+		GNUMERIC_HELP_LINK_CELL_COMMENT);
 
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",

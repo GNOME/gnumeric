@@ -24,6 +24,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <commands.h>
@@ -294,7 +295,7 @@ dialog_col_width (WorkbookControlGUI *wbcg, gboolean use_default)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"col-width.html");
+		GNUMERIC_HELP_LINK_COL_WIDTH);
 
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",

@@ -23,6 +23,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <workbook-view.h>
@@ -304,10 +305,9 @@ attr_dialog_impl (AttrState *state)
 			  G_CALLBACK (cb_attr_dialog_dialog_close), state);
 	cb_widget_changed (NULL, state);
 
-/* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"workbook-attributes.html");
+		GNUMERIC_HELP_LINK_WORKBOOK_ATTRIBUTE);
 
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (dialog),

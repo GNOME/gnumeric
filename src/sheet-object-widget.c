@@ -44,6 +44,7 @@
 #include "mathfunc.h"
 #include "gnumeric-expr-entry.h"
 #include "dialogs.h"
+#include "dialogs/help.h"
 #include "widgets/gnumeric-combo-text.h"
 
 #include <gsf/gsf-impl-utils.h>
@@ -372,7 +373,7 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
 
   	gnumeric_init_help_button (
   		glade_xml_get_widget (state->gui, "help_button"),
-  		"so-frame.html");
+  		GNUMERIC_HELP_LINK_SO_FRAME);
 
 
   	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
@@ -812,7 +813,7 @@ sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
 		"state", state, (GDestroyNotify) cb_adjustment_config_destroy);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"so-adjustment.html");
+		GNUMERIC_HELP_LINK_SO_ADJUSTMENT);
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);
@@ -1380,7 +1381,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 		"state", state, (GDestroyNotify) cb_checkbox_config_destroy);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"so-checkbox.html");
+		GNUMERIC_HELP_LINK_SO_CHECKBOX);
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       SHEET_OBJECT_CONFIG_KEY);

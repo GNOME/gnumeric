@@ -30,6 +30,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gutils.h>
 #include <gui-util.h>
@@ -759,7 +760,7 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_dialog_init (pm_gui);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
-		"plugin.html");
+		GNUMERIC_HELP_LINK_PLUGIN_MANAGER);
 	g_signal_connect (glade_xml_get_widget (gui, "button_close_manager"),
 		"clicked",
 		G_CALLBACK (cb_pm_close_clicked), pm_gui);

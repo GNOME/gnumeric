@@ -22,6 +22,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 #include <glade/glade.h>
 #include <gui-util.h>
 #include <workbook-control-gui.h>
@@ -194,7 +195,7 @@ dialog_new_view (WorkbookControlGUI *wbcg)
 	
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
-		"view.html");
+		GNUMERIC_HELP_LINK_VIEW);
 	gnumeric_keyed_dialog (wbcg, GTK_WINDOW (state->dialog),
 			       VIEW_DIALOG_KEY);
 

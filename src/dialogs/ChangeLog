@@ -1,3 +1,52 @@
+2003-08-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* help.h: new, list of help links for all help buttons
+	* dialog-advanced-filter.c: replace helpfile address 
+	  with #define from help.h
+	* dialog-autocorrect.c: ditto
+	* dialog-autofilter.c: ditto
+	* dialog-autoformat.c: ditto
+	* dialog-cell-comment.c: ditto
+	* dialog-cell-format.c: ditto
+	* dialog-cell-sort.c: ditto
+	* dialog-col-row.c: ditto
+	* dialog-col-row.c: ditto
+	* dialog-col-width.c: ditto
+	* dialog-consolidate.c: ditto
+	* dialog-consolidate.c: ditto
+	* dialog-define-names.c: ditto
+	* dialog-define-names.c: ditto
+	* dialog-delete-cells.c: ditto
+	* dialog-fill-series.c: ditto
+	* dialog-formula-guru.c: ditto
+	* dialog-function-select.c: ditto
+	* dialog-goal-seek.c: ditto
+	* dialog-goto-cell.c: ditto
+	* dialog-hyperlink.c: ditto
+	* dialog-insert-cells.c: ditto
+	* dialog-merge.c: ditto
+	* dialog-pivottable.c: ditto
+	* dialog-plugin-manager.c: ditto
+	* dialog-preferences.c: ditto
+	* dialog-printer-setup.c: ditto
+	* dialog-random-generator.c: ditto
+	* dialog-row-height.c: ditto
+	* dialog-scenarios.c: ditto
+	* dialog-search-replace.c: ditto
+	* dialog-search.c: ditto
+	* dialog-sheet-order.c: ditto
+	* dialog-shuffle.c: ditto
+	* dialog-simulation.c: ditto
+	* dialog-solver.c: ditto
+	* dialog-summary.c: ditto
+	* dialog-tabulate.c: ditto
+	* dialog-view.c: ditto
+	* dialog-workbook-attr.c: ditto
+	* dialog-zoom.c: ditto
+	* dialog-analysis-tools.c: ditto, and remove some 
+	  duplicate code
+	* dialog-autosave.c: ditto, and use utilities
+
 2003-08-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=119287

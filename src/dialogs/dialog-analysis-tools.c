@@ -45,6 +45,7 @@
 #include <selection.h>
 #include <value.h>
 #include <commands.h>
+#include "help.h"
 
 #include <widgets/gnumeric-expr-entry.h>
 
@@ -619,7 +620,8 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (GenericToolState, 1);
 
-	if (dialog_tool_init (state, wbcg, sheet,  "correlation-tool.html",
+	if (dialog_tool_init (state, wbcg, sheet, 
+			      GNUMERIC_HELP_LINK_CORRELATION,
 			      "correlation.glade", "Correlation", NULL, NULL,
 			      _("Could not create the Correlation Tool dialog."),
 			      CORRELATION_KEY,
@@ -736,7 +738,8 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (GenericToolState, 1);
 
-	if (dialog_tool_init (state, wbcg, sheet,  "covariance-tool.html",
+	if (dialog_tool_init (state, wbcg, sheet,
+			      GNUMERIC_HELP_LINK_COVARIANCE,
 			      "covariance.glade", "Covariance", NULL, NULL,
 			      _("Could not create the Covariance Tool dialog."),
 			      COVARIANCE_KEY,
@@ -825,7 +828,7 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new (GenericToolState, 1);
 
 	if (dialog_tool_init (state, wbcg, sheet,
-			      "rank-and-percentile-tool.html",
+			      GNUMERIC_HELP_LINK_RANKING,
 			      "rank.glade", "RankPercentile", NULL, NULL,
 			      _("Could not create the Rank and Percentile "
 				"Tools dialog."),
@@ -914,7 +917,7 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new (GenericToolState, 1);
 
 	if (dialog_tool_init (state, wbcg, sheet,
-			      "fourier-analysis-tool.html",
+			      GNUMERIC_HELP_LINK_FOURIER_ANALYSIS,
 			      "fourier-analysis.glade", "FourierAnalysis",
 			      NULL, NULL,
 			      _("Could not create the Fourier Analysis Tool "
@@ -1076,7 +1079,7 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new (DescriptiveStatState, 1);
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
-			      "descriptive-statistics-tool.html",
+			      GNUMERIC_HELP_LINK_DESCRIPTIVE_STATS,
 			      "descriptive-stats.glade", "DescStats",
 			      NULL, NULL,
 			      _("Could not create the Descriptive Statistics "
@@ -1453,7 +1456,7 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 	state->invocation = test;
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
-			      "t-test.html",
+			      GNUMERIC_HELP_LINK_MEAN_TESTS,
 			      "mean-tests.glade", "MeanTests",
 			      _("Var_iable 1 Range:"),
 			      _("_Variable 2 Range:"),
@@ -1652,7 +1655,7 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new (FTestToolState, 1);
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
-			      "ftest-two-sample-for-variances-tool.html",
+			      GNUMERIC_HELP_LINK_F_TEST_TWO_SAMPLE,
 			      "variance-tests.glade", "VarianceTests",
 			      _("Var_iable 1 Range"), _("_Variable 2 Range"),
 			      _("Could not create the FTest Tool dialog."),
@@ -1855,7 +1858,7 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new (SamplingState, 1);
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
-			      "sampling-tool.html",
+			      GNUMERIC_HELP_LINK_SAMPLING,
 			      "sampling.glade", "Sampling", NULL, NULL,
 			      _("Could not create the Sampling Tool dialog."),
 			      SAMPLING_KEY,
@@ -2073,7 +2076,7 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new (RegressionToolState, 1);
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
-			      "regression-tool.html",
+			      GNUMERIC_HELP_LINK_REGRESSION,
 			      "regression.glade", "Regression",
 			      _("_X Variables:"), _("_Y Variable:"),
 			      _("Could not create the Regression Tool dialog."),
@@ -2209,7 +2212,7 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new (ExpSmoothToolState, 1);
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
-			      "exp-smoothing-tool.html",
+			      GNUMERIC_HELP_LINK_EXP_SMOOTHING,
 			      "exp-smoothing.glade",
 			      "ExpSmoothing", NULL, NULL,
 			      _("Could not create the Exponential Smoothing "
@@ -2350,7 +2353,7 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new (AverageToolState, 1);
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
-			      "moving-average-tool.html",
+			      GNUMERIC_HELP_LINK_MOVING_AVERAGES,
 			      "moving-averages.glade",
 			      "MovAverages", NULL, NULL,
 			      _("Could not create the Moving Average Tool "
@@ -2576,7 +2579,7 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new (HistogramToolState, 1);
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
-			      "histogram-tool.html",
+			      GNUMERIC_HELP_LINK_HISTOGRAM,
 			      "histogram.glade", "Histogram",
 			      _("_Input Range:"), _("Bin _Range:"),
 			      _("Could not create the Histogram Tool dialog."),
@@ -2753,7 +2756,7 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new (AnovaSingleToolState, 1);
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
-			      "anova.html#ANOVA-SINGLE-FACTOR-TOOL",
+			      GNUMERIC_HELP_LINK_ANOVA_SINGLE_FACTOR,
 			      "anova-one.glade", "ANOVA", NULL, NULL,
 			      _("Could not create the ANOVA (single factor) "
 				"tool dialog."),
@@ -2955,16 +2958,9 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return 0;
 
 	state = g_new (AnovaTwoFactorToolState, 1);
-	state->base.wbcg  = wbcg;
-	state->base.wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-	state->base.sheet = sheet;
-	state->base.warning_dialog = NULL;
-	state->base.help_link = "anova.html#ANOVA-TWO-FACTOR-TOOL";
-	state->base.input_var1_str = NULL;
-	state->base.input_var2_str = NULL;
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
-			      "anova.html#ANOVA-TWO-FACTOR-TOOL",
+			      GNUMERIC_HELP_LINK_ANOVA_TWO_FACTOR,
 			      "anova-two.glade", "ANOVA", NULL, NULL,
 			      _("Could not create the ANOVA (two factor) "
 				"tool dialog."),

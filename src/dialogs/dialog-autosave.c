@@ -25,6 +25,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <workbook.h>
 #include <workbook-control-gui-priv.h>
@@ -40,7 +41,6 @@ typedef struct {
 	GtkWidget *autosave_on_off;
 	GtkWidget *ok_button;
 	GtkWidget *cancel_button;
-	GtkWidget *help_button;
 	Workbook  *wb;
 	WorkbookControlGUI  *wbcg;
 } autosave_t;
@@ -129,19 +129,6 @@ cb_autosave_cancel (G_GNUC_UNUSED GtkWidget *button,
 }
 
 /**
- * cb_autosave_help:
- * @button:
- * @state:
- **/
-static void
-cb_autosave_help (G_GNUC_UNUSED GtkWidget *button,
-		  G_GNUC_UNUSED autosave_t *state)
-{
-	gnumeric_help_display ("autosave.html");
-	return;
-}
-
-/**
  * cb_autosave_ok:
  * @button:
  * @state:
@@ -191,7 +178,6 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 	state->autosave_on_off = glade_xml_get_widget (state->gui, "autosave_on_off");
 	state->ok_button = glade_xml_get_widget (state->gui, "button1");
 	state->cancel_button = glade_xml_get_widget (state->gui, "button2");
-	state->help_button = glade_xml_get_widget (state->gui, "button3");
 
 	if (!state->dialog || !state->minutes_entry || !state->prompt_cb ||
 	    !state->autosave_on_off) {
@@ -218,12 +204,13 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_autosave_cancel), state);
-	g_signal_connect (G_OBJECT (state->help_button),
-		"clicked",
-		G_CALLBACK (cb_autosave_help), state);
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
 		G_CALLBACK (dialog_autosave_destroy), state);
+
+	gnumeric_init_help_button (
+		glade_xml_get_widget (state->gui, "button3"),
+		GNUMERIC_HELP_LINK_AUTOFILTER);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->autosave_on_off),
 				      wbcg->autosave);

@@ -24,6 +24,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 #include "tool-dialogs.h"
 
 #include <commands.h>
@@ -551,7 +552,7 @@ dialog_consolidate (WorkbookControlGUI *wbcg)
 	state = g_new0 (ConsolidateState, 1);
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
-			      "consolidate-tool.html",
+			      GNUMERIC_HELP_LINK_CONSOLIDATE,
 			      "consolidate.glade", "Consolidate",
 			      NULL, NULL,
 			      _("Could not create the Consolidate dialog."),

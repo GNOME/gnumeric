@@ -27,6 +27,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <sheet.h>
 #include <cell.h>
@@ -143,7 +144,7 @@ dialog_shuffle (WorkbookControlGUI *wbcg)
 	state = g_new (ShuffleState, 1);
 
 	if (dialog_tool_init (state, wbcg, wb_control_cur_sheet (wbc),
-			      "shuffling.html",
+			      GNUMERIC_HELP_LINK_DATA_SHUFFLE,
 			      "shuffle.glade", "Shuffling",
 			      _("_Input Range:"), NULL,
 			      _("Could not create the Data Shuffling dialog."),

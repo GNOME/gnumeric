@@ -27,6 +27,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <sheet.h>
 #include <cell.h>
@@ -191,7 +192,7 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 	state = g_new (AdvancedFilterState, 1);
 
 	if (dialog_tool_init (state, wbcg, wb_control_cur_sheet (wbc),
-			      "filters.html",
+			      GNUMERIC_HELP_LINK_ADVANCED_FILTER,
 			      "advanced-filter.glade", "Filter",
 			      _("_List Range:"), _("Criteria _Range:"),
 			      _("Could not create the Advanced Filter dialog."),

@@ -28,6 +28,8 @@
 #include <gnumeric.h>
 #include "application.h"
 #include "dialogs.h"
+#include "help.h"
+
 #include "mstyle.h"
 #include "value.h"
 #include "workbook.h"
@@ -1542,10 +1544,9 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 		"switch-page",
 		G_CALLBACK (cb_dialog_pref_switch_page), state);
 
-/* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"sheet-order.html");
+		GNUMERIC_HELP_LINK_PREFERENCES);
 
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",

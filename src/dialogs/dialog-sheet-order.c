@@ -28,6 +28,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <workbook-control-gui.h>
@@ -1002,10 +1003,9 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 		"color_changed",
 		G_CALLBACK (cb_color_changed_fore), state);
 
-/* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"sheet-order.html");
+		GNUMERIC_HELP_LINK_SHEET_MANAGER);
 
 	/* a candidate for merging into attach guru */
 	g_object_set_data_full (G_OBJECT (state->dialog),

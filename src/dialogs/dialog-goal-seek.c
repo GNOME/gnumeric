@@ -25,6 +25,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <cell.h>
@@ -555,7 +556,7 @@ dialog_init (GoalSeekState *state)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "helpbutton"),
-		"goal-seek.html");
+		GNUMERIC_HELP_LINK_GOAL_SEEK);
 
 	state->to_value_entry = glade_xml_get_widget (state->gui, "to_value_entry");
 	state->at_least_entry = glade_xml_get_widget (state->gui, "at_least-entry");

@@ -22,6 +22,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <commands.h>
 #include <widgets/gnumeric-expr-entry.h>
@@ -381,7 +382,7 @@ dhl_init (HyperlinkState *state)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"hyperlink.html");
+		GNUMERIC_HELP_LINK_HYPERLINK);
 
 	menu = gtk_menu_new ();
 	for (i = 0 ; i < G_N_ELEMENTS (type); i++) {

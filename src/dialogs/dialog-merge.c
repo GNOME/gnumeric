@@ -1,7 +1,7 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * dialog-merge.c: Dialog to change the order of sheets in the Gnumeric
- * spreadsheet
+ * dialog-merge.c: Dialog to merge a list of data into a given range
+ * 
  *
  * Author:
  * 	Andreas J. Guelzow <aguelzow@taliesin.ca>
@@ -27,6 +27,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <workbook-control-gui.h>
@@ -431,10 +432,9 @@ dialog_merge (WorkbookControlGUI *wbcg)
 		"clicked",
 		G_CALLBACK (cb_merge_cancel_clicked), state);
 
-/* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"merge.html");
+		GNUMERIC_HELP_LINK_DATA_MERGE);
 
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),
 			       MERGE_KEY);

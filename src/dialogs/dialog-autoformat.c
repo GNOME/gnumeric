@@ -28,6 +28,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <mstyle.h>
@@ -672,7 +673,7 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"autoformat.html");
+		GNUMERIC_HELP_LINK_AUTOFORMAT);
 
 	gtk_dialog_set_default_response (state->dialog, GTK_RESPONSE_OK);
 

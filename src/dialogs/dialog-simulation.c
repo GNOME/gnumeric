@@ -23,6 +23,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <sheet.h>
 #include <cell.h>
@@ -427,7 +428,7 @@ dialog_simulation (WorkbookControlGUI *wbcg, G_GNUC_UNUSED Sheet *sheet)
 
 	state = g_new (SimulationState, 1);
 	if (dialog_tool_init (state, wbcg, wb_control_cur_sheet (wbc),
-			      "simulation.html",
+			      GNUMERIC_HELP_LINK_SIMULATION,
 			      "simulation.glade", "Simulation",
 			      _("_Inputs:"), _("_Outputs:"),
 			      _("Could not create the Simulation dialog."),

@@ -26,6 +26,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <expr.h>
 #include <str.h>
@@ -527,7 +528,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "helpbutton"),
-		"names.html");
+		GNUMERIC_HELP_LINK_DEFINE_NAMES);
 
 	/* a candidate for merging into attach guru */
 	gnumeric_keyed_dialog (state->wbcg, GTK_WINDOW (state->dialog),

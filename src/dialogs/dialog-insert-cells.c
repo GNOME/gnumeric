@@ -23,6 +23,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <selection.h>
@@ -178,7 +179,7 @@ dialog_insert_cells (WorkbookControlGUI *wbcg)
 /* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "helpbutton"),
-		"insert-cells.html");
+		GNUMERIC_HELP_LINK_INSERT_CELS);
 
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",

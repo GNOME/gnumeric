@@ -24,6 +24,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <commands.h>
@@ -1052,15 +1053,14 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		G_CALLBACK (hf_changed), gui);
 
 
-/* FIXME: Add correct helpfile address */
 	if (header)
 		gnumeric_init_help_button (
 			glade_xml_get_widget (gui, "help_button"),
-			"header-customization.html");
+			GNUMERIC_HELP_LINK_PRINTER_SETUP_HEADER_CUSTOMIZATION);
 	else
 		gnumeric_init_help_button (
 			glade_xml_get_widget (gui, "help_button"),
-			"footer-customization.html");
+			GNUMERIC_HELP_LINK_PRINTER_SETUP_FOOTER_CUSTOMIZATION);
 
 	/* Let them begin typing into the first entry widget. */
 	gtk_widget_grab_focus (GTK_WIDGET (left));
@@ -1797,7 +1797,7 @@ dialog_printer_setup (WorkbookControlGUI *wbcg, Sheet *sheet)
 /* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"print-setup.html");
+		GNUMERIC_HELP_LINK_PRINTER_SETUP_GENERAL);
 	gnumeric_keyed_dialog (
 		wbcg, GTK_WINDOW (state->dialog), PRINTER_SETUP_KEY);
 	gtk_widget_show (state->dialog);

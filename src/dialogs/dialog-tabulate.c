@@ -26,6 +26,8 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
+
 #include <gui-util.h>
 #include <glade/glade.h>
 #include <widgets/gnumeric-expr-entry.h>
@@ -368,7 +370,7 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 /* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
-		"fill-tabulate.html");
+		GNUMERIC_HELP_LINK_TABULATE);
 
 	g_signal_connect (G_OBJECT (dialog),
 		"destroy",

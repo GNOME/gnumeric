@@ -24,6 +24,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <commands.h>
@@ -292,7 +293,7 @@ dialog_row_height (WorkbookControlGUI *wbcg, gboolean use_default)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"row-height.html");
+		GNUMERIC_HELP_LINK_ROW_HEIGHT);
 
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",

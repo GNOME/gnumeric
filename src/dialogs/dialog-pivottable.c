@@ -20,6 +20,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <commands.h>
@@ -108,7 +109,7 @@ dialog_pivottable (WorkbookControlGUI *wbcg)
 	/* a candidate for merging into attach guru */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"pivottable.html");
+		GNUMERIC_HELP_LINK_PIVOT_TABLE);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_pivottable_guru_destroy);
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);

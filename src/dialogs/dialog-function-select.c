@@ -27,6 +27,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <func.h>
@@ -488,7 +489,7 @@ dialog_function_select_init (FunctionSelectState *state)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"cell-sort.html");
+		GNUMERIC_HELP_LINK_FUNCTION_SELECT);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify) dialog_function_select_destroy);
 }

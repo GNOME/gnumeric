@@ -25,6 +25,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <workbook-view.h>
 #include <gui-util.h>
@@ -790,7 +791,7 @@ dialog_init (SortFlowState *state)
 		0., .5, 0., 0.);
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"cell-sort.html");
+		GNUMERIC_HELP_LINK_CELL_SORT);
 
 	state->ok_button  = glade_xml_get_widget (state->gui, "ok_button");
 	g_signal_connect (G_OBJECT (state->ok_button),

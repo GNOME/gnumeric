@@ -28,6 +28,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <func.h>
@@ -1119,7 +1120,7 @@ dialog_init (SolverState *state)
 
 	gnumeric_init_help_button (glade_xml_get_widget (state->gui,
 							 "helpbutton"),
-				   "solver.html");
+				   GNUMERIC_HELP_LINK_SOLVER);
 
 	state->add_button  = glade_xml_get_widget (state->gui, "addbutton");
 	g_signal_connect (G_OBJECT (state->add_button), "clicked",

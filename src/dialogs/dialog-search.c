@@ -23,6 +23,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <search.h>
@@ -529,10 +530,9 @@ dialog_search (WorkbookControlGUI *wbcg)
 		"toggled",
 		G_CALLBACK (cb_focus_on_entry), dd->rangetext);
 
-#warning FIXME: Add correct helpfile address
 	gnumeric_init_help_button (
 		glade_xml_get_widget (gui, "help_button"),
-		"search.html");
+		GNUMERIC_HELP_LINK_SEARCH);
 
 	wbcg_edit_attach_guru_with_unfocused_rs (wbcg, GTK_WIDGET (dialog), dd->rangetext);
 

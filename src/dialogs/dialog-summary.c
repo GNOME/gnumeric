@@ -23,6 +23,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <workbook-priv.h> /* for Workbook::summary_info */
@@ -259,7 +260,7 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 	/* FIXME: that's not the proper help location */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		"summary.html");
+		GNUMERIC_HELP_LINK_SUMMARY);
 
 	dialog_summary_put (state);
 

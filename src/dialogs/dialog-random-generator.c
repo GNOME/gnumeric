@@ -26,6 +26,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 #include "tool-dialogs.h"
 #include "random-generator.h"
 
@@ -850,7 +851,7 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state = g_new (RandomToolState, 1);
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
-			      "random-number-generation-tool.html",
+			      GNUMERIC_HELP_LINK_RANDOM_GENERATOR,
 			      "random-generation.glade", "Random",
 			      NULL, NULL,
 			      _("Could not create the Random Tool dialog."),

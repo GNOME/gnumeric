@@ -26,6 +26,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 #include "tool-dialogs.h"
 
 #include <gui-util.h>
@@ -258,7 +259,7 @@ dialog_fill_series (WorkbookControlGUI *wbcg)
 	state = g_new (FillSeriesState, 1);
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sv_sheet (sv),
-			      "fill-series-tool.html",
+			      GNUMERIC_HELP_LINK_FILL_SERIES,
 			      "fill-series.glade", "Fill_series",
 			      NULL, NULL,
 			      _("Could not create the Fill Series dialog."),

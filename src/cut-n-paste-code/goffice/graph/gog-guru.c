@@ -1203,10 +1203,9 @@ graph_guru_init (GraphGuruState *s)
 	s->button_navigate = graph_guru_init_button (s, "button_navigate");
 	s->button_ok	   = graph_guru_init_button (s, "button_ok");
 
-/* FIXME: Add correct helpfile address */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (s->gui, "help_button"),
-		"graph-guru.html");
+		"sect-graphics-plots");
 
 	return FALSE;
 }

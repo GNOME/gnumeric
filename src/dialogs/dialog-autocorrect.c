@@ -43,6 +43,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gdk/gdkkeysyms.h>
 #include <string.h>
+#include "help.h"
 
 typedef struct {
 	gboolean	 changed;
@@ -254,7 +255,7 @@ dialog_init (AutoCorrectState *state)
 	ac_dialog_toggle_init (state, "replace_text",  AC_REPLACE);
 
         button = glade_xml_get_widget (state->gui, "help_button");
-	gnumeric_init_help_button (button, "autocorrect-tool.html");
+	gnumeric_init_help_button (button, GNUMERIC_HELP_LINK_AUTOCORRECT);
 
         button = glade_xml_get_widget (state->gui, "ok_button");
         g_signal_connect (GTK_OBJECT (button),

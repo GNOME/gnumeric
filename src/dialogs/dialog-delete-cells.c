@@ -23,6 +23,7 @@
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
 #include "dialogs.h"
+#include "help.h"
 
 #include <gui-util.h>
 #include <selection.h>
@@ -175,10 +176,10 @@ dialog_delete_cells (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (state->cancel_button),
 		"clicked",
 		G_CALLBACK (cb_delete_cell_cancel_clicked), state);
-/* FIXME: Add correct helpfile address */
+
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "helpbutton"),
-		"delete-cells.html");
+		GNUMERIC_HELP_LINK_DELETE_CELLS);
 
 	g_signal_connect (G_OBJECT (state->dialog),
 		"destroy",
