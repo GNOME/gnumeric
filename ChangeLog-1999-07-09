@@ -1,5 +1,8 @@
 1999-04-16  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/fn-math.c: Added EVEN, FACTDOUBLE, ODD, QUOTIENT, and
+	RANDBETWEEN.
+	
 	* src/fn-stat.c: Added LOGINV, NORMINV, NORMSINV, RSQ, and ZTEST
  	functions.
 	
