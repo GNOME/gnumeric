@@ -77,7 +77,7 @@ AC_ARG_WITH(long_double,
 		for ldfunc in fabsl sqrtl expl expm1l logl log10l log1pl ceill floorl powl hypotl \
 				sinl cosl tanl asinl acosl atanl atan2l \
 				sinhl coshl tanhl asinhl acoshl atanhl \
-				erfl erfcl ynl isnanl finitel; do
+				isnanl finitel; do
 			AC_CHECK_FUNC($ldfunc,
 			      ,
 			      AC_CHECK_LIB(m,
@@ -100,8 +100,8 @@ AC_ARG_WITH(long_double,
 					 ,
 					 AC_MSG_ERROR([Long doubles require the sunmath.h header.]))
 		fi
-		AC_CHECK_FUNCS(modfl frexpl ldexpl strtold string_to_decimal decimal_to_quadruple)
 
+		AC_CHECK_FUNCS(modfl frexpl ldexpl strtold string_to_decimal decimal_to_quadruple)
 		if test "x$ac_cv_func_strtold" = "xyes"; then
 			AC_MSG_CHECKING([if we must prototype strtold ourselves])
 			AC_TRY_RUN([
@@ -130,6 +130,45 @@ AC_ARG_WITH(long_double,
 		    if test "x$ac_cv_func_modfl" != "xyes"; then
 			AC_MSG_WARN([You lack the modfl function -- precision will be impaired])
 		fi
+
+		AC_MSG_CHECKING([checking for working ynl])
+		if false; then
+			AC_CHECK_FUNCS(ynl)
+		fi
+		AC_TRY_RUN([
+			#include <math.h>
+			#ifdef HAVE_SUNMATH_H
+			#include <sunmath.h>
+			#endif
+			int main ()
+			{
+				long double l = ynl (2, 4.0L);
+				return !(l >= 0.21 && l <= 0.22);
+			}],
+			[AC_DEFINE(HAVE_YNL)
+			AC_MSG_RESULT(yes)],
+			AC_MSG_RESULT(no))
+
+		AC_MSG_CHECKING([checking for working erf and erfc])
+		if false; then
+			AC_CHECK_FUNCS(erf erfc)
+		fi
+		AC_TRY_RUN([
+			#include <math.h>
+			#ifdef HAVE_SUNMATH_H
+			#include <sunmath.h>
+			#endif
+			int main ()
+			{
+				long double l1 = erf (1.2L);
+				long double l2 = erfc (1.2L);
+				return !(l1 >= 0.91 && l1 <= 0.92 &&
+					 l2 >= 0.08 && l2 <= 0.09);
+			}],
+			[AC_DEFINE(HAVE_ERF)
+			 AC_DEFINE(HAVE_ERFC)
+			AC_MSG_RESULT(yes)],
+			AC_MSG_RESULT(no))
 
 		float_msg="long double (EXPERIMENTAL)"
 		AC_MSG_WARN([Long double support is experimental -- expect problems])

@@ -703,7 +703,7 @@ erfcgnum (gnum_float x)
 
 #ifdef NEED_FAKE_YNGNUM
 gnum_float
-yn (int n, gnum_float x)
+yngnum (int n, gnum_float x)
 {
 	static gboolean warned = FALSE;
 	if (!warned) {
