@@ -3,6 +3,7 @@
 	* src/workbook-control-gui.c (workbook_control_gui_new) : Why was I
 	  protecting a generic call ?  Its constituents not the caller are
 	  responsible for blocking events.
+	(workbook_control_gui_init) : Be anal and init this just in case.
 
 2001-02-24  Almer S. Tigelaar  <almer@gnome.org>
 

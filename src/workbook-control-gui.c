@@ -3209,6 +3209,7 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wbcg->toplevel = GTK_WINDOW (tmp);
 	wbcg->table    = gtk_table_new (0, 0, 0);
 	wbcg->notebook = NULL;
+	wbcg->updating_ui = FALSE;
 
 	workbook_control_set_view (&wbcg->wb_control, optional_view, optional_wb);
 
