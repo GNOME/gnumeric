@@ -662,10 +662,61 @@ compute_value (const char *s, const regmatch_t *mp,
 		if (!(year == -1 && month == -1 && day == -1)){
 			if (year == -1){
 				if (year_short != -1){
-					if (tm->tm_year > 99)
-						year = 2000 + year_short;
-					else
-						year = 1900 + year_short;
+					/* Window of -75 thru +24 years. */
+					/* (TODO: See what current
+					 * version of MS Excel uses.) */
+					/* Earliest allowable interpretation
+					 * is 75 years ago. */
+					int earliest_ccyy
+						= tm->tm_year + 1900 - 75;
+					int earliest_cc = earliest_ccyy / 100;
+
+					g_return_val_if_fail(year_short >= 0 &&
+							     year_short <= 99,
+							     FALSE);
+					year = earliest_cc * 100 + year_short;
+					/*
+					 * Our first guess at year has the same
+					 * cc part as EARLIEST_CCYY, so is
+					 * guaranteed to be in [earliest_ccyy -
+					 * 99, earliest_ccyy + 99].  The yy
+					 * part is of course year_short.
+					 */
+					if (year < earliest_ccyy)
+						year += 100;
+					/*
+					 * year is now guaranteed to be in
+					 * [earliest_ccyy, earliest_ccyy + 99],
+					 * i.e. -75 thru +24 years from current
+					 * year; and year % 100 == short_year.
+					 */
+				} else if (month != -1) {
+					/* Window of -6 thru +5 months. */
+					/* (TODO: See what current
+                                         * version of MS Excel uses.) */
+					int earliest_yyymm
+						= (tm->tm_year * 12 +
+						   tm->tm_mon - 6);
+					year = earliest_yyymm / 12;
+					/* First estimate of yyy (i.e. years 
+					 * since 1900) is the yyy part of
+					 * earliest_yyymm.  year*12+month-1 is
+					 * guaranteed to be in [earliest_yyymm
+					 * - 11, earliest_yyymm + 11].
+					 */
+					year += (year * 12 + month <=
+						 earliest_yyymm);
+					/* year*12+month-1 is now guaranteed
+					 * to be in [earliest_yyymm,
+					 * earliest_yyymm + 11], i.e.
+					 * representing -6 thru +5 months
+					 * from now.
+					 */
+					year += 1900;
+					/* Finally convert from years since
+                                         * 1900 (yyy) to a proper 4-digit
+                                         * year.
+					 */
 				} else
 					year = 1900 + tm->tm_year;
 			}

@@ -1,3 +1,14 @@
+1999-12-28  Peter Moulder <reiter@netspace.net.au>
+
+	* src/number-match.c: Currently, two-digit years are converted to
+	four-digit years (ccyy) by assuming that cc is the same as in the
+	current wall date.  The problem with that is that on 1999-12-31,
+	entering any future dates in two-digit-year form will be
+	misinterpreted; while on 2000-01-01, any past dates entered in
+	two-digit form will be misinterpreted.  (I use the term
+	"misinterpreted" with the assumption that one is much more likely
+	to intend a date a few days away than 99 years away.)
+
 1999-12-27  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Re-enable the python plugin by default.
