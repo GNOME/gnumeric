@@ -48,7 +48,6 @@ void   	 dialog_autosave        (WorkbookControlGUI *wbcg);
 gboolean dialog_autosave_prompt (WorkbookControlGUI *wbcg);
 void     dialog_autoformat      (WorkbookControlGUI *wbcg);
 void     dialog_consolidate     (WorkbookControlGUI *wbcg, Sheet *sheet);
-void     dialog_data_analysis   (WorkbookControlGUI *wbcg, Sheet *sheet);
 char   	*dialog_get_sheet_name  (WorkbookControlGUI *wbcg, const char *name);
 void     dialog_sheet_order     (WorkbookControlGUI *wbcg);
 gboolean dialog_get_number      (WorkbookControlGUI *wbcg,
@@ -70,5 +69,30 @@ void dialog_search (WorkbookControlGUI *wbcg);
 void dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet);
 
 FunctionDefinition *dialog_function_select (WorkbookControlGUI *wbcg);
+
+int dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_sampling_tool  (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_ftest_tool     (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_random_tool    (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_average_tool   (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_fourier_tool   (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_ranking_tool   (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
+int dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet);
+
+typedef enum {
+	TTEST_PAIRED = 1,
+	TTEST_UNPAIRED_EQUALVARIANCES = 2,
+	TTEST_UNPAIRED_UNEQUALVARIANCES = 3,
+	TTEST_ZTEST = 4
+} ttest_type;
+
+int dialog_ttest_tool    (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test);
+
 
 #endif /* GNUMERIC_DIALOGS_H */

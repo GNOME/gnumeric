@@ -52,7 +52,7 @@ int exp_smoothing_tool    (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, group_by_t group_by,
 			   gnum_float damp_fact, int std_error_flag,
 			   data_analysis_output_t *dao);
-int fourier_tool           (WorkbookControl *context, Sheet *sheet,
+int fourier_tool          (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, group_by_t group_by,
 			   int inverse_flag,
 			   data_analysis_output_t *dao);
@@ -60,21 +60,20 @@ int ranking_tool          (WorkbookControl *context, Sheet *sheet,
 			   GSList *input, group_by_t group_by,
 			   gboolean av_ties_flag,
 			   data_analysis_output_t *dao);
-
-int anova_single_factor_tool        (WorkbookControl *context, Sheet *sheet,
-				     GSList *input, group_by_t group_by,
-				     gnum_float alpha, data_analysis_output_t *dao);
+int anova_single_factor_tool (WorkbookControl *context, Sheet *sheet,
+			      GSList *input, group_by_t group_by,
+			      gnum_float alpha, data_analysis_output_t *dao);
 int anova_two_factor_without_r_tool (WorkbookControl *context, Sheet *sheet,
 				     Value *input, gnum_float alpha,
 				     data_analysis_output_t *dao);
 int anova_two_factor_with_r_tool (WorkbookControl *context, Sheet *sheet,
 				  Value *input, int rows_per_sample,
 				  gnum_float alpha, data_analysis_output_t *dao);
-int histogram_tool (WorkbookControl *context, Sheet *sheet,
-		    GSList *input, Value *bin, group_by_t group_by,
-		    gboolean bin_labels, gboolean pareto, gboolean percentage,
-		    gboolean cumulative, gboolean chart, 
-		    histogram_calc_bin_info_t *bin_info,
-		    data_analysis_output_t *dao);
+int histogram_tool        (WorkbookControl *context, Sheet *sheet,
+			   GSList *input, Value *bin, group_by_t group_by,
+			   gboolean bin_labels, gboolean pareto, gboolean percentage,
+			   gboolean cumulative, gboolean chart, 
+			   histogram_calc_bin_info_t *bin_info,
+			   data_analysis_output_t *dao);
 
 #endif

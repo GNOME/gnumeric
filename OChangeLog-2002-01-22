@@ -1,3 +1,11 @@
+2002-01-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/workbook-control-gui.c : new cb_tool_... functions, add 
+	  analysis tools menu to non-bonobo menu section, define
+	  BONOBO_UI_UNSAFE_VERBs for all analysis tools
+	(cb_tools_data_analysis) : deleted
+	* src/GNOME_Gnumeric.xml : add analysis tools menu items
+	
 2002-01-19  Jon K Hellan  <hellan@acm.org>
 
 	* src/datetime.c (datetime_g_free): New function to free

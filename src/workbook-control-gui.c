@@ -2196,10 +2196,129 @@ cb_tools_solver (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_tools_data_analysis (GtkWidget *widget, WorkbookControlGUI *wbcg)
+cb_tools_anova_one_factor (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	dialog_data_analysis (wbcg, wb_control_cur_sheet (wbc));
+	dialog_anova_single_factor_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_anova_two_factor (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_anova_two_factor_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_correlation (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_correlation_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_covariance (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_covariance_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_desc_statistics (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_descriptive_stat_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_exp_smoothing (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_exp_smoothing_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_average (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_average_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_fourier (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_fourier_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_histogram (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_histogram_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_ranking (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_ranking_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_regression (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_regression_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_sampling (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_sampling_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_ttest_paired (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_ttest_tool (wbcg, wb_control_cur_sheet (wbc), TTEST_PAIRED);
+}
+
+static void
+cb_tools_ttest_equal_var (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_ttest_tool (wbcg, wb_control_cur_sheet (wbc), TTEST_UNPAIRED_EQUALVARIANCES);
+}
+
+static void
+cb_tools_ttest_unequal_var (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_ttest_tool (wbcg, wb_control_cur_sheet (wbc), TTEST_UNPAIRED_UNEQUALVARIANCES);
+}
+
+static void
+cb_tools_ztest (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_ttest_tool (wbcg, wb_control_cur_sheet (wbc), TTEST_ZTEST);
+}
+
+static void
+cb_tools_ftest (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_ftest_tool (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
+cb_tools_random_generator (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	dialog_random_tool (wbcg, wb_control_cur_sheet (wbc));
 }
 
 static void
@@ -2844,6 +2963,97 @@ static GnomeUIInfo workbook_menu_format [] = {
 };
 
 /* Tools menu */
+
+static GnomeUIInfo workbook_menu_tools_anova [] = {
+
+	GNOMEUIINFO_ITEM_NONE (N_("_One Factor"),
+		N_("One Factor Analysis of Variance"),
+		cb_tools_anova_one_factor),
+	GNOMEUIINFO_ITEM_NONE (N_("_Two Factor"),
+		N_("Two Factor Analysis of Variance"),
+		cb_tools_anova_two_factor),
+
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo workbook_menu_tools_forecasting [] = {
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Exponential Smoothing"),
+		N_("Exponential smoothing"),
+		cb_tools_exp_smoothing),
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Moving Average"),
+		N_("Moving average"),
+		cb_tools_average),
+
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo workbook_menu_tools_two_means [] = {
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Paired Samples: T-Test"),
+		N_("Comparing two population means for two paired samples.: t-test"),
+		cb_tools_ttest_paired),
+
+	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, E_qual Var.: T-Test"),
+		N_("Comparing two population means for two unpaired samples " 
+		   "from pop. with equal var.: t-test"),
+		cb_tools_ttest_equal_var),
+
+	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, _Unequal Var.: T-Test"),
+		N_("Comparing two population means for two unpaired samples "
+		   "from pop. with unequal var.: t-test"),
+		cb_tools_ttest_unequal_var),
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Known Variances or Large Sample: Z-Test"),
+		N_("Comparing two population means from pop. with known varinces "
+		   "or using a large sample: z- test"),
+		cb_tools_ztest),
+
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo workbook_menu_tools_analysis [] = {
+
+	GNOMEUIINFO_SUBTREE(N_("_ANOVA"), workbook_menu_tools_anova),
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Correlation"),
+		N_("Pearson Correlation"),
+		cb_tools_correlation),
+	GNOMEUIINFO_ITEM_NONE (N_("Co_variance"),
+		N_("Covariance"),
+		cb_tools_covariance),
+	GNOMEUIINFO_ITEM_NONE (N_("_Descriptive Statistics"),
+		N_("Various summary statistics"),
+		cb_tools_desc_statistics),
+
+	GNOMEUIINFO_SUBTREE(N_("F_orecasting"), workbook_menu_tools_forecasting),
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Fourier Analysis"),
+		N_("Fourier Analysis"),
+		cb_tools_fourier),
+	GNOMEUIINFO_ITEM_NONE (N_("_Histogram"),
+		N_("Various frequency tables"),
+		cb_tools_histogram),
+	GNOMEUIINFO_ITEM_NONE (N_("Ranks And _Percentiles"),
+		N_("Ranks, placements and percentiles"),
+		cb_tools_ranking),
+	GNOMEUIINFO_ITEM_NONE (N_("_Regression"),
+		N_("Regression Analysis"),
+		cb_tools_regression),
+	GNOMEUIINFO_ITEM_NONE (N_("_Sampling"),
+		N_("Periodic and random samples"),
+		cb_tools_sampling),
+
+	GNOMEUIINFO_SUBTREE(N_("Two _Means"), workbook_menu_tools_two_means),
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Two Variances: FTest"),
+		N_("Comparing two population variances"),
+		cb_tools_ftest),
+
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo workbook_menu_tools [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Plug-ins..."),
 		N_("Manage available plugin modules."),
@@ -2872,9 +3082,11 @@ static GnomeUIInfo workbook_menu_tools [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_NONE (N_("_Data Analysis..."),
-		N_("Statistical methods."),
-		cb_tools_data_analysis),
+	GNOMEUIINFO_SUBTREE(N_("Statistical Anal_ysis"), workbook_menu_tools_analysis),
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Random Generator..."),
+		N_("Generate random numbers of a selection of distributions"),
+		cb_tools_random_generator),
 
 	GNOMEUIINFO_END
 };
@@ -3121,7 +3333,25 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("ToolsGoalSeek", cb_tools_goal_seek),
 	BONOBO_UI_UNSAFE_VERB ("ToolsTabulate", cb_tools_tabulate),
 	BONOBO_UI_UNSAFE_VERB ("ToolsSolver", cb_tools_solver),
-	BONOBO_UI_UNSAFE_VERB ("ToolsDataAnalysis", cb_tools_data_analysis),
+
+	BONOBO_UI_UNSAFE_VERB ("ToolsANOVAoneFactor", cb_tools_anova_one_factor),
+	BONOBO_UI_UNSAFE_VERB ("ToolsANOVAtwoFactor", cb_tools_anova_two_factor),
+	BONOBO_UI_UNSAFE_VERB ("ToolsCorrelation", cb_tools_correlation),
+	BONOBO_UI_UNSAFE_VERB ("ToolsCovariance", cb_tools_covariance),
+	BONOBO_UI_UNSAFE_VERB ("ToolsDescStatistics", cb_tools_desc_statistics),
+	BONOBO_UI_UNSAFE_VERB ("ToolsExpSmoothing", cb_tools_exp_smoothing),
+	BONOBO_UI_UNSAFE_VERB ("ToolsAverage", cb_tools_average),
+	BONOBO_UI_UNSAFE_VERB ("ToolsFourier", cb_tools_fourier),
+	BONOBO_UI_UNSAFE_VERB ("ToolsHistogram", cb_tools_histogram),
+	BONOBO_UI_UNSAFE_VERB ("ToolsRanking", cb_tools_ranking),
+	BONOBO_UI_UNSAFE_VERB ("ToolsRegression", cb_tools_regression),
+	BONOBO_UI_UNSAFE_VERB ("ToolsSampling", cb_tools_sampling),
+	BONOBO_UI_UNSAFE_VERB ("ToolTTestPaired", cb_tools_ttest_paired),
+	BONOBO_UI_UNSAFE_VERB ("ToolTTestEqualVar", cb_tools_ttest_equal_var),
+	BONOBO_UI_UNSAFE_VERB ("ToolTTestUnequalVar", cb_tools_ttest_unequal_var),
+	BONOBO_UI_UNSAFE_VERB ("ToolZTest", cb_tools_ztest),
+	BONOBO_UI_UNSAFE_VERB ("ToolsFTest", cb_tools_ftest),
+	BONOBO_UI_UNSAFE_VERB ("RandomGenerator", cb_tools_random_generator),
 
 	BONOBO_UI_UNSAFE_VERB ("DataSort", cb_data_sort),
 	BONOBO_UI_UNSAFE_VERB ("DataFilterAdvancedfilter", cb_data_filter),

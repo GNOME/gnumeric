@@ -175,13 +175,6 @@ typedef struct {
 	GtkWidget *s_entry;
 } DescriptiveStatState;
 
-typedef enum {
-	TTEST_PAIRED = 1,
-	TTEST_UNPAIRED_EQUALVARIANCES = 2,
-	TTEST_UNPAIRED_UNEQUALVARIANCES = 3,
-	TTEST_ZTEST = 4
-} ttest_type;
-
 typedef struct {
 	ToolType  const type;
 	GladeXML  *gui;
@@ -1152,7 +1145,7 @@ corr_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
@@ -1267,7 +1260,7 @@ cov_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
@@ -1498,7 +1491,7 @@ dialog_desc_stat_tool_init (DescriptiveStatState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         DescriptiveStatState *state;
@@ -1598,7 +1591,7 @@ rank_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
@@ -2005,7 +1998,7 @@ dialog_ttest_tool_init (TTestState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 {
         TTestState *state;
@@ -2042,62 +2035,6 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 	gtk_widget_show (state->dialog);
 
         return 0;
-}
-
-/**
- * dialog_ttest_paired_tool:
- * @wbcg:
- * @sheet:
- *
- * Call dialog_ttest_tool with appropriate selector.
- *
- **/
-static int
-dialog_ttest_paired_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-	return dialog_ttest_tool (wbcg, sheet, TTEST_PAIRED);
-}
-
-/**
- * dialog_ttest_eq_tool:
- * @wbcg:
- * @sheet:
- *
- * Call dialog_ttest_tool with appropriate selector.
- *
- **/
-static int
-dialog_ttest_eq_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-	return dialog_ttest_tool (wbcg, sheet, TTEST_UNPAIRED_EQUALVARIANCES);
-}
-
-/**
- * dialog_ttest_neq_tool:
- * @wbcg:
- * @sheet:
- *
- * Call dialog_ttest_tool with appropriate selector.
- *
- **/
-static int
-dialog_ttest_neq_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-	return dialog_ttest_tool (wbcg, sheet, TTEST_UNPAIRED_UNEQUALVARIANCES);
-}
-
-/**
- * dialog_ztest_tool:
- * @wbcg:
- * @sheet:
- *
- * Call dialog_ttest_tool with appropriate selector.
- *
- **/
-static int
-dialog_ztest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-	return dialog_ttest_tool (wbcg, sheet, TTEST_ZTEST);
 }
 
 /**********************************************/
@@ -2252,7 +2189,7 @@ dialog_ftest_tool_init (FTestToolState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         FTestToolState *state;
@@ -2506,7 +2443,7 @@ dialog_sampling_tool_init (SamplingState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         SamplingState *state;
@@ -3042,7 +2979,7 @@ dialog_random_tool_init (RandomToolState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         RandomToolState *state;
@@ -3311,7 +3248,7 @@ dialog_regression_tool_init (RegressionToolState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         RegressionToolState *state;
@@ -3482,7 +3419,7 @@ dialog_exp_smoothing_tool_init (ExpSmoothToolState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         ExpSmoothToolState *state;
@@ -3652,7 +3589,7 @@ dialog_average_tool_init (AverageToolState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         AverageToolState *state;
@@ -3753,7 +3690,7 @@ fourier_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         GenericToolState *state;
@@ -4110,7 +4047,7 @@ dialog_histogram_tool_init (HistogramToolState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         HistogramToolState *state;
@@ -4288,7 +4225,7 @@ dialog_anova_single_tool_init (AnovaSingleToolState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         AnovaSingleToolState *state;
@@ -4492,7 +4429,7 @@ dialog_anova_two_factor_tool_init (AnovaTwoFactorToolState *state)
  * Show the dialog (guru).
  *
  **/
-static int
+int
 dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 {
         AnovaTwoFactorToolState *state;
@@ -4532,140 +4469,3 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 /**********************************************/
 
 
-/*************************************************************************
- *
- * Modal dialog for tool selection
- *
- */
-
-typedef int (*tool_fun_ptr_t)(WorkbookControlGUI *wbcg, Sheet *sheet);
-
-typedef struct {
-        char const *    name;
-        tool_fun_ptr_t  fun;
-} tool_list_t;
-
-static tool_list_t tools[] = {
-        { N_("Anova: Single Factor"),
-	  dialog_anova_single_factor_tool },
-        { N_("Anova: Two-Factor With Or Without Replication"),
-	  dialog_anova_two_factor_tool },
-        { N_("Correlation"),
-	  dialog_correlation_tool },
-        { N_("Covariance"),
-	  dialog_covariance_tool },
-        { N_("Descriptive Statistics"),
-	  dialog_descriptive_stat_tool },
-        { N_("Exponential Smoothing"),
-	  dialog_exp_smoothing_tool },
-        { N_("F-Test: Two-Sample for Variances"),
-	  dialog_ftest_tool },
- 	{ N_("Fourier Analysis"),
- 	  dialog_fourier_tool },
-        { N_("Histogram"),
-	  dialog_histogram_tool },
-        { N_("Moving Average"),
-	  dialog_average_tool },
-        { N_("Random Number Generation"),
-	  dialog_random_tool },
-        { N_("Rank and Percentile"),
-	  dialog_ranking_tool },
-        { N_("Regression"),
-	  dialog_regression_tool },
-        { N_("Sampling"),
-	  dialog_sampling_tool },
-        { N_("t-Test: Paired Two Sample for Means"),
-	  dialog_ttest_paired_tool },
-        { N_("t-Test: Two-Sample Assuming Equal Variances"),
-	  dialog_ttest_eq_tool },
-        { N_("t-Test: Two-Sample Assuming Unequal Variances"),
-	  dialog_ttest_neq_tool },
-        { N_("z-Test: Two Sample for Means"),
-	  dialog_ztest_tool },
-	{ NULL, NULL }
-};
-
-static int selected_row;
-
-static void
-selection_made (GtkWidget *clist, gint row, gint column,
-	       GdkEventButton *event, gpointer data)
-{
-	GtkWidget *dialog;
-
-        selected_row = row;
-	/* If the tool is double-clicked we pop up the tool and dismiss
-           chooser. */
-	if (event && event->type == GDK_2BUTTON_PRESS) {
-		dialog = gtk_widget_get_toplevel (GTK_WIDGET (clist));
-		gtk_signal_emit_by_name (GTK_OBJECT (dialog), "clicked", 0);
-	}
-}
-
-static void
-dialog_help_cb (GtkWidget *button, gchar *link)
-{
-	gnumeric_help_display (link);
-}
-
-void
-dialog_data_analysis (WorkbookControlGUI *wbcg, Sheet *sheet)
-{
-        GladeXML  *gui;
-	GtkWidget *dialog;
-	GtkWidget *tool_list;
-	GtkWidget *helpbutton;
-	int       i, selection;
-
- dialog_loop:
-	gui = gnumeric_glade_xml_new (wbcg, "analysis-tools.glade");
-        if (gui == NULL)
-                return;
-
-	dialog = glade_xml_get_widget (gui, "AnalysisTools");
-        if (!dialog) {
-                printf ("Corrupt file analysis-tools.glade\n");
-                return;
-        }
-
-        helpbutton = glade_xml_get_widget (gui, "helpbutton");
-	gtk_signal_connect (GTK_OBJECT (helpbutton), "clicked",
-			    GTK_SIGNAL_FUNC (dialog_help_cb),
-			    "analysis-tools.html");
-
-	tool_list = glade_xml_get_widget (gui, "clist1");
-	gtk_signal_connect (GTK_OBJECT (tool_list), "select_row",
-			    GTK_SIGNAL_FUNC (selection_made), NULL);
-
-	for (i=0; tools[i].fun; i++) {
-		char *tmp[2];
-		tmp[0] = _(tools[i].name);
-		tmp[1] = NULL;
-	        gtk_clist_append (GTK_CLIST (tool_list), tmp);
-	}
-	gtk_clist_select_row (GTK_CLIST (tool_list), selected_row, 0);
-	gnumeric_clist_moveto (GTK_CLIST (tool_list), selected_row);
-
-	gtk_widget_grab_focus (GTK_WIDGET (tool_list));
-
-	/* Run the dialog */
- loop:
-	selection = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
-
-	if (selection == 2)
-	        goto loop;
-
-	gtk_object_unref (GTK_OBJECT (gui));
-
-	if (selection == -1)
-		return;
-	else
-		gtk_object_destroy (GTK_OBJECT (dialog));
-
-	if (selection == 0) {
-	        g_return_if_fail (tools[selected_row].fun != NULL);
-		selection = tools[selected_row].fun (wbcg, sheet);
-		if (selection == 1)
-		        goto dialog_loop;
-	}
-}

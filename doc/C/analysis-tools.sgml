@@ -2,10 +2,9 @@
   <title>An Overview</title>
   <para>The data analysis tools package contains tools for
   statistical data analysis, random number generation and data
-  sampling.  To use these tools select the <guilabel>Data Analysis...</guilabel> item
-  in the <guilabel>Tools</guilabel> menu.  This yields a list of tools to choose
-  from.  Select one of the tools from the list and press the OK
-  button or double-click on the tool.  The tools are described below.</para>
+  sampling.  To use these tools, select the apropriate tool
+  from the <guimenu>Tools</guimenu> menu or its <guimenuitem>Statistical Analysis</guimenuitem>
+  submenu. The tools are described below.</para>
 
 <figure id="analysistools">
     <title>Data Analysis Tools </title>
@@ -400,7 +399,10 @@
   </figure>
   </sect1>
 
-  <sect1 id="exp-smoothing-tool">
+  <sect1 id="forecasting-tools">
+     <title>Forecast Tools</title>
+
+  <sect2 id="exp-smoothing-tool">
      <title>Exponential Smoothing Tool</title>
 
   <figure id="smoothing-tool-dialog">
@@ -449,7 +451,60 @@
 	<graphic fileref="figures/analysistools-smoothing-ex2.png" format="PNG"></graphic>
     </screenshot>
   </figure>
+  </sect2>
+  <sect2 id="moving-average-tool">
+     <title>Moving Average Tool</title>
 
+  <figure id="moving-tool-dialog">
+    <title>Moving Average Tool Dialog</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-moving-average.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+
+     <para>Use the moving average tool to calculate moving averages of
+     one or more data sets.  A moving average provides useful trend information
+     of the data that is lost in a simple average.  In addition,
+     moving averages can be used to eliminate random variance.  For
+     example, use this tool to create a smoother curve of a stock
+     prize.</para>
+
+     <para>Specify the cells containing the datasets in the <quote><guilabel>Input
+     Range</guilabel></quote> entry. The entered range or ranges are grouped into 
+     datasets either by rows or by columns.</para> 
+
+     <para>If you have labels
+     in the first cell of each data set, select the
+     <quote><guilabel>Labels</guilabel></quote> option.</para>
+
+     <para>Specify the <quote><guilabel>Interval</guilabel></quote> for the moving
+     average.  The interval <parameter>i</parameter> is the number of consecutive values to be
+     included in each moving average.</para>
+
+     <para>The results are given in one column for each dataset  Each row represents the
+     moving average of the corresponding row or column in the input range.  The
+     moving average cannot be calculated for the first <parameter>k</parameter> rows in the
+     input range where <parameter>k</parameter> is smaller than the given interval 
+     <parameter>i</parameter>.</para>
+
+   <figure id="moving-example-1">
+    <title>Some Example Data for the Moving Average Tool</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-moving-average-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+ <example id="usingmovingtool"><title>Using the Moving Average Tool</title>
+     <para><xref linkend="moving-example-1"> shows some example data and 
+     <xref linkend="moving-example-2"> the corresponding output.
+     </para>
+</example>
+  <figure id="moving-example-2">
+    <title>Moving Averages Tool Output</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-moving-average-ex2.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+  </sect2>
   </sect1>
 
   <sect1 id="fourier-analysis-tool">
@@ -721,59 +776,6 @@
   </sect2>
   </sect1>
 
-  <sect1 id="moving-average-tool">
-     <title>Moving Average Tool</title>
-
-  <figure id="moving-tool-dialog">
-    <title>Moving Average Tool Dialog</title>
-    <screenshot>
-	<graphic fileref="figures/analysistools-moving-average.png" format="PNG"></graphic>
-    </screenshot>
-  </figure>
-
-     <para>Use the moving average tool to calculate moving averages of
-     one or more data sets.  A moving average provides useful trend information
-     of the data that is lost in a simple average.  In addition,
-     moving averages can be used to eliminate random variance.  For
-     example, use this tool to create a smoother curve of a stock
-     prize.</para>
-
-     <para>Specify the cells containing the datasets in the <quote><guilabel>Input
-     Range</guilabel></quote> entry. The entered range or ranges are grouped into 
-     datasets either by rows or by columns.</para> 
-
-     <para>If you have labels
-     in the first cell of each data set, select the
-     <quote><guilabel>Labels</guilabel></quote> option.</para>
-
-     <para>Specify the <quote><guilabel>Interval</guilabel></quote> for the moving
-     average.  The interval <parameter>i</parameter> is the number of consecutive values to be
-     included in each moving average.</para>
-
-     <para>The results are given in one column for each dataset  Each row represents the
-     moving average of the corresponding row or column in the input range.  The
-     moving average cannot be calculated for the first <parameter>k</parameter> rows in the
-     input range where <parameter>k</parameter> is smaller than the given interval 
-     <parameter>i</parameter>.</para>
-
-   <figure id="moving-example-1">
-    <title>Some Example Data for the Moving Average Tool</title>
-    <screenshot>
-	<graphic fileref="figures/analysistools-moving-average-ex1.png" format="PNG"></graphic>
-    </screenshot>
-  </figure>
- <example id="usingmovingtool"><title>Using the Moving Average Tool</title>
-     <para><xref linkend="moving-example-1"> shows some example data and 
-     <xref linkend="moving-example-2"> the corresponding output.
-     </para>
-</example>
-  <figure id="moving-example-2">
-    <title>Moving Averages Tool Output</title>
-    <screenshot>
-	<graphic fileref="figures/analysistools-moving-average-ex2.png" format="PNG"></graphic>
-    </screenshot>
-  </figure>
-  </sect1>
 
   <sect1 id="random-number-generation-tool">
      <title>Random Number Generation Tool</title>

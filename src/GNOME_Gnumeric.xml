@@ -485,9 +485,70 @@
 
 	    <separator/>
 
-	    <menuitem name="ToolsDataAnalysis" verb=""
-		_label="_Data Analysis..."
-		_tip="Statistical methods"/>
+	    <submenu name="ToolStatisticalAnalysis" _label="Statistical Anal_ysis">
+	    <submenu name="ANOVA" _label="_ANOVA">
+	        <menuitem name="ToolsANOVAoneFactor" verb=""
+		    _label="_One Factor"
+		    _tip="One Factor Analysis of Variance"/>
+	        <menuitem name="ToolsANOVAtwoFactor" verb=""
+		    _label="_Two Factor"
+		    _tip="Two Factor Analysis of Variance"/>
+	    </submenu>
+	        <menuitem name="ToolsCorrelation" verb=""
+		    _label="_Correlation"
+		    _tip="Pearson Correlation"/>
+	        <menuitem name="ToolsCovariance" verb=""
+		    _label="Co_variance"
+		    _tip="Covariance"/>
+	        <menuitem name="ToolsDescStatistics" verb=""
+		    _label="_Descriptive Statistics"
+		    _tip="Various summary statistics"/>
+	    <submenu name="ToolForecast" _label="F_orecasting">
+	        <menuitem name="ToolsExpSmoothing" verb=""
+		    _label="_Exponential Smoothing"
+		    _tip="Exponential smoothing"/>
+	        <menuitem name="ToolsAverage" verb=""
+		    _label="_Moving Average"
+		    _tip="Moving average"/>
+	    </submenu>
+	        <menuitem name="ToolsFourier" verb=""
+		    _label="_Fourier Analysis"
+		    _tip="Fourier Analysis"/>
+	        <menuitem name="ToolsHistogram" verb=""
+		    _label="_Histogram"
+		    _tip="Various frequency tables"/>
+	        <menuitem name="ToolsRanking" verb=""
+		    _label="Ranks and _Percentiles"
+		    _tip="Ranks, placements and percentiles"/>
+	        <menuitem name="ToolsRegression" verb=""
+		    _label="_Regression"
+		    _tip="Regression Analysis"/>
+	        <menuitem name="ToolsSampling" verb=""
+		    _label="_Sampling"
+		    _tip="Periodic and random samples"/>
+
+	    <submenu name="ToolTTest" _label="Two _Means">
+	        <menuitem name="ToolTTestPaired" verb=""
+		    _label="_Paired Samples: T-Test"
+		    _tip="Comparing two population means for two paired samples.: t-test"/>
+	        <menuitem name="ToolTTestEqualVar" verb=""
+		    _label="Unpaired Samples, E_qual Var.: T-Test"
+		    _tip="Comparing two population means for two unpaired samples from pop. with equal var.: t-test"/>
+	        <menuitem name="ToolTTestUnequalVar" verb=""
+		    _label="Unpaired Samples, _Unequal Var.: T-Test"
+		    _tip="Comparing two population means for two unpaired samples from pop. with unequal var.: t-test"/>
+	        <menuitem name="ToolZTest" verb=""
+		    _label="_Known Variances or Large Sample: Z-Test"
+		    _tip="Comparing two population means from pop. with known varinces or using a large sample: z- test"/>
+	    </submenu>
+	        <menuitem name="ToolsFTest" verb=""
+		    _label="_Two Variances: FTest"
+		    _tip="Comparing two population variances"/>
+            </submenu>
+
+	    <menuitem name="RandomGenerator" verb=""
+		_label="_Random Generator..."
+		_tip="Generate random numbers of a selection of distributions"/>
 
 	</submenu>
 

@@ -1,5 +1,18 @@
 2002-01-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-analysis-tools.c : make dialog_..._tool non-static
+	  delete modal dialog for tool selection
+	(dialog_ttest_paired_tool) : deleted
+	(dialog_ttest_eq_tool) : deleted
+	(dialog_ttest_neq_tool) : deleted
+	(dialog_ztest_tool) : deleted
+	(selection_made, dialog_help_cb, dialog_data_analysis) :
+	  deleted
+	* dialogs.h : declare new non-static dialog_..._tool functions
+	* tools.h : small formatting changes
+
+2002-01-19  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-graph-guru.c (dialog-graph-guru.c) : make dialog transient
 
 2002-01-19  Jody Goldberg <jody@gnome.org>
