@@ -548,12 +548,20 @@ gog_pie_view_info_at_point (GogView *view, double x, double y,
 	if ((x*x + y*y) > (r*r))
 		return FALSE;
 
-/* TODO : ring just pick first series for now */
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next)
 		if (gog_series_is_valid (GOG_SERIES (series = ptr->data)))
 			break;
 	if (ptr == NULL)
 		return FALSE;
+	
+	/* TODO what follows does not work for ring plots, so exit here */
+	if (GOG_IS_RING_PLOT (view->model)) {
+		if (obj != NULL)
+			*obj = view->model;
+		if (name != NULL)
+			*name = NULL;
+		return TRUE;
+	}
 
 	theta = (atan2 (y, x) * 180 / M_PI - model->initial_angle + 90.) / 360.;
 	if (theta < 0)
@@ -572,16 +580,19 @@ gog_pie_view_info_at_point (GogView *view, double x, double y,
 
 	if (obj != NULL) {
 		if (cur_selection == view->model) {
-			*obj = g_object_new (gog_pie_series_element_get_type (),
-				"index", i, NULL);
-			gog_object_add_by_name (GOG_OBJECT (series), "Point", *obj);
+			*obj = GOG_OBJECT (gog_series_get_element (GOG_SERIES (series), i));
+			if (*obj == NULL) {
+				*obj = g_object_new (gog_pie_series_element_get_type (),
+						     "index", i, NULL);
+				gog_object_add_by_name (GOG_OBJECT (series), "Point", *obj);
+			}
 		} else
 			*obj = view->model;
 	}
 	if (name != NULL)
 		*name = g_strdup_printf (_("%s point %d\nValue %g (%g)"),
-			gog_object_get_name (GOG_OBJECT (series)),
-			i+1, vals[i], len);
+					 gog_object_get_name (GOG_OBJECT (series)),
+					 i+1, vals[i], len);
 
 	return TRUE;
 }

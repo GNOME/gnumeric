@@ -42,7 +42,7 @@
 
 #include <string.h>
 
-int gog_series_get_valid_element_index (GogSeries *series, int old_index, int desired_index);
+int gog_series_get_valid_element_index (GogSeries const *series, int old_index, int desired_index);
 
 /*****************************************************************************/
 static GObjectClass *gse_parent_klass;
@@ -735,7 +735,7 @@ gog_series_get_overrides (GogSeries const *series)
 }
 
 int
-gog_series_get_valid_element_index (GogSeries *series, int old_index, int desired_index)
+gog_series_get_valid_element_index (GogSeries const *series, int old_index, int desired_index)
 {
 	int index;
 	GList *ptr;
@@ -769,3 +769,21 @@ gog_series_get_valid_element_index (GogSeries *series, int old_index, int desire
 
 	return old_index;
 }
+
+GogSeriesElement *
+gog_series_get_element (GogSeries const *series, int index)
+{
+	GList *ptr;
+	GogSeriesElement *element;
+
+	g_return_val_if_fail (GOG_SERIES (series) != NULL, NULL);
+
+	for (ptr = series->overrides; ptr != NULL; ptr = ptr->next) {
+		element = GOG_SERIES_ELEMENT (ptr->data);
+		if ((int) element->index == index)
+			return element;
+	}
+	
+	return FALSE;
+}
+

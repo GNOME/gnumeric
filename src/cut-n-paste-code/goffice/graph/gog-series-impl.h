@@ -80,9 +80,7 @@ struct _GogSeries {
 	GogDatasetElement *values;
 	gboolean	   has_legend;
 	unsigned   	   num_elements;
-	GList		  *overrides; /* individual points */
-
-	GogSeriesElementStyleList *element_style_overrides;
+	GList		  *overrides;  /* GogSeriesElement (individual points) */
 };
 
 typedef struct {
@@ -101,6 +99,7 @@ typedef struct {
 
 /* protected */
 void gog_series_check_validity   (GogSeries *series);
+GogSeriesElement *gog_series_get_element (GogSeries const *series, int index);
 
 G_END_DECLS
 

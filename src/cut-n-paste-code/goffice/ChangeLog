@@ -1,4 +1,11 @@
-2004-09-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+2004-09-28  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/plugins/plot_pie/gog-pie.c (gog_pie_view_info_at_point):
+	disable automatic point creation for ring plot, since it
+	doesn't work. For pie plot, don't create new point when it already
+	exists, but select it.
+
+2004-09-28  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=153401
 	* graph/plugins/plot_pie/gog-pie.c (gog_pie_view_render): fix special
