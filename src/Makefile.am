@@ -14,6 +14,7 @@ GNOME_XML_LIB = -lxml
 
 GNUMERIC_BASE_SOURCES =		\
 	cell.h			\
+	cell.c			\
 	eval.c			\
 	expr.c			\
 	expr.h			\

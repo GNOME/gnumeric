@@ -1,5 +1,6 @@
 #include <config.h>
 #include <gnome.h>
+#include <math.h>
 #include "gnumeric.h"
 #include "expr.h"
 
@@ -536,10 +537,8 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		cell_get_abs_col_row (&tree->u.constant->v.cell, eval_col, eval_row, &col, &row);
 		
 		cell = sheet_cell_get (sheet, col, row);
-		if (!cell)
-			cell = sheet_cell_new (sheet, col, row);
 		
-		if (!cell->value){
+		if (!cell || !cell->value){
 			res = g_new (Value, 1);
 			
 			res->type = VALUE_INTEGER;

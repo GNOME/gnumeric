@@ -1,65 +1,128 @@
 #include <config.h>
 #include <gnome.h>
-#include <gnumeric.h>
+#include "gnumeric.h"
+#include "eval.h"
+
+static void
+cell_formula_link (Cell *cell)
+{
+	Sheet *sheet = cell->sheet;
+
+	sheet->formula_cell_list = g_list_prepend (sheet->formula_cell_list, cell);
+}
+
+static void
+cell_formula_unlink (Cell *cell)
+{
+	Sheet *sheet = cell->sheet;
+	
+	sheet->formula_cell_list = g_list_remove (sheet->formula_cell_list, cell);
+}
 
 void
-sheet_cell_foreach_range (Sheet *sheet,
-			  int start_col, int start_row,
-			  int end_col, int end_row,
-			  CellCallback callback,
-			  void *closure)
+cell_set_formula (Cell *cell, char *text)
 {
-	GList *col = sheet->cols_info;
+	char *error_msg = NULL;
 
-	for (; col; col = col->next){
-		ColRowInfo *ci = l->data;
-
-		if (ci->pos < start_col)
-			continue;
-		if (ci->pos > end_col)
-			break;
-
-		for (row = (GList *) col->data; row; row = row->data){
-			ColRowInfo *ri = l->data;
-
-			if (ri->pos < start_row)
-				continue;
-
-			if (ri->pos > end_row)
-				break;
-
-			v = (*callback)(sheet, (Cell *) ri->data);
-
-			/* If the callback wishes to stop, return */
-			if (v)
-				return;
-		}
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (text != NULL);
+	
+	cell->parsed_node = expr_parse_string (&text [1],
+					       cell->col->pos,
+					       cell->row->pos,
+					       &error_msg);
+	if (cell->parsed_node == NULL){
+		if (cell->text)
+			string_unref_ptr (&cell->text);
+		cell->text = string_get (error_msg);
+		return;
 	}
+
+	cell_formula_link (cell);
+	cell_add_dependencies (cell);
+	cell_queue_recalc (cell);
 }
 
-Cell *
-sheet_cell_new (Sheet *sheet, int col, int row)
+void
+cell_set_text (Cell *cell, char *text)
 {
-	Cell *cell = g_new0 (cell, 1);
-
-	cell->col = sheet_col_find (sheet, col);
-	cell->row = sheet_row_find (sheet, row);
-
-	cell->style = sheet_compute_style (sheet, col, row);
-	return cell;
-}
-
-Cell *
-sheet_cell_new_with_text (Sheet *sheet, int col, int row, char *text)
-{
-	Cell *cell;
 	GdkFont *font;
+	char    *rendered_text;
+	GList   *deps;
 	
-	cell = sheet_cell_new (sheet, col, row, text);
-	cell->text = g_strdup (text);
+	g_return_if_fail (cell != NULL);
+	g_return_if_fail (text != NULL);
+
+	/* The value entered */
+	if (cell->entered_text)
+		string_unref_ptr (&cell->entered_text);
+	cell->entered_text = string_get (text);
+	
+	if (cell->parsed_node){
+		cell_drop_dependencies (cell);
+		expr_tree_unref (cell->parsed_node);
+	}
+	
+	if (text [0] == '='){
+		cell_set_formula (cell, text); 
+	} else {
+		Value *v = g_new (Value, 1);
+		int is_text = 0, is_float = 0;
+		char *p;
+		
+		if (cell->text)
+			string_unref_ptr (&cell->text);
+
+		cell->text = string_get (text);
+
+		for (p = text; *p && !is_text; p++){
+			switch (*p){
+			case '0': case '1': case '2': case '3': case '4':
+			case '5': case '6': case '7': case '8': case '9':
+				break;
+				
+			case 'E': case 'e': case '+': case ':': case '.':
+				is_float = 1;
+				break;
+			default:
+				is_text = 1;
+			}
+		}
+		if (is_text){
+			v->type = VALUE_STRING;
+			v->v.str = string_get (text);
+		} else {
+			if (is_float){
+				v->type = VALUE_FLOAT;
+				float_get_from_range (text, text+strlen(text),
+						      &v->v.v_float);
+			} else {
+				v->type = VALUE_INTEGER;
+				int_get_from_range (text, text+strlen (text),
+						    &v->v.v_int);
+			}
+			/* FIXME: */
+			/* In this case we need to format the text */
+		}
+		cell->value = v;
+	}
+
+	/* Queue all of the dependencies for this cell */
+	deps = cell_get_dependencies (cell->sheet,
+				      cell->col->pos,
+				      cell->row->pos);
+	if (deps)
+		cell_queue_recalc_list (deps);
+
+	
+	/* Finish setting the values for this cell */
+	cell->flags = 0;
+
+	rendered_text = CELL_TEXT_GET (cell);
+	
 	font = cell->style->font->font;
-	cell->width = gdk_text_width (font, text, strlen (text));
-	cell->height = font->ascent + font->descent;
 	
-	return cell;
+	cell->width = cell->col->margin_a + cell->col->margin_b + 
+		gdk_text_width (font, rendered_text, strlen (rendered_text));
+	cell->height = font->ascent + font->descent;
 }

@@ -51,36 +51,34 @@ gnumeric_sheet_create (Sheet *sheet, GtkWidget *entry)
 }
 
 void
-gnumeric_sheet_cursor_set (GnumericSheet *sheet, int col, int row)
+gnumeric_sheet_cursor_set (GnumericSheet *gsheet, int col, int row)
 {
-	g_return_if_fail (GNUMERIC_IS_SHEET (sheet));
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
-	sheet->cursor_col = col;
-	sheet->cursor_row = row;
+	gsheet->cursor_col = col;
+	gsheet->cursor_row = row;
 }
 
 void
-gnumeric_sheet_set_current_value (GnumericSheet *sheet)
+gnumeric_sheet_set_current_value (GnumericSheet *gsheet)
 {
 	Cell *cell;
 	int  col, row;
 	
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (GNUMERIC_IS_SHEET (sheet));
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
-	col = sheet->cursor_col;
-	row = sheet->cursor_row;
-	cell = sheet_cell_get (sheet->sheet, col, row);
+	col = gsheet->cursor_col;
+	row = gsheet->cursor_row;
+	cell = sheet_cell_get (gsheet->sheet, col, row);
 	if (!cell)
-		cell = sheet_cell_new (sheet->sheet, sheet->cursor_col, sheet->cursor_row);
+		cell = sheet_cell_new (gsheet->sheet, gsheet->cursor_col, gsheet->cursor_row);
 	
-	cell_set_text (sheet->sheet, cell, gtk_entry_get_text (GTK_ENTRY (sheet->entry)));
-	if (sheet->selection)
-		stop_cell_selection (sheet);
-#if 0
-	sheet_brute_force_recompute (sheet->sheet);
-	sheet_redraw_all (sheet->sheet);
-#endif
+	cell_set_text (cell, gtk_entry_get_text (GTK_ENTRY (gsheet->entry)));
+	if (gsheet->selection)
+		stop_cell_selection (gsheet);
+
+	workbook_recalc (gsheet->sheet->workbook);
 }
 
 static void
@@ -99,16 +97,16 @@ destroy_item_editor (GnumericSheet *gsheet)
 }
 
 void
-gnumeric_sheet_accept_pending_output (GnumericSheet *sheet)
+gnumeric_sheet_accept_pending_output (GnumericSheet *gsheet)
 {
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (GNUMERIC_IS_SHEET (sheet));
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
-	if (!sheet->item_editor)
+	if (!gsheet->item_editor)
 		return;
 
-	gnumeric_sheet_set_current_value (sheet);
-	destroy_item_editor (sheet);
+	gnumeric_sheet_set_current_value (gsheet);
+	destroy_item_editor (gsheet);
 }
 
 void
@@ -122,7 +120,7 @@ gnumeric_sheet_load_cell_val (GnumericSheet *gsheet)
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	
 	sheet = gsheet->sheet;
-	wb = sheet->parent_workbook;
+	wb = sheet->workbook;
 	entry = wb->ea_input;
 
 	cell = sheet_cell_get (sheet, gsheet->cursor_col, gsheet->cursor_row);
@@ -145,44 +143,44 @@ gnumeric_sheet_load_cell_val (GnumericSheet *gsheet)
  * placed at start_col, start_row
  */
 void
-gnumeric_sheet_set_selection (GnumericSheet *sheet, SheetSelection *ss)
+gnumeric_sheet_set_selection (GnumericSheet *gsheet, SheetSelection *ss)
 {
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (ss != NULL);
-	g_return_if_fail (GNUMERIC_IS_SHEET (sheet));
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
-	gnumeric_sheet_cursor_set (sheet, ss->start_col, ss->start_row);
-	item_cursor_set_bounds (sheet->item_cursor,
+	gnumeric_sheet_cursor_set (gsheet, ss->start_col, ss->start_row);
+	item_cursor_set_bounds (gsheet->item_cursor,
 				ss->start_col, ss->start_row,
 				ss->end_col, ss->end_row);
 }
 
 static void
-start_editing_at_cursor (GnumericSheet *sheet, GtkWidget *entry)
+start_editing_at_cursor (GnumericSheet *gsheet, GtkWidget *entry)
 {
 	GnomeCanvasItem *item;
-	GnomeCanvas *canvas = GNOME_CANVAS (sheet);
+	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 	Cell *cell;
 
 	gtk_entry_set_text (GTK_ENTRY(entry), "");
 	item = gnome_canvas_item_new (GNOME_CANVAS_GROUP(canvas->root),
 				      item_edit_get_type (),
-				      "ItemEdit::Sheet",    sheet->sheet,
-				      "ItemEdit::Grid",     sheet->item_grid,
-				      "ItemEdit::Col",      sheet->cursor_col,
-				      "ItemEdit::Row",      sheet->cursor_row,
+				      "ItemEdit::Sheet",    gsheet->sheet,
+				      "ItemEdit::Grid",     gsheet->item_grid,
+				      "ItemEdit::Col",      gsheet->cursor_col,
+				      "ItemEdit::Row",      gsheet->cursor_row,
 				      "ItemEdit::GtkEntry", entry,
 				      NULL);
 
-	cell = sheet_cell_get (sheet->sheet, sheet->cursor_col, sheet->cursor_row);
+	cell = sheet_cell_get (gsheet->sheet, gsheet->cursor_col, gsheet->cursor_row);
 
 	if (cell){
-		sheet->editing_saved_text = cell->entered_text;
-		sheet->editing_cell = cell;
-		string_ref (sheet->editing_saved_text);
-		cell_set_text (sheet->sheet, cell, "");
+		gsheet->editing_saved_text = cell->entered_text;
+		gsheet->editing_cell = cell;
+		string_ref (gsheet->editing_saved_text);
+		cell_set_text (cell, "");
 	}
-	sheet->item_editor = ITEM_EDIT (item);
+	gsheet->item_editor = ITEM_EDIT (item);
 }
 
 /*
@@ -340,7 +338,7 @@ cancel_pending_input (GnumericSheet *gsheet)
 	stop_cell_selection (gsheet);
 	
 	if (gsheet->item_editor){
-		cell_set_text (gsheet->sheet, gsheet->editing_cell,
+		cell_set_text (gsheet->editing_cell,
 			       gsheet->editing_saved_text->str);
 		destroy_item_editor (gsheet);
 	}
@@ -503,11 +501,11 @@ selection_expand_vertical (GnumericSheet *gsheet, int dir)
 static gint
 gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 {
-	GnumericSheet *sheet = GNUMERIC_SHEET (widget);
-	Workbook *wb = sheet->sheet->parent_workbook;
+	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
+	Workbook *wb = gsheet->sheet->workbook;
 	void (*movefn_horizontal) (GnumericSheet *, int);
 	void (*movefn_vertical)   (GnumericSheet *, int);
-	int  cursor_move = gnumeric_sheet_can_move_cursor (sheet);
+	int  cursor_move = gnumeric_sheet_can_move_cursor (gsheet);
 
 	if ((event->state & GDK_SHIFT_MASK) != 0){
 		if (cursor_move){
@@ -541,28 +539,28 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 	
 	switch (event->keyval){
 	case GDK_Left:
-		(*movefn_horizontal)(sheet, -1);
+		(*movefn_horizontal)(gsheet, -1);
 		break;
 
 	case GDK_Right:
-		(*movefn_horizontal)(sheet, 1);
+		(*movefn_horizontal)(gsheet, 1);
 		break;
 
 	case GDK_Up:
-		(*movefn_vertical)(sheet, -1);
+		(*movefn_vertical)(gsheet, -1);
 		break;
 
 	case GDK_Down:
-		(*movefn_vertical)(sheet, 1);
+		(*movefn_vertical)(gsheet, 1);
 		break;
 
 	case GDK_Return:
 		g_warning ("FIXME: Should move to next cell in selection\n");
-		move_cursor (sheet, sheet->cursor_col, sheet->cursor_row, 0);
+		move_cursor (gsheet, gsheet->cursor_col, gsheet->cursor_row, 0);
 		break;
 
 	case GDK_Escape:
-		cancel_pending_input (sheet);
+		cancel_pending_input (gsheet);
 		break;
 		
 	case GDK_F2:
@@ -570,14 +568,14 @@ gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
 		/* fallback */
 
 	default:
-		if (!sheet->item_editor){
+		if (!gsheet->item_editor){
 			if (event->keyval >= 0x20 && event->keyval <= 0xff)
-			    start_editing_at_cursor (sheet, wb->ea_input);
+			    start_editing_at_cursor (gsheet, wb->ea_input);
 		}
-		stop_cell_selection (sheet);
+		stop_cell_selection (gsheet);
 		
 		/* Forward the keystroke to the input line */
-		gtk_widget_event (sheet->entry, (GdkEvent *) event);
+		gtk_widget_event (gsheet->entry, (GdkEvent *) event);
 		
 	}
 	return 1;
@@ -599,7 +597,7 @@ gnumeric_sheet_new (Sheet *sheet, ItemBar *colbar, ItemBar *rowbar)
 	g_return_val_if_fail (IS_ITEM_BAR (colbar), NULL);
 	g_return_val_if_fail (IS_ITEM_BAR (rowbar), NULL);
 
-	entry = sheet->parent_workbook->ea_input;
+	entry = sheet->workbook->ea_input;
 	gsheet = gnumeric_sheet_create (sheet, entry);
 	gnome_canvas_set_size (GNOME_CANVAS (gsheet), 300, 100);
 	/* FIXME: figure out some real size for the canvas scrolling region */

@@ -19,21 +19,21 @@
  * A parsing context.
  */
 typedef struct parseXmlContext {
-    xmlDocPtr doc;         /* Xml document */
-    xmlDtdPtr ns;          /* Main name space */
+    xmlDocPtr  doc;        /* Xml document */
+    xmlDtdPtr  ns;         /* Main name space */
     xmlNodePtr parent;     /* used only for g_hash_table_foreach callbacks */
     GHashTable *nameTable; /* to reproduce multiple refs with HREFs */
-    int fontIdx;           /* for Font refs names ... */
+    int        fontIdx;    /* for Font refs names ... */
 } parseXmlContext, *parseXmlContextPtr;
 
-static xmlDtdPtr xmlGetNamespace(xmlDocPtr xml, const char *href);
-static Sheet *readXmlSheet(parseXmlContextPtr ctxt, xmlNodePtr tree);
-static xmlNodePtr writeXmlSheet(parseXmlContextPtr ctxt, Sheet *sheet);
-static Workbook *readXmlWorkbook(parseXmlContextPtr ctxt, xmlNodePtr tree);
-static xmlNodePtr writeXmlWorkbook(parseXmlContextPtr ctxt, Workbook *wb);
-static guint ptrHash(gconstpointer a);
-static gint ptrCompare(gconstpointer a, gconstpointer b);
-static void nameFree(gpointer key, gpointer value, gpointer user_data);
+static xmlDtdPtr   xmlGetNamespace  (xmlDocPtr xml, const char *href);
+static Sheet      *readXmlSheet     (parseXmlContextPtr ctxt, xmlNodePtr tree);
+static xmlNodePtr  writeXmlSheet    (parseXmlContextPtr ctxt, Sheet *sheet);
+static Workbook   *readXmlWorkbook  (parseXmlContextPtr ctxt, xmlNodePtr tree);
+static xmlNodePtr  writeXmlWorkbook (parseXmlContextPtr ctxt, Workbook *wb);
+static guint       ptrHash          (gconstpointer a);
+static gint        ptrCompare       (gconstpointer a, gconstpointer b);
+static void        nameFree         (gpointer key, gpointer value, gpointer user_data);
 
 
 /**
@@ -437,7 +437,7 @@ static xmlNodePtr writeXmlCell(parseXmlContextPtr ctxt, Cell *cell) {
     xmlNodePtr cur;
     char str[50];
     
-    cur = xmlNewNode(ctxt->ns, "Cell", cell->entered_text);
+    cur = xmlNewNode(ctxt->ns, "Cell", cell->entered_text->str);
     sprintf(str, "%d", cell->col->pos);
     xmlNewProp(cur, "Col", str);
     sprintf(str, "%d", cell->row->pos);

@@ -13,22 +13,25 @@
 #include "utils.h"
 #include "eval.h"
 
-static GList *dependency_hash;
+static GHashTable *dependency_hash;
 
 void
-sheet_compute_cell (Sheet *sheet, Cell *cell)
+cell_eval (Cell *cell)
 {
 	char *error_msg;
 	Value *v;
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (cell != NULL);
+
+	if (cell->iteration == MAX_ITERATIONS(cell))
+		return;
 	
+	cell->iteration++;
+		
 	if (cell->text)
 		string_unref_ptr (&cell->text);
 	
-	v = eval_expr (sheet, cell->parsed_node,
+	v = eval_expr (cell->sheet, cell->parsed_node,
 		       cell->col->pos,
 		       cell->row->pos,
 		       &error_msg);
@@ -47,19 +50,11 @@ sheet_compute_cell (Sheet *sheet, Cell *cell)
 		cell->text  = string_get (str);
 		g_free (str);
 	}
-}
 
-static void
-sheet_recompute_one_cell (Sheet *sheet, int col, int row, Cell *cell)
-{
-	if (cell->parsed_node == NULL)
-		return;
-
-	printf ("recomputing %d %d\n", col, row);
-	sheet_compute_cell (sheet, cell);
-	sheet_redraw_cell_region (sheet,
+	sheet_redraw_cell_region (cell->sheet,
 				  cell->col->pos, cell->row->pos,
 				  cell->col->pos, cell->row->pos);
+	cell->iteration--;
 }
 
 /*
@@ -89,11 +84,11 @@ dependency_equal (gconstpointer v, gconstpointer v2)
  * Hash function for DependencyRange structures
  */
 static guint
-dependency_hash (gconstpointer v)
+dependency_hash_func (gconstpointer v)
 {
-	DependencyRange *r = v;
+	const DependencyRange *r = v;
 
-	return (((r->start_row << 8) + (r->end_row) << 8) +
+	return ((((r->start_row << 8) + r->end_row) << 8) +
 		(r->start_col << 8) + (r->end_col));
 }
 
@@ -103,7 +98,7 @@ dependency_hash (gconstpointer v)
 static void
 dependency_hash_init (void)
 {
-	dependency_hash = g_hash_table_new (dependency_hash, dependency_equal);
+	dependency_hash = g_hash_table_new (dependency_hash_func, dependency_equal);
 }
 
 /*
@@ -113,7 +108,7 @@ dependency_hash_init (void)
  * We compute the location from cell->row->pos and cell->col->pos
  */
 static void
-add_cell_range_deps (Sheet *sheet, Cell *cell, CellRef *a, CellRef *b)
+add_cell_range_deps (Cell *cell, CellRef *a, CellRef *b)
 {
 	DependencyRange range, *result;
 	int col = cell->col->pos;
@@ -122,19 +117,20 @@ add_cell_range_deps (Sheet *sheet, Cell *cell, CellRef *a, CellRef *b)
 	/* Convert to absolute cordinates */
 	cell_get_abs_col_row (a, col, row, &range.start_col, &range.start_row);
 	cell_get_abs_col_row (b, col, row, &range.end_col,   &range.end_row);
-	
-	range.sheet = sheet;
+
+	range.ref_count = 0;
+	range.sheet = cell->sheet;
 
 	/* Look it up */
 	result = g_hash_table_lookup (dependency_hash, &range);
 	if (result){
-		Cell *cell;
-
+		GList *cl;
+		
 		result->ref_count++;
 
 		/* Is the cell already listed? */
-		cell = g_list_find (result->cell_list, cell);
-		if (cell)
+		cl = g_list_find (result->cell_list, cell);
+		if (cl)
 			return;
 
 		/* It was not: add it */
@@ -145,8 +141,8 @@ add_cell_range_deps (Sheet *sheet, Cell *cell, CellRef *a, CellRef *b)
 	/* Create a new DependencyRange structure */ 
 	result = g_new (DependencyRange, 1);
 	*result = range;
-	range.ref_count = 1;
-	range.cell_list = g_list_insert (NULL, cell);
+	result->ref_count = 1;
+	result->cell_list = g_list_prepend (NULL, cell);
 	
 	g_hash_table_insert (dependency_hash, result, result);
 }
@@ -155,11 +151,11 @@ add_cell_range_deps (Sheet *sheet, Cell *cell, CellRef *a, CellRef *b)
  * Adds the dependencies for a Value
  */
 static void
-add_value_deps (Sheet *sheet, Cell *cell, Value *value)
+add_value_deps (Cell *cell, Value *value)
 {
 	GList *l;
 	
-	switch (v->type){
+	switch (value->type){
 	case VALUE_STRING:
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
@@ -169,14 +165,14 @@ add_value_deps (Sheet *sheet, Cell *cell, Value *value)
 		/* Check every element of the array */
 	case VALUE_ARRAY:
 		for (l = value->v.array; l; l = l->next)
-			add_value_deps (sheet, cell, l->data);
+			add_value_deps (cell, l->data);
 		break;
 		
 	case VALUE_CELLRANGE:
 		add_cell_range_deps (
-			sheet, cell,
-			v->cell_range.cell_a,
-			v->cell_range.cell_b);
+			cell,
+			&value->v.cell_range.cell_a,
+			&value->v.cell_range.cell_b);
 		break;
 	}
 }
@@ -186,8 +182,10 @@ add_value_deps (Sheet *sheet, Cell *cell, Value *value)
  * and cell range references.
  */
 static void
-add_tree_deps (Sheet *sheet, Cell *cell, ExprTree *tree)
+add_tree_deps (Cell *cell, ExprTree *tree)
 {
+	GList *l;
+	
 	switch (tree->oper){
 	case OP_EQUAL:
 	case OP_NOT_EQUAL:
@@ -201,28 +199,28 @@ add_tree_deps (Sheet *sheet, Cell *cell, ExprTree *tree)
 	case OP_DIV:
 	case OP_EXP:
 	case OP_CONCAT:
-		add_tree_deps (sheet, cell, tree->u.binary.value_a);
-		add_tree_deps (sheet, cell, tree->u.binary.value_b);
+		add_tree_deps (cell, tree->u.binary.value_a);
+		add_tree_deps (cell, tree->u.binary.value_b);
 		return;
 
 	case OP_CONSTANT:
-		add_value_deps (sheet, cell, tree->u.constant);
+		add_value_deps (cell, tree->u.constant);
 		return;
 
 	case OP_FUNCALL: 
 		for (l = tree->u.function.arg_list; l; l = l->next)
-			add_tree_deps (sheet, cell, l->data);
+			add_tree_deps (cell, l->data);
 		return;
 
 	case OP_VAR: 
 		add_cell_range_deps (
-			sheet, cell,
-			cell->u.constant->v.cell,
-			cell->u.constant->v.cell);
+			cell,
+			&tree->u.constant->v.cell,
+			&tree->u.constant->v.cell);
 		return;
 
 	case OP_NEG:
-		add_value_deps (sheet, cell, tree->u.value);
+		add_tree_deps (cell, tree->u.value);
 		return;
 	
 	} /* switch */
@@ -234,17 +232,15 @@ add_tree_deps (Sheet *sheet, Cell *cell, ExprTree *tree)
  * parsed expression.
  */
 void
-cell_add_dependencies (Cell *cell, Sheet *sheet)
+cell_add_dependencies (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (cell->parsed_node != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
 	
 	if (!dependency_hash)
 		dependency_hash_init ();
 
-	add_tree_deps (sheet, cell, cell->parsed_node);
+	add_tree_deps (cell, cell->parsed_node);
 }
 
 /*
@@ -264,8 +260,9 @@ dependency_remove_cell (gpointer key, gpointer value, gpointer the_cell)
 	list = g_list_find (range->cell_list, the_cell);
 	if (!list)
 		return;
-	
+
 	range->cell_list = g_list_remove_link (range->cell_list, list);
+	
 	range->ref_count--;
 
 	if (range->ref_count == 0)
@@ -285,12 +282,14 @@ cell_drop_dependencies (Cell *cell)
 	
 	g_hash_table_foreach (dependency_hash, dependency_remove_cell, cell);
 
-	/* Drop any unused DependencyRanges (because their ref_count reached zero */
+	/* Drop any unused DependencyRanges (because their ref_count reached zero) */
 	if (remove_list){
 		GList *l = remove_list;
 		
-		for (; l ; l = l->next)
+		for (; l ; l = l->next){
+			g_hash_table_remove (dependency_hash, l->data);
 			g_free (l->data);
+		}
 		
 		g_list_free (remove_list);
 		remove_list = NULL;
@@ -307,18 +306,24 @@ typedef struct {
 static void
 search_cell_deps (gpointer key, gpointer value, gpointer closure)
 {
-	DependencyRanges *range = key;
+	DependencyRange *range = key;
 	get_dep_closure_t *c = closure;
-
+	GList *l;
+	
 	if (!((c->col >= range->start_col) &&
 	      (c->col <= range->end_col)   &&
 	      (c->row >= range->start_row) &&
-	      (c->col <= range->end_row)   &&
+	      (c->row <= range->end_row)   &&
 	      (c->sheet = range->sheet)))
 		return;
 
-	for (l = range->cell_list; l; l = l->next)
-		c->list = g_list_prepend (c->list, l->data);
+	for (l = range->cell_list; l; l = l->next){
+		Cell *cell = l->data;
+		
+		c->list = g_list_prepend (c->list, cell);
+
+		printf ("Cell: %d,%d\n", cell->col->pos, cell->row->pos);
+	}
 }
 
 GList *
@@ -326,16 +331,66 @@ cell_get_dependencies (Sheet *sheet, int col, int row)
 {
 	get_dep_closure_t closure;
 
+	if (!dependency_hash)
+		dependency_hash_init ();
+	
 	closure.col = col;
 	closure.row = row;
 	closure.sheet = sheet;
 	closure.list = NULL;
-	
-	g_hash_table_foreach (dependency_hash, &search_cell_deps, closure);
+
+	printf ("Looking for dependencies of %d,%d\n", col, row);
+	g_hash_table_foreach (dependency_hash, &search_cell_deps, &closure);
 
 	return closure.list;
 }
 
-sheet_queue_cell_compute (Sheet *sheet, Cell *cell)
+void
+cell_queue_recalc (Cell *cell)
 {
+	Workbook *wb;
+
+	g_return_if_fail (cell != NULL);
+	
+	wb = ((Sheet *)cell->sheet)->workbook;
+	wb->eval_queue = g_list_prepend (wb->eval_queue, cell);
+}
+
+void
+cell_queue_recalc_list (GList *list)
+{
+	Workbook *wb;
+	Cell *first_cell;
+	
+	if (!list)
+		return;
+
+	first_cell = list->data;
+	wb = ((Sheet *)(first_cell->sheet))->workbook;
+
+	wb->eval_queue = g_list_concat (wb->eval_queue, list);
+}
+
+static Cell *
+pick_next_cell_from_queue (Workbook *wb)
+{
+	Cell *cell;
+
+	if (!wb->eval_queue)
+		return NULL;
+	
+	cell = wb->eval_queue->data;
+	wb->eval_queue = g_list_remove (wb->eval_queue, cell);
+	return cell;
+}
+
+void
+workbook_recalc (Workbook *wb)
+{
+	Cell *cell;
+	
+	while ((cell = pick_next_cell_from_queue (wb))){
+		printf ("Processing %d %d\n", cell->col->pos, cell->row->pos);
+		cell_eval (cell);
+	}
 }

@@ -209,7 +209,7 @@ sheet_new (Workbook *wb, char *name)
 	
 	sheet = g_new0 (Sheet, 1);
 	sheet->signature = SHEET_SIGNATURE;
-	sheet->parent_workbook = wb;
+	sheet->workbook = wb;
 	sheet->name = g_strdup (name);
 	sheet->last_zoom_factor_used = -1.0;
 	sheet->toplevel = gtk_table_new (0, 0, 0);
@@ -606,7 +606,7 @@ workbook_label_set (Workbook *wb, char *text)
 static void
 sheet_selection_changed_hook (Sheet *sheet)
 {
-	Workbook *wb = sheet->parent_workbook;
+	Workbook *wb = sheet->workbook;
 	Value *v;
 	char  *error;
 	
@@ -1312,6 +1312,7 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	g_return_val_if_fail (IS_SHEET (sheet), NULL); 
 
 	cell = g_new0 (Cell, 1);
+	cell->sheet = sheet;
 	cell->col   = sheet_col_get (sheet, col);
 	cell->row   = sheet_row_get (sheet, row);
 	cell->style = sheet_style_compute (sheet, col, row);
@@ -1328,115 +1329,4 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	return cell;
 }
 
-static void
-cell_formula_link (Sheet *sheet, Cell *cell)
-{
-	sheet->formula_cell_list = g_list_insert (sheet->formula_cell_list, cell);
-}
-
-static void
-cell_formula_unlink (Sheet *sheet, Cell *cell)
-{
-	sheet->formula_cell_list = g_list_remove (sheet->formula_cell_list, cell);
-}
-
-void
-cell_set_formula (Sheet *sheet, Cell *cell, char *text)
-{
-	char *error_msg = NULL;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet)); 
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (text != NULL);
-	
-	cell->parsed_node = expr_parse_string (&text [1],
-					       cell->col->pos,
-					       cell->row->pos,
-					       &error_msg);
-	if (cell->parsed_node == NULL){
-		if (cell->text)
-			string_unref_ptr (&cell->text);
-		cell->text = string_get (error_msg);
-		return;
-	}
-
-	cell_formula_link (sheet, cell);
-	sheet_compute_cell (sheet, cell);
-}
-
-
-void
-cell_set_text (Sheet *sheet, Cell *cell, char *text)
-{
-	GdkFont *font;
-	char    *rendered_text;
-	
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet)); 
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (text != NULL);
-
-	/* The value entered */
-	if (cell->entered_text)
-		string_unref_ptr (&cell->entered_text);
-	cell->entered_text = string_get (text);
-	
-	if (cell->parsed_node)
-		expr_tree_unref (cell->parsed_node);
-	
-	if (text [0] == '='){
-		cell_set_formula (sheet, cell, text); 
-	} else {
-		Value *v = g_new (Value, 1);
-		int is_text = 0, is_float = 0;
-		char *p;
-		
-		if (cell->text)
-			string_unref_ptr (&cell->text);
-
-		cell->text = string_get (text);
-
-		for (p = text; *p && !is_text; p++){
-			switch (*p){
-			case '0': case '1': case '2': case '3': case '4':
-			case '5': case '6': case '7': case '8': case '9':
-				break;
-				
-			case 'E': case 'e': case '+': case ':': case '.':
-				is_float = 1;
-				break;
-			default:
-				is_text = 1;
-			}
-		}
-		if (is_text){
-			v->type = VALUE_STRING;
-			v->v.str = string_get (text);
-		} else {
-			if (is_float){
-				v->type = VALUE_FLOAT;
-				float_get_from_range (text, text+strlen(text),
-						      &v->v.v_float);
-			} else {
-				v->type = VALUE_INTEGER;
-				int_get_from_range (text, text+strlen (text),
-						    &v->v.v_int);
-			}
-			/* FIXME: */
-			/* In this case we need to format the text */
-		}
-		cell->value = v;
-	}
-
-	/* No default color */
-	cell->flags = 0;
-
-	rendered_text = CELL_TEXT_GET (cell);
-	
-	font = cell->style->font->font;
-	cell->width = cell->col->margin_a + cell->col->margin_b + 
-		gdk_text_width (font, rendered_text, strlen (rendered_text));
-	cell->height = font->ascent + font->descent;
-}
 

@@ -1,5 +1,13 @@
 1998-08-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/gnumeric-sheet.c: Renamed all references to (GnumericSheet
+	*) called "sheet" to "gsheet".
+
+	* src/sheet.h: Renamed parent_workbook in to be workbook.
+
+	* src/cell.h: Include a Sheet * in the cell.  Make routines that
+	required a Sheet parameter only use the Cell parameter now.
+
 	* src/eval.c (add_tree_deps, cell_add_dependencies,
 	add_value_deps, dependency_hash_init, dependency_hash,
 	dependency_equal): New functions to maintain the

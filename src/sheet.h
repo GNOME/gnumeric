@@ -29,6 +29,8 @@ typedef struct {
 	/* A list with all of the formulas */
 	GList      *formula_cell_list;
 
+	/* A queue with the cells to be evaluated */
+	GList      *eval_queue;
 	int        max_iterations;
 } Workbook;
 
@@ -41,7 +43,7 @@ typedef struct {
 typedef struct {
 	int        signature;
 	
-	Workbook   *parent_workbook;
+	Workbook   *workbook;
 	GtkWidget  *toplevel, *col_canvas, *row_canvas;
 	GtkWidget  *sheet_view;
 	GnomeCanvasItem *col_item, *row_item;
@@ -114,8 +116,6 @@ int         sheet_cell_foreach_range  (Sheet *sheet, int only_existing,
 				       sheet_cell_foreach_callback callback,
 				       void *closure);
 Cell       *sheet_cell_get            (Sheet *sheet, int col, int row);
-void        cell_set_text             (Sheet *sheet, Cell *cell, char *text);
-void        cell_set_formula          (Sheet *sheet, Cell *cell, char *text);
 
 /* Create new ColRowInfos from the default sheet style */
 ColRowInfo *sheet_col_new             (Sheet *sheet);
@@ -156,11 +156,19 @@ void        sheet_redraw_cell_region  (Sheet *sheet, int start_col, int start_ro
 void        sheet_redraw_selection    (Sheet *sheet, SheetSelection *ss);
 void        sheet_redraw_all          (Sheet *sheet);
 
+/*
+ * Workbook
+ */
 Workbook   *workbook_new                 (void);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
 void        workbook_attach_sheet        (Workbook *, Sheet *);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);
+
+/*
+ * Does any pending recalculations
+ */
+void        workbook_recalc              (Workbook *wb);
 
 /*
  * Callback routine: invoked when the first view ItemGrid
