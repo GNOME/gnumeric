@@ -76,11 +76,6 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		if (!name)
 			return;  /* Just ignore */
 
-		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
-				 _("Connecting to a different display has been disabled "
-				   "due to bugs in GTK+."));
-		return;
-
 		display = gdk_display_open (name);
 		if (!display) {		
 			char *error_str =

@@ -327,8 +327,9 @@ foo_canvas_item_dispose (GObject *object)
 	}
 
 	if (item == item->canvas->grabbed_item) {
+		GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
 		item->canvas->grabbed_item = NULL;
-		gdk_pointer_ungrab (GDK_CURRENT_TIME);
+		gdk_display_pointer_ungrab (display, GDK_CURRENT_TIME);
 	}
 
 	if (item == item->canvas->focused_item)
@@ -879,14 +880,16 @@ foo_canvas_item_grab (FooCanvasItem *item, guint event_mask, GdkCursor *cursor, 
 void
 foo_canvas_item_ungrab (FooCanvasItem *item, guint32 etime)
 {
+	GdkDisplay *display;
+
 	g_return_if_fail (FOO_IS_CANVAS_ITEM (item));
 
 	if (item->canvas->grabbed_item != item)
 		return;
 
+	display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
 	item->canvas->grabbed_item = NULL;
-
-	gdk_pointer_ungrab (etime);
+	gdk_display_pointer_ungrab (display, etime);
 }
 
 
@@ -2120,8 +2123,9 @@ shutdown_transients (FooCanvas *canvas)
 	}
 
 	if (canvas->grabbed_item) {
+		GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (canvas));
 		canvas->grabbed_item = NULL;
-		gdk_pointer_ungrab (GDK_CURRENT_TIME);
+		gdk_display_pointer_ungrab (display, GDK_CURRENT_TIME);
 	}
 
 	remove_idle (canvas);

@@ -159,6 +159,7 @@ fixed_page_scroll_value_changed (GtkAdjustment *adjustment, DruidPageData_t *dat
 static gboolean
 fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *event, DruidPageData_t *data)
 {
+	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (canvas));
 	FixedInfo_t *info = data->fixed_info;
 	GdkCursor *cursor;
 	double worldx, worldy;
@@ -170,7 +171,7 @@ fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *even
 
 	if (column != -1 || info->fixed_run_mousedown) {
 
-		cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
+		cursor = gdk_cursor_new_for_display (display, GDK_SB_H_DOUBLE_ARROW);
 		gdk_window_set_cursor (canvas->layout.bin_window, cursor);
 		gdk_cursor_unref (cursor);
 
@@ -231,7 +232,7 @@ fixed_page_canvas_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *even
 		}
 	} else {
 
-		cursor = gdk_cursor_new (GDK_HAND2);
+		cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
 		gdk_window_set_cursor (canvas->layout.bin_window, cursor);
 		gdk_cursor_unref (cursor);
 	}

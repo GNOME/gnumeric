@@ -1,3 +1,8 @@
+2003-05-22  Morten Welinder  <terra@gnome.org>
+
+	* widget-editable-label.c (el_set_cursor): Set cursor for the
+	right display.
+
 2003-05-19  Morten Welinder  <terra@gnome.org>
 
 	* gnumeric-cell-renderer-toggle.c

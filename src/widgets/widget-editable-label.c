@@ -86,7 +86,8 @@ el_set_style_label (EditableLabel *el)
 static void
 el_set_cursor (GtkEntry *entry, GdkCursorType cursor_type)
 {
-	GdkCursor *cursor = gdk_cursor_new (cursor_type);
+	GdkDisplay *display = gtk_widget_get_display (GTK_WIDGET (entry));
+	GdkCursor *cursor = gdk_cursor_new_for_display (display, cursor_type);
 	gdk_window_set_cursor (entry->text_area, cursor);
 	gdk_cursor_unref (cursor);
 }

@@ -1331,7 +1331,8 @@ cb_rotate_canvas_button (GnomeCanvas *canvas, GdkEventButton *event,
 		return TRUE;
 	} else if (event->type == GDK_BUTTON_RELEASE) {
 		if (state->align.motion_handle != 0) {
-			gdk_pointer_ungrab (event->time);
+			gdk_display_pointer_ungrab (gtk_widget_get_display (GTK_WIDGET (canvas)),
+						    event->time);
 			g_signal_handler_disconnect (canvas, state->align.motion_handle);
 			state->align.motion_handle = 0;
 		}
