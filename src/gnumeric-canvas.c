@@ -77,8 +77,10 @@ gnumeric_sheet_set_current_value (GnumericSheet *sheet)
 	cell_set_text (sheet->sheet, cell, gtk_entry_get_text (GTK_ENTRY (sheet->entry)));
 	if (sheet->selection)
 		stop_cell_selection (sheet);
+#if 0
 	sheet_brute_force_recompute (sheet->sheet);
 	sheet_redraw_all (sheet->sheet);
+#endif
 }
 
 void

@@ -5,45 +5,6 @@
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
  *
- * Recomputations:
-
- update_cell (cell)
-{
-  cells_referenced = eval_expression (cell->formula);
-  if (cells_referenced){
-      push_refs (cells_referenced);
-      return;
-  }
-  cell->cycle = current_cycle;
-  return eval (cell);
-}
-
-push_refs (list)
-{
-	foreach i in (list){
-		cell = findcell (i);
-		if (cell->cell_cycle = current_cycle)
-			loop;
-		else
-			push_cell(cell);
-	}
-}
-
-int
-eval_next_cell()
-{
-	cell = pop_cell (cell);
-	if (cell){
-		if (cell->cell_cycle == current_cycle)
-			--loop_counter;
-		else
-			loop_counter = 40;
-		update_cell (cell);
-		return loop_counter;
-	} else
-		return 0;
-}
-
  */
 #include <config.h>
 #include <gnome.h>
@@ -60,62 +21,6 @@ sheet_redraw_all (Sheet *sheet)
 	gnome_canvas_request_redraw (
 		GNOME_CANVAS (sheet->sheet_view),
 		0, 0, INT_MAX, INT_MAX);
-}
-
-static void
-sheet_compute_cell (Sheet *sheet, Cell *cell)
-{
-	char *error_msg;
-	Value *v;
-
-	if (cell->text)
-		string_unref_ptr (&cell->text);
-	
-	v = eval_expr (sheet, cell->parsed_node,
-		       cell->col->pos,
-		       cell->row->pos,
-		       &error_msg);
-
-	if (cell->value)
-		value_release (cell->value);
-	
-	if (v == NULL){
-		cell->text = string_get (error_msg);
-		cell->value = NULL;
-	} else {
-		/* FIXME: Use the format stuff */
-		char *str = value_string (v);
-		
-		cell->value = v;
-		cell->text  = string_get (str);
-		g_free (str);
-	}
-}
-
-static void
-recompute_one_cell (Sheet *sheet, int col, int row, Cell *cell, void *closure)
-{
-	if (cell->parsed_node == NULL)
-		return;
-
-	printf ("recomputing %d %d\n", col, row);
-	sheet_compute_cell (sheet, cell);
-	sheet_redraw_cell_region (sheet,
-				  cell->col->pos, cell->row->pos,
-				  cell->col->pos, cell->row->pos);
-}
-
-void
-sheet_brute_force_recompute (Sheet *sheet)
-{
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	printf ("mental retarted recomputation in progress!\n");
-	sheet_cell_foreach_range (sheet, 1,
-				  0, 0,
-				  SHEET_MAX_COLS, SHEET_MAX_ROWS,
-				  recompute_one_cell, NULL);
 }
 
 static void

@@ -18,11 +18,13 @@
 #include "utils.h"
 
 /* Allocation with disposal-on-error */ 
-static void *alloc_buffer   (int size);
-static void register_symbol (Symbol *sym);
-static void register_string (String *sym);
-static void alloc_clean     (void);
-static void alloc_list_free (void); 
+static void *alloc_buffer    (int size);
+static void register_symbol  (Symbol *sym);
+static void register_string  (String *sym);
+static void alloc_clean      (void);
+static void alloc_glist      (GList *l); 
+static void forget_glist     (GList *list);
+static void alloc_list_free  (void); 
 static void *v_new (void);
 	
 #define ERROR -1
@@ -32,7 +34,8 @@ typedef enum {
 	ALLOC_SYMBOL,
 	ALLOC_VALUE,
 	ALLOC_BUFFER,
-	ALLOC_STRING
+	ALLOC_STRING,
+	ALLOC_LIST
 } AllocType;
 
 /* How we keep track of them */ 
@@ -126,6 +129,13 @@ exp:	  NUMBER 	{ $$ = $1 }
         | CELLREF ':' CELLREF {}
 
 	| FUNCALL '(' arg_list ')' {
+		GList *l;
+		int i;
+
+		for (i = 0, l = $3; l; l = l->next){
+			printf ("Arg %d\n", i++);
+			dump_tree (l->data);
+		}
 		$$ = p_new (ExprTree);
 		$$->oper = OP_FUNCALL;
 		$$->u.function.symbol = $1->u.function.symbol;
@@ -133,8 +143,15 @@ exp:	  NUMBER 	{ $$ = $1 }
 	}
 	;
 
-arg_list: {}
-	| exp ',' arg_list { } 
+arg_list: exp {
+		$$ = g_list_prepend (NULL, $1);
+		alloc_glist ($$);
+        }
+	| exp ',' arg_list {
+		forget_glist ($3);
+		$$ = g_list_prepend ($3, $1);
+		alloc_glist ($$);
+	} 
 	;
 
 %%
@@ -444,6 +461,9 @@ alloc_clean (void)
 			
 		case ALLOC_VALUE:
 			clean_value ((Value *)rec->data);
+
+		case ALLOC_LIST:
+			g_list_free ((GList *) rec->data);
 		}
 		g_free (rec);
 	}
@@ -462,6 +482,31 @@ alloc_list_free (void)
 
 	g_list_free (l);
 	alloc_list = NULL;
+}
+
+static void
+alloc_glist (GList *list)
+{
+	AllocRec *a_info = g_new (AllocRec, 1);
+
+	a_info->type = ALLOC_LIST;
+	a_info->data = list;
+	alloc_list = g_list_prepend (alloc_list, a_info);
+}
+
+static void
+forget_glist (GList *list)
+{
+	GList *l;
+
+	for (l = alloc_list; l; l = l->next){
+		AllocRec *a_info = (AllocRec *) l->data;
+
+		if (a_info->type == ALLOC_LIST && a_info->data == list){
+			alloc_list = g_list_remove_link (alloc_list, l);
+			return;
+		}
+	}
 }
 
 /*

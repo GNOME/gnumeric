@@ -11,6 +11,8 @@ main (int argc, char *argv [])
 	string_init ();
 	style_init ();
 	symbol_init ();
+	functions_init ();
+	
 	current_workbook = workbook_new_with_sheets (1);
 	gtk_widget_show (current_workbook->toplevel);
 

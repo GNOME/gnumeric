@@ -90,7 +90,8 @@ void        sheet_selection_extend_horizontal (Sheet *sheet, int count);
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 
-void        sheet_brute_force_recompute       (Sheet *sheet);
+/* Computation */
+void        sheet_compute_cell        (Sheet *sheet, Cell *cell);
 
 /* Cell management */
 Cell       *sheet_cell_new            (Sheet *sheet, int col, int row);

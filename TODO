@@ -2,75 +2,21 @@
 
 GNOME Spread Sheet task list
 
-* New TODO:
+* Implement recalculation
+* Implement functions
+* Implement Ranges.
 
-1. Multiple column selection.
-2. Scrolling.
+* Edit
 
-* Drawing
+** Style
+*** Change
 
-  A routine based on the GnumericSheet widget (just a derivative of
-GnomeCanvas) to decorate the canvas: adding lines, rectangles, colored
-zones, etc.  This is needed for adding beautification features to
-Gnumeric.  Should be trivial to do, as the spreadsheet and every other
-component displayed on the screen is a Canvas Item running inside the
-Canvas.
+** Copy
+** Paste
+** Move
 
-  This probably should be done at the extension language level.
+* Scrolling
 
-* Parser
-  
-  The parser should understand the Excel syntax for expressions.  
-
-This is the API we need (I think we need this one).
-
-GList *evaluate (Sheet     *sheet, 
-		 char      *expression, 
-		 Type      *result_type,
-		 ValueType *val, 
-		 char      **error_string);
-
-Input values:
-	Sheet		Is the Sheet the cell is part of.
-	expression	Is the expression to be evaluated
-
-Return value:
-	GList *		A list of any cells referenced.
-
-Output values (pointed destination holds result)
-	result_type	Is set us the type of the expression, check
-			the header files for details.
-	val		The val union set properly to the computed expression
-			if no error was set.
-	error_string	if error_string is NULL, then no error was found,
-			otherwise it points to the error string that gets
-			displayed by the spreadsheet.
-
- The expressions parsed should be compatible with what Excel accepts.
-
-* Information formatting
-
-	Given the Cell structure in cell.h:
-
-	if the Cell->content_type is either VALUE_INTEGER or VALUE_FLOAT,
-        produce a formatted string based Excel-compatible format.
-
-	I should mention again this: The format that the routine takes
-	should be compatible with the Excel format.
-
-	Desired API:
-
-	char *format_number (char *format_string, Value value, GdkColor *computed_color)
-
-	Input values:
-		value	The value that is either a VALUE_INTEGER or
-			a VALUE_FLOAT
-
-	Returned value:
-	char*		The formatted string.
-
-	Other Output values:
-	computed_color	This is a GdkColor set to the color computed
-			by the format_number routine (yes, the format
-			can include colors for certain conditions).
-
+** Make current cell always visible
+** Nice page scrolling with tooltips
+** Scrollbar scrolling
