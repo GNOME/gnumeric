@@ -254,7 +254,9 @@ cb_tool_cancel_clicked (GtkWidget *button, GenericToolState *state)
  *
  **/
 void
-dialog_tool_init_buttons (GenericToolState *state, GtkSignalFunc ok_function)
+dialog_tool_init_buttons (GenericToolState *state,
+			  GtkSignalFunc ok_function,
+			  GtkSignalFunc close_function)
 {
 	state->ok_button = glade_xml_get_widget (state->gui, "okbutton");
 	g_signal_connect (G_OBJECT (state->ok_button),
@@ -263,9 +265,15 @@ dialog_tool_init_buttons (GenericToolState *state, GtkSignalFunc ok_function)
 
 	state->cancel_button = glade_xml_get_widget (state->gui,
 						     "cancelbutton");
-	g_signal_connect (G_OBJECT (state->cancel_button),
-			  "clicked",
-			  G_CALLBACK (cb_tool_cancel_clicked), state);
+	if (close_function == NULL)
+	        g_signal_connect (G_OBJECT (state->cancel_button),
+				  "clicked",
+				  G_CALLBACK (cb_tool_cancel_clicked), state);
+	else
+	        g_signal_connect (G_OBJECT (state->cancel_button),
+				  "clicked",
+				  G_CALLBACK (close_function), state);
+
 	state->apply_button = glade_xml_get_widget (state->gui, "applybutton");
 	if (state->apply_button != NULL )
 		g_signal_connect (G_OBJECT (state->apply_button),
@@ -308,6 +316,7 @@ dialog_tool_init (GenericToolState *state,
 		  char const *error_str,
 		  char const *key,
 		  GtkSignalFunc ok_function, 
+		  GtkSignalFunc close_function, 
 		  GtkSignalFunc sensitivity_cb,
 		  GnumericExprEntryFlags flags)
 {
@@ -334,7 +343,7 @@ dialog_tool_init (GenericToolState *state,
 		goto dialog_tool_init_error;
 
 
-	dialog_tool_init_buttons (state, ok_function);
+	dialog_tool_init_buttons (state, ok_function, close_function);
 
 	widget = glade_xml_get_widget (state->gui, "var1-label");
 	if (widget == NULL) {
@@ -627,7 +636,7 @@ dialog_correlation_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      "correlation.glade", "Correlation", NULL, NULL,
 			      _("Could not create the Correlation Tool dialog."),
 			      CORRELATION_KEY,
-			      G_CALLBACK (corr_tool_ok_clicked_cb),
+			      G_CALLBACK (corr_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (tool_update_sensitivity_cb),
 			      0))
 		return 0;
@@ -743,7 +752,7 @@ dialog_covariance_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      "covariance.glade", "Covariance", NULL, NULL,
 			      _("Could not create the Covariance Tool dialog."),
 			      COVARIANCE_KEY,
-			      G_CALLBACK (cov_tool_ok_clicked_cb),
+			      G_CALLBACK (cov_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (tool_update_sensitivity_cb),
 			      0))
 		return 0;
@@ -826,11 +835,13 @@ dialog_ranking_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (GenericToolState, 1);
 
-	if (dialog_tool_init (state, wbcg, sheet,  "rank-and-percentile-tool.html",
+	if (dialog_tool_init (state, wbcg, sheet,  
+			      "rank-and-percentile-tool.html",
 			      "rank.glade", "RankPercentile", NULL, NULL,
-			      _("Could not create the Rank and  Percentile Tools dialog."),
+			      _("Could not create the Rank and Percentile "
+				"Tools dialog."),
 			      RANK_PERCENTILE_KEY,
-			      G_CALLBACK (rank_tool_ok_clicked_cb),
+			      G_CALLBACK (rank_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (tool_update_sensitivity_cb),
 			      0))
 		return 0;
@@ -912,11 +923,14 @@ dialog_fourier_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (GenericToolState, 1);
 
-	if (dialog_tool_init (state, wbcg, sheet,  "fourier-analysis-tool.html",
-			      "fourier-analysis.glade", "FourierAnalysis", NULL, NULL,
-			      _("Could not create the Fourier Analysis Tool dialog."),
+	if (dialog_tool_init (state, wbcg, sheet,
+			      "fourier-analysis-tool.html",
+			      "fourier-analysis.glade", "FourierAnalysis",
+			      NULL, NULL,
+			      _("Could not create the Fourier Analysis Tool "
+				"dialog."),
 			      FOURIER_KEY,
-			      G_CALLBACK (fourier_tool_ok_clicked_cb),
+			      G_CALLBACK (fourier_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (tool_update_sensitivity_cb),
 			      0))
 		return 0;
@@ -1071,18 +1085,24 @@ dialog_descriptive_stat_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet, 
 			      "descriptive-statistics-tool.html",
-			      "descriptive-stats.glade", "DescStats", NULL, NULL,
-			      _("Could not create the Descriptive Statistics Tool dialog."),
+			      "descriptive-stats.glade", "DescStats",
+			      NULL, NULL,
+			      _("Could not create the Descriptive Statistics "
+				"Tool dialog."),
 			      DESCRIPTIVE_STATS_KEY,
-			      G_CALLBACK (cb_desc_stat_tool_ok_clicked),
+			      G_CALLBACK (cb_desc_stat_tool_ok_clicked), NULL,
 			      G_CALLBACK (desc_stat_tool_update_sensitivity_cb),
 			      0))
 		return 0;
 
-	state->summary_stats_button  = glade_xml_get_widget (state->base.gui, "summary_stats_button");
-	state->mean_stats_button  = glade_xml_get_widget (state->base.gui, "mean_stats_button");
-	state->kth_largest_button  = glade_xml_get_widget (state->base.gui, "kth_largest_button");
-	state->kth_smallest_button  = glade_xml_get_widget (state->base.gui, "kth_smallest_button");
+	state->summary_stats_button  = glade_xml_get_widget
+	        (state->base.gui, "summary_stats_button");
+	state->mean_stats_button  = glade_xml_get_widget
+	        (state->base.gui, "mean_stats_button");
+	state->kth_largest_button  = glade_xml_get_widget
+	        (state->base.gui, "kth_largest_button");
+	state->kth_smallest_button  = glade_xml_get_widget
+	        (state->base.gui, "kth_smallest_button");
 	state->c_entry  = glade_xml_get_widget (state->base.gui, "c_entry");
 	float_to_entry (GTK_ENTRY (state->c_entry), 0.95);
 	state->l_entry  = glade_xml_get_widget (state->base.gui, "l_entry");
@@ -1437,12 +1457,14 @@ dialog_ttest_tool (WorkbookControlGUI *wbcg, Sheet *sheet, ttest_type test)
 	state = g_new (TTestState, 1);
 	state->invocation = test;
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,  "t-test.html",
-			      "mean-tests.glade", "MeanTests", _("Var_iable 1 Range:"),
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+			      "t-test.html",
+			      "mean-tests.glade", "MeanTests",
+			      _("Var_iable 1 Range:"),
 			      _("_Variable 2 Range:"),
 			      _("Could not create the Mean Tests Tool dialog."),
 			      TTEST_KEY,
-			      G_CALLBACK (ttest_tool_ok_clicked_cb),
+			      G_CALLBACK (ttest_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (ttest_update_sensitivity_cb),
 			      GNUM_EE_SINGLE_RANGE))
 		return 0;
@@ -1638,7 +1660,7 @@ dialog_ftest_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      _("Var_iable 1 Range"), _("_Variable 2 Range"),
 			      _("Could not create the FTest Tool dialog."),
 			      FTEST_KEY,
-			      G_CALLBACK (ftest_tool_ok_clicked_cb),
+			      G_CALLBACK (ftest_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (ftest_update_sensitivity_cb),
 			      GNUM_EE_SINGLE_RANGE))
 		return 0;
@@ -1832,11 +1854,12 @@ dialog_sampling_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (SamplingState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet, "sampling-tool.html",
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+			      "sampling-tool.html",
 			      "sampling.glade", "Sampling", NULL, NULL,
 			      _("Could not create the Sampling Tool dialog."),
 			      SAMPLING_KEY,
-			      G_CALLBACK (sampling_tool_ok_clicked_cb),
+			      G_CALLBACK (sampling_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (sampling_tool_update_sensitivity_cb),
 			      0))
 		return 0;
@@ -2046,7 +2069,7 @@ dialog_regression_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      _("_X Variables:"), _("_Y Variable:"),
 			      _("Could not create the Regression Tool dialog."),
 			      REGRESSION_KEY,
-			      G_CALLBACK (regression_tool_ok_clicked_cb),
+			      G_CALLBACK (regression_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (regression_tool_update_sensitivity_cb),
 			      0))
 		return 0;
@@ -2175,13 +2198,15 @@ dialog_exp_smoothing_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (ExpSmoothToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,  "exp-smoothing-tool.html",
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
+			      "exp-smoothing-tool.html",
 			      "exp-smoothing.glade",
 			      "ExpSmoothing", NULL, NULL,
 			      _("Could not create the Exponential Smoothing "
 				"Tool dialog."),
 			      EXP_SMOOTHING_KEY,
 			      G_CALLBACK (exp_smoothing_tool_ok_clicked_cb),
+			      NULL,
 			      G_CALLBACK (exp_smoothing_tool_update_sensitivity_cb),
 			      0)) 
 		return 0;
@@ -2312,12 +2337,14 @@ dialog_average_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (AverageToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,  "moving-average-tool.html",
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet, 
+			      "moving-average-tool.html",
 			      "moving-averages.glade",
 			      "MovAverages", NULL, NULL,
-			      _("Could not create the Moving Average Tool dialog."),
+			      _("Could not create the Moving Average Tool "
+				"dialog."),
 			      AVERAGE_KEY,
-			      G_CALLBACK (average_tool_ok_clicked_cb),
+			      G_CALLBACK (average_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (average_tool_update_sensitivity_cb),
 			      0)) 
 		return 0;
@@ -2532,22 +2559,26 @@ dialog_histogram_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	state = g_new (HistogramToolState, 1);
 
-	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet, "histogram-tool.html",
+	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet, 
+			      "histogram-tool.html",
 			      "histogram.glade", "Histogram", 
 			      _("_Input Range:"), _("Bin _Range:"),
 			      _("Could not create the Histogram Tool dialog."),
 			      HISTOGRAM_KEY,
-			      G_CALLBACK (histogram_tool_ok_clicked_cb),
+			      G_CALLBACK (histogram_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (histogram_tool_update_sensitivity_cb),
 			      0)) 
 		return 0;
 
-	state->predetermined_button = GTK_WIDGET(glade_xml_get_widget (state->base.gui,
-								       "pre_determined_button"));
-	state->calculated_button = GTK_WIDGET(glade_xml_get_widget (state->base.gui,
-								    "calculated_button"));
-	state->bin_labels_button = GTK_WIDGET(glade_xml_get_widget (state->base.gui,
-								    "labels_2_button"));
+	state->predetermined_button = GTK_WIDGET (glade_xml_get_widget
+						  (state->base.gui,
+						   "pre_determined_button"));
+	state->calculated_button = GTK_WIDGET (glade_xml_get_widget
+					       (state->base.gui,
+						"calculated_button"));
+	state->bin_labels_button = GTK_WIDGET (glade_xml_get_widget
+					       (state->base.gui,
+						"labels_2_button"));
 	state->n_entry = GTK_ENTRY(glade_xml_get_widget (state->base.gui,
 							  "n_entry"));
 	state->max_entry = GTK_ENTRY(glade_xml_get_widget (state->base.gui,
@@ -2641,7 +2672,8 @@ anova_single_tool_ok_clicked_cb (GtkWidget *button, AnovaSingleToolState *state)
  * an alpha is given.
  **/
 static void
-anova_single_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaSingleToolState *state)
+anova_single_tool_update_sensitivity_cb (GtkWidget *dummy,
+					 AnovaSingleToolState *state)
 {
 	gboolean input_1_ready  = FALSE;
 	gboolean output_ready  = FALSE;
@@ -2652,9 +2684,11 @@ anova_single_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaSingleToolState 
         GSList *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
+		(GNUMERIC_EXPR_ENTRY (state->base.output_entry),
+		 state->base.sheet);
         input_range = gnm_expr_entry_parse_as_list (
-		GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		GNUMERIC_EXPR_ENTRY (state->base.input_entry),
+		state->base.sheet);
 
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
 	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha, FALSE);
@@ -2704,14 +2738,17 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,  
 			      "anova.html#ANOVA-SINGLE-FACTOR-TOOL",
 			      "anova-one.glade", "ANOVA", NULL, NULL,
-			      _("Could not create the ANOVA (single factor) tool dialog."),
+			      _("Could not create the ANOVA (single factor) "
+				"tool dialog."),
 			      ANOVA_SINGLE_KEY,
 			      G_CALLBACK (anova_single_tool_ok_clicked_cb),
+			      NULL,
 			      G_CALLBACK (anova_single_tool_update_sensitivity_cb),
 			      0))
 		return 0;
 
-	state->alpha_entry = glade_xml_get_widget (state->base.gui, "alpha-entry");
+	state->alpha_entry = glade_xml_get_widget (state->base.gui,
+						   "alpha-entry");
 	float_to_entry (GTK_ENTRY (state->alpha_entry), 0.05);
 	g_signal_connect_after (G_OBJECT (state->alpha_entry),
 		"changed",
@@ -2744,7 +2781,8 @@ dialog_anova_single_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
  * contain sensible data.
  **/
 static void
-anova_two_factor_tool_ok_clicked_cb (GtkWidget *button, AnovaTwoFactorToolState *state)
+anova_two_factor_tool_ok_clicked_cb (GtkWidget *button,
+				     AnovaTwoFactorToolState *state)
 {
 	data_analysis_output_t  *dao;
 	GtkWidget *w;
@@ -2759,17 +2797,21 @@ anova_two_factor_tool_ok_clicked_cb (GtkWidget *button, AnovaTwoFactorToolState 
 	dao  = parse_output ((GenericToolState *)state, NULL);
 
 	data->input = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		(GNUMERIC_EXPR_ENTRY (state->base.input_entry),
+		 state->base.sheet);
 	data->err = analysis_tools_noerr;
 	data->wbcg = state->base.wbcg;
 
 	w = glade_xml_get_widget (state->base.gui, "labels_button");
         data->labels = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha, TRUE);
-	err = entry_to_int (GTK_ENTRY (state->replication_entry), &data->replication, TRUE);
+	err = entry_to_float (GTK_ENTRY (state->alpha_entry), &data->alpha,
+			      TRUE);
+	err = entry_to_int (GTK_ENTRY (state->replication_entry),
+			    &data->replication, TRUE);
 
-	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg), state->base.sheet, 
+	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->base.wbcg),
+			       state->base.sheet, 
 			       dao, data, analysis_tool_anova_two_factor_engine)) {
 		switch (data->err) {
 		case analysis_tools_missing_data:
@@ -2796,20 +2838,24 @@ anova_two_factor_tool_ok_clicked_cb (GtkWidget *button, AnovaTwoFactorToolState 
 					data->labels ? _("The given input range should contain at "
 					  "least two rows of data and the "
 					  "labels.") :
-					_("The given input range should contain at "
-					  "least two rows of data."));
+					_("The given input range should "
+					  "contain at least two rows of "
+					  "data."));
 			break;
 		case analysis_tools_replication_invalid:
 			error_in_entry ((GenericToolState *) state, 
 					GTK_WIDGET (state->base.input_entry),
-					_("The number of data rows must be a multiple "
-					  "of the replication number."));
+					_("The number of data rows must be a "
+					  "multiple of the replication "
+					  "number."));
 			break;
 		default:
 			text = g_strdup_printf (
-				_("An unexpected error has occurred: %d."), data->err);
+				_("An unexpected error has occurred: %d."),
+				data->err);
 			error_in_entry ((GenericToolState *) state, 
-					GTK_WIDGET (state->base.input_entry), text);
+					GTK_WIDGET (state->base.input_entry),
+					text);
 			g_free (text);
 			break;
 		}
@@ -2833,7 +2879,8 @@ anova_two_factor_tool_ok_clicked_cb (GtkWidget *button, AnovaTwoFactorToolState 
  * an alpha and a replaication is given.
  **/
 static void
-anova_two_factor_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaTwoFactorToolState *state)
+anova_two_factor_tool_update_sensitivity_cb (GtkWidget *dummy,
+					     AnovaTwoFactorToolState *state)
 {
 	gboolean ready  = FALSE;
 	int i, replication, err_alpha, err_replication;
@@ -2842,16 +2889,22 @@ anova_two_factor_tool_update_sensitivity_cb (GtkWidget *dummy, AnovaTwoFactorToo
         Value *input_range;
 
         output_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.output_entry), state->base.sheet);
+		(GNUMERIC_EXPR_ENTRY (state->base.output_entry),
+		 state->base.sheet);
         input_range = gnm_expr_entry_parse_as_value
-		(GNUMERIC_EXPR_ENTRY (state->base.input_entry), state->base.sheet);
+		(GNUMERIC_EXPR_ENTRY (state->base.input_entry),
+		 state->base.sheet);
 	i = gnumeric_glade_group_value (state->base.gui, output_group);
-	err_alpha = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha, FALSE);
-	err_replication = entry_to_int (GTK_ENTRY (state->replication_entry), &replication, FALSE);
+	err_alpha = entry_to_float (GTK_ENTRY (state->alpha_entry), &alpha,
+				    FALSE);
+	err_replication = entry_to_int (GTK_ENTRY (state->replication_entry),
+					&replication, FALSE);
 
-	gtk_widget_set_sensitive (state->base.clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->base.clear_outputrange_button,
+				  (i == 2));
 	gtk_widget_set_sensitive (state->base.retain_format_button, (i == 2));
-	gtk_widget_set_sensitive (state->base.retain_comments_button, (i == 2));
+	gtk_widget_set_sensitive (state->base.retain_comments_button,
+				  (i == 2));
 
 	ready = ((input_range != NULL) &&
                  (err_alpha == 0 && alpha > 0 && alpha < 1) &&
@@ -2896,24 +2949,30 @@ dialog_anova_two_factor_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 	if (dialog_tool_init ((GenericToolState *)state, wbcg, sheet,
 			      "anova.html#ANOVA-TWO-FACTOR-TOOL",
 			      "anova-two.glade", "ANOVA", NULL, NULL,
-			      _("Could not create the ANOVA (two factor) tool dialog."),
+			      _("Could not create the ANOVA (two factor) "
+				"tool dialog."),
 			      ANOVA_TWO_FACTOR_KEY,
 			      G_CALLBACK (anova_two_factor_tool_ok_clicked_cb),
+			      NULL,
 			      G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb),
 			      GNUM_EE_SINGLE_RANGE))
 		return 0;
 
-	state->alpha_entry = glade_xml_get_widget (state->base.gui, "alpha-entry");
+	state->alpha_entry = glade_xml_get_widget (state->base.gui,
+						   "alpha-entry");
 	float_to_entry (GTK_ENTRY(state->alpha_entry), 0.05);
-	state->replication_entry = glade_xml_get_widget (state->base.gui, "replication-entry");
+	state->replication_entry = glade_xml_get_widget (state->base.gui,
+							 "replication-entry");
 	int_to_entry (GTK_ENTRY(state->replication_entry), 1);
 
 	g_signal_connect_after (G_OBJECT (state->alpha_entry),
 		"changed",
-		G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb), state);
+		G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb),
+				state);
 	g_signal_connect_after (G_OBJECT (state->replication_entry),
 		"changed",
-		G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb), state);
+		G_CALLBACK (anova_two_factor_tool_update_sensitivity_cb),
+				state);
  	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),
 				  GTK_WIDGET (state->alpha_entry));
  	gnumeric_editable_enters (GTK_WINDOW (state->base.dialog),

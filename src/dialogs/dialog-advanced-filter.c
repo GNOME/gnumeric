@@ -195,7 +195,7 @@ dialog_advanced_filter (WorkbookControlGUI *wbcg)
 			      _("_List Range:"), _("Criteria _Range:"),
 			      _("Could not create the Advanced Filter dialog."),
 			      ADVANCED_FILTER_KEY,
-			      G_CALLBACK (advanced_filter_ok_clicked_cb),
+			      G_CALLBACK (advanced_filter_ok_clicked_cb), NULL,
 			      G_CALLBACK (advanced_filter_update_sensitivity_cb),
 			      0))
 		return;

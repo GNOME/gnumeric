@@ -888,7 +888,7 @@ dialog_random_tool (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      NULL, NULL,
 			      _("Could not create the Random Tool dialog."),
 			      RANDOM_KEY,
-			      G_CALLBACK (random_tool_ok_clicked_cb),
+			      G_CALLBACK (random_tool_ok_clicked_cb), NULL,
 			      G_CALLBACK (random_tool_update_sensitivity_cb),
 			      0))
 		return 0;

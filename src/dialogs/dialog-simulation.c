@@ -165,12 +165,12 @@ prepare_ranges (simulation_t *sim)
 static void
 update_log (simulation_t *sim)
 {
-	gchar   *t1 = _("Simulations\t\t\t= ");
-	gchar   *t2 = _("Iterations\t\t\t= ");
-	gchar   *t3 = _("# Input variables\t\t= ");
-	gchar   *t4 = _("# Output variables\t= ");
-	gchar   *t5 = _("Runtime\t\t\t= ");
-	gchar   *t6 = _("Run on\t\t\t= ");
+	const gchar   *t1 = _("Simulations\t\t\t= ");
+	const gchar   *t2 = _("Iterations\t\t\t= ");
+	const gchar   *t3 = _("# Input variables\t\t= ");
+	const gchar   *t4 = _("# Output variables\t= ");
+	const gchar   *t5 = _("Runtime\t\t\t= ");
+	const gchar   *t6 = _("Run on\t\t\t= ");
 	GString *buf;
 
 	buf = g_string_new ("");
@@ -218,7 +218,8 @@ prev_button_cb (GtkWidget *button, SimulationState *state)
 {
 	GtkWidget *w;
 
-	--results_sim_index;
+	if (results_sim_index > current_sim->first_round)
+		--results_sim_index;
 
 	if (results_sim_index == current_sim->first_round) {
 		w = glade_xml_get_widget (state->gui, "prev-button");
@@ -235,7 +236,8 @@ next_button_cb (GtkWidget *button, SimulationState *state)
 {
 	GtkWidget *w;
 
-	++results_sim_index;
+	if (results_sim_index < current_sim->last_round)
+		++results_sim_index;
 
 	if (results_sim_index == current_sim->last_round) {
 		w = glade_xml_get_widget (state->gui, "next-button");
@@ -275,6 +277,8 @@ simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
 	gchar                   *err;
 	static simulation_t     sim;
 
+	simulation_tool_destroy (current_sim);
+
 	sim.inputs = gnm_expr_entry_parse_as_value
 		(GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
@@ -303,19 +307,6 @@ simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
 		goto out;
 	}
 		
-	/* Results buttons. */
-	w = glade_xml_get_widget (state->gui, "prev-button");
-	g_signal_connect_after (G_OBJECT (w), "clicked",
-				G_CALLBACK (prev_button_cb), state);
-	w = glade_xml_get_widget (state->gui, "next-button");
-	g_signal_connect_after (G_OBJECT (w), "clicked",
-				G_CALLBACK (next_button_cb), state);
-	w = glade_xml_get_widget (state->gui, "min-button");
-	g_signal_connect_after (G_OBJECT (w), "clicked",
-				G_CALLBACK (min_button_cb), &sim);
-	w = glade_xml_get_widget (state->gui, "max-button");
-	g_signal_connect_after (G_OBJECT (w), "clicked",
-				G_CALLBACK (max_button_cb), &sim);
 	current_sim = &sim;
 
 	g_get_current_time (&sim.start);
@@ -328,7 +319,7 @@ simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
 		update_log (&sim);
 		update_results_view (&sim);
 
-		if (sim.last_round > 1) {
+		if (sim.last_round > results_sim_index) {
 			w = glade_xml_get_widget (state->gui, "next-button");
 			gtk_widget_set_sensitive (w, TRUE);
 		}
@@ -341,6 +332,22 @@ simulation_ok_clicked_cb (GtkWidget *button, SimulationState *state)
 		error_in_entry ((GenericToolState *) state,
 				GTK_WIDGET (state->input_entry_2), err);
 	return;
+}
+
+
+/**
+ * cb_tool_close_clicked:
+ * @button:
+ * @state:
+ *
+ * Close (destroy) the dialog
+ **/
+static void
+cb_tool_cancel_clicked (GtkWidget *button, GenericToolState *state)
+{
+	simulation_tool_destroy (current_sim);
+	gtk_widget_destroy (state->dialog);
+	g_free (state);
 }
 
 static void
@@ -400,24 +407,31 @@ dialog_simulation (WorkbookControlGUI *wbcg, Sheet *sheet)
 			      _("Could not create the Simulation dialog."),
 			      SIMULATION_KEY,
 			      G_CALLBACK (simulation_ok_clicked_cb),
+			      G_CALLBACK (cb_tool_cancel_clicked),
 			      G_CALLBACK (simulation_update_sensitivity_cb),
 			      0))
 		return;
 
 	init_log (state);
 	init_results_view (state);
+	current_sim = NULL;
 
 	w = glade_xml_get_widget (state->gui, "prev-button");
 	gtk_widget_set_sensitive (w, FALSE);
+	g_signal_connect_after (G_OBJECT (w), "clicked",
+				G_CALLBACK (prev_button_cb), state);
 	w = glade_xml_get_widget (state->gui, "next-button");
+	g_signal_connect_after (G_OBJECT (w), "clicked",
+				G_CALLBACK (next_button_cb), state);
 	gtk_widget_set_sensitive (w, FALSE);
 	w = glade_xml_get_widget (state->gui, "min-button");
 	gtk_widget_set_sensitive (w, FALSE);
+	gtk_widget_hide (w);
 	w = glade_xml_get_widget (state->gui, "max-button");
 	gtk_widget_set_sensitive (w, FALSE);
+	gtk_widget_hide (w);
 
 	simulation_update_sensitivity_cb (NULL, state);
 	tool_load_selection ((GenericToolState *)state, TRUE);
-
         return;
 }
