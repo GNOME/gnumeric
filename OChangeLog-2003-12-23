@@ -1,5 +1,9 @@
 2002-05-14  Jon K Hellan  <hellan@acm.org>
 
+	* src/bonobo-io.c (read_from_stream): Brown paper bag.
+
+2002-05-14  Jon K Hellan  <hellan@acm.org>
+
 	* src/bonobo-io.c (init_for_inflate): Use size of buffer, not size
 	of pointer to buffer.
 
