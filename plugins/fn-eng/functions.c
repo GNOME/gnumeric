@@ -2,10 +2,10 @@
 /*
  * fn-eng.c:  Built in engineering functions and functions registration
  *
- * Author:
- *  Michael Meeks <michael@imaginator.com>
- *  Jukka-Pekka Iivonen <iivonen@iki.fi>
- *  Morten Welinder <terra@diku.dk>
+ * Authors:
+ *   Michael Meeks <michael@imaginator.com>
+ *   Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *   Morten Welinder <terra@diku.dk>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

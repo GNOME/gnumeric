@@ -37,7 +37,6 @@ static SymbolTable *global_symbol_table = NULL;
 
 extern void math_functions_init        (void);
 extern void sheet_functions_init       (void);
-extern void date_functions_init        (void);
 extern void string_functions_init      (void);
 extern void stat_functions_init        (void);
 extern void finance_functions_init     (void);
@@ -53,7 +52,6 @@ functions_init (void)
 
 	math_functions_init ();
 	sheet_functions_init ();
-	date_functions_init ();
 	string_functions_init ();
 	stat_functions_init ();
 	finance_functions_init ();

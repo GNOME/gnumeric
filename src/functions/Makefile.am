@@ -9,7 +9,6 @@ noinst_LIBRARIES = libfunctions.a
 
 libfunctions_a_SOURCES =			\
 	fn-database.c				\
-	fn-date.c				\
 	fn-financial.c				\
 	fn-information.c			\
 	fn-logical.c				\

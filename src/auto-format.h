@@ -56,6 +56,8 @@ void auto_format_init (void);
 void auto_format_shutdown (void);
 
 void auto_format_function_result (FunctionDefinition *fd, AutoFormatTypes res);
+void auto_format_function_result_by_name (const char *func, AutoFormatTypes res);
+void auto_format_function_result_remove (const char *func);
 StyleFormat *auto_style_format_suggest (const GnmExpr *expr, const EvalPos *epos);
 
 #endif

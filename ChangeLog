@@ -1,3 +1,12 @@
+2002-04-12  Morten Welinder  <terra@diku.dk>
+
+	* src/auto-format.c (auto_format_init): Install a key destroyer.
+	(auto_format_shutdown): Simplify.
+	(auto_format_function_result_by_name): New function.
+	(auto_format_function_result): Use
+	auto_format_function_result_by_name.
+	(auto_format_function_result_remove): New function.
+
 2002-04-12  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-format-toolbar.c: Replace Gnome stock pixmap names

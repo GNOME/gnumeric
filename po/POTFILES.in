@@ -13,6 +13,8 @@ plugins/excel/ms-excel-read.c
 plugins/excel/ms-excel-write.c
 plugins/excel/ms-formula-read.c
 plugins/excel/plugin.xml.in
+plugins/fn-date/functions.c
+plugins/fn-date/plugin.xml.in
 plugins/fn-eng/functions.c
 plugins/fn-eng/plugin.xml.in
 plugins/gb/plugin.c
@@ -170,7 +172,6 @@ src/format.c
 src/formats.c
 src/func.c
 src/functions/fn-database.c
-src/functions/fn-date.c
 src/functions/fn-financial.c
 src/functions/fn-information.c
 src/functions/fn-logical.c

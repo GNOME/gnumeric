@@ -63,21 +63,15 @@ void
 auto_format_init (void)
 {
 	auto_format_function_hash =
-		g_hash_table_new (gnumeric_strcase_hash, gnumeric_strcase_equal);
-}
-
-static void
-cb_free_name (gpointer key, gpointer value, gpointer data)
-{
-	g_free (key);
+		g_hash_table_new_full (gnumeric_strcase_hash,
+				       gnumeric_strcase_equal,
+				       g_free,
+				       NULL);
 }
 
 void
 auto_format_shutdown (void)
 {
-	g_hash_table_foreach (auto_format_function_hash,
-			      cb_free_name,
-			      NULL);
 	g_hash_table_destroy (auto_format_function_hash);
 	auto_format_function_hash = NULL;
 }
@@ -85,17 +79,30 @@ auto_format_shutdown (void)
 /* ------------------------------------------------------------------------- */
 
 void
-auto_format_function_result (FunctionDefinition *fd, AutoFormatTypes res)
+auto_format_function_result_by_name (const char *func, AutoFormatTypes res)
 {
-	const char *name;
-
-	g_return_if_fail (fd != NULL);
+	g_return_if_fail (func != NULL);
 	g_return_if_fail (res != AF_UNKNOWN);
 	g_return_if_fail (res != AF_EXPLICIT);
 
-	name = function_def_get_name (fd);
 	g_hash_table_insert (auto_format_function_hash,
-			     g_strdup (name), GINT_TO_POINTER (res));
+			     g_strdup (func), GINT_TO_POINTER (res));
+}
+
+void
+auto_format_function_result (FunctionDefinition *fd, AutoFormatTypes res)
+{
+	g_return_if_fail (fd != NULL);
+
+	auto_format_function_result_by_name (function_def_get_name (fd), res);
+}
+
+void
+auto_format_function_result_remove (const char *func)
+{
+	g_return_if_fail (func != NULL);
+
+	g_hash_table_remove (auto_format_function_hash, func);
 }
 
 /* ------------------------------------------------------------------------- */
