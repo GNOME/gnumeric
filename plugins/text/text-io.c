@@ -412,8 +412,10 @@ text_write_workbook (CommandContext *context, Workbook *wb,
 	* Open Output File
 	*/
 	data.file = fopen (filename, "w");
-	if (data.file == NULL)
+	if (!data.file) {
+		gnumeric_error_save (context, g_strerror (errno));
 		return -1;
+	}
 
 	writeTextWorkbook (&data, wb);
 
