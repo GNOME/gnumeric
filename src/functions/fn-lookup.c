@@ -760,9 +760,19 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 	g_free (text);
 
 	if (expr != NULL) {
-		/* FIXME : When we split named cell and named expression add it */
+		if (expr->any.oper == OPER_NAME &&
+		    !expr->name.name->builtin) {
+			ExprTree *tmp = expr->name.name->t.expr_tree;
+			expr_tree_ref (tmp);
+			expr_tree_unref (expr);
+			expr = tmp;
+		}
 		if (expr->any.oper == OPER_VAR) {
 			Value *res = eval_expr (ei->pos, expr, EVAL_STRICT);
+			expr_tree_unref (expr);
+			return res;
+		} else if (expr->any.oper == OPER_CONSTANT) {
+			Value *res = value_duplicate (expr->constant.value);
 			expr_tree_unref (expr);
 			return res;
 		}

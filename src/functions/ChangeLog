@@ -1,3 +1,7 @@
+2001-09-08  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-lookup.c (gnumeric_indirect) : support constants and names.
+
 2001-08-28  Jody Goldberg <jgoldberg@home.com>
 
 	* fn-stat.c (gnumeric_logest) : we appear to be using affine as an
