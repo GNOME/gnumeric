@@ -816,7 +816,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControlGUI *scg)
 					  GNOME_STOCK_BUTTON_OK,
 					  GNOME_STOCK_BUTTON_CANCEL,
 					  NULL);
-	state->expresion = gnumeric_expr_entry_new ();
+	state->expresion = gnumeric_expr_entry_new (wbcg);
 	gnumeric_expr_entry_set_scg (GNUMERIC_EXPR_ENTRY (state->expresion), scg);
 	if (swc->dep.expression != NULL) {
 		ParsePos pp;

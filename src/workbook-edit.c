@@ -318,7 +318,7 @@ entry_changed (GtkEntry *entry, void *data)
  */
 void
 wbcg_edit_start (WorkbookControlGUI *wbcg,
-			      gboolean blankp, gboolean cursorp)
+		 gboolean blankp, gboolean cursorp)
 {
 	static gboolean inside_editing = FALSE;
 	Sheet *sheet;
@@ -577,7 +577,7 @@ wbcg_edit_ctor (WorkbookControlGUI *wbcg)
 	g_assert (wbcg->edit_line.entry == NULL);
 
 	wbcg->edit_line.entry =
-		GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new ());
+		GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (wbcg));
 	wbcg->edit_line.temp_entry = NULL;
 	wbcg->edit_line.guru = NULL;
 	wbcg->edit_line.signal_changed = -1;

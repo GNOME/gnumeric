@@ -1,9 +1,9 @@
 /* vim: set sw=8: */
 
 /*
- * workbook-control.c:
+ * workbook-control.c: The base class for the displaying a workbook.
  *
- * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
+ * Copyright (C) 2000-2001 Jody Goldberg (jgoldberg@home.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
