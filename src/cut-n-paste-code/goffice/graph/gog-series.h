@@ -23,8 +23,14 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/graph/gog-object.h>
+#include <goffice/graph/gog-styled-object.h>
 
 G_BEGIN_DECLS
+
+#define GOG_SERIES_ELEMENT_TYPE	(gog_series_element_get_type ())
+#define GOG_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_SERIES_ELEMENT_TYPE, GogSeriesElement))
+#define IS_GOG_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_SERIES_ELEMENT_TYPE))
+GType gog_series_element_get_type (void);
 
 #define GOG_SERIES_TYPE		(gog_series_get_type ())
 #define GOG_SERIES(o)		(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_SERIES_TYPE, GogSeries))
@@ -39,6 +45,8 @@ void	      gog_series_set_dim   (GogSeries *series, int dim_i,
 				    GOData *val, GError **err);
 void	      gog_series_set_index (GogSeries *series,
 				    int ind, gboolean is_manual);
+
+GList 	     *gog_series_get_elements (GogSeries *series);
 
 G_END_DECLS
 

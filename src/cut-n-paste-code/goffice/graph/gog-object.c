@@ -668,11 +668,17 @@ gog_object_request_update (GogObject *obj)
 void
 gog_object_emit_changed (GogObject *obj, gboolean resize)
 {
+	GogObjectClass *gog_klass;
+	
 	g_return_if_fail (GOG_OBJECT (obj));
 
-	if (obj->use_parent_as_proxy) {
+	gog_klass = GOG_OBJECT_GET_CLASS (obj);
+
+	if (gog_klass->use_parent_as_proxy) {
 		obj = obj->parent;
-		g_return_if_fail (GOG_OBJECT (obj));
+		g_return_if_fail (IS_GOG_OBJECT (obj));
+		gog_object_emit_changed (obj, resize);
+		return;
 	}
 	g_signal_emit (G_OBJECT (obj),
 		gog_object_signals [CHANGED], 0, resize);

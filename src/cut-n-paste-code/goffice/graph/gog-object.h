@@ -73,7 +73,6 @@ struct _GogObject {
 	unsigned needs_update : 1;
 	unsigned being_updated : 1;
 	unsigned explicitly_typed_role : 1; /* did we create it automaticly */
-	unsigned use_parent_as_proxy : 1; /* when we change, pretend it was our parent */
 };
 
 typedef struct {
@@ -81,6 +80,8 @@ typedef struct {
 
 	GHashTable *roles;
 	GType	    view_type;
+
+	unsigned use_parent_as_proxy : 1; /* when we change, pretend it was our parent */
 
 	/* Virtuals */
 	void	     (*update)		(GogObject *obj);

@@ -26,9 +26,25 @@
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-series.h>
 #include <goffice/graph/gog-data-set.h>
+#include <goffice/graph/gog-style.h>
 #include <glib-object.h>
 
 G_BEGIN_DECLS
+
+typedef struct {
+	GogStyledObject base;
+
+	unsigned index;
+} GogSeriesElement;
+
+typedef struct {
+	GogStyledObjectClass base;
+	
+	/* Virtuals */
+	gpointer (*gse_editor) (GogObject *gobj, GnmCmdContext *cc);
+} GogSeriesElementClass;
+
+#define GOG_SERIES_ELEMENT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_SERIES_ELEMENT_TYPE, GogSeriesElementClass))
 
 typedef enum {
 	GOG_SERIES_REQUIRED,  /* it must be there */
@@ -46,7 +62,6 @@ struct _GogSeriesDimDesc {
 
 struct _GogSeriesDesc {
 	unsigned style_fields;
-	GType style_extension_type;
 	unsigned num_dim;
 	GogSeriesDimDesc const *dim;
 };
@@ -68,6 +83,8 @@ struct _GogSeries {
 
 typedef struct {
 	GogStyledObjectClass base;
+
+	GType		series_element_type;
 
 	/* Virtuals */
 	void (*dim_changed) (GogSeries *series, int dim_i);

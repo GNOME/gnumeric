@@ -34,10 +34,193 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkhseparator.h>
 #include <gtk/gtknotebook.h>
+#include <gtk/gtkvbox.h>
+#include <gtk/gtkhbox.h>
+#include <gtk/gtkspinbutton.h>
 
 #include <string.h>
 
+int gog_series_get_valid_element_index (GogSeries *series, int old_index, int desired_index);
+	
+/*****************************************************************************/
+static GObjectClass *gse_parent_klass;
+
+enum {
+	ELEMENT_PROP_0,
+	ELEMENT_INDEX,
+};
+
+static void
+gog_series_element_set_property (GObject *obj, guint param_id,
+				 GValue const *value, GParamSpec *pspec)
+{
+	GogSeriesElement *gse = GOG_SERIES_ELEMENT (obj);
+
+	switch (param_id) {
+	case ELEMENT_INDEX :
+		gse->index = g_value_get_int (value);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+
+	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+}
+
+static void
+gog_series_element_get_property (GObject *obj, guint param_id,
+				 GValue *value, GParamSpec *pspec)
+{
+	GogSeriesElement *gse = GOG_SERIES_ELEMENT (obj);
+
+	switch (param_id) {
+	case ELEMENT_INDEX :
+		g_value_set_int (value, gse->index);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+static void
+cb_index_changed (GtkSpinButton *spin_button, GogSeriesElement *element)
+{
+	int index;
+	int value = gtk_spin_button_get_value (spin_button);
+
+	if ((int) element->index == value)
+		return;
+
+	index = gog_series_get_valid_element_index (
+		GOG_SERIES (gog_object_get_parent (GOG_OBJECT (element))),
+		element->index, value);
+
+	if (index != value) 
+		gtk_spin_button_set_value (spin_button, index);
+
+	g_object_set (element, "index", (int) index, NULL);
+}
+
+static gpointer
+gog_series_element_editor (GogObject *gobj,
+			   GogDataAllocator *dalloc,
+			   GnmCmdContext *cc)
+{
+	static guint series_element_pref_page = 1;
+	GtkWidget *w, *vbox, *spin_button = NULL;
+	gpointer gse_editor = NULL;
+	GogSeriesElementClass *klass = GOG_SERIES_ELEMENT_GET_CLASS (gobj);
+
+	if (klass->gse_editor)
+		gse_editor = (*klass->gse_editor) (gobj, cc);
+
+	if (gse_editor == NULL)
+		return gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, NULL);
+
+	vbox = gtk_vbox_new (FALSE, 6);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 6);
+	w = gtk_hbox_new (FALSE, 6);
+	gtk_box_pack_start (GTK_BOX (w), gtk_label_new (_("Index:")),
+			    FALSE, FALSE, 0);
+	spin_button = gtk_spin_button_new_with_range (0, G_MAXINT, 1);
+
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (spin_button), 
+				   GOG_SERIES_ELEMENT(gobj)->index);
+	g_signal_connect (G_OBJECT (spin_button),
+			  "value_changed",
+			  G_CALLBACK (cb_index_changed), gobj);
+
+	gtk_box_pack_start(GTK_BOX (w), spin_button, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), w, FALSE, FALSE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (gse_editor), FALSE, FALSE, 0);
+	gtk_widget_show_all (vbox);
+	w = gtk_notebook_new ();
+	gog_styled_object_editor (GOG_STYLED_OBJECT (gobj), cc, w);
+	gtk_notebook_append_page (GTK_NOTEBOOK (w), vbox,
+				  gtk_label_new (_("Settings")));
+	gog_style_handle_notebook (w, &series_element_pref_page);
+
+	return w;
+}
+
+static void
+gog_series_element_init_style (GogStyledObject *gso, GogStyle *style)
+{
+	GogSeries *series = GOG_SERIES (GOG_OBJECT (gso)->parent);
+	GogStyle *parent_style;
+	
+	g_return_if_fail (GOG_SERIES (series) != NULL);
+
+	parent_style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series));
+	
+	style->interesting_fields = parent_style->interesting_fields; 
+}
+
+static void
+gog_series_element_class_init (GogSeriesElementClass *klass)
+{
+	GObjectClass *gobject_klass = (GObjectClass *) klass;
+	gse_parent_klass = g_type_class_peek_parent (klass);
+	GogObjectClass *gog_klass = (GogObjectClass *) klass;
+	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
+
+	gobject_klass->set_property = gog_series_element_set_property;
+	gobject_klass->get_property = gog_series_element_get_property;
+	
+	gog_klass->editor 		= gog_series_element_editor;
+	style_klass->init_style	    	= gog_series_element_init_style;
+
+	gog_klass->use_parent_as_proxy  = TRUE;
+
+	g_object_class_install_property (gobject_klass, ELEMENT_INDEX,
+		g_param_spec_int ("index", "index",
+			"Index of the corresponding data element",
+			0, G_MAXINT, 0,
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT | GOG_PARAM_FORCE_SAVE));
+}
+
+GSF_CLASS (GogSeriesElement, gog_series_element,
+	   gog_series_element_class_init, NULL /*gog_series_element_init*/,
+	   GOG_STYLED_OBJECT_TYPE)
+
+
+/*****************************************************************************/
+
 static GObjectClass *parent_klass;
+
+static gboolean
+role_series_element_can_add (GogObject const *parent)
+{
+	GogSeriesClass *klass = GOG_SERIES_GET_CLASS (parent);
+	
+	return ((gog_series_get_valid_element_index(GOG_SERIES (parent), -1, 0) >= 0) &&
+		(klass->series_element_type > 0));
+}
+
+static GogObject *
+role_series_element_allocate (GogObject *series) 
+{
+	GogSeriesClass *klass = GOG_SERIES_GET_CLASS (series);
+	GType type = klass->series_element_type;
+	GogObject *gse;
+
+	if (type == 0)
+		type = GOG_SERIES_ELEMENT_TYPE;
+
+	gse = g_object_new (type, NULL);
+	if (gse != NULL) 
+		GOG_SERIES_ELEMENT (gse)->index = 
+			gog_series_get_valid_element_index (GOG_SERIES (series), -1, 0);
+	return gse;
+}
+
+static void
+role_series_element_post_add (GogObject *parent, GogObject *child)
+{
+	gog_styled_object_set_style (GOG_STYLED_OBJECT (child),
+		gog_styled_object_get_style (GOG_STYLED_OBJECT (parent)));
+}
 
 static void
 gog_series_finalize (GObject *obj)
@@ -148,8 +331,6 @@ gog_series_init_style (GogStyledObject *gso, GogStyle *style)
 {
 	GogSeries const *series = (GogSeries const *)gso;
 	style->interesting_fields = series->plot->desc.series.style_fields;
-	style->extension_type = series->plot->desc.series.style_extension_type;
-
 	gog_theme_init_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), series->index);
 }
@@ -157,6 +338,13 @@ gog_series_init_style (GogStyledObject *gso, GogStyle *style)
 static void
 gog_series_class_init (GogSeriesClass *klass)
 {
+	static GogObjectRole const roles[] = {
+		{ N_("Style override"), "GogSeriesElement",	0,
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+		  role_series_element_can_add, NULL, 
+		  role_series_element_allocate, 
+		  role_series_element_post_add, NULL, NULL },
+	};
 	GObjectClass *gobject_klass = (GObjectClass *) klass;
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
@@ -166,14 +354,15 @@ gog_series_class_init (GogSeriesClass *klass)
 	gog_klass->editor		= gog_series_editor;
 	gog_klass->update		= gog_series_update;
 	style_klass->init_style 	= gog_series_init_style;
+	/* series do not have views, so just forward signals from the plot */
+	gog_klass->use_parent_as_proxy  = TRUE;
+
+	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 }
 
 static void
 gog_series_init (GogSeries *series)
 {
-	/* series do not have views, so just forward signals from the plot */
-	GOG_OBJECT (series)->use_parent_as_proxy = TRUE;
-
 	series->is_valid = FALSE;
 	series->plot = NULL;
 	series->values = NULL;
@@ -390,4 +579,67 @@ void
 gog_series_set_dim (GogSeries *series, int dim_i, GOData *val, GError **err)
 {
 	gog_dataset_set_dim (GOG_DATASET (series), dim_i, val, err);
+}
+
+static gint element_compare (GogSeriesElement *gse_a, GogSeriesElement *gse_b)
+{
+	return gse_a->index - gse_b->index;
+}
+
+GList *
+gog_series_get_elements (GogSeries *series) 
+{
+	GList *element_list = NULL;
+	GSList *gse_ptr;
+	
+	for (gse_ptr = GOG_OBJECT (series)->children;
+	     gse_ptr != NULL; 
+	     gse_ptr = gse_ptr->next) 
+		if (IS_GOG_SERIES_ELEMENT (gse_ptr->data))
+			element_list = g_list_append (element_list, gse_ptr->data);
+	return  g_list_sort (element_list, (GCompareFunc) element_compare);
+}
+
+int
+gog_series_get_valid_element_index (GogSeries *series, int old_index, int desired_index) 
+{
+	int index;
+	GList *element_list, *element_ptr;
+
+	g_return_val_if_fail (GOG_SERIES (series) != NULL, -1);
+
+	if ((desired_index >= (int) series->num_elements) ||
+	    (desired_index < 0))
+		return old_index;
+
+	element_list = gog_series_get_elements (series);
+
+	if (desired_index > old_index) 
+		for (element_ptr = element_list; 
+		     element_ptr != NULL; 
+		     element_ptr = element_ptr->next) {
+			index = GOG_SERIES_ELEMENT (element_ptr->data)->index;
+			if (index > desired_index)
+				break;
+			if (index == desired_index) 
+				desired_index++;
+		}
+	else 
+		for (element_ptr = g_list_last (element_list); 
+		     element_ptr != NULL; 
+		     element_ptr = element_ptr->prev) {
+			index = GOG_SERIES_ELEMENT (element_ptr->data)->index;
+			if (index < desired_index)
+				break;
+			if (index == desired_index) 
+				desired_index--;
+		}
+
+	g_list_free (element_list);
+
+	if ((desired_index >= 0) &&
+	    (desired_index < (int) series->num_elements))
+		return desired_index;
+
+	return old_index;	
 }

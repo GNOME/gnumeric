@@ -27,10 +27,22 @@
 
 G_BEGIN_DECLS
 
+typedef struct  {
+	GogSeriesElement base;
+
+	double separation;
+} GogPieSeriesElement;
+
+#define GOG_PIE_SERIES_ELEMENT_TYPE	(gog_pie_series_element_get_type ())
+#define GOG_PIE_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_PIE_SERIES_ELEMENT_TYPE, GogPieSeriesElement))
+#define IS_GOG_PIE_SERIES_ELEMENT(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_PIE_SERIES_ELEMENT_TYPE))
+
+GType gog_pie_series_element_get_type (void);
+
 typedef struct {
 	GogPlot	base;
 
-	int	 initial_angle;	 /* degrees counterclockwise from 3 o'clock */
+	int	 initial_angle;	 	/* degrees counterclockwise from 3 o'clock */
 	float	 default_separation;	/* as a percentage of the radius */
 	gboolean in_3d;
 } GogPiePlot;

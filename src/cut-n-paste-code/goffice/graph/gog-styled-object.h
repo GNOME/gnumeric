@@ -48,6 +48,7 @@ typedef struct {
 #define GOG_STYLED_OBJECT_GET_CLASS(o)	(G_TYPE_INSTANCE_GET_CLASS ((o), GOG_STYLED_OBJECT_TYPE, GogStyledObjectClass))
 
 GType     gog_styled_object_get_type (void);
+gboolean gog_styled_object_set_style 	   (GogStyledObject *gso, GogStyle *style);
 GogStyle *gog_styled_object_get_style	   (GogStyledObject *gso);
 GogStyle *gog_styled_object_get_auto_style (GogStyledObject *gso);
 void	  gog_styled_object_style_changed  (GogStyledObject *gso);

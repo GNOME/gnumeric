@@ -52,24 +52,13 @@ gog_styled_object_set_property (GObject *obj, guint param_id,
 				GValue const *value, GParamSpec *pspec)
 {
 	GogStyledObject *gso = GOG_STYLED_OBJECT (obj);
-	GogStyle *style;
 	gboolean resize = FALSE;
 
 	switch (param_id) {
 
 	case STYLED_OBJECT_PROP_STYLE :
-		style = g_value_get_object (value);
-		if (gso->style == style)
-			return;
-		style = gog_style_dup (style);
-
-		/* which fields are we interested in for this object */
-		gog_styled_object_apply_theme (gso, style);
-		gog_styled_object_style_changed (GOG_STYLED_OBJECT (obj));
-		resize = gog_style_is_different_size (gso->style, style);
-		if (gso->style != NULL)
-			g_object_unref (gso->style);
-		gso->style = style;
+		resize = gog_styled_object_set_style (gso, 
+	      		g_value_get_object (value));
 		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -172,6 +161,29 @@ gog_styled_object_init (GogStyledObject *gso)
 GSF_CLASS (GogStyledObject, gog_styled_object,
 	   gog_styled_object_class_init, gog_styled_object_init,
 	   GOG_OBJECT_TYPE)
+
+gboolean
+gog_styled_object_set_style (GogStyledObject *gso,
+			     GogStyle *style)
+{
+	gboolean resize;
+
+	g_return_val_if_fail (GOG_STYLED_OBJECT (gso) != NULL, FALSE);
+
+	if (gso->style == style)
+		return FALSE;
+	style = gog_style_dup (style);
+
+	/* which fields are we interested in for this object */
+	gog_styled_object_apply_theme (gso, style);
+	gog_styled_object_style_changed (gso);
+	resize = gog_style_is_different_size (gso->style, style);
+	if (gso->style != NULL)
+		g_object_unref (gso->style);
+	gso->style = style;
+
+	return resize;
+}
 
 /**
  * gog_styled_object_get_style :

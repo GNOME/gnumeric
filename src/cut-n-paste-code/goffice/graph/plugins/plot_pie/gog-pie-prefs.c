@@ -28,6 +28,41 @@
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtktogglebutton.h>
 
+GtkWidget *gog_pie_series_element_pref   (GogPieSeriesElement *element, GnmCmdContext *cc);
+
+static void
+cb_element_separation_changed (GtkAdjustment *adj, GObject *element)
+{
+	g_object_set (element, "separation", adj->value / 100., NULL);
+}
+
+GtkWidget *
+gog_pie_series_element_pref (GogPieSeriesElement *element, GnmCmdContext *cc)
+{
+	GtkWidget  *w;
+	char const *dir = gnm_plugin_get_dir_name (
+		plugins_get_plugin_by_id ("GOffice_plot_pie"));
+	char	 *path = g_build_filename (dir, "gog-pie-series-element-prefs.glade", NULL);
+	GladeXML *gui = gnm_glade_xml_new (cc, path, "gog_pie_series_element_prefs", NULL);
+
+	g_free (path);
+        if (gui == NULL)
+                return NULL;
+	
+	w = glade_xml_get_widget (gui, "separation_spinner");
+	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), element->separation * 100.);
+	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
+		"value_changed",
+		G_CALLBACK (cb_element_separation_changed), element);
+
+	w = glade_xml_get_widget (gui, "gog_pie_series_element_prefs");
+	g_object_set_data_full (G_OBJECT (w),
+		"state", gui, (GDestroyNotify)g_object_unref);
+
+	return w;
+}
+
+/****************************************************************************/
 GtkWidget *gog_pie_plot_pref   (GogPiePlot *plot, GnmCmdContext *cc);
 
 static void

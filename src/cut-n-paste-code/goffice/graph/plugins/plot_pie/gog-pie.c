@@ -34,6 +34,79 @@
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
+static GObjectClass *ppe_parent_klass;
+
+typedef GogSeriesElementClass GogPieSeriesElementClass;
+enum {
+	ELEMENT_PROP_0,
+	ELEMENT_SEPARATION,
+};
+
+static void
+gog_pie_series_element_set_property (GObject *obj, guint param_id,
+				     GValue const *value, GParamSpec *pspec)
+{
+	GogPieSeriesElement *pse = GOG_PIE_SERIES_ELEMENT (obj);
+
+	switch (param_id) {
+	case ELEMENT_SEPARATION :
+		pse->separation = g_value_get_float (value);
+		break;
+
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+
+	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+}
+
+static void
+gog_pie_series_element_get_property (GObject *obj, guint param_id,
+				     GValue *value, GParamSpec *pspec)
+{
+	GogPieSeriesElement *pse = GOG_PIE_SERIES_ELEMENT (obj);
+
+	switch (param_id) {
+	case ELEMENT_SEPARATION :
+		g_value_set_float (value, pse->separation);
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
+}
+
+extern gpointer gog_pie_series_element_pref (GogPieSeriesElement *element, GnmCmdContext *cc);
+static gpointer
+gog_pie_series_element_editor (GogObject *gobj,
+			       GnmCmdContext *cc)
+{
+	return gog_pie_series_element_pref (GOG_PIE_SERIES_ELEMENT (gobj), cc);
+}
+
+static void
+gog_pie_series_element_class_init (GogPieSeriesElementClass *klass)
+{
+	GObjectClass *gobject_klass = (GObjectClass *) klass;
+
+	gobject_klass->set_property = gog_pie_series_element_set_property;
+	gobject_klass->get_property = gog_pie_series_element_get_property;
+	
+	ppe_parent_klass 	= g_type_class_peek_parent (klass);
+	klass->gse_editor	= gog_pie_series_element_editor;
+
+	g_object_class_install_property (gobject_klass, ELEMENT_SEPARATION,
+		g_param_spec_float ("separation", "separation",
+			"Amount a slice is extended as a percentage of the radius",
+			0, G_MAXFLOAT, 0.,
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+}
+
+GSF_CLASS (GogPieSeriesElement, gog_pie_series_element,
+	   gog_pie_series_element_class_init, NULL /*gog_pie_series_element_init*/,
+	   GOG_SERIES_ELEMENT_TYPE)
+
+/*****************************************************************************/
+
 typedef struct {
 	GogPlotClass	base;
 } GogPiePlotClass;
@@ -121,7 +194,7 @@ gog_pie_plot_foreach_elem (GogPlot *plot, GogEnumFunc handler, gpointer data)
 	GogTheme *theme = gog_object_get_theme (GOG_OBJECT (plot));
 	GogStyle *style;
 	GODataVector *labels;
-	char *label;
+	char *label = NULL;
 
 	if (!model->base.vary_style_by_element  || plot->series == NULL)
 		return FALSE;
@@ -322,7 +395,7 @@ static void
 gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 {
 	GogPiePlot const *model = GOG_PIE_PLOT (view->model);
-	GogPieSeries const *series;
+	GogPieSeries const *series = NULL;
 	double separated_cx, separated_cy, cx, cy, r, dt, tmp, theta, len, *vals, scale;
 	double default_sep;
 	unsigned elem, j, n, k;
@@ -334,11 +407,16 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	unsigned index, mirror = 0; /* init mirror because gcc is silly */
 	double center_radius;
 	double center_size = 0.0;
-	double r_ext, r_int;
+	double r_ext, r_int, r_tot;
+	double outline_width_max;
 	gboolean has_hole;
+	double separation_max, separation;
+	GogPieSeriesElement *gpse;
+	GList *elements, *cur_element;
 
 	/* compute number of valid series */
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
+		series = ptr->data;
 	  	if (!gog_series_is_valid (GOG_SERIES (ptr->data)))
 			continue;
 		num_series++;
@@ -346,6 +424,23 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	if (num_series <=0 )
 		return;
+
+	separation_max = .0;
+	outline_width_max = .0;
+	if ((style = gog_styled_object_get_style (GOG_STYLED_OBJECT (series))))
+		outline_width_max = gog_renderer_line_size (view->renderer, style->outline.width);
+	for (cur_element = gog_series_get_elements (GOG_SERIES (series));
+	     cur_element != NULL; 
+	     cur_element = cur_element->next) {
+		separation = GOG_PIE_SERIES_ELEMENT (cur_element->data)->separation;
+		if (separation_max < separation)
+			separation_max = separation; 
+		style = gog_styled_object_get_style (GOG_STYLED_OBJECT (cur_element->data));
+		if (outline_width_max < style->outline.width)
+			outline_width_max = style->outline.width;
+	}
+	if (separation_max < -model->default_separation)
+		separation_max = -model->default_separation;
 
 	if (GOG_IS_RING_PLOT (model))
 		center_size = GOG_RING_PLOT(model)->center_size;
@@ -356,13 +451,13 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 	cx = view->allocation.x + view->allocation.w/2.;
 	cy = view->allocation.y + view->allocation.h/2.;
 
-	r = view->allocation.h;
-	if (r > view->allocation.w)
-		r = view->allocation.w;
-	r /= 2. * (1. + model->default_separation);
-	default_sep = r * model->default_separation;
-	center_radius = r * center_size;
-	r *= 1. - center_size;
+	r_tot = view->allocation.h;
+	if (r_tot > view->allocation.w)
+		r_tot = view->allocation.w;
+	r_tot /= 2. * (1. + model->default_separation + separation_max);
+	default_sep = r_tot * model->default_separation;
+	center_radius = r_tot * center_size;
+	r = r_tot * (1. - center_size);
 
 	elem = model->base.index_num;
 	index = 1;
@@ -373,16 +468,10 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 			continue;
 		if (index > num_series) /* people snuck extra series into a pie */
 			break;
-
-		style = GOG_STYLED_OBJECT (series)->style;
-		if (model->base.vary_style_by_element)
-			style = gog_style_dup (style);
-		gog_renderer_push_style (view->renderer, style);
-
-		if (num_series == index)
-			r -= 2 * gog_renderer_line_size (
-				view->renderer, style->outline.width);
-
+		
+		if (num_series == index) 
+			r -= outline_width_max / 2.0;
+		
 		has_hole = center_radius > 0.;
 		r_int = center_radius + r * ((double)index - 1.0) / (double)num_series;
 		r_ext = center_radius + r * (double)index / (double)num_series;
@@ -391,17 +480,46 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		scale = 2 * M_PI / series->total;
 		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
+
+		style = GOG_STYLED_OBJECT (series)->style;
+		if (model->base.vary_style_by_element)
+			style = gog_style_dup (style);
+		gog_renderer_push_style (view->renderer, style);
+
+		elements = gog_series_get_elements (GOG_SERIES (series));
+		cur_element = elements;
+
 		for (k = 0 ; k < series->base.num_elements; k++) {
 			len = fabs (vals[k]) * scale;
 			if (!finite (len) || len < 1e-3)
 				continue;
-
+			
+			gpse = NULL;
+			if ((cur_element != NULL) &&
+			    (GOG_SERIES_ELEMENT (cur_element->data)->index == k)) {
+				gpse = GOG_PIE_SERIES_ELEMENT (cur_element->data);
+				cur_element = cur_element->next;
+					gog_renderer_push_style (view->renderer, 
+						gog_styled_object_get_style (
+							GOG_STYLED_OBJECT (gpse)));
+			} 
+			else 
+				if (model->base.vary_style_by_element)
+					gog_theme_init_style (theme, style, GOG_OBJECT (series),
+							      model->base.index_num + k);
+				
 			/* only separate the outer ring */
 			separated_cx = cx;
 			separated_cy = cy;
-			if (num_series == index && default_sep > 0.) {
-				separated_cx += default_sep * cos (theta + len/2.);
-				separated_cy += default_sep * sin (theta + len/2.);
+			if (num_series == index && (default_sep > 0. || gpse != NULL)) { 
+
+				separation = default_sep;
+
+				if (gpse != NULL) 
+					separation += gpse->separation * r_tot;
+
+				separated_cx += separation * cos (theta + len/2.);
+				separated_cy += separation * sin (theta + len/2.);
 			}
 			theta += len;
 
@@ -437,12 +555,14 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 				}
 			}
 
-			if (model->base.vary_style_by_element)
-				gog_theme_init_style (theme, style, GOG_OBJECT (series),
-					model->base.index_num + k);
 			gog_renderer_draw_polygon (view->renderer, path,
-				r * len < 5 /* drop outline for thin segments */, NULL);
+						   r * len < 5 /* drop outline for thin segments */, NULL);
+
+			if (gpse != NULL)
+				gog_renderer_pop_style (view->renderer);
 		}
+
+		g_list_free (elements);
 
 		gog_renderer_pop_style (view->renderer);
 		if (model->base.vary_style_by_element)
@@ -557,12 +677,15 @@ static void
 gog_pie_series_class_init (GObjectClass *gobject_klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *)gobject_klass;
+	GogSeriesClass *series_klass = (GogSeriesClass *)gobject_klass;
 
 	series_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gog_klass->update = gog_pie_series_update;
+	series_klass->series_element_type = GOG_PIE_SERIES_ELEMENT_TYPE;
 
 	gobject_klass->set_property = gog_pie_series_set_property;
 	gobject_klass->get_property = gog_pie_series_get_property;
+
 	g_object_class_install_property (gobject_klass, SERIES_PROP_INITIAL_ANGLE,
 		g_param_spec_float ("initial_angle", "initial_angle",
 			"Degrees counter-clockwise from 3 O'Clock.",
@@ -582,6 +705,7 @@ GSF_CLASS (GogPieSeries, gog_pie_series,
 void
 plugin_init (void)
 {
+	gog_pie_series_element_get_type ();
 	gog_pie_plot_get_type ();
 	gog_ring_plot_get_type ();
 }

@@ -53,154 +53,6 @@
 #define HSCALE 100
 #define VSCALE 120
 
-enum {
-	CHANGED,
-	LAST_SIGNAL
-};
-static gulong gog_style_extension_signals [LAST_SIGNAL] = { 0, };
-
-static GObjectClass *gse_parent_klass;
-
-static void
-gog_style_extension_class_init (GogStyleExtensionClass *klass)
-{
-	gse_parent_klass = g_type_class_peek_parent (klass);
-
-	gog_style_extension_signals [CHANGED] = g_signal_new ("changed",
-		G_TYPE_FROM_CLASS (klass),
-		G_SIGNAL_RUN_LAST,
-		G_STRUCT_OFFSET (GogStyleExtensionClass, changed),
-		NULL, NULL,
-		g_cclosure_marshal_VOID__VOID,
-		G_TYPE_NONE, 0);
-
-	klass->name = _("Extension");
-}
-
-gpointer
-gog_style_extension_editor (GogStyleExtension *gse, GnmCmdContext *cc)
-{
-	GogStyleExtensionClass *klass;
-
-	if (gse == NULL)
-		return NULL;
-
-	g_return_val_if_fail (IS_GOG_STYLE_EXTENSION (gse), NULL);
-
-	klass = GOG_STYLE_EXTENSION_GET_CLASS (gse);
-	return (klass->editor ? (*klass->editor) (gse, cc) : NULL);
-}
-
-GogStyleExtension *
-gog_style_extension_dup (GogStyleExtension *gse)
-{
-	GogStyleExtension *new_gse;
-
-	if (gse == NULL)
-		return NULL;
-
-	g_return_val_if_fail (IS_GOG_STYLE_EXTENSION (gse), NULL);
-
-	new_gse = g_object_new (G_TYPE_FROM_INSTANCE (gse), NULL);
-
-	gog_style_extension_assign (new_gse, gse);
-
-	return new_gse;
-}
-
-void
-gog_style_extension_assign (GogStyleExtension *gse_dst, GogStyleExtension const *gse_src)
-{
-	GogStyleExtensionClass *klass = GOG_STYLE_EXTENSION_GET_CLASS (gse_dst);
-
-	g_return_if_fail (IS_GOG_STYLE_EXTENSION (gse_dst) &&
-			  IS_GOG_STYLE_EXTENSION (gse_src));
-
-	g_return_if_fail (G_TYPE_FROM_INSTANCE (gse_dst) == G_TYPE_FROM_INSTANCE (gse_src));
-
-	if (klass->assign)
-		(*klass->assign) (gse_dst, gse_src);
-}
-
-static gboolean
-gog_style_extension_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
-{
-	GogStyleExtensionClass *klass = GOG_STYLE_EXTENSION_GET_CLASS (gpd);
-
-	if (klass->load)
-		return (*klass->load) (gpd, node);
-	else
-		return TRUE;
-}
-
-static void
-gog_style_extension_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
-{
-	GogStyleExtensionClass *klass = GOG_STYLE_EXTENSION_GET_CLASS (gpd);
-
-	xmlNode *node = xmlNewDocNode (parent->doc, NULL, "extension", NULL);
-	xmlSetProp (node, (xmlChar const *) "type",
-		G_OBJECT_TYPE_NAME (gpd));
-
-	if (klass->save)
-		(*klass->save) (gpd, node);
-
-	xmlAddChild (parent, node);
-}
-
-static GogStyleExtension *
-gog_style_extension_new_from_xml (xmlNode *node)
-{
-	xmlChar *type_name = xmlGetProp (node, (xmlChar const *) "type");
-	gpointer object = NULL;
-
-	if (type_name != NULL) {
-		GType type = g_type_from_name (type_name);
-		if (type != 0)
-			object = g_object_new (type, NULL);
-		xmlFree (type_name);
-	}
-
-	if (! IS_GOG_STYLE_EXTENSION (object)) {
-		g_warning ("gog_style_extension_new_from_xml : Not a valid style extension type");
-		g_free (object);
-		return NULL;
-	}
-
-	gog_persist_dom_load (GOG_PERSIST_DOM (object), node);
-
-	return object;
-}
-
-void
-gog_style_extension_emit_changed (GogStyleExtension *gse)
-{
-	g_signal_emit (G_OBJECT (gse),
-		gog_style_extension_signals [CHANGED], 0);
-}
-
-char const *
-gog_style_extension_get_name (GogStyleExtension *gse)
-{
-	GogStyleExtensionClass *klass = GOG_STYLE_EXTENSION_GET_CLASS (gse);
-
-	return klass->name;
-}
-
-static void
-gog_style_extension_persist_dom_init (GogPersistDOMClass *iface)
-{
-	iface->load = gog_style_extension_persist_dom_load;
-	iface->save = gog_style_extension_persist_dom_save;
-}
-
-GSF_CLASS_FULL (GogStyleExtension, gog_style_extension,
-		gog_style_extension_class_init, NULL,
-		G_TYPE_OBJECT, 0,
-		GSF_INTERFACE (gog_style_extension_persist_dom_init, GOG_PERSIST_DOM_TYPE))
-
-/*************************************************************************/
-
 typedef GObjectClass GogStyleClass;
 
 static GObjectClass *parent_klass;
@@ -1080,9 +932,6 @@ style_editor (GogStyle *style,
 	GtkWidget *w;
 	GladeXML *gui;
 	StylePrefState *state;
-	GogStyleExtension *gse;
-	gpointer extension_editor = NULL;
-	GtkWidget *notebook;
 
 	g_return_val_if_fail (style != NULL, NULL);
 	g_return_val_if_fail (default_style != NULL, NULL);
@@ -1124,27 +973,10 @@ style_editor (GogStyle *style,
 	g_object_set_data_full (G_OBJECT (w),
 		"state", state, (GDestroyNotify) gog_style_pref_state_free);
 
-	gse = gog_style_get_extension (style);
-	if (gse != NULL)
-	{
-		extension_editor =
-			gog_style_extension_editor (gog_style_get_extension (style), cc);
-		g_signal_connect_swapped (gse, "changed", G_CALLBACK (set_style), state);
-	}
-
-	notebook = optional_notebook;
-
-	if ((extension_editor != NULL) && (notebook == NULL))
-		notebook = gtk_notebook_new ();
-
-	if (notebook != NULL) {
-		if (extension_editor != NULL)
-			gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
-				extension_editor,
-				gtk_label_new (gog_style_extension_get_name (gse)));
-		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), w,
+	if (optional_notebook != NULL) {
+		gtk_notebook_prepend_page (GTK_NOTEBOOK (optional_notebook), w,
 					   gtk_label_new (_("Style")));
-		return notebook;
+		return GTK_WIDGET (optional_notebook);
 	}
 	return w;
 }
@@ -1239,11 +1071,6 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 
 	dst->interesting_fields = src->interesting_fields;
 	dst->needs_obj_defaults = src->needs_obj_defaults;
-
-	if (dst->extension != NULL)
-		g_object_unref (dst->extension);
-	dst->extension = gog_style_extension_dup (src->extension);
-	dst->extension_type = src->extension_type;
 }
 
 /**
@@ -1319,11 +1146,6 @@ gog_style_finalize (GObject *obj)
 	if (style->marker.mark != NULL) {
 		g_object_unref (style->marker.mark);
 		style->marker.mark = NULL;
-	}
-
-	if (style->extension != NULL) {
-		g_object_unref (style->extension);
-		style->extension = NULL;
 	}
 
 	(parent_klass->finalize) (obj);
@@ -1721,8 +1543,6 @@ gog_style_persist_dom_load (GogPersistDOM *gpd, xmlNode *node)
 			gog_style_marker_load (ptr, style);
 		else if (strcmp (ptr->name, "font") == 0)
 			gog_style_font_load (ptr, style);
-		else if (strcmp (ptr->name, "extension") == 0)
-			style->extension = gog_style_extension_new_from_xml (ptr);
 	}
 	return TRUE;
 }
@@ -1745,8 +1565,6 @@ gog_style_persist_dom_save (GogPersistDOM *gpd, xmlNode *parent)
 		gog_style_marker_save (parent, style);
 	if (style->interesting_fields & GOG_STYLE_FONT)
 		gog_style_font_save (parent, style);
-	if (style->extension)
-		gog_persist_dom_save (GOG_PERSIST_DOM (style->extension), parent);
 }
 
 static void
@@ -1854,120 +1672,6 @@ gog_style_set_fill_image_filename (GogStyle *style, char *filename)
 
 	style->fill.u.image.filename = filename;
 	style->fill.u.image.image = gdk_pixbuf_new_from_file (filename, NULL);
-}
-
-GogStyleExtension *
-gog_style_get_extension (GogStyle *style)
-{
-	g_return_val_if_fail (GOG_STYLE (style) != NULL, NULL);
-
-	if (style->extension != NULL)
-		return style->extension;
-
-	if (style->extension_type <= 0)
-		return NULL;
-
-	style->extension = g_object_new (style->extension_type, NULL);
-
-	return style->extension;
-}
-
-void
-gog_style_set_extension (GogStyle *style, GogStyleExtension *extension)
-{
-	g_return_if_fail (IS_GOG_STYLE (style) &&
-			  IS_GOG_STYLE_EXTENSION (extension));
-
-	g_return_if_fail (G_TYPE_FROM_INSTANCE (extension) != style->extension_type);
-
-	if (style->extension != NULL)
-		g_object_unref (style->extension);
-
-	g_object_ref (extension);
-	style->extension = extension;
-}
-
-/************************************************************************/
-static GogSeriesElementStyle *
-go_series_element_style_new (GogStyle *style, unsigned i)
-{
-	GogSeriesElementStyle *pt = g_new (GogSeriesElementStyle, 1);
-	pt->i = pt->i;
-	pt->style = pt->style;
-	g_object_ref (pt->style);
-	return pt;
-}
-
-static int
-go_series_element_style_cmp (GogSeriesElementStyle const *a,
-			     GogSeriesElementStyle const *b)
-{
-	return a->i - b->i;
-}
-
-static void
-go_series_element_style_free (GogSeriesElementStyle *pt)
-{
-	g_return_if_fail (pt != NULL);
-
-	if (pt->style != NULL) {
-		g_object_unref (pt->style);
-		pt->style = NULL;
-	}
-	g_free (pt);
-}
-
-void
-gog_series_element_style_list_free (GogSeriesElementStyleList *list)
-{
-	g_slist_foreach (list, (GFunc) go_series_element_style_free, NULL);
-	g_slist_free (list);
-}
-
-/**
- * go_series_element_style_list_copy :
- * @list : #GogSeriesElementStyleList
- *
- * Returns a copy of the list that references the same styles as the original
- **/
-GogSeriesElementStyleList *
-gog_series_element_style_list_copy (GogSeriesElementStyleList *list)
-{
-	GogSeriesElementStyle *pt = NULL;
-	GSList *ptr, *res = NULL;
-
-	for (ptr = list; ptr != NULL ; ptr = ptr->next) {
-		pt = ptr->data;
-		res = g_slist_prepend (res,
-			go_series_element_style_new (pt->style, pt->i));
-	}
-	return g_slist_reverse (res);
-}
-
-GogSeriesElementStyleList *
-gog_series_element_style_list_add (GogSeriesElementStyleList *list,
-				   unsigned i, GogStyle *style)
-{
-	GogSeriesElementStyle *pt = NULL;
-	GSList *ptr;
-
-	for (ptr = list ; ptr != NULL ; ptr = ptr->next) {
-		pt = ptr->data;
-		if (pt->i == i)
-			break;
-	}
-
-	/* Setting NULL clears existing */
-	if (style == NULL) {
-		if (ptr != NULL) {
-			go_series_element_style_free (pt);
-			return g_slist_remove (list, pt);
-		}
-		return list;
-	}
-	pt = go_series_element_style_new (style, i);
-	return g_slist_insert_sorted  (list, pt,
-				       (GCompareFunc) go_series_element_style_cmp);
 }
 
 static void

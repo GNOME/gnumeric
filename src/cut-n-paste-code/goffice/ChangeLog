@@ -1,3 +1,35 @@
+2004-03-09  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-object.c : make use_parent_as_proxy a class property
+	instead of an instance one.
+	* graph/gog-style.c : defines a new GogStyledObject derived
+	GogSeriesElement object for storing of single element style overrides.
+	(gog_series_class_init) : declares a new GogObjectRole for use of
+	GogSeriesElement objects. Set use_parent_as_proxy as true.
+	(gog_series_get_elements) : returns the GList of GogSeriesElement
+	children of GogSeries.
+	(gog_series_get_valid_element_index) : returns the next or previous
+	index which is not already used by a GogSeriesElement children of
+	GogSeries.
+	* graph/gog-style.c : remove unused implementation of
+	GogStyleExtension and old gog_series_element_style code.
+	(gog_style_editor) : remove code related to GogStyleExtension.
+	(gog_style_assing) : idem.
+	(gog_style_persist_dom_load) : idem.
+	(gog_style_persist_dom_save) : idem.
+	* graph/gog-syled-object.c (gog_styled_object_set_property) : use of
+	gog_styled_object_set_style.
+	(gog_styled_object_set_style)  : new.
+	* graph/plugins/plot_pie/gog-pie-series-element-prefs.glade : new.
+	* graph/plugins/plot_pie/gog-pie-prefs.c (gog_pie_series_element_pref)
+	: new.
+	* graph/plugins/plot_pie/gog-pie.c : define a new GogSeriesElement
+	derived GogPieSeriesElement object for storage of separation and style
+	of single elements.
+	(gog_pie_view_render) : handle single element style overrides.
+	* graph/plugins/plot_pie/gog-ring-prefs.glade : fix climb_rate, digits
+	and adjustment properties of the separation spin_button.
+	
 2004-03-03  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=136088
