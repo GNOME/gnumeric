@@ -1,5 +1,9 @@
 2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* configure.in: added en_CA
+
+2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=114099
 	* src/clipboard.h: change PASTE_DEFAULT to include comments
 
