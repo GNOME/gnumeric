@@ -1,5 +1,8 @@
 2001-10-30  Jody Goldberg <jgoldberg@home.com>
 
+	* src/func.c (tokenized_help_new) : don't include the trailing
+	  newlines.
+
 	* src/sheet-style.c (sheet_style_most_common_in_col) : typo.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=63409

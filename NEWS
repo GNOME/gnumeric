@@ -5,12 +5,13 @@ Andreas:
           expr-entry widget).
 
 Jody:
-	* Improve the handling of blank cells for XL export.
+	* Shink exported XL files.
 	* re-enable compression for .gnumeric files.
 	* Make cell formt dialog only pseudo-modal.
 	* Fix support for cancel on window manager quit.
 	* Fix non-bonobo View menu
 	* Fix sheet extent calculation new complex objects.
+	* Improve formula guru.
 
 Jukka:
 	* Documented the advanced filter.

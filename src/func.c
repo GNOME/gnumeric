@@ -1044,40 +1044,39 @@ tokenized_help_new (FunctionDefinition const *fn_def)
 	function_def_get_full_info_if_needed ((FunctionDefinition *) fn_def);
 
 	tok = g_new (TokenizedHelp, 1);
-
 	tok->fndef = fn_def;
+	tok->help_copy = NULL;
+	tok->sections = NULL;
 
-	if (fn_def->help && fn_def->help [0]){
-		char *ptr;
-		int seek_att = 1;
-		int last_newline = 1;
+	if (fn_def->help != NULL && fn_def->help [0] != '\0') {
+		char *ptr, *start;
+		gboolean seek_at = TRUE;
+		gboolean last_newline = TRUE;
 
-		ptr = _(fn_def->help [0]);
+		start = ptr = _(fn_def->help [0]);
 		tok->help_is_localized = ptr != fn_def->help [0];
 		tok->help_copy = g_strdup (ptr);
 		tok->sections = g_ptr_array_new ();
-		ptr = tok->help_copy;
 
-		while (*ptr){
-			if (*ptr == '\\' && *(ptr+1))
-				ptr+=2;
+		for (ptr = tok->help_copy; *ptr ; ptr++) {
+			if (ptr[0] == '\\' && ptr[1])
+				ptr += 2;
 
-			if (*ptr == '@' && seek_att && last_newline){
+			if (*ptr == '@' && seek_at && last_newline) {
+				if (ptr != start)
+					*(ptr-1) = '\0';
+				else
+					*ptr = '\0';
+
+				g_ptr_array_add (tok->sections, (ptr+1));
+				seek_at = FALSE;
+			} else if (*ptr == '=' && !seek_at){
 				*ptr = 0;
 				g_ptr_array_add (tok->sections, (ptr+1));
-				seek_att = 0;
-			} else if (*ptr == '=' && !seek_att){
-				*ptr = 0;
-				g_ptr_array_add (tok->sections, (ptr+1));
-				seek_att = 1;
+				seek_at = TRUE;
 			}
 			last_newline = (*ptr == '\n');
-
-			ptr++;
 		}
-	} else {
-		tok->help_copy = NULL;
-		tok->sections = NULL;
 	}
 
 	return tok;
