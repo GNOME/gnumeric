@@ -292,12 +292,24 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
 	e1.entry = glade_xml_get_widget (gui, "entry1");
 	e1.list = glade_xml_get_widget (gui, "clist1");
 
+#if 0
+	/* Make <Ret> in entry fields invoke default */
+	/*  *** FIXME: NO - invoke Add instead *** */
+	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
+				      GTK_EDITABLE (e1.entry));
+#endif
 	gtk_signal_connect(GTK_OBJECT(e1.list), "select_row",
 			   GTK_SIGNAL_FUNC(fl_select_row), NULL);
 
 	e2.entry = glade_xml_get_widget (gui, "entry2");
 	e2.list = glade_xml_get_widget (gui, "clist2");
 
+#if 0
+	/* Make <Ret> in entry fields invoke default */
+	/*  *** FIXME: NO - invoke Add instead *** */
+	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
+				      GTK_EDITABLE (e2.entry));
+#endif
 	gtk_signal_connect(GTK_OBJECT(e2.list), "select_row",
 			   GTK_SIGNAL_FUNC(in_select_row), NULL);
 
@@ -344,6 +356,12 @@ exceptions_callback (GtkWidget *widget, autocorrect_t *p)
 	gtk_widget_show (p->dia);
 }
 
+/*
+ *  Widgets for "replace text when typed" have been set insensitive in
+ *  autocorrect.glade until the feature is implemented. The widgets are:
+ *  checkbutton5, label1, label2, entry1, entry2.
+ *	
+ */
 void
 dialog_autocorrect (Workbook *wb)
 {
@@ -358,6 +376,7 @@ dialog_autocorrect (Workbook *wb)
 #if 0
 	GtkWidget *replace;
 #endif
+	GtkWidget *entry;
 	autocorrect_t p;
 
 	gint      v;
@@ -433,6 +452,14 @@ dialog_autocorrect (Workbook *wb)
 	gtk_signal_connect (GTK_OBJECT (replace), "toggled",
 			    GTK_SIGNAL_FUNC (replace_toggled), wb);
 #endif
+	/* Make <Ret> in entry fields invoke default */
+	entry = glade_xml_get_widget (gui, "entry1");
+	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
+				      GTK_EDITABLE (entry));
+	entry = glade_xml_get_widget (gui, "entry2");
+	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
+				      GTK_EDITABLE (entry));
+
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 
 	if (v != 0) {

@@ -98,7 +98,8 @@
 	      <class>GtkCheckButton</class>
 	      <name>autosave_on_off</name>
 	      <can_focus>True</can_focus>
-	      <label>Automatic Save Every</label>
+	      <has_focus>True</has_focus>
+	      <label>_Automatic Save Every</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <child>
@@ -128,7 +129,7 @@
 	    <class>GtkCheckButton</class>
 	    <name>prompt_on_off</name>
 	    <can_focus>True</can_focus>
-	    <label>Prompt Before Saving</label>
+	    <label>_Prompt Before Saving</label>
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
@@ -153,13 +154,14 @@
 	  <widget>
 	    <class>GtkLabel</class>
 	    <name>label1</name>
-	    <label>Minutes</label>
+	    <label>_Minutes</label>
 	    <justify>GTK_JUSTIFY_CENTER</justify>
 	    <wrap>False</wrap>
 	    <xalign>0.5</xalign>
 	    <yalign>0.5</yalign>
 	    <xpad>0</xpad>
 	    <ypad>0</ypad>
+	    <focus_target>minutes</focus_target>
 	    <child>
 	      <padding>0</padding>
 	      <expand>False</expand>
@@ -199,6 +201,7 @@
 	<class>GtkButton</class>
 	<name>button1</name>
 	<can_default>True</can_default>
+	<has_default>True</has_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
       </widget>

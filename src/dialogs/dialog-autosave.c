@@ -117,6 +117,9 @@ dialog_autosave (Workbook *wb)
 	sprintf(buf, "%d", wb->autosave_minutes);
 	gtk_entry_set_text (GTK_ENTRY (minutes), buf);
 
+	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
+				      GTK_EDITABLE (minutes));
+
 loop:	
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
 

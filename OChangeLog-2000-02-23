@@ -1,3 +1,27 @@
+2000-01-23  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/autosave-prompt.glade: Give "Yes"
+	button initial keyboard focus.
+	
+	* src/dialogs/autosave.glade: Set initial focus to
+	first check button. Make OK the default.
+
+	* src/dialogs/dialog-autocorrect.c (dialog_autocorrect): Make
+	<Ret> in entry fields invoke default.
+	(dialog_autocorrect, exceptions_callback): 
+
+	* src/dialogs/autocorrect-exceptions.glade: Set initial focus to
+	text entry field. Make OK the default. Do not show column headers
+	in clist. Remove unnecessary level of scrollwindow.
+
+	* src/dialogs/autocorrect.glade: Make OK the default. Set initial
+	focus to first check button. Define accelerators. Set widgets for
+	"replace text when typed" insensitive until feature is
+	implemented. Do not show column headers in clist.
+
+	* src/dialogs/dialog-autosave.c (dialog_autosave): Make
+	<Ret> in "minutes" fields invoke default.
+
 2000-01-23  Michael Meeks  <michael@edenproject.org>
 
 

@@ -90,6 +90,7 @@
 	<can_default>True</can_default>
 	<has_default>True</has_default>
 	<can_focus>True</can_focus>
+	<has_focus>True</has_focus>
 	<stock_button>GNOME_STOCK_BUTTON_YES</stock_button>
       </widget>
 
