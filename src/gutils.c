@@ -286,18 +286,6 @@ g_slist_free_custom (GSList *list, GFreeFunc free_func)
 }
 
 gint
-gnumeric_strcase_equal (gconstpointer v1, gconstpointer v2)
-{
-	/* FIXME: this is expensive!  */
-	char *s1 = g_utf8_casefold (v1, -1);
-	char *s2 = g_utf8_casefold (v2, -1);
-	int res = (strcmp (s1, s2) == 0);
-	g_free (s1);
-	g_free (s2);
-	return res;
-}
-
-gint
 gnumeric_utf8_collate_casefold (const char *a, const char *b)
 {
 	char *a2 = g_utf8_casefold (a, -1);
@@ -308,15 +296,20 @@ gnumeric_utf8_collate_casefold (const char *a, const char *b)
 	return res;
 }
 
+gint
+gnumeric_ascii_strcase_equal (gconstpointer v1, gconstpointer v2)
+{
+	return g_ascii_strcasecmp ((char const *) v1, (char const *)v2) == 0;
+}
+
 /* a char* hash function from ASU */
 guint
-gnumeric_strcase_hash (gconstpointer v)
+gnumeric_ascii_strcase_hash (gconstpointer v)
 {
 	unsigned const char *s = (unsigned const char *)v;
 	unsigned const char *p;
 	guint h = 0, g;
 
-#warning THIS IS BROKEN
 	for(p = s; *p != '\0'; p += 1) {
 		h = ( h << 4 ) + tolower (*p);
 		if ( ( g = h & 0xf0000000 ) ) {

@@ -1,3 +1,44 @@
+2002-10-26  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c : Start rationalizing things.
+	* ms-formula-write.c : ditto.  Lots of adjustments.
+	- start handling biff7 externsheets correctly
+	- fix handling of non builtin functions
+
+	* ms-excel-read.c (excel_add_name) : delete.
+	(excel_workbook_get_name) : ditto.
+
+	* ms-formula-read.c : Hopefully the last major tweak to names and
+	  externsheets for biff7.  This now loads all test cases smoothly.
+	  It seems that biff7 stores per bof sets of externsheets.
+
+	* ms-container.c (ms_container_init) : Add a version and a workbook
+	  pointer.  Init the new biff7 extern handling data structures.
+	(ms_container_finalize) : and release them here.
+	(ms_container_get_name) : new to handle biff7 or biff8 magic.
+	(ms_container_add_name) : ditto.
+
+	* ms-chart.c (BC_R(ai)) : parse the expression as ourselves, not the
+	  container.
+	(chart_parse_expr) : implement.
+	(ms_excel_chart) : handle EXTERNSHEET and EXTERNCOUNT for biff7 style
+	  storage with per BOF EXTERN*.
+
+	* ms-biff.c (ms_biff_put_destroy) : take responsibility for the output
+	  stream.
+
+	* boot.c (excel_save) : check that we can open the output file before
+	  we bother collecting things for export.
+
+2002-10-25  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_XF) : init shrink to fit in the non
+	  biff8 case.
+
+2002-10-24  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_parse_name) : patch leak.
+
 2002-10-25  Morten Welinder  <terra@diku.dk>
 
 	* ms-biff.c (skip_bytes): Make scratch buffer static to ensure
@@ -11,7 +52,7 @@
 
 	* ms-formula-read.c (excel_parse_formula) : Ok. take a 2nd crack at
 	  the externsheet handling in area3d and ref3d for biff7.  It seems
-	  like XL2k generates different idicies when exporting as XL95 than
+	  like XL2k generates different indicies when exporting as XL95 than
 	  XL95 did.  So have a fall back.  If the theory that
 	    a+1 == -ixals, a, b are 0 based
 	  fails.  Go back to 

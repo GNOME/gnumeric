@@ -773,7 +773,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 			gnm_1_0_rangeref_parse, &perr);
 		if (exp != NULL) {
 			char *err = NULL;
-			expr_name_add (&pp, (char const *)name_str, expr, &err);
+			expr_name_add (&pp, (char const *)name_str, expr, &err, TRUE);
 			if (err != NULL) {
 				gnm_io_warning (ctxt->io_context, err);
 				g_free (err);
@@ -2560,7 +2560,8 @@ xml_read_cell_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 	MStyle *mstyle;
 	int style_idx;
 
-	ctxt->style_table = g_hash_table_new (g_direct_hash, g_direct_equal);
+	ctxt->style_table = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+						   NULL, (GDestroyNotify) mstyle_unref);
 
 	child = e_xml_get_child_by_name (tree, (xmlChar const *)"CellStyles");
 	if (child == NULL)
@@ -2576,18 +2577,6 @@ xml_read_cell_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 				mstyle);
 		}
 	}
-}
-static void
-destroy_style (gpointer key, gpointer value, gpointer data)
-{
-	mstyle_unref (value);
-}
-
-static void
-xml_dispose_read_cell_styles (XmlParseContext *ctxt)
-{
-	g_hash_table_foreach (ctxt->style_table, destroy_style, NULL);
-	g_hash_table_destroy (ctxt->style_table);
 }
 
 /*
@@ -2680,7 +2669,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	xml_read_solver (ctxt, tree);
 	xml_read_sheet_layout (ctxt, tree);
 
-	xml_dispose_read_cell_styles (ctxt);
+	g_hash_table_destroy (ctxt->style_table);
 
 	/* Init ColRowInfo's size_pixels and force a full respan */
 	sheet_flag_recompute_spans (sheet);

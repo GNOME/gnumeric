@@ -16,16 +16,13 @@
 #include "ms-container.h"
 #include <expr.h>
 
-typedef struct _ExcelWorkbook	ExcelWorkbook;
 typedef struct _ExcelSheet	ExcelSheet;
 
 struct _ExcelSheet {
 	MSContainer container;
 
 	Sheet		*sheet;
-	ExcelWorkbook	*ewb;
 	GHashTable	*shared_formulae, *tables;
-	GPtrArray	*externsheet_v7;
 
 	gboolean freeze_panes;
 };
@@ -94,16 +91,15 @@ struct _ExcelWorkbook {
 	GPtrArray	 *XF_cell_records;
 	GHashTable	 *font_data;
 	GHashTable	 *format_data; /* leave as a hash */
-	GPtrArray	 *names;
-	GPtrArray	 *supbooks;
-	GArray		 *externsheet_v8;
-	GPtrArray	 *externsheet_v7;
+	struct {
+		GPtrArray	 *supbooks;
+		GArray		 *externsheet;
+	} v8; /* biff8 does this in the workbook */
 	ExcelPalette	 *palette;
 	char		**global_strings;
 	guint32		  global_string_max;
 
 	gboolean          warn_unsupported_graphs;
-	GSList		 *delayed_names;
 
 	ExprTreeSharer   *expr_sharer;
 
@@ -113,14 +109,11 @@ struct _ExcelWorkbook {
 char       *biff_get_text (guint8 const *ptr, guint32 length, guint32 *byte_length);
 char const *biff_get_error_text (guint8 err);
 
-GnmExpr const	*excel_workbook_get_name (ExcelWorkbook const *ewb,
-					  ExcelSheet const *esheet, guint16 i,
-					  Sheet *sheet);
-Sheet		*excel_externsheet_v7	 (ExcelWorkbook const *wb,
-					  ExcelSheet const *esheet, gint16 i);
+Sheet		*excel_externsheet_v7	 (MSContainer const *container, gint16 i);
 void		 excel_externsheet_v8	 (ExcelWorkbook const *wb,  gint16 i,
 					  Sheet **first, Sheet **last);
 
+void		excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container);
 MsBiffBofData  *ms_biff_bof_data_new     (BiffQuery * q);
 void		ms_biff_bof_data_destroy (MsBiffBofData * data);
 

@@ -7,7 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-* massive breakage in xls export of names
 - validate expression names to ensure that they are not simple values (eg TRUE)
 - check the implementation of seriessum returning NULL seems bad
 - Don't write empty cells.
@@ -44,11 +43,12 @@ Pending Patches
     5.4) should extend the format api to contain (not support) all of the
         opencalc flags.
 6) XL
-    6.1) 97 export
-    6.2) Form import
-    6.3) Intersection, union and set export
-    6.4) fix name export now that we sorta understand it
-    6.5) non-ole import (Nick Lamb is working on this)
+    6.1) biff7 externsheet records in charts
+    6.2) 97 export
+    6.3) Form import
+    6.4) Intersection, union and set export
+    6.5) fix name export now that we sorta understand it
+    6.6) non-ole import (Nick Lamb is working on this)
 9) Manual recalc						(DONE)
     9.1) finish calculation ui in workbook attr dialog		(DONE)
 10) fix highlighting of completion code

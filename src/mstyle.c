@@ -1372,7 +1372,7 @@ mstyle_set_content_locked (MStyle *style, gboolean f)
 	g_return_if_fail (style != NULL);
 
 	style->elements[MSTYLE_CONTENT_LOCKED].type = MSTYLE_CONTENT_LOCKED;
-	style->elements[MSTYLE_CONTENT_LOCKED].u.wrap_text = f;
+	style->elements[MSTYLE_CONTENT_LOCKED].u.content_locked = f;
 }
 
 gboolean
@@ -1380,7 +1380,7 @@ mstyle_get_content_locked (const MStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_CONTENT_LOCKED), FALSE);
 
-	return style->elements [MSTYLE_CONTENT_LOCKED].u.wrap_text;
+	return style->elements [MSTYLE_CONTENT_LOCKED].u.content_locked;
 }
 void
 mstyle_set_content_hidden (MStyle *style, gboolean f)
@@ -1388,7 +1388,7 @@ mstyle_set_content_hidden (MStyle *style, gboolean f)
 	g_return_if_fail (style != NULL);
 
 	style->elements[MSTYLE_CONTENT_HIDDEN].type = MSTYLE_CONTENT_HIDDEN;
-	style->elements[MSTYLE_CONTENT_HIDDEN].u.wrap_text = f;
+	style->elements[MSTYLE_CONTENT_HIDDEN].u.content_hidden = f;
 }
 
 gboolean
@@ -1396,7 +1396,7 @@ mstyle_get_content_hidden (const MStyle *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_CONTENT_HIDDEN), FALSE);
 
-	return style->elements [MSTYLE_CONTENT_HIDDEN].u.wrap_text;
+	return style->elements [MSTYLE_CONTENT_HIDDEN].u.content_hidden;
 }
 
 void

@@ -676,7 +676,7 @@ link_cellrange_dep (Dependent *dep, CellPos const *pos,
 
 	if (a->sheet != NULL) {
 		if (a->sheet != dep->sheet)
-			flag = (a->sheet->workbook != a->sheet->workbook)
+			flag = (a->sheet->workbook != dep->sheet->workbook)
 				? DEPENDENT_GOES_INTERBOOK : DEPENDENT_GOES_INTERSHEET;
 
 		if (b->sheet != NULL && a->sheet != b->sheet) {

@@ -54,6 +54,7 @@ Jody:
 	* Fix parse error reporting
 	* Fix xls name import for external and builtin names (95 & 2k)
 	* Fix undo for object movement
+	* Improve XL95 export and prep framework for 2k
 
 Morten:
 	* Port search center from gal's e-table to gtk's treeview.

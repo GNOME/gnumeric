@@ -47,7 +47,7 @@
  *     macrofun.hlp has info on them but supporting Excel4 macro sheets is not
  *     top priority.
  **/
-const FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
+FormulaFuncData const formula_func_data[FORMULA_FUNC_DATA_LEN] =
 {
 /* 0 */		{ "COUNT", -1 },
 /* 1 */		{ "IF", -1 },
@@ -621,11 +621,11 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 		parse_list_push (stack, gnm_expr_new_funcall (name, args));
 		return TRUE;
 	} else if (fn_idx >= 0 && fn_idx < FORMULA_FUNC_DATA_LEN) {
-		const FormulaFuncData *fd = &formula_func_data[fn_idx];
+		FormulaFuncData const *fd = &formula_func_data [fn_idx];
 		GnmExprList *args;
 
 		d (2, fprintf (stderr, "Function '%s', args %d, templ: %d\n",
-			      fd->prefix, numargs, fd->num_args););
+			      fd->name, numargs, fd->num_args););
 
 		/* Right args for multi-arg funcs. */
 		if (fd->num_args >= 0) {
@@ -641,19 +641,19 @@ make_function (GnmExprList **stack, int fn_idx, int numargs)
 				  "not have adequate documentation.  "
 				  "Please forward a copy (if possible) to\n"
 				  "gnumeric-list@gnome.org.  Thanks",
-				  fd->prefix);
+				  fd->name);
 
 		args = parse_list_last_n (stack, numargs);
-		if (fd->prefix) {
-			name = gnm_func_lookup (fd->prefix, NULL);
+		if (fd->name) {
+			name = gnm_func_lookup (fd->name, NULL);
 			if (name == NULL)
-				name = gnm_func_add_placeholder (fd->prefix, "Builtin ", FALSE);
+				name = gnm_func_add_placeholder (fd->name, "Builtin ", FALSE);
 		}
 		/* This should not happen */
 		if (!name) {
 			char *txt;
 			txt = g_strdup_printf ("[Function '%s']",
-					       fd->prefix?fd->prefix:"?");
+					       fd->name ? fd->name : "?");
 			fprintf (stderr, "Unknown %s\n", txt);
 			parse_list_push_raw (stack, value_new_error (NULL, txt));
 			g_free (txt);
@@ -716,14 +716,14 @@ static GnmExprOp const unary_ops [] = {
  * Return a dynamicly allocated GnmExpr containing the formula, or NULL
  **/
 GnmExpr const *
-excel_parse_formula (ExcelWorkbook const *ewb,
+excel_parse_formula (MSContainer const *container,
 		     ExcelSheet const *esheet,
 		     int fn_col, int fn_row,
 		     guint8 const *mem, guint16 length,
 		     gboolean shared,
 		     gboolean *array_element)
 {
-	MsBiffVersion const ver = ewb->container.ver;
+	MsBiffVersion const ver = container->ver;
 
 	/* so that the offsets and lengths match the documentation */
 	guint8 const *cur = mem + 1;
@@ -738,12 +738,10 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 	if (array_element != NULL)
 		*array_element = FALSE;
 
-	g_return_val_if_fail (ewb != NULL, NULL);
-
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_formula_debug > 1) {
 		fprintf (stderr, "--> len = %d\n", length);
-		ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
+		ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
 		if (ms_excel_formula_debug > 2)
 			gsf_mem_dump (mem, length);
 	}
@@ -776,7 +774,7 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 #ifndef NO_DEBUG_EXCEL
 				if (ms_excel_formula_debug > 3) {
 					fprintf (stderr, "Unknown shared formula @");
-					ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
+					ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
 				}
 #endif
 				parse_list_free (&stack);
@@ -798,7 +796,7 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 				fprintf (stderr, "Parse shared formula\n");
 			}
 #endif
-			expr = excel_parse_formula (ewb, esheet, fn_col, fn_row,
+			expr = excel_parse_formula (container, esheet, fn_col, fn_row,
 				sf->data, sf->data_len, TRUE, array_element);
 
 			parse_list_push (&stack, expr);
@@ -882,7 +880,7 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 					warned_3 = TRUE;
 				} /* else always warn */
 
-				ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
+				ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
 				fprintf (stderr, "Hmm, ptgAttr of type 0 ??\n"
 					"I've seen a case where an instance of this with flag A and another with flag 3\n"
 					"bracket a 1x1 array formula.  please send us this file.\n"
@@ -902,7 +900,7 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 					gsf_mem_dump (mem, length);
 				}
 #endif
-				tr = w ? excel_parse_formula (ewb, esheet, fn_col, fn_row,
+				tr = w ? excel_parse_formula (container, esheet, fn_col, fn_row,
 					   cur+ptg_length, w, shared, NULL)
 					: expr_tree_string ("");
 				parse_list_push (&stack, tr);
@@ -929,7 +927,7 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 							*(cur+ptg_length+offset));
 					}
 #endif
-					tr = excel_parse_formula (ewb, esheet, fn_col, fn_row,
+					tr = excel_parse_formula (container, esheet, fn_col, fn_row,
 						cur+ptg_length+offset, len, shared, NULL);
 					data += 2;
 					parse_list_push (&stack, tr);
@@ -964,7 +962,7 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 				;
 #endif
 			} else {
-				ms_excel_dump_cellname (ewb, esheet, fn_col, fn_row);
+				ms_excel_dump_cellname (container->ewb, esheet, fn_col, fn_row);
 				fprintf (stderr, "Unknown PTG Attr gr = 0x%x, w = 0x%x ptg = 0x%x\n", grbit, w, ptg);
 				error = TRUE;
 			}
@@ -1014,10 +1012,13 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 				} 
 			}
 			if (str != NULL) {
+				d (2, fprintf (stderr, "   -> '%s'\n", str););
 				parse_list_push_raw (&stack, value_new_string (str));
 				g_free (str);
-			} else
+			} else {
+				d (2, fprintf (stderr, "   -> \'\'\n"););
 				parse_list_push_raw (&stack, value_new_string (""));
+			}
 			break;
 		}
 
@@ -1254,8 +1255,8 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 			else
 				ptg_length = 14;
 
-			parse_list_push (&stack,
-				excel_workbook_get_name (ewb, esheet, name_idx, NULL));
+			parse_list_push (&stack, ms_container_get_name (&container->ewb->container,
+									name_idx, NULL, TRUE));
 			d (2, fprintf (stderr, "Name idx %hu\n", name_idx););
 		}
 		break;
@@ -1334,28 +1335,34 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 			Sheet *sheet;
 
 			sheet_idx = GSF_LE_GET_GINT16 (cur);
-			if (ewb->container.ver >= MS_BIFF_V8) {
-				Sheet *dummy;
-				excel_externsheet_v8 (ewb, sheet_idx, &sheet, &dummy);
-				if (sheet != dummy) {
-					g_warning ("A 3d name reference ?");
-				}
+			if (ver >= MS_BIFF_V8) {
 				/* NOTE : for explicitly qualified sheet local names
 				 * Sheet1!name_local_to_sheet1
 				 * sheet may return (Sheet *)1.  This is intentional
-				 * excel_workbook_get_name handles it.
+				 * ms_container_get_name handles it.
 				 */
+				Sheet *dummy;
+				excel_externsheet_v8 (container->ewb, sheet_idx, &sheet, &dummy);
+				if (sheet != dummy) {
+					g_warning ("A 3d name reference ?");
+				}
 				name_idx  = GSF_LE_GET_GUINT16 (cur+2);
 				ptg_length = 6;
 			} else {
-				sheet = excel_externsheet_v7 (ewb, esheet,
-							      sheet_idx);
+				/* NOTE : for explicitly qualified sheet local names
+				 * Sheet1!name_local_to_sheet1
+				 * sheet may return (Sheet *)1.  This is intentional
+				 * ms_container_get_name handles it.
+				 */
+				sheet = excel_externsheet_v7 (container, sheet_idx);
 				name_idx  = GSF_LE_GET_GUINT16 (cur+10);
+				d (2, fprintf (stderr, "name = %hu, sheet = %hd\n",
+					       name_idx, sheet_idx););
 				ptg_length = 24;
 			}
 
 			parse_list_push (&stack,
-				excel_workbook_get_name (ewb, esheet, name_idx, sheet));
+				ms_container_get_name (container, name_idx, sheet, sheet_idx < 0));
 		}
 		break;
 
@@ -1368,7 +1375,7 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 					  GSF_LE_GET_GUINT16 (cur + 4),
 					  fn_col, fn_row, 0);
 				last = first;
-				excel_externsheet_v8 (ewb, GSF_LE_GET_GUINT16 (cur),
+				excel_externsheet_v8 (container->ewb, GSF_LE_GET_GUINT16 (cur),
 					&first.sheet, &last.sheet);
 
 				ptg_length = 6;
@@ -1413,15 +1420,18 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 					a = ixals;
 					b = GSF_LE_GET_GINT16 (cur + 12);
 				}
-				first.sheet = excel_externsheet_v7 (ewb, esheet, a);
+				first.sheet = excel_externsheet_v7 (container, a);
 				if (a != b)
-					last.sheet = excel_externsheet_v7 (ewb, esheet, b);
+					last.sheet = excel_externsheet_v7 (container, b);
 
 				ptg_length = 17;
 			}
 			if (first.sheet != NULL && last.sheet == NULL)
 				last.sheet = first.sheet;
 
+			if (first.sheet == (Sheet *)1) {
+				g_warning ("SHIT!");
+			}
 			/* There does not appear to be a way to express a ref
 			 * to another sheet without using a 3d ref.  lets be smarter
 			 */
@@ -1445,7 +1455,7 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 					  GSF_LE_GET_GUINT16(cur+4),
 					  GSF_LE_GET_GUINT16(cur+8),
 					  fn_col, fn_row, 0);
-				excel_externsheet_v8 (ewb, GSF_LE_GET_GUINT16 (cur),
+				excel_externsheet_v8 (container->ewb, GSF_LE_GET_GUINT16 (cur),
 					&first.sheet, &last.sheet);
 
 				ptg_length = 10;
@@ -1493,9 +1503,9 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 					a = ixals;
 					b = GSF_LE_GET_GINT16 (cur + 12);
 				}
-				first.sheet = excel_externsheet_v7 (ewb, esheet, a);
+				first.sheet = excel_externsheet_v7 (container, a);
 				if (a != b)
-					last.sheet = excel_externsheet_v7 (ewb, esheet, b);
+					last.sheet = excel_externsheet_v7 (container, b);
 
 				ptg_length = 20;
 			}
@@ -1554,5 +1564,5 @@ excel_parse_formula (ExcelWorkbook const *ewb,
 		return expr;
 	}
 #endif
-	return expr_tree_sharer_share (ewb->expr_sharer, parse_list_pop (&stack));
+	return expr_tree_sharer_share (container->ewb->expr_sharer, parse_list_pop (&stack));
 }

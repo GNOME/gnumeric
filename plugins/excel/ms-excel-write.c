@@ -68,7 +68,7 @@
 static GIConv current_workbook_iconv = NULL;
 
 static guint style_color_to_rgb888 (StyleColor const *c);
-static gint  palette_get_index (ExcelWorkbook *wb, guint c);
+static gint  palette_get_index (ExcelWriteState *ewb, guint c);
 
 /**
  *  This function converts simple strings...
@@ -76,7 +76,7 @@ static gint  palette_get_index (ExcelWorkbook *wb, guint c);
 int
 biff_convert_text (char **buf, char const *txt, MsBiffVersion ver)
 {
-	guint32 lp, len;
+	guint32 i, len;
 
 	g_return_val_if_fail (txt, 0);
 
@@ -95,11 +95,10 @@ biff_convert_text (char **buf, char const *txt, MsBiffVersion ver)
 
 		outbuf = g_new(guint16, len);
 		*buf = (char *)outbuf;
-		for (lp = 0; lp < len; lp++) {
-			outbuf[lp] = wcbuf[lp];
-		}		
+		for (i = 0; i < len; i++)
+			outbuf[i] = wcbuf[i];
 		g_free(wcbuf);
-		len = lp * 2;
+		len = i * 2;
 	} else {
 		size_t inbufleft = len, outbufleft = len*8;
 		char *outbufptr;
@@ -122,12 +121,12 @@ biff_convert_text (char **buf, char const *txt, MsBiffVersion ver)
  *  it returns the length of the string.
  **/
 int
-biff_put_text (BiffPut *bp, char const *txt, int len, MsBiffVersion ver,
+biff_put_text (BiffPut *bp, char const *txt, int len,
 	       gboolean write_len, PutType how)
 {
 	guint8 data[4];
 	guint32 ans;
-	int lp;
+	int i;
 
 	gboolean sixteen_bit_len;
 	gboolean unicode;
@@ -141,15 +140,15 @@ biff_put_text (BiffPut *bp, char const *txt, int len, MsBiffVersion ver,
 	}
 
 	ans = 0;
-/*	printf ("Write '%s' len = %d\n", txt, len); */
+/*	fprintf (stderr, "Write '%s' len = %d\n", txt, len); */
 
-	if ((how == AS_PER_VER && ver >= MS_BIFF_V8) ||
+	if ((how == AS_PER_VER && bp->version >= MS_BIFF_V8) ||
 	    how == SIXTEEN_BIT)
 		sixteen_bit_len = TRUE;
 	else
 		sixteen_bit_len = FALSE; /* 8 bit */
 
-	if (ver >= MS_BIFF_V8)
+	if (bp->version >= MS_BIFF_V8)
 		unicode = TRUE;
 	else
 		unicode = FALSE;
@@ -172,8 +171,8 @@ biff_put_text (BiffPut *bp, char const *txt, int len, MsBiffVersion ver,
 		off++;
 		ms_biff_put_var_write (bp, data, off);
 
-		for (lp = 0; lp < len/2; lp++) {
-			GSF_LE_SET_GUINT16 (data, buf[lp]);
+		for (i = 0; i < len/2; i++) {
+			GSF_LE_SET_GUINT16 (data, buf[i]);
 			ms_biff_put_var_write (bp, data, 2);
 		}
 	} else {
@@ -198,14 +197,13 @@ biff_put_text (BiffPut *bp, char const *txt, int len, MsBiffVersion ver,
  * See S59D5D.HTM
  **/
 static unsigned
-biff_bof_write (BiffPut *bp, MsBiffVersion ver,
-		MsBiffFileType type)
+biff_bof_write (BiffPut *bp, MsBiffFileType type)
 {
 	guint   len;
 	guint8 *data;
 	unsigned ans;
 
-	if (ver >= MS_BIFF_V8)
+	if (bp->version >= MS_BIFF_V8)
 		len = 16;
 	else
 		len = 8;
@@ -215,7 +213,7 @@ biff_bof_write (BiffPut *bp, MsBiffVersion ver,
 	ans = bp->streamPos;
 
 	bp->ls_op = BIFF_BOF;
-	switch (ver) {
+	switch (bp->version) {
 	case MS_BIFF_V2:
 		bp->ms_op = 0;
 		break;
@@ -228,8 +226,8 @@ biff_bof_write (BiffPut *bp, MsBiffVersion ver,
 	case MS_BIFF_V7:
 	case MS_BIFF_V8:
 		bp->ms_op = 8;
-		if (ver == MS_BIFF_V8 || /* as per the spec. */
-		    (ver == MS_BIFF_V7 && type == MS_BIFF_TYPE_Worksheet)) /* Wierd hey */
+		if (bp->version == MS_BIFF_V8 || /* as per the spec. */
+		    (bp->version == MS_BIFF_V7 && type == MS_BIFF_TYPE_Worksheet)) /* Wierd hey */
 			GSF_LE_SET_GUINT16 (data, 0x0600);
 		else
 			GSF_LE_SET_GUINT16 (data, 0x0500);
@@ -265,11 +263,10 @@ biff_bof_write (BiffPut *bp, MsBiffVersion ver,
 	}
 
 	/* Magic version numbers: build date etc. */
-	switch (ver) {
+	switch (bp->version) {
 	case MS_BIFF_V8:
 		GSF_LE_SET_GUINT16 (data+4, 0x0dbb);
 		GSF_LE_SET_GUINT16 (data+6, 0x07cc);
-		g_assert (len > 11);
 		/* Quandry: can we tell the truth about our history */
 		GSF_LE_SET_GUINT32 (data+ 8, 0x00000004);
 		GSF_LE_SET_GUINT16 (data+12, 0x06000908); /* ? */
@@ -280,7 +277,7 @@ biff_bof_write (BiffPut *bp, MsBiffVersion ver,
 		GSF_LE_SET_GUINT16 (data+6, 0x07c9);
 		break;
 	default:
-		printf ("FIXME: I need some magic numbers\n");
+		fprintf (stderr, "FIXME: I need some magic numbers\n");
 		GSF_LE_SET_GUINT16 (data+4, 0x0);
 		GSF_LE_SET_GUINT16 (data+6, 0x0);
 		break;
@@ -295,34 +292,6 @@ ms_excel_write_EOF (BiffPut *bp)
 {
 	ms_biff_put_len_next (bp, BIFF_EOF, 0);
 	ms_biff_put_commit (bp);
-}
-
-static void
-write_magic_interface (BiffPut *bp, MsBiffVersion ver)
-{
-	guint8 *data;
-	if (ver >= MS_BIFF_V7) {
-		if (ver >= MS_BIFF_V8) {
-			data = ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 2);
-			GSF_LE_SET_GUINT16 (data, gsf_msole_iconv_win_codepage());
-		} else {
-			ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 0);
-		}
-		ms_biff_put_commit (bp);
-
-		data = ms_biff_put_len_next (bp, BIFF_MMS, 2);
-		GSF_LE_SET_GUINT16(data, 0);
-		ms_biff_put_commit (bp);
-
-		ms_biff_put_len_next (bp, BIFF_TOOLBARHDR, 0);
-		ms_biff_put_commit (bp);
-
-		ms_biff_put_len_next (bp, BIFF_TOOLBAREND, 0);
-		ms_biff_put_commit (bp);
-
-		ms_biff_put_len_next (bp, BIFF_INTERFACEEND, 0);
-		ms_biff_put_commit (bp);
-	}
 }
 
 /* See: S59DE3.HTM */
@@ -366,59 +335,73 @@ excel_write_SETUP (BiffPut *bp, ExcelSheet *esheet)
 	ms_biff_put_commit (bp);
 }
 
-/*
- * XL doesn't write externsheets as often as we do. The previous version of
- * this function causes XL to crash when we exported a spreadsheet function
- * which is not an XL builtin. This version is still wrong, but won't crash
- * XL.
- */
 static void
-excel_write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
+excel_write_EXTERNNAME_funcs (ExcelWriteState *ewb)
 {
-	int num_sheets = wb->sheets->len;
-	guint32 externcount;
+	/* 2 byte expression #REF! */
+	static guint8 const expr_ref [] =
+		{ 0x02, 0, 0x1c, 0x17 };
+	static guint8 const zeros [] =
+		{ 0, 0, 0, 0, 0 ,0 };
+	unsigned i;
+	gint    len;
+	char   *buf;
+	GnmFunc *func;
+
+	for (i = 0; i < ewb->externnames->len ; i++) {
+		ms_biff_put_var_next (ewb->bp, BIFF_EXTERNNAME);
+		ms_biff_put_var_write (ewb->bp, zeros, 6);
+
+		/* write the name and the 1 byte length */
+		func = g_ptr_array_index (ewb->externnames, i);
+		len = biff_convert_text (&buf, func->name, MS_BIFF_V7);
+		biff_put_text (ewb->bp, buf, len, TRUE, EIGHT_BIT);
+		g_free (buf);
+
+		ms_biff_put_var_write (ewb->bp, expr_ref, sizeof (expr_ref));
+		ms_biff_put_commit (ewb->bp);
+	}
+}
+
+static void
+excel_write_externsheets_v7 (BiffPut *bp, ExcelWriteState *ewb, ExcelSheet *container)
+{
+	int i, num_sheets = ewb->sheets->len;
 	guint8 *data;
-	int lp;
-
-	if (wb->ver > MS_BIFF_V7) {
-		printf ("Need some cunning BiffV8 stuff ?\n");
-		return;
-	}
-
-	g_assert (num_sheets < 0xffff);
-
-	/* Kluge upon kluge, but the externcount will now match the number
-	 * of externsheets we store. */
-	for (lp = 0, externcount = 0; lp < num_sheets; lp++) {
-		ExcelSheet *esheet = g_ptr_array_index (wb->sheets, lp);
-
-		if (esheet != ignore)
-			externcount ++;
-	}
-
-	if (externcount == 0)
-		return;
 
 	data = ms_biff_put_len_next (bp, BIFF_EXTERNCOUNT, 2);
-	GSF_LE_SET_GUINT16(data, externcount);
+	GSF_LE_SET_GUINT16 (data, num_sheets + 1);
 	ms_biff_put_commit (bp);
 
-	for (lp = 0; lp < num_sheets; lp++) {
-		ExcelSheet *esheet = g_ptr_array_index (wb->sheets, lp);
-		gint len;
-		char *buf;
-		guint8 data[8];
+	for (i = 0; i < num_sheets; i++) {
+		ExcelSheet const *esheet = g_ptr_array_index (ewb->sheets, i);
 
-		if (esheet == ignore) continue;
-
-		len = biff_convert_text (&buf, esheet->gnum_sheet->name_unquoted, wb->ver);
 		ms_biff_put_var_next (bp, BIFF_EXTERNSHEET);
-		GSF_LE_SET_GUINT8(data, len);
-		GSF_LE_SET_GUINT8(data + 1, 3); /* Magic */
-		ms_biff_put_var_write (bp, data, 2);
-		biff_put_text (bp, buf, len, wb->ver, FALSE, AS_PER_VER);
-		g_free(buf);
+		if (esheet == container) {
+			static guint8 const magic_selfref[] = { 0x01, 0x04 };
+			ms_biff_put_var_write (bp, magic_selfref, sizeof magic_selfref);
+		} else {
+			char *buf;
+			gint len = biff_convert_text (&buf, esheet->gnum_sheet->name_unquoted, bp->version);
+			guint8 data[2];
+
+			GSF_LE_SET_GUINT8 (data, len);
+			GSF_LE_SET_GUINT8 (data + 1, 3); /* undocumented */
+			ms_biff_put_var_write (bp, data, 2);
+			biff_put_text (bp, buf, len, FALSE, AS_PER_VER);
+			g_free (buf);
+		}
 		ms_biff_put_commit (bp);
+	}
+
+	/* Add a magic addin externsheet */
+	{
+		static guint8 const magic_addin[] = { 0x01, 0x3a };
+		ms_biff_put_var_next (bp, BIFF_EXTERNSHEET);
+		ms_biff_put_var_write (bp, magic_addin, sizeof magic_addin);
+		ms_biff_put_commit (bp);
+
+		excel_write_EXTERNNAME_funcs (ewb);
 	}
 }
 
@@ -426,7 +409,7 @@ excel_write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
  * See: S59E17.HTM
  */
 static void
-excel_write_WINDOW1 (BiffPut *bp, MsBiffVersion ver, WorkbookView *wb_view)
+excel_write_WINDOW1 (BiffPut *bp, WorkbookView *wb_view)
 {
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_WINDOW1, 18);
 	float hdpi = application_display_dpi_get (TRUE) / (72. * 20.);
@@ -461,7 +444,7 @@ excel_write_WINDOW1 (BiffPut *bp, MsBiffVersion ver, WorkbookView *wb_view)
  * See: S59E18.HTM
  **/
 static gboolean
-excel_write_WINDOW2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
+excel_write_WINDOW2 (BiffPut *bp, ExcelSheet *esheet)
 {
 	/* 1	0x020 grids are the colour of the normal style */
 	/* 0	0x040 arabic */
@@ -471,7 +454,7 @@ excel_write_WINDOW2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 	guint8 *data;
 	CellPos top_left;
 	Sheet const *sheet = esheet->gnum_sheet;
-	SheetView const *sv = sheet_get_view (sheet, esheet->wb->gnum_wb_view);
+	SheetView const *sv = sheet_get_view (sheet, esheet->ewb->gnum_wb_view);
 	StyleColor *sheet_auto   = sheet_style_get_auto_pattern_color (sheet);
 	StyleColor *default_auto = style_color_auto_pattern ();
 	guint32 biff_pat_col = 0x40;	/* default grid color index == auto */
@@ -492,16 +475,15 @@ excel_write_WINDOW2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 	/* Grid / auto pattern color */
 	if (!style_color_equal (sheet_auto, default_auto)) {
 		biff_pat_col = style_color_to_rgb888 (sheet_auto);
-		if (ver > MS_BIFF_V7) {
-			biff_pat_col = palette_get_index (esheet->wb,
+		if (bp->version > MS_BIFF_V7)
+			biff_pat_col = palette_get_index (esheet->ewb,
 							  biff_pat_col);
-		}
 		options &= ~0x0020;
 	}
-	if (sheet == wb_view_cur_sheet (esheet->wb->gnum_wb_view))
+	if (sheet == wb_view_cur_sheet (esheet->ewb->gnum_wb_view))
 		options |= 0x600; /* assume selected if it is current */
 
-	if (ver <= MS_BIFF_V7) {
+	if (bp->version <= MS_BIFF_V7) {
 		data = ms_biff_put_len_next (bp, 0x200|BIFF_WINDOW2, 10);
 
 		GSF_LE_SET_GUINT16 (data +  0, options);
@@ -528,11 +510,11 @@ excel_write_WINDOW2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 
 /* See: S59DCA.HTM */
 static void
-excel_write_PANE (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
+excel_write_PANE (BiffPut *bp, ExcelSheet *esheet)
 {
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_PANE, 10);
 	SheetView const *sv = sheet_get_view (esheet->gnum_sheet,
-		esheet->wb->gnum_wb_view);
+		esheet->ewb->gnum_wb_view);
 	int const frozen_height = sv->unfrozen_top_left.row -
 		sv->frozen_top_left.row;
 	int const frozen_width = sv->unfrozen_top_left.col -
@@ -552,7 +534,7 @@ excel_write_PANE (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
  * sense given the other record formats.
  */
 static void
-excel_write_MERGECELLS (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
+excel_write_MERGECELLS (BiffPut *bp, ExcelSheet *esheet)
 {
 	guint8 *record, *ptr;
 	GSList *merged;
@@ -591,183 +573,43 @@ excel_write_MERGECELLS (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 }
 
 static void
-write_names (BiffPut *bp, ExcelWorkbook *wb)
+excel_write_NAME_v7 (gpointer key, GnmNamedExpr *nexpr, ExcelWriteState *ewb)
 {
-	Workbook const *gwb = wb->gnum_wb;
-	GList const *names = gwb->names;
-	ExcelSheet *esheet;
+	guint8 data0 [20];
+	guint8 data1 [2];
+	guint16 len, name_len;
+	char const *name;
 
-	g_return_if_fail (wb->ver <= MS_BIFF_V7);
+	g_return_if_fail (nexpr != NULL);
 
-	/* excel crashes if this isn't here and the names have Ref3Ds */
-#warning TODO support references to external workbooks, and only spew sheets that are referenced in names.
-	if (names)
-		excel_write_externsheets (bp, wb, NULL);
-	esheet = g_ptr_array_index (wb->sheets, 0);
+	ms_biff_put_var_next (ewb->bp, BIFF_NAME);
 
-	for ( ; names != NULL ; names = names->next) {
-		guint8 data0 [20];
-		guint8 data1 [2];
-		guint16 len, name_len;
+	name = nexpr->name->str;
+	name_len = strlen (name);
 
-		char *text;
-		GnmNamedExpr const *nexpr = names->data;
+	memset (data0, 0, sizeof (data0));
+	GSF_LE_SET_GUINT8 (data0 + 3, name_len); /* name_len */
+	ms_biff_put_var_write (ewb->bp, data0, 14);
 
-		g_return_if_fail (nexpr != NULL);
+	biff_put_text (ewb->bp, name, name_len, FALSE, AS_PER_VER);
+	ms_biff_put_var_seekto (ewb->bp, 14 + name_len);
+	len = excel_write_formula (ewb, nexpr->expr_tree,
+				   nexpr->pos.sheet, 0, 0, 0);
 
-		if (wb->ver >= MS_BIFF_V8)
-			ms_biff_put_var_next (bp, 0x200 | BIFF_NAME);
-		else
-			ms_biff_put_var_next (bp, BIFF_NAME);
+	g_return_if_fail (len <= 0xffff);
 
-		text = nexpr->name->str;
-		name_len = strlen (nexpr->name->str);
+	ms_biff_put_var_seekto (ewb->bp, 4);
+	GSF_LE_SET_GUINT16 (data1, len);
+	ms_biff_put_var_write (ewb->bp, data1, 2);
+	ms_biff_put_commit (ewb->bp);
 
-		memset (data0, 0, sizeof (data0));
-		GSF_LE_SET_GUINT8 (data0 + 3, name_len); /* name_len */
-
-		/* This code will only work for MS_BIFF_V7. */
-		ms_biff_put_var_write (bp, data0, 14);
-		biff_put_text (bp, text, name_len, wb->ver, FALSE, AS_PER_VER);
-		g_free(text);
-		ms_biff_put_var_seekto (bp, 14 + name_len);
-		len = ms_excel_write_formula (bp, esheet,
-			nexpr->expr_tree, 0, 0, 0);
-
-		g_return_if_fail (len <= 0xffff);
-
-		ms_biff_put_var_seekto (bp, 4);
-		GSF_LE_SET_GUINT16 (data1, len);
-		ms_biff_put_var_write (bp, data1, 2);
-		ms_biff_put_commit (bp);
-
-		g_ptr_array_add (wb->names, (gpointer)nexpr);
-	}
-}
-
-static void
-write_bits (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
-{
-	guint8 *data;
-	char const *team = "The Gnumeric Development Team";
-	gint len;
-	char *buf;
-	guint8 pad [WRITEACCESS_LEN];
-
-	/* See: S59E1A.HTM */
-	len = biff_convert_text (&buf, team, ver);
-	g_assert (len < WRITEACCESS_LEN);
-	memset (pad, ' ', sizeof pad);
-	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
-	biff_put_text (bp, buf, len, ver, TRUE, AS_PER_VER);
-	g_free(buf);
-	ms_biff_put_var_write (bp, pad, WRITEACCESS_LEN - len - 1);
-	ms_biff_put_commit (bp);
-
-	/* See: S59D66.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_CODEPAGE, 2);
-	GSF_LE_SET_GUINT16 (data, gsf_msole_iconv_win_codepage());
-	ms_biff_put_commit (bp);
-
-	if (ver >= MS_BIFF_V8) { /* See S59D78.HTM */
-		int lp, len;
-
-		data = ms_biff_put_len_next (bp, BIFF_DSF, 2);
-		GSF_LE_SET_GUINT16 (data, 0x0);
-		ms_biff_put_commit (bp);
-
-		/* See: S59E09.HTM */
-		len = wb->sheets->len;
-		data = ms_biff_put_len_next (bp, BIFF_TABID, len * 2);
-		for (lp = 0; lp < len; lp++)
-			GSF_LE_SET_GUINT16 (data + lp*2, lp + 1);
-		ms_biff_put_commit (bp);
-	}
-	/* See: S59D8A.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_FNGROUPCOUNT, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0e);
-	ms_biff_put_commit (bp);
-
-	write_names (bp, wb);
-
-	/* See: S59E19.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_WINDOWPROTECT, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0);
-	ms_biff_put_commit (bp);
-
-	/* See: S59DD1.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_PROTECT, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0);
-	ms_biff_put_commit (bp);
-
-	/* See: S59DCC.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_PASSWORD, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0);
-	ms_biff_put_commit (bp);
-
-	if (ver >= MS_BIFF_V8) {
-		/* See: S59DD2.HTM */
-		data = ms_biff_put_len_next (bp, BIFF_PROT4REV, 2);
-		GSF_LE_SET_GUINT16 (data, 0x0);
-		ms_biff_put_commit (bp);
-
-		/* See: S59DD3.HTM */
-		data = ms_biff_put_len_next (bp, BIFF_PROT4REVPASS, 2);
-		GSF_LE_SET_GUINT16 (data, 0x0);
-		ms_biff_put_commit (bp);
-	}
-
-	excel_write_WINDOW1 (bp, ver, wb->gnum_wb_view);
-
-	/* See: S59D5B.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_BACKUP, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0);
-	ms_biff_put_commit (bp);
-
-	/* See: S59D95.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_HIDEOBJ, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0);
-	ms_biff_put_commit (bp);
-
-	/* See: S59D54.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_1904, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0);
-	ms_biff_put_commit (bp);
-
-	/* See: S59DCE.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_PRECISION, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0001);
-	ms_biff_put_commit (bp);
-
-	/* See: S59DD8.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_REFRESHALL, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0000);
-	ms_biff_put_commit (bp);
-
-	/* See: S59D5E.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_BOOKBOOL, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0);
-	ms_biff_put_commit (bp);
+	g_ptr_array_add (ewb->names, (gpointer)nexpr);
 }
 
 int
-ms_excel_write_get_sheet_idx (ExcelWorkbook *wb, Sheet *gnum_sheet)
-{
-	guint lp;
-	for (lp = 0; lp < wb->sheets->len; lp++) {
-		ExcelSheet *esheet = g_ptr_array_index (wb->sheets, lp);
-		g_return_val_if_fail (esheet, 0);
-		if (esheet->gnum_sheet == gnum_sheet)
-			return lp;
-	}
-	g_warning ("No associated esheet for %p.", (void *)gnum_sheet);
-	return 0;
-}
-
-int
-ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
-				    Sheet *sheeta,
-				    Sheet *sheetb)
+excel_write_get_externsheet_idx (ExcelWriteState *ewb,
+				 Sheet *sheeta,
+				 Sheet *sheetb)
 {
 	g_warning ("Get Externsheet not implemented yet.");
 	return 0;
@@ -779,7 +621,7 @@ ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
  **/
 static guint32
 biff_boundsheet_write_first (BiffPut *bp, MsBiffFileType type,
-			     char *name, MsBiffVersion ver)
+			     char *name)
 {
 	guint32 pos;
 	gint len;
@@ -801,8 +643,8 @@ biff_boundsheet_write_first (BiffPut *bp, MsBiffFileType type,
 	}
 	GSF_LE_SET_GUINT8 (data+5, 0); /* Visible */
 	ms_biff_put_var_write (bp, data, 6);
-	len = biff_convert_text (&buf, name, ver);
-	biff_put_text (bp, buf, len, ver, TRUE, EIGHT_BIT);
+	len = biff_convert_text (&buf, name, bp->version);
+	biff_put_text (bp, buf, len, TRUE, EIGHT_BIT);
 	g_free(buf);
 
 	ms_biff_put_commit (bp);
@@ -828,10 +670,12 @@ biff_boundsheet_write_last (GsfOutput *output, guint32 pos,
 	gsf_output_seek (output, oldpos, G_SEEK_SET);
 }
 
+/***************************************************************************/
+
 /**
  * Convert ExcelPaletteEntry to guint representation used in BIFF file
  **/
-static guint
+inline static guint
 palette_color_to_int (ExcelPaletteEntry const *c)
 {
 	return (c->b << 16) + (c->g << 8) + (c->r << 0);
@@ -861,70 +705,47 @@ style_color_to_rgb888 (StyleColor const *c)
 inline static void
 log_put_color (guint c, gboolean was_added, gint index, char const *tmpl)
 {
-	d(2, if (was_added) printf (tmpl, index, c););
+	d(2, if (was_added) fprintf (stderr, tmpl, index, c););
 }
 
-/**
- * Put Excel default colors to palette table
- *
- * Ensure that black and white can't be swapped out.
- **/
 static void
-palette_put_defaults (ExcelWorkbook *wb)
+palette_init (ExcelWriteState *ewb)
 {
 	int i;
 	ExcelPaletteEntry const *epe;
 	guint num;
 
+	ewb->pal.two_way_table =
+		two_way_table_new (g_direct_hash, g_direct_equal,
+				   0, NULL);
+	/* Ensure that black and white can't be swapped out */
+
 	for (i = 0; i < EXCEL_DEF_PAL_LEN; i++) {
 		epe = &excel_default_palette[i];
 		num = palette_color_to_int (epe);
-		two_way_table_put (wb->pal->two_way_table,
+		two_way_table_put (ewb->pal.two_way_table,
 				   GUINT_TO_POINTER (num), FALSE,
 				   (AfterPutFunc) log_put_color,
 				   "Default color %d - 0x%6.6x\n");
 		if ((i == PALETTE_BLACK) || (i == PALETTE_WHITE))
-			wb->pal->entry_in_use[i] = TRUE;
+			ewb->pal.entry_in_use[i] = TRUE;
 		else
-			wb->pal->entry_in_use[i] = FALSE;
+			ewb->pal.entry_in_use[i] = FALSE;
 	}
 }
 
-/**
- * Initialize palette in worksheet. Fill in with default colors
- **/
 static void
-palette_init (ExcelWorkbook *wb)
+palette_free (ExcelWriteState *ewb)
 {
-	wb->pal = g_new (Palette, 1);
-	wb->pal->two_way_table 	= two_way_table_new (g_direct_hash,
-						     g_direct_equal,
-						     0,
-						     NULL);
-	palette_put_defaults (wb);
-
-}
-
-/**
- * Free palette table
- **/
-static void
-palette_free (ExcelWorkbook *wb)
-{
-	TwoWayTable *twt;
-
-	if (wb && wb->pal) {
-		twt = wb->pal->two_way_table;
-		if (twt)
-			two_way_table_free (twt);
-		g_free (wb->pal);
-		wb->pal = NULL;
+	if (ewb->pal.two_way_table != NULL) {
+		two_way_table_free (ewb->pal.two_way_table);
+		ewb->pal.two_way_table = NULL;
 	}
 }
 
 /**
  * palette_get_index
- * @wb workbook
+ * @ewb workbook
  * @c  color
  *
  * Get index of color
@@ -932,34 +753,28 @@ palette_free (ExcelWorkbook *wb)
  * See comment to ms_excel_palette_get in ms-excel-read.c
  **/
 static gint
-palette_get_index (ExcelWorkbook *wb, guint c)
+palette_get_index (ExcelWriteState *ewb, guint c)
 {
 	gint idx;
-	TwoWayTable *twt = wb->pal->two_way_table;
 
-	if (c == 0) {
-		idx = PALETTE_BLACK;
-	} else if (c == 0xffffff) {
-		idx = PALETTE_WHITE;
-	} else {
-		idx = two_way_table_key_to_idx (twt, (gconstpointer) c);
-		if (idx < EXCEL_DEF_PAL_LEN) {
-			idx += 8;
-		} else {
-			idx = PALETTE_BLACK;
-		}
-	}
+	if (c == 0)
+		return PALETTE_BLACK;
+	if (c == 0xffffff)
+		return PALETTE_WHITE;
 
-	return idx;
+	idx = two_way_table_key_to_idx (ewb->pal.two_way_table, (gconstpointer) c);
+	if (idx >= EXCEL_DEF_PAL_LEN)
+		return PALETTE_BLACK;
+	return idx + 8;
 }
 
 /**
  * Add a color to palette if it is not already there
  **/
 static void
-put_color (ExcelWorkbook *wb, StyleColor const *c)
+put_color (ExcelWriteState *ewb, StyleColor const *c)
 {
-	TwoWayTable *twt = wb->pal->two_way_table;
+	TwoWayTable *twt = ewb->pal.two_way_table;
 	gpointer pc = GUINT_TO_POINTER (style_color_to_rgb888 (c));
 	gint idx;
 
@@ -969,33 +784,33 @@ put_color (ExcelWorkbook *wb, StyleColor const *c)
 
 	idx = two_way_table_key_to_idx (twt, pc);
 	if (idx >= 0 && idx < EXCEL_DEF_PAL_LEN)
-		wb->pal->entry_in_use [idx] = TRUE; /* Default entry in use */
+		ewb->pal.entry_in_use [idx] = TRUE; /* Default entry in use */
 }
 
 /**
  * Add colors in mstyle to palette
  **/
 static void
-put_colors (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
+put_colors (MStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
 {
 	int i;
 	StyleBorder const *b;
 
-	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_FORE));
-	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_BACK));
-	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_PATTERN));
+	put_color (ewb, mstyle_get_color (st, MSTYLE_COLOR_FORE));
+	put_color (ewb, mstyle_get_color (st, MSTYLE_COLOR_BACK));
+	put_color (ewb, mstyle_get_color (st, MSTYLE_COLOR_PATTERN));
 
 	/* Borders */
 	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
 		b = mstyle_get_border (st, MSTYLE_BORDER_TOP + i);
 		if (b && b->color)
-			put_color (wb, b->color);
+			put_color (ewb, b->color);
 	}
 }
 
 /**
  * gather_palette
- * @wb   workbook
+ * @ewb   workbook
  *
  * Add all colors in workbook to palette.
  *
@@ -1012,30 +827,30 @@ put_colors (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
  * default palette. The causes seem to be elsewhere in gnumeric and gnome.
  **/
 static void
-gather_palette (ExcelWorkbook *wb)
+gather_palette (ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = wb->xf->two_way_table;
+	TwoWayTable *twt = ewb->xf.two_way_table;
 	int i, j;
 	int upper_limit = EXCEL_DEF_PAL_LEN;
 	guint color;
 
 	/* For each color in each style, get color index from hash. If
            none, it's not there yet, and we enter it. */
-	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_colors, wb);
+	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_colors, ewb);
 
-	twt = wb->pal->two_way_table;
+	twt = ewb->pal.two_way_table;
 	for (i = twt->idx_to_key->len - 1; i >= EXCEL_DEF_PAL_LEN; i--) {
 		color = GPOINTER_TO_UINT (two_way_table_idx_to_key (twt, i));
 		for (j = upper_limit - 1; j > 1; j--) {
-			if (!wb->pal->entry_in_use[j]) {
+			if (!ewb->pal.entry_in_use[j]) {
 				/* Replace table entry with color. */
-				d (2, printf ("Custom color %d (0x%6.6x)"
+				d (2, fprintf (stderr, "Custom color %d (0x%6.6x)"
 						" moved to unused index %d\n",
 					      i, color, j););
 				(void) two_way_table_replace
 					(twt, j, GUINT_TO_POINTER (color));
 				upper_limit = j;
-				wb->pal->entry_in_use[j] = TRUE;
+				ewb->pal.entry_in_use[j] = TRUE;
 				break;
 			}
 		}
@@ -1045,14 +860,14 @@ gather_palette (ExcelWorkbook *wb)
 /**
  * write_palette
  * @bp BIFF buffer
- * @wb workbook
+ * @ewb workbook
  *
  * Write palette to file
  **/
 static void
-write_palette (BiffPut *bp, ExcelWorkbook *wb)
+write_palette (BiffPut *bp, ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = wb->pal->two_way_table;
+	TwoWayTable *twt = ewb->pal.two_way_table;
 	guint8  data[8];
 	guint   num, i;
 
@@ -1069,6 +884,8 @@ write_palette (BiffPut *bp, ExcelWorkbook *wb)
 
 	ms_biff_put_commit (bp);
 }
+
+/***************************************************************************/
 
 #ifndef NO_DEBUG_EXCEL
 /**
@@ -1196,50 +1013,27 @@ excel_font_equal (gconstpointer a, gconstpointer b)
 	return res;
 }
 
-/**
- * Initialize table of fonts in worksheet.
- **/
-static void
-fonts_init (ExcelWorkbook *wb)
-{
-	wb->fonts = g_new (Fonts, 1);
-	wb->fonts->two_way_table
-		= two_way_table_new (excel_font_hash, excel_font_equal,
-				     0, NULL);
-}
-
-/**
- * Get an ExcelFont, given index
- **/
 static ExcelFont *
-fonts_get_font (ExcelWorkbook *wb, gint idx)
+fonts_get_font (ExcelWriteState *ewb, gint idx)
 {
-	TwoWayTable *twt = wb->fonts->two_way_table;
 
-	return (ExcelFont *) two_way_table_idx_to_key (twt, idx);
+	return two_way_table_idx_to_key (ewb->fonts.two_way_table, idx);
 }
 
-/**
- * Free font table
- **/
 static void
-fonts_free (ExcelWorkbook *wb)
+fonts_init (ExcelWriteState *ewb)
 {
-	TwoWayTable *twt;
-	guint i;
-	ExcelFont *f;
+	ewb->fonts.two_way_table = two_way_table_new (
+		excel_font_hash, excel_font_equal, 0,
+		(GDestroyNotify) excel_font_free);
+}
 
-	if (wb && wb->fonts) {
-		twt = wb->fonts->two_way_table;
-		if (twt) {
-			for (i = 0; i < twt->idx_to_key->len; i++) {
-				f = fonts_get_font (wb, i + twt->base);
-				excel_font_free (f);
-			}
-			two_way_table_free (twt);
-		}
-		g_free (wb->fonts);
-		wb->fonts = NULL;
+static void
+fonts_free (ExcelWriteState *ewb)
+{
+	if (ewb->fonts.two_way_table != NULL) {
+		two_way_table_free (ewb->fonts.two_way_table);
+		ewb->fonts.two_way_table = NULL;
 	}
 }
 
@@ -1247,10 +1041,9 @@ fonts_free (ExcelWorkbook *wb)
  * Get index of an ExcelFont
  **/
 static gint
-fonts_get_index (ExcelWorkbook *wb, ExcelFont const *f)
+fonts_get_index (ExcelWriteState *ewb, ExcelFont const *f)
 {
-	TwoWayTable *twt = wb->fonts->two_way_table;
-	return two_way_table_key_to_idx (twt, f);
+	return two_way_table_key_to_idx (ewb->fonts.two_way_table, f);
 }
 
 /**
@@ -1261,7 +1054,7 @@ static void
 after_put_font (ExcelFont *f, gboolean was_added, gint index, gconstpointer dummy)
 {
 	if (was_added) {
-		d (1, printf ("Found unique font %d - %s\n",
+		d (1, fprintf (stderr, "Found unique font %d - %s\n",
 			      index, excel_font_to_string (f)););
 	} else {
 		excel_font_free (f);
@@ -1272,9 +1065,9 @@ after_put_font (ExcelFont *f, gboolean was_added, gint index, gconstpointer dumm
  * Add a font to table if it is not already there.
  **/
 static void
-put_font (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
+put_font (MStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = wb->fonts->two_way_table;
+	TwoWayTable *twt = ewb->fonts.two_way_table;
 	ExcelFont *f = excel_font_new (st);
 
 	/* Occupy index FONT_SKIP with junk - Excel skips it */
@@ -1289,19 +1082,19 @@ put_font (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
  * Add all fonts in workbook to table
  **/
 static void
-gather_fonts (ExcelWorkbook *wb)
+gather_fonts (ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = wb->xf->two_way_table;
+	TwoWayTable *twt = ewb->xf.two_way_table;
 
 	/* For each style, get fonts index from hash. If none, it's
            not there yet, and we enter it. */
-	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_font, wb);
+	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_font, ewb);
 }
 
 /**
  * write_font
  * @bp BIFF buffer
- * @wb workbook
+ * @ewb workbook
  * @f  font
  *
  * Write a font to file
@@ -1311,7 +1104,7 @@ gather_fonts (ExcelWorkbook *wb)
  * It would be useful to map well known fonts to Windows equivalents
  **/
 static void
-write_font (BiffPut *bp, ExcelWorkbook *wb, ExcelFont const *f)
+write_font (BiffPut *bp, ExcelWriteState *ewb, ExcelFont const *f)
 {
 	guint8 data[64];
 	StyleFont  *sf  = f->style_font;
@@ -1331,8 +1124,8 @@ write_font (BiffPut *bp, ExcelWorkbook *wb, ExcelFont const *f)
 
 	color = f->is_auto
 		? PALETTE_AUTO_FONT
-		: palette_get_index (wb, f->color);
-	d (1, printf ("Writing font %s, color idx %u\n",
+		: palette_get_index (ewb, f->color);
+	d (1, fprintf (stderr, "Writing font %s, color idx %u\n",
 		      excel_font_to_string (f), color););
 
 	if (sf->is_italic)
@@ -1353,8 +1146,8 @@ write_font (BiffPut *bp, ExcelWorkbook *wb, ExcelFont const *f)
 	GSF_LE_SET_GUINT8  (data + 12, charset);
 	GSF_LE_SET_GUINT8  (data + 13, 0);
 	ms_biff_put_var_write (bp, data, 14);
-	len = biff_convert_text (&buf, font_name, wb->ver);
-	biff_put_text (bp, buf, len, wb->ver, TRUE, EIGHT_BIT);
+	len = biff_convert_text (&buf, font_name, bp->version);
+	biff_put_text (bp, buf, len, TRUE, EIGHT_BIT);
 	g_free(buf);
 
 	ms_biff_put_commit (bp);
@@ -1363,36 +1156,38 @@ write_font (BiffPut *bp, ExcelWorkbook *wb, ExcelFont const *f)
 /**
  * write_fonts
  * @bp BIFF buffer
- * @wb workbook
+ * @ewb workbook
  *
  * Write all fonts to file
  **/
 static void
-write_fonts (BiffPut *bp, ExcelWorkbook *wb)
+write_fonts (BiffPut *bp, ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = wb->fonts->two_way_table;
+	TwoWayTable *twt = ewb->fonts.two_way_table;
 	int nfonts = twt->idx_to_key->len;
-	int lp;
+	int i;
 	ExcelFont *f;
 
-	for (lp = 0; lp < nfonts; lp++) {
-		if (lp != FONT_SKIP) {	/* FONT_SKIP is invalid, skip it */
-			f = fonts_get_font (wb, lp);
-			write_font (bp, wb, f);
+	for (i = 0; i < nfonts; i++) {
+		if (i != FONT_SKIP) {	/* FONT_SKIP is invalid, skip it */
+			f = fonts_get_font (ewb, i);
+			write_font (bp, ewb, f);
 		}
 	}
 
 	if (nfonts < FONTS_MINIMUM + 1) { /* Add 1 to account for skip */
 		/* Fill up until we've got the minimum number */
-		f = fonts_get_font (wb, 0);
-		for (; lp < FONTS_MINIMUM + 1; lp++) {
-			if (lp != FONT_SKIP) {
+		f = fonts_get_font (ewb, 0);
+		for (; i < FONTS_MINIMUM + 1; i++) {
+			if (i != FONT_SKIP) {
 				/* FONT_SKIP is invalid, skip it */
-				write_font (bp, wb, f);
+				write_font (bp, ewb, f);
 			}
 		}
 	}
 }
+
+/***************************************************************************/
 
 /**
  * after_put_format
@@ -1409,26 +1204,28 @@ after_put_format (StyleFormat *format, gboolean was_added, gint index,
 		  char const *tmpl)
 {
 	if (was_added) {
-		d (2, printf (tmpl, index, format););
+		d (2, fprintf (stderr, tmpl, index, format););
 	} else {
 		style_format_unref (format);
 	}
 }
 
-/**
- * Add built-in formats to format table
- **/
 static void
-formats_put_magic (ExcelWorkbook *wb)
+formats_init (ExcelWriteState *ewb)
 {
 	int i;
 	char const *fmt;
 
+	ewb->formats.two_way_table
+		= two_way_table_new (g_direct_hash, g_direct_equal, 0,
+				     (GDestroyNotify)style_format_unref);
+
+	/* Add built-in formats to format table */
 	for (i = 0; i < EXCEL_BUILTIN_FORMAT_LEN; i++) {
 		fmt = excel_builtin_formats[i];
 		if (!fmt || strlen (fmt) == 0)
 			fmt = "General";
-		two_way_table_put (wb->formats->two_way_table,
+		two_way_table_put (ewb->formats.two_way_table,
 				   style_format_new_XL (fmt, FALSE),
 				   FALSE, /* Not unique */
 				   (AfterPutFunc) after_put_format,
@@ -1436,59 +1233,28 @@ formats_put_magic (ExcelWorkbook *wb)
 	}
 }
 
-/**
- * Initialize format table
- **/
 static void
-formats_init (ExcelWorkbook *wb)
+formats_free (ExcelWriteState *ewb)
 {
-
-	wb->formats = g_new (Formats, 1);
-	wb->formats->two_way_table
-		= two_way_table_new (g_direct_hash, g_direct_equal, 0,
-				     (GDestroyNotify)style_format_unref);
-
-	formats_put_magic (wb);
-}
-
-
-/**
- * Get a format, given index
- **/
-static StyleFormat const *
-formats_get_format (ExcelWorkbook *wb, gint idx)
-{
-	TwoWayTable *twt = wb->formats->two_way_table;
-
-	return two_way_table_idx_to_key (twt, idx);
-}
-
-/**
- * Free format table
- **/
-static void
-formats_free (ExcelWorkbook *wb)
-{
-	TwoWayTable *twt;
-
-	if (wb && wb->formats) {
-		twt = wb->formats->two_way_table;
-		if (twt)
-			two_way_table_free (twt);
-
-		g_free (wb->formats);
-		wb->formats = NULL;
+	if (ewb->formats.two_way_table != NULL) {
+		two_way_table_free (ewb->formats.two_way_table);
+		ewb->formats.two_way_table = NULL;
 	}
+}
+
+static StyleFormat const *
+formats_get_format (ExcelWriteState *ewb, gint idx)
+{
+	return two_way_table_idx_to_key (ewb->formats.two_way_table, idx);
 }
 
 /**
  * Get index of a format
  **/
 static gint
-formats_get_index (ExcelWorkbook *wb, StyleFormat const *format)
+formats_get_index (ExcelWriteState *ewb, StyleFormat const *format)
 {
-	TwoWayTable *twt = wb->formats->two_way_table;
-	return two_way_table_key_to_idx (twt, format);
+	return two_way_table_key_to_idx (ewb->formats.two_way_table, format);
 }
 
 /**
@@ -1497,11 +1263,11 @@ formats_get_index (ExcelWorkbook *wb, StyleFormat const *format)
  * Style format is *not* unrefed. This is correct
  **/
 static void
-put_format (MStyle *mstyle, gconstpointer dummy, ExcelWorkbook *wb)
+put_format (MStyle *mstyle, gconstpointer dummy, ExcelWriteState *ewb)
 {
 	StyleFormat *fmt = mstyle_get_format (mstyle);
 	style_format_ref (fmt);
-	two_way_table_put (wb->formats->two_way_table,
+	two_way_table_put (ewb->formats.two_way_table,
 			   (gpointer)fmt, TRUE,
 			   (AfterPutFunc) after_put_format,
 			   "Found unique format %d - 0x%x\n");
@@ -1512,38 +1278,38 @@ put_format (MStyle *mstyle, gconstpointer dummy, ExcelWorkbook *wb)
  * Add all formats in workbook to table
  **/
 static void
-gather_formats (ExcelWorkbook *wb)
+gather_formats (ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = wb->xf->two_way_table;
+	TwoWayTable *twt = ewb->xf.two_way_table;
 	/* For each style, get fonts index from hash. If none, it's
            not there yet, and we enter it. */
-	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_format, wb);
+	g_hash_table_foreach (twt->unique_keys, (GHFunc) put_format, ewb);
 }
 
 
 /**
  * write_format
  * @bp   BIFF buffer
- * @wb   workbook
+ * @ewb   workbook
  * @fidx format index
  *
  * Write a format to file
  * See S59D8E.HTM
  **/
 static void
-write_format (BiffPut *bp, ExcelWorkbook *wb, int fidx)
+write_format (BiffPut *bp, ExcelWriteState *ewb, int fidx)
 {
 	gint len;
 	char *buf;
 	guint8 data[64];
-	StyleFormat const *sf = formats_get_format(wb, fidx);
+	StyleFormat const *sf = formats_get_format(ewb, fidx);
 
 	char *format = style_format_as_XL (sf, FALSE);
 
-	d (1, printf ("Writing format 0x%x: %s\n", fidx, format););
+	d (1, fprintf (stderr, "Writing format 0x%x: %s\n", fidx, format););
 
 	/* Kludge for now ... */
-	if (wb->ver >= MS_BIFF_V7)
+	if (bp->version >= MS_BIFF_V7)
 		ms_biff_put_var_next (bp, (0x400|BIFF_FORMAT));
 	else
 		ms_biff_put_var_next (bp, BIFF_FORMAT);
@@ -1552,7 +1318,7 @@ write_format (BiffPut *bp, ExcelWorkbook *wb, int fidx)
 	ms_biff_put_var_write (bp, data, 2);
 
 	len = biff_convert_text(&buf, format, MS_BIFF_V7);
-	biff_put_text (bp, buf, len, MS_BIFF_V7, TRUE, AS_PER_VER);
+	biff_put_text (bp, buf, len, TRUE, AS_PER_VER);
 	ms_biff_put_commit (bp);
 	g_free (buf);
 	g_free (format);
@@ -1561,26 +1327,26 @@ write_format (BiffPut *bp, ExcelWorkbook *wb, int fidx)
 /**
  * write_formats
  * @bp BIFF buffer
- * @wb workbook
+ * @ewb workbook
  *
  * Write all formats to file.
  * Although we do, the formats apparently don't have to be written out in order
  **/
 static void
-write_formats (BiffPut *bp, ExcelWorkbook *wb)
+write_formats (BiffPut *bp, ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = wb->formats->two_way_table;
+	TwoWayTable *twt = ewb->formats.two_way_table;
 	guint nformats = twt->idx_to_key->len;
 	int magic_num [] = { 5, 6, 7, 8, 0x2a, 0x29, 0x2c, 0x2b };
 	guint i;
 
 	/* The built-in fonts which get localized */
 	for (i = 0; i < sizeof magic_num / sizeof magic_num[0]; i++)
-		write_format (bp, wb, magic_num [i]);
+		write_format (bp, ewb, magic_num [i]);
 
 	/* The custom fonts */
 	for (i = EXCEL_BUILTIN_FORMAT_LEN; i < nformats; i++)
-		write_format (bp, wb, i);
+		write_format (bp, ewb, i);
 }
 
 /**
@@ -1603,15 +1369,25 @@ get_default_mstyle (void)
  * written to file.
  **/
 static void
-xf_init (ExcelWorkbook *wb)
+xf_init (ExcelWriteState *ewb)
 {
-	wb->xf = g_new (XF, 1);
 	/* Excel starts at XF_RESERVED for user defined xf */
-	wb->xf->two_way_table = two_way_table_new (mstyle_hash,
+	ewb->xf.two_way_table = two_way_table_new (mstyle_hash,
 						   (GCompareFunc) mstyle_equal_XL,
 						   XF_RESERVED,
 						   NULL);
-	wb->xf->default_style = get_default_mstyle ();
+	ewb->xf.default_style = get_default_mstyle ();
+}
+
+static void
+xf_free (ExcelWriteState *ewb)
+{
+	if (ewb->xf.two_way_table != NULL) {
+		two_way_table_free (ewb->xf.two_way_table);
+		ewb->xf.two_way_table = NULL;
+		mstyle_unref (ewb->xf.default_style);
+		ewb->xf.default_style = NULL;
+	}
 }
 
 
@@ -1619,33 +1395,16 @@ xf_init (ExcelWorkbook *wb)
  * Get an mstyle, given index
  **/
 static MStyle *
-xf_get_mstyle (ExcelWorkbook *wb, gint idx)
+xf_get_mstyle (ExcelWriteState *ewb, gint idx)
 {
-	TwoWayTable *twt = wb->xf->two_way_table;
-
-	return (MStyle *) two_way_table_idx_to_key (twt, idx);
-}
-
-/**
- * Free XF/MStyle table
- **/
-static void
-xf_free (ExcelWorkbook *wb)
-{
-	if (wb && wb->xf) {
-		if (wb->xf->two_way_table)
-			two_way_table_free (wb->xf->two_way_table);
-		mstyle_unref (wb->xf->default_style);
-		g_free (wb->xf);
-		wb->xf = NULL;
-	}
+	return two_way_table_idx_to_key (ewb->xf.two_way_table, idx);
 }
 
 static void
 after_put_mstyle (MStyle *st, gboolean was_added, gint index, gconstpointer dummy)
 {
 	if (was_added) {
-		d (1, { printf ("Found unique mstyle %d\n", index); mstyle_dump (st);});
+		d (1, { fprintf (stderr, "Found unique mstyle %d\n", index); mstyle_dump (st);});
 	}
 }
 
@@ -1653,30 +1412,30 @@ after_put_mstyle (MStyle *st, gboolean was_added, gint index, gconstpointer dumm
  * Add an MStyle to table if it is not already there.
  **/
 static gint
-put_mstyle (ExcelWorkbook *wb, MStyle *st)
+put_mstyle (ExcelWriteState *ewb, MStyle *st)
 {
-	return two_way_table_put (wb->xf->two_way_table, st, TRUE,
+	return two_way_table_put (ewb->xf.two_way_table, st, TRUE,
 				  (AfterPutFunc) after_put_mstyle, NULL);
 }
 
 static void
-cb_accum_styles (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
+cb_accum_styles (MStyle *st, gconstpointer dummy, ExcelWriteState *ewb)
 {
-	put_mstyle (wb, st);
+	put_mstyle (ewb, st);
 }
 
 static void
-gather_styles (ExcelWorkbook *wb)
+gather_styles (ExcelWriteState *ewb)
 {
 	unsigned i;
 	int	 col;
 	ExcelSheet *esheet;
 
-	for (i = 0; i < wb->sheets->len; i++) {
-		esheet = g_ptr_array_index (wb->sheets, i);
-		sheet_style_foreach (esheet->gnum_sheet, (GHFunc)cb_accum_styles, wb);
+	for (i = 0; i < ewb->sheets->len; i++) {
+		esheet = g_ptr_array_index (ewb->sheets, i);
+		sheet_style_foreach (esheet->gnum_sheet, (GHFunc)cb_accum_styles, ewb);
 		for (col = 0; col < esheet->max_col; col++)
-			esheet->col_xf [col] = two_way_table_key_to_idx (wb->xf->two_way_table,
+			esheet->col_xf [col] = two_way_table_key_to_idx (ewb->xf.two_way_table,
 				sheet_style_most_common_in_col (esheet->gnum_sheet, col));
 	}
 }
@@ -1841,7 +1600,7 @@ border_type_to_excel (StyleBorderType btype, MsBiffVersion ver)
 /**
  * style_color_to_pal_index
  * @color color
- * @wb    workbook
+ * @ewb    workbook
  * @auto_back     Auto colors to compare against.
  * @auto_font
  *
@@ -1850,7 +1609,7 @@ border_type_to_excel (StyleBorderType btype, MsBiffVersion ver)
  * the same autocolors over and over.
  */
 static guint8
-style_color_to_pal_index (StyleColor *color, ExcelWorkbook *wb,
+style_color_to_pal_index (StyleColor *color, ExcelWriteState *ewb,
 			  StyleColor *auto_back, StyleColor *auto_font)
 {
 	guint8 idx;
@@ -1863,14 +1622,14 @@ style_color_to_pal_index (StyleColor *color, ExcelWorkbook *wb,
 		else
 			idx = PALETTE_AUTO_PATTERN;
 	} else 
-		idx = palette_get_index	(wb, style_color_to_rgb888 (color));
+		idx = palette_get_index	(ewb, style_color_to_rgb888 (color));
 
 	return idx;
 }
 
 /**
  * get_xf_differences
- * @wb   workbook
+ * @ewb   workbook
  * @xfd  XF data
  * @parentst parent style (Not used at present)
  *
@@ -1882,7 +1641,7 @@ style_color_to_pal_index (StyleColor *color, ExcelWorkbook *wb,
  * others. Can we use the actual default style as XF 0?
  **/
 static void
-get_xf_differences (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *parentst)
+get_xf_differences (ExcelWriteState *ewb, BiffXFData *xfd, MStyle *parentst)
 {
 	int i;
 
@@ -1917,42 +1676,42 @@ get_xf_differences (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *parentst)
  * Log XF data for a record about to be written
  **/
 static void
-log_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, int idx)
+log_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, int idx)
 {
 	if (ms_excel_write_debug > 1) {
 		int i;
-		ExcelFont *f = fonts_get_font (wb, xfd->font_idx);
+		ExcelFont *f = fonts_get_font (ewb, xfd->font_idx);
 
 		/* Formats are saved using the 'C' locale number format */
 		char * desc = style_format_as_XL (xfd->style_format, FALSE);
 
-		printf ("Writing xf 0x%x : font 0x%x (%s), format 0x%x (%s)\n",
+		fprintf (stderr, "Writing xf 0x%x : font 0x%x (%s), format 0x%x (%s)\n",
 			idx, xfd->font_idx, excel_font_to_string (f),
 			xfd->format_idx, desc);
 		g_free (desc);
 
-		printf (" hor align 0x%x, ver align 0x%x, wrap_text %s\n",
+		fprintf (stderr, " hor align 0x%x, ver align 0x%x, wrap_text %s\n",
 			xfd->halign, xfd->valign, xfd->wrap_text ? "on" : "off");
-		printf (" fill fg color idx 0x%x, fill bg color idx 0x%x"
+		fprintf (stderr, " fill fg color idx 0x%x, fill bg color idx 0x%x"
 			", pattern (Excel) %d\n",
 			xfd->pat_foregnd_col, xfd->pat_backgnd_col,
 			xfd->fill_pattern_idx);
 		for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
 			if (xfd->border_type[i] !=  STYLE_BORDER_NONE) {
-				printf (" border_type[%d] : 0x%x"
+				fprintf (stderr, " border_type[%d] : 0x%x"
 					" border_color[%d] : 0x%x\n",
 					i, xfd->border_type[i],
 					i, xfd->border_color[i]);
 			}
 		}
-		printf (" difference bits: 0x%x\n", xfd->differences);
+		fprintf (stderr, " difference bits: 0x%x\n", xfd->differences);
 	}
 }
 #endif
 
 /**
  * build_xf_data
- * @wb   workbook
+ * @ewb   workbook
  * @xfd  XF data
  * @st   style
  *
@@ -1965,7 +1724,7 @@ log_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, int idx)
  * Apart from font, the style elements we retrieve do *not* need to be unrefed.
  **/
 static void
-build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
+build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, MStyle *st)
 {
 	ExcelFont *f;
 	StyleBorder const *b;
@@ -1981,10 +1740,10 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 	xfd->parentstyle  = XF_MAGIC;
 	xfd->mstyle       = st;
 	f = excel_font_new (st);
-	xfd->font_idx     = fonts_get_index (wb, f);
+	xfd->font_idx     = fonts_get_index (ewb, f);
 	excel_font_free (f);
 	xfd->style_format = mstyle_get_format (st);
-	xfd->format_idx   = formats_get_index (wb, xfd->style_format);
+	xfd->format_idx   = formats_get_index (ewb, xfd->style_format);
 
 	xfd->locked = mstyle_get_content_locked (st);
 	xfd->hidden = mstyle_get_content_hidden (st);
@@ -2004,7 +1763,7 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 			xfd->border_type[i] = b->line_type;
 			xfd->border_color[i]
 				= b->color
-				? style_color_to_pal_index (b->color, wb,
+				? style_color_to_pal_index (b->color, ewb,
 							    auto_back,
 							    auto_font)
 				: PALETTE_AUTO_PATTERN;
@@ -2018,12 +1777,12 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 	back_color   = mstyle_get_color (st, MSTYLE_COLOR_BACK);
 	xfd->pat_foregnd_col
 		= pattern_color
-		? style_color_to_pal_index (pattern_color, wb, auto_back,
+		? style_color_to_pal_index (pattern_color, ewb, auto_back,
 					    auto_font)
 		: PALETTE_AUTO_PATTERN;
 	xfd->pat_backgnd_col
 		= back_color
-		? style_color_to_pal_index (back_color, wb, auto_back,
+		? style_color_to_pal_index (back_color, ewb, auto_back,
 					    auto_font)
 		: PALETTE_AUTO_BACK;
 
@@ -2034,7 +1793,7 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 		xfd->pat_foregnd_col = c;
 	}
 
-	get_xf_differences (wb, xfd, wb->xf->default_style);
+	get_xf_differences (ewb, xfd, ewb->xf.default_style);
 
 	style_color_unref (auto_font);
 	style_color_unref (auto_back);
@@ -2043,27 +1802,24 @@ build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 /**
  * write_xf_magic_record
  * @bp  BIFF buffer
- * @ver BIFF version
  * @idx Index of record
  *
  * Write a built-in XF record to file
  * See S59E1E.HTM
  **/
 static void
-write_xf_magic_record (BiffPut *bp, MsBiffVersion ver, int idx)
+write_xf_magic_record (BiffPut *bp, int idx)
 {
 	guint8 data[256];
-	int lp;
 
-	for (lp = 0; lp < 250; lp++)
-		data[lp] = 0;
+	memset (data, 0, sizeof (data));
 
-	if (ver >= MS_BIFF_V7)
+	if (bp->version >= MS_BIFF_V7)
 		ms_biff_put_var_next (bp, BIFF_XF);
 	else
 		ms_biff_put_var_next (bp, BIFF_XF_OLD);
 
-	if (ver >= MS_BIFF_V8) {
+	if (bp->version >= MS_BIFF_V8) {
 		GSF_LE_SET_GUINT16(data+0, FONT_MAGIC);
 		GSF_LE_SET_GUINT16(data+2, FORMAT_MAGIC);
 		GSF_LE_SET_GUINT16(data+18, 0xc020); /* Color ! */
@@ -2109,7 +1865,7 @@ write_xf_magic_record (BiffPut *bp, MsBiffVersion ver, int idx)
 /**
  * write_xf_record
  * @bp  BIFF buffer
- * @wb  Workbook
+ * @ewb  Workbook
  * @xfd XF data
  *
  * Write an XF record to file
@@ -2117,22 +1873,20 @@ write_xf_magic_record (BiffPut *bp, MsBiffVersion ver, int idx)
  * For BIFF V8, only font and format are written.
  **/
 static void
-write_xf_record (BiffPut *bp, ExcelWorkbook *wb, BiffXFData *xfd)
+write_xf_record (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 {
 	guint8 data[256];
 	guint16 itmp;
-	int lp;
 	int btype;
 
-	for (lp = 0; lp < 250; lp++)
-		data[lp] = 0;
+	memset (data, 0, sizeof (data));
 
-	if (wb->ver >= MS_BIFF_V7)
+	if (bp->version >= MS_BIFF_V7)
 		ms_biff_put_var_next (bp, BIFF_XF);
 	else
 		ms_biff_put_var_next (bp, BIFF_XF_OLD);
 
-	if (wb->ver >= MS_BIFF_V8) {
+	if (bp->version >= MS_BIFF_V8) {
 		GSF_LE_SET_GUINT16 (data+0, xfd->font_idx);
 		GSF_LE_SET_GUINT16 (data+2, xfd->format_idx);
 		GSF_LE_SET_GUINT16(data+18, 0xc020); /* Color ! */
@@ -2174,7 +1928,7 @@ write_xf_record (BiffPut *bp, ExcelWorkbook *wb, BiffXFData *xfd)
 		/* Borders */
 		btype = xfd->border_type[STYLE_BOTTOM];
 		if (btype != STYLE_BORDER_NONE) {
-			itmp |= (border_type_to_excel (btype, wb->ver) << 6)
+			itmp |= (border_type_to_excel (btype, bp->version) << 6)
 				& 0x1c0;
 			itmp |= (xfd->border_color[STYLE_BOTTOM] << 9)
 				& 0xfe00;
@@ -2184,14 +1938,14 @@ write_xf_record (BiffPut *bp, ExcelWorkbook *wb, BiffXFData *xfd)
 		itmp  = 0;
 		btype = xfd->border_type[STYLE_TOP];
 		if (btype != STYLE_BORDER_NONE) {
-			itmp |= border_type_to_excel (btype, wb->ver) & 0x7;
+			itmp |= border_type_to_excel (btype, bp->version) & 0x7;
 			itmp |= (xfd->border_color[STYLE_TOP] << 9) & 0xfe00;
 		}
 		itmp |= (border_type_to_excel (xfd->border_type[STYLE_LEFT],
-					       wb->ver)
+					       bp->version)
 			 << 3) & 0x38;
 		itmp |= (border_type_to_excel (xfd->border_type[STYLE_RIGHT],
-					       wb->ver)
+					       bp->version)
 			 << 6) & 0x1c0;
 		GSF_LE_SET_GUINT16(data+12, itmp);
 
@@ -2210,16 +1964,16 @@ write_xf_record (BiffPut *bp, ExcelWorkbook *wb, BiffXFData *xfd)
 /**
  * write_xf
  * @bp BIFF buffer
- * @wb workbook
+ * @ewb workbook
  *
  * Write XF records to file for all MStyles
  **/
 static void
-write_xf (BiffPut *bp, ExcelWorkbook *wb)
+write_xf (BiffPut *bp, ExcelWriteState *ewb)
 {
-	TwoWayTable *twt = wb->xf->two_way_table;
+	TwoWayTable *twt = ewb->xf.two_way_table;
 	int nxf = twt->idx_to_key->len;
-	int lp;
+	int i;
 	MStyle *st;
 	BiffXFData xfd;
 
@@ -2227,28 +1981,28 @@ write_xf (BiffPut *bp, ExcelWorkbook *wb)
 				   0xff008000, 0xff058014 };
 
 	/* Need at least 16 apparently */
-	for (lp = 0; lp < XF_RESERVED; lp++)
-		write_xf_magic_record (bp, wb->ver,lp);
+	for (i = 0; i < XF_RESERVED; i++)
+		write_xf_magic_record (bp, i);
 
 	/* Scan through all the Styles... */
-	for (; lp < nxf + twt->base; lp++) {
-		st = xf_get_mstyle (wb, lp);
-		build_xf_data (wb, &xfd, st);
+	for (; i < nxf + twt->base; i++) {
+		st = xf_get_mstyle (ewb, i);
+		build_xf_data (ewb, &xfd, st);
 #ifndef NO_DEBUG_EXCEL
-		log_xf_data (wb, &xfd, lp);
+		log_xf_data (ewb, &xfd, i);
 #endif
-		write_xf_record (bp, wb, &xfd);
+		write_xf_record (bp, ewb, &xfd);
 	}
 
 	/* See: S59DEA.HTM */
-	for (lp = 0; lp < 6; lp++) {
+	for (i = 0; i < 6; i++) {
 		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_STYLE, 4);
-		GSF_LE_SET_GUINT32 (data, style_magic[lp]); /* cop out */
+		GSF_LE_SET_GUINT32 (data, style_magic[i]); /* cop out */
 		ms_biff_put_commit (bp);
 	}
 
 	/* See: S59E14.HTM */
-	if (wb->ver >= MS_BIFF_V8) {
+	if (bp->version >= MS_BIFF_V8) {
 		guint8 *data = ms_biff_put_len_next (bp, BIFF_USESELFS, 2);
 		GSF_LE_SET_GUINT16 (data, 0x1); /* we are language naturals */
 		ms_biff_put_commit (bp);
@@ -2256,7 +2010,7 @@ write_xf (BiffPut *bp, ExcelWorkbook *wb)
 }
 
 int
-ms_excel_write_map_errcode (Value const *v)
+excel_write_map_errcode (Value const *v)
 {
 	char const * const mesg = v->v_err.mesg->str;
 	if (!strcmp (gnumeric_err_NULL, mesg))
@@ -2282,7 +2036,6 @@ ms_excel_write_map_errcode (Value const *v)
  * write_value
  * @bp  BIFF buffer
  * @v   value
- * @ver BIFF version
  * @col column
  * @row row
  * @xf  XF index
@@ -2290,8 +2043,7 @@ ms_excel_write_map_errcode (Value const *v)
  * Write cell value to file
  **/
 static void
-write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
-	     guint32 col, guint32 row, guint16 xf)
+write_value (BiffPut *bp, Value *v, guint32 col, guint32 row, guint16 xf)
 {
 	switch (v->type) {
 
@@ -2310,7 +2062,7 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 		EX_SETCOL(data, col);
 		EX_SETXF (data, xf);
 		if (v->type == VALUE_ERROR) {
-			GSF_LE_SET_GUINT8 (data + 6, ms_excel_write_map_errcode (v));
+			GSF_LE_SET_GUINT8 (data + 6, excel_write_map_errcode (v));
 			GSF_LE_SET_GUINT8 (data + 7, 1); /* Mark as a err */
 		} else {
 			GSF_LE_SET_GUINT8 (data + 6, v->v_bool.val ? 1 : 0);
@@ -2323,10 +2075,10 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 		int vint = v->v_int.val;
 		guint8 *data;
 
-		d (3, printf ("Writing %d %d\n", vint, v->v_int.val););
+		d (3, fprintf (stderr, "Writing %d %d\n", vint, v->v_int.val););
 		if (((vint<<2)>>2) != vint) { /* Chain to floating point then. */
 			Value *vf = value_new_float (v->v_int.val);
-			write_value (bp, vf, ver, col, row, xf);
+			write_value (bp, vf, col, row, xf);
 			value_release (vf);
 		} else {
 			data = ms_biff_put_len_next (bp, (0x200 | BIFF_RK), 10);
@@ -2345,7 +2097,7 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 		gboolean is_int = ((val - (int)val) == 0.0) &&
 			(((((int)val)<<2)>>2) == ((int)val));
 
-		d (3, printf ("Writing %g is (%g %g) is int ? %d\n",
+		d (3, fprintf (stderr, "Writing %g is (%g %g) is int ? %d\n",
 			      (double)val,
 			      (double)(1.0 * (int)val),
 			      (double)(1.0 * (val - (int)val)),
@@ -2355,9 +2107,9 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 		 * and represent it as a mode 3 RK (val*100) construct */
 		if (is_int) { /* not nice but functional */
 			Value *vi = value_new_int (val);
-			write_value (bp, vi, ver, col, row, xf);
+			write_value (bp, vi, col, row, xf);
 			value_release (vi);
-		} else if (ver >= MS_BIFF_V7) { /* See: S59DAC.HTM */
+		} else if (bp->version >= MS_BIFF_V7) { /* See: S59DAC.HTM */
 			guint8 *data =ms_biff_put_len_next (bp, (0x200 | BIFF_NUMBER), 14);
 			EX_SETROW(data, row);
 			EX_SETCOL(data, col);
@@ -2382,14 +2134,13 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 		g_return_if_fail (v->v_str.val->str);
 
 		/* Use LABEL */
-		if (ver < MS_BIFF_V8) {
+		if (bp->version < MS_BIFF_V8) {
 			guint8 data[16];
 			gint len;
 			char *buf;
 
 			len = biff_convert_text(&buf, v->v_str.val->str, MS_BIFF_V7);
 
-#warning TODO fix warning capabilities of io_context to support 1 time type specific warnings
 			if (len > 0xff)
 				len = 0xff;
 			ms_biff_put_var_next   (bp, (0x200 | BIFF_LABEL));
@@ -2399,7 +2150,7 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 			EX_SETROW(data, row);
 			EX_SETSTRLEN (data, len);
 			ms_biff_put_var_write  (bp, data, 8);
-			biff_put_text (bp, buf, len, MS_BIFF_V7, FALSE, AS_PER_VER);
+			biff_put_text (bp, buf, len, FALSE, AS_PER_VER);
 			g_free (buf);
 			ms_biff_put_commit (bp);
 		} else {
@@ -2408,7 +2159,7 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 		break;
 
 	default:
-		printf ("Unhandled value type %d\n", v->type);
+		fprintf (stderr, "Unhandled value type %d\n", v->type);
 		break;
 	}
 }
@@ -2423,7 +2174,7 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
  * Write formula to file
  **/
 static void
-write_formula (BiffPut *bp, ExcelSheet *esheet, Cell const *cell, gint16 xf)
+write_formula (ExcelWriteState *ewb, ExcelSheet *esheet, Cell const *cell, gint16 xf)
 {
 	guint8   data[22];
 	guint8   lendat[2];
@@ -2433,7 +2184,7 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, Cell const *cell, gint16 xf)
 	Value   *v;
 	GnmExpr const *expr;
 
-	g_return_if_fail (bp);
+	g_return_if_fail (ewb);
 	g_return_if_fail (cell);
 	g_return_if_fail (esheet);
 	g_return_if_fail (cell_has_expr (cell));
@@ -2445,7 +2196,7 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, Cell const *cell, gint16 xf)
 	expr = cell->base.expression;
 
 	/* See: S59D8F.HTM */
-	ms_biff_put_var_next (bp, BIFF_FORMULA);
+	ms_biff_put_var_next (ewb->bp, BIFF_FORMULA);
 	EX_SETROW (data, row);
 	EX_SETCOL (data, col);
 	EX_SETXF  (data, xf);
@@ -2469,7 +2220,7 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, Cell const *cell, gint16 xf)
 
 	case VALUE_ERROR :
 		GSF_LE_SET_GUINT32 (data +  6,
-				    0x00000002 | (ms_excel_write_map_errcode (v) << 16));
+				    0x00000002 | (excel_write_map_errcode (v) << 16));
 		GSF_LE_SET_GUINT32 (data + 10, 0xffff0000);
 		break;
 
@@ -2485,20 +2236,18 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, Cell const *cell, gint16 xf)
 	GSF_LE_SET_GUINT16 (data + 14, 0x0); /* alwaysCalc & calcOnLoad */
 	GSF_LE_SET_GUINT32 (data + 16, 0x0);
 	GSF_LE_SET_GUINT16 (data + 20, 0x0); /* bogus len, fill in later */
-	ms_biff_put_var_write (bp, data, 22);
-	len = ms_excel_write_formula (bp, esheet, expr, col, row, 0);
+	ms_biff_put_var_write (ewb->bp, data, 22);
+	len = excel_write_formula (ewb, expr, esheet->gnum_sheet, col, row, 0);
 
-	g_assert (len <= 0xffff);
-
-	ms_biff_put_var_seekto (bp, 20);
+	ms_biff_put_var_seekto (ewb->bp, 20);
 	GSF_LE_SET_GUINT16 (lendat, len);
-	ms_biff_put_var_write (bp, lendat, 2);
+	ms_biff_put_var_write (ewb->bp, lendat, 2);
 
-	ms_biff_put_commit (bp);
+	ms_biff_put_commit (ewb->bp);
 
 	if (expr->any.oper == GNM_EXPR_OP_ARRAY &&
 	    expr->array.x == 0 && expr->array.y == 0) {
-		ms_biff_put_var_next (bp, BIFF_ARRAY);
+		ms_biff_put_var_next (ewb->bp, BIFF_ARRAY);
 		GSF_LE_SET_GUINT16 (data+0, cell->pos.row);
 		GSF_LE_SET_GUINT16 (data+2, cell->pos.row + expr->array.rows-1);
 		GSF_LE_SET_GUINT16 (data+4, cell->pos.col);
@@ -2506,29 +2255,27 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, Cell const *cell, gint16 xf)
 		GSF_LE_SET_GUINT16 (data+6, 0x0); /* alwaysCalc & calcOnLoad */
 		GSF_LE_SET_GUINT32 (data+8, 0);
 		GSF_LE_SET_GUINT16 (data+12, 0); /* bogus len, fill in later */
-		ms_biff_put_var_write (bp, data, 14);
-		len = ms_excel_write_formula (bp, esheet,
-			expr->array.corner.expr, col, row, 0);
+		ms_biff_put_var_write (ewb->bp, data, 14);
+		len = excel_write_formula (ewb, expr->array.corner.expr,
+					   esheet->gnum_sheet, col, row, 0);
 
-		g_assert (len <= 0xffff);
-
-		ms_biff_put_var_seekto (bp, 12);
+		ms_biff_put_var_seekto (ewb->bp, 12);
 		GSF_LE_SET_GUINT16 (lendat, len);
-		ms_biff_put_var_write (bp, lendat, 2);
-		ms_biff_put_commit (bp);
+		ms_biff_put_var_write (ewb->bp, lendat, 2);
+		ms_biff_put_commit (ewb->bp);
 	}
 
 	if (string_result) {
 		gint len;
 		gchar *str, *buf;
 
-		ms_biff_put_var_next (bp, 0x200|BIFF_STRING);
+		ms_biff_put_var_next (ewb->bp, 0x200|BIFF_STRING);
 		str = value_get_as_string (v);
 		len = biff_convert_text(&buf, str, MS_BIFF_V7);
-		biff_put_text (bp, buf, len, MS_BIFF_V7, TRUE, SIXTEEN_BIT);
+		biff_put_text (ewb->bp, buf, len, TRUE, SIXTEEN_BIT);
 		g_free (buf);
 		g_free (str);
-		ms_biff_put_commit (bp);
+		ms_biff_put_commit (ewb->bp);
 	}
 }
 
@@ -2540,7 +2287,6 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelSheet *esheet)
 {
 	guint8 data[6];
 	GSList *l, *comments;
-	MsBiffVersion ver = esheet->wb->ver;
 
 	comments = sheet_objects_get (esheet->gnum_sheet, NULL,
 				      CELL_COMMENT_TYPE);
@@ -2556,7 +2302,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelSheet *esheet)
 		g_return_if_fail (comment != NULL);
 		g_return_if_fail (pos != NULL);
 
-		len = biff_convert_text(&buf, comment, ver);
+		len = biff_convert_text(&buf, comment, bp->version);
 		p = buf;
 		ms_biff_put_var_next (bp, BIFF_NOTE);
 		GSF_LE_SET_GUINT16 (data + 0, pos->start.row);
@@ -2566,7 +2312,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelSheet *esheet)
 
 repeat:
 		if (len > MAX_BIFF_NOTE_CHUNK) {
-			biff_put_text (bp, p, MAX_BIFF_NOTE_CHUNK, ver, FALSE, AS_PER_VER);
+			biff_put_text (bp, p, MAX_BIFF_NOTE_CHUNK, FALSE, AS_PER_VER);
 
 			ms_biff_put_commit (bp);
 
@@ -2581,7 +2327,7 @@ repeat:
 
 			goto repeat;
 		} else {
-			biff_put_text (bp, p, len, ver, FALSE, AS_PER_VER);
+			biff_put_text (bp, p, len, FALSE, AS_PER_VER);
 			ms_biff_put_commit (bp);
 		}
 		g_free(buf);
@@ -2598,11 +2344,11 @@ repeat:
  * Write cell to file
  **/
 static void
-write_cell (BiffPut *bp, ExcelSheet *esheet, Cell const *cell, unsigned xf)
+write_cell (ExcelWriteState *ewb, ExcelSheet *esheet, Cell const *cell, unsigned xf)
 {
 	d (2, {
 		ParsePos tmp;
-		printf ("Writing cell at %s '%s' = '%s', xf = 0x%x\n",
+		fprintf (stderr, "Writing cell at %s '%s' = '%s', xf = 0x%x\n",
 			cell_name (cell),
 			(cell_has_expr (cell) ?
 			 gnm_expr_as_string (cell->base.expression,
@@ -2611,10 +2357,9 @@ write_cell (BiffPut *bp, ExcelSheet *esheet, Cell const *cell, unsigned xf)
 			 value_get_as_string (cell->value) : "empty"), xf);
 	});
 	if (cell_has_expr (cell))
-		write_formula (bp, esheet, cell, xf);
+		write_formula (ewb, esheet, cell, xf);
 	else if (cell->value != NULL)
-		write_value (bp, cell->value, esheet->wb->ver,
-			     cell->pos.col, cell->pos.row, xf);
+		write_value (ewb->bp, cell->value, cell->pos.col, cell->pos.row, xf);
 }
 
 /**
@@ -2641,7 +2386,7 @@ write_mulblank (BiffPut *bp, ExcelSheet *esheet, guint32 end_col, guint32 row,
 		guint8 *data;
 
 		xf = xf_list [0];
-		d (2, printf ("Writing blank at %s, xf = 0x%x\n",
+		d (2, fprintf (stderr, "Writing blank at %s, xf = 0x%x\n",
 			      cell_coord_name (end_col, row), xf););
 
 		data = ms_biff_put_len_next (bp, 0x200|BIFF_BLANK, 6);
@@ -2657,9 +2402,9 @@ write_mulblank (BiffPut *bp, ExcelSheet *esheet, guint32 end_col, guint32 row,
 			/* Strange looking code because the second
 			 * cell_coord_name call overwrites the result of the
 			 * first */
-			printf ("Writing multiple blanks %s",
+			fprintf (stderr, "Writing multiple blanks %s",
 				cell_coord_name (end_col + 1 - run, row));
-			printf (":%s\n", cell_coord_name (end_col, row));
+			fprintf (stderr, ":%s\n", cell_coord_name (end_col, row));
 		});
 
 		data = ms_biff_put_len_next (bp, BIFF_MULBLANK, len);
@@ -2670,14 +2415,14 @@ write_mulblank (BiffPut *bp, ExcelSheet *esheet, guint32 end_col, guint32 row,
 		ptr = data + 4;
 		for (i = 0 ; i < run ; i++) {
 			xf = xf_list [i];
-			d (3, printf (" xf(%s) = 0x%x",
+			d (3, fprintf (stderr, " xf(%s) = 0x%x",
 				      cell_coord_name (end_col + 1 - run, row),
 				      xf););
 			GSF_LE_SET_GUINT16 (ptr, xf);
 			ptr += 2;
 		}
 
-		d (3, printf ("\n"););
+		d (3, fprintf (stderr, "\n"););
 	}
 
 	ms_biff_put_commit (bp);
@@ -2721,7 +2466,7 @@ excel_write_DEFAULT_ROW_HEIGHT (BiffPut *bp, ExcelSheet *esheet)
 
 	def_height = sheet_row_get_default_size_pts (esheet->gnum_sheet);
 	height = (guint16) (20. * def_height);
-	d (1, printf ("Default row height 0x%x;\n", height););
+	d (1, fprintf (stderr, "Default row height 0x%x;\n", height););
 	data = ms_biff_put_len_next (bp, 0x200|BIFF_DEFAULTROWHEIGHT, 4);
 	GSF_LE_SET_GUINT16 (data + 0, options);
 	GSF_LE_SET_GUINT16 (data + 2, height);
@@ -2784,7 +2529,7 @@ excel_write_DEFCOLWIDTH (BiffPut *bp, ExcelSheet *esheet)
 	mstyle_unref (def_style);
 	width = (guint16) (width_chars + .5);
 
-	d (1, printf ("Default column width %d characters\n", width););
+	d (1, fprintf (stderr, "Default column width %d characters\n", width););
 
 	data = ms_biff_put_len_next (bp, BIFF_DEFCOLWIDTH, 2);
 	GSF_LE_SET_GUINT16 (data, width);
@@ -2807,7 +2552,7 @@ excel_write_COLINFO (BiffPut *bp, ExcelSheet *esheet,
 {
 	guint8 *data;
 	MStyle *style = two_way_table_idx_to_key (
-		esheet->wb->xf->two_way_table, xf_index);
+		esheet->ewb->xf.two_way_table, xf_index);
 	double  width_chars
 		= ci->size_pts / style_get_char_width (style, FALSE);
 	guint16 width = (guint16) (width_chars * 256.);
@@ -2821,12 +2566,12 @@ excel_write_COLINFO (BiffPut *bp, ExcelSheet *esheet,
 		options |= 0x1000;
 
 	d (1, {
-		printf ("Column Formatting %s!%s of width "
+		fprintf (stderr, "Column Formatting %s!%s of width "
 		      "%f/256 characters (%f pts) of size %f\n",
 		      esheet->gnum_sheet->name_quoted,
 		      cols_name (ci->pos, last_index), width / 256.,
 		      ci->size_pts, style_get_char_width (style, FALSE));
-		printf ("Options %hd, default style %hd\n", options, xf_index);
+		fprintf (stderr, "Options %hd, default style %hd\n", options, xf_index);
 	});
 
 	/* NOTE : Docs lie.  length is 12 not 11 */
@@ -2868,7 +2613,7 @@ static void
 excel_write_DIMENSION (BiffPut *bp, ExcelSheet *esheet)
 {
 	guint8 *data;
-	if (esheet->wb->ver >= MS_BIFF_V8) {
+	if (bp->version >= MS_BIFF_V8) {
 		data = ms_biff_put_len_next (bp, 0x200 | BIFF_DIMENSIONS, 14);
 		GSF_LE_SET_GUINT32 (data +  0, 0);
 		GSF_LE_SET_GUINT32 (data +  4, esheet->max_row);
@@ -2919,8 +2664,7 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 {
 	guint8 *data;
 	PrintInformation *pi;
-	MsBiffVersion ver = esheet->wb->ver;
-	Workbook *wb = esheet->gnum_sheet->workbook;
+	Workbook *ewb = esheet->gnum_sheet->workbook;
 	double header = 0, footer = 0, left = 0, right = 0;
 
 	g_return_if_fail (esheet != NULL);
@@ -2936,7 +2680,7 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 
 	/* See: S59D62.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_CALCCOUNT, 2);
-	GSF_LE_SET_GUINT16 (data, wb->iteration.max_number);
+	GSF_LE_SET_GUINT16 (data, ewb->iteration.max_number);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DD7.HTM */
@@ -2946,12 +2690,12 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 
 	/* See: S59D9C.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_ITERATION, 2);
-	GSF_LE_SET_GUINT16 (data, wb->iteration.enabled ? 1 : 0);
+	GSF_LE_SET_GUINT16 (data, ewb->iteration.enabled ? 1 : 0);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D75.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_DELTA, 8);
-	gsf_le_set_double (data, wb->iteration.tolerance);
+	gsf_le_set_double (data, ewb->iteration.tolerance);
 	ms_biff_put_commit (bp);
 
 	/* See: S59DDD.HTM */
@@ -2981,12 +2725,12 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 
 	/* See: S59D94.HTM */
 	ms_biff_put_var_next (bp, BIFF_HEADER);
-/*	biff_put_text (bp, "&A", MS_BIFF_V7, TRUE); */
+/*	biff_put_text (bp, "&A", TRUE); */
 	ms_biff_put_commit (bp);
 
 	/* See: S59D8D.HTM */
 	ms_biff_put_var_next (bp, BIFF_FOOTER);
-/*	biff_put_text (bp, "&P", MS_BIFF_V7, TRUE); */
+/*	biff_put_text (bp, "&P", TRUE); */
 	ms_biff_put_commit (bp);
 
 	/* See: S59D93.HTM */
@@ -3006,8 +2750,7 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 	excel_write_margin (bp, BIFF_BOTTOM_MARGIN, pi->margins.bottom.points);
 
 	excel_write_SETUP (bp, esheet);
-	excel_write_externsheets (bp, esheet->wb, esheet);
-	ms_formula_write_pre_data (bp, esheet, EXCEL_EXTERNNAME, ver);
+	excel_write_externsheets_v7 (bp, esheet->ewb, esheet);
 	excel_write_DEFCOLWIDTH (bp, esheet);
 	excel_write_colinfos (bp, esheet);
 	excel_write_DIMENSION (bp, esheet);
@@ -3017,7 +2760,7 @@ static void
 excel_write_SELECTION (BiffPut *bp, ExcelSheet *esheet)
 {
 	SheetView const *sv = sheet_get_view (esheet->gnum_sheet,
-		esheet->wb->gnum_wb_view);
+		esheet->ewb->gnum_wb_view);
 	int n = g_list_length (sv->selections);
 	GList *ptr;
 	guint8 *data;
@@ -3040,64 +2783,31 @@ excel_write_SELECTION (BiffPut *bp, ExcelSheet *esheet)
 	ms_biff_put_commit (bp);
 }
 
-static void
-excel_write_sheet_tail (IOContext *context, BiffPut *bp, ExcelSheet *esheet)
-{
-	guint8 *data;
-	MsBiffVersion ver = esheet->wb->ver;
-	int num, denom;
-
-	excel_write_WINDOW1 (bp, ver, esheet->wb->gnum_wb_view);
-	if (excel_write_WINDOW2 (bp, ver, esheet))
-		excel_write_PANE (bp, ver, esheet);
-
-	/* Zoom */
-	stern_brocot (esheet->gnum_sheet->last_zoom_factor_used,
-		      1000, &num, &denom);
-	data = ms_biff_put_len_next (bp, BIFF_SCL, 4);
-	GSF_LE_SET_GUINT16 (data + 0, (guint16)num);
-	GSF_LE_SET_GUINT16 (data + 2, denom);
-	ms_biff_put_commit (bp);
-
-	excel_write_SELECTION (bp, esheet);
-	excel_write_MERGECELLS (bp, ver, esheet);
-
-/* See: S59D90.HTM: Global Column Widths...  not cricual.
-	data = ms_biff_put_len_next (bp, BIFF_GCW, 34);
-	{
-		int lp;
-		for (lp = 0; lp < 34; lp++)
-			GSF_LE_SET_GUINT8 (data+lp, 0xff);
-		GSF_LE_SET_GUINT32 (data, 0xfffd0020);
-	}
-	ms_biff_put_commit (bp);
-*/
-}
-
 /* See: S59D99.HTM */
 static void
-write_index (GsfOutput *output, ExcelSheet *esheet, unsigned pos)
+write_index (GsfOutput *output, ExcelSheet *esheet, unsigned pos,
+	     MsBiffVersion ver)
 {
 	guint8  data[4];
 	gsf_off_t oldpos;
-	guint lp;
+	unsigned i;
 
 	g_return_if_fail (output);
 	g_return_if_fail (esheet);
 
 	oldpos = gsf_output_tell (output);
-	if (esheet->wb->ver >= MS_BIFF_V8)
+	if (ver >= MS_BIFF_V8)
 		gsf_output_seek (output, pos+4+16, G_SEEK_SET);
 	else
 		gsf_output_seek (output, pos+4+12, G_SEEK_SET);
 
-	for (lp = 0; lp < esheet->dbcells->len; lp++) {
-		unsigned pos = g_array_index (esheet->dbcells, unsigned, lp);
-		GSF_LE_SET_GUINT32 (data, pos - esheet->wb->streamPos);
-		d (2, printf ("Writing index record"
+	for (i = 0; i < esheet->dbcells->len; i++) {
+		unsigned pos = g_array_index (esheet->dbcells, unsigned, i);
+		GSF_LE_SET_GUINT32 (data, pos - esheet->ewb->streamPos);
+		d (2, fprintf (stderr, "Writing index record"
 			      " 0x%4.4x - 0x%4.4x = 0x%4.4x\n",
-			      pos, esheet->wb->streamPos,
-			      pos - esheet->wb->streamPos););
+			      pos, esheet->ewb->streamPos,
+			      pos - esheet->ewb->streamPos););
 		gsf_output_write (output, 4, data);
 	}
 
@@ -3132,7 +2842,7 @@ excel_write_ROWINFO (BiffPut *bp, ExcelSheet *esheet, guint32 row, guint32 last_
 	if (ri->hard_size)
 		options |= 0x40;
 
-	d (1, printf ("Row %d height 0x%x;\n", row+1, height););
+	d (1, fprintf (stderr, "Row %d height 0x%x;\n", row+1, height););
 
 	data = ms_biff_put_len_next (bp, (0x200 | BIFF_ROW), 16);
 	pos = bp->streamPos;
@@ -3187,7 +2897,7 @@ write_db_cell (BiffPut *bp, ExcelSheet *esheet,
 
 /**
  * write_block
- * @bp     BIFF buffer
+ * @ewb     BIFF buffer
  * @esheet  sheet
  * @begin  first row no
  * @nrows  no. of rows in block.
@@ -3200,7 +2910,7 @@ write_db_cell (BiffPut *bp, ExcelSheet *esheet,
  * See: 'Finding records in BIFF files': S59E28.HTM *
  */
 static guint32
-write_block (BiffPut *bp, ExcelSheet *esheet, guint32 begin, int nrows)
+write_block (ExcelWriteState *ewb, ExcelSheet *esheet, guint32 begin, int nrows)
 {
 	int max_col = esheet->max_col;
 	int col, row, max_row;
@@ -3210,23 +2920,23 @@ write_block (BiffPut *bp, ExcelSheet *esheet, guint32 begin, int nrows)
 	Cell const *cell;
 	Sheet	   *sheet = esheet->gnum_sheet;
 	int	    xf;
-	TwoWayTable *twt = esheet->wb->xf->two_way_table;
+	TwoWayTable *twt = esheet->ewb->xf.two_way_table;
 
 	if (nrows > esheet->max_row - (int) begin) /* Incomplete final block? */
 		nrows = esheet->max_row - (int) begin;
 	max_row = begin + nrows - 1;
 
-	ri_start [0] = excel_write_ROWINFO (bp, esheet, begin, max_col);
-	ri_start [1] = bp->streamPos;
+	ri_start [0] = excel_write_ROWINFO (ewb->bp, esheet, begin, max_col);
+	ri_start [1] = ewb->bp->streamPos;
 	for (row = begin + 1; row <= max_row; row++)
-		(void) excel_write_ROWINFO (bp, esheet, row, max_col);
+		(void) excel_write_ROWINFO (ewb->bp, esheet, row, max_col);
 
 	rc_start = g_new0 (unsigned, nrows);
 	for (row = begin; row <= max_row; row++) {
 		guint32 run_size = 0;
 
 		/* Save start pos of 1st cell in row */
-		rc_start [row - begin] = bp->streamPos;
+		rc_start [row - begin] = ewb->bp->streamPos;
 		for (col = 0; col < max_col; col++) {
 			cell = sheet_cell_get (sheet, col, row);
 			xf = two_way_table_key_to_idx (twt,
@@ -3235,26 +2945,26 @@ write_block (BiffPut *bp, ExcelSheet *esheet, guint32 begin, int nrows)
 				if (xf != esheet->col_xf [col])
 					xf_list [run_size++] = xf;
 				else if (run_size > 0) {
-					write_mulblank (bp, esheet, col - 1, row,
+					write_mulblank (ewb->bp, esheet, col - 1, row,
 							xf_list, run_size);
 					run_size = 0;
 				}
 			} else {
 				if (run_size > 0) {
-					write_mulblank (bp, esheet, col - 1, row,
+					write_mulblank (ewb->bp, esheet, col - 1, row,
 							xf_list, run_size);
 					run_size = 0;
 				}
-				write_cell (bp, esheet, cell, xf);
-				workbook_io_progress_update (esheet->wb->io_context, 1);
+				write_cell (ewb, esheet, cell, xf);
+				workbook_io_progress_update (esheet->ewb->io_context, 1);
 			}
 		}
 		if (run_size > 0)
-			write_mulblank (bp, esheet, col - 1, row,
+			write_mulblank (ewb->bp, esheet, col - 1, row,
 					xf_list, run_size);
 	}
 
-	write_db_cell (bp, esheet, ri_start, rc_start, nrows);
+	write_db_cell (ewb->bp, esheet, ri_start, rc_start, nrows);
 	g_free (rc_start);
 
 	return row - 1;
@@ -3263,66 +2973,89 @@ write_block (BiffPut *bp, ExcelSheet *esheet, guint32 begin, int nrows)
 /* See: 'Finding records in BIFF files': S59E28.HTM */
 /* and S59D99.HTM */
 static void
-excel_write_sheet (IOContext *context, BiffPut *bp, ExcelSheet *esheet)
+excel_write_sheet (ExcelWriteState *ewb, ExcelSheet *esheet)
 {
 	guint32 block_end;
-	gint32 maxrows, y;
+	gint32 y;
 	int rows_in_block = ROW_BLOCK_MAX_LEN;
 	unsigned index_off;
+	guint8 *data;
+	int num, denom;
 
 	/* No. of blocks of rows. Only correct as long as all rows
 	 * _including empties_ have row info records
 	 */
 	guint32 nblocks = (esheet->max_row - 1) / rows_in_block + 1;
 
-	esheet->streamPos = biff_bof_write (bp, esheet->wb->ver, MS_BIFF_TYPE_Worksheet);
+	esheet->streamPos = biff_bof_write (ewb->bp, MS_BIFF_TYPE_Worksheet);
 
-	/* We catch too large sheets during write check, but leave this in: */
-	maxrows = (esheet->wb->ver >= MS_BIFF_V8)
-		? MsBiffMaxRowsV8 : MsBiffMaxRowsV7;
-	g_assert (esheet->max_row <= maxrows);
-
-	if (esheet->wb->ver >= MS_BIFF_V8) {
-		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
+	if (ewb->bp->version >= MS_BIFF_V8) {
+		guint8 *data = ms_biff_put_len_next (ewb->bp, 0x200|BIFF_INDEX,
 						     nblocks * 4 + 16);
-		index_off = bp->streamPos;
+		index_off = ewb->bp->streamPos;
 		GSF_LE_SET_GUINT32 (data, 0);
 		GSF_LE_SET_GUINT32 (data +  4, 0);
 		GSF_LE_SET_GUINT32 (data +  8, esheet->max_row);
 		GSF_LE_SET_GUINT32 (data + 12, 0);
 	} else {
-		guint8 *data = ms_biff_put_len_next (bp, 0x200|BIFF_INDEX,
+		guint8 *data = ms_biff_put_len_next (ewb->bp, 0x200|BIFF_INDEX,
 						     nblocks * 4 + 12);
-		index_off = bp->streamPos;
+		index_off = ewb->bp->streamPos;
 		GSF_LE_SET_GUINT32 (data, 0);
 		GSF_LE_SET_GUINT16 (data + 4, 0);
 		GSF_LE_SET_GUINT16 (data + 6, esheet->max_row);
 		GSF_LE_SET_GUINT32 (data + 8, 0);
 	}
-	ms_biff_put_commit (bp);
+	ms_biff_put_commit (ewb->bp);
 
-	write_sheet_head (bp, esheet);
+	write_sheet_head (ewb->bp, esheet);
 
-	d (1, printf ("Saving esheet '%s' geom (%d, %d)\n",
+	d (1, fprintf (stderr, "Saving esheet '%s' geom (%d, %d)\n",
 		      esheet->gnum_sheet->name_unquoted,
 		      esheet->max_col, esheet->max_row););
 	for (y = 0; y < esheet->max_row; y = block_end + 1)
-		block_end = write_block (bp, esheet, y, rows_in_block);
+		block_end = write_block (ewb, esheet, y, rows_in_block);
 
-	if (esheet->wb->ver < MS_BIFF_V8)
-		excel_write_comments_biff7 (bp, esheet);
-	write_index (bp->output, esheet, index_off);
-	excel_write_sheet_tail (context, bp, esheet);
+	if (ewb->bp->version < MS_BIFF_V8)
+		excel_write_comments_biff7 (ewb->bp, esheet);
+	write_index (ewb->bp->output, esheet, index_off, ewb->bp->version);
 
-	ms_excel_write_EOF (bp);
+
+	excel_write_WINDOW1 (ewb->bp, esheet->ewb->gnum_wb_view);
+	if (excel_write_WINDOW2 (ewb->bp, esheet))
+		excel_write_PANE (ewb->bp, esheet);
+
+	/* Zoom */
+	stern_brocot (esheet->gnum_sheet->last_zoom_factor_used,
+		      1000, &num, &denom);
+	data = ms_biff_put_len_next (ewb->bp, BIFF_SCL, 4);
+	GSF_LE_SET_GUINT16 (data + 0, (guint16)num);
+	GSF_LE_SET_GUINT16 (data + 2, denom);
+	ms_biff_put_commit (ewb->bp);
+
+	excel_write_SELECTION (ewb->bp, esheet);
+	excel_write_MERGECELLS (ewb->bp, esheet);
+
+/* See: S59D90.HTM: Global Column Widths...  not cricual.
+	data = ms_biff_put_len_next (ewb->bp, BIFF_GCW, 34);
+	{
+		int i;
+		for (i = 0; i < 34; i++)
+			GSF_LE_SET_GUINT8 (data+i, 0xff);
+		GSF_LE_SET_GUINT32 (data, 0xfffd0020);
+	}
+	ms_biff_put_commit (ewb->bp);
+*/
+
+	ms_excel_write_EOF (ewb->bp);
 }
 
 static ExcelSheet *
-excel_sheet_new (ExcelWorkbook *ewb, Sheet *gnum_sheet, IOContext *context)
+excel_sheet_new (ExcelWriteState *ewb, Sheet *gnum_sheet, MsBiffVersion ver)
 {
 	ExcelSheet      *esheet = g_new (ExcelSheet, 1);
 	Range           extent;
-	int const maxrows = (ewb->ver >= MS_BIFF_V8)
+	int const maxrows = (ver >= MS_BIFF_V8)
 		? MsBiffMaxRowsV8 : MsBiffMaxRowsV7;
 
 	g_return_val_if_fail (gnum_sheet, NULL);
@@ -3331,20 +3064,22 @@ excel_sheet_new (ExcelWorkbook *ewb, Sheet *gnum_sheet, IOContext *context)
 	/* Ignore spans and merges past the bound */
 	extent = sheet_get_extent (gnum_sheet, FALSE);
 
-	if (extent.end.col > maxrows) {
-		char *msg = g_strdup_printf (
-			_("Too many rows for this format (%d > %d)"),
+	if (extent.end.row > maxrows) {
+		gnm_io_warning (ewb->io_context, _("Too many rows for this format (%d > %d)"),
 			  extent.end.col, maxrows);
-		gnumeric_error_save (COMMAND_CONTEXT (context), msg);
-		g_free (msg);
-		return NULL;
+		extent.end.row = maxrows;
+	}
+	if (extent.end.col > 256) {
+		gnm_io_warning (ewb->io_context, _("Too many rows for this format (%d > %d)"),
+			  extent.end.col, maxrows);
+		extent.end.col = maxrows;
 	}
 
 	sheet_style_get_extent (gnum_sheet, &extent);
 
 	esheet->gnum_sheet = gnum_sheet;
 	esheet->streamPos  = 0x0deadbee;
-	esheet->wb         = ewb;
+	esheet->ewb        = ewb;
 	esheet->max_col    = 1 + MAX (gnum_sheet->cols.max_used, extent.end.col);
 	esheet->max_row    = 1 + MAX (gnum_sheet->rows.max_used, extent.end.row);
 	esheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (unsigned));
@@ -3352,8 +3087,6 @@ excel_sheet_new (ExcelWorkbook *ewb, Sheet *gnum_sheet, IOContext *context)
 	/* It is ok to have formatting out of range, we can disregard that. */
 	if (esheet->max_row > maxrows)
 		esheet->max_row = maxrows;
-
-	ms_formula_cache_init (esheet);
 
 	return esheet;
 }
@@ -3363,7 +3096,6 @@ excel_sheet_free (ExcelSheet *esheet)
 {
 	if (esheet) {
 		g_array_free (esheet->dbcells, TRUE);
-		ms_formula_cache_shutdown (esheet);
 		g_free (esheet);
 	}
 }
@@ -3371,59 +3103,64 @@ excel_sheet_free (ExcelSheet *esheet)
 /**
  * pre_pass
  * @context:  Command context.
- * @wb:   The workbook to scan
+ * @ewb:   The workbook to scan
  *
  * Scans all the workbook items. Adds all styles, fonts, formats and
  * colors to tables. Resolves any referencing problems before they
  * occur, hence the records can be written in a linear order.
  **/
 static int
-pre_pass (IOContext *context, ExcelWorkbook *wb)
+pre_pass (ExcelWriteState *ewb)
 {
 	int ret = 0;
 
-	if (wb->sheets->len == 0)
+	if (ewb->sheets->len == 0)
 		return TRUE;
 
 	/* The default style first */
-	put_mstyle (wb, wb->xf->default_style);
+	put_mstyle (ewb, ewb->xf.default_style);
 
 	/* Its font and format */
-	put_font (wb->xf->default_style, NULL, wb);
-	put_format (wb->xf->default_style, NULL, wb);
+	put_font (ewb->xf.default_style, NULL, ewb);
+	put_format (ewb->xf.default_style, NULL, ewb);
 
-	gather_styles (wb);     /* (and cache cells) */
+	gather_styles (ewb);     /* (and cache cells) */
 	/* Gather Info from styles */
-	gather_fonts (wb);
-	gather_formats (wb);
-	gather_palette (wb);
+	gather_fonts (ewb);
+	gather_formats (ewb);
+	gather_palette (ewb);
 
 	return ret;
 }
 
 /*
- * free_workbook
- * @wb  Workbook
+ * excel_write_state_free
+ * @ewb  Workbook
  *
  * Free various bits
  */
 static void
-free_workbook (ExcelWorkbook *wb)
+excel_write_state_free (ExcelWriteState *ewb)
 {
-	guint lp;
+	unsigned i;
 
-	fonts_free   (wb);
-	formats_free (wb);
-	palette_free (wb);
-	xf_free  (wb);
-	for (lp = 0; lp < wb->sheets->len; lp++) {
-		ExcelSheet *s = g_ptr_array_index (wb->sheets, lp);
-		excel_sheet_free (s);
+	fonts_free   (ewb);
+	formats_free (ewb);
+	palette_free (ewb);
+	xf_free  (ewb);
+
+	for (i = 0; i < ewb->sheets->len; i++)
+		excel_sheet_free (g_ptr_array_index (ewb->sheets, i));
+
+	g_ptr_array_free (ewb->sheets, TRUE);
+	g_ptr_array_free (ewb->names, TRUE);
+	g_ptr_array_free (ewb->externnames, TRUE);
+
+	if (ewb->bp != NULL) {
+		ms_biff_put_destroy (ewb->bp);
+		ewb->bp = NULL;
 	}
-	g_ptr_array_free (wb->sheets, TRUE);
-	g_ptr_array_free (wb->names, TRUE);
-
-	g_free (wb);
+	g_free (ewb);
 }
 
 /* no need to use a full fledged two table, we already know that the Strings
@@ -3458,7 +3195,7 @@ sst_collect_str (Sheet *sheet, int col, int row, Cell *cell,
 #define MAX_SST_SIZE	8224
 
 static void
-ms_excel_write_SST (BiffPut *bp, ExcelWorkbook *wb)
+ms_excel_write_SST (BiffPut *bp, ExcelWriteState *ewb)
 {
 	int i;
 	SSTCollection accum;
@@ -3466,9 +3203,9 @@ ms_excel_write_SST (BiffPut *bp, ExcelWorkbook *wb)
 	accum.strings  = g_hash_table_new (g_direct_hash, g_direct_equal);
 	accum.indicies = g_ptr_array_new ();
 
-	for (i = 0 ; i < workbook_sheet_count (wb->gnum_wb) ; i++)
+	for (i = 0 ; i < workbook_sheet_count (ewb->gnum_wb) ; i++)
 		sheet_foreach_cell_in_range (
-			workbook_sheet_by_index	 (wb->gnum_wb, i),
+			workbook_sheet_by_index	 (ewb->gnum_wb, i),
 			CELL_ITER_IGNORE_BLANK,
 			0, 0, SHEET_MAX_COLS, SHEET_MAX_ROWS,
 			sst_collect_str, &accum);
@@ -3478,46 +3215,159 @@ ms_excel_write_SST (BiffPut *bp, ExcelWorkbook *wb)
 }
 
 static void
-write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
+write_workbook_v7 (ExcelWriteState *ewb, BiffPut *bp)
 {
+	guint8 *data;
+	gint len;
+	char *buf;
+	guint8 pad [WRITEACCESS_LEN];
+
 	ExcelSheet *s  = 0;
-	guint        lp;
+	guint        i;
 
 	current_workbook_iconv = gsf_msole_iconv_open_for_export();
-	/* Workbook */
-	wb->streamPos = biff_bof_write (bp, ver, MS_BIFF_TYPE_Workbook);
 
-	write_magic_interface (bp, ver);
-	write_bits            (bp, wb, ver);
+	ewb->streamPos = biff_bof_write (ewb->bp, MS_BIFF_TYPE_Workbook);
 
-	write_fonts (bp, wb);
-	write_formats (bp, wb);
-	write_xf (bp, wb);
-	write_palette (bp, wb);
+	ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 0);
+	ms_biff_put_commit (bp);
 
-	for (lp = 0; lp < wb->sheets->len; lp++) {
-		s = g_ptr_array_index (wb->sheets, lp);
-	        s->boundsheetPos = biff_boundsheet_write_first
-			(bp, MS_BIFF_TYPE_Worksheet,
-			 s->gnum_sheet->name_unquoted, wb->ver);
+/* for biff8
+		if (bp->version >= MS_BIFF_V8) {
+			data = ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 2);
+			GSF_LE_SET_GUINT16 (data, gsf_msole_iconv_win_codepage());
+		}
+		*/
 
-		ms_formula_write_pre_data (bp, s, EXCEL_NAME, wb->ver);
+	data = ms_biff_put_len_next (bp, BIFF_MMS, 2);
+	GSF_LE_SET_GUINT16(data, 0);
+	ms_biff_put_commit (bp);
+
+	ms_biff_put_len_next (bp, BIFF_TOOLBARHDR, 0);
+	ms_biff_put_commit (bp);
+
+	ms_biff_put_len_next (bp, BIFF_TOOLBAREND, 0);
+	ms_biff_put_commit (bp);
+
+	ms_biff_put_len_next (bp, BIFF_INTERFACEEND, 0);
+	ms_biff_put_commit (bp);
+
+	len = biff_convert_text (&buf, "The Gnumeric Development Team",
+				 bp->version);
+
+	memset (pad, ' ', sizeof pad);
+	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
+	biff_put_text (bp, buf, len, TRUE, AS_PER_VER);
+	g_free(buf);
+	ms_biff_put_var_write (bp, pad, WRITEACCESS_LEN - len - 1);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D66.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_CODEPAGE, 2);
+	GSF_LE_SET_GUINT16 (data, gsf_msole_iconv_win_codepage());
+	ms_biff_put_commit (bp);
+
+	if (bp->version >= MS_BIFF_V8) { /* See S59D78.HTM */
+		int i, len;
+
+		data = ms_biff_put_len_next (bp, BIFF_DSF, 2);
+		GSF_LE_SET_GUINT16 (data, 0x0);
+		ms_biff_put_commit (bp);
+
+		/* See: S59E09.HTM */
+		len = ewb->sheets->len;
+		data = ms_biff_put_len_next (bp, BIFF_TABID, len * 2);
+		for (i = 0; i < len; i++)
+			GSF_LE_SET_GUINT16 (data + i*2, i + 1);
+		ms_biff_put_commit (bp);
+	}
+	/* See: S59D8A.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_FNGROUPCOUNT, 2);
+	GSF_LE_SET_GUINT16 (data, 0x0e);
+	ms_biff_put_commit (bp);
+
+	/* write externsheets for every sheet in the workbook
+	 * to make our lives easier
+	 */
+	excel_write_externsheets_v7 (bp, ewb, NULL);
+
+	if (ewb->gnum_wb->names != NULL) {
+		g_hash_table_foreach (ewb->gnum_wb->names->names,
+			(GHFunc) excel_write_NAME_v7, ewb);
+		for (i = 0; i < ewb->sheets->len; i++) {
+		}
 	}
 
-	if (wb->ver >= MS_BIFF_V8)
-		ms_excel_write_SST (bp, wb);
-	ms_excel_write_EOF (bp);
-	/* End of Workbook */
+	/* See: S59E19.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_WINDOWPROTECT, 2);
+	GSF_LE_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
 
-	workbook_io_progress_set (context, wb->gnum_wb, WB_PROGRESS_CELLS,
+	/* See: S59DD1.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_PROTECT, 2);
+	GSF_LE_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
+
+	/* See: S59DCC.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_PASSWORD, 2);
+	GSF_LE_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
+
+	excel_write_WINDOW1 (bp, ewb->gnum_wb_view);
+
+	/* See: S59D5B.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_BACKUP, 2);
+	GSF_LE_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D95.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_HIDEOBJ, 2);
+	GSF_LE_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D54.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_1904, 2);
+	GSF_LE_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
+
+	/* See: S59DCE.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_PRECISION, 2);
+	GSF_LE_SET_GUINT16 (data, 0x0001);
+	ms_biff_put_commit (bp);
+
+	/* See: S59DD8.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_REFRESHALL, 2);
+	GSF_LE_SET_GUINT16 (data, 0x0000);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D5E.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_BOOKBOOL, 2);
+	GSF_LE_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
+
+	write_fonts (bp, ewb);
+	write_formats (bp, ewb);
+	write_xf (bp, ewb);
+	write_palette (bp, ewb);
+
+	for (i = 0; i < ewb->sheets->len; i++) {
+		s = g_ptr_array_index (ewb->sheets, i);
+	        s->boundsheetPos = biff_boundsheet_write_first (bp,
+			MS_BIFF_TYPE_Worksheet,
+			s->gnum_sheet->name_unquoted);
+	}
+
+	ms_excel_write_EOF (bp);
+
+	workbook_io_progress_set (ewb->io_context, ewb->gnum_wb, WB_PROGRESS_CELLS,
 	                          N_ELEMENTS_BETWEEN_PROGRESS_UPDATES);
-	for (lp = 0; lp < wb->sheets->len; lp++)
-		excel_write_sheet (context, bp, g_ptr_array_index (wb->sheets, lp));
-	io_progress_unset (context);
+	for (i = 0; i < ewb->sheets->len; i++)
+		excel_write_sheet (ewb, g_ptr_array_index (ewb->sheets, i));
+	io_progress_unset (ewb->io_context);
 
 	/* Finalise Workbook stuff */
-	for (lp = 0; lp < wb->sheets->len; lp++) {
-		ExcelSheet *s = g_ptr_array_index (wb->sheets, lp);
+	for (i = 0; i < ewb->sheets->len; i++) {
+		ExcelSheet *s = g_ptr_array_index (ewb->sheets, i);
 		biff_boundsheet_write_last (bp->output, s->boundsheetPos,
 					    s->streamPos);
 	}
@@ -3527,7 +3377,7 @@ write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersio
 }
 
 /*
- * ms_excel_check_write
+ * excel_check_write
  * @context  Command context
  * @filename File name
  *
@@ -3537,78 +3387,59 @@ write_workbook (IOContext *context, BiffPut *bp, ExcelWorkbook *wb, MsBiffVersio
  * TODO: Ask before continuing if there are minor problems, like
  * losing style information.
  */
-int
-ms_excel_check_write (IOContext *context, void **state, WorkbookView *gwb_view,
-		      MsBiffVersion ver)
+ExcelWriteState *
+excel_write_init_v7 (IOContext *context, WorkbookView *gwb_view)
 {
-	int res;
-	ExcelWorkbook *wb = g_new (ExcelWorkbook, 1);
+	ExcelWriteState *ewb = g_new (ExcelWriteState, 1);
 	GList    *sheets, *ptr;
 
-	g_return_val_if_fail (wb != NULL, -1);
-	g_return_val_if_fail (ver >= MS_BIFF_V7, -1);
+	g_return_val_if_fail (ewb != NULL, NULL);
 
-	*state = wb;
+	ewb->bp   	  = NULL;
+	ewb->io_context   = context;
+	ewb->gnum_wb      = wb_view_workbook (gwb_view);
+	ewb->gnum_wb_view = gwb_view;
+	ewb->sheets	  = g_ptr_array_new ();
+	ewb->names	  = g_ptr_array_new ();
+	ewb->externnames  = g_ptr_array_new ();
+	ewb->function_map = g_hash_table_new_full (g_direct_hash, g_direct_equal,
+		NULL, g_free);
+	fonts_init (ewb);
+	formats_init (ewb);
+	palette_init (ewb);
+	xf_init (ewb);
 
-	wb->ver          = ver;
-	wb->io_context   = context;
-	wb->gnum_wb      = wb_view_workbook (gwb_view);
-	wb->gnum_wb_view = gwb_view;
-	wb->sheets   = g_ptr_array_new ();
-	wb->names    = g_ptr_array_new ();
-	fonts_init (wb);
-	formats_init (wb);
-	palette_init (wb);
-	xf_init (wb);
-
-	sheets = workbook_sheets (wb->gnum_wb);
+	sheets = workbook_sheets (ewb->gnum_wb);
 	for (ptr = sheets ; ptr != NULL ; ptr = ptr->next) {
-		ExcelSheet *esheet = excel_sheet_new (wb, ptr->data, context);
+		ExcelSheet *esheet = excel_sheet_new (ewb, ptr->data, MS_BIFF_V7);
 		if (esheet != NULL)
-			g_ptr_array_add (wb->sheets, esheet);
+			g_ptr_array_add (ewb->sheets, esheet);
+	excel_write_prep_expressions (ewb);
+
 	}
 	g_list_free (sheets);
 
-	res = pre_pass (context, wb);
-	if (res != 0) {
-		free_workbook (wb);
-		*state = NULL;
+	if (pre_pass (ewb) != 0) {
+		excel_write_state_free (ewb);
+		return NULL;
 	}
 
-	return res;
+	return ewb;
 }
 
 void
-ms_excel_write_workbook (IOContext *context, GsfOutfile *outfile, void *state,
-                         MsBiffVersion ver)
+excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *outfile)
 {
 	GsfOutput   *content;
-	BiffPut     *bp;
-	ExcelWorkbook *wb = state;
 
 	g_return_if_fail (outfile != NULL);
 
-	content = gsf_outfile_new_child (outfile,
-		((ver >= MS_BIFF_V8) ? "Workbook" : "Book"), FALSE);
-	if (content == NULL) {
-		free_workbook (wb);
-		gnumeric_error_save (COMMAND_CONTEXT (context),
+	content = gsf_outfile_new_child (outfile, "Book", FALSE);
+	if (content != NULL) {
+		ewb->bp = ms_biff_put_new (content, MS_BIFF_V7);
+		write_workbook_v7 (ewb, ewb->bp);
+	} else
+		gnumeric_error_save (COMMAND_CONTEXT (ewb->io_context),
 			_("Couldn't open stream for writing\n"));
-		return;
-	}
-
-	bp = ms_biff_put_new (content);
-	write_workbook (context, bp, wb, ver);
-	free_workbook (wb);
-	ms_biff_put_destroy (bp);
-	gsf_output_close (content);
-	g_object_unref (G_OBJECT (content));
-
-	d (0, fflush (stdout););
-}
-
-void
-ms_excel_write_free_state (void *state)
-{
-	if (state) free_workbook (state);
+	excel_write_state_free (ewb);
 }

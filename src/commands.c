@@ -5294,7 +5294,7 @@ cmd_define_name_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	if (me->nexpr == NULL) { /* create a new name */
 		char *err = NULL;
-		me->nexpr = expr_name_add (&me->pp, me->name, me->expr, &err);
+		me->nexpr = expr_name_add (&me->pp, me->name, me->expr, &err, TRUE);
 		if (me->nexpr == NULL) {
 			gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Name"), err);
 			g_free (err);

@@ -15,7 +15,7 @@
 #include "ms-biff.h"
 
 GnmExpr const *
-excel_parse_formula (ExcelWorkbook const *ewb,
+excel_parse_formula (MSContainer const *container,
 		     ExcelSheet const *esheet,
 		     int fn_col, int fn_row,
 		     guint8 const *mem, guint16 length,

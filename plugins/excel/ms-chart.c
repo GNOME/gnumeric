@@ -326,7 +326,7 @@ BC_R(ai)(ExcelChartHandler const *handle,
 
 	/* (2) == linked to container */
 	if (ref_type == 2) {
-		GnmExpr const *expr = ms_container_parse_expr (s->parent,
+		GnmExpr const *expr = ms_container_parse_expr (&s->container,
 			q->data+8, length);
 		if (expr) {
 			Sheet *sheet = ms_container_sheet (s->parent);
@@ -2353,7 +2353,8 @@ chart_create_obj  (MSContainer *container, MSObj *obj)
 static GnmExpr const *
 chart_parse_expr  (MSContainer *container, guint8 const *data, int length)
 {
-	return NULL;
+	return excel_parse_formula (container, NULL, 0, 0,
+				    data, length, FALSE, NULL);
 }
 
 static StyleFormat *
@@ -2383,9 +2384,9 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GObject
 	BC(register_handlers)();
 
 	/* FIXME : create an anchor parser for charts */
-	ms_container_init (&state.container, &vtbl, container);
+	ms_container_init (&state.container, &vtbl, container,
+			   container->ewb, container->ver);
 
-	state.container.ver = ver;
 	state.stack	    = g_array_new (FALSE, FALSE, sizeof(int));
 	state.prev_opcode   = 0xdeadbeef; /* Invalid */
 	state.parent	    = container;
@@ -2479,6 +2480,10 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GObject
 				ms_escher_parse (q, &state.container);
 				break;
 
+			case BIFF_EXTERNCOUNT: /* ignore */ break;
+			case BIFF_EXTERNSHEET: /* These can not be biff8 */
+				excel_read_EXTERNSHEET_v7 (q, &state.container);
+				break;
 			case BIFF_PLS:		/* Skip for Now */
 			case BIFF_DIMENSIONS :	/* Skip for Now */
 			case BIFF_HEADER :	/* Skip for Now */

@@ -365,7 +365,8 @@ name_refer_circular (char const *name, GnmExpr const *expr)
  **/
 GnmNamedExpr *
 expr_name_add (ParsePos const *pp, char const *name,
-	       GnmExpr const *expr, char **error_msg)
+	       GnmExpr const *expr, char **error_msg,
+	       gboolean link_to_container)
 {
 	GnmNamedExpr *nexpr;
 	GnmNamedExprCollection *scope = NULL;
@@ -427,7 +428,8 @@ expr_name_add (ParsePos const *pp, char const *name,
 		expr = gnm_expr_new_constant (value_new_error (NULL,
 			gnumeric_err_NAME));
 	expr_name_set_expr (nexpr, expr, NULL);
-	gnm_named_expr_collection_insert (scope, nexpr);
+	if (link_to_container)
+		gnm_named_expr_collection_insert (scope, nexpr);
 
 	return nexpr;
 }

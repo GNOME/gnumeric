@@ -195,37 +195,32 @@ excel_save (IOContext *context, WorkbookView *wbv, const char *filename,
 	Workbook *wb;
 	GsfOutput *output, *content;
 	GsfOutfile *outfile;
-	void *state = NULL;
+	ExcelWriteState *state;
 	GError    *err;
-	gint res;
 	GsfStructuredBlob *macros;
-
-	io_progress_message (context, _("Preparing for save..."));
-	io_progress_range_push (context, 0.0, 0.1);
-	res = ms_excel_check_write (context, &state, wbv, ver);
-	io_progress_range_pop (context);
-
-	if (res != 0) {
-		gnumeric_io_error_unknown (context);
-		return;
-	}
 
 	output = gsf_output_stdio_new (filename, &err);
 	if (output == NULL) {
 		char *str = g_strdup_printf (_("Can't open '%s' : %s"),
 			filename, err->message);
 		gnumeric_error_save (COMMAND_CONTEXT (context), str);
-		ms_excel_write_free_state (state);
 		g_error_free (err);
 		g_free (str);
 		return;
 	}
 
+	io_progress_message (context, _("Preparing for save..."));
+	io_progress_range_push (context, 0.0, 0.1);
+	state = excel_write_init_v7 (context, wbv);
+	io_progress_range_pop (context);
+	if (state == NULL)
+		return;
+
 	io_progress_message (context, _("Saving file..."));
 	io_progress_range_push (context, 0.1, 1.0);
 	outfile = gsf_outfile_msole_new (output);
 	g_object_unref (G_OBJECT (output));
-	ms_excel_write_workbook (context, outfile, state, ver);
+	excel_write_v7 (state, outfile);
 	io_progress_range_pop (context);
 
 	wb = wb_view_workbook (wbv);

@@ -388,9 +388,16 @@ ms_biff_query_destroy (BiffQuery *q)
 
 #define MAX_LIKED_BIFF_LEN 0x2000
 
-/* Sets up a record on a stream */
+/**
+ * ms_biff_put_new :
+ * @output : the output storage
+ * @version :
+ *
+ * Take responsibility for @output
+ * and prepare to generate biff records.
+ **/
 BiffPut *
-ms_biff_put_new (GsfOutput *output)
+ms_biff_put_new (GsfOutput *output, MsBiffVersion version)
 {
 	BiffPut *bp;
 
@@ -406,6 +413,7 @@ ms_biff_put_new (GsfOutput *output)
 	bp->data          = 0;
 	bp->len_fixed     = 0;
 	bp->output        = output;
+	bp->version       = version;
 
 	return bp;
 }
@@ -416,6 +424,11 @@ ms_biff_put_destroy (BiffPut *bp)
 	g_return_if_fail (bp != NULL);
 	g_return_if_fail (bp->output != NULL);
 
+	if (bp->output != NULL) {
+		gsf_output_close (bp->output);
+		g_object_unref (G_OBJECT (bp->output));
+		bp->output = NULL;
+	}
 	g_free (bp);
 }
 

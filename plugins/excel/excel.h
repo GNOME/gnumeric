@@ -12,32 +12,12 @@
 #include "gnumeric.h"
 #include <gsf/gsf.h>
 
-typedef gboolean (*MsExcelReadGbFn) (IOContext *context, Workbook *wb, GsfInput *input);
-extern MsExcelReadGbFn ms_excel_read_gb;
+void excel_read_workbook (IOContext *context, WorkbookView *new_wb,
+			  GsfInput *input);
 
-typedef enum { MS_BIFF_V2 = 2,
-	       MS_BIFF_V3 = 3,
-	       MS_BIFF_V4 = 4,
-	       MS_BIFF_V5 = 5, /* Excel 5.0 */
-	       MS_BIFF_V7 = 7, /* Excel 95 */
-	       MS_BIFF_V8 = 8, /* Excel 97 */
-	       MS_BIFF_V_UNKNOWN = 0} MsBiffVersion ;
-
-void excel_read_workbook (IOContext *context,
-			     WorkbookView *new_wb, GsfInput *input);
-/*
- * Here's why the state which is carried from excel_check_write to
- * ms_excel_write_workbook is void *: The state is actually an
- * ExcelWorkbook * as defined in ms-excel-write.h. But we can't
- * import that definition here: There's a different definition of
- * ExcelWorkbook in ms-excel-read.h.
- */
-extern int      ms_excel_check_write (IOContext *context, void **state,
-                                      WorkbookView *wb, MsBiffVersion ver);
-extern void     ms_excel_write_workbook (IOContext *context, GsfOutfile *output,
-                                         void *state, MsBiffVersion ver);
-void ms_excel_write_free_state (void *state);
-
+typedef struct _ExcelWriteState		ExcelWriteState;
+ExcelWriteState *excel_write_init_v7 (IOContext *context, WorkbookView *wbv);
+void		 excel_write_v7	     (ExcelWriteState *ewb, GsfOutfile *output);
 
 /* We need to use these for both read and write */
 typedef struct {
@@ -49,17 +29,19 @@ extern  ExcelPaletteEntry const excel_default_palette[];
 extern  char const *excel_builtin_formats[];
 #define EXCEL_BUILTIN_FORMAT_LEN 0x32
 
-typedef struct
-{
-	const char *prefix ;
+typedef struct {
+	char const *name;
 	int num_args ; /* -1 for multi-arg */
 		       /* -2 for unknown args */
 } FormulaFuncData;
 
-extern const FormulaFuncData formula_func_data[];
+extern FormulaFuncData const formula_func_data[];
 #define FORMULA_FUNC_DATA_LEN 368
 
 #define ROW_BLOCK_MAX_LEN 32
 #define WRITEACCESS_LEN  112
+
+typedef gboolean (*MsExcelReadGbFn) (IOContext *context, Workbook *wb, GsfInput *input);
+extern MsExcelReadGbFn ms_excel_read_gb;
 
 #endif /* GNUMERIC_EXCEL_H */

@@ -71,8 +71,8 @@ G_STMT_START { \
 
 #define GNM_SIZEOF_ARRAY(array) ((int) (sizeof (array) / sizeof ((array)[0])))
 
-guint     gnumeric_strcase_hash  (gconstpointer v);
-gint      gnumeric_strcase_equal (gconstpointer v, gconstpointer v2);
+guint     gnumeric_ascii_strcase_hash  (gconstpointer v);
+gint      gnumeric_ascii_strcase_equal (gconstpointer v, gconstpointer v2);
 gint      gnumeric_utf8_collate_casefold (const char *a, const char *b);
 
 /**

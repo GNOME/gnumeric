@@ -1,3 +1,8 @@
+2002-10-24  Jody Goldberg <jody@gnome.org>
+
+	* src/dependent.c (link_cellrange_dep) : jonkare found a typo.
+	  Thanks that will make life easier when we start using this flag.
+
 2002-10-25  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet-object-image.c (sheet_object_image_new_view): Plug

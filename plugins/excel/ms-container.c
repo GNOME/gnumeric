@@ -16,15 +16,24 @@
 #include "ms-escher.h"
 #include "ms-obj.h"
 
+#include <expr-name.h>
+#include <value.h>
+
 void
 ms_container_init (MSContainer *container, MSContainerClass const *vtbl,
-		   MSContainer *parent_container)
+		   MSContainer *parent_container,
+		   ExcelWorkbook *ewb, MsBiffVersion ver)
 {
 	container->vtbl = vtbl;
+	container->ver = ver;
+	container->ewb = ewb;
 	container->free_blips = TRUE;
 	container->blips = NULL;
 	container->obj_queue  = NULL;
 	container->parent_container = parent_container;
+
+	container->names = NULL;
+	container->v7.externsheet = NULL;
 }
 
 void
@@ -52,6 +61,18 @@ ms_container_finalize (MSContainer *container)
 
 		g_list_free (container->obj_queue);
 		container->obj_queue = NULL;
+	}
+
+	if (container->v7.externsheet != NULL) {
+		g_ptr_array_free (container->v7.externsheet, TRUE);
+		container->v7.externsheet = NULL;
+	}
+	if (container->names != NULL) {
+		for (i = container->names->len; i-- > 0 ; )
+			if (g_ptr_array_index (container->names, i) != NULL)
+				expr_name_unref (g_ptr_array_index (container->names, i));
+		g_ptr_array_free (container->names, TRUE);
+		container->names = NULL;
 	}
 }
 
@@ -148,7 +169,8 @@ ms_container_sheet (MSContainer const *c)
 {
 	g_return_val_if_fail (c != NULL, NULL);
 	g_return_val_if_fail (c->vtbl != NULL, NULL);
-	g_return_val_if_fail (c->vtbl->sheet != NULL, NULL);
+	if (c->vtbl->sheet == NULL)
+		return NULL;
 	return (*c->vtbl->sheet) (c);
 }
 
@@ -159,4 +181,51 @@ ms_container_get_fmt (MSContainer const *c, guint16 indx)
 	g_return_val_if_fail (c->vtbl != NULL, NULL);
 	g_return_val_if_fail (c->vtbl->get_fmt != NULL, NULL);
 	return (*c->vtbl->get_fmt) (c, indx);
+}
+
+GnmExpr const *
+ms_container_get_name (MSContainer const *c, guint16 i, Sheet *sheet, gboolean is_local)
+{
+	GnmNamedExpr *nexpr = NULL;
+	GPtrArray    *a;
+
+	g_return_val_if_fail (c, NULL);
+
+	if (c->ver >= MS_BIFF_V8 || is_local)
+		a = c->ewb->container.names;
+	else 
+		a = c->names;
+
+	if (a == NULL || i < 1 || a->len < i ||
+	    (nexpr = g_ptr_array_index (a, i-1)) == NULL) {
+		g_warning ("EXCEL: %x (of %x) UNKNOWN name %p.", i, a ? a->len : -1, c);
+		return gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
+	}
+
+	/* See EXTERNSHEET_v8 for details */
+	if (sheet == (Sheet *)1) {
+		sheet = nexpr->pos.sheet;
+		if (sheet == NULL) {
+			sheet = ms_container_sheet (c);
+			if (sheet == NULL) {
+				g_warning ("Self ref with no sheet context ? maybe some sort of workbook level selfref");
+			}
+		}
+	}
+	return gnm_expr_new_name (nexpr, sheet, NULL);
+}
+
+void
+ms_container_add_name (MSContainer *c, GnmNamedExpr *nexpr)
+{
+	GPtrArray *a = (c->ver >= MS_BIFF_V8) ? c->ewb->container.names : c->names;
+
+	if (a == NULL) {
+		if (c->ver >= MS_BIFF_V8) 
+			a = c->ewb->container.names = g_ptr_array_new ();
+		else
+			a = c->names = g_ptr_array_new ();
+	}
+
+	g_ptr_array_add (a, nexpr);
 }

@@ -14,61 +14,50 @@
 #include "ms-excel-util.h"
 #include "style.h"
 
-typedef struct _ExcelFont     ExcelFont;
-typedef struct _ExcelSheet    ExcelSheet;
-typedef struct _ExcelWorkbook ExcelWorkbook;
-typedef struct _XF       XF;
-typedef struct _Fonts    Fonts;
-typedef struct _Formats  Formats;
-typedef struct _Palette  Palette;
-
-struct _ExcelFont {
+typedef struct {
 	StyleFont  *style_font;
 	guint32    color;
 	gboolean  is_auto;
 	StyleUnderlineType underline;
 	gboolean  strikethrough;
-};
+} ExcelFont;
 
-struct _Palette {
-	TwoWayTable *two_way_table;
-	guint8 entry_in_use[EXCEL_DEF_PAL_LEN];
-};
+typedef struct {
+	ExcelWriteState	*ewb;
+	Sheet		*gnum_sheet;
+	GArray		*dbcells;
+	unsigned	 streamPos;
+	guint32		 boundsheetPos;
+	gint32		 max_col, max_row;
+	guint16		 col_xf [SHEET_MAX_COLS];
+} ExcelSheet;
 
-struct _Fonts {
-	TwoWayTable *two_way_table;
-};
+struct _ExcelWriteState {
+	BiffPut	      *bp;
 
-struct _Formats {
-	TwoWayTable *two_way_table;
-};
-
-struct _XF {
-	TwoWayTable *two_way_table;
-	MStyle      *default_style;
-};
-
-struct _ExcelSheet {
-	ExcelWorkbook *wb;
-	Sheet         *gnum_sheet;
-	GArray        *dbcells;
-	unsigned       streamPos;
-	guint32        boundsheetPos;
-	gint32         max_col, max_row;
-	GHashTable    *formula_cache;
-	guint16	       col_xf [SHEET_MAX_COLS];
-};
-
-struct _ExcelWorkbook {
 	IOContext     *io_context;
 	Workbook      *gnum_wb;
 	WorkbookView  *gnum_wb_view;
 	GPtrArray     *sheets;
-	MsBiffVersion  ver;
-	XF            *xf;
-	Palette       *pal;
-	Fonts         *fonts;
-	Formats       *formats;
+
+	struct {
+		TwoWayTable *two_way_table;
+		MStyle      *default_style;
+	} xf;
+	struct {
+		TwoWayTable *two_way_table;
+		guint8 entry_in_use[EXCEL_DEF_PAL_LEN];
+	} pal;
+	struct {
+		TwoWayTable *two_way_table;
+	} fonts;
+	struct {
+		TwoWayTable *two_way_table;
+	} formats;
+
+	GHashTable    *function_map;
+
+	GPtrArray     *externnames;
 	GPtrArray     *names;
 	unsigned       streamPos;
 };
@@ -95,18 +84,16 @@ typedef enum {
 #define FILL_MAGIC FILL_NONE
 #define BORDER_MAGIC STYLE_BORDER_NONE
 
-extern int
-biff_convert_text (char **buf, const char *txt, MsBiffVersion ver);
-extern int
-biff_put_text (BiffPut *bp, const char *txt, int len, MsBiffVersion ver,
-	       gboolean write_len, PutType how);
-extern int ms_excel_write_ExcelWorkbook (GsfOutfile *file, ExcelWorkbook *wb,
-					 MsBiffVersion ver);
-extern int ms_excel_write_get_sheet_idx (ExcelWorkbook *wb, Sheet *gnum_sheet);
-extern int ms_excel_write_get_externsheet_idx (ExcelWorkbook *wb,
-					       Sheet *gnum_sheeta,
-					       Sheet *gnum_sheetb);
-extern int
-ms_excel_write_map_errcode (Value const * const v);
+int biff_convert_text (char **buf, const char *txt, MsBiffVersion ver);
+int biff_put_text (BiffPut *bp, const char *txt, int len,
+		   gboolean write_len, PutType how);
+
+int excel_write_workbook (ExcelWriteState *wb, GsfOutfile *file);
+
+int excel_write_get_externsheet_idx (ExcelWriteState *wb,
+				     Sheet *gnum_sheeta,
+				     Sheet *gnum_sheetb);
+
+int excel_write_map_errcode (Value const * const v);
 
 #endif

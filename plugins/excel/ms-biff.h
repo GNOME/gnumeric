@@ -13,6 +13,14 @@
 #include "rc4.h"
 #include "md5.h"
 
+typedef enum { MS_BIFF_V2 = 2,
+	       MS_BIFF_V3 = 3,
+	       MS_BIFF_V4 = 4,
+	       MS_BIFF_V5 = 5, /* Excel 5.0 */
+	       MS_BIFF_V7 = 7, /* Excel 95 */
+	       MS_BIFF_V8 = 8, /* Excel 97 */
+	       MS_BIFF_V_UNKNOWN = 0} MsBiffVersion ;
+
 /*******************************************************************************/
 /*                                 Read Side                                   */
 /*******************************************************************************/
@@ -54,21 +62,21 @@ void        ms_biff_query_destroy     (BiffQuery *);
 /*                                 Write Side                                  */
 /*******************************************************************************/
 
-typedef struct _BiffPut
-{
-	guint8       ms_op;
-	guint8       ls_op;
-	guint32      length; /* NB. can be extended by a continue opcode */
-	guint8      *data;
-	int	     streamPos;
-	unsigned     curpos; /* Curpos is offset from beginning of header */
-	int          data_malloced;
-	int          len_fixed;
-	GsfOutput   *output;
+typedef struct _BiffPut {
+	guint8		 ms_op;
+	guint8		 ls_op;
+	guint32		 length; /* NB. can be extended by a continue opcode */
+	guint8		*data;
+	int		 streamPos;
+	unsigned	 curpos; /* Curpos is offset from beginning of header */
+	gboolean	 data_malloced;
+	int		 len_fixed;
+	GsfOutput	*output;
+	MsBiffVersion	 version;
 } BiffPut;
 
 /* Sets up a record on a stream */
-BiffPut      *ms_biff_put_new        (GsfOutput *);
+BiffPut      *ms_biff_put_new        (GsfOutput *, MsBiffVersion version);
 void          ms_biff_put_destroy    (BiffPut *);
 
 /**
