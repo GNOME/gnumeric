@@ -1,5 +1,9 @@
 2000-11-06  Ariel Rios  <ariel@arcavia.com>
 
+	* plugin.c (init_plugin): Add call to init_value_type ()
+
+2000-11-06  Ariel Rios  <ariel@arcavia.com>
+
 	* smob-value.c (scm_value_get_as_string): wrappers for Value.h equivalent.
 	(scm_value_get_as_int): Ditto.
 	(scm_value_get_as_float): Ditto.

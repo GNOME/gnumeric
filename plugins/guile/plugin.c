@@ -25,6 +25,8 @@
 #include "main.h"
 #include "command-context.h"
 #include "guile-support.h"
+#include "smob-value.h"
+
 
 /* This is damn ugly.
  * However, it will get things working again (I hope)
@@ -252,6 +254,8 @@ init_plugin (CommandContext *context, PluginData *pd)
 
 	function_add_nodes (cat, "scm_apply", 0, "symbol", NULL, func_scm_apply);
 
+	init_value_type ();
+	
 	scm_make_gsubr ("cell-value", 1, 0, 0, scm_cell_value);
 	scm_make_gsubr ("cell-expr", 1, 0, 0, scm_cell_expr);
 	scm_make_gsubr ("set-cell-string!", 2, 0, 0, scm_set_cell_string);
