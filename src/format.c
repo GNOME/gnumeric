@@ -920,9 +920,9 @@ find_decimal_char (char const *str)
 /* An helper function which modify the number of decimals displayed
  * and recreate the format string by calling the good function */
 static char *
-reformat_decimals(FormatCharacteristics *fc,
-		  void (*format_function) (GString *res, FormatCharacteristics const * fmt),
-		  int step)
+reformat_decimals (FormatCharacteristics *fc,
+		   void (*format_function) (GString *res, FormatCharacteristics const * fmt),
+		   int step)
 {
 	GString *res;
 
@@ -968,9 +968,14 @@ format_remove_decimal (StyleFormat const *fmt)
 		return reformat_decimals (&fc, &style_format_percent, -1);
 	case FMT_SCIENCE:
 		return reformat_decimals (&fc, &style_format_science, -1);
-	case FMT_DATE:
-	case FMT_TIME:
 	case FMT_FRACTION:
+		if (fc.num_decimals <= 1)
+			return NULL;
+		return reformat_decimals (&fc, &style_format_fraction, -1);
+
+	case FMT_TIME:
+		/* FIXME: we might have decimals on seconds part.  */
+	case FMT_DATE:
 	case FMT_TEXT:
 	case FMT_SPECIAL:
 		/* Nothing to remove for these formats ! */
@@ -1032,21 +1037,26 @@ format_add_decimal (StyleFormat const *fmt)
 	FormatCharacteristics fc;
 
 	/* First try to classify the format so we can regenerate it */
-	ff = cell_format_classify(fmt, &fc);
+	ff = cell_format_classify (fmt, &fc);
 
 	switch (ff) {
 	case FMT_NUMBER:
 	case FMT_CURRENCY:
-		return reformat_decimals (&fc, &style_format_number, 1);
+		return reformat_decimals (&fc, &style_format_number, +1);
 	case FMT_ACCOUNT:
-		return reformat_decimals (&fc, &style_format_account, 1);
+		return reformat_decimals (&fc, &style_format_account, +1);
 	case FMT_PERCENT:
-		return reformat_decimals (&fc, &style_format_percent, 1);
+		return reformat_decimals (&fc, &style_format_percent, +1);
 	case FMT_SCIENCE:
-		return reformat_decimals (&fc, &style_format_science, 1);
-	case FMT_DATE:
-	case FMT_TIME:
+		return reformat_decimals (&fc, &style_format_science, +1);
 	case FMT_FRACTION:
+		if (fc.num_decimals >= 5)
+			return NULL;
+		return reformat_decimals (&fc, &style_format_fraction, +1);
+		
+	case FMT_TIME:
+		/* FIXME: we might have decimals on seconds part.  */
+	case FMT_DATE:
 	case FMT_TEXT:
 	case FMT_SPECIAL:
 		/* Nothing to add for these formats ! */

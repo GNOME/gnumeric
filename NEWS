@@ -93,6 +93,7 @@ Morten:
 	* Speed up loading.
 	* Use pool allocation for cell style tiles.
 	* Fix rounding and error problems with GCD and LCM.
+	* Make +/- buttons work for changing precision of fraction formats.
 
 --------------------------------------------------------------------------
 

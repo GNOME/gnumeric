@@ -1,3 +1,15 @@
+2003-07-09  Morten Welinder  <terra@gnome.org>
+
+	* src/formats.c (currency_date_format_shutdown): Free regexps.
+	(currency_date_format_init): Build regexp for fractions.
+	(cell_format_is_fraction): New function.
+	(cell_format_classify): Recognize fraction with precision.
+
+	* src/format.c (format_remove_decimal, format_add_decimal): Handle
+	fraction formats too.
+
+	* src/formats.c (style_format_fraction): New function.
+
 2003-07-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/stf.c (stf_text_to_columns): do not post an error on user cancel.

@@ -171,6 +171,7 @@ static gnumeric_regex_t re_red_number;
 static gnumeric_regex_t re_brackets_number;
 static gnumeric_regex_t re_percent_science;
 static gnumeric_regex_t re_account;
+static gnumeric_regex_t re_fraction;
 
 static const char *
 my_regerror (int err, const gnumeric_regex_t *preg)
@@ -201,6 +202,8 @@ currency_date_format_init (void)
 
 	/* This one is for FMT_PERCENT and FMT_SCIENCE, extended regexp */
 	char const *pattern_percent_science = "^0(.0{1,30})?(%|E+00)$";
+
+	char const *pattern_fraction = "^# (\\?+)/\\1$";
 
 	/* This one is for FMT_ACCOUNT */
 
@@ -237,6 +240,11 @@ currency_date_format_init (void)
 	if (err)
 		g_warning ("Error in regcomp() for percent and science, please report the bug [%s] [%s]",
 			  my_regerror (err, &re_percent_science), pattern_percent_science);
+
+	err = gnumeric_regcomp (&re_fraction, pattern_fraction, 0);
+	if (err)
+		g_warning ("Error in regcomp() for fraction, please report the bug [%s] [%s]",
+			  my_regerror (err, &re_fraction), pattern_fraction);
 
 	err = gnumeric_regcomp (&re_account, pattern_account, 0);
 	if (err)
@@ -350,6 +358,13 @@ currency_date_format_shutdown (void)
 	cell_format_account [0] = NULL;
 	g_free ((char *)(cell_format_account [2]));
 	cell_format_account [3] = NULL;
+
+	gnumeric_regfree (&re_simple_number);
+	gnumeric_regfree (&re_red_number);
+	gnumeric_regfree (&re_brackets_number);
+	gnumeric_regfree (&re_percent_science);
+	gnumeric_regfree (&re_account);
+	gnumeric_regfree (&re_fraction);
 }
 
 CurrencySymbol const currency_symbols[] =
@@ -681,6 +696,19 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 
 }
 
+static gboolean
+cell_format_is_fraction (char const *fmt, FormatCharacteristics *info)
+{
+	regmatch_t match[2];
+
+	if (gnumeric_regexec (&re_fraction, fmt, G_N_ELEMENTS (match), match, 0) != 0)
+		return FALSE;
+
+	info->num_decimals = match[1].rm_eo - match[1].rm_so;
+	return TRUE;
+}
+
+
 FormatFamily
 cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 {
@@ -707,6 +735,9 @@ cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 	if ((res = cell_format_is_number (fmt, info)) != FMT_UNKNOWN)
 		return res;
 
+	if (cell_format_is_fraction (fmt, info))
+		return FMT_FRACTION;
+
 	/* Is it in the lists */
 	for (i = 0; cell_formats[i] != NULL ; ++i) {
 		int j = 0;
@@ -729,6 +760,18 @@ cell_format_classify (StyleFormat const *sf, FormatCharacteristics *info)
 			}
 	}
 	return FMT_UNKNOWN;
+}
+
+void
+style_format_fraction (GString *res, FormatCharacteristics const *fmt)
+{
+	g_return_if_fail (fmt->num_decimals > 0);
+	g_return_if_fail (fmt->num_decimals <= NUM_ZEROS);
+
+	g_string_append (res, "# ");
+	g_string_append_len (res, qmarks, fmt->num_decimals);
+	g_string_append_c (res, '/');
+	g_string_append_len (res, qmarks, fmt->num_decimals);
 }
 
 void

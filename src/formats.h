@@ -46,9 +46,10 @@ extern CurrencySymbol const currency_symbols [];
 void currency_date_format_init     (void);
 void currency_date_format_shutdown (void);
 
-void style_format_percent (GString *result, FormatCharacteristics const *fmt);
-void style_format_science (GString *result, FormatCharacteristics const *fmt);
-void style_format_account (GString *result, FormatCharacteristics const *fmt);
-void style_format_number  (GString *result, FormatCharacteristics const *fmt);
+void style_format_fraction (GString *result, FormatCharacteristics const *fmt);
+void style_format_percent  (GString *result, FormatCharacteristics const *fmt);
+void style_format_science  (GString *result, FormatCharacteristics const *fmt);
+void style_format_account  (GString *result, FormatCharacteristics const *fmt);
+void style_format_number   (GString *result, FormatCharacteristics const *fmt);
 
 #endif
