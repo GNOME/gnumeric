@@ -1,12 +1,13 @@
 # traditional Chinese translation of gnumeric.
-# Copyright (C) 2001, 03 Free Software Foundation, Inc.
+# Copyright (C) 1999, 2001, 03 Free Software Foundation, Inc.
+# Pofeng Lee <Pofeng.Lee@ms7.url.com.tw>, 1999
 # Abel Cheung <maddog@linux.org.hk>, 2001, 2003.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.1.17\n"
 "POT-Creation-Date: 2003-04-12 18:39+0800\n"
-"PO-Revision-Date: 2003-04-15 01:45+0800\n"
+"PO-Revision-Date: 2003-04-15 04:24+0800\n"
 "Last-Translator: Abel Cheung <maddog@linux.org.hk>\n"
 "Language-Team: Chinese (traditional) <zh-l10n@linux.org.tw>\n"
 "MIME-Version: 1.0\n"
@@ -13033,7 +13034,7 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid "Activate New Plugins"
-msgstr ""
+msgstr "啟用新的增效模組"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:2
 msgid "Allow Unfocused Range Selections"
@@ -13041,7 +13042,7 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:3
 msgid "Apply print-setup to all sheets"
-msgstr ""
+msgstr "將列印設定套用於所有工作表"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
 msgid "Autocorrect first letter"
@@ -13069,7 +13070,7 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:10
 msgid "List of Extra Plugin Directories."
-msgstr ""
+msgstr "額外增效模組目錄的清單。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:11
 msgid "List of First Letter Exceptions"
@@ -13081,15 +13082,15 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:13
 msgid "List of Known Plugins."
-msgstr ""
+msgstr "已知增效模組的清單。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:14
 msgid "List of Plugin File States."
-msgstr ""
+msgstr "增效模組檔案狀態清單。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:15
 msgid "List of recently used functions."
-msgstr ""
+msgstr "最近使用函數的清單"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:16
 msgid "Maximum Length of Recently Used Functions List"
@@ -13114,7 +13115,7 @@ msgstr ""
 msgid ""
 "The autocorrect engine does not correct the first letter for words in this "
 "list."
-msgstr ""
+msgstr "自動修正功能不會修正本清單中所有字詞的第一個字母。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:21
 msgid ""
@@ -13124,19 +13125,21 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:22
 msgid "The configuration of gnome-print. Do not edit this variable."
-msgstr ""
+msgstr "gnome-print 組態。請勿修改本變數。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:23
 msgid ""
 "The function selector keeps a list of recently used functions. This is that "
 "list."
 msgstr ""
+"函數選擇程序中保留了最近使用的函數紀錄清單。這裡是清單本身的內容。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:24
 msgid ""
 "The function selector keeps a list of recently used functions. This is the "
 "maximum length of that list."
 msgstr ""
+"函數選擇程序中保留了最近使用的函數紀錄清單。這裡是清單長度上限。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:25
 msgid "The main directory for user specific autoformat templates."
@@ -13153,15 +13156,15 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:28
 msgid "This list contains all extra directories containing plugins."
-msgstr ""
+msgstr "本清單列出了所有載有增效模組的目錄。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:29
 msgid "This list contains all known plugins."
-msgstr ""
+msgstr "本清單列出了所有已知的增效模組。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:30
 msgid "This list contains all plugin file states."
-msgstr ""
+msgstr "本清單列出了所有增效模組檔案的狀態。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:31
 msgid ""
@@ -13178,7 +13181,7 @@ msgstr ""
 #: schemas/gnumeric-dialogs.schemas.in.h:33
 msgid ""
 "This variable determines whether to activate every new encountered plugin."
-msgstr ""
+msgstr "本變數決定是否啟用每個新的增效模組。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:34
 msgid "User Directory for Autoformats"
@@ -13217,15 +13220,15 @@ msgstr "預設的工作表數目"
 
 #: schemas/gnumeric-general.schemas.in.h:8
 msgid "Default To Overwriting Files"
-msgstr ""
+msgstr "預設為覆寫檔案"
 
 #: schemas/gnumeric-general.schemas.in.h:9
 msgid "Default Vertical Window Size"
-msgstr ""
+msgstr "預設視窗垂直尺寸"
 
 #: schemas/gnumeric-general.schemas.in.h:10
 msgid "Default Zoom Factor"
-msgstr ""
+msgstr "預設縮放倍率"
 
 #: schemas/gnumeric-general.schemas.in.h:11
 msgid "Default font name"
@@ -13233,7 +13236,7 @@ msgstr "預設字型名稱"
 
 #: schemas/gnumeric-general.schemas.in.h:12
 msgid "Helvetica"
-msgstr ""
+msgstr "AR PL KaitiM Big5"
 
 #: schemas/gnumeric-general.schemas.in.h:13
 msgid "Horizontal DPI"
@@ -13265,7 +13268,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:19
 msgid "Maximal Undo Size"
-msgstr ""
+msgstr "還原次數上限"
 
 #: schemas/gnumeric-general.schemas.in.h:20
 msgid "Number of Automatic Clauses"
@@ -13273,7 +13276,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:21
 msgid "Number of Undo Items"
-msgstr "還原操作的次數"
+msgstr "可還原操作的次數"
 
 #: schemas/gnumeric-general.schemas.in.h:22
 msgid "Screen resolution in the horizontal direction."
@@ -13299,7 +13302,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:26
 msgid "Show Sheet Name in Undo List"
-msgstr ""
+msgstr "在還原清單中顯示工作表名稱"
 
 #: schemas/gnumeric-general.schemas.in.h:27
 msgid ""
@@ -13331,20 +13334,20 @@ msgstr "預設的字型是斜體字。"
 
 #: schemas/gnumeric-general.schemas.in.h:33
 msgid "The default font name for new workbooks."
-msgstr "新的活頁簿中的預設字型名稱。"
+msgstr "一本新的活頁簿中預設的字型名稱。"
 
 #: schemas/gnumeric-general.schemas.in.h:34
 msgid "The default font size for new workbooks."
-msgstr "新的活頁簿中的預設字型大小。"
+msgstr "一本新的活頁簿中預設的字型大小。"
 
 #: schemas/gnumeric-general.schemas.in.h:35
 msgid ""
 "The file menu shows a list of recently used functions. This is that list."
-msgstr ""
+msgstr "檔案選單中會顯示最近使用函數的清單。這裡是該清單本身。"
 
 #: schemas/gnumeric-general.schemas.in.h:36
 msgid "The initial zoom factor for new workbooks."
-msgstr ""
+msgstr "一本新的活頁簿中預設的縮放倍率。"
 
 #: schemas/gnumeric-general.schemas.in.h:37
 msgid "The number of files kept in the `recent' section of the file menu."
@@ -13366,12 +13369,16 @@ msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
 "screen size covered by the default window."
 msgstr ""
+"本數字 (介乎 0.25 至 1.00 之間) 是預設開啟視窗時視窗所佔的螢幕水平長度"
+"的比例。"
 
 #: schemas/gnumeric-general.schemas.in.h:41
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
 msgstr ""
+"本數字 (介乎 0.25 至 1.00 之間) 是預設開啟視窗時視窗所佔的螢幕垂直長度"
+"的比例。"
 
 #: schemas/gnumeric-general.schemas.in.h:42
 msgid ""
@@ -13395,18 +13402,18 @@ msgstr ""
 #: schemas/gnumeric-general.schemas.in.h:45
 msgid ""
 "This value determines whether the default font for a new workbook bold is."
-msgstr ""
+msgstr "本變數決定在新的活頁簿中預設字型是否粗體字。"
 
 #: schemas/gnumeric-general.schemas.in.h:46
 msgid ""
 "This value determines whether the default font for a new workbook italic is."
-msgstr ""
+msgstr "本變數決定在新的活頁簿中預設字型是否斜體字。"
 
 #: schemas/gnumeric-general.schemas.in.h:47
 msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
-msgstr ""
+msgstr "本變數決定是否在還原/取消還原清單中顯示工作表名稱。"
 
 #: schemas/gnumeric-general.schemas.in.h:48
 msgid ""
@@ -13427,11 +13434,11 @@ msgstr ""
 #: schemas/gnumeric-general.schemas.in.h:51
 #: src/cut-n-paste-code/egg/toolbar/eggtoolbar.c:137
 msgid "Toolbar Style"
-msgstr ""
+msgstr "工具列樣式"
 
 #: schemas/gnumeric-general.schemas.in.h:52
 msgid "Toolbar Style. Valid values are both, both_horiz, icon, and text"
-msgstr ""
+msgstr "工具列樣式。有效的值為 both、both_horiz、icon、text"
 
 #: schemas/gnumeric-general.schemas.in.h:53
 msgid "Vertical DPI"
@@ -14910,7 +14917,7 @@ msgstr "全部顯示(_S)"
 
 #: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:3747
 msgid "_Show Detail"
-msgstr "顯示細節(_S)"
+msgstr "顯示詳細資料(_S)"
 
 #: src/GNOME_Gnumeric.xml.h:331 src/workbook-control-gui.c:3720
 msgid "_Solver..."
@@ -16131,11 +16138,11 @@ msgstr " "
 #: src/dialogs/autofilter-expression.glade.h:3
 #: src/dialogs/autofilter-top10.glade.h:2
 msgid "Gnumeric : AutoFilter"
-msgstr ""
+msgstr "Gnumeric：自動過濾"
 
 #: src/dialogs/autofilter-expression.glade.h:4
 msgid "Show rows where:"
-msgstr ""
+msgstr "只顯示每行符合以下條件的數據："
 
 #: src/dialogs/autofilter-expression.glade.h:5
 msgid "_And"
@@ -16147,7 +16154,7 @@ msgstr "或(_O)"
 
 #: src/dialogs/autofilter-expression.glade.h:7
 msgid "begins with"
-msgstr ""
+msgstr "開始部份是"
 
 #: src/dialogs/autofilter-expression.glade.h:8
 msgid "contains"
@@ -16155,15 +16162,15 @@ msgstr "含有"
 
 #: src/dialogs/autofilter-expression.glade.h:9
 msgid "does not begin with"
-msgstr ""
+msgstr "開始部份不是"
 
 #: src/dialogs/autofilter-expression.glade.h:10
 msgid "does not contain"
-msgstr ""
+msgstr "不含有"
 
 #: src/dialogs/autofilter-expression.glade.h:11
 msgid "does not end with"
-msgstr ""
+msgstr "末端部份不是"
 
 #: src/dialogs/autofilter-expression.glade.h:12
 msgid "does not equal"
@@ -16171,7 +16178,7 @@ msgstr "不等於"
 
 #: src/dialogs/autofilter-expression.glade.h:13
 msgid "ends with"
-msgstr ""
+msgstr "末端部份是"
 
 #: src/dialogs/autofilter-expression.glade.h:14
 msgid "equals"
@@ -16439,7 +16446,7 @@ msgstr "對角間條"
 
 #: src/dialogs/cell-format.glade.h:34
 msgid "Display the value exactly as it was entered"
-msgstr ""
+msgstr "輸入的值不會加上任何處理"
 
 #: src/dialogs/cell-format.glade.h:35
 msgid "Effects"
@@ -16459,13 +16466,13 @@ msgstr "修改儲存格格式"
 
 #: src/dialogs/cell-format.glade.h:40
 msgid "Formatted Sample"
-msgstr ""
+msgstr "格式化後的內容"
 
 #: src/dialogs/cell-format.glade.h:41
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
-msgstr ""
+msgstr "「一般」格式表示自動選取合適的格式，取決於儲存格的內容。"
 
 #: src/dialogs/cell-format.glade.h:42
 msgid "Horizontal"
@@ -16817,7 +16824,7 @@ msgstr "變數值不小於指定值　(x >= n)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
-msgstr ""
+msgstr "標題(_H)"
 
 #: src/dialogs/cell-sort.glade.h:2 src/dialogs/histogram.glade.h:16
 #: src/dialogs/print.glade.h:11 src/tools/solver/reports-write.c:755
@@ -16826,7 +16833,7 @@ msgstr "選項"
 
 #: src/dialogs/cell-sort.glade.h:3
 msgid "Selection has"
-msgstr ""
+msgstr "選擇範圍中包括"
 
 #: src/dialogs/cell-sort.glade.h:4 src/workbook-control-gui.c:3075
 msgid "Sort"
@@ -16834,11 +16841,11 @@ msgstr "排序"
 
 #: src/dialogs/cell-sort.glade.h:5
 msgid "Sort Range:"
-msgstr ""
+msgstr "排序的範圍："
 
 #: src/dialogs/cell-sort.glade.h:6
 msgid "Sort Specification"
-msgstr ""
+msgstr "排序方式"
 
 #: src/dialogs/cell-sort.glade.h:7
 msgid "Sort..."
@@ -17207,7 +17214,8 @@ msgstr ""
 "i18n 程式中文化計劃\n"
 "http://i18n.linux.org.tw/\n"
 "\n"
-"Abel Cheung <maddog@linux.org.hk>, 2001, 2003"
+"Abel Cheung <maddog@linux.org.hk>, 2001, 2003\n"
+"Pofeng Lee <Pofeng.Lee@ms7.url.com.tw>, 1999"
 
 #: src/dialogs/dialog-about.c:120
 msgid "Gnumeric Home Page"
@@ -17994,11 +18002,11 @@ msgstr ""
 
 #: src/dialogs/dialog-printer-setup.c:848
 msgid "Customize header"
-msgstr ""
+msgstr "自選頁首內容"
 
 #: src/dialogs/dialog-printer-setup.c:850
 msgid "Customize footer"
-msgstr ""
+msgstr "自選頁尾內容"
 
 #: src/dialogs/dialog-printer-setup.c:1000
 msgid "Custom header configuration"
@@ -22211,11 +22219,11 @@ msgstr "初始化增效模組支援時發生錯誤。"
 #: src/print-info.c:175 src/print-info.c:178 src/print-info.c:179
 #: src/print-info.c:272
 msgid "Page &[PAGE]"
-msgstr ""
+msgstr "第 &[PAGE] 頁"
 
 #: src/print-info.c:176 src/print-info.c:181
 msgid "Page &[PAGE] of &[PAGES]"
-msgstr ""
+msgstr "第 &[PAGE]/&[PAGES] 頁"
 
 #: src/print-info.c:177 src/print-info.c:178 src/print-info.c:179
 #: src/print-info.c:181 src/print-info.c:271
@@ -22224,7 +22232,7 @@ msgstr ""
 
 #: src/print-info.c:179 src/print-info.c:180 src/print-info.c:181
 msgid "&[DATE]"
-msgstr ""
+msgstr "&[DATE]"
 
 #: src/print-info.c:445
 msgid "Sheet 1"
@@ -22249,7 +22257,7 @@ msgstr ""
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:582
 msgid "&[PAGE]"
-msgstr ""
+msgstr "&[PAGE]"
 
 #: src/print.c:1110
 msgid "Print Region"
@@ -23614,7 +23622,7 @@ msgstr ""
 
 #: src/workbook-control-gui.c:2827
 msgid "AutoFilter"
-msgstr ""
+msgstr "自動過濾"
 
 #: src/workbook-control-gui.c:2827
 msgid "Requires more than 1 row"
@@ -24471,9 +24479,6 @@ msgstr "Gnumeric XML 檔案格式"
 
 #~ msgid "Detailed error message"
 #~ msgstr "詳細錯誤訊息"
-
-#~ msgid "Show details"
-#~ msgstr "顯示細節"
 
 #~ msgid "Color"
 #~ msgstr "顏色"

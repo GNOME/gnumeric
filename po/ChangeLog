@@ -1,5 +1,9 @@
 2003-04-14  Abel Cheung  <maddog@linux.org.hk>
 
+	* zh_TW.po: Added older credits back, which I eliminated by mistake.
+
+2003-04-14  Abel Cheung  <maddog@linux.org.hk>
+
 	* zh_TW.po: Updated traditional Chinese translation.
 	* ro.po: Mark wrong entries as fuzzy (msgfmt check failed).
 	* lv.po, et.po: Fix header.
