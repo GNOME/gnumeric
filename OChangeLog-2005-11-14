@@ -1,5 +1,10 @@
 2004-04-02  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-file.c (gui_file_open): Use savers' extensions as a
+	proxy for all spreadsheet files.  this is not ideal, but far
+	better than hardcoding "*.gnumeric" and "*.xls".
+	(gui_file_save_as): Ditto.
+
 	* src/wbc-gtk.c (wbc_gtk_finalize): New function.
 	(wbc_gtk_class_init): Hook it up.
 

@@ -227,8 +227,21 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 			/* FIXME: add all known extensions.  */
 		}
 #warning "FIXME: make extension discovery above work and delete these"
-		gtk_file_filter_add_pattern (filter, "*.gnumeric");
-		gtk_file_filter_add_pattern (filter, "*.xls");
+		/* Use _SAVERS'_ extension for lack of better.  */
+		for (l = get_file_savers ()->next; l; l = l->next) {
+			GnmFileSaver *fs = l->data;
+			const char *ext = gnm_file_saver_get_extension (fs);
+			const char *mime = gnm_file_saver_get_mime_type (fs);
+
+			if (mime)
+				gtk_file_filter_add_mime_type (filter, mime);
+
+			if (ext) {
+				char *pattern = g_strconcat ("*.", ext, NULL);
+				gtk_file_filter_add_pattern (filter, pattern);
+				g_free (pattern);
+			}
+		}
 
 		gtk_file_chooser_add_filter (fsel, filter);
 		/* Make this filter the default */
@@ -578,18 +591,18 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 			GnmFileSaver *fs = l->data;
 			const char *ext = gnm_file_saver_get_extension (fs);
 			const char *mime = gnm_file_saver_get_mime_type (fs);
-			g_warning ("%s: ext:%s  mime:%s scope:%d",
-				   gnm_file_saver_get_id (fs),
-				   ext ? ext : "(null)",
-				   mime ? mime : "(null)",
-				   gnm_file_saver_get_save_scope (fs)
-				   );
-			/* FIXME: add all known extensions.  */
-		}
-#warning "FIXME: make extension discovery above work and delete these"
-		gtk_file_filter_add_pattern (filter, "*.gnumeric");
-		gtk_file_filter_add_pattern (filter, "*.xls");
 
+			if (mime)
+				gtk_file_filter_add_mime_type (filter, mime);
+
+#warning "FIXME: do we get all extensions?"
+			/* Well, we don't get things we cannot save.  */
+			if (ext) {
+				char *pattern = g_strconcat ("*.", ext, NULL);
+				gtk_file_filter_add_pattern (filter, pattern);
+				g_free (pattern);
+			}
+		}
 		gtk_file_chooser_add_filter (fsel, filter);
 		/* Make this filter the default */
 		gtk_file_chooser_set_filter (fsel, filter);
