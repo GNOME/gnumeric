@@ -599,8 +599,10 @@ gnumeric_application_setup_icons (void)
 		{ gnm_link_add_24,			gnm_link_add_16,		"Gnumeric_Link_Add" },
 		{ NULL,					gnm_link_delete_16,		"Gnumeric_Link_Delete" },
 		{ NULL,					gnm_link_edit_16,		"Gnumeric_Link_Edit" },
-		{ gnm_link_external_24,			NULL,				"Gnumeric_Link_External" },
-		{ gnm_link_internal_24,			NULL,				"Gnumeric_Link_Internal" },
+		{ gnm_link_external_24,			gnm_link_external_16,		"Gnumeric_Link_External" },
+		{ gnm_link_internal_24,			gnm_link_internal_16,		"Gnumeric_Link_Internal" },
+		{ gnm_link_email_24,			gnm_link_email_16,		"Gnumeric_Link_EMail" },
+		{ gnm_link_url_24,			gnm_link_url_16,		"Gnumeric_Link_URL" },
 	};
 	unsigned i = 0;
 	GtkIconFactory *factory = gtk_icon_factory_new ();

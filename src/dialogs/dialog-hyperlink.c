@@ -93,10 +93,10 @@ static struct {
 	{ N_("_External Link"), "Gnumeric_Link_External",
 	  "GnmHLinkExternal",	"external-link-box" ,
 	  N_("Open an external file with the specified name") },
-	{ N_("Send _Email"),	"gtk-new",
+	{ N_("Send _Email"),	"Gnumeric_Link_EMail",
 	  "GnmHLinkEMail",	"email-box" ,
 	  N_("Prepare an email") },
-	{ N_("_URL"),		"gtk-print",
+	{ N_("_URL"),		"Gnumeric_Link_URL",
 	  "GnmHLinkURL",	"url-box" ,
 	  N_("Browse to the specified URL") },
 };
@@ -114,7 +114,7 @@ dialog_hyperlink_setup_type (HyperlinkState *state)
 		if (!strcmp (name, type[i].name)) {
 			gtk_widget_show_all (w);
 			gtk_image_set_from_stock (state->type_image,
-				type[i].image_name, GTK_ICON_SIZE_DIALOG);
+				type[i].image_name, GTK_ICON_SIZE_LARGE_TOOLBAR);
 			gtk_label_set_text (state->type_descriptor,
 				_(type[i].descriptor));
 		} else
