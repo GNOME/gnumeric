@@ -1,3 +1,21 @@
+1999-04-03  Michael Meeks  <michael@imaginator.com>
+
+	* ms-excel.c (ms_excel_read_sheet): removed fixup_array_formulae.
+	(ms_excel_read_cell): Large SHRFMLA / ARRAY fixups.
+	(biff_share_formula_new,destroy,hash,equal): Implemented.
+	(ms_excel_sheet_new): Removed GList array_formulae and insert
+	shared formula hash table.
+	(ms_excel_sheet_destroy): Deal with hash table.
+	(ms_excel_sheet_shared_formula): Returns shared formula text
+	(ms_excel_set_cell_xf): Cleaned unused variables.
+	
+	* ms-excel.h: Added ms_excel_sheet_shared_formula prototype
+	
+	* ms-formula.c (ms_excel_fixup_array_formula): Removed.
+	(ms_excel_parse_formula): Sorted FORMULA_PTG_EXP.
+	
+	* ms-formula.h: Removed prototype.
+
 1999-04-02  Michael Meeks  <michael@imaginator.com>
 
 	* ms-formula.c (ms_excel_parse_formula): PTG_ATTR: corrected

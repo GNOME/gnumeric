@@ -130,6 +130,7 @@ cell_unregister_span (Cell *cell)
 	GList *l;
 	
 	g_return_if_fail (cell != NULL);
+	g_return_if_fail (cell->row != NULL);
 
 	c.cell = cell;
 	c.list_of_keys = NULL;
@@ -143,7 +144,8 @@ cell_unregister_span (Cell *cell)
 		g_hash_table_remove (cell->row->data, key);
 		g_free (key);
 	}
-	g_list_free (c.list_of_keys);
+	if (c.list_of_keys)
+		g_list_free (c.list_of_keys);
 }
 
 /*

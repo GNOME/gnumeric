@@ -194,6 +194,38 @@ biff_get_error_text (guint8 err)
 	return buf ;
 }
 
+static BIFF_SHARED_FORMULA *
+biff_shared_formula_new (guint16 col, guint16 row, BYTE *data, guint32 data_len)
+{
+	BIFF_SHARED_FORMULA *sf = g_new (BIFF_SHARED_FORMULA, 1) ;
+	sf->key.col = col ;
+	sf->key.row = row ;
+	sf->data = data ;
+	sf->data_len = data_len ;
+	return sf ;
+}
+
+static gboolean 
+biff_shared_formula_destroy (gpointer key, BIFF_SHARED_FORMULA *sf, gpointer userdata)
+{
+	g_free (sf) ;
+	return 1 ;
+}
+
+/* Shared formula hashing functions */
+static guint
+biff_shared_formula_hash (const BIFF_SHARED_FORMULA_KEY *d)
+{ return (d->row<<16)+d->col ; }
+
+static guint
+biff_shared_formula_equal (const BIFF_SHARED_FORMULA_KEY *a,
+			   const BIFF_SHARED_FORMULA_KEY *b)
+{
+	if (a->col == b->col &&
+	    a->row == b->row) return 1 ;
+	return 0 ;
+}
+
 /**
  * See S59D5D.HTM
  **/
@@ -791,9 +823,9 @@ ms_excel_set_cell_font (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf)
 static void
 ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, guint16 xfidx)
 {
-	GList *ptr;
-	int cnt;
 	BIFF_XF_DATA *xf;
+
+	g_return_if_fail (cell->value) ;
 
 	if (xfidx == 0){
 /*		printf ("Normal cell formatting\n"); */
@@ -1113,8 +1145,26 @@ ms_excel_sheet_new (MS_EXCEL_WORKBOOK * wb, char *name)
 	ans->gnum_sheet = sheet_new (wb->gnum_wb, name);
 	ans->blank = 1 ;
 	ans->wb = wb;
-	ans->array_formulae = 0;
+
+	ans->shared_formulae = g_hash_table_new ((GHashFunc)biff_shared_formula_hash,
+						 (GCompareFunc)biff_shared_formula_equal) ;
+
 	return ans;
+}
+
+char *
+ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
+			       int col, int row)
+{
+	BIFF_SHARED_FORMULA_KEY k ;
+	BIFF_SHARED_FORMULA *sf ;
+	k.col = col ;
+	k.row = row ;
+	sf = g_hash_table_lookup (sheet->shared_formulae, &k) ;
+	if (sf)
+		return ms_excel_parse_formula (sheet, sf->data, col, row, sf->data_len) ;
+	printf ("Duff shared formula index %d %d\n", col, row) ;
+	return strdup ("00") ;
 }
 
 static void
@@ -1133,9 +1183,8 @@ ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx, int col, int row, char
 		sheet->blank = 0 ;
 		cell_set_text_simple (cell, text);
 	}
-	else {
+	else
 		cell_set_text_simple (cell, "") ;
-	}
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
 }
 
@@ -1148,13 +1197,11 @@ ms_excel_sheet_set_index (MS_EXCEL_SHEET *ans, int idx)
 static void
 ms_excel_sheet_destroy (MS_EXCEL_SHEET * sheet)
 {
-	GList *ptr = g_list_first (sheet->array_formulae);
-
-	while (ptr){
-		g_free (ptr->data);
-		ptr = ptr->next;
-	}
-	g_list_free (sheet->array_formulae);
+	g_hash_table_foreach_remove (sheet->shared_formulae,
+				     (GHRFunc)biff_shared_formula_destroy,
+				     sheet) ;
+	g_hash_table_destroy (sheet->shared_formulae) ;
+	sheet->shared_formulae = NULL ;
 
 	sheet_destroy (sheet->gnum_sheet);
 	
@@ -1506,6 +1553,43 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		break;
 	}
 	case BIFF_SHRFMLA: /* See: S59DE4.HTM */
+	{
+		int array_col_first, array_col_last ;
+		int array_row_first, array_row_last ;
+		BYTE *data ;
+		int data_len ;
+		char *txt ;
+		Cell *cell ;
+		BIFF_SHARED_FORMULA *sf ;
+
+		array_row_first = BIFF_GETWORD(q->data + 0) ;
+		array_row_last  = BIFF_GETWORD(q->data + 2) ;
+		array_col_first = BIFF_GETBYTE(q->data + 4) ;
+		array_col_last  = BIFF_GETBYTE(q->data + 5) ;
+
+		data = q->data + 10 ;
+		data_len = BIFF_GETWORD(q->data + 8) ;
+
+		/* Whack in the hash for later */
+		
+		sf = biff_shared_formula_new (array_col_first, array_row_first,
+					      data, data_len) ;
+		g_hash_table_insert (sheet->shared_formulae, &sf->key, sf) ;
+
+		printf ("Shared formula of extent %d %d %d %d\n",
+			array_col_first, array_row_first, array_col_last, array_row_last) ;
+		txt = ms_excel_parse_formula (sheet, data,
+					      array_col_first, array_row_first,
+					      data_len) ;
+		/* NB. This keeps the pre-set XF record */
+		cell = sheet_cell_fetch (sheet->gnum_sheet,
+					 array_col_first, array_row_first);
+		if (!cell)
+			break ;
+		cell_set_text_simple (cell, txt);
+		g_free(txt) ;
+		break ;
+	}
 	case BIFF_ARRAY: /* See: S59D57.HTM */
 	{
 		int array_col_first, array_col_last ;
@@ -1519,19 +1603,10 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		array_col_first = BIFF_GETBYTE(q->data + 4) ;
 		array_col_last  = BIFF_GETBYTE(q->data + 5) ;
 
-		switch (q->ls_op) {
-		case BIFF_SHRFMLA:
-			data = q->data + 10 ;
-			data_len = BIFF_GETWORD(q->data + 8) ;
-			break ;
-		default:{
 /*				int options  = BIFF_GETWORD(q->data + 6) ; not so useful */
-				g_assert (q->ls_op == BIFF_ARRAY) ;
-				data = q->data + 14 ;
-				data_len = BIFF_GETWORD(q->data + 12) ;
-				break ;	
-			}
-		}
+		g_assert (q->ls_op == BIFF_ARRAY) ;
+		data = q->data + 14 ;
+		data_len = BIFF_GETWORD(q->data + 12) ;
 		printf ("%s Formula of extent %d %d %d %d\n", q->ls_op==BIFF_ARRAY?"Array":"Shrfmla",
 			array_col_first, array_row_first, array_col_last, array_row_last) ;
 		for (xlp=array_col_first;xlp<=array_col_last;xlp++)
@@ -1539,8 +1614,10 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			{
 				char *txt = ms_excel_parse_formula (sheet, data,
 								    xlp, ylp, data_len) ;
-				/* FIXME: Magic XF number: 0 */
-				ms_excel_sheet_insert (sheet, 0, xlp, ylp, txt) ;
+				/* NB. This keeps the pre-set XF record */
+				Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, xlp, ylp);
+				if (cell)
+						cell_set_text_simple (cell, txt);
 				g_free(txt) ;
 			}
 		break ;
@@ -1708,7 +1785,6 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 				ms_excel_sheet_destroy (sheet) ;
 				return;
 			}
-			ms_excel_fixup_array_formulae (sheet);
 			return;
 			break;
 		case BIFF_SELECTION: /* S59DE2.HTM */

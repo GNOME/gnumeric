@@ -39,7 +39,7 @@ cell_modified (Cell *cell)
 void
 cell_set_formula (Cell *cell, char *text)
 {
-	char *error_msg = NULL;
+	char *error_msg = _("ERROR");
 	char *desired_format = NULL;
 	
 	g_return_if_fail (cell != NULL);
@@ -58,7 +58,7 @@ cell_set_formula (Cell *cell, char *text)
 		
 		if (cell->value)
 			value_release (cell->value);
-		cell->value = NULL;
+		cell->value = NULL ;
 		return;
 	} else {
 		if (cell->flags & CELL_ERROR)

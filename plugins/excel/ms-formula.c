@@ -693,7 +693,7 @@ make_function (PARSE_LIST *stack, int fn_idx, int numargs)
 
 /**
  * Parse that RP Excel formula, see S59E2B.HTM
- * Return a dynamicaly allocated string containing the formula
+ * Return a dynamicaly allocated string containing the formula, never NULL
  **/
 char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			     int fn_col, int fn_row, guint16 length)
@@ -915,15 +915,15 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			dump(mem, length) ;
 			parse_list_push_raw (stack, g_strdup("Unknown name"), NO_PRECEDENCE) ;
 		}
-		case FORMULA_PTG_EXP: /* FIXME: the formula is the same as another record ... we need a cell_get_funtion call ! */
+		case FORMULA_PTG_EXP:
 		{
 			int top_left_col = BIFF_GETWORD(cur+2) ;
 			int top_left_row = BIFF_GETWORD(cur+0) ;
-			printf ("FIXME: I'm found in an ARRAY record ... %d %d\n",
-				top_left_col, top_left_row) ;
-			/* Just push a null string onto the stack, just to get the
-			   XF info sorted safely */
-			parse_list_push_raw (stack, g_strdup(""), NO_PRECEDENCE) ;
+			char *txt ;
+			txt =  ms_excel_sheet_shared_formula (sheet, top_left_col,
+							      top_left_row) ;
+			txt[0] = ' ' ; /* Kill '=' */
+			parse_list_push_raw (stack, txt, NO_PRECEDENCE) ;
 			ptg_length = 4 ;
 			break ;
 		}
@@ -946,8 +946,10 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			} else if (grbit & 0x02) { /* AttrIf: 'optimised' IF function */
 				/* Who cares if the TRUE expr has a goto at the end */
 				char *txt ;
-				printf ("Optimised IF 0x%x 0x%x\n", grbit, w) ;
-				dump (mem, length) ;
+				if (FORMULA_DEBUG>2) {
+					printf ("Optimised IF 0x%x 0x%x\n", grbit, w) ;
+					dump (mem, length) ;
+				}
 				if (w)
 					txt = ms_excel_parse_formula (sheet, cur+ptg_length,
 								      fn_col, fn_row, w) ;
@@ -1100,7 +1102,7 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		dump (mem, length) ;
 		
 		parse_list_free (stack) ;
-		return g_strdup (_("Unknown formula")) ;
+		return g_strdup (_(" Unknown formula")) ;
 	}
 	
 	ans = parse_list_to_equation (stack) ;
@@ -1108,21 +1110,6 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 	if (ans)
 		return ans ;
 	else
-		return g_strdup(_("Empty parse list")) ;
+		return g_strdup(_(" Empty parse list")) ;
 }
 
-void ms_excel_fixup_array_formulae (MS_EXCEL_SHEET *sheet)
-{
-	GList *tmp = sheet->array_formulae ;
-	while (tmp)
-	{
-		FORMULA_ARRAY_DATA *dat = tmp->data ;
-		printf ("Copying formula from %d,%d to %d,%d\n",
-			dat->src_col, dat->src_row,
-			dat->dest_col, dat->dest_row) ;
-		duplicate_formula (sheet->gnum_sheet,
-				   dat->src_col, dat->src_row,
-				   dat->dest_col, dat->dest_row) ;
-		tmp = tmp->next ;
-	}
-}

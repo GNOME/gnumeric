@@ -15,8 +15,6 @@
 char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			      int fn_col, int fn_row, guint16 length) ;
 
-void ms_excel_fixup_array_formulae (MS_EXCEL_SHEET *sheet) ;
-
 /**
  * See S59E2B.HTM
  **/

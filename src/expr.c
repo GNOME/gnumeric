@@ -62,6 +62,10 @@ expr_parse_string (char *expr, void *sheet, int col, int row, char **desired_for
 	case PARSE_ERR_NO_QUOTE:
 		*error_msg = _("Missing quote");
 		break;
+	default:
+		printf ("THIS SHOULD NEVER EVER EVER HAPPEN !!!!!!\n") ;
+		*error_msg = _("Impossible!") ;
+		break ;
 	}
 	return NULL;
 }

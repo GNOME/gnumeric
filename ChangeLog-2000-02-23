@@ -1,3 +1,14 @@
+1999-04-03 Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_cell_remove_from_hash): Now checks
+	return value of g_hash_table_lookup_extended, before
+	freeing a random pointer if its not there.
+
+	* src/cellspan.c (cell_unregister_span): Check another
+	pointer.
+
+	* src/cell.c (cell_set_formula): Default error_msg !
+
 1999-04-02 Michael Meeks  <michael@imaginator.com>
 
 	* src/fn-sheet.c (gnumeric_if): Fix to allow variable

@@ -29,10 +29,25 @@ typedef struct _MS_EXCEL_SHEET
 	Sheet *gnum_sheet ;
 	struct _MS_EXCEL_WORKBOOK *wb ;
 	eBiff_version ver ;
-	GList *array_formulae ;      
+	GHashTable *shared_formulae ;
 } MS_EXCEL_SHEET ;
 
-extern void ms_excel_sheet_insert (MS_EXCEL_SHEET *sheet, int xfidx, int col, int row, char *text) ;
+typedef struct {
+	guint16 col ;
+	guint16 row ;	
+} BIFF_SHARED_FORMULA_KEY ;
+
+typedef struct {
+	BIFF_SHARED_FORMULA_KEY key ;
+	BYTE *data ;
+	guint32 data_len ;
+} BIFF_SHARED_FORMULA ;
+
+extern void ms_excel_sheet_insert          (MS_EXCEL_SHEET *sheet,
+					    int xfidx, int col,
+					    int row, char *text) ;
+extern char *ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
+					    int col, int row) ;
 
 typedef struct _MS_EXCEL_PALETTE
 {

@@ -2031,16 +2031,19 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 static void
 sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 {
-	CellPos cellpos;
-	void    *original_key;
+	CellPos  cellpos;
+	gpointer original_key;
 
 	cellpos.col = cell->col->pos;
 	cellpos.row = cell->row->pos;
 
 	cell_unregister_span (cell);
-	g_hash_table_lookup_extended (sheet->cell_hash, &cellpos, &original_key, NULL);
-	g_hash_table_remove (sheet->cell_hash, &cellpos);
-	g_free (original_key);
+	if (g_hash_table_lookup_extended (sheet->cell_hash, &cellpos, &original_key, NULL)) {
+		g_hash_table_remove (sheet->cell_hash, &cellpos);
+		g_free (original_key);
+	}
+	else
+		g_warning ("Cell not in hash table |\n") ;
 }
 
 static void
