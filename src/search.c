@@ -504,6 +504,55 @@ search_collect_cells (SearchReplace *sr, Sheet *sheet)
 }
 
 /* ------------------------------------------------------------------------- */
+/*
+ * sr: The search spec.
+ * cells: An array of EvalPos*, presumably a result of search_collect_cells.
+ *
+ * Returns an array of SearchFilterResult*s, which the caller must free.
+ */
+
+GPtrArray *
+search_filter_matching (SearchReplace *sr, const GPtrArray *cells)
+{
+	unsigned i;
+	GPtrArray *result = g_ptr_array_new ();
+
+	for (i = 0; i < cells->len; i++) {
+		SearchReplaceCellResult cell_res;
+		SearchReplaceCommentResult comment_res;
+		gboolean found;
+		const EvalPos *ep = g_ptr_array_index (cells, i);
+
+		found = search_replace_cell (sr, ep, FALSE, &cell_res);
+		g_free (cell_res.old_text);
+		if (found) {
+			SearchFilterResult *item = g_new (SearchFilterResult, 1);
+			item->ep = *ep;
+			item->cell = cell_res.cell;
+			g_ptr_array_add (result, item);
+		}
+
+		if (search_replace_comment (sr, ep, FALSE, &comment_res)) {
+			SearchFilterResult *item = g_new (SearchFilterResult, 1);
+			item->ep = *ep;
+			item->comment = comment_res.comment;
+			g_ptr_array_add (result, item);
+		}
+	}
+
+	return result;
+}
+
+void
+search_filter_matching_free (GPtrArray *matches)
+{
+	unsigned i;
+	for (i = 0; i < matches->len; i++)
+		g_free (g_ptr_array_index (matches, i));
+	g_ptr_array_free (matches, TRUE);	
+}
+
+/* ------------------------------------------------------------------------- */
 
 gboolean
 search_replace_comment (SearchReplace *sr,

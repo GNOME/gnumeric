@@ -1,3 +1,10 @@
+2001-10-11  Morten Welinder  <terra@diku.dk>
+
+	* dialog-search.c (dialog_search): New dialog in new file.
+
+	* dialog-search-replace.c (dialog_search_replace_query): Remove
+ 	search from here.
+
 2001-10-11 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
         * anova-one.glade : change variable name to be consistent across

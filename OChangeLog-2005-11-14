@@ -1,3 +1,12 @@
+2001-10-11  Morten Welinder  <terra@diku.dk>
+
+	* src/search.c (search_filter_matching,
+ 	search_filter_matching_free): New functions.
+
+	* src/workbook-control-gui.c (workbook_control_gui_init): Plug leak.
+	(cb_edit_search): Delete.
+	(cb_edit_search): Use new dialog.
+
 2001-10-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-control-gui.c (cb_file_quit) :

@@ -1803,75 +1803,10 @@ cb_edit_search_replace (GtkWidget *unused, WorkbookControlGUI *wbcg)
 }
 
 
-static gboolean
-cb_edit_search_action (WorkbookControlGUI *wbcg,
-		       SearchReplace *sr)
-{
-	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	unsigned i;
-	gboolean complain_no_match = TRUE;
-
-	GPtrArray *cells = search_collect_cells (sr, wb_control_cur_sheet (wbc));
-
-	for (i = 0; i < cells->len; i++) {
-		EvalPos *ep = g_ptr_array_index (cells, i);
-
-		SearchReplaceCellResult cell_res;
-		SearchReplaceCommentResult comment_res;
-		gboolean found;
-
-		found = search_replace_cell (sr, ep, FALSE, &cell_res);
-		g_free (cell_res.old_text);
-		if (found) {
-			char *pos_name = g_strconcat (ep->sheet->name_unquoted, "!",
-						      cell_pos_name (&ep->eval), NULL);
-			int res;
-
-			common_cell_goto (ep->sheet, &ep->eval);
-			res = dialog_search_notify (wbcg, sr, pos_name);
-			g_free (pos_name);
-
-			complain_no_match = FALSE;
-
-			if (res == -1)
-				break;
-		}
-
-		if (search_replace_comment (sr, ep, FALSE, &comment_res)) {
-			char *pos_name = g_strdup_printf (_("Comment in cell %s!%s"),
-							  ep->sheet->name_unquoted,
-							  cell_pos_name (&ep->eval));
-			int res;
-
-			common_cell_goto (ep->sheet, &ep->eval);
-			res = dialog_search_notify (wbcg, sr, pos_name);
-			g_free (pos_name);
-
-			complain_no_match = FALSE;
-
-			if (res == -1)
-				break;
-		}
-	}
-
-	for (i = 0; i < cells->len; i++) {
-		EvalPos *ep = g_ptr_array_index (cells, i);
-		g_free (ep);
-	}
-	g_ptr_array_free (cells, TRUE);
-
-	if (complain_no_match) {
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
-				 _("Search text was not found."));
-	}
-
-	return TRUE;
-}
-
 static void
 cb_edit_search (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
-	dialog_search (wbcg, cb_edit_search_action);
+	dialog_search (wbcg);
 }
 
 static void
@@ -3898,9 +3833,10 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	bonobo_ui_component_add_verb_list_with_data (wbcg->uic, verbs, wbcg);
 
 	{
-		char const *dir = gnumeric_sys_data_dir (NULL);
-		bonobo_ui_util_set_ui (wbcg->uic,  dir,
+		char *dir = gnumeric_sys_data_dir (NULL);
+		bonobo_ui_util_set_ui (wbcg->uic, dir,
 				       "GNOME_Gnumeric.xml", "gnumeric");
+		g_free (dir);
 	}
 #ifdef ENABLE_EVOLUTION
 	bonobo_ui_component_set_translate (wbcg->uic, "/menu/File",

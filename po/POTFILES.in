@@ -86,6 +86,7 @@ src/dialogs/dialog-insert-cells.c
 src/dialogs/dialog-paste-special.c
 src/dialogs/dialog-plugin-manager.c
 src/dialogs/dialog-printer-setup.c
+src/dialogs/dialog-search.c
 src/dialogs/dialog-search-replace.c
 src/dialogs/dialog-sheet-order.c
 src/dialogs/dialog-solver.c

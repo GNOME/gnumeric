@@ -46,6 +46,7 @@ base_files =					\
 	dialog-paste-special.c			\
 	dialog-plugin-manager.c 		\
 	dialog-printer-setup.c			\
+	dialog-search.c				\
 	dialog-search-replace.c			\
 	dialog-sheet-order.c			\
 	dialog-simple-input.c			\

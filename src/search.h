@@ -2,6 +2,7 @@
 #define GNUMERIC_SEARCH_H
 
 #include "gnumeric.h"
+#include "position.h"
 #include <sys/types.h>
 #include <regex.h>
 
@@ -76,6 +77,14 @@ char *search_replace_string (SearchReplace *sr, const char *src);
 gboolean search_match_string (SearchReplace *sr, const char *src);
 
 GPtrArray *search_collect_cells (SearchReplace *sr, Sheet *sheet);
+
+typedef struct {
+	EvalPos ep;
+	Cell *cell;
+	CellComment *comment;
+} SearchFilterResult;
+GPtrArray *search_filter_matching (SearchReplace *sr, const GPtrArray *cells);
+void search_filter_matching_free (GPtrArray *matches);
 
 typedef struct SearchReplaceCommentResult {
 	CellComment *comment;

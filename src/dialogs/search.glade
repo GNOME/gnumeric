@@ -2,8 +2,6 @@
 <GTK-Interface>
 
 <project>
-  <name>Project1</name>
-  <program_name>project1</program_name>
   <directory></directory>
   <source_directory>src</source_directory>
   <pixmaps_directory>pixmaps</pixmaps_directory>
@@ -42,40 +40,47 @@
       <class>GtkHButtonBox</class>
       <child_name>GnomeDialog:action_area</child_name>
       <name>dialog-action_area1</name>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
+      <layout_style>GTK_BUTTONBOX_SPREAD</layout_style>
       <spacing>8</spacing>
-      <child_min_width>150</child_min_width>
+      <child_min_width>85</child_min_width>
       <child_min_height>27</child_min_height>
       <child_ipad_x>7</child_ipad_x>
       <child_ipad_y>0</child_ipad_y>
       <child>
 	<padding>0</padding>
-	<expand>True</expand>
-	<fill>False</fill>
+	<expand>False</expand>
+	<fill>True</fill>
 	<pack>GTK_PACK_END</pack>
       </child>
 
       <widget>
 	<class>GtkButton</class>
-	<name>ok_button</name>
+	<name>prev_button</name>
 	<can_default>True</can_default>
-	<has_default>True</has_default>
 	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
+	<stock_button>GNOME_STOCK_BUTTON_PREV</stock_button>
       </widget>
 
       <widget>
 	<class>GtkButton</class>
-	<name>cancel_button</name>
+	<name>next_button</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
+	<stock_button>GNOME_STOCK_BUTTON_NEXT</stock_button>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>close_button</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<stock_button>GNOME_STOCK_BUTTON_CLOSE</stock_button>
       </widget>
     </widget>
 
     <widget>
       <class>GtkNotebook</class>
-      <name>notebook1</name>
+      <name>notebook</name>
       <can_focus>True</can_focus>
       <show_tabs>True</show_tabs>
       <show_border>True</show_border>
@@ -92,215 +97,274 @@
 
       <widget>
 	<class>GtkVBox</class>
-	<name>vbox6</name>
+	<name>vbox2</name>
 	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
 	<spacing>4</spacing>
 
 	<widget>
-	  <class>GtkFrame</class>
-	  <name>frame6</name>
-	  <label>Search</label>
-	  <label_xalign>0</label_xalign>
-	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	  <class>GtkTable</class>
+	  <name>table1</name>
+	  <rows>1</rows>
+	  <columns>3</columns>
+	  <homogeneous>False</homogeneous>
+	  <row_spacing>4</row_spacing>
+	  <column_spacing>4</column_spacing>
 	  <child>
 	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
+	    <expand>True</expand>
+	    <fill>True</fill>
 	  </child>
 
 	  <widget>
-	    <class>GtkVBox</class>
-	    <name>vbox5</name>
-	    <border_width>4</border_width>
-	    <homogeneous>False</homogeneous>
-	    <spacing>4</spacing>
+	    <class>GnomeEntry</class>
+	    <name>search_entry</name>
+	    <max_saved>10</max_saved>
+	    <child>
+	      <left_attach>1</left_attach>
+	      <right_attach>2</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
 
 	    <widget>
-	      <class>GtkTable</class>
-	      <name>table1</name>
-	      <rows>1</rows>
-	      <columns>2</columns>
-	      <homogeneous>False</homogeneous>
-	      <row_spacing>4</row_spacing>
-	      <column_spacing>4</column_spacing>
-	      <child>
-		<padding>0</padding>
-		<expand>True</expand>
-		<fill>True</fill>
-	      </child>
-
-	      <widget>
-		<class>GtkLabel</class>
-		<name>label1</name>
-		<label>_Search for</label>
-		<justify>GTK_JUSTIFY_CENTER</justify>
-		<wrap>False</wrap>
-		<xalign>0</xalign>
-		<yalign>0.5</yalign>
-		<xpad>4</xpad>
-		<ypad>0</ypad>
-		<default_focus_target>searchtext</default_focus_target>
-		<child>
-		  <left_attach>0</left_attach>
-		  <right_attach>1</right_attach>
-		  <top_attach>0</top_attach>
-		  <bottom_attach>1</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>False</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>True</xfill>
-		  <yfill>False</yfill>
-		</child>
-	      </widget>
-
-	      <widget>
-		<class>GnomeEntry</class>
-		<name>entry4</name>
-		<max_saved>10</max_saved>
-		<child>
-		  <left_attach>1</left_attach>
-		  <right_attach>2</right_attach>
-		  <top_attach>0</top_attach>
-		  <bottom_attach>1</bottom_attach>
-		  <xpad>0</xpad>
-		  <ypad>0</ypad>
-		  <xexpand>True</xexpand>
-		  <yexpand>False</yexpand>
-		  <xshrink>False</xshrink>
-		  <yshrink>False</yshrink>
-		  <xfill>True</xfill>
-		  <yfill>False</yfill>
-		</child>
-
-		<widget>
-		  <class>GtkEntry</class>
-		  <child_name>GnomeEntry:entry</child_name>
-		  <name>searchtext</name>
-		  <can_focus>True</can_focus>
-		  <editable>True</editable>
-		  <text_visible>True</text_visible>
-		  <text_max_length>0</text_max_length>
-		  <text></text>
-		</widget>
-	      </widget>
-	    </widget>
-
-	    <widget>
-	      <class>GtkHSeparator</class>
-	      <name>hseparator1</name>
-	      <child>
-		<padding>0</padding>
-		<expand>True</expand>
-		<fill>True</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkCheckButton</class>
-	      <name>ignore_case</name>
-	      <tooltip>When set, do not distinguish between upper and lower case letters</tooltip>
+	      <class>GtkEntry</class>
+	      <child_name>GnomeEntry:entry</child_name>
+	      <name>searchtext</name>
+	      <can_default>True</can_default>
 	      <can_focus>True</can_focus>
-	      <label>_Ignore case</label>
-	      <active>True</active>
-	      <draw_indicator>True</draw_indicator>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
+	      <has_focus>True</has_focus>
+	      <editable>True</editable>
+	      <text_visible>True</text_visible>
+	      <text_max_length>0</text_max_length>
+	      <text></text>
 	    </widget>
+	  </widget>
+
+	  <widget>
+	    <class>GtkLabel</class>
+	    <name>label3</name>
+	    <label>_Search for</label>
+	    <justify>GTK_JUSTIFY_CENTER</justify>
+	    <wrap>False</wrap>
+	    <xalign>0</xalign>
+	    <yalign>0.5</yalign>
+	    <xpad>0</xpad>
+	    <ypad>0</ypad>
+	    <focus_target>searchtext</focus_target>
+	    <child>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkHButtonBox</class>
+	    <name>hbuttonbox3</name>
+	    <layout_style>GTK_BUTTONBOX_DEFAULT_STYLE</layout_style>
+	    <spacing>30</spacing>
+	    <child_min_width>85</child_min_width>
+	    <child_min_height>27</child_min_height>
+	    <child_ipad_x>7</child_ipad_x>
+	    <child_ipad_y>0</child_ipad_y>
+	    <child>
+	      <left_attach>2</left_attach>
+	      <right_attach>3</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>True</yfill>
+	    </child>
 
 	    <widget>
-	      <class>GtkHBox</class>
-	      <name>hbox3</name>
-	      <homogeneous>False</homogeneous>
-	      <spacing>4</spacing>
-	      <child>
-		<padding>0</padding>
-		<expand>True</expand>
-		<fill>True</fill>
-	      </child>
-
-	      <widget>
-		<class>GtkRadioButton</class>
-		<name>search_type_text</name>
-		<tooltip>The search text is taken literal</tooltip>
-		<can_focus>True</can_focus>
-		<label>_Plain text</label>
-		<active>True</active>
-		<draw_indicator>True</draw_indicator>
-		<group>searchtype</group>
-		<child>
-		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
-		</child>
-	      </widget>
-
-	      <widget>
-		<class>GtkRadioButton</class>
-		<name>search_type_regexp</name>
-		<tooltip>The search text is a regular expression</tooltip>
-		<can_focus>True</can_focus>
-		<label>_Regular expression</label>
-		<active>False</active>
-		<draw_indicator>True</draw_indicator>
-		<group>searchtype</group>
-		<child>
-		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
-		</child>
-	      </widget>
+	      <class>GtkButton</class>
+	      <name>search_button</name>
+	      <can_default>True</can_default>
+	      <can_focus>True</can_focus>
+	      <label>Search</label>
+	      <relief>GTK_RELIEF_NORMAL</relief>
 	    </widget>
 	  </widget>
 	</widget>
 
 	<widget>
-	  <class>GtkFrame</class>
-	  <name>frame1</name>
-	  <label>Scope</label>
-	  <label_xalign>0</label_xalign>
-	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
+	  <class>GtkHSeparator</class>
+	  <name>hseparator2</name>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkCheckButton</class>
+	  <name>ignore_case</name>
+	  <tooltip>When set, do not distinguish between upper and lower case letters</tooltip>
+	  <can_focus>True</can_focus>
+	  <label>_Ignore case</label>
+	  <active>False</active>
+	  <draw_indicator>True</draw_indicator>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkCheckButton</class>
+	  <name>match_words</name>
+	  <tooltip>Do not consider matches in the middle of words</tooltip>
+	  <can_focus>True</can_focus>
+	  <label>Match _whole words only</label>
+	  <active>False</active>
+	  <draw_indicator>True</draw_indicator>
+	  <child>
+	    <padding>0</padding>
+	    <expand>False</expand>
+	    <fill>False</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkHBox</class>
+	  <name>hbox1</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
 	    <fill>True</fill>
 	  </child>
 
 	  <widget>
-	    <class>GtkVBox</class>
-	    <name>vbox2</name>
-	    <border_width>5</border_width>
+	    <class>GtkRadioButton</class>
+	    <name>search_type_text</name>
+	    <tooltip>The search text is taken literal</tooltip>
+	    <can_focus>True</can_focus>
+	    <label>_Plain text</label>
+	    <active>True</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>searchtype</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>search_type_regexp</name>
+	    <tooltip>The search text is a regular expression</tooltip>
+	    <can_focus>True</can_focus>
+	    <label>_Regular expression</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>searchtype</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+	</widget>
+
+	<widget>
+	  <class>GtkHSeparator</class>
+	  <name>hseparator3</name>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+	</widget>
+
+	<widget>
+	  <class>GtkVBox</class>
+	  <name>vbox3</name>
+	  <homogeneous>False</homogeneous>
+	  <spacing>0</spacing>
+	  <child>
+	    <padding>0</padding>
+	    <expand>True</expand>
+	    <fill>True</fill>
+	  </child>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>scope_workbook</name>
+	    <tooltip>Search in all cells in the workbook</tooltip>
+	    <can_focus>True</can_focus>
+	    <label>_Entire workbook</label>
+	    <active>True</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>where</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkRadioButton</class>
+	    <name>scope_sheet</name>
+	    <tooltip>Search in current sheet only</tooltip>
+	    <can_focus>True</can_focus>
+	    <label>_Current sheet</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
+	    <group>where</group>
+	    <child>
+	      <padding>0</padding>
+	      <expand>False</expand>
+	      <fill>False</fill>
+	    </child>
+	  </widget>
+
+	  <widget>
+	    <class>GtkHBox</class>
+	    <name>range_hbox</name>
 	    <homogeneous>False</homogeneous>
-	    <spacing>4</spacing>
+	    <spacing>0</spacing>
+	    <child>
+	      <padding>0</padding>
+	      <expand>True</expand>
+	      <fill>True</fill>
+	    </child>
 
 	    <widget>
 	      <class>GtkRadioButton</class>
-	      <name>scope_workbook</name>
-	      <tooltip>Search in all cells in the workbook</tooltip>
+	      <name>scope_range</name>
+	      <tooltip>Search in specified range only</tooltip>
 	      <can_focus>True</can_focus>
-	      <label>_Entire workbook</label>
-	      <active>True</active>
-	      <draw_indicator>True</draw_indicator>
-	      <group>where</group>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkRadioButton</class>
-	      <name>scope_sheet</name>
-	      <tooltip>Search in current sheet only</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>_Current sheet</label>
+	      <label>_Range</label>
 	      <active>False</active>
 	      <draw_indicator>True</draw_indicator>
 	      <group>where</group>
@@ -312,35 +376,7 @@
 	    </widget>
 
 	    <widget>
-	      <class>GtkHBox</class>
-	      <name>range_hbox</name>
-	      <homogeneous>False</homogeneous>
-	      <spacing>4</spacing>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-
-	      <widget>
-		<class>GtkRadioButton</class>
-		<name>scope_range</name>
-		<tooltip>Search in specified range only</tooltip>
-		<can_focus>True</can_focus>
-		<label>R_ange</label>
-		<active>False</active>
-		<draw_indicator>True</draw_indicator>
-		<group>where</group>
-		<child>
-		  <padding>0</padding>
-		  <expand>False</expand>
-		  <fill>False</fill>
-		</child>
-	      </widget>
-
-	      <widget>
-		<class>Placeholder</class>
-	      </widget>
+	      <class>Placeholder</class>
 	    </widget>
 	  </widget>
 	</widget>
@@ -349,8 +385,8 @@
       <widget>
 	<class>GtkLabel</class>
 	<child_name>Notebook:tab</child_name>
-	<name>label3</name>
-	<label>Normal</label>
+	<name>label1</name>
+	<label>_Normal</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
@@ -361,21 +397,21 @@
 
       <widget>
 	<class>GtkVBox</class>
-	<name>vbox7</name>
+	<name>vbox4</name>
 	<border_width>4</border_width>
 	<homogeneous>False</homogeneous>
 	<spacing>4</spacing>
 
 	<widget>
 	  <class>GtkFrame</class>
-	  <name>frame4</name>
+	  <name>frame3</name>
 	  <label>Search cells containing</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
-	    <fill>False</fill>
+	    <fill>True</fill>
 	  </child>
 
 	  <widget>
@@ -500,14 +536,14 @@
 
 	<widget>
 	  <class>GtkFrame</class>
-	  <name>frame7</name>
+	  <name>frame4</name>
 	  <label>Miscellanea</label>
 	  <label_xalign>0</label_xalign>
 	  <shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
 	  <child>
 	    <padding>0</padding>
 	    <expand>False</expand>
-	    <fill>False</fill>
+	    <fill>True</fill>
 	  </child>
 
 	  <widget>
@@ -516,21 +552,6 @@
 	    <border_width>4</border_width>
 	    <homogeneous>False</homogeneous>
 	    <spacing>4</spacing>
-
-	    <widget>
-	      <class>GtkCheckButton</class>
-	      <name>match_words</name>
-	      <tooltip>Do not consider matches in the middle of words</tooltip>
-	      <can_focus>True</can_focus>
-	      <label>_Match whole words only</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
 
 	    <widget>
 	      <class>GtkHBox</class>
@@ -562,7 +583,7 @@
 		<class>GtkRadioButton</class>
 		<name>column_major</name>
 		<tooltip>Search column by column</tooltip>
-		<label>Co_lumn major</label>
+		<label>C_olumn major</label>
 		<active>False</active>
 		<draw_indicator>True</draw_indicator>
 		<group>search_direction</group>
@@ -580,8 +601,8 @@
       <widget>
 	<class>GtkLabel</class>
 	<child_name>Notebook:tab</child_name>
-	<name>label4</name>
-	<label>Advanced</label>
+	<name>label2</name>
+	<label>_Advanced</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
 	<xalign>0.5</xalign>
@@ -589,199 +610,31 @@
 	<xpad>0</xpad>
 	<ypad>0</ypad>
       </widget>
-    </widget>
-  </widget>
-</widget>
-
-<widget>
-  <class>GnomeDialog</class>
-  <name>search_notify_dialog</name>
-  <visible>False</visible>
-  <title>Match Found</title>
-  <type>GTK_WINDOW_TOPLEVEL</type>
-  <position>GTK_WIN_POS_NONE</position>
-  <modal>False</modal>
-  <allow_shrink>False</allow_shrink>
-  <allow_grow>False</allow_grow>
-  <auto_shrink>False</auto_shrink>
-  <auto_close>False</auto_close>
-  <hide_on_close>False</hide_on_close>
-
-  <widget>
-    <class>GtkVBox</class>
-    <child_name>GnomeDialog:vbox</child_name>
-    <name>dialog-vbox2</name>
-    <homogeneous>False</homogeneous>
-    <spacing>8</spacing>
-    <child>
-      <padding>4</padding>
-      <expand>True</expand>
-      <fill>True</fill>
-    </child>
-
-    <widget>
-      <class>GtkHButtonBox</class>
-      <child_name>GnomeDialog:action_area</child_name>
-      <name>dialog-action_area2</name>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
-      <spacing>8</spacing>
-      <child_min_width>85</child_min_width>
-      <child_min_height>27</child_min_height>
-      <child_ipad_x>7</child_ipad_x>
-      <child_ipad_y>0</child_ipad_y>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>True</fill>
-	<pack>GTK_PACK_END</pack>
-      </child>
 
       <widget>
-	<class>GtkButton</class>
-	<name>button1</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_NEXT</stock_button>
-      </widget>
+	<class>GtkVBox</class>
+	<name>matches_vbox</name>
+	<width>500</width>
+	<height>150</height>
+	<homogeneous>False</homogeneous>
+	<spacing>0</spacing>
 
-      <widget>
-	<class>GtkButton</class>
-	<name>button3</name>
-	<can_default>True</can_default>
-	<can_focus>True</can_focus>
-	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>
-      </widget>
-    </widget>
-
-    <widget>
-      <class>GtkLabel</class>
-      <name>label5</name>
-      <label>Match Found</label>
-      <justify>GTK_JUSTIFY_CENTER</justify>
-      <wrap>False</wrap>
-      <xalign>0.5</xalign>
-      <yalign>0.5</yalign>
-      <xpad>0</xpad>
-      <ypad>0</ypad>
-      <child>
-	<padding>0</padding>
-	<expand>False</expand>
-	<fill>False</fill>
-      </child>
-    </widget>
-
-    <widget>
-      <class>GtkTable</class>
-      <name>table3</name>
-      <rows>2</rows>
-      <columns>2</columns>
-      <homogeneous>False</homogeneous>
-      <row_spacing>4</row_spacing>
-      <column_spacing>4</column_spacing>
-      <child>
-	<padding>0</padding>
-	<expand>True</expand>
-	<fill>True</fill>
-      </child>
-
-      <widget>
-	<class>GtkLabel</class>
-	<name>label6</name>
-	<label>Location</label>
-	<justify>GTK_JUSTIFY_CENTER</justify>
-	<wrap>False</wrap>
-	<xalign>0</xalign>
-	<yalign>0.5</yalign>
-	<xpad>0</xpad>
-	<ypad>0</ypad>
-	<child>
-	  <left_attach>0</left_attach>
-	  <right_attach>1</right_attach>
-	  <top_attach>1</top_attach>
-	  <bottom_attach>2</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkEntry</class>
-	<name>sn_location</name>
-	<can_focus>True</can_focus>
-	<editable>False</editable>
-	<text_visible>True</text_visible>
-	<text_max_length>0</text_max_length>
-	<text></text>
-	<child>
-	  <left_attach>1</left_attach>
-	  <right_attach>2</right_attach>
-	  <top_attach>1</top_attach>
-	  <bottom_attach>2</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
+	<widget>
+	  <class>Placeholder</class>
+	</widget>
       </widget>
 
       <widget>
 	<class>GtkLabel</class>
-	<name>label7</name>
-	<label>Searching for</label>
+	<child_name>Notebook:tab</child_name>
+	<name>matches_tab</name>
+	<label>_Matches</label>
 	<justify>GTK_JUSTIFY_CENTER</justify>
 	<wrap>False</wrap>
-	<xalign>0</xalign>
+	<xalign>0.5</xalign>
 	<yalign>0.5</yalign>
 	<xpad>0</xpad>
 	<ypad>0</ypad>
-	<child>
-	  <left_attach>0</left_attach>
-	  <right_attach>1</right_attach>
-	  <top_attach>0</top_attach>
-	  <bottom_attach>1</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>False</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
-      </widget>
-
-      <widget>
-	<class>GtkEntry</class>
-	<name>sn_searchtext</name>
-	<can_focus>True</can_focus>
-	<editable>False</editable>
-	<text_visible>True</text_visible>
-	<text_max_length>0</text_max_length>
-	<text></text>
-	<child>
-	  <left_attach>1</left_attach>
-	  <right_attach>2</right_attach>
-	  <top_attach>0</top_attach>
-	  <bottom_attach>1</bottom_attach>
-	  <xpad>0</xpad>
-	  <ypad>0</ypad>
-	  <xexpand>True</xexpand>
-	  <yexpand>False</yexpand>
-	  <xshrink>False</xshrink>
-	  <yshrink>False</yshrink>
-	  <xfill>True</xfill>
-	  <yfill>False</yfill>
-	</child>
       </widget>
     </widget>
   </widget>

@@ -58,15 +58,13 @@ gboolean dialog_choose_cols_vs_rows (WorkbookControlGUI *wbcg, const char *title
 
 typedef gboolean (*SearchDialogCallback) (WorkbookControlGUI *wbcg, SearchReplace *sr);
 void dialog_search_replace (WorkbookControlGUI *wbcg, SearchDialogCallback cb);
-void dialog_search (WorkbookControlGUI *wbcg, SearchDialogCallback cb);
 int dialog_search_replace_query (WorkbookControlGUI *wbcg,
 				 SearchReplace *sr,
 				 const char *location,
 				 const char *old_text,
 				 const char *new_text);
-int dialog_search_notify (WorkbookControlGUI *wbcg,
-			  SearchReplace *sr,
-			  const char *location);
+
+void dialog_search (WorkbookControlGUI *wbcg);
 
 FunctionDefinition *dialog_function_select (WorkbookControlGUI *wbcg);
 
