@@ -412,13 +412,20 @@ format_page_update_preview (StfDialogData *pagedata)
 
 		if (NULL == g_object_get_data (G_OBJECT (column), "checkbox")) {
 			GtkWidget *box = gtk_hbox_new (FALSE,5);
+			GtkWidget *vbox = gtk_vbox_new (FALSE,5);
 			GtkWidget *check = gtk_check_button_new ();
 			char * label_text = g_strdup_printf 
 				(pagedata->format.col_header, i+1);
 			GtkWidget *label = gtk_label_new (label_text);
+			GnmFormat *sfg = style_format_general ();
+			GtkWidget *format_label = gtk_label_new 
+				(number_format_selector_format_classification (sfg));
 			
 			g_free (label_text);
-		
+			style_format_unref (sfg);
+			gtk_misc_set_alignment (GTK_MISC (format_label), 0, 0);
+			gtk_misc_set_alignment (GTK_MISC (label), 0, 0);
+
 			g_object_set (G_OBJECT (stf_preview_get_cell_renderer 
 						(pagedata->format.renderdata, i)), 
 				      "strikethrough", 
@@ -435,15 +442,20 @@ format_page_update_preview (StfDialogData *pagedata)
 			g_object_set_data (G_OBJECT (check), "pagedata", pagedata);
 			gtk_box_pack_start (GTK_BOX(box), check, FALSE, FALSE, 0);
 			gtk_box_pack_start (GTK_BOX(box), label, TRUE, TRUE, 0);
-			gtk_widget_show_all (box);
+			gtk_box_pack_start (GTK_BOX(vbox), box, FALSE, FALSE, 0);
+			gtk_box_pack_start (GTK_BOX(vbox), format_label, TRUE, TRUE, 0);
+			gtk_widget_show_all (vbox);
 			
-			gtk_tree_view_column_set_widget (column, box);
+			gtk_tree_view_column_set_widget (column, vbox);
 			g_object_set_data (G_OBJECT (column), "pagedata", pagedata);
 			g_object_set_data (G_OBJECT (column), "checkbox", check);
+			g_object_set_data (G_OBJECT (column), "formatlabel", format_label);
 			g_object_set_data (G_OBJECT (column->button), 
 					   "pagedata", pagedata);
 			g_object_set_data (G_OBJECT (column->button), 
 					   "checkbox", check);
+			g_object_set_data (G_OBJECT (column->button), 
+					   "formatlabel", format_label);
 			g_object_set (G_OBJECT (column), "clickable", TRUE, NULL);
 
 			g_signal_connect (G_OBJECT (check),
@@ -492,12 +504,21 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 {
 	if (data->format.index >= 0) {
 		GnmFormat *sf;
+		GtkTreeViewColumn* column = 
+			stf_preview_get_column (data->format.renderdata, 
+						data->format.index);
+		GtkWidget *w = g_object_get_data (G_OBJECT (column), 
+						  "formatlabel");
 
-		sf = g_ptr_array_index (data->format.formats, data->format.index);
+		sf = g_ptr_array_index (data->format.formats, 
+					data->format.index);
 		style_format_unref (sf);
 
+		sf = style_format_new_XL (fmt, FALSE);
+		gtk_label_set_text (GTK_LABEL (w), 
+				    number_format_selector_format_classification (sf));
 		g_ptr_array_index (data->format.formats, data->format.index) =
-			style_format_new_XL (fmt, FALSE);
+			sf;
 	}
 
 	format_page_update_preview (data);

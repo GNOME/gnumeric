@@ -44,5 +44,9 @@ void		number_format_selector_editable_enters (NumberFormatSelector *nfs,
 void		number_format_selector_set_locale (NumberFormatSelector *nfs, 
 						   char const *locale);
 
+/* Number Format Selector Utilities */
+
+char const *    number_format_selector_format_classification (GnmFormat const *style_format);
+
 #endif /*__WIDGET_FORMAT_SELECTOR_H__*/
 

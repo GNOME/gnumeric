@@ -1184,3 +1184,16 @@ number_format_selector_set_locale (NumberFormatSelector *nfs,
 
 	cb_format_class_changed (NULL, nfs);
 }
+
+/* The following utility function should possibly be in format.h but we */
+/* access to the array of category names which are better located here. */
+char const *    
+number_format_selector_format_classification (GnmFormat const *style_format)
+{
+  	FormatFamily page = style_format->family;
+
+	if (page < 0 || page > FMT_CUSTOM)
+		page = FMT_CUSTOM; /* Default to custom */
+
+	return _(format_category_names[page]);
+}

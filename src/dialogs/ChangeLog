@@ -1,5 +1,12 @@
 2004-10-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=154140
+	* dialog-stf-format-page.c (format_page_update_preview): add
+	  format label to column headers
+	(cb_number_format_changed): change format label in column header
+
+2004-10-26  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=154137
 	* dialog-stf-fixed-page.c (popup_elements): change text
 
