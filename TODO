@@ -4,10 +4,8 @@ Gnumeric Spread Sheet task list
 
 * Printing
 
-  * Provide margin_a and margin_b as points.
   * Save print information in workbook
   * Load print information from workbook
-  * Load print defaults at startup.
   * Preview
   * Print setup: 
     * connect Print Preview, Options buttons
@@ -22,7 +20,6 @@ Gnumeric Spread Sheet task list
   * Display printing status (pages to go).
   * Add column/row title printing
   * Add color printing support.
-  * Add multi-line cell printing support.
 
 * Cell editing
 

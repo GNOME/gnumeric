@@ -360,6 +360,41 @@ style_new (void)
 	return style;
 }
 
+guint
+style_hash (gpointer a)
+{
+	Style *style = (Style *) a;
+
+	return ((int) style->format) ^ ((int) style->font) ^ ((int) style->border)
+		^ ((int) style->fore_color) ^ ((int) style->back_color);
+}
+
+gint
+style_compare (gpointer a, gpointer b)
+{
+	Style *sa, *sb;
+
+	sa = (Style *) a;
+	sb = (Style *) b;
+
+	if (sa->format != sb->format)
+		return FALSE;
+	if (sa->font != sb->font)
+		return FALSE;
+	if (sa->border != sb->border)
+		return FALSE;
+	if (sa->fore_color != sb->fore_color)
+		return FALSE;
+	if (sa->halign != sb->halign)
+		return FALSE;
+	if (sa->valign != sb->valign)
+		return FALSE;
+	if (sa->orientation != sb->orientation)
+		return FALSE;
+
+	return TRUE;
+}
+
 Style *
 style_new_empty (void)
 {

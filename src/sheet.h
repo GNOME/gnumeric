@@ -454,12 +454,11 @@ typedef gboolean (*WorkbookCallback)(Workbook *, gpointer data);
 void     workbook_foreach             (WorkbookCallback cback,
 				       gpointer data);
 
-
-
-void	workbook_fixup_references	(Workbook *wb, Sheet *sheet, int col, int row,
+void	workbook_fixup_references	(Workbook *wb, Sheet *sheet,
+					 int col, int row,
 					 int coldelta, int rowdelta);
-
-void	workbook_invalidate_references	(Workbook *wb, Sheet *sheet, int col, int row,
+void	workbook_invalidate_references	(Workbook *wb, Sheet *sheet,
+					 int col, int row,
 					 int colcount, int rowcount);
 
 /*

@@ -1,3 +1,34 @@
+1999-06-23  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/xml-io.c: Major updates.  
+	(xml_read_colrow_info): Use floating point for loading the
+	units, margin_a and margin_b.
+	(xml_write_colrow_info): Save units, margin_a and margin_b using
+	floating point.
+	(xml_set_value_double): Activate this function.
+	(xml_write_cell): Do not save the style here.  Lookup the style
+	id, and write a record with the style id link.
+	(xml_sheet_write): Add call to xml_cell_styles_init and
+	xml_cell_styles_shutdown to init and shutdown the cell styles in a
+	per-sheet basis.
+
+	Renamed functions to suit the gnumeric coding
+	sytle.  Fixed indentation.
+
+	File format now saves a different version.  We store all cell
+	styles first, and then we reference them.
+	
+	(parse_xml_context_t): renamed from
+	parseXmlContext.  Add style_table hash table for storing all the
+	styles used by the cells on a workbook.  Used to dump Styles first
+	and then have the cells reference it.
+
+	* src/style.c (style_hash, style_compare): New routines to
+	put Styles on hash tables.
+
+	* src/workbook.c (workbook_sheets): Use g_list_prepend instead of
+	g_list_append and reverse the result.
+
 1999-06-14  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/cell.h: Killed ColType and RowType definitions.  They do not

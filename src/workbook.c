@@ -232,8 +232,10 @@ workbook_do_destroy (Workbook *wb)
 	/* First do all deletions that leave the workbook in a working
 	   order.  */
 
-	/* Erase all cells.  In particular this removes all links between
-	   sheets.  */
+	/*
+	 * Erase all cells.  In particular this removes all links between
+	 * sheets.
+	 */
 	g_hash_table_foreach (wb->sheets, cb_sheet_do_erase, NULL);
 
 	if (wb->auto_expr){
@@ -2183,6 +2185,14 @@ workbook_set_filename (Workbook *wb, const char *name)
 	workbook_set_title (wb, g_basename (name));
 }
 
+/*
+ * workbook_foreach:
+ * @cback: a pointer to a routine of type WorkbookCallback to invoke.
+ * @data: data passed to the callback.
+ *
+ * This invokes the routine @cback for every workbook open currently
+ * by gnumeric
+ */
 void
 workbook_foreach (WorkbookCallback cback, gpointer data)
 {
@@ -2310,10 +2320,10 @@ workbook_sheets (Workbook *wb)
 		w = gtk_notebook_get_nth_page (notebook, i);
 		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
 		
-		list = g_list_append (list, this_sheet);
+		list = g_list_prepend (list, this_sheet);
 	}
 
-	return list;
+	return g_list_reverse (list);
 }
 
 typedef struct {

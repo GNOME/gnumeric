@@ -342,7 +342,7 @@ workbook_save (Workbook *wb)
 		return;
 	}
 
-	gnumericWriteXmlWorkbook (wb, wb->filename);
+	gnumeric_xml_write_workbook (wb, wb->filename);
 }
 
 char *

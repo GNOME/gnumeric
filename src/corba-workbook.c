@@ -81,7 +81,7 @@ Workbook_save_to (PortableServer_Servant servant, const CORBA_char * filename, C
 {
         Workbook *workbook = workbook_from_servant (servant);
 
-	gnumericWriteXmlWorkbook (workbook, filename);
+	gnumeric_xml_write_workbook (workbook, filename);
 }
 
 static GNOME_Gnumeric_Sheet

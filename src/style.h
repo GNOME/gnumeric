@@ -158,8 +158,15 @@ void           style_border_unref     (StyleBorder *sb);
 StyleBorder   *style_border_new       (StyleBorderType border_type[4],
  				       StyleColor *border_color[4]);
 
+/*
+ * For hashing Styles
+ */
+guint          style_hash    (gconstpointer a);
+gint           style_compare (gconstpointer a, gconstpointer b);
+
 extern StyleFont *gnumeric_default_font;
 extern StyleFont *gnumeric_default_bold_font;
 extern StyleFont *gnumeric_default_italic_font;
 
 #endif /* GNUMERIC_STYLE_H */
+

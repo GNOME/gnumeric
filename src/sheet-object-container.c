@@ -111,7 +111,11 @@ sheet_object_container_land (SheetObject *so)
 		SheetView *sheet_view = l->data;
 		GtkWidget *view;
 
+#if 0
 		view = gnome_bonobo_object_new_view (soc->object_server);
+		
+#endif
+		g_warning ("FIXME");
 		item = make_container_item (so, sheet_view, view);
 		so->realized_list = g_list_prepend (so->realized_list, item);
 	}
@@ -129,7 +133,9 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 	if (soc->client_site == NULL)
 		w = gtk_button_new_with_label (_("Object server"));
 	else {
+#if 0
 		w = gnome_bonobo_object_new_view (soc->object_server);
+#endif
 	}
 	
 	i = make_container_item (so, sheet_view, w);
