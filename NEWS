@@ -7,6 +7,9 @@ Almer:
 	* Fix validation entry sensitivity.
 
 Jody:
+ 	http://bugzilla.gnome.org/show_bug.cgi?id=79735
+	* Avoid mistranslated font names.
+
  	http://bugzilla.gnome.org/show_bug.cgi?id=81897
 	* Actually disable wide character checking if it is not available.
 

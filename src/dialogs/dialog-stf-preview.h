@@ -34,7 +34,6 @@ typedef struct {
 	GArray           *actualwidths;   /* Array containing the actual column widths (without caption sizes) */
 	GPtrArray        *colformats;     /* Array containing the desired column formats */
 
-	GdkFont          *font;           /* font we use for drawing */
 	double            charwidth;      /* Width of 1 character */
 	double            charheight;     /* Height of 1 character */
 
