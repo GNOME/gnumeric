@@ -1,3 +1,18 @@
+2000-10-07  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook-view.c (workbook_view_history_update): Add
+	rudimentary filename canonicalization, so that we do not save
+	relative file names to history list.
+
+	* src/history.c (file_history_cmd): Adapt to new bonobo UI API.
+	(history_menu_insert_items): Complete adaptation to new Bonobo UI
+	API.
+	(history_menu_remove_items): Ditto. Also: Disentangle Bonobo and
+	non Bonobo cases.
+
+	* src/gnumeric.xml: Move FileHistory placeholder in front of
+	FileClose.
+
 2000-10-05  Michael Meeks  <michael@helixcode.com>
 
 	* configure.in (gnumeric_executable): look for bonobo >= 0.20

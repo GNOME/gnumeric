@@ -42,11 +42,11 @@
 			<menuitem name="FileSummary" verb="" _label="Su_mmary..."
 			_descr="Summary information"/>
 	
+			<placeholder name="FileHistory" delimit="both"/>
+
 			<menuitem name="FileClose" verb="" _label="_Close"
 			_descr="Close the current file" pixtype="stock" pixname="Menu_Close"
 			accel="*Control*w"/>
-
-			<placeholder name="FileHistory" delimit="both"/>
 	
 			<menuitem name="FileExit" verb="" _label="E_xit" _descr="Exit the program"
 			pixtype="stock" pixname="Menu_Exit" accel="*Control*q"/>

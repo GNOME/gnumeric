@@ -45,20 +45,22 @@ file_history_cmd (GtkWidget *widget, Workbook *wb)
 static void
 file_history_cmd (BonoboUIHandler *uih, Workbook *wb, const char *path)
 {
-#warning FIXME: broken.
-/*	BonoboUIHandlerMenuItem *item;
+	char *filename, *fullpath;
 	Workbook *new_wb;
 
-	item = bonobo_ui_handler_menu_fetch_one	(uih, path);
+	fullpath = g_strdup_printf ("%s/%s", "/menu/File/FileHistory", path);
+	filename = bonobo_ui_component_get_prop (BONOBO_UI_COMPONENT (uih),
+						 fullpath, "descr", NULL);
+	g_free (fullpath);
 
-	new_wb = workbook_read (workbook_command_context_gui (wb), item->hint);
+	new_wb = workbook_read (workbook_command_context_gui (wb), filename);
 
 	if (new_wb != NULL) {
 		workbook_show (new_wb);
 
 		if (workbook_is_pristine (wb))
 			workbook_unref (wb);
-	}*/
+	}
 }
 #endif
 
@@ -188,6 +190,7 @@ history_menu_insert_items (Workbook *wb, GList *name_list, MenuPos *mp)
 static void
 history_menu_insert_items (Workbook *wb, GList *name_list)
 {
+	BonoboUIComponent *uic;
 	CORBA_Environment ev;
 	gint  accel_number;
 	GList *l;
@@ -195,26 +198,37 @@ history_menu_insert_items (Workbook *wb, GList *name_list)
 	g_return_if_fail (name_list != NULL);
 
 	CORBA_exception_init (&ev);
-
+	uic = BONOBO_UI_COMPONENT (wb->priv->uih);
+	
 	/* Add a new menu item for each item in the history list */
 	accel_number = 1;
+	bonobo_ui_component_freeze (uic, &ev);
 	for (l = name_list; l; l = l->next) {
-		char *str, *label;
-
+		char *id, *str, *label, *filename;
+		
+		id = g_strdup_printf ("FileHistory%d", accel_number);
 		label = history_item_label (l->data, accel_number);
-		str = g_strdup_printf ("<menuitem name=\"FileHistory%d\" label=\"%s\"/>\n",
-				       accel_number, label);
-		bonobo_ui_component_set (BONOBO_UI_COMPONENT (wb->priv->uih),
-					 "/menu/File/FileHistory",
-					 str, &ev);
+		filename = (char *) l->data;
+		str = g_strdup_printf ("<menuitem name=\"%s\" "
+				       "verb=\"%s\" "
+				       "label=\"%s\" "
+				       "descr=\"%s\"/>\n",
+				       id, id, label, filename);
+		bonobo_ui_component_set (uic,
+					 "/menu/File/FileHistory", str, &ev);
+		bonobo_ui_component_add_verb (
+			uic, id, (BonoboUIVerbFn) file_history_cmd, wb);
+		g_free (id);
 		g_free (str);
 		g_free (label);
-		++accel_number;
+		accel_number++;
 	}
+	bonobo_ui_component_thaw (uic, &ev);
 	CORBA_exception_free (&ev);
 }
 #endif
 
+#ifndef ENABLE_BONOBO
 /*
  * Remove the history list items from the file menu of the workbook
  * specified.
@@ -223,12 +237,7 @@ static void
 history_menu_remove_items (Workbook *wb, GList *name_list)
 {
 	gint  accel_number = 1;
-#ifdef ENABLE_BONOBO
-	GList *l;
-	CORBA_Environment ev;
-#endif
 
-#ifndef ENABLE_BONOBO
 	if (name_list) {
 		char *label, *path;
 
@@ -239,18 +248,37 @@ history_menu_remove_items (Workbook *wb, GList *name_list)
 		g_free (label);
 		g_free (path);
 	}
+}
+
 #else
+/*
+ * Remove the history list items from the file menu of the workbook
+ * specified.
+ */
+static void
+history_menu_remove_items (Workbook *wb, GList *name_list)
+{
+	gint  accel_number = 1;
+	BonoboUIComponent *uic;
+	GList *l;
+	CORBA_Environment ev;
+
 	CORBA_exception_init (&ev);
+	uic = BONOBO_UI_COMPONENT (wb->priv->uih);
+	bonobo_ui_component_freeze (uic, &ev);
 	for (l = name_list; l; l = l->next) {
 		char *path;
 
-		path = g_strdup_printf ("/menu/File/FileHistory%d", accel_number);
-		bonobo_ui_component_rm (BONOBO_UI_COMPONENT (wb->priv->uih), path, &ev);
+		path = g_strdup_printf ("/menu/File/FileHistory/FileHistory%d",
+					accel_number++);
+		bonobo_ui_component_rm (BONOBO_UI_COMPONENT (wb->priv->uih),
+					path, &ev);
 		g_free (path);
 	}
+	bonobo_ui_component_thaw (uic, &ev);
 	CORBA_exception_free (&ev);
-#endif
 }
+#endif
 
 /*
  * Remove the history list items from the file menus of all workbooks.

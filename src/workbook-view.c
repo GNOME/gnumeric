@@ -221,8 +221,18 @@ void
 workbook_view_history_update (GList *wl, gchar *filename)
 {
 	gchar   *del_name;
+	gchar   *canonical_name;
 	gboolean add_sep;
 	GList   *hl;
+	gchar *cwd;
+
+	/* Rudimentary filename canonicalization. */
+	if (!g_path_is_absolute (filename)) {
+		cwd = g_get_current_dir ();
+		canonical_name = g_strconcat (cwd, "/", filename, NULL);
+		g_free (cwd);
+	} else
+		canonical_name = g_strdup (filename);
 
 	/* Get the history list */
 	hl = application_history_get_list ();
@@ -230,19 +240,19 @@ workbook_view_history_update (GList *wl, gchar *filename)
 	/* If List is empty, a separator will be needed too. */
 	add_sep = (hl == NULL);
 
-	if (hl && strcmp ((gchar *)hl->data, filename) == 0)
-		/* Do nothing if filename already at head of list */
-		return;
+	/* Do nothing if filename already at head of list */
+	if (hl && strcmp ((gchar *)hl->data, canonical_name) != 0) {
+		history_menu_flush (wl, hl); /* Remove the old entries */
+		
+		/* Update the history list */
+		del_name = application_history_update_list (canonical_name);
+		g_free (del_name);
 
-	history_menu_flush (wl, hl); /* Remove the old entries */
-
-	/* Update the history list */
-	del_name = application_history_update_list (filename);
-	g_free (del_name);
-
-	/* Fill the menus */
-	hl = application_history_get_list ();
-	history_menu_fill (wl, hl, add_sep);
+		/* Fill the menus */
+		hl = application_history_get_list ();
+		history_menu_fill (wl, hl, add_sep);
+	}
+	g_free (canonical_name);
 }
 
 /*
