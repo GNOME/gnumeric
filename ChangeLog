@@ -1,5 +1,10 @@
 2004-06-13  Jody Goldberg <jody@gnome.org>
 
+	* src/command-context-stderr.c : fix class decl to match change to
+	  interface
+
+2004-06-13  Jody Goldberg <jody@gnome.org>
+
 	* configure.in : bump req for libgsf to 1.10.0 (still in cvs)
 
 2004-06-11  Morten Welinder  <terra@gnome.org>

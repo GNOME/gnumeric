@@ -21,7 +21,7 @@ struct _CmdContextStderr {
 	GObject	 base;
 	int	 status;
 };
-typedef GnmCmdContextClass CmdContextStderrClass;
+typedef GObjectClass CmdContextStderrClass;
 
 #define COMMAND_CONTEXT_STDERR_CLASS(k) \
 	(G_TYPE_CHECK_CLASS_CAST ((k), CMD_CONTEXT_STDERR_TYPE, CmdContextStderrClass))
