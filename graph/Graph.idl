@@ -8,8 +8,7 @@
  */
 
 #include <bonobo.idl>
-#include "Gnumeric-value.idl"
-
+#include "src/Gnumeric.idl"
 
 module GNOME {
 
@@ -194,9 +193,6 @@ module GNOME {
 			//
 			void freeze ();
 			void thaw ();
-
-			void reset_series ();
-			void add_series (in string label, in Vector vector);
 		};
 
 		//
@@ -209,9 +205,12 @@ module GNOME {
 		//   * The axis
 		//   * The chart background
 		//
-		interface Layout : GNOME::Unknown {
+		interface Layout : GNOME::Embeddable {
 			Chart get_chart ();
 			Axis  get_axis (in AxisType axis);
+
+			void reset_series ();
+			void add_series (in GNOME::Gnumeric::Vector vector);
 		};
 	};
 };

@@ -9,9 +9,13 @@
 #include <config.h>
 #include <math.h>
 #include <libgnomeui/gnome-canvas.h>
+#include <libgnomeui/gnome-canvas-util.h>
 #include "graph.h"
 #include "graph-view.h"
 #include "graph-view-colbar.h"
+#include "graph-view-plot.h"
+#include "graph-view-scatter.h"
+#include "graph-view-stock.h"
 
 enum {
 	ARG_BBOX,
@@ -24,12 +28,15 @@ static GraphViewClass *graph_view_class;
 static void
 graph_view_destroy (GtkObject *object)
 {
-	GraphView *graph_view = GRAPH_VIEW (object);
+	GTK_OBJECT_CLASS (graph_view_parent_class)->destroy (object);
 }
 
 static void
 graph_view_canvas_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
 {
+	GraphView *graph_view = GRAPH_VIEW (item);
+	int i;
+	
 	if (graph_view_parent_class->update)
 		(*graph_view_parent_class->update)(item, affine, clip_path, flags);
 
@@ -41,7 +48,6 @@ static void
 graph_view_realize (GnomeCanvasItem *item)
 {
 	GraphView *graph_view;
-	GdkWindow  *window;
 	
 	if (graph_view_parent_class->realize)
 		(*graph_view_parent_class->realize)(item);
@@ -52,8 +58,6 @@ graph_view_realize (GnomeCanvasItem *item)
 static void
 graph_view_unrealize (GnomeCanvasItem *item)
 {
-	GraphView *graph_view = GRAPH_VIEW (item);
-
 	if (GNOME_CANVAS_ITEM_CLASS (graph_view_parent_class)->unrealize)
 		(*graph_view_parent_class->unrealize)(item);
 }
@@ -106,9 +110,6 @@ graph_view_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int
 				       x, y, width, height);
 		break;
 	}
-
-
-	graph_view_
 }
 
 static double
@@ -121,8 +122,9 @@ graph_view_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 }
 
 static gint
-item_cursor_event (GnomeCanvasItem *item, GdkEvent *event)
+graph_view_event (GnomeCanvasItem *item, GdkEvent *event)
 {
+	return 0;
 }
 
 static void
@@ -143,7 +145,6 @@ graph_view_class_init (GtkObjectClass *object_class)
 	item_class->unrealize = graph_view_unrealize;
 	item_class->draw      = graph_view_draw;
 	item_class->point     = graph_view_point;
-	item_class->translate = graph_view_translate;
 	item_class->event     = graph_view_event;
 }
 
@@ -161,7 +162,7 @@ graph_view_update (GraphView *graph_view, int dirty_flags)
 		graph_view->dirty_flags &= ~DIRTY_TYPE;
 	}
 	
-	if (graph_view->dirty & (DIRTY_BBOX|DIRTY_SHAPE)){
+	if (graph_view->dirty_flags & (DIRTY_BBOX|DIRTY_SHAPE)){
 		graph_view->dirty_flags &= ~(DIRTY_BBOX | DIRTY_SHAPE);
 	}
 }
@@ -195,12 +196,15 @@ graph_view_set_bbox (GraphView *graph_view, ArtIRect *bbox)
 	g_return_if_fail (graph_view != NULL);
 	g_return_if_fail (IS_GRAPH_VIEW (graph_view));
 	g_return_if_fail (bbox != NULL);
-	
-	if (graph_view->bbox == *bbox)
+
+	if ((graph_view->bbox.x0 == bbox->x0) &&
+	    (graph_view->bbox.x1 == bbox->x1) &&
+	    (graph_view->bbox.y0 == bbox->y0) &&
+	    (graph_view->bbox.y1 == bbox->y1))
 		return;
 	
 	graph_view->bbox = *bbox;
-	graph_view_update (graph_view);
+	graph_view_update (graph_view, DIRTY_BBOX);
 	gnome_canvas_update_bbox (
 		GNOME_CANVAS_ITEM (graph_view),
 		bbox->x0, bbox->y0,
@@ -218,7 +222,7 @@ graph_view_init (GtkObject *object)
 	graph_view->bbox.y1 = 1;
 	
 	graph_view->frozen = 1;
-	graph_view->dirty  = TRUE;
+	graph_view->dirty_flags = DIRTY_ALL;
 }
 
 void

@@ -16,7 +16,7 @@ struct _GraphView {
 	/*
 	 * Display control
 	 */
-	Int       dirty_flags;
+	int       dirty_flags;
 	int       frozen;
 
 	/*
@@ -42,5 +42,6 @@ typedef struct {
 GtkType graph_view_get_type  (void);
 void    graph_view_update    (GraphView *graph_view, int dirty_flags);
 void    graph_view_set_graph (GraphView *graph_view, Graph *graph);
+void    graph_view_set_bbox  (GraphView *graph_view, ArtIRect *bbox);
 
 #endif /* GRAPH_GRAPH_VIEW_H_ */

@@ -23,12 +23,19 @@ typedef struct {
 	int          xl, yl;
 	double       units_per_slot;
 	double       size;	/* |low| + |high| */
+	double       scale;
 } ColbarDrawCtx;
 
 static double
 colbar_map_point (ColbarDrawCtx *ctx, double point)
 {
 	return (fabs (ctx->graph->low) + point) / ctx->scale;
+}
+
+static void
+column_draw (ColbarDrawCtx *ctx, int item,
+	     double x1, double y1, double x2, double y2)
+{
 }
 
 static void
@@ -53,6 +60,8 @@ graph_view_colbar_draw_nth_clustered (ColbarDrawCtx *ctx, int item)
 static void
 graph_view_colbar_draw_nth_stacked (ColbarDrawCtx *ctx, int item)
 {
+	const int n_series = ctx->graph->n_series;
+	int item_base = item * ctx->units_per_slot;
 	double last_pos = 0.0;
 	double last_neg = 0.0;
 	int i;
@@ -83,6 +92,8 @@ graph_view_colbar_draw_nth_stacked (ColbarDrawCtx *ctx, int item)
 static void
 graph_view_colbar_draw_nth_stacked_full (ColbarDrawCtx *ctx, int item)
 {
+	const int n_series = ctx->graph->n_series;
+	int item_base = item * ctx->units_per_slot;
 	double last_pos, last_neg;
 	double total_pos, total_neg;
 	double *values;
@@ -103,13 +114,13 @@ graph_view_colbar_draw_nth_stacked_full (ColbarDrawCtx *ctx, int item)
 	}
 
 	for (i = 0; i < n_series; i++){
-		double v;
-
 		if (values [i] >= 0){
+			double v;
+			
 			if (total_pos == 0.0)
 				v = 0.0;
 			else
-				v = (values [i] * graph->high) / total_pos;
+				v = (values [i] * ctx->graph->high) / total_pos;
 			
 			column_draw (
 				ctx, i,
@@ -118,10 +129,12 @@ graph_view_colbar_draw_nth_stacked_full (ColbarDrawCtx *ctx, int item)
 				last_pos + v);
 			last_pos += v;
 		} else {
+			double v;
+			
 			if (total_neg == 0.0)
 				v = 0.0;
 			else
-				v = (values [i] * graph->low) / total_neg;
+				v = (values [i] * ctx->graph->low) / total_neg;
 			
 			column_draw (
 				ctx, i,
@@ -171,22 +184,19 @@ graph_view_colbar_draw (GraphView *graph_view, GdkDrawable *drawable, int x, int
 	ctx.xl = graph_view->bbox.x1 - graph_view->bbox.x0;
 	ctx.size = fabs (ctx.graph->low) + fabs (ctx.graph->high);
 	
-	if (graph_view->graph->direction == GNOME_GRAPH_DIR_BAR){
+	if (graph_view->graph->direction == GNOME_Graph_DIR_BAR){
 		ctx.units_per_slot = ctx.yl / graph_view->graph->divisions;
-		first = y / units_per_slot;
-		last = (y + width) / units_per_slot;
-		ctx.scale = xl / ctx->size;
+		first = y / ctx.units_per_slot;
+		last = (y + width) / ctx.units_per_slot;
+		ctx.scale = ctx.xl / ctx.size;
 	} else {
-		ctx.units_per_slot = xl / graph_view->graph->divisions;
-		first = x / units_per_slot;
-		last = (x + width) / units_per_slot;
-		ctx.scale = yl / ctx->size;
+		ctx.units_per_slot = ctx.xl / graph_view->graph->divisions;
+		first = x / ctx.units_per_slot;
+		last = (x + width) / ctx.units_per_slot;
+		ctx.scale = ctx.yl / ctx.size;
 	}
 
-	for (i = first; i <= last; i++){
-		int base_x = i * units_per_slot;
-		
+	for (i = first; i <= last; i++)
 		graph_view_colbar_draw_nth (&ctx, i);
-	};
 }
 

@@ -9,6 +9,7 @@
 #include <config.h>
 #include "src/Gnumeric.h"
 #include <bonobo/gnome-object.h>
+#include "vector.h"
 
 static GnomeObjectClass *vector_parent_class;
 
@@ -29,30 +30,36 @@ impl_vector_only_numbers (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Vector *vec = vector_from_servant (servant);
 
-	return vec->type (vec->data);
+	return vec->type (vec->user_data);
 }
 
 static GNOME_Gnumeric_DoubleVec *
-impl_vector_get_numbers (PortableServer_Servant servant, CORBA_short pos, CORBA_Environment * ev)
-{
-	return vec->get_numbers (vec->data);
-}
-
-static GNOME_Gnumeric_VecValueVec *
-impl_vector_get_vec_values (PortableServer_Servant servant, CORBA_Environment * ev)
+impl_vector_get_numbers (PortableServer_Servant servant,
+			 CORBA_short low, CORBA_short high,
+			 CORBA_Environment *ev)
 {
 	Vector *vec = vector_from_servant (servant);
 
-	return vec->get_values (vec->data);
+	return vec->get_numbers (low, high, vec->user_data);
+}
+
+static GNOME_Gnumeric_VecValueVec *
+impl_vector_get_vec_values (PortableServer_Servant servant,
+			    CORBA_short low, CORBA_short high,
+			    CORBA_Environment *ev)
+{
+	Vector *vec = vector_from_servant (servant);
+
+	return vec->get_values (low, high, vec->user_data);
 }
 
 static void
 impl_vector_set (PortableServer_Servant servant, CORBA_short pos,
-		 GNOME_Gnumeric_VecValue *val, CORBA_Environment *ev)
+		 CORBA_double val, CORBA_Environment *ev)
 {
 	Vector *vec = vector_from_servant (servant);
 
-	vec->set (pos, val, ev, vec->data);
+	vec->set (pos, val, ev, vec->user_data);
 }
 
 static void
@@ -66,11 +73,11 @@ impl_vector_set_notify (PortableServer_Servant servant,
 }
 
 static CORBA_short
-impl_vector_count (PortableServer_Servant servant, CORBA_Environment * ev)
+impl_vector_count (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Vector *vec = vector_from_servant (servant);
 
-	return vec->count (vec->data);
+	return vec->len (vec->user_data);
 }
 
 static void
@@ -92,7 +99,7 @@ vector_class_init (GtkObjectClass *object_class)
 {
 	vector_parent_class = gtk_type_class (gnome_object_get_type ());
 	
-	object_class->destroy = vecto_destroy;
+	object_class->destroy = vector_destroy;
 	
 	init_vector_corba_class ();
 }
@@ -113,8 +120,8 @@ vector_get_type (void)
 	if (!type){
 		GtkTypeInfo info = {
 			"GnumericVector",
-			sizeof (Graph),
-			sizeof (GraphClass),
+			sizeof (Vector),
+			sizeof (VectorClass),
 			(GtkClassInitFunc) vector_class_init,
 			(GtkObjectInitFunc) vector_init,
 			NULL, /* reserved 1 */
@@ -134,8 +141,8 @@ vector_corba_object_create (GnomeObject *object)
 	POA_GNOME_Gnumeric_Vector *servant;
 	CORBA_Environment ev;
 	
-	servant = (POA_GNOME_View *) g_new0 (GnomeObjectServant, 1);
-	servant->vepv = &gnome_view_vepv;
+	servant = (POA_GNOME_Gnumeric_Vector *) g_new0 (GnomeObjectServant, 1);
+	servant->vepv = &vector_vepv;
 
 	CORBA_exception_init (&ev);
 	POA_GNOME_Gnumeric_Vector__init ((PortableServer_Servant) servant, &ev);
@@ -150,15 +157,14 @@ vector_corba_object_create (GnomeObject *object)
 }
 
 Vector *
-vector_new (VectorTypeFn type, VectorGetNumFn get_numbers,
-	    VectorGetValFn get_values, VectorSetFn set,
-	    VectorLenFn len, VectorNotifyFn notify,
-	    void *data)
+vector_new (VectorGetNumFn get, VectorGetValFn,
+	    VectorSetFn set, VectorLenFn len,
+	    GNOME_Gnumeric_VectorNotify notify,
+	    void *data);
 {
 	Vector *vector;
 	GNOME_Gnumeric_Vector corba_vector;
 	
-	g_return_val_if_fail (type != NULL, NULL);
 	g_return_val_if_fail (get_numbers != NULL, NULL);
 	g_return_val_if_fail (get_values != NULL, NULL);
 	g_return_val_if_fail (set != NULL, NULL);
@@ -173,7 +179,7 @@ vector_new (VectorTypeFn type, VectorGetNumFn get_numbers,
 		return NULL;
 	}
 	
-	gnome_object_construct (GNOME_OBJECT (vector));
+	gnome_object_construct (GNOME_OBJECT (vector), corba_vector);
 
 	vector->type = type;
 	vector->get_numbers = get_numbers;
@@ -186,7 +192,7 @@ vector_new (VectorTypeFn type, VectorGetNumFn get_numbers,
 }
 	
 void
-vector_changed (Vector *vector, int pos)
+vector_changed (Vector *vector, int low, int high)
 {
 	CORBA_Environment ev;
 	
@@ -197,6 +203,6 @@ vector_changed (Vector *vector, int pos)
 		return;
 
 	CORBA_exception_init (&ev);
-	GNOME_Gnumeric_VectorNotify_changed (vector->notify, pos, &ev);
+	GNOME_Gnumeric_VectorNotify_changed (vector->notify, low, high, &ev);
 	CORBA_exception_free (&ev);
 }

@@ -19,10 +19,18 @@ GRAPH_CORBA_GENERATED = 		\
 graph_SOURCES =			\
 	graph.c			\
 	graph.h			\
+	graph-vector.c		\
+	graph-vector.h		\
 	graph-view.c		\
 	graph-view.h		\
 	graph-view-colbar.c	\
 	graph-view-colbar.h	\
+	graph-view-plot.c	\
+	graph-view-plot.h	\
+	layout.c		\
+	layout.h		\
+	layout-view.c		\
+	layout-view.h		\
 	vector.c		\
 	vector.h		\
 	$(GRAPH_CORBA_GENERATED)
@@ -32,7 +40,7 @@ BUILT_SOURCES = $(GRAPH_CORBA_GENERATED)
 $(GRAPH_CORBA_GENERATED): my_graph_idl
 
 my_graph_idl: Graph.idl $(top_srcdir)/src/Gnumeric-value.idl $(top_srcdir)/src/Gnumeric.idl
-	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) $(srcdir)/Graph.idl
+	orbit-idl -I`$(GNOME_CONFIG) --datadir`/idl -I$(srcdir) -I$(top_srcdir) $(srcdir)/Graph.idl
 	touch my_graph_idl
 
 CLEANFILES = my_graph_idl

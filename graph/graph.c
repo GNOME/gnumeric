@@ -7,7 +7,9 @@
  * (C) 1999 International GNOME Support
  */
 #include <config.h>
+#include <gtk/gtksignal.h>
 #include "graph.h"
+#include "graph-vector.h"
 #include "graph-view.h"
 
 static GnomeObjectClass *graph_parent_class;
@@ -53,7 +55,7 @@ impl_graph_get_chart_type (PortableServer_Servant servant, CORBA_Environment *ev
 static void
 graph_compute_divisions (Graph *graph)
 {
-	const int n = graph->n_series;
+	const int n = graph->layout->n_series;
 	int i;
 	int len = 0;
 
@@ -84,7 +86,7 @@ graph_set_low_high (Graph *graph, double low, double high)
 static void
 graph_compute_dimensions (Graph *graph)
 {
-	const int n = graph->n_series;
+	const int n = graph->layout->n_series;
 	double low = 0.0, high = 0.0;
 	int i;
 
@@ -105,8 +107,8 @@ graph_compute_dimensions (Graph *graph)
 static void
 graph_compute_stacked_dimensions (Graph *graph)
 {
-	const int n = graph->n_series;
-	int len = 0;
+	const int n = graph->layout->n_series;
+	int len = 0, x;
 	double high, low;
 
 	graph_compute_divisions (graph);
@@ -114,8 +116,9 @@ graph_compute_stacked_dimensions (Graph *graph)
 	
 	for (x = 0; x < len; x++){
 		double s_high;
-		doublw s_low;
-
+		double s_low;
+		int i;
+		
 		s_high = s_low = 0.0;
 		
 		for (i = 0; i < n; i++){
@@ -159,9 +162,12 @@ impl_graph_set_chart_type (PortableServer_Servant servant,
 	case GNOME_Graph_CHART_TYPE_STACKED_FULL:
 		graph_compute_stacked_dimensions (graph);
 		break;
+
+	default:
+		break;
 	}
 	
-	graph_update (graph);
+	graph_update (graph, DIRTY_TYPE | DIRTY_SHAPE);
 }
 
 static GNOME_Graph_PlotMode
@@ -181,7 +187,7 @@ impl_graph_set_plot_mode (PortableServer_Servant servant,
 
 	if (graph->plot_mode != value){
 		graph->plot_mode = value;
-		graph_update (graph);
+		graph_update (graph, DIRTY_SHAPE | DIRTY_TYPE);
 	}
 }
 
@@ -202,7 +208,7 @@ impl_graph_set_col_bar_mode (PortableServer_Servant servant,
 
 	if (graph->col_bar_mode != value){
 		graph->col_bar_mode = value;
-		graph_update (graph);
+		graph_update (graph, DIRTY_SHAPE);
 	}
 }
 
@@ -223,7 +229,7 @@ impl_graph_set_direction (PortableServer_Servant servant,
 
 	if (graph->direction != value){
 		graph->direction = value;
-		graph_update (graph);
+		graph_update (graph, DIRTY_SHAPE);
 	}
 }
 
@@ -244,7 +250,7 @@ impl_graph_set_line_mode (PortableServer_Servant servant,
 
 	if (graph->line_mode != value){
 		graph->line_mode = value;
-		graph_update (graph);
+		graph_update (graph, DIRTY_SHAPE);
 	}
 }
 
@@ -265,7 +271,7 @@ impl_graph_set_pie_mode (PortableServer_Servant servant,
 
 	if (graph->pie_mode != value){
 		graph->pie_mode = value;
-		graph_update (graph);
+		graph_update (graph, DIRTY_SHAPE);
 	}
 }
 
@@ -286,7 +292,7 @@ impl_graph_set_pie_dim (PortableServer_Servant servant,
 
 	if (graph->pie_dim != value){
 		graph->pie_dim = value;
-		graph_update (graph);
+		graph_update (graph, DIRTY_SHAPE);
 	}
 }
 
@@ -307,7 +313,7 @@ impl_graph_set_scatter_mode (PortableServer_Servant servant,
 
 	if (graph->scatter_mode != value){
 		graph->scatter_mode = value;
-		graph_update (graph);
+		graph_update (graph, DIRTY_SHAPE);
 	}
 }
 
@@ -328,7 +334,7 @@ impl_graph_set_scatter_conn (PortableServer_Servant servant,
 
 	if (graph->scatter_conn != value){
 		graph->scatter_conn = value;
-		graph_update (graph);
+		graph_update (graph, DIRTY_SHAPE);
 	}
 }
 
@@ -347,7 +353,7 @@ impl_graph_set_surface_mode (PortableServer_Servant servant, GNOME_Graph_Surface
 
 	if (graph->surface_mode != value){
 		graph->surface_mode = value;
-		graph_update (graph);
+		graph_update (graph, DIRTY_SHAPE);
 	}
 }
 
@@ -367,36 +373,6 @@ impl_graph_thaw (PortableServer_Servant servant, CORBA_Environment *ev)
 	graph->frozen--;
 	if ((graph->frozen == 0) && (graph->dirty_flags != 0))
 		graph_update (graph, 0);
-}
-
-static void
-impl_reset_series (PortableServer_Servant servant, CORBA_Environment *ev)
-{
-	Graph *graph = graph_from_servant (servant);
-	const int n = graph->n_series;
-	int i;
-	
-	for (i = 0; i < n; i++)
-		graph_vector_destroy (graph->vectors [i]);
-	g_free (graph->vectors);
-	graph->vectors = NULL;
-	graph->n_series = 0;
-}
-
-static void
-impl_add_series (PortableServer_Servant servant, GNOME_Gnumeric_Vector vector, CORBA_Environment *ev)
-{
-	Graph *graph = graph_from_servant (servant);
-	GraphVector *v;
-	
-	v = g_renew (GraphVector *, graph->vectors, graph->n_series+1);
-	if (v == NULL){
-		CORBA_exception_set_system (ev, ex_CORBA_NO_MEMORY, CORBA_COMPLETED_NO);
-		return;
-	}
-	
-	graph->series [graph->n_series] = graph_vector_new (vector, NULL, NULL, 0);
-	graph->n_series++;
 }
 
 static void
@@ -426,9 +402,6 @@ init_graph_corba_class (void)
 	graph_epv.freeze = &impl_graph_freeze;
 	graph_epv.thaw   = &impl_graph_thaw;
 
-	graph_epv.reset_series = &impl_reset_series;
-	graph_epv.add_series   = &impl_add_series;
-	
 	/*
 	 * The Vepv
 	 */
@@ -449,6 +422,8 @@ graph_class_init (GtkObjectClass *object_class)
 static void
 graph_init (GtkObject *object)
 {
+	Graph *graph = GRAPH (object);
+	
 	graph->dirty_flags = 0;
 }
 
@@ -475,6 +450,12 @@ graph_get_type (void)
 	return type;
 }
 
+static void
+graph_view_destroyed (GraphView *graph_view, Graph *graph)
+{
+	graph->views = g_slist_remove (graph->views, graph_view);
+}
+
 void
 graph_bind_view (Graph *graph, GraphView *graph_view)
 {
@@ -485,4 +466,7 @@ graph_bind_view (Graph *graph, GraphView *graph_view)
 
 	graph_view_set_graph (graph_view, graph);
 	graph->views = g_slist_prepend (graph->views, graph_view);
+
+	gtk_signal_connect (GTK_OBJECT (graph_view), "destroy",
+			    GTK_SIGNAL_FUNC (graph_view_destroyed), graph);
 }

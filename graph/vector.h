@@ -14,9 +14,9 @@ BEGIN_GNOME_DECLS
 #define IS_VECTOR(o)       (GTK_CHECK_TYPE ((o), VECTOR_TYPE))
 #define IS_VECTOR_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), VECTOR_TYPE))
 
-typedef GNOME_Gnumeric_DoubleVec   *(*VectorGetNumFn)(void *data);
-typedef GNOME_Gnumeric_VecValueVec *(*VectorGetValFn)(void *data);
-typedef void (*VectorSetFn) (CORBA_short pos, double value, CORBA_Environment *ev, void *data);
+typedef GNOME_Gnumeric_DoubleVec   *(*VectorGetNumFn)(CORBA_short low, CORBA_short high, void *data);
+typedef GNOME_Gnumeric_VecValueVec *(*VectorGetValFn)(CORBA_short low, CORBA_short high, void *data);
+typedef void (*VectorSetFn) (CORBA_short pos, double val, CORBA_Environment *ev, void *data);
 typedef CORBA_short (*VectorLenFn) (void *data);
 typedef CORBA_boolean (*VectorTypeFn)(void *data);
 
@@ -39,10 +39,11 @@ typedef struct {
 } VectorClass;
 
 GtkType      vector_get_type      (void);
-Vector      *vector_new           (VectorGetFn get, VectorSetFn set,
-				   VectorLenFn len, VectorNotifyFn notify,
+Vector      *vector_new           (VectorGetNumFn get, VectorGetValFn,
+				   VectorSetFn set, VectorLenFn len,
+				   GNOME_Gnumeric_VectorNotify notify,
 				   void *data);
-void         vector_changed       (Vector *vector, int pos);
+void         vector_changed       (Vector *vector, int low, int high);
 
 END_GNOME_DECLS
 

@@ -37,16 +37,12 @@ typedef struct {
 	int      dirty_flags;
 
 	/*
-	 * Number of series we hold
-	 */
-	int         n_series;
-	GraphVector *vectors;
-
-	/*
 	 * Series boundings
 	 */
 	double      low, high;
 	double      real_low, real_high;
+
+	int divisions;
 } Graph;
 
 typedef struct {
@@ -57,13 +53,12 @@ typedef struct {
 #define DIRTY_TYPE  2
 #define DIRTY_SHAPE 4
 
-GtkType     graph_get_type      (void);
-Graph      *graph_new           (void);
+#define DIRTY_ALL (DIRTY_BBOX | DIRTY_TYPE | DIRTY_SHAPE)
 
-void        graph_bind_view     (Graph *graph, GraphView *graph_view);
+GtkType      graph_get_type      (void);
+Graph       *graph_new           (Layout *layout);
 
-void        graph_get_n_series  (Graph *graph);
-Series     *graph_get_series    (Graph *graph, int n);
+void         graph_bind_view     (Graph *graph, GraphView *graph_view);
 
 END_GNOME_DECLS
 
