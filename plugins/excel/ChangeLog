@@ -1,3 +1,15 @@
+2003-09-27  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (write_funcall) : Use the last specified type for
+	 the remainder of the args in a vararg function.
+
+	* ms-formula-read.c : AND,OR, and IF args appear to be V not R
+
+2003-09-27  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_SST) : be extra careful about unicode
+	  characters > 0xfeff
+
 2003-09-25  Jody Goldberg <jody@gnome.org>
 
 	* ms-escher.c (ms_escher_read_OPT) : dump the complex data too so that

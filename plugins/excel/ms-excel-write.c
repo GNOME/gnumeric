@@ -3886,17 +3886,46 @@ excel_write_SST (ExcelWriteState *ewb)
 			strncpy (ptr + 1, str, char_len);
 			ptr += char_len + 1;
 		} else {
+			unsigned old_out_bytes, count = 0;
+			unsigned old_byte_len = INT_MAX;
+			guint8  *len = ptr - 2; /* stash just in case of problem */
+
 unicode_loop :
 			*ptr++ = 1;	/* unicode header == 1 */
-			out_bytes = last - ptr;
+			old_out_bytes = out_bytes = last - ptr;
 			g_iconv (bp->convert, (char **)&str, &byte_len, (char **)&ptr, &out_bytes);
+			count += old_out_bytes - out_bytes;
 
 			if (byte_len > 0) {
-				ms_biff_put_var_write (bp, data, ptr - data);
-				ms_biff_put_commit (bp);
-				ms_biff_put_var_next (bp, BIFF_CONTINUE);
-				ptr = data;
+				if (old_byte_len == byte_len) {
+					g_warning ("hmm we could not represent character 0x%x, skipping it.",
+						   g_utf8_get_char (str));
+					str = g_utf8_next_char (str);
+				} else {
+					old_byte_len = byte_len;
+					ms_biff_put_var_write (bp, data, ptr - data);
+					ms_biff_put_commit (bp);
+					ms_biff_put_var_next (bp, BIFF_CONTINUE);
+					ptr = data;
+					len = NULL;
+				}
 				goto unicode_loop;
+			}
+
+			if (count != (char_len*2)) {
+				if (len != NULL) {
+					if (count % 1) {
+						g_warning ("W.T.F ???  utf-16 should be 2 byte aligned");
+						*ptr++ = 0;
+						count++;
+					} else {
+						g_warning ("We exported a string containg unicode characters > 0xffff (%s).\n"
+							   "Expect some funky characters to show up.", str);
+					}
+					GSF_LE_SET_GUINT16 (len, (count/2));
+				} else {
+					g_warning ("We're toast a string containg unicode characters > 0xffff crossed a record boundary.");
+				}
 			}
 		}
 	}

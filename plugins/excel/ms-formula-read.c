@@ -38,7 +38,7 @@
 
 ExcelFuncDesc const excel_func_desc [] = {
 /* 0 */	  { "COUNT",		XL_VARARG, 1, 'V', "R" },
-/* 1 */	  { "IF",		XL_VARARG, 2, 'V', "VR" },
+/* 1 */	  { "IF",		XL_VARARG, 2, 'V', "VVV" },
 /* 2 */	  { "ISNA",		XL_FIXED,  1, 'V', "V" },
 /* 3 */	  { "ISERROR",		XL_FIXED,  1, 'V', "V" },
 /* 4 */	  { "SUM",		XL_VARARG, 1, 'V', "R" },
@@ -73,8 +73,8 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 33 */  { "VALUE",		XL_FIXED,  1, 'V', "V" },
 /* 34 */  { "TRUE",		XL_FIXED,  0, 'V', 0 },
 /* 35 */  { "FALSE",		XL_FIXED,  0, 'V', 0 },
-/* 36 */  { "AND",		XL_VARARG, 1, 'V', "R" },
-/* 37 */  { "OR",		XL_VARARG, 1, 'V', "R" },
+/* 36 */  { "AND",		XL_VARARG, 1, 'V', "V" },
+/* 37 */  { "OR",		XL_VARARG, 1, 'V', "V" },
 /* 38 */  { "NOT",		XL_FIXED,  1, 'V', "V" },
 /* 39 */  { "MOD",		XL_FIXED,  2, 'V', "VV" },
 /* 40 */  { "DCOUNT",		XL_FIXED,  3, 'V', "RRR" },

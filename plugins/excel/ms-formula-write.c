@@ -487,6 +487,7 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 	GnmExprList *ptr;
 	GnmFunc *func = expr->func.func;
 	ExcelFunc *ef = g_hash_table_lookup (pd->ewb->function_map, func);
+	XLOpType arg_type = XL_VAL; /* default */
 
 	g_return_if_fail (ef != NULL);
 
@@ -525,10 +526,14 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 				: "Too many args for function, MS Excel only handle %d"),
 				max_args);
 			break;
-		} else /* convert the args */
-			write_node (pd, ptr->data, 0,
-				(arg_types != NULL && *arg_types)
-				? xl_map_char_to_type (*arg_types++) : XL_VAL);
+		} else { /* convert the args */
+			if (arg_types != NULL && *arg_types) {
+				arg_type = xl_map_char_to_type (*arg_types);
+				if (arg_types[1])
+					arg_types++;
+			}
+			write_node (pd, ptr->data, 0, arg_type);
+		}
 
 	if (ef->fd != NULL) {
 		guint8 op_class = xl_get_op_class (pd, 
