@@ -35,6 +35,8 @@
 
 #define EXCEL_DEBUG 0
 
+#define XF_MAGIC_OFFSET (16 + 4)
+
 /* Forward references */
 static MS_EXCEL_SHEET *ms_excel_sheet_new (MS_EXCEL_WORKBOOK * wb, char *name) ;
 static void ms_excel_workbook_attach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans) ;
@@ -762,7 +764,6 @@ ms_excel_palette_destroy (MS_EXCEL_PALETTE * pal)
 }
 
 typedef struct _BIFF_XF_DATA {
-        guint16 index ;
 	guint16 font_idx;
 	guint16 format_idx;
 	StyleFormat *style_format ;
@@ -855,6 +856,8 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, guint16 xfidx)
 {
 	BIFF_XF_DATA *xf;
 	StyleColor *fore;
+	GPtrArray *p;
+	guint16 idx = xfidx - XF_MAGIC_OFFSET;
 
 	if (!cell->value) {
 		if (EXCEL_DEBUG>0)
@@ -870,17 +873,13 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, guint16 xfidx)
 /*		printf ("Default cell formatting\n"); */
     		return;
 	}
-	/*
-	 * if (!cell->text) Crash if formatting and no text...
-	 * cell_set_text_simple(cell, ""); 
-	 * printf ("Looking for %d\n", xfidx); 
-	 */
-	
-	xf = g_hash_table_lookup (sheet->wb->XF_cell_records, &xfidx) ;
-	if (!xf)
-	{
+
+	p = sheet->wb->XF_cell_records;
+	if (p && p->len > idx)
+		xf = g_ptr_array_index (p, idx);
+        else {
 	        printf ("No XF record for %d out of %d found :-(\n",
-			xfidx, g_hash_table_size (sheet->wb->XF_cell_records));
+			xfidx, p?p->len:-666);
 	        return;
 	}
 	if (xf->xftype != eBiffXCell)
@@ -1149,24 +1148,19 @@ biff_xf_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY * q, eBiff_version ver)
 		xf->border_color[STYLE_RIGHT] = (subdata & 0x7f);
 	}
 
-	if (xf->xftype == eBiffXCell)
-	{
-	        xf->index = 16 + 4 + g_hash_table_size (wb->XF_cell_records) ;
-		/*	        printf ("Inserting into cell XF hash with : %d\n", xf->index) ; */
-		g_hash_table_insert (wb->XF_cell_records, &xf->index, xf) ;
-	}
- 	else
-	{
-	        xf->index = 16 + 4 + g_hash_table_size (wb->XF_style_records) ;
-		/*	        printf ("Inserting into style XF hash with : %d\n", xf->index) ; */
-		g_hash_table_insert (wb->XF_style_records, &xf->index, xf) ;
+	if (xf->xftype == eBiffXCell) {
+		/*printf ("Inserting into Cell XF hash with : %d\n", wb->XF_cell_records->len) ; */
+		g_ptr_array_add (wb->XF_cell_records, xf); 
+	} else {
+		/*printf ("Inserting into style XF hash with : %d\n", wb->XF_style_records->len) ; */
+		g_ptr_array_add (wb->XF_style_records, xf); 
 	}
 	if (EXCEL_DEBUG>0)
-		printf ("XF %d Fore %d, Back %d\n", xf->index, xf->pat_foregnd_col, xf->pat_backgnd_col) ;
+		printf ("XF : Fore %d, Back %d\n", xf->pat_foregnd_col, xf->pat_backgnd_col) ;
 }
 
 static gboolean 
-biff_xf_data_destroy (gpointer key, BIFF_XF_DATA *xf, gpointer userdata)
+biff_xf_data_destroy (BIFF_XF_DATA *xf)
 {
 	if (xf->style_format)
 		style_format_unref (xf->style_format) ;
@@ -1271,12 +1265,6 @@ ms_excel_sheet_append_comment (MS_EXCEL_SHEET * sheet, int col, int row, char *t
 }
 
 static void
-ms_excel_sheet_set_index (MS_EXCEL_SHEET *ans, int idx)
-{
-	ans->index = idx ;
-}
-
-static void
 ms_excel_sheet_destroy (MS_EXCEL_SHEET * sheet)
 {
 	g_hash_table_foreach_remove (sheet->shared_formulae,
@@ -1306,11 +1294,9 @@ ms_excel_workbook_new ()
 							  (GCompareFunc)biff_guint16_equal) ;
 	ans->font_data = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 					   (GCompareFunc)biff_guint16_equal) ;
-	ans->excel_sheets = NULL;
-	ans->XF_style_records = g_hash_table_new ((GHashFunc)biff_guint16_hash,
-						  (GCompareFunc)biff_guint16_equal) ;
-	ans->XF_cell_records = g_hash_table_new ((GHashFunc)biff_guint16_hash,
-						 (GCompareFunc)biff_guint16_equal) ;
+	ans->excel_sheets     = g_ptr_array_new ();
+	ans->XF_style_records = g_ptr_array_new ();
+	ans->XF_cell_records  = g_ptr_array_new ();
 	ans->format_data = g_hash_table_new ((GHashFunc)biff_guint16_hash,
 					     (GCompareFunc)biff_guint16_equal) ;
 	ans->name_data = g_hash_table_new ((GHashFunc)biff_guint16_hash,
@@ -1325,77 +1311,58 @@ ms_excel_workbook_new ()
 static void
 ms_excel_workbook_attach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
 {
-	int    idx = 0;
-	GList *list = wb->excel_sheets;
 	g_return_if_fail (wb);
 	g_return_if_fail (ans);
 
 	workbook_attach_sheet (wb->gnum_wb, ans->gnum_sheet);
-	
-	while (list)
-	{
-		g_return_if_fail (list->data != ans);
-		idx++;
-		list = list->next;
-	}
-	ms_excel_sheet_set_index (ans, idx);
-	wb->excel_sheets = g_list_append (wb->excel_sheets, ans);
+	g_ptr_array_add (wb->excel_sheets, ans);
 }
 
 static gboolean
 ms_excel_workbook_detach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
 {
 	int    idx = 0 ;
-	GList *list = wb->excel_sheets ;
 
 	if (ans->gnum_sheet) {
 		if (!workbook_detach_sheet (wb->gnum_wb, ans->gnum_sheet, FALSE))
 			return FALSE;
 	}
-	
-	while (list)
-		if (list->data == ans)
-		{
-			wb->excel_sheets = g_list_remove(wb->excel_sheets, list->data);
-			g_assert (g_list_find(wb->excel_sheets, list->data) == NULL) ;
+	for (idx=0;idx<wb->excel_sheets->len;idx++)
+		if (g_ptr_array_index (wb->excel_sheets, idx) == ans) {
+			g_ptr_array_index (wb->excel_sheets, idx) = NULL;
 			return TRUE;
 		}
-		else
-			list = list->next ;
+
 	printf ("Sheet not in list of sheets !\n");
 	return FALSE;
 }
 
 static MS_EXCEL_SHEET *
-ms_excel_workbook_get_sheet (MS_EXCEL_WORKBOOK *wb, int idx)
+ms_excel_workbook_get_sheet (MS_EXCEL_WORKBOOK *wb, guint idx)
 {
-	GList *list = wb->excel_sheets ;
-	while (list)
-	{
-		MS_EXCEL_SHEET *sheet = list->data ;
-		if (sheet->index == idx)
-			return sheet ;
-		list = list->next ;
-	}
+	if (idx < wb->excel_sheets->len)
+		return g_ptr_array_index (wb->excel_sheets, idx);
 	return NULL ;
 }
 
 static void
 ms_excel_workbook_destroy (MS_EXCEL_WORKBOOK * wb)
 {
+	gint lp;
+	
 	g_hash_table_foreach_remove (wb->boundsheet_data_by_stream,
 				     (GHRFunc)biff_boundsheet_data_destroy,
 				     wb) ;
 	g_hash_table_destroy (wb->boundsheet_data_by_index) ;
 	g_hash_table_destroy (wb->boundsheet_data_by_stream) ;
-	g_hash_table_foreach_remove (wb->XF_style_records,
-				     (GHRFunc)biff_xf_data_destroy,
-				     wb) ;
-	g_hash_table_destroy (wb->XF_style_records) ;
-	g_hash_table_foreach_remove (wb->XF_cell_records,
-				     (GHRFunc)biff_xf_data_destroy,
-				     wb) ;
-	g_hash_table_destroy (wb->XF_cell_records) ;
+	if (wb->XF_style_records)
+		for (lp=0;lp<wb->XF_style_records->len;lp++)
+			biff_xf_data_destroy (g_ptr_array_index (wb->XF_style_records, lp));
+	g_ptr_array_free (wb->XF_style_records, TRUE);
+	if (wb->XF_cell_records)
+		for (lp=0;lp<wb->XF_cell_records->len;lp++)
+			biff_xf_data_destroy (g_ptr_array_index (wb->XF_cell_records, lp));
+	g_ptr_array_free (wb->XF_cell_records, TRUE);
 
 	g_hash_table_foreach_remove (wb->font_data,
 				     (GHRFunc)biff_font_data_destroy,

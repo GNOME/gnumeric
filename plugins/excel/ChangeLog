@@ -1,5 +1,18 @@
 1999-05-02  Michael Meeks  <michael@imaginator.com>
 
+	* ms-excel.c (biff_xf_data_destroy): Changed prototype.
+	(ms_excel_workbook_destroy, ms_excel_workbook_new),
+	(ms_excel_set_cell_xf, biff_xf_data_new):
+	Updated XF to GPtrArray, this saves a hash lookup per cell.
+	(ms_excel_workbook_new): excel_sheets -> GPtrArray
+	(ms_excel_workbook_attach): Drasticaly simplified
+	(ms_excel_sheet_set_index): Removed.
+
+	* ms-excel.h (_MS_EXCEL_WORKBOOK): Changed XF hashes
+	to PtrArray's for speed & elegance.
+
+1999-05-02  Michael Meeks  <michael@imaginator.com>
+	
 	* ms-excel.c (ms_excel_read_sheet): Add check before
 	ms_excel_sheet_destroy.
 	(ms_excel_read_sheet): Cleaned debug, and made it nicer.

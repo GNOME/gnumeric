@@ -24,7 +24,6 @@ typedef struct _BIFF_BOUNDSHEET_DATA
 
 typedef struct _MS_EXCEL_SHEET
 {
-	int index ;
 	int blank ;
 	Sheet *gnum_sheet ;
 	struct _MS_EXCEL_WORKBOOK *wb ;
@@ -83,18 +82,18 @@ typedef struct _BIFF_FORMAT_DATA {
 
 typedef struct _MS_EXCEL_WORKBOOK
 {
-	GHashTable *boundsheet_data_by_stream ;
-	GHashTable *boundsheet_data_by_index ;
-	GHashTable *XF_cell_records ;
-	GHashTable *XF_style_records ;
-	GHashTable *font_data ;
-	GHashTable *format_data ;
-	GHashTable *name_data ;
+	GHashTable *boundsheet_data_by_stream;
+	GHashTable *boundsheet_data_by_index;
+	GPtrArray  *XF_cell_records;
+	GPtrArray  *XF_style_records;
+	GHashTable *font_data;
+	GHashTable *format_data;
+	GHashTable *name_data;
 	int read_drawing_group;
-  	GList *excel_sheets ;
-	BIFF_EXTERNSHEET_DATA *extern_sheets ;
-	guint16 num_extern_sheets ;
-	MS_EXCEL_PALETTE *palette ;
+	GPtrArray *excel_sheets;
+	BIFF_EXTERNSHEET_DATA *extern_sheets;
+	guint16 num_extern_sheets;
+	MS_EXCEL_PALETTE *palette;
 	char **global_strings;
 	int global_string_max;
 
