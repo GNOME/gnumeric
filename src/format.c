@@ -1509,7 +1509,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 	if (color)
 		*color = NULL;
 
-	g_return_val_if_fail (value != NULL, "<ERROR>");
+	g_return_val_if_fail (value != NULL, g_strdup ("<ERROR>"));
 
 	/* Use top left corner of an array result.
 	 * This wont work for ranges because we dont't have a location
