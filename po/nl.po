@@ -11,7 +11,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2002-10-05 22:17-0400\n"
+"POT-Creation-Date: 2002-12-12 19:59+0000\n"
 "PO-Revision-Date: 2002-05-30 01:55+02:00\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -453,7 +453,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Functies gerelateerd aan financieel afgeleiden"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4543
-#: plugins/mps/mps.c:579 src/xml-io.c:3386
+#: plugins/mps/mps.c:579 src/xml-io.c:3387
 msgid "Reading file..."
 msgstr "Bezig bestand te lezen..."
 
@@ -1644,7 +1644,7 @@ msgstr "Maak een schuifbalk"
 msgid "Create an arrow"
 msgstr "Maak een pijl object"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1394
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1422
 #: src/workbook-control-gui.c:2743
 msgid "Cu_t"
 msgstr "K_nippen"
@@ -2480,7 +2480,7 @@ msgid "_Content"
 msgstr "_Inhoud"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/item-cursor.c:1011
-#: src/sheet-control-gui.c:1396 src/workbook-control-gui.c:2747
+#: src/sheet-control-gui.c:1424 src/workbook-control-gui.c:2747
 msgid "_Copy"
 msgstr "Kopiëren"
 
@@ -2496,7 +2496,7 @@ msgstr "_Gegevens"
 msgid "_Define..."
 msgstr "_Definiëren..."
 
-#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1414
+#: src/GNOME_Gnumeric.xml.h:264 src/sheet-control-gui.c:1442
 #: src/workbook-control-gui.c:2764
 msgid "_Delete..."
 msgstr "_Verwijderen..."
@@ -2567,8 +2567,8 @@ msgstr "_Groeperen en Outlines"
 msgid "_Help"
 msgstr "_Hulp"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1437
-#: src/sheet-control-gui.c:1445 src/workbook-control-gui.c:2885
+#: src/GNOME_Gnumeric.xml.h:281 src/sheet-control-gui.c:1465
+#: src/sheet-control-gui.c:1473 src/workbook-control-gui.c:2885
 #: src/workbook-control-gui.c:2904
 msgid "_Hide"
 msgstr "_Verbergen"
@@ -2626,7 +2626,7 @@ msgstr "_Openen..."
 msgid "_Paired Samples: T-Test"
 msgstr "_Gekoppelde Steekproeven: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1398
+#: src/GNOME_Gnumeric.xml.h:295 src/sheet-control-gui.c:1426
 #: src/workbook-control-gui.c:2751
 msgid "_Paste"
 msgstr "_Plakken"
@@ -2741,8 +2741,8 @@ msgstr "_Herstel"
 msgid "_Ungroup"
 msgstr "Groepering opheffen"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1439
-#: src/sheet-control-gui.c:1447 src/workbook-control-gui.c:2888
+#: src/GNOME_Gnumeric.xml.h:321 src/sheet-control-gui.c:1467
+#: src/sheet-control-gui.c:1475 src/workbook-control-gui.c:2888
 #: src/workbook-control-gui.c:2907
 msgid "_Unhide"
 msgstr "_Zichtbaar maken"
@@ -3090,7 +3090,7 @@ msgstr "Imaginair"
 msgid "Error '%s' opening workbook stream"
 msgstr "Fout '%s' bij openen werkmap stroom"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3409
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3414
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ongeldig xml bestand. Boom is leeg?"
 
@@ -3327,156 +3327,166 @@ msgstr "Instellen hoogte van rijen %s op %d pixels"
 msgid "Sorting %s"
 msgstr "Sorteren %s"
 
-#: src/commands.c:2058
+#: src/commands.c:2070
 msgid "Unhide columns"
 msgstr "Kolommen zichtbaar maken"
 
-#: src/commands.c:2058
+#: src/commands.c:2070
 msgid "Hide columns"
 msgstr "Kolommen verbergen"
 
-#: src/commands.c:2059
+#: src/commands.c:2071
 msgid "Unhide rows"
 msgstr "Rijen zichtbaar maken"
 
-#: src/commands.c:2059
+#: src/commands.c:2071
 msgid "Hide rows"
 msgstr "Rijen verbergen"
 
-#: src/commands.c:2140
+#: src/commands.c:2156
 msgid "Expand columns"
 msgstr "Kolommen uitklappen"
 
-#: src/commands.c:2140
+#: src/commands.c:2156
 msgid "Collapse columns"
 msgstr "Kolommen inklappen"
 
-#: src/commands.c:2141
+#: src/commands.c:2157
 msgid "Expand rows"
 msgstr "Rijen uitklappen"
 
-#: src/commands.c:2141
+#: src/commands.c:2157
 msgid "Collapse rows"
 msgstr "Rijen inklappen"
 
-#: src/commands.c:2210
+#: src/commands.c:2180
+#, c-format
+msgid "Show column outline %d"
+msgstr ""
+
+#: src/commands.c:2180
+#, c-format
+msgid "Show row outline %d"
+msgstr ""
+
+#: src/commands.c:2249
 msgid "Those columns are already grouped"
 msgstr "Deze kolommen zijn reeds gegroepeerd."
 
-#: src/commands.c:2211
+#: src/commands.c:2250
 msgid "Those rows are already grouped"
 msgstr "Deze rijen zijn reeds gegroepeerd."
 
-#: src/commands.c:2214
+#: src/commands.c:2253
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr ""
 "Deze kolommen zijn niet gegroepeerd, je kunt de groepering dus niet opheffen."
 
-#: src/commands.c:2215
+#: src/commands.c:2254
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr ""
 "Deze rijen zijn niet gegroepeerd, je kunt de groepering dus niet opheffen."
 
-#: src/commands.c:2226
+#: src/commands.c:2265
 #, c-format
 msgid "Group columns %s"
 msgstr "Groepeer kolommen %s"
 
-#: src/commands.c:2226
+#: src/commands.c:2265
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Groepering opheffen kolommen %s"
 
-#: src/commands.c:2228
+#: src/commands.c:2267
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Groepeer rijen %d:%d"
 
-#: src/commands.c:2228
+#: src/commands.c:2267
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Groepering opheffen rijen %d:%d"
 
-#: src/commands.c:2435
+#: src/commands.c:2474
 #, c-format
 msgid "Moving %s"
 msgstr "Verplaatsen cellen %s"
 
-#: src/commands.c:2444 src/commands.c:2652
+#: src/commands.c:2483 src/commands.c:2691
 msgid "is beyond sheet boundaries"
 msgstr "is voorbij de werkblad grenzen"
 
 #. FIXME?
-#: src/commands.c:2596
+#: src/commands.c:2635
 #, c-format
 msgid "Pasting into %s"
 msgstr "Plakken in %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2825 src/commands.c:2826 src/workbook-control-gui.c:1850
+#: src/commands.c:2864 src/commands.c:2865 src/workbook-control-gui.c:1850
 msgid "Autofill"
 msgstr "Autovul"
 
 #. Changed in initial redo.
-#: src/commands.c:2849
+#: src/commands.c:2888
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autovul cellen %s"
 
-#: src/commands.c:3002
+#: src/commands.c:3041
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Automatisch cellen %s opmaken"
 
-#: src/commands.c:3112
+#: src/commands.c:3151
 #, c-format
 msgid "Unmerging %s"
 msgstr "Cellen Splitsen %s"
 
-#: src/commands.c:3250
+#: src/commands.c:3289
 #, c-format
 msgid "Merging %s"
 msgstr "Samenvoegen cellen %s"
 
 #. Corrected below.
-#: src/commands.c:3630 src/dialogs/search-replace.glade.h:23
+#: src/commands.c:3669 src/dialogs/search-replace.glade.h:23
 msgid "Search and Replace"
 msgstr "Zoek en Vervang"
 
-#: src/commands.c:3726
+#: src/commands.c:3765
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Instellen breedte van kolommen op %.2fpts"
 
-#: src/commands.c:3727
+#: src/commands.c:3766
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Instellen hoogte van rijen op %.2fpts"
 
 #. Changed in initial redo.
-#: src/commands.c:3812
+#: src/commands.c:3851
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "Consolideren naar %s!%s"
 
-#: src/commands.c:3927
+#: src/commands.c:3966
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s tot %.0f%%"
 
-#: src/commands.c:3996
+#: src/commands.c:4035
 msgid "Insert object"
 msgstr "Nieuw object invoegen"
 
-#: src/commands.c:4054
+#: src/commands.c:4093
 msgid "Delete object"
 msgstr "Object verwijderen"
 
-#: src/commands.c:4135
+#: src/commands.c:4174
 msgid "Resize object"
 msgstr "Grootte van object veranderen"
 
-#: src/commands.c:4135
+#: src/commands.c:4174
 msgid "Move object"
 msgstr "Object verplaatsen"
 
@@ -4447,7 +4457,7 @@ msgstr "Tekstdoorloop"
 
 #: src/dialogs/cell-format.glade.h:129
 #, fuzzy
-msgid "min <= val <= max         (between)"
+msgid "min &lt;= val &lt;= max         (between)"
 msgstr "min <= waarde <=max       (tussen)"
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4456,32 +4466,32 @@ msgstr "waarde != gebonden        (niet gelijk aan)"
 
 #: src/dialogs/cell-format.glade.h:131
 #, fuzzy
-msgid "val <  bound                  (less than)"
-msgstr "waarde <  gebonden         (kleiner dan)"
+msgid "val &gt;  bound                  (greater than)"
+msgstr "waarde >  gebonden             (groter dan)"
 
 #: src/dialogs/cell-format.glade.h:132
 #, fuzzy
-msgid "val <= min || max <= val (not between)"
-msgstr "waarde <= min || max <= waarde (niet tussen)"
+msgid "val &gt;=bound                  (greater than or equal to)"
+msgstr "waarde >=gebonden            (groter of gelijk aan)"
 
 #: src/dialogs/cell-format.glade.h:133
 #, fuzzy
-msgid "val <=bound                  (less than or equal to)"
-msgstr "waarde <=gebonden           (kleiner of gelijk aan)"
+msgid "val &lt;  bound                  (less than)"
+msgstr "waarde <  gebonden         (kleiner dan)"
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val == bound                 (equal to)"
-msgstr "waarde == gebonden        (gelijk aan)"
+#, fuzzy
+msgid "val &lt;= min || max &lt;= val (not between)"
+msgstr "waarde <= min || max <= waarde (niet tussen)"
 
 #: src/dialogs/cell-format.glade.h:135
 #, fuzzy
-msgid "val >  bound                  (greater than)"
-msgstr "waarde >  gebonden             (groter dan)"
+msgid "val &lt;=bound                  (less than or equal to)"
+msgstr "waarde <=gebonden           (kleiner of gelijk aan)"
 
 #: src/dialogs/cell-format.glade.h:136
-#, fuzzy
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "waarde >=gebonden            (groter of gelijk aan)"
+msgid "val == bound                 (equal to)"
+msgstr "waarde == gebonden        (gelijk aan)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5739,15 +5749,15 @@ msgstr "Opmerking"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Weet U zeker dat u blad '%s' wilt verwijderen ?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5794,29 +5804,29 @@ msgstr "Weet U zeker dat u wilt afbreken?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
-msgid "'"
-msgstr "'"
+#: src/dialogs/dialog-stf-export.glade.h:2
+#, fuzzy
+msgid "&lt;- Remove"
+msgstr "<- Verwijderen"
 
 #: src/dialogs/dialog-stf-export.glade.h:3
 #, fuzzy
-msgid "<- Remove"
-msgstr "Verwijderen"
+msgid "&lt;- Remove all"
+msgstr "<- Verwijderen"
 
-#: src/dialogs/dialog-stf-export.glade.h:4
-#, fuzzy
-msgid "<- Remove all"
-msgstr "<- Alles verwijderen"
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+msgid "'"
+msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 #, fuzzy
-msgid "Add ->"
-msgstr "Optellen "
+msgid "Add -&gt;"
+msgstr "Optellen ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
 #, fuzzy
-msgid "Add all ->"
-msgstr "Alles optellen ->"
+msgid "Add all -&gt;"
+msgstr "Optellen ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -7307,6 +7317,14 @@ msgstr "Voer nieuwe _blad naam in:"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Naam wijzigen van blad"
+
+#: src/dialogs/solver.glade.h:1
+msgid "&gt;="
+msgstr ""
+
+#: src/dialogs/solver.glade.h:2
+msgid "&lt;="
+msgstr ""
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -16118,7 +16136,7 @@ msgstr ""
 #: src/functions/fn-math.c:2484 src/functions/fn-math.c:2503
 #: src/functions/fn-math.c:2597 src/functions/fn-math.c:2617
 #: src/functions/fn-math.c:2709 src/functions/fn-math.c:2729
-#: src/functions/fn-stat.c:2620 src/functions/fn-stat.c:2650
+#: src/functions/fn-stat.c:2619 src/functions/fn-stat.c:2649
 msgid "Array version not implemented!"
 msgstr "Array versie niet geimplementeerd!"
 
@@ -16201,9 +16219,10 @@ msgstr ""
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
 #: src/functions/fn-math.c:2767
+#, fuzzy
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
-"@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
+"@SYNTAX=SUBTOTAL(function_nbr,ref1,ref2,...)\n"
 "@DESCRIPTION=SUBTOTAL function returns a subtotal of given list of "
 "arguments. @function_nbr is the number that specifies which function to use "
 "in calculating the subtotal. The following functions are available:\n"
@@ -17256,7 +17275,7 @@ msgstr ""
 "\n"
 "@SEEALSO=GAMMADIST"
 
-#: src/functions/fn-stat.c:1235
+#: src/functions/fn-stat.c:1234
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -17281,7 +17300,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "CHIDIST(5,3;2) is 0,070651213"
 
-#: src/functions/fn-stat.c:1271
+#: src/functions/fn-stat.c:1270
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -17306,7 +17325,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHITEST"
 
-#: src/functions/fn-stat.c:1305
+#: src/functions/fn-stat.c:1304
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -17332,7 +17351,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHIINV"
 
-#: src/functions/fn-stat.c:1443
+#: src/functions/fn-stat.c:1442
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -17366,7 +17385,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETAINV"
 
-#: src/functions/fn-stat.c:1483
+#: src/functions/fn-stat.c:1482
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -17400,7 +17419,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BETADIST"
 
-#: src/functions/fn-stat.c:1523
+#: src/functions/fn-stat.c:1522
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -17430,7 +17449,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TINV,TTEST"
 
-#: src/functions/fn-stat.c:1563
+#: src/functions/fn-stat.c:1562
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -17454,7 +17473,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHIDIST,CHITEST"
 
-#: src/functions/fn-stat.c:1597
+#: src/functions/fn-stat.c:1596
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -17481,7 +17500,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FINV"
 
-#: src/functions/fn-stat.c:1634
+#: src/functions/fn-stat.c:1633
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,dof1,dof2)\n"
@@ -17507,7 +17526,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST"
 
-#: src/functions/fn-stat.c:1670
+#: src/functions/fn-stat.c:1669
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -17539,7 +17558,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1716
+#: src/functions/fn-stat.c:1715
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -17572,7 +17591,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST"
 
-#: src/functions/fn-stat.c:1756
+#: src/functions/fn-stat.c:1755
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -17599,7 +17618,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COMBIN"
 
-#: src/functions/fn-stat.c:1791
+#: src/functions/fn-stat.c:1790
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -17632,7 +17651,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,POISSON"
 
-#: src/functions/fn-stat.c:1831
+#: src/functions/fn-stat.c:1830
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -17662,7 +17681,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:1872
+#: src/functions/fn-stat.c:1871
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -17688,7 +17707,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:1910
+#: src/functions/fn-stat.c:1909
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -17717,7 +17736,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:1956
+#: src/functions/fn-stat.c:1955
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -17743,7 +17762,7 @@ msgstr ""
 "\n"
 "@SEEALSO=POISSON"
 
-#: src/functions/fn-stat.c:2001
+#: src/functions/fn-stat.c:2000
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -17771,7 +17790,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 
-#: src/functions/fn-stat.c:2039
+#: src/functions/fn-stat.c:2038
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -17807,7 +17826,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 
-#: src/functions/fn-stat.c:2079
+#: src/functions/fn-stat.c:2078
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -17835,7 +17854,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 
-#: src/functions/fn-stat.c:2113
+#: src/functions/fn-stat.c:2112
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -17861,7 +17880,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: src/functions/fn-stat.c:2144
+#: src/functions/fn-stat.c:2143
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -17890,7 +17909,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV"
 
-#: src/functions/fn-stat.c:2177
+#: src/functions/fn-stat.c:2176
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -17914,14 +17933,15 @@ msgstr ""
 "\n"
 "@SEEALSO=SKEW"
 
-#: src/functions/fn-stat.c:2212
+#: src/functions/fn-stat.c:2211
+#, fuzzy
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
 "@DESCRIPTION=POISSON function returns the Poisson distribution. @x is the "
 "number of events, @mean is the expected numeric value @cumulative describes "
 "whether to return the sum of the poisson function from 0 to @x.\n"
-"If @x is a non-integer it is truncated. If @x <= 0 POISSON returns #NUM! "
+"If @x is a non-integer it is truncated. If @x < 0 POISSON returns #NUM! "
 "error. If @mean <= 0 POISSON returns the #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -17944,7 +17964,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NORMDIST, WEIBULL"
 
-#: src/functions/fn-stat.c:2255
+#: src/functions/fn-stat.c:2254
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -17966,7 +17986,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 
-#: src/functions/fn-stat.c:2280
+#: src/functions/fn-stat.c:2279
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -17988,7 +18008,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 
-#: src/functions/fn-stat.c:2310
+#: src/functions/fn-stat.c:2309
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -18017,7 +18037,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 
-#: src/functions/fn-stat.c:2344
+#: src/functions/fn-stat.c:2343
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -18048,7 +18068,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 
-#: src/functions/fn-stat.c:2391
+#: src/functions/fn-stat.c:2390
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -18079,7 +18099,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 
-#: src/functions/fn-stat.c:2462
+#: src/functions/fn-stat.c:2461
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
@@ -18113,7 +18133,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BINOMDIST,CRITBINOM"
 
-#: src/functions/fn-stat.c:2556
+#: src/functions/fn-stat.c:2555
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -18146,7 +18166,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 
-#: src/functions/fn-stat.c:2711
+#: src/functions/fn-stat.c:2710
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -18176,7 +18196,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 
-#: src/functions/fn-stat.c:2792
+#: src/functions/fn-stat.c:2791
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -18208,7 +18228,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AVERAGE"
 
-#: src/functions/fn-stat.c:2827
+#: src/functions/fn-stat.c:2826
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -18240,7 +18260,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: src/functions/fn-stat.c:2862
+#: src/functions/fn-stat.c:2861
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -18272,7 +18292,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MAX,MINA"
 
-#: src/functions/fn-stat.c:2897
+#: src/functions/fn-stat.c:2896
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -18304,7 +18324,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VAR,VARPA"
 
-#: src/functions/fn-stat.c:2932
+#: src/functions/fn-stat.c:2931
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -18336,7 +18356,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VARP,VARP"
 
-#: src/functions/fn-stat.c:2967
+#: src/functions/fn-stat.c:2966
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -18368,7 +18388,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: src/functions/fn-stat.c:3002
+#: src/functions/fn-stat.c:3001
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -18400,7 +18420,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEVA,STDEVP"
 
-#: src/functions/fn-stat.c:3037
+#: src/functions/fn-stat.c:3036
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -18437,7 +18457,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: src/functions/fn-stat.c:3147
+#: src/functions/fn-stat.c:3146
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -18469,7 +18489,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: src/functions/fn-stat.c:3196
+#: src/functions/fn-stat.c:3195
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -18514,7 +18534,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: src/functions/fn-stat.c:3252
+#: src/functions/fn-stat.c:3251
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -18543,7 +18563,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: src/functions/fn-stat.c:3302
+#: src/functions/fn-stat.c:3301
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -18600,7 +18620,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: src/functions/fn-stat.c:3476
+#: src/functions/fn-stat.c:3475
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -18630,7 +18650,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-stat.c:3551
+#: src/functions/fn-stat.c:3550
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -18683,7 +18703,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: src/functions/fn-stat.c:3822
+#: src/functions/fn-stat.c:3821
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -18722,7 +18742,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: src/functions/fn-stat.c:3934
+#: src/functions/fn-stat.c:3933
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -18771,7 +18791,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: src/functions/fn-stat.c:4189
+#: src/functions/fn-stat.c:4188
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -18809,7 +18829,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: src/functions/fn-stat.c:4303
+#: src/functions/fn-stat.c:4302
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -18844,7 +18864,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: src/functions/fn-stat.c:4374
+#: src/functions/fn-stat.c:4373
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -18879,7 +18899,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: src/functions/fn-stat.c:4423
+#: src/functions/fn-stat.c:4422
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -18904,7 +18924,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: src/functions/fn-stat.c:4471
+#: src/functions/fn-stat.c:4470
 msgid "Statistics"
 msgstr "Statistiek"
 
@@ -19991,7 +20011,7 @@ msgstr "Fout bij openen bestand \"%s\" voor lezen."
 msgid "Unable to mmap the file."
 msgstr "Fout bij mmap-en bestand."
 
-#: src/plugin-util.c:318 src/xml-io.c:3375
+#: src/plugin-util.c:318 src/xml-io.c:3376
 msgid "Cannot get file size."
 msgstr "Kan bestandsgrootte niet krijgen."
 
@@ -20246,17 +20266,17 @@ msgstr "Ongeldige backslash aan het einde van de vervangende tekst."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "kan niet uitgevoerd worden met meerdere selecties"
 
-#: src/sheet-control-gui.c:557
+#: src/sheet-control-gui.c:585
 #, c-format
 msgid "Row: %s"
 msgstr "Rij: %s"
 
-#: src/sheet-control-gui.c:572
+#: src/sheet-control-gui.c:600
 #, c-format
 msgid "Column: %s"
 msgstr "Kolom: %s"
 
-#: src/sheet-control-gui.c:1400
+#: src/sheet-control-gui.c:1428
 msgid "Paste _Special"
 msgstr "Plakken _Speciaal"
 
@@ -20267,41 +20287,41 @@ msgstr "Plakken _Speciaal"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1412
+#: src/sheet-control-gui.c:1440
 msgid "_Insert..."
 msgstr "_Invoegen..."
 
-#: src/sheet-control-gui.c:1416
+#: src/sheet-control-gui.c:1444
 msgid "_Insert Column(s)"
 msgstr "Kolom(men) _Invoegen"
 
-#: src/sheet-control-gui.c:1418
+#: src/sheet-control-gui.c:1446
 msgid "_Delete Column(s)"
 msgstr "Kolom(men) Verwij_deren"
 
-#: src/sheet-control-gui.c:1420
+#: src/sheet-control-gui.c:1448
 msgid "_Insert Row(s)"
 msgstr "Rij(en) _Invoegen"
 
-#: src/sheet-control-gui.c:1422
+#: src/sheet-control-gui.c:1450
 msgid "_Delete Row(s)"
 msgstr "Rij(en) Verwij_deren"
 
-#: src/sheet-control-gui.c:1425
+#: src/sheet-control-gui.c:1453
 msgid "Clear Co_ntents"
 msgstr "I_nhoud Leegmaken"
 
-#: src/sheet-control-gui.c:1431
+#: src/sheet-control-gui.c:1459
 msgid "_Format Cells..."
 msgstr "_Celeigenschappen..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1435
+#: src/sheet-control-gui.c:1463
 msgid "Column _Width..."
 msgstr "Kolom _Breedte..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1443
+#: src/sheet-control-gui.c:1471
 msgid "_Row Height..."
 msgstr "_Rij Hoogte..."
 
@@ -20577,19 +20597,19 @@ msgstr ""
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Fout bij taalkundig ontleden van gegevens naar blad"
 
-#: src/stf.c:435
+#: src/stf.c:438
 msgid "Error while trying to write csv file"
 msgstr "Fout tijdens het schrijven csv bestand"
 
-#: src/stf.c:458
+#: src/stf.c:461
 msgid "Text import (auto-detect CSV or tab-delimited)"
 msgstr ""
 
-#: src/stf.c:462
+#: src/stf.c:465
 msgid "Text import (configurable)"
 msgstr "Tekst import (instelbaar)"
 
-#: src/stf.c:466
+#: src/stf.c:469
 msgid "Text export (configurable)"
 msgstr "Tekst uitvoer (instelbaar)"
 
@@ -21247,15 +21267,15 @@ msgstr "%dR x %dK"
 msgid "Internal ERROR"
 msgstr "Interne FOUT"
 
-#: src/workbook-view.c:660
+#: src/workbook-view.c:661
 msgid "Default file saver is not available."
 msgstr "Standaard bestandsopslag is niet beschikbaar."
 
-#: src/workbook-view.c:750
+#: src/workbook-view.c:751
 msgid "No sheets in workbook."
 msgstr "Geen werkbladen in werkmap."
 
-#: src/workbook-view.c:760
+#: src/workbook-view.c:761
 msgid "Unsupported file format."
 msgstr "Niet ondersteund bestandsformaat."
 
@@ -21303,25 +21323,33 @@ msgstr "Klembord is in onbekend formaat"
 msgid "Processing file..."
 msgstr "Bezig met verwerken bestand..."
 
-#: src/xml-io.c:3383
+#: src/xml-io.c:3384
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Onvoldoende geheugen om zlib decompressie toestand te maken."
 
-#: src/xml-io.c:3418
+#: src/xml-io.c:3423
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Is geen Gnumeric Werkmap bestand"
 
-#: src/xml-io.c:3475
+#: src/xml-io.c:3480
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
 
 #, fuzzy
-#~ msgid "&lt;- Remove"
-#~ msgstr "<- Verwijderen"
+#~ msgid "<- Remove"
+#~ msgstr "Verwijderen"
 
 #, fuzzy
-#~ msgid "Add -&gt;"
-#~ msgstr "Optellen ->"
+#~ msgid "<- Remove all"
+#~ msgstr "<- Alles verwijderen"
+
+#, fuzzy
+#~ msgid "Add ->"
+#~ msgstr "Optellen "
+
+#, fuzzy
+#~ msgid "Add all ->"
+#~ msgstr "Alles optellen ->"
 
 #~ msgid "PLN : Not a PlanPerfect File"
 #~ msgstr "PLN : Geen PlanPerfect bestand"

@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.11\n"
-"POT-Creation-Date: 2002-12-10 22:18+0100\n"
+"POT-Creation-Date: 2002-12-12 19:59+0000\n"
 "PO-Revision-Date: 2002-12-10 22:15+0100\n"
 "Last-Translator: Christophe Merlet (RedFox) <redfox@redfoxcenter.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -4419,7 +4419,8 @@ msgid "_Wrap text"
 msgstr "_Retour à la ligne"
 
 #: src/dialogs/cell-format.glade.h:129
-msgid "min <= val <= max         (between)"
+#, fuzzy
+msgid "min &lt;= val &lt;= max         (between)"
 msgstr "min <= val <= max         (entre)"
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4427,28 +4428,33 @@ msgid "val != bound                  (not equal to)"
 msgstr "val != limite              (différent de)"
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "val <  bound                  (less than)"
-msgstr "val < limite              (inférieur à)"
-
-#: src/dialogs/cell-format.glade.h:132
-msgid "val <= min || max <= val (not between)"
-msgstr "val <= min || max <= val         (pas compris entre)"
-
-#: src/dialogs/cell-format.glade.h:133
-msgid "val <=bound                  (less than or equal to)"
-msgstr "val <= limite              (inférieur ou égal à)"
-
-#: src/dialogs/cell-format.glade.h:134
-msgid "val == bound                 (equal to)"
-msgstr "val == limite                 (égal à)"
-
-#: src/dialogs/cell-format.glade.h:135
-msgid "val >  bound                  (greater than)"
+#, fuzzy
+msgid "val &gt;  bound                  (greater than)"
 msgstr "val > limite              (supérieur à)"
 
-#: src/dialogs/cell-format.glade.h:136
-msgid "val >=bound                  (greater than or equal to)"
+#: src/dialogs/cell-format.glade.h:132
+#, fuzzy
+msgid "val &gt;=bound                  (greater than or equal to)"
 msgstr "val >= limite              (supérieur ou égal à)"
+
+#: src/dialogs/cell-format.glade.h:133
+#, fuzzy
+msgid "val &lt;  bound                  (less than)"
+msgstr "val < limite              (inférieur à)"
+
+#: src/dialogs/cell-format.glade.h:134
+#, fuzzy
+msgid "val &lt;= min || max &lt;= val (not between)"
+msgstr "val <= min || max <= val         (pas compris entre)"
+
+#: src/dialogs/cell-format.glade.h:135
+#, fuzzy
+msgid "val &lt;=bound                  (less than or equal to)"
+msgstr "val <= limite              (inférieur ou égal à)"
+
+#: src/dialogs/cell-format.glade.h:136
+msgid "val == bound                 (equal to)"
+msgstr "val == limite                 (égal à)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5710,15 +5716,15 @@ msgstr "Commentaires"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Voulez-vous vraiment supprimer la feuille nommée « %s » ?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5765,25 +5771,27 @@ msgstr "Voulez-vous vraiment annuler ?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2
+msgid "&lt;- Remove"
+msgstr "&lt;- Enlever"
+
+#: src/dialogs/dialog-stf-export.glade.h:3
+#, fuzzy
+msgid "&lt;- Remove all"
+msgstr "&lt;- Enlever"
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "<- Remove"
-msgstr "<- Enlever"
-
-#: src/dialogs/dialog-stf-export.glade.h:4
-msgid "<- Remove all"
-msgstr "<- Enlever tout"
-
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add ->"
-msgstr "Ajouter ->"
+msgid "Add -&gt;"
+msgstr "Ajouter -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all ->"
-msgstr "Ajouter tout ->"
+#, fuzzy
+msgid "Add all -&gt;"
+msgstr "Ajouter -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -7270,6 +7278,14 @@ msgstr "Saisissez le _nouveau nom de la feuille :"
 #: src/dialogs/sheet-rename.glade.h:2
 msgid "Rename sheet"
 msgstr "Renommer la feuille"
+
+#: src/dialogs/solver.glade.h:1
+msgid "&gt;="
+msgstr "&gt;="
+
+#: src/dialogs/solver.glade.h:2
+msgid "&lt;="
+msgstr "&lt;="
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -20808,17 +20824,17 @@ msgstr "N'est pas un fichier classeur Gnumeric"
 msgid "Gnumeric XML file format"
 msgstr "Format de fichier Gnumeric XML"
 
-#~ msgid "&lt;- Remove"
-#~ msgstr "&lt;- Enlever"
+#~ msgid "<- Remove"
+#~ msgstr "<- Enlever"
 
-#~ msgid "Add -&gt;"
-#~ msgstr "Ajouter -&gt;"
+#~ msgid "<- Remove all"
+#~ msgstr "<- Enlever tout"
 
-#~ msgid "&gt;="
-#~ msgstr "&gt;="
+#~ msgid "Add ->"
+#~ msgstr "Ajouter ->"
 
-#~ msgid "&lt;="
-#~ msgstr "&lt;="
+#~ msgid "Add all ->"
+#~ msgstr "Ajouter tout ->"
 
 #~ msgid "PLN : Not a PlanPerfect File"
 #~ msgstr "PLN : N'est pas un fichier PlanPerfect"
