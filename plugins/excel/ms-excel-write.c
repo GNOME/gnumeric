@@ -3574,7 +3574,7 @@ excel_sheet_new (ExcelWorkbook *ewb, Sheet *gnum_sheet, IOContext *context)
 	/* Ignore spans and merges past the bound */
 	extent = sheet_get_extent (gnum_sheet, FALSE);
 
-	if (extent.end.col > maxrows) {
+	if (extent.end.row > maxrows) {
 		char *msg = g_strdup_printf (
 			_("Too many rows for this format (%d > %d)"),
 			  extent.end.col, maxrows);

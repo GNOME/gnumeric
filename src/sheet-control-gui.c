@@ -2165,8 +2165,11 @@ cb_sheet_object_canvas_event (GnomeCanvasItem *item, GdkEvent *event,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
 				NULL, event->button.time);
+			sheet_object_anchor_cpy (&scg->old_anchor, sheet_object_anchor_get (so));
+			scg->object_was_resized = FALSE;
 			scg->last_x = event->button.x;
 			scg->last_y = event->button.y;
+			gnm_canvas_slide_init (gcanvas);
 		} else
 			display_object_menu (so, item, event);
 		break;

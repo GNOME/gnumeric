@@ -3668,19 +3668,19 @@ ms_excel_read_dv (BiffQuery *q, ExcelSheet *esheet)
 
 	g_return_if_fail (data < (q->data + q->length));
 	input_title = biff_get_text (data + 2, MS_OLE_GET_GUINT8 (data), &len);
-	data += len + 2;
+	data += len + 2; if (len == 0) data++;
 
 	g_return_if_fail (data < (q->data + q->length));
 	error_title = biff_get_text (data + 2, MS_OLE_GET_GUINT8 (data), &len);
-	data += len + 2;
+	data += len + 2; if (len == 0) data++;
 
 	g_return_if_fail (data < (q->data + q->length));
 	input_msg = biff_get_text (data + 2, MS_OLE_GET_GUINT8 (data), &len);
-	data += len + 2;
+	data += len + 2; if (len == 0) data++;
 
 	g_return_if_fail (data < (q->data + q->length));
 	error_msg = biff_get_text (data + 2, MS_OLE_GET_GUINT8 (data), &len);
-	data += len + 2;
+	data += len + 2; if (len == 0) data++;
 
 	d(1, {
 		printf ("Input Title : '%s'\n", input_title);

@@ -1,3 +1,9 @@
+2002-10-23  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=96617
+	* src/sheet-control-gui.c (cb_sheet_object_canvas_event) : Fully init
+	  object drag here too.
+
 2002-10-31  Andrew Moise <moise@nauticom.net>
 
 	* src/stf.c: Null-terminate STF probe string.
