@@ -1,3 +1,8 @@
+2001-12-14  Morten Welinder  <terra@diku.dk>
+
+	* dialog-function-select.c (function_list_fill): Sort the
+	functions by name.
+
 2001-12-13  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-stf-fixed-page.c (fixed_page_autodiscover) : 

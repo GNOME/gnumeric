@@ -59,26 +59,37 @@ category_list_fill (FunctionSelectState *state)
 	gnumeric_clist_moveto (list, state->selected_cat);
 }
 
+static gint
+by_name (gconstpointer _a, gconstpointer _b)
+{
+	FunctionDefinition const * const a = (FunctionDefinition const * const)_a;
+	FunctionDefinition const * const b = (FunctionDefinition const * const)_b;
+
+	return strcmp (function_def_get_name (a), function_def_get_name (b));
+}
+
 static void
 function_list_fill (FunctionSelectState *state)
 {
-	GList *p;
 	int i = 0;
 	GtkCList * const list = state->functions;
 	FunctionCategory const * const cat = state->cat;
+	GList *tmp, *funcs;
 
 	gtk_clist_freeze (list);
 	gtk_clist_clear (list);
 
-	for (p = cat->functions; p ; p = g_list_next (p)) {
+	funcs = g_list_sort (g_list_copy (cat->functions), by_name);
+	for (tmp = funcs; tmp; tmp = tmp->next) {
+		FunctionDefinition const * const func = tmp->data;
 		gchar *cols[1];
-		FunctionDefinition const * const func = p->data;
 
 		cols[0] = (gchar *)function_def_get_name (func); /* Const cast */
 		gtk_clist_append (list, cols);
 
 		gtk_clist_set_row_data (list, ++i, (gpointer)func);
 	}
+	g_list_free (funcs);
 
 	gtk_clist_select_row (list, state->selected_func, 0);
 	gtk_clist_thaw (list);

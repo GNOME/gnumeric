@@ -59,6 +59,8 @@ Jody:
 Morten:
 	* Fix EXPRESSION crash.
 	* Fix 65577.
+	* Fix 66848 (the table of function names in the formula guru
+	  is not alphabetized).
 
 Sultanov Albert:
 	* http://bugzilla.gnome.org/show_bug.cgi?id=55142
