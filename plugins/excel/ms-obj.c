@@ -52,7 +52,7 @@ extern int ms_excel_read_debug;
  * vertically, for Excel 97. We use 256 for >= XL97 and 1024 for
  * preceding.
   */
-static void
+static gboolean
 object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 			   eBiff_version const ver)
 {
@@ -72,11 +72,12 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 			ColRowInfo const *ri = sheet_row_get_info (sheet, pos);
 
 			/* warning logged elsewhere */
-			if (ri != NULL) {
-				pixels[i] = ri->size_pixels;
-				pixels[i] *= nths / row_denominator;
-			} else
-				pixels[i] = 0;
+			if (ri == NULL)
+				return TRUE;
+
+			pixels[i] = ri->size_pixels;
+			pixels[i] *= nths / row_denominator;
+			pixels[i] = 0;
 			pixels[i] += sheet_row_get_distance_pixels (sheet, 0, pos);
 
 #ifndef NO_DEBUG_EXCEL
@@ -87,11 +88,12 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
 
 			/* warning logged elsewhere */
-			if (ci != NULL) {
-				pixels[i] = ci->size_pixels;
-				pixels[i] *= nths / 1024.;
-			} else
-				pixels[i] = 0;
+			if (ci == NULL)
+				return TRUE;
+
+			pixels[i] = ci->size_pixels;
+			pixels[i] *= nths / 1024.;
+			pixels[i] = 0;
 			pixels[i] += sheet_col_get_distance_pixels (sheet, 0, pos);
 
 #ifndef NO_DEBUG_EXCEL
@@ -107,6 +109,8 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 			" left = %g, top = %g, right = %g, bottom = %g;\n",
 			pixels[0], pixels[1], pixels[2], pixels[3]);
 #endif
+
+	return FALSE;
 }
 
 /*
@@ -124,8 +128,9 @@ ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 	if (obj == NULL)
 		return TRUE;
 
-	object_anchor_to_position (position, obj, sheet->gnum_sheet,
-				   wb->ver);
+	if (object_anchor_to_position (position, obj, sheet->gnum_sheet,
+				       wb->ver))
+		return TRUE;
 
 	/* Handle Comments */
 	if (wb->ver >= eBiffV8 && obj->excel_type == 0x19) {
