@@ -34,10 +34,16 @@
 #include <gtk/gtklabel.h>
 #include <gtk/gtkhseparator.h>
 #include <gtk/gtknotebook.h>
+#include <gtk/gtkcheckbutton.h>
 
 #include <string.h>
 
 static GObjectClass *parent_klass;
+
+enum {
+	SERIES_PROP_0,
+	SERIES_HAS_LEGEND
+};
 
 static void
 gog_series_finalize (GObject *obj)
@@ -52,6 +58,44 @@ gog_series_finalize (GObject *obj)
 
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		(parent_klass->finalize) (obj);
+}
+
+static void
+gog_series_set_property (GObject *obj, guint param_id,
+			 GValue const *value, GParamSpec *pspec)
+{
+	GogSeries *series = GOG_SERIES (obj);
+	gboolean b_tmp;
+
+	switch (param_id) {
+	case SERIES_HAS_LEGEND :
+		b_tmp = g_value_get_boolean (value);
+		if (series->has_legend ^ b_tmp) {
+			series->has_legend = b_tmp;
+			if (series->plot != NULL)
+				gog_plot_request_cardinality_update (series->plot);
+		}
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 return; /* NOTE : RETURN */
+	}
+
+	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
+}
+
+static void
+gog_series_get_property (GObject *obj, guint param_id,
+			 GValue *value, GParamSpec *pspec)
+{
+	GogSeries *series = GOG_SERIES (obj);
+
+	switch (param_id) {
+	case SERIES_HAS_LEGEND :
+		g_value_set_boolean (value, series->has_legend); 
+		break;
+	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
+		 break;
+	}
 }
 
 static unsigned
@@ -73,6 +117,14 @@ make_dim_editor (GtkTable *table, unsigned row, GtkWidget *editor,
 	gnm_setup_label_atk (label, editor);
 
 	return row + 1;
+}
+
+static void
+cb_show_in_legend (GtkToggleButton *b, GObject *series)
+{
+	g_object_set (series,
+		"has-legend", gtk_toggle_button_get_active (b),
+		NULL);
 }
 
 static gpointer
@@ -126,6 +178,17 @@ gog_series_editor (GogObject *gobj,
 				gog_data_allocator_editor (dalloc, set, i, FALSE),
 				desc->dim[i].name, desc->dim[i].priority, TRUE);
 
+	gtk_table_attach (table, gtk_hseparator_new (),
+		0, 2, row, row+1, GTK_FILL, 0, 5, 3);
+	row++;
+	w = gtk_check_button_new_with_mnemonic ("_Show in Legend");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w),
+		gog_series_has_legend (series));
+	g_signal_connect (G_OBJECT (w),
+		"toggled",
+		G_CALLBACK (cb_show_in_legend), series);
+	gtk_table_attach (table, w,
+		0, 2, row, row+1, GTK_FILL, 0, 5, 3);
 	gtk_widget_show_all (GTK_WIDGET (table));
 
 	w = gtk_notebook_new ();
@@ -161,9 +224,18 @@ gog_series_class_init (GogSeriesClass *klass)
 
 	parent_klass = g_type_class_peek_parent (klass);
 	gobject_klass->finalize		= gog_series_finalize;
+	gobject_klass->set_property	= gog_series_set_property;
+	gobject_klass->get_property	= gog_series_get_property;
+
 	gog_klass->editor		= gog_series_editor;
 	gog_klass->update		= gog_series_update;
 	style_klass->init_style 	= gog_series_init_style;
+
+	g_object_class_install_property (gobject_klass, SERIES_HAS_LEGEND,
+		g_param_spec_boolean ("has-legend", "has-legend",
+			"Should the series show up in legends",
+			TRUE,
+			G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 }
 
 static void
@@ -173,6 +245,7 @@ gog_series_init (GogSeries *series)
 	GOG_OBJECT (series)->use_parent_as_proxy = TRUE;
 
 	series->is_valid = FALSE;
+	series->has_legend = TRUE;
 	series->plot = NULL;
 	series->values = NULL;
 	series->index = -1;
@@ -309,6 +382,19 @@ gog_series_check_validity (GogSeries *series)
 			return;
 		}
 	series->is_valid = TRUE;
+}
+
+/**
+ * gog_series_has_legend :
+ * @series : #GogSeries
+ *
+ * Returns TRUE if the series has a visible legend entry
+ **/
+gboolean
+gog_series_has_legend (GogSeries const *series)
+{
+	g_return_val_if_fail (GOG_SERIES (series) != NULL, FALSE);
+	return series->has_legend;
 }
 
 /**

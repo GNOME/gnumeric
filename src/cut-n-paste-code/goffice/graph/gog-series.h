@@ -32,6 +32,7 @@ G_BEGIN_DECLS
 
 GType gog_series_get_type (void);
 gboolean      gog_series_is_valid  (GogSeries const *series);
+gboolean      gog_series_has_legend (GogSeries const *series);
 GODataScalar *gog_series_get_name  (GogSeries const *series);
 void	      gog_series_set_name  (GogSeries *series,
 				    GODataScalar *val, GError **err);

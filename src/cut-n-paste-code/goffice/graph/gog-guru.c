@@ -742,6 +742,23 @@ cb_attr_tree_selection_change (GraphGuruState *s)
 			gog_object_get_parent_typed (obj, GOG_CHART_TYPE);
 		s->plot = (GogPlot *)
 			gog_object_get_parent_typed (obj, GOG_PLOT_TYPE);
+
+		if (s->plot == NULL) {
+			if (s->chart == NULL && s->graph != NULL) {
+				GSList *charts = gog_object_get_children (GOG_OBJECT (s->graph),
+					gog_object_find_role_by_name (GOG_OBJECT (s->graph), "Chart"));
+				if (charts != NULL && charts->next == NULL)
+					s->chart = charts->data;
+				g_slist_free (charts);
+			}
+			if (s->chart != NULL) {
+				GSList *plots = gog_object_get_children (GOG_OBJECT (s->chart),
+					gog_object_find_role_by_name (GOG_OBJECT (s->chart), "Plot"));
+				if (plots != NULL && plots->next == NULL)
+					s->plot = plots->data;
+				g_slist_free (plots);
+			}
+		}
 		gtk_widget_set_sensitive (s->button_navigate, s->chart != NULL);
 
 		delete_ok = gog_object_is_deletable (s->prop_object);
@@ -895,7 +912,7 @@ populate_graph_item_list (GogObject *obj, GogObject *select, GraphGuruState *s,
 		"child-removed",
 		closure, FALSE);
 
-	children = gog_object_get_children (obj);
+	children = gog_object_get_children (obj, NULL);
 	for (ptr = children ; ptr != NULL ; ptr = ptr->next)
 		populate_graph_item_list (ptr->data, select, s, &iter, FALSE);
 	g_slist_free (children);

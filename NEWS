@@ -9,6 +9,13 @@ Jody:
 	* Fix MS XL crash when there are too many strings
 	* xls import gradient backgrounds in chart elements
 	* Restore the font selector to chart editors
+	* Support series with no entry in a legend
+	http://bugzilla.gnome.org/show_bug.cgi?id=142267
+	* Fix drawing selection below hidden merged cells
+	http://bugzilla.gnome.org/show_bug.cgi?id=103054
+	* Fix xls named expression and addin import/export
+	http://bugzilla.gnome.org/show_bug.cgi?id=142474
+	* Use first rather than last conditional value fmt as catch-all
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.12

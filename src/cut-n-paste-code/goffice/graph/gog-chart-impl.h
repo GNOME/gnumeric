@@ -33,7 +33,7 @@ struct _GogChart {
 	GogOutlinedObject	 base;
 
 	GSList  *plots;
-	unsigned cardinality;
+	unsigned full_cardinality, visible_cardinality;
 	gboolean cardinality_valid;
 
 	/* use a simple grid layout to position charts within graph */

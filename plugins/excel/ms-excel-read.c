@@ -3043,9 +3043,9 @@ excel_read_EXTERNNAME (BiffQuery *q, MSContainer *container)
 				       ewb->v8.supbook->len-1));
 		g_ptr_array_add (sup->externname, nexpr);
 	} else {
-		GPtrArray *a = container->names;
+		GPtrArray *a = container->v7.externnames;
 		if (a == NULL)
-			a = container->names = g_ptr_array_new ();
+			a = container->v7.externnames = g_ptr_array_new ();
 		g_ptr_array_add (a, nexpr);
 	}
 }
@@ -3172,7 +3172,7 @@ excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb, ExcelReadSheet *esheet)
 			name, expr_data, expr_len, TRUE);
 
 		/* Add a ref to keep it around after the excel-sheet/wb goes
-		 * away.  externames do not get references and are unrefed
+		 * away.  externnames do not get references and are unrefed
 		 * after import finishes, which destroys them if they are not
 		 * in use. */
 		if (nexpr != NULL) {
@@ -3997,68 +3997,86 @@ static void
 excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 {
 	SheetView *sv = sheet_get_view (esheet->sheet, esheet->container.ewb->wbv);
+	guint16 top_row    = 0;
+	guint16 left_col   = 0;
+	guint32 biff_pat_col;
+	gboolean set_grid_color;
 
-	if (esheet->container.ver == MS_BIFF_V2) {
-		g_warning("TODO: Decipher Biff2 WINDOW2");
-		gsf_mem_dump (q->data, q->length);
-		return;
-	}
-	if (q->length >= 10) {
+	if (esheet->container.ver > MS_BIFF_V2) {
 		guint16 const options    = GSF_LE_GET_GUINT16 (q->data + 0);
-		/* coords are 0 based */
-		guint16 top_row    = GSF_LE_GET_GUINT16 (q->data + 2);
-		guint16 left_col   = GSF_LE_GET_GUINT16 (q->data + 4);
-		guint32 const biff_pat_col = GSF_LE_GET_GUINT32 (q->data + 6);
 
-		esheet->sheet->display_formulas	= (options & 0x0001) != 0;
-		esheet->sheet->hide_grid	= (options & 0x0002) == 0;
+		g_return_if_fail (q->length >= 10);
+
+		esheet->sheet->display_formulas	= ((options & 0x0001) != 0);
+		esheet->sheet->hide_grid	= ((options & 0x0002) == 0);
 		esheet->sheet->hide_col_header  =
-		esheet->sheet->hide_row_header	= (options & 0x0004) == 0;
-		esheet->freeze_panes		= (options & 0x0008) != 0;
-		esheet->sheet->hide_zero	= (options & 0x0010) == 0;
+		esheet->sheet->hide_row_header	= ((options & 0x0004) == 0);
+		esheet->freeze_panes		= ((options & 0x0008) != 0);
+		esheet->sheet->hide_zero	= ((options & 0x0010) == 0);
+		set_grid_color = (options & 0x0020) == 0;
 
-		/* NOTE : This is top left of screen even if frozen, modify when
-		 *        we read PANE
-		 */
-		sv_set_initial_top_left (sv, left_col, top_row);
-
-		if (!(options & 0x0020)) {
-			GnmColor *pattern_color;
-			if (esheet->container.ver >= MS_BIFF_V8) {
-				/* Get style color from palette*/
-				pattern_color = excel_palette_get (
-					esheet->container.ewb->palette,
-					biff_pat_col & 0x7f);
-			} else {
-				guint8 r, g, b;
-
-				r = (guint8) biff_pat_col;
-				g = (guint8) (biff_pat_col >> 8);
-				b = (guint8) (biff_pat_col >> 16);
-				pattern_color = style_color_new_i8 (r, g, b);
-			}
-			d (2, fprintf (stderr,"auto pattern color "
-				      "0x%x 0x%x 0x%x\n",
-				      pattern_color->color.red,
-				      pattern_color->color.green,
-				      pattern_color->color.blue););
-			sheet_style_set_auto_pattern_color (
-				esheet->sheet, pattern_color);
-		}
+		top_row      = GSF_LE_GET_GUINT16 (q->data + 2);
+		left_col     = GSF_LE_GET_GUINT16 (q->data + 4);
+		biff_pat_col = GSF_LE_GET_GUINT32 (q->data + 6);
 
 		d (0, if (options & 0x0200) fprintf (stderr,"Sheet flag selected\n"););
-
 		if (options & 0x0400)
 			wb_view_sheet_focus (wb_view, esheet->sheet);
+
+		if (esheet->container.ver >= MS_BIFF_V8 && q->length >= 14) {
+			d (2, {
+				guint16 const pageBreakZoom = GSF_LE_GET_GUINT16 (q->data + 10);
+				guint16 const normalZoom = GSF_LE_GET_GUINT16 (q->data + 12);
+				fprintf (stderr,"%hx %hx\n", normalZoom, pageBreakZoom);
+			});
+		}
+	} else {
+		g_return_if_fail (q->length >= 14);
+
+		esheet->sheet->display_formulas	= (q->data[0] != 0);
+		esheet->sheet->hide_grid	= (q->data[1] == 0);
+		esheet->sheet->hide_col_header  =
+		esheet->sheet->hide_row_header	= (q->data[2] == 0);
+		esheet->freeze_panes		= (q->data[3] != 0);
+		esheet->sheet->hide_zero	= (q->data[4] == 0);
+		set_grid_color			= (q->data[9] == 0);
+
+		top_row      = GSF_LE_GET_GUINT16 (q->data + 5);
+		left_col     = GSF_LE_GET_GUINT16 (q->data + 7);
+		biff_pat_col = GSF_LE_GET_GUINT32 (q->data + 10);
 	}
 
-	if (q->length >= 14) {
-		d (2, {
-			guint16 const pageBreakZoom = GSF_LE_GET_GUINT16 (q->data + 10);
-			guint16 const normalZoom = GSF_LE_GET_GUINT16 (q->data + 12);
-			fprintf (stderr,"%hx %hx\n", normalZoom, pageBreakZoom);
-		});
+	if (set_grid_color) {
+		GnmColor *pattern_color;
+		if (esheet->container.ver >= MS_BIFF_V8) {
+			/* Get style color from palette*/
+			pattern_color = excel_palette_get (
+				esheet->container.ewb->palette,
+				biff_pat_col & 0x7f);
+		} else {
+			guint8 r, g, b;
+
+			r = (guint8) biff_pat_col;
+			g = (guint8) (biff_pat_col >> 8);
+			b = (guint8) (biff_pat_col >> 16);
+			pattern_color = style_color_new_i8 (r, g, b);
+		}
+		d (2, fprintf (stderr,"auto pattern color "
+			      "0x%x 0x%x 0x%x\n",
+			      pattern_color->color.red,
+			      pattern_color->color.green,
+			      pattern_color->color.blue););
+		sheet_style_set_auto_pattern_color (
+			esheet->sheet, pattern_color);
 	}
+
+	/* until we import multiple views unfreeze just in case a previous view
+	 * had frozen */
+	sv_freeze_panes (sv, NULL, NULL);
+
+	/* NOTE : This is top left of screen even if frozen, modify when
+	 *        we read PANE */
+	sv_set_initial_top_left (sv, left_col, top_row);
 }
 
 static void
@@ -4808,7 +4826,7 @@ excel_externsheet_v7 (MSContainer const *container, gint16 idx)
 
 	d (2, fprintf (stderr, "externv7 %hd\n", idx););
 
-	externsheets = container->v7.externsheet;
+	externsheets = container->v7.externsheets;
 	g_return_val_if_fail (externsheets != NULL, NULL);
 	g_return_val_if_fail (idx > 0, NULL);
 	g_return_val_if_fail (idx <= (int)externsheets->len, NULL);
@@ -4884,9 +4902,9 @@ excel_read_EXTERNSHEET_v7 (BiffQuery const *q, MSContainer *container)
 			_("external references"));
 	};
 
-	if (container->v7.externsheet == NULL)
-		container->v7.externsheet = g_ptr_array_new ();
-	g_ptr_array_add (container->v7.externsheet, sheet);
+	if (container->v7.externsheets == NULL)
+		container->v7.externsheets = g_ptr_array_new ();
+	g_ptr_array_add (container->v7.externsheets, sheet);
 }
 
 /* FILEPASS, ask the user for a password if necessary

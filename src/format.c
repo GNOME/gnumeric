@@ -619,13 +619,9 @@ format_compile (GnmFormat *format)
 	for (ptr = format->entries; ptr && counter++ < 4 ; ptr = ptr->next) {
 		StyleFormatEntry *entry = ptr->data;
 
-		/*
-		 * Use default conditional instead of catch-all, except
-		 * for the last entry.
-		 */
-		if (entry->restriction_type == '*' && counter != num_entries) {
+		/* apply the standard restrictions where things are unspecified */
+		if (entry->restriction_type == '*') {
 			entry->restriction_value = 0.;
-
 			switch (counter) {
 			case 1 : entry->restriction_type = (num_entries > 2) ? '>' : '.';
 				 break;
@@ -1841,7 +1837,7 @@ style_format_condition (StyleFormatEntry const *entry, GnmValue const *value)
 		return TRUE;
 
 	switch (value->type) {
-	case VALUE_ERROR:
+	case VALUE_BOOLEAN:
 	case VALUE_STRING:
 		return entry->restriction_type == '@';
 
@@ -1869,6 +1865,7 @@ style_format_condition (StyleFormatEntry const *entry, GnmValue const *value)
 			return FALSE;
 		}
 
+	case VALUE_ERROR:
 	default:
 		return FALSE;
 	}
@@ -1999,10 +1996,13 @@ format_value_gstring (GString *result, GnmFormat const *format,
 		value = value_area_fetch_x_y (value, 0, 0, NULL);
 
 	if (format) {
-		/* get format */
 		for (list = format->entries; list; list = list->next)
 			if (style_format_condition (list->data, value))
 				break;
+
+		if (list == NULL &&
+		    (value->type == VALUE_INTEGER || value->type == VALUE_FLOAT))
+			list = format->entries;
 
 		/* If nothing matches treat it as General */
 		if (list != NULL) {

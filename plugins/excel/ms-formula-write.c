@@ -510,8 +510,9 @@ write_funcall (PolishData *pd, GnmExpr const *expr,
 			push_guint8 (pd, FORMULA_PTG_NAME_X);
 			if (pd->ewb->bp->version <= MS_BIFF_V7) {
 				/* The Magic Addin entry is after the real sheets
-				 * at the workbook level.  */
-				push_gint16  (pd, -(pd->ewb->sheets->len + 1));
+				 * for globals (names that call addins) and
+				 * for locals (fomulas that call addins) */
+				push_gint16  (pd, pd->ewb->sheets->len + 1);
 				ms_biff_put_var_write (pd->ewb->bp, zeros, 8);
 				push_guint16 (pd, ef->idx);
 				ms_biff_put_var_write (pd->ewb->bp, zeros, 12);

@@ -25,7 +25,7 @@ You need:				Debian package name
 	libbonoboui	>= 2.0.0	libbonoboui2-dev
 	libgnomeprint	>= 2.4.2	libgnomeprint2.4-dev
 	libgnomeprintui	>= 2.4.2	libgnomeprintui2.4-dev
-	libgsf		>= 1.8.2	libgsf-1-dev + libgsf-gnome-1-dev
+	libgsf		>= 1.9.1	libgsf-1-dev + libgsf-gnome-1-dev
 	libglade	>= 2.0.0	libglade2-dev
 	intltools	>= 0.27.2	intltool
 	gnome-xml   	>= 2.4.12	libxml2-dev

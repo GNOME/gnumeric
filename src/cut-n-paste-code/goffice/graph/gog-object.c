@@ -341,14 +341,44 @@ gog_object_set_name (GogObject *obj, char *name, GError **err)
 /**
  * gog_object_get_children :
  * @obj : a #GogObject
+ * @filter : an optional #GogObjectRole to use as a filter
  *
  * The list needs to be Freed
  **/
 GSList *
-gog_object_get_children (GogObject const *obj)
+gog_object_get_children (GogObject const *obj, GogObjectRole const *filter)
 {
+	GSList *ptr, *res = NULL;
+
 	g_return_val_if_fail (GOG_OBJECT (obj) != NULL, NULL);
-	return g_slist_copy (obj->children);
+
+	if (filter == NULL)
+		return g_slist_copy (obj->children);
+
+	for (ptr = obj->children ; ptr != NULL ; ptr = ptr->next)
+		if (GOG_OBJECT (ptr->data)->role == filter)
+			res = g_slist_prepend (res, ptr->data);
+	return g_slist_reverse (res);
+}
+
+/**
+ * gog_object_get_child_by_role :
+ * @obj : a #GogObject
+ * @role : a #GogObjectRole to use as a filter
+ *
+ * A convenience routine to handle a unique child
+ * Returns NULL and spews an error if there is more than one.
+ **/
+GogObject *
+gog_object_get_child_by_role (GogObject const *obj, GogObjectRole const *role)
+{
+	GogObject *res = NULL;
+	GSList *children = gog_object_get_children (obj, role);
+
+	if (children != NULL && children->next == NULL)
+		res = children->data;
+	g_slist_free (children);
+	return res;
 }
 
 /**

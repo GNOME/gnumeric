@@ -1,3 +1,13 @@
+2004-05-15  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-plot.c (gog_plot_get_axis_bounds) : add some safety.
+          This will be called for things like a pie when adding one while
+	  something with an still exists.
+
+	* graph/gog-guru.c (cb_attr_tree_selection_change) : be more forgiving
+	  about when a user can go back to select a plot.  If there is only
+	  one chart, or one plot things are unambiguous.
+
 2004-05-05  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.12

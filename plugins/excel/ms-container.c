@@ -34,7 +34,8 @@ ms_container_init (MSContainer *container, MSContainerClass const *vtbl,
 	container->parent = parent;
 
 	container->names = NULL;
-	container->v7.externsheet = NULL;
+	container->v7.externsheets = NULL;
+	container->v7.externnames = NULL;
 }
 
 void
@@ -64,9 +65,24 @@ ms_container_finalize (MSContainer *container)
 		container->obj_queue = NULL;
 	}
 
-	if (container->v7.externsheet != NULL) {
-		g_ptr_array_free (container->v7.externsheet, TRUE);
-		container->v7.externsheet = NULL;
+	if (container->v7.externsheets != NULL) {
+		g_ptr_array_free (container->v7.externsheets, TRUE);
+		container->v7.externsheets = NULL;
+	}
+	if (container->v7.externnames != NULL) {
+		for (i = container->v7.externnames->len; i-- > 0 ; )
+			if (g_ptr_array_index (container->v7.externnames, i) != NULL) {
+				GnmNamedExpr *nexpr = g_ptr_array_index (container->v7.externnames, i);
+				if (nexpr != NULL) {
+					/* NAME placeholders need removal, EXTERNNAME placeholders
+					 * will no be active */
+					if (nexpr->active && nexpr->is_placeholder && nexpr->ref_count == 2)
+						expr_name_remove (nexpr);
+					expr_name_unref (nexpr);
+				}
+			}
+		g_ptr_array_free (container->v7.externnames, TRUE);
+		container->v7.externnames = NULL;
 	}
 	if (container->names != NULL) {
 		for (i = container->names->len; i-- > 0 ; )
