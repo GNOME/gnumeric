@@ -1511,10 +1511,12 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 				    rect.x, rect.y, rect.width, rect.height);
 
 		/*
-		 * And it is also of necessity to return the gc to its original
-		 * foreground setting
+		 * And now reset the previous foreground color
 		 */
-		gdk_gc_set_foreground (gc, &(style->fore_color->color));
+		if (cell->render_color)
+			gdk_gc_set_foreground (gc, &cell->render_color->color);
+		else
+			gdk_gc_set_foreground (gc, &(style->fore_color->color));
 
 		len = 0;
 		switch (halign){

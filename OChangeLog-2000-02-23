@@ -1,3 +1,13 @@
+1999-02-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (cell_draw): If the cell has a render_color (provided
+	by the format specification), use that for the foreground.
+
+1999-02-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/file.c (workbook_save_as): Append the extension of the
+	default format if no colon is specified
+
 1999-02-22  Tim Mooney  <mooney@dogbert.cc.ndsu.nodak.edu>
 
 	* plugins/guile/plugin.c (func_scm_apply): Initialization of
