@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-08-31 11:50+0200\n"
-"PO-Revision-Date: 2003-08-31 11:55+0200\n"
+"POT-Creation-Date: 2003-09-02 21:13+0200\n"
+"PO-Revision-Date: 2003-08-31 21:15+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8415,7 +8415,7 @@ msgstr "%s version %s"
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:207
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:102
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:103
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
 msgid "Automatic"
@@ -18892,7 +18892,7 @@ msgid "Filter data with given criteria"
 msgstr "Filtrera data efter givna kriterier"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:667
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:668
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -20874,18 +20874,18 @@ msgstr "utsträckt"
 msgid "wallpaper"
 msgstr "bakgrundsbild"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:162
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:163
 #: src/widgets/preview-file-selection.c:167
 #, c-format
 msgid "%d x %d"
 msgstr "%d × %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:450
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:451
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Välj en bild"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:715
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:716
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Stil"
@@ -20898,7 +20898,7 @@ msgid "Default"
 msgstr "Standard"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:379
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:385
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -21294,6 +21294,88 @@ msgstr "Cirkeldiagramsritmotor"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in.h:5
 msgid "Ring plotting engine"
 msgstr "Cirkeldiagramsritmotor"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:53
+msgid "PlotXY"
+msgstr "PlotXY"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:128
+msgid "X"
+msgstr "X"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:130
+msgid "Y"
+msgstr "Y"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
+msgid "Bubble"
+msgstr "Bubbel"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
+msgid ""
+"Interpolate between multi-dimensional points,with markers at each point."
+msgstr ""
+"Interpolera mellan multidimensionella punkter, med markörer i varje punkt."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
+msgid "Interpolate between multi-dimensional points."
+msgstr "Interpolera mellan multidimensionella punkter."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
+msgid "Interpolated points"
+msgstr "Interpolerade punkter"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
+msgid ""
+"Linearly interpolate between multi-dimensional points,with markers at each "
+"point."
+msgstr ""
+"Interpolera linjärt mellan multidimensionella punkter, med markörer i varje "
+"punkt."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
+msgid "Linearly interpolate between multi-dimensional points."
+msgstr "Interpolera linjärt mellan multidimensionella punkter."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
+msgid "Linearly interpolated points"
+msgstr "Linjärt interpolerade punkter"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+msgid "Marked interpolated points"
+msgstr "Markerade interpolerade punkter"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
+msgid "Marked linearly interpolated points"
+msgstr "Markerade linjärt interpolerade punkter"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
+msgid "Plot X, Y and bubble size."
+msgstr "Plotta X, Y och bubbelstorlek."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:11
+msgid "Plot one series per axis."
+msgstr "Plotta en serie per axel."
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
+msgid "XY"
+msgstr "XY"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
+msgid "2D Scatter charts"
+msgstr "2D-spridningsgraf"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:2
+msgid "2D scatter plotting engine"
+msgstr "2D-spridningsgrafmotor"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:3
+msgid "Stock Scatter plot types"
+msgstr "Standardtyper av spridningsgrafer"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
+msgid "XY Charts"
+msgstr "XY-grafer"
 
 #: src/dates.c:16
 msgid "*Sun"
@@ -27273,7 +27355,7 @@ msgstr "Skalär"
 msgid "Any"
 msgstr "Vilken som helst"
 
-#: src/func.c:1004
+#: src/func.c:1002
 msgid "Function does not exist"
 msgstr "Funktionen finns inte"
 
@@ -32520,47 +32602,8 @@ msgstr "Gnumeric XML-filformat"
 #~ msgid "5 series"
 #~ msgstr "5 serier"
 
-#~ msgid "Bubble"
-#~ msgstr "Bubbel"
-
 #~ msgid "High, Low, Close."
 #~ msgstr "Högsta, lägsta, slut."
-
-#~ msgid ""
-#~ "Interpolate between multi-dimensional points, with markers at each point."
-#~ msgstr ""
-#~ "Interpolera mellan multidimensionella punkter, med markörer i varje punkt."
-
-#~ msgid "Interpolate between multi-dimensional points."
-#~ msgstr "Interpolera mellan multidimensionella punkter."
-
-#~ msgid "Interpolated points"
-#~ msgstr "Interpolerade punkter"
-
-#~ msgid ""
-#~ "Linearly interpolate between multi-dimensional points, with markers at "
-#~ "each point."
-#~ msgstr ""
-#~ "Interpolera linjärt mellan multidimensionella punkter, med markörer i "
-#~ "varje punkt."
-
-#~ msgid "Linearly interpolate between multi-dimensional points."
-#~ msgstr "Interpolera linjärt mellan multidimensionella punkter."
-
-#~ msgid "Linearly interpolated points"
-#~ msgstr "Linjärt interpolerade punkter"
-
-#~ msgid "Marked interpolated points"
-#~ msgstr "Markerade interpolerade punkter"
-
-#~ msgid "Marked linearly interpolated points"
-#~ msgstr "Markerade linjärt interpolerade punkter"
-
-#~ msgid "Plot X, Y and bubble size."
-#~ msgstr "Plotta X, Y och bubbelstorlek."
-
-#~ msgid "Plot one series per axis."
-#~ msgstr "Plotta en serie per axel."
 
 #~ msgid "Points"
 #~ msgstr "Punkter"
