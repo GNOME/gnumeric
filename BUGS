@@ -40,8 +40,7 @@ Long term breakage
 - Names : Sheet local vs workbook local vs application global (does that exist ?)
 	: addresses not changing with row/col ins/del.
 
-- All forms of autoscroll should use the timer mechanism from item-grid.
-- The auto scroll timer from item-grid needs to move to sheet-view.
+- Cursor autoscroll should use the timer mechanism from sheet-view.
 
 - Underline should scale with font size.  (Say, min (1, font->descent/4?)
   gnome-print has a function we could use for printing which returns the
