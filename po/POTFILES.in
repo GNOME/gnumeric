@@ -19,6 +19,7 @@ src/gnumeric-util.c
 src/item-cursor.c
 src/item-grid.c
 src/main.c
+src/sheet-autofill.c
 src/plugin.c
 src/plugin-manager.c
 src/sheet-view.c
