@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-30 01:42-0500\n"
+"POT-Creation-Date: 2004-03-30 20:48-0500\n"
 "PO-Revision-Date: 2004-03-03 20:40--530\n"
 "Last-Translator: terna2 <terna2@hbcse.tifr.res.in>\n"
 "Language-Team: terna localization Team <hbcse.net>\n"
@@ -10268,7 +10268,7 @@ msgstr ""
 msgid "Constraints:"
 msgstr "आत आहे"
 
-#: plugins/mps/mps.c:247 src/commands.c:5727
+#: plugins/mps/mps.c:247 src/commands.c:5726
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1034
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:291
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -10899,7 +10899,7 @@ msgstr ""
 msgid "Error while opening xbase file."
 msgstr "अॅपलिक्स फाईल वाचताना त्रुटी आली"
 
-#: plugins/xbase/boot.c:175 src/commands.c:4552
+#: plugins/xbase/boot.c:175 src/commands.c:4551
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:399
 #: src/dialogs/dialog-stf-export.c:349 src/dialogs/print.glade.h:22
 #: src/print-info.c:391 src/workbook.c:1053 src/xml-io.c:3709
@@ -11820,346 +11820,346 @@ msgstr "सगळे"
 msgid "Clearing %s in %s"
 msgstr "%s मधील %s मिटवा"
 
-#: src/commands.c:1671
+#: src/commands.c:1672
 msgid "Changing Format"
 msgstr "रुपरेषा बदला"
 
-#: src/commands.c:1798
+#: src/commands.c:1797
 #, c-format
 msgid "Changing format of %s"
 msgstr "%s ची रुपरेषा बदलणे"
 
-#: src/commands.c:1910
+#: src/commands.c:1909
 #, c-format
 msgid "Autofitting column %s"
 msgstr "स्वयंचलित रकाना बसवणे %s"
 
-#: src/commands.c:1911
+#: src/commands.c:1910
 #, c-format
 msgid "Autofitting row %s"
 msgstr "स्वयंचलित ओळ बसवणे %s"
 
-#: src/commands.c:1914
+#: src/commands.c:1913
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "रकान्यांची रुंदी %s पासून %d बिंदूंपर्यंत ठेवा"
 
-#: src/commands.c:1916
+#: src/commands.c:1915
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "ओळींची लांबी %s पासून %d बिंदूंपर्यंत ठेवा"
 
-#: src/commands.c:1919
+#: src/commands.c:1918
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "रकान्यांची रुंदी %s ला डिफॉल्ट ठेवा"
 
-#: src/commands.c:1922
+#: src/commands.c:1921
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr " ओळींची लांबी%s ला डिफॉल्ट ठेवा"
 
-#: src/commands.c:1926
+#: src/commands.c:1925
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "स्वयंचलित रकाना बसवणे %s"
 
-#: src/commands.c:1927
+#: src/commands.c:1926
 #, fuzzy, c-format
 msgid "Autofitting rows %s"
 msgstr "स्वयंचलित ओळ बसवणे %s"
 
-#: src/commands.c:1930
+#: src/commands.c:1929
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "रकान्यांची रुंदी %s पासून %d बिंदूंपर्यंत ठेवा"
 
-#: src/commands.c:1932
+#: src/commands.c:1931
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "ओळींची लांबी%s पासून %d बिंदूंपर्यंत ठेवा"
 
-#: src/commands.c:1936
+#: src/commands.c:1935
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "रकान्यांची रुंदी %s ला डिफॉल्ट ठेवा"
 
-#: src/commands.c:1938
+#: src/commands.c:1937
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr " ओळींची लांबी%s ला डिफॉल्ट ठेवा"
 
-#: src/commands.c:2005 src/dialogs/dialog-preferences.c:1505
+#: src/commands.c:2004 src/dialogs/dialog-preferences.c:1505
 msgid "Sorting"
 msgstr "क्रमबद्ध करा"
 
-#: src/commands.c:2025
+#: src/commands.c:2024
 #, c-format
 msgid "Sorting %s"
 msgstr "%s ला क्रमबद्ध करत आहे"
 
-#: src/commands.c:2157
+#: src/commands.c:2156
 msgid "Unhide columns"
 msgstr "रकान्यांना दाखवा"
 
-#: src/commands.c:2157
+#: src/commands.c:2156
 msgid "Hide columns"
 msgstr "रकाने लपवा"
 
-#: src/commands.c:2158
+#: src/commands.c:2157
 msgid "Unhide rows"
 msgstr "ओळ्यांना दाखवा"
 
-#: src/commands.c:2158
+#: src/commands.c:2157
 msgid "Hide rows"
 msgstr "ओळ्या लपवा"
 
-#: src/commands.c:2241
+#: src/commands.c:2240
 msgid "Expand columns"
 msgstr "रकाने वाढवा"
 
-#: src/commands.c:2241
+#: src/commands.c:2240
 msgid "Collapse columns"
 msgstr "रकान्याला गाळा"
 
-#: src/commands.c:2242
+#: src/commands.c:2241
 msgid "Expand rows"
 msgstr "ओळी वाढवा"
 
-#: src/commands.c:2242
+#: src/commands.c:2241
 msgid "Collapse rows"
 msgstr "ओळींना गाळा"
 
-#: src/commands.c:2269
+#: src/commands.c:2268
 #, c-format
 msgid "Show column outline %d"
 msgstr "रकन्यांच्या रुपरेषेला %d दाखवा"
 
-#: src/commands.c:2269
+#: src/commands.c:2268
 #, c-format
 msgid "Show row outline %d"
 msgstr "ओळीच्या रुपरेषेला %d दाखवा"
 
-#: src/commands.c:2334
+#: src/commands.c:2333
 msgid "Those columns are already grouped"
 msgstr "ते रकाने आधीपासुन समुहात आहेत "
 
-#: src/commands.c:2335
+#: src/commands.c:2334
 msgid "Those rows are already grouped"
 msgstr "त्या ओळी आधीच समूहात आहेत"
 
-#: src/commands.c:2358
+#: src/commands.c:2357
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "ते रकाने समुहात नाहित, त्यांना समुहातून बाहेर काढू शकत नाही"
 
-#: src/commands.c:2359
+#: src/commands.c:2358
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "त्या ओळी समूहात नाहीत. तूम्ही त्याना समूहातना काढू शकत नाही"
 
-#: src/commands.c:2373
+#: src/commands.c:2372
 #, c-format
 msgid "Group columns %s"
 msgstr "%s रकान्यांचा समूह करा"
 
-#: src/commands.c:2373
+#: src/commands.c:2372
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "%s रकान्याना समूहातून काढा"
 
-#: src/commands.c:2375
+#: src/commands.c:2374
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "%d:%d ओळींचे समूह करा"
 
-#: src/commands.c:2375
+#: src/commands.c:2374
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "%d:%d ओळ्यांना समूहातून काढा"
 
-#: src/commands.c:2609
+#: src/commands.c:2608
 #, c-format
 msgid "Moving %s"
 msgstr "%s को हलविले जात आहे"
 
-#: src/commands.c:2618 src/commands.c:2829
+#: src/commands.c:2617 src/commands.c:2828
 msgid "is beyond sheet boundaries"
 msgstr "पानाच्या सीमेच्या बाहेर आहे"
 
 #. FIXME?
-#: src/commands.c:2773
+#: src/commands.c:2772
 #, c-format
 msgid "Pasting into %s"
 msgstr "%s ने चिकटवा"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3006 src/commands.c:3007 src/wbcg-actions.c:430
+#: src/commands.c:3005 src/commands.c:3006 src/wbcg-actions.c:430
 msgid "Autofill"
 msgstr "स्वयंचलित भरणे"
 
 #. Changed in initial redo.
-#: src/commands.c:3030
+#: src/commands.c:3029
 #, c-format
 msgid "Autofilling %s"
 msgstr "%s ला स्वयंचलित भरा"
 
-#: src/commands.c:3180
+#: src/commands.c:3179
 #, c-format
 msgid "Autoformatting %s"
 msgstr "%s स्वयंचलित रूपरेषा बदला"
 
-#: src/commands.c:3290
+#: src/commands.c:3289
 #, c-format
 msgid "Unmerging %s"
 msgstr "%s वेगळे काढणे"
 
-#: src/commands.c:3428
+#: src/commands.c:3427
 #, c-format
 msgid "Merging %s"
 msgstr "%s ला जोडा"
 
 #. Corrected below.
-#: src/commands.c:3810 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3809 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "शोधा  आणि बदला"
 
-#: src/commands.c:3907
+#: src/commands.c:3906
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "रकान्यांची रुंदी %.2fpts डिफॉल्ट ठेवा"
 
-#: src/commands.c:3908
+#: src/commands.c:3907
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "ओळींची लांबी डिफॉल्ट %.2fpts ठेवा"
 
-#: src/commands.c:4025
+#: src/commands.c:4024
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "%s पासून %.0f%% पर्यंत अधिक जवळ करा"
 
-#: src/commands.c:4095
+#: src/commands.c:4094
 msgid "Insert object"
 msgstr "वस्तु समाविष्ट करा"
 
-#: src/commands.c:4154
+#: src/commands.c:4153
 msgid "Delete object"
 msgstr "वस्तुला मिटवा"
 
-#: src/commands.c:4235
+#: src/commands.c:4234
 msgid "Resize object"
 msgstr "वस्तुचा आकार बदला"
 
-#: src/commands.c:4235
+#: src/commands.c:4234
 msgid "Move object"
 msgstr "वस्तुला हलवा"
 
-#: src/commands.c:4796
+#: src/commands.c:4795
 msgid "Reordering Sheets"
 msgstr "पानांना पुन्हा क्रमांक लावा"
 
-#: src/commands.c:4799
+#: src/commands.c:4798
 msgid "Renaming Sheets"
 msgstr "पानांना परत नाव द्या"
 
-#: src/commands.c:4802
+#: src/commands.c:4801
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "पानांना परत नाव द्या"
 
-#: src/commands.c:4806
+#: src/commands.c:4805
 msgid "Changing Tab Colors"
 msgstr "टॅबचे रंग बदलणे"
 
-#: src/commands.c:4809
+#: src/commands.c:4808
 msgid "Changing Sheet Protection"
 msgstr "पानाची सुरक्षा बदलणे"
 
-#: src/commands.c:4812
+#: src/commands.c:4811
 #, fuzzy
 msgid "Delete sheets"
 msgstr "रकान्यांनाना वगळा"
 
-#: src/commands.c:4815
+#: src/commands.c:4814
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "वस्तुला मिटवा"
 
-#: src/commands.c:4818
+#: src/commands.c:4817
 msgid "Reorganizing Sheets"
 msgstr "पानांना पुन्हा जमवा"
 
-#: src/commands.c:4968
+#: src/commands.c:4967
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "%s विषयीची टिपणी साफ करा"
 
-#: src/commands.c:4969
+#: src/commands.c:4968
 #, c-format
 msgid "Setting comment of %s"
 msgstr "%sचे विचार ठेवा"
 
-#: src/commands.c:5349
+#: src/commands.c:5348
 #, c-format
 msgid "Merging data into %s"
 msgstr "%s ला डाटा जोडा"
 
-#: src/commands.c:5451
+#: src/commands.c:5450
 msgid "Changing summary info"
 msgstr "सारांषांविषयीची माहिती बदलणे"
 
-#: src/commands.c:5542
+#: src/commands.c:5541
 msgid "Raise object"
 msgstr "वस्तु उचला"
 
-#: src/commands.c:5545
+#: src/commands.c:5544
 msgid "Lower object"
 msgstr "वस्तुच्या खाली आणा"
 
-#: src/commands.c:5548
+#: src/commands.c:5547
 msgid "Raise object to top"
 msgstr "वस्तु वर उचला"
 
-#: src/commands.c:5551
+#: src/commands.c:5550
 msgid "Lower object to bottom"
 msgstr "वस्तुला खाली आणा"
 
-#: src/commands.c:5666
+#: src/commands.c:5665
 #, c-format
 msgid "Page Setup For %s"
 msgstr "%s साठी पानाची बनावट"
 
-#: src/commands.c:5668
+#: src/commands.c:5667
 msgid "Page Setup For All Sheets"
 msgstr "सगळ्या पानासाठी बनावट"
 
-#: src/commands.c:5784
+#: src/commands.c:5783
 msgid "has a circular reference"
 msgstr ""
 
-#: src/commands.c:5807
+#: src/commands.c:5806
 #, c-format
 msgid "Define Name %s"
 msgstr "%s नाव वर्णन करा"
 
-#: src/commands.c:5810
+#: src/commands.c:5809
 #, c-format
 msgid "Update Name %s"
 msgstr "%s नाव बदला"
 
-#: src/commands.c:5874
+#: src/commands.c:5873
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:5949
+#: src/commands.c:5948
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6013
+#: src/commands.c:6012
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:6124
+#: src/commands.c:6123
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "विषयाकडून रकान्यांपर्यत"
@@ -12169,7 +12169,7 @@ msgstr "विषयाकडून रकान्यांपर्यत"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6271 src/dialogs/solver.glade.h:22
+#: src/commands.c:6270 src/dialogs/solver.glade.h:22
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:908 src/tools/solver/reports-write.c:959
@@ -12177,22 +12177,22 @@ msgstr "विषयाकडून रकान्यांपर्यत"
 msgid "Solver"
 msgstr "सोडवणारा"
 
-#: src/commands.c:6358
+#: src/commands.c:6357
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "लक्ष्य शोधा"
 
-#: src/commands.c:6500
+#: src/commands.c:6499
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "नक्कल"
 
-#: src/commands.c:6580
+#: src/commands.c:6579
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "आधारींताना योग्यारित्या रचा"
 
-#: src/commands.c:6656
+#: src/commands.c:6655
 msgid "Reconfigure Graph"
 msgstr ""
 
@@ -12701,7 +12701,7 @@ msgstr "मूल्य"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3969
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -14028,7 +14028,7 @@ msgstr "पहिले अक्षर"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:666
-#: src/format.c:2207 src/format.c:2339 src/format.c:2345 src/format.c:2418
+#: src/format.c:2219 src/format.c:2351 src/format.c:2357 src/format.c:2430
 #: src/plugin-service.c:198 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "सामान्य"
@@ -15313,8 +15313,8 @@ msgid "Mar"
 msgstr "*मार्च"
 
 #: src/dialogs/dialog-autoformat.c:78 src/dialogs/dialog-autoformat.c:82
-#: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
-#: src/tools/analysis-tools.c:3370
+#: src/tools/analysis-tools.c:3353 src/tools/analysis-tools.c:3363
+#: src/tools/analysis-tools.c:3371
 msgid "Total"
 msgstr "एकूण"
 
@@ -17072,8 +17072,8 @@ msgstr "स्वयंचलित निवड"
 msgid "0.2"
 msgstr ""
 
-#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:2689
-#: src/tools/analysis-tools.c:2692
+#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:2690
+#: src/tools/analysis-tools.c:2693
 #, fuzzy
 msgid "Exponential Smoothing"
 msgstr "अंशतः"
@@ -17394,8 +17394,8 @@ msgstr "बिन_श्रेणि"
 msgid "C_umulative percentages"
 msgstr ""
 
-#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4069
-#: src/tools/analysis-tools.c:4072
+#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4070
+#: src/tools/analysis-tools.c:4073
 #, fuzzy
 msgid "Histogram"
 msgstr "हिस्टोग्राम"
@@ -17616,8 +17616,8 @@ msgstr "39"
 msgid "In_terval:"
 msgstr ""
 
-#: src/dialogs/moving-averages.glade.h:5 src/tools/analysis-tools.c:2556
-#: src/tools/analysis-tools.c:2559
+#: src/dialogs/moving-averages.glade.h:5 src/tools/analysis-tools.c:2557
+#: src/tools/analysis-tools.c:2560
 #, fuzzy
 msgid "Moving Average"
 msgstr "बदलती सरासरी"
@@ -19046,40 +19046,40 @@ msgstr "बरोबर"
 msgid "FALSE"
 msgstr "चुक"
 
-#: src/format.c:678
+#: src/format.c:690
 msgid "Black"
 msgstr "काळा"
 
-#: src/format.c:679
+#: src/format.c:691
 msgid "Blue"
 msgstr "निळा"
 
-#: src/format.c:680
+#: src/format.c:692
 msgid "Cyan"
 msgstr ""
 
-#: src/format.c:681
+#: src/format.c:693
 msgid "Green"
 msgstr "हिरवा"
 
-#: src/format.c:682
+#: src/format.c:694
 msgid "Magenta"
 msgstr ""
 
-#: src/format.c:683
+#: src/format.c:695
 msgid "Red"
 msgstr "लाल"
 
-#: src/format.c:684
+#: src/format.c:696
 msgid "White"
 msgstr "शुभ्र"
 
-#: src/format.c:685
+#: src/format.c:697
 msgid "Yellow"
 msgstr "पिवळे"
 
 #. Array of arrays ??
-#: src/format.c:2086
+#: src/format.c:2098
 msgid "ARRAY"
 msgstr ""
 
@@ -21123,12 +21123,12 @@ msgstr ""
 msgid "Comma separated values (CSV)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3296
+#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3297
 #, fuzzy, c-format
 msgid "Row %i"
 msgstr "ओळ %s"
 
-#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3288
+#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3289
 #, fuzzy, c-format
 msgid "Column %i"
 msgstr "रकाना %s"
@@ -21367,183 +21367,183 @@ msgstr "परत पाठवा"
 msgid "Standard Error"
 msgstr "प्रमाणित रूंदी"
 
-#: src/tools/analysis-tools.c:2543
+#: src/tools/analysis-tools.c:2544
 #, fuzzy, c-format
 msgid "Moving Average (%s)"
 msgstr "बदलती सरासरी"
 
-#: src/tools/analysis-tools.c:2676
+#: src/tools/analysis-tools.c:2677
 #, fuzzy, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "अंशतः शक्ति"
 
-#: src/tools/analysis-tools.c:2744
+#: src/tools/analysis-tools.c:2745
 msgid "Point"
 msgstr "पॉइंट"
 
-#: src/tools/analysis-tools.c:2746
+#: src/tools/analysis-tools.c:2747
 msgid "Rank"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2747
+#: src/tools/analysis-tools.c:2748
 #, fuzzy
 msgid "Percentile"
 msgstr "शेकडा"
 
-#: src/tools/analysis-tools.c:2807
+#: src/tools/analysis-tools.c:2808
 #, c-format
 msgid "Ranks (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2819 src/tools/analysis-tools.c:2822
+#: src/tools/analysis-tools.c:2820 src/tools/analysis-tools.c:2823
 msgid "Ranks"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2860
+#: src/tools/analysis-tools.c:2861
 #, fuzzy
 msgid "Anova: Single Factor"
 msgstr "ANOVA- एक भाग"
 
-#: src/tools/analysis-tools.c:2861 src/tools/analysis-tools.c:3348
+#: src/tools/analysis-tools.c:2862 src/tools/analysis-tools.c:3349
 #: src/tools/simulation.c:343
 msgid "SUMMARY"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2862
+#: src/tools/analysis-tools.c:2863
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2916
+#: src/tools/analysis-tools.c:2917
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2921 src/tools/analysis-tools.c:3198
-#: src/tools/analysis-tools.c:3372
+#: src/tools/analysis-tools.c:2922 src/tools/analysis-tools.c:3199
+#: src/tools/analysis-tools.c:3373
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2999
+#: src/tools/analysis-tools.c:3000
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3010 src/tools/analysis-tools.c:3679
+#: src/tools/analysis-tools.c:3011 src/tools/analysis-tools.c:3680
 msgid "Anova"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3013
+#: src/tools/analysis-tools.c:3014
 #, fuzzy
 msgid "Single Factor ANOVA"
 msgstr "ANOVA- एक भाग"
 
-#: src/tools/analysis-tools.c:3120
+#: src/tools/analysis-tools.c:3121
 #, fuzzy
 msgid "The input range contains non-numeric data."
 msgstr "दिलेल्या इनपुट श्रेणीत कमीतकमी दोन रकान्यांत डाटा असला पाहिजे"
 
-#: src/tools/analysis-tools.c:3128
+#: src/tools/analysis-tools.c:3129
 msgid "Anova: Two-Factor Without Replication"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3129
+#: src/tools/analysis-tools.c:3130
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3192
+#: src/tools/analysis-tools.c:3193
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3338
+#: src/tools/analysis-tools.c:3339
 msgid "One of the factor combinations does not contain any observations!"
 msgstr ""
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:3347
+#: src/tools/analysis-tools.c:3348
 msgid "Anova: Two-Factor With Replication"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3354
+#: src/tools/analysis-tools.c:3355
 msgid "/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3364
+#: src/tools/analysis-tools.c:3365
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
-msgstr ""
-
-#: src/tools/analysis-tools.c:3663
-#, c-format
-msgid "Two Factor ANOVA (%s), no replication"
 msgstr ""
 
 #: src/tools/analysis-tools.c:3664
 #, c-format
+msgid "Two Factor ANOVA (%s), no replication"
+msgstr ""
+
+#: src/tools/analysis-tools.c:3665
+#, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3682
+#: src/tools/analysis-tools.c:3683
 #, fuzzy
 msgid "Two Factor ANOVA"
 msgstr "दोन भाग"
 
-#: src/tools/analysis-tools.c:3863
+#: src/tools/analysis-tools.c:3864
 #, c-format
 msgid "<%s"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3867
+#: src/tools/analysis-tools.c:3868
 msgid "Too Small"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3884
+#: src/tools/analysis-tools.c:3885
 #, fuzzy
 msgid "More"
 msgstr "मोड (रूप)"
 
-#: src/tools/analysis-tools.c:3893
+#: src/tools/analysis-tools.c:3894
 #, c-format
 msgid ">%s"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3897
+#: src/tools/analysis-tools.c:3898
 #, fuzzy
 msgid "Too Large"
 msgstr "Kth खूप मोठा"
 
-#: src/tools/analysis-tools.c:3941
+#: src/tools/analysis-tools.c:3942
 #, fuzzy
 msgid "Bin"
 msgstr "कमीत कमी"
 
-#: src/tools/analysis-tools.c:3966
+#: src/tools/analysis-tools.c:3967
 msgid "Frequency"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3971
+#: src/tools/analysis-tools.c:3972
 #, no-c-format
 msgid "Cumulative %"
 msgstr ""
 
-#: src/tools/analysis-tools.c:4050
+#: src/tools/analysis-tools.c:4051
 #, fuzzy, c-format
 msgid "Histogram (%s)"
 msgstr "हिस्टोग्राम"
 
-#: src/tools/analysis-tools.c:4157 src/tools/solver/reports-write.c:647
+#: src/tools/analysis-tools.c:4158 src/tools/solver/reports-write.c:647
 #, fuzzy
 msgid "Real"
 msgstr "आयत"
 
-#: src/tools/analysis-tools.c:4158
+#: src/tools/analysis-tools.c:4159
 #, fuzzy
 msgid "Imaginary"
 msgstr "जानेवारी"
 
-#: src/tools/analysis-tools.c:4218
+#: src/tools/analysis-tools.c:4219
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:4230 src/tools/analysis-tools.c:4233
+#: src/tools/analysis-tools.c:4231 src/tools/analysis-tools.c:4234
 #, fuzzy
 msgid "Fourier Series"
 msgstr "फ़ोरियर विश्लेशण करा"

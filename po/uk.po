@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-30 01:42-0500\n"
+"POT-Creation-Date: 2004-03-30 20:48-0500\n"
 "PO-Revision-Date: 2003-03-26 11:18--500\n"
 "Last-Translator: Yuriy Syrota <yuri@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -12871,7 +12871,7 @@ msgstr ""
 msgid "Constraints:"
 msgstr "Обмеження:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5727
+#: plugins/mps/mps.c:247 src/commands.c:5726
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1034
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:291
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -13598,7 +13598,7 @@ msgstr ""
 msgid "Error while opening xbase file."
 msgstr "Помилка під час відкривання файлу XBase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4552
+#: plugins/xbase/boot.c:175 src/commands.c:4551
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:399
 #: src/dialogs/dialog-stf-export.c:349 src/dialogs/print.glade.h:22
 #: src/print-info.c:391 src/workbook.c:1053 src/xml-io.c:3709
@@ -14533,358 +14533,358 @@ msgstr "всі"
 msgid "Clearing %s in %s"
 msgstr "Очищення %s в %s"
 
-#: src/commands.c:1671
+#: src/commands.c:1672
 #, fuzzy
 msgid "Changing Format"
 msgstr "Зміна формату %s"
 
-#: src/commands.c:1798
+#: src/commands.c:1797
 #, c-format
 msgid "Changing format of %s"
 msgstr "Зміна формату %s"
 
-#: src/commands.c:1910
+#: src/commands.c:1909
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Автопідгін стовпчика %s"
 
-#: src/commands.c:1911
+#: src/commands.c:1910
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Автопідгін рядка %s"
 
-#: src/commands.c:1914
+#: src/commands.c:1913
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Зміна ширини стовпчика %s до %d точок"
 
-#: src/commands.c:1916
+#: src/commands.c:1915
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Зміна висоти рядка %s до %d точок"
 
-#: src/commands.c:1919
+#: src/commands.c:1918
 #, fuzzy, c-format
 msgid "Setting width of column %s to default"
 msgstr "Зміна ширини стовпчика %s до %d точок"
 
-#: src/commands.c:1922
+#: src/commands.c:1921
 #, fuzzy, c-format
 msgid "Setting height of row %s to default"
 msgstr "Зміна висоти рядка %s до %d точок"
 
-#: src/commands.c:1926
+#: src/commands.c:1925
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Автопідгін стовпчиків %s"
 
-#: src/commands.c:1927
+#: src/commands.c:1926
 #, fuzzy, c-format
 msgid "Autofitting rows %s"
 msgstr "Автопідгін рядка %s"
 
-#: src/commands.c:1930
+#: src/commands.c:1929
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Встановлення ширини стовпчиків %s у %d точок"
 
-#: src/commands.c:1932
+#: src/commands.c:1931
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Встановлення висоти рядків %s у %d точок"
 
-#: src/commands.c:1936
+#: src/commands.c:1935
 #, fuzzy, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Встановлення ширини стовпчиків %s у %d точок"
 
-#: src/commands.c:1938
+#: src/commands.c:1937
 #, fuzzy, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Встановлення висоти рядків %s у %d точок"
 
-#: src/commands.c:2005 src/dialogs/dialog-preferences.c:1505
+#: src/commands.c:2004 src/dialogs/dialog-preferences.c:1505
 #, fuzzy
 msgid "Sorting"
 msgstr "Упорядкування %s"
 
-#: src/commands.c:2025
+#: src/commands.c:2024
 #, c-format
 msgid "Sorting %s"
 msgstr "Упорядкування %s"
 
-#: src/commands.c:2157
+#: src/commands.c:2156
 msgid "Unhide columns"
 msgstr "Показати стовпчики"
 
-#: src/commands.c:2157
+#: src/commands.c:2156
 msgid "Hide columns"
 msgstr "Прибрати стовпчики"
 
-#: src/commands.c:2158
+#: src/commands.c:2157
 msgid "Unhide rows"
 msgstr "Показати рядки"
 
-#: src/commands.c:2158
+#: src/commands.c:2157
 msgid "Hide rows"
 msgstr "Прибрати рядки"
 
-#: src/commands.c:2241
+#: src/commands.c:2240
 msgid "Expand columns"
 msgstr "Розгорнути стовпчики"
 
-#: src/commands.c:2241
+#: src/commands.c:2240
 msgid "Collapse columns"
 msgstr "Згорнути стовпчики"
 
-#: src/commands.c:2242
+#: src/commands.c:2241
 msgid "Expand rows"
 msgstr "Розгорнути рядки"
 
-#: src/commands.c:2242
+#: src/commands.c:2241
 msgid "Collapse rows"
 msgstr "Згорнути рядки"
 
-#: src/commands.c:2269
+#: src/commands.c:2268
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: src/commands.c:2269
+#: src/commands.c:2268
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: src/commands.c:2334
+#: src/commands.c:2333
 msgid "Those columns are already grouped"
 msgstr "Ці стовпчики вже згруповано"
 
-#: src/commands.c:2335
+#: src/commands.c:2334
 msgid "Those rows are already grouped"
 msgstr "Ці рядки вже згруповано"
 
-#: src/commands.c:2358
+#: src/commands.c:2357
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Ці стовпчики не згруповано, ви не можете розгрупувати їх"
 
-#: src/commands.c:2359
+#: src/commands.c:2358
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Ці рядки не згруповано, ви не можете розгрупувати їх"
 
-#: src/commands.c:2373
+#: src/commands.c:2372
 #, c-format
 msgid "Group columns %s"
 msgstr "Згрупувати стовпчики %s"
 
-#: src/commands.c:2373
+#: src/commands.c:2372
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Розгрупувати стовпчики %s"
 
-#: src/commands.c:2375
+#: src/commands.c:2374
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Згрупувати рядки %d:%d"
 
-#: src/commands.c:2375
+#: src/commands.c:2374
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Розгрупувати рядки %d:%d"
 
-#: src/commands.c:2609
+#: src/commands.c:2608
 #, c-format
 msgid "Moving %s"
 msgstr "Переміщення %s"
 
-#: src/commands.c:2618 src/commands.c:2829
+#: src/commands.c:2617 src/commands.c:2828
 msgid "is beyond sheet boundaries"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:2773
+#: src/commands.c:2772
 #, c-format
 msgid "Pasting into %s"
 msgstr "Всталяння в %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3006 src/commands.c:3007 src/wbcg-actions.c:430
+#: src/commands.c:3005 src/commands.c:3006 src/wbcg-actions.c:430
 msgid "Autofill"
 msgstr "Автозаповнення"
 
 #. Changed in initial redo.
-#: src/commands.c:3030
+#: src/commands.c:3029
 #, c-format
 msgid "Autofilling %s"
 msgstr "Автозаповнення %s"
 
-#: src/commands.c:3180
+#: src/commands.c:3179
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Автоформатування %s"
 
-#: src/commands.c:3290
+#: src/commands.c:3289
 #, c-format
 msgid "Unmerging %s"
 msgstr "Роз'єднання %s"
 
-#: src/commands.c:3428
+#: src/commands.c:3427
 #, c-format
 msgid "Merging %s"
 msgstr "Злиття %s"
 
 #. Corrected below.
-#: src/commands.c:3810 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3809 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Пошук і заміна"
 
-#: src/commands.c:3907
+#: src/commands.c:3906
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Зміна типової ширини стовпчиків до %.2f пунктів"
 
-#: src/commands.c:3908
+#: src/commands.c:3907
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Зміна типової ширини рядків до %.2f пунктів"
 
-#: src/commands.c:4025
+#: src/commands.c:4024
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr ""
 
-#: src/commands.c:4095
+#: src/commands.c:4094
 msgid "Insert object"
 msgstr "Вставити об'єкт"
 
-#: src/commands.c:4154
+#: src/commands.c:4153
 msgid "Delete object"
 msgstr "Стерти об'єкт"
 
-#: src/commands.c:4235
+#: src/commands.c:4234
 msgid "Resize object"
 msgstr "Змінити розміри об'єкта"
 
-#: src/commands.c:4235
+#: src/commands.c:4234
 msgid "Move object"
 msgstr "Перенести об'єкт"
 
-#: src/commands.c:4796
+#: src/commands.c:4795
 #, fuzzy
 msgid "Reordering Sheets"
 msgstr "Перевпорядкувати аркуші"
 
-#: src/commands.c:4799
+#: src/commands.c:4798
 #, fuzzy
 msgid "Renaming Sheets"
 msgstr "Перейменувати цей аркуш"
 
-#: src/commands.c:4802
+#: src/commands.c:4801
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "Перейменувати цей аркуш"
 
-#: src/commands.c:4806
+#: src/commands.c:4805
 #, fuzzy
 msgid "Changing Tab Colors"
 msgstr "Зміна формату %s"
 
-#: src/commands.c:4809
+#: src/commands.c:4808
 msgid "Changing Sheet Protection"
 msgstr ""
 
-#: src/commands.c:4812
+#: src/commands.c:4811
 #, fuzzy
 msgid "Delete sheets"
 msgstr "Стерти комірки"
 
-#: src/commands.c:4815
+#: src/commands.c:4814
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "Стерти об'єкт"
 
-#: src/commands.c:4818
+#: src/commands.c:4817
 #, fuzzy
 msgid "Reorganizing Sheets"
 msgstr "Друкувати аркуші"
 
-#: src/commands.c:4968
+#: src/commands.c:4967
 #, fuzzy, c-format
 msgid "Clearing comment of %s"
 msgstr "Зміна формату %s"
 
-#: src/commands.c:4969
+#: src/commands.c:4968
 #, fuzzy, c-format
 msgid "Setting comment of %s"
 msgstr "Стирання стовпчика %s"
 
-#: src/commands.c:5349
+#: src/commands.c:5348
 #, fuzzy, c-format
 msgid "Merging data into %s"
 msgstr "Злиття %s"
 
-#: src/commands.c:5451
+#: src/commands.c:5450
 #, fuzzy
 msgid "Changing summary info"
 msgstr "Зміна формату %s"
 
-#: src/commands.c:5542
+#: src/commands.c:5541
 #, fuzzy
 msgid "Raise object"
 msgstr "Змінити розміри об'єкта"
 
-#: src/commands.c:5545
+#: src/commands.c:5544
 #, fuzzy
 msgid "Lower object"
 msgstr "Перенести об'єкт"
 
-#: src/commands.c:5548
+#: src/commands.c:5547
 #, fuzzy
 msgid "Raise object to top"
 msgstr "Змінити розміри об'єкта"
 
-#: src/commands.c:5551
+#: src/commands.c:5550
 msgid "Lower object to bottom"
 msgstr ""
 
-#: src/commands.c:5666
+#: src/commands.c:5665
 #, fuzzy, c-format
 msgid "Page Setup For %s"
 msgstr "_Налаштування друку..."
 
-#: src/commands.c:5668
+#: src/commands.c:5667
 #, fuzzy
 msgid "Page Setup For All Sheets"
 msgstr "Друкувати аркуші"
 
-#: src/commands.c:5784
+#: src/commands.c:5783
 #, fuzzy
 msgid "has a circular reference"
 msgstr "\"%s\" містить циклічне посилання"
 
-#: src/commands.c:5807
+#: src/commands.c:5806
 #, fuzzy, c-format
 msgid "Define Name %s"
 msgstr "Визначити назву"
 
-#: src/commands.c:5810
+#: src/commands.c:5809
 #, c-format
 msgid "Update Name %s"
 msgstr ""
 
-#: src/commands.c:5874
+#: src/commands.c:5873
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:5949
+#: src/commands.c:5948
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6013
+#: src/commands.c:6012
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:6124
+#: src/commands.c:6123
 #, fuzzy, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Стерти стовпчики"
@@ -14894,7 +14894,7 @@ msgstr "Стерти стовпчики"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6271 src/dialogs/solver.glade.h:22
+#: src/commands.c:6270 src/dialogs/solver.glade.h:22
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:908 src/tools/solver/reports-write.c:959
@@ -14902,22 +14902,22 @@ msgstr "Стерти стовпчики"
 msgid "Solver"
 msgstr "Пошук розв'язання..."
 
-#: src/commands.c:6358
+#: src/commands.c:6357
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "Пошук цілі..."
 
-#: src/commands.c:6500
+#: src/commands.c:6499
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "_Дублювати"
 
-#: src/commands.c:6580
+#: src/commands.c:6579
 #, fuzzy
 msgid "Tabulating Dependencies"
 msgstr "Подробиці доповнення"
 
-#: src/commands.c:6656
+#: src/commands.c:6655
 #, fuzzy
 msgid "Reconfigure Graph"
 msgstr "Налаштувати пенали"
@@ -15443,7 +15443,7 @@ msgstr "Значення"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3969
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -16809,7 +16809,7 @@ msgstr ""
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:666
-#: src/format.c:2207 src/format.c:2339 src/format.c:2345 src/format.c:2418
+#: src/format.c:2219 src/format.c:2351 src/format.c:2357 src/format.c:2430
 #: src/plugin-service.c:198 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Загальний"
@@ -18170,8 +18170,8 @@ msgid "Mar"
 msgstr "*Бер"
 
 #: src/dialogs/dialog-autoformat.c:78 src/dialogs/dialog-autoformat.c:82
-#: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
-#: src/tools/analysis-tools.c:3370
+#: src/tools/analysis-tools.c:3353 src/tools/analysis-tools.c:3363
+#: src/tools/analysis-tools.c:3371
 msgid "Total"
 msgstr "Загалом"
 
@@ -19985,8 +19985,8 @@ msgstr "Автозаповнення вибраного"
 msgid "0.2"
 msgstr "0.2"
 
-#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:2689
-#: src/tools/analysis-tools.c:2692
+#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:2690
+#: src/tools/analysis-tools.c:2693
 msgid "Exponential Smoothing"
 msgstr ""
 
@@ -20308,8 +20308,8 @@ msgstr "Двійковий _діапазон:"
 msgid "C_umulative percentages"
 msgstr "Формат - відсотки"
 
-#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4069
-#: src/tools/analysis-tools.c:4072
+#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4070
+#: src/tools/analysis-tools.c:4073
 msgid "Histogram"
 msgstr "Гістограма"
 
@@ -20529,8 +20529,8 @@ msgstr "3"
 msgid "In_terval:"
 msgstr ""
 
-#: src/dialogs/moving-averages.glade.h:5 src/tools/analysis-tools.c:2556
-#: src/tools/analysis-tools.c:2559
+#: src/dialogs/moving-averages.glade.h:5 src/tools/analysis-tools.c:2557
+#: src/tools/analysis-tools.c:2560
 #, fuzzy
 msgid "Moving Average"
 msgstr "_Moving Average"
@@ -21965,48 +21965,48 @@ msgstr "ІСТИНА"
 msgid "FALSE"
 msgstr "ХИБНІСТЬ"
 
-#: src/format.c:678
+#: src/format.c:690
 #, fuzzy
 msgid "Black"
 msgstr "чорний"
 
-#: src/format.c:679
+#: src/format.c:691
 #, fuzzy
 msgid "Blue"
 msgstr "синій"
 
-#: src/format.c:680
+#: src/format.c:692
 #, fuzzy
 msgid "Cyan"
 msgstr "блакитний"
 
-#: src/format.c:681
+#: src/format.c:693
 #, fuzzy
 msgid "Green"
 msgstr "зелений"
 
-#: src/format.c:682
+#: src/format.c:694
 #, fuzzy
 msgid "Magenta"
 msgstr "бузковий"
 
-#: src/format.c:683
+#: src/format.c:695
 #, fuzzy
 msgid "Red"
 msgstr "Відновити"
 
-#: src/format.c:684
+#: src/format.c:696
 #, fuzzy
 msgid "White"
 msgstr "білий"
 
-#: src/format.c:685
+#: src/format.c:697
 #, fuzzy
 msgid "Yellow"
 msgstr "жовтий"
 
 #. Array of arrays ??
-#: src/format.c:2086
+#: src/format.c:2098
 msgid "ARRAY"
 msgstr "МАСИВ"
 
@@ -24120,12 +24120,12 @@ msgstr "Експорт текстового файлу (з налаштуван�
 msgid "Comma separated values (CSV)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3296
+#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3297
 #, c-format
 msgid "Row %i"
 msgstr "Рядок %i"
 
-#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3288
+#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3289
 #, c-format
 msgid "Column %i"
 msgstr "Стовпчик %i"
@@ -24357,182 +24357,182 @@ msgstr "Реґресія"
 msgid "Standard Error"
 msgstr "Стандиртна похибка"
 
-#: src/tools/analysis-tools.c:2543
+#: src/tools/analysis-tools.c:2544
 #, fuzzy, c-format
 msgid "Moving Average (%s)"
 msgstr "_Moving Average"
 
-#: src/tools/analysis-tools.c:2676
+#: src/tools/analysis-tools.c:2677
 #, fuzzy, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "_Експоненціальне згладжування"
 
-#: src/tools/analysis-tools.c:2744
+#: src/tools/analysis-tools.c:2745
 msgid "Point"
 msgstr "Точка"
 
-#: src/tools/analysis-tools.c:2746
+#: src/tools/analysis-tools.c:2747
 msgid "Rank"
 msgstr "Ранґ"
 
-#: src/tools/analysis-tools.c:2747
+#: src/tools/analysis-tools.c:2748
 #, fuzzy
 msgid "Percentile"
 msgstr "Відсоток"
 
-#: src/tools/analysis-tools.c:2807
+#: src/tools/analysis-tools.c:2808
 #, fuzzy, c-format
 msgid "Ranks (%s)"
 msgstr "Ранґи"
 
-#: src/tools/analysis-tools.c:2819 src/tools/analysis-tools.c:2822
+#: src/tools/analysis-tools.c:2820 src/tools/analysis-tools.c:2823
 msgid "Ranks"
 msgstr "Ранґи"
 
-#: src/tools/analysis-tools.c:2860
+#: src/tools/analysis-tools.c:2861
 msgid "Anova: Single Factor"
 msgstr "Дисперсний аналіз: однофакторний"
 
-#: src/tools/analysis-tools.c:2861 src/tools/analysis-tools.c:3348
+#: src/tools/analysis-tools.c:2862 src/tools/analysis-tools.c:3349
 #: src/tools/simulation.c:343
 msgid "SUMMARY"
 msgstr "ЗВЕДЕННЯ"
 
-#: src/tools/analysis-tools.c:2862
+#: src/tools/analysis-tools.c:2863
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Групи/Кількість/Сума/Середнє/Дисперсія"
 
-#: src/tools/analysis-tools.c:2916
+#: src/tools/analysis-tools.c:2917
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/Дисперсний аналіз/Джерело дисперсії/Між групами/В групах/Всього"
 
-#: src/tools/analysis-tools.c:2921 src/tools/analysis-tools.c:3198
-#: src/tools/analysis-tools.c:3372
+#: src/tools/analysis-tools.c:2922 src/tools/analysis-tools.c:3199
+#: src/tools/analysis-tools.c:3373
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 "/Сума квадратів/Степінь свободи/Квадрат середнього/F/P-значення/F критичне"
 
-#: src/tools/analysis-tools.c:2999
+#: src/tools/analysis-tools.c:3000
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3010 src/tools/analysis-tools.c:3679
+#: src/tools/analysis-tools.c:3011 src/tools/analysis-tools.c:3680
 msgid "Anova"
 msgstr "Дисперсійний аналіз"
 
-#: src/tools/analysis-tools.c:3013
+#: src/tools/analysis-tools.c:3014
 #, fuzzy
 msgid "Single Factor ANOVA"
 msgstr "Дисперсний аналіз: однофакторний"
 
-#: src/tools/analysis-tools.c:3120
+#: src/tools/analysis-tools.c:3121
 #, fuzzy
 msgid "The input range contains non-numeric data."
 msgstr "Даний діапазон вводу містить нечислові дані."
 
-#: src/tools/analysis-tools.c:3128
+#: src/tools/analysis-tools.c:3129
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Дисперсійний аналіз: двофакторний без відтворення"
 
-#: src/tools/analysis-tools.c:3129
+#: src/tools/analysis-tools.c:3130
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3192
+#: src/tools/analysis-tools.c:3193
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3338
+#: src/tools/analysis-tools.c:3339
 msgid "One of the factor combinations does not contain any observations!"
 msgstr ""
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:3347
+#: src/tools/analysis-tools.c:3348
 msgid "Anova: Two-Factor With Replication"
 msgstr "Дисперсійний аналіз: двофакторний з відтворенням"
 
-#: src/tools/analysis-tools.c:3354
+#: src/tools/analysis-tools.c:3355
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Кількість/Сума/Середнє/Дисперсія"
 
-#: src/tools/analysis-tools.c:3364
+#: src/tools/analysis-tools.c:3365
 #, fuzzy
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/Дисперсний аналіз/Джерело дисперсії/Між групами/В групах/Всього"
 
-#: src/tools/analysis-tools.c:3663
+#: src/tools/analysis-tools.c:3664
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3664
+#: src/tools/analysis-tools.c:3665
 #, fuzzy, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "Дисперсійний аналіз: двофакторний з відтворенням"
 
-#: src/tools/analysis-tools.c:3682
+#: src/tools/analysis-tools.c:3683
 #, fuzzy
 msgid "Two Factor ANOVA"
 msgstr "Дисперсний аналіз: однофакторний"
 
-#: src/tools/analysis-tools.c:3863
+#: src/tools/analysis-tools.c:3864
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:3867
+#: src/tools/analysis-tools.c:3868
 msgid "Too Small"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3884
+#: src/tools/analysis-tools.c:3885
 msgid "More"
 msgstr "Далі"
 
-#: src/tools/analysis-tools.c:3893
+#: src/tools/analysis-tools.c:3894
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/tools/analysis-tools.c:3897
+#: src/tools/analysis-tools.c:3898
 #, fuzzy
 msgid "Too Large"
 msgstr "К-те найбільше"
 
-#: src/tools/analysis-tools.c:3941
+#: src/tools/analysis-tools.c:3942
 msgid "Bin"
 msgstr "Двійкове"
 
-#: src/tools/analysis-tools.c:3966
+#: src/tools/analysis-tools.c:3967
 msgid "Frequency"
 msgstr "Частота"
 
-#: src/tools/analysis-tools.c:3971
+#: src/tools/analysis-tools.c:3972
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Кумулятивний %"
 
-#: src/tools/analysis-tools.c:4050
+#: src/tools/analysis-tools.c:4051
 #, fuzzy, c-format
 msgid "Histogram (%s)"
 msgstr "Гістограма"
 
-#: src/tools/analysis-tools.c:4157 src/tools/solver/reports-write.c:647
+#: src/tools/analysis-tools.c:4158 src/tools/solver/reports-write.c:647
 #, fuzzy
 msgid "Real"
 msgstr "Прямокутник"
 
-#: src/tools/analysis-tools.c:4158
+#: src/tools/analysis-tools.c:4159
 #, fuzzy
 msgid "Imaginary"
 msgstr "Січень"
 
-#: src/tools/analysis-tools.c:4218
+#: src/tools/analysis-tools.c:4219
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:4230 src/tools/analysis-tools.c:4233
+#: src/tools/analysis-tools.c:4231 src/tools/analysis-tools.c:4234
 #, fuzzy
 msgid "Fourier Series"
 msgstr "Аналіз Фур'є"

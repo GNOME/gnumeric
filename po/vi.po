@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-03-30 01:42-0500\n"
+"POT-Creation-Date: 2004-03-30 20:48-0500\n"
 "PO-Revision-Date: 2003-02-23 09:00+0700\n"
 "Last-Translator: pclouds <pclouds@gmx.net>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
@@ -13484,7 +13484,7 @@ msgstr "Hàm mục tiêu:"
 msgid "Constraints:"
 msgstr "Ràng buộc:"
 
-#: plugins/mps/mps.c:247 src/commands.c:5727
+#: plugins/mps/mps.c:247 src/commands.c:5726
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1034
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:291
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
@@ -14192,7 +14192,7 @@ msgstr "Đây là thông điệp từ plugin \"%s\"."
 msgid "Error while opening xbase file."
 msgstr "Lỗi mở tập tin XBase"
 
-#: plugins/xbase/boot.c:175 src/commands.c:4552
+#: plugins/xbase/boot.c:175 src/commands.c:4551
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:399
 #: src/dialogs/dialog-stf-export.c:349 src/dialogs/print.glade.h:22
 #: src/print-info.c:391 src/workbook.c:1053 src/xml-io.c:3709
@@ -15150,347 +15150,347 @@ msgstr "tất cả"
 msgid "Clearing %s in %s"
 msgstr "Đang xóa %s trong %s"
 
-#: src/commands.c:1671
+#: src/commands.c:1672
 msgid "Changing Format"
 msgstr "Đang đổi định dạng"
 
-#: src/commands.c:1798
+#: src/commands.c:1797
 #, c-format
 msgid "Changing format of %s"
 msgstr "Đang đổi định dạng của %s"
 
-#: src/commands.c:1910
+#: src/commands.c:1909
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Tự làm khít cột %s"
 
-#: src/commands.c:1911
+#: src/commands.c:1910
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Tự làm khít dòng %s"
 
-#: src/commands.c:1914
+#: src/commands.c:1913
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Chỉnh độ rộng của cột %s là %d pixel"
 
-#: src/commands.c:1916
+#: src/commands.c:1915
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Chỉnh độ cao của hàng %s là %d pixel"
 
-#: src/commands.c:1919
+#: src/commands.c:1918
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Đang chỉnh độ rộng của cột %s về mặc định"
 
-#: src/commands.c:1922
+#: src/commands.c:1921
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Chỉnh độ cao của hàng %s về mặc định"
 
-#: src/commands.c:1926
+#: src/commands.c:1925
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Tự làm khít cột %s"
 
-#: src/commands.c:1927
+#: src/commands.c:1926
 #, fuzzy, c-format
 msgid "Autofitting rows %s"
 msgstr "Tự làm khít dòng %s"
 
-#: src/commands.c:1930
+#: src/commands.c:1929
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Chỉnh độ rộng của cột %s là %d pixel"
 
-#: src/commands.c:1932
+#: src/commands.c:1931
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Chỉnh độ cao của hàng %s là %d pixel"
 
-#: src/commands.c:1936
+#: src/commands.c:1935
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Chỉnh độ rộng của cột %s về mặc định"
 
-#: src/commands.c:1938
+#: src/commands.c:1937
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Chỉnh độ cao của hàng %s về mặc định"
 
-#: src/commands.c:2005 src/dialogs/dialog-preferences.c:1505
+#: src/commands.c:2004 src/dialogs/dialog-preferences.c:1505
 msgid "Sorting"
 msgstr "Đang sắp"
 
-#: src/commands.c:2025
+#: src/commands.c:2024
 #, c-format
 msgid "Sorting %s"
 msgstr "Đang sắp xếp %s"
 
-#: src/commands.c:2157
+#: src/commands.c:2156
 msgid "Unhide columns"
 msgstr "Hiện cột"
 
-#: src/commands.c:2157
+#: src/commands.c:2156
 msgid "Hide columns"
 msgstr "Ẩn cột"
 
-#: src/commands.c:2158
+#: src/commands.c:2157
 msgid "Unhide rows"
 msgstr "Hiện hàng"
 
-#: src/commands.c:2158
+#: src/commands.c:2157
 msgid "Hide rows"
 msgstr "Ẩn hàng"
 
-#: src/commands.c:2241
+#: src/commands.c:2240
 msgid "Expand columns"
 msgstr "Bung cột"
 
-#: src/commands.c:2241
+#: src/commands.c:2240
 msgid "Collapse columns"
 msgstr "Co cột"
 
-#: src/commands.c:2242
+#: src/commands.c:2241
 msgid "Expand rows"
 msgstr "Bung hàng"
 
-#: src/commands.c:2242
+#: src/commands.c:2241
 msgid "Collapse rows"
 msgstr "Co hàng"
 
-#: src/commands.c:2269
+#: src/commands.c:2268
 #, c-format
 msgid "Show column outline %d"
 msgstr ""
 
-#: src/commands.c:2269
+#: src/commands.c:2268
 #, c-format
 msgid "Show row outline %d"
 msgstr ""
 
-#: src/commands.c:2334
+#: src/commands.c:2333
 msgid "Those columns are already grouped"
 msgstr "Những cột này đã được nhóm rồi"
 
-#: src/commands.c:2335
+#: src/commands.c:2334
 msgid "Those rows are already grouped"
 msgstr "Những hàng này đã được nhóm rồi"
 
-#: src/commands.c:2358
+#: src/commands.c:2357
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Những cột này chưa được nhóm, nên không thể tách nhóm"
 
-#: src/commands.c:2359
+#: src/commands.c:2358
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Những hàng này chưa được nhóm, nên không thể tách nhóm"
 
-#: src/commands.c:2373
+#: src/commands.c:2372
 #, c-format
 msgid "Group columns %s"
 msgstr "Nhóm cột %s"
 
-#: src/commands.c:2373
+#: src/commands.c:2372
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Tách nhóm cột %s"
 
-#: src/commands.c:2375
+#: src/commands.c:2374
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Nhóm hàng %d:%d"
 
-#: src/commands.c:2375
+#: src/commands.c:2374
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Tách nhóm hàng %d:%d"
 
-#: src/commands.c:2609
+#: src/commands.c:2608
 #, c-format
 msgid "Moving %s"
 msgstr "Đang di chuyển %s"
 
-#: src/commands.c:2618 src/commands.c:2829
+#: src/commands.c:2617 src/commands.c:2828
 msgid "is beyond sheet boundaries"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:2773
+#: src/commands.c:2772
 #, c-format
 msgid "Pasting into %s"
 msgstr "Đang dán vào %s"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:3006 src/commands.c:3007 src/wbcg-actions.c:430
+#: src/commands.c:3005 src/commands.c:3006 src/wbcg-actions.c:430
 msgid "Autofill"
 msgstr "Tự điền đầy"
 
 #. Changed in initial redo.
-#: src/commands.c:3030
+#: src/commands.c:3029
 #, c-format
 msgid "Autofilling %s"
 msgstr "Đang tự điền đầy %s"
 
-#: src/commands.c:3180
+#: src/commands.c:3179
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Đang tự định dạng %s"
 
-#: src/commands.c:3290
+#: src/commands.c:3289
 #, c-format
 msgid "Unmerging %s"
 msgstr "Đang bỏ trộn %s"
 
-#: src/commands.c:3428
+#: src/commands.c:3427
 #, c-format
 msgid "Merging %s"
 msgstr "Đang trộn %s"
 
 #. Corrected below.
-#: src/commands.c:3810 src/dialogs/search-replace.glade.h:24
+#: src/commands.c:3809 src/dialogs/search-replace.glade.h:24
 msgid "Search and Replace"
 msgstr "Tìm và thay thế"
 
-#: src/commands.c:3907
+#: src/commands.c:3906
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Chọn độ rộng cột mặc định là %.2f pts"
 
-#: src/commands.c:3908
+#: src/commands.c:3907
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Chọn độ cao hàng mặc định là %.2f pts"
 
-#: src/commands.c:4025
+#: src/commands.c:4024
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Phóng %s tới %.0f%%"
 
-#: src/commands.c:4095
+#: src/commands.c:4094
 msgid "Insert object"
 msgstr "Chèn đối tượng"
 
-#: src/commands.c:4154
+#: src/commands.c:4153
 msgid "Delete object"
 msgstr "Xoá đối tượng"
 
-#: src/commands.c:4235
+#: src/commands.c:4234
 msgid "Resize object"
 msgstr "Đổi cỡ đối tượng"
 
-#: src/commands.c:4235
+#: src/commands.c:4234
 msgid "Move object"
 msgstr "Di chuyển đối tượng"
 
-#: src/commands.c:4796
+#: src/commands.c:4795
 msgid "Reordering Sheets"
 msgstr "Đang sắp thứ tự trang"
 
-#: src/commands.c:4799
+#: src/commands.c:4798
 msgid "Renaming Sheets"
 msgstr "Đang đổi tên trang"
 
-#: src/commands.c:4802
+#: src/commands.c:4801
 #, fuzzy, c-format
 msgid "Appending %i Sheets"
 msgstr "Đang đổi tên trang"
 
-#: src/commands.c:4806
+#: src/commands.c:4805
 msgid "Changing Tab Colors"
 msgstr "Đang đổi màu Tab"
 
-#: src/commands.c:4809
+#: src/commands.c:4808
 msgid "Changing Sheet Protection"
 msgstr "Bảo vệ trang tránh thay đổi"
 
-#: src/commands.c:4812
+#: src/commands.c:4811
 #, fuzzy
 msgid "Delete sheets"
 msgstr "Xoá ô"
 
-#: src/commands.c:4815
+#: src/commands.c:4814
 #, fuzzy
 msgid "Delete a sheet"
 msgstr "Xoá đối tượng"
 
-#: src/commands.c:4818
+#: src/commands.c:4817
 msgid "Reorganizing Sheets"
 msgstr "Đang tổ chức lại các trang"
 
-#: src/commands.c:4968
+#: src/commands.c:4967
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Đang xóa ghi chú của %s"
 
-#: src/commands.c:4969
+#: src/commands.c:4968
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Đang sửa ghi chú của %s"
 
-#: src/commands.c:5349
+#: src/commands.c:5348
 #, c-format
 msgid "Merging data into %s"
 msgstr "Đang trộn dữ liệu vào %s"
 
-#: src/commands.c:5451
+#: src/commands.c:5450
 msgid "Changing summary info"
 msgstr "Đang đổi thông tin tóm tắt"
 
-#: src/commands.c:5542
+#: src/commands.c:5541
 msgid "Raise object"
 msgstr "Nâng đối tượng"
 
-#: src/commands.c:5545
+#: src/commands.c:5544
 msgid "Lower object"
 msgstr "Hạ thấp đối tượng"
 
-#: src/commands.c:5548
+#: src/commands.c:5547
 msgid "Raise object to top"
 msgstr "Nâng đối tượng lên đỉnh"
 
-#: src/commands.c:5551
+#: src/commands.c:5550
 msgid "Lower object to bottom"
 msgstr "Hạ đối tượng xuống đáy"
 
-#: src/commands.c:5666
+#: src/commands.c:5665
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Thiết lập trang in cho %s"
 
-#: src/commands.c:5668
+#: src/commands.c:5667
 msgid "Page Setup For All Sheets"
 msgstr "Thiết lập trang in cho mọi trang"
 
-#: src/commands.c:5784
+#: src/commands.c:5783
 #, fuzzy
 msgid "has a circular reference"
 msgstr "'%s' có tham chiếu vòng"
 
-#: src/commands.c:5807
+#: src/commands.c:5806
 #, c-format
 msgid "Define Name %s"
 msgstr "Định nghĩa tên %s"
 
-#: src/commands.c:5810
+#: src/commands.c:5809
 #, c-format
 msgid "Update Name %s"
 msgstr "Cập nhật tên %s"
 
-#: src/commands.c:5874
+#: src/commands.c:5873
 msgid "Add scenario"
 msgstr ""
 
-#: src/commands.c:5949
+#: src/commands.c:5948
 msgid "Scenario Show"
 msgstr ""
 
-#: src/commands.c:6013
+#: src/commands.c:6012
 msgid "Shuffle Data"
 msgstr ""
 
 #. FIXME?
-#: src/commands.c:6124
+#: src/commands.c:6123
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr ""
@@ -15500,28 +15500,28 @@ msgstr ""
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6271 src/dialogs/solver.glade.h:22
+#: src/commands.c:6270 src/dialogs/solver.glade.h:22
 #: src/tools/solver/reports-write.c:195 src/tools/solver/reports-write.c:356
 #: src/tools/solver/reports-write.c:486 src/tools/solver/reports-write.c:747
 #: src/tools/solver/reports-write.c:908 src/tools/solver/reports-write.c:959
 msgid "Solver"
 msgstr ""
 
-#: src/commands.c:6358
+#: src/commands.c:6357
 #, fuzzy, c-format
 msgid "Goal Seek (%s)"
 msgstr "Tìm đích"
 
-#: src/commands.c:6500
+#: src/commands.c:6499
 #, fuzzy, c-format
 msgid "Duplicating %s"
 msgstr "Tạo bản sao"
 
-#: src/commands.c:6580
+#: src/commands.c:6579
 msgid "Tabulating Dependencies"
 msgstr ""
 
-#: src/commands.c:6656
+#: src/commands.c:6655
 #, fuzzy
 msgid "Reconfigure Graph"
 msgstr "Cấu hình Thanh công cụ"
@@ -16039,7 +16039,7 @@ msgstr "Giá trị"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-series.glade.h:2
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3968
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3969
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -17390,7 +17390,7 @@ msgstr "Ký tự đầu tiên"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:666
-#: src/format.c:2207 src/format.c:2339 src/format.c:2345 src/format.c:2418
+#: src/format.c:2219 src/format.c:2351 src/format.c:2357 src/format.c:2430
 #: src/plugin-service.c:198 src/widgets/widget-format-selector.c:75
 msgid "General"
 msgstr "Chung"
@@ -18691,8 +18691,8 @@ msgid "Mar"
 msgstr "*Ba"
 
 #: src/dialogs/dialog-autoformat.c:78 src/dialogs/dialog-autoformat.c:82
-#: src/tools/analysis-tools.c:3352 src/tools/analysis-tools.c:3362
-#: src/tools/analysis-tools.c:3370
+#: src/tools/analysis-tools.c:3353 src/tools/analysis-tools.c:3363
+#: src/tools/analysis-tools.c:3371
 msgid "Total"
 msgstr "Tổng cộng"
 
@@ -20448,8 +20448,8 @@ msgstr "_Vừa khớp vùng chọn %"
 msgid "0.2"
 msgstr "0.2"
 
-#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:2689
-#: src/tools/analysis-tools.c:2692
+#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:2690
+#: src/tools/analysis-tools.c:2693
 msgid "Exponential Smoothing"
 msgstr "Mượt theo mũ"
 
@@ -20761,8 +20761,8 @@ msgstr "Phạm vi danh sách"
 msgid "C_umulative percentages"
 msgstr "Tích lũy %"
 
-#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4069
-#: src/tools/analysis-tools.c:4072
+#: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4070
+#: src/tools/analysis-tools.c:4073
 msgid "Histogram"
 msgstr "Biểu đồ"
 
@@ -20968,8 +20968,8 @@ msgstr "3"
 msgid "In_terval:"
 msgstr "_Tần suất:"
 
-#: src/dialogs/moving-averages.glade.h:5 src/tools/analysis-tools.c:2556
-#: src/tools/analysis-tools.c:2559
+#: src/dialogs/moving-averages.glade.h:5 src/tools/analysis-tools.c:2557
+#: src/tools/analysis-tools.c:2560
 msgid "Moving Average"
 msgstr ""
 
@@ -22325,40 +22325,40 @@ msgstr "TRUE"
 msgid "FALSE"
 msgstr "FALSE"
 
-#: src/format.c:678
+#: src/format.c:690
 msgid "Black"
 msgstr "Đen"
 
-#: src/format.c:679
+#: src/format.c:691
 msgid "Blue"
 msgstr "Dương"
 
-#: src/format.c:680
+#: src/format.c:692
 msgid "Cyan"
 msgstr "Da trời"
 
-#: src/format.c:681
+#: src/format.c:693
 msgid "Green"
 msgstr "Lục"
 
-#: src/format.c:682
+#: src/format.c:694
 msgid "Magenta"
 msgstr "Hồng"
 
-#: src/format.c:683
+#: src/format.c:695
 msgid "Red"
 msgstr "Đỏ"
 
-#: src/format.c:684
+#: src/format.c:696
 msgid "White"
 msgstr "Trắng"
 
-#: src/format.c:685
+#: src/format.c:697
 msgid "Yellow"
 msgstr "Vàng"
 
 #. Array of arrays ??
-#: src/format.c:2086
+#: src/format.c:2098
 msgid "ARRAY"
 msgstr "DÃY"
 
@@ -24420,12 +24420,12 @@ msgstr "Xuất text (có thể cấu hình)"
 msgid "Comma separated values (CSV)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3296
+#: src/tools/analysis-tools.c:216 src/tools/analysis-tools.c:3297
 #, c-format
 msgid "Row %i"
 msgstr "Hàng %i"
 
-#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3288
+#: src/tools/analysis-tools.c:219 src/tools/analysis-tools.c:3289
 #, c-format
 msgid "Column %i"
 msgstr "Cột %i"
@@ -24657,173 +24657,173 @@ msgstr "Hồi quy (%s)"
 msgid "Standard Error"
 msgstr "Lỗi chuẩn"
 
-#: src/tools/analysis-tools.c:2543
+#: src/tools/analysis-tools.c:2544
 #, c-format
 msgid "Moving Average (%s)"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2676
+#: src/tools/analysis-tools.c:2677
 #, c-format
 msgid "Exponential Smoothing (%s)"
 msgstr "Mượt theo mũ (%s)"
 
-#: src/tools/analysis-tools.c:2744
+#: src/tools/analysis-tools.c:2745
 msgid "Point"
 msgstr "Điểm"
 
-#: src/tools/analysis-tools.c:2746
+#: src/tools/analysis-tools.c:2747
 msgid "Rank"
 msgstr "Hạng"
 
-#: src/tools/analysis-tools.c:2747
+#: src/tools/analysis-tools.c:2748
 msgid "Percentile"
 msgstr "Tỷ lệ phần trăm"
 
-#: src/tools/analysis-tools.c:2807
+#: src/tools/analysis-tools.c:2808
 #, c-format
 msgid "Ranks (%s)"
 msgstr "Hạng (%s)"
 
-#: src/tools/analysis-tools.c:2819 src/tools/analysis-tools.c:2822
+#: src/tools/analysis-tools.c:2820 src/tools/analysis-tools.c:2823
 msgid "Ranks"
 msgstr "Hạng"
 
-#: src/tools/analysis-tools.c:2860
+#: src/tools/analysis-tools.c:2861
 msgid "Anova: Single Factor"
 msgstr "Anova: Một hệ số"
 
-#: src/tools/analysis-tools.c:2861 src/tools/analysis-tools.c:3348
+#: src/tools/analysis-tools.c:2862 src/tools/analysis-tools.c:3349
 #: src/tools/simulation.c:343
 msgid "SUMMARY"
 msgstr "TÓM TẮT"
 
-#: src/tools/analysis-tools.c:2862
+#: src/tools/analysis-tools.c:2863
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2916
+#: src/tools/analysis-tools.c:2917
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2921 src/tools/analysis-tools.c:3198
-#: src/tools/analysis-tools.c:3372
+#: src/tools/analysis-tools.c:2922 src/tools/analysis-tools.c:3199
+#: src/tools/analysis-tools.c:3373
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 
-#: src/tools/analysis-tools.c:2999
+#: src/tools/analysis-tools.c:3000
 #, c-format
 msgid "Single Factor ANOVA (%s)"
 msgstr "ANOVA một hệ số (%s)"
 
-#: src/tools/analysis-tools.c:3010 src/tools/analysis-tools.c:3679
+#: src/tools/analysis-tools.c:3011 src/tools/analysis-tools.c:3680
 msgid "Anova"
 msgstr "Anova"
 
-#: src/tools/analysis-tools.c:3013
+#: src/tools/analysis-tools.c:3014
 msgid "Single Factor ANOVA"
 msgstr "ANOVA một hệ số"
 
-#: src/tools/analysis-tools.c:3120
+#: src/tools/analysis-tools.c:3121
 msgid "The input range contains non-numeric data."
 msgstr "Phạm vi nhập chứa dữ liệu phi số."
 
-#: src/tools/analysis-tools.c:3128
+#: src/tools/analysis-tools.c:3129
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Hai hệ số không lặp"
 
-#: src/tools/analysis-tools.c:3129
+#: src/tools/analysis-tools.c:3130
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3192
+#: src/tools/analysis-tools.c:3193
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3338
+#: src/tools/analysis-tools.c:3339
 msgid "One of the factor combinations does not contain any observations!"
 msgstr ""
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:3347
+#: src/tools/analysis-tools.c:3348
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Hai hệ số có lặp"
 
-#: src/tools/analysis-tools.c:3354
+#: src/tools/analysis-tools.c:3355
 msgid "/Count/Sum/Average/Variance"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3364
+#: src/tools/analysis-tools.c:3365
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr ""
 
-#: src/tools/analysis-tools.c:3663
+#: src/tools/analysis-tools.c:3664
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
 msgstr "ANOVA hai hệ số (%s), không lặp"
 
-#: src/tools/analysis-tools.c:3664
+#: src/tools/analysis-tools.c:3665
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
 msgstr "ANOVA hai hệ số (%s), có lặp"
 
-#: src/tools/analysis-tools.c:3682
+#: src/tools/analysis-tools.c:3683
 msgid "Two Factor ANOVA"
 msgstr "ANOVA hai hệ số"
 
-#: src/tools/analysis-tools.c:3863
+#: src/tools/analysis-tools.c:3864
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:3867
+#: src/tools/analysis-tools.c:3868
 msgid "Too Small"
 msgstr "Quá nhỏ"
 
-#: src/tools/analysis-tools.c:3884
+#: src/tools/analysis-tools.c:3885
 msgid "More"
 msgstr "Nhiều hơn"
 
-#: src/tools/analysis-tools.c:3893
+#: src/tools/analysis-tools.c:3894
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/tools/analysis-tools.c:3897
+#: src/tools/analysis-tools.c:3898
 msgid "Too Large"
 msgstr "Quá lớn"
 
-#: src/tools/analysis-tools.c:3941
+#: src/tools/analysis-tools.c:3942
 msgid "Bin"
 msgstr "Bin"
 
-#: src/tools/analysis-tools.c:3966
+#: src/tools/analysis-tools.c:3967
 msgid "Frequency"
 msgstr "Tần số"
 
-#: src/tools/analysis-tools.c:3971
+#: src/tools/analysis-tools.c:3972
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Tích lũy %"
 
-#: src/tools/analysis-tools.c:4050
+#: src/tools/analysis-tools.c:4051
 #, c-format
 msgid "Histogram (%s)"
 msgstr "Biểu đồ (%s)"
 
-#: src/tools/analysis-tools.c:4157 src/tools/solver/reports-write.c:647
+#: src/tools/analysis-tools.c:4158 src/tools/solver/reports-write.c:647
 msgid "Real"
 msgstr "Thực"
 
-#: src/tools/analysis-tools.c:4158
+#: src/tools/analysis-tools.c:4159
 msgid "Imaginary"
 msgstr "Sổ ảo"
 
-#: src/tools/analysis-tools.c:4218
+#: src/tools/analysis-tools.c:4219
 #, c-format
 msgid "Fourier Series (%s)"
 msgstr "Chuỗi Fourier (%s)"
 
-#: src/tools/analysis-tools.c:4230 src/tools/analysis-tools.c:4233
+#: src/tools/analysis-tools.c:4231 src/tools/analysis-tools.c:4234
 msgid "Fourier Series"
 msgstr "Chuỗi Fourier"
 
