@@ -211,7 +211,7 @@ load_formats (void)
 	}
 
 	for (i = 0; i < format_count; i++){
-		char *str = g_strdup_printf ("Format-%d", i);
+		char *str = g_strdup_printf ("FormatHF-%d", i);
 		PrintHF *format;
 
 		format = load_hf (str, "", "", "");
@@ -265,8 +265,8 @@ print_info_new (void)
 	load_margin ("margin_header", &pi->margins.header, HALF_CENTIMETER_IN_POINTS);
 	load_margin ("margin_footer", &pi->margins.footer, HALF_CENTIMETER_IN_POINTS);
 
-	pi->header = load_hf ("header", "", _("Sheet &[NUM]"), "");
-	pi->footer = load_hf ("footer", "", _("Page &[NUM]"), "");
+	pi->header = load_hf ("header", "", _("Sheet &[PAGE]"), "");
+	pi->footer = load_hf ("footer", "", _("Page &[PAGE]"), "");
 
 	s = gnome_config_get_string ("paper=none");
 	if (strcmp (s, "none") != 0)
@@ -367,7 +367,7 @@ save_formats (void)
 		PrintHF *hf = l->data;
 		char *name;
 
-		name = g_strdup_printf ("Format-%d", i);
+		name = g_strdup_printf ("FormatHF-%d", i);
 		save_hf (name, hf->left_format, hf->middle_format, hf->right_format);
 		g_free (name);
 	}

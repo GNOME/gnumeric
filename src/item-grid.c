@@ -345,8 +345,10 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 	if ((style->valid_flags & STYLE_BACK_COLOR) && (style->back_color)){
 		Sheet *sheet = item_grid->sheet_view->sheet;
 		
-		if (style->back_color == sheet->default_style->back_color)
+		if (style->back_color == sheet->default_style->back_color){
+			style_destroy (style);
 			return;
+		}
 
 		gdk_gc_set_foreground (item_grid->empty_gc, &style->back_color->color);
 		gdk_draw_rectangle (
@@ -355,6 +357,9 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			ci->pixels - ci->margin_b,
 			ri->pixels - ri->margin_b);
 	}
+
+	style_destroy (style);
+	return;
 }
 
 static void

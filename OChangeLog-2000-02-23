@@ -1,3 +1,30 @@
+1999-09-23  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/widgets/widget-color-combo.c (color_combo_class_init): Fixed
+	memory leaks.
+
+	* src/style.h: Keep the original colors handy here.
+
+	* src/print-cell.c (print_cell_range, print_empty_cell): We now
+	paint empty cells.  Now we paint the background for the cell.
+
+	* src/print-cell.c
+
+	* src/item-grid.c (item_grid_paint_empty_cell): Style leak fix.
+
+	* src/print-cell.c (print_cell): Changed the way borders are
+	printed to improve code reusability.
+
+	* src/print-info.c (save_formats): New format name to fix in an
+	upgradable fashion.
+	(load_formats): ditto.
+	(print_info_new): The defaults to load should use [PAGE] not
+	[NUM], which explains why it was never being shown.
+
+	* src/print-preview.c (print_preview_print_done): Close the
+	context here so we have information available in the ->size
+	field. 
+
 1999-09-23  Morten Welinder  <terra@diku.dk>
 
 	* src/regression.c (exponential_regression): Fix thingo.
@@ -836,6 +863,48 @@
 	* src/file.c (workbook_import, workbook_read): Add bonobo_object
 	_destroy if we have bonobo.
 
+1999-09-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-grid.c: Code now can draw emtpy cells with the correct style.
+
+1999-09-03  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/dialogs/dialog-printer-setup.c (draw_margins): Added margin
+	display preview. 
+
+	* src/print-preview.c (preview_zoom_out_cmd): Zoom-in, zoom-out
+	and move are now toggle buttons.
+
+	* src/workbook.c (italic_cmd, bold_cmd): Simplified the code some.
+
+	* src/dialogs/dialog-printer-setup.c (do_setup_page_info): Force
+	the icon display here.
+	(preview_page_create): Invert test.
+	(PAGE_X, PAGE_Y): They are now the same values.
+	(do_setup_page): Show the images here.
+
+1999-09-02  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print-preview.c (create_toplevel): Add a toolbar.
+
+	* src/print.c (compute_groups): Include the margins in the
+	size computation.
+
+	* src/print-cell.c (print_cell_range): Start printing from the
+	start_row, not from zero.
+
+	* src/print-preview.c: Change of plans.  We now use a metafile, we
+	render all the code there.  And then we use the new metafile
+	operations for rendering a specific page.
+
+	* src/item-cursor.c (item_cursor_autofill_event): Change this to
+	destroy again.
+
+1999-09-01  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print-preview.c (print_preview_print_done): Show the first
+	page here.
+
 1999-09-03  Michael Meeks  <michael@imaginator.com>
 
 	* src/sheet-object-container.c (sheet_object_container_land): Add
@@ -852,6 +921,11 @@
 	* src/sheet-object.h: Removed redundant sheet_object_register.
 
 	* src/workbook.c (filenames_dropped): Hacked.
+
+1999-09-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/item-bar.c (item_bar_event): Use the item_bar->resize_pos
+	computed during button press. #2090 fixed
 
 1999-09-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
@@ -1172,6 +1246,11 @@
 
 	* src/cell.c (cell_set_text_simple): Add checks for over/under
 	flow on integer reading... fall back to double values.
+
+1999-08-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/cell.c (cell_content_changed): Ok, Paolo corrected me.  This
+	is not what he wanted.  
 
 1999-08-16  Michael Meeks  <michael@imaginator.com>
 

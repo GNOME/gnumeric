@@ -325,14 +325,22 @@ style_color_new (gushort red, gushort green, gushort blue)
 	StyleColor *sc;
 	StyleColor key;
 
-	key.color.red   = red;
-	key.color.green = green;
-	key.color.blue  = blue;
+	key.red   = red;
+	key.green = green;
+	key.blue  = blue;
 
 	sc = g_hash_table_lookup (style_color_hash, &key);
 	if (!sc){
 		sc = g_new (StyleColor, 1);
+
+		key.color.red = red;
+		key.color.green = green;
+		key.color.blue = blue;
 		sc->color = key.color;
+		sc->red = red;
+		sc->green = green;
+		sc->blue = blue;
+		
 		sc->color.pixel = color_alloc (red, green, blue);
 
 		g_hash_table_insert (style_color_hash, sc, sc);
@@ -577,9 +585,9 @@ color_equal (gconstpointer v, gconstpointer v2)
 	const StyleColor *k1 = (const StyleColor *) v;
 	const StyleColor *k2 = (const StyleColor *) v2;
 
-	if (k1->color.red   == k2->color.red &&
-	    k1->color.green == k2->color.green &&
-	    k1->color.blue  == k2->color.blue)
+	if (k1->red   == k2->red &&
+	    k1->green == k2->green &&
+	    k1->blue  == k2->blue)
 		return 1;
 
 	return 0;
@@ -590,7 +598,7 @@ color_hash (gconstpointer v)
 {
 	const StyleColor *k = (const StyleColor *)v;
 
-	return (k->color.red << 16) | (k->color.green << 8) | (k->color.blue);
+	return (k->red << 16) | (k->green << 8) | (k->blue);
 }
 
 void

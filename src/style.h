@@ -33,6 +33,9 @@ typedef struct {
 	int      ref_count;
 	GdkColor color;
 	char     *name;
+	gushort  red;
+	gushort  green;
+	gushort  blue;
 } StyleColor;
 
 /**

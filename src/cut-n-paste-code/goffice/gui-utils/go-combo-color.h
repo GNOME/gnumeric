@@ -39,6 +39,8 @@ typedef struct {
 
 GtkType    color_combo_get_type      (void);
 GtkWidget *color_combo_new           (char **icon);
+void       color_combo_construct     (ColorCombo *cc, char **icon, gboolean no_color,
+				      int ncols, int nrows, char **color_names);
 GtkWidget *color_combo_new_with_vals (char **icon,
 				      int ncols, int nrows, gboolean no_color,
 				      char **color_names);

@@ -16,7 +16,9 @@
 #include <libgnomeprint/gnome-print.h>
 #include "print-cell.h"
 
-#define CELL_DIM(cell,p) (cell->p->units + cell->p->margin_a_pt + cell->p->margin_b_pt)
+#define DIM(cri) (cri->units + cri->margin_a_pt + cri->margin_b_pt)
+
+#define CELL_DIM(cell,p) DIM (cell->p)
 #define CELL_HEIGHT(cell) CELL_DIM(cell,row)
 #define CELL_WIDTH(cell)  CELL_DIM(cell,col)
 
@@ -83,16 +85,10 @@ print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2,
 }
 
 static void
-print_cell_border (GnomePrintContext *context, Cell *cell, double x1, double y1)
+print_cell_border (GnomePrintContext *context, StyleBorder *border,
+		   double x1, double y1, double x2, double y2)
 {
 	int i;
-	gdouble cell_width = CELL_WIDTH (cell);
-	gdouble cell_height = CELL_HEIGHT (cell);
-	StyleBorder *border = cell->style->border;
-	double x2, y2;
-
-	x2 = x1 + cell_width;
-	y2 = y1 - cell_height;
 	
 	for (i = 0; i < STYLE_ORIENT_MAX; ++i)
 		print_border (context, x1, y1, x1, y2, border, i);
@@ -340,22 +336,55 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 }
 
 static void
-print_cell (GnomePrintContext *context, Cell *cell, double x, double y)
+print_cell_background (GnomePrintContext *context, StyleColor *back,
+		       double x1, double y1, double x2, double y2)
 {
-	GdkColor *fore;
+	gnome_print_setrgbcolor (
+		context,
+		back->red   / (double) 0xffff,
+		back->green / (double) 0xffff,
+		back->blue  / (double) 0xffff);
+
+	gnome_print_moveto (context, x1, y1);
+	gnome_print_lineto (context, x1, y2);
+	gnome_print_lineto (context, x2, y2);
+	gnome_print_lineto (context, x2, y1);
+	gnome_print_lineto (context, x1, y1);
+	gnome_print_fill (context);
+}
+
+static void
+print_cell (GnomePrintContext *context, Cell *cell,
+	    double x1, double y1, double x2, double y2)
+{
+	StyleColor *fore = cell->style->fore_color;
 	
 	g_assert (cell != NULL);
 
 	gnome_print_setrgbcolor (context, 0, 0, 0);
-	print_cell_border (context, cell, x, y);
-
-	fore = &cell->style->fore_color->color;
+	print_cell_border (context, cell->style->border, x1, y1, x2, y2);
+	print_cell_background (context, cell->style->back_color, x1, y1, x2, y2);
 	
-	gnome_print_setrgbcolor (context, fore->red, fore->green, fore->blue);
+	gnome_print_setrgbcolor (context,
+				 fore->red   / (double) 0xfff,
+				 fore->green / (double) 0xffff,
+				 fore->blue  / (double) 0xffff);
 
 	print_cell_text (context, cell,
-			 x + cell->col->margin_a_pt,
-			 y + cell->row->margin_b_pt);
+			 x1 + cell->col->margin_a_pt,
+			 y1 + cell->row->margin_b_pt);
+}
+
+static void
+print_empty_cell (GnomePrintContext *context, Sheet *sheet, int col, int row,
+		  double x1, double y1, double x2, double y2)
+{
+	Style *style;
+
+	style = sheet_style_compute (sheet, col, row, NULL);
+	print_cell_background (context, style->back_color, x1, y1, x2, y2);
+	
+	style_destroy (style);
 }
 
 void
@@ -383,14 +412,26 @@ print_cell_range (GnomePrintContext *context,
 
 		x = 0;
 		for (col = start_col; col <= end_col; col++){
+			double x1 = base_x + x;
+			double y1 = base_y + y;
 			Cell *cell;
 
 			cell = sheet_cell_get (sheet, col, row);
 			if (cell){
-				print_cell (context, cell, base_x + x, base_y + y);
+				double x2 = x1 + CELL_WIDTH (cell);
+				double y2 = y1 - CELL_HEIGHT (cell);
+
 				ci = cell->col;
-			} else
+				print_cell (context, cell, x1, y1, x2, y2);
+			} else {
+				double x2, y2;
+					
 				ci = sheet_col_get_info (sheet, col);
+				x2 = x1 + DIM (ci);
+				y2 = y1 - DIM (ri);
+
+				print_empty_cell (context, sheet, col, row, x1, y1, x2, y2);
+			}
 			
 			x += ci->units + ci->margin_a_pt + ci->margin_b_pt;
 		}

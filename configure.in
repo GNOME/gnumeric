@@ -1,7 +1,7 @@
 AC_INIT(src/gnumeric.h)
 
 AM_CONFIG_HEADER(config.h)
-AM_INIT_AUTOMAKE(gnumeric,0.36)
+AM_INIT_AUTOMAKE(gnumeric,0.37)
 AM_MAINTAINER_MODE
 AM_ACLOCAL_INCLUDE(macros)
 
@@ -167,8 +167,8 @@ if gnome-config --libs print > /dev/null 2>&1; then
     . `gnome-config --libdir`/printConf.sh
     AC_MSG_CHECKING(for GnomePrint >= 0.6)
     case x$MODULE_VERSION in
-	gnome-print-0.[012345])
-		AC_MSG_ERROR(You need at least GNOME print 0.6 for this version of Gnumeric)
+	gnome-print-0.[01234567])
+		AC_MSG_ERROR(You need at least GNOME print 0.8 for this version of Gnumeric)
 		;;
     esac
     AC_MSG_RESULT(found)

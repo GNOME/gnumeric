@@ -19,9 +19,24 @@ enum {
 
 static gint color_combo_signals [LAST_SIGNAL] = { 0, };
 
+static GtkObjectClass *color_combo_parent_class;
+
+static void
+color_combo_finalize (GtkObject *object)
+{
+	ColorCombo *cc = COLOR_COMBO (object);
+
+	g_free (cc->items);
+	(*color_combo_parent_class->finalize) (object);
+}
+
 static void
 color_combo_class_init (GtkObjectClass *object_class)
 {
+	object_class->finalize = color_combo_finalize;
+
+	color_combo_parent_class = gtk_type_class (gtk_combo_box_get_type ());
+	
 	color_combo_signals [CHANGED] =
 		gtk_signal_new (
 			"changed",
@@ -209,7 +224,7 @@ color_combo_construct (ColorCombo *cc, char **icon, gboolean no_color,
 		"fill_color", color_names [0],
 		NULL);
 	gtk_container_add (GTK_CONTAINER (cc->preview_button), GTK_WIDGET (cc->preview_canvas));
-	gtk_widget_set_usize (cc->preview_canvas, 24, 24);
+	gtk_widget_set_usize (GTK_WIDGET (cc->preview_canvas), 24, 24);
 	gtk_signal_connect (GTK_OBJECT (cc->preview_button), "clicked",
 			    GTK_SIGNAL_FUNC (emit_change), cc);
 

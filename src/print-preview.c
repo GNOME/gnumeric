@@ -573,6 +573,7 @@ print_preview_print_done (PrintPreview *pp)
 	gtk_widget_show (GTK_WIDGET (pp->toplevel));
 
 	pp->current_page = -1;
+	gnome_print_context_close (pp->metafile);
 	pp->pages = gnome_print_meta_pages (GNOME_PRINT_META (pp->metafile));
 	
 	goto_page (pp, 0);
