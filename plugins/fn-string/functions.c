@@ -669,13 +669,9 @@ static Value *
 gnumeric_t (struct FunctionDefinition *i,
 	    Value *argv [], char **error_string)
 {
-	if (argv [0]->type == VALUE_STRING) {
-		Value *v;
-		v = g_new (Value, 1);
-		v->type = VALUE_STRING;
-		v->v.str = string_ref (argv[0]->v.str);
-		return v;
-	} else
+	if (argv[0]->type == VALUE_STRING)
+		return value_duplicate (argv[0]);
+	else
 		return value_new_string ("");
 }
 

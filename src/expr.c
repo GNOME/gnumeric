@@ -1,5 +1,5 @@
 /*
- * expr.c: Expression evaluation in Gnumeriuc
+ * expr.c: Expression evaluation in Gnumeric
  *
  * Author:
  *   Miguel de Icaza (miguel@gnu.org).
