@@ -7,7 +7,7 @@
  * Author:
  *    Jody Goldberg (jgoldberg@home.com)
  *
- * (C) 2000 Jody Goldberg
+ * (C) 2000-2001 Jody Goldberg
  **/
 
 #include "config.h"
@@ -149,4 +149,13 @@ ms_container_sheet (MSContainer const *c)
 	g_return_val_if_fail (c->vtbl != NULL, NULL);
 	g_return_val_if_fail (c->vtbl->sheet != NULL, NULL);
 	return (*c->vtbl->sheet) (c);
+}
+
+StyleFormat *
+ms_container_get_fmt (MSContainer const *c, guint16 indx)
+{
+	g_return_val_if_fail (c != NULL, NULL);
+	g_return_val_if_fail (c->vtbl != NULL, NULL);
+	g_return_val_if_fail (c->vtbl->get_fmt != NULL, NULL);
+	return (*c->vtbl->get_fmt) (c, indx);
 }

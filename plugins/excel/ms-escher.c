@@ -40,6 +40,9 @@
 #  include "sheet-object-graphic.h"
 #endif
 
+#undef G_LOG_DOMAIN
+#define G_LOG_DOMAIN "gnumeric:escher"
+
 /* A storage accumulator for common state information */
 typedef struct
 {
@@ -153,7 +156,7 @@ ms_escher_get_data (MSEscherState * state,
 	/* find the 1st containing record */
 	while (offset >= state->end_offset) {
 		if (!ms_biff_query_next (q)) {
-			printf ("EXCEL : unexpected end of stream;\n");
+			g_warning ("unexpected end of stream;\n");
 			return NULL;
 		}
 
@@ -161,7 +164,7 @@ ms_escher_get_data (MSEscherState * state,
 		    q->opcode != BIFF_MS_O_DRAWING_GROUP &&
 		    q->opcode != BIFF_MS_O_DRAWING_SELECTION &&
 		    q->opcode != BIFF_CONTINUE) {
-			printf ("ESCHER : Unexpected record type 0x%x len=0x%x\n", q->opcode, q->length);
+			g_warning ("Unexpected record type 0x%x len=0x%x\n", q->opcode, q->length);
 			return NULL;
 		}
 
@@ -206,7 +209,7 @@ ms_escher_get_data (MSEscherState * state,
 
 			/* Get next record */
 			if (!ms_biff_query_next (q)) {
-				printf ("EXCEL : unexpected end of stream;\n");
+				g_warning ("unexpected end of stream;\n");
 				return NULL;
 			}
 
@@ -215,7 +218,7 @@ ms_escher_get_data (MSEscherState * state,
 			    q->opcode != BIFF_MS_O_DRAWING_GROUP &&
 			    q->opcode != BIFF_MS_O_DRAWING_SELECTION &&
 			    q->opcode != BIFF_CONTINUE) {
-				printf ("ESCHER : Unexpected record type 0x%x\n", q->opcode);
+				g_warning ("Unexpected record type 0x%x\n", q->opcode);
 				return NULL;
 			}
 
@@ -261,10 +264,13 @@ ms_escher_read_CLSID (MSEscherState * state, MSEscherHeader * h)
 static gboolean
 ms_escher_read_ColorMRU (MSEscherState * state, MSEscherHeader * h)
 {
-	guint const num_Colours = h->instance;
-
-	printf ("There are %d Colours in a record with remaining length %d;\n",
-		num_Colours, (h->len - common_header_len));
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_escher_debug > 3) {
+		guint const num_Colours = h->instance;
+		printf ("There are %d Colours in a record with remaining length %d;\n",
+			num_Colours, (h->len - common_header_len));
+	}
+#endif
 
 	/* Colors in order from left to right.  */
 	/* TODO : When we know how to parse a Colour record read these */
@@ -1949,12 +1955,12 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 #endif
 			if (res) {
 				ms_escher_header_release (&h);
-				printf ("ERROR : %s;\n", fbt_name);
+				g_warning ("%s;\n", fbt_name);
 				return TRUE;
 			}
 
 		} else
-			printf ("WARNING EXCEL : Invalid fbt = %x\n", h.fbt);
+			g_warning ("Invalid fbt = %x\n", h.fbt);
 
 		h.offset += h.len;
 	} while (h.offset < (container->offset + container->len));

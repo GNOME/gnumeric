@@ -731,8 +731,8 @@ char const *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x31 */	"@"
 };
 
-StyleFormat *
-biff_format_data_lookup (ExcelWorkbook *wb, guint16 idx)
+static StyleFormat *
+ms_excel_wb_get_fmt (ExcelWorkbook *wb, guint16 idx)
 {
 	char const *ans = NULL;
 	BiffFormatData const *d = g_hash_table_lookup (wb->format_data, &idx);
@@ -1436,7 +1436,7 @@ biff_xf_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 	xf->font_idx = MS_OLE_GET_GUINT16 (q->data);
 	xf->format_idx = MS_OLE_GET_GUINT16 (q->data + 2);
 	xf->style_format = (xf->format_idx > 0)
-	    ? biff_format_data_lookup (wb, xf->format_idx) : NULL;
+		? ms_excel_wb_get_fmt (wb, xf->format_idx) : NULL;
 
 	data = MS_OLE_GET_GUINT16 (q->data + 4);
 	xf->locked = (data & 0x0001) != 0;
@@ -2292,10 +2292,10 @@ ms_sheet_sheet (MSContainer const *container)
 	return ((ExcelSheet const *)container)->gnum_sheet;
 }
 
-static Workbook *
-ms_sheet_workbook (MSContainer const *container)
+static StyleFormat *
+ms_sheet_get_fmt (MSContainer const *container, guint16 indx)
 {
-	return ((ExcelSheet const *)container)->gnum_sheet->workbook;
+	return ms_excel_wb_get_fmt (((ExcelSheet const *)container)->wb, indx);
 }
 
 static void
@@ -2342,7 +2342,7 @@ ms_excel_sheet_new (ExcelWorkbook *wb, char const *sheet_name)
 		&ms_sheet_create_obj,
 		&ms_sheet_parse_expr,
 		&ms_sheet_sheet,
-		&ms_sheet_workbook
+		&ms_sheet_get_fmt
 	};
 
 	ExcelSheet *esheet = g_new (ExcelSheet, 1);
@@ -2481,10 +2481,10 @@ ms_wb_parse_expr (MSContainer *container, guint8 const *data, int length)
 	return ms_sheet_parse_expr_internal (&dummy_sheet, data, length);
 }
 
-static Workbook *
-ms_wb_workbook (MSContainer const *container)
+static StyleFormat *
+ms_wb_get_fmt (MSContainer const *container, guint16 indx)
 {
-	return ((ExcelWorkbook const *)container)->gnum_wb;
+	return ms_excel_wb_get_fmt (((ExcelWorkbook *)container), indx);
 }
 
 static ExcelWorkbook *
@@ -2494,7 +2494,7 @@ ms_excel_workbook_new (MsBiffVersion ver)
 		NULL, NULL,
 		&ms_wb_parse_expr,
 		NULL,
-		&ms_wb_workbook,
+		&ms_wb_get_fmt,
 	};
 
 	ExcelWorkbook *ans = g_new (ExcelWorkbook, 1);

@@ -1,5 +1,15 @@
 2001-09-27  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-excel-read.c (ms_excel_wb_get_fmt) : renamed something
+	  better than biff_format_data_lookup. 
+
+	* ms-chart.c (BC_R(ai)) : Use ms_container_get_fmt.
+	(BC_R(ifmt)) : ditto.
+
+	* ms-container.c (ms_container_get_fmt) : new function.
+
+2001-09-27  Jody Goldberg <jgoldberg@home.com>
+
 	* ms-excel-read.c (ms_sheet_map_color) : new utility.
 	(ms_sheet_create_obj) : set the fill colour.
 

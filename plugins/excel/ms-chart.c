@@ -73,7 +73,6 @@ typedef struct
 	GArray		*stack;
 	MsBiffVersion	 ver;
 	guint32		 prev_opcode;
-	ExcelWorkbook	*wb;
 	GnmGraph	*graph;
 
 	struct {
@@ -310,8 +309,8 @@ BC_R(ai)(ExcelChartHandler const *handle,
 
 	/* Rest are 0 */
 	if (flags&0x01) {
-		guint16 const fmt_index = MS_OLE_GET_GUINT16 (q->data + 4);
-		StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);
+		StyleFormat *fmt = ms_container_get_fmt (&s->container, 
+			MS_OLE_GET_GUINT16 (q->data + 4));
 		d (2, puts ("Has Custom number format"););
 		if (fmt != NULL) {
 			char * desc = style_format_as_XL (fmt, FALSE);
@@ -1128,8 +1127,8 @@ static gboolean
 BC_R(ifmt)(ExcelChartHandler const *handle,
 	   ExcelChartReadState *s, BiffQuery *q)
 {
-	guint16 const fmt_index = MS_OLE_GET_GUINT16 (q->data);
-	StyleFormat * fmt = biff_format_data_lookup (s->wb, fmt_index);
+	StyleFormat *fmt = ms_container_get_fmt (&s->container, 
+		MS_OLE_GET_GUINT16 (q->data));
 
 	if (fmt != NULL) {
 		char * desc = style_format_as_XL (fmt, FALSE);
@@ -2369,7 +2368,6 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 
 	state.container.ver = ver;
 	state.stack	    = g_array_new (FALSE, FALSE, sizeof(int));
-	state.wb	    = NULL;   	/* FIXME : should have a container_get_format */
 	state.prev_opcode   = 0xdeadbeef; /* Invalid */
 	state.parent	    = container;
 	state.currentSeries = NULL;
