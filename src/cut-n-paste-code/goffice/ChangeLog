@@ -1,3 +1,8 @@
+2004-09-28  Morten Welinder  <terra@gnome.org>
+
+	* utils/go-color.c (go_color_to_pango): Add is_fore argument and
+	export.
+
 2004-09-28  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* graph/plugins/plot_pie/gog-pie.c (gog_pie_view_info_at_point):

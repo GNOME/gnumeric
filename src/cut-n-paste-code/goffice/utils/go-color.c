@@ -352,7 +352,7 @@ go_color_as_str (GOColor color)
 }
 
 PangoAttribute *
-go_color_to_pango (GOColor color)
+go_color_to_pango (GOColor color, gboolean is_fore)
 {
 	guint16 r, g, b;
 	r  = UINT_RGBA_R (color);
@@ -361,7 +361,11 @@ go_color_to_pango (GOColor color)
 	g |= (g << 8);
 	b  = UINT_RGBA_B (color);
 	b |= (b << 8);
-	return pango_attr_foreground_new (r, g, b);
+
+	if (is_fore)
+		return pango_attr_foreground_new (r, g, b);
+	else
+		return pango_attr_background_new (r, g, b);
 }
 
 #ifdef WITH_GTK
