@@ -552,31 +552,20 @@ Sheet *gnumericReadXmlSheet(const char *filename) {
  */
 
 int gnumericWriteXmlSheet(Sheet *sheet, const char *filename) {
-    FILE *output;
     xmlDocPtr xml;
     xmlNsPtr gmr;
     parseXmlContext ctxt;
+    int ret;
 
     g_return_val_if_fail (sheet != NULL, -1);
     g_return_val_if_fail (IS_SHEET (sheet), -1);
     g_return_val_if_fail (filename != NULL, -1);
-    /*
-     * Open in write mode, !!! Save a bak ?
-     */
-    output = fopen(filename, "w");
-    if (output == NULL) {
-	perror("fopen");
-        fprintf(stderr, "gnumericWriteXmlSheet: couldn't save to file %s\n",
-	        filename);
-	return(-1);
-    }
     
     /*
      * Create the tree
      */
     xml = xmlNewDoc("1.0");
     if (xml == NULL) {
-	fclose(output);
 	return(-1);
     }
     gmr = xmlNewGlobalNs(xml, "http://www.gnome.org/gnumeric/", "gmr");
@@ -591,9 +580,10 @@ int gnumericWriteXmlSheet(Sheet *sheet, const char *filename) {
     /*
      * Dump it.
      */
-    xmlDocDump(output, xml); /* !!! Should add a return code and check */
+    xmlSetCompressMode(9);
+    ret = xmlSaveFile(filename, xml);
     xmlFreeDoc(xml);
-    fclose(output);
+    if (ret < 0) return(-1);
     return(0);
 }
 
@@ -653,31 +643,19 @@ Workbook *gnumericReadXmlWorkbook(const char *filename) {
  */
 
 int gnumericWriteXmlWorkbook(Workbook *wb, const char *filename) {
-    FILE *output;
     xmlDocPtr xml;
     xmlNsPtr gmr;
     parseXmlContext ctxt;
+    int ret;
 
     g_return_val_if_fail (wb != NULL, -1);
     g_return_val_if_fail (filename != NULL, -1);
-    
-    /*
-     * Open in write mode, !!! Save a bak ?
-     */
-    output = fopen(filename, "w");
-    if (output == NULL) {
-	perror("fopen");
-        fprintf(stderr, "gnumericWriteXmlWorkbook: couldn't save to file %s\n",
-	        filename);
-	return(-1);
-    }
     
     /*
      * Create the tree
      */
     xml = xmlNewDoc("1.0");
     if (xml == NULL) {
-	fclose(output);
 	return(-1);
     }
     gmr = xmlNewGlobalNs(xml, "http://www.gnome.org/gnumeric/", "gmr");
@@ -692,9 +670,10 @@ int gnumericWriteXmlWorkbook(Workbook *wb, const char *filename) {
     /*
      * Dump it.
      */
-    xmlDocDump(output, xml); /* !!! Should add a return code and check */
+    xmlSetCompressMode(9);
+    ret = xmlSaveFile(filename, xml);
     xmlFreeDoc(xml);
-    fclose(output);
+    if (ret < 0) return(-1);
     return(0);
 }
 

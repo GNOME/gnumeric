@@ -1,3 +1,8 @@
+Tue Sep 22 20:50:11 EDT 1998 Daniel Veillard <Daniel.Veillard@w3.org>
+
+	* src/xml-io.c: set-up for compression of output. Should be tunable
+	  from the interface.
+
 1998-09-22  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/xml-io.c (writeXmlStyle): Save colors.  Save pattern.
