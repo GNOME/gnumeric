@@ -1,3 +1,9 @@
+Gnumeric 1.4.4
+
+Morten:
+	* Back save-as crash fix.  [#170308]
+
+--------------------------------------------------------------------------
 Gnumeric 1.4.3
 	
 Jean Brefort:

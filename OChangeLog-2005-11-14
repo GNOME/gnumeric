@@ -1,3 +1,7 @@
+2005-03-15  Morten Welinder  <terra@gnome.org>
+
+	* src/gui-file.c (gui_file_save_as): Backport save-as fix.
+
 2005-03-14  Jon K Hellan  <hellan@acm.org>
 
 	* src/gui-clipboard.c (complex_content_received): Backport paste
