@@ -1,5 +1,8 @@
 2003-06-30  Morten Welinder  <terra@gnome.org>
 
+	* src/commands.c (cmd_set_text_redo): Don't override a user
+	format.
+
 	* src/gui-clipboard.c (text_to_cell_region): Handle column
 	selection here too.
 	* src/stf-parse.c (stf_parse_region): Ditto.

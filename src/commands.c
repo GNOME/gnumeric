@@ -776,6 +776,7 @@ typedef struct
 
 	EvalPos pos;
 	gchar *text;
+	gboolean has_user_format;
 	CellRegion *old_contents;
 } CmdSetText;
 
@@ -807,7 +808,7 @@ cmd_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	sheet_cell_set_text (cell, me->text);
 	expr = cell->base.expression;
 
-	if (expr) {
+	if (!me->has_user_format && expr) {
 		EvalPos ep;
 		StyleFormat *sf = auto_style_format_suggest (expr,
 			eval_pos_init (&ep, me->cmd.sheet, &me->pos.eval));
@@ -885,6 +886,11 @@ cmd_set_text (WorkbookControl *wbc,
 				 where);
 	g_free (where);
 	g_free (text);
+
+	me->has_user_format =
+		!style_format_is_general
+		(mstyle_get_format (sheet_style_get (sheet,
+						     pos->col, pos->row)));
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
