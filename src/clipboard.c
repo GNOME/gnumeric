@@ -123,7 +123,7 @@ do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
 				    dest_row + paste_height - 1);
 
 	/* If no operations are defined, we clear the area */
-	if (!(paste_flags & PASTE_OP_MASK))
+	if (!(paste_flags & PASTE_OPER_MASK))
 		sheet_redraw_cell_region (dest_sheet,
 					  dest_col, dest_row,
 					  dest_col + paste_width - 1,

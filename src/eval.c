@@ -177,39 +177,39 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 	GList *l;
 	
 	switch (tree->oper){
-	case OP_EQUAL:
-	case OP_NOT_EQUAL:
-	case OP_GT:
-	case OP_GTE:
-	case OP_LT:
-	case OP_LTE:
-	case OP_ADD:
-	case OP_SUB:
-	case OP_MULT:
-	case OP_DIV:
-	case OP_EXP:
-	case OP_CONCAT:
+	case OPER_EQUAL:
+	case OPER_NOT_EQUAL:
+	case OPER_GT:
+	case OPER_GTE:
+	case OPER_LT:
+	case OPER_LTE:
+	case OPER_ADD:
+	case OPER_SUB:
+	case OPER_MULT:
+	case OPER_DIV:
+	case OPER_EXP:
+	case OPER_CONCAT:
 		add_tree_deps (cell, tree->u.binary.value_a);
 		add_tree_deps (cell, tree->u.binary.value_b);
 		return;
 
-	case OP_CONSTANT:
+	case OPER_CONSTANT:
 		add_value_deps (cell, tree->u.constant);
 		return;
 
-	case OP_FUNCALL: 
+	case OPER_FUNCALL: 
 		for (l = tree->u.function.arg_list; l; l = l->next)
 			add_tree_deps (cell, l->data);
 		return;
 
-	case OP_VAR: 
+	case OPER_VAR: 
 		add_cell_range_deps (
 			cell,
 			&tree->u.constant->v.cell,
 			&tree->u.constant->v.cell);
 		return;
 
-	case OP_NEG:
+	case OPER_NEG:
 		add_tree_deps (cell, tree->u.value);
 		return;
 	

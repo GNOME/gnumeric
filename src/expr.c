@@ -62,28 +62,28 @@ do_expr_tree_ref (ExprTree *tree)
 
 	tree->ref_count++;
 	switch (tree->oper){
-	case OP_VAR:
-	case OP_CONSTANT:
-	case OP_FUNCALL:
+	case OPER_VAR:
+	case OPER_CONSTANT:
+	case OPER_FUNCALL:
 		break;
 
-	case OP_EQUAL:
-	case OP_GT:
-	case OP_LT:
-	case OP_GTE:
-	case OP_LTE:
-	case OP_NOT_EQUAL:
-	case OP_ADD:
-	case OP_SUB:
-	case OP_MULT:
-	case OP_DIV:
-	case OP_EXP:
-	case OP_CONCAT:
+	case OPER_EQUAL:
+	case OPER_GT:
+	case OPER_LT:
+	case OPER_GTE:
+	case OPER_LTE:
+	case OPER_NOT_EQUAL:
+	case OPER_ADD:
+	case OPER_SUB:
+	case OPER_MULT:
+	case OPER_DIV:
+	case OPER_EXP:
+	case OPER_CONCAT:
 		do_expr_tree_ref (tree->u.binary.value_a);
 		do_expr_tree_ref (tree->u.binary.value_b);
 		break;
 
-	case OP_NEG:
+	case OPER_NEG:
 		do_expr_tree_ref (tree->u.value);
 		break;
 	}
@@ -107,36 +107,36 @@ do_expr_tree_unref (ExprTree *tree)
 {
 	tree->ref_count--;
 	switch (tree->oper){
-	case OP_VAR:
+	case OPER_VAR:
 		break;
 		
-	case OP_CONSTANT:
+	case OPER_CONSTANT:
 		if (tree->ref_count == 0)
 			value_release (tree->u.constant);
 		break;
 		
-	case OP_FUNCALL:
+	case OPER_FUNCALL:
 		if (tree->ref_count == 0)
 			symbol_unref (tree->u.function.symbol);
 		break;
 
-	case OP_EQUAL:
-	case OP_GT:
-	case OP_LT:
-	case OP_GTE:
-	case OP_LTE:
-	case OP_NOT_EQUAL:
-	case OP_ADD:
-	case OP_SUB:
-	case OP_MULT:
-	case OP_DIV:
-	case OP_EXP:
-	case OP_CONCAT:
+	case OPER_EQUAL:
+	case OPER_GT:
+	case OPER_LT:
+	case OPER_GTE:
+	case OPER_LTE:
+	case OPER_NOT_EQUAL:
+	case OPER_ADD:
+	case OPER_SUB:
+	case OPER_MULT:
+	case OPER_DIV:
+	case OPER_EXP:
+	case OPER_CONCAT:
 		do_expr_tree_unref (tree->u.binary.value_a);
 		do_expr_tree_unref (tree->u.binary.value_b);
 		break;
 
-	case OP_NEG:
+	case OPER_NEG:
 		do_expr_tree_unref (tree->u.value);
 		break;
 	}
@@ -476,7 +476,7 @@ function_def_call_with_values (Sheet *sheet, FunctionDefinition *fd, int argc,
 			tree = g_new (ExprTree, argc);
 		
 			for (i = 0; i < argc; i++){
-				tree [i].oper = OP_CONSTANT;
+				tree [i].oper = OPER_CONSTANT;
 				tree [i].ref_count = 1;
 				tree [i].u.constant = values [i];
 				
@@ -632,12 +632,12 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 	g_return_val_if_fail (IS_SHEET (asheet), NULL);
 	
 	switch (tree->oper){
-	case OP_EQUAL:
-	case OP_NOT_EQUAL:
-	case OP_GT:
-	case OP_GTE:
-	case OP_LT:
-	case OP_LTE: {
+	case OPER_EQUAL:
+	case OPER_NOT_EQUAL:
+	case OPER_GT:
+	case OPER_GTE:
+	case OPER_LT:
+	case OPER_LTE: {
 		int comp;
 		
 		a = eval_expr (sheet, tree->u.binary.value_a,
@@ -664,27 +664,27 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		}
 		
 		switch (tree->oper){
-		case OP_EQUAL:
+		case OPER_EQUAL:
 			res->v.v_int = comp == IS_EQUAL;
 			break;
 
-		case OP_GT:
+		case OPER_GT:
 			res->v.v_int = comp == IS_GREATER;
 			break;
 
-		case OP_LT:
+		case OPER_LT:
 			res->v.v_int = comp == IS_LESS;
 			break;
 
-		case OP_LTE:
+		case OPER_LTE:
 			res->v.v_int = (comp == IS_EQUAL || comp == IS_LESS);
 			break;
 
-		case OP_GTE:
+		case OPER_GTE:
 			res->v.v_int = (comp == IS_EQUAL || comp == IS_GREATER);
 			break;
 
-		case OP_NOT_EQUAL:
+		case OPER_NOT_EQUAL:
 			res->v.v_int = comp != IS_EQUAL;
 			break;
 			
@@ -696,11 +696,11 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		return res;
 	}
 	
-	case OP_ADD:
-	case OP_SUB:
-	case OP_MULT:
-	case OP_DIV:
-	case OP_EXP:
+	case OPER_ADD:
+	case OPER_SUB:
+	case OPER_MULT:
+	case OPER_DIV:
+	case OPER_EXP:
 		a = eval_expr (sheet, tree->u.binary.value_a,
 			       eval_col, eval_row, error_string);
 		b = eval_expr (sheet, tree->u.binary.value_b,
@@ -726,19 +726,19 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			res->type = VALUE_INTEGER;
 			
 			switch (tree->oper){
-			case OP_ADD:
+			case OPER_ADD:
 				res->v.v_int = a->v.v_int + b->v.v_int;
 				break;
 				
-			case OP_SUB:
+			case OPER_SUB:
 				res->v.v_int = a->v.v_int - b->v.v_int;
 				break;
 				
-			case OP_MULT:
+			case OPER_MULT:
 				res->v.v_int = a->v.v_int * b->v.v_int;
 				break;
 
-			case OP_DIV:
+			case OPER_DIV:
 				if (b->v.v_int == 0){
 					value_release (a);
 					value_release (b);
@@ -750,7 +750,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 				res->v.v_float =  a->v.v_int / (float_t)b->v.v_int;
 				break;
 				
-			case OP_EXP: 
+			case OPER_EXP: 
 				res->v.v_int = pow (a->v.v_int, b->v.v_int);
 				break;
 			default:
@@ -762,19 +762,19 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 			b = value_cast_to_float (b);
 			
 			switch (tree->oper){
-			case OP_ADD:
+			case OPER_ADD:
 				res->v.v_float = a->v.v_float + b->v.v_float;
 				break;
 				
-			case OP_SUB:
+			case OPER_SUB:
 				res->v.v_float = a->v.v_float - b->v.v_float;
 				break;
 				
-			case OP_MULT:
+			case OPER_MULT:
 				res->v.v_float = a->v.v_float * b->v.v_float;
 				break;
 				
-			case OP_DIV:
+			case OPER_DIV:
 				if (b->v.v_float == 0.0){
 					value_release (a);
 					value_release (b);
@@ -786,7 +786,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 				res->v.v_float = a->v.v_float / b->v.v_float;
 				break;
 				
-			case OP_EXP:
+			case OPER_EXP:
 				res->v.v_float = pow (a->v.v_float, b->v.v_float);
 				break;
 			default:
@@ -796,7 +796,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		value_release (b);
 		return res;
 		
-	case OP_CONCAT: {
+	case OPER_CONCAT: {
 		char *sa, *sb, *tmp;
 
 		a = eval_expr (sheet, tree->u.binary.value_a,
@@ -826,13 +826,13 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		return res;
 	}
 
-	case OP_FUNCALL:
+	case OPER_FUNCALL:
 		return eval_funcall (sheet, tree, eval_col, eval_row, error_string);
 
-	case OP_CONSTANT:
+	case OPER_CONSTANT:
 		return eval_cell_value (sheet, tree->u.constant);
 
-	case OP_VAR:{
+	case OPER_VAR:{
 		CellRef *ref;
 		Cell *cell;
 		int col, row;
@@ -869,7 +869,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		res->v.v_int = 0;
 		return res;
 	}
-	case OP_NEG:
+	case OPER_NEG:
 		a = eval_expr (sheet, tree->u.value,
 			       eval_col, eval_row, error_string);
 		if (!a)
@@ -913,11 +913,11 @@ cell_get_abs_col_row (CellRef *cell_ref, int eval_col, int eval_row, int *col, i
 static int
 evaluate_level (Operation x)
 {
-	if (x == OP_EXP)
+	if (x == OPER_EXP)
 		return 3;
-	if ((x==OP_MULT) || (x==OP_DIV))
+	if ((x==OPER_MULT) || (x==OPER_DIV))
 		return 2;
-	if ((x==OP_ADD)  || (x==OP_SUB)   || (x==OP_CONCAT))
+	if ((x==OPER_ADD)  || (x==OPER_SUB)   || (x==OPER_CONCAT))
 		return 1;
 	return 0;
 }
@@ -953,18 +953,18 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 	switch (tree->oper){
 
 		/* The binary operations */
-	case OP_EQUAL:
-	case OP_NOT_EQUAL:
-	case OP_GT:
-	case OP_GTE:
-	case OP_LT:
-	case OP_LTE:
-	case OP_ADD:
-	case OP_SUB:
-	case OP_MULT:
-	case OP_DIV:
-	case OP_EXP:
-	case OP_CONCAT: {	
+	case OPER_EQUAL:
+	case OPER_NOT_EQUAL:
+	case OPER_GT:
+	case OPER_GTE:
+	case OPER_LT:
+	case OPER_LTE:
+	case OPER_ADD:
+	case OPER_SUB:
+	case OPER_MULT:
+	case OPER_DIV:
+	case OPER_EXP:
+	case OPER_CONCAT: {	
 		char *a, *b, *res;
 		char const *op;
 		
@@ -982,7 +982,7 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 		return res;
 	}
 	
-	case OP_NEG: {
+	case OPER_NEG: {
 		char *res, *a;
 
 		a = do_expr_decode_tree (tree->u.value, col, row, tree->oper);
@@ -991,7 +991,7 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 		return res;
 	}
 	
-	case OP_FUNCALL: {
+	case OPER_FUNCALL: {
 		FunctionDefinition *fd;
 		GList *arg_list, *l;
 		char *res, *sum;
@@ -1010,7 +1010,7 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 			for (l = arg_list; l; l = l->next, i++){
 				ExprTree *t = l->data;
 				
-				args [i] = do_expr_decode_tree (t, col, row, OP_CONSTANT);
+				args [i] = do_expr_decode_tree (t, col, row, OPER_CONSTANT);
 				len += strlen (args [i]) + 1;
 			}
 			len++;
@@ -1036,7 +1036,7 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 			return g_copy_strings (fd->name, "()", NULL);
 	}
 	
-	case OP_CONSTANT: {
+	case OPER_CONSTANT: {
 		Value *v = tree->u.constant;
 
 		if (v->type == VALUE_CELLRANGE){
@@ -1056,7 +1056,7 @@ do_expr_decode_tree (ExprTree *tree, int col, int row, Operation parent_op)
 		}
 	}
 	
-	case OP_VAR: {
+	case OPER_VAR: {
 		CellRef *cell_ref;
 
 		cell_ref = &tree->u.constant->v.cell;
@@ -1073,5 +1073,5 @@ expr_decode_tree (ExprTree *tree, int col, int row)
 {
 	g_return_val_if_fail (tree != NULL, NULL);
 
-	return do_expr_decode_tree (tree, col, row, OP_CONSTANT);
+	return do_expr_decode_tree (tree, col, row, OPER_CONSTANT);
 }

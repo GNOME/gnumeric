@@ -131,19 +131,19 @@ dialog_paste_special (void)
 		i = gtk_radio_group_get_selected (group_ops);
 		switch (i){
 		case 1:		/* Add */
-			result |= PASTE_OP_ADD;
+			result |= PASTE_OPER_ADD;
 			break;
 
 		case 2:
-			result |= PASTE_OP_SUB;
+			result |= PASTE_OPER_SUB;
 			break;
 
 		case 3:
-			result |= PASTE_OP_MULT;
+			result |= PASTE_OPER_MULT;
 			break;
 
 		case 4:
-			result |= PASTE_OP_DIV;
+			result |= PASTE_OPER_DIV;
 			break;
 		}
 	}

@@ -757,8 +757,8 @@ static char *help_max = {
 };
 
 enum {
-	OP_MIN,
-	OP_MAX
+	OPER_MIN,
+	OPER_MAX
 };
 
 typedef struct {
@@ -775,7 +775,7 @@ callback_function_min_max (Sheet *sheet, Value *value, char **error_string, void
 	switch (value->type){
 	case VALUE_INTEGER:
 		if (mm->found){
-			if (mm->operation == OP_MIN){
+			if (mm->operation == OPER_MIN){
 				if (value->v.v_int < mm->result->v.v_float)
 					mm->result->v.v_float = value->v.v_int;
 			} else {
@@ -790,7 +790,7 @@ callback_function_min_max (Sheet *sheet, Value *value, char **error_string, void
 
 	case VALUE_FLOAT:
 		if (mm->found){
-			if (mm->operation == OP_MIN){
+			if (mm->operation == OPER_MIN){
 				if (value->v.v_float < mm->result->v.v_float)
 					mm->result->v.v_float = value->v.v_float;
 			} else {
@@ -815,7 +815,7 @@ gnumeric_min (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 	min_max_closure_t closure;
 	Sheet *sheet = (Sheet *) tsheet;
 
-	closure.operation = OP_MIN;
+	closure.operation = OPER_MIN;
 	closure.found  = 0;
 	closure.result = g_new (Value, 1);
 	closure.result->type = VALUE_FLOAT;
@@ -834,7 +834,7 @@ gnumeric_max (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 	min_max_closure_t closure;
 	Sheet *sheet = (Sheet *) tsheet;
 
-	closure.operation = OP_MAX;
+	closure.operation = OPER_MAX;
 	closure.found  = 0;
 	closure.result = g_new (Value, 1);
 	closure.result->type = VALUE_FLOAT;

@@ -2,25 +2,25 @@
 #define EXPR_H
 
 typedef enum {
-	OP_EQUAL,
-	OP_GT,
-	OP_LT,
-	OP_GTE,
-	OP_LTE,
-	OP_NOT_EQUAL,
+	OPER_EQUAL,
+	OPER_GT,
+	OPER_LT,
+	OPER_GTE,
+	OPER_LTE,
+	OPER_NOT_EQUAL,
 	
-	OP_ADD,
-	OP_SUB,
-	OP_MULT,
-	OP_DIV,
-	OP_EXP,
-	OP_CONCAT,
+	OPER_ADD,
+	OPER_SUB,
+	OPER_MULT,
+	OPER_DIV,
+	OPER_EXP,
+	OPER_CONCAT,
 
-	OP_FUNCALL,
+	OPER_FUNCALL,
 
-        OP_CONSTANT,
-	OP_VAR,
-	OP_NEG
+        OPER_CONSTANT,
+	OPER_VAR,
+	OPER_NEG
 } Operation;
 
 typedef enum {
