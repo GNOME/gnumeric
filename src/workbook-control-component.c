@@ -265,8 +265,6 @@ cb_help_about (GtkWidget *widget, BonoboControl *control)
 {
 	WorkbookControlGUI *wbcg = bcontrol_get_wbcg (control);
 
-	g_message (__PRETTY_FUNCTION__);
-
 	g_return_if_fail (wbcg != NULL);
 
 	dialog_about (wbcg);
@@ -300,6 +298,7 @@ workbook_control_component_activate (WorkbookControlComponent *wbcc,
 	bonobo_ui_util_set_ui
 		(uic, dir, "GNOME_Gnumeric_Component.xml", "gnumeric", NULL);
 	bonobo_ui_component_thaw (uic, NULL);
+	g_free (dir);
 }
 
 static void
