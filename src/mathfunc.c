@@ -4389,6 +4389,29 @@ L420:
     }
 }
 
+gnum_float dcauchy(gnum_float x, gnum_float location, gnum_float scale, int give_log)
+{
+    gnum_float y;
+
+    if (scale <= 0) ML_ERR_return_NAN;
+
+    y = (x - location) / scale;
+    return give_log ?
+        - loggnum(M_PI * scale * (1. + y * y)) :
+        1. / (M_PI * scale * (1. + y * y));
+}
+
+gnum_float pcauchy(gnum_float x, gnum_float location, gnum_float scale,
+               int lower_tail, int log_p)
+{
+
+    if (scale <= 0) ML_ERR_return_NAN;
+
+    x = (x - location) / scale;
+
+    return R_DT_val(0.5 + atangnum(x) / M_PI);
+}
+
 /* ------------------------------------------------------------------------ */
 /* --- END MAGIC R SOURCE MARKER --- */
 

@@ -1924,39 +1924,40 @@ gnumeric_binomdist (FunctionEvalInfo *ei, Value **argv)
 
 static const char *help_cauchy = {
         N_("@FUNCTION=CAUCHY\n"
-           "@SYNTAX=CAUCHY(x,a)\n"
+           "@SYNTAX=CAUCHY(x,a,cum)\n"
 
            "@DESCRIPTION="
-           "CAUCHY returns the probability density p(x) at x for @a "
-	   "Cauchy distribution with scale parameter @a. "
+           "CAUCHY returns the Cauchy distribution with scale parameter @a. "
+	   "If @cum is TRUE, CAUCHY returns the cumulative distribution. "
            "\n"
            "If @a < 0 CAUCHY returns #NUM! error. "
+           "If @cum != TRUE and @cum != FALSE CAUCHY returns #VALUE! error. "
 	   "\n"
            "@EXAMPLES=\n"
-           "CAUCHY(0.43,1).\n"
+           "CAUCHY(0.43,1,TRUE) returns 0.370735.\n"
            "\n"
            "@SEEALSO=RANDCAUCHY")
 };
-
-
-static gnum_float
-random_cauchy_pdf (gnum_float x, gnum_float a)
-{
-        gnum_float u = x / a;
-
-	return (1 / (M_PI * a)) / (1 + u * u);
-}
 
 static Value *
 gnumeric_cauchy (FunctionEvalInfo *ei, Value **argv)
 {
 	gnum_float x = value_get_as_float (argv[0]);
 	gnum_float a = value_get_as_float (argv[1]);
+	int        cuml;
+	gboolean   err;
 
 	if (a < 0)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-        return value_new_float (random_cauchy_pdf (x, a));
+	cuml = value_get_as_bool (argv[2], &err);
+	if (err)
+		return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+	if (cuml)
+		return value_new_float (pcauchy (x, 0, a, 0, FALSE));
+	else
+		return value_new_float (dcauchy (x, 0, a, FALSE));
 }
 
 /***************************************************************************/
@@ -5160,7 +5161,7 @@ const ModulePluginFunctionInfo stat_functions[] = {
 	  &help_betainv, gnumeric_betainv, NULL, NULL, NULL },
 	{ "binomdist",    "fffb", N_("n,t,p,c"),
 	  &help_binomdist, gnumeric_binomdist, NULL, NULL, NULL },
-        { "cauchy", "ff", N_("x,a"),   &help_cauchy,
+        { "cauchy", "fff", N_("x,a,cum"),   &help_cauchy,
 	  gnumeric_cauchy, NULL, NULL, NULL },
 	{ "chidist",      "ff",  N_("x,dof"),
 	  &help_chidist, gnumeric_chidist, NULL, NULL, NULL },

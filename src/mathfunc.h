@@ -108,6 +108,12 @@ gnum_float dhyper (gnum_float x, gnum_float r, gnum_float b, gnum_float n, gbool
 gnum_float dgeom (gnum_float x, gnum_float p, gboolean give_log);
 gnum_float pgeom (gnum_float x, gnum_float p, gboolean lower_tail, gboolean log_p);
 
+/* Cauchy distribution.  */
+gnum_float dcauchy (gnum_float x, gnum_float location, gnum_float scale,
+		    gboolean give_log);
+gnum_float pcauchy (gnum_float x, gnum_float location, gnum_float scale,
+		    int lower_tail, gboolean log_p);
+
 /* Random number generation. */
 gnum_float random_01             (void);
 gnum_float random_poisson        (gnum_float lambda);
