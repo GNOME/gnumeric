@@ -1,3 +1,8 @@
+2001-02-07  Jon K Hellan  <hellan@acm.org>
+
+	* src/print.c (print_hf_line): Check if there is room to print a
+	header or footer.
+
 2001-02-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-style.c (border_mask_vec) : fix the problem where
@@ -44,6 +49,7 @@
  	modes (apart from a FIXME in the code).
 
 2001-02-06  Jon K Hellan  <hellan@acm.org>
+>>>>>>> 1.938
 
 	* configure.in, README: Depend on bonobo >= 0.35.
 

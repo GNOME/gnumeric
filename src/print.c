@@ -284,6 +284,14 @@ print_hf_line (PrintJobInfo *pj, PrintHF *hf, double y,
 	gnome_print_setfont (pj->print_context, pj->decoration_font);
 	gnome_print_setrgbcolor (pj->print_context, 0, 0, 0);
 
+	/* Check if there's room to print. top and bottom are on the clip
+	 * path, so we are actually requiring room for a 6x4 pt
+	 * character. */
+	if (ABS (top - bottom) < 8) 
+		return;
+	if (ABS (left - right) < 6)
+		return;
+	
 	gnome_print_gsave (pj->print_context);
 
 	print_make_rectangle_path (pj->print_context,
@@ -291,7 +299,11 @@ print_hf_line (PrintJobInfo *pj, PrintHF *hf, double y,
 
 #ifndef NO_DEBUG_PRINT
 	if (print_debugging > 0) {
+		static double dash[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+		static gint n_dash = 6;
+		
 		gnome_print_gsave (pj->print_context);
+		gnome_print_setdash (pj->print_context, n_dash, dash, 0.0);
 		gnome_print_stroke  (pj->print_context);
 		gnome_print_grestore (pj->print_context);
 	}
@@ -527,6 +539,13 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 			pj->print_context,
 			x - 1, clip_y,
 			x + pj->x_points + 1, clip_y - pj->y_points - 2);
+#ifndef NO_DEBUG_PRINT
+		if (print_debugging > 0) {
+			gnome_print_gsave (pj->print_context);
+			gnome_print_stroke  (pj->print_context);
+			gnome_print_grestore (pj->print_context);
+		}
+#endif
 		gnome_print_clip      (pj->print_context);
 
 		/* Start a new path because the background fill function does not */
