@@ -31,6 +31,7 @@
 #include "sheet.h"
 #include "workbook.h"
 #include "str.h"
+#include "ranges.h"
 #include "parse-util.h"
 #include <goffice/graph/go-data-impl.h>
 
@@ -168,8 +169,13 @@ gnm_go_data_scalar_new_expr (Sheet *sheet, GnmExpr const *expr)
 void
 gnm_go_data_scalar_set_sheet (GnmGODataScalar *scalar, Sheet *sheet)
 {
-	scalar->dep.sheet = NULL;
-	dependent_set_sheet (&scalar->dep, sheet);
+	if (sheet != NULL) {
+		scalar->dep.sheet = NULL;
+		dependent_set_sheet (&scalar->dep, sheet);
+	} else if (dependent_is_linked (&scalar->dep)) {
+		dependent_unlink (&scalar->dep, NULL);
+		scalar->dep.sheet = NULL;
+	}
 }
 
 /**************************************************************************/
@@ -208,6 +214,10 @@ gnm_go_data_vector_finalize (GObject *obj)
 		value_release (vec->val);
 		vec->val = NULL;
 	}
+	if (vec->base.vals != NULL) {
+		g_free (vec->base.vals);
+		vec->base.vals = NULL;
+	}
 
 	if (vector_parent_klass->finalize)
 		(*vector_parent_klass->finalize) (obj);
@@ -239,6 +249,7 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 	Range r;
 	Sheet *start_sheet, *end_sheet;
 	unsigned h, w;
+	int old_len = dat->len;
 
 	eval_pos_init_dep (&ep, &vec->dep);
 	if (vec->val == NULL)
@@ -256,8 +267,8 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 			if (r.end.row > start_sheet->rows.max_used)
 				r.end.row = start_sheet->rows.max_used;
 
-			w = r.end.col - r.start.col;
-			h = r.end.row - r.start.row;
+			w = range_width (&r);
+			h = range_height (&r);
 			if (w > 0 && h > 0)
 				dat->len = ((vec->as_col = (h > w))) ? h : w;
 			else
@@ -275,14 +286,27 @@ gnm_go_data_vector_load_len (GODataVector *dat)
 		}
 	} else
 		dat->len = 0;
+	if (dat->values != NULL && old_len != dat->len) {
+		g_free (dat->values);
+		dat->values = NULL;
+	}
 	dat->base.flags |= GO_DATA_VECTOR_LEN_CACHED;
 }
 
+struct assign_closure {
+	double minimum, maximum;
+	double *vals;
+	unsigned real_len;
+	unsigned i;
+};
+
 static Value *
 cb_assign_val (Sheet *sheet, int col, int row,
-	       Cell *cell, double **vals)
+	       Cell *cell, struct assign_closure *dat)
 {
 	Value *v;
+	double res;
+
 	if (cell != NULL) {
 		cell_eval (cell);
 		v = cell->value;
@@ -290,20 +314,27 @@ cb_assign_val (Sheet *sheet, int col, int row,
 		v = NULL;
 
 	if (VALUE_IS_EMPTY_OR_ERROR (v)) {
-		*((*vals)++) = gnm_nan;
+		dat->vals[dat->i++] = gnm_nan;
 		return NULL;
 	}
 	if (v->type == VALUE_STRING) {
 		v = format_match_number (v->v_str.val->str, NULL,
 				workbook_date_conv (sheet->workbook));
-		if (v != NULL) {
-			*((*vals)++) = value_get_as_float (v);
-			value_release (v);
-		} else
-			*((*vals)++) = gnm_nan;
-		return NULL;
-	}
-	*((*vals)++) = value_get_as_float (v);
+		if (v == NULL) {
+			dat->vals[dat->i++] = gnm_nan;
+			return NULL;
+		}
+		res = value_get_as_float (v);
+		value_release (v);
+	} else
+		res = value_get_as_float (v);
+
+	dat->real_len = dat->i;
+	dat->vals[dat->i++] = res;
+	if (dat->minimum > res)
+		dat->minimum = res;
+	if (dat->maximum < res)
+		dat->maximum = res;
 	return NULL;
 }
 
@@ -317,17 +348,22 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 	int len = go_data_vector_get_len (dat); /* force calculation */
 	double *vals;
 	Value *v;
+	struct assign_closure closure;
 
 	if (dat->len <= 0)
 		return;
 
-	vals = dat->values = g_new (double, dat->len);
+	if (dat->values == NULL)
+		dat->values = g_new (double, dat->len);
+	vals = dat->values;
 	switch (vec->val->type) {
 	case VALUE_CELLRANGE:
 		rangeref_normalize (&vec->val->v_range.cell,
 			eval_pos_init_dep (&ep, &vec->dep),
 			&start_sheet, &end_sheet, &r);
 
+		/* clip here rather than relying on sheet_foreach
+		 * because that only clips if we ignore blanks */
 		if (vec->as_col) {
 			r.end.col = r.start.col;
 			if (r.end.row > start_sheet->rows.max_used)
@@ -337,9 +373,14 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			if (r.end.col > start_sheet->cols.max_used)
 				r.end.col = start_sheet->cols.max_used;
 		}
+		closure.minimum = G_MINDOUBLE;
+		closure.maximum = G_MAXDOUBLE;
+		closure.vals = dat->values;
+		closure.real_len = closure.i = 0;
 		sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
 			r.start.col, r.start.row, r.end.col, r.end.row,
-			(CellIterFunc)cb_assign_val, &vals);
+			(CellIterFunc)cb_assign_val, &closure);
+		dat->len = closure.real_len;
 		break;
 
 	case VALUE_ARRAY :
@@ -445,7 +486,12 @@ gnm_go_data_vector_new_expr (Sheet *sheet, GnmExpr const *expr)
 void
 gnm_go_data_vector_set_sheet (GnmGODataVector *vec, Sheet *sheet)
 {
-	vec->dep.sheet = NULL;
-	dependent_set_sheet (&vec->dep, sheet);
+	if (sheet != NULL) {
+		vec->dep.sheet = NULL;
+		dependent_set_sheet (&vec->dep, sheet);
+	} else if (dependent_is_linked (&vec->dep)) {
+		dependent_unlink (&vec->dep, NULL);
+		vec->dep.sheet = NULL;
+	}
 }
 #endif

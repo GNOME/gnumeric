@@ -15,6 +15,7 @@ Jody:
 	* Fix http://bugs.debian.org/193276
 	* Fix rangesel on other sheet in with of sheet local names
 	* Fix recalc on undo of cut-paste of interior of range
+	* Sheet data -> charts begins working.
 
 Morten:
 	* New function COLUMNNUMBER.

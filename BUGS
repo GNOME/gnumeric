@@ -12,8 +12,6 @@ Release Critical
 
 * New libgsf -- we leak .5MB or so per save.
 
-* no recalc of region when content is cut&pasted out
-
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
@@ -44,16 +42,21 @@ Pending Patches
     1.2) Use the registered engines to create plots		(DONE)
     1.3) xml -> GValue parsing for type args			(DONE)
     1.4) Decide on model vs view structure			(DONE)
-    1.5) Simple Pie Plot
+    1.5) Pie Plot
+	1.5.1) Make the segments curve				(DONE)
+	1.5.2) extracted segments
+	1.5.3) Rings
     1.6) 1st pass at Graph Guru					(DONE)
     1.7) vector and scalar data sources from gnumeric		(DONE)
     1.8) data allocator in gnumeric				(DONE)
     1.9) handle short series with early optionals in allocator
     1.10) static vector and scalar data sources for utils
-    1.11) merge bar/col stack type bools into 1 enum
+    1.11) merge bar/col stack type bools into 1 enum		(DONE)
     1.12) Rethink GraphItem lifecyle to simplify removal	(DONE)
     1.13) Extend GogObjectRole to include more handlers		(DONE)
-    1.14) Decide on recalc strategy
+    1.14) Decide on recalc strategy				(DONE)
+	1.14.1) Getting data from sheet -> graphs		(DONE)
+	1.14.2) linking unlinking				(DONE)
     1.15) per series plot type specific data			(DONE)
     1.16) libart based render akin to guppicanvas.		(DONE)
     1.16.1) Solid background fills				(DONE)
@@ -62,7 +65,7 @@ Pending Patches
     1.16.4) path
     1.16.5) text
     1.16.6) markers
-    1.17) Connect the user_config handler for SheetObjectGraph
+    1.17) Connect the user_config handler for SheetObjectGraph	(DONE)
           to test the guru on existing graphs
     1.18) Extend sheet object anchor assignment to call object	(DONE)
           specfic handlers so that we can set the logical size
@@ -287,6 +290,9 @@ Misc stuff that should be fixed
     - Sheet object creation
     - Workbook attr changes
     - Fill->series
+
+- drag based col/row resize should support negative sizes to correspond to
+  hiding.
 
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.  (This might just be my bastard libtool.)

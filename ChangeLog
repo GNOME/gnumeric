@@ -1,3 +1,17 @@
+2003-05-20  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-graph.c (sheet_object_graph_remove_from_sheet) : new.
+	(sheet_object_graph_class_init) : hook it up.
+
+	* src/graph.c (gnm_go_data_vector_finalize) : free the values too.
+	(gnm_go_data_scalar_set_sheet) : handle unlinking too.
+	(gnm_go_data_vector_load_len) : only free the buffer if the length
+	  changed.
+	(gnm_go_data_vector_set_sheet) : ditto.
+	(cb_assign_val) : be smarter and collect min/max and do decent end
+	  checking.
+	(nm_go_data_vector_load_values) : use the additional information.
+
 2003-05-19  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (wbcg_sheet_focus) : set the scg earlier

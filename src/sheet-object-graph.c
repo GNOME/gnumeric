@@ -251,13 +251,29 @@ sheet_object_graph_user_config (SheetObject *so, SheetControl *sc)
 static gboolean
 sheet_object_graph_set_sheet (SheetObject *so, Sheet *sheet)
 {
+#ifdef NEW_GRAPHS
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 
-#ifdef NEW_GRAPHS
 	if (sog->graph != NULL) {
 		GSList *ptr = gog_graph_get_data (sog->graph);
 		for (; ptr != NULL ; ptr = ptr->next)
 			sog_data_set_sheet (sog, ptr->data, sheet);
+	}
+#endif
+
+	return FALSE;
+}
+
+static gboolean
+sheet_object_graph_remove_from_sheet (SheetObject *so)
+{
+#ifdef NEW_GRAPHS
+	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
+
+	if (sog->graph != NULL) {
+		GSList *ptr = gog_graph_get_data (sog->graph);
+		for (; ptr != NULL ; ptr = ptr->next)
+			sog_data_set_sheet (sog, ptr->data, NULL);
 	}
 #endif
 
@@ -303,16 +319,17 @@ sheet_object_graph_class_init (GObjectClass *klass)
 	klass->finalize = sheet_object_graph_finalize;
 
 	/* SheetObject class method overrides */
-	so_class->new_view	   = sheet_object_graph_new_view;
+	so_class->new_view	     = sheet_object_graph_new_view;
 	so_class->update_view_bounds = sheet_object_graph_update_bounds;
-	so_class->read_xml	   = sheet_object_graph_read_xml;
-	so_class->write_xml	   = sheet_object_graph_write_xml;
-	so_class->clone            = sheet_object_graph_clone;
-	so_class->user_config      = sheet_object_graph_user_config;
-	so_class->assign_to_sheet  = sheet_object_graph_set_sheet;
-	so_class->print		   = sheet_object_graph_print;
-	so_class->default_size	   = sheet_object_graph_default_size;
-	so_class->position_changed = sheet_object_graph_position_changed;
+	so_class->read_xml	     = sheet_object_graph_read_xml;
+	so_class->write_xml	     = sheet_object_graph_write_xml;
+	so_class->clone              = sheet_object_graph_clone;
+	so_class->user_config        = sheet_object_graph_user_config;
+	so_class->assign_to_sheet    = sheet_object_graph_set_sheet;
+	so_class->remove_from_sheet  = sheet_object_graph_remove_from_sheet;
+	so_class->print		     = sheet_object_graph_print;
+	so_class->default_size	     = sheet_object_graph_default_size;
+	so_class->position_changed   = sheet_object_graph_position_changed;
 	so_class->rubber_band_directly = FALSE;
 }
 
@@ -340,7 +357,7 @@ void
 sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
 			 GogGuruRegister handler, gpointer handler_data)
 {
-	GtkWidget *dialog = gog_guru (NULL, GOG_DATA_ALLOCATOR (wbcg),
+	GtkWidget *dialog = gog_guru (graph, GOG_DATA_ALLOCATOR (wbcg),
 		       COMMAND_CONTEXT (wbcg), wbcg_toplevel (wbcg),
 		       handler, handler_data);
 	wbcg_edit_attach_guru (wbcg, dialog);
