@@ -1432,6 +1432,53 @@ gnumeric_rounddown (struct FunctionDefinition *i,
 	}
 }
 
+static char *help_round = {
+	N_("@FUNCTION=ROUND\n"
+	   "@SYNTAX=ROUND(number[,digits])\n"
+
+	   "@DESCRIPTION="
+	   "ROUND function rounds a given number. "
+	   "@number is the number you want rounded and @digits is the "
+	   "number of digits to which you want to round that number. "
+	   "\n"
+	   "If digits is greater than zero, number is rounded to the "
+	   "given number of digits. "
+	   "If digits is zero or omitted, number is rounded to the "
+	   "nearest integer. "
+	   "If digits is less than zero, number is rounded to the left "
+	   "of the decimal point. "
+	   "\n"
+	   "@SEEALSO=ROUNDDOWN,ROUNDUP")
+};
+
+static Value *
+gnumeric_round (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
+{
+        float_t number;
+        int     digits, k, n;
+
+	number = value_get_as_double (argv[0]);
+	if (argv[1] == NULL)
+	        digits = 0;
+	else
+	        digits = value_get_as_int (argv[1]);
+
+	if (digits > 0) {
+	        k=1;
+		for (n=0; n<digits; n++)
+		        k *= 10;
+	        return value_float ( rint(number * k) / k);
+	} else if (digits == 0) {
+	        return value_int ((int) number);
+	} else {
+	        k=1;
+		for (n=0; n<-digits; n++)
+		        k *= 10;
+		return value_float (rint(number / k) * k);
+	}
+}
+
 static char *help_roundup = {
 	N_("@FUNCTION=ROUNDUP\n"
 	   "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -1843,6 +1890,7 @@ FunctionDefinition math_functions [] = {
 	{ "radians", "f",    "number",    &help_radians, NULL, gnumeric_radians },
 	{ "rand",    "",     "",          &help_rand,    NULL, gnumeric_rand },
 	{ "randbetween", "ff", "bottom,top", &help_randbetween, NULL, gnumeric_randbetween },
+	{ "round",      "f|f", "number[,digits]", &help_round, NULL, gnumeric_round },
 	{ "rounddown",  "f|f", "number,digits", &help_rounddown, NULL, gnumeric_rounddown },
 	{ "roundup",    "f|f", "number,digits", &help_roundup, NULL, gnumeric_roundup },
 	{ "sign",    "f",    "number",    &help_sign,    NULL, gnumeric_sign },

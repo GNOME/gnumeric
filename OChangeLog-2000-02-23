@@ -1,5 +1,14 @@
 1999-05-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/fn-math: Added ROUND().
+	
+	* src/fn-information: Added new file for information functions.
+	New function COUNTBLANK() implemented.
+
+	* src/Makefile.am, src/func.[ch]: Added `fn-information.c'.
+	
+1999-05-04  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
 	* src/fn-database.c: Added DCOUNTA().
 
 	* src/fn-stat.c: Added argument count checks for VAR() and VARP().

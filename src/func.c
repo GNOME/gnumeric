@@ -272,6 +272,7 @@ functions_init (void)
 	install_symbols (lookup_functions, _("Data / Lookup"));
 	install_symbols (logical_functions, _("Logical"));
 	install_symbols (database_functions, _("Database"));
+	install_symbols (information_functions, _("Information"));
 }
 
 void
