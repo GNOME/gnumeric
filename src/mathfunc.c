@@ -472,7 +472,7 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
 	do_del(y);
 	swap_tail;
     }
-    else if((-37.5193 < x) || (x < 8.2924)) { /* originally had y < 50 */
+    else if((-37.5193 < x) && (x < 8.2924)) { /* originally had y < 50 */
 
 	/* Evaluate pnorm for x in (-37.5, -5.657) union (5.657, 8.29) */
 
