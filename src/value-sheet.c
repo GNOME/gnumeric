@@ -357,10 +357,8 @@ value_cellrange_normalize (EvalPos const *ep, Value const *ref,
 	g_return_if_fail (ep != NULL);
 	g_return_if_fail (ref->type == VALUE_CELLRANGE);
 
-	cell_get_abs_col_row (&ref->v_range.cell.a, &ep->eval,
-			      &dest->start.col, &dest->start.row);
-	cell_get_abs_col_row (&ref->v_range.cell.b, &ep->eval,
-			      &dest->end.col, &dest->end.row);
+	cellref_get_abs_pos (&ref->v_range.cell.a, &ep->eval, &dest->start);
+	cellref_get_abs_pos (&ref->v_range.cell.b, &ep->eval, &dest->end);
 	range_normalize (dest);
 
 	*start_sheet = eval_sheet (ref->v_range.cell.a.sheet, ep->sheet);

@@ -343,7 +343,7 @@ handle_cell_single_dep (Dependent *dep, CellPos const *pos,
 		return;
 
 	/* Convert to absolute cordinates */
-	cell_get_abs_col_row (a, pos, &lookup.pos.col, &lookup.pos.row);
+	cellref_get_abs_pos (a, pos, &lookup.pos);
 
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
 
@@ -428,14 +428,10 @@ depsingle_dtor (DependencySingle *single)
 
 static void
 deprange_init (DependencyRange *range, CellPos const *pos,
-		       CellRef const *a,  CellRef const *b)
+	       CellRef const *a,  CellRef const *b)
 {
-	cell_get_abs_col_row (a, pos,
-			      &range->range.start.col,
-			      &range->range.start.row);
-	cell_get_abs_col_row (b, pos,
-			      &range->range.end.col,
-			      &range->range.end.row);
+	cellref_get_abs_pos (a, pos, &range->range.start);
+	cellref_get_abs_pos (b, pos, &range->range.end);
 	range_normalize (&range->range);
 
 	range->dependent_list = NULL;

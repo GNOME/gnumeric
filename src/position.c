@@ -114,8 +114,18 @@ parse_pos_init_evalpos (ParsePos *pp, EvalPos const *ep)
 	return parse_pos_init (pp, NULL, ep->sheet, ep->eval.col, ep->eval.row);
 }
 
+gboolean
+cellref_equal (CellRef const *a, CellRef const *b)
+{
+	return	(a->col_relative == b->col_relative) &&
+		(a->row_relative == b->row_relative) &&
+		(a->col == b->col) &&
+		(a->row == b->row) &&
+		(a->sheet == b->sheet);
+}
+
 void
-cell_ref_make_abs (CellRef *dest, CellRef const *src, EvalPos const *ep)
+cellref_make_abs (CellRef *dest, CellRef const *src, EvalPos const *ep)
 {
 	g_return_if_fail (dest != NULL);
 	g_return_if_fail (src != NULL);
@@ -132,7 +142,7 @@ cell_ref_make_abs (CellRef *dest, CellRef const *src, EvalPos const *ep)
 }
 
 int
-cell_ref_get_abs_col (CellRef const *ref, EvalPos const *pos)
+cellref_get_abs_col (CellRef const *ref, EvalPos const *pos)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (pos != NULL, 0);
@@ -144,7 +154,7 @@ cell_ref_get_abs_col (CellRef const *ref, EvalPos const *pos)
 }
 
 int
-cell_ref_get_abs_row (CellRef const *ref, EvalPos const *pos)
+cellref_get_abs_row (CellRef const *ref, EvalPos const *pos)
 {
 	g_return_val_if_fail (ref != NULL, 0);
 	g_return_val_if_fail (pos != NULL, 0);
@@ -155,20 +165,21 @@ cell_ref_get_abs_row (CellRef const *ref, EvalPos const *pos)
 }
 
 void
-cell_get_abs_col_row (CellRef const *cell_ref,
-		      CellPos const *pos,
-		      int *col, int *row)
+cellref_get_abs_pos (CellRef const *cell_ref,
+		     CellPos const *pos,
+		     CellPos *res)
 {
 	g_return_if_fail (cell_ref != NULL);
+	g_return_if_fail (res != NULL);
 
 	if (cell_ref->col_relative)
-		*col = pos->col + cell_ref->col;
+		res->col = cell_ref->col + pos->col;
 	else
-		*col = cell_ref->col;
+		res->col = cell_ref->col;
 
 	if (cell_ref->row_relative)
-		*row = pos->row + cell_ref->row;
+		res->row = cell_ref->row + pos->row;
 	else
-		*row = cell_ref->row;
+		res->row = cell_ref->row;
 }
 

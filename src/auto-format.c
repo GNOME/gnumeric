@@ -220,10 +220,10 @@ do_af_suggest (const ExprTree *expr, const EvalPos *epos, char **explicit)
 	}
 
 	case OPER_VAR: {
-		Sheet *sheet;
-		const CellRef *ref;
-		int col, row;
-		const Cell *cell;
+		Sheet const *sheet;
+		CellRef const *ref;
+		Cell const *cell;
+		CellPos pos;
 
 		ref = &expr->var.ref;
 		sheet = eval_sheet (ref->sheet, epos->sheet);
@@ -231,8 +231,8 @@ do_af_suggest (const ExprTree *expr, const EvalPos *epos, char **explicit)
 		if (sheet == NULL)
 			return AF_UNKNOWN;
 
-		cell_get_abs_col_row (ref, &epos->eval, &col, &row);
-		cell = sheet_cell_get (sheet, col, row);
+		cellref_get_abs_pos (ref, &epos->eval, &pos);
+		cell = sheet_cell_get (sheet, pos.col, pos.row);
 		if (cell == NULL)
 			return AF_UNKNOWN;
 

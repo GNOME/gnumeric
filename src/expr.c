@@ -299,16 +299,6 @@ expr_tree_is_shared (ExprTree const *expr)
 	return (expr->any.ref_count > 1);
 }
 
-static gboolean
-cellref_equal (CellRef const *a, CellRef const *b)
-{
-	return	(a->col_relative == b->col_relative) &&
-		(a->row_relative == b->row_relative) &&
-		(a->col == b->col) &&
-		(a->row == b->row) &&
-		(a->sheet == b->sheet);
-}
-
 /**
  * expr_tree_equal : Returns TRUE if the supplied expressions are exactly the
  *   same.  No eval position is used to see if they are effectively the same.
@@ -842,13 +832,13 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 		Sheet *cell_sheet;
 		CellRef const *ref;
 		Cell *cell;
-		int col, row;
+		CellPos dest;
 
 		ref = &expr->var.ref;
-		cell_get_abs_col_row (ref, &pos->eval, &col, &row);
+		cellref_get_abs_pos (ref, &pos->eval, &dest);
 
 		cell_sheet = eval_sheet (ref->sheet, pos->sheet);
-		cell = sheet_cell_get (cell_sheet, col, row);
+		cell = sheet_cell_get (cell_sheet, dest.col, dest.row);
 		if (cell == NULL)
 			return NULL;
 
@@ -873,25 +863,25 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 			 * being evaluated as an array or not because we can differentiate
 			 * based on the required type for the argument.
 			 */
-			CellRef const * const a = & res->v_range.cell.a;
-			CellRef const * const b = & res->v_range.cell.b;
+			CellRef const * const ref_a = & res->v_range.cell.a;
+			CellRef const * const ref_b = & res->v_range.cell.b;
 			gboolean found = FALSE;
 
-			if (a->sheet == b->sheet) {
-				int a_col, a_row, b_col, b_row;
+			if (ref_a->sheet == ref_b->sheet) {
+				CellPos a, b;
 				int c = pos->eval.col;
 				int r = pos->eval.row;
 
-				cell_get_abs_col_row (a, &pos->eval, &a_col, &a_row);
-				cell_get_abs_col_row (b, &pos->eval, &b_col, &b_row);
-				if (a_row == b_row) {
-					if (a_col <= c && c <= b_col) {
-						r = a_row;
+				cellref_get_abs_pos (ref_a, &pos->eval, &a);
+				cellref_get_abs_pos (ref_b, &pos->eval, &b);
+				if (a.row == b.row) {
+					if (a.col <= c && c <= b.col) {
+						r = a.row;
 						found = TRUE;
 					}
-				} else if (a_col == b_col) {
-					if (a_row <= r && r <= b_row) {
-						c = a_col;
+				} else if (a.col == b.col) {
+					if (a.row <= r && r <= b.row) {
+						c = a.col;
 						found = TRUE;
 					}
 				}
@@ -1283,8 +1273,8 @@ cellref_relocate (CellRef *ref, ExprRelocateInfo const *rinfo,
 	 * An action in () is one which is done despite being useless
 	 * to simplify the logic.
 	 */
-	int col = cell_ref_get_abs_col (ref, &rinfo->pos);
-	int row = cell_ref_get_abs_row (ref, &rinfo->pos);
+	int col = cellref_get_abs_col (ref, &rinfo->pos);
+	int row = cellref_get_abs_row (ref, &rinfo->pos);
 
 	Sheet * ref_sheet = (ref->sheet != NULL) ? ref->sheet : rinfo->pos.sheet;
 

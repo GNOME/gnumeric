@@ -265,13 +265,13 @@ graph_guru_create_vectors_from_range (GraphGuruState *state, Range const *src)
 	}
 
 	for (i = 0 ; i <= count ; i++) {
-		(void) gnm_graph_vector_new (state->graph,
+		(void) gnm_graph_add_vector (state->graph,
 			expr_tree_new_constant (
 				value_new_cellrange_r (state->sheet, &vector)),
 			GNM_VECTOR_AUTO, state->sheet);
 
 		if (has_header)
-			(void) gnm_graph_vector_new (state->graph,
+			(void) gnm_graph_add_vector (state->graph,
 				expr_tree_new_var (&header),
 				GNM_VECTOR_STRING, state->sheet);
 

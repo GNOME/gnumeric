@@ -1,5 +1,13 @@
 2001-08-26  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-graph.c (gnm_graph_add_vector) : merge with
+	  gnum_graph_vector_new and add intelligence to merge multiple
+	  requests for the same vector into a single vector.
+
+2001-08-26  Jody Goldberg <jgoldberg@home.com>
+
+	* src/position.c (cellref_get_abs_pos) : rename and adjust signature.
+
 	* src/expr.c (expr_tree_equal) : new function.
 
 2001-08-24  Jody Goldberg <jgoldberg@home.com>

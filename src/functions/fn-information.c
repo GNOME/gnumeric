@@ -673,9 +673,10 @@ gnumeric_isblank (FunctionEvalInfo *ei, GList *expr_node_list)
 	if (expr->any.oper == OPER_VAR) {
 		CellRef const *ref = &expr->var.ref;
 		Sheet const *sheet = eval_sheet (ref->sheet, ei->pos->sheet);
-		int row, col;
-		cell_get_abs_col_row(ref, &ei->pos->eval, &col, &row);
-		result = cell_is_blank(sheet_cell_get(sheet, col, row));
+		CellPos pos;
+
+		cellref_get_abs_pos (ref, &ei->pos->eval, &pos);
+		result = cell_is_blank (sheet_cell_get (sheet, pos.col, pos.row));
 	}
 	return value_new_bool (result);
 }

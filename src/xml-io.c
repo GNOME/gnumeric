@@ -1716,7 +1716,7 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 	ExprArray const *ar;
 	gboolean write_contents = TRUE;
 	gboolean const is_shared_expr =
-	    (cell_has_expr (cell) && expr_tree_shared (cell->base.expression));
+	    (cell_has_expr (cell) && expr_tree_is_shared (cell->base.expression));
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xml_set_value_int (cur, "Col", col);

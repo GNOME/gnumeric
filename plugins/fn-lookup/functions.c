@@ -848,8 +848,8 @@ gnumeric_column (FunctionEvalInfo *ei, GList *nodes)
 	expr = (ExprTree *)nodes->data;
 
 	if (expr->any.oper == OPER_VAR)
-		return value_new_int (cell_ref_get_abs_col (&expr->var.ref,
-							    ei->pos) + 1);
+		return value_new_int (cellref_get_abs_col (&expr->var.ref,
+							   ei->pos) + 1);
 	if (expr->any.oper == OPER_CONSTANT &&
 	    expr->constant.value->type == VALUE_CELLRANGE) {
 		int i, j, col;
@@ -859,7 +859,7 @@ gnumeric_column (FunctionEvalInfo *ei, GList *nodes)
 		Value * res = value_new_array (abs (b->col - a->col) + 1,
 					       abs (b->row - a->row) + 1);
 
-		col = cell_ref_get_abs_col (a, ei->pos) + 1;
+		col = cellref_get_abs_col (a, ei->pos) + 1;
 		for (i = abs (b->col - a->col) ; i >= 0 ; --i)
 			for (j = abs (b->row - a->row) ; j >= 0 ; --j)
 				value_array_set(res, i, j,
@@ -988,7 +988,7 @@ gnumeric_row (FunctionEvalInfo *ei, GList *nodes)
 	expr = (ExprTree *)nodes->data;
 
 	if (expr->any.oper == OPER_VAR)
-		return value_new_int (cell_ref_get_abs_row (&expr->var.ref,
+		return value_new_int (cellref_get_abs_row (&expr->var.ref,
 							    ei->pos) + 1);
 	if (expr->any.oper == OPER_CONSTANT &&
 	    expr->constant.value->type == VALUE_CELLRANGE) {
@@ -999,7 +999,7 @@ gnumeric_row (FunctionEvalInfo *ei, GList *nodes)
 		Value * res = value_new_array (abs (b->col - a->col) + 1,
 					       abs (b->row - a->row) + 1);
 
-		row = cell_ref_get_abs_row (a, ei->pos) + 1;
+		row = cellref_get_abs_row (a, ei->pos) + 1;
 		for (i = abs (b->col - a->col) ; i >= 0 ; --i)
 			for (j = abs (b->row - a->row) ; j >= 0 ; --j)
 				value_array_set(res, i, j,

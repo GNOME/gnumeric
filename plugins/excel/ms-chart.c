@@ -270,7 +270,7 @@ BC_R(ai)(ExcelChartHandler const *handle,
 
 #ifdef ENABLE_BONOBO
 			s->currentSeries->vector [purpose].g_vector =
-				gnm_graph_vector_new (s->graph, expr,
+				gnm_graph_add_vector (s->graph, expr,
 					s->currentSeries->vector [purpose].type,
 					sheet);
 #endif

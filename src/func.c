@@ -660,12 +660,12 @@ function_marshal_arg (FunctionEvalInfo *ei,
 		if (v->type != VALUE_CELLRANGE)
 			*type_mismatch = TRUE;
 		else {
-			cell_ref_make_abs (&v->v_range.cell.a,
-					   &v->v_range.cell.a,
-					   ei->pos);
-			cell_ref_make_abs (&v->v_range.cell.b,
-					   &v->v_range.cell.b,
-					   ei->pos);
+			cellref_make_abs (&v->v_range.cell.a,
+					  &v->v_range.cell.a,
+					  ei->pos);
+			cellref_make_abs (&v->v_range.cell.b,
+					  &v->v_range.cell.b,
+					  ei->pos);
 		}
 		break;
 
@@ -680,12 +680,12 @@ function_marshal_arg (FunctionEvalInfo *ei,
 			*type_mismatch = TRUE;
 
 		if (v->type == VALUE_CELLRANGE) {
-			cell_ref_make_abs (&v->v_range.cell.a,
-					   &v->v_range.cell.a,
-					   ei->pos);
-			cell_ref_make_abs (&v->v_range.cell.b,
-					   &v->v_range.cell.b,
-					   ei->pos);
+			cellref_make_abs (&v->v_range.cell.a,
+					  &v->v_range.cell.a,
+					  ei->pos);
+			cellref_make_abs (&v->v_range.cell.b,
+					  &v->v_range.cell.b,
+					  ei->pos);
 		}
 		break;
 

@@ -44,16 +44,16 @@ struct _RangeRef {
 	CellRef a, b;
 };
 
-/* Normalize CellRefs */
-void      cell_ref_make_abs     (CellRef *dest,
+gboolean  cellref_equal		(CellRef const *a, CellRef const *b);
+void      cellref_make_abs	(CellRef *dest,
 				 CellRef const *src,
 				 EvalPos const *ep);
-int       cell_ref_get_abs_col  (CellRef const *ref,
+int       cellref_get_abs_col	(CellRef const *ref,
 				 EvalPos const *pos);
-int       cell_ref_get_abs_row  (CellRef const *cell_ref,
+int       cellref_get_abs_row	(CellRef const *cell_ref,
 				 EvalPos const *src_fp);
-void      cell_get_abs_col_row  (CellRef const *cell_ref,
+void      cellref_get_abs_pos	(CellRef const *cell_ref,
 				 CellPos const *pos,
-				 int *col, int *row);
+				 CellPos *res);
 
 #endif /* GNUMERIC_POSITION_H */

@@ -90,290 +90,22 @@ typedef struct {
 #define SERVANT_TO_GRAPH_VECTOR(ptr)	\
 	(GnmGraphVector *)(((char *)ptr) - GTK_STRUCT_OFFSET(GnmGraphVector, servant))
 
-/***************************************************************************/
-
 char const *const gnm_graph_vector_type_name [] =
 {
     "Unknown", "scalars", "dates (unimplemented)", "strings",
 };
 
-static void
-gnm_graph_clear_vectors_internal (GnmGraph *graph, gboolean unsubscribe)
-{
-	int i;
-
-	/* Release the vectors */
-	g_return_if_fail (graph->vectors != NULL);
-
-	for (i = graph->vectors->len; i-- > 0 ; ) {
-		GnmGraphVector *vector = g_ptr_array_index (graph->vectors, i);
-
-		if (vector == NULL)
-			continue;
-
-		vector->graph = NULL;
-		gtk_object_unref (GTK_OBJECT (vector));
-	}
-	g_ptr_array_set_size (graph->vectors, 0);
-	if (unsubscribe) {
-		CORBA_Environment ev;
-
-		CORBA_exception_init (&ev);
-		MANAGER1 (clearVectors) (graph->manager, &ev);
-		if (ev._major != CORBA_NO_EXCEPTION) {
-			g_warning ("'%s' : while clearing the vectors in graph %p",
-				   bonobo_exception_get_text (&ev), graph);
-		}
-		CORBA_exception_free (&ev);
-	}
-
-}
-
-static void
-gnm_graph_add_vector (GnmGraph *graph, GnmGraphVector *vector)
-{
-	CORBA_Environment ev;
-	int id;
-
-	g_return_if_fail (vector->subscriber.any == CORBA_OBJECT_NIL);
-	g_return_if_fail (vector->graph == NULL);
-	g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
-
-	CORBA_exception_init (&ev);
-
-	id = graph->vectors->len;
-	switch (vector->type) {
-	case GNM_VECTOR_SCALAR :
-		vector->subscriber.scalar = MANAGER1 (addScalarVector) (
-			graph->manager, vector->corba_obj, id, &ev);
-		break;
-
-	case GNM_VECTOR_DATE :
-		vector->subscriber.date = MANAGER1 (addDateVector) (
-			graph->manager, vector->corba_obj, id, &ev);
-		break;
-
-	case GNM_VECTOR_STRING :
-		vector->subscriber.string = MANAGER1 (addStringVector) (
-			graph->manager, vector->corba_obj, id, &ev);
-		break;
-
-	default :
-		g_assert_not_reached();
-	}
-
-	if (ev._major == CORBA_NO_EXCEPTION) {
-		g_ptr_array_add (graph->vectors, vector);
-		vector->graph = graph;
-		vector->id = id;
-	} else {
-		g_warning ("'%s' : while subscribing vector %p",
-			   bonobo_exception_get_text (&ev), vector);
-	}
-
-	CORBA_exception_free (&ev);
-}
-
-static char *
-oaf_exception_id (CORBA_Environment *ev)
-{
-        if (ev->_major == CORBA_USER_EXCEPTION) {
-                if (!strcmp (ev->_repo_id, "IDL:OAF/GeneralError:1.0")) {
-                        OAF_GeneralError *err = ev->_params;
-                        
-                        if (!err || !err->description) {
-                                return "No general exception error message";
-                        } else {
-                                return err->description;
-                        }
-                } else {
-                        return ev->_repo_id;
-                }
-        } else {
-                return CORBA_exception_id (ev);
-        }
-}
-
-/* FIXME : Should we take a CommandContext to report errors to ? */
-GnmGraph *
-gnm_graph_new (Workbook *wb)
-{
-	CORBA_Environment  ev;
-	Bonobo_Unknown	   o;
-	GnmGraph	  *graph = NULL;
-
-	CORBA_exception_init (&ev);
-
-	o = (Bonobo_Unknown)oaf_activate ("repo_ids.has('" MANAGER_OAF "')",
-					  NULL, 0, NULL, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("'%s' : while attempting to activate a graphing component",
-			   oaf_exception_id (&ev));
-	} else if (o == CORBA_OBJECT_NIL) {
-		g_warning ("No graphing component is installed.  Oaf has nothing registered that implements the required interface.\noaf-query 'repo_ids.has('" MANAGER_OAF "')\nshould return a value.");
-	} else {
-		graph = gtk_type_new (GNUMERIC_GRAPH_TYPE);
-
-		printf ("gnumeric : graph new %p\n", graph);
-
-		graph->vectors = g_ptr_array_new ();
-		graph->manager = Bonobo_Unknown_queryInterface (o, MANAGER_OAF, &ev);
-
-		g_return_val_if_fail (graph->manager != NULL, NULL);
-
-		graph->manager_client = bonobo_object_client_from_corba (graph->manager);
-		bonobo_object_release_unref (o, &ev);
-
-		if (sheet_object_bonobo_construct (SHEET_OBJECT_BONOBO (graph),
-				wb->priv->bonobo_container, NULL) == NULL ||
-		    !sheet_object_bonobo_set_server (SHEET_OBJECT_BONOBO (graph),
-				graph->manager_client)) {
-			gtk_object_destroy (GTK_OBJECT (graph));
-			graph = NULL;
-		}
-	}
-
-	CORBA_exception_free (&ev);
-
-	return graph;
-}
-
-GtkWidget *
-gnm_graph_type_selector (GnmGraph *graph)
-{
-	CORBA_Environment  ev;
-	GtkWidget	  *res = NULL;
-	Bonobo_Control	   control;
-
-	CORBA_exception_init (&ev);
-	control = MANAGER1 (getTypeSelectControl) (graph->manager, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("'%s' : while attempting to activate a graphing component",
-			   bonobo_exception_get_text (&ev));
-	} else if (control == CORBA_OBJECT_NIL) {
-		g_warning ("A graphing component activated but return NUL ??");
-	} else
-		res = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
-	CORBA_exception_free (&ev);
-
-	return res;
-}
-
-void
-gnm_graph_clear_vectors (GnmGraph *graph)
-{
-	gnm_graph_clear_vectors_internal (graph, TRUE);
-}
-
-void
-gnm_graph_arrange_vectors (GnmGraph *graph)
-{
-	CORBA_Environment  ev;
-	GNOME_Gnumeric_Graph_Manager_v2_VectorIDs *data, *headers;
-
-	int len = 0;
-
-	data = GNOME_Gnumeric_Graph_Manager_v2_VectorIDs__alloc ();
-	data->_length = data->_maximum = len;
-	data->_buffer = CORBA_sequence_GNOME_Gnumeric_Graph_Manager_v2_VectorID_allocbuf (len);
-	data->_release = CORBA_TRUE;
-	headers = GNOME_Gnumeric_Graph_Manager_v2_VectorIDs__alloc ();
-	headers->_length = data->_maximum = len;
-	headers->_buffer = CORBA_sequence_GNOME_Gnumeric_Graph_Manager_v2_VectorID_allocbuf (len);
-	headers->_release = CORBA_TRUE;
-
-	CORBA_exception_init (&ev);
-	MANAGER1 (arrangeVectors) (graph->manager, data, headers, &ev);
-	if (ev._major != CORBA_NO_EXCEPTION) {
-		g_warning ("'%s' : while auto arranging the vectors in graph %p",
-			   bonobo_exception_get_text (&ev), graph);
-	}
-	CORBA_exception_free (&ev);
-}
-
-static void
-gnm_graph_init (GtkObject *obj)
-{
-	GnmGraph *graph = GNUMERIC_GRAPH (obj);
-
-	graph->vectors = NULL;
-	graph->manager = CORBA_OBJECT_NIL;
-	graph->manager_client = NULL;
-}
-
-static GtkObjectClass *gnm_graph_parent_class = NULL;
-
-static void
-gnm_graph_destroy (GtkObject *obj)
-{
-	GnmGraph *graph = GNUMERIC_GRAPH (obj);
-
-	printf ("gnumeric : graph destroy %p\n", obj);
-	if (graph->manager_client != NULL) {
-		bonobo_object_unref (BONOBO_OBJECT (graph->manager_client));
-		graph->manager_client = NULL;
-		graph->manager = CORBA_OBJECT_NIL;
-	}
-	if (graph->vectors != NULL) {
-		/* no need to unsubscribe, the whole graph is going away */
-		gnm_graph_clear_vectors_internal (graph, FALSE);
-		g_ptr_array_free (graph->vectors, TRUE);
-		graph->vectors = NULL;
-	}
-
-	if (gnm_graph_parent_class->destroy)
-		gnm_graph_parent_class->destroy (obj);
-}
-
-static void
-cb_graph_assign_data (GtkWidget *ignored, GnmGraph *graph)
-{
-}
-
-static void
-gnm_graph_populate_menu (SheetObject *so,
-			 GtkObject   *obj_view,
-			 GtkMenu     *menu)
-{
-	GnmGraph *graph;
-	GtkWidget *item;
-
-	graph = GNUMERIC_GRAPH (so);
-	g_return_if_fail (IS_GNUMERIC_GRAPH (so));
-
-	item = gtk_menu_item_new_with_label (_("Data..."));
-	gtk_signal_connect (GTK_OBJECT (item), "activate",
-			    GTK_SIGNAL_FUNC (cb_graph_assign_data), graph);
-	gtk_menu_append (menu, item);
-
-	if (SHEET_OBJECT_CLASS (gnm_graph_parent_class)->populate_menu)
-		SHEET_OBJECT_CLASS (gnm_graph_parent_class)->populate_menu (so, obj_view, menu);
-}
-
-static void
-gnm_graph_user_config (SheetObject	*sheet_object,
-		       SheetControlGUI	*s_control)
-{
-}
-
-static void
-gnm_graph_class_init (GtkObjectClass *object_class)
-{
-	SheetObjectClass *sheet_object_class;
-
-	gnm_graph_parent_class = gtk_type_class (SHEET_OBJECT_CONTAINER_TYPE);
-
-	object_class->destroy = &gnm_graph_destroy;
-
-	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
-	sheet_object_class->populate_menu = &gnm_graph_populate_menu;
-	sheet_object_class->user_config = &gnm_graph_user_config;
-}
-
-E_MAKE_TYPE (gnm_graph, "GnmGraph", GnmGraph,
-	     gnm_graph_class_init, gnm_graph_init, SHEET_OBJECT_CONTAINER_TYPE)
-
 /***************************************************************************/
+
+static void
+impl_vector_selection_selected (PortableServer_Servant servant,
+				const GNOME_Gnumeric_SeqPair * ranges,
+				CORBA_Environment * ev)
+{
+	GnmGraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
+
+	g_warning ("Gnumeric : VectorSelection::selected (%p) placeholder\n", vector);
+}
 
 static GNOME_Gnumeric_Scalar_Seq *
 gnm_graph_vector_seq_scalar (GnmGraphVector *vector)
@@ -495,8 +227,6 @@ gnm_graph_vector_eval (Dependent *dep)
 	CORBA_exception_free (&ev);
 }
 
-/******************************************************************************/
-
 static void
 impl_scalar_vector_value (PortableServer_Servant servant,
 			  GNOME_Gnumeric_Scalar_Seq **values,
@@ -534,18 +264,6 @@ impl_string_vector_value (PortableServer_Servant servant,
 	g_return_if_fail (vector->type == GNM_VECTOR_STRING);
 
 	*values = gnm_graph_vector_seq_string (vector);
-}
-
-/******************************************************************************/
-
-static void
-impl_vector_selection_selected (PortableServer_Servant servant,
-				const GNOME_Gnumeric_SeqPair * ranges,
-				CORBA_Environment * ev)
-{
-	GnmGraphVector *vector = SERVANT_TO_GRAPH_VECTOR (servant);
-
-	g_warning ("Gnumeric : VectorSelection::selected (%p) placeholder\n", vector);
 }
 
 static void
@@ -604,8 +322,7 @@ gnm_graph_vector_set_expr (Dependent *dep, ExprTree *expr)
 	ParsePos pos;
 	char * new_str;
 
-	pos.sheet = dep->sheet;
-	pos.eval.col = pos.eval.row = 0;
+	parse_pos_init (&pos, NULL, dep->sheet, 0, 0);
 	new_str = expr_tree_as_string (expr, &pos);
 	printf("new = %s\n", new_str);
 	g_free (new_str);
@@ -648,10 +365,11 @@ cb_check_range_for_pure_string (EvalPos const *ep, Value const *v, void *user)
 	return NULL;
 }
 
-static GnmGraphVector *
+static gboolean
 gnm_graph_vector_corba_init (GnmGraphVector *vector)
 {
 	CORBA_Environment ev;
+	gboolean ok;
 
 	CORBA_exception_init (&ev);
 
@@ -678,7 +396,7 @@ gnm_graph_vector_corba_init (GnmGraphVector *vector)
 		g_assert_not_reached ();
 	};
 
-	if (ev._major == CORBA_NO_EXCEPTION) {
+	if ((ok = ev._major == CORBA_NO_EXCEPTION)) {
 		PortableServer_ObjectId *oid;
 		PortableServer_POA poa = bonobo_poa ();
 		
@@ -694,63 +412,10 @@ gnm_graph_vector_corba_init (GnmGraphVector *vector)
 	} else {
 		g_warning ("'%s' : while creating a vector",
 			   bonobo_exception_get_text (&ev));
-		gtk_object_unref (GTK_OBJECT (vector));
-		vector = NULL;
 	}
 	CORBA_exception_free (&ev);
 
-	return vector;
-}
-
-/**
- * gnm_graph_vector_new :
- *
- * @graph : the container.
- * @expr  : the expression to evaluate for this vector.
- * @type  : optional, pass GNM_VECTOR_AUTO, and we will make a guess.
- * @sheet : this a dependentContainer when I create it.
- */
-GnmGraphVector *
-gnm_graph_vector_new (GnmGraph *graph, ExprTree *expr,
-		      GnmGraphVectorType type, Sheet *sheet)
-{
-	GnmGraphVector *vector;
-	EvalPos ep;
-
-	vector = gtk_type_new (gnm_graph_vector_get_type ());
-	vector->dep.sheet = sheet;
-	vector->dep.flags = gnm_graph_vector_get_dep_type ();
-	vector->dep.expression = expr;
-	dependent_link (&vector->dep, NULL);
-
-	vector->value = eval_expr (eval_pos_init_dep (&ep, &vector->dep),
-				   vector->dep.expression, EVAL_PERMIT_NON_SCALAR);
-	switch (type) {
-	case GNM_VECTOR_AUTO :
-		type = (value_area_foreach (&ep, vector->value,
-				&cb_check_range_for_pure_string, NULL) != NULL)
-			? GNM_VECTOR_SCALAR : GNM_VECTOR_STRING;
-		break;
-	case GNM_VECTOR_SCALAR :
-	case GNM_VECTOR_STRING :
-		break;
-	case GNM_VECTOR_DATE :
-		g_warning ("Date vectors aren't supported yet");
-		type = GNM_VECTOR_SCALAR;
-		break;
-	default :
-		g_warning ("Unknown vector type");
-		type = GNM_VECTOR_SCALAR;
-	};
-
-	vector->is_column = value_area_get_width (&ep, vector->value) == 1;
-	vector->type = type;
-	vector = gnm_graph_vector_corba_init (vector);
-	if (vector != NULL)
-		gnm_graph_add_vector (graph, vector);
-	printf ("vector::new (%d) = 0x%p\n", type, vector);
-
-	return vector;
+	return ok;
 }
 
 static void
@@ -877,3 +542,355 @@ gnm_graph_vector_init (GtkObject *obj)
 
 E_MAKE_TYPE (gnm_graph_vector,"GnmGraphVector",GnmGraphVector,
 	     gnm_graph_vector_class_init, gnm_graph_vector_init, GTK_TYPE_OBJECT)
+
+
+/***************************************************************************/
+
+static GtkObjectClass *gnm_graph_parent_class = NULL;
+
+static void
+gnm_graph_clear_vectors_internal (GnmGraph *graph, gboolean unsubscribe)
+{
+	int i;
+
+	/* Release the vectors */
+	g_return_if_fail (graph->vectors != NULL);
+
+	for (i = graph->vectors->len; i-- > 0 ; ) {
+		GnmGraphVector *vector = g_ptr_array_index (graph->vectors, i);
+
+		if (vector == NULL)
+			continue;
+
+		vector->graph = NULL;
+		gtk_object_unref (GTK_OBJECT (vector));
+	}
+	g_ptr_array_set_size (graph->vectors, 0);
+	if (unsubscribe) {
+		CORBA_Environment ev;
+
+		CORBA_exception_init (&ev);
+		MANAGER1 (clearVectors) (graph->manager, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION) {
+			g_warning ("'%s' : while clearing the vectors in graph %p",
+				   bonobo_exception_get_text (&ev), graph);
+		}
+		CORBA_exception_free (&ev);
+	}
+
+}
+
+static gboolean
+gnm_graph_subscribe_vector (GnmGraph *graph, GnmGraphVector *vector)
+{
+	CORBA_Environment ev;
+	int id;
+	gboolean ok;
+
+	CORBA_exception_init (&ev);
+
+	id = graph->vectors->len;
+	switch (vector->type) {
+	case GNM_VECTOR_SCALAR :
+		vector->subscriber.scalar = MANAGER1 (addScalarVector) (
+			graph->manager, vector->corba_obj, id, &ev);
+		break;
+
+	case GNM_VECTOR_DATE :
+		vector->subscriber.date = MANAGER1 (addDateVector) (
+			graph->manager, vector->corba_obj, id, &ev);
+		break;
+
+	case GNM_VECTOR_STRING :
+		vector->subscriber.string = MANAGER1 (addStringVector) (
+			graph->manager, vector->corba_obj, id, &ev);
+		break;
+
+	default :
+		g_assert_not_reached();
+	}
+
+	if ((ok = ev._major == CORBA_NO_EXCEPTION)) {
+		g_ptr_array_add (graph->vectors, vector);
+		vector->graph = graph;
+		vector->id = id;
+	} else {
+		g_warning ("'%s' : while subscribing vector %p",
+			   bonobo_exception_get_text (&ev), vector);
+	}
+
+	CORBA_exception_free (&ev);
+
+	return ok;
+}
+
+/**
+ * gnm_graph_add_vector :
+ *
+ * @graph : the container.
+ * @expr  : the expression to evaluate for this vector.
+ * @type  : optional, pass GNM_VECTOR_AUTO, and we will make a guess.
+ * @sheet : this a dependentContainer when I create it.
+ */
+GnmGraphVector *
+gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
+		      GnmGraphVectorType type, Sheet *sheet)
+{
+	GnmGraphVector *vector;
+	EvalPos ep;
+	int i;
+
+	g_return_val_if_fail (IS_GNUMERIC_GRAPH (graph), FALSE);
+
+	/* If this graph already has this vector don't duplicate it.
+	 * This is useful when importing a set of series with a common dimension.
+	 * eg a set of bars with common categories.
+	 */
+	for (i = graph->vectors->len ; i-- > 0 ; ) {
+		vector = g_ptr_array_index (graph->vectors, i);
+		if ((type == GNM_VECTOR_AUTO || type == vector->type) &&
+		    expr_tree_equal (expr, vector->dep.expression))
+			return vector;
+	}
+
+	vector = gtk_type_new (gnm_graph_vector_get_type ());
+	vector->dep.sheet = sheet;
+	vector->dep.flags = gnm_graph_vector_get_dep_type ();
+	vector->dep.expression = expr;
+	dependent_link (&vector->dep, NULL);
+
+	vector->value = eval_expr (eval_pos_init_dep (&ep, &vector->dep),
+				   vector->dep.expression, EVAL_PERMIT_NON_SCALAR);
+	switch (type) {
+	case GNM_VECTOR_AUTO :
+		type = (value_area_foreach (&ep, vector->value,
+				&cb_check_range_for_pure_string, NULL) != NULL)
+			? GNM_VECTOR_SCALAR : GNM_VECTOR_STRING;
+		break;
+	case GNM_VECTOR_SCALAR :
+	case GNM_VECTOR_STRING :
+		break;
+	case GNM_VECTOR_DATE :
+		g_warning ("Date vectors aren't supported yet");
+		type = GNM_VECTOR_SCALAR;
+		break;
+	default :
+		g_warning ("Unknown vector type");
+		type = GNM_VECTOR_SCALAR;
+	};
+
+	vector->is_column = value_area_get_width (&ep, vector->value) == 1;
+	vector->type = type;
+	if (!gnm_graph_vector_corba_init (vector) ||
+	    !gnm_graph_subscribe_vector (graph, vector)) {
+		gtk_object_unref (GTK_OBJECT (vector));
+		vector = NULL;
+	} else {
+		ParsePos pos;
+		char *expr_str;
+		parse_pos_init (&pos, NULL, sheet, 0, 0);
+		expr_str = expr_tree_as_string (expr, &pos);
+		printf ("vector::new (%d) @ 0x%p = %s\n", type, vector, expr_str);
+		g_free (expr_str);
+	}
+
+	return vector;
+}
+
+static char *
+oaf_exception_id (CORBA_Environment *ev)
+{
+        if (ev->_major == CORBA_USER_EXCEPTION) {
+                if (!strcmp (ev->_repo_id, "IDL:OAF/GeneralError:1.0")) {
+                        OAF_GeneralError *err = ev->_params;
+                        
+                        if (!err || !err->description) {
+                                return "No general exception error message";
+                        } else {
+                                return err->description;
+                        }
+                } else {
+                        return ev->_repo_id;
+                }
+        } else {
+                return CORBA_exception_id (ev);
+        }
+}
+
+/* FIXME : Should we take a CommandContext to report errors to ? */
+GnmGraph *
+gnm_graph_new (Workbook *wb)
+{
+	CORBA_Environment  ev;
+	Bonobo_Unknown	   o;
+	GnmGraph	  *graph = NULL;
+
+	CORBA_exception_init (&ev);
+
+	o = (Bonobo_Unknown)oaf_activate ("repo_ids.has('" MANAGER_OAF "')",
+					  NULL, 0, NULL, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("'%s' : while attempting to activate a graphing component",
+			   oaf_exception_id (&ev));
+	} else if (o == CORBA_OBJECT_NIL) {
+		g_warning ("No graphing component is installed.  Oaf has nothing registered that implements the required interface.\n"
+			   "oaf-query 'repo_ids.has('" MANAGER_OAF "')\nshould return a value.");
+	} else {
+		graph = gtk_type_new (GNUMERIC_GRAPH_TYPE);
+
+		printf ("gnumeric : graph new %p\n", graph);
+
+		graph->vectors = g_ptr_array_new ();
+		graph->manager = Bonobo_Unknown_queryInterface (o, MANAGER_OAF, &ev);
+
+		g_return_val_if_fail (graph->manager != NULL, NULL);
+
+		graph->manager_client = bonobo_object_client_from_corba (graph->manager);
+		bonobo_object_release_unref (o, &ev);
+
+		if (sheet_object_bonobo_construct (SHEET_OBJECT_BONOBO (graph),
+				wb->priv->bonobo_container, NULL) == NULL ||
+		    !sheet_object_bonobo_set_server (SHEET_OBJECT_BONOBO (graph),
+				graph->manager_client)) {
+			gtk_object_destroy (GTK_OBJECT (graph));
+			graph = NULL;
+		}
+	}
+
+	CORBA_exception_free (&ev);
+
+	return graph;
+}
+
+GtkWidget *
+gnm_graph_type_selector (GnmGraph *graph)
+{
+	CORBA_Environment  ev;
+	GtkWidget	  *res = NULL;
+	Bonobo_Control	   control;
+
+	CORBA_exception_init (&ev);
+	control = MANAGER1 (getTypeSelectControl) (graph->manager, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("'%s' : while attempting to activate a graphing component",
+			   bonobo_exception_get_text (&ev));
+	} else if (control == CORBA_OBJECT_NIL) {
+		g_warning ("A graphing component activated but return NUL ??");
+	} else
+		res = bonobo_widget_new_control_from_objref (control, CORBA_OBJECT_NIL);
+	CORBA_exception_free (&ev);
+
+	return res;
+}
+
+void
+gnm_graph_clear_vectors (GnmGraph *graph)
+{
+	gnm_graph_clear_vectors_internal (graph, TRUE);
+}
+
+void
+gnm_graph_arrange_vectors (GnmGraph *graph)
+{
+	CORBA_Environment  ev;
+	GNOME_Gnumeric_Graph_Manager_v2_VectorIDs *data, *headers;
+
+	int len = 0;
+
+	data = GNOME_Gnumeric_Graph_Manager_v2_VectorIDs__alloc ();
+	data->_length = data->_maximum = len;
+	data->_buffer = CORBA_sequence_GNOME_Gnumeric_Graph_Manager_v2_VectorID_allocbuf (len);
+	data->_release = CORBA_TRUE;
+	headers = GNOME_Gnumeric_Graph_Manager_v2_VectorIDs__alloc ();
+	headers->_length = data->_maximum = len;
+	headers->_buffer = CORBA_sequence_GNOME_Gnumeric_Graph_Manager_v2_VectorID_allocbuf (len);
+	headers->_release = CORBA_TRUE;
+
+	CORBA_exception_init (&ev);
+	MANAGER1 (arrangeVectors) (graph->manager, data, headers, &ev);
+	if (ev._major != CORBA_NO_EXCEPTION) {
+		g_warning ("'%s' : while auto arranging the vectors in graph %p",
+			   bonobo_exception_get_text (&ev), graph);
+	}
+	CORBA_exception_free (&ev);
+}
+
+static void
+gnm_graph_init (GtkObject *obj)
+{
+	GnmGraph *graph = GNUMERIC_GRAPH (obj);
+
+	graph->vectors = NULL;
+	graph->manager = CORBA_OBJECT_NIL;
+	graph->manager_client = NULL;
+}
+
+static void
+gnm_graph_destroy (GtkObject *obj)
+{
+	GnmGraph *graph = GNUMERIC_GRAPH (obj);
+
+	printf ("gnumeric : graph destroy %p\n", obj);
+	if (graph->manager_client != NULL) {
+		bonobo_object_unref (BONOBO_OBJECT (graph->manager_client));
+		graph->manager_client = NULL;
+		graph->manager = CORBA_OBJECT_NIL;
+	}
+	if (graph->vectors != NULL) {
+		/* no need to unsubscribe, the whole graph is going away */
+		gnm_graph_clear_vectors_internal (graph, FALSE);
+		g_ptr_array_free (graph->vectors, TRUE);
+		graph->vectors = NULL;
+	}
+
+	if (gnm_graph_parent_class->destroy)
+		gnm_graph_parent_class->destroy (obj);
+}
+
+static void
+cb_graph_assign_data (GtkWidget *ignored, GnmGraph *graph)
+{
+}
+
+static void
+gnm_graph_populate_menu (SheetObject *so,
+			 GtkObject   *obj_view,
+			 GtkMenu     *menu)
+{
+	GnmGraph *graph;
+	GtkWidget *item;
+
+	graph = GNUMERIC_GRAPH (so);
+	g_return_if_fail (IS_GNUMERIC_GRAPH (so));
+
+	item = gtk_menu_item_new_with_label (_("Data..."));
+	gtk_signal_connect (GTK_OBJECT (item), "activate",
+			    GTK_SIGNAL_FUNC (cb_graph_assign_data), graph);
+	gtk_menu_append (menu, item);
+
+	if (SHEET_OBJECT_CLASS (gnm_graph_parent_class)->populate_menu)
+		SHEET_OBJECT_CLASS (gnm_graph_parent_class)->populate_menu (so, obj_view, menu);
+}
+
+static void
+gnm_graph_user_config (SheetObject	*sheet_object,
+		       SheetControlGUI	*s_control)
+{
+}
+
+static void
+gnm_graph_class_init (GtkObjectClass *object_class)
+{
+	SheetObjectClass *sheet_object_class;
+
+	gnm_graph_parent_class = gtk_type_class (SHEET_OBJECT_CONTAINER_TYPE);
+
+	object_class->destroy = &gnm_graph_destroy;
+
+	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
+	sheet_object_class->populate_menu = &gnm_graph_populate_menu;
+	sheet_object_class->user_config = &gnm_graph_user_config;
+}
+
+E_MAKE_TYPE (gnm_graph, "GnmGraph", GnmGraph,
+	     gnm_graph_class_init, gnm_graph_init, SHEET_OBJECT_CONTAINER_TYPE)
