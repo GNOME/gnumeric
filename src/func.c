@@ -134,7 +134,7 @@ function_iterate_argument_values (Sheet                   *sheet,
 	return result;
 }
 
-static void
+void
 install_symbols (FunctionDefinition *functions)
 {
 	int i;

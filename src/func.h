@@ -37,5 +37,7 @@ function_iterate_argument_values (Sheet                   *sheet,
 				  char                    **error_string);
 				  
 
+void install_symbols (FunctionDefinition *functions);
+
 #endif /* GNUMERIC_FUNC_H */
 

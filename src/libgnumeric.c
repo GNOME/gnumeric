@@ -2,6 +2,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "xml-io.h"
+#include "plugin.h"
 
 /* If set, the file to load at startup time */
 static char *startup_file;
@@ -42,6 +43,7 @@ main (int argc, char *argv [])
 	symbol_init ();
 	constants_init ();
 	functions_init ();
+	plugins_init ();
 
 	if (startup_file)
 		current_workbook = gnumericReadXmlWorkbook (startup_file);

@@ -13,6 +13,7 @@
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "xml-io.h"
+#include "plugin.h"
 #include "pixmaps.h"
 
 /* The locations within the main table in the workbook */
@@ -56,6 +57,13 @@ static void
 save_as_cmd (GtkWidget *widget, Workbook *wb)
 {
 	workbook_save_as (wb);
+}
+
+static void
+plugins_cmd (GtkWidget *widget, Workbook *wb)
+{
+	GtkWidget *pm = plugin_manager_new();
+	gtk_widget_show(pm);
 }
 
 static void
@@ -275,6 +283,7 @@ static GnomeUIInfo workbook_menu_file [] = {
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
 	{ GNOME_APP_UI_ITEM, N_("Save as..."), NULL, save_as_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
+	{ GNOME_APP_UI_ITEM, N_("Plugins..."), NULL, plugins_cmd },
 	{ GNOME_APP_UI_ITEM, N_("Exit"), NULL, quit_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT },
 	GNOMEUIINFO_END

@@ -1,3 +1,19 @@
+1998-09-10  Tom Dyas <tdyas@romulus.rutgers.edu>
+
+	* src/func.c: Made install_symbols public.
+
+	* src/main.c: initialize the plugins.
+
+	* src/workbook.c (plugins_cmd): Add a menu option for plugin
+	loading.
+
+	* plugin-manager.c: New file.  Implements the GUI part of the
+	plugin manager.
+
+	* plugin.c, plugin.h: New file. Support for the dynamically loaded
+	Gnumeric plugin components.
+
+	
 1998-09-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/dialog-cell-format.c (dialog_cell_format): save and restore

@@ -54,6 +54,9 @@ GNUMERIC_BASE_SOURCES =			\
 	parser.y			\
 	pattern-selector.c		\
 	pattern-selector.h		\
+	plugin.c			\
+	plugin.h			\
+	plugin-manager.c		\
 	sheet.c				\
 	sheet.h				\
 	sheet-object.c			\
