@@ -77,7 +77,7 @@ ColRowIndexList *colrow_get_index_list	     (int first, int last,
 					      ColRowIndexList *list);
 
 ColRowStateList	*colrow_state_list_destroy   (ColRowStateList *list);
-ColRowStateList	*colrow_make_state	     (Sheet *sheet, int first, int last,
+ColRowStateList	*colrow_make_state	     (Sheet *sheet, int count,
 					      float size_pts, gboolean hard_size,
 					      int outline_level);
 ColRowStateList	*colrow_get_states	     (Sheet *sheet, gboolean is_cols,

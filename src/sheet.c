@@ -2201,6 +2201,19 @@ sheet_range_contains_region (Sheet const *sheet, Range const *r,
 /***************************************************************************/
 
 /**
+ * sheet_colrow_get_default :
+ * @sheet :
+ * @is_cols :
+ */
+ColRowInfo const *
+sheet_colrow_get_default (Sheet const *sheet, gboolean is_cols)
+{
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	return is_cols ? &sheet->cols.default_style : &sheet->rows.default_style;
+}
+
+/**
  * sheet_col_get:
  *
  * Returns an allocated column:  either an existing one, or NULL

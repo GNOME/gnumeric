@@ -84,7 +84,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 			? scg_rangesel_extend
 			: scg_rangesel_move;
 	} else {
-		if ((event->state & GDK_CONTROL_MASK) && (event->state & GDK_SHIFT_MASK)) {
+		if ((event->state & GDK_CONTROL_MASK)) {
 			char const *fmt = NULL;
 			char const *desc = NULL;
 
