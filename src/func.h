@@ -65,6 +65,14 @@ Value      *function_def_call_with_values (Sheet              *sheet,
 					   Value              *values [],
 					   char               **error_string);
 
+int
+function_iterate_do_value (Sheet                   *sheet,
+			   FunctionIterateCallback callback,
+			   void                    *closure,
+			   int                     eval_col,
+			   int                     eval_row,
+			   Value                   *value,
+			   char                    **error_string);
 
 void        install_symbols               (FunctionDefinition *functions,
 					   gchar *description);

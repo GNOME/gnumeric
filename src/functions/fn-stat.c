@@ -1277,7 +1277,6 @@ static char *help_negbinomdist = {
 	   "distribution. @f is the number of failures, @t is the threshold "
 	   "number of successes, and @p is the probability of a success. "
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error."
 	   "if f or t is a non-integer it is truncated. "
 	   "if (f + t -1) <= 0 NEGBINOMDIST returns #NUM! error. "
 	   "if p < 0 or p > 1 NEGBINOMDIST returns #NUM! error. "
@@ -4488,6 +4487,122 @@ gnumeric_slope (struct FunctionDefinition *i,
 	return value_new_float (num / den);
 }
 
+static char *help_percentrank = {
+	N_("@FUNCTION=PERCENTRANK\n"
+	   "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
+
+	   "@DESCRIPTION="
+	   "PERCENTRANK function returns the rank of a data point in a data "
+	   "set.  @array is the range of numeric values, @x is the data "
+	   "point which you want to rank, and the optional @significance "
+	   "indentifies the number of significant digits for the returned "
+	   "value.  If @significance is omitted, PERCENTRANK uses three "
+	   "digits. "
+	   "\n"
+	   "If @array contains not data points, PERCENTRANK returns #NUM! "
+	   "error. "
+	   "If @significance is less than one, PERCENTRANK returns #NUM! "
+	   "error. "
+	   "If @x does not match any of the values in @array or @x matches "
+	   "more than once, PERCENTRANK interpolates the returned value. "
+	   "\n"
+	   "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL")
+};
+
+typedef struct {
+        float_t x;
+        int     smaller;
+        int     greater;
+        int     equal;
+} stat_percentrank_t;
+
+static int
+callback_function_percentrank (Sheet *sheet, Value *value, 
+			       char **error_string, void *user_data)
+{
+        stat_percentrank_t *p = user_data;
+	float_t y;
+
+        switch (value->type) {
+	case VALUE_INTEGER:
+	        y = value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+	        y = value->v.v_float;
+		break;
+	default:
+	        return FALSE;
+	}
+
+	if (y < p->x)
+	        p->smaller++;
+	else if (y > p->x)
+	        p->greater++;
+	else
+	        p->equal++;
+
+	return TRUE;
+}
+
+static Value *
+gnumeric_percentrank (struct FunctionDefinition *i,
+		      Value *argv [], char **error_string)
+{
+        stat_percentrank_t p;
+	Sheet              *sheet;
+        float_t            x, k, pr;
+	int                col, row, n;
+        int                significance, ret;
+
+	x = value_get_as_float (argv[1]);
+
+	p.smaller = 0;
+	p.greater = 0;
+	p.equal = 0;
+	p.x = x;
+
+        if (argv[2] == NULL)
+	        significance = 3;
+	else {
+	        significance = value_get_as_int (argv[2]);
+		if (significance < 1) {
+		        *error_string = _("#NUM!");
+			return NULL;
+		}
+	}
+
+	sheet = argv[0]->v.cell.sheet;
+	col = argv[0]->v.cell.col;
+	row = argv[0]->v.cell.row;
+
+	ret = function_iterate_do_value (sheet, (FunctionIterateCallback)
+					 callback_function_percentrank,
+					 &p, col, row, argv[0],
+					 error_string);
+
+	if (ret == FALSE || (p.smaller+p.greater+p.equal==0)) {
+	        *error_string = _("#NUM!");
+		return NULL;
+	}
+
+	if (p.equal == 1)
+	        pr = (float_t) p.smaller / (p.smaller+p.greater);
+	else
+	        pr = (p.smaller + 0.5 * p.equal) /
+		  (p.smaller + p.equal + p.greater);
+
+	k = 1;
+	for (n=0; n<significance; n++)
+	        k *= 10;
+
+	pr *= k;
+	pr = floor(pr);
+	pr /= k;
+
+	return value_new_float (pr);
+}
+
+
 FunctionDefinition stat_functions [] = {
         { "avedev",    0,      "",          &help_avedev,
 	  gnumeric_avedev, NULL },
@@ -4573,6 +4688,8 @@ FunctionDefinition stat_functions [] = {
 	  NULL, gnumeric_normsdist },
 	{ "normsinv",  "f",  "",            &help_normsinv,
 	  NULL, gnumeric_normsinv },
+	{ "percentrank", "Af|f", "array,x,significance",
+	  &help_percentrank,   NULL, gnumeric_percentrank },
 	{ "pearson",   0,      "",          &help_pearson,
 	  gnumeric_pearson, NULL },
 	{ "prob", "AAf|f", "x_range,prob_range,lower_limit,upper_limit",

@@ -61,7 +61,7 @@ iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *us
  *
  * Helper routine for function_iterate_argument_values.
  */ 
-static int
+int
 function_iterate_do_value (Sheet                   *sheet,
 			   FunctionIterateCallback callback,
 			   void                    *closure,
