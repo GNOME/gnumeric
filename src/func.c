@@ -97,6 +97,7 @@ void
 function_dump_defs (char const *filename, gboolean as_def)
 {
 	FILE *output_file;
+	char *up;
 	unsigned i;
 	GPtrArray *ordered;
 	GnmFuncGroup const *group = NULL;
@@ -124,7 +125,8 @@ function_dump_defs (char const *filename, gboolean as_def)
 	for (i = 0; i < ordered->len; i++) {
 		GnmFunc const *fd = g_ptr_array_index (ordered, i);
 		if (as_def) {
-			fprintf (output_file, "%s\n\n", _(fd->help));
+			fprintf (output_file, "@CATEGORY=%s\n%s\n\n",
+				 _(fd->fn_group->display_name->str), _(fd->help));
 		} else {
 			static struct {
 				char const *name;
@@ -153,9 +155,11 @@ function_dump_defs (char const *filename, gboolean as_def)
 				group = fd->fn_group;
 				fprintf (output_file, "<tr><td><h1>%s</h1></td><td><b>Function</b></td><td><b>Implementation</b></td><td><b>Testing</b></td></tr>\n", group->display_name->str);
 			}
+			up = g_ascii_strup (fd->name, -1);
 			fprintf (output_file, "<tr><td></td>\n");
 			fprintf (output_file,
-"    <td><a href =\"doc/gnumeric-%s.html\">%s</a></td>\n", fd->name, fd->name);
+"    <td><a href =\"doc/gnumeric-%s.html\">%s</a></td>\n", up, fd->name);
+			g_free (up);
 			fprintf (output_file,
 "    <td bgcolor=#%s><a href=\"mailto:gnumeric-list@gnome.org?subject=Re: %s implementation\">%s</a></td>\n",
 implementation[fd->impl_status].colour_str, fd->name, implementation[fd->impl_status].name);

@@ -59,22 +59,21 @@ libart-2.0 >= 2.3.11
 dnl **************
 dnl Bonobo support
 dnl **************
-bonobo_msg="disabled by default"
+bonobo_msg="yes"
 AC_ARG_WITH(bonobo,
 	[--{with,without}-bonobo   Use the bonobo UI routines],
-	if test "x$withval" = xyes; then
-		bonobo_msg=yes
+	if test "x$withval" = xno; then
+		bonobo_msg="disabled by user"
 	fi
 )
 if test "x$bonobo_msg" = "xyes"; then
 	PKG_CHECK_MODULES(LIBBONOBO, [
-		libbonobo-2.0 >= 2.0.0
-		libbonoboui-2.0 >= 2.0.0
-		bonobo-activation-2.0 >= 1.0.2
-		libgsf-gnome-1 >= 1.7.2
+		libbonobo-2.0 >= 2.2.0
+		libbonoboui-2.0 >= 2.2.0
+		libgsf-gnome-1 >= 1.8.1
 		],	
 		[bonobo_msg="yes"],
-		[bonobo_msg="NO"])
+		[bonobo_msg="missing dependencies"])
 fi
 
 if test "x$bonobo_msg" = "xyes"; then
@@ -82,10 +81,9 @@ if test "x$bonobo_msg" = "xyes"; then
         gnumeric_bonobo_enabled=true
 	AC_DEFINE(WITH_BONOBO, 1, [Define if Bonobo is to be used])
 	gnumeric_reqs="$gnumeric_reqs
-libbonobo-2.0 >= 1.115.0
+libbonobo-2.0 >= 2.0.0
 libbonoboui-2.0
-bonobo-activation-2.0
-libgsf-gnome-1 >= 1.7.2"
+libgsf-gnome-1 >= 1.8.1"
 else
         gnumeric_bonobo_enabled=false
 fi

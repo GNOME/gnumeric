@@ -53,6 +53,7 @@
 #include <glade/glade.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-output-memory.h>
+#include <gsf/gsf-utils.h>
 #include <locale.h>
 
 /**
@@ -427,13 +428,28 @@ stf_write_workbook (GnmFileSaver const *fs, IOContext *context,
 		gnumeric_io_error_unknown (context);
 }
 
+static gboolean
+csv_tsv_probe (GnmFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
+{
+	if (pl == FILE_PROBE_FILE_NAME) {
+		char const *name = gsf_input_name (input);
+		if (name == NULL)
+			return FALSE;
+		name = gsf_extension_pointer (name);
+		return (name != NULL &&
+		        (g_ascii_strcasecmp (name, "csv") == 0 ||
+			 g_ascii_strcasecmp (name, "tsv") == 0));
+	}
+	return FALSE;
+}
+
 void
 stf_init (void)
 {
 	gnm_file_opener_register (gnm_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_csvtab",
 		_("Comma or tab separated files (CSV/TSV)"),
-		NULL, stf_read_workbook_auto_csvtab), 0);
+		csv_tsv_probe, stf_read_workbook_auto_csvtab), 0);
 	gnm_file_opener_register (gnm_file_opener_new_with_enc (
 		"Gnumeric_stf:stf_druid",
 		_("Text import (configurable)"),

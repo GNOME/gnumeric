@@ -1,3 +1,19 @@
+2003-07-10  Jody Goldberg <jody@gnome.org>
+
+	* src/func.c (function_dump_defs) : tack on category
+	  and make the generated links for the state dump uppercase to match
+	  the results from yelp.
+
+2003-07-10  Jody Goldberg <jody@gnome.org>
+
+	* src/stf.c (csv_tsv_probe) : quicky bogus probe for csv/tsv suffixes.
+	  We really need to merge the plugin service and the Openers for 1.3
+
+2003-07-09  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : we're not going to be finished in time.  Make bonobo
+	  the default.
+
 2003-07-11  Morten Welinder  <terra@gnome.org>
 
 	* src/formats.c (style_format_fraction): Handle fixed-denominator
