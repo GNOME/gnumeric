@@ -18,7 +18,7 @@
 
 /* Implementational detail - not for global header */
 
-#define OLE_DEBUG 1
+#define OLE_DEBUG 0
 
 /* These take a _guint8_ pointer */
 #define GET_GUINT8(p)  (*((const guint8 *)(p)+0))
@@ -314,6 +314,25 @@ dump_allocation (MS_OLE *f)
 	}
 }
 
+/* Things that should be true */
+static void
+check (MS_OLE *f)
+{
+	guint32 numbbd = GET_NUM_BBD_BLOCKS(f);
+	guint32 maxbb  = numbbd*(BB_BLOCK_SIZE/sizeof(BBPtr));
+	guint32 lp;
+
+	for (lp=NUM_BB(f);lp<maxbb;lp++) {
+		BBPtr blk = GET_GUINT32(GET_BB_CHAIN_PTR(f,lp));
+		if (blk != UNUSED_BLOCK) {
+			printf ("Serious blocking error\n");
+			dump_allocation (f);
+			g_on_error_stack_trace (NULL);
+		}
+	}
+
+}
+
 /* Create a nice linear array and return count of the number in the array */
 static GArray *
 read_link_array (MS_OLE *f, BBPtr first)
@@ -384,6 +403,7 @@ ms_ole_analyse (MS_OLE *f)
 		}
 	}
 #endif
+	check (f);
 	return 1;
 }
 
@@ -468,8 +488,9 @@ ms_ole_create (const char *name)
 
 	/* the first BBD block : 1 */
 	for (lp=0;lp<BB_BLOCK_SIZE/4;lp++)
-		SET_GUINT32(GET_BB_START_PTR(f,1) + lp*4, END_OF_CHAIN);
+		SET_GUINT32(GET_BB_START_PTR(f,1) + lp*4, UNUSED_BLOCK);
 
+	SET_GUINT32(GET_BB_CHAIN_PTR(f,0), END_OF_CHAIN);  /* Root chain */
 	SET_GUINT32(GET_BB_CHAIN_PTR(f,1), SPECIAL_BLOCK); /* Itself */
 	SET_GUINT32(GET_BB_CHAIN_PTR(f,2), END_OF_CHAIN);  /* SBD chain */
 	SET_GUINT32(GET_BB_CHAIN_PTR(f,3), END_OF_CHAIN);  /* SBF stream */
@@ -481,6 +502,7 @@ ms_ole_create (const char *name)
 	SET_SBD_STARTBLOCK (f, f->header.sbd_startblock);
 
 	read_root_list (f);
+	
 
 	/* The first PPS block : 0 */
 	lp = 0;
@@ -522,6 +544,7 @@ ms_ole_create (const char *name)
 		return 0;
 	}
 
+	check (f);
 	return f;
 }
 
@@ -682,22 +705,30 @@ next_free_bb (MS_OLE *f)
 
 	blk = 0;
 	while (blk < NUM_BB(f))
-		if (GET_GUINT32(GET_BB_CHAIN_PTR(f,blk)) == UNUSED_BLOCK)
+		if (GET_GUINT32(GET_BB_CHAIN_PTR(f,blk)) == UNUSED_BLOCK) {
+			check (f);
 			return blk;
-		else
+		} else 
 			blk++;
 
+	check (f);
 	if (blk < GET_NUM_BBD_BLOCKS(f)*(BB_BLOCK_SIZE/sizeof(BBPtr))) {
 		/* Must not extend beyond our capability to describe the state of each block */
 		gint32 extblks = GET_NUM_BBD_BLOCKS(f)*(BB_BLOCK_SIZE/sizeof(BBPtr)) - NUM_BB(f);
-		/* Extend and remap file */
-//#if OLE_DEBUG > 0
-		printf ("Extend & remap file by %d blocks...\n", extblks);
-//#endif
+		BBPtr tmpblk;
+		if (extblks > 10) /* Silly */
+			extblks = 10;
+#if OLE_DEBUG > 0
+		printf ("Extend & remap file by %d blocks (%d, %d)...\n", extblks,
+			GET_NUM_BBD_BLOCKS(f), NUM_BB(f));
+#endif
 		g_assert (extblks>0);
+		/* Extend and remap file */
 		extend_file (f, extblks);
 		g_assert (blk < NUM_BB(f));
-		g_assert (GET_GUINT32(GET_BB_CHAIN_PTR(f,blk)) == UNUSED_BLOCK);
+		check (f);
+		tmpblk = GET_GUINT32(GET_BB_CHAIN_PTR(f,blk));
+		g_assert (tmpblk==UNUSED_BLOCK);
 		return blk;
 	}
 
@@ -710,13 +741,14 @@ next_free_bb (MS_OLE *f)
 	SET_BBD_LIST(f, idx, blk);
 	SET_NUM_BBD_BLOCKS(f, idx+1);
 	/* Setup that block */
-	for (lp=0;lp<(BB_BLOCK_SIZE/sizeof(BBPtr))-1;lp++)
+	for (lp=0;lp<(BB_BLOCK_SIZE/sizeof(BBPtr));lp++)
 		SET_GUINT32(GET_BB_START_PTR(f, blk) + lp*sizeof(BBPtr), UNUSED_BLOCK);
 	SET_GUINT32(GET_BB_CHAIN_PTR(f, blk), SPECIAL_BLOCK); /* blk is the new BBD item */
 #if OLE_DEBUG > 1
 	printf ("Should be 10 more free blocks at least !\n");
 	dump_allocation(f);
 #endif
+	check (f);
 	return next_free_bb (f);
 }
 

@@ -5,6 +5,11 @@
 	(dump): Removed spurious #undefs
 	(ms_ole_write_bb, ms_ole_write_sb): Fixed for mid-stream
 	writes.
+	(next_free_bb): Limit extension to 10 blocks.
+	Fix sillyness in UNUSED_BLOCK setting.
+	(ms_ole_create): Fix killer stupid bug ! setting whole map to
+	END_OF_CHAIN instead of UNUSED_BLOCK ! idiot !
+	Correctly terminated the root directory chain.
 
 	* ms-ole.h (struct _MS_OLE_STREAM): Add tell method, and fix
 	broken comments.

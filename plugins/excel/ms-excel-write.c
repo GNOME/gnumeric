@@ -214,19 +214,47 @@ biff_boundsheet_write_last (MS_OLE_STREAM *s, guint32 pos,
 	s->lseek (s, oldpos, MS_OLE_SEEK_SET);
 }
 
+typedef struct {
+	SHEET    *sheet;
+	BIFF_PUT *bp;
+} CellArgs;
+
+static void
+write_cell (gpointer key, Cell *cell, CellArgs *a)
+{
+	BIFF_PUT *bp = a->bp;
+
+	g_return_if_fail (a);
+	g_return_if_fail (cell);
+
+	if (cell->value && VALUE_IS_NUMBER (cell->value)) {
+		guint8  *data;
+		data = ms_biff_put_len_next (bp, BIFF_NUMBER, 14);
+		EX_SETROW(bp, cell->row->pos);
+		EX_SETCOL(bp, cell->col->pos);
+		EX_SETXF (bp, 0);
+		BIFF_SETDOUBLE (bp->data + 6,
+				value_get_as_float (cell->value));
+		ms_biff_put_len_commit (bp);	
+	}
+}
+
 static void
 write_sheet (BIFF_PUT *bp, SHEET *sheet)
 {
-	guint8 *data;
-	sheet->streamPos = bp->streamPos; /* (?) */
+	CellArgs args;
+
+	sheet->streamPos = bp->streamPos;
+	args.sheet       = sheet;
+	args.bp          = bp;
 
 	biff_bof_write (bp, sheet->wb->ver, eBiffTWorksheet);
-	data = ms_biff_put_len_next (bp, BIFF_NUMBER, 14);
-	EX_SETROW(bp, 0);
-	EX_SETCOL(bp, 0);
-	EX_SETXF (bp, 0);
-	BIFF_SETDOUBLE (bp->data + 6, 1.2345678);
-	ms_biff_put_len_commit (bp);
+
+/* FIXME: INDEX, UG! see S59D99.HTM */
+/* Finding cell records in Biff files see: S59E28.HTM */
+
+	g_hash_table_foreach (sheet->gnum_sheet->cell_hash,
+			      (GHFunc)write_cell, &args);
 
 	biff_eof_write (bp);
 }
