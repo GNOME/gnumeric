@@ -15,8 +15,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 08:44-0500\n"
-"PO-Revision-Date: 2004-01-31 19:37+0100\n"
+"POT-Creation-Date: 2004-02-23 02:21+0100\n"
+"PO-Revision-Date: 2004-02-23 02:21+0100\n"
 "Last-Translator: Francisco Javier F. Serrador <serrador@cvs.gnome.org>\n"
 "Language-Team: Spanish <traductores@es.gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -20630,10 +20630,15 @@ msgstr "Fijando el ancho de la columna %s al predeterminado"
 msgid "Setting height of row %s to default"
 msgstr "Definiendo el alto de la fila %s al predeterminado"
 
-#: src/commands.c:1935 src/commands.c:1936
+#: src/commands.c:1935
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Autoajustar columnas %s"
+
+#: src/commands.c:1936
+#, c-format
+msgid "Autofitting rows %s"
+msgstr "Autoajuste de filas %s"
 
 #: src/commands.c:1939
 #, c-format
@@ -21081,19 +21086,19 @@ msgstr "Eje-Z"
 msgid "Plot"
 msgstr "Gráfico"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "H"
 msgstr "H"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
 msgid "Height"
 msgstr "Altura"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "W"
 msgstr "O"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:252
 msgid "Width"
 msgstr "Anchura"
 
