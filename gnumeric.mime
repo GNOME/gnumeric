@@ -1,11 +1,80 @@
 application/x-gnumeric
-	ext: gnumeric
+	ext: gnumeric xml
 
 application/vnd.ms-excel
-	ext: xls xlw 
+	ext: xls xlw xlt
+
+application/msexcel
+	ext: xls xlw xlt
+
+application/x-msexcel
+	ext: xls xlw xlt
+
+application/x-ms-excel
+	ext: xls xlw xlt
+
+application/vnd.ms-excel
+	ext: xls xlw xlt
+
+application/x-excel
+	ext: xls xlw xlt
+
+x-dos_ms_excel
+	ext: xls xlw xlt
+
+application/xls
+	ext: xls xlw xlt
+
+application/x-xls
+	ext: xls xlw xlt
+
+zz-winassoc-xls           
+	ext: xls xlw xlt
 
 application/x-applix-spreadsheet
 	ext: as 
 
+text/x-comma-separated-values
+	ext: csv 
+
+comma-separated-values
+	ext: csv 
+
+text/csv
+	ext: csv 
+
+application/csv
+	ext: csv 
+
 application/vnd.lotus-1-2-3
 	ext: 123 wk4 wk3 wk1
+
+application/tab-separated-values
+	ext: tsv
+
+application/x-oleo
+	ext: oleo
+
+application/x-xbase
+	ext: dbf
+
+application/vnd.sun.xml.calc
+	ext: sxc
+
+application/vnd.sun.xml.calc.template
+	ext: sxc
+
+application/x-quattro-pro
+	ext: wb1 wb2 wb3
+
+application/x-sc
+	ext: sc
+
+application/x-sylk
+	ext: sylk
+
+application/x-planperfect
+	ext: pln
+
+application/x-mps
+	ext: mps

@@ -869,10 +869,20 @@ font_init (StylePrefState *state, GogStyle const *style, guint32 enable, GtkWidg
 }
 
 static void
+cb_obj_is_gone (StylePrefState *state, GObject *where_the_object_was)
+{
+	state->style_changed_handler = 0;
+}
+
+static void
 gog_style_pref_state_free (StylePrefState *state)
 {
-	g_signal_handler_disconnect (G_OBJECT (state->obj),
-		state->style_changed_handler);
+	if (state->style_changed_handler) {
+		g_signal_handler_disconnect (G_OBJECT (state->obj),
+			state->style_changed_handler);
+		g_object_weak_unref (G_OBJECT (state->obj),
+			(GWeakNotify) cb_obj_is_gone, state);
+	}
 	g_object_unref (state->gui);
 	if (state->fill.gradient.timer != 0) {
 		g_source_remove (state->fill.gradient.timer);
@@ -917,9 +927,12 @@ gog_style_editor (GogObject *obj, GnmCmdContext *cc,
 
 	state->enable_edit = TRUE;
 
-	state->style_changed_handler = g_signal_connect (G_OBJECT (obj),
+	state->style_changed_handler = g_signal_connect (G_OBJECT (state->obj),
 		"style-changed",
 		G_CALLBACK (cb_style_changed), state);
+	g_object_weak_ref (G_OBJECT (state->obj),
+		(GWeakNotify) cb_obj_is_gone, state);
+
  	w = glade_xml_get_widget (gui, "gog_style_prefs");
 	g_object_set_data_full (G_OBJECT (w),
 		"state", state, (GDestroyNotify) gog_style_pref_state_free);

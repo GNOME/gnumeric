@@ -1,3 +1,17 @@
+2003-11-03  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.mime : add more.
+
+2003-11-02  Jody Goldberg <jody@gnome.org>
+
+	* src/main-application.c (main) : init before calling
+	  handle_paint_events.
+
+	* src/application.c: s/g_assert/g_return_if_fail/
+
+	* src/ssconvert.c :  Add --list-importers
+	* doc/C/ssconvert.1 : document it.
+
 2003-11-02  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/gnumeric-gconf.c (gnm_conf_init_printer_decoration_font): new

@@ -27,6 +27,7 @@ char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
 char const *gnumeric_data_dir = GNUMERIC_DATADIR;
 static gboolean ssconvert_show_version = FALSE;
 static gboolean ssconvert_list_exporters = FALSE;
+static gboolean ssconvert_list_importers = FALSE;
 static char const *ssconvert_import_encoding = NULL;
 static char const *ssconvert_export_id = NULL;
 
@@ -46,6 +47,8 @@ gnumeric_popt_options[] = {
 	{ "export-type", 'T', POPT_ARG_STRING, &ssconvert_export_id, 0,
 	  N_("Optionally specify which exporter to use"), "ID"  },
 	{ "list-exporters", '\0', POPT_ARG_NONE, &ssconvert_list_exporters, 0,
+	  N_("List the available exporters"), NULL },
+	{ "list-importers", '\0', POPT_ARG_NONE, &ssconvert_list_importers, 0,
 	  N_("List the available exporters"), NULL },
 
 	{ NULL, '\0', 0, NULL, 0 }
@@ -110,6 +113,28 @@ main (int argc, char *argv [])
 					fputc (' ', stderr);
 				fprintf (stderr, " | %s\n",
 					gnm_file_saver_get_description (ptr->data));
+			}
+		} else if (ssconvert_list_importers) {
+			GList *ptr;
+			unsigned tmp, len = 0;
+
+			for (ptr = get_file_openers (); ptr ; ptr = ptr->next) {
+				tmp = strlen (gnm_file_opener_get_id (ptr->data));
+				if (len < tmp)
+					len = tmp;
+			}
+
+			fputs ("ID", stderr);
+			for (tmp = 2 ; tmp++ < len ;)
+				fputc (' ', stderr);
+			fputs ("  Description\n", stderr);
+			for (ptr = get_file_openers (); ptr ; ptr = ptr->next) {
+				tmp = strlen (gnm_file_opener_get_id (ptr->data));
+				fputs (gnm_file_opener_get_id (ptr->data), stderr);
+				while (tmp++ < len)
+					fputc (' ', stderr);
+				fprintf (stderr, " | %s\n",
+					gnm_file_opener_get_description (ptr->data));
 			}
 		} else if (args && args[0]) {
 			GnmFileSaver *fs = NULL;

@@ -8,11 +8,14 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=124315	[line plot ignores axis]	{patch review}
-    : X axis label vertical alignment
+    http://bugzilla.gnome.org/show_bug.cgi?id=125986	[line width lost]
+    http://bugzilla.gnome.org/show_bug.cgi?id=125886	[x axis label vertical alignment]
+    : Update style editors when the object changes
+    : Update shared dim editors when one of the siblings changes
     : X axis label seperation
     : text in boxes for text-xls/pivot.xls is white ??
     : guia.xls complains of problems importing autofilter
+    : update mime types in gnumeric and gnome-mime-data
 
 Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=123781
@@ -20,24 +23,6 @@ Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=123403
     : loading in XL corrupts.  xbat is being lost when xl modifies it ??
       Likely some libgsf issue
-
-    GLib-GObject-WARNING:
-      > A1:A3 = 1 2 3
-      > B1:B3 = 2 3 2
-      > C1:C3 = 4 5 4
-      > select A1:C3
-      > graph
-      > line
-      > forward
-      > series 1, delete
-      > series 2, labels a1:a3
-      > series 3, labels a1:a3
-      > finish
-      > (gnumeric:4471): GLib-GObject-WARNING **:
-      > gsignal.c:1738:g_signal_handler_disconnect(): instance `6e9fa0' has no
-      > handler with id `9750'
-
-
 
 -------------------------------------------------------------------------------
 Pending Patches

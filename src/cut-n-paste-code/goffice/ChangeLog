@@ -1,5 +1,8 @@
 2003-11-02  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-style.c (gog_style_editor) : Add a weakref so that we can
+	  disconnect the signal if the object is destroyed.
+
 	* graph/gog-axis.c (make_dim_editor) : Use closures to avoid having a
 	  callback after a widget has been destroyed.
 

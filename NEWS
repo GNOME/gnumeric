@@ -62,6 +62,7 @@ Jody:
 	* Update all displayed auto values for axis bounds
 	http://bugzilla.gnome.org/show_bug.cgi?id=125886
 	* Have an inverse pull to 0 in case the eps pulls to far
+	* Actually install the man pages
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

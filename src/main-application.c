@@ -148,6 +148,9 @@ main (int argc, char *argv [])
 
 	gnm_session_init (argv[0]);
 
+	/* TODO: Use the ioc.  Do this before calling handle_paint_events */
+	gnm_common_init (TRUE);
+
 	with_gui = !func_def_file && !func_state_file;
 	if (with_gui) {
 		ioc = IO_CONTEXT (g_object_new (TYPE_IO_CONTEXT_GTK, NULL));
@@ -158,9 +161,6 @@ main (int argc, char *argv [])
 		ioc = gnumeric_io_context_new (cc);
 		g_object_unref (cc);
 	}
-
-	/* TODO: Use the ioc. */
-	gnm_common_init (TRUE);
 
 	if (func_def_file)
 		return gnm_dump_func_defs (func_def_file, TRUE);
