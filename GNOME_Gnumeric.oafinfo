@@ -23,12 +23,12 @@
 		<item value="IDL:GNOME/Gnumeric/Sheet:1.0"/>
 	</oaf_attribute>
 
-	<oaf_attribute name="description" type="string"
-	               value="Workbook component"/>
+	<oaf_attribute name="description" type="string" 
+		value="Workbook component"/>
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GOADID:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873"
+<oaf_server iid="OAFIID:GOADID:GNOME:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873"
             type="exe"
             location="gnumeric-bonobo">
 
@@ -41,7 +41,7 @@
 
 </oaf_server>
 
-<oaf_server iid="OAFIID:GOADID:Gnumeric:Grid:1.0:872b76ec-a9c7-4848-aa9e-c0c60b27d446"
+<oaf_server iid="OAFIID:GOADID:GNOME:Gnumeric:Grid:1.0:872b76ec-a9c7-4848-aa9e-c0c60b27d446"
             type="factory"
             location="OAFIID:GOADID:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873">
 
