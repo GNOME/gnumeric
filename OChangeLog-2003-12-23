@@ -1,3 +1,7 @@
+2000-02-26  Jon K Hellan  <hellan@acm.org>
+
+	* doc/python-gnumeric.txt: New file. Documents the Python plugin.
+
 2000-02-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/xml-io.c (xml_read_solver): New. (xml_write_solver): New.

@@ -1,5 +1,16 @@
 /*
- * Rudimentary support for Python in gnumeric.
+ * Support for Python in gnumeric.
+ */
+
+/**
+ * TODO:
+ * Arrays   - Use Python arrays
+ * Errors   - Define an exception class for Gnumeric VALUE_ERROR      
+ * Booleans - Do we need a distinguished data type so that Gnumeric can
+ *            recognize that Python is returning a boolean? If so, we can
+ *            define a Python boolean class.
+ * Cell ranges - The sheet attribute is not yet handled.
+ * Varargs
  */
 
 #include <config.h>
@@ -14,91 +25,22 @@
 
 #include "Python.h"
 
+/* Classes we define in Python code, and where we define them. */
+#define GNUMERIC_DEFS_MODULE "gnumeric_defs"
+#define CELL_REF_CLASS   "CellRef"
+#define CELL_RANGE_CLASS "CellRange"
+
 /* Yuck!
  * See comment in plugins/guile/plugin.c
  */
 static EvalPosition const *eval_pos = NULL;
 
-/*
- * Support for registering Python-based functions for use in formulas.
+/**
+ * convert_py_exception_to_string
+ *
+ * Converts the current Python exception to a C string. Returns C string.
+ * Caller must free it.
  */
-
-static PyObject *
-convert_value_to_python (Value *v)
-{
-	PyObject *o;
-
-	switch (v->type) {
-	case VALUE_INTEGER:
-		o = PyInt_FromLong(v->v.v_int);
-		break;
-
-	case VALUE_FLOAT:
-		o = PyFloat_FromDouble(v->v.v_float);
-		break;
-
-	case VALUE_STRING:
-		o = PyString_FromString(v->v.str->str);
-		break;
-
-		/* The following aren't implemented yet */
-	case VALUE_EMPTY:
-	case VALUE_BOOLEAN:
-	case VALUE_ERROR:
-	case VALUE_CELLRANGE:
-	case VALUE_ARRAY:
-	default:
-		o = NULL;
-		break;
-	}
-	return o;
-}
-
-static Value *
-convert_python_to_value (PyObject *o)
-{
-	Value *v = g_new (Value, 1);
-
-	if (!v)
-		return NULL;
-
-	if (PyInt_Check (o)){
-		v->type = VALUE_INTEGER;
-		v->v.v_int = (int_t) PyInt_AsLong (o);
-	} else if (PyFloat_Check (o)) {
-		v->type = VALUE_FLOAT;
-		v->v.v_float = (float_t) PyFloat_AsDouble (o);
-	} else if (PyString_Check (o)) {
-		int size = PyString_Size (o);
-		gchar *s;
-
-		s = g_malloc (size + 1);
-		strncpy(s, PyString_AsString (o), size);
-		s[size] = '\0';
-		v->type = VALUE_STRING;
-		v->v.str = string_get (s);
-		g_free (s);
-	} else {
-		g_free (v);
-		return NULL;
-	}
-
-	return v;
-}
-
-typedef struct {
-	FunctionDefinition *fndef;
-	PyObject *codeobj;
-} FuncData;
-
-static GList *funclist = NULL;
-
-static int
-fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
-{
-	return (fdata->fndef != fndef);
-}
-
 static char *
 convert_py_exception_to_string ()
 {
@@ -134,24 +76,292 @@ cleanup:
 	return g_strdup (retval);
 }
 
-/* FIXME: What to about exceptions?
+/*
+ * Support for registering Python-based functions for use in formulas.
+ */
+
+/**
+ * convert_cell_ref_to_python
+ * @v   value union
  *
- * Suggestion: A python console to display tracebacks - tag each with
- * eval_pos.  Certainly not a popup window for each exception. There
- * can be many for each recomputation. */
-/* It is possible to replace the sys.stderr binding with a cStringIO object.
+ * Converts a cell reference to Python. Returns python object.
+ */
+static PyObject *
+convert_cell_ref_to_python (CellRef *cell)
+{
+	PyObject *mod, *klass = NULL, *ret = NULL;
 
-  { PyObject *mod, *klass, *obj;
+	mod = PyImport_ImportModule(GNUMERIC_DEFS_MODULE);
+	if (PyErr_Occurred ())
+		goto cleanup;
 
-    mod = PyImport_ImportModule("cStringIO");
-    klass = PyObject_GetAttrString(mod, "StringIO");
-    obj = PyObject_CallFunction(klass, NULL);
-    Py_DECREF(klass);
+	klass  = PyObject_GetAttrString(mod, CELL_REF_CLASS);
+	if (PyErr_Occurred ())
+		goto cleanup;
 
-    PySys_SetObject("stderr", obj);
-  }
-  -- "Michael P. Reilly" <arcege@shore.net>
-*/
+	ret = PyObject_CallFunction (klass, "iiii", cell->col, cell->row,
+				     cell->col_relative, cell->row_relative
+				     /*, sheet */);
+cleanup:
+	Py_XDECREF (klass);
+	return ret;
+}
+
+/**
+ * convert_range_to_python
+ * @v   value union
+ *
+ * Converts a cell range to Python. Returns python object.
+ */
+static PyObject *
+convert_range_to_python (Value *v)
+{
+	PyObject *mod, *klass = NULL, *ret = NULL;
+
+	mod = PyImport_ImportModule (GNUMERIC_DEFS_MODULE);
+	if (PyErr_Occurred ())
+		goto cleanup;
+
+	klass  = PyObject_GetAttrString (mod, CELL_RANGE_CLASS);
+	if (PyErr_Occurred ())
+		goto cleanup;
+
+	ret = PyObject_CallFunction
+		(klass, "O&O&",
+		 convert_cell_ref_to_python, &v->v.cell_range.cell_a,
+		 convert_cell_ref_to_python, &v->v.cell_range.cell_b);
+
+cleanup:
+	Py_XDECREF (klass);
+	return ret;
+}
+
+/**
+ * convert_boolean_to_python
+ * @v   value union
+ *
+ * Converts a boolean to Python. Returns python object.
+ * NOTE: This implementation converts to Python	integer, so it will not
+ * be possible to convert back to Gnumeric boolean.
+ */
+static PyObject *
+convert_boolean_to_python (Value *v)
+{
+	PyObject * o;
+
+	o = PyInt_FromLong (v->v.v_bool);
+
+	return o;
+}
+
+/**
+ * convert_value_to_python
+ * @v   value union
+ *
+ * Converts a Gnumeric value to Python. Returns python object.
+ */
+static PyObject *
+convert_value_to_python (Value *v)
+{
+	PyObject *o;
+
+	switch (v->type) {
+	case VALUE_INTEGER:
+		o = PyInt_FromLong(v->v.v_int);
+		break;
+
+	case VALUE_FLOAT:
+		o = PyFloat_FromDouble(v->v.v_float);
+		break;
+
+	case VALUE_STRING:
+		o = PyString_FromString(v->v.str->str);
+		break;
+
+	case VALUE_CELLRANGE:
+		o = convert_range_to_python(v);
+		break;
+	case VALUE_EMPTY:
+		o = Py_None;
+		break;
+	case VALUE_BOOLEAN:	/* Sort of implemented */
+		o = convert_boolean_to_python (v);
+		break;
+		/* The following aren't implemented yet */
+	case VALUE_ERROR:
+	case VALUE_ARRAY:
+	default:
+		o = NULL;
+		break;
+	}
+	return o;
+}
+
+/**
+ * convert_cell_ref_from_python
+ * @o    Python object
+ * @c    Cell reference
+ *
+ * Converts a Pythin cell reference to Gnumeric. Returns TRUE on success and
+ * FALSE on failure.
+ * Used as a converter function by PyArg_ParseTuple.
+ */
+static int
+convert_cell_ref_from_python (PyObject *o, CellRef *c)
+{
+	int ret = FALSE;
+	PyObject *column = NULL, *row = NULL;
+	PyObject *col_relative = NULL, *row_relative = NULL/*, *sheet = NULL */;
+
+	column       = PyObject_GetAttrString (o, "column");
+	if (PyErr_Occurred () || !PyInt_Check (column))
+		goto cleanup;
+	row          = PyObject_GetAttrString (o, "row");
+	if (PyErr_Occurred () || !PyInt_Check (row))
+		goto cleanup;
+	col_relative = PyObject_GetAttrString (o, "col_relative");
+	if (PyErr_Occurred () || !PyInt_Check (col_relative))
+		goto cleanup;
+	row_relative = PyObject_GetAttrString (o, "row_relative");
+	if (PyErr_Occurred () || !PyInt_Check (row_relative))
+		goto cleanup;
+	/* sheet        = PyObject_GetAttrString (o, "sheet");
+	if (PyErr_Occurred () || !PyString_Check (sheet)) {
+		ret = -1;
+		goto cleanup;
+		} */
+	c->col = (int) PyInt_AsLong (column);
+	c->row = (int) PyInt_AsLong (row);
+	c->col_relative = (unsigned char) PyInt_AsLong (col_relative);
+	c->row_relative = (unsigned char) PyInt_AsLong (row_relative);
+	c->sheet = NULL; /* = string_get (PyString_AsString (sheet)); */
+	ret = TRUE;
+	
+cleanup:
+	Py_XDECREF (column);
+	Py_XDECREF (row);
+	Py_XDECREF (col_relative);
+	Py_XDECREF (row_relative);
+	/* Py_XDECREF (sheet); */
+	
+	return ret;
+}
+
+/**
+ * convert_range_from_python
+ * @o    Python object
+ * @v    Value union
+ *
+ * Converts a Python cell range to Gnumeric. Returns TRUE on success and
+ * FALSE on failure.
+ * Conforms to calling conventions for converter functions for
+ * PyArg_ParseTuple. 
+ */
+static int
+convert_range_from_python (PyObject *o, Value *v)
+{
+	int ret = FALSE;
+	PyObject *range = NULL;
+
+	memset (v, 0, sizeof (*v));
+	v->type  = VALUE_CELLRANGE;
+
+	range = PyObject_GetAttrString  (o, "range");
+	if (PyErr_Occurred ())
+		goto cleanup;
+	/* Slightly abusing PyArg_ParseTuple */
+	if (!PyArg_ParseTuple (range, "O&O&",
+			       convert_cell_ref_from_python,
+			       &v->v.cell_range.cell_a,
+			       convert_cell_ref_from_python,
+			       &v->v.cell_range.cell_b))
+		goto cleanup;
+	ret = TRUE;
+	
+cleanup:
+	Py_XDECREF (range);
+
+	return ret;
+}
+
+/**
+ * convert_python_to_value
+ * @o   Python object
+ *
+ * Converts a Python object to a Gnumeric value. Returns Gnumeric value.
+ */
+static Value *
+convert_python_to_value (PyObject *o)
+{
+	Value *v = g_new (Value, 1);
+	Value *ret = NULL;
+
+	if (!v)
+		return NULL;
+
+	if (PyErr_Occurred ()) {
+		goto cleanup;
+	} else if (o == Py_None) {
+		v->type = VALUE_EMPTY;
+	} else if (PyInt_Check (o)){
+		v->type = VALUE_INTEGER;
+		v->v.v_int = (int_t) PyInt_AsLong (o);
+		ret = v;
+	} else if (PyFloat_Check (o)) {
+		v->type = VALUE_FLOAT;
+		v->v.v_float = (float_t) PyFloat_AsDouble (o);
+		ret = v;
+	} else if (PyString_Check (o)) {
+		v->type = VALUE_STRING;
+		v->v.str = string_get (PyString_AsString (o));
+		ret = v;
+	} else if (PyObject_HasAttrString (o, "__class__")) {
+		PyObject *klass = PyObject_GetAttrString  (o, "__class__");
+		gchar *s;
+		
+		if (PyErr_Occurred ())
+			goto cleanup;
+
+		s = PyString_AsString (PyObject_Str(klass));
+		Py_XDECREF (klass);
+
+ 		if (s && strcmp (s,
+				 GNUMERIC_DEFS_MODULE "." CELL_RANGE_CLASS)
+		    == 0) {
+			if (convert_range_from_python (o, v))
+				ret = v;
+		}
+	}
+
+cleanup:
+	if (PyErr_Occurred ()) {
+		char *exc_string = convert_py_exception_to_string ();
+		v->type = VALUE_ERROR;
+		v->v.error.mesg = string_get (exc_string);
+		g_free (exc_string);
+		PyErr_Print ();	/* Traceback to stderr for now */
+		PyErr_Clear ();
+	} else if (!ret) {
+		v->type = VALUE_ERROR;
+		v->v.error.mesg	= string_get (_("Unknown Python type"));
+	}
+
+	return ret;
+}
+
+typedef struct {
+	FunctionDefinition *fndef;
+	PyObject *codeobj;
+} FuncData;
+
+static GList *funclist = NULL;
+
+static int
+fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
+{
+	return (fdata->fndef != fndef);
+}
+
 
 static Value *
 marshal_func (FunctionEvalInfo *ei, Value *argv [])
@@ -167,9 +377,11 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 	function_def_count_args (fndef, &min, &max);
 
 	/* Find the Python code object for this FunctionDefinition. */
-	l = g_list_find_custom (funclist, (gpointer)fndef, (GCompareFunc) fndef_compare);
+	l = g_list_find_custom (funclist, (gpointer)fndef,
+				(GCompareFunc) fndef_compare);
 	if (!l)
-		return value_new_error (ei->pos, _("Unable to lookup Python code object."));
+		return value_new_error
+			(ei->pos, _("Unable to lookup Python code object."));
 
 	/* Build the argument list which is a Python tuple. */
 	args = PyTuple_New (min);
@@ -187,10 +399,10 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 
 	if (!result) {
 		exc_string = convert_py_exception_to_string ();
-		PyErr_Print ();	/* Traceback to stderr for now */
-		PyErr_Clear ();
 		v = value_new_error (ei->pos, exc_string);
 		g_free (exc_string);
+		PyErr_Print ();	/* Traceback to stderr for now */
+		PyErr_Clear ();
 		return v;
 	}
 
@@ -199,6 +411,17 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 	return v;
 }
 
+/**
+ * gnumeric_apply
+ * @m        Dummy
+ * @py_args  Argument tuple
+ *
+ * Apply a gnumeric function to the arguments in py_args. Returns result as a
+ * Python object.
+ *
+ * Signature when called from Python:
+ *      gnumeric.apply (string function_name, sequence arguments)
+ */
 static PyObject *
 gnumeric_apply (PyObject *m, PyObject *py_args)
 {
@@ -213,8 +436,8 @@ gnumeric_apply (PyObject *m, PyObject *py_args)
 
 	/* Second arg should be a sequence */
 	if (!PySequence_Check (seq)) {
-		PyErr_SetString(PyExc_TypeError,
-				"Argument list must be a sequence");
+		PyErr_SetString (PyExc_TypeError,
+				 "Argument list must be a sequence");
 		goto cleanup;
 	}
 
@@ -230,15 +453,29 @@ gnumeric_apply (PyObject *m, PyObject *py_args)
 	}
 	Py_INCREF (item);	/* Otherwise, we would decrement twice. */
 
-	v = function_call_with_values(eval_pos, funcname, num_args, values);
+	v = function_call_with_values (eval_pos, funcname, num_args, values);
 	retval = convert_value_to_python (v);
 
 cleanup:
-	Py_XDECREF(item);
+	Py_XDECREF (item);
 	/* We do not own a reference to seq, so don't decrement it. */
 	return retval;
 }
 
+/**
+ * gnumeric_register_function
+ * @m        Dummy
+ * @py_args  Argument tuple
+ *
+ * Make a Python function known to Gnumeric. Returns the Python object None. 
+ *
+ * Signature when called from Python:
+ *      gnumeric.register_function (string function_name,
+ *                                  string argument_format,
+ *                                  string argument_names,
+ *                                  string help_string,
+ *                                  function python_function)
+ */
 static PyObject *
 gnumeric_register_function (PyObject *m, PyObject *py_args)
 {
@@ -272,12 +509,23 @@ gnumeric_register_function (PyObject *m, PyObject *py_args)
 	return Py_None;
 }
 
+/**
+ * gnumeric_funcs
+ *
+ * Method table.
+ */
 static PyMethodDef gnumeric_funcs[] = {
 	{ "apply",             gnumeric_apply,             METH_VARARGS },
 	{ "register_function", gnumeric_register_function, METH_VARARGS },
 	{ NULL, NULL },
 };
 
+
+/**
+ * initgnumeric
+ *
+ * Initialize module.
+ */
 static void
 initgnumeric(void)
 {
@@ -288,7 +536,7 @@ initgnumeric(void)
 static int
 no_unloading_for_me (PluginData *pd)
 {
-	return 0;
+	return FALSE;
 }
 
 static void
@@ -298,8 +546,16 @@ no_cleanup_for_me (PluginData *pd)
 }
 
 #define PY_TITLE _("Python Plugin")
-#define PY_DESCR _("This plugin provides for rudimentary Python language support in Gnumeric")
+#define PY_DESCR \
+_("This plugin provides Python language support in Gnumeric")
 
+/**
+ * init_plugin
+ * @context Command context
+ * @pd      PluginData
+ *
+ * Initialize the plugin. Returns result.
+ */
 PluginInitResult
 init_plugin (CommandContext *context, PluginData * pd)
 {
@@ -325,18 +581,30 @@ init_plugin (CommandContext *context, PluginData * pd)
 
 	/* plugin stuff */
 
-	/* run the magic python file */
-
 	{
-		char *name;
+		int ret = -1;
+		char *dir = NULL, *name = NULL, buf[256];
 		FILE *fp;
 
-		name = gnome_unconditional_datadir_file ("gnumeric/python/gnumeric_startup.py");
+		/* Add gnumeric python directory to sys.path, so that we can
+		 * import modules  from there */
+		dir = gnome_unconditional_datadir_file ("gnumeric/python");
+		name = g_strjoin ("/", dir, "gnumeric_startup.py", NULL);
+			
+		ret = PyRun_SimpleString ("import sys");
+		if (ret == 0) {
+			g_snprintf (buf, sizeof buf,
+				    "sys.path.append(\"%s\")", dir);
+			ret = PyRun_SimpleString (buf);
+		}
+
+		/* run the python initialization file */
 		fp = fopen (name, "r");
 		if (fp){
 			PyRun_SimpleFile(fp, name);
 		}
 		g_free(name);
+		g_free(dir);
 	}
 
 	if (plugin_data_init (pd, no_unloading_for_me, no_cleanup_for_me,

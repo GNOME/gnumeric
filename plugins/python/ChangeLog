@@ -1,3 +1,28 @@
+2000-02-26  Jon K Hellan  <hellan@acm.org>
+
+	* python.c (convert_py_exception_to_string): Move to top.
+	(convert_cell_ref_to_python): New function. Convert cell reference
+	to Python.
+	(convert_range_to_python): New function. Convert range to Python
+	(convert_value_to_python): Handle cell range, empty value, boolean
+	(convert_range_from_python): New function. Convert Python range to
+	gnumeric value.
+	(convert_cell_ref_from_python):  New function. Convert Python cell ref
+	to gnumeric ditto.
+	(convert_python_to_value): Simplify string handling. Handle cell
+	range, empty. Return exceptions as VALUE_ERROR.
+	(init_plugin): Add gnumeric python directory to
+	sys.path, so that we can install modules there.
+
+	* gnumeric_startup.py: Import gnumeric_defs
+	(help_py_mid, help_py_abs): Fix typo.
+	(run_user_init_file): Run user rc file in current global
+	namespace. 
+
+	* gnumeric_defs.py: New file.
+	(CellRef): Class for cell references
+	(CellRange): Class for cell ranges
+
 2000-01-31  Jody Goldberg <jgoldberg@home.com>
 
 	* python.c (gnumeric_apply) : Make the const warning quiet.
