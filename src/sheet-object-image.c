@@ -27,6 +27,7 @@
 #include <gtk/gtkimagemenuitem.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkstock.h>
+#include <gtk/gtkicontheme.h>
 
 #include <math.h>
 #include <string.h>
@@ -308,7 +309,9 @@ sheet_object_image_new_view (SheetObject *so, SheetObjectViewContainer *containe
 	pixbuf = soi_get_pixbuf (soi, 1.);
 
 	if (pixbuf == NULL) {
-		placeholder = gnm_app_get_pixbuf ("unknown_image");
+		placeholder = gtk_icon_theme_load_icon (
+			gtk_icon_theme_get_default (),
+			"unknown_image", 100, 0, NULL);
 		pixbuf = gdk_pixbuf_copy (placeholder);
 	}
 

@@ -8,23 +8,15 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    : Use GNOME Recent for the gnome build
     : tie the custom ui into action sensitivity pools
     : support array evaluation for =LARGE and friends
     http://bugzilla.gnome.org/show_bug.cgi?id=159581
-
-    src/cut-n-paste-code/goffice/gui-utils/go-format-sel.c:
-	g_warning ("TESTING TESTING 123 res = '%s'", res ? res : "(null)");
-
-After Branch
-------------
-    - http://bugzilla.gnome.org/show_bug.cgi?id=162951 : trivial
-    - http://bugzilla.gnome.org/show_bug.cgi?id=162952 : trivial
-    - Add a note to the SUMPRODUCT docs that
+    : http://bugzilla.gnome.org/show_bug.cgi?id=162951 : trivial
+    : http://bugzilla.gnome.org/show_bug.cgi?id=162952 : trivial
+    : Add a note to the SUMPRODUCT docs that
 	sumproduct(A1:A5>4,B1:B4) will not work and that they will
 	need
 	sumproduct(--(A1:A5>4),B1:B4)
-
 
 Worries
 -------
@@ -80,55 +72,29 @@ Architecture Changes
 
 - Merge wbc_init_state and wbc_set_view
 
-0) libgoffice
-    0.1)
-1) Format and number match rewrite
+1) thinks to move into libgoffice
+    1.1) plugin-manager dialog
+    1.2) doc meta data
+    1.3) doc meta data dialog
 2) Font handling (move to GOFont)
-3) Rework plugin system down to libgoffice.			(DONE)
+3) Charting Enhancements					(DONE)
+    3.1) SheetObject editing					(DONE)
+	3.1.1) Connect SheetObject::user_config handler		(DONE)
+	3.1.2) Create a gog_object_dup to avoid live updating	(DONE)
+	3.1.3) Add undo/redo of full GogGraph assignment	(DONE)
+    3.2) Extend sheet object anchor assignment to call object	(DONE)
+          specfic handlers so that we can set the logical size
+	  of the graph.
 4) Function docs
     4.1) Use multiple tagged paragraphs
-5) GtkUIManager
-    5.1) Convert Stock menus					(DONE)
-    5.2) Convert basic Std toolbar				(DONE)
-    5.3) Convert Object toolbar					(DONE)
-    5.4) Convert basic Format toolbar				(DONE)
-    5.5) GOActionComboText
-	5.5.1) stub						(DONE)	
-	5.5.2) Move to TreeModel to simplify sharing
-	5.5.3) Support custom menu item
-    5.6) GOActionStack (undo/redo)				(DONE)
-	5.6.1) stub						(DONE)	
-	5.6.2) Move to TreeModel to simplify sharing		(DONE)
-	5.6.3) Support custom menu item				(DONE)
-	5.6.4) Emit activate for toolbar			(DONE)
-	5.6.5) Emit activate for menu				(DONE)
-    5.7) GOActionPixmaps (border)				(DONE)
-	5.7.1) stub						(DONE)	
-	5.7.2) Add some events					(DONE)
-	5.7.3) Support custom menu item				(DONE)
-	5.7.4) Make menu item actually appear			(DONE)
-    5.8) GOActionColor						(DONE)
-	5.8.1) stub						(DONE)	
-	5.8.2) Support custom menu item				(DONE)
-	5.8.3) Improve finger feel				(DONE)
-	5.8.4) emit activate for toolbar			(DONE)
-	5.8.5) emit activate for menu				(DONE)
-	5.8.6) history buttons in menu				(DONE)
-	5.8.7) think about custom button			(DONE)
-	5.8.8) custom button in menu				(DONE)
-	5.8.9) sync proxies					(DONE)
-	5.8.10) Use GtkColorSelector				(DONE)
-	5.8.11) Use GOColor in action				(DONE)
-	5.8.12) Use GOColor in combo				(DONE)
-	5.8.13) Cleanup						(DONE)
-	5.8.14) why is first custom colour not displayed	(DONE)
-    5.9) Move the hard coded accelerators out of		(DONE)
-	canvas into actions
-    5.10) Add indent/unindent icons to gtk			(DONE)
-	5.10.1) Patch written					(DONE)
-	5.10.2) Patch accepted into gtk				(DONE)
-    5.11) File History						(DONE)
 
+5) Pivot tables
+	5.1) xls
+	    5.1.1) import pivot cache streams		 {Jody}
+	    5.1.2) export pivot cache streams
+6) Undo/redo improvements
+	6.1) transaction file				{Jody}
+7) Drag and Drop					{Jon Kare}
 8) Rich Text
     8.1) font actions valid while editing			(DONE)
     8.2) accumulate markup from toolbar while editing		(DONE)
@@ -269,24 +235,63 @@ Architecture Changes
     9.12) preview grid ??
 	9.12.1) do we need/want the autoformat examples to swap dir ?
 
+33) Win32
+    33.1) Make gnumeric build with only gtk and available libraries	(DONE)
+    33.2) Drawing past row 1800 or so (gtk bug)				(DONE)
+    33.3) Shift-keyup from B1300 does not redraw properly (gtk bug)
+    33.4) License in installer should be GPL, not LGPL			(DONE)
+    33.5) no menu entry for Gnumeric					(DONE)
+    33.6) broken header in 1st page of installer			(DONE)
+    33.7) no charts (although about box does work)			(DONE)
+    33.8) prefs dialog is useless in non-gnome build
+    33.9) printing is zoomed in non-gnome build				(DONE)
+    33.10) Cursor shape changes oddly (gtk bug)				(DONE)
+    33.11) can not copy-n-paste (gtk bug)				(DONE)
+
+34) Functions
+    - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
+      algorithm, see Knuth.
+    - WORKDAY	Add holiday support (Leonard is working on this)
+    - docs
+	: Translate each arg name + description seperately to get better
+	  commonality.
+	: Translate description paragraphs seperately to allow better grouping.
+	: Make 'func is foo compatible' a flag on the importers
+	: func_help [] = {							(DONE)
+	    { ARG, N_("issue:The issue date of the underlying bond") },
+	    { ARG, N_("maturity:The maturity of the underlying bond") },
+	    { DESC, N_("calculates some stuff") },
+	    { DESC, N_("available day count basis conventions are :\n"
+		    "0\tUS 30/360") },
+	    { 0, NULL }
+	};
+	: need conventions for including markup
+	    - simple bold/italic/font
+	    - links
+	    - embedded images ??
+    - Support parsing and displaying locale specific function names.
+    - When loading a function that already has a definition (such as a stub),
+      we're in trouble: (a) we just overwrite the old definition in the symbol
+      table, (b) both old and new owner want to remove the symbol on exit.
+
+      We should somehow steal the old definition (and complain unless the old
+      was a stub) without changing the GnmFunc address.  On exit we should
+      explicitly check that it is ours to remove.
+
 -------------------------------------------------------------------------------
 Target Features
 ---------------
-- insert cut
-- pivot tables
 - validation from list (generalize filter combos)
+- insert cut
 - clipboard handlers in plugins
 - input message				(Stored)
 - load/save of external references
 - all the merged cell singleton bugs
-- Drag and Drop
 
 - R1C1
 - finish corba plugin
 - conditional formats : could be done if someone wanted to work on the dialog
 - scripting
-- undo/redo transaction file
-- drawing rotated borders
 - repeat (http://bugzilla.gnome.org/show_bug.cgi?id=143244)	(DONE)
 - ssconvert for non-gnome					(DONE)
 
@@ -324,227 +329,6 @@ Short Term Goals
     0.17) Fix format selector widget to not emit		(DONE)
 	fmt-changed "", fmt-changed "new-format"
 
-1) graphs
-    1.1) Split plot xml file engine, type, and family plugins	(DONE)
-    1.2) Use the registered engines to create plots		(DONE)
-    1.3) XML
-	1.3.1) Use libglade code parse GObject properties	(DONE)
-	1.3.2) remove GdkColor from boxed type support		(DONE)
-	1.3.3) Walk GogObject tree and build DOM		(DONE)
-	1.3.4) Build GogObject treee from DOM			(DONE)
-	1.3.5) For flagged properties store value in DOM	(DONE)
-	1.3.6) Read properties from DOM				(DONE)
-	1.3.7) XMLWriter interface for extra object content 	(DONE)
-	1.3.8) Use it for series				(DONE)
-	1.3.9) Extend GOData to support deserialization		(DONE)
-	1.3.10) Implement deserialization for GnmData		(DONE)
-	1.3.11) Use the XMLWriter for series for all datasets	(DONE)
-	1.3.12) Persist names					(DONE)
-	1.3.13) Use XMLWriter for properties of type object	(DONE)
-	1.3.14) implement it for styles				(DONE)
-	1.3.15) position
-	1.3.16) image data
-    1.4) Decide on model vs view structure			(DONE)
-    1.5) Graph Guru						(DONE)
-	1.5.1) update when someone else changes the model	(DONE)
-	1.5.2) remove prop pages for deleted items		(DONE)
-	1.5.3) Keep state::chart,plot safe for typeselector	(DONE)
-	       in case they get deleted
-	1.5.4) Allow going backwards if there is only chart	(DONE)
-    1.6) data allocator in gnumeric				(DONE)
-	1.6.1) initial interface				(DONE)
-	1.6.2) generalize container to be a DataSet		(DONE)
-	1.6.3) editor to specify pref for vector or scalar	(DONE)
-    1.7) Single point formating
-	1.7.1) Basic						(DONE)
-	1.7.2) Improve selection of single points for pies	(DONE)
-    1.8) data sources						(DONE)
-	1.8.1) vector and scalar data sources from gnumeric	(DONE)
-	1.8.2) Add min/max elements to vector			(DONE)
-	1.8.3) const scalar value				(DONE)
-	1.8.4) const scalar string				(DONE)
-	1.8.5) const vector value				(DONE)
-	1.8.6) const vector string				(DONE)
-	1.8.7) translation of const vector strings		(DONE)
-    1.9) Pie Plot						(DONE)
-	1.9.1) Make the segments curve				(DONE)
-	1.9.2) extracted segments				(DONE)
-	1.9.3) Rings						(DONE)
-	1.9.4) extracting single wedges				(DONE)
-	1.9.5) formating single wedges				(DONE)
-    1.10) Bar/Col Plot						(DONE)
-	1.10.1) merge bar/col stack type bools into 1 enum	(DONE)
-	1.10.2) normal						(DONE)
-	1.10.3) stacked						(DONE)
-	1.10.4) percentage					(DONE)
-	1.10.5) Skip over bars/cols when too narrow
-	1.10.6) Work around bleed through with overlap 100	(DONE)
-	1.10.7) Check for short vectors				(DONE)
-	1.10.8) Clip when values are out of range		(DONE)
-	1.10.9) Support vary style by element for type=normal
-    1.11) Line/Area Plot					(DONE)
-	1.11.1)	Normal						(DONE)
-	1.11.2)	Stacked						(DONE)
-	1.11.3)	Percentage					(DONE)
-	1.11.4)	sub type with no-marker by default		(DONE)
-	1.11.5) center points on X index values for Line	(DONE)
-	1.11.6) handle missing points in unstacked lines	(DONE)
-    1.12) X/Y (Scatter) Plot
-	1.12.1) Add simple implementation			(DONE)
-	1.12.2) Take marker sizes into account at bounds	(DONE)
-	1.12.3) Bounds on 1 axis explicitly clip the other
-	1.12.4) Splined interpolation
-	1.12.5) Bubbles 					(DONE)
-    1.13) Decide on recalc strategy				(DONE)
-	1.13.1) Getting data from sheet -> graphs		(DONE)
-	1.13.2) linking unlinking				(DONE)
-    1.14) Axis management
-	1.14.1) Charts/plots have axis layout type		(DONE)
-	1.14.2) Add any missing axis when chart type is set	(DONE)
-	1.14.3) Remove any existing axis that do not correspond	(DONE)
-		to chart type.
-	1.14.2) Life cycle of plots/axis to maintain connection	(DONE)
-	1.14.3) UI for adding an axis				(DONE)
-	1.14.4) Only permit removal of unused axes		(DONE)
-	1.14.6) Create plot1.5d as base for bar/col & line	(DONE)
-	1.14.7) do range allocation and filtering in chart	(DONE)
-	1.14.7) Draw ticks and allocate space for them		(DONE)
-	1.14.8) Make the major labels optional			(DONE)
-	1.14.9) Add a font selector to the editor		(DONE)
-	1.14.10) Value formating (at least percentage and date)	(DONE)
-	1.14.11) Support index type axis			(DONE)
-	1.14.12) Use a map function (log, invert, date)		(DONE)
-	1.14.13) Allow a plot to select a different axis
-	1.14.14) Filter add plot in guru to matching types
-	1.14.15) Editor for min/max/major/minor			(DONE)
-	1.14.16) Respect user supplied min/max/major/minor	(DONE)
-	1.14.17) Draw major ticks in				(DONE)
-	1.14.18) Draw major ticks out				(DONE)
-	1.14.19) Draw minor ticks in				(DONE)
-	1.14.20) Draw minor ticks out				(DONE)
-	1.14.21) Why don't we honour selected font ?		(DONE)
-	1.14.22) Selectable label format for non-discrete data	(DONE)
-	1.14.23) Editor for label format			(DONE)
-	1.14.24) Persist label format				(DONE)
-	1.14.25) Auto selection of label format			(DONE)
-    1.15) per series plot type specific data			(DONE)
-    1.16) libart based render akin to guppicanvas.		(DONE)
-	1.16.1) Solid background fills				(DONE)
-	1.16.2) Gradient fills 					(DONE)
-	1.16.3) Pattern fills					(DONE)
-	1.16.4) Image fills					(DONE)
-	1.16.5) path						(DONE)
-	1.16.6) text						(DONE)
-	1.16.7) markers						(DONE)
-	1.16.8) Rework text drawing to _not_ use libart		(DONE)
-	1.16.9) Add anchor flags to draw_text			(DONE)
-	1.16.10) Clip text to keep it in bounds			(DONE)
-    1.17) SheetObject editing					(DONE)
-	1.17.1) Connect SheetObject::user_config handler	(DONE)
-	1.17.2) Create a gog_object_dup to avoid live updating	(DONE)
-	1.17.3) Add undo/redo of full GogGraph assignment       (DONE)
-    1.18) Extend sheet object anchor assignment to call object	(DONE)
-          specfic handlers so that we can set the logical size
-	  of the graph.
-    1.19) Precedence						(DONE)
-	1.19.1) Sort GogObject::children 			(DONE)
-	1.19.2) Keep corresponding views in sync		(DONE)
-	1.19.3) Have guru maintain order for add/remove		(DONE)
-	1.19.4) api for changing order				(DONE)
-	1.19.5) Extend Guru to support changing precedence	(DONE)
-    1.20) GogStyle Editor page
-	1.20.1) fill type					(DONE)
-	    1.20.1.1) none					(DONE)
-	    1.20.1.2) solid					(DONE)
-	    1.20.1.3) basic gradients				(DONE)
-	    1.20.1.4) advanced gradients via combo		(DONE)
-	    1.20.1.5) pixmaps fills				(DONE)
-	    1.20.1.6) patterns					(DONE)
-	1.20.2) outline line pattern
-	1.20.3) font selector					(DONE)
-	1.20.4) Support 'auto' settings				(DONE)
-	    1.20.4.1) outline (colour)				(DONE)
-	    1.20.4.2) line (color)				(DONE)
-	    1.20.4.3) fill (colors)	 			(DONE)
-	    1.20.4.4) marker 					(DONE)
-	1.20.5) image selector
-	    1.20.5.1) drag destination for background images
-	    1.20.5.2) scale image preview                       (DONE)
-	    1.20.5.3) Use file selector with image preview	(DONE)
-	1.20.6) De-sensitize (out)line colour when size == -1
-    1.21) themes
-	1.21.1) Actually use the themes to initialize styles	(DONE)
-	1.21.2) load from xml
-	1.21.3) selector for graphs
-	1.21.4) How to change a graph's theme
-	1.21.5) Use Roles rather than Types to enumerate	(DONE)
-	1.21.5) Allow type aliases				(DONE)
-    1.22) Legend
-	1.22.1) Set up cardinality framework.			(DONE)
-	1.22.2) Get things to update when chart changes		(DONE)
-	1.22.2) smarter layout
-    1.23) Layout engine
-	1.23.1) In ChartView::size_allocate use the positions	(DONE)
-	1.23.2) For compass placement use the alignment flags	(DONE)
-	1.23.3) support NW, NE, SW, SE				(DONE)
-	1.23.4) Move ChartView::size_allocate -> GogView	(DONE)
-	1.24.5) Have Graph, Chart, Legend and Axis use it	(DONE)
-	1.23.6) Add some notion of padding			(DONE)
-	1.23.7) remove request_valid				(DONE)
-	1.23.8) pass in available space				(DONE)
-	1.23.9) How to support axis labels (siblings need
-		common residual)
-	1.23.10) Create a common base for outlined objects	(DONE)
-    1.24) Sizing units						(DONE)
-	1.24.1) Have the legend use pts to size swatches	(DONE)
-	1.24.2) Test renderers mapping between pts & pixels	(DONE)
-    1.25) Printing						(DONE)
-	1.25.1) gog-renderer-gnomeprint				(DONE)
-	1.25.2) sheet object wrapper for printing		(DONE)
-	1.25.3) paths						(DONE)
-	1.25.4) solid and empty polygons			(DONE)
-	1.25.5) image filled polygons				(DONE)
-	1.25.6) gradient filled polygons			(DONE)
-	1.25.7) measure text					(DONE)
-	1.25.8) draw text					(DONE)
-	1.25.9) why doesn't text appear in preview		(DONE)
-	1.25.10) why is font selection bogus			(DONE)
-	1.25.11) text anchors					(DONE)
-	1.25.12) Check the zoom handling for fonts		(DONE)
-    1.26) Move 'use_one_style' from pie -> plot with 1 series	(DONE)
-    1.27) Add a flag to gobject to go with its role indicating	(DONE)
-	whether the instance was autocreated or assigned.
-    1.28) Rethink GraphItem lifecyle to simplify removal	(DONE)
-    1.29) Extend GogObjectRole to include more handlers		(DONE)
-    1.30) Grid Object
-	1.30.1) Create						(DONE)
-	1.30.2) Theme it					(DONE)
-	1.30.3) Add or remove it depending on chart axis set	(DONE)
-	1.30.4) Render background				(DONE)
-	1.30.5) Support grid lines (added to axis)		(DONE)
-	1.30.6) XLS import of grid lines
-	1.30.7) XLS export of grid lines
-    1.31) SVG Render
-	1.31.1) Paths						(DONE)
-	1.31.2) Solid Fills					(DONE)
-	1.31.3) Gradient Fills					(DONE)
-	1.31.4) Pattern Fills
-	1.31.5) Image Fills					(DONE)
-	1.31.6) Markers						(DONE)
-	1.31.7) Text						(DONE)
-	1.31.8) Text alignment					(DONE)
-	1.31.9) Text clipping					(DONE)
-    1.32) Radar plots
-	1.32.1) line						(DONE)
-	1.32.2) area						(DONE)
-	1.32.3) axis labels			{partial}
-	1.32.4) fix xls import of marker vs no marker
-    1.33) Contour plots				{Jean}
-	1.33.1) Initial implementation				(DONE)
-	1.33.2) GOMatrix					(DONE)
-	1.33.3) Axis changes
-	1.33.4) XLS import
-	1.33.4) XLS export
 
 2) stf							{Andreas/Morten}
     2.1) UTF-8 cleanliness					(DONE)
@@ -781,12 +565,6 @@ Short Term Goals
 22) Add dirty flags to workbook too, adding a sheet should
     make workbook dirty not the new sheet.
 
-24) Plugins
-    24.1) enhance gobject service to do delayed load		(DONE)
-    24.2) pluginize paste types
-    24.3) plugin manager needs dependency tracking.  (Deactivate
-      all python plugins before the python loader, for example.)
-
 27) audit all of the export plugins to handle utf8
     27.1) latex exporter                                        (DONE 20030611 AJG)
     27.2) html exporter
@@ -843,33 +621,8 @@ Short Term Goals
     32.15) Check the stacking of ctrl pts when moving multiple selections
     32.16) event handling for check boxes
 
-33) Win32
-    33.1) Make gnumeric build with only gtk and available libraries	(DONE)
-    33.2) Drawing past row 1800 or so (gtk bug)
-    33.3) Shift-keyup from B1300 does not redraw properly (gtk bug)
-    33.4) License in installer should be GPL, not LGPL			(DONE)
-    33.5) no menu entry for Gnumeric					(DONE)
-    33.6) broken header in 1st page of installer			(DONE)
-    33.7) no charts (although about box does work)			(DONE)
-    33.8) prefs dialog is useless in non-gnome build
-    33.9) printing is zoomed in non-gnome build				(DONE)
-    33.10) Cursor shape changes oddly (gtk bug)				(DONE)
-    33.11) can not copy-n-paste (gtk bug)				(DONE)
-
 Misc stuff that should be fixed
 -------------------------------
-
-- Plugin breakage:
-    - "De-activate all" should take the dependency tree into account and
-      handle the python loader last.
-
-    - When loading a function that already has a definition (such as a stub),
-      we're in trouble: (a) we just overwrite the old definition in the symbol
-      table, (b) both old and new owner want to remove the symbol on exit.
-
-      We should somehow steal the old definition (and complain unless the old
-      was a stub) without changing the GnmFunc address.  On exit we should
-      explicitly check that it is ours to remove.
 
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
@@ -889,14 +642,15 @@ Misc stuff that should be fixed
 - Remove duplication of code between analysis-tools.c and collect.c
     (Many analysis tools may in fact want to follow the consolidate style)
 
-- Look into octave/matlab filters
-- look into maxima
-- Talk to shaunm about mathematica
-
-- autoformat
+autoformat
+----------
     - leaking styles when an edge is disabled
     - consider either using the users data as a sample, or at least making the
       sample adaptive based on which edges are disabled.
+
+auto-fill
+---------
+    - does not resize row/col
 
 - The autocalc label should use a more readable format and should not get
   clipped.
@@ -918,30 +672,10 @@ Misc stuff that should be fixed
 
 - The max row/col canvas scroll size is still hard coded.
 
-- Formats
-    : Why does the number matching bother comparing against formats that are
-      covered by 'General' ?
-    : When applying a currency symbol we need to store the NON-localized id.
-    : hour month and year format strings need to be internationalized.
-	eg tt:ss instead of hh:ss for other locales.
-    : formats with AM/PM need to be internationalized.
-    : We do not format fractional seconds correctly.
-    : Parsing should handle embedded strings
-    : It incorrectly accepts mmm:ss as some sort of minute spec.
-    : When entering "ppp/qqq" into a cell with non-fractional format, do not
-    make it a fraction.
-    : Consider adding "%" to entry text when typing a text with a percentage
-    format.  (I.e., user has "44%" in cell and presses "5" -- that causes
-    "5%" to be shown the the cursor between "5" and "%".)
-
 - Entering text of the form scheme://blah or a@b.c should insert hyperlinks
 - let's add simple commands like inc/dec font size and things like that.
 
-- Support parsing and displaying locale specific function names.
-
 - Auto resize needs to handle empty cells.
-
-- auto-fill does not resize row/col
 
 - Styles
     : improve uniform_get to handle full sheet more quickly.
@@ -953,27 +687,20 @@ Dialogs
 - Formula Guru
     : Fix keyboard interface
 
-Function Breakage
------------------
-- Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
-  algorithm, see Knuth.
-- WORKDAY	Add holiday support (Leonard is working on this)
-
 Printing
 --------
 - cell text wraps differently when printing than displaying due to scaling
   differences in font size.  do we want to eliminate this ?
 
-Plugins
--------
-- i18n support for third-party plugins.
-- Add extra info (authors, etc.) to XML file.
-- Beautify ErrorInfo dialog (it's ugly).
-- Mark plugin as "broken" if deactivation failed.
-- mps
-    : has some fixed-length arrays that can be overrun.
-    : creates formulae by making strings and then parsing them.
-      (Wasteful and won't work in non-C locales.)
+Import/Export
+-------------
+    : Look into octave/matlab filters
+    : look into maxima
+    : Talk to shaunm about mathematica
+    : MPS
+	- has some fixed-length arrays that can be overrun.
+	- creates formulae by making strings and then parsing them.
+	  (Wasteful and won't work in non-C locales.)
 
 Clipboard
 ---------
@@ -981,23 +708,3 @@ Clipboard
   contain tables.                                               (DONE)
 - May be not export html as table when just one cell is selected.
 
-Translations
-------------
-    - Translate each arg name + description seperately to get better
-      commonality.
-    - Translate description paragraphs seperately to allow better grouping.
-    - Make 'func is foo compatible' a flag on the importers and auto generate.
-
-    func_help [] = {
-	{ ARG, N_("issue:The issue date of the underlying bond") },
-	{ ARG, N_("maturity:The maturity of the underlying bond") },
-	{ DESC, N_("calculates some stuff") },
-	{ DESC, N_("available day count basis conventions are :\n"
-	        "0\tUS 30/360") },
-	{ 0, NULL }
-    };
-
-    - need conventions for including markup
-	- simple bold/italic/font
-	- links
-	- embedded images ??

@@ -88,6 +88,7 @@
 #include <gtk/gtkeventbox.h>
 #include <gtk/gtkprogressbar.h>
 #include <gtk/gtkstatusbar.h>
+#include <gtk/gtkicontheme.h>
 
 #include <string.h>
 #include <errno.h>
@@ -714,7 +715,9 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 	/* Create the arrow. */
 	arrow = gtk_window_new (GTK_WINDOW_POPUP);
 	gtk_widget_realize (arrow);
-	pixbuf = gnm_app_get_pixbuf ("sheet_move_marker");
+	pixbuf = gtk_icon_theme_load_icon (
+		gtk_icon_theme_get_default (),
+		"sheet_move_marker", 13, 0, NULL);
 	image = gtk_image_new_from_pixbuf (pixbuf);
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (arrow), image);
@@ -2263,9 +2266,9 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 	if (title)
 		gtk_window_set_title (GTK_WINDOW (dialog), title);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_NO);
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-	return ((response == GTK_RESPONSE_NO) ? res1 : res0);
+	response = go_gtk_dialog_run (
+		wbcg_toplevel (wbcg), GTK_DIALOG (dialog));
+	return ((response == GTK_RESPONSE_NO || response == GTK_RESPONSE_CANCEL) ? res1 : res0);
 }
 
 static void

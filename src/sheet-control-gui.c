@@ -2816,7 +2816,6 @@ scg_scale_changed (SheetControl *sc)
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	/* TODO : move this to sheetView when we create one */
 	z = sc->sheet->last_zoom_factor_used;
 
 	SCG_FOREACH_PANE (scg, pane, {

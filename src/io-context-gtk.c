@@ -27,6 +27,7 @@
 #include <gtk/gtkwindow.h>
 #include <gtk/gtkimage.h>
 #include <gtk/gtkframe.h>
+#include <gtk/gtkicontheme.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -121,8 +122,9 @@ icg_show_gui (IOContextGtk *icg)
 	GtkWidget *frame;
 
 	box = GTK_BOX (gtk_vbox_new (FALSE, 0));
-	gtk_box_pack_start (box,
-			    gtk_image_new_from_pixbuf (gnm_app_get_pixbuf ("gnumeric_splash")),
+	gtk_box_pack_start (box, gtk_image_new_from_pixbuf (
+		gtk_icon_theme_load_icon (gtk_icon_theme_get_default (),
+					  "gnumeric_splash", 360, 220, NULL)),
 			    TRUE, FALSE, 0);
 
 	/* Don't show this unless we need it. */

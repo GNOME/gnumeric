@@ -582,6 +582,7 @@ gnumeric_countif (FunctionEvalInfo *ei, GnmValue **argv)
 	    (!VALUE_IS_NUMBER (argv[1]) && argv[1]->type != VALUE_STRING))
 	        return value_new_error_VALUE (ei->pos);
 
+	res.count = 0;
 	parse_criteria (argv[1], &res.test, &res.test_value, &iter_flags,
 		workbook_date_conv (ei->pos->sheet->workbook));
 	problem = sheet_foreach_cell_in_range (sheet, iter_flags,

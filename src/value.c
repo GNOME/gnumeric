@@ -646,7 +646,7 @@ value_cmp_reverse (void const *ptr_a, void const *ptr_b)
 	return b->type - a->type;
 }
 
-gint
+gboolean
 value_equal (GnmValue const *a, GnmValue const *b)
 {
 	if (a->type != b->type)

@@ -74,18 +74,6 @@ gnumeric_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 	pane->colrow_resize.start  = NULL;
 	pane->colrow_resize.guide  = NULL;
 
-#if 0
-	/* This would be simpler, just scroll the table and the head moves too.
-	 * but it will take some cleaning up that I have no time for just now.
-	 */
-	if (is_col_header)
-		gtk_layout_set_hadjustment (GTK_LAYOUT (canvas),
-			gtk_layout_get_hadjustment (GTK_LAYOUT (pane->gcanvas)));
-	else
-		gtk_layout_set_vadjustment (GTK_LAYOUT (canvas),
-			gtk_layout_get_vadjustment (GTK_LAYOUT (pane->gcanvas)));
-#endif
-
 	g_signal_connect (G_OBJECT (canvas),
 		"realize",
 		G_CALLBACK (gnumeric_pane_realized), NULL);

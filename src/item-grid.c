@@ -42,6 +42,7 @@
 #include <gtk/gtkdnd.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtkicontheme.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 #include <string.h>
@@ -83,6 +84,8 @@ struct _ItemGrid {
 	GtkWidget *tip;
 	guint tip_timer;
 
+	GdkCursor *cursor_link, *cursor_cross;
+
 	guint32 last_click_time;
 };
 typedef FooCanvasItemClass ItemGridClass;
@@ -123,11 +126,47 @@ item_grid_finalize (GObject *object)
 	(*G_OBJECT_CLASS (parent_class)->finalize) (object);
 }
 
+static gint
+cb_cursor_motion (ItemGrid *ig)
+{
+	Sheet const *sheet = ((SheetControl *) ig->scg)->view->sheet;
+	FooCanvas *canvas = ig->canvas_item.canvas;
+	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
+	int x, y;
+	GdkCursor *cursor;
+	GnmCellPos pos;
+	GnmHLink *old_link;
+
+	foo_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
+	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
+	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
+
+	old_link = ig->cur_link;
+	ig->cur_link = sheet_hlink_find (sheet, &pos);
+	cursor = (ig->cur_link != NULL) ? ig->cursor_link : ig->cursor_cross;
+	if (gcanvas->pane->mouse_cursor != cursor) {
+		gnm_pane_mouse_cursor_set (gcanvas->pane, cursor);
+		scg_set_display_cursor (ig->scg);
+	}
+
+	if (ig->cursor_timer != 0) {
+		g_source_remove (ig->cursor_timer);
+		ig->cursor_timer = 0;
+	}
+
+	if (old_link != ig->cur_link && ig->tip != NULL) {
+		gtk_widget_destroy (gtk_widget_get_toplevel (ig->tip));
+		ig->tip = NULL;
+	}
+	return FALSE;
+}
+
 static void
 item_grid_realize (FooCanvasItem *item)
 {
-	GdkWindow *window;
-	ItemGrid  *ig;
+	GdkWindow  *window;
+	GdkDisplay *display;
+	ItemGrid   *ig;
 
 	if (parent_class->realize)
 		(*parent_class->realize) (item);
@@ -149,12 +188,22 @@ item_grid_realize (FooCanvasItem *item)
 	gdk_gc_set_rgb_fg_color (ig->gc.bound, &gs_dark_gray);
 	gdk_gc_set_line_attributes (ig->gc.bound, 3, GDK_LINE_SOLID,
 				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
+
+	display = gtk_widget_get_display (GTK_WIDGET (item->canvas));
+	ig->cursor_link  = gdk_cursor_new_for_display (display, GDK_HAND2);
+	ig->cursor_cross = gdk_cursor_new_from_pixbuf (display,
+			gtk_icon_theme_load_icon (gtk_icon_theme_get_default (), "cursor_cross", 32, 0, NULL),
+			17, 17);
+	cb_cursor_motion (ig);
 }
 
 static void
 item_grid_unrealize (FooCanvasItem *item)
 {
 	ItemGrid *ig = ITEM_GRID (item);
+
+	gdk_cursor_unref (ig->cursor_link);
+	gdk_cursor_unref (ig->cursor_cross);
 
 	g_object_unref (G_OBJECT (ig->gc.fill));	ig->gc.fill = NULL;
 	g_object_unref (G_OBJECT (ig->gc.cell));	ig->gc.cell = NULL;
@@ -923,48 +972,6 @@ cb_cursor_come_to_rest (ItemGrid *ig)
 		}
 	}
 
-	return FALSE;
-}
-
-static gint
-cb_cursor_motion (ItemGrid *ig)
-{
-	Sheet const *sheet = ((SheetControl *) ig->scg)->view->sheet;
-	FooCanvas *canvas = ig->canvas_item.canvas;
-	GnmCanvas *gcanvas = GNM_CANVAS (canvas);
-	int x, y;
-	GdkCursor *cursor;
-	GnmCellPos pos;
-	GnmHLink *old_link;
-	GdkDisplay *display;
-
-	foo_canvas_w2c (canvas, ig->last_x, ig->last_y, &x, &y);
-	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
-	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
-
-	old_link = ig->cur_link;
-	ig->cur_link = sheet_hlink_find (sheet, &pos);
-	display = gtk_widget_get_display (GTK_WIDGET (canvas));
-	if (ig->cur_link)
-		cursor = gdk_cursor_new_for_display (display, GDK_HAND2);
-	else
-		cursor = gnm_fat_cross_cursor (display);
-
-	if (gcanvas->pane->mouse_cursor != cursor) {
-		gnm_pane_mouse_cursor_set (gcanvas->pane, cursor);
-		scg_set_display_cursor (ig->scg);
-	}
-	gdk_cursor_unref (cursor);
-
-	if (ig->cursor_timer != 0) {
-		g_source_remove (ig->cursor_timer);
-		ig->cursor_timer = 0;
-	}
-
-	if (old_link != ig->cur_link && ig->tip != NULL) {
-		gtk_widget_destroy (gtk_widget_get_toplevel (ig->tip));
-		ig->tip = NULL;
-	}
 	return FALSE;
 }
 

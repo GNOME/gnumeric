@@ -132,7 +132,7 @@ GnmValDiff  value_compare	   (GnmValue const *a, GnmValue const *b,
 				    gboolean case_sensitive);
 int	    value_cmp		   (void const *ptr_a, void const *ptr_b);
 int	    value_cmp_reverse	   (void const *ptr_a, void const *ptr_b);
-gint	    value_equal		   (GnmValue const *a, GnmValue const *b);
+gboolean    value_equal		   (GnmValue const *a, GnmValue const *b);
 guint       value_hash		   (GnmValue const *v);
 
 char const *value_peek_string	   (GnmValue const *v);

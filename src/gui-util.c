@@ -869,18 +869,6 @@ gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct)
 	gdk_cursor_unref (cursor);
 }
 
-GdkCursor *
-gnm_fat_cross_cursor (GdkDisplay *display)
-{
-	/* We don't actually own a ref, but that's ok.  */
-	static GdkPixbuf *pixbuf = NULL;
-
-	if (!pixbuf)
-		pixbuf = gnm_app_get_pixbuf ("cursor_cross");
-
-	return gdk_cursor_new_from_pixbuf (display, pixbuf, 17, 17);
-}
-
 /* ------------------------------------------------------------------------- */
 
 /**

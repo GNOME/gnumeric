@@ -31,6 +31,7 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtkiconfactory.h>
 #include <gtk/gtkselection.h>
+#include <gtk/gtkicontheme.h>
 #include <glib/gi18n.h>
 
 #define GNM_APP(o)		(G_TYPE_CHECK_INSTANCE_CAST((o), GNM_APP_TYPE, GnmApp))
@@ -70,8 +71,6 @@ struct _GnmApp {
 	GtkWidget       *pref_dialog;
 
 	GList		*workbook_list;
-
-	GHashTable      *named_pixbufs;
 };
 
 typedef struct {
@@ -544,17 +543,6 @@ void     gnm_app_set_transition_keys  (gboolean state)
 	((GnmAppPrefs *)gnm_app_prefs)->transition_keys = state;
 }
 
-/*
- * Get a named pixbuf.
- */
-GdkPixbuf *
-gnm_app_get_pixbuf (const char *name)
-{
-	g_return_val_if_fail (app != NULL, NULL);
-	return g_hash_table_lookup (app->named_pixbufs, name);
-}
-
-
 gpointer
 gnm_app_get_pref_dialog (void)
 {
@@ -575,6 +563,16 @@ gnm_app_release_pref_dialog (void)
 	g_return_if_fail (app != NULL);
 	if (app->pref_dialog)
 		gtk_widget_destroy (app->pref_dialog);
+}
+
+#warning FIXME FIXME FIXME clear outthe last few calls
+/* A convenience wrapper for old code to look up an pixuf from an icon theme. */
+GdkPixbuf *
+gnm_app_get_pixbuf (const char *name)
+{
+	return gtk_icon_theme_load_icon (
+		gtk_icon_theme_get_default (),
+		name, 0, 0, NULL);
 }
 
 static void
@@ -650,9 +648,9 @@ gnumeric_application_setup_pixbufs (GnmApp *app)
 	for (ui = 0; ui < G_N_ELEMENTS (entry); ui++) {
 		GdkPixbuf *pixbuf = gdk_pixbuf_new_from_inline
 			(-1, entry[ui].scalable_data, FALSE, NULL);
-		g_hash_table_insert (app->named_pixbufs,
-				     (char *)entry[ui].name,
-				     pixbuf);
+		gtk_icon_theme_add_builtin_icon (entry[ui].name,
+			gdk_pixbuf_get_width (pixbuf), pixbuf);
+		g_object_unref (pixbuf);
 	}
 }
 
@@ -780,7 +778,6 @@ gnumeric_application_finalize (GObject *obj)
 	g_slist_foreach (application->history_list, (GFunc)g_free, NULL);
 	g_slist_free (application->history_list);
 	application->history_list = NULL;
-	g_hash_table_destroy (application->named_pixbufs);
 	app = NULL;
 	G_OBJECT_CLASS (parent_klass)->finalize (obj);
 }
@@ -865,10 +862,6 @@ gnm_app_init (GObject *obj)
 	gnm_app->clipboard_sheet_view = NULL;
 
 	gnm_app->workbook_list = NULL;
-
-	gnm_app->named_pixbufs = g_hash_table_new_full (g_str_hash, g_str_equal,
-							NULL,
-							(GDestroyNotify)g_object_unref);
 
 	gnumeric_application_setup_pixbufs (gnm_app);
 	gnumeric_application_setup_icons ();

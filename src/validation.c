@@ -59,9 +59,10 @@ validation_new (ValidationStyle style,
 {
 	GnmValidation *v;
 
-	if (type == VALIDATION_TYPE_CUSTOM && op != VALIDATION_OP_NONE) {
+	if ((type == VALIDATION_TYPE_CUSTOM || type == VALIDATION_TYPE_IN_LIST) &&
+	    op != VALIDATION_OP_NONE) {
 		/* This can happen if an .xls file was saved as a .gnumeric.  */
-		g_warning ("VALIDATION_TYPE_CUSTOM needs to go with VALIDATION_OP_NONE.  Fixing.");
+		g_warning ("VALIDATION_TYPE_CUSTOM/VALIDATION_TYPE_IN_LIST need to go with VALIDATION_OP_NONE.  Fixing.");
 		op = VALIDATION_OP_NONE;
 	}
 
@@ -115,11 +116,19 @@ validation_unref (GnmValidation *v)
 	}
 }
 
+static GnmValue *
+cb_validate_custom (GnmValue const *v, GnmEvalPos const *ep,
+		    int x, int y, GnmValue const *target)
+{
+	return (v != NULL && value_equal (v, target)) ? VALUE_TERMINATE : NULL;
+}
+
 /**
  * validation_eval:
+ * @wbc :
+ * @mstyle :
+ * @sheet :
  *
- * Either pass @expr or @val.
- * The parameters will be validated against the
  * validation set in the GnmStyle if applicable.
  **/
 ValidationStatus
@@ -201,8 +210,27 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 		}
 
 		case VALIDATION_TYPE_IN_LIST :
-#warning TODO
-			return VALIDATION_STATUS_VALID;
+			if (NULL != v->expr[0]) {
+				GnmEvalPos  ep;
+				GnmValue   *list = gnm_expr_eval (v->expr[0],
+					eval_pos_init_cell (&ep, cell),
+					GNM_EXPR_EVAL_PERMIT_NON_SCALAR | GNM_EXPR_EVAL_PERMIT_EMPTY);
+				GnmValue   *res = value_area_foreach (list, &ep,
+					CELL_ITER_IGNORE_BLANK,
+					(ValueAreaFunc) cb_validate_custom, val);
+				value_release (list);
+				if (res == NULL) {
+					GnmParsePos  pp;
+					char *expr_str = gnm_expr_as_string (v->expr[0],
+						parse_pos_init_evalpos (&pp, &ep),
+						gnm_expr_conventions_default);
+					msg = g_strdup_printf (_("%s does not contain the new value."), expr_str);
+					g_free (expr_str);
+				} else
+					return VALIDATION_STATUS_VALID;
+			} else
+				return VALIDATION_STATUS_VALID;
+			break;
 
 		case VALIDATION_TYPE_TEXT_LENGTH :
 			/* XL appears to use a very basic value -> string mapping that
@@ -248,7 +276,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 			expr = gnm_expr_new_binary (val_expr, op, v->expr[0]);
 		}
 
-		if (expr != NULL) {
+		if (msg == NULL && expr != NULL) {
 			GnmParsePos  pp;
 			GnmEvalPos   ep;
 			char	 *expr_str;
