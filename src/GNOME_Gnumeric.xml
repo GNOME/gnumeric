@@ -3,79 +3,83 @@
 	<cmd name="FileNew"
 	    _label="_New"
 	    _tip="Create a new spreadsheet"
-	    pixtype="stock" pixname="New"/>
+	    pixtype="stock" pixname="gtk-new"/>
 	<cmd name="FileOpen"
 	    _label="_Open..."
 	    _tip="Open a spreadsheet"
-	    pixtype="stock" pixname="Open"
+	    pixtype="stock" pixname="gtk-open"
 	    accel="F3"/>
 	<cmd name="FileImport"
 	    _label="_Import..."
 	    _tip="Imports a file"
-	    pixtype="stock" pixname="Open"/>
+	    pixtype="stock" pixname="gtk-open"/>
 	<cmd name="FileSave"
 	    _label="_Save"
 	    _tip="Save the current file"
-	    pixtype="stock" pixname="Gnumeric_Save"
+	    pixtype="stock" pixname="gtk-save"
 	    accel="*Control*s"/>
 	<cmd name="FileSaveAs"
 	    _label="Save _As..."
 	    _tip="Save the current file with a different name"
-	    pixtype="stock" pixname="Gnumeric_SaveAs"/>
+	    pixtype="stock" pixname="gtk-save-as"/>
 
 	<cmd name="FilePrintSetup"
 	    _label="Print S_etup..."
-	    _tip="Setup the page settings for your current printer"
-	    pixtype="stock" pixname="Print"/>
+	    _tip="Setup the page settings for your current printer"/>
 	<cmd name="FilePrint"
 	    _label="_Print..."
 	    _tip="Print the current file"
-	    pixtype="stock" pixname="Print"/>
+	    pixtype="stock" pixname="gtk-print"/>
 	<cmd name="FilePrintPreview"
 	    _label="Print Pre_view..."
 	    _tip="Print preview"
-	    pixtype="stock" pixname="Gnumeric_PrintPreview"/>
+	    pixtype="stock" pixname="gtk-print-preview"/>
 
 	<cmd name="FileSummary"
 	    _label="P_roperties..."
 	    _tip="Edit descriptive information"/>
 
+	<cmd name="FilePreferences"
+	    _label="Preferen_ces..."
+	    _tip="Change Gnumeric Preferences"
+	    pixtype="stock" pixname="gtk-preferences"/>
+
 	<cmd name="FileClose"
 	    _label="_Close"
 	    _tip="Close the current file"
-	    pixtype="stock" pixname="Close"
+	    pixtype="stock" pixname="gtk-close"
 	    accel="*Control*w"/>
 	<cmd name="FileExit"
 	    _label="E_xit"
 	    _tip="Exit the program"
-	    pixtype="stock" pixname="Quit"
+	    pixtype="stock" pixname="gtk-quit"
 	    accel="*Control*q"/>
 
 	<cmd name="EditUndo"
 	    _label="_Undo"
 	    _tip="Undo the last action"
-	    pixtype="stock" pixname="Gnumeric_Undo"
+	    pixtype="stock" pixname="gtk-undo"
 	    accel="*Control*z"/>
 	<cmd name="EditRedo"
 	    _label="_Redo"
 	    _tip="Redo the undone action"
-	    pixtype="stock" pixname="Gnumeric_Redo"
+	    pixtype="stock" pixname="gtk-redo"
 	    accel="*Control*r"/>
 
 	<cmd name="EditCut"
 	    _label="Cu_t"
 	    _tip="Cut the selection"
-	    pixtype="stock" pixname="Gnumeric_Cut"
+	    pixtype="stock" pixname="gtk-cut"
 	    accel="*Control*x"/>
 	<cmd name="EditCopy"
 	    _label="_Copy"
 	    _tip="Copy the selection"
-	    pixtype="stock" pixname="Gnumeric_Copy"
+	    pixtype="stock" pixname="gtk-copy"
 	    accel="*Control*c"/>
 	<cmd name="EditPaste"
 	    _label="_Paste"
 	    _tip="Paste the clipboard"
-	    pixtype="stock" pixname="Gnumeric_Paste"
+	    pixtype="stock" pixname="gtk-paste"
 	    accel="*Control*v"/>
 	<cmd name="EditPasteSpecial"
 	    _label="P_aste Special..."
@@ -267,13 +271,13 @@
 	    <menuitem name="EditSearch" verb=""
 		_label="Search..."
 		_tip="Search for some text"
-		pixtype="stock" pixname="Gnumeric_Search"
+		pixtype="stock" pixname="gtk-find"
 		accel="F7"/>
 
 	    <menuitem name="EditSearchReplace" verb=""
 		_label="Search and Replace..."
 		_tip="Search for some text and replace it with something else"
-		pixtype="stock" pixname="Gnumeric_SearchAndReplace"
+		pixtype="stock" pixname="gtk-find-and-replace"
 		accel="F6"/>
 
 	    <menuitem name="EditGoto" verb=""
@@ -453,6 +457,11 @@
 		_label="_Workbook..."
 		_tip="Modify the workbook attributes"/>
 
+	    <menuitem name="FormatGnumeric" verb="FilePreferences"
+	        _label="_Gnumeric..."
+	        _tip="Edit the Gnumeric Preferences"
+	        pixtype="stock" pixname="gtk-preferences"/>
+
 	    <menuitem name="FormatAuto" verb=""
 		_label="_Autoformat..."
 		_tip="Format a region of cells according to a pre-defined template"/>
@@ -553,9 +562,9 @@
 	<submenu name="Data" _label="_Data">
 
 	    <menuitem name="DataSort" verb=""
-		pixtype="stock" pixname="Gnumeric_SortAscending"
+		pixtype="stock" pixname="gtk-sort-ascending"
 		_label="_Sort..."
-		_tip="Sort the selected cells"/>
+		_tip="Sorts the selected cells"/>
 
 	    <submenu name="Filter" _label="_Filter">
 
@@ -620,19 +629,19 @@
 	homogeneous="0" look="icon" relief="none" verb="StandardToolbar">
 
 	<toolitem name="New"
-	    pixtype="stock" pixname="New"
+	    pixtype="stock" pixname="gtk-new"
 	    _label="New"
 	     _tip="Create a new workbook"
 	    verb="FileNew"/>
 
 	<toolitem name="Open"
-	    pixtype="stock" pixname="Open"
+	    pixtype="stock" pixname="gtk-open"
 	    _label="Open"
 	    _tip="Open an existing workbook"
 	    verb="FileOpen"/>
 
 	<toolitem name="Save"
-	    pixtype="stock" pixname="Gnumeric_Save"
+	    pixtype="stock" pixname="gtk-save"
 	    _label="Save"
 	    _tip="Save the current workbook"
 	    verb="FileSave"/>
@@ -640,13 +649,13 @@
 	<separator/>
 
 	<toolitem name="Print"
-	    pixtype="stock" pixname="Print"
+	    pixtype="stock" pixname="gtk-print"
 	    _label="Print"
 	    _tip="Print the workbook"
 	    verb="FilePrint"/>
 
 	<toolitem name="PrintPreview"
-	    pixtype="stock" pixname="Gnumeric_PrintPreview"
+	    pixtype="stock" pixname="gtk-print-preview"
 	    _label="Print Preview"
 	    _tip="Print preview"
 	    verb="FilePrintPreview"/>
@@ -654,19 +663,19 @@
 	<separator/>
 
 	<toolitem name="Cut"
-	    pixtype="stock" pixname="Gnumeric_Cut"
+	    pixtype="stock" pixname="gtk-cut"
 	    _label="Cut"
 	    _tip="Mark the current selection for movement"
 	    verb="EditCut"/>
 
 	<toolitem name="Copy"
-	    pixtype="stock" pixname="Gnumeric_Copy"
+	    pixtype="stock" pixname="gtk-copy"
 	    _label="Copy"
 	    _tip="Copy the current selection to the clipboard"
 	    verb="EditCopy"/>
 
 	<toolitem name="Paste"
-	    pixtype="stock" pixname="Gnumeric_Paste"
+	    pixtype="stock" pixname="gtk-paste"
 	    _label="Paste"
 	    _tip="Paste the contents of the clipboard or cut buffer"
 	    verb="EditPaste"/>
@@ -692,15 +701,15 @@
 	    verb="FunctionGuru"/>
 
 	<toolitem name="SortAscending"
-	    pixtype="stock" pixname="Gnumeric_SortAscending"
+	    pixtype="stock" pixname="gtk-sort-ascending"
 	    _label="Sort Ascending"
-	    _tip="Sort the selected region in ascending order based on the first column selected"
+	    _tip="Sorts the selected region in ascending order based on the first column selected"
 	    verb="SortAscending"/>
 
 	<toolitem name="SortDescending"
-	    pixtype="stock" pixname="Gnumeric_SortDescending"
+	    pixtype="stock" pixname="gtk-sort-descending"
 	    _label="Sort Descending"
-	    _tip="Sort the selected region in descending order based on the first column selected"
+	    _tip="Sorts the selected region in descending order based on the first column selected"
 	    verb="SortDescending"/>
 
 	<separator/>
@@ -734,25 +743,25 @@
 	<control name="FontName"
 	    _tip="Font selector"
 	    vdisplay="button" verb="FontSelect"
-	    pixtype="stock" pixname="Font"
+	    pixtype="stock" pixname="gtk-select-font"
 	    _label="Font"/>
 
 	<control name="FontSize" _tip="Font Size" vdisplay="none"/>
 
 	<toolitem type="toggle" name="FontBold"
-	    pixtype="stock" pixname="Bold"
+	    pixtype="stock" pixname="gtk-bold"
 	    _label="Bold"
 	    _tip="Make font bold"
 	    verb="FontBold"/>
 
 	<toolitem type="toggle" name="FontItalic"
-	    pixtype="stock" pixname="Italic"
+	    pixtype="stock" pixname="gtk-italic"
 	    _label="Italicize"
 	    _tip="Make font italic"
 	    verb="FontItalic"/>
 
 	<toolitem type="toggle" name="FontUnderline"
-	    pixtype="stock" pixname="Underline"
+	    pixtype="stock" pixname="gtk-underline"
 	    _label="Underline"
 	    _tip="Underlines the text"
 	    verb="FontUnderline"/>
@@ -760,19 +769,19 @@
 	<separator/>
 
 	<toolitem type="toggle" name="Left"
-	    pixtype="stock" pixname="Left"
+	    pixtype="stock" pixname="gtk-justify-left"
 	    _label="Left"
 	    _tip="Left justifies the contents of each cell"
 	    verb="AlignLeft"/>
 
 	<toolitem type="toggle" name="Center"
-	    pixtype="stock" pixname="Center"
+	    pixtype="stock" pixname="gtk-justify-center"
 	    _label="Center"
 	    _tip="Centers the text in each selection"
 	    verb="AlignCenter"/>
 
-	<toolitem type="toggle" name="Right"
-	    pixtype="stock" pixname="Right"
+	<toolitem type="toggle" name="gtk-justify-right"
+	    pixtype="stock" pixname="gtk-justify-right"
 	    _label="Right"
 	    _tip="Right justifies the contents of each cell"
 	    verb="AlignRight"/>
@@ -830,12 +839,12 @@
 	<separator/>
 
 	<toolitem name="DecreaseIndent"
-	    pixtype="stock" pixname="Text Unindent"
+	    pixtype="stock" pixname="gnome-stock-text-unindent"
 	    _label="Decrease Indent"
 	    _tip="Aligns the contents to the left and decreases the indent"
 	    verb="FormatDecreaseIndent"/>
 	<toolitem name="IncreaseIndent"
-	    pixtype="stock" pixname="Text Indent"
+	    pixtype="stock" pixname="gnome-stock-text-indent"
 	    _label="Increase Indent"
 	    _tip="Aligns the contents to the left and increases the indent"
 	    verb="FormatIncreaseIndent"/>
