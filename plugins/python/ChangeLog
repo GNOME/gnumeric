@@ -1,3 +1,7 @@
+2001-08-28  Morten Welinder  <terra@diku.dk>
+
+	* python.c (plugin_init_general): Avoid segfaults with buggy pythons.
+
 2001-08-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml: Removed

@@ -14,8 +14,8 @@ Jukka:
 Morten:
 	* Speed up font handling a bit.
 	* Speed up dependency handling.
-	* Fix the python loader.  (Work around mind-boggling bug in
-	  python.  Again.)
+	* Fix the python and python-loader modules.  (Work around mind-
+	  boggling bug in python.  Again.)
 
 Zbigniew:
 	* Support for translations in plugin.xml files using xml-i18n-tools

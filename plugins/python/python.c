@@ -24,6 +24,8 @@
 
 #include "Python.h"
 
+#define BROKEN_PY_INITIALIZE
+
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 /* Classes we define in Python code, and where we define them. */
@@ -887,10 +889,24 @@ plugin_cleanup_general (ErrorInfo **ret_error)
 	*ret_error = NULL;
 }
 
+#ifdef BROKEN_PY_INITIALIZE
+extern char **environ;
+#endif
+
 void
 plugin_init_general (ErrorInfo **ret_error)
 {
 	gchar *exc_string;
+
+#ifdef BROKEN_PY_INITIALIZE
+	int i;
+
+	/* Python's convertenviron has gotten into its head that it can
+	   write to the strings in the environment.  We have little choice
+	but to allocate a copy of everything. */
+	for (i = 0; environ[i]; i++)
+		environ[i] = g_strdup (environ[i]);
+#endif
 
 	*ret_error = NULL;
 	/* initialize the python interpreter */
