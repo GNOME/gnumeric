@@ -57,3 +57,5 @@ gchar *s = N_("Print");
 gchar *s = N_("Print preview");
 gchar *s = N_("Options");
 gchar *s = N_("Page");
+gchar *s = N_("Customize header");
+gchar *s = N_("Customize footer");
