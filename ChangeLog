@@ -1,5 +1,10 @@
 2000-12-01  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-control-gui.c (scg_object_stop_editing) : fix warning.
+	  this is static now.
+
+2000-12-01  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-object.c (sheet_object_position_pts) : new function.
 	(sheet_object_position_pixels) : new function.
 

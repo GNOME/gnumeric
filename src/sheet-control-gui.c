@@ -1209,7 +1209,7 @@ scg_object_destroy_control_points (SheetControlGUI *scg)
 	}
 }
 
-void
+static void
 scg_object_stop_editing (SheetControlGUI *scg, SheetObject *so)
 {
 	if (so != NULL) {
