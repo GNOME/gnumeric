@@ -442,7 +442,7 @@ wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 
 	if (wbv->wb != NULL) {
 		/* Set the title of the newly connected control */
-		char *base_name = g_basename (wbv->wb->filename);
+		char const *base_name = g_basename (wbv->wb->filename);
 		wb_control_title_set (wbc, base_name);
 	}
 }

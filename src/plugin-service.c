@@ -201,7 +201,7 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, const gchar *file_name,
 {
 	GnumPluginFileOpener *pfo;
 	PluginServiceFileOpener *service_file_opener;
-	gchar *base_file_name = g_basename (file_name);
+	gchar const *base_file_name = g_basename (file_name);
 
 	g_return_val_if_fail (IS_GNUM_PLUGIN_FILE_OPENER (fo), FALSE);
 	g_return_val_if_fail (file_name != NULL, FALSE);

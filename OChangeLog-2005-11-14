@@ -1,3 +1,9 @@
+2001-12-12  Jody Goldberg <jody@gnome.org>
+
+	* src/plugin-service.c (gnum_plugin_file_opener_probe) : const.
+	* src/workbook-view.c (wb_view_attach_control) : ditto.
+	* src/workbook.c (workbook_attach_view) : ditto.
+
 2001-12-11  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (gnumeric_xml_set_compression) : Make the compression

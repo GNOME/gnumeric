@@ -886,7 +886,7 @@ workbook_attach_view (Workbook *wb, WorkbookView *wbv)
 
 	/* Set the titles of the newly connected view's controls */
 	if (wbv->wb != NULL) {
-		char *base_name = g_basename (wb->filename);
+		char const *base_name = g_basename (wb->filename);
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
 			wb_control_title_set (wbc, base_name););
 	}
