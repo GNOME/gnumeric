@@ -27,6 +27,18 @@
 #define arraysize(x)     (sizeof(x)/sizeof(*(x)))
 
 
+struct sylk_format
+{
+	long picture_idx;
+	unsigned italic : 1;
+	unsigned bold : 1;
+	unsigned grid_top : 1;
+	unsigned grid_bottom : 1;
+	unsigned grid_left : 1;
+	unsigned grid_right : 1;
+};
+
+
 struct sylk_file_state
 {
 	/* input data */
@@ -41,22 +53,61 @@ struct sylk_file_state
 	/* SYLK maximum dimensions (begin at 1) */
 	long max_x, max_y;
 	
-	gboolean got_start;	/* got ID RTD */
-	gboolean got_end;	/* got E RTD */
-
 	/* XXX doesn't really belong here at all */	
 	ValueType val_type;
 	char *val_s;
 	long val_l;
 	double val_d;
 	
-	gboolean not_first_line;
+	struct sylk_format def_fmt;
+
+	unsigned got_start : 1;
+	unsigned got_end : 1;
+	unsigned show_formulas : 1;		/* sheet-wide */
+	unsigned show_commas : 1;		/* sheet-wide */
+	unsigned hide_rowcol_hdrs : 1;		/* sheet-wide */
+	unsigned hide_def_gridlines : 1;	/* sheet-wide */
 };
 
 
-struct sylk_line {
-	GList *lines;
-};
+/* why?  because we must handle Mac text files, and because I'm too lazy to make it fast */
+static char *fgets_mac (char *s, size_t s_len, FILE *f)
+{
+	size_t read = 0;
+	char *orig_s = s;
+
+	s_len--;
+
+	while (!ferror(f) && !feof(f) && (read < s_len)) {
+		*s = (char) fgetc (f);
+		if (*s == EOF)
+			break;
+
+		read++;
+
+		if (*s == '\n')
+			break;
+		if (*s == '\r') {
+			int ch = fgetc (f);
+			if ((ch != EOF) && (ch != '\n'))
+				ungetc (ch, f);
+			else if (ch != EOF) {
+				*s = '\n';
+				read++;
+			}
+			break;
+		}
+
+		s++;
+	}
+
+	if (read > 0) {
+		orig_s[read] = 0;
+		return orig_s;
+	}
+
+	return NULL;
+}
 
 
 static size_t sylk_next_token_len (const char *line)
@@ -83,13 +134,31 @@ static void sylk_parse_value (struct sylk_file_state *src, const char *str,
 {
 	const char *s;
 
+	src->val_type = VALUE_EMPTY;
+	if (src->val_s) {
+		g_free (src->val_s);
+		src->val_s = NULL;
+	}
+
 	*len = sylk_next_token_len (str);
 
-	if (*str != '"') {
+	/* error strings start with '#' */
+	if (*str == '#') {
+		/* ignore for now */
+		src->val_type = VALUE_EMPTY;
+		return;
+	}
+	
+	/* remaining non-strings, floats and ints */
+	else if (*str != '"') {
+		/* floats */
 		if (strchr (str, '.')) {
 			src->val_type = VALUE_FLOAT;
 			src->val_d = strtod (str, NULL);
-		} else {
+		}
+		
+		/* ints */
+		else {
 			src->val_type = VALUE_INTEGER;
 			src->val_l = strtol (str, NULL, 10);
 		}
@@ -97,12 +166,18 @@ static void sylk_parse_value (struct sylk_file_state *src, const char *str,
 		return;
 	}
 	
+	/* boolean values */
+	else if (!strcmp(str,"\"TRUE\"") || !strcmp(str,"\"FALSE\"")) {
+		src->val_type = VALUE_BOOLEAN;
+		src->val_l = (strcmp(str,"\"TRUE\"") == 0 ? TRUE : FALSE);
+		return;
+	}
+	
+	/* the remaining case: strings */
+
 	src->val_type = VALUE_STRING;
 	*len = 1;
 	str++;
-
-	if (src->val_s)
-		g_free (src->val_s);
 
 	/* XXX does not handle " inside of quoted string */
 	s = strchr (str, '"');
@@ -155,6 +230,8 @@ static gboolean sylk_rtd_c_parse (struct sylk_file_state *src, const char *str)
 
 			if (src->val_type == VALUE_FLOAT)
 				v = value_new_float (src->val_d);
+			else if (src->val_type == VALUE_BOOLEAN)
+				v = value_new_bool (src->val_l);
 			else
 				v = value_new_int (src->val_l);
 
@@ -181,6 +258,48 @@ static gboolean sylk_rtd_f_parse (struct sylk_file_state *src, const char *str)
 	len = sylk_next_token_len (str);
 	while (str && *str && len > 0) {
 		switch (*str) {
+			case 'E':
+				src->show_formulas = TRUE;
+				break;
+			case 'G':
+				src->hide_def_gridlines = TRUE;
+				break;
+			case 'H':
+				src->hide_rowcol_hdrs = TRUE;
+				break;
+			case 'K':
+				src->show_commas = TRUE;
+				break;
+			case 'P':
+				src->def_fmt.picture_idx = atol (str + 1);
+				break;
+			case 'S':
+				str++;
+				switch (*str) {
+					case 'I':
+						src->def_fmt.italic = TRUE;
+						break;
+					case 'D':
+						src->def_fmt.bold = TRUE;
+						break;
+					case 'T':
+						src->def_fmt.grid_top = TRUE;
+						break;
+					case 'L':
+						src->def_fmt.grid_bottom = TRUE;
+						break;
+					case 'B':
+						src->def_fmt.grid_left = TRUE;
+						break;
+					case 'R':
+						src->def_fmt.grid_right = TRUE;
+						break;
+					default:
+						g_warning ("unhandled style S%c\n", *str);
+						break;
+				}
+				str--;
+				break;
 			case 'X':
 				src->cur_x = atoi (str + 1);
 				break;
@@ -188,14 +307,14 @@ static gboolean sylk_rtd_f_parse (struct sylk_file_state *src, const char *str)
 				src->cur_y = atoi (str + 1);
 				break;
 			default:
-				/* do nothing */
+				g_warning ("unhandled F option %c\n", *str);
 				break;
 		}
 
 		str += (len + 1);
 		len = sylk_next_token_len (str);
 	}
-	
+
 	return TRUE;
 }
 
@@ -255,82 +374,33 @@ static const struct {
 static gboolean sylk_parse_line (struct sylk_file_state *src, char *buf)
 {
 	int i;
-	gboolean result = TRUE;
-	char s[10], *sp;
 	
 	for (i = 0; i < arraysize (sylk_rtd_list); i++)
 		if (strncmp (sylk_rtd_list[i].name, buf,
 			     strlen (sylk_rtd_list[i].name)) == 0) {
-			result = sylk_rtd_list[i].handler (src,
+			sylk_rtd_list[i].handler (src,
 				buf + strlen (sylk_rtd_list[i].name));
 			return TRUE;
 		}
 	
-#if 1
-	strncpy (s, buf, 10);
-	s[10] = 0;
-	sp = strchr (s, ';');
-	if (sp) *sp = 0;
-	fprintf (stderr, "unhandled directive: '%s'\n", s);
-#endif
+	fprintf (stderr, "unhandled directive: '%s'\n", buf);
 
-	return result;
+	return TRUE;
 }
-
-/* why?  because we must handle Mac text files, and because I'm too lazy to make it fast */
-static char *fgets_mac (char *s, size_t s_len, FILE *f)
-{
-	size_t read = 0;
-	char *orig_s = s;
-
-	s_len--;
-
-	while (!ferror(f) && !feof(f) && (read < s_len)) {
-		*s = (char) fgetc (f);
-		if (*s == EOF)
-			break;
-
-		read++;
-
-		if (*s == '\n')
-			break;
-		if (*s == '\r') {
-			int ch = fgetc (f);
-			if ((ch != EOF) && (ch != '\n'))
-				ungetc (ch, f);
-			else if (ch != EOF) {
-				*s = '\n';
-				read++;
-			}
-			break;
-		}
-
-		s++;
-	}
-
-	if (read > 0) {
-		orig_s[read] = 0;
-		return orig_s;
-	}
-
-	return NULL;
-}
-
 
 static gboolean sylk_parse_sheet (struct sylk_file_state *src)
 {
 	char buf [BUFSIZ];
 	
-	while (fgets_mac (buf, sizeof (buf), src->f) != NULL) {
-		/* if it's not an SYLK file, bail */
-		if (!src->not_first_line) {
-			if (strncmp ("ID;", buf, 3)) {
-				fprintf (stderr, "not SYLK file\n");
-				return FALSE;
-			}
-			src->not_first_line = 1;
-		}
+	if (fgets_mac (buf, sizeof (buf), src->f) == NULL)
+		return FALSE;
 
+	if (strncmp ("ID;", buf, 3)) {
+		g_warning ("not SYLK file\n");
+		return FALSE;
+	}
+
+	while (fgets_mac (buf, sizeof (buf), src->f) != NULL) {
 		g_strchomp (buf);
 		if ( buf[0] && !sylk_parse_line (src, buf) ) {
 			fprintf (stderr, "error parsing line\n");
@@ -338,8 +408,9 @@ static gboolean sylk_parse_sheet (struct sylk_file_state *src)
 		}
 	}
 
-	if (ferror (src->f))
+	if (ferror (src->f)) {
 		return FALSE;
+	}
 
 	return TRUE;
 }
@@ -353,10 +424,13 @@ static gboolean sylk_read_workbook (Workbook *book, const char *filename)
 	struct sylk_file_state src;
 	char *name;
 	gboolean result;
-	FILE *f = fopen(filename, "r");
-	if (!f)
+	FILE *f;
+	
+	f = fopen(filename, "r");
+	if (!f) {
 		return FALSE;
-
+	}
+	
 	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 
 	memset (&src, 0, sizeof (src));
@@ -375,23 +449,25 @@ static gboolean sylk_read_workbook (Workbook *book, const char *filename)
 }
 
 
-#if 0
 static gboolean sylk_probe (const char *filename)
 {
 	char buf[32] = "";
-	FILE *f = fopen (filename, "r");
+	FILE *f;
+	int error;
+	
+	f = fopen (filename, "r");
 	if (!f)
 		return FALSE;
 	
 	fgets (buf, sizeof (buf), f);
+	error = ferror (f);
 	fclose (f);
-	
-	if (strncmp (buf, "ID;", 3) == 0)
+
+	if (!error && strncmp (buf, "ID;", 3) == 0)
 		return TRUE;
 	
 	return FALSE;
 }
-#endif
 
 
 static int sylk_can_unload (PluginData *pd)
@@ -403,17 +479,17 @@ static int sylk_can_unload (PluginData *pd)
 
 static void sylk_cleanup_plugin (PluginData *pd)
 {
-	file_format_unregister_open (NULL, sylk_read_workbook);
+	file_format_unregister_open (sylk_probe, sylk_read_workbook);
 }
 
 
 int init_plugin (PluginData * pd)
 {
-	file_format_register_open (100, _("MultiPlan (SYLK) import"),
-				   NULL, sylk_read_workbook);
+	file_format_register_open (1, _("MultiPlan (SYLK) import"),
+				   sylk_probe, sylk_read_workbook);
+
 	pd->can_unload = sylk_can_unload;
 	pd->cleanup_plugin = sylk_cleanup_plugin;
 	pd->title = g_strdup (_("MultiPlan (SYLK) file import module"));
-
 	return 0;
 }
