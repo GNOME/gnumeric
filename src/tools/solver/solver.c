@@ -250,6 +250,7 @@ save_original_values (SolverResults          *res,
 /************************************************************************
  */
 
+#if 0
 static void
 callback (int iter, gnum_float *x, gnum_float bv, gnum_float cx, int n,
 	  void *data)
@@ -265,6 +266,7 @@ callback (int iter, gnum_float *x, gnum_float bv, gnum_float cx, int n,
 	        printf ("%8.4" GNUM_FORMAT_f " ", x[i]);
         printf ("\n");
 }
+#endif
 
 /*
  * Initializes the program according to the information given in the
@@ -275,7 +277,6 @@ static SolverProgram
 lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 {
         SolverProgram  program;
-	gnum_float    *row = g_new (gnum_float, 100);
 	Cell          *target;
 	gnum_float    x;
 	int           i, n;
@@ -608,7 +609,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	SolverProgram     program;
 	SolverResults    *res;
 	Cell             *cell;
-	int               i, n;
+	int               i;
 	GTimeVal          start, end;
 
 	if (check_program_definition_failures (sheet, param, &res, errmsg))

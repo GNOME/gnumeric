@@ -16,6 +16,7 @@
 #include "func.h"
 #include "cell.h"
 #include "sheet.h"
+#include "workbook.h"
 #include "sheet-style.h"
 #include "eval.h"
 #include "dialogs.h"
@@ -26,6 +27,7 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include <time.h>
 #include <libgnome/gnome-i18n.h>
 #include <sys/utsname.h>
 

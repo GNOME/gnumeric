@@ -6,10 +6,11 @@
 # İlk çeviri:
 # Görkem Çetin <gorkem@gelecek.com.tr>, 2000.
 #
+#: src/dialogs/dialog-sheet-order.c:297
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric \n"
-"POT-Creation-Date: 2002-03-08 13:44+0100\n"
+"POT-Creation-Date: 2002-03-10 16:22-0500\n"
 "PO-Revision-Date: 2002-02-20 14:09+0200\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@fide.org>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -40,18 +41,6 @@ msgstr "Applix (*.as)"
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
 msgstr "4.[234] sürümü çizelgeleri açar"
-
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3125
-msgid "Financial"
-msgstr "Finansal"
-
-#: plugins/derivatives/plugin.xml.in.h:2
-msgid "Financial Derivatives"
-msgstr "Finansal Türevler"
-
-#: plugins/derivatives/plugin.xml.in.h:3
-msgid "Functions related to financial derivatives"
-msgstr "Finansal türevlerle ilgili işlevler"
 
 #: plugins/derivatives/options.c:291
 msgid ""
@@ -260,8 +249,20 @@ msgid ""
 "opt_bs_gamma"
 msgstr ""
 
+#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3125
+msgid "Financial"
+msgstr "Finansal"
+
+#: plugins/derivatives/plugin.xml.in.h:2
+msgid "Financial Derivatives"
+msgstr "Finansal Türevler"
+
+#: plugins/derivatives/plugin.xml.in.h:3
+msgid "Functions related to financial derivatives"
+msgstr "Finansal türevlerle ilgili işlevler"
+
 #: plugins/dif/dif.c:78 plugins/excel/ms-excel-read.c:4483
-#: plugins/mps/mps.c:584 src/xml-io.c:3250
+#: plugins/mps/mps.c:584 src/xml-io.c:3252
 msgid "Reading file..."
 msgstr "Dosya okunuyor..."
 
@@ -359,8 +360,11 @@ msgstr "Dosya kaydediliyor..."
 msgid "#UNKNOWN!"
 msgstr "#BİLİNMEYEN!"
 
+#. We can't use workbook_sheet_get_free_name since that would give us the same
+#. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1028 plugins/lotus-123/lotus.c:191
 #: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:497
+#: src/dialogs/dialog-sheet-order.c:275 src/dialogs/dialog-sheet-order.c:279
 #, c-format
 msgid "Sheet%d"
 msgstr "Çizelge%d"
@@ -452,7 +456,7 @@ msgstr "Gnome Basic desteğini etkinleştirir"
 msgid "Gnome Basic"
 msgstr "Gnome Basic"
 
-#: plugins/gda/plugin-gda.c:80
+#: plugins/gda/plugin-gda.c:83
 msgid ""
 "@FUNCTION=EXECSQL\n"
 "@SYNTAX=EXECSQL(i)\n"
@@ -473,20 +477,20 @@ msgstr ""
 "@EXAMPLES=\n"
 "@SEEALSO="
 
-#: plugins/gda/plugin-gda.c:111
+#: plugins/gda/plugin-gda.c:114
 msgid "Format: execSQL(dsn,user,password,sql)"
 msgstr "Biçim: execSQL(dbismi,kullanıcı,parola,sql)"
 
-#: plugins/gda/plugin-gda.c:117
+#: plugins/gda/plugin-gda.c:120
 msgid "Error: could not initialize connection pool"
 msgstr "Hata: bağlantı havuzu başlatılamadı"
 
-#: plugins/gda/plugin-gda.c:122
+#: plugins/gda/plugin-gda.c:125
 #, c-format
 msgid "Error: could not open connection to %s"
 msgstr "Hata: %s ile bağlantı kurulamadı"
 
-#: plugins/gda/plugin-gda.c:132
+#: plugins/gda/plugin-gda.c:135
 msgid "Error: no recordsets were returned"
 msgstr "Hata: dönen kayıt kümesi yok"
 
@@ -510,7 +514,7 @@ msgstr "Gnome Terimleri PO dosyası biçemi"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Gnome Terimlerini .po dosyasına kaydetmek için destek sağlar."
 
-#: plugins/guile/plugin.c:67 src/func.c:804 src/functions/fn-information.c:698
+#: plugins/guile/plugin.c:67 src/func.c:810 src/functions/fn-information.c:698
 #: src/functions/fn-information.c:769 src/functions/fn-information.c:797
 #: src/functions/fn-information.c:824 src/functions/fn-information.c:875
 #: src/functions/fn-information.c:905 src/functions/fn-information.c:972
@@ -632,17 +636,17 @@ msgstr "Koşullar:"
 #. Print constraint titles.
 #: plugins/mps/mps.c:340 src/dialogs/dialog-plugin-manager.c:550
 #: src/dialogs/plugin-manager.glade.h:8 src/format-template.c:405
-#: src/tools/solver/reports.c:144 src/tools/solver/reports.c:168
-#: src/tools/solver/reports.c:196 src/tools/solver/reports.c:294
-#: src/tools/solver/reports.c:323 src/tools/solver/reports.c:403
-#: src/tools/solver/reports.c:410 src/tools/solver/reports.c:630
+#: src/tools/solver/reports.c:162 src/tools/solver/reports.c:188
+#: src/tools/solver/reports.c:216 src/tools/solver/reports.c:318
+#: src/tools/solver/reports.c:365 src/tools/solver/reports.c:454
+#: src/tools/solver/reports.c:461 src/tools/solver/reports.c:687
 #: src/workbook-control.c:233
 msgid "Name"
 msgstr "İsim"
 
 #: plugins/mps/mps.c:344 src/dialogs/dialog-plugin-manager.c:555
-#: src/tools/solver/reports.c:295 src/tools/solver/reports.c:324
-#: src/tools/solver/reports.c:404 src/tools/solver/reports.c:411
+#: src/tools/solver/reports.c:319 src/tools/solver/reports.c:366
+#: src/tools/solver/reports.c:455 src/tools/solver/reports.c:462
 msgid "Value"
 msgstr "Değer"
 
@@ -654,11 +658,11 @@ msgstr "Türü"
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:347 src/tools/solver/reports.c:200
+#: plugins/mps/mps.c:347 src/tools/solver/reports.c:220
 msgid "Slack"
 msgstr "Tembel"
 
-#: plugins/mps/mps.c:348 src/tools/solver/reports.c:199
+#: plugins/mps/mps.c:348 src/tools/solver/reports.c:219
 msgid "Status"
 msgstr "Durum"
 
@@ -1254,11 +1258,11 @@ msgstr "XML belgesi iyi şekillendirilmemiş!"
 msgid "About this application"
 msgstr "Bu uygulama hakkında"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3054
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3053
 msgid "Add an outline group"
 msgstr "Bir sınırlı grup ekler"
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3084
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3083
 msgid "Advanced _Filter..."
 msgstr "Gelişmiş Sü_zgeç..."
 
@@ -1274,28 +1278,28 @@ msgstr "İçeriği sola yanaştırır ve girintiyi arttırır"
 msgid "Arrow"
 msgstr "Ok"
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3022
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3021
 msgid "Auto _Correct..."
 msgstr "Otomatik _Düzelt..."
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2652
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2651
 msgid "Auto_fill"
 msgstr "Otomatik _doldur"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2653
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2652
 msgid "Automatically fill the current selection"
 msgstr "Seçilenleri otomatik olarak doldurur"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3023
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3022
 msgid "Automatically perform simple spell checking"
 msgstr "Basit sözdizimi denetimini otomatik olarak yapar"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3026
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3025
 msgid "Automatically save the current document at regular intervals"
 msgstr "Çalışılan belgeyi düzenli aralıklarla kaydeder"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:14
-#: src/dialogs/dialog-cell-format.c:2546 src/workbook-format-toolbar.c:797
+#: src/dialogs/dialog-cell-format.c:2576 src/workbook-format-toolbar.c:797
 #: src/workbook-format-toolbar.c:854
 msgid "Background"
 msgstr "Artalan"
@@ -1315,15 +1319,15 @@ msgstr "Kenarlık"
 msgid "Button"
 msgstr "Düğme"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2796
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:2795
 msgid "C_ells..."
 msgstr "_Göze..."
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2706
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:2705
 msgid "C_lear"
 msgstr "_Temizle"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2909
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:2908
 msgid "C_olumn"
 msgstr "Süt_un"
 
@@ -1343,24 +1347,24 @@ msgstr "İçeriği ortalamak için gözeleri birleştirir"
 msgid "Centers the text in each selection"
 msgstr "Göze içeriğini ortalar"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2843
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2842
 msgid "Change height of the selected rows"
 msgstr "Seçilen satırların yüksekliğini değiştirir"
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2836
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2835
 msgid "Change the default column width"
 msgstr "Öntanımlı sütun genişliğini değiştirir"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2855
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2854
 msgid "Change the default row height"
 msgstr "Öntanımlı satır yüksekliğini değiştirir"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2679
-#: src/workbook-control-gui.c:2865
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2678
+#: src/workbook-control-gui.c:2864
 msgid "Change the order the sheets are displayed"
 msgstr "Gösterilen çizelgelerin sırasını değiştirir"
 
-#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2824
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2823
 msgid "Change width of the selected columns"
 msgstr "Seçilen sütunun genişliğini değiştirir"
 
@@ -1368,19 +1372,19 @@ msgstr "Seçilen sütunun genişliğini değiştirir"
 msgid "Checkbox"
 msgstr "Onay Düğmesi"
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2613
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2612
 msgid "Clear the selected cells' comments"
 msgstr "Seçilen gözelerin açıklamalarını siler"
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2616
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2615
 msgid "Clear the selected cells' contents"
 msgstr "Seçilen gözelerin içeriklerini siler"
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2610
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2609
 msgid "Clear the selected cells' formats"
 msgstr "Seçilen gözelerin biçemlerini siler"
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2607
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2606
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Seçilen gözelerin biçem, içerik ve açıklamalarını siler"
 
@@ -1389,15 +1393,15 @@ msgid "Close the current file"
 msgstr "Dosyayı kapatır"
 
 #: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:4
-#: src/workbook-control-gui.c:2612
+#: src/workbook-control-gui.c:2611
 msgid "Co_mments"
 msgstr "Y_orumlar"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2981
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2980
 msgid "Co_variance"
 msgstr "_Uyumsuzluk"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3048
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3047
 msgid "Collapse an outline group"
 msgstr "Bir sınırlı grubu toplar"
 
@@ -1405,12 +1409,12 @@ msgstr "Bir sınırlı grubu toplar"
 msgid "Combo Box"
 msgstr "Etkileşimli Liste Nesnesi"
 
-#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2953
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2952
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr ""
 "İki eşleşen örnek için iki dağılımın ortalamasının karşılaştırması: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:2957
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:2956
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
@@ -1418,7 +1422,7 @@ msgstr ""
 "Eşit değişimli dağılımdaki iki eşleşmeyen örnek için iki dağılımın "
 "karşılaştırması: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:2962
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:2961
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
@@ -1426,7 +1430,7 @@ msgstr ""
 "Farklı değişimli dağılımdaki iki eşleşmeyen örnek için iki dağılımın "
 "karşılaştırması: t-test"
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2967
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2966
 msgid ""
 "Comparing two population means from pop. with known varinces or using a "
 "large sample: z- test"
@@ -1434,7 +1438,7 @@ msgstr ""
 "Bir büyük örnek kullanan veya bilinen değişimli dağılımdaki iki dağılım "
 "ortalamasının karşılaştırması: z-test"
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3009
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3008
 msgid "Comparing two population variances"
 msgstr "İki dağılım değişiminin karşılaştırması"
 
@@ -1442,12 +1446,12 @@ msgstr "İki dağılım değişiminin karşılaştırması"
 msgid "Configure toolbars"
 msgstr "Araç çubukları Yapılandırması"
 
-#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3102
+#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3101
 msgid "Consolidate regions using a function"
 msgstr "Bir işlev kullanarak bölgeleri birleştirir"
 
 #: src/GNOME_Gnumeric.xml.h:45 src/selection.c:497
-#: src/workbook-control-gui.c:3156
+#: src/workbook-control-gui.c:3155
 msgid "Copy"
 msgstr "Kopyala"
 
@@ -1460,7 +1464,7 @@ msgid "Copy the selection"
 msgstr "Seçimi panoya kopyalar"
 
 #: src/GNOME_Gnumeric.xml.h:48 src/dialogs/covariance.glade.h:2
-#: src/workbook-control-gui.c:2982
+#: src/workbook-control-gui.c:2981
 msgid "Covariance"
 msgstr "Uyumsuzluk"
 
@@ -1492,15 +1496,15 @@ msgstr "Bir çizgi nesnesi oluşturur"
 msgid "Create a list"
 msgstr "Bir liste nesnesi oluşturur"
 
-#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2748
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2747
 msgid "Create a new shared view of the workbook"
 msgstr "Bir paylaşımlı defter açar"
 
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2574
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2573
 msgid "Create a new spreadsheet"
 msgstr "Yeni bir çizelge açar"
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2751
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2750
 msgid "Create a new unshared view of the workbook"
 msgstr "Bir paylaşımsız defter açar"
 
@@ -1525,17 +1529,17 @@ msgid "Cu_t"
 msgstr "K_es"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2769
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:2768
 msgid "Current _date"
 msgstr "Şimdiki _tarih"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2775
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:2774
 msgid "Current _time"
 msgstr "Şimdiki _saat"
 
 #: src/GNOME_Gnumeric.xml.h:66 src/selection.c:523 src/selection.c:526
-#: src/workbook-control-gui.c:3153
+#: src/workbook-control-gui.c:3152
 msgid "Cut"
 msgstr "Kes"
 
@@ -1556,15 +1560,15 @@ msgstr "Kesinliği azalt"
 msgid "Decreases the number of decimals displayed"
 msgstr "Ondalık haneleri azaltır"
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2870
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2869
 msgid "Display _Formulas"
 msgstr "_Formülleri Göster"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3063
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3062
 msgid "Display _Outlines"
 msgstr "_Sınırları Göster"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2871
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2870
 msgid "Display the value of a formula or the formula itself"
 msgstr "Formülün kendisini ya da değerini gösterir"
 
@@ -1584,15 +1588,15 @@ msgstr "Çı_k"
 msgid "Edit a formula in the current cell"
 msgstr "Gözedeki formülü düzenlemeniz için açar."
 
-#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2593
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2592
 msgid "Edit descriptive information"
 msgstr "Açıklayıcı bilgi düzenlemesi"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2784
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2783
 msgid "Edit sheet and workbook names"
 msgstr "Çizelge ve defter isimlerini düzenleme"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2814
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:2813
 msgid "Edit the selected cell's comment"
 msgstr "Seçilen gözelerin açıklamalarını düzenlemek için açar"
 
@@ -1600,11 +1604,11 @@ msgstr "Seçilen gözelerin açıklamalarını düzenlemek için açar"
 msgid "Ellipse"
 msgstr "Elips"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2827
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2826
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Sütun genişliğini içeriğini gösterebilecek şekilde ayarlar"
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2846
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2845
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Satır yüksekliğini içeriğini gösterebilecek şekilde ayarlar"
 
@@ -1612,19 +1616,19 @@ msgstr "Satır yüksekliğini içeriğini gösterebilecek şekilde ayarlar"
 msgid "Exit the program"
 msgstr "Programdan çıkılır"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2940
+#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2939
 msgid "Exponential smoothing"
 msgstr "Üstel Yuvarlama"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:2988
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:2987
 msgid "F_orecasting"
 msgstr "_Tahmin"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3123
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3122
 msgid "F_ormat"
 msgstr "_Biçemlendir"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3085
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3084
 msgid "Filter data with given criteria"
 msgstr "Verilen kritere göre veriyi süzer"
 
@@ -1642,17 +1646,17 @@ msgstr "Yazı tipi Yüksekliği"
 msgid "Font selector"
 msgstr "Yazı tipi listesi"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2541
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2571
 #: src/workbook-format-toolbar.c:823 src/workbook-format-toolbar.c:857
 msgid "Foreground"
 msgstr "Önalan"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2914
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2917
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Önceden tanımlı şablonla ilişkili bir göze bölgesini biçimlendirir"
 
 #: src/GNOME_Gnumeric.xml.h:94 src/dialogs/fourier-analysis.glade.h:2
-#: src/tools/analysis-tools.c:4068 src/workbook-control-gui.c:2991
+#: src/tools/analysis-tools.c:4167 src/workbook-control-gui.c:2990
 msgid "Fourier Analysis"
 msgstr "Fourier Analizi"
 
@@ -1665,7 +1669,7 @@ msgstr "Çerçeve"
 msgid "Function Guru"
 msgstr "İşlev Uzmanı"
 
-#: src/GNOME_Gnumeric.xml.h:97 src/workbook-control-gui.c:2659
+#: src/GNOME_Gnumeric.xml.h:97 src/workbook-control-gui.c:2658
 msgid "Generate random numbers of a selection of distributions"
 msgstr "Seçilen bir açılım için rasgele sayılar üretir"
 
@@ -1673,7 +1677,7 @@ msgstr "Seçilen bir açılım için rasgele sayılar üretir"
 msgid "Graph Guru"
 msgstr "Çizim Uzmanı"
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2842
+#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2841
 msgid "H_eight..."
 msgstr "_Yükseklik..."
 
@@ -1681,7 +1685,7 @@ msgstr "_Yükseklik..."
 msgid "Hide _Column Headers"
 msgstr "Süt_un Başlıklarını Gizle"
 
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2882
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2881
 msgid "Hide _Gridlines"
 msgstr "Izgarayı _Gizle"
 
@@ -1689,19 +1693,19 @@ msgstr "Izgarayı _Gizle"
 msgid "Hide _Row Headers"
 msgstr "Sa_tır Başlıklarını Gizle"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2876
+#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2875
 msgid "Hide _Zeros"
 msgstr "_Sıfırları Gizle"
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2830
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2829
 msgid "Hide the selected columns"
 msgstr "Seçilen sütunları gizler"
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2849
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2848
 msgid "Hide the selected rows"
 msgstr "Seçilen satırları gizler"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2578
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2577
 msgid "Imports a file"
 msgstr "Başka bir uygulamanın dosyasını açar"
 
@@ -1726,12 +1730,12 @@ msgstr "Bileşen Ekle"
 msgid "Insert Shaped Component"
 msgstr "Araya Şekil Ekle"
 
-#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:463
-#: src/workbook-control-gui.c:2671
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:464
+#: src/workbook-control-gui.c:2670
 msgid "Insert a new sheet"
 msgstr "Yeni bir çizelge ekler"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2806
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2805
 msgid "Insert a new spreadsheet"
 msgstr "Yeni bir çizelge ekler"
 
@@ -1743,23 +1747,23 @@ msgstr "Araya şekilli bir eleman ekler"
 msgid "Insert an object into the spreadsheet"
 msgstr "Araya bir nesne ekler"
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2797
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2796
 msgid "Insert new cells"
 msgstr "Araya yeni göze ekler"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2800
+#: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2799
 msgid "Insert new columns"
 msgstr "Araya yeni sütun ekler"
 
-#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2803
+#: src/GNOME_Gnumeric.xml.h:118 src/workbook-control-gui.c:2802
 msgid "Insert new rows"
 msgstr "Araya yeni satır ekler"
 
-#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:2770
+#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:2769
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Seçilen gözeye günün tarihini yazar"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:2776
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:2775
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Seçilen gözeye şimdiki saati yazar"
 
@@ -1775,7 +1779,7 @@ msgstr "Biçimli Bonobo Nesnesi Ekler"
 msgid "Invoke the graph guru to create a graph"
 msgstr "Bir grafik oluşturmak için grafik uzmanını çalıştırır"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2683
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2682
 msgid "Irrevocably remove an entire sheet"
 msgstr "Seçili çizelgeyi geri alınamayacak şekilde siler"
 
@@ -1783,17 +1787,17 @@ msgstr "Seçili çizelgeyi geri alınamayacak şekilde siler"
 msgid "Italicize"
 msgstr "Eğim verme"
 
-#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3032
+#: src/GNOME_Gnumeric.xml.h:126 src/workbook-control-gui.c:3031
 msgid "Iteratively recalculate to find a target value"
 msgstr "Amaçlanan değer bulunana kadar tekrar tekrar hesaplama yapılır"
 
-#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3036
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3035
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Amaçlanan değere en yakın değere erişilinceye kadar tekrar tekrar hesaplama "
 "yapılır (Zorlanmış çözüm)"
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2732
+#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2731
 msgid "Jump to a specified cell"
 msgstr "Belirtilen gözeye gider"
 
@@ -1824,20 +1828,20 @@ msgstr "Liste"
 msgid "Lock or unlock the top left cols/rows"
 msgstr "Üst sol sütun/satırları kilitler ya da kilidini açar"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2667
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2666
 msgid "Make a copy of the current sheet"
 msgstr "Çalışılan çizelgenin bir kopyasını yapar"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2656
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2655
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 "Başka gözelerin bir işlevi olarak gözelerin değerleriyle bir tablo oluşturur"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2833
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2832
 msgid "Make any hidden columns in the selection visible"
 msgstr "Seçim içindeki tüm gizli sütunları görünür hale getirir"
 
-#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2852
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2851
 msgid "Make any hidden rows in the selection visible"
 msgstr "Seçim içindeki tüm gizli satırları görünür hale getirir"
 
@@ -1866,11 +1870,11 @@ msgstr "Katıştır"
 msgid "Merge a range of cells"
 msgstr "Gözeleri birleştirir"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2906
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2905
 msgid "Modify the formatting of the selected cells"
 msgstr "Seçili gözelerin biçemini değiştirir"
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2918
+#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2913
 msgid "Modify the workbook attributes"
 msgstr "Defter öznitelliklerini değiştirir"
 
@@ -1878,27 +1882,27 @@ msgstr "Defter öznitelliklerini değiştirir"
 msgid "Money"
 msgstr "Para"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2944
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-control-gui.c:2943
 msgid "Moving average"
 msgstr "Hareket ortalaması"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3132
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:3131
 msgid "New"
 msgstr "Yeni"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2747
+#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2746
 msgid "New _Shared"
 msgstr "Yeni Paylaşım_lı"
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2750
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2749
 msgid "New _Unshared"
 msgstr "Yeni Paylaşım_sız"
 
-#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2928
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2927
 msgid "One Factor Analysis of Variance"
 msgstr "Değişimin Tek Çarpan Analizi"
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3135
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3134
 msgid "Open"
 msgstr "Aç"
 
@@ -1910,11 +1914,11 @@ msgstr "Dosyadan bir çizelge yükler"
 msgid "Open an existing workbook"
 msgstr "Dosyadan bir defter yükler"
 
-#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3069
+#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3068
 msgid "Outlines _Below"
 msgstr "Al_tını Sınırla"
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3075
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3074
 msgid "Outlines _Right"
 msgstr "S_ağı Sınırla"
 
@@ -1922,12 +1926,12 @@ msgstr "S_ağı Sınırla"
 msgid "P_aste Special..."
 msgstr "Ö_zel Yapıştır..."
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2592
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2591
 msgid "P_roperties..."
 msgstr "_Özellikler..."
 
 #: src/GNOME_Gnumeric.xml.h:160 src/cmd-edit.c:344
-#: src/workbook-control-gui.c:3159
+#: src/workbook-control-gui.c:3158
 msgid "Paste"
 msgstr "Yapıştır"
 
@@ -1939,34 +1943,34 @@ msgstr "Panodan yapıştır"
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "Pano içeriğini yapıştır"
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2701
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2700
 msgid "Paste with optional filters and transformations"
 msgstr "İsteğe bağlı süzgeçler ve dönüşümler kullanılarak yapıştırma yapılır"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2979
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2978
 msgid "Pearson Correlation"
 msgstr "Pearson Bağıntısı"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/tools/analysis-tools.c:2739
+#: src/GNOME_Gnumeric.xml.h:165 src/tools/analysis-tools.c:2872
 #: src/workbook-format-toolbar.c:461
 msgid "Percent"
 msgstr "Yüzde"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3003
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:3002
 msgid "Periodic and random samples"
 msgstr "Düzenli ve rasgele örnekler"
 
 #: src/GNOME_Gnumeric.xml.h:167 src/dialogs/print.glade.h:16
-#: src/workbook-control-gui.c:3144
+#: src/workbook-control-gui.c:3143
 msgid "Print"
 msgstr "Yazdır"
 
-#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2587
+#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2586
 msgid "Print Pre_view..."
 msgstr "Ö_nizleme..."
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2587
-#: src/workbook-control-gui.c:3147
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2586
+#: src/workbook-control-gui.c:3146
 msgid "Print Preview"
 msgstr "Yazıcı Önizleme"
 
@@ -1994,25 +1998,24 @@ msgstr "Radyo Düğmesi"
 msgid "Ranks and _Percentiles"
 msgstr "Sıralama ve _Oranlama"
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:2997
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:2996
 msgid "Ranks, placements and percentiles"
 msgstr "Sıralama, yerleştirme ve oranlama"
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:2678
-#: src/workbook-control-gui.c:2864
+#: src/GNOME_Gnumeric.xml.h:177
 msgid "Re-_Order Sheets..."
 msgstr "Çizelgeleri Yeniden _Sırala..."
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2674
-#: src/workbook-control-gui.c:2861
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2673
+#: src/workbook-control-gui.c:2860
 msgid "Re_name..."
 msgstr "İ_smini Değiştir..."
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2736
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2735
 msgid "Recalculate"
 msgstr "Yeniden Hesapla"
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2737
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2736
 msgid "Recalculate the spreadsheet"
 msgstr "Çizelgedeki hesapları yeniden yapar"
 
@@ -2024,11 +2027,11 @@ msgstr "Dörtgen"
 msgid "Redo the undone action"
 msgstr "Geri alınan işlemi tekrar yapar"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3000
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2999
 msgid "Regression Analysis"
 msgstr "Sapma Analizi"
 
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:3057
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:3056
 msgid "Remove an outline group"
 msgstr "Bir sınırlı grubu kaldırır"
 
@@ -2036,8 +2039,8 @@ msgstr "Bir sınırlı grubu kaldırır"
 msgid "Remove selected cells, shifting others into their place"
 msgstr "Seçili gözeleri kaldırır ve diğerlerini onların yerine kaydırır"
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2675
-#: src/workbook-control-gui.c:2862
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2674
+#: src/workbook-control-gui.c:2861
 msgid "Rename the current sheet"
 msgstr "Çalışılan çizelgenin ismini değiştirir"
 
@@ -2050,15 +2053,15 @@ msgstr "Sağ"
 msgid "Right justifies the contents of each cell"
 msgstr "Göze içeriğini sağa yanaştırır"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2713
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2712
 msgid "S_heet"
 msgstr "Çi_zelge"
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2817
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2816
 msgid "S_pecial"
 msgstr "Ö_zel"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3138
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:3137
 msgid "Save"
 msgstr "Kaydet"
 
@@ -2082,43 +2085,43 @@ msgstr "Çalışılan defteri kaydeder"
 msgid "Scrollbar"
 msgstr "Kaydırma Çubuğu"
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:2725
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:2724
 msgid "Search and Replace..."
 msgstr "Ara ve Değiştir..."
 
-#: src/GNOME_Gnumeric.xml.h:198 src/workbook-control-gui.c:2720
+#: src/GNOME_Gnumeric.xml.h:198 src/workbook-control-gui.c:2719
 msgid "Search for some text"
 msgstr "Aranacak metin"
 
-#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2726
+#: src/GNOME_Gnumeric.xml.h:199 src/workbook-control-gui.c:2725
 msgid "Search for some text and replace it with something else"
 msgstr "Aranacak metni varsa bulur ve değiştirilecek metinle değiştirir"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2719
+#: src/GNOME_Gnumeric.xml.h:200 src/workbook-control-gui.c:2718
 msgid "Search..."
 msgstr "Arama..."
 
-#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2639
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-control-gui.c:2638
 msgid "Select Arra_y"
 msgstr "_Dizi"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2624
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2623
 msgid "Select _All"
 msgstr "_Tümünü"
 
-#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2634
+#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2633
 msgid "Select _Column"
 msgstr "Süt_un"
 
-#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2644
+#: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2643
 msgid "Select _Depends"
 msgstr "_Bağımlılar"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2629
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2628
 msgid "Select _Row"
 msgstr "_Satır"
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2625
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2624
 msgid "Select all cells in the spreadsheet"
 msgstr "Çizelgedeki tüm gözeler seçilir"
 
@@ -2126,15 +2129,15 @@ msgstr "Çizelgedeki tüm gözeler seçilir"
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Düzenlenen gözenin içeriğine bağımlı tüm gözeler seçilir"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2640
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2639
 msgid "Select an array of cells"
 msgstr "Bir göze dizisi seçilir"
 
-#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2635
+#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2634
 msgid "Select an entire column"
 msgstr "Düzenlenen gözenin bulunduğu sütun seçilir"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2630
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2629
 msgid "Select an entire row"
 msgstr "Düzenlenen gözenin bulunduğu satır seçilir"
 
@@ -2155,11 +2158,11 @@ msgstr "Seçilen gözelerin içeriğini yüzde olarak biçimlendirir"
 msgid "Setup the page settings for your current printer"
 msgstr "Geçerli yazıcının sayfa ayarları diyaloğunu açar"
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3186
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:3185
 msgid "Sort Ascending"
 msgstr "Artan Sıralama"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3189
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:3188
 msgid "Sort Descending"
 msgstr "Azalan Sıralama"
 
@@ -2187,13 +2190,13 @@ msgstr "Ayır"
 msgid "Split merged ranges of cells"
 msgstr "Birleşik gözeyi gözelerine ayırır"
 
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3041
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3040
 msgid "Statistical Anal_ysis"
 msgstr "İstatistiksel _Analiz"
 
 #: src/GNOME_Gnumeric.xml.h:223 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3179 src/workbook-control-gui.c:3798
-#: src/workbook-view.c:450
+#: src/workbook-control-gui.c:3178 src/workbook-control-gui.c:3800
+#: src/workbook-view.c:454
 msgid "Sum"
 msgstr "Toplam"
 
@@ -2205,44 +2208,44 @@ msgstr "Gözeye toplama işlevi yerleştirir"
 msgid "Thousand separator"
 msgstr "Binler ayracı"
 
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:2889
+#: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:2888
 msgid "Toggle whether or not to display column headers"
 msgstr "Sütun başlıklarının gösterilip gösterilmeyeceği seçilir"
 
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:2883
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:2882
 msgid "Toggle whether or not to display gridlines"
 msgstr "Izgaranın gösterilip gösterilmeyeceği seçilir"
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3064
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3063
 msgid "Toggle whether or not to display outline groups"
 msgstr "Sınırlı grupların gösterilip gösterilmeyeceği seçilir"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2895
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:2894
 msgid "Toggle whether or not to display row headers"
 msgstr "Satır başlıklarının gösterilip gösterilmeyeceği seçilir"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:2877
+#: src/GNOME_Gnumeric.xml.h:230 src/workbook-control-gui.c:2876
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr "Sıfırların boşluk olarak gösterilip gösterilmeyeceği seçilir"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3076
+#: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:3075
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 "Sütunun sol ve sağındaki sınırların gösterilip gösterilmeyeceği seçilir"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3070
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3069
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr "Satırın alt ve üstünde sınırların gösterilip gösterilmeyeceği seçilir"
 
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:2931
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:2930
 msgid "Two Factor Analysis of Variance"
 msgstr "Değişimin Tek Çarpan Analizi"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3006
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3005
 msgid "Two _Means"
 msgstr "İki _Ortalama"
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3051
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3050
 msgid "Uncollapse an outline group"
 msgstr "Bir sınırlı grubu genişletir"
 
@@ -2258,31 +2261,31 @@ msgstr "Alt çizgili yazıtipi"
 msgid "Undo the last action"
 msgstr "Son işlemi geri alır"
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2956
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:2955
 msgid "Unpaired Samples, E_qual Var.: T-Test"
 msgstr "Eşleşmeyen Örnekler, Eşi_t Değişim: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2961
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:2960
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr "Eşleşmeyen Örnekler, _Farklı Değişim: T-Test"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3099
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3098
 msgid "Validate input with preset criteria"
 msgstr "Önkoşullu girdiyi değerlendirir"
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2994
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:2993
 msgid "Various frequency tables"
 msgstr "Çeşitli sıklık tabloları"
 
-#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2985
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:2984
 msgid "Various summary statistics"
 msgstr "Çeşitli Özet İstatistikleri"
 
-#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:2757
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:2756
 msgid "Zoom the spreadsheet in or out"
 msgstr "Çizelgeyi büyütür ya da küçültür"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2976
+#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2975
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
@@ -2291,29 +2294,29 @@ msgid "_About..."
 msgstr "_Hakkında..."
 
 #: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1448
-#: src/workbook-control-gui.c:2813
+#: src/workbook-control-gui.c:2812
 msgid "_Add / Modify comment..."
 msgstr "_Yorum ekle / değiştir..."
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2606
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2605
 msgid "_All"
 msgstr "_Hepsi"
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3025
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3024
 msgid "_Auto Save..."
 msgstr "_Otomatik Kaydet..."
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2826
-#: src/workbook-control-gui.c:2845
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2825
+#: src/workbook-control-gui.c:2844
 msgid "_Auto fit selection"
 msgstr "Seçimi otomatik sığ_dır"
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2913
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2916
 msgid "_Autoformat..."
 msgstr "_Otomatik Biçemle..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2905
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2904
 msgid "_Cells..."
 msgstr "_Gözeler..."
 
@@ -2321,17 +2324,17 @@ msgstr "_Gözeler..."
 msgid "_Close"
 msgstr "Kapa_t"
 
-#: src/GNOME_Gnumeric.xml.h:254 src/dialogs/anova-one.glade.h:10
+#: src/GNOME_Gnumeric.xml.h:254 src/dialogs/anova-one.glade.h:13
 #: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
 #: src/dialogs/descriptive-stats.glade.h:16
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:13
-#: src/workbook-control-gui.c:2799
+#: src/workbook-control-gui.c:2798
 msgid "_Columns"
 msgstr "Süt_un"
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3101
+#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3100
 msgid "_Consolidate..."
 msgstr "_Birleştir..."
 
@@ -2344,28 +2347,28 @@ msgstr "İ_çerik"
 msgid "_Copy"
 msgstr "_Kopyala"
 
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:2978
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:2977
 msgid "_Correlation"
 msgstr "_Bağıntılama"
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3125
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3124
 msgid "_Data"
 msgstr "_Veri"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:2783
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:2782
 msgid "_Define..."
 msgstr "_Tanımla..."
 
 #: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1435
-#: src/workbook-control-gui.c:2708
+#: src/workbook-control-gui.c:2707
 msgid "_Delete..."
 msgstr "S_il..."
 
-#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2984
+#: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2983
 msgid "_Descriptive Statistics"
 msgstr "_Tanımsal İstatistikler"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2666
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2665
 msgid "_Duplicate"
 msgstr "_Aynısını Ekle"
 
@@ -2373,7 +2376,7 @@ msgstr "_Aynısını Ekle"
 msgid "_Edit"
 msgstr "_Düzenle"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2939
+#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:2938
 msgid "_Exponential Smoothing"
 msgstr "_Üstel Yuvarlama"
 
@@ -2382,32 +2385,32 @@ msgid "_File"
 msgstr "_Dosya"
 
 #: src/GNOME_Gnumeric.xml.h:267 src/dialogs/cell-format.glade.h:109
-#: src/workbook-control-gui.c:2717
+#: src/workbook-control-gui.c:2716
 msgid "_Fill"
 msgstr "_Doldur"
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3097
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3096
 msgid "_Filter"
 msgstr "Sü_zgeç"
 
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2609
+#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2608
 msgid "_Formats"
 msgstr "_Biçemler"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2990
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:2989
 msgid "_Fourier Analysis"
 msgstr "_Fourier Analizi"
 
 #: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:948
-#: src/workbook-control-gui.c:2759
+#: src/workbook-control-gui.c:2758
 msgid "_Freeze Panes"
 msgstr "Yüzeyleri _Dondur"
 
-#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3031
+#: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3030
 msgid "_Goal Seek..."
 msgstr "_Sonuç Arama..."
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2731
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:2730
 msgid "_Goto cell..."
 msgstr "_Gözeye git..."
 
@@ -2419,7 +2422,7 @@ msgstr "_Grafik..."
 msgid "_Group"
 msgstr "_Grupla"
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3107
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3106
 msgid "_Group and Outline"
 msgstr "_Grupla ve Sınırla"
 
@@ -2428,25 +2431,25 @@ msgid "_Help"
 msgstr "_Yardım"
 
 #: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1460
-#: src/sheet-control-gui.c:1468 src/workbook-control-gui.c:2829
-#: src/workbook-control-gui.c:2848
+#: src/sheet-control-gui.c:1468 src/workbook-control-gui.c:2828
+#: src/workbook-control-gui.c:2847
 msgid "_Hide"
 msgstr "_Gizle"
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3047
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3046
 msgid "_Hide Detail"
 msgstr "Ayrıntıları _Gizle"
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2993
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:2992
 msgid "_Histogram"
 msgstr "_Histogram"
 
-#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:2578
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:2577
 msgid "_Import..."
 msgstr "Dışalı_m..."
 
-#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:2670
-#: src/workbook-control-gui.c:3122
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:2669
+#: src/workbook-control-gui.c:3121
 msgid "_Insert"
 msgstr "_Ekle"
 
@@ -2454,19 +2457,19 @@ msgstr "_Ekle"
 msgid "_Insert new"
 msgstr "Yeni _Ekle"
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:2966
+#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:2965
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr "_Bilinen Değişimler veya Büyük Örnek: Z-Test"
 
-#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2943
+#: src/GNOME_Gnumeric.xml.h:285 src/workbook-control-gui.c:2942
 msgid "_Moving Average"
 msgstr "Ha_reket Ortalaması"
 
-#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:2811
+#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:2810
 msgid "_Name"
 msgstr "İsi_m"
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:2574
+#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:2573
 msgid "_New"
 msgstr "_Yeni"
 
@@ -2474,7 +2477,7 @@ msgstr "_Yeni"
 msgid "_Object..."
 msgstr "_Nesne..."
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:2927
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:2926
 msgid "_One Factor"
 msgstr "Anova - _Tek çarpan"
 
@@ -2482,7 +2485,7 @@ msgstr "Anova - _Tek çarpan"
 msgid "_Open..."
 msgstr "_Aç..."
 
-#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:2952
+#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:2951
 msgid "_Paired Samples: T-Test"
 msgstr "_Eşleşen Örnekler: T-Test"
 
@@ -2490,7 +2493,7 @@ msgstr "_Eşleşen Örnekler: T-Test"
 msgid "_Paste"
 msgstr "_Yapıştır"
 
-#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3016
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3015
 msgid "_Plug-ins..."
 msgstr "_Eklentiler..."
 
@@ -2498,7 +2501,7 @@ msgstr "_Eklentiler..."
 msgid "_Print..."
 msgstr "_Yazdır..."
 
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:2658
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:2657
 msgid "_Random Generator..."
 msgstr "_Rasgele Sayı Üreteci..."
 
@@ -2506,30 +2509,30 @@ msgstr "_Rasgele Sayı Üreteci..."
 msgid "_Redo"
 msgstr "_Tekrar Yap"
 
-#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:2999
+#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:2998
 msgid "_Regression"
 msgstr "_Sapma"
 
 #: src/GNOME_Gnumeric.xml.h:298 src/dialogs/autocorrect.glade.h:12
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2682
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2681
 msgid "_Remove"
 msgstr "S_il"
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:2910
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:2909
 msgid "_Row"
 msgstr "_Satır"
 
-#: src/GNOME_Gnumeric.xml.h:300 src/dialogs/anova-one.glade.h:15
+#: src/GNOME_Gnumeric.xml.h:300 src/dialogs/anova-one.glade.h:18
 #: src/dialogs/correlation.glade.h:13 src/dialogs/covariance.glade.h:13
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/fourier-analysis.glade.h:13
 #: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:20
-#: src/workbook-control-gui.c:2802
+#: src/workbook-control-gui.c:2801
 msgid "_Rows"
 msgstr "_Satır"
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3002
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3001
 msgid "_Sampling"
 msgstr "_Örnekleme"
 
@@ -2537,7 +2540,7 @@ msgstr "_Örnekleme"
 msgid "_Save"
 msgstr "Kay_det"
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:2715
+#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:2714
 msgid "_Select"
 msgstr "_Seç"
 
@@ -2545,32 +2548,32 @@ msgstr "_Seç"
 msgid "_Shaped Object"
 msgstr "_Biçimli Nesne"
 
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:2805
-#: src/workbook-control-gui.c:2911
+#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:2804
+#: src/workbook-control-gui.c:2910
 msgid "_Sheet"
 msgstr "Çi_zelge"
 
-#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3050
+#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:3049
 msgid "_Show Detail"
 msgstr "Ayrıntıları Gö_ster"
 
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3035
+#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3034
 msgid "_Solver..."
 msgstr "Çö_zümleyici..."
 
-#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3094
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:3093
 msgid "_Sort..."
 msgstr "_Sırala..."
 
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:2854
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:2853
 msgid "_Standard Height"
 msgstr "_Öntanımlı Yükseklik"
 
-#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:2835
+#: src/GNOME_Gnumeric.xml.h:310 src/workbook-control-gui.c:2834
 msgid "_Standard Width"
 msgstr "_Öntanımlı Genişlik"
 
-#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:2655
+#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:2654
 msgid "_Tabulate Dependency..."
 msgstr "Bağımlıları _Tablola..."
 
@@ -2578,15 +2581,15 @@ msgstr "Bağımlıları _Tablola..."
 msgid "_Toolbars..."
 msgstr "_Araç Çubukları..."
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3124
+#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3123
 msgid "_Tools"
 msgstr "_Araçlar"
 
-#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2930
+#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:2929
 msgid "_Two Factor"
 msgstr "_İki çarpan"
 
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3008
+#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3007
 msgid "_Two Variances: FTest"
 msgstr "İ_ki Değişim: FTest"
 
@@ -2599,12 +2602,12 @@ msgid "_Ungroup"
 msgstr "_Grubu çöz"
 
 #: src/GNOME_Gnumeric.xml.h:318 src/sheet-control-gui.c:1462
-#: src/sheet-control-gui.c:1470 src/workbook-control-gui.c:2832
-#: src/workbook-control-gui.c:2851
+#: src/sheet-control-gui.c:1470 src/workbook-control-gui.c:2831
+#: src/workbook-control-gui.c:2850
 msgid "_Unhide"
 msgstr "Gö_ster"
 
-#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3098
+#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3097
 msgid "_Validate..."
 msgstr "D_eğerlendir..."
 
@@ -2612,15 +2615,15 @@ msgstr "D_eğerlendir..."
 msgid "_View"
 msgstr "_Görünüm"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:2823
+#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:2822
 msgid "_Width..."
 msgstr "Ge_nişlik"
 
-#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:2917
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:2912
 msgid "_Workbook..."
 msgstr "_Defter..."
 
-#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:2756
+#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:2755
 msgid "_Zoom..."
 msgstr "_Yakınlaştır..."
 
@@ -2629,7 +2632,7 @@ msgstr "_Yakınlaştır..."
 msgid "Error '%s' opening workbook stream"
 msgstr "Defter veri yolu açılırken hata: '%s' "
 
-#: src/bonobo-io.c:474 src/format-template.c:627 src/xml-io.c:3273
+#: src/bonobo-io.c:474 src/format-template.c:627 src/xml-io.c:3275
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "xml dosyası geçersiz. Ağaç boş mu?"
 
@@ -2711,316 +2714,325 @@ msgstr "%s sütunlarını kaydır"
 msgid "Shift column %s"
 msgstr "%s sütununu kaydır"
 
-#: src/commands.c:640 src/commands.c:748
+#: src/command-context-stderr.c:99 src/workbook-control-gui.c:1158
+#, c-format
+msgid "Would split array %s"
+msgstr "%s dizisi ayrılacaktı."
+
+#: src/command-context-stderr.c:102 src/workbook-control-gui.c:1160
+msgid "Would split an array"
+msgstr "bir dizi ayrılacaktı"
+
+#: src/commands.c:664 src/commands.c:772
 msgid "Set Text"
 msgstr "Metni Belirle"
 
-#: src/commands.c:677
+#: src/commands.c:701
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "\"%s%s\" %s'e yazılıyor"
 
-#: src/commands.c:851
+#: src/commands.c:875
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "\"%s%s\" yazılıyor"
 
-#: src/commands.c:1104
+#: src/commands.c:1128
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "%d sütun %s sütununun soluna ekleniyor"
 
-#: src/commands.c:1105
+#: src/commands.c:1129
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "%d sütun %s sütununun soluna ekleniyor"
 
-#: src/commands.c:1120
+#: src/commands.c:1144
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "%d satır %s satırının üstüne ekleniyor"
 
-#: src/commands.c:1121
+#: src/commands.c:1145
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "%d satır %s satırının üstüne ekleniyor"
 
-#: src/commands.c:1132
+#: src/commands.c:1156
 #, c-format
 msgid "Deleting columns %s"
 msgstr "%s sütunları siliniyor"
 
-#: src/commands.c:1133
+#: src/commands.c:1157
 #, c-format
 msgid "Deleting column %s"
 msgstr "%s sütunu siliniyor"
 
-#: src/commands.c:1143
+#: src/commands.c:1167
 #, c-format
 msgid "Deleting rows %s"
 msgstr "%s satırları siliniyor"
 
-#: src/commands.c:1144
+#: src/commands.c:1168
 #, c-format
 msgid "Deleting row %s"
 msgstr "%s satırı siliniyor"
 
-#: src/commands.c:1218
+#: src/commands.c:1242
 msgid "Undo Clear"
 msgstr "Temizlemeyi Geri al"
 
-#: src/commands.c:1292
+#: src/commands.c:1316
 msgid "contents"
 msgstr "içerik"
 
-#: src/commands.c:1294
+#: src/commands.c:1318
 msgid "formats"
 msgstr "biçem"
 
-#: src/commands.c:1296
+#: src/commands.c:1320
 msgid "comments"
 msgstr "yorum"
 
-#: src/commands.c:1312
+#: src/commands.c:1336
 msgid "all"
 msgstr "tümü"
 
-#: src/commands.c:1319
+#: src/commands.c:1343
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "%s %s'den siliniyor"
 
-#: src/commands.c:1514
+#: src/commands.c:1538
 #, c-format
 msgid "Changing format of %s"
 msgstr "%s için biçem değiştirilmesi"
 
-#: src/commands.c:1623
+#: src/commands.c:1647
 #, c-format
 msgid "Autofitting column %s"
 msgstr "%s sütunu ayarlanıyor"
 
-#: src/commands.c:1624
+#: src/commands.c:1648
 #, c-format
 msgid "Autofitting row %s"
 msgstr "%s satırı ayarlanıyor"
 
-#: src/commands.c:1627
+#: src/commands.c:1651
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "%s sütunun genişliği %d piksele ayarlanıyor"
 
-#: src/commands.c:1629
+#: src/commands.c:1653
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "%s satırın yüksekliği %d piksele ayarlanıyor"
 
-#: src/commands.c:1634 src/commands.c:1635
+#: src/commands.c:1658 src/commands.c:1659
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "%s sütunları ayarlanıyor"
 
-#: src/commands.c:1638
+#: src/commands.c:1662
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "%s sütunun genişliği %d piksele ayarlanıyor"
 
-#: src/commands.c:1640
+#: src/commands.c:1664
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "%s satırın yüksekliği %d piksele ayarlanıyor"
 
-#: src/commands.c:1724
+#: src/commands.c:1748
 #, c-format
 msgid "Sorting %s"
 msgstr "%s sıralanıyor"
 
-#: src/commands.c:1852
+#: src/commands.c:1876
 msgid "Unhide columns"
 msgstr "Gizli sütunları göster"
 
-#: src/commands.c:1852
+#: src/commands.c:1876
 msgid "Hide columns"
 msgstr "Sütunları gizle"
 
-#: src/commands.c:1853
+#: src/commands.c:1877
 msgid "Unhide rows"
 msgstr "Gizli satırları göster"
 
-#: src/commands.c:1853
+#: src/commands.c:1877
 msgid "Hide rows"
 msgstr "Satırları gizler"
 
-#: src/commands.c:1934
+#: src/commands.c:1958
 msgid "Expand columns"
 msgstr "Sütunları genişlet"
 
-#: src/commands.c:1934
+#: src/commands.c:1958
 msgid "Collapse columns"
 msgstr "Sütunları topla"
 
-#: src/commands.c:1935
+#: src/commands.c:1959
 msgid "Expand rows"
 msgstr "Satırları genişlet"
 
-#: src/commands.c:1935
+#: src/commands.c:1959
 msgid "Collapse rows"
 msgstr "Satırları topla"
 
-#: src/commands.c:2004
+#: src/commands.c:2028
 msgid "Those columns are already grouped"
 msgstr "Bu sütunlar zaten gruplanmış"
 
-#: src/commands.c:2005
+#: src/commands.c:2029
 msgid "Those rows are already grouped"
 msgstr "Bu satırlar zaten gruplanmış"
 
-#: src/commands.c:2008
+#: src/commands.c:2032
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Bu sütunlar zaten gruplanmamış"
 
-#: src/commands.c:2009
+#: src/commands.c:2033
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Bu satırlar zaten gruplanmamış"
 
-#: src/commands.c:2020
+#: src/commands.c:2044
 #, c-format
 msgid "Group columns %s"
 msgstr "%s sütunlarını grupla"
 
-#: src/commands.c:2020
+#: src/commands.c:2044
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "%s sütunlarını ayır"
 
-#: src/commands.c:2022
+#: src/commands.c:2046
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "%d:%d satırlarını grupla"
 
-#: src/commands.c:2022
+#: src/commands.c:2046
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "%d:%d satırlarını ayır"
 
-#: src/commands.c:2227
+#: src/commands.c:2251
 #, c-format
 msgid "Moving %s"
 msgstr "%s taşıma"
 
-#: src/commands.c:2236 src/commands.c:2444
+#: src/commands.c:2260 src/commands.c:2468
 msgid "is beyond sheet boundaries"
 msgstr "çizelge sınırlarını geçiyor"
 
 #. FIXME?
-#: src/commands.c:2388
+#: src/commands.c:2412
 #, c-format
 msgid "Pasting into %s"
 msgstr "%s'e yapıştırma"
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2617 src/commands.c:2618 src/workbook-control-gui.c:1816
+#: src/commands.c:2641 src/commands.c:2642 src/workbook-control-gui.c:1813
 msgid "Autofill"
 msgstr "Otomatik sınırla"
 
 #. Changed in initial redo.
-#: src/commands.c:2641
+#: src/commands.c:2665
 #, c-format
 msgid "Autofilling %s"
 msgstr "%s otomatik sınırlanıyor"
 
-#: src/commands.c:2794
+#: src/commands.c:2818
 #, c-format
 msgid "Autoformatting %s"
 msgstr "%s otomatik biçemleniyor"
 
-#: src/commands.c:2904
+#: src/commands.c:2928
 #, c-format
 msgid "Unmerging %s"
 msgstr "%s birleşik göze ayrılıyor"
 
-#: src/commands.c:3042
+#: src/commands.c:3066
 #, c-format
 msgid "Merging %s"
 msgstr "%s birleştiriliyor"
 
 #. Corrected below.
-#: src/commands.c:3420 src/dialogs/search-replace.glade.h:23
+#: src/commands.c:3444 src/dialogs/search-replace.glade.h:23
 msgid "Search and Replace"
 msgstr "Bul ve Değiştir"
 
-#: src/commands.c:3516
+#: src/commands.c:3540
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Sütunların öntanımlı genişliği %.2f punto yapılıyor"
 
-#: src/commands.c:3517
+#: src/commands.c:3541
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Satırların öntanımlı yüksekliği %.2f punto yapılıyor"
 
 #. Changed in initial redo.
-#: src/commands.c:3602
+#: src/commands.c:3626
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "%s!%s'e birleştiriliyor"
 
-#: src/commands.c:3717
+#: src/commands.c:3741
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "%s büyüklüğü %.0f%% yapılıyor"
 
-#: src/commands.c:3786
+#: src/commands.c:3810
 msgid "Insert object"
 msgstr "Nesne ekle"
 
-#: src/commands.c:3844
+#: src/commands.c:3868
 msgid "Delete object"
 msgstr "Nesne sil"
 
-#: src/commands.c:3925
+#: src/commands.c:3949
 msgid "Resize object"
 msgstr "Nesneyi boyutlandır"
 
-#: src/commands.c:3925
+#: src/commands.c:3949
 msgid "Move object"
 msgstr "Nesneyi taşı"
 
-#: src/commands.c:4059
+#: src/commands.c:4094
 #, fuzzy
 msgid "Renaming Sheets"
 msgstr "Bu çizelgenin ismini değiştirir"
 
-#: src/commands.c:4062
+#: src/commands.c:4097
 #, fuzzy
 msgid "Reordering Sheets"
 msgstr "Çizelgeleri yeniden sıraya dizer"
 
-#: src/commands.c:4070
+#: src/commands.c:4105
 msgid "Adding a sheet"
 msgstr ""
 
-#: src/commands.c:4073
+#: src/commands.c:4108
 #, fuzzy, c-format
 msgid "Adding sheet '%s'"
 msgstr "Çizelge '%s' bilinmiyor"
 
-#: src/commands.c:4077
+#: src/commands.c:4112
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "'%s' çizelgesinin adını '%s' yapıyor"
 
-#: src/commands.c:4082
+#: src/commands.c:4117
 #, fuzzy
 msgid "Reorganizing Sheets"
 msgstr "Çizelgeleri Yazdırır"
 
-#: src/commands.c:4209
+#: src/commands.c:4244
 #, fuzzy, c-format
 msgid "Clearing comment of %s"
 msgstr "%s için biçem değiştirilmesi"
 
-#: src/commands.c:4210
+#: src/commands.c:4245
 #, fuzzy, c-format
 msgid "Setting comment of %s"
 msgstr "%s sütunu siliniyor"
@@ -3204,7 +3216,7 @@ msgstr "K_oşul Aralığı:"
 msgid "List _Range:"
 msgstr "_Liste Aralığı:"
 
-#: src/dialogs/advanced-filter.glade.h:5 src/dialogs/anova-one.glade.h:6
+#: src/dialogs/advanced-filter.glade.h:5 src/dialogs/anova-one.glade.h:7
 #: src/dialogs/anova-two.glade.h:6 src/dialogs/correlation.glade.h:5
 #: src/dialogs/covariance.glade.h:5 src/dialogs/descriptive-stats.glade.h:12
 #: src/dialogs/fourier-analysis.glade.h:6 src/dialogs/histogram.glade.h:12
@@ -3232,7 +3244,7 @@ msgstr "Sü_zgeç"
 msgid "_Input"
 msgstr "Int"
 
-#: src/dialogs/advanced-filter.glade.h:9 src/dialogs/anova-one.glade.h:13
+#: src/dialogs/advanced-filter.glade.h:9 src/dialogs/anova-one.glade.h:16
 #: src/dialogs/anova-two.glade.h:12 src/dialogs/correlation.glade.h:11
 #: src/dialogs/covariance.glade.h:11 src/dialogs/descriptive-stats.glade.h:19
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:24
@@ -3244,7 +3256,7 @@ msgstr "Int"
 msgid "_New Sheet"
 msgstr "Çi_zelge"
 
-#: src/dialogs/advanced-filter.glade.h:10 src/dialogs/anova-one.glade.h:14
+#: src/dialogs/advanced-filter.glade.h:10 src/dialogs/anova-one.glade.h:17
 #: src/dialogs/anova-two.glade.h:13 src/dialogs/correlation.glade.h:12
 #: src/dialogs/covariance.glade.h:12 src/dialogs/descriptive-stats.glade.h:20
 #: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:26
@@ -3274,7 +3286,12 @@ msgstr ""
 msgid "ANOVA - Single Factor"
 msgstr "Anova: Tek çarpan"
 
-#: src/dialogs/anova-one.glade.h:4 src/dialogs/correlation.glade.h:3
+#: src/dialogs/anova-one.glade.h:4
+#, fuzzy
+msgid "Clear Output Range"
+msgstr "G_irdi Aralığı:"
+
+#: src/dialogs/anova-one.glade.h:5 src/dialogs/correlation.glade.h:3
 #: src/dialogs/covariance.glade.h:3 src/dialogs/descriptive-stats.glade.h:7
 #: src/dialogs/fourier-analysis.glade.h:3 src/dialogs/histogram.glade.h:6
 #: src/dialogs/moving-averages.glade.h:3 src/dialogs/rank.glade.h:3
@@ -3283,7 +3300,7 @@ msgstr "Anova: Tek çarpan"
 msgid "Grouped By:"
 msgstr "Grupla"
 
-#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:5
+#: src/dialogs/anova-one.glade.h:6 src/dialogs/anova-two.glade.h:5
 #: src/dialogs/correlation.glade.h:4 src/dialogs/covariance.glade.h:4
 #: src/dialogs/descriptive-stats.glade.h:8
 #: src/dialogs/fourier-analysis.glade.h:5 src/dialogs/mean-tests.glade.h:6
@@ -3294,7 +3311,7 @@ msgstr "Grupla"
 msgid "Input"
 msgstr "Int"
 
-#: src/dialogs/anova-one.glade.h:7 src/dialogs/anova-two.glade.h:8
+#: src/dialogs/anova-one.glade.h:8 src/dialogs/anova-two.glade.h:8
 #: src/dialogs/correlation.glade.h:6 src/dialogs/covariance.glade.h:6
 #: src/dialogs/descriptive-stats.glade.h:13
 #: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/mean-tests.glade.h:8
@@ -3305,11 +3322,19 @@ msgstr "Int"
 msgid "Output"
 msgstr ""
 
-#: src/dialogs/anova-one.glade.h:8 src/dialogs/anova-two.glade.h:9
+#: src/dialogs/anova-one.glade.h:9
+msgid "Retain Output Range Comments"
+msgstr ""
+
+#: src/dialogs/anova-one.glade.h:10
+msgid "Retain Output Range Formatting"
+msgstr ""
+
+#: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:9
 msgid "_Alpha = "
 msgstr ""
 
-#: src/dialogs/anova-one.glade.h:9 src/dialogs/correlation.glade.h:7
+#: src/dialogs/anova-one.glade.h:12 src/dialogs/correlation.glade.h:7
 #: src/dialogs/covariance.glade.h:7 src/dialogs/descriptive-stats.glade.h:15
 #: src/dialogs/histogram.glade.h:18 src/dialogs/rank.glade.h:9
 #: src/dialogs/regression.glade.h:9 src/dialogs/sampling.glade.h:12
@@ -3317,18 +3342,18 @@ msgstr ""
 msgid "_Areas"
 msgstr "%i Alanı"
 
-#: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:10
+#: src/dialogs/anova-one.glade.h:14 src/dialogs/anova-two.glade.h:10
 #: src/dialogs/correlation.glade.h:9 src/dialogs/covariance.glade.h:9
 #: src/dialogs/descriptive-stats.glade.h:17
-#: src/dialogs/dialog-analysis-tools.c:509
-#: src/dialogs/dialog-analysis-tools.c:3604
-#: src/dialogs/dialog-analysis-tools.c:3718
+#: src/dialogs/dialog-analysis-tools.c:527
+#: src/dialogs/dialog-analysis-tools.c:3622
+#: src/dialogs/dialog-analysis-tools.c:3736
 #: src/dialogs/fourier-analysis.glade.h:9
 #: src/dialogs/moving-averages.glade.h:10 src/dialogs/rank.glade.h:11
 msgid "_Input Range:"
 msgstr "G_irdi Aralığı:"
 
-#: src/dialogs/anova-one.glade.h:12 src/dialogs/anova-two.glade.h:11
+#: src/dialogs/anova-one.glade.h:15 src/dialogs/anova-two.glade.h:11
 #: src/dialogs/correlation.glade.h:10 src/dialogs/covariance.glade.h:10
 #: src/dialogs/descriptive-stats.glade.h:18
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/mean-tests.glade.h:22
@@ -3382,7 +3407,7 @@ msgstr ""
 
 #: src/dialogs/autocorrect.glade.h:7 src/dialogs/consolidate.glade.h:26
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:3
-#: src/dialogs/solver.glade.h:16
+#: src/dialogs/solver.glade.h:17
 #, fuzzy
 msgid "_Add"
 msgstr "Ekle "
@@ -3579,7 +3604,7 @@ msgstr ""
 msgid "Background Color:"
 msgstr "Artalan Rengi"
 
-#: src/dialogs/cell-format.glade.h:16 src/dialogs/dialog-cell-format.c:2536
+#: src/dialogs/cell-format.glade.h:16 src/dialogs/dialog-cell-format.c:2566
 msgid "Border"
 msgstr "Kenarlık"
 
@@ -3616,7 +3641,7 @@ msgstr "Renk"
 msgid "Control"
 msgstr "Sayaç"
 
-#: src/dialogs/cell-format.glade.h:24 src/dialogs/dialog-cell-format.c:2079
+#: src/dialogs/cell-format.glade.h:24 src/dialogs/dialog-cell-format.c:2103
 msgid "Criteria"
 msgstr "Kriter"
 
@@ -3662,8 +3687,8 @@ msgstr ""
 msgid "Display the value exactly as it was entered"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:34 src/dialogs/dialog-cell-format.c:1286
-#: src/dialogs/dialog-cell-format.c:1349
+#: src/dialogs/cell-format.glade.h:34 src/dialogs/dialog-cell-format.c:1290
+#: src/dialogs/dialog-cell-format.c:1353
 msgid "Double"
 msgstr "Çift"
 
@@ -3681,7 +3706,7 @@ msgstr "Hata: Çizelge yok"
 msgid "Foreground Solid"
 msgstr "Önalan"
 
-#: src/dialogs/cell-format.glade.h:39 src/dialogs/dialog-cell-format.c:2472
+#: src/dialogs/cell-format.glade.h:39 src/dialogs/dialog-cell-format.c:2502
 msgid "Format Cells"
 msgstr "Gözeleri Biçimlendir"
 
@@ -3758,8 +3783,8 @@ msgstr "Katıştır"
 msgid "Negative number:"
 msgstr "Negatif Binom"
 
-#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1288
-#: src/dialogs/dialog-cell-format.c:1347 src/dialogs/dialog-paste-special.c:33
+#: src/dialogs/cell-format.glade.h:58 src/dialogs/dialog-cell-format.c:1292
+#: src/dialogs/dialog-cell-format.c:1351 src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "Hiçbiri"
 
@@ -3787,11 +3812,11 @@ msgstr "İşlem"
 msgid "Outline"
 msgstr "Sınır çizgisi rengi"
 
-#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2551
+#: src/dialogs/cell-format.glade.h:64 src/dialogs/dialog-cell-format.c:2581
 msgid "Pattern"
 msgstr "Desen"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:65 src/dialogs/workbook-attr.glade.h:2
 #, fuzzy
 msgid "Protection"
 msgstr "Hatalı işlev"
@@ -3808,7 +3833,7 @@ msgstr ""
 msgid "S_ymbol:"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:70 src/tools/analysis-tools.c:1275
+#: src/dialogs/cell-format.glade.h:70 src/tools/analysis-tools.c:1405
 msgid "Sample"
 msgstr "Örnek"
 
@@ -3822,8 +3847,8 @@ msgid "Shrin_k to fit"
 msgstr "Bağ yeri:"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:73 src/dialogs/dialog-cell-format.c:1284
-#: src/dialogs/dialog-cell-format.c:1348
+#: src/dialogs/cell-format.glade.h:73 src/dialogs/dialog-cell-format.c:1288
+#: src/dialogs/dialog-cell-format.c:1352
 msgid "Single"
 msgstr "Tek"
 
@@ -4117,8 +4142,7 @@ msgstr ""
 msgid "Selection has"
 msgstr "Yazı tipi seçilir"
 
-#: src/dialogs/cell-sort.glade.h:3 src/dialogs/dialog-cell-sort.c:710
-#: src/workbook-control-gui.c:2454
+#: src/dialogs/cell-sort.glade.h:3 src/workbook-control-gui.c:2453
 msgid "Sort"
 msgstr "Sırala"
 
@@ -4160,7 +4184,7 @@ msgstr "Sütun _Genişliği..."
 msgid "Add the entered area to the list of source areas"
 msgstr ""
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3801
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3803
 msgid "Average"
 msgstr "Ortalama"
 
@@ -4174,7 +4198,7 @@ msgstr "_Değerleri Kopyala"
 msgid "Clear the list of source areas"
 msgstr "Seçilen gözelerin biçemlerini siler"
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3802
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3804
 msgid "Count"
 msgstr "Sayaç"
 
@@ -4212,11 +4236,11 @@ msgstr "Satır ekle"
 msgid "Labels"
 msgstr "Etiket"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3800
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3802
 msgid "Max"
 msgstr "En çok"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3799
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3801
 msgid "Min"
 msgstr "En az"
 
@@ -4341,11 +4365,11 @@ msgstr "_Tanımsal İstatistikler"
 msgid "K = "
 msgstr ""
 
-#: src/dialogs/descriptive-stats.glade.h:10 src/tools/analysis-tools.c:1128
+#: src/dialogs/descriptive-stats.glade.h:10 src/tools/analysis-tools.c:1258
 msgid "Kth Largest"
 msgstr "En büyük K'ıncı"
 
-#: src/dialogs/descriptive-stats.glade.h:11 src/tools/analysis-tools.c:1153
+#: src/dialogs/descriptive-stats.glade.h:11 src/tools/analysis-tools.c:1283
 msgid "Kth Smallest"
 msgstr "En küçük K'ıncı"
 
@@ -4529,20 +4553,19 @@ msgid "No matching records were found."
 msgstr "Eşleşen kayıt yok."
 
 #: src/dialogs/dialog-advanced-filter.c:250
-#: src/dialogs/dialog-analysis-tools.c:701
-#: src/dialogs/dialog-analysis-tools.c:817
-#: src/dialogs/dialog-analysis-tools.c:945
-#: src/dialogs/dialog-analysis-tools.c:1157
-#: src/dialogs/dialog-analysis-tools.c:1328
-#: src/dialogs/dialog-analysis-tools.c:1688
-#: src/dialogs/dialog-analysis-tools.c:1917
-#: src/dialogs/dialog-analysis-tools.c:2450
-#: src/dialogs/dialog-analysis-tools.c:2976
-#: src/dialogs/dialog-analysis-tools.c:3149
-#: src/dialogs/dialog-analysis-tools.c:3317
-#: src/dialogs/dialog-analysis-tools.c:3505
-#: src/dialogs/dialog-analysis-tools.c:3785
-#: src/dialogs/dialog-analysis-tools.c:3985
+#: src/dialogs/dialog-analysis-tools.c:719
+#: src/dialogs/dialog-analysis-tools.c:835
+#: src/dialogs/dialog-analysis-tools.c:963
+#: src/dialogs/dialog-analysis-tools.c:1175
+#: src/dialogs/dialog-analysis-tools.c:1346
+#: src/dialogs/dialog-analysis-tools.c:1706
+#: src/dialogs/dialog-analysis-tools.c:1935
+#: src/dialogs/dialog-analysis-tools.c:2468
+#: src/dialogs/dialog-analysis-tools.c:2994
+#: src/dialogs/dialog-analysis-tools.c:3167
+#: src/dialogs/dialog-analysis-tools.c:3335
+#: src/dialogs/dialog-analysis-tools.c:3523
+#: src/dialogs/dialog-analysis-tools.c:3998
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Umulmadık bir hata saptandı: %d."
@@ -4555,38 +4578,38 @@ msgstr "_Liste Aralığı:"
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Gelişmiş Süzme diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:690
-#: src/dialogs/dialog-analysis-tools.c:806
+#: src/dialogs/dialog-analysis-tools.c:708
+#: src/dialogs/dialog-analysis-tools.c:824
 msgid "The selected input rows must have equal size!"
 msgstr "Seçilen girdi satırları eşit uzunlukta olmalı!"
 
-#: src/dialogs/dialog-analysis-tools.c:694
-#: src/dialogs/dialog-analysis-tools.c:810
+#: src/dialogs/dialog-analysis-tools.c:712
+#: src/dialogs/dialog-analysis-tools.c:828
 msgid "The selected input columns must have equal size!"
 msgstr "Seçilen girdi sütunları eşit yükseklikte olmalı!"
 
-#: src/dialogs/dialog-analysis-tools.c:698
-#: src/dialogs/dialog-analysis-tools.c:814
+#: src/dialogs/dialog-analysis-tools.c:716
+#: src/dialogs/dialog-analysis-tools.c:832
 msgid "The selected input areas must have equal size!"
 msgstr "Seçilen girdi alanları aynı boyutlarda olmalı!"
 
-#: src/dialogs/dialog-analysis-tools.c:748
+#: src/dialogs/dialog-analysis-tools.c:766
 msgid "Could not create the Correlation Tool dialog."
 msgstr "İlinti Araçları diyaloğu oluştururlamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:864
+#: src/dialogs/dialog-analysis-tools.c:882
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Uyumsuzluk Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1100
+#: src/dialogs/dialog-analysis-tools.c:1118
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Açıklamalı İstatistikler Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1204
+#: src/dialogs/dialog-analysis-tools.c:1222
 msgid "Could not create the Rank and  Percentile Tools dialog."
 msgstr "Sıralama ve Oranlama Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1297
+#: src/dialogs/dialog-analysis-tools.c:1315
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -4594,7 +4617,7 @@ msgstr ""
 "Lütfen 1.değişken için\n"
 "dağılım değişimini girin."
 
-#: src/dialogs/dialog-analysis-tools.c:1304
+#: src/dialogs/dialog-analysis-tools.c:1322
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -4602,119 +4625,119 @@ msgstr ""
 "Lütfen 2.değişken için\n"
 "dağılım değişimini girin."
 
-#: src/dialogs/dialog-analysis-tools.c:1324
+#: src/dialogs/dialog-analysis-tools.c:1342
 msgid "The two input ranges must have the same size."
 msgstr "İki girdi alanı aynı boyutlarda olmalı"
 
-#: src/dialogs/dialog-analysis-tools.c:1616
+#: src/dialogs/dialog-analysis-tools.c:1634
 msgid "Var_iable 1 Range:"
 msgstr "_1. Değişken Aralığı:"
 
-#: src/dialogs/dialog-analysis-tools.c:1617
+#: src/dialogs/dialog-analysis-tools.c:1635
 msgid "_Variable 2 Range:"
 msgstr "_2. Değişken Aralığı:"
 
-#: src/dialogs/dialog-analysis-tools.c:1621
+#: src/dialogs/dialog-analysis-tools.c:1639
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Ortalama Testleri Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1681
-#: src/dialogs/dialog-analysis-tools.c:1685
+#: src/dialogs/dialog-analysis-tools.c:1699
+#: src/dialogs/dialog-analysis-tools.c:1703
 msgid "Each variable should have at least 2 observations!"
 msgstr "Her değişken en az 2 gözlem içermelidir!"
 
-#: src/dialogs/dialog-analysis-tools.c:1804
+#: src/dialogs/dialog-analysis-tools.c:1822
 msgid "Var_iable 1 Range"
 msgstr "_1. Değişken Aralığı"
 
-#: src/dialogs/dialog-analysis-tools.c:1805
+#: src/dialogs/dialog-analysis-tools.c:1823
 msgid "_Variable 2 Range"
 msgstr "_2. Değişken Aralığı"
 
-#: src/dialogs/dialog-analysis-tools.c:1809
+#: src/dialogs/dialog-analysis-tools.c:1827
 msgid "Could not create the FTest Tool dialog."
 msgstr "FTest Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:2073
+#: src/dialogs/dialog-analysis-tools.c:2091
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Örnekleme Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:2110
+#: src/dialogs/dialog-analysis-tools.c:2128
 msgid "Discrete"
 msgstr "Soyut"
 
-#: src/dialogs/dialog-analysis-tools.c:2110
+#: src/dialogs/dialog-analysis-tools.c:2128
 msgid "_Value And Probability Input Range:"
 msgstr "_Değer ve Olasılık Girdileri Aralığı:"
 
-#: src/dialogs/dialog-analysis-tools.c:2112
+#: src/dialogs/dialog-analysis-tools.c:2130
 #: src/widgets/widget-font-selector.c:114
 msgid "Normal"
 msgstr "Normal"
 
-#: src/dialogs/dialog-analysis-tools.c:2112
+#: src/dialogs/dialog-analysis-tools.c:2130
 msgid "_Mean:"
 msgstr "_Ortalama:"
 
-#: src/dialogs/dialog-analysis-tools.c:2112
+#: src/dialogs/dialog-analysis-tools.c:2130
 msgid "_Standard Deviation:"
 msgstr "_Standart Sapma:"
 
-#: src/dialogs/dialog-analysis-tools.c:2114
+#: src/dialogs/dialog-analysis-tools.c:2132
 msgid "Poisson"
 msgstr "Poisson"
 
-#: src/dialogs/dialog-analysis-tools.c:2114
+#: src/dialogs/dialog-analysis-tools.c:2132
 msgid "_Lambda:"
 msgstr "_Lambda:"
 
-#: src/dialogs/dialog-analysis-tools.c:2116
+#: src/dialogs/dialog-analysis-tools.c:2134
 msgid "Exponential"
 msgstr "Üstel"
 
-#: src/dialogs/dialog-analysis-tools.c:2116
+#: src/dialogs/dialog-analysis-tools.c:2134
 msgid "_b Value:"
 msgstr "_b Değeri:"
 
-#: src/dialogs/dialog-analysis-tools.c:2118
+#: src/dialogs/dialog-analysis-tools.c:2136
 msgid "Binomial"
 msgstr "Binom"
 
-#: src/dialogs/dialog-analysis-tools.c:2118
-#: src/dialogs/dialog-analysis-tools.c:2120
-#: src/dialogs/dialog-analysis-tools.c:2123
+#: src/dialogs/dialog-analysis-tools.c:2136
+#: src/dialogs/dialog-analysis-tools.c:2138
+#: src/dialogs/dialog-analysis-tools.c:2141
 msgid "_p Value:"
 msgstr "_p Değeri:"
 
-#: src/dialogs/dialog-analysis-tools.c:2118
+#: src/dialogs/dialog-analysis-tools.c:2136
 msgid "N_umber of Trials:"
 msgstr "Deneme Sayısı:"
 
-#: src/dialogs/dialog-analysis-tools.c:2120
+#: src/dialogs/dialog-analysis-tools.c:2138
 msgid "Negative Binomial"
 msgstr "Negatif Binom"
 
-#: src/dialogs/dialog-analysis-tools.c:2121
+#: src/dialogs/dialog-analysis-tools.c:2139
 msgid "N_umber of Failures"
 msgstr "_Başarısızlık Sayısı"
 
-#: src/dialogs/dialog-analysis-tools.c:2123
+#: src/dialogs/dialog-analysis-tools.c:2141
 msgid "Bernoulli"
 msgstr "Bernoulli"
 
-#: src/dialogs/dialog-analysis-tools.c:2125
+#: src/dialogs/dialog-analysis-tools.c:2143
 msgid "Uniform"
 msgstr "Uniform"
 
-#: src/dialogs/dialog-analysis-tools.c:2125
+#: src/dialogs/dialog-analysis-tools.c:2143
 msgid "_Lower Bound:"
 msgstr "_Alt Sınır:"
 
-#: src/dialogs/dialog-analysis-tools.c:2125
+#: src/dialogs/dialog-analysis-tools.c:2143
 msgid "_Upper Bound:"
 msgstr "Ü_st Sınır:"
 
-#: src/dialogs/dialog-analysis-tools.c:2433
+#: src/dialogs/dialog-analysis-tools.c:2451
 msgid ""
 "The probability input range contains a non-numeric value.\n"
 "All probabilities must be non-negative numbers."
@@ -4722,11 +4745,11 @@ msgstr ""
 "Olasılık girdi aralığı sayısal olmayan bir değer içeriyor.\n"
 "Olasılıklar negatif sayı olmamalı."
 
-#: src/dialogs/dialog-analysis-tools.c:2438
+#: src/dialogs/dialog-analysis-tools.c:2456
 msgid "The probabilities may not all be 0!"
 msgstr "Olasılıkların tamamı 0!!!"
 
-#: src/dialogs/dialog-analysis-tools.c:2442
+#: src/dialogs/dialog-analysis-tools.c:2460
 msgid ""
 "The probability input range contains a negative number.\n"
 "All probabilities must be non-negative!"
@@ -4734,15 +4757,15 @@ msgstr ""
 "Olasılık girdi aralığı bir negatif sayı içeriyor.\n"
 "Olasılıklar negatif sayı olmamalı!"
 
-#: src/dialogs/dialog-analysis-tools.c:2447
+#: src/dialogs/dialog-analysis-tools.c:2465
 msgid "None of the values in the value range may be empty!"
 msgstr "Değerler aralığında değer yokluğu boş göze olabilir!"
 
-#: src/dialogs/dialog-analysis-tools.c:2630
+#: src/dialogs/dialog-analysis-tools.c:2648
 msgid "Could not create the Random Tool dialog."
 msgstr "Rasgele Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:2697
+#: src/dialogs/dialog-analysis-tools.c:2715
 #, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linear\n"
@@ -4752,7 +4775,7 @@ msgstr ""
 "ve sapma hesaplanamadı. Bu değişkenleri kaldırdıktan sonra\n"
 "sapma hesabını tekrarlayın."
 
-#: src/dialogs/dialog-analysis-tools.c:2704
+#: src/dialogs/dialog-analysis-tools.c:2722
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -4760,7 +4783,7 @@ msgstr ""
 "Bu sapmaya bağlı çok az veri noktası var.\n"
 "Serbest değişkenler olarak bir kaç veri noktası daha belirtmelisiniz."
 
-#: src/dialogs/dialog-analysis-tools.c:2711
+#: src/dialogs/dialog-analysis-tools.c:2729
 #, fuzzy
 msgid ""
 "Two or more of the independent variables are nearly linear\n"
@@ -4770,7 +4793,7 @@ msgstr ""
 "ve sapma hesaplanamadı. Bu değişkenleri kaldırdıktan sonra\n"
 "sapma hesabını tekrarlayın."
 
-#: src/dialogs/dialog-analysis-tools.c:2718
+#: src/dialogs/dialog-analysis-tools.c:2736
 #, fuzzy
 msgid ""
 "Two or more of the independent variables are linearly\n"
@@ -4783,36 +4806,36 @@ msgstr ""
 "ve sapma hesaplanamadı. Bu değişkenleri kaldırdıktan sonra\n"
 "sapma hesabını tekrarlayın."
 
-#: src/dialogs/dialog-analysis-tools.c:2727
+#: src/dialogs/dialog-analysis-tools.c:2745
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Sapma içindeki her değişken için aynı sayıda girdi olmalıdır."
 
-#: src/dialogs/dialog-analysis-tools.c:2827 src/dialogs/regression.glade.h:16
+#: src/dialogs/dialog-analysis-tools.c:2845 src/dialogs/regression.glade.h:16
 msgid "_X Variables:"
 msgstr "_X Değişkenleri:"
 
-#: src/dialogs/dialog-analysis-tools.c:2850 src/dialogs/regression.glade.h:17
+#: src/dialogs/dialog-analysis-tools.c:2868 src/dialogs/regression.glade.h:17
 msgid "_Y Variable:"
 msgstr "_Y Değişkeni:"
 
-#: src/dialogs/dialog-analysis-tools.c:2918
+#: src/dialogs/dialog-analysis-tools.c:2936
 msgid "Could not create the Regression Tool dialog."
 msgstr "Sapma Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:3089
+#: src/dialogs/dialog-analysis-tools.c:3107
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Üstel Yuvarlama Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:3261
+#: src/dialogs/dialog-analysis-tools.c:3279
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Hareketli Ortalama Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:3365
+#: src/dialogs/dialog-analysis-tools.c:3383
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "Fourier Analizi Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:3501
+#: src/dialogs/dialog-analysis-tools.c:3519
 msgid ""
 "Each row of the bin range should contain one numeric value\n"
 "(ignoring the label if applicable)."
@@ -4820,33 +4843,33 @@ msgstr ""
 "Kutu kapsamındaki her satır bir sayısal değer içermelidir.\n"
 "(uygulanabilirse etiket yoksayılır)"
 
-#: src/dialogs/dialog-analysis-tools.c:3719 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:3737 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "K_utu Aralığı:"
 
-#: src/dialogs/dialog-analysis-tools.c:3723
+#: src/dialogs/dialog-analysis-tools.c:3741
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Histogram Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:3902
+#: src/dialogs/dialog-analysis-tools.c:3915
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "ANOVA (tek çarpan) Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:3965
+#: src/dialogs/dialog-analysis-tools.c:3978
 msgid "Each sample must contain the same number of rows."
 msgstr "Her örnek aynı sayıda satır içermelidir."
 
-#: src/dialogs/dialog-analysis-tools.c:3970
+#: src/dialogs/dialog-analysis-tools.c:3983
 msgid "Given input range contains non-numeric data."
 msgstr "Verilen girdiler sayısal olmayan veri içeriyor."
 
-#: src/dialogs/dialog-analysis-tools.c:3975
+#: src/dialogs/dialog-analysis-tools.c:3988
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr "Verilen girdi alanı en az iki veri sütunu ve etiketlerini içermeli."
 
-#: src/dialogs/dialog-analysis-tools.c:3981
+#: src/dialogs/dialog-analysis-tools.c:3994
 msgid ""
 "One of the factor combinations does not contain\n"
 "any observations!"
@@ -4854,7 +4877,7 @@ msgstr ""
 "Katsayı birleşimlerinden biri herhangi bir gözlem\n"
 "içermiyor!"
 
-#: src/dialogs/dialog-analysis-tools.c:4104
+#: src/dialogs/dialog-analysis-tools.c:4117
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "ANOVA (iki çarpan) Araçları diyaloğu oluşturulamadı."
 
@@ -4879,8 +4902,8 @@ msgid "Mrt"
 msgstr "Mrt"
 
 #: src/dialogs/dialog-autoformat.c:67 src/dialogs/dialog-autoformat.c:71
-#: src/tools/analysis-tools.c:3291 src/tools/analysis-tools.c:3301
-#: src/tools/analysis-tools.c:3309
+#: src/tools/analysis-tools.c:3458 src/tools/analysis-tools.c:3468
+#: src/tools/analysis-tools.c:3476
 msgid "Total"
 msgstr "Toplam"
 
@@ -4980,72 +5003,68 @@ msgstr "%s defterini kaydetmek istiyor musunuz?"
 msgid "Could not create the autosave dialog."
 msgstr "Otomatik kayıt diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-cell-format.c:423
+#: src/dialogs/dialog-cell-format.c:427
 msgid ";[Red]"
 msgstr ";[Kırmızı]"
 
-#: src/dialogs/dialog-cell-format.c:425
+#: src/dialogs/dialog-cell-format.c:429
 msgid "_);("
 msgstr "_);("
 
-#: src/dialogs/dialog-cell-format.c:427
+#: src/dialogs/dialog-cell-format.c:431
 msgid "_);[Red]("
 msgstr "_);[Kırmızı]("
 
-#: src/dialogs/dialog-cell-format.c:2078
+#: src/dialogs/dialog-cell-format.c:2102
 msgid "Source"
 msgstr "Kaynak"
 
-#: src/dialogs/dialog-cell-format.c:2091 src/dialogs/dialog-cell-format.c:2098
+#: src/dialogs/dialog-cell-format.c:2115 src/dialogs/dialog-cell-format.c:2122
 msgid "Min :"
 msgstr "En az:"
 
-#: src/dialogs/dialog-cell-format.c:2092 src/dialogs/dialog-cell-format.c:2101
+#: src/dialogs/dialog-cell-format.c:2116 src/dialogs/dialog-cell-format.c:2125
 msgid "Max :"
 msgstr "En çok:"
 
-#: src/dialogs/dialog-cell-format.c:2095
+#: src/dialogs/dialog-cell-format.c:2119
 msgid "Value :"
 msgstr "Değer:"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2536 src/dialogs/dialog-cell-format.c:2541
-#: src/dialogs/dialog-cell-format.c:2551 src/functions/fn-information.c:430
+#: src/dialogs/dialog-cell-format.c:2566 src/dialogs/dialog-cell-format.c:2571
+#: src/dialogs/dialog-cell-format.c:2581 src/functions/fn-information.c:430
 #: src/workbook-format-toolbar.c:816
 msgid "Automatic"
 msgstr "Otomatik"
 
-#: src/dialogs/dialog-cell-format.c:2546 src/workbook-format-toolbar.c:789
+#: src/dialogs/dialog-cell-format.c:2576 src/workbook-format-toolbar.c:789
 msgid "Clear Background"
 msgstr "Arkaplanı Temizle"
 
-#: src/dialogs/dialog-cell-sort.c:93 src/dialogs/dialog-cell-sort.c:98
+#: src/dialogs/dialog-cell-sort.c:96 src/dialogs/dialog-cell-sort.c:101
 #, c-format
 msgid "Column %s"
 msgstr "Sütun %s"
 
-#: src/dialogs/dialog-cell-sort.c:95 src/dialogs/dialog-cell-sort.c:100
+#: src/dialogs/dialog-cell-sort.c:98 src/dialogs/dialog-cell-sort.c:103
 #, c-format
 msgid "Row %s"
 msgstr "Satır %s"
 
-#: src/dialogs/dialog-cell-sort.c:715
+#: src/dialogs/dialog-cell-sort.c:698
 msgid "Row/Column"
 msgstr "Satır/Sütun"
 
-#: src/dialogs/dialog-cell-sort.c:724
-msgid "Descend"
-msgstr "Azalan"
-
-#: src/dialogs/dialog-cell-sort.c:733
+#: src/dialogs/dialog-cell-sort.c:718
 msgid "Case Sensitive"
 msgstr "Harf Büyüklüğüne Duyarlı"
 
-#: src/dialogs/dialog-cell-sort.c:742
+#: src/dialogs/dialog-cell-sort.c:727
 msgid "By Value"
 msgstr "Değeriyle"
 
-#: src/dialogs/dialog-cell-sort.c:851
+#: src/dialogs/dialog-cell-sort.c:844
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Göze Sıralama diyaloğu oluşturulamadı."
 
@@ -5139,10 +5158,10 @@ msgstr "Çözüm Arama diyaloğu oluşturulamadı."
 #. * Fill in the labels of `Target Cell' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:47 src/dialogs/tabulate.glade.h:1
-#: src/tools/solver/reports.c:143 src/tools/solver/reports.c:167
-#: src/tools/solver/reports.c:195 src/tools/solver/reports.c:293
-#: src/tools/solver/reports.c:322 src/tools/solver/reports.c:402
-#: src/tools/solver/reports.c:409
+#: src/tools/solver/reports.c:161 src/tools/solver/reports.c:187
+#: src/tools/solver/reports.c:215 src/tools/solver/reports.c:317
+#: src/tools/solver/reports.c:364 src/tools/solver/reports.c:453
+#: src/tools/solver/reports.c:460
 msgid "Cell"
 msgstr "Göze"
 
@@ -5187,59 +5206,59 @@ msgstr "Araya ekler"
 msgid "Could not create the Insert Cell dialog."
 msgstr "Göze Sıralama diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-paste-special.c:25
+#: src/dialogs/dialog-paste-special.c:26
 msgid "All"
 msgstr "Tümü"
 
-#: src/dialogs/dialog-paste-special.c:26
+#: src/dialogs/dialog-paste-special.c:27
 msgid "Content"
 msgstr "İçerik"
 
-#: src/dialogs/dialog-paste-special.c:27
+#: src/dialogs/dialog-paste-special.c:28
 msgid "As Value"
 msgstr "Değer Olarak"
 
-#: src/dialogs/dialog-paste-special.c:28
+#: src/dialogs/dialog-paste-special.c:29
 msgid "Formats"
 msgstr "Biçimler"
 
-#: src/dialogs/dialog-paste-special.c:34
+#: src/dialogs/dialog-paste-special.c:35
 msgid "Add "
 msgstr "Ekle "
 
-#: src/dialogs/dialog-paste-special.c:35
+#: src/dialogs/dialog-paste-special.c:36
 msgid "Subtract"
 msgstr "Çıkar"
 
-#: src/dialogs/dialog-paste-special.c:36
+#: src/dialogs/dialog-paste-special.c:37
 msgid "Multiply"
 msgstr "Çarp"
 
-#: src/dialogs/dialog-paste-special.c:37
+#: src/dialogs/dialog-paste-special.c:38
 msgid "Divide"
 msgstr "Böl"
 
-#: src/dialogs/dialog-paste-special.c:104
+#: src/dialogs/dialog-paste-special.c:101
 msgid "Paste special"
 msgstr "Özel yapıştır"
 
-#: src/dialogs/dialog-paste-special.c:107
+#: src/dialogs/dialog-paste-special.c:104
 msgid "Paste Link"
 msgstr "Bağlantıyı Yapıştır"
 
-#: src/dialogs/dialog-paste-special.c:117
+#: src/dialogs/dialog-paste-special.c:111
 msgid "Paste type"
 msgstr "Türü yapıştır"
 
-#: src/dialogs/dialog-paste-special.c:121
+#: src/dialogs/dialog-paste-special.c:115
 msgid "Operation"
 msgstr "İşlem"
 
-#: src/dialogs/dialog-paste-special.c:162
+#: src/dialogs/dialog-paste-special.c:147
 msgid "Transpose"
 msgstr "Transpoze"
 
-#: src/dialogs/dialog-paste-special.c:171
+#: src/dialogs/dialog-paste-special.c:156
 msgid "Skip Blanks"
 msgstr "Boşları Atla"
 
@@ -5371,33 +5390,18 @@ msgstr "Yorum"
 msgid "Could not create the Sheet Name Change dialog."
 msgstr "Çizelge İsimlendirme diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-sheet-order.c:71
-#, fuzzy
-msgid "A sheet name must have at least 1 character."
-msgstr "En az bir harf olmalı"
-
-#: src/dialogs/dialog-sheet-order.c:162
-#, fuzzy
-msgid "You can only remove new sheets."
-msgstr "Seçili çizelgeyi geri alınamayacak şekilde siler"
-
-#: src/dialogs/dialog-sheet-order.c:202
+#: src/dialogs/dialog-sheet-order.c:183
 #, fuzzy
 msgid "Current Name"
 msgstr "Şimdiki _tarih"
 
-#: src/dialogs/dialog-sheet-order.c:211
-#, fuzzy
-msgid "Rem"
-msgstr "S_il"
-
-#: src/dialogs/dialog-sheet-order.c:220
+#: src/dialogs/dialog-sheet-order.c:191
 #, fuzzy
 msgid "New Name"
 msgstr "İsim"
 
-#: src/dialogs/dialog-sheet-order.c:294
-msgid "<new>"
+#: src/dialogs/dialog-sheet-order.c:410
+msgid "Deletion of sheets is not undoable. Do you want to proceed?"
 msgstr ""
 
 #: src/dialogs/dialog-solver.c:64
@@ -5417,7 +5421,11 @@ msgstr "="
 msgid "Int"
 msgstr "Int"
 
-#: src/dialogs/dialog-solver.c:747
+#: src/dialogs/dialog-solver.c:678
+msgid "You have not specified a problem to be solved"
+msgstr ""
+
+#: src/dialogs/dialog-solver.c:774
 msgid ""
 "Solver found an optimal solution. All constraints and optimality conditions "
 "are satisfied.\n"
@@ -5425,21 +5433,27 @@ msgstr ""
 "Çözümleyici en elverişli çözümü buldu. Tüm zorlamalar ve elverişlilik "
 "koşulları sağlandı.\n"
 
-#: src/dialogs/dialog-solver.c:754
+#: src/dialogs/dialog-solver.c:782
+msgid ""
+"Sensitivity nor limits report is not meaningful if the program has integer "
+"constraints. These reports will thus not be created."
+msgstr ""
+
+#: src/dialogs/dialog-solver.c:796
 msgid "The Target Cell value does not converge!"
 msgstr "Hedef göze değeri yakınsanmıyor!"
 
-#: src/dialogs/dialog-solver.c:758
-#, c-format
-msgid "Solver was not successful: %i"
+#: src/dialogs/dialog-solver.c:800
+#, fuzzy, c-format
+msgid "Solver was not successful: %s"
 msgstr "Çözümleyici başarılı olamadı: %i"
 
-#: src/dialogs/dialog-solver.c:781
+#: src/dialogs/dialog-solver.c:825
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "`%s' koşulu bir girdi gözesi olmayan bir göze içindir"
 
-#: src/dialogs/dialog-solver.c:1026
+#: src/dialogs/dialog-solver.c:1090
 msgid "Could not create the Solver dialog."
 msgstr "Çözümleyici diyaloğu oluşturulamadı."
 
@@ -5966,11 +5980,11 @@ msgstr "Sonuç gözesi olarak bir tek göze belirtmelisiniz"
 msgid "The target cell should contain an expression"
 msgstr "Hedef göze bir ifade içermelidir"
 
-#: src/dialogs/dialog-workbook-attr.c:164
+#: src/dialogs/dialog-workbook-attr.c:170
 msgid "Workbook Attributes"
 msgstr "Defter Özellikleri"
 
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3880
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:4047
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -5989,8 +6003,8 @@ msgstr ""
 msgid "Sheets"
 msgstr "Çi_zelgeler"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3349
-#: src/workbook-control-gui.c:3389
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3348
+#: src/workbook-control-gui.c:3388
 msgid "Zoom"
 msgstr "Yakınlaştırma"
 
@@ -6180,7 +6194,7 @@ msgstr "Yüzdelik sayı olarak Biçemle"
 msgid "Chart Output"
 msgstr ""
 
-#: src/dialogs/histogram.glade.h:7 src/tools/analysis-tools.c:3848
+#: src/dialogs/histogram.glade.h:7 src/tools/analysis-tools.c:4015
 msgid "Histogram"
 msgstr "Histogram"
 
@@ -6371,7 +6385,7 @@ msgstr "İsim Ata"
 msgid "Workbook"
 msgstr "_Defter..."
 
-#: src/dialogs/names.glade.h:4 src/dialogs/solver.glade.h:19
+#: src/dialogs/names.glade.h:4 src/dialogs/solver.glade.h:20
 #, fuzzy
 msgid "_Delete"
 msgstr "S_il..."
@@ -6521,7 +6535,7 @@ msgid "Scale"
 msgstr "Örnek"
 
 #: src/dialogs/print.glade.h:23 src/functions/fn-sheet.c:143
-#: src/workbook.c:1035 src/workbook.c:1281 src/xml-io.c:2962
+#: src/workbook.c:1035 src/workbook.c:1281 src/xml-io.c:2964
 msgid "Sheet"
 msgstr "Çizelge"
 
@@ -6680,7 +6694,7 @@ msgstr ""
 msgid "Confidence Level:"
 msgstr ""
 
-#: src/dialogs/regression.glade.h:8 src/tools/analysis-tools.c:2358
+#: src/dialogs/regression.glade.h:8 src/tools/analysis-tools.c:2488
 msgid "Regression"
 msgstr "Sapma"
 
@@ -7064,6 +7078,11 @@ msgstr "Bölge"
 msgid "_Regular expression"
 msgstr "_Sapma"
 
+#: src/dialogs/sheet-order.glade.h:1
+#, fuzzy
+msgid "Manage Sheets..."
+msgstr "Bu çizelgenin ismini değiştirir"
+
 #: src/dialogs/sheet-rename.glade.h:1
 #, fuzzy
 msgid "Enter new name for the current _sheet:"
@@ -7094,8 +7113,8 @@ msgstr ""
 msgid "B_y Changing Cells: "
 msgstr ""
 
-#: src/dialogs/solver.glade.h:7 src/tools/solver/reports.c:260
-#: src/tools/solver/reports.c:368 src/tools/solver/reports.c:525
+#: src/dialogs/solver.glade.h:7 src/tools/solver/reports.c:280
+#: src/tools/solver/reports.c:419 src/tools/solver/reports.c:579
 msgid "Constraints"
 msgstr "Zorlamalar"
 
@@ -7109,71 +7128,81 @@ msgid "M_in"
 msgstr "En az"
 
 #: src/dialogs/solver.glade.h:11
+#, fuzzy
+msgid "P_rogram"
+msgstr "Uygulama ismi"
+
+#: src/dialogs/solver.glade.h:12
 msgid "Parameters"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:12
+#: src/dialogs/solver.glade.h:13
 #, fuzzy
 msgid "Reports"
 msgstr "punto"
 
-#: src/dialogs/solver.glade.h:13
+#: src/dialogs/solver.glade.h:14
 #, fuzzy
 msgid "Solve"
 msgstr "Kaydet"
 
-#: src/dialogs/solver.glade.h:14
+#: src/dialogs/solver.glade.h:15
 #, fuzzy
 msgid "Solver"
 msgstr "Çö_zümleyici..."
 
-#: src/dialogs/solver.glade.h:15
+#: src/dialogs/solver.glade.h:16
 #, fuzzy
 msgid "Subject to the Constraints:"
 msgstr "Koşullar:"
 
-#: src/dialogs/solver.glade.h:17
+#: src/dialogs/solver.glade.h:18
 #, fuzzy
 msgid "_Answer"
 msgstr "_Ekle"
 
-#: src/dialogs/solver.glade.h:18
+#: src/dialogs/solver.glade.h:19
 #, fuzzy
 msgid "_Change"
 msgstr "Bölge"
 
-#: src/dialogs/solver.glade.h:20
+#: src/dialogs/solver.glade.h:21
+#, fuzzy
+msgid "_Dual Program"
+msgstr "Uygulama ismi"
+
+#: src/dialogs/solver.glade.h:22
 msgid "_Left Hand Side:"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:21
+#: src/dialogs/solver.glade.h:23
 msgid "_Limits"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:22
+#: src/dialogs/solver.glade.h:24
 #, fuzzy
 msgid "_Max"
 msgstr "En çok"
 
-#: src/dialogs/solver.glade.h:23
+#: src/dialogs/solver.glade.h:25
 #, fuzzy
-msgid "_Program"
+msgid "_Performance"
 msgstr "Uygulama ismi"
 
-#: src/dialogs/solver.glade.h:24
+#: src/dialogs/solver.glade.h:26
 msgid "_Right Hand Side:"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:25
+#: src/dialogs/solver.glade.h:27
 #, fuzzy
 msgid "_Sensitivity"
 msgstr "Duyarlılık Raporu"
 
-#: src/dialogs/solver.glade.h:26
+#: src/dialogs/solver.glade.h:28
 msgid "_Set Target Cell:       "
 msgstr ""
 
-#: src/dialogs/solver.glade.h:27
+#: src/dialogs/solver.glade.h:29
 #, fuzzy
 msgid "_Type:"
 msgstr "Türü"
@@ -7284,21 +7313,26 @@ msgstr "_2. Değişken Aralığı:"
 msgid "Notebook _Tabs for Sheets"
 msgstr ""
 
-#: src/dialogs/workbook-attr.glade.h:2
+#: src/dialogs/workbook-attr.glade.h:3
 #, fuzzy
 msgid "View"
 msgstr "_Görünüm"
 
-#: src/dialogs/workbook-attr.glade.h:3
+#: src/dialogs/workbook-attr.glade.h:4
+#, fuzzy
+msgid "Workbook _Protected"
+msgstr "Defter Özellikleri"
+
+#: src/dialogs/workbook-attr.glade.h:5
 msgid "_Auto Complete Text in Cells"
 msgstr ""
 
-#: src/dialogs/workbook-attr.glade.h:4
+#: src/dialogs/workbook-attr.glade.h:6
 #, fuzzy
 msgid "_Horizontal Scrollbar"
 msgstr "Bir kaydırma çubuğu oluşturur"
 
-#: src/dialogs/workbook-attr.glade.h:5
+#: src/dialogs/workbook-attr.glade.h:7
 #, fuzzy
 msgid "_Vertical Scrollbar"
 msgstr "Bir kaydırma çubuğu oluşturur"
@@ -8791,20 +8825,20 @@ msgstr "Zimbabve doları"
 msgid "[Red]"
 msgstr "[Kırmızı]"
 
-#: src/func.c:96
+#: src/func.c:99
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "%s dosyası oluşturulamıyor\n"
 
-#: src/func.c:253
+#: src/func.c:256
 msgid "Function implementation not available."
 msgstr "İşlev henüz programlanmadı."
 
-#: src/func.c:480
+#: src/func.c:483
 msgid "Unknown Function"
 msgstr "Bilinmeyen İşlev"
 
-#: src/func.c:851
+#: src/func.c:857
 msgid "Function does not exist"
 msgstr "İşlev mevcut değil"
 
@@ -14234,7 +14268,7 @@ msgstr ""
 msgid "Logical"
 msgstr "Mantıksal"
 
-#: src/functions/fn-lookup.c:318
+#: src/functions/fn-lookup.c:319
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -14286,7 +14320,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:430
+#: src/functions/fn-lookup.c:431
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -14313,11 +14347,11 @@ msgstr ""
 "\n"
 "@SEEALSO=IF"
 
-#: src/functions/fn-lookup.c:455
+#: src/functions/fn-lookup.c:456
 msgid "#ARG!"
 msgstr "#ARG!"
 
-#: src/functions/fn-lookup.c:479
+#: src/functions/fn-lookup.c:480
 #, fuzzy
 msgid ""
 "@FUNCTION=VLOOKUP\n"
@@ -14350,7 +14384,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HLOOKUP"
 
-#: src/functions/fn-lookup.c:537
+#: src/functions/fn-lookup.c:538
 #, fuzzy
 msgid ""
 "@FUNCTION=HLOOKUP\n"
@@ -14382,7 +14416,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VLOOKUP"
 
-#: src/functions/fn-lookup.c:595
+#: src/functions/fn-lookup.c:596
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -14412,7 +14446,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
-#: src/functions/fn-lookup.c:662
+#: src/functions/fn-lookup.c:663
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -14451,7 +14485,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOOKUP"
 
-#: src/functions/fn-lookup.c:722
+#: src/functions/fn-lookup.c:723
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -14483,7 +14517,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:790
+#: src/functions/fn-lookup.c:786
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(array,[row, col, area])\n"
@@ -14516,7 +14550,7 @@ msgstr ""
 "INDEX(A1:A5,4,1,1) eşitir 25,9\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:837
+#: src/functions/fn-lookup.c:833
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -14544,7 +14578,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:890
+#: src/functions/fn-lookup.c:886
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -14572,7 +14606,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:916
+#: src/functions/fn-lookup.c:912
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -14597,7 +14631,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:979
+#: src/functions/fn-lookup.c:975
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -14625,7 +14659,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:1032
+#: src/functions/fn-lookup.c:1028
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -14653,7 +14687,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:1058
+#: src/functions/fn-lookup.c:1054
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
@@ -14676,7 +14710,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:1084
+#: src/functions/fn-lookup.c:1080
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -14694,7 +14728,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: src/functions/fn-lookup.c:1132
+#: src/functions/fn-lookup.c:1128
 msgid "Data / Lookup"
 msgstr "Veri / Arama"
 
@@ -20382,7 +20416,7 @@ msgstr "Zaman olarak Biçemle"
 msgid "Format as alternative Number"
 msgstr "Almaşık sayı olarak Biçemle"
 
-#: src/gnumeric-canvas.c:534
+#: src/gnumeric-canvas.c:536
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "\"%s\" dosyasının biçemi bilinmiyor."
@@ -20579,55 +20613,55 @@ msgstr "Sağa Kaydı_r ve Taşı"
 msgid "C_ancel"
 msgstr "İp_tal"
 
-#: src/main.c:81
+#: src/main.c:82
 msgid "Display Gnumeric's version"
 msgstr "Gnumeric sürümünü göster"
 
-#: src/main.c:83
+#: src/main.c:84
 msgid "Set the root library directory"
 msgstr "Kök kütüphane dizinini tanımla"
 
-#: src/main.c:85
+#: src/main.c:86
 msgid "Adjust the root data directory"
 msgstr "Kök veri dizinini ayarla"
 
-#: src/main.c:88
+#: src/main.c:89
 msgid "Dumps the function definitions"
 msgstr "İşlev tanımlarını çıkarır"
 
-#: src/main.c:88
+#: src/main.c:89
 msgid "FILE"
 msgstr "DOSYA"
 
-#: src/main.c:91
+#: src/main.c:92
 msgid "Enables some debugging functions"
 msgstr "Bazı hata ayıklama işlevlerini etkinleştirir"
 
-#: src/main.c:91 src/main.c:94 src/main.c:96
+#: src/main.c:92 src/main.c:95 src/main.c:97
 msgid "LEVEL"
 msgstr "SEVİYE"
 
-#: src/main.c:94
+#: src/main.c:95
 msgid "Enables some dependency related debugging functions"
 msgstr "Bağımlılıkla ilgili bazı hata ayıklama işlevlerini etkinleştirir"
 
-#: src/main.c:96
+#: src/main.c:97
 msgid "Enables some print debugging behavior"
 msgstr "Yazdırma hatalarını ayıklama davranışını etkinleştirir"
 
-#: src/main.c:99
+#: src/main.c:100
 msgid "Specify the size and location of the initial window"
 msgstr "İç pencerenin boyutlarını ve konumunu belirtin"
 
-#: src/main.c:99
+#: src/main.c:100
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "GENİŞLİKxYÜKSEKLİK+ÜST+SOL"
 
-#: src/main.c:103
+#: src/main.c:104
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "Seçilen paketleri yükledikten hemen sonra çıkar (test için kullanılır)"
 
-#: src/main.c:132
+#: src/main.c:133
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -20653,7 +20687,7 @@ msgstr ""
 "\n"
 "-- GNumeric Ekibi."
 
-#: src/main.c:188
+#: src/main.c:189
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -20664,11 +20698,11 @@ msgstr ""
 "veri dizini := '%s'\n"
 "kitaplık dizini := '%s'\n"
 
-#: src/main.c:248
+#: src/main.c:255
 msgid "Could not initialize Workbook factory"
 msgstr "Defter yapımcısı başlatılamadı"
 
-#: src/main.c:252
+#: src/main.c:259
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Gömülebilir Izgara yapımcısı başlatılamadı"
 
@@ -20843,7 +20877,6 @@ msgid "Initializing function inside plugin returned error."
 msgstr "Eklenti içindeki işlev başlatılırken hata ile döndü."
 
 #: src/plugin-service.c:130 src/plugin-service.c:1080
-#: src/plugin-service.c:1308
 msgid "Error while loading plugin service."
 msgstr "Eklenti servisinin yüklenmesi sırasında hata"
 
@@ -20923,7 +20956,7 @@ msgstr "\"%s\" dosyası okumak için açılırken hata oluştu."
 msgid "Unable to mmap the file."
 msgstr "mmap() gerçekleştirilemedi"
 
-#: src/plugin-util.c:318 src/xml-io.c:3239
+#: src/plugin-util.c:318 src/xml-io.c:3241
 msgid "Cannot get file size."
 msgstr "Dosya boyutu alınamıyor."
 
@@ -21340,35 +21373,35 @@ msgstr "Onay Düğmesi Yapılandırması"
 msgid "Label:"
 msgstr "Etiket:"
 
-#: src/sheet.c:2119
+#: src/sheet.c:2120
 msgid "Target region contains merged cells"
 msgstr "Hedef alan birleşik gözeler içeriyor"
 
-#: src/sheet.c:2181
+#: src/sheet.c:2182
 msgid "cannot operate on merged cells"
 msgstr "birleşik gözelerde işlem yapılamıyor"
 
-#: src/sheet.c:2192
+#: src/sheet.c:2193
 msgid "cannot operate on array formulae"
 msgstr "dizi formülünde işlem yapılamıyor"
 
-#: src/sheet.c:3045
+#: src/sheet.c:3046
 msgid "Clear"
 msgstr "Temizle"
 
-#: src/sheet.c:3453
+#: src/sheet.c:3454
 msgid "Insert Columns"
 msgstr "Sütun Ekle"
 
-#: src/sheet.c:3510
+#: src/sheet.c:3511
 msgid "Delete Columns"
 msgstr "Sütun Sil"
 
-#: src/sheet.c:3564
+#: src/sheet.c:3565
 msgid "Insert Rows"
 msgstr "Satır Ekle"
 
-#: src/sheet.c:3621
+#: src/sheet.c:3622
 msgid "Delete Rows"
 msgstr "Satır Sil"
 
@@ -21424,35 +21457,45 @@ msgstr "Metin Dosyası İçeri Aktarım (özelleştirilebilir)"
 msgid "Text export (configurable)"
 msgstr "Metin Dosyası İçeri Aktarım (özelleştirilebilir)"
 
-#: src/tools/analysis-tools.c:197 src/tools/analysis-tools.c:3232
+#: src/tools/analysis-tools.c:73
+#, fuzzy
+msgid "New Sheet"
+msgstr "Çi_zelge"
+
+#: src/tools/analysis-tools.c:76
+#, fuzzy
+msgid "New Workbook"
+msgstr "_Defter..."
+
+#: src/tools/analysis-tools.c:320 src/tools/analysis-tools.c:3399
 #, c-format
 msgid "Row %i"
 msgstr "%i. satır"
 
-#: src/tools/analysis-tools.c:200 src/tools/analysis-tools.c:3224
+#: src/tools/analysis-tools.c:323 src/tools/analysis-tools.c:3391
 #, c-format
 msgid "Column %i"
 msgstr "%i. sütun"
 
-#: src/tools/analysis-tools.c:203
+#: src/tools/analysis-tools.c:326
 #, c-format
 msgid "Bin %i"
 msgstr "Kutu %i"
 
-#: src/tools/analysis-tools.c:207
+#: src/tools/analysis-tools.c:330
 #, c-format
 msgid "Area %i"
 msgstr "%i Alanı"
 
-#: src/tools/analysis-tools.c:816 src/tools/analysis-tools.c:819
+#: src/tools/analysis-tools.c:946 src/tools/analysis-tools.c:949
 msgid "Correlations"
 msgstr "İlişkiler"
 
-#: src/tools/analysis-tools.c:908 src/tools/analysis-tools.c:911
+#: src/tools/analysis-tools.c:1038 src/tools/analysis-tools.c:1041
 msgid "Covariances"
 msgstr "Uyuşmazlıklar"
 
-#: src/tools/analysis-tools.c:990
+#: src/tools/analysis-tools.c:1120
 msgid "Summary Statistics"
 msgstr "Özet İstatistikleri"
 
@@ -21463,7 +21506,7 @@ msgstr "Özet İstatistikleri"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/tools/analysis-tools.c:1001
+#: src/tools/analysis-tools.c:1131
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -21471,39 +21514,39 @@ msgstr ""
 "/Ortalama/Standart Hata/Orta/Bölüm/Standart Sapma/Örnek Değişim/Kurtosis/"
 "Eğrilik/Aralık/Enaz/Ençok/Toplam/Sayaç"
 
-#: src/tools/analysis-tools.c:1088
+#: src/tools/analysis-tools.c:1218
 msgid "Confidence Interval for the Mean"
 msgstr "Ortalama için Emniyet Aralığı"
 
-#: src/tools/analysis-tools.c:1089
+#: src/tools/analysis-tools.c:1219
 #, fuzzy, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%g CI, Ortalama için"
 
-#: src/tools/analysis-tools.c:1129
+#: src/tools/analysis-tools.c:1259
 #, c-format
 msgid "Largest (%d)"
 msgstr "En büyük (%d)"
 
-#: src/tools/analysis-tools.c:1154
+#: src/tools/analysis-tools.c:1284
 #, c-format
 msgid "Smallest (%d)"
 msgstr "En küçük (%d)"
 
-#: src/tools/analysis-tools.c:1372 src/tools/analysis-tools.c:1374
-#: src/tools/analysis-tools.c:1491 src/tools/analysis-tools.c:1493
-#: src/tools/analysis-tools.c:1650 src/tools/analysis-tools.c:1652
-#: src/tools/analysis-tools.c:1778 src/tools/analysis-tools.c:1780
-#: src/tools/analysis-tools.c:1914 src/tools/analysis-tools.c:1916
+#: src/tools/analysis-tools.c:1502 src/tools/analysis-tools.c:1504
+#: src/tools/analysis-tools.c:1621 src/tools/analysis-tools.c:1623
+#: src/tools/analysis-tools.c:1780 src/tools/analysis-tools.c:1782
+#: src/tools/analysis-tools.c:1908 src/tools/analysis-tools.c:1910
+#: src/tools/analysis-tools.c:2044 src/tools/analysis-tools.c:2046
 #, c-format
 msgid "Variable %i"
 msgstr "%i. Değişken"
 
-#: src/tools/analysis-tools.c:1376
+#: src/tools/analysis-tools.c:1506
 msgid "z-Test"
 msgstr "z-Testi"
 
-#: src/tools/analysis-tools.c:1379
+#: src/tools/analysis-tools.c:1509
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -21513,12 +21556,12 @@ msgstr ""
 "Ortalama Farkı/z/P (Z<=z) tek-uçlusu/z kritik tek-uçlusu/P (Z<=z) iki-uçlusu/"
 "z kritik iki-uçlusu"
 
-#: src/tools/analysis-tools.c:1507 src/tools/analysis-tools.c:1654
-#: src/tools/analysis-tools.c:1782
+#: src/tools/analysis-tools.c:1637 src/tools/analysis-tools.c:1784
+#: src/tools/analysis-tools.c:1912
 msgid "t-Test"
 msgstr "t-Testi"
 
-#: src/tools/analysis-tools.c:1510
+#: src/tools/analysis-tools.c:1640
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -21528,7 +21571,7 @@ msgstr ""
 "Hali/P (T<=t) tek-uçlusu/t kritik tek-uçlusu/P (T<=t) iki-uçlusu/t kritik "
 "iki-uçlusu"
 
-#: src/tools/analysis-tools.c:1657
+#: src/tools/analysis-tools.c:1787
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -21538,7 +21581,7 @@ msgstr ""
 "Gözlemli Ortalama Farkı/df/t Hali/P (T<=t) tek-uçlusu/t kritik tek-uçlusu/P "
 "(T<=t) iki-uçlusu/t kritik iki-uçlusu"
 
-#: src/tools/analysis-tools.c:1785
+#: src/tools/analysis-tools.c:1915
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -21548,11 +21591,11 @@ msgstr ""
 "Farkı/df/t Hali/P (T<=t) tek-uçlusu/t kritik tek-uçlusu/P (T<=t) iki-uçlusu/"
 "t kritik iki-uçlusu"
 
-#: src/tools/analysis-tools.c:1923
+#: src/tools/analysis-tools.c:2053
 msgid "F-Test"
 msgstr "F-Testi"
 
-#: src/tools/analysis-tools.c:1929
+#: src/tools/analysis-tools.c:2059
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -21560,19 +21603,19 @@ msgstr ""
 "/Ortalama/Değişim/Gözlemler/df/F/P (F<=f) sağ-uç/F Kritik sağ-uç/P (f<=F) "
 "sol-uç/F Kritik sol-uç/P iki-sonlusu/F Kritik iki-sonlusu"
 
-#: src/tools/analysis-tools.c:2047 src/tools/analysis-tools.c:2105
+#: src/tools/analysis-tools.c:2177 src/tools/analysis-tools.c:2235
 msgid "Random"
 msgstr "Rasgele"
 
-#: src/tools/analysis-tools.c:2221
+#: src/tools/analysis-tools.c:2351
 msgid "Not implemented yet.\n"
 msgstr "Daha programlanmadı.\n"
 
-#: src/tools/analysis-tools.c:2296
+#: src/tools/analysis-tools.c:2426
 msgid "Y Variable"
 msgstr "Y Değişkeni"
 
-#: src/tools/analysis-tools.c:2360
+#: src/tools/analysis-tools.c:2490
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -21580,187 +21623,203 @@ msgstr ""
 "/ÖZET ÇIKTI//Sapma İstatistikleri/Çoklu R/R Kare/Ayarlı R Kare/Standart Hata/"
 "Gözlemler//ANOVA//Sapma/Artan/Toplam///Kesir"
 
-#: src/tools/analysis-tools.c:2381
+#: src/tools/analysis-tools.c:2511
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Önem F"
 
-#: src/tools/analysis-tools.c:2388
+#: src/tools/analysis-tools.c:2518
 #, fuzzy, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
 "%%"
 msgstr "/Katsayılar/Standart Hata/t Hali/P-değeri/Alt %%%0.0f/Üst %%%0.0f"
 
-#: src/tools/analysis-tools.c:2544
+#: src/tools/analysis-tools.c:2535
+msgid ""
+"Probability of an observation's absolute value being larger than the t-"
+"value's"
+msgstr ""
+
+#: src/tools/analysis-tools.c:2677
 msgid "Moving Averages"
 msgstr "Taşınan Ortalamalar"
 
-#: src/tools/analysis-tools.c:2559
+#: src/tools/analysis-tools.c:2692
 msgid "Standard Error"
 msgstr "Standart Hata"
 
-#: src/tools/analysis-tools.c:2647
+#: src/tools/analysis-tools.c:2780
 msgid "Exponential Smoothing"
 msgstr "Üstel Yuvarlama"
 
-#: src/tools/analysis-tools.c:2727
+#: src/tools/analysis-tools.c:2860
 msgid "Ranks"
 msgstr "Sıralamalar"
 
-#: src/tools/analysis-tools.c:2736
+#: src/tools/analysis-tools.c:2869
 msgid "Point"
 msgstr "Nokta"
 
-#: src/tools/analysis-tools.c:2738
+#: src/tools/analysis-tools.c:2871
 msgid "Rank"
 msgstr "Sıralama"
 
-#. We are ready to create the summary table
-#: src/tools/analysis-tools.c:2827 src/tools/analysis-tools.c:3022
-#: src/tools/analysis-tools.c:3284
-msgid "Anova"
-msgstr "Anova"
-
-#: src/tools/analysis-tools.c:2829
+#: src/tools/analysis-tools.c:2958
 msgid "Anova: Single Factor"
 msgstr "Anova: Tek çarpan"
 
-#: src/tools/analysis-tools.c:2830 src/tools/analysis-tools.c:3287
+#: src/tools/analysis-tools.c:2959 src/tools/analysis-tools.c:3454
 msgid "SUMMARY"
 msgstr "ÖZET"
 
-#: src/tools/analysis-tools.c:2831
+#: src/tools/analysis-tools.c:2960
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Gruplar/Sayaç/Toplam/Ortalama/Değişim"
 
-#: src/tools/analysis-tools.c:2887
+#: src/tools/analysis-tools.c:3014
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Değişim Kaynağı/Gruplar Arasında/Grupların İçinde/Toplam"
 
-#: src/tools/analysis-tools.c:2892 src/tools/analysis-tools.c:3104
-#: src/tools/analysis-tools.c:3311
+#: src/tools/analysis-tools.c:3019 src/tools/analysis-tools.c:3271
+#: src/tools/analysis-tools.c:3478
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-değeri/F kritik"
 
-#: src/tools/analysis-tools.c:3028
+#: src/tools/analysis-tools.c:3108
+#, c-format
+msgid "Single Factor ANOVA (%s)"
+msgstr ""
+
+#. We are ready to create the summary table
+#: src/tools/analysis-tools.c:3117 src/tools/analysis-tools.c:3189
+#: src/tools/analysis-tools.c:3451
+msgid "Anova"
+msgstr "Anova"
+
+#: src/tools/analysis-tools.c:3120
+#, fuzzy
+msgid "Single Factor ANOVA"
+msgstr "Anova: Tek çarpan"
+
+#: src/tools/analysis-tools.c:3195
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Örneklemeksizin iki-çarpan"
 
-#: src/tools/analysis-tools.c:3029
+#: src/tools/analysis-tools.c:3196
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/ÖZET/Sayaç/Toplam/Ortalama/Değişim"
 
-#: src/tools/analysis-tools.c:3098
+#: src/tools/analysis-tools.c:3265
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Değişim Kaynağı/Satırlar/Sütunlar/Hata/Toplam"
 
-#: src/tools/analysis-tools.c:3286
+#: src/tools/analysis-tools.c:3453
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Örneklemeli iki-çarpan"
 
-#: src/tools/analysis-tools.c:3293
+#: src/tools/analysis-tools.c:3460
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Sayaç/Toplam/Ortalama/Değişim"
 
-#: src/tools/analysis-tools.c:3303
+#: src/tools/analysis-tools.c:3470
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Değişim Kaynağı/Satırlar/Sütunlar/Etkileşim/Yakın"
 
-#: src/tools/analysis-tools.c:3774
+#: src/tools/analysis-tools.c:3941
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:3778
+#: src/tools/analysis-tools.c:3945
 msgid "Too Small"
 msgstr "Çok Küçük"
 
-#: src/tools/analysis-tools.c:3795
+#: src/tools/analysis-tools.c:3962
 msgid "More"
 msgstr "Başka"
 
-#: src/tools/analysis-tools.c:3803
+#: src/tools/analysis-tools.c:3970
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/tools/analysis-tools.c:3807
+#: src/tools/analysis-tools.c:3974
 msgid "Too Large"
 msgstr "Çok Büyük"
 
-#: src/tools/analysis-tools.c:3853
+#: src/tools/analysis-tools.c:4020
 msgid "Bin"
 msgstr "Kutu"
 
-#: src/tools/analysis-tools.c:3878
+#: src/tools/analysis-tools.c:4045
 msgid "Frequency"
 msgstr "Frekans"
 
-#: src/tools/analysis-tools.c:3883
+#: src/tools/analysis-tools.c:4050
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Kümülatif %"
 
-#: src/tools/analysis-tools.c:4088 src/tools/solver/reports.c:609
+#: src/tools/analysis-tools.c:4186 src/tools/solver/reports.c:666
 msgid "Real"
 msgstr "Gerçel"
 
-#: src/tools/analysis-tools.c:4089
+#: src/tools/analysis-tools.c:4187
 msgid "Imaginary"
 msgstr "Sanal"
 
-#: src/tools/solver/reports.c:94
+#: src/tools/solver/reports.c:112
 #, fuzzy
 msgid "Gnumeric Solver"
 msgstr "Gnumeric"
 
-#: src/tools/solver/reports.c:100
+#: src/tools/solver/reports.c:118
 msgid "Worksheet:"
 msgstr ""
 
-#: src/tools/solver/reports.c:109
+#: src/tools/solver/reports.c:127
 msgid "Report Created:"
 msgstr ""
 
 #. Fill in the header titles.
-#: src/tools/solver/reports.c:130 src/tools/solver/reports.c:256
+#: src/tools/solver/reports.c:148 src/tools/solver/reports.c:276
 msgid "Answer Report"
 msgstr "Yanıt Raporu"
 
-#: src/tools/solver/reports.c:145 src/tools/solver/reports.c:169
+#: src/tools/solver/reports.c:163 src/tools/solver/reports.c:189
 msgid "Original Value"
 msgstr "Özgün Değer"
 
-#: src/tools/solver/reports.c:146 src/tools/solver/reports.c:170
+#: src/tools/solver/reports.c:164 src/tools/solver/reports.c:190
 msgid "Final Value"
 msgstr "Son Değer"
 
-#: src/tools/solver/reports.c:197
+#: src/tools/solver/reports.c:217
 msgid "Cell Value"
 msgstr "Göze Değeri"
 
-#: src/tools/solver/reports.c:198
+#: src/tools/solver/reports.c:218
 msgid "Formula"
 msgstr "Formül"
 
-#: src/tools/solver/reports.c:229
+#: src/tools/solver/reports.c:249
 msgid "Binding"
 msgstr "Birleştirme"
 
-#: src/tools/solver/reports.c:231
+#: src/tools/solver/reports.c:251
 msgid "Not Binding"
 msgstr "Birleştirmeme"
 
-#: src/tools/solver/reports.c:251
+#: src/tools/solver/reports.c:271
 msgid "Target Cell (Maximize)"
 msgstr "Hedef Göze (Büyüt)"
 
-#: src/tools/solver/reports.c:253
+#: src/tools/solver/reports.c:273
 msgid "Target Cell (Minimize)"
 msgstr "Hedef Göze (Küçült)"
 
 #. Fill in other titles.
-#: src/tools/solver/reports.c:259 src/tools/solver/reports.c:367
+#: src/tools/solver/reports.c:279 src/tools/solver/reports.c:418
 msgid "Adjustable Cells"
 msgstr "Ayarlanabilir Gözeler"
 
@@ -21768,41 +21827,69 @@ msgstr "Ayarlanabilir Gözeler"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports.c:277 src/tools/solver/reports.c:364
+#: src/tools/solver/reports.c:297 src/tools/solver/reports.c:415
 msgid "Sensitivity Report"
 msgstr "Duyarlılık Raporu"
 
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
-#: src/tools/solver/reports.c:291 src/tools/solver/reports.c:320
+#: src/tools/solver/reports.c:311 src/tools/solver/reports.c:358
 msgid "Final"
 msgstr "Son"
 
-#: src/tools/solver/reports.c:292
+#: src/tools/solver/reports.c:312
 msgid "Reduced"
 msgstr "İndirgenmiş"
 
-#: src/tools/solver/reports.c:296
-#, fuzzy
-msgid "Gradient"
-msgstr "Yazdır"
+#: src/tools/solver/reports.c:313
+msgid "Objective"
+msgstr "Nesnel"
+
+#: src/tools/solver/reports.c:314 src/tools/solver/reports.c:315
+#: src/tools/solver/reports.c:361 src/tools/solver/reports.c:362
+msgid "Allowable"
+msgstr "İzin verilebibir"
+
+#: src/tools/solver/reports.c:320
+msgid "Cost"
+msgstr "Eder"
 
 #: src/tools/solver/reports.c:321
-#, fuzzy
-msgid "Lagrange"
-msgstr "Bölge"
+msgid "Coefficient"
+msgstr "Katsayı"
 
-#: src/tools/solver/reports.c:325
+#: src/tools/solver/reports.c:322 src/tools/solver/reports.c:369
 #, fuzzy
-msgid "Multiplier"
-msgstr "Çarp"
+msgid "Increase"
+msgstr "Azaltma"
+
+#: src/tools/solver/reports.c:323 src/tools/solver/reports.c:370
+msgid "Decrease"
+msgstr "Azaltma"
+
+#: src/tools/solver/reports.c:359
+msgid "Shadow"
+msgstr "Gölgeleme"
+
+#: src/tools/solver/reports.c:360
+#, fuzzy
+msgid "Constraint"
+msgstr "Zorlamalar"
+
+#: src/tools/solver/reports.c:367
+msgid "Price"
+msgstr "Fiyat"
+
+#: src/tools/solver/reports.c:368
+msgid "R.H. Side"
+msgstr "Sağ Taraf"
 
 #.
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports.c:385 src/tools/solver/reports.c:493
+#: src/tools/solver/reports.c:436 src/tools/solver/reports.c:546
 #, fuzzy
 msgid "Limits Report"
 msgstr "Duyarlılık Raporu"
@@ -21810,33 +21897,33 @@ msgstr "Duyarlılık Raporu"
 #.
 #. * Fill in the labels.
 #.
-#: src/tools/solver/reports.c:401 src/tools/solver/reports.c:414
-#: src/tools/solver/reports.c:419
+#: src/tools/solver/reports.c:452 src/tools/solver/reports.c:465
+#: src/tools/solver/reports.c:470
 #, fuzzy
 msgid "Target"
 msgstr "Çok Büyük"
 
-#: src/tools/solver/reports.c:408
+#: src/tools/solver/reports.c:459
 #, fuzzy
 msgid "Adjustable"
 msgstr "Ayarlanabilir Gözeler"
 
-#: src/tools/solver/reports.c:413
+#: src/tools/solver/reports.c:464
 #, fuzzy
 msgid "Lower"
 msgstr "Yükleyici"
 
-#: src/tools/solver/reports.c:415 src/tools/solver/reports.c:420
+#: src/tools/solver/reports.c:466 src/tools/solver/reports.c:471
 #, fuzzy
 msgid "Limit"
 msgstr "Liste"
 
-#: src/tools/solver/reports.c:416 src/tools/solver/reports.c:421
+#: src/tools/solver/reports.c:467 src/tools/solver/reports.c:472
 #, fuzzy
 msgid "Result"
 msgstr "Gözeleri sil"
 
-#: src/tools/solver/reports.c:418
+#: src/tools/solver/reports.c:469
 msgid "Upper"
 msgstr ""
 
@@ -21844,30 +21931,30 @@ msgstr ""
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports.c:511 src/tools/solver/reports.c:666
+#: src/tools/solver/reports.c:565 src/tools/solver/reports.c:723
 #, fuzzy
-msgid "Program Report"
+msgid "Performance Report"
 msgstr "Uygulama ismi"
 
 #.
 #. * Fill in the labels of `General Statistics' section.
 #.
-#: src/tools/solver/reports.c:524
+#: src/tools/solver/reports.c:578
 #, fuzzy
 msgid "Variables"
 msgstr "Y Değişkeni"
 
-#: src/tools/solver/reports.c:526
+#: src/tools/solver/reports.c:580
 #, fuzzy
 msgid "Int Constraints"
 msgstr "Zorlamalar"
 
-#: src/tools/solver/reports.c:527
+#: src/tools/solver/reports.c:581
 #, fuzzy
 msgid "Bool Constraints"
 msgstr "Zorlamalar"
 
-#: src/tools/solver/reports.c:528 src/tools/solver/reports.c:555
+#: src/tools/solver/reports.c:582 src/tools/solver/reports.c:609
 #, fuzzy
 msgid "Number of"
 msgstr "Sayı"
@@ -21877,91 +21964,122 @@ msgstr "Sayı"
 #.
 #. * Fill in the labels of `Data Sparsity' section.
 #.
-#: src/tools/solver/reports.c:550
+#: src/tools/solver/reports.c:604
 msgid "Matrix Elements"
 msgstr ""
 
-#: src/tools/solver/reports.c:551
+#: src/tools/solver/reports.c:605
 msgid "Non-zeros (constr.)"
 msgstr ""
 
-#: src/tools/solver/reports.c:552
+#: src/tools/solver/reports.c:606
 msgid "Zeros (constr.)"
 msgstr ""
 
-#: src/tools/solver/reports.c:553
+#: src/tools/solver/reports.c:607
 msgid "Non-zeros (obj. fn)"
 msgstr ""
 
-#: src/tools/solver/reports.c:554
+#: src/tools/solver/reports.c:608
 msgid "Zeros (obj. fn)"
 msgstr ""
 
-#: src/tools/solver/reports.c:556
+#: src/tools/solver/reports.c:610
 msgid "Ratio"
 msgstr ""
 
 #.
 #. * Fill in the labels of `Computing Time' section.
 #.
-#: src/tools/solver/reports.c:607
+#: src/tools/solver/reports.c:664
 msgid "User"
 msgstr ""
 
-#: src/tools/solver/reports.c:608
+#: src/tools/solver/reports.c:665
 msgid "System"
 msgstr ""
 
-#: src/tools/solver/reports.c:610
+#: src/tools/solver/reports.c:667
 msgid "Time (sec.)"
 msgstr ""
 
 #.
 #. * Fill in the labels of `System Information' section.
 #.
-#: src/tools/solver/reports.c:628
+#: src/tools/solver/reports.c:685
 msgid "CPU"
 msgstr ""
 
-#: src/tools/solver/reports.c:629
+#: src/tools/solver/reports.c:686
 msgid "OS"
 msgstr ""
 
 #. Set the `CPU Name'.
-#: src/tools/solver/reports.c:635 src/tools/solver/reports.c:639
+#: src/tools/solver/reports.c:692 src/tools/solver/reports.c:696
 #, fuzzy
 msgid "Unknown"
 msgstr "İsmi bilinmiyor"
 
-#: src/tools/solver/reports.c:644
+#: src/tools/solver/reports.c:701
 #, c-format
 msgid "%s (%s)"
 msgstr ""
 
 #. Fill in other titles.
-#: src/tools/solver/reports.c:669
+#: src/tools/solver/reports.c:726
 #, fuzzy
 msgid "General Statistics"
 msgstr "İstatistikler"
 
-#: src/tools/solver/reports.c:670
+#: src/tools/solver/reports.c:727
 msgid "Data Sparsity"
 msgstr ""
 
-#: src/tools/solver/reports.c:671
+#: src/tools/solver/reports.c:728
 msgid "Computing Time"
 msgstr ""
 
-#: src/tools/solver/reports.c:672
+#: src/tools/solver/reports.c:729
 #, fuzzy
 msgid "System Information"
 msgstr "Bilgi"
 
-#: src/tools/solver/solver.c:384
+#: src/tools/solver/reports.c:745 src/tools/solver/reports.c:858
+#, fuzzy
+msgid "Program Report"
+msgstr "Uygulama ismi"
+
+#: src/tools/solver/reports.c:863
+msgid "Minimize"
+msgstr ""
+
+#: src/tools/solver/reports.c:866
+msgid "Maximize"
+msgstr ""
+
+#: src/tools/solver/reports.c:869
+msgid "Equal to"
+msgstr ""
+
+#. Print `Subject to' title.
+#: src/tools/solver/reports.c:875
+msgid "Subject to"
+msgstr ""
+
+#.
+#. * Fill in the titles.
+#.
+#. Fill in the header titles.
+#: src/tools/solver/reports.c:890 src/tools/solver/reports.c:903
+#, fuzzy
+msgid "Dual Program Report"
+msgstr "Uygulama ismi"
+
+#: src/tools/solver/solver.c:419
 msgid "Target cell is empty. The objective function cannot be determined."
 msgstr ""
 
-#: src/tools/solver/solver.c:401
+#: src/tools/solver/solver.c:436
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
@@ -21977,32 +22095,32 @@ msgstr "%s gözesi boş olmamalı"
 msgid "'%s' is an error"
 msgstr "'%s' bir sayı değil"
 
-#: src/validation.c:166
+#: src/validation.c:167
 #, fuzzy, c-format
 msgid "'%s' is not a valid date"
 msgstr "'%f' bir tamsayı"
 
-#: src/validation.c:168
+#: src/validation.c:169
 #, fuzzy, c-format
 msgid "'%s' is not a valid time"
 msgstr "'%s' bir sayı değil"
 
-#: src/validation.c:170
+#: src/validation.c:171
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' bir sayı değil"
 
-#: src/validation.c:183
+#: src/validation.c:184
 #, fuzzy, c-format
 msgid "'%s' is not an integer"
 msgstr "'%f' bir tamsayı"
 
-#: src/validation.c:276
+#: src/validation.c:277
 #, c-format
 msgid "%s is not true."
 msgstr "%s yanlış."
 
-#: src/validation.c:289
+#: src/validation.c:290
 #, fuzzy
 msgid ""
 "That value is invalid.\n"
@@ -22011,12 +22129,12 @@ msgstr ""
 "Bu değer geçersiz.\n"
 "Kısıtlamalar bu gözelerdeydi."
 
-#: src/validation.c:296
+#: src/validation.c:297
 #, fuzzy
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric : Değerlendirme"
 
-#: src/value.c:699
+#: src/value.c:701
 msgid "Terminate"
 msgstr "Bitir"
 
@@ -22066,16 +22184,17 @@ msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "`%s' çizelgesini gerçekten silmek istiyor musunuz?"
 
 #: src/workbook-control-gui.c:462
+#, fuzzy
+msgid "Manage sheets..."
+msgstr "Bu çizelgenin ismini değiştirir"
+
+#: src/workbook-control-gui.c:463
 msgid "Duplicate this sheet"
 msgstr "Bu çizelgenin aynısını oluşturur"
 
-#: src/workbook-control-gui.c:464
+#: src/workbook-control-gui.c:465
 msgid "Rename this sheet"
 msgstr "Bu çizelgenin ismini değiştirir"
-
-#: src/workbook-control-gui.c:465
-msgid "Re-order sheets"
-msgstr "Çizelgeleri yeniden sıraya dizer"
 
 #: src/workbook-control-gui.c:466
 msgid "Remove this sheet"
@@ -22089,35 +22208,26 @@ msgstr "Yok"
 msgid "Un_freeze Panes"
 msgstr "Yüzeyleri _Çöz"
 
-#: src/workbook-control-gui.c:1010 src/workbook-control-gui.c:3166
-#: src/workbook-control-gui.c:3361 src/workbook-control-gui.c:3383
+#: src/workbook-control-gui.c:1010 src/workbook-control-gui.c:3165
+#: src/workbook-control-gui.c:3360 src/workbook-control-gui.c:3382
 msgid "Undo"
 msgstr "Geri al"
 
-#: src/workbook-control-gui.c:1011 src/workbook-control-gui.c:3169
-#: src/workbook-control-gui.c:3368 src/workbook-control-gui.c:3386
+#: src/workbook-control-gui.c:1011 src/workbook-control-gui.c:3168
+#: src/workbook-control-gui.c:3367 src/workbook-control-gui.c:3385
 msgid "Redo"
 msgstr "Tekrar Yap"
 
-#: src/workbook-control-gui.c:1161
-#, c-format
-msgid "Would split array %s"
-msgstr "%s dizisi ayrılacaktı."
-
-#: src/workbook-control-gui.c:1163
-msgid "Would split an array"
-msgstr "bir dizi ayrılacaktı"
-
-#: src/workbook-control-gui.c:1224
+#: src/workbook-control-gui.c:1221
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "%s defterindeki değişiklikler kaydedilsin mi?"
 
-#: src/workbook-control-gui.c:1227
+#: src/workbook-control-gui.c:1224
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Defterdeki değişiklikler kaydedilsin mi?"
 
-#: src/workbook-control-gui.c:1729
+#: src/workbook-control-gui.c:1726
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -22136,7 +22246,7 @@ msgstr ""
 "\n"
 "Hiçbir yerleştirme yapılmadı ve çıkıldı."
 
-#: src/workbook-control-gui.c:1766
+#: src/workbook-control-gui.c:1763
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "%s!%s yorumu"
@@ -22145,7 +22255,7 @@ msgstr "%s!%s yorumu"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1977
+#: src/workbook-control-gui.c:1974
 msgid "Insert rows"
 msgstr "Satır ekle"
 
@@ -22153,175 +22263,180 @@ msgstr "Satır ekle"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1995
+#: src/workbook-control-gui.c:1992
 msgid "Insert columns"
 msgstr "Sütun ekler"
 
-#: src/workbook-control-gui.c:2330
+#: src/workbook-control-gui.c:2327
 msgid "Show"
 msgstr "Göster"
 
-#: src/workbook-control-gui.c:2330
+#: src/workbook-control-gui.c:2327
 msgid "Hide"
 msgstr "Gizle"
 
-#: src/workbook-control-gui.c:2347
+#: src/workbook-control-gui.c:2344
 msgid "can only be performed on an existing group"
 msgstr "sadece mevcut bir grup üzerinde uygulanabilir"
 
-#: src/workbook-control-gui.c:2371
+#: src/workbook-control-gui.c:2368
 msgid "Group"
 msgstr "Grupla"
 
-#: src/workbook-control-gui.c:2371
+#: src/workbook-control-gui.c:2368
 msgid "Ungroup"
 msgstr "Grubu çöz"
 
-#: src/workbook-control-gui.c:2516
+#: src/workbook-control-gui.c:2515
 msgid "Select an object to add"
 msgstr "Eklenecek nesneyi seçin"
 
-#: src/workbook-control-gui.c:2527
+#: src/workbook-control-gui.c:2526
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "'%s' türünde nesne oluşturulamadı"
 
-#: src/workbook-control-gui.c:2615
+#: src/workbook-control-gui.c:2614
 #, fuzzy
 msgid "_Contents"
 msgstr "İ_çerik"
 
-#: src/workbook-control-gui.c:2645
+#: src/workbook-control-gui.c:2644
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "Düzenlenmekte olan gözenin içeriğine bağımlı tüm gözeler seçilir."
 
-#: src/workbook-control-gui.c:2700
+#: src/workbook-control-gui.c:2677 src/workbook-control-gui.c:2863
+#, fuzzy
+msgid "_Manage Sheets..."
+msgstr "Çizelgeleri Yeniden _Sırala..."
+
+#: src/workbook-control-gui.c:2699
 msgid "P_aste special..."
 msgstr "Ö_zel yapıştır..."
 
-#: src/workbook-control-gui.c:2709
+#: src/workbook-control-gui.c:2708
 msgid "Remove selected cells, shifting other into their place"
 msgstr "Seçili gözeleri kaldırır ve diğerlerini onların yerine kaydırır"
 
-#: src/workbook-control-gui.c:2760
+#: src/workbook-control-gui.c:2759
 msgid "Freeze the top left of the sheet"
 msgstr "Çizelgenin sol üst gözesini dondurur"
 
-#: src/workbook-control-gui.c:2788
+#: src/workbook-control-gui.c:2787
 msgid "_Auto generate names..."
 msgstr "İsimleri _otomatik üret..."
 
-#: src/workbook-control-gui.c:2789
+#: src/workbook-control-gui.c:2788
 msgid "Use the current selection to create names"
 msgstr "İsimleri oluşturmak için seçimi kullanır"
 
-#: src/workbook-control-gui.c:2888
+#: src/workbook-control-gui.c:2887
 msgid "Hide _Column Header"
 msgstr "Süt_un Başlıklarını Gizle"
 
-#: src/workbook-control-gui.c:2894
+#: src/workbook-control-gui.c:2893
 msgid "Hide _Row Header"
 msgstr "S_atır Başlıklarını Gizle"
 
-#: src/workbook-control-gui.c:2996
+#: src/workbook-control-gui.c:2995
 msgid "Ranks And _Percentiles"
 msgstr "Sıralama ve _Oranlama"
 
-#: src/workbook-control-gui.c:3017
+#: src/workbook-control-gui.c:3016
 msgid "Manage available plugin modules."
 msgstr "Mevcut eklenti modüllerini yönetir."
 
-#: src/workbook-control-gui.c:3053
+#: src/workbook-control-gui.c:3052
 msgid "_Group..."
 msgstr "_Grupla..."
 
-#: src/workbook-control-gui.c:3056
+#: src/workbook-control-gui.c:3055
 msgid "_Ungroup..."
 msgstr "Grubu Çö_z..."
 
-#: src/workbook-control-gui.c:3095
+#: src/workbook-control-gui.c:3094
 msgid "Sorts the selected region."
 msgstr "Seçilen gözeleri sıralar"
 
-#: src/workbook-control-gui.c:3132
+#: src/workbook-control-gui.c:3131
 msgid "Creates a new workbook"
 msgstr "Yeni bir defter oluşturur"
 
-#: src/workbook-control-gui.c:3135
+#: src/workbook-control-gui.c:3134
 msgid "Opens an existing workbook"
 msgstr "Bir dosyadan defter açar"
 
-#: src/workbook-control-gui.c:3138
+#: src/workbook-control-gui.c:3137
 msgid "Saves the workbook"
 msgstr "Defteri kaydeder"
 
-#: src/workbook-control-gui.c:3144
+#: src/workbook-control-gui.c:3143
 msgid "Prints the workbook"
 msgstr "Defteri yazdırır"
 
-#: src/workbook-control-gui.c:3153
+#: src/workbook-control-gui.c:3152
 msgid "Cuts the selection to the clipboard"
 msgstr "Seçimi taşımak üzere panoya kopyalar"
 
-#: src/workbook-control-gui.c:3156
+#: src/workbook-control-gui.c:3155
 msgid "Copies the selection to the clipboard"
 msgstr "Seçimi panoya kopyalar"
 
-#: src/workbook-control-gui.c:3159
+#: src/workbook-control-gui.c:3158
 msgid "Pastes the clipboard"
 msgstr "Panodan yapıştırır"
 
-#: src/workbook-control-gui.c:3166
+#: src/workbook-control-gui.c:3165
 msgid "Undo the operation"
 msgstr "İşlemi geri al"
 
-#: src/workbook-control-gui.c:3169
+#: src/workbook-control-gui.c:3168
 msgid "Redo the operation"
 msgstr "İşlemi ileri al"
 
-#: src/workbook-control-gui.c:3179
+#: src/workbook-control-gui.c:3178
 msgid "Sum into the current cell."
 msgstr "Toplamı gözeye yazar."
 
-#: src/workbook-control-gui.c:3182
+#: src/workbook-control-gui.c:3181
 msgid "Function"
 msgstr "İşlev"
 
-#: src/workbook-control-gui.c:3182
+#: src/workbook-control-gui.c:3181
 msgid "Edit a function in the current cell."
 msgstr "Gözedeki işlevi düzenlemeniz için diyalog açar."
 
-#: src/workbook-control-gui.c:3186
+#: src/workbook-control-gui.c:3185
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
 msgstr ""
 "Seçimin ilk sütununu temel alarak seçilen bölgeyi artan sıralamayla dizer."
 
-#: src/workbook-control-gui.c:3189
+#: src/workbook-control-gui.c:3188
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
 msgstr ""
 "Seçimin ilk sütununu temel alarak seçilen bölgeyi azalan sıralamayla dizer."
 
-#: src/workbook-control-gui.c:4132
+#: src/workbook-control-gui.c:4134
 msgid "Send"
 msgstr "Gönder"
 
-#: src/workbook-control-gui.c:4132
+#: src/workbook-control-gui.c:4134
 msgid "Send the current file in email"
 msgstr "Mevcut dosyayı e-posta ile gönder"
 
-#: src/workbook-control-gui.c:4334
+#: src/workbook-control-gui.c:4336
 msgid "Re-Edit"
 msgstr "_Yeniden Düzenle"
 
-#: src/workbook-control-gui.c:4335 src/workbook-control-gui.c:4340
+#: src/workbook-control-gui.c:4337 src/workbook-control-gui.c:4342
 msgid "Discard"
 msgstr "İptal"
 
-#: src/workbook-control-gui.c:4339
+#: src/workbook-control-gui.c:4341
 msgid "Accept"
 msgstr "Kabul"
 
@@ -22332,6 +22447,19 @@ msgstr "İsim Ata"
 #: src/workbook-control.c:240
 msgid "Address"
 msgstr "Adres"
+
+#: src/workbook-edit.c:353
+#, c-format
+msgid "%s!%s is locked"
+msgstr ""
+
+#: src/workbook-edit.c:357
+msgid "Unprotect the workbook to enable editing."
+msgstr ""
+
+#: src/workbook-edit.c:358
+msgid "Unprotect the sheet to enable editing."
+msgstr ""
 
 #: src/workbook-format-toolbar.c:84
 msgid "Set Horizontal Alignment"
@@ -22525,24 +22653,24 @@ msgstr "Dörtgen nesnesi oluşturur"
 msgid "Creates an ellipse object"
 msgstr "Elips nesnesi oluşturur"
 
-#: src/workbook-view.c:224
+#: src/workbook-view.c:227
 #, c-format
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:360
+#: src/workbook-view.c:363
 msgid "Internal ERROR"
 msgstr "İç HATA"
 
-#: src/workbook-view.c:559
+#: src/workbook-view.c:563
 msgid "Default file saver is not available."
 msgstr "Öntanımlı dosya kaydedici kullanılabilir değil."
 
-#: src/workbook-view.c:650
+#: src/workbook-view.c:654
 msgid "No sheets in workbook."
 msgstr "Defterde çizelge yok."
 
-#: src/workbook-view.c:660
+#: src/workbook-view.c:664
 msgid "Unsupported file format."
 msgstr "Dosya biçemi desteklenmiyor."
 
@@ -22564,32 +22692,62 @@ msgstr "Bu isimde bir çizelge zaten var"
 msgid "You may not use this name twice"
 msgstr ""
 
-#: src/xml-io.c:2677
+#: src/xml-io.c:2679
 msgid "Unparsable xml in clipboard"
 msgstr "Panodaki xml çözümlenemiyor"
 
-#: src/xml-io.c:2684
+#: src/xml-io.c:2686
 msgid "Clipboard is in unknown format"
 msgstr "Panodaki verinin biçemi bilinmiyor."
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3089
+#: src/xml-io.c:3091
 msgid "Processing file..."
 msgstr "Dosya işleniyor..."
 
-#: src/xml-io.c:3247
+#: src/xml-io.c:3249
 msgid "Not enough memory to create zlib decompression state."
 msgstr "zlib genişletme durumunu oluşturmak için bellek yetersiz."
 
-#: src/xml-io.c:3282
+#: src/xml-io.c:3284
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Bu bir Gnumeric defter dosyası değil"
 
-#: src/xml-io.c:3340
+#: src/xml-io.c:3342
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML dosya biçimi"
+
+#~ msgid "Descend"
+#~ msgstr "Azalan"
+
+#, fuzzy
+#~ msgid "A sheet name must have at least 1 character."
+#~ msgstr "En az bir harf olmalı"
+
+#, fuzzy
+#~ msgid "You can only remove new sheets."
+#~ msgstr "Seçili çizelgeyi geri alınamayacak şekilde siler"
+
+#, fuzzy
+#~ msgid "Rem"
+#~ msgstr "S_il"
+
+#, fuzzy
+#~ msgid "Gradient"
+#~ msgstr "Yazdır"
+
+#, fuzzy
+#~ msgid "Lagrange"
+#~ msgstr "Bölge"
+
+#, fuzzy
+#~ msgid "Multiplier"
+#~ msgstr "Çarp"
+
+#~ msgid "Re-order sheets"
+#~ msgstr "Çizelgeleri yeniden sıraya dizer"
 
 #~ msgid "Are you sure you want to remove the template '%s' ?"
 #~ msgstr "'%s' şablonunu gerçekten silmek istiyor musunuz?"
@@ -22633,30 +22791,6 @@ msgstr "Gnumeric XML dosya biçimi"
 
 #~ msgid "Gnumeric Solver Sensitivity Report"
 #~ msgstr "Gnumeric Çözümleyici Duyarlılık Raporu"
-
-#~ msgid "Objective"
-#~ msgstr "Nesnel"
-
-#~ msgid "Allowable"
-#~ msgstr "İzin verilebibir"
-
-#~ msgid "Cost"
-#~ msgstr "Eder"
-
-#~ msgid "Coefficient"
-#~ msgstr "Katsayı"
-
-#~ msgid "Decrease"
-#~ msgstr "Azaltma"
-
-#~ msgid "Shadow"
-#~ msgstr "Gölgeleme"
-
-#~ msgid "Price"
-#~ msgstr "Fiyat"
-
-#~ msgid "R.H. Side"
-#~ msgstr "Sağ Taraf"
 
 #~ msgid "Text File Export (*.csv)"
 #~ msgstr "Metin Dosyası Dışarı Aktarım (*.csv)"

@@ -28,7 +28,6 @@ BUILT_SOURCES =					\
 
 GNUMERIC_BASE =					\
 	$(BUILT_SOURCES)			\
-	analysis-tools.h			\
 	application.c				\
 	application.h				\
 	auto-format.c				\
