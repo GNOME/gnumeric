@@ -38,7 +38,7 @@ EXTRA_DIST = \
 	intltool-extract.in	\
 	intltool-merge.in	\
 	intltool-update.in	\
-	$(server_in_files)
+	$(server_in_files) $(server_DATA)
 
 gnumeric.keys: gnumeric.keys.in Makefile
 	sed -e 's^\@gnumeric_icondir\@^$(gnumeric_icondir)^g' < $(srcdir)/gnumeric.keys.in > gnumeric.keys.tmp \
