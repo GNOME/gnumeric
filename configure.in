@@ -95,20 +95,20 @@ LDFLAGS=${_ldflags}
 
 dnl *****************************
 gnumeric_reqs="
-	glib-2.0		>= 2.4.0
-	gobject-2.0		>= 2.4.0
-	gmodule-2.0		>= 2.4.0
-	libgsf-1		>= 1.10.0
+	glib-2.0		>= 2.6.0
+	gobject-2.0		>= 2.6.0
+	gmodule-2.0		>= 2.6.0
+	libgsf-1		>= 1.11.1
 	libxml-2.0		>= 2.4.12
-	pango			>= 1.4.0
-	pangoft2		>= 1.4.0
+	pango			>= 1.8.0
+	pangoft2		>= 1.8.0
 "
 gnumeric_gtk_reqs="
-	gtk+-2.0		>= 2.4.0
+	gtk+-2.0		>= 2.6.0
 	libglade-2.0		>= 2.3.6
 	libgnomecanvas-2.0	>= 2.0.0
-	libgnomeprint-2.2	>= 2.5.2
-	libgnomeprintui-2.2	>= 2.5.2
+	libgnomeprint-2.2	>= 2.8.2
+	libgnomeprintui-2.2	>= 2.8.2
 	libart-2.0		>= 2.3.11
 "
 gnumeric_gnome_reqs="
@@ -117,7 +117,7 @@ gnumeric_gnome_reqs="
 	libbonoboui-2.0		>= 2.2.0
 	libgnome-2.0		>= 2.0.0
 	libgnomeui-2.0		>= 2.0.0
-	libgsf-gnome-1		>= 1.10.0
+	libgsf-gnome-1		>= 1.11.1
 "
 
 ui_msg=

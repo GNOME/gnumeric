@@ -1,3 +1,8 @@
+2005-01-25  Morten Welinder  <terra@gnome.org>
+
+	* configure.in (gnumeric_gnome_reqs): Upgrade requirements to
+	something recent.
+
 2005-01-25  Stepan Kasal  <kasal@ucw.cz>
 
 	AC_PATH_PROG can be tricky: if the user sets the variable to
