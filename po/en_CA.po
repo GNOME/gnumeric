@@ -1,14 +1,15 @@
 # English/Canada translation of gnumeric.
 # Copyright (C) Adam Weinberger and the GNOME Foundation
 # This file is distributed under the same licence as the gnumeric package.
-# Maintainer: Adam Weinberger <adamw@gnome.org>
+# Andreas J. Guelzow <aguelzow@italiesin.ca>, 2003.
+# Adam Weinberger <adamw@gnome.org>, 2004.
 # 
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-19 11:24-0400\n"
+"POT-Creation-Date: 2004-10-19 23:56-0400\n"
 "PO-Revision-Date: 2004-10-19 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: English/Canada <adamw@FreeBSD.org>\n"
@@ -5094,7 +5095,7 @@ msgstr "date1,date2,interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:473
+#: src/print-info.c:472
 msgid "date"
 msgstr "date"
 
@@ -5111,7 +5112,7 @@ msgid "start_date,months"
 msgstr "start_date,months"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:474
+#: plugins/fn-date/functions.c:1265 src/print-info.c:473
 msgid "time"
 msgstr "time"
 
@@ -28382,33 +28383,33 @@ msgid "Error while opening file \"%s\" for reading."
 msgstr "Error while opening file \"%s\" for reading."
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:608
+#: src/print.c:611
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1153
+#: src/print.c:1156
 msgid "Print Region"
 msgstr "Print Region"
 
-#: src/print.c:1283
-msgid "Print Sheets"
-msgstr "Print Sheets"
-
-#: src/print.c:1291
-msgid "Act_ive sheet"
-msgstr "Act_ive sheet"
-
-#: src/print.c:1291
-msgid "S_heets"
-msgstr "S_heets"
-
-#: src/print.c:1379 src/wbcg-actions.c:1515
+#: src/print.c:1325 src/wbcg-actions.c:1515
 msgid "Print preview"
 msgstr "Print preview"
 
-#: src/print.c:1392
+#: src/print.c:1338
 msgid "Printing failed"
 msgstr "Printing failed"
+
+#: src/print.c:1443
+msgid "Print Sheets"
+msgstr "Print Sheets"
+
+#: src/print.c:1452
+msgid "Act_ive sheet"
+msgstr "Act_ive sheet"
+
+#: src/print.c:1452
+msgid "S_heets"
+msgstr "S_heets"
 
 #: src/print-info.c:143 src/print-info.c:146 src/print-info.c:147
 #: src/print-info.c:258
@@ -28432,27 +28433,27 @@ msgstr "&[DATE]"
 msgid "File Name"
 msgstr "File Name"
 
-#: src/print-info.c:462
+#: src/print-info.c:461
 msgid "Path "
 msgstr "Path "
 
-#: src/print-info.c:470
+#: src/print-info.c:469
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:471
+#: src/print-info.c:470
 msgid "page"
 msgstr "page"
 
-#: src/print-info.c:472
+#: src/print-info.c:471
 msgid "pages"
 msgstr "pages"
 
-#: src/print-info.c:475
+#: src/print-info.c:474
 msgid "file"
 msgstr "file"
 
-#: src/print-info.c:476
+#: src/print-info.c:475
 msgid "path"
 msgstr "path"
 
