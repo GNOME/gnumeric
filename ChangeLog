@@ -1,3 +1,7 @@
+2001-03-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_cell_calc_span) : rewrite to be less stupid.
+
 2001-03-03  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Plugin code cleanup (removed unnecessary function arguments) + small

@@ -205,12 +205,11 @@ cell_calc_span (Cell const * const cell, int * const col1, int * const col2)
 	 * 	- The text fits inside column (for non center across selection)
 	 * 	- The alignment mode are set to "justify"
 	 */
-	if (sheet != NULL) {
-		if (cell_is_merged (cell) ||
-		    (!sheet->display_formulas && cell_is_number (cell))) {
-			*col1 = *col2 = cell->pos.col;
-			return;
-		}
+	if (sheet != NULL &&
+	    (cell_is_merged (cell) ||
+	     (!sheet->display_formulas && cell_is_number (cell)))) {
+		*col1 = *col2 = cell->pos.col;
+		return;
 	}
 
 	mstyle = cell_get_mstyle (cell);
