@@ -545,8 +545,8 @@ dialog_random_realized (GtkWidget *widget, RandomToolState *state)
 	GtkWidget *t = state->distribution_table;
 	GtkWidget *l = state->par1_label;
 
-	gtk_widget_set_usize (t, t->allocation.width, t->allocation.height);
-	gtk_widget_set_usize (l, l->allocation.width, l->allocation.height);
+	gtk_widget_set_size_request (t, t->allocation.width, t->allocation.height);
+	gtk_widget_set_size_request (l, l->allocation.width, l->allocation.height);
 	distribution_callback (widget, state);
 }
 

@@ -1,5 +1,11 @@
 2003-05-19  Morten Welinder  <terra@gnome.org>
 
+	* dialog-random-generator.c (dialog_random_realized): Use
+	gtk_widget_set_size_request, not gtk_widget_set_usize.
+
+	* dialog-analysis-tools.c (dialog_sampling_realized,
+	dialog_ttest_realized): Ditto.
+
 	* dialog-printer-setup.c (unit_editor_configure): Use
 	gtk_widget_set_size_request, not gtk_widget_set_usize.  Avoid
 	arbitrary pixel counts.

@@ -1420,18 +1420,18 @@ static void
 dialog_ttest_realized (G_GNUC_UNUSED GtkWidget *widget,
 		       TTestState *state)
 {
-	gtk_widget_set_usize (state->options_table,
-			      state->options_table->allocation.width,
-			      state->options_table->allocation.height);
-	gtk_widget_set_usize (state->paired_button,
-			      state->paired_button->allocation.width,
-			      state->paired_button->allocation.height);
-	gtk_widget_set_usize (state->unpaired_button,
-			      state->unpaired_button->allocation.width,
-			      state->unpaired_button->allocation.height);
-	gtk_widget_set_usize (state->variablespaired_label,
-			      state->variablespaired_label->allocation.width,
-			      state->variablespaired_label->allocation.height);
+	gtk_widget_set_size_request (state->options_table,
+				     state->options_table->allocation.width,
+				     state->options_table->allocation.height);
+	gtk_widget_set_size_request (state->paired_button,
+				     state->paired_button->allocation.width,
+				     state->paired_button->allocation.height);
+	gtk_widget_set_size_request (state->unpaired_button,
+				     state->unpaired_button->allocation.width,
+				     state->unpaired_button->allocation.height);
+	gtk_widget_set_size_request (state->variablespaired_label,
+				     state->variablespaired_label->allocation.width,
+				     state->variablespaired_label->allocation.height);
 	ttest_paired_toggled_cb (state->paired_button, state);
 	dialog_ttest_adjust_to_invocation (state);
 }
@@ -1829,18 +1829,18 @@ static void
 dialog_sampling_realized (G_GNUC_UNUSED GtkWidget *widget,
 			  SamplingState *state)
 {
-	gtk_widget_set_usize (state->options_table,
-			      state->options_table->allocation.width,
-			      state->options_table->allocation.height);
-	gtk_widget_set_usize (state->random_button,
-			      state->random_button->allocation.width,
-			      state->random_button->allocation.height);
-	gtk_widget_set_usize (state->periodic_button,
-			      state->periodic_button->allocation.width,
-			      state->periodic_button->allocation.height);
-	gtk_widget_set_usize (state->method_label,
-			      state->method_label->allocation.width,
-			      state->method_label->allocation.height);
+	gtk_widget_set_size_request (state->options_table,
+				     state->options_table->allocation.width,
+				     state->options_table->allocation.height);
+	gtk_widget_set_size_request (state->random_button,
+				     state->random_button->allocation.width,
+				     state->random_button->allocation.height);
+	gtk_widget_set_size_request (state->periodic_button,
+				     state->periodic_button->allocation.width,
+				     state->periodic_button->allocation.height);
+	gtk_widget_set_size_request (state->method_label,
+				     state->method_label->allocation.width,
+				     state->method_label->allocation.height);
 	sampling_method_toggled_cb (state->periodic_button, state);
 }
 
