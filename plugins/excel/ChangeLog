@@ -1,3 +1,9 @@
+1999-11-15  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (biff_xf_data_new) : Add warnings about
+	  unsupported alignment and format features.  This explains
+	  why travel.xls looks odd.
+
 1999-11-14  Frank Chiulli <fchiulli@home.com>
 
 	* ms-summary.c (set_summary_item) : Process all the sections in a 

@@ -768,7 +768,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_KP_Delete:
 	case GDK_Delete:
-		sheet_selection_clear (sheet);
+		sheet_selection_clear_content (sheet);
 		break;
 
 	case GDK_KP_Enter:

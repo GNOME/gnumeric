@@ -1,5 +1,8 @@
 1999-11-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Delete
+	  should clear contents not everything.
+
 	* src/dialogs/dialog-cell-format.c (cb_align_h_toggle) : Fix Typo.
 
 	* src/sheet.c (colrow_set_units) : Fix as per Bug 3472.

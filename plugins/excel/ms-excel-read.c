@@ -1281,7 +1281,11 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 	xf->hidden = (data & 0x0002) ? eBiffHHidden : eBiffHVisible;
 	xf->xftype = (data & 0x0004) ? eBiffXStyle : eBiffXCell;
 	xf->format = (data & 0x0008) ? eBiffFLotus : eBiffFMS;
-	xf->parentstyle = (data >> 4);
+	xf->parentstyle = (data & 0xfff0) >> 4;
+
+	if (xf->xftype == eBiffXCell && xf->parentstyle != 0)
+		g_warning ("EXCEL : Aha! this sheet has an example of a 'parent' xf 0x%x != 0",
+			   xf->parentstyle);
 
 	data = MS_OLE_GET_GUINT16 (q->data + 6);
 	subdata = data & 0x0007;
@@ -1364,10 +1368,31 @@ biff_xf_data_new (ExcelWorkbook *wb, BiffQuery *q, eBiff_version ver)
 	}
 
 	if (ver == eBiffV8) {
-		/*
-		 * FIXME: Got bored and stop implementing everything, there is just too much !
-		 */
-		data = MS_OLE_GET_GUINT16 (q->data + 8);
+		static gboolean indent_warn = TRUE;
+		static gboolean shrink_warn = TRUE;
+		static gboolean merge_warn = TRUE;
+
+		/* FIXME : What are the lower 8 bits Always 0 ?? */
+		/* We need this to be able to support travel.xls */
+		guint16 const data = MS_OLE_GET_GUINT16 (q->data + 8);
+		int const indent = data & 0x0f;
+		gboolean const shrink = (data & 0x10) ? TRUE : FALSE;
+		gboolean const merge = (data & 0x20) ? TRUE : FALSE;
+
+		if (indent != 0 && indent_warn) {
+			indent_warn = FALSE;
+			g_warning ("EXCEL : horizontal indent of %d (> 0) is not supported yet.",
+				   indent);
+		}
+		if (shrink && shrink_warn) {
+			shrink_warn = FALSE;
+			g_warning ("EXCEL : Shrink to fit is not supported yet.");
+		}
+		if (merge && merge_warn) {
+			merge_warn = FALSE;
+			g_warning ("EXCEL : Merge cells is not supported yet.");
+		}
+
 		subdata = (data & 0x00C0) >> 10;
 		switch (subdata) {
 		case 0:
