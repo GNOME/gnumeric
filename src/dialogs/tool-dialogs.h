@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,6 +21,12 @@
 #include "numbers.h"
 #include "widgets/gnumeric-expr-entry.h"
 #include <glade/glade-xml.h>
+
+typedef struct {
+	GtkWidget *show_button;
+	GtkWidget *delete_button;
+	GtkWidget *summary_button;
+} scenario_buttons_t;
 
 typedef struct {
 	GladeXML  *gui;
@@ -47,6 +54,10 @@ typedef struct {
 	GtkAccelGroup *accel;
 	GtkWidget *warning_dialog;
 	GtkWidget *warning;
+
+        scenario_buttons_t *scenario_buttons;
+        GtkWidget *name_entry;
+        GtkWidget *scenarios_treeview;
 } GenericToolState;
 
 void     tool_load_selection (GenericToolState *state, gboolean allow_multiple);

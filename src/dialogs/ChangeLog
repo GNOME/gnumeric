@@ -1,3 +1,8 @@
+2003-04-10  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* dialog-scenarios.c: Introduced.
+	dialogs.h, tool-dialogs.h: Related changes.
+	
 2003-04-09  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-analysis-tools.c (tool_load_selection): Added != NULL
