@@ -8,6 +8,10 @@ Jody:
 	* Enable 'popup-menu' binding support
 	* Add tooltip for object resizing
 
+Morten:
+	* Add Ctrl-5 for strike-through.
+	* Add Ctrl-Shift-D for double underline.
+
 Uwe Steinmann:
 	* Paradox DB import.
 

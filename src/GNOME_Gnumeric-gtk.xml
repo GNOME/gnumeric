@@ -288,6 +288,7 @@
   <accelerator name="FontBold"		 action="FontBold"/>
   <accelerator name="FontItalic"	 action="FontItalic"/>
   <accelerator name="FontUnderline"	 action="FontUnderline"/>
+  <accelerator name="FontDoubleUnderline" action="FontDoubleUnderline"/>
   <accelerator name="FontStrikeThrough"  action="FontStrikeThrough"/>
   <accelerator name="FormatAsNumber"	 action="FormatAsNumber"/>
   <accelerator name="FormatAsCurrency"	 action="FormatAsCurrency"/>

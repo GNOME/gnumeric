@@ -1981,9 +1981,8 @@ static /* const 142334 */ GtkToggleActionEntry font_toggle_actions[] = {
 		N_("_Underline"), "<control>u",
 		N_("Underline"), G_CALLBACK (cb_font_underline), FALSE },
 #warning "Add double underline icon"
-#warning "Add accelerator for double underline"
 	{ "FontDoubleUnderline", GTK_STOCK_UNDERLINE,
-		N_("_Underline"), NULL,
+		N_("_Underline"), "<control><shift>d",
 		N_("Underline"), G_CALLBACK (cb_font_double_underline), FALSE },
 	{ "FontStrikeThrough", GTK_STOCK_UNDERLINE,
 		N_("_Strike Through"), "<control>5",
