@@ -80,252 +80,56 @@
 	  <property name="column_spacing">0</property>
 
 	  <child>
-	    <widget class="GtkOptionMenu" id="op0">
+	    <widget class="GtkComboBox" id="op0">
 	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="history">0</property>
-
-	      <child>
-		<widget class="GtkMenu" id="menu3">
-
-		  <child>
-		    <widget class="GtkMenuItem" id="unused">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes"> </property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="equals1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">equals</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="does_not_equal1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">does not equal</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="is_greater_than1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">is greater than</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="is_greater_than_or_equal_to1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">is greater than or equal to</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="is_less_than1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">is less than</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="is_less_than_or_equal_to1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">is less than or equal to</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="begins_with1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">begins with</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="does_not_begin_with1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">does not begin with</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="ends_with1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">ends with</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="does_not_end_with1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">does not end with</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="contains1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">contains</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="does_not_contain1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">does not contain</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-		</widget>
-	      </child>
-	    </widget>
+	      <property name="items" translatable="yes">
+equals
+does not equal
+is greater than
+is greater than or equal to
+is_less_than
+is less than or equal to
+begins with
+does not begin with
+ends with
+does not end with
+contains
+does not contain</property>
+</widget>
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
 	      <property name="top_attach">1</property>
 	      <property name="bottom_attach">2</property>
 	      <property name="x_options">fill</property>
-	      <property name="y_options"></property>
+	      <property name="y_options">fill</property>
 	    </packing>
 	  </child>
 
 	  <child>
-	    <widget class="GtkOptionMenu" id="op1">
+	    <widget class="GtkComboBox" id="op1">
 	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="history">0</property>
-
-	      <child>
-		<widget class="GtkMenu" id="menu4">
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem1">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes"> </property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem2">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">equals</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem3">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">does not equal</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem4">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">is greater than</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem5">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">is greater than or equal to</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem6">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">is less than</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem7">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">is less than or equal to</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem8">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">begins with</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem9">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">does not begin with</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem10">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">ends with</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem11">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">does not end with</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem12">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">contains</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="menuitem13">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">does not contain</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-		</widget>
-	      </child>
-	    </widget>
+	      <property name="items" translatable="yes">
+equals
+does not equal
+is greater than
+is greater than or equal to
+is_less_than
+is less than or equal to
+begins with
+does not begin with
+ends with
+does not end with
+contains
+does not contain</property>
+</widget>
 	    <packing>
 	      <property name="left_attach">1</property>
 	      <property name="right_attach">2</property>
 	      <property name="top_attach">3</property>
 	      <property name="bottom_attach">4</property>
 	      <property name="x_options">fill</property>
-	      <property name="y_options"></property>
+	      <property name="y_options">fill</property>
 	    </packing>
 	  </child>
 

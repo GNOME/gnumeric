@@ -177,32 +177,10 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkOptionMenu" id="put_menu">
+	    <widget class="GtkComboBox" id="put_menu">
 	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="history">0</property>
-
-	      <child internal-child="menu">
-		<widget class="GtkMenu" id="convertwidget22">
-		  <property name="visible">True</property>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="convertwidget23">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Values</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-
-		  <child>
-		    <widget class="GtkMenuItem" id="convertwidget24">
-		      <property name="visible">True</property>
-		      <property name="label" translatable="yes">Formulas</property>
-		      <property name="use_underline">True</property>
-		    </widget>
-		  </child>
-		</widget>
-	      </child>
+	      <property name="items">Values
+Formulas</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">2</property>
@@ -210,7 +188,7 @@
 	      <property name="top_attach">10</property>
 	      <property name="bottom_attach">11</property>
 	      <property name="x_options">fill</property>
-	      <property name="y_options"></property>
+	      <property name="y_options">fill</property>
 	    </packing>
 	  </child>
 

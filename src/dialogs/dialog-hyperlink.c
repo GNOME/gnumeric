@@ -19,8 +19,7 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
+
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialogs.h"
@@ -46,7 +45,10 @@
 #include <gtk/gtksizegroup.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkimagemenuitem.h>
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtkcelllayout.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkcellrendererpixbuf.h>
 #include <string.h>
 
 typedef struct {
@@ -336,11 +338,11 @@ dhl_set_type (HyperlinkState *state, GType type)
 }
 
 static void
-dhl_cb_menu_activate (GObject *elem, HyperlinkState *state)
+dhl_cb_menu_changed (GtkComboBox *box, HyperlinkState *state)
 {
-	gpointer tmp = g_object_get_data (elem, "type-index");
+	int i = gtk_combo_box_get_active (box);
 	dhl_set_type (state, g_type_from_name (
-		type [GPOINTER_TO_INT (tmp)].name));
+		type [i].name));
 }
 
 static gboolean
@@ -354,10 +356,14 @@ dhl_init (HyperlinkState *state)
 		"url-label",
 		"tip-label"
 	};
-	GtkWidget *w, *menu;
+	GtkWidget *w;
 	GtkSizeGroup *size_group;
 	GnmExprEntry *expr_entry;
 	unsigned i, select = 0;
+	GdkPixbuf *pixbuf;
+	GtkListStore *store;
+	GtkTreeIter iter;
+	GtkCellRenderer *renderer;
 
 #ifdef GNM_NO_MAILTO
 	gtk_widget_hide (glade_xml_get_widget (state->gui, "email-box"));
@@ -394,9 +400,20 @@ dhl_init (HyperlinkState *state)
 		glade_xml_get_widget (state->gui, "help_button"),
 		GNUMERIC_HELP_LINK_HYPERLINK);
 
-	menu = gtk_menu_new ();
+
+	store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
+	w  = glade_xml_get_widget (state->gui, "link-type-menu");
+	gtk_combo_box_set_model (GTK_COMBO_BOX (w), GTK_TREE_MODEL (store));
+
 	for (i = 0 ; i < G_N_ELEMENTS (type); i++) {
-		GtkWidget *elem = gtk_image_menu_item_new_with_mnemonic (_(type[i].label));
+		pixbuf = gtk_widget_render_icon (w, type[i].image_name,
+											 GTK_ICON_SIZE_MENU, NULL);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+					0, pixbuf,
+					1, _(type[i].label),
+					-1);
+/*		GtkWidget *elem = gtk_image_menu_item_new_with_mnemonic (_(type[i].label));
 		GtkWidget *image = gtk_image_new_from_stock (type[i].image_name,
 			GTK_ICON_SIZE_MENU);
 		gtk_widget_show (image);
@@ -404,18 +421,32 @@ dhl_init (HyperlinkState *state)
 			GTK_IMAGE_MENU_ITEM (elem),
 			image);
 		g_object_set_data (G_OBJECT (elem), "type-index", GINT_TO_POINTER(i));
-		g_signal_connect (G_OBJECT (elem), "activate",
-			G_CALLBACK (dhl_cb_menu_activate),
-			state);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), elem);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), elem);*/
 		if (strcmp (G_OBJECT_TYPE_NAME (state->link),
 			    type [i].name) == 0)
 			select = i;
 	}
-	gtk_menu_set_active (GTK_MENU (menu), select);
-	gtk_widget_show_all (menu);
-	w  = glade_xml_get_widget (state->gui, "link-type-menu");
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (w), menu);
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (w),
+								renderer,
+								FALSE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (w), renderer,
+									"pixbuf", 0,
+									NULL);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (w),
+								renderer,
+								TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (w), renderer,
+									"text", 1,
+									NULL);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (w), select);
+
+	g_signal_connect (G_OBJECT (w), "changed",
+		G_CALLBACK (dhl_cb_menu_changed),
+		state);
 
 	return FALSE;
 }

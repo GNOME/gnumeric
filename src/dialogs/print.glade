@@ -715,16 +715,8 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkOptionMenu" id="option-menu-header">
+			<widget class="GtkComboBox" id="option-menu-header">
 			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="history">-1</property>
-
-			  <child internal-child="menu">
-			    <widget class="GtkMenu" id="convertwidget16">
-			      <property name="visible">True</property>
-			    </widget>
-			  </child>
 			</widget>
 			<packing>
 			  <property name="padding">0</property>
@@ -796,16 +788,9 @@
 		      </child>
 
 		      <child>
-			<widget class="GtkOptionMenu" id="option-menu-footer">
+			<widget class="GtkComboBox" id="option-menu-footer">
 			  <property name="visible">True</property>
-			  <property name="can_focus">True</property>
-			  <property name="history">-1</property>
 
-			  <child internal-child="menu">
-			    <widget class="GtkMenu" id="convertwidget17">
-			      <property name="visible">True</property>
-			    </widget>
-			  </child>
 			</widget>
 			<packing>
 			  <property name="padding">0</property>

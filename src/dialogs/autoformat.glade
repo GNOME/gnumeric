@@ -118,10 +118,8 @@
 		  </child>
 
 		  <child>
-		    <widget class="GtkOptionMenu" id="format_category">
+		    <widget class="GtkComboBox" id="format_category">
 		      <property name="visible">True</property>
-		      <property name="can_focus">True</property>
-		      <property name="history">-1</property>
 		      <accessibility>
 			<atkrelation target="label13" type="labelled-by"/>
 		      </accessibility>

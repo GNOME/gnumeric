@@ -24,9 +24,6 @@
  * remove the disabling of new/edit/remove buttons!
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
-
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
@@ -50,7 +47,9 @@
 
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtkcelllayout.h>
+#include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkvscrollbar.h>
 #include <gtk/gtkcheckmenuitem.h>
@@ -104,7 +103,7 @@ typedef struct {
 	 */
 	GtkDialog      *dialog;
 
-	GtkOptionMenu    *category;
+	GtkComboBox    *category;
 
 	FooCanvas	 *canvas[NUM_PREVIEWS];
 	GtkFrame         *frame[NUM_PREVIEWS];
@@ -481,7 +480,7 @@ static void
 cb_category_changed (AutoFormatState *state)
 {
 	GList *selection = g_list_nth (state->category_groups,
-		gtk_option_menu_get_history (state->category));
+		gtk_combo_box_get_active (state->category));
 	state->current_category_group = (selection != NULL) ? selection->data : NULL;
 	previews_free (state);
 	templates_free (state);
@@ -582,7 +581,7 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	gtk_object_sink (GTK_OBJECT (state->tooltips));
 
 	state->dialog     = GTK_DIALOG (glade_xml_get_widget (gui, "dialog"));
-	state->category   = GTK_OPTION_MENU (glade_xml_get_widget (gui, "format_category"));
+	state->category   = GTK_COMBO_BOX (glade_xml_get_widget (gui, "format_category"));
 	state->scroll     = GTK_VSCROLLBAR (glade_xml_get_widget (gui, "format_scroll"));
 	state->gridlines  = GTK_CHECK_MENU_ITEM  (glade_xml_get_widget (gui, "format_gridlines"));
 
@@ -656,8 +655,14 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	} else {
 		unsigned i, select = 0;
 		GList *ptr = state->category_groups;
-		GtkMenu *menu = GTK_MENU (gtk_menu_new ());
-		GtkWidget *item;
+		GtkListStore* store = gtk_list_store_new (1, G_TYPE_STRING);
+		GtkTreeIter iter;
+		GtkCellRenderer *renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
+		gtk_combo_box_set_model (state->category, GTK_TREE_MODEL (store));
+		gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (state->category), renderer, TRUE);
+		gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (state->category), renderer,
+											"text", 0,
+											NULL);
 
 		for (i = 0 ; ptr != NULL ; ptr = ptr->next, i++) {
 			FormatTemplateCategoryGroup *group = ptr->data;
@@ -666,15 +671,16 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 			if (!strcmp (group->name, _("General")) ||
 			    !strcmp (group->name,   "General" ))
 				select = i;
-			item = gtk_menu_item_new_with_label (group->name);
-			gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
+			gtk_list_store_append (store, &iter);
+			gtk_list_store_set (store, &iter,
+						0, group->name,
+						-1);
 		}
 
-		gtk_option_menu_set_menu (state->category, GTK_WIDGET (menu));
 		g_signal_connect_swapped (G_OBJECT (state->category),
 			"changed",
 			G_CALLBACK (cb_category_changed), state);
-		gtk_option_menu_set_history (GTK_OPTION_MENU (state->category), select);
+		gtk_combo_box_set_active (GTK_COMBO_BOX (state->category), select);
 		gtk_widget_show_all (GTK_WIDGET (state->category));
 	}
 

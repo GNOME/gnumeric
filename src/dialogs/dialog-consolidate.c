@@ -20,9 +20,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
-
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
@@ -43,7 +40,7 @@
 #include <workbook-edit.h>
 #include <dao-gui-utils.h>
 #include <tools/dao.h>
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkcombobox.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtktreeselection.h>
@@ -64,8 +61,7 @@ enum {
 typedef struct {
 	GenericToolState base;
 
-	GtkOptionMenu     *function;
-	GtkOptionMenu     *put;
+	GtkComboBox     *function;
 
 	GtkTreeView       *source_view;
 	GtkTreeModel      *source_areas;
@@ -144,7 +140,7 @@ construct_consolidate (ConsolidateState *state, data_analysis_output_t  *dao)
 	GnmValue         *range_value;
 	GtkTreeIter      iter;
 
-	switch (gtk_option_menu_get_history (state->function)) {
+	switch (gtk_combo_box_get_active (state->function)) {
 	case 0 : func = "SUM"; break;
 	case 1 : func = "MIN"; break;
 	case 2 : func = "MAX"; break;
@@ -410,8 +406,8 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 	GtkTreeSelection  *selection;
 	GtkCellRenderer *renderer;
 
-	state->function    = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "function"));
-	state->put         = GTK_OPTION_MENU     (glade_xml_get_widget (glade_gui, "put"));
+	state->function    = GTK_COMBO_BOX     (glade_xml_get_widget (glade_gui, "function"));
+	gtk_combo_box_set_active (state->function, 0);
 
 /* Begin: Source Areas View*/
 	state->source_view = GTK_TREE_VIEW (glade_xml_get_widget 
@@ -439,10 +435,7 @@ setup_widgets (ConsolidateState *state, GladeXML *glade_gui)
 		 NULL);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_source_edited), state);
-	/* Note, for GTK 2.4 we should */
-	/* uncomment the next line and remove the following */
-/* 		gtk_tree_view_column_set_expand (column, TRUE); */
-	gtk_tree_view_column_set_min_width (column, 200);
+ 		gtk_tree_view_column_set_expand (column, TRUE);
 	gtk_tree_view_append_column (state->source_view, column);
 	column = gtk_tree_view_column_new_with_attributes 
 		("", gtk_cell_renderer_pixbuf_new (), 

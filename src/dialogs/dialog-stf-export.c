@@ -20,8 +20,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include "dialog-stf-export.h"
@@ -33,7 +31,8 @@
 #include <widgets/widget-charmap-selector.h>
 
 #include <gtk/gtkmessagedialog.h>
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtkcomboboxentry.h>
 #include <gtk/gtkmain.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreeselection.h>
@@ -41,7 +40,6 @@
 #include <gtk/gtkcellrenderertoggle.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkentry.h>
-#include <gtk/gtkcombo.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkimage.h>
@@ -76,13 +74,13 @@ typedef struct {
 		int num, num_selected;
 	} sheets;
 	struct {
-		GtkOptionMenu 	*termination;
-		GtkOptionMenu 	*separator;
+		GtkComboBox 	*termination;
+		GtkComboBox 	*separator;
 		GtkWidget      	*custom;
-		GtkOptionMenu 	*quote;
-		GtkCombo      	*quotechar;
+		GtkComboBox 	*quote;
+		GtkComboBoxEntry      	*quotechar;
 		GtkWidget	*charset;
-		GtkOptionMenu 	*transliterate;
+		GtkComboBox 	*transliterate;
 		GtkWidget	*preserve;
 	} format;
 
@@ -91,10 +89,10 @@ typedef struct {
 } TextExportState;
 
 static void
-sheet_page_separator_menu_deactivate (TextExportState *state)
+sheet_page_separator_menu_changed (TextExportState *state)
 {
 	/* 9 == the custom entry */
-	if (gtk_option_menu_get_history (state->format.separator) == 9) {
+	if (gtk_combo_box_get_active (state->format.separator) == 9) {
 		gtk_widget_set_sensitive (state->format.custom, TRUE);
 		gtk_widget_grab_focus      (state->format.custom);
 		gtk_editable_select_region (GTK_EDITABLE (state->format.custom), 0, -1);
@@ -110,26 +108,32 @@ stf_export_dialog_format_page_init (TextExportState *state)
 {
 	GtkWidget *table;
 
-	state->format.termination = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "format_termination"));
-	state->format.separator   = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "format_separator"));
+	state->format.termination = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_termination"));
+	gtk_combo_box_set_active (state->format.termination, 0);
+	state->format.separator   = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_separator"));
+	gtk_combo_box_set_active (state->format.separator, 0);
 	state->format.custom      = glade_xml_get_widget (state->gui, "format_custom");
-	state->format.quote       = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "format_quote"));
-	state->format.quotechar   = GTK_COMBO       (glade_xml_get_widget (state->gui, "format_quotechar"));
+	state->format.quote       = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_quote"));
+	gtk_combo_box_set_active (state->format.quote, 0);
+	state->format.quotechar   = GTK_COMBO_BOX_ENTRY      (glade_xml_get_widget (state->gui, "format_quotechar"));
+	gtk_combo_box_set_active (GTK_COMBO_BOX (state->format.quotechar), 0);
 	state->format.charset	  = charmap_selector_new (CHARMAP_SELECTOR_FROM_UTF8);
-	state->format.transliterate = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "format_transliterate"));
+	state->format.transliterate = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "format_transliterate"));
 	gnumeric_editable_enters (state->window, state->format.custom);
-	gnumeric_combo_enters (state->window, GTK_WIDGET (state->format.quotechar));
+	gnumeric_editable_enters (state->window,
+			gtk_bin_get_child (GTK_BIN (state->format.quotechar)));
 
 	if (stf_export_can_transliterate ()) {
-		gtk_option_menu_set_history (state->format.transliterate,
+		gtk_combo_box_set_active (state->format.transliterate,
 			TRANSLITERATE_MODE_TRANS);
 	} else {
-		gtk_option_menu_set_history (state->format.transliterate,
+		gtk_combo_box_set_active (state->format.transliterate,
 			TRANSLITERATE_MODE_ESCAPE);
-		gtk_widget_set_sensitive (
-			GTK_WIDGET (g_list_nth_data (GTK_MENU_SHELL (gtk_option_menu_get_menu (state->format.transliterate))->children,
-			TRANSLITERATE_MODE_TRANS)),
-			FALSE);
+		/* It might be better to render insensitive only one option than
+		the whole list as in the following line but it is not possible
+		with gtk-2.4. May be it should be changed when 2.6 is available	
+		(inactivate only the transliterate item) */
+		gtk_widget_set_sensitive (GTK_WIDGET (state->format.transliterate), FALSE);
 	}
 
 	state->format.preserve = glade_xml_get_widget (state->gui, "format_preserve");
@@ -138,9 +142,9 @@ stf_export_dialog_format_page_init (TextExportState *state)
 	gtk_table_attach_defaults (GTK_TABLE (table), state->format.charset, 1, 2, 5, 6);
 	gtk_widget_show_all (table);
 
-	g_signal_connect_swapped (gtk_option_menu_get_menu (state->format.separator),
-		"deactivate",
-		G_CALLBACK (sheet_page_separator_menu_deactivate), state);
+	g_signal_connect_swapped (state->format.separator,
+		"changed",
+		G_CALLBACK (sheet_page_separator_menu_changed), state);
 }
 
 static gboolean
@@ -175,7 +179,7 @@ stf_export_dialog_finish (TextExportState *state)
 		(GtkTreeModelForeachFunc) cb_collect_exported_sheets, state);
 
 	/* What options */
-	switch (gtk_option_menu_get_history (state->format.termination)) {
+	switch (gtk_combo_box_get_active (state->format.termination)) {
 	case 0 :  terminator = TERMINATOR_TYPE_LINEFEED; break;
 	case 1 :  terminator = TERMINATOR_TYPE_RETURN; break;
 	case 2 :  terminator = TERMINATOR_TYPE_RETURN_LINEFEED; break;
@@ -183,7 +187,7 @@ stf_export_dialog_finish (TextExportState *state)
 	}
 	stf_export_options_set_terminator_type (state->result, terminator);
 
-	switch (gtk_option_menu_get_history (state->format.quote)) {
+	switch (gtk_combo_box_get_active (state->format.quote)) {
 	case 0 :  quotingmode = QUOTING_MODE_AUTO; break;
 	case 1 :  quotingmode = QUOTING_MODE_ALWAYS; break;
 	case 2 :  quotingmode = QUOTING_MODE_NEVER; break;
@@ -191,7 +195,7 @@ stf_export_dialog_finish (TextExportState *state)
 	}
 	stf_export_options_set_quoting_mode (state->result, quotingmode);
 
-	switch (gtk_option_menu_get_history (state->format.transliterate)) {
+	switch (gtk_combo_box_get_active (state->format.transliterate)) {
 	case 0 :  transliteratemode = TRANSLITERATE_MODE_TRANS; break;
 	case 1 :  transliteratemode = TRANSLITERATE_MODE_ESCAPE; break;
 	default : transliteratemode  = TRANSLITERATE_MODE_UNKNOWN; break;
@@ -201,12 +205,12 @@ stf_export_dialog_finish (TextExportState *state)
 	stf_export_options_set_format_mode (state->result,
 		 gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (state->format.preserve)));
 
-	text = gtk_editable_get_chars (GTK_EDITABLE (state->format.quotechar->entry), 0, -1);
+	text = gtk_editable_get_chars (GTK_EDITABLE (gtk_bin_get_child (GTK_BIN (state->format.quotechar))), 0, -1);
 	stf_export_options_set_quoting_char (state->result, g_utf8_get_char (text));
 	g_free (text);
 
 	separator = 0;
-	switch (gtk_option_menu_get_history (state->format.separator)) {
+	switch (gtk_combo_box_get_active (state->format.separator)) {
 	case 0 : separator = ' '; break;
 	case 1 : separator = '\t'; break;
 	case 2 : separator = '!'; break;

@@ -19,9 +19,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  **/
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
-
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnm-dao.h"
@@ -32,7 +29,7 @@
 #include "workbook-control.h"
 
 #include <gsf/gsf-impl-utils.h>
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkcombobox.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtktogglebutton.h>
@@ -100,8 +97,8 @@ gnm_dao_init (GnmDao *gdao)
 		(gdao->gui, "retain_comments_button");
 	gdao->put_menu = glade_xml_get_widget
 		(gdao->gui, "put_menu");
-	gtk_option_menu_set_history 
-		(GTK_OPTION_MENU (gdao->put_menu), 1);
+	gtk_combo_box_set_active
+		(GTK_COMBO_BOX (gdao->put_menu), 1);
 	gdao->output_entry = NULL;
 	gdao->wbcg = NULL;
 	
@@ -334,8 +331,8 @@ gnm_dao_get_data (GnmDao *gdao, data_analysis_output_t **dao)
 			GTK_TOGGLE_BUTTON (gdao->retain_comments_button));
 
 		(*dao)->put_formulas 
-			= (gtk_option_menu_get_history 
-			   (GTK_OPTION_MENU (gdao->put_menu)) 
+			= (gtk_combo_box_get_active 
+			   (GTK_COMBO_BOX (gdao->put_menu)) 
 			   != 0);
 	}
 
@@ -365,8 +362,8 @@ gnm_dao_set_put (GnmDao *gdao, gboolean show_put, gboolean put_formulas)
 {
 	g_return_if_fail (gdao != NULL);
 
-	gtk_option_menu_set_history 
-		(GTK_OPTION_MENU (gdao->put_menu), put_formulas ? 1 : 0);
+	gtk_combo_box_set_active 
+		(GTK_COMBO_BOX (gdao->put_menu), put_formulas ? 1 : 0);
 	gtk_widget_set_sensitive (GTK_WIDGET (gdao->put_menu), show_put);
 }
 

@@ -1504,50 +1504,14 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkOptionMenu" id="format_trim">
+			    <widget class="GtkComboBox" id="format_trim">
 			      <property name="border_width">6</property>
 			      <property name="visible">True</property>
 			      <property name="tooltip" translatable="yes">Trim leading and trailing spaces from each column, if you are unsure you should leave this at the default setting.</property>
-			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child internal-child="menu">
-				<widget class="GtkMenu" id="menu1">
-				  <property name="visible">True</property>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Always (Both Sides)</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem2">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Never</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem3">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">On left side only</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="menuitem4">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">On right side only</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
+			      <property name="items" translatable="yes">Always (Both Sides)
+Never
+On left side only
+On right side only</property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>

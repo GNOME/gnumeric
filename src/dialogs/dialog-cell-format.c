@@ -21,11 +21,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
   **/
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
-#undef PANGO_DISABLE_DEPRECATED
-#warning "This file uses PANGO_DISABLE_DEPRECATED for pango_ft2_get_context"
-
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
@@ -74,7 +69,10 @@
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkframe.h>
 #include <gtk/gtkimage.h>
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtkcelllayout.h>
+#include <gtk/gtkcellrenderertext.h>
+#include <gtk/gtkcellrendererpixbuf.h>
 #include <gtk/gtktextview.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtktable.h>
@@ -206,9 +204,9 @@ typedef struct _FormatState
 	} protection;
 	struct {
 		GtkTable       *criteria_table;
-		GtkOptionMenu  *constraint_type;
+		GtkComboBox  *constraint_type;
 		GtkLabel       *operator_label;
-		GtkOptionMenu  *op;
+		GtkComboBox  *op;
 		ExprEntry	expr0, expr1;
 		GtkToggleButton *allow_blank;
 		GtkToggleButton *use_dropdown;
@@ -217,7 +215,7 @@ typedef struct _FormatState
 			GtkLabel      *action_label;
 			GtkLabel      *title_label;
 			GtkLabel      *msg_label;
-			GtkOptionMenu *action;
+			GtkComboBox *action;
 			GtkEntry      *title;
 			GtkTextView   *msg;
 			GtkImage      *image;
@@ -628,6 +626,7 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 	PangoContext *context;
 	PangoAttrList	*attrs;
 	PangoAttribute  *attr;
+	PangoFT2FontMap *font_map;
 	guint8 const *ps;
 	guint8 *pd;
 
@@ -664,9 +663,12 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 		GNOME_TYPE_CANVAS_PIXBUF,
 		NULL);
 
-	context = pango_ft2_get_context (
+	font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
+	pango_ft2_font_map_set_resolution (font_map,
 		gnm_app_display_dpi_get (TRUE),
 		gnm_app_display_dpi_get (FALSE));
+	context = pango_ft2_font_map_create_context  (font_map);
+	g_object_unref (font_map);
 	layout = pango_layout_new (context);
 	pango_layout_set_font_description (layout,
 		pango_context_get_font_description (gtk_widget_get_pango_context (GTK_WIDGET (canvas))));
@@ -1701,12 +1703,12 @@ validation_rebuild_validation (FormatState *state)
 		return;
 
 	state->validation.changed = FALSE;
-	type = gtk_option_menu_get_history (
+	type = gtk_combo_box_get_active (
 		state->validation.constraint_type);
 
 	if (type != VALIDATION_TYPE_ANY) {
-		ValidationStyle style = gtk_option_menu_get_history (state->validation.error.action);
-		ValidationOp    op    = gtk_option_menu_get_history (state->validation.op);
+		ValidationStyle style = gtk_combo_box_get_active (state->validation.error.action);
+		ValidationOp    op    = gtk_combo_box_get_active (state->validation.op);
 		char *title = gtk_editable_get_chars (GTK_EDITABLE (state->validation.error.title), 0, -1);
 		char *msg   = gnumeric_textview_get_text (state->validation.error.msg);
 		GnmExpr const *expr0 = validation_entry_to_expr (state->sheet,
@@ -1745,12 +1747,12 @@ validation_rebuild_validation (FormatState *state)
 }
 
 static void
-cb_validation_error_action_deactivate (G_GNUC_UNUSED GtkMenuShell *ignored,
+cb_validation_error_action_changed (G_GNUC_UNUSED GtkMenuShell *ignored,
 				       FormatState *state)
 {
-	int index = gtk_option_menu_get_history (state->validation.error.action);
+	int index = gtk_combo_box_get_active (state->validation.error.action);
 	gboolean const flag = (index > 0) &&
-		(gtk_option_menu_get_history (state->validation.constraint_type) > 0);
+		(gtk_combo_box_get_active (state->validation.constraint_type) > 0);
 
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.title_label), flag);
 	gtk_widget_set_sensitive (GTK_WIDGET (state->validation.error.msg_label), flag);
@@ -1786,7 +1788,7 @@ cb_validation_sensitivity (G_GNUC_UNUSED GtkMenuShell *ignored,
 	gboolean has_operators = FALSE;
 	char const *msg0 = "";
 	char const *msg1 = "";
-	ValidationType const type = gtk_option_menu_get_history (
+	ValidationType const type = gtk_combo_box_get_active (
 		state->validation.constraint_type);
 
 	switch (type) {
@@ -1798,7 +1800,7 @@ cb_validation_sensitivity (G_GNUC_UNUSED GtkMenuShell *ignored,
 	case VALIDATION_TYPE_AS_DATE :
 	case VALIDATION_TYPE_AS_TIME :
 	case VALIDATION_TYPE_TEXT_LENGTH : {
-		ValidationOp const op = gtk_option_menu_get_history (
+		ValidationOp const op = gtk_combo_box_get_active (
 			state->validation.op);
 		has_operators = TRUE;
 		switch (op) {
@@ -1885,6 +1887,63 @@ cb_validation_rebuild (G_GNUC_UNUSED void *ignored,
 }
 
 static void
+build_validation_error_combo (GtkComboBox *box)
+{
+	GdkPixbuf *pixbuf;
+	GtkListStore *store;
+	GtkTreeIter iter;
+	GtkCellRenderer *renderer;
+
+	store = gtk_list_store_new (2, GDK_TYPE_PIXBUF, G_TYPE_STRING);
+	gtk_combo_box_set_model (box, GTK_TREE_MODEL (store));
+
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (store, &iter,
+				1, _("None          (silently accept invalid input)"),
+				-1);
+
+	pixbuf = gtk_widget_render_icon (GTK_WIDGET (box), GTK_STOCK_STOP,
+										 GTK_ICON_SIZE_BUTTON, NULL);
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (store, &iter,
+				0, pixbuf,
+				1, _("Stop            (never allow invalid input)"),
+				-1);
+
+	pixbuf = gtk_widget_render_icon (GTK_WIDGET (box), GTK_STOCK_DIALOG_WARNING,
+										 GTK_ICON_SIZE_BUTTON, NULL);
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (store, &iter,
+				0, pixbuf,
+				1, _("Warning     (accept/discard invalid input)"),
+				-1);
+
+	pixbuf = gtk_widget_render_icon (GTK_WIDGET (box), GTK_STOCK_DIALOG_INFO,
+										 GTK_ICON_SIZE_BUTTON, NULL);
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (store, &iter,
+				0, pixbuf,
+				1, _("Information (allow invalid input)"),
+				-1);
+
+	renderer = gtk_cell_renderer_pixbuf_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (box),
+								renderer,
+								FALSE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (box), renderer,
+									"pixbuf", 0,
+									NULL);
+
+	renderer = gtk_cell_renderer_text_new ();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (box),
+								renderer,
+								TRUE);
+	gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (box), renderer,
+									"text", 1,
+									NULL);
+}
+
+static void
 fmt_dialog_init_validation_page (FormatState *state)
 {
 	GnmValidation const *v = NULL;
@@ -1894,15 +1953,19 @@ fmt_dialog_init_validation_page (FormatState *state)
 	state->validation.changed	  = FALSE;
 	state->validation.valid 	  = 1;
 	state->validation.criteria_table  = GTK_TABLE          (glade_xml_get_widget (state->gui, "validation_criteria_table"));
-	state->validation.constraint_type = GTK_OPTION_MENU    (glade_xml_get_widget (state->gui, "validation_constraint_type"));
+	state->validation.constraint_type = GTK_COMBO_BOX    (glade_xml_get_widget (state->gui, "validation_constraint_type"));
+	gtk_combo_box_set_active (state->validation.constraint_type, 0);
 	state->validation.operator_label  = GTK_LABEL          (glade_xml_get_widget (state->gui, "validation_operator_label"));
-	state->validation.op        	     = GTK_OPTION_MENU    (glade_xml_get_widget (state->gui, "validation_operator"));
+	state->validation.op        	     = GTK_COMBO_BOX    (glade_xml_get_widget (state->gui, "validation_operator"));
+	gtk_combo_box_set_active (state->validation.op, 0);
 	state->validation.allow_blank	     = GTK_TOGGLE_BUTTON(glade_xml_get_widget (state->gui, "validation_ignore_blank"));
 	state->validation.use_dropdown       = GTK_TOGGLE_BUTTON(glade_xml_get_widget (state->gui, "validation_in_dropdown"));
 	state->validation.error.action_label = GTK_LABEL       (glade_xml_get_widget (state->gui, "validation_error_action_label"));
 	state->validation.error.title_label  = GTK_LABEL       (glade_xml_get_widget (state->gui, "validation_error_title_label"));
 	state->validation.error.msg_label    = GTK_LABEL       (glade_xml_get_widget (state->gui, "validation_error_msg_label"));
-	state->validation.error.action       = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "validation_error_action"));
+	state->validation.error.action       = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "validation_error_action"));
+	build_validation_error_combo (state->validation.error.action);
+	gtk_combo_box_set_active (state->validation.error.action, 0);
 	state->validation.error.title        = GTK_ENTRY       (glade_xml_get_widget (state->gui, "validation_error_title"));
 	state->validation.error.msg          = GTK_TEXT_VIEW   (glade_xml_get_widget (state->gui, "validation_error_msg"));
 	state->validation.error.image        = GTK_IMAGE       (glade_xml_get_widget (state->gui, "validation_error_image"));
@@ -1911,15 +1974,15 @@ fmt_dialog_init_validation_page (FormatState *state)
 		GTK_WINDOW (state->dialog),
 		GTK_WIDGET (state->validation.error.title));
 
-	g_signal_connect (G_OBJECT (gtk_option_menu_get_menu (state->validation.constraint_type)),
-		"deactivate",
+	g_signal_connect (state->validation.constraint_type,
+		"changed",
 		G_CALLBACK (cb_validation_sensitivity), state);
-	g_signal_connect (G_OBJECT (gtk_option_menu_get_menu (state->validation.op)),
-		"deactivate",
+	g_signal_connect (state->validation.op,
+		"changed",
 		G_CALLBACK (cb_validation_sensitivity), state);
-	g_signal_connect (G_OBJECT (gtk_option_menu_get_menu (state->validation.error.action)),
-		"deactivate",
-		G_CALLBACK (cb_validation_error_action_deactivate), state);
+	g_signal_connect (state->validation.error.action,
+		"changed",
+		G_CALLBACK (cb_validation_error_action_changed), state);
 
 	fmt_dialog_init_validation_expr_entry (state, &state->validation.expr0, "validation_expr0_name", 0);
 	fmt_dialog_init_validation_expr_entry (state, &state->validation.expr1, "validation_expr1_name", 1);
@@ -1944,9 +2007,9 @@ fmt_dialog_init_validation_page (FormatState *state)
 		GnmValidation const *v = mstyle_get_validation (state->style);
 		GnmParsePos pp;
 
-		gtk_option_menu_set_history (state->validation.error.action, v->style);
-		gtk_option_menu_set_history (state->validation.constraint_type, v->type);
-		gtk_option_menu_set_history (state->validation.op, v->op);
+		gtk_combo_box_set_active (state->validation.error.action, v->style);
+		gtk_combo_box_set_active (state->validation.constraint_type, v->type);
+		gtk_combo_box_set_active (state->validation.op, v->op);
 
 		gtk_entry_set_text (GTK_ENTRY (state->validation.error.title),
 			(v->title != NULL) ? v->title->str : "");
@@ -1965,7 +2028,7 @@ fmt_dialog_init_validation_page (FormatState *state)
 	}
 
 	cb_validation_sensitivity (NULL, state);
-	cb_validation_error_action_deactivate (NULL, state);
+	cb_validation_error_action_changed (NULL, state);
 }
 
 /*****************************************************************************/
@@ -2034,7 +2097,7 @@ cb_fmt_dialog_dialog_buttons (GtkWidget *btn, FormatState *state)
 			if (gnumeric_dialog_question_yes_no (state->wbcg,
 							     _ ("The validation criteria are unusable. Disable validation?"), FALSE))
 			{
-				gtk_option_menu_set_history (state->validation.constraint_type, 0);
+				gtk_combo_box_set_active (state->validation.constraint_type, 0);
 				cb_validation_sensitivity (NULL, state);
 			} else {
 				gtk_notebook_set_current_page (state->notebook, FD_VALIDATION);

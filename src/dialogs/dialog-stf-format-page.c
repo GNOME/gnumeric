@@ -19,8 +19,6 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
@@ -29,7 +27,7 @@
 #include <workbook.h>
 #include <gui-util.h>
 #include <gtk/gtktable.h>
-#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkcombobox.h>
 
 /*************************************************************************************************
  * MISC UTILITY FUNCTIONS
@@ -38,11 +36,11 @@
 static void format_page_update_preview (StfDialogData *pagedata);
 
 static void
-format_page_trim_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu,
+format_page_trim_menu_changed (G_GNUC_UNUSED GtkMenu *menu,
 				  StfDialogData *data)
 {
 	StfTrimType_t trim;
-	int trimtype = gtk_option_menu_get_history (GTK_OPTION_MENU (data->format.format_trim));
+	int trimtype = gtk_combo_box_get_active (GTK_COMBO_BOX (data->format.format_trim));
 
 	switch (trimtype) {
 	case -1:
@@ -488,7 +486,7 @@ stf_dialog_format_page_prepare (StfDialogData *data)
 	GnmFormat *sf;
 
 	/* Set the trim.  */
-	format_page_trim_menu_deactivate (NULL, data);
+	format_page_trim_menu_changed (NULL, data);
 
 	/* If necessary add new items (non-visual) */
 	while ((int)data->format.formats->len < data->format.renderdata->colcount) {
@@ -531,7 +529,6 @@ stf_dialog_format_page_cleanup (StfDialogData *pagedata)
 void
 stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 {
-	GtkMenu *menu;
 	GtkWidget * format_hbox;
 
 	g_return_if_fail (gui != NULL);
@@ -581,9 +578,8 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 			  "locale_changed",
 			  G_CALLBACK (locale_changed_cb), pagedata);
 
-	menu = (GtkMenu *) gtk_option_menu_get_menu (GTK_OPTION_MENU (pagedata->format.format_trim));
-        g_signal_connect (G_OBJECT (menu),
-			  "deactivate",
-			  G_CALLBACK (format_page_trim_menu_deactivate), pagedata);
-	format_page_trim_menu_deactivate (menu, pagedata);
+        g_signal_connect (G_OBJECT (pagedata->format.format_trim),
+			  "changed",
+			  G_CALLBACK (format_page_trim_menu_changed), pagedata);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (pagedata->format.format_trim), 0);
 }

@@ -20,8 +20,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
@@ -54,8 +52,11 @@
 #include <gtk/gtknotebook.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtktogglebutton.h>
-#include <gtk/gtkoptionmenu.h>
-#include <gtk/gtkmenuitem.h>
+#include <gtk/gtkbox.h>
+#include <gtk/gtkcombobox.h>
+#include <gtk/gtkcelllayout.h>
+#include <gtk/gtkcellrenderertext.h>
+/*#include <gtk/gtkmenuitem.h>*/
 #include <stdio.h>
 
 /* FIXME: do not hardcode pixel counts.  */
@@ -773,39 +774,49 @@ display_hf_preview (PrinterSetupState *state, gboolean header)
 }
 
 static void
-header_changed (GObject *object, PrinterSetupState *state)
-{
-	PrintHF *format = g_object_get_data (object, "format");
-
-	print_hf_free (state->header);
-	state->header = print_hf_copy (format);
-
-	display_hf_preview (state, TRUE);
-}
-
-static void
-footer_changed (GObject *object, PrinterSetupState *state)
-{
-	PrintHF *format = g_object_get_data (object, "format");
-
-	print_hf_free (state->footer);
-	state->footer = print_hf_copy (format);
-
-	display_hf_preview (state, FALSE);
-}
-
-static void
-do_header_customize (G_GNUC_UNUSED GtkWidget *button,
-		     PrinterSetupState *state)
+do_header_customize (PrinterSetupState *state)
 {
 	do_hf_customize (TRUE, state);
 }
 
 static void
-do_footer_customize (G_GNUC_UNUSED GtkWidget *button,
-		     PrinterSetupState *state)
+do_footer_customize (PrinterSetupState *state)
 {
 	do_hf_customize (FALSE, state);
+}
+
+static void
+header_changed (GtkComboBox *menu, PrinterSetupState *state)
+{
+	GList *selection = g_list_nth (hf_formats,
+		gtk_combo_box_get_active (menu));
+	PrintHF *format = (selection)? selection->data: NULL;
+
+	if (format == NULL) {
+		do_header_customize (state);
+	} else {
+		print_hf_free (state->header);
+		state->header = print_hf_copy (format);
+	}
+	
+		display_hf_preview (state, TRUE);
+}
+
+static void
+footer_changed (GtkComboBox *menu, PrinterSetupState *state)
+{
+	GList *selection = g_list_nth (hf_formats,
+		gtk_combo_box_get_active (menu));
+	PrintHF *format = (selection)? selection->data: NULL;
+
+	if (format == NULL) {
+		do_footer_customize (state);
+	} else {
+		print_hf_free (state->footer);
+		state->footer = print_hf_copy (format);
+	}
+
+	display_hf_preview (state, FALSE);
 }
 
 /*
@@ -813,12 +824,12 @@ do_footer_customize (G_GNUC_UNUSED GtkWidget *button,
  * of existing header/footer formats
  */
 static void
-fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GCallback callback, gboolean header)
+fill_hf (PrinterSetupState *state, GtkComboBox *om, GCallback callback, gboolean header)
 {
 	GList *l;
 	HFRenderInfo *hfi;
-	GtkWidget *menu;
-	GtkWidget *li;
+	GtkListStore *store;
+	GtkTreeIter iter;
 	char *res;
 	PrintHF *select = header ? state->header : state->footer;
 	int i, idx = 0;
@@ -827,7 +838,8 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GCallback callback, gboole
 	hfi->page = 1;
 	hfi->pages = 1;
 
-	menu = gtk_menu_new ();
+	store = gtk_list_store_new (1, G_TYPE_STRING);
+	gtk_combo_box_set_model (om, GTK_TREE_MODEL (store));
 
 	for (i = 0, l = hf_formats; l; l = l->next, i++) {
 		PrintHF *format = l->data;
@@ -846,11 +858,10 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GCallback callback, gboole
 			middle, (*middle && *right) ? ", " : "",
 			right);
 
-		li = gtk_menu_item_new_with_label (res);
-		gtk_widget_show (li);
-		gtk_container_add (GTK_CONTAINER (menu), li);
-		g_object_set_data (G_OBJECT (li), "format", format);
-		g_signal_connect (G_OBJECT (li), "activate", callback, state);
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter,
+					0, res,
+					-1);
 
 		g_free (res);
 		g_free (left);
@@ -863,17 +874,15 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GCallback callback, gboole
 		res = g_strdup_printf (_("Customize header"));
 	else
 		res = g_strdup_printf (_("Customize footer"));
-	li = gtk_menu_item_new_with_label (res);
-	gtk_widget_show (li);
-	gtk_container_add (GTK_CONTAINER (menu), li);
-	g_signal_connect (G_OBJECT (li),
-		"activate",
-		header  ? G_CALLBACK (do_header_customize)
-			: G_CALLBACK (do_footer_customize), state);
+	gtk_list_store_append (store, &iter);
+	gtk_list_store_set (store, &iter,
+				0, res,
+				1, NULL,
+				-1);
 	g_free (res);
 
-	gtk_option_menu_set_menu (om, menu);
-	gtk_option_menu_set_history (om, idx);
+	gtk_combo_box_set_active (om, idx);
+	g_signal_connect (G_OBJECT (om), "changed", callback, state);
 
 	hf_render_info_destroy (hfi);
 }
@@ -881,13 +890,13 @@ fill_hf (PrinterSetupState *state, GtkOptionMenu *om, GCallback callback, gboole
 static void
 do_setup_hf_menus (PrinterSetupState *state)
 {
-	GtkOptionMenu *header;
-	GtkOptionMenu *footer;
+	GtkComboBox *header;
+	GtkComboBox *footer;
 
 	g_return_if_fail (state != NULL);
 
-	header = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "option-menu-header"));
-	footer = GTK_OPTION_MENU (glade_xml_get_widget (state->gui, "option-menu-footer"));
+	header = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "option-menu-header"));
+	footer = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "option-menu-footer"));
 
 	if (state->header)
 		fill_hf (state, header, G_CALLBACK (header_changed), TRUE);
@@ -1225,7 +1234,24 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 static void
 do_setup_hf (PrinterSetupState *state)
 {
+	GtkComboBox *header;
+	GtkComboBox *footer;
+	GtkCellRenderer *renderer;
+
 	g_return_if_fail (state != NULL);
+
+	header = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "option-menu-header"));
+	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (header), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (header), renderer,
+                                        "text", 0,
+                                        NULL);
+	footer = GTK_COMBO_BOX (glade_xml_get_widget (state->gui, "option-menu-footer"));
+	renderer = (GtkCellRenderer*) gtk_cell_renderer_text_new();
+	gtk_cell_layout_pack_start (GTK_CELL_LAYOUT (footer), renderer, TRUE);
+    gtk_cell_layout_set_attributes (GTK_CELL_LAYOUT (footer), renderer,
+                                        "text", 0,
+                                        NULL);
 
 	state->header = print_hf_copy (state->pi->header ? state->pi->header :
 				     hf_formats->data);
@@ -1453,7 +1479,7 @@ print_setup_get_sheet (PrinterSetupState *state)
 	if (apply_all_sheets)
 		return NULL;
 	return workbook_sheet_by_index (state->sheet->workbook,
-					gtk_option_menu_get_history (GTK_OPTION_MENU
+					gtk_combo_box_get_active (GTK_COMBO_BOX
 								     (state->sheet_selector)));
 }
 
@@ -1539,25 +1565,23 @@ cb_do_sheet_selector_toggled (GtkToggleButton *togglebutton,
 static void
 do_setup_sheet_selector (PrinterSetupState *state)
 {
-	GtkWidget *table, *menu, *w;
+	GtkWidget *table, *w;
 	int i, n, n_this = 0;
 
 	g_return_if_fail (state != NULL);
 	g_return_if_fail (state->sheet != NULL);
 
 	table = glade_xml_get_widget (state->gui, "table-sheet");
-	state->sheet_selector = gtk_option_menu_new ();
-	menu = gtk_menu_new ();
+	state->sheet_selector = gtk_combo_box_new_text ();
 	n = workbook_sheet_count (state->sheet->workbook);
 	for (i = 0 ; i < n ; i++) {
 		Sheet * a_sheet = workbook_sheet_by_index (state->sheet->workbook, i);
 		if (a_sheet == state->sheet)
 			n_this = i;
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu),
-				       gtk_menu_item_new_with_label (a_sheet->name_unquoted));
+		gtk_combo_box_append_text (GTK_COMBO_BOX (state->sheet_selector),
+					a_sheet->name_unquoted);
 	}
-	gtk_option_menu_set_menu (GTK_OPTION_MENU (state->sheet_selector), menu);
-	gtk_option_menu_set_history (GTK_OPTION_MENU (state->sheet_selector), n_this);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (state->sheet_selector), n_this);
 	gtk_table_attach (GTK_TABLE (table), state->sheet_selector,
 			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,

@@ -18,8 +18,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkOptionMenu"
 
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -38,7 +36,7 @@
 #include <number-match.h>
 
 #include <glade/glade.h>
-#include <gtk/gtkoptionmenu.h>
+#include <gtk/gtkcombobox.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkspinbutton.h>
 #include <string.h>
@@ -82,7 +80,7 @@ map_op (AutoFilterState *state, GnmFilterOp *op,
 		return NULL;
 
 	w = glade_xml_get_widget (state->gui, op_widget);
-	i = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+	i = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 	switch (i) {
 	case 0: return NULL;
 	case 1: *op = GNM_FILTER_OP_EQUAL;	break;
@@ -147,10 +145,10 @@ cb_autofilter_ok (G_GNUC_UNUSED GtkWidget *button,
 		int bottom, percentage, count;
 
 		w = glade_xml_get_widget (state->gui, "top_vs_bottom_option_menu");
-		bottom = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+		bottom = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 
 		w = glade_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
-		percentage = gtk_option_menu_get_history (GTK_OPTION_MENU (w));
+		percentage = gtk_combo_box_get_active (GTK_COMBO_BOX (w));
 
 		w = glade_xml_get_widget (state->gui, "item_count");
 		count = gtk_spin_button_get_value (GTK_SPIN_BUTTON (w));
@@ -175,13 +173,13 @@ cb_autofilter_cancel (G_GNUC_UNUSED GtkWidget *button,
 }
 
 static void
-cb_top10_type_changed (GtkOptionMenu *menu,
+cb_top10_type_changed (GtkComboBox *menu,
 		       AutoFilterState *state)
 {
 	GtkWidget *spin = glade_xml_get_widget (state->gui, "item_count");
 
 	gtk_spin_button_set_range (GTK_SPIN_BUTTON (spin), 1.,
-		(gtk_option_menu_get_history (menu) > 0) ? 100. : 500.);
+		(gtk_combo_box_get_active (menu) > 0) ? 100. : 500.);
 }
 
 static void
@@ -214,7 +212,7 @@ init_operator (AutoFilterState *state, GnmFilterOp op, GnmValue const *v,
 		else if (ends)
 			i += 8;
 	}
-	gtk_option_menu_set_history (GTK_OPTION_MENU (w), i);
+	gtk_combo_box_set_active (GTK_COMBO_BOX (w), i);
 
 	if (v != NULL) {
 		w = glade_xml_get_widget (state->gui, val_widget);
@@ -272,12 +270,25 @@ dialog_auto_filter (WorkbookControlGUI *wbcg,
 		} else if (!is_expr &&
 			   GNM_FILTER_OP_TOP_N == (op & GNM_FILTER_OP_TYPE_MASK)) {
 			w = glade_xml_get_widget (state->gui, "top_vs_bottom_option_menu");
-			gtk_option_menu_set_history (GTK_OPTION_MENU (w), (op & 1) ? 1 : 0);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (w), (op & 1) ? 1 : 0);
 			w = glade_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
-			gtk_option_menu_set_history (GTK_OPTION_MENU (w), (op & 2) ? 1 : 0);
+			gtk_combo_box_set_active (GTK_COMBO_BOX (w), (op & 2) ? 1 : 0);
 			w = glade_xml_get_widget (state->gui, "item_count");
 			gtk_spin_button_set_value (GTK_SPIN_BUTTON (w),
 						   cond->count);
+		}
+	} else {
+		/* initialize the combo boxes (not done by libglade) */
+		if (is_expr) {
+			w = glade_xml_get_widget (state->gui, "op0");
+			gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
+			w = glade_xml_get_widget (state->gui, "op1");
+			gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
+		} else {
+			w = glade_xml_get_widget (state->gui, "top_vs_bottom_option_menu");
+			gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
+			w = glade_xml_get_widget (state->gui, "item_vs_percentage_option_menu");
+			gtk_combo_box_set_active (GTK_COMBO_BOX (w), 0);
 		}
 	}
 

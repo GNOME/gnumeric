@@ -431,10 +431,8 @@
 	  </child>
 
 	  <child>
-	    <widget class="GtkOptionMenu" id="link-type-menu">
+	    <widget class="GtkComboBox" id="link-type-menu">
 	      <property name="visible">True</property>
-	      <property name="can_focus">True</property>
-	      <property name="history">-1</property>
 	    </widget>
 	    <packing>
 	      <property name="left_attach">1</property>

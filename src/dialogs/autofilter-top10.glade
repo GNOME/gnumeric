@@ -111,36 +111,15 @@
 	      <property name="yscale">0</property>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="top_vs_bottom_option_menu">
-		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">0</property>
+		<widget class="GtkComboBox" id="top_vs_bottom_option_menu">
+	      <property name="visible">True</property>
+	      <property name="items" translatable="yes">Top
+Bottom</property>
 		  <accessibility>
 		    <atkrelation target="label1" type="labelled-by"/>
 		    <atkrelation target="item_vs_percentage_option_menu" type="label-for"/>
 		    <atkrelation target="item_count" type="label-for"/>
 		  </accessibility>
-
-		  <child>
-		    <widget class="GtkMenu" id="top_vs_bottom">
-
-		      <child>
-			<widget class="GtkMenuItem" id="top1">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Top</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="bottom1">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Bottom</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
 		</widget>
 	      </child>
 	    </widget>
@@ -184,36 +163,15 @@
 	      <property name="yscale">0</property>
 
 	      <child>
-		<widget class="GtkOptionMenu" id="item_vs_percentage_option_menu">
+		<widget class="GtkComboBox" id="item_vs_percentage_option_menu">
 		  <property name="visible">True</property>
-		  <property name="can_focus">True</property>
-		  <property name="history">0</property>
+	      <property name="items" translatable="yes">Items
+Percentage</property>
 		  <accessibility>
 		    <atkrelation target="top_vs_bottom_option_menu" type="labelled-by"/>
 		    <atkrelation target="label1" type="labelled-by"/>
 		    <atkrelation target="item_count" type="labelled-by"/>
 		  </accessibility>
-
-		  <child>
-		    <widget class="GtkMenu" id="item_vs_percentage">
-
-		      <child>
-			<widget class="GtkMenuItem" id="items1">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Items</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-
-		      <child>
-			<widget class="GtkMenuItem" id="percentage1">
-			  <property name="visible">True</property>
-			  <property name="label" translatable="yes">Percentage</property>
-			  <property name="use_underline">True</property>
-			</widget>
-		      </child>
-		    </widget>
-		  </child>
 		</widget>
 	      </child>
 	    </widget>

@@ -3479,80 +3479,16 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkOptionMenu" id="validation_constraint_type">
+			    <widget class="GtkComboBox" id="validation_constraint_type">
 			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child internal-child="menu">
-				<widget class="GtkMenu" id="convertwidget21">
-				  <property name="visible">True</property>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="any_value_____(no_validation)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Any Value     (no validation)</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="whole_numbers1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Whole numbers</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="numbers1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Numbers</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="in_a_list1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">In a list</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="date1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Date</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="time1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Time</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="text_length1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Text length</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="custom1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Custom</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
+			      <property name="items" translatable="yes">Any Value     (no validation)
+Whole numbers
+Numbers
+In a list
+Date
+Time
+Text length
+Custom</property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -3564,80 +3500,17 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkOptionMenu" id="validation_operator">
+			    <widget class="GtkComboBox" id="validation_operator">
 			      <property name="visible">True</property>
 			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child internal-child="menu">
-				<widget class="GtkMenu" id="convertwidget38">
-				  <property name="visible">True</property>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="min_&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;=_val_&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;=_max_________(between)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">min &lt;= val &lt;= max         (between)</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="val_&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;=_min_||_max_&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;=_val_(not_between)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">val &lt;= min || max &lt;= val (not between)</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="val_==_bound__________________(equal_to)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">val == bound                  (equal to)</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="val_&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;_bound__________________(not_equal_to)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">val &lt;&gt; bound                  (not equal to)</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="val__&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;__bound__________________(greater_than)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">val  &gt;  bound                  (greater than)</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="val__&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;__bound__________________(less_than)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">val  &lt;  bound                  (less than)</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="val_&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;=_bound__________________(greater_than_or_equal)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">val &gt;= bound                  (greater than or equal)</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="val_&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;=_bound__________________(less_than_or_equal)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">val &lt;= bound                  (less than or equal)</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
+			      <property name="items" translatable="yes">min &lt;= val &lt;= max         (between)
+val &lt;= min || max &lt;= val (not between)
+val == bound                  (equal to)
+val &lt;&gt; bound                  (not equal to)
+val  &gt;  bound                  (greater than)
+val  &lt;  bound                  (less than)
+val &gt;= bound                  (greater than or equal)
+val &lt;= bound                  (less than or equal)</property>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
@@ -3893,84 +3766,8 @@
 			  </child>
 
 			  <child>
-			    <widget class="GtkOptionMenu" id="validation_error_action">
+			    <widget class="GtkComboBox" id="validation_error_action">
 			      <property name="visible">True</property>
-			      <property name="can_focus">True</property>
-			      <property name="history">0</property>
-
-			      <child internal-child="menu">
-				<widget class="GtkMenu" id="convertwidget57">
-				  <property name="visible">True</property>
-
-				  <child>
-				    <widget class="GtkMenuItem" id="none__________(silently_accept_invalid_input)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">None          (silently accept invalid input)</property>
-				      <property name="use_underline">True</property>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkImageMenuItem" id="stop____________(never_allow_invalid_input)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Stop            (never allow invalid input)</property>
-				      <property name="use_underline">True</property>
-
-				      <child internal-child="image">
-					<widget class="GtkImage" id="image1">
-					  <property name="visible">True</property>
-					  <property name="stock">gtk-dialog-error</property>
-					  <property name="icon_size">1</property>
-					  <property name="xalign">0.5</property>
-					  <property name="yalign">0.5</property>
-					  <property name="xpad">0</property>
-					  <property name="ypad">0</property>
-					</widget>
-				      </child>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkImageMenuItem" id="warning_____(accept/discard_invalid_input)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Warning     (accept/discard invalid input)</property>
-				      <property name="use_underline">True</property>
-
-				      <child internal-child="image">
-					<widget class="GtkImage" id="image2">
-					  <property name="visible">True</property>
-					  <property name="stock">gtk-dialog-warning</property>
-					  <property name="icon_size">1</property>
-					  <property name="xalign">0.5</property>
-					  <property name="yalign">0.5</property>
-					  <property name="xpad">0</property>
-					  <property name="ypad">0</property>
-					</widget>
-				      </child>
-				    </widget>
-				  </child>
-
-				  <child>
-				    <widget class="GtkImageMenuItem" id="information_(allow_invalid_input)1">
-				      <property name="visible">True</property>
-				      <property name="label" translatable="yes">Information (allow invalid input)</property>
-				      <property name="use_underline">True</property>
-
-				      <child internal-child="image">
-					<widget class="GtkImage" id="image3">
-					  <property name="visible">True</property>
-					  <property name="stock">gtk-dialog-info</property>
-					  <property name="icon_size">1</property>
-					  <property name="xalign">0.5</property>
-					  <property name="yalign">0.5</property>
-					  <property name="xpad">0</property>
-					  <property name="ypad">0</property>
-					</widget>
-				      </child>
-				    </widget>
-				  </child>
-				</widget>
-			      </child>
 			    </widget>
 			    <packing>
 			      <property name="left_attach">1</property>
