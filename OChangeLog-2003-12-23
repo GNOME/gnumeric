@@ -1,5 +1,10 @@
 2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
+	* src/print.c (print_sheet_objects): gnome_print_gsave before we
+	clip the SheetObjects' region.
+
+2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
+
 	* src/print.c: Remove all bonobo-related stuff.
 	(print_sheet_objects): New. Prints all objects that overlap a given
 	range and clips to that range.

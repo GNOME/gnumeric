@@ -127,9 +127,34 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet,
 {
 	GList *l;
 	Range range;
+	double end_x, end_y;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (pj != NULL);
+
+	gnome_print_gsave (pj->print_context);
+
+	/*
+	 * Make sure the object doesn't go beyond the specified
+	 * cells.
+	 */
+	end_x = base_x + sheet_col_get_distance_pts (sheet, start_col,
+						     end_col + 1);
+	end_y = base_y - sheet_row_get_distance_pts (sheet, start_row,
+						     end_row + 1);
+	print_make_rectangle_path (pj->print_context, base_x, base_y,
+				   end_x, end_y);
+#ifndef NO_DEBUG_PRINT
+	if (print_debugging > 0) {
+		gnome_print_gsave (pj->print_context);
+		gnome_print_stroke (pj->print_context);
+		gnome_print_moveto (pj->print_context, base_x, base_y);
+		gnome_print_lineto (pj->print_context, end_x, end_y);
+		gnome_print_stroke (pj->print_context);
+		gnome_print_grestore (pj->print_context);
+	}
+#endif
+	gnome_print_clip (pj->print_context);
 
 	range_init (&range, start_col, start_row, end_col, end_row);
 
@@ -137,7 +162,6 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet,
 		SheetObject *so = SHEET_OBJECT (l->data);
 		double coords [4];
 		double obj_base_x = 0.0, obj_base_y = 0.0;
-		double end_x, end_y;
 
 		/* First check if we need to print this object */
 		if (!range_overlap (&range, &so->cell_bound))
@@ -159,31 +183,11 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet,
 			continue;
 		}
 
-		/*
-		 * Make sure the object doesn't go beyond the specified
-		 * cells.
-		 */
-		end_x = base_x + sheet_col_get_distance_pts (sheet, start_col,
-						             end_col + 1);
-		end_y = base_y - sheet_row_get_distance_pts (sheet, start_row,
-						             end_row + 1);
-		print_make_rectangle_path (pj->print_context, base_x, base_y,
-					   end_x, end_y);
-#ifndef NO_DEBUG_PRINT
-		if (print_debugging > 0) {
-			gnome_print_gsave (pj->print_context);
-			gnome_print_stroke (pj->print_context);
-			gnome_print_moveto (pj->print_context, base_x, base_y);
-			gnome_print_lineto (pj->print_context, end_x, end_y);
-			gnome_print_stroke (pj->print_context);
-			gnome_print_grestore (pj->print_context);
-		}
-#endif
-		gnome_print_clip (pj->print_context);
-
 		sheet_object_print (so, pj->print_context,
 				    obj_base_x, obj_base_y);
 	}
+
+	gnome_print_grestore (pj->print_context);
 }
 
 static void
