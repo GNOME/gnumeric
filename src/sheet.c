@@ -40,6 +40,18 @@
 	(g_ptr_array_index ((seg_array)->info, COLROW_SEGMENT_INDEX(i)))
 
 void
+sheet_adjust_preferences (Sheet const *sheet)
+{
+	GList *l;
+
+	for (l = sheet->sheet_views; l; l = l->next){
+		SheetView *sheet_view = l->data;
+
+		sheet_view_adjust_preferences (sheet_view);
+	}
+}
+
+void
 sheet_redraw_all (Sheet const *sheet)
 {
 	GList *l;
@@ -226,7 +238,11 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->modified = FALSE;
 
 	/* Init preferences */
+	sheet->display_formulas = FALSE;
+	sheet->display_zero = TRUE;
 	sheet->show_grid = TRUE;
+	sheet->show_col_header = TRUE;
+	sheet->show_row_header = TRUE;
 
 	return sheet;
 }
@@ -1269,11 +1285,7 @@ sheet_set_text (Sheet *sheet, char const *text, Range const * r)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	/*
-	 * Figure out if a format matches, and for sanity compare that to
-	 * a rendered version of the text, if they compare equally, then
-	 * use that.
-	 */
+	/* If its not a formula see if there is a prefered format. */
 	if (!gnumeric_char_start_expr_p (*text) || text[1] == '\0') {
 		closure_set_cell_value	closure;
 		char *end;
@@ -1326,10 +1338,8 @@ sheet_set_current_value (Sheet *sheet)
 
 	/* TODO : Get a context */
 	/* Store the old value for undo */
-	if (cmd_set_text (NULL, sheet, &r.start, str, sheet->editing_saved_text))
-		return;
-
-	sheet_set_text (sheet, str, &r);
+	if (!cmd_set_text (NULL, sheet, &r.start, str, sheet->editing_saved_text))
+		sheet_set_text (sheet, str, &r);
 
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);

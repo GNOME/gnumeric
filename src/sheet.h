@@ -139,8 +139,12 @@ struct _Sheet {
 	gboolean    pristine;
 	gboolean    modified;
 
-	/* Preferences */
+	/* Sheet level preferences */
+	gboolean	display_formulas;
+	gboolean	display_zero;
 	gboolean	show_grid;
+	gboolean	show_col_header;
+	gboolean	show_row_header;
 
         /* Solver parameters */
         SolverParameters solver_parameters;
@@ -401,6 +405,8 @@ gboolean  sheet_delete_rows (CommandContext *context, Sheet *sheet,
 void  sheet_shift_rows  (CommandContext *context, Sheet *sheet,
 			 int col,
 			 int start_row, int end_row, int count);
+
+void sheet_adjust_preferences (Sheet const *sheet);
 
 typedef enum
 {

@@ -588,34 +588,6 @@ sheet_view_set_header_visibility (SheetView *sheet_view,
 	}
 }
 
-/* This seems unused comment it out for now */
-#if 0
-static void
-sheet_view_scrollbar_display (SheetView *sheet_view,
-			      gboolean show_col_scrollbar,
-			      gboolean show_row_scrollbar)
-{
-	g_return_if_fail (sheet_view != NULL);
-	g_return_if_fail (IS_SHEET_VIEW (sheet_view));
-
-	if (show_col_scrollbar){
-		if (!GTK_WIDGET_VISIBLE (sheet_view->hs))
-			gtk_widget_show (sheet_view->hs);
-	} else {
-		if (GTK_WIDGET_VISIBLE (sheet_view->hs))
-			gtk_widget_hide (sheet_view->hs);
-	}
-	
-	if (show_row_scrollbar){
-		if (!GTK_WIDGET_VISIBLE (sheet_view->vs))
-			gtk_widget_show (sheet_view->vs);
-	} else {
-		if (GTK_WIDGET_VISIBLE (sheet_view->vs))
-			gtk_widget_hide (sheet_view->vs);
-	}
-}
-#endif
-
 GtkWidget *
 sheet_view_new (Sheet *sheet)
 {
@@ -814,6 +786,37 @@ sheet_view_selection_ant (SheetView *sheet_view)
 	}
 }
 
+void
+sheet_view_adjust_preferences (SheetView *sheet_view)
+{
+	Sheet *sheet = sheet_view->sheet;
+	Workbook *wb = sheet->workbook;
+
+	if (sheet->show_col_header)
+		gtk_widget_show (GTK_WIDGET (sheet_view->col_canvas));
+	else
+		gtk_widget_hide (GTK_WIDGET (sheet_view->col_canvas));
+
+	if (sheet->show_row_header)
+		gtk_widget_show (GTK_WIDGET (sheet_view->row_canvas));
+	else
+		gtk_widget_hide (GTK_WIDGET (sheet_view->row_canvas));
+
+	if (sheet->show_col_header && sheet->show_row_header)
+		gtk_widget_show (sheet_view->select_all);
+	else
+		gtk_widget_hide (sheet_view->select_all);
+
+	if (wb->show_horizontal_scrollbar)
+		gtk_widget_show (sheet_view->hs);
+	else
+		gtk_widget_hide (sheet_view->hs);
+
+	if (wb->show_vertical_scrollbar)
+		gtk_widget_show (sheet_view->vs);
+	else
+		gtk_widget_hide (sheet_view->vs);
+}
 
 #if 0
 #ifdef ENABLE_BONOBO

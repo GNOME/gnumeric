@@ -1,3 +1,21 @@
+2000-01-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c : Menu items for sheet and workbook preferences.
+
+	* src/sheet-view.c (sheet_view_adjust_preferences) : New function.
+	* src/sheet.c (sheet_adjust_preferences) : New function.
+	(sheet_new) : Init the new preferences.
+	(sheet_set_text) : Avoid leaking in the failure case.
+
+	* src/selection.c (sheet_selection_paste) : Pass a context.
+
+	* src/cell.c (cell_render_value) : display_fomulas is now a sheet
+	  level preference.
+	(cell_is_number) : return boolean.
+	(cell_is_zero) : New function.
+
+	* src/item-grid.c (item_grid_draw_cell) : honour display_zero.
+
 2000-01-16  Morten Welinder  <terra@diku.dk>
 
 	* src/datetime.c: New file.

@@ -85,6 +85,8 @@ void             sheet_view_scrollbar_config      (SheetView const *sheet_view);
 void             sheet_view_selection_ant         (SheetView *sheet_view);
 void             sheet_view_selection_unant       (SheetView *sheet_view);
 
+void             sheet_view_adjust_preferences    (SheetView *sheet_view);
+
 typedef struct {
 	GtkTableClass parent_class;
 } SheetViewClass;

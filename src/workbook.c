@@ -842,18 +842,77 @@ cb_cell_rerender (gpointer cell, gpointer data)
         cell_queue_redraw (cell);
 }
 
+/***********************************************************************/
+/* Sheet preferences */
+
 static void
-toggle_formulas_cmd (GtkWidget *widget, Workbook *wb)
+cb_sheet_pref_display_formulas (GtkWidget *widget, Workbook *wb)
 {
-	wb->display_formulas = !wb->display_formulas;
+	Sheet *sheet = workbook_get_current_sheet (wb);
+	sheet->display_formulas = !sheet->display_formulas;
 	g_list_foreach (wb->formula_cell_list, &cb_cell_rerender, NULL);
 }
 static void
-toggle_grid_lines (GtkWidget *widget, Workbook *wb)
+cb_sheet_pref_hide_zeros (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+	sheet->display_zero = ! sheet->display_zero;
+	sheet_redraw_all (sheet);
+}
+static void
+cb_sheet_pref_hide_grid_lines (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = workbook_get_current_sheet (wb);
 	sheet->show_grid = !sheet->show_grid;
+	sheet_redraw_all (sheet);
 }
+static void
+cb_sheet_pref_hide_col_header (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+	sheet->show_col_header = ! sheet->show_col_header;
+	sheet_adjust_preferences (sheet);
+}
+static void
+cb_sheet_pref_hide_row_header (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet = workbook_get_current_sheet (wb);
+	sheet->show_row_header = ! sheet->show_row_header;
+	sheet_adjust_preferences (sheet);
+}
+
+/***********************************************************************/
+/* Workbook level preferences */
+
+static void
+cb_update_sheet_view_prefs (gpointer key, gpointer value, gpointer user_data)
+{
+	Sheet *sheet = value;
+	sheet_adjust_preferences (sheet);
+}
+
+static void
+cb_wb_pref_hide_hscroll (GtkWidget *widget, Workbook *wb)
+{
+	wb->show_horizontal_scrollbar = ! wb->show_horizontal_scrollbar;
+	g_hash_table_foreach (wb->sheets, &cb_update_sheet_view_prefs, NULL);
+}
+
+static void
+cb_wb_pref_hide_vscroll (GtkWidget *widget, Workbook *wb)
+{
+	wb->show_vertical_scrollbar = ! wb->show_vertical_scrollbar;
+	g_hash_table_foreach (wb->sheets, &cb_update_sheet_view_prefs, NULL);
+}
+
+static void
+cb_wb_pref_hide_tabs (GtkWidget *widget, Workbook *wb)
+{
+	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (wb->notebook),
+				    wb->show_notebook_tabs = ! wb->show_notebook_tabs);
+}
+
+/***********************************************************************/
 
 static void
 format_cells_cmd (GtkWidget *widget, Workbook *wb)
@@ -1079,10 +1138,6 @@ static GnomeUIInfo workbook_menu_edit [] = {
 static GnomeUIInfo workbook_menu_view [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Zoom..."),
 	  N_("Zoom the spreadsheet in or out"), zoom_cmd },
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Toggle _Formulas"),
-	  N_("Toggle the display of formulas"), toggle_formulas_cmd },
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Display _Grid lines"),
-	  N_("Toggle the display of formulas"), toggle_grid_lines },
 	GNOMEUIINFO_END
 };
 
@@ -1146,6 +1201,28 @@ static GnomeUIInfo workbook_menu_format_row [] = {
 static GnomeUIInfo workbook_menu_format_sheet [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Change name"),   NULL,
 	  workbook_cmd_format_sheet_change_name },
+
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Display _Formulas"),
+	    NULL, &cb_sheet_pref_display_formulas },
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide _Zeros"),
+	    NULL, &cb_sheet_pref_hide_zeros },
+
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide _Gridlines"),
+	    NULL, &cb_sheet_pref_hide_grid_lines },
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide _Column Header"),
+	    NULL, &cb_sheet_pref_hide_col_header },
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide _Row Header"),
+	    NULL, &cb_sheet_pref_hide_row_header },
+	GNOMEUIINFO_END
+};
+
+static GnomeUIInfo workbook_menu_format_workbook [] = {
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide _Horizontal Scrollbar"),
+	    NULL, &cb_wb_pref_hide_hscroll },
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide _Vertical Scrollbar"),
+	    NULL, &cb_wb_pref_hide_vscroll },
+	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide Sheet _Tabs"),
+	    NULL, &cb_wb_pref_hide_tabs },
 	GNOMEUIINFO_END
 };
 
@@ -1156,7 +1233,7 @@ static GnomeUIInfo workbook_menu_format [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("C_olumn"), NULL, workbook_menu_format_column },
 	{ GNOME_APP_UI_SUBTREE, N_("_Row"),    NULL, workbook_menu_format_row },
 	{ GNOME_APP_UI_SUBTREE, N_("_Sheet"),  NULL, workbook_menu_format_sheet },
-
+	{ GNOME_APP_UI_SUBTREE, N_("_Workbook"),  NULL, workbook_menu_format_workbook },
 	GNOMEUIINFO_END
 };
 
@@ -2075,7 +2152,6 @@ workbook_new (void)
 	wb = gtk_type_new (workbook_get_type ());
 	wb->toplevel  = gnome_app_new ("Gnumeric", "Gnumeric");
 	wb->table     = gtk_table_new (0, 0, 0);
-	wb->display_formulas = FALSE;
 	wb->autosave = FALSE;
 	wb->autosave_prompt = TRUE;
 	wb->autosave_minutes = 15;
@@ -2083,6 +2159,10 @@ workbook_new (void)
 	wb->autosave_timer = 
 	        gtk_timeout_add (wb->autosave_minutes*60000, 
 				 (GtkFunction) dialog_autosave_callback, wb);
+
+	wb->show_horizontal_scrollbar = TRUE;
+	wb->show_vertical_scrollbar = TRUE;
+	wb->show_notebook_tabs = TRUE;
 
 	gtk_window_set_policy (GTK_WINDOW (wb->toplevel), 1, 1, 0);
 	sx = MAX (gdk_screen_width  () - 64, 400);

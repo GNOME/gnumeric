@@ -114,14 +114,16 @@ struct _Workbook {
 
 	void       *corba_server;
 
-	gboolean   display_formulas; 
-
 	WorkbookPrivate *priv;
 
+	/* Workbook level preferences */
         gboolean   autosave;
         gboolean   autosave_prompt;
         gint       autosave_minutes;
         gint       autosave_timer;
+	gboolean   show_horizontal_scrollbar;
+	gboolean   show_vertical_scrollbar;
+	gboolean   show_notebook_tabs;
 };
 
 typedef struct {

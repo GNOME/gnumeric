@@ -276,7 +276,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 {
 	GdkGC      *gc     = item_grid->gc;
 	GdkColor   *col;
-	int         count;
+	int         count  = 1;
 	int         w, h;
 	MStyle     *mstyle;
 
@@ -302,7 +302,8 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	h = cell->row->pixels;
 
 	/* Draw cell contents BEFORE border */
-	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
+	if (cell->sheet->display_zero || !cell_is_zero (cell))
+		count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 
 	item_grid_draw_border (drawable, mstyle, x1, y1, w, h, count > 1, FALSE);
 

@@ -156,7 +156,8 @@ Cell       *cell_copy                    (const Cell *cell);
 void        cell_destroy                 (Cell *cell);
 void        cell_queue_redraw            (Cell *cell);
 int         cell_get_horizontal_align    (const Cell *cell, int align);
-int	    cell_is_number  		 (const Cell *cell);
+gboolean    cell_is_number  		 (const Cell *cell);
+gboolean    cell_is_zero		 (const Cell *cell);
 
 int         cell_draw                    (Cell *cell, SheetView *sheet_view,
 					  GdkGC *gc, GdkDrawable *drawable,

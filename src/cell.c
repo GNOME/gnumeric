@@ -401,7 +401,7 @@ cell_render_value (Cell *cell)
 		cell->render_color = NULL;
 	}
 
-	if (cell->sheet->workbook->display_formulas && cell->parsed_node){
+	if (cell->sheet->display_formulas && cell->parsed_node){
 		ParsePosition pp;
 		char *tmpstr = expr_decode_tree (cell->parsed_node,
 						 parse_pos_cell (&pp, cell));
@@ -981,10 +981,29 @@ cell_get_horizontal_align (const Cell *cell, int align)
 	return align;
 }
 
-int inline
+gboolean inline
 cell_is_number (const Cell *cell)
 {
 	return cell->value && VALUE_IS_NUMBER (cell->value);
+}
+gboolean
+cell_is_zero (const Cell *cell)
+{
+	Value const * const v = cell->value;
+	if (v == NULL)
+		return FALSE;
+	switch (v->type) {
+	case VALUE_BOOLEAN : return !v->v.v_bool;
+	case VALUE_INTEGER : return v->v.v_int == 0;
+	case VALUE_FLOAT :
+	{
+		double const res = v->v.v_float;
+		return (-1e-10 < res && res < 1e-10);
+	}
+
+	default :
+		return FALSE;
+	}
 }
 
 static inline int

@@ -3326,22 +3326,26 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			case BIFF_WINDOW2:
 			if (q->length >= 10) {
 				guint16 const options    = MS_OLE_GET_GUINT16(q->data + 0);
-				guint16 const top_row    = MS_OLE_GET_GUINT16(q->data + 2);
-				guint16 const left_col   = MS_OLE_GET_GUINT16(q->data + 4);
+				guint16 top_row    = MS_OLE_GET_GUINT16(q->data + 2);
+				guint16 left_col   = MS_OLE_GET_GUINT16(q->data + 4);
 
-				wb->gnum_wb->display_formulas = (options & 0x0001);
+				sheet->gnum_sheet->display_formulas	= (options & 0x0001);
+				sheet->gnum_sheet->display_zero		= (options & 0x0010);
+				sheet->gnum_sheet->show_grid 		= (options & 0x0002);
+				sheet->gnum_sheet->show_col_header =
+				    sheet->gnum_sheet->show_row_header	= (options & 0x0004);
 
-				if (!(options & 0x0002))
-					printf ("Unsupported : no grid lines\n");
-				if (!(options & 0x0004))
-					printf ("Unsupported : hidden row & col headings\n");
+				/* The docs are unclear whether or not the counters
+				 * are 0 or 1 based.  I'll assume 1 based but make the
+				 * checks conditional just in case I'm wrong.
+				 */
+				if (top_row > 0) --top_row;
+				if (left_col > 0) --left_col;
+				sheet_make_cell_visible (sheet->gnum_sheet,
+							 left_col, top_row);
 #if 0
 				if (!(options & 0x0008))
 					printf ("Unsupported : frozen panes\n");
-#endif
-				if (!(options & 0x0010))
-					printf ("Unsupported : we always display zeros\n");
-#if 0
 				if (!(options & 0x0020)) {
 					guint32 const grid_color = MS_OLE_GET_GUINT32(q->data + 6);
 					/* This is quicky fake code to express the idea */
@@ -3361,10 +3365,8 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 						printf ("Sheet flag selected\n");
 				}
 #endif
-				if (options & 0x0400) {
+				if (options & 0x0400)
 					workbook_focus_sheet (sheet->gnum_sheet);
-					/* printf ("Sheet top in workbook\n"); */
-				}
 			}
 #ifndef NO_DEBUG_EXCEL
 			if (q->length >= 14) {
@@ -3898,20 +3900,24 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 				guint16 const ratio   = MS_OLE_GET_GUINT32(q->data + 16);
 #endif
 
+				/* FIXME FIXME FIXME :
+				 * This is wrong on many levels.
+				 * 1) We are scaling this by arbitrary factors.
+				 * 2) We are sizing the window including the toolbars,
+				 *    menus, and notbook tabs.  Excel does not.
+				 */
 				workbook_view_set_size (wb->gnum_wb,
-							width*MAGIC_ZOOM / 20.,
-							height*MAGIC_ZOOM / 20.);
+							width*1.35 / 20.,
+							height*1.5 / 20.);
 
 				if (options & 0x0001)
-					printf ("Unsupported : Hidden sheet\n");
+					printf ("Unsupported : Hidden workbook\n");
 				if (options & 0x0002)
-					printf ("Unsupported : Iconic sheet\n");
-				if (!(options & 0x0008))
-					printf ("Unsupported : Hidden horizonal scroll bar\n");
-				if (!(options & 0x0010))
-					printf ("Unsupported : Hidden horizonal scroll bar\n");
-				if (!(options & 0x0020))
-					printf ("Unsupported : Hidden notbook tabs\n");
+					printf ("Unsupported : Iconic workbook\n");
+				wb->gnum_wb->show_horizontal_scrollbar = (options & 0x0008);
+				wb->gnum_wb->show_vertical_scrollbar = (options & 0x0010);
+				wb->gnum_wb->show_notebook_tabs = (options & 0x0020);
+				workbook_view_pref_visibility (wb->gnum_wb);
 			}
 			break;
 
