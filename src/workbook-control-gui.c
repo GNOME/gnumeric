@@ -890,8 +890,7 @@ workbook_close_if_user_permits (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 
 		switch (button) {
 		case 0: /* YES */
-			done = workbook_save (WORKBOOK_CONTROL (wbcg),
-					      wb_view);
+			done = gui_file_save (wbcg, wb_view);
 			break;
 
 		case 1: /* NO */

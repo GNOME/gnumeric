@@ -1,5 +1,8 @@
 2001-01-05  Jon K Hellan  <hellan@acm.org>
 
+	* src/workbook-control-gui.c (workbook_close_if_user_permits): Use
+	gui_file_save instead of workbook_save.
+
 	* src/gui-file.c (gui_file_import): Do not set selection
 	mode. That belongs in the Glade file.
 
