@@ -3,37 +3,32 @@
 # Mitsuru Oka <95i44@is.kochi-u.ac.jp>, 1998.
 # Mitsuru Oka <mitsu-o@is.aist-nara.ac.jp>, 1999-2000.
 # Mitsuo Hamada <mhamada@redhat.com>, 2000.
-# Yukihiro Nakai <nakai@gnome.gr.jp>, 2000-2001.
+# Yukihiro Nakai <nakai@gnome.gr.jp>, 2000-2001,2003.
 # Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2002.
-# no-wrap
-# , no-wrap
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.1.3\n"
+"Project-Id-Version: gnumeric 1.1.20\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-06-25 19:48-0400\n"
-"PO-Revision-Date: 2002-04-25 00:05+0900\n"
-"Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
+"PO-Revision-Date: 2003-07-11 00:05+0900\n"
+"Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
-#, fuzzy
 msgid "Gnumeric Workbook"
-msgstr "Gnumericワークブックファイルではありません"
+msgstr "Gnumericワークブック"
 
 #: GNOME_Gnumeric.server.in.in.h:2
-#, fuzzy
 msgid "Gnumeric Workbook Viewer"
-msgstr "Gnumericワークブックファイルではありません"
+msgstr "Gnumericワークブックビューア"
 
 #: GNOME_Gnumeric.server.in.in.h:3
-#, fuzzy
 msgid "Gnumeric Workbook viewer factory"
-msgstr "Gnumericワークブックファイルではありません"
+msgstr "Gnumericワークブックビューアファクトリ"
 
 #: gnumeric.desktop.in.h:1
 msgid "Gnumeric Spreadsheet"
@@ -49,17 +44,17 @@ msgstr "Applix ファイルの読み込み中に解析エラーが発生しま�
 
 #: plugins/applix/applix-read.c:246
 msgid "Missing characters for character encoding"
-msgstr ""
+msgstr "文字エンコーディングの文字が見つかりません"
 
 #: plugins/applix/applix-read.c:250
 #, c-format
 msgid "Invalid characters for encoding '%c%c'"
-msgstr ""
+msgstr "エンコーディング'%c%c'では不正な文字です"
 
 #: plugins/applix/applix-read.c:1083
 #, c-format
 msgid "Expression did not start with '=' ? '%s'"
-msgstr ""
+msgstr "表現が'=' ? '%s'で始まっていません"
 
 #: plugins/applix/applix-read.c:1094
 #, c-format
@@ -67,6 +62,8 @@ msgid ""
 "%s!%s : unable to parse '%s'\n"
 "     %s"
 msgstr ""
+"%s!%s : '%s'をパースできません\n"
+"     %s"
 
 #: plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
@@ -82,11 +79,11 @@ msgstr "バージョン 4.[234] スプレッドシートのインポート"
 
 #: plugins/corba/plugin.xml.in.h:1
 msgid "CORBA Interface"
-msgstr ""
+msgstr "CORBAインターフェース"
 
 #: plugins/corba/plugin.xml.in.h:2
 msgid "Provides a CORBA scripting interface"
-msgstr ""
+msgstr "CORBAスクリプトインターフェースの生成"
 
 #: plugins/derivatives/options.c:142
 #, no-c-format
@@ -96,6 +93,10 @@ msgid ""
 "@DESCRIPTION=CUM_BIV_NORM_DIST calculates the cumulative bivariate normal "
 "distribution from parameters a, b & rho"
 msgstr ""
+"@FUNCTION=CUM_BIV_NORM_DIST\n"
+"@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
+"@DESCRIPTION=CUM_BIV_NORM_DISTはパラメータa, b, rhoから累積二変量正規分布"
+"を求めます"
 
 #: plugins/derivatives/options.c:194
 #, fuzzy
@@ -15846,34 +15847,31 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:13
 msgid "List of Known Plugins."
-msgstr ""
+msgstr "既知のプラグインのリスト"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:14
 msgid "List of Plugin File States."
-msgstr ""
+msgstr "プラグインファイルの状態のリスト"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:15
 msgid "List of recently used functions."
-msgstr ""
+msgstr "最近使った関数のリスト"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:16
 msgid "Maximum Length of Recently Used Functions List"
-msgstr ""
+msgstr "最近使った関数リストの最大長さ"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:17
-#, fuzzy
 msgid "Page Footer"
-msgstr "ページの方向"
+msgstr "ページフッタ"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:18
-#, fuzzy
 msgid "Page Header"
-msgstr "ページの方向"
+msgstr "ページヘッダ"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:19
-#, fuzzy
 msgid "Print Config"
-msgstr "印刷範囲"
+msgstr "印刷設定"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:20
 msgid ""
@@ -15884,7 +15882,7 @@ msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:21
 msgid "System Directory for Autoformats"
-msgstr ""
+msgstr "自動フォーマットのシステムディレクトリ"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:22
 msgid ""
@@ -15949,9 +15947,8 @@ msgid "This list contains all known plugins."
 msgstr ""
 
 #: schemas/gnumeric-dialogs.schemas.in.h:34
-#, fuzzy
 msgid "This list contains all plugin file states."
-msgstr "ファイルには (\"plugin_file_struct\" シンボル) が含まれていません。"
+msgstr "このリストにはすべてのプラグインファイルの状態が含まれます。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:35
 msgid ""
@@ -15979,9 +15976,8 @@ msgid "Auto Expression Recalculation Lag"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:2
-#, fuzzy
 msgid "Autocomplete"
-msgstr "自動書式設定"
+msgstr "オートコンプリート"
 
 #: schemas/gnumeric-general.schemas.in.h:3
 msgid ""
@@ -15995,9 +15991,8 @@ msgid "Default Compression Level For Gnumeric Files"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:5
-#, fuzzy
 msgid "Default Font Size"
-msgstr "フォントサイズのセット"
+msgstr "デフォルトフォントサイズ"
 
 #: schemas/gnumeric-general.schemas.in.h:6
 #, fuzzy
@@ -16129,20 +16124,19 @@ msgstr "対象外の部分(_P)"
 
 #: schemas/gnumeric-general.schemas.in.h:32
 msgid "The default font is bold."
-msgstr ""
+msgstr "デフォルトフォントはボールドです"
 
 #: schemas/gnumeric-general.schemas.in.h:33
-#, fuzzy
 msgid "The default font is italic."
-msgstr "リスト範囲が正しくありません。"
+msgstr "デフォルトフォントはイタリックです。"
 
 #: schemas/gnumeric-general.schemas.in.h:34
 msgid "The default font name for new workbooks."
-msgstr ""
+msgstr "新規ワークブックのデフォルトフォント名です。"
 
 #: schemas/gnumeric-general.schemas.in.h:35
 msgid "The default font size for new workbooks."
-msgstr ""
+msgstr "新規ワークブックのデフォルトフォントサイズです。"
 
 #: schemas/gnumeric-general.schemas.in.h:36
 msgid ""
@@ -16428,9 +16422,8 @@ msgid "Close the current file"
 msgstr "編集中のファイルを閉じます"
 
 #: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3522
-#, fuzzy
 msgid "Co_mment..."
-msgstr "注釈(_M)"
+msgstr "注釈(_M)..."
 
 #: src/GNOME_Gnumeric.xml.h:39 src/dialogs/print.glade.h:7
 #: src/workbook-control-gui.c:3416
@@ -16769,24 +16762,20 @@ msgid "Hide the selected rows"
 msgstr "選択された行を隠します"
 
 #: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:3635
-#, fuzzy
 msgid "Hyper_link..."
-msgstr "開く..."
+msgstr "ハイパーリンク(_L)..."
 
 #: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:4056
-#, fuzzy
 msgid "Hyperlink"
-msgstr "削除(_R)"
+msgstr "ハイパーリンク"
 
 #: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3934
-#, fuzzy
 msgid "Import _Text File..."
-msgstr "ファイルを読み込みます"
+msgstr "テキストファイルのインポート(_T)..."
 
 #: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:3935
-#, fuzzy
 msgid "Import the text from a file"
-msgstr "ファイルを読み込みます"
+msgstr "ファイルからテキストをインポートします"
 
 #: src/GNOME_Gnumeric.xml.h:116 src/workbook-format-toolbar.c:379
 #: src/workbook-format-toolbar.c:483
@@ -16798,9 +16787,8 @@ msgid "Increase Precision"
 msgstr "精度の増幅"
 
 #: src/GNOME_Gnumeric.xml.h:118 src/workbook-format-toolbar.c:471
-#, fuzzy
 msgid "Increase the number of decimals displayed"
-msgstr "表示される小数点以下の列を増やす"
+msgstr "表示する数字の数を増やします"
 
 #: src/GNOME_Gnumeric.xml.h:119
 msgid "Insert Component"
@@ -16812,9 +16800,8 @@ msgstr "シェープコンポーネントを挿入します"
 
 #: src/GNOME_Gnumeric.xml.h:121 src/workbook-control-gui.c:3636
 #: src/workbook-control-gui.c:4057
-#, fuzzy
 msgid "Insert a Hyperlink"
-msgstr "削除(_R)"
+msgstr "ハイパーリンクを挿入します"
 
 #: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:3630
 msgid "Insert a function into the selected cell"
@@ -17007,14 +16994,12 @@ msgstr "特殊貼り付け(_A)..."
 
 #: src/GNOME_Gnumeric.xml.h:166 src/GNOME_Gnumeric_Component.xml.h:4
 #: src/workbook-control-gui.c:3380
-#, fuzzy
 msgid "Page Set_up..."
-msgstr "印刷設定(_E)..."
+msgstr "印刷設定(_U)..."
 
 #: src/GNOME_Gnumeric.xml.h:167 src/workbook-control-gui.c:3971
-#, fuzzy
 msgid "Parse the text in the selection into data"
-msgstr "セルの内容をそれぞれ中央揃えにします"
+msgstr "選択範囲のテキストをデータにパースしてデータにします"
 
 #: src/GNOME_Gnumeric.xml.h:168 src/cmd-edit.c:344
 #: src/workbook-control-gui.c:4037
@@ -17079,9 +17064,8 @@ msgstr "ワークブックを印刷します"
 
 #: src/GNOME_Gnumeric.xml.h:182 src/GNOME_Gnumeric_Component.xml.h:8
 #: src/workbook-control-gui.c:3393
-#, fuzzy
 msgid "Proper_ties..."
-msgstr "プロパティ(_R)..."
+msgstr "プロパティ(_T)..."
 
 #: src/GNOME_Gnumeric.xml.h:183
 #, fuzzy
@@ -17173,9 +17157,8 @@ msgid "Save the current workbook with a different name"
 msgstr "編集中のファイルを別の名前で保存します"
 
 #: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:3883
-#, fuzzy
 msgid "Sce_narios"
-msgstr "セパレータ"
+msgstr "シナリオ(_N)"
 
 #: src/GNOME_Gnumeric.xml.h:205 src/workbook-object-toolbar.c:143
 msgid "Scrollbar"
@@ -17402,14 +17385,12 @@ msgid "_ANOVA"
 msgstr "ANOVA(_A)"
 
 #: src/GNOME_Gnumeric.xml.h:257
-#, fuzzy
 msgid "_About"
-msgstr "情報(_A)..."
+msgstr "情報(_A)"
 
 #: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3755
-#, fuzzy
 msgid "_Add..."
-msgstr "追加(_A)"
+msgstr "追加(_A)..."
 
 #: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3410
 msgid "_All"
@@ -17583,9 +17564,8 @@ msgid "_Manage Sheets..."
 msgstr "シートの管理(_M)..."
 
 #: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3459
-#, fuzzy
 msgid "_Merge..."
-msgstr "結合..."
+msgstr "結合(_M)..."
 
 #: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3779
 msgid "_Moving Average"
@@ -17600,9 +17580,8 @@ msgid "_New"
 msgstr "新規(_N)"
 
 #: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3563
-#, fuzzy
 msgid "_New View..."
-msgstr "新規(_N)"
+msgstr "新規ビュー(_N)..."
 
 #: src/GNOME_Gnumeric.xml.h:302
 msgid "_Object..."
@@ -17662,7 +17641,7 @@ msgstr "削除(_R)"
 
 #: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3878
 msgid "_Risk Simulation..."
-msgstr ""
+msgstr "リスクシミュレーション(_R)..."
 
 #: src/GNOME_Gnumeric.xml.h:316 src/dialogs/pivottable.glade.h:13
 #: src/workbook-control-gui.c:3733
@@ -17779,9 +17758,8 @@ msgid "_View"
 msgstr "表示(_V)"
 
 #: src/GNOME_Gnumeric.xml.h:341 src/workbook-control-gui.c:3752
-#, fuzzy
 msgid "_View..."
-msgstr "新規(_N)"
+msgstr "表示(_V)..."
 
 #: src/GNOME_Gnumeric.xml.h:342 src/workbook-control-gui.c:3646
 msgid "_Width..."
@@ -17796,29 +17774,24 @@ msgid "_Zoom..."
 msgstr "ズーム(_Z)..."
 
 #: src/GNOME_Gnumeric_Component.xml.h:1
-#, fuzzy
 msgid "About the Gnumeric spreadsheet program"
-msgstr "Gnumeric スプレッドシート"
+msgstr "Gnumericスプレッドシートについて"
 
 #: src/GNOME_Gnumeric_Component.xml.h:2
-#, fuzzy
 msgid "C_lear Cells"
-msgstr "内容を消去(_N)"
+msgstr "セルのクリア(_L)"
 
 #: src/GNOME_Gnumeric_Component.xml.h:3
-#, fuzzy
 msgid "Cu_t Cells"
-msgstr "セルの設定(_S):"
+msgstr "セルのカット(_T)"
 
 #: src/GNOME_Gnumeric_Component.xml.h:5
-#, fuzzy
 msgid "Print Previe_w..."
-msgstr "印刷プレビュー(_V)..."
+msgstr "印刷プレビュー(_W)..."
 
 #: src/GNOME_Gnumeric_Component.xml.h:9
-#, fuzzy
 msgid "Search Workbook"
-msgstr "Gnumericワークブックファイルではありません"
+msgstr "ワークブックの検索"
 
 #: src/GNOME_Gnumeric_Component.xml.h:12
 #, fuzzy
@@ -17826,9 +17799,8 @@ msgid "View descriptive information"
 msgstr "ワークブック情報を編集します"
 
 #: src/GNOME_Gnumeric_Component.xml.h:13
-#, fuzzy
 msgid "_About Gnumeric"
-msgstr "Gnumeric"
+msgstr "Gnumericについて(_A)"
 
 #: src/GNOME_Gnumeric_Component.xml.h:14
 #, fuzzy
@@ -18088,9 +18060,8 @@ msgid "Setting height of rows %s to default"
 msgstr "行 %s の高さをデフォルト値にします"
 
 #: src/commands.c:1983
-#, fuzzy
 msgid "Sorting"
-msgstr "%s を整列中"
+msgstr "ソート"
 
 #: src/commands.c:2003
 #, c-format
@@ -18405,9 +18376,8 @@ msgid "Width"
 msgstr "修正後の文字(_W)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
-#, fuzzy
 msgid "Chart"
-msgstr "グラフ%d"
+msgstr "チャート"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:995
 #, fuzzy
@@ -18425,17 +18395,17 @@ msgid "Configure Graph"
 msgstr "ツールバーを設定します"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1081
-#, fuzzy
 msgid "_Plot Type"
-msgstr "プロット名"
+msgstr "プロットタイプ(_P)"
 
 #. Set up sample button
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1171
-#, fuzzy
 msgid ""
 "Show\n"
 "Sample"
-msgstr "例"
+msgstr ""
+"表示\n"
+"サンプル"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1180
 #: src/dialogs/dialog-plugin-manager.c:679
@@ -18565,23 +18535,20 @@ msgid "Fill _Color:"
 msgstr "色(_C):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
-#, fuzzy
 msgid "Gradient"
-msgstr "印刷"
+msgstr "グラデーション"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
 msgid "Gradient:"
-msgstr ""
+msgstr "グラデーション:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-#, fuzzy
 msgid "Image"
-msgstr "画像(_I)..."
+msgstr "画像"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-#, fuzzy
 msgid "Left to right"
-msgstr "左寄せ"
+msgstr "左から右へ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 #: src/dialogs/cell-format.glade.h:52 src/dialogs/dialog-cell-format.c:72
@@ -18590,15 +18557,13 @@ msgid "None"
 msgstr "なし"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:11
-#, fuzzy
 msgid "Not available..."
-msgstr "印刷(_P)..."
+msgstr "使用不可能..."
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:12
 #: src/dialogs/so-fill.glade.h:4
-#, fuzzy
 msgid "O_utline Color:"
-msgstr "下のアウトライン(_B)"
+msgstr "アウトラインカラー(_U):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
 #: src/dialogs/cell-format.glade.h:57 src/dialogs/dialog-cell-format.c:2279
@@ -18606,14 +18571,12 @@ msgid "Pattern"
 msgstr "パターン"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-#, fuzzy
 msgid "S_tart Color:"
-msgstr "色(_C):"
+msgstr "開始色(_T):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
-#, fuzzy
 msgid "Select an _image file:"
-msgstr "列全体を選択します"
+msgstr "画像ファイルの選択:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 #: src/dialogs/cell-format.glade.h:66
@@ -18626,30 +18589,27 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
 msgid "Top left to bottom right"
-msgstr ""
+msgstr "左上から右下へ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
 msgid "Top right to bottom left"
-msgstr ""
+msgstr "右上から左下へ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
-#, fuzzy
 msgid "Top to bottom"
-msgstr "上下"
+msgstr "上から下へ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 msgid "Wallpaper"
-msgstr ""
+msgstr "壁紙"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
-#, fuzzy
 msgid "_End Color:"
-msgstr "色(_C):"
+msgstr "終了色(_C):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-#, fuzzy
 msgid "_Fill type:"
-msgstr "ファイル(_F)"
+msgstr "フィルタイプ(_F):"
 
 #. outline colour
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:147
@@ -20898,18 +20858,16 @@ msgid "Not a range or name"
 msgstr ""
 
 #: src/dialogs/dialog-hyperlink.c:187
-#, fuzzy
 msgid "_Internal Link"
-msgstr "内部エラーです"
+msgstr "内部リンク(_I)"
 
 #: src/dialogs/dialog-hyperlink.c:189
 msgid "Jump to specific cells or named range in the current workbook"
 msgstr ""
 
 #: src/dialogs/dialog-hyperlink.c:193
-#, fuzzy
 msgid "_External Link"
-msgstr "内部エラーです"
+msgstr "外部リンク(_E)"
 
 #: src/dialogs/dialog-hyperlink.c:195
 msgid "Open an external file with the specified name"
@@ -20917,17 +20875,15 @@ msgstr ""
 
 #: src/dialogs/dialog-hyperlink.c:199
 msgid "Send _Email"
-msgstr ""
+msgstr "電子メールを送信(_E)"
 
 #: src/dialogs/dialog-hyperlink.c:201
-#, fuzzy
 msgid "Prepare an email"
-msgstr "ラベルの作成"
+msgstr "電子メールの準備"
 
 #: src/dialogs/dialog-hyperlink.c:203
-#, fuzzy
 msgid "_Web Link"
-msgstr "リンクの貼付け"
+msgstr "ウェブリンク(_W)"
 
 #: src/dialogs/dialog-hyperlink.c:205
 msgid "Browse to the specified URL"
@@ -20949,9 +20905,8 @@ msgid "Remove Hyperlink"
 msgstr "削除(_R)"
 
 #: src/dialogs/dialog-hyperlink.c:455
-#, fuzzy
 msgid "Could not create the hyperlink dialog."
-msgstr "ソルバダイアログが作成できませんでした。"
+msgstr "ハイパーリンクダイアログが作成できませんでした。"
 
 #: src/dialogs/dialog-insert-cells.c:134
 msgid "Insert"
@@ -22988,14 +22943,12 @@ msgid "% of _normal size"
 msgstr "％ (標準サイズに対する比率)"
 
 #: src/dialogs/print.glade.h:4
-#, fuzzy
 msgid "Apply _to:"
-msgstr "フォント(_F)"
+msgstr "適用するシートは(_T):"
 
 #: src/dialogs/print.glade.h:5
-#, fuzzy
 msgid "Apply to _all sheets of this workbook."
-msgstr "ワークブックにシートがありません。"
+msgstr "このワークブックのすべてのシートに適用する(_A)"
 
 #: src/dialogs/print.glade.h:6
 msgid "Center on page"
@@ -23043,7 +22996,7 @@ msgstr "行列番号(_L)"
 
 #: src/dialogs/print.glade.h:19
 msgid "Save as Default Settings"
-msgstr ""
+msgstr "デフォルト設定として保存"
 
 #: src/dialogs/print.glade.h:20
 msgid "Scale"
@@ -23215,9 +23168,8 @@ msgid "Add Scenario"
 msgstr ""
 
 #: src/dialogs/scenario-add.glade.h:3 src/dialogs/scenario-manager.glade.h:3
-#, fuzzy
 msgid "Comment:"
-msgstr "注釈"
+msgstr "注釈:"
 
 #: src/dialogs/scenario-add.glade.h:4
 #, fuzzy
@@ -23929,9 +23881,8 @@ msgid "_Type:"
 msgstr "型(_T):"
 
 #: src/dialogs/summary.glade.h:2
-#, fuzzy
 msgid "<span weight=\"bold\">Document Summary Information</span>"
-msgstr "文書の要約情報"
+msgstr "<span weight=\"bold\"ドキュメントの要約情報</span>"
 
 #: src/dialogs/summary.glade.h:3
 msgid "C_omments:"
@@ -23942,9 +23893,8 @@ msgid "Com_pany:"
 msgstr "会社(_P):"
 
 #: src/dialogs/summary.glade.h:5
-#, fuzzy
 msgid "File:"
-msgstr "ファイル(_F)"
+msgstr "ファイル:"
 
 #: src/dialogs/summary.glade.h:6
 msgid "Summary"
@@ -24167,9 +24117,8 @@ msgid "'%s' is already defined in sheet"
 msgstr "シートで既に定義されています"
 
 #: src/expr-name.c:378 src/expr-name.c:558
-#, fuzzy, c-format
 msgid "'%s' is already defined in workbook"
-msgstr "ワークブックで既に定義されています"
+msgstr "'%s'はワークブックで既に定義されています"
 
 #: src/expr.c:752
 msgid "Internal type error"
@@ -26117,9 +26066,8 @@ msgid "Clear Co_ntents"
 msgstr "内容を消去(_N)"
 
 #: src/sheet-control-gui.c:1508
-#, fuzzy
 msgid "Edit Co_mment..."
-msgstr "注釈(_M)"
+msgstr "注釈の編集(_M)"
 
 #: src/sheet-control-gui.c:1514
 msgid "_Format Cells..."
@@ -26137,38 +26085,35 @@ msgstr "行の高さ(_R)..."
 
 #: src/sheet-control-gui.c:1533
 msgid "_Hyperlink"
-msgstr ""
+msgstr "ハイパーリンク(_H)"
 
 #: src/sheet-control-gui.c:1536
 msgid "Edit _Hyperlink"
-msgstr ""
+msgstr "ハイパーリンクの編集(_H)"
 
 #: src/sheet-control-gui.c:1539
-#, fuzzy
 msgid "_Remove Hyperlink"
-msgstr "削除(_R)"
+msgstr "ハイパーリンクの削除(_R)"
 
 #: src/sheet-filter.c:357
-#, fuzzy
 msgid "(All)"
-msgstr "全て"
+msgstr "(全て)"
 
 #: src/sheet-filter.c:362
 msgid "(Top 10...)"
-msgstr ""
+msgstr "(上位10...)"
 
 #: src/sheet-filter.c:369
-#, fuzzy
 msgid "(Custom...)"
-msgstr "カスタム"
+msgstr "(カスタム...)"
 
 #: src/sheet-filter.c:412
 msgid "(Blanks...)"
-msgstr ""
+msgstr "(空白...)"
 
 #: src/sheet-filter.c:418
 msgid "(Non Blanks...)"
-msgstr ""
+msgstr "(空白以外...)"
 
 #: src/sheet-merge.c:80
 #, fuzzy, c-format
@@ -27579,77 +27524,65 @@ msgid "Spacing around indicator"
 msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:69
-#, fuzzy
 msgid "Arabic"
-msgstr "範囲 %i"
+msgstr "アラブ語"
 
 #: src/widgets/widget-charmap-selector.c:70
-#, fuzzy
 msgid "Baltic"
-msgstr "イタリック"
+msgstr "バルト諸語"
 
 #: src/widgets/widget-charmap-selector.c:71
-#, fuzzy
 msgid "Central European"
-msgstr "ページの中心"
+msgstr "中欧"
 
 #: src/widgets/widget-charmap-selector.c:72
 msgid "Chinese"
-msgstr ""
+msgstr "中国語"
 
 #: src/widgets/widget-charmap-selector.c:73
 msgid "Cyrillic"
-msgstr ""
+msgstr "キリル文字"
 
 #: src/widgets/widget-charmap-selector.c:74
-#, fuzzy
 msgid "Greek"
-msgstr "緑"
+msgstr "ギリシャ語"
 
 #: src/widgets/widget-charmap-selector.c:75
 msgid "Hebrew"
-msgstr ""
+msgstr "ヘブライ語"
 
 #: src/widgets/widget-charmap-selector.c:76
-#, fuzzy
 msgid "Indian"
-msgstr "平均(_M):"
+msgstr "インド語"
 
 #: src/widgets/widget-charmap-selector.c:77
-#, fuzzy
 msgid "Japanese"
-msgstr "日本円"
+msgstr "日本語"
 
 #: src/widgets/widget-charmap-selector.c:78
-#, fuzzy
 msgid "Korean"
-msgstr "論理値"
+msgstr "韓国語"
 
 #: src/widgets/widget-charmap-selector.c:79
-#, fuzzy
 msgid "Turkish"
-msgstr "トルコリラ"
+msgstr "トルコ語"
 
 #: src/widgets/widget-charmap-selector.c:80
-#, fuzzy
 msgid "Unicode"
-msgstr "出す(_U)"
+msgstr "ユニコード"
 
 #: src/widgets/widget-charmap-selector.c:81
-#, fuzzy
 msgid "Vietnamese"
-msgstr "名前の定義"
+msgstr "ベトナム語"
 
 #: src/widgets/widget-charmap-selector.c:82
-#, fuzzy
 msgid "Western"
-msgstr "左"
+msgstr "西"
 
 #: src/widgets/widget-charmap-selector.c:83
 #: src/widgets/widget-locale-selector.c:71
-#, fuzzy
 msgid "Other"
-msgstr "10月"
+msgstr "その他"
 
 #: src/widgets/widget-charmap-selector.c:113
 msgid "Arabic (IBM-864)"
@@ -27999,34 +27932,28 @@ msgid "Bold italic"
 msgstr "ボールドイタリック"
 
 #: src/widgets/widget-format-selector.c:61
-#, fuzzy
 msgid "Currency"
-msgstr "通貨(_C)"
+msgstr "通貨"
 
 #: src/widgets/widget-format-selector.c:62
-#, fuzzy
 msgid "Accounting"
-msgstr "会計(_A)"
+msgstr "会計"
 
 #: src/widgets/widget-format-selector.c:66
-#, fuzzy
 msgid "Fraction"
-msgstr "分数(_F)"
+msgstr "分数"
 
 #: src/widgets/widget-format-selector.c:67
-#, fuzzy
 msgid "Scientific"
-msgstr "科学技術(_S)"
+msgstr "科学技術"
 
 #: src/widgets/widget-format-selector.c:69
-#, fuzzy
 msgid "Special"
-msgstr "特別(_P)"
+msgstr "特別"
 
 #: src/widgets/widget-format-selector.c:908
-#, fuzzy
 msgid "Negative Number Format"
-msgstr "負の数:"
+msgstr "負の数のフォーマット"
 
 #: src/widgets/widget-format-selector.c:939
 #, fuzzy
@@ -28034,37 +27961,32 @@ msgid "Number Formats"
 msgstr "表示形式(_N)"
 
 #: src/widgets/widget-locale-selector.c:64
-#, fuzzy
 msgid "Western Europe"
-msgstr "左"
+msgstr "西欧"
 
 #: src/widgets/widget-locale-selector.c:65
-#, fuzzy
 msgid "Eastern Europe"
-msgstr "ページの中心"
+msgstr "東欧"
 
 #: src/widgets/widget-locale-selector.c:66
 msgid "North America"
-msgstr ""
+msgstr "北米"
 
 #: src/widgets/widget-locale-selector.c:67
 msgid "South & Central America"
-msgstr ""
+msgstr "中南米"
 
 #: src/widgets/widget-locale-selector.c:68
-#, fuzzy
 msgid "Asia"
-msgstr "標準"
+msgstr "アジア"
 
 #: src/widgets/widget-locale-selector.c:69
-#, fuzzy
 msgid "Africa"
-msgstr "範囲 %i"
+msgstr "アフリカ"
 
 #: src/widgets/widget-locale-selector.c:70
-#, fuzzy
 msgid "Australia"
-msgstr "オーストラリア・ドル"
+msgstr "オーストラリア"
 
 #.
 #. * The format here is "Country/Language (locale)" or just
@@ -28076,625 +27998,588 @@ msgstr "オーストラリア・ドル"
 #.
 #: src/widgets/widget-locale-selector.c:102
 msgid "United States/English (C)"
-msgstr ""
+msgstr "アメリカ合衆国/英語 (C)"
 
 #: src/widgets/widget-locale-selector.c:103
-#, fuzzy
 msgid "South Africa Afrikaans (af_ZA)"
-msgstr "南アフリカ・ランド"
+msgstr "南アフリカ アフリカーンス (af_ZA)"
 
 #: src/widgets/widget-locale-selector.c:104
 msgid "Ethiopia/Amharic (am_ET)"
-msgstr ""
+msgstr "エチオピア/アムハリク語 (am_ET)"
 
 #: src/widgets/widget-locale-selector.c:105
 msgid "United Arab Emirates (ar_AE)"
-msgstr ""
+msgstr "アラブ首長国連邦 (ar_AE)"
 
 #: src/widgets/widget-locale-selector.c:106
-#, fuzzy
 msgid "Bahrain (ar_BH)"
-msgstr "バーレーン・ディナール"
+msgstr "バーレーン (ar_BH)"
 
 #: src/widgets/widget-locale-selector.c:107
 msgid "Algeria (ar_DZ)"
-msgstr ""
+msgstr "アルジェリア (ar_DZ)"
 
 #: src/widgets/widget-locale-selector.c:108
 msgid "Egypt (ar_EG)"
-msgstr ""
+msgstr "エジプト (ar_EG)"
 
 #: src/widgets/widget-locale-selector.c:109
 msgid "India/Arabic (ar_IN)"
-msgstr ""
+msgstr "インド/アラブ語 (ar_IN)"
 
 #: src/widgets/widget-locale-selector.c:110
 msgid "Iraq (ar_IQ)"
-msgstr ""
+msgstr "イラク (ar_IQ)"
 
 #: src/widgets/widget-locale-selector.c:111
-#, fuzzy
 msgid "Jordan (ar_JO)"
-msgstr "ヨルダン・ディナール"
+msgstr "ヨルダン (ar_JO)"
 
 #: src/widgets/widget-locale-selector.c:112
 #, fuzzy
 msgid "Kuwait (ar_KW)"
-msgstr "クウェート・ディナール"
+msgstr "クウェート (ar_KW)"
 
 #: src/widgets/widget-locale-selector.c:113
 msgid "Lebanon (ar_LB)"
-msgstr ""
+msgstr "レバノン (ar_LB)"
 
 #: src/widgets/widget-locale-selector.c:114
-#, fuzzy
 msgid "Libya (ar_LY)"
-msgstr "リビア・ディナール"
+msgstr "リビア (ar_LY)"
 
 #: src/widgets/widget-locale-selector.c:115
 msgid "Morocco (ar_MA)"
-msgstr ""
+msgstr "モロッコ (ar_MA)"
 
 #: src/widgets/widget-locale-selector.c:116
 msgid "Oman (ar_OM)"
-msgstr ""
+msgstr "オマーン (ar_OM)"
 
 #: src/widgets/widget-locale-selector.c:117
 msgid "Qatar (ar_QA)"
-msgstr ""
+msgstr "カタール (ar_QA)"
 
 #: src/widgets/widget-locale-selector.c:118
-#, fuzzy
 msgid "Saudi Arabia (ar_SA)"
-msgstr "サウジアラビア・リヤル"
+msgstr "サウジアラビア (ar_SA)"
 
 #: src/widgets/widget-locale-selector.c:119
 msgid "Sudan (ar_SD)"
-msgstr ""
+msgstr "スーダン (ar_SD)"
 
 #: src/widgets/widget-locale-selector.c:120
 msgid "Syria (ar_SY)"
-msgstr ""
+msgstr "シリア (ar_SY)"
 
 #: src/widgets/widget-locale-selector.c:121
-#, fuzzy
 msgid "Tunisia (ar_TN)"
-msgstr "チュニジア・ディナール"
+msgstr "チュニジア (ar_TN)"
 
 #: src/widgets/widget-locale-selector.c:122
 msgid "Yemen (ar_YE)"
-msgstr ""
+msgstr "イエメン (ar_YE)"
 
 #: src/widgets/widget-locale-selector.c:123
 msgid "Azerbaijan (az_AZ)"
-msgstr ""
+msgstr "アゼルバイジャン (az_AZ)"
 
 #: src/widgets/widget-locale-selector.c:124
-#, fuzzy
 msgid "Belarus (be_BY)"
-msgstr "ベラルーシ・ルーブル"
+msgstr "ベラルーシ (be_BY)"
 
 #: src/widgets/widget-locale-selector.c:125
-#, fuzzy
 msgid "Bulgaria (bg_BG)"
-msgstr "ブルガリア・レフ"
+msgstr "ブルガリア (bg_BG)"
 
 #: src/widgets/widget-locale-selector.c:126
-#, fuzzy
 msgid "Bangladesh (bn_BD)"
-msgstr "バングラデシュ・タカ"
+msgstr "バングラデシュ (bn_BD)"
 
 #: src/widgets/widget-locale-selector.c:127
 msgid "India/Bengali (bn_IN)"
-msgstr ""
+msgstr "インド/ベンガリ語 (bn_IN)"
 
 #: src/widgets/widget-locale-selector.c:128
 msgid "France/Breton (br_FR)"
-msgstr ""
+msgstr "フランス/ブルトン語 (br_FR)"
 
 #: src/widgets/widget-locale-selector.c:129
 msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr ""
+msgstr "ボスニア・ヘルツェゴビナ (bs_BA)"
 
 #: src/widgets/widget-locale-selector.c:130
 msgid "Spain/Catalan (ca_ES)"
-msgstr ""
+msgstr "スペイン/カタラン語 (ca_ES)"
 
 #: src/widgets/widget-locale-selector.c:131
-#, fuzzy
 msgid "Czech Republic (cs_CZ)"
-msgstr "チェコ・クローナ"
+msgstr "チェコ共和国 (cs_CZ)"
 
 #: src/widgets/widget-locale-selector.c:132
 msgid "Great Britain/Welsh (cy_GB)"
-msgstr ""
+msgstr "グレートブリテン/ウェルシュ語 (cy_GB)"
 
 #: src/widgets/widget-locale-selector.c:133
 msgid "Denmark (da_DK)"
-msgstr ""
+msgstr "デンマーク (da_DK)"
 
 #: src/widgets/widget-locale-selector.c:134
 msgid "Austria (de_AT)"
-msgstr ""
+msgstr "オーストリア (de_AT)"
 
 #: src/widgets/widget-locale-selector.c:135
 msgid "Belgium/German (de_BE)"
-msgstr ""
+msgstr "ベルギー/ドイツ語 (de_BE)"
 
 #: src/widgets/widget-locale-selector.c:136
 msgid "Switzerland/German (de_CH)"
-msgstr ""
+msgstr "スイス/ドイツ語 (de_CH)"
 
 #: src/widgets/widget-locale-selector.c:137
 msgid "Germany (de_DE)"
-msgstr ""
+msgstr "ドイツ (de_DE)"
 
 #: src/widgets/widget-locale-selector.c:138
-#, fuzzy
 msgid "Luxembourg/German (de_LU)"
-msgstr "ルクセンブルグ・フラン"
+msgstr "ルクセンブルグ/ドイツ語 (de_LU)"
 
 #: src/widgets/widget-locale-selector.c:139
 msgid "Greece (el_GR)"
-msgstr ""
+msgstr "ギリシャ (el_GR)"
 
 #: src/widgets/widget-locale-selector.c:140
 msgid "Australia (en_AU)"
-msgstr ""
+msgstr "オーストラリア (en_AU)"
 
 #: src/widgets/widget-locale-selector.c:141
 msgid "Botswana (en_BW)"
-msgstr ""
+msgstr "ボスニア (en_BW)"
 
 #: src/widgets/widget-locale-selector.c:142
 msgid "Canada/English (en_CA)"
-msgstr ""
+msgstr "カナダ/英語 (en_CA)"
 
 #: src/widgets/widget-locale-selector.c:143
 msgid "Great Britain (en_GB)"
-msgstr ""
+msgstr "イギリス (en_GB)"
 
 #: src/widgets/widget-locale-selector.c:144
 msgid "Hong Kong/English (en_HK)"
-msgstr ""
+msgstr "香港/英語 (en_HK)"
 
 #: src/widgets/widget-locale-selector.c:145
 msgid "Ireland (en_IE)"
-msgstr ""
+msgstr "アイルランド (en_IE)"
 
 #: src/widgets/widget-locale-selector.c:146
 msgid "India/English (en_IN)"
-msgstr ""
+msgstr "インド/英語 (en_IN)"
 
 #: src/widgets/widget-locale-selector.c:147
-#, fuzzy
 msgid "New Zealand (en_NZ)"
-msgstr "ニュージーランド・ドル"
+msgstr "ニュージーランド (en_NZ)"
 
 #: src/widgets/widget-locale-selector.c:148
-#, fuzzy
 msgid "Philippines (en_PH)"
-msgstr "フィリピン・ペソ"
+msgstr "フィリピン (en_PH)"
 
 #: src/widgets/widget-locale-selector.c:149
 msgid "Singapore/English (en_SG)"
-msgstr ""
+msgstr "シンガポール/英語 (en_SG)"
 
 #: src/widgets/widget-locale-selector.c:150
 msgid "United States/English (en_US)"
-msgstr ""
+msgstr "アメリカ合衆国/英語 (en_US)"
 
 #: src/widgets/widget-locale-selector.c:151
-#, fuzzy
 msgid "South Africa/English (en_ZA)"
-msgstr "南アフリカ・ランド"
+msgstr "南アフリカ/英語 (en_ZA)"
 
 #: src/widgets/widget-locale-selector.c:152
 msgid "Zimbabwe (en_ZW)"
-msgstr ""
+msgstr "ジンバブエ (en_ZW)"
 
 #: src/widgets/widget-locale-selector.c:153
 msgid "Esperanto (eo_EO)"
-msgstr ""
+msgstr "エスペラント (eo_EO)"
 
 #: src/widgets/widget-locale-selector.c:154
-#, fuzzy
 msgid "Argentina (es_AR)"
-msgstr "アルゼンチン・ペソ"
+msgstr "アルゼンチン (es_AR)"
 
 #: src/widgets/widget-locale-selector.c:155
 msgid "Bolivia (es_BO)"
-msgstr ""
+msgstr "ボリビア (es_BO)"
 
 #: src/widgets/widget-locale-selector.c:156
-#, fuzzy
 msgid "Chile (es_CL)"
-msgstr "チリ・ペソ"
+msgstr "チリ (es_CL)"
 
 #: src/widgets/widget-locale-selector.c:157
-#, fuzzy
 msgid "Colombia (es_CO)"
-msgstr "コロンビア・ペソ"
+msgstr "コロンビア (es_CO)"
 
 #: src/widgets/widget-locale-selector.c:158
-#, fuzzy
 msgid "Costa Rica (es_CR)"
-msgstr "コスタリカ・コロン"
+msgstr "コスタリカ (es_CR)"
 
 #: src/widgets/widget-locale-selector.c:159
-#, fuzzy
 msgid "Dominican Republic (es_DO)"
-msgstr "ドミニカ・ペソ"
+msgstr "ドミニカ共和国 (es_DO)"
 
 #: src/widgets/widget-locale-selector.c:160
-#, fuzzy
 msgid "Ecuador (es_EC)"
-msgstr "エクアドル・スクレ"
+msgstr "エクアドル (es_EC)"
 
 #: src/widgets/widget-locale-selector.c:161
-#, fuzzy
 msgid "Spain (es_ES)"
-msgstr "サンプリング (%s)"
+msgstr "スペイン (es_ES)"
 
 #: src/widgets/widget-locale-selector.c:162
-#, fuzzy
 msgid "Guatemala (es_GT)"
-msgstr "グアテマラ・ケツァル"
+msgstr "グアテマラ (es_GT)"
 
 #: src/widgets/widget-locale-selector.c:163
-#, fuzzy
 msgid "Honduras (es_HN)"
-msgstr "ホンジュラス・レンピラ"
+msgstr "ホンジュラス (es_HN)"
 
 #: src/widgets/widget-locale-selector.c:164
-#, fuzzy
 msgid "Mexico (es_MX)"
-msgstr "メキシコ・ペソ"
+msgstr "メキシコ (es_MX)"
 
 #: src/widgets/widget-locale-selector.c:165
 msgid "Nicaragua (es_NI)"
-msgstr ""
+msgstr "ニカラグア (es_NI)"
 
 #: src/widgets/widget-locale-selector.c:166
 msgid "Panama (es_PA)"
-msgstr ""
+msgstr "パナマ (es_PA)"
 
 #: src/widgets/widget-locale-selector.c:167
 msgid "Peru (es_PE)"
-msgstr ""
+msgstr "ペルー (es_PE)"
 
 #: src/widgets/widget-locale-selector.c:168
 msgid "Puerto Rico (es_PR)"
-msgstr ""
+msgstr "プエルトリコ (es_PR)"
 
 #: src/widgets/widget-locale-selector.c:169
 msgid "Paraguay (es_PY)"
-msgstr ""
+msgstr "パラグアイ (es_PY)"
 
 #: src/widgets/widget-locale-selector.c:170
-#, fuzzy
 msgid "El Salvador (es_SV)"
-msgstr "エルサルバドル・コロン"
+msgstr "エルサルバドル (es_SV)"
 
 #: src/widgets/widget-locale-selector.c:171
 msgid "United States/Spanish (es_US)"
-msgstr ""
+msgstr "アメリカ合衆国/スペイン語 (es_US)"
 
 #: src/widgets/widget-locale-selector.c:172
-#, fuzzy
 msgid "Uruguay (es_UY)"
-msgstr "ウルグアイ・ペソ"
+msgstr "ウルグアイ (es_UY)"
 
 #: src/widgets/widget-locale-selector.c:173
-#, fuzzy
 msgid "Venezuela (es_VE)"
-msgstr "ベネズエラ・ボリバル"
+msgstr "ベネズエラ (es_VE)"
 
 #: src/widgets/widget-locale-selector.c:174
 msgid "Estonia (et_EE)"
-msgstr ""
+msgstr "エストニア (et_EE)"
 
 #: src/widgets/widget-locale-selector.c:175
 msgid "spain/Basque (eu_ES)"
-msgstr ""
+msgstr "スペイン/バスク語 (eu_ES)"
 
 #: src/widgets/widget-locale-selector.c:176
 msgid "Iran (fa_IR)"
-msgstr ""
+msgstr "イラン (fa_UR)"
 
 #: src/widgets/widget-locale-selector.c:177
 msgid "Finland/Finnish (fi_FI)"
-msgstr ""
+msgstr "フィンランド/フィン語 (fi_FI)"
 
 #: src/widgets/widget-locale-selector.c:178
 msgid "Faroe Islands (fo_FO)"
-msgstr ""
+msgstr "フェロー諸島 (fo_FO)"
 
 #: src/widgets/widget-locale-selector.c:179
 msgid "Belgium/French (fr_BE)"
-msgstr ""
+msgstr "ベルギー/フランス語 (fr_BE)"
 
 #: src/widgets/widget-locale-selector.c:180
 msgid "Canada/French (fr_CA)"
-msgstr ""
+msgstr "カナダ/フランス語 (fr_CA)"
 
 #: src/widgets/widget-locale-selector.c:181
 msgid "Switzerland/French (fr_CH)"
-msgstr ""
+msgstr "スイス/フランス語 (fr_CH)"
 
 #: src/widgets/widget-locale-selector.c:182
 msgid "France (fr_FR)"
-msgstr ""
+msgstr "フランス (fr_FR)"
 
 #: src/widgets/widget-locale-selector.c:183
 msgid "Ireland/Gaelic (ga_IE)"
-msgstr ""
+msgstr "アイルランド/ゲール語 (ga_IE)"
 
 #: src/widgets/widget-locale-selector.c:184
 msgid "Great Britain/Scottish Gaelic (gd_GB)"
-msgstr ""
+msgstr "イギリス/スコットランド・ゲール語 (gd_GB)"
 
 #: src/widgets/widget-locale-selector.c:185
 msgid "Spain/Galician (gl_ES)"
-msgstr ""
+msgstr "スペイン/ガリシア語 (gl_ES)"
 
 #: src/widgets/widget-locale-selector.c:186
 msgid "Great Britain/Manx Gaelic (gv_GB)"
-msgstr ""
+msgstr "イギリス/マン島語 (gv_GB)"
 
 #: src/widgets/widget-locale-selector.c:187
 msgid "India/Hindu (hi_IN)"
-msgstr ""
+msgstr "インド/ヒンズー語 (hi_IN)"
 
 #: src/widgets/widget-locale-selector.c:188
 msgid "Croatia (hr_HR)"
-msgstr ""
+msgstr "クロアチア (hr_HR)"
 
 #: src/widgets/widget-locale-selector.c:189
 msgid "Hungary (hu_HU)"
-msgstr ""
+msgstr "ハンガリー (hu_HU)"
 
 #: src/widgets/widget-locale-selector.c:190
 msgid "Armenia (hy_AM)"
-msgstr ""
+msgstr "アルメニア (hy_AM)"
 
 #: src/widgets/widget-locale-selector.c:191
 msgid "(i18n)"
-msgstr ""
+msgstr "(i18n)"
 
 #: src/widgets/widget-locale-selector.c:192
-#, fuzzy
 msgid "Indonesia (id_ID)"
-msgstr "インドネシア・ルピア"
+msgstr "インドネシア (id_ID)"
 
 #: src/widgets/widget-locale-selector.c:193
 msgid "Iceland (is_IS)"
-msgstr ""
+msgstr "アイスランド (is_IS)"
 
 #: src/widgets/widget-locale-selector.c:194
 msgid "(iso14651_t1)"
-msgstr ""
+msgstr "(iso14651_t1)"
 
 #: src/widgets/widget-locale-selector.c:195
 msgid "Switzerland/Italian (it_CH)"
-msgstr ""
+msgstr "スイス/イタリア語 (it_CH)"
 
 #: src/widgets/widget-locale-selector.c:196
 msgid "Italy (it_IT)"
-msgstr ""
+msgstr "イタリア(it_IT)"
 
 #: src/widgets/widget-locale-selector.c:197
 msgid "Israel/Hebrew (iw_IL)"
-msgstr ""
+msgstr "イスラエル/ヘブライ (iw_IL)"
 
 #: src/widgets/widget-locale-selector.c:198
 msgid "Japan (ja_JP)"
-msgstr ""
+msgstr "日本 (ja_JP)"
 
 #: src/widgets/widget-locale-selector.c:199
 msgid "Georgia (ka_GE)"
-msgstr ""
+msgstr "ジョージア (ka_GE)"
 
 #: src/widgets/widget-locale-selector.c:200
 msgid "Greenland (kl_GL)"
-msgstr ""
+msgstr "グリーンランド (kl_GL)"
 
 #: src/widgets/widget-locale-selector.c:201
 msgid "Korea (ko_KR)"
-msgstr ""
+msgstr "韓国 (ko_KR)"
 
 #: src/widgets/widget-locale-selector.c:202
 msgid "Great Britain/Cornish (kw_GB)"
-msgstr ""
+msgstr "イギリス/コーンウォール語 (kw_GB)"
 
 #: src/widgets/widget-locale-selector.c:203
 msgid "Lithuania (lt_LT)"
-msgstr ""
+msgstr "リトアニア (lt_LT)"
 
 #: src/widgets/widget-locale-selector.c:204
 msgid "Latvia (lv_LV)"
-msgstr ""
+msgstr "ラトビア (lv_LV)"
 
 #: src/widgets/widget-locale-selector.c:205
 msgid "New Zealand/Maori (mi_NZ)"
-msgstr ""
+msgstr "ニュージーランド/マオリ (mi_NZ)"
 
 #: src/widgets/widget-locale-selector.c:206
 msgid "Macedonia (mk_MK)"
-msgstr ""
+msgstr "マケドニア (mk_MK)"
 
 #: src/widgets/widget-locale-selector.c:207
 msgid "India/Marathi (mr_IN)"
-msgstr ""
+msgstr "インド/マラーティー語 (mr_IN)"
 
 #: src/widgets/widget-locale-selector.c:208
 msgid "Malaysia (ms_MY)"
-msgstr ""
+msgstr "マレーシア (ms_MY)"
 
 #: src/widgets/widget-locale-selector.c:209
 msgid "Malta (mt_MT)"
-msgstr ""
+msgstr "マルタ (mt_MT)"
 
 #: src/widgets/widget-locale-selector.c:210
 msgid "Belgium/Flemish (nl_BE)"
-msgstr ""
+msgstr "ベルギー/フレミッシュ語 (nl_BE)"
 
 #: src/widgets/widget-locale-selector.c:211
-#, fuzzy
 msgid "The Netherlands (nl_NL)"
-msgstr "オランダ・ギルダー"
+msgstr "オランダ (nl_NL)"
 
 #: src/widgets/widget-locale-selector.c:212
 msgid "Norway/Nynorsk (nn_NO)"
-msgstr ""
+msgstr "ノルウェー/ニーノシュク語 (nn_NO)"
 
 #: src/widgets/widget-locale-selector.c:213
 msgid "Norway/Bokmal (no_NO)"
-msgstr ""
+msgstr "ノルウェー/ボクモール (no_NO)"
 
 #: src/widgets/widget-locale-selector.c:214
 msgid "France/Occitan (oc_FR)"
-msgstr ""
+msgstr "フランス/オック語 (oc_FR)"
 
 #: src/widgets/widget-locale-selector.c:215
 msgid "Poland (pl_PL)"
-msgstr ""
+msgstr "ポーランド (pl_PL)"
 
 #: src/widgets/widget-locale-selector.c:216
 msgid "Brazil (pt_BR)"
-msgstr ""
+msgstr "ブラジル (pt_BR)"
 
 #: src/widgets/widget-locale-selector.c:217
 msgid "Portugal (pt_PT)"
-msgstr ""
+msgstr "ポルトガル (pt_PT)"
 
 #: src/widgets/widget-locale-selector.c:218
 msgid "Romania (ro_RO)"
-msgstr ""
+msgstr "ルーマニア (ro_RO)"
 
 #: src/widgets/widget-locale-selector.c:219
 msgid "Russia (ru_RU)"
-msgstr ""
+msgstr "ロシア (ru_RU)"
 
 #: src/widgets/widget-locale-selector.c:220
 msgid "Ukraine/Russian (ru_UA)"
-msgstr ""
+msgstr "ウクラニア/ロシア語 (ru_UA)"
 
 #: src/widgets/widget-locale-selector.c:221
 msgid "Norway/Saami (se_NO)"
-msgstr ""
+msgstr "ノルウェー/サーミ語 (se_NO)"
 
 #: src/widgets/widget-locale-selector.c:222
-#, fuzzy
 msgid "Slovakia (sk_SK)"
-msgstr "スロベニア トラー"
+msgstr "スロバキア (sk_SK)"
 
 #: src/widgets/widget-locale-selector.c:223
-#, fuzzy
 msgid "Slovenia (sl_SI)"
-msgstr "スロベニア トラー"
+msgstr "スロベニア (sl_SI)"
 
 #: src/widgets/widget-locale-selector.c:224
-#, fuzzy
 msgid "Albania (sq_AL)"
-msgstr "アルバニア・レク"
+msgstr "アルバニア (sq_AL)"
 
 #: src/widgets/widget-locale-selector.c:225
-#, fuzzy
 msgid "Yugoslavia (sr_YU)"
-msgstr "ユーゴスラビア・ディナール"
+msgstr "ユーゴスラビア (sr_YU)"
 
 #: src/widgets/widget-locale-selector.c:226
 msgid "Finland/Swedish (sv_FI)"
-msgstr ""
+msgstr "フィンランド/スウェーデン語 (sv_FI)"
 
 #: src/widgets/widget-locale-selector.c:227
 msgid "Sweden (sv_SE)"
-msgstr ""
+msgstr "スウェーデン (sv_SE)"
 
 #: src/widgets/widget-locale-selector.c:228
 msgid "India/Tamil (ta_IN)"
-msgstr ""
+msgstr "インド/タミル語 (ta_IN)"
 
 #: src/widgets/widget-locale-selector.c:229
 msgid "India/Telugu (te_IN)"
-msgstr ""
+msgstr "インド/テルグ (te_IN)"
 
 #: src/widgets/widget-locale-selector.c:230
-#, fuzzy
 msgid "Tajikistan (tg_TJ)"
-msgstr "パキスタン・ルピー"
+msgstr "タジキスタン (tg_TJ)"
 
 #: src/widgets/widget-locale-selector.c:231
-#, fuzzy
 msgid "Thailand (th_TH)"
-msgstr "タイ・バーツ"
+msgstr "タイ (th_TH)"
 
 #: src/widgets/widget-locale-selector.c:232
 msgid "Eritrea (ti_ER)"
-msgstr ""
+msgstr "エリトリア (ti_ER)"
 
 #: src/widgets/widget-locale-selector.c:233
 msgid "Ethiopia/Tigrinya (ti_ET)"
-msgstr ""
+msgstr "エチオピア/チグリニア語 (ti_ET)"
 
 #: src/widgets/widget-locale-selector.c:234
 msgid "Philippines/Tagalog (tl_PH)"
-msgstr ""
+msgstr "フィリピン/タガログ語 (tl_PH)"
 
 #: src/widgets/widget-locale-selector.c:235
 msgid "Turkey (tr_TR)"
-msgstr ""
+msgstr "トルコ語 (tr_TR)"
 
 #: src/widgets/widget-locale-selector.c:236
 msgid "Russia/Tatar (tt_RU)"
-msgstr ""
+msgstr "ロシア/タタール語 (tt_RU)"
 
 #: src/widgets/widget-locale-selector.c:237
 msgid "Ukraine (uk_UA)"
-msgstr ""
+msgstr "ウクラニア (uk_UA)"
 
 #: src/widgets/widget-locale-selector.c:238
-#, fuzzy
 msgid "Pakistan (ur_PK)"
-msgstr "パキスタン・ルピー"
+msgstr "パキスタン (ur_PK)"
 
 #: src/widgets/widget-locale-selector.c:239
 msgid "Uzbekistan (uz_UZ)"
-msgstr ""
+msgstr "ウズベキスタン (uz_UZ)"
 
 #: src/widgets/widget-locale-selector.c:240
 msgid "Vietnam (vi_VN)"
-msgstr ""
+msgstr "ベトナム (vi_VN)"
 
 #: src/widgets/widget-locale-selector.c:241
 msgid "Belgium/Walloon (wa_BE)"
-msgstr ""
+msgstr "ベルギー/ワロン語 (wa_BE)"
 
 #: src/widgets/widget-locale-selector.c:242
 msgid "United States/Yiddish (yi_US)"
-msgstr ""
+msgstr "アメリカ合衆国/イディッシュ語 (yi_US)"
 
 #: src/widgets/widget-locale-selector.c:243
 msgid "China (zh_CN)"
-msgstr ""
+msgstr "中国 (zh_CN)"
 
 #: src/widgets/widget-locale-selector.c:244
 msgid "Hong Kong/Chinese (zh_HK)"
-msgstr ""
+msgstr "香港/中国語 (zh_HK)"
 
 #: src/widgets/widget-locale-selector.c:245
 msgid "Singapore/Chinese (zh_SG)"
-msgstr ""
+msgstr "シンガポール/中国語 (zh_SG)"
 
 #: src/widgets/widget-locale-selector.c:246
 msgid "Taiwan (zh_TW)"
-msgstr ""
+msgstr "台湾 (zh_TW)"
 
 #: src/widgets/widget-locale-selector.c:435
-#, fuzzy
 msgid "Current Locale: "
-msgstr "現在の値:"
+msgstr "現在のロケール: "
 
 #: src/workbook-cmd-format.c:49
 msgid "Add Borders"
@@ -28736,9 +28621,8 @@ msgstr "このシートを削除する"
 #. * 'File' menu
 #.
 #: src/workbook-control-gui.c:1067
-#, fuzzy
 msgid "_File/Preferen_ces..."
-msgstr "設定(_C)..."
+msgstr "ファイル(_F)/設定(_C)..."
 
 #: src/workbook-control-gui.c:1089
 msgid "File/"
@@ -28750,27 +28634,23 @@ msgstr "なし"
 
 #: src/workbook-control-gui.c:1496
 msgid "Un_freeze Panes"
-msgstr "未解凍のペイン(_F)"
+msgstr "ペインのフリーズを解除(_F)"
 
 #: src/workbook-control-gui.c:1499
-#, fuzzy
 msgid "Unfreeze the top left of the sheet"
-msgstr "シートの左上を固定します"
+msgstr "シートの左上のフリーズを解除します"
 
 #: src/workbook-control-gui.c:1514
-#, fuzzy
 msgid "Remove _Auto Filter"
-msgstr "境界線の削除"
+msgstr "自動フィルタの削除(_A)"
 
 #: src/workbook-control-gui.c:1517
-#, fuzzy
 msgid "Remove a filter"
-msgstr "&lt;- 全て削除"
+msgstr "フィルタの削除"
 
 #: src/workbook-control-gui.c:1518
-#, fuzzy
 msgid "Add a filter"
-msgstr "高度なフィルタ"
+msgstr "フィルタの追加"
 
 #: src/workbook-control-gui.c:1537 src/workbook-control-gui.c:4044
 #: src/workbook-control-gui.c:4276
@@ -28796,9 +28676,8 @@ msgid "If you close without saving, changes will be discarded."
 msgstr ""
 
 #: src/workbook-control-gui.c:1743
-#, fuzzy
 msgid "Discard all"
-msgstr "破棄"
+msgstr "すべて破棄"
 
 #: src/workbook-control-gui.c:1745 src/workbook-control-gui.c:1754
 #: src/workbook-control-gui.c:1762
@@ -28806,19 +28685,16 @@ msgid "Discard"
 msgstr "破棄"
 
 #: src/workbook-control-gui.c:1747
-#, fuzzy
 msgid "Save all"
-msgstr "保存"
+msgstr "すべてを保存"
 
 #: src/workbook-control-gui.c:1749 src/workbook-control-gui.c:1756
-#, fuzzy
 msgid "Don't quit"
-msgstr "詳細を表示しない"
+msgstr "終了しない"
 
 #: src/workbook-control-gui.c:1764
-#, fuzzy
 msgid "Don't close"
-msgstr "変更しない(_D)"
+msgstr "閉じない"
 
 #: src/workbook-control-gui.c:2304
 #, c-format
@@ -28858,16 +28734,15 @@ msgstr "行の挿入"
 #: src/workbook-control-gui.c:2983
 #, fuzzy
 msgid "Add Filter"
-msgstr "高度なフィルタ"
+msgstr "フィルタの追加"
 
 #: src/workbook-control-gui.c:2986
-#, fuzzy
 msgid "AutoFilter"
-msgstr "高度なフィルタ"
+msgstr "自動フィルタ"
 
 #: src/workbook-control-gui.c:2986
 msgid "Requires more than 1 row"
-msgstr ""
+msgstr "1行以上必要です"
 
 #: src/workbook-control-gui.c:3045 src/workbook-control-gui.c:3064
 msgid "Show Detail"
@@ -28924,9 +28799,8 @@ msgid "Use the current selection to create names"
 msgstr "名前の生成のために現在選択しているものを使用する"
 
 #: src/workbook-control-gui.c:3756
-#, fuzzy
 msgid "Add a new scenario"
-msgstr "新規に列を挿入"
+msgstr "新規シナリオを追加"
 
 #: src/workbook-control-gui.c:3833
 msgid "Ranks And _Percentiles"
@@ -28934,16 +28808,15 @@ msgstr "階数と百分位数(_P)"
 
 #: src/workbook-control-gui.c:3960
 msgid "Sh_uffle..."
-msgstr ""
+msgstr "シャッフル(_U)..."
 
 #: src/workbook-control-gui.c:3961
 msgid "Shuffle cells, rows or columns"
-msgstr ""
+msgstr "セル、行、列のシャッフル"
 
 #: src/workbook-control-gui.c:3980
-#, fuzzy
 msgid "Create a pivot table."
-msgstr "ラベルの作成"
+msgstr "ピボットテーブルを作成します。"
 
 #: src/workbook-control-gui.c:4044
 msgid "Undo the operation"
@@ -28967,19 +28840,16 @@ msgid "Send the current file in email"
 msgstr "編集中のファイルを E-メールで送信します"
 
 #: src/workbook-control-gui.c:5422 src/workbook-control-gui.c:5437
-#, fuzzy
 msgid "_Re-Edit"
-msgstr "再編集"
+msgstr "再編集(_R)"
 
 #: src/workbook-control-gui.c:5423 src/workbook-control-gui.c:5428
-#, fuzzy
 msgid "_Discard"
-msgstr "破棄"
+msgstr "破棄(_D)"
 
 #: src/workbook-control-gui.c:5427 src/workbook-control-gui.c:5438
-#, fuzzy
 msgid "_Accept"
-msgstr "受諾"
+msgstr "受諾(_A)"
 
 #: src/workbook-control.c:229
 msgid "Define Name"
