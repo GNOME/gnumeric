@@ -421,7 +421,7 @@ gnum_file_saver_get_save_scope (GnumFileSaver *fs)
 gchar const *
 gnum_file_saver_get_id (GnumFileSaver const *fs)
 {
-	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
+	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), NULL);
 
 	return fs->id;
 }
@@ -429,7 +429,7 @@ gnum_file_saver_get_id (GnumFileSaver const *fs)
 gchar const *
 gnum_file_saver_get_mime_type (GnumFileSaver const *fs)
 {
-	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
+	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), NULL);
 
 	return fs->mime_type;
 }
@@ -437,7 +437,7 @@ gnum_file_saver_get_mime_type (GnumFileSaver const *fs)
 gchar const *
 gnum_file_saver_get_extension (GnumFileSaver const *fs)
 {
-	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
+	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), NULL);
 
 	return fs->extension;
 }
@@ -445,7 +445,7 @@ gnum_file_saver_get_extension (GnumFileSaver const *fs)
 gchar const *
 gnum_file_saver_get_description (GnumFileSaver const *fs)
 {
-	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), FALSE);
+	g_return_val_if_fail (IS_GNUM_FILE_SAVER (fs), NULL);
 
 	return fs->description;
 }

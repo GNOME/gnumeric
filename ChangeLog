@@ -1,3 +1,10 @@
+2002-11-07  Morten Welinder  <terra@diku.dk>
+
+	* src/file.c (gnum_file_saver_get_description): Fix failure case.
+	(gnum_file_saver_get_extension): Ditto.
+	(gnum_file_saver_get_mime_type): Ditto.
+	(gnum_file_saver_get_id): Ditto.
+
 2002-11-06  Jody Goldberg <jody@gnome.org>
 
 	* src/plugin.c (ghf_collect_new_plugins) : don't bother copying ids
