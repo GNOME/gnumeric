@@ -1,58 +1,52 @@
 <oaf_info>
-
-<oaf_server iid="OAFIID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9"
-            type="exe"
-            location="gnumeric-bonobo">
+    <oaf_server iid="OAFIID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9"
+		type="exe"
+		location="gnumeric-bonobo">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Gnumeric/WorkbookFactory:1.0"/>
-		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	    <item value="IDL:GNOME/Gnumeric/WorkbookFactory:1.0"/>
+	    <item value="IDL:GNOME/ObjectFactory:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-	               value="Gnumeric "/>
+	 value="Gnumeric "/>
+    </oaf_server>
 
-</oaf_server>
-
-<oaf_server iid="OAFIID:GNOME:Gnumeric:Workbook:1.0:5c6847dc-4677-498d-9355-3acf5e2ba774"
-            type="factory"
-            location="OAFIID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9">
-
-	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Gnumeric/Workbook:1.0"/>
-		<item value="IDL:GNOME/Gnumeric/Sheet:1.0"/>
-	</oaf_attribute>
-
-	<oaf_attribute name="description" type="string" 
-		value="Workbook component"/>
-
-</oaf_server>
-
-<oaf_server iid="OAFIID:GNOME:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873"
-            type="exe"
-            location="gnumeric-bonobo">
+    <oaf_server iid="OAFIID:GNOME:Gnumeric:Workbook:1.0:5c6847dc-4677-498d-9355-3acf5e2ba774"
+		type="factory"
+		location="OAFIID:GNOME:Gnumeric:WorkbookFactory:1.0:7cf6fb4d-c5a1-4ace-aa6a-4ece790138c9">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/GenericFactory:1.0"/>
+	    <item value="IDL:GNOME/Gnumeric/Workbook:1.0"/>
+	    <item value="IDL:GNOME/Gnumeric/Sheet:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-	               value="Embeddable Grid Component Factory"/>
+	 value="Workbook component"/>
+    </oaf_server>
 
-</oaf_server>
+    <oaf_server iid="OAFIID:GNOME:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873"
+		type="exe"
+		location="gnumeric-bonobo">
 
-<oaf_server iid="OAFIID:GNOME:Gnumeric:Grid:1.0:872b76ec-a9c7-4848-aa9e-c0c60b27d446"
-            type="factory"
-            location="OAFIID:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873">
+	    <oaf_attribute name="repo_ids" type="stringv">
+		    <item value="IDL:GNOME/GenericFactory:1.0"/>
+	    </oaf_attribute>
+
+	    <oaf_attribute name="description" type="string"
+			   value="Embeddable Grid Component Factory"/>
+    </oaf_server>
+
+    <oaf_server iid="OAFIID:GNOME:Gnumeric:Grid:1.0:872b76ec-a9c7-4848-aa9e-c0c60b27d446"
+		type="factory"
+		location="OAFIID:GNOME:Gnumeric:GridFactory:1.0:a1c2ad1c-33bd-4c42-b5d1-9a454f862873">
 
 	<oaf_attribute name="repo_ids" type="stringv">
-		<item value="IDL:GNOME/Gnumeric/Grid"/>
-		<item value="IDL:Bonobo/Embeddable:1.0"/>
+	    <item value="IDL:GNOME/Gnumeric/Grid"/>
+	    <item value="IDL:Bonobo/Embeddable:1.0"/>
 	</oaf_attribute>
 
 	<oaf_attribute name="description" type="string"
-	               value="Embeddable Grid Component"/>
-
-</oaf_server>
-
+	 value="Embeddable Grid Component"/>
+    </oaf_server>
 </oaf_info>

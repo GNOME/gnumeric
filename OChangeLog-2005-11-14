@@ -1,5 +1,7 @@
 2000-10-04  Jody Goldberg <jgoldberg@home.com>
 
+	* gnumeric.oafinfo : Fix typo with missing 'GNOME'
+
 	* src/workbook.c (workbook_new) : no need for the vbox anymore.
 	  Fix the order of status area initialization in the non-bonobo case.
 
