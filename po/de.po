@@ -35,8 +35,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62cvs\n"
-"POT-Creation-Date: 2001-02-17 07:19+0100\n"
-"PO-Revision-Date: 2001-02-17 07:30+01:00\n"
+"POT-Creation-Date: 2001-02-18 06:51+0100\n"
+"PO-Revision-Date: 2001-02-18 07:07+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -494,11 +494,11 @@ msgstr "MultiPlan-Import (SYLK)"
 msgid "Xbase (*.dbf) file format"
 msgstr "Xbase (*.dbf) Dateiformat"
 
-#: plugins/xml2/xml2.c:1577
+#: plugins/xml2/xml2.c:1598
 msgid "EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"
 msgstr "EXPERIMENTELLES Gnumeric-XML-Dateiformat (*.gnumeric)"
 
-#: plugins/xml2/xml2.c:1582
+#: plugins/xml2/xml2.c:1603
 msgid "Gnumeric (*.gnumeric) XML based file format"
 msgstr "Gnumeric-XML-Dateiformat(*.gnumeric)"
 
@@ -713,9 +713,7 @@ msgstr "Variable 2"
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/z/P (Z<=z) "
 "one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
-msgstr ""
-"/Mittel/Known Variance/Observations/Hypothesized Mean Difference/z/P (Z<=z) "
-"one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
+msgstr "/Mittel/Bekannte Varianz/Beobachtungen/Hypothetische Mitteldifferenz/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
 
 #: src/analysis-tools.c:1255 src/analysis-tools.c:1390
 #: src/analysis-tools.c:1507
@@ -723,34 +721,35 @@ msgid "t-Test"
 msgstr "t-Test"
 
 #: src/analysis-tools.c:1279
+#, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
 "two-tail/t Critical two-tail"
-msgstr ""
+msgstr "/Mittel/Varianz/Beobachtungen/"
 
 #: src/analysis-tools.c:1417
+#, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
 "two-tail/t Critical two-tail"
-msgstr ""
+msgstr "/Mittel/Varianz/Beobachtungen/"
 
 #: src/analysis-tools.c:1534
+#, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/df/t Stat/P (T<=t) "
 "one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
-msgstr ""
+msgstr "/Mittel/Varianz/Beobachtungen/Hypothetische Mitteldifferenz/"
 
 #: src/analysis-tools.c:1626
 msgid "F-Test"
 msgstr "F-Test"
 
 #: src/analysis-tools.c:1653
-#, fuzzy
 msgid "/Mean/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
-msgstr ""
-"/Mittel/Variance/Observations/df/F/P (F<=f) one-tail/F Critical one-tail"
+msgstr "/Mittel/Varianz/Beobachtungen/df/F/P (F<=f) one-tail/F Critical one-tail"
 
 #: src/analysis-tools.c:1733 src/dialogs/dialog-analysis-tools.c:411
 msgid "Random"
@@ -769,11 +768,12 @@ msgid "Regression"
 msgstr "Regression"
 
 #: src/analysis-tools.c:1965
+#, fuzzy
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R "
 "Square/Standard "
 "Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
-msgstr ""
+msgstr "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/Standard Error/Beobachtungen//ANOVA//Regression/Residual/Total///Intercept"
 
 #: src/analysis-tools.c:1984
 #, c-format
@@ -781,8 +781,9 @@ msgid "X Variable %d"
 msgstr "X-Variable %d"
 
 #: src/analysis-tools.c:1986
+#, fuzzy
 msgid "/df/SS/MS/F/Significance F"
-msgstr ""
+msgstr "/df/SS/MS/F/Significance F"
 
 #: src/analysis-tools.c:1992
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower 95%/Upper 95%"
@@ -950,7 +951,7 @@ msgstr "Kumulative %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Fehler »%s« beim Öffnen des workbook-Streams"
 
-#: src/bonobo-io.c:471 src/xml-io-autoft.c:427 src/xml-io.c:3225
+#: src/bonobo-io.c:471 src/xml-io-autoft.c:427 src/xml-io.c:3252
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Ungültige XML-Datei. Ist der Baum leer?"
 
@@ -962,7 +963,7 @@ msgstr "Beinhaltet keine Arbeitsbuch-Datei"
 msgid "Gnumeric Bonobo file format"
 msgstr "Gnumeric-Bonobo-Dateiformat"
 
-#: src/clipboard.c:272
+#: src/clipboard.c:275
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -975,11 +976,11 @@ msgstr ""
 "Wählen Sie eine einzelne Zelle oder einen Bereich mit gleichem\n"
 "Umriss und gleicher Größe aus."
 
-#: src/clipboard.c:276 src/clipboard.c:288 src/clipboard.c:296
+#: src/clipboard.c:279 src/clipboard.c:291 src/clipboard.c:299
 msgid "Unable to paste"
 msgstr "Einfügen nicht möglich."
 
-#: src/clipboard.c:284
+#: src/clipboard.c:287
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -992,7 +993,7 @@ msgstr ""
 "Wählen Sie eine einzelne Zelle oder einen Bereich mit gleichem\n"
 "Umriss und gleicher Größe aus."
 
-#: src/clipboard.c:297
+#: src/clipboard.c:300
 msgid "result passes the sheet boundary"
 msgstr "Das Ergebnis überschreitet die Blattgrenzen."
 
@@ -1072,21 +1073,21 @@ msgstr "%d Zeilen %d:%d löschen"
 msgid "Deleting row %d"
 msgstr "Zeile %d löschen"
 
-#: src/commands.c:1063
+#: src/commands.c:1070
 msgid "Undo Clear"
 msgstr "Leeren rückgängig machen"
 
 #. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1133 src/sheet.c:2411
+#: src/commands.c:1140 src/sheet.c:2411
 msgid "Clear"
 msgstr "Leeren"
 
-#: src/commands.c:1324
+#: src/commands.c:1331
 msgid "Format cells"
 msgstr "Zellen formatieren"
 
-#: src/commands.c:1397
+#: src/commands.c:1404
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "Benenne Blatt von »%s« in »%s« um"
@@ -1098,94 +1099,94 @@ msgstr "Benenne Blatt von »%s« in »%s« um"
 #. * translators should be aware that the leading character of the
 #. * result will be ignored.
 #.
-#: src/commands.c:1471
+#: src/commands.c:1478
 msgid ">mm/dd/yyyy"
 msgstr ">dd. mm. yyyy"
 
 #. FIXME : See comment above
-#: src/commands.c:1476
+#: src/commands.c:1483
 msgid ">hh:mm"
 msgstr ">hh:mm"
 
-#: src/commands.c:1517
+#: src/commands.c:1524
 msgid "Set Date/Time"
 msgstr "Datum/Zeit setzen"
 
-#: src/commands.c:1534
+#: src/commands.c:1541
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Aktuelles Datum in %s einstellen"
 
-#: src/commands.c:1535
+#: src/commands.c:1542
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Aktuelle Zeit in %s einstellen"
 
-#: src/commands.c:1631
+#: src/commands.c:1638
 msgid "Setting width of columns"
 msgstr "Spaltenbreite einstellen"
 
-#: src/commands.c:1632
+#: src/commands.c:1639
 msgid "Setting height of rows"
 msgstr "Zeilenhöhe einstellen"
 
-#: src/commands.c:1721
+#: src/commands.c:1728
 #, c-format
 msgid "Sorting %s"
 msgstr "%s sortieren"
 
-#: src/commands.c:1798
+#: src/commands.c:1838
 msgid "Unhide columns"
 msgstr "Spalten hervorholen"
 
-#: src/commands.c:1798
+#: src/commands.c:1838
 msgid "Hide columns"
 msgstr "Spalten verbergen"
 
-#: src/commands.c:1799
+#: src/commands.c:1839
 msgid "Unhide rows"
 msgstr "Zeilen hervorholen"
 
-#: src/commands.c:1799
+#: src/commands.c:1839
 msgid "Hide rows"
 msgstr "Zeilen verbergen"
 
 #. FIXME: Do we want to show the destination range alwell?
-#: src/commands.c:1987
+#: src/commands.c:2027
 #, c-format
 msgid "Moving %s"
 msgstr "Verschiebung: %s"
 
 #. FIXME?
-#: src/commands.c:2131
+#: src/commands.c:2171
 #, c-format
 msgid "Pasting into %s"
 msgstr "In %s einfügen"
 
 #. Changed in initial redo.
-#: src/commands.c:2194 src/commands.c:2200 src/commands.c:2286
+#: src/commands.c:2234 src/commands.c:2240 src/commands.c:2326
 msgid "Autofill"
 msgstr "AutoFüllen"
 
-#: src/commands.c:2201
+#: src/commands.c:2241
 msgid "Target region contains merged cells"
 msgstr "Der Zielbereich beinhaltet zusammengeführte Zellen"
 
 #. FIXME?
-#: src/commands.c:2435
+#: src/commands.c:2475
 msgid "Autoformat"
 msgstr "Autoformat"
 
-#: src/commands.c:2568
+#: src/commands.c:2608
 msgid "Unmerge Cells"
 msgstr "Zellen vereinzeln"
 
-#: src/commands.c:2680
+#: src/commands.c:2720
 msgid "Merge Cells"
 msgstr "Zellen zusammenführen"
 
 #. Corrected below.
-#: src/commands.c:3133 src/dialogs/search-replace.glade.h:41
+#: src/commands.c:3173 src/dialogs/search-replace.glade.h:41
 msgid "Search and Replace"
 msgstr "S_uchen und Ersetzen"
 
@@ -3900,7 +3901,7 @@ msgid "Scale"
 msgstr "Skalierung"
 
 #: src/dialogs/print.glade.h:27 src/functions/fn-sheet.c:135
-#: src/workbook.c:1019 src/xml-io.c:2914
+#: src/workbook.c:1019 src/xml-io.c:2941
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -4201,7 +4202,7 @@ msgstr "Der Suchtext ist wörtlich gemeint"
 
 #: src/dialogs/search-replace.glade.h:50
 msgid "Turn unparseable entries into string values"
-msgstr ""
+msgstr "Einträge, die nicht eingelesen werden können, in Zeichenkettenwerte wandeln"
 
 #: src/dialogs/search-replace.glade.h:51
 msgid "When set, do not distinguish between upper and lower case letters"
@@ -11838,7 +11839,7 @@ msgstr ""
 msgid "_Move"
 msgstr "_Verschieben"
 
-#: src/gnumeric.xml.h:212 src/item-cursor.c:912 src/sheet-control-gui.c:1076
+#: src/gnumeric.xml.h:212 src/item-cursor.c:912 src/sheet-control-gui.c:1068
 msgid "_Copy"
 msgstr "_Kopieren"
 
@@ -12283,25 +12284,25 @@ msgstr "Kopieren"
 msgid "Cut"
 msgstr "Ausschneiden"
 
-#: src/sheet-control-gui.c:462
+#: src/sheet-control-gui.c:454
 #, c-format
 msgid "Row: %d"
 msgstr "Zeile: %d"
 
-#: src/sheet-control-gui.c:473
+#: src/sheet-control-gui.c:465
 #, c-format
 msgid "Column: %s"
 msgstr "Spalte: %s"
 
-#: src/gnumeric.xml.h:51 src/sheet-control-gui.c:1074
+#: src/gnumeric.xml.h:51 src/sheet-control-gui.c:1066
 msgid "Cu_t"
 msgstr "_Ausschneiden"
 
-#: src/gnumeric.xml.h:234 src/sheet-control-gui.c:1078
+#: src/gnumeric.xml.h:234 src/sheet-control-gui.c:1070
 msgid "_Paste"
 msgstr "E_infügen"
 
-#: src/sheet-control-gui.c:1080
+#: src/sheet-control-gui.c:1072
 msgid "Paste _Special"
 msgstr "Einfügen _spezial"
 
@@ -12314,59 +12315,59 @@ msgstr "Einfügen _spezial"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1092
+#: src/sheet-control-gui.c:1084
 msgid "_Insert..."
 msgstr "_Eintragen..."
 
 # Checkit. vs. "Clear"
-#: src/gnumeric.xml.h:216 src/sheet-control-gui.c:1094
+#: src/gnumeric.xml.h:216 src/sheet-control-gui.c:1086
 #: src/workbook-control-gui.c:1893
 msgid "_Delete..."
 msgstr "_Entfernen..."
 
-#: src/sheet-control-gui.c:1096
+#: src/sheet-control-gui.c:1088
 msgid "_Insert Column(s)"
 msgstr "Spalt_e(n) einfügen"
 
-#: src/sheet-control-gui.c:1098
+#: src/sheet-control-gui.c:1090
 msgid "_Delete Column(s)"
 msgstr "Spa_lte(n) löschen"
 
-#: src/sheet-control-gui.c:1100
+#: src/sheet-control-gui.c:1092
 msgid "_Insert Row(s)"
 msgstr "Z_eile(n) einfügen"
 
-#: src/sheet-control-gui.c:1102
+#: src/sheet-control-gui.c:1094
 msgid "_Delete Row(s)"
 msgstr "Zei_le(n) löschen"
 
-#: src/sheet-control-gui.c:1105
+#: src/sheet-control-gui.c:1097
 msgid "Clear Co_ntents"
 msgstr "_Inhalt löschen"
 
-#: src/sheet-control-gui.c:1111
+#: src/sheet-control-gui.c:1103
 msgid "_Format Cells..."
 msgstr "Zellen _formatieren..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1115
+#: src/sheet-control-gui.c:1107
 msgid "Column _Width..."
 msgstr "Spalten_breite..."
 
-#: src/gnumeric.xml.h:226 src/sheet-control-gui.c:1117
-#: src/sheet-control-gui.c:1125 src/workbook-control-gui.c:1999
+#: src/gnumeric.xml.h:226 src/sheet-control-gui.c:1109
+#: src/sheet-control-gui.c:1117 src/workbook-control-gui.c:1999
 #: src/workbook-control-gui.c:2018
 msgid "_Hide"
 msgstr "_Verbergen"
 
-#: src/gnumeric.xml.h:250 src/sheet-control-gui.c:1119
-#: src/sheet-control-gui.c:1127 src/workbook-control-gui.c:2002
+#: src/gnumeric.xml.h:250 src/sheet-control-gui.c:1111
+#: src/sheet-control-gui.c:1119 src/workbook-control-gui.c:2002
 #: src/workbook-control-gui.c:2021
 msgid "_Unhide"
 msgstr "_Hervorholen"
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1123
+#: src/sheet-control-gui.c:1115
 msgid "_Row Height..."
 msgstr "_Zeilenhöhe..."
 
@@ -13574,15 +13575,15 @@ msgstr "muss wenigstens einen Buchstaben haben"
 msgid "There is already a sheet named '%s'"
 msgstr "Es gibt bereits ein Blatt mit dem Namen »%s«"
 
-#: src/xml-io.c:3181
+#: src/xml-io.c:3208
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Ungültige XML-Zwischenablagedatei. Ist der Baum leer?"
 
-#: src/xml-io.c:3234
+#: src/xml-io.c:3261
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 
-#: src/xml-io.c:3295
+#: src/xml-io.c:3322
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
 
