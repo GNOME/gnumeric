@@ -1,71 +1,74 @@
-Regarding LP & ILP:
-===================
+1 Regarding LP/MILP
 
-Critical bugs:
-  * fix bug: solver parameters when the sheet is duplicated
-  * fix bug: INT & BOOL constraints with GLPK Simplex
+1.1 For Gnumeric 1.2
 
-Usability fixes:
-  * add `keep original values dialog'
-   - fix the saving of these values twice
-  * get_lp_coeff: test that it's really LP
-  * add a status dialog for reporting while Solver is computing
-   - add abort button into it
-  * computing performance improvements:
-    - make the getting of LP coefficents faster
-    - the limits reporting slows things
-  * fix constraint change button
+	* Fix bug: solver parameters when the sheet is duplicated.
+	* Fix bug: keep original values if solution was not found.
+	* Add `keep original values dialog'.
+	  - Add show iteration results list into it.
+	* Clean up dialog-solver.c.
+	* Speed up LP model generation.
+	* Fix constraint change button.
+	* Add `equal to' option for target cell.
+	* Add `in range' option for target cell.
+	* Improve the usability of the dialog (e.g. focus issues).
+	* Add frames and improve grupping of the dialog.
+	* lpkit: remove/#if0 code that is not used.
+	* Performance reporting:
+	  - Add status.
+	  - Add options used (Max/min, non-neg, int, scaling, max it/t).
+	  - Clean up.
+	* MPS plugin:
+	  - Allow bigger models to be loaded.
+	  - Improve BOUNDS support.
+	  - Clean up.
+	* Reporting:
+	  - Add info whether assume discrete was on or off.
+	* Update user documentation.
+	* Add regression test suite.
 
-Feature enhancements:
-  * add options:
-    - algorithm selection
-    - rounding of close zeros
-    - obj. fn. range
-    - show iteration results
-  * sensitivity report:
-    - fix reduced cost
-    - fix adjustable cells: allowable increase
-    - fix adjustable cells: allowable decrease
-    - fix constraints: allowable increase
-    - fix constraints: allowable decrease
-  * performance report:
-    - add options used
-  * dual program report:
-    - implement generation of a report that gives the dual of the program
-  * MPS plugin:
-    - add program export
-    - finish BOUNDS support
-    - implement RANGES support
-    - clean up
-  * add more algorithms
-    - add confugure check for GLPK
-    - add support for other GLPK solvers
-    - add support for algorithm specific options
+1.2 Later versions
 
-Misc:
-  * add example programs into samples/solver
-    - infeasible
-    - unbounded
-    - ILP
-  * update the user documentation
-    - update the figures
-    - write sensitivity report section
-    - improve ILP section
-  * fix XL import and export of the solver parameters
-  * lpkit: remove/#if0 obsolete code
+	* Made it as a plugin.
+	* Reporting options:
+	  - Add output selection: into a new sheet or into a cell range.
+	* Sensitivity reporting:
+	  - Fix reduced costs.
+	  - Fix adjustable cells: allowable increase.
+    	  - Fix adjustable cells: allowable decrease.
+	  - Fix constraints: allowable increase.
+	  - Fix constraints: allowable decrease.
+	* Add a status dialog for reporting while Solver is computing.
+	  - Add abort button into it.
+	* Enable GLPK:
+	  - Add configure check.
+	  - Fix bug: INT & BOOL constraints with GLPK Simplex.
+	  - Add support for algorithm specific options.
+	* Add model checkings (check that a model is really LP or QP).
+	* Dual program report.
+	* Speed up limits reporting.
+	* Add options:
+	  - Algorithm selection.
+	  - Rounding of close zeros.
+	* Fix XL import and export of the solver parameters.
+	* MPS plugin:
+	  - Add program exporting.
+	  - Finish BOUNDS support.
+	  - Implement RANGES support.
 
 
-Regarding QP:
-=============
+2 Regarding NLP/MINLP
 
-* implement support for QP (quadratic programming)
-  - support for fetching the QP obj. fn
-  - finish the program reporting for QP
-  - add QP solver algorithms
-  - QP results reporting
-  - QP extensions for the MPS plugin
+2.1 For Gnumeric 1.2
 
-Regarding NLP:
-==============
+	* Make QP unsensitive.
 
-* implement support for general NLP
+2.2 Later versions
+
+	* Implement support for QP (quadratic programming).
+	  - Support for fetching the QP obj. fn.
+	  - Finish the program reporting for QP.
+	  - Add QP solver algorithms.
+	  - Implement QP results reporting.
+	  - QP extensions for the MPS plugin.
+	* Implement support for NLP (non-linear programming).
