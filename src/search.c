@@ -74,7 +74,7 @@ search_replace_compile (GnmSearchReplace *sr, gboolean repl)
 		 * routines are pretty good.)
 		 */
 		GString *regexp = g_string_new (NULL);
-		gnumeric_regexp_quote (regexp, sr->search_text);
+		go_regexp_quote (regexp, sr->search_text);
 		pattern = tmp = g_string_free (regexp, FALSE);
 
 		sr->plain_replace = TRUE;

@@ -181,7 +181,7 @@ check_columns_for_import (StfDialogData *pagedata, int from, int to)
 			if (!(pagedata->format.col_import_count < SHEET_MAX_COLS))
 				return;
 			gtk_widget_hide (w);
-			gtk_toggle_button_set_active    (GTK_TOGGLE_BUTTON (w), TRUE);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), TRUE);
 			/* Note this caused a signal to be send that sets the */
 			/* pagedata fields */
 			gtk_widget_show (w);
@@ -205,7 +205,7 @@ uncheck_columns_for_import (StfDialogData *pagedata, int from, int to)
 			GtkWidget *w = g_object_get_data (G_OBJECT (column), "checkbox");
 			
 			gtk_widget_hide (w);
-			gtk_toggle_button_set_active    (GTK_TOGGLE_BUTTON (w), FALSE);
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), FALSE);
 			/* Note this caused a signal to be send that sets the */
 			/* pagedata fields */
 			gtk_widget_show (w);
