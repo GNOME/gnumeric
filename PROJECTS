@@ -22,6 +22,8 @@ Description                                             Difficulty  Integration
 - gtk-combo-text : A prettier mouse over for the	Medium	    Low
   text entry would be nice.
 
+- Brush up the code in src/dialogs/dialog-autosave.c    Very low    Low
+
 -------------------------------------------------------------------------------
 Difficulty: an estimate of how hard the task would be for the average hacker.
   (This is not an estimate of project size; a project can be very big, but
