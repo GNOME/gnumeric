@@ -58,6 +58,8 @@ Pending Patches
     : Apply after 1.4.0 to clean up the xls sheet object creation a bit.
     http://bugzilla.gnome.org/show_bug.cgi?id=84062
     - XIM menu, blocking on gtk changes
+    http://bugzilla.gnome.org/show_bug.cgi?id=126513
+    - handling of character encoding in stf export
 
 -------------------------------------------------------------------------------
 Architecture Changes
