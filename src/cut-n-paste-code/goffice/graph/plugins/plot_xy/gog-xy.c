@@ -428,12 +428,12 @@ gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
 	GObjectClass *gobject_klass = (GObjectClass *) plot_klass;
+	Gog2DPlotClass *gog_2d_plot_klass = (Gog2DPlotClass*) plot_klass;
 
 	bubble_parent_klass = g_type_class_peek_parent (plot_klass);
 	gobject_klass->set_property = gog_bubble_plot_set_property;
 	gobject_klass->get_property = gog_bubble_plot_get_property;
 
-	Gog2DPlotClass *gog_2d_plot_klass = (Gog2DPlotClass*) plot_klass;
 	gog_2d_plot_klass->adjust_bounds = gog_bubble_plot_adjust_bounds;
 	gog_klass->type_name	= gog_bubble_plot_type_name;
 
@@ -581,8 +581,9 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (n > tmp)
 				n = tmp;
 		}
-		if (model->base.desc.series.num_dim == 3) {
+#warning: "I swapped the following two lines -- they had equal indentation."
 		style = GOG_STYLED_OBJECT (series)->style;
+		if (model->base.desc.series.num_dim == 3) {
 			double zmin;
 			go_data_vector_get_minmax (GO_DATA_VECTOR (series->base.values[2].data), &zmin, &zmax);
 			if ((! finite (zmax)) || (zmax <= 0)) continue;
