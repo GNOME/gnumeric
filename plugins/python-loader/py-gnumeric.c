@@ -474,7 +474,7 @@ py_Boolean_object_str (py_Boolean_object *self)
 static void
 py_Boolean_object_dealloc (py_Boolean_object *self)
 {
-	free (self);
+	PyObject_Del (self);
 }
 
 static PyObject *
@@ -565,7 +565,7 @@ py_CellPos_object_getattr (py_CellPos_object *self, gchar *name)
 static void
 py_CellPos_object_dealloc (py_CellPos_object *self)
 {
-	free (self);
+	PyObject_Del (self);
 }
 
 static PyObject *
@@ -676,7 +676,7 @@ py_Range_object_getattr (py_Range_object *self, gchar *name)
 static void
 py_Range_object_dealloc (py_Range_object *self)
 {
-	free (self);
+	PyObject_Del (self);
 }
 
 static PyObject *
@@ -758,7 +758,7 @@ py_CellRef_object_getattr (py_CellRef_object *self, gchar *name)
 static void
 py_CellRef_object_dealloc (py_CellRef_object *self)
 {
-	free (self);
+	PyObject_Del (self);
 }
 
 static PyObject *
@@ -829,7 +829,7 @@ py_RangeRef_object_getattr (py_RangeRef_object *self, gchar *name)
 static void
 py_RangeRef_object_dealloc (py_RangeRef_object *self)
 {
-	free (self);
+	PyObject_Del (self);
 }
 
 static PyObject *
@@ -1071,8 +1071,9 @@ py_MStyle_object_getattr (py_MStyle_object *self, gchar *name)
 static void
 py_MStyle_object_dealloc (py_MStyle_object *self)
 {
-	mstyle_unref (self->mstyle);
-	free (self);
+	if (self)
+		mstyle_unref (self->mstyle);
+	PyObject_Del (self);
 }
 
 static PyObject *
@@ -1261,7 +1262,7 @@ py_Cell_object_getattr (py_Cell_object *self, gchar *name)
 static void
 py_Cell_object_dealloc (py_Cell_object *self)
 {
-	free (self);
+	PyObject_Del (self);
 }
 
 static PyObject *
@@ -1517,7 +1518,7 @@ py_Sheet_object_getattr (py_Sheet_object *self, gchar *name)
 static void
 py_Sheet_object_dealloc (py_Sheet_object *self)
 {
-	free (self);
+	PyObject_Del (self);
 }
 
 PyObject *
@@ -1663,7 +1664,7 @@ py_Workbook_object_getattr (py_Workbook_object *self, gchar *name)
 static void
 py_Workbook_object_dealloc (py_Workbook_object *self)
 {
-	free (self);
+	PyObject_Del (self);
 }
 
 PyObject *
@@ -1745,7 +1746,7 @@ py_Gui_get_window (py_Gui_object *self, PyObject *args)
 }
 
 static PyObject *
-py_Gui_object_getattr (py_Workbook_object *self, gchar *name)
+py_Gui_object_getattr (py_Gui_object *self, gchar *name)
 {
 	static struct PyMethodDef methods [] = {
 		{ (char *) "get_workbook",  (PyCFunction) py_Gui_get_workbook,
@@ -1759,9 +1760,9 @@ py_Gui_object_getattr (py_Workbook_object *self, gchar *name)
 }
 
 static void
-py_Gui_object_dealloc (py_Workbook_object *self)
+py_Gui_object_dealloc (py_Gui_object *self)
 {
-	free (self);
+	PyObject_Del (self);
 }
 
 PyObject *
@@ -1823,9 +1824,11 @@ py_GnumericFunc_call (py_GnumericFunc_object *self, PyObject *args, PyObject *ke
 static void
 py_GnumericFunc_object_dealloc (py_GnumericFunc_object *self)
 {
-	gnm_func_unref (self->fn_def);
-	g_free (self->eval_pos);
-	free (self);
+	if (self) {
+		gnm_func_unref (self->fn_def);
+		g_free (self->eval_pos);
+	}
+	PyObject_Del (self);
 }
 
 static PyObject *
@@ -1908,7 +1911,7 @@ py_GnumericFuncDict_subscript (py_GnumericFuncDict_object *self, PyObject *key)
 static void
 py_GnumericFuncDict_object_dealloc (py_GnumericFuncDict_object *self)
 {
-	free (self);
+	PyObject_Del (self);
 }
 
 static PyObject *
@@ -2042,7 +2045,7 @@ py_GnmPlugin_object_getattr (py_GnmPlugin_object *self, gchar *name)
 static void
 py_GnmPlugin_object_dealloc (py_GnmPlugin_object *self)
 {
-	free (self);
+	PyObject_Del (self);
 }
 
 static PyObject *

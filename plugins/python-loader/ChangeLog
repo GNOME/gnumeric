@@ -1,3 +1,17 @@
+2004-08-18  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.c (py_Boolean_object_dealloc,
+	py_CellPos_object_dealloc, py_Range_object_dealloc,
+	py_CellRef_object_dealloc, py_RangeRef_object_dealloc,
+	py_MStyle_object_dealloc, py_Cell_object_dealloc,
+	py_Sheet_object_dealloc, py_Workbook_object_dealloc,
+	py_Gui_object_dealloc, py_GnumericFunc_object_dealloc,
+	py_GnumericFuncDict_object_dealloc, py_GnmPlugin_object_dealloc):
+	Call PyObject_Del instead of free to avoid segfault (backport). 
+
+	(py_Gui_object_getattr, py_Gui_object_dealloc): Fix type of self
+	argument from py_Workbook_object to py_Gui_object (backport).
+
 2004-06-22  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.13
