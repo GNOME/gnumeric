@@ -144,9 +144,15 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 	void *state = NULL;
 
 	if (g_file_exists (filename)) {
-		gnumeric_io_error_save (context,
-			 _("Saving over old Excel files disabled for safety"));
-		return;
+		gchar *disable_safety;
+
+		disable_safety = getenv ("GNUMERIC_ENABLE_XL_OVERWRITE");
+		
+		if (disable_safety == NULL) {
+			gnumeric_io_error_save (context,
+							    _("Saving over old Excel files disabled for safety"));
+			return;
+		}
 	}
 
 	if (ms_excel_check_write (context, &state, wb_view, ver) != 0) {
