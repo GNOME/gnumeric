@@ -1,3 +1,18 @@
+2004-01-07  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=130700
+	* src/format.c (format_entry_ctor) : init the new 'suppress_minus'
+	  entry.
+	(format_compile) : initialize supress minus if the condition is of the
+	  form [<=(val <= 0)] or [<(val < 0)] I hope this is a reasonable
+	  approximation of MS Excel.
+	(render_number) : pull out all the old elements that added minus signs
+	(format_number) : handle the new entry based suppress minus operator
+	  here, and prepend the sign.
+
+	* src/wbcg-actions.c : Sync labels and mnemonics with the old
+	  bonobo/gnomeui menus
+
 2004-01-06  Jody Goldberg <jody@gnome.org>
 
 	* src/wbc-gtk.c (cb_add_menus_toolbars) : Enable/Disable the arrow

@@ -1,6 +1,7 @@
 Gnumeric 1.3.0
 
 Jody:
+	* Drop gnome-app-helper in favour of GtkAction
 	http://bugzilla.gnome.org/show_bug.cgi?id=128524
 	* COUNTRY record position is xls version specific [backported]
 	* Generate an SST record even without strings to placate french version
@@ -15,6 +16,8 @@ Jody:
 	* Rangesel doesn't bind the panes during cursor movements either
 	http://bugzilla.gnome.org/show_bug.cgi?id=130424
 	* Recalc new expressions even when manual recalc is set
+	http://bugzilla.gnome.org/show_bug.cgi?id=130700
+	* Better compatibility with MS Excel's handling of minus sign
 
 Andreas:
 	* Make new strings translatable.

@@ -651,14 +651,14 @@ gnumeric_fixed (FunctionEvalInfo *ei, GnmValue **argv)
 	fmt.left_spaces		   = 0;
 	fmt.left_req		   = 0;
 	fmt.decimal_separator_seen = (decimals > 0);
-	fmt.supress_minus	   = FALSE;
 	fmt.group_thousands	   = commas;
 	fmt.has_fraction	   = FALSE;
-	fmt.negative		   = num < 0.;
-	if (fmt.negative)
-		num = -num;
 
 	str = g_string_new (NULL);
+	if (num < 0.) {
+		num = -num;
+		g_string_append_c (str, '-');
+	}
 	render_number (str, num, &fmt);
 	if (str->len == 0)
 		g_string_append_c (str, '0');

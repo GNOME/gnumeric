@@ -3473,8 +3473,8 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 	edit_pos.row = GSF_LE_GET_GUINT16 (q->data + 1);
 	edit_pos.col = GSF_LE_GET_GUINT16 (q->data + 3);
 
-	d (-1, fprintf (stderr,"Start selection in pane #%d\n", pane_number););
-	d (-1, fprintf (stderr,"Cursor: %s in Ref #%d\n", cellpos_as_string (&edit_pos),
+	d (5, fprintf (stderr,"Start selection in pane #%d\n", pane_number););
+	d (5, fprintf (stderr,"Cursor: %s in Ref #%d\n", cellpos_as_string (&edit_pos),
 		      j););
 
 	sv_selection_reset (sv);
@@ -3485,7 +3485,7 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 		r.start.col = GSF_LE_GET_GUINT8  (refs + 4);
 		r.end.col   = GSF_LE_GET_GUINT8  (refs + 5);
 
-		d (-1, fprintf (stderr,"Ref %d = %s\n", i-1, range_name (&r)););
+		d (5, fprintf (stderr,"Ref %d = %s\n", i-1, range_name (&r)););
 
 		tmp = (i == num_refs) ? edit_pos : r.start;
 		sv_selection_add_range (sv,
@@ -3494,7 +3494,7 @@ excel_read_SELECTION (BiffQuery *q, ExcelReadSheet *esheet)
 			r.end.col, r.end.row);
 	}
 
-	d (-1, fprintf (stderr,"Done selection\n"););
+	d (5, fprintf (stderr,"Done selection\n"););
 }
 
 static void
