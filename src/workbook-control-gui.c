@@ -1889,9 +1889,18 @@ cb_data_validate (GtkWidget *widget, WorkbookControlGUI *wbcg)
 #endif
 
 static void
+cb_data_consolidate (GtkWidget *widget, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	
+	dialog_consolidate (wbcg, wb_control_cur_sheet (wbc));
+}
+
+static void
 cb_data_hide_detail (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 }
+
 static void
 cb_data_show_detail (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -2486,6 +2495,9 @@ static GnomeUIInfo workbook_menu_data [] = {
 		N_("Validate input with preset criteria"),
 		cb_data_validate),
 #endif
+	GNOMEUIINFO_ITEM_NONE (N_("_Consolidate..."),
+		N_("Consolidate regions using a function"),
+		cb_data_consolidate),
 
 	GNOMEUIINFO_SEPARATOR,
 
@@ -2674,6 +2686,8 @@ static BonoboUIVerb verbs [] = {
 #if 0
 	BONOBO_UI_UNSAFE_VERB ("DataValidate", cb_data_validate),
 #endif
+	BONOBO_UI_UNSAFE_VERB ("DataConsolidate", cb_data_consolidate),
+	
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineHideDetail", cb_data_hide_detail),
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineShowDetail", cb_data_show_detail),
 	BONOBO_UI_UNSAFE_VERB ("DataOutlineGroup", cb_data_group),

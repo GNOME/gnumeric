@@ -1213,3 +1213,45 @@ range_transpose (Range *range, CellPos const *origin)
 
 	return clipped;
 }
+
+GlobalRange *
+global_range_new (Sheet *sheet, Range const *r)
+{
+	GlobalRange *gr = g_new0 (GlobalRange, 1);
+
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (r != NULL, NULL);
+	
+	gr->sheet = sheet;
+	gr->range = *r;
+
+	return gr;
+}
+
+void
+global_range_free (GlobalRange *gr)
+{
+	g_return_if_fail (gr != NULL);
+	
+	g_free (gr);
+}
+
+gboolean
+global_range_overlap (GlobalRange const *a, GlobalRange const *b)
+{
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+
+	if (a->sheet == b->sheet && range_overlap (&a->range, &b->range))
+		return TRUE;
+		
+	return FALSE;
+}
+
+GlobalRange *
+global_range_dup (GlobalRange const *src)
+{
+	g_return_val_if_fail (src != NULL, NULL);
+
+	return global_range_new (src->sheet, &src->range);
+}

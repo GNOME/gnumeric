@@ -112,4 +112,9 @@ GList      *range_fragment_list   (GList const *ranges);
 GList      *range_fragment_list_clip (GList const *ranges, Range const *clip);
 void        range_fragment_free   (GList *fragments);
 
+GlobalRange *global_range_new     (Sheet *sheet, Range const *r);
+void         global_range_free    (GlobalRange *gr);
+gboolean     global_range_overlap (GlobalRange const *a, GlobalRange const *b);
+GlobalRange *global_range_dup     (GlobalRange const *src);
+
 #endif /* GNUMERIC_RANGES_H */

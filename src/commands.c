@@ -1930,7 +1930,6 @@ cmd_sort_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	return FALSE;
 }
-
 gboolean
 cmd_sort (WorkbookControl *wbc, SortData *data)
 {
@@ -3763,6 +3762,92 @@ cmd_colrow_std_size (WorkbookControl *wbc, Sheet *sheet,
 		? g_strdup_printf (_("Setting default width of columns to %.2fpts"), new_default)
 		: g_strdup_printf (_("Setting default height of rows to %.2fpts"), new_default);
 
+	/* Register the command object */
+	return command_push_undo (wbc, obj);
+}
+
+/******************************************************************/
+
+#define CMD_CONSOLIDATE_TYPE        (cmd_consolidate_get_type ())
+#define CMD_CONSOLIDATE(o)          (GTK_CHECK_CAST ((o), CMD_CONSOLIDATE_TYPE, CmdConsolidate))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	Consolidate *cs;
+	
+	Range        old_range;
+	CellRegion  *old_content;
+} CmdConsolidate;
+
+GNUMERIC_MAKE_COMMAND (CmdConsolidate, cmd_consolidate);
+
+static gboolean
+cmd_consolidate_undo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdConsolidate *me = CMD_CONSOLIDATE (cmd);
+	PasteTarget pt;
+	
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	clipboard_paste_region (wbc, paste_target_init (&pt, me->cs->dst->sheet, &me->old_range, PASTE_ALL_TYPES),
+				me->old_content);
+	cellregion_free (me->old_content);
+	me->old_content = NULL;
+	
+	return FALSE;
+}
+
+static gboolean
+cmd_consolidate_redo (GnumericCommand *cmd, WorkbookControl *wbc)
+{
+	CmdConsolidate *me = CMD_CONSOLIDATE (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* Retrieve maximum extent of the result and back the area up */
+	me->old_range   = consolidate_get_dest_bounding_box (me->cs);
+	me->old_content = clipboard_copy_range (me->cs->dst->sheet, &me->old_range);
+
+	/* Apply consolidation */
+	consolidate_apply (me->cs);
+	
+	return FALSE;
+}
+static void
+cmd_consolidate_destroy (GtkObject *cmd)
+{
+	CmdConsolidate *me = CMD_CONSOLIDATE (cmd);
+	
+	if (me->cs)
+		consolidate_free (me->cs);
+
+	if (me->old_content)
+		cellregion_free (me->old_content);
+		
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_consolidate (WorkbookControl *wbc, Consolidate *cs)
+{
+	GtkObject *obj;
+	CmdConsolidate *me;
+	
+	g_return_val_if_fail (cs != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_CONSOLIDATE_TYPE);
+	me = CMD_CONSOLIDATE (obj);
+
+	/* Store the specs for the object */
+	me->cs = cs;
+	
+	me->parent.sheet = cs->dst->sheet;
+	me->parent.size = 1;  /* Changed in initial redo.  */
+	me->parent.cmd_descriptor = g_strdup_printf (_("Consolidating to %s!%s"),
+						     cs->dst->sheet->name_quoted,
+						     range_name (&cs->dst->range));
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }

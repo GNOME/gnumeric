@@ -9,6 +9,7 @@ Almer:
 	  importer.
 	* Clean-up row naming.
 	* Fix the STF exporter (it works again).
+	* Add new consolidation feature.
 
 Jody:
 	* Fix ctrl-enter filling.

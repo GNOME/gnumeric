@@ -1457,6 +1457,27 @@ sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str)
 }
 
 /**
+ * sheet_cell_get_value:
+ * @sheet: Sheet
+ * @col: Source column
+ * @row: Source row
+ *
+ * Retrieve the value of a cell. The returned value must
+ * NOT be freed or tampered with.
+ **/
+Value const *
+sheet_cell_get_value (Sheet *sheet, int const col, int const row)
+{
+	Cell *cell;
+
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+	
+	cell = sheet_cell_get (sheet, col, row);
+
+	return cell ? cell->value : NULL;
+}
+
+/**
  * sheet_cell_set_text:
  *
  * Marks the sheet as dirty

@@ -60,6 +60,7 @@ typedef  gboolean (*ColRowHandler)(ColRowInfo *info, void *user_data);
 typedef struct _CellPos		CellPos;
 typedef struct _CellRef		CellRef;
 typedef struct _Range		Range;
+typedef struct _GlobalRange	GlobalRange;
 typedef struct _RangeRef	RangeRef;
 
 typedef struct _MStyle		  MStyle;
@@ -90,6 +91,11 @@ struct _CellPos {
 
 struct _Range {
 	CellPos start, end;
+};
+
+struct _GlobalRange {
+	Sheet *sheet;
+	Range  range;
 };
 
 typedef Value * (*ForeachCellCB)(Sheet *sheet, int col, int row,

@@ -2,6 +2,7 @@
 #ifndef GNUMERIC_COMMANDS_H
 #define GNUMERIC_COMMANDS_H
 
+#include "consolidate.h"
 #include "gnumeric.h"
 #include "format-template.h"
 #include "sort.h"
@@ -76,6 +77,8 @@ gboolean cmd_search_replace     (WorkbookControl *wbc, Sheet *sheet, SearchRepla
 gboolean cmd_colrow_std_size    (WorkbookControl *wbc, Sheet *sheet,
 				 gboolean is_cols, double new_default);
 
+gboolean cmd_consolidate        (WorkbookControl *wbc, Consolidate *cs);
+				 
 gboolean cmd_zoom               (WorkbookControl *wbc, GSList *sheets, double factor);
 
 #endif /* GNUMERIC_COMMANDS_H */

@@ -72,6 +72,8 @@ GNUMERIC_BASE_SOURCES =				\
 	command-context-priv.h			\
 	command-context-corba.c			\
 	command-context-corba.h			\
+	consolidate.c				\
+	consolidate.h				\
 	io-context.c				\
 	io-context.h				\
 	io-context-priv.h			\

@@ -1,3 +1,26 @@
+2001-06-06  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/gnumeric.h : Add new GlobalRange.
+
+	* src/ranges.[ch] (global_range_new): Create a new globalrange.
+	(global_range_free): Free.
+	(global_range_overlap): Utility function.
+	(global_range_dup): Idem.
+
+	* src/sheet.[ch] (sheet_cell_get_value): New function.
+	
+	* src/workbook-control-gui.c (cb_data_consolidate) :
+	Entry point for the data consolidation dialog.
+	
+	* src/GNOME_Gnumeric.xml : Add consolidate menu item.
+	
+	* src/commands.c (cmd_consolidate) : Undo/redo for consolidate.
+	(cmd_consolidate_destroy) : Idem.
+	(cmd_consolidate_redo) : Idem.
+	(cmd_consolidate_undo) : Idem.
+
+	* src/consolidate.[ch] : Consolidation low-level code.
+
 2001-06-05  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/gnumeric-util.[ch] (gnumeric_dialog_file_selection): New

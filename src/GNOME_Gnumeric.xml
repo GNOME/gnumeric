@@ -452,6 +452,10 @@
 		_label="_Filter..."
 		_tip="Filter data with given criteria"/>
 
+	    <menuitem name="DataConsolidate" verb=""
+		_label="_Consolidate..."
+		_tip="Consolidate regions using a function"/>
+
 	    <separator/>
 
 	    <submenu name="Outline" _label="_Group and Outline">

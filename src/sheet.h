@@ -262,15 +262,16 @@ Sheet      *sheet_lookup_by_name          (Workbook *wb, char const *name);
  * redraws and rendering as required.  Does NOT check for
  * division of arrays.
  */
-void sheet_cell_set_expr  (Cell *cell, ExprTree *expr);
-void sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt);
-void sheet_cell_set_text  (Cell *cell, char const *str);
-void sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str);
-void sheet_apply_style	  (Sheet  *sheet, Range const *range, MStyle *mstyle);
-void sheet_calc_spans	    (Sheet const *sheet,	SpanCalcFlags flags);
-void sheet_range_calc_spans (Sheet *sheet, Range r,	SpanCalcFlags flags);
-void sheet_cell_calc_span   (Cell const *cell,		SpanCalcFlags flags);
-void sheet_regen_adjacent_spans (Sheet *sheet,
+void  sheet_cell_set_expr  (Cell *cell, ExprTree *expr);
+void  sheet_cell_set_value (Cell *cell, Value *v, StyleFormat *opt_fmt);
+void  sheet_cell_set_text  (Cell *cell, char const *str);
+Value const *sheet_cell_get_value (Sheet *sheet, int const col, int const row);
+void  sheet_range_set_text   (EvalPos const *pos, Range const *r, char const *str);
+void  sheet_apply_style	     (Sheet  *sheet, Range const *range, MStyle *mstyle);
+void  sheet_calc_spans	     (Sheet const *sheet,	SpanCalcFlags flags);
+void  sheet_range_calc_spans (Sheet *sheet, Range r,	SpanCalcFlags flags);
+void  sheet_cell_calc_span   (Cell const *cell,		SpanCalcFlags flags);
+void  sheet_regen_adjacent_spans (Sheet *sheet,
 			     int start_col, int start_row,
 			     int end_col, int end_row,
 			     int *min_col, int *max_col);

@@ -35,6 +35,7 @@ std_SOURCES =					\
 	dialog-cell-comment.c			\
 	dialog-cell-format.c			\
 	dialog-cell-sort.c			\
+	dialog-consolidate.c			\
 	dialog-function-select.c		\
 	dialog-function-wizard.c		\
 	dialog-goal-seek.c			\
@@ -85,6 +86,7 @@ glade_DATA = 				\
 	cell-sort.glade			\
 	col-width.glade			\
 	colrow.glade			\
+	consolidate.glade		\
 	delete-cells.glade		\
 	dialog-stf-export.glade		\
 	dialog-stf.glade		\

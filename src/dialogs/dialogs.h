@@ -1,6 +1,7 @@
 #ifndef GNUMERIC_DIALOGS_H
 #define GNUMERIC_DIALOGS_H
 
+#include "consolidate.h"
 #include "gnumeric.h"
 #include "summary.h"
 #include "workbook-control-gui.h"
@@ -45,6 +46,7 @@ void   	 dialog_advanced_filter (WorkbookControlGUI *wbcg);
 void   	 dialog_autosave        (WorkbookControlGUI *wbcg);
 gboolean dialog_autosave_prompt (WorkbookControlGUI *wbcg);
 void     dialog_autoformat      (WorkbookControlGUI *wbcg);
+void     dialog_consolidate     (WorkbookControlGUI *wbcg, Sheet *sheet);
 void     dialog_data_analysis   (WorkbookControlGUI *wbcg, Sheet *sheet);
 char   	*dialog_get_sheet_name  (WorkbookControlGUI *wbcg, const char *name);
 void     dialog_sheet_order     (WorkbookControlGUI *wbcg);
