@@ -1,3 +1,8 @@
+2001-08-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_set_zoom_factor) : changing the zoom forces a
+	  visibility computation.
+
 2001-08-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_point) : Disable selection if we are

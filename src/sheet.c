@@ -553,6 +553,7 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 	 */
 	if (update) {
 		sheet_flag_recompute_spans (sheet);
+		sheet->priv->recompute_visibility = TRUE;
 		sheet->priv->reposition_objects.col =
 			sheet->priv->reposition_objects.row = 0;
 		sheet_update_only_grid (sheet);
