@@ -6641,12 +6641,10 @@ cmd_so_graph_config_finalize (GObject *cmd)
 	gnumeric_command_finalize (cmd);
 }
 
-gboolean cmd_so_graph_config (WorkbookControl *wbc,
-			      SheetObject *so,  
-			      GObject *n_graph,  
-			      GObject *o_graph)
+gboolean
+cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,  
+		     GObject *n_graph, GObject *o_graph)
 {
-	GObject *object;
 	CmdSOGraphConfig *me;
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
@@ -6654,8 +6652,7 @@ gboolean cmd_so_graph_config (WorkbookControl *wbc,
 	g_return_val_if_fail (IS_GOG_GRAPH (n_graph), TRUE);
 	g_return_val_if_fail (IS_GOG_GRAPH (o_graph), TRUE);
 	
-	object = g_object_new (CMD_SO_GRAPH_CONFIG_TYPE, NULL);
-	me = CMD_SO_GRAPH_CONFIG (object);
+	me = g_object_new (CMD_SO_GRAPH_CONFIG_TYPE, NULL);
 
 	me->so = so;
 	g_object_ref (G_OBJECT (so));
@@ -6666,10 +6663,10 @@ gboolean cmd_so_graph_config (WorkbookControl *wbc,
 	g_object_ref (G_OBJECT (me->old_graph));
 
 	me->cmd.sheet = sheet_object_get_sheet (so);;
-	me->cmd.size = 1;
+	me->cmd.size = 10;
 	me->cmd.cmd_descriptor = g_strdup (_("Reconfigure Graph"));
 
-	return command_push_undo (wbc, object);
+	return command_push_undo (wbc, G_OBJECT (me));
 }
 
 /******************************************************************/

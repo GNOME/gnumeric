@@ -1057,7 +1057,7 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *s)
 				  2,
 				  instance_and_params,
 				  NULL);
-
+		g_value_unset (instance_and_params + 0);
 	}
 
 	gtk_widget_destroy (GTK_WIDGET (s->dialog));
