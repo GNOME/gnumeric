@@ -929,6 +929,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 					 !wbcg_edit_has_guru (wbcg));
 #endif
 
+#if 0
 	if (MS_FREEZE_VS_THAW & flags) {
 		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 		char const* label = sheet_is_frozen (sheet)
@@ -941,6 +942,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 				   "/menu/Edit/Redo", NULL, label);
 #endif
 	}
+#endif
 }
 
 static void
@@ -1589,6 +1591,7 @@ cb_view_zoom (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	dialog_zoom (wbcg, wb_control_cur_sheet (wbc));
 }
 
+#if 0
 static void
 cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
@@ -1604,6 +1607,7 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	} else
 		sheet_freeze_panes (sheet, NULL, NULL);
 }
+#endif
 
 static void
 cb_view_new_shared (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -2287,9 +2291,11 @@ static GnomeUIInfo workbook_menu_view [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Zoom..."),
 		N_("Zoom the spreadsheet in or out"),
 		cb_view_zoom),
+#if 0
 	GNOMEUIINFO_ITEM_NONE (N_("_Freeze..."),
 		N_("Freeze the top left of the sheet"),
 		cb_view_freeze_panes),
+#endif
 	GNOMEUIINFO_ITEM_NONE (N_("New _Shared"),
 		N_("Create a new shared view of the workbook"),
 		cb_view_new_shared),
@@ -2672,7 +2678,9 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
 
 	BONOBO_UI_UNSAFE_VERB ("ViewZoom", cb_view_zoom),
+#if 0
 	BONOBO_UI_UNSAFE_VERB ("ViewFreezePanes", cb_view_freeze_panes),
+#endif
 	BONOBO_UI_UNSAFE_VERB ("ViewNewShared", cb_view_new_shared),
 	BONOBO_UI_UNSAFE_VERB ("ViewNewUnshared", cb_view_new_unshared),
 
