@@ -1,3 +1,8 @@
+2003-08-12  Jody Goldberg <jody@gnome.org>
+
+	* widget-pixmap-combo.h : clarify the api marginally by
+	  differentiating between an index and an id.
+
 2003-08-11  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=118888

@@ -99,7 +99,7 @@ emit_change (GtkWidget *button, PixmapCombo *pc)
 	g_return_if_fail (pc->last_index < pc->num_elements);
 
 	g_signal_emit (pc, pixmap_combo_signals [CHANGED], 0,
-		       pc->elements[pc->last_index].index);
+		       pc->elements[pc->last_index].id);
 }
 
 static void

@@ -38,7 +38,7 @@ G_BEGIN_DECLS
 typedef struct {
 	char const *untranslated_tooltip;
 	guint8 const *inline_gdkpixbuf;
-	int  index;
+	int  id;
 } PixmapComboElement;
 
 typedef struct {

@@ -317,37 +317,37 @@ fill_pattern_init (StylePrefState *state, GogStyle const *style)
 /************************************************************************/
 
 static void
-cb_gradient_type_changed (GtkWidget *cc, int index, StylePrefState const *state)
+cb_gradient_type_changed (GtkWidget *cc, int dir, StylePrefState const *state)
 {
 	GogStyle *style = gog_object_dup_style (state->obj);
 	g_return_if_fail (style != NULL);
-	style->fill.u.gradient.dir =  (index / 10 - 1)  * 4 + index % 10 - 1;
+	style->fill.u.gradient.dir = dir; /* pre mapped */
 	gog_object_set_style (state->obj, style);
 }
+
+/*PixmapComboElement data for the graident combo, inline_gdkpixbuf initially set to NULL*/
+static PixmapComboElement gog_gradient_elts[] = {
+	{ NULL, NULL, GOG_GRADIENT_N_TO_S },
+	{ NULL, NULL, GOG_GRADIENT_S_TO_N },
+	{ NULL, NULL, GOG_GRADIENT_N_TO_S_MIRRORED },
+	{ NULL, NULL, GOG_GRADIENT_S_TO_N_MIRRORED },
+	{ NULL, NULL, GOG_GRADIENT_W_TO_E },
+	{ NULL, NULL, GOG_GRADIENT_E_TO_W },
+	{ NULL, NULL, GOG_GRADIENT_W_TO_E_MIRRORED },
+	{ NULL, NULL, GOG_GRADIENT_E_TO_W_MIRRORED },
+	{ NULL, NULL, GOG_GRADIENT_NW_TO_SE },
+	{ NULL, NULL, GOG_GRADIENT_SE_TO_NW },
+	{ NULL, NULL, GOG_GRADIENT_NW_TO_SE_MIRRORED },
+	{ NULL, NULL, GOG_GRADIENT_SE_TO_NW_MIRRORED },
+	{ NULL, NULL, GOG_GRADIENT_NE_TO_SW },
+	{ NULL, NULL, GOG_GRADIENT_SW_TO_NE },
+	{ NULL, NULL, GOG_GRADIENT_SW_TO_NE_MIRRORED },
+	{ NULL, NULL, GOG_GRADIENT_NE_TO_SW_MIRRORED }	
+};
 
 static void
 populate_gradient_combo (StylePrefState *state, GogStyle const *style)
 {
-	/*PixmapComboElement data for the graident combo, inline_gdkpixbuf initially set to NULL*/
-	static PixmapComboElement gog_gradient_elts[] = {
-		{NULL, NULL, 11},
-		{NULL, NULL, 12},
-		{NULL, NULL, 13},
-		{NULL, NULL, 14},
-		{NULL, NULL, 21},
-		{NULL, NULL, 22},
-		{NULL, NULL, 23},
-		{NULL, NULL, 24},
-		{NULL, NULL, 31},
-		{NULL, NULL, 32},
-		{NULL, NULL, 33},
-		{NULL, NULL, 34},
-		{NULL, NULL, 41},
-		{NULL, NULL, 42},
-		{NULL, NULL, 43},
-		{NULL, NULL, 44},
-	};
-
 	GtkWidget *w, *table;
 	guint i, length;
 	GdkPixbuf *pixbuf;
@@ -399,28 +399,22 @@ populate_gradient_combo (StylePrefState *state, GogStyle const *style)
 			gradient.spread = ART_GRADIENT_REPEAT;
 			gradient.n_stops = G_N_ELEMENTS (stops);
 			gradient.stops = stops;
-			go_color_to_artpix (stops[0].color,
-						style->fill.u.gradient.start);
-			go_color_to_artpix (stops[1].color,
-						style->fill.u.gradient.end);
+			go_color_to_artpix (stops[0].color, style->fill.u.gradient.start);
+			go_color_to_artpix (stops[1].color, style->fill.u.gradient.end);
 			break;
 		case 1:
 			gradient.spread = ART_GRADIENT_REPEAT;
 			gradient.n_stops = G_N_ELEMENTS (stops);
 			gradient.stops = stops;
-			go_color_to_artpix (stops[0].color,
-						style->fill.u.gradient.end);
-			go_color_to_artpix (stops[1].color,
-						style->fill.u.gradient.start);
+			go_color_to_artpix (stops[0].color, style->fill.u.gradient.end);
+			go_color_to_artpix (stops[1].color, style->fill.u.gradient.start);
 			break;
 		case 2:
 			gradient.spread = ART_GRADIENT_REFLECT;
 			gradient.n_stops = G_N_ELEMENTS (stops);
 			gradient.stops = stops;
-			go_color_to_artpix (stops[0].color,
-						style->fill.u.gradient.start);
-			go_color_to_artpix (stops[1].color,
-						style->fill.u.gradient.end);
+			go_color_to_artpix (stops[0].color, style->fill.u.gradient.start);
+			go_color_to_artpix (stops[1].color, style->fill.u.gradient.end);
 			gradient.a *= 39. / 19.;
 			gradient.b *= 39. / 19.;
 			gradient.c *= 39. / 19.;
@@ -429,10 +423,8 @@ populate_gradient_combo (StylePrefState *state, GogStyle const *style)
 			gradient.spread = ART_GRADIENT_REFLECT;
 			gradient.n_stops = G_N_ELEMENTS (stops);
 			gradient.stops = stops;
-			go_color_to_artpix (stops[0].color,
-					    style->fill.u.gradient.end);
-			go_color_to_artpix (stops[1].color,
-					    style->fill.u.gradient.start);
+			go_color_to_artpix (stops[0].color, style->fill.u.gradient.end);
+			go_color_to_artpix (stops[1].color, style->fill.u.gradient.start);
 			gradient.a *= 2.;
 			gradient.b *= 2.;
 			gradient.c *= 2.;
@@ -624,7 +616,7 @@ cb_fill_type_changed (GtkWidget *menu, StylePrefState *state)
 		style->fill.u.gradient.end =
 			color_combo_get_gocolor (state->fill.gradient.end);
 		style->fill.u.gradient.dir =
-			((PixmapCombo*)state->fill.pattern.combo)->last_index;
+			((PixmapCombo*)state->fill.gradient.combo)->last_index;
 		break;
 
 	case GOG_FILL_STYLE_IMAGE:
