@@ -410,8 +410,8 @@ scenarios_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
 	scenario_manager_ok (state->base.sheet);
 
-	gtk_widget_destroy (state->base.dialog);
 	scenario_manager_free (state);
+	gtk_widget_destroy (state->base.dialog);
 
 	return;
 }

@@ -37,7 +37,7 @@ John Gill:
 
 Jukka:
 	* Fixed solver's model maximization button.
-	* Fixed crash with Cancel in Scenarios->View.
+	* Fixed crash with Cancel/OK buttons in Scenarios->View.
 	* Usability fix for solver's constraint change button.
 	* Bug fix: don't create a scenario if solver didn't find a solution.
 	* Layout improvements for Risk Simulation dialog.
