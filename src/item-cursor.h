@@ -59,6 +59,8 @@ typedef struct {
 void item_cursor_set_bounds     (ItemCursor *item_cursor,
 				 int start_col, int start_row,
 				 int end_col, int end_row);
+void item_cursor_set_spin_base  (ItemCursor *item_cursor,
+				 int col, int row);
 
 void item_cursor_set_visibility (ItemCursor *item_cursor,
 				 int visible);

@@ -1149,6 +1149,11 @@ sheet_accept_pending_input (Sheet *sheet)
 
 	sheet_set_current_value (sheet);
 
+	/*
+	 * If user was editing on the input line, get the focus back
+	 */
+	workbook_focus_current_sheet (sheet->workbook);
+	
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 
@@ -1181,6 +1186,7 @@ sheet_cancel_pending_input (Sheet *sheet)
 
 		gnumeric_sheet_destroy_editing_cursor (gsheet);
 	}
+	workbook_recalc (sheet->workbook);
 }
 
 void

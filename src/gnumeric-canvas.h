@@ -87,6 +87,8 @@ void       gnumeric_sheet_start_cell_selection   (GnumericSheet *gsheet,
 void       gnumeric_sheet_stop_cell_selection    (GnumericSheet *gsheet);
 void       gnumeric_sheet_selection_cursor_place (GnumericSheet *gsheet,
 						  int col, int row);
+void       gnumeric_sheet_selection_cursor_base  (GnumericSheet *gsheet,
+						  int col, int row);
 void       gnumeric_sheet_selection_extend       (GnumericSheet *gsheet,
 						  int col, int row);
 void       gnumeric_sheet_stop_editing           (GnumericSheet *sheet);

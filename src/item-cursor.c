@@ -649,6 +649,15 @@ item_cursor_set_visibility (ItemCursor *item_cursor, int visible)
 	item_cursor_request_redraw (item_cursor);
 }
 
+void
+item_cursor_set_spin_base (ItemCursor *item_cursor, int col, int row)
+{
+	g_return_if_fail (IS_ITEM_CURSOR (item_cursor));
+
+	item_cursor->base_col = col;
+	item_cursor->base_row = row;
+}
+
 static gint
 item_cursor_drag_event (GnomeCanvasItem *item, GdkEvent *event)
 {
@@ -894,3 +903,4 @@ item_cursor_get_type (void)
 
 	return item_cursor_type;
 }
+

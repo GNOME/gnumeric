@@ -730,13 +730,15 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 
 	/*
 	 * If we were already selecting a range of cells for a formula,
-	 * just reset the location to a new place.
+	 * reset the location to a new place.
 	 */
 	if (gsheet->selecting_cell){
+		item_grid->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnumeric_sheet_selection_cursor_place (gsheet, col, row);
+		gnumeric_sheet_selection_cursor_base (gsheet, col, row);
 		return 1;
 	}
-
+	
 	/*
 	 * If the user is editing a formula (gnumeric_sheet_can_move_cursor)
 	 * then we enable the dynamic cell selection mode.
@@ -946,7 +948,6 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 			item_grid->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);
-
 			return 1;
 		}
 		break;

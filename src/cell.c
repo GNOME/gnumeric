@@ -122,7 +122,7 @@ cell_set_formula (Cell *cell, const char *text)
 	} else {
 		cell->parsed_node = new_expr;
 		/* Until the value is recomputed, we put in this value.  */
-		cell->value = value_new_error (NULL, _("Circular reference"));
+		cell->value = value_new_error (NULL, _("Pending recomputation"));
 		cell_formula_changed (cell);
 	}
 }

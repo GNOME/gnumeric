@@ -31,9 +31,6 @@ colbar_map_point (ColbarDrawCtx *ctx, double point)
 	return (fabs (ctx->graph->low) + point) / ctx->scale;
 }
 
-
-FIXME
-
 static void
 graph_view_colbar_draw_nth_clustered (ColbarDrawCtx *ctx, int item)
 {

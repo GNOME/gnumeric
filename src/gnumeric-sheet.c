@@ -293,6 +293,7 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 		"Sheet", gsheet->sheet_view->sheet,
 		"Grid",  gsheet->item_grid,
 		"Style", ITEM_CURSOR_ANTED, NULL));
+	item_cursor_set_spin_base (gsheet->selection, col, row);
 	gsheet->selection->base_col = col;
 	gsheet->selection->base_row = row;
 	item_cursor_set_bounds (ITEM_CURSOR (gsheet->selection), col, row, col, row);
@@ -474,6 +475,21 @@ gnumeric_sheet_selection_cursor_place (GnumericSheet *gsheet, int col, int row)
 	selection_remove_selection_string (gsheet);
 	item_cursor_set_bounds (ic, col, row, col, row);
 	selection_insert_selection_string (gsheet);
+}
+
+void
+gnumeric_sheet_selection_cursor_base (GnumericSheet *gsheet, int col, int row)
+{
+	ItemCursor *ic;
+
+	g_return_if_fail (gsheet != NULL);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+	g_return_if_fail (gsheet->selecting_cell);
+	g_return_if_fail (col < SHEET_MAX_COLS);
+	g_return_if_fail (row < SHEET_MAX_ROWS);
+
+	ic = gsheet->selection;
+	item_cursor_set_spin_base (ic, col, row);
 }
 
 static void
