@@ -707,7 +707,7 @@ sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 			return;
 		if (is_insert) {
 			br.col += count;
-			if (tl.col >= start)	/* UI can not do this */
+			if (tl.col > start)
 				tl.col += count;
 		} else {
 			br.col -= count;
@@ -720,7 +720,7 @@ sv_panes_insdel_colrow (SheetView *sv, gboolean is_cols,
 			return;
 		if (is_insert) {
 			br.row += count;
-			if (tl.row >= start)	/* UI can not do this */
+			if (tl.row > start)
 				tl.row += count;
 		} else {
 			br.row -= count;

@@ -1,3 +1,9 @@
+2003-10-25  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=125421
+	* src/sheet-view.c (sv_panes_insdel_colrow) : don't move the top when
+	  the insert happens before it
+
 2003-10-25  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* debian/changelog, debian/control, debian/rules: Updated.
