@@ -762,9 +762,9 @@ col_parse (char const *str, int *res, unsigned char *relative)
 
 	for (; TRUE ; ptr++)
 		if (('a' <= *ptr && *ptr <= 'z'))
-			col = col * 26 + (*ptr - 'a');
+			col = 26 * (col + 1) + (*ptr - 'a');
 		else if (('A' <= *ptr && *ptr <= 'Z'))
-			col = 26*(col + 1)  + (*ptr - 'A');
+			col = 26 * (col + 1) + (*ptr - 'A');
 		else if (ptr != str && col < SHEET_MAX_COLS) {
 			*res = col;
 			return ptr;
