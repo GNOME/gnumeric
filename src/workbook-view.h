@@ -3,6 +3,11 @@
 
 #include "sheet.h"
 
+/* The command context for use by a GUI.
+ * This will need refinement.
+ */
+CmdContext * command_context_gui (void);
+
 /* Actions on the workbooks UI */
 
 /* enable/disable paste/paste_special

@@ -21,7 +21,8 @@ static void sheet_selection_change (Sheet *sheet,
 
 /*
  * Quick utility routine to test intersect of line segments.
- * Returns : 4 --sA--sb--eb--eA--	a contains b
+ * Returns : 5 sA == sb eA == eb	a == b
+ *           4 --sA--sb--eb--eA--	a contains b
  *           3 --sA--sb--eA--eb--	overlap left
  *           2 --sb--sA--eA--eb--	b contains a
  *           1 --sb--sA--eb--eA--	overlap right
@@ -36,7 +37,7 @@ segments_intersect (int const s_a, int const e_a,
 		return 0;
 
 	if (s_a == s_b)
-		return (e_a >= e_b) ? 4 : 2;
+		return (e_a >= e_b) ? ((e_a == e_b) ? 5 : 4) : 2;
 	if (e_a == e_b)
 		return (s_a <= s_b) ? 4 : 2;
 
@@ -129,16 +130,16 @@ selection_first_range (Sheet const *sheet, gboolean const permit_complex)
 
 /*
  * selection_is_simple
- * @sheet : The sheet whose selection we are testing.
+ * @context      : The calling context to report errors to (GUI or corba)
+ * @sheet        : The sheet whose selection we are testing.
  * @command_name : A string naming the operation requiring a single range.
  *
  * This function tests to see if multiple ranges are selected.  If so it
- * produces a dialog box warning.
- *
- * TODO : Merge this with the proposed exception mechanism.
+ * produces a warning.
  */
 gboolean
-selection_is_simple (Sheet const *sheet, char const *command_name)
+selection_is_simple (CmdContext *context, Sheet const *sheet,
+		     char const *command_name)
 {
 	char *msg;
 
@@ -589,14 +590,16 @@ sheet_selection_unant (Sheet *sheet)
 }
 
 gboolean
-sheet_selection_copy (Sheet *sheet)
+sheet_selection_copy (CmdContext *context, Sheet *sheet)
 {
 	SheetSelection *ss;
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
 
-	if (!selection_is_simple (sheet, _("copy")))
+	/* FIXME FIXME : disable copying part of an array */
+
+	if (!selection_is_simple (context, sheet, _("copy")))
 		return FALSE;
 
 	ss = sheet->selections->data;
@@ -607,10 +610,11 @@ sheet_selection_copy (Sheet *sheet)
 }
 
 gboolean
-sheet_selection_cut (Sheet *sheet)
+sheet_selection_cut (CmdContext *context, Sheet *sheet)
 {
 	SheetSelection *ss;
 
+	/* FIXME FIXME : disable cuting part of an array */
 	/*
 	 * 'cut' is a poor description of what we're
 	 * doing here.  'move' would be a better
@@ -627,7 +631,7 @@ sheet_selection_cut (Sheet *sheet)
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
 
-	if (!selection_is_simple (sheet, _("cut")))
+	if (!selection_is_simple (context, sheet, _("cut")))
 		return FALSE;
 
 	ss = sheet->selections->data;
@@ -658,7 +662,8 @@ sheet_selection_move (struct expr_relocate_info *rinfo)
 }
 
 void
-sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
+sheet_selection_paste (CmdContext *context, Sheet *sheet,
+		       int dest_col, int dest_row,
 		       int paste_flags, guint32 time)
 {
 	CellRegion  *content;
@@ -667,7 +672,7 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if (!selection_is_simple (sheet, _("paste")))
+	if (!selection_is_simple (context, sheet, _("paste")))
 		return;
 
 	area = application_clipboard_area_get ();
@@ -682,9 +687,9 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 		g_return_if_fail (sel != NULL);
 		g_return_if_fail (area != NULL);
 
-		/* TODO FIXME : This should not be a dialog.
-		 * It should be an exception or a dialog depending
-		 * on the caller.
+		/* FIXME FIXME : This should not be a dialog.
+		 *
+		 * Use the context
 		 */
 		if (!range_is_singleton (sel) &&
 		    ((sel->end.col - sel->start.col) != (area->end.col - area->start.col) ||
@@ -708,15 +713,24 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 		rinfo.origin_sheet = src_sheet;
 		rinfo.target_sheet = sheet;
 
-		sheet_move_range      (&rinfo);
+		sheet_move_range      (NULL, &rinfo);
 		sheet_selection_move  (&rinfo);
 		application_clipboard_clear ();
 	} else
-		clipboard_paste_region (content, sheet, dest_col, dest_row,
+		clipboard_paste_region (context, content,
+					sheet, dest_col, dest_row,
 					paste_flags, time);
 }
 
-/* TODO TODO TODO : Remove these and just call the functions directly */
+static void
+cb_sheet_selection_clear (Sheet *sheet, 
+			  int start_col, int start_row,
+			  int end_col,   int end_row,
+			  void *context)
+{
+	sheet_clear_region (context, sheet, start_col, start_row,
+			    end_col,  end_row, TRUE);
+}
 
 /**
  * sheet_selection_clear:
@@ -725,9 +739,20 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
  * Removes the contents and styles.
  **/
 void
-sheet_selection_clear (Sheet *sheet)
+sheet_selection_clear (CmdContext *context, Sheet *sheet)
 {
-	selection_apply (sheet, &sheet_clear_region, TRUE, NULL);
+	selection_apply (sheet, &cb_sheet_selection_clear, TRUE, NULL);
+}
+
+static void
+cb_sheet_selection_clear_content (Sheet *sheet, 
+				  int start_col, int start_row,
+				  int end_col,   int end_row,
+				  void *context)
+{
+	sheet_clear_region_content (context, sheet, 
+				    start_col, start_row,
+				    end_col,   end_row);
 }
 
 /**
@@ -737,9 +762,10 @@ sheet_selection_clear (Sheet *sheet)
  * Removes the contents of all the cells in the current selection.
  **/
 void
-sheet_selection_clear_content (Sheet *sheet)
+sheet_selection_clear_content (CmdContext *context, Sheet *sheet)
 {
-	selection_apply (sheet, &sheet_clear_region_content, TRUE, NULL);
+	selection_apply (sheet, &cb_sheet_selection_clear_content,
+			 TRUE, context);
 	sheet_load_cell_val(sheet);
 }
 
@@ -750,7 +776,7 @@ sheet_selection_clear_content (Sheet *sheet)
  * Removes all of the comments on the range of selected cells.
  **/
 void
-sheet_selection_clear_comments (Sheet *sheet)
+sheet_selection_clear_comments (CmdContext *context, Sheet *sheet)
 {
 	selection_apply (sheet, &sheet_clear_region_comments, TRUE, NULL);
 }
@@ -762,7 +788,7 @@ sheet_selection_clear_comments (Sheet *sheet)
  * Removes all formating
  **/
 void
-sheet_selection_clear_formats (Sheet *sheet)
+sheet_selection_clear_formats (CmdContext *context, Sheet *sheet)
 {
 	selection_apply (sheet, &sheet_clear_region_formats, TRUE, NULL);
 }
@@ -875,6 +901,17 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 			if (row_intersect == 0) {
 				clear = g_slist_prepend (clear, a);
 				continue;
+			}
+
+			/* Simplify our lives by allowing equality to work in our favour */
+			if (col_intersect == 5) {
+				if (row_intersect == 5)
+					row_intersect = 4;
+				if (row_intersect == 4 || row_intersect == 2)
+					col_intersect = row_intersect;
+			} else if (row_intersect == 5) {
+				if (col_intersect == 4 || col_intersect == 2)
+					row_intersect = col_intersect;
 			}
 
 			/* Cross product of intersection cases */
@@ -1052,6 +1089,10 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 		/* pop the 1st element off the list */
 		Range *r = proposed->data;
 		proposed = g_slist_remove (proposed, r);
+
+#ifdef DEBUG_SELECTION
+		range_dump (r);
+#endif
 
 		(*func) (sheet,
 			 r->start.col, r->start.row,

@@ -23,16 +23,16 @@ void        sheet_cell_list_free         (CellList *cell_list);
 char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
 
 /* Operations on the selection */
-void        sheet_selection_clear             (Sheet *sheet);
-void        sheet_selection_clear_content     (Sheet *sheet);
-void        sheet_selection_clear_comments    (Sheet *sheet);
-void        sheet_selection_clear_formats     (Sheet *sheet);
+void        sheet_selection_clear             (CmdContext *context, Sheet *sheet);
+void        sheet_selection_clear_content     (CmdContext *context, Sheet *sheet);
+void        sheet_selection_clear_comments    (CmdContext *context, Sheet *sheet);
+void        sheet_selection_clear_formats     (CmdContext *context, Sheet *sheet);
 void        sheet_selection_height_update     (Sheet *sheet);
 
 /* Cut/Copy/Paste on the workbook selection */
-gboolean    sheet_selection_copy              (Sheet *sheet);
-gboolean    sheet_selection_cut               (Sheet *sheet);
-void        sheet_selection_paste             (Sheet *sheet,
+gboolean    sheet_selection_copy              (CmdContext *context, Sheet *sheet);
+gboolean    sheet_selection_cut               (CmdContext *context, Sheet *sheet);
+void        sheet_selection_paste             (CmdContext *context, Sheet *sheet,
 					       int dest_col,    int dest_row,
 					       int paste_flags, guint32 time32);
 int         sheet_selection_walk_step         (Sheet *sheet,
@@ -65,7 +65,7 @@ char       *selection_to_string    (Sheet *sheet,
 				    gboolean include_sheet_name_prefix);
 
 /* Information about the selection */
-gboolean      selection_is_simple   (Sheet const *sheet,
+gboolean      selection_is_simple   (CmdContext *context, Sheet const *sheet,
 				     char const *command_name);
 Range const * selection_first_range (Sheet const *sheet, gboolean const permit_complex);
 gboolean    selection_foreach_range (Sheet *sheet,

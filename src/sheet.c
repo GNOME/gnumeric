@@ -2455,14 +2455,15 @@ assemble_clear_cell_list (Sheet *sheet, int col, int row, Cell *cell,
  *
  * Clears are region of cells
  *
- * @keepStyles : If this is non-null then styles are not erased.
+ * @clearStyles : If this is TRUE then styles are erased.
  *
  * We assemble a list of cells to destroy, since we will be making changes
  * to the structure being manipulated by the sheet_cell_foreach_range routine
  */
 void
-sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
-		    void *keepStyles)
+sheet_clear_region (CmdContext *context, Sheet *sheet,
+		    int start_col, int start_row, int end_col, int end_row,
+		    gboolean const clearStyles)
 {
 	struct sheet_clear_region_callback_data cb;
 	GList *l;
@@ -2482,7 +2483,7 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	cb.l = NULL;
 
 	/* Clear the style in the region (new_default will ref the style for us). */
-	if (!keepStyles)
+	if (clearStyles)
 		sheet_style_attach (sheet, cb.r, mstyle_new_default ());
 
 	if (sheet_cell_foreach_range (sheet, TRUE,
@@ -2504,14 +2505,6 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 	g_list_free (cb.l);
 }
 
-static Value *
-clear_cell_content (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
-{
-	cell_set_text (cell, "");
-
-	return NULL;
-}
-
 /**
  * sheet_clear_region_content:
  * @sheet:     The sheet on which we operate
@@ -2523,24 +2516,13 @@ clear_cell_content (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
  * Clears the contents in a region of cells
  */
 void
-sheet_clear_region_content (Sheet *sheet, int start_col, int start_row, int end_col, int end_row,
-			    void *closure)
+sheet_clear_region_content (CmdContext *context, Sheet *sheet,
+			    int start_col, int start_row,
+			    int end_col, int end_row)
 {
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (start_col <= end_col);
-	g_return_if_fail (start_row <= end_row);
-
-	/* Queue a redraw for the region being redrawn */
-	sheet_redraw_cell_region (sheet, start_col, start_row, end_col, end_row);
-
-	sheet_cell_foreach_range (
-		sheet, TRUE,
-		start_col, start_row,
-		end_col, end_row,
-		clear_cell_content, NULL);
-
-	workbook_recalc (sheet->workbook);
+	sheet_clear_region (context, sheet,
+			    start_col, start_row,
+			    end_col, end_row, FALSE);
 }
 
 static Value *
@@ -3125,11 +3107,6 @@ sheet_set_selection (Sheet *sheet, SheetSelection const *ss)
 /****************************************************************************/
 
 /*
- * FIXME FIXME FIXME : 1999/Sept/29 when the style changes are done we need
- *  to figure out how row/col/cell movement will apply to that.
- */
-
-/*
  * Callback for sheet_cell_foreach_range to remove a cell and
  * put it in a temporary list.
  */
@@ -3238,7 +3215,8 @@ colrow_move (Sheet *sheet,
  * @count   The number of columns to be inserted
  */
 void
-sheet_insert_col (Sheet *sheet, int col, int count)
+sheet_insert_cols (CmdContext *context, Sheet *sheet,
+		   int col, int count)
 {
 	struct expr_relocate_info reloc_info;
 	GList *deps;
@@ -3300,13 +3278,14 @@ sheet_insert_col (Sheet *sheet, int col, int count)
 }
 
 /*
- * sheet_delete_col
+ * sheet_delete_cols
  * @sheet   The sheet
  * @col     At which position we want to start deleting columns
  * @count   The number of columns to be deleted
  */
 void
-sheet_delete_col (Sheet *sheet, int col, int count)
+sheet_delete_cols (CmdContext *context, Sheet *sheet,
+		   int col, int count)
 {
 	struct expr_relocate_info reloc_info;
 	GList *deps;
@@ -3369,13 +3348,14 @@ sheet_delete_col (Sheet *sheet, int col, int count)
 }
 
 /**
- * sheet_insert_row:
+ * sheet_insert_rows:
  * @sheet   The sheet
  * @row     At which position we want to insert
  * @count   The number of rows to be inserted
  */
 void
-sheet_insert_row (Sheet *sheet, int row, int count)
+sheet_insert_rows (CmdContext *context, Sheet *sheet,
+		   int row, int count)
 {
 	struct expr_relocate_info reloc_info;
 	GList *deps;
@@ -3438,13 +3418,14 @@ sheet_insert_row (Sheet *sheet, int row, int count)
 }
 
 /*
- * sheet_delete_row
+ * sheet_delete_rows
  * @sheet   The sheet
  * @row     At which position we want to start deleting rows
  * @count   The number of rows to be deleted
  */
 void
-sheet_delete_row (Sheet *sheet, int row, int count)
+sheet_delete_rows (CmdContext *context, Sheet *sheet,
+		   int row, int count)
 {
 	struct expr_relocate_info reloc_info;
 	GList *deps;
@@ -3511,12 +3492,12 @@ sheet_delete_row (Sheet *sheet, int row, int count)
  * do that ?
  */
 void
-sheet_move_range (struct expr_relocate_info const * rinfo)
+sheet_move_range (CmdContext *context,
+		  struct expr_relocate_info const * rinfo)
 {
 	GList *deps, *cells = NULL;
 	Cell  *cell;
 	gboolean inter_sheet_formula;
-	int	dummy;
 
 	g_return_if_fail (rinfo->origin_sheet != NULL);
 	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
@@ -3543,14 +3524,13 @@ sheet_move_range (struct expr_relocate_info const * rinfo)
 	cells = g_list_reverse (cells);
 
 	/* 4. Clear the target area */
-	/* Pass a pointer, any pointer, rather than NULL. That flags
-	 * not to clear styles */
-	sheet_clear_region (rinfo->target_sheet, 
+	sheet_clear_region (context,
+			    rinfo->target_sheet, 
 			    rinfo->origin.start.col + rinfo->col_offset,
 			    rinfo->origin.start.row + rinfo->row_offset,
 			    rinfo->origin.end.col + rinfo->col_offset,
 			    rinfo->origin.end.row + rinfo->row_offset,
-			    &dummy);
+			    FALSE); /* Do not to clear styles */
 
 	/* Insert the cells back */
 	for (; cells != NULL ; cells = g_list_remove (cells, cell)) {
@@ -3614,7 +3594,8 @@ sheet_move_range (struct expr_relocate_info const * rinfo)
  */
 
 void
-sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
+sheet_shift_rows (CmdContext *context, Sheet *sheet,
+		  int col, int start_row, int end_row, int count)
 {
 	struct expr_relocate_info rinfo;
 	rinfo.origin.start.col = col;
@@ -3625,7 +3606,7 @@ sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
 	rinfo.col_offset = count;
 	rinfo.row_offset = 0;
 
-	sheet_move_range (&rinfo);
+	sheet_move_range (context, &rinfo);
 }
 
 /**
@@ -3642,7 +3623,8 @@ sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
  * and copies them @count units (possibly negative) downwards.
  */
 void
-sheet_shift_cols (Sheet *sheet, int start_col, int end_col, int row, int count)
+sheet_shift_cols (CmdContext *context, Sheet *sheet,
+		  int start_col, int end_col, int row, int count)
 {
 	struct expr_relocate_info rinfo;
 	rinfo.origin.start.col = start_col;
@@ -3653,5 +3635,5 @@ sheet_shift_cols (Sheet *sheet, int start_col, int end_col, int row, int count)
 	rinfo.col_offset = 0;
 	rinfo.row_offset = count;
 
-	sheet_move_range (&rinfo);
+	sheet_move_range (context, &rinfo);
 }

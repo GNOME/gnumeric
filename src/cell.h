@@ -2,13 +2,7 @@
 #define GNUMERIC_CELL_H
 
 #include <glib.h>
-
-/* Forward references for structures.  */
-typedef struct _Cell Cell;
-typedef struct _CellRegion CellRegion;
-typedef GList CellList;
-typedef struct _ColRowInfo ColRowInfo;
-
+#include "gnumeric.h"
 #include "style.h"
 #include "sheet.h"
 #include "sheet-view.h"
@@ -33,12 +27,12 @@ struct _ColRowInfo {
 	void *spans;	/* Only used for rows */
 };
 
-typedef struct
+struct _ColRowCollection
 {
 	int         max_used;
 	ColRowInfo  default_style;
 	GPtrArray * info;
-} ColRowCollection;
+};
 
 #define COL_INTERNAL_WIDTH(col) ((col)->pixels - ((col)->margin_b + (col)->margin_a))
 #define ROW_INTERNAL_HEIGHT(row) ((row)->pixels - ((row)->margin_b + (row)->margin_a))
@@ -138,10 +132,13 @@ void        cell_set_array_formula       (Sheet *sheet, int rowa, int cola,
 void        cell_set_format              (Cell *cell, const char *format);
 void        cell_set_format_simple       (Cell *cell, const char *format);
 void        cell_set_format_from_style   (Cell *cell, StyleFormat *style_format);
+
 void        cell_set_comment             (Cell *cell, const char *str);
 void        cell_comment_destroy         (Cell *cell);
 void        cell_comment_reposition      (Cell *cell);
 char       *cell_get_comment             (Cell *cell);
+
+void	    cell_cleanout		 (Cell *cell);
 
 void        cell_set_rendered_text       (Cell *cell, const char *rendered_text);
 MStyle     *cell_get_mstyle              (const Cell *cell);

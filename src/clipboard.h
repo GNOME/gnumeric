@@ -24,7 +24,7 @@ CellRegion *clipboard_copy_cell_range    (Sheet *sheet,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
 
-void        clipboard_paste_region       (CellRegion *region,
+void        clipboard_paste_region       (CmdContext *context, CellRegion *region,
 					  Sheet      *dest_sheet,
 					  int         dest_col,
 					  int         dest_row,

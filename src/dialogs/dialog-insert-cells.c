@@ -12,6 +12,7 @@
 #include "gnumeric-util.h"
 #include "selection.h"
 #include "dialogs.h"
+#include "workbook-view.h"
 
 #define GLADE_FILE "insert-cells.glade"
 
@@ -47,17 +48,21 @@ dialog_insert_cells_impl (Workbook *wb, Sheet *sheet, GladeXML  *gui)
 		rows = ss->user.end.row - ss->user.start.row + 1;
 
 		if (i == 0)
-			sheet_shift_rows (sheet, ss->user.start.col, 
+			sheet_shift_rows (command_context_gui(), sheet,
+					  ss->user.start.col, 
 					  ss->user.start.row, 
 					  ss->user.end.row, cols);
 		else if (i == 1)
-			sheet_shift_cols (sheet, ss->user.start.col,
+			sheet_shift_cols (command_context_gui(), sheet,
+					  ss->user.start.col,
 					  ss->user.end.col, 
 					  ss->user.start.row, rows);
 		else if (i == 2)
-			sheet_insert_row (sheet, ss->user.start.row, rows);
+			sheet_insert_rows (command_context_gui(), sheet,
+					   ss->user.start.row, rows);
 		else if (i == 3)
-			sheet_insert_col (sheet, ss->user.start.col, cols);
+			sheet_insert_cols (command_context_gui(), sheet,
+					   ss->user.start.col, cols);
 	}
 
 	/* If user closed the dialog with prejudice, it's already destroyed */
@@ -76,7 +81,7 @@ dialog_insert_cells (Workbook *wb, Sheet *sheet)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	if (!selection_is_simple (sheet, _("insert cells")))
+	if (!selection_is_simple (command_context_gui(), sheet, _("insert cells")))
 		return;
 
 	ss = sheet->selections->data;
@@ -84,14 +89,14 @@ dialog_insert_cells (Workbook *wb, Sheet *sheet)
 	rows = ss->user.end.row - ss->user.start.row + 1;
 
 	/* short circuit the dialog if an entire row/column is selected */
-	if (ss->user.start.row == 0 && ss->user.end.row  >= SHEET_MAX_ROWS-1)
-	{
-		sheet_insert_col (sheet, ss->user.start.col, cols);
+	if (ss->user.start.row == 0 && ss->user.end.row  >= SHEET_MAX_ROWS-1) {
+		sheet_insert_cols (command_context_gui(), sheet,
+				   ss->user.start.col, cols);
 		return;
 	}
-	if (ss->user.start.col == 0 && ss->user.end.col  >= SHEET_MAX_COLS-1)
-	{
-		sheet_insert_row (sheet, ss->user.start.row, rows);
+	if (ss->user.start.col == 0 && ss->user.end.col  >= SHEET_MAX_COLS-1) {
+		sheet_insert_rows (command_context_gui(), sheet,
+				   ss->user.start.row, rows);
 		return;
 	}
 

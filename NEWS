@@ -15,6 +15,10 @@ JP:
 Frank:
 	* Worked on Excel summary export
 
+Jody:
+	* Begin exception handling for corba vs gui.
+	* Bug fixing.
+
 Cort:
 	* Expanded CORBA API.
 

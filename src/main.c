@@ -30,6 +30,7 @@
 /* The debugging level */
 int gnumeric_debugging = 0;
 int style_debugging = 0;
+int immediate_exit_flag = 0;
 extern int ms_excel_read_debug;
 extern int ms_excel_formula_debug;
 extern int ms_excel_color_debug;
@@ -50,6 +51,8 @@ const struct poptOption gnumeric_popt_options [] = {
 	  N_("Enables some debugging functions"), N_("LEVEL") },
 	{ "debug_styles", '\0', POPT_ARG_INT, &style_debugging, 0,
 	  N_("Enables some style related debugging functions"), N_("LEVEL") },
+	{ "quit", '\0', POPT_ARG_NONE, &immediate_exit_flag, 0,
+	  N_("Exit immediately after loading the selected books (useful for testing)."), NULL },
 
 	{ "debug_excel_read", '\0', POPT_ARG_INT,
 	    &ms_excel_read_debug, 0,
@@ -74,7 +77,7 @@ const struct poptOption gnumeric_popt_options [] = {
 	{ "debug_ole", '\0', POPT_ARG_NONE,
 	    &libole2_debug, 0,
 	  N_("Enables extra consistancy checking while reading ole files"),
-	  N_("LEVEL") },
+	  NULL  },
 	{ NULL, '\0', 0, NULL, 0 }
 };
 
@@ -153,7 +156,8 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	bonobo_activate ();
 #endif
 	
-	gtk_main ();
+	if (!immediate_exit_flag)
+		gtk_main ();
 
 	excel_shutdown ();
 	cursors_shutdown ();

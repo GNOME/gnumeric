@@ -30,6 +30,7 @@
 #include "widgets/gnumeric-toolbar.h"
 #include "workbook-cmd-format.h"
 #include "workbook-format-toolbar.h"
+#include "workbook-view.h"
 
 #ifdef ENABLE_BONOBO
 #include <bonobo/gnome-persist-file.h>
@@ -636,7 +637,7 @@ copy_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_copy (sheet);
+	sheet_selection_copy (command_context_gui(), sheet);
 }
 
 static void
@@ -646,7 +647,7 @@ cut_cmd (GtkWidget *widget, Workbook *wb)
 
 	sheet = workbook_get_current_sheet (wb);
 	if (sheet->mode == SHEET_MODE_SHEET)
-		sheet_selection_cut (sheet);
+		sheet_selection_cut (command_context_gui(), sheet);
 	else {
 		if (sheet->current_object){
 			gtk_object_unref (GTK_OBJECT (sheet->current_object));
@@ -666,7 +667,8 @@ paste_cmd (GtkWidget *widget, Workbook *wb)
 	g_return_if_fail (!application_clipboard_is_empty ());
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row,
+	sheet_selection_paste (command_context_gui(), sheet,
+			       sheet->cursor_col, sheet->cursor_row,
 			       PASTE_DEFAULT, GDK_CURRENT_TIME);
 }
 
@@ -682,7 +684,8 @@ paste_special_cmd (GtkWidget *widget, Workbook *wb)
 	sheet = workbook_get_current_sheet (wb);
 	flags = dialog_paste_special (wb);
 	if (flags != 0)
-		sheet_selection_paste (sheet, sheet->cursor_col, sheet->cursor_row,
+		sheet_selection_paste (command_context_gui(), sheet,
+				       sheet->cursor_col, sheet->cursor_row,
 				       flags, GDK_CURRENT_TIME);
 
 }
@@ -746,17 +749,22 @@ insert_cols_cmd (GtkWidget *unused, Workbook *wb)
 	Sheet *sheet;
 	int cols;
 
-	/* FIXME : No need to check simplicty.  XL applies for each
+	/* TODO : No need to check simplicty.  XL applies for each
 	 * non-discrete selected region, (use selection_apply) */
 	sheet = workbook_get_current_sheet (wb);
-	if (!selection_is_simple (sheet, _("Insert cols")))
+	if (!selection_is_simple (command_context_gui(), sheet, _("Insert cols")))
 		return;
 
 	ss = sheet->selections->data;
 
-	/* FIXME FIXME : Have we have selected rows rather than columns */
+	/* TODO : Have we have selected rows rather than columns
+	 * This menu item should be disabled when a full row is selected
+	 *
+	 * at minimum a warning if things are about to be cleared ?
+	 */
 	cols = ss->user.end.col - ss->user.start.col + 1;
-	sheet_insert_col (sheet, ss->user.start.col, cols);
+	sheet_insert_cols (command_context_gui(), sheet,
+			   ss->user.start.col, cols);
 }
 
 static void
@@ -766,17 +774,22 @@ insert_rows_cmd (GtkWidget *unused, Workbook *wb)
 	Sheet *sheet;
 	int rows;
 
-	/* FIXME : No need to check simplicty.  XL applies for each
+	/* TODO : No need to check simplicty.  XL applies for each
 	 * non-discrete selected region, (use selection_apply) */
 	sheet = workbook_get_current_sheet (wb);
-	if (!selection_is_simple (sheet, _("Insert rows")))
+	if (!selection_is_simple (command_context_gui(), sheet, _("Insert rows")))
 		return;
 
 	ss = sheet->selections->data;
 
-	/* FIXME FIXME : Have we have selected columns rather than rows */
+	/* TODO : Have we have selected columns rather than rows
+	 * This menu item should be disabled when a full column is selected
+	 *
+	 * at minimum a warning if things are about to be cleared ?
+	 */
 	rows = ss->user.end.row - ss->user.start.row + 1;
-	sheet_insert_row (sheet, ss->user.start.row, rows);
+	sheet_insert_rows (command_context_gui(), sheet,
+			   ss->user.start.row, rows);
 }
 
 static void
@@ -785,7 +798,8 @@ clear_all_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_clear (sheet);
+
+	sheet_selection_clear (command_context_gui(), sheet);
 }
 
 static void
@@ -794,7 +808,7 @@ clear_formats_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_clear_formats (sheet);
+	sheet_selection_clear_formats (command_context_gui(), sheet);
 }
 
 static void
@@ -803,7 +817,7 @@ clear_comments_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_clear_comments (sheet);
+	sheet_selection_clear_comments (command_context_gui(), sheet);
 }
 
 static void
@@ -812,7 +826,7 @@ clear_content_cmd (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet;
 
 	sheet = workbook_get_current_sheet (wb);
-	sheet_selection_clear_content (sheet);
+	sheet_selection_clear_content (command_context_gui(), sheet);
 }
 
 static void
@@ -2168,6 +2182,9 @@ workbook_new (void)
 		gnome_ui_handler_menu_add_list (wb->uih, "/", list);
 		gnome_ui_handler_menu_free_list (list);
 
+		/* FIXME FIXME FIXME : Figure out the path stuff to enable disable
+		 * menu elements in the bonobo case.
+		 */
 		wb->menu_item_undo		=
 		wb->menu_item_redo		=
 		wb->menu_item_paste		=

@@ -1,12 +1,7 @@
 #ifndef GNUMERIC_EXPR_H
 #define GNUMERIC_EXPR_H
 
-/* Forward references for structures.  */
-typedef struct _ExprTree		ExprTree;
-typedef struct _ArrayRef		ArrayRef;
-typedef struct _ExprName		ExprName;
-typedef struct _FunctionEvalInfo	FunctionEvalInfo;
-
+#include "gnumeric.h"
 #include "value.h"
 #include "sheet.h"
 #include "symbol.h"

@@ -48,6 +48,13 @@ out_of_range (CORBA_Environment *ev)
 	CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Sheet_OutOfRange, NULL);
 }
 
+struct _CmdContext *
+command_context_corba ()
+{
+	/* FIXME FIXME FIXME : corba context */
+	return NULL;
+}
+
 /*
  * Parses a list of ranges, returns a GList containing pointers to
  * Value structures.  Sets the return_list pointer to point to a
@@ -177,7 +184,7 @@ Sheet_selection_copy (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
-	sheet_selection_copy (sheet);
+	sheet_selection_copy (command_context_corba (), sheet);
 }
 
 static void
@@ -185,7 +192,7 @@ Sheet_selection_cut (PortableServer_Servant servant, CORBA_Environment *ev)
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
-	sheet_selection_cut (sheet);
+	sheet_selection_cut (command_context_corba (), sheet);
 }
 
 static void
@@ -198,7 +205,8 @@ Sheet_selection_paste (PortableServer_Servant servant,
 	verify_col (dest_col);
 	verify_row (dest_row);
 	
-	sheet_selection_paste (sheet, dest_col, dest_row, paste_flags, 0);
+	sheet_selection_paste (command_context_corba (), sheet,
+			       dest_col, dest_row, paste_flags, 0);
 }
 
 static void
@@ -211,7 +219,8 @@ Sheet_clear_region (PortableServer_Servant servant,
 
 	verify_region (start_col, start_row, end_col, end_row);
 
-	sheet_clear_region (sheet, start_col, start_row, end_col, end_row, NULL);
+	sheet_clear_region (command_context_corba (), sheet, start_col, start_row,
+			    end_col, end_row, TRUE);
 }
 
 static void
@@ -223,7 +232,8 @@ Sheet_clear_region_content (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_region (start_col, start_row, end_col, end_row);
-	sheet_clear_region_content (sheet, start_col, start_row, end_col, end_row, NULL);
+	sheet_clear_region_content (command_context_corba (), sheet,
+				    start_col, start_row, end_col, end_row);
 }
 
 static void
@@ -795,7 +805,8 @@ Sheet_insert_col (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_col (col);
-	sheet_insert_col (sheet, col, count);
+	sheet_insert_cols (command_context_corba (), sheet,
+			   col, count);
 }
 
 static void
@@ -806,7 +817,8 @@ Sheet_delete_col (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_col (col);
-	sheet_delete_col (sheet, col, count);
+	sheet_delete_cols (command_context_corba (), sheet,
+			   col, count);
 }
 
 static void
@@ -817,7 +829,8 @@ Sheet_insert_row (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_row (row);
-	sheet_insert_row (sheet, row, count);
+	sheet_insert_rows (command_context_corba (), sheet,
+			   row, count);
 }
 
 static void
@@ -828,7 +841,8 @@ Sheet_delete_row (PortableServer_Servant servant,
 	Sheet *sheet = sheet_from_servant (servant);
 
 	verify_row (row);
-	sheet_delete_row (sheet, row, count);
+	sheet_delete_rows (command_context_corba (), sheet,
+			   row, count);
 }
 
 static void
@@ -843,7 +857,8 @@ Sheet_shift_rows (PortableServer_Servant servant,
 	verify_row (end_row);
 	verify_col (col);
 
-	sheet_shift_rows (sheet, col, start_row, end_row, count);
+	sheet_shift_rows (command_context_corba (), sheet,
+			  col, start_row, end_row, count);
 }
 
 static void
@@ -858,7 +873,8 @@ Sheet_shift_cols (PortableServer_Servant servant,
 	verify_row (start_row);
 	verify_row (end_row);
 
-	sheet_shift_cols (sheet, col, start_row, end_row, count);
+	sheet_shift_cols (command_context_corba (), sheet,
+			  col, start_row, end_row, count);
 }
 
 static GNOME_Gnumeric_Sheet_ValueVector *
@@ -900,7 +916,7 @@ Sheet_range_get_values (PortableServer_Servant servant, const CORBA_char *range,
 		vector->_maximum = 0;
 
 		return vector;
-}
+	}
 
 	/*
 	 * Fill in the vector

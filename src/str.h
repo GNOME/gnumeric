@@ -1,10 +1,12 @@
 #ifndef GNUMERIC_STRING_H
 #define GNUMERIC_STRING_H
 
-typedef struct {
+#include "gnumeric.h"
+
+struct _String {
 	int        ref_count;
 	char       *str;
-} String;
+};
 
 void    string_init           (void);
 

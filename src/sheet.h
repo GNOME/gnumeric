@@ -2,56 +2,51 @@
 #define GNUMERIC_SHEET_H
 
 #include <glib.h>
-
-typedef struct _Workbook	Workbook;
-typedef struct _Sheet		Sheet;
-typedef struct _SheetStyleData  SheetStyleData;
+#include "gnumeric.h"
 
 /* Used to locate cells in a sheet */
-typedef struct {
+struct _CellPos {
 	int col, row;
-} CellPos;
+};
 
-typedef struct {
+struct _Range {
 	CellPos start, end;
-} Range;
+};
 
-typedef struct _MStyle MStyle;
-
-typedef struct {
+struct _StyleRegion {
 	Range    range; /* must be 1st */
 	guint32  stamp;
 	MStyle  *style;
-} StyleRegion;
+};
 
-typedef struct {
+struct _SheetSelection {
 	/* TODO : Remove this.  It should be part of the sheet cursor
 	 * data structures */
         CellPos base;
 
 	/* This range may overlap other regions in the selection list */
         Range user;
-} SheetSelection;
+};
 
-typedef struct {
+struct _CellRef {
 	Sheet *sheet;
 	int   col, row;
 
 	unsigned char col_relative;
 	unsigned char row_relative;
-} CellRef;
+};
 
-typedef struct {
+struct _EvalPosition {
 	Sheet *sheet;
 	int    eval_col;
 	int    eval_row;
-} EvalPosition;
+};
 
-typedef struct {
+struct _ParsePosition {
 	Workbook *wb;
 	int       col;
 	int       row;
-} ParsePosition;
+};
 
 #ifdef ENABLE_BONOBO
 #    include <bonobo/gnome-container.h>
@@ -238,23 +233,6 @@ int         sheet_row_get_distance        (Sheet const *sheet, int from_row, int
 double      sheet_row_get_unit_distance   (Sheet const *sheet, int from_row, int to_row);
 double      sheet_col_get_unit_distance   (Sheet const *sheet, int from_col, int to_col);
  
-void        sheet_clear_region            (Sheet *sheet,
-				           int start_col, int start_row,
-				           int end_col,   int end_row,
-					   void *closure);
-void        sheet_clear_region_formats    (Sheet *sheet,
-				           int start_col, int start_row,
-				           int end_col,   int end_row,
-					   void *closure);
-void        sheet_clear_region_content    (Sheet *sheet,
-				           int start_col, int start_row,
-				           int end_col,   int end_row,
-					   void *closure);
-void        sheet_clear_region_comments   (Sheet *sheet,
-				           int start_col, int start_row,
-				           int end_col,   int end_row,
-					   void *closure);	
-
 /* Sets the width/height of a column row in terms of pixels */
 void        sheet_col_set_width           (Sheet *sheet,
 				           int col, int width);
@@ -337,18 +315,9 @@ void        sheet_set_dirty               (Sheet *sheet, gboolean is_dirty);
 gboolean    sheet_is_pristine             (Sheet *sheet);
 
 /* Sheet information manipulation */
-void        sheet_move_range              (struct expr_relocate_info const * rinfo);
-void        sheet_insert_col              (Sheet *sheet,  int col, int count);
-void        sheet_delete_col              (Sheet *sheet,  int col, int count);
-void        sheet_insert_row              (Sheet *sheet,  int row, int count);
-void        sheet_delete_row              (Sheet *sheet,  int row, int count);
-void        sheet_shift_row               (Sheet *sheet,  int col, int row, int count);
-void        sheet_shift_rows              (Sheet *sheet,  int col,
-				           int start_row, int end_row, int count);
-void        sheet_shift_col               (Sheet *sheet,  int col, int row, int count);
-void        sheet_shift_cols              (Sheet *sheet,
-				           int start_col, int end_col,
-				           int row,       int count);
+void        sheet_move_range              (CmdContext *context,
+					   struct expr_relocate_info const * rinfo);
+
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 void        sheet_update_controls         (Sheet *sheet);
@@ -401,4 +370,41 @@ void sheet_insert_object (Sheet *sheet, char *repoid);
  */
 void sheet_corba_setup       (Sheet *);
 void sheet_corba_shutdown    (Sheet *);
+
+/*
+ * Commands
+ * These have undo/redo capabilities
+ * and will route error messages to the caller appropriately.
+ */
+void  sheet_insert_cols (CmdContext *context, Sheet *sheet,
+			 int col, int count);
+void  sheet_delete_cols (CmdContext *context, Sheet *sheet,
+			 int col, int count);
+void  sheet_shift_cols  (CmdContext *context, Sheet *sheet,
+			 int start_col, int end_col,
+			 int row,       int count);
+void  sheet_insert_rows (CmdContext *context, Sheet *sheet,
+			 int row, int count);
+void  sheet_delete_rows (CmdContext *context, Sheet *sheet,
+			 int row, int count);
+void  sheet_shift_rows  (CmdContext *context, Sheet *sheet,
+			 int col,
+			 int start_row, int end_row, int count);
+
+void  sheet_clear_region          (CmdContext *context, Sheet *sheet,
+				   int start_col, int start_row,
+				   int end_col,   int end_row,
+				   gboolean const keep_styles);
+void  sheet_clear_region_formats  (Sheet *sheet,
+				   int start_col, int start_row,
+				   int end_col,   int end_row,
+				   void *closure);
+void  sheet_clear_region_content  (CmdContext *context, Sheet *sheet,
+				   int start_col, int start_row,
+				   int end_col,   int end_row);
+void  sheet_clear_region_comments (Sheet *sheet,
+				   int start_col, int start_row,
+				   int end_col,   int end_row,
+				   void *closure);	
+
 #endif /* GNUMERIC_SHEET_H */

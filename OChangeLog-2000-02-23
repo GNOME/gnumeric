@@ -1,3 +1,11 @@
+1999-12-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_cleanout) : Publicize.
+
+	* src/sheet.c (clear_cell_content) : Delete.
+	(sheet_clear_region_content) : Use sheet_clear_region but leave the
+	  styles in place.
+
 1999-12-17  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-stat.c: White-space mania.
@@ -33,7 +41,7 @@
 
 1999-12-14  Joe Sakosky <josak@ibm.net>
 
-	* src/file.c: privatized FileOpener FileSaver.
+	* src/file.c: privatized fileopener filesaver.
 
 	* src/file.h:  ditto
 	
@@ -41,6 +49,82 @@
 
 	* src/workbook.c (workbook_bonobo_setup): kill goadid.
 	(workbook_new): kill brainless bug.
+
+1999-12-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric.h : Move many of the typedefs here.
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort) : Tweak some
+	  const issues and minor logic problems at the boundaries.
+
+1999-12-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-view.c (command_context_gui) : New function.
+
+	* src/main.c (gnumeric_main) : Add a 'quit' flag for use in testing.
+	  It causes the app to exit immediately after loading all the selected
+	  books.
+
+	* src/file.c (workbook_import) : Bug 3977.
+
+	* src/corba-sheet.c (command_context_corba) : New function
+	  temporarily located here.
+	(Sheet_selection_copy) : Pass a CommandContext.
+	(Sheet_selection_cut) : Ditto
+	(Sheet_selection_paste) : Ditto
+	(Sheet_clear_region) : Ditto
+	(Sheet_clear_region_content) : Ditto
+	(Sheet_insert_col) : Ditto
+	(Sheet_delete_col) : Ditto
+	(Sheet_insert_row) : Ditto
+	(Sheet_delete_row) : Ditto
+	(Sheet_shift_rows) : Ditto
+	(Sheet_shift_cols) : Ditto
+
+	* src/item-cursor.c (item_cursor_do_action) : Ditto.
+
+	* src/item-grid.c (context_cut_cmd) : Ditto.
+	(context_cut_cmd) : Ditto.
+	(context_copy_cmd) : Ditto.
+	(context_paste_cmd) : Ditto.
+	(context_paste_special_cmd) : Ditto.
+	(context_clear_cmd) : Ditto.
+
+	* src/clipboard.[ch] (do_clipboard_paste_cell_region) : Take a
+	  CommandContext.
+	(sheet_paste_selection) : Ditto.
+	(clipboard_paste_region) : Ditto.
+
+	* src/selection.c (segments_intersect) : Return additional state 5
+	  to designate equality.
+	(selection_apply) : Use the equality state to simplify state selection.
+	(selection_is_simple) : Use a command context.
+	(sheet_selection_copy) : Ditto.
+	(sheet_selection_cut) : Ditto.
+	(sheet_selection_paste) : Ditto.
+	(sheet_selection_clear) : Ditto.
+	(sheet_selection_clear_content) : Ditto.
+	(sheet_selection_clear_comments) : Ditto.
+	(sheet_selection_clear_formats) : Ditto.
+
+	* src/workbook.c (copy_cmd) : Ditto.
+	(cut_cmd) : Ditto.
+	(paste_cmd) : Ditto.
+	(paste_special_cmd) : Ditto.
+	(insert_cols_cmd) : Ditto.
+	(insert_rows_cmd) : Ditto.
+	(clear_all_cmd) : Ditto.
+	(clear_formats_cmd) : Ditto.
+	(clear_comments_cmd) : Ditto.
+	(clear_content_cmd) : Ditto.
+
+	* src/dialogs/dialog-delete-cells.c (dialog_delete_cells_impl) :
+	  Ditto.
+	(dialog_delete_cells) : Ditto.
+
+	* src/dialogs/dialog-insert-cells.c (dialog_insert_cells_impl) :
+	  Ditto.
+	(dialog_insert_cells) : Ditto.
 
 1999-12-13  Michael Meeks  <mmeeks@gnu.org>
 

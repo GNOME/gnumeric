@@ -19,6 +19,7 @@
 #include "clipboard.h"
 #include "selection.h"
 #include "utils.h"
+#include "workbook-view.h"
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
@@ -615,36 +616,40 @@ item_cursor_do_action (ItemCursor *item_cursor, ActionType action, guint32 time)
 		return;
 
 	case ACTION_COPY_CELLS:
-		if (!item_cursor_target_region_ok (item_cursor)){
+		if (!item_cursor_target_region_ok (item_cursor)) {
 			return;
 		}
-		if (!sheet_selection_copy (sheet))
+		if (!sheet_selection_copy (command_context_gui(), sheet))
 			return;
-		sheet_selection_paste (sheet, col, row, PASTE_ALL_TYPES, time);
+		sheet_selection_paste (command_context_gui(), sheet,
+				       col, row, PASTE_ALL_TYPES, time);
 		return;
 
 	case ACTION_MOVE_CELLS:
 		if (!item_cursor_target_region_ok (item_cursor))
 			return;
-		if (!sheet_selection_cut (sheet))
+		if (!sheet_selection_cut (command_context_gui(), sheet))
 			return;
-		sheet_selection_paste (sheet, col, row, PASTE_ALL_TYPES, time);
+		sheet_selection_paste (command_context_gui(), sheet,
+				       col, row, PASTE_ALL_TYPES, time);
 		return;
 
 	case ACTION_COPY_FORMATS:
 		if (!item_cursor_target_region_ok (item_cursor))
 			return;
-		if (!sheet_selection_copy (sheet))
+		if (!sheet_selection_copy (command_context_gui(), sheet))
 			return;
-		sheet_selection_paste (sheet, col, row, PASTE_FORMATS, time);
+		sheet_selection_paste (command_context_gui(), sheet,
+				       col, row, PASTE_FORMATS, time);
 		return;
 
 	case ACTION_COPY_VALUES:
 		if (!item_cursor_target_region_ok (item_cursor))
 			return;
-		if (!sheet_selection_copy (sheet))
+		if (!sheet_selection_copy (command_context_gui(), sheet))
 			return;
-		sheet_selection_paste (sheet, col, row, PASTE_VALUES, time);
+		sheet_selection_paste (command_context_gui(), sheet,
+				       col, row, PASTE_VALUES, time);
 		return;
 
 	case ACTION_SHIFT_DOWN_AND_COPY:

@@ -241,7 +241,8 @@ workbook_read (const char *filename)
 	}
 
 	wb = workbook_try_read (filename);
-	if (!wb) file_error_message (N_("Could not read file %s"), filename);
+	if (!wb)
+		file_error_message (N_("Could not read file %s"), filename);
 	return wb;
 }
 
@@ -322,8 +323,11 @@ workbook_import (Workbook *parent, const char *filename)
 			gtk_object_destroy   (GTK_OBJECT (wb));
 #endif
 			wb = NULL;
-		} else
+		} else {
 			workbook_mark_clean (wb);
+			/* We will want to change the name before saving */
+			wb->needs_name = TRUE;
+		}
 	}
 
 	if (ret != -1)

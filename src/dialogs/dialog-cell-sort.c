@@ -583,8 +583,8 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 	GtkWidget *table, *check, *rb1, *rb2;
 	int btn, lp, i;
 	int start_col, start_row, end_col, end_row;
-	Range *sel;
-	Range range;
+	Range const *sel;
+	Range target;
 	SortFlow sort_flow;
 
 	g_return_if_fail(inwb);
@@ -598,18 +598,18 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 		return;
 	}
 
-	if (sel->end.row >= SHEET_MAX_ROWS - 2 ||
-	    sel->end.col >= SHEET_MAX_COLS - 2) {
-		range = sheet_get_extent (sheet);
-		if (sel->end.col >= SHEET_MAX_COLS - 2) {
-			sel->start.col = range.start.col;
-			sel->end.col = range.end.col;
+	target = *sel;
+	if (target.end.row >= SHEET_MAX_ROWS - 2 ||
+	    target.end.col >= SHEET_MAX_COLS - 2) {
+		Range range = sheet_get_extent (sheet);
+		if (target.end.col >= SHEET_MAX_COLS - 2) {
+			target.start.col = range.start.col;
+			target.end.col = range.end.col;
 		}
-		if (sel->end.row >= SHEET_MAX_ROWS - 2) {
-			sel->start.row = range.start.row;
-			sel->end.row = range.end.row;
+		if (target.end.row >= SHEET_MAX_ROWS - 2) {
+			target.start.row = range.start.row;
+			target.end.row = range.end.row;
 		}
-		sel = &range;
 	}
 
 	start_row = sel->start.row;

@@ -7,6 +7,7 @@
 #   include <gtk/gtkobject.h>
 #endif
 #include <gtk/gtkwidget.h>
+#include <gnome.h>
 
 #define GNUMERIC_WORKBOOK_GOAD_ID         "IDL:GNOME:Gnumeric:Workbook:1.0"
 #define GNUMERIC_WORKBOOK_FACTORY_GOAD_ID "IDL:GNOME:Gnumeric:WorkbookFactory:1.0"
@@ -25,16 +26,20 @@
 #   define WORKBOOK_PARENT_CLASS_TYPE gtk_object_get_type()
 #endif
 
-/* Forward declaration */
-struct _PrintInformation;
-typedef struct _PrintInformation PrintInformation;
+/*
+ * FIXME FIXME FIXME
+ * WARNING WARNING WARNING
+ * Inorder for this file to work config.h MUST
+ * be included first.
+ *
+ * This seems a poor choice (IMHO).
+ * It would be better for this file to include it directly.
+ */
+#include "gnumeric.h"
+#include "symbol.h"
+#include "summary.h"
 
-struct _WorkbookPrivate;
 typedef struct _WorkbookPrivate WorkbookPrivate;
-
-/* This must be included after the fwd declarations */
-#include "expr.h"
-
 struct _Workbook {
 #ifdef ENABLE_BONOBO
 	/* The base object for the Workbook */

@@ -22,7 +22,6 @@ void file_format_register_save   (char           *extension,
 void file_format_unregister_save (FileFormatSave save);
 
 Workbook *workbook_import        (Workbook *parent_dlg, const char *filename);
-Workbook *workbook_import_with   (const char *filename, FileFormatOpen open_fn);
 gboolean  workbook_load_from     (Workbook *wb, const char *filename);
 
 #endif /* GNUMERIC_FILE_H */

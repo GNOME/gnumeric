@@ -1,6 +1,12 @@
 #include <config.h>
 #include "workbook-view.h"
 
+CmdContext *
+command_context_gui (void)
+{
+	return NULL;
+}
+
 void
 workbook_view_set_paste_state (Workbook *wb, int const state)
 {
