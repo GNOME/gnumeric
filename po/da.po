@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
 "POT-Creation-Date: 2000-04-22 22:17+0200\n"
-"PO-Revision-Date: 2000-04-26 02:30+01:00\n"
+"PO-Revision-Date: 2000-05-01 02:30+01:00\n"
 "Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
 "Language-Team: Dansk/Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
@@ -2254,7 +2254,7 @@ msgstr "Du skal opgive et gyldige cellenavn i 'Ved at ændre celler'"
 
 #: src/dialogs/dialog-stf-export-sheet-page.c:355
 msgid "You need to select at least one sheet to export"
-msgstr ""
+msgstr "Du skal vælge mindst ét ark til eksport"
 
 #: src/dialogs/dialog-stf-export.c:48 src/dialogs/dialog-stf.c:102
 msgid "Are you sure you want to cancel?"
@@ -13456,15 +13456,15 @@ msgstr "_Rækkehøjde..."
 
 #: src/main.c:64
 msgid "Display Gnumeric's version"
-msgstr ""
+msgstr "Vis Gnumerics version"
 
 #: src/main.c:66
 msgid "Set the root library directory"
-msgstr ""
+msgstr "Sæt root biblioteks-katalog"
 
 #: src/main.c:68
 msgid "Adjust the root data directory"
-msgstr ""
+msgstr "Justér root data kataloget"
 
 #: src/main.c:71
 msgid "Dumps the function definitions"
@@ -13527,6 +13527,9 @@ msgid ""
 "datadir := %s\n"
 "libdir := %s\n"
 msgstr ""
+"gnumeric version %s\n"
+"datadir := %s\n"
+"libdir := %s\n"
 
 #: src/number-match.c:167
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
@@ -14707,9 +14710,9 @@ msgid "Re-order sheets"
 msgstr "Omordn ark"
 
 #: src/workbook.c:3095
-#, fuzzy, c-format
+#, c-format
 msgid "Sheet %d"
-msgstr "Ark%d"
+msgstr "Ark %d"
 
 #: src/xml-io.c:3070
 msgid "Invalid xml clipboard data. Tree is empty ?"
