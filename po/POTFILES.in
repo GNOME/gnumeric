@@ -74,6 +74,9 @@ plugins/paradox/paradox.c
 plugins/paradox/plugin.xml.in
 plugins/perl/ext/Gnumeric.xs
 plugins/perl/plugin.xml.in
+plugins/perl-func/plugin.xml.in
+plugins/perl-loader/perl-loader.c
+plugins/perl-loader/plugin.xml.in
 plugins/plan-perfect/pln.c
 plugins/plan-perfect/plugin.xml.in
 plugins/psiconv/plugin.xml.in
