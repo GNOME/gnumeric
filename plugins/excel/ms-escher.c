@@ -1024,7 +1024,14 @@ ms_escher_read_ClientData (MSEscherState * state, MSEscherHeader * h)
 	for (i = 4; --i >= 0 ; )
 		obj->anchor[i] = h->anchor[i];
 	obj->anchor_set = TRUE;
-	obj->v.picture.blip_id = h->blip_id;
+
+	switch (obj->gnumeric_type) {
+	case SHEET_OBJECT_GRAPHIC : /* If this was a picture */
+		obj->v.picture.blip_id = h->blip_id;
+		break;
+	default:
+		break;
+	};
 
 	return ms_obj_realize(obj, state->wb, state->sheet);
 }

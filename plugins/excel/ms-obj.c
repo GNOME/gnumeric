@@ -65,6 +65,15 @@ ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 					      anchor[2], anchor[3]);
 		break;
 
+	case SHEET_OBJECT_BOX :
+		sheet_object_realize (
+		sheet_object_create_filled (sheet->gnum_sheet,
+					    SHEET_OBJECT_BOX,
+					    anchor[0], anchor[1],
+					    anchor[2], anchor[3],
+					    "white", "black", 1));
+		break;
+
 	case SHEET_OBJECT_GRAPHIC : /* If this was a picture */
 	{
 		int blip_id;
