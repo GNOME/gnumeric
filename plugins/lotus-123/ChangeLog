@@ -1,3 +1,7 @@
+1999-08-02  Michael Meeks  <michael@imaginator.com>
+
+	* Makefile.am: Remove redundant reference to boot.h
+
 1999-07-31  Morten Welinder  <terra@diku.dk>
 
 	* lotus.c (lotus_getdouble): Constify.
