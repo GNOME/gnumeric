@@ -13,7 +13,8 @@
 #include "ms-biff.h"
 
 char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
-			      int fn_col, int fn_row, guint16 length) ;
+			      int fn_col, int fn_row,
+			      int shr_col, int shr_row, guint16 length) ;
 
 /**
  * See S59E2B.HTM
@@ -37,6 +38,8 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 #define FORMULA_PTG_REF                0x24
 #define FORMULA_PTG_AREA               0x25
 #define FORMULA_PTG_MEM_AREA           0x26
+#define FORMULA_PTG_REFN               0x2c
+#define FORMULA_PTG_AREAN              0x2d
 #define FORMULA_PTG_NAME_X             0x39
 #define FORMULA_PTG_REF_3D             0x3a
 #define FORMULA_PTG_AREA_3D            0x3b

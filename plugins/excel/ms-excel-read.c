@@ -854,8 +854,7 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, guint16 xfidx)
 	/*
 	 * Well set it up then ! FIXME: hack ! 
 	 */
-	cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ, 1);
-	ms_excel_set_cell_colors (sheet, cell, xf);
+	cell_set_alignment (cell, xf->halign, xf->valign, ORIENT_HORIZ, 0);
 	ms_excel_set_cell_font (sheet, cell, xf);
 	if (sheet->wb->palette)
 	{
@@ -876,6 +875,7 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, guint16 xfidx)
 				cell_set_format_from_style (cell, xf->style_format) ;
 		}
 	}
+	ms_excel_set_cell_colors (sheet, cell, xf);
 }
 
 static StyleBorderType
@@ -1154,15 +1154,18 @@ ms_excel_sheet_new (MS_EXCEL_WORKBOOK * wb, char *name)
 
 char *
 ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
+			       int shr_col, int shr_row,
 			       int col, int row)
 {
 	BIFF_SHARED_FORMULA_KEY k ;
 	BIFF_SHARED_FORMULA *sf ;
-	k.col = col ;
-	k.row = row ;
+	k.col = shr_col ;
+	k.row = shr_row ;
 	sf = g_hash_table_lookup (sheet->shared_formulae, &k) ;
 	if (sf)
-		return ms_excel_parse_formula (sheet, sf->data, col, row, sf->data_len) ;
+		return ms_excel_parse_formula (sheet, sf->data,
+					       col, row, shr_col, shr_row,
+					       sf->data_len) ;
 	printf ("Duff shared formula index %d %d\n", col, row) ;
 	return strdup ("00") ;
 }
@@ -1580,6 +1583,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			array_col_first, array_row_first, array_col_last, array_row_last) ;
 		txt = ms_excel_parse_formula (sheet, data,
 					      array_col_first, array_row_first,
+					      array_col_first, array_row_first,
 					      data_len) ;
 		/* NB. This keeps the pre-set XF record */
 		cell = sheet_cell_fetch (sheet->gnum_sheet,
@@ -1613,6 +1617,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 			for (ylp=array_row_first;ylp<=array_row_last;ylp++)
 			{
 				char *txt = ms_excel_parse_formula (sheet, data,
+								    xlp, ylp, 
 								    xlp, ylp, data_len) ;
 				/* NB. This keeps the pre-set XF record */
 				Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, xlp, ylp);
@@ -1625,6 +1630,7 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 	case BIFF_FORMULA: /* See: S59D8F.HTM */
 	{
 		char *txt = ms_excel_parse_formula (sheet, (q->data + 22),
+						    EX_GETCOL (q), EX_GETROW (q),
 						    EX_GETCOL (q), EX_GETROW (q),
 						    BIFF_GETWORD(q->data+20));
 		ms_excel_sheet_insert (sheet, EX_GETXF(q), EX_GETCOL(q), EX_GETROW(q), txt) ;

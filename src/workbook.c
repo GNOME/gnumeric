@@ -1312,6 +1312,7 @@ workbook_new (void)
 	wb->symbol_names = symbol_table_new ();
 
 	gtk_window_set_policy(GTK_WINDOW(wb->toplevel), 1, 1, 0);
+	gtk_window_set_default_size (GTK_WINDOW(wb->toplevel), 600, 400) ;
 
 	wb->max_iterations = 1;
 

@@ -453,7 +453,7 @@ sheet_row_set_height (Sheet *sheet, int row, int height, gboolean height_set_by_
 	
 	ri = sheet_row_get_info (sheet, row);
 	if (ri == &sheet->default_row_style){
-		ri = sheet_duplicate_colrow (ri);
+		ri = sheet_row_new (sheet) ;
 		ri->pos = row;
 		add = 1;
 	}
@@ -566,8 +566,8 @@ sheet_col_set_width (Sheet *sheet, int col, int width)
 	
 	ci = sheet_col_get_info (sheet, col);
 	if (ci == &sheet->default_col_style){
+		ci = sheet_col_new (sheet);
 		ci->pos = col;
-		ci = sheet_duplicate_colrow (ci);
 		add = 1;
 	}
 

@@ -1,3 +1,14 @@
+1999-04-06 Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c (workbook_new): More sensible default
+	size.
+
+	* src/sheet.c (sheet_row_set_height): use sheet_row_new()
+	instead of sheet_duplicate_colrow(), as we get duff span
+	data otherwise ( not calling row_init_span )
+	(sheet_col_set_width): Re-order, presumably fixing bug,
+	and as for set_height.
+
 1999-04-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/xml-io.c (createXmlSheet): New function.  Used in an initial

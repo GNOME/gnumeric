@@ -47,6 +47,7 @@ extern void ms_excel_sheet_insert          (MS_EXCEL_SHEET *sheet,
 					    int xfidx, int col,
 					    int row, char *text) ;
 extern char *ms_excel_sheet_shared_formula (MS_EXCEL_SHEET *sheet,
+					    int shr_col, int shr_row,
 					    int col, int row) ;
 
 typedef struct _MS_EXCEL_PALETTE

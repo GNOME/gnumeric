@@ -1,3 +1,20 @@
+1999-04-06  Michael Meeks <michael@imaginator.com>
+
+	* ms-formula.h: Add PTG_AREAN, PTG_REFN.
+
+	* ms-formula.c: Debug for these cases.
+	(ms_excel_parse_formula): Added shared row/col.
+	Updated ms_excel_sheet_shared_formula call.
+
+	* ms-excel.c (ms_excel_sheet_shared_formula): Include
+	new arguments.
+	(ms_excel_read_cells): Update all parse_formula calls.
+	(ms_excel_set_cell_xf): Set auto_return argument to 0 for
+	cell_set_alignment.
+	move cell_set_colors to last thing.
+	
+	* ms-excel.h: Update prototype.
+
 1999-04-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* ms-ole.c (biff_getdouble): Move biff_getdouble here, and apply

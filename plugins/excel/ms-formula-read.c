@@ -439,7 +439,7 @@ getRefV7(MS_EXCEL_SHEET *sheet, BYTE col, WORD gbitrw, int curcol, int currow)
 	if (cr->col_relative)
 		cr->col-= curcol ;
 	cr->sheet = sheet->gnum_sheet ;
-	/*  printf ("7Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
+/*	printf ("7Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
 	return cr ;
 }
 /**
@@ -459,7 +459,7 @@ getRefV8(MS_EXCEL_SHEET *sheet, WORD row, WORD gbitcl, int curcol, int currow)
 	if (cr->col_relative)
 		cr->col-= curcol ;
 	cr->sheet = sheet->gnum_sheet ;
-	/*  printf ("8Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
+/*	printf ("8Out : %d, %d  at %d, %d\n", cr->col, cr->row, curcol, currow) ; */
 	return cr ;
 }
 
@@ -696,7 +696,8 @@ make_function (PARSE_LIST *stack, int fn_idx, int numargs)
  * Return a dynamicaly allocated string containing the formula, never NULL
  **/
 char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
-			     int fn_col, int fn_row, guint16 length)
+			      int fn_col, int fn_row, 
+			      int shr_col, int shr_row, guint16 length)
 {
 	Cell *cell ;
 	int len_left = length ;
@@ -732,6 +733,10 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			printf ("Ptg : 0x%x -> 0x%x\n", ptg, ptgbase) ;
 		switch (ptgbase)
 		{
+		case FORMULA_PTG_REFN:
+			printf ("REFN\n") ;
+			dump(mem, length) ;
+			break ;
 		case FORMULA_PTG_REF:
 		{
 			CellRef *ref ;
@@ -856,6 +861,10 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				g_free (ref) ;
 		}
 		break ;
+		case FORMULA_PTG_AREAN:
+			printf ("REFN\n") ;
+			dump(mem, length) ;			
+			break ;
 		case FORMULA_PTG_AREA:
 		{
 			CellRef *first, *last ;
@@ -921,7 +930,8 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 			int top_left_row = BIFF_GETWORD(cur+0) ;
 			char *txt ;
 			txt =  ms_excel_sheet_shared_formula (sheet, top_left_col,
-							      top_left_row) ;
+							      top_left_row,
+							      fn_col, fn_row) ;
 			txt[0] = ' ' ; /* Kill '=' */
 			parse_list_push_raw (stack, txt, NO_PRECEDENCE) ;
 			ptg_length = 4 ;
@@ -952,7 +962,8 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				}
 				if (w)
 					txt = ms_excel_parse_formula (sheet, cur+ptg_length,
-								      fn_col, fn_row, w) ;
+								      fn_col, fn_row, shr_col, shr_row,
+								      w) ;
 				else
 					txt = g_strdup(" ") ;
 				txt[0] = ' ' ; /* Kill the = */
