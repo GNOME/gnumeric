@@ -176,7 +176,8 @@ Pending Patches
 	 "format".)
     2.7) Create interface for line terminator selection         (DONE)
     2.8) Make listed separators locale dependent
-    2.9) User specifiable locale encoding (not charater encoding)			
+    2.9) User specifiable locale encoding (not to be confused
+         with character encoding)			
     2.10) Fix stf bugs
     2.11) Improve initial file preview                          (DONE)
     2.12) Hook up workbook-control-gui.c:cb_data_import_text

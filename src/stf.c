@@ -98,12 +98,11 @@ stf_open_and_read (GsfInput *input, size_t *readsize)
 }
 
 static char *
-stf_preparse (CommandContext *context, GsfInput *input, gchar const *enc)
+stf_preparse (CommandContext *context, GsfInput *input, size_t *data_len)
 {
 	char *data;
-	size_t len;
 
-	data = stf_open_and_read (input, &len);
+	data = stf_open_and_read (input, data_len);
 
 	if (!data) {
 		if (context)
@@ -158,6 +157,7 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 	DialogStfResult_t *dialogresult = NULL;
 	char *name, *nameutf8;
 	char *data;
+	size_t data_len;
 	Sheet *sheet;
 	Workbook *book;
 
@@ -173,7 +173,7 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 		return;
 	}
 
-	data = stf_preparse (COMMAND_CONTEXT (context), input, enc);
+	data = stf_preparse (COMMAND_CONTEXT (context), input, &data_len);
 	if (!data) {
 		g_free (nameutf8);
 		return;
@@ -185,7 +185,7 @@ stf_read_workbook (GnmFileOpener const *fo,  gchar const *enc,
 	workbook_sheet_attach (book, sheet, NULL);
 
 	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (context->impl),
-				   enc, FALSE, nameutf8, data);
+				   enc, FALSE, nameutf8, data, data_len);
 	if (dialogresult != NULL && stf_store_results (dialogresult, sheet, 0, 0)) {
 		workbook_recalc (book);
 		sheet_queue_respan (sheet, 0, SHEET_MAX_ROWS-1);
@@ -245,6 +245,7 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 	Range		 target;
 	GsfOutputMemory	*buf;
 	guint8 const	*data;
+	size_t data_len;
 
 	sv    = wb_control_cur_sheet_view (wbc);
 	src_sheet = sv_sheet (sv);
@@ -274,12 +275,12 @@ stf_text_to_columns (WorkbookControl *wbc, CommandContext *cc)
 		src->end.col, src->end.row,
 		(CellIterFunc) &cb_get_content, buf);
 
-	gsf_output_write (GSF_OUTPUT (buf), 1, "\0");
 	gsf_output_close (GSF_OUTPUT (buf));
 	data = gsf_output_memory_get_bytes (buf);
+	data_len = (size_t)gsf_output_size (GSF_OUTPUT (buf));
 	dialogresult = stf_dialog (WORKBOOK_CONTROL_GUI (wbc),
 				   NULL, FALSE,
-				   _("Text to Columns"), data);
+				   _("Text to Columns"), data, data_len);
 
 	if (dialogresult == NULL ||
 	    !stf_store_results (dialogresult, target_sheet,
@@ -319,6 +320,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	Workbook *book;
 	char *name;
 	char *data;
+	size_t data_len;
 	StfParseOptions_t *po;
 	char const *pos;
 	unsigned int sep = 0, tab = 0, lines = 0;
@@ -331,7 +333,7 @@ stf_read_workbook_auto_csvtab (GnmFileOpener const *fo, gchar const *enc,
 	gunichar guni_sep = format_get_arg_sep ();
 
 	book = wb_view_workbook (wbv);
-	data = stf_preparse (COMMAND_CONTEXT (context), input, enc);
+	data = stf_preparse (COMMAND_CONTEXT (context), input, &data_len);
 	if (!data)
 		return;
 

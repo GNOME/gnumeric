@@ -1,5 +1,8 @@
 2003-06-13  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-clipboard.c (text_to_cell_region): Stop assuming
+	nul-termination and stop copying the string.
+
 	* src/workbook-control-gui.c (register_xml_ui): Change signature
 	to using GCallback, not a bonobo type.
 

@@ -51,28 +51,33 @@
 
 static CellRegion *
 text_to_cell_region (WorkbookControlGUI *wbcg,
-		     guchar const *src, int len,
+		     guchar const *data, int data_len,
 		     const char *opt_encoding,
 		     gboolean fixed_encoding)
 {
 	DialogStfResult_t *dialogresult;
 	CellRegion *cr = NULL;
-	char *data;
 	gboolean oneline;
+	char *data_converted = NULL;
+	int i;
 
-	data = g_new (char, len + 1);
-	memcpy (data, src, len);
-	data[len] = 0;
+	oneline = TRUE;
+	for (i = 0; i < data_len; i++)
+		if (data[i] == '\n') {
+			oneline = FALSE;
+			break;
+		}
 
-	oneline = (strchr (data, '\n') == NULL);
 	if (oneline && (opt_encoding == NULL || strcmp (opt_encoding, "UTF-8") != 0)) {
+		int bytes_written;
 		const char *enc = opt_encoding ? opt_encoding : "ASCII";
-		char *newdata = g_convert (data, -1,
-					   "UTF-8", enc,
-					   NULL, NULL, NULL);
-		if (newdata) {
-			g_free (data);
-			data = newdata;
+
+		data_converted = g_convert (data, data_len,
+					    "UTF-8", enc,
+					    NULL, &bytes_written, NULL);
+		if (data_converted) {
+			data = data_converted;
+			data_len = bytes_written;
 		} else {
 			/* Force STF import since we don't know the charset.  */
 			oneline = FALSE;
@@ -94,15 +99,17 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 		ccopy->type = CELL_COPY_TYPE_TEXT;
 		ccopy->col_offset = 0;
 		ccopy->row_offset = 0;
-		ccopy->u.text = g_strdup (data);
+		ccopy->u.text = g_strndup (data, data_len);
 		ccopy->comment = NULL;
 
 		cr = cellregion_new (NULL);
 		cr->content = g_list_prepend (cr->content, ccopy);
 		cr->cols = cr->rows = 1;
+
+		g_free (data_converted);
 	} else {
 		dialogresult = stf_dialog (wbcg, opt_encoding, fixed_encoding,
-					   _("clipboard"), data);
+					   _("clipboard"), data, data_len);
 
 		if (dialogresult != NULL) {
 			int col;
@@ -110,7 +117,6 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 			cr = stf_parse_region (dialogresult->parseoptions, dialogresult->text, NULL);
 
 			if (cr == NULL) {
-				g_free (data);
 				g_warning (_("Parse error while trying to parse data into cellregion"));
 				return cellregion_new (NULL);
 			}
@@ -131,12 +137,9 @@ text_to_cell_region (WorkbookControlGUI *wbcg,
 
 			stf_dialog_result_free (dialogresult);
 		} else {
-			g_free (data);
 			return cellregion_new (NULL);
 		}
 	}
-
-	g_free (data);
 
 	return cr;
 }
