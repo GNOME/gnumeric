@@ -18,7 +18,6 @@ Feature enhancements:
   * implement bool constraints
   * sensitivity report: fix reduced gradient
   * sensitivity report: fix lagrange multipliers
-  * limits report: fix the limit reporting
   * performance report: fix CPU info
   * get_lp_coeff: test that it's really LP
   * make the solver as a separate thread so that the user can continue working

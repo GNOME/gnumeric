@@ -104,6 +104,7 @@ solver_results_init (const SolverParameters *sp)
 	res->constraints_array = NULL;
 	res->obj_coeff         = NULL;
 	res->constr_coeff      = NULL;
+	res->limits            = NULL;
 
 	return res;
 }
@@ -130,6 +131,7 @@ solver_results_free (SolverResults *res)
 	        for (i = 0; i < res->n_constraints; i++)
 		        g_free (res->constr_coeff[i]);
 	g_free (res->constr_coeff);
+	g_free (res->limits);
 	g_free (res);
 }
 
@@ -196,6 +198,23 @@ get_lp_coeff (Cell *target, Cell *change)
 	x1 = value_get_as_float (target->value);
 
 	return x1 - x0;
+}
+
+/*
+ * Returns the value of a cell when one of the input variables is reset.
+ */
+static gnum_float
+get_target_cell_value (SolverResults *res, Cell *target_cell,
+		       int col, gnum_float x, gnum_float *old_value)
+{
+        Cell *var_cell;
+
+	var_cell = get_solver_input_var (res, col);
+	*old_value = value_get_as_float (var_cell->value);
+	sheet_cell_set_value (var_cell, value_new_float (x));
+	cell_eval (target_cell);
+
+	return value_get_as_float (target_cell->value);
 }
 
 /*
@@ -273,8 +292,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 		        lp_algorithm[param->options.algorithm].
 			        set_obj_fn (program, i+1, x);
 			res->n_nonzeros_in_obj += 1;
-			if (param->options.program_report)
-			        res->obj_coeff[i] = x;
+			res->obj_coeff[i] = x;
 		}
 	}
 			 
@@ -297,8 +315,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res)
 			        res->n_nonzeros_in_mat += 1;
 				lp_algorithm[param->options.algorithm].
 				        set_constr_mat_fn (program, n, i, x);
-				if (param->options.program_report)
-				        res->constr_coeff[i][n] = x;
+				res->constr_coeff[i][n] = x;
 			}
 		}
 		target = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
@@ -471,17 +488,118 @@ check_program_definition_failures (Sheet            *sheet,
 
 	(*res)->input_cells_array = input_cells_array;
 	(*res)->constraints_array = constraints_array;
-	if (param->options.program_report) {
-	        (*res)->obj_coeff = g_new0 (gnum_float, param->n_variables);
-		(*res)->constr_coeff = g_new (gnum_float *, param->n_constraints
-					      + param->n_int_bool_constraints);
-		for (i = 0; i < param->n_constraints
-		       + param->n_int_bool_constraints; i++)
-		        (*res)->constr_coeff[i] = g_new0 (gnum_float,
-							  param->n_variables);
-	}
+	(*res)->obj_coeff = g_new0 (gnum_float, param->n_variables);
+
+	(*res)->constr_coeff = g_new (gnum_float *, param->n_constraints
+				      + param->n_int_bool_constraints);
+	for (i = 0; i < param->n_constraints
+	       + param->n_int_bool_constraints; i++)
+	        (*res)->constr_coeff[i] = g_new0 (gnum_float,
+						  param->n_variables);
+	if (param->options.limits_report)
+	        (*res)->limits = g_new0 (SolverLimits, param->n_variables);
 
 	return FALSE;  /* Everything Ok. */
+}
+
+static gboolean
+is_still_feasible (Sheet *sheet, SolverResults *res, int col, gnum_float value)
+{
+        gnum_float c_value, rhs, old_value = res->optimal_values [col];
+	int        i, n;
+	Cell       *cell;
+	gboolean   status = FALSE;
+
+	res->optimal_values[col] = value;
+	for (i = 0; i < res->param->n_constraints
+	       + res->param->n_int_bool_constraints; i++) {
+	        SolverConstraint *c = get_solver_constraint (res, i);
+
+		c_value = 0;
+		for (n = 0; n < res->param->n_variables; n++)
+		        c_value += res->constr_coeff[i][n]
+			  * res->optimal_values[n];
+		cell = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
+		rhs  = value_get_as_float (cell->value);
+
+		switch (c->type) {
+		case SolverLE:
+		        if (c_value - 0.000001 /* FIXME */ > rhs)
+			        goto out;
+			break;
+		case SolverGE:
+		        if (c_value + 0.000001 /* FIXME */ < rhs)
+			        goto out;
+			break;
+		case SolverEQ:
+		        if (gnumabs (c_value - rhs) < 0.000001 /* FIXME */)
+			        goto out;
+			break;
+		case SolverINT:
+		case SolverBOOL:
+		case SolverOF:
+		        break;
+		}
+	}
+	status = TRUE;
+ out:
+	res->optimal_values[col] = old_value;
+	return status;
+}
+
+/*
+ * Calculate upper and lower limits for the limits reporting.
+ */
+static void
+calculate_limits (Sheet *sheet, SolverParameters *param, SolverResults *res)
+{
+        int i, n;
+
+	for (i = 0; i < param->n_constraints
+	       + param->n_int_bool_constraints; i++) {
+	        gnum_float       slack, lhs, rhs, x, y, old_val;
+		SolverConstraint *c = res->constraints_array[i];
+		Cell             *cell;
+
+		cell  = sheet_cell_get (sheet, c->rhs.col, c->rhs.row);
+		rhs   = value_get_as_float (cell->value);
+		cell  = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
+		lhs   = value_get_as_float (cell->value);
+		slack = gnumabs (rhs - lhs);
+		for (n = 0; n < param->n_variables; n++) {
+		        x = get_target_cell_value (res, cell, n, 0, &old_val);
+			x = rhs - x;
+			if (res->constr_coeff[i][n] != 0) {
+			        x = x / res->constr_coeff[i][n];
+				if (! is_still_feasible (sheet, res, n, x)) {
+				        get_target_cell_value (res, cell, n,
+							       old_val, &y);
+				        continue;
+				}
+				if (x < res->limits[n].lower_limit
+				    && (x >= 0 ||
+					!param->options.assume_non_negative)) {
+				        res->limits[n].lower_limit = x;
+					cell = get_solver_target_cell (sheet);
+					get_target_cell_value (res, cell, n,
+							       x, &y);
+					cell_eval (cell);
+					res->limits[n].lower_result = 
+					        value_get_as_float (cell->value);
+				}
+				if (x > res->limits[n].upper_limit) {
+				        res->limits[n].upper_limit = x;
+					cell = get_solver_target_cell (sheet);
+					get_target_cell_value (res, cell, n,
+							       x, &y);
+					cell_eval (cell);
+					res->limits[n].upper_result =
+					        value_get_as_float (cell->value);
+				}
+			} else ; /* FIXME */
+			get_target_cell_value (res, cell, n, old_val, &y);
+		}
+	}
 }
 
 SolverResults *
@@ -491,7 +609,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	SolverProgram     program;
 	SolverResults    *res;
 	Cell             *cell;
-	int               i;
+	int               i, n;
 	GTimeVal          start, end;
 
 	if (check_program_definition_failures (sheet, param, &res, errmsg))
@@ -508,6 +626,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	res->time_real = end.tv_sec - start.tv_sec
 	        + (end.tv_usec - start.tv_usec) / 1000000.0;
 
+	res->param = sheet->solver_parameters;
 	if (res->status == SOLVER_LP_OPTIMAL) {
 	        res->value_of_obj_fn = lp_algorithm[param->options.algorithm]
 		        .get_obj_fn_value_fn (program);
@@ -520,16 +639,29 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 					      (res->optimal_values[i]));
 		}
 
+		/* Initialize the limits. */
+		cell = get_solver_target_cell (sheet);
+		cell_eval (cell);
+		for (i = 0; i < param->n_variables; i++) {
+		        res->limits[i].lower_limit =
+			        res->limits[i].upper_limit =
+			        res->optimal_values[i];
+			res->limits[i].lower_result = 
+			        res->limits[i].upper_result =
+			        value_get_as_float (cell->value);
+		}
+
 		for (i = 0; i < param->n_constraints
 		       + param->n_int_bool_constraints; i++) {
 		        res->shadow_prizes[i] =
 			        lp_algorithm[param->options.algorithm]
 			                .get_shadow_prize_fn (program, i);
 		}
+		if (param->options.limits_report)
+		        calculate_limits (sheet, param, res);
 	}
 
 	lp_algorithm[param->options.algorithm].remove_fn (program);
-	res->param = sheet->solver_parameters;
 	return res;
 }
 

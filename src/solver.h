@@ -116,6 +116,13 @@ struct _SolverParameters {
 };
 
 typedef struct {
+        gnum_float lower_limit;
+        gnum_float lower_result;
+        gnum_float upper_limit;
+        gnum_float upper_result;
+} SolverLimits;
+
+typedef struct {
         int              n_variables;
         int              n_constraints;
         int              n_nonzeros_in_mat;
@@ -138,6 +145,7 @@ typedef struct {
         SolverConstraint **constraints_array;
         gnum_float       *obj_coeff;
         gnum_float       **constr_coeff;
+        SolverLimits     *limits;
         SolverParameters *param;
 } SolverResults;
 

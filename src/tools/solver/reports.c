@@ -479,17 +479,17 @@ solver_limits_report (WorkbookControl *wbc,
 
 
 		/* Set `Lower Limit' column */
-		set_cell_value (&dao, 5, 12 + i, value_new_float(0)); /* FIXME */
+		set_cell_float (&dao, 5, 12 + i, res->limits[i].lower_limit);
 
 		/* Set `Target Result' column */
-		set_cell_value (&dao, 6, 12 + i, value_new_float(0)); /* FIXME */
+		set_cell_float (&dao, 6, 12 + i, res->limits[i].lower_result);
 
 
 		/* Set `Upper Limit' column */
-		set_cell_value (&dao, 8, 12 + i, value_new_float(0)); /* FIXME */
+		set_cell_float (&dao, 8, 12 + i, res->limits[i].upper_limit);
 
 		/* Set `Target Result' column */
-		set_cell_value (&dao, 9, 12 + i, value_new_float(0)); /* FIXME */
+		set_cell_float (&dao, 9, 12 + i, res->limits[i].upper_result);
 	}
 
 
@@ -733,7 +733,7 @@ solver_program_report (WorkbookControl *wbc,
 
 			/* Print the coefficent. */
 			set_cell_float (&dao, 2 + col*3, 6,
-					fabs (res->obj_coeff[i]));
+					gnumabs (res->obj_coeff[i]));
 
 			/* Print the name of the variable. */
 			cell = get_solver_input_var (res, i);
@@ -764,7 +764,7 @@ solver_program_report (WorkbookControl *wbc,
 
 				/* Print the coefficent. */
 				set_cell_float (&dao, 2 + col*3, 10 + i,
-						fabs (res->constr_coeff[i][n]));
+						gnumabs (res->constr_coeff[i][n]));
 
 				/* Print the name of the variable. */
 				cell = get_solver_input_var (res, n);

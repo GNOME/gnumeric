@@ -1,7 +1,12 @@
 2002-03-10  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
+	* solver.c (is_still_feasible): Wrote.
+	(calculate_limits): Wrote.
+	(solver): Finished the limits reporting.
+
 	* reports.c (solver_program_report): Implemented the program
 	report generation.  Gives the LP program in math form.
+	(solver_limits_report): Implemented.
 
 	* solver.c: Related changes.
 	
