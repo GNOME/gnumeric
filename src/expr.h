@@ -154,6 +154,7 @@ void        value_release        (Value *value);
 Value      *value_cast_to_float  (Value *v);
 int         value_get_bool       (Value *v, int *err);
 float_t     value_get_as_double  (Value *v);
+int         value_get_as_int     (Value *v);
 void        value_copy_to        (Value *dest, Value *source);
 				 
 void        value_dump           (Value *value);

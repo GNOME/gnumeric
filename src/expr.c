@@ -374,6 +374,27 @@ value_get_as_double (Value *v)
 	return (float_t) v->v.v_float;
 }
 
+int
+value_get_as_int (Value *v)
+{
+	if (v->type == VALUE_STRING){
+		return atoi (v->v.str->str);
+	}
+
+	if (v->type == VALUE_CELLRANGE){
+		g_warning ("Getting range as a double: what to do?");
+		return 0.0;
+	}
+
+	if (v->type == VALUE_INTEGER)
+		return v->v.v_int;
+
+	if (v->type == VALUE_ARRAY)
+		return 0.0;
+	
+	return (int) v->v.v_float;
+}
+
 static Value *
 eval_cell_value (Sheet *sheet, Value *value)
 {

@@ -47,6 +47,7 @@ GNUMERIC_BASE_SOURCES =			\
 	fn-math.c			\
 	fn-misc.c			\
 	fn-sheet.c			\
+	fn-string.c			\
 	format.c			\
 	format.h			\
 	gnumeric-sheet.c		\

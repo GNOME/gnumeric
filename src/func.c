@@ -154,6 +154,7 @@ functions_init (void)
 	install_symbols (sheet_functions);
 	install_symbols (misc_functions);
 	install_symbols (date_functions);
+	install_symbols (string_functions);
 }
 
 void
