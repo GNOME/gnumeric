@@ -139,7 +139,7 @@ find_index_linear (FunctionEvalInfo *ei, GnmValue *find, GnmValue *data,
 		   gint type, gboolean height)
 {
 	GnmValue const *index_val = NULL;
-	ValueCompare comp;
+	GnmValDiff comp;
 	int length, lp, index = -1;
 
 	if (height)
@@ -163,7 +163,7 @@ find_index_linear (FunctionEvalInfo *ei, GnmValue *find, GnmValue *data,
 		comp = value_compare (find, v, FALSE);
 
 		if (type >= 1 && comp == IS_GREATER) {
-			ValueCompare comp = TYPE_MISMATCH;
+			GnmValDiff comp = TYPE_MISMATCH;
 
 			if (index >= 0) {
 				comp = value_compare (v, index_val, FALSE);
@@ -175,7 +175,7 @@ find_index_linear (FunctionEvalInfo *ei, GnmValue *find, GnmValue *data,
 				index_val = v;
 			}
 		} else if (type <= -1 && comp == IS_LESS) {
-			ValueCompare comp = TYPE_MISMATCH;
+			GnmValDiff comp = TYPE_MISMATCH;
 
 			if (index >= 0) {
 				comp = value_compare (v, index_val, FALSE);
@@ -198,7 +198,7 @@ static int
 find_index_bisection (FunctionEvalInfo *ei, GnmValue *find, GnmValue *data,
 		      gint type, gboolean height)
 {
-	ValueCompare comp = TYPE_MISMATCH;
+	GnmValDiff comp = TYPE_MISMATCH;
 	int high, low = 0, prev = -1, mid = -1;
 
 	if (height)
@@ -600,7 +600,7 @@ gnumeric_vlookup (FunctionEvalInfo *ei, GnmValue **args)
 
 		v = value_area_fetch_x_y (args [1], col_idx-1, index, ei->pos);
 		g_return_val_if_fail (v != NULL, NULL);
-		return value_duplicate (v);
+		return value_dup (v);
 	}
 
 	return value_new_error_NA (ei->pos);
@@ -659,7 +659,7 @@ gnumeric_hlookup (FunctionEvalInfo *ei, GnmValue **args)
 
 		v = value_area_fetch_x_y (args[1], index, row_idx-1, ei->pos);
 		g_return_val_if_fail (v != NULL, NULL);
-		return value_duplicate (v);
+		return value_dup (v);
 	}
 
 	return value_new_error_NA (ei->pos);
@@ -722,7 +722,7 @@ gnumeric_lookup (FunctionEvalInfo *ei, GnmValue **args)
 			v = value_area_fetch_x_y (result, index, height - 1, ei->pos);
 		else
 			v = value_area_fetch_x_y (result, width - 1, index, ei->pos);
-		return value_duplicate (v);
+		return value_dup (v);
 	}
 
 	return value_new_error_NA (ei->pos);
@@ -891,7 +891,7 @@ gnumeric_index (FunctionEvalInfo *ei, GnmExprList *l)
 		return value_new_error_REF (ei->pos);
 	}
 
-	res = value_duplicate (value_area_fetch_x_y (v, elem[1], elem[0], ei->pos));
+	res = value_dup (value_area_fetch_x_y (v, elem[1], elem[0], ei->pos));
 	value_release (v);
 	return res;
 }
@@ -1166,7 +1166,7 @@ gnumeric_hyperlink (FunctionEvalInfo *ei, GnmValue **args)
 	GnmValue const * v = args[1];
 	if (v == NULL)
 		v = args[0];
-	return value_duplicate (v);
+	return value_dup (v);
 }
 
 /***************************************************************************/
@@ -1198,7 +1198,7 @@ gnumeric_transpose (FunctionEvalInfo *ei, GnmValue **argv)
 
 	/* Return the value directly for a singleton */
 	if (rows == 1 && cols == 1)
-		return value_duplicate (value_area_get_x_y (matrix, 0, 0, ep));
+		return value_dup (value_area_get_x_y (matrix, 0, 0, ep));
 
 	/* REMEMBER this is a transpose */
 	res = value_new_array_non_init (rows, cols);
@@ -1206,7 +1206,7 @@ gnumeric_transpose (FunctionEvalInfo *ei, GnmValue **argv)
 	for (r = 0; r < rows; ++r){
 		res->v_array.vals [r] = g_new (GnmValue *, cols);
 		for (c = 0; c < cols; ++c)
-			res->v_array.vals[r][c] = value_duplicate(
+			res->v_array.vals[r][c] = value_dup(
 				value_area_get_x_y (matrix, c, r, ep));
 	}
 

@@ -53,10 +53,7 @@ struct _SheetControlCORBA {
 
 	CorbaSheet *servant;
 };
-
-typedef struct {
-	SheetControlClass   base;
-} SheetControlCORBAClass;
+typedef SheetControlClass SheetControlCORBAClass;
 
 static GType csheet_get_type   (void);
 
@@ -79,7 +76,9 @@ static void
 csheet_set_name (PortableServer_Servant servant, CORBA_char const * value,
 		    CORBA_Environment *ev)
 {
+	/*
 	Sheet *sheet = servant_to_sheet (servant);
+	*/
 
 	/* DO NOT CALL sheet_rename that is too low level */
 }
@@ -97,7 +96,9 @@ csheet_set_index (PortableServer_Servant servant,
 		  CORBA_short indx,
 		  CORBA_Environment *ev)
 {
+	/*
 	Sheet *sheet = servant_to_sheet (servant);
+	*/
 	/* FIXME: do something */
 }
 
@@ -181,4 +182,12 @@ sheet_control_corba_new (SheetView *sv)
 	scc->servant->container = scc;
 	sv_attach_control (sv, SHEET_CONTROL (scc));
 	return SHEET_CONTROL (scc);
+}
+
+GNOME_Gnumeric_Sheet
+sheet_control_corba_obj (SheetControl *sc)
+{
+	SheetControlCORBA *scc = SHEET_CONTROL_CORBA (sc);
+	g_return_val_if_fail (scc != NULL, NULL);
+	return bonobo_object_corba_objref (BONOBO_OBJECT (scc->servant));
 }

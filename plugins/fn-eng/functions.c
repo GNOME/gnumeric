@@ -67,7 +67,7 @@ val_to_base (FunctionEvalInfo *ei, GnmValue **argv, int num_argv,
 	if (VALUE_IS_EMPTY (value))
 		return value_new_error_NUM (ei->pos);
 	else if (VALUE_IS_EMPTY_OR_ERROR (value))
-		return value_duplicate (value);
+		return value_dup (value);
 
 	places = (num_argv >= 2 && argv[1]) ? value_get_as_int (argv[1]) : 0;
 	str = value_peek_string (value);

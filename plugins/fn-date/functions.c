@@ -988,7 +988,7 @@ networkdays_holiday_callback (GnmValue const *v, EvalPos const *ep,
 	GnmDateConventions const *conv = DATE_CONV (ep);
 
 	if (v->type == VALUE_ERROR)
-		return value_duplicate (v);
+		return value_dup (v);
 	serial = datetime_value_to_serial (v, conv);
         if (serial <= 0)
 		return value_new_error_NUM (ep);

@@ -271,7 +271,7 @@ gnumeric_if (FunctionEvalInfo *ei, GnmValue **args)
 	gboolean err;
 	int res = value_get_as_bool (args[0], &err) ? 1 : 2;
 	return args[res] ?
-		value_duplicate (args[res]) : value_new_bool (res == 1);
+		value_dup (args[res]) : value_new_bool (res == 1);
 }
 
 /***************************************************************************/

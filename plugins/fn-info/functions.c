@@ -225,7 +225,7 @@ gnumeric_cell (FunctionEvalInfo *ei, GnmValue **argv)
 		GnmCell const *cell =
 			sheet_cell_get (ei->pos->sheet, ref->col, ref->row);
 		if (cell && cell->value)
-			return value_duplicate (cell->value);
+			return value_dup (cell->value);
 		return value_new_empty ();
 
 	/* from CELL - limited usefulness!
@@ -1728,7 +1728,7 @@ gnumeric_n (FunctionEvalInfo *ei, GnmValue **argv)
 		return value_new_int (value_get_as_int(argv[0]));
 
 	if (VALUE_IS_NUMBER (argv[0]))
-		return value_duplicate (argv[0]);
+		return value_dup (argv[0]);
 
 	if (argv[0]->type != VALUE_STRING)
 		return value_new_error_NUM (ei->pos);

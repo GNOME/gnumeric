@@ -204,7 +204,7 @@ gnumeric_imreal (FunctionEvalInfo *ei, GnmValue **argv)
 	char imunit;
 
 	if (VALUE_IS_NUMBER (argv[0]))
-		return value_duplicate (argv[0]);
+		return value_dup (argv[0]);
 
 	if (value_get_as_complex (argv[0], &c, &imunit))
 		return value_new_error_VALUE (ei->pos);

@@ -1,3 +1,13 @@
+2003-11-06  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=126389
+	* src/commands.c (cmd_format_redo) : dirty the sheet.
+
+2003-11-05  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c : ditto.
+	* src/GNOME_Gnumeric.xml : Enable select inputs
+
 2003-11-03  Morten Welinder  <terra@gnome.org>
 
 	* src/print.c (sheet_print): Plug leak.

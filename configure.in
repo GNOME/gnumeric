@@ -182,12 +182,12 @@ dnl ****************************
 #try_gda=true
 #gb_msg=yes
 try_gb=no
-gb_msg="Temporarily disabled during gnome2 porting"
+gb_msg="disabled due to lack of gb maintenance"
 AC_ARG_WITH(gb,
 	[--{with,without}-gb      Compile the Gnome Basic plugin],
 	if test "x$withval" = xyes; then
 		#try_gb=true
-		gb_msg="We are not joking, it is temporarily disabled during gnome2 porting"
+		gb_msg="We are not joking.  There is no upstream maintainer for GB"
 		#gb_msg="Disabled by request"
 	fi
 )
@@ -241,7 +241,7 @@ AC_SUBST(GUILE_INCS)
 
 #check for guile 1.5
 try_guile=false
-guile_msg="temporarily disabled in gnome2 branch"
+guile_msg="disabled pending some guile developer interest"
 enable_guile=false
 AC_ARG_WITH(guile,
 	[--{with,without}-guile   Compile with Guile support or without it],

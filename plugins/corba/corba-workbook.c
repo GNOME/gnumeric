@@ -30,6 +30,7 @@
 #include <sheet-view.h>
 #include <sheet-control-priv.h>
 #include <ranges.h>
+#include <sheet.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <bonobo.h>
@@ -115,9 +116,15 @@ static GNOME_Gnumeric_Sheet
 cworkbook_sheet_add (PortableServer_Servant servant, CORBA_char const *name, CORBA_short pos,
 		     CORBA_Environment *ev)
 {
-        WorkbookControlCORBA *wbcc = wbcc_from_servant (servant);
-	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcc));
+        WorkbookControl *wbcc = (WorkbookControl *)wbcc_from_servant (servant);
+	Workbook *wb = wb_control_workbook (wbcc);
 	Sheet *sheet = workbook_sheet_add (wb, NULL, TRUE);
+
+	SHEET_FOREACH_CONTROL(sheet, sv, sc, {
+		if (wbcc == sc_wbc (sc))
+			return sheet_control_corba_obj (sc);
+	});
+	return NULL;
 }
 
 static GNOME_Gnumeric_Sheets *

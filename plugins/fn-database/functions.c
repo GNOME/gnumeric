@@ -544,7 +544,7 @@ range_first (GnmValue **xs, int n, GnmValue **res)
 	if (n <= 0)
 		return 1;
 
-	*res = value_duplicate (xs[0]);
+	*res = value_dup (xs[0]);
 	return 0;
 }
 

@@ -113,7 +113,7 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 		case VALUE_INTEGER:
 		case VALUE_FLOAT:
 		case VALUE_STRING:
-			v = value_duplicate (cell->value);
+			v = value_dup (cell->value);
 			break;
 		case VALUE_EMPTY:
 		default:
@@ -3024,7 +3024,7 @@ gnumeric_sumproduct (FunctionEvalInfo *ei, GnmExprList *args)
 					 * significance -- it will be checked
 					 * outside the arg loop.
 					 */
-					result = value_duplicate (v);
+					result = value_dup (v);
 					value_release (val);
 					goto done;
 				}

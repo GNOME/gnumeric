@@ -1,6 +1,6 @@
-To report Gnumeric bugs, please visit bugzilla.gnome.org.
+    To report Gnumeric bugs, please visit bugzilla.gnome.org.
 
-This file is used as a scratch pad by developers.  It is a list of known
+    This file is used as a scratch pad by developers.  It is a list of known
 issues that need to be addressed.  Divided into, things that will prevent
 release, and longer term bugs.
 
@@ -8,14 +8,9 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    http://bugzilla.gnome.org/show_bug.cgi?id=125986	[line width lost]
-    http://bugzilla.gnome.org/show_bug.cgi?id=125886	[x axis label vertical alignment]
-    : Update style editors when the object changes
-    : Update shared dim editors when one of the siblings changes
     : X axis label seperation
     : text in boxes for text-xls/pivot.xls is white ??
     : guia.xls complains of problems importing autofilter
-    : update mime types in gnumeric and gnome-mime-data
 
 Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=123781
@@ -114,6 +109,8 @@ Short Term Goals
     0.14) Convert dialog-consolidate to TreeView                (DONE)
     0.15) Enter ''123 in a cell and expr entry will show only   (DONE)
           one quote.
+    0.16) Add a tooltip to the edit line showing all of the
+   	 content (for cases where it needs to scroll)
 
 1) graphs
     1.1) Split plot xml file engine, type, and family plugins	(DONE)
@@ -185,18 +182,18 @@ Short Term Goals
 	1.10.7) Check for short vectors				(DONE)
 	1.10.8) Clip when values are out of range		(DONE)
 	1.10.9) Support vary style by element for type=normal
-    1.11) Line/Area Plot
+    1.11) Line/Area Plot					(DONE)
 	1.11.1)	Normal						(DONE)
 	1.11.2)	Stacked						(DONE)
 	1.11.3)	Percentage					(DONE)
-	1.11.4)	sub type with no-marker by default
-	1.11.5) center points on X index values for Line
+	1.11.4)	sub type with no-marker by default		(DONE)
+	1.11.5) center points on X index values for Line	(DONE)
     1.12) X/Y (Scatter) Plot
 	1.12.1) Add simple implementation			(DONE)
 	1.12.2) Take marker sizes into account at bounds
 	1.12.3) Bounds on 1 axis explicitly clip the other
 	1.12.4) Splined interpolation
-	1.12.5) Bubbles
+	1.12.5) Bubbles {Jean has patch}
     1.13) Decide on recalc strategy				(DONE)
 	1.13.1) Getting data from sheet -> graphs		(DONE)
 	1.13.2) linking unlinking				(DONE)
@@ -297,7 +294,7 @@ Short Term Goals
     1.24) Sizing units						(DONE)
 	1.24.1) Have the legend use pts to size swatches	(DONE)
 	1.24.2) Test renderers mapping between pts & pixels	(DONE)
-    1.25) Printing
+    1.25) Printing						(DONE)
 	1.25.1) gog-renderer-gnomeprint				(DONE)
 	1.25.2) sheet object wrapper for printing		(DONE)
 	1.25.3) paths						(DONE)
@@ -309,7 +306,7 @@ Short Term Goals
 	1.25.9) why doesn't text appear in preview		(DONE)
 	1.25.10) why is font selection bogus			(DONE)
 	1.25.11) text anchors					(DONE)
-	1.25.12) Check the zoom handling for fonts
+	1.25.12) Check the zoom handling for fonts		(DONE)
     1.26) Move 'use_one_style' from pie -> plot with 1 series	(DONE)
     1.27) Add a flag to gobject to go with its role indicating	(DONE)
 	whether the instance was autocreated or assigned.
@@ -326,11 +323,11 @@ Short Term Goals
 	1.31.2) Solid Fills					(DONE)
 	1.31.3) Gradient Fills					(DONE)
 	1.31.4) Pattern Fills
-	1.31.5) Image Fills
-	1.31.6) Markers
-	1.31.7) Text
-	1.31.8) Text alignment
-	1.31.9) Text clipping
+	1.31.5) Image Fills					(DONE)
+	1.31.6) Markers						(DONE)
+	1.31.7) Text						(DONE)
+	1.31.8) Text alignment					(DONE)
+	1.31.9) Text clipping					(DONE)
     1.32) Radar plots
 	1.31.1) Basic (looks trivial)			{SamuriaMike}
 
@@ -378,6 +375,7 @@ Short Term Goals
     3.1) Finish the edit dialog to load and store results 	(DONE)
     3.2) Figure out import semantics of the other 2 XL types
     3.3) email support ? via system 'evolution mailto:....'
+    3.4) Make file -> send email execution into a service
 
 6) XL
     6.1) biff7 externsheet records in charts			(DONE)
@@ -400,12 +398,16 @@ Short Term Goals
 	    6.9.4.1) XL95					(DONE)
 	    6.9.4.2) Escher					(DONE)
     6.10) hlink export (97 only)
-    6.11) Comment import for XL97				(DONE)
+    6.11) Comments
+	6.11.1) import for XL95					(DONE)
+	6.11.2) export for XL95					(DONE)
+	6.11.3) import for XL97					(DONE)
+	6.11.4) export for XL97 (needs placement kludge)
     6.12) Set operand classes
 	6.12.1) calc and set the classes			(DONE)
 	6.12.2) check target_type of external func
 	6.12.3) check target type of range/intersect
-    6.13) images
+    6.13) image export
 	6.13.1) Excel95
 	6.13.1) Excel97
     6.14) chart export

@@ -1003,7 +1003,7 @@ BC_R(markerformat)(XLChartHandler const *handle,
 	GOMarker *marker;
 	guint16 shape = GSF_LE_GET_GUINT16 (q->data+8);
 	guint16 const flags = GSF_LE_GET_GUINT16 (q->data+10);
-	/* gboolean const auto_color = (flags & 0x01) ? TRUE : FALSE; */
+	gboolean const auto_color = (flags & 0x01) ? TRUE : FALSE;
 
 	if (s->style == NULL)
 		s->style = gog_style_new ();
@@ -1018,6 +1018,9 @@ BC_R(markerformat)(XLChartHandler const *handle,
 		(flags & 0x20) ? 0 : BC_R(color) (q->data + 0, "MarkerFore"));
 	go_marker_set_fill_color (marker, 
 		(flags & 0x10) ? 0 : BC_R(color) (q->data + 4, "MarkerBack"));
+
+	s->style->marker.auto_outline_color =
+		s->style->marker.auto_fill_color = auto_color;
 
 	if (s->container.ver >= MS_BIFF_V8) {
 		guint32 const marker_size = GSF_LE_GET_GUINT32 (q->data+16);

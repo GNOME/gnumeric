@@ -144,7 +144,7 @@ cb_randdiscrete (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 		if (p->x <= p->prob [p->ind] + p->cum) {
 			if (cell != NULL) {
 				cell_eval (cell);
-				p->res = value_duplicate (cell->value);
+				p->res = value_dup (cell->value);
 			} else
 				p->res = value_new_empty ();
 		} else
@@ -152,7 +152,7 @@ cb_randdiscrete (Sheet *sheet, int col, int row, GnmCell *cell, void *user_data)
 	} else if (p->ind == p->x_ind) {
 		if (cell != NULL) {
 			cell_eval (cell);
-			p->res = value_duplicate (cell->value);
+			p->res = value_dup (cell->value);
 		} else
 			p->res = value_new_empty ();
 	}
@@ -1066,7 +1066,7 @@ callback_function_simtable (const EvalPos *ep, GnmValue *value, void *closure)
 	simtable_t *p = closure;
 
 	if (p->index == ep->sheet->simulation_round)
-		p->value = value_duplicate (value);
+		p->value = value_dup (value);
 	++(p->index);
 
 	return NULL;
