@@ -245,17 +245,17 @@ setpivcol (lprec *lp,
 static void
 minoriteration (lprec *lp, int colnr, int row_nr)
 {
-        int  i, j, k, wk, varin, varout, elnr;
-	gnum_float piv = 0, theta;
+        int         i, j, k, wk, varin, varout, elnr;
+	gnum_float  piv = 0, theta;
   
 	varin = colnr + lp->rows;
-	elnr = lp->eta_col_end[lp->eta_size];
-	wk = elnr;
+	elnr  = lp->eta_col_end[lp->eta_size];
+	wk    = elnr;
 	lp->eta_size++;
 
 	if (lp_solve_Extrad != 0) {
 	        lp->eta_row_nr[elnr] = 0;
-		lp->eta_value[elnr] = -lp_solve_Extrad;
+		lp->eta_value[elnr]  = -lp_solve_Extrad;
 		elnr++;
 		if (elnr >= lp->eta_alloc)
 		        resize_eta(lp, elnr);
@@ -279,17 +279,17 @@ minoriteration (lprec *lp, int colnr, int row_nr)
 	}
 
 	lp->eta_row_nr[elnr] = row_nr;
-	lp->eta_value[elnr] = 1 / piv;
-	theta = lp->rhs[row_nr] / piv;
-	lp->rhs[row_nr] = theta;
+	lp->eta_value[elnr]  = 1 / piv;
+	theta                = lp->rhs[row_nr] / piv;
+	lp->rhs[row_nr]      = theta;
 
 	for (i = wk; i < elnr; i++)
 	        lp->rhs[lp->eta_row_nr[i]] -= theta * lp->eta_value[i];
 
-	varout = lp->bas[row_nr];
-	lp->bas[row_nr] = varin;
+	varout            = lp->bas[row_nr];
+	lp->bas[row_nr]   = varin;
 	lp->basis[varout] = FALSE;
-	lp->basis[varin] = TRUE;
+	lp->basis[varin]  = TRUE;
 
 	for (i = wk; i < elnr; i++)
 	        lp->eta_value[i] /= -piv;
@@ -301,8 +301,8 @@ minoriteration (lprec *lp, int colnr, int row_nr)
 static void
 rhsmincol (lprec *lp, gnum_float theta, int row_nr, int varin)
 {
-        int  i, j, k, varout;
-	gnum_float f;
+        int         i, j, k, varout;
+	gnum_float  f;
   
 	if (row_nr > lp->rows + 1) {
 	        g_print ("Error: rhsmincol called with row_nr: "
@@ -319,24 +319,24 @@ rhsmincol (lprec *lp, gnum_float theta, int row_nr, int varin)
 		lp->rhs[lp->eta_row_nr[i]] = f;
 	}
 
-	lp->rhs[row_nr] = theta;
-	varout = lp->bas[row_nr];
-	lp->bas[row_nr] = varin;
+	lp->rhs[row_nr]   = theta;
+	varout            = lp->bas[row_nr];
+	lp->bas[row_nr]   = varin;
 	lp->basis[varout] = FALSE;
-	lp->basis[varin] = TRUE;
+	lp->basis[varin]  = TRUE;
 } /* rhsmincol */
 
 
 void
 invert (lprec *lp)
 {
-        int    i, j, v, wk, numit, varnr, row_nr, colnr, varin;
-	gnum_float theta;
-	gnum_float *pcol;
-	short  *frow;
-	short  *fcol;
-	int    *rownum, *col, *row;
-	int    *colnum;
+        int         i, j, v, wk, numit, varnr, row_nr, colnr, varin;
+	gnum_float  theta;
+	gnum_float  *pcol;
+	short       *frow;
+	short       *fcol;
+	int         *rownum, *col, *row;
+	int         *colnum;
 
 	if (lp->print_at_invert) 
 	        fprintf(stderr,
@@ -344,11 +344,11 @@ invert (lprec *lp)
 			lp->iter, lp->eta_size, (double) -lp->rhs[0]); 
  
 	rownum = g_new0 (int, lp->rows + 1);
-	col = g_new0 (int, lp->rows + 1);
-	row = g_new0 (int, lp->rows + 1);
-	pcol = g_new0 (gnum_float, lp->rows + 1);
-	frow = g_new0 (short, lp->rows + 1);
-	fcol = g_new0 (short, lp->columns + 1);
+	col    = g_new0 (int, lp->rows + 1);
+	row    = g_new0 (int, lp->rows + 1);
+	pcol   = g_new0 (gnum_float, lp->rows + 1);
+	frow   = g_new0 (short, lp->rows + 1);
+	fcol   = g_new0 (short, lp->columns + 1);
 	colnum = g_new0 (int, lp->columns + 1);
  
 	for (i = 0; i <= lp->rows; i++)
@@ -407,10 +407,10 @@ invert (lprec *lp)
 		        lp->rhs[i] -= lp->upbo[i];
 	
 	lp->eta_size = 0;
-	v = 0;
-	row_nr = 0;
-	lp->num_inv = 0;
-	numit = 0;
+	v            = 0;
+	row_nr       = 0;
+	lp->num_inv  = 0;
+	numit        = 0;
 
 	while (v < lp->rows) {
 	        row_nr++;
@@ -427,9 +427,9 @@ invert (lprec *lp)
 				while (!(fcol[lp->col_no[j] - 1]))
 				        j++;
 
-				colnr = lp->col_no[j];
+				colnr           = lp->col_no[j];
 				fcol[colnr - 1] = FALSE;
-				colnum[colnr] = 0;
+				colnum[colnr]   = 0;
 
 				for (j = lp->col_end[colnr - 1];
 				     j < lp->col_end[colnr]; j++)
@@ -440,8 +440,10 @@ invert (lprec *lp)
 				minoriteration(lp, colnr, row_nr);
 			}
 	}
-	v = 0;
+
+	v     = 0;
 	colnr = 0;
+
 	while (v < lp->columns) {
 	        colnr++;
 		if (colnr > lp->columns)
@@ -457,8 +459,8 @@ invert (lprec *lp)
 				while (!(frow[lp->mat[j - 1].row_nr]))
 				        j++;
 
-				row_nr = lp->mat[j - 1].row_nr;
-				frow[row_nr] = FALSE;
+				row_nr             = lp->mat[j - 1].row_nr;
+				frow[row_nr]       = FALSE;
 				rownum[row_nr - 1] = 0;
 
 				for (j = lp->row_end[row_nr - 1] + 1;
@@ -468,8 +470,8 @@ invert (lprec *lp)
 
 				fcol[colnr - 1] = FALSE;
 				numit++;
-				col[numit - 1] = colnr;
-				row[numit - 1] = row_nr;
+				col[numit - 1]  = colnr;
+				row[numit - 1]  = row_nr;
 			}
 	}
 	for (j = 1; j <= lp->columns; j++)
@@ -495,9 +497,9 @@ invert (lprec *lp)
 		}
 
 	for (i = numit - 1; i >= 0; i--) {
-	        colnr = col[i];
+	        colnr  = col[i];
 		row_nr = row[i];
-		varin = colnr + lp->rows;
+		varin  = colnr + lp->rows;
 
 		for (j = 0; j <= lp->rows; j++)
 		        pcol[j] = 0;
@@ -506,22 +508,23 @@ invert (lprec *lp)
 		        pcol[lp->mat[j].row_nr] = lp->mat[j].value;
 
 		pcol[0] -= lp_solve_Extrad;
-		condensecol(lp, row_nr, pcol);
+		condensecol (lp, row_nr, pcol);
 		theta = lp->rhs[row_nr] / (gnum_float) pcol[row_nr];
-		rhsmincol(lp, theta, row_nr, varin);
-		addetacol(lp);
+		rhsmincol (lp, theta, row_nr, varin);
+		addetacol (lp);
 	}
 
 	for (i = 1; i <= lp->rows; i++)
-	        my_round(lp->rhs[i], lp->epsb);
+	        my_round (lp->rhs[i], lp->epsb);
 
 	if (lp->print_at_invert) 
-	        fprintf(stderr,
-			"End Invert                eta_size %d rhs[0] %g\n",
-			lp->eta_size, (double) -lp->rhs[0]); 
+	        fprintf (stderr,
+			 "End Invert                eta_size %d rhs[0] %g\n",
+			 lp->eta_size, (double) -lp->rhs[0]); 
 	
 	JustInverted = TRUE;
-	DoInvert = FALSE;
+	DoInvert     = FALSE;
+
 	g_free (rownum);
 	g_free (col);
 	g_free (row);
@@ -532,16 +535,17 @@ invert (lprec *lp)
 } /* invert */
 
 static gboolean
-colprim (lprec *lp,
-	 int *colnr,
-	 gboolean minit,
+colprim (lprec        *lp,
+	 int          *colnr,
+	 gboolean     minit,
 	 gnum_float   *drow)
 {
-        int  varnr, i, j;
-	gnum_float f, dpiv;
+        int         varnr, i, j;
+	gnum_float  f, dpiv;
   
-	dpiv = -lp->epsd;
+	dpiv     = -lp->epsd;
 	(*colnr) = 0;
+
 	if (!minit) {
 	        for (i = 1; i <= lp->sum; i++)
 		        drow[i] = 0;
@@ -576,12 +580,12 @@ colprim (lprec *lp,
 			}
 	if (lp->trace) {
 	        if ((*colnr)>0)
-		        fprintf(stderr, "col_prim:%d, reduced cost: %g\n",
-				(*colnr), (double)dpiv);
+		        fprintf (stderr, "col_prim:%d, reduced cost: %g\n",
+				 (*colnr), (double)dpiv);
 		else
-		        fprintf(stderr,
-				"col_prim: no negative reduced costs found, "
-				"optimality!\n");
+		        fprintf (stderr,
+				 "col_prim: no negative reduced costs found, "
+				 "optimality!\n");
 	}
 	if (*colnr == 0) {
 	        Doiter   = FALSE;
@@ -598,20 +602,20 @@ rowprim (lprec      *lp,
 	 gnum_float *theta,
 	 gnum_float *pcol)
 {
-        int  i;
-	gnum_float f = -42, quot; 
+        int         i;
+	gnum_float  f = -42, quot; 
 
 	(*row_nr) = 0;
-	(*theta) = lp->infinite;
+	(*theta)  = lp->infinite;
 	for (i = 1; i <= lp->rows; i++) {
 	        f = pcol[i];
 		if (f != 0) {
 		        if (ABS(f) < lp_solve_Trej) {
-			        lp_solve_debug_print(lp,
-						     "pivot %g rejected, "
-						     "too small (limit %g)\n",
-						     (double)f, 
-						     (double) lp_solve_Trej);
+			        lp_solve_debug_print (lp,
+						      "pivot %g rejected, "
+						      "too small (limit %g)\n",
+						      (double)f, 
+						      (double) lp_solve_Trej);
 			}
 			else { /* pivot alright */
 			        quot = 2 * lp->infinite;
@@ -621,9 +625,9 @@ rowprim (lprec      *lp,
 				        quot = (lp->rhs[i]
 						- lp->upbo[lp->bas[i]])
 					  / (gnum_float) f;
-				my_round(quot, lp->epsel);
+				my_round (quot, lp->epsel);
 				if (quot < (*theta)) {
-				        (*theta) = quot;
+				        (*theta)  = quot;
 					(*row_nr) = i;
 				}
 			}
@@ -641,22 +645,22 @@ rowprim (lprec      *lp,
 					        quot = (lp->rhs[i] -
 							lp->upbo[lp->bas[i]]) /
 						  (gnum_float) f;
-				my_round(quot, lp->epsel);
+				my_round (quot, lp->epsel);
 				if (quot < (*theta)) {
-				        (*theta) = quot;
+				        (*theta)  = quot;
 					(*row_nr) = i;
 				}
 			}
 		}
 
 	if ((*theta) < 0) {
-	        fprintf(stderr, "Warning: Numerical instability, qout = %g\n",
-			(double)(*theta));
-		fprintf(stderr,
-			"pcol[%d] = %18g, rhs[%d] = %18g , upbo = %g\n",
-			(*row_nr), (double)f, (*row_nr),
-			(double)lp->rhs[(*row_nr)],
-			(double)lp->upbo[lp->bas[(*row_nr)]]);
+	        fprintf (stderr, "Warning: Numerical instability, qout = %g\n",
+			 (double) (*theta));
+		fprintf (stderr,
+			 "pcol[%d] = %18g, rhs[%d] = %18g , upbo = %g\n",
+			 (*row_nr), (double) f, (*row_nr),
+			 (double) lp->rhs[(*row_nr)],
+			 (double) lp->upbo[lp->bas[(*row_nr)]]);
 	}
 	if ((*row_nr) == 0) {
 	        if (lp->upbo[colnr] == lp->infinite) {
@@ -670,7 +674,7 @@ rowprim (lprec      *lp,
 			if (i > lp->rows) { /* empty column with upperbound! */
 			        lp->lower[colnr] = FALSE;
 				lp->rhs[0] += lp->upbo[colnr]*pcol[0];
-				Doiter = FALSE;
+				Doiter   = FALSE;
 				DoInvert = FALSE;
 			}
 			else if (pcol[i]<0) {
@@ -681,28 +685,30 @@ rowprim (lprec      *lp,
 	if ((*row_nr) > 0)
 	        Doiter = TRUE;
 	if (lp->trace)
-	        fprintf(stderr, "row_prim:%d, pivot element:%18g\n", (*row_nr),
-			(double)pcol[(*row_nr)]);
+	        fprintf (stderr, "row_prim:%d, pivot element:%18g\n", (*row_nr),
+			 (double) pcol[(*row_nr)]);
 
-	return((*row_nr) > 0);
+	return ((*row_nr) > 0);
 } /* rowprim */
+
 
 static gboolean
 rowdual (lprec *lp, int *row_nr)
 {
-        int        i;
-	gnum_float f, g, minrhs;
-	gboolean   artifs;
+        int         i;
+	gnum_float  f, g, minrhs;
+	gboolean    artifs;
 
 	(*row_nr) = 0;
-	minrhs = -lp->epsb;
-	i = 0;
-	artifs = FALSE;
+	minrhs    = -lp->epsb;
+	i         = 0;
+	artifs    = FALSE;
+
 	while (i < lp->rows && !artifs) {
 	        i++;
 		f = lp->upbo[lp->bas[i]];
 		if (f == 0 && (lp->rhs[i] != 0)) {
-		        artifs = TRUE;
+		        artifs    = TRUE;
 			(*row_nr) = i;
 		} else {
 		        if (lp->rhs[i] < f - lp->rhs[i])
@@ -710,7 +716,7 @@ rowdual (lprec *lp, int *row_nr)
 			else
 			        g = f - lp->rhs[i];
 			if (g < minrhs) {
-			        minrhs = g;
+			        minrhs    = g;
 				(*row_nr) = i;
 			}
 		}
@@ -718,21 +724,22 @@ rowdual (lprec *lp, int *row_nr)
 
 	if (lp->trace) {  
 	        if ((*row_nr) > 0) { 
-		        fprintf(stderr,
-				"row_dual:%d, rhs of selected row:           "
-				"%18g\n",
-				(*row_nr), (double)lp->rhs[(*row_nr)]);
+		        fprintf (stderr,
+				 "row_dual:%d, rhs of selected row:           "
+				 "%18g\n",
+				 (*row_nr), (double) lp->rhs[(*row_nr)]);
 			if (lp->upbo[lp->bas[(*row_nr)]] < lp->infinite)
-			        fprintf(stderr,
-					"\t\tupper bound of basis variable:"
-					"%18g\n",
-					(double)lp->upbo[lp->bas[(*row_nr)]]);
+			        fprintf (stderr,
+					 "\t\tupper bound of basis variable:"
+					 "%18g\n",
+					 (double) lp->upbo[lp->bas[(*row_nr)]]);
 		} else
 		        fprintf(stderr, "row_dual: no infeasibilities found\n");
 	}
     
-	return((*row_nr) > 0);
+	return ((*row_nr) > 0);
 } /* rowdual */
+
 
 static gboolean
 coldual (lprec      *lp,
@@ -742,8 +749,8 @@ coldual (lprec      *lp,
 	 gnum_float *prow,
 	 gnum_float *drow)
 {
-        int  i, j, k, r, varnr, *rowp, row;
-	gnum_float theta, quot, pivot, d, f, g, *valuep, value;
+        int         i, j, k, r, varnr, *rowp, row;
+	gnum_float  theta, quot, pivot, d, f, g, *valuep, value;
   
 	Doiter = FALSE;
 	if (!minit) {
@@ -752,7 +759,7 @@ coldual (lprec      *lp,
 			drow[i] = 0;
 		}
 
-		drow[0] = 1;
+		drow[0]      = 1;
 		prow[row_nr] = 1;
 
 		for (i = lp->eta_size; i >= 1; i--) {
@@ -774,9 +781,9 @@ coldual (lprec      *lp,
 				d += drow[*rowp] * *valuep;
 			}
 			
-			my_round(f, lp->epsel);
+			my_round (f, lp->epsel);
 			prow[r] = f;
-			my_round(d, lp->epsd);
+			my_round (d, lp->epsd);
 			drow[r] = d;
 		}
 
@@ -797,15 +804,15 @@ coldual (lprec      *lp,
 				for (matentry = lp->mat + j;
 				     j < k;
 				     j++, matentry++) {
-				        row = (*matentry).row_nr;
+				        row   = (*matentry).row_nr;
 					value = (*matentry).value;
-					d += drow[row] * value;
-					f += prow[row] * value;
+					d     += drow[row] * value;
+					f     += prow[row] * value;
 				}
 
-				my_round(f, lp->epsel);
+				my_round (f, lp->epsel);
 				prow[varnr] = f;
-				my_round(d, lp->epsd);
+				my_round (d, lp->epsd);
 				drow[varnr] = d;
 			}
 		}
@@ -816,13 +823,13 @@ coldual (lprec      *lp,
 	else
 	        g = 1;
 
-	pivot = 0;
+	pivot    = 0;
 	(*colnr) = 0;
-	theta = lp->infinite;
+	theta    = lp->infinite;
 
 	for (i = 1; i <= lp->sum; i++) {
 	        if (lp->lower[i])
-		        d = prow[i] * g;
+		        d =  prow[i] * g;
 		else
 		        d = -prow[i] * g;
     
@@ -838,16 +845,16 @@ coldual (lprec      *lp,
 			}
 			else if ((quot == theta) 
 				 && (ABS(d) > ABS(pivot))) {
-			        pivot = d;
+			        pivot    = d;
 				(*colnr) = i;
 			}
 		}
 	}
 
 	if (lp->trace)
-	        fprintf(stderr,
-			"col_dual:%d, pivot element:  %18g\n", (*colnr),
-			(double)prow[(*colnr)]);
+	        fprintf (stderr,
+			 "col_dual:%d, pivot element:  %18g\n", (*colnr),
+			 (double) prow[(*colnr)]);
 	
 	if ((*colnr) > 0)
 	        Doiter = TRUE;
@@ -895,24 +902,24 @@ iteration (lprec        *lp,
 
 	if (((*minit) = (*theta) > (up + lp->epsb))) {
 	        (*theta) = up;
-		(*low) = !(*low);
+		(*low)   = !(*low);
 	}
 
-	k = lp->eta_col_end[lp->eta_size + 1];
+	k     = lp->eta_col_end[lp->eta_size + 1];
 	pivot = lp->eta_value[k - 1];
 
 	for (i = lp->eta_col_end[lp->eta_size]; i < k; i++) {
 	        f = lp->rhs[lp->eta_row_nr[i]] - (*theta) * lp->eta_value[i];
-		my_round(f, lp->epsb);
+		my_round (f, lp->epsb);
 		lp->rhs[lp->eta_row_nr[i]] = f;
 	}
 
 	if (!(*minit)) {
-	        lp->rhs[row_nr] = (*theta);
-		varout = lp->bas[row_nr];
-		lp->bas[row_nr] = varin;
+	        lp->rhs[row_nr]   = (*theta);
+		varout            = lp->bas[row_nr];
+		lp->bas[row_nr]   = varin;
 		lp->basis[varout] = FALSE;
-		lp->basis[varin] = TRUE;
+		lp->basis[varin]  = TRUE;
 
 		if (primal && pivot < 0)
 		        lp->lower[varout] = FALSE;
@@ -924,30 +931,30 @@ iteration (lprec        *lp,
 			        lp->eta_value[i] = -lp->eta_value[i];
 		}
 
-		addetacol(lp);
+		addetacol (lp);
 		lp->num_inv++;
 	}
 
 	if (lp->trace) {
-	        fprintf(stderr, "Theta = %g ", (double)(*theta));
+	        fprintf (stderr, "Theta = %g ", (double)(*theta));
 		if ((*minit)) {
 		        if (!lp->lower[varin])
-			        fprintf(stderr,
-					"Iteration: %d, variable %d changed "
-					"from 0 to its upper bound of %g\n",
-					lp->iter, varin,
-					(double) lp->upbo[varin]);
+			        fprintf (stderr,
+					 "Iteration: %d, variable %d changed "
+					 "from 0 to its upper bound of %g\n",
+					 lp->iter, varin,
+					 (double) lp->upbo[varin]);
 			else
-			        fprintf(stderr,
-					"Iteration: %d, variable %d changed "
-					"its upper bound of %g to 0\n",
-					lp->iter, varin,
-					(double) lp->upbo[varin]);
+			        fprintf (stderr,
+					 "Iteration: %d, variable %d changed "
+					 "its upper bound of %g to 0\n",
+					 lp->iter, varin,
+					 (double) lp->upbo[varin]);
 		}
 		else
-		  fprintf(stderr,
-			  "Iteration: %d, variable %d entered basis at: %g\n",
-			  lp->iter, varin, (double)lp->rhs[row_nr]);
+		  fprintf (stderr,
+			   "Iteration: %d, variable %d entered basis at: %g\n",
+			   lp->iter, varin, (double)lp->rhs[row_nr]);
 		if (!primal) {
 		        f = 0;
 			for (i = 1; i <= lp->rows; i++)
@@ -957,13 +964,13 @@ iteration (lprec        *lp,
 				        if (lp->rhs[i] > lp->upbo[lp->bas[i]])
 					        f += lp->rhs[i] -
 						  lp->upbo[lp->bas[i]];
-			fprintf(stderr, "feasibility gap of this basis: %g\n",
-				(double) f);
+			fprintf (stderr, "feasibility gap of this basis: %g\n",
+				 (double) f);
 		} else
-		        fprintf(stderr,
-				"objective function value of this feasible "
-				"basis: %g\n",
-				(double)lp->rhs[0]);
+		        fprintf (stderr,
+				 "objective function value of this feasible "
+				 "basis: %g\n",
+				 (double) lp->rhs[0]);
 	}
 
 	return FALSE;
@@ -1008,7 +1015,7 @@ solvelp (lprec *lp)
 		        drow[i] = 0;
 
 		/* fix according to Joerg Herbers */
-		btran(lp, drow);
+		btran (lp, drow);
 
 		lp_solve_Extrad = 0;
 
@@ -1028,31 +1035,31 @@ solvelp (lprec *lp)
 	        lp_solve_Extrad = 0;
 
 	if (lp->trace)
-	        fprintf(stderr, "lp_solve_Extrad = %g\n",
-			(double) lp_solve_Extrad);
+	        fprintf (stderr, "lp_solve_Extrad = %g\n",
+			 (double) lp_solve_Extrad);
 
 	minit = FALSE;
 
 	while (Status == SolverRunning) {
-	        Doiter = FALSE;
+	        Doiter   = FALSE;
 		DoInvert = FALSE;
 
 		if (primal) {
-		       if (colprim(lp, &colnr, minit, drow)) {
-			       setpivcol(lp, lp->lower[colnr], colnr, Pcol);
+		       if (colprim (lp, &colnr, minit, drow)) {
+			       setpivcol (lp, lp->lower[colnr], colnr, Pcol);
 	
-			       if (rowprim(lp, colnr, &row_nr, &theta, Pcol))
-				       condensecol(lp, row_nr, Pcol);
+			       if (rowprim (lp, colnr, &row_nr, &theta, Pcol))
+				       condensecol (lp, row_nr, Pcol);
 		       }
 		} else /* not primal */ {
 		        if (!minit)
-			        rowdual(lp, &row_nr);
+			        rowdual (lp, &row_nr);
 
 			if (row_nr > 0 ) {
-			        if (coldual(lp, row_nr, &colnr, minit, prow,
-					    drow)) {
-				        setpivcol(lp, lp->lower[colnr], colnr,
-						  Pcol);
+			        if (coldual (lp, row_nr, &colnr, minit, prow,
+					     drow)) {
+				        setpivcol (lp, lp->lower[colnr], colnr,
+						   Pcol);
 
 					/* getting div by zero here. Catch it
 					 * and try to recover */
@@ -1082,7 +1089,7 @@ solvelp (lprec *lp)
 							Status = SolverFailure;
 						}
 					} else {
-					        condensecol(lp, row_nr, Pcol);
+					        condensecol (lp, row_nr, Pcol);
 						f = lp->rhs[row_nr] -
 						  lp->upbo[lp->bas[row_nr]];
 						
@@ -1117,8 +1124,8 @@ solvelp (lprec *lp)
 
 		if (DoInvert) {
 		        if (lp->print_at_invert)
-			        fprintf(stderr, "Inverting: Primal = %d\n",
-					primal);
+			        fprintf (stderr, "Inverting: Primal = %d\n",
+					 primal);
 			invert(lp);
 		}
 	} 
@@ -1158,7 +1165,7 @@ construct_solution (lprec *lp)
 	gnum_float f;
 
 	/* zero all results of rows */
-	memset(lp->solution, '\0', (lp->rows + 1) * sizeof(gnum_float));
+	memset (lp->solution, '\0', (lp->rows + 1) * sizeof(gnum_float));
 
 	lp->solution[0] = -lp->orig_rh[0];
 
@@ -1262,85 +1269,15 @@ check_if_less (gnum_float x,
 	       gnum_float value)
 {
         if (x >= y) {
-	        fprintf(stderr,
-			"Error: new upper or lower bound is not more "
-			"restrictive\n");
-		fprintf(stderr, "bound 1: %g, bound 2: %g, value: %g\n",
-			(double)x, (double)y, (double)value);
+	        fprintf (stderr,
+			 "Error: new upper or lower bound is not more "
+			 "restrictive\n");
+		fprintf (stderr, "bound 1: %g, bound 2: %g, value: %g\n",
+			 (double)x, (double)y, (double)value);
 		/* exit(EXIT_FAILURE); */
 	}
 }
 
-#if 0
-/* This is currently not used, J-P.
- */
-static void
-check_solution (lprec      *lp,
-		gnum_float *upbo,
-		gnum_float *lowbo)
-{
-        int i;
-
-	/* check if all solution values are within the bounds, but allow
-	 * some margin for numerical errors */
-
-#define CHECK_EPS 1e-2
-
-	if (lp->columns_scaled)
-	        for (i = lp->rows + 1; i <= lp->sum; i++) {
-		        if (lp->solution[i] < lowbo[i] * lp->scale[i]
-			    - CHECK_EPS) {
-			        fprintf(stderr,
-					"Error: variable %d (%s) has a "
-					"solution (%g) smaller than its lower "
-					"bound (%g)\n",
-					i - lp->rows,
-					lp->col_name[i - lp->rows],
-					(double)lp->solution[i],
-					(double)lowbo[i] * lp->scale[i]);
-				/* abort(); */
-			}
-
-			if (lp->solution[i] > upbo[i] * lp->scale[i]
-			    + CHECK_EPS) {
-			        fprintf(stderr,
-					"Error: variable %d (%s) has a "
-					"solution (%g) larger than its upper "
-					"bound (%g)\n",
-					i - lp->rows,
-					lp->col_name[i - lp->rows],
-					(double)lp->solution[i],
-					(double)upbo[i] * lp->scale[i]);
-				/* abort(); */
-			}
-		} else /* columns not scaled */
-		        for (i = lp->rows + 1; i <= lp->sum; i++) {
-			        if (lp->solution[i] < lowbo[i] - CHECK_EPS) {
-				        fprintf(stderr,
-						"Error: variable %d (%s) has "
-						"a solution (%g) smaller than "
-						"its lower bound (%g)\n",
-						i - lp->rows,
-						lp->col_name[i - lp->rows],
-						(double) lp->solution[i],
-						(double)lowbo[i]);
-					/* abort(); */
-				}
-				
-				if (lp->solution[i] > upbo[i] + CHECK_EPS) {
-				        fprintf(stderr,
-						"Error: variable %d (%s) has "
-						"a solution (%g) larger than "
-						"its upper bound (%g)\n",
-						i - lp->rows,
-						lp->col_name[i - lp->rows],
-						(double) lp->solution[i],
-						(double)upbo[i]);
-					/* abort(); */
-				}
-			}
-} /* check_solution */
-#endif
 
 static int
 milpsolve (lprec      *lp,
@@ -1430,17 +1367,17 @@ milpsolve (lprec      *lp,
 			}
 		invert(lp);
 		lp->eta_valid = TRUE;
-		failure = solvelp(lp); /* and solve again */
+		failure       = solvelp(lp); /* and solve again */
 	}
 
 	if (failure != SolverOptimal)
-	        lp_solve_debug_print(lp, "this problem has no solution, it "
-				     "is %s",
-				     (failure == SolverUnbounded) ?
-				     "unbounded" : "infeasible");
+	        lp_solve_debug_print (lp, "this problem has no solution, it "
+				      "is %s",
+				      (failure == SolverUnbounded) ?
+				      "unbounded" : "infeasible");
 
 	if (failure == SolverInfeasible && lp->verbose)
-	        fprintf(stderr, "level %d INF\n", lp_solve_Level);
+	        fprintf (stderr, "level %d INF\n", lp_solve_Level);
 
 	if (failure == SolverOptimal) { /* there is a good solution */
 	        construct_solution (lp);
@@ -1448,8 +1385,8 @@ milpsolve (lprec      *lp,
 		/* because of reports of solution > upbo */
 		/* check_solution(lp, upbo, lowbo); get too many hits ?? */
 
-		lp_solve_debug_print(lp, "a solution was found");
-		lp_solve_debug_print_solution(lp);
+		lp_solve_debug_print (lp, "a solution was found");
+		lp_solve_debug_print_solution (lp);
 
 		/* if this solution is worse than the best sofar, this
 		 * branch must die */
@@ -1465,14 +1402,15 @@ milpsolve (lprec      *lp,
 
 		if (is_worse) {
 		        if (lp->verbose)
-			         fprintf(stderr,
-					 "level %d OPT NOB value %g bound "
-					 "%g\n",
-					 lp_solve_Level, (double)lp->solution[0],
-					 (double)lp->best_solution[0]); 
-			lp_solve_debug_print(lp, 
-					     "but it was worse than the best "
-					     "sofar, discarded");
+			         fprintf (stderr,
+					  "level %d OPT NOB value %g bound "
+					  "%g\n",
+					  lp_solve_Level,
+					  (double) lp->solution[0],
+					  (double) lp->best_solution[0]); 
+			lp_solve_debug_print (lp, 
+					      "but it was worse than the best "
+					      "sofar, discarded");
 			lp_solve_Level--;
 			return (SolverMilpFailure);
 		}
@@ -1517,7 +1455,7 @@ milpsolve (lprec      *lp,
 			        notint = 0;
 			else {
 			        select_not_int = (rand() % nr_not_int) + 1;
-				i = lp->rows + 1;
+				i              = lp->rows + 1;
 				while (select_not_int > 0) {
 				        if (lp->must_be_int[i]
 					    && !is_int(lp, i))
@@ -1530,14 +1468,14 @@ milpsolve (lprec      *lp,
 		
 		if (lp->verbose) {
 		        if (notint)
-			        fprintf(stderr, "level %d OPT     value %g\n",
-					lp_solve_Level,
-					(double)lp->solution[0]);
+			        fprintf (stderr, "level %d OPT     value %g\n",
+					 lp_solve_Level,
+					 (double) lp->solution[0]);
 			else
-			        fprintf(stderr,
-					"level %d OPT INT value %g\n",
-					lp_solve_Level,
-					(double)lp->solution[0]);
+			        fprintf (stderr,
+					 "level %d OPT INT value %g\n",
+					 lp_solve_Level,
+					 (double) lp->solution[0]);
 		}
 
 		if (notint) { /* there is at least one value not yet int */
@@ -1770,7 +1708,7 @@ milpsolve (lprec      *lp,
 
 	/* failure can have the values SolverOptimal, SolverUnbounded
 	 * and SolverInfeasible. */
-	return(failure);
+	return (failure);
 } /* milpsolve */
 
 
@@ -1789,7 +1727,7 @@ lp_solve_solve (lprec *lp)
 		else if (!lp->maximise && lp->obj_bound == -lp->infinite)
 		        lp->best_solution[0] = lp->infinite;
 		else
-		  lp->best_solution[0] = lp->obj_bound;
+		        lp->best_solution[0] = lp->obj_bound;
 
 		lp_solve_Level = 0;
 
@@ -1811,9 +1749,8 @@ lp_solve_solve (lprec *lp)
 		lp->eta_valid = FALSE;
 		Break_bb      = FALSE;
 		result        = milpsolve(lp, lp->orig_upbo, lp->orig_lowbo,
-					  lp->basis,
-					  lp->lower, lp->bas, FALSE); 
-		return(result);
+					  lp->basis, lp->lower, lp->bas, FALSE);
+		return (result);
 	}
 
 	/* if we get here, isvalid(lp) failed. I suggest we return
