@@ -17,6 +17,8 @@ plugins/oleo/oleo.c
 plugins/perl/perl.c
 plugins/plan-perfect/pln.c
 plugins/python/python.c
+plugins/python-loader/python-loader.c
+plugins/python-loader/py-gnumeric.c
 plugins/sc/sc.c
 plugins/sylk/sylk.c
 plugins/xbase/boot.c
