@@ -1832,8 +1832,8 @@ dump_range_dep (gpointer key, gpointer value, gpointer closure)
 	Range const *range = &(deprange->range);
 
 	/* 2 calls to col_name and row_name.  It uses a static buffer */
-	printf ("\t%s:", cell_pos_name (&range->start));
-	printf ("%s <- ", cell_pos_name (&range->end));
+	printf ("\t%s:", cellpos_as_string (&range->start));
+	printf ("%s <- ", cellpos_as_string (&range->end));
 
 	dep_collection_foreach_list (deprange->deps, list,
 		dump_dependent_list (list););
@@ -1844,7 +1844,7 @@ dump_single_dep (gpointer key, gpointer value, gpointer closure)
 {
 	DependencySingle *depsingle = key;
 
-	printf ("\t%s <- ", cell_pos_name (&depsingle->pos));
+	printf ("\t%s <- ", cellpos_as_string (&depsingle->pos));
 
 	dep_collection_foreach_list (depsingle->deps, list,
 		dump_dependent_list (list););

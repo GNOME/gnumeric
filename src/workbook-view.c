@@ -242,7 +242,7 @@ wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
 		     range_equal (r, m))) {
 			sel_descr = sheet_names_check (sv->sheet, r);
 			if (sel_descr == NULL)
-				sel_descr = cell_pos_name (&r->start);
+				sel_descr = cellpos_as_string (&r->start);
 		} else
 			snprintf (buffer, sizeof (buffer), _("%dR x %dC"),
 				  r->end.row - r->start.row + 1,

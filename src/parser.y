@@ -220,6 +220,20 @@ typedef struct {
 /* The error returned from the */
 static ParserState *state;
 
+static int
+gnumeric_parse_error (ParserState *state, ParseErrorID id, char *message, int end, int relative_begin)
+{
+	if (state->error != NULL) {
+		state->error->id         = id;
+		state->error->message    = message;
+		state->error->begin_char = (end - relative_begin);
+		state->error->end_char   = end;
+	} else
+		g_free (message);
+
+	return ERROR;
+}
+
 static GnmExpr *
 build_unary_op (GnmExprOp op, GnmExpr *expr)
 {
@@ -310,6 +324,19 @@ build_array (GSList *cols)
 	return register_expr_allocation (gnm_expr_new_constant (array));
 }
 
+static GnmExpr *
+build_range_ctor (GnmExpr *l, GnmExpr *r, GnmExpr *validate)
+{
+	if (validate != NULL) {
+		if (validate->any.oper != GNM_EXPR_OP_CELLREF ||
+		    validate->cellref.ref.sheet != NULL) {
+				return gnumeric_parse_error (state,
+							     ParseErrorID id, char *message, int end, int relative_begin)
+		    }
+	}
+	return build_binop (l, GNM_EXPR_OP_RANGE_CTOR, r);
+}
+
 /**
  * parse_string_as_value :
  *
@@ -350,20 +377,6 @@ parse_string_as_value_or_name (GnmExpr *str)
 	}
 
 	return parse_string_as_value (str);
-}
-
-static int
-gnumeric_parse_error (ParserState *state, ParseErrorID id, char *message, int end, int relative_begin)
-{
-	if (state->error != NULL) {
-		state->error->id         = id;
-		state->error->message    = message;
-		state->error->begin_char = (end - relative_begin);
-		state->error->end_char   = end;
-	} else
-		g_free (message);
-
-	return ERROR;
 }
 
 static gboolean
@@ -422,7 +435,7 @@ int yyparse (void);
 }
 %type  <list>	opt_exp arg_list array_row, array_cols
 %type  <expr>	exp array_exp function string_opt_quote cellref
-%token <expr>	STRING QUOTED_STRING CONSTANT CELLREF RANGEREF GTE LTE NE AND OR NOT
+%token <expr>	STRING QUOTED_STRING CONSTANT RANGEREF GTE LTE NE AND OR NOT
 %token		SEPARATOR INVALID_TOKEN
 %type  <sheet>	sheetref opt_sheetref
 
@@ -640,95 +653,10 @@ opt_sheetref: sheetref
 	    | { $$.first = $$.last = NULL; }
 	    ;
 
-cellref:  CELLREF {
-		if (state->force_explicit_sheet_references &&
-		    force_explicit_sheet_references (state, &$1->cellref.ref)) {
-			unregister_allocation ($1);
-			gnm_expr_unref ($1);
-			return ERROR;
-		}
-	        $$ = $1;
-	}
-
-	| sheetref CELLREF {
-		$2->cellref.ref.sheet = $1.first;
-		if ($1.last != NULL) {
-			CellRef tmp = $2->cellref.ref;
-			tmp.sheet = $1.last;
-			$$ = register_expr_allocation (
-				gnm_expr_new_constant (
-					value_new_cellrange (&($2->cellref.ref), &tmp,
-						state->pos->eval.col,
-						state->pos->eval.row)));
-			unregister_allocation ($2);
-			gnm_expr_unref ($2);
-		} else
-			$$ = $2;
-	}
-
-	/* special case to handle 3:5 or A:C style references. */
-	| RANGEREF { $$ = $1; }
-	| sheetref RANGEREF {
-		((Value *)$2->constant.value)->v_range.cell.a.sheet = $1.first;
-		((Value *)$2->constant.value)->v_range.cell.b.sheet = $1.last;
-	}
-
-	| CELLREF RANGE_SEP CELLREF {
-		unregister_allocation ($3);
-		unregister_allocation ($1);
-
-		if (state->force_explicit_sheet_references &&
-		    (force_explicit_sheet_references (state, &$1->cellref.ref) ||
-		     force_explicit_sheet_references (state, &$3->cellref.ref))) {
-			gnm_expr_unref ($3);
-			gnm_expr_unref ($1);
-			return ERROR;
-		}
-
-		$$ = register_expr_allocation
-			(gnm_expr_new_constant
-			 (value_new_cellrange (&($1->cellref.ref), &($3->cellref.ref),
-					       state->pos->eval.col, state->pos->eval.row)));
-		gnm_expr_unref ($3);
-		gnm_expr_unref ($1);
-	}
-
-	| sheetref CELLREF RANGE_SEP opt_sheetref CELLREF {
-		gboolean failed = FALSE;
-
-		unregister_allocation ($5);
-		unregister_allocation ($2);
-		$2->cellref.ref.sheet = $1.first;
-
-		if ($1.last != NULL) {
-			$5->cellref.ref.sheet = $1.last;
-			failed = ($4.first != NULL || $4.last != NULL);
-		} else if ($4.first != NULL) {
-			$5->cellref.ref.sheet = $4.first;
-			failed = ($4.last != NULL);
-		}
-
-		if (failed) {
-			gnm_expr_unref ($5);
-			gnm_expr_unref ($2);
-			return gnumeric_parse_error (
-				state, PERR_3D_NAME,
-				g_strdup (_("Invalid syntax for a 3d reference")),
-				state->expr_text - state->expr_backup, 0);
-		}
-
-		$$ = register_expr_allocation
-			(gnm_expr_new_constant
-			 (value_new_cellrange (&($2->cellref.ref), &($5->cellref.ref),
-					       state->pos->eval.col, state->pos->eval.row)));
-
-		gnm_expr_unref ($5);
-		gnm_expr_unref ($2);
-	}
-
-	| CELLREF RANGE_SEP function  { $$ = build_binop ($1, GNM_EXPR_OP_RANGE_CTOR, $3); }
-	| function RANGE_SEP function { $$ = build_binop ($1, GNM_EXPR_OP_RANGE_CTOR, $3); }
-	| function RANGE_SEP CELLREF  { $$ = build_binop ($1, GNM_EXPR_OP_RANGE_CTOR, $3); }
+cellref:  RANGEREF { $$ = $1; }
+	| RANGEREF RANGE_SEP function  { $$ = build_range_ctor ($1, $3, $1); }
+	| function RANGE_SEP function  { $$ = build_range_ctor ($1, $3, NULL); }
+	| function RANGE_SEP RANGEREF  { $$ = build_range_ctor ($1, $3, $3); }
 	;
 
 arg_list: exp {
@@ -807,46 +735,6 @@ array_cols: array_row {
 	}
 	;
 %%
-/**
- * parse_ref_or_string :
- * @string: the string to try.
- *
- * Attempt to parse the text as a cellref, if it fails
- * return a string.
- * DO NOT attempt to do higher level lookups here.
- *     - sheet names
- *     - function names
- *     - expression names
- *     - value parsing
- * must all be handled by the parser not the lexer.
- */
-static int
-parse_ref_or_string (char const *string)
-{
-	CellRef   ref;
-	Value *v = NULL;
-	char const * res;
-
-	res = cellref_get (&ref, string, &state->pos->eval);
-	if (res != NULL && *res == '\0') {
-		if (state->force_absolute_col_references &&
-		    ref.col_relative) {
-			ref.col += state->pos->eval.col;
-			ref.col_relative = FALSE;
-		}
-		if (state->force_absolute_row_references &&
-		    ref.row_relative) {
-			ref.row += state->pos->eval.row;
-			ref.row_relative = FALSE;
-		}
-		yylval.expr = register_expr_allocation (gnm_expr_new_cellref (&ref));
-		return CELLREF;
-	}
-
-	v = value_new_string (string);
-	yylval.expr = register_expr_allocation (gnm_expr_new_constant (v));
-	return STRING;
-}
 
 /**
  * find_char:
@@ -937,9 +825,13 @@ yylex (void)
 
 	if (start != (end = rangeref_parse (&ref, start, state->pos))) {
 		state->expr_text = end;
-		if (ref.a.sheet == NULL && cellref_equal (&ref.a, &ref.b)) {
+		if ((ref.b.sheet == NULL || ref.b.sheet == ref.a.sheet) &&
+		    ref.a.col		== ref.b.col &&
+		    ref.a.col_relative	== ref.b.col_relative &&
+		    ref.a.row		== ref.b.row &&
+		    ref.a.row_relative	== ref.b.row_relative) {
 			yylval.expr = register_expr_allocation (gnm_expr_new_cellref (&ref.a));
-			return CELLREF;
+			return RANGEREF;
 		}
 		yylval.expr = register_expr_allocation (gnm_expr_new_constant (
 			 value_new_cellrange_unsafe (&ref.a, &ref.b)));
@@ -1068,8 +960,6 @@ yylex (void)
 
 	if (g_unichar_isalpha (c) || c == '_' || c == '$'){
 		char const *start = state->expr_text - 1;
-		char *str;
-		int  len;
 		gunichar tmp;
 
 		while ((tmp = g_utf8_get_char (state->expr_text)) != 0 &&
@@ -1077,11 +967,9 @@ yylex (void)
 		       (state->use_excel_reference_conventions && tmp == '.')))
 			state->expr_text = g_utf8_next_char (state->expr_text);
 
-		len = state->expr_text - start;
-		str = g_alloca (len + 1);
-		strncpy (str, start, len);
-		str [len] = 0;
-		return parse_ref_or_string (str);
+		yylval.expr = register_expr_allocation (gnm_expr_new_constant (
+			value_new_string_nocopy (g_strndup (start, state->expr_text - start))));
+		return STRING;
 	}
 
 	if (c == '\n' || c == 0)

@@ -59,6 +59,53 @@ col_name_internal (char *buf, int col)
 	return buf;
 }
 
+char const *
+col_name (int col)
+{
+	static char buffer [3]; /* What if SHEET_MAX_COLS is changed ? */
+	char *res = col_name_internal (buffer, col);
+	*res = '\0';
+	return buffer;
+}
+
+char const *
+cols_name (int start_col, int end_col)
+{
+	static char buffer [16]; /* Why is this 16 ? */
+	char *res = col_name_internal (buffer, start_col);
+
+	if (start_col != end_col) {
+		*res = ':';
+		res = col_name_internal (res + 1, end_col);
+	}
+	*res = '\0';
+	return buffer;
+}
+
+char const *
+col_parse (char const *str, int *res, unsigned char *relative)
+{
+	char const *ptr = str;
+	int col = -1;
+
+	if (!(*relative = (*ptr != '$')))
+		ptr++;
+
+	for (; col < SHEET_MAX_COLS ; ptr++)
+		if (('a' <= *ptr && *ptr <= 'z'))
+			col = 26 * (col + 1) + (*ptr - 'a');
+		else if (('A' <= *ptr && *ptr <= 'Z'))
+			col = 26 * (col + 1) + (*ptr - 'A');
+		else if (ptr != str) {
+			*res = col;
+			return ptr;
+		} else
+			return str;
+	return str;
+}
+
+/***************************************************************************/
+
 inline static char *
 row_name_internal (char *buf, int row)
 {
@@ -66,6 +113,30 @@ row_name_internal (char *buf, int row)
 	return buf + len;
 }
 
+char const *
+row_name (int row)
+{
+	static char buffer [6]; /* What if SHEET_MAX_ROWS changes? */
+	char *res = row_name_internal (buffer, row);
+	*res = '\0';
+	return buffer;
+}
+
+char const *
+rows_name (int start_row, int end_row)
+{
+	static char buffer [13]; /* What if SHEET_MAX_ROWS changes? */
+	char *res = row_name_internal (buffer, start_row);
+
+	if (start_row != end_row) {
+		*res = ':';
+		res = row_name_internal (res + 1, end_row);
+	}
+	*res = '\0';
+	return buffer;
+}
+
+/***************************************************************************/
 
 inline static int
 cellref_abs_col (CellRef const *ref, ParsePos const *pp)
@@ -89,6 +160,74 @@ cellref_abs_row (CellRef const *ref, ParsePos const *pp)
 	if (row < 0)
 		return row + SHEET_MAX_ROWS;
 	return row;
+}
+
+/**
+ * cellref_as_string :
+ * @ref :
+ * @pp  :
+ * @no_sheetname :
+ *
+ * Returns a string that the caller needs to free containing the A1 format
+ * representation of @ref as evaluated at @pp.  @no_sheetname can be used to
+ * suppress the addition of the sheetname for non-local references.
+ **/
+char *
+cellref_as_string (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname)
+{
+	static char buffer [sizeof (long) * 4 + 4];
+	char *p = buffer;
+	int col, row;
+	Sheet *sheet = cell_ref->sheet;
+
+	if (cell_ref->col_relative)
+		col = pp->eval.col + cell_ref->col;
+	else {
+		*p++ = '$';
+		col = cell_ref->col;
+	}
+
+	/* ICK!  XL compatibility kludge */
+	col %= SHEET_MAX_COLS;
+	if (col < 0)
+		col += SHEET_MAX_COLS;
+
+	if (col <= 'Z'-'A') {
+		*p++ = col + 'A';
+	} else {
+		int a = col / ('Z'-'A'+1);
+		int b = col % ('Z'-'A'+1);
+
+		*p++ = a + 'A' - 1;
+		*p++ = b + 'A';
+	}
+	if (cell_ref->row_relative)
+		row = pp->eval.row + cell_ref->row;
+	else {
+		*p++ = '$';
+		row = cell_ref->row;
+	}
+
+	/* ICK!  XL compatibility kludge */
+	row %= SHEET_MAX_ROWS;
+	if (row < 0)
+		row += SHEET_MAX_ROWS;
+
+	sprintf (p, "%d", row+1);
+
+	/* If it is a non-local reference, add the path to the external sheet */
+	if (sheet != NULL && !no_sheetname) {
+		if (pp->wb == NULL && pp->sheet == NULL) {
+			/* For the expression leak printer.  */
+			return g_strconcat ("'?'|", buffer, NULL);
+		}
+
+		if (pp->wb == NULL || sheet->workbook == pp->wb)
+			return g_strconcat (sheet->name_quoted, "!", buffer, NULL);
+		return g_strconcat ("[", sheet->workbook->filename, "]",
+				    sheet->name_quoted, "!", buffer, NULL);
+	} else
+		return g_strdup (buffer);
 }
 
 /**
@@ -167,65 +306,6 @@ rangeref_as_string (RangeRef const *ref, ParsePos const *pp)
 		return g_strconcat ("[", ref->a.sheet->workbook->filename, "]",
 				    ref->a.sheet->name_quoted, ":", ref->b.sheet->name_quoted, "!", buf, NULL);
 	}
-}
-
-/* Can remove sheet since local references have NULL sheet */
-char *
-cellref_name (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname)
-{
-	static char buffer [sizeof (long) * 4 + 4];
-	char *p = buffer;
-	int col, row;
-	Sheet *sheet = cell_ref->sheet;
-
-	if (cell_ref->col_relative)
-		col = pp->eval.col + cell_ref->col;
-	else {
-		*p++ = '$';
-		col = cell_ref->col;
-	}
-
-	/* ICK!  XL compatibility kludge */
-	col %= SHEET_MAX_COLS;
-	if (col < 0)
-		col += SHEET_MAX_COLS;
-
-	if (col <= 'Z'-'A') {
-		*p++ = col + 'A';
-	} else {
-		int a = col / ('Z'-'A'+1);
-		int b = col % ('Z'-'A'+1);
-
-		*p++ = a + 'A' - 1;
-		*p++ = b + 'A';
-	}
-	if (cell_ref->row_relative)
-		row = pp->eval.row + cell_ref->row;
-	else {
-		*p++ = '$';
-		row = cell_ref->row;
-	}
-
-	/* ICK!  XL compatibility kludge */
-	row %= SHEET_MAX_ROWS;
-	if (row < 0)
-		row += SHEET_MAX_ROWS;
-
-	sprintf (p, "%d", row+1);
-
-	/* If it is a non-local reference, add the path to the external sheet */
-	if (sheet != NULL && !no_sheetname) {
-		if (pp->wb == NULL && pp->sheet == NULL) {
-			/* For the expression leak printer.  */
-			return g_strconcat ("'?'|", buffer, NULL);
-		}
-
-		if (pp->wb == NULL || sheet->workbook == pp->wb)
-			return g_strconcat (sheet->name_quoted, "!", buffer, NULL);
-		return g_strconcat ("[", sheet->workbook->filename, "]",
-				    sheet->name_quoted, "!", buffer, NULL);
-	} else
-		return g_strdup (buffer);
 }
 
 static char const *
@@ -364,7 +444,7 @@ cellref_r1c1_get (CellRef *out, char const *in, CellPos const *pos)
 }
 
 /**
- * cellref_get:
+ * cellref_parse:
  * @out: destination CellRef
  * @in: reference description text, no leading
  *      whitespace allowed.
@@ -375,7 +455,7 @@ cellref_r1c1_get (CellRef *out, char const *in, CellPos const *pos)
  * Return value: TRUE if no format errors found.
  **/
 char const *
-cellref_get (CellRef *out, char const *in, CellPos const *pos)
+cellref_parse (CellRef *out, char const *in, CellPos const *pos)
 {
 	char const *res;
 	
@@ -390,96 +470,6 @@ cellref_get (CellRef *out, char const *in, CellPos const *pos)
 
 /****************************************************************************/
 
-/**
- * gnumeric_char_start_expr_p :
- *
- * Can the supplied string be an expression ?  It does not guarantee that it is,
- * however, it is possible.  If it is possible it strips off any header
- * characters that are not relevant.
- *
- * NOTE : things like -1,234 will match
- */
-char const *
-gnumeric_char_start_expr_p (char const * c)
-{
-	char c0;
-
-	if (NULL == c)
-		return NULL;
-
-	c0 = *c;
-
-	if (c0 == '=' || c0 == '@' || (c0 == '+' && c[1] == 0))
-		return c + 1;
-
-	if ((c0 == '-' || c0 == '+') && c0 != c[1]) {
-		char *end;
-
-		/*
-		 * Ok, we have a string that
-		 * 1. starts with a sign
-		 * 2. does not start with the sign repeated (think --------)
-		 * 3. is more than one character
-		 *
-		 * Now we check whether we have a number.  We don't want
-		 * numbers to be treated as formulae.  FIXME: this really
-		 * just checks for C-syntax numbers.
-		 */
-		errno = 0;
-		(void) strtognum (c, &end);
-		if (errno || *end != 0 || end == c)
-			return (c0 == '+') ? c + 1 : c;
-		/* Otherwise, it's a number.  */
-	}
-	return NULL;
-}
-
-char const *
-col_name (int col)
-{
-	static char buffer [3]; /* What if SHEET_MAX_COLS is changed ? */
-	char *res = col_name_internal (buffer, col);
-	*res = '\0';
-	return buffer;
-}
-
-char const *
-cols_name (int start_col, int end_col)
-{
-	static char buffer [16]; /* Why is this 16 ? */
-	char *res = col_name_internal (buffer, start_col);
-
-	if (start_col != end_col) {
-		*res = ':';
-		res = col_name_internal (res + 1, end_col);
-	}
-	*res = '\0';
-	return buffer;
-}
-
-char const *
-row_name (int row)
-{
-	static char buffer [6]; /* What if SHEET_MAX_ROWS changes? */
-	char *res = row_name_internal (buffer, row);
-	*res = '\0';
-	return buffer;
-}
-
-char const *
-rows_name (int start_row, int end_row)
-{
-	static char buffer [13]; /* What if SHEET_MAX_ROWS changes? */
-	char *res = row_name_internal (buffer, start_row);
-
-	if (start_row != end_row) {
-		*res = ':';
-		res = row_name_internal (res + 1, end_row);
-	}
-	*res = '\0';
-	return buffer;
-}
-
 char const *
 cell_coord_name (int col, int row)
 {
@@ -490,7 +480,7 @@ cell_coord_name (int col, int row)
 }
 
 char const *
-cell_pos_name (CellPos const *pos)
+cellpos_as_string (CellPos const *pos)
 {
 	g_return_val_if_fail (pos != NULL, "ERROR");
 
@@ -506,39 +496,7 @@ cell_name (Cell const *cell)
 }
 
 /**
- * Converts a column name into an integer
- **/
-int
-parse_col_name (char const *cell_str, char const **endptr)
-{
-	char c;
-	int col = 0;
-
-	if (endptr)
-		*endptr = cell_str;
-
-	c = toupper ((unsigned char)*cell_str++);
-	if (c < 'A' || c > 'Z')
-		return 0;
-
-	col = c - 'A';
-	c = toupper ((unsigned char)*cell_str);
-	if (c >= 'A' && c <= 'Z') {
-		col = ((col + 1) * ('Z' - 'A' + 1)) + (c - 'A');
-		cell_str++;
-	}
-
-	if (col >= SHEET_MAX_COLS)
-		return 0;
-
-	if (endptr)
-		*endptr = cell_str;
-
-	return col;
-}
-
-/**
- * parse_cell_name
+ * cellpos_parse
  * @cell_name:   a string representation of a cell name.
  * @pos:         result
  * @strict:      if this is TRUE, then parsing stops at possible errors,
@@ -547,7 +505,7 @@ parse_col_name (char const *cell_str, char const **endptr)
  * Return value: true if the cell_name could be successfully parsed
  */
 gboolean
-parse_cell_name (char const *cell_str, CellPos *res, gboolean strict, int *chars_read)
+cellpos_parse (char const *cell_str, CellPos *res, gboolean strict, int *chars_read)
 {
 	char const * const original = cell_str;
 	unsigned char c;
@@ -599,6 +557,50 @@ parse_cell_name (char const *cell_str, CellPos *res, gboolean strict, int *chars
 }
 
 /**
+ * gnm_expr_char_start_p :
+ *
+ * Can the supplied string be an expression ?  It does not guarantee that it is,
+ * however, it is possible.  If it is possible it strips off any header
+ * characters that are not relevant.
+ *
+ * NOTE : things like -1,234 will match
+ */
+char const *
+gnm_expr_char_start_p (char const * c)
+{
+	char c0;
+
+	if (NULL == c)
+		return NULL;
+
+	c0 = *c;
+
+	if (c0 == '=' || c0 == '@' || (c0 == '+' && c[1] == 0))
+		return c + 1;
+
+	if ((c0 == '-' || c0 == '+') && c0 != c[1]) {
+		char *end;
+
+		/*
+		 * Ok, we have a string that
+		 * 1. starts with a sign
+		 * 2. does not start with the sign repeated (think --------)
+		 * 3. is more than one character
+		 *
+		 * Now we check whether we have a number.  We don't want
+		 * numbers to be treated as formulae.  FIXME: this really
+		 * just checks for C-syntax numbers.
+		 */
+		errno = 0;
+		(void) strtognum (c, &end);
+		if (errno || *end != 0 || end == c)
+			return (c0 == '+') ? c + 1 : c;
+		/* Otherwise, it's a number.  */
+	}
+	return NULL;
+}
+
+/**
  * parse_text_value_or_expr : Utility routine to parse a string and convert it
  *     into an expression or value.
  *
@@ -626,7 +628,7 @@ parse_text_value_or_expr (ParsePos const *pos, char const *text,
 		return;
 
 	/* If it does not match known formats, see if it is an expression */
-	expr_start = gnumeric_char_start_expr_p (text);
+	expr_start = gnm_expr_char_start_p (text);
 	if (NULL != expr_start && *expr_start) {
 		*expr = gnm_expr_parse_str (expr_start, pos,
 			GNM_EXPR_PARSE_DEFAULT, NULL);
@@ -690,7 +692,7 @@ unquote (char *dst, char const *src, int n)
 	*dst = 0;
 }
 
-static char const *
+char const *
 wbref_parse (char const *start, Workbook **wb)
 {
 	/* Is this an external reference ? */
@@ -721,9 +723,9 @@ wbref_parse (char const *start, Workbook **wb)
 	return start;
 }
 
-static char const *
-sheet_parse (char const *start, Sheet **sheet, Workbook const *wb,
-	     gboolean allow_3d)
+char const *
+sheetref_parse (char const *start, Sheet **sheet, Workbook const *wb,
+		gboolean allow_3d)
 {
 	int num_escapes;
 	char const *end = check_quoted (start, &num_escapes);
@@ -751,28 +753,7 @@ sheet_parse (char const *start, Sheet **sheet, Workbook const *wb,
 	return *sheet != NULL ? end : start;
 }
 
-static char const *
-col_parse (char const *str, int *res, unsigned char *relative)
-{
-	char const *ptr = str;
-	int col = -1;
-
-	if (!(*relative = (*ptr != '$')))
-		ptr++;
-
-	for (; TRUE ; ptr++)
-		if (('a' <= *ptr && *ptr <= 'z'))
-			col = 26 * (col + 1) + (*ptr - 'a');
-		else if (('A' <= *ptr && *ptr <= 'Z'))
-			col = 26 * (col + 1) + (*ptr - 'A');
-		else if (ptr != str && col < SHEET_MAX_COLS) {
-			*res = col;
-			return ptr;
-		} else
-			return str;
-}
-
-static char const *
+char const *
 row_parse (char const *str, int *res, unsigned char *relative)
 {
 	char const *ptr = str;
@@ -781,8 +762,9 @@ row_parse (char const *str, int *res, unsigned char *relative)
 	if (!(*relative = (*ptr != '$')))
 		ptr++;
 
+	errno = 0;
 	row = strtol (str, (char **)&ptr, 10);
-	if (ptr != str && 0 < row && row <= SHEET_MAX_ROWS) {
+	if (ptr != str && 0 < row && row <= SHEET_MAX_ROWS && errno != ERANGE) {
 		*res = row - 1;
 		return ptr;
 	} else
@@ -810,18 +792,18 @@ rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
 	start_sheet = wbref_parse (start, &wb);
 	if (start_sheet == NULL)
 		return start; /* TODO error unknown workbook */
-	ptr = sheet_parse (start_sheet, &res->a.sheet, wb, TRUE);
+	ptr = sheetref_parse (start_sheet, &res->a.sheet, wb, TRUE);
 	if (ptr == NULL)
-		return start; /* TODO erro unknown sheet */
+		return start; /* TODO error unknown sheet */
 	if (ptr != start_sheet) {
 		if (*ptr == ':') { /* 3d ref */
-			ptr = sheet_parse (ptr, &res->b.sheet, wb, FALSE);
+			ptr = sheetref_parse (ptr+1, &res->b.sheet, wb, FALSE);
 			if (ptr == NULL)
 				return start; /* TODO error unknown sheet */
 		} else
 			res->b.sheet = NULL;
 
-		if (*ptr != '!')
+		if (*ptr++ != '!')
 			return start; /* TODO syntax error */
 	}
 

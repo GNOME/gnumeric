@@ -171,7 +171,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 	/* from CELL - limited usefulness! */
 	if (!g_ascii_strcasecmp(info_type, "address")) {
 		ParsePos pp;
-		char *ref_name = cellref_name (ref,
+		char *ref_name = cellref_as_string (ref,
 			parse_pos_init_evalpos (&pp, ei->pos), TRUE);
 		return value_new_string_nocopy (ref_name);
 
@@ -183,7 +183,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 
 		if (tmp.sheet == NULL)
 			tmp.sheet = ei->pos->sheet;
-		ref_name = cellref_name (&tmp,
+		ref_name = cellref_as_string (&tmp,
 			parse_pos_init_evalpos (&pp, ei->pos), FALSE);
 		return value_new_string_nocopy (ref_name);
 

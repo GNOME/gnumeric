@@ -256,13 +256,13 @@ excel_gb_range_new_ref (GBRunEvalContext *ec,
 	Range         tmp;
 	int           len;
 
-	if (!parse_cell_name (text, &tmp.start, FALSE, &len)) {
+	if (!cellpos_parse (text, &tmp.start, FALSE, &len)) {
 		gbrun_exception_firev (ec, "Invalid range '%s'", text);
 		return NULL;
 	}
 
 	if (text [len] == ':') {
-		if (!parse_cell_name (text + len + 1, &tmp.end, &tmp.end, TRUE, NULL)) {
+		if (!cellpos_parse (text + len + 1, &tmp.end, &tmp.end, TRUE, NULL)) {
 			gbrun_exception_firev (ec, "Invalid range '%s'", text);
 			return NULL;
 		}

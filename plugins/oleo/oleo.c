@@ -170,13 +170,13 @@ oleo_get_gnumeric_expr (char *g_expr, char const *o_expr,
 				end.col_relative = start.col_relative;
 			}
 
-			name = cellref_name (&start, cur_pos, TRUE);
+			name = cellref_as_string (&start, cur_pos, TRUE);
 
 			strcat (to, name);
 			g_free (name);
 			if (!cellref_equal (&start, &end)) {
 				strcat (to, ":");
-				name = cellref_name (&end, cur_pos, TRUE);
+				name = cellref_as_string (&end, cur_pos, TRUE);
 				strcat (to, name);
 				g_free (name);
 			}

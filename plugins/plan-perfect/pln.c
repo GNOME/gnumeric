@@ -301,7 +301,7 @@ pln_get_addr (ParsePos const *pp, guint8 const *ch)
 		break;
 	}
 
-	return cellref_name (&ref, pp, TRUE);
+	return cellref_as_string (&ref, pp, TRUE);
 }
 
 static char *
@@ -315,7 +315,7 @@ pln_convert_expr (ParsePos const *pp, guint8 const *ch)
 	/* Expressions are stored INFIX so it is easier to just generate text */
 	i = GSF_LE_GET_GUINT16 (ch); ch += 2;
 #if DEBUG_EXPR
-	puts (cell_pos_name (&pp->eval));
+	puts (cellpos_as_string (&pp->eval));
 	gsf_mem_dump (ch, i);
 #endif
 	for (end = ch + i ; ch < end ; ) {

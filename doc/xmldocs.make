@@ -48,7 +48,7 @@ omf: omf_timestamp
 
 omf_timestamp: $(omffile)
 	-for file in $(omffile); do \
-	  scrollkeeper-preinstall $(docdir)/`awk 'BEGIN {RS = ">" } /identifier/ {print $$0}' $${file} | awk 'BEGIN {FS="\""} /url/ {print $$2}'` $${file} $(omf_dir)/$${file}; \
+	  scrollkeeper-preinstall $(docdir)/`awk 'BEGIN {RS = ">" } /identifier/ {print $$0}' $(srcdir)/$${file} | awk 'BEGIN {FS="\""} /url/ {print $$2}'` $(srcdir)/$${file} $(omf_dir)/$${file}; \
 	done
 	touch omf_timestamp
 

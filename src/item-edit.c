@@ -332,7 +332,7 @@ entry_changed (GnumericExprEntry *ignore, void *data)
 	ItemEdit *item_edit = ITEM_EDIT (item);
 	char const *text = gtk_entry_get_text (item_edit->entry);
 
-	if (gnumeric_char_start_expr_p (text))
+	if (gnm_expr_char_start_p (text))
 		scan_for_range (item_edit, text);
 
 	gnome_canvas_item_request_update (item);

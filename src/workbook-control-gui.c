@@ -2159,7 +2159,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 			   "which is invalid.\n\n"
 			   "The replace has been aborted "
 			   "and nothing has been changed."),
-			 cell_pos_name (&cell->pos),
+			 cellpos_as_string (&cell->pos),
 			 old_text,
 			 new_text);
 
@@ -2191,7 +2191,7 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 		const char *new_text = va_arg (pvar, const char *);
 		char *pos_name = g_strdup_printf (_("Comment in cell %s!%s"),
 						  sheet->name_unquoted,
-						  cell_pos_name (cp));
+						  cellpos_as_string (cp));
 		common_cell_goto (wbcg, sheet, cp);
 
 		res = dialog_search_replace_query (wbcg, sr, pos_name,

@@ -950,7 +950,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	 *   3) There is only one 1 selection
 	 */
 	l = me->selection;
-	start = gnumeric_char_start_expr_p (me->text);
+	start = gnm_expr_char_start_p (me->text);
 	if (start != NULL && me->as_array && l != NULL && l->next == NULL) {
 		expr = gnm_expr_parse_str_simple (start, &me->pp);
 		if (expr == NULL)
@@ -3443,7 +3443,7 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 		 * FIXME: this is a hack, but parse_text_value_or_expr
 		 * does not have a better way of signaling an error.
 		 */
-		err = val && gnumeric_char_start_expr_p (cell_res.new_text);
+		err = val && gnm_expr_char_start_p (cell_res.new_text);
 
 		if (val) value_release (val);
 		if (expr) gnm_expr_unref (expr);

@@ -108,6 +108,19 @@ char const *excel_builtin_formats[EXCEL_BUILTIN_FORMAT_LEN] = {
 /* 0x31 */	"@"
 };
 
+static GIConv
+excel_iconv_open_for_import (guint codepage)
+{
+	if (codepage == 1200 || codepage == 1201)
+		/* this is 'compressed' unicode.  unicode characters 0000->00FF
+		 * which looks the same as 8859-1.  What does Little endian vs
+		 * bigendian have to do with this.  There is only 1 byte, and it would
+		 * certainly not be useful to keep the low byte as 0.
+		 */
+		return g_iconv_open ("UTF-8", "ISO-8859-1");
+	return gsf_msole_iconv_open_for_import (codepage);
+}
+
 static StyleFormat *
 ms_excel_wb_get_fmt (ExcelWorkbook *wb, guint16 idx)
 {
@@ -2233,7 +2246,7 @@ ms_excel_sheet_shared_formula (ExcelSheet const *esheet,
 {
 	g_return_val_if_fail (esheet != NULL, NULL);
 
-	d (5, printf ("FIND SHARED: %s\n", cell_pos_name (key)););
+	d (5, printf ("FIND SHARED: %s\n", cellpos_as_string (key)););
 
 	return g_hash_table_lookup (esheet->shared_formulae, key);
 }
@@ -3034,7 +3047,7 @@ ms_excel_read_selection (BiffQuery *q, ExcelSheet *esheet)
 	edit_pos.col = GSF_LE_GET_GUINT16 (q->data + 3);
 
 	d (5, printf ("Start selection\n"););
-	d (5, printf ("Cursor: %s in Ref #%d\n", cell_pos_name (&edit_pos),
+	d (5, printf ("Cursor: %s in Ref #%d\n", cellpos_as_string (&edit_pos),
 		      j););
 
 	sv_selection_reset (sv);
@@ -4755,7 +4768,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 	}
 
 	/* default to ansi in case the file does not contain a CODEPAGE record */
-	current_workbook_iconv = gsf_msole_iconv_open_for_import (1252);
+	current_workbook_iconv = excel_iconv_open_for_import (1252);
 
 	while (!stop_loading &&		  /* we have not hit the end */
 	       problem_loading == NULL && /* there were no problems so far */
@@ -4873,7 +4886,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 			   of currency amounts.  */
 			guint16 const codepage = GSF_LE_GET_GUINT16 (q->data);
 			gsf_iconv_close (current_workbook_iconv);
-			current_workbook_iconv = gsf_msole_iconv_open_for_import (codepage);
+			current_workbook_iconv = excel_iconv_open_for_import (codepage);
 			d (0, {
 				switch (codepage) {
 				case 437:

@@ -1,4 +1,23 @@
-2002-09-23  Jody Goldberg <jody@gnome.org>
+2002-09-24  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y : remove the rest of the CELLREF based productions.
+
+	* src/parse-util.h : do a bit of tidying
+	(col_parse) : make public.
+	(row_parse) : make public.
+	(cellpos_as_string) : rename from cell_pos_name.
+	(cellpos_parse) : renamed from parse_cell_name
+	(cellref_as_string) : rename from cellref_name
+	(cellref_parse) : rename from cellref_get
+	(parse_col_name) : delete duplicate
+	(gnm_expr_char_start_p) : renamed from gnumeric_char_start_expr_p.
+
+	* src/parse-util.c (rangeref_parse) : fix handling of non-3d
+	  inter-sheet refs.
+	(col_parse) : check for overflow.
+
+	* src/parser.y : remove sheet_ref RANGEREF production. RANGEREF
+	  already handles sheet references internally.
 
 	* src/expr.c (gnm_expr_eval) : handle empties when implicit
 	  intersection is valid but accesses an empty cell.

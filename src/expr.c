@@ -987,7 +987,9 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 					}
 				}
 				if (found) {
-					Cell * cell = sheet_cell_get (pos->sheet, c, r);
+					Cell * cell = sheet_cell_get (
+						eval_sheet (ref_a->sheet, pos->sheet),
+						c, r);
 					if (cell == NULL)
 						return handle_empty (NULL, flags);
 
@@ -1180,7 +1182,7 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		return g_strdup (expr->name.name->name->str);
 
 	case GNM_EXPR_OP_CELLREF:
-		return cellref_name (&expr->cellref.ref, pp, FALSE);
+		return cellref_as_string (&expr->cellref.ref, pp, FALSE);
 
 	case GNM_EXPR_OP_CONSTANT: {
 		char *res;
@@ -1306,7 +1308,7 @@ cellref_relocate (CellRef *ref, GnmExprRelocateInfo const *rinfo)
 	if (ref->row_relative)
 		row += rinfo->pos.eval.row;
 
-	/* fprintf (stderr, "%s\n", cellref_name (ref, &rinfo->pos, FALSE)); */
+	/* fprintf (stderr, "%s\n", cellref_as_string (ref, &rinfo->pos, FALSE)); */
 
 	/* All references should be valid initially.  We assume that later. */
 	if (col < 0 || col >= SHEET_MAX_COLS ||

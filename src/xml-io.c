@@ -262,7 +262,7 @@ xml_node_get_cellpos (xmlNodePtr node, char const *name, CellPos *val)
 	buf = xml_node_get_cstr (node, name);
 	if (val == NULL)
 		return FALSE;
-	res = parse_cell_name ((const char *)buf, val, TRUE, &dummy);
+	res = cellpos_parse ((const char *)buf, val, TRUE, &dummy);
 	xmlFree (buf);
 	return res;
 }
@@ -270,7 +270,7 @@ xml_node_get_cellpos (xmlNodePtr node, char const *name, CellPos *val)
 static void
 xml_node_set_cellpos (xmlNodePtr node, char const *name, CellPos const *val)
 {
-	xml_node_set_cstr (node, name, cell_pos_name (val));
+	xml_node_set_cstr (node, name, cellpos_as_string (val));
 }
 
 /*
@@ -716,7 +716,7 @@ xml_write_names (XmlParseContext *ctxt, GList *names)
 		g_free (expr_str);
 
 		xmlNewChild (nameNode, ctxt->ns, (xmlChar const *)"position",
-			(xmlChar const *)cell_pos_name (&nexpr->pos.eval));
+			(xmlChar const *)cellpos_as_string (&nexpr->pos.eval));
 	}
 
 	return namesContainer;
@@ -759,7 +759,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 			xmlChar *pos_txt = xml_node_get_cstr (position, NULL);
 			if (pos_txt != NULL) {
 				CellRef tmp;
-				char const *res = cellref_get (&tmp, (const char *)pos_txt, &pp.eval);
+				char const *res = cellref_parse (&tmp, (const char *)pos_txt, &pp.eval);
 				if (res != NULL && *res == '\0') {
 					pp.eval.col = tmp.col;
 					pp.eval.row = tmp.row;
@@ -1932,7 +1932,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				 */
 				ParsePos pos;
 				GnmExpr const *expr = NULL;
-				char const *expr_start = gnumeric_char_start_expr_p (content);
+				char const *expr_start = gnm_expr_char_start_p (content);
 				if (NULL != expr_start && *expr_start)
 					expr = gnm_expr_parse_str (expr_start,
 						parse_pos_init_cell (&pos, cell),
@@ -2787,7 +2787,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 					 */
 					cell->base.expression = gnm_expr_new_constant (
 						value_new_string (
-							  gnumeric_char_start_expr_p ((const char *)content)));
+							  gnm_expr_char_start_p ((const char *)content)));
 					cell->base.flags |= CELL_HAS_EXPRESSION;
 					value_release (cell->value);
 					cell->value = value_new_empty ();

@@ -114,7 +114,7 @@ range_parse (Sheet *sheet, char const *range, gboolean strict)
 	a.row_relative = 0;
 	b.row_relative = 0;
 
-	if (!parse_cell_name (range, &tmp, FALSE, &n_read))
+	if (!cellpos_parse (range, &tmp, FALSE, &n_read))
 		return FALSE;
 
 	a.sheet = sheet;
@@ -122,7 +122,7 @@ range_parse (Sheet *sheet, char const *range, gboolean strict)
 	a.row   = tmp.row;
 
 	if (range[n_read] == ':') {
-		if (!parse_cell_name (&range[n_read+1], &tmp, strict, NULL))
+		if (!cellpos_parse (&range[n_read+1], &tmp, strict, NULL))
 			return FALSE;
 		b.sheet = sheet;
 		b.col   = tmp.col;
@@ -147,14 +147,14 @@ parse_range (char const *text, Range *r)
 {
 	int len;
 
-	if (!parse_cell_name (text, &r->start, FALSE, &len))
+	if (!cellpos_parse (text, &r->start, FALSE, &len))
 		return FALSE;
 	if (text [len] == '\0') {
 		r->end = r->start;
 		return TRUE;
 	}
 	return (text[len] == ':' &&
-		parse_cell_name (text + len + 1, &r->end, TRUE, NULL));
+		cellpos_parse (text + len + 1, &r->end, TRUE, NULL));
 }
 
 /**

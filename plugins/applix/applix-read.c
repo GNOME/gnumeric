@@ -765,7 +765,7 @@ applix_parse_cellref (ApplixReadState *state, unsigned char *buffer,
 	*sheet = applix_get_sheet (state, &buffer, separator);
 
 	/* Get cell addr */
-	if (*sheet && parse_cell_name (buffer, pos, FALSE, &len))
+	if (*sheet && cellpos_parse (buffer, pos, FALSE, &len))
 		return buffer + len;
 
 	*sheet = NULL;
@@ -879,9 +879,10 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 			do {
 				int col, width;
 				char *tmp;
+				unsigned char dummy;
 
-				col = parse_col_name (tmp = ptr + 1, (char const **)&ptr);
-				if (tmp == ptr || col < 0 || *ptr != ':')
+				ptr = col_parse (tmp = ptr + 1, &col, &dummy);
+				if (tmp == ptr || *ptr != ':')
 					return applix_parse_error (state, "Invalid column");
 				width = strtol (tmp = ptr + 1, &ptr, 10);
 				if (tmp == ptr || width <= 0)

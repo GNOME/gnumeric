@@ -125,7 +125,7 @@ value_at (ETableModel *etc, int col, int row, void *data)
 		break;
 
 	case COL_CELL:
-		result = e_utf8_from_locale_string (cell_pos_name (&item->ep.eval));
+		result = e_utf8_from_locale_string (cellpos_as_string (&item->ep.eval));
 		break;
 
 	case COL_TYPE:

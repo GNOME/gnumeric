@@ -117,7 +117,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		if (value != NULL)
 			value_release (value);
 		else
-			expr_txt = gnumeric_char_start_expr_p (txt);
+			expr_txt = gnm_expr_char_start_p (txt);
 
 		if (expr_txt != NULL && *expr_txt != '\0') {
 			GnmExpr const *expr = NULL;
@@ -133,7 +133,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 				ParseError tmp_err;
 				char *tmp = g_strconcat (txt, ")", NULL);
 				parse_error_init (&tmp_err);
-				expr = gnm_expr_parse_str (gnumeric_char_start_expr_p (tmp),
+				expr = gnm_expr_parse_str (gnm_expr_char_start_p (tmp),
 					&pp, GNM_EXPR_PARSE_DEFAULT, &tmp_err);
 				parse_error_free (&tmp_err);
 

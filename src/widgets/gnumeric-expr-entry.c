@@ -398,7 +398,7 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 	len = strlen (text);
 
 	parse_pos_init (&pp, NULL, gee->sheet, 0, 0);
-	ptr = gnumeric_char_start_expr_p (text);
+	ptr = gnm_expr_char_start_p (text);
 	while (ptr != NULL && *ptr && ptr <= cursor) {
 		tmp = rangeref_parse (&range, ptr, &pp);
 		if (tmp != ptr) {
@@ -1037,26 +1037,29 @@ gnm_expr_entry_get_rangesel (GnumericExprEntry *gee,
 	gee_prepare_range (gee, &ref);
 	if (r != NULL) {
 		/* normalize but don't bother with rel vs absolute conversions
-		 * we always work realtive to A1 internally so there is no
+		 * we always work relative to A1 internally so there is no
 		 * difference
 		 */
-		if (rs->ref.a.col < rs->ref.b.col) {
-			r->start.col = rs->ref.a.col;
-			r->end.col   = rs->ref.b.col;
+		if (ref.a.col < ref.b.col) {
+			r->start.col = ref.a.col;
+			r->end.col   = ref.b.col;
 		} else {
-			r->start.col = rs->ref.b.col;
-			r->end.col   = rs->ref.a.col;
+			r->start.col = ref.b.col;
+			r->end.col   = ref.a.col;
 		}
-		if (rs->ref.a.row < rs->ref.b.row) {
-			r->start.row = rs->ref.a.row;
-			r->end.row   = rs->ref.b.row;
+		if (ref.a.row < ref.b.row) {
+			r->start.row = ref.a.row;
+			r->end.row   = ref.b.row;
 		} else {
-			r->start.row = rs->ref.b.row;
-			r->end.row   = rs->ref.a.row;
+			r->start.row = ref.b.row;
+			r->end.row   = ref.a.row;
 		}
 	}
 
-	/* TODO : does not handle 3d, neither does this interface */
+	/* TODO : does not handle 3d, neither does this interface
+	 * should probably scrap the interface in favour of returning a
+	 * rangeref.
+	 */
 	if (sheet != NULL)
 		*sheet = eval_sheet (rs->ref.a.sheet, gee->sheet);
 
@@ -1117,7 +1120,7 @@ gnm_expr_entry_can_rangesel (GnumericExprEntry *gee)
 
 	/* We need to be editing an expression */
 	if (wbcg_edit_has_guru (gee->wbcg) == NULL &&
-	    gnumeric_char_start_expr_p (text) == NULL)
+	    gnm_expr_char_start_p (text) == NULL)
 		return FALSE;
 
 	gnm_expr_entry_rangesel_start (gee);

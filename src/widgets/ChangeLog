@@ -1,3 +1,7 @@
+2002-09-23  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (gnm_expr_entry_get_rangesel) : fix silliness.
+
 2002-09-19  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gnm_expr_entry_get_rangesel) : normalize the

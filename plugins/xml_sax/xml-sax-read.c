@@ -143,7 +143,7 @@ xml_sax_attr_cellpos (xmlChar const * const *attrs, char const *name, CellPos *v
 	if (strcmp (attrs[0], name))
 		return FALSE;
 
-	if (!parse_cell_name ((gchar *)attrs[1], val, TRUE, NULL)) {
+	if (!cellpos_parse ((gchar *)attrs[1], val, TRUE, NULL)) {
 		g_warning ("Invalid attribute '%s', expected cellpos, received '%s'",
 			   name, attrs[1]);
 		return FALSE;
@@ -1265,7 +1265,7 @@ xml_sax_finish_parse_wb_names_name (GsfXmlSAXState *gsf_state)
 		if (state->name.position) {
 			CellRef tmp;
 			char const *res;
-			res = cellref_get (&tmp, state->name.position, &pos.eval);
+			res = cellref_parse (&tmp, state->name.position, &pos.eval);
 			if (res != NULL && *res == '\0') {
 				pos.eval.col = tmp.col;
 				pos.eval.row = tmp.row;
@@ -1312,7 +1312,7 @@ xml_sax_finish_parse_sheet_names_name (GsfXmlSAXState *gsf_state)
 	parse_pos_init (&pos, NULL, state->sheet, 0, 0);
 	if (state->name.position) {
 		CellRef tmp;
-		char const *res = cellref_get (&tmp, state->name.position, &pos.eval);
+		char const *res = cellref_parse (&tmp, state->name.position, &pos.eval);
 		if (res != NULL && *res == '\0') {
 			pos.eval.col = tmp.col;
 			pos.eval.row = tmp.row;
