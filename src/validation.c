@@ -155,10 +155,11 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 			/* we know it is not empty */
 			if (val->type == VALUE_ERROR) {
 				msg = g_strdup_printf (_("'%s' is an error"),
-						       val->v_err.mesg->str);
+						       value_peek_string (val));
 				break;
 			} else if (val->type == VALUE_STRING) {
-				res = format_match_number (val->v_str.val->str, NULL);
+				const char *s = value_peek_string (val);
+				res = format_match_number (s, NULL);
 				if (res == NULL) {
 					char const *fmt;
 					/* FIXME what else is needed */
@@ -168,7 +169,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 						fmt = N_("'%s' is not a valid time");
 					} else
 						fmt = N_("'%s' is not a number");
-					msg = g_strdup_printf (_(fmt), val->v_str.val->str);
+					msg = g_strdup_printf (_(fmt), s);
 					break;
 				}
 			} else
@@ -176,7 +177,7 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 
 			if (v->type == VALIDATION_TYPE_AS_INT &&
 			    res != NULL && res->type == VALUE_FLOAT) {
-				gnum_float f = value_get_as_float (val);
+				gnum_float f = value_get_as_float (res);
 				gboolean isint = gnumabs (f - gnumeric_fake_round (f)) < 1e-10;
 				if (!isint) {
 					char const *valstr = value_peek_string (val);

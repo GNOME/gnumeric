@@ -1,3 +1,8 @@
+2002-03-08  Morten Welinder  <terra@diku.dk>
+
+	* src/validation.c (validation_eval): Minor cleanup.
+	* src/value.c (value_peek_string): Be smarter about errors.
+
 2002-03-08  Jakub Steiner <jimmac@ximian.com>
 
 	* icons/down-right.png, icons/right-down.png: pretty gnome2 icons

@@ -590,6 +590,8 @@ value_peek_string (Value const *v)
 
 	if (v->type == VALUE_STRING)
 		return v->v_str.val->str;
+	else if (v->type == VALUE_ERROR)
+		return v->v_err.mesg->str;
 	else {
 		static char *cache[2] = { 0 };
 		static int next = 0;

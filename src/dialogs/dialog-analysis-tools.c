@@ -3290,7 +3290,7 @@ fourier_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 	data_analysis_output_t  dao;
 	GSList                  *input;
 	GtkWidget               *w;
-	gint                    inverse;
+	gboolean                inverse;
 	gint                    err;
 	char                    *text;
 
@@ -3303,7 +3303,7 @@ fourier_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
         dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
 	w = glade_xml_get_widget (state->gui, "inverse_button");
-	inverse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+	inverse = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)) != 0;
 
 	err = fourier_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
 			    gnumeric_glade_group_value (state->gui, grouped_by_group),

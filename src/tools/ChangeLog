@@ -1,3 +1,9 @@
+2002-03-08  Morten Welinder  <terra@diku.dk>
+
+	* analysis-tools.c (fourier_fft_inv): Eliminate.
+	(fourier_fft): Handle inverse case also.  Make n and skip
+	parameters.  Eliminate fourier_t.  Constify.
+
 2002-03-07  Morten Welinder  <terra@diku.dk>
 
 	* analysis-tools.c (set_cell_value): Safety checks.
@@ -14,5 +20,3 @@
 	* solver: Moved Solver into this directory.
 
 	* Makefile.am: Created.
-	
-

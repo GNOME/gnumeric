@@ -3945,114 +3945,46 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
  *
  **/
 
-typedef struct {
-	complex_t *values;
-	int        skip;
-        int        n;
-} fourier_t;
-
 static void
-fourier_fft (fourier_t *in, fourier_t *fourier)
+fourier_fft (const complex_t *in, int n, int skip, complex_t **fourier, gboolean inverse)
 {
-	fourier_t in_1, in_2, fourier_1, fourier_2;
-	int       i;
+	complex_t  *fourier_1, *fourier_2;
+	int        i;
+	int        nhalf = n / 2;
+	gnum_float argstep;
 
-	g_return_if_fail (in != NULL);
-	g_return_if_fail (fourier != NULL);
+	*fourier = g_new (complex_t, n);
 
-	if (in->n == 1) {
-		fourier->values = g_new (complex_t, 1);
-		complex_real (&fourier->values[0], in->values[0].re);
-		fourier->skip = 1;
-		fourier->n = 1;
+	if (n == 1) {
+		(*fourier)[0] = in[0];
 		return;
 	}
 
-	in_1.values = in->values;
-	in_1.skip = in->skip * 2;
-	in_1.n = in->n / 2;
+	fourier_fft (in, nhalf, skip * 2, &fourier_1, inverse);
+	fourier_fft (in + skip, nhalf, skip * 2, &fourier_2, inverse);
 
-	in_2.values = in->values + in->skip;
-	in_2.skip = in->skip * 2;
-	in_2.n = in->n / 2;
-
-	fourier_fft (&in_1, &fourier_1);
-	fourier_fft (&in_2, &fourier_2);
-
-	fourier->n = 2 * fourier_1.n;
-	fourier->values = g_new (complex_t, fourier->n);
-	fourier->skip = 1;
-
-	for (i = 0; i < fourier_1.n; i++) {
-		gnum_float arg = M_PIgnum * i / fourier_1.n;
+	argstep = (inverse ? M_PIgnum : -M_PIgnum) / nhalf;
+	for (i = 0; i < nhalf; i++) {
 		complex_t dir, tmp;
 
-		complex_from_polar (&dir, 1, -arg);
+		complex_from_polar (&dir, 1, argstep * i);
+		complex_mul (&tmp, &fourier_2[i], &dir);
 
-		complex_mul (&tmp, &fourier_2.values[i], &dir);
-		complex_add (&fourier->values[i], &fourier_1.values[i], &tmp);
-		complex_scale_real (&fourier->values[i], 0.5);
-		complex_sub (&fourier->values[i + fourier_1.n], &fourier_1.values[i], &tmp);
-		complex_scale_real (&fourier->values[i + fourier_1.n], 0.5);
+		complex_add (&((*fourier)[i]), &fourier_1[i], &tmp);
+		complex_scale_real (&((*fourier)[i]), 0.5);
+
+		complex_sub (&((*fourier)[i + nhalf]), &fourier_1[i], &tmp);
+		complex_scale_real (&((*fourier)[i + nhalf]), 0.5);
 	}
 
-	g_free (fourier_1.values);
-	g_free (fourier_2.values);
-}
-
-static void
-fourier_fft_inv (fourier_t *in, fourier_t *fourier)
-{
-	fourier_t in_1, in_2, fourier_1, fourier_2;
-	int       i;
-
-	g_return_if_fail (in != NULL);
-	g_return_if_fail (fourier != NULL);
-
-	if (in->n == 1) {
-		fourier->values = g_new (complex_t, 1);
-		fourier->values[0] = in->values[0];
-		fourier->skip = 1;
-		fourier->n = 1;
-		return;
-	}
-
-	in_1.values = in->values;
-	in_1.skip = in->skip * 2;
-	in_1.n = in->n / 2;
-
-	in_2.values = in->values + in->skip;
-	in_2.skip = in->skip * 2;
-	in_2.n = in->n / 2;
-
-	fourier_fft_inv (&in_1, &fourier_1);
-	fourier_fft_inv (&in_2, &fourier_2);
-
-	fourier->n = 2 * fourier_1.n;
-	fourier->values = g_new (complex_t, fourier->n);
-	fourier->skip = 1;
-
-	for (i = 0; i < fourier_1.n; i++) {
-		gnum_float arg = M_PIgnum * i / fourier_1.n;
-		complex_t dir, tmp;
-
-		complex_from_polar (&dir, 1, arg);
-
-		complex_mul (&tmp, &fourier_2.values[i], &dir);
-		complex_add (&fourier->values[i], &fourier_1.values[i], &tmp);
-		complex_scale_real (&fourier->values[i], 0.5);
-		complex_sub (&fourier->values[i + fourier_1.n], &fourier_1.values[i], &tmp);
-		complex_scale_real (&fourier->values[i + fourier_1.n], 0.5);
-	}
-
-	g_free (fourier_1.values);
-	g_free (fourier_2.values);
+	g_free (fourier_1);
+	g_free (fourier_2);
 }
 
 int
 fourier_tool (WorkbookControl *wbc, Sheet *sheet,
 	      GSList *input, group_by_t group_by,
-	      int inverse_flag,
+	      gboolean inverse_flag,
 	      data_analysis_output_t *dao)
 {
 	GSList        *input_range;
@@ -4069,8 +4001,7 @@ fourier_tool (WorkbookControl *wbc, Sheet *sheet,
 
 	for (dataset = 0; dataset < data->len; dataset++) {
 		data_set_t    *current;
-		fourier_t     in;
-		fourier_t     fourier = {NULL, 1, 0};
+		complex_t     *in, *fourier;
 		int           row;
 		int           given_length;
 		int           desired_length = 1;
@@ -4086,30 +4017,24 @@ fourier_tool (WorkbookControl *wbc, Sheet *sheet,
 
 		set_cell_printf (dao, col, 0, current->label);
 		set_cell_printf (dao, col, 1, _("Real"));
-		set_cell_printf (dao, col+1, 1, _("Imaginary"));
+		set_cell_printf (dao, col + 1, 1, _("Imaginary"));
 
-		in.n = current->data->len;
-		in.skip = 1;
-		in.values = g_new (complex_t, in.n);
-		for (i = 0; i < in.n; i++)
-			complex_real (&in.values[i],
+		in = g_new (complex_t, desired_length);
+		for (i = 0; i < desired_length; i++)
+			complex_real (&in[i],
 				      ((const gnum_float *)current->data->data)[i]);
 
-		if (inverse_flag == 0)
-			fourier_fft (&in, &fourier);
-		else
-			fourier_fft_inv (&in, &fourier);
+		fourier_fft (in, desired_length, 1, &fourier, inverse_flag);
+		g_free (in);
 
-		g_free (in.values);
-
-		if (fourier.values) {
+		if (fourier) {
 			for (row = 0; row < given_length; row++) {
 				set_cell_float (dao, col, row + 2,
-						fourier.values[row * fourier.skip].re);
+						fourier[row].re);
 				set_cell_float (dao, col + 1, row + 2,
-						fourier.values[row * fourier.skip].im);
+						fourier[row].im);
 			}
-			g_free (fourier.values);
+			g_free (fourier);
 		}
 
 		col += 2;

@@ -67,7 +67,7 @@ gnum_float erfcgnum (gnum_float x);
 #else
 #define NEED_FAKE_YNGNUM
 /* Defined in gutils.c  */
-gnum_float yn (int n, gnum_float x);
+gnum_float yngnum (int n, gnum_float x);
 #endif
 
 #define sqrtgnum sqrtl
