@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-15 04:31-0400\n"
-"PO-Revision-Date: 2003-09-14 21:12+0200\n"
+"POT-Creation-Date: 2003-09-18 20:19+0200\n"
+"PO-Revision-Date: 2003-09-19 01:43+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1115,7 +1115,7 @@ msgstr "#NEZNÁMÝ!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:435 src/dialogs/dialog-sheet-order.c:439
+#: src/dialogs/dialog-sheet-order.c:436 src/dialogs/dialog-sheet-order.c:440
 #, c-format
 msgid "Sheet%d"
 msgstr "List %d"
@@ -18064,9 +18064,8 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Dávat přednost výběru CLIPBOARD před PRIMARY"
 
 #: schemas/gnumeric-general.schemas.in.h:22
-#, fuzzy
 msgid "Sans"
-msgstr "Rozložení"
+msgstr "Sans"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -20788,7 +20787,7 @@ msgstr "Styl"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
-#: src/dialogs/dialog-sheet-order.c:952 src/dialogs/dialog-sheet-order.c:965
+#: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
 msgid "Default"
 msgstr "Výchozí"
 
@@ -23908,19 +23907,19 @@ msgstr "Celé číslo"
 msgid "Other value"
 msgstr "Jiná hodnota"
 
-#: src/dialogs/dialog-sheet-order.c:317
+#: src/dialogs/dialog-sheet-order.c:318
 msgid "Current Name"
 msgstr "Současný název"
 
-#: src/dialogs/dialog-sheet-order.c:327
+#: src/dialogs/dialog-sheet-order.c:328
 msgid "New Name"
 msgstr "Nový název"
 
-#: src/dialogs/dialog-sheet-order.c:656
+#: src/dialogs/dialog-sheet-order.c:657
 msgid "You may not delete all sheets in a workbook!"
 msgstr "Nemůžete odstranit všechny listy v sešitu!"
 
-#: src/dialogs/dialog-sheet-order.c:661
+#: src/dialogs/dialog-sheet-order.c:662
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
@@ -23928,7 +23927,7 @@ msgstr ""
 "Všechny existující listy prosím nahraďte odstraněním aktuálního sešitu a "
 "vytvořením nového!"
 
-#: src/dialogs/dialog-sheet-order.c:893
+#: src/dialogs/dialog-sheet-order.c:894
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "Pořadí listů se změnilo. Chcete aktualizovat seznam?"
 
