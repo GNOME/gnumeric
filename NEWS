@@ -9,9 +9,12 @@ Almer:
 	* More work on group/ungroup.
 
 Andreas:
-	* Rewrite descriptive statistics analysis improving error checks
-	  and labels for data sets and removing duplicate calculation
-          code.
+	* Rewrite descriptive statistics, correlation and covariance 
+	  analysis improving error checks and labels for data sets. 
+	
+	* Remove duplicate calculation code in analysis tools.
+
+	* Fix sampling tool.
 
 Jody:
 	* XL export for panes.

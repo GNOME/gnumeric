@@ -1,3 +1,23 @@
+2001-07-27   Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c (correlation_tool) Rewrite to use standard
+	  range_* functions.
+	(covariance_tool) ditto
+	(descriptive_stat_tool) Extract code into multi-use support functions.
+	(summary_statistics) ditto
+	(confidence_level) ditto
+	(kth_largest) : ditto
+	(kth_smallest) : ditto
+	(sampling_tool) : Create real random samples.
+	and various support functions.
+
+	* src/dialog/dialog-analysis-tools.c (dialog_correlation_tool) Display
+	error dialog.
+	(dialog_covariance_tool) ditto
+	(dialog_descriptive_stat_tool) Use dao->labels_flag instead of labels_flag.
+
+	* src/dialogs/tools.h (descriptive_stat_tool) Remove labels_flag.
+
 2001-07-27  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/workbook-control-gui.c (hide_show_detail): helper which
@@ -37,17 +57,17 @@
  	the min, max, and range items.  Avoid most casts.
 
 2001-07-25  Almer S. Tigelaar  <almer@gnome.org>
- 
+
  	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Add
  	C-Insert, S-Insert and S-Delete shortcuts for cutting, pasting
  	and copying.
- 
+
 2001-07-25  Almer S. Tigelaar  <almer@gnome.org>
- 
+
  	* src/workbook-control-gui.c (cb_notebook_switch_page): If we are
  	still editing and the expression is invalid, don't switch pages, but
  	insist the user correct it first.
- 
+
 2001-07-18   Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/analysis-tools.c (set_cell) : Catch NULL string pointer.
@@ -64,16 +84,16 @@
 	(kth_smallest) : ditto
 	(range_min_k) : new function to find kth smallest number (rather than
 	  the code twice)
-	(descriptive_stat_tool) : rewritten to use correct data labels and to 
+	(descriptive_stat_tool) : rewritten to use correct data labels and to
 	  use above modified functions.
 
 	* src/analysis-tools.h (range_min_k) : new prototype
 
 	* src/dialogs/dialog-analysis-tools.c : include selection.h
-	(dialog_descriptive_stat_tool) :  preload descriptive statistics input 
+	(dialog_descriptive_stat_tool) :  preload descriptive statistics input
 	  range and add checkbox to specify row labels
 
-	* src/dialogs/tools.h (descriptive_stat_tool) : add labels_flag 
+	* src/dialogs/tools.h (descriptive_stat_tool) : add labels_flag
 
 2001-07-18  Jody Goldberg <jgoldberg@home.com>
 
@@ -84,7 +104,7 @@
 	* src/sheet-object-impl.h: Add the view as parameter to the virtual
 	method set_active.
 	* src/sheet-object-container.c:
-	(sheet_object_container_set_active): New. Overrides above virtual and 
+	(sheet_object_container_set_active): New. Overrides above virtual and
 	handles (de)activation of view frames.
 	* src/sheet-control-gui-priv.h: Do not let the SheetControlGUI know
 	about an active_object_frame - remove this variable.
@@ -94,7 +114,7 @@
 	themselves through set_active virtual method.
 	(scg_object_stop_editing),
 	(scg_mode_edit_object): Adjust parameters for virtual method set_active.
-	
+
 2001-07-18  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/dialogs/dialog-function-wizard.c (formula_guru_init_args): Use
@@ -135,7 +155,7 @@
 	* src/sheet-control-gui.c (cb_sheet_object_view_destroy) : rename from
 	  cb_sheet_object_destroy.
 
-	* src/sheet-object.c (cb_sheet_object_configure) : Use 
+	* src/sheet-object.c (cb_sheet_object_configure) : Use
 	  sheet_object_view_obj and sheet_object_view_control.
 	(sheet_object_view_destroyed) : remove the sheetcontrol key from the
 	  view when it is destroyed.  And remove our reference to the control.
@@ -149,7 +169,7 @@
 
 2001-07-15  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
-	* src/analysis-tools.c (descriptive_stat_tool) : adjust 
+	* src/analysis-tools.c (descriptive_stat_tool) : adjust
 	  scrollbars after outputting data.
 	(sampling_tool) : ditto
 	(ztest_tool) : ditto
@@ -277,7 +297,7 @@
 2001-07-15  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* configure.in: Added "nn" to ALL_LINGUAS.
-	
+
 2001-07-15  Almer S. Tigelaar  <almer@gnome.org>
 
 	* stf.c (stf_read_workbook): Honor lines to parse.
@@ -491,10 +511,10 @@
         (scg_deactivate_view_frame).
 	* src/sheet-object-bonobo.[c,h]: Check for existence of interfaces
 	before querying it. Fix ref-counting. Make functions
-	(sheet_object_bonobo_load_persist_file), 
-	(sheet_object_bonobo_load_persist_stream), and 
+	(sheet_object_bonobo_load_persist_file),
+	(sheet_object_bonobo_load_persist_stream), and
 	(sheet_object_bonobo_load_stream) consistent.
-	* src/sheet-object-container.c: Parent class is and has ever been 
+	* src/sheet-object-container.c: Parent class is and has ever been
 	SheetObjectBonobo. This file should be called
 	sheet-object-bonobo-container... Fix ref-counting.
 	(cb_user_activation_request): Activate the view frame and set edit mode
@@ -504,7 +524,7 @@
 	* src/sheet-object-container.h: Rename IS_SHEET_CONTAINER_OBJECT to
 	IS_SHEET_OBJECT_CONTAINER to be consistent. Remove view_frame
 	variable - this object can produce many view frames.
-	
+
 2001-07-13  Morten Welinder  <terra@diku.dk>
 
 	* src/analysis-tools.c (ttest_eq_var_tool): Fixed for pooled
@@ -606,7 +626,7 @@
 	"_Freeze Panes" menu item.
 
 2001-07-11  Almer S. Tigelaar  <almer@gnome.org>
-	
+
 	* src/parser.y : Add error ID's.
 	(gnumeric_parse_error): Accept ID and set ID on error struct.
 
@@ -692,7 +712,7 @@
 
 	* src/GNOME_Gnumeric.xml: Wrap file related menus into a placeholder
 	named FileOperations. Wrap print related menus into a a placeholder
-	named PrintOperations. This will help components like EOG to put 
+	named PrintOperations. This will help components like EOG to put
 	menu entries into the right place when activated.
 
 2001-07-06  Jody Goldberg <jgoldberg@home.com>
@@ -763,7 +783,7 @@
 2001-07-05  Almer S. Tigelaar  <almer@gnome.org>
 
 	* gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Fix backspace.
-	
+
 2001-07-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-merge.c (sheet_merge_add) : Use sheet_redraw_range.

@@ -42,18 +42,31 @@ typedef struct {
 
 /***** Some general routines ***********************************************/
 
-static int
-int_compare (const void *px, const void *py)
-{
-	const int *x = px;
-	const int *y = py;
+/*  static int */
+/*  int_compare (const void *px, const void *py) */
+/*  { */
+/*  	const int *x = px; */
+/*  	const int *y = py; */
 
-        if (*x < *y)
-	        return -1;
-	else if (*x == *y)
-	        return 0;
-	else
-	        return 1;
+/*          if (*x < *y) */
+/*  	        return -1; */
+/*  	else if (*x == *y) */
+/*  	        return 0; */
+/*  	else */
+/*  	        return 1; */
+/*  } */
+
+static guint
+float_hash (const gnum_float *d)
+{
+	guint h = 0;
+	size_t i;
+	const unsigned char *p = (const unsigned char *)d;
+
+	for (i = 0; i < sizeof (gnum_float); i++)
+		h ^= h / 3 + (h << 9) + p[i];
+
+        return h;
 }
 
 static gint
@@ -65,6 +78,14 @@ float_compare (const gnum_float *a, const gnum_float *b)
                 return 0;
         else
                 return 1;
+}
+
+static gint
+float_equal (const gnum_float *a, const gnum_float *b)
+{
+	if (*a == *b)
+	        return 1;
+	return 0;
 }
 
 void
@@ -281,14 +302,65 @@ get_data_groupped_by_columns (Sheet *sheet, const Range *range, int col,
 	data->sum2 = data->sum * data->sum;
 }
 
-/* FIXME: why isn't this just static.  */
-/* Callback for get_data_grouped_by_cols and get_data_grouped_by_rows */
-Value * StoreData_ForeachCellCB(Sheet *sheet, int col, int row,
-			       Cell *cell, GArray* data);
+/* Callbacks for write */
+static Value * 
+WriteData_ForeachCellCB_slow(Sheet *sheet, int col, int row,
+			       Cell *cell, GArray* data) 
+{
+	gnum_float  x;
+	if (data->len == 0)
+		return (value_terminate ());
+	if (cell == NULL)
+		cell = sheet_cell_new (sheet, col, row);
+	x =  g_array_index(data, gnum_float, 0);
+	g_array_remove_index(data,0);
+	sheet_cell_set_value (cell, value_new_float(x), NULL);
+	return NULL;
+}
 
-Value *
-StoreData_ForeachCellCB (Sheet *sheet, int col, int row,
-			 Cell *cell, GArray* data) 
+static Value * 
+WriteData_ForeachCellCB_fast(Sheet *sheet, int col, int row,
+			       Cell *cell, GArray* data) 
+{
+	gnum_float  x;
+	if (data->len == 0)
+		return (value_terminate ());
+	if (cell == NULL)
+		cell = sheet_cell_new (sheet, col, row);	
+	x =  g_array_index(data, gnum_float, data->len - 1);
+	g_array_remove_index_fast(data,data->len - 1);
+	sheet_cell_set_value (cell, value_new_float(x), NULL);
+	return NULL;
+}
+
+static void
+write_data (WorkbookControl *wbc, data_analysis_output_t *dao, GArray *data, gboolean fast)
+{
+	gint st_row = 0, end_row = data->len-1, st_col = 0, end_col = 0;
+	
+	if (dao->type == RangeOutput) {
+		st_row = dao->start_row;
+		end_row = st_row + dao->rows - 1;
+		st_col = dao->start_col;
+		end_col = st_col;
+/* If we weren't trying to be XL compatible, we should have:  */
+/* end_col = dao->start_col + dao->cols - 1;  */
+	}
+	
+	if (fast) {
+		sheet_foreach_cell_in_range(dao->sheet,FALSE,st_col,st_row,end_col,end_row,
+					    (ForeachCellCB)&WriteData_ForeachCellCB_fast,data);	
+	} else {
+		sheet_foreach_cell_in_range(dao->sheet,FALSE,st_col,st_row,end_col,end_row,
+					    (ForeachCellCB)&WriteData_ForeachCellCB_slow,data);	
+	}
+}
+
+
+/* Callback for get_data_grouped_by_cols and get_data_grouped_by_rows */
+static Value * 
+StoreData_ForeachCellCB(Sheet *sheet, int col, int row,
+			       Cell *cell, GArray* data) 
 {
 	gnum_float  x;
 
@@ -299,6 +371,21 @@ StoreData_ForeachCellCB (Sheet *sheet, int col, int row,
 	return NULL;
 }
 
+/* get_data_by_cb returns 0 if all values read are numbers  */
+/* it reads the numbers in no particular order    */
+static int
+get_data_by_cb (Sheet *sheet, const Range *range, GArray *data)
+{
+	int n_of_data = (range->end.row - range->start.row + 1) * 
+		(range->end.col - range->start.col + 1);
+	
+	sheet_foreach_cell_in_range(sheet,TRUE,range->start.col,range->start.row,
+				    range->end.col,range->end.row,
+				    (ForeachCellCB)&StoreData_ForeachCellCB,data);
+
+	return (n_of_data - data->len);
+}
+
 
 /* get_data_grouped_by_cols returns 0 if all values read are numbers  */
 /* it reads the numbers in each column and stores them in an array    */
@@ -307,6 +394,9 @@ get_data_grouped_by_cols (Sheet *sheet, const Range *range, GPtrArray *data)
 {
 	int  col;
 	GArray * this_col;
+	int error = 0;
+	int n_of_data = range->end.row - range->start.row + 1;
+	
 	
 	for (col = range->start.col; col <= range->end.col;  col++) {
 		this_col = g_array_new(FALSE, FALSE, sizeof (gnum_float));
@@ -319,9 +409,9 @@ get_data_grouped_by_cols (Sheet *sheet, const Range *range, GPtrArray *data)
 		sheet_foreach_cell_in_range(sheet,TRUE,col,range->start.row,
 					    col,range->end.row,
 					    (ForeachCellCB)&StoreData_ForeachCellCB,this_col);
-
+		error += n_of_data - this_col->len;
 	}
-	return (data->len == (guint)(range->end.col - range->start.col + 1));
+	return (error);
 }
 /* get_data_grouped_by_rows returns 0 if all values read are numbers  */
 /* it reads the numbers in each row and stores them in an array    */
@@ -331,6 +421,9 @@ get_data_grouped_by_rows (Sheet *sheet, const Range *range, GPtrArray *data)
 {
 	int      row;
 	GArray * this_row;
+	int error = 0;
+	int n_of_data = range->end.col - range->start.col + 1;
+	
 	
 	for (row = range->start.row; row <= range->end.row; row++) {
 		this_row = g_array_new(FALSE,FALSE,sizeof(gnum_float));
@@ -343,8 +436,9 @@ get_data_grouped_by_rows (Sheet *sheet, const Range *range, GPtrArray *data)
 		sheet_foreach_cell_in_range(sheet,TRUE,range->start.col,row,
 					    range->end.col,row,
 					    (ForeachCellCB)&StoreData_ForeachCellCB,this_row);
+		error += n_of_data - this_row->len;
 	}
-	return (data->len == (guint)(range->end.row - range->start.row + 1));
+	return (error);
 }
 
 /* Callback for get_text_col & get_text_row          */
@@ -397,9 +491,6 @@ get_text_row (Sheet *sheet, const Range *range, GPtrArray *data)
 					    range->end.col,range->start.row,
 					    (ForeachCellCB)&StoreText_ForeachCellCB,data);	
 }
-
-
-
 
 static void
 get_data_groupped_by_rows (Sheet *sheet, const Range *range, int row,
@@ -514,6 +605,122 @@ set_italic (data_analysis_output_t *dao, int col1, int row1,
 	sheet_style_apply_range (dao->sheet, &range, mstyle);
 }
 
+/* This function exists also in fn-stat.c */
+/* One copy ought to suffice.             */
+
+static void
+cb_range_mode (gpointer key, gpointer value, gpointer user_data)
+{
+	g_free (value);
+}
+static int
+range_mode (const gnum_float *xs, int n, gnum_float *res)
+{
+	GHashTable *h;
+	int i;
+	gnum_float mode = 0;
+	int dups = 0;
+
+	if (n <= 1) return 1;
+
+	h = g_hash_table_new ((GHashFunc)float_hash,
+			      (GCompareFunc)float_equal);
+	for (i = 0; i < n; i++) {
+		int *pdups = g_hash_table_lookup (h, &xs[i]);
+
+		if (pdups)
+			(*pdups)++;
+		else {
+			pdups = g_new (int, 1);
+			*pdups = 1;
+			g_hash_table_insert (h, (gpointer)(&xs[i]), pdups);
+		}
+
+		if (*pdups > dups) {
+			dups = *pdups;
+			mode = xs[i];
+		}
+	}
+	g_hash_table_foreach (h, cb_range_mode, NULL);
+	g_hash_table_destroy (h);
+
+	if (dups <= 1)
+		return 1;
+
+	*res = mode;
+	return 0;
+}
+
+static int
+get_labels_n_data (Sheet *sheet, GPtrArray  *labels, GPtrArray  *data,
+		  Range *range, int columns_flag,
+		  data_analysis_output_t *dao)
+{
+	gchar      *label;
+	int        cols, rows, i;
+	int        error = 0;
+
+	if (columns_flag) {
+		if (dao->labels_flag) {
+			get_text_row(sheet, range, labels);
+			range->start.row++;
+		} else {
+			cols = range->end.col - range->start.col + 1;
+			for (i = 1; i <= cols; i++) {
+				label = g_strdup_printf (_("Column %d"), i);
+				g_ptr_array_add(labels,label);
+			}
+		}
+		error = get_data_grouped_by_cols (sheet, range, data);
+	} else {
+		if (dao->labels_flag) {
+			get_text_col(sheet, range, labels);
+			range->start.col++;
+		} else {
+			rows = range->end.row - range->start.row + 1;
+			for (i = 1; i <= rows; i++) {
+				label = g_strdup_printf (_("Row %d"), i);
+				g_ptr_array_add(labels,label);
+			}			
+		}
+		error = get_data_grouped_by_rows (sheet, range, data);
+	}
+	return error;
+	
+}
+
+static void
+set_labels_in_row (GPtrArray  *labels, int row, int rowstart,
+		   data_analysis_output_t *dao)
+{
+	gchar      *label;
+	guint col;
+	
+        set_cell (dao, 0, 0, NULL);
+	for (col = 0; col < (labels->len); col++) {
+	        label = (gchar *) g_ptr_array_index(labels,col);
+		set_cell (dao, col + rowstart, row, label);
+	}
+	set_italic (dao, rowstart, row, rowstart + labels->len - 1, row);
+}
+
+static void
+set_labels_in_col (GPtrArray  *labels, int col, int colstart,
+		  data_analysis_output_t *dao)
+{
+	gchar      *label;
+	guint row;
+	
+        set_cell (dao, 0, 0, NULL);
+	for (row = 0; row < (labels->len); row++) {
+	        label = (gchar *) g_ptr_array_index(labels,row);
+		set_cell (dao, col, row+colstart, label);
+	}
+	set_italic (dao, col, colstart, col, colstart + labels->len - 1);
+}
+
+
+
 
 /************* Correlation Tool *******************************************
  *
@@ -524,144 +731,62 @@ set_italic (data_analysis_output_t *dao, int col1, int row1,
  *
  **/
 
-
-static gnum_float
-correl (data_set_t *set_one, data_set_t *set_two, int *error_flag)
-{
-        GSList  *current_one, *current_two;
-	gnum_float sum_xy = 0, c = 0;
-	gnum_float tmp;
-
-	*error_flag = 0;
-	current_one = set_one->array;
-	current_two = set_two->array;
-
-	while (current_one != NULL && current_two != NULL) {
-	        sum_xy += * ((gnum_float *) current_one->data) *
-			* ((gnum_float *) current_two->data);
-	        current_one = current_one->next;
-	        current_two = current_two->next;
-	}
-
-	if (current_one != NULL || current_two != NULL)
-	        *error_flag = 1;
-	else {
-		tmp = (set_one->sqrsum - (set_one->sum2 / set_one->n)) *
-			(set_two->sqrsum - (set_two->sum2 / set_two->n));
-		if (tmp == 0)
-		        *error_flag = 2;
-		else
-		        c = (sum_xy - (set_one->sum * set_two->sum / set_one->n)) /
-				sqrt (tmp);
-	}
-
-	return c;
-}
-
-
 /* If columns_flag is set, the data entries are grouped by columns
  * otherwise by rows.
  */
 int
 correlation_tool (WorkbookControl *wbc, Sheet *sheet,
-		  Range *input_range, int columns_flag,
+		  Range *range, int columns_flag,
 		  data_analysis_output_t *dao)
 {
-        data_set_t *data_sets;
-	Cell       *cell;
-	int        vars, cols, rows, col, row, i;
+        GPtrArray     *labels = g_ptr_array_new();
+	GPtrArray     *data = g_ptr_array_new();
+	guint        col, row;
 	int        error;
-
-	cols = input_range->end.col - input_range->start.col + 1;
-	rows = input_range->end.row - input_range->start.row + 1;
+	gnum_float x;
+	GArray     *the_col, *the_row;
+	
+	
+	if ( 0 != get_labels_n_data (sheet, labels, data, range, columns_flag, dao))
+		return 1;
 
 	prepare_output (wbc, dao, _("Correlations"));
 
-	set_cell (dao, 0, 0, "");
+	set_labels_in_row (labels, 0, 1, dao);
+	set_labels_in_col (labels, 0, 1, dao);
+ 
+        set_cell (dao, 0, 0, NULL);
 
-	if (columns_flag) {
-	        vars = cols;
-		if (dao->labels_flag) {
-		        rows--;
-			for (col = 0; col < vars; col++) {
-			        cell = sheet_cell_get
-					(sheet, input_range->start.col + col,
-					 input_range->start.row);
-				if (cell != NULL && cell->value != NULL) {
-				        set_cell_value (dao, 0, col + 1, value_duplicate (cell->value));
-				        set_cell_value (dao, col + 1, 0, value_duplicate (cell->value));
-				} else
-				        return 1;
-			}
-			input_range->start.row++;
-		} else
-		        for (col = 0; col < vars; col++) {
-				set_cell_printf (dao, 0, col + 1, _("Column %d"), col + 1);
-				set_cell_printf (dao, col + 1, 0, _("Column %d"), col + 1);
-			}
-
-		data_sets = g_new (data_set_t, vars);
-		for (i = 0; i < vars; i++)
-		        get_data_groupped_by_columns (sheet,
-						      input_range, i,
-						      &data_sets[i]);
-	} else {
-	        vars = rows;
-		if (dao->labels_flag) {
-		        cols--;
-			for (col = 0; col < vars; col++) {
-			        cell = sheet_cell_get
-					(sheet, input_range->start.col,
-					 input_range->start.row + col);
-				if (cell != NULL && cell->value != NULL) {
-				        set_cell_value (dao, 0, col + 1, value_duplicate (cell->value));
-				        set_cell_value (dao, col + 1, 0, value_duplicate (cell->value));
-				} else
-				        return 1;
-			}
-			input_range->start.col++;
-		} else
-		        for (col = 0; col < vars; col++) {
-				set_cell_printf (dao, 0, col + 1, _("Row %d"), col + 1);
-				set_cell_printf (dao, col + 1, 0, _("Row %d"), col + 1);
-			}
-
-		data_sets = g_new (data_set_t, vars);
-
-		for (i = 0; i < vars; i++)
-		        get_data_groupped_by_rows (sheet,
-						   input_range, i,
-						   &data_sets[i]);
-	}
-
-	for (row = 0; row < vars; row++) {
-		for (col = 0; col < vars; col++) {
+	for (row = 0; row < data->len; row++) {
+		for (col = 0; col < data->len; col++) {
 		        if (row == col) {
 			        set_cell_int (dao, col + 1, row + 1, 1);
 				break;
 			} else {
-				gnum_float v;
+				if (row < col) {
+					set_cell (dao, col + 1, row + 1, NULL);
+				} else {
+					the_col = g_ptr_array_index(data,col);
+					the_row = g_ptr_array_index(data,row);
 
-				v = correl (&data_sets[col],
-					    &data_sets[row],
-					    &error);
-				if (error)
-				        set_cell_na (dao, col + 1, row + 1);
-				else
-				        set_cell_float (dao, col + 1, row + 1, v);
+					error =  range_correl_pop 
+						((gnum_float *)(the_col->data),
+						 (gnum_float *)(the_row->data),
+						 the_col->len, &x);
+					if (error)
+						set_cell_na (dao, col + 1, row + 1);
+					else
+						set_cell_float (dao, col + 1, row + 1, x);
+				}
+				
 			}
 		}
 	}
 
-	for (i = 0; i < vars; i++)
-	        free_data_set (&data_sets[i]);
-	g_free (data_sets);
-
-	set_italic (dao, 0, 0, 0, vars + 1);
-	set_italic (dao, 0, 0, vars + 1, 0);
-
-	for (col = 0; col <= vars; col++)
-	        autofit_column (dao, col);
+/* labels contains char* and data contains g_array of gnum_float, passing TRUE should */
+/* dispose that memory correctly                                                      */
+	g_ptr_array_free(labels, TRUE);
+	g_ptr_array_free(data,TRUE);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
@@ -679,139 +804,62 @@ correlation_tool (WorkbookControl *wbc, Sheet *sheet,
  *
  **/
 
-
-static gnum_float
-covar (data_set_t *set_one, data_set_t *set_two, int *error_flag)
-{
-        GSList  *current_one, *current_two;
-	gnum_float sum = 0, c = 0;
-	gnum_float mean1, mean2, x, y;
-
-	*error_flag = 0;
-	current_one = set_one->array;
-	current_two = set_two->array;
-
-	mean1 = set_one->sum / set_one->n;
-	mean2 = set_two->sum / set_two->n;
-
-	while (current_one != NULL && current_two != NULL) {
-	        x = * ((gnum_float *) current_one->data);
-	        y = * ((gnum_float *) current_two->data);
-	        sum += (x - mean1) * (y - mean2);
-	        current_one = current_one->next;
-	        current_two = current_two->next;
-	}
-
-	if (current_one != NULL || current_two != NULL)
-	        *error_flag = 1;
-
-	c = sum / set_one->n;
-
-	return c;
-}
-
 /* If columns_flag is set, the data entries are grouped by columns
  * otherwise by rows.
  */
 int
 covariance_tool (WorkbookControl *wbc, Sheet *sheet,
-		 Range *input_range, int columns_flag,
+		 Range *range, int columns_flag,
 		 data_analysis_output_t *dao)
 {
-        data_set_t *data_sets;
-	Cell       *cell;
-	int        vars, cols, rows, col, row, i;
+        GPtrArray     *labels = g_ptr_array_new();
+	GPtrArray     *data = g_ptr_array_new();
+	guint        col, row;
 	int        error;
+	gnum_float x;
+	GArray     *the_col, *the_row;
+	
+	
+	if ( 0 != get_labels_n_data (sheet, labels, data, range, columns_flag, dao))
+		return 1;
 
-	prepare_output (wbc, dao, _("Covariances"));
+	prepare_output (wbc, dao, _("Correlations"));
 
-	cols = input_range->end.col - input_range->start.col + 1;
-	rows = input_range->end.row - input_range->start.row + 1;
+	set_labels_in_row (labels, 0, 1, dao);
+	set_labels_in_col (labels, 0, 1, dao);
+ 
+        set_cell (dao, 0, 0, NULL);
 
-	set_cell (dao, 0, 0, "");
-
-	if (columns_flag) {
-	        vars = cols;
-		if (dao->labels_flag) {
-		        rows--;
-			for (col = 0; col < vars; col++) {
-			        cell = sheet_cell_get
-					(sheet, input_range->start.col + col,
-					 input_range->start.row);
-				if (cell != NULL && cell->value != NULL) {
-				        set_cell_value (dao, 0, col + 1, value_duplicate (cell->value));
-				        set_cell_value (dao, col + 1, 0, value_duplicate (cell->value));
-				} else
-				        return 1;
-			}
-			input_range->start.row++;
-		} else
-		        for (col = 0; col < vars; col++) {
-				set_cell_printf (dao, 0, col + 1, _("Column %d"), col + 1);
-				set_cell_printf (dao, col + 1, 0, _("Column %d"), col + 1);
-			}
-
-		data_sets = g_new (data_set_t, vars);
-		for (i = 0; i < vars; i++)
-		        get_data_groupped_by_columns (sheet,
-						      input_range, i,
-						      &data_sets[i]);
-	} else {
-	        vars = rows;
-		if (dao->labels_flag) {
-		        cols--;
-			for (col = 0; col < vars; col++) {
-			        cell = sheet_cell_get
-					(sheet, input_range->start.col,
-					 input_range->start.row + col);
-				if (cell != NULL && cell->value != NULL) {
-				        set_cell_value (dao, 0, col + 1, value_duplicate (cell->value));
-				        set_cell_value (dao, col + 1, 0, value_duplicate (cell->value));
-				} else
-				        return 1;
-			}
-			input_range->start.col++;
-		} else
-		        for (col = 0; col < vars; col++) {
-				set_cell_printf (dao, 0, col + 1, _("Row %d"), col + 1);
-				set_cell_printf (dao, col + 1, 0, _("Row %d"), col + 1);
-			}
-
-		data_sets = g_new (data_set_t, vars);
-
-		for (i = 0; i < vars; i++)
-		        get_data_groupped_by_rows (sheet,
-						   input_range, i,
-						   &data_sets[i]);
-	}
-
-	for (row = 0; row < vars; row++) {
-		for (col = 0; col < vars; col++) {
-		        if (row < col)
+	for (row = 0; row < data->len; row++) {
+		for (col = 0; col < data->len; col++) {
+		        if (row == col) {
+			        set_cell_int (dao, col + 1, row + 1, 1);
 				break;
-			else {
-				gnum_float v;
+			} else {
+				if (row < col) {
+					set_cell (dao, col + 1, row + 1, NULL);
+				} else {
+					the_col = g_ptr_array_index(data,col);
+					the_row = g_ptr_array_index(data,row);
 
-				v = covar (&data_sets[col],
-					   &data_sets[row],
-					   &error);
-				if (error)
-				        set_cell_na (dao, col + 1, row + 1);
-				else
-				        set_cell_float (dao, col + 1, row + 1, v);
+					error =  range_covar
+						((gnum_float *)(the_col->data),
+						 (gnum_float *)(the_row->data),
+						 the_col->len, &x);
+					if (error)
+						set_cell_na (dao, col + 1, row + 1);
+					else
+						set_cell_float (dao, col + 1, row + 1, x);
+				}
+				
 			}
 		}
 	}
 
-	for (i = 0; i < vars; i++)
-	        free_data_set (&data_sets[i]);
-	g_free (data_sets);
-
-	set_italic (dao, 0, 0, 0, vars + 1);
-	set_italic (dao, 0, 0, vars + 1, 0);
-
-	for (col = 0; col <= vars; col++)
-	        autofit_column (dao, col);
+/* labels contains char* and data contains g_array of gnum_float, passing TRUE should */
+/* dispose that memory correctly                                                      */
+	g_ptr_array_free(labels, TRUE);
+	g_ptr_array_free(data,TRUE);
 
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
@@ -830,6 +878,7 @@ covariance_tool (WorkbookControl *wbc, Sheet *sheet,
  *
  **/
 
+/*  FIXME:  */
 /*  The same function range_excel_median is also defined in fn-stat.c. */
 /*  These functions should probably be moved to math-func.c rather than */
 /*  having them in two spots. */
@@ -861,10 +910,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 	prepare_output (wbc, dao, _("Summary Statistics"));
 
         set_cell (dao, 0, 0, NULL);
-	for (col = 0; col < labels->len; col++) {
-	        const char *label = g_ptr_array_index (labels, col);
-		set_cell (dao, col + 1, 0, label);
-	}
+	set_labels_in_row(labels, 0, 1, dao);
 
 	/*
 	 * Note to translators: in the following string and others like it,
@@ -925,10 +971,8 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data, GPtrArray* labels,
 		}
 
 		/* Mode */
-		/* TODO */
-		/* if we fix the Mode function using a range_* call, we can use that here! */
-		/* FIXME: I already did, but it needs to move -- MW.  */
-		error = 1;
+
+		error = range_mode((gnum_float *)(the_col->data), the_col->len, &x);
 		if (error == 0) {
 			set_cell_float (dao, col + 1, 4, x);
 		} else {
@@ -995,16 +1039,15 @@ confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
         gnum_float x, var;
         guint col;
 	gint error;
-	gchar *label;
 	GArray *the_col;
 
 	prepare_output (wbc, dao, _("Confidence Level"));
         set_cell_printf (dao, 0, 1, _("Confidence Level (%g%%)"), c_level * 100);
 
-	for (col = 0; col < labels->len; col++) {
-	        label = (gchar *) g_ptr_array_index(labels,col);
-		set_cell (dao, col + 1, 0, label);
+        set_cell (dao, 0, 0, NULL);
+	set_labels_in_row(labels, 0, 1, dao);
 
+	for (col = 0; col < labels->len; col++) {
 		the_col = g_ptr_array_index(data,col);
 		if ((c_level < 1) && (c_level >= 0)) {
 			error = range_var_est ((gnum_float *)(the_col->data), the_col->len, &var);
@@ -1039,16 +1082,15 @@ kth_largest (WorkbookControl *wbc, GPtrArray *data,  int k,
         gnum_float x;
         guint col;
 	gint error;
-	gchar *label;
 	GArray *the_col;
 
 	prepare_output (wbc, dao, _("Kth Largest"));
         set_cell_printf (dao, 0, 1, _("Largest (%d)"), k);
 
-	for (col = 0; col < labels->len; col++) {
-	        label = (gchar *) g_ptr_array_index(labels,col);
-		set_cell (dao, col + 1, 0, label);
+        set_cell (dao, 0, 0, NULL);
+	set_labels_in_row(labels, 0, 1, dao);
 
+	for (col = 0; col < labels->len; col++) {
 		the_col = g_ptr_array_index(data,col);
 		error = range_min_k ((gnum_float *)(the_col->data), 
 				     the_col->len, &x, the_col->len - k + 1);
@@ -1058,7 +1100,6 @@ kth_largest (WorkbookControl *wbc, GPtrArray *data,  int k,
 			set_cell_na (dao, col + 1, 1);
 		}
 	}
-
 }
 
 static void
@@ -1068,16 +1109,15 @@ kth_smallest (WorkbookControl *wbc, GPtrArray  *data, int k,
         gnum_float x;
         guint col;
 	gint error;
-	gchar *label;
 	GArray *the_col;
 
 	prepare_output (wbc, dao, _("Kth Smallest"));
         set_cell_printf (dao, 0, 1, _("Smallest (%d)"), k);
 
-	for (col = 0; col < labels->len; col++) {
-	        label = (gchar *) g_ptr_array_index(labels,col);
-		set_cell (dao, col + 1, 0, label);
+        set_cell (dao, 0, 0, NULL);
+	set_labels_in_row(labels, 0, 1, dao);
 
+	for (col = 0; col < labels->len; col++) {
 		the_col = g_ptr_array_index(data,col);
 		error = range_min_k ((gnum_float *)(the_col->data), the_col->len, &x, k);
 		if (error == 0) {
@@ -1093,41 +1133,13 @@ kth_smallest (WorkbookControl *wbc, GPtrArray  *data, int k,
 int
 descriptive_stat_tool (WorkbookControl *wbc, Sheet *sheet,
                        Range *range, int columns_flag,
-		       int labels_flag,
 		       descriptive_stat_tool_t *ds,
 		       data_analysis_output_t *dao)
 {
-        int        cols,rows,i;
         GPtrArray     *labels = g_ptr_array_new();
 	GPtrArray     *data = g_ptr_array_new();
-	gchar       *label;
 
-	if (columns_flag) {
-		if (labels_flag) {
-			get_text_row(sheet, range, labels);
-			range->start.row++;
-		} else {
-			cols = range->end.col - range->start.col + 1;
-			for (i = 1; i <= cols; i++) {
-				label = g_strdup_printf (_("Column %d"), i);
-				g_ptr_array_add(labels,label);
-			}
-		}
-		get_data_grouped_by_cols (sheet, range, data);
-	} else {
-		if (labels_flag) {
-			get_text_col(sheet, range, labels);
-			range->start.col++;
-		} else {
-			rows = range->end.row - range->start.row + 1;
-			for (i = 1; i <= rows; i++) {
-				label = g_strdup_printf (_("Row %d"), i);
-				g_ptr_array_add(labels,label);
-			}			
-		}
-		get_data_grouped_by_rows (sheet, range, data);
-	}
-	
+	get_labels_n_data (sheet, labels, data, range, columns_flag, dao);
 
         if (ds->summary_statistics) {
                 summary_statistics (wbc, data, labels, dao);
@@ -1176,96 +1188,49 @@ descriptive_stat_tool (WorkbookControl *wbc, Sheet *sheet,
 /* Returns 1 if error occured, for example random sample size is
  * larger than the data set.
  **/
-int sampling_tool (WorkbookControl *wbc, Sheet *sheet, Range *input_range,
+int sampling_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
 		   gboolean periodic_flag, int size,
 		   data_analysis_output_t *dao)
 {
-        data_set_t data_set;
-	gnum_float    x;
+        GArray * data = g_array_new(FALSE,FALSE,sizeof(gnum_float));
+	GArray * sample = g_array_new(FALSE,FALSE,sizeof(gnum_float));
+	int i, data_len;
+	gnum_float x;
 
 	prepare_output (wbc, dao, _("Sample"));
-
-	get_data (sheet, input_range, &data_set);
-
+	get_data_by_cb (sheet, range, data);
+	data_len =  data->len;
+	
 	if (periodic_flag) {
-	        GSList *current = data_set.array;
-		int    counter = size - 1;
-		int    row = 0;
-
-		while (current != NULL) {
-		        if (++counter == size) {
-			        x = * ((gnum_float *) current->data);
-				set_cell_float (dao, 0, row++, x);
-				counter = 0;
-			}
-		        current = current->next;
+		if ((size < 0) || (size > data_len)) 
+			return 1;
+		for (i = size - 1; i < data_len; i += size) {
+			x = g_array_index(data, gnum_float, i);
+			g_array_append_val(sample,x);
 		}
+		write_data(wbc, dao, sample, FALSE);
 	} else {
-	        int     *index_tbl;
-		int     i, n, x;
-		GSList  *current = data_set.array;
-		int     counter = 0;
-		int     row = 0;
+		if ((size < 0) || (size > data_len)) 
+			return 1;
 
-	        if (size > data_set.n)
-		        return 1;
+		for (i = 0; i < size; i++) {
+			int random_index;
 
-		if (size <= data_set.n / 2) {
-		        index_tbl = g_new (int, size);
-
-			for (i = 0; i < size; i++) {
-			try_again_1:
-			        x = random_01 () * size;
-				for (n = 0; n < i; n++)
-				        if (index_tbl[n] == x)
-					        goto try_again_1;
-				index_tbl[i] = x;
-			}
-			qsort (index_tbl, size, sizeof (int),
-			       int_compare);
-			n = 0;
-			while (n < size) {
-			        if (counter++ == index_tbl[n]) {
-					set_cell_float (dao, 0, row++,
-							* ((gnum_float *) current->data));
-					++n;
-				}
-				current = current->next;
-			}
-			g_free (index_tbl);
-		} else {
-		        if (data_set.n != size)
-			        index_tbl = g_new (int, data_set.n - size);
-			else {
-			        index_tbl = g_new (int, 1);
-				index_tbl[0] = -1;
-			}
-
-			for (i = 0; i < data_set.n - size; i++) {
-			try_again_2:
-			        x = random_01 () * size;
-				for (n = 0; n < i; n++)
-				        if (index_tbl[n] == x)
-					        goto try_again_2;
-				index_tbl[i] = x;
-			}
-			if (data_set.n != size)
-			        qsort (index_tbl, size, sizeof (int),
-				       int_compare);
-			n = 0;
-			while (current != NULL) {
-			        if (counter++ == index_tbl[n])
-					++n;
-				else
-					set_cell_float (dao, 0, row++, * ((gnum_float *) current->data));
-				current = current->next;
-			}
-			g_free (index_tbl);
+			random_index = random_01 () * data_len;
+			if (random_index == data_len)
+				random_index--;
+			x = g_array_index(data, gnum_float, random_index);
+			g_array_remove_index_fast (data, random_index);
+			g_array_append_val(sample, x);
 		}
 
+		write_data(wbc, dao, sample, TRUE);
 	}
 
-	free_data_set (&data_set);
+
+	g_array_free(data,TRUE);
+	g_array_free(sample,TRUE);
+
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
 

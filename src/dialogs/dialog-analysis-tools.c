@@ -694,9 +694,15 @@ correlation_dialog_loop:
 		}
 	}
 
-	if (correlation_tool (WORKBOOK_CONTROL (wbcg), sheet,
-			      &range, !group, &dao))
-	        goto correlation_dialog_loop;
+	switch (correlation_tool (WORKBOOK_CONTROL (wbcg), sheet,
+				  &range, !group, &dao)) {
+	case 0: break;
+	case 1: error_in_entry (wbcg, range_entry,
+				_("Please do not include any non-numeric (or empty)"
+				  " data."));
+	goto correlation_dialog_loop;
+	default: goto correlation_dialog_loop;
+	}
 
 	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
 
@@ -795,9 +801,15 @@ dialog_loop:
 		}
 	}
 
-	if (covariance_tool (WORKBOOK_CONTROL (wbcg), sheet,
-			     &range, !group, &dao))
-	        goto dialog_loop;
+	switch (covariance_tool (WORKBOOK_CONTROL (wbcg), sheet,
+				  &range, !group, &dao)) {
+	case 0: break;
+	case 1: error_in_entry (wbcg, range_entry,
+				_("Please do not include any non-numeric (or empty)"
+				  " data."));
+	goto dialog_loop;
+	default: goto dialog_loop;
+	}
 
 	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
 
@@ -1020,9 +1032,10 @@ stat_dialog_loop:
 	        range.start.row++;
 	if (row_labels && !i)
 	        range.start.col++;
+	dao.labels_flag = ((col_labels && !i) || (row_labels && i));
 
 	if (descriptive_stat_tool (WORKBOOK_CONTROL (wbcg), sheet,
-				   &range, !i,((col_labels && !i) || (row_labels && i)), &ds, &dao))
+				   &range, !i, &ds, &dao))
 	        goto stat_dialog_loop;
 
 	wb_view_sheet_focus (wb_control_view (WORKBOOK_CONTROL (wbcg)), sheet);
