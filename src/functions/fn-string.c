@@ -1218,3 +1218,8 @@ FunctionDefinition string_functions [] = {
 /* Missing:
  * TEXT(number,format) formats number
  */
+
+void string_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("String"));
+}

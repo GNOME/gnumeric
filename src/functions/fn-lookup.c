@@ -735,3 +735,8 @@ FunctionDefinition lookup_functions [] = {
 	  &help_vlookup, NULL, gnumeric_vlookup },
 	{ NULL, NULL }
 };
+
+void lookup_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Data / Lookup"));
+}

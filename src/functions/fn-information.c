@@ -60,3 +60,8 @@ FunctionDefinition information_functions [] = {
 	  NULL, gnumeric_countblank },
         { NULL, NULL }
 };
+
+void information_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Information"));
+}

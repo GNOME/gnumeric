@@ -12,7 +12,7 @@
 #include "../../src/plugin.h"
 
 static Value *
-func_plusone (FunctionDefinition * fndef, Value *argv [], char **error_string)
+func_plusone (const FuncPos *fp, Value *argv [], FuncScratch *s)
 {
 	Value *v = g_new (Value, 1);
 	

@@ -45,15 +45,14 @@ cell_set_formula (Cell *cell, const char *text)
 {
 	char *error_msg = _("ERROR");
 	const char *desired_format = NULL;
+	FuncPos fp;
 
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (text != NULL);
 
 	cell_modified (cell);
 	cell->parsed_node = expr_parse_string (&text [1],
-					       cell->sheet,
-					       cell->col->pos,
-					       cell->row->pos,
+					       func_pos_cell (&fp, cell),
 					       &desired_format,
 					       &error_msg);
 	if (cell->parsed_node == NULL){
@@ -1665,13 +1664,14 @@ char *
 cell_get_text (Cell *cell)
 {
 	char *str;
+	FuncPos fp;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell->parsed_node && cell->sheet){
 		char *func, *ret;
 
-		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);
+		func = expr_decode_tree (cell->parsed_node, func_pos_cell (&fp, cell));
 		ret = g_strconcat ("=", func, NULL);
 		g_free (func);
 
@@ -1704,13 +1704,14 @@ char *
 cell_get_content (Cell *cell)
 {
 	char *str;
+	FuncPos fp;
 
 	g_return_val_if_fail (cell != NULL, NULL);
 
 	if (cell->parsed_node){
 		char *func, *ret;
 
-		func = expr_decode_tree (cell->parsed_node, cell->sheet, cell->col->pos, cell->row->pos);
+		func = expr_decode_tree (cell->parsed_node, func_pos_cell (&fp, cell));
 		ret = g_strconcat ("=", func, NULL);
 		g_free (func);
 

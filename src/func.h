@@ -4,18 +4,18 @@
 #include "expr.h"
 #include "sheet.h"
 
-extern FunctionDefinition math_functions [];
-extern FunctionDefinition sheet_functions [];
-extern FunctionDefinition misc_functions [];
-extern FunctionDefinition date_functions [];
-extern FunctionDefinition string_functions [];
-extern FunctionDefinition stat_functions [];
-extern FunctionDefinition finance_functions [];
-extern FunctionDefinition eng_functions [];
-extern FunctionDefinition lookup_functions [];
-extern FunctionDefinition logical_functions [];
-extern FunctionDefinition database_functions [];
-extern FunctionDefinition information_functions [];
+extern void math_functions_init();
+extern void sheet_functions_init();
+extern void misc_functions_init();
+extern void date_functions_init();
+extern void string_functions_init();
+extern void stat_functions_init();
+extern void finance_functions_init();
+extern void eng_functions_init();
+extern void lookup_functions_init();
+extern void logical_functions_init();
+extern void database_functions_init();
+extern void information_functions_init();
 
 typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, char **error_string, void *);
 
@@ -40,18 +40,14 @@ typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, char **error_
  * Value found on the list (this means that ranges get properly expaned).
  */
 int
-function_iterate_argument_values (Sheet                   *sheet,
+function_iterate_argument_values (const FuncPos           *fp,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
-				  int                     eval_col,
-				  int			  eval_row,
 				  char                    **error_string);
 				  
-
 /*
  * function_call_with_values
- *
  */
 Value      *function_call_with_values     (Sheet     *sheet,
 					   const char      *name,
@@ -74,16 +70,24 @@ function_iterate_do_value (Sheet                   *sheet,
 			   Value                   *value,
 			   char                    **error_string);
 
-void        install_symbols               (FunctionDefinition *functions,
-					   gchar *description);
 
-
-typedef struct {
-	gchar *name ;
-	FunctionDefinition *functions;
-} FunctionCategory;
-
-GPtrArray *function_categories_get (void);
+/*
+ * Gnumeric function defintion API.
+ */
+typedef struct _FunctionCategory FunctionCategory;
+struct _FunctionCategory {
+	gchar *name;
+	GList *functions;
+};
+FunctionCategory   *function_get_category (gchar *description);
+FunctionDefinition *function_new (FunctionCategory *parent,
+				  char *name,
+				  char *args,
+				  char *arg_names,
+				  char **help,
+				  FuncType type,
+				  FuncFunction *fn);
+GList *function_categories_get (void);
 
 typedef struct {
 	GPtrArray *sections ;

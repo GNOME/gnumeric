@@ -19,16 +19,16 @@ static GHashTable *dependency_hash;
 void
 cell_eval (Cell *cell)
 {
-	char *error_msg = _("ERROR") ;
 	Value *v;
+	FuncScratch s;
+	FuncPos fp;
 
 	g_return_if_fail (cell != NULL);
 
 #ifdef DEBUG_EVALUATION
 	{
 		char *exprtxt = expr_decode_tree
-			(cell->parsed_node, cell->sheet,
-			 cell->col->pos, cell->row->pos);
+			(cell->parsed_node, func_pos_cell (&fp, cell));
 		printf ("Evaluating %s: %s ->\n",
 			cell_name (cell->col->pos, cell->row->pos),
 			exprtxt);
@@ -36,10 +36,7 @@ cell_eval (Cell *cell)
 	}
 #endif
 
-	v = eval_expr (cell->sheet, cell->parsed_node,
-		       cell->col->pos,
-		       cell->row->pos,
-		       &error_msg);
+	v = (Value *)eval_expr (func_scratch_cell (&s, cell, _("ERROR")), cell->parsed_node);
 
 #ifdef DEBUG_EVALUATION
 	{
@@ -59,7 +56,7 @@ cell_eval (Cell *cell)
 	}
 
 	if (v == NULL){
-		cell_set_rendered_text (cell, error_msg);
+		cell_set_rendered_text (cell, s.error_string);
 		cell->value = NULL;
 		cell->flags |= CELL_ERROR;
 	} else {

@@ -493,3 +493,8 @@ FunctionDefinition date_functions [] = {
 	  NULL, gnumeric_year  },
 	{ NULL, NULL },
 };
+
+void date_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Date / Time"));
+}

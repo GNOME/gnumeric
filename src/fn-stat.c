@@ -4060,3 +4060,8 @@ FunctionDefinition stat_functions [] = {
 	  gnumeric_ztest, NULL },
 	{ NULL, NULL },
 };
+
+void stat_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Statistics"));
+}

@@ -13,7 +13,6 @@
 #include "func.h"
 #include "sheet.h"
 
-
 /* Type definitions */
 
 typedef struct {
@@ -1226,3 +1225,7 @@ FunctionDefinition database_functions [] = {
 	{ NULL, NULL },
 };
 
+void database_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Database"));
+}

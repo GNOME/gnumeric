@@ -2654,3 +2654,8 @@ FunctionDefinition math_functions [] = {
 	{ "pi",      "",     "",          &help_pi,      NULL, gnumeric_pi },
 	{ NULL, NULL },
 };
+
+void math_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Maths / Trig."));
+}

@@ -15,7 +15,7 @@
 #include "eval.h"
 
 /* The list of categories */
-static GPtrArray *categories = NULL;
+static GList *categories = NULL;
 
 typedef struct {
 	FunctionIterateCallback  callback;
@@ -123,35 +123,36 @@ function_iterate_do_value (Sheet                   *sheet,
 }
 
 int
-function_iterate_argument_values (Sheet                   *sheet,
+function_iterate_argument_values (const FuncPos           *fp,
 				  FunctionIterateCallback callback,
 				  void                    *callback_closure,
 				  GList                   *expr_node_list,
-				  int                     eval_col,
-				  int                     eval_row,
 				  char                    **error_string)
 {
 	int result = TRUE;
+	FuncScratch fs;
 
 	for (; result && expr_node_list; expr_node_list = expr_node_list->next){
 		ExprTree *tree = (ExprTree *) expr_node_list->data;
 		Value *val;
 
-		val = eval_expr (sheet, tree, eval_col, eval_row, error_string);
+		val = (Value *)eval_expr (func_scratch_pos (&fs, fp, *error_string), tree);
 
 		if (val){
 			result = function_iterate_do_value (
-				sheet, callback, callback_closure,
-				eval_col, eval_row, val,
+				fp->sheet, callback, callback_closure,
+				fp->eval_col, fp->eval_row, val,
 				error_string);
 			
 			value_release (val);
 		}
 	}
+	if (!result)
+		*error_string = fs.error_string;
 	return result;
 }
 
-GPtrArray *
+GList *
 function_categories_get (void)
 {
 	return categories;
@@ -237,41 +238,58 @@ tokenized_help_destroy (TokenizedHelp *tok)
 	g_free (tok);
 }
 
-void
-install_symbols (FunctionDefinition *functions, gchar *description)
+FunctionCategory *function_get_category (gchar *description)
 {
-	int i;
-	FunctionCategory *fn_cat = g_new (FunctionCategory, 1);
+	FunctionCategory *cat = g_new (FunctionCategory, 1);
 	
-	g_return_if_fail (categories);
+/* FIXME: should search for name first */
+	cat->name = description;
+	cat->functions = NULL;
+	categories = g_list_append (categories, cat);
 
-	fn_cat->name = description;
-	fn_cat->functions = functions;
-	g_ptr_array_add (categories, fn_cat); 
-	
-	for (i = 0; functions [i].name; i++){
-		symbol_install (global_symbol_table, functions [i].name,
-				SYMBOL_FUNCTION, &functions [i]);
-	}
+	return cat;
+}
+
+FunctionDefinition *function_new (FunctionCategory *parent,
+				  char *name,
+				  char *args,
+				  char *arg_names,
+				  char **help,
+				  FuncType type,
+				  FuncFunction *fn)
+{
+	FunctionDefinition *fd;
+
+	g_return_val_if_fail (fn, NULL);
+	g_return_val_if_fail (parent, NULL);
+
+	fd            = g_new (FunctionDefinition, 1);
+	fd->name      = name;
+	fd->args      = args;
+	fd->help      = help;
+	fd->fn_type   = type;
+	fd->fn        = fn;
+	fd->named_arguments = arg_names;
+       
+	parent->functions = g_list_append (parent->functions, fd);
+	return fd;
 }
 
 void
 functions_init (void)
 {
-	categories = g_ptr_array_new ();
-
-	install_symbols (math_functions, _("Maths / Trig."));
-	install_symbols (sheet_functions, _("Sheet"));
-	install_symbols (misc_functions, _("Miscellaneous"));
-	install_symbols (date_functions, _("Date / Time"));
-	install_symbols (string_functions, _("String"));
-	install_symbols (stat_functions, _("Statistics"));
-	install_symbols (finance_functions, _("Financial"));
-	install_symbols (eng_functions, _("Engineering"));
-	install_symbols (lookup_functions, _("Data / Lookup"));
-	install_symbols (logical_functions, _("Logical"));
-	install_symbols (database_functions, _("Database"));
-	install_symbols (information_functions, _("Information"));
+	math_functions_init();
+	sheet_functions_init();
+	misc_functions_init();
+	date_functions_init();
+	string_functions_init();
+	stat_functions_init();
+	finance_functions_init();
+	eng_functions_init();
+	lookup_functions_init();
+	logical_functions_init();
+	database_functions_init();
+	information_functions_init();
 }
 
 void

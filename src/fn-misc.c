@@ -76,3 +76,8 @@ FunctionDefinition misc_functions [] = {
 	{ "iserror", "",   "",                 &help_iserror, gnumeric_iserror, NULL           },
 	{ NULL, NULL }
 };
+
+void misc_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Miscellaneous"));
+}

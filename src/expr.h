@@ -108,6 +108,45 @@ typedef enum {
 	PARSE_ERR_SYNTAX
 } ParseErr;
 
+
+/*
+ * Function parameter structures
+ */
+typedef struct _FuncPos            FuncPos;
+typedef struct _FuncScratch        FuncScratch;
+/* FIXME: Should be tastefuly concealed */
+typedef struct _FunctionDefinition FunctionDefinition;
+
+struct _FuncPos {
+	Sheet *sheet;
+	int    eval_col;
+	int    eval_row;
+};
+
+enum _FuncType { FUNCTION_ARGS, FUNCTION_NODES };
+
+typedef enum _FuncType FuncType;
+typedef Value * FuncReturn;
+
+struct _FuncScratch {
+	FuncPos pos;
+	char  *error_string;
+	FunctionDefinition *func_def;
+	union { /* Depends on FuncType */
+		GList *nodes;
+		Value **args;
+	} a;
+};
+/* Transition functions */
+FuncPos *func_pos_init (FuncPos *, Sheet *s, int col, int row);
+FuncPos *func_pos_cell (FuncPos *, Cell *);
+FuncScratch *func_scratch_init (FuncScratch *s, Sheet *sheet, int col, int row,
+				char *default_error);
+FuncScratch *func_scratch_cell (FuncScratch *s, Cell *cell,
+				char *default_error);
+FuncScratch *func_scratch_pos (FuncScratch *s, const FuncPos *fp,
+				char *default_error);
+
 /*
  * Functions come in two fashions:  Those that only deal with
  * very specific data types and a constant number of arguments,
@@ -121,7 +160,9 @@ typedef enum {
  * processing.
  */
 
-struct FunctionDefinition {
+typedef FuncReturn *(FuncFunction) (FuncScratch *s);
+
+struct _FunctionDefinition {
 	/* The function name */
 	char  *name;
 
@@ -140,43 +181,37 @@ struct FunctionDefinition {
 	char  *args;
 	char  *named_arguments;
 	char  **help;
-	Value *(*expr_fn)(Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string);
-	
-	Value *(*fn)(struct FunctionDefinition *func_def, Value *argv [], char **error_string);
+	FuncType fn_type;
+	FuncFunction *fn;
 };
-
-typedef struct FunctionDefinition FunctionDefinition;
 
 void        cell_get_abs_col_row (const CellRef *cell_ref,
 				  int eval_col, int eval_row,
 				  int *col, int *row);
 
-ExprTree   *expr_parse_string    (const char *expr, Sheet *sheet, int col, int row,
+ExprTree   *expr_parse_string    (const char *expr, const FuncPos *fp,
 				  const char **desired_format, char **error_msg);
 /* In parser.y  */
-ParseErr    gnumeric_expr_parser (const char *expr, Sheet *sheet,
-				  int col, int row, const char **desired_format,
+ParseErr    gnumeric_expr_parser (const char *expr, const FuncPos *fp,
+				  const char **desired_format,
 				  ExprTree **tree);
 
 ExprTree   *expr_tree_duplicate  (ExprTree *expr);
-char       *expr_decode_tree     (ExprTree *tree, Sheet *sheet,
-				  int col, int row);
+char       *expr_decode_tree     (ExprTree *tree, const FuncPos *fp);
 
 ExprTree   *expr_tree_new        (void);
 void        expr_tree_ref        (ExprTree *tree);
 void        expr_tree_unref      (ExprTree *tree);
 
-ExprTree   *expr_tree_invalidate_references (ExprTree *src, Sheet *src_sheet,
-					     int src_col, int src_row, Sheet *sheet, int col, int row,
+ExprTree   *expr_tree_invalidate_references (ExprTree *src, FuncPos *src_fp,
+					     const FuncPos *fp,
 					     int colcount, int rowcount);
 
-ExprTree   *expr_tree_fixup_references (ExprTree *src, Sheet *src_sheet,
-					int src_col, int src_row, Sheet *sheet, int col, int row,
+ExprTree   *expr_tree_fixup_references (ExprTree *src, FuncPos *src_fp,
+					const FuncPos *fp,
 					int coldelta, int rowdelta);
 
-Value      *eval_expr            (Sheet *sheet, ExprTree *tree,
-				  int  col, int row,
-				  char **error_string);
+FuncReturn *eval_expr            (FuncScratch *s, ExprTree *tree);
 
 extern Value *value_zero;
 Value       *value_new_float       (float_t f);

@@ -76,3 +76,8 @@ FunctionDefinition sheet_functions [] = {
 	{ "selection", 0,    "", &help_selection, gnumeric_selection, NULL },
 	{ NULL, NULL }
 };
+
+void sheet_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Sheet"));
+}

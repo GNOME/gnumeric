@@ -241,3 +241,8 @@ FunctionDefinition logical_functions [] = {
 	{ "or",      0,      "",          &help_or,      gnumeric_or, NULL },
 	{ NULL, NULL },
 };
+
+void logical_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Logical"));
+}

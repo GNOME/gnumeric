@@ -1964,3 +1964,8 @@ FunctionDefinition eng_functions [] = {
 	/* besselk */
 	{ NULL, NULL },
 };
+
+void eng_functions_init()
+{
+	FunctionCategory *cat = function_get_category (_("Engineering"));
+}
