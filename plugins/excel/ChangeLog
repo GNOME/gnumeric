@@ -1,5 +1,11 @@
 2005-01-10  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=163406
+	* ms-excel-util.c (init_xl_font_widths) : fix entries for Bitstream
+	  Vera and Sans
+
+2005-01-10  Jody Goldberg <jody@gnome.org>
+
 	* ms-formula-write.c (write_arrays) : handle booleans and errors in
 	  arrays
 

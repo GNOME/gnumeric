@@ -3499,7 +3499,7 @@ excel_read_COLINFO (BiffQuery *q, ExcelReadSheet *esheet)
 		width = esheet->sheet->cols.default_style.size_pts;
 	}
 
-	d (-1, {
+	d (1, {
 		fprintf (stderr,"Column Formatting %s!%s of width "
 		      "%hu/256 characters (%f pts)\n",
 		      esheet->sheet->name_quoted,

@@ -32,6 +32,7 @@ Jody:
 	* Remove adjustment of copied areas on ins/del col/row [#163408]
 	* XLS export for booleans and errors in arrays
 	* Make SUMPRODUCT ignore booleans and strings to match XL, and SUM
+	* Fix sizes of Bitstream Vera for xls export [#163406]
 
 Morten:
 	* Improve accuracy of pgamma and thus pchisq, ppois, qgamma,
