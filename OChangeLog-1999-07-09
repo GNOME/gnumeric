@@ -1,3 +1,7 @@
+1999-06-22  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-math.c: Added SUMPRODUCT().
+
 1999-06-21  Morten Welinder  <terra@diku.dk>
 
 	* src/dialog-function-wizard.c (arg_data_list_new): Fix case of

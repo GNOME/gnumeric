@@ -2483,7 +2483,6 @@ static char *help_seriessum = {
 	   "@SEEALSO=COUNT,SUM")
 };
 
-
 typedef struct {
         float_t sum;
         float_t x;
@@ -2592,6 +2591,112 @@ gnumeric_seriessum (Sheet *sheet, GList *expr_node_list,
 	return value_new_float (p.sum);
 }
 
+static char *help_sumproduct = {
+	N_("@FUNCTION=SUMPRODUCT\n"
+	   "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
+
+	   "@DESCRIPTION="
+	   "SUMPRODUCT function multiplies corresponding data entries in the "
+	   "given arrays or ranges, and then returns the sum of those "
+	   "products.  If an array entry is not numeric, the value zero is "
+	   "used instead. "
+	   "\n"
+	   "If array or range arguments do not have the same dimentions, "
+	   "SUMPRODUCT returns #VALUE! error. "
+	   "\n"
+	   "@SEEALSO=SUM,PRODUCT")
+};
+
+typedef struct {
+        GSList   *components;
+        GSList   *current;
+        gboolean first;
+} math_sumproduct_t;
+
+static int
+callback_function_sumproduct (Sheet *sheet, Value *value,
+			      char **error_string, void *closure)
+{
+	math_sumproduct_t *mm = closure;
+	float_t           x;
+
+	if (!VALUE_IS_NUMBER (value))
+		x = 0;
+	else
+	        x = value_get_as_float (value);
+
+	if (mm->first) {
+	        gpointer p;
+		p = g_new(float_t, 1);
+		*((float_t *) p) = x;
+		mm->components = g_slist_append(mm->components, p);
+	} else {
+	        if (mm->current == NULL)
+		        return FALSE;
+		*((float_t *) mm->current->data) *= x;
+		mm->current = mm->current->next;
+	}
+
+	return TRUE;
+}
+
+static Value *
+gnumeric_sumproduct (Sheet *sheet, GList *expr_node_list,
+		     int eval_col, int eval_row, char **error_string)
+{
+        math_sumproduct_t p;
+	GSList            *current;
+	float_t           sum;
+	int               result=1;
+
+	if (expr_node_list == NULL) {
+		*error_string = gnumeric_err_NUM;
+		return NULL;
+	}
+
+	p.components = NULL;
+	p.first      = TRUE;
+
+	for ( ; result && expr_node_list;
+	      expr_node_list = expr_node_list->next) {
+		ExprTree *tree = (ExprTree *) expr_node_list->data;
+		Value    *val;
+
+		val = eval_expr (sheet, tree, eval_col,
+				 eval_row, error_string);
+
+		if (val) {
+		        p.current = p.components;
+			result = function_iterate_do_value (
+				sheet, callback_function_sumproduct, &p,
+				eval_col, eval_row, val,
+				error_string, TRUE);
+
+			value_release (val);
+		} else
+		        break;
+		p.first = FALSE;
+	}
+
+	sum = 0;
+	current = p.components;
+	while (current != NULL) {
+	        gpointer p = current->data;
+	        sum += *((float_t *) p);
+		g_free(current->data);
+	        current = current->next;
+	}
+	
+	g_slist_free(p.components);
+
+	if (expr_node_list) {
+	        *error_string = gnumeric_err_VALUE;
+		return NULL;
+	}
+
+	return value_new_float (sum);
+}
+
 
 FunctionDefinition math_functions [] = {
 	{ "abs",     "f",    "number",    &help_abs,   NULL, gnumeric_abs },
@@ -2670,6 +2775,8 @@ FunctionDefinition math_functions [] = {
 	  gnumeric_suma, NULL },
 	{ "sumif",   "r?",   "range,criteria", &help_sumif,
 	  NULL, gnumeric_sumif },
+	{ "sumproduct",   0,  "range1,range2,...",
+	  &help_sumproduct, gnumeric_sumproduct, NULL },
 	{ "sumsq",   0,      "number",    &help_sumsq,
 	  gnumeric_sumsq, NULL },
 	{ "sumx2my2", "AA", "array1,array2", &help_sumx2my2,
