@@ -498,19 +498,11 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->line.width = 0.; /* hairline */
 	style->line.color = RGBA_GREY (0x96);
-	gog_theme_add_element (theme, style, NULL, NULL, "X-MajorGrid");
-	style = gog_style_new ();
-	style->line.width = 0.; /* hairline */
-	style->line.color = RGBA_GREY (0x96);
-	gog_theme_add_element (theme, style, NULL, NULL, "Y-MajorGrid");
+	gog_theme_add_element (theme, style, NULL, NULL, "MajorGrid");
 	style = gog_style_new ();
 	style->line.width = 0.; /* hairline */
 	style->line.color = RGBA_GREY (0xC0);
-	gog_theme_add_element (theme, style, NULL, NULL, "X-MinorGrid");
-	style = gog_style_new ();
-	style->line.width = 0.; /* hairline */
-	style->line.color = RGBA_GREY (0xC0);
-	gog_theme_add_element (theme, style, NULL, NULL, "Y-MinorGrid");
+	gog_theme_add_element (theme, style, NULL, NULL, "MinorGrid");
 	
 	/* series */
 	style = gog_style_new ();
@@ -571,19 +563,11 @@ gog_themes_init	(void)
 	style = gog_style_new ();
 	style->line.width = 0.; /* hairline */
 	style->line.color = RGBA_GREY (0x96);
-	gog_theme_add_element (theme, style, NULL, NULL, "X-MajorGrid");
-	style = gog_style_new ();
-	style->line.width = 0.; /* hairline */
-	style->line.color = RGBA_GREY (0x96);
-	gog_theme_add_element (theme, style, NULL, NULL, "Y-MajorGrid");
+	gog_theme_add_element (theme, style, NULL, NULL, "MajorGrid");
 	style = gog_style_new ();
 	style->line.width = 0.; /* hairline */
 	style->line.color = RGBA_GREY (0xC0);
-	gog_theme_add_element (theme, style, NULL, NULL, "X-MinorGrid");
-	style = gog_style_new ();
-	style->line.width = 0.; /* hairline */
-	style->line.color = RGBA_GREY (0xC0);
-	gog_theme_add_element (theme, style, NULL, NULL, "Y-MinorGrid");
+	gog_theme_add_element (theme, style, NULL, NULL, "MinorGrid");
 	
 	/* series */
 	style = gog_style_new ();

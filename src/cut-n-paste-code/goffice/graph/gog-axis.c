@@ -21,6 +21,7 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-axis.h>
+#include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-theme.h>
@@ -839,6 +840,54 @@ role_label_post_add (GogObject *parent, GogObject *label)
 }
 
 static gboolean
+role_grid_line_can_add (GogObject const *parent, char const *type)
+{
+	GSList *children;
+
+	children = gog_object_get_children (parent, 
+		gog_object_find_role_by_name (GOG_OBJECT (parent), type));
+	if (children != NULL) {
+		g_slist_free (children);
+		return FALSE;
+	}
+
+	return TRUE;
+}
+
+static gboolean
+role_grid_line_major_can_add (GogObject const *parent)
+{
+	GogAxis *axis = GOG_AXIS (parent);
+	GogAxisType type = gog_axis_get_atype (axis);
+	
+	return ((type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_RADIAL) &&
+		role_grid_line_can_add (parent, "MajorGrid"));
+}
+
+static gboolean
+role_grid_line_minor_can_add (GogObject const *parent)
+{
+	GogAxis *axis = GOG_AXIS (parent);
+	GogAxisType type = gog_axis_get_atype (axis);
+	
+	return (!gog_axis_is_discrete (GOG_AXIS (parent)) &&
+		(type == GOG_AXIS_X || type == GOG_AXIS_Y || type == GOG_AXIS_RADIAL) &&
+		role_grid_line_can_add (parent, "MinorGrid"));
+}
+
+static void 
+role_grid_line_major_post_add (GogObject *parent, GogObject *child)  
+{
+	g_object_set (G_OBJECT (child), "is_minor", (gboolean)FALSE, NULL);
+}
+
+static void 
+role_grid_line_minor_post_add (GogObject *parent, GogObject *child)  
+{ 
+	g_object_set (G_OBJECT (child), "is_minor", (gboolean)TRUE, NULL);
+}
+
+static gboolean
 gog_axis_set_pos (GogAxis *axis, GogAxisPosition pos)
 {
 	GSList *ptr;
@@ -1475,7 +1524,13 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 	static GogObjectRole const roles[] = { 
 		{ N_("Label"), "GogLabel", 0,
 		  GOG_POSITION_COMPASS, GOG_POSITION_S|GOG_POSITION_ALIGN_CENTER, GOG_OBJECT_NAME_BY_ROLE,
-		  NULL, NULL, NULL, role_label_post_add, NULL, NULL, { -1 } }
+		  NULL, NULL, NULL, role_label_post_add, NULL, NULL, { -1 } },
+		{ N_("MinorGrid"), "GogGridLine", 0,
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+		  role_grid_line_minor_can_add, NULL, NULL, role_grid_line_minor_post_add, NULL, NULL, { -1 } },
+		{ N_("MajorGrid"), "GogGridLine", 1,
+		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
+		  role_grid_line_major_can_add, NULL, NULL, role_grid_line_major_post_add, NULL, NULL, { -1 } }
 	};
 
 	GogObjectClass *gog_klass = (GogObjectClass *) gobject_klass;
@@ -2079,6 +2134,20 @@ draw_axis_from_a_to_b (GogView *v, GogAxis *axis, double ax, double ay, double b
 }
 
 static void
+gog_axis_view_render_children (GogView *view, GogViewAllocation const *bbox)
+{
+	GSList *ptr;
+
+	/* Render every child except grid lines. Those are rendered
+	 * before in gog_chart_view since we don't want to render them
+	 * over axis. */
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
+		if (!IS_GOG_GRID_LINE (GOG_VIEW (ptr->data)->model))
+			gog_view_render	(ptr->data, bbox);
+	}
+}
+
+static void
 gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 {
 	GtkAnchorType anchor;
@@ -2097,7 +2166,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 	double minor_in = 0., minor_out = 0.;
 	gboolean draw_major, draw_minor;
 
-	(aview_parent_klass->render) (v, bbox);
+	gog_axis_view_render_children (v, bbox);
 
 	g_return_if_fail (axis->pos != GOG_AXIS_IN_MIDDLE);
 	g_return_if_fail (v->parent != NULL);
@@ -2323,6 +2392,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 		g_return_if_fail (axis_list->data != NULL);
 		g_return_if_fail (IS_GOG_AXIS(axis_list->data));
 		circular_axis = GOG_AXIS(axis_list->data);
+		g_slist_free (axis_list);
 		gog_axis_get_bounds (circular_axis, &circular_min, &circular_max);
 		num_radii = rint (circular_max);
 

@@ -1,3 +1,42 @@
+2004-09-23  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis.c: make GogGridLine as child of GogAxis.
+	(role_grid_line_can_add): new.
+	(role_grid_line_major_can_add): new.
+	(role_grid_line_minor_can_add): new.
+	(role_grid_line_major_post_add): new.
+	(role_grid_line_minor_post_add): new.
+	(gog_axis_view_class_init): add grid line roles.
+	(gog_axis_view_render_children): new. Don't render grid lines here.
+	(gog_axis_view_render): call gog_axis_view_render_children. Free
+	axis_list.
+	* graph/gog-chart.c
+	(gog_chart_view_class_init): set call_parent_render to FALSE.
+	(grid_line_render): new. Render minor grid, then major.
+	(gog_chart_view_render): new. Kludge for grid lines rendering before
+	axis.
+	* graph/gog-grid-line.c: add new is_minor property and remove type
+	property.
+	(gog_grid_line_is_minor): new.
+	(gog_grid_line_view_render): implement radar grid.
+	* graph/gog-grid.c: Remove grid line roles.
+	(role_grid_line_can_add): removed.
+	(role_grid_x_major_can_add): removed.
+	(role_grid_x_minor_can_add): removed.
+	(role_grid_y_major_can_add): removed.
+	(role_grid_y_minor_can_add): removed.
+	(role_grid_x_major_post_add): removed.
+	(role_grid_x_minor_post_add): removed.
+	(role_grid_y_major_post_add): removed.
+	(role_grid_y_minor_post_add): removed.
+	(gog_grid_view_render): sharpen polygon.
+	(gog_grid_init_style): add OUTLINE property.
+	* graph/gog-outlined-object.c: add a call_parent_render class
+	property. Deafult to TRUE.
+	* graph/gog-theme.c (gog_themes_init): add MajorGrid and MinorGrid
+	themes. Remove X-MajorGrid, Y-MajorGrid, X-MinorGrid, Y-MinorGrid
+	themes.
+				     
 2004-09-23  Morten Welinder  <terra@gnome.org>
 
 	* graph/gog-renderer-gnome-print.c

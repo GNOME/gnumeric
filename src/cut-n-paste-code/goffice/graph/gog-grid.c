@@ -21,7 +21,6 @@
 
 #include <goffice/goffice-config.h>
 #include <goffice/graph/gog-grid.h>
-#include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-styled-object.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-view.h>
@@ -45,96 +44,17 @@ static GogViewClass *gview_parent_klass;
 static void
 gog_grid_init_style (GogStyledObject *gso, GogStyle *style)
 {
-	style->interesting_fields = GOG_STYLE_FILL;
+	style->interesting_fields = GOG_STYLE_FILL | GOG_STYLE_OUTLINE;
 	gog_theme_fillin_style (gog_object_get_theme (GOG_OBJECT (gso)),
 		style, GOG_OBJECT (gso), 0, FALSE);
-}
-
-static gboolean
-role_grid_line_can_add (GogObject const *parent, char const *type)
-{
-	GSList *children;
-
-	children = gog_object_get_children (parent, 
-		gog_object_find_role_by_name (GOG_OBJECT (parent), type));
-	if (children != NULL) {
-		g_slist_free (children);
-		return FALSE;
-	}
-
-	return TRUE;
-}
-
-static gboolean
-role_grid_x_major_can_add (GogObject const *parent)
-{
-	return role_grid_line_can_add (parent, "X-MajorGrid");
-}
-
-static gboolean
-role_grid_x_minor_can_add (GogObject const *parent)
-{
-	return role_grid_line_can_add (parent, "X-MinorGrid");
-}
-
-static gboolean
-role_grid_y_major_can_add (GogObject const *parent)
-{
-	return role_grid_line_can_add (parent, "Y-MajorGrid");
-}
-
-static gboolean
-role_grid_y_minor_can_add (GogObject const *parent)
-{
-	return role_grid_line_can_add (parent, "Y-MinorGrid");
-}
-
-static void 
-role_grid_x_major_post_add (GogObject *parent, GogObject *child)  
-{
-	g_object_set (G_OBJECT (child), "type", (int)GOG_GRID_X_MAJOR, NULL);
-}
-
-static void 
-role_grid_x_minor_post_add (GogObject *parent, GogObject *child)  
-{ 
-	g_object_set (G_OBJECT (child), "type", (int)GOG_GRID_X_MINOR, NULL);
-}
-
-static void 
-role_grid_y_major_post_add (GogObject *parent, GogObject *child)  
-{
-	g_object_set (G_OBJECT (child), "type", (int)GOG_GRID_Y_MAJOR, NULL);
-}
-
-static void 
-role_grid_y_minor_post_add (GogObject *parent, GogObject *child)  
-{ 
-	g_object_set (G_OBJECT (child), "type", (int)GOG_GRID_Y_MINOR, NULL);
 }
 
 static void
 gog_grid_class_init (GogGridClass *klass)
 {
-	static GogObjectRole const roles[] = { 
-		{ N_("X-MinorGrid"), "GogGridLine", 1,
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  role_grid_x_minor_can_add, NULL, NULL, role_grid_x_minor_post_add, NULL, NULL, { -1 } },
-		{ N_("X-MajorGrid"), "GogGridLine", 3,
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  role_grid_x_major_can_add, NULL, NULL, role_grid_x_major_post_add, NULL, NULL, { -1 } },
-		{ N_("Y-MinorGrid"), "GogGridLine", 2,
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  role_grid_y_minor_can_add, NULL, NULL, role_grid_y_minor_post_add, NULL, NULL, { -1 } },
-		{ N_("Y-MajorGrid"), "GogGridLine", 4,
-		  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-		  role_grid_y_major_can_add, NULL, NULL, role_grid_y_major_post_add, NULL, NULL, { -1 } }
-	};
-	
 	GogObjectClass *gog_klass = (GogObjectClass *) klass;
 	GogStyledObjectClass *style_klass = (GogStyledObjectClass *) klass;
 
-	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 	gog_klass->view_type	= gog_grid_view_get_type ();
 	style_klass->init_style = gog_grid_init_style;
 }
@@ -170,7 +90,7 @@ gog_grid_view_render (GogView *view, GogViewAllocation const *bbox)
 	path[1].y = path[2].y = path[0].y + view->allocation.h; 
 
 	gog_renderer_push_style (view->renderer, grid->base.style);
-	gog_renderer_draw_polygon (view->renderer, path, FALSE, NULL);
+	gog_renderer_draw_sharp_polygon (view->renderer, path, FALSE, NULL);
 	gog_renderer_pop_style (view->renderer);
 	(gview_parent_klass->render) (view, bbox);
 }

@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-grid.h>
+#include <goffice/graph/gog-grid-line.h>
 #include <goffice/graph/gog-renderer.h>
 
 #include <gsf/gsf-impl-utils.h>
@@ -689,13 +690,68 @@ gog_chart_view_init (GogChartView *cview)
 }
 
 static void
+grid_line_render (GSList *start_ptr, GogViewAllocation const *bbox) 
+{
+	GSList *ptr, *child_ptr;
+	GogView *child_view, *axis_child_view;
+
+	/* Render minor lines first */
+	for (ptr = start_ptr; ptr != NULL; ptr = ptr->next) {
+		child_view = ptr->data;
+		if (IS_GOG_AXIS (child_view->model)) {
+			for (child_ptr = child_view->children; child_ptr != NULL; child_ptr = child_ptr->next) {
+				axis_child_view = child_ptr->data;
+				if (IS_GOG_GRID_LINE (axis_child_view->model) &&
+				    gog_grid_line_is_minor (GOG_GRID_LINE (axis_child_view->model)))
+					gog_view_render (axis_child_view, bbox);
+			}
+		}
+	}	    
+	/* then render major lines */
+	for (ptr = start_ptr; ptr != NULL; ptr = ptr->next) {
+		child_view = ptr->data;
+		if (IS_GOG_AXIS (child_view->model)) {
+			for (child_ptr = child_view->children; child_ptr != NULL; child_ptr = child_ptr->next) {
+				axis_child_view = child_ptr->data;
+				if (IS_GOG_GRID_LINE (axis_child_view->model) &&
+				    !gog_grid_line_is_minor (GOG_GRID_LINE (axis_child_view->model)))
+					gog_view_render (axis_child_view, bbox);
+			}
+		}
+	}	    
+}
+
+static void
+gog_chart_view_render (GogView *view, GogViewAllocation const *bbox)
+{
+	GSList *ptr;
+	GogView *child_view;
+	gboolean grid_line_rendered = FALSE;
+
+	cview_parent_klass->render (view, bbox);
+
+	/* KLUDGE: render grid lines before axis */
+	for (ptr = view->children ; ptr != NULL ; ptr = ptr->next) {
+		child_view = ptr->data;
+		if (!grid_line_rendered && IS_GOG_AXIS (child_view->model)) {
+			grid_line_render (ptr, bbox);
+			grid_line_rendered = TRUE;
+		}
+		gog_view_render	(ptr->data, bbox);
+	}
+}
+
+static void
 gog_chart_view_class_init (GogChartViewClass *gview_klass)
 {
-	GogViewClass *view_klass    = (GogViewClass *) gview_klass;
+	GogViewClass *view_klass = (GogViewClass *) gview_klass;
+	GogOutlinedViewClass *oview_klass = (GogOutlinedViewClass *) gview_klass;
 
 	cview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->size_allocate   = gog_chart_view_size_allocate;
 	view_klass->clip = TRUE;
+	view_klass->render = gog_chart_view_render;
+	oview_klass->call_parent_render = FALSE;
 }
 
 static GSF_CLASS (GogChartView, gog_chart_view,

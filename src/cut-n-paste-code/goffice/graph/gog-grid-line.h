@@ -27,19 +27,19 @@
 
 G_BEGIN_DECLS
 
-typedef enum {
-	GOG_GRID_X_MAJOR,
-	GOG_GRID_X_MINOR,
-	GOG_GRID_Y_MAJOR,
-	GOG_GRID_Y_MINOR,
-	GOG_GRID_LINE_TYPES
-} GogGridLineType;
+//typedef enum {
+//	GOG_GRID_LINE_MAJOR,
+//	GOG_GRID_LINE_MINOR,
+//	GOG_GRID_LINE_TYPES
+//} GogGridLineType;
 
 #define GOG_GRID_LINE_TYPE	(gog_grid_line_get_type ())
 #define GOG_GRID_LINE(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_GRID_LINE_TYPE, GogGridLine))
 #define IS_GOG_GRID_LINE(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_GRID_LINE_TYPE))
 
 GType gog_grid_line_get_type (void);
+
+gboolean gog_grid_line_is_minor (GogGridLine *ggl);
 
 G_END_DECLS
 

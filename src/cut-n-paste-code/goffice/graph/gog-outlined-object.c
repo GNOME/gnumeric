@@ -140,12 +140,15 @@ gog_outlined_view_size_allocate (GogView *v, GogViewAllocation const *a)
 static void
 gog_outlined_view_render (GogView *view, GogViewAllocation const *bbox)
 {
+	GogOutlinedViewClass *klass = GOG_OUTLINED_VIEW_GET_CLASS (view);
+
 	GogStyledObject *sobj = GOG_STYLED_OBJECT (view->model);
 	gog_renderer_push_style (view->renderer, sobj->style);
 	gog_renderer_draw_rectangle (view->renderer, &view->allocation, NULL);
 	gog_renderer_pop_style (view->renderer);
 
-	(oview_parent_klass->render) (view, bbox);
+	if (klass->call_parent_render)
+		(oview_parent_klass->render) (view, bbox);
 }
 
 static void
@@ -157,6 +160,8 @@ gog_outlined_view_class_init (GogOutlinedViewClass *oview_klass)
 	view_klass->size_request  = gog_outlined_view_size_request;
 	view_klass->size_allocate = gog_outlined_view_size_allocate;
 	view_klass->render	  = gog_outlined_view_render;
+
+	oview_klass->call_parent_render = TRUE;
 }
 
 GSF_CLASS (GogOutlinedView, gog_outlined_view,
