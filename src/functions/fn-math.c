@@ -117,79 +117,6 @@ gnumeric_acosh (struct FunctionDefinition *i,
 	return value_float (acosh (t));
 }
 
-static char *help_and = {
-	N_("@FUNCTION=AND\n"
-	   "@SYNTAX=AND(b1, b2, ...)\n"
-
-	   "@DESCRIPTION=Implements the logical AND function: the result is TRUE "
-	   "if all of the expression evaluates to TRUE, otherwise it returns "
-	   "FALSE.\n"
-
-	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE. "
-	   "If an integer or floating point value is provided zero is considered "
-	   "FALSE and anything else is TRUE.\n"
-	   
-	   "If the values contain strings or empty cells those values are "
-	   "ignored.  If no logical values are provided, then the error '#VALUE!' "
-	   "is returned. "
-	   "\n"
-	   "@SEEALSO=OR, NOT")
-};
-
-static int
-callback_function_and (Sheet *sheet, Value *value,
-		       char **error_string, void *closure)
-{
-	Value *result = closure;
-	
-	switch (value->type){
-	case VALUE_INTEGER:
-		if (value->v.v_int == 0){
-			result->v.v_int = 0;
-			return FALSE;
-		} else
-			result->v.v_int = 1;
-		break;
-
-	case VALUE_FLOAT:
-		if (value->v.v_float == 0.0){
-			result->v.v_int = 0;
-			return FALSE;
-		} else
-			result->v.v_int = 1;
-
-	default:
-		/* ignore strings */
-		break;
-	}
-	
-	return TRUE;
-}
-
-static Value *
-gnumeric_and (void *tsheet, GList *expr_node_list,
-	      int eval_col, int eval_row, char **error_string)
-{
-	Value *result;
-	Sheet *sheet = (Sheet *) tsheet;
-
-	result = g_new (Value, 1);
-	result->type = VALUE_INTEGER;
-	result->v.v_int = -1;
-
-	function_iterate_argument_values (sheet, callback_function_and,
-					  result, expr_node_list,
-					  eval_col, eval_row, error_string);
-
-	/* See if there was any value worth using */
-	if (result->v.v_int == -1){
-		value_release (result);
-		*error_string = _("#VALUE");
-		return NULL;
-	}
-	return result;
-}
-
 static char *help_asin = {
 	N_("@FUNCTION=ASIN\n"
 	   "@SYNTAX=ASIN(x)\n"
@@ -768,99 +695,6 @@ gnumeric_mod (struct FunctionDefinition *i,
 	}
 	
 	return value_int(a%b) ;
-}
-
-static char *help_not = {
-	N_("@FUNCTION=NOT\n"
-	   "@SYNTAX=NOT(number)\n"
-
-	   "@DESCRIPTION="
-	   "Implements the logical NOT function: the result is TRUE if the "
-	   "number is zero;  othewise the result is FALSE.\n\n"
-
-	   "@SEEALSO=AND, OR")
-};
-
-static Value *
-gnumeric_not (struct FunctionDefinition *i,
-	      Value *argv [], char **error_string)
-{
-	int b;
-	
-	b = value_get_as_int (argv [0]);
-	
-	return value_int (!b);
-}
-
-static char *help_or = {
-	N_("@FUNCTION=OR\n"
-	   "@SYNTAX=OR(b1, b2, ...)\n"
-
-	   "@DESCRIPTION="
-	   "Implements the logical OR function: the result is TRUE if any of the "
-	   "values evaluated to TRUE.\n"
-	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE. "
-	   "If an integer or floating point value is provided zero is considered "
-	   "FALSE and anything else is TRUE.\n"
-	   "If the values contain strings or empty cells those values are "
-	   "ignored.  If no logical values are provided, then the error '#VALUE!'"
-	   "is returned.\n"
-
-	   "@SEEALSO=AND, NOT")
-};
-
-static int
-callback_function_or (Sheet *sheet, Value *value,
-		      char **error_string, void *closure)
-{
-	Value *result = closure;
-	
-	switch (value->type){
-	case VALUE_INTEGER:
-		if (value->v.v_int != 0){
-			result->v.v_int = 1;
-			return FALSE;
-		} else
-			result->v.v_int = 0;
-		break;
-
-	case VALUE_FLOAT:
-		if (value->v.v_float != 0.0){
-			result->v.v_int = 1;
-			return FALSE;
-		} else
-			result->v.v_int = 0;
-
-	default:
-		/* ignore strings */
-		break;
-	}
-	
-	return TRUE;
-}
-
-static Value *
-gnumeric_or (void *tsheet, GList *expr_node_list,
-	     int eval_col, int eval_row, char **error_string)
-{
-	Value *result;
-	Sheet *sheet = (Sheet *) tsheet;
-
-	result = g_new (Value, 1);
-	result->type = VALUE_INTEGER;
-	result->v.v_int = -1;
-
-	function_iterate_argument_values (sheet, callback_function_or,
-					  result, expr_node_list,
-					  eval_col, eval_row, error_string);
-
-	/* See if there was any value worth using */
-	if (result->v.v_int == -1){
-		value_release (result);
-		*error_string = _("#VALUE");
-		return NULL;
-	}
-	return result;
 }
 
 static char *help_radians = {
@@ -1981,7 +1815,6 @@ FunctionDefinition math_functions [] = {
 	{ "abs",     "f",    "number",    &help_abs,   NULL, gnumeric_abs },
 	{ "acos",    "f",    "number",    &help_acos,  NULL, gnumeric_acos },
 	{ "acosh",   "f",    "number",    &help_acosh, NULL, gnumeric_acosh },
-	{ "and",     0,      "",          &help_and,   gnumeric_and, NULL },
 	{ "asin",    "f",    "number",    &help_asin,  NULL, gnumeric_asin },
 	{ "asinh",   "f",    "number",    &help_asinh, NULL, gnumeric_asinh },
 	{ "atan",    "f",    "number",    &help_atan,  NULL, gnumeric_atan },
@@ -2005,9 +1838,7 @@ FunctionDefinition math_functions [] = {
 	{ "log10",   "f",    "number",    &help_log10,   NULL, gnumeric_log10 },
 	{ "mod",     "ff",   "num,denom", &help_mod,     NULL, gnumeric_mod },
 	{ "multinomial", 0,  "",          &help_multinomial, gnumeric_multinomial, NULL },
-	{ "not",     "f",    "number",    &help_not,     NULL, gnumeric_not },
 	{ "odd" ,    "f",    "number",    &help_odd,     NULL, gnumeric_odd },
-	{ "or",      0,      "",          &help_or,      gnumeric_or, NULL },
 	{ "power",   "ff",   "x,y",       &help_power,   NULL, gnumeric_power },
 	{ "product", 0,      "number",    &help_product, gnumeric_product, NULL },
 	{ "quotient" , "ff",  "num,den",  &help_quotient, NULL, gnumeric_quotient},

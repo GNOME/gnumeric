@@ -75,6 +75,7 @@ GNUMERIC_BASE_SOURCES =			\
 	fn-date.c			\
 	fn-eng.c			\
 	fn-financial.c			\
+	fn-logical.c			\
 	fn-lookup.c			\
 	fn-math.c			\
 	fn-misc.c			\

@@ -10,6 +10,7 @@ extern FunctionDefinition stat_functions [];
 extern FunctionDefinition finance_functions [];
 extern FunctionDefinition eng_functions [];
 extern FunctionDefinition lookup_functions [];
+extern FunctionDefinition logical_functions [];
 
 typedef int (*FunctionIterateCallback)(Sheet *sheet, Value *value, char **error_string, void *);
 

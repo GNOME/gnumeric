@@ -270,6 +270,7 @@ functions_init (void)
 	install_symbols (finance_functions, _("Financial"));
 	install_symbols (eng_functions, _("Engineering"));
 	install_symbols (lookup_functions, _("Data / Lookup"));
+	install_symbols (logical_functions, _("Logical"));
 }
 
 void
