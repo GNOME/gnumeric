@@ -134,20 +134,12 @@ typedef struct {
 
 
 static pref_tree_data_t pref_tree_data[] = { 
-	{GNUMERIC_GCONF_GUI_WINDOW_X, NULL, 
-	                      "/schemas" GNUMERIC_GCONF_GUI_WINDOW_X},
-	{GNUMERIC_GCONF_GUI_WINDOW_Y, NULL, 
-	                      "/schemas" GNUMERIC_GCONF_GUI_WINDOW_Y},
 	{FUNCTION_SELECT_GCONF_NUM_OF_RECENT, NULL, 
 	                      "/schemas" FUNCTION_SELECT_GCONF_NUM_OF_RECENT},
 	{GNUMERIC_GCONF_FILE_HISTORY_N, NULL, 
 	                      "/schemas" GNUMERIC_GCONF_FILE_HISTORY_N},
-	{GNUMERIC_GCONF_WORKBOOK_NSHEETS, NULL, 
-	                      "/schemas" GNUMERIC_GCONF_WORKBOOK_NSHEETS},
 	{GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE, NULL, 
 	                      "/schemas" GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE},
-	{GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, NULL, 
-	                      "/schemas" GNUMERIC_GCONF_GUI_ED_LIVESCROLLING},
 	{NULL, NULL, NULL}
 };
 
@@ -527,11 +519,6 @@ GtkWidget *pref_font_initializer (PrefState *state, gpointer data,
 /*                     Undo Preferences Page                                              */
 /*******************************************************************************************/
 
-#define GCONF_FONT_NAME "/apps/gnumeric/core/defaultfont/name"
-#define GCONF_FONT_SIZE "/apps/gnumeric/core/defaultfont/size"
-#define GCONF_FONT_BOLD "/apps/gnumeric/core/defaultfont/bold"
-#define GCONF_FONT_ITALIC "/apps/gnumeric/core/defaultfont/italic"
-
 static void 
 pref_undo_page_open (PrefState *state, gpointer data, 
 					  GtkNotebook *notebook, gint page_num)
@@ -629,7 +616,7 @@ static
 GtkWidget *pref_undo_page_initializer (PrefState *state, gpointer data, 
 					  GtkNotebook *notebook, gint page_num)
 {
-	GtkWidget *page = gtk_table_new (3, 2, FALSE);
+	GtkWidget *page = gtk_table_new (4, 2, FALSE);
 	guint notif;
 	GtkWidget *item;
 	GConfSchema *the_schema;
@@ -747,11 +734,230 @@ GtkWidget *pref_undo_page_initializer (PrefState *state, gpointer data,
 }
 
 /*******************************************************************************************/
+/*                     Window Preferences Page                                              */
+/*******************************************************************************************/
+
+static void 
+pref_window_page_open (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num)
+{
+	dialog_pref_load_description (state, 
+				      _("The items on this page customize the "
+					"new default workbook."));
+}
+
+static void
+cb_pref_window_set_window_height (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+				GtkSpinButton *button)
+{
+	gnum_float float_in_gconf = gconf_client_get_float (gconf,
+						  GNUMERIC_GCONF_GUI_WINDOW_Y, 
+						  NULL);
+	gnum_float float_in_button = gtk_spin_button_get_value (button);
+	if (float_in_gconf != float_in_button)
+		gtk_spin_button_set_value (button, (gdouble) float_in_gconf);
+}
+
+
+static void 
+cb_pref_window_height_changed (GtkSpinButton *button, PrefState *state)
+{
+		gconf_client_set_float (state->gconf,
+				      GNUMERIC_GCONF_GUI_WINDOW_Y,
+				      gtk_spin_button_get_value (button), 
+				      NULL);
+}
+
+static void
+cb_pref_window_set_window_width (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+				GtkSpinButton *button)
+{
+	gnum_float float_in_gconf = gconf_client_get_float (gconf,
+						  GNUMERIC_GCONF_GUI_WINDOW_X, 
+						  NULL);
+	gnum_float float_in_button = gtk_spin_button_get_value (button);
+	if (float_in_gconf != float_in_button)
+		gtk_spin_button_set_value (button, (gdouble) float_in_gconf);
+}
+
+
+static void 
+cb_pref_window_width_changed (GtkSpinButton *button, PrefState *state)
+{
+		gconf_client_set_float (state->gconf,
+				      GNUMERIC_GCONF_GUI_WINDOW_X,
+				      gtk_spin_button_get_value (button), 
+				      NULL);
+}
+
+static void
+cb_pref_window_set_sheet_num (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+			     GtkSpinButton *button)
+{
+	gint int_in_gconf = gconf_client_get_int (gconf,
+						  GNUMERIC_GCONF_WORKBOOK_NSHEETS, 
+						  NULL);
+	gint int_in_button = gtk_spin_button_get_value_as_int (button);
+	if (int_in_gconf != int_in_button)
+		gtk_spin_button_set_value (button, (gdouble) int_in_gconf);
+}
+
+static void 
+cb_pref_window_sheet_num_changed (GtkSpinButton *button, PrefState *state)
+{
+		gconf_client_set_int (state->gconf,
+				       GNUMERIC_GCONF_WORKBOOK_NSHEETS,
+				       gtk_spin_button_get_value_as_int (button), 
+				       NULL);
+}
+
+static void
+cb_pref_window_set_live_scrolling (GConfClient *gconf, guint cnxn_id, GConfEntry *entry, 
+				   GtkToggleButton *button)
+{
+	gboolean is_set_gconf = gconf_client_get_bool (gconf,
+						       GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, 
+						       NULL);
+	gboolean is_set_button = gtk_toggle_button_get_active (button);
+	if (is_set_gconf != is_set_button)
+		gtk_toggle_button_set_active (button, is_set_gconf);
+}
+
+static void 
+cb_pref_window_live_scrolling_toggled (GtkToggleButton *button, PrefState *state)
+{
+		gconf_client_set_bool (state->gconf,
+				       GNUMERIC_GCONF_GUI_ED_LIVESCROLLING,
+				       gtk_toggle_button_get_active (button), 
+				       NULL);
+}
+
+
+static 
+GtkWidget *pref_window_page_initializer (PrefState *state, gpointer data, 
+					  GtkNotebook *notebook, gint page_num)
+{
+	GtkWidget *page = gtk_table_new (3, 2, FALSE);
+	guint notif;
+	GtkWidget *item;
+	GConfSchema *the_schema;
+	GtkTooltips *the_tip;
+
+	/* Window Height Spin Button */
+	the_schema = gconf_client_get_schema (state->gconf, 
+					      "/schemas" GNUMERIC_GCONF_GUI_WINDOW_Y, 
+					      NULL);
+	item = gtk_label_new (gconf_schema_get_short_desc (the_schema));
+	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
+	gtk_table_attach (GTK_TABLE (page), item, 0, 1, 0, 1, 0, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (0.75,
+									 0.25, 1, 0.05, 0.1, 1)),
+				     1, 2);
+	cb_pref_window_set_window_height (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
+	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_GUI_WINDOW_Y,
+			  (GConfClientNotifyFunc) cb_pref_window_set_window_height,
+			  item, NULL, NULL);
+	g_signal_connect (G_OBJECT (page),
+		"destroy",
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
+	g_signal_connect (G_OBJECT (item),
+		"value-changed",
+		G_CALLBACK (cb_pref_window_height_changed), state);
+	gtk_table_attach (GTK_TABLE (page), item, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	the_tip = gtk_tooltips_new ();
+	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
+	gconf_schema_free (the_schema);
+	
+	/* Window Width Spin Button */
+	the_schema = gconf_client_get_schema (state->gconf, 
+					      "/schemas" GNUMERIC_GCONF_GUI_WINDOW_X, 
+					      NULL);
+	item = gtk_label_new (gconf_schema_get_short_desc (the_schema));
+	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
+	gtk_table_attach (GTK_TABLE (page), item, 0, 1, 1, 2, 0, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (0.75,
+									 0.25, 1, 0.05, 0.1, 1)),
+				     1, 2);
+	cb_pref_window_set_window_width (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
+	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_GUI_WINDOW_X,
+			  (GConfClientNotifyFunc) cb_pref_window_set_window_width,
+			  item, NULL, NULL);
+	g_signal_connect (G_OBJECT (page),
+		"destroy",
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
+	g_signal_connect (G_OBJECT (item),
+		"value-changed",
+		G_CALLBACK (cb_pref_window_width_changed), state);
+	gtk_table_attach (GTK_TABLE (page), item, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	the_tip = gtk_tooltips_new ();
+	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
+	gconf_schema_free (the_schema);
+	
+	/* Sheet Num Spin Button */
+	the_schema = gconf_client_get_schema (state->gconf, 
+					      "/schemas" GNUMERIC_GCONF_WORKBOOK_NSHEETS, 
+					      NULL);
+	item = gtk_label_new (gconf_schema_get_short_desc (the_schema));
+	gtk_label_set_justify (GTK_LABEL (item), GTK_JUSTIFY_LEFT);
+	gtk_table_attach (GTK_TABLE (page), item, 0, 1, 2, 3, 0, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	item =  gtk_spin_button_new (GTK_ADJUSTMENT (gtk_adjustment_new (1,
+									 1, 100, 1, 5, 10)),
+				     1, 0);
+	cb_pref_window_set_sheet_num (state->gconf, 0, NULL, GTK_SPIN_BUTTON (item));
+	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_WORKBOOK_NSHEETS,
+			  (GConfClientNotifyFunc) cb_pref_window_set_sheet_num,
+			  item, NULL, NULL);
+	g_signal_connect (G_OBJECT (page),
+		"destroy",
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
+	g_signal_connect (G_OBJECT (item),
+		"value-changed",
+		G_CALLBACK (cb_pref_window_sheet_num_changed), state);
+	gtk_table_attach (GTK_TABLE (page), item, 1, 2, 2, 3, GTK_FILL | GTK_EXPAND, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	the_tip = gtk_tooltips_new ();
+	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
+	gconf_schema_free (the_schema);
+
+	/* Live Scrolling check box */
+	the_schema = gconf_client_get_schema (state->gconf, 
+					      "/schemas" GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, 
+					      NULL);
+	item = gtk_check_button_new_with_label (gconf_schema_get_short_desc (the_schema));
+	cb_pref_window_set_live_scrolling (state->gconf, 0, NULL, GTK_TOGGLE_BUTTON (item));
+	notif = gconf_client_notify_add (state->gconf, GNUMERIC_GCONF_GUI_ED_LIVESCROLLING,
+					 (GConfClientNotifyFunc) cb_pref_window_set_live_scrolling,
+						item, NULL, NULL);
+	g_signal_connect (G_OBJECT (page),
+		"destroy",
+		G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notif));
+	g_signal_connect (G_OBJECT (item),
+		"toggled",
+		G_CALLBACK (cb_pref_window_live_scrolling_toggled), state);
+	gtk_table_attach (GTK_TABLE (page), item, 0, 2, 3, 4, GTK_FILL | GTK_SHRINK, 
+			  GTK_FILL | GTK_SHRINK, 5, 5);
+	the_tip = gtk_tooltips_new ();
+	gtk_tooltips_set_tip (the_tip, item, gconf_schema_get_long_desc (the_schema), NULL);
+	gconf_schema_free (the_schema);
+
+	gtk_widget_show_all (page);
+	return page;
+}
+
+
+
+/*******************************************************************************************/
 /*               General Preference Dialog Routines                                        */
 /*******************************************************************************************/
 
 static page_info_t page_info[] = {
 	{NULL, GTK_STOCK_ITALIC, pref_font_initializer, pref_font_page_open, NULL},
+	{NULL, "Gnumeric_ObjectCombo", pref_window_page_initializer, pref_window_page_open, NULL},
 	{NULL, GTK_STOCK_UNDO, pref_undo_page_initializer, pref_undo_page_open, NULL},
 	{NULL, GTK_STOCK_PREFERENCES, pref_tree_initializer, pref_tree_page_open, pref_tree_data},
 	{NULL, GTK_STOCK_DIALOG_ERROR, pref_tree_initializer, pref_tree_page_open, pref_tree_data_danger},

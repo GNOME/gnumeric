@@ -28,6 +28,7 @@ Andreas:
 	* Start to UTF8 some of the string functions
 	* Preserve autocorrect exception lists
 	* Switch plugin manager from gnome-config to gconf
+	* Add window size preference page to preference dialog
 
 Jody:
 	* Add password dialog to support encrypted input.
