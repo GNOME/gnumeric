@@ -1,3 +1,9 @@
+1999-12-13  Arturo Tena  <arturo@directmail.org>
+
+	* ms-ole-summary.c (ms_ole_summary_create, ms_ole_docsummary_create):
+	  Prepend a '\005' character in the name of the summary streams,
+	  it looks like the right name.
+
 1999-12-10  Arturo Tena  <arturo@directmail.org>
 
 	* ms-ole.c (pps_encode_tree_chain): Rewritten, so we can create a file

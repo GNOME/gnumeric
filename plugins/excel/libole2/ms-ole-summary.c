@@ -433,7 +433,7 @@ ms_ole_summary_create (MsOle *f)
 	g_return_val_if_fail (f != NULL, NULL);
 
 	result = ms_ole_stream_open (&s, f, "/",
-				     "SummaryInformation", 'w');
+				     "\005SummaryInformation", 'w');
 	if (result != MS_OLE_ERR_OK || !s) {
 		printf ("ms_ole_summary_create: Can't open stream for writing\n");
 		return NULL;
@@ -460,7 +460,7 @@ ms_ole_docsummary_create (MsOle *f)
 	g_return_val_if_fail (f != NULL, NULL);
 
 	result = ms_ole_stream_open (&s, f, "/",
-				     "DocumentSummaryInformation", 'w');
+				     "\005DocumentSummaryInformation", 'w');
 	if (result != MS_OLE_ERR_OK || !s) {
 		printf ("ms_ole_docsummary_create: Can't open stream for writing\n");
 		return NULL;
