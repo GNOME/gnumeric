@@ -25,6 +25,8 @@
 #include <sheet.h>
 #include <workbook-edit.h>
 #include <widgets/gnumeric-expr-entry.h>
+#include <value.h>
+#include <analysis-tools.h>
 
 #include <libgnome/gnome-i18n.h>
 #include <glade/glade.h>
@@ -47,17 +49,22 @@ typedef struct {
 	GtkWidget *cancel_button;
 	GtkWidget *ok_button;
 	GtkWidget *help_button;
+	GtkWidget *up_button;
+	GtkWidget *down_button;
 	GnumericExprEntry *range_entry;
 	GtkListStore  *model;
 	GtkTreeView   *treeview;
 	GtkTreeSelection   *selection;
+	GtkWidget *cell_sort_row_rb;
+	GtkWidget *cell_sort_header_check;
+	Value     *sel;
+	gboolean   header;
+	gboolean   is_cols;
 
-	Range     *sel;
 	int        num_clause;
 	int        max_col_clause;
 	int        max_row_clause;
 	GtkWidget *clause_box;
-	gboolean   header;
 	gboolean   top;
 	GList     *colnames_plain;
 	GList     *colnames_header;
@@ -103,8 +110,6 @@ dialog_set_focus (GtkWidget *window, GtkWidget *focus_widget,
 
 
 
-#warning Cell-sort temporarily disabled we will fix this soon (AJG)
-#if 0  
 
 static gchar *
 col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
@@ -130,6 +135,9 @@ col_row_name (Sheet *sheet, int col, int row, gboolean header, gboolean is_cols)
 	return str;
 }
 
+#warning Cell-sort temporarily disabled we will fix this soon (AJG)
+#if 0  
+
 static GList *
 col_row_name_list (Sheet *sheet, int start, int end,
 		   int index, gboolean header, gboolean is_cols)
@@ -147,6 +155,7 @@ col_row_name_list (Sheet *sheet, int start, int end,
 
 	return g_list_reverse (list);
 }
+
 
 static gint
 string_pos_in_list (const char *str, GList *list)
@@ -521,6 +530,116 @@ dialog_cell_sort_cols_toggled (GtkWidget *widget, SortFlow *sf)
 
 #endif
 
+
+static gboolean
+translate_range (Value *range, SortFlowState *state) 
+{
+	gboolean old_header = state->header;
+	gboolean old_is_cols = state->is_cols;
+
+	state->header = gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->cell_sort_header_check));;
+	state->is_cols = !gtk_toggle_button_get_active (
+		GTK_TOGGLE_BUTTON (state->cell_sort_row_rb));;
+
+	if (state->sel == NULL) {
+		state->sel = range;
+		return TRUE;
+	}
+
+#warning FIXME:
+#warning the next check is completely useless since the expr entry widget always 
+#warning first set the widget to empty and then to the right content, causing 2 signals!
+
+	if (old_header != state->header || old_is_cols != state->is_cols ||
+		state->sel->v_range.cell.a.sheet != range->v_range.cell.a.sheet ||
+		state->sel->v_range.cell.a.col != range->v_range.cell.a.col ||
+		state->sel->v_range.cell.a.row != range->v_range.cell.a.row ||
+		state->sel->v_range.cell.b.col != range->v_range.cell.b.col ||
+		state->sel->v_range.cell.b.row != range->v_range.cell.b.row) {
+		value_release (state->sel);
+		state->sel = range;
+		return TRUE;
+	} else {
+		value_release (state->sel);
+		state->sel = range;
+		return FALSE;
+	}
+}
+
+static void
+load_model_data (SortFlowState *state) 
+{
+	int start;
+	int end;
+	int index;
+	int i;
+	gchar *str;
+	GtkTreeIter iter;
+	Sheet *sheet = state->sel->v_range.cell.a.sheet;
+
+	if (state->is_cols) {
+		start = state->sel->v_range.cell.a.col;
+		end  = state->sel->v_range.cell.b.col;
+		index = state->sel->v_range.cell.a.row;
+	} else {
+		start = state->sel->v_range.cell.a.row;
+		end  = state->sel->v_range.cell.b.row;
+		index = state->sel->v_range.cell.a.col;
+	}
+
+	gtk_list_store_clear (state->model);
+
+	for (i = start; i <= end; i++) {
+		str  = state->is_cols
+			? col_row_name (sheet, i, index, state->header, TRUE)
+			: col_row_name (sheet, index, i, state->header, FALSE);
+		gtk_list_store_append (state->model, &iter);
+		gtk_list_store_set (state->model, &iter,
+				    ITEM_IN_USE, TRUE,
+				    ITEM_NAME,  str,
+				    ITEM_DESCENDING, FALSE,
+				    ITEM_CASE_SENSITIVE, FALSE,
+				    ITEM_SORT_BY_VALUE, TRUE,
+				    ITEM_MOVE_FORMAT, TRUE,
+				    ITEM_NUMBER, i,
+				    -1);
+		g_free (str);
+	}
+}
+
+/**
+ * cb_update_sensitivity:
+ * @dummy:
+ * @state:
+ *
+ * Update the dialog widgets sensitivity if the only items of interest
+ * are one or two standard input and and one output item, permitting multiple 
+ * areas as first input.
+ **/
+static void
+cb_update_sensitivity (GtkWidget *dummy, SortFlowState *state)
+{
+        Value *range;
+
+
+        range = gnumeric_expr_entry_parse_to_value 
+		(GNUMERIC_EXPR_ENTRY (state->range_entry), state->sheet);
+	if (range == NULL) {
+		if (state->sel != NULL) {
+			value_release (state->sel);
+			state->sel = NULL;
+			gtk_list_store_clear (state->model);
+		}
+		gtk_widget_set_sensitive (state->ok_button, FALSE);
+		fprintf (stderr, "Range  is NULL\n");
+	} else {
+		if (translate_range (range, state))
+			load_model_data (state);
+		gtk_widget_set_sensitive (state->ok_button, TRUE);
+	}
+}
+
 /**
  * dialog_destroy:
  * @window:
@@ -581,6 +700,148 @@ dialog_load_selection (SortFlowState *state)
 	}
 }
 
+static gint
+location_of_iter (GtkTreeIter  *iter, GtkListStore *model)
+{
+	gint row, this_row;
+	GtkTreeIter this_iter;
+	gint n = 0;
+
+	gtk_tree_model_get (GTK_TREE_MODEL (model), iter, ITEM_NUMBER, &row, -1);
+
+	while (gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (model),
+					       &this_iter, NULL, n)) {
+		gtk_tree_model_get (GTK_TREE_MODEL (model), &this_iter, ITEM_NUMBER, 
+				    &this_row, -1);
+		if (this_row == row)
+			return n;
+		n++;
+	}
+	
+	g_warning ("We should have never gotten to this point!\n");
+	return -1;
+}
+
+/**
+ * Refreshes the buttons on a row (un)selection
+ * 
+ */
+static void
+cb_sort_selection_changed (GtkTreeSelection *ignored, SortFlowState *state)
+{
+	GtkTreeIter iter;
+	GtkTreeIter this_iter;
+	gint row;
+	
+	if (!gtk_tree_selection_get_selected (state->selection, NULL, &iter)) {
+		gtk_widget_set_sensitive (state->up_button, FALSE);
+		gtk_widget_set_sensitive (state->down_button, FALSE);
+		return;
+	}
+
+	gtk_widget_set_sensitive (state->up_button,
+				  location_of_iter (&iter, state->model) > 0);
+
+	row = location_of_iter (&iter, state->model);
+	gtk_widget_set_sensitive (state->down_button,
+				  gtk_tree_model_iter_nth_child  (GTK_TREE_MODEL (state->model),
+					       &this_iter, NULL, row+1));
+}
+
+static void
+toggled (GtkCellRendererToggle *cell,
+	 gchar                 *path_string,
+	 gpointer               data,
+	 int                    column)
+{
+  GtkTreeModel *model = GTK_TREE_MODEL (data);
+  GtkTreeIter iter;
+  GtkTreePath *path = gtk_tree_path_new_from_string (path_string);
+  gboolean value;
+
+  gtk_tree_model_get_iter (model, &iter, path);
+  gtk_tree_model_get (model, &iter, column, &value, -1);
+
+  value = !value;
+  gtk_list_store_set (GTK_LIST_STORE (model), &iter, column, value, -1);
+
+  gtk_tree_path_free (path);
+}
+
+static void
+move_cb (SortFlowState *state, gint direction)
+{
+	GtkTreeIter iter;
+	gboolean in_use, descending, case_sensitive, sort_by_value, move_format;
+	gint number, row;
+	char* name;
+	
+	if (!gtk_tree_selection_get_selected (state->selection, NULL, &iter))
+		return;
+	
+	gtk_tree_model_get (GTK_TREE_MODEL (state->model), &iter,
+			    ITEM_IN_USE, &in_use,
+			    ITEM_NAME, &name,
+			    ITEM_DESCENDING,&descending,
+			    ITEM_CASE_SENSITIVE, &case_sensitive,
+			    ITEM_SORT_BY_VALUE, &sort_by_value,
+			    ITEM_MOVE_FORMAT, &move_format,
+			    ITEM_NUMBER, &number,
+			    -1);
+	row = location_of_iter (&iter, state->model);
+	if (row + direction < 0)
+		return;
+	gtk_list_store_remove (state->model, &iter);		
+	gtk_list_store_insert (state->model, &iter, row + direction);
+	gtk_list_store_set (state->model, &iter,
+			    ITEM_IN_USE, in_use,
+			    ITEM_NAME, name,
+			    ITEM_DESCENDING,descending,
+			    ITEM_CASE_SENSITIVE, case_sensitive,
+			    ITEM_SORT_BY_VALUE, sort_by_value,
+			    ITEM_MOVE_FORMAT, move_format,
+			    ITEM_NUMBER, number,
+			    -1);
+	gtk_tree_selection_select_iter (state->selection, &iter);
+	g_free (name);
+}
+
+static void cb_up   (GtkWidget *w, SortFlowState *state) { move_cb (state, -1); }
+static void cb_down (GtkWidget *w, SortFlowState *state) { move_cb (state,  1); }
+
+
+static void
+cb_toggled_in_use (GtkCellRendererToggle *cell,
+	 gchar                 *path_string,
+	 gpointer               data)
+{
+	toggled (cell, path_string, data, ITEM_IN_USE);
+}
+
+static void
+cb_toggled_descending (GtkCellRendererToggle *cell,
+	 gchar                 *path_string,
+	 gpointer               data)
+{
+	toggled (cell, path_string, data, ITEM_DESCENDING);
+}
+
+static void
+cb_toggled_sort_by_value (GtkCellRendererToggle *cell,
+	 gchar                 *path_string,
+	 gpointer               data)
+{
+	toggled (cell, path_string, data, ITEM_SORT_BY_VALUE);
+}
+
+static void
+cb_toggled_case_sensitive (GtkCellRendererToggle *cell,
+	 gchar                 *path_string,
+	 gpointer               data)
+{
+	toggled (cell, path_string, data, ITEM_CASE_SENSITIVE);
+}
+
 /**
  * dialog_init:
  * @state:
@@ -594,6 +855,7 @@ dialog_init (SortFlowState *state)
 	GtkTable *table;
 	GtkWidget *scrolled;
 	GtkTreeViewColumn *column;
+	GtkCellRenderer *renderer;
 
 	table = GTK_TABLE (glade_xml_get_widget (state->gui, "cell_sort_table"));
 
@@ -610,7 +872,8 @@ dialog_init (SortFlowState *state)
  	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 				  GTK_EDITABLE (state->range_entry));
 	gtk_widget_show (GTK_WIDGET (state->range_entry));
-	dialog_load_selection (state);
+	gtk_signal_connect (GTK_OBJECT (state->range_entry), "changed",
+			    GTK_SIGNAL_FUNC (cb_update_sensitivity), state);
 
 /* Set-up tree view */
 	scrolled = glade_xml_get_widget (state->gui, "scrolled_cell_sort_list");
@@ -621,9 +884,14 @@ dialog_init (SortFlowState *state)
 		gtk_tree_view_new_with_model (GTK_TREE_MODEL (state->model)));
 	state->selection = gtk_tree_view_get_selection (state->treeview);
 	gtk_tree_selection_set_mode (state->selection, GTK_SELECTION_BROWSE);
+	g_signal_connect (state->selection, "changed",
+			  G_CALLBACK (cb_sort_selection_changed), state);
 
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_signal_connect (G_OBJECT (renderer), "toggled",
+			  G_CALLBACK (cb_toggled_in_use), state->model);
 	column = gtk_tree_view_column_new_with_attributes (_("Sort"),
-							   gtk_cell_renderer_toggle_new (),
+							   renderer,
 							   "active", ITEM_IN_USE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
@@ -632,15 +900,53 @@ dialog_init (SortFlowState *state)
 							   "text", ITEM_NAME, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_signal_connect (G_OBJECT (renderer), "toggled",
+			  G_CALLBACK (cb_toggled_descending), state->model);
 	column = gtk_tree_view_column_new_with_attributes (_("Descend"),
-							   gtk_cell_renderer_toggle_new (),
+							   renderer,
 							   "active", ITEM_DESCENDING, NULL);
+	gtk_tree_view_append_column (state->treeview, column);
+
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_signal_connect (G_OBJECT (renderer), "toggled",
+			  G_CALLBACK (cb_toggled_case_sensitive), state->model);
+	column = gtk_tree_view_column_new_with_attributes (_("Case\nSensitive"),
+							   renderer,
+							   "active", ITEM_CASE_SENSITIVE, NULL);
+	gtk_tree_view_append_column (state->treeview, column);
+
+	renderer = gtk_cell_renderer_toggle_new ();
+	g_signal_connect (G_OBJECT (renderer), "toggled",
+			  G_CALLBACK (cb_toggled_sort_by_value), state->model);
+	column = gtk_tree_view_column_new_with_attributes (_("By\nValue"),
+							   renderer,
+							   "active", ITEM_SORT_BY_VALUE, NULL);
 	gtk_tree_view_append_column (state->treeview, column);
 
 	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (state->treeview));
 	gtk_widget_show (GTK_WIDGET (state->treeview));
 
+/* Set-up other widgets */
+	state->cell_sort_row_rb = glade_xml_get_widget (state->gui, "cell_sort_row_rb");
+	gtk_signal_connect (GTK_OBJECT (state->cell_sort_row_rb), "toggled",
+			    GTK_SIGNAL_FUNC (cb_update_sensitivity), state);
+
+	state->cell_sort_header_check = glade_xml_get_widget (state->gui, 
+							      "cell_sort_header_check");
+	gtk_signal_connect (GTK_OBJECT (state->cell_sort_header_check), "toggled",
+			    GTK_SIGNAL_FUNC (cb_update_sensitivity), state);
+
+
 /* Set-up buttons */
+	state->up_button  = glade_xml_get_widget (state->gui, "up_button");
+	gtk_signal_connect (GTK_OBJECT (state->up_button),
+		"clicked",
+		GTK_SIGNAL_FUNC (cb_up), state);
+	state->down_button  = glade_xml_get_widget (state->gui, "down_button");
+	gtk_signal_connect (GTK_OBJECT (state->down_button),
+		"clicked",
+		GTK_SIGNAL_FUNC (cb_down), state);
 	state->help_button  = glade_xml_get_widget (state->gui, "help_button");
 	gtk_signal_connect (GTK_OBJECT (state->help_button), "clicked",
 			    GTK_SIGNAL_FUNC (cb_dialog_help), "cell-sort.html");
@@ -660,6 +966,9 @@ dialog_init (SortFlowState *state)
 			    GTK_SIGNAL_FUNC (dialog_set_focus), state);
 	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
 			    GTK_SIGNAL_FUNC (dialog_destroy), state);
+	cb_sort_selection_changed (NULL, state);
+	dialog_load_selection (state);
+
 	return FALSE;
 }
 
@@ -682,6 +991,7 @@ dialog_cell_sort (WorkbookControlGUI *wbcg, Sheet *sheet)
 	state->wb   = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sheet;
 	state->warning_dialog = NULL;
+	state->sel = NULL;
 
 #if 0
 	if (!(sel = selection_first_range (sheet, WORKBOOK_CONTROL (wbcg), _("Sort"))))

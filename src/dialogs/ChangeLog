@@ -1,3 +1,8 @@
+2002-02-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-cell-sort.c : complete the sort dialog. Note: The 
+	  dialog is still not connected to the sort engine. 
+
 2002-02-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* cell-sort.glade : port to gnome2 and redesign as guru using 
