@@ -528,13 +528,13 @@ getRefV8 (guint16 row, guint16 gbitcl, int curcol, int currow,
 }
 
 typedef ExprTree PARSE_DATA;
-typedef GList    PARSE_LIST;
+typedef GList    ParseList;
 
 static void
-parse_list_push (PARSE_LIST **list, ExprTree *pd)
+parse_list_push (ParseList **list, ExprTree *pd)
 {
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_formula_debug > 5){
+		if (ms_excel_formula_debug > 5) {
 			printf ("Push 0x%x\n", (int)pd);
 		}
 #endif
@@ -543,13 +543,13 @@ parse_list_push (PARSE_LIST **list, ExprTree *pd)
 	*list = g_list_append (*list, pd) ;
 }
 static void
-parse_list_push_raw (PARSE_LIST **list, Value *v)
+parse_list_push_raw (ParseList **list, Value *v)
 {
 	parse_list_push (list, expr_tree_new_constant (v));
 }
 
 static ExprTree *
-parse_list_pop (PARSE_LIST **list)
+parse_list_pop (ParseList **list)
 {
 	GList *tmp ;
 	PARSE_DATA *ans ;
@@ -562,7 +562,7 @@ parse_list_pop (PARSE_LIST **list)
 	*list = g_list_remove_link (*list, tmp) ;
 	ans  = tmp->data ;
 #ifndef NO_DEBUG_EXCEL
-		if (ms_excel_formula_debug > 5){
+		if (ms_excel_formula_debug > 5) {
 			printf ("Pop 0x%x\n", (int)ans);
 		}
 #endif
@@ -574,7 +574,7 @@ parse_list_pop (PARSE_LIST **list)
  * Returns a new list composed of the last n items pop'd off the list.
  **/
 static GList *
-parse_list_last_n (PARSE_LIST **list, gint n)
+parse_list_last_n (ParseList **list, gint n)
 {
 	GList *l=0;
 	while (n-->0)
@@ -584,7 +584,7 @@ parse_list_last_n (PARSE_LIST **list, gint n)
 
 
 static void 
-parse_list_free (PARSE_LIST **list)
+parse_list_free (ParseList **list)
 {
 	while (*list)
 		expr_tree_unref (parse_list_pop(list));
@@ -638,7 +638,7 @@ unknownFunctionHandler (FunctionEvalInfo *ei, GList *expr_node_list)
 }
 
 static gboolean
-make_function (PARSE_LIST **stack, int fn_idx, int numargs)
+make_function (ParseList **stack, int fn_idx, int numargs)
 {
 	Symbol *name=NULL;
 
@@ -758,7 +758,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 *mem,
 	guint8 *cur = mem + 1 ;
 	int len_left = length ;
 	guint8 *array_data = mem + 3 + length; /* Sad but true */
-	PARSE_LIST *stack = NULL;
+	ParseList *stack = NULL;
 	gboolean error = FALSE ;
 	
 	if (array_element != NULL)
@@ -1044,7 +1044,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 *mem,
 			if (sf == NULL)
 			{
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_formula_debug > 3){
+				if (ms_excel_formula_debug > 3) {
 					printf("Unknown shared formula "
 					       "@ %s:%s\n",
 					       (sheet->gnum_sheet
@@ -1066,7 +1066,7 @@ ms_excel_parse_formula (ExcelWorkbook *wb, ExcelSheet *sheet, guint8 *mem,
 			}
 
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_formula_debug > 0){
+			if (ms_excel_formula_debug > 0) {
 				printf ("Parse shared formula\n");
 			}
 #endif

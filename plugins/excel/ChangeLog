@@ -1,3 +1,14 @@
+1999-07-09  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c: Major warning cleaning offensive.
+
+	* boot.c (excel_load): ditto.
+
+	* TODO: updated.
+
+	* ms-formula-read.c: s/PARSE_LIST/ParseList/
+	Update a few stylistic bits...
+
 1999-07-08  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c (ms_excel_read_formula): Turn error into

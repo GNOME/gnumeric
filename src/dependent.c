@@ -166,7 +166,12 @@ add_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b)
 	cell_get_abs_col_row (b, col, row, &range.range.end_col,   &range.range.end_row);
 
 	range.ref_count = 0;
-	range.sheet = cell->sheet;
+	if (a->sheet != b->sheet)
+		g_warning ("FIXME: 3D references need work");
+	if (a->sheet)
+		range.sheet = a->sheet;
+	else
+		cell->sheet;
 	add_cell_range_dep (cell, &range);
 }
 
@@ -199,6 +204,9 @@ add_value_deps (Cell *cell, const Value *value)
 			cell,
 			&value->v.cell_range.cell_a,
 			&value->v.cell_range.cell_b);
+		break;
+	default:
+		g_warning ("Unknown Value type, dependencies lost");
 		break;
 	}
 }
@@ -261,6 +269,9 @@ add_tree_deps (Cell *cell, ExprTree *tree)
 			/* Corner cell depends on the contents of the expr */
 			add_tree_deps (cell, tree->u.array.corner.func.expr);
 		return;
+	default:
+		g_warning ("Unknown Operation type, dependencies lost");
+		break;
 	} /* switch */
 }
 

@@ -1,3 +1,13 @@
+1999-07-09  Michael Meeks  <michael@edenproject.org>
+
+	* src/eval.c (add_value_deps): Add warning on default:
+	(add_cell_range_deps): Fixup for correct inter-sheet
+	dependencies; massive bug.
+
+	* TODO: Updated.
+
+	* doc/C/formulas.sgml: Wrote the 'name' documentation.
+
 1999-07-08  Michael Meeks  <michael@edenproject.org>
 
 	* src/func.c (function_iterate_do_value): Fix for NULL CellRef

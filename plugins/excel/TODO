@@ -1,5 +1,4 @@
 Michael
-	* Change all structure names ToCapitalisedLikeThisNames
 	* In ms-formula-write.c
 		* Booleans
 		* test if IF and CHOOSE: need 'optimising'
@@ -11,7 +10,6 @@ Michael
 	* New style support so we can do
 		* Colours
 		* Fonts etc.
-	* Convert ms-formula-read: PARSE_LIST to ParseStack.
 	* Sort out biff padding =>
 	* Sort out better versioning scheme & helper macros.
 	* Rationalise Missing Argument stuff ... a new value ?
@@ -22,6 +20,7 @@ Michael
 	* Use the document summary information
 	* Use same XML as Office for elegance (?)
 	* Get font / layout sizes correct for new Print-stuff.
+	* Investigate VB streams, and their lengths.
 
 Jody
 	*

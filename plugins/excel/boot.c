@@ -41,7 +41,7 @@ excel_load (const char *filename)
 	if (!f)
 		return NULL;
 
-	printf ("Opening '%s'\n", filename);
+	printf ("Opening '%s' ", filename);
 	wb = ms_excel_read_workbook (f);
 	if (wb) {
 		char *name = g_strconcat (filename, ".gnumeric", NULL);

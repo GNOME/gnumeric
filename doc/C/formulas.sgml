@@ -5,8 +5,7 @@
     spreadsheets. A formula can take almost anything as its arguments
     including single numbers, cell references, ranges of cells, arrays
     of cells, etc. </para>
-  
-  
+    
   <sect2>
     <title>Syntax</title>
     
@@ -69,6 +68,40 @@
             =MIN(A1,A2,B6)
 	  </programlisting>
 	</example>
+
+	<para>Where a function takes multiple arguments such as the
+	SUM example, the number of arguments effectively unlimited.</para>
+  </sect2>
+
+  <sect2>
+  <title>Names</title>
+  <para>Names help to simplify complex formulae. A name is assinged to
+  a formula which will be evaluated when it is referred to in another
+  formula. Names are particularly useful for labeling cell ranges.</para>
+
+	<example id="namesyntax">
+	<title>Examples of name usage</title>
+	<para>If DataBase is defined as '$A$1:$B$500' and
+	E_Constant is defined as 2.71828182845 then we can have:</para>
+  	  <programlisting>
+	    =VLOOKUP (C1, "gnu", DataBase, 2, 0)
+
+	    =LN(E_Constant)
+
+	    =SUM(DataBase, E_Constant)
+	  </programlisting>
+	</example>
+
+  <para>Names are defined using the <guimenu>Insert</guimenu>
+  <guimenuitem>Name</guimenuitem> dialog. This allows manipulation of
+  all the names in the related workbook. A name is restrained from taking
+  that of a function, since this would cause confusion.</para>
+
+  <para>In addition to the names you define there are built in names:</para>
+  <itemizedlist>
+    <listitem>Sheet_Title: this returns the name of the current sheet</listitem>
+  </itemizedlist>
+
   </sect2>
 </sect1>
 

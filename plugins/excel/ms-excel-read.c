@@ -873,9 +873,7 @@ typedef struct _BiffXFData {
 	StyleFormat *style_format;
 	eBiff_hidden hidden;
 	eBiff_locked locked;
-	eBiff_xftype xftype;	/*
-				 * -- Very important field...
-				 */
+	eBiff_xftype xftype;	/*  -- Very important field... */
 	eBiff_format format;
 	guint16 parentstyle;
 	StyleHAlignFlags halign;
@@ -883,12 +881,8 @@ typedef struct _BiffXFData {
 	gboolean wrap;
 	guint8 rotation;
 	eBiff_eastern eastern;
-	guint8 border_color[4];	/*
-				 * Array [StyleSide]
-				 */
-	StyleBorderType border_type[4];	/*
-					 * Array [StyleSide]
-					 */
+	guint8 border_color[4];	        /* Array [StyleSide] */
+	StyleBorderType border_type[4];	/* Array [StyleSide] */
 	eBiff_border_orientation border_orientation;
 	StyleBorderType border_linestyle;
 	guint8 fill_pattern_idx;
@@ -2460,7 +2454,7 @@ find_workbook (MsOle *ptr)
 			hit |= (g_strncasecmp (d->name, "workbook", 8) == 0);
 			if (hit) {
 				MsOleStream *stream;
-				printf ("Found Excel Stream : %s\n", d->name);
+				printf (" '%s' ", d->name);
 				stream = ms_ole_stream_open (d, 'r');
 				ms_ole_directory_destroy (d);
 				return stream;
@@ -2748,9 +2742,14 @@ ms_excel_read_workbook (MsOle *file)
 						/* printf ("SupBook : %d First sheet %d, Last sheet %d\n", BIFF_GET_GUINT16(q->data + 2 + cnt*6 + 0),
 						   BIFF_GET_GUINT16(q->data + 2 + cnt*6 + 2), BIFF_GET_GUINT16(q->data + 2 + cnt*6 + 4)); */
 					}
-				} else {
+#ifdef NO_DEBUG_EXCEL
+				}
+#else
+			
+				} else if (ms_excel_read_debug > 0) {
 					printf ("ExternSheet : only BIFF8 supported so far...\n");
 				}
+#endif
 				break;
 			}
 		case BIFF_FORMAT: /* S59D8E.HTM */
@@ -2773,7 +2772,7 @@ ms_excel_read_workbook (MsOle *file)
 			}
 		case BIFF_EXTERNCOUNT: /* see S59D7D.HTM */
 #ifndef NO_DEBUG_EXCEL
-			if (ms_excel_read_debug>0) {
+			if (ms_excel_read_debug > 0) {
 				printf ("%d external references\n",
 					BIFF_GET_GUINT16(q->data));
 			}

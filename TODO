@@ -11,7 +11,7 @@ Gnumeric Spread Sheet task list
 
 * Even More Functions
 
-   GROWTH, LINEST, LOGEST, PERCENTILE, MMULT, MDETERM,
+   GROWTH, LINEST, LOGEST, PERCENTILE, MDETERM,
    QUARTILE, TREND.
 
    (This is not a claim that these are all.)
@@ -31,10 +31,6 @@ Gnumeric Spread Sheet task list
   * Display printing status (pages to go).
   * Add column/row title printing
   * Add color printing support.
-
-* Cell range naming
-
-   Finish implementing.
 
 * Cell dimension computation is broken on font change for multilines.
 
@@ -105,6 +101,11 @@ Gnumeric Spread Sheet task list
    Right clicking gets:
      insert
 
+** Summary Information
+   Load this from the Excel stream.
+   Make a Bonobo component to update it.
+   Load/Save to XML.
+
 * Sheets
 
 When adding a sheet or renaming a sheet, should we reparse everything?
@@ -122,4 +123,13 @@ at *all*.
 * Styles
 
 Rewrite all cell style support, for memory efficiency and speed.
-Use hashing against unique pointer -> sub-style mapping
+Rewrite background pixmap handling to take 2 colours: FG & BG.
+
+* Names
+
+Update xml-io to read/write name tables.
+
+* Office compatibility
+
+Write an XML plugin to output 'Publish as Web' style XML for
+Office 2000 and 'explorer' compatibility.
