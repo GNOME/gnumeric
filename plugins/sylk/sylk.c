@@ -29,6 +29,7 @@
 #include <stdlib.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
+#include <gsf/gsf-utils.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -73,6 +74,8 @@ typedef struct {
 	unsigned show_commas : 1;		/* sheet-wide */
 	unsigned hide_rowcol_hdrs : 1;		/* sheet-wide */
 	unsigned hide_def_gridlines : 1;	/* sheet-wide */
+
+	GIConv          converter;
 } SylkReadState;
 
 static size_t
@@ -373,11 +376,18 @@ sylk_parse_sheet (SylkReadState *state, ErrorInfo **ret_error)
 	}
 
 	while ((buf = gsf_input_textline_ascii_gets (state->input)) != NULL) {
+		char *utf8buf;
 		g_strchomp (buf);
-		if ( buf [0] && !sylk_parse_line (state, buf) ) {
+
+		utf8buf = g_convert_with_iconv (buf, -1, state->converter, NULL, NULL, NULL);
+
+		if (utf8buf[0] && !sylk_parse_line (state, utf8buf)) {
+			g_free (utf8buf);
 			*ret_error = error_info_new_str (_("error parsing line\n"));
 			return;
 		}
+
+		g_free (utf8buf);
 	}
 }
 
@@ -403,6 +413,7 @@ sylk_file_open (GnumFileOpener const *fo,
 	state.input = gsf_input_textline_new (input);
 	state.sheet = sheet_new (book, name);
 	state.cur_x = state.cur_y = 1;
+	state.converter	 = g_iconv_open ("UTF-8", "ISO-8859-1");
 
 	workbook_sheet_attach (book, state.sheet, NULL);
 	g_free (name);
@@ -415,6 +426,7 @@ sylk_file_open (GnumFileOpener const *fo,
 		                            _("Error while reading sheet."),
 		                            sheet_error));
 	g_object_unref (G_OBJECT (state.input));
+	gsf_iconv_close (state.converter);
 }
 
 gboolean
