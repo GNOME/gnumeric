@@ -73,14 +73,13 @@
 			_descr="Paste the clipboard" pixtype="stock" pixname="Menu_Paste"
 			accel="&lt;Control&gt;v"/>
 	
-			<placeholder delimit="both"/>
-
 			<menuitem name="EditPasteSpecial" verb=""
 			_label="_Paste special..."
 			_descr="Paste with optional filters and transformations"
-			pixtype="stock" pixname="Menu_Paste"
-			accel="&lt;Control&gt;v"/>
+			pixtype="stock" pixname="Menu_Paste"/>
 
+			<menuitem/>
+	
 			<submenu name="Clear" _label="C_lear...">
 
 				<menuitem name="EditClearAll" verb=""
