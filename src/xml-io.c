@@ -920,28 +920,26 @@ xml_write_attribute (XmlParseContext *ctxt, xmlNodePtr attr, GtkArg *arg)
 static xmlNodePtr
 xml_write_attributes (XmlParseContext *ctxt, guint n_args, GtkArg *args)
 {
-	xmlNodePtr cur;
+	xmlNodePtr attributes;
 	guint i;
 
-	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attributes", NULL);
+	attributes = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attributes", NULL);
 
-	for (i=0; i < n_args; args++, i++) {
-		xmlNodePtr tmp = xmlNewDocNode (ctxt->doc, ctxt->ns, "Attribute", NULL);
+	for (i = 0; i < n_args; args++, i++) {
+		xmlNodePtr type, attr = xmlNewChild (attributes, ctxt->ns, "Attribute", NULL);
 		xmlChar *tstr = xmlEncodeEntitiesReentrant (ctxt->doc, args->name);
 
-		xmlNewChild (tmp, ctxt->ns, "name", tstr);
+		xmlNewChild (attr, ctxt->ns, "name", tstr);
 		if (tstr)
 			xmlFree (tstr);
 
-		xmlNewChild (tmp, ctxt->ns, "type", NULL);
-		xml_node_set_int (tmp, NULL, args->type);
+		type = xmlNewChild (attr, ctxt->ns, "type", NULL);
+		xml_node_set_int (type, NULL, args->type);
 
-		xml_write_attribute (ctxt, tmp, args);
-
-		xmlAddChild (cur, tmp);
+		xml_write_attribute (ctxt, attr, args);
 	}
 
-	return cur;
+	return attributes;
 }
 
 static void
@@ -2569,7 +2567,6 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	Sheet *sheet = NULL;
 	double zoom_factor;
 	char *val;
-	int tmp;
 
 	if (strcmp (tree->name, "Sheet")){
 		fprintf (stderr,

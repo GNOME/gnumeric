@@ -1,5 +1,9 @@
 2001-08-28  Jody Goldberg <jgoldberg@home.com>
 
+	* src/xml-io.c (xml_write_attributes) : fix.
+
+2001-08-28  Jody Goldberg <jgoldberg@home.com>
+
 	* src/xml-io.c (xml_sheet_read) : no need to load the max col/row.
 	  That is really only useful for external parsers.  We handle it
 	  internally.
