@@ -136,7 +136,9 @@ set_selection_halign (Workbook *wb, StyleHAlignFlags align)
 	GList *cells, *l;
 
 	sheet = workbook_get_current_sheet (wb);
-	cells = sheet_selection_to_list (sheet);
+	/* TODO : switch to selection_apply, but for now we don't care about
+	 * intersection */
+	cells = selection_to_list (sheet, TRUE);
 
 	for (l = cells; l; l = l->next){
 		Cell *cell = l->data;
@@ -178,7 +180,9 @@ change_selection_font (Workbook *wb, int bold, int italic)
 	GList *cells, *l;
 
 	sheet = workbook_get_current_sheet (wb);
-	cells = sheet_selection_to_list (sheet);
+	/* TODO : switch to selection_apply, but for now we don't care about
+	 * intersection */
+	cells = selection_to_list (sheet, TRUE);
 
 	for (l = cells; l; l = l->next){
 		StyleFont *cell_font;
@@ -2966,7 +2970,7 @@ cb_assemble_selection (gpointer key, gpointer value, gpointer user_data)
 	else
 		include_prefix = FALSE;
 
-	sel = sheet_selection_to_string (sheet, include_prefix);
+	sel = selection_to_string (sheet, include_prefix);
 	g_string_append (info->result, sel);
 	g_free (sel);
 }

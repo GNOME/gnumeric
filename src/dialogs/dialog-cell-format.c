@@ -1012,7 +1012,9 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	g_return_if_fail (IS_SHEET (sheet));
 	g_assert (cell_format_prop_win == NULL);
 
-	cells = sheet_selection_to_list (sheet);
+	/* TODO : rework to use selection_apply, but for now we don't care
+	 * about duplicates */
+	cells = selection_to_list (sheet, TRUE);
 	
 	prop_win = gnome_property_box_new ();
 	gnome_dialog_set_parent (GNOME_DIALOG (prop_win), GTK_WINDOW (wb->toplevel));

@@ -3,7 +3,6 @@
 
 #include "sheet.h"
 
-
 /* Selection management */
 void        sheet_select_all             (Sheet *sheet);
 int         sheet_is_all_selected        (Sheet *sheet);
@@ -19,8 +18,6 @@ void        sheet_selection_append_range (Sheet *sheet,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
 void        sheet_selection_free         (Sheet *sheet);
-CellList   *sheet_selection_to_list      (Sheet *sheet);
-char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
 
 /* Operations on the selection */
 void        sheet_selection_clear             (Sheet *sheet);
@@ -42,6 +39,8 @@ void        sheet_selection_extend_horizontal (Sheet *sheet, int count, gboolean
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count, gboolean jump_to_boundaries);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 
+/****************************************************************************/
+/* Utilities for operating on a selection */
 typedef void (*SelectionApplyFunc) (Sheet *sheet, 
 				    int start_col, int start_row,
 				    int end_col,   int end_row,
@@ -51,7 +50,14 @@ void selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 		      gboolean allow_intersection,
 		      void *closure);
 
-gboolean      selection_is_simple   (Sheet const *sheet, char const *command_name);
+/* export the selection */
+CellList   *selection_to_list      (Sheet *sheet, gboolean allow_intersection);
+char       *selection_to_string    (Sheet *sheet,
+				    gboolean include_sheet_name_prefix);
+
+/* Information about the selection */
+gboolean      selection_is_simple   (Sheet const *sheet,
+				     char const *command_name);
 Range const * selection_first_range (Sheet const *sheet);
 
 #endif /* GNUMERIC_SELECTION_H */

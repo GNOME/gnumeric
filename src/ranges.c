@@ -246,7 +246,7 @@ range_dump (Range const * src)
 		src->start.row + 1);
 
 	if (src->start.col != src->end.col ||
-	    src->start.row == src->end.row)
+	    src->start.row != src->end.row)
 		printf (":%s%d\n",
 			col_name(src->end.col),
 			src->end.row + 1);

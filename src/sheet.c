@@ -1093,7 +1093,7 @@ cell_is_homogeneous(Sheet *sheet, int col, int row,
 		if (accum->bold_common == FALSE && accum->italic_common == FALSE)
 			return value_terminate();
 	}
-	/* FIXME: is this return value right?  */
+
 	return NULL;
 }
 

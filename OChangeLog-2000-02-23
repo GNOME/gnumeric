@@ -1,3 +1,15 @@
+1999-09-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/ranges.c (range_dump) : Typo.
+
+	* src/selection.c (selection_to_list) : rename from
+	  sheet_selection_to_list and add allow_intersection parameter.
+	(selection_to_string) : rename from sheet_selection_to_string and
+	  use selection_apply.
+
+	* src/dialogs/dialog-cell-format.c (dialog_cell_format) : Adjust to
+	  changes in selection_to_list.
+
 1999-09-15  Morten Welinder  <terra@diku.dk>
 
 	* src/sheet.c (cell_is_homogeneous): Always return a value.

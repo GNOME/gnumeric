@@ -13,28 +13,6 @@
 #include "ranges.h"
 #include "gnumeric-util.h"
 
-/* Quick utility routine to test intersect of line segments.
- * Returns : 4 --sA--sb--eb--eA--	a contains b
- *           3 --sA--sb--eA--eb--	overlap left
- *           2 --sb--sA--eA--eb--	b contains a
- *           1 --sb--sA--eb--eA--	overlap right
- *           0 if there is no intersection.
- */
-static int
-segments_intersect (int const s_a, int const e_a,
-		    int const s_b, int const e_b)
-{
-	/* Assume s_a <= e_a and s_b <= e_b */
-	if (e_a < s_b || e_b < s_a)
-		return 0;
-
-	if (s_a < s_b)
-		return (e_a >= e_b) ? 4 : 3;
-
-	/* We already know that s_a <= e_b */
-	return (e_a <= e_b) ? 2 : 1;
-}
-
 static const char *
 sheet_get_selection_name (Sheet const *sheet)
 {
@@ -149,6 +127,35 @@ sheet_selection_append (Sheet *sheet, int col, int row)
 	sheet_selection_append_range (sheet, col, row, col, row, col, row);
 }
 
+static void
+sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
+{
+	if (range_equal (&old->user, &new->user))
+		return;
+
+	sheet_accept_pending_input (sheet);
+
+	sheet_set_selection (sheet, new);
+	sheet_selection_changed_hook (sheet);
+
+	sheet_redraw_selection (sheet, old);
+	sheet_redraw_selection (sheet, new);
+
+	if (new->user.start.col != old->user.start.col ||
+	    new->user.end.col != old->user.end.col ||
+	    ((new->user.start.row == 0 && new->user.end.row == SHEET_MAX_ROWS-1) ^
+	     (old->user.start.row == 0 &&
+	      old->user.end.row == SHEET_MAX_ROWS-1)))
+		sheet_redraw_cols (sheet);
+
+	if (new->user.start.row != old->user.start.row ||
+	    new->user.end.row != old->user.end.row ||
+	    ((new->user.start.col == 0 && new->user.end.col == SHEET_MAX_COLS-1) ^
+	     (old->user.start.col == 0 &&
+	      old->user.end.col == SHEET_MAX_COLS-1)))
+		sheet_redraw_rows (sheet);
+}
+
 /**
  * sheet_selection_extend_to:
  * @sheet: the sheet
@@ -234,35 +241,6 @@ sheet_is_all_selected (Sheet *sheet)
 	return FALSE;
 }
  
-static void
-sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
-{
-	if (range_equal (&old->user, &new->user))
-		return;
-
-	sheet_accept_pending_input (sheet);
-
-	sheet_set_selection (sheet, new);
-	sheet_selection_changed_hook (sheet);
-
-	sheet_redraw_selection (sheet, old);
-	sheet_redraw_selection (sheet, new);
-
-	if (new->user.start.col != old->user.start.col ||
-	    new->user.end.col != old->user.end.col ||
-	    ((new->user.start.row == 0 && new->user.end.row == SHEET_MAX_ROWS-1) ^
-	     (old->user.start.row == 0 &&
-	      old->user.end.row == SHEET_MAX_ROWS-1)))
-		sheet_redraw_cols (sheet);
-
-	if (new->user.start.row != old->user.start.row ||
-	    new->user.end.row != old->user.end.row ||
-	    ((new->user.start.col == 0 && new->user.end.col == SHEET_MAX_COLS-1) ^
-	     (old->user.start.col == 0 &&
-	      old->user.end.col == SHEET_MAX_COLS-1)))
-		sheet_redraw_rows (sheet);
-}
-
 /**
  * sheet_selection_extend_horizontal:
  *
@@ -443,99 +421,12 @@ sheet_selection_is_cell_selected (Sheet *sheet, int col, int row)
 	GList *list = sheet->selections;
 
 	for (list = sheet->selections; list; list = list->next){
-		SheetSelection *ss = list->data;
+		SheetSelection const *ss = list->data;
 
 		if (range_contains (&ss->user, col, row))
 			return 1;
 	}
 	return 0;
-}
-
-/*
- * assemble_cell_list: A callback for sheet_cell_foreach_range
- * intented to assemble a list of cells in a region.
- *
- * The closure parameter should be a pointer to a GList.
- */
-static Value *
-assemble_cell_list (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
-{
-	GList **l = (GList **) user_data;
-
-	*l = g_list_prepend (*l, cell);
-	return NULL;
-}
-
-static void
-assemble_selection_list (Sheet *sheet, 
-			 int start_col, int start_row,
-			 int end_col,   int end_row,
-			 void *closure)
-{
-	sheet_cell_foreach_range (
-		sheet, TRUE,
-		start_col, start_row,
-		end_col, end_row,
-		&assemble_cell_list, closure);
-}
-
-CellList *
-sheet_selection_to_list (Sheet *sheet)
-{
-	/* selection_apply will check all necessary invariants. */
-	CellList *list = NULL;
-	selection_apply (sheet, &assemble_selection_list, FALSE, &list);
-	return list;
-}
-
-static void
-reference_append (GString *result_str, CellPos const *pos)
-{
-	char *row_string = g_strdup_printf ("%d", pos->row);
-
-	g_string_append_c (result_str, '$');
-	g_string_append (result_str, col_name (pos->col));
-	g_string_append_c (result_str, '$');
-	g_string_append (result_str, row_string);
-
-	g_free (row_string);
-}
-
-char *
-sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
-{
-	GString *result_str;
-	GList   *selections;
-	char    *result;
-	
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (sheet->selections, NULL);
-
-	result_str = g_string_new ("");
-	for (selections = sheet->selections; selections; selections = selections->next){
-		SheetSelection *ss = selections->data;
-
-		if (*result_str->str)
-			g_string_append_c (result_str, ',');
-		
-		if (include_sheet_name_prefix){
-			g_string_append_c (result_str, '\'');
-			g_string_append (result_str, sheet->name);
-			g_string_append (result_str, "'!");
-		}
-
-		reference_append (result_str, &ss->user.start);
-		if ((ss->user.start.col != ss->user.end.col) ||
-		    (ss->user.start.row != ss->user.end.row)){
-			g_string_append_c (result_str, ':');
-			reference_append (result_str, &ss->user.end);
-		}
-	}
-
-	result = result_str->str;
-	g_string_free (result_str, FALSE);
-	return result;
 }
 
 gboolean
@@ -617,7 +508,8 @@ find_workbook_with_clipboard (Sheet *sheet)
 }
 
 void
-sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags, guint32 time)
+sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
+		       int paste_flags, guint32 time)
 {
 	CellRegion *content;
 
@@ -631,8 +523,11 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 		if (!selection_is_simple (sheet, _("paste")))
 			return;
 
-	clipboard_paste_region (content, sheet, dest_col, dest_row, paste_flags, time);
+	clipboard_paste_region (content, sheet, dest_col, dest_row,
+				paste_flags, time);
 }
+
+/* TODO TODO TODO : Remove these and just call the functions directly */
 
 /**
  * sheet_selection_clear:
@@ -682,6 +577,29 @@ sheet_selection_clear_formats (Sheet *sheet)
 	selection_apply (sheet, &sheet_clear_region_formats, TRUE, NULL);
 }
 
+/****************************************************************************/
+
+/* Quick utility routine to test intersect of line segments.
+ * Returns : 4 --sA--sb--eb--eA--	a contains b
+ *           3 --sA--sb--eA--eb--	overlap left
+ *           2 --sb--sA--eA--eb--	b contains a
+ *           1 --sb--sA--eb--eA--	overlap right
+ *           0 if there is no intersection.
+ */
+static int
+segments_intersect (int const s_a, int const e_a,
+		    int const s_b, int const e_b)
+{
+	/* Assume s_a <= e_a and s_b <= e_b */
+	if (e_a < s_b || e_b < s_a)
+		return 0;
+
+	if (s_a < s_b)
+		return (e_a >= e_b) ? 4 : 3;
+
+	/* We already know that s_a <= e_b */
+	return (e_a <= e_b) ? 2 : 1;
+}
 
 /**
  * selection_apply:
@@ -702,7 +620,6 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 	GList *l;
 	GSList *proposed = NULL;
 
-	/* TODO : support allow_intersection */
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -782,7 +699,8 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 					if (b->start.col > 0) {
 						tmp = range_duplicate (a);
 						tmp->end.col = b->start.col - 1;
-						clear = g_slist_prepend (clear, tmp);
+						clear = g_slist_prepend (clear,
+									 tmp);
 					}
 					/* Fall through to do bottom segment */
 
@@ -809,7 +727,8 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 						tmp = range_duplicate (a);
 						tmp->start.col = b->start.col;
 						tmp->end.row = b->start.row - 1;
-						clear = g_slist_prepend (clear, tmp);
+						clear = g_slist_prepend (clear,
+									 tmp);
 					}
 					/* fall through */
 
@@ -824,7 +743,8 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 						tmp = range_duplicate (a);
 						tmp->start.col = b->start.col;
 						tmp->start.row = b->end.row + 1;
-						clear = g_slist_prepend (clear, tmp);
+						clear = g_slist_prepend (clear,
+									 tmp);
 					}
 
 					/* shrink the left segment */
@@ -904,7 +824,9 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 				break;
 
 			};
-			/* Be careful putting code here one of the cases skips this */
+
+			/* WARNING : * Be careful putting code here.
+			 * Some of the cases skips this */
 
 			/* continue checking the new region for intersections */
 			clear = g_slist_prepend (clear, a);
@@ -923,4 +845,94 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 			 closure);
 		g_free (r);
 	}
+}
+
+/*****************************************************************************/
+
+typedef struct
+{
+	GString *str;
+	gboolean include_sheet_name_prefix;
+} selection_to_string_closure;
+
+static void
+range_to_string (Sheet *sheet, 
+		 int start_col, int start_row,
+		 int end_col,   int end_row,
+		 void *closure)
+{
+	selection_to_string_closure * res = closure;
+
+	if (*res->str->str)
+		g_string_append_c (res->str, ',');
+
+	if (res->include_sheet_name_prefix)
+		g_string_sprintfa (res->str, "\'%s\'!", sheet->name);
+
+	g_string_sprintfa (res->str, "$%s$%d",
+			   col_name(start_col), start_row+1);
+	if ((start_col != end_col) || (start_row != end_row))
+		g_string_sprintfa (res->str, ":$%s$%d",
+				   col_name(end_col), end_row+1);
+}
+
+char *
+selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
+{
+	char    *output;
+	selection_to_string_closure res;
+
+	res.str = g_string_new ("");
+	res.include_sheet_name_prefix = include_sheet_name_prefix;
+
+	/* selection_apply will check all necessary invariants. */
+	selection_apply (sheet, &range_to_string, TRUE, &res);
+
+	output = res.str->str;
+	g_string_free (res.str, FALSE);
+	return output;
+}
+
+/*****************************************************************************/
+
+/*
+ * assemble_cell_list: A callback for sheet_cell_foreach_range
+ * intented to assemble a list of cells in a region.
+ *
+ * The closure parameter should be a pointer to a GList.
+ */
+static Value *
+assemble_cell_list (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+{
+	CellList **l = (CellList **) user_data;
+	*l = g_list_prepend (*l, cell);
+	return NULL;
+}
+
+static void
+assemble_selection_list (Sheet *sheet, 
+			 int start_col, int start_row,
+			 int end_col,   int end_row,
+			 void *closure)
+{
+	sheet_cell_foreach_range (sheet, TRUE,
+				  start_col, start_row, end_col, end_row,
+				  &assemble_cell_list, closure);
+}
+
+/*
+ * sheet_selection_to_list :
+ * @sheet : The whose selection we are interested in.
+ *
+ * Assembles a unique CellList of all the existing cells in the selection.
+ * Overlapping selection regions are handled.
+ */
+CellList *
+selection_to_list (Sheet *sheet, gboolean allow_intersection)
+{
+	/* selection_apply will check all necessary invariants. */
+	CellList *list = NULL;
+	selection_apply (sheet, &assemble_selection_list,
+			 allow_intersection, &list);
+	return list;
 }
