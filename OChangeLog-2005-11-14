@@ -1,5 +1,9 @@
 2000-12-14  Jody Goldberg <jgoldberg@home.com>
 
+	* configure.in : Gussy up the reporting to improve readability
+
+2000-12-14  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-object-bonobo.c (sheet_object_bonobo_construct) : create
 	  the client site here.
 	(sheet_object_bonobo_set_object_iid) : rather than here.

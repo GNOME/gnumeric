@@ -84,7 +84,7 @@ AC_SUBST(GNOMEGNORBA_LIBS)
 dnl ******************************
 dnl gnome-xml checking
 dnl ******************************
-AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.5 <= version < 2.0.0)
+AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.5 <= version < 2.0.0	)
 xml_ok=no
 if xml-config --libs > /dev/null 2>&1; then 
     verstxt=`xml-config --version`
@@ -92,17 +92,17 @@ if xml-config --libs > /dev/null 2>&1; then
 	awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
     if test "$vers" -ge 1008005; then
 	if test "$vers" -lt 2000000; then
-	    AC_MSG_RESULT(found $verstxt -- ok)
+	    AC_MSG_RESULT(<yes > found $verstxt)
 	    xml_ok=yes
 	else
-	    AC_MSG_RESULT(found unsupported $verstxt)
+	    AC_MSG_RESULT(<FAIL> found unsupported $verstxt)
 	    AC_MSG_ERROR(This version of Gnumeric does not support libxml (aka gnome-xml) 2.x.x yet.)
 	fi
     else
-        AC_MSG_RESULT(found only $verstxt)
+        AC_MSG_RESULT(<FAIL> found only $verstxt)
     fi
 else
-    AC_MSG_RESULT(not found)
+    AC_MSG_RESULT(<FAIL> not found)
 fi
 if test "$xml_ok" = no; then
     AC_MSG_ERROR(You need at least libxml (aka gnome-xml) 1.8.5 for this version of Gnumeric.
@@ -176,20 +176,20 @@ AM_CONDITIONAL(WITH_PYTHON, $python_val)
 
 
 dnl Check for libole2
-AC_MSG_CHECKING(for libole2 >= 0.1.7)
+AC_MSG_CHECKING(for libole2 >= 0.1.7						)
 libole2_ok=no
 if gnome-config --libs libole2 > /dev/null 2>&1; then
 	verstxt=`gnome-config --modversion libole2`
 	vers=`echo "$verstxt" | sed -e "s/^libole2-//" | \
 		awk -F. '{ printf "%d", $1 * 10000 + $2 * 100 + $3; }'`
 	if test "$vers" -ge 107; then
-		AC_MSG_RESULT(found $verstxt -- ok)
+		AC_MSG_RESULT(<yes > found $verstxt)
 		libole2_ok=yes
 	else
-		AC_MSG_RESULT(found only $verstxt)
+		AC_MSG_RESULT(<FAIL> found only $verstxt)
 	fi
 else
-	AC_MSG_RESULT(not found)
+	AC_MSG_RESULT(<FAIL> not found)
 fi
 if test "$libole2_ok" = no; then
 	AC_MSG_ERROR(This version of gnumeric requires an external
@@ -220,7 +220,7 @@ AC_ARG_WITH(bonobo,
 gnumeric_executable=gnumeric
 AC_SUBST(gnumeric_executable)
 if $try_bonobo; then
-	AC_MSG_CHECKING(for Bonobo >= 0.27)
+	AC_MSG_CHECKING(for Bonobo >= 0.27						)
 	if gnome-config --libs bonobo > /dev/null 2>&1; then
 		verstxt=`gnome-config --modversion bonobo`
 		vers=`echo "$verstxt" | sed -e "s/^bonobo-//" | \
@@ -231,7 +231,7 @@ if $try_bonobo; then
 	fi
 
 	if test "$vers" -ge 27; then
-		AC_MSG_RESULT(found $verstxt -- ok)
+		AC_MSG_RESULT(<yes > found $verstxt)
 		AC_DEFINE(ENABLE_BONOBO)
 		have_bonobo=true
 		bonobo=bonobox_print
@@ -252,9 +252,9 @@ if $try_bonobo; then
 		AM_CONDITIONAL(USING_OAF, test x"using_oaf" = "xyes")
 	else
 		if test "$vers" -eq 0; then
-			AC_MSG_RESULT(not found)
+			AC_MSG_RESULT(<NO  > not found)
 		else
-			AC_MSG_RESULT(found only $verstxt -- ignoring)
+			AC_MSG_RESULT(<NO  > found only $verstxt)
 		fi
 	fi
 fi
@@ -304,12 +304,12 @@ AC_ARG_WITH(gb,
 )
 
 if $try_gb; then
-	AC_MSG_CHECKING(for Gb >= 0.0.17)
+	AC_MSG_CHECKING(for Gb >= 0.0.17						)
 	if gnome-config --libs gb > /dev/null 2>&1; then
 		verstxt=`gnome-config --modversion gb 2>/dev/null`
 		vers=`echo "$verstxt" | awk -F. '{ printf "%d, $1 * 10000 + $2 * 100 + $3; }'`
 		if test "$vers" -ge 000017; then
-			AC_MSG_RESULT(found $verstxt -- ok)
+			AC_MSG_RESULT(<yes > found $verstxt)
 			AC_DEFINE(ENABLE_GB)
 			GB_LIBS=`gnome-config --libs gb`
 			GB_CFLAGS=`gnome-config --cflags gb`
@@ -317,12 +317,10 @@ if $try_gb; then
 			gb=gb
 			gb_msg=yes
 		else
-			AC_MSG_RESULT(found only $verstxt -- ignoring)
-			AC_MSG_WARN(gb plugin will not built)
+			AC_MSG_RESULT(<NO  > found only $verstxt)
 		fi
 	else
-		AC_MSG_RESULT(not found)
-		AC_MSG_WARN(gb plugin will not built)
+		AC_MSG_RESULT(<NO  > not found)
 	fi
 fi
 AM_CONDITIONAL(WITH_GB, $have_gb)
@@ -333,20 +331,20 @@ AC_SUBST(GB_LIBS)
 dnl ******************************
 dnl GnomePrint checking
 dnl ******************************
-AC_MSG_CHECKING(for GnomePrint libraries >= 0.25)
+AC_MSG_CHECKING(for GnomePrint libraries >= 0.25				)
 gnomeprint_ok=no
 if gnome-config --libs print > /dev/null 2>&1; then 
     verstxt=`gnome-config --modversion print`
     vers=`echo "$verstxt" | sed -e "s/gnome-print-//" -e 's/cvs$//' -e 's/pre$//' | \
         awk -F. '{ printf "%d", $1 * 1000 + $2;}'`
     if test "$vers" -ge 25; then
-        AC_MSG_RESULT(found $verstxt -- ok)
+	AC_MSG_RESULT(<yes > found $verstxt)
 	gnomeprint_ok=yes
     else
-	AC_MSG_RESULT(found only $verstxt)
+        AC_MSG_RESULT(<FAIL> found only $verstxt)
     fi
 else
-    AC_MSG_RESULT(not found)
+    AC_MSG_RESULT(<FAIL> not found)
 fi
 if test "$gnomeprint_ok" = no; then
     AC_MSG_ERROR(You need at least gnome-print-0.25 for this version of Gnumeric)
@@ -357,19 +355,19 @@ unset gnomeprint_ok
 dnl ******************************
 dnl LibGlade checking
 dnl ******************************
-AC_MSG_CHECKING(for Glade libraries >= 0.14)
+AC_MSG_CHECKING(for Glade libraries >= 0.14					)
 libglade_ok=no
 if gnome-config --libs libglade > /dev/null 2>&1; then 
     verstxt=`gnome-config --modversion libglade`
     vers=`echo "$verstxt" | awk -F. '{ printf "%d", $1 * 1000 + $2;}'`
     if test "$vers" -ge 14; then
-        AC_MSG_RESULT(found $verstxt -- ok)
+	AC_MSG_RESULT(<yes > found $verstxt)
 	libglade_ok=yes
     else
-	AC_MSG_RESULT(found only $verstxt)
+        AC_MSG_RESULT(<FAIL> found only $verstxt)
     fi
 else
-    AC_MSG_RESULT(not found)
+    AC_MSG_RESULT(<FAIL> not found)
 fi
 if test "$libglade_ok" = no; then
     AC_MSG_ERROR(You need at least libglade 0.14 for this version of Gnumeric)
@@ -380,20 +378,20 @@ unset libglade_ok
 dnl ******************************
 dnl Gnome App Lib checking
 dnl ******************************
-AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.3.0)
+AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.3.0				)
 gal_ok=no
 if gnome-config --libs gal > /dev/null 2>&1; then 
     verstxt=`gnome-config --modversion gal`
     vers=`echo "$verstxt" | sed -e "s/gal-//" -e 's/cvs$//' -e 's/pre$//' | \
 	awk -F. '{ printf "%d", $1*1000000 + $2*10000 + $3*100 + $4; }'`
     if test "$vers" -ge 30000; then
-        AC_MSG_RESULT(found $verstxt -- ok)
+	AC_MSG_RESULT(<yes > found $verstxt)
 	gal_ok=yes
     else
-	AC_MSG_RESULT(found only $verstxt)
+        AC_MSG_RESULT(<FAIL> found only $verstxt)
     fi
 else
-    AC_MSG_RESULT(not found)
+    AC_MSG_RESULT(<FAIL> not found)
 fi
 if test "$gal_ok" = no; then
     AC_MSG_ERROR(You need at least GNOME Application libs 0.3.0 for this version of Gnumeric)
@@ -487,9 +485,9 @@ if test "$GDA_CONFIG" = no; then
     AC_MSG_WARN(GDA plugin will not built)
     have_gda=false
 else
-    AC_MSG_CHECKING(for libgda)
+    AC_MSG_CHECKING(for libgda							)
     verstxt=`$GDA_CONFIG --version`
-    AC_MSG_RESULT(found $verstxt -- ok)
+    AC_MSG_RESULT(<yes > found $verstxt)
     GDA_CFLAGS=`$GDA_CONFIG --cflags client`
     GDA_LIBS=`$GDA_CONFIG --libs client`
     have_gda=true
