@@ -1,5 +1,10 @@
 2002-01-08  Morten Welinder  <terra@diku.dk>
 
+	* src/func.c (function_marshal_arg): When we want numbers, accept
+	strings that parse to numbers also.
+
+2002-01-08  Morten Welinder  <terra@diku.dk>
+
 	* src/eval.h (DependentFlags): Kill comma before closing brace.
 	* src/clipboard.h (CellCopyType): Ditto.
 	* src/format-template.h (FreqDirection): Ditto.

@@ -19,6 +19,7 @@
 #include "symbol.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "number-match.h"
 
 #include <string.h>
 #include <glib.h>
@@ -657,6 +658,15 @@ function_marshal_arg (FunctionEvalInfo *ei,
 			v = expr_array_intersection (v);
 			if (v == NULL)
 				break;
+		}
+
+		if (v->type == VALUE_STRING) {
+			Value *newv = format_match_number (value_peek_string (v),
+							   NULL,
+							   NULL);
+			value_release (v);
+			v = newv;
+			break;
 		}
 
 		if (v->type != VALUE_INTEGER &&

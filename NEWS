@@ -13,6 +13,8 @@ Jody:
 Morten:
 	* Make sure Linux ends up using IEEE_754 code in mathfunc.c.
 	* Fix search crash.
+	* Make functions that take numeric arguments accept also strings
+	  that parse as numbers.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.1
