@@ -2074,8 +2074,14 @@ xml_probe (const char *filename)
 	xmlNsPtr gmr;
 
 	res = xmlParseFile (filename);
-	if (res == NULL)
+	if (res == NULL) {
+		/* FIXME: make probing silent.  */
+		fprintf (stderr,
+			 "File `%s' does not look like an xml-document\n"
+			 "Please ignore complaints about `Extra content at the end of the document'\n",
+			 filename);
 		return FALSE;
+	}
 
 	if (res->root == NULL) {
 		xmlFreeDoc (res);

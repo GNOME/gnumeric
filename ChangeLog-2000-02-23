@@ -1,3 +1,11 @@
+1999-10-27  Morten Welinder  <terra@diku.dk>
+
+	* src/xml-io.c (xml_probe): Improve message when probing fails.
+
+	* src/main.c (gnumeric_main): Don't let workbook_count go to zero
+ 	just because loading the first command-line specified sheet fails.
+	(Bug 3119.)
+
 1999-10-26  Morten Welinder  <terra@diku.dk>
 
 	* src/format.c (format_compile): Plug leak.

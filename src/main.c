@@ -78,7 +78,8 @@ gnumeric_main (void *closure, int argc, char *argv [])
 {
 	gboolean opened_workbook = FALSE;
 	int i;
-	
+	Workbook *new_book;
+
 	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
 	textdomain (PACKAGE);
 
@@ -106,17 +107,23 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	glade_gnome_init ();
 	if (startup_glade_file)
 		glade_xml_new (startup_glade_file, NULL);
-	
+
 	if (dump_file_name){
 		dump_functions (dump_file_name);
 		exit (0);
 	}
 
+	/* Create an empty workbook, just in case we end up loading no files.
+	   NOTE: we need to create it here because workbook_do_destroy does
+	   special things if the number of workbooks reaches zero.  (And this
+	   would happen if loading the first file specified failed.)  */
+	new_book = workbook_new_with_sheets (1);
+
 	startup_files = poptGetArgs (ctx);
 	if (startup_files)
 		for (i = 0; startup_files [i]; i++) {
 			Workbook *new_book = workbook_read (startup_files [i]);
-			
+
 			if (new_book) {
 				opened_workbook = TRUE;
 				gtk_widget_show (new_book->toplevel);
@@ -126,9 +133,14 @@ gnumeric_main (void *closure, int argc, char *argv [])
 				gtk_main_iteration ();
 		}
 	poptFreeContext (ctx);
-	
-	if (!opened_workbook) {
-		Workbook *new_book = workbook_new_with_sheets (1);
+
+	if (opened_workbook) {
+#ifdef ENABLE_BONOBO
+		gnome_object_unref (GNOME_OBJECT (new_book));
+#else
+		gtk_object_unref (GTK_OBJECT (new_book));
+#endif
+	} else {
 		gtk_widget_show (new_book->toplevel);
 	}
 

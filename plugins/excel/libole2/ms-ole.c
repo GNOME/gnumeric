@@ -1427,7 +1427,9 @@ ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
 	}
 	(*f)->length = st.st_size;
 	if ((*f)->length<=0x4c) { /* Bad show */
+#if OLE_DEBUG > 0
 		printf ("File '%s' too short\n", name);
+#endif
 		(*f)->syswrap->close (file) ;
 		g_free (*f) ;
 		return MS_OLE_ERR_FORMAT;
