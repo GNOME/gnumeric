@@ -462,7 +462,7 @@ AC_ARG_WITH(paradox,
 
 if $try_paradox; then
 	PKG_CHECK_MODULES(PARADOX, [
-		pxlib >= 0.3.0
+		pxlib >= 0.4.0
 		],
 		[paradox_msg="yes"],
 		[paradox_msg="missing dependencies"])

@@ -1,3 +1,10 @@
+2004-12-20  Jody Goldberg <jody@gnome.org>
+
+	From: Uwe Steinmann <uwe@steinmann.cx>
+	* paradox.c :
+	- added support for field types Time and MemoBLOB
+	- fixed reading of field types TimeStamp
+
 2004-12-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.1

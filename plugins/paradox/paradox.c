@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /**
- * boot.c: Paradox support for Gnumeric
+ * paradox.c: Paradox support for Gnumeric
  *
  * Author:
  *    Uwe Steinmann <uwe@steinmann.cx>
@@ -98,7 +98,7 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		snprintf (str, 30, "%s,%c,%d", pxf->px_fname, ctypes[(int)pxf->px_ftype], pxf->px_flen);
 #if PXLIB_MAJOR_VERSION == 0 && (PXLIB_MINOR_VERION < 3 || (PXLIB_MAJOR_VERSION == 3 && PXLIB_MICRO_VERSION == 0))
 		/* Convert the field names to utf-8. This is actually in pxlib
-		 * responsibility, but hasn't been implemented. For the mean time
+		 * responsibility, but hasn't been implemented yet. For the mean time
 		 * we *misuse* PX_get_data_alpha()
 		 */
 		PX_get_data_alpha(pxdoc, str, strlen(str), &str2);
@@ -150,7 +150,6 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 						break;
 					}
 					case pxfAutoInc:
-					case pxfTimestamp:
 					case pxfLong: {
 						long value;
 						if(0 < PX_get_data_long(pxdoc, &data[offset], pxf->px_flen, &value)) {
@@ -162,6 +161,16 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 					case pxfNumber: {
 						double value;
 						if(0 < PX_get_data_double(pxdoc, &data[offset], pxf->px_flen, &value)) {
+							val = value_new_float (value);
+						}
+						break;
+					}
+					case pxfTimestamp: {
+						double value;
+						if(0 < PX_get_data_double(pxdoc, &data[offset], pxf->px_flen, &value)) {
+							value = value / 86400000.0;
+							/* 693595 = number of days up to 31.12.1899 */
+							value -= 693595;
 							val = value_new_float (value);
 						}
 						break;
@@ -184,9 +193,24 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 						}
 						break;
 					}
+					case pxfTime: {
+						long value;
+						if(0 < PX_get_data_long(pxdoc, &data[offset], pxf->px_flen, &value)) {
+							val = value_new_float (value/86400000.0);
+						}
+						break;
+					}
 					case pxfBCD: {
 						char *value;
 						if(0 < PX_get_data_bcd(pxdoc, &data[offset], pxf->px_fdc, &value)) {
+							val = value_new_string_nocopy (value);
+						}
+						break;
+					}
+					case pxfMemoBLOb: {
+						char *value;
+						int size, mod_nr;
+						if(0 < PX_get_data_blob(pxdoc, &data[offset], pxf->px_flen, &mod_nr, &size, &value)) {
 							val = value_new_string_nocopy (value);
 						}
 						break;

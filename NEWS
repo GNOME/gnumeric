@@ -5,7 +5,6 @@ Caolan McNamara:
 	* Handle invalid DIMENSIONS records in xls [#161534]
 
 Emmanuel Pacaud:
-
 	* fix legend update on pie label change.
 	* don't disable theming for xy plot with line or marker only.
 
@@ -40,6 +39,9 @@ Morten:
 	* Fix Help->Contents accelerator.  [#162865]
 	* Make general format use "E", not "e", as appropriate.
 	* Simplyfy SUM.  [#131588]
+
+Uwe Steinmann:
+	* Extend paradox importer to support additional types.
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.1
