@@ -807,7 +807,7 @@ write_value (BIFF_PUT *bp, Value *v, eBiff_version ver,
 		if (ver >= eBiffV8); /* Use SST stuff in fulness of time */
 
 		/* See: S59DDC.HTM */
-		ms_biff_put_var_next   (bp, BIFF_LABEL);
+		ms_biff_put_var_next   (bp, (0x200 | BIFF_LABEL));
 		EX_SETXF (data, xf);
 		EX_SETCOL(data, col);
 		EX_SETROW(data, row);

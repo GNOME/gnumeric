@@ -17,7 +17,8 @@ Sean
 
 Michael
 	* Fixed up function wizard.
-	* Improved excel writing code.
+	* Improved Excel writing code now imports simple
+	stuff to Excel too.
 
 Nick Lamb
 

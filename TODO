@@ -107,39 +107,6 @@ Gnumeric Spread Sheet task list
    Right clicking gets:
      insert
 
-* Excel importing
-
-   BIFF_NOTE ( comments ) importing.
-
-   BIFF_OBJ: Embedded objects. S59DAD.HTM
-
-   Re-engineer to use PtrArrays in several places instead
-   of hashing on an integer: speedup.
-
-   Fix odd integer formatting hiding some numbers,
-
-   Sort cycadelic colours.
-
-   Add collation of BIFF continuation records to the
-   previous record, to save many checks in the code.
-
-   Get correct RK values for _tiny_ floats coming through.
-
-   * Formulae
-   
-      Sort out PtgRefN family, convert to correct posn.
-
-   Get Nested OLE object streams working nicely.
-
-* OLE
-
-   Integrate into libvfs.
-   Update to better understanding of file, see wine.
-
-
-   Integrate into libvfs.
-   Update to better understanding of file, see wine.
-
 * Sheets
 
 When adding a sheet or renaming a sheet, should we reparse everything?
@@ -153,3 +120,8 @@ current clipboard code to find the clipboard.
 
 Rewrite the entire support for sheet objects.  I do not like the code
 at *all*.
+
+* Styles
+
+Rewrite all cell style support, for memory efficiency and speed.
+Use hashing against unique pointer -> sub-style mapping

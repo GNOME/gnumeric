@@ -1,3 +1,8 @@
+1999-06-30  Michael Meeks  <michael@edenproject.org>
+
+	* TODO: Moved some bits to plugins/excel.
+	add a bit about Styles.
+
 1999-06-29  Jody Goldberg  <jgoldberg@home.com>
 	* src/cell.c (cell_set_formula) : Handle special case of array by
 	  setting the entire matrix from the top left corner.

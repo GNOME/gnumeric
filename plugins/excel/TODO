@@ -1,0 +1,34 @@
+Michael
+	* Change all structure names ToCapitalisedLikeThisNames
+	* Implement ms-formula-write.c
+	* Remove silly name record in writing ( after debbugging is done )
+
+Jody
+	*
+
+* Excel importing
+
+   BIFF_NOTE ( comments ) importing ( Biff V8 )
+
+   BIFF_OBJ: Embedded objects. S59DAD.HTM
+
+   Re-engineer to use PtrArrays in several places instead
+   of hashing on an integer: speedup.
+
+   Fix odd integer formatting hiding some numbers,
+
+   work out what is happening in biff record collation,
+   and SST tables....
+
+   * Formulae
+   
+      Sort out PtgRefN family, convert to correct posn.
+
+   Get Nested OLE object streams working nicely.
+
+* OLE
+
+   Integrate into libvfs.
+   Update to better understanding of file, see wine.
+
+
