@@ -16,7 +16,9 @@ Jody:
 Gnumeric 1.0.4
 
 Andreas:
-	Fix LaTeX and HTML exporter crashes	
+	* Fix LaTeX and HTML exporter crashes	
+	* Fix http://bugzilla.gnome.org/show_bug.cgi?id=69832
+	  (crash in goalseek)
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=69400
