@@ -71,7 +71,7 @@ libgnomeui-2.0	>= 2.0.0
 libgsf-gnome-1	>= 1.9.0"
 
 AC_ARG_WITH(gnome,
-	[--{with,without}-gnome   Use GNOME extensions],
+	[--{with,without}-gnome    Use GNOME extensions],
 	if test "x$withval" = xno; then
 		gnome_msg="disabled by user"
 	fi
@@ -190,7 +190,7 @@ dnl ****************************
 try_gb=no
 gb_msg="disabled due to lack of gb maintenance"
 AC_ARG_WITH(gb,
-	[--{with,without}-gb      Compile the Gnome Basic plugin],
+	[--{with,without}-gb       Compile the Gnome Basic plugin],
 	if test "x$withval" = xyes; then
 		#try_gb=true
 		gb_msg="We are not joking.  There is no upstream maintainer for GB"
@@ -272,7 +272,7 @@ try_guile=false
 guile_msg="disabled pending some guile developer interest"
 enable_guile=false
 AC_ARG_WITH(guile,
-	[--{with,without}-guile   Compile with Guile support or without it],
+	[--{with,without}-guile    Compile with Guile support or without it],
 	if test "x$withval" = xyes; then
 		try_guile=true
 	fi
@@ -301,7 +301,7 @@ try_psiconv=true
 enable_psiconv=false
 psiconv_msg=no
 AC_ARG_WITH(psiconv,
-	[--{with,without}-psiconv Compile with psiconv support or without it],
+	[--{with,without}-psiconv  Compile with Psiconv support or without it],
 	if test "x$withval" = xno; then
 		try_psiconv=false
 	fi
@@ -337,7 +337,7 @@ AC_SUBST(PSICONV_CFLAGS)
 try_paradox=true
 enable_paradox=false
 AC_ARG_WITH(paradox,
-	[--{with,without}-paradox Compile with Paradox support or without it],
+	[--{with,without}-paradox  Compile with Paradox support or without it],
 	if test "x$withval" = xno; then
 		try_paradox=false
 	fi
@@ -604,7 +604,7 @@ try_mono=false
 with_mono=false
 mono_msg="disabled, still experimental"
 AC_ARG_WITH(mono,
-	[--{with,without}-mono   Compile the mono scripting engine],
+	[--{with,without}-mono     Compile the mono scripting engine],
 	if test "x$withval" = xno; then
 		mono_msg="Disabled by request"
 		try_mono=false
