@@ -37,6 +37,7 @@
 #include "gutils.h"
 #include "gnm-marshalers.h"
 #include "style-color.h"
+#include <goffice/utils/go-file.h>
 
 #include <gtk/gtkmain.h> /* for gtk_main_quit */
 #include <gsf/gsf-impl-utils.h>
@@ -503,9 +504,7 @@ workbook_set_uri (Workbook *wb, char const *uri)
 	g_free (wb->uri);
 	wb->uri = g_strdup (uri);
 
-	base_name = g_path_get_basename (uri);
-	/* What about encodings?  */
-
+	base_name = go_basename_from_uri (uri);
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		wb_control_title_set (control, base_name););
 	g_free (base_name);

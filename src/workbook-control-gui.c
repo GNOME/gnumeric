@@ -74,6 +74,7 @@
 #include "rendered-value.h"
 #include "sort.h"
 #include <goffice/graph/gog-data-set.h>
+#include <goffice/utils/go-file.h>
 
 #include <gsf/gsf-impl-utils.h>
 #ifdef WITH_GNOME
@@ -1168,7 +1169,7 @@ wbcg_close_if_user_permits (WorkbookControlGUI *wbcg,
 		iteration++;
 
 		if (wb_uri) {
-			char *base = g_path_get_basename (wb_uri);
+			char *base = go_basename_from_uri (wb_uri);
 			msg = g_strdup_printf (
 				_("Save changes to workbook '%s' before closing?"),
 				base);
@@ -2047,11 +2048,10 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 		GList *ptr, *uris = gnome_vfs_uri_list_parse (selection_data->data);
 		for (ptr = uris; ptr != NULL; ptr = ptr->next) {
 			GError *err = NULL;
-			GsfInputGnomeVFS *input = gsf_input_gnomevfs_new_uri (ptr->data, &err);
+			GsfInput *input = (GsfInput *)gsf_input_gnomevfs_new_uri (ptr->data, &err);
 
 			if (input != NULL) {
-				wbv = wb_view_new_from_input (GSF_INPUT (input),
-					NULL, ioc, NULL);
+				wbv = wb_view_new_from_input (input, NULL, ioc, NULL);
 				if (wbv != NULL)
 					wb_control_wrapper_new (WORKBOOK_CONTROL (wbcg),
 						wbv, NULL, NULL);

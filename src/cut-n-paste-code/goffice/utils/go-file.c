@@ -111,6 +111,7 @@ go_basename_from_uri (const char *uri)
 	g_free (fake_uri);
 	g_free (filename);
 	g_free (basename);
+
 	return basename_utf8;
 }
 

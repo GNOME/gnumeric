@@ -438,7 +438,7 @@ wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 
 	if (wbv->wb != NULL) {
 		/* Set the title of the newly connected control */
-		char *name = g_path_get_basename (workbook_get_uri (wbv->wb));
+		char *name = go_basename_from_uri (workbook_get_uri (wbv->wb));
 		wb_control_title_set (wbc, name);
 		g_free (name);
 	}
@@ -548,7 +548,7 @@ workbook_view_new (Workbook *wb)
 
 	/* Set the titles of the newly connected view's controls */
 	{
-		char *name = g_path_get_basename (workbook_get_uri (wbv->wb));
+		char *name = go_basename_from_uri (workbook_get_uri (wbv->wb));
 		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
 					       wb_control_title_set (wbc, name););
 		g_free (name);
@@ -688,8 +688,8 @@ wb_view_save (WorkbookView *wbv, GnmCmdContext *context)
 		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
 	else {
-		char const *filename = workbook_get_uri (wb);
-		wbv_save_to_file (wbv, fs, filename, io_context);
+		char const *uri = workbook_get_uri (wb);
+		wbv_save_to_file (wbv, fs, uri, io_context);
 	}
 
 	has_error   = gnumeric_io_error_occurred (io_context);

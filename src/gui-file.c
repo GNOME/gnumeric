@@ -631,29 +631,17 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	/* Set default file name */
 	wb_uri = workbook_get_uri (wb_view_workbook (wb_view));
 	if (wb_uri != NULL) {
-		char *tmp_name = g_strdup (wb_uri);
-		char *p = tmp_name + strlen (tmp_name);
+		char *basename = go_basename_from_uri (wb_uri);
+		char *dot = strrchr (basename, '.');
 
-		/* Remove extension, but not in directory name.  */
-		while (p > tmp_name) {
-			p--;
-			if (*p == '.') {
-				*p = 0;
-				break;
-			} else if (*p == G_DIR_SEPARATOR)
-				break;
-		}
-
-		gtk_file_chooser_set_uri (fsel, tmp_name);
-
-		/* The above sets the directory, but problem not the contents
-		   of the entry.  */
-		/* FIXME: what about encoding?  */
-		while (p > tmp_name && p[-1] != G_DIR_SEPARATOR)
-			p--;
+		gtk_file_chooser_set_uri (fsel, wb_uri);
 		gtk_file_chooser_unselect_all (fsel);
-		gtk_file_chooser_set_current_name (fsel, p);
-		g_free (tmp_name);
+
+		/* Remove extension.  */
+		if (dot && dot != basename)
+			*dot = 0;
+		gtk_file_chooser_set_current_name (fsel, basename);
+		g_free (basename);
 	}
 
 	/* Show file selector */

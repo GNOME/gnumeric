@@ -21,6 +21,7 @@
 #include "workbook.h"
 #include "gnumeric-gconf.h"
 #include "gnumeric-gconf-priv.h"
+#include <goffice/utils/go-file.h>
 
 #include <string.h>
 #include <locale.h>
@@ -442,7 +443,7 @@ static void
 render_file (GString *target, HFRenderInfo *info, char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
-		char *name = g_path_get_basename (workbook_get_uri (info->sheet->workbook));
+		char *name = go_basename_from_uri (workbook_get_uri (info->sheet->workbook));
 		g_string_append (target, name);
 		g_free (name);
 	} else 
@@ -453,6 +454,7 @@ static void
 render_path (GString *target, HFRenderInfo *info, char const *args)
 {
 	if (info->sheet != NULL && info->sheet->workbook != NULL) {
+#warning "FIXME: we should have go_dirname_from_uri"
 		char *path = g_path_get_dirname (workbook_get_uri (info->sheet->workbook));
 		g_string_append (target, path);
 		g_free (path);
