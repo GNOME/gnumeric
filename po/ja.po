@@ -10,8 +10,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.0.2\n"
-"POT-Creation-Date: 2002-01-07 23:12+0900\n"
-"PO-Revision-Date: 2002-01-07 22:25+0900\n"
+"POT-Creation-Date: 2002-01-10 23:59+0900\n"
+"PO-Revision-Date: 2002-01-10 23:37+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -290,7 +290,7 @@ msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr ""
 ".po ファイルの中にある GNOME 用語を保存するためのサポートを提供します。"
 
-#: plugins/guile/plugin.c:67 src/func.c:778 src/functions/fn-information.c:697
+#: plugins/guile/plugin.c:67 src/func.c:806 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
 #: src/functions/fn-information.c:823 src/functions/fn-information.c:874
 #: src/functions/fn-information.c:904 src/functions/fn-information.c:971
@@ -360,7 +360,7 @@ msgstr "TROFF (*.me)"
 msgid "Error executing groff."
 msgstr "groff の実行中にエラーが発生しました。"
 
-#: plugins/lotus-123/lotus.c:309
+#: plugins/lotus-123/lotus.c:315
 msgid "Error while reading lotus workbook."
 msgstr "Lotus ワークブックの読み込み中にエラーが発生しました。"
 
@@ -1619,7 +1619,7 @@ msgstr "クリップボードの内容やカットバッファを貼り付けます"
 msgid "Paste with optional filters and transformations"
 msgstr "オプションのフィルタを使って変換して貼り付けます"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2710
+#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2741
 #: src/workbook-format-toolbar.c:463
 msgid "Percent"
 msgstr "パーセント"
@@ -1949,12 +1949,12 @@ msgstr "名前の変更(_C)..."
 msgid "_Close"
 msgstr "閉じる(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/dialogs/anova-one.glade.h:9
-#: src/dialogs/correlation.glade.h:7 src/dialogs/covariance.glade.h:7
-#: src/dialogs/descriptive-stats.glade.h:15
-#: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:13
-#: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:7
-#: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:229 src/dialogs/anova-one.glade.h:10
+#: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
+#: src/dialogs/descriptive-stats.glade.h:16
+#: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:21
+#: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:10
+#: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:14
 #: src/workbook-control-gui.c:2713
 msgid "_Columns"
 msgstr "列(_C)"
@@ -2109,12 +2109,12 @@ msgstr "削除(_R)"
 msgid "_Row"
 msgstr "行(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/dialogs/anova-one.glade.h:14
-#: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
-#: src/dialogs/descriptive-stats.glade.h:20
-#: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:18
-#: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:12
-#: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:19
+#: src/GNOME_Gnumeric.xml.h:265 src/dialogs/anova-one.glade.h:15
+#: src/dialogs/correlation.glade.h:13 src/dialogs/covariance.glade.h:13
+#: src/dialogs/descriptive-stats.glade.h:21
+#: src/dialogs/fourier-analysis.glade.h:13
+#: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:15
+#: src/dialogs/regression.glade.h:17 src/dialogs/sampling.glade.h:20
 #: src/workbook-control-gui.c:2710
 msgid "_Rows"
 msgstr "行(_R)"
@@ -2199,35 +2199,35 @@ msgstr "ワークブック(_W)..."
 msgid "_Zoom..."
 msgstr "ズーム(_Z)..."
 
-#: src/analysis-tools.c:194 src/analysis-tools.c:3188
+#: src/analysis-tools.c:195 src/analysis-tools.c:3218
 #, c-format
 msgid "Row %i"
 msgstr "%i 行"
 
-#: src/analysis-tools.c:197 src/analysis-tools.c:3180
+#: src/analysis-tools.c:198 src/analysis-tools.c:3210
 #, c-format
 msgid "Column %i"
 msgstr "%i 列"
 
-#: src/analysis-tools.c:200
+#: src/analysis-tools.c:201
 #, c-format
 msgid "Bin %i"
 msgstr "Bin %i"
 
-#: src/analysis-tools.c:204
+#: src/analysis-tools.c:205
 #, c-format
 msgid "Area %i"
 msgstr "範囲 %i"
 
-#: src/analysis-tools.c:798 src/analysis-tools.c:801
+#: src/analysis-tools.c:810 src/analysis-tools.c:813
 msgid "Correlations"
 msgstr "相関"
 
-#: src/analysis-tools.c:889 src/analysis-tools.c:892
+#: src/analysis-tools.c:902 src/analysis-tools.c:905
 msgid "Covariances"
 msgstr "共分散"
 
-#: src/analysis-tools.c:970
+#: src/analysis-tools.c:984
 msgid "Summary Statistics"
 msgstr "統計量一覧"
 
@@ -2238,7 +2238,7 @@ msgstr "統計量一覧"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:981
+#: src/analysis-tools.c:995
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -2246,51 +2246,51 @@ msgstr ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 
-#: src/analysis-tools.c:1066
+#: src/analysis-tools.c:1081
 msgid "Confidence Interval for the Mean"
 msgstr "平均の信頼範囲"
 
-#: src/analysis-tools.c:1067
+#: src/analysis-tools.c:1082
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr "%g%% CI for the Mean from/to"
 
-#: src/analysis-tools.c:1103 src/dialogs/descriptive-stats.glade.h:9
+#: src/analysis-tools.c:1119 src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Largest"
 msgstr "K 番目に大きな値"
 
-#: src/analysis-tools.c:1104
+#: src/analysis-tools.c:1120
 #, c-format
 msgid "Largest (%d)"
 msgstr "最大 (%d)"
 
-#: src/analysis-tools.c:1127 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1144 src/dialogs/descriptive-stats.glade.h:11
 msgid "Kth Smallest"
 msgstr "K 番目に小さな値"
 
-#: src/analysis-tools.c:1128
+#: src/analysis-tools.c:1145
 #, c-format
 msgid "Smallest (%d)"
 msgstr "最小 (%d)"
 
-#: src/analysis-tools.c:1252 src/dialogs/cell-format.glade.h:72
+#: src/analysis-tools.c:1266 src/dialogs/cell-format.glade.h:72
 msgid "Sample"
 msgstr "例"
 
-#: src/analysis-tools.c:1348 src/analysis-tools.c:1350
-#: src/analysis-tools.c:1469 src/analysis-tools.c:1471
-#: src/analysis-tools.c:1630 src/analysis-tools.c:1632
-#: src/analysis-tools.c:1760 src/analysis-tools.c:1762
-#: src/analysis-tools.c:1898 src/analysis-tools.c:1900
+#: src/analysis-tools.c:1363 src/analysis-tools.c:1365
+#: src/analysis-tools.c:1482 src/analysis-tools.c:1484
+#: src/analysis-tools.c:1641 src/analysis-tools.c:1643
+#: src/analysis-tools.c:1769 src/analysis-tools.c:1771
+#: src/analysis-tools.c:1905 src/analysis-tools.c:1907
 #, c-format
 msgid "Variable %i"
 msgstr "変数 %i"
 
-#: src/analysis-tools.c:1352
+#: src/analysis-tools.c:1367
 msgid "z-Test"
 msgstr "z検定"
 
-#: src/analysis-tools.c:1355
+#: src/analysis-tools.c:1370
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -2300,12 +2300,12 @@ msgstr ""
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 
-#: src/analysis-tools.c:1485 src/analysis-tools.c:1634
-#: src/analysis-tools.c:1764
+#: src/analysis-tools.c:1498 src/analysis-tools.c:1645
+#: src/analysis-tools.c:1773
 msgid "t-Test"
 msgstr "t 検定"
 
-#: src/analysis-tools.c:1488
+#: src/analysis-tools.c:1501
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -2315,7 +2315,7 @@ msgstr ""
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 
-#: src/analysis-tools.c:1637
+#: src/analysis-tools.c:1648
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -2325,7 +2325,7 @@ msgstr ""
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
 "(T<=t) two-tail/t Critical two-tail"
 
-#: src/analysis-tools.c:1767
+#: src/analysis-tools.c:1776
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -2335,11 +2335,11 @@ msgstr ""
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
 
-#: src/analysis-tools.c:1907
+#: src/analysis-tools.c:1914
 msgid "F-Test"
 msgstr "F検定"
 
-#: src/analysis-tools.c:1913
+#: src/analysis-tools.c:1920
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -2347,24 +2347,24 @@ msgstr ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 
-#: src/analysis-tools.c:2033 src/analysis-tools.c:2091
+#: src/analysis-tools.c:2038 src/analysis-tools.c:2096
 msgid "Random"
 msgstr "乱数"
 
-#: src/analysis-tools.c:2207
+#: src/analysis-tools.c:2212
 msgid "Not implemented yet.\n"
 msgstr "未だ実装されていません。\n"
 
-#: src/analysis-tools.c:2283
+#: src/analysis-tools.c:2289
 msgid "Y Variable"
 msgstr "Y 変数"
 
-#: src/analysis-tools.c:2342 src/dialogs/dialog-analysis-tools.c:4371
-#: src/dialogs/regression.glade.h:8
+#: src/analysis-tools.c:2348 src/dialogs/dialog-analysis-tools.c:4562
+#: src/dialogs/regression.glade.h:9
 msgid "Regression"
 msgstr "回帰"
 
-#: src/analysis-tools.c:2344
+#: src/analysis-tools.c:2350
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -2372,118 +2372,140 @@ msgstr ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 
-#: src/analysis-tools.c:2365
+#: src/analysis-tools.c:2371
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Significance of F"
 
-#: src/analysis-tools.c:2372
+#: src/analysis-tools.c:2378
 #, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 
-#: src/analysis-tools.c:2541
+#: src/analysis-tools.c:2546
 msgid "Moving Averages"
 msgstr "移動平均"
 
-#: src/analysis-tools.c:2619 src/dialogs/dialog-analysis-tools.c:4357
+#: src/analysis-tools.c:2561
+msgid "Standard Error"
+msgstr "標準エラー出力"
+
+#: src/analysis-tools.c:2649 src/dialogs/dialog-analysis-tools.c:4548
 msgid "Exponential Smoothing"
 msgstr "指数のスムーズ化"
 
-#: src/analysis-tools.c:2698
+#: src/analysis-tools.c:2729
 msgid "Ranks"
 msgstr "階数"
 
-#: src/analysis-tools.c:2707
+#: src/analysis-tools.c:2738
 msgid "Point"
 msgstr "点"
 
-#: src/analysis-tools.c:2709
+#: src/analysis-tools.c:2740
 msgid "Rank"
 msgstr "階数"
 
 #. We are ready to create the summary table
-#: src/analysis-tools.c:2794 src/analysis-tools.c:2980
-#: src/analysis-tools.c:3240
+#: src/analysis-tools.c:2828 src/analysis-tools.c:3008
+#: src/analysis-tools.c:3270
 msgid "Anova"
 msgstr "分散解析"
 
-#: src/analysis-tools.c:2796 src/dialogs/dialog-analysis-tools.c:4347
+#: src/analysis-tools.c:2830 src/dialogs/dialog-analysis-tools.c:4538
 msgid "Anova: Single Factor"
 msgstr "分散解析: 一元配置"
 
-#: src/analysis-tools.c:2797 src/analysis-tools.c:3243
+#: src/analysis-tools.c:2831 src/analysis-tools.c:3273
 msgid "SUMMARY"
 msgstr "SUMMARY"
 
-#: src/analysis-tools.c:2798
+#: src/analysis-tools.c:2832
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Groups/Count/Sum/Average/Variance"
 
-#: src/analysis-tools.c:2861
+#: src/analysis-tools.c:2895
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 
-#: src/analysis-tools.c:2866 src/analysis-tools.c:3062
-#: src/analysis-tools.c:3267
+#: src/analysis-tools.c:2900 src/analysis-tools.c:3090
+#: src/analysis-tools.c:3297
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-value/F critical"
 
-#: src/analysis-tools.c:2986
+#: src/analysis-tools.c:3014
 msgid "Anova: Two-Factor Without Replication"
 msgstr "分散解析: 繰り返しのない二元配置"
 
-#: src/analysis-tools.c:2987
+#: src/analysis-tools.c:3015
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SUMMARY/Count/Sum/Average/Variance"
 
-#: src/analysis-tools.c:3056
+#: src/analysis-tools.c:3084
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 
-#: src/analysis-tools.c:3242
+#: src/analysis-tools.c:3272
 msgid "Anova: Two-Factor With Replication"
 msgstr "分散解析: 繰り返しのある二元配置"
 
-#: src/analysis-tools.c:3247 src/analysis-tools.c:3257
-#: src/analysis-tools.c:3265 src/dialogs/dialog-autoformat.c:73
+#: src/analysis-tools.c:3277 src/analysis-tools.c:3287
+#: src/analysis-tools.c:3295 src/dialogs/dialog-autoformat.c:73
 #: src/dialogs/dialog-autoformat.c:77
 msgid "Total"
 msgstr "合計"
 
-#: src/analysis-tools.c:3249
+#: src/analysis-tools.c:3279
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Count/Sum/Average/Variance"
 
-#: src/analysis-tools.c:3259
+#: src/analysis-tools.c:3289
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 
-#: src/analysis-tools.c:3649
+#: src/analysis-tools.c:3757
+#, c-format
+msgid "<%s"
+msgstr "<%s"
+
+#: src/analysis-tools.c:3761
+msgid "Too Small"
+msgstr "小さすぎ"
+
+#: src/analysis-tools.c:3778
 msgid "More"
 msgstr "以上"
 
+#: src/analysis-tools.c:3786
+#, c-format
+msgid ">%s"
+msgstr ">%s"
+
+#: src/analysis-tools.c:3790
+msgid "Too Large"
+msgstr "大きすぎ"
+
 #. { N_("Fourier Analysis"),
 #. dialog_fourier_tool },
-#: src/analysis-tools.c:3683 src/dialogs/dialog-analysis-tools.c:4363
-#: src/dialogs/histogram.glade.h:5
+#: src/analysis-tools.c:3831 src/dialogs/dialog-analysis-tools.c:4554
+#: src/dialogs/histogram.glade.h:7
 msgid "Histogram"
 msgstr "ヒストグラム"
 
-#: src/analysis-tools.c:3688
+#: src/analysis-tools.c:3836
 msgid "Bin"
-msgstr "Bin"
+msgstr "貯蓄"
 
-#: src/analysis-tools.c:3713
+#: src/analysis-tools.c:3861
 msgid "Frequency"
 msgstr "頻度"
 
-#: src/analysis-tools.c:3715 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3863 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3718
+#: src/analysis-tools.c:3866
 #, no-c-format
 msgid "Cumulative %"
 msgstr "進捗 %"
@@ -3080,97 +3102,108 @@ msgstr "0.05"
 msgid "ANOVA - Single Factor"
 msgstr "分散解析 - 一次元配置"
 
-#: src/dialogs/anova-one.glade.h:3 src/dialogs/correlation.glade.h:2
-#: src/dialogs/covariance.glade.h:2 src/dialogs/descriptive-stats.glade.h:6
-#: src/dialogs/fourier-analysis.glade.h:2 src/dialogs/histogram.glade.h:4
-#: src/dialogs/moving-averages.glade.h:2 src/dialogs/rank.glade.h:1
-#: src/dialogs/regression.glade.h:4 src/dialogs/sampling.glade.h:2
+#: src/dialogs/anova-one.glade.h:3 src/dialogs/anova-two.glade.h:4
+#: src/dialogs/correlation.glade.h:1 src/dialogs/covariance.glade.h:1
+#: src/dialogs/descriptive-stats.glade.h:4
+#: src/dialogs/fourier-analysis.glade.h:1 src/dialogs/histogram.glade.h:1
+#: src/dialogs/mean-tests.glade.h:3 src/dialogs/moving-averages.glade.h:2
+#: src/dialogs/random-generation.glade.h:2 src/dialogs/rank.glade.h:1
+#: src/dialogs/regression.glade.h:2 src/dialogs/sampling.glade.h:2
+#: src/dialogs/variance-tests.glade.h:2
+msgid "A_utofit Columns"
+msgstr "列の自動調整(_U)"
+
+#: src/dialogs/anova-one.glade.h:4 src/dialogs/correlation.glade.h:3
+#: src/dialogs/covariance.glade.h:3 src/dialogs/descriptive-stats.glade.h:7
+#: src/dialogs/fourier-analysis.glade.h:3 src/dialogs/histogram.glade.h:6
+#: src/dialogs/moving-averages.glade.h:3 src/dialogs/rank.glade.h:3
+#: src/dialogs/regression.glade.h:5 src/dialogs/sampling.glade.h:3
 msgid "Grouped By:"
 msgstr "グループ化"
 
-#: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:4
-#: src/dialogs/correlation.glade.h:3 src/dialogs/covariance.glade.h:3
-#: src/dialogs/descriptive-stats.glade.h:7
-#: src/dialogs/fourier-analysis.glade.h:4 src/dialogs/histogram.glade.h:6
-#: src/dialogs/mean-tests.glade.h:5 src/dialogs/moving-averages.glade.h:4
-#: src/dialogs/rank.glade.h:2 src/dialogs/regression.glade.h:5
-#: src/dialogs/sampling.glade.h:3 src/dialogs/variance-tests.glade.h:2
+#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:5
+#: src/dialogs/correlation.glade.h:4 src/dialogs/covariance.glade.h:4
+#: src/dialogs/descriptive-stats.glade.h:8
+#: src/dialogs/fourier-analysis.glade.h:5 src/dialogs/mean-tests.glade.h:6
+#: src/dialogs/moving-averages.glade.h:5 src/dialogs/rank.glade.h:4
+#: src/dialogs/regression.glade.h:6 src/dialogs/sampling.glade.h:4
+#: src/dialogs/variance-tests.glade.h:3
 msgid "Input"
 msgstr "入力"
 
-#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:5
-#: src/dialogs/correlation.glade.h:4 src/dialogs/covariance.glade.h:4
-#: src/dialogs/descriptive-stats.glade.h:11
-#: src/dialogs/fourier-analysis.glade.h:5 src/dialogs/histogram.glade.h:8
-#: src/dialogs/mean-tests.glade.h:6 src/dialogs/moving-averages.glade.h:6
-#: src/dialogs/random-generation.glade.h:2 src/dialogs/rank.glade.h:3
-#: src/dialogs/regression.glade.h:6 src/dialogs/sampling.glade.h:5
-#: src/dialogs/variance-tests.glade.h:3
+#: src/dialogs/anova-one.glade.h:6 src/dialogs/anova-two.glade.h:6
+#: src/dialogs/correlation.glade.h:5 src/dialogs/covariance.glade.h:5
+#: src/dialogs/descriptive-stats.glade.h:12
+#: src/dialogs/fourier-analysis.glade.h:6 src/dialogs/histogram.glade.h:12
+#: src/dialogs/mean-tests.glade.h:7 src/dialogs/moving-averages.glade.h:7
+#: src/dialogs/random-generation.glade.h:3 src/dialogs/rank.glade.h:5
+#: src/dialogs/regression.glade.h:7 src/dialogs/sampling.glade.h:6
+#: src/dialogs/variance-tests.glade.h:4
 msgid "N_ew Workbook"
 msgstr "新規ワークブック(_E)"
 
-#: src/dialogs/anova-one.glade.h:6 src/dialogs/anova-two.glade.h:7
-#: src/dialogs/correlation.glade.h:5 src/dialogs/covariance.glade.h:5
-#: src/dialogs/descriptive-stats.glade.h:12
-#: src/dialogs/fourier-analysis.glade.h:6 src/dialogs/histogram.glade.h:9
-#: src/dialogs/mean-tests.glade.h:7 src/dialogs/moving-averages.glade.h:7
-#: src/dialogs/random-generation.glade.h:4 src/dialogs/rank.glade.h:4
-#: src/dialogs/regression.glade.h:7 src/dialogs/sampling.glade.h:7
-#: src/dialogs/variance-tests.glade.h:4
+#: src/dialogs/anova-one.glade.h:7 src/dialogs/anova-two.glade.h:8
+#: src/dialogs/correlation.glade.h:6 src/dialogs/covariance.glade.h:6
+#: src/dialogs/descriptive-stats.glade.h:13
+#: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/mean-tests.glade.h:8
+#: src/dialogs/moving-averages.glade.h:8
+#: src/dialogs/random-generation.glade.h:5 src/dialogs/rank.glade.h:6
+#: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:8
+#: src/dialogs/variance-tests.glade.h:5
 msgid "Output"
 msgstr "出力"
 
-#: src/dialogs/anova-one.glade.h:7 src/dialogs/anova-two.glade.h:8
+#: src/dialogs/anova-one.glade.h:8 src/dialogs/anova-two.glade.h:9
 msgid "_Alpha = "
 msgstr "α(_A) = "
 
-#: src/dialogs/anova-one.glade.h:8 src/dialogs/correlation.glade.h:6
-#: src/dialogs/covariance.glade.h:6 src/dialogs/descriptive-stats.glade.h:14
-#: src/dialogs/histogram.glade.h:11 src/dialogs/rank.glade.h:6
-#: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:12
+#: src/dialogs/anova-one.glade.h:9 src/dialogs/correlation.glade.h:7
+#: src/dialogs/covariance.glade.h:7 src/dialogs/descriptive-stats.glade.h:15
+#: src/dialogs/histogram.glade.h:18 src/dialogs/rank.glade.h:9
+#: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:13
 msgid "_Areas"
 msgstr "範囲(_A)"
-
-#: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:9
-#: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
-#: src/dialogs/descriptive-stats.glade.h:16
-#: src/dialogs/dialog-analysis-tools.c:879
-#: src/dialogs/dialog-analysis-tools.c:3855
-#: src/dialogs/dialog-analysis-tools.c:3931
-#: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:14
-#: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:8
-msgid "_Input Range:"
-msgstr "入力範囲(_I):"
 
 #: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:10
 #: src/dialogs/correlation.glade.h:9 src/dialogs/covariance.glade.h:9
 #: src/dialogs/descriptive-stats.glade.h:17
-#: src/dialogs/fourier-analysis.glade.h:9 src/dialogs/mean-tests.glade.h:21
-#: src/dialogs/moving-averages.glade.h:10 src/dialogs/rank.glade.h:9
-#: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:14
-#: src/dialogs/variance-tests.glade.h:10
-msgid "_Labels"
-msgstr "ラベル(_L)"
+#: src/dialogs/dialog-analysis-tools.c:920
+#: src/dialogs/dialog-analysis-tools.c:4014
+#: src/dialogs/dialog-analysis-tools.c:4122
+#: src/dialogs/fourier-analysis.glade.h:9
+#: src/dialogs/moving-averages.glade.h:10 src/dialogs/rank.glade.h:11
+msgid "_Input Range:"
+msgstr "入力範囲(_I):"
 
 #: src/dialogs/anova-one.glade.h:12 src/dialogs/anova-two.glade.h:11
 #: src/dialogs/correlation.glade.h:10 src/dialogs/covariance.glade.h:10
 #: src/dialogs/descriptive-stats.glade.h:18
-#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:15
-#: src/dialogs/mean-tests.glade.h:22 src/dialogs/moving-averages.glade.h:11
-#: src/dialogs/random-generation.glade.h:9 src/dialogs/rank.glade.h:10
+#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/mean-tests.glade.h:22
+#: src/dialogs/moving-averages.glade.h:11 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:14 src/dialogs/sampling.glade.h:15
 #: src/dialogs/variance-tests.glade.h:11
-msgid "_New Sheet"
-msgstr "新規シート(_E)"
+msgid "_Labels"
+msgstr "ラベル(_L)"
 
 #: src/dialogs/anova-one.glade.h:13 src/dialogs/anova-two.glade.h:12
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:19
-#: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:16
+#: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:24
 #: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:12
-#: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:11
+#: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:13
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:16
 #: src/dialogs/variance-tests.glade.h:12
+msgid "_New Sheet"
+msgstr "新規シート(_E)"
+
+#: src/dialogs/anova-one.glade.h:14 src/dialogs/anova-two.glade.h:13
+#: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
+#: src/dialogs/descriptive-stats.glade.h:20
+#: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:26
+#: src/dialogs/mean-tests.glade.h:24 src/dialogs/moving-averages.glade.h:13
+#: src/dialogs/random-generation.glade.h:11 src/dialogs/rank.glade.h:14
+#: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:17
+#: src/dialogs/variance-tests.glade.h:13
 msgid "_Output Range:"
 msgstr "出力範囲(_O):"
 
@@ -3183,7 +3216,7 @@ msgstr "1"
 msgid "ANOVA - Two-Factor"
 msgstr "分散解析 - 二次元配置"
 
-#: src/dialogs/anova-two.glade.h:6
+#: src/dialogs/anova-two.glade.h:7
 msgid "Number of Rows _Per Sample:"
 msgstr "標本毎の行数(_P):"
 
@@ -4028,11 +4061,11 @@ msgstr "関数(_F) :"
 msgid "_Put :"
 msgstr "付ける(_P) :"
 
-#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4351
+#: src/dialogs/correlation.glade.h:2 src/dialogs/dialog-analysis-tools.c:4542
 msgid "Correlation"
 msgstr "相関"
 
-#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4353
+#: src/dialogs/covariance.glade.h:2 src/dialogs/dialog-analysis-tools.c:4544
 msgid "Covariance"
 msgstr "共分散"
 
@@ -4069,20 +4102,20 @@ msgstr "(1 - α) = "
 msgid ".95"
 msgstr ".95"
 
-#: src/dialogs/descriptive-stats.glade.h:4
+#: src/dialogs/descriptive-stats.glade.h:5
 msgid "Confidence Interval for the _Mean"
 msgstr "平均の信頼範囲(_M)"
 
-#: src/dialogs/descriptive-stats.glade.h:5
-#: src/dialogs/dialog-analysis-tools.c:4355
+#: src/dialogs/descriptive-stats.glade.h:6
+#: src/dialogs/dialog-analysis-tools.c:4546
 msgid "Descriptive Statistics"
 msgstr "記述統計"
 
-#: src/dialogs/descriptive-stats.glade.h:8
+#: src/dialogs/descriptive-stats.glade.h:9
 msgid "K = "
 msgstr "K = "
 
-#: src/dialogs/descriptive-stats.glade.h:13
+#: src/dialogs/descriptive-stats.glade.h:14
 msgid "S_ummary Statistics"
 msgstr "統計量一覧(_S)"
 
@@ -4253,55 +4286,55 @@ msgid ""
 "`Criteria Range:'"
 msgstr "'リスト範囲'と'基準範囲'に同じ列番号を指定してください"
 
-#: src/dialogs/dialog-analysis-tools.c:1085
-#: src/dialogs/dialog-analysis-tools.c:1200
+#: src/dialogs/dialog-analysis-tools.c:1126
+#: src/dialogs/dialog-analysis-tools.c:1241
 msgid "The selected input rows must have equal size!"
 msgstr "選択された入力列を同じサイズにして下さい！"
 
-#: src/dialogs/dialog-analysis-tools.c:1089
-#: src/dialogs/dialog-analysis-tools.c:1204
+#: src/dialogs/dialog-analysis-tools.c:1130
+#: src/dialogs/dialog-analysis-tools.c:1245
 msgid "The selected input columns must have equal size!"
 msgstr "選択された入力行を同じサイズにして下さい！"
 
-#: src/dialogs/dialog-analysis-tools.c:1093
-#: src/dialogs/dialog-analysis-tools.c:1208
+#: src/dialogs/dialog-analysis-tools.c:1134
+#: src/dialogs/dialog-analysis-tools.c:1249
 msgid "The selected input areas must have equal size!"
 msgstr "選択された入力範囲を同じサイズにして下さい！"
 
-#: src/dialogs/dialog-analysis-tools.c:1096
-#: src/dialogs/dialog-analysis-tools.c:1211
-#: src/dialogs/dialog-analysis-tools.c:1338
-#: src/dialogs/dialog-analysis-tools.c:1538
-#: src/dialogs/dialog-analysis-tools.c:1708
-#: src/dialogs/dialog-analysis-tools.c:2116
-#: src/dialogs/dialog-analysis-tools.c:2341
-#: src/dialogs/dialog-analysis-tools.c:2863
-#: src/dialogs/dialog-analysis-tools.c:3351
-#: src/dialogs/dialog-analysis-tools.c:3525
-#: src/dialogs/dialog-analysis-tools.c:3805
-#: src/dialogs/dialog-analysis-tools.c:3998
-#: src/dialogs/dialog-analysis-tools.c:4198
+#: src/dialogs/dialog-analysis-tools.c:1137
+#: src/dialogs/dialog-analysis-tools.c:1252
+#: src/dialogs/dialog-analysis-tools.c:1379
+#: src/dialogs/dialog-analysis-tools.c:1583
+#: src/dialogs/dialog-analysis-tools.c:1753
+#: src/dialogs/dialog-analysis-tools.c:2161
+#: src/dialogs/dialog-analysis-tools.c:2386
+#: src/dialogs/dialog-analysis-tools.c:2908
+#: src/dialogs/dialog-analysis-tools.c:3396
+#: src/dialogs/dialog-analysis-tools.c:3570
+#: src/dialogs/dialog-analysis-tools.c:3915
+#: src/dialogs/dialog-analysis-tools.c:4189
+#: src/dialogs/dialog-analysis-tools.c:4389
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "予期しないエラーが発生しました: %d"
 
-#: src/dialogs/dialog-analysis-tools.c:1142
+#: src/dialogs/dialog-analysis-tools.c:1183
 msgid "Could not create the Correlation Tool dialog."
 msgstr "相関関係ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1257
+#: src/dialogs/dialog-analysis-tools.c:1298
 msgid "Could not create the Covariance Tool dialog."
 msgstr "共分散ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1485
+#: src/dialogs/dialog-analysis-tools.c:1526
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "記述統計ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1584
+#: src/dialogs/dialog-analysis-tools.c:1629
 msgid "Could not create the Rank and  Percentile Tools dialog."
 msgstr "ランクと百分率ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1677
+#: src/dialogs/dialog-analysis-tools.c:1722
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -4309,7 +4342,7 @@ msgstr ""
 "変数 1 に対する\n"
 "正しい人口変化を入力して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:1684
+#: src/dialogs/dialog-analysis-tools.c:1729
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -4317,120 +4350,120 @@ msgstr ""
 "変数 2 に対する\n"
 "正しい人口変化を入力して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:1704
+#: src/dialogs/dialog-analysis-tools.c:1749
 msgid "The two input ranges must have the same size."
 msgstr "二つの入力範囲を同じサイズにして下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:1988
+#: src/dialogs/dialog-analysis-tools.c:2033
 msgid "Var_iable 1 Range:"
 msgstr "変数 1 の範囲(_I):"
 
-#: src/dialogs/dialog-analysis-tools.c:1989
+#: src/dialogs/dialog-analysis-tools.c:2034
 msgid "_Variable 2 Range:"
 msgstr "変数 2 の範囲(_V):"
 
-#: src/dialogs/dialog-analysis-tools.c:1993
+#: src/dialogs/dialog-analysis-tools.c:2038
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "中間試験ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2109
-#: src/dialogs/dialog-analysis-tools.c:2113
+#: src/dialogs/dialog-analysis-tools.c:2154
+#: src/dialogs/dialog-analysis-tools.c:2158
 msgid "Each variable should have at least 2 observations!"
 msgstr "各変数は最低でも二つの記録が必要です！"
 
-#: src/dialogs/dialog-analysis-tools.c:2230
+#: src/dialogs/dialog-analysis-tools.c:2275
 msgid "Var_iable 1 Range"
 msgstr "変数 1 の範囲(_I)"
 
-#: src/dialogs/dialog-analysis-tools.c:2231
+#: src/dialogs/dialog-analysis-tools.c:2276
 msgid "_Variable 2 Range"
 msgstr "変数 2 の範囲(_V)"
 
-#: src/dialogs/dialog-analysis-tools.c:2235
+#: src/dialogs/dialog-analysis-tools.c:2280
 msgid "Could not create the FTest Tool dialog."
 msgstr "期末試験ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2490
+#: src/dialogs/dialog-analysis-tools.c:2535
 msgid "Could not create the Sampling Tool dialog."
 msgstr "サンプリングツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2527
+#: src/dialogs/dialog-analysis-tools.c:2572
 msgid "Discrete"
 msgstr "離散"
 
-#: src/dialogs/dialog-analysis-tools.c:2527
+#: src/dialogs/dialog-analysis-tools.c:2572
 msgid "_Value And Probability Input Range:"
 msgstr "値と確率の入力範囲(_V):"
 
-#: src/dialogs/dialog-analysis-tools.c:2529
+#: src/dialogs/dialog-analysis-tools.c:2574
 #: src/dialogs/search-replace.glade.h:24
 #: src/widgets/widget-font-selector.c:113
 msgid "Normal"
 msgstr "標準"
 
-#: src/dialogs/dialog-analysis-tools.c:2529
+#: src/dialogs/dialog-analysis-tools.c:2574
 msgid "_Mean:"
 msgstr "平均(_M):"
 
-#: src/dialogs/dialog-analysis-tools.c:2529
+#: src/dialogs/dialog-analysis-tools.c:2574
 msgid "_Standard Deviation:"
 msgstr "標準偏差(_S):"
 
-#: src/dialogs/dialog-analysis-tools.c:2531
+#: src/dialogs/dialog-analysis-tools.c:2576
 msgid "Poisson"
 msgstr "ポアソン"
 
-#: src/dialogs/dialog-analysis-tools.c:2531
+#: src/dialogs/dialog-analysis-tools.c:2576
 msgid "_Lambda:"
 msgstr "ラムダ(_L):"
 
-#: src/dialogs/dialog-analysis-tools.c:2533
+#: src/dialogs/dialog-analysis-tools.c:2578
 msgid "Exponential"
 msgstr "指数"
 
-#: src/dialogs/dialog-analysis-tools.c:2533
+#: src/dialogs/dialog-analysis-tools.c:2578
 msgid "_b Value:"
 msgstr "_b 値(_B):"
 
-#: src/dialogs/dialog-analysis-tools.c:2535
+#: src/dialogs/dialog-analysis-tools.c:2580
 msgid "Binomial"
 msgstr "二項"
 
-#: src/dialogs/dialog-analysis-tools.c:2535
-#: src/dialogs/dialog-analysis-tools.c:2537
-#: src/dialogs/dialog-analysis-tools.c:2540
+#: src/dialogs/dialog-analysis-tools.c:2580
+#: src/dialogs/dialog-analysis-tools.c:2582
+#: src/dialogs/dialog-analysis-tools.c:2585
 msgid "_p Value:"
 msgstr "_p 値(_P):"
 
-#: src/dialogs/dialog-analysis-tools.c:2535
+#: src/dialogs/dialog-analysis-tools.c:2580
 msgid "N_umber of Trials:"
 msgstr "試行回数(_U):"
 
-#: src/dialogs/dialog-analysis-tools.c:2537
+#: src/dialogs/dialog-analysis-tools.c:2582
 msgid "Negative Binomial"
 msgstr "負の二項"
 
-#: src/dialogs/dialog-analysis-tools.c:2538
+#: src/dialogs/dialog-analysis-tools.c:2583
 msgid "N_umber of Failures"
 msgstr "失敗回数(_U)"
 
-#: src/dialogs/dialog-analysis-tools.c:2540
+#: src/dialogs/dialog-analysis-tools.c:2585
 msgid "Bernoulli"
 msgstr "ベルヌーイ"
 
-#: src/dialogs/dialog-analysis-tools.c:2542
+#: src/dialogs/dialog-analysis-tools.c:2587
 msgid "Uniform"
 msgstr "一様"
 
-#: src/dialogs/dialog-analysis-tools.c:2542
+#: src/dialogs/dialog-analysis-tools.c:2587
 msgid "_Lower Bound:"
 msgstr "下界(_L):"
 
-#: src/dialogs/dialog-analysis-tools.c:2542
+#: src/dialogs/dialog-analysis-tools.c:2587
 msgid "_Upper Bound:"
 msgstr "上界(_U):"
 
-#: src/dialogs/dialog-analysis-tools.c:2846
+#: src/dialogs/dialog-analysis-tools.c:2891
 msgid ""
 "The probability input range contains a non-numeric value.\n"
 "All probabilities must be non-negative numbers."
@@ -4438,11 +4471,11 @@ msgstr ""
 "確率範囲に入力された値は数値ではないようです。\n"
 "確率は全て正の数値にして下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2851
+#: src/dialogs/dialog-analysis-tools.c:2896
 msgid "The probabilities may not all be 0!"
 msgstr "確率は全て 0 かもしれません！"
 
-#: src/dialogs/dialog-analysis-tools.c:2855
+#: src/dialogs/dialog-analysis-tools.c:2900
 msgid ""
 "The probability input range contains a negative number.\n"
 "All probabilities must be non-negative!"
@@ -4450,15 +4483,15 @@ msgstr ""
 "確率範囲に入力された数値は負の数です。\n"
 "確率は全て正の数にして下さい！"
 
-#: src/dialogs/dialog-analysis-tools.c:2860
+#: src/dialogs/dialog-analysis-tools.c:2905
 msgid "None of the values in the value range may be empty!"
 msgstr "範囲に入力された値が全て空かもしれません！"
 
-#: src/dialogs/dialog-analysis-tools.c:3026
+#: src/dialogs/dialog-analysis-tools.c:3071
 msgid "Could not create the Random Tool dialog."
 msgstr "乱数ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:3088
+#: src/dialogs/dialog-analysis-tools.c:3133
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -4466,7 +4499,7 @@ msgstr ""
 "この回帰を求めるにはデータ点が少なすぎます。\n"
 "少なくとも自由変数と同じだけのデータ点が必要です。"
 
-#: src/dialogs/dialog-analysis-tools.c:3094
+#: src/dialogs/dialog-analysis-tools.c:3139
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
@@ -4475,40 +4508,40 @@ msgstr ""
 "二つ以上の独立変数が線型依存であるため、回帰が求められません。\n"
 "これらの変数のいずれかを削除してからもう一度回帰を試して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:3101
+#: src/dialogs/dialog-analysis-tools.c:3146
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "回帰の各変数のエントリ数と等しくなければなりません。"
 
-#: src/dialogs/dialog-analysis-tools.c:3201
+#: src/dialogs/dialog-analysis-tools.c:3246
 msgid "_X Variables:"
 msgstr "X 変数(_X):"
 
-#: src/dialogs/dialog-analysis-tools.c:3225
+#: src/dialogs/dialog-analysis-tools.c:3270
 msgid "_Y Variable:"
 msgstr "Y 変数(_Y):"
 
-#: src/dialogs/dialog-analysis-tools.c:3292
+#: src/dialogs/dialog-analysis-tools.c:3337
 msgid "Could not create the Regression Tool dialog."
 msgstr "Regression ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:3464
+#: src/dialogs/dialog-analysis-tools.c:3509
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "指数のスムーズ化ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:3635
+#: src/dialogs/dialog-analysis-tools.c:3680
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "平均移動ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:3685
+#: src/dialogs/dialog-analysis-tools.c:3730
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "フーリエ分析はまだ実装されていません。"
 
-#: src/dialogs/dialog-analysis-tools.c:3728
+#: src/dialogs/dialog-analysis-tools.c:3773
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "フーリエ分析ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:3801
+#: src/dialogs/dialog-analysis-tools.c:3911
 msgid ""
 "Each row of the bin range should contain one numeric value\n"
 "(ignoring the label if applicable)."
@@ -4516,34 +4549,34 @@ msgstr ""
 "二次元範囲の各行には一つの数値\n"
 "(適用可能ならばラベルは無視して下さい) が必要です。"
 
-#: src/dialogs/dialog-analysis-tools.c:3932 src/dialogs/histogram.glade.h:1
+#: src/dialogs/dialog-analysis-tools.c:4123 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "二次元範囲(_R):"
 
-#: src/dialogs/dialog-analysis-tools.c:3936
+#: src/dialogs/dialog-analysis-tools.c:4127
 msgid "Could not create the Histogram Tool dialog."
 msgstr "ヒストグラムツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:4114
+#: src/dialogs/dialog-analysis-tools.c:4305
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "分散解析 (一次元配置) ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:4178
+#: src/dialogs/dialog-analysis-tools.c:4369
 msgid "Each sample must contain the same number of rows."
 msgstr "各々の標本は同じ行数でなければなりません。"
 
-#: src/dialogs/dialog-analysis-tools.c:4183
+#: src/dialogs/dialog-analysis-tools.c:4374
 msgid "Given input range contains non-numeric data."
 msgstr "指定された入力範囲に数値でない値が入っています。"
 
-#: src/dialogs/dialog-analysis-tools.c:4188
+#: src/dialogs/dialog-analysis-tools.c:4379
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 "入力範囲は少なくともデータとラベルの 2 つの列を含まなければなりません。"
 
-#: src/dialogs/dialog-analysis-tools.c:4194
+#: src/dialogs/dialog-analysis-tools.c:4385
 msgid ""
 "One of the factor combinations does not contain\n"
 "any observations!"
@@ -4551,49 +4584,49 @@ msgstr ""
 "配置の組み合わせの一つに\n"
 "何も記録がありません！"
 
-#: src/dialogs/dialog-analysis-tools.c:4318
+#: src/dialogs/dialog-analysis-tools.c:4509
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "分散解析 (二次元配置) ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:4349
+#: src/dialogs/dialog-analysis-tools.c:4540
 msgid "Anova: Two-Factor With Or Without Replication"
 msgstr "分散解析: 繰り返しのない/ある二元配置"
 
-#: src/dialogs/dialog-analysis-tools.c:4359
+#: src/dialogs/dialog-analysis-tools.c:4550
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F 検定: 2 標本を使った分散の検定"
 
-#: src/dialogs/dialog-analysis-tools.c:4365
-#: src/dialogs/moving-averages.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:4556
+#: src/dialogs/moving-averages.glade.h:6
 msgid "Moving Average"
 msgstr "移動平均"
 
-#: src/dialogs/dialog-analysis-tools.c:4367
-#: src/dialogs/random-generation.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:4558
+#: src/dialogs/random-generation.glade.h:6
 msgid "Random Number Generation"
 msgstr "乱数生成"
 
-#: src/dialogs/dialog-analysis-tools.c:4369 src/dialogs/rank.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:4560 src/dialogs/rank.glade.h:7
 msgid "Rank and Percentile"
 msgstr "階数と百分位数"
 
-#: src/dialogs/dialog-analysis-tools.c:4373 src/dialogs/sampling.glade.h:9
+#: src/dialogs/dialog-analysis-tools.c:4564 src/dialogs/sampling.glade.h:10
 msgid "Sampling"
 msgstr "サンプリング"
 
-#: src/dialogs/dialog-analysis-tools.c:4375
+#: src/dialogs/dialog-analysis-tools.c:4566
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t 検定: 2 標本による平均の検定"
 
-#: src/dialogs/dialog-analysis-tools.c:4377
+#: src/dialogs/dialog-analysis-tools.c:4568
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t 検定: 等分散を仮定した 2 標本による検定"
 
-#: src/dialogs/dialog-analysis-tools.c:4379
+#: src/dialogs/dialog-analysis-tools.c:4570
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t 検定: 分散が等しくないと仮定した 2 標本による検定"
 
-#: src/dialogs/dialog-analysis-tools.c:4381
+#: src/dialogs/dialog-analysis-tools.c:4572
 msgid "z-Test: Two Sample for Means"
 msgstr "z 検定: 2 標本による平均の検定"
 
@@ -5119,7 +5152,7 @@ msgstr "他の値"
 msgid "Comment"
 msgstr "注釈"
 
-#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:376
+#: src/dialogs/dialog-search-replace.c:141 src/dialogs/dialog-search.c:368
 msgid "You must select some cell types to search."
 msgstr "検索するセルの種類を選択する必要があります。"
 
@@ -5708,11 +5741,11 @@ msgstr "サイズ:"
 msgid "Formula Guru"
 msgstr "数式の神様"
 
-#: src/dialogs/fourier-analysis.glade.h:1
+#: src/dialogs/fourier-analysis.glade.h:2
 msgid "Fourier Analysis"
 msgstr "フーリエ解析"
 
-#: src/dialogs/fourier-analysis.glade.h:3
+#: src/dialogs/fourier-analysis.glade.h:4
 msgid "I_nverse"
 msgstr "逆関数(_N)"
 
@@ -5809,28 +5842,72 @@ msgid "Right section:"
 msgstr "右側:"
 
 #: src/dialogs/histogram.glade.h:2
+msgid "Bin _Labels"
+msgstr "貯蓄ラベル(_L)"
+
+#: src/dialogs/histogram.glade.h:4
 msgid "C_umulative Percentages"
 msgstr "パーセンテージの累積(_U)"
 
-#: src/dialogs/histogram.glade.h:3
+#: src/dialogs/histogram.glade.h:5
 msgid "Chart Output"
 msgstr "グラフの出力"
 
-#: src/dialogs/histogram.glade.h:7
+#: src/dialogs/histogram.glade.h:8
 msgid "Input _Labels"
 msgstr "ラベルの入力(_L)"
 
+#: src/dialogs/histogram.glade.h:9
+msgid "Input _Range:"
+msgstr "入力範囲(_R):"
+
 #: src/dialogs/histogram.glade.h:10
+msgid "M_in:"
+msgstr "最小(_I)"
+
+#: src/dialogs/histogram.glade.h:11
+msgid "Ma_x:"
+msgstr "最大(_X):"
+
+#: src/dialogs/histogram.glade.h:13
+msgid "Out_put"
+msgstr "出力(_P)"
+
+#: src/dialogs/histogram.glade.h:14
+msgid "Pareto (_Sorted)"
+msgstr "パレート(ソート済み)(_S)"
+
+#: src/dialogs/histogram.glade.h:15
 msgid "Per_centages"
 msgstr "パーセント(_C)"
 
-#: src/dialogs/histogram.glade.h:12
-msgid "_Bin Labels"
-msgstr "二次元範囲ラベル(_B)"
+#: src/dialogs/histogram.glade.h:16
+msgid "Pre_determined Bins"
+msgstr "貯蓄の見積もり(_D)"
 
 #: src/dialogs/histogram.glade.h:17
-msgid "_Pareto (Sorted)"
-msgstr "パレート(ソート済み)(_P)"
+msgid "Ro_ws"
+msgstr "行(_W)"
+
+#: src/dialogs/histogram.glade.h:19
+msgid "_Bins"
+msgstr "貯蓄(_B)"
+
+#: src/dialogs/histogram.glade.h:20
+msgid "_Calculated Bins"
+msgstr "貯蓄の計算(_C)"
+
+#: src/dialogs/histogram.glade.h:22
+msgid "_Input"
+msgstr "入力(_I)"
+
+#: src/dialogs/histogram.glade.h:23
+msgid "_N:"
+msgstr "N(_N):"
+
+#: src/dialogs/histogram.glade.h:25
+msgid "_Options"
+msgstr "オプション(_O)"
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _column(s)"
@@ -5852,71 +5929,71 @@ msgstr "セルを下に移動()D)"
 msgid "_Shift cells right"
 msgstr "セルを右に移動(_S)"
 
-#: src/dialogs/mean-tests.glade.h:3
+#: src/dialogs/mean-tests.glade.h:4
 msgid "E_qual"
 msgstr "等号(_Q)"
 
-#: src/dialogs/mean-tests.glade.h:4
+#: src/dialogs/mean-tests.glade.h:5
 msgid "H_ypothesized Mean Difference:"
 msgstr "仮説平均差分(_H):"
 
-#: src/dialogs/mean-tests.glade.h:8
+#: src/dialogs/mean-tests.glade.h:9
 msgid "Population Variances are:"
 msgstr "人口の変化:"
 
-#: src/dialogs/mean-tests.glade.h:9 src/dialogs/variance-tests.glade.h:5
+#: src/dialogs/mean-tests.glade.h:10 src/dialogs/variance-tests.glade.h:6
 msgid "Test"
 msgstr "試験"
 
-#: src/dialogs/mean-tests.glade.h:10
+#: src/dialogs/mean-tests.glade.h:11
 msgid "Testing the Difference of 2 Means"
 msgstr "二つの意味の違いをテストします"
 
-#: src/dialogs/mean-tests.glade.h:11
+#: src/dialogs/mean-tests.glade.h:12
 msgid "Unkno_wn"
 msgstr "不明(_W)"
 
-#: src/dialogs/mean-tests.glade.h:12
+#: src/dialogs/mean-tests.glade.h:13
 msgid "Unknown Pop. Var. are:"
 msgstr "不明な分散の相違:"
 
-#: src/dialogs/mean-tests.glade.h:13
+#: src/dialogs/mean-tests.glade.h:14
 msgid "Unpai_red"
 msgstr "非対(_R)"
 
-#: src/dialogs/mean-tests.glade.h:14
+#: src/dialogs/mean-tests.glade.h:15
 msgid "Variable 1 Pop. Variance:"
 msgstr "変数 1 の分散の相違:"
 
-#: src/dialogs/mean-tests.glade.h:15 src/dialogs/variance-tests.glade.h:7
+#: src/dialogs/mean-tests.glade.h:16 src/dialogs/variance-tests.glade.h:8
 msgid "Variable 1 Range:"
 msgstr "変数 1 の範囲:"
 
-#: src/dialogs/mean-tests.glade.h:16
+#: src/dialogs/mean-tests.glade.h:17
 msgid "Variable 2 Pop. Variance:"
 msgstr "変数 2の分散の相違:"
 
-#: src/dialogs/mean-tests.glade.h:17 src/dialogs/variance-tests.glade.h:8
+#: src/dialogs/mean-tests.glade.h:18 src/dialogs/variance-tests.glade.h:9
 msgid "Variable 2 Range:"
 msgstr "変数 2 の範囲:"
 
-#: src/dialogs/mean-tests.glade.h:18
+#: src/dialogs/mean-tests.glade.h:19
 msgid "Variables are:"
 msgstr "変数 2 :"
 
-#: src/dialogs/mean-tests.glade.h:19 src/dialogs/variance-tests.glade.h:9
+#: src/dialogs/mean-tests.glade.h:20 src/dialogs/variance-tests.glade.h:10
 msgid "_Alpha ="
 msgstr "α(_A) = "
 
-#: src/dialogs/mean-tests.glade.h:20
+#: src/dialogs/mean-tests.glade.h:21
 msgid "_Known"
 msgstr "既知(_K)"
 
-#: src/dialogs/mean-tests.glade.h:24
+#: src/dialogs/mean-tests.glade.h:25
 msgid "_Paired"
 msgstr "対(_P)"
 
-#: src/dialogs/mean-tests.glade.h:25
+#: src/dialogs/mean-tests.glade.h:26
 msgid "_Unequal"
 msgstr "不等号(_U)"
 
@@ -5924,11 +6001,11 @@ msgstr "不等号(_U)"
 msgid "3"
 msgstr "3"
 
-#: src/dialogs/moving-averages.glade.h:3
+#: src/dialogs/moving-averages.glade.h:4
 msgid "In_terval:"
 msgstr "間隔(_T):"
 
-#: src/dialogs/moving-averages.glade.h:14
+#: src/dialogs/moving-averages.glade.h:15
 msgid "_Standard Errors"
 msgstr "標準誤差(_S)"
 
@@ -6187,19 +6264,31 @@ msgstr "pts"
 msgid "tall"
 msgstr "高さ"
 
-#: src/dialogs/random-generation.glade.h:3
+#: src/dialogs/rank.glade.h:2
+msgid "Average _Rank"
+msgstr "算術平均値(_R)"
+
+#: src/dialogs/rank.glade.h:8
+msgid "Ties:"
+msgstr "Ties:"
+
+#: src/dialogs/rank.glade.h:16
+msgid "_Top Rank"
+msgstr "上位ランク(_T)"
+
+#: src/dialogs/random-generation.glade.h:4
 msgid "Number of _Variables:"
 msgstr "変数の数(_V):"
 
-#: src/dialogs/random-generation.glade.h:6
+#: src/dialogs/random-generation.glade.h:7
 msgid "Random Numbers"
 msgstr "乱数"
 
-#: src/dialogs/random-generation.glade.h:7
+#: src/dialogs/random-generation.glade.h:8
 msgid "Size of _Sample:"
 msgstr "標本の大きさ:"
 
-#: src/dialogs/random-generation.glade.h:8
+#: src/dialogs/random-generation.glade.h:9
 msgid "_Distribution:"
 msgstr "分散(_D):"
 
@@ -6207,19 +6296,19 @@ msgstr "分散(_D):"
 msgid "0.95"
 msgstr "0.95"
 
-#: src/dialogs/regression.glade.h:2
+#: src/dialogs/regression.glade.h:3
 msgid "Confidence Level:"
 msgstr "信頼レベル:"
 
-#: src/dialogs/regression.glade.h:3
+#: src/dialogs/regression.glade.h:4
 msgid "Force Intercept To Be Zero"
 msgstr "切片を 0(ゼロ) に固定"
 
-#: src/dialogs/regression.glade.h:9
+#: src/dialogs/regression.glade.h:10
 msgid "X Variables:"
 msgstr "X 変数:"
 
-#: src/dialogs/regression.glade.h:10
+#: src/dialogs/regression.glade.h:11
 msgid "Y Variable:"
 msgstr "Y 変数:"
 
@@ -6231,31 +6320,31 @@ msgstr "行の高さ"
 msgid "_Row height (pts):"
 msgstr "行の高さ(pts) (_R):"
 
-#: src/dialogs/sampling.glade.h:4
+#: src/dialogs/sampling.glade.h:5
 msgid "Input Range: "
 msgstr "入力範囲: "
 
-#: src/dialogs/sampling.glade.h:6
+#: src/dialogs/sampling.glade.h:7
 msgid "N_umber of Samples:"
 msgstr "標本数(_U):"
 
-#: src/dialogs/sampling.glade.h:8
+#: src/dialogs/sampling.glade.h:9
 msgid "Period:"
 msgstr "周期:"
 
-#: src/dialogs/sampling.glade.h:10
+#: src/dialogs/sampling.glade.h:11
 msgid "Sampling Method:"
 msgstr "サンプリング方法:"
 
-#: src/dialogs/sampling.glade.h:11
+#: src/dialogs/sampling.glade.h:12
 msgid "Size of Sample:"
 msgstr "標本の大きさ:"
 
-#: src/dialogs/sampling.glade.h:17
+#: src/dialogs/sampling.glade.h:18
 msgid "_Periodic"
 msgstr "周期的(_P)"
 
-#: src/dialogs/sampling.glade.h:18
+#: src/dialogs/sampling.glade.h:19
 msgid "_Random"
 msgstr "乱数(_R)"
 
@@ -6735,7 +6824,7 @@ msgstr "要約"
 msgid "Title"
 msgstr "題名"
 
-#: src/dialogs/variance-tests.glade.h:6
+#: src/dialogs/variance-tests.glade.h:7
 msgid "Testing Equality of 2 Variances (F-Test)"
 msgstr "二つの変数の等号をテスト (F-検定)"
 
@@ -6784,15 +6873,15 @@ msgstr "ビルトイン"
 msgid "Error: no sheet"
 msgstr "エラー: シートがありません"
 
-#: src/expr.c:568
+#: src/expr.c:548
 msgid "Internal type error"
 msgstr "内部型エラー"
 
-#: src/expr.c:747
+#: src/expr.c:727
 msgid "Unknown operator"
 msgstr "演算子の不明なエラーです"
 
-#: src/expr.c:970
+#: src/expr.c:956
 msgid "Unknown evaluation error"
 msgstr "式評価の不明なエラーです"
 
@@ -7882,367 +7971,375 @@ msgid "Romanian leu"
 msgstr "ルーマニア・レイ"
 
 #: src/formats.c:382
+msgid "[$RUR]"
+msgstr "[$RUR]"
+
+#: src/formats.c:382
+msgid "Russian ruble"
+msgstr "ロシア・ルーブル"
+
+#: src/formats.c:383
 msgid "[$RWF]"
 msgstr "[$RWF]"
 
-#: src/formats.c:382
+#: src/formats.c:383
 msgid "Rwanda franc"
 msgstr "ルワンダ・フラン"
 
-#: src/formats.c:383
+#: src/formats.c:384
 msgid "[$SAR]"
 msgstr "[$SAR]"
 
-#: src/formats.c:383
+#: src/formats.c:384
 msgid "Saudi Arabian riyal"
 msgstr "サウジアラビア・リヤル"
 
-#: src/formats.c:384
+#: src/formats.c:385
 msgid "[$SBD]"
 msgstr "[$SBD]"
 
-#: src/formats.c:384
+#: src/formats.c:385
 msgid "Solomon Islands dollar"
 msgstr "ソロモン諸島・ドル"
 
-#: src/formats.c:385
+#: src/formats.c:386
 msgid "[$SCR]"
 msgstr "[$SCR]"
 
-#: src/formats.c:385
+#: src/formats.c:386
 msgid "Seychelles rupee"
 msgstr "セイシェル・ルピー"
 
-#: src/formats.c:386
+#: src/formats.c:387
 msgid "[$SDP]"
 msgstr "[$SDP]"
 
-#: src/formats.c:386
+#: src/formats.c:387
 msgid "Sudanese pound"
 msgstr "スーダン・ポンド"
 
-#: src/formats.c:387
+#: src/formats.c:388
 msgid "[$SEK]"
 msgstr "[$SEK]"
 
-#: src/formats.c:387
+#: src/formats.c:388
 msgid "Swedish krona"
 msgstr "スウェーデン・クローナ"
 
-#: src/formats.c:388
+#: src/formats.c:389
 msgid "[$SGD]"
 msgstr "[$SGD]"
 
-#: src/formats.c:388
+#: src/formats.c:389
 msgid "Singapore dollar"
 msgstr "シンガポール・ドル"
 
-#: src/formats.c:389
+#: src/formats.c:390
 msgid "[$SHP]"
 msgstr "[$SHP]"
 
-#: src/formats.c:389
+#: src/formats.c:390
 msgid "St.Helena pound"
 msgstr "セントヘレナ・ドル"
 
-#: src/formats.c:390
+#: src/formats.c:391
 msgid "[$SIT]"
 msgstr "[$SIT]"
 
-#: src/formats.c:390
+#: src/formats.c:391
 msgid "Slovenia tolar"
 msgstr "スロベニア トラー"
 
-#: src/formats.c:391
+#: src/formats.c:392
 msgid "[$SLL]"
 msgstr "[$SLL]"
 
-#: src/formats.c:391
+#: src/formats.c:392
 msgid "Sierra Leone leone"
 msgstr "シエラレオネ・レオネ"
 
-#: src/formats.c:392
+#: src/formats.c:393
 msgid "[$SOS]"
 msgstr "[$SOS]"
 
-#: src/formats.c:392
+#: src/formats.c:393
 msgid "Somali shilling"
 msgstr "ソマリア・シリング"
 
-#: src/formats.c:393
+#: src/formats.c:394
 msgid "[$SRG]"
 msgstr "[$SRG]"
 
-#: src/formats.c:393
+#: src/formats.c:394
 msgid "Suriname guilder"
 msgstr "スリナム・ギルダー"
 
-#: src/formats.c:394
+#: src/formats.c:395
 msgid "[$STD]"
 msgstr "[$STD]"
 
-#: src/formats.c:394
+#: src/formats.c:395
 msgid "Sao Tome and Principe dobra"
 msgstr "サントメ=プリンチペ・ドブラ"
 
-#: src/formats.c:395
+#: src/formats.c:396
 msgid "[$SUR]"
 msgstr "[$SUR]"
 
-#: src/formats.c:395
+#: src/formats.c:396
 msgid "USSR rouble"
 msgstr "ロシア・ルーブル"
 
-#: src/formats.c:396
+#: src/formats.c:397
 msgid "[$SVC]"
 msgstr "[$SVC]"
 
-#: src/formats.c:396
+#: src/formats.c:397
 msgid "El Salvador colon"
 msgstr "エルサルバドル・コロン"
 
-#: src/formats.c:397
+#: src/formats.c:398
 msgid "[$SYP]"
 msgstr "[$SYP]"
 
-#: src/formats.c:397
+#: src/formats.c:398
 msgid "Syrian pound"
 msgstr "シリア・ポンド"
 
-#: src/formats.c:398
+#: src/formats.c:399
 msgid "[$SZL]"
 msgstr "[$SZL]"
 
-#: src/formats.c:398
+#: src/formats.c:399
 msgid "Swaziland lilangeni"
 msgstr "スワジランド・リランジェニンド"
 
-#: src/formats.c:399
+#: src/formats.c:400
 msgid "[$THB]"
 msgstr "[$THB]"
 
-#: src/formats.c:399
+#: src/formats.c:400
 msgid "Thai baht"
 msgstr "タイ・バーツ"
 
-#: src/formats.c:400
+#: src/formats.c:401
 msgid "[$TND]"
 msgstr "[$TND]"
 
-#: src/formats.c:400
+#: src/formats.c:401
 msgid "Tunisian dinar"
 msgstr "チュニジア・ディナール"
 
-#: src/formats.c:401
+#: src/formats.c:402
 msgid "[$TOP]"
 msgstr "[$TOP]"
 
-#: src/formats.c:401
+#: src/formats.c:402
 msgid "Tongan pa'anga"
 msgstr "トンガ・パ=アンガ"
 
-#: src/formats.c:402
+#: src/formats.c:403
 msgid "[$TPE]"
 msgstr "[$TPE]"
 
-#: src/formats.c:402
+#: src/formats.c:403
 msgid "East Timor escudo"
 msgstr "東チモール・エスクード"
 
-#: src/formats.c:403
+#: src/formats.c:404
 msgid "[$TRL]"
 msgstr "[$TRL]"
 
-#: src/formats.c:403
+#: src/formats.c:404
 msgid "Turkish lira"
 msgstr "トルコリラ"
 
-#: src/formats.c:404
+#: src/formats.c:405
 msgid "[$TTD]"
 msgstr "[$TTD]"
 
-#: src/formats.c:404
+#: src/formats.c:405
 msgid "Trinidad and Tobago dollar"
 msgstr "トリニダード=トバゴ・ドル"
 
-#: src/formats.c:405
+#: src/formats.c:406
 msgid "[$TWD]"
 msgstr "[$TWD]"
 
-#: src/formats.c:405
+#: src/formats.c:406
 msgid "New Taiwan dollar"
 msgstr "台湾ドル"
 
-#: src/formats.c:406
+#: src/formats.c:407
 msgid "[$TZS]"
 msgstr "[$TZS]"
 
-#: src/formats.c:406
+#: src/formats.c:407
 msgid "Tanzanian shilling"
 msgstr "タンザニア・シリング"
 
-#: src/formats.c:407
+#: src/formats.c:408
 msgid "[$UAH]"
 msgstr "[$UAH]"
 
-#: src/formats.c:407
+#: src/formats.c:408
 msgid "Ukrainian hryvnia"
 msgstr "ウクライナ・グリブナ"
 
-#: src/formats.c:408
+#: src/formats.c:409
 msgid "[$UGX]"
 msgstr "[$UGX]"
 
-#: src/formats.c:408
+#: src/formats.c:409
 msgid "Ugandan shilling"
 msgstr "ウガンダ・シリング"
 
-#: src/formats.c:409
+#: src/formats.c:410
 msgid "[$USD]"
 msgstr "[$USD]"
 
-#: src/formats.c:409
+#: src/formats.c:410
 msgid "US dollar"
 msgstr "米ドル"
 
-#: src/formats.c:410
+#: src/formats.c:411
 msgid "[$UYP]"
 msgstr "[$UYP]"
 
-#: src/formats.c:410
+#: src/formats.c:411
 msgid "Uruguayan peso"
 msgstr "ウルグアイ・ペソ"
 
-#: src/formats.c:411
+#: src/formats.c:412
 msgid "[$VEB]"
 msgstr "[$VEB]"
 
-#: src/formats.c:411
+#: src/formats.c:412
 msgid "Venezuelan bolivar"
 msgstr "ベネズエラ・ボリバル"
 
-#: src/formats.c:412
+#: src/formats.c:413
 msgid "[$VND]"
 msgstr "[$VND]"
 
-#: src/formats.c:412
+#: src/formats.c:413
 msgid "Vietnamese dong"
 msgstr "ベトナム・ドン"
 
-#: src/formats.c:413
+#: src/formats.c:414
 msgid "[$VUV]"
 msgstr "[$VUV]"
 
-#: src/formats.c:413
+#: src/formats.c:414
 msgid "Vanuatu vatu"
 msgstr "バヌアツ・バツ"
 
-#: src/formats.c:414
+#: src/formats.c:415
 msgid "[$WST]"
 msgstr "[$WST]"
 
-#: src/formats.c:414
+#: src/formats.c:415
 msgid "Samoan tala"
 msgstr "サモア・タラ"
 
-#: src/formats.c:415
+#: src/formats.c:416
 msgid "[$XCD]"
 msgstr "[$XCD]"
 
-#: src/formats.c:415
+#: src/formats.c:416
 msgid "East Caribbean dollar"
 msgstr "東カリブ・ドル"
 
-#: src/formats.c:416
+#: src/formats.c:417
 msgid "[$XEU]"
 msgstr "[$XEU]"
 
-#: src/formats.c:416
+#: src/formats.c:417
 msgid "European currency unit"
 msgstr "ヨーロッパ通貨単位"
 
-#: src/formats.c:417
+#: src/formats.c:418
 msgid "[$YDD]"
 msgstr "[$YDD]"
 
-#: src/formats.c:417
+#: src/formats.c:418
 msgid "Democratic Yemeni dinar"
 msgstr "民主イエメン・ディナール"
 
-#: src/formats.c:418
+#: src/formats.c:419
 msgid "[$YER]"
 msgstr "[$YER]"
 
-#: src/formats.c:418
+#: src/formats.c:419
 msgid "Yemeni rial"
 msgstr "イエメン・リアル"
 
-#: src/formats.c:419
+#: src/formats.c:420
 msgid "[$YUN]"
 msgstr "[$YUN]"
 
-#: src/formats.c:419
+#: src/formats.c:420
 msgid "New Yugoslavia dinar"
 msgstr "ユーゴスラビア・ディナール"
 
-#: src/formats.c:420
+#: src/formats.c:421
 msgid "[$ZAL]"
 msgstr "[$ZAL]"
 
-#: src/formats.c:420
+#: src/formats.c:421
 msgid "South African rand funds code"
 msgstr "南アフリカ・ランド・基金コード"
 
-#: src/formats.c:421
+#: src/formats.c:422
 msgid "[$ZAR]"
 msgstr "[$ZAR]"
 
-#: src/formats.c:421
+#: src/formats.c:422
 msgid "South African rand"
 msgstr "南アフリカ・ランド"
 
-#: src/formats.c:422
+#: src/formats.c:423
 msgid "[$ZMK]"
 msgstr "[$ZMK]"
 
-#: src/formats.c:422
+#: src/formats.c:423
 msgid "Zambian kwacha"
 msgstr "ザンビア・クワチャ"
 
-#: src/formats.c:423
+#: src/formats.c:424
 msgid "[$ZRZ]"
 msgstr "[$ZRZ]"
 
-#: src/formats.c:423
+#: src/formats.c:424
 msgid "Zaire Zaire"
 msgstr "ザイール・ザイール"
 
-#: src/formats.c:424
+#: src/formats.c:425
 msgid "[$ZWD]"
 msgstr "[$ZWD]"
 
-#: src/formats.c:424
+#: src/formats.c:425
 msgid "Zimbabwe dollar"
 msgstr "ジンバブエ・ドル"
 
-#: src/formats.c:556
+#: src/formats.c:557
 msgid "[Red]"
 msgstr "[Red]"
 
-#: src/func.c:126
+#: src/func.c:127
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "ファイル %s を作成できません\n"
 
-#: src/func.c:283
+#: src/func.c:284
 msgid "Function implementation not available."
 msgstr "関数の実装が有効ではありません。"
 
-#: src/func.c:499
+#: src/func.c:500
 msgid "Unknown Function"
 msgstr "不明な関数"
 
-#: src/func.c:822
+#: src/func.c:853
 msgid "Function does not exist"
 msgstr "関数がありません"
 
@@ -9201,7 +9298,74 @@ msgstr ""
 "\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1120
+#: src/functions/fn-date.c:1116
+msgid ""
+"@FUNCTION=ISOWEEKNUM\n"
+"@SYNTAX=ISOWEEKNUM (date)\n"
+"@DESCRIPTION=ISOWEEKNUM returns the ISO 8601 week number of @date.\n"
+"Returns #NUM! if date is invalid.\n"
+"An ISO 8601 week starts on Monday. Weeks are numbered from 1. A week "
+"including days from two different years is assigned to the year which "
+"includes the most days. This means that Dec 31 could be in week 1 of the "
+"following year, and Jan 1 could be in week 52 or 53 of the previous year.\n"
+"@EXAMPLES=\n"
+"If A1 contains 12/21/00 then ISOWEEKNUM(A1)=51\n"
+"@SEEALSO=WEEKNUM"
+msgstr ""
+"@FUNCTION=ISOWEEKNUM\n"
+"@SYNTAX=ISOWEEKNUM (シリアル値)\n"
+"@DESCRIPTION=ISOWEEKNUM 関数は @シリアル値 に対応する日がその年の何週目に当た"
+"るかを ISO 8601準拠の整数値で返します。\n"
+"@シリアル値 が正しくない場合、#NUM! エラーを返します。\n"
+"ISO 8601 準拠の週は月曜日から始まります。週の番号は 1 から順に付けられます。"
+"年をまたぐ日を含む週はもっとも新しい日を含む年の方に繰り上がります。これは 12"
+"月 31日が次の年の第一週に含まれ、次の年の 1月 1日は前の年の週 52 または 53 に"
+"含まれることを意味します。 \n"
+"@EXAMPLES=\n"
+"セル A1 が 12/21/00 の場合、ISOWEEKNUM(A1)=51 です。\n"
+"@SEEALSO=WEEKNUM"
+
+#: src/functions/fn-date.c:1160
+msgid ""
+"@FUNCTION=WEEKNUM\n"
+"@SYNTAX=WEEKNUM (date, method)\n"
+"@DESCRIPTION=WEEKNUM returns the week number of @date according to the given "
+"@method.\n"
+"\n"
+"@method defaults to 1.\n"
+"For method=1, week starts on Sunday, and days before first Sunday are in "
+"week 0.\n"
+"For method=2, week starts on Monday, and days before first Monday are in "
+"week 0.\n"
+"For method=150, the ISO 8601 week number is returned.\n"
+"\n"
+"Returns #NUM! if date or method is invalid.\n"
+"This function is Excel compatible, except that Excel does not support ISO "
+"8601 week numbers.\n"
+"@EXAMPLES=\n"
+"If A1 contains 12/21/00 then WEEKNUM(A1,2)=51\n"
+"@SEEALSO=ISOWEEKNUM"
+msgstr ""
+"@FUNCTION=WEEKNUM\n"
+"@SYNTAX=WEEKNUM (シリアル値 [,週の基準])\n"
+"@DESCRIPTION=WEEKNUM 関数は @シリアル値 で示される日がその年の何週目にあたる"
+"かを整数値で返します。週の数え方は @週の基準で指定します。\n"
+"\n"
+"@週の基準 のデフォルトは 1 です。\n"
+"週の基準=1 の場合、週は日曜日から始まります。最初の日曜日の前の日は週 0 にな"
+"ります。\n"
+"週の基準=2 の場合、週は月曜日から始まります。最初の月曜日の前の日は週 0 にな"
+"ります。\n"
+"週の基準=150 の場合、ISO 8601 に準拠した週の番号が返されます。\n"
+"\n"
+"@シリアル値 または @週の基準 が正しくない場合、#NUM! エラーを返します。\n"
+"この関数は ISO 8601 に準拠した週の番号をサポートしないことを除けば Excel 互換"
+"です。\n"
+"@EXAMPLES=\n"
+"セル A1 が 12/21/00 の場合、WEEKNUM(A1,2)=51 です。\n"
+"@SEEALSO=ISOWEEKNUM"
+
+#: src/functions/fn-date.c:1219
 msgid "Date / Time"
 msgstr "日付/時間"
 
@@ -12902,13 +13066,13 @@ msgid ""
 "is 2 ADDRESS returns absolute row and relative column.  If @abs_num is 3 "
 "ADDRESS returns relative row and absolute column. If @abs_num is 4 ADDRESS "
 "returns relative reference. If @abs_num is greater than 4 ADDRESS returns "
-"#NUM! error. \n"
+"#VALUE! error. \n"
 "@a1 is a logical value that specifies the reference style.  If @a1 is TRUE "
 "or omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise "
 "ADDRESS returns an R1C1-style reference, i.e. R4C4. \n"
 "@text specifies the name of the worksheet to be used as the external "
 "reference.  \n"
-"If @row_num or @col_num is less than one, ADDRESS returns #NUM! error. \n"
+"If @row_num or @col_num is less than one, ADDRESS returns #VALUE! error. \n"
 "@EXAMPLES=\n"
 "ADDRESS(5,4) equals \"$D$5\".\n"
 "ADDRESS(5,4,4) equals \"D5\".\n"
@@ -19292,7 +19456,7 @@ msgstr "fontmap2 ファイルには Helvetica に対する適当なエントリがありません。"
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "fontmap2 ファイルが指定された場所に見つかりませんでした。"
 
-#: src/value.c:680
+#: src/value.c:678
 msgid "Terminate"
 msgstr "終端"
 
@@ -19580,11 +19744,11 @@ msgid ""
 "selected."
 msgstr "選択された最初の列にもとづいて選択範囲を降順に並べ替えます"
 
-#: src/workbook-control-gui.c:3929
+#: src/workbook-control-gui.c:3931
 msgid "Send"
 msgstr "送信"
 
-#: src/workbook-control-gui.c:3929
+#: src/workbook-control-gui.c:3931
 msgid "Send the current file in email"
 msgstr "現在のファイルを E-メールで送信します"
 
