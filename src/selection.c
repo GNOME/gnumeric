@@ -1222,4 +1222,3 @@ sv_selection_walk_step (SheetView *sv,
 	sv_set_edit_pos (sv, &destination);
 	sv_make_cell_visible (sv, destination.col, destination.row, TRUE);
 }
-

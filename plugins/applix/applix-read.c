@@ -825,7 +825,8 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 		if (!a_strncmp (buffer, "View Top Left: ")) {
 			CellPos pos;
 			if (applix_parse_cellref (state, buffer+15, &sheet, &pos, ':'))
-				sheet_set_initial_top_left (sheet, pos.col, pos.row);
+				sv_set_initial_top_left (sheet_get_view (sheet, state->wb_view),
+							 pos.col, pos.row);
 		} else if (!a_strncmp (buffer, "View Open Cell: ")) {
 			CellPos pos;
 			if (applix_parse_cellref (state, buffer+16, &sheet, &pos, ':'))

@@ -15,12 +15,15 @@ Jody:
 	* Improve the Applix importer.
 	* Fix lifecycle for 3d references.
 	* Fix goto dialog's handling of invalid addresses.
-	* forward port missing patched from 1.0
+	* forward port missing patches from 1.0
 	* Finally add SheetView
 	* Move animated cursor selection to sheetview
 	* Handle enabling paste special on an application level
 	* Move selection to SheetView
 	* Parse and evaluate constructed references, no depends yet.
+	* Read edit_pos from xls for multi-selection case.
+	* Save selection correctly for xls.
+	* Move freeze state to SheetView.
 
 Jukka:
 	* More solver enhancements:

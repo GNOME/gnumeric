@@ -859,7 +859,9 @@ xml_sax_sheet_layout (XMLSaxParseState *state, xmlChar const **attrs)
 
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (xml_sax_attr_cellpos (attrs, "TopLeft", &tmp))
-			sheet_set_initial_top_left (state->sheet, tmp.col, tmp.row);
+			sv_set_initial_top_left (
+				sheet_get_view (state->sheet, state->wb_view),
+				tmp.col, tmp.row);
 		else
 			xml_sax_unknown_attr (state, attrs, "SheetLayout");
 }
@@ -879,7 +881,8 @@ xml_sax_sheet_freezepanes (XMLSaxParseState *state, xmlChar const **attrs)
 			xml_sax_unknown_attr (state, attrs, "SheetLayout");
 
 	if (flags == 3)
-		sheet_freeze_panes (state->sheet, &frozen_tl, &unfrozen_tl);
+		sv_freeze_panes (sheet_get_view (state->sheet, state->wb_view),
+			&frozen_tl, &unfrozen_tl);
 }
 
 static void

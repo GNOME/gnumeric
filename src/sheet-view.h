@@ -14,7 +14,7 @@ struct _SheetView {
 	GList		*ants;	/* animated cursors */
 
 	/* an ordered list of Ranges, the first of which corresponds to the
-	 * range sheet->cursor.base_corner:move_corner
+	 * a normalized version of SheetView::{cursor.base_corner:move_corner}
 	 */
 	GList	*selections;
 	CellPos	 edit_pos;	/* Cell that would be edited */
@@ -26,6 +26,10 @@ struct _SheetView {
 		/* Corner that is moved when the selection range is extended */
 		CellPos	 move_corner;
 	} cursor;
+
+	CellPos initial_top_left;
+	CellPos frozen_top_left;
+	CellPos unfrozen_top_left;
 
 	/* state flags */
 	gboolean         enable_insert_rows		: 1;
@@ -64,8 +68,9 @@ void	   sv_weak_unref	(SheetView **ptr);
 void	   sv_update		(SheetView *sv);
 
 /* Information */
-Sheet	     *sv_sheet (SheetView const *sv);
-WorkbookView *sv_wbv   (SheetView const *sv);
+Sheet	     *sv_sheet		(SheetView const *sv);
+WorkbookView *sv_wbv		(SheetView const *sv);
+gboolean      sv_is_frozen	(SheetView const *sheet);
 gboolean      sv_is_region_empty_or_selected (SheetView const *sv,
 					      Range const *r);
 
@@ -92,6 +97,11 @@ void     sv_cursor_set		(SheetView *sv,
 				 int move_col, int move_row,
 				 Range const *cursor_bound);
 void     sv_set_edit_pos	(SheetView *sv, CellPos const *pos);
+
+void	 sv_freeze_panes	(SheetView *sv,
+				 CellPos const *frozen_top_left,
+				 CellPos const *unfrozen_top_left);
+void	 sv_set_initial_top_left(SheetView *sv, int col, int row);
 
 #define SHEET_VIEW_FOREACH_CONTROL(sv, control, code)				\
 do {										\

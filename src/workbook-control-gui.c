@@ -1002,8 +1002,8 @@ static void
 wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
-	Sheet *sheet = wb_control_cur_sheet (wbc);
-	SheetView *sv = wb_control_cur_sheet_view (wbc);
+	Sheet const *sheet = wb_control_cur_sheet (wbc);
+	SheetView const *sv = wb_control_cur_sheet_view (wbc);
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -1074,10 +1074,9 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 #endif
 
 	if (MS_FREEZE_VS_THAW & flags) {
-		Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 		/* Cheat and use the same accelerator for both states because
 		 * we don't reset it when the label changes */
-		char const* label = sheet_is_frozen (sheet)
+		char const* label = sv_is_frozen (sv)
 			? _("Un_freeze Panes") : _("_Freeze Panes");
 #ifndef WITH_BONOBO
 		change_menu_label (wbcg->menu_item_freeze_panes,
@@ -2080,7 +2079,6 @@ static void
 cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	Sheet	  *sheet = wb_control_cur_sheet (wbc);
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	SheetControlGUI *scg = wbcg_cur_scg (wbcg);
 
@@ -2100,9 +2098,9 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 		if (unfrozen_tl.col > frozen_tl.col &&
 		    unfrozen_tl.row > frozen_tl.row)
-			sheet_freeze_panes (sheet, &frozen_tl, &unfrozen_tl);
+			sv_freeze_panes (sv, &frozen_tl, &unfrozen_tl);
 	} else
-		sheet_freeze_panes (sheet, NULL, NULL);
+		sv_freeze_panes (sv, NULL, NULL);
 }
 
 static void

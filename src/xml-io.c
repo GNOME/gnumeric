@@ -1957,6 +1957,7 @@ xml_write_merged_regions (XmlParseContext const *ctxt,
 static void
 xml_read_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree)
 {
+	SheetView *sv = sheet_get_view (ctxt->sheet, ctxt->wb_view);
 	xmlNodePtr child;
 	CellPos tmp, frozen_tl, unfrozen_tl;
 
@@ -1966,26 +1967,28 @@ xml_read_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree)
 
 	/* The top left cell in pane[0] */
 	if (xml_node_get_cellpos (tree, "TopLeft", &tmp))
-		sheet_set_initial_top_left (ctxt->sheet, tmp.col, tmp.row);
+		sv_set_initial_top_left (sv, tmp.col, tmp.row);
 
 	child = e_xml_get_child_by_name (tree, (xmlChar const *)"FreezePanes");
 	if (child != NULL &&
 	    xml_node_get_cellpos (child, "FrozenTopLeft", &frozen_tl) &&
 	    xml_node_get_cellpos (child, "UnfrozenTopLeft", &unfrozen_tl))
-		sheet_freeze_panes (ctxt->sheet, &frozen_tl, &unfrozen_tl);
+		sv_freeze_panes (sv, &frozen_tl, &unfrozen_tl);
 }
 
 static void
 xml_write_sheet_layout (XmlParseContext *ctxt, xmlNodePtr tree, Sheet const *sheet)
 {
+	SheetView const *sv = sheet_get_view (sheet, ctxt->wb_view);
+
 	tree = xmlNewChild (tree, ctxt->ns, (xmlChar const *)"SheetLayout", NULL);
 
-	xml_node_set_cellpos (tree, "TopLeft", &sheet->initial_top_left);
-	if (sheet_is_frozen (sheet)) {
+	xml_node_set_cellpos (tree, "TopLeft", &sv->initial_top_left);
+	if (sv_is_frozen (sv)) {
 		xmlNodePtr freeze = xmlNewChild (tree, ctxt->ns, (xmlChar const *)"FreezePanes", NULL);
-		xml_node_set_cellpos (freeze, "FrozenTopLeft", &sheet->frozen_top_left);
+		xml_node_set_cellpos (freeze, "FrozenTopLeft", &sv->frozen_top_left);
 		xml_node_set_cellpos (freeze, "UnfrozenTopLeft",
-				      &sheet->unfrozen_top_left);
+				      &sv->unfrozen_top_left);
 	}
 }
 

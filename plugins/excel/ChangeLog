@@ -1,3 +1,13 @@
+2002-06-27  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (ms_excel_read_selection) : put the edit_pos in the
+	  right place.
+
+	* ms-excel-write.c (write_sheet_tail) : Use stern_brocot to get a
+	  reasonable fraction.
+	(write_sheet_selection) : split the writing of the selection out into
+	  here and implement it.
+
 2002-06-22  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-write.c (operations) : export intersection.

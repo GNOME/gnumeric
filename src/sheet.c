@@ -91,23 +91,6 @@ sheet_rename (Sheet *sheet, char const *new_name)
 	sheet->name_quoted = sheet_name_quote (new_name);
 }
 
-static void
-sheet_init_sc (Sheet const *sheet, SheetControl *sc)
-{
-	/* set_panes will change the initial so cache it */
-	CellPos initial = sheet->initial_top_left;
-	sc_set_panes (sc);
-
-	/* And this will restore it */
-	sc_set_top_left (sc, initial.col, initial.row);
-	sc_scrollbar_config (sc);
-
-	/* Set the visible bound, not the logical bound */
-	sc_cursor_bound (sc,
-		selection_first_range (sc_view (sc), NULL, NULL));
-	sc_ant (sc);
-}
-
 void
 sheet_attach_view (Sheet *sheet, SheetView *sv)
 {
@@ -119,9 +102,6 @@ sheet_attach_view (Sheet *sheet, SheetView *sv)
 		sheet->sheet_views = g_ptr_array_new ();
 	g_ptr_array_add (sheet->sheet_views, sv);
 	sv->sheet = sheet;
-
-	SHEET_VIEW_FOREACH_CONTROL (sv, control,
-		sheet_init_sc (sheet, control););
 }
 
 void
@@ -215,9 +195,6 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->display_outlines = TRUE;
 	sheet->outline_symbols_below = TRUE;
 	sheet->outline_symbols_right = TRUE;
-	sheet->frozen_top_left.col = sheet->frozen_top_left.row =
-	sheet->unfrozen_top_left.col = sheet->unfrozen_top_left.row = -1;
-	sheet->initial_top_left.col = sheet->initial_top_left.row = 0;
 	sheet->tab_color = NULL;
 	sheet->tab_text_color = NULL;
 
@@ -719,13 +696,15 @@ sheet_update_only_grid (Sheet const *sheet)
 
 	if (p->reposition_objects.row < SHEET_MAX_ROWS ||
 	    p->reposition_objects.col < SHEET_MAX_COLS) {
-		if (!p->resize && sheet_is_frozen (sheet)) {
-			if (p->reposition_objects.col < sheet->unfrozen_top_left.col ||
-			    p->reposition_objects.row < sheet->unfrozen_top_left.row) {
-				SHEET_FOREACH_CONTROL(sheet, view, control,
-						      sc_resize (control, FALSE););
+		SHEET_FOREACH_VIEW (sheet, sv, {
+			if (!p->resize && sv_is_frozen (sv)) {
+				if (p->reposition_objects.col < sv->unfrozen_top_left.col ||
+				    p->reposition_objects.row < sv->unfrozen_top_left.row) {
+					SHEET_VIEW_FOREACH_CONTROL(sv, control,
+						sc_resize (control, FALSE););
+				}
 			}
-		}
+		});
 		sheet_reposition_objects (sheet, &p->reposition_objects);
 		p->reposition_objects.row = SHEET_MAX_ROWS;
 		p->reposition_objects.col = SHEET_MAX_COLS;
@@ -733,7 +712,7 @@ sheet_update_only_grid (Sheet const *sheet)
 
 	if (p->resize) {
 		p->resize = FALSE;
-		SHEET_FOREACH_CONTROL (sheet, view, control, sc_resize (control, FALSE););
+		SHEET_FOREACH_CONTROL (sheet, sv, control, sc_resize (control, FALSE););
 	}
 
 	if (p->recompute_visibility) {
@@ -4020,9 +3999,8 @@ sheet_dup (Sheet const *src)
 	sheet_clone_cells          (src, dst);
 	sheet_object_clone_sheet   (src, dst, NULL);
 
-	if (sheet_is_frozen (src))
-		sheet_freeze_panes (dst,
-			&src->frozen_top_left, &src->unfrozen_top_left);
+#warning selection is in view
+#warning freeze/thaw is in view
 
 	/* Copy the solver */
 	solver_param_destroy (dst->solver_parameters);
@@ -4035,98 +4013,6 @@ sheet_dup (Sheet const *src)
 	sheet_redraw_all (dst, TRUE);
 
 	return dst;
-}
-
-/**
- * sheet_set_initial_top_left
- * @sheet : the sheet.
- * @col   :
- * @row   :
- *
- * Sets the top left cell that a newly created sheet control should display.
- * This corresponds to the top left cell visible in pane 0 (frozen or not).
- * NOTE : the unfrozen_top_left != initial_top_left.  Unfrozen is the first
- * unfrozen cell, and corresponds to the _minimum_ cell in pane 0.  However,
- * the pane can scroll and may have something else currently visible as the top
- * left.
- */
-void
-sheet_set_initial_top_left (Sheet *sheet, int col, int row)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (0 <= col && col < SHEET_MAX_COLS);
-	g_return_if_fail (0 <= row && row < SHEET_MAX_ROWS);
-	g_return_if_fail (!sheet_is_frozen (sheet) ||
-			  (sheet->unfrozen_top_left.col <= col &&
-			   sheet->unfrozen_top_left.row <= row));
-
-	sheet->initial_top_left.col = col;
-	sheet->initial_top_left.row = row;
-}
-
-/**
- * sheet_freeze_panes :
- * @sheet    : the sheet
- * @frozen   : top left corner of the frozen region
- * @unfrozen : top left corner of the unfrozen region
- *
- * By definition the unfrozen region must be below the frozen.
- */
-void
-sheet_freeze_panes (Sheet *sheet,
-		    CellPos const *frozen,
-		    CellPos const *unfrozen)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	if (frozen != NULL) {
-		g_return_if_fail (unfrozen != NULL);
-		g_return_if_fail (unfrozen->col > frozen->col);
-		g_return_if_fail (unfrozen->row > frozen->row);
-
-		/* Just in case */
-		if (unfrozen->col != (SHEET_MAX_COLS-1) &&
-		    unfrozen->row != (SHEET_MAX_ROWS-1)) {
-			g_return_if_fail (unfrozen->row > frozen->row);
-			sheet->frozen_top_left = *frozen;
-			sheet->unfrozen_top_left = *unfrozen;
-		} else
-			frozen = unfrozen = NULL;
-	}
-
-	if (frozen == NULL) {
-		g_return_if_fail (unfrozen == NULL);
-
-		/* no change */
-		if (sheet->frozen_top_left.col < 0 &&
-		    sheet->frozen_top_left.row < 0 &&
-		    sheet->unfrozen_top_left.col < 0 &&
-		    sheet->unfrozen_top_left.row < 0)
-			return;
-
-		sheet->initial_top_left = sheet->frozen_top_left;
-		sheet->frozen_top_left.col = sheet->frozen_top_left.row =
-		sheet->unfrozen_top_left.col = sheet->unfrozen_top_left.row = -1;
-	}
-
-	SHEET_FOREACH_CONTROL (sheet, view, control,
-			       sheet_init_sc (sheet, control););
-	WORKBOOK_FOREACH_VIEW (sheet->workbook, view, {
-		if (sheet == wb_view_cur_sheet (view)) {
-			WORKBOOK_VIEW_FOREACH_CONTROL(view, wbc,
-				wb_control_menu_state_update (wbc, MS_FREEZE_VS_THAW););
-		}
-	});
-}
-
-gboolean
-sheet_is_frozen	(Sheet const *sheet)
-{
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-
-	/* be flexible, in the future we will support 2 way splits too */
-	return sheet->unfrozen_top_left.col >= 0 ||
-		sheet->unfrozen_top_left.row >= 0;
 }
 
 /**

@@ -193,6 +193,11 @@ sheet_view_init (GObject *object)
 	sv->selection_content_changed = TRUE;
 	sv->reposition_selection = TRUE;
 	sv->auto_expr_timer = 0;
+
+	sv->frozen_top_left.col = sv->frozen_top_left.row =
+	sv->unfrozen_top_left.col = sv->unfrozen_top_left.row = -1;
+	sv->initial_top_left.col = sv->initial_top_left.row = 0;
+
 	sv_selection_add_pos (sv, 0, 0);
 }
 
@@ -200,12 +205,31 @@ E_MAKE_TYPE (sheet_view, "SheetView", SheetView,
 	     sheet_view_class_init, sheet_view_init,
 	     G_TYPE_OBJECT);
 
+static void
+sv_init_sc (SheetView const *sv, SheetControl *sc)
+{
+	/* set_panes will change the initial so cache it */
+	CellPos initial = sv->initial_top_left;
+	sc_set_panes (sc);
+
+	/* And this will restore it */
+	sc_set_top_left (sc, initial.col, initial.row);
+	sc_scrollbar_config (sc);
+
+	/* Set the visible bound, not the logical bound */
+	sc_cursor_bound (sc, selection_first_range (sv, NULL, NULL));
+	sc_ant (sc);
+}
+
 SheetView *
 sheet_view_new (Sheet *sheet, WorkbookView *wbv)
 {
 	SheetView *sv = g_object_new (SHEET_VIEW_TYPE, NULL);
 	sheet_attach_view (sheet, sv);
 	sv->wbv = wbv;
+
+	SHEET_VIEW_FOREACH_CONTROL (sv, control,
+		sv_init_sc (sv, control););
 	return sv;
 }
 
@@ -576,4 +600,93 @@ sv_is_region_empty_or_selected (SheetView const *sv, Range const *r)
 	return sheet_foreach_cell_in_range (
 		sv->sheet, TRUE, r->start.col, r->start.row, r->end.col, r->end.row,
 		fail_if_not_selected, (gpointer)sv) == NULL;
+}
+
+/**
+ * sv_freeze_panes :
+ * @sheet    : the sheet
+ * @frozen   : top left corner of the frozen region
+ * @unfrozen : top left corner of the unfrozen region
+ *
+ * By definition the unfrozen region must be below the frozen.
+ */
+void
+sv_freeze_panes (SheetView *sv,
+		 CellPos const *frozen,
+		 CellPos const *unfrozen)
+{
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+
+	if (frozen != NULL) {
+		g_return_if_fail (unfrozen != NULL);
+		g_return_if_fail (unfrozen->col > frozen->col);
+		g_return_if_fail (unfrozen->row > frozen->row);
+
+		/* Just in case */
+		if (unfrozen->col != (SHEET_MAX_COLS-1) &&
+		    unfrozen->row != (SHEET_MAX_ROWS-1)) {
+			g_return_if_fail (unfrozen->row > frozen->row);
+			sv->frozen_top_left = *frozen;
+			sv->unfrozen_top_left = *unfrozen;
+		} else
+			frozen = unfrozen = NULL;
+	}
+
+	if (frozen == NULL) {
+		g_return_if_fail (unfrozen == NULL);
+
+		/* no change */
+		if (sv->frozen_top_left.col < 0 &&
+		    sv->frozen_top_left.row < 0 &&
+		    sv->unfrozen_top_left.col < 0 &&
+		    sv->unfrozen_top_left.row < 0)
+			return;
+
+		sv->initial_top_left = sv->frozen_top_left;
+		sv->frozen_top_left.col = sv->frozen_top_left.row =
+		sv->unfrozen_top_left.col = sv->unfrozen_top_left.row = -1;
+	}
+
+	SHEET_VIEW_FOREACH_CONTROL (sv, control,
+		sv_init_sc (sv, control););
+
+	WORKBOOK_VIEW_FOREACH_CONTROL(sv->wbv, wbc,
+		wb_control_menu_state_update (wbc, MS_FREEZE_VS_THAW););
+}
+
+gboolean
+sv_is_frozen	(SheetView const *sv)
+{
+	g_return_val_if_fail (IS_SHEET_VIEW (sv), FALSE);
+
+	/* be flexible, in the future we will support 2 way splits too */
+	return  sv->unfrozen_top_left.col >= 0 ||
+		sv->unfrozen_top_left.row >= 0;
+}
+
+/**
+ * sv_set_initial_top_left
+ * @sv : the sheet view.
+ * @col   :
+ * @row   :
+ *
+ * Sets the top left cell that a newly created sheet control should display.
+ * This corresponds to the top left cell visible in pane 0 (frozen or not).
+ * NOTE : the unfrozen_top_left != initial_top_left.  Unfrozen is the first
+ * unfrozen cell, and corresponds to the _minimum_ cell in pane 0.  However,
+ * the pane can scroll and may have something else currently visible as the top
+ * left.
+ */
+void
+sv_set_initial_top_left (SheetView *sv, int col, int row)
+{
+	g_return_if_fail (IS_SHEET_VIEW (sv));
+	g_return_if_fail (0 <= col && col < SHEET_MAX_COLS);
+	g_return_if_fail (0 <= row && row < SHEET_MAX_ROWS);
+	g_return_if_fail (!sv_is_frozen (sv) ||
+			  (sv->unfrozen_top_left.col <= col &&
+			   sv->unfrozen_top_left.row <= row));
+
+	sv->initial_top_left.col = col;
+	sv->initial_top_left.row = row;
 }

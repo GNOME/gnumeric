@@ -48,7 +48,7 @@
 #include <expr-name.h>
 #include <gutils.h>
 #include <str.h>
-
+#include <mathfunc.h>
 
 #include <libole2/ms-ole.h>
 #include <stdio.h>
@@ -469,7 +469,8 @@ write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 	guint16 options = 0x0A0;
 	guint8 *data;
 	CellPos top_left;
-	Sheet *sheet = esheet->gnum_sheet;
+	Sheet  const *sheet = esheet->gnum_sheet;
+	SheetView const *sv = sheet_get_view (sheet, esheet->wb->gnum_wb_view);
 	StyleColor *sheet_auto   = sheet_style_get_auto_pattern_color (sheet);
 	StyleColor *default_auto = style_color_auto_pattern ();
 	guint32 biff_pat_col = 0x40;	/* default grid color index == auto */
@@ -480,11 +481,11 @@ write_window2 (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 		options |= 0x0002;
 	if (!sheet->hide_col_header || !sheet->hide_row_header)
 		options |= 0x0004;
-	if (sheet_is_frozen (sheet)) {
+	if (sv_is_frozen (sv)) {
 		options |= 0x0008;
-		top_left = sheet->frozen_top_left;
+		top_left = sv->frozen_top_left;
 	} else
-		top_left = sheet->initial_top_left;	/* belongs in sheetView */
+		top_left = sv->initial_top_left;
 	if (!sheet->hide_zero)
 		options |= 0x0010;
 	/* Grid / auto pattern color */
@@ -529,16 +530,17 @@ static void
 write_pane (BiffPut *bp, MsBiffVersion ver, ExcelSheet *esheet)
 {
 	guint8 *data = ms_biff_put_len_next (bp, BIFF_PANE, 10);
-	Sheet const *sheet = esheet->gnum_sheet;
-	int const frozen_height = sheet->unfrozen_top_left.row -
-		sheet->frozen_top_left.row;
-	int const frozen_width = sheet->unfrozen_top_left.col -
-		sheet->frozen_top_left.col;
+	SheetView const *sv = sheet_get_view (esheet->gnum_sheet,
+		esheet->wb->gnum_wb_view);
+	int const frozen_height = sv->unfrozen_top_left.row -
+		sv->frozen_top_left.row;
+	int const frozen_width = sv->unfrozen_top_left.col -
+		sv->frozen_top_left.col;
 
 	MS_OLE_SET_GUINT16 (data + 0, frozen_width);
 	MS_OLE_SET_GUINT16 (data + 2, frozen_height);
-	MS_OLE_SET_GUINT16 (data + 4, sheet->initial_top_left.row);
-	MS_OLE_SET_GUINT16 (data + 6, sheet->initial_top_left.col);
+	MS_OLE_SET_GUINT16 (data + 4, sv->initial_top_left.row);
+	MS_OLE_SET_GUINT16 (data + 6, sv->initial_top_left.col);
 	MS_OLE_SET_GUINT16 (data + 8, 0);	/* active pane */
 
 	ms_biff_put_commit (bp);
@@ -3283,6 +3285,33 @@ write_sheet_head (BiffPut *bp, ExcelSheet *esheet)
 }
 
 static void
+write_sheet_selection (ExcelSheet *esheet, BiffPut *bp)
+{
+	SheetView const *sv = sheet_get_view (esheet->gnum_sheet,
+		esheet->wb->gnum_wb_view);
+	int n = g_list_length (sv->selections);
+	GList *ptr;
+	guint8 *data;
+
+	data = ms_biff_put_len_next (bp, BIFF_SELECTION, 15);
+	MS_OLE_SET_GUINT8  (data +  0, 0);	/* pane 0 */
+	MS_OLE_SET_GUINT16 (data +  1, sv->edit_pos.row);
+	MS_OLE_SET_GUINT16 (data +  3, sv->edit_pos.col);
+	MS_OLE_SET_GUINT16 (data +  5, 0); /* our edit_pos is in 1st range */
+	MS_OLE_SET_GUINT16 (data +  7, n);
+
+	data += 9;
+	for (ptr = sv->selections ; ptr != NULL ; ptr = ptr->next, data += 6) {
+		Range const *r = ptr->data;
+		MS_OLE_SET_GUINT16 (data + 0, r->start.row);
+		MS_OLE_SET_GUINT16 (data + 2, r->end.row);
+		MS_OLE_SET_GUINT8  (data + 4, r->start.col);
+		MS_OLE_SET_GUINT8  (data + 5, r->end.col);
+	}
+	ms_biff_put_commit (bp);
+}
+
+static void
 write_sheet_tail (IOContext *context, BiffPut *bp, ExcelSheet *esheet)
 {
 	guint8 *data;
@@ -3293,24 +3322,16 @@ write_sheet_tail (IOContext *context, BiffPut *bp, ExcelSheet *esheet)
 		write_pane (bp, ver, esheet);
 
 	if (ver >= MS_BIFF_V8) {
-		/* Dont over think this just force the fraction into a/1000 */
-		int const zoom = esheet->gnum_sheet->last_zoom_factor_used * 1000 + .5;
+		int num, denom;
+		stern_brocot (esheet->gnum_sheet->last_zoom_factor_used,
+			      1000, &num, &denom);
 		data = ms_biff_put_len_next (bp, BIFF_SCL, 4);
-		MS_OLE_SET_GUINT16 (data + 0, (guint16)zoom);
-		MS_OLE_SET_GUINT16 (data + 2, 1000);
+		MS_OLE_SET_GUINT16 (data + 0, (guint16)num);
+		MS_OLE_SET_GUINT16 (data + 2, denom);
 		ms_biff_put_commit (bp);
 	}
 
-	/* See: S59DE2.HTM */
-#warning YUCK! store the real selection
-	data = ms_biff_put_len_next (bp, BIFF_SELECTION, 15);
-	MS_OLE_SET_GUINT32 (data +  0, 0x00000103);
-	MS_OLE_SET_GUINT32 (data +  4, 0x01000000);
-	MS_OLE_SET_GUINT32 (data +  8, 0x01000100);
-	MS_OLE_SET_GUINT16 (data + 12, 0x0);
-	MS_OLE_SET_GUINT8  (data + 14, 0x0);
-	ms_biff_put_commit (bp);
-
+	write_sheet_selection (esheet, bp);
 	write_mergecells (bp, ver, esheet);
 
 /* See: S59D90.HTM: Global Column Widths...  not cricual.

@@ -219,7 +219,7 @@ static void
 scg_resize (SheetControl *sc, gboolean force_scroll)
 {
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
-	Sheet *sheet;
+	Sheet const *sheet;
 	GnumericCanvas *gcanvas;
 	int h, w, btn_h, btn_w, tmp;
 	double zoom;
@@ -261,8 +261,8 @@ scg_resize (SheetControl *sc, gboolean force_scroll)
 		gnome_canvas_set_scroll_region (scg->pane[0].row.canvas,
 			0, 0, w / zoom, GNUMERIC_CANVAS_FACTOR_Y / zoom);
 	} else {
-		CellPos const *tl = &sheet->frozen_top_left;
-		CellPos const *br = &sheet->unfrozen_top_left;
+		CellPos const *tl = &sc->view->frozen_top_left;
+		CellPos const *br = &sc->view->unfrozen_top_left;
 		int const l = scg_colrow_distance_get (scg, TRUE,
 			0, tl->col);
 		int const r = scg_colrow_distance_get (scg, TRUE,
@@ -362,15 +362,16 @@ scg_scrollbar_config (SheetControl const *sc)
 	GtkAdjustment *va = GTK_ADJUSTMENT (scg->va);
 	GtkAdjustment *ha = GTK_ADJUSTMENT (scg->ha);
 	GnumericCanvas *gcanvas = scg_pane (scg, 0);
-	Sheet         *sheet = sc->sheet;
+	Sheet const    *sheet = sc->sheet;
+	SheetView const*sv = sc->view;
 	int const last_col = gcanvas->last_full.col;
 	int const last_row = gcanvas->last_full.row;
 	int max_col = last_col;
 	int max_row = last_row;
 
-	if (sheet_is_frozen (sheet)) {
-		ha->lower = sheet->unfrozen_top_left.col;
-		va->lower = sheet->unfrozen_top_left.row;
+	if (sv_is_frozen (sv)) {
+		ha->lower = sv->unfrozen_top_left.col;
+		va->lower = sv->unfrozen_top_left.row;
 	} else
 		ha->lower = va->lower = 0;
 
@@ -617,18 +618,14 @@ scg_init (SheetControlGUI *scg)
 /**
  * gnm_canvas_update_inital_top_left :
  * A convenience routine to store the new topleft back in the view.
- * FIXME : for now we don't have a sheetView so we endup just storing it in the
- * Sheet.  Having this operation wrapped nicely here will make it easy to fix
- * later.
  */
 static void
 gnm_canvas_update_inital_top_left (GnumericCanvas const *gcanvas)
 {
-	/* FIXME : we need SheetView */
 	if (gcanvas->pane->index == 0) {
-		Sheet *sheet = gcanvas->simple.scg->sheet_control.sheet;
-		sheet->initial_top_left.col = gcanvas->first.col;
-		sheet->initial_top_left.row = gcanvas->first.row;
+		SheetView *sv = gcanvas->simple.scg->sheet_control.view;
+		sv->initial_top_left.col = gcanvas->first.col;
+		sv->initial_top_left.row = gcanvas->first.row;
 	}
 }
 
@@ -683,7 +680,7 @@ scg_set_left_col (SheetControlGUI *scg, int col)
 		col = bound->end.col;
 
 	if (scg->pane[3].is_active) {
-		int right = sheet->unfrozen_top_left.col;
+		int right = scg->sheet_control.view->unfrozen_top_left.col;
 		if (col < right)
 			col = right;
 		gnm_canvas_set_left_col (scg_pane (scg, 3), col);
@@ -742,7 +739,7 @@ scg_set_top_row (SheetControlGUI *scg, int row)
 		row = bound->end.row;
 
 	if (scg->pane[1].is_active) {
-		int bottom = sheet->unfrozen_top_left.row;
+		int bottom = scg->sheet_control.view->unfrozen_top_left.row;
 		if (row < bottom)
 			row = bottom;
 		gnm_canvas_set_top_row (scg_pane (scg, 1), row);
@@ -884,13 +881,13 @@ void
 scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 		       gboolean force_scroll, gboolean couple_panes)
 {
-	Sheet const *sheet = ((SheetControl *) scg)->sheet;
+	SheetView const *sv = ((SheetControl *) scg)->view;
 	CellPos const *tl, *br;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	tl = &sheet->frozen_top_left;
-	br = &sheet->unfrozen_top_left;
+	tl = &sv->frozen_top_left;
+	br = &sv->unfrozen_top_left;
 	if (col < br->col) {
 		if (row >= br->row) {	/* pane 1 */
 			if (col < tl->col)
@@ -898,11 +895,9 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 			gnm_canvas_make_cell_visible (scg->pane[1].gcanvas,
 				col, row, force_scroll);
 			gnm_canvas_set_top_left (scg->pane[0].gcanvas,
-				     couple_panes
-				     ? br->col
-				     : scg->pane[0].gcanvas->first.col,
-				     scg->pane[1].gcanvas->first.row,
-				     force_scroll);
+				couple_panes ? br->col : scg->pane[0].gcanvas->first.col,
+				scg->pane[1].gcanvas->first.row,
+				force_scroll);
 			if (couple_panes)
 				gnm_canvas_set_left_col (scg->pane[3].gcanvas, br->col);
 		} else if (couple_panes) { /* pane 2 */
@@ -962,7 +957,7 @@ static void
 scg_set_panes (SheetControl *sc)
 {
 	SheetControlGUI *scg = (SheetControlGUI *) sc;
-	gboolean const being_frozen = sheet_is_frozen (sc->sheet);
+	gboolean const being_frozen = sv_is_frozen (sc->view);
 	gboolean const was_frozen = scg->pane[2].gcanvas != NULL;
 
 	if (!being_frozen && !was_frozen)
@@ -970,8 +965,8 @@ scg_set_panes (SheetControl *sc)
 
 	/* TODO : support just h or v split */
 	if (being_frozen) {
-		CellPos const *tl = &sc->sheet->frozen_top_left;
-		CellPos const *br = &sc->sheet->unfrozen_top_left;
+		CellPos const *tl = &sc->view->frozen_top_left;
+		CellPos const *br = &sc->view->unfrozen_top_left;
 
 		gnm_pane_init (scg->pane + 1, scg, FALSE, 1);
 		gnm_pane_init (scg->pane + 2, scg, TRUE,  2);
@@ -1033,7 +1028,7 @@ scg_set_panes (SheetControl *sc)
 	scg_resize (SHEET_CONTROL (scg), TRUE);
 
 	if (being_frozen) {
-		CellPos const *tl = &sc->sheet->frozen_top_left;
+		CellPos const *tl = &sc->view->frozen_top_left;
 
 		gnm_canvas_set_left_col (scg->pane[1].gcanvas, tl->col);
 		gnm_canvas_set_top_row (scg->pane[3].gcanvas, tl->row);

@@ -58,10 +58,6 @@ struct _Sheet {
 	PrintInformation *print_info;
 	StyleColor	 *tab_color;
 	StyleColor	 *tab_text_color;
-
-	CellPos initial_top_left;	/* belongs in sheetView */
-	CellPos frozen_top_left;	/* these may also belong there */
-	CellPos unfrozen_top_left;
 };
 
 #define SHEET_SIGNATURE 0x12349876
@@ -72,11 +68,6 @@ Sheet      *sheet_dup			(Sheet const *source_sheet);
 void        sheet_destroy		(Sheet *sheet);
 void        sheet_destroy_contents	(Sheet *sheet);
 void        sheet_rename		(Sheet *sheet, char const *new_name);
-void	    sheet_set_initial_top_left	(Sheet *sheet, int col, int row);
-void	    sheet_freeze_panes		(Sheet *sheet,
-					 CellPos const *frozen_top_left,
-					 CellPos const *unfrozen_top_left);
-gboolean    sheet_is_frozen		(Sheet const *sheet);
 void	    sheet_set_tab_color		(Sheet *sheet, StyleColor *tab_color,
 					 StyleColor *text_color);
 

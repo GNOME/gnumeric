@@ -3012,42 +3012,44 @@ ms_excel_read_imdata (BiffQuery *q)
 static void
 ms_excel_read_selection (BiffQuery *q, ExcelSheet *esheet)
 {
-	/* int const pane_number	= GSF_LE_GET_GUINT8 (q->data); */
-	int const act_row	= GSF_LE_GET_GUINT16 (q->data + 1);
-	int const act_col	= GSF_LE_GET_GUINT16 (q->data + 3);
-	int num_refs		= GSF_LE_GET_GUINT16 (q->data + 7);
-	guint8 *refs;
-	SheetView *sv = sheet_get_view (esheet->gnum_sheet, esheet->wb->wbv);
-
-	d (1, printf ("Start selection\n"););
-	d (6, printf ("Cursor: %d %d\n", act_col, act_row););
-
 	/* FIXME : pane_number will be relevant for split panes.
 	 * because frozen panes are bound together this does not matter.
 	 */
+	/* int const pane_number	= GSF_LE_GET_GUINT8 (q->data); */
+
+	CellPos edit_pos, tmp;
+	/* the range containing the edit_pos */
+	int i, j = GSF_LE_GET_GUINT16 (q->data + 5);
+	int num_refs = GSF_LE_GET_GUINT16 (q->data + 7);
+	guint8 *refs;
+	SheetView *sv = sheet_get_view (esheet->gnum_sheet, esheet->wb->wbv);
+	Range r;
+
+	edit_pos.row = GSF_LE_GET_GUINT16 (q->data + 1);
+	edit_pos.col = GSF_LE_GET_GUINT16 (q->data + 3);
+
+	d (5, printf ("Start selection\n"););
+	d (5, printf ("Cursor: %s in Ref #%d\n", cell_pos_name (&edit_pos),
+		      j););
+
 	sv_selection_reset (sv);
-	for (refs = q->data + 9; num_refs > 0; refs += 6, num_refs--) {
-		int const start_row = GSF_LE_GET_GUINT16 (refs + 0);
-		int const start_col = GSF_LE_GET_GUINT8 (refs + 4);
-		int const end_row   = GSF_LE_GET_GUINT16 (refs + 2);
-		int const end_col   = GSF_LE_GET_GUINT8 (refs + 5);
-		d (6, printf ("Ref %d = %d %d %d %d\n", num_refs,
-			      start_col, start_row, end_col, end_row););
+	for (i = 0; i++ < num_refs ; ) {
+		refs = q->data + 9 + 6 * (++j % num_refs);
+		r.start.row = GSF_LE_GET_GUINT16 (refs + 0);
+		r.end.row   = GSF_LE_GET_GUINT16 (refs + 2);
+		r.start.col = GSF_LE_GET_GUINT8  (refs + 4);
+		r.end.col   = GSF_LE_GET_GUINT8  (refs + 5);
 
+		d (5, printf ("Ref %d = %s\n", i-1, range_name (&r)););
+
+		tmp = (i == num_refs) ? edit_pos : r.start;
 		sv_selection_add_range (sv,
-					start_col, start_row,
-					start_col, start_row,
-					end_col, end_row);
+			tmp.col, tmp.row,
+			r.start.col, r.start.row,
+			r.end.col, r.end.row);
 	}
-#if 0
-	/* FIXME: Disable for now.  We need to reset the index of the
-	 *         current selection range too.  This can do odd things
-	 *         if the last range is NOT the currently selected range.
-	 */
-	sheet_cursor_move (esheet->gnum_sheet, act_col, act_row, FALSE, FALSE);
-#endif
 
-	d (1, printf ("Done selection\n"););
+	d (5, printf ("Done selection\n"););
 }
 
 /**
@@ -3342,13 +3344,13 @@ ms_excel_read_pane (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 		guint16 y = GSF_LE_GET_GUINT16 (q->data + 2);
 		guint16 rwTop = GSF_LE_GET_GUINT16 (q->data + 4);
 		guint16 colLeft = GSF_LE_GET_GUINT16 (q->data + 6);
-		Sheet *sheet = esheet->gnum_sheet;
+		SheetView *sv = sheet_get_view (esheet->gnum_sheet, esheet->wb->wbv);
 		CellPos frozen, unfrozen;
 
-		frozen = unfrozen = sheet->initial_top_left;
+		frozen = unfrozen = sv->initial_top_left;
 		unfrozen.col += x; unfrozen.row += y;
-		sheet_freeze_panes (sheet, &frozen, &unfrozen);
-		sheet_set_initial_top_left (sheet, colLeft, rwTop);
+		sv_freeze_panes (sv, &frozen, &unfrozen);
+		sv_set_initial_top_left (sv, colLeft, rwTop);
 	} else {
 		g_warning ("EXCEL : no support for split panes yet");
 	}
@@ -3360,6 +3362,8 @@ ms_excel_read_pane (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 static void
 ms_excel_read_window2 (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 {
+	SheetView *sv = sheet_get_view (esheet->gnum_sheet, esheet->wb->wbv);
+
 	if (q->length >= 10) {
 		guint16 const options    = GSF_LE_GET_GUINT16 (q->data + 0);
 		/* coords are 0 based */
@@ -3377,7 +3381,7 @@ ms_excel_read_window2 (BiffQuery *q, ExcelSheet *esheet, WorkbookView *wb_view)
 		/* NOTE : This is top left of screen even if frozen, modify when
 		 *        we read PANE
 		 */
-		sheet_set_initial_top_left (esheet->gnum_sheet, left_col, top_row);
+		sv_set_initial_top_left (sv, left_col, top_row);
 
 		if (!(options & 0x0020)) {
 			StyleColor *pattern_color;
