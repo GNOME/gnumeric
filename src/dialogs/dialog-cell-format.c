@@ -462,7 +462,7 @@ draw_format_preview (FormatState *state)
 		if (page == FMT_PERCENT)
 			g_string_append_c (new_format, '%');
 		else
-			g_string_append (new_format, "+E00");
+			g_string_append (new_format, "E+00");
 
 	default :
 		break;

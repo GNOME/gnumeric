@@ -1,5 +1,13 @@
 1999-11-24  Jody Goldberg <jgoldberg@home.com>
 
+	* src/format.c (format_number) : Handle negatives for scientific
+	  notation.  Add support for
+	  'e' vs 'E'
+	  Prepending a '+'.
+
+	* src/dialogs/dialog-cell-format.c (draw_format_preview) : Correct
+	  typo.
+
 	* src/item-edit.c (item_edit_draw) : Fix fence post problem is
 	  previous patch.  Add currently unused 'row_span' in preparation.
 

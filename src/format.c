@@ -1004,7 +1004,7 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 
 		case 'E': case 'e':
 			can_render_number = 1;
-			info.scientific = TRUE;
+			info.scientific = *format;
 			for (format++; *format;){
 				if (*format == '+'){
 					info.scientific_shows_plus = TRUE;
@@ -1019,9 +1019,16 @@ format_number (gdouble number, const StyleFormatEntry *style_format_entry)
 			}
 			/* FIXME: this is a gross hack */
 			{
-				char *buffer = g_alloca (40 + info.right_req + 1);
+				char *buffer = g_alloca (40 + info.right_req + 2);
 
-				sprintf (buffer, "%.*e", info.right_req, number);
+				sprintf (buffer, (info.scientific == 'e')
+					 ? "%s%.*e"
+					 : "%s%.*E",
+					 info.negative
+					 ? "-" :
+					 info.scientific_shows_plus
+					 ? "+" : "",
+					 info.right_req, number);
 
 				g_string_append (result, buffer);
 				goto finish;
