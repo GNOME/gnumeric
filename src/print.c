@@ -383,6 +383,9 @@ compute_groups (Sheet *sheet, int start, int end, int usable,
 	return result;
 }
 
+#define COL_FIT(col) (col >= SHEET_MAX_COLS ? (SHEET_MAX_COLS-1) : col)
+#define ROW_FIT(row) (row >= SHEET_MAX_ROWS ? (SHEET_MAX_ROWS-1) : row)
+
 static void
 print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int end_row, PrintJobInfo *pj)
 {
@@ -409,7 +412,10 @@ print_sheet_range (Sheet *sheet, int start_col, int start_row, int end_col, int 
 			for (m = rows; m; m = m->next){
 				int row_count = GPOINTER_TO_INT (m->data);
 				
-				print_page (sheet, col, row, col + col_count - 1, row + row_count - 1, pj);
+				print_page (sheet,
+					    COL_FIT (col), ROW_FIT (row),
+					    COL_FIT (col + col_count - 1),
+					    ROW_FIT (row + row_count - 1), pj);
 
 				row += row_count;
 				pj->render_info->page++;

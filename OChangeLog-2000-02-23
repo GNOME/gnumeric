@@ -1,3 +1,16 @@
+1999-11-22  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/print.c: Fit the ranges that are printed.
+
+1999-11-21  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/item-cursor.c (item_cursor_drag_event): update the canvas
+	here;  Not in item_cursor_set_bounds_visibly.
+
+1999-11-19  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/xml-io.c (xml_write_styles): Implement correctly.
+
 1999-11-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_draw) : Draw autofill handle
