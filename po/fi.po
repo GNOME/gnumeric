@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2002-02-18 00:59-0500\n"
-"PO-Revision-Date: 2001-12-06 15:00+0200\n"
+"POT-Creation-Date: 2002-02-18 12:34+0200\n"
+"PO-Revision-Date: 2002-02-18 13:12+0200\n"
 "Last-Translator: Jarkko Ranta <jjranta@cc.joensuu.fi>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -15,13 +15,12 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 
 #: gnumeric.desktop.in.h:1
-#, fuzzy
 msgid "Gnumeric Spreadsheet"
-msgstr "GNOME:n taulukkolasenta"
+msgstr "Gnumeric taulukkolaskenta"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
-msgstr "GNOME:n taulukkolasenta"
+msgstr "Gnomen taulukkolaskenta"
 
 #: plugins/applix/applix-read.c:91
 msgid "Parse error while reading Applix file."
@@ -58,12 +57,11 @@ msgid ""
 "@DESCRIPTION=Uses the Black-Scholes model to calculate the price of a "
 "European call option struck at @strike on an asset with price @price.  "
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @rate is the risk-free interest rate to the exercise date, "
-"in percent.\n"
+"period through to the exercise date.  @days_to_maturity the number of days to "
+"exercise, and @rate is the risk-free interest rate to the exercise date, in "
+"percent.\n"
 "The returned value will be expressed in the same units as @strike and "
-"@price.\n"
-"@EXAMPLES=\n"
+"@price.\n@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_put, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
@@ -77,12 +75,11 @@ msgid ""
 "@DESCRIPTION=Uses the Black-Scholes model to calculate the price of a "
 "European put option struck at @strike on an asset with price @price.  "
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @rate is the risk-free interest rate to the exercise date, "
-"in percent.\n"
+"period through to the exercise date.  @days_to_maturity the number of days to "
+"exercise, and @rate is the risk-free interest rate to the exercise date, in "
+"percent.\n"
 "The returned value will be expressed in the same units as @strike and "
-"@price.\n"
-"@EXAMPLES=\n"
+"@price.\n@EXAMPLES=\n"
 "\n"
 "@SEEALSO=opt_bs_call, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, "
 "opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, "
@@ -98,9 +95,9 @@ msgid ""
 "(The delta of an option is the rate of change of its price with respect to "
 "the price of the underlying asset.)\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @rate is the risk-free interest rate to the exercise date, "
-"in percent.\n"
+"period through to the exercise date.  @days_to_maturity the number of days to "
+"exercise, and @rate is the risk-free interest rate to the exercise date, in "
+"percent.\n"
 "The returned value will be expressed as the rate of change of option value "
 "per unit change in @price.\n"
 "@EXAMPLES=\n"
@@ -119,9 +116,9 @@ msgid ""
 "(The delta of an option is the rate of change of its price with respect to "
 "the price of the underlying asset.)\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @rate is the risk-free interest rate to the exercise date, "
-"in percent.\n"
+"period through to the exercise date.  @days_to_maturity the number of days to "
+"exercise, and @rate is the risk-free interest rate to the exercise date, in "
+"percent.\n"
 "The returned value will be expressed as the rate of change of option value "
 "per unit change in @price.\n"
 "@EXAMPLES=\n"
@@ -141,9 +138,9 @@ msgid ""
 "(The rho of an option is the rate of change of its price with respect to the "
 "risk free interest rate.)\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @rate is the risk-free interest rate to the exercise date, "
-"in percent.\n"
+"period through to the exercise date.  @days_to_maturity the number of days to "
+"exercise, and @rate is the risk-free interest rate to the exercise date, in "
+"percent.\n"
 "The returned value will be expressed as the rate of change of option value, "
 "per 100% change in @rate.\n"
 "@EXAMPLES=\n"
@@ -163,9 +160,9 @@ msgid ""
 "(The rho of an option is the rate of change of its price with respect to the "
 "risk free interest rate.)\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @rate is the risk-free interest rate to the exercise date, "
-"in percent.\n"
+"period through to the exercise date.  @days_to_maturity the number of days to "
+"exercise, and @rate is the risk-free interest rate to the exercise date, in "
+"percent.\n"
 "The returned value will be expressed as the rate of change of option value, "
 "per 100% change in @rate.\n"
 "@EXAMPLES=\n"
@@ -184,9 +181,9 @@ msgid ""
 "(The theta of an option is the rate of change of its price with respect to "
 "time to expiry.)\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @rate is the risk-free interest rate to the exercise date, "
-"in percent.\n"
+"period through to the exercise date.  @days_to_maturity the number of days to "
+"exercise, and @rate is the risk-free interest rate to the exercise date, in "
+"percent.\n"
 "The returned value will be expressed as minus the rate of change of option "
 "value, per 365.25 days.\n"
 "@EXAMPLES=\n"
@@ -204,9 +201,9 @@ msgid ""
 "(The theta of an option is the rate of change of its price with respect to "
 "time to expiry.)\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @rate is the risk-free interest rate to the exercise date, "
-"in percent.\n"
+"period through to the exercise date.  @days_to_maturity the number of days to "
+"exercise, and @rate is the risk-free interest rate to the exercise date, in "
+"percent.\n"
 "The returned value will be expressed as minus the rate of change of option "
 "value, per 365.25 days.\n"
 "@EXAMPLES=\n"
@@ -221,12 +218,12 @@ msgid ""
 "@SYNTAX=opt_bs_gamma(strike,price,volatility,days_to_maturity,rate)\n"
 "@DESCRIPTION=Uses the Black-Scholes model to calculate the \"gamma\" of a "
 "European option struck at @strike on an asset with price @price.\n"
-"(The gamma of an option is the second derivative of its price with respect "
-"to the price of the underlying asset, and is the same for calls and puts.)\n"
+"(The gamma of an option is the second derivative of its price with respect to "
+"the price of the underlying asset, and is the same for calls and puts.)\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @rate is the risk-free interest rate to the exercise date, "
-"in percent.\n"
+"period through to the exercise date.  @days_to_maturity the number of days to "
+"exercise, and @rate is the risk-free interest rate to the exercise date, in "
+"percent.\n"
 "The returned value will be expressed as the rate of change of delta per unit "
 "change in @price.\n"
 "@EXAMPLES=\n"
@@ -246,9 +243,9 @@ msgid ""
 "(The vega of an option is the rate of change of its price with respect to "
 "volatility, and is the same for calls and puts.)\n"
 "@volatility is the annualized volatility, in percent, of the asset for the "
-"period through to the exercise date.  @days_to_maturity the number of days "
-"to exercise, and @rate is the risk-free interest rate to the exercise date, "
-"in percent.\n"
+"period through to the exercise date.  @days_to_maturity the number of days to "
+"exercise, and @rate is the risk-free interest rate to the exercise date, in "
+"percent.\n"
 "The returned value will be expressed as the rate of change of option value, "
 "per 100% volatilty.\n"
 "@EXAMPLES=\n"
@@ -330,8 +327,8 @@ msgstr "Data Interchange Format (DIF) -moduuli"
 msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
-"Lukee ja kirjoittaa Data Interchange Format -muodossa tallennettua tietoa (*."
-"dif)"
+"Lukee ja kirjoittaa Data Interchange Format -muodossa tallennettua tietoa "
+"(*.dif)"
 
 #: plugins/excel/boot.c:104
 msgid ""
@@ -735,8 +732,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
-"@DESCRIPTION=The NT_SIGMA function calculates the sum of the divisors of "
-"@n.\n"
+"@DESCRIPTION=The NT_SIGMA function calculates the sum of the divisors of @n.\n"
 "This function only takes one argument.\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
@@ -818,8 +814,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=BITRSHIFT\n"
 "@SYNTAX=BITRSHIFT(x,n)\n"
-"@DESCRIPTION=The BITRSHIFT function returns @x bit-shifted right by @n "
-"bits.\n"
+"@DESCRIPTION=The BITRSHIFT function returns @x bit-shifted right by @n bits.\n"
 "If @n is negative, a left shift will in effect be performed.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1180,7 +1175,7 @@ msgstr ""
 msgid "Automatically save the current document at regular intervals"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2576
+#: src/GNOME_Gnumeric.xml.h:12 src/dialogs/dialog-cell-format.c:2573
 #: src/workbook-format-toolbar.c:797 src/workbook-format-toolbar.c:854
 msgid "Background"
 msgstr ""
@@ -1278,9 +1273,8 @@ msgid "Co_mments"
 msgstr "_Kommentit"
 
 #: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2992
-#, fuzzy
 msgid "Co_variance"
-msgstr "lisää soluja"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3059
 msgid "Collapse an outline group"
@@ -1308,8 +1302,8 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:2978
 msgid ""
-"Comparing two population means from pop. with known varinces or using a "
-"large sample: z- test"
+"Comparing two population means from pop. with known varinces or using a large "
+"sample: z- test"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3020
@@ -1464,9 +1458,8 @@ msgid "Edit a formula in the current cell"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2604
-#, fuzzy
 msgid "Edit descriptive information"
-msgstr "Lisätiedot"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2795
 msgid "Edit sheet and workbook names"
@@ -1522,7 +1515,7 @@ msgstr "Kirjasinkoko"
 msgid "Font selector"
 msgstr "Kirjasinvalitsin"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2571
+#: src/GNOME_Gnumeric.xml.h:92 src/dialogs/dialog-cell-format.c:2568
 #: src/workbook-format-toolbar.c:823 src/workbook-format-toolbar.c:857
 msgid "Foreground"
 msgstr "Edustaväri"
@@ -1785,7 +1778,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:155
 msgid "Open an existing workbook"
-msgstr "Avaa olemassaolevan työkirjan"
+msgstr "Avaa olemassaolevan työkirja"
 
 #: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3080
 msgid "Outlines _Below"
@@ -1800,9 +1793,8 @@ msgid "P_aste Special..."
 msgstr "Liitä _määräten..."
 
 #: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2603
-#, fuzzy
 msgid "P_roperties..."
-msgstr "Operaatio"
+msgstr "_Ominaisuudet"
 
 #: src/GNOME_Gnumeric.xml.h:160 src/cmd-edit.c:344
 #: src/workbook-control-gui.c:3170
@@ -1900,7 +1892,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:182
 msgid "Redo the undone action"
-msgstr "Toista kumoamistoiminto"
+msgstr "Toista kumottu toiminto"
 
 #: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3011
 msgid "Regression Analysis"
@@ -1928,7 +1920,6 @@ msgid "Right justifies the contents of each cell"
 msgstr "Tasaa solujen sisällön oikealle"
 
 #: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2724
-#, fuzzy
 msgid "S_heet"
 msgstr "_Taulu"
 
@@ -1986,23 +1977,20 @@ msgid "Select Arra_y"
 msgstr "_Valitse kaikki"
 
 #: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2635
-#, fuzzy
 msgid "Select _All"
-msgstr "_Valitse kaikki"
+msgstr "Valitse k_aikki"
 
 #: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:2645
-#, fuzzy
 msgid "Select _Column"
-msgstr "Tuhoa solu(ja)"
+msgstr "Valitse _sarake"
 
 #: src/GNOME_Gnumeric.xml.h:204 src/workbook-control-gui.c:2655
 msgid "Select _Depends"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2640
-#, fuzzy
 msgid "Select _Row"
-msgstr "Lisää rivejä"
+msgstr "Valitse _rivi"
 
 #: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2636
 msgid "Select all cells in the spreadsheet"
@@ -2165,7 +2153,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:244 src/workbook-control-gui.c:2768
 msgid "Zoom the spreadsheet in or out"
-msgstr "Lähentää tai loitontaa taulukkoa"
+msgstr "Lähennä tai loitonna taulukkoa"
 
 #: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:2987
 msgid "_ANOVA"
@@ -2176,18 +2164,16 @@ msgid "_About..."
 msgstr "_Tietoja..."
 
 #: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:2824
-#, fuzzy
 msgid "_Add / Modify comment..."
-msgstr "_Lisää/muokkaa kommenttia"
+msgstr "_Lisää / muokkaa kommenttia.."
 
 #: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:2617
 msgid "_All"
 msgstr "_Kaikki"
 
 #: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3036
-#, fuzzy
 msgid "_Auto Save..."
-msgstr "M_ene soluun..."
+msgstr "_Automaattitallennus..."
 
 #: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:2837
 #: src/workbook-control-gui.c:2856
@@ -2196,9 +2182,8 @@ msgid "_Auto fit selection"
 msgstr "Tasaus vasemmalle"
 
 #: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:2924
-#, fuzzy
 msgid "_Autoformat..."
-msgstr "_Automaattisäätö"
+msgstr "_Automaattimuotoilu..."
 
 #. Default <Ctrl-1> invoke the format dialog
 #: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:2916
@@ -2210,14 +2195,12 @@ msgid "_Close"
 msgstr "_Sulje"
 
 #: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2810
-#, fuzzy
 msgid "_Columns"
-msgstr "S_arake"
+msgstr "_Sarakkeet"
 
 #: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3112
-#, fuzzy
 msgid "_Consolidate..."
-msgstr "_Leveys"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:2626
 msgid "_Content"
@@ -2234,32 +2217,27 @@ msgid "_Correlation"
 msgstr "Operaatio"
 
 #: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3136
-#, fuzzy
 msgid "_Data"
-msgstr "Päiväys"
+msgstr "_Data"
 
 #: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:2794
-#, fuzzy
 msgid "_Define..."
-msgstr "Tuhoa"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:261 src/sheet-control-gui.c:1429
 #: src/workbook-control-gui.c:2719
-#, fuzzy
 msgid "_Delete..."
-msgstr "Tuhoa"
+msgstr "_Poista..."
 
 #: src/GNOME_Gnumeric.xml.h:262 src/workbook-control-gui.c:2995
 msgid "_Descriptive Statistics"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:2677
-#, fuzzy
 msgid "_Duplicate"
-msgstr "Päiväys"
+msgstr "_Kopioi"
 
 #: src/GNOME_Gnumeric.xml.h:264
-#, fuzzy
 msgid "_Edit"
 msgstr "_Muokkaa"
 
@@ -2272,14 +2250,12 @@ msgid "_File"
 msgstr "_Tiedosto"
 
 #: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:2728
-#, fuzzy
 msgid "_Fill"
-msgstr "Täytetty"
+msgstr "_Täytä"
 
 #: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3108
-#, fuzzy
 msgid "_Filter"
-msgstr "_Tiedosto"
+msgstr "_Suodata"
 
 #: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2620
 msgid "_Formats"
@@ -2291,9 +2267,8 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:958
 #: src/workbook-control-gui.c:2770
-#, fuzzy
 msgid "_Freeze Panes"
-msgstr "Tuhoa"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:272 src/workbook-control-gui.c:3042
 msgid "_Goal Seek..."
@@ -2325,9 +2300,8 @@ msgstr "_Ohje"
 #: src/GNOME_Gnumeric.xml.h:278 src/sheet-control-gui.c:1452
 #: src/sheet-control-gui.c:1460 src/workbook-control-gui.c:2840
 #: src/workbook-control-gui.c:2859
-#, fuzzy
 msgid "_Hide"
-msgstr "_Näytä"
+msgstr "_Piilota"
 
 #: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3058
 msgid "_Hide Detail"
@@ -2379,9 +2353,8 @@ msgid "_One Factor"
 msgstr "Murtoluku"
 
 #: src/GNOME_Gnumeric.xml.h:290
-#, fuzzy
 msgid "_Open..."
-msgstr "Avaa..."
+msgstr "_Avaa..."
 
 #: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:2963
 msgid "_Paired Samples: T-Test"
@@ -2396,9 +2369,8 @@ msgid "_Plug-ins..."
 msgstr "L_iitännäiset..."
 
 #: src/GNOME_Gnumeric.xml.h:294
-#, fuzzy
 msgid "_Print..."
-msgstr "Tu_losta"
+msgstr "T_ulosta..."
 
 #: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:2669
 msgid "_Random Generator..."
@@ -2423,21 +2395,19 @@ msgstr "_Rivi"
 
 #: src/GNOME_Gnumeric.xml.h:300 src/workbook-control-gui.c:2813
 msgid "_Rows"
-msgstr "_Rivi"
+msgstr "_Rivit"
 
 #: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3013
-#, fuzzy
 msgid "_Sampling"
-msgstr "Guile-lisiö"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:302
 msgid "_Save"
 msgstr "_Tallenna"
 
 #: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:2726
-#, fuzzy
 msgid "_Select"
-msgstr "Tuhoa"
+msgstr "_Valitse"
 
 #: src/GNOME_Gnumeric.xml.h:304
 #, fuzzy
@@ -2476,9 +2446,8 @@ msgid "_Tabulate Dependency..."
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:312
-#, fuzzy
 msgid "_Toolbars..."
-msgstr "_Tyhjää"
+msgstr "_Työkalupalkit..."
 
 #: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3135
 msgid "_Tools"
@@ -2531,14 +2500,14 @@ msgid "_Zoom..."
 msgstr "_Suurenna..."
 
 #: src/analysis-tools.c:195 src/analysis-tools.c:3234
-#, fuzzy, c-format
+#, c-format
 msgid "Row %i"
-msgstr "Rivi: %d"
+msgstr "Rivi %i"
 
 #: src/analysis-tools.c:198 src/analysis-tools.c:3226
-#, fuzzy, c-format
+#, c-format
 msgid "Column %i"
-msgstr "Sarake: %s"
+msgstr "Sarake %i"
 
 #: src/analysis-tools.c:201
 #, fuzzy, c-format
@@ -2556,9 +2525,8 @@ msgid "Correlations"
 msgstr "Operaatio"
 
 #: src/analysis-tools.c:902 src/analysis-tools.c:905
-#, fuzzy
 msgid "Covariances"
-msgstr "lisää soluja"
+msgstr ""
 
 #: src/analysis-tools.c:984
 msgid "Summary Statistics"
@@ -2573,8 +2541,8 @@ msgstr ""
 #.
 #: src/analysis-tools.c:995
 msgid ""
-"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
-"Skewness/Range/Minimum/Maximum/Sum/Count"
+"/Mean/Standard Error/Median/Mode/Standard Deviation/Sample "
+"Variance/Kurtosis/Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
 
 #: src/analysis-tools.c:1081
@@ -2638,23 +2606,23 @@ msgstr "Teksti"
 
 #: src/analysis-tools.c:1501
 msgid ""
-"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
-"df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
-"two-tail"
+"/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean "
+"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
+"two-tail/t Critical two-tail"
 msgstr ""
 
 #: src/analysis-tools.c:1648
 msgid ""
-"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
-"Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
-"(T<=t) two-tail/t Critical two-tail"
+"/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean "
+"Difference/Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical "
+"one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
 
 #: src/analysis-tools.c:1776
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
-"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
-"t Critical two-tail"
+"Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) "
+"two-tail/t Critical two-tail"
 msgstr ""
 
 #: src/analysis-tools.c:1914
@@ -2687,8 +2655,9 @@ msgstr ""
 
 #: src/analysis-tools.c:2350
 msgid ""
-"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
-"Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
+"/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R "
+"Square/Standard "
+"Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 
 #: src/analysis-tools.c:2371
@@ -2697,7 +2666,8 @@ msgstr ""
 
 #: src/analysis-tools.c:2378
 #, c-format
-msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
+msgid ""
+"/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr ""
 
 #: src/analysis-tools.c:2546
@@ -2905,14 +2875,14 @@ msgid "Shift rows %s"
 msgstr "Siirrä soluja alas ja kopioi"
 
 #: src/cmd-edit.c:389
-#, fuzzy, c-format
+#, c-format
 msgid "Shift row %s"
-msgstr "Siirrä soluja alas ja kopioi"
+msgstr "Siirrä riviä %s"
 
 #: src/cmd-edit.c:426
-#, fuzzy, c-format
+#, c-format
 msgid "Shift columns %s"
-msgstr "Lisää sarakkeita"
+msgstr "Siirrä sarakkeita %s"
 
 #: src/cmd-edit.c:427
 #, fuzzy, c-format
@@ -2955,24 +2925,24 @@ msgid "Inserting %d row before %s"
 msgstr "Lisää uuden sarakkeen"
 
 #: src/commands.c:1132
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting columns %s"
-msgstr "Tuhoa solu(ja)"
+msgstr "Poistetaan sarakkeet %s"
 
 #: src/commands.c:1133
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting column %s"
-msgstr "Tuhoa solu(ja)"
+msgstr "Poistetaan sarake %s"
 
 #: src/commands.c:1143
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting rows %s"
-msgstr "Tuhoa rivejä"
+msgstr "Poistetaan rivit %s"
 
 #: src/commands.c:1144
-#, fuzzy, c-format
+#, c-format
 msgid "Deleting row %s"
-msgstr "Tuhoa rivejä"
+msgstr "Poistetaan rivi %s"
 
 #: src/commands.c:1219
 msgid "Undo Clear"
@@ -2999,9 +2969,9 @@ msgid "all"
 msgstr "Kursivointi"
 
 #: src/commands.c:1325
-#, fuzzy, c-format
+#, c-format
 msgid "Clearing %s in %s"
-msgstr "Tuhoa solu(ja)"
+msgstr ""
 
 #: src/commands.c:1520
 #, fuzzy, c-format
@@ -3014,19 +2984,19 @@ msgid "Rename sheet '%s' '%s'"
 msgstr ""
 
 #: src/commands.c:1702
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting column %s"
-msgstr "Tuhoa solu(ja)"
+msgstr ""
 
 #: src/commands.c:1703
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting row %s"
-msgstr "Tuhoa rivejä"
+msgstr ""
 
 #: src/commands.c:1706
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of column %s to %d pixels"
-msgstr "Tuhoa solu(ja)"
+msgstr "Asetetaan sarakkeen %s leveys %d pikseliksi"
 
 #: src/commands.c:1708
 #, c-format
@@ -3034,14 +3004,14 @@ msgid "Setting height of row %s to %d pixels"
 msgstr ""
 
 #: src/commands.c:1713 src/commands.c:1714
-#, fuzzy, c-format
+#, c-format
 msgid "Autofitting columns %s"
-msgstr "Tuhoa solu(ja)"
+msgstr ""
 
 #: src/commands.c:1717
-#, fuzzy, c-format
+#, c-format
 msgid "Setting width of columns %s to %d pixels"
-msgstr "Tuhoa solu(ja)"
+msgstr "Asetetaan sarakkeiden %s leveys %d pikseliksi"
 
 #: src/commands.c:1719
 #, c-format
@@ -3054,24 +3024,20 @@ msgid "Sorting %s"
 msgstr "Varoitus"
 
 #: src/commands.c:1931
-#, fuzzy
 msgid "Unhide columns"
-msgstr "Lisää sarakkeita"
+msgstr "Poista sarakkeiden piilotus"
 
 #: src/commands.c:1931
-#, fuzzy
 msgid "Hide columns"
-msgstr "Lisää sarakkeita"
+msgstr "Piilota sarakkeet"
 
 #: src/commands.c:1932
-#, fuzzy
 msgid "Unhide rows"
-msgstr "Lisää rivejä"
+msgstr "Poista rivien piilotus"
 
 #: src/commands.c:1932
-#, fuzzy
 msgid "Hide rows"
-msgstr "Lisää rivejä"
+msgstr "Piilota rivit"
 
 #: src/commands.c:2013
 #, fuzzy
@@ -3079,9 +3045,8 @@ msgid "Expand columns"
 msgstr "Lisää sarakkeita"
 
 #: src/commands.c:2013
-#, fuzzy
 msgid "Collapse columns"
-msgstr "Tuhoa solu(ja)"
+msgstr ""
 
 #: src/commands.c:2014
 #, fuzzy
@@ -3114,24 +3079,24 @@ msgid "Group columns %s"
 msgstr "Lisää sarakkeita"
 
 #: src/commands.c:2099
-#, fuzzy, c-format
+#, c-format
 msgid "Ungroup columns %s"
-msgstr "Tuhoa solu(ja)"
+msgstr ""
 
 #: src/commands.c:2101
-#, fuzzy, c-format
+#, c-format
 msgid "Group rows %d:%d"
-msgstr "Tuhoa rivejä"
+msgstr ""
 
 #: src/commands.c:2101
-#, fuzzy, c-format
+#, c-format
 msgid "Ungroup rows %d:%d"
-msgstr "Tuhoa rivejä"
+msgstr ""
 
 #: src/commands.c:2306
-#, fuzzy, c-format
+#, c-format
 msgid "Moving %s"
-msgstr "lisää soluja"
+msgstr "Siirretään %s"
 
 #: src/commands.c:2315 src/commands.c:2523
 msgid "is beyond sheet boundaries"
@@ -3155,19 +3120,19 @@ msgid "Autofilling %s"
 msgstr "lisää soluja"
 
 #: src/commands.c:2873
-#, fuzzy, c-format
+#, c-format
 msgid "Autoformatting %s"
-msgstr "_Automaattisäätö"
+msgstr "Automaattimuotoillaan %s"
 
 #: src/commands.c:2983
-#, fuzzy, c-format
+#, c-format
 msgid "Unmerging %s"
-msgstr "_Solut.."
+msgstr ""
 
 #: src/commands.c:3121
-#, fuzzy, c-format
+#, c-format
 msgid "Merging %s"
-msgstr "lisää soluja"
+msgstr "Yhdistetään %s"
 
 #. Corrected below.
 #: src/commands.c:3499
@@ -3175,14 +3140,14 @@ msgid "Search and Replace"
 msgstr ""
 
 #: src/commands.c:3595
-#, fuzzy, c-format
+#, c-format
 msgid "Setting default width of columns to %.2fpts"
-msgstr "Tuhoa solu(ja)"
+msgstr "Asetetaan sarakkeiden oletusleveydeksi %.2fpts"
 
 #: src/commands.c:3596
-#, fuzzy, c-format
+#, c-format
 msgid "Setting default height of rows to %.2fpts"
-msgstr "Tuhoa solu(ja)"
+msgstr "Asetetaan rivien oletuskorkeudeksi %.2fpts"
 
 #. Changed in initial redo.
 #: src/commands.c:3681
@@ -3413,9 +3378,8 @@ msgstr "John Gotts, rpm-paketointi."
 #. if your charset allows it, replace the 'ue' of 'Guelzow'
 #. * with 'uumlaut'
 #: src/dialogs/dialog-about.c:46
-#, fuzzy
 msgid "Andreas J. Guelzow, Gnumeric hacker."
-msgstr "Jon K. Hellan, Gnumeric-hakkeri"
+msgstr "Andreas J. Guelzow, Gnumeric-hakkeri."
 
 #: src/dialogs/dialog-about.c:47
 msgid "Jon K. Hellan, Gnumeric hacker."
@@ -3499,9 +3463,8 @@ msgid "Gnumeric"
 msgstr "Gnumeric"
 
 #: src/dialogs/dialog-about.c:92
-#, fuzzy
 msgid "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
-msgstr "(C) 1998-2001 Miguel de Icaza"
+msgstr "(C) 1998-2000 Miguel de Icaza, 2001-2002 Jody Goldberg"
 
 #: src/dialogs/dialog-about.c:93
 msgid "A production ready spreadsheet"
@@ -3555,19 +3518,16 @@ msgid "An unexpected error has occurred: %d."
 msgstr ""
 
 #: src/dialogs/dialog-advanced-filter.c:374
-#, fuzzy
 msgid "_List Range:"
-msgstr "L_iimaa"
+msgstr ""
 
 #: src/dialogs/dialog-advanced-filter.c:375
-#, fuzzy
 msgid "Criteria _Range:"
-msgstr "L_iimaa"
+msgstr ""
 
 #: src/dialogs/dialog-advanced-filter.c:379
-#, fuzzy
 msgid "Could not create the Advanced Filter dialog."
-msgstr "Parametria ei voitu tulkita"
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:522
 #: src/dialogs/dialog-analysis-tools.c:3611
@@ -3591,14 +3551,12 @@ msgid "The selected input areas must have equal size!"
 msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:767
-#, fuzzy
 msgid "Could not create the Correlation Tool dialog."
-msgstr "Parametria ei voitu tulkita"
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:883
-#, fuzzy
 msgid "Could not create the Covariance Tool dialog."
-msgstr "Parametria ei voitu tulkita"
+msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:1119
 msgid "Could not create the Descriptive Statistics Tool dialog."
@@ -3674,9 +3632,8 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:2131
 #: src/widgets/widget-font-selector.c:114
-#, fuzzy
 msgid "Normal"
-msgstr "Muotoilut"
+msgstr "Normaali"
 
 #: src/dialogs/dialog-analysis-tools.c:2131
 msgid "_Mean:"
@@ -3872,23 +3829,20 @@ msgid " "
 msgstr ""
 
 #: src/dialogs/dialog-autoformat.c:67
-#, fuzzy
 msgid "Jan"
-msgstr "*Tammi"
+msgstr "Tammi"
 
 #: src/dialogs/dialog-autoformat.c:67
-#, fuzzy
 msgid "Feb"
-msgstr "*Helmi"
+msgstr "Helmi"
 
 #: src/dialogs/dialog-autoformat.c:67
 msgid "Mrt"
 msgstr ""
 
 #: src/dialogs/dialog-autoformat.c:68
-#, fuzzy
 msgid "North"
-msgstr "_Ratkaisija..."
+msgstr "Pohjoinen"
 
 #: src/dialogs/dialog-autoformat.c:68
 msgid "6"
@@ -3907,9 +3861,8 @@ msgid "39"
 msgstr "39"
 
 #: src/dialogs/dialog-autoformat.c:69
-#, fuzzy
 msgid "South"
-msgstr "_Ratkaisija..."
+msgstr "Etelä"
 
 #: src/dialogs/dialog-autoformat.c:69
 msgid "12"
@@ -3928,9 +3881,8 @@ msgid "33"
 msgstr ""
 
 #: src/dialogs/dialog-autoformat.c:70
-#, fuzzy
 msgid "West"
-msgstr "Teksti"
+msgstr "Länsi"
 
 #: src/dialogs/dialog-autoformat.c:70
 msgid "8"
@@ -3976,9 +3928,9 @@ msgid "General"
 msgstr "Yleinen"
 
 #: src/dialogs/dialog-autosave.c:61
-#, fuzzy, c-format
+#, c-format
 msgid "Do you want to save the workbook %s ?"
-msgstr "Haluatko tallentaa työkirjan?"
+msgstr "Haluatko tallentaa työkirjan %s ?"
 
 #: src/dialogs/dialog-autosave.c:178
 #, fuzzy
@@ -3986,9 +3938,8 @@ msgid "Could not create the autosave dialog."
 msgstr "Parametria ei voitu tulkita"
 
 #: src/dialogs/dialog-cell-comment.c:34
-#, fuzzy
 msgid "Cell comment"
-msgstr "_Kommentit"
+msgstr "Solun kommentti"
 
 #: src/dialogs/dialog-cell-format.c:424
 msgid ";[Red]"
@@ -4017,9 +3968,8 @@ msgid "None"
 msgstr "Tyhjä"
 
 #: src/dialogs/dialog-cell-format.c:2099
-#, fuzzy
 msgid "Source"
-msgstr "_Ratkaisija..."
+msgstr "Lähde"
 
 #: src/dialogs/dialog-cell-format.c:2100
 msgid "Criteria"
@@ -4036,55 +3986,50 @@ msgid "Max :"
 msgstr "Maksimi"
 
 #: src/dialogs/dialog-cell-format.c:2116
-#, fuzzy
 msgid "Value :"
-msgstr "Arvot"
+msgstr "Arvo :"
 
-#: src/dialogs/dialog-cell-format.c:2502
-#, fuzzy
+#: src/dialogs/dialog-cell-format.c:2499
 msgid "Format Cells"
-msgstr "Aseta solu:"
+msgstr ""
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2566 src/dialogs/dialog-cell-format.c:2571
-#: src/dialogs/dialog-cell-format.c:2581 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2563 src/dialogs/dialog-cell-format.c:2568
+#: src/dialogs/dialog-cell-format.c:2578 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:816
-#, fuzzy
 msgid "Automatic"
-msgstr "_Automaattisäätö"
+msgstr "Automaattinen"
 
-#: src/dialogs/dialog-cell-format.c:2566
+#: src/dialogs/dialog-cell-format.c:2563
 msgid "Border"
 msgstr "Reunaviiva"
 
-#: src/dialogs/dialog-cell-format.c:2576 src/workbook-format-toolbar.c:789
+#: src/dialogs/dialog-cell-format.c:2573 src/workbook-format-toolbar.c:789
 #, fuzzy
 msgid "Clear Background"
 msgstr "Taustan määrittelyt"
 
-#: src/dialogs/dialog-cell-format.c:2581
+#: src/dialogs/dialog-cell-format.c:2578
 msgid "Pattern"
 msgstr ""
 
 #: src/dialogs/dialog-cell-sort.c:106 src/dialogs/dialog-cell-sort.c:111
-#, fuzzy, c-format
+#, c-format
 msgid "Column %s"
-msgstr "Sarake: %s"
+msgstr "Sarake %s"
 
 #: src/dialogs/dialog-cell-sort.c:108 src/dialogs/dialog-cell-sort.c:113
-#, fuzzy, c-format
+#, c-format
 msgid "Row %s"
-msgstr "Rivi: %d"
+msgstr "Rivi %s"
 
 #: src/dialogs/dialog-cell-sort.c:598 src/workbook-control-gui.c:2465
-#, fuzzy
 msgid "Sort"
-msgstr "_Ratkaisija..."
+msgstr "Järjestä"
 
 #: src/dialogs/dialog-cell-sort.c:603
-#, fuzzy
 msgid "Row/Column"
-msgstr "S_arake"
+msgstr "Rivi/Sarake"
 
 #: src/dialogs/dialog-cell-sort.c:612
 #, fuzzy
@@ -4092,9 +4037,8 @@ msgid "Descend"
 msgstr "Kirjanpito"
 
 #: src/dialogs/dialog-cell-sort.c:621
-#, fuzzy
 msgid "Case Sensitive"
-msgstr "Tieteelliset"
+msgstr "Kirjainkoko huomioidaan"
 
 #: src/dialogs/dialog-cell-sort.c:630
 #, fuzzy
@@ -4122,7 +4066,7 @@ msgstr "Parametria ei voitu tulkita"
 
 #: src/dialogs/dialog-delete-cells.c:82
 msgid "Delete cells"
-msgstr "Tuhoa soluja"
+msgstr "Poista solut"
 
 #: src/dialogs/dialog-formula-guru.c:435
 #, c-format
@@ -4309,7 +4253,7 @@ msgstr ""
 
 #: src/dialogs/dialog-plugin-manager.c:71
 msgid "in memory"
-msgstr ""
+msgstr "muistissa"
 
 #: src/dialogs/dialog-plugin-manager.c:72
 #, fuzzy
@@ -4388,21 +4332,18 @@ msgid "Plugin list"
 msgstr "Liitännäisluettelo"
 
 #: src/dialogs/dialog-plugin-manager.c:568
-#, fuzzy
 msgid "Plugin details"
-msgstr "Lisiö on vielä käytössä.\n"
+msgstr "Liitännäisten yksityiskohdat"
 
 #: src/dialogs/dialog-printer-setup.c:983
 #: src/dialogs/dialog-printer-setup.c:1114
-#, fuzzy
 msgid "Customize header"
-msgstr "Taustan määrittelyt"
+msgstr "Mukauta yläviite"
 
 #: src/dialogs/dialog-printer-setup.c:985
 #: src/dialogs/dialog-printer-setup.c:1120
-#, fuzzy
 msgid "Customize footer"
-msgstr "Taustan määrittelyt"
+msgstr "Mukauta alaviite"
 
 #: src/dialogs/dialog-printer-setup.c:1113
 #, fuzzy
@@ -4444,15 +4385,15 @@ msgstr "Parametria ei voitu tulkita"
 
 #: src/dialogs/dialog-solver.c:64
 msgid "<="
-msgstr ""
+msgstr "<="
 
 #: src/dialogs/dialog-solver.c:65
 msgid ">="
-msgstr ""
+msgstr ">="
 
 #: src/dialogs/dialog-solver.c:66
 msgid "="
-msgstr ""
+msgstr "="
 
 #. xgettext: Int == Integer constraint for the linear program
 #: src/dialogs/dialog-solver.c:68
@@ -4490,9 +4431,8 @@ msgid "You need to select at least one sheet to export"
 msgstr ""
 
 #: src/dialogs/dialog-stf-export.c:53 src/dialogs/dialog-stf.c:105
-#, fuzzy
 msgid "Are you sure you want to cancel?"
-msgstr "Oletko varma että haluat poistaa taulun `%s' "
+msgstr "Oletko varma että haluat peruuttaa?"
 
 #: src/dialogs/dialog-stf-export.c:377 src/dialogs/dialog-stf.c:505
 #, fuzzy, c-format
@@ -4505,9 +4445,8 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-format-page.c:170
 #: src/dialogs/dialog-stf-format-page.c:376
-#, fuzzy
 msgid "Custom"
-msgstr "Oma"
+msgstr "Mukauta"
 
 #: src/dialogs/dialog-stf-main-page.c:87
 #, c-format
@@ -6109,8 +6048,8 @@ msgstr "Funktiota ei ole"
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
-"@DESCRIPTION=DAVERAGE function returns the average of the values in a list "
-"or database that match conditions specified. \n"
+"@DESCRIPTION=DAVERAGE function returns the average of the values in a list or "
+"database that match conditions specified. \n"
 msgstr ""
 
 #: src/functions/fn-database.c:512
@@ -6206,8 +6145,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
-"@DESCRIPTION=DMIN function returns the smallest number in a column that "
-"match conditions specified. \n"
+"@DESCRIPTION=DMIN function returns the smallest number in a column that match "
+"conditions specified. \n"
 msgstr ""
 
 #: src/functions/fn-database.c:844
@@ -6316,9 +6255,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
-"@DESCRIPTION=DVARP function returns the variance of a population based on "
-"the entire populations. The populations consists of numbers that match "
-"conditions specified. \n"
+"@DESCRIPTION=DVARP function returns the variance of a population based on the "
+"entire populations. The populations consists of numbers that match conditions "
+"specified. \n"
 msgstr ""
 
 #: src/functions/fn-database.c:1257
@@ -6349,8 +6288,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
-"@DESCRIPTION=DATE returns the number of days since the 1st of january of 1900"
-"(the date serial number) for the given year, month and day.\n"
+"@DESCRIPTION=DATE returns the number of days since the 1st of january of "
+"1900(the date serial number) for the given year, month and day.\n"
 "\n"
 "If @month < 1 or @month > 12, the year will be corrected.  A similar "
 "correction takes place for days.\n"
@@ -6377,8 +6316,7 @@ msgid ""
 "@FUNCTION=UNIX2DATE\n"
 "@SYNTAX=UNIX2DATE(unixtime)\n"
 "@DESCRIPTION=UNIX2DATE converts a unix time into a spreadsheet date and "
-"time.\n"
-"\n"
+"time.\n\n"
 "A unix time is the number of seconds since midnight January 1, 1970.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -6417,10 +6355,9 @@ msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
 "@DESCRIPTION=DATEDIF returns the difference between two dates.  @interval is "
-"one of six possible values:  \"y\", \"m\", \"d\", \"ym\", \"md\", and \"yd"
-"\".\n"
-"The first three options will return the number of complete years, months, or "
-"days, respectively, between the two dates specified.\n"
+"one of six possible values:  \"y\", \"m\", \"d\", \"ym\", \"md\", and "
+"\"yd\".\nThe first three options will return the number of complete years, months, "
+"or days, respectively, between the two dates specified.\n"
 "\"ym\" will return the number of full months between the two dates, not "
 "including the difference in years.\n"
 "\"md\" will return the number of full days between the two dates, not "
@@ -6440,8 +6377,8 @@ msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
 "@DESCRIPTION=EDATE returns the serial number of the date that is the "
-"specified number of months before or after a given date.  @date is the "
-"serial number of the initial date and @months is the number of months before "
+"specified number of months before or after a given date.  @date is the serial "
+"number of the initial date and @months is the number of months before "
 "(negative number) or after (positive number) the initial date.\n"
 "This function is Excel compatible. \n"
 "If @months is not an integer, it is truncated.\n"
@@ -6475,8 +6412,7 @@ msgid ""
 "represent the fraction of the day and is mapped into hour, minutes and "
 "seconds.\n"
 "For example: .0 represents the beginning of the day, and 0.5 represents "
-"noon.\n"
-"This function is Excel compatible. \n"
+"noon.\nThis function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "NOW().\n"
 "\n"
@@ -6624,9 +6560,8 @@ msgid ""
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
 "@DESCRIPTION=DAYS360 returns the number of days from @date1 to @date2 "
 "following a 360-day calendar in which all months are assumed to have 30 "
-"days.\n"
-"If @method is true, the European method will be used.  In this case, if the "
-"day of the month is 31 it will be considered as 30.\n"
+"days.\nIf @method is true, the European method will be used.  In this case, "
+"if the day of the month is 31 it will be considered as 30.\n"
 "If @method is false or omitted, the US method will be used.  This is a "
 "somewhat complicated industry standard method.\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
@@ -6716,10 +6651,10 @@ msgid ""
 "@method.\n"
 "\n"
 "@method defaults to 1.\n"
-"For method=1, week starts on Sunday, and days before first Sunday are in "
-"week 0.\n"
-"For method=2, week starts on Monday, and days before first Monday are in "
-"week 0.\n"
+"For method=1, week starts on Sunday, and days before first Sunday are in week "
+"0.\n"
+"For method=2, week starts on Monday, and days before first Monday are in week "
+"0.\n"
 "For method=150, the ISO 8601 week number is returned.\n"
 "\n"
 "Returns #NUM! if date or method is invalid.\n"
@@ -6738,8 +6673,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
-"@DESCRIPTION=BIN2DEC function converts a binary number in string or number "
-"to its decimal equivalent.\n"
+"@DESCRIPTION=BIN2DEC function converts a binary number in string or number to "
+"its decimal equivalent.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "BIN2DEC(101) equals 5.\n"
@@ -6931,8 +6866,8 @@ msgid ""
 "@DESCRIPTION=BESSELK function returns the Neumann, Weber or Bessel function. "
 "@x is where the function is evaluated. @y is the order of the bessel "
 "function, if non-integer it is truncated.\n"
-"If x or n are not numeric a #VALUE! error is returned. If y < 0 a #NUM! "
-"error is returned.\n"
+"If x or n are not numeric a #VALUE! error is returned. If y < 0 a #NUM! error "
+"is returned.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "BESSELK(3,9) equals 397.95880.\n"
@@ -6945,8 +6880,8 @@ msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
 "@DESCRIPTION=BESSELJ function returns the bessel function with @x is where "
-"the function is evaluated. @y is the order of the bessel function, if non-"
-"integer it is truncated.\n"
+"the function is evaluated. @y is the order of the bessel function, if "
+"non-integer it is truncated.\n"
 "If @x or @y are not numeric a #VALUE! error is returned.  If @y < 0 a #NUM! "
 "error is returned.\n"
 "This function is Excel compatible. \n"
@@ -6963,8 +6898,8 @@ msgid ""
 "@DESCRIPTION=BESSELY function returns the Neumann, Weber or Bessel function. "
 "@x is where the function is evaluated. @y is the order of the bessel "
 "function, if non-integer it is truncated.\n"
-"If x or n are not numeric a #VALUE! error is returned. If n < 0 a #NUM! "
-"error is returned.\n"
+"If x or n are not numeric a #VALUE! error is returned. If n < 0 a #NUM! error "
+"is returned.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "BESSELY(4,2) equals 0.215903595.\n"
@@ -6977,9 +6912,9 @@ msgid ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
 "@DESCRIPTION=COMPLEX returns a complex number of the form x + yi. @real is "
-"the real and @im is the imaginary coefficient of the complex number.  "
-"@suffix is the suffix for the imaginary coefficient.  If it is omitted, "
-"COMPLEX uses 'i' by default.\n"
+"the real and @im is the imaginary coefficient of the complex number.  @suffix "
+"is the suffix for the imaginary coefficient.  If it is omitted, COMPLEX uses "
+"'i' by default.\n"
 "If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! error.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -6993,8 +6928,7 @@ msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
 "@DESCRIPTION=IMAGINARY returns the imaginary coefficient of a complex "
-"number.\n"
-"This function is Excel compatible. \n"
+"number.\nThis function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "IMAGINARY(\"132-j\") equals -1.\n"
 "\n"
@@ -7127,9 +7061,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
-"@DESCRIPTION=IMPOWER returns a complex number raised to a power.  @inumber "
-"is the complex number to be raised to a power and @number is the power to "
-"which you want to raise the complex number.\n"
+"@DESCRIPTION=IMPOWER returns a complex number raised to a power.  @inumber is "
+"the complex number to be raised to a power and @number is the power to which "
+"you want to raise the complex number.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "IMPOWER(\"4-j\",2) equals 15-8j.\n"
@@ -7304,8 +7238,7 @@ msgid ""
 "'f'  femto  1E-15\n"
 "'a'  atto   1E-18\n"
 "\n"
-"If @from_unit and @to_unit are different types, CONVERT returns #NUM! "
-"error.\n"
+"If @from_unit and @to_unit are different types, CONVERT returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "CONVERT(3,\"lbm\",\"g\") equals 1360.7769.\n"
@@ -7321,8 +7254,7 @@ msgid ""
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
 "@DESCRIPTION=With a single argument ERF returns the error function, defined "
 "as erf(x) = 2/sqrt(pi)* integral from 0 to x of exp(-t*t) dt. If two "
-"arguments are supplied, they are the lower and upper limits of the "
-"integral.\n"
+"arguments are supplied, they are the lower and upper limits of the integral.\n"
 "If either @lower_limit or @upper_limit is not numeric a #VALUE! error is "
 "returned.\n"
 "This function is upward-compatible with that in Excel. (If two arguments are "
@@ -7355,9 +7287,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
-"@DESCRIPTION=DELTA function tests for numerical equivalence of two "
-"arguments, returning 1 in case of equality.  @y is optional, and defaults to "
-"0.\n"
+"@DESCRIPTION=DELTA function tests for numerical equivalence of two arguments, "
+"returning 1 in case of equality.  @y is optional, and defaults to 0.\n"
 "If either argument is non-numeric returns a #VALUE! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -7393,15 +7324,15 @@ msgstr ""
 msgid ""
 "@FUNCTION=ACCRINT\n"
 "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,frequency[,basis])\n"
-"@DESCRIPTION=ACCRINT calculates the accrued interest for a security that "
-"pays periodic interest.  @issue is the issue date of the security.  "
+"@DESCRIPTION=ACCRINT calculates the accrued interest for a security that pays "
+"periodic interest.  @issue is the issue date of the security.  "
 "@first_interest is the first interest date of the security.  @settlement is "
-"the settlement date of the sequrity.  The settlement date is always after "
-"the issue date (the date when the security is bought). @rate is the annual "
-"rate of the security and @par is the par value of the security. @frequency "
-"is the number of coupon payments per year. Allowed frequencies are: 1 = "
-"annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system "
-"you want to use:\n"
+"the settlement date of the sequrity.  The settlement date is always after the "
+"issue date (the date when the security is bought). @rate is the annual rate "
+"of the security and @par is the par value of the security. @frequency is the "
+"number of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = "
+"semi, 4 = quarterly. @basis is the type of day counting system you want to "
+"use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -7427,8 +7358,8 @@ msgid ""
 "@DESCRIPTION=ACCRINTM calculates and returns the accrued interest for a "
 "security from @issue to @maturity date.  @issue is the issue date of the "
 "security.  @maturity is the maturity date of the security.  @rate is the "
-"annual rate of the security and @par is the par value of the security. If "
-"you omit @par, ACCRINTM applies $1,000 instead.  @basis is the type of day "
+"annual rate of the security and @par is the par value of the security. If you "
+"omit @par, ACCRINTM applies $1,000 instead.  @basis is the type of day "
 "counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
@@ -7483,9 +7414,9 @@ msgid ""
 "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
 "@DESCRIPTION=RECEIVED calculates and returns the amount to be received at "
 "@maturity date for a security bond.  @settlement is the settlement date of "
-"the security.  @maturity is the maturity date of the security.  The amount "
-"of investement is specified in @investment.  @rate is the security's "
-"discount rate. @basis is the type of day counting system you want to use:\n"
+"the security.  @maturity is the maturity date of the security.  The amount of "
+"investement is specified in @investment.  @rate is the security's discount "
+"rate. @basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -7508,9 +7439,9 @@ msgid ""
 "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
 "@DESCRIPTION=PRICEDISC calculates and returns the price per $100 face value "
 "of a security bond.  The security does not pay interest at maturity.  "
-"@settlement is the settlement date of the security. @maturity is the "
-"maturity date of the security.  @discount is the rate for which the security "
-"is discounted.  @redemption is the amount to be received on @maturity date.  "
+"@settlement is the settlement date of the security. @maturity is the maturity "
+"date of the security.  @discount is the rate for which the security is "
+"discounted.  @redemption is the amount to be received on @maturity date.  "
 "@basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
@@ -7521,8 +7452,8 @@ msgid ""
 "\n"
 "If @settlement date or @maturity date is not valid, PRICEDISC returns #NUM! "
 "error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > "
-"4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity "
-"date or they are the same, PRICEDISC returns #NUM! error. \n"
+"4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity date "
+"or they are the same, PRICEDISC returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PRICEMAT"
@@ -7532,8 +7463,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=PRICEMAT\n"
 "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
-"@DESCRIPTION=PRICEMAT calculates and returns the price per $100 face value "
-"of a security.  The security pays interest at maturity. @settlement is the "
+"@DESCRIPTION=PRICEMAT calculates and returns the price per $100 face value of "
+"a security.  The security pays interest at maturity. @settlement is the "
 "settlement date of the security.  @maturity is the maturity date of the "
 "security.  @issue is the issue date of the security.  @rate is the discount "
 "rate of the security. @yield is the annual yield of the security. @basis is "
@@ -7570,10 +7501,10 @@ msgid ""
 "3  actual days/365\n"
 "4  European 30/360\n"
 "\n"
-"If @settlement date or @maturity date is not valid, DISC returns #NUM! "
-"error. If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > "
-"4, DISC returns #NUM! error. If @settlement date is after @maturity date or "
-"they are the same, DISC returns #NUM! error. \n"
+"If @settlement date or @maturity date is not valid, DISC returns #NUM! error. "
+"If @basis is omitted, US 30/360 is applied. If @basis < 0 or @basis > 4, DISC "
+"returns #NUM! error. If @settlement date is after @maturity date or they are "
+"the same, DISC returns #NUM! error. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -7594,8 +7525,8 @@ msgid ""
 "@r = nominal interest rate (stated in yearly terms)\n"
 "@nper = number of periods used for compounding\n"
 "@EXAMPLES=\n"
-"For example credit cards will list an APR (annual percentage rate) which is "
-"a nominal interest rate.\n"
+"For example credit cards will list an APR (annual percentage rate) which is a "
+"nominal interest rate.\n"
 "For example if you wanted to find out how much you are actually paying "
 "interest on your credit card that states an APR of 19% that is compounded "
 "monthly you would type in:\n"
@@ -7677,16 +7608,16 @@ msgstr ""
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
-"@DESCRIPTION=SLN function will determine the straight line depreciation of "
-"an asset for a single period. The amount you paid for the asset is the "
-"@cost, @salvage is the value of the asset at the end of its useful life, and "
-"@life is the number of periods over which an the asset is depreciated. This "
-"method of deprecition devides the cost evenly over the life of an asset.\n"
+"@DESCRIPTION=SLN function will determine the straight line depreciation of an "
+"asset for a single period. The amount you paid for the asset is the @cost, "
+"@salvage is the value of the asset at the end of its useful life, and @life "
+"is the number of periods over which an the asset is depreciated. This method "
+"of deprecition devides the cost evenly over the life of an asset.\n"
 "The formula used for straight line depriciation is:\n"
 "Depriciation expense = ( @cost - @salvage_value ) / @life\n"
 "\t@cost = cost of an asset when acquired (market value).\t@salvage_value = "
-"amount you get when asset sold at the end of the assets's useful life."
-"\t@life = anticipated life of an asset.\n"
+"amount you get when asset sold at the end of the assets's useful life.\t@life "
+"= anticipated life of an asset.\n"
 "@EXAMPLES=\n"
 "For example, lets suppose your company purchases a new machine for $10,000, "
 "which has a salvage value of $700 and will have a useful life of 10 years. "
@@ -7704,16 +7635,16 @@ msgstr ""
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
-"@DESCRIPTION=SYD function calculates the sum-of-years digits depriciation "
-"for an asset based on its cost, salvage value, anticipated life and a "
-"particular period. This method accelerates the rate of the depreciation, so "
-"that more depreciation expense occurs in earlier periods than in later ones. "
-"The depreciable cost is the actual cost minus the salvage value. The useful "
-"life is the number of periods (typically years) over with the asset is "
+"@DESCRIPTION=SYD function calculates the sum-of-years digits depriciation for "
+"an asset based on its cost, salvage value, anticipated life and a particular "
+"period. This method accelerates the rate of the depreciation, so that more "
+"depreciation expense occurs in earlier periods than in later ones. The "
+"depreciable cost is the actual cost minus the salvage value. The useful life "
+"is the number of periods (typically years) over with the asset is "
 "depreciated.\n"
 "The Formula used for sum-of-years digits depriciation is:\n"
-"Depriciation expense = ( @cost - @salvage_value ) * (@life - @period + 1) * "
-"2 / @life * (@life + 1).\n"
+"Depriciation expense = ( @cost - @salvage_value ) * (@life - @period + 1) * 2 "
+"/ @life * (@life + 1).\n"
 "\t@cost = cost of an asset when acquired (market value).\t@salvage_value = "
 "amount you get when asset sold at the end of its useful life.\t@life = "
 "anticipated life of an asset.\t@period = period for which we need the "
@@ -7762,8 +7693,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
-"@DESCRIPTION=MIRR function returns the modified internal rate of return for "
-"a given periodic cash flow. \n"
+"@DESCRIPTION=MIRR function returns the modified internal rate of return for a "
+"given periodic cash flow. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NPV"
@@ -7774,8 +7705,8 @@ msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
 "@DESCRIPTION=TBILLEQ function returns the bond-yield equivalent (BEY) for a "
-"treasury bill.  TBILLEQ is equivalent to (365 * @discount) / (360 - "
-"@discount * DSM) where DSM is the days between @settlement and @maturity. \n"
+"treasury bill.  TBILLEQ is equivalent to (365 * @discount) / (360 - @discount "
+"* DSM) where DSM is the days between @settlement and @maturity. \n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLEQ returns #NUM! error. If @discount is "
 "negative, TBILLEQ returns #NUM! error. \n"
@@ -7790,8 +7721,7 @@ msgid ""
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
 "@DESCRIPTION=TBILLPRICE function returns the price per $100 value for a "
 "treasury bill where @settlement is the settlement date and @maturity is the "
-"maturity date of the bill.  @discount is the treasury bill's discount "
-"rate. \n"
+"maturity date of the bill.  @discount is the treasury bill's discount rate. \n"
 "If @settlement is after @maturity or the @maturity is set to over one year "
 "later than the @settlement, TBILLPRICE returns #NUM! error. If @discount is "
 "negative, TBILLPRICE returns #NUM! error. \n"
@@ -7863,10 +7793,10 @@ msgstr ""
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
-"@DESCRIPTION=NPV calculates the net present value of an investment "
-"generating peridic payments.  @rate is the periodic interest rate and @v1, "
-"@v2, ... are the periodic payments.  If the schedule of the cash flows are "
-"not periodic use the XNPV function. \n"
+"@DESCRIPTION=NPV calculates the net present value of an investment generating "
+"peridic payments.  @rate is the periodic interest rate and @v1, @v2, ... are "
+"the periodic payments.  If the schedule of the cash flows are not periodic "
+"use the XNPV function. \n"
 "@EXAMPLES=\n"
 "NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) equals 186.30673.\n"
 "\n"
@@ -7897,16 +7827,16 @@ msgid ""
 "closely related to the net present value function (NPV and XNPV).  The XIRR "
 "is the interest rate for a serie of cash flow where the XNPV is zero. \n"
 "@values contains the serie of cash flow generated by the investment.  @dates "
-"contains the dates of the payments.  The first date describes the payment "
-"day of the initial payment and thus all the other dates should be after this "
-"date. The optional @guess is the initial value used in calculating the "
-"XIRR.  You do not have to use that, it is only provided for the Excel "
-"compatibility. \n"
+"contains the dates of the payments.  The first date describes the payment day "
+"of the initial payment and thus all the other dates should be after this "
+"date. The optional @guess is the initial value used in calculating the XIRR.  "
+"You do not have to use that, it is only provided for the Excel compatibility. "
+"\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1:A5 contain the numbers -6000, 2134, 1422, "
-"1933, and 1422, and the cells B1:B5 contain the dates \"1999-01-15\", \"1999-"
-"04-04\", \"1999-05-09\", \"2000-03-12\", and \"2000-05-1\". Then\n"
+"1933, and 1422, and the cells B1:B5 contain the dates \"1999-01-15\", "
+"\"1999-04-04\", \"1999-05-09\", \"2000-03-12\", and \"2000-05-1\". Then\n"
 "XIRR(A1:A5,B1:B5) returns 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 msgstr ""
@@ -7919,8 +7849,8 @@ msgid ""
 "periodic, constant payments and a constant interest rate. The interest rate "
 "per period is @rate, @term is the number of periods in an annuity, @pmt is "
 "the payment made each period, @pv is the present value and @type is when the "
-"payment is made. If @type = 1 then the payment is made at the begining of "
-"the period. If @type = 0 it is made at the end of each period.\n"
+"payment is made. If @type = 1 then the payment is made at the begining of the "
+"period. If @type = 0 it is made at the end of each period.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
@@ -7930,13 +7860,12 @@ msgstr ""
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
-"@DESCRIPTION=PMT returns the amount of payment for a loan based on a "
-"constant interest rate and constant payments (each payment is equal amount). "
-"@rate is the constant interest rate. @nper is the overall number of "
-"payments. @pv is the present value. @fv is the future value. @type is the "
-"type of the payment: 0 means at the end of the period and 1 means at the "
-"beginning of the period. \n"
-"If @fv is omitted, Gnumeric assumes it to be zero. If @type is omitted, "
+"@DESCRIPTION=PMT returns the amount of payment for a loan based on a constant "
+"interest rate and constant payments (each payment is equal amount). @rate is "
+"the constant interest rate. @nper is the overall number of payments. @pv is "
+"the present value. @fv is the future value. @type is the type of the payment: "
+"0 means at the end of the period and 1 means at the beginning of the period. "
+"\nIf @fv is omitted, Gnumeric assumes it to be zero. If @type is omitted, "
 "Gnumeric assumes it to be zero. \n"
 "@EXAMPLES=\n"
 "\n"
@@ -7981,14 +7910,14 @@ msgid ""
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
 "@DESCRIPTION=NPER calculates number of periods of an investment based on "
 "periodic constant payments and a constant interest rate. The interest rate "
-"per period is @rate, @pmt is the payment made each period, @pv is the "
-"present value, @fv is the future value and @type is when the payments are "
-"due. If @type = 1, payments are due at the begining of the period, if @type "
-"= 0, payments are due at the end of the period.\n"
+"per period is @rate, @pmt is the payment made each period, @pv is the present "
+"value, @fv is the future value and @type is when the payments are due. If "
+"@type = 1, payments are due at the begining of the period, if @type = 0, "
+"payments are due at the end of the period.\n"
 "@EXAMPLES=\n"
 "For example, if you deposit $10,000 in a savings account that earns an "
-"interest rate of 6%. To calculate home many years it will take to double "
-"your investment use NPER as follows:\n"
+"interest rate of 6%. To calculate home many years it will take to double your "
+"investment use NPER as follows:\n"
 "=NPER(0.06, 0, -10000, 20000,0)returns 11.895661046 which indicates that you "
 "can double your money just before the end of the 12th year.\n"
 "@SEEALSO=PPMT,PV,FV"
@@ -8000,8 +7929,8 @@ msgid ""
 "@SYNTAX=DURATION(rate,pv,fv)\n"
 "@DESCRIPTION=DURATION calculates number of periods needed for an investment "
 "to attain a desired value. This function is similar to FV and PV with a "
-"difference that we do not need give the direction of cash flows e.g. -100 "
-"for a cash outflow and +100 for a cash inflow.\n"
+"difference that we do not need give the direction of cash flows e.g. -100 for "
+"a cash outflow and +100 for a cash inflow.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PPMT,PV,FV"
@@ -8011,8 +7940,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
-"@DESCRIPTION=FVSCHEDULE returns the future value of given initial value "
-"after applying a series of compound periodic interest rates. The argument "
+"@DESCRIPTION=FVSCHEDULE returns the future value of given initial value after "
+"applying a series of compound periodic interest rates. The argument "
 "@principal is the present value; @schedule is an array of interest rates to "
 "apply. The @schedule argument must be a range of cells.\n"
 "@EXAMPLES=\n"
@@ -8052,10 +7981,10 @@ msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
 "@DESCRIPTION=PRICE returns price per $100 face value of a security. This "
-"method can only be used if the security pays periodic interest. @frequency "
-"is the number of coupon payments per year. Allowed frequencies are: 1 = "
-"annual, 2 = semi, 4 = quarterly. @basis is the type of day counting system "
-"you want to use:\n"
+"method can only be used if the security pays periodic interest. @frequency is "
+"the number of coupon payments per year. Allowed frequencies are: 1 = annual, "
+"2 = semi, 4 = quarterly. @basis is the type of day counting system you want "
+"to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -8099,10 +8028,10 @@ msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
 "@DESCRIPTION=YIELDDISC calculates the annual yield of a security that is "
-"discounted. @settlement is the settlement date of the security.  @maturity "
-"is the maturity date of the security. @pr is the price per $100 face value "
-"of the security. @redemption is the redemption value per $100 face value. "
-"@basis is the type of day counting system you want to use:\n"
+"discounted. @settlement is the settlement date of the security.  @maturity is "
+"the maturity date of the security. @pr is the price per $100 face value of "
+"the security. @redemption is the redemption value per $100 face value. @basis "
+"is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -8111,8 +8040,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, YIELDDISC returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
+"#NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8122,12 +8051,12 @@ msgstr ""
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
-"@DESCRIPTION=YIELDMAT calculates the annual yield of a security for which "
-"the interest is payed at maturity date. @settlement is the settlement date "
-"of the security. @maturity is the maturity date of the security. @issue is "
-"the issue date of the security. @rate is the interest rate set to the "
-"security. @pr is the price per $100 face value of the security. @basis is "
-"the type of day counting system you want to use:\n"
+"@DESCRIPTION=YIELDMAT calculates the annual yield of a security for which the "
+"interest is payed at maturity date. @settlement is the settlement date of the "
+"security. @maturity is the maturity date of the security. @issue is the issue "
+"date of the security. @rate is the interest rate set to the security. @pr is "
+"the price per $100 face value of the security. @basis is the type of day "
+"counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -8136,8 +8065,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, YIELDMAT returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
+"#NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8146,14 +8075,13 @@ msgstr ""
 #: src/functions/fn-financial.c:2505
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
-"@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
-"frequency[,basis])\n"
-"@DESCRIPTION=ODDFPRICE returns the price per $100 face value of a security. "
-"The security should have an odd short or long first period. @settlement is "
-"the settlement date of the security. @maturity is the maturity date of the "
-"security. @issue is the issue date of the security. @frequency is the number "
-"of coupon payments per year. Allowed frequencies are: 1 = annual, 2 = semi, "
-"4 = quarterly. @basis is the type of day counting system you want to use:\n"
+"@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,frequency[,basis])\n@DESCRIPTION=ODDFPRICE "
+"returns the price per $100 face value of a security. The security should have "
+"an odd short or long first period. @settlement is the settlement date of the "
+"security. @maturity is the maturity date of the security. @issue is the issue "
+"date of the security. @frequency is the number of coupon payments per year. "
+"Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the "
+"type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -8162,8 +8090,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, ODDFPRICE returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
+"#NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8172,10 +8100,33 @@ msgstr ""
 #: src/functions/fn-financial.c:2608
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
-"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
-"frequency[,basis])\n"
-"@DESCRIPTION=ODDFYIELD calculates the yield of a security having an odd "
-"first period. @settlement is the settlement date of the security. @maturity "
+"@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,frequency[,basis])\n@DESCRIPTION=ODDFYIELD "
+"calculates the yield of a security having an odd first period. @settlement is "
+"the settlement date of the security. @maturity is the maturity date of the "
+"security. @frequency is the number of coupon payments per year. Allowed "
+"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
+"day counting system you want to use:\n"
+"\n"
+"0  US 30/360\n"
+"1  actual days/actual days\n"
+"2  actual days/360\n"
+"3  actual days/365\n"
+"4  European 30/360\n"
+"\n"
+"If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! error. If "
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
+"#NUM! error is returned. \n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-financial.c:2645
+msgid ""
+"@FUNCTION=ODDLPRICE\n"
+"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,frequency[,basis])\n@DESCRIPTION=ODDLPRICE "
+"calculates the price per $100 face value of a security that has an odd last "
+"coupon period. @settlement is the settlement date of the security. @maturity "
 "is the maturity date of the security. @frequency is the number of coupon "
 "payments per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = "
 "quarterly. @basis is the type of day counting system you want to use:\n"
@@ -8187,34 +8138,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
-msgstr ""
-
-#: src/functions/fn-financial.c:2645
-msgid ""
-"@FUNCTION=ODDLPRICE\n"
-"@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
-"frequency[,basis])\n"
-"@DESCRIPTION=ODDLPRICE calculates the price per $100 face value of a "
-"security that has an odd last coupon period. @settlement is the settlement "
-"date of the security. @maturity is the maturity date of the security. "
-"@frequency is the number of coupon payments per year. Allowed frequencies "
-"are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of day counting "
-"system you want to use:\n"
-"\n"
-"0  US 30/360\n"
-"1  actual days/actual days\n"
-"2  actual days/360\n"
-"3  actual days/365\n"
-"4  European 30/360\n"
-"\n"
-"If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
+"#NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8223,13 +8148,12 @@ msgstr ""
 #: src/functions/fn-financial.c:2682
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
-"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
-"frequency[,basis])\n"
-"@DESCRIPTION=ODDLYIELD calculates the yield of a security having an odd last "
-"period. @settlement is the settlement date of the security. @maturity is the "
-"maturity date of the security. @frequency is the number of coupon payments "
-"per year. Allowed frequencies are: 1 = annual, 2 = semi, 4 = quarterly. "
-"@basis is the type of day counting system you want to use:\n"
+"@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,frequency[,basis])\n@DESCRIPTION=ODDLYIELD "
+"calculates the yield of a security having an odd last period. @settlement is "
+"the settlement date of the security. @maturity is the maturity date of the "
+"security. @frequency is the number of coupon payments per year. Allowed "
+"frequencies are: 1 = annual, 2 = semi, 4 = quarterly. @basis is the type of "
+"day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -8238,8 +8162,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, ODDLYIELD returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
+"#NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8248,12 +8172,10 @@ msgstr ""
 #: src/functions/fn-financial.c:2719
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
-"@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
-"basis])\n"
-"@DESCRIPTION=AMORDEGRC returns the depreciation for each accounting period."
-"@settlement is the settlement date of the security. @maturity is the "
-"maturity date of the security. @basis is the type of day counting system you "
-"want to use:\n"
+"@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,basis])\n@DESCRIPTION=AMORDEGRC "
+"returns the depreciation for each accounting period.@settlement is the "
+"settlement date of the security. @maturity is the maturity date of the "
+"security. @basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -8262,8 +8184,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, AMORDEGRC returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
+"#NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8272,12 +8194,10 @@ msgstr ""
 #: src/functions/fn-financial.c:2753
 msgid ""
 "@FUNCTION=AMORLINC\n"
-"@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
-"basis])\n"
-"@DESCRIPTION=AMORLINC returns the depreciation for each accounting period."
-"@settlement is the settlement date of the security. @maturity is the "
-"maturity date of the security. @basis is the type of day counting system you "
-"want to use:\n"
+"@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,basis])\n@DESCRIPTION=AMORLINC "
+"returns the depreciation for each accounting period.@settlement is the "
+"settlement date of the security. @maturity is the maturity date of the "
+"security. @basis is the type of day counting system you want to use:\n"
 "\n"
 "0  US 30/360\n"
 "1  actual days/actual days\n"
@@ -8286,8 +8206,8 @@ msgid ""
 "4  European 30/360\n"
 "\n"
 "If @frequency is other than 1, 2, or 4, AMORLINC returns #NUM! error. If "
-"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and "
-"4, #NUM! error is returned. \n"
+"@basis is omitted, US 30/360 is applied. If @basis is not in between 0 and 4, "
+"#NUM! error is returned. \n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8502,8 +8422,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
-"@DESCRIPTION=CUMPRINC returns the cumulative principal paid on a loan "
-"between @start_period and @end_period.\n"
+"@DESCRIPTION=CUMPRINC returns the cumulative principal paid on a loan between "
+"@start_period and @end_period.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8600,8 +8520,8 @@ msgid ""
 "    system          Returns the name of the environment.\n"
 "    totmem          Returns the amount of total memory available.\n"
 "\n"
-"This function is Excel compatible, except that types directory and origin "
-"are not implemented. \n"
+"This function is Excel compatible, except that types directory and origin are "
+"not implemented. \n"
 "@EXAMPLES=\n"
 "INFO(\"system\") returns \"Linux\" on a Linux system.\n"
 "\n"
@@ -8655,8 +8575,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
-"@DESCRIPTION=ISERR returns TRUE if the value is any error value except #N/"
-"A.\n"
+"@DESCRIPTION=ISERR returns TRUE if the value is any error value except #N/A.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ISERR(NA()) return FALSE.\n"
@@ -8835,8 +8754,8 @@ msgid ""
 "@SYNTAX=GETENV(string)\n"
 "@DESCRIPTION=GETENV retrieves a value from the execution environment.\n"
 "\n"
-"If the variable specified by @STRING does not exist, #N/A! will be "
-"returned.  Note, that variable names are case sensitive.\n"
+"If the variable specified by @STRING does not exist, #N/A! will be returned.  "
+"Note, that variable names are case sensitive.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8853,8 +8772,8 @@ msgid ""
 "@SYNTAX=AND(b1, b2, ...)\n"
 "@DESCRIPTION=AND implements the logical AND function: the result is TRUE if "
 "all of the expressions evaluate to TRUE, otherwise it returns FALSE.\n"
-"@b1, trough @bN are expressions that should evaluate to TRUE or FALSE.  If "
-"an integer or floating point value is provided zero is considered FALSE and "
+"@b1, trough @bN are expressions that should evaluate to TRUE or FALSE.  If an "
+"integer or floating point value is provided zero is considered FALSE and "
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored. If no "
 "logical values are provided, then the error #VALUE! is returned.\n"
@@ -8892,13 +8811,13 @@ msgstr "Väärä tyyppi"
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
-"@DESCRIPTION=OR implements the logical OR function: the result is TRUE if "
-"any of the values evaluated to TRUE.\n"
+"@DESCRIPTION=OR implements the logical OR function: the result is TRUE if any "
+"of the values evaluated to TRUE.\n"
 "@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. If an "
 "integer or floating point value is provided zero is considered FALSE and "
 "anything else is TRUE.\n"
-"If the values contain strings or empty cells those values are ignored.  If "
-"no logical values are provided, then the error #VALUE! is returned.\n"
+"If the values contain strings or empty cells those values are ignored.  If no "
+"logical values are provided, then the error #VALUE! is returned.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "OR(TRUE,FALSE) equals TRUE.\n"
@@ -8911,11 +8830,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition[,if-true,if-false])\n"
-"@DESCRIPTION=Use the IF statement to evaluate conditionally other "
-"expressions IF evaluates @condition.  If @condition returns a non-zero value "
-"the result of the IF expression is the @if-true expression, otherwise IF "
-"evaluates to the value of @if-false. If ommitted @if-true defaults to TRUE "
-"and @if-false to FALSE.\n"
+"@DESCRIPTION=Use the IF statement to evaluate conditionally other expressions "
+"IF evaluates @condition.  If @condition returns a non-zero value the result "
+"of the IF expression is the @if-true expression, otherwise IF evaluates to "
+"the value of @if-false. If ommitted @if-true defaults to TRUE and @if-false "
+"to FALSE.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "IF(FALSE,TRUE,FALSE) equals FALSE.\n"
@@ -8962,9 +8881,9 @@ msgid ""
 "ADDRESS returns relative row and absolute column. If @abs_num is 4 ADDRESS "
 "returns relative reference. If @abs_num is greater than 4 ADDRESS returns "
 "#VALUE! error. \n"
-"@a1 is a logical value that specifies the reference style.  If @a1 is TRUE "
-"or omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise "
-"ADDRESS returns an R1C1-style reference, i.e. R4C4. \n"
+"@a1 is a logical value that specifies the reference style.  If @a1 is TRUE or "
+"omitted, ADDRESS returns an A1-style reference, i.e. $D$4.  Otherwise ADDRESS "
+"returns an R1C1-style reference, i.e. R4C4. \n"
 "@text specifies the name of the worksheet to be used as the external "
 "reference.  \n"
 "If @row_num or @col_num is less than one, ADDRESS returns #VALUE! error. \n"
@@ -8998,13 +8917,12 @@ msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate])\n"
 "@DESCRIPTION=VLOOKUP function finds the row in range that has a first column "
-"similar to value.  If @approximate is not true it finds the row with an "
-"exact equivilance.  If @approximate is true, then the values must be sorted "
-"in order of ascending value for correct function; in this case it finds the "
-"row with value less than @value.  It returns the value in the row found at a "
-"1 based offset in @column columns into the @range.\n"
-"Returns #NUM! if @column < 0. Returns #REF! if @column falls outside "
-"@range.\n"
+"similar to value.  If @approximate is not true it finds the row with an exact "
+"equivilance.  If @approximate is true, then the values must be sorted in "
+"order of ascending value for correct function; in this case it finds the row "
+"with value less than @value.  It returns the value in the row found at a 1 "
+"based offset in @column columns into the @range.\n"
+"Returns #NUM! if @column < 0. Returns #REF! if @column falls outside @range.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HLOOKUP"
@@ -9054,8 +8972,8 @@ msgid ""
 "If @type = 0,  finds first value == @seek.\n"
 "If @type = -1, finds smallest value >= @seek.\n"
 "\n"
-"For type 0, the data can be in any order.  For types -1 and +1, the data "
-"must be sorted.  (And in this case, MATCH uses a binary search to locate the "
+"For type 0, the data can be in any order.  For types -1 and +1, the data must "
+"be sorted.  (And in this case, MATCH uses a binary search to locate the "
 "index.)\n"
 "If @seek could not be found, #N/A is returned.\n"
 "@EXAMPLES=\n"
@@ -9067,10 +8985,10 @@ msgstr ""
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
-"@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to "
-"by the ref_text string. The string specifices a single cell reference the "
-"format of which is either A1 or R1C1 style. The style is set by the format "
-"boolean, which defaults to the former.\n"
+"@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to by "
+"the ref_text string. The string specifices a single cell reference the format "
+"of which is either A1 or R1C1 style. The style is set by the format boolean, "
+"which defaults to the former.\n"
 "If @ref_text is not a valid reference returns #REF! \n"
 "@EXAMPLES=\n"
 "If A1 contains 3.14 and A2 contains A1, then\n"
@@ -9196,8 +9114,8 @@ msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
 "@DESCRIPTION=GCD returns the greatest common divisor of given numbers. \n"
-"If any of the arguments is less than zero, GCD returns #NUM! error. If any "
-"of the arguments is non-integer, it is truncated.\n"
+"If any of the arguments is less than zero, GCD returns #NUM! error. If any of "
+"the arguments is non-integer, it is truncated.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "GCD(470,770) equals to 10.\n"
@@ -9241,9 +9159,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
-"@DESCRIPTION=ACOS function calculates the arc cosine of @x; that is the "
-"value whose cosine is @x.  If @x  falls  outside  the range -1 to 1, ACOS "
-"fails and returns the #NUM! error. The value it returns is in radians.\n"
+"@DESCRIPTION=ACOS function calculates the arc cosine of @x; that is the value "
+"whose cosine is @x.  If @x  falls  outside  the range -1 to 1, ACOS fails and "
+"returns the #NUM! error. The value it returns is in radians.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "ACOS(0.1) equals 1.470629.\n"
@@ -9315,8 +9233,8 @@ msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
 "@DESCRIPTION=ATANH function calculates the inverse hyperbolic tangent of @x; "
-"that is the value whose hyperbolic tangent is @x. If the absolute value of "
-"@x is greater than 1.0, ATANH returns #NUM! error.\n"
+"that is the value whose hyperbolic tangent is @x. If the absolute value of @x "
+"is greater than 1.0, ATANH returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "ATANH(0.5) equals 0.549306.\n"
@@ -9331,8 +9249,8 @@ msgid ""
 "@SYNTAX=ATAN2(b1,b2)\n"
 "@DESCRIPTION=ATAN2 function calculates the arc tangent of the two variables "
 "@b1 and @b2.  It is similar to calculating the arc tangent of @b2 / @b1, "
-"except that the signs of both arguments are used to determine the quadrant "
-"of the result. The result is in radians.\n"
+"except that the signs of both arguments are used to determine the quadrant of "
+"the result. The result is in radians.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ATAN2(0.5,1.0) equals 1.107149.\n"
@@ -9377,9 +9295,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
-"@DESCRIPTION=SUMIF function sums the values in the given @range that meet "
-"the given @criteria.  If @actual_range is given, SUMIF sums the values in "
-"the @actual_range whose corresponding components in @range meet the given "
+"@DESCRIPTION=SUMIF function sums the values in the given @range that meet the "
+"given @criteria.  If @actual_range is given, SUMIF sums the values in the "
+"@actual_range whose corresponding components in @range meet the given "
 "@criteria.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
@@ -9443,8 +9361,7 @@ msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
 "@DESCRIPTION=DEGREES computes the number of degrees equivalent to @x "
-"radians.\n"
-"This function is Excel compatible. \n"
+"radians.\nThis function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "DEGREES(2.5) equals 143.2394.\n"
 "\n"
@@ -9512,8 +9429,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT function returns the largest integer that is not bigger "
-"than its argument.\n"
+"@DESCRIPTION=INT function returns the largest integer that is not bigger than "
+"its argument.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "INT(7.2) equals 7.\n"
@@ -9526,9 +9443,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
-"@DESCRIPTION=LOG computes the logarithm of @x in the given base @base.  If "
-"no @base is given LOG returns the logarithm in base 10. @base must be > 0. "
-"and can not equal 1.\n"
+"@DESCRIPTION=LOG computes the logarithm of @x in the given base @base.  If no "
+"@base is given LOG returns the logarithm in base 10. @base must be > 0. and "
+"can not equal 1.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "LOG(2) equals 0.30103.\n"
@@ -9593,8 +9510,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
-"@DESCRIPTION=MOD function returns the remainder when @divisor is divided "
-"into @number.\n"
+"@DESCRIPTION=MOD function returns the remainder when @divisor is divided into "
+"@number.\n"
 "This function is Excel compatible. \n"
 "MOD returns #DIV/0! if divisor is zero.\n"
 "\n"
@@ -9609,8 +9526,7 @@ msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
 "@DESCRIPTION=RADIANS computes the number of radians equivalent to @x "
-"degrees.\n"
-"This function is Excel compatible. \n"
+"degrees.\nThis function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "RADIANS(180) equals 3.14159.\n"
 "\n"
@@ -9720,8 +9636,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
-"@DESCRIPTION=SQRT function returns the square root of @x.  If @x is "
-"negative, SQRT returns #NUM! error.\n"
+"@DESCRIPTION=SQRT function returns the square root of @x.  If @x is negative, "
+"SQRT returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "SQRT(2) equals 1.4142136.\n"
@@ -9751,8 +9667,8 @@ msgid ""
 "@DESCRIPTION=SUMA computes the sum of all the values and cells referenced in "
 "the argument list.  Numbers, text and logical values are included in the "
 "calculation too.  If the cell contains text or the argument evaluates to "
-"FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, "
-"it is counted as one (1). \n"
+"FALSE, it is counted as value zero (0). If the argument evaluates to TRUE, it "
+"is counted as one (1). \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
 "and 43.  Then\n"
@@ -9765,8 +9681,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
-"@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and "
-"cells referenced in the argument list.\n"
+"@DESCRIPTION=SUMSQ returns the sum of the squares of all the values and cells "
+"referenced in the argument list.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
@@ -9958,8 +9874,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
-"@DESCRIPTION=RANDBETWEEN function returns a random integer number between "
-"and including @bottom and @top.\n"
+"@DESCRIPTION=RANDBETWEEN function returns a random integer number between and "
+"including @bottom and @top.\n"
 "If @bottom or @top is non-integer, they are truncated. If @bottom > @top, "
 "RANDBETWEEN returns #NUM! error.\n"
 "This function is Excel compatible. \n"
@@ -9974,12 +9890,12 @@ msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
 "@DESCRIPTION=ROUNDDOWN function rounds a given @number down. @number is the "
-"number you want rounded down and @digits is the number of digits to which "
-"you want to round that number. \n"
+"number you want rounded down and @digits is the number of digits to which you "
+"want to round that number. \n"
 "If @digits is greater than zero, @number is rounded down to the given number "
 "of digits. If @digits is zero or omitted, @number is rounded down to the "
-"nearest integer. If @digits is less than zero, @number is rounded down to "
-"the left of the decimal point.\n"
+"nearest integer. If @digits is less than zero, @number is rounded down to the "
+"left of the decimal point.\n"
 "This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "ROUNDDOWN(5.5) equals 5.\n"
@@ -10015,13 +9931,13 @@ msgstr ""
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
-"@DESCRIPTION=ROUNDUP function rounds a given number up. @number is the "
-"number you want rounded up and @digits is the number of digits to which you "
-"want to round that number. \n"
-"If @digits is greater than zero, @number is rounded up to the given number "
-"of digits. If @digits is zero or omitted, @number is rounded up to the "
-"nearest integer. If @digits is less than zero, @number is rounded up to the "
-"left of the decimal point.\n"
+"@DESCRIPTION=ROUNDUP function rounds a given number up. @number is the number "
+"you want rounded up and @digits is the number of digits to which you want to "
+"round that number. \n"
+"If @digits is greater than zero, @number is rounded up to the given number of "
+"digits. If @digits is zero or omitted, @number is rounded up to the nearest "
+"integer. If @digits is less than zero, @number is rounded up to the left of "
+"the decimal point.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "ROUNDUP(5.5) equals 6.\n"
@@ -10076,12 +9992,12 @@ msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
 "@DESCRIPTION=SUMX2MY2 function returns the sum of the difference of squares "
-"of corresponding values in two arrays. @array1 is the first array or range "
-"of data points and @array2 is the second array or range of data points. The "
+"of corresponding values in two arrays. @array1 is the first array or range of "
+"data points and @array2 is the second array or range of data points. The "
 "equation of SUMX2MY2 is SUM (x^2-y^2). \n"
 "Strings and empty cells are simply ignored.\n"
-"If @array1 and @array2 have different number of data points, SUMX2MY2 "
-"returns #N/A error.\n"
+"If @array1 and @array2 have different number of data points, SUMX2MY2 returns "
+"#N/A error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
@@ -10108,8 +10024,8 @@ msgid ""
 "data points and @array2 is the second array or range of data points. The "
 "equation of SUMX2PY2 is SUM (x^2+y^2). \n"
 "Strings and empty cells are simply ignored.\n"
-"If @array1 and @array2 have different number of data points, SUMX2PY2 "
-"returns #N/A error.\n"
+"If @array1 and @array2 have different number of data points, SUMX2PY2 returns "
+"#N/A error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11, 15, 17, 21, "
@@ -10145,9 +10061,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
-"@DESCRIPTION=SUBTOTAL function returns a subtotal of given list of "
-"arguments. @function_nbr is the number that specifies which function to use "
-"in calculating the subtotal. The following functions are available:\n"
+"@DESCRIPTION=SUBTOTAL function returns a subtotal of given list of arguments. "
+"@function_nbr is the number that specifies which function to use in "
+"calculating the subtotal. The following functions are available:\n"
 "1   AVERAGE\n"
 "2   COUNT\n"
 "3   COUNTA\n"
@@ -10176,8 +10092,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
-"@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is "
-"the base of the power series, @n is the initial power to raise @x, @m is the "
+"@DESCRIPTION=SERIESSUM function returns the sum of a power series.  @x is the "
+"base of the power series, @n is the initial power to raise @x, @m is the "
 "increment to the power for each term in the series, and @coefficients is the "
 "coefficents by which each successive power of @x is multiplied.\n"
 "This function is Excel compatible.\n"
@@ -10193,9 +10109,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
-"@DESCRIPTION=MINVERSE function returns the inverse matrix of a given "
-"matrix. \n"
-"If the @matrix cannot be inverted, MINVERSE returns #NUM! error. If the "
+"@DESCRIPTION=MINVERSE function returns the inverse matrix of a given matrix. "
+"\nIf the @matrix cannot be inverted, MINVERSE returns #NUM! error. If the "
 "@matrix does not contain equal number of columns and rows, MINVERSE returns "
 "#VALUE! error.\n"
 "This function is Excel compatible.\n"
@@ -10230,10 +10145,9 @@ msgid ""
 "returns #VALUE! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
-"Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, B1, ..., B4 "
-"4, 2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and D1, ..., D4 7, 3, 6, and 5. "
-"Then\n"
-"MDETERM(A1:D4) equals 148.\n"
+"Let us assume that A1, ..., A4 contain numbers 2, 3, 7, and 3, B1, ..., B4 4, "
+"2, 4, and 1, C1, ..., C4 9, 4, 3, and 2, and D1, ..., D4 7, 3, 6, and 5. "
+"Then\nMDETERM(A1:D4) equals 148.\n"
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
@@ -10242,9 +10156,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
-"@DESCRIPTION=SUMPRODUCT function multiplies corresponding data entries in "
-"the given arrays or ranges, and then returns the sum of those products.  If "
-"an array entry is not numeric, the value zero is used instead. \n"
+"@DESCRIPTION=SUMPRODUCT function multiplies corresponding data entries in the "
+"given arrays or ranges, and then returns the sum of those products.  If an "
+"array entry is not numeric, the value zero is used instead. \n"
 "If arrays or range arguments do not have the same dimentions, SUMPRODUCT "
 "returns #VALUE! error.\n"
 "This function is Excel compatible.\n"
@@ -10265,9 +10179,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(permit_intersection)\n"
-"@DESCRIPTION=SELECTION function returns a list with the values in the "
-"current selection.  This is usually used to implement on-the-fly computation "
-"of values.\n"
+"@DESCRIPTION=SELECTION function returns a list with the values in the current "
+"selection.  This is usually used to implement on-the-fly computation of "
+"values.\n"
 "If @permit_intersection is TRUE the user specifed selection ranges are "
 "returned, EVEN IF THEY OVERLAP.  If @permit_intersection is FALSE a distict "
 "set of regions is returned, however, there may be more of them than the user "
@@ -10289,9 +10203,8 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-sheet.c:141 src/workbook.c:1030 src/xml-io.c:2943
-#, fuzzy
 msgid "Sheet"
-msgstr "_Taulu"
+msgstr "Taulu"
 
 #: src/functions/fn-stat.c:159
 msgid ""
@@ -10376,8 +10289,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,fraction)\n"
-"@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref "
-"is the list of numbers whose mean you want to calculate and @fraction is the "
+"@DESCRIPTION=TRIMMEAN returns the mean of the interior of a data set. @ref is "
+"the list of numbers whose mean you want to calculate and @fraction is the "
 "fraction of the data set excluded from the mean. For example, if "
 "@fraction=0.2 and the data set contains 40 numbers, 8 numbers are trimmed "
 "from the data set (40 x 0.2), 4 from the top and 4 from the bottom of the "
@@ -10490,8 +10403,8 @@ msgid ""
 "@SYNTAX=LOGINV(p,mean,stdev)\n"
 "@DESCRIPTION=LOGINV function returns the inverse of the lognormal cumulative "
 "distribution. @p is the given probability corresponding to the normal "
-"distribution, @mean is the arithmetic mean of the distribution, and @stdev "
-"is the standard deviation of the distribution.\n"
+"distribution, @mean is the arithmetic mean of the distribution, and @stdev is "
+"the standard deviation of the distribution.\n"
 "If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -10518,8 +10431,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
-"@DESCRIPTION=MODE returns the most common number of the data set. If the "
-"data set has many most common numbers MODE returns the first one of them. \n"
+"@DESCRIPTION=MODE returns the most common number of the data set. If the data "
+"set has many most common numbers MODE returns the first one of them. \n"
 "Strings and empty cells are simply ignored. If the data set does not contain "
 "any duplicates MODE returns #N/A error.\n"
 "This function is Excel compatible.\n"
@@ -10535,8 +10448,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
-"@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points (that "
-"is, N divided by the sum of the inverses of the data points).\n"
+"@DESCRIPTION=HARMEAN returns the harmonic mean of the N data points (that is, "
+"N divided by the sum of the inverses of the data points).\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -10628,8 +10541,8 @@ msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
 "@DESCRIPTION=MAX returns the value of the element of the values passed that "
-"has the largest value. With negative numbers considered smaller than "
-"positive numbers.\n"
+"has the largest value. With negative numbers considered smaller than positive "
+"numbers.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers 11.4, 17.3, "
@@ -10739,8 +10652,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
-"@DESCRIPTION=CHIDIST function returns the one-tailed probability of the chi-"
-"squared distribution. @dof is the number of degrees of freedom.\n"
+"@DESCRIPTION=CHIDIST function returns the one-tailed probability of the "
+"chi-squared distribution. @dof is the number of degrees of freedom.\n"
 "If @dof is non-integer it is truncated.  If @dof < 1 CHIDIST returns #NUM! "
 "error.\n"
 "This function is Excel compatible.\n"
@@ -10768,8 +10681,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
-"@DESCRIPTION=CHITEST function returns the test for independence of chi-"
-"squared distribution.\n"
+"@DESCRIPTION=CHITEST function returns the test for independence of "
+"chi-squared distribution.\n"
 "@actual_range is a range that contains the observed data points. "
 "@theoretical_range is a range that contains the expected values of the data "
 "points.\n"
@@ -10788,8 +10701,7 @@ msgid ""
 "If @a is not given, BETADIST uses 0.  If @b is not given, BETADIST uses 1.\n"
 "If @x < @a or @x > @b BETADIST returns #NUM! error. If @alpha <= 0 or @beta "
 "<= 0, BETADIST returns #NUM! error. If @a >= @b BETADIST returns #NUM! "
-"error.\n"
-"This function is Excel compatible.\n"
+"error.\nThis function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "BETADIST(0.12,2,3) equals 0.07319808.\n"
 "\n"
@@ -10817,9 +10729,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
-"@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is "
-"the degree of freedom and @tails is 1 or 2 depending on whether you want one-"
-"tailed or two-tailed distribution.\n"
+"@DESCRIPTION=TDIST function returns the Student's t-distribution. @dof is the "
+"degree of freedom and @tails is 1 or 2 depending on whether you want "
+"one-tailed or two-tailed distribution.\n"
 "If @dof < 1 TDIST returns #NUM! error.  If @tails is neither 1 or 2 TDIST "
 "returns #NUM! error.\n"
 "This function is Excel compatible.\n"
@@ -10833,8 +10745,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
-"@DESCRIPTION=TINV function returns the inverse of the two-tailed Student's t-"
-"distribution.\n"
+"@DESCRIPTION=TINV function returns the inverse of the two-tailed Student's "
+"t-distribution.\n"
 "If @p < 0 or @p > 1 or @dof < 1 TINV returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -10879,12 +10791,12 @@ msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
 "@DESCRIPTION=BINOMDIST function returns the binomial distribution. @n is the "
-"number of successes, @trials is the total number of independent trials, @p "
-"is the probability of success in trials, and @cumulative describes whether "
-"to return the sum of thebinomial function from 0 to @n.\n"
-"If @n or @trials are non-integer they are truncated. If @n < 0 or @trials < "
-"0 BINOMDIST returns #NUM! error. If @n > trials BINOMDIST returns #NUM! "
-"error. If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.\n"
+"number of successes, @trials is the total number of independent trials, @p is "
+"the probability of success in trials, and @cumulative describes whether to "
+"return the sum of thebinomial function from 0 to @n.\n"
+"If @n or @trials are non-integer they are truncated. If @n < 0 or @trials < 0 "
+"BINOMDIST returns #NUM! error. If @n > trials BINOMDIST returns #NUM! error. "
+"If @p < 0 or @p > 1 BINOMDIST returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "BINOMDIST(3,5,0.8,0) equals 0.2048.\n"
@@ -10900,9 +10812,9 @@ msgid ""
 "thecumulative is greater than or equal to a given value. @n is the number of "
 "trials, @p is the probability of success in trials, and @alpha is the "
 "criterion value. \n"
-"If @trials is a non-integer it is truncated. If @trials < 0 CRITBINOM "
-"returns #NUM! error. If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. If "
-"@alpha < 0 or @alpha > 1 CRITBINOM returns #NUM! error.\n"
+"If @trials is a non-integer it is truncated. If @trials < 0 CRITBINOM returns "
+"#NUM! error. If @p < 0 or @p > 1 CRITBINOM returns #NUM! error. If @alpha < 0 "
+"or @alpha > 1 CRITBINOM returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "CRITBINOM(10,0.5,0.75) equals 6.\n"
@@ -10917,8 +10829,7 @@ msgid ""
 "@DESCRIPTION=PERMUT function returns the number of permutations. @n is the "
 "number of objects, @k is the number of objects in each permutation.\n"
 "If @n = 0 PERMUT returns #NUM! error.  If @n < @k PERMUT returns #NUM! "
-"error.\n"
-" This function is Excel compatible.\n"
+"error.\n This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "PERMUT(7,3) equals 210.\n"
 "\n"
@@ -10929,9 +10840,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
-"@DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution. "
-"@x is the number of successes in the sample, @n is the number of trials, @M "
-"is the number of successes overall, and @N is thepopulation size.\n"
+"@DESCRIPTION=HYPGEOMDIST function returns the hypergeometric distribution. @x "
+"is the number of successes in the sample, @n is the number of trials, @M is "
+"the number of successes overall, and @N is thepopulation size.\n"
 "If @x,@n,@M or @N is a non-integer it is truncated.  If @x,@n,@M or @N < 0 "
 "HYPGEOMDIST returns #NUM! error.  If @x > @M or @n > @N HYPGEOMDIST returns "
 "#NUM! error.\n"
@@ -10963,8 +10874,8 @@ msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
 "@DESCRIPTION=STANDARDIZE function returns a normalized value. @x is the "
-"number to be normalized, @mean is the mean of the distribution, @stdev is "
-"the standard deviation of the distribution.\n"
+"number to be normalized, @mean is the mean of the distribution, @stdev is the "
+"standard deviation of the distribution.\n"
 "If @stddev is 0 STANDARDIZE returns #DIV/0! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -10979,8 +10890,8 @@ msgid ""
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
 "@DESCRIPTION=WEIBULL function returns the Weibull distribution. If the "
 "@cumulative boolean is true it will return: 1 - exp (-(@x/@beta)^@alpha), "
-"otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/"
-"@beta^@alpha)). \n"
+"otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * "
+"exp(-(@x/@beta^@alpha)). \n"
 "If @x < 0 WEIBULL returns #NUM! error. If @alpha <= 0 or @beta <= 0 WEIBULL "
 "returns #NUM! error.\n"
 "This function is Excel compatible.\n"
@@ -10994,9 +10905,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
-"@DESCRIPTION=NORMDIST function returns the normal cumulative distribution. "
-"@x is the value for which you want the distribution, @mean is the mean of "
-"the distribution, @stdev is the standard deviation. \n"
+"@DESCRIPTION=NORMDIST function returns the normal cumulative distribution. @x "
+"is the value for which you want the distribution, @mean is the mean of the "
+"distribution, @stdev is the standard deviation. \n"
 "If @stdev is 0 NORMDIST returns #DIV/0! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -11011,8 +10922,8 @@ msgid ""
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
 "@DESCRIPTION=NORMINV function returns the inverse of the normal cumulative "
 "distribution. @p is the given probability corresponding to the normal "
-"distribution, @mean is the arithmetic mean of the distribution, and @stdev "
-"is the standard deviation of the distribution.\n"
+"distribution, @mean is the arithmetic mean of the distribution, and @stdev is "
+"the standard deviation of the distribution.\n"
 "If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -11026,10 +10937,9 @@ msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
 "@DESCRIPTION=KURT returns an unbiased estimate of the kurtosis of a data "
-"set.\n"
-"Note, that this is only meaningful is the underlying distribution really has "
-"a fourth moment.  The kurtosis is offset by three such that a normal "
-"distribution will have zero kurtosis.\n"
+"set.\nNote, that this is only meaningful is the underlying distribution "
+"really has a fourth moment.  The kurtosis is offset by three such that a "
+"normal distribution will have zero kurtosis.\n"
 "Strings and empty cells are simply ignored.\n"
 "If fewer than four numbers are given or all of them are equal KURT returns "
 "#DIV/0! error.\n"
@@ -11136,8 +11046,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
-"@DESCRIPTION=RSQ returns the square of the Pearson correlation coefficient "
-"of two data sets.\n"
+"@DESCRIPTION=RSQ returns the square of the Pearson correlation coefficient of "
+"two data sets.\n"
 "Strings and empty cells are simply ignored.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -11202,9 +11112,9 @@ msgid ""
 "@DESCRIPTION=PROB function returns the probability that values in a range or "
 "an array are between two limits. If @upper_limit is not given, PROB returns "
 "the probability that values in @x_range are equal to @lower_limit.\n"
-"If the sum of the probabilities in @prob_range is not equal to 1 PROB "
-"returns #NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns "
-"#NUM! error. If @x_range and @prob_range contain a different number of data "
+"If the sum of the probabilities in @prob_range is not equal to 1 PROB returns "
+"#NUM! error. If any value in @prob_range is <=0 or > 1, PROB returns #NUM! "
+"error. If @x_range and @prob_range contain a different number of data "
 "entries, PROB returns #N/A error.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
@@ -11216,8 +11126,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
-"@DESCRIPTION=STEYX function returns the standard error of the predicted y-"
-"value for each x in the regression.\n"
+"@DESCRIPTION=STEYX function returns the standard error of the predicted "
+"y-value for each x in the regression.\n"
 "If @known_y's and @known_x's are empty or have a different number of "
 "arguments then STEYX returns #N/A error.\n"
 "This function is Excel compatible.\n"
@@ -11252,9 +11162,9 @@ msgid ""
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
 "@DESCRIPTION=AVERAGEA returns the average of the given arguments.  Numbers, "
 "text and logical values are included in the calculation too. If the cell "
-"contains text or the argument evaluates to FALSE, it is counted as value "
-"zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  "
-"Note that empty cells are not counted.\n"
+"contains text or the argument evaluates to FALSE, it is counted as value zero "
+"(0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that "
+"empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -11268,11 +11178,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
-"@DESCRIPTION=MAXA returns the largest value of the given arguments.  "
-"Numbers, text and logical values are included in the calculation too. If the "
-"cell contains text or the argument evaluates to FALSE, it is counted as "
-"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
-"(1).  Note that empty cells are not counted.\n"
+"@DESCRIPTION=MAXA returns the largest value of the given arguments.  Numbers, "
+"text and logical values are included in the calculation too. If the cell "
+"contains text or the argument evaluates to FALSE, it is counted as value zero "
+"(0).  If the argument evaluates to TRUE, it is counted as one (1).  Note that "
+"empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -11288,9 +11198,9 @@ msgid ""
 "@SYNTAX=MINA(number1,number2,...)\n"
 "@DESCRIPTION=MINA returns the smallest value of the given arguments.  "
 "Numbers, text and logical values are included in the calculation too. If the "
-"cell contains text or the argument evaluates to FALSE, it is counted as "
-"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
-"(1).  Note that empty cells are not counted.\n"
+"cell contains text or the argument evaluates to FALSE, it is counted as value "
+"zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note "
+"that empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -11305,10 +11215,10 @@ msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
 "@DESCRIPTION=VARA returns the variance based on a sample.  Numbers, text and "
-"logical values are included in the calculation too. If the cell contains "
-"text or the argument evaluates to FALSE, it is counted as value zero (0).  "
-"If the argument evaluates to TRUE, it is counted as one (1).  Note that "
-"empty cells are not counted.\n"
+"logical values are included in the calculation too. If the cell contains text "
+"or the argument evaluates to FALSE, it is counted as value zero (0).  If the "
+"argument evaluates to TRUE, it is counted as one (1).  Note that empty cells "
+"are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -11323,10 +11233,10 @@ msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
 "@DESCRIPTION=VARPA returns the variance based on the entire population.  "
-"Numbers, text and logical values are included in the calculation too.  If "
-"the cell contains text or the argument evaluates to FALSE, it is counted as "
-"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
-"(1).  Note that empty cells are not counted.\n"
+"Numbers, text and logical values are included in the calculation too.  If the "
+"cell contains text or the argument evaluates to FALSE, it is counted as value "
+"zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note "
+"that empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -11341,10 +11251,10 @@ msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
 "@DESCRIPTION=STDEVA returns the standard deviation based on a sample. "
-"Numbers, text and logical values are included in the calculation too.  If "
-"the cell contains text or the argument evaluates to FALSE, it is counted as "
-"value zero (0).  If the argument evaluates to TRUE, it is counted as one "
-"(1).  Note that empty cells are not counted.\n"
+"Numbers, text and logical values are included in the calculation too.  If the "
+"cell contains text or the argument evaluates to FALSE, it is counted as value "
+"zero (0).  If the argument evaluates to TRUE, it is counted as one (1).  Note "
+"that empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -11359,10 +11269,10 @@ msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
 "@DESCRIPTION=STDEVPA returns the standard deviation based on the entire "
-"population.  Numbers, text and logical values are included in the "
-"calculation too.  If the cell contains text or the argument evaluates to "
-"FALSE, it is counted as value zero (0).  If the argument evaluates to TRUE, "
-"it is counted as one (1).  Note that empty cells are not counted.\n"
+"population.  Numbers, text and logical values are included in the calculation "
+"too.  If the cell contains text or the argument evaluates to FALSE, it is "
+"counted as value zero (0).  If the argument evaluates to TRUE, it is counted "
+"as one (1).  Note that empty cells are not counted.\n"
 "This function is Excel compatible.\n"
 "@EXAMPLES=\n"
 "Let us assume that the cells A1, A2, ..., A5 contain numbers and strings "
@@ -11383,8 +11293,8 @@ msgid ""
 "@significance is omitted, PERCENTRANK uses three digits.\n"
 "If @array contains no data points, PERCENTRANK returns #NUM! error.\n"
 "If @significance is less than one, PERCENTRANK returns #NUM! error.\n"
-"If @x exceeds the largest value or is less than the smallest value in "
-"@array, PERCENTRANK returns #NUM! error.\n"
+"If @x exceeds the largest value or is less than the smallest value in @array, "
+"PERCENTRANK returns #NUM! error.\n"
 "If @x does not match any of the values in @array or @x matches more than "
 "once, PERCENTRANK interpolates the returned value.\n"
 "@EXAMPLES=\n"
@@ -11414,8 +11324,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
-"@DESCRIPTION=QUARTILE function returns the quartile of the given data "
-"points.  \n"
+"@DESCRIPTION=QUARTILE function returns the quartile of the given data points. "
+" \n"
 "If @quart is equal to: QUARTILE returns:\n"
 "0                      the smallest value of @array.\n"
 "1                      the first quartile\n"
@@ -11509,16 +11419,16 @@ msgid ""
 "y=mx+b is given in the first column and the y-intercept (b) in the second.\n"
 "If @known_y's and @known_x's have unequal number of data points, LINEST "
 "returns #NUM! error.\n"
-"If @const is FALSE, the line will be forced to go through the origin, i.e., "
-"b will be zero. The default is TRUE.\n"
+"If @const is FALSE, the line will be forced to go through the origin, i.e., b "
+"will be zero. The default is TRUE.\n"
 "If @stat is TRUE, extra statistical information will be returned. Extra "
-"statistical information is written bellow the regression line coefficients "
-"in the result array.  Extra statistical information consists of four rows of "
+"statistical information is written bellow the regression line coefficients in "
+"the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
-"the standard error for the y estimate.  The third row contains the F-"
-"observed value and the degrees of freedom.  The last row contains the "
-"regression sum of squares and the residual sum of squares. \n"
+"the standard error for the y estimate.  The third row contains the F-observed "
+"value and the degrees of freedom.  The last row contains the regression sum "
+"of squares and the residual sum of squares. \n"
 "The default of @stat is FALSE.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -11529,11 +11439,10 @@ msgstr ""
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
-"@DESCRIPTION=TREND function estimates future values of a given data set "
-"using the ``least squares'' line that best fit to your data. @known_y's is "
-"the y-values where y=mx+b and @known_x's contains the corresponding x-"
-"values.  @new_x's contains the x-values for which you want to estimate the y-"
-"values. \n"
+"@DESCRIPTION=TREND function estimates future values of a given data set using "
+"the ``least squares'' line that best fit to your data. @known_y's is the "
+"y-values where y=mx+b and @known_x's contains the corresponding x-values.  "
+"@new_x's contains the x-values for which you want to estimate the y-values. \n"
 "If @known_x's is omitted, an array {1, 2, 3, ...} is used. If @new_x's is "
 "omitted, it is assumed to be the same as @known_x's. If @known_y's and "
 "@known_x's have unequal number of data points, TREND returns #NUM! error. \n"
@@ -11560,13 +11469,13 @@ msgid ""
 "If @const is FALSE, the line will be forced to go through (0,1),i.e., b will "
 "be one.  The default is TRUE.\n"
 "If @stat is TRUE, extra statistical information will be returned. Extra "
-"statistical information is written bellow the regression line coefficients "
-"in the result array.  Extra statistical information consists of four rows of "
+"statistical information is written bellow the regression line coefficients in "
+"the result array.  Extra statistical information consists of four rows of "
 "data.  In the first row the standard error values for the coefficients m1, "
 "(m2, ...), b are represented.  The second row contains the square of R and "
-"the standard error for the y estimate.  The third row contains the F-"
-"observed value and the degrees of freedom.  The last row contains the "
-"regression sum of squares and the residual sum of squares. \n"
+"the standard error for the y estimate.  The third row contains the F-observed "
+"value and the degrees of freedom.  The last row contains the regression sum "
+"of squares and the residual sum of squares. \n"
 "The default of @stat is FALSE.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -11586,8 +11495,8 @@ msgid ""
 "@new_x.\n"
 "If @known_y's and @known_x's have unequal number of data points, GROWTH "
 "returns #NUM! error.\n"
-"If @const is FALSE, the line will be forced to go through the origin, i.e., "
-"b will be zero. The default is TRUE.\n"
+"If @const is FALSE, the line will be forced to go through the origin, i.e., b "
+"will be zero. The default is TRUE.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
@@ -11597,9 +11506,9 @@ msgstr ""
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
-"@DESCRIPTION=FORECAST function estimates a future value according to "
-"existing values using simple linear regression.  The estimated future value "
-"is a y-value for a given x-value (@x). \n"
+"@DESCRIPTION=FORECAST function estimates a future value according to existing "
+"values using simple linear regression.  The estimated future value is a "
+"y-value for a given x-value (@x). \n"
 "If @known_x or @known_y contains no data entries or different number of data "
 "entries, FORECAST returns #N/A error. If the variance of the @known_x is "
 "zero, FORECAST returns #DIV/0 error.\n"
@@ -11946,11 +11855,11 @@ msgstr ""
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
-"@DESCRIPTION=SEARCH returns the location of a character or text string "
-"within another string.  @text is the string or character to be searched. "
-"@within is the string in which you want to search.  @start_num is the start "
-"position of the search in @within.  If @start_num is omitted, it is assumed "
-"to be one.  The search is not case sensitive. \n"
+"@DESCRIPTION=SEARCH returns the location of a character or text string within "
+"another string.  @text is the string or character to be searched. @within is "
+"the string in which you want to search.  @start_num is the start position of "
+"the search in @within.  If @start_num is omitted, it is assumed to be one.  "
+"The search is not case sensitive. \n"
 "@text can contain wildcard characters (*) and question marks (?) to control "
 "the search.  A question mark matches with any character and wildcard matches "
 "with any string including empty string.  If you want the actual wildcard or "
@@ -12096,14 +12005,13 @@ msgid "Detailed error message"
 msgstr "Gnumeric: "
 
 #: src/gui-util.c:371
-#, fuzzy
 msgid "Show details"
-msgstr "Lisiö on vielä käytössä.\n"
+msgstr "Näytä yksityiskohdat"
 
 #: src/gui-util.c:873
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open file '%s'"
-msgstr "modulia ei voitu avata: "
+msgstr "Tiedoston avaaminen epäonnistui: '%s'"
 
 #.
 #. * xgettext:
@@ -12112,9 +12020,8 @@ msgstr "modulia ei voitu avata: "
 #. * 'File' menu
 #.
 #: src/history.c:129
-#, fuzzy
 msgid "_File/Print Pre_view..."
-msgstr "Prosentti"
+msgstr "_Tiedosto/Tu_lostuksen esikatselu..."
 
 #: src/history.c:227
 #, fuzzy
@@ -12215,9 +12122,8 @@ msgid "Enables some dependency related debugging functions"
 msgstr "Asettaa joitain virheenetsintäfuntioita päälle"
 
 #: src/main.c:96
-#, fuzzy
 msgid "Enables some print debugging behavior"
-msgstr "Asettaa joitain virheenetsintäfuntioita päälle"
+msgstr "Asettaa joitain tulostuksen virheenetsintätoimintoja päälle"
 
 #: src/main.c:99
 msgid "Specify the size and location of the initial window"
@@ -12228,7 +12134,8 @@ msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr ""
 
 #: src/main.c:103
-msgid "Exit immediately after loading the selected books (useful for testing)."
+msgid ""
+"Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 
 #: src/main.c:132
@@ -12294,9 +12201,8 @@ msgid "#RECALC!"
 msgstr ""
 
 #: src/parser.y:348
-#, fuzzy
 msgid "Sheet name is required"
-msgstr "_Taulu"
+msgstr "Taulun nimi on pakollinen"
 
 #: src/parser.y:458
 #, c-format
@@ -12314,9 +12220,9 @@ msgid "Name '%s' does not exist in workbook '%s'"
 msgstr "Avaa olemassaolevan työkirjan"
 
 #: src/parser.y:517 src/parser.y:540
-#, fuzzy, c-format
+#, c-format
 msgid "Unknown sheet '%s'"
-msgstr "Tuntematon laskentavirhe"
+msgstr "Tuntematon taulu '%s'"
 
 #: src/parser.y:648 src/parser.y:662
 #, c-format
@@ -12360,9 +12266,9 @@ msgid "Module file name not given."
 msgstr "Tiedostoformaatti:"
 
 #: src/plugin-loader-module.c:125
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to open module file \"%s\"."
-msgstr "modulia ei voitu avata: "
+msgstr ""
 
 #: src/plugin-loader-module.c:130 src/plugin-loader-module.c:334
 #: src/plugin-loader-module.c:435 src/plugin-loader-module.c:506
@@ -12725,9 +12631,8 @@ msgid "inch"
 msgstr ""
 
 #: src/print-info.c:518
-#, fuzzy
 msgid "Sheet 1"
-msgstr "_Taulu"
+msgstr "Taulu 1"
 
 #: src/print-info.c:581
 msgid "tab"
@@ -12760,14 +12665,12 @@ msgid "&[PAGE]"
 msgstr "_Taulu"
 
 #: src/print.c:986
-#, fuzzy
 msgid "Print Region"
-msgstr "Prosentti"
+msgstr ""
 
 #: src/print.c:1099
-#, fuzzy
 msgid "Print Sheets"
-msgstr "Prosentti"
+msgstr ""
 
 #: src/print.c:1109
 #, fuzzy
@@ -12775,14 +12678,12 @@ msgid "Act_ive sheet"
 msgstr "Lisää uusi taulu"
 
 #: src/print.c:1109
-#, fuzzy
 msgid "S_heets"
-msgstr "_Taulu"
+msgstr "_Taulut"
 
 #: src/print.c:1201
-#, fuzzy
 msgid "Printing failed"
-msgstr "Puuttuva lainausmerkki"
+msgstr "Tulostus epäonnistui"
 
 #: src/search.c:134
 msgid "Search string must not be empty."
@@ -12835,24 +12736,20 @@ msgid "_Insert..."
 msgstr "_Lisää"
 
 #: src/sheet-control-gui.c:1431
-#, fuzzy
 msgid "_Insert Column(s)"
-msgstr "Lisää sarakkeita"
+msgstr "L_isää sarakkeita"
 
 #: src/sheet-control-gui.c:1433
-#, fuzzy
 msgid "_Delete Column(s)"
-msgstr "Tuhoa solu(ja)"
+msgstr "_Poista sarakkeet"
 
 #: src/sheet-control-gui.c:1435
-#, fuzzy
 msgid "_Insert Row(s)"
-msgstr "Lisää rivejä"
+msgstr "Lisää _rivejä"
 
 #: src/sheet-control-gui.c:1437
-#, fuzzy
 msgid "_Delete Row(s)"
-msgstr "Lisää rivejä"
+msgstr "_Poista rivit"
 
 #: src/sheet-control-gui.c:1440
 #, fuzzy
@@ -12860,21 +12757,18 @@ msgid "Clear Co_ntents"
 msgstr "_Sisältö"
 
 #: src/sheet-control-gui.c:1446
-#, fuzzy
 msgid "_Format Cells..."
-msgstr "_Soluja..."
+msgstr "_Muotoile soluja..."
 
 #. Column specific (Note some labels duplicate row labels)
 #: src/sheet-control-gui.c:1450
-#, fuzzy
 msgid "Column _Width..."
-msgstr "S_arake"
+msgstr "Sarakkeen _leveys..."
 
 #. Row specific (Note some labels duplicate col labels)
 #: src/sheet-control-gui.c:1458
-#, fuzzy
 msgid "_Row Height..."
-msgstr "Oikea"
+msgstr "_Rivikorkeus..."
 
 #: src/sheet-merge.c:81
 msgid "There is already a merged region that intersects"
@@ -13024,28 +12918,24 @@ msgid "Insert Columns"
 msgstr "Lisää sarakkeita"
 
 #: src/sheet.c:3510
-#, fuzzy
 msgid "Delete Columns"
-msgstr "Tuhoa solu(ja)"
+msgstr "Poista sarakkeet"
 
 #: src/sheet.c:3564
-#, fuzzy
 msgid "Insert Rows"
 msgstr "Lisää rivejä"
 
 #: src/sheet.c:3621
-#, fuzzy
 msgid "Delete Rows"
-msgstr "Lisää rivejä"
+msgstr "Poista rivit"
 
 #: src/solver-lp.c:889
 msgid "Answer Report"
 msgstr ""
 
 #: src/solver-lp.c:890
-#, fuzzy
 msgid "Gnumeric Solver Answer Report"
-msgstr "Gnumeric-lisiöt"
+msgstr ""
 
 #: src/solver-lp.c:894
 msgid "Target Cell (Maximize)"
@@ -13097,9 +12987,8 @@ msgid "Sensitivity Report"
 msgstr ""
 
 #: src/solver-lp.c:1041
-#, fuzzy
 msgid "Gnumeric Solver Sensitivity Report"
-msgstr "Gnumeric-lisiöt"
+msgstr ""
 
 #: src/solver-lp.c:1043 src/solver-lp.c:1089
 #, fuzzy
@@ -13297,9 +13186,9 @@ msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
 #: src/workbook-control-gui.c:418
-#, fuzzy, c-format
+#, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
-msgstr "Oletko varma että haluat poistaa taulun `%s' "
+msgstr "Oletko varma että haluat poistaa taulun `%s'?"
 
 #: src/workbook-control-gui.c:472
 msgid "Duplicate this sheet"
@@ -13323,9 +13212,8 @@ msgid "Nothing"
 msgstr "Ei muutosta"
 
 #: src/workbook-control-gui.c:958
-#, fuzzy
 msgid "Un_freeze Panes"
-msgstr "Tuhoa"
+msgstr ""
 
 #: src/workbook-control-gui.c:1020 src/workbook-control-gui.c:3177
 #: src/workbook-control-gui.c:3372 src/workbook-control-gui.c:3394
@@ -13394,9 +13282,8 @@ msgid "Show"
 msgstr ""
 
 #: src/workbook-control-gui.c:2341
-#, fuzzy
 msgid "Hide"
-msgstr "_Näytä"
+msgstr "Piilota"
 
 #: src/workbook-control-gui.c:2358
 msgid "can only be performed on an existing group"
@@ -13443,9 +13330,8 @@ msgid "_Auto generate names..."
 msgstr "M_ene soluun..."
 
 #: src/workbook-control-gui.c:2800
-#, fuzzy
 msgid "Use the current selection to create names"
-msgstr "Leikkaa valitun alueen leikepöydälle"
+msgstr "Käytä nykyistä valintaa nimien luomiseksi"
 
 #: src/workbook-control-gui.c:2899
 msgid "Hide _Column Header"
@@ -13479,9 +13365,8 @@ msgid "_Sort"
 msgstr "_Ratkaisija..."
 
 #: src/workbook-control-gui.c:3106
-#, fuzzy
 msgid "Sorts the selected region."
-msgstr "Järjestää valitut solut"
+msgstr "Järjestää valitun alueen."
 
 #: src/workbook-control-gui.c:3143
 #, fuzzy
@@ -13566,14 +13451,12 @@ msgid "Count"
 msgstr "Määrä"
 
 #: src/workbook-control-gui.c:4143
-#, fuzzy
 msgid "Send"
-msgstr "Sunnuntai"
+msgstr "Lähetä"
 
 #: src/workbook-control-gui.c:4143
-#, fuzzy
 msgid "Send the current file in email"
-msgstr "Leikkaa valitun alueen leikepöydälle"
+msgstr "Lähetä nykyinen tiedosto sähköpostitse"
 
 #: src/workbook-control-gui.c:4345
 #, fuzzy
@@ -13638,9 +13521,8 @@ msgid "Decrease precision"
 msgstr "Joulukuu"
 
 #: src/workbook-format-toolbar.c:407
-#, fuzzy
 msgid "Select font"
-msgstr "Lisää rivejä"
+msgstr "Valitse kirjasin"
 
 #: src/workbook-format-toolbar.c:410
 msgid "Sets the bold font"
