@@ -3410,7 +3410,8 @@ cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 		      WorkbookControlGUI *wbcg)
 {
 	if (!wbcg->editing)
-		return wbcg_edit_start (wbcg, FALSE, TRUE);
+		if (!wbcg_edit_start (wbcg, FALSE, TRUE))
+			wbcg_focus_cur_scg (wbcg);
 
 	return TRUE;
 }

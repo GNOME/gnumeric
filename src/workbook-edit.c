@@ -350,12 +350,12 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	 */
 	if (wb_view_is_protected (wbv, TRUE) &&
 	    mstyle_get_content_locked (sheet_style_get (sheet, col, row))) {
-		char *pos =  g_strdup_printf ( _("%s!%s is locked.\n"),
+		char *pos =  g_strdup_printf ( _("%s!%s is locked"),
 			sheet->name_quoted, cell_coord_name (col, row));
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbcg), pos,
 			wb_view_is_protected (wbv, FALSE)
-			 ? _("Unprotect the sheet to enable editing.")
-			 : _("Unprotect the workbook to enable editing."));
+			 ? _("Unprotect the workbook to enable editing.")
+			 : _("Unprotect the sheet to enable editing."));
 		g_free (pos);
 		return FALSE;
 	}
