@@ -1,3 +1,12 @@
+2003-12-19  Jody Goldberg <jody@gnome.org>
+
+	* utils/go-format.c (go_format_eq) : new.
+	(go_format_as_XL) : new
+	(go_format_new_from_XL) : new
+
+	* graph/gog-axis.c (gog_axis_editor) : add a format selection page for
+	  non-discrete axis.
+
 2003-12-18  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=129445

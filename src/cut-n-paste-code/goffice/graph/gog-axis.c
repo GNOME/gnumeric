@@ -38,6 +38,7 @@
 #include <src/gnumeric-i18n.h>
 #include <src/gui-util.h>
 #include <src/mathfunc.h>
+#include <src/widgets/widget-format-selector.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtknotebook.h>
@@ -65,7 +66,8 @@ struct _GogAxis {
 	double		logical_min_val, logical_max_val;
 	gpointer	min_contrib, max_contrib; /* NULL means use the manual sources */
 	gboolean	is_discrete;
-	GODataVector	*labels;
+	GODataVector   *labels;
+	GOFormat       *format, *assigned_format;
 };
 
 typedef GogStyledObjectClass GogAxisClass;
@@ -87,7 +89,8 @@ enum {
 	AXIS_PROP_MAJOR_TICK_SIZE_PTS,
 	AXIS_PROP_MINOR_TICK_IN,
 	AXIS_PROP_MINOR_TICK_OUT,
-	AXIS_PROP_MINOR_TICK_SIZE_PTS
+	AXIS_PROP_MINOR_TICK_SIZE_PTS,
+	AXIS_PROP_ASSIGNED_FORMAT_STR_XL
 };
 
 #define TICK_LABEL_PAD 5
@@ -126,6 +129,27 @@ gog_axis_set_pos (GogAxis *axis, GogAxisPosition pos)
 	for (ptr = GOG_OBJECT (axis)->children ; ptr != NULL ; ptr = ptr->next)
 		if (IS_GOG_LABEL (ptr->data))
 			role_label_post_add (GOG_OBJECT (axis), ptr->data);
+	return TRUE;
+}
+
+/**
+ * gog_axis_set_format :
+ * @axis : #GogAxis
+ * @fmt  : #GOFormat
+ *
+ * Absorbs a reference to @fmt, and accepts NULL.
+ * returns TRUE if things changed
+ **/
+static gboolean
+gog_axis_set_format (GogAxis *axis, GOFormat *fmt)
+{
+	if (go_format_eq (fmt, axis->assigned_format)) {
+		go_format_unref (fmt);
+		return FALSE;
+	}
+	if (axis->assigned_format != NULL)
+		go_format_unref (axis->assigned_format);
+	axis->assigned_format = fmt;
 	return TRUE;
 }
 
@@ -212,6 +236,13 @@ gog_axis_set_property (GObject *obj, guint param_id,
 			resized = axis->minor.tick_out;
 		}
 		break;
+	case AXIS_PROP_ASSIGNED_FORMAT_STR_XL : {
+		char const *str = g_value_get_string (value);
+		resized = gog_axis_set_format (axis, (str != NULL)
+			? go_format_new_from_XL (str, FALSE)
+			: NULL);
+		break;
+	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 return; /* NOTE : RETURN */
@@ -274,6 +305,13 @@ gog_axis_get_property (GObject *obj, guint param_id,
 	case AXIS_PROP_MINOR_TICK_SIZE_PTS:
 		g_value_set_int (value, axis->minor.size_pts);
 		break;
+	case AXIS_PROP_ASSIGNED_FORMAT_STR_XL :
+		if (axis->assigned_format != NULL)
+			g_value_set_string_take_ownership (value,
+				go_format_as_XL	(axis->assigned_format, FALSE));
+		else
+			g_value_set_static_string (value, NULL);
+		break;
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
 		 break;
@@ -291,6 +329,14 @@ gog_axis_finalize (GObject *obj)
 	if (axis->labels != NULL) {
 		g_object_unref (axis->labels);
 		axis->labels   = NULL;
+	}
+	if (axis->assigned_format != NULL) {
+		go_format_unref (axis->assigned_format);
+		axis->assigned_format = NULL;
+	}
+	if (axis->format != NULL) {
+		go_format_unref (axis->format);
+		axis->format = NULL;
 	}
 
 	gog_dataset_finalize (GOG_DATASET (axis));
@@ -542,6 +588,14 @@ make_dim_editor (GogDataset *set, GtkTable *table, unsigned dim,
 		1, 2, dim + 1, dim + 2, GTK_FILL | GTK_EXPAND, 0, 5, 3);
 }
 
+static void
+cb_axis_fmt_changed (G_GNUC_UNUSED GtkWidget *widget,
+		     char *fmt,
+		     GObject *axis)
+{
+	g_object_set (axis, "assigned-format-string-XL", fmt, NULL);
+}
+
 static gpointer
 gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
@@ -579,6 +633,13 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 		gtk_widget_show_all (GTK_WIDGET (table));
 		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), GTK_WIDGET (table),
 			gtk_label_new (_("Bounds")));
+		w = number_format_selector_new (),
+		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), w,
+			gtk_label_new (_("Format")));
+		gtk_widget_show (w);
+		g_signal_connect (G_OBJECT (w),
+			"number_format_changed",
+			G_CALLBACK (cb_axis_fmt_changed), axis);
 	}
 
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook),
@@ -685,9 +746,13 @@ gog_axis_class_init (GObjectClass *gobject_klass)
 			"Minor tick marks outside the axis",
 			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 	g_object_class_install_property (gobject_klass, AXIS_PROP_MINOR_TICK_SIZE_PTS,
-		g_param_spec_int ("minor-tick-size-pts", "minor-tick-size-pts",
+		g_param_spec_int ("minor-tick-size-pts", NULL,
 			"Size of the minor tick marks in pts",
 			0, 15, 2, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, AXIS_PROP_ASSIGNED_FORMAT_STR_XL,
+		g_param_spec_string ("assigned-format-string-XL", NULL,
+			"The user assigned format to use for non-discrete axis labels (XL format)",
+			"General", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_object_register_roles (gog_klass, roles, G_N_ELEMENTS (roles));
 	gog_klass->update	= gog_axis_update;
@@ -716,6 +781,7 @@ gog_axis_init (GogAxis *axis)
 	axis->min_contrib = axis->max_contrib = NULL;
 	axis->is_discrete = FALSE;
 	axis->labels = NULL;
+	axis->format = axis->assigned_format = NULL;
 }
 
 static void
@@ -958,7 +1024,9 @@ gog_axis_get_marker (GogAxis *axis, unsigned i)
 		if (fabs (val) < major_tick / 10.0)
 			val = 0.;
 
-		return go_format_value (NULL, val);
+		if (axis->assigned_format)
+			return go_format_value (axis->assigned_format, val);
+		return go_format_value (axis->format, val);
 	}
 }
 

@@ -210,9 +210,14 @@ gog_object_write_property (GogObject *obj, GParamSpec *pspec, xmlNode *parent)
 		break;
 	}
 
-	case G_TYPE_STRING:
-		xmlNodeSetContent (node, g_value_get_string (&value));
+	case G_TYPE_STRING: {
+		char const *str = g_value_get_string (&value);
+		if (str != NULL)
+			xmlNodeSetContent (node, str);
+		else
+			success = FALSE;
 		break;
+	}
 
 	case G_TYPE_OBJECT:
 		val_obj = g_value_get_object (&value);

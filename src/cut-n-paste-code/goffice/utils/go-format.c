@@ -25,6 +25,18 @@
 #include <src/value.h>
 #include <src/datetime.h>
 
+GOFormat *
+go_format_new_from_XL (char const *descriptor_string, gboolean delocalize)
+{
+	return style_format_new_XL (descriptor_string, delocalize);
+}
+
+char *
+go_format_as_XL	(GOFormat const *fmt, gboolean localized)
+{
+	return style_format_as_XL (fmt, localized);
+}
+
 void
 go_format_ref (GOFormat *fmt)
 {
@@ -44,6 +56,16 @@ go_format_value (GOFormat const *fmt, double val)
 	static GnmDateConventions conv = { FALSE };
 	tmp.val = val;
 	return format_value (fmt, (GnmValue *)&tmp, NULL, -1, &conv);
+}
+
+gboolean
+go_format_eq (GOFormat const *a, GOFormat const *b)
+{
+	if (a == NULL)
+		return b == NULL;
+	if (b == NULL)
+		return FALSE;
+	return style_format_equal (a, b);
 }
 
 /**
