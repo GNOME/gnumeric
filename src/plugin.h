@@ -48,6 +48,8 @@ GSList      *plugins_get_available_plugins (void);
 void         plugins_rescan (ErrorInfo **ret_error, GSList **ret_new_plugins);
 void         plugin_db_mark_plugin_for_deactivation (GnmPlugin *pinfo, gboolean mark);
 gboolean     plugin_db_is_plugin_marked_for_deactivation (GnmPlugin *pinfo);
+void         plugin_db_activate_plugin_list (GSList *plugins, ErrorInfo **ret_error);
+void         plugin_db_deactivate_plugin_list (GSList *plugins, ErrorInfo **ret_error);
 
 void plugin_message (gint level, const gchar *format, ...);
 

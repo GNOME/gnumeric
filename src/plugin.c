@@ -1428,10 +1428,16 @@ plugin_info_list_read_for_all_dirs (ErrorInfo **ret_error)
 	return plugin_info_list;
 }
 
-/*
- * May activate some plugins and return error info for the rest.
+/**
+ * plugin_db_activate_plugin_list:
+ * @plugins     : The list of plugins
+ * @ret_error   : Pointer used to report errors
+ *
+ * Activates all plugins in the list. If some of the plugins cannot be
+ * activated, the function reports this via @ret_error (errors don't
+ * affect plugins activated successfully).
  */
-static void
+void
 plugin_db_activate_plugin_list (GSList *plugins, ErrorInfo **ret_error)
 {
 	GSList *error_list = NULL;
@@ -1457,10 +1463,16 @@ plugin_db_activate_plugin_list (GSList *plugins, ErrorInfo **ret_error)
 	}
 }
 
-/*
- * May deactivate some plugins and return error info for the rest.
+/**
+ * plugin_db_deactivate_plugin_list:
+ * @plugins     : The list of plugins
+ * @ret_error   : Pointer used to report errors
+ *
+ * Deactivates all plugins in the list. If some of the plugins cannot be
+ * deactivated, the function reports this via @ret_error (errors don't
+ * affect plugins deactivated successfully).
  */
-static void
+void
 plugin_db_deactivate_plugin_list (GSList *plugins, ErrorInfo **ret_error)
 {
 	GSList *error_list = NULL;
