@@ -690,29 +690,74 @@ static int
 coupdaysnc(GDate *settlement, GDate *maturity, int freq, int basis)
 {
         GDateYear  sy, my;
-	GDateMonth mm;
-	GDateDay   md;
-	gint       days;
+	GDateMonth sm, mm;
+	GDateDay   sd, md;
+	gint       days, months;
 
 	sy = g_date_year (settlement);
+	sm = g_date_month (settlement);
+	sd = g_date_day (settlement);
 	my = g_date_year (maturity);
 	mm = g_date_month (maturity);
 	md = g_date_day (maturity);
 
         switch (basis) {
-	case 1:
-	case 2:
-	case 3:
+	case 0: /* US 30/360 */
+	        return -1; /* FIXME */
+	case 1: /* Actual days/actual days */
+	case 2: /* Actual days/360 */
+	case 3: /* Actual days/365 */
 	        days = coupdaysnc_b123 (settlement, my, mm, md, sy);
-		if (freq == 1 && days > 0)
-	                return days;
-		days = coupdaysnc_b123 (settlement, my, mm, md, sy+1);
-		if (freq == 1)
-	                return days;
-		else if (freq == 2) {
-		        return -1; /* FIXME */
+		if (freq == 1) {
+		        if (days > 0)
+			        return days;
+			return coupdaysnc_b123 (settlement, my, mm, md, sy+1);
+		} else if (freq == 2) {
+		        return -1; /* FIXME: the frequency 2 */
 		} else {
-		        return -1; /* FIXME */
+		        return -1; /* FIXME: the frequency 4 */
+		}
+	case 4: /* European 30/360 */
+	        if (freq == 1) {
+		        if (sd == 31)
+			        sd = 30;
+
+			if (md == 29 && mm == 2) {
+			        if (sm <= 2) {
+				        if (sd == 29 && sm == 2)
+					        return 359;
+					else if (! g_date_is_leap_year (sy)) {
+					        if (sm == 2 && sd == 28 &&
+						    g_date_is_leap_year (sy+1))
+						        return 361;
+						else
+						        md = 28;
+					}
+				} else if (! g_date_is_leap_year (sy+1))
+				        md = 28;
+			} else if (md == 31)
+			        md = 30;
+			else if (md == 28 && mm == 2 && !g_date_is_leap_year (my)) {
+			        if (sm > 2) {
+				        if (g_date_is_leap_year (sy+1))
+					        md = 29;
+				} else if (g_date_is_leap_year (sy))
+				        md = 29;
+				else if (g_date_is_leap_year (sy+1) && sm == 2
+					 && sd == 28)
+				        return 361;
+			}
+
+			months = mm - sm;
+		        days = months*30 + md - sd;
+			if (days > 0)
+			        return days;
+			else
+			        return 360 + days;
+		} else if (freq == 2) {
+		        return -1; /* FIXME: the frequency 2 */
+		} else {
+		        return -1; /* FIXME: the frequency 4 */
 		}
 	default:
 	        return -1; /* FIXME */
