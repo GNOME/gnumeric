@@ -38,6 +38,8 @@ INCLUDES = 						\
 GNUMERIC_BASE_SOURCES =				\
 	about.c					\
 	analysis-tools.c			\
+	border.c				\
+	border.h				\
 	cell.h					\
 	cell.c					\
 	cell-draw.c				\

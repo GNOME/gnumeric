@@ -42,22 +42,6 @@ item_grid_destroy (GtkObject *object)
 		(*GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)(object);
 }
 
-struct {
-	gint         width;
-	GdkLineStyle style;
-} static style_border_data[] = {
-	{ 0, GDK_LINE_SOLID },
-	{ 1, GDK_LINE_SOLID },
-	{ 2, GDK_LINE_SOLID },
-	{ 1, GDK_LINE_DOUBLE_DASH },
-	{ 1, GDK_LINE_ON_OFF_DASH },
-	{ 3, GDK_LINE_SOLID },
-	{ 4, GDK_LINE_SOLID },
-	{ 1, GDK_LINE_DOUBLE_DASH },
-	{ 1, GDK_LINE_ON_OFF_DASH },	
-	{ -1, GDK_LINE_SOLID} /* heffalump trap */
-};
-
 static void
 item_grid_realize (GnomeCanvasItem *item)
 {
@@ -66,7 +50,6 @@ item_grid_realize (GnomeCanvasItem *item)
 	GdkWindow *window;
 	ItemGrid  *item_grid;
 	GdkGC     *gc;
-	gint       i;
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)(item);
@@ -84,22 +67,6 @@ item_grid_realize (GnomeCanvasItem *item)
 	item_grid->background = gs_white;
 	item_grid->grid_color = gs_light_gray;
 	item_grid->default_color = gs_black;
-
-	for (i = 0; i < BORDER_MAX; i++) {
-		GdkGC *b_gc = gdk_gc_new (window);
-
-		if (style_border_data[i].width < 0)
-			g_warning ("Serious style error");
-
-		gdk_gc_set_line_attributes (b_gc, style_border_data[i].width,
-					    style_border_data[i].style,
-					    GDK_CAP_BUTT, GDK_JOIN_MITER);
-
-		gdk_gc_set_foreground (b_gc, &item_grid->default_color);
-		gdk_gc_set_background (b_gc, &item_grid->background);
-
-		item_grid->border_gc[i] = b_gc;
-	}
 
 	gdk_gc_set_foreground (gc, &item_grid->grid_color);
 	gdk_gc_set_background (gc, &item_grid->background);
@@ -126,7 +93,6 @@ static void
 item_grid_unrealize (GnomeCanvasItem *item)
 {
 	ItemGrid *item_grid = ITEM_GRID (item);
-	gint i;
 
 	gdk_gc_unref (item_grid->grid_gc);
 	gdk_gc_unref (item_grid->fill_gc);
@@ -136,9 +102,6 @@ item_grid_unrealize (GnomeCanvasItem *item)
 	item_grid->fill_gc = 0;
 	item_grid->gc = 0;
 	item_grid->empty_gc = 0;
-
-	for (i = 0; i < BORDER_MAX; i++)
-		gdk_gc_unref (item_grid->border_gc[i]);
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)(item);
@@ -300,9 +263,7 @@ item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid, Cell *cell, int
 	/* Draw cell contents BEFORE border */
 	count = cell_draw (cell, item_grid->sheet_view, gc, drawable, x1, y1);
 #if 0
-	if ((gnumeric_debugging > 0) &&
-	    (style->valid_flags & STYLE_BORDER) &&
-	    style->border) {
+	if ((style->valid_flags & STYLE_BORDER) && style->border) {
 		StyleBorder     *b = style->border;
 		GdkGC           *gc;
 		StyleBorderType  t;

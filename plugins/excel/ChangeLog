@@ -1,3 +1,7 @@
+1999-10-09  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_excel_set_cell_xf): Adapt to new Border support.
+
 1999-10-07  Michael Meeks  <mmeeks@gnu.org>
 
 	* ms-excel-read.c (ms_excel_set_cell_xf): Large hack to new style

@@ -7,16 +7,17 @@
 #include <config.h>
 #include <gnome.h>
 #include <locale.h>
+#include <ctype.h>
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "gnumeric-util.h"
 #include "eval.h"
 #include "format.h"
 #include "color.h"
+#include "border.h"
 #include "cursors.h"
 #include "utils.h"
 #include "gnumeric-util.h"
-#include <ctype.h>
 
 static int         redraws_frozen           = 0;
 static int         redraws_deep_frozen      = 0;

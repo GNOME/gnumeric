@@ -18,6 +18,7 @@
 #include "ms-escher.h"
 #include "print-info.h"
 #include "selection.h"
+#include "border.h"
 #include "utils.h"	/* for cell_name */
 
 /* #define NO_DEBUG_EXCEL */
@@ -41,11 +42,12 @@ static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
 static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 					     ExcelSheet *ans);
 
+/* TODO : Add diagonals */
 #define STYLE_TOP     (MSTYLE_BORDER_TOP    - MSTYLE_BORDER_TOP)
 #define STYLE_BOTTOM  (MSTYLE_BORDER_BOTTOM - MSTYLE_BORDER_TOP)
 #define STYLE_LEFT    (MSTYLE_BORDER_LEFT   - MSTYLE_BORDER_TOP)
 #define STYLE_RIGHT   (MSTYLE_BORDER_RIGHT  - MSTYLE_BORDER_TOP)
-#define STYLE_ORIENT_MAX 4
+#define STYLE_ORIENT_MAX 6
 
 /*static guint16
 ms_bug_get_padding (const BiffQuery *q, guint16 opcode)
@@ -1045,14 +1047,16 @@ ms_excel_set_cell_xf (ExcelSheet *sheet, Cell *cell, guint16 xfidx)
 	basefore = ms_excel_set_cell_font (sheet, cell, xf);
 	if (sheet->wb->palette) {
 		int i;
- 		for (i = 0; i < 4; i++) {
+ 		for (i = 0; i < STYLE_ORIENT_MAX; i++) {
 			e.type = MSTYLE_BORDER_TOP + i;
-			e.u.border.top.color =
-				ms_excel_palette_get (sheet->wb->palette,
-						      xf->border_color[i],
-						      NULL);
-			/* FIXME: this has to be broken */
-			e.u.border.top.type = xf->border_type [i];
+			e.u.border.any =
+				border_fetch (xf->border_type [i],
+					      ms_excel_palette_get (sheet->wb->palette,
+								    xf->border_color[i],
+								    NULL),
+					      e.type);
+			if (e.u.border.any != NULL)
+				mstyle_add (style, e);
 		}
 	}
 
@@ -1136,17 +1140,17 @@ biff_xf_map_border (int b)
  	case 7: /* Hair */
  		return BORDER_HAIR;
  	case 8: /* Medium Dashed */
- 		return BORDER_MEDIUM;
+ 		return BORDER_MEDIUM_DASH;
  	case 9: /* Dash Dot */
- 		return BORDER_THIN;
+ 		return BORDER_DASH_DOT;
  	case 10: /* Medium Dash Dot */
- 		return BORDER_THIN;
+ 		return BORDER_MEDIUM_DASH_DOT;
  	case 11: /* Dash Dot Dot */
- 		return BORDER_HAIR;
+ 		return BORDER_DASH_DOT_DOT;
  	case 12: /* Medium Dash Dot Dot */
- 		return BORDER_THIN;
+ 		return BORDER_MEDIUM_DASH_DOT_DOT;
  	case 13: /* Slanted Dash Dot*/
- 		return BORDER_HAIR;
+ 		return BORDER_SLANTED_DASH_DOT;
  	}
   	printf ("Unknown border style %d\n", b);
  	return BORDER_NONE;

@@ -4,6 +4,7 @@
 #include "style.h"
 #include "sheet.h"
 #include "mstyle.h"
+#include "border.h"
 
 typedef MStyle PrivateStyle; /* For future */
 
@@ -12,14 +13,17 @@ static guint32 stamp = 0;
 const char *mstyle_names[MSTYLE_ELEMENT_MAX] = {
 	"--Zero--",
 	"--Conflict--",
-	"Color.Fore",
 	"Color.Back",
+	"Color.Pattern",
 	"Border.Top",
 	"Border.Bottom",
 	"Border.Left",
 	"Border.Right",
+	"Border.Diagonal",
+	"Border.RevDiagonal",
 	"Pattern",
 	"--MaxBlank--",
+	"Color.Fore",
 	"Font.Name",
 	"Font.Bold",
 	"Font.Italic",
@@ -49,6 +53,9 @@ mstyle_element_dump (const MStyleElement *e)
 		break;
 	case MSTYLE_COLOR_BACK:
 		g_string_sprintf (ans, "backgnd col");
+		break;		
+	case MSTYLE_COLOR_PATTERN:
+		g_string_sprintf (ans, "pattern col");
 		break;		
 	case MSTYLE_FONT_NAME:
 		g_string_sprintf (ans, "name '%s'", e->u.font.name);
@@ -351,7 +358,7 @@ mstyle_element_copy (MStyleElement e)
 		style_color_ref (e.u.color.fore);
 		break;
 	case MSTYLE_ANY_BORDER:
-		style_color_ref (e.u.border.top.color);
+		border_ref (e.u.border.any);
 		break;
 	case MSTYLE_FONT_NAME:
 		e.u.font.name = g_strdup (e.u.font.name);
@@ -373,7 +380,7 @@ mstyle_element_destroy (MStyleElement e)
 		style_color_unref (e.u.color.fore);
 		break;
 	case MSTYLE_ANY_BORDER:
-		style_color_unref (e.u.border.top.color);
+		border_unref (e.u.border.any);
 		break;
 	case MSTYLE_FONT_NAME:
 		g_free (e.u.font.name);

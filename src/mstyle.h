@@ -16,18 +16,21 @@ enum _MStyleElementType {
 	/* When there is a conflict in a merge */
 	MSTYLE_ELEMENT_CONFLICT,
 	/* Types that are visible in blank cells */
-	        MSTYLE_COLOR_FORE,
 		MSTYLE_COLOR_BACK,
+		MSTYLE_COLOR_PATTERN,
 
 	        MSTYLE_BORDER_TOP,
 	        MSTYLE_BORDER_BOTTOM,
 	        MSTYLE_BORDER_LEFT,
 	        MSTYLE_BORDER_RIGHT,
+	        MSTYLE_BORDER_DIAGONAL,
+	        MSTYLE_BORDER_REV_DIAGONAL,
 
 		MSTYLE_PATTERN,
 	/* Delimiter */
 	MSTYLE_ELEMENT_MAX_BLANK,
 	/* Normal types */
+	        MSTYLE_COLOR_FORE,
 		MSTYLE_FONT_NAME,
 		MSTYLE_FONT_BOLD,
 		MSTYLE_FONT_ITALIC,
@@ -45,47 +48,35 @@ enum _MStyleElementType {
 	MSTYLE_ELEMENT_MAX
 };
 #define MSTYLE_ANY_COLOR             MSTYLE_COLOR_FORE: \
-				case MSTYLE_COLOR_BACK
+				case MSTYLE_COLOR_BACK: \
+				case MSTYLE_COLOR_PATTERN
 #define MSTYLE_ANY_BORDER            MSTYLE_BORDER_TOP: \
 				case MSTYLE_BORDER_BOTTOM: \
 				case MSTYLE_BORDER_LEFT: \
-				case MSTYLE_BORDER_RIGHT
+				case MSTYLE_BORDER_RIGHT: \
+				case MSTYLE_BORDER_DIAGONAL: \
+				case MSTYLE_BORDER_REV_DIAGONAL
 
 extern const char *mstyle_names[MSTYLE_ELEMENT_MAX];
 
-/**
- *  The order of the following two records
- * is assumed in xml-io
- **/
-typedef enum {
- 	BORDER_NONE,
- 	BORDER_THIN,
- 	BORDER_MEDIUM,
- 	BORDER_DASHED,
- 	BORDER_DOTTED,
- 	BORDER_THICK,
- 	BORDER_DOUBLE,
- 	BORDER_HAIR,
-
- 	BORDER_MAX
-} StyleBorderType;
-
-struct _MStyleBorder {
-	StyleBorderType  type;
-	StyleColor      *color;
-};
 struct _MStyleElement {
 	MStyleElementType type;
 	union {
 		union {
 			StyleColor *fore;
 			StyleColor *back;
+			StyleColor *pattern;
 		}                color;
 		union {
-			MStyleBorder top;
-			MStyleBorder bottom;
-			MStyleBorder left;
-			MStyleBorder right;
+			MStyleBorder *top;
+			MStyleBorder *bottom;
+			MStyleBorder *left;
+			MStyleBorder *right;
+			MStyleBorder *diagonal;
+			MStyleBorder *rev_diagonal;
+
+			/* Used for loading */
+			MStyleBorder *any;
 		}                border;
 		guint32          pattern;
 
@@ -118,7 +109,7 @@ void        mstyle_destroy     (MStyle *st);
 /* No pre-existance checking */
 void        mstyle_add         (MStyle *st, MStyleElement e);
 void        mstyle_add_array   (MStyle *st, const GArray *elements);
-/* Checks to see if it is alreqady in use */
+/* Checks to see if it is already in use */
 void        mstyle_set         (MStyle *st, MStyleElement e);
 
 /* commutative */

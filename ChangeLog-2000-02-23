@@ -1,3 +1,14 @@
+1999-10-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/border.[ch] : Add a reasonable approximation of the XL border styles.
+
+	* src/mstyle.[ch] : Add more border line styles.
+	  Add placeholders for diagonal and reverse diagonal borders.
+	  Add placeholder for 'pattern' colour vs background colour.
+	  Moved COLOR_FORE into the section not visibile in a blank cell.
+
+	* src/xml-io.c : Switch to new border scheme.
+
 1999-10-09  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/mstyle.c (mstyle_element_copy): implement.

@@ -16,6 +16,7 @@
 #include "gnome-xml/tree.h"
 #include "gnome-xml/parser.h"
 #include "color.h"
+#include "border.h"
 #include "sheet-object.h"
 #include "sheet-object-graphic.h"
 #include "print-info.h"
@@ -615,8 +616,8 @@ xml_write_style_border (parse_xml_context_t *ctxt, MStyleElement *style)
 	
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_RIGHT; i++) {
 		if (style [i].type) {
-			StyleBorderType t = style [i].u.border.top.type;
-			StyleColor *col   = style [i].u.border.top.color;
+			StyleBorderType t = style [i].u.border.any->line_type;
+			StyleColor *col   = style [i].u.border.any->color;
  			side = xmlNewChild (cur, ctxt->ns,
 					    StyleSideNames [i - MSTYLE_BORDER_TOP],
  					    BorderTypes [t]);
@@ -644,11 +645,11 @@ xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree, MStyleElement
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_RIGHT; i++) {
  		if ((side = xml_search_child (tree,
 					      StyleSideNames [i - MSTYLE_BORDER_TOP])) != NULL) {
+			StyleColor * color = NULL;
+ 			xml_get_color_value (side, "Color", &color);
  			/* FIXME: need to read the proper type */
- 			style [i].type = i;
-			style [i].u.border.top.type = BORDER_THICK;
- 			xml_get_color_value (side, "Color",
-					     &style [i].u.border.top.color);
+			style [i].u.border.any =
+				border_fetch (BORDER_NONE, color, i);
  		}
 	}
 }
@@ -1534,7 +1535,6 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	xmlNodePtr objects;
 	xmlNodePtr printinfo;
 	xmlNodePtr styles;
-	GList *l;
 
 	char str[50];
 
