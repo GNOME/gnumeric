@@ -187,6 +187,9 @@ gnm_conf_init_essential (void)
 		  GNUMERIC_GCONF_GUI_WINDOW_Y, .1, 1., .6);
 	prefs.zoom = gnm_gconf_get_float (client,
 		  GNUMERIC_GCONF_GUI_ZOOM, .1, 5., 1.);
+
+	prefs.printer_config = gconf_client_get_string (client,
+		PRINTSETUP_GCONF_PRINTER_CONFIG, NULL);
 }
 
 static gboolean
@@ -248,8 +251,6 @@ gnm_conf_init_extras (void)
 		GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL, 0, 256, 10);
 	prefs.print_all_sheets = gnm_gconf_get_bool (client,
 		PRINTSETUP_GCONF_ALL_SHEETS, TRUE);
-	prefs.printer_config = gconf_client_get_string (client,
-		PRINTSETUP_GCONF_PRINTER_CONFIG, NULL);
 	prefs.printer_header = gconf_client_get_list (client,
 		PRINTSETUP_GCONF_HEADER, GCONF_VALUE_STRING, NULL);
 	prefs.printer_footer = gconf_client_get_list (client,

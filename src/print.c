@@ -1212,8 +1212,6 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 	PrintJobInfo *pj = NULL;
 	GtkWidget *gnome_print_dialog;
 	GnomePrintJob *gpm = NULL;
-	int copies = 1;
-	int collate = FALSE;
  	int first = 1;
 	int end;
 	int range;
@@ -1263,8 +1261,6 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 			gtk_widget_destroy (gnome_print_dialog);
 			goto out;
 		}
-		gnome_print_dialog_get_copies (GNOME_PRINT_DIALOG (gnome_print_dialog),
-					       &copies, &collate);
 		range = gnome_print_dialog_get_range_page (
 			GNOME_PRINT_DIALOG (gnome_print_dialog), &first, &end);
 
