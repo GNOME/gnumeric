@@ -1,5 +1,19 @@
 1999-07-21  Michael Meeks  <michael@edenproject.org>
 
+	* boot.c (lotus_load): Stupid bugs.
+
+	* lotus-formula.c (lotus_parse_formula): Re-arrange Range.
+	Fix lots of oddities in function table.
+	(get_cellref): Fixed up silly bug + add debug.
+	(lotus_parse_formula): Stupid bug in range setting a twice.
+
+	* lotus.c (record_new): Actualy setup the file pointer.
+	(read_workbook): Scads of i,j swapping to get col,row.
+	Actually use labels we read.
+	Remove a load of incorrect +1 offsets.
+
+1999-07-21  Michael Meeks  <michael@edenproject.org>
+
 	* lotus.h (LOTUS_GETDOUBLE): Split these into lotus.h
 
 	* Makefile.am: Added lotus-formula.[ch]

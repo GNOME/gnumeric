@@ -21,9 +21,13 @@
 #include "main.h"
 #include "sheet.h"
 #include "file.h"
+#include "utils.h"
 
 #include "lotus.h"
 #include "lotus-types.h"
+#include "lotus-formula.h"
+
+#define LOTUS_DEBUG 0
 
 #if G_BYTE_ORDER != G_LITTLE_ENDIAN
 
@@ -66,6 +70,7 @@ static record_t *
 record_new (FILE *f)
 {
 	record_t *r = g_new (record_t, 1);
+	r->f        = f;
 	/* Speed & determinism */
 	r->data     = g_new (guint8, 65540);
 	r->type     = 0;
@@ -83,7 +88,11 @@ record_next (record_t *r)
 		return FALSE;
 
 	r->type = GUINT16_FROM_LE (*(guint16 *)hdata);
-	r->len  = GUINT16_FROM_LE (*(guint16 *)hdata + 4);
+	r->len  = GUINT16_FROM_LE (*(guint16 *)(hdata + 2));
+
+#if LOTUS_DEBUG > 0
+	printf ("Record 0x%x length 0x%x\n", r->type, r->len);
+#endif
 
 	if (fread (r->data, 1, r->len, r->f) != r->len)
 		return FALSE;
@@ -114,6 +123,11 @@ insert_value (Sheet *sheet, guint32 col, guint32 row, Value *val)
 	g_return_val_if_fail (cell != NULL, NULL);
 	cell_set_value (cell, val);
 
+#if LOTUS_DEBUG > 0
+	printf ("Inserting value at %s:\n",
+		cell_name (cell->col->pos, cell->row->pos));
+	value_dump (val);
+#endif
 	return cell;
 }
 
@@ -151,8 +165,8 @@ read_workbook (Workbook *wb, FILE *f)
 		{
 			gint16 i = GINT16_FROM_LE (*(gint16 *)(r->data + 5));
 			v = value_new_int (i);
-		        i = 1 + GUINT16_FROM_LE  (*(guint16 *)(r->data + 3));
-			j = 1 + GUINT16_FROM_LE  (*(guint16 *)(r->data + 1));
+			i = GUINT16_FROM_LE  (*(guint16 *)(r->data + 1));
+		        j = GUINT16_FROM_LE  (*(guint16 *)(r->data + 3));
 /*			rf = readfmt(p);  FIXME
 			f = sf | rf;
 			if (rf == FMT_DATE) {
@@ -170,8 +184,8 @@ read_workbook (Workbook *wb, FILE *f)
 		{
 			float_t num = LOTUS_GETDOUBLE (r->data + 5);
 			v = value_new_float (num);
-		        i = 1 + GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
-			j = 1 + GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
+			i = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
+		        j = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
 /*			rf = readfmt(p); 
 			f = sf | rf;
 			if (rf == FMT_DATE || rf == FMT_TIME) {
@@ -190,12 +204,13 @@ read_workbook (Workbook *wb, FILE *f)
 			/* one of '\', '''', '"', '^' */
 			gchar format_prefix = *(r->data + 5);
 			v = value_new_string (r->data + 6); /* FIXME unsafe */
-		        i = 1 + GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
-			j = 1 + GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
+			i = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
+		        j = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
 /*			f = sf | readfmt(p); 
 			ins_data(buf, siod_interpreter, (char *)r->data + 6,
 				value, LABEL, s, i, j);
 				ins_format(buf,	s, i, j, fmt_old2new(f)); */
+			cell = insert_value (sheet, i, j, v);
 			break;
 		}
 		case LOTUS_FORMULA:
@@ -203,8 +218,8 @@ read_workbook (Workbook *wb, FILE *f)
 			ExprTree *f;
 		/* 5-12 = value */
 		/* 13-14 = formula r->length */
-                        i = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
-			j = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
+			i = GUINT16_FROM_LE (*(guint16 *)(r->data + 1));
+                        j = GUINT16_FROM_LE (*(guint16 *)(r->data + 3));
 /*                Ignore for now.
 			f = sf | readfmt(p); 
 			formula(GINT16_FROM_LE (*(gint16 *)(r->data + 13), r->data + 15, i, j));
@@ -217,6 +232,9 @@ read_workbook (Workbook *wb, FILE *f)
 			f = lotus_parse_formula (sheet, i, j, r->data + 15, /* FIXME: unsafe */
 						 GINT16_FROM_LE (*(gint16 *)(r->data + 13)));
 			v = value_new_float (LOTUS_GETDOUBLE (r->data + 5));
+			cell = insert_value (sheet, i, j, v);
+			if (cell)
+				cell_set_formula_tree (cell, f);
 			break;
 		}
 		default:

@@ -60,10 +60,9 @@ lotus_load (const char *filename)
 	wb = lotus_read (filename);
 
 	if (wb) {
-		if ((p = filename_ext (name)) != NULL)
+		if ((p = filename_ext (filename)) != NULL)
 			*p = '\0'; /* remove "wk1" */
 		name = g_strconcat (p, "gnumeric", NULL);
-		g_free (p);
 		workbook_set_filename (wb, name);
 		g_free (name);
 	}
