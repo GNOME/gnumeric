@@ -29,11 +29,11 @@ Michael
 	* Implement R1C1 style references.
 
 Jody
-	* Where do the anchor points for objects come from.
-	* Work on Escher to do just in time biff record merging.
 	* HEADER, FOOTER import.
 	* Check the record lengths on the biff records BEFORE use.
 	* More version size changes for NAME
+	* ExternSheet import for pre-biff8
+	* Save Array formulas
 
 Frank
 	* Summary:

@@ -327,6 +327,7 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 	guint8 *data;
 	gint32 data_len_left;
 	gboolean hit_end = FALSE;
+	gboolean next_biff_record_is_imdata = FALSE;
 
 	g_return_val_if_fail (q, TRUE);
 	g_return_val_if_fail (q->ls_op == BIFF_OBJ, TRUE);
@@ -370,6 +371,8 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 
 		case GR_PICTURE_OPTIONS:
 			ms_obj_dump (data, len, "PictOpt");
+
+			next_biff_record_is_imdata = TRUE;
 			break;
 
 		case GR_PICTURE_FORMULA:
@@ -470,6 +473,17 @@ ms_obj_read_biff8_obj (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet, MSObj * 
 	/* The ftEnd record should have been the last */
 	g_return_val_if_fail (data_len_left == 0, TRUE);
 
+	if (next_biff_record_is_imdata) {
+		guint16 opcode;
+
+		/* Read the IMDATA. I am not sure that this record must follow
+		 * a PictOpt.  For now be very careful
+		 */
+		g_return_val_if_fail (ms_biff_query_peek_next (q, &opcode), TRUE);
+		g_return_val_if_fail (opcode == BIFF_IMDATA, TRUE);
+		g_return_val_if_fail (ms_biff_query_next (q), TRUE);
+	}
+
 	return FALSE;
 }
 
@@ -507,6 +521,7 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
 
 	gboolean errors;
 	SheetObjectType type;
+	gchar const * type_name = NULL;
 	MSObj * obj = g_new(MSObj, 1);
 	obj->excel_type = (unsigned)-1; /* Set to undefined */
 	obj->id = -1;
@@ -520,6 +535,11 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
 		g_free (obj);
 		return NULL;
 	}
+
+	if (obj->excel_type < sizeof(object_type_names)/sizeof(char*))
+		type_name = object_type_names[obj->excel_type];
+	if (type_name == NULL)
+		type_name = "Unknown";
 
 	switch (obj->excel_type) {
 	case 0x05 : /* Chart */
@@ -561,8 +581,8 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
 		break;
 
 	default :
-		g_warning ("EXCEL : unhandled excel object of type 0x%x", 
-			   obj->excel_type);
+		g_warning ("EXCEL : unhandled excel object of type %s (0x%x) id = %d", 
+			   type_name, obj->excel_type, obj->id);
 		g_free(obj);
 		return NULL;
 	}
@@ -570,13 +590,8 @@ ms_read_OBJ (BiffQuery *q, ExcelWorkbook * wb, Sheet * sheet)
 	obj->gnumeric_type = type;
 
 #ifndef NO_DEBUG_EXCEL
-	if (ms_excel_read_debug > 0) {
-		char const * type_name = "Unknown";
-		if (obj->excel_type < sizeof(object_type_names)/sizeof(char*))
-			type_name = object_type_names[obj->excel_type];
-
+	if (ms_excel_read_debug > 0)
 		printf ("Object (%d) is a '%s'\n", obj->id, type_name);
-	}
 #endif
 
 	return obj;

@@ -115,10 +115,12 @@ ms_escher_get_data (MSEscherState * state,
 			return NULL;
 		}
 
-		g_return_val_if_fail (q->opcode == BIFF_MS_O_DRAWING ||
-				      q->opcode == BIFF_MS_O_DRAWING_GROUP ||
-				      q->opcode == BIFF_MS_O_DRAWING_SELECTION,
-				      NULL);
+		if (q->opcode != BIFF_MS_O_DRAWING &&
+		    q->opcode != BIFF_MS_O_DRAWING_GROUP &&
+		    q->opcode != BIFF_MS_O_DRAWING_SELECTION) {
+			printf ("ESCHER : Unexpected record type 0x%x\n", q->opcode);
+			return NULL;
+		}
 
 		state->start_offset = state->end_offset;
 		state->end_offset += q->length;
@@ -166,10 +168,12 @@ ms_escher_get_data (MSEscherState * state,
 			}
 
 			/* We should only see DRAW records now */
-			g_return_val_if_fail (q->opcode == BIFF_MS_O_DRAWING ||
-					      q->opcode == BIFF_MS_O_DRAWING_GROUP ||
-					      q->opcode == BIFF_MS_O_DRAWING_SELECTION,
-					      NULL);
+			if (q->opcode != BIFF_MS_O_DRAWING &&
+			    q->opcode != BIFF_MS_O_DRAWING_GROUP &&
+			    q->opcode != BIFF_MS_O_DRAWING_SELECTION) {
+				printf ("ESCHER : Unexpected record type 0x%x\n", q->opcode);
+				return NULL;
+			}
 
 			state->start_offset = state->end_offset;
 			state->end_offset += q->length;

@@ -1,3 +1,14 @@
+1999-10-08  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-escher.c (ms_escher_get_data) : Use printf instead of
+	  g_return_if_fail.  It makes it easier to debug when the messages ar
+	  in line.
+
+	* ms-obj.c (ms_read_OBJ) : Print the object type name whenever
+	  possible.
+	(ms_obj_read_biff8_obj) : Looks like a PictOpt record in an object
+	  signifies that the next BIFF record after the OBJ must be an IMDATA.
+
 1999-10-08  Morten Welinder  <terra@diku.dk>
 
 	* ms-formula-read.c (ms_excel_parse_formula): Plug leaks.
