@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-10 00:27-0400\n"
+"POT-Creation-Date: 2003-09-15 04:31-0400\n"
 "PO-Revision-Date: 2003-02-25 20:40--530\n"
 "Last-Translator: G Karunakar <karunakar@freedomink.org>\n"
 "Language-Team: Gnome Hindi Team <indlinux-hindi-gnome@lists.sourceforge."
@@ -800,7 +800,7 @@ msgstr ""
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:436 src/dialogs/dialog-sheet-order.c:440
+#: src/dialogs/dialog-sheet-order.c:435 src/dialogs/dialog-sheet-order.c:439
 #, c-format
 msgid "Sheet%d"
 msgstr ""
@@ -2793,7 +2793,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:545
+#: src/print-info.c:578
 msgid "date"
 msgstr ""
 
@@ -2810,7 +2810,7 @@ msgid "start_date,months"
 msgstr ""
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:546
+#: plugins/fn-date/functions.c:1265 src/print-info.c:579
 msgid "time"
 msgstr ""
 
@@ -4856,7 +4856,7 @@ msgstr ""
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:491
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -10828,7 +10828,8 @@ msgstr ""
 
 #: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
+#: src/xml-io.c:3585
 msgid "Sheet"
 msgstr ""
 
@@ -10854,10 +10855,6 @@ msgstr ""
 
 #: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
-msgstr ""
-
-#: plugins/xml_sax/plugin.xml.in.h:4
-msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
 msgstr ""
 
 #: plugins/xml_sax/xml-sax-read.c:301
@@ -11135,8 +11132,9 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:22
-msgid "Sans Regular"
-msgstr ""
+#, fuzzy
+msgid "Sans"
+msgstr "स्तर"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -11763,7 +11761,7 @@ msgstr "दिए गए मानदंड से डाटा का निथ
 # #-#-#-#-#  libgnomeui.HEAD.hi.po (libgnomeui HEAD)  #-#-#-#-#
 # libgnomeui/gnome-font-picker.c:184 libgnomeui/gnome-font-picker.c:979
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:858
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -11961,8 +11959,8 @@ msgstr "वर्नित की गई खाने तक जाइए"
 # #-#-#-#-#  gnome-applets.gnome-2-2.hi.po (gnome-applets 2.x)  #-#-#-#-#
 # gtk/gtkbutton.c:189 gtk/gtkframe.c:125 gtk/gtklabel.c:280
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
-#: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:536
+#: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "लेबल"
 
@@ -12134,7 +12132,7 @@ msgid "Print Preview"
 msgstr "छपाई पुनरीक्षण"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1311 src/workbook-control-gui.c:3301
+#: src/print.c:1322 src/workbook-control-gui.c:3301
 #: src/workbook-control-gui.c:3952
 msgid "Print preview"
 msgstr "छपाई पुनरीक्षण"
@@ -13547,87 +13545,127 @@ msgstr "%s!%s तक संघटित करना"
 msgid "Data Consolidation"
 msgstr "डाटा संघटित कीजिए"
 
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+#, fuzzy
+msgid "<b>Major Ticks:</b>"
+msgstr "नमूना"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "<b>Minor Ticks:</b>"
+msgstr "नमूना"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#, fuzzy
+msgid "I_nside"
+msgstr "अंदर"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#, fuzzy
+msgid "O_utside"
+msgstr "ढाँचा"
+
 # #-#-#-#-#  libgnomeui.HEAD.hi.po (libgnomeui HEAD)  #-#-#-#-#
 # libgnomeui/gnome-app-helper.c:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
 #, fuzzy
 msgid "_Cross"
 msgstr "बंद कीजिए"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
 #, fuzzy
 msgid "_High"
 msgstr "लंबाई"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
+#, fuzzy
+msgid "_Inside"
+msgstr "अंदर"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
 #, fuzzy
 msgid "_Invert"
 msgstr "अंतर्गत कीजिए"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
 #, fuzzy
 msgid "_Low"
 msgstr "पंक्ति"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
 #, fuzzy
 msgid "_Map:"
 msgstr "_अल्फा:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
+#, fuzzy
+msgid "_Outside"
+msgstr "ढाँचा"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
+#, fuzzy
+msgid "_Show Labels"
+msgstr "लेबल्स"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:435
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:436
 #, fuzzy
 msgid "M_ax"
 msgstr "अधिकतम"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:437
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:438
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:498
 #, fuzzy
 msgid "Bounds"
 msgstr "बेकग्राउण्ड"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
 #, fuzzy
 msgid "Details"
 msgstr "प्लगिन सेवाए"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
 #, fuzzy
 msgid "Legend"
 msgstr "भेजें"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 #, fuzzy
 msgid "Title"
 msgstr "शीर्षक"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
+#, fuzzy
+msgid "Grid"
+msgstr "शुक्रवार"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
 msgstr ""
 
 # libgnomeprint/gnome-print-paper.c:47
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 #, fuzzy
 msgid "Plot"
 msgstr "पाइंट"
@@ -13758,12 +13796,12 @@ msgstr "ऊपर"
 # libgnomecanvas/gnome-canvas-text.c:203
 # #-#-#-#-#  libgnomeui.HEAD.hi.po (libgnomeui HEAD)  #-#-#-#-#
 # libgnomeui/gnome-href.c:126
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:102
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:105
 #, fuzzy
 msgid "_Text:"
 msgstr "विषय"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:108
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:111
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:131
 #: src/dialogs/dialog-stf.glade.h:15
 #, fuzzy
@@ -13783,7 +13821,7 @@ msgstr "प्लाट प्रकार"
 msgid "Chart Theme"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:167
 #, fuzzy
 msgid "Series"
 msgstr "मिलाइए"
@@ -13839,11 +13877,11 @@ msgid "C_olor:"
 msgstr "रंग:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-msgid "Fill from start color to end color"
+msgid "Fill from start color to a darker/lighter version of that color"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Fill from start color to a darker/lighter version of that color"
+msgid "Fill from start color to end color"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
@@ -13977,7 +14015,7 @@ msgstr ""
 msgid "%d x %d"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:548
 #: src/workbook-control-gui.c:3100
 #, fuzzy
 msgid "Select an image"
@@ -13987,7 +14025,7 @@ msgstr "एक पूरा पत्र भाग चुनिए"
 # gnome-session/gsm-client-list.c:111
 # #-#-#-#-#  libgnomeprintui.gnome-2-2.hi.po (libgnomeprintui )  #-#-#-#-#
 # libgnomeprintui/gnome-font-dialog.c:217
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "स्टाइल (प्रकार)"
@@ -13995,22 +14033,22 @@ msgstr "स्टाइल (प्रकार)"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
-#: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
+#: src/dialogs/dialog-sheet-order.c:952 src/dialogs/dialog-sheet-order.c:965
 msgid "Default"
 msgstr "डीफ़ाल्ट"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:435
 msgid "Guppi"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:265
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "लेबल"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:267
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -14054,7 +14092,7 @@ msgstr ""
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:45
 #, fuzzy
 msgid "PlotLine"
 msgstr "पाइंट"
@@ -14064,7 +14102,7 @@ msgstr "पाइंट"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:115
 #, fuzzy
 msgid "PlotArea"
 msgstr "पाइंट"
@@ -14434,11 +14472,11 @@ msgstr ""
 msgid "PlotXY"
 msgstr "पाइंट"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:178
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:180
 msgid "Y"
 msgstr ""
 
@@ -14655,15 +14693,19 @@ msgid "Thin Reverse Diagonal Stripe"
 msgstr "पतला उलटा कोणीय लकीर"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "पतला कोणीय क्रोसहाछ"
+#: src/dialogs/cell-format.glade.h:82
+msgid "Thin Diagonal Stripe"
+msgstr "पतला कोणीय लकीर"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
 #: src/dialogs/cell-format.glade.h:83
 msgid "Thin Horizontal Crosshatch"
 msgstr "पतला समांतर क्रोसहाछ"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "पतला कोणीय क्रोसहाछ"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
 #: src/dialogs/cell-format.glade.h:44
@@ -15041,7 +15083,7 @@ msgstr "इनपुट"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/dialog-shuffle.c:149
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/dialog-shuffle.c:149
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -15370,7 +15412,7 @@ msgstr "गलती सावधान"
 
 #: src/dialogs/cell-format.glade.h:16
 #, fuzzy
-msgid "<b>Horizontal alignement</b>"
+msgid "<b>Horizontal alignment</b>"
 msgstr "वर्टिकल क्रमबद्दिकरण"
 
 # #-#-#-#-#  libgnomeprintui.gnome-2-2.hi.po (libgnomeprintui )  #-#-#-#-#
@@ -15402,7 +15444,7 @@ msgstr "पूर्वावलोकन"
 
 #: src/dialogs/cell-format.glade.h:22
 #, fuzzy
-msgid "<b>Vertical alignement</b>"
+msgid "<b>Vertical alignment</b>"
 msgstr "वर्टिकल क्रमबद्दिकरण"
 
 #: src/dialogs/cell-format.glade.h:23
@@ -15599,10 +15641,6 @@ msgstr "ऊपर"
 #: src/dialogs/cell-format.glade.h:78
 msgid "Text length"
 msgstr "विषय की लंबाई"
-
-#: src/dialogs/cell-format.glade.h:82
-msgid "Thin Diagonal Stripe"
-msgstr "पतला कोणीय लकीर"
 
 # #-#-#-#-#  libgnomeui.HEAD.hi.po (libgnomeui HEAD)  #-#-#-#-#
 # libgnomeui/gnome-dateedit.c:468
@@ -16095,10 +16133,10 @@ msgid "No matching records were found."
 msgstr "समान रिकार्ड नही पाए गए है"
 
 #: src/dialogs/dialog-advanced-filter.c:160
-#: src/dialogs/dialog-analysis-tools.c:583
-#: src/dialogs/dialog-analysis-tools.c:701
-#: src/dialogs/dialog-analysis-tools.c:1983
-#: src/dialogs/dialog-analysis-tools.c:2874
+#: src/dialogs/dialog-analysis-tools.c:585
+#: src/dialogs/dialog-analysis-tools.c:703
+#: src/dialogs/dialog-analysis-tools.c:1985
+#: src/dialogs/dialog-analysis-tools.c:2875
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "एक अनहोनी गलती हुआ है: %d."
@@ -16111,42 +16149,42 @@ msgstr "सूची श्रेणि (_L):"
 msgid "Could not create the Advanced Filter dialog."
 msgstr "उन्नति छलनि संवाद नही बना पाए"
 
-#: src/dialogs/dialog-analysis-tools.c:569
-#: src/dialogs/dialog-analysis-tools.c:687
+#: src/dialogs/dialog-analysis-tools.c:571
+#: src/dialogs/dialog-analysis-tools.c:689
 msgid "The selected input rows must have equal size!"
 msgstr "चुने गए इन्पुट पंक्तियाँ समान आकार के होने चाहिए"
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:692
+#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:694
 msgid "The selected input columns must have equal size!"
 msgstr "चुने गए इन्पुट पत्र भाग समान आकार के होने चाहिए"
 
-#: src/dialogs/dialog-analysis-tools.c:579
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:581
+#: src/dialogs/dialog-analysis-tools.c:699
 msgid "The selected input areas must have equal size!"
 msgstr "चुने गए इन्पुट प्रांत समान आकार के होने चाहिए"
 
-#: src/dialogs/dialog-analysis-tools.c:626
+#: src/dialogs/dialog-analysis-tools.c:628
 msgid "Could not create the Correlation Tool dialog."
 msgstr "सह संबंधि टूल संवाद नही बना पाए"
 
-#: src/dialogs/dialog-analysis-tools.c:744
+#: src/dialogs/dialog-analysis-tools.c:746
 msgid "Could not create the Covariance Tool dialog."
 msgstr "सह विरोधि टूल संवाद नही बना पाए"
 
-#: src/dialogs/dialog-analysis-tools.c:833
+#: src/dialogs/dialog-analysis-tools.c:835
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "श्रेणी और प्रतिशत टूल संवाद नही बना पाए"
 
-#: src/dialogs/dialog-analysis-tools.c:923
+#: src/dialogs/dialog-analysis-tools.c:925
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "फ़ोरियर विश्लेशण टूल संवाद नही बना पाए"
 
-#: src/dialogs/dialog-analysis-tools.c:1085
+#: src/dialogs/dialog-analysis-tools.c:1087
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "वर्णनात्मक गणांक टूल संवाद नही बना पाए"
 
-#: src/dialogs/dialog-analysis-tools.c:1227
+#: src/dialogs/dialog-analysis-tools.c:1229
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -16154,7 +16192,7 @@ msgstr ""
 "कृपया सही\n"
 " दर्ज कीजिए1 अक्षर के लिए जन संख्या विरोधी."
 
-#: src/dialogs/dialog-analysis-tools.c:1236
+#: src/dialogs/dialog-analysis-tools.c:1238
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -16162,110 +16200,110 @@ msgstr ""
 "कृपया सही\n"
 " दर्ज कीजिए2 अक्षर के लिए जन संख्या विरोधी."
 
-#: src/dialogs/dialog-analysis-tools.c:1461
+#: src/dialogs/dialog-analysis-tools.c:1463
 msgid "Var_iable 1 Range:"
 msgstr "अक्षर 1 श्रेणि"
 
-#: src/dialogs/dialog-analysis-tools.c:1462
+#: src/dialogs/dialog-analysis-tools.c:1464
 msgid "_Variable 2 Range:"
 msgstr "अक्षर 2 श्रेणि"
 
-#: src/dialogs/dialog-analysis-tools.c:1463
+#: src/dialogs/dialog-analysis-tools.c:1465
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "Var_iable 1 Range"
 msgstr "अक्षर 1 श्रेणि"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "_Variable 2 Range"
 msgstr "अक्षर 2 श्रेणि"
 
-#: src/dialogs/dialog-analysis-tools.c:1661
+#: src/dialogs/dialog-analysis-tools.c:1663
 msgid "Could not create the FTest Tool dialog."
 msgstr "FTest टूल संवाद नही बना पाए"
 
-#: src/dialogs/dialog-analysis-tools.c:1863
+#: src/dialogs/dialog-analysis-tools.c:1865
 msgid "Could not create the Sampling Tool dialog."
 msgstr "नमूना टूल संवाद नही बना पाए"
 
-#: src/dialogs/dialog-analysis-tools.c:1978 src/tools/analysis-tools.c:2158
+#: src/dialogs/dialog-analysis-tools.c:1980 src/tools/analysis-tools.c:2158
 #: src/tools/analysis-tools.c:2237
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "लौटाव में हर एक अक्षर के लिए समान दर्ज होने चाहिए"
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "X अक्षर"
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "Y अक्षर"
 
-#: src/dialogs/dialog-analysis-tools.c:2082
+#: src/dialogs/dialog-analysis-tools.c:2084
 msgid "Could not create the Regression Tool dialog."
 msgstr "लौटाव टूल संवाद नही बना पाए"
 
-#: src/dialogs/dialog-analysis-tools.c:2218
+#: src/dialogs/dialog-analysis-tools.c:2220
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2359
+#: src/dialogs/dialog-analysis-tools.c:2361
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "हटती हुई औसतन टूल संवाद नही बना पाए"
 
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "बिन श्रेणि"
 
-#: src/dialogs/dialog-analysis-tools.c:2585
+#: src/dialogs/dialog-analysis-tools.c:2584
 msgid "Could not create the Histogram Tool dialog."
 msgstr "हिस्टोग्राम टूल संवाद नही बना पाए"
 
-#: src/dialogs/dialog-analysis-tools.c:2761
+#: src/dialogs/dialog-analysis-tools.c:2762
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "अनोवा (एक अंश) टूल संवाद नही बना पाए"
 
-#: src/dialogs/dialog-analysis-tools.c:2840
+#: src/dialogs/dialog-analysis-tools.c:2841
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
 msgstr ""
 "दी गैई इनपुट श्रेणि में कम से कम दो पत्र भाग और दो पंक्तियों की डाटा और लेबल रहना चाहिए"
 
-#: src/dialogs/dialog-analysis-tools.c:2843
+#: src/dialogs/dialog-analysis-tools.c:2844
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr "दी गैई इनपुट श्रेणि में कम से कम दो पत्र भाग और दो पंक्तियों की डाटा रहना चाहिए"
 
-#: src/dialogs/dialog-analysis-tools.c:2849
+#: src/dialogs/dialog-analysis-tools.c:2850
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr "दी गैई इनपुट श्रेणि में कम से कम दो पत्र भागों की डाटा और लेबल रहना चाहिए"
 
-#: src/dialogs/dialog-analysis-tools.c:2852
+#: src/dialogs/dialog-analysis-tools.c:2853
 msgid "The given input range should contain at least two columns of data."
 msgstr "दी गैई इनपुट श्रेणि में कम से कम दो पत्र भागों की डाटा रहना चाहिए"
 
-#: src/dialogs/dialog-analysis-tools.c:2858
+#: src/dialogs/dialog-analysis-tools.c:2859
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr "दी गैई इनपुट श्रेणि में कम से कम दो पंक्तियों की डाटा और लेबल रहना चाहिए"
 
-#: src/dialogs/dialog-analysis-tools.c:2861
+#: src/dialogs/dialog-analysis-tools.c:2862
 msgid "The given input range should contain at least two rows of data."
 msgstr "दी गैई इनपुट श्रेणि में कम से कम दो पंक्तियों की डाटा रहना चाहिए"
 
-#: src/dialogs/dialog-analysis-tools.c:2868
+#: src/dialogs/dialog-analysis-tools.c:2869
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "जवाब संख्या से दुगुने में डाटा की पंक्तियाँ रहना चाहिए "
 
-#: src/dialogs/dialog-analysis-tools.c:2965
+#: src/dialogs/dialog-analysis-tools.c:2966
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "अनोवा (दो अंश) टूल संवाद नही बना पाए"
 
@@ -16462,7 +16500,7 @@ msgstr "केस सेंसिटिव"
 msgid "By Value"
 msgstr "मूल्य से"
 
-#: src/dialogs/dialog-cell-sort.c:857
+#: src/dialogs/dialog-cell-sort.c:858
 msgid "Could not create the Cell-Sort dialog."
 msgstr "खांन-क्रमबद्ध संवाद नही बना पाए"
 
@@ -17238,25 +17276,25 @@ msgstr "पूर्णांक"
 msgid "Other value"
 msgstr "अन्य मूल्य"
 
-#: src/dialogs/dialog-sheet-order.c:318
+#: src/dialogs/dialog-sheet-order.c:317
 msgid "Current Name"
 msgstr "प्रचलित नाम"
 
-#: src/dialogs/dialog-sheet-order.c:328
+#: src/dialogs/dialog-sheet-order.c:327
 msgid "New Name"
 msgstr "नया नाम"
 
-#: src/dialogs/dialog-sheet-order.c:657
+#: src/dialogs/dialog-sheet-order.c:656
 msgid "You may not delete all sheets in a workbook!"
 msgstr "आप किताब में सभी पन्ने नही निकाल सकते है"
 
-#: src/dialogs/dialog-sheet-order.c:662
+#: src/dialogs/dialog-sheet-order.c:661
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:894
+#: src/dialogs/dialog-sheet-order.c:893
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "पन्ने का क्रम बदल गया. क्या आप सूची को सुधारना चाहते है?"
 
@@ -20765,44 +20803,44 @@ msgstr "क्लिपबोर्ड को चिपकाएं"
 msgid "Automatically detected"
 msgstr ""
 
-#: src/gui-file.c:188
+#: src/gui-file.c:183
 msgid "Load file"
 msgstr ""
 
-#: src/gui-file.c:199
+#: src/gui-file.c:194
 msgid "Character _encoding:"
 msgstr ""
 
 # #-#-#-#-#  libgnomeui.HEAD.hi.po (libgnomeui HEAD)  #-#-#-#-#
 # libgnomeui/gnome-app-helper.c:82 libgnomeui/gnome-app-helper.h:513
 # test-gnome/testgnome.xml.h:5
-#: src/gui-file.c:209
+#: src/gui-file.c:204
 #, fuzzy
 msgid "File _type:"
 msgstr "फाइल"
 
-#: src/gui-file.c:275
+#: src/gui-file.c:270
 #, c-format
 msgid ""
 "%s\n"
 "is a directory name"
 msgstr ""
 
-#: src/gui-file.c:281
+#: src/gui-file.c:276
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
 
-#: src/gui-file.c:288
+#: src/gui-file.c:283
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
 "Do you want to save over it?"
 msgstr ""
 
-#: src/gui-file.c:309
+#: src/gui-file.c:304
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -20810,13 +20848,13 @@ msgid ""
 "Do you want to save only current sheet?"
 msgstr ""
 
-#: src/gui-file.c:336
+#: src/gui-file.c:331
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
 msgstr ""
 
-#: src/gui-file.c:342
+#: src/gui-file.c:337
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -21429,48 +21467,59 @@ msgstr ""
 msgid "&[DATE]"
 msgstr ""
 
-#: src/print-info.c:477
-msgid "Sheet 1"
-msgstr ""
+#: src/print-info.c:536
+#, fuzzy
+msgid "File Name"
+msgstr "नया नाम"
 
-#: src/print-info.c:542
+#: src/print-info.c:567
+#, fuzzy
+msgid "Path "
+msgstr "चिपकाएं"
+
+#: src/print-info.c:575
 msgid "tab"
 msgstr ""
 
-#: src/print-info.c:543
+#: src/print-info.c:576
 msgid "page"
 msgstr ""
 
-#: src/print-info.c:544
+#: src/print-info.c:577
 msgid "pages"
 msgstr ""
 
-#: src/print-info.c:547
+#: src/print-info.c:580
 msgid "file"
 msgstr ""
+
+#: src/print-info.c:581
+#, fuzzy
+msgid "path"
+msgstr "छप्पर"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:576
 msgid "&[PAGE]"
 msgstr ""
 
-#: src/print.c:1104
+#: src/print.c:1115
 msgid "Print Region"
 msgstr ""
 
-#: src/print.c:1229
+#: src/print.c:1240
 msgid "Print Sheets"
 msgstr ""
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "Act_ive sheet"
 msgstr ""
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "S_heets"
 msgstr ""
 
-#: src/print.c:1323
+#: src/print.c:1334
 msgid "Printing failed"
 msgstr ""
 
@@ -21656,16 +21705,16 @@ msgstr ""
 msgid "_Save as image"
 msgstr "एक पूरा पत्र भाग चुनिए"
 
-#: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
+#: src/sheet-object-graphic.c:936 src/sheet-object-graphic.c:955
 msgid "Transparent"
 msgstr ""
 
-#: src/sheet-object-widget.c:1130
+#: src/sheet-object-widget.c:1132
 #, c-format
 msgid "CheckBox %d"
 msgstr ""
 
-#: src/sheet-object-widget.c:1561 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1565 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr ""
 
@@ -22970,7 +23019,7 @@ msgstr ""
 msgid "sky blue"
 msgstr "मूल्य से"
 
-#: src/widgets/gnumeric-expr-entry.c:1239
+#: src/widgets/gnumeric-expr-entry.c:1254
 msgid "Expecting a single range"
 msgstr ""
 
@@ -24527,23 +24576,23 @@ msgstr ""
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:967
+#: src/workbook-view.c:608 src/workbook-view.c:964
 msgid "The filename given is not valid in the current encoding."
 msgstr ""
 
-#: src/workbook-view.c:693 src/workbook-view.c:809
+#: src/workbook-view.c:693 src/workbook-view.c:806
 msgid "Default file saver is not available."
 msgstr ""
 
-#: src/workbook-view.c:768
+#: src/workbook-view.c:765
 msgid "Failed to create temporary file for sending."
 msgstr ""
 
-#: src/workbook-view.c:902
+#: src/workbook-view.c:899
 msgid "Unsupported file format."
 msgstr ""
 
-#: src/workbook-view.c:960
+#: src/workbook-view.c:957
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""
@@ -24599,10 +24648,6 @@ msgstr ""
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr ""
-
-#, fuzzy
-#~ msgid "Sans"
-#~ msgstr "स्तर"
 
 #, fuzzy
 #~ msgid "S_ize:"

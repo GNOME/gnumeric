@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-15 08:47+0200\n"
+"POT-Creation-Date: 2003-09-15 04:31-0400\n"
 "PO-Revision-Date: 2002-01-21 11:50+0100\n"
 "Last-Translator: GNOME PL Team <translators@gnome.pl>\n"
 "Language-Team: Polish <pl@li.org>\n"
@@ -5987,7 +5987,7 @@ msgstr "%s wersja %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:480
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:491
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -15150,8 +15150,9 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:22
-msgid "Sans Regular"
-msgstr ""
+#, fuzzy
+msgid "Sans"
+msgstr "Rangi"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -15964,7 +15965,7 @@ msgid "Jump to a specified cell"
 msgstr "Przenosi kursor do okreĹlonej komĂłrki"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:524
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:536
 #: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Etykieta"
@@ -17523,30 +17524,30 @@ msgstr "Ustawia obwĂłdkÄ"
 msgid "_Show Labels"
 msgstr "_Etykiety"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:426
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:435
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_inimum"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:427
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:436
 #, fuzzy
 msgid "M_ax"
 msgstr "Maksimum"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:428
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:437
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:429
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:438
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:487
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:498
 #, fuzzy
 msgid "Bounds"
 msgstr "TĹo"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:491
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
 #, fuzzy
 msgid "Details"
 msgstr "Ukryj szczegĂłĹy"

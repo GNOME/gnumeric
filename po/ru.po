@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-09-13 13:20+0400\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-09-15 04:31-0400\n"
 "PO-Revision-Date: 2003-09-13 14:47+0400\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
-"Report-Msgid-Bugs-To: \n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -804,7 +804,7 @@ msgstr "#НЕИЗВЕСТНОЕ!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:436 src/dialogs/dialog-sheet-order.c:440
+#: src/dialogs/dialog-sheet-order.c:435 src/dialogs/dialog-sheet-order.c:439
 #, c-format
 msgid "Sheet%d"
 msgstr "Лист%d"
@@ -2672,9 +2672,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
-"@DESCRIPTION=DATE2UNIX преобразует последовательный номер даты и времени из таблицы во время в формате unix.\n"
+"@DESCRIPTION=DATE2UNIX преобразует последовательный номер даты и времени из "
+"таблицы во время в формате unix.\n"
 "\n"
-"Время в формате unix -- это число секунд прошедшее с полуночи 1 января 1970 года.\n"
+"Время в формате unix -- это число секунд прошедшее с полуночи 1 января 1970 "
+"года.\n"
 "\n"
 "@EXAMPLES=\n"
 "DATE2UNIX(\"01/01/2000\") равняется 946656000.\n"
@@ -3356,7 +3358,7 @@ msgstr "дата1, дата2, интервал"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:545
+#: src/print-info.c:578
 msgid "date"
 msgstr "дата"
 
@@ -3373,7 +3375,7 @@ msgid "start_date,months"
 msgstr "начальная дата, месяцы"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:546
+#: plugins/fn-date/functions.c:1265 src/print-info.c:579
 msgid "time"
 msgstr "время"
 
@@ -6448,7 +6450,7 @@ msgstr "%s версия %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:407
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:491
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -14694,7 +14696,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -15308,7 +15310,8 @@ msgstr "Ошибка при открытии файла xbase."
 
 #: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
+#: src/xml-io.c:3585
 msgid "Sheet"
 msgstr "Лист"
 
@@ -15615,8 +15618,9 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:22
-msgid "Sans Regular"
-msgstr ""
+#, fuzzy
+msgid "Sans"
+msgstr "Ранги"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -15772,7 +15776,9 @@ msgstr "Эта переменная определяет установлено 
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
-msgstr "Эта переменная определяет будет ли выполняться немедленная прокрутка или отложенная."
+msgstr ""
+"Эта переменная определяет будет ли выполняться немедленная прокрутка или "
+"отложенная."
 
 #: schemas/gnumeric-general.schemas.in.h:52
 msgid "This variable determines whether transition keys are set on."
@@ -16237,7 +16243,7 @@ msgid "Filter data with given criteria"
 msgstr "Фильтрация данных по заданным критериям"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:846
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:858
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -16431,7 +16437,7 @@ msgid "Jump to a specified cell"
 msgstr "Перейти к указанной ячейке"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:452
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:536
 #: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Метка"
@@ -17964,28 +17970,28 @@ msgstr "Снаружи"
 msgid "_Show Labels"
 msgstr "Показать метки"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:380
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:435
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "Мин"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:380
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:436
 msgid "M_ax"
 msgstr "Макс"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:381
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:437
 msgid "Ma_jor Ticks"
 msgstr "Основные деления"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:382
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:438
 msgid "Mi_nor Ticks"
 msgstr "Вспомогательные деления"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:415
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:498
 msgid "Bounds"
 msgstr "Границы"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:419
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
 msgid "Details"
 msgstr "Подробности"
 
@@ -18119,11 +18125,11 @@ msgstr "Порядок"
 msgid "_Top"
 msgstr "Вверх"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:102
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:105
 msgid "_Text:"
 msgstr "Текст:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:108
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:111
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:131
 #: src/dialogs/dialog-stf.glade.h:15
 msgid "Data"
@@ -18141,7 +18147,7 @@ msgstr "Тип графика"
 msgid "Chart Theme"
 msgstr "Тема диаграммы"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:167
 msgid "Series"
 msgstr "Серии"
 
@@ -18175,12 +18181,13 @@ msgid "C_olor:"
 msgstr "Цвет:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-msgid "Fill from start color to end color"
-msgstr "Заливка от начального до конечного цвета"
+msgid "Fill from start color to a darker/lighter version of that color"
+msgstr ""
+"Заливка от начального цвета до более тёмного/светлого оттенка этого цвета"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Fill from start color to a darker/lighter version of that color"
-msgstr "Заливка от начального цвета до более тёмного/светлого оттенка этого цвета"
+msgid "Fill from start color to end color"
+msgstr "Заливка от начального до конечного цвета"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "Gradient"
@@ -18288,12 +18295,12 @@ msgstr "Обои"
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:536
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:548
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Выбрать изображение"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:898
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Стиль"
@@ -18301,7 +18308,7 @@ msgstr "Стиль"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
-#: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
+#: src/dialogs/dialog-sheet-order.c:952 src/dialogs/dialog-sheet-order.c:965
 msgid "Default"
 msgstr "По умолчанию"
 
@@ -18310,13 +18317,13 @@ msgstr "По умолчанию"
 msgid "Guppi"
 msgstr "Guppi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:265
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Метки"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:267
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -18707,11 +18714,11 @@ msgstr "Модуль отображения кольцевой диаграмм�
 msgid "PlotXY"
 msgstr "Начертить"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:178
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:157
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:180
 msgid "Y"
 msgstr "Y"
 
@@ -20169,13 +20176,15 @@ msgstr "John Gotts, пакеты rpm."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:65
-msgid "Andreas J. Glzow, Gnumeric hacker."
+#, fuzzy
+msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Andreas J. Guelzow, программист Gnumeric."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:68
-msgid "Jon Kre Hellan, Gnumeric hacker."
+#, fuzzy
+msgid "Jon Kåre Hellan, Gnumeric hacker."
 msgstr "Jon K Hellan, программист Gnumeric."
 
 #: src/dialogs/dialog-about.c:69
@@ -21399,25 +21408,25 @@ msgstr "Целое"
 msgid "Other value"
 msgstr "Другое значение"
 
-#: src/dialogs/dialog-sheet-order.c:318
+#: src/dialogs/dialog-sheet-order.c:317
 msgid "Current Name"
 msgstr "Текущее название"
 
-#: src/dialogs/dialog-sheet-order.c:328
+#: src/dialogs/dialog-sheet-order.c:327
 msgid "New Name"
 msgstr "Новое название"
 
-#: src/dialogs/dialog-sheet-order.c:657
+#: src/dialogs/dialog-sheet-order.c:656
 msgid "You may not delete all sheets in a workbook!"
 msgstr "Нельзя удалить все таблицы в рабочей книге!"
 
-#: src/dialogs/dialog-sheet-order.c:662
+#: src/dialogs/dialog-sheet-order.c:661
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:894
+#: src/dialogs/dialog-sheet-order.c:893
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "Порядок таблиц был изменён. Хотите обновить лист?"
 
@@ -24858,19 +24867,19 @@ msgstr "буфер обмена"
 msgid "Automatically detected"
 msgstr "Обнаруженные автоматически"
 
-#: src/gui-file.c:188
+#: src/gui-file.c:183
 msgid "Load file"
 msgstr "Загрузить файл"
 
-#: src/gui-file.c:199
+#: src/gui-file.c:194
 msgid "Character _encoding:"
 msgstr "Кодировка символов:"
 
-#: src/gui-file.c:209
+#: src/gui-file.c:204
 msgid "File _type:"
 msgstr "Тип файла:"
 
-#: src/gui-file.c:275
+#: src/gui-file.c:270
 #, c-format
 msgid ""
 "%s\n"
@@ -24879,7 +24888,7 @@ msgstr ""
 "%s\n"
 "это название каталога"
 
-#: src/gui-file.c:281
+#: src/gui-file.c:276
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -24888,7 +24897,7 @@ msgstr ""
 "У вас нет прав для сохранения в\n"
 "%s"
 
-#: src/gui-file.c:288
+#: src/gui-file.c:283
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -24897,7 +24906,7 @@ msgstr ""
 "Книга %s уже существует.\n"
 "Хотите сохранить в нее?"
 
-#: src/gui-file.c:309
+#: src/gui-file.c:304
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -24910,7 +24919,7 @@ msgstr ""
 "выберите другой формат файла.\n"
 "Хотите сохранить только текущую таблицу?"
 
-#: src/gui-file.c:336
+#: src/gui-file.c:331
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -24918,11 +24927,13 @@ msgstr ""
 "Пожалуйста, введите имя файла,\n"
 "а не каталога"
 
-#: src/gui-file.c:342
+#: src/gui-file.c:337
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
-msgstr "Заданное расширение файла не соответствует выбраному типу. Хотите использовать его?"
+msgstr ""
+"Заданное расширение файла не соответствует выбраному типу. Хотите "
+"использовать его?"
 
 #. Pack it into file selector
 #: src/gui-file.c:389
@@ -25556,25 +25567,36 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:477
-msgid "Sheet 1"
-msgstr "Лист 1"
+#: src/print-info.c:536
+#, fuzzy
+msgid "File Name"
+msgstr "Новое название"
 
-#: src/print-info.c:542
+#: src/print-info.c:567
+#, fuzzy
+msgid "Path "
+msgstr "Вставить"
+
+#: src/print-info.c:575
 msgid "tab"
 msgstr "таб"
 
-#: src/print-info.c:543
+#: src/print-info.c:576
 msgid "page"
 msgstr "страница"
 
-#: src/print-info.c:544
+#: src/print-info.c:577
 msgid "pages"
 msgstr "страницы"
 
-#: src/print-info.c:547
+#: src/print-info.c:580
 msgid "file"
 msgstr "файл"
+
+#: src/print-info.c:581
+#, fuzzy
+msgid "path"
+msgstr "Солома"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:576
@@ -27105,7 +27127,7 @@ msgstr ""
 msgid "sky blue"
 msgstr ""
 
-#: src/widgets/gnumeric-expr-entry.c:1239
+#: src/widgets/gnumeric-expr-entry.c:1254
 msgid "Expecting a single range"
 msgstr ""
 
@@ -28690,3 +28712,6 @@ msgstr "Ошибка при сохранении файла"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
+
+#~ msgid "Sheet 1"
+#~ msgstr "Лист 1"

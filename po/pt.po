@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.4\n"
-"Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"POT-Creation-Date: 2003-09-14 12:42+0100\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-09-15 04:31-0400\n"
 "PO-Revision-Date: 2003-09-14 12:45+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
@@ -1259,7 +1259,7 @@ msgstr "#DESCONHECIDO!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:436 src/dialogs/dialog-sheet-order.c:440
+#: src/dialogs/dialog-sheet-order.c:435 src/dialogs/dialog-sheet-order.c:439
 #, c-format
 msgid "Sheet%d"
 msgstr "Folha%d"
@@ -8478,7 +8478,7 @@ msgstr "%s versão %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:474
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:491
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -18408,8 +18408,8 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Preferir ÁREA DE TRANSFERÊNCIA em relação à selecção PRIMÁRIA"
 
 #: schemas/gnumeric-general.schemas.in.h:22
-msgid "Sans Regular"
-msgstr "Sans Regular"
+msgid "Sans"
+msgstr "Sans"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -19266,7 +19266,7 @@ msgid "Jump to a specified cell"
 msgstr "Ir para uma célula específica"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:518
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:536
 #: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Etiqueta"
@@ -20805,28 +20805,28 @@ msgstr "F_ora"
 msgid "_Show Labels"
 msgstr "Mo_strar Etiquetas"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:420
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:435
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:421
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:436
 msgid "M_ax"
 msgstr "Má_x"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:422
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:437
 msgid "Ma_jor Ticks"
 msgstr "_Escala Principal"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:423
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:438
 msgid "Mi_nor Ticks"
 msgstr "Escala Secu_ndária"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:481
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:498
 msgid "Bounds"
 msgstr "Limites"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:485
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
 msgid "Details"
 msgstr "Detalhes"
 
@@ -21016,12 +21016,12 @@ msgid "C_olor:"
 msgstr "C_or:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-msgid "Fill from start color to end color"
-msgstr "Encher desde a cor inicial até à final"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 msgid "Fill from start color to a darker/lighter version of that color"
 msgstr "Encher desde a cor inicial até à versão mais escura/clara dessa cor"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
+msgid "Fill from start color to end color"
+msgstr "Encher desde a cor inicial até à final"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "Gradient"
@@ -21142,7 +21142,7 @@ msgstr "Estilo"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
-#: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
+#: src/dialogs/dialog-sheet-order.c:952 src/dialogs/dialog-sheet-order.c:965
 msgid "Default"
 msgstr "Omissão"
 
@@ -24282,19 +24282,19 @@ msgstr "Inteiro"
 msgid "Other value"
 msgstr "Outro valor"
 
-#: src/dialogs/dialog-sheet-order.c:318
+#: src/dialogs/dialog-sheet-order.c:317
 msgid "Current Name"
 msgstr "Nome Actual"
 
-#: src/dialogs/dialog-sheet-order.c:328
+#: src/dialogs/dialog-sheet-order.c:327
 msgid "New Name"
 msgstr "Novo Nome"
 
-#: src/dialogs/dialog-sheet-order.c:657
+#: src/dialogs/dialog-sheet-order.c:656
 msgid "You may not delete all sheets in a workbook!"
 msgstr "Não pode apagar todas as folhas num livro de trabalho!"
 
-#: src/dialogs/dialog-sheet-order.c:662
+#: src/dialogs/dialog-sheet-order.c:661
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
@@ -24302,7 +24302,7 @@ msgstr ""
 "Para substituir todas as folhas existentes, apague o livro de trabalho "
 "actual e crie um novo!"
 
-#: src/dialogs/dialog-sheet-order.c:894
+#: src/dialogs/dialog-sheet-order.c:893
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "A ordem de folhas foi alterada. Deseja actualizar a lista?"
 
@@ -27766,19 +27766,19 @@ msgstr "área de transferência"
 msgid "Automatically detected"
 msgstr "Detectado automaticamente"
 
-#: src/gui-file.c:188
+#: src/gui-file.c:183
 msgid "Load file"
 msgstr "Carregar ficheiro"
 
-#: src/gui-file.c:199
+#: src/gui-file.c:194
 msgid "Character _encoding:"
 msgstr "Codificação caract_eres:"
 
-#: src/gui-file.c:209
+#: src/gui-file.c:204
 msgid "File _type:"
 msgstr "_Tipo ficheiro:"
 
-#: src/gui-file.c:275
+#: src/gui-file.c:270
 #, c-format
 msgid ""
 "%s\n"
@@ -27787,7 +27787,7 @@ msgstr ""
 "%s\n"
 "é um nome de directório"
 
-#: src/gui-file.c:281
+#: src/gui-file.c:276
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -27796,7 +27796,7 @@ msgstr ""
 "Não tem permissões para gravar para\n"
 "%s"
 
-#: src/gui-file.c:288
+#: src/gui-file.c:283
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -27805,7 +27805,7 @@ msgstr ""
 "Livro de trabalho %s já existe.\n"
 "Deseja sobrepo-lo?"
 
-#: src/gui-file.c:309
+#: src/gui-file.c:304
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -27818,7 +27818,7 @@ msgstr ""
 "seleccione um formato de ficheiro diferente.\n"
 "Deseja gravar apenas a folha actualmente seleccionada?"
 
-#: src/gui-file.c:336
+#: src/gui-file.c:331
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -27826,7 +27826,7 @@ msgstr ""
 "Introduza um nome de ficheiro,\n"
 "não um directório"
 
-#: src/gui-file.c:342
+#: src/gui-file.c:337
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -31630,6 +31630,9 @@ msgstr "Falha ao gravar ficheiro"
 msgid "Gnumeric XML file format"
 msgstr "Formato de ficheiro XML Gnumeric"
 
+#~ msgid "Sans Regular"
+#~ msgstr "Sans Regular"
+
 #~ msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
 #~ msgstr "Gnumeric XML POR TERMINAR (*.gnumeric)"
 
@@ -31644,9 +31647,6 @@ msgstr "Formato de ficheiro XML Gnumeric"
 
 #~ msgid "_Style:"
 #~ msgstr "E_stilo:"
-
-#~ msgid "Sans"
-#~ msgstr "Sans"
 
 #~ msgid "Fill _Color:"
 #~ msgstr "_Cor Enchimento:"

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-10 00:27-0400\n"
+"POT-Creation-Date: 2003-09-15 04:31-0400\n"
 "PO-Revision-Date: 2003-05-05 18:20+0000\n"
 "Last-Translator: Funda Wang <fundawang@linux.net.cn>\n"
 "Language-Team: zh_CN <i18n-translation@lists.linux.net.cn>\n"
@@ -821,7 +821,7 @@ msgstr "#UNKNOWN!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:436 src/dialogs/dialog-sheet-order.c:440
+#: src/dialogs/dialog-sheet-order.c:435 src/dialogs/dialog-sheet-order.c:439
 #, c-format
 msgid "Sheet%d"
 msgstr "Sheet%d"
@@ -4149,7 +4149,7 @@ msgstr "date1,date2,Interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:545
+#: src/print-info.c:578
 msgid "date"
 msgstr "date"
 
@@ -4168,7 +4168,7 @@ msgstr "start_date,months"
 
 # src/dialog-cell-format.c:69
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:546
+#: plugins/fn-date/functions.c:1265 src/print-info.c:579
 msgid "time"
 msgstr "time"
 
@@ -7382,7 +7382,7 @@ msgstr "%s 版本 %s"
 # src/workbook.c:783 src/workbook.c:789
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:491
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -16178,7 +16178,8 @@ msgstr "打开 xbase 文件时出错。"
 # src/workbook.c:761 src/workbook.c:809
 #: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
+#: src/xml-io.c:3585
 msgid "Sheet"
 msgstr "工作表"
 
@@ -16206,10 +16207,6 @@ msgstr ""
 
 #: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
-msgstr ""
-
-#: plugins/xml_sax/plugin.xml.in.h:4
-msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
 msgstr ""
 
 #: plugins/xml_sax/xml-sax-read.c:301
@@ -16500,8 +16497,9 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:22
-msgid "Sans Regular"
-msgstr ""
+#, fuzzy
+msgid "Sans"
+msgstr "阶数"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -17148,7 +17146,7 @@ msgstr "用所给的标准筛选数据"
 
 # src/dialog-cell-format.c:917
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:858
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -17359,8 +17357,8 @@ msgid "Jump to a specified cell"
 msgstr "调到指定的单元"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
-#: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:536
+#: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "标签"
 
@@ -17548,7 +17546,7 @@ msgid "Print Preview"
 msgstr "打印预览"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1311 src/workbook-control-gui.c:3301
+#: src/print.c:1322 src/workbook-control-gui.c:3301
 #: src/workbook-control-gui.c:3952
 msgid "Print preview"
 msgstr "打印预览"
@@ -19021,93 +19019,138 @@ msgstr "合并为 %s!%s"
 msgid "Data Consolidation"
 msgstr "合并计算"
 
-# src/workbook.c:713
+# src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
+#, fuzzy
+msgid "<b>Major Ticks:</b>"
+msgstr "模式"
+
+# src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "<b>Minor Ticks:</b>"
+msgstr "模式"
+
+# src/dialog-insert-cells.c:33 src/item-grid.c:531
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#, fuzzy
+msgid "I_nside"
+msgstr "内部"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#, fuzzy
+msgid "O_utside"
+msgstr "分级"
+
+# src/workbook.c:713
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
 #, fuzzy
 msgid "_Cross"
 msgstr "关闭(_C)"
 
 # src/workbook.c:790
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
 #, fuzzy
 msgid "_High"
 msgstr "高度(_H)..."
 
 # src/dialog-insert-cells.c:33 src/item-grid.c:531
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
+#, fuzzy
+msgid "_Inside"
+msgstr "内部"
+
+# src/dialog-insert-cells.c:33 src/item-grid.c:531
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
 #, fuzzy
 msgid "_Invert"
 msgstr "插入(_I)"
 
 # src/workbook.c:765
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
 #, fuzzy
 msgid "_Low"
 msgstr "行(_R)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
 #, fuzzy
 msgid "_Map:"
 msgstr "_alpha："
 
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
+#, fuzzy
+msgid "_Outside"
+msgstr "分级"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
+#, fuzzy
+msgid "_Show Labels"
+msgstr "标签(_L)"
+
 # src/workbook.c:1131
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:435
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "最小(_I)"
 
 # src/workbook.c:1132
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:436
 #, fuzzy
 msgid "M_ax"
 msgstr "最大值"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:437
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:438
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:498
 #, fuzzy
 msgid "Bounds"
 msgstr "背景"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
 #, fuzzy
 msgid "Details"
 msgstr "隐藏细节"
 
 # src/dates.c:26
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
 #, fuzzy
 msgid "Legend"
 msgstr "发送"
 
 # src/dialog-cell-format.c:69
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 #, fuzzy
 msgid "Title"
 msgstr "标题："
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+# src/dates.c:31
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
+#, fuzzy
+msgid "Grid"
+msgstr "星期五"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
 msgstr ""
 
 # src/dialog-cell-format.c:917
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 #, fuzzy
 msgid "Plot"
 msgstr "点"
@@ -19231,13 +19274,13 @@ msgid "_Top"
 msgstr "向上对齐(_T)"
 
 # src/dialog-cell-format.c:73
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:102
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:105
 #, fuzzy
 msgid "_Text:"
 msgstr "文本"
 
 # src/dialog-cell-format.c:68
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:108
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:111
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:131
 #: src/dialogs/dialog-stf.glade.h:15
 #, fuzzy
@@ -19259,7 +19302,7 @@ msgid "Chart Theme"
 msgstr ""
 
 # src/workbook.c:761 src/workbook.c:809
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:167
 #, fuzzy
 msgid "Series"
 msgstr "序列..."
@@ -19303,11 +19346,11 @@ msgid "C_olor:"
 msgstr "颜色："
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-msgid "Fill from start color to end color"
+msgid "Fill from start color to a darker/lighter version of that color"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Fill from start color to a darker/lighter version of that color"
+msgid "Fill from start color to end color"
 msgstr ""
 
 # src/dialog-cell-format.c:70
@@ -19445,13 +19488,13 @@ msgstr ""
 msgid "%d x %d"
 msgstr "%d 行 x %d 列"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:548
 #: src/workbook-control-gui.c:3100
 #, fuzzy
 msgid "Select an image"
 msgstr "选中整列"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "样式"
@@ -19460,24 +19503,24 @@ msgstr "样式"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
-#: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
+#: src/dialogs/dialog-sheet-order.c:952 src/dialogs/dialog-sheet-order.c:965
 msgid "Default"
 msgstr "默认"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:435
 #, fuzzy
 msgid "Guppi"
 msgstr "分组"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:265
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "标签"
 
 # src/dialog-paste-special.c:22
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:267
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -19521,7 +19564,7 @@ msgstr ""
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:45
 #, fuzzy
 msgid "PlotLine"
 msgstr "点"
@@ -19531,7 +19574,7 @@ msgstr "点"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:115
 #, fuzzy
 msgid "PlotArea"
 msgstr "点"
@@ -19929,11 +19972,11 @@ msgstr ""
 msgid "PlotXY"
 msgstr "点"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:178
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:180
 msgid "Y"
 msgstr ""
 
@@ -20167,16 +20210,22 @@ msgstr "细垂直条纹"
 msgid "Thin Reverse Diagonal Stripe"
 msgstr "细反向对角线条纹"
 
+# src/gnumeric-sheet.c:910 src/gnumeric-sheet.c:913 src/gnumeric-sheet.c:916
+# src/gnumeric-sheet.c:919
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "细对角线格子"
+#: src/dialogs/cell-format.glade.h:82
+msgid "Thin Diagonal Stripe"
+msgstr "细对角线条纹"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
 #: src/dialogs/cell-format.glade.h:83
 msgid "Thin Horizontal Crosshatch"
 msgstr "细水平格子"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "细对角线格子"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
 #: src/dialogs/cell-format.glade.h:44
@@ -20595,7 +20644,7 @@ msgstr "输入"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/dialog-shuffle.c:149
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/dialog-shuffle.c:149
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -20934,7 +20983,7 @@ msgstr "错误通知"
 # src/gnumeric-sheet.c:907
 #: src/dialogs/cell-format.glade.h:16
 #, fuzzy
-msgid "<b>Horizontal alignement</b>"
+msgid "<b>Horizontal alignment</b>"
 msgstr "水平对齐"
 
 # src/dialog-paste-special.c:65
@@ -20963,7 +21012,7 @@ msgstr "预览"
 # src/gnumeric-sheet.c:907
 #: src/dialogs/cell-format.glade.h:22
 #, fuzzy
-msgid "<b>Vertical alignement</b>"
+msgid "<b>Vertical alignment</b>"
 msgstr "垂直对齐"
 
 #: src/dialogs/cell-format.glade.h:23
@@ -21170,12 +21219,6 @@ msgstr "顶"
 #: src/dialogs/cell-format.glade.h:78
 msgid "Text length"
 msgstr "文本长度"
-
-# src/gnumeric-sheet.c:910 src/gnumeric-sheet.c:913 src/gnumeric-sheet.c:916
-# src/gnumeric-sheet.c:919
-#: src/dialogs/cell-format.glade.h:82
-msgid "Thin Diagonal Stripe"
-msgstr "细对角线条纹"
 
 # src/dialog-cell-format.c:69
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
@@ -21702,10 +21745,10 @@ msgid "No matching records were found."
 msgstr "没有发现匹配的记录。"
 
 #: src/dialogs/dialog-advanced-filter.c:160
-#: src/dialogs/dialog-analysis-tools.c:583
-#: src/dialogs/dialog-analysis-tools.c:701
-#: src/dialogs/dialog-analysis-tools.c:1983
-#: src/dialogs/dialog-analysis-tools.c:2874
+#: src/dialogs/dialog-analysis-tools.c:585
+#: src/dialogs/dialog-analysis-tools.c:703
+#: src/dialogs/dialog-analysis-tools.c:1985
+#: src/dialogs/dialog-analysis-tools.c:2875
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "发生了意外错误：%d。"
@@ -21719,180 +21762,180 @@ msgstr "列表范围(_L)："
 msgid "Could not create the Advanced Filter dialog."
 msgstr "无法创建高级筛选对话框。"
 
-#: src/dialogs/dialog-analysis-tools.c:569
-#: src/dialogs/dialog-analysis-tools.c:687
+#: src/dialogs/dialog-analysis-tools.c:571
+#: src/dialogs/dialog-analysis-tools.c:689
 msgid "The selected input rows must have equal size!"
 msgstr "选中的输入行大小不同！"
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:692
+#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:694
 msgid "The selected input columns must have equal size!"
 msgstr "选中的输入列大小不同！"
 
-#: src/dialogs/dialog-analysis-tools.c:579
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:581
+#: src/dialogs/dialog-analysis-tools.c:699
 msgid "The selected input areas must have equal size!"
 msgstr "选中的输入范围大小不同！"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:626
+#: src/dialogs/dialog-analysis-tools.c:628
 msgid "Could not create the Correlation Tool dialog."
 msgstr "无法创建相关系数工具对话框。"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:744
+#: src/dialogs/dialog-analysis-tools.c:746
 msgid "Could not create the Covariance Tool dialog."
 msgstr "无法创建协方差工具对话框。"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:833
+#: src/dialogs/dialog-analysis-tools.c:835
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr ""
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:923
+#: src/dialogs/dialog-analysis-tools.c:925
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "无法创建傅立叶分析工具对话框。"
 
-#: src/dialogs/dialog-analysis-tools.c:1085
+#: src/dialogs/dialog-analysis-tools.c:1087
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "无法创建描述性统计工具对话框。"
 
-#: src/dialogs/dialog-analysis-tools.c:1227
+#: src/dialogs/dialog-analysis-tools.c:1229
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1236
+#: src/dialogs/dialog-analysis-tools.c:1238
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1461
+#: src/dialogs/dialog-analysis-tools.c:1463
 #, fuzzy
 msgid "Var_iable 1 Range:"
 msgstr "变量 1 范围:"
 
-#: src/dialogs/dialog-analysis-tools.c:1462
+#: src/dialogs/dialog-analysis-tools.c:1464
 #, fuzzy
 msgid "_Variable 2 Range:"
 msgstr "变量 2 范围:"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:1463
+#: src/dialogs/dialog-analysis-tools.c:1465
 #, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "无法创建 Name Guru."
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 #, fuzzy
 msgid "Var_iable 1 Range"
 msgstr "变量 1 范围:"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 #, fuzzy
 msgid "_Variable 2 Range"
 msgstr "变量 2 范围:"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:1661
+#: src/dialogs/dialog-analysis-tools.c:1663
 msgid "Could not create the FTest Tool dialog."
 msgstr "无法创建 FTest 工具对话框。"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:1863
+#: src/dialogs/dialog-analysis-tools.c:1865
 msgid "Could not create the Sampling Tool dialog."
 msgstr "无法创建采样工具对话框。"
 
-#: src/dialogs/dialog-analysis-tools.c:1978 src/tools/analysis-tools.c:2158
+#: src/dialogs/dialog-analysis-tools.c:1980 src/tools/analysis-tools.c:2158
 #: src/tools/analysis-tools.c:2237
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "在求回归时，对每一个变量一定要有相同的项数。"
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "_X 变量："
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "_Y 变量："
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:2082
+#: src/dialogs/dialog-analysis-tools.c:2084
 msgid "Could not create the Regression Tool dialog."
 msgstr "无法创建回归工具对话框。"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:2218
+#: src/dialogs/dialog-analysis-tools.c:2220
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "无法创建指数平滑工具对话框。"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:2359
+#: src/dialogs/dialog-analysis-tools.c:2361
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "无法创建移动均值工具对话框。"
 
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/histogram.glade.h:3
 #, fuzzy
 msgid "Bin _Range:"
 msgstr "2 元范围(_B):"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:2585
+#: src/dialogs/dialog-analysis-tools.c:2584
 msgid "Could not create the Histogram Tool dialog."
 msgstr "无法创建柱形图工具对话框。"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:2761
+#: src/dialogs/dialog-analysis-tools.c:2762
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2840
+#: src/dialogs/dialog-analysis-tools.c:2841
 #, fuzzy
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
 msgstr "给出的输入范围应至少包含数据和标签两列."
 
-#: src/dialogs/dialog-analysis-tools.c:2843
+#: src/dialogs/dialog-analysis-tools.c:2844
 #, fuzzy
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr "给出的输入范围应至少包含数据和标签两列."
 
-#: src/dialogs/dialog-analysis-tools.c:2849
+#: src/dialogs/dialog-analysis-tools.c:2850
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr "给出的输入范围应至少包含数据和标签两列."
 
-#: src/dialogs/dialog-analysis-tools.c:2852
+#: src/dialogs/dialog-analysis-tools.c:2853
 #, fuzzy
 msgid "The given input range should contain at least two columns of data."
 msgstr "给出的输入范围应至少包含数据和标签两列."
 
-#: src/dialogs/dialog-analysis-tools.c:2858
+#: src/dialogs/dialog-analysis-tools.c:2859
 #, fuzzy
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr "给出的输入范围应至少包含数据和标签两列."
 
-#: src/dialogs/dialog-analysis-tools.c:2861
+#: src/dialogs/dialog-analysis-tools.c:2862
 #, fuzzy
 msgid "The given input range should contain at least two rows of data."
 msgstr "给出的输入范围应至少包含数据和标签两列."
 
-#: src/dialogs/dialog-analysis-tools.c:2868
+#: src/dialogs/dialog-analysis-tools.c:2869
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:2965
+#: src/dialogs/dialog-analysis-tools.c:2966
 #, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "无法创建 Name Guru."
@@ -22099,7 +22142,7 @@ msgid "By Value"
 msgstr "按数值"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-cell-sort.c:857
+#: src/dialogs/dialog-cell-sort.c:858
 msgid "Could not create the Cell-Sort dialog."
 msgstr "无法创建单元格排序对话框。"
 
@@ -22928,27 +22971,27 @@ msgid "Other value"
 msgstr "其它值"
 
 # src/workbook.c:749
-#: src/dialogs/dialog-sheet-order.c:318
+#: src/dialogs/dialog-sheet-order.c:317
 msgid "Current Name"
 msgstr "当前名称"
 
 # src/plugin-manager.c:95 src/plugin-manager.c:96
-#: src/dialogs/dialog-sheet-order.c:328
+#: src/dialogs/dialog-sheet-order.c:327
 msgid "New Name"
 msgstr "新名称"
 
 # src/file.c:257
-#: src/dialogs/dialog-sheet-order.c:657
+#: src/dialogs/dialog-sheet-order.c:656
 msgid "You may not delete all sheets in a workbook!"
 msgstr "您不能删除工作簿中的所有工作表！"
 
-#: src/dialogs/dialog-sheet-order.c:662
+#: src/dialogs/dialog-sheet-order.c:661
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:894
+#: src/dialogs/dialog-sheet-order.c:893
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "工作表顺序已更改。您是否想要更新此列表？"
 
@@ -26770,21 +26813,21 @@ msgid "Automatically detected"
 msgstr "自动检测"
 
 # src/file.c:327
-#: src/gui-file.c:188
+#: src/gui-file.c:183
 msgid "Load file"
 msgstr "装入文件"
 
-#: src/gui-file.c:199
+#: src/gui-file.c:194
 msgid "Character _encoding:"
 msgstr ""
 
 # src/dialog-cell-format.c:362
-#: src/gui-file.c:209
+#: src/gui-file.c:204
 #, fuzzy
 msgid "File _type:"
 msgstr "文件："
 
-#: src/gui-file.c:275
+#: src/gui-file.c:270
 #, c-format
 msgid ""
 "%s\n"
@@ -26793,7 +26836,7 @@ msgstr ""
 "%s\n"
 "是一个目录名"
 
-#: src/gui-file.c:281
+#: src/gui-file.c:276
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -26802,7 +26845,7 @@ msgstr ""
 "您没有权限保存到\n"
 "%s"
 
-#: src/gui-file.c:288
+#: src/gui-file.c:283
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -26811,7 +26854,7 @@ msgstr ""
 "工作簿 %s 已经存在。\n"
 "您是否想要覆盖它？"
 
-#: src/gui-file.c:309
+#: src/gui-file.c:304
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -26823,7 +26866,7 @@ msgstr ""
 "式。\n"
 "您只想保存当前的工作表吗？"
 
-#: src/gui-file.c:336
+#: src/gui-file.c:331
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -26831,7 +26874,7 @@ msgstr ""
 "请输入文件名，\n"
 "而不是目录名"
 
-#: src/gui-file.c:342
+#: src/gui-file.c:337
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -27498,52 +27541,64 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-# src/workbook.c:1810 src/workbook.c:1838
-#: src/print-info.c:477
-msgid "Sheet 1"
-msgstr "工作表1"
+# src/plugin-manager.c:95 src/plugin-manager.c:96
+#: src/print-info.c:536
+#, fuzzy
+msgid "File Name"
+msgstr "新名称"
 
-#: src/print-info.c:542
+# src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
+#: src/print-info.c:567
+#, fuzzy
+msgid "Path "
+msgstr "粘贴"
+
+#: src/print-info.c:575
 msgid "tab"
 msgstr "定位"
 
-#: src/print-info.c:543
+#: src/print-info.c:576
 msgid "page"
 msgstr "页号"
 
-#: src/print-info.c:544
+#: src/print-info.c:577
 msgid "pages"
 msgstr "页数"
 
 # src/dialog-cell-format.c:297
-#: src/print-info.c:547
+#: src/print-info.c:580
 msgid "file"
 msgstr "文件"
+
+#: src/print-info.c:581
+#, fuzzy
+msgid "path"
+msgstr "茅草"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:576
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1104
+#: src/print.c:1115
 msgid "Print Region"
 msgstr "打印区域"
 
-#: src/print.c:1229
+#: src/print.c:1240
 msgid "Print Sheets"
 msgstr "打印表格"
 
 # src/workbook.c:1548
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "Act_ive sheet"
 msgstr "激活表格(_I)"
 
 # src/workbook.c:761 src/workbook.c:809
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "S_heets"
 msgstr "表格(_H)"
 
-#: src/print.c:1323
+#: src/print.c:1334
 msgid "Printing failed"
 msgstr "打印失败"
 
@@ -27742,17 +27797,17 @@ msgstr ""
 msgid "_Save as image"
 msgstr "选中整列"
 
-#: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
+#: src/sheet-object-graphic.c:936 src/sheet-object-graphic.c:955
 msgid "Transparent"
 msgstr "透明"
 
-#: src/sheet-object-widget.c:1130
+#: src/sheet-object-widget.c:1132
 #, c-format
 msgid "CheckBox %d"
 msgstr "复选框 %d"
 
 # src/dialog-cell-format.c:370
-#: src/sheet-object-widget.c:1561 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1565 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "单选钮"
 
@@ -29181,7 +29236,7 @@ msgstr ""
 msgid "sky blue"
 msgstr "按数值"
 
-#: src/widgets/gnumeric-expr-entry.c:1239
+#: src/widgets/gnumeric-expr-entry.c:1254
 msgid "Expecting a single range"
 msgstr ""
 
@@ -30856,26 +30911,26 @@ msgstr "保存 %s 时发生了不可解释的错误"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:967
+#: src/workbook-view.c:608 src/workbook-view.c:964
 #, fuzzy
 msgid "The filename given is not valid in the current encoding."
 msgstr "给出的文件名无效。"
 
-#: src/workbook-view.c:693 src/workbook-view.c:809
+#: src/workbook-view.c:693 src/workbook-view.c:806
 msgid "Default file saver is not available."
 msgstr "默认的文件保存器不可用。"
 
 # src/dump.c:29
-#: src/workbook-view.c:768
+#: src/workbook-view.c:765
 #, fuzzy
 msgid "Failed to create temporary file for sending."
 msgstr "无法建立临时文件。"
 
-#: src/workbook-view.c:902
+#: src/workbook-view.c:899
 msgid "Unsupported file format."
 msgstr "不支持的文件格式。"
 
-#: src/workbook-view.c:960
+#: src/workbook-view.c:957
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "打开 %s 时发生了未预期的错误"
@@ -30936,9 +30991,9 @@ msgstr "保存文件失败"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML 文件格式"
 
-#, fuzzy
-#~ msgid "Sans"
-#~ msgstr "阶数"
+# src/workbook.c:1810 src/workbook.c:1838
+#~ msgid "Sheet 1"
+#~ msgstr "工作表1"
 
 #, fuzzy
 #~ msgid "S_ize:"

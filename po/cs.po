@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-14 12:14+0200\n"
+"POT-Creation-Date: 2003-09-15 04:31-0400\n"
 "PO-Revision-Date: 2003-09-14 21:12+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
@@ -1115,7 +1115,7 @@ msgstr "#NEZNÁMÝ!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:436 src/dialogs/dialog-sheet-order.c:440
+#: src/dialogs/dialog-sheet-order.c:435 src/dialogs/dialog-sheet-order.c:439
 #, c-format
 msgid "Sheet%d"
 msgstr "List %d"
@@ -8246,7 +8246,7 @@ msgstr "%s verze %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:474
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:491
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -18064,8 +18064,9 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Dávat přednost výběru CLIPBOARD před PRIMARY"
 
 #: schemas/gnumeric-general.schemas.in.h:22
-msgid "Sans Regular"
-msgstr "Sans Regular"
+#, fuzzy
+msgid "Sans"
+msgstr "Rozložení"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -18914,7 +18915,7 @@ msgid "Jump to a specified cell"
 msgstr "Přejde na zadanou buňku"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:518
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:536
 #: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Titulek"
@@ -20450,28 +20451,28 @@ msgstr "_Okolo"
 msgid "_Show Labels"
 msgstr "_Zobrazit jmenovky"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:420
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:435
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:421
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:436
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:422
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:437
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:423
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:438
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:481
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:498
 msgid "Bounds"
 msgstr "Hranice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:485
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
 msgid "Details"
 msgstr "Podrobnosti"
 
@@ -20661,12 +20662,12 @@ msgid "C_olor:"
 msgstr "_Barva:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-msgid "Fill from start color to end color"
-msgstr "Vyplnit od počáteční barvy do koncové barvy"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 msgid "Fill from start color to a darker/lighter version of that color"
 msgstr "Vyplnit od počáteční barvy do její tmavší/světlejší verze"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
+msgid "Fill from start color to end color"
+msgstr "Vyplnit od počáteční barvy do koncové barvy"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "Gradient"
@@ -20787,7 +20788,7 @@ msgstr "Styl"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
-#: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
+#: src/dialogs/dialog-sheet-order.c:952 src/dialogs/dialog-sheet-order.c:965
 msgid "Default"
 msgstr "Výchozí"
 
@@ -23907,19 +23908,19 @@ msgstr "Celé číslo"
 msgid "Other value"
 msgstr "Jiná hodnota"
 
-#: src/dialogs/dialog-sheet-order.c:318
+#: src/dialogs/dialog-sheet-order.c:317
 msgid "Current Name"
 msgstr "Současný název"
 
-#: src/dialogs/dialog-sheet-order.c:328
+#: src/dialogs/dialog-sheet-order.c:327
 msgid "New Name"
 msgstr "Nový název"
 
-#: src/dialogs/dialog-sheet-order.c:657
+#: src/dialogs/dialog-sheet-order.c:656
 msgid "You may not delete all sheets in a workbook!"
 msgstr "Nemůžete odstranit všechny listy v sešitu!"
 
-#: src/dialogs/dialog-sheet-order.c:662
+#: src/dialogs/dialog-sheet-order.c:661
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
@@ -23927,7 +23928,7 @@ msgstr ""
 "Všechny existující listy prosím nahraďte odstraněním aktuálního sešitu a "
 "vytvořením nového!"
 
-#: src/dialogs/dialog-sheet-order.c:894
+#: src/dialogs/dialog-sheet-order.c:893
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "Pořadí listů se změnilo. Chcete aktualizovat seznam?"
 
@@ -27365,19 +27366,19 @@ msgstr "schránka"
 msgid "Automatically detected"
 msgstr "Automaticky rozpoznán"
 
-#: src/gui-file.c:188
+#: src/gui-file.c:183
 msgid "Load file"
 msgstr "Načíst soubor"
 
-#: src/gui-file.c:199
+#: src/gui-file.c:194
 msgid "Character _encoding:"
 msgstr "_Kódování znaků:"
 
-#: src/gui-file.c:209
+#: src/gui-file.c:204
 msgid "File _type:"
 msgstr "_Typ souboru:"
 
-#: src/gui-file.c:275
+#: src/gui-file.c:270
 #, c-format
 msgid ""
 "%s\n"
@@ -27386,7 +27387,7 @@ msgstr ""
 "%s\n"
 "je název adresáře"
 
-#: src/gui-file.c:281
+#: src/gui-file.c:276
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -27395,7 +27396,7 @@ msgstr ""
 "Nemáte práva pro ukládaní do\n"
 "%s"
 
-#: src/gui-file.c:288
+#: src/gui-file.c:283
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -27404,7 +27405,7 @@ msgstr ""
 "Sešit %s již existuje.\n"
 "Chcete jej přepsat?"
 
-#: src/gui-file.c:309
+#: src/gui-file.c:304
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -27416,7 +27417,7 @@ msgstr ""
 "použijte jiný formát souboru.\n"
 "Chcete uložit pouze aktuální list?"
 
-#: src/gui-file.c:336
+#: src/gui-file.c:331
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -27424,7 +27425,7 @@ msgstr ""
 "Prosím, zadejte název souboru,\n"
 "ne adresáře"
 
-#: src/gui-file.c:342
+#: src/gui-file.c:337
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -31228,6 +31229,9 @@ msgstr "Chyba při ukládání souboru."
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Souborový formát Gnumeric XML"
+
+#~ msgid "Sans Regular"
+#~ msgstr "Sans Regular"
 
 #~ msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
 #~ msgstr "NEDOKONČENÉ XML Gnumeric (*.gnumeric)"

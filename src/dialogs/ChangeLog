@@ -1,3 +1,7 @@
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
 2003-09-14  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* dialog-sheet-order.c (location_of_iter): rewrite

@@ -116,7 +116,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-14 04:09+0200\n"
+"POT-Creation-Date: 2003-09-15 04:31-0400\n"
 "PO-Revision-Date: 2003-09-14 14:00+0200\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
@@ -1208,7 +1208,7 @@ msgstr "#ONBEKEND!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:436 src/dialogs/dialog-sheet-order.c:440
+#: src/dialogs/dialog-sheet-order.c:435 src/dialogs/dialog-sheet-order.c:439
 #, c-format
 msgid "Sheet%d"
 msgstr "Blad%d"
@@ -4725,7 +4725,7 @@ msgstr "datum1;datum2;interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:568
+#: src/print-info.c:578
 msgid "date"
 msgstr "datum"
 
@@ -4742,7 +4742,7 @@ msgid "start_date,months"
 msgstr "begindatum;maanden"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:569
+#: plugins/fn-date/functions.c:1265 src/print-info.c:579
 msgid "time"
 msgstr "tijd"
 
@@ -8523,7 +8523,7 @@ msgstr "%s versie %s "
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:407
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:491
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -18469,8 +18469,8 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "bij selecteren CLIPBOARD prefereren boven PRIMARY"
 
 #: schemas/gnumeric-general.schemas.in.h:22
-msgid "Sans Regular"
-msgstr "Sans Regulier"
+msgid "Sans"
+msgstr "Sans"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -19139,7 +19139,7 @@ msgid "Filter data with given criteria"
 msgstr "Filter de gegevens met de opgegeven criteria."
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:846
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:858
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -19335,7 +19335,7 @@ msgid "Jump to a specified cell"
 msgstr "Spring naar een specifieke cel"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:452
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:536
 #: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Label"
@@ -20897,28 +20897,28 @@ msgstr "_Buiten"
 msgid "_Show Labels"
 msgstr "_Getallen tonen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:380
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:435
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:380
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:436
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:381
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:437
 msgid "Ma_jor Ticks"
 msgstr "_Hoofdverdeling"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:382
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:438
 msgid "Mi_nor Ticks"
 msgstr "_Onderverdeling"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:415
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:498
 msgid "Bounds"
 msgstr "Grenzen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:419
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
 msgid "Details"
 msgstr "Details"
 
@@ -21082,7 +21082,7 @@ msgstr "Plot-type"
 msgid "Chart Theme"
 msgstr "Grafiekthema"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:167
 msgid "Series"
 msgstr "Series"
 
@@ -21117,12 +21117,12 @@ msgid "C_olor:"
 msgstr "Kle_ur:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-msgid "Fill from start color to end color"
-msgstr "Vullen van beginkleur tot eindkleur"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 msgid "Fill from start color to a darker/lighter version of that color"
 msgstr "Vullen van beginkleur tot een donkere/lichtere versie van die kleur"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
+msgid "Fill from start color to end color"
+msgstr "Vullen van beginkleur tot eindkleur"
 
 # Kleurverloop
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
@@ -21232,12 +21232,12 @@ msgstr "behang"
 msgid "%d x %d"
 msgstr "%d x %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:536
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:548
 #: src/workbook-control-gui.c:3100
 msgid "Select an image"
 msgstr "Een afbeelding selecteren"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:898
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Stijl"
@@ -21245,7 +21245,7 @@ msgstr "Stijl"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
-#: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
+#: src/dialogs/dialog-sheet-order.c:952 src/dialogs/dialog-sheet-order.c:965
 msgid "Default"
 msgstr "Standaard"
 
@@ -21254,13 +21254,13 @@ msgstr "Standaard"
 msgid "Guppi"
 msgstr "Guppi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:265
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "Labels"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:267
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -21685,11 +21685,11 @@ msgstr "Ring plot-motor"
 msgid "PlotXY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:171
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:178
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:173
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:180
 msgid "Y"
 msgstr "Y"
 
@@ -24424,19 +24424,19 @@ msgstr "Geheel getal"
 msgid "Other value"
 msgstr "Andere waarde"
 
-#: src/dialogs/dialog-sheet-order.c:318
+#: src/dialogs/dialog-sheet-order.c:317
 msgid "Current Name"
 msgstr "Huidige Naam"
 
-#: src/dialogs/dialog-sheet-order.c:328
+#: src/dialogs/dialog-sheet-order.c:327
 msgid "New Name"
 msgstr "Nieuwe Naam"
 
-#: src/dialogs/dialog-sheet-order.c:657
+#: src/dialogs/dialog-sheet-order.c:656
 msgid "You may not delete all sheets in a workbook!"
 msgstr "U kunt niet alle werkbladen in een werkboek verwijderen"
 
-#: src/dialogs/dialog-sheet-order.c:662
+#: src/dialogs/dialog-sheet-order.c:661
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
@@ -24444,7 +24444,7 @@ msgstr ""
 "Om alle bestaande bladen te vervangen kunt u beter het huidige werkboek "
 "verwijderen en een nieuwe aanmaken!"
 
-#: src/dialogs/dialog-sheet-order.c:894
+#: src/dialogs/dialog-sheet-order.c:893
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "De werkbladvolgorde is veranderd. Wilt u de lijst bijwerken?"
 
@@ -27930,20 +27930,20 @@ msgstr "klembord"
 msgid "Automatically detected"
 msgstr "Automatisch gedetecteerd"
 
-#: src/gui-file.c:188
+#: src/gui-file.c:183
 msgid "Load file"
 msgstr "Bestand laden"
 
-#: src/gui-file.c:199
+#: src/gui-file.c:194
 msgid "Character _encoding:"
 msgstr "Teken_set:"
 
 # bestandtype?
-#: src/gui-file.c:209
+#: src/gui-file.c:204
 msgid "File _type:"
 msgstr "Bestands_type:"
 
-#: src/gui-file.c:275
+#: src/gui-file.c:270
 #, c-format
 msgid ""
 "%s\n"
@@ -27952,7 +27952,7 @@ msgstr ""
 "%s\n"
 "is een padnaam"
 
-#: src/gui-file.c:281
+#: src/gui-file.c:276
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -27961,7 +27961,7 @@ msgstr ""
 "U heeft geen toestemming om op te slaan naar\n"
 "%s"
 
-#: src/gui-file.c:288
+#: src/gui-file.c:283
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -27970,7 +27970,7 @@ msgstr ""
 "Werkmap %s bestaat al.\n"
 "Wilt U er overheen opslaan?"
 
-#: src/gui-file.c:309
+#: src/gui-file.c:304
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -27983,7 +27983,7 @@ msgstr ""
 "of kies een ander bestandsformaat.\n"
 "Wilt u alleen het huidige werkblad opslaan?"
 
-#: src/gui-file.c:336
+#: src/gui-file.c:331
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -27991,7 +27991,7 @@ msgstr ""
 "Voer een bestandsnaam in,\n"
 "geen directory"
 
-#: src/gui-file.c:342
+#: src/gui-file.c:337
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -28646,27 +28646,28 @@ msgstr "&[DATUM]"
 msgid "File Name"
 msgstr "Bestandsnaam"
 
-#: src/print-info.c:557
-msgid "Path & File Name"
-msgstr "Map & Bestandsnaam"
+#: src/print-info.c:567
+#, fuzzy
+msgid "Path "
+msgstr "Map"
 
-#: src/print-info.c:565
+#: src/print-info.c:575
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:566
+#: src/print-info.c:576
 msgid "page"
 msgstr "pagina"
 
-#: src/print-info.c:567
+#: src/print-info.c:577
 msgid "pages"
 msgstr "pagina's"
 
-#: src/print-info.c:570
+#: src/print-info.c:580
 msgid "file"
 msgstr "bestand"
 
-#: src/print-info.c:571
+#: src/print-info.c:581
 msgid "path"
 msgstr "Map"
 
@@ -30224,7 +30225,7 @@ msgstr "donkerpaars"
 msgid "sky blue"
 msgstr "hemelsblauw"
 
-#: src/widgets/gnumeric-expr-entry.c:1253
+#: src/widgets/gnumeric-expr-entry.c:1254
 msgid "Expecting a single range"
 msgstr "Verwachtte een enkel bereik"
 
@@ -31828,6 +31829,12 @@ msgstr "Fout bij opslaan bestand"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML bestandsformaat"
 
+#~ msgid "Sans Regular"
+#~ msgstr "Sans Regulier"
+
+#~ msgid "Path & File Name"
+#~ msgstr "Map & Bestandsnaam"
+
 #~ msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
 #~ msgstr "ONVOLTOOID Gnumeric XML (*.gnumeric)"
 
@@ -31839,9 +31846,6 @@ msgstr "Gnumeric XML bestandsformaat"
 
 #~ msgid "_Style:"
 #~ msgstr "_Stijl:"
-
-#~ msgid "Sans"
-#~ msgstr "Sans"
 
 #~ msgid "Adding a sheet"
 #~ msgstr "Een blad toevoegen"

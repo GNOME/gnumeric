@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-10 00:27-0400\n"
+"POT-Creation-Date: 2003-09-15 04:31-0400\n"
 "PO-Revision-Date: 2002-02-18 13:12+0200\n"
 "Last-Translator: Jarkko Ranta <jjranta@cc.joensuu.fi>\n"
 "Language-Team: \n"
@@ -809,7 +809,7 @@ msgstr "#TUNTEMATON!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:436 src/dialogs/dialog-sheet-order.c:440
+#: src/dialogs/dialog-sheet-order.c:435 src/dialogs/dialog-sheet-order.c:439
 #, c-format
 msgid "Sheet%d"
 msgstr "Taulu%d"
@@ -2823,7 +2823,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:545
+#: src/print-info.c:578
 #, fuzzy
 msgid "date"
 msgstr "Päiväys"
@@ -2841,7 +2841,7 @@ msgid "start_date,months"
 msgstr ""
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:546
+#: plugins/fn-date/functions.c:1265 src/print-info.c:579
 #, fuzzy
 msgid "time"
 msgstr "Aika"
@@ -4896,7 +4896,7 @@ msgstr ""
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:491
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -10907,7 +10907,8 @@ msgstr "Virhe avattaessa xbase-tiedostoa."
 
 #: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
+#: src/xml-io.c:3585
 msgid "Sheet"
 msgstr "Taulu"
 
@@ -10933,10 +10934,6 @@ msgstr ""
 
 #: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
-msgstr ""
-
-#: plugins/xml_sax/plugin.xml.in.h:4
-msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
 msgstr ""
 
 #: plugins/xml_sax/xml-sax-read.c:301
@@ -11230,8 +11227,9 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:22
-msgid "Sans Regular"
-msgstr ""
+#, fuzzy
+msgid "Sans"
+msgstr "Tila"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -11862,7 +11860,7 @@ msgid "Filter data with given criteria"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:858
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -12066,8 +12064,8 @@ msgid "Jump to a specified cell"
 msgstr "Hyppää tiettyyn soluun"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
-#: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:536
+#: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr ""
 
@@ -12242,7 +12240,7 @@ msgid "Print Preview"
 msgstr "Tulostuksen esikatselu"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1311 src/workbook-control-gui.c:3301
+#: src/print.c:1322 src/workbook-control-gui.c:3301
 #: src/workbook-control-gui.c:3952
 msgid "Print preview"
 msgstr "Tulostuksen esikatselu"
@@ -13635,83 +13633,123 @@ msgstr "Python-funktio"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
 #, fuzzy
+msgid "<b>Major Ticks:</b>"
+msgstr "_Esikatselu"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "<b>Minor Ticks:</b>"
+msgstr "_Esikatselu"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#, fuzzy
+msgid "I_nside"
+msgstr "Lisää"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#, fuzzy
+msgid "O_utside"
+msgstr "Oikea"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#, fuzzy
 msgid "_Cross"
 msgstr "_Sulje"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
 #, fuzzy
 msgid "_High"
 msgstr "Oikea"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
+#, fuzzy
+msgid "_Inside"
+msgstr "Lisää"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
 #, fuzzy
 msgid "_Invert"
 msgstr "_Lisää"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
 #, fuzzy
 msgid "_Low"
 msgstr "_Rivi"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
 #, fuzzy
 msgid "_Map:"
 msgstr "Ylä"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
+#, fuzzy
+msgid "_Outside"
+msgstr "Oikea"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
+#, fuzzy
+msgid "_Show Labels"
+msgstr "Kopioi arvot"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:435
 #: src/dialogs/solver.glade.h:14
 #, fuzzy
 msgid "M_in"
 msgstr "Minimi"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:436
 #, fuzzy
 msgid "M_ax"
 msgstr "Maksimi"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:437
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:438
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:498
 #, fuzzy
 msgid "Bounds"
 msgstr "Reunaviivat"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
 #, fuzzy
 msgid "Details"
 msgstr "Vertikaali"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
 #, fuzzy
 msgid "Legend"
 msgstr "Kirjanpito"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 #, fuzzy
 msgid "Title"
 msgstr "Aika"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
+#, fuzzy
+msgid "Grid"
+msgstr "Perjantai"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 #, fuzzy
 msgid "Plot"
 msgstr "_Ratkaisija..."
@@ -13828,12 +13866,12 @@ msgstr "Reunaviiva"
 msgid "_Top"
 msgstr "Ylä"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:102
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:105
 #, fuzzy
 msgid "_Text:"
 msgstr "Teksti"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:108
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:111
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:131
 #: src/dialogs/dialog-stf.glade.h:15
 #, fuzzy
@@ -13854,7 +13892,7 @@ msgstr "_Taulu"
 msgid "Chart Theme"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:167
 #, fuzzy
 msgid "Series"
 msgstr "_Taulu"
@@ -13895,11 +13933,11 @@ msgid "C_olor:"
 msgstr "Väritys"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-msgid "Fill from start color to end color"
+msgid "Fill from start color to a darker/lighter version of that color"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Fill from start color to a darker/lighter version of that color"
+msgid "Fill from start color to end color"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
@@ -14028,13 +14066,13 @@ msgstr ""
 msgid "%d x %d"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:548
 #: src/workbook-control-gui.c:3100
 #, fuzzy
 msgid "Select an image"
 msgstr "Valitse kokonainen sarake"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/dialogs/pivottable.glade.h:4
 #, fuzzy
 msgid "Style"
@@ -14043,25 +14081,25 @@ msgstr "T_yyli"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
-#: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
+#: src/dialogs/dialog-sheet-order.c:952 src/dialogs/dialog-sheet-order.c:965
 #, fuzzy
 msgid "Default"
 msgstr "Tuhoa"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:435
 #, fuzzy
 msgid "Guppi"
 msgstr "Ylä"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:265
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 #, fuzzy
 msgid "Labels"
 msgstr "Nimi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:267
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -14103,7 +14141,7 @@ msgstr ""
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:45
 #, fuzzy
 msgid "PlotLine"
 msgstr "_Ratkaisija..."
@@ -14112,7 +14150,7 @@ msgstr "_Ratkaisija..."
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:115
 #, fuzzy
 msgid "PlotArea"
 msgstr "_Ratkaisija..."
@@ -14489,11 +14527,11 @@ msgstr ""
 msgid "PlotXY"
 msgstr "_Ratkaisija..."
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:178
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:180
 msgid "Y"
 msgstr ""
 
@@ -14720,16 +14758,21 @@ msgid "Thin Reverse Diagonal Stripe"
 msgstr "Ristikkäiset vinot viivat"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
-#: src/dialogs/cell-format.glade.h:81
+#: src/dialogs/cell-format.glade.h:82
 #, fuzzy
-msgid "Thin Diagonal Crosshatch"
+msgid "Thin Diagonal Stripe"
 msgstr "Vinot viivat"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
 #: src/dialogs/cell-format.glade.h:83
 #, fuzzy
 msgid "Thin Horizontal Crosshatch"
+msgstr "Vinot viivat"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+#, fuzzy
+msgid "Thin Diagonal Crosshatch"
 msgstr "Vinot viivat"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
@@ -15119,7 +15162,7 @@ msgstr "Prosentti"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/dialog-shuffle.c:149
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/dialog-shuffle.c:149
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -15461,7 +15504,7 @@ msgstr "Nuoli"
 
 #: src/dialogs/cell-format.glade.h:16
 #, fuzzy
-msgid "<b>Horizontal alignement</b>"
+msgid "<b>Horizontal alignment</b>"
 msgstr "Tasaus"
 
 #: src/dialogs/cell-format.glade.h:18
@@ -15486,7 +15529,7 @@ msgstr "_Esikatselu"
 
 #: src/dialogs/cell-format.glade.h:22
 #, fuzzy
-msgid "<b>Vertical alignement</b>"
+msgid "<b>Vertical alignment</b>"
 msgstr "Tasaus"
 
 #: src/dialogs/cell-format.glade.h:23
@@ -15681,11 +15724,6 @@ msgstr "Ylä"
 #, fuzzy
 msgid "Text length"
 msgstr "Nuoli"
-
-#: src/dialogs/cell-format.glade.h:82
-#, fuzzy
-msgid "Thin Diagonal Stripe"
-msgstr "Vinot viivat"
 
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 #, fuzzy
@@ -16201,10 +16239,10 @@ msgid "No matching records were found."
 msgstr ""
 
 #: src/dialogs/dialog-advanced-filter.c:160
-#: src/dialogs/dialog-analysis-tools.c:583
-#: src/dialogs/dialog-analysis-tools.c:701
-#: src/dialogs/dialog-analysis-tools.c:1983
-#: src/dialogs/dialog-analysis-tools.c:2874
+#: src/dialogs/dialog-analysis-tools.c:585
+#: src/dialogs/dialog-analysis-tools.c:703
+#: src/dialogs/dialog-analysis-tools.c:1985
+#: src/dialogs/dialog-analysis-tools.c:2875
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr ""
@@ -16217,173 +16255,173 @@ msgstr ""
 msgid "Could not create the Advanced Filter dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:569
-#: src/dialogs/dialog-analysis-tools.c:687
+#: src/dialogs/dialog-analysis-tools.c:571
+#: src/dialogs/dialog-analysis-tools.c:689
 msgid "The selected input rows must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:692
+#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:694
 msgid "The selected input columns must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:579
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:581
+#: src/dialogs/dialog-analysis-tools.c:699
 msgid "The selected input areas must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:626
+#: src/dialogs/dialog-analysis-tools.c:628
 msgid "Could not create the Correlation Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:744
+#: src/dialogs/dialog-analysis-tools.c:746
 msgid "Could not create the Covariance Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:833
+#: src/dialogs/dialog-analysis-tools.c:835
 #, fuzzy
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Parametria ei voitu tulkita"
 
-#: src/dialogs/dialog-analysis-tools.c:923
+#: src/dialogs/dialog-analysis-tools.c:925
 #, fuzzy
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Parametria ei voitu tulkita"
 
-#: src/dialogs/dialog-analysis-tools.c:1085
+#: src/dialogs/dialog-analysis-tools.c:1087
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1227
+#: src/dialogs/dialog-analysis-tools.c:1229
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1236
+#: src/dialogs/dialog-analysis-tools.c:1238
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1461
+#: src/dialogs/dialog-analysis-tools.c:1463
 #, fuzzy
 msgid "Var_iable 1 Range:"
 msgstr "Guile-lisiö"
 
-#: src/dialogs/dialog-analysis-tools.c:1462
+#: src/dialogs/dialog-analysis-tools.c:1464
 #, fuzzy
 msgid "_Variable 2 Range:"
 msgstr "Guile-lisiö"
 
-#: src/dialogs/dialog-analysis-tools.c:1463
+#: src/dialogs/dialog-analysis-tools.c:1465
 #, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Parametria ei voitu tulkita"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 #, fuzzy
 msgid "Var_iable 1 Range"
 msgstr "Guile-lisiö"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 #, fuzzy
 msgid "_Variable 2 Range"
 msgstr "Guile-lisiö"
 
-#: src/dialogs/dialog-analysis-tools.c:1661
+#: src/dialogs/dialog-analysis-tools.c:1663
 #, fuzzy
 msgid "Could not create the FTest Tool dialog."
 msgstr "Parametria ei voitu tulkita"
 
-#: src/dialogs/dialog-analysis-tools.c:1863
+#: src/dialogs/dialog-analysis-tools.c:1865
 #, fuzzy
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Parametria ei voitu tulkita"
 
-#: src/dialogs/dialog-analysis-tools.c:1978 src/tools/analysis-tools.c:2158
+#: src/dialogs/dialog-analysis-tools.c:1980 src/tools/analysis-tools.c:2158
 #: src/tools/analysis-tools.c:2237
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:21
 #, fuzzy
 msgid "_X Variables:"
 msgstr "Arvot"
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:22
 #, fuzzy
 msgid "_Y Variable:"
 msgstr "Arvot"
 
-#: src/dialogs/dialog-analysis-tools.c:2082
+#: src/dialogs/dialog-analysis-tools.c:2084
 #, fuzzy
 msgid "Could not create the Regression Tool dialog."
 msgstr "Parametria ei voitu tulkita"
 
-#: src/dialogs/dialog-analysis-tools.c:2218
+#: src/dialogs/dialog-analysis-tools.c:2220
 #, fuzzy
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Parametria ei voitu tulkita"
 
-#: src/dialogs/dialog-analysis-tools.c:2359
+#: src/dialogs/dialog-analysis-tools.c:2361
 #, fuzzy
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Parametria ei voitu tulkita"
 
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/histogram.glade.h:3
 #, fuzzy
 msgid "Bin _Range:"
 msgstr "L_iimaa"
 
-#: src/dialogs/dialog-analysis-tools.c:2585
+#: src/dialogs/dialog-analysis-tools.c:2584
 #, fuzzy
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Parametria ei voitu tulkita"
 
-#: src/dialogs/dialog-analysis-tools.c:2761
+#: src/dialogs/dialog-analysis-tools.c:2762
 #, fuzzy
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Parametria ei voitu tulkita"
 
-#: src/dialogs/dialog-analysis-tools.c:2840
+#: src/dialogs/dialog-analysis-tools.c:2841
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2843
+#: src/dialogs/dialog-analysis-tools.c:2844
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2849
+#: src/dialogs/dialog-analysis-tools.c:2850
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2852
+#: src/dialogs/dialog-analysis-tools.c:2853
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2858
+#: src/dialogs/dialog-analysis-tools.c:2859
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2861
+#: src/dialogs/dialog-analysis-tools.c:2862
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2868
+#: src/dialogs/dialog-analysis-tools.c:2869
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2965
+#: src/dialogs/dialog-analysis-tools.c:2966
 #, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Parametria ei voitu tulkita"
@@ -16576,7 +16614,7 @@ msgstr "Kirjainkoko huomioidaan"
 msgid "By Value"
 msgstr "Arvo"
 
-#: src/dialogs/dialog-cell-sort.c:857
+#: src/dialogs/dialog-cell-sort.c:858
 #, fuzzy
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Parametria ei voitu tulkita"
@@ -17387,28 +17425,28 @@ msgstr "Prosentti"
 msgid "Other value"
 msgstr "Arvoon:"
 
-#: src/dialogs/dialog-sheet-order.c:318
+#: src/dialogs/dialog-sheet-order.c:317
 #, fuzzy
 msgid "Current Name"
 msgstr "Tämänhetkinen _päiväys"
 
-#: src/dialogs/dialog-sheet-order.c:328
+#: src/dialogs/dialog-sheet-order.c:327
 #, fuzzy
 msgid "New Name"
 msgstr "Nimi"
 
-#: src/dialogs/dialog-sheet-order.c:657
+#: src/dialogs/dialog-sheet-order.c:656
 #, fuzzy
 msgid "You may not delete all sheets in a workbook!"
 msgstr "Työkirjassa ei ole tauluja."
 
-#: src/dialogs/dialog-sheet-order.c:662
+#: src/dialogs/dialog-sheet-order.c:661
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:894
+#: src/dialogs/dialog-sheet-order.c:893
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr ""
 
@@ -21142,41 +21180,41 @@ msgstr "Liitä leikepöydän sisältö"
 msgid "Automatically detected"
 msgstr ""
 
-#: src/gui-file.c:188
+#: src/gui-file.c:183
 msgid "Load file"
 msgstr "Hae tiedosto"
 
-#: src/gui-file.c:199
+#: src/gui-file.c:194
 msgid "Character _encoding:"
 msgstr ""
 
-#: src/gui-file.c:209
+#: src/gui-file.c:204
 #, fuzzy
 msgid "File _type:"
 msgstr "_Tiedosto"
 
-#: src/gui-file.c:275
+#: src/gui-file.c:270
 #, c-format
 msgid ""
 "%s\n"
 "is a directory name"
 msgstr ""
 
-#: src/gui-file.c:281
+#: src/gui-file.c:276
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
 
-#: src/gui-file.c:288
+#: src/gui-file.c:283
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
 "Do you want to save over it?"
 msgstr ""
 
-#: src/gui-file.c:309
+#: src/gui-file.c:304
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -21184,13 +21222,13 @@ msgid ""
 "Do you want to save only current sheet?"
 msgstr ""
 
-#: src/gui-file.c:336
+#: src/gui-file.c:331
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
 msgstr ""
 
-#: src/gui-file.c:342
+#: src/gui-file.c:337
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -21841,28 +21879,38 @@ msgstr ""
 msgid "&[DATE]"
 msgstr ""
 
-#: src/print-info.c:477
-msgid "Sheet 1"
-msgstr "Taulu 1"
+#: src/print-info.c:536
+#, fuzzy
+msgid "File Name"
+msgstr "Nimi"
 
-#: src/print-info.c:542
+#: src/print-info.c:567
+#, fuzzy
+msgid "Path "
+msgstr "Liitä"
+
+#: src/print-info.c:575
 msgid "tab"
 msgstr ""
 
-#: src/print-info.c:543
+#: src/print-info.c:576
 #, fuzzy
 msgid "page"
 msgstr "Liitä"
 
-#: src/print-info.c:544
+#: src/print-info.c:577
 #, fuzzy
 msgid "pages"
 msgstr "Liitä"
 
-#: src/print-info.c:547
+#: src/print-info.c:580
 #, fuzzy
 msgid "file"
 msgstr "Esimerkki:"
+
+#: src/print-info.c:581
+msgid "path"
+msgstr ""
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:576
@@ -21870,24 +21918,24 @@ msgstr "Esimerkki:"
 msgid "&[PAGE]"
 msgstr "_Taulu"
 
-#: src/print.c:1104
+#: src/print.c:1115
 msgid "Print Region"
 msgstr ""
 
-#: src/print.c:1229
+#: src/print.c:1240
 msgid "Print Sheets"
 msgstr ""
 
-#: src/print.c:1237
+#: src/print.c:1248
 #, fuzzy
 msgid "Act_ive sheet"
 msgstr "Lisää uusi taulu"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "S_heets"
 msgstr "_Taulut"
 
-#: src/print.c:1323
+#: src/print.c:1334
 msgid "Printing failed"
 msgstr "Tulostus epäonnistui"
 
@@ -22077,17 +22125,17 @@ msgstr ""
 msgid "_Save as image"
 msgstr "Valitse kokonainen sarake"
 
-#: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
+#: src/sheet-object-graphic.c:936 src/sheet-object-graphic.c:955
 #, fuzzy
 msgid "Transparent"
 msgstr "magenta"
 
-#: src/sheet-object-widget.c:1130
+#: src/sheet-object-widget.c:1132
 #, c-format
 msgid "CheckBox %d"
 msgstr ""
 
-#: src/sheet-object-widget.c:1561 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1565 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr ""
 
@@ -23446,7 +23494,7 @@ msgstr ""
 msgid "sky blue"
 msgstr "Arvo"
 
-#: src/widgets/gnumeric-expr-entry.c:1239
+#: src/widgets/gnumeric-expr-entry.c:1254
 msgid "Expecting a single range"
 msgstr ""
 
@@ -25026,24 +25074,24 @@ msgstr ""
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:967
+#: src/workbook-view.c:608 src/workbook-view.c:964
 msgid "The filename given is not valid in the current encoding."
 msgstr ""
 
-#: src/workbook-view.c:693 src/workbook-view.c:809
+#: src/workbook-view.c:693 src/workbook-view.c:806
 msgid "Default file saver is not available."
 msgstr ""
 
-#: src/workbook-view.c:768
+#: src/workbook-view.c:765
 #, fuzzy
 msgid "Failed to create temporary file for sending."
 msgstr "Tiedostoa %s ei voitu luoda\n"
 
-#: src/workbook-view.c:902
+#: src/workbook-view.c:899
 msgid "Unsupported file format."
 msgstr "Tuntematon tiedostomuoto."
 
-#: src/workbook-view.c:960
+#: src/workbook-view.c:957
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""
@@ -25105,9 +25153,8 @@ msgstr "Tämänhetkinen _päiväys"
 msgid "Gnumeric XML file format"
 msgstr "Gnumericin XML-tiedosto"
 
-#, fuzzy
-#~ msgid "Sans"
-#~ msgstr "Tila"
+#~ msgid "Sheet 1"
+#~ msgstr "Taulu 1"
 
 #, fuzzy
 #~ msgid "_Style:"

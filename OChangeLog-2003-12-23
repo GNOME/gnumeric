@@ -1,5 +1,11 @@
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.2.0
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Call it 1.2.0
+
 	* src/style.c (gnm_font_find_closest_from_weight_slant) : put in some
 	  fallbacks.
 

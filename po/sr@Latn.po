@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-14 18:02+0200\n"
+"POT-Creation-Date: 2003-09-15 04:31-0400\n"
 "PO-Revision-Date: 2003-09-14 18:01+0200\n"
 "Last-Translator: Slobodan Sredojević <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
@@ -807,7 +807,7 @@ msgstr "#NEPOZNAT!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:436 src/dialogs/dialog-sheet-order.c:440
+#: src/dialogs/dialog-sheet-order.c:435 src/dialogs/dialog-sheet-order.c:439
 #, c-format
 msgid "Sheet%d"
 msgstr "Tabela%d"
@@ -3368,8 +3368,8 @@ msgstr "Inženjerske funkcije"
 #: plugins/fn-eng/plugin.xml.in.h:3
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr ""
-"Funkcije koje rade sa kompleksnim brojevima, osnovnim pretvaranjima i više od "
-"toga"
+"Funkcije koje rade sa kompleksnim brojevima, osnovnim pretvaranjima i više "
+"od toga"
 
 #: plugins/fn-financial/functions.c:306
 msgid ""
@@ -4896,7 +4896,7 @@ msgstr "%s verzija %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:474
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:491
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -11000,8 +11000,8 @@ msgid ""
 "The autocorrect engine does not correct the inital caps for words in this "
 "list."
 msgstr ""
-"Sistem za automatsko ispravljanje ne ispravlja početna slova za reči koje su u "
-"ovom spisku."
+"Sistem za automatsko ispravljanje ne ispravlja početna slova za reči koje su "
+"u ovom spisku."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:24
 msgid "The configuration of gnome-print. Do not edit this variable."
@@ -11179,8 +11179,9 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:22
-msgid "Sans Regular"
-msgstr ""
+#, fuzzy
+msgid "Sans"
+msgstr "Rangovi"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -11313,10 +11314,10 @@ msgid ""
 "simple one-cell edit (size of 1). The undo list will be truncated when its "
 "total size exceeds this configurable value."
 msgstr ""
-"Ova vrednost određuje dužinu „Opozovi“ spiska. Svaka radnja ima veličinu koja "
-"je za nju vezana, kako bi se poredila sa memorijskim zahtevom vezanim za "
-"prosto uređenje jednog polja (veličine 1). „Opozovi“ spisak će biti odsečen "
-"kada njegova ukupna vrednost nadmaši ovu podesivu vrednost."
+"Ova vrednost određuje dužinu „Opozovi“ spiska. Svaka radnja ima veličinu "
+"koja je za nju vezana, kako bi se poredila sa memorijskim zahtevom vezanim "
+"za prosto uređenje jednog polja (veličine 1). „Opozovi“ spisak će biti "
+"odsečen kada njegova ukupna vrednost nadmaši ovu podesivu vrednost."
 
 #: schemas/gnumeric-general.schemas.in.h:45
 msgid ""
@@ -12020,7 +12021,7 @@ msgid "Jump to a specified cell"
 msgstr "Skoči do određenog polja"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:518
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:536
 #: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Oznaka"
@@ -13551,28 +13552,28 @@ msgstr "Sp_olja"
 msgid "_Show Labels"
 msgstr "P_rikaži oznake"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:420
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:435
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "_Minimalno"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:421
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:436
 msgid "M_ax"
 msgstr "M_aksimalno"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:422
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:437
 msgid "Ma_jor Ticks"
 msgstr "Gla_vne crtice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:423
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:438
 msgid "Mi_nor Ticks"
 msgstr "Sp_oredne crtice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:481
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:498
 msgid "Bounds"
 msgstr "Ograničenja"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:485
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
 msgid "Details"
 msgstr "Detalji"
 
@@ -13764,13 +13765,13 @@ msgid "C_olor:"
 msgstr "B_oja:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-msgid "Fill from start color to end color"
-msgstr "Ispuni od početne boje do završne boje"
-
-#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 msgid "Fill from start color to a darker/lighter version of that color"
 msgstr ""
 "Ispuni od početne boje do tamnije/svetlije nijanse te boje završne boje"
+
+#: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
+msgid "Fill from start color to end color"
+msgstr "Ispuni od početne boje do završne boje"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "Gradient"
@@ -13891,7 +13892,7 @@ msgstr "Stil"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
-#: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
+#: src/dialogs/dialog-sheet-order.c:952 src/dialogs/dialog-sheet-order.c:965
 msgid "Default"
 msgstr "Podrazumevano"
 
@@ -17019,25 +17020,25 @@ msgstr "Ceo broj"
 msgid "Other value"
 msgstr "Druga vrednost"
 
-#: src/dialogs/dialog-sheet-order.c:318
+#: src/dialogs/dialog-sheet-order.c:317
 msgid "Current Name"
 msgstr "Tekući naziv"
 
-#: src/dialogs/dialog-sheet-order.c:328
+#: src/dialogs/dialog-sheet-order.c:327
 msgid "New Name"
 msgstr "Novi naziv"
 
-#: src/dialogs/dialog-sheet-order.c:657
+#: src/dialogs/dialog-sheet-order.c:656
 msgid "You may not delete all sheets in a workbook!"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:662
+#: src/dialogs/dialog-sheet-order.c:661
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:894
+#: src/dialogs/dialog-sheet-order.c:893
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr "Redosled tabela se promenio. Da li želite da osvežite spisak?"
 
@@ -17772,9 +17773,9 @@ msgid ""
 "in GTK+, libgnomeui, libgnomeprintui, libbonoboui, and Gnumeric at the time "
 "of writing, ultimo May 2003."
 msgstr ""
-"Podrška za više monitora je isključena u Gnumerik-u zbog brojnih grešaka u gtk"
-"+, libgnomeui, libgnomeprintui i libbonoboui bibliotekama i samom Gnumerik-"
-"u. Maj 2003."
+"Podrška za više monitora je isključena u Gnumerik-u zbog brojnih grešaka u "
+"gtk+, libgnomeui, libgnomeprintui i libbonoboui bibliotekama i samom "
+"Gnumerik-u. Maj 2003."
 
 #: src/dialogs/dialog-view.c:94
 #, c-format
@@ -18443,8 +18444,8 @@ msgid ""
 "Gnumeric (unless needed by another plugin)."
 msgstr ""
 "Dodatak sada ne može biti zaustavljen jer je u upotrebi. Pored svega, ako Vi "
-"štiklirate kućicu ispod, dodatak neće biti pokrenut nakon ponovnog pokretanja "
-"programa (sve dok ga, eventualno, nezatraži drugi dodatak)."
+"štiklirate kućicu ispod, dodatak neće biti pokrenut nakon ponovnog "
+"pokretanja programa (sve dok ga, eventualno, nezatraži drugi dodatak)."
 
 #: src/dialogs/plugin-manager.glade.h:10
 msgid "_Activate All"
@@ -19567,7 +19568,8 @@ msgstr "Neispravna datoteka sa šablonom: %s"
 
 #: src/file.c:466
 msgid "Saving over old files of this type is disabled for safety."
-msgstr "Čuvanje preko starih datoteka ove vrste je onemogućeno zbog sigurnosti."
+msgstr ""
+"Čuvanje preko starih datoteka ove vrste je onemogućeno zbog sigurnosti."
 
 #: src/file.c:468
 msgid ""
@@ -20456,19 +20458,19 @@ msgstr "spisak isečaka"
 msgid "Automatically detected"
 msgstr "Automatski prepoznaj"
 
-#: src/gui-file.c:188
+#: src/gui-file.c:183
 msgid "Load file"
 msgstr "Učitaj datoteku"
 
-#: src/gui-file.c:199
+#: src/gui-file.c:194
 msgid "Character _encoding:"
 msgstr "Vrsta zapisa _znakova:"
 
-#: src/gui-file.c:209
+#: src/gui-file.c:204
 msgid "File _type:"
 msgstr "Vrsta d_atoteke:"
 
-#: src/gui-file.c:275
+#: src/gui-file.c:270
 #, c-format
 msgid ""
 "%s\n"
@@ -20477,7 +20479,7 @@ msgstr ""
 "%s\n"
 "je ime direktorijuma"
 
-#: src/gui-file.c:281
+#: src/gui-file.c:276
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -20486,7 +20488,7 @@ msgstr ""
 "Nemate ovlašćenje da čuvate dokumente pod putanjom\n"
 "%s"
 
-#: src/gui-file.c:288
+#: src/gui-file.c:283
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -20495,7 +20497,7 @@ msgstr ""
 "Radna sveska %s već postoji.\n"
 "Želite li da prepišete preko nje?"
 
-#: src/gui-file.c:309
+#: src/gui-file.c:304
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -20508,7 +20510,7 @@ msgstr ""
 "ili izaberite drukčiji format datoteke.\n"
 "Da li želite da sačuvate samo tekuću tabelu?"
 
-#: src/gui-file.c:336
+#: src/gui-file.c:331
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -20516,7 +20518,7 @@ msgstr ""
 "Molim unesite ime datoteke.\n"
 "a ne direktorijuma"
 
-#: src/gui-file.c:342
+#: src/gui-file.c:337
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
@@ -20683,7 +20685,8 @@ msgstr "Ne prikazuj uvodni ekran"
 
 #: src/main-application.c:83
 msgid "Exit immediately after loading the selected books (useful for testing)."
-msgstr "Izađi odmah nakon učitavanja izabranih tabela (korisno za isprobavanje)."
+msgstr ""
+"Izađi odmah nakon učitavanja izabranih tabela (korisno za isprobavanje)."
 
 #: src/main-application.c:113
 msgid ""
@@ -21061,7 +21064,8 @@ msgstr "Dodatak nema identifikaciju."
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr ""
-"Greška u postavljanju početnih vrednosti za sistem za učitavanje dodatka(„%s“)."
+"Greška u postavljanju početnih vrednosti za sistem za učitavanje dodatka(„%"
+"s“)."
 
 #: src/plugin.c:924 src/plugin.c:1081
 msgid "Detected cyclic plugin dependencies."
@@ -21126,7 +21130,8 @@ msgstr "Greška prilikom čitanja informacija o dostupnim dodacima."
 
 #: src/plugin.c:1622
 msgid "Errors while deactivating plugins that are no longer on disk."
-msgstr "Greška prilikom zaustavljanja dodataka koji se više ne nalaze na disku."
+msgstr ""
+"Greška prilikom zaustavljanja dodataka koji se više ne nalaze na disku."
 
 #: src/plugin.c:1643
 #, c-format
@@ -22000,7 +22005,8 @@ msgid ""
 "in your model (maybe your last round # is too high)."
 msgstr ""
 "Izlazna promenljiva nije proizvela brojnu vrednost. Proverite izlazne "
-"promenljive u vašem modelu (možda je Vaše poslednje zaokruživanje # preveliko)."
+"promenljive u vašem modelu (možda je Vaše poslednje zaokruživanje # "
+"preveliko)."
 
 #: src/tools/simulation.c:242
 msgid "Simulation Report"

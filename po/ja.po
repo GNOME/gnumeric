@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-10 00:27-0400\n"
+"POT-Creation-Date: 2003-09-15 04:31-0400\n"
 "PO-Revision-Date: 2003-09-11 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -967,7 +967,7 @@ msgstr "#UNKNOWN!"
 #. name for multiple adds
 #: plugins/excel/ms-excel-read.c:1090 plugins/excel/ms-excel-read.c:1101
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:515
-#: src/dialogs/dialog-sheet-order.c:436 src/dialogs/dialog-sheet-order.c:440
+#: src/dialogs/dialog-sheet-order.c:435 src/dialogs/dialog-sheet-order.c:439
 #, c-format
 msgid "Sheet%d"
 msgstr "シート%d"
@@ -1125,8 +1125,8 @@ msgstr ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(実数,虚数[,虚数単位])\n"
 "@DESCRIPTION=COMPLEX は 'x + yi' の形式の複素数を返します。@実数 には複素数の"
-"実数係数を、@虚数 には虚数係数を指定します。@虚数単位 には虚数の単位として使う"
-"文字を指定します。省略した場合には'i' をデフォルトとして使用します。\n"
+"実数係数を、@虚数 には虚数係数を指定します。@虚数単位 には虚数の単位として使"
+"う文字を指定します。省略した場合には'i' をデフォルトとして使用します。\n"
 "\n"
 "* @虚数単位 が 'i' でも 'j' でもない場合、#VALUE! エラーが返されます。\n"
 "* この関数は Excel 互換です。\n"
@@ -1183,7 +1183,8 @@ msgstr ""
 "@SYNTAX=IMABS(複素数)\n"
 "@DESCRIPTION=IMABS は複素数の絶対値を返します。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMABS関数は#VALUE!エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMABS関数は#VALUE!エラーを返しま"
+"す。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1264,12 +1265,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMINV\n"
 "@SYNTAX=IMINV(複素数)\n"
-"@DESCRIPTION=IMINV 関数は複素数z( @複素数 )の逆コサイン、または逆数を"
-"返します。\n"
+"@DESCRIPTION=IMINV 関数は複素数z( @複素数 )の逆コサイン、または逆数を返しま"
+"す。\n"
 "\n"
 "\t1/z = (x - i y)/(x^2 + y^2) です。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMINV関数は#VALUE! エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMINV関数は#VALUE! エラーを返しま"
+"す。\n"
 "\n"
 "@EXAMPLES=\n"
 "IMINV(\"1-j\") = 0.5+0.5j です。\n"
@@ -1298,7 +1300,8 @@ msgstr ""
 "\n"
 "\t-z = (-x) + i(-y)です。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMNEG関数は#VALUE! エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMNEG関数は#VALUE! エラーを返しま"
+"す。\n"
 "\n"
 "@EXAMPLES=\n"
 "IMNEG(\"1-j\") = -1+j です。\n"
@@ -1487,10 +1490,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(複素数)\n"
-"@DESCRIPTION=IMARGUMENT 関数は複素数の偏角 theta を返します。偏角とは"
-"極座標で表したときに実軸からの角度をラジアンで示したものです。\n"
+"@DESCRIPTION=IMARGUMENT 関数は複素数の偏角 theta を返します。偏角とは極座標で"
+"表したときに実軸からの角度をラジアンで示したものです。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMARGUMENTは#VALUE! エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMARGUMENTは#VALUE! エラーを返しま"
+"す。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1520,9 +1524,9 @@ msgstr ""
 "@SYNTAX=IMLN(複素数)\n"
 "@DESCRIPTION=IMLN 関数は複素数の自然対数を返します。\n"
 "\n"
-"計算結果の虚部は -pi と+pi の間の値になります。複素数に対する自然対数は"
-"一意には定義されません。pi の偶数倍を虚部に足したり、引いたりする必要が"
-"あるかもしれません。\n"
+"計算結果の虚部は -pi と+pi の間の値になります。複素数に対する自然対数は一意に"
+"は定義されません。pi の偶数倍を虚部に足したり、引いたりする必要があるかもしれ"
+"ません。\n"
 "\n"
 "* もし@複素数 が正しい複素数でなければ、IMLNは#VALUE! エラーを返します。\n"
 "* この関数は Excel 互換です。\n"
@@ -1603,11 +1607,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(複素数1,複素数2)\n"
-"@DESCRIPTION=IMPOWER 関数は複素数のべき乗を返します。@複素数1 にはべき乗を求め"
-"る複素数を、@複素数2 にはべき乗の指数を指定します。\n"
+"@DESCRIPTION=IMPOWER 関数は複素数のべき乗を返します。@複素数1 にはべき乗を求"
+"める複素数を、@複素数2 にはべき乗の指数を指定します。\n"
 "\n"
-"* もし@複素数1 か@複素数2 が正しい複素数でなければ、IMPOWERは"
-"#VALUE! エラーを返します。\n"
+"* もし@複素数1 か@複素数2 が正しい複素数でなければ、IMPOWERは#VALUE! エラーを"
+"返します。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1634,8 +1638,8 @@ msgstr ""
 "@SYNTAX=IMDIV(複素数1,複素数2)\n"
 "@DESCRIPTION=IMDIV 関数は二つの複素数の商を返します。\n"
 "\n"
-"* もし@複素数1 か@複素数2 が正しい複素数でなければ、IMDIVは#VALUE! エラーを"
-"返します。\n"
+"* もし@複素数1 か@複素数2 が正しい複素数でなければ、IMDIVは#VALUE! エラーを返"
+"します。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1859,10 +1863,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARCSIN\n"
 "@SYNTAX=IMARCSIN(複素数)\n"
-"@DESCRIPTION=IMARCSIN 関数は複素数( @複素数 )の逆正弦を返します。"
-"枝分かれは実軸上にあり、-1より小さいのと1より大きいのです。\n"
+"@DESCRIPTION=IMARCSIN 関数は複素数( @複素数 )の逆正弦を返します。枝分かれは実"
+"軸上にあり、-1より小さいのと1より大きいのです。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMARCSINは#VALUE! エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMARCSINは#VALUE! エラーを返しま"
+"す。\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCSIN(\"1+j\") = 0.6662394+1.061275j です。\n"
@@ -1887,8 +1892,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARCCOS\n"
 "@SYNTAX=IMARCCOS(複素数)\n"
-"@DESCRIPTION=IMARCCOS 関数は複素数( @複素数 )の逆余弦を返します。"
-"枝分かれは実軸上にあり、-1より小さいのと1より大きいのです。\n"
+"@DESCRIPTION=IMARCCOS 関数は複素数( @複素数 )の逆余弦を返します。枝分かれは実"
+"軸上にあり、-1より小さいのと1より大きいのです。\n"
 "\n"
 "* もし@複素数 が正しい複素数なら、IMARCCOSは#VALUE! エラーを返します。\n"
 "\n"
@@ -1946,7 +1951,8 @@ msgstr ""
 "\n"
 "\tarcsec(z) = arccos(1/z) です。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMARCSECは#VALUE! エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMARCSECは#VALUE! エラーを返しま"
+"す。\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCSEC(\"1+j\") = 1.1185179+0.5306375j です。\n"
@@ -1976,7 +1982,8 @@ msgstr ""
 "\n"
 "\tarccsc(z) = arcsin(1/z) です。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMARCCSCは#VALUE! エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMARCCSCは#VALUE! エラーを返しま"
+"す。\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCCSC(\"1+j\") = 0.45227845-0.5306375j です。\n"
@@ -2031,10 +2038,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARCSINH\n"
 "@SYNTAX=IMARCSINH(複素数)\n"
-"@DESCRIPTION=IMARCSINH 関数は複素数( @複素数 )の双曲線逆正弦を返します。"
-"枝分かれは虚軸上にあり、-iより下とiより上です。\n"
+"@DESCRIPTION=IMARCSINH 関数は複素数( @複素数 )の双曲線逆正弦を返します。枝分"
+"かれは虚軸上にあり、-iより下とiより上です。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMARCSINHは#VALUE! エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMARCSINHは#VALUE! エラーを返しま"
+"す。\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCSINH(\"1+j\") = 1.061275+0.6662394j です。\n"
@@ -2058,10 +2066,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARCCOSH\n"
 "@SYNTAX=IMARCCOSH(複素数)\n"
-"@DESCRIPTION=IMARCCOSH 関数は複素数( @複素数 )の双曲線逆余弦を返します。"
-"枝分かれは実軸上にあり、1より小さいものです。\n"
+"@DESCRIPTION=IMARCCOSH 関数は複素数( @複素数 )の双曲線逆余弦を返します。枝分"
+"かれは実軸上にあり、1より小さいものです。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMARCCOSHは#VALUE! エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMARCCOSHは#VALUE! エラーを返しま"
+"す。\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCCOSH(\"1+j\") = 1.06127506+0.904557j です。\n"
@@ -2086,10 +2095,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARCTANH\n"
 "@SYNTAX=IMARCTANH(複素数)\n"
-"@DESCRIPTION=IMARCTANH 関数は複素数( @複素数 )の双曲線逆正接を返します。"
-"枝分かれは実軸上にあり、-1より小さいのと1より大きいのです。\n"
+"@DESCRIPTION=IMARCTANH 関数は複素数( @複素数 )の双曲線逆正接を返します。枝分"
+"かれは実軸上にあり、-1より小さいのと1より大きいのです。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMARCTANHは#VALUE! エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMARCTANHは#VALUE! エラーを返しま"
+"す。\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCTANH(\"1+j\") = 0.4023595+1.0172220j です。\n"
@@ -2119,7 +2129,8 @@ msgstr ""
 "\n"
 "\tarcsech(z) = arccosh(1/z) です。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMARCSECHは#VALUE! エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMARCSECHは#VALUE! エラーを返しま"
+"す。\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCSECH(\"1+j\") = 0.5306375-1.118518j です。\n"
@@ -2149,7 +2160,8 @@ msgstr ""
 "\n"
 "\tarccsch(z) = arcsinh(1/z) です。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMARCCSCHは#VALUE! エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMARCCSCHは#VALUE! エラーを返しま"
+"す。\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCCSCH(\"1+j\") = 0.5306375-0.452278j です。\n"
@@ -2179,7 +2191,8 @@ msgstr ""
 "\n"
 "\tarccoth(z) = arctanh(1/z) です。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMARCCOTHは#VALUE! エラーを返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMARCCOTHは#VALUE! エラーを返しま"
+"す。\n"
 "\n"
 "@EXAMPLES=\n"
 "IMARCCOTH(\"1+j\") = 0.40235948-0.5535744j です。\n"
@@ -2230,8 +2243,8 @@ msgstr ""
 "@SYNTAX=IMSUB(複素数1,複素数2)\n"
 "@DESCRIPTION=IMSUB は二つの複素数の差を返します。\n"
 "\n"
-"* もし@複素数1 か@複素数2 が正しい複素数でなければ、IMSUBは#VALUE! "
-"エラーを返します。\n"
+"* もし@複素数1 か@複素数2 が正しい複素数でなければ、IMSUBは#VALUE! エラーを返"
+"します。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -2258,8 +2271,8 @@ msgstr ""
 "@SYNTAX=IMPRODUCT(複素数1[,複素数2,...])\n"
 "@DESCRIPTION=IMPRODUCT は与えられた複素数の直積を返します。\n"
 "\n"
-"* もし@複素数 が正しい複素数でなければ、IMPRODUCTは#VALUE! エラーを"
-"返します。\n"
+"* もし@複素数 が正しい複素数でなければ、IMPRODUCTは#VALUE! エラーを返しま"
+"す。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -2286,8 +2299,8 @@ msgstr ""
 "@SYNTAX=IMSUM(複素数1,複素数2)\n"
 "@DESCRIPTION=IMSUM は二つの複素数の和を返します。\n"
 "\n"
-"* もし@複素数1 か@複素数2 が正しい複素数でなければ、IMSUMは"
-"#VALUE! エラーを返します。\n"
+"* もし@複素数1 か@複素数2 が正しい複素数でなければ、IMSUMは#VALUE! エラーを返"
+"します。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3024,8 +3037,8 @@ msgstr ""
 "@DESCRIPTION=DATE 関数は与えられた年月日の 1900年1月1日 (その日のシリアル番"
 "号) からの日数を返します。\n"
 "\n"
-"* @月 < 1 または @月 > 12 の場合、年は正しい値に訂正されます。同様の"
-"訂正は日にも適用されます。\n"
+"* @月 < 1 または @月 > 12 の場合、年は正しい値に訂正されます。同様の訂正は日"
+"にも適用されます。\n"
 "\n"
 "* @年 は 1900 年以降にして下さい。@年 < 1900 の場合、1900 + @年 と見なされま"
 "す。\n"
@@ -3104,9 +3117,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(日付の文字列)\n"
-"@DESCRIPTION=DATEVALUE 関数は日付のシリアル番号を返します。@日付の文字列 は日付を表す文字列です。値は、日付の仕様によるものです。MS Excelの1900仕様"
-"とは1900年1月1日からで、1904仕様は1904年1月1日からです。"
-"\n"
+"@DESCRIPTION=DATEVALUE 関数は日付のシリアル番号を返します。@日付の文字列 は日"
+"付を表す文字列です。値は、日付の仕様によるものです。MS Excelの1900仕様とは"
+"1900年1月1日からで、1904仕様は1904年1月1日からです。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3178,9 +3191,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(開始日,月)\n"
-"@DESCRIPTION=EDATE は@開始日 から数えて、@月 数だけ前または後の日付のシリアル値"
-"を返します。@開始日 は起点の日付のシリアル値です。@月 は@開始日 を起点とした月数"
-"で、負の数は@開始日 より前、正の数は@開始日 より後を意味します。@月 に整数以外の値が指定されると、切り捨てられます。\n"
+"@DESCRIPTION=EDATE は@開始日 から数えて、@月 数だけ前または後の日付のシリアル"
+"値を返します。@開始日 は起点の日付のシリアル値です。@月 は@開始日 を起点とし"
+"た月数で、負の数は@開始日 より前、正の数は@開始日 より後を意味します。@月 に"
+"整数以外の値が指定されると、切り捨てられます。\n"
 "\n"
 "* もし@月 が整数でなければ、丸められます。\n"
 "* この関数はExcel互換です。\n"
@@ -3206,8 +3220,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
-"@DESCRIPTION=TODAY()関数は今日(1900年1月1日から経過した日数)のシリアル値を返しま"
-"す。\n"
+"@DESCRIPTION=TODAY()関数は今日(1900年1月1日から経過した日数)のシリアル値を返"
+"します。\n"
 "\n"
 "* この関数は Excel 互換です。\n"
 "\n"
@@ -3297,8 +3311,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (時刻文字列)\n"
-"@DESCRIPTION=TIMEVALUE 関数は時刻を表す文字列を0から1の間の小数表現"
-"で返します。\n"
+"@DESCRIPTION=TIMEVALUE 関数は時刻を表す文字列を0から1の間の小数表現で返しま"
+"す。\n"
 "\n"
 "* この関数は Excel 互換です。\n"
 "\n"
@@ -3329,7 +3343,8 @@ msgstr ""
 "@DESCRIPTION=HOUR 関数はシリアル値で表される日付の年を返します。この時間は 0 "
 "(12:00 A.M.)から 23 (11:00 P.M.)の範囲の整数です。\n"
 "\n"
-"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列として入力できます。\n"
+"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列とし"
+"て入力できます。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3358,8 +3373,8 @@ msgstr ""
 "@DESCRIPTION=MINIUTE 関数はシリアル値で表される日付の分を返します。この分は "
 "0 から 59 の範囲の整数として返されます\n"
 "\n"
-"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列として"
-"入力できます。\n"
+"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列とし"
+"て入力できます。\n"
 "* この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
 "MINUTE(0.128472) = 5 です。\n"
@@ -3386,8 +3401,8 @@ msgstr ""
 "@DESCRIPTION=SECOND 関数はシリアル値で表される日付の秒を返します。秒は 0 か"
 "ら 59 の範囲の整数として返されます。\n"
 "\n"
-"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列として"
-"入力できます。\n"
+"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列とし"
+"て入力できます。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3414,8 +3429,8 @@ msgstr ""
 "@SYNTAX=YEAR (シリアル値)\n"
 "@DESCRIPTION=YEAR 関数はシリアル値で表される日付の年を返します。\n"
 "\n"
-"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列として"
-"入力できます。\n"
+"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列とし"
+"て入力できます。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3442,7 +3457,8 @@ msgstr ""
 "@SYNTAX=MONTH (シリアル値)\n"
 "@DESCRIPTION=MONTH 関数はシリアル値で表される日付の月を返します。\n"
 "\n"
-"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列として入力できます。\n"
+"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列とし"
+"て入力できます。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3469,7 +3485,8 @@ msgstr ""
 "@SYNTAX=DAY (シリアル値)\n"
 "@DESCRIPTION=DAY 関数はシリアル値で表される日付の月の日を返します。\n"
 "\n"
-"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列として入力できます。\n"
+"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列とし"
+"て入力できます。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3510,8 +3527,8 @@ msgstr ""
 "  @種類 = 2: 月曜日が 1, 火曜日が 2,...\n"
 "  @種類 = 3: 月曜日が 0, 火曜日が 1,...\n"
 "\n"
-"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列として"
-"入力できます。\n"
+"* Gnumeric では通常の文字列からシリアル値への変換を行うので、日付は文字列とし"
+"て入力できます。\n"
 "* この関数は Excel 互換です。\n"
 "\n"
 "@EXAMPLES=\n"
@@ -3798,7 +3815,7 @@ msgstr ""
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:545
+#: src/print-info.c:578
 msgid "date"
 msgstr "日付"
 
@@ -3815,7 +3832,7 @@ msgid "start_date,months"
 msgstr ""
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:546
+#: plugins/fn-date/functions.c:1265 src/print-info.c:579
 msgid "time"
 msgstr "時間"
 
@@ -7161,7 +7178,7 @@ msgstr "%s バージョン %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:491
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -7753,7 +7770,6 @@ msgstr ""
 "\n"
 "@b1から@bNまでは、評価がTRUEかFALSEになる式です。もし整数か実数が与えられた場"
 "合、0 が FALSEとみなされ、それ以外は TRUE とみなされます。\n"
-
 "\n"
 "* もしこの値に文字列や空白のセルが含まれているとこれらの値は無視されます。\n"
 "* もし一つも論理値が指定されないと、#VALUE! エラーが返されます。\n"
@@ -7792,8 +7808,8 @@ msgstr ""
 "@b1 から @bN までは、評価が TRUE か FALSE になる式です。もし整数か実数が与え"
 "られた場合、0 が FALSE とみなされ、それ以外は TRUE とみなされます。\n"
 "\n"
-"* もしこの値に文字列や空白のセルが含まれている場合、これらの値は無視されます。"
-"* もし一つも論理値が指定されないと、#VALUE! エラーが返されます。\n"
+"* もしこの値に文字列や空白のセルが含まれている場合、これらの値は無視されま"
+"す。* もし一つも論理値が指定されないと、#VALUE! エラーが返されます。\n"
 "\n"
 "@EXAMPLES=\n"
 "XOR(TRUE,FALSE) = TRUE です。\n"
@@ -7820,13 +7836,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(条件[,真の場合,偽の場合])\n"
-"@DESCRIPTION=IF関数を使うと、その他の値や式が条件を満たしているかを評価"
-"できます。IF関数は@条件を評価します。@条件が 0(ゼロ)以外の値を返した"
-"場合、IF関数の返り値は@真の場合に指定された値になり、そうでない場合は、"
-"@偽の場合に指定された値になります。"
-"\n"
-"* もし引数が省略された場合、@真の場合に TRUE が、@偽の場合に FALSE が"
-"デフォルト値として使われます。\n"
+"@DESCRIPTION=IF関数を使うと、その他の値や式が条件を満たしているかを評価できま"
+"す。IF関数は@条件を評価します。@条件が 0(ゼロ)以外の値を返した場合、IF関数の"
+"返り値は@真の場合に指定された値になり、そうでない場合は、@偽の場合に指定され"
+"た値になります。\n"
+"* もし引数が省略された場合、@真の場合に TRUE が、@偽の場合に FALSE がデフォル"
+"ト値として使われます。\n"
 "* この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
 "IF(FALSE,TRUE,FALSE) = FALSE です。\n"
@@ -16126,7 +16141,8 @@ msgstr "xBase ファイルのオープンでエラーが発生しました。"
 
 #: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/print-info.c:477 src/workbook.c:1041
+#: src/xml-io.c:3585
 msgid "Sheet"
 msgstr "シート"
 
@@ -16153,11 +16169,6 @@ msgstr "[試験的] XML ベースの SAX"
 #: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "XML I/O サブシステムに対応した次世代 SAX です"
-
-#: plugins/xml_sax/plugin.xml.in.h:4
-#, fuzzy
-msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-msgstr "[試験的] Gumeric ベースの SAX (*.gumeric)"
 
 #: plugins/xml_sax/xml-sax-read.c:301
 #, c-format
@@ -16438,8 +16449,8 @@ msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:22
-msgid "Sans Regular"
-msgstr ""
+msgid "Sans"
+msgstr "Kochi Gothic"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -17058,7 +17069,7 @@ msgid "Filter data with given criteria"
 msgstr "指定された条件でデータをフィルタリングします"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:858
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -17251,8 +17262,8 @@ msgid "Jump to a specified cell"
 msgstr "特定のセルへ移動します"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
-#: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:536
+#: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "ラベル"
 
@@ -17421,7 +17432,7 @@ msgid "Print Preview"
 msgstr "プレビュー"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1311 src/workbook-control-gui.c:3301
+#: src/print.c:1322 src/workbook-control-gui.c:3301
 #: src/workbook-control-gui.c:3952
 msgid "Print preview"
 msgstr "印刷プレビュー"
@@ -18776,80 +18787,120 @@ msgstr "データの合成"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
 #, fuzzy
+msgid "<b>Major Ticks:</b>"
+msgstr "<b>パターン</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#, fuzzy
+msgid "<b>Minor Ticks:</b>"
+msgstr "<b>パターン</b>"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#, fuzzy
+msgid "I_nside"
+msgstr "内側"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#, fuzzy
+msgid "O_utside"
+msgstr "外枠"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#, fuzzy
 msgid "_Cross"
 msgstr "閉じる(_C)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
 #, fuzzy
 msgid "_High"
 msgstr "高さ"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
+#, fuzzy
+msgid "_Inside"
+msgstr "内側"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
 #, fuzzy
 msgid "_Invert"
 msgstr "挿入(_I)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
 #, fuzzy
 msgid "_Low"
 msgstr "行(_R)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
 #, fuzzy
 msgid "_Map:"
 msgstr "グラフ(_G)..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
+#, fuzzy
+msgid "_Outside"
+msgstr "外枠"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
+#, fuzzy
+msgid "_Show Labels"
+msgstr "ラベル(_L)"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:435
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "最小(_I)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:436
 #, fuzzy
 msgid "M_ax"
 msgstr "最大"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:437
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:438
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:498
 #, fuzzy
 msgid "Bounds"
 msgstr "背景"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:503
 #, fuzzy
 msgid "Details"
 msgstr "詳細を隠す"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
 msgid "Legend"
 msgstr "凡例"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "題名"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
+#, fuzzy
+msgid "Grid"
+msgstr "金曜日"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
 msgstr "X軸"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
 msgstr "Y軸"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
 msgstr "Z軸"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 msgid "Plot"
 msgstr "プロット"
 
@@ -18953,12 +19004,12 @@ msgstr "順序(_O)"
 msgid "_Top"
 msgstr "上(_T)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:102
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:105
 #, fuzzy
 msgid "_Text:"
 msgstr "テキスト(_X)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-label.c:108
+#: src/cut-n-paste-code/goffice/graph/gog-label.c:111
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:131
 #: src/dialogs/dialog-stf.glade.h:15
 #, fuzzy
@@ -18979,7 +19030,7 @@ msgstr "プロット名"
 msgid "Chart Theme"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:167
 #, fuzzy
 msgid "Series"
 msgstr "連続(_S)"
@@ -19019,11 +19070,11 @@ msgid "C_olor:"
 msgstr "色:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
-msgid "Fill from start color to end color"
+msgid "Fill from start color to a darker/lighter version of that color"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
-msgid "Fill from start color to a darker/lighter version of that color"
+msgid "Fill from start color to end color"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
@@ -19149,13 +19200,13 @@ msgstr "壁紙"
 msgid "%d x %d"
 msgstr "%dR x %dC"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:548
 #: src/workbook-control-gui.c:3100
 #, fuzzy
 msgid "Select an image"
 msgstr "列全体を選択します"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:910
 #: src/dialogs/pivottable.glade.h:4
 #, fuzzy
 msgid "Style"
@@ -19164,22 +19215,22 @@ msgstr "スタイル(_S)"
 #. TODO : have a look at apple's themes
 #. An MS Excel-ish theme
 #: src/cut-n-paste-code/goffice/graph/gog-theme.c:380
-#: src/dialogs/dialog-sheet-order.c:953 src/dialogs/dialog-sheet-order.c:966
+#: src/dialogs/dialog-sheet-order.c:952 src/dialogs/dialog-sheet-order.c:965
 msgid "Default"
 msgstr "デフォルト"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:435
 msgid "Guppi"
 msgstr "Guppi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:265
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
 #: src/dialogs/consolidate.glade.h:12
 msgid "Labels"
 msgstr "ラベル"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:267
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
 #: src/dialogs/consolidate.glade.h:27
 msgid "Values"
@@ -19221,7 +19272,7 @@ msgstr ""
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:45
 #, fuzzy
 msgid "PlotLine"
 msgstr "プロット(_P)"
@@ -19230,7 +19281,7 @@ msgstr "プロット(_P)"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:115
 #, fuzzy
 msgid "PlotArea"
 msgstr "プロット(_P)"
@@ -19599,11 +19650,11 @@ msgstr "リンググラフプロットエンジン"
 msgid "PlotXY"
 msgstr "プロット"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:178
 msgid "X"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:180
 msgid "Y"
 msgstr ""
 
@@ -19825,15 +19876,19 @@ msgid "Thin Reverse Diagonal Stripe"
 msgstr "細い右下がり斜線の縞"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "細い斜線の格子"
+#: src/dialogs/cell-format.glade.h:82
+msgid "Thin Diagonal Stripe"
+msgstr "細い左下がり斜線の縞"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
 #: src/dialogs/cell-format.glade.h:83
 msgid "Thin Horizontal Crosshatch"
 msgstr "細い横線の格子"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "細い斜線の格子"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
 #: src/dialogs/cell-format.glade.h:44
@@ -20206,7 +20261,7 @@ msgstr "入力(_I)"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/dialog-shuffle.c:149
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/dialog-shuffle.c:149
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -20525,7 +20580,8 @@ msgid "<b>Error alerts</b>"
 msgstr "<b>エラー通知</b>"
 
 #: src/dialogs/cell-format.glade.h:16
-msgid "<b>Horizontal alignement</b>"
+#, fuzzy
+msgid "<b>Horizontal alignment</b>"
 msgstr "<b>水平位置</b>"
 
 #: src/dialogs/cell-format.glade.h:18
@@ -20545,7 +20601,8 @@ msgid "<b>Style</b>"
 msgstr "<b>スタイル</b>"
 
 #: src/dialogs/cell-format.glade.h:22
-msgid "<b>Vertical alignement</b>"
+#, fuzzy
+msgid "<b>Vertical alignment</b>"
 msgstr "<b>垂直位置</b>"
 
 #: src/dialogs/cell-format.glade.h:23
@@ -20716,10 +20773,6 @@ msgstr "上(_O)"
 #: src/dialogs/cell-format.glade.h:78
 msgid "Text length"
 msgstr "テキスト長さ"
-
-#: src/dialogs/cell-format.glade.h:82
-msgid "Thin Diagonal Stripe"
-msgstr "細い左下がり斜線の縞"
 
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 msgid "Time"
@@ -21209,10 +21262,10 @@ msgid "No matching records were found."
 msgstr "一致するレコードが見つかりませんでした。"
 
 #: src/dialogs/dialog-advanced-filter.c:160
-#: src/dialogs/dialog-analysis-tools.c:583
-#: src/dialogs/dialog-analysis-tools.c:701
-#: src/dialogs/dialog-analysis-tools.c:1983
-#: src/dialogs/dialog-analysis-tools.c:2874
+#: src/dialogs/dialog-analysis-tools.c:585
+#: src/dialogs/dialog-analysis-tools.c:703
+#: src/dialogs/dialog-analysis-tools.c:1985
+#: src/dialogs/dialog-analysis-tools.c:2875
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "予期しないエラーが発生しました: %d"
@@ -21225,42 +21278,42 @@ msgstr "リスト範囲(_L):"
 msgid "Could not create the Advanced Filter dialog."
 msgstr "拡張フィルタダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:569
-#: src/dialogs/dialog-analysis-tools.c:687
+#: src/dialogs/dialog-analysis-tools.c:571
+#: src/dialogs/dialog-analysis-tools.c:689
 msgid "The selected input rows must have equal size!"
 msgstr "選択された入力列を同じサイズにして下さい！"
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:692
+#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:694
 msgid "The selected input columns must have equal size!"
 msgstr "選択された入力行を同じサイズにして下さい！"
 
-#: src/dialogs/dialog-analysis-tools.c:579
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:581
+#: src/dialogs/dialog-analysis-tools.c:699
 msgid "The selected input areas must have equal size!"
 msgstr "選択された入力範囲を同じサイズにして下さい！"
 
-#: src/dialogs/dialog-analysis-tools.c:626
+#: src/dialogs/dialog-analysis-tools.c:628
 msgid "Could not create the Correlation Tool dialog."
 msgstr "相関関係ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:744
+#: src/dialogs/dialog-analysis-tools.c:746
 msgid "Could not create the Covariance Tool dialog."
 msgstr "共分散ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:833
+#: src/dialogs/dialog-analysis-tools.c:835
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "ランクと百分率ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:923
+#: src/dialogs/dialog-analysis-tools.c:925
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "フーリエ分析ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1085
+#: src/dialogs/dialog-analysis-tools.c:1087
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "記述統計ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1227
+#: src/dialogs/dialog-analysis-tools.c:1229
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -21268,7 +21321,7 @@ msgstr ""
 "変数 1 に対する\n"
 "正しい母分散を入力して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:1236
+#: src/dialogs/dialog-analysis-tools.c:1238
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -21276,73 +21329,73 @@ msgstr ""
 "変数 2 に対する\n"
 "正しい母分散を入力して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:1461
+#: src/dialogs/dialog-analysis-tools.c:1463
 msgid "Var_iable 1 Range:"
 msgstr "変数 1 の範囲(_I):"
 
-#: src/dialogs/dialog-analysis-tools.c:1462
+#: src/dialogs/dialog-analysis-tools.c:1464
 msgid "_Variable 2 Range:"
 msgstr "変数 2 の範囲(_V):"
 
-#: src/dialogs/dialog-analysis-tools.c:1463
+#: src/dialogs/dialog-analysis-tools.c:1465
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "中間試験ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "Var_iable 1 Range"
 msgstr "変数 1 の範囲(_I)"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "_Variable 2 Range"
 msgstr "変数 2 の範囲(_V)"
 
-#: src/dialogs/dialog-analysis-tools.c:1661
+#: src/dialogs/dialog-analysis-tools.c:1663
 msgid "Could not create the FTest Tool dialog."
 msgstr "期末試験ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1863
+#: src/dialogs/dialog-analysis-tools.c:1865
 msgid "Could not create the Sampling Tool dialog."
 msgstr "サンプリングツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:1978 src/tools/analysis-tools.c:2158
+#: src/dialogs/dialog-analysis-tools.c:1980 src/tools/analysis-tools.c:2158
 #: src/tools/analysis-tools.c:2237
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "回帰の各変数のエントリ数と等しくなければなりません。"
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "X 変数(_X):"
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "Y 変数(_Y):"
 
-#: src/dialogs/dialog-analysis-tools.c:2082
+#: src/dialogs/dialog-analysis-tools.c:2084
 msgid "Could not create the Regression Tool dialog."
 msgstr "Regression ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2218
+#: src/dialogs/dialog-analysis-tools.c:2220
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "指数のスムーズ化ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2359
+#: src/dialogs/dialog-analysis-tools.c:2361
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "平均移動ツールダイアログを作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "二次元範囲(_R):"
 
-#: src/dialogs/dialog-analysis-tools.c:2585
+#: src/dialogs/dialog-analysis-tools.c:2584
 msgid "Could not create the Histogram Tool dialog."
 msgstr "ヒストグラムツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2761
+#: src/dialogs/dialog-analysis-tools.c:2762
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "分散解析 (一次元配置) ツールダイアログが作成できませんでした。"
 
-#: src/dialogs/dialog-analysis-tools.c:2840
+#: src/dialogs/dialog-analysis-tools.c:2841
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -21350,40 +21403,40 @@ msgstr ""
 "入力範囲には、少なくともデータとラベルに対する二つの行と二つの列を指定して下"
 "さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2843
+#: src/dialogs/dialog-analysis-tools.c:2844
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 "入力範囲には、少なくともデータに対する二つの行と二つの列を指定して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2849
+#: src/dialogs/dialog-analysis-tools.c:2850
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 "入力範囲は少なくともデータとラベルの 2 つの列を含まなければなりません。"
 
-#: src/dialogs/dialog-analysis-tools.c:2852
+#: src/dialogs/dialog-analysis-tools.c:2853
 msgid "The given input range should contain at least two columns of data."
 msgstr "入力範囲には、少なくともデータに対する二つの列を指定して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2858
+#: src/dialogs/dialog-analysis-tools.c:2859
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 "入力範囲には、少なくともデータとラベルに対する二つの行を指定して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2861
+#: src/dialogs/dialog-analysis-tools.c:2862
 msgid "The given input range should contain at least two rows of data."
 msgstr "入力範囲には、少なくともデータに対する二つの行を指定して下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2868
+#: src/dialogs/dialog-analysis-tools.c:2869
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "データ列の数はコピーした複数の数にして下さい。"
 
-#: src/dialogs/dialog-analysis-tools.c:2965
+#: src/dialogs/dialog-analysis-tools.c:2966
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "分散解析 (二次元配置) ツールダイアログを作成できませんでした。"
 
@@ -21566,7 +21619,7 @@ msgstr "大小文字を区別する"
 msgid "By Value"
 msgstr "値で"
 
-#: src/dialogs/dialog-cell-sort.c:857
+#: src/dialogs/dialog-cell-sort.c:858
 msgid "Could not create the Cell-Sort dialog."
 msgstr "セルの並び替えダイアログが作成できませんでした。"
 
@@ -22350,26 +22403,26 @@ msgstr "整数"
 msgid "Other value"
 msgstr "他の値"
 
-#: src/dialogs/dialog-sheet-order.c:318
+#: src/dialogs/dialog-sheet-order.c:317
 msgid "Current Name"
 msgstr "現在の名前"
 
-#: src/dialogs/dialog-sheet-order.c:328
+#: src/dialogs/dialog-sheet-order.c:327
 msgid "New Name"
 msgstr "新しい名前"
 
-#: src/dialogs/dialog-sheet-order.c:657
+#: src/dialogs/dialog-sheet-order.c:656
 #, fuzzy
 msgid "You may not delete all sheets in a workbook!"
 msgstr "現在作業中のワークブックにある各シートを管理します"
 
-#: src/dialogs/dialog-sheet-order.c:662
+#: src/dialogs/dialog-sheet-order.c:661
 msgid ""
 "To replace all exisiting sheets, please delete the current workbook and "
 "create a new one!"
 msgstr ""
 
-#: src/dialogs/dialog-sheet-order.c:894
+#: src/dialogs/dialog-sheet-order.c:893
 msgid "The sheet order has changed. Do you want to update the list?"
 msgstr ""
 
@@ -25779,7 +25832,8 @@ msgstr ""
 "@DESCRIPTION=PRODUCT 関数は引数に指定された数値、あるいは指定されたセル範囲の"
 "数値の積を返します。\n"
 "\n"
-"* この関数は Excel 互換です。セル範囲に含まれるセルがすべて空白セルの場合、結果は0(ゼロ)になります。\n"
+"* この関数は Excel 互換です。セル範囲に含まれるセルがすべて空白セルの場合、結"
+"果は0(ゼロ)になります。\n"
 "@EXAMPLES=\n"
 "PRODUCT(2,5,9) = 90 です。\n"
 "\n"
@@ -25877,19 +25931,19 @@ msgstr "クリップボード"
 msgid "Automatically detected"
 msgstr "自動検出"
 
-#: src/gui-file.c:188
+#: src/gui-file.c:183
 msgid "Load file"
 msgstr "ファイルを読み込みます"
 
-#: src/gui-file.c:199
+#: src/gui-file.c:194
 msgid "Character _encoding:"
 msgstr "文字エンコーディング(_E):"
 
-#: src/gui-file.c:209
+#: src/gui-file.c:204
 msgid "File _type:"
 msgstr "ファイルタイプ(_T):"
 
-#: src/gui-file.c:275
+#: src/gui-file.c:270
 #, c-format
 msgid ""
 "%s\n"
@@ -25898,14 +25952,14 @@ msgstr ""
 "%s\n"
 "はディレクトリ名です"
 
-#: src/gui-file.c:281
+#: src/gui-file.c:276
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr "%s に保存するためのパーミッションがありません"
 
-#: src/gui-file.c:288
+#: src/gui-file.c:283
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -25914,7 +25968,7 @@ msgstr ""
 "ワークブック %s はすでにあります。\n"
 "上書き保存しますか?"
 
-#: src/gui-file.c:309
+#: src/gui-file.c:304
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -25927,7 +25981,7 @@ msgstr ""
 "さい。\n"
 "このシートのみ保存しますか？"
 
-#: src/gui-file.c:336
+#: src/gui-file.c:331
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -25935,13 +25989,13 @@ msgstr ""
 "ファイル名を入力してください\n"
 "ディレクトリ名ではありません"
 
-#: src/gui-file.c:342
+#: src/gui-file.c:337
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
 msgstr ""
-"指定されたファイルの拡張子は選択したファイルタイプと一致していません。"
-"この名前をとにかく使用しますか?"
+"指定されたファイルの拡張子は選択したファイルタイプと一致していません。この名"
+"前をとにかく使用しますか?"
 
 #. Pack it into file selector
 #: src/gui-file.c:389
@@ -25984,10 +26038,12 @@ msgid "Link target"
 msgstr "リンクターゲット"
 
 #: src/hlink.c:221
+#, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "URL'%s'をアクティブにできません"
 
 #: src/hlink.c:271
+#, c-format
 msgid "Unable to open '%s'"
 msgstr "ファイル'%s'を開けません"
 
@@ -26320,6 +26376,7 @@ msgid "Function group is empty."
 msgstr "関数グループは空です。"
 
 #: src/plugin-service.c:1113
+#, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d の関数がカテゴリ\"%s\"にあります"
 
@@ -26337,6 +26394,7 @@ msgid "Missing file name."
 msgstr "ファイル名が見当たりません"
 
 #: src/plugin-service.c:1353
+#, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "XMLファイル %s からUI情報が読み取れません。"
 
@@ -26359,6 +26417,7 @@ msgid "No \"type\" attribute on \"service\" element."
 msgstr "\"type\"属性が\"service\"要素ありません。"
 
 #: src/plugin-service.c:1534
+#, c-format
 msgid "Unknown service type: %s."
 msgstr "不明なサービスタイプです: %s"
 
@@ -26371,8 +26430,8 @@ msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
 msgstr ""
-"サービスを有効にする前にロードしなければならない(PLUGIN_ALWAYS_LOADが"
-"セットされている)のですが、ロードに失敗しました。"
+"サービスを有効にする前にロードしなければならない(PLUGIN_ALWAYS_LOADがセットさ"
+"れている)のですが、ロードに失敗しました。"
 
 #: src/plugin-util.c:127
 #, c-format
@@ -26457,8 +26516,10 @@ msgid "Unknown plugin name."
 msgstr "プラグイン名が不明です。"
 
 #: src/plugin.c:844
+#, c-format
 msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
-msgstr "IDが\"%s\"のプラグインのローダが定義されていないか、IDが間違っています。"
+msgstr ""
+"IDが\"%s\"のプラグインのローダが定義されていないか、IDが間違っています。"
 
 #: src/plugin.c:850
 msgid "Plugin has no id."
@@ -26474,10 +26535,12 @@ msgid "Detected cyclic plugin dependencies."
 msgstr "プラグインの巡回依存を検出しました。"
 
 #: src/plugin.c:948
+#, c-format
 msgid "Couldn't activate plugin with id=\"%s\"."
 msgstr "IDが\"%s\"のプラグインを有効にすることができませんでした。"
 
 #: src/plugin.c:954 src/plugin.c:1127
+#, c-format
 msgid "Couldn't find plugin with id=\"%s\"."
 msgstr "IDが\"%s\"のプラグインが見つかりませんでした。"
 
@@ -26500,6 +26563,7 @@ msgid "Cannot load plugin loader."
 msgstr "プラグイン・ローダーが読み込めません。"
 
 #: src/plugin.c:1121
+#, c-format
 msgid "Couldn't load plugin with id=\"%s\"."
 msgstr "IDが\"%s\"のプラグインをロードできませんでした。"
 
@@ -26567,48 +26631,59 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:477
-msgid "Sheet 1"
-msgstr "シート 1"
+#: src/print-info.c:536
+#, fuzzy
+msgid "File Name"
+msgstr "新しい名前"
 
-#: src/print-info.c:542
+#: src/print-info.c:567
+#, fuzzy
+msgid "Path "
+msgstr "貼付け"
+
+#: src/print-info.c:575
 msgid "tab"
 msgstr "タブ"
 
-#: src/print-info.c:543
+#: src/print-info.c:576
 msgid "page"
 msgstr "ページ"
 
-#: src/print-info.c:544
+#: src/print-info.c:577
 msgid "pages"
 msgstr "ページ"
 
-#: src/print-info.c:547
+#: src/print-info.c:580
 msgid "file"
 msgstr "ファイル"
+
+#: src/print-info.c:581
+#, fuzzy
+msgid "path"
+msgstr "わらふき"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:576
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1104
+#: src/print.c:1115
 msgid "Print Region"
 msgstr "印刷範囲"
 
-#: src/print.c:1229
+#: src/print.c:1240
 msgid "Print Sheets"
 msgstr "シートの印刷"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "Act_ive sheet"
 msgstr "有効なシート(_I)"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "S_heets"
 msgstr "シート(_H)"
 
-#: src/print.c:1323
+#: src/print.c:1334
 msgid "Printing failed"
 msgstr "印刷に失敗しました"
 
@@ -26645,6 +26720,7 @@ msgid "cannot be performed with multiple ranges selected"
 msgstr "複数選択のもとで実行できません"
 
 #: src/session.c:110
+#, c-format
 msgid "Save changes to workbook '%s' before logging out?"
 msgstr "閉じる前にワークブック'%s'への変更を保存しますか?"
 
@@ -26754,10 +26830,12 @@ msgid "(Non Blanks...)"
 msgstr "(空白以外...)"
 
 #: src/sheet-merge.c:80
+#, c-format
 msgid ""
 "There is already a merged region that intersects\n"
 "%s!%s"
-msgstr "交差した範囲は既に結合されています\n"
+msgstr ""
+"交差した範囲は既に結合されています\n"
 "%s!%s"
 
 #: src/sheet-object-bonobo.c:243
@@ -26786,20 +26864,21 @@ msgstr "すいません、Gnumericはグラフをpngフォーマットだけに�
 msgid "_Save as image"
 msgstr "画像として保存(_S)"
 
-#: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
+#: src/sheet-object-graphic.c:936 src/sheet-object-graphic.c:955
 msgid "Transparent"
 msgstr "透明にする"
 
-#: src/sheet-object-widget.c:1130
+#: src/sheet-object-widget.c:1132
 #, c-format
 msgid "CheckBox %d"
 msgstr "チェックボックス %d"
 
-#: src/sheet-object-widget.c:1561 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1565 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "ラジオボタン"
 
 #: src/sheet-object.c:530
+#, c-format
 msgid "Unsupported object type '%s'"
 msgstr "サポートしていないオブジェクトタイプ'%s'です"
 
@@ -26851,7 +26930,8 @@ msgstr "テキストをカラムに"
 #: src/stf.c:271
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
-msgstr "一度に<b>入力</b>データのうち一つのカラムだけを解析できます。%dではありません"
+msgstr ""
+"一度に<b>入力</b>データのうち一つのカラムだけを解析できます。%dではありません"
 
 #: src/stf.c:297
 msgid "There is no data to convert"
@@ -27649,8 +27729,7 @@ msgstr ""
 
 #: src/tools/solver/reports-write.c:549
 msgid "Maximum number of iterations exceeded: optimization interupted"
-msgstr ""
-"繰り返し回数が最大値を超えました。最適化は中断しました"
+msgstr "繰り返し回数が最大値を超えました。最適化は中断しました"
 
 #: src/tools/solver/reports-write.c:554
 msgid "Maximum time exceeded: optimization interupted"
@@ -28118,7 +28197,7 @@ msgstr "暗い紫"
 msgid "sky blue"
 msgstr "スカイブルー"
 
-#: src/widgets/gnumeric-expr-entry.c:1239
+#: src/widgets/gnumeric-expr-entry.c:1254
 msgid "Expecting a single range"
 msgstr "一つの範囲を想定しています"
 
@@ -29638,23 +29717,23 @@ msgstr "%sの保存で説明できないエラーが発生しました"
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:967
+#: src/workbook-view.c:608 src/workbook-view.c:964
 msgid "The filename given is not valid in the current encoding."
 msgstr "指定されたファイルは現在のエンコーディングでは不正です。"
 
-#: src/workbook-view.c:693 src/workbook-view.c:809
+#: src/workbook-view.c:693 src/workbook-view.c:806
 msgid "Default file saver is not available."
 msgstr "デフォルトのファイルセーバーは無効です。"
 
-#: src/workbook-view.c:768
+#: src/workbook-view.c:765
 msgid "Failed to create temporary file for sending."
 msgstr "送信のためのテンポラリファイルが作成できません。"
 
-#: src/workbook-view.c:902
+#: src/workbook-view.c:899
 msgid "Unsupported file format."
 msgstr "未サポートのファイル書式です。"
 
-#: src/workbook-view.c:960
+#: src/workbook-view.c:957
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "%sを開いているときに説明できないエラーが発生しました"
@@ -29713,8 +29792,12 @@ msgstr "ファイルの保存に失敗"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML ファイル形式"
 
-#~ msgid "Sans"
-#~ msgstr "Kochi Gothic"
+#, fuzzy
+#~ msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
+#~ msgstr "[試験的] Gumeric ベースの SAX (*.gumeric)"
+
+#~ msgid "Sheet 1"
+#~ msgstr "シート 1"
 
 #, fuzzy
 #~ msgid "S_ize:"

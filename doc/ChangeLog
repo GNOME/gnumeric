@@ -1,3 +1,7 @@
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.2.0
+
 2003-09-13  Jody Goldberg <jody@gnome.org>
 
 	* xmldocs.make : Make the magic sym link that enable bonobo and

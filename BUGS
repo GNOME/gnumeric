@@ -7,8 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-* Enable the 'your gnumeric is too old' test.
-
 * gnome print
     - Print to file name always output.ps
     - Does pdf work ?
