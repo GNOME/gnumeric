@@ -1,3 +1,14 @@
+2002-01-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* plugin-manager.glade : replace clists with gtktree
+	* dialog-plugin-manager.c : move from clists to treeview
+	(cb_pm_selection_changed) : new
+	(cb_pm_clist_row_selected) : deleted
+	(cb_pm_clist_row_unselected) : deleted
+	(pm_dialog_init) : remove clist references
+	(update_plugin_manager_view) : rewritten
+	(dialog_plugin_manager) : move from clists to treeview
+
 2002-01-31  Jody Goldberg <jody@gnome.org>
 
 	* dialog-graph-guru.c (graph_guru_state_destroy) : convert graphs to

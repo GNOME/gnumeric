@@ -8,6 +8,7 @@
  *   Tom Dyas (tdyas@romulus.rutgers.edu)
  *  New plugin manager:
  *   Zbigniew Chyla (cyba@gnome.pl)
+ *   Andreas J. Guelzow (aguelzow@taliesin.ca)
  */
 
 #include <gnumeric-config.h>
@@ -25,6 +26,7 @@
 #include <string.h>
 #include <glade/glade.h>
 #include <gal/util/e-util.h>
+#include <stdio.h>
 
 #warning this is work in progress
 #warning but at least it does not crash immediately
@@ -34,7 +36,8 @@ typedef struct {
 	GtkDialog *dialog_pm;
 	GtkNotebook *gnotebook;
 	gint plugin_list_page_no, plugin_details_page_no;
-	GtkCList *clist_active, *clist_inactive;
+	GtkListStore  *model_plugins;
+	GtkTreeView   *list_plugins;
 	GtkButton *button_activate_plugin, *button_deactivate_plugin,
 	          *button_activate_all, *button_deactivate_all,
 	          *button_install_plugin;
@@ -45,6 +48,30 @@ typedef struct {
 	gchar *current_plugin_id;
 } PluginManagerGUI;
 
+enum {
+	PLUGIN_NAME,
+	PLUGIN_STATE_STR,
+	PLUGIN_STATE,
+	PLUGIN_ID,
+	PLUGIN_POINTER,
+	NUM_COLMNS
+};
+
+typedef enum {
+	PLUGIN_STATE_IN_MEMORY = 0,
+	PLUGIN_STATE_DEACTIVATING = 1,
+	PLUGIN_STATE_DEACTIVATING_IN_MEMORY = 2,
+	PLUGIN_STATE_INACTIVE = 3,
+	PLUGIN_STATE_ACTIVE = 4
+} plugin_state_t;
+static const char *activity_description[] = {
+	N_("in memory"),
+	N_("deactivating"),
+	N_("in memory, deactivating"),
+	N_("inactive"),
+	N_("active"),
+	0
+};
 
 static void update_plugin_manager_view (PluginManagerGUI *pm_gui);
 static void update_plugin_details_view (PluginManagerGUI *pm_gui);
@@ -215,6 +242,12 @@ cb_pm_button_deactivate_all_clicked (GtkButton *button, PluginManagerGUI *pm_gui
 }
 
 static void
+free_plugin_id (gpointer data)
+{
+	g_free (data);
+}
+
+static void
 cb_pm_button_install_plugin_clicked (GtkButton *button, PluginManagerGUI *pm_gui)
 {
 	g_warning ("Not implemented");
@@ -229,61 +262,42 @@ cb_pm_checkbutton_install_new_toggled (GtkCheckButton *checkbutton, PluginManage
 }
 
 static void
-cb_pm_clist_row_selected (GtkCList *clist, gint row_no, gint col_no, gpointer unused, PluginManagerGUI *pm_gui)
+cb_pm_selection_changed (GtkTreeSelection *selection, PluginManagerGUI *pm_gui)
 {
 	PluginInfo *pinfo;
+	GtkTreeIter iter;
+	GValue value = {0, };
 
 	g_return_if_fail (pm_gui != NULL);
 
-	g_free (pm_gui->current_plugin_id);
-	pm_gui->current_plugin_id = g_strdup (gtk_clist_get_row_data (clist, row_no));
-	pinfo = plugin_db_get_plugin_info_by_plugin_id (pm_gui->current_plugin_id);
-	g_return_if_fail (pinfo != NULL);
-	if (clist == pm_gui->clist_active) {
-		gtk_clist_unselect_all (pm_gui->clist_inactive);
-		if (plugin_db_is_plugin_marked_for_deactivation (pinfo)) {
-			gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), TRUE);
-		} else {
-			gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), FALSE);
-		}
-		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), TRUE);
+	free_plugin_id (pm_gui->current_plugin_id);
+	if (!gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		pm_gui->current_plugin_id = NULL;
 	} else {
-		gtk_clist_unselect_all (pm_gui->clist_active);
-		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), TRUE);
-		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), FALSE);
+		gboolean is_marked, is_active;
+
+		gtk_tree_model_get_value (GTK_TREE_MODEL (pm_gui->model_plugins),
+					  &iter, PLUGIN_ID, &value);
+		pm_gui->current_plugin_id = g_strdup(g_value_get_string (&value));
+		g_value_unset (&value);
+
+		pinfo = plugin_db_get_plugin_info_by_plugin_id (pm_gui->current_plugin_id);
+		g_return_if_fail (pinfo != NULL);
+
+		is_active = plugin_info_is_active (pinfo);
+		is_marked = plugin_db_is_plugin_marked_for_deactivation (pinfo);
+		
+		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), 
+					  is_marked || !is_active);
+		gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), 
+					  is_active && !is_marked);
 	}
 	update_plugin_details_view (pm_gui);
-/* 	gnumeric_notebook_set_page_enabled (pm_gui->gnotebook, */
-/* 	                                    pm_gui->plugin_details_page_no, */
-/* 	                                    TRUE); */
-}
-
-static void
-cb_pm_clist_row_unselected (GtkCList *clist, gint row_no, gint col_no, gpointer unused, PluginManagerGUI *pm_gui)
-{
-	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_plugin), FALSE);
-	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_plugin), FALSE);
-	update_plugin_details_view (pm_gui);
-/* 	gnumeric_notebook_set_page_enabled (pm_gui->gnotebook, */
-/* 	                                    pm_gui->plugin_details_page_no, */
-/* 	                                    FALSE); */
 }
 
 static void
 pm_dialog_init (PluginManagerGUI *pm_gui)
 {
-	gtk_signal_connect (GTK_OBJECT (pm_gui->clist_active), "select_row",
-	                    (GtkSignalFunc) cb_pm_clist_row_selected,
-	                    (gpointer) pm_gui);
-	gtk_signal_connect (GTK_OBJECT (pm_gui->clist_active), "unselect_row",
-	                    (GtkSignalFunc) cb_pm_clist_row_unselected,
-	                    (gpointer) pm_gui);
-	gtk_signal_connect (GTK_OBJECT (pm_gui->clist_inactive), "select_row",
-	                    (GtkSignalFunc) cb_pm_clist_row_selected,
-	                    (gpointer) pm_gui);
-	gtk_signal_connect (GTK_OBJECT (pm_gui->clist_inactive), "unselect_row",
-	                    (GtkSignalFunc) cb_pm_clist_row_unselected,
-	                    (gpointer) pm_gui);
 	gtk_signal_connect (GTK_OBJECT (pm_gui->button_activate_plugin), "clicked",
 	                    (GtkSignalFunc) cb_pm_button_activate_plugin_clicked,
 	                    (gpointer) pm_gui);
@@ -303,17 +317,12 @@ pm_dialog_init (PluginManagerGUI *pm_gui)
 	                    (GtkSignalFunc) cb_pm_checkbutton_install_new_toggled,
 	                    (gpointer) pm_gui);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pm_gui->checkbutton_install_new),
-	                              gnome_config_get_bool_with_default ("Gnumeric/Plugin/ActivateNewByDefault=true", NULL));
+	                              gnome_config_get_bool_with_default 
+				      ("Gnumeric/Plugin/ActivateNewByDefault=true", NULL));
 	update_plugin_manager_view (pm_gui);
 }
 
-static void
-free_plugin_id (gpointer data)
-{
-	g_free (data);
-}
-
-static gint
+static int
 plugin_compare_name (gconstpointer a, gconstpointer b)
 {
 	PluginInfo *plugin_a = (PluginInfo *) a, *plugin_b = (PluginInfo *) b;
@@ -327,55 +336,49 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 {
 	GList *sorted_plugin_list, *l;
 	gint n_active_plugins, n_inactive_plugins;
+	GtkTreeIter iter;
+	plugin_state_t status;
 
-	sorted_plugin_list = g_list_sort (g_list_copy (plugin_db_get_available_plugin_info_list ()),
+	gtk_list_store_clear (pm_gui->model_plugins);
+
+	sorted_plugin_list = g_list_sort (g_list_copy 
+					  (plugin_db_get_available_plugin_info_list ()),
 	                                  &plugin_compare_name);
 
-	gtk_clist_freeze (pm_gui->clist_active);
-	gtk_clist_freeze (pm_gui->clist_inactive);
-	gtk_clist_clear (pm_gui->clist_active);
-	gtk_clist_clear (pm_gui->clist_inactive);
 	n_active_plugins = 0;
 	n_inactive_plugins = 0;
 	for (l = sorted_plugin_list; l != NULL; l = l->next) {
-		PluginInfo *pinfo;
-		GtkCList *clist;
-		gchar *cols[] = {NULL};
-		gchar *plugin_id;
-		gint row_no;
+		PluginInfo *pinfo = (PluginInfo *) l->data;
 
-		pinfo = (PluginInfo *) l->data;
+		gtk_list_store_append (pm_gui->model_plugins, &iter);
+
 		if (plugin_info_is_active (pinfo)) {
 			gboolean is_in_mem, is_marked;
 
-			clist = pm_gui->clist_active;
 			n_active_plugins++;
 			is_in_mem = plugin_info_is_loaded (pinfo);
 			is_marked = plugin_db_is_plugin_marked_for_deactivation (pinfo);
 			if (is_in_mem && is_marked) {
-				cols[0] = g_strdup_printf (_("%s[in memory, marked for deactivation]"),
-				          plugin_info_peek_name (pinfo));
+				status = PLUGIN_STATE_DEACTIVATING_IN_MEMORY;
 			} else if (is_in_mem) {
-				cols[0] = g_strdup_printf (_("%s[in memory]"),
-				          plugin_info_peek_name (pinfo));
+				status = PLUGIN_STATE_IN_MEMORY;
 			} else if (is_marked) {
-				cols[0] = g_strdup_printf (_("%s[marked for deactivation]"),
-				          plugin_info_peek_name (pinfo));
+				status = PLUGIN_STATE_DEACTIVATING;
 			} else {
-				cols[0] = plugin_info_get_name (pinfo);
+				status = PLUGIN_STATE_ACTIVE;
 			}
 		} else {
-			clist = pm_gui->clist_inactive;
 			n_inactive_plugins++;
-			cols[0] = plugin_info_get_name (pinfo);
+			status = PLUGIN_STATE_INACTIVE;
 		}
-		row_no = gtk_clist_append (clist, cols);
-		plugin_id = plugin_info_get_id (pinfo);
-		gtk_clist_set_row_data_full (clist, row_no, plugin_id, &free_plugin_id);
-		g_free (cols[0]);
+		gtk_list_store_set (pm_gui->model_plugins, &iter,
+				    PLUGIN_NAME,  plugin_info_peek_name (pinfo),
+				    PLUGIN_STATE_STR, _(activity_description[status]),
+				    PLUGIN_STATE, status,
+				    PLUGIN_ID, plugin_info_get_id (pinfo),
+				    PLUGIN_POINTER, NULL,
+				    -1);
 	}
-	gtk_clist_thaw (pm_gui->clist_active);
-	gtk_clist_thaw (pm_gui->clist_inactive);
 
 	g_list_free (sorted_plugin_list);
 
@@ -386,9 +389,6 @@ update_plugin_manager_view (PluginManagerGUI *pm_gui)
 	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_activate_all), n_inactive_plugins > 0);
 	gtk_widget_set_sensitive (GTK_WIDGET (pm_gui->button_deactivate_all), n_active_plugins > 0);
 	update_plugin_details_view (pm_gui);
-/* 	gnumeric_notebook_set_page_enabled (pm_gui->gnotebook, */
-/* 	                                    pm_gui->plugin_details_page_no, */
-/* 	                                    FALSE); */
 }
 
 static void
@@ -410,7 +410,8 @@ update_plugin_details_view (PluginManagerGUI *pm_gui)
 					  plugin_info_peek_description (pinfo),
 					  strlen (plugin_info_peek_description (pinfo)));
 
-		n_extra_info_items = plugin_info_get_extra_info_list (pinfo, &extra_info_keys, &extra_info_values);
+		n_extra_info_items = plugin_info_get_extra_info_list 
+			(pinfo, &extra_info_keys, &extra_info_values);
 		gtk_clist_clear (pm_gui->clist_extra_info);
 		if (n_extra_info_items > 0) {
 			gtk_clist_freeze (pm_gui->clist_extra_info);
@@ -442,6 +443,9 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	PluginManagerGUI *pm_gui;
 	GladeXML *gui;
 	GtkWidget *page_plugin_list, *page_plugin_details;
+	GtkWidget *scrolled;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection  *selection;
 
 	g_return_if_fail (wbcg != NULL);
 
@@ -451,14 +455,18 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_gui = g_new (PluginManagerGUI, 1);
 	pm_gui->wbcg = wbcg;
 	pm_gui->dialog_pm = GTK_DIALOG (glade_xml_get_widget (gui, "dialog_plugin_manager"));
-	pm_gui->clist_active = GTK_CLIST (glade_xml_get_widget (gui, "clist_active"));
-	pm_gui->clist_inactive = GTK_CLIST (glade_xml_get_widget (gui, "clist_inactive"));
-	pm_gui->button_activate_plugin = GTK_BUTTON (glade_xml_get_widget (gui, "button_activate_plugin"));
-	pm_gui->button_deactivate_plugin = GTK_BUTTON (glade_xml_get_widget (gui, "button_deactivate_plugin"));
-	pm_gui->button_activate_all = GTK_BUTTON (glade_xml_get_widget (gui, "button_activate_all"));
-	pm_gui->button_deactivate_all = GTK_BUTTON (glade_xml_get_widget (gui, "button_deactivate_all"));
-	pm_gui->button_install_plugin = GTK_BUTTON (glade_xml_get_widget (gui, "button_install_plugin"));
-	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "checkbutton_install_new"));
+	pm_gui->button_activate_plugin = GTK_BUTTON (glade_xml_get_widget 
+						     (gui, "button_activate_plugin"));
+	pm_gui->button_deactivate_plugin = GTK_BUTTON (glade_xml_get_widget 
+						       (gui, "button_deactivate_plugin"));
+	pm_gui->button_activate_all = GTK_BUTTON (glade_xml_get_widget 
+						  (gui, "button_activate_all"));
+	pm_gui->button_deactivate_all = GTK_BUTTON (glade_xml_get_widget 
+						    (gui, "button_deactivate_all"));
+	pm_gui->button_install_plugin = GTK_BUTTON (glade_xml_get_widget 
+						    (gui, "button_install_plugin"));
+	pm_gui->checkbutton_install_new = GTK_CHECK_BUTTON (glade_xml_get_widget 
+							    (gui, "checkbutton_install_new"));
 	pm_gui->entry_name = GTK_ENTRY (glade_xml_get_widget (gui, "entry_name"));
 	pm_gui->entry_directory = GTK_ENTRY (glade_xml_get_widget (gui, "entry_directory"));
 	pm_gui->text_description = gtk_text_view_get_buffer (GTK_TEXT_VIEW (
@@ -467,9 +475,10 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_gui->clist_extra_info = GTK_CLIST (glade_xml_get_widget (gui, "clist_extra_info"));
 	page_plugin_list = glade_xml_get_widget (gui, "page_plugin_list");
 	page_plugin_details = glade_xml_get_widget (gui, "page_plugin_details");
+	scrolled = glade_xml_get_widget (gui, "scrolled_plugin_list");
 	
 	g_return_if_fail (pm_gui->dialog_pm != NULL &&
-	                  pm_gui->clist_active != NULL && pm_gui->clist_inactive != NULL &&
+	                  scrolled != NULL &&
 	                  pm_gui->button_activate_plugin != NULL &&
 	                  pm_gui->button_deactivate_plugin != NULL &&
 	                  pm_gui->button_install_plugin != NULL &&
@@ -481,8 +490,27 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	                  page_plugin_list != NULL &&
 	                  page_plugin_details != NULL);
 
-	gtk_clist_column_titles_passive (pm_gui->clist_active);
-	gtk_clist_column_titles_passive (pm_gui->clist_inactive);
+	pm_gui->model_plugins = gtk_list_store_new (NUM_COLMNS, G_TYPE_STRING, G_TYPE_STRING,
+						    G_TYPE_INT, 
+						    G_TYPE_STRING, G_TYPE_POINTER);
+	pm_gui->list_plugins = GTK_TREE_VIEW (
+		gtk_tree_view_new_with_model (GTK_TREE_MODEL (pm_gui->model_plugins)));
+	selection = gtk_tree_view_get_selection (pm_gui->list_plugins);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+	g_signal_connect (selection, "changed",
+			  G_CALLBACK (cb_pm_selection_changed), pm_gui);
+	column = gtk_tree_view_column_new_with_attributes ("State",
+							   gtk_cell_renderer_text_new (),
+							   "text", PLUGIN_STATE_STR, NULL);
+	gtk_tree_view_column_set_sort_column_id (column, PLUGIN_STATE_STR);
+	gtk_tree_view_append_column (pm_gui->list_plugins, column);
+	column = gtk_tree_view_column_new_with_attributes ("Plugins",
+							   gtk_cell_renderer_text_new (),
+							   "text", PLUGIN_NAME, NULL);
+	gtk_tree_view_column_set_sort_column_id (column, PLUGIN_NAME);
+	gtk_tree_view_append_column (pm_gui->list_plugins, column);
+	gtk_container_add (GTK_CONTAINER (scrolled), GTK_WIDGET (pm_gui->list_plugins));
+
 	gtk_clist_column_titles_passive (pm_gui->clist_extra_info);
 
 	pm_gui->gnotebook = GTK_NOTEBOOK (glade_xml_get_widget (gui, "notebook1"));
@@ -495,15 +523,13 @@ dialog_plugin_manager (WorkbookControlGUI *wbcg)
 	pm_gui->plugin_list_page_no = 0;
 	pm_gui->plugin_details_page_no = 1;
 	gtk_widget_show_all (GTK_WIDGET (pm_gui->gnotebook));
-/* 	gtk_box_pack_start_defaults (GTK_BOX (pm_gui->dialog_pm->vbox), */
-/* 	                             GTK_WIDGET (pm_gui->gnotebook)); */
 
 	pm_gui->current_plugin_id = NULL;
 	pm_dialog_init (pm_gui);
 	(void) gnumeric_dialog_run (wbcg, pm_gui->dialog_pm);
 	gnome_config_sync ();
 
-	g_free (pm_gui->current_plugin_id);
+	free_plugin_id (pm_gui->current_plugin_id);
 	g_free (pm_gui);
 
 	g_object_unref (G_OBJECT (gui));

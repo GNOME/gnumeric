@@ -8,7 +8,7 @@
     <property name="type">GTK_WINDOW_TOPLEVEL</property>
     <property name="modal">no</property>
     <property name="allow_shrink">no</property>
-    <property name="allow_grow">no</property>
+    <property name="allow_grow">yes</property>
     <property name="window-position">GTK_WIN_POS_NONE</property>
 
     <child internal-child="vbox">
@@ -70,114 +70,13 @@
 		    <property name="visible">yes</property>
 
 		    <child>
-		      <widget class="GtkVBox" id="vbox4">
-			<property name="homogeneous">no</property>
-			<property name="spacing">4</property>
+		      <widget class="GtkScrolledWindow" id="scrolled_plugin_list">
+		        <property name="width_request">300</property>
+			<property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
+			<property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
 			<property name="visible">yes</property>
-
-			<child>
-			  <widget class="GtkScrolledWindow" id="scrolledwindow5">
-			    <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-			    <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-			    <property name="visible">yes</property>
-
-			    <child>
-			      <widget class="GtkCList" id="clist_active">
-				<property name="can_focus">yes</property>
-				<property name="n-columns">1</property>
-				<property name="column_widths">400</property>
-				<property name="selection_mode">GTK_SELECTION_SINGLE</property>
-				<property name="show_titles">yes</property>
-				<property name="shadow_type">GTK_SHADOW_IN</property>
-				<property name="visible">yes</property>
-
-				<child>
-				  <widget class="GtkLabel" id="label_active">
-				    <property name="label" translatable="yes">Active plugins</property>
-				    <property name="justify">GTK_JUSTIFY_CENTER</property>
-				    <property name="wrap">no</property>
-				    <property name="xalign">0.5</property>
-				    <property name="yalign">0.5</property>
-				    <property name="xpad">0</property>
-				    <property name="ypad">0</property>
-				    <property name="visible">yes</property>
-				  </widget>
-				</child>
-			      </widget>
-			    </child>
-
-			    <child internal-child="hscrollbar">
-			      <widget class="GtkHScrollbar" id="convertwidget1">
-				<property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-				<property name="visible">yes</property>
-			      </widget>
-			    </child>
-
-			    <child internal-child="vscrollbar">
-			      <widget class="GtkVScrollbar" id="convertwidget2">
-				<property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-				<property name="visible">yes</property>
-			      </widget>
-			    </child>
-			  </widget>
-			  <packing>
-			    <property name="padding">0</property>
-			    <property name="expand">yes</property>
-			    <property name="fill">yes</property>
-			  </packing>
-			</child>
-
-			<child>
-			  <widget class="GtkScrolledWindow" id="scrolledwindow4">
-			    <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-			    <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
-			    <property name="visible">yes</property>
-
-			    <child>
-			      <widget class="GtkCList" id="clist_inactive">
-				<property name="can_focus">yes</property>
-				<property name="n-columns">1</property>
-				<property name="column_widths">400</property>
-				<property name="selection_mode">GTK_SELECTION_SINGLE</property>
-				<property name="show_titles">yes</property>
-				<property name="shadow_type">GTK_SHADOW_IN</property>
-				<property name="visible">yes</property>
-
-				<child>
-				  <widget class="GtkLabel" id="label_inactive">
-				    <property name="label" translatable="yes">Available inactive plugins</property>
-				    <property name="justify">GTK_JUSTIFY_CENTER</property>
-				    <property name="wrap">no</property>
-				    <property name="xalign">0.5</property>
-				    <property name="yalign">0.5</property>
-				    <property name="xpad">0</property>
-				    <property name="ypad">0</property>
-				    <property name="visible">yes</property>
-				  </widget>
-				</child>
-			      </widget>
-			    </child>
-
-			    <child internal-child="hscrollbar">
-			      <widget class="GtkHScrollbar" id="convertwidget3">
-				<property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-				<property name="visible">yes</property>
-			      </widget>
-			    </child>
-
-			    <child internal-child="vscrollbar">
-			      <widget class="GtkVScrollbar" id="convertwidget4">
-				<property name="update_policy">GTK_UPDATE_CONTINUOUS</property>
-				<property name="visible">yes</property>
-			      </widget>
-			    </child>
-			  </widget>
-			  <packing>
-			    <property name="padding">0</property>
-			    <property name="expand">yes</property>
-			    <property name="fill">yes</property>
-			  </packing>
-			</child>
+			<property name="shadow_type">GTK_SHADOW_NONE</property>
+			<property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 		      </widget>
 		      <packing>
 			<property name="padding">0</property>
@@ -557,6 +456,7 @@
 
             <child>
               <widget class="GtkScrolledWindow" id="scrolledwindow3">
+		<property name="height_request">120</property>
                 <property name="hscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                 <property name="vscrollbar_policy">GTK_POLICY_AUTOMATIC</property>
                 <property name="visible">yes</property>
