@@ -125,6 +125,14 @@ typedef enum {
 	GOG_POSITION_MANUAL_Y_END = 1 << 12
 } GogObjectPosition;
 
+/* #define NO_DEBUG_CHARTS */
+#ifndef NO_DEBUG_CHARTS
+#define d(level, code)	do { if (goffice_graph_debug_level > level) { code } } while (0)
+#else
+#define d(level, code)
+#endif
+extern int goffice_graph_debug_level;
+
 G_END_DECLS
 
 #endif /* GOFFICE_GRAPH_H */

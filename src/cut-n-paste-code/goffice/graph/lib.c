@@ -30,6 +30,8 @@
 #include <goffice/graph/gog-legend.h>
 #include <goffice/graph/gog-theme.h>
 
+int goffice_graph_debug_level = 0;
+
 void
 libgoffice_init (void)
 {

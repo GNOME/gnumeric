@@ -74,9 +74,9 @@ cb_remove_child (GogObject *parent, GogObject *child,
 static void
 cb_model_changed (GogObject *model, gboolean resized, GogView *view)
 {
-	g_warning ("model %s(%p) for view %s(%p) changed %d",
+	d (0, g_warning ("model %s(%p) for view %s(%p) changed %d",
 		   G_OBJECT_TYPE_NAME (model), model,
-		   G_OBJECT_TYPE_NAME (view), view, resized);
+		   G_OBJECT_TYPE_NAME (view), view, resized););
 	if (resized)
 		gog_view_queue_resize (view);
 	else
@@ -329,9 +329,9 @@ gog_view_size_allocate (GogView *view, GogViewAllocation const *allocation)
 	g_return_if_fail (klass->size_allocate != NULL);
 	g_return_if_fail (!view->being_updated);
 
-	g_warning ("size_allocate %s %p : x = %g, y = %g w = %g, h = %g",
+	d (0, g_warning ("size_allocate %s %p : x = %g, y = %g w = %g, h = %g",
 		   G_OBJECT_TYPE_NAME (view), view,
-		   allocation->x, allocation->y, allocation->w, allocation->h);
+		   allocation->x, allocation->y, allocation->w, allocation->h););
 
 	view->being_updated = TRUE;
 	(klass->size_allocate) (view, allocation);

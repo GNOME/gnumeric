@@ -369,7 +369,7 @@ gog_object_update (GogObject *obj)
 	if (obj->needs_update) {
 		obj->needs_update = FALSE;
 		obj->being_updated = TRUE;
-		g_warning ("updating %s (%p)", G_OBJECT_TYPE_NAME (obj), obj);
+		d (0, g_warning ("updating %s (%p)", G_OBJECT_TYPE_NAME (obj), obj););
 		if (klass->update != NULL)
 			(*klass->update) (obj);
 		obj->being_updated = FALSE;

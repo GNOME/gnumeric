@@ -1,5 +1,13 @@
 2003-06-10  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-view.c (gog_view_size_allocate) : Use the new debug macro.
+	(cb_model_changed) : ditto.
+	* graph/gog-object.c (gog_object_update) : and here.
+
+	* graph/goffice-graph.h : Add trivial d() debugging macro so that
+	  normal folk don't get deluged with debug spew.
+	* graph/lib.c : store goffice_graph_debug_level here.
+
 	* graph/gog-renderer-gnome-print.c * (gog_renderer_gnome_print_draw_text) :
 	  implement trivial version.  Need to decide how to handle fonts.
 

@@ -468,7 +468,7 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 	redraw |= prend->base.needs_update;
 	prend->base.needs_update = FALSE;
 
-	g_warning ("rend_pixbuf:update = %d", redraw);
+	d (0, g_warning ("rend_pixbuf:update = %d", redraw););
 
 	if (redraw) {
 		if (prend->buffer == NULL) {
