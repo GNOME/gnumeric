@@ -1410,7 +1410,8 @@ void
 sheet_load_cell_val (Sheet *sheet)
 {
 	GtkEntry *entry;
-	Cell *cell;
+	Cell     *cell;
+	char     *text;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1418,14 +1419,16 @@ sheet_load_cell_val (Sheet *sheet)
 	entry = GTK_ENTRY (sheet->workbook->ea_input);
 	cell = sheet_cell_get (sheet, sheet->cursor_col, sheet->cursor_row);
 
-	if (cell) {
-		char *text;
-
+	if (cell)
 		text = cell_get_text (cell);
-		gtk_entry_set_text (entry, text);
-		g_free (text);
-	} else
-		gtk_entry_set_text (entry, "");
+	else
+		text = g_strdup ("");
+
+	gtk_entry_set_text (entry, text);
+	gtk_signal_emit_by_name (sheet->workbook, "cell_changed", sheet,
+				 sheet->cursor_col, sheet->cursor_row, text);
+
+	g_free (text);
 }
 
 /**
@@ -2826,6 +2829,41 @@ sheet_show_cursor (Sheet *sheet)
 	}
 }
 
+
+/**
+ * sheet_quote_name:
+ * @sheet: 
+ * 
+ * Quotes the sheet name for expressions ( if neccessary ),
+ * FIXME: if this is slow, we can easily cache the 'quote' flag
+ * on the sheet, and update it when we set the name.
+ * 
+ * Return value: a safe sheet name.
+ **/
+char *
+sheet_quote_name (Sheet *sheet)
+{
+	int         i, j, quote;
+	char       *name;
+	static char quote_chr [] = { '=', '<', '>', '+', '-', ' ', '^', '&', '%', '\0' };
+
+	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (sheet->name != NULL, NULL);
+
+	name  = sheet->name;
+	quote = FALSE;
+	for (i = 0; name [i]; i++) {
+		for (j = 0; quote_chr [j]; j++)
+			if (name [i] == quote_chr [j])
+				quote = TRUE;
+	}
+
+	if (quote)
+		return g_strconcat ("\"", sheet->name, "\"", NULL);
+	else
+		return g_strdup (sheet->name);
+}
+
 /* Can remove sheet since local references have NULL sheet */
 char *
 cellref_name (CellRef *cell_ref, ParsePosition const *pp)
@@ -2862,12 +2900,11 @@ cellref_name (CellRef *cell_ref, ParsePosition const *pp)
 
 	/* If it is a non-local reference, add the path to the external sheet */
 	if (sheet != NULL) {
-		char *s;
-
-		if (strchr (sheet->name, ' '))
-			s = g_strconcat ("\"", sheet->name, "\"!", buffer, NULL);
-		else
-			s = g_strconcat (sheet->name, "!", buffer, NULL);
+		char *s, *name;
+	        
+		name = sheet_quote_name (sheet);
+		s = g_strconcat (name, "!", buffer, NULL);
+		g_free (name);
 
 		if (sheet->workbook != pp->wb) {
 			char * n = g_strconcat ("[", sheet->workbook->filename, "]", s, NULL);

@@ -127,7 +127,9 @@ typedef struct {
 #endif
 	
 	/* Signals */
-	void (* sheet_changed) (Sheet *sh);
+	void (*sheet_changed) (Sheet *sheet);
+	void (*cell_changed)  (Sheet *sheet, char *contents,
+			       int col, int row);
 } WorkbookClass;
 
 GtkType     workbook_get_type            (void);

@@ -61,11 +61,12 @@ static WORKBOOK_PARENT_CLASS *workbook_parent_class;
 /* Workbook signals */
 enum {
 	SHEET_CHANGED,
+	CELL_CHANGED,
 	LAST_SIGNAL
 };
 
 static gint workbook_signals [LAST_SIGNAL] = {
-	0, /* SHEET_CHANGED */
+	0, /* SHEET_CHANGED, CELL_CHANGED */
 };
 
 static void workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb);
@@ -1420,7 +1421,7 @@ workbook_focus_current_sheet (Workbook *wb)
 
 		gtk_window_set_focus (GTK_WINDOW (wb->toplevel), sheet_view->sheet_view);
 
-		gtk_signal_emit (GTK_OBJECT (wb), workbook_signals[SHEET_CHANGED], sheet);
+		gtk_signal_emit (GTK_OBJECT (wb), workbook_signals [SHEET_CHANGED], sheet);
 		
 		wb->current_sheet = sheet;
 	} else
@@ -2086,6 +2087,17 @@ workbook_class_init (GtkObjectClass *object_class)
 			GTK_SIGNAL_OFFSET (WorkbookClass,
 					   sheet_changed),
 			gtk_marshal_NONE__POINTER,
+			GTK_TYPE_NONE,
+			1,
+			GTK_TYPE_POINTER);
+	workbook_signals [CELL_CHANGED] =
+		gtk_signal_new (
+			"cell_changed",
+			GTK_RUN_LAST,
+			object_class->type,
+			GTK_SIGNAL_OFFSET (WorkbookClass,
+					   cell_changed),
+			gtk_marshal_NONE__POINTER_POINTER_INT_INT,
 			GTK_TYPE_NONE,
 			1,
 			GTK_TYPE_POINTER);

@@ -1,5 +1,16 @@
 2000-02-11  Michael Meeks  <michael@helixcode.com>
 
+	* src/sheet.c (cellref_name): use sheet_quote_name.
+	(sheet_quote_name): implement.
+
+	* src/workbook.h (WorkbookClass): add cell_changed signal.
+
+	* src/workbook.c (workbook_class_init): add cell_changed.
+
+	* src/sheet.c (sheet_load_cell_val): Add signal for blind folks.
+
+2000-02-11  Michael Meeks  <michael@helixcode.com>
+
 	* src/sheet.c (sheet_get_extent): Fix silly buglet for blank sheets.
 
 	* configure.in: split out GB autoconf from EXTRA_GNOME_LIBS
