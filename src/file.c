@@ -119,8 +119,7 @@ gnum_file_opener_setup (GnumFileOpener *fo, gchar const *id,
  * @open_func   : Pointer to "open" function
  *
  * Creates new GnumFileOpener object. Optional @id will be used
- * after registering it with register_file_opener or
- * register_file_opener_as_importer function.
+ * after registering it with register_file_opener function.
  *
  * Return value: newly created GnumFileOpener object.
  */
@@ -569,15 +568,9 @@ typedef struct {
 	GnumFileSaver *saver;
 } DefaultFileSaver;
 
-typedef struct {
-	gint priority;
-	GnumFileOpener *opener;
-} DefaultFileImporter;
-
 static GHashTable *file_opener_id_hash = NULL,
                   *file_saver_id_hash = NULL;
 static GList *file_opener_list = NULL, *file_opener_priority_list = NULL;
-static GList *file_importer_list = NULL, *default_file_importer_list = NULL;
 static GList *file_saver_list = NULL, *default_file_saver_list = NULL;
 
 static gint
@@ -628,74 +621,6 @@ register_file_opener (GnumFileOpener *fo, gint priority)
 	}
 }
 
-static gint
-default_file_importer_cmp_priority (gconstpointer a, gconstpointer b)
-{
-	DefaultFileImporter const *dfi_a = a, *dfi_b = b;
-
-	return dfi_b->priority - dfi_a->priority;
-}
-
-/**
- * register_file_opener_as_importer:
- * @fo          : GnumFileOpener object
- *
- * Adds @fo opener to the list of available file importers. The opener will
- * not be tried when reading files using Gnumeric i/o routines (unless you
- * call register_file_opener on it), but it will be available for the user
- * when importing the file and selecting file opener manually.
- */
-void
-register_file_opener_as_importer (GnumFileOpener *fo)
-{
-	gchar const *id;
-
-	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
-
-	file_importer_list = g_list_prepend (file_importer_list, fo);
-	g_object_ref (G_OBJECT (fo));
-
-	id = gnum_file_opener_get_id (fo);
-	if (id != NULL) {
-		if (file_opener_id_hash	== NULL)
-			file_opener_id_hash = g_hash_table_new (&g_str_hash,
-								&g_str_equal);
-		g_hash_table_insert (file_opener_id_hash, (gpointer) id, fo);
-	}
-}
-
-/**
- * register_file_opener_as_importer_as_default:
- * @fo          : GnumFileOpener object
- * @priority    : Opener's priority (as an importer)
- *
- * Adds @fo opener to the list of available file importers.
- * The opener is * also marked as default importer with given priority.
- * When Gnumeric needs default file importer, it chooses the one with the
- * highest priority. Recommended range for @priority is [0, 100].
- * The opener will not be tried when reading files using Gnumeric i/o
- * routines (unless you call register_file_opener on it), but it will be
- * available for the user when importing the file and selecting file opener
- * manually (in that case the default importer will be selected by default).
- */
-void
-register_file_opener_as_importer_as_default (GnumFileOpener *fo, gint priority)
-{
-	DefaultFileImporter	*dfi;
-
-	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
-	g_return_if_fail (priority >=0 && priority <= 100);
-
-	register_file_opener_as_importer (fo);
-
-	dfi = g_new (DefaultFileImporter, 1);
-	dfi->priority = priority;
-	dfi->opener = fo;
-	default_file_importer_list = g_list_insert_sorted (
-	                             default_file_importer_list, dfi,
-	                             default_file_importer_cmp_priority);
-}
-
 /**
  * unregister_file_opener:
  * @fo          : GnumFileOpener object previously registered using
@@ -732,68 +657,6 @@ unregister_file_opener (GnumFileOpener *fo)
 	}
 
 	g_object_unref (G_OBJECT (fo));
-}
-
-
-/**
- * unregister_file_opener_as_importer:
- * @fo          : GnumFileOpener object previously registered using
- *                register_file_opener_as_importer
- *
- * Removes @fo opener from list of available file importers. Reference count
- * for the opener is decremented inside the function.
- */
-void
-unregister_file_opener_as_importer (GnumFileOpener *fo)
-{
-	GList *l;
-	gchar const *id;
-
-	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
-
-	l = g_list_find (file_importer_list, fo);
-	g_return_if_fail (l != NULL);
-	file_importer_list = g_list_remove_link (file_importer_list, l);
-	g_list_free_1 (l);
-
-	id = gnum_file_opener_get_id (fo);
-	if (id != NULL) {
-		g_hash_table_remove (file_opener_id_hash, (gpointer) id);
-		if (g_hash_table_size (file_opener_id_hash) == 0) {
-			g_hash_table_destroy (file_opener_id_hash);
-			file_opener_id_hash = NULL;
-		}
-	}
-
-	for (l = default_file_importer_list; l != NULL; l = l->next) {
-		if (((DefaultFileImporter *) l->data)->opener == fo) {
-			default_file_importer_list = g_list_remove_link (default_file_importer_list, l);
-			g_list_free_1 (l);
-			g_free (l->data);
-			break;
-		}
-	}
-
-	g_object_unref (G_OBJECT (fo));
-}
-
-/**
- * get_default_file_importer:
- *
- * Returns file opener registered as default importer with the highest
- * priority. Reference count for the saver is NOT incremented.
- *
- * Return value: GnumFileOpener object or NULL if default importer is not
- *               available.
- */
-GnumFileOpener *
-get_default_file_importer (void)
-{
-	if (default_file_importer_list == NULL) {
-		return NULL;
-	}
-
-	return ((DefaultFileImporter *) default_file_importer_list->data)->opener;
 }
 
 static gint
@@ -946,7 +809,7 @@ get_file_saver_for_mime_type (gchar const *mime_type)
  * @id          : File opener's ID
  *
  * Searches for file opener with given @id, registered using
- * register_file_opener or register_file_opener_as_importer.
+ * register_file_opener
  *
  * Return value: GnumFileOpener object or NULL if opener cannot be found.
  */
@@ -1004,18 +867,4 @@ GList *
 get_file_openers (void)
 {
 	return file_opener_list;
-}
-
-/**
- * get_file_importers:
- *
- * Returns the list of registered file importers (using
- * register_file_opener_as_importer).
- *
- * Return value: list of GnumFileOpener objects, which you shouldn't modify.
- */
-GList *
-get_file_importers (void)
-{
-	return file_importer_list;
 }

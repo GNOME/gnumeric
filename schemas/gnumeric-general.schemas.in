@@ -231,17 +231,6 @@
         </locale>
       </schema>
       <schema>
-        <key>/schemas/apps/gnumeric/core/file/import/all-openers</key>
-        <applyto>/apps/gnumeric/core/file/import/all-openers</applyto>
-        <owner>Gnumeric</owner>
-        <type>bool</type>
-	<default>FALSE</default>
-        <locale name="C">
-        <short>Import Uses All Openers</short>
-        <long>Setting this option will make the import menu item use all available file openers rather than just those marked as importers.</long>
-        </locale>
-      </schema>
-      <schema>
         <key>/schemas/apps/gnumeric/core/sort/default/by-case</key>
         <applyto>/apps/gnumeric/core/sort/default/by-case</applyto>
         <owner>Gnumeric</owner>

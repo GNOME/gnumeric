@@ -485,12 +485,12 @@ stf_init (void)
 {
 	register_file_opener (gnum_file_opener_new (
 		"Gnumeric_stf:stf_csvtab",
-		_("Text import (auto-detect CSV or tab-delimited)"),
+		_("Comma or tab separated files (CSV/TSV))"),
 		stf_read_default_probe, stf_read_workbook_auto_csvtab), 0);
-	register_file_opener_as_importer_as_default (gnum_file_opener_new (
+	register_file_opener (gnum_file_opener_new (
 		"Gnumeric_stf:stf_druid",
 		_("Text import (configurable)"),
-		NULL, stf_read_workbook), 50);
+		NULL, stf_read_workbook), 0);
 	register_file_saver (gnum_file_saver_new (
 		"Gnumeric_stf:stf", "csv",
 		_("Text export (configurable)"),

@@ -355,8 +355,6 @@ struct _PluginServiceFileOpener {
 
 	gint priority;
 	gboolean has_probe;
-	gboolean can_open, can_import;
-	gint   default_importer_priority;
 	gchar *description;
 	GSList *file_patterns;      /* list of InputFilePattern */
 
@@ -410,7 +408,7 @@ static void
 plugin_service_file_opener_read_xml (PluginService *service, xmlNode *tree, ErrorInfo **ret_error)
 {
 	guint priority;
-	gboolean has_probe, can_open, can_import;
+	gboolean has_probe;
 	xmlNode *information_node;
 	gchar *description;
 
@@ -418,8 +416,6 @@ plugin_service_file_opener_read_xml (PluginService *service, xmlNode *tree, Erro
 	priority = e_xml_get_uint_prop_by_name_with_default (tree, (xmlChar *)"priority", 50);
 	priority = MIN (priority, (guint)100);
 	has_probe = e_xml_get_bool_prop_by_name_with_default (tree, (xmlChar *)"probe", TRUE);
-	can_open = e_xml_get_bool_prop_by_name_with_default (tree, (xmlChar *)"open", TRUE);
-	can_import = e_xml_get_bool_prop_by_name_with_default (tree, (xmlChar *)"import", FALSE);
 	information_node = e_xml_get_child_by_name (tree, (xmlChar *)"information");
 	if (information_node != NULL) {
 		xmlNode *node;
@@ -472,12 +468,6 @@ plugin_service_file_opener_read_xml (PluginService *service, xmlNode *tree, Erro
 
 		service_file_opener->priority = priority;
 		service_file_opener->has_probe = has_probe;
-		service_file_opener->can_open = can_open;
-		service_file_opener->can_import = can_import;
-		if (can_import) {
-			service_file_opener->default_importer_priority =
-			e_xml_get_integer_prop_by_name_with_default (tree, (xmlChar *)"default_importer_priority", -1);
-		}
 		service_file_opener->description = description;
 		service_file_opener->file_patterns = file_patterns;
 	} else {
@@ -492,18 +482,8 @@ plugin_service_file_opener_activate (PluginService *service, ErrorInfo **ret_err
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
 	service_file_opener->opener = GNUM_FILE_OPENER (gnum_plugin_file_opener_new (service));
-	if (service_file_opener->can_open) {
-		register_file_opener (service_file_opener->opener,
-		                      service_file_opener->priority);
-	}
-	if (service_file_opener->can_import) {
-		if (service_file_opener->default_importer_priority < 0) {
-			register_file_opener_as_importer (service_file_opener->opener);
-		} else {
-			register_file_opener_as_importer_as_default (service_file_opener->opener,
-			                                             service_file_opener->default_importer_priority);
-		}
-	}
+	register_file_opener (service_file_opener->opener,
+			      service_file_opener->priority);
 	service->is_active = TRUE;
 }
 
@@ -513,12 +493,7 @@ plugin_service_file_opener_deactivate (PluginService *service, ErrorInfo **ret_e
 	PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (service);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	if (service_file_opener->can_open) {
-		unregister_file_opener (service_file_opener->opener);
-	}
-	if (service_file_opener->can_import) {
-		unregister_file_opener_as_importer (service_file_opener->opener);
-	}
+	unregister_file_opener (service_file_opener->opener);
 	service->is_active = FALSE;
 }
 
@@ -624,7 +599,9 @@ gnum_plugin_file_opener_probe (GnumFileOpener const *fo, GsfInput *input,
 		} else if (service_file_opener->cbs.plugin_func_file_probe == NULL) {
 			return FALSE;
 		} else {
-			return service_file_opener->cbs.plugin_func_file_probe (fo, pfo->service, input, pl);
+			gboolean res = service_file_opener->cbs.plugin_func_file_probe (fo, pfo->service, input, pl);
+			gsf_input_seek (input, 0, G_SEEK_SET);
+			return res;
 		}
 	} else {
 		return FALSE;

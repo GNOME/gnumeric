@@ -124,10 +124,7 @@ FileFormatLevel gnum_file_saver_get_format_level (GnumFileSaver const *fs);
  */
 
 void register_file_opener (GnumFileOpener *fo, gint priority);
-void register_file_opener_as_importer (GnumFileOpener *fo);
-void register_file_opener_as_importer_as_default (GnumFileOpener *fo, gint priority);
 void unregister_file_opener (GnumFileOpener *fo);
-void unregister_file_opener_as_importer (GnumFileOpener *fo);
 void register_file_saver (GnumFileSaver *fs);
 void register_file_saver_as_default (GnumFileSaver *fs, gint priority);
 void unregister_file_saver (GnumFileSaver *fs);
@@ -136,10 +133,8 @@ GnumFileSaver *get_default_file_saver (void);
 GnumFileSaver *get_file_saver_for_mime_type (const gchar *mime_type);
 GnumFileOpener *get_file_opener_by_id (const gchar *id);
 GnumFileSaver *get_file_saver_by_id (const gchar *id);
-GnumFileOpener *get_default_file_importer (void);
 
 GList *get_file_savers (void);
 GList *get_file_openers (void);
-GList *get_file_importers (void);
 
 #endif /* GNUMERIC_FILE_H */

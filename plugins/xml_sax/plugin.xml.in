@@ -8,8 +8,7 @@
 		<attribute name="module_file" value="xml_sax.la"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="xml_sax" priority="1" probe="FALSE"
-		         open="FALSE" import="TRUE">
+		<service type="file_opener" id="xml_sax" priority="1" probe="FALSE">
 			<information>
 				<_description>EXPERIMENTAL SAX based Gnumeric (*.gnumeric)</_description>
 			</information>

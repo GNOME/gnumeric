@@ -125,24 +125,23 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *file_name,
 void
 gui_file_open (WorkbookControlGUI *wbcg)
 {
-	GList *importers;
+	GList *openers;
 	GtkFileSelection *fsel;
 	GtkOptionMenu *omenu;
 	GtkWidget *format_chooser;
 	GnumFileOpener *fo = NULL;
 	gchar const *file_name;
 
-	/* FIXME: Make this (openers U importers) */
-	importers = get_file_importers ();
+	openers = get_file_openers ();
 
-	importers = g_list_copy (importers);
-	importers = g_list_sort (importers, file_opener_description_cmp);
+	openers = g_list_copy (openers);
+	openers = g_list_sort (openers, file_opener_description_cmp);
 	/* NULL represents automatic file type recognition */
-	importers = g_list_prepend (importers, NULL); 
+	openers = g_list_prepend (openers, NULL); 
 
 	/* Make format chooser */
 	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
-	format_chooser = make_format_chooser (importers, omenu);
+	format_chooser = make_format_chooser (openers, omenu);
 
 	/* Pack it into file selector */
 	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Load file")));
@@ -154,19 +153,19 @@ gui_file_open (WorkbookControlGUI *wbcg)
 
 	/* Show file selector */
 	if (!gnumeric_dialog_file_selection (wbcg, fsel)) {
-		g_list_free (importers);
+		g_list_free (openers);
 		gtk_object_destroy (GTK_OBJECT (fsel));
 		return;
 	}
 
-	fo = g_list_nth_data (importers,
+	fo = g_list_nth_data (openers,
 			      gnumeric_option_menu_get_selected_index (omenu));
 	
 	file_name = gtk_file_selection_get_filename (fsel);
 	gui_file_read (wbcg, file_name, fo);
 
 	gtk_object_destroy (GTK_OBJECT (fsel));
-	g_list_free (importers);
+	g_list_free (openers);
 }
 
 /*

@@ -1245,29 +1245,6 @@ cb_pref_file_single_sheet_warn_toggled (GtkToggleButton *button, PrefState *stat
 				       NULL);
 }
 
-static void
-cb_pref_file_set_import_all_op (GConfClient *gconf,
-				__attribute__((unused)) guint cnxn_id,
-				__attribute__((unused)) GConfEntry *entry,
-				GtkToggleButton *button)
-{
-	gboolean is_set_gconf = gconf_client_get_bool (gconf,
-						       GNUMERIC_GCONF_FILE_IMPORT_USES_ALL_OP,
-						       NULL);
-	gboolean is_set_button = gtk_toggle_button_get_active (button);
-	if (is_set_gconf != is_set_button)
-		gtk_toggle_button_set_active (button, is_set_gconf);
-}
-
-static void
-cb_pref_file_import_all_op_toggled (GtkToggleButton *button, PrefState *state)
-{
-		gconf_client_set_bool (state->gconf,
-				       GNUMERIC_GCONF_FILE_IMPORT_USES_ALL_OP,
-				       gtk_toggle_button_get_active (button),
-				       NULL);
-}
-
 static
 GtkWidget *pref_file_page_initializer (PrefState *state,
 				       __attribute__((unused)) gpointer data,
@@ -1306,13 +1283,6 @@ GtkWidget *pref_file_page_initializer (PrefState *state,
 				     page, row++, state,
 				     cb_pref_file_set_single_sheet_warn,
 				     cb_pref_file_single_sheet_warn_toggled);
-
-	/* Import with all Openers check box */
-	dialog_pref_create_checkbox (GNUMERIC_GCONF_FILE_IMPORT_USES_ALL_OP,
-				     "/schemas" GNUMERIC_GCONF_FILE_IMPORT_USES_ALL_OP,
-				     page, row++, state,
-				     cb_pref_file_set_import_all_op,
-				     cb_pref_file_import_all_op_toggled);
 
 	gtk_widget_show_all (page);
 	return page;
