@@ -1,0 +1,49 @@
+
+Function: AND
+
+Syntax:   AND(b1, b2, ...)
+
+Implements the logical AND function: the result is TRUE if all of the
+expression evaluate to TRUE, otherwise it returns FALSE.
+
+b1, trough bN are expressions that should evaluate to TRUE or FALSE.
+If an integer or floating point value is provided zero is considered
+FALSE and anything else is TRUE.
+
+If the values contain strings or empty cells those values are
+ignored.  If no logical values are provided, then the error '#VALUE!'
+is returned. 
+
+See also: OR.
+
+
+
+-----------------------
+Function: AVERAGE
+
+Syntax:   AVERAGE(value1, value2,...)
+
+Computes the average of all the values and cells referenced in the
+argument list.  This is equivalent to the sum of the arguments divided
+by the count of the arguments.
+
+See also: SUM, COUNT
+-----------------------
+Function: OR
+
+Syntax:   OR(b1, b2, ...)
+
+Implements the logical OR function: the result is TRUE if any of the
+values evaluated to TRUE.
+
+b1, trough bN are expressions that should evaluate to TRUE or FALSE.
+If an integer or floating point value is provided zero is considered
+FALSE and anything else is TRUE.
+
+If the values contain strings or empty cells those values are
+ignored.  If no logical values are provided, then the error '#VALUE!'
+is returned. 
+
+See also: AND
+
+-----------------------

@@ -3,6 +3,7 @@
 
 typedef enum {
 	SYMBOL_FUNCTION,
+	SYMBOL_VALUE,
 	SYMBOL_STRING
 } SymbolType;
 

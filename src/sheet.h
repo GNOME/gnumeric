@@ -70,8 +70,8 @@ typedef struct {
 typedef  void (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *ci,
 					void *user_data);
 
-typedef  void (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
-					     Cell *cell, void *user_data);
+typedef  int (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
+					    Cell *cell, void *user_data);
 
 Sheet      *sheet_new                 (Workbook *wb, char *name);
 void        sheet_destroy             (Sheet *sheet);
@@ -100,7 +100,7 @@ void        sheet_compute_cell        (Sheet *sheet, Cell *cell);
 
 /* Cell management */
 Cell       *sheet_cell_new            (Sheet *sheet, int col, int row);
-void        sheet_cell_foreach_range  (Sheet *sheet, int only_existing,
+int         sheet_cell_foreach_range  (Sheet *sheet, int only_existing,
 				       int start_col, int start_row,
 				       int end_col, int end_row,
 				       sheet_cell_foreach_callback callback,

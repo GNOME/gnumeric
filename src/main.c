@@ -11,6 +11,7 @@ main (int argc, char *argv [])
 	string_init ();
 	style_init ();
 	symbol_init ();
+	constants_init ();
 	functions_init ();
 	
 	current_workbook = workbook_new_with_sheets (2);

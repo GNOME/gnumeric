@@ -65,7 +65,7 @@ static int  yyerror (char *s);
 }
 %type  <tree>  exp
 %type  <list>  arg_list
-%token <tree>  NUMBER STRING FUNCALL CELLREF GTE LTE NE
+%token <tree>  NUMBER STRING FUNCALL CONSTANT CELLREF GTE LTE NE
 
 %left '<' '>' '=' GTE LTE NE
 %left '-' '+' '&'
@@ -87,6 +87,7 @@ line:	  exp           { parser_result = $1;
 
 exp:	  NUMBER 	{ $$ = $1 }
         | CELLREF       { $$ = $1 }
+	| CONSTANT      { $$ = $1 }
 	| exp '+' exp	{
 		$$ = p_new (ExprTree);
 		$$->oper = OP_ADD;
@@ -284,7 +285,9 @@ return_symbol (char *string)
 	
 	sym = symbol_lookup (string);
 	type = STRING;
-	if (!sym){
+	
+	if (!sym)
+	{
 		Value *v = v_new ();
 		
 		v->v.str = string_get (string);
@@ -292,17 +295,30 @@ return_symbol (char *string)
 
 		e->oper = OP_CONSTANT;
 		e->u.constant = v;
-	} else {
+	}
+	else
+	{
 		symbol_ref (sym);
 		if (sym->type == SYMBOL_FUNCTION)
+		{
+			e->oper = OP_FUNCALL;
 			type = FUNCALL;
-		else {
-			g_warning ("Unreachable\n");
-			type = -1;
+			e->u.function.symbol = sym;
+			e->u.function.arg_list = NULL;
 		}
-		e->oper = OP_FUNCALL;
-		e->u.function.symbol = sym;
-		e->u.function.arg_list = NULL;
+		else
+		{
+			Value *v, *dv;
+
+			/* Make a copy of the value */
+			dv = (Value *) sym->data;
+			v = v_new ();
+			value_copy_to (v, dv);
+			
+			e->oper = OP_CONSTANT;
+			e->u.constant = v;
+			type = CONSTANT;
+		}
 		register_symbol (sym);
 	}
 	

@@ -28,7 +28,11 @@ sheet_cell_foreach_range (Sheet *sheet,
 			if (ri->pos > end_row)
 				break;
 
-			(*callback)(sheet, (Cell *) ri->data);
+			v = (*callback)(sheet, (Cell *) ri->data);
+
+			/* If the callback wishes to stop, return */
+			if (v)
+				return;
 		}
 	}
 }

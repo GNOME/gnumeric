@@ -1,5 +1,25 @@
 1998-08-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/fn-math.c: Moved the math functions to this file. 
+	(gnumeric_sum): Make it use the new function_iterate_argument_values.
+	(gnumeric_and): Implement AND function.
+	(gnumeric_or):  Implement OR function.
+
+	* src/func.c (function_iterate_argument_values): New function to
+	ease the creation of functions with multiple arguments.  It
+	generates Value * for a list of expressions that might include
+	arrays and cell ranges. 
+
+	* src/expr.c (cell_get_col_row): New routine to get the absolute
+	cordinates with respect to an evaluation column and row.
+
+	* src/parser.y (return_symbol): Support for constants.
+
+	* src/expr.c (value_copy_to): Support for making Value copies
+	(only used for our constants actually).
+
+	* src/symbol.c (init_constants): Declare TRUE and FALSE.
+
 	* src/sheet.c (sheet_selection_changed_hook): Autocomputation
 	routine.  Whenever selection changes this routine will execute an
 	arbitrary expression (kept in the workbook) and display the
@@ -64,7 +84,6 @@
 
 	* src/parser.y (alloc_glist): Keep track of argument lists. 
 
-	* 
 1998-07-30  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* src/sheet.c (canvas_bar_realized): 

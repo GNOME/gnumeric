@@ -14,438 +14,125 @@
 #include "utils.h"
 #include "func.h"
 
-static Value *
-gnumeric_abs (Value *argv [], char **error_string)
+typedef struct {
+	FunctionIterateCallback  callback;
+	void                     *closure;
+	char                     **error_string;
+} IterateCallbackClosure;
+
+/*
+ * iterate_cellrange_callback:
+ *
+ * Helper routine used by the function_iterate_do_value routine.
+ * Invoked by the sheet cell range iterator.
+ */
+static int
+iterate_cellrange_callback (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = fabs (value_get_as_double (argv [0]));
-
-	return v;
-}
-
-static Value *
-gnumeric_acos (Value *argv [], char **error_string)
-{
-	Value *v;
-	float_t t;
-
-	t = value_get_as_double (argv [0]);
-	if ((t < -1.0) || (t > 1.0)){
-		*error_string = _("acos - domain error");
-		return NULL;
+	IterateCallbackClosure *data = user_data;
+	int cont;
+	
+	if (!cell->value){
+		printf ("iterate_cellrange_callback: Cell has no value\n");
+		return TRUE;
 	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = acos (t);
-
-	return v;
-}
-
-static Value *
-gnumeric_acosh (Value *argv [], char **error_string)
-{
-	Value *v;
-	float_t t;
-
-	t = value_get_as_double (argv [0]);
-	if (t < 1.0){
-		*error_string = _("acosh - domain error");
-		return NULL;
-	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = acosh (t);
-
-	return v;
-}
-
-static Value *
-gnumeric_asin (Value *argv [], char **error_string)
-{
-	Value *v;
-	float_t t;
-
-	t = value_get_as_double (argv [0]);
-	if ((t < -1.0) || (t > 1.0)){
-		*error_string = _("asin - domain error");
-		return NULL;
-	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = asin (t);
-
-	return v;
-}
-
-static Value *
-gnumeric_asinh (Value *argv [], char **error_string)
-{
-	Value *v;
-
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = asinh (value_get_as_double (argv [0]));
-
-	return v;
-}
-
-static Value *
-gnumeric_atan (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = atan (value_get_as_double (argv [0]));
 	
-	return v;
+	cont = (*data->callback)(sheet, cell->value, data->error_string, data->closure);
+
+	return cont;
 }
 
-static Value *
-gnumeric_atanh (Value *argv [], char **error_string)
+/*
+ * function_iterate_do_value:
+ *
+ * Helper routine for function_iterate_argument_values.
+ */ 
+static int
+function_iterate_do_value (Sheet                   *sheet,
+			   FunctionIterateCallback callback,
+			   void                    *closure,
+			   int                     eval_col,
+			   int                     eval_row,
+			   Value                   *value,
+			   char                    **error_string)
 {
-	Value *v = g_new (Value, 1);
-	float_t t;
-
-	t = value_get_as_double (argv [0]);
-	if ((t <= -1.0) || (t >= 1.0)){
-		*error_string = _("atanh: domain error");
-		return NULL;
-	}
-	v->type = VALUE_FLOAT;
-	v->v.v_float = atanh (value_get_as_double (argv [0]));
+	GList *list;
+	int ret = TRUE;
 	
-	return v;
-}
-
-static Value *
-gnumeric_atan2 (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = atan2 (value_get_as_double (argv [0]),
-			      value_get_as_double (argv [1]));
-	
-	return v;
-}
-
-static Value *
-gnumeric_ceil (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = ceil (value_get_as_double (argv [0]));
-
-	return v;
-}
-
-static Value *
-gnumeric_cos (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = cos (value_get_as_double (argv [0]));
-
-	return v;
-}
-
-static Value *
-gnumeric_cosh (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = cos (value_get_as_double (argv [0]));
-
-	return v;
-}
-
-static Value *
-gnumeric_degrees (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = (value_get_as_double (argv [0]) * 180.0) / M_PI;
-
-	return v;
-}
-
-static Value *
-gnumeric_exp (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = exp (value_get_as_double (argv [0]));
-
-	return v;
-}
-
-static Value *
-gnumeric_floor (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = floor (value_get_as_double (argv [0]));
-
-	return v;
-}
-
-static Value *
-gnumeric_int (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-	float_t t;
-
-	t = value_get_as_double (argv [0]);
-	
-	v->type = VALUE_FLOAT;
-	v->v.v_float = t > 0.0 ? floor (t) : ceil (t);
-
-	return v;
-}
-
-static Value *
-gnumeric_log (Value *argv [], char **error_string)
-{
-	Value *v;
-	float_t t;
-
-	t = value_get_as_double (argv [0]);
-	if (t < 0.0){
-		*error_string = _("log: domain error");
-		return NULL;
-	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = log (t);
-
-	return v;
-}
-
-static Value *
-gnumeric_log2 (Value *argv [], char **error_string)
-{
-	Value *v;
-	float_t t;
-
-	t = value_get_as_double (argv [0]);
-	if (t < 0.0){
-		*error_string = _("log2: domain error");
-		return NULL;
-	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = log (t) / M_LN2;
-
-	return v;
-}
-
-static Value *
-gnumeric_log10 (Value *argv [], char **error_string)
-{
-	Value *v;
-	float_t t;
-
-	t = value_get_as_double (argv [0]);
-	if (t < 0.0){
-		*error_string = _("log10: domain error");
-		return NULL;
-	}
-	v = g_new (Value, 1);
-	v->type = VALUE_FLOAT;
-	v->v.v_float = log10 (t);
-
-	return v;
-}
-
-static Value *
-gnumeric_radians (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = (value_get_as_double (argv [0]) * M_PI) / 180;
-
-	return v;
-}
-
-static Value *
-gnumeric_sin (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-	
-	v->type = VALUE_FLOAT;
-	v->v.v_float = sin (value_get_as_double (argv [0]));
-	
-	return v;
-}
-
-static Value *
-gnumeric_sinh (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-	
-	v->type = VALUE_FLOAT;
-	v->v.v_float = sinh (value_get_as_double (argv [0]));
-	
-	return v;
-}
-
-static float_t
-gnumeric_sum_add_value (Sheet *sheet, Value *v)
-{
-	float_t total = 0.0;
-	
-	switch (v->type){
+	switch (value->type){
 	case VALUE_INTEGER:
-		return v->v.v_int;
-		break;
-		
 	case VALUE_FLOAT:
-		return v->v.v_float;
-		break;
-		
 	case VALUE_STRING:
-		return atof (v->v.str->str);
+		ret = (*callback)(sheet, value, error_string, closure);
+			break;
+			
+	case VALUE_ARRAY:
+		for (list = value->v.array; list; list = list->next){
+			Value *array_v = (Value *) list->data;
+
+			ret = function_iterate_do_value (
+				sheet, callback, closure,
+				eval_col, eval_row,
+				array_v, error_string);
+			
+			if (ret == FALSE)
+				return FALSE;
+		}
 		break;
 		
 	case VALUE_CELLRANGE: {
-		int col     = v->v.cell_range.cell_a.col;
-		int frow    = v->v.cell_range.cell_a.row;
-		int top_col = v->v.cell_range.cell_b.col;
-		int top_row = v->v.cell_range.cell_b.row;
-		int row;
-		Cell *cell;
-
-		{
-			static warn_shown;
-
-			if (!warn_shown){
-				g_warning ("SUM is not being smart right now, "
-					   "it should use the cell iterator\n");
-				warn_shown = 1;
-			}
-		}
+		IterateCallbackClosure data;
+		int start_col, start_row, end_col, end_row;
 		
-		for (; col <= top_col; col++){
-			for (row = frow; row <= top_row; row++){
-				cell = sheet_cell_get (sheet, col, row);
-				if (!cell)
-					continue;
-				if (!cell->value)
-					continue;
-				total += gnumeric_sum_add_value (sheet, cell->value);
-			}
-		}
-		return total;
+		data.callback = callback;
+		data.closure  = closure;
+		data.error_string = error_string;
 		
-	}
+		cell_get_abs_col_row (&value->v.cell_range.cell_a,
+				      eval_col, eval_row,
+				      &start_col, &start_row);
 
-	case VALUE_ARRAY: {
-		GList *l;
-
-		for (l = v->v.array; l; l = l->next)
-			total += gnumeric_sum_add_value (sheet, l->data);
+		cell_get_abs_col_row (&value->v.cell_range.cell_b,
+				      eval_col, eval_row,
+				      &end_col, &end_row);
 		
-		return total;
+		ret = sheet_cell_foreach_range (
+			sheet, TRUE,
+			start_col, start_row,
+			end_col, end_row,
+			iterate_cellrange_callback,
+			&data);
 	}
-	default:
-		g_warning ("VALUE type not handled in SUM\n");
-		return 0.0;
 	}
+	return ret;
 }
 
-static Value *
-gnumeric_sum (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+int
+function_iterate_argument_values (Sheet                   *sheet,
+				  FunctionIterateCallback callback,
+				  void                    *callback_closure,
+				  GList                   *expr_node_list,
+				  int                     eval_col,
+				  int                     eval_row,
+				  char                    **error_string)
 {
-	Value *result;
-	Sheet *sheet = (Sheet *) tsheet;
-	float_t total = 0.0;
+	int result = TRUE;
 
-	result = g_new (Value, 1);
-	result->type = VALUE_FLOAT;
-	
-	for (; expr_node_list; expr_node_list = expr_node_list->next){
+	for (; result && expr_node_list; expr_node_list = expr_node_list->next){
 		ExprTree *tree = (ExprTree *) expr_node_list->data;
-		Value *v;
+		Value *value;
 
-		v = eval_expr (tsheet, tree, eval_col, eval_row, error_string);
-		total += gnumeric_sum_add_value (sheet, v);
-		value_release (v);
+		value = eval_expr (sheet, tree, eval_col, eval_row, error_string);
+
+		result = function_iterate_do_value (
+			sheet, callback, callback_closure,
+			eval_col, eval_row, value,
+			error_string);
+		
+		value_release (value);
 	}
-	result->v.v_float = total;
-	
 	return result;
 }
-
-static Value *
-gnumeric_tan (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = tan (value_get_as_double (argv [0]));
-	
-	return v;
-}
-
-static Value *
-gnumeric_tanh (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = tanh (value_get_as_double (argv [0]));
-	
-	return v;
-}
-
-static Value *
-gnumeric_pi (Value *argv [], char **error_string)
-{
-	Value *v = g_new (Value, 1);
-
-	v->type = VALUE_FLOAT;
-	v->v.v_float = M_PI;
-
-	return v;
-}
-
-FunctionDefinition math_functions [] = {
-	{ "abs",     "f",    "number", NULL, gnumeric_abs },
-	{ "acos",    "f",    "number", NULL, gnumeric_acos },
-	{ "acosh",   "f",    "number", NULL, gnumeric_acosh },
-	{ "asin",    "f",    "number", NULL, gnumeric_asin },
-	{ "asinh",   "f",    "number", NULL, gnumeric_asinh },
-	{ "atan",    "f",    "number", NULL, gnumeric_atan },
-	{ "atanh",   "f",    "number", NULL, gnumeric_atanh },
-	{ "atan2",   "ff",   "xnum,ynum", NULL, gnumeric_atan2 },
-	{ "cos",     "f",    "number", NULL, gnumeric_cos },
-	{ "cosh",    "f",    "number", NULL, gnumeric_cosh },
-	{ "ceil",    "f",    "number", NULL, gnumeric_ceil },
-	{ "degrees", "f",    "number", NULL, gnumeric_degrees },
-	{ "exp",     "f",    "number", NULL, gnumeric_exp },
-	{ "floor",   "f",    "number", NULL, gnumeric_floor },
-	{ "int",     "f",    "number", NULL, gnumeric_int },
-	{ "log",     "f",    "number", NULL, gnumeric_log },
-	{ "log2",    "f",    "number", NULL, gnumeric_log2 },
-	{ "log10",   "f",    "number", NULL, gnumeric_log10 },
-	{ "radians", "f",    "number", NULL, gnumeric_radians },
-	{ "sin",     "f",    "number", NULL, gnumeric_sin },
-	{ "sinh",    "f",    "number", NULL, gnumeric_sinh },
-	{ "sum",     0,      "number", gnumeric_sum, NULL },
-	{ "tan",     "f",    "number", NULL, gnumeric_tan },
-	{ "tanh",    "f",    "number", NULL, gnumeric_tanh },
-	{ "pi",      "",     "", NULL, gnumeric_pi },
-	{ NULL, NULL },
-};
 
 static void
 install_symbols (FunctionDefinition *functions)
@@ -462,4 +149,23 @@ functions_init (void)
 {
 	install_symbols (math_functions);
 	install_symbols (sheet_functions);
+}
+
+void
+constants_init (void)
+{
+	Value *true, *false;
+
+	/* FALSE */
+	false = g_new (Value, 1);
+	false->type = VALUE_INTEGER;
+	false->v.v_int = 0;
+
+	/* TRUE */
+	true = g_new (Value, 1);
+	true->type = VALUE_INTEGER;
+	true->v.v_int = 1;
+
+	symbol_install ("FALSE", SYMBOL_VALUE, false);
+	symbol_install ("TRUE", SYMBOL_VALUE, true);
 }

@@ -281,8 +281,6 @@ static double
 item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 		   GnomeCanvasItem **actual_item)
 {
-	int extra;
-	
 	*actual_item = NULL;
 
 	if (cx < item->x1)
@@ -304,6 +302,7 @@ item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 		*actual_item = item;
 		return 0.0;
 	}
+	return INT_MAX;
 }
 
 static void

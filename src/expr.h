@@ -119,10 +119,11 @@ typedef struct {
 	 * f for float
 	 * s for string
 	 * b for boolean
+	 * ? for any kind
 	 */
 	char  *args;
 	char  *named_arguments;
-	
+	char  **help;
 	Value *(*expr_fn)(void *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string);
 	
 	Value *(*fn)(Value *argv [], char **error_string);
@@ -134,26 +135,32 @@ extern ParseErr  parser_error;
 extern ExprTree *parser_result;
 extern int       parser_col, parser_row;
 
-ExprTree   *expr_parse_string   (char *expr, int col, int row, char **error_msg);
-void        expr_tree_ref       (ExprTree *tree);
-void        expr_tree_unref     (ExprTree *tree);
+void        cell_get_abs_col_row (CellRef *cell_ref, int eval_col, int eval_row, int *col, int *row);
+
+ExprTree   *expr_parse_string    (char *expr, int col, int row, char **error_msg);
+void        expr_tree_ref        (ExprTree *tree);
+void        expr_tree_unref      (ExprTree *tree);
 
 /* Do not use this routine, it is intended to be used internally */
-void        eval_expr_release   (ExprTree *tree);
+void        eval_expr_release    (ExprTree *tree);
+				 
+Value      *eval_expr            (void *asheet, ExprTree *tree,
+				  int  col, int row,
+				  char **error_string);
+				 
+void        value_release        (Value *value);
+Value      *value_cast_to_float  (Value *v);
+int         value_get_bool       (Value *v, int *err);
+float_t     value_get_as_double  (Value *v);
+void        value_copy_to        (Value *dest, Value *source);
+				 
+void        value_dump           (Value *value);
+char       *value_string         (Value *value);
+				 
+int         yyparse              (void);
 
-Value      *eval_expr           (void *asheet, ExprTree *tree,
-				 int  col, int row,
-				 char **error_string);
-
-void        value_release       (Value *value);
-Value      *value_cast_to_float (Value *v);
-int         value_get_bool      (Value *v, int *err);
-float_t     value_get_as_double (Value *v);
-
-void        value_dump          (Value *value);
-char       *value_string        (Value *value);
-
-int         yyparse             (void);
-void        functions_init      (void);
+/* Setup of the symbol table */
+void        functions_init       (void);
+void        constants_init       (void);
 
 #endif

@@ -1,6 +1,7 @@
 #include <config.h>
 #include <gnome.h>
 #include "gnumeric.h"
+#include "expr.h"
 
 char *parser_expr;
 ParseErr parser_error;
@@ -100,6 +101,8 @@ expr_tree_unref (ExprTree *tree)
 void
 value_release (Value *value)
 {
+	g_return_if_fail (value != NULL);
+	
 	switch (value->type){
 	case VALUE_STRING:
 		string_unref (value->v.str);
@@ -128,6 +131,36 @@ value_release (Value *value)
 		g_warning ("Unknown value type passed to value_release\n");
 	}
 	g_free (value);
+}
+
+/*
+ * Copies a Value.
+ */
+void
+value_copy_to (Value *dest, Value *source)
+{
+	g_return_if_fail (dest != NULL);
+	g_return_if_fail (source != NULL);
+
+	dest->type = source->type;
+	
+	switch (source->type){
+	case VALUE_STRING:
+		dest->v.str = source->v.str;
+		string_ref (dest->v.str);
+		break;
+
+	case VALUE_INTEGER:
+		dest->v.v_int = source->v.v_int;
+		break;
+
+	case VALUE_FLOAT:
+		dest->v.v_float = source->v.v_float;
+		break;
+
+	default:
+		g_warning ("value_copy_to: VALUE type not yet supported\n");
+	}
 }
 
 /*
@@ -309,6 +342,11 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 {
 	Value *a, *b, *res;
 	Sheet *sheet = asheet;
+
+	g_return_val_if_fail (tree != NULL, NULL);
+	g_return_val_if_fail (asheet != NULL, NULL);
+	g_return_val_if_fail (error_string != NULL, NULL);
+	g_return_val_if_fail (IS_SHEET (asheet), NULL);
 	
 	switch (tree->oper){
 	case OP_EQUAL:
@@ -502,15 +540,7 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 		}
 
 		ref = &tree->u.constant->v.cell;
-		if (ref->col_relative)
-			col = eval_col + ref->col;
-		else
-			col = ref->col;
-
-		if (ref->row_relative)
-			row = eval_row + ref->row;
-		else
-			row = ref->row;
+		cell_get_abs_col_row (&tree->u.constant->v.cell, eval_col, eval_row, &col, &row);
 		
 		cell = sheet_cell_get (sheet, col, row);
 		if (!cell)
@@ -551,3 +581,20 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 	*error_string = _("Unknown evaluation error");
 	return NULL;
 }
+
+void
+cell_get_abs_col_row (CellRef *cell_ref, int eval_col, int eval_row, int *col, int *row)
+{
+	g_return_if_fail (cell_ref != NULL);
+
+	if (cell_ref->col_relative)
+		*col = eval_col + cell_ref->col;
+	else
+		*col = cell_ref->col;
+
+	if (cell_ref->row_relative)
+		*row = eval_row + cell_ref->row;
+	else
+		*row = cell_ref->row;
+}
+

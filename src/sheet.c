@@ -1151,17 +1151,20 @@ sheet_row_get (Sheet *sheet, int pos)
 	return row;
 }
 
-static void
+static int
 gen_row_blanks (Sheet *sheet, int col, int start_row, int end_row,
 		sheet_cell_foreach_callback callback, void *closure)
 {
 	int row;
 
 	for (row = 0; row < end_row; row++)
-		(*callback)(sheet, col, row, NULL, closure);
+		if (!(*callback)(sheet, col, row, NULL, closure))
+			return FALSE;
+
+	return TRUE;
 }
 
-static void
+static int
 gen_col_blanks (Sheet *sheet, int start_col, int end_col,
 		int start_row, int end_row,
 		sheet_cell_foreach_callback callback, void *closure)
@@ -1169,7 +1172,10 @@ gen_col_blanks (Sheet *sheet, int start_col, int end_col,
 	int col;
        
 	for (col = 0; col < end_col; col++)
-		gen_row_blanks (sheet, col, start_row, end_row, callback, closure);
+		if (!gen_row_blanks (sheet, col, start_row, end_row, callback, closure))
+			return FALSE;
+	
+	return TRUE;
 }
 
 Cell *
@@ -1192,8 +1198,11 @@ sheet_cell_get (Sheet *sheet, int col, int row)
  * For each existing cell in the range specified, invoke the
  * callback routine.  If the only_existing flag is passed, then
  * callbacks are only invoked for existing cells.
+ *
+ * Return value:
+ *    FALSE if some invoked routine requested to stop (by returning FALSE). 
  */
-void
+int
 sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 			  int start_col, int start_row,
 			  int end_col, int end_row,
@@ -1203,10 +1212,11 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 	GList *col;
 	GList *row;
 	int   last_col_gen = -1, last_row_gen = -1;
-
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet)); 
-	g_return_if_fail (callback != NULL);
+	int   cont;
+	
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE); 
+	g_return_val_if_fail (callback != NULL, FALSE);
 	
 	col = sheet->cols_info;
 	for (; col; col = col->next){
@@ -1219,14 +1229,16 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 
 		if (!only_existing){
 			if ((last_col_gen > 0) && (ci->pos != last_col_gen+1))
-				gen_col_blanks (sheet, last_col_gen, ci->pos,
-						start_row, end_row, callback,
-						closure);
+				if (!gen_col_blanks (sheet, last_col_gen, ci->pos,
+						     start_row, end_row, callback,
+						     closure))
+				    return FALSE;
 					
 			if (ci->pos > start_col)
-				gen_col_blanks (sheet, start_col, ci->pos,
-						start_row, end_row, callback,
-						closure);
+				if (!gen_col_blanks (sheet, start_col, ci->pos,
+						     start_row, end_row, callback,
+						     closure))
+					return FALSE;
 		}
 		last_col_gen = ci->pos;
 
@@ -1244,20 +1256,26 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 			if (!only_existing){
 				if (last_row_gen > 0){
 					if (row_pos != last_row_gen+1)
-						gen_row_blanks (sheet, ci->pos,
-								last_row_gen,
-								row_pos,
-								callback,
-								closure);
+						if (!gen_row_blanks (sheet, ci->pos,
+								     last_row_gen,
+								     row_pos,
+								     callback,
+								     closure))
+							return FALSE;
 				}
-				if (row_pos > start_row)
-					gen_row_blanks (sheet, ci->pos,
-							row_pos, start_row,
-							callback, closure);
+				if (row_pos > start_row){
+					if (!gen_row_blanks (sheet, ci->pos,
+							     row_pos, start_row,
+							     callback, closure))
+						return FALSE;
+				}
 			}
-			(*callback)(sheet, ci->pos, row_pos, cell, closure);
+			cont = (*callback)(sheet, ci->pos, row_pos, cell, closure);
+			if (cont == FALSE)
+				return FALSE;
 		}
 	}
+	return TRUE;
 }
 
 Style *

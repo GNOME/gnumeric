@@ -1,0 +1,157 @@
+
+Writing builtin functions for Gnumeric:
+---------------------------------------
+
+Functions in Gnumeric should be registered in the symbol table, to
+register a function you just need to prepare a function definition
+record. 
+
+For example, a simple routine to sum two numbers, you would do:
+
+char *help_add2numbers = "ADD2NUMBERS: Adds two numbers";
+
+FunctionDefinition add_two_numbers = 
+{ "add2numers", "ff", "number1,number2", help_add2numbers, NULL, add2numbers }
+
+The first C declaration defines the HELP associated with this
+function.
+
+The second declaration is our function definition record:  the name of
+the function is the first parameter (this is how the function will be
+exposed to Gnumeric), the next parameter tells gnumeric that we are
+expecting two floating point arguments.  The third parameter describes
+the symbolic names for the arguments (in case our function supports
+them, this allows users to specify named paramters); The fourth
+parameter links in the help description.
+
+Now, our routine is pretty simple: it will always require 2 arguments
+to be passed, so we can let Gnumeric deal with argument count and we
+can let the Gnumeric engine compute the values in the expression for
+us.  So, for this case we leave the fift parameter set as NULL and set
+the sixth parameter to point to the function that will do the function
+evaluation. 
+
+Now, to register the function we just do:
+
+register_add2numbers ()
+{
+	symbol_install (add_two_numbers.name, SYMBOL_FUNCTION, &add_two_numbers);
+}
+
+When the user calls the function "ADD2NUMBERS" in a Gnumeric
+expression, our routine will be invoked, this is how the add2numbers
+function signature looks like:
+
+static Value *
+add2numbers (Value *argv [], char **error_string)
+{
+	
+}
+
+The function should return a newly allocated Value structure.
+Arguments are passed in the argv array and they contain Value
+structures (look in gnumeric/src/expr.h for the definition of the
+Value structure).
+
+Here is the actual implementation:
+
+static Value *
+add2numbers (Value *argv [], char **error_string)
+{
+	Value *result;
+	float number_a, number_b;
+
+	switch (argv [0].type){
+	case VALUE_INTEGER:
+		number_a = argv [0].v.v_int;
+		break;
+
+	case VALUE_FLOAT:
+		number_a = argv [0].v.v_float;
+		break;
+
+	default:
+		*error_string = "Invalid argument type";
+		return NULL;
+	}
+
+	switch (argv [1].type){
+	case VALUE_INTEGER:
+		number_a = argv [1].v.v_int;
+		break;
+
+	case VALUE_FLOAT:
+		number_a = argv [1].v.v_float;
+		break;
+
+	default:
+		*error_string = "Invalid argument type";
+		return NULL;
+	}
+
+	/* 
+	 * the line below is equivalent to:
+	 * result = (Value *) malloc (sizeof (Value));
+	 *
+	 */
+	result = g_new (Value, 1);
+	result->type = VALUE_FLOAT;
+	result->v.v_float = number_a + number_b;
+
+	return result;
+}
+
+Note that the typechecking is done in the routine itself, it is not
+done by the upper layers.  If there is an error during the function
+processing, *error_string should be set to the error message
+describing what went wrong and the NULL value should be returned.
+
+Functions with a variable number of arguments
+---------------------------------------------
+
+Gnumeric supports two types of functions: those that take a fixed
+number of arguments and those that do take a variable number of
+arguments.  In the former case, the Gnumeric engine does some work to
+simplify function coding, in the later case, the function writer is
+pretty much presented with the raw expression tree data as a list. 
+
+If you want to implement a function that takes a variable number of
+arguments you have to change your FunctionDefinition:  instead of
+setting the fifth parameter as NULL and the sixth pointing to your
+function, you should set the sixth parameter to NULL and you fill in
+the fifth parameter, like this:
+
+char *help_factadd = "Adds all of its arguments";
+
+{ "addall", "", "",  help_addall, addall, NULL }
+
+We will now implement addall, a function that takes any number and
+kind of arguments: strings, integers, floating point numbers, arrays
+and cell ranges.  
+
+This is a simple usage of addall, lets imagine cell A1 contains the
+value 5 and the cell A2 contains the value 3.
+
+addall (1)			returns 1
+addall (1,2)			returns 3
+addall (a1:a3)			returns 8
+addall (a1:a3,1)		returns 9
+
+Here is the function signature for addall:
+
+Value *
+addall (void *sheet, GList *expr_node_list, int eval_col, 
+	int eval_row, char **error_string)
+
+As usual, this routine would return a newly allocated Value or NULL if
+an error is found (and in that case, error_string would be set to
+point to a message describing the problem).
+
+The first argument points to a (Sheet *) structure, and the second
+argument is a linked list (a GList) that contains (ExprTree *) nodes.
+
+The eval_col and eval_row parameters are used to inform the function
+in which context the expression should be evaluated (ie, from which
+cell it is being invoked) and it is used when invoking the expr_eval
+function.
+

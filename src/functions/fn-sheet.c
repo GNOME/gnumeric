@@ -100,28 +100,10 @@ gnumeric_selection (void *tsheet, GList *expr_node_list, int eval_col, int eval_
 	return value;
 }
 
-static Value *
-gnumeric_count (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
-{
-	*error_string = "not yet implemented";
-
-	return NULL;
-}
-
-static Value *
-gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
-{
-	*error_string = "not yet implemented";
-	
-	return NULL;
-}
-
 FunctionDefinition sheet_functions [] = {
-	{ "if",     0,       "logical_test,value_if_true,value_if_false",
+	{ "if",     0,       "logical_test,value_if_true,value_if_false", NULL,
 	  gnumeric_if, NULL },
-	{ "selection", 0,    "", gnumeric_selection, NULL },
-	{ "count",     0,    "", gnumeric_count,     NULL },
-	{ "average",   0,    "", gnumeric_average,   NULL },
+	{ "selection", 0,    "", NULL, gnumeric_selection, NULL },
 	{ NULL, NULL }
 };
 

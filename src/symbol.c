@@ -9,6 +9,7 @@
 #include <config.h>
 #include <glib.h>
 #include <string.h>
+#include <ctype.h>
 #include "symbol.h"
 
 static GHashTable *symbol_hash_table;
@@ -126,7 +127,7 @@ g_strcase_equal (gconstpointer v1, gconstpointer v2)
 }
 
 
-static gint
+static guint
 g_strcase_hash (gconstpointer v)
 {
 	const char *s = (char *) v;
