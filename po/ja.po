@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 1.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-22 18:22+0900\n"
+"POT-Creation-Date: 2004-10-24 11:08+0900\n"
 "PO-Revision-Date: 2004-03-08 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -5182,6 +5182,90 @@ msgstr "エンジニアリング関数"
 msgid "Functions for complex numbers, base conversions, and more"
 msgstr "複素数や基数変換などの関数"
 
+#: plugins/fn-erlang/functions.c:110
+msgid ""
+"@FUNCTION=PROBBLOCK\n"
+"@SYNTAX=PROBBLOCK(traffic,circuits)\n"
+"@DESCRIPTION=PROBBLOCK returns probability of blocking when a number of "
+"@traffic loads into a number of @circuits (servers).\n"
+"\n"
+"* @traffic cannot exceed @circuits\n"
+"\n"
+"@EXAMPLES=\n"
+"PROBBLOCK(24, 30) returns 0.4012.\n"
+"\n"
+"@SEEALSO=OFFTRAF, DIMCIRC, OFFCAP"
+msgstr ""
+
+#: plugins/fn-erlang/functions.c:138
+msgid ""
+"@FUNCTION=OFFTRAF\n"
+"@SYNTAX=OFFTRAF(traffic,circuits)\n"
+"@DESCRIPTION=OFFTRAF returns a predicted number of offered traffic from a "
+"number of carried @traffic (taken from measurements) on a number of "
+"@circuits.\n"
+"\n"
+"* @traffic cannot exceed @circuits\n"
+"\n"
+"@EXAMPLES=\n"
+"OFFTRAF(24, 30) returns 25.526.\n"
+"\n"
+"@SEEALSO=PROBBLOCK, DIMCIRC, OFFCAP"
+msgstr ""
+
+#: plugins/fn-erlang/functions.c:202
+msgid ""
+"@FUNCTION=DIMCIRC\n"
+"@SYNTAX=DIMCIRC(traffic,gos)\n"
+"@DESCRIPTION=DIMCIRC returns a number of circuits required from a number of "
+"@traffic loads with @gos grade of service.\n"
+"\n"
+"@EXAMPLES=\n"
+"DIMCIRC(24, 1%) returns 35.\n"
+"\n"
+"@SEEALSO=OFFCAP, OFFTRAF, PROBBLOCK"
+msgstr ""
+
+#: plugins/fn-erlang/functions.c:240
+msgid ""
+"@FUNCTION=OFFCAP\n"
+"@SYNTAX=OFFCAP(circuits,gos)\n"
+"@DESCRIPTION=OFFCAP returns a number of traffic capacity given by a number "
+"of @circuits with @gos grade of service.\n"
+"\n"
+"@EXAMPLES=\n"
+"OFFCAP(30, 1%) returns 20.337.\n"
+"\n"
+"@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK"
+msgstr ""
+
+#: plugins/fn-erlang/functions.c:286 plugins/fn-erlang/functions.c:291
+msgid "traffic,circuits"
+msgstr ""
+
+#: plugins/fn-erlang/functions.c:296
+msgid "traffic,gos"
+msgstr ""
+
+#: plugins/fn-erlang/functions.c:301
+msgid "circuits,gos"
+msgstr ""
+
+#: plugins/fn-erlang/plugin.xml.in.h:1
+#, fuzzy
+msgid "Erlang"
+msgstr "範囲"
+
+#: plugins/fn-erlang/plugin.xml.in.h:2
+#, fuzzy
+msgid "Erlang Functions"
+msgstr "文字列操作関数"
+
+#: plugins/fn-erlang/plugin.xml.in.h:3
+#, fuzzy
+msgid "Functions to help Erlang Analysis"
+msgstr "文字列操作関数"
+
 #: plugins/fn-financial/functions.c:306
 #, fuzzy
 msgid ""
@@ -7669,7 +7753,7 @@ msgstr "%s バージョン %s"
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #. Color
 #: plugins/fn-info/functions.c:1324
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1447
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1455
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar.c:224
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:119
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:822
@@ -17078,70 +17162,74 @@ msgstr "自動フォーマットのシステムディレクトリ"
 msgid ""
 "The autocorrect engine does not correct the first letter for words in this "
 "list."
-msgstr ""
+msgstr "自動訂正エンジンはこのリストにある単語の最初の文字を訂正しません。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:47
+#, fuzzy
 msgid ""
-"The autocorrect engine does not correct the inital caps for words in this "
+"The autocorrect engine does not correct the initial caps for words in this "
 "list."
-msgstr ""
+msgstr "自動訂正エンジンはこのリストにある単語の最初の文字を訂正しません。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:48
 msgid "The configuration of gnome-print. Do not edit this variable."
-msgstr ""
+msgstr "gnome-printの設定です。この変数を編集しないでください。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:49
-#, fuzzy
 msgid "The default font name for headers and footers."
-msgstr "新規ワークブックのデフォルトフォント名です。"
+msgstr "ヘッダとフッタのデフォルトフォント名です。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:50
-#, fuzzy
 msgid "The default font size for headers and footers."
-msgstr "新規ワークブックのデフォルトフォントサイズです。"
+msgstr "ヘッダとフッタのデフォルトフォントサイズです。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:51
-#, fuzzy
 msgid "The default header/footer font is bold."
-msgstr "デフォルトフォントはボールドです"
+msgstr "ヘッダ/フッタのフォントはデフォルトではボールドです。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:52
-#, fuzzy
 msgid "The default header/footer font is italic."
-msgstr "デフォルトフォントはイタリックです。"
+msgstr "ヘッダ/フッタのフォントはデフォルトではイタリックです。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:53
 msgid ""
 "The default page footer for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
+"新規ドキュメントのデフォルトのページフッタはページセットアップダイアログで変"
+"更することができます。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:54
 msgid ""
 "The default page header for new documents that can be modified using the "
 "page setup dialog."
 msgstr ""
+"新規ドキュメントのデフォルトのページヘッダはページセットアップダイアログで変"
+"更することができます。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:55
 msgid ""
 "The function selector keeps a list of recently used functions. This is that "
 "list."
 msgstr ""
+"関数セレクタは最近使われた関数をリストで覚えています。これはそのリストです。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:56
 msgid ""
 "The function selector keeps a list of recently used functions. This is the "
 "maximum length of that list."
 msgstr ""
+"関数セレクタは最近使われた関数をリストで覚えています。これはそのリストの最大"
+"長です。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:57
 msgid "The main directory for user specific autoformat templates."
-msgstr ""
+msgstr "ユーザごとの自動書式テンプレートのメインディレクトリです。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:58
-#, fuzzy
 msgid "This directory contains the pre-installed autoformat templates."
-msgstr "自動書式テンプレートを読み込み中にエラー"
+msgstr ""
+"このディレクトリにはプレインストールされた自動書式テンプレートがあります。"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:59
 msgid ""
@@ -17294,6 +17382,9 @@ msgid ""
 "warning dialog. Setting this option will make the overwrite button in that "
 "dialog the default button."
 msgstr ""
+"すでに存在するファイルを上書きする前に、Gnumericは警告ダイアログを"
+"表示します。このオプションをセットすると、 そのダイアログの上書きボタンを"
+"デフォルトボタンにします。"
 
 #: schemas/gnumeric-general.schemas.in.h:4
 msgid "Default Compression Level For Gnumeric Files"
@@ -17373,7 +17464,7 @@ msgstr "「元に戻す」ことのできるアイテムの数"
 
 #: schemas/gnumeric-general.schemas.in.h:21
 msgid "Prefer CLIPBOARD over PRIMARY selection"
-msgstr ""
+msgstr "PRIMARYセレクションよりもクリップボードを優先する"
 
 #: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the horizontal direction."
@@ -17565,6 +17656,10 @@ msgid ""
 "legacy PRIMARY selections. Set to FALSE if you have to deal with older "
 "applications, like Xterm or Emacs, which set only the PRIMARY selection."
 msgstr ""
+"TRUEにすると、GnumericはレガシーなPRIMARYセレクションよりもモダンなクリップ"
+"ボードセレクションを優先します。もしXtermやEmacsなど、PRIMARYセレクションのみ"
+"をセットするような古めのアプリケーションを扱いたいときは、FALSEにしてくださ"
+"い。"
 
 #: schemas/gnumeric-general.schemas.in.h:59
 msgid ""
@@ -18178,77 +18273,77 @@ msgstr "%s!%s へ合成する"
 msgid "Data Consolidation"
 msgstr "データの合成"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:605
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:612
 #: src/dialogs/dialog-random-generator.c:118
 #: src/tools/solver/reports-write.c:712
 msgid "Discrete"
 msgstr "離散"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:605
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:612
 #, fuzzy
 msgid "Discrete mapping"
 msgstr "離散"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:614
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:621
 #, fuzzy
 msgid "Linear"
 msgstr "加算(_L)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:614
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:621
 msgid "Linear mapping"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:620
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:627
 #, fuzzy
 msgid "Log"
 msgstr "論理"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:620
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:627
 #, fuzzy
 msgid "Logarithm mapping"
 msgstr "対数"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1403
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1411
 msgid "Details"
 msgstr "詳細"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1457
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
 msgid "Categories between _ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1458
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1466
 msgid "Categories between _labels"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1459
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1467
 #, fuzzy
 msgid "_Cross at category #"
 msgstr "カテゴリ(_C):"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1465
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1479
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1473
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1487
 #, fuzzy
 msgid "Bounds"
 msgstr "背景"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1468
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1476
 #: src/dialogs/solver.glade.h:7
 msgid "M_in"
 msgstr "最小(_I)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1469
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1477
 msgid "M_ax"
 msgstr "最大(_A)"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1470
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1478
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1471
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1479
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1472
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1480
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
 #, fuzzy
 msgid "_Cross"
@@ -18258,23 +18353,23 @@ msgstr "閉じる(_C)"
 #. * We need a way to toggle auto vs user formats
 #. * but the selector is too tall already
 #. * disable for now
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1494
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1501
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1502
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1509
 #: src/dialogs/dialog-stf.glade.h:26
 msgid "Format"
 msgstr "書式"
 
 #. Object Toolbar
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1530 src/wbcg-actions.c:1911
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1538 src/wbcg-actions.c:1911
 msgid "Label"
 msgstr "ラベル"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1533
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1541
 #, fuzzy
 msgid "MinorGrid"
 msgstr "金曜日"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1536
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:1544
 #, fuzzy
 msgid "MajorGrid"
 msgstr "金曜日"
@@ -20185,10 +20280,6 @@ msgstr "先頭の文字"
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:671
 #: src/format.c:2233 src/format.c:2398 src/format.c:2404 src/format.c:2477
 #: src/plugin-service.c:198 src/widgets/widget-format-selector.c:75
-#: templates/autoformat/autoformat.General.advanced.xml.in.h:3
-#: templates/autoformat/autoformat.General.basic.xml.in.h:3
-#: templates/autoformat/autoformat.General.empty.xml.in.h:3
-#: templates/autoformat/autoformat.General.table.xml.in.h:1
 msgid "General"
 msgstr "標準"
 
@@ -21252,54 +21343,63 @@ msgid "Pieces of MS Excel import"
 msgstr "MS Excelのインポートをいくつか"
 
 #: src/dialogs/dialog-about.c:150
+msgid "Arief Mulya Utama"
+msgstr ""
+
+#: src/dialogs/dialog-about.c:151
+#, fuzzy
+msgid "Telecommunications functions"
+msgstr "情報関数"
+
+#: src/dialogs/dialog-about.c:152
 msgid "Daniel Veillard"
 msgstr "Daniel Veillard"
 
-#: src/dialogs/dialog-about.c:151
+#: src/dialogs/dialog-about.c:153
 msgid "Initial XML support"
 msgstr "最初のXML サポート"
 
-#: src/dialogs/dialog-about.c:152
+#: src/dialogs/dialog-about.c:154
 msgid "Vladimir Vuksan"
 msgstr "Vladimir Vuksan"
 
-#: src/dialogs/dialog-about.c:153
+#: src/dialogs/dialog-about.c:155
 msgid "Some financial functions"
 msgstr "いくつかの財務関数"
 
-#: src/dialogs/dialog-about.c:154
+#: src/dialogs/dialog-about.c:156
 msgid "Morten Welinder"
 msgstr "Morten Welinder"
 
-#: src/dialogs/dialog-about.c:155
+#: src/dialogs/dialog-about.c:157
 msgid "All round powerhouse"
 msgstr "オールラウンドな職人"
 
-#: src/dialogs/dialog-about.c:156
+#: src/dialogs/dialog-about.c:158
 msgid "Kevin Breit"
 msgstr "Kevin Breit"
 
-#: src/dialogs/dialog-about.c:157
+#: src/dialogs/dialog-about.c:159
 msgid "Thomas Canty"
 msgstr "Thomas Canty"
 
-#: src/dialogs/dialog-about.c:158
+#: src/dialogs/dialog-about.c:160
 msgid "Adrian Custer"
 msgstr "Adrian Custer"
 
-#: src/dialogs/dialog-about.c:159
+#: src/dialogs/dialog-about.c:161
 msgid "Adrian Likins"
 msgstr "Adrian Likins"
 
-#: src/dialogs/dialog-about.c:160
+#: src/dialogs/dialog-about.c:162
 msgid "Aaron Weber"
 msgstr "Aaron Weber"
 
-#: src/dialogs/dialog-about.c:161
+#: src/dialogs/dialog-about.c:163
 msgid "Alexander Kirillov"
 msgstr "Alexander Kirillov"
 
-#: src/dialogs/dialog-about.c:263
+#: src/dialogs/dialog-about.c:265
 msgid "About Gnumeric"
 msgstr "Gnumericについて"
 
@@ -22138,28 +22238,25 @@ msgstr "ディレクトリ"
 #: src/dialogs/dialog-preferences.c:655
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr ""
-"このページにあるアイテムは \"元に戻す/やり直す\" システムの動作をカスタマイズ"
-"します。"
+"このページにある項目は \"元に戻す/やり直す\" システムの動作をカスタマイズしま"
+"す。"
 
 #: src/dialogs/dialog-preferences.c:690
-#, fuzzy
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
 msgstr ""
-"このページにあるアイテムは \"元に戻す/やり直す\" システムの動作をカスタマイズ"
-"します。"
+"このページにある項目はソートダイアログの初期設定とソートツールバーボタンの動"
+"作をカスタマイズします。"
 
 #: src/dialogs/dialog-preferences.c:728
 msgid "The items on this page customize the new default workbook."
 msgstr ""
-"このページにあるアイテムは、新しいデフォルトのワークブックをカスタマイズしま"
-"す。"
+"このページにある項目は、新しいデフォルトのワークブックをカスタマイズします。"
 
 #: src/dialogs/dialog-preferences.c:768
 msgid "The items on this page are related to the saving and opening of files."
-msgstr ""
-"このページにあるアイテムは \"ファイルを開く/保存する\" に影響を与えます。"
+msgstr "このページにある項目は \"ファイルを開く/保存する\" に影響を与えます。"
 
 #: src/dialogs/dialog-preferences.c:813
 msgid "Windows"
@@ -22656,14 +22753,14 @@ msgid ""
 "solver for Gnumeric?"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:805
+#: src/dialogs/dialog-solver.c:803
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
 msgstr ""
 "ソルバが最適解を見つけました。全ての制約と最適化条件が満たされました。\n"
 
-#: src/dialogs/dialog-solver.c:814
+#: src/dialogs/dialog-solver.c:812
 msgid ""
 "Neither sensitivity nor limits report are meaningful if the program has "
 "integer constraints.  These reports will not be created."
@@ -22671,13 +22768,13 @@ msgstr ""
 "プログラムに整数値条件があると、感度レポートも条件レポートも意味がありませ"
 "ん。これらのレポートは作成されません。"
 
-#: src/dialogs/dialog-solver.c:832
+#: src/dialogs/dialog-solver.c:830
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 "指定した対象のセルの値が収束していません！  プログラムが解放されました。"
 
-#: src/dialogs/dialog-solver.c:846
+#: src/dialogs/dialog-solver.c:844
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -22685,38 +22782,38 @@ msgstr ""
 "実現可能な解決策が見つかりませんでした。指定した全ての制限は同時に起こすこと"
 "はできません。"
 
-#: src/dialogs/dialog-solver.c:861
+#: src/dialogs/dialog-solver.c:859
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
 msgstr "繰り返し回数が最大値を超えました。最適解は見つかりませんでした。"
 
-#: src/dialogs/dialog-solver.c:901
+#: src/dialogs/dialog-solver.c:899
 msgid "Optimal solution created by solver.\n"
 msgstr "ソルバが最適解を生成しました。\n"
 
-#: src/dialogs/dialog-solver.c:935
+#: src/dialogs/dialog-solver.c:933
 msgid "Unknown error."
 msgstr "不明なエラーです。"
 
-#: src/dialogs/dialog-solver.c:954
+#: src/dialogs/dialog-solver.c:952
 msgid "You have not specified a problem to be solved"
 msgstr "解決したい問題が指定されていません"
 
-#: src/dialogs/dialog-solver.c:973 src/tools/solver/solver.c:377
+#: src/dialogs/dialog-solver.c:971 src/tools/solver/solver.c:377
 msgid "Target cell should contain a formula."
 msgstr "目的セルには関数が含まれていなければなりません。"
 
-#: src/dialogs/dialog-solver.c:1052
+#: src/dialogs/dialog-solver.c:1050
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "制約'%s'は入力セルではないセルに対するものです。"
 
-#: src/dialogs/dialog-solver.c:1074
+#: src/dialogs/dialog-solver.c:1072
 msgid "No constraints defined for the problem."
 msgstr "問題について定義されている制約がありません。"
 
-#: src/dialogs/dialog-solver.c:1131
+#: src/dialogs/dialog-solver.c:1129
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
@@ -22724,11 +22821,11 @@ msgstr ""
 "最大時間を超えました。指定された時間の中で最適解を見つけることが出来ませんで"
 "した。"
 
-#: src/dialogs/dialog-solver.c:1330
+#: src/dialogs/dialog-solver.c:1328
 msgid "Subject to the Constraints:"
 msgstr "制約条件:"
 
-#: src/dialogs/dialog-solver.c:1446
+#: src/dialogs/dialog-solver.c:1444
 msgid "Could not create the Solver dialog."
 msgstr "ソルバダイアログが作成できませんでした。"
 
@@ -23183,13 +23280,16 @@ msgid "`"
 msgstr "`"
 
 #: src/dialogs/dialog-stf-main-page.c:150
+#, fuzzy, c-format
 msgid "%d of %d lines to import"
 msgstr "%2$1行のうち%1$d行をインポート"
 
 #: src/dialogs/dialog-stf-main-page.c:171
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
-msgstr "データはエンコーディング %s では正しくありません。他のエンコーディングを選択してください。"
+msgstr ""
+"データはエンコーディング %s では正しくありません。他のエンコーディングを選択"
+"してください。"
 
 #: src/dialogs/dialog-stf-main-page.c:395
 #, c-format
@@ -23796,6 +23896,7 @@ msgstr "利用可能名称"
 msgid "<b>Definition</b>"
 msgstr "<b>定義</b>"
 
+#: src/dialogs/names.glade.h:5
 msgid "Define Names"
 msgstr "名前の定義"
 
@@ -26460,11 +26561,7 @@ msgstr "プラグインシステムの初期化中にエラーが発生しまし
 msgid "Loader has no set_attributes method.\n"
 msgstr ""
 
-#: src/plugin-loader.c:205
-msgid "Loader has no load_base method.\n"
-msgstr ""
-
-#: src/plugin-loader.c:266 src/plugin-loader.c:306
+#: src/plugin-loader.c:263 src/plugin-loader.c:303
 #, c-format
 msgid "Service '%s' not supported by loader."
 msgstr "サービス '%s' は、ローダーはサポートしていません。"
@@ -26527,7 +26624,7 @@ msgstr "ファイルには \"%s\" 配列が含まれていません。"
 msgid "Module doesn't contain \"%s\" function."
 msgstr "モジュールには関数 \"%s\" が含まれていません。"
 
-#: src/plugin-service.c:162 src/plugin-service.c:252 src/plugin-service.c:1144
+#: src/plugin-service.c:162 src/plugin-service.c:252 src/plugin-service.c:1138
 msgid "Error while loading plugin service."
 msgstr "プラグイン・サービスの読み込み中にエラーが発生しました。"
 
@@ -26577,61 +26674,57 @@ msgstr "関数のカテゴリ名がありません。"
 msgid "Function group is empty."
 msgstr "関数グループは空です。"
 
-#: src/plugin-service.c:1012
-msgid "No func_desc_load method.\n"
-msgstr ""
-
-#: src/plugin-service.c:1082
+#: src/plugin-service.c:1076
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d の関数がカテゴリ\"%s\"にあります"
 
-#: src/plugin-service.c:1083
+#: src/plugin-service.c:1077
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "%d個の関数のグループがカテゴリ\"%s\"にあります"
 
-#: src/plugin-service.c:1179
+#: src/plugin-service.c:1173
 msgid "Plugin loader"
 msgstr "プラグイン・ローダー"
 
-#: src/plugin-service.c:1256
+#: src/plugin-service.c:1250
 msgid "Missing file name."
 msgstr "ファイル名が見当たりません"
 
-#: src/plugin-service.c:1322
+#: src/plugin-service.c:1316
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr "XMLファイル %s からUI情報が読み取れません。"
 
-#: src/plugin-service.c:1359
+#: src/plugin-service.c:1353
 #, c-format
 msgid "User interface with %d action"
 msgstr "%dアクションのユーザインターフェース"
 
-#: src/plugin-service.c:1360
+#: src/plugin-service.c:1354
 #, c-format
 msgid "User interface with %d actions"
 msgstr "%dアクションのユーザインターフェース"
 
-#: src/plugin-service.c:1390
+#: src/plugin-service.c:1384
 msgid "GObject loader"
 msgstr "GObjectローダー"
 
-#: src/plugin-service.c:1497
+#: src/plugin-service.c:1491
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "\"type\"属性が\"service\"要素ありません。"
 
-#: src/plugin-service.c:1503
+#: src/plugin-service.c:1497
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "不明なサービスタイプです: %s"
 
-#: src/plugin-service.c:1519
+#: src/plugin-service.c:1513
 msgid "Error reading service information."
 msgstr "サービス情報の読み込みでエラーが発生しました。"
 
-#: src/plugin-service.c:1581
+#: src/plugin-service.c:1575
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -27006,7 +27099,7 @@ msgid "Frame"
 msgstr "フレーム"
 
 #: src/sheet-object-widget.c:496 src/wbcg-actions.c:1947
-#: templates/autoformat/autoformat.3D.button.xml.in.h:3
+#: templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "Button"
 msgstr "ボタン"
 
@@ -27104,57 +27197,63 @@ msgid ""
 "Only the current sheet will be saved."
 msgstr ""
 
-#: src/stf.c:112
+#: src/stf.c:114
 msgid "Error while trying to read file"
 msgstr "ファイルの読み込みでエラー"
 
-#: src/stf.c:269 src/stf.c:305
+#: src/stf.c:271 src/stf.c:307
 msgid "Text to Columns"
 msgstr "テキストをカラムに"
 
-#: src/stf.c:274
+#: src/stf.c:276
 #, c-format
 msgid "Only 1 one column of <b>input</b> data can be parsed at a time, not %d"
 msgstr ""
 "一度に<b>入力</b>データのうち一つのカラムだけを解析できます。%dではありません"
 
-#: src/stf.c:300
+#: src/stf.c:302
 msgid "There is no data to convert"
 msgstr "変換するデータがありません"
 
-#: src/stf.c:320
+#: src/stf.c:322
 msgid "Error while trying to parse data into sheet"
 msgstr "シートに読み込むデータの構文解析中にエラー"
 
-#: src/stf.c:363
+#: src/stf.c:365
 msgid "That file is not in the given encoding."
 msgstr "ファイルは指定されたエンコーディングではありません。"
 
-#: src/stf.c:380
+#: src/stf.c:386
+msgid ""
+"Some columns of data were dropped since they exceeded the available sheet "
+"size."
+msgstr ""
+
+#: src/stf.c:393
 msgid "Parse error while trying to parse data into sheet"
 msgstr "シートに読み込むデータの構文解析中に構文解析エラー"
 
-#: src/stf.c:414
+#: src/stf.c:428
 msgid "Error while trying to export file as text"
 msgstr "ファイルをテキスト形式でエクスポートしようとしてエラー"
 
-#: src/stf.c:434
+#: src/stf.c:448
 msgid "Error while trying to write CSV file"
 msgstr "CSVファイルの書き出しでエラー"
 
-#: src/stf.c:476
+#: src/stf.c:490
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "カンマかタブ区切り(CSV/TSV)"
 
-#: src/stf.c:480
+#: src/stf.c:494
 msgid "Text import (configurable)"
 msgstr "テキストのインポート (カスタマイズ可能)"
 
-#: src/stf.c:485
+#: src/stf.c:499
 msgid "Text export (configurable)"
 msgstr "テキストのエキスポート (カスタマイズ可能)"
 
-#: src/stf.c:489
+#: src/stf.c:503
 msgid "Comma separated values (CSV)"
 msgstr "カンマ区切り(CSV)"
 
@@ -27163,7 +27262,7 @@ msgstr "カンマ区切り(CSV)"
 msgid "Too many rows in data to parse: %d"
 msgstr "解析するための行が多すぎます: %d"
 
-#: src/stf-parse.c:1174
+#: src/stf-parse.c:1175
 msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
@@ -28480,11 +28579,11 @@ msgstr "誰か質問に答えてくれる人がいないかチェックします
 
 #: src/wbcg-actions.c:1480
 msgid "Report a _Problem"
-msgstr "問題の報告(_P)"
+msgstr "不具合の報告(_P)"
 
 #: src/wbcg-actions.c:1481
 msgid "Report problem "
-msgstr "問題を報告します "
+msgstr "不具合を報告します "
 
 #: src/wbcg-actions.c:1483
 msgid "_About"
@@ -29380,11 +29479,7 @@ msgstr "スピンボタン"
 msgid "Create a spin button"
 msgstr "スピンボタンを作成します"
 
-#: src/wbcg-actions.c:1929 templates/autoformat/autoformat.3D.list.xml.in.h:4
-#: templates/autoformat/autoformat.List.basic.xml.in.h:4
-#: templates/autoformat/autoformat.List.green.xml.in.h:4
-#: templates/autoformat/autoformat.List.lila.xml.in.h:4
-#: templates/autoformat/autoformat.List.simple.xml.in.h:3
+#: src/wbcg-actions.c:1929 templates/autoformat/autoformat.3D.list.xml.in.h:3
 msgid "List"
 msgstr "リスト"
 
@@ -31162,33 +31257,28 @@ msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Gnumeric XML (*.gnumeric) オリジナルの遅いエクスポート"
 
 #: templates/autoformat/autoformat.3D.button.xml.in.h:1
-#: templates/autoformat/autoformat.3D.list.xml.in.h:1
-msgid "3D"
-msgstr "3次元"
-
-#: templates/autoformat/autoformat.3D.button.xml.in.h:2
 msgid "A button like template"
 msgstr "ボタンのようなテンプレート"
 
-#: templates/autoformat/autoformat.3D.button.xml.in.h:4
-#: templates/autoformat/autoformat.3D.list.xml.in.h:3
-#: templates/autoformat/autoformat.Classical.cool.xml.in.h:3
-#: templates/autoformat/autoformat.Classical.simple.xml.in.h:3
-#: templates/autoformat/autoformat.Classical.trendy.xml.in.h:3
-#: templates/autoformat/autoformat.Colourful.banana.xml.in.h:4
-#: templates/autoformat/autoformat.Colourful.black.xml.in.h:3
-#: templates/autoformat/autoformat.Colourful.blue.xml.in.h:4
-#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:2
-#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:2
-#: templates/autoformat/autoformat.Financial.basic.xml.in.h:2
-#: templates/autoformat/autoformat.Financial.desert.xml.in.h:4
-#: templates/autoformat/autoformat.Financial.ice.xml.in.h:3
-#: templates/autoformat/autoformat.Financial.modern.xml.in.h:2
-#: templates/autoformat/autoformat.Financial.purple.xml.in.h:3
-#: templates/autoformat/autoformat.General.advanced.xml.in.h:4
-#: templates/autoformat/autoformat.General.basic.xml.in.h:4
-#: templates/autoformat/autoformat.General.empty.xml.in.h:4
-#: templates/autoformat/autoformat.General.table.xml.in.h:2
+#: templates/autoformat/autoformat.3D.button.xml.in.h:3
+#: templates/autoformat/autoformat.3D.list.xml.in.h:2
+#: templates/autoformat/autoformat.Classical.cool.xml.in.h:2
+#: templates/autoformat/autoformat.Classical.simple.xml.in.h:2
+#: templates/autoformat/autoformat.Classical.trendy.xml.in.h:2
+#: templates/autoformat/autoformat.Colourful.banana.xml.in.h:3
+#: templates/autoformat/autoformat.Colourful.black.xml.in.h:2
+#: templates/autoformat/autoformat.Colourful.blue.xml.in.h:3
+#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:1
+#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:1
+#: templates/autoformat/autoformat.Financial.basic.xml.in.h:1
+#: templates/autoformat/autoformat.Financial.desert.xml.in.h:3
+#: templates/autoformat/autoformat.Financial.ice.xml.in.h:2
+#: templates/autoformat/autoformat.Financial.modern.xml.in.h:1
+#: templates/autoformat/autoformat.Financial.purple.xml.in.h:2
+#: templates/autoformat/autoformat.General.advanced.xml.in.h:3
+#: templates/autoformat/autoformat.General.basic.xml.in.h:3
+#: templates/autoformat/autoformat.General.empty.xml.in.h:3
+#: templates/autoformat/autoformat.General.table.xml.in.h:1
 #: templates/autoformat/autoformat.List.basic.xml.in.h:3
 #: templates/autoformat/autoformat.List.green.xml.in.h:2
 #: templates/autoformat/autoformat.List.lila.xml.in.h:1
@@ -31196,21 +31286,15 @@ msgstr "ボタンのようなテンプレート"
 msgid "Gnumeric Team"
 msgstr "Gnumericチーム"
 
-#: templates/autoformat/autoformat.3D.list.xml.in.h:2
+#: templates/autoformat/autoformat.3D.list.xml.in.h:1
 msgid "A 3D list template"
 msgstr "3次元リストテンプレート"
 
 #: templates/autoformat/autoformat.Classical.cool.xml.in.h:1
-#: templates/autoformat/autoformat.Classical.simple.xml.in.h:2
-#: templates/autoformat/autoformat.Classical.trendy.xml.in.h:2
-msgid "Classical"
-msgstr "クラシック"
-
-#: templates/autoformat/autoformat.Classical.cool.xml.in.h:2
 msgid "Cool"
 msgstr "クール"
 
-#: templates/autoformat/autoformat.Classical.cool.xml.in.h:4
+#: templates/autoformat/autoformat.Classical.cool.xml.in.h:3
 msgid "Template with a 'cool' look"
 msgstr "「クール」な見栄えのテンプレート"
 
@@ -31218,9 +31302,9 @@ msgstr "「クール」な見栄えのテンプレート"
 msgid "A simple template with classical look and feel"
 msgstr "クラシックなルック&フィールのシンプルなテンプレート"
 
-#: templates/autoformat/autoformat.Classical.simple.xml.in.h:4
-#: templates/autoformat/autoformat.Financial.basic.xml.in.h:3
-#: templates/autoformat/autoformat.List.simple.xml.in.h:4
+#: templates/autoformat/autoformat.Classical.simple.xml.in.h:3
+#: templates/autoformat/autoformat.Financial.basic.xml.in.h:2
+#: templates/autoformat/autoformat.List.simple.xml.in.h:3
 msgid "Simple"
 msgstr "シンプル"
 
@@ -31228,7 +31312,7 @@ msgstr "シンプル"
 msgid "A classical yet colorful template"
 msgstr "クラシックだけれどカラフルなテンプレート"
 
-#: templates/autoformat/autoformat.Classical.trendy.xml.in.h:4
+#: templates/autoformat/autoformat.Classical.trendy.xml.in.h:3
 msgid "Trendy"
 msgstr "トレンディ"
 
@@ -31240,15 +31324,7 @@ msgstr "バナナの色をしたテンプレート"
 msgid "Banana"
 msgstr "バナナ"
 
-#: templates/autoformat/autoformat.Colourful.banana.xml.in.h:3
-#: templates/autoformat/autoformat.Colourful.black.xml.in.h:2
-#: templates/autoformat/autoformat.Colourful.blue.xml.in.h:3
-#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:1
-#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:1
-msgid "Colourful"
-msgstr "カラフル"
-
-#: templates/autoformat/autoformat.Colourful.black.xml.in.h:4
+#: templates/autoformat/autoformat.Colourful.black.xml.in.h:3
 msgid "Template with a black background"
 msgstr "黒い背景のテンプレート"
 
@@ -31256,31 +31332,23 @@ msgstr "黒い背景のテンプレート"
 msgid "A colourful template with mainly blue and teal colours"
 msgstr "青や緑青系統の色をしたテンプレート"
 
-#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:3
+#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:2
 msgid "Orange"
 msgstr "オレンジ"
 
-#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:4
+#: templates/autoformat/autoformat.Colourful.orange.xml.in.h:3
 msgid "Orange template"
 msgstr "オレンジ色テンプレート"
 
-#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:3
+#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:2
 msgid "Template with vanilla colour"
 msgstr "原色のテンプレート"
 
-#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:4
+#: templates/autoformat/autoformat.Colourful.vanilla.xml.in.h:3
 msgid "Vanilla"
 msgstr "原色"
 
-#: templates/autoformat/autoformat.Financial.basic.xml.in.h:1
-#: templates/autoformat/autoformat.Financial.desert.xml.in.h:3
-#: templates/autoformat/autoformat.Financial.ice.xml.in.h:1
-#: templates/autoformat/autoformat.Financial.modern.xml.in.h:1
-#: templates/autoformat/autoformat.Financial.purple.xml.in.h:1
-msgid "Financial"
-msgstr "財務"
-
-#: templates/autoformat/autoformat.Financial.basic.xml.in.h:4
+#: templates/autoformat/autoformat.Financial.basic.xml.in.h:3
 msgid "Simple financial template"
 msgstr "シンプルな財務用テンプレート"
 
@@ -31292,27 +31360,27 @@ msgstr "砂漠"
 msgid "Desert colored financial template"
 msgstr "砂漠のような色の財務用テンプレート"
 
-#: templates/autoformat/autoformat.Financial.ice.xml.in.h:2
+#: templates/autoformat/autoformat.Financial.ice.xml.in.h:1
 msgid "Financial style with cold border color"
 msgstr "境界が冷色の財務スタイル"
 
-#: templates/autoformat/autoformat.Financial.ice.xml.in.h:4
+#: templates/autoformat/autoformat.Financial.ice.xml.in.h:3
 msgid "Ice"
 msgstr "アイス"
 
-#: templates/autoformat/autoformat.Financial.modern.xml.in.h:3
+#: templates/autoformat/autoformat.Financial.modern.xml.in.h:2
 msgid "Modern"
 msgstr "モダン"
 
-#: templates/autoformat/autoformat.Financial.modern.xml.in.h:4
+#: templates/autoformat/autoformat.Financial.modern.xml.in.h:3
 msgid "Modern style with financial formatting"
 msgstr "財務用フォーマットのモダンスタイル"
 
-#: templates/autoformat/autoformat.Financial.purple.xml.in.h:2
+#: templates/autoformat/autoformat.Financial.purple.xml.in.h:1
 msgid "Financial template with purple borders"
 msgstr "境界が紫の財務用テンプレート"
 
-#: templates/autoformat/autoformat.Financial.purple.xml.in.h:4
+#: templates/autoformat/autoformat.Financial.purple.xml.in.h:3
 msgid "Purple"
 msgstr "紫"
 
@@ -31337,11 +31405,11 @@ msgstr "完全に空白のテンプレート"
 msgid "Empty"
 msgstr "空白"
 
-#: templates/autoformat/autoformat.General.table.xml.in.h:3
+#: templates/autoformat/autoformat.General.table.xml.in.h:2
 msgid "Table"
 msgstr "テーブル"
 
-#: templates/autoformat/autoformat.General.table.xml.in.h:4
+#: templates/autoformat/autoformat.General.table.xml.in.h:3
 msgid "Very simple table template with the same border everywhere "
 msgstr "どこも同じ境界の非常にシンプルなテーブルテンプレート"
 
@@ -31364,6 +31432,18 @@ msgstr "紫色のリストテンプレート"
 #: templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "シンプルなリストテンプレート"
+
+#~ msgid "3D"
+#~ msgstr "3次元"
+
+#~ msgid "Classical"
+#~ msgstr "クラシック"
+
+#~ msgid "Colourful"
+#~ msgstr "カラフル"
+
+#~ msgid "Financial"
+#~ msgstr "財務"
 
 #~ msgid "Internal"
 #~ msgstr "内部"
