@@ -1,5 +1,8 @@
 2002-08-13  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* import-GLPK: A footprint optimization: cut glpmat1.c and glplp.c
+	while importing.
+
 	* import-GLPK: Makefile.am generation improvements.
 
 2002-08-13  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>

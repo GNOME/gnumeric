@@ -147,6 +147,12 @@ $src[$x++] = "source/glprsm2.c";     # rsm_primal, rsm_dual, rsm_feas
 ##$src[$x++] = "source/glptext.c";
 $src[$x++] = "@";
 
+
+## glplp.c:
+# prepro_row
+# prepro_col
+# prepro_lp
+
 #
 # Filter sources
 #
@@ -157,7 +163,17 @@ for ($i = 0; $src[$i] ne "@"; $i++) {
     $flag = 0;
 
     while (<in>) {
-	if (/(.*)/) {
+
+	# Crude footprint optimizations: FIXME for new versions
+	if (/\-\- u_solve \-/) {
+	    print outfile " */\n";    # Cut the glpmat1.c file here
+	    last;
+	} elsif (/\-\- prepro_row \-/) {
+	    print outfile " */\n";    # Cut the glplp.c file here
+	    last;
+	} elsif (/(.*)/) {
+	    # Filtering
+
 	    $line = $1;
  
 	    # Use gnum_float instead of double
