@@ -446,6 +446,11 @@ gnumeric_option_menu_destroy (GtkObject *object)
 
   option_menu = GNUMERIC_OPTION_MENU (object);
 
+  if (option_menu->selection) {
+	  g_slist_free (option_menu->selection);
+	  option_menu->selection = NULL;
+  }
+
   if (option_menu->menu)
     gtk_widget_destroy (option_menu->menu);
 

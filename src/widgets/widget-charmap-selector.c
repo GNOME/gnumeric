@@ -400,7 +400,7 @@ cs_build_menu (CharmapSelector *cs)
 			gtk_menu_shell_append (GTK_MENU_SHELL (menu),  item);
 			lg_cnt++;
 		} else {
-			gtk_widget_destroy (item);
+			g_object_unref (item);
 		}
                 lgroup++;
         }

@@ -1,9 +1,12 @@
 2003-06-12  Morten Welinder  <terra@gnome.org>
 
+	* gnumeric-optionmenu.c (gnumeric_option_menu_destroy): Leak fix.
+
 	* widget-charmap-selector.c (charmap_selector_get_encoding_name):
 	New function.
 	(get_locale_encoding_name): Use
 	charmap_selector_get_encoding_name.
+	(cs_build_menu): Leak fix.
 
 2003-06-10  Morten Welinder  <terra@gnome.org>
 

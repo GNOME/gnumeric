@@ -30,24 +30,28 @@ typedef enum {
 } StfTrimType_t;
 
 typedef struct {
-     StfParseType_t       parsetype;             /* The type of import to do */
-     GSList *             terminator;            /* Line terminators */
-     StfTrimType_t        trim_spaces;           /* Trim spaces in fields ? */
+	StfParseType_t       parsetype;             /* The type of import to do */
+	StfTrimType_t        trim_spaces;           /* Trim spaces in fields ? */
+
+	GSList *             terminator;            /* Line terminators */
+	struct {
+		guchar       min, max;
+	} compiled_terminator;
      
-     /* CSV related */
-     struct {
-	  GSList *str;
-	  char   *chr;
-     } sep;
-     gunichar                 stringindicator;       /* String indicator */
-     gboolean             indicator_2x_is_single;/* 2 quote chars are a single non-terminating quote */
-     gboolean             duplicates;            /* See two text separator's as one? */
+	/* CSV related */
+	struct {
+		GSList *str;
+		char   *chr;
+	} sep;
+	gunichar             stringindicator;       /* String indicator */
+	gboolean             indicator_2x_is_single;/* 2 quote chars are a single non-terminating quote */
+	gboolean             duplicates;            /* See two text separator's as one? */
      
-     /* Fixed width related */
-     GArray              *splitpositions;        /* Positions where text will be split vertically */
+	/* Fixed width related */
+	GArray              *splitpositions;        /* Positions where text will be split vertically */
      
-     int                  rowcount;              /* Number of rows parsed */
-     int                  colcount;              /* Number of columns parsed */
+	int                  rowcount;              /* Number of rows parsed */
+	int                  colcount;              /* Number of columns parsed */
 } StfParseOptions_t;
 
 /* CREATION/DESTRUCTION of stf options struct */

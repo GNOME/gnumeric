@@ -136,30 +136,19 @@ stf_dialog_druid_page_next (G_GNUC_UNUSED GnomeDruidPage *page,
 		stf_preview_set_lines (data->main.renderdata, NULL);
 		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.main_separated))) {
 			newpos = DPG_CSV;
-			data->parsetype = PARSE_TYPE_CSV;
 		} else {
 			newpos = DPG_FIXED;
-			data->parsetype = PARSE_TYPE_FIXED;
 		}
 		break;
 
 	case DPG_CSV:
 		stf_preview_set_lines (data->csv.renderdata, NULL);
 		newpos = DPG_FORMAT;
-		data->format.parseoptions = data->csv.parseoptions;
 		break;
 
         case DPG_FIXED:
 		stf_preview_set_lines (data->fixed.renderdata, NULL);
 		newpos = DPG_FORMAT;
-
-		/*
-		 * Set trim type here, we never want trimming on
-		 * the fixed width page of the druid because of
-		 * columns getting mangled
-		 */
-		stf_parse_options_set_trim_spaces (data->fixed.parseoptions, data->trim);
-		data->format.parseoptions = data->fixed.parseoptions;
 		break;
 
 	default:
@@ -205,7 +194,7 @@ stf_dialog_druid_page_previous (G_GNUC_UNUSED GnomeDruidPage *page,
 	switch (data->position) {
 	case DPG_FORMAT:
 		stf_preview_set_lines (data->format.renderdata, NULL);
-		if (data->parsetype == PARSE_TYPE_CSV)
+		if (data->parseoptions->parsetype == PARSE_TYPE_CSV)
 			newpos = DPG_CSV;
 		else
 			newpos = DPG_FIXED;
@@ -474,6 +463,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	pagedata.fixed_page  = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "fixed_page"));
 	pagedata.format_page = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "format_page"));
 	pagedata.position    = DPG_MAIN;
+	pagedata.parseoptions = stf_parse_options_new ();
 
 	stf_dialog_main_page_init   (gui, &pagedata);
 	stf_dialog_csv_page_init    (gui, &pagedata);
@@ -509,23 +499,13 @@ stf_dialog (WorkbookControlGUI *wbcg,
 		dialogresult->lines = pagedata.importlines;
 		dialogresult->rowcount = pagedata.format.renderdata->lines->len;
 
-		if (pagedata.parsetype == PARSE_TYPE_CSV) {
-			dialogresult->parseoptions = pagedata.csv.parseoptions;
-			pagedata.csv.parseoptions = NULL;
-		} else {
-			dialogresult->parseoptions = pagedata.fixed.parseoptions;
-			pagedata.fixed.parseoptions = NULL;
-		}
+		dialogresult->parseoptions = pagedata.parseoptions;
+		pagedata.parseoptions = NULL;
 
 		dialogresult->formats = pagedata.format.formats;
 		pagedata.format.formats = NULL;
 	}
 
-	/* Quick Note, if the parseoptions members of either the csv page or
-	 * fixed page have been set to NULL when calling the cleanup function
-	 * they will not attempt to free it, this will be done in stf_dialog_result_free
-	 * instead
-	 */
 	stf_dialog_main_page_cleanup   (&pagedata);
 	stf_dialog_csv_page_cleanup    (&pagedata);
 	stf_dialog_fixed_page_cleanup  (&pagedata);
@@ -536,6 +516,8 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	g_object_unref (G_OBJECT (gui));
 	g_free (pagedata.encoding);
 	g_free (pagedata.utf8_data);
+	if (pagedata.parseoptions)
+		stf_parse_options_free (pagedata.parseoptions);
 
 	return dialogresult;
 }

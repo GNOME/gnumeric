@@ -70,12 +70,11 @@ main_page_set_encoding (DruidPageData_t *pagedata, const char *enc)
 static void
 main_page_update_preview (DruidPageData_t *pagedata)
 {
-	StfParseOptions_t *parseoptions = pagedata->main.parseoptions;
 	RenderData_t *renderdata = pagedata->main.renderdata;
 
 	stf_preview_set_lines (renderdata,
-			       stf_parse_lines (parseoptions, pagedata->utf8_data, TRUE));
-	stf_preview_render (renderdata);
+			       stf_parse_lines (pagedata->parseoptions,
+						pagedata->utf8_data, TRUE));
 }
 
 
@@ -110,7 +109,6 @@ static void
 main_page_import_range_changed (DruidPageData_t *data)
 {
 	RenderData_t *renderdata = data->main.renderdata;
-	StfParseOptions_t *parseoptions = data->main.parseoptions;
 	int startrow, stoprow;
 	char *linescaption;
 
@@ -130,8 +128,8 @@ main_page_import_range_changed (DruidPageData_t *data)
 	main_page_set_spin_button_adjustment (data->main.main_startrow, 1, stoprow);
 	main_page_set_spin_button_adjustment (data->main.main_stoprow, startrow, renderdata->lines->len);
 
-	data->cur = stf_parse_find_line (parseoptions, data->utf8_data, startrow - 1);
-	data->cur_end = stf_parse_find_line (parseoptions, data->utf8_data, stoprow);
+	data->cur = stf_parse_find_line (data->parseoptions, data->utf8_data, startrow - 1);
+	data->cur_end = stf_parse_find_line (data->parseoptions, data->utf8_data, stoprow);
 
 	data->importlines = (stoprow - startrow) + 1;
 	linescaption = g_strdup_printf (_("%d of %d lines to import"),
@@ -200,19 +198,17 @@ static void
 main_page_stringindicator_change (G_GNUC_UNUSED GtkWidget *widget,
 			DruidPageData_t *data)
 {
-#warning "FIXME: csv?"
-	StfParseOptions_t *parseoptions = data->csv.parseoptions;
 	char *textfieldtext;
 	gunichar str_ind;
 
 	textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (data->main.main_textfield), 0, -1);
 	str_ind = g_utf8_get_char (textfieldtext);
 	if (str_ind != '\0')
-	     stf_parse_options_csv_set_stringindicator (parseoptions,
+	     stf_parse_options_csv_set_stringindicator (data->parseoptions,
 							str_ind);
 	g_free (textfieldtext);
 
-	stf_parse_options_csv_set_indicator_2x_is_single  (parseoptions,
+	stf_parse_options_csv_set_indicator_2x_is_single  (data->parseoptions,
 							   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.main_2x_indicator)));
 }
 
@@ -226,6 +222,9 @@ main_page_source_format_toggled (G_GNUC_UNUSED GtkWidget *widget,
 	gtk_widget_set_sensitive (GTK_WIDGET (data->main.main_2x_indicator), active);
 	gtk_widget_set_sensitive (GTK_WIDGET (data->main.main_textindicator), active);
 	gtk_widget_set_sensitive (GTK_WIDGET (data->main.main_textfield), active);
+
+	stf_parse_options_set_type (data->parseoptions,
+				    active ? PARSE_TYPE_CSV : PARSE_TYPE_FIXED);
 }
 
 /**
@@ -244,6 +243,7 @@ main_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 		   G_GNUC_UNUSED GnomeDruid *druid,
 		   DruidPageData_t *pagedata)
 {
+	main_page_source_format_toggled (NULL, pagedata);
 	main_page_update_preview (pagedata);
 }
 
@@ -256,11 +256,6 @@ void
 stf_dialog_main_page_cleanup (DruidPageData_t *pagedata)
 {
 	stf_preview_free (pagedata->main.renderdata);
-
-	if (pagedata->main.parseoptions) {
-		stf_parse_options_free (pagedata->main.parseoptions);
-		pagedata->main.parseoptions = NULL;
-	}
 }
 
 /**
@@ -307,7 +302,6 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	renderdata = pagedata->main.renderdata = stf_preview_new
 		(pagedata->main.main_data_container,
 		 NULL);
-	pagedata->main.parseoptions  = stf_parse_options_new ();
 	renderdata->ignore_formats = TRUE;
 
 	main_page_update_preview (pagedata);
@@ -365,5 +359,6 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 			  "charmap_changed",
 			  G_CALLBACK (encodings_changed_cb), pagedata);
 
+	main_page_source_format_toggled (NULL, pagedata);
 	main_page_import_range_changed (pagedata);
 }

@@ -91,73 +91,22 @@ render_get_value (gint row, gint column, gpointer _rd, GValue *value)
 	g_value_init (value, ll->column_headers[column]);
 
 	if (text) {
+		char *copy = NULL;
+		char *tab = strchr (text, '\t');
+		if (tab) {
+			copy = g_strdup (text);
+			tab = copy + (tab - text);
+			do {
+				*tab = ' ';
+				tab = strchr (tab + 1, '\t');
+			} while (tab);
+			text = copy;
+		}
 		g_value_set_string (value, text);
+		g_free (copy);
 	}
 }
 
-
-
-/**
- * stf_preview_render
- * @renderdata : a renderdata struct
- *
- * This will render a preview.
- *
- * returns : nothing
- **/
-void
-stf_preview_render (RenderData_t *renderdata)
-{
-	GPtrArray *lines;
-	int colcount = 0;
-	unsigned int i;
-
-	g_return_if_fail (renderdata != NULL);
-
-	/* Empty the table.  */
-	gnumeric_lazy_list_set_rows (renderdata->ll, 0);
-
-	g_return_if_fail (renderdata->lines != NULL);
-
-	lines = renderdata->lines;
-	for (i = 0; i < lines->len; i++) {
-		GPtrArray *line = g_ptr_array_index (lines, i);
-		colcount = MAX (colcount, (int)line->len);
-	}
-
-	/*
-	 * Don't display more then the maximum amount of columns
-	 * in a sheet
-	 */
-	if (colcount > SHEET_MAX_COLS)
-		colcount = SHEET_MAX_COLS;
-	else if (colcount <= 0)
-		colcount = 1;
-
-	/* Fix number of columns.  */
-	while (renderdata->colcount > colcount)
-		gtk_tree_view_remove_column
-			(renderdata->tree_view,
-			 gtk_tree_view_get_column (renderdata->tree_view,
-						   --(renderdata->colcount)));
-	while (renderdata->colcount < colcount) {
-		char *text = g_strdup_printf (_(COLUMN_CAPTION),
-					      renderdata->colcount + 1);
-		GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
-		GtkTreeViewColumn *column =
-			gtk_tree_view_column_new_with_attributes
-			(text, cell,
-			 "text", renderdata->colcount,
-			 NULL);
-		gtk_tree_view_append_column (renderdata->tree_view, column);
-		g_free (text);
-		renderdata->colcount++;
-	}
-
-	/* Fill the table.  */
-	gnumeric_lazy_list_set_rows (renderdata->ll,
-				     MIN (lines->len, LINE_DISPLAY_LIMIT));
-}
 
 /******************************************************************************************************************
  * STRUCTURE MANIPULATION FUNCTIONS
@@ -229,14 +178,61 @@ stf_preview_free (RenderData_t *renderdata)
 void
 stf_preview_set_lines (RenderData_t *renderdata, GPtrArray *lines)
 {
+	unsigned int i;
+	int colcount = 0;
+	
 	g_return_if_fail (renderdata != NULL);
 
 	if (renderdata->lines == lines)
 		return;
 
+	/* Empty the table.  */
+	gnumeric_lazy_list_set_rows (renderdata->ll, 0);
+
 	if (renderdata->lines)
 		stf_parse_general_free (renderdata->lines);
 	renderdata->lines = lines;
+
+	if (lines == NULL)
+		return;
+
+	for (i = 0; i < lines->len; i++) {
+		GPtrArray *line = g_ptr_array_index (lines, i);
+		colcount = MAX (colcount, (int)line->len);
+	}
+
+	/*
+	 * Don't display more then the maximum amount of columns
+	 * in a sheet
+	 */
+	if (colcount > SHEET_MAX_COLS)
+		colcount = SHEET_MAX_COLS;
+	else if (colcount <= 0)
+		colcount = 1;
+
+	/* Fix number of columns.  */
+	while (renderdata->colcount > colcount)
+		gtk_tree_view_remove_column
+			(renderdata->tree_view,
+			 gtk_tree_view_get_column (renderdata->tree_view,
+						   --(renderdata->colcount)));
+	while (renderdata->colcount < colcount) {
+		char *text = g_strdup_printf (_(COLUMN_CAPTION),
+					      renderdata->colcount + 1);
+		GtkCellRenderer *cell = gtk_cell_renderer_text_new ();
+		GtkTreeViewColumn *column =
+			gtk_tree_view_column_new_with_attributes
+			(text, cell,
+			 "text", renderdata->colcount,
+			 NULL);
+		gtk_tree_view_append_column (renderdata->tree_view, column);
+		g_free (text);
+		renderdata->colcount++;
+	}
+
+	/* Fill the table.  */
+	gnumeric_lazy_list_set_rows (renderdata->ll,
+				     MIN (lines->len, LINE_DISPLAY_LIMIT));
 }
 
 /**

@@ -91,20 +91,33 @@ comp_term (gchar const *s, gchar const *term)
 	return TRUE;
 }
 
-static inline int
+static int
 compare_terminator (char const *s, StfParseOptions_t *parseoptions)
 {
-	GSList *term;
-	for (term = parseoptions->terminator; term; term = term->next) {
-		int len = strlen (term->data);
-		if (strncmp (term->data, s, len) == 0)
-			return len;
+	const guchar *us = (const guchar *)s;
+	GSList *l;
+
+	if (*us > parseoptions->compiled_terminator.max ||
+	    *us < parseoptions->compiled_terminator.min)
+		return 0;
+
+	for (l = parseoptions->terminator; l; l = l->next) {
+		const char *term = l->data;
+		const char *d = s;
+
+		while (*term) {
+			if (*d != *term)
+				goto next;
+			term++;
+			d++;
+		}
+		return d - s;
+
+	next:
+		;
 	}
 	return 0;
 }
-
-
-
 
 
 /*******************************************************************************************************
@@ -124,7 +137,10 @@ stf_parse_options_new (void)
 
 	parseoptions->parsetype   = PARSE_TYPE_NOTSET;
 
-	parseoptions->terminator  = g_create_slist (g_strdup("\r\n"), g_strdup("\n"), g_strdup("\r"), NULL);
+	parseoptions->terminator  = NULL;
+	stf_parse_options_add_line_terminator (parseoptions, "\r\n");
+	stf_parse_options_add_line_terminator (parseoptions, "\n");
+	stf_parse_options_add_line_terminator (parseoptions, "\r");
 
 	parseoptions->trim_spaces = (TRIM_TYPE_RIGHT | TRIM_TYPE_LEFT);
 
@@ -180,16 +196,26 @@ stf_parse_options_set_type (StfParseOptions_t *parseoptions, StfParseType_t cons
 static gint
 long_string_first (gchar const *a, gchar const *b)
 {
-	glong la = g_utf8_strlen (a, -1);
-	glong lb = g_utf8_strlen (a, -1);
-
-	if (la > lb)
-		return -1;
-	if (la == lb)
-		return 0;
-	return 1;
+	/* This actually is UTF-8 safe.  */
+	return strlen (b) - strlen (a);
 }
 
+static void
+compile_terminators (StfParseOptions_t *parseoptions)
+{
+	GSList *l;
+	GNM_SLIST_SORT (parseoptions->terminator, (GCompareFunc)long_string_first);
+
+	parseoptions->compiled_terminator.min = 255;
+	parseoptions->compiled_terminator.max = 0;
+	for (l = parseoptions->terminator; l; l = l->next) {
+		const guchar *term = l->data;
+		parseoptions->compiled_terminator.min =
+			MIN (parseoptions->compiled_terminator.min, *term);
+		parseoptions->compiled_terminator.max =
+			MAX (parseoptions->compiled_terminator.max, *term);
+	}
+}
 
 /**
  * stf_parse_options_add_line_terminator:
@@ -202,9 +228,10 @@ void
 stf_parse_options_add_line_terminator (StfParseOptions_t *parseoptions, char const *terminator)
 {
 	g_return_if_fail (parseoptions != NULL);
+	g_return_if_fail (terminator != NULL && *terminator != 0);
 
-	GNM_SLIST_PREPEND(parseoptions->terminator, (gpointer)terminator);
-	GNM_SLIST_SORT(parseoptions->terminator, (GCompareFunc)long_string_first);
+	GNM_SLIST_PREPEND (parseoptions->terminator, g_strdup (terminator));
+	compile_terminators (parseoptions);
 }
 
 /**
@@ -223,8 +250,12 @@ stf_parse_options_remove_line_terminator (StfParseOptions_t *parseoptions, char 
 
 	in_list = g_slist_find_custom (parseoptions->terminator, terminator, g_str_compare);
 
-	if (in_list)
-		GNM_SLIST_REMOVE(parseoptions->terminator, in_list->data);
+	if (in_list) {
+		char *s = in_list->data;
+		GNM_SLIST_REMOVE (parseoptions->terminator, in_list->data);
+		g_free (s);
+		compile_terminators (parseoptions);
+	}
 }
 
 /**
@@ -241,6 +272,7 @@ stf_parse_options_clear_line_terminator (StfParseOptions_t *parseoptions)
 
 	g_slist_free_custom (parseoptions->terminator, g_free);
 	parseoptions->terminator = NULL;
+	compile_terminators (parseoptions);
 }
 
 /**
@@ -266,24 +298,13 @@ void
 stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions, char const *character,
 				      GSList const *string)
 {
-	GSList const *l = NULL;
-	GSList *r;
-
 	g_return_if_fail (parseoptions != NULL);
 
-	if (parseoptions->sep.chr)
-		g_free (parseoptions->sep.chr);
+	g_free (parseoptions->sep.chr);
 	parseoptions->sep.chr = g_strdup (character);
 
-	if (parseoptions->sep.str) {
-		for (l = parseoptions->sep.str; l != NULL; l = l->next)
-			g_free ((char *) l->data);
-		g_slist_free (parseoptions->sep.str);
-	}
-
-	for (r = NULL, l = string; l != NULL; l = l->next)
-		r = g_slist_prepend (r, g_strdup (l->data));
-	parseoptions->sep.str = g_slist_reverse (r);
+	g_slist_free_custom (parseoptions->sep.str, g_free);
+	parseoptions->sep.str = g_slist_map (string, g_strdup);
 }
 
 void
@@ -796,9 +817,8 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions,
 
 	for (s = data; *s && s < data_end; ) {
 		int termlen = compare_terminator (s, parseoptions);
-		if (termlen > 0 || s[1] == '\0') {
-			if (len > longest)
-				longest = len;
+		if (termlen > 0) {
+			longest = MAX (len, longest);
 			len = 0;
 			s += termlen;
 		} else {
@@ -806,6 +826,7 @@ stf_parse_get_longest_row_width (StfParseOptions_t *parseoptions,
 			s = g_utf8_next_char (s);
 		}
 	}
+	longest = MAX (len, longest);
 
 	return longest;
 }

@@ -43,9 +43,6 @@ typedef struct {
 	GnmDateConventions const *date_conv;
 } RenderData_t;
 
-/* This will actually draw the stuff on screen */
-void               stf_preview_render                    (RenderData_t *renderdata);
-
 /* These are for creation/deletion */
 RenderData_t*      stf_preview_new                       (GtkWidget *data_container,
 							  GnmDateConventions const *date_conv);

@@ -1,3 +1,14 @@
+2003-06-12  Morten Welinder  <terra@gnome.org>
+
+	* src/stf-parse.c (compile_terminators): New function.
+	(stf_parse_options_add_line_terminator,
+	stf_parse_options_remove_line_terminator,
+	stf_parse_options_clear_line_terminator): Call
+	compile_terminators, fix memory ownership.
+	(stf_parse_options_new): Set terminators using
+	stf_parse_options_add_line_terminator.
+	(compare_terminator): Speed up using compiled terminators.
+
 2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* configure.in: added en_CA

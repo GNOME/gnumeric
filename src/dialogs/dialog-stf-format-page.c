@@ -92,10 +92,9 @@ format_page_update_preview (DruidPageData_t *pagedata)
 	}
 
 	stf_preview_set_lines (renderdata,
-			       stf_parse_general (pagedata->format.parseoptions,
+			       stf_parse_general (pagedata->parseoptions,
 						  pagedata->cur,
 						  pagedata->cur_end));
-	stf_preview_render (renderdata);
 
 	for (i = 0; i < renderdata->colcount; i++) {
 		GtkTreeViewColumn *column =
@@ -368,7 +367,6 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->format.index         = -1;
 	pagedata->format.manual_change = FALSE;
 	pagedata->format.sublist_select = TRUE;
-	pagedata->format.parseoptions  = NULL; /*  stf_parse_options_new (); */
 
         gtk_clist_column_titles_passive (pagedata->format.format_sublist);
 

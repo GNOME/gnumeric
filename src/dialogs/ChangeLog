@@ -1,3 +1,17 @@
+2003-06-12  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-preview.c (render_get_value): Change tabs into spaces
+	here.
+	(stf_preview_set_lines): Clear the table here too.
+	(stf_preview_render): Merge into stf_preview_set_lines, then
+	remove.
+
+	* dialog-stf.h (DruidPageData_t): Add parseoptions here.  Remove
+	from all page structs.
+
+	* dialog-stf-fixed-page.c (fixed_page_update_preview): Turn off
+	trimming here.
+
 2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-analysis-tools.c (regression_tool_ok_clicked_cb):

@@ -44,13 +44,13 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 	guint i = 1;
 	char *tset[2];
 
-	stf_parse_options_fixed_autodiscover (pagedata->fixed.parseoptions,
+	stf_parse_options_fixed_autodiscover (pagedata->parseoptions,
 					      pagedata->cur, pagedata->cur_end);
 
 	gtk_clist_clear (pagedata->fixed.fixed_collist);
-	while (i < pagedata->fixed.parseoptions->splitpositions->len) {
+	while (i < pagedata->parseoptions->splitpositions->len) {
 		tset[0] = g_strdup_printf ("%d", i - 1);
-		tset[1] = g_strdup_printf ("%d", g_array_index (pagedata->fixed.parseoptions->splitpositions,
+		tset[1] = g_strdup_printf ("%d", g_array_index (pagedata->parseoptions->splitpositions,
 								int,
 								i));
 		gtk_clist_append (pagedata->fixed.fixed_collist, tset);
@@ -74,7 +74,7 @@ fixed_page_autodiscover (DruidPageData_t *pagedata)
 	 * no columns where found
 	 */
 
-	if (pagedata->fixed.parseoptions->splitpositions->len < 1) {
+	if (pagedata->parseoptions->splitpositions->len < 1) {
 		GtkWidget *dialog = gtk_message_dialog_new (NULL,
 			GTK_DIALOG_DESTROY_WITH_PARENT,
 			GTK_MESSAGE_INFO,
@@ -191,23 +191,28 @@ cb_col_event (GtkWidget *button,
 static void
 fixed_page_update_preview (DruidPageData_t *pagedata)
 {
-	StfParseOptions_t *parseoptions = pagedata->fixed.parseoptions;
+	StfParseOptions_t *parseoptions = pagedata->parseoptions;
 	RenderData_t *renderdata = pagedata->fixed.renderdata;
-	char *t[2];
-	int i, temp;
+	int i;
+	GPtrArray *lines;
+	StfTrimType_t trim;
 
 	stf_parse_options_fixed_splitpositions_clear (parseoptions);
 	for (i = 0; i < GTK_CLIST (pagedata->fixed.fixed_collist)->rows; i++) {
+		char *t[2];
+
 		gtk_clist_get_text (pagedata->fixed.fixed_collist, i, 1, t);
-		temp = atoi (t[0]);
-		stf_parse_options_fixed_splitpositions_add (parseoptions, temp);
+		stf_parse_options_fixed_splitpositions_add (parseoptions, atoi (t[0]));
 	}
 
-	stf_preview_set_lines (renderdata,
-			       stf_parse_general (parseoptions,
-						  pagedata->cur,
-						  pagedata->cur_end));
-	stf_preview_render (renderdata);
+	/* Don't trim on this page.  */
+	trim = parseoptions->trim_spaces;	
+	stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_NEVER);
+	lines = stf_parse_general (parseoptions,
+				   pagedata->cur, pagedata->cur_end);
+	stf_parse_options_set_trim_spaces (parseoptions, trim);
+
+	stf_preview_set_lines (renderdata, lines);
 
 	for (i = 0; i < renderdata->colcount; i++) {
 		GtkTreeViewColumn *column =
@@ -422,14 +427,14 @@ fixed_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 {
 	GtkAdjustment *spinadjust;
 
-	stf_parse_options_set_trim_spaces (pagedata->fixed.parseoptions, TRIM_TYPE_NEVER);
+	stf_parse_options_set_trim_spaces (pagedata->parseoptions, TRIM_TYPE_NEVER);
 #if 0
 	stf_preview_set_startrow (pagedata->fixed.renderdata, GTK_RANGE (pagedata->fixed.fixed_scroll)->adjustment->value);
 #endif
 
 	spinadjust = gtk_spin_button_get_adjustment (pagedata->fixed.fixed_colend);
 	spinadjust->lower = 1;
-	spinadjust->upper = stf_parse_get_longest_row_width (pagedata->fixed.parseoptions,
+	spinadjust->upper = stf_parse_get_longest_row_width (pagedata->parseoptions,
 							     pagedata->cur,
 							     pagedata->cur_end);
 	gtk_spin_button_set_adjustment (pagedata->fixed.fixed_colend, spinadjust);
@@ -453,11 +458,6 @@ void
 stf_dialog_fixed_page_cleanup (DruidPageData_t *pagedata)
 {
 	stf_preview_free (pagedata->fixed.renderdata);
-
-	if (pagedata->fixed.parseoptions) {
-		stf_parse_options_free (pagedata->fixed.parseoptions);
-		pagedata->fixed.parseoptions = NULL;
-	}
 }
 
 /**
@@ -491,13 +491,10 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->fixed.renderdata    =
 		stf_preview_new (pagedata->fixed.fixed_data_container,
 				 NULL);
-	pagedata->fixed.parseoptions  = stf_parse_options_new ();
 	pagedata->fixed.manual        = FALSE;
 	pagedata->fixed.index         = -1;
 	pagedata->fixed.mousedown     = FALSE;
 	pagedata->fixed.xorigin       = 0;
-
-	stf_parse_options_set_type  (pagedata->fixed.parseoptions, PARSE_TYPE_FIXED);
 
 	gtk_clist_column_titles_passive (pagedata->fixed.fixed_collist);
 

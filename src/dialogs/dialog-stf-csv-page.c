@@ -40,16 +40,18 @@
  **/
 static void
 csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
-			DruidPageData_t *data)
+			DruidPageData_t *pagedata)
 {
-	StfParseOptions_t *parseoptions = data->csv.parseoptions;
-	RenderData_t *renderdata = data->csv.renderdata;
+	StfParseOptions_t *parseoptions = pagedata->parseoptions;
+	RenderData_t *renderdata = pagedata->csv.renderdata;
 	GSList *sepstr;
 	GString *sepc = g_string_new (NULL);
+	GPtrArray *lines;
+	StfTrimType_t trim;
 
 	sepstr = NULL;
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_custom))) {
-		char *csvcustomtext = gtk_editable_get_chars (GTK_EDITABLE (data->csv.csv_customseparator), 0, -1);
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_custom))) {
+		char *csvcustomtext = gtk_editable_get_chars (GTK_EDITABLE (pagedata->csv.csv_customseparator), 0, -1);
 
 		if (strcmp (csvcustomtext, "") != 0)
 			sepstr = g_slist_append (sepstr, csvcustomtext);
@@ -57,44 +59,42 @@ csv_page_global_change (G_GNUC_UNUSED GtkWidget *widget,
 			g_free (csvcustomtext);
 	}
 
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_tab)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_tab)))
 		g_string_append_c (sepc, '\t');
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_colon)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_colon)))
 		g_string_append_c (sepc, ':');
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_comma)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_comma)))
 		g_string_append_c (sepc, ',');
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_space)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_space)))
 		g_string_append_c (sepc, ' ');
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_semicolon)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_semicolon)))
 		g_string_append_c (sepc, ';');
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_pipe)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_pipe)))
 		g_string_append_c (sepc, '|');
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_slash)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_slash)))
 		g_string_append_c (sepc, '/');
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_hyphen)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_hyphen)))
 		g_string_append_c (sepc, '-');
-	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_bang)))
+	if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_bang)))
 		g_string_append_c (sepc, '!');
 
 	stf_parse_options_csv_set_separators (parseoptions,
 					      strcmp (sepc->str, "") == 0 ? NULL : sepc->str,
 					      sepstr);
 	g_string_free (sepc, TRUE);
-	if (sepstr) {
-		GSList *l;
-		for (l = sepstr; l != NULL; l = l->next)
-			g_free ((char *) l->data);
-		g_slist_free (sepstr);
-	}
+	g_slist_free_custom (sepstr, g_free);
 
 	stf_parse_options_csv_set_duplicates (parseoptions,
-					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->csv.csv_duplicates)));
+					      gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_duplicates)));
 
-	stf_preview_set_lines (renderdata,
-			       stf_parse_general (parseoptions,
-						  data->cur,
-						  data->cur_end));
-	stf_preview_render (renderdata);
+	/* Don't trim on this page.  */
+	trim = parseoptions->trim_spaces;	
+	stf_parse_options_set_trim_spaces (parseoptions, TRIM_TYPE_NEVER);
+	lines = stf_parse_general (parseoptions,
+				   pagedata->cur, pagedata->cur_end);
+	stf_parse_options_set_trim_spaces (parseoptions, trim);
+
+	stf_preview_set_lines (renderdata, lines);
 }
 
 /**
@@ -139,16 +139,12 @@ csv_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 		  G_GNUC_UNUSED GnomeDruid *druid,
 		  DruidPageData_t *pagedata)
 {
-	stf_parse_options_set_trim_spaces (pagedata->csv.parseoptions, pagedata->trim);
+	stf_parse_options_set_trim_spaces (pagedata->parseoptions, pagedata->trim);
 
 	if (format_get_arg_sep () == ',')
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_comma), TRUE);
 	else
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_semicolon), TRUE);
-
-#if 0
-	stf_preview_set_startrow (pagedata->csv.renderdata, GTK_RANGE (pagedata->csv.csv_scroll)->adjustment->value);
-#endif
 
 	/* Calling this routine will also automatically call global change which updates the preview too */
 	csv_page_custom_toggled (pagedata->csv.csv_custom, pagedata);
@@ -169,11 +165,6 @@ csv_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 void
 stf_dialog_csv_page_cleanup (DruidPageData_t *pagedata)
 {
-	if (pagedata->csv.parseoptions) {
-		stf_parse_options_free (pagedata->csv.parseoptions);
-		pagedata->csv.parseoptions = NULL;
-	}
-
 	stf_preview_free (pagedata->csv.renderdata);
 	pagedata->csv.renderdata = NULL;
 }
@@ -214,9 +205,6 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	pagedata->csv.renderdata    =
 		stf_preview_new (pagedata->csv.csv_data_container,
 				 NULL);
-	pagedata->csv.parseoptions  = stf_parse_options_new ();
-
-	stf_parse_options_set_type  (pagedata->csv.parseoptions, PARSE_TYPE_CSV);
 
 	/* Connect signals */
 	g_signal_connect (G_OBJECT (pagedata->csv.csv_tab),

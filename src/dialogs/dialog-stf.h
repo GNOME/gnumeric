@@ -23,7 +23,6 @@ typedef struct {
 	/* Page members that are created at run-time */
 	CharmapSelector *charmap_selector;
 	RenderData_t    *renderdata;
-	StfParseOptions_t *parseoptions;
 } MainInfo_t;
 
 /* for the csv_page */
@@ -38,7 +37,6 @@ typedef struct {
 
 	/* Page members that are created at run-time */
 	RenderData_t       *renderdata;
-	StfParseOptions_t  *parseoptions;
 	int                 scrollpos;
 } CsvInfo_t;
 
@@ -51,7 +49,6 @@ typedef struct {
 
 	/* Page members that are created at run-time */
 	RenderData_t      *renderdata;
-	StfParseOptions_t *parseoptions;
 	int                index;
 	gboolean           manual;
 	gboolean           mousedown;
@@ -69,7 +66,6 @@ typedef struct {
      
 	/* Page members that are created at run-time */
 	RenderData_t      *renderdata;
-	StfParseOptions_t *parseoptions;  /* Note : refers to either FixedInfo_t or CsvInfo_t parseoptions */
 	GPtrArray         *formats; /* Contains StyleFormat* */
 	int                index;
 	gboolean           manual_change;
@@ -111,7 +107,7 @@ typedef struct {
 	FormatInfo_t          format;
 
 	gboolean              canceled;   /* Indicates whether the user pressed cancel button */
-	StfParseType_t        parsetype;  /* Indicates the parse type the user choose */
+	StfParseOptions_t    *parseoptions;
 
 	StfTrimType_t         trim;       /* Do we want to trim and if so -> how? */
 } DruidPageData_t;
