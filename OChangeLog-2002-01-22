@@ -1,3 +1,7 @@
+2000-09-11  Morten Welinder  <terra@diku.dk>
+
+	* configure.in (pspell): Quiet the test.
+
 2000-09-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric.xml : Add the missing menu elements.

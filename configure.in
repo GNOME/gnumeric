@@ -373,9 +373,12 @@ AC_ARG_WITH(pspell,
 )
 
 if $try_pspell; then
+	AC_PATH_PROG(PSPELL_CONFIG,pspell-config,no)
 	AC_MSG_CHECKING([for pspell])
-	if pspell-config version > /dev/null 2>&1; then
-		pspell_ver=`pspell-config version`
+	if test "$PSPELL_CONFIG" = "no"; then
+		AC_MSG_RESULT(not found)
+	else
+		pspell_ver=`$PSPELL_CONFIG version 2>/dev/null`
 		AC_MSG_RESULT([found ($pspell_ver)])
 
 		AC_CHECK_LIB(pspell, new_pspell_config, have_pspell=true)
@@ -384,8 +387,6 @@ if $try_pspell; then
 			PSPELL_LIBS="-lpspell"
 			pspell_msg=yes
 		fi
-	else
-		AC_MSG_RESULT(not found)
 	fi
 fi
 AC_SUBST(PSPELL_LIBS)
