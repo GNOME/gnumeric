@@ -9,6 +9,7 @@
 
 #include <gnumeric-config.h>
 #include <glib.h>
+#include <gnumeric.h>
 #include <libgnumeric.h>
 #include "bonobo-io.h"
 #include <bonobo/bonobo-ui-main.h> 
@@ -16,8 +17,6 @@
 #include <bonobo/bonobo-generic-factory.h>
 
 #include <bonobo/bonobo-control.h>
-#include <bonobo/bonobo-persist-file.h>
-#include <bonobo/bonobo-persist-stream.h>
 #include "workbook-control-component-priv.h"
 #include "plugin.h"
 #define DISABLE_DEBUG
@@ -59,17 +58,6 @@ control_activated_cb (BonoboControl *control, gboolean activate,
 			bonobo_ui_component_unset_container (uic, NULL);
 		}
 	}
-}
-
-/*
- * Loads an Workbook from a Bonobo_File
- */
-static gint
-load_workbook_from_file (BonoboPersistFile *pf, const CORBA_char *text_uri,
-		      CORBA_Environment *ev, void *closure)
-{
-	d (printf ("load_workbook_from_file %s\n", (char *)text_uri));
-	return 0;
 }
 
 static float
@@ -168,17 +156,14 @@ zoom_to_default_cb (BonoboZoomable *zoomable, gpointer unused)
 static BonoboObject *
 add_interfaces (BonoboObject *control, WorkbookControl *wbc)
 {
-	BonoboPersistFile   *file;
-	BonoboPersistStream *stream;
+	BonoboObject        *stream;
 	BonoboZoomable      *zoomable;
 	WorkbookControlComponent *wbcc = WORKBOOK_CONTROL_COMPONENT (wbc);
 
 	g_return_val_if_fail (BONOBO_IS_OBJECT (control), NULL);
 
 	/* Interface Bonobo::PersistStream */
-	stream = bonobo_persist_stream_new
-		(gnumeric_bonobo_read_from_stream, NULL,
-		 NULL, "OAFIID:GNOME_Gnumeric_Control", wbc);
+	stream = gnm_persist_stream_new (wbc, "OAFIID:GNOME_Gnumeric_Control");
 	if (!stream) {
 		bonobo_object_unref (BONOBO_OBJECT (control));
 		return NULL;
@@ -186,17 +171,6 @@ add_interfaces (BonoboObject *control, WorkbookControl *wbc)
 
 	bonobo_object_add_interface (BONOBO_OBJECT (control),
 				     BONOBO_OBJECT (stream));
-
-	/* Interface Bonobo::PersistFile */
-	file = bonobo_persist_file_new (load_workbook_from_file, NULL,
-					"OAFIID:GNOME_Gnumeric_Control", NULL);
-	if (!file) {
-		bonobo_object_unref (BONOBO_OBJECT (control));
-		return NULL;
-	}
-
-	bonobo_object_add_interface (BONOBO_OBJECT (control),
-				     BONOBO_OBJECT (file));
 
 	/* Interface Bonobo::Zoomable */
 	zoomable = bonobo_zoomable_new ();

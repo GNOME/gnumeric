@@ -20,6 +20,12 @@
 
 #include <math.h>
 #include <string.h>
+#define DISABLE_DEBUG
+#ifndef DISABLE_DEBUG
+#define d(code)	do { code; } while (0)
+#else
+#define d(code)
+#endif
 
 struct _SheetObjectImage {
 	SheetObject  sheet_object;
@@ -129,55 +135,71 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 	GError *err = NULL;
 	guint8 *data;
 	guint32 data_len;
-	GdkPixbufLoader *loader;
-	GdkPixbuf	*res = NULL;
+	GdkPixbufLoader *loader = NULL;
+	GdkPixbuf	*pixbuf = NULL;
+	gboolean ret;
 
 	g_return_val_if_fail (IS_SHEET_OBJECT_IMAGE (soi), NULL);
 
 	data     = soi->data;
 	data_len = soi->data_len;
 
-#warning Add optional use of libwmf here to handle wmf
-	loader = gdk_pixbuf_loader_new ();
+	if (soi->type)
+		loader = gdk_pixbuf_loader_new_with_type (soi->type, &err);
+	else
+		loader = gdk_pixbuf_loader_new ();
 
-	if (!strcmp (soi->type, "emf") ||
-	    !strcmp (soi->type, "wmf") ||
-	    !gdk_pixbuf_loader_write (loader, soi->data, soi->data_len, &err)) {
-
+	if (loader) {
+		ret = gdk_pixbuf_loader_write (loader,
+					       soi->data, soi->data_len, &err);
+		/* Close in any case. But don't let error during closing */
+		/* shadow error from loader_write.  */
+		if (ret)
+			ret = gdk_pixbuf_loader_close (loader, &err);
+		else
+			gdk_pixbuf_loader_close (loader, NULL);
+		if (ret)
+			pixbuf = gdk_pixbuf_loader_get_pixbuf (loader);
+		if (pixbuf) {
+			g_object_ref (G_OBJECT (pixbuf));
+			d (printf ("pixbuf width=%d, height=%d\n",
+				   gdk_pixbuf_get_width (pixbuf),
+				   gdk_pixbuf_get_height (pixbuf)));
+			if (soi->crop_top != 0.0  || soi->crop_bottom != 0.0 ||
+			    soi->crop_left != 0.0 || soi->crop_right != 0.0) {
+				d (printf ("crop rect top=%g, bottom=%g, "
+					   "left=%g, right=%g\n",
+					   soi->crop_top, soi->crop_bottom,
+					   soi->crop_left, soi->crop_right));
+				pixbuf = soi_get_cropped_pixbuf (soi, pixbuf);
+			}
+		}
+		g_object_unref (G_OBJECT (loader));
+	}
+	if (!pixbuf) {
 		if (!soi->dumped) {
 			static int count = 0;
-			char *filename = g_strdup_printf ("unknown%d.%s",  count++, soi->type);
+			char *filename = g_strdup_printf ("unknown%d.%s",
+							  count++, soi->type);
 			FILE *file = fopen (filename, "w");
 			if (file != NULL) {
 				fwrite (soi->data, soi->data_len, 1, file);
 				fclose (file);
 			}
 			g_free (filename);
-
-			if (err != NULL) {
-				g_warning (err-> message);
-				g_error_free (err);
-				err = NULL;
-			}
 			soi->dumped = TRUE;
 		}
-	} else {
-		res = gdk_pixbuf_loader_get_pixbuf (loader),
-		g_object_ref (G_OBJECT (res));
-		if (soi->crop_top != 0.0  || soi->crop_bottom != 0.0 ||
-		    soi->crop_left != 0.0 || soi->crop_right != 0.0) {
-			res = soi_get_cropped_pixbuf (soi, res);
+		
+		if (err != NULL) {
+			g_warning (err-> message);
+			g_error_free (err);
+			err = NULL;
+		} else {
+			g_warning ("Unable to display image");
 		}
 	}
 
-	gdk_pixbuf_loader_close (loader, &err);
-	if (err != NULL) {
-		g_warning (err->message);
-		g_error_free (err);
-		err = NULL;
-	}
-	g_object_unref (G_OBJECT (loader));
-	return res;
+	return pixbuf;
 }
 
 static GObject *

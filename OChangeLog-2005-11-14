@@ -1,3 +1,28 @@
+2002-12-11  Jon K Hellan  <hellan@acm.org>
+
+	* GNOME_Gnumeric.server.in.in (OAFIID:GNOME_Gnumeric_Control):
+	Don't pretend to support  Bonobo/PersistFile.
+
+	* src/main-component.c (load_workbook_from_file): Remove.
+	(add_interfaces): Don't pretend to support
+	Bonobo/PersistFile. Replace deprecated bonobo_persist_stream_new
+	with gnm_persist_stream_new.
+
+	* src/bonobo-io.h: Declare gnm_persist_stream_new. Remove
+	everything else.
+
+	* src/bonobo-io.c: Add boilerplate for class GnmPersistStream
+	implementing Bonobo:PersistStream.
+	(gnumeric_bonobo_read_from_stream): Rename to
+	gnm_persist_stream_load and change to correct signature for
+	PersistStream load method.
+	(workbook_persist_file_load, workbook_persist_file_save,
+	workbook_bonobo_setup): Dead code. Remove.
+
+	* src/sheet-object-image.c (soi_get_pixbuf): Use
+	gdk_pixbuf_loader_new_with_type if type is known. Close pixbuf
+	loader before getting pixbuf. Copy image to file on all errors.
+
 2002-12-08  Jody Goldberg <jody@gnome.org>
 
 	* src/xml-io.c (xml_write_sheet_filters) : filter export.

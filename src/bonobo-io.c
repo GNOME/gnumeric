@@ -32,27 +32,47 @@
 #include <gsf/gsf-input.h>
 #include <gsf-gnome/gsf-input-bonobo.h>
 
-void
-gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
-				  Bonobo_Stream              stream,
-				  Bonobo_Persist_ContentType type,
-				  void                      *data,
-				  CORBA_Environment         *ev)
+#define GNM_TYPE_PERSIST_STREAM         (gnm_persist_stream_get_type ())
+#define GNM_PERSIST_STREAM(o)           (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_TYPE_PERSIST_STREAM, GnmPersistStream))
+#define GNM_PERSIST_STREAM_CLASS(k)     (G_TYPE_CHECK_CLASS_CAST((k), GNM_TYPE_PERSIST_STREAM, GnmPersistStreamClass))
+#define GNM_IS_PERSIST_STREAM(o)        (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_TYPE_PERSIST_STREAM))
+#define GNM_IS_PERSIST_STREAM_CLASS(k)  (G_TYPE_CHECK_CLASS_TYPE ((k), GNM_TYPE_PERSIST_STREAM))
+#define GNM_PERSIST_STREAM_GET_CLASS(o) (G_TYPE_INSTANCE_GET_CLASS ((o), GNM_TYPE_PERSIST_STREAM, GnmPersistStreamClass))
+
+typedef struct {
+	BonoboPersist __parent;
+
+	/*< private >*/
+
+	WorkbookControl *wbc;
+} GnmPersistStream;
+
+typedef struct {
+	BonoboPersistClass __parent_class;
+
+	POA_Bonobo_PersistStream__epv epv;
+} GnmPersistStreamClass;
+
+GType          gnm_persist_stream_get_type (void);
+
+static void 
+gnm_persist_stream_load (PortableServer_Servant  servant,
+			 Bonobo_Stream           stream,
+			 const CORBA_char       *type,
+			 CORBA_Environment      *ev)
 {
+	BonoboObject    *object;
 	WorkbookControl *wbc;
 	WorkbookView    *wb_view;
 	IOContext       *ioc;
-	GsfInput       *input = NULL;
+	GsfInput        *input = NULL;
 	Workbook        *old_wb;
 
-	g_return_if_fail (data != NULL);
-	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (data));
-
-	wbc = WORKBOOK_CONTROL (data);
+	object        = bonobo_object_from_servant (servant);
+	wbc = GNM_PERSIST_STREAM (object)->wbc;
 	ioc = gnumeric_io_context_new (COMMAND_CONTEXT (wbc));
 	input = gsf_input_bonobo_new (stream, NULL);
 	wb_view = wb_view_new_from_input  (input, NULL, ioc);
-
 	if (gnumeric_io_error_occurred (ioc) || wb_view == NULL) {
 		gnumeric_io_error_display (ioc);
 		/* This may be a bad exception to throw, but they're all bad */
@@ -78,43 +98,39 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 	workbook_control_init_state (wbc);
 }
 
-#if 0
-static int
-workbook_persist_file_load (BonoboPersistFile *ps, const CORBA_char *filename,
-			    CORBA_Environment *ev, void *closure)
+static void
+gnm_persist_stream_class_init (GnmPersistStreamClass *klass)
 {
-	WorkbookView *wbv = closure;
+        BonoboPersistClass *persist_class = BONOBO_PERSIST_CLASS (klass);
+ 	POA_Bonobo_PersistStream__epv *epv = &klass->epv;
 
-	return wb_view_open_file (filename, /* FIXME */ NULL, FALSE, NULL) ? 0 : -1;
-}
-
-static int
-workbook_persist_file_save (BonoboPersistFile *ps, const CORBA_char *filename,
-			    CORBA_Environment *ev, void *closure)
-{
-	WorkbookView *wbv = closure;
-	GnmFileSaver *fs;
-
-	fs = get_file_saver_by_id ("Gnumeric_XmlIO:gnum_xml");
-	return wb_view_save_as (wbv, fs, filename, NULL /* FIXME */) ? 0 : -1;
+	persist_class->get_content_types = NULL;
+ 
+	epv->load = gnm_persist_stream_load;
+	epv->save = NULL;
 }
 
 static void
-workbook_bonobo_setup (WorkbookPrivate *wbp)
+gnm_persist_stream_init (GnmPersistStream *stream)
 {
-	BonoboPersistFile *persist_file;
-
-	/* FIXME : This is totaly broken.
-	 * 1) it does not belong here at the workbook level
-	 * 2) which view use ?
-	 * 3) it should not be in this file.
-	 */
-	persist_file = bonobo_persist_file_new (
-		workbook_persist_file_load,
-		workbook_persist_file_save,
-		wbv);
-	bonobo_object_add_interface (
-		BONOBO_OBJECT (wbp),
-		BONOBO_OBJECT (persist_file));
+	stream->wbc = NULL;
 }
-#endif
+
+BONOBO_TYPE_FUNC_FULL (
+	GnmPersistStream,         /* Glib class name */
+	Bonobo_PersistStream, /* CORBA interface name */
+	BONOBO_TYPE_PERSIST,  /* parent type */
+	gnm_persist_stream);       /* local prefix ie. 'echo'_class_init */
+
+BonoboObject *
+gnm_persist_stream_new (WorkbookControl *wbc, const char* const iid)
+{
+	GnmPersistStream *stream;
+
+	stream = GNM_PERSIST_STREAM (g_object_new (GNM_TYPE_PERSIST_STREAM,
+						   NULL));
+	bonobo_persist_construct (BONOBO_PERSIST (stream), iid);
+	stream->wbc = wbc;
+
+	return (BonoboObject*) stream;
+}

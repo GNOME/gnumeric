@@ -1,14 +1,8 @@
-#ifndef _BONOBO_IO_H
-#define _BONOBO_IO_H
+#ifndef _GNM_BONOBO_IO_H
+#define _GNM_BONOBO_IO_H
 
-#include <bonobo/bonobo-persist-stream.h>
+#include <bonobo/bonobo-object.h>
 
-void gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
-				       Bonobo_Stream              stream,
-				       Bonobo_Persist_ContentType type,
-				       void                      *data,
-				       CORBA_Environment         *ev);
-#ifdef GNOME2_CONVERSION_COMPLETE
-void gnumeric_bonobo_io_init (void);
-#endif
-#endif /* _BONOBO_IO_H */
+BonoboObject *gnm_persist_stream_new (WorkbookControl *wbc,
+				      const char* const iid);
+#endif /* _GNM_BONOBO_IO_H */
