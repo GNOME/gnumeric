@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-12-26 20:31+0100\n"
-"PO-Revision-Date: 2003-12-27 01:04+0100\n"
+"POT-Creation-Date: 2003-12-29 15:34+0100\n"
+"PO-Revision-Date: 2003-12-29 19:31+0100\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1190,7 +1190,7 @@ msgstr ""
 "Byla už zapsána délka řetězce, který musí být zkrácen díky problémům s "
 "kódováním."
 
-#: plugins/excel/ms-excel-write.c:3759
+#: plugins/excel/ms-excel-write.c:3760
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
@@ -1199,7 +1199,7 @@ msgstr ""
 "Při ukládání jako MS Excel (tm) 95 bude něco z obsahu ztraceno. Tento formát "
 "podporuje pouze %d řádků, tento sešit jich má %d"
 
-#: plugins/excel/ms-excel-write.c:3766
+#: plugins/excel/ms-excel-write.c:3767
 #, c-format
 msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
@@ -1208,11 +1208,11 @@ msgstr ""
 "Při ukládání ve jako MS Excel (tm) bude něco z obsahu ztraceno. Tento formát "
 "podporuje pouze %d řádků a tento sešit jich má %d"
 
-#: plugins/excel/ms-excel-write.c:4285
+#: plugins/excel/ms-excel-write.c:4287
 msgid "Couldn't open stream 'Book' for writing\n"
 msgstr "Nepodařilo se otevřít kanál 'Book' pro zápis\n"
 
-#: plugins/excel/ms-excel-write.c:4305
+#: plugins/excel/ms-excel-write.c:4307
 msgid "Couldn't open stream 'Workbook' for writing\n"
 msgstr "Nepodařilo se otevřít kanál 'Workbook' pro zápis\n"
 
@@ -1220,13 +1220,18 @@ msgstr "Nepodařilo se otevřít kanál 'Workbook' pro zápis\n"
 msgid "Broken function"
 msgstr "Poškozená funkce"
 
+#: plugins/excel/ms-formula-write.c:535
+#, c-format
+msgid ""
+"Too many arguments for function '%s', MS Excel expects exactly %d and we "
+"have %d"
+msgstr "Příliš mnoho parametrů pro funkci '%s', MS Excel očekává přesně %d a my jich máme %d"
+
 #: plugins/excel/ms-formula-write.c:536
 #, c-format
 msgid ""
-"Too many arguments for function, MS Excel expects exactly %d and we have more"
-msgstr ""
-"Příliš mnoho parametrů pro funkci, aplikace MS Excel očekává přesně %d a my "
-"jich máme více"
+"Too many arguments for function '%s', MS Excel can only handle %d not %d"
+msgstr "Příliš mnoho parametrů pro funkci '%s', MS Excel očekává přesně %d, ne %d"
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
@@ -17019,8 +17024,8 @@ msgstr "Omezení:"
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:107
 #: src/dialogs/dialog-define-names.c:494 src/dialogs/dialog-formula-guru.c:815
 #: src/dialogs/dialog-function-select.c:445
-#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:362
-#: src/dialogs/dialog-simulation.c:226 src/dialogs/dialog-zoom.c:198
+#: src/dialogs/dialog-function-select.c:467 src/dialogs/dialog-scenarios.c:363
+#: src/dialogs/dialog-simulation.c:217 src/dialogs/dialog-zoom.c:198
 #: src/format-template.c:248 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
@@ -17030,7 +17035,7 @@ msgid "Name"
 msgstr "Název"
 
 #: plugins/mps/mps.c:274 src/dialogs/dialog-preferences.c:566
-#: src/dialogs/dialog-simulation.c:231 src/tools/solver/reports-write.c:238
+#: src/dialogs/dialog-simulation.c:222 src/tools/solver/reports-write.c:238
 #: src/tools/solver/reports-write.c:284 src/tools/solver/reports-write.c:396
 #: src/tools/solver/reports-write.c:403
 msgid "Value"
@@ -18579,7 +18584,7 @@ msgstr "Kopíruje výběr"
 msgid "Copy the selection to the clipboard"
 msgstr "Zkopíruje výběr do schránky"
 
-#: src/GNOME_Gnumeric.xml.h:54 src/dialogs/covariance.glade.h:3
+#: src/GNOME_Gnumeric.xml.h:54 src/dialogs/covariance.glade.h:1
 #: src/tools/analysis-tools.c:888 src/tools/analysis-tools.c:891
 #: src/workbook-control-gui.c:3794
 msgid "Covariance"
@@ -18783,7 +18788,7 @@ msgstr "Popředí"
 msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formátuje oblast buněk podle předdefinované šablony"
 
-#: src/GNOME_Gnumeric.xml.h:102 src/dialogs/fourier-analysis.glade.h:3
+#: src/GNOME_Gnumeric.xml.h:102 src/dialogs/fourier-analysis.glade.h:1
 #: src/workbook-control-gui.c:3803
 msgid "Fourier Analysis"
 msgstr "Fourierova analýza"
@@ -19510,14 +19515,14 @@ msgstr "_Buňky..."
 msgid "_Close"
 msgstr "_Zavřít"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/dialogs/anova-one.glade.h:13
-#: src/dialogs/colrow.glade.h:2 src/dialogs/correlation.glade.h:9
-#: src/dialogs/covariance.glade.h:9 src/dialogs/descriptive-stats.glade.h:19
-#: src/dialogs/exp-smoothing.glade.h:11
-#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:24
-#: src/dialogs/moving-averages.glade.h:14 src/dialogs/rank.glade.h:12
-#: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
-#: src/dialogs/shuffle.glade.h:5 src/workbook-control-gui.c:3584
+#: src/GNOME_Gnumeric.xml.h:275 src/dialogs/anova-one.glade.h:8
+#: src/dialogs/colrow.glade.h:2 src/dialogs/correlation.glade.h:4
+#: src/dialogs/covariance.glade.h:4 src/dialogs/descriptive-stats.glade.h:14
+#: src/dialogs/exp-smoothing.glade.h:6 src/dialogs/fourier-analysis.glade.h:5
+#: src/dialogs/histogram.glade.h:16 src/dialogs/moving-averages.glade.h:7
+#: src/dialogs/rank.glade.h:7 src/dialogs/regression.glade.h:8
+#: src/dialogs/sampling.glade.h:11 src/dialogs/shuffle.glade.h:5
+#: src/workbook-control-gui.c:3584
 msgid "_Columns"
 msgstr "Sloup_ce"
 
@@ -19728,18 +19733,18 @@ msgstr "_Regrese..."
 msgid "_Remove"
 msgstr "Odst_ranit"
 
-#: src/GNOME_Gnumeric.xml.h:325 src/dialogs/pivottable.glade.h:13
-#: src/workbook-control-gui.c:3708
+#: src/GNOME_Gnumeric.xml.h:325 src/dialogs/fill-series.glade.h:17
+#: src/dialogs/pivottable.glade.h:13 src/workbook-control-gui.c:3708
 msgid "_Row"
 msgstr "Řá_dek"
 
-#: src/GNOME_Gnumeric.xml.h:326 src/dialogs/anova-one.glade.h:20
-#: src/dialogs/colrow.glade.h:3 src/dialogs/correlation.glade.h:16
-#: src/dialogs/covariance.glade.h:16 src/dialogs/descriptive-stats.glade.h:26
-#: src/dialogs/exp-smoothing.glade.h:19
-#: src/dialogs/fourier-analysis.glade.h:17 src/dialogs/histogram.glade.h:30
-#: src/dialogs/moving-averages.glade.h:19 src/dialogs/rank.glade.h:19
-#: src/dialogs/regression.glade.h:20 src/dialogs/sampling.glade.h:25
+#: src/GNOME_Gnumeric.xml.h:326 src/dialogs/anova-one.glade.h:13
+#: src/dialogs/colrow.glade.h:3 src/dialogs/correlation.glade.h:9
+#: src/dialogs/covariance.glade.h:9 src/dialogs/descriptive-stats.glade.h:19
+#: src/dialogs/exp-smoothing.glade.h:12
+#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:23
+#: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:12
+#: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:18
 #: src/dialogs/shuffle.glade.h:6 src/workbook-control-gui.c:3587
 msgid "_Rows"
 msgstr "Řá_dky"
@@ -20847,13 +20852,13 @@ msgstr "Guppi"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:288
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
-#: src/dialogs/consolidate.glade.h:12
+#: src/dialogs/consolidate.glade.h:9
 msgid "Labels"
 msgstr "Titulky"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:290
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:27
+#: src/dialogs/dao.glade.h:10
 msgid "Values"
 msgstr "Hodnoty"
 
@@ -21668,81 +21673,28 @@ msgstr "Listopad"
 msgid "December"
 msgstr "Prosinec"
 
-#: src/dialogs/advanced-filter.glade.h:1 src/dialogs/anova-one.glade.h:4
-#: src/dialogs/anova-two.glade.h:5 src/dialogs/consolidate.glade.h:2
-#: src/dialogs/correlation.glade.h:1 src/dialogs/covariance.glade.h:1
-#: src/dialogs/descriptive-stats.glade.h:5 src/dialogs/exp-smoothing.glade.h:3
-#: src/dialogs/fill-series.glade.h:2 src/dialogs/fourier-analysis.glade.h:1
-#: src/dialogs/mean-tests.glade.h:4 src/dialogs/moving-averages.glade.h:3
-#: src/dialogs/random-generation.glade.h:3 src/dialogs/rank.glade.h:1
-#: src/dialogs/regression.glade.h:3 src/dialogs/sampling.glade.h:3
-#: src/dialogs/simulation.glade.h:4 src/dialogs/variance-tests.glade.h:3
-msgid "A_utofit Columns"
-msgstr "A_utomatická úprava šířky sloupců"
-
-#: src/dialogs/advanced-filter.glade.h:2
+#: src/dialogs/advanced-filter.glade.h:1
 msgid "Advanced Filter"
 msgstr "Pokročilý filtr"
 
-#: src/dialogs/advanced-filter.glade.h:3
-#: src/dialogs/dialog-advanced-filter.c:199
-msgid "Criteria _Range:"
-msgstr "O_blast kritérií:"
-
-#: src/dialogs/advanced-filter.glade.h:4
+#: src/dialogs/advanced-filter.glade.h:2
 msgid "Input"
 msgstr "Vstup"
 
-#: src/dialogs/advanced-filter.glade.h:5
-msgid "List _Range:"
-msgstr "O_blast seznamu:"
-
-#: src/dialogs/advanced-filter.glade.h:6 src/dialogs/anova-one.glade.h:7
-#: src/dialogs/anova-two.glade.h:7 src/dialogs/consolidate.glade.h:15
-#: src/dialogs/correlation.glade.h:5 src/dialogs/covariance.glade.h:5
-#: src/dialogs/descriptive-stats.glade.h:13
-#: src/dialogs/exp-smoothing.glade.h:7 src/dialogs/fill-series.glade.h:7
-#: src/dialogs/fourier-analysis.glade.h:6
-#: src/dialogs/random-generation.glade.h:5 src/dialogs/rank.glade.h:5
-#: src/dialogs/regression.glade.h:7 src/dialogs/simulation.glade.h:12
-#: src/dialogs/variance-tests.glade.h:5
-msgid "N_ew Workbook"
-msgstr "Nový s_ešit"
-
-#: src/dialogs/advanced-filter.glade.h:7 src/dialogs/simulation.glade.h:14
+#: src/dialogs/advanced-filter.glade.h:3 src/dialogs/simulation.glade.h:15
 msgid "Output"
 msgstr "Výstup"
 
-#: src/dialogs/advanced-filter.glade.h:8
-msgid "_Filter In-Place"
-msgstr "_Filtrovat na místě"
+#: src/dialogs/advanced-filter.glade.h:4
+msgid "_Criteria range:"
+msgstr "O_blast kritérií:"
 
-#: src/dialogs/advanced-filter.glade.h:9 src/dialogs/anova-one.glade.h:17
-#: src/dialogs/anova-two.glade.h:16 src/dialogs/consolidate.glade.h:30
-#: src/dialogs/correlation.glade.h:13 src/dialogs/covariance.glade.h:13
-#: src/dialogs/descriptive-stats.glade.h:23
-#: src/dialogs/exp-smoothing.glade.h:16 src/dialogs/fill-series.glade.h:20
-#: src/dialogs/fourier-analysis.glade.h:14
-#: src/dialogs/random-generation.glade.h:13 src/dialogs/rank.glade.h:16
-#: src/dialogs/regression.glade.h:17 src/dialogs/simulation.glade.h:21
-#: src/dialogs/variance-tests.glade.h:14
-msgid "_New Sheet"
-msgstr "_Nový list"
+#: src/dialogs/advanced-filter.glade.h:5
+msgid "_List range:"
+msgstr "Ob_last seznamu:"
 
-#: src/dialogs/advanced-filter.glade.h:10 src/dialogs/anova-one.glade.h:19
-#: src/dialogs/anova-two.glade.h:18 src/dialogs/consolidate.glade.h:32
-#: src/dialogs/correlation.glade.h:15 src/dialogs/covariance.glade.h:15
-#: src/dialogs/descriptive-stats.glade.h:25
-#: src/dialogs/exp-smoothing.glade.h:18 src/dialogs/fill-series.glade.h:22
-#: src/dialogs/fourier-analysis.glade.h:16 src/dialogs/mean-tests.glade.h:24
-#: src/dialogs/random-generation.glade.h:15 src/dialogs/rank.glade.h:18
-#: src/dialogs/regression.glade.h:19 src/dialogs/simulation.glade.h:23
-#: src/dialogs/variance-tests.glade.h:16
-msgid "_Output Range:"
-msgstr "Výstupní _oblast:"
-
-#: src/dialogs/advanced-filter.glade.h:11
-msgid "_Unique Records Only"
+#: src/dialogs/advanced-filter.glade.h:6
+msgid "_Unique records only"
 msgstr "Pouze _unikátní záznamy"
 
 #: src/dialogs/anova-one.glade.h:1 src/dialogs/anova-two.glade.h:1
@@ -21776,114 +21728,69 @@ msgstr "0,05"
 msgid "ANOVA - Single Factor"
 msgstr "ANOVA - Jeden faktor"
 
-#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:6
-#: src/dialogs/consolidate.glade.h:5 src/dialogs/correlation.glade.h:2
-#: src/dialogs/covariance.glade.h:2 src/dialogs/descriptive-stats.glade.h:6
-#: src/dialogs/exp-smoothing.glade.h:4 src/dialogs/fill-series.glade.h:3
-#: src/dialogs/fourier-analysis.glade.h:2 src/dialogs/mean-tests.glade.h:5
-#: src/dialogs/moving-averages.glade.h:4
+#: src/dialogs/anova-one.glade.h:4 src/dialogs/exp-smoothing.glade.h:4
+#: src/dialogs/histogram.glade.h:5 src/dialogs/moving-averages.glade.h:3
+#: src/dialogs/regression.glade.h:4 src/dialogs/sampling.glade.h:3
+msgid "Grouped by:"
+msgstr "Seskupeno podle:"
+
+#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:7
+#: src/dialogs/descriptive-stats.glade.h:11
+#: src/dialogs/exp-smoothing.glade.h:5 src/dialogs/fill-series.glade.h:5
+#: src/dialogs/fourier-analysis.glade.h:4 src/dialogs/histogram.glade.h:10
+#: src/dialogs/moving-averages.glade.h:6
 #: src/dialogs/random-generation.glade.h:4 src/dialogs/rank.glade.h:3
-#: src/dialogs/regression.glade.h:4 src/dialogs/sampling.glade.h:4
-#: src/dialogs/variance-tests.glade.h:4
-msgid "Clear Output Range"
-msgstr "Vyčistit výstupní oblast"
-
-#: src/dialogs/anova-one.glade.h:6 src/dialogs/correlation.glade.h:4
-#: src/dialogs/covariance.glade.h:4 src/dialogs/descriptive-stats.glade.h:9
-#: src/dialogs/exp-smoothing.glade.h:6 src/dialogs/fourier-analysis.glade.h:4
-#: src/dialogs/histogram.glade.h:5 src/dialogs/moving-averages.glade.h:5
-#: src/dialogs/rank.glade.h:4 src/dialogs/regression.glade.h:6
-#: src/dialogs/sampling.glade.h:5
-msgid "Grouped By:"
-msgstr "Seskupit podle:"
-
-#: src/dialogs/anova-one.glade.h:8 src/dialogs/anova-two.glade.h:9
-#: src/dialogs/descriptive-stats.glade.h:14
-#: src/dialogs/exp-smoothing.glade.h:8 src/dialogs/fill-series.glade.h:8
-#: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:13
-#: src/dialogs/moving-averages.glade.h:10
-#: src/dialogs/random-generation.glade.h:7 src/dialogs/rank.glade.h:6
-#: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:9
+#: src/dialogs/regression.glade.h:5 src/dialogs/sampling.glade.h:5
 msgid "O_ptions"
 msgstr "_Možnosti"
 
-#: src/dialogs/anova-one.glade.h:9 src/dialogs/anova-two.glade.h:10
-#: src/dialogs/consolidate.glade.h:17 src/dialogs/correlation.glade.h:6
-#: src/dialogs/covariance.glade.h:6 src/dialogs/descriptive-stats.glade.h:15
-#: src/dialogs/exp-smoothing.glade.h:9 src/dialogs/fill-series.glade.h:9
-#: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/mean-tests.glade.h:11
-#: src/dialogs/moving-averages.glade.h:12
-#: src/dialogs/random-generation.glade.h:9 src/dialogs/rank.glade.h:8
-#: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:12
-#: src/dialogs/variance-tests.glade.h:6
-msgid "Retain Output Range Comments"
-msgstr "Neměnit komentáře ve výstupní oblasti"
-
-#: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:11
-#: src/dialogs/consolidate.glade.h:18 src/dialogs/correlation.glade.h:7
-#: src/dialogs/covariance.glade.h:7 src/dialogs/descriptive-stats.glade.h:16
-#: src/dialogs/exp-smoothing.glade.h:10 src/dialogs/fill-series.glade.h:10
-#: src/dialogs/fourier-analysis.glade.h:9 src/dialogs/mean-tests.glade.h:12
-#: src/dialogs/moving-averages.glade.h:13
-#: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:9
-#: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:13
-#: src/dialogs/variance-tests.glade.h:7
-msgid "Retain Output Range Formatting"
-msgstr "Neměnit formát ve výstupní oblasti"
-
-#: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:12
+#: src/dialogs/anova-one.glade.h:6
 msgid "_Alpha = "
 msgstr "_Alfa = "
 
-#: src/dialogs/anova-one.glade.h:12 src/dialogs/correlation.glade.h:8
-#: src/dialogs/covariance.glade.h:8 src/dialogs/descriptive-stats.glade.h:18
-#: src/dialogs/histogram.glade.h:18 src/dialogs/rank.glade.h:11
-#: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:17
+#: src/dialogs/anova-one.glade.h:7 src/dialogs/correlation.glade.h:3
+#: src/dialogs/covariance.glade.h:3 src/dialogs/descriptive-stats.glade.h:13
+#: src/dialogs/histogram.glade.h:12 src/dialogs/rank.glade.h:6
+#: src/dialogs/regression.glade.h:7 src/dialogs/sampling.glade.h:10
 msgid "_Areas"
 msgstr "Obl_asti"
 
-#: src/dialogs/anova-one.glade.h:14 src/dialogs/anova-two.glade.h:13
-#: src/dialogs/consolidate.glade.h:29 src/dialogs/correlation.glade.h:10
-#: src/dialogs/covariance.glade.h:10 src/dialogs/descriptive-stats.glade.h:20
-#: src/dialogs/exp-smoothing.glade.h:13
-#: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:25
-#: src/dialogs/mean-tests.glade.h:20 src/dialogs/moving-averages.glade.h:15
-#: src/dialogs/rank.glade.h:13 src/dialogs/regression.glade.h:15
-#: src/dialogs/sampling.glade.h:19 src/dialogs/variance-tests.glade.h:12
+#: src/dialogs/anova-one.glade.h:9 src/dialogs/anova-two.glade.h:9
+#: src/dialogs/consolidate.glade.h:22 src/dialogs/correlation.glade.h:5
+#: src/dialogs/covariance.glade.h:5 src/dialogs/descriptive-stats.glade.h:15
+#: src/dialogs/exp-smoothing.glade.h:8 src/dialogs/fourier-analysis.glade.h:6
+#: src/dialogs/histogram.glade.h:17 src/dialogs/mean-tests.glade.h:14
+#: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:8
+#: src/dialogs/regression.glade.h:10 src/dialogs/sampling.glade.h:12
+#: src/dialogs/variance-tests.glade.h:7
 msgid "_Input"
 msgstr "V_stup"
 
-#: src/dialogs/anova-one.glade.h:15 src/dialogs/anova-two.glade.h:14
-#: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
-#: src/dialogs/descriptive-stats.glade.h:21
-#: src/dialogs/dialog-analysis-tools.c:341
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/dialog-shuffle.c:151
-#: src/dialogs/exp-smoothing.glade.h:14
-#: src/dialogs/fourier-analysis.glade.h:12
-#: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
-msgid "_Input Range:"
+#: src/dialogs/anova-one.glade.h:10 src/dialogs/exp-smoothing.glade.h:9
+#: src/dialogs/moving-averages.glade.h:9
+msgid "_Input range:"
 msgstr "Vs_tupní oblast:"
 
-#: src/dialogs/anova-one.glade.h:16 src/dialogs/anova-two.glade.h:15
-#: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
-#: src/dialogs/descriptive-stats.glade.h:22
-#: src/dialogs/exp-smoothing.glade.h:15
-#: src/dialogs/fourier-analysis.glade.h:13 src/dialogs/mean-tests.glade.h:22
-#: src/dialogs/moving-averages.glade.h:17 src/dialogs/rank.glade.h:15
-#: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:21
-#: src/dialogs/variance-tests.glade.h:13
+#: src/dialogs/anova-one.glade.h:11 src/dialogs/anova-two.glade.h:10
+#: src/dialogs/correlation.glade.h:7 src/dialogs/covariance.glade.h:7
+#: src/dialogs/descriptive-stats.glade.h:17
+#: src/dialogs/exp-smoothing.glade.h:10 src/dialogs/fourier-analysis.glade.h:8
+#: src/dialogs/histogram.glade.h:18 src/dialogs/mean-tests.glade.h:16
+#: src/dialogs/moving-averages.glade.h:10 src/dialogs/rank.glade.h:10
+#: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:14
+#: src/dialogs/variance-tests.glade.h:8
 msgid "_Labels"
 msgstr "Titu_lky"
 
-#: src/dialogs/anova-one.glade.h:18 src/dialogs/anova-two.glade.h:17
-#: src/dialogs/consolidate.glade.h:31 src/dialogs/correlation.glade.h:14
-#: src/dialogs/covariance.glade.h:14 src/dialogs/descriptive-stats.glade.h:24
-#: src/dialogs/exp-smoothing.glade.h:17 src/dialogs/fill-series.glade.h:21
-#: src/dialogs/fourier-analysis.glade.h:15 src/dialogs/histogram.glade.h:27
-#: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:18
-#: src/dialogs/random-generation.glade.h:14 src/dialogs/rank.glade.h:17
-#: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:22
-#: src/dialogs/variance-tests.glade.h:15
+#: src/dialogs/anova-one.glade.h:12 src/dialogs/anova-two.glade.h:11
+#: src/dialogs/consolidate.glade.h:23 src/dialogs/correlation.glade.h:8
+#: src/dialogs/covariance.glade.h:8 src/dialogs/descriptive-stats.glade.h:18
+#: src/dialogs/exp-smoothing.glade.h:11 src/dialogs/fill-series.glade.h:16
+#: src/dialogs/fourier-analysis.glade.h:9 src/dialogs/histogram.glade.h:20
+#: src/dialogs/mean-tests.glade.h:17 src/dialogs/moving-averages.glade.h:11
+#: src/dialogs/random-generation.glade.h:8 src/dialogs/rank.glade.h:11
+#: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:15
+#: src/dialogs/variance-tests.glade.h:9
 msgid "_Output"
 msgstr "V_ýstup"
 
@@ -21896,9 +21803,17 @@ msgstr "1"
 msgid "ANOVA - Two-Factor"
 msgstr "ANOVA - Dva faktory"
 
-#: src/dialogs/anova-two.glade.h:8
-msgid "Number of Rows _Per Sample:"
+#: src/dialogs/anova-two.glade.h:5 src/dialogs/histogram.glade.h:7
+msgid "Input _range:"
+msgstr "Vs_tupní oblast:"
+
+#: src/dialogs/anova-two.glade.h:6
+msgid "Number of rows per _sample:"
 msgstr "Počet řádků _na vzorek:"
+
+#: src/dialogs/anova-two.glade.h:8
+msgid "_Alpha: "
+msgstr "_Alfa: "
 
 #: src/dialogs/autocorrect.glade.h:2
 msgid "Auto Correct"
@@ -22458,7 +22373,9 @@ msgstr "<span weight=\"bold\">Specifikace třídění</span>"
 msgid ""
 "Adds any fields in the range box to the left to the sort criteria or allows "
 "selection of fields from a menu."
-msgstr "Přidává pole ze seznamu rozsahů vlevo do kritérií třídění nebo umožňuje výběr polí z měnu."
+msgstr ""
+"Přidává pole ze seznamu rozsahů vlevo do kritérií třídění nebo umožňuje "
+"výběr polí z měnu."
 
 #: src/dialogs/cell-sort.glade.h:4
 msgid "Clear all fields from the sort specification"
@@ -22532,67 +22449,63 @@ msgstr "Seskupit/Rozeskupit"
 msgid "AVERAGE"
 msgstr "PRŮMĚR"
 
-#: src/dialogs/consolidate.glade.h:3
+#: src/dialogs/consolidate.glade.h:2
 msgid "COUNT"
 msgstr "POČET"
 
-#: src/dialogs/consolidate.glade.h:4
+#: src/dialogs/consolidate.glade.h:3
 msgid "C_opy labels"
 msgstr "K_opírovat titulky"
 
-#: src/dialogs/consolidate.glade.h:6
+#: src/dialogs/consolidate.glade.h:4
 msgid "Clear the list of source areas"
 msgstr "Vymaže seznam zdrojových oblastí"
 
-#: src/dialogs/consolidate.glade.h:7
+#: src/dialogs/consolidate.glade.h:5
 msgid "Data consolidation"
 msgstr "Konsolidace dat"
 
-#: src/dialogs/consolidate.glade.h:8
+#: src/dialogs/consolidate.glade.h:6
 msgid "Delete the currently selected source area"
 msgstr "Odstranit právě vybranou zdrojovou oblast"
 
-#: src/dialogs/consolidate.glade.h:9
-msgid "Formulas"
-msgstr "Vzorce"
-
-#: src/dialogs/consolidate.glade.h:10
+#: src/dialogs/consolidate.glade.h:7
 msgid "In _left column"
 msgstr "V _levém sloupci"
 
-#: src/dialogs/consolidate.glade.h:11
+#: src/dialogs/consolidate.glade.h:8
 msgid "In _top row"
 msgstr "V _horním řádku"
 
-#: src/dialogs/consolidate.glade.h:13
+#: src/dialogs/consolidate.glade.h:10
 msgid "MAX"
 msgstr "MAX"
 
-#: src/dialogs/consolidate.glade.h:14
+#: src/dialogs/consolidate.glade.h:11
 msgid "MIN"
 msgstr "MIN"
 
-#: src/dialogs/consolidate.glade.h:16
+#: src/dialogs/consolidate.glade.h:12
 msgid "PRODUCT"
 msgstr "SOUČIN"
 
-#: src/dialogs/consolidate.glade.h:19
+#: src/dialogs/consolidate.glade.h:13
 msgid "STDEV"
 msgstr "STODCH"
 
-#: src/dialogs/consolidate.glade.h:20
+#: src/dialogs/consolidate.glade.h:14
 msgid "STDEVP"
 msgstr "STODCHP"
 
-#: src/dialogs/consolidate.glade.h:21
+#: src/dialogs/consolidate.glade.h:15
 msgid "SUM"
 msgstr "SOUČET"
 
-#: src/dialogs/consolidate.glade.h:22
+#: src/dialogs/consolidate.glade.h:16
 msgid "The function to use when consolidating"
 msgstr "Funkce použitá při konsolidaci"
 
-#: src/dialogs/consolidate.glade.h:23
+#: src/dialogs/consolidate.glade.h:17
 msgid ""
 "The left column contains labels, these will not be consolidated, but used as "
 "key for comparison"
@@ -22600,7 +22513,7 @@ msgstr ""
 "Levý sloupec obsahuje titulky. Ty nebudou konsolidované, ale budou použity "
 "pro porovnání klíčů"
 
-#: src/dialogs/consolidate.glade.h:24
+#: src/dialogs/consolidate.glade.h:18
 msgid ""
 "The top row contains labels, these will not be consolidated, but used as key "
 "for comparison"
@@ -22608,30 +22521,78 @@ msgstr ""
 "Horní řádek obsahuje titulky. Ty nebudou konsolidované, ale budou použity "
 "pro porovnání klíčů"
 
-#: src/dialogs/consolidate.glade.h:25
+#: src/dialogs/consolidate.glade.h:19
 msgid "VAR"
 msgstr "VAR"
 
-#: src/dialogs/consolidate.glade.h:26
+#: src/dialogs/consolidate.glade.h:20
 msgid "VARP"
 msgstr "VARP"
 
-#: src/dialogs/consolidate.glade.h:28
+#: src/dialogs/consolidate.glade.h:21
 msgid "_Function:"
 msgstr "_Funkce:"
 
-#: src/dialogs/consolidate.glade.h:33
-msgid "_Put:"
-msgstr "_Vložit:"
-
-#: src/dialogs/consolidate.glade.h:34
+#: src/dialogs/consolidate.glade.h:24
 msgid "_Source areas:"
 msgstr "Z_drojové oblasti:"
 
-#: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:784
+#: src/dialogs/correlation.glade.h:1 src/tools/analysis-tools.c:784
 #: src/tools/analysis-tools.c:787
 msgid "Correlation"
 msgstr "Korelace"
+
+#: src/dialogs/correlation.glade.h:2 src/dialogs/covariance.glade.h:2
+#: src/dialogs/descriptive-stats.glade.h:7
+#: src/dialogs/fourier-analysis.glade.h:2 src/dialogs/rank.glade.h:2
+msgid "Grouped By:"
+msgstr "Seskupit podle:"
+
+#: src/dialogs/correlation.glade.h:6 src/dialogs/covariance.glade.h:6
+#: src/dialogs/descriptive-stats.glade.h:16
+#: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/rank.glade.h:9
+msgid "_Input Range:"
+msgstr "Vs_tupní oblast:"
+
+#: src/dialogs/dao.glade.h:1
+msgid "A_utofit columns"
+msgstr "A_utomaticky přizpůsobovat sloupce"
+
+#: src/dialogs/dao.glade.h:2
+msgid "Clear output range"
+msgstr "Vyčistit výstupní oblast"
+
+#: src/dialogs/dao.glade.h:3 src/dialogs/dialog-advanced-filter.c:197
+msgid "Filter _in-place"
+msgstr "_Filtrovat na místě"
+
+#: src/dialogs/dao.glade.h:4
+msgid "Formulas"
+msgstr "Vzorce"
+
+#: src/dialogs/dao.glade.h:5
+msgid "New _sheet"
+msgstr "Nový _list"
+
+#: src/dialogs/dao.glade.h:6
+msgid "New _workbook"
+msgstr "Nový _sešit"
+
+#: src/dialogs/dao.glade.h:7
+msgid "Output _range:"
+msgstr "Výstupní _oblast:"
+
+#: src/dialogs/dao.glade.h:8
+msgid "Retain output range comments"
+msgstr "Zachovat komentáře ve výstupní oblasti"
+
+#: src/dialogs/dao.glade.h:9
+msgid "Retain output range formatting"
+msgstr "Zachovat formát ve výstupní oblasti"
+
+#: src/dialogs/dao.glade.h:11
+msgid "_Put:"
+msgstr "_Vložit:"
 
 #: src/dialogs/delete-cells.glade.h:1
 msgid "<span weight=\"bold\">Delete Method</span>"
@@ -22665,28 +22626,28 @@ msgstr "(1 - alfa) = "
 msgid ".95"
 msgstr ".95"
 
-#: src/dialogs/descriptive-stats.glade.h:7
+#: src/dialogs/descriptive-stats.glade.h:5
 msgid "Confidence Interval for the _Mean"
 msgstr "Interval spolehlivosti pro prů_měr"
 
-#: src/dialogs/descriptive-stats.glade.h:8 src/tools/analysis-tools.c:1182
+#: src/dialogs/descriptive-stats.glade.h:6 src/tools/analysis-tools.c:1182
 #: src/tools/analysis-tools.c:1185
 msgid "Descriptive Statistics"
 msgstr "Popisná statistika"
 
-#: src/dialogs/descriptive-stats.glade.h:10
+#: src/dialogs/descriptive-stats.glade.h:8
 msgid "K = "
 msgstr "K = "
 
-#: src/dialogs/descriptive-stats.glade.h:11
+#: src/dialogs/descriptive-stats.glade.h:9
 msgid "Kth Largest"
 msgstr "K-tý největší"
 
-#: src/dialogs/descriptive-stats.glade.h:12
+#: src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Smallest"
 msgstr "K-tý nejmenší"
 
-#: src/dialogs/descriptive-stats.glade.h:17
+#: src/dialogs/descriptive-stats.glade.h:12
 msgid "S_ummary Statistics"
 msgstr "So_uhrnná statistika"
 
@@ -22851,79 +22812,75 @@ msgstr ""
 msgid "Gnumeric Home Page"
 msgstr "Domovská stránka aplikace Gnumeric"
 
-#: src/dialogs/dialog-advanced-filter.c:73
+#: src/dialogs/dialog-advanced-filter.c:71
 msgid "The list range is invalid."
 msgstr "Neplatná oblast seznamu."
 
-#: src/dialogs/dialog-advanced-filter.c:83
+#: src/dialogs/dialog-advanced-filter.c:81
 msgid "The criteria range is invalid."
 msgstr "Neplatná oblast kritérií."
 
-#: src/dialogs/dialog-advanced-filter.c:96 src/dialogs/dialog-simulation.c:100
+#: src/dialogs/dialog-advanced-filter.c:89 src/dialogs/dialog-simulation.c:93
 msgid "The output range is invalid."
 msgstr "Neplatná výstupní oblast."
 
-#: src/dialogs/dialog-advanced-filter.c:153
+#: src/dialogs/dialog-advanced-filter.c:144
 msgid "The given criteria are invalid."
 msgstr "Zadaná kritéria jsou neplatná."
 
-#: src/dialogs/dialog-advanced-filter.c:159
+#: src/dialogs/dialog-advanced-filter.c:150
 msgid "No matching records were found."
 msgstr "Nenalezeny žádné odpovídající záznamy."
 
-#: src/dialogs/dialog-advanced-filter.c:162
-#: src/dialogs/dialog-analysis-tools.c:588
-#: src/dialogs/dialog-analysis-tools.c:706
-#: src/dialogs/dialog-analysis-tools.c:1988
-#: src/dialogs/dialog-analysis-tools.c:2878
+#: src/dialogs/dialog-advanced-filter.c:153
+#: src/dialogs/dialog-analysis-tools.c:572
+#: src/dialogs/dialog-analysis-tools.c:691
+#: src/dialogs/dialog-analysis-tools.c:1940
+#: src/dialogs/dialog-analysis-tools.c:2784
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Nastala neočekávaná chyba: %d."
 
-#: src/dialogs/dialog-advanced-filter.c:199
-msgid "_List Range:"
-msgstr "Ob_last seznamu:"
-
-#: src/dialogs/dialog-advanced-filter.c:200
+#: src/dialogs/dialog-advanced-filter.c:190
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Nepodařilo se vytvořit Dialog pro pokročilé filtrování."
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:692
+#: src/dialogs/dialog-analysis-tools.c:558
+#: src/dialogs/dialog-analysis-tools.c:677
 msgid "The selected input rows must have equal size!"
 msgstr "Vybrané vstupní řádky musí mít stejnou velikost!"
 
-#: src/dialogs/dialog-analysis-tools.c:579
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:563
+#: src/dialogs/dialog-analysis-tools.c:682
 msgid "The selected input columns must have equal size!"
 msgstr "Vybrané vstupní sloupce musí mít stejnou velikost!"
 
-#: src/dialogs/dialog-analysis-tools.c:584
-#: src/dialogs/dialog-analysis-tools.c:702
+#: src/dialogs/dialog-analysis-tools.c:568
+#: src/dialogs/dialog-analysis-tools.c:687
 msgid "The selected input areas must have equal size!"
 msgstr "Vybrané vstupní oblasti musí mít stejnou velikost!"
 
-#: src/dialogs/dialog-analysis-tools.c:631
+#: src/dialogs/dialog-analysis-tools.c:615
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro korelaci."
 
-#: src/dialogs/dialog-analysis-tools.c:749
+#: src/dialogs/dialog-analysis-tools.c:734
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro kovarianci."
 
-#: src/dialogs/dialog-analysis-tools.c:838
+#: src/dialogs/dialog-analysis-tools.c:824
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro rozložení a percentily."
 
-#: src/dialogs/dialog-analysis-tools.c:928
+#: src/dialogs/dialog-analysis-tools.c:914
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro Fourierovu analýzu."
 
-#: src/dialogs/dialog-analysis-tools.c:1090
+#: src/dialogs/dialog-analysis-tools.c:1068
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro popisnou statistiku."
 
-#: src/dialogs/dialog-analysis-tools.c:1232
+#: src/dialogs/dialog-analysis-tools.c:1211
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -22931,7 +22888,7 @@ msgstr ""
 "Prosím, zadejte platný\n"
 "rozptyl populace pro proměnnou 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1241
+#: src/dialogs/dialog-analysis-tools.c:1220
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -22939,73 +22896,45 @@ msgstr ""
 "Prosím, zadejte platný\n"
 "rozptyl populace pro proměnnou 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1466
-msgid "Var_iable 1 Range:"
-msgstr "Rozsah proměnné _1:"
-
-#: src/dialogs/dialog-analysis-tools.c:1467
-msgid "_Variable 2 Range:"
-msgstr "Rozsah proměnné _2:"
-
-#: src/dialogs/dialog-analysis-tools.c:1468
+#: src/dialogs/dialog-analysis-tools.c:1436
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro testy průměru."
 
-#: src/dialogs/dialog-analysis-tools.c:1665
-msgid "Var_iable 1 Range"
-msgstr "Rozsah proměnné _1"
-
-#: src/dialogs/dialog-analysis-tools.c:1665
-msgid "_Variable 2 Range"
-msgstr "Rozsah proměnné _2"
-
-#: src/dialogs/dialog-analysis-tools.c:1666
+#: src/dialogs/dialog-analysis-tools.c:1625
 msgid "Could not create the FTest Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje F-test."
 
-#: src/dialogs/dialog-analysis-tools.c:1868
+#: src/dialogs/dialog-analysis-tools.c:1819
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro vzorky."
 
-#: src/dialogs/dialog-analysis-tools.c:1983 src/tools/analysis-tools.c:2152
+#: src/dialogs/dialog-analysis-tools.c:1935 src/tools/analysis-tools.c:2152
 #: src/tools/analysis-tools.c:2231
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "Pro každou proměnnou regrese musí být stejný počet položek."
 
-#: src/dialogs/dialog-analysis-tools.c:2086 src/dialogs/regression.glade.h:21
-msgid "_X Variables:"
-msgstr "Proměnné _X:"
-
-#: src/dialogs/dialog-analysis-tools.c:2086 src/dialogs/regression.glade.h:22
-msgid "_Y Variable:"
-msgstr "Proměnná _Y:"
-
-#: src/dialogs/dialog-analysis-tools.c:2087
+#: src/dialogs/dialog-analysis-tools.c:2029
 msgid "Could not create the Regression Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro regresi."
 
-#: src/dialogs/dialog-analysis-tools.c:2223
+#: src/dialogs/dialog-analysis-tools.c:2157
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro exponenciální vyhlazení."
 
-#: src/dialogs/dialog-analysis-tools.c:2364
+#: src/dialogs/dialog-analysis-tools.c:2290
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro klouzavý průměr."
 
-#: src/dialogs/dialog-analysis-tools.c:2586 src/dialogs/histogram.glade.h:3
-msgid "Bin _Range:"
-msgstr "Oblast _tříd:"
-
-#: src/dialogs/dialog-analysis-tools.c:2587
+#: src/dialogs/dialog-analysis-tools.c:2501
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro histogram."
 
-#: src/dialogs/dialog-analysis-tools.c:2765
+#: src/dialogs/dialog-analysis-tools.c:2670
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro ANOVA (jeden faktor)."
 
-#: src/dialogs/dialog-analysis-tools.c:2844
+#: src/dialogs/dialog-analysis-tools.c:2750
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -23013,40 +22942,40 @@ msgstr ""
 "Zadaná vstupní oblast by měla obsahovat alespoň dva sloupce a dva řádky dat "
 "a titulků."
 
-#: src/dialogs/dialog-analysis-tools.c:2847
+#: src/dialogs/dialog-analysis-tools.c:2753
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 "Zadaná vstupní oblast by měla obsahovat alespoň dva sloupce a dva řádky dat."
 
-#: src/dialogs/dialog-analysis-tools.c:2853
+#: src/dialogs/dialog-analysis-tools.c:2759
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 "Zadaná vstupní oblast by měla obsahovat alespoň dva sloupce dat a titulků."
 
-#: src/dialogs/dialog-analysis-tools.c:2856
+#: src/dialogs/dialog-analysis-tools.c:2762
 msgid "The given input range should contain at least two columns of data."
 msgstr "Zadaná vstupní oblast by měla obsahovat alespoň dva sloupce dat."
 
-#: src/dialogs/dialog-analysis-tools.c:2862
+#: src/dialogs/dialog-analysis-tools.c:2768
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 "Zadaná vstupní oblast by měla obsahovat alespoň dva řádky dat a titulků."
 
-#: src/dialogs/dialog-analysis-tools.c:2865
+#: src/dialogs/dialog-analysis-tools.c:2771
 msgid "The given input range should contain at least two rows of data."
 msgstr "Zadaná vstupní oblast by měla obsahovat alespoň dva řádky dat."
 
-#: src/dialogs/dialog-analysis-tools.c:2872
+#: src/dialogs/dialog-analysis-tools.c:2778
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr "Počet řádků dat musí být násobkem počtu replikací."
 
-#: src/dialogs/dialog-analysis-tools.c:2969
+#: src/dialogs/dialog-analysis-tools.c:2863
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Nelze vytvořit dialog Nástroje pro ANOVA (dva faktory)."
 
@@ -23266,21 +23195,21 @@ msgid ""
 msgstr ""
 "Nastavit šířku sloupce výběru na <span style='italic' weight='bold'>%s</span>"
 
-#: src/dialogs/dialog-consolidate.c:192
+#: src/dialogs/dialog-consolidate.c:193
 #, c-format
 msgid "Specification %s does not define a region"
 msgstr "Specifikace %s nedefinuje oblast"
 
-#: src/dialogs/dialog-consolidate.c:201
+#: src/dialogs/dialog-consolidate.c:202
 #, c-format
 msgid "Source region %s overlaps with the destination region"
 msgstr "Zdrojová oblast %s se překrývá s cílovou oblastí"
 
-#: src/dialogs/dialog-consolidate.c:331
+#: src/dialogs/dialog-consolidate.c:327
 msgid "The output range overlaps with the input ranges."
 msgstr "Výstupní oblast se překrývá se vstupními oblastmi."
 
-#: src/dialogs/dialog-consolidate.c:564
+#: src/dialogs/dialog-consolidate.c:559
 msgid "Could not create the Consolidate dialog."
 msgstr "Nemohu vytvořit dialog Konsolidovat."
 
@@ -23301,7 +23230,7 @@ msgstr "Odstranit"
 msgid "Could not create the Delete Cell dialog."
 msgstr "Nelze vytvořit dialog pro odstranění buněk."
 
-#: src/dialogs/dialog-fill-series.c:267
+#: src/dialogs/dialog-fill-series.c:256
 msgid "Could not create the Fill Series dialog."
 msgstr "Nelze vytvořit dialog Vyplnit řadu"
 
@@ -23668,236 +23597,236 @@ msgstr "Vlastní nastavení záhlaví"
 msgid "Custom footer configuration"
 msgstr "Vlastní nastavení zápatí"
 
-#: src/dialogs/dialog-random-generator.c:107
+#: src/dialogs/dialog-random-generator.c:108
 msgid "Uniform"
 msgstr "Rovnoměrné"
 
-#: src/dialogs/dialog-random-generator.c:107
-#: src/dialogs/dialog-random-generator.c:109
+#: src/dialogs/dialog-random-generator.c:108
+#: src/dialogs/dialog-random-generator.c:110
 msgid "_Lower Bound:"
 msgstr "Do_lní hranice:"
 
-#: src/dialogs/dialog-random-generator.c:107
-#: src/dialogs/dialog-random-generator.c:109
+#: src/dialogs/dialog-random-generator.c:108
+#: src/dialogs/dialog-random-generator.c:110
 msgid "_Upper Bound:"
 msgstr "_Horní hranice:"
 
-#: src/dialogs/dialog-random-generator.c:109
+#: src/dialogs/dialog-random-generator.c:110
 msgid "Uniform Integer"
 msgstr "Rovnoměrné celé číslo"
 
-#: src/dialogs/dialog-random-generator.c:112
+#: src/dialogs/dialog-random-generator.c:113
 #: src/dialogs/search-replace.glade.h:14 src/dialogs/search.glade.h:13
 #: src/widgets/widget-font-selector.c:150
 msgid "Normal"
 msgstr "Normální"
 
-#: src/dialogs/dialog-random-generator.c:112
+#: src/dialogs/dialog-random-generator.c:113
 msgid "_Mean:"
 msgstr "_Průměr:"
 
-#: src/dialogs/dialog-random-generator.c:112
+#: src/dialogs/dialog-random-generator.c:113
 msgid "_Standard Deviation:"
 msgstr "_Směrodatná odchylka:"
 
-#: src/dialogs/dialog-random-generator.c:114
+#: src/dialogs/dialog-random-generator.c:115
 #: src/tools/solver/reports-write.c:716
 msgid "Discrete"
 msgstr "Diskrétní"
 
-#: src/dialogs/dialog-random-generator.c:114
+#: src/dialogs/dialog-random-generator.c:115
 msgid "_Value And Probability Input Range:"
 msgstr "_Vstupní oblast hodnot a pravděpodobností:"
 
-#: src/dialogs/dialog-random-generator.c:120
+#: src/dialogs/dialog-random-generator.c:121
 msgid "Bernoulli"
 msgstr "Bernoulliho"
 
-#: src/dialogs/dialog-random-generator.c:120
-#: src/dialogs/dialog-random-generator.c:124
-#: src/dialogs/dialog-random-generator.c:140
-#: src/dialogs/dialog-random-generator.c:152
-#: src/dialogs/dialog-random-generator.c:158
+#: src/dialogs/dialog-random-generator.c:121
+#: src/dialogs/dialog-random-generator.c:125
+#: src/dialogs/dialog-random-generator.c:141
+#: src/dialogs/dialog-random-generator.c:153
+#: src/dialogs/dialog-random-generator.c:159
 msgid "_p Value:"
 msgstr "_p hodnota:"
 
-#: src/dialogs/dialog-random-generator.c:122
+#: src/dialogs/dialog-random-generator.c:123
 msgid "Beta"
 msgstr "Beta"
 
-#: src/dialogs/dialog-random-generator.c:122
-#: src/dialogs/dialog-random-generator.c:126
-#: src/dialogs/dialog-random-generator.c:132
-#: src/dialogs/dialog-random-generator.c:136
-#: src/dialogs/dialog-random-generator.c:138
-#: src/dialogs/dialog-random-generator.c:142
-#: src/dialogs/dialog-random-generator.c:144
-#: src/dialogs/dialog-random-generator.c:148
-#: src/dialogs/dialog-random-generator.c:154
-#: src/dialogs/dialog-random-generator.c:161
-#: src/dialogs/dialog-random-generator.c:167
-#: src/dialogs/dialog-random-generator.c:171
+#: src/dialogs/dialog-random-generator.c:123
+#: src/dialogs/dialog-random-generator.c:127
+#: src/dialogs/dialog-random-generator.c:133
+#: src/dialogs/dialog-random-generator.c:137
+#: src/dialogs/dialog-random-generator.c:139
+#: src/dialogs/dialog-random-generator.c:143
+#: src/dialogs/dialog-random-generator.c:145
+#: src/dialogs/dialog-random-generator.c:149
+#: src/dialogs/dialog-random-generator.c:155
+#: src/dialogs/dialog-random-generator.c:162
+#: src/dialogs/dialog-random-generator.c:168
+#: src/dialogs/dialog-random-generator.c:172
 msgid "_a Value:"
 msgstr "_a hodnota:"
 
-#: src/dialogs/dialog-random-generator.c:122
-#: src/dialogs/dialog-random-generator.c:130
-#: src/dialogs/dialog-random-generator.c:132
-#: src/dialogs/dialog-random-generator.c:136
-#: src/dialogs/dialog-random-generator.c:142
-#: src/dialogs/dialog-random-generator.c:144
-#: src/dialogs/dialog-random-generator.c:161
-#: src/dialogs/dialog-random-generator.c:171
+#: src/dialogs/dialog-random-generator.c:123
+#: src/dialogs/dialog-random-generator.c:131
+#: src/dialogs/dialog-random-generator.c:133
+#: src/dialogs/dialog-random-generator.c:137
+#: src/dialogs/dialog-random-generator.c:143
+#: src/dialogs/dialog-random-generator.c:145
+#: src/dialogs/dialog-random-generator.c:162
+#: src/dialogs/dialog-random-generator.c:172
 msgid "_b Value:"
 msgstr "_b hodnota:"
 
-#: src/dialogs/dialog-random-generator.c:124
+#: src/dialogs/dialog-random-generator.c:125
 msgid "Binomial"
 msgstr "Binomické"
 
-#: src/dialogs/dialog-random-generator.c:124
+#: src/dialogs/dialog-random-generator.c:125
 msgid "N_umber of Trials:"
 msgstr "Počet pok_usů:"
 
-#: src/dialogs/dialog-random-generator.c:126
+#: src/dialogs/dialog-random-generator.c:127
 msgid "Cauchy"
 msgstr "Cauchyho"
 
-#: src/dialogs/dialog-random-generator.c:128
+#: src/dialogs/dialog-random-generator.c:129
 msgid "Chisq"
 msgstr "Chisq"
 
-#: src/dialogs/dialog-random-generator.c:128
+#: src/dialogs/dialog-random-generator.c:129
 msgid "_nu Value:"
 msgstr "_nu hodnota:"
 
-#: src/dialogs/dialog-random-generator.c:130
+#: src/dialogs/dialog-random-generator.c:131
 msgid "Exponential"
 msgstr "Exponenciální"
 
-#: src/dialogs/dialog-random-generator.c:132
+#: src/dialogs/dialog-random-generator.c:133
 msgid "Exponential Power"
 msgstr "Exponenciální mocninné"
 
-#: src/dialogs/dialog-random-generator.c:134
+#: src/dialogs/dialog-random-generator.c:135
 msgid "F"
 msgstr "F"
 
-#: src/dialogs/dialog-random-generator.c:134
+#: src/dialogs/dialog-random-generator.c:135
 msgid "nu_1 Value:"
 msgstr "nu_1 hodnota:"
 
-#: src/dialogs/dialog-random-generator.c:134
+#: src/dialogs/dialog-random-generator.c:135
 msgid "nu_2 Value:"
 msgstr "nu_2 hodnota:"
 
-#: src/dialogs/dialog-random-generator.c:136
+#: src/dialogs/dialog-random-generator.c:137
 msgid "Gamma"
 msgstr "Gama"
 
-#: src/dialogs/dialog-random-generator.c:138
+#: src/dialogs/dialog-random-generator.c:139
 msgid "Gaussian Tail"
 msgstr "Gaussovo horní (tail)"
 
-#: src/dialogs/dialog-random-generator.c:138
-#: src/dialogs/dialog-random-generator.c:156
+#: src/dialogs/dialog-random-generator.c:139
+#: src/dialogs/dialog-random-generator.c:157
 msgid "_Sigma"
 msgstr "_Sigma"
 
-#: src/dialogs/dialog-random-generator.c:140
+#: src/dialogs/dialog-random-generator.c:141
 msgid "Geometric"
 msgstr "Geometrické"
 
-#: src/dialogs/dialog-random-generator.c:142
+#: src/dialogs/dialog-random-generator.c:143
 msgid "Gumbel (Type I)"
 msgstr "Gumbelovo (Typ I)"
 
-#: src/dialogs/dialog-random-generator.c:144
+#: src/dialogs/dialog-random-generator.c:145
 msgid "Gumbel (Type II)"
 msgstr "Gumbelovo (Typ II)"
 
-#: src/dialogs/dialog-random-generator.c:146
+#: src/dialogs/dialog-random-generator.c:147
 msgid "Landau"
 msgstr "Landauovo"
 
-#: src/dialogs/dialog-random-generator.c:148
+#: src/dialogs/dialog-random-generator.c:149
 msgid "Laplace"
 msgstr "Laplaceho"
 
-#: src/dialogs/dialog-random-generator.c:150
+#: src/dialogs/dialog-random-generator.c:151
 msgid "Levy alpha-Stable"
 msgstr "Levyho alfa-Stabilní"
 
-#: src/dialogs/dialog-random-generator.c:150
+#: src/dialogs/dialog-random-generator.c:151
 msgid "_c Value:"
 msgstr "_c hodnota:"
 
-#: src/dialogs/dialog-random-generator.c:150
+#: src/dialogs/dialog-random-generator.c:151
 msgid "_alpha:"
 msgstr "_alfa:"
 
-#: src/dialogs/dialog-random-generator.c:152
+#: src/dialogs/dialog-random-generator.c:153
 msgid "Logarithmic"
 msgstr "Logaritmické"
 
-#: src/dialogs/dialog-random-generator.c:154
+#: src/dialogs/dialog-random-generator.c:155
 msgid "Logistic"
 msgstr "Logistické"
 
-#: src/dialogs/dialog-random-generator.c:156
+#: src/dialogs/dialog-random-generator.c:157
 msgid "Lognormal"
 msgstr "Lognormální"
 
-#: src/dialogs/dialog-random-generator.c:156
+#: src/dialogs/dialog-random-generator.c:157
 msgid "_Zeta Value:"
 msgstr "_Zeta hodnota:"
 
-#: src/dialogs/dialog-random-generator.c:158
+#: src/dialogs/dialog-random-generator.c:159
 msgid "Negative Binomial"
 msgstr "Záporné binomické"
 
-#: src/dialogs/dialog-random-generator.c:159
+#: src/dialogs/dialog-random-generator.c:160
 msgid "N_umber of Failures"
 msgstr "_Počet neúspěchů"
 
-#: src/dialogs/dialog-random-generator.c:161
+#: src/dialogs/dialog-random-generator.c:162
 msgid "Pareto"
 msgstr "Paretovo"
 
-#: src/dialogs/dialog-random-generator.c:163
+#: src/dialogs/dialog-random-generator.c:164
 msgid "Poisson"
 msgstr "Poissonovo"
 
-#: src/dialogs/dialog-random-generator.c:163
+#: src/dialogs/dialog-random-generator.c:164
 msgid "_Lambda:"
 msgstr "_Lambda:"
 
-#: src/dialogs/dialog-random-generator.c:165
+#: src/dialogs/dialog-random-generator.c:166
 msgid "Rayleigh"
 msgstr "Rayleighovo"
 
-#: src/dialogs/dialog-random-generator.c:165
-#: src/dialogs/dialog-random-generator.c:167
+#: src/dialogs/dialog-random-generator.c:166
+#: src/dialogs/dialog-random-generator.c:168
 msgid "_Sigma:"
 msgstr "_Sigma:"
 
-#: src/dialogs/dialog-random-generator.c:167
+#: src/dialogs/dialog-random-generator.c:168
 msgid "Rayleigh Tail"
 msgstr "Rayleighovo horní (tail)"
 
-#: src/dialogs/dialog-random-generator.c:169
+#: src/dialogs/dialog-random-generator.c:170
 msgid "Student t"
 msgstr "Studentské t"
 
-#: src/dialogs/dialog-random-generator.c:169
+#: src/dialogs/dialog-random-generator.c:170
 msgid "nu Value:"
 msgstr "nu hodnota:"
 
-#: src/dialogs/dialog-random-generator.c:171
+#: src/dialogs/dialog-random-generator.c:172
 msgid "Weibull"
 msgstr "Weibullovo"
 
-#: src/dialogs/dialog-random-generator.c:859
+#: src/dialogs/dialog-random-generator.c:848
 msgid "Could not create the Random Tool dialog."
 msgstr "Nelze vytvořit dialog nástroje pro Náhodná čísla."
 
@@ -23941,26 +23870,17 @@ msgstr ""
 msgid "Could not create the Scenario Add dialog."
 msgstr "Nelze vytvořit dialog Přidat scénář."
 
-#: src/dialogs/dialog-scenarios.c:228 src/dialogs/scenario-add.glade.h:5
-msgid "_Changing cells:"
-msgstr "_Měnící se buňky:"
-
 #: src/dialogs/dialog-scenarios.c:243
 msgid "Created on "
 msgstr "Vytvořeno "
 
-#: src/dialogs/dialog-scenarios.c:565
+#: src/dialogs/dialog-scenarios.c:566
 msgid "Results entry did not contain valid cell names."
 msgstr "Položka výsledku neobsahovala platné názvy buněk."
 
-#: src/dialogs/dialog-scenarios.c:633
+#: src/dialogs/dialog-scenarios.c:634
 msgid "Could not create the Scenarios dialog."
 msgstr "Nelze vytvořit dialog Scénáře."
-
-#: src/dialogs/dialog-scenarios.c:650 src/dialogs/scenario-manager.glade.h:10
-#: src/tools/scenarios.c:628
-msgid "Result Cells:"
-msgstr "Buňky výsledku:"
 
 #: src/dialogs/dialog-search-replace.c:156 src/dialogs/dialog-search.c:331
 msgid "You must select some cell types to search."
@@ -24027,79 +23947,71 @@ msgstr "Pořadí listů se změnilo. Chcete aktualizovat seznam?"
 msgid "The input range is invalid."
 msgstr "Neplatná vstupní oblast."
 
-#: src/dialogs/dialog-shuffle.c:152
+#: src/dialogs/dialog-shuffle.c:151
 msgid "Could not create the Data Shuffling dialog."
 msgstr "Nelze vytvořit dialog Míchání dat."
 
-#: src/dialogs/dialog-simulation.c:77
+#: src/dialogs/dialog-simulation.c:75
 msgid "The input variable range is invalid."
 msgstr "Oblast vstupních proměnných je neplatná."
 
-#: src/dialogs/dialog-simulation.c:87
+#: src/dialogs/dialog-simulation.c:85
 msgid "The output variable range is invalid."
 msgstr "Oblast výstupních proměnných je neplatná."
 
-#: src/dialogs/dialog-simulation.c:167
+#: src/dialogs/dialog-simulation.c:158
 msgid "Simulations"
 msgstr "Simulace"
 
-#: src/dialogs/dialog-simulation.c:167
+#: src/dialogs/dialog-simulation.c:158
 msgid "Iterations"
 msgstr "Iterace"
 
-#: src/dialogs/dialog-simulation.c:167
+#: src/dialogs/dialog-simulation.c:158
 msgid "# Input variables"
 msgstr "# vstupních proměnných"
 
-#: src/dialogs/dialog-simulation.c:168
+#: src/dialogs/dialog-simulation.c:159
 msgid "# Output variables"
 msgstr "# výstupních proměnných"
 
-#: src/dialogs/dialog-simulation.c:168
+#: src/dialogs/dialog-simulation.c:159
 msgid "Runtime"
 msgstr "Čas běhu"
 
-#: src/dialogs/dialog-simulation.c:168
+#: src/dialogs/dialog-simulation.c:159
 msgid "Run on"
 msgstr "Běžet na"
 
-#: src/dialogs/dialog-simulation.c:245
+#: src/dialogs/dialog-simulation.c:236
 msgid "Variable"
 msgstr "Proměnná"
 
-#: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:254
+#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:254
 #: src/workbook-control-gui.c:4850
 msgid "Min"
 msgstr "Min"
 
-#: src/dialogs/dialog-simulation.c:246 src/workbook-control-gui.c:4852
+#: src/dialogs/dialog-simulation.c:237 src/workbook-control-gui.c:4852
 msgid "Average"
 msgstr "Průměr"
 
-#: src/dialogs/dialog-simulation.c:246 src/tools/simulation.c:256
+#: src/dialogs/dialog-simulation.c:237 src/tools/simulation.c:256
 #: src/workbook-control-gui.c:4851
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/dialog-simulation.c:325
+#: src/dialogs/dialog-simulation.c:316
 msgid "Invalid variable range was given"
 msgstr "Byla zadána neplatná oblast proměnných"
 
-#: src/dialogs/dialog-simulation.c:339
+#: src/dialogs/dialog-simulation.c:330
 msgid ""
 "First round number should be greater or equal than the number of the last "
 "round."
 msgstr "Číslo prvního kola by mělo být větší nebo rovno číslu posledního kola."
 
-#: src/dialogs/dialog-simulation.c:430
-msgid "_Inputs:"
-msgstr "Vstup_y:"
-
-#: src/dialogs/dialog-simulation.c:430
-msgid "_Outputs:"
-msgstr "_Výstupy:"
-
-#: src/dialogs/dialog-simulation.c:431
+#: src/dialogs/dialog-simulation.c:421
 msgid "Could not create the Simulation dialog."
 msgstr "Nelze vytvořit dialog pro Simulaci."
 
@@ -24815,87 +24727,83 @@ msgstr "_Přizpůsobit výběr %"
 msgid "0.2"
 msgstr "0,2"
 
-#: src/dialogs/exp-smoothing.glade.h:5 src/tools/analysis-tools.c:2689
+#: src/dialogs/exp-smoothing.glade.h:3 src/tools/analysis-tools.c:2689
 #: src/tools/analysis-tools.c:2692
 msgid "Exponential Smoothing"
 msgstr "Exponenciální vyhlazení"
 
-#: src/dialogs/exp-smoothing.glade.h:12
+#: src/dialogs/exp-smoothing.glade.h:7
 msgid "_Damping factor:"
 msgstr "Faktor _tlumení:"
 
-#: src/dialogs/exp-smoothing.glade.h:20 src/dialogs/moving-averages.glade.h:20
-msgid "_Standard Errors"
+#: src/dialogs/exp-smoothing.glade.h:13 src/dialogs/moving-averages.glade.h:13
+msgid "_Standard errors"
 msgstr "_Směrodatné chyby"
 
-#: src/dialogs/fill-series.glade.h:4
+#: src/dialogs/fill-series.glade.h:2
 msgid "D_ay"
 msgstr "_Den"
 
-#: src/dialogs/fill-series.glade.h:5
+#: src/dialogs/fill-series.glade.h:3
 msgid "Date unit:"
 msgstr "Jednotka data:"
 
-#: src/dialogs/fill-series.glade.h:6 src/tools/fill-series.c:413
+#: src/dialogs/fill-series.glade.h:4 src/tools/fill-series.c:413
 #: src/tools/fill-series.c:416
 msgid "Fill Series"
 msgstr "Vyplnit řadu"
 
-#: src/dialogs/fill-series.glade.h:11
+#: src/dialogs/fill-series.glade.h:6
 msgid "Series in:"
 msgstr "Řada v:"
 
-#: src/dialogs/fill-series.glade.h:12
-msgid "Start Value: "
+#: src/dialogs/fill-series.glade.h:7
+msgid "Start value: "
 msgstr "Počáteční hodnota: "
 
-#: src/dialogs/fill-series.glade.h:13
-msgid "Step Value: "
+#: src/dialogs/fill-series.glade.h:8
+msgid "Step value: "
 msgstr "Hodnota kroku: "
 
-#: src/dialogs/fill-series.glade.h:14
-msgid "Stop Value: "
+#: src/dialogs/fill-series.glade.h:9
+msgid "Stop value: "
 msgstr "Koncová hodnota: "
 
-#: src/dialogs/fill-series.glade.h:15
+#: src/dialogs/fill-series.glade.h:10
 msgid "Type:"
 msgstr "Typ:"
 
-#: src/dialogs/fill-series.glade.h:16
+#: src/dialogs/fill-series.glade.h:11 src/dialogs/pivottable.glade.h:7
+msgid "_Column"
+msgstr "Sloupe_c"
+
+#: src/dialogs/fill-series.glade.h:12
 msgid "_Date"
 msgstr "_Datum"
 
-#: src/dialogs/fill-series.glade.h:17
+#: src/dialogs/fill-series.glade.h:13
 msgid "_Growth"
 msgstr "_Růst"
 
-#: src/dialogs/fill-series.glade.h:18
+#: src/dialogs/fill-series.glade.h:14
 msgid "_Linear"
 msgstr "_Lineární"
 
-#: src/dialogs/fill-series.glade.h:19
+#: src/dialogs/fill-series.glade.h:15
 msgid "_Month"
 msgstr "_Měsíc"
 
-#: src/dialogs/fill-series.glade.h:23
+#: src/dialogs/fill-series.glade.h:18
 msgid "_Series"
 msgstr "_Řady"
 
-#: src/dialogs/fill-series.glade.h:24
+#: src/dialogs/fill-series.glade.h:19
 msgid "_Weekday"
 msgstr "_Den v týdnu"
 
-#: src/dialogs/fill-series.glade.h:25
+#: src/dialogs/fill-series.glade.h:20
 msgid "_Year"
 msgstr "_Rok"
-
-#: src/dialogs/fill-series.glade.h:26
-msgid "a _Column"
-msgstr "Sloupe_c"
-
-#: src/dialogs/fill-series.glade.h:27
-msgid "a _Row"
-msgstr "Řá_dek"
 
 #: src/dialogs/font-sel.glade.h:2
 msgid "Font style:"
@@ -24989,7 +24897,7 @@ msgstr "Po_užít oddělovač pro tisíce"
 msgid "Formula Guru"
 msgstr "Guru pro vzorce"
 
-#: src/dialogs/fourier-analysis.glade.h:5
+#: src/dialogs/fourier-analysis.glade.h:3
 msgid "I_nverse"
 msgstr "_Inverzní"
 
@@ -25070,11 +24978,15 @@ msgid "_Right section:"
 msgstr "_Pravá část:"
 
 #: src/dialogs/histogram.glade.h:2
-msgid "Bin _Labels"
+msgid "Bin _labels"
 msgstr "Popisky _tříd"
 
+#: src/dialogs/histogram.glade.h:3
+msgid "Bin _range:"
+msgstr "Oblast _tříd:"
+
 #: src/dialogs/histogram.glade.h:4
-msgid "C_umulative Percentages"
+msgid "C_umulative percentages"
 msgstr "_Kumulativní procenta"
 
 #: src/dialogs/histogram.glade.h:6 src/tools/analysis-tools.c:4069
@@ -25082,79 +24994,40 @@ msgstr "_Kumulativní procenta"
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/dialogs/histogram.glade.h:7
-msgid "Input _Labels"
-msgstr "Popisky _vstupu"
-
 #: src/dialogs/histogram.glade.h:8
-msgid "Input _Range:"
-msgstr "Vs_tupní oblast:"
-
-#: src/dialogs/histogram.glade.h:9
 msgid "M_in:"
 msgstr "M_in:"
 
-#: src/dialogs/histogram.glade.h:10
+#: src/dialogs/histogram.glade.h:9
 msgid "Ma_x:"
 msgstr "Ma_x:"
 
-#: src/dialogs/histogram.glade.h:11 src/dialogs/mean-tests.glade.h:8
-#: src/dialogs/moving-averages.glade.h:8 src/dialogs/sampling.glade.h:7
-msgid "New _Sheet"
-msgstr "Nový _list"
+#: src/dialogs/histogram.glade.h:11
+msgid "Pareto (_sorted)"
+msgstr "Pareto (_tříděná)"
 
-#: src/dialogs/histogram.glade.h:12 src/dialogs/mean-tests.glade.h:9
-#: src/dialogs/moving-averages.glade.h:9 src/dialogs/sampling.glade.h:8
-msgid "New _Workbook"
-msgstr "Nový _sešit"
-
-#: src/dialogs/histogram.glade.h:14 src/dialogs/moving-averages.glade.h:11
-#: src/dialogs/sampling.glade.h:10
-msgid "Output _Range:"
-msgstr "Výstupní _oblast:"
-
-#: src/dialogs/histogram.glade.h:15
-msgid "Pareto (_Sorted)"
-msgstr "Pareto (_Tříděná)"
-
-#: src/dialogs/histogram.glade.h:16
-msgid "Retain Output Range _Comments"
-msgstr "Neměnit _komentáře ve výstupní oblasti"
-
-#: src/dialogs/histogram.glade.h:17
-msgid "Retain Output Range _Formatting"
-msgstr "Neměnit _formát ve výstupní oblasti"
-
-#: src/dialogs/histogram.glade.h:19
-msgid "_Autofit Columns"
-msgstr "A_utomaticky přizpůsobit šířku sloupců"
-
-#: src/dialogs/histogram.glade.h:20
+#: src/dialogs/histogram.glade.h:13
 msgid "_Bins"
 msgstr "_Třídy"
 
-#: src/dialogs/histogram.glade.h:21
-msgid "_Calculated Bins"
+#: src/dialogs/histogram.glade.h:14
+msgid "_Calculated bins"
 msgstr "_Vypočtené třídy"
 
-#: src/dialogs/histogram.glade.h:22
-msgid "_Chart Output"
+#: src/dialogs/histogram.glade.h:15
+msgid "_Chart output"
 msgstr "_Výstup grafu"
 
-#: src/dialogs/histogram.glade.h:23
-msgid "_Clear Output Range"
-msgstr "_Vyčistit výstupní oblast"
-
-#: src/dialogs/histogram.glade.h:26
+#: src/dialogs/histogram.glade.h:19
 msgid "_N:"
 msgstr "_N:"
 
-#: src/dialogs/histogram.glade.h:28
+#: src/dialogs/histogram.glade.h:21
 msgid "_Percentages"
 msgstr "_Procenta"
 
-#: src/dialogs/histogram.glade.h:29
-msgid "_Predetermined Bins"
+#: src/dialogs/histogram.glade.h:22
+msgid "_Predetermined bins"
 msgstr "Pře_dem určené třídy"
 
 #: src/dialogs/hyperlink.glade.h:2
@@ -25213,75 +25086,75 @@ msgstr "Vlož_it sloupce"
 msgid "_Shift cells right"
 msgstr "_Posunout buňky doprava"
 
-#: src/dialogs/mean-tests.glade.h:6
+#: src/dialogs/mean-tests.glade.h:4
 msgid "E_qual"
 msgstr "_Shodné"
 
-#: src/dialogs/mean-tests.glade.h:7
-msgid "Hypothesized Mean _Difference:"
+#: src/dialogs/mean-tests.glade.h:5
+msgid "Hypothesized mean _difference:"
 msgstr "H_ypotetický rozdíl průměrů:"
 
-#: src/dialogs/mean-tests.glade.h:10
-msgid "Population Variances are:"
+#: src/dialogs/mean-tests.glade.h:6
+msgid "Population variances are:"
 msgstr "Rozptyly populací jsou:"
 
-#: src/dialogs/mean-tests.glade.h:13
+#: src/dialogs/mean-tests.glade.h:7
 msgid "Testing the Difference of 2 Means"
 msgstr "Test rozdílu dvou průměrů"
 
-#: src/dialogs/mean-tests.glade.h:14
-msgid "Variable _1 Population Variance:"
+#: src/dialogs/mean-tests.glade.h:8
+msgid "Variable _1 population variance:"
 msgstr "Rozptyl populace proměnné _1:"
 
-#: src/dialogs/mean-tests.glade.h:15 src/dialogs/variance-tests.glade.h:9
-msgid "Variable _1 Range:"
+#: src/dialogs/mean-tests.glade.h:9 src/dialogs/variance-tests.glade.h:4
+msgid "Variable _1 range:"
 msgstr "Oblast proměnné _1:"
 
-#: src/dialogs/mean-tests.glade.h:16
-msgid "Variable _2 Population Variance:"
+#: src/dialogs/mean-tests.glade.h:10
+msgid "Variable _2 population variance:"
 msgstr "Rozptyl populace proměnné _2:"
 
-#: src/dialogs/mean-tests.glade.h:17 src/dialogs/variance-tests.glade.h:10
-msgid "Variable _2 Range:"
+#: src/dialogs/mean-tests.glade.h:11 src/dialogs/variance-tests.glade.h:5
+msgid "Variable _2 range:"
 msgstr "Oblast proměnné _2:"
 
-#: src/dialogs/mean-tests.glade.h:18
+#: src/dialogs/mean-tests.glade.h:12
 msgid "Variables are:"
 msgstr "Proměnné jsou:"
 
-#: src/dialogs/mean-tests.glade.h:19 src/dialogs/variance-tests.glade.h:11
-msgid "_Alpha ="
-msgstr "_Alfa = "
+#: src/dialogs/mean-tests.glade.h:13 src/dialogs/variance-tests.glade.h:6
+msgid "_Alpha:"
+msgstr "_Alfa:"
 
-#: src/dialogs/mean-tests.glade.h:21
+#: src/dialogs/mean-tests.glade.h:15
 msgid "_Known"
 msgstr "_Známé"
 
-#: src/dialogs/mean-tests.glade.h:25
+#: src/dialogs/mean-tests.glade.h:18
 msgid "_Paired"
 msgstr "_Párové"
 
-#: src/dialogs/mean-tests.glade.h:26
-msgid "_Population Variances are:"
+#: src/dialogs/mean-tests.glade.h:19
+msgid "_Population variances are:"
 msgstr "_Rozptyly populací jsou:"
 
-#: src/dialogs/mean-tests.glade.h:27
+#: src/dialogs/mean-tests.glade.h:20
 msgid "_Populations"
 msgstr "_Populace"
 
-#: src/dialogs/mean-tests.glade.h:28 src/dialogs/variance-tests.glade.h:17
+#: src/dialogs/mean-tests.glade.h:21 src/dialogs/variance-tests.glade.h:10
 msgid "_Test"
 msgstr "_Test"
 
-#: src/dialogs/mean-tests.glade.h:29
+#: src/dialogs/mean-tests.glade.h:22
 msgid "_Unequal"
 msgstr "_Nerovné"
 
-#: src/dialogs/mean-tests.glade.h:30
+#: src/dialogs/mean-tests.glade.h:23
 msgid "_Unknown"
 msgstr "_Neznámý"
 
-#: src/dialogs/mean-tests.glade.h:31
+#: src/dialogs/mean-tests.glade.h:24
 msgid "_Unpaired"
 msgstr "Nepá_rové"
 
@@ -25301,11 +25174,11 @@ msgstr "_Sloučit"
 msgid "3"
 msgstr "3"
 
-#: src/dialogs/moving-averages.glade.h:6
+#: src/dialogs/moving-averages.glade.h:4
 msgid "In_terval:"
 msgstr "In_terval:"
 
-#: src/dialogs/moving-averages.glade.h:7 src/tools/analysis-tools.c:2556
+#: src/dialogs/moving-averages.glade.h:5 src/tools/analysis-tools.c:2556
 #: src/tools/analysis-tools.c:2559
 msgid "Moving Average"
 msgstr "Klouzavý průměr"
@@ -25361,10 +25234,6 @@ msgstr "Mezisoučet"
 #: src/dialogs/pivottable.glade.h:6
 msgid "_Add:"
 msgstr "Přid_at:"
-
-#: src/dialogs/pivottable.glade.h:7
-msgid "_Column"
-msgstr "Sloupe_c"
 
 #: src/dialogs/pivottable.glade.h:9
 msgid "_Down"
@@ -25462,7 +25331,8 @@ msgid "Headers and footers"
 msgstr "Hlavičky a patičky"
 
 #: src/dialogs/print.glade.h:11 src/dialogs/scenario-manager.glade.h:9
-#: src/dialogs/solver.glade.h:18 src/tools/solver/reports-write.c:755
+#: src/dialogs/simulation.glade.h:14 src/dialogs/solver.glade.h:18
+#: src/tools/solver/reports-write.c:755
 msgid "Options"
 msgstr "Možnosti"
 
@@ -25562,39 +25432,39 @@ msgstr "_stran široké"
 msgid "_tall"
 msgstr "_vysoké"
 
-#: src/dialogs/random-generation.glade.h:6
-msgid "Number of _Variables:"
+#: src/dialogs/random-generation.glade.h:3
+msgid "Number of _variables:"
 msgstr "P_očet proměnných:"
 
-#: src/dialogs/random-generation.glade.h:8
+#: src/dialogs/random-generation.glade.h:5
 msgid "Random Number Generation"
 msgstr "Generátor náhodných čísel"
 
-#: src/dialogs/random-generation.glade.h:11
-msgid "Size of _Sample:"
+#: src/dialogs/random-generation.glade.h:6
+msgid "Size of _sample:"
 msgstr "Velikost _vzorku:"
 
-#: src/dialogs/random-generation.glade.h:12
+#: src/dialogs/random-generation.glade.h:7
 msgid "_Distribution:"
 msgstr "_Rozdělení:"
 
-#: src/dialogs/random-generation.glade.h:16
+#: src/dialogs/random-generation.glade.h:9
 msgid "_Random Numbers"
 msgstr "_Náhodná čísla"
 
-#: src/dialogs/rank.glade.h:2
+#: src/dialogs/rank.glade.h:1
 msgid "Average _Rank"
 msgstr "Průměrná _třída"
 
-#: src/dialogs/rank.glade.h:7
+#: src/dialogs/rank.glade.h:4
 msgid "Rank and Percentile"
 msgstr "Rozložení a percentily"
 
-#: src/dialogs/rank.glade.h:10
+#: src/dialogs/rank.glade.h:5
 msgid "Ties:"
 msgstr "Stejné:"
 
-#: src/dialogs/rank.glade.h:20
+#: src/dialogs/rank.glade.h:13
 msgid "_Top Rank"
 msgstr "_Nejvyšší třída"
 
@@ -25602,18 +25472,26 @@ msgstr "_Nejvyšší třída"
 msgid "0.95"
 msgstr "0,95"
 
-#: src/dialogs/regression.glade.h:5
-msgid "Confidence Level:"
+#: src/dialogs/regression.glade.h:3
+msgid "Confidence level:"
 msgstr "Úroveň spolehlivosti:"
 
-#: src/dialogs/regression.glade.h:9 src/tools/analysis-tools.c:2435
+#: src/dialogs/regression.glade.h:6 src/tools/analysis-tools.c:2435
 #: src/tools/analysis-tools.c:2438
 msgid "Regression"
 msgstr "Regrese"
 
-#: src/dialogs/regression.glade.h:14
-msgid "_Force Intercept To Be Zero"
+#: src/dialogs/regression.glade.h:9
+msgid "_Force intercept to be zero"
 msgstr "_Vynutit průchod nulou"
+
+#: src/dialogs/regression.glade.h:14
+msgid "_X variables:"
+msgstr "Proměnné _X:"
+
+#: src/dialogs/regression.glade.h:15
+msgid "_Y variable:"
+msgstr "Proměnná _Y:"
 
 #: src/dialogs/row-height.glade.h:1
 msgid "Row Height"
@@ -25623,35 +25501,35 @@ msgstr "Výška řádku"
 msgid "_Row height (pt.):"
 msgstr "_Výška řádku (pt.):"
 
-#: src/dialogs/sampling.glade.h:6
-msgid "N_umber of Samples:"
+#: src/dialogs/sampling.glade.h:4
+msgid "N_umber of samples:"
 msgstr "P_očet pokusů:"
 
-#: src/dialogs/sampling.glade.h:11
+#: src/dialogs/sampling.glade.h:6
 msgid "Per_iod:"
 msgstr "Per_ioda:"
 
-#: src/dialogs/sampling.glade.h:14
+#: src/dialogs/sampling.glade.h:7
 msgid "Sampling"
 msgstr "Vzorky"
 
-#: src/dialogs/sampling.glade.h:15
-msgid "Sampling Method:"
+#: src/dialogs/sampling.glade.h:8
+msgid "Sampling method:"
 msgstr "Metoda výběru:"
 
-#: src/dialogs/sampling.glade.h:16
-msgid "Size of Sample:"
+#: src/dialogs/sampling.glade.h:9
+msgid "Size of sample:"
 msgstr "Velikost vzorku:"
 
-#: src/dialogs/sampling.glade.h:20
-msgid "_Input Range: "
-msgstr "Vs_tupní rozsah:"
+#: src/dialogs/sampling.glade.h:13
+msgid "_Input range: "
+msgstr "Vs_tupní rozsah: "
 
-#: src/dialogs/sampling.glade.h:23
+#: src/dialogs/sampling.glade.h:16
 msgid "_Periodic"
 msgstr "_Periodické"
 
-#: src/dialogs/sampling.glade.h:24
+#: src/dialogs/sampling.glade.h:17
 msgid "_Random"
 msgstr "_Náhodné"
 
@@ -25666,6 +25544,10 @@ msgstr "Komentář:"
 #: src/dialogs/scenario-add.glade.h:4
 msgid "Scenario name:"
 msgstr "Název scénáře:"
+
+#: src/dialogs/scenario-add.glade.h:5
+msgid "_Changing cells:"
+msgstr "_Měnící se buňky:"
 
 #: src/dialogs/scenario-manager.glade.h:3
 msgid "<span weight=\"bold\">Changing Cells</span>"
@@ -25686,6 +25568,10 @@ msgstr "<span weight=\"bold\">Scénáře</span>"
 #: src/dialogs/scenario-manager.glade.h:7
 msgid "Create _Report"
 msgstr "Vytvořit _výkaz"
+
+#: src/dialogs/scenario-manager.glade.h:10 src/tools/scenarios.c:628
+msgid "Result Cells:"
+msgstr "Buňky výsledku:"
 
 #: src/dialogs/scenario-manager.glade.h:11
 msgid "Scenario Manager"
@@ -26028,70 +25914,69 @@ msgstr ""
 msgid "   <span weight=\"bold\">Limits</span>"
 msgstr "   <span weight=\"bold\">Omezení</span>"
 
+#: src/dialogs/simulation.glade.h:4
+msgid "<b>Simulation summary:</b>"
+msgstr "<b>Shrnutí simulace:</b>"
+
 #: src/dialogs/simulation.glade.h:5
+msgid "<b>Summary of results:</b>"
+msgstr "<b>Shrnutí výsledků:</b>"
+
+#: src/dialogs/simulation.glade.h:6
 msgid "Find Max."
 msgstr "Nalézt max."
 
-#: src/dialogs/simulation.glade.h:6
+#: src/dialogs/simulation.glade.h:7
 msgid "Find Min."
 msgstr "Nalézt min."
 
-#: src/dialogs/simulation.glade.h:7
-msgid "First Round #:"
-msgstr "První kolo #: "
-
 #: src/dialogs/simulation.glade.h:8
-msgid "Inputs:"
-msgstr "Vstupy:"
+msgid "First round #:"
+msgstr "Č. prvního kola:"
 
 #: src/dialogs/simulation.glade.h:9
+msgid "Input variables:"
+msgstr "Vstupní proměnné:"
+
+#: src/dialogs/simulation.glade.h:10
 msgid "Iterations:"
 msgstr "Iterace:"
 
-#: src/dialogs/simulation.glade.h:10
-msgid "Last Round #:"
-msgstr "Poslední kolo #:"
+#: src/dialogs/simulation.glade.h:11
+msgid "Last round #:"
+msgstr "Č. posledního kola:"
 
-#: src/dialogs/simulation.glade.h:11 src/tools/solver/reports-write.c:706
-msgid "Max Time:"
+#: src/dialogs/simulation.glade.h:12
+msgid "Max time:"
 msgstr "Max čas:"
 
 #: src/dialogs/simulation.glade.h:13
 msgid "Next Sim."
 msgstr "Další sim."
 
-#: src/dialogs/simulation.glade.h:15
-msgid "Outputs:"
-msgstr "Výstupy:"
-
 #: src/dialogs/simulation.glade.h:16
+msgid "Output variables:"
+msgstr "Výstupní proměnné:"
+
+#: src/dialogs/simulation.glade.h:17
 msgid "Prev. Sim."
 msgstr "Předch. sim."
 
 #. Fill in the header titles.
-#: src/dialogs/simulation.glade.h:17 src/tools/simulation.c:349
+#: src/dialogs/simulation.glade.h:18 src/tools/simulation.c:349
 msgid "Risk Simulation"
 msgstr "Simulace rizika"
-
-#: src/dialogs/simulation.glade.h:18
-msgid "Simulation Summary:"
-msgstr "Shrnutí simulace:"
 
 #: src/dialogs/simulation.glade.h:19 src/dialogs/summary.glade.h:6
 msgid "Summary"
 msgstr "Shrnutí"
 
-#: src/dialogs/simulation.glade.h:20
-msgid "Summary of Results:"
-msgstr "Shrnutí výsledků:"
-
-#: src/dialogs/simulation.glade.h:22
-msgid "_Options"
-msgstr "_Možnosti"
-
-#: src/dialogs/simulation.glade.h:24
-msgid "_Variables"
-msgstr "_Proměnné"
+#.
+#. * Fill in the labels of `Problem Size' section.
+#.
+#: src/dialogs/simulation.glade.h:20 src/tools/solver/reports-write.c:571
+msgid "Variables"
+msgstr "Proměnné"
 
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Arrow Length:"
@@ -26396,7 +26281,7 @@ msgstr "Souřadni_ce"
 msgid "_Visual"
 msgstr "_Vizuálně"
 
-#: src/dialogs/variance-tests.glade.h:8
+#: src/dialogs/variance-tests.glade.h:3
 msgid "Testing Equality of 2 Variances (F-Test)"
 msgstr "Test rovnosti 2 rozptylů (F-Test)"
 
@@ -28940,23 +28825,23 @@ msgstr "Fourierovy řady (%s)"
 msgid "Fourier Series"
 msgstr "Fourierovy řady"
 
-#: src/tools/dao.c:129
+#: src/tools/dao.c:148
 msgid "New Sheet"
 msgstr "Nový list"
 
-#: src/tools/dao.c:132
+#: src/tools/dao.c:151
 msgid "New Workbook"
 msgstr "Nový sešit"
 
-#: src/tools/dao.c:861
+#: src/tools/dao.c:880
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: src/tools/dao.c:867
+#: src/tools/dao.c:886
 msgid "Worksheet:"
 msgstr "List:"
 
-#: src/tools/dao.c:875
+#: src/tools/dao.c:894
 msgid "Report Created: "
 msgstr "Výkaz vytvořen:"
 
@@ -29271,13 +29156,6 @@ msgstr "Přesažen maximální počet iterací: optimalizace přerušena"
 msgid "Maximum time exceeded: optimization interupted"
 msgstr "Překročen maximální čas: optimalizace přerušena"
 
-#.
-#. * Fill in the labels of `Problem Size' section.
-#.
-#: src/tools/solver/reports-write.c:571
-msgid "Variables"
-msgstr "Proměnné"
-
 #: src/tools/solver/reports-write.c:573
 msgid "Integer Constraints"
 msgstr "Celočíselná omezení"
@@ -29356,6 +29234,10 @@ msgstr "Předpoklady modelu:"
 #: src/tools/solver/reports-write.c:704
 msgid "Autoscaling:"
 msgstr "Automatické škálování:"
+
+#: src/tools/solver/reports-write.c:706
+msgid "Max Time:"
+msgstr "Max čas:"
 
 #. Set the options.
 #: src/tools/solver/reports-write.c:710
@@ -31344,61 +31226,6 @@ msgstr ""
 "datadir := '%s'\n"
 "libdir := '%s'\n"
 
-#~ msgid ""
-#~ "Interpolate between multi-dimensional points,with markers at each point."
-#~ msgstr "Interpolovat mezi vícerozměrnými body s označeními v každém bodě."
-
-#~ msgid "Interpolate between multi-dimensional points."
-#~ msgstr "Interpolovat mezi vícerozměrnými body."
-
-#~ msgid "Interpolated points"
-#~ msgstr "Interpolované body"
-
-#~ msgid "Linearly interpolated points"
-#~ msgstr "Lineárně interpolované body"
-
-#~ msgid "Marked linearly interpolated points"
-#~ msgstr "Označené lineárně interpolované body"
-
-#~ msgid "Plot one series per axis."
-#~ msgstr "Kreslit jednu sérii pro každou osu."
-
-#~ msgid "Results:"
-#~ msgstr "Výsledky:"
-
-#~ msgid "Changing cells:"
-#~ msgstr "Měnící se buňky:"
-
-#~ msgid "Scenarios:"
-#~ msgstr "Scénáře:"
-
-#~ msgid "Summary Report:"
-#~ msgstr "Souhrnný výkaz:"
-
-#~ msgid "Max Time:       "
-#~ msgstr "Max čas:       "
-
-#~ msgid "Output: "
-#~ msgstr "Výstup: "
-
-#~ msgid "Reporting: "
-#~ msgstr "Výkazy: "
-
-#~ msgid "Summary report grupped by rounds"
-#~ msgstr "Výsledné výkazy seskupené podle kol"
-
-#~ msgid "Summary: "
-#~ msgstr "Souhrn: "
-
-#~ msgid "Variables: "
-#~ msgstr "Proměnné: "
-
-#~ msgid "_Output Range: "
-#~ msgstr "Výstupní _oblast: "
-
-#~ msgid "_Summary"
-#~ msgstr "_Souhrn"
-
 #~ msgid "Sheet 1"
 #~ msgstr "List 1"
 
@@ -31443,9 +31270,6 @@ msgstr ""
 
 #~ msgid "<span weight=\"bold\">Output</span>"
 #~ msgstr "<span weight=\"bold\">Výstup</span>"
-
-#~ msgid "_Alpha:"
-#~ msgstr "_Alfa:"
 
 #~ msgid "Are you sure you want to remove the sheet called `%s'?"
 #~ msgstr "Jste si jisti, že chcete odstranit list nazvaný `%s'?"
