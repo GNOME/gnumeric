@@ -1,3 +1,8 @@
+2005-04-02  Jean Brefort  <jean.brefort@normalesup.org>
+
+	* src/style.c: (style_init), (style_shutdown): removed calls to 
+	number_format_init/shutdown (moved to goffice).
+
 2005-04-01  Steve Murphy  <murf@e-tools.com>
 
         * configure.in: Added "rw" to ALL_LINGUAS.

@@ -426,7 +426,6 @@ font_shutdown (void)
 void
 style_init (void)
 {
-	number_format_init ();
 	style_font_hash = g_hash_table_new (style_font_hash_func,
 					    style_font_equal);
 	style_font_negative_hash = g_hash_table_new (style_font_hash_func,
@@ -455,7 +454,6 @@ void
 style_shutdown (void)
 {
 	font_shutdown ();
-	number_format_shutdown ();
 	{
 		/* Make a list of the fonts, then unref them.  */
 		GSList *fonts = NULL, *tmp;
