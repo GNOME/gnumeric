@@ -1,11 +1,10 @@
 # Copyright (C) 1999-2001 Free Software Foundation, Inc.
 # Valek Filippov <frob@df.ru>, 1999-2001.
-#: src/main.c:109
 msgid ""
 msgstr ""
 "Project-Id-Version: 0.76\n"
-"POT-Creation-Date: 2001-12-31 03:07-0500\n"
-"PO-Revision-Date: 2001-12-15 19:23+03:00\n"
+"POT-Creation-Date: 2002-01-05 13:32+0300\n"
+"PO-Revision-Date: 2002-01-05 15:30+0300\n"
 "Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18,31 +17,30 @@ msgstr "Ошибка анализа при чтении файла Applix."
 
 #: plugins/applix/plugin.xml.in.h:1
 msgid "Applix"
-msgstr ""
+msgstr "Applix"
 
 #: plugins/applix/plugin.xml.in.h:2
 msgid "Applix (*.as)"
-msgstr ""
+msgstr "Applix (*.as)"
 
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
-msgstr ""
+msgstr "Импортирует таблицы версии 4.[234]"
 
 #: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3894
 msgid "Financial"
 msgstr "Финансовые"
 
 #: plugins/derivatives/plugin.xml.in.h:2
-#, fuzzy
 msgid "Financial Derivatives"
-msgstr "Финансовые"
+msgstr "Финансовые производные"
 
 #: plugins/derivatives/plugin.xml.in.h:3
 msgid "Functions related to financial derivatives"
-msgstr ""
+msgstr "Функции относящиеся к финансовым производным"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
-#: plugins/mps/mps.c:579 src/xml-io.c:3448
+#: plugins/mps/mps.c:579 src/xml-io.c:3447
 msgid "Reading file..."
 msgstr "Чтение файла..."
 
@@ -103,16 +101,16 @@ msgstr "Ошибка при сохранении файла DIF."
 
 #: plugins/dif/plugin.xml.in.h:1
 msgid "Data Interchange Format (*.dif)"
-msgstr ""
+msgstr "Data Interchange Format (*.dif)"
 
 #: plugins/dif/plugin.xml.in.h:2
 msgid "Data Interchange Format (DIF) module"
-msgstr ""
+msgstr "Модуль Data Interchange Format (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
 msgid ""
 "Reads and writes information stored in the Data Interchange Format (*.dif)"
-msgstr ""
+msgstr "Читает и записывает информацию сохранённую в формате Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:104
 msgid ""
@@ -195,25 +193,23 @@ msgstr " Неизвестная формула"
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
-msgstr ""
+msgstr "Импортирует/Экспортирует файлы MS Excel (tm)"
 
 #: plugins/excel/plugin.xml.in.h:2
 msgid "MS Excel (tm)"
-msgstr ""
+msgstr "MS Excel (tm)"
 
 #: plugins/excel/plugin.xml.in.h:3
 msgid "MS Excel (tm) (*.xls)"
-msgstr ""
+msgstr "MS Excel (tm) (*.xls)"
 
 #: plugins/excel/plugin.xml.in.h:4
-#, fuzzy
 msgid "MS Excel (tm) 95 file format"
-msgstr "Неподдерживаемый формат файла."
+msgstr "Формат файла MS Excel (tm) 95"
 
 #: plugins/excel/plugin.xml.in.h:5
-#, fuzzy
 msgid "MS Excel (tm) 97 file format"
-msgstr "Неподдерживаемый формат файла."
+msgstr "Формат файла MS Excel (tm) 97"
 
 #: plugins/gb/plugin.c:138
 msgid "Unknown GB error"
@@ -231,12 +227,11 @@ msgstr "Ошибка в проекте \"%s\""
 
 #: plugins/gb/plugin.xml.in.h:1
 msgid "Enables Gnome Basic support"
-msgstr ""
+msgstr "Включает поддержку Gnome Basic"
 
 #: plugins/gb/plugin.xml.in.h:2
-#, fuzzy
 msgid "Gnome Basic"
-msgstr "Gnumeric"
+msgstr "Gnome Basic"
 
 #: plugins/gda/plugin-gda.c:109
 msgid ""
@@ -273,24 +268,23 @@ msgstr "Ошибка: невозможно открыть соединение с %s"
 
 #: plugins/gda/plugin.xml.in.h:1 src/functions/fn-database.c:1364
 msgid "Database"
-msgstr "База данных"
+msgstr "Базы данных"
 
 #: plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for allowing the retrieval of data from a database"
-msgstr ""
+msgstr "Функции баз данных позволяют получать данные из баз данных"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:1
 msgid "Gnome Glossary"
-msgstr ""
+msgstr "Глоссарий Gnome"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:2
-#, fuzzy
 msgid "Gnome Glossary PO file format"
-msgstr "Формат файла Gnumeric XML"
+msgstr "Формат файла глоссария Gnome (po)"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:3
 msgid "It provides support for saving Gnome Glossary in .po files."
-msgstr ""
+msgstr "Предоставляет поддержку для сохранения в файлах .po глоссария Gnome."
 
 #: plugins/guile/plugin.c:67 src/func.c:778 src/functions/fn-information.c:697
 #: src/functions/fn-information.c:768 src/functions/fn-information.c:796
@@ -314,49 +308,48 @@ msgid "Could not evaluate argument"
 msgstr "Невозможно выполнить аргумент"
 
 #: plugins/guile/plugin.xml.in.h:1
-#, fuzzy
 msgid "Guile Plugin"
-msgstr "Действующие дополнения"
+msgstr "Дополнение Guile"
 
 #: plugins/guile/plugin.xml.in.h:2
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
-msgstr ""
+msgstr "Это дополнение включает поддержку Guile (scheme) в Gnumeric"
 
 #: plugins/html/plugin.xml.in.h:1
 msgid "DVI TeX (via groff)"
-msgstr ""
+msgstr "DVI TeX (через groff)"
 
 #: plugins/html/plugin.xml.in.h:2
 msgid "HTML & TeX"
-msgstr ""
+msgstr "HTML & TeX"
 
 #: plugins/html/plugin.xml.in.h:3
 msgid "HTML (*.html) fragment"
-msgstr ""
+msgstr "Фрагмент HTML (*.html)"
 
 #: plugins/html/plugin.xml.in.h:4
 msgid "HTML 3.2 (*.html)"
-msgstr ""
+msgstr "HTML 3.2 (*.html)"
 
 #: plugins/html/plugin.xml.in.h:5
 msgid "HTML 4.0 (*.html)"
-msgstr ""
+msgstr "HTML 4.0 (*.html)"
 
 #: plugins/html/plugin.xml.in.h:6
 msgid "HTML file made by gnumeric"
-msgstr ""
+msgstr "Файл HTML сделанный gnumeric"
 
 #: plugins/html/plugin.xml.in.h:7
 msgid "Import/Export of HTML, TeX, DVI, roff"
-msgstr ""
+msgstr "Импортирует/Экспортирует форматы HTML, TeX, DVI, roff"
 
 #: plugins/html/plugin.xml.in.h:8
 msgid "LaTeX 2e (*.tex)"
-msgstr ""
+msgstr "LaTeX 2e (*.tex)"
 
 #: plugins/html/plugin.xml.in.h:9
 msgid "TROFF (*.me)"
-msgstr ""
+msgstr "TROFF (*.me)"
 
 #: plugins/html/roff.c:200
 msgid "Error executing groff."
@@ -367,17 +360,16 @@ msgid "Error while reading lotus workbook."
 msgstr "Ошибка при чтении рабочей книги lotus."
 
 #: plugins/lotus-123/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports Lotus 123 files"
-msgstr "Импортировать файл"
+msgstr "Импортирует файлы Lotus 123"
 
 #: plugins/lotus-123/plugin.xml.in.h:2
 msgid "Lotus 123"
-msgstr ""
+msgstr "Lotus 123"
 
 #: plugins/lotus-123/plugin.xml.in.h:3
 msgid "Lotus 123 (*.wk1)"
-msgstr ""
+msgstr "Lotus 123 (*.wk1)"
 
 #: plugins/mps/mps.c:276
 msgid "Program Name"
@@ -385,7 +377,7 @@ msgstr "Название программы"
 
 #: plugins/mps/mps.c:282
 msgid "Objective Value"
-msgstr ""
+msgstr "Действительное значение"
 
 #. Print 'Status'.
 #: plugins/mps/mps.c:293
@@ -398,7 +390,7 @@ msgstr "Ожидаемое"
 #. Print 'Objective function:'
 #: plugins/mps/mps.c:308
 msgid "Objective function:"
-msgstr ""
+msgstr "Действительная функция:"
 
 #. Print 'Current values'
 #: plugins/mps/mps.c:311
@@ -468,15 +460,15 @@ msgstr "Ошибка при чтении файла MPS."
 
 #: plugins/mps/plugin.xml.in.h:1
 msgid "Linear and integer program (*.mps) file format"
-msgstr ""
+msgstr "Файл в формате \"Linear and integer program\" (*.mps)"
 
 #: plugins/mps/plugin.xml.in.h:2
 msgid "Linear and integer program expression format (MPS) module"
-msgstr ""
+msgstr "Модуль формата выражений \"Linear and integer program\" (MPS)"
 
 #: plugins/mps/plugin.xml.in.h:3
 msgid "Reads LP programs stored in the MPS format (*.mps)"
-msgstr ""
+msgstr "Читает LP-программы сохранённые в формате MPS (*.mps)"
 
 #: plugins/numtheory/numtheory.c:198
 msgid ""
@@ -696,14 +688,12 @@ msgstr ""
 "@SEEALSO=BITLSHIFT"
 
 #: plugins/numtheory/plugin.xml.in.h:1
-#, fuzzy
 msgid "Bitwise Operations"
-msgstr "Действие"
+msgstr "Операции с битами"
 
 #: plugins/numtheory/plugin.xml.in.h:2
-#, fuzzy
 msgid "Number Theory"
-msgstr "Числовой"
+msgstr "Теория чисел"
 
 #: plugins/numtheory/plugin.xml.in.h:3
 msgid ""
@@ -713,24 +703,23 @@ msgstr ""
 
 #: plugins/oleo/plugin.xml.in.h:1
 msgid "GNU Oleo"
-msgstr ""
+msgstr "GNU Oleo"
 
 #: plugins/oleo/plugin.xml.in.h:2
 msgid "GNU Oleo (*.oleo)"
-msgstr ""
+msgstr "GNU Oleo (*.oleo)"
 
 #: plugins/oleo/plugin.xml.in.h:3
 msgid "Imports GNU Oleo documents"
-msgstr ""
+msgstr "Импортирует документы GNU Oleo"
 
 #: plugins/perl/plugin.xml.in.h:1
-#, fuzzy
 msgid "Enables the creation of functions in Perl"
-msgstr "Разрешить некоторые отладочные функции"
+msgstr "Включает создание функций на Perl"
 
 #: plugins/perl/plugin.xml.in.h:2
 msgid "Perl"
-msgstr ""
+msgstr "Perl"
 
 #: plugins/plan-perfect/pln.c:741
 msgid "PLN : Not a PlanPerfect File"
@@ -756,7 +745,7 @@ msgstr "cтроки"
 #.
 #. * Add Sheet
 #.
-#: plugins/plan-perfect/pln.c:912 plugins/sc/sc.c:420 plugins/sylk/sylk.c:459
+#: plugins/plan-perfect/pln.c:912 plugins/sc/sc.c:420 plugins/sylk/sylk.c:461
 #: src/stf.c:175 src/stf.c:264
 #, c-format
 msgid "Imported %s"
@@ -768,16 +757,15 @@ msgstr "Невозможно выполнить mmap файл"
 
 #: plugins/plan-perfect/plugin.xml.in.h:1
 msgid "Imports Plan Perfect Formatted Documents"
-msgstr ""
+msgstr "Импортирует документы в формате Plan Perfect"
 
 #: plugins/plan-perfect/plugin.xml.in.h:2
-#, fuzzy
 msgid "Plan Perfect"
-msgstr "Простой текст"
+msgstr "Plan Perfect"
 
 #: plugins/plan-perfect/plugin.xml.in.h:3
 msgid "Plan Perfect Format (PLN) import"
-msgstr ""
+msgstr "Импорт файла в формате Plan Perfect (PLN)"
 
 #: plugins/psiconv/psiconv-read.c:573
 msgid "Error while reading psiconv file."
@@ -789,37 +777,35 @@ msgstr "Ошибка при разборе файла psiconv."
 
 #: plugins/psiconv/plugin.xml.in.h:1
 msgid "Imports Psion 5 series Sheet files"
-msgstr ""
+msgstr "Импортирует файлы таблиц Psion серии 5"
 
 #: plugins/psiconv/plugin.xml.in.h:2
 msgid "Psiconv"
-msgstr ""
+msgstr "Psiconv"
 
 #: plugins/psiconv/plugin.xml.in.h:3
 msgid "Psion (*.psisheet)"
-msgstr ""
+msgstr "Psion (*.psisheet)"
 
 #: plugins/py-func/plugin.xml.in.h:1
 msgid "Python"
-msgstr ""
+msgstr "Python"
 
 #: plugins/py-func/plugin.xml.in.h:2
-#, fuzzy
 msgid "Python functions"
-msgstr "Исключение Python"
+msgstr "Функции Python"
 
 #: plugins/py-func/plugin.xml.in.h:3
 msgid "Sample Python plugin providing some (useless) functions."
-msgstr ""
+msgstr "Образец дополнения Python содержащий несколько (бесполезных) функций."
 
 #: plugins/python-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Python plugin loader"
-msgstr "Невозможно загрузить загрузчик дополнения."
+msgstr "Загрузчик дополнения Python"
 
 #: plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
-msgstr ""
+msgstr "Это дополнение предоставляет поддержку для дополнений написанных на Python"
 
 #: plugins/python-loader/py-gnumeric.c:273
 #: plugins/python-loader/py-gnumeric.c:313
@@ -899,13 +885,12 @@ msgid "Object \"%s\" is not a dictionary."
 msgstr "Объект \"%s\" не является словарем."
 
 #: plugins/python/plugin.xml.in.h:1
-#, fuzzy
 msgid "Python Plugin"
-msgstr "Исключение Python"
+msgstr "Дополнение Python"
 
 #: plugins/python/plugin.xml.in.h:2
 msgid "This plugin provides Python language support in Gnumeric"
-msgstr ""
+msgstr "Это дополнение предоставляет поддержку языка Python в Gnumeric"
 
 #: plugins/python/python.c:52
 msgid "Python exception"
@@ -929,17 +914,16 @@ msgid "Unhandled Python exception: %s"
 msgstr "Необработанное исключение Python: %s"
 
 #: plugins/sc/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports SC/XSpread files"
-msgstr "Импортировать файл"
+msgstr "Импортирует файлы SC/XSpread"
 
 #: plugins/sc/plugin.xml.in.h:2
 msgid "SC/XSpread"
-msgstr ""
+msgstr "SC/XSpread"
 
 #: plugins/sc/plugin.xml.in.h:3
 msgid "SC/xspread"
-msgstr ""
+msgstr "SC/xspread"
 
 #: plugins/sc/sc.c:387
 msgid "Error parsing line"
@@ -950,31 +934,30 @@ msgid "Error reading sheet."
 msgstr "Ошибка чтения листа."
 
 #: plugins/sylk/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports MultiPlan (SYLK) files"
-msgstr "Импортировать файл"
+msgstr "Импортирует файлы MultiPlan (SYLK)"
 
 #: plugins/sylk/plugin.xml.in.h:2
 msgid "MultiPlan (SYLK)"
-msgstr ""
+msgstr "MultiPlan (SYLK)"
 
 #: plugins/sylk/plugin.xml.in.h:3
 msgid "MultiPlan (SYLK) import"
-msgstr ""
+msgstr "Импорт файлов MultiPlan (SYLK)"
 
-#: plugins/sylk/sylk.c:418
+#: plugins/sylk/sylk.c:420
 msgid "Not SYLK file"
 msgstr "Это не файл SYLK"
 
-#: plugins/sylk/sylk.c:425
+#: plugins/sylk/sylk.c:427
 msgid "error parsing line\n"
 msgstr "ошибка разбора строки\n"
 
-#: plugins/sylk/sylk.c:454
+#: plugins/sylk/sylk.c:456
 msgid "Error while opening sylk file."
 msgstr "Ошибка при открытии файла sylk."
 
-#: plugins/sylk/sylk.c:473
+#: plugins/sylk/sylk.c:475
 msgid "Error while reading sheet."
 msgstr "Ошибки при чтении таблицы."
 
@@ -983,37 +966,34 @@ msgid "Error while opening xbase file."
 msgstr "Ошибка при открытии файла xbase."
 
 #: plugins/xbase/plugin.xml.in.h:1
-#, fuzzy
 msgid "Imports XBase files"
-msgstr "Импортировать файл"
+msgstr "Импортирует файлы Xbase"
 
 #: plugins/xbase/plugin.xml.in.h:2
-#, fuzzy
 msgid "XBase"
-msgstr "Вставить"
+msgstr "Xbase"
 
 #: plugins/xbase/plugin.xml.in.h:3
-#, fuzzy
 msgid "Xbase (*.dbf) file format"
-msgstr "Неподдерживаемый формат файла."
+msgstr "Файл в формате Xbase (*.dbf)"
 
 #: plugins/xml_sax/plugin.xml.in.h:1
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
-msgstr ""
+msgstr "ЭКСПЕРИМЕНТАЛЬНЫЙ формат Gnumeric основанный на SAX (*.gnumeric)"
 
 #: plugins/xml_sax/plugin.xml.in.h:2
 msgid "EXPERIMENTAL SAX based XML"
-msgstr ""
+msgstr "ЭКСПЕРИМЕНТАЛЬНЫЙ XML основанный на SAX"
 
 #: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
-msgstr ""
+msgstr "Подсистема ввода-вывода XML следующего поколения основанная на SAX"
 
-#: plugins/xml_sax/xml-sax-read.c:2228
+#: plugins/xml_sax/xml-sax-read.c:2227
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "Сбой xmlCreateFileParserCtxt()."
 
-#: plugins/xml_sax/xml-sax-read.c:2237
+#: plugins/xml_sax/xml-sax-read.c:2236
 msgid "XML document not well formed!"
 msgstr "Не правильно сформированный документ XML!"
 
@@ -1306,536 +1286,543 @@ msgstr "Выход"
 msgid "Edit a formula in the current cell"
 msgstr "Правка формулы в текущей ячейке"
 
-#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2695
+#: src/GNOME_Gnumeric.xml.h:70 src/workbook-control-gui.c:2494
+msgid "Edit descriptive information"
+msgstr "Правка описательной информации"
+
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2695
 msgid "Edit sheet and workbook names"
 msgstr "Правка имен таблицы и рабочей книги"
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:2773
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2773
 msgid "Edit the name of the current sheet"
 msgstr "Правка названия текущей таблицы"
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:2725
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2725
 msgid "Edit the selected cell's comment"
 msgstr "Правка комментариев для выделенных ячеек"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2738
+#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2738
 msgid "Ensure columns are just wide enough to display content"
 msgstr "Убедиться что столбцы достаточно широки для отображения содержимого"
 
-#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2757
+#: src/GNOME_Gnumeric.xml.h:75 src/workbook-control-gui.c:2757
 msgid "Ensure rows are just tall enough to display content"
 msgstr "Убедиться, что высота строк достаточна для отображения содержимого"
 
-#: src/GNOME_Gnumeric.xml.h:75
+#: src/GNOME_Gnumeric.xml.h:76
 msgid "Exit the program"
 msgstr "Выйти из программы"
 
-#: src/GNOME_Gnumeric.xml.h:76 src/workbook-control-gui.c:2944
+#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:2944
 msgid "F_ormat"
 msgstr "Формат"
 
-#: src/GNOME_Gnumeric.xml.h:77 src/workbook-control-gui.c:2906
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2906
 msgid "Filter data with given criteria"
 msgstr "Фильтрация данных по заданным критериям"
 
-#: src/GNOME_Gnumeric.xml.h:78 src/dialogs/cell-format.glade.h:41
+#: src/GNOME_Gnumeric.xml.h:79 src/dialogs/cell-format.glade.h:41
 #: src/workbook-format-toolbar.c:758
 msgid "Font"
 msgstr "Шрифт"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-format-toolbar.c:869
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-format-toolbar.c:869
 msgid "Font Size"
 msgstr "Размер шрифта"
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-format-toolbar.c:409
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-format-toolbar.c:409
 #: src/workbook-format-toolbar.c:867
 msgid "Font selector"
 msgstr "Выбор шрифта"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2694
+#: src/GNOME_Gnumeric.xml.h:82 src/dialogs/dialog-cell-format.c:2694
 #: src/workbook-format-toolbar.c:844 src/workbook-format-toolbar.c:878
 msgid "Foreground"
 msgstr "Передний план"
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:2825
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:2825
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 "Форматирование области ячеек в соответствии с предопределенным шаблоном"
 
-#: src/GNOME_Gnumeric.xml.h:83 src/sheet-object-widget.c:316
+#: src/GNOME_Gnumeric.xml.h:84 src/sheet-object-widget.c:316
 #: src/workbook-object-toolbar.c:150
 msgid "Frame"
 msgstr "Кадр"
 
-#: src/GNOME_Gnumeric.xml.h:84
+#: src/GNOME_Gnumeric.xml.h:85
 msgid "Function Guru"
 msgstr "Помощник по функциям"
 
-#: src/GNOME_Gnumeric.xml.h:85 src/dialogs/graph-guru.glade.h:2
+#: src/GNOME_Gnumeric.xml.h:86 src/dialogs/graph-guru.glade.h:2
 msgid "Graph Guru"
 msgstr "Помощник по графикам"
 
-#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:2753
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:2753
 msgid "H_eight..."
 msgstr "Высота..."
 
-#: src/GNOME_Gnumeric.xml.h:87
+#: src/GNOME_Gnumeric.xml.h:88
 msgid "Hide _Column Headers"
 msgstr "Скрыть заголовки столбцов"
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:2793
+#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:2793
 msgid "Hide _Gridlines"
 msgstr "Скрыть линии сетки"
 
-#: src/GNOME_Gnumeric.xml.h:89
+#: src/GNOME_Gnumeric.xml.h:90
 msgid "Hide _Row Headers"
 msgstr "Скрыть заголовки строк"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:2787
+#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:2787
 msgid "Hide _Zeros"
 msgstr "Скрыть нули"
 
-#: src/GNOME_Gnumeric.xml.h:91 src/workbook-control-gui.c:2741
+#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2741
 msgid "Hide the selected columns"
 msgstr "Скрыть выделенные столбцы"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/workbook-control-gui.c:2760
+#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2760
 msgid "Hide the selected rows"
 msgstr "Скрыт выделенные строки"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-control-gui.c:2474
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:2474
 msgid "Imports a file"
 msgstr "Импортировать файл"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/workbook-format-toolbar.c:376
+#: src/GNOME_Gnumeric.xml.h:95 src/workbook-format-toolbar.c:376
 #: src/workbook-format-toolbar.c:481
 msgid "Increase Indent"
 msgstr "Увеличить отступ"
 
-#: src/GNOME_Gnumeric.xml.h:95
+#: src/GNOME_Gnumeric.xml.h:96
 msgid "Increase Precision"
 msgstr "Увеличить точность"
 
-#: src/GNOME_Gnumeric.xml.h:96 src/workbook-format-toolbar.c:469
+#: src/GNOME_Gnumeric.xml.h:97 src/workbook-format-toolbar.c:469
 msgid "Increases the number of decimals displayed"
 msgstr "Увеличить число отображаемых десятичных знаков"
 
-#: src/GNOME_Gnumeric.xml.h:97
+#: src/GNOME_Gnumeric.xml.h:98
 msgid "Insert Component"
 msgstr "Вставить компонент"
 
-#: src/GNOME_Gnumeric.xml.h:98
+#: src/GNOME_Gnumeric.xml.h:99
 msgid "Insert Shaped Component"
 msgstr "Вставить shaped-компонент"
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:483
+#: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:483
 #: src/workbook-control-gui.c:2567
 msgid "Insert a new sheet"
 msgstr "Вставить новую таблицу"
 
-#: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:2708
+#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:2708
 msgid "Insert a new spreadsheet"
 msgstr "Вставить новую таблицу"
 
-#: src/GNOME_Gnumeric.xml.h:101
+#: src/GNOME_Gnumeric.xml.h:102
 msgid "Insert a shaped component into the spreadsheet"
 msgstr "Вставить shaped-компонент в таблицу"
 
-#: src/GNOME_Gnumeric.xml.h:102
+#: src/GNOME_Gnumeric.xml.h:103
 msgid "Insert an object into the spreadsheet"
 msgstr "Вставить объект в таблицу"
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:2717
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2717
 msgid "Insert new cells"
 msgstr "Вставить новые ячейки"
 
-#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:2714
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2714
 msgid "Insert new columns"
 msgstr "Вставить новые столбцы"
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:2711
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2711
 msgid "Insert new rows"
 msgstr "Вставить новые строки"
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:2681
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2681
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Вставить текущую дату в выделенные ячейки"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2687
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2687
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Вставить текущее время в выделенные ячейки"
 
-#: src/GNOME_Gnumeric.xml.h:108
+#: src/GNOME_Gnumeric.xml.h:109
 msgid "Inserts a Bonobo object"
 msgstr "Вставить Bonobo-объект"
 
-#: src/GNOME_Gnumeric.xml.h:109
-#, fuzzy
-msgid "Inserts a Shaped Bonobo object"
-msgstr "Вставить Bonobo-объект"
-
 #: src/GNOME_Gnumeric.xml.h:110
+msgid "Inserts a Shaped Bonobo object"
+msgstr "Вставить Shaped Bonobo-объект"
+
+#: src/GNOME_Gnumeric.xml.h:111
 msgid "Invoke the graph guru to create a graph"
 msgstr "Вызвать помощника по графикам для помощи в создании графика"
 
-#: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:2579
+#: src/GNOME_Gnumeric.xml.h:112 src/workbook-control-gui.c:2579
 msgid "Irrevocably remove an entire sheet"
 msgstr "Безвозвратное удаление целой таблицы"
 
-#: src/GNOME_Gnumeric.xml.h:112
+#: src/GNOME_Gnumeric.xml.h:113
 msgid "Italicize"
 msgstr "Наклонный"
 
-#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:2852
+#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:2852
 msgid "Iteratively recalculate to find a target value"
 msgstr "Итеративное перевычисление для поиска целевого значения"
 
-#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:2855
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2855
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 "Итеративное перевычисление с ограничениями для достижения целевого значения"
 
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:2643
+#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2643
 msgid "Jump to a specified cell"
 msgstr "Перейти к указанной ячейке"
 
-#: src/GNOME_Gnumeric.xml.h:116 src/sheet-object-widget.c:219
+#: src/GNOME_Gnumeric.xml.h:117 src/sheet-object-widget.c:219
 #: src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Метка"
 
-#: src/GNOME_Gnumeric.xml.h:117 src/dialogs/cell-format.glade.h:55
+#: src/GNOME_Gnumeric.xml.h:118 src/dialogs/cell-format.glade.h:55
 #: src/workbook-format-toolbar.c:629
 msgid "Left"
 msgstr "Влево"
 
-#: src/GNOME_Gnumeric.xml.h:118
+#: src/GNOME_Gnumeric.xml.h:119
 msgid "Left justifies the contents of each cell"
 msgstr "Выравнивать содержимое каждой ячейки влево"
 
-#: src/GNOME_Gnumeric.xml.h:119 src/dialogs/cell-format.glade.h:56
+#: src/GNOME_Gnumeric.xml.h:120 src/dialogs/cell-format.glade.h:56
 #: src/workbook-object-toolbar.c:174
 msgid "Line"
 msgstr "Линия"
 
-#: src/GNOME_Gnumeric.xml.h:120 src/dialogs/cell-format.glade.h:57
+#: src/GNOME_Gnumeric.xml.h:121 src/dialogs/cell-format.glade.h:57
 #: src/workbook-object-toolbar.c:168
 msgid "List"
 msgstr "Список"
 
-#: src/GNOME_Gnumeric.xml.h:121
+#: src/GNOME_Gnumeric.xml.h:122
 msgid "Lock or unlock the top left cols/rows"
 msgstr "Зафиксировать или расфиксировать верхние строки (левые столбцы)"
 
-#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:2563
+#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:2563
 msgid "Make a copy of the current sheet"
 msgstr "Сделать копию текущей таблицы"
 
-#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:2744
+#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2744
 msgid "Make any hidden columns in the selection visible"
 msgstr "Сделать видимыми любые скрытые столбцы в выделении"
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2763
+#: src/GNOME_Gnumeric.xml.h:125 src/workbook-control-gui.c:2763
 msgid "Make any hidden rows in the selection visible"
 msgstr "Сделать любые скрытые строки в выделении видимыми"
 
-#: src/GNOME_Gnumeric.xml.h:125
+#: src/GNOME_Gnumeric.xml.h:126
 msgid "Make font bold"
 msgstr "Использовать шрифт полужирного начертания"
 
-#: src/GNOME_Gnumeric.xml.h:126
+#: src/GNOME_Gnumeric.xml.h:127
 msgid "Make font italic"
 msgstr "Использовать шрифт наклонного начертания"
 
-#: src/GNOME_Gnumeric.xml.h:127
+#: src/GNOME_Gnumeric.xml.h:128
 msgid "Manage available plugin modules"
 msgstr "Управление доступными модулями дополнений"
 
-#: src/GNOME_Gnumeric.xml.h:128
+#: src/GNOME_Gnumeric.xml.h:129
 msgid "Mark the current selection for movement"
 msgstr "Отметить текущее выделение для перемещения"
 
-#: src/GNOME_Gnumeric.xml.h:129 src/sheet-merge.c:75
+#: src/GNOME_Gnumeric.xml.h:130 src/sheet-merge.c:75
 #: src/workbook-format-toolbar.c:451
 msgid "Merge"
 msgstr "Объединить"
 
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-format-toolbar.c:451
+#: src/GNOME_Gnumeric.xml.h:131 src/workbook-format-toolbar.c:451
 msgid "Merge a range of cells"
 msgstr "Объединение массива ячеек"
 
-#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:2817
+#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:2817
 msgid "Modify the formatting of the selected cells"
 msgstr "Изменить форматирование выделенных ячеек"
 
-#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:2829
+#: src/GNOME_Gnumeric.xml.h:133 src/workbook-control-gui.c:2829
 msgid "Modify the workbook attributes"
 msgstr "Изменить атрибуты рабочей книги"
 
-#: src/GNOME_Gnumeric.xml.h:133
+#: src/GNOME_Gnumeric.xml.h:134
 msgid "Money"
 msgstr "Деньги"
 
-#: src/GNOME_Gnumeric.xml.h:134 src/workbook-control-gui.c:2953
+#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2953
 msgid "New"
 msgstr "Новая"
 
-#: src/GNOME_Gnumeric.xml.h:135 src/workbook-control-gui.c:2658
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2658
 msgid "New _Shared"
 msgstr "Новый разделяемый"
 
-#: src/GNOME_Gnumeric.xml.h:136 src/workbook-control-gui.c:2661
+#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2661
 msgid "New _Unshared"
 msgstr "Новый неразделяемый"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-control-gui.c:2956
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2956
 msgid "Open"
 msgstr "Открыть"
 
-#: src/GNOME_Gnumeric.xml.h:138
+#: src/GNOME_Gnumeric.xml.h:139
 msgid "Open a spreadsheet"
 msgstr "Открыть таблицу"
 
-#: src/GNOME_Gnumeric.xml.h:139
+#: src/GNOME_Gnumeric.xml.h:140
 msgid "Open an existing workbook"
 msgstr "Открыть существующую книгу"
 
-#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:2890
+#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:2890
 msgid "Outlines _Below"
 msgstr "Структуры ниже"
 
-#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:2896
+#: src/GNOME_Gnumeric.xml.h:142 src/workbook-control-gui.c:2896
 msgid "Outlines _Right"
 msgstr "Структуры справа"
 
-#: src/GNOME_Gnumeric.xml.h:142
+#: src/GNOME_Gnumeric.xml.h:143
 msgid "Oval"
 msgstr "Овал"
 
-#: src/GNOME_Gnumeric.xml.h:143
+#: src/GNOME_Gnumeric.xml.h:144
 msgid "P_aste Special..."
 msgstr "Специальная вставка..."
 
-#: src/GNOME_Gnumeric.xml.h:144 src/cmd-edit.c:344
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2493
+msgid "P_roperties..."
+msgstr "Свойства..."
+
+#: src/GNOME_Gnumeric.xml.h:146 src/cmd-edit.c:344
 #: src/workbook-control-gui.c:2980
 msgid "Paste"
 msgstr "Вставить"
 
-#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2607
+#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:2607
 msgid "Paste the clipboard"
 msgstr "Вставить из буфера обмена"
 
-#: src/GNOME_Gnumeric.xml.h:146
+#: src/GNOME_Gnumeric.xml.h:148
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr "Вставить содержимое буфера обмена или буфера вырезания"
 
-#: src/GNOME_Gnumeric.xml.h:147 src/workbook-control-gui.c:2612
+#: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:2612
 msgid "Paste with optional filters and transformations"
 msgstr "Вставка с дополнительными фильтрами и преобразованиями"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/analysis-tools.c:2710
+#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2710
 #: src/workbook-format-toolbar.c:463
 msgid "Percent"
 msgstr "Процент"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/dialogs/print.glade.h:18
+#: src/GNOME_Gnumeric.xml.h:151 src/dialogs/print.glade.h:18
 #: src/workbook-control-gui.c:2965
 msgid "Print"
 msgstr "Печать"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:2487
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:2487
 msgid "Print Pre_view..."
 msgstr "Просмотр печати..."
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:2487
+#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:2487
 #: src/workbook-control-gui.c:2968
 msgid "Print Preview"
 msgstr "Просмотр печати"
 
-#: src/GNOME_Gnumeric.xml.h:152
+#: src/GNOME_Gnumeric.xml.h:154
 msgid "Print S_etup..."
 msgstr "Настройка печати..."
 
-#: src/GNOME_Gnumeric.xml.h:153 src/dialogs/print.glade.h:20 src/print.c:1185
+#: src/GNOME_Gnumeric.xml.h:155 src/dialogs/print.glade.h:20 src/print.c:1185
 msgid "Print preview"
 msgstr "Просмотр печати"
 
-#: src/GNOME_Gnumeric.xml.h:154
+#: src/GNOME_Gnumeric.xml.h:156
 msgid "Print the current file"
 msgstr "Печать текущего файла"
 
-#: src/GNOME_Gnumeric.xml.h:155
+#: src/GNOME_Gnumeric.xml.h:157
 msgid "Print the workbook"
 msgstr "Напечатать книгу"
 
-#: src/GNOME_Gnumeric.xml.h:156
+#: src/GNOME_Gnumeric.xml.h:158
 msgid "Radio Button"
 msgstr "Радио-кнопка"
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:2574
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2574
 #: src/workbook-control-gui.c:2775
 msgid "Re-_Order Sheets..."
 msgstr "Упорядочить листы..."
 
-#: src/GNOME_Gnumeric.xml.h:158
+#: src/GNOME_Gnumeric.xml.h:160
 msgid "Re-_Order..."
 msgstr "Упорядочивание..."
 
-#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:2570
+#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2570
 msgid "Re_name..."
 msgstr "Переименование..."
 
-#: src/GNOME_Gnumeric.xml.h:160 src/workbook-control-gui.c:2647
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:2647
 msgid "Recalculate"
 msgstr "Пересчитать"
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:2648
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2648
 msgid "Recalculate the spreadsheet"
 msgstr "Пересчитать таблицу"
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-object-toolbar.c:180
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-object-toolbar.c:180
 msgid "Rectangle"
 msgstr "Прямоугольник"
 
-#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:2592
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2592
 msgid "Redo the undone action"
 msgstr "Повтор отмененной операции"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2878
+#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2878
 msgid "Remove an outline group"
 msgstr "Убрать объединение в группу"
 
-#: src/GNOME_Gnumeric.xml.h:165
+#: src/GNOME_Gnumeric.xml.h:167
 msgid "Remove selected cells, shifting others into their place"
 msgstr "Удалить выделенные ячейки, сдвигая другие на их место"
 
-#: src/GNOME_Gnumeric.xml.h:166 src/workbook-control-gui.c:2571
+#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2571
 msgid "Rename the current sheet"
 msgstr "Переименовать текущую таблицу"
 
-#: src/GNOME_Gnumeric.xml.h:167 src/dialogs/cell-format.glade.h:70
+#: src/GNOME_Gnumeric.xml.h:169 src/dialogs/cell-format.glade.h:70
 #: src/workbook-format-toolbar.c:631
 msgid "Right"
 msgstr "Вправо"
 
-#: src/GNOME_Gnumeric.xml.h:168
+#: src/GNOME_Gnumeric.xml.h:170
 msgid "Right justifies the contents of each cell"
 msgstr "Выравнивать содержимое каждой ячейки вправо"
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:2624
+#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2624
 msgid "S_heet"
 msgstr "Лист"
 
-#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:2728
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2728
 msgid "S_pecial"
 msgstr "Специальный"
 
-#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:2476
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2476
 #: src/workbook-control-gui.c:2959
 msgid "Save"
 msgstr "Сохранить"
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2479
+#: src/GNOME_Gnumeric.xml.h:174 src/workbook-control-gui.c:2479
 msgid "Save _As..."
 msgstr "Сохранить как..."
 
-#: src/GNOME_Gnumeric.xml.h:173
+#: src/GNOME_Gnumeric.xml.h:175
 msgid "Save the current file"
 msgstr "Сохранить текущий файл"
 
-#: src/GNOME_Gnumeric.xml.h:174
+#: src/GNOME_Gnumeric.xml.h:176
 msgid "Save the current file with a different name"
 msgstr "Сохранить текущий файл под другим именем"
 
-#: src/GNOME_Gnumeric.xml.h:175
+#: src/GNOME_Gnumeric.xml.h:177
 msgid "Save the current workbook"
 msgstr "Сохранить текущую книгу"
 
-#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:2636
+#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2636
 msgid "Search and Replace..."
 msgstr "Поиск и замена..."
 
-#: src/GNOME_Gnumeric.xml.h:177 src/workbook-control-gui.c:2631
+#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2631
 msgid "Search for some text"
 msgstr "Поиск текста"
 
-#: src/GNOME_Gnumeric.xml.h:178 src/workbook-control-gui.c:2637
+#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2637
 msgid "Search for some text and replace it with something else"
 msgstr "Поиск некоторого текста и замена его чем-то еще"
 
-#: src/GNOME_Gnumeric.xml.h:179 src/workbook-control-gui.c:2630
+#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2630
 msgid "Search..."
 msgstr "Поиск..."
 
-#: src/GNOME_Gnumeric.xml.h:180 src/workbook-control-gui.c:2540
+#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2540
 msgid "Select Arra_y"
 msgstr "Выделить область"
 
-#: src/GNOME_Gnumeric.xml.h:181 src/workbook-control-gui.c:2525
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2525
 msgid "Select _All"
 msgstr "Выделить все"
 
-#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:2535
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2535
 msgid "Select _Column"
 msgstr "Выделить столбец"
 
-#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:2545
+#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2545
 msgid "Select _Depends"
 msgstr "Выделить зависимости"
 
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2530
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:2530
 msgid "Select _Row"
 msgstr "Выделить строку"
 
-#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:2526
+#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2526
 msgid "Select all cells in the spreadsheet"
 msgstr "Выделить все ячейки в таблице"
 
-#: src/GNOME_Gnumeric.xml.h:186
+#: src/GNOME_Gnumeric.xml.h:188
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Выделить все ячейки, которые зависят от редактируемой ячейки"
 
-#: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:2541
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2541
 msgid "Select an array of cells"
 msgstr "Выделение массива ячеек"
 
-#: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:2536
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:2536
 msgid "Select an entire column"
 msgstr "Выделить весь столбец"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:2531
+#: src/GNOME_Gnumeric.xml.h:191 src/workbook-control-gui.c:2531
 msgid "Select an entire row"
 msgstr "Выделить всю строку"
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-format-toolbar.c:466
+#: src/GNOME_Gnumeric.xml.h:192 src/workbook-format-toolbar.c:466
 msgid "Sets the format of the selected cells to include a thousands separator"
 msgstr "Изменить формат выделенных ячеек включив разделитель тысяч"
 
-#: src/GNOME_Gnumeric.xml.h:191 src/workbook-format-toolbar.c:460
+#: src/GNOME_Gnumeric.xml.h:193 src/workbook-format-toolbar.c:460
 msgid "Sets the format of the selected cells to monetary"
 msgstr "Изменить формат выделенных ячеек на денежный"
 
-#: src/GNOME_Gnumeric.xml.h:192 src/workbook-format-toolbar.c:463
+#: src/GNOME_Gnumeric.xml.h:194 src/workbook-format-toolbar.c:463
 msgid "Sets the format of the selected cells to percentage"
 msgstr "Изменить формат выделенных ячеек на \"проценты\""
 
-#: src/GNOME_Gnumeric.xml.h:193
+#: src/GNOME_Gnumeric.xml.h:195
 msgid "Setup the page settings for your current printer"
 msgstr "Настройка страницы для текущего принтера"
 
-#: src/GNOME_Gnumeric.xml.h:194 src/workbook-control-gui.c:3007
+#: src/GNOME_Gnumeric.xml.h:196 src/workbook-control-gui.c:3007
 msgid "Sort Ascending"
 msgstr "Возрастающая сортировка"
 
-#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3010
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3010
 msgid "Sort Descending"
 msgstr "Убывающая сортировка"
 
-#: src/GNOME_Gnumeric.xml.h:196
+#: src/GNOME_Gnumeric.xml.h:198
 msgid "Sort the selected cells"
 msgstr "Сортировать выделенные ячейки"
 
-#: src/GNOME_Gnumeric.xml.h:197
+#: src/GNOME_Gnumeric.xml.h:199
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
@@ -1843,7 +1830,7 @@ msgstr ""
 "Отсортировать выделенный диапазон в возрастающем порядке значений первого "
 "столбца выделения."
 
-#: src/GNOME_Gnumeric.xml.h:198
+#: src/GNOME_Gnumeric.xml.h:200
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
@@ -1851,35 +1838,27 @@ msgstr ""
 "Отсортировать выделенный диапазон в убывающем порядке значений первого "
 "столбца выделения."
 
-#: src/GNOME_Gnumeric.xml.h:199 src/workbook-format-toolbar.c:454
+#: src/GNOME_Gnumeric.xml.h:201 src/workbook-format-toolbar.c:454
 msgid "Split"
 msgstr "Разделение"
 
-#: src/GNOME_Gnumeric.xml.h:200 src/workbook-format-toolbar.c:454
+#: src/GNOME_Gnumeric.xml.h:202 src/workbook-format-toolbar.c:454
 msgid "Split merged ranges of cells"
 msgstr "Разделение объединенного массива ячеек"
 
-#: src/GNOME_Gnumeric.xml.h:201
+#: src/GNOME_Gnumeric.xml.h:203
 msgid "Statistical methods"
 msgstr "Статистические методы"
 
-#: src/GNOME_Gnumeric.xml.h:202 src/workbook-control-gui.c:2493
-msgid "Su_mmary..."
-msgstr "Итого..."
-
-#: src/GNOME_Gnumeric.xml.h:203 src/dialogs/consolidate.glade.h:19
+#: src/GNOME_Gnumeric.xml.h:204 src/dialogs/consolidate.glade.h:19
 #: src/workbook-control-gui.c:3000 src/workbook-control-gui.c:3601
 #: src/workbook-view.c:518
 msgid "Sum"
 msgstr "Сумма"
 
-#: src/GNOME_Gnumeric.xml.h:204
+#: src/GNOME_Gnumeric.xml.h:205
 msgid "Sum into the current cell"
 msgstr "Сумма в текущей ячейке"
-
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2494
-msgid "Summary information"
-msgstr "Суммарная информация"
 
 #: src/GNOME_Gnumeric.xml.h:206 src/workbook-format-toolbar.c:466
 msgid "Thousand separator"
@@ -1978,7 +1957,7 @@ msgstr "Закрыть"
 #: src/GNOME_Gnumeric.xml.h:229 src/dialogs/anova-one.glade.h:9
 #: src/dialogs/correlation.glade.h:7 src/dialogs/covariance.glade.h:7
 #: src/dialogs/descriptive-stats.glade.h:15
-#: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:12
+#: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:13
 #: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:7
 #: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:13
 #: src/workbook-control-gui.c:2713
@@ -2006,9 +1985,9 @@ msgstr "Данные"
 msgid "_Data Analysis..."
 msgstr "Анализ данных..."
 
-#: src/GNOME_Gnumeric.xml.h:235
-msgid "_Define"
-msgstr "Определить"
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:2694
+msgid "_Define..."
+msgstr "Определить..."
 
 #: src/GNOME_Gnumeric.xml.h:236 src/sheet-control-gui.c:1411
 #: src/workbook-control-gui.c:2619
@@ -2054,9 +2033,8 @@ msgid "_Goto cell..."
 msgstr "Перейти к ячейке..."
 
 #: src/GNOME_Gnumeric.xml.h:246
-#, fuzzy
-msgid "_Graph"
-msgstr "Сгруппировать"
+msgid "_Graph..."
+msgstr "График..."
 
 #: src/GNOME_Gnumeric.xml.h:247
 msgid "_Group"
@@ -2102,8 +2080,8 @@ msgid "_New"
 msgstr "Новый"
 
 #: src/GNOME_Gnumeric.xml.h:257
-msgid "_Object"
-msgstr "Объект"
+msgid "_Object..."
+msgstr "Объект..."
 
 #: src/GNOME_Gnumeric.xml.h:258
 msgid "_Open..."
@@ -2155,9 +2133,8 @@ msgid "_Select"
 msgstr "Выделение"
 
 #: src/GNOME_Gnumeric.xml.h:268
-#, fuzzy
 msgid "_Shaped Object"
-msgstr "Объект"
+msgstr "Shaped объект"
 
 #: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2707
 #: src/workbook-control-gui.c:2822
@@ -2301,9 +2278,7 @@ msgstr "К-ое наименьшее:"
 msgid "Smallest (%d)"
 msgstr "Наименьшее (%d)"
 
-#. POST-RELEASE-FIX:  this should be Rows rather than Sample
-#: src/analysis-tools.c:1252 src/analysis-tools.c:3270
-#: src/dialogs/cell-format.glade.h:72
+#: src/analysis-tools.c:1252 src/dialogs/cell-format.glade.h:72
 msgid "Sample"
 msgstr "Выборка"
 
@@ -2390,7 +2365,7 @@ msgstr "Еще не реализовано.\n"
 msgid "Y Variable"
 msgstr "Y переменная"
 
-#: src/analysis-tools.c:2342 src/dialogs/dialog-analysis-tools.c:4374
+#: src/analysis-tools.c:2342 src/dialogs/dialog-analysis-tools.c:4371
 #: src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr "Регрессия"
@@ -2419,7 +2394,7 @@ msgstr ""
 msgid "Moving Averages"
 msgstr "Скользящие средние"
 
-#: src/analysis-tools.c:2619 src/dialogs/dialog-analysis-tools.c:4360
+#: src/analysis-tools.c:2619 src/dialogs/dialog-analysis-tools.c:4357
 msgid "Exponential Smoothing"
 msgstr "Экспоненциальное сглаживание"
 
@@ -2441,7 +2416,7 @@ msgstr "Ранг"
 msgid "Anova"
 msgstr "Дисперсионный анализ"
 
-#: src/analysis-tools.c:2796 src/dialogs/dialog-analysis-tools.c:4350
+#: src/analysis-tools.c:2796 src/dialogs/dialog-analysis-tools.c:4347
 msgid "Anova: Single Factor"
 msgstr "Дисперсионный анализ: однофакторный"
 
@@ -2459,7 +2434,7 @@ msgstr ""
 "/Дисперсионный анализ/Источник дисперсии/Между группами/В группах/Всего"
 
 #: src/analysis-tools.c:2866 src/analysis-tools.c:3062
-#: src/analysis-tools.c:3276
+#: src/analysis-tools.c:3267
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr ""
 "/Сумма квадратов/степень свободы/Квадрат среднего/F/Значение P/F критическое"
@@ -2468,9 +2443,7 @@ msgstr ""
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Дисперсионный анализ: двухфакторный без воспроизведения"
 
-#. POST-RELEASE-FIX:  Next 2 commands should be fused
-#: src/analysis-tools.c:2987 src/analysis-tools.c:3249
-#: src/analysis-tools.c:3259
+#: src/analysis-tools.c:2987
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/Итог/Количество/Сумма/Среднее/Дисперсия"
 
@@ -2482,58 +2455,45 @@ msgstr "/Дисперсионный анализ/Источник дисперсии/Строки/Столбцы/Ошибка/Всего"
 msgid "Anova: Two-Factor With Replication"
 msgstr "Дисперсионный анализ: двухфакторный c воспроизведением"
 
-#: src/analysis-tools.c:3257 src/analysis-tools.c:3264
-#: src/analysis-tools.c:3274 src/dialogs/dialog-autoformat.c:73
+#: src/analysis-tools.c:3247 src/analysis-tools.c:3257
+#: src/analysis-tools.c:3265 src/dialogs/dialog-autoformat.c:73
 #: src/dialogs/dialog-autoformat.c:77
 msgid "Total"
 msgstr "Итого"
 
-#. POST-RELEASE-FIX:  We should be using / notation for the next 7 commands
-#: src/analysis-tools.c:3267
-msgid "ANOVA"
-msgstr "Дисперсионный анализ"
+#: src/analysis-tools.c:3249
+msgid "/Count/Sum/Average/Variance"
+msgstr "/Количество/Сумма/Среднее/Дисперсия"
 
-#: src/analysis-tools.c:3268
-msgid "Source of Variation"
-msgstr "Источник дисперсии"
+#: src/analysis-tools.c:3259
+msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
+msgstr "/Дисперсионный анализ/Источник дисперсии/Строки/Столбцы/Ошибка/Всего"
 
-#: src/analysis-tools.c:3271 src/dialogs/dialog-stf.glade.h:17
-msgid "Columns"
-msgstr "Столбцы"
-
-#: src/analysis-tools.c:3272
-msgid "Interaction"
-msgstr "Взаимодействие"
-
-#: src/analysis-tools.c:3273
-msgid "Within"
-msgstr "В"
-
-#: src/analysis-tools.c:3658
+#: src/analysis-tools.c:3649
 msgid "More"
 msgstr "Далее"
 
 #. { N_("Fourier Analysis"),
 #. dialog_fourier_tool },
-#: src/analysis-tools.c:3692 src/dialogs/dialog-analysis-tools.c:4366
+#: src/analysis-tools.c:3683 src/dialogs/dialog-analysis-tools.c:4363
 #: src/dialogs/histogram.glade.h:5
 msgid "Histogram"
 msgstr "Гистограмма"
 
-#: src/analysis-tools.c:3697
+#: src/analysis-tools.c:3688
 msgid "Bin"
 msgstr "Двоичное"
 
-#: src/analysis-tools.c:3722
+#: src/analysis-tools.c:3713
 msgid "Frequency"
 msgstr "Частота"
 
-#: src/analysis-tools.c:3724 src/dialogs/dialog-zoom.glade.h:2
+#: src/analysis-tools.c:3715 src/dialogs/dialog-zoom.glade.h:2
 #, no-c-format
 msgid "%"
 msgstr "%"
 
-#: src/analysis-tools.c:3727
+#: src/analysis-tools.c:3718
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Кумулятивный %"
@@ -2543,7 +2503,7 @@ msgstr "Кумулятивный %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Ошибка \"%s\" при открытии потока рабочей книги"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3471
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3470
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Испорченный XML-файл. Дерево пусто?"
 
@@ -3174,7 +3134,7 @@ msgstr "Альфа = "
 
 #: src/dialogs/anova-one.glade.h:8 src/dialogs/correlation.glade.h:6
 #: src/dialogs/covariance.glade.h:6 src/dialogs/descriptive-stats.glade.h:14
-#: src/dialogs/histogram.glade.h:10 src/dialogs/rank.glade.h:6
+#: src/dialogs/histogram.glade.h:11 src/dialogs/rank.glade.h:6
 #: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:12
 msgid "_Areas"
 msgstr "Области"
@@ -3183,9 +3143,9 @@ msgstr "Области"
 #: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
 #: src/dialogs/descriptive-stats.glade.h:16
 #: src/dialogs/dialog-analysis-tools.c:879
-#: src/dialogs/dialog-analysis-tools.c:3858
-#: src/dialogs/dialog-analysis-tools.c:3934
-#: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:13
+#: src/dialogs/dialog-analysis-tools.c:3855
+#: src/dialogs/dialog-analysis-tools.c:3931
+#: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:14
 #: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:8
 msgid "_Input Range:"
 msgstr "Входной диапазон:"
@@ -3203,7 +3163,7 @@ msgstr "Метки"
 #: src/dialogs/anova-one.glade.h:12 src/dialogs/anova-two.glade.h:11
 #: src/dialogs/correlation.glade.h:10 src/dialogs/covariance.glade.h:10
 #: src/dialogs/descriptive-stats.glade.h:18
-#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:14
+#: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:15
 #: src/dialogs/mean-tests.glade.h:22 src/dialogs/moving-averages.glade.h:11
 #: src/dialogs/random-generation.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:14 src/dialogs/sampling.glade.h:15
@@ -3214,7 +3174,7 @@ msgstr "Новая таблица"
 #: src/dialogs/anova-one.glade.h:13 src/dialogs/anova-two.glade.h:12
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:19
-#: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:15
+#: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:16
 #: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:12
 #: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:11
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:16
@@ -3826,7 +3786,7 @@ msgstr "Защищенный"
 msgid "_Number"
 msgstr "Числовой"
 
-#: src/dialogs/cell-format.glade.h:118 src/dialogs/histogram.glade.h:17
+#: src/dialogs/cell-format.glade.h:118
 msgid "_Percentage"
 msgstr "Проценты"
 
@@ -3875,28 +3835,28 @@ msgid "val != bound                  (not equal to)"
 msgstr "значение != bound  (не равно)                         "
 
 #: src/dialogs/cell-format.glade.h:130
-msgid "val <  bound                  (less than)"
-msgstr "значение < bound  (меньше чем)                         "
-
-#: src/dialogs/cell-format.glade.h:131
-msgid "val <= min || max <= val (not between)"
-msgstr "значение <= мин. || макс. <= значение (не между)"
-
-#: src/dialogs/cell-format.glade.h:132
-msgid "val <=bound                  (less than or equal to)"
-msgstr "значение <= bound  (меньше чем или равно)"
-
-#: src/dialogs/cell-format.glade.h:133
-msgid "val == bound                 (equal to)"
-msgstr "значение == bound  (равно)                         "
-
-#: src/dialogs/cell-format.glade.h:134
 msgid "val >  bound                  (greater than)"
 msgstr "значение > bound  (больше чем)"
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:131
 msgid "val >=bound                  (greater than or equal to)"
 msgstr "значение >= bound  (больше чем или равно)"
+
+#: src/dialogs/cell-format.glade.h:132
+msgid "val <  bound                  (less than)"
+msgstr "значение < bound  (меньше чем)                         "
+
+#: src/dialogs/cell-format.glade.h:133
+msgid "val <= min || max <= val (not between)"
+msgstr "значение <= мин. || макс. <= значение (не между)"
+
+#: src/dialogs/cell-format.glade.h:134
+msgid "val <=bound                  (less than or equal to)"
+msgstr "значение <= bound  (меньше чем или равно)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val == bound                 (equal to)"
+msgstr "значение == bound  (равно)                         "
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -4079,11 +4039,11 @@ msgstr "Функция :"
 msgid "_Put :"
 msgstr "Поместить :"
 
-#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4354
+#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4351
 msgid "Correlation"
 msgstr "Корреляция"
 
-#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4356
+#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4353
 msgid "Covariance"
 msgstr "Ковариация"
 
@@ -4125,7 +4085,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr "Доверительный интервал для среднего"
 
 #: src/dialogs/descriptive-stats.glade.h:5
-#: src/dialogs/dialog-analysis-tools.c:4358
+#: src/dialogs/dialog-analysis-tools.c:4355
 msgid "Descriptive Statistics"
 msgstr "Описательные статистики"
 
@@ -4322,7 +4282,6 @@ msgstr "Выбранные входные столбцы должны иметь одинаковый размер!"
 msgid "The selected input areas must have equal size!"
 msgstr "Выбранные входные области должны иметь одинаковый размер!"
 
-#. non-numeric probability (DiscreteDistribution) POST-RELEASE-FIX
 #: src/dialogs/dialog-analysis-tools.c:1096
 #: src/dialogs/dialog-analysis-tools.c:1211
 #: src/dialogs/dialog-analysis-tools.c:1338
@@ -4330,17 +4289,12 @@ msgstr "Выбранные входные области должны иметь одинаковый размер!"
 #: src/dialogs/dialog-analysis-tools.c:1708
 #: src/dialogs/dialog-analysis-tools.c:2116
 #: src/dialogs/dialog-analysis-tools.c:2341
-#: src/dialogs/dialog-analysis-tools.c:2845
-#: src/dialogs/dialog-analysis-tools.c:2850
-#: src/dialogs/dialog-analysis-tools.c:2855
-#: src/dialogs/dialog-analysis-tools.c:2860
-#: src/dialogs/dialog-analysis-tools.c:2865
-#: src/dialogs/dialog-analysis-tools.c:3353
-#: src/dialogs/dialog-analysis-tools.c:3527
-#: src/dialogs/dialog-analysis-tools.c:3808
-#: src/dialogs/dialog-analysis-tools.c:4001
-#: src/dialogs/dialog-analysis-tools.c:4196
-#: src/dialogs/dialog-analysis-tools.c:4201
+#: src/dialogs/dialog-analysis-tools.c:2863
+#: src/dialogs/dialog-analysis-tools.c:3351
+#: src/dialogs/dialog-analysis-tools.c:3525
+#: src/dialogs/dialog-analysis-tools.c:3805
+#: src/dialogs/dialog-analysis-tools.c:3998
+#: src/dialogs/dialog-analysis-tools.c:4198
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Возникла неожиданная ошибка: %d."
@@ -4366,12 +4320,16 @@ msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
 msgstr ""
+"Введите допустимую дисперсию\n"
+"выборки для переменной 1."
 
 #: src/dialogs/dialog-analysis-tools.c:1684
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
 msgstr ""
+"Введите допустимую дисперсию\n"
+"выборки для переменной 2."
 
 #: src/dialogs/dialog-analysis-tools.c:1704
 msgid "The two input ranges must have the same size."
@@ -4486,11 +4444,35 @@ msgstr "Нижний предел:"
 msgid "_Upper Bound:"
 msgstr "Верхний предел:"
 
-#: src/dialogs/dialog-analysis-tools.c:3028
+#: src/dialogs/dialog-analysis-tools.c:2846
+msgid ""
+"The probability input range contains a non-numeric value.\n"
+"All probabilities must be non-negative numbers."
+msgstr ""
+"Входной диапазон вероятности содержит нечисловое значение.\n"
+"Каждое значение вероятности должно быть неотрицательным числом."
+
+#: src/dialogs/dialog-analysis-tools.c:2851
+msgid "The probabilities may not all be 0!"
+msgstr "Вероятности не могут все равняться 0!"
+
+#: src/dialogs/dialog-analysis-tools.c:2855
+msgid ""
+"The probability input range contains a negative number.\n"
+"All probabilities must be non-negative!"
+msgstr ""
+"Входной диапазон вероятности содержит отрицательное значение.\n"
+"Каждое значение вероятности должно быть неотрицательным числом."
+
+#: src/dialogs/dialog-analysis-tools.c:2860
+msgid "None of the values in the value range may be empty!"
+msgstr "Ни одно из значений в диапазоне не может быть пустым!"
+
+#: src/dialogs/dialog-analysis-tools.c:3026
 msgid "Could not create the Random Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:3090
+#: src/dialogs/dialog-analysis-tools.c:3088
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -4498,48 +4480,48 @@ msgstr ""
 "Слишком мало точек данных для проведения этой регрессии.\n"
 "Должно быть хотя бы столько же сколько свободных переменных."
 
-#: src/dialogs/dialog-analysis-tools.c:3096
+#: src/dialogs/dialog-analysis-tools.c:3094
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
 "variables and try the regression again."
 msgstr " "
 
-#: src/dialogs/dialog-analysis-tools.c:3103
+#: src/dialogs/dialog-analysis-tools.c:3101
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 "Число значений для каждой переменной в регрессии должно быть одинаковым."
 
-#: src/dialogs/dialog-analysis-tools.c:3203
+#: src/dialogs/dialog-analysis-tools.c:3201
 msgid "_X Variables:"
 msgstr "Переменные X:"
 
-#: src/dialogs/dialog-analysis-tools.c:3227
+#: src/dialogs/dialog-analysis-tools.c:3225
 msgid "_Y Variable:"
 msgstr "Переменная Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:3294
+#: src/dialogs/dialog-analysis-tools.c:3292
 msgid "Could not create the Regression Tool dialog."
 msgstr "Невозможно создать диалог рассчёта регрессии."
 
-#: src/dialogs/dialog-analysis-tools.c:3466
+#: src/dialogs/dialog-analysis-tools.c:3464
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Невозможно создать диалог экспоненциального сглаживания."
 
-#: src/dialogs/dialog-analysis-tools.c:3637
+#: src/dialogs/dialog-analysis-tools.c:3635
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Невозможно создать диалог скользящих средних."
 
-#: src/dialogs/dialog-analysis-tools.c:3687
+#: src/dialogs/dialog-analysis-tools.c:3685
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "Извините, Фурье-анализ еще не реализован."
 
-#: src/dialogs/dialog-analysis-tools.c:3730
+#: src/dialogs/dialog-analysis-tools.c:3728
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "Невозможно создать диалог Фурье анализа."
 
-#: src/dialogs/dialog-analysis-tools.c:3804
+#: src/dialogs/dialog-analysis-tools.c:3801
 msgid ""
 "Each row of the bin range should contain one numeric value\n"
 "(ignoring the label if applicable)."
@@ -4547,27 +4529,27 @@ msgstr ""
 "Каждая строка двоичного диапазона должна содержать одно числовое значение\n"
 "(метки игнорируются если возможно)."
 
-#: src/dialogs/dialog-analysis-tools.c:3935 src/dialogs/histogram.glade.h:1
+#: src/dialogs/dialog-analysis-tools.c:3932 src/dialogs/histogram.glade.h:1
 msgid "Bin _Range:"
 msgstr "Двоичный диапазон:"
 
-#: src/dialogs/dialog-analysis-tools.c:3939
+#: src/dialogs/dialog-analysis-tools.c:3936
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Невозможно создать диалог рассчёта гистограммы."
 
-#: src/dialogs/dialog-analysis-tools.c:4117
+#: src/dialogs/dialog-analysis-tools.c:4114
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Невозможно создать диалог однофакторного дисперсионного анализа.."
 
-#: src/dialogs/dialog-analysis-tools.c:4181
+#: src/dialogs/dialog-analysis-tools.c:4178
 msgid "Each sample must contain the same number of rows."
 msgstr "Каждая выборка должна содержать равное число строк."
 
-#: src/dialogs/dialog-analysis-tools.c:4186
+#: src/dialogs/dialog-analysis-tools.c:4183
 msgid "Given input range contains non-numeric data."
 msgstr "Заданный входной диапазон содержит нечисловые данные."
 
-#: src/dialogs/dialog-analysis-tools.c:4191
+#: src/dialogs/dialog-analysis-tools.c:4188
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -4575,49 +4557,55 @@ msgstr ""
 "Заданный входной диапазон должен содержать хотя бы два столбца данных и "
 "метки."
 
-#: src/dialogs/dialog-analysis-tools.c:4321
+#: src/dialogs/dialog-analysis-tools.c:4194
+msgid ""
+"One of the factor combinations does not contain\n"
+"any observations!"
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:4318
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Невозможно создать диалог двухфакторного дисперсионного анализа."
 
-#: src/dialogs/dialog-analysis-tools.c:4352
+#: src/dialogs/dialog-analysis-tools.c:4349
 msgid "Anova: Two-Factor With Or Without Replication"
 msgstr "Дисперсионный анализ: двухфакторный с воспроизведением или без него"
 
-#: src/dialogs/dialog-analysis-tools.c:4362
+#: src/dialogs/dialog-analysis-tools.c:4359
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F-тест: Two-Sample for Variances"
 
-#: src/dialogs/dialog-analysis-tools.c:4368
+#: src/dialogs/dialog-analysis-tools.c:4365
 #: src/dialogs/moving-averages.glade.h:5
 msgid "Moving Average"
 msgstr "Скользящее среднее"
 
-#: src/dialogs/dialog-analysis-tools.c:4370
+#: src/dialogs/dialog-analysis-tools.c:4367
 #: src/dialogs/random-generation.glade.h:5
 msgid "Random Number Generation"
 msgstr "Генерация случайных чисел"
 
-#: src/dialogs/dialog-analysis-tools.c:4372 src/dialogs/rank.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:4369 src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
 msgstr "Ранг и Percentile"
 
-#: src/dialogs/dialog-analysis-tools.c:4376 src/dialogs/sampling.glade.h:9
+#: src/dialogs/dialog-analysis-tools.c:4373 src/dialogs/sampling.glade.h:9
 msgid "Sampling"
 msgstr "Выборка"
 
-#: src/dialogs/dialog-analysis-tools.c:4378
+#: src/dialogs/dialog-analysis-tools.c:4375
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t-Тест: сравнение средних для двух выборок"
 
-#: src/dialogs/dialog-analysis-tools.c:4380
+#: src/dialogs/dialog-analysis-tools.c:4377
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t-Тест: две выборки с предположительно равными дисперсиями"
 
-#: src/dialogs/dialog-analysis-tools.c:4382
+#: src/dialogs/dialog-analysis-tools.c:4379
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t-Тест: две выборки с предположительно неравными дисперсиями"
 
-#: src/dialogs/dialog-analysis-tools.c:4384
+#: src/dialogs/dialog-analysis-tools.c:4381
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Тест: средние двух выборок"
 
@@ -4949,31 +4937,31 @@ msgstr "Ячейка"
 msgid "Go to..."
 msgstr "Перейти к..."
 
-#: src/dialogs/dialog-graph-guru.c:744
+#: src/dialogs/dialog-graph-guru.c:747
 msgid "Step 1 of 3: Select graph type"
 msgstr "Шаг 1 из 3: Выбор типа графика"
 
-#: src/dialogs/dialog-graph-guru.c:750
+#: src/dialogs/dialog-graph-guru.c:753
 msgid "Step 2 of 3: Select data ranges"
 msgstr "Шаг 2 из 3: Выбор диапазона данных"
 
-#: src/dialogs/dialog-graph-guru.c:752
+#: src/dialogs/dialog-graph-guru.c:755
 msgid "Graph Data"
 msgstr "Данные графика"
 
-#: src/dialogs/dialog-graph-guru.c:757
+#: src/dialogs/dialog-graph-guru.c:760
 msgid "Step 3 of 3: Customize graph"
 msgstr "Шаг 3 из 3: Настройка графика"
 
-#: src/dialogs/dialog-graph-guru.c:759
+#: src/dialogs/dialog-graph-guru.c:762
 msgid "Format Graph"
 msgstr "Форматирование графика"
 
-#: src/dialogs/dialog-graph-guru.c:934
+#: src/dialogs/dialog-graph-guru.c:937
 msgid "Plot name"
 msgstr "Название графика"
 
-#: src/dialogs/dialog-graph-guru.c:937
+#: src/dialogs/dialog-graph-guru.c:940
 msgid "Series name"
 msgstr "Название серий"
 
@@ -5153,15 +5141,15 @@ msgstr "Вы должны выбрать некоторые типы ячеек для поиска."
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Вы действительно хотите удалить таблицу `%s' ?"
 
-#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:2
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:1
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
@@ -5204,21 +5192,21 @@ msgstr "Вы должны выбрать хотя бы одну таблицу для экспорта"
 msgid "Are you sure you want to cancel?"
 msgstr "Вы действительно хотите отменить действие?"
 
-#: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
-msgid "\""
-msgstr "\""
-
-#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
-msgid "'"
-msgstr "'"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
+#: src/dialogs/dialog-stf-export.glade.h:1
 msgid "<- Remove"
 msgstr "<- Удалить"
 
-#: src/dialogs/dialog-stf-export.glade.h:4
+#: src/dialogs/dialog-stf-export.glade.h:2
 msgid "<- Remove all"
 msgstr "<- Удалить все"
+
+#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:1
+msgid "\""
+msgstr "\""
+
+#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+msgid "'"
+msgstr "'"
 
 #: src/dialogs/dialog-stf-export.glade.h:5
 msgid "Add ->"
@@ -5443,6 +5431,10 @@ msgstr "Столбец"
 #: src/dialogs/dialog-stf.glade.h:16
 msgid "Column formatting"
 msgstr "Форматирование столбца"
+
+#: src/dialogs/dialog-stf.glade.h:17
+msgid "Columns"
+msgstr "Столбцы"
 
 #: src/dialogs/dialog-stf.glade.h:18
 msgid "Custom separator, this can be any character"
@@ -5847,11 +5839,15 @@ msgstr "Вывод диаграммы"
 msgid "Input _Labels"
 msgstr "Входные метки"
 
-#: src/dialogs/histogram.glade.h:11
+#: src/dialogs/histogram.glade.h:10
+msgid "Per_centages"
+msgstr "Проценты"
+
+#: src/dialogs/histogram.glade.h:12
 msgid "_Bin Labels"
 msgstr "Двоичные метки"
 
-#: src/dialogs/histogram.glade.h:16
+#: src/dialogs/histogram.glade.h:17
 msgid "_Pareto (Sorted)"
 msgstr "Парето (Отсортированное)"
 
@@ -6113,7 +6109,7 @@ msgid "Scale"
 msgstr "Масштаб"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:141
-#: src/workbook.c:1065 src/xml-io.c:3156
+#: src/workbook.c:1065 src/xml-io.c:3155
 msgid "Sheet"
 msgstr "Таблица"
 
@@ -8659,7 +8655,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/functions/fn-date.c:27
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -8695,7 +8690,52 @@ msgstr ""
 "@SEEALSO=TODAY, NOW"
 
 #: src/functions/fn-date.c:97
-#, fuzzy
+msgid ""
+"@FUNCTION=UNIX2DATE\n"
+"@SYNTAX=UNIX2DATE(unixtime)\n"
+"@DESCRIPTION=UNIX2DATE converts a unix time into a spreadsheet date and "
+"time.\n"
+"\n"
+"A unix time is the number of seconds since midnight January 1, 1970.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, DATE2UNIX"
+msgstr ""
+"@FUNCTION=UNIX2DATE\n"
+"@SYNTAX=UNIX2DATE(unixtime)\n"
+"@DESCRIPTION=UNIX2DATE преобразует время в формате unix в дату и время в таблице.\n"
+"\n"
+"Время в формате unix -- это число секунд прошедшее с полуночи 1 января 1970 года.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, DATE2UNIX"
+
+#: src/functions/fn-date.c:127
+msgid ""
+"@FUNCTION=DATE2UNIX\n"
+"@SYNTAX=DATE2UNIX(serial)\n"
+"@DESCRIPTION=DATE2UNIX converts a spreadsheet date and time serial number "
+"into a unix time.\n"
+"\n"
+"A unix time is the number of seconds since midnight January 1, 1970.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, UNIX2DATE"
+msgstr ""
+"@FUNCTION=DATE2UNIX\n"
+"@SYNTAX=DATE2UNIX(serial)\n"
+"@DESCRIPTION=DATE2UNIX преобразует последовательный номер даты и времени из таблицы во время в формате unix.\n"
+"\n"
+"Время в формате unix -- это число секунд прошедшее с полуночи 1 января 1970 года.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NOW, DATE, UNIX2DATE"
+
+#: src/functions/fn-date.c:158
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -8708,14 +8748,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
-"@DESCRIPTION=DATEVALUE возвращает последовательный номер даты. @date_str - "
-"строка, которая содержит дату.\n"
+"@DESCRIPTION=DATEVALUE возвращает последовательный номер даты. @date_str - строка, которая содержит дату.\n"
 "Эта функция Excel совместима.\n"
 "@EXAMPLES=\n"
-"DATEVALUE(\"1/1/1999\") равняется 36160.\n"
+"DATEVALUE(\"1/1/1999\") равняется 36161.\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:122
+#: src/functions/fn-date.c:183
 msgid ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(date1,date2,interval)\n"
@@ -8757,7 +8796,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:289
+#: src/functions/fn-date.c:350
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -8785,7 +8824,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DATE"
 
-#: src/functions/fn-date.c:343
+#: src/functions/fn-date.c:404
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY()\n"
@@ -8806,7 +8845,7 @@ msgstr ""
 "TODAY() возвращает сегодняшнюю дату.\n"
 "@SEEALSO=NOW"
 
-#: src/functions/fn-date.c:366
+#: src/functions/fn-date.c:427
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -8837,7 +8876,7 @@ msgstr ""
 "NOW()\n"
 "@SEEALSO= TODAY"
 
-#: src/functions/fn-date.c:397
+#: src/functions/fn-date.c:458
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
@@ -8856,7 +8895,7 @@ msgstr ""
 "TIME(3, 5, 23) равняется 3:05.\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:426
+#: src/functions/fn-date.c:487
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -8880,7 +8919,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR"
 
-#: src/functions/fn-date.c:455
+#: src/functions/fn-date.c:516
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -8906,7 +8945,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:484
+#: src/functions/fn-date.c:545
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -8932,7 +8971,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: src/functions/fn-date.c:514
+#: src/functions/fn-date.c:575
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -8958,7 +8997,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: src/functions/fn-date.c:544
+#: src/functions/fn-date.c:605
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -8982,7 +9021,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, MONTH, NOW, TIME"
 
-#: src/functions/fn-date.c:581
+#: src/functions/fn-date.c:642
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -9006,7 +9045,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DAY, NOW, TIME, YEAR"
 
-#: src/functions/fn-date.c:618
+#: src/functions/fn-date.c:679
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -9030,14 +9069,18 @@ msgstr ""
 "\n"
 "@SEEALSO=NOW, MONTH, TIME, YEAR"
 
-#: src/functions/fn-date.c:655
+#: src/functions/fn-date.c:716
 msgid ""
 "@FUNCTION=WEEKDAY\n"
-"@SYNTAX=WEEKDAY (serial_number)\n"
+"@SYNTAX=WEEKDAY (serial_number[, method])\n"
 "@DESCRIPTION=WEEKDAY converts a serial number to a weekday.\n"
 "\n"
-"This function returns an integer in the range 0-6, where Saturday is 0, "
-"Sunday is 1, etc.\n"
+"This function returns an integer indicating the day of week.\n"
+"@METHOD indicates the numbering system.  It defaults to 1.\n"
+"\n"
+"For @METHOD=1: Sunday is 1, Monday is 2, etc.\n"
+"For @METHOD=2: Monday is 1, Tuesday is 2, etc.\n"
+"For @METHOD=3: Monday is 0, Tuesday is 1, etc.\n"
 "\n"
 "Note that Gnumeric will perform regular string to serial number conversion "
 "for you, so you can enter a date as a string.\n"
@@ -9048,21 +9091,24 @@ msgid ""
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 msgstr ""
 "@FUNCTION=WEEKDAY\n"
-"@SYNTAX=WEEKDAY (последовательный номер)\n"
+"@SYNTAX=WEEKDAY (последовательный номер, [метод])\n"
 "@DESCRIPTION=Превращает последовательный номер в день недели.\n"
 "\n"
-"Эта функция возвращает целое в диапазоне от 0 до 6, причем суббота = 0, "
-"воскресенье = 1, и т.д.\n"
+"Эта функция возвращает целое в диапазоне отражающее день недели.\n"
+"@метод указывает систему отсчёта. По умолчанию @метод = 1.\n"
 "\n"
-"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки в "
-"серийный номер, так что Вы можете вводить дату в виде строки.\n"
+"Для @метода=1: воскресенье = 1, понедельник = 2 и т.д.\n"
+"Для @метода=2: понедельник = 1, вторник = 2 и т.д.\n"
+"Для @метода=3: понедельник = 0, вторник = 1 и т.д.\n"
+"\n"
+"Учтите, что Gnumeric будет выполнять за Вас преобразование обычной строки в серийный номер, так что Вы можете вводить дату в виде строки.\n"
 "Эта функция Excel совместима.\n"
 "@EXAMPLES=\n"
 "WEEKDAY(\\\"10/24/1968\\\") равняется 5 (Четверг).\n"
 "\n"
 "@SEEALSO=NOW, MONTH, TIME, YEAR"
 
-#: src/functions/fn-date.c:695
+#: src/functions/fn-date.c:769
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -9097,11 +9143,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/functions/fn-date.c:733
+#: src/functions/fn-date.c:807
 msgid "Unsupported method"
 msgstr "Неподдерживаемый метод"
 
-#: src/functions/fn-date.c:798
+#: src/functions/fn-date.c:872
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -9126,7 +9172,7 @@ msgstr ""
 "=5/31/01, и EOMONTH(A1,2)=2/28/01\n"
 "@SEEALSO=MONTH"
 
-#: src/functions/fn-date.c:848
+#: src/functions/fn-date.c:922
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -9153,12 +9199,12 @@ msgstr ""
 "@SEEALSO=NETWORKDAYS"
 
 #. Path of the current directory or folder.
-#: src/functions/fn-date.c:884 src/functions/fn-eng.c:77
+#: src/functions/fn-date.c:958 src/functions/fn-eng.c:77
 #: src/functions/fn-information.c:395 src/functions/fn-information.c:411
 msgid "Unimplemented"
 msgstr "Не реализовано"
 
-#: src/functions/fn-date.c:919
+#: src/functions/fn-date.c:993
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -9182,7 +9228,7 @@ msgstr ""
 "NETWORKDAYS(DATE(2001,1,2),DATE(2001,2,15)) равняется 33.\n"
 "@SEEALSO=WORKDAY"
 
-#: src/functions/fn-date.c:1046
+#: src/functions/fn-date.c:1120
 msgid "Date / Time"
 msgstr "Дата / Время"
 
@@ -10550,11 +10596,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
-"@DESCRIPTION=Функция EFFECT вычисляет действительную процентную ставку для "
-"заданной номинальной процентной ставки.\n"
+"@DESCRIPTION=Функция EFFECT вычисляет действительную процентную ставку для заданной номинальной процентной ставки.\n"
 "Действительная процентная ставка вычисляется по формуле:\n"
 "\n"
-"         @r( 1 + ------ ) ^ @nper - 1       @nper\n"
+"         ( 1 + @r / @nper) ^ @nper - 1\n"
 "\n"
 "где:\n"
 "@r = номинальная процентная ставка (установленная для годового периода)\n"
@@ -12163,7 +12208,20 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-information.c:983
+#: src/functions/fn-information.c:979
+msgid ""
+"@FUNCTION=GETENV\n"
+"@SYNTAX=GETENV(string)\n"
+"@DESCRIPTION=GETENV retrieves a value from the execution environment.\n"
+"\n"
+"If the variable specified by @STRING does not exist, #N/A! will be "
+"returned.  Note, that variable names are case sensitive.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: src/functions/fn-information.c:1011
 msgid "Information"
 msgstr "Информационные"
 
@@ -13805,9 +13863,10 @@ msgstr ""
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=PI functions returns the value of Pi. \n"
+"@DESCRIPTION=PI functions returns the value of pi. \n"
 "This function is called with no arguments.\n"
-"This function is Excel compatible. \n"
+"This function is Excel compatible, except that it returns pi with a better "
+"precision. \n"
 "@EXAMPLES=\n"
 "PI() equals 3.141593.\n"
 "\n"
@@ -13815,15 +13874,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
-"@DESCRIPTION=Функция PI возвращает значение числа Пи. Эта функция вызывается "
-"без аргументов.\n"
-"Эта функция Excel совместима.\n"
+"@DESCRIPTION=Функция PI возвращает значение числа Пи. Эта функция вызывается без аргументов.\n"
+"Эта функция Excel совместима, за исключением того, что возвращает значение Пи с большей точностью.\n"
 "@EXAMPLES=\n"
 "PI() равняется 3.141593.\n"
 "\n"
 "@SEEALSO=SQRTPI"
 
-#: src/functions/fn-math.c:1704
+#: src/functions/fn-math.c:1705
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -13849,7 +13907,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INT"
 
-#: src/functions/fn-math.c:1739
+#: src/functions/fn-math.c:1740
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -13871,7 +13929,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ODD"
 
-#: src/functions/fn-math.c:1777
+#: src/functions/fn-math.c:1778
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -13893,7 +13951,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EVEN"
 
-#: src/functions/fn-math.c:1815
+#: src/functions/fn-math.c:1816
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -13918,7 +13976,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FACT"
 
-#: src/functions/fn-math.c:1853
+#: src/functions/fn-math.c:1854
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -13940,7 +13998,7 @@ msgstr ""
 " \n"
 "@SEEALSO=MOD"
 
-#: src/functions/fn-math.c:1884
+#: src/functions/fn-math.c:1885
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -13966,7 +14024,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:1918
+#: src/functions/fn-math.c:1919
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -13988,7 +14046,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PI"
 
-#: src/functions/fn-math.c:1947
+#: src/functions/fn-math.c:1948
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -14013,7 +14071,7 @@ msgstr ""
 "\n"
 "@SEEALSO=RAND"
 
-#: src/functions/fn-math.c:1981
+#: src/functions/fn-math.c:1982
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -14050,7 +14108,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2025
+#: src/functions/fn-math.c:2026
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -14087,7 +14145,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: src/functions/fn-math.c:2066
+#: src/functions/fn-math.c:2067
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -14124,7 +14182,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUND,ROUNDDOWN"
 
-#: src/functions/fn-math.c:2110
+#: src/functions/fn-math.c:2111
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -14154,7 +14212,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2160
+#: src/functions/fn-math.c:2161
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -14194,7 +14252,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-math.c:2426
+#: src/functions/fn-math.c:2427
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -14231,14 +14289,14 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2PY2"
 
-#: src/functions/fn-math.c:2482 src/functions/fn-math.c:2501
-#: src/functions/fn-math.c:2595 src/functions/fn-math.c:2615
-#: src/functions/fn-math.c:2707 src/functions/fn-math.c:2727
+#: src/functions/fn-math.c:2483 src/functions/fn-math.c:2502
+#: src/functions/fn-math.c:2596 src/functions/fn-math.c:2616
+#: src/functions/fn-math.c:2708 src/functions/fn-math.c:2728
 #: src/functions/fn-stat.c:2619 src/functions/fn-stat.c:2649
 msgid "Array version not implemented!"
 msgstr "Версия массива не реализована!"
 
-#: src/functions/fn-math.c:2539
+#: src/functions/fn-math.c:2540
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -14275,7 +14333,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2"
 
-#: src/functions/fn-math.c:2651
+#: src/functions/fn-math.c:2652
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -14312,7 +14370,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: src/functions/fn-math.c:2765
+#: src/functions/fn-math.c:2766
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -14369,7 +14427,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COUNT,SUM"
 
-#: src/functions/fn-math.c:2847
+#: src/functions/fn-math.c:2848
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -14398,7 +14456,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/functions/fn-math.c:2970
+#: src/functions/fn-math.c:2971
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -14424,11 +14482,11 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MDETERM"
 
-#: src/functions/fn-math.c:3018
+#: src/functions/fn-math.c:3019
 msgid "#3D MULT?"
 msgstr "#3D MULT?"
 
-#: src/functions/fn-math.c:3097
+#: src/functions/fn-math.c:3098
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -14450,7 +14508,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
-#: src/functions/fn-math.c:3173
+#: src/functions/fn-math.c:3174
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -14480,7 +14538,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT, MINVERSE"
 
-#: src/functions/fn-math.c:3231
+#: src/functions/fn-math.c:3232
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -14513,7 +14571,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SUM,PRODUCT"
 
-#: src/functions/fn-math.c:3349
+#: src/functions/fn-math.c:3350
 msgid "Maths / Trig."
 msgstr "Матем. / Триг."
 
@@ -16452,18 +16510,21 @@ msgstr ""
 "@SEEALSO=STDEVA,STDEVP"
 
 #: src/functions/fn-stat.c:3036
+#, fuzzy
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
 "@DESCRIPTION=PERCENTRANK function returns the rank of a data point in a data "
 "set.  @array is the range of numeric values, @x is the data point which you "
 "want to rank, and the optional @significance indentifies the number of "
-"significant digits for the returned value.  If @significance is omitted, "
-"PERCENTRANK uses three digits.\n"
-"If @array contains no data points, PERCENTRANK returns #NUM! error. If "
-"@significance is less than one, PERCENTRANK returns #NUM! error. If @x does "
-"not match any of the values in @array or @x matches more than once, "
-"PERCENTRANK interpolates the returned value.\n"
+"significant digits for the returned value, truncating the remainder.  If "
+"@significance is omitted, PERCENTRANK uses three digits.\n"
+"If @array contains no data points, PERCENTRANK returns #NUM! error.\n"
+"If @significance is less than one, PERCENTRANK returns #NUM! error.\n"
+"If @x exceeds the largest value or is less than the smallest value in "
+"@array, PERCENTRANK returns #NUM! error.\n"
+"If @x does not match any of the values in @array or @x matches more than "
+"once, PERCENTRANK interpolates the returned value.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
@@ -16482,7 +16543,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 
-#: src/functions/fn-stat.c:3151
+#: src/functions/fn-stat.c:3146
 msgid ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(array,k)\n"
@@ -16513,7 +16574,7 @@ msgstr ""
 "\n"
 "@SEEALSO=QUARTILE"
 
-#: src/functions/fn-stat.c:3200
+#: src/functions/fn-stat.c:3195
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -16557,7 +16618,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 
-#: src/functions/fn-stat.c:3256
+#: src/functions/fn-stat.c:3251
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -16585,7 +16646,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: src/functions/fn-stat.c:3306
+#: src/functions/fn-stat.c:3301
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -16642,7 +16703,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FDIST,FINV"
 
-#: src/functions/fn-stat.c:3480
+#: src/functions/fn-stat.c:3475
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -16670,7 +16731,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-stat.c:3555
+#: src/functions/fn-stat.c:3550
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
@@ -16723,7 +16784,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,TREND"
 
-#: src/functions/fn-stat.c:3826
+#: src/functions/fn-stat.c:3821
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -16759,7 +16820,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LINEST"
 
-#: src/functions/fn-stat.c:3938
+#: src/functions/fn-stat.c:3933
 msgid ""
 "@FUNCTION=LOGEST\n"
 "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
@@ -16810,7 +16871,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: src/functions/fn-stat.c:4193
+#: src/functions/fn-stat.c:4188
 msgid ""
 "@FUNCTION=GROWTH\n"
 "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
@@ -16846,7 +16907,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOGEST,GROWTH,TREND"
 
-#: src/functions/fn-stat.c:4307
+#: src/functions/fn-stat.c:4302
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -16881,7 +16942,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTERCEPT,TREND"
 
-#: src/functions/fn-stat.c:4378
+#: src/functions/fn-stat.c:4373
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -16914,7 +16975,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FORECAST,TREND"
 
-#: src/functions/fn-stat.c:4427
+#: src/functions/fn-stat.c:4422
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
@@ -16940,7 +17001,7 @@ msgstr ""
 "\n"
 "@SEEALSO=STDEV,STDEVPA"
 
-#: src/functions/fn-stat.c:4475
+#: src/functions/fn-stat.c:4470
 msgid "Statistics"
 msgstr "Статистические"
 
@@ -17619,9 +17680,8 @@ msgid "Unable to open file '%s'"
 msgstr "Не удалось открыть файл '%s'"
 
 #: src/gui-validation.c:45
-#, fuzzy
 msgid "The value you entered :\n"
-msgstr "Введённое вами значение: \n"
+msgstr "Введённое вами значение:\n"
 
 #: src/gui-validation.c:78
 #, c-format
@@ -17699,9 +17759,8 @@ msgid "Can be blank\n"
 msgstr "Может быть пустым\n"
 
 #: src/gui-validation.c:146
-#, fuzzy
 msgid "Re-Edit"
-msgstr "Правка"
+msgstr "Переправить"
 
 #: src/gui-validation.c:146 src/gui-validation.c:151
 msgid "Discard"
@@ -17821,17 +17880,25 @@ msgstr "Разрешить некоторые отладочные функции относящиеся к зависимостям"
 msgid "Enables some print debugging behavior"
 msgstr "Разрешить некоторые отладочные функции печати"
 
-#: src/main.c:101
-msgid "Exit immediately after loading the selected books (useful for testing)."
-msgstr ""
-"Выйти немедленно после загрузки выбранных книг (полезно для тестирования)."
-
-#: src/main.c:105
+#: src/main.c:102
 msgid "Enables extra consistency checking while reading ole files"
 msgstr ""
 "Разрешить дополнительную проверку согласованности при чтении ole-файлов"
 
-#: src/main.c:138
+#: src/main.c:106
+msgid "Specify the size and location of the initial window"
+msgstr "Указать размер и положение первоначального окна"
+
+#: src/main.c:106
+msgid "WIDTHxHEIGHT+XOFF+YOFF"
+msgstr "WIDTHxHEIGHT+XOFF+YOFF"
+
+#: src/main.c:110
+msgid "Exit immediately after loading the selected books (useful for testing)."
+msgstr ""
+"Выйти немедленно после загрузки выбранных книг (полезно для тестирования)."
+
+#: src/main.c:139
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -17855,7 +17922,7 @@ msgstr ""
 "\n"
 "-- Команда разработчиков Gnumeric."
 
-#: src/main.c:192
+#: src/main.c:193
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -17866,11 +17933,11 @@ msgstr ""
 "каталог данных := \"%s\"\n"
 "каталог библиотек := \"%s\"\n"
 
-#: src/main.c:244
+#: src/main.c:245
 msgid "Could not initialize Workbook factory"
 msgstr "Невозможно инициализировать Gnumeric Workbook factory"
 
-#: src/main.c:248
+#: src/main.c:249
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Невозможно инициализировать EmbeddableGrid factory"
 
@@ -17945,7 +18012,7 @@ msgstr "Не удалось найти парную закрывающую кавычку"
 
 #: src/parser.y:1062
 msgid "Multiple expressions are not supported in this context"
-msgstr ""
+msgstr "Множественные выражения не поддерживаются в этом контексте"
 
 #: src/parser.y:1084
 msgid "Could not find matching opening parenthesis"
@@ -18082,15 +18149,15 @@ msgstr ""
 
 #: src/plugin-service.c:867
 msgid "Missing function group id."
-msgstr ""
+msgstr "Неправильный идентификатор группы функции."
 
 #: src/plugin-service.c:872 src/plugin-service.c:877
 msgid "Missing function category name."
-msgstr ""
+msgstr "Неправильное название категории функции."
 
 #: src/plugin-service.c:1036
 msgid "Missing loader id."
-msgstr ""
+msgstr "Неправильный идентификатор загрузчика."
 
 #: src/plugin-service.c:1199
 #, c-format
@@ -18126,7 +18193,7 @@ msgstr "Ошибка при открытии файла \"%s\" для чтения."
 msgid "Unable to mmap the file."
 msgstr "Невозможно выполнить mmap для файла."
 
-#: src/plugin-util.c:313 src/xml-io.c:3437
+#: src/plugin-util.c:313 src/xml-io.c:3436
 msgid "Cannot get file size."
 msgstr "Невозможно получить размер файла."
 
@@ -18513,6 +18580,11 @@ msgstr "Ширина рамки"
 msgid "Transparent"
 msgstr "Прозначный"
 
+#: src/sheet-object-widget.c:560
+#, c-format
+msgid "CheckBox %d"
+msgstr "Графа для отметки %d"
+
 #: src/sheet-object-widget.c:791
 msgid "Checkbox Configure"
 msgstr "Настройка граф для отметки"
@@ -18791,26 +18863,24 @@ msgid "Remove borders"
 msgstr "Удалить обрамления"
 
 #: src/workbook-cmd-format.c:132
-#, fuzzy, c-format
+#, c-format
 msgid "You entered an invalid column width value.  It must be bigger than %d"
-msgstr ""
-"Вы ввели неправильное значение для ширины столбца. Оно должно быть больше 0."
+msgstr "Вы ввели неправильное значение для ширины столбца. Оно должно быть больше чем %d."
 
 #: src/workbook-cmd-format.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "You entered an invalid row height value.  It must be bigger than %d"
-msgstr ""
-"Вы ввели неправильное значение для высоты строки. Оно должно быть больше 0."
+msgstr "Вы ввели неправильное значение для высоты строки. Оно должно быть больше чем %d."
 
 #: src/workbook-cmd-format.c:246
-#, fuzzy, c-format
+#, c-format
 msgid "The default column width must be > %d."
-msgstr "Изменить ширину столбца по умолчанию"
+msgstr "Ширина столбца по умолчанию должна быть больше %d."
 
 #: src/workbook-cmd-format.c:276
-#, fuzzy, c-format
+#, c-format
 msgid "The default row height must be > %d."
-msgstr "Изменить высоту строки по умолчанию"
+msgstr "Высота строки по умолчанию должна быть больше %d."
 
 #: src/workbook-control-gui.c:291
 msgid " : Gnumeric"
@@ -18957,10 +19027,6 @@ msgstr "Удалить выделенные ячейки, сдвигая другие на их место"
 msgid "Freeze the top left of the sheet"
 msgstr "Фиксация верхнего левого края таблицы"
 
-#: src/workbook-control-gui.c:2694
-msgid "_Define..."
-msgstr "Определить..."
-
 #: src/workbook-control-gui.c:2699
 msgid "_Auto generate names..."
 msgstr "Автогенерация имен..."
@@ -19090,15 +19156,16 @@ msgid "Discard Expression"
 msgstr "Оставить выражение"
 
 #: src/workbook-edit.c:165
-#, fuzzy
 msgid "Gnumeric : Validation"
-msgstr "Источник дисперсии"
+msgstr "Gnumeric: Проверка"
 
 #: src/workbook-edit.c:167
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
 msgstr ""
+"Это значение недопустимо.\n"
+"Содержимое этой ячейки ограничено."
 
 #: src/workbook-format-toolbar.c:86
 msgid "Set Horizontal Alignment"
@@ -19342,107 +19409,33 @@ msgstr "Не является файлом шаблона автоформата"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Ошибка при попытке построить файл шаблона автоформатирования"
 
-#: src/xml-io.c:2871
-#, fuzzy
+#: src/xml-io.c:2870
 msgid "Unparsable xml in clipboard"
-msgstr "Вставить из буфера обмена"
+msgstr "Невозможно разобрать XML из буфера обмена"
 
-#: src/xml-io.c:2878
-#, fuzzy
+#: src/xml-io.c:2877
 msgid "Clipboard is in unknown format"
-msgstr "Неизвестный формат файла \"%s\"."
+msgstr "Неизвестный формат в буфере обмена"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3282
+#: src/xml-io.c:3281
 msgid "Processing file..."
-msgstr "Обработка файлов..."
+msgstr "Обработка файла..."
 
-#: src/xml-io.c:3445
+#: src/xml-io.c:3444
 msgid "Not enough memory to create zlib decompression state."
 msgstr ""
 
-#: src/xml-io.c:3480
+#: src/xml-io.c:3479
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Это не файл рабочей книги Gnumeric"
 
-#: src/xml-io.c:3537
+#: src/xml-io.c:3536
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
 
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "Электронная таблица GNOME"
-
-#~ msgid "Decrease the precision of the selected cells"
-#~ msgstr "Уменьшить точность в выбранных ячейках"
-
-#~ msgid "Format the selected cells as money"
-#~ msgstr "Изменить формат выделенных ячеек на \"Денежный\""
-
-#~ msgid "Format the selected cells as percentages"
-#~ msgstr "Изменить формат выделенных ячеек на \"Проценты\""
-
-#~ msgid "Includes a thousands separator in the selected cells"
-#~ msgstr "Вставить разделитель тысяч в выделенные ячейки"
-
-#~ msgid "Increase the precision of the selected cells"
-#~ msgstr "Увеличить точность в выбранных ячейках"
-
-#~ msgid "Add another sheet"
-#~ msgstr "Добавить другой лист"
-
-#, fuzzy
-#~ msgid "Finance"
-#~ msgstr "Финансовые"
-
-#~ msgid ""
-#~ "@FUNCTION=INDEX\n"
-#~ "@SYNTAX=INDEX(reference,[row, col, area])\n"
-#~ "@DESCRIPTION=INDEX function returns a reference to the cell at a offset "
-#~ "into the reference specified by row, col.\n"
-#~ "If things go wrong returns #REF! \n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=INDEX\n"
-#~ "@SYNTAX=INDEX(ссылка,[строка, столбец, область])\n"
-#~ "@DESCRIPTION=Функция INDEX возвращает ссылку на ячейку со смещением в "
-#~ "ссылке указанной строкой и столбцом.\n"
-#~ "Если что-то неправильно, возвращается ошибка #REF!.\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid ""
-#~ "You entered an invalid default column width value.  It must be bigger "
-#~ "than 0"
-#~ msgstr ""
-#~ "Вы ввели недопустимое значение для ширины столбца. Оно должно быть больше "
-#~ "0."
-
-#~ msgid ""
-#~ "You entered an invalid default row height value.  It must be bigger than 0"
-#~ msgstr ""
-#~ "Вы ввели недопустимое значение для высоты строки. Оно должно быть больше "
-#~ "0."
-
-#~ msgid "Correct accidental use of _cAPS LOCK key"
-#~ msgstr "Исправить случайное использование клавиши cAPS LOCK"
-
-#~ msgid "Invalid day"
-#~ msgstr "Неверный день"
-
-#~ msgid "Invalid xml clipboard data. Tree is empty ?"
-#~ msgstr "Неправильные XML данные в буфере обмена. Дерево пусто?"
-
-#~ msgid "label62"
-#~ msgstr "Метка"
-
-#~ msgid "label63"
-#~ msgstr "Метка"
-
-#~ msgid "label10"
-#~ msgstr "Метка"
