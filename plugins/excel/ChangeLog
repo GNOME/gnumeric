@@ -1,5 +1,10 @@
 1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
 
+	* ms-escher.c (ms_escher_read_ClientData): Remove realize & queue
+	objects instead. Add precondition on state->sheet.
+
+1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
+
 	* ole.c (ms_biff_query_next_merge, ms_biff_query_new): inline.
 
 1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
