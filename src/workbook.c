@@ -1542,10 +1542,10 @@ static GnomeUIInfo workbook_menu_tools [] = {
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_NONE(N_("Auto _Correct..."),
-		N_("Automaticly perform simple spell checking"),
+		N_("Automatically perform simple spell checking"),
 		&autocorrect_cmd),
 	GNOMEUIINFO_ITEM_NONE(N_("_Auto Save..."),
-		N_("Automaticly save the current document at regular intervals"),
+		N_("Automatically save the current document at regular intervals"),
 		&autosave_cmd),
 
 	GNOMEUIINFO_SEPARATOR,

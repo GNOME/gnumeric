@@ -299,11 +299,11 @@
 
 			<menuitem name="ToolsAutoCorrect" verb=""
 			_label="Auto _Correct..."
-			_descr="Automaticaly perform simple spell checking"/>
+			_descr="Automatically perform simple spell checking"/>
 
 			<menuitem name="ToolsAutoSave" verb=""
 			_label="_Auto Save..."
-			_descr="Automaticaly save the current document at regular intervals"/>
+			_descr="Automatically save the current document at regular intervals"/>
 
 			<menuitem/>
 
