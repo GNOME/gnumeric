@@ -1968,6 +1968,10 @@ BC_R(end)(XLChartHandler const *handle,
 			g_free (s->text);
 			s->text = NULL;
 		}
+		if (s->style != NULL) {
+			g_object_unref (s->style);
+			s->style = NULL;
+		}
 		break;
 
 	default :

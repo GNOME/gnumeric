@@ -667,9 +667,10 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 	pango_ft2_font_map_set_resolution (font_map,
 		gnm_app_display_dpi_get (TRUE),
 		gnm_app_display_dpi_get (FALSE));
-	context = pango_ft2_font_map_create_context  (font_map);
+	context = pango_ft2_font_map_create_context (font_map);
 	g_object_unref (font_map);
 	layout = pango_layout_new (context);
+	g_object_unref (context);
 	pango_layout_set_font_description (layout,
 		pango_context_get_font_description (gtk_widget_get_pango_context (GTK_WIDGET (canvas))));
 	pango_layout_set_text (layout, _("Text"), -1);
@@ -696,7 +697,9 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 	ft_bitmap.palette_mode = 0;
 	ft_bitmap.palette      = NULL;
 
+#if 0
 	pango_ft2_render_layout (&ft_bitmap, layout, 0, 0);
+#endif
 	g_object_unref (layout);
 
 	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,

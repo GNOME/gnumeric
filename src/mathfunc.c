@@ -1391,10 +1391,6 @@ gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_ta
 	xbig = 1.0e+8,
 	xlarge = 1.0e+37,
 
-#ifndef IEEE_754
-	elimit = M_LN2gnum*(GNUM_MIN_EXP),/* will set expgnum(E) = 0 for E < elimit ! */
-    /* was elimit = -88.0e0; */
-#endif
 	/* normal approx. for alph > alphlimit */
 	alphlimit = 1e5;/* was 1000. till R.1.8.x */
 
@@ -1505,20 +1501,11 @@ gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_ta
 
     arg += loggnum(sum);
 
-#ifdef DEBUG_p
-    REprintf("--> arg=%12" GNUM_FORMAT_g " (elimit=%" GNUM_FORMAT_g ")\n", arg, elimit);
-#endif
-
     lower_tail = (lower_tail == pearson);
 
     if (log_p && lower_tail)
 	return(arg);
     /* else */
-#ifndef IEEE_754
-    /* Underflow check :*/
-    if (arg < elimit)
-	return (lower_tail) ? 0. : (log_p ? 0. : 1.);
-#endif
     /* sum = expgnum(arg); and return   if(lower_tail) sum  else 1-sum : */
     return (lower_tail) ? expgnum(arg)
 	: (log_p ? (arg > -M_LN2gnum ? loggnum(-expm1gnum(arg)) : log1pgnum(-expgnum(arg)))

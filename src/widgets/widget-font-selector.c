@@ -173,6 +173,7 @@ font_selected (GtkTreeSelection *selection,
 
 	change = mstyle_new ();
 	mstyle_set_font_name (change, text);
+	g_free (text);
 	fs_modify_style (fs, change);
 }
 
