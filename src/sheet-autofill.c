@@ -176,15 +176,16 @@ string_has_number (String *str, int *num, int *pos)
 	char *s = str->str, *p, *end;
 	int l = strlen (s);
 	gboolean found_number = FALSE;
+	long val;
 
-	long val = strtol (s, &end, 10);
+	errno = 0;
+	val = strtol (s, &end, 10);
 	if (s != end) {
 		if (errno != ERANGE) {
 			*num = val;
 			*pos = 0;
 			return TRUE;
-		} else
-			errno = 0;
+		}
 	}
 	if (l <= 1)
 		return FALSE;
@@ -196,14 +197,14 @@ string_has_number (String *str, int *num, int *pos)
 		return FALSE;
 
 	p++;
+	errno = 0;
 	val = strtol (p, &end, 10);
 	if (p != end) {
 		if (errno != ERANGE) {
 			*num = val;
 			*pos = p - str->str;
 			return TRUE;
-		} else
-			errno = 0;
+		}
 	}
 
 	return FALSE;

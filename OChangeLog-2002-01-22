@@ -1,3 +1,17 @@
+2000-11-08  Morten Welinder  <terra@diku.dk>
+
+	* src/complex.c (complex_from_string): Handle overflow.
+
+	* src/number-match.c (format_match_simple): Don't depend on
+ 	incoming errno not to be ERANGE.
+
+	* src/sheet-autofill.c (string_has_number): Ditto.
+
+	* src/parser.y (yylex): Ditto.
+
+	* src/value.c (value_new_from_string): Ditto.  Also take care of
+ 	empty string.
+
 2000-11-08  Jody Goldberg <jgoldberg@home.com>
 
 	* src/clipboard.c (apply_paste_oper_to_values) : Rewrite to use

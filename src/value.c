@@ -241,12 +241,13 @@ value_new_from_string (ValueType t, const char *str)
 	case VALUE_INTEGER:
 	{
 		char *end;
-		long l = strtol (str, &end, 10);
-		if (*end == '\0') {
+		long l;
+
+		errno = 0;
+		l = strtol (str, &end, 10);
+		if (str != end && *end == '\0') {
 			if (errno != ERANGE)
 				return value_new_int ((int)l);
-			else
-				errno = 0;
 		}
 		return NULL;
 	}
@@ -254,12 +255,13 @@ value_new_from_string (ValueType t, const char *str)
 	case VALUE_FLOAT:
 	{
 		char *end;
-		double d = strtod (str, &end);
-		if (*end == '\0') {
+		double d;
+
+		errno = 0;
+		d = strtod (str, &end);
+		if (str != end && *end == '\0') {
 			if (errno != ERANGE)
 				return value_new_float ((float_t)d);
-			else
-				errno = 0;
 		}
 		return NULL;
 	}

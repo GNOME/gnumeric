@@ -9,6 +9,7 @@
 #include <config.h>
 #include <glib.h>
 #include <stdlib.h>
+#include <errno.h>
 
 #define GNUMERIC_COMPLEX_IMPLEMENTATION
 #include "complex.h"
@@ -92,8 +93,9 @@ complex_from_string (complex_t *dst, const char *src, char *imunit)
 		return 0;
 	}
 
+	errno = 0;
 	x = strtod (src, &end);
-	if (src == end)
+	if (src == end || errno == ERANGE)
 		return -1;
 	src = end;
 
@@ -118,7 +120,7 @@ complex_from_string (complex_t *dst, const char *src, char *imunit)
 	}
 
 	y = strtod (src, &end);
-	if (src == end)
+	if (src == end || errno == ERANGE)
 		return -1;
 	src = end;
 

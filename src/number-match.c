@@ -936,49 +936,48 @@ compute_value (const char *s, const regmatch_t *mp,
 Value   *
 format_match_simple (const char *text)
 {
-	char *end;
-
-	/* Is it a boolean */
+	/* Is it a boolean?  */
 	if (0 == g_strcasecmp (text, _("TRUE")))
 		return value_new_bool (TRUE);
 	if (0 == g_strcasecmp (text, _("FALSE")))
 		return value_new_bool (FALSE);
 
-	/* Is it an error */
+	/* Is it an error?  */
 	if (*text == '#') {
 		Value *err = value_is_error (text);
 		if (err != NULL)
 			return err;
 	}
 
-	/* Is it an integer */
+	/* Is it an integer?  */
 	{
-		long l = strtol (text, &end, 10);
-		if (text != end) {
-			if (errno != ERANGE) {
-				/* ignore spaces at the end . */
-				while (*end == ' ')
-					end++;
-				if (text != end && *end == '\0' && l == (int)l)
-					return value_new_int ((int)l);
-			} else
-				errno = 0;
+		char *end;
+		long l;
+
+		errno = 0; /* strtol sets errno, but does not clear it.  */
+		l = strtol (text, &end, 10);
+		if (text != end && errno != ERANGE && l == (int)l) {
+			/* Allow and ignore spaces at the end.  */
+			while (*end == ' ')
+				end++;
+			if (*end == '\0')
+				return value_new_int ((int)l);
 		}
 	}
 
-	/* Is it a double */
+	/* Is it a double?  */
 	{
 		char *end;
-		double d = strtod (text, &end);
-		if (text != end) {
-			if (errno != ERANGE) {
-				/* Allow and ignore spaces at the end . */
-				while (*end == ' ')
-					end++;
-				if (text != end && *end == '\0' && d == (float_t)d)
-					return value_new_float ((float_t)d);
-			} else
-				errno = 0;
+		double d;
+
+		errno = 0; /* strtod sets errno, but does not clear it.  */
+		d = strtod (text, &end);
+		if (text != end && errno != ERANGE && d == (float_t)d) {
+			/* Allow and ignore spaces at the end.  */
+			while (*end == ' ')
+				end++;
+			if (*end == '\0')
+				return value_new_float ((float_t)d);
 		}
 	}
 

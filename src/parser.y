@@ -645,18 +645,23 @@ yylex (void)
 		if (c == parser_decimal_point || tolower (c) == 'e') {
 			/* This is float */
 			char *end;
-			double d = strtod (start, &end);
+			double d;
+
+			errno = 0;
+			d = strtod (start, &end);
 			if (start != end) {
 				if (errno != ERANGE) {
 					v = value_new_float ((float_t)d);
 					parser_expr = end;
-				} else
-					errno = 0;
+				}
 			}
 		} else {
 			/* This could be a row range ref or an integer */
 			char *end;
-			long l = strtol (start, &end, 10);
+			long l;
+
+			errno = 0;
+			l = strtol (start, &end, 10);
 			if (start != end) {
 				if (errno != ERANGE) {
 					/* Check for a Row range ref (3:4 == A3:IV4) */
@@ -667,8 +672,7 @@ yylex (void)
 					}
 					v = value_new_int (l);
 					parser_expr = end;
-				} else
-					errno = 0;
+				}
 			}
 		}
 
