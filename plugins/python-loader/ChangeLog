@@ -1,3 +1,8 @@
+2002-12-30  Jon K Hellan  <hellan@acm.org>
+
+	* py-interpreter-selector.c (menu_find_item_with_interpreter):
+	Make it return a value also when compiled with debugging turned off.
+
 2002-12-22  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.14

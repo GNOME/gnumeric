@@ -69,7 +69,10 @@ menu_find_item_with_interpreter (GtkWidget *menu,
 			return item;
 		}
 	);
-	g_return_val_if_fail (FALSE, NULL);
+
+	g_warning ("assertion '%s' failed", "interpreter != NULL");
+
+	return FALSE;
 }
 
 static void
