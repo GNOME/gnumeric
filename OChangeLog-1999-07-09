@@ -1,5 +1,7 @@
 1999-04-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/expr.c (value_array_resize): Fix typo bug I introduced. 
+
 	* src/eval.c (cell_queue_recalc): When queuing for recalc, tag the
 	cell, so that if we remove the cell from the recalc list we can
 	quickly find out if we have to look for it on the list of pending

@@ -12,8 +12,11 @@
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
 #include "sheet-object.h"
-#include "sheet-object-container.h"
 #include "cursors.h"
+
+#ifdef ENABLE_BONOBO
+#    include "sheet-object-container.h"
+#endif
 
 /* Pulls the GnumericSheet from a SheetView */
 #define GNUMERIC_SHEET_VIEW(p) GNUMERIC_SHEET (SHEET_VIEW(p)->sheet_view);

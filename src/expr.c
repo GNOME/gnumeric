@@ -450,7 +450,7 @@ value_array_resize (Value *v, guint width, guint height)
 	if (width>v->v.array.x)
 		xcpy = v->v.array.x;
 	else
-		ycpy = width;
+		xcpy = width;
 
 	if (height>v->v.array.y)
 		ycpy = v->v.array.y;
