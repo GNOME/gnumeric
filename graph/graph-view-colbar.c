@@ -255,7 +255,7 @@ la_draw (ViewDrawCtx *ctx, int item, int draw_flags, Symbol sym,
 		       
 		gdk_draw_polygon (
 			ctx->drawable, ctx->graph_view->fill_gc,
-			TRUE, &rect_points, 4);
+			TRUE, rect_points, 4);
 	} 
 
 	gdk_draw_line (ctx->drawable, ctx->graph_view->outline_gc,
@@ -283,8 +283,6 @@ static void
 graph_view_line_draw_nth_clustered (ViewDrawCtx *ctx, int item, int draw_flags)
 {
 	const int n_series = ctx->graph->layout->n_series;
-	const int item_base = item * ctx->units_per_slot + ctx->margin;
-	const int col_width = (ctx->units_per_slot - (ctx->margin * 2)) / n_series;
 	int i;
 
 	for (i = 0; i < n_series; i++){
@@ -311,7 +309,6 @@ static void
 graph_view_line_draw_nth_stacked (ViewDrawCtx *ctx, int first, int last, int draw_flags)
 {
 	const int n_series = ctx->graph->layout->n_series;
-	const int item_base = item * ctx->units_per_slot + ctx->margin;
 	const int col_width = (ctx->units_per_slot - (ctx->margin * 2)) / n_series;
 	double *series_values = g_new (double, n_series);
 	int i;
@@ -335,7 +332,7 @@ graph_view_draw_area (ViewDrawCtx *ctx, int first, int last, int draw_flags)
 		 * Notice that we only go from first..last-1 as the
 		 * lines/areas plotting modes use 2 data points to plot.
 		 */
-		for (item = first; item < last; i++){
+		for (item = first; item < last; item++){
 			if ((item + 1) == last)
 				draw_flags |= LAD_IS_LAST;
 			
