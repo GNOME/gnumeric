@@ -2,6 +2,7 @@
 
 	* src/corba-workbook.c (Workbook_save_to) : Adjust to new calling
 	  convention.
+	* src/corba-workbook-factory.c (WorkbookFactory_read) : Ditto.
 
 2000-01-31  Matthias Warkus  <mawa@iname.com>
 

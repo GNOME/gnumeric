@@ -13,6 +13,7 @@
 #include "Gnumeric.h"
 #include "xml-io.h"
 #include "corba.h"
+#include "command-context-corba.h"
 
 PortableServer_POA gnumeric_poa;
 
@@ -37,7 +38,7 @@ WorkbookFactory_read (PortableServer_Servant servant, const CORBA_char * filenam
 {
 	Workbook *workbook;
 	
-	workbook = workbook_read (filename);
+	workbook = workbook_read (command_context_corba (wb), filename);
 	gtk_widget_show (workbook->toplevel);
 	
 	if (workbook)
