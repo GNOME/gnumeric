@@ -1,0 +1,48 @@
+Hey Dudes!
+
+   New version of Gnumeric has been released.
+
+* New in this version:
+
+   * New infrastructure to simplify writing functions 
+     with variable arguments (Michael Meeks).
+
+     New token for ranges.
+
+   * Many new functions:
+
+	* Jukka-Pekka Iivonen contributed many finantial functions:
+	  DOLLARDE(), DOLLARFR(), NOMINAL(), NPV(), PV(), FV(), PMT(),
+	  IPMT(), PPMT(), NPER() and DURATION().
+
+	* Michael Meeks wrote the spreadsheet lookup functions: COLUMN(),
+	  COLUMNS(), HLOOKUP(), ROW(), ROWS(), VLOOKLUP()
+
+	* Sean Atkinson improved SUBSTITUTE() and he implemented CONCATENATE(), REPT(), FIND(), 
+	  FIXED(), PROPER(), REPLACE(), T(), VALUE(), SUBSTITUTE(), DOLLAR()
+
+	* Jukka-Pekka wrote CEILING() and COMBIN().
+
+	* Jukka-Pekka wrote the statistical functions: 
+	  BINOMDIST(), HARMEAN (), HYPEGEOMDIST(), AVEDEV(), CONFIDENCE(), CRITBINOM(),
+	  DEVSQ(), FISHER(), KURT(), NORMDIST(), PERMUT(), SKEW(), STANDARIZE(), WEIBULL(),
+	  FISHERINV(), NORMSDIST() and LOGNORMDIST(), CORREL(),
+	  COVAR(), MODE(), NEGBINOMDIST(), RANK(), TRIMMEAN().
+
+	* Michael Meekrs wrote POISSON(), DELTA(), GESTEP().
+
+	
+    * Many bug fixes
+
+	* Daniel Veillard fixed the bug with saving cells that had the "&" inside.
+
+	* Cleanups from Michael to use the new variable arguments code.
+
+        * Various typo fixes.
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-0.19.tar.gz
+
+
+Miguel.

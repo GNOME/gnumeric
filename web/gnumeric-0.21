@@ -1,0 +1,27 @@
+Hello guys,
+
+   I know, I know.  Too many releases for a day.
+
+   But many good things have been done, and we want all of these
+features to be available ASAP to all of you :-).
+
+	1. Morten Welinder implemented a more accurrate algorithm for
+	   the variance functions.	
+
+	2. Michael Meeks send me lots of updates and changes to Gnumeric:
+
+		a. Column Sorting.
+		b. Better dragging of text areas.
+		c. Updated documentation on writing functions.
+		d. Uses floats on number-entry if the number is
+	  	   too large (instead of overflowing like it was doing).
+		e. Updated function documentation to mention optional parameters.
+
+   I promise I will be quiet now for a few days.  I really do.
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+Miguel.
+		

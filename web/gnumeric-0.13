@@ -1,0 +1,34 @@
+Hello guys,
+
+   I have just released Gnumeric "Superstitious Bonobo" 0.13.  This
+version is as usual available in:
+
+ 	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+These are the new features in this version:
+
+	1. Excel loading is much faster now (Michael Meeks)
+
+	2. More excel sheets load now (Michael)
+
+	3. Various compilation fixes from Tim Mooney for some
+	   strict C compilers (Digital C compiler in this case).
+
+	4. Now it recalcs cells when you have cleared values or
+	   removed cells (just a missing call to workbook_recalc was missing). 
+
+	5. Install/compile fixes from Raja Harinath.
+
+	6. Implemented new functions: "ISERROR" and "NOT".
+
+	7. Copy/paste fixes in the presence of errors in the spreadsheet.
+
+	8. Small display glitch fix.
+
+	9. Add type checking to functions that take a constant number of arguments. 	
+
+	10. Upper case format letters are now accepted.
+
+Enjoy!
+
+Miguel.

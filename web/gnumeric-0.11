@@ -1,0 +1,23 @@
+Hello,
+
+   I have released a new version of Gnumeric, pretty much a bug fix
+over the Numerically Skillfully Cow release of Gnumeric.
+
+   Thanks to all of you who send me good bug reports, here is a list
+of the bugs fixed and improvements:
+
+	- Excel loading code improved again by Michael Meeks.  He also
+	  spotted a number of bugs in the code which were fixed.
+
+	- Paste was not properly recomputing formulas pasted.
+
+	- Gnumeric no longer crashes on save.
+
+	- Dependecy computation code got fixed.  Horribly typo was
+	  doing all sorts of nonsense ;-)
+
+Fetch it from:
+
+   ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-0.11.tar.gz
+
+Miguel.

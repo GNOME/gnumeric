@@ -1,0 +1,37 @@
+Hello guys,
+
+   New version of Gnumeric is out:
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+* Changes and new features:
+
+	* Cell ranges will work properly if they are not in their
+	  natural order (fixes the bug reported about SUM (C1:A1) not
+	  working and a whole range of similar problems).
+
+	* CLEAN() function fixed.
+
+	* New text exporting plugin from Takashi Matsuda.
+
+	* We use gdk_fontset_load now to load fonts instead of
+	  gdk_font_load, this should make the code work for various
+	  international users (Takashi).
+
+	* Entering data with XIM on the sheet should work now as well
+	  (Takashi).
+
+	* Paste-by-value has been fixed by Takashi as well.
+
+	* cell_set_format_from_style has been speeded up by Michael
+	  Meeks.
+
+	* Excel importer no longer has static buffers (removes various
+	  problems reported by people) (Michael Meeks).
+
+	* Excel importing code should be significantly faster and less
+	  verbose now (Michael Meeks).
+
+Miguel.

@@ -1,0 +1,74 @@
+From miguel Wed Dec 16 23:16:34 -0600 1998
+From: Miguel de Icaza <miguel@nuclecu.unam.mx>
+To: gnumeric-list@gnome.org
+Subject: New version of Gnumeric has been released.
+X-Lost: In case of doubt, make it sound convincing
+
+
+Hello guys,
+
+   A new version of Gnumeric has been released as part of the GNOME
+libraries code freeze.
+
+   I have not been very active the last two months in Gnumeric due to
+the freezing of GNOME (I worked a lot on the file manager issues), but
+I will soon be back working in the spreadsheet.
+
+   Michael Meeks and Bruno Unna did an awesome job while I was doing
+this: They added Excel file importing.  That is all I can say.  Some
+stuff is missing, yes, it will get added, yes.
+
+   During the last few weeks Morten Welinder has been reviewing the
+Gnumeric code and making very good suggestions to the coding style as
+well as making sure we keep Gnumeric in a nice way.  I am very
+thankful for his input.
+
+   Jakub Jelinek made the scrolling code be smarter than my previous
+attempt at scrolling, it is now definetly usable.
+
+   Code for attaching notes to cell is completely on the code.  The
+only problem is that right now comment is hardcoded in the source
+code.  We need a nice dialog box for this.
+
+   Mark Probst added some Guile support (this as well as the other
+plugins is completely optional), some neat things can be done with it,
+make sure you check the distribution directory.
+
+   Exponentiation has been implemented (all the code was there, I just
+had forgotten to add the line to the grammar).
+
+   Some more architectural work has been going on: named-cell range
+code is there (not finished but there).  Also, some code for
+referencing the cells in other sheets or workbook is there.
+
+   I still need to figure out a way to encode this into the
+expression.  I would appreciate any input on this issue: There are
+various possible solutions, one of the is creating a special OP_ that
+would represent a lookup into an non-local sheet.  The other is to
+define this as a function and finally, it could be done as a special
+cell type.
+
+   Also, I have dropped the "entered_text" information I kept on the
+cell.  Now the cell value is stored either as a value or as an
+expression tree and decoded when the user requires it.  This was
+required for a number of things (one of them being a nicer way to
+share cell expressions during copying, and for the excel format and
+the autofill code got definetly simpler and more maintainable).
+
+   Various display and scrolling glitches were fixed as well.  But in
+the process, I somehow broke the object-drawing code.  I have not
+researched this yet.
+
+   The initial support for CORBA is in, but it does not actually do
+anything, it is just the setup for launching the Gnumeric server.
+Owen Taylor made Gnumeric accept dragged files, you can now drag files
+from the file manager into the spreadsheet, on this topic:  the date
+routiens now use GLib's gdate instead of the gnome-libs libDate
+routines.
+
+   You can fetch it from:
+
+      ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric-0.4.tar.gz
+
+Enjoy,
+Miguel.

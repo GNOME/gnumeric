@@ -1,0 +1,31 @@
+Hello guys,
+
+   New version of Gnumeric is out:
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+* Changes and new features:
+
+	* Financial functions (effect, sln, syd) from Vladimir Vuksan.
+
+	* Engineering functions (power, gammaln, poisson, expondist,
+	  sign, trunc) from Michael Meeks.
+
+	* Statistical functions (stdev, stdevp, var, varp, gcd,
+	  geomean,) from Michael Meeks.
+
+	* Fixes to the clipboard code (should paste formulas to other
+	  applications correctly and fix the inter-worbook pastes).
+
+	* External function loading works for Excel files.
+
+	* Cleaned up the Excel code (Michael)
+
+	* Should compile in AIX again.
+
+* Documentation
+
+	* As usual, all of the Gnumeric functions are documented.
+

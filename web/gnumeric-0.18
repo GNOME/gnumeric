@@ -1,0 +1,27 @@
+Hello guys,
+
+   New gnumeric is out.
+
+   This is mainly a bug fix release
+
+* Features:
+
+	- More functions from Michael Meeks
+
+	- Bug fix: Applying a cell number format should work again inmediately
+	  (it was not queuing the re-rendering operation).
+
+	- Bug fix: Precedence fixes: when decoding the tree to render a text
+	  representation, I was not properly considering the case for
+	  same-priority but different meaning operations. 
+
+	  Should work now. (ie, it will correctly decode 1/(c4*d4)
+	  again. 
+
+	- New code: integer overflow/underflow detection code.  Now
+	  addition and substraction will be promoted to floating point
+	  values if there is a overflow in the computation.
+
+* Availability:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric/gnumeric-0.18.tar.gz

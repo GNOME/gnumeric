@@ -1,0 +1,28 @@
+
+Hello number lovers,
+
+    I have released the Numerically Skillfully Cow release of the
+Gnumeric Spreadsheet.
+
+New in this version:
+
+	* Many updates on the Excel side, optimizaitons, bug fixes,
+	  more features supported (Michael Meeks, Sean Atkinson).
+
+	* Support for adding/removing sheets on the notebook tabs
+
+	* A small draw fix (g's, j's and y's are no longer cropped).
+
+	* Mime types for Excel files are shipped (but no gnome icon
+	  for XL files yet).
+
+	* Fixes to the CVS loader (Vincent Renardias).
+
+	* Perl plugin is shipped again.
+
+You can get this from:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+Happy sums,
+Miguel.

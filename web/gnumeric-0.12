@@ -1,0 +1,45 @@
+Hello,
+
+   New Gnumeric version, this is the miguel-will-be-out-until monday
+release of Gnumeric, I will be visiting Boston, so if you are in the
+area we could probably meet.
+
+   New features:
+
+	- New function TRUNC
+
+	- Excel loading: Michael Meeks and Sean did lots of work again
+	  on improving our Excel importer.
+
+	- Internal fix that the Excel code was hitting.
+
+	- Fixes the menu for the quick operations (on the workbook)
+
+	- Fix to the rename-sheet function (it was displaying garbage
+	  sometimes)
+
+	- Brunno finished the support for coloring the background of
+	  cells, so now we can have nicely colored sheets with nice
+	  backgrounds :-)
+
+	- He also finished the foreground setting color code.  Thanks!
+
+	- Now it warns if you drop a range of cells in a region that
+	  already has values.
+
+	- Should include the missing files for the Perl plugin.
+
+	- CSV code disabled until it is fixed.
+
+	- Stricter control for removing active sheets in the code.
+
+	- Michael provided an icon for Excel files.
+
+	- Contributed Spanish documntation from Pablo.
+
+You can get this at:
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+Best wishes,
+Miguel.

@@ -1,0 +1,11 @@
+Hey guys!
+
+   This is the release of Gnumeric "Simplified Bonobo" 0.14.
+
+   The only difference between Gnumeric 0.13 and 0.14 is that 0.14
+ships in a way that makes the install process use the documentation as
+it was generated in my machine (that means, you do not need the
+Docbook tools installed in your system to get the documentation).
+
+Best wishes,
+miguel.
