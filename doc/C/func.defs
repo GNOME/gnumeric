@@ -296,6 +296,43 @@ BINOMDIST(3,5,0.8,0) equals 0.2048.
 
 @SEEALSO=POISSON
 
+@FUNCTION=BITAND
+@SYNTAX=BITAND(a,b)
+@DESCRIPTION=The BITAND function returns bitwise and-ing of its arguments.
+
+@EXAMPLES=
+@SEEALSO=BITOR,BITXOR
+
+@FUNCTION=BITLSHIFT
+@SYNTAX=BITLSHIFT(x,n)
+@DESCRIPTION=The BITLSHIFT function returns @x bit-shifted left by @n bits.
+If @n is negative, a right shift will in effect be performed.
+
+@EXAMPLES=
+@SEEALSO=BITRSHIFT
+
+@FUNCTION=BITOR
+@SYNTAX=BITOR(a,b)
+@DESCRIPTION=The BITOR function returns bitwise or-ing of its arguments.
+
+@EXAMPLES=
+@SEEALSO=BITXOR,BITAND
+
+@FUNCTION=BITRSHIFT
+@SYNTAX=BITRSHIFT(x,n)
+@DESCRIPTION=The BITRSHIFT function returns @x bit-shifted right by @n bits.
+If @n is negative, a left shift will in effect be performed.
+
+@EXAMPLES=
+@SEEALSO=BITRSHIFT
+
+@FUNCTION=BITXOR
+@SYNTAX=BITXOR(a,b)
+@DESCRIPTION=The BITXOR function returns bitwise exclusive or-ing of its arguments.
+
+@EXAMPLES=
+@SEEALSO=BITOR,BITAND
+
 @FUNCTION=CEIL
 @SYNTAX=CEIL(x)
 @DESCRIPTION=CEIL function rounds @x up to the next nearest integer.
@@ -2188,6 +2225,12 @@ If @per < 1 or @per > @nper, ISPMT returns #NUM! error.
 
 @SEEALSO=PV
 
+@FUNCTION=ISPRIME
+@SYNTAX=ISPRIME(i)
+@DESCRIPTION=The ISPRIME function returns TRUE if @i is prime and FALSE otherwise.
+This function only takes one argument.
+@SEEALSO=ITHPRIME, NT_D, NT_SIGMA
+
 @FUNCTION=ISREF
 @SYNTAX=ISREF(value)
 @DESCRIPTION=ISREF returns TRUE if the value is a reference.
@@ -2205,6 +2248,13 @@ This function is Excel compatible.
 ISTEXT("text") equals TRUE.
 
 @SEEALSO=ISNONTEXT
+
+@FUNCTION=ITHPRIME
+@SYNTAX=ITHPRIME(i)
+@DESCRIPTION=The ITHPRIME function returns the @ith prime.
+This function only takes one argument.
+@EXAMPLES=
+@SEEALSO=NT_D, NT_SIGMA
 
 @FUNCTION=KURT
 @SYNTAX=KURT(n1, n2, ...)
@@ -2676,6 +2726,45 @@ NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) equals 186.30673.
 
 @SEEALSO=PV,XNPV
 
+@FUNCTION=NT_D
+@SYNTAX=NT_D(n)
+@DESCRIPTION=The NT_D function calculates the number of divisors of @n.
+This function only takes one argument.
+@EXAMPLES=
+@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA
+
+@FUNCTION=NT_MU
+@SYNTAX=NT_MU(n)
+@DESCRIPTION=The NT_MU function (Mobius mu function) returns 
+0  if @n is divisible by the square of a prime .
+Otherwise it returns: 
+-1 if @n has an odd  number of different prime factors .
+1  if @n has an even number of different prime factors .
+If @n=1 it returns 1
+
+@EXAMPLES=
+@SEEALSO=NT_D, ITHPRIME, NT_PHI
+
+@FUNCTION=NT_PHI
+@SYNTAX=NT_PHI(n)
+@DESCRIPTION=The NT_PHI function calculates the number of integers less than or equal to @n that are relatively prime to @n.
+This function only takes one argument.
+@EXAMPLES=
+@SEEALSO=NT_D, ITHPRIME, NT_SIGMA
+
+@FUNCTION=NT_PI
+@SYNTAX=NT_PI(n)
+@DESCRIPTION=The NT_PI function returns the number of primes less than or equal to @n.
+This function only takes one argument.
+@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA
+
+@FUNCTION=NT_SIGMA
+@SYNTAX=NT_SIGMA(n)
+@DESCRIPTION=The NT_SIGMA function calculates the sum of the divisors of @n.
+This function only takes one argument.
+@EXAMPLES=
+@SEEALSO=NT_D, ITHPRIME, NT_PHI
+
 @FUNCTION=OCT2BIN
 @SYNTAX=OCT2BIN(number[,places])
 @DESCRIPTION=OCT2BIN function converts an octal number to a binary number.  @places is an optional field, specifying to zero pad to that number of spaces.
@@ -2781,6 +2870,102 @@ If range is neither a reference nor a range returns #VALUE!.  If either height o
 @EXAMPLES=
 
 @SEEALSO=COLUMN,COLUMNS,ROWS
+
+@FUNCTION=opt_bs_call
+@SYNTAX=opt_bs_call(strike,price,volatility,days_to_maturity,rate)
+@DESCRIPTION=Uses the Black-Scholes model to calculate the price of a European call option struck at @strike on an asset with price @price.  @volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  @days_to_maturity the number of days to exercise, and @rate is the risk-free interest rate to the exercise date, in percent.
+The returned value will be expressed in the same units as @strike and @price.
+@EXAMPLES=
+
+@SEEALSO=opt_bs_put, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma
+
+@FUNCTION=opt_bs_call_delta
+@SYNTAX=opt_bs_call_delta(strike,price,volatility,days_to_maturity,rate)
+@DESCRIPTION=Uses the Black-Scholes model to calculate the "delta" of a European call option struck at @strike on an asset with price @price.
+(The delta of an option is the rate of change of its price with respect to the price of the underlying asset.)
+@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  @days_to_maturity the number of days to exercise, and @rate is the risk-free interest rate to the exercise date, in percent.
+The returned value will be expressed as the rate of change of option value per unit change in @price.
+@EXAMPLES=
+
+@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_put_delta opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma
+
+@FUNCTION=opt_bs_call_rho
+@SYNTAX=opt_bs_call_rho(strike,price,volatility,days_to_maturity,rate)
+@DESCRIPTION=Uses the Black-Scholes model to calculate the "rho" of a European call option struck at @strike on an asset with price @price.
+(The rho of an option is the rate of change of its price with respect to the risk free interest rate.)
+@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  @days_to_maturity the number of days to exercise, and @rate is the risk-free interest rate to the exercise date, in percent.
+The returned value will be expressed as the rate of change of option value, per 100% change in @rate.
+@EXAMPLES=
+
+@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma
+
+@FUNCTION=opt_bs_call_theta
+@SYNTAX=opt_bs_call_theta(strike,price,volatility,days_to_maturity,rate)
+@DESCRIPTION=Uses the Black-Scholes model to calculate the "theta" of a European call option struck at @strike on an asset with price @price.
+(The theta of an option is the rate of change of its price with respect to time to expiry.)
+@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  @days_to_maturity the number of days to exercise, and @rate is the risk-free interest rate to the exercise date, in percent.
+The returned value will be expressed as minus the rate of change of option value, per 365.25 days.
+@EXAMPLES=
+
+@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta, opt_bs_put_delta, opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma
+
+@FUNCTION=opt_bs_gamma
+@SYNTAX=opt_bs_gamma(strike,price,volatility,days_to_maturity,rate)
+@DESCRIPTION=Uses the Black-Scholes model to calculate the "gamma" of a European option struck at @strike on an asset with price @price.
+(The gamma of an option is the second derivative of its price with respect to the price of the underlying asset, and is the same for calls and puts.)
+@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  @days_to_maturity the number of days to exercise, and @rate is the risk-free interest rate to the exercise date, in percent.
+The returned value will be expressed as the rate of change of delta per unit change in @price.
+@EXAMPLES=
+
+@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, opt_bs_vega
+
+@FUNCTION=opt_bs_put
+@SYNTAX=opt_bs_put(strike,price,volatility,days_to_maturity,rate)
+@DESCRIPTION=Uses the Black-Scholes model to calculate the price of a European put option struck at @strike on an asset with price @price.  @volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  @days_to_maturity the number of days to exercise, and @rate is the risk-free interest rate to the exercise date, in percent.
+The returned value will be expressed in the same units as @strike and @price.
+@EXAMPLES=
+
+@SEEALSO=opt_bs_call, opt_bs_call_delta, opt_bs_put_delta opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma
+
+@FUNCTION=opt_bs_put_delta
+@SYNTAX=opt_bs_put_delta(strike,price,volatility,days_to_maturity,rate)
+@DESCRIPTION=Uses the Black-Scholes model to calculate the "delta" of a European put option struck at @strike on an asset with price @price.
+(The delta of an option is the rate of change of its price with respect to the price of the underlying asset.)
+@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  @days_to_maturity the number of days to exercise, and @rate is the risk-free interest rate to the exercise date, in percent.
+The returned value will be expressed as the rate of change of option value per unit change in @price.
+@EXAMPLES=
+
+@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma
+
+@FUNCTION=opt_bs_put_rho
+@SYNTAX=opt_bs_put_rho(strike,price,volatility,days_to_maturity,rate)
+@DESCRIPTION=Uses the Black-Scholes model to calculate the "rho" of a European put option struck at @strike on an asset with price @price.
+(The rho of an option is the rate of change of its price with respect to the risk free interest rate.)
+@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  @days_to_maturity the number of days to exercise, and @rate is the risk-free interest rate to the exercise date, in percent.
+The returned value will be expressed as the rate of change of option value, per 100% change in @rate.
+@EXAMPLES=
+
+@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, opt_bs_call_rho, opt_bs_call_theta, opt_bs_put_theta, opt_bs_vega, opt_bs_gamma
+
+@FUNCTION=opt_bs_put_theta
+@SYNTAX=opt_bs_put_theta(strike,price,volatility,days_to_maturity,rate)
+@DESCRIPTION=Uses the Black-Scholes model to calculate the "theta" of a European put option struck at @strike on an asset with price @price.
+(The theta of an option is the rate of change of its price with respect to time to expiry.)
+@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  @days_to_maturity the number of days to exercise, and @rate is the risk-free interest rate to the exercise date, in percent.
+The returned value will be expressed as minus the rate of change of option value, per 365.25 days.
+@EXAMPLES=
+
+@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_vega, opt_bs_gamma
+
+@FUNCTION=opt_bs_vega
+@SYNTAX=opt_bs_bega(strike,price,volatility,days_to_maturity,rate)
+@DESCRIPTION=Uses the Black-Scholes model to calculate the "vega" of a European option struck at @strike on an asset with price @price.
+(The vega of an option is the rate of change of its price with respect to volatility, and is the same for calls and puts.)
+@volatility is the annualized volatility, in percent, of the asset for the period through to the exercise date.  @days_to_maturity the number of days to exercise, and @rate is the risk-free interest rate to the exercise date, in percent.
+The returned value will be expressed as the rate of change of option value, per 100% volatilty.
+@EXAMPLES=
+
+@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, opt_bs_gamma
 
 @FUNCTION=OR
 @SYNTAX=OR(b1, b2, ...)
