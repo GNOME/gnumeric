@@ -1621,6 +1621,22 @@ sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
 	cell->col->data = g_list_remove (cell->col->data, cell);
 }
 
+/*
+ * Removes all of the cells from CELL_LIST point on.
+ */
+static void
+sheet_cell_remove_to_eot (Sheet *sheet, GList *cell_list)
+{
+	while (cell_list){
+		Cell *cell = cell_list->data;
+
+		if (cell->parsed_node)
+			sheet_cell_formula_unlink (cell);
+		
+		sheet_cell_remove_from_hash (sheet, cell);
+		cell_destroy (cell);
+	}
+}
 
 void
 sheet_cell_remove (Sheet *sheet, Cell *cell)
@@ -1664,6 +1680,7 @@ sheet_col_destroy (Sheet *sheet, ColRowInfo *ci)
 		Cell *cell = l->data;
 
 		sheet_cell_remove_internal (sheet, cell);
+		cell_destroy (cell);
 	}
 	
 	sheet->cols_info = g_list_remove (sheet->cols_info, ci);
@@ -1715,17 +1732,32 @@ sheet_clear_region (Sheet *sheet, int start_col, int start_row, int end_col, int
 }
 
 gboolean
+sheet_verify_selection_simple (Sheet *sheet, char *command_name)
+{
+	char *msg;
+	
+	if (g_list_length (sheet->selections) == 1)
+		return TRUE;
+
+	msg = g_copy_strings (
+		"The command `", command_name,
+		"' can not be performed with multiple selections", NULL);
+	gnumeric_notice (msg);
+	g_free (msg);
+	
+	return FALSE;
+}
+
+gboolean
 sheet_selection_copy (Sheet *sheet)
 {
 	SheetSelection *ss;
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
-	
-	if (g_list_length (sheet->selections) != 1){
-		gnumeric_notice (_("Can not copy non-contiguous selections"));
+
+	if (!sheet_verify_selection_simple (sheet, "copy"))
 		return FALSE;
-	}
 	
 	ss = sheet->selections->data;
 
@@ -1748,11 +1780,9 @@ sheet_selection_cut (Sheet *sheet)
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
-	
-	if (g_list_length (sheet->selections) != 1){
-		gnumeric_notice (_("Can not cut non-contiguous selections"));
+
+	if (!sheet_verify_selection_simple (sheet, "cut"))
 		return FALSE;
-	}
 
 	ss = sheet->selections->data;
 
@@ -1978,9 +2008,73 @@ sheet_shift_rows (Sheet *sheet, int col, int start_row, int end_row, int count)
 void
 sheet_insert_row (Sheet *sheet, int row, int count)
 {
+	GList *cell_store, *cols, *l, *rows;
+	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (count != 0);
+
+	cell_store = NULL;
+	
+	/* 1. Walk every column, see which cells are out of range */
+	for (cols = sheet->cols_info; cols; cols = cols->next){
+		GList *cells;
+		
+		for (cells = cols->data; cells; cells = cells->next){
+			Cell *cell = cells->data;
+
+			if (cell->row->pos < row)
+				continue;
+
+			/* If the new position is out of range, destroy the cell */
+			if (cell->row->pos + count > SHEET_MAX_ROWS-1){
+				sheet_cell_remove_to_eot (sheet, cells);
+
+				/* Remove any trace of the tail that just got deleted */
+				if (cells->prev)
+					cells->prev->next = NULL;
+				
+				g_list_free (cells);
+				break;
+			}
+
+			/* At this point we now we can move the cell safely */
+			sheet_cell_remove_from_hash (sheet, cell);
+
+			/* Keep track of it */
+			cell_store = g_list_prepend (cell_store, cell);
+		}
+	}
+
+	/* 2. Relocate the row information pointers, destroy overflowed rows */
+	for (rows = sheet->rows_info; rows; rows = rows->next){
+		ColRowInfo *ri = rows->data;
+
+		if (ri->pos < row)
+			continue;
+
+		if (ri->pos + count > SHEET_MAX_ROWS-1){
+			sheet_row_destroy (sheet, ri);
+			continue;
+		}
+
+		ri->pos += count;
+	}
+
+	/* 3. Put back the moved cells in their new spot */
+	for (l = cell_store; l; l = l->next){
+		Cell *cell = l->data;
+
+		sheet_cell_add_to_hash (sheet, cell);
+		
+		if (cell->parsed_node)
+			cell_formula_relocate (cell, cell->col->pos, cell->row->pos);
+	}
+
+	g_list_free (cell_store);
+
+	/* 4. Redraw everything */
+	sheet_redraw_all (sheet);
 }
 
 /*
@@ -1998,6 +2092,31 @@ sheet_shift_col (Sheet *sheet, int col, int row, int count)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (count != 0);
+
+	g_warning ("sheet_shift_col is not yet implemented\n");
+}
+
+/*
+ * sheet_shift_cols
+ * @sheet the sheet
+ * @start_col first column
+ * @end_col   end column
+ * @row       first row where the shifting takes place.
+ * @count numbers of rows to shift.  a negative numbers will
+ *        delete count rows, positive number will insert
+ *        count rows.
+ */
+void
+sheet_shift_cols (Sheet *sheet, int start_col, int end_col, int row, int count)
+{
+	int i;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (count != 0);
+
+	for (i = start_col; i <= end_col; i++)
+		sheet_shift_col (sheet, i, row, count);
 }
 		 
 void

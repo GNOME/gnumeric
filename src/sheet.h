@@ -138,6 +138,8 @@ void        sheet_selection_extend_horizontal (Sheet *sheet, int count);
 void        sheet_selection_extend_vertical   (Sheet *sheet, int count);
 int         sheet_selection_is_cell_selected  (Sheet *sheet, int col, int row);
 
+gboolean    sheet_verify_selection_simple     (Sheet *sheet, char *command_name);
+
 /* Cell management */
 Cell       *sheet_cell_new            (Sheet *sheet, int col, int row);
 void        sheet_cell_add            (Sheet *sheet, Cell *cell,
@@ -208,6 +210,10 @@ void        sheet_insert_row          (Sheet *sheet,  int row, int count);
 void        sheet_shift_row           (Sheet *sheet,  int col, int row, int count);
 void        sheet_shift_rows          (Sheet *sheet,  int col,
 				       int start_row, int end_row, int count);
+void        sheet_shift_col           (Sheet *sheet,  int col, int row, int count);
+void        sheet_shift_cols          (Sheet *sheet,
+				       int start_col, int end_col,
+				       int row,       int count);
 
 void        sheet_style_attach        (Sheet *sheet,
 				       int    start_col, int start_row,

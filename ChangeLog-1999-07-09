@@ -1,5 +1,9 @@
 1998-08-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/dialog-insert-cells.c: New file.  Handle the insert cells
+	dialog box.  This uses GtkCauldron for the first time.  That
+	routine is soooo cool!
+	
 	* src/sheet.c (sheet_cell_remove): Remove the memory used by the
 	key in the hashtable as well.
 	(sheet_insert_col): new routine used to insert columns in the
@@ -9,6 +13,10 @@
 	(sheet_cell_add): Only attach a style to a cell if it does not
 	have any yet.
 	(sheet_move_row): New routine: shifts a row a number of columns.
+	(sheet_verify_selection_simple): New routine for warnging about
+	the multiple-selections case.  In the future it should provide a
+	help context. 
+	(sheet_insert_row): Implement this new routine.  
 
 	* src/clipboard.c (paste_cell): Simplify.
 

@@ -19,6 +19,7 @@ GNUMERIC_BASE_SOURCES =		\
 	clipboard.h		\
 	dialog-cell-format.c	\
 	dialog-goto-cell.c	\
+	dialog-insert-cells.c	\
 	dialog-paste-special.c	\
 	dialogs.h		\
 	eval.c			\

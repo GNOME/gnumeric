@@ -78,6 +78,27 @@ goto_cell_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+insert_cells_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+
+	sheet = workbook_get_current_sheet (wb);
+	dialog_insert_cells (sheet);
+}
+
+static void
+insert_cols_cmd (GtkWidget *widget, Workbook *wb)
+{
+	g_warning ("insert_cols is not yet implemented\n");
+}
+
+static void
+insert_rows_cmd (GtkWidget *widget, Workbook *wb)
+{
+	g_warning ("insert_rows is not yet implemented\n");
+}
+
+static void
 format_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet;
@@ -109,15 +130,27 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo workbook_menu_insert [] = {
+	{ GNOME_APP_UI_ITEM, N_("Cells..."), NULL, insert_cells_cmd },
+#if 0
+	{ GNOME_APP_UI_ITEM, N_("Rows"),     NULL, insert_rows_cmd },
+	{ GNOME_APP_UI_ITEM, N_("Columns"),  NULL, insert_cols_cmd },
+#endif
+	GNOMEUIINFO_SEPARATOR,
+	GNOMEUIINFO_END
+};
+
+
 static GnomeUIInfo workbook_menu_format [] = {
 	{ GNOME_APP_UI_ITEM, N_("Cells.."), NULL, format_cells_cmd, NULL, NULL,
 	  0, 0, GDK_1, GDK_CONTROL_MASK },
 	GNOMEUIINFO_END
 };
-	
+
 static GnomeUIInfo workbook_menu [] = {
 	{ GNOME_APP_UI_SUBTREE, N_("File"),   NULL, &workbook_menu_file },
 	{ GNOME_APP_UI_SUBTREE, N_("Edit"),   NULL, &workbook_menu_edit },
+	{ GNOME_APP_UI_SUBTREE, N_("Insert"), NULL, &workbook_menu_insert },
 	{ GNOME_APP_UI_SUBTREE, N_("Format"), NULL, &workbook_menu_format },
 	GNOMEUIINFO_END
 };
