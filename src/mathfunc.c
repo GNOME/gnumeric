@@ -4,7 +4,7 @@
  * Authors:
  *   Ross Ihaka (See also note below.)
  *   The R Development Core Team (See also note below.)
- *   Morten Welinder <terra@diku.dk>
+ *   Morten Welinder <terra@gnome.org>
  *   Miguel de Icaza (miguel@gnu.org)
  *   Jukka-Pekka Iivonen (iivonen@iki.fi)
  *   James Theiler (See also the second note below.)
@@ -12,7 +12,7 @@
  */
 
 /*
- * NOTE: most of this file comes from the "R" package, notably version 1.5.1.
+ * NOTE: most of this file comes from the "R" package, notably version 1.6.2.
  * "R" is distributed under GPL licence, see file COPYING.
  * The relevant parts are copyright (C) 1998 Ross Ihaka and
  * 2000-2002 The R Development Core Team.
@@ -5802,7 +5802,7 @@ gpow10 (int n)
 		GNM_const (1e-3),
 		GNM_const (1e-2),
 		GNM_const (1e-1),
-		GNM_const (1),
+		GNM_const (1e0),
 		GNM_const (1e1),
 		GNM_const (1e2),
 		GNM_const (1e3),
