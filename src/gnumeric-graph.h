@@ -22,6 +22,10 @@ GnmGraph	*gnm_graph_new			(Workbook *wb);
 GtkWidget	*gnm_graph_type_selector	(GnmGraph *graph);
 void		 gnm_graph_clear_vectors	(GnmGraph *graph);
 void		 gnm_graph_arrange_vectors	(GnmGraph *graph);
+void		 gnm_graph_range_to_vectors	(GnmGraph *graph,
+						 Sheet *sheet,
+						 Range const *src,
+						 gboolean as_cols);
 void		 gnm_graph_import_specification	(GnmGraph *graph,
 						 xmlDocPtr spec);
 int		gnm_graph_add_vector	   	(GnmGraph *graph,

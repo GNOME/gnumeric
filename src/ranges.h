@@ -98,13 +98,19 @@ gboolean    range_is_sane	(Range const *range);
 gboolean    range_translate     (Range *range, int col_offset, int row_offset);
 gboolean    range_transpose     (Range *range, CellPos const *origin);
 
+/* TODO : Do these 2 belong here ? or in sheet.h
+ * Probably sheet.h but that is overful.
+ */
+gboolean    range_trim		(Sheet const *sheet, Range *r,
+				 gboolean cols);
 gboolean    range_has_header    (Sheet const *sheet, Range const *src,
 				 gboolean top);
+
 char const *range_name          (Range const *src);
 void        range_dump          (Range const *src, char const *suffix);
 Range      *range_dup		(Range const *src);
 
-typedef     Range *(*RangeCopyFn) (Range const *r);
+typedef Range *(*RangeCopyFn) (Range const *r);
 GList      *range_split_ranges    (Range const *hard, Range const *soft,
 				   RangeCopyFn copy_fn);
 GList      *range_fragment        (Range const *a, Range const *b);

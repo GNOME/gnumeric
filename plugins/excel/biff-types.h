@@ -154,6 +154,7 @@
 #define BIFF_MS_O_DRAWING_GROUP         0xeb	/* 0 */
 #define BIFF_MS_O_DRAWING               0xec	/* 0 */
 #define BIFF_MS_O_DRAWING_SELECTION     0xed	/* 0 */
+#define BIFF_PHONETIC			0xef	/* semi-Undocumented */
 #define BIFF_SXRULE                     0xf0	/* 0 */
 #define BIFF_SXEX                       0xf1	/* 0 */
 #define BIFF_SXFILT                     0xf2	/* 0 */
@@ -192,6 +193,8 @@
 #define BIFF_SXFDBTYPE                 0x1bb
 #define BIFF_PROT4REVPASS              0x1bc	/* ONLY 1 */
 #define BIFF_DV                        0x1be	/* ONLY 1 */
+#define BIFF_XL9FILE		       0x1c0	/* ONLY 1 */
+#define BIFF_RECALCID		       0x1c1	/* ONLY 1 */
 #define BIFF_UNKNOWN_1		       0x810	/* what this is */
 
 /* Chart Specific */

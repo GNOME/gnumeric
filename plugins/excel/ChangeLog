@@ -1,3 +1,8 @@
+2001-09-09  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c (BC_R(pieformat)) : store pie seperation.
+	(BC_R(get_chartgroup_type)) : new function.
+
 2001-09-08  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-chart.c (legend) : xml-ize and fix transposition of right & left.

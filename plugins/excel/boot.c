@@ -44,7 +44,7 @@ gint ms_excel_formula_debug = 0;
 /* Enables debugging mesgs while reading excel colors & patterns */
 gint ms_excel_color_debug = 0;
 /* Enables debugging mesgs while reading excel charts */
-gint ms_excel_chart_debug = 0;
+gint ms_excel_chart_debug = 10;
 /* Enables debugging mesgs while writing excel workbooks */
 gint ms_excel_write_debug = 0;
 /* Enables debugging mesgs while reading excel objects */

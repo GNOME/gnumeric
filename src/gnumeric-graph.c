@@ -29,6 +29,9 @@
 #include "cell.h"
 #include "sheet.h"
 #include "workbook-private.h"
+#include "value.h"
+#include "ranges.h"
+#include "selection.h"
 #include "sheet-object-container.h"
 #include "idl/gnumeric-graphs.h"
 
@@ -44,9 +47,10 @@
 struct _GnmGraph {
 	SheetObjectContainer	parent;
 
-	GPtrArray		*vectors;
 	BonoboObjectClient	*manager_client;
 	MANAGER	 		 manager;
+
+	GPtrArray		*vectors;
 };
 
 typedef struct {
@@ -61,9 +65,11 @@ struct _GnmGraphVector {
 	gboolean	 is_column;
 	Value		*value;
 	GnmGraph	*graph;
+	int		 id;
 	gboolean	 initialized : 1;
 	gboolean	 activated : 1;
-	int		 id;
+	gboolean	 is_header : 1;
+	GnmGraphVector  *header;
 
 	CORBA_Object    corba_obj;	/* local CORBA object */
 	union {
@@ -674,6 +680,8 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 	vector->dep.sheet = sheet;
 	vector->dep.flags = gnm_graph_vector_get_dep_type ();
 	vector->dep.expression = expr;
+	vector->is_header = FALSE;
+	vector->header = NULL;
 	dependent_link (&vector->dep, NULL);
 
 	vector->value = eval_expr (eval_pos_init_dep (&ep, &vector->dep),
@@ -819,7 +827,15 @@ gnm_graph_arrange_vectors (GnmGraph *graph)
 	CORBA_Environment  ev;
 	MANAGER1(VectorIDs) *data, *headers;
 
-	int len = 0;
+	unsigned i, len = 0;
+
+	g_return_if_fail (IS_GNUMERIC_GRAPH (graph));
+
+	for (i = 0; i < graph->vectors->len ; i++) {
+		GnmGraphVector *vector = g_ptr_array_index (graph->vectors, i);
+		if (!vector->is_header)
+			len++;
+	}
 
 	data = MANAGER1(VectorIDs__alloc) ();
 	data->_length = data->_maximum = len;
@@ -830,6 +846,17 @@ gnm_graph_arrange_vectors (GnmGraph *graph)
 	headers->_buffer = CMANAGER1(VectorID_allocbuf) (len);
 	headers->_release = CORBA_TRUE;
 
+	len = 0;
+	for (i = 0; i < graph->vectors->len ; i++) {
+		GnmGraphVector *vector = g_ptr_array_index (graph->vectors, i);
+		if (!vector->is_header) {
+			data->_buffer[len] = vector->id;
+			headers->_buffer[len] = (vector->header != NULL)
+				? vector->header->id : -1;
+			len++;
+		}
+	}
+
 	CORBA_exception_init (&ev);
 	MANAGER1 (arrangeVectors) (graph->manager, data, headers, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION) {
@@ -837,6 +864,59 @@ gnm_graph_arrange_vectors (GnmGraph *graph)
 			   bonobo_exception_get_text (&ev), graph);
 	}
 	CORBA_exception_free (&ev);
+}
+
+void
+gnm_graph_range_to_vectors (GnmGraph *graph,
+			    Sheet *sheet,
+			    Range const *src,
+			    gboolean as_cols)
+{
+	int i, count;
+	gboolean const has_header =
+		range_has_header (sheet, src, as_cols);
+	Range vector = *src;
+	CellRef header;
+
+	header.sheet = sheet;
+	header.col_relative = header.row_relative = FALSE;
+	header.col = vector.start.col;
+	header.row = vector.start.row;
+
+	if (as_cols) {
+		if (has_header)
+			vector.start.row++;
+		count = vector.end.col - vector.start.col;
+		vector.end.col = vector.start.col;
+	} else {
+		if (has_header)
+			vector.start.col++;
+		count = vector.end.row - vector.start.row;
+		vector.end.row = vector.start.row;
+	}
+
+	for (i = 0 ; i <= count ; i++) {
+		int data_id = gnm_graph_add_vector (graph,
+			expr_tree_new_constant (
+				value_new_cellrange_r (sheet, &vector)),
+			GNM_VECTOR_AUTO, sheet);
+
+		if (has_header) {
+			GnmGraphVector *h_vec, *d_vec;
+			int header_id = gnm_graph_add_vector (graph,
+				expr_tree_new_var (&header),
+				GNM_VECTOR_STRING, sheet);
+			h_vec = g_ptr_array_index (graph->vectors, header_id);
+			h_vec->is_header = TRUE;
+			d_vec = g_ptr_array_index (graph->vectors, data_id);
+			d_vec->header = h_vec;
+		}
+
+		if (as_cols)
+			vector.end.col = vector.start.col = ++header.col;
+		else
+			vector.end.row = vector.start.row = ++header.row;
+	}
 }
 
 /**

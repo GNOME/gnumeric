@@ -1659,6 +1659,38 @@ cb_edit_search_replace_query (SearchReplaceQuery q, SearchReplace *sr, ...)
 	return res;
 }
 
+static void
+cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+
+	Range const *sel = selection_first_range(sheet, wbc, _("Autofill"));
+	if (sel) {
+		Range template;
+
+		range_init(&template,
+			   sel->start.col, sel->start.row,
+			   sel->end.col, sel->end.row);
+
+		/* This could be more efficient, but it is not important */
+		if (range_trim(sheet, &template, TRUE) ||
+		    range_trim(sheet, &template, FALSE))
+			return; // Region totally empty
+
+		/* Make it autofill in only one direction */
+ 		if ((sel->end.col - template.end.col) >= (sel->end.row - template.end.row))
+ 			template.end.row = sel->end.row;
+ 		else
+ 			template.end.col = sel->end.col;
+
+ 		cmd_autofill(wbc, sheet, sel->start.col, sel->start.row,
+ 			     template.end.col - sel->start.col + 1,
+			     template.end.row - sel->start.row + 1,
+ 			     sel->end.col, sel->end.row);
+ 	}
+}
+
 static gboolean
 cb_edit_search_replace_action (WorkbookControlGUI *wbcg,
 			       SearchReplace *sr)
@@ -2366,6 +2398,15 @@ static GnomeUIInfo workbook_menu_edit_select [] = {
 	GNOMEUIINFO_END
 };
 
+static GnomeUIInfo workbook_menu_edit_fill [] = {
+	{ GNOME_APP_UI_ITEM, N_("Auto_fill"),
+	N_("Automatically fill the current selection"),
+	cb_edit_fill_autofill, NULL,
+	NULL, 0, 0, 0, 0 },
+
+	GNOMEUIINFO_END
+};
+
 static GnomeUIInfo workbook_menu_edit_sheet [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Duplicate"),
 		N_("Make a copy of the current sheet"),
@@ -2432,6 +2473,8 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	GNOMEUIINFO_SUBTREE(N_("S_heet"), workbook_menu_edit_sheet),
 
 	GNOMEUIINFO_SUBTREE(N_("_Select"), workbook_menu_edit_select),
+
+	GNOMEUIINFO_SUBTREE(N_("_Fill"), workbook_menu_edit_fill),
 
 	{ GNOME_APP_UI_ITEM, N_("Search and Replace..."),
 		  N_("Search for some text and replace it with something else"),
@@ -2841,6 +2884,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditPasteSpecial", cb_edit_paste_special),
 	BONOBO_UI_UNSAFE_VERB ("EditDelete", cb_edit_delete),
 	BONOBO_UI_UNSAFE_VERB ("EditDuplicateSheet", cb_edit_duplicate_sheet),
+	BONOBO_UI_UNSAFE_VERB ("EditFillAutofill", cb_edit_fill_autofill),
 	BONOBO_UI_UNSAFE_VERB ("EditSearchReplace", cb_edit_search_replace),
 	BONOBO_UI_UNSAFE_VERB ("EditGoto", cb_edit_goto),
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),

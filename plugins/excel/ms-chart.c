@@ -53,7 +53,7 @@ typedef struct _ExcelChartSeries
 	} vector [MS_VECTOR_PURPOSE_MAX];
 
 	int chart_group;
-	xmlNodePtr  xml;
+	xmlNode *  xml;
 } ExcelChartSeries;
 
 typedef struct
@@ -70,8 +70,8 @@ typedef struct
 	struct {
 		xmlDocPtr   	 doc;
 		xmlNsPtr	 ns;
-		xmlNodePtr  	 plots;
-		xmlNodePtr  	 currentChartGroup;
+		xmlNode *  	 plots;
+		xmlNode *  	 currentChartGroup;
 	} xml;
 
 	int plot_counter;
@@ -132,10 +132,10 @@ excel_chart_series_delete (ExcelChartSeries *series)
 
 static void
 excel_chart_series_write_xml (ExcelChartSeries *series,
-			      ExcelChartReadState *s, xmlNodePtr data)
+			      ExcelChartReadState *s, xmlNode * data)
 {
 	unsigned i;
-	xmlNodePtr v;
+	xmlNode * v;
 
 	g_return_if_fail (series->xml == NULL);
 
@@ -155,8 +155,8 @@ BC_R(top_state) (ExcelChartReadState *s)
 	return g_array_index (s->stack, int, s->stack->len-1);
 }
 
-static StyleColor *
-BC_R(color)(guint8 const *data, char *type)
+static void
+BC_R(color) (guint8 const *data, char *type)
 {
 	guint32 const rgb = MS_OLE_GET_GUINT32 (data);
 	guint16 const r = (rgb >>  0) & 0xff;
@@ -165,16 +165,14 @@ BC_R(color)(guint8 const *data, char *type)
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_chart_debug > 0)
-		printf("%s Color %02x%02x%02x\n", type, r, g, b);
+		printf("%s Color %02x:%02x:%02x\n", type, r, g, b);
 #endif
-
-	return style_color_new ((r<<8)|r, (g<<8)|g, (b<<8)|b);
 }
 
-static xmlNodePtr
+static xmlNode *
 BC_R(store_chartgroup_type)(ExcelChartReadState *s, char const *t)
 {
-	xmlNodePtr fmt;
+	xmlNode *fmt;
 
 	g_return_val_if_fail (s->xml.currentChartGroup != NULL, NULL);
 
@@ -186,21 +184,36 @@ BC_R(store_chartgroup_type)(ExcelChartReadState *s, char const *t)
 	return xmlNewChild (fmt, s->xml.ns, t, NULL);
 }
 
+static xmlNode *
+BC_R(get_chartgroup_type)(ExcelChartReadState *s, char const *t)
+{       
+	xmlNode *fmt;
+	g_return_val_if_fail (s->xml.currentChartGroup != NULL, NULL);
+	fmt = e_xml_get_child_by_name (s->xml.currentChartGroup, "Type");
+	g_return_val_if_fail (fmt != NULL, NULL);
+	return e_xml_get_child_by_name (fmt, t);
+}
+
+
 /****************************************************************************/
 
 static gboolean
 BC_R(3dbarshape)(ExcelChartHandler const *handle,
 		 ExcelChartReadState *s, BiffQuery *q)
 {
-	guint16 const type = MS_OLE_GET_GUINT16 (q->data);
-	switch (type) {
-	case 0 : puts ("box"); break;
-	case 1 : puts ("cylinder"); break;
-	case 256 : puts ("pyramid"); break;
-	case 257 : puts ("cone"); break;
-	default :
-	    printf ("unknown 3dshape %d\n", type);
-	};
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_chart_debug > 0) {
+		guint16 const type = MS_OLE_GET_GUINT16 (q->data);
+		switch (type) {
+		case 0 : puts ("box"); break;
+		case 1 : puts ("cylinder"); break;
+		case 256 : puts ("pyramid"); break;
+		case 257 : puts ("cone"); break;
+		default :
+			   printf ("unknown 3dshape %d\n", type);
+		};
+	}
+#endif
 
 	return FALSE;
 }
@@ -217,6 +230,8 @@ static gboolean
 BC_R(3d)(ExcelChartHandler const *handle,
 	 ExcelChartReadState *s, BiffQuery *q)
 {
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_chart_debug > 0) {
 	guint16 const rotation = MS_OLE_GET_GUINT16 (q->data);	/* 0-360 */
 	guint16 const elevation = MS_OLE_GET_GUINT16 (q->data+2);	/* -90 - 90 */
 	guint16 const distance = MS_OLE_GET_GUINT16 (q->data+4);	/* 0 - 100 */
@@ -248,6 +263,8 @@ BC_R(3d)(ExcelChartHandler const *handle,
 		puts ("Auto Scale");
 	if (walls_2d)
 		puts ("2D Walls");
+	}
+#endif
 	return FALSE;
 }
 
@@ -413,10 +430,6 @@ static gboolean
 BC_R(areaformat)(ExcelChartHandler const *handle,
 		 ExcelChartReadState *s, BiffQuery *q)
 {
-#if 0
-	StyleColor *fore = BC_R(color) (q->data, "Area Fore");
-	StyleColor *back = BC_R(color) (q->data+4, "Area Back");
-#endif
 	guint16 const pattern = MS_OLE_GET_GUINT16 (q->data+8);
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data+10);
 	gboolean const auto_format = (flags & 0x01) ? TRUE : FALSE;
@@ -428,6 +441,8 @@ BC_R(areaformat)(ExcelChartHandler const *handle,
 	if (swap_color_for_negative)
 		puts ("Swap fore and back colours when displaying negatives;");
 
+	BC_R(color) (q->data, "Area Fore");
+	BC_R(color) (q->data+4, "Area Back");
 #if 0
 	/* Ignore the colour indicies.  Use the colours themselves
 	 * to avoid problems with guessing the strange index values
@@ -622,7 +637,7 @@ BC_R(bar)(ExcelChartHandler const *handle,
 {
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data+4);
 
-	xmlNodePtr fmt = BC_R(store_chartgroup_type)(s, "Bar");
+	xmlNode * fmt = BC_R(store_chartgroup_type)(s, "Bar");
 
 	g_return_val_if_fail (fmt != NULL, TRUE);
 
@@ -737,7 +752,8 @@ static gboolean
 BC_R(chart)(ExcelChartHandler const *handle,
 	    ExcelChartReadState *s, BiffQuery *q)
 {
-	/* TODO TODO TODO : Why are all charts listed as starting at 0,0 ?? */
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_chart_debug > 0) {
 	/* Fixed point 2 bytes fraction 2 bytes integer */
 	guint32 const x_pos_fixed = MS_OLE_GET_GUINT32 (q->data + 0);
 	guint32 const y_pos_fixed = MS_OLE_GET_GUINT32 (q->data + 4);
@@ -750,6 +766,8 @@ BC_R(chart)(ExcelChartHandler const *handle,
 	double const x_size = x_size_fixed / (65535. * 72.);
 	double const y_size = y_size_fixed / (65535. * 72.);
 	printf("Chart @ %g, %g is %g\" x %g\"\n", x_pos, y_pos, x_size, y_size);
+	}
+#endif
 
 	return FALSE;
 }
@@ -783,11 +801,15 @@ BC_R(chartformat)(ExcelChartHandler const *handle,
 	xml_node_set_int (s->xml.currentChartGroup, "index", s->plot_counter);
 	xml_node_set_int (s->xml.currentChartGroup, "stacking_position", z_order);
 
+	if (vary_color)
+		e_xml_set_bool_prop_by_name (s->xml.currentChartGroup,
+					     "color_individual_points", TRUE);
+
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_chart_debug > 0) {
 		printf ("Z value = %uh\n", z_order);
 		if (vary_color)
-			printf ("Vary color of every data point\n");
+			printf ("Vary color of individual data points.\n");
 	}
 #endif
 
@@ -1088,7 +1110,6 @@ BC_R(legend)(ExcelChartHandler const *handle,
 	char const *position_txt = "right";
 	xmlNode *legend;
 
-	printf ("position = %d\n", position);
 	switch (position) {
 	case 0: position_txt = "bottom"; break;
 	case 1: break; /* What is corner ? */
@@ -1150,7 +1171,7 @@ BC_R(line)(ExcelChartHandler const *handle,
 {
 	guint16 const flags = MS_OLE_GET_GUINT16 (q->data);
 
-	xmlNodePtr fmt = BC_R(store_chartgroup_type)(s, "Line");
+	xmlNode * fmt = BC_R(store_chartgroup_type)(s, "Line");
 
 	g_return_val_if_fail (fmt != NULL, TRUE);
 
@@ -1230,8 +1251,8 @@ BC_R(lineformat)(ExcelChartHandler const *handle,
 	auto_format = (flags & 0x01) ? TRUE : FALSE;
 	draw_ticks = (flags & 0x04) ? TRUE : FALSE;
 
-	BC_R(color) (q->data, "Line");
 
+	BC_R(color) (q->data, "Line");
 #if 0
 	/* Ignore the colour indicies.  Use the colours themselves
 	 * to avoid problems with guessing the strange index values
@@ -1385,7 +1406,7 @@ static gboolean
 BC_R(pie)(ExcelChartHandler const *handle,
 	  ExcelChartReadState *s, BiffQuery *q)
 {
-	xmlNodePtr fmt = BC_R(store_chartgroup_type)(s, "Pie");
+	xmlNode * fmt = BC_R(store_chartgroup_type)(s, "Pie");
 	double radians;
 
 	g_return_val_if_fail (fmt != NULL, TRUE);
@@ -1423,8 +1444,19 @@ BC_R(pieformat)(ExcelChartHandler const *handle,
 		ExcelChartReadState *s, BiffQuery *q)
 {
 	guint16 const percent_diam = MS_OLE_GET_GUINT16 (q->data); /* 0-100 */
+	xmlNode *fmt;
+
 	g_return_val_if_fail (percent_diam <= 100, TRUE);
-	printf ("Pie slice is %hu %% of diam from center\n", percent_diam);
+
+	/* for some reason XL stores records for different types too. */
+	fmt = BC_R(get_chartgroup_type)(s, "Pie");
+	if (fmt != NULL)
+		e_xml_set_uint_prop_by_name (fmt, "separation_percent_of_diameter", percent_diam);
+
+#ifndef NO_DEBUG_EXCEL
+	if (ms_excel_chart_debug > 2)
+		printf ("Pie slice is %hu %% of diam from center\n", percent_diam);
+#endif
 	return FALSE;
 }
 
@@ -1553,7 +1585,7 @@ static gboolean
 BC_R(scatter)(ExcelChartHandler const *handle,
 	      ExcelChartReadState *s, BiffQuery *q)
 {
-	xmlNodePtr fmt = BC_R(store_chartgroup_type)(s, "Scatter");
+	xmlNode * fmt = BC_R(store_chartgroup_type)(s, "Scatter");
 
 	g_return_val_if_fail (fmt != NULL, TRUE);
 
@@ -2068,7 +2100,7 @@ BC_R(end)(ExcelChartHandler const *handle,
 
 	case BIFF_CHART_chartformat : {
 		unsigned i;
-		xmlNodePtr data;
+		xmlNode * data;
 		ExcelChartSeries *series;
 
 		g_return_val_if_fail (s->xml.currentChartGroup != NULL, FALSE);
@@ -2357,7 +2389,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 				 * are they just sequential ?
 				 */
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_chart_debug > 0)
+				if (ms_excel_chart_debug > 5)
 					printf ("%f\n", val);
 #endif
 				break;
@@ -2370,7 +2402,7 @@ ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffVersion ver, GtkObje
 				guint16 len = MS_OLE_GET_GUINT16 (q->data + 6);
 				char *label = biff_get_text (q->data + 8, len, NULL);
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_chart_debug > 0) {
+				if (ms_excel_chart_debug > 5) {
 					puts (label);
 					printf ("hmm, what are these values for a chart ???\n"
 						"row = %d, col = %d, xf = %d\n", row, col, xf);

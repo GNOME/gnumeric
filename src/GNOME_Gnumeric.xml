@@ -250,6 +250,12 @@
 		    _tip="Select all the cells that depend on the current edit cell"/>
 
 	    </submenu>
+	    <submenu name="Fill" _label="_Fill">
+	        <menuitem name="EditFillAutofill" verb=""
+		    _label="Auto_fill"
+		    _top="Automatically fill the current selection"/>
+	    </submenu>
+	    
 
 	    <menuitem name="EditSearchReplace" verb=""
 		_label="Search and Replace..."

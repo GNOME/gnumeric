@@ -954,6 +954,57 @@ range_normalize (Range *src)
 }
 
 /**
+ * range_trim:
+ * @sheet: sheet cells are contained on
+ * @range: range to trim empty cells from
+ * @cols: trim from right, vs bottom
+ * 
+ * This removes empty rows/cols from the
+ * right hand or bottom edges of the range
+ * depending on the value of @location.
+ * 
+ * WARNING! FOR LARGE RANGES THIS IS EXPENSIVE!
+ * 
+ * Return value: TRUE if the range was totally empty, else FALSE.
+ **/
+gboolean
+range_trim(Sheet const *sheet, Range *range, gboolean cols)
+{
+	int original_value, low, *mid, *high;
+
+	/* Setup the pointers to the fields which will
+	 * be changed (to remove the empty cells)
+	 */
+	if (cols) {
+		mid = &range->start.col;
+		high = &range->end.col;
+	} else {
+		mid = &range->start.row;
+		high = &range->end.row;
+	}
+
+	/* Preform a kind of binary search to find the last
+	 * row/col which is not empty.
+	 */
+	original_value = low = *mid;
+	while (1) {
+		*mid = (low + *high + 1) / 2; /* Middle Cell (Round up) */
+
+		if (sheet_is_region_empty (sheet, range)) {
+			if (*high == low)
+				return TRUE; /* Range is totally empty */
+			*high = *mid - 1;
+		} else {
+			if (*high == low) {
+				*mid = original_value;
+				return FALSE;
+			}
+			low = *mid;
+		}
+	}
+}
+
+/**
  * range_union:
  * @a: range a
  * @b: range b

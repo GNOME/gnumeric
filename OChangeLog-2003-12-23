@@ -1,3 +1,19 @@
+2001-09-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-graph.c (gnm_graph_range_to_vectors) : move this here
+	  from the guru.
+	(gnm_graph_arrange_vectors) : implement.
+	(gnm_graph_add_vector : init the extra members for arrangement.
+
+2001-09-04  Christopher Fairbairn  <ckf13@student.canterbury.ac.nz>
+
+	* src/GNOME_Gnumeric.xml: added new menu item
+	* src/ranges.c: (range_trim): added function to trim blank cells
+	  at bottom/right edge of a range
+	* src/ranges.h: ditto
+	* src/workbook-control-gui.c: (cb_edit_fill_autofill): added
+	  keyboard and menu support for the autofill feature
+
 2001-09-07  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (gnumeric_xml_read_selection_clipboard): Properly

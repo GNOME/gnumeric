@@ -26,7 +26,6 @@
 #include "ranges.h"
 #include "selection.h"
 #include "expr.h"
-#include "value.h"
 #include "workbook-edit.h"
 #include "sheet-control-gui.h"
 #include "sheet-object.h"
@@ -198,6 +197,38 @@ graph_guru_init_button  (GraphGuruState *state, const char *widget_name)
 	return tmp;
 }
 
+static void
+cb_data_simple_page (GtkNotebook *notebook, GtkNotebookPage *page,
+		     gint page_num, gpointer user_data)
+{
+	puts ("data selector");
+}
+
+/**
+ * graph_guru_allocate_vectors :
+ *
+ * Guess at what to plot based on the current selection.
+ * Then initialize the data page of the guru
+ */
+static void
+graph_guru_allocate_vectors (GraphGuruState *state)
+{
+	GSList	*ptr;
+
+	gnm_graph_clear_vectors (state->graph);
+	for (ptr = state->ranges; ptr != NULL ; ptr = ptr->next)
+		gnm_graph_range_to_vectors (state->graph,
+			state->sheet, ptr->data, state->is_columns);
+	gnm_graph_arrange_vectors (state->graph);
+}
+
+static void
+cb_data_simple_col_row_toggle (GtkToggleButton *button, GraphGuruState *state)
+{
+	state->is_columns = gtk_toggle_button_get_active (button);
+	graph_guru_allocate_vectors (state);
+}
+
 static gboolean
 graph_guru_init (GraphGuruState *state)
 {
@@ -216,119 +247,11 @@ graph_guru_init (GraphGuruState *state)
 	state->button_next = graph_guru_init_button (state, "button_next");
 	state->button_finish = graph_guru_init_button (state, "button_finish");
 
-	/* Lifecyle management */
-	wbcg_edit_attach_guru (state->wbcg, state->dialog);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
-			    GTK_SIGNAL_FUNC (cb_graph_guru_destroy),
-			    state);
-	gtk_signal_connect (GTK_OBJECT (state->dialog), "key_press_event",
-			    GTK_SIGNAL_FUNC (cb_graph_guru_key_press),
-			    state);
-
-	control = gnm_graph_type_selector (state->graph);
-	gtk_notebook_prepend_page (state->steps, control, NULL);
-
-	gtk_widget_show (state->dialog);
-	gtk_widget_show (control);
-
-	/* Select first page */
-	state->current_page = -1;
-	graph_guru_set_page (state, 0);
-
-	return FALSE;
-}
-
-static void
-graph_guru_create_vectors_from_range (GraphGuruState *state, Range const *src)
-{
-	int i, count;
-	gboolean const has_header = range_has_header (state->sheet, src,
-						      state->is_columns);
-	Range vector = *src;
-	CellRef header;
-
-	header.sheet = state->sheet;
-	header.col_relative = header.row_relative = FALSE;
-	header.col = vector.start.col;
-	header.row = vector.start.row;
-
-	if (state->is_columns) {
-		if (has_header)
-			vector.start.row++;
-		count = vector.end.col - vector.start.col;
-		vector.end.col = vector.start.col;
-	} else {
-		if (has_header)
-			vector.start.col++;
-		count = vector.end.row - vector.start.row;
-		vector.end.row = vector.start.row;
-	}
-
-	for (i = 0 ; i <= count ; i++) {
-		(void) gnm_graph_add_vector (state->graph,
-			expr_tree_new_constant (
-				value_new_cellrange_r (state->sheet, &vector)),
-			GNM_VECTOR_AUTO, state->sheet);
-
-		if (has_header)
-			(void) gnm_graph_add_vector (state->graph,
-				expr_tree_new_var (&header),
-				GNM_VECTOR_STRING, state->sheet);
-
-		if (state->is_columns)
-			vector.end.col = vector.start.col = ++header.col;
-		else
-			vector.end.row = vector.start.row = ++header.row;
-	}
-}
-
-static void
-cb_data_simple_page (GtkNotebook *notebook, GtkNotebookPage *page,
-		     gint page_num, gpointer user_data)
-{
-	puts ("data selector");
-}
-
-static void
-cb_data_simple_col_row_toggle (GtkToggleButton *button, GraphGuruState *state)
-{
-	GSList	*ptr;
-
-	gnm_graph_clear_vectors (state->graph);
-	state->is_columns = gtk_toggle_button_get_active (button);
-	for (ptr = state->ranges; ptr != NULL ; ptr = ptr->next)
-		graph_guru_create_vectors_from_range (state, ptr->data);
-	gnm_graph_arrange_vectors (state->graph);
-}
-
-/**
- * graph_guru_init_vectors :
- *
- * Guess at what to plot based on the current selection.
- * Then initialize the data page of the guru
- */
-static gboolean
-graph_guru_init_vectors (GraphGuruState *state)
-{
-	GSList	*ptr;
-	Range const * r;
-	int num_rows, num_cols;
-
-	r = selection_first_range (state->sheet, NULL, NULL);
-	num_cols = range_width (r);
-	num_rows = range_height (r);
-
-	/* Excel docs claim that rows == cols uses rows */
-	state->is_columns = num_cols < num_rows;
-	state->ranges = selection_get_ranges (state->sheet, TRUE);
-	for (ptr = state->ranges; ptr != NULL ; ptr = ptr->next)
-		graph_guru_create_vectors_from_range (state, ptr->data);
-
 	/* simple selection */
+	/* NOTE : is_cols must have been initialized already */
 	state->data_is_cols_radio = glade_xml_get_widget (state->gui, "data_is_cols");
 	state->data_is_rows_radio = glade_xml_get_widget (state->gui, "data_is_rows");
 	state->data_range = glade_xml_get_widget (state->gui, "data_range");
-
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->data_is_cols_radio),
 				      state->is_columns);
 
@@ -352,6 +275,25 @@ graph_guru_init_vectors (GraphGuruState *state)
 			    "switch_page", GTK_SIGNAL_FUNC (cb_data_simple_page),
 			    state);
 
+	/* Lifecyle management */
+	wbcg_edit_attach_guru (state->wbcg, state->dialog);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (cb_graph_guru_destroy),
+			    state);
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "key_press_event",
+			    GTK_SIGNAL_FUNC (cb_graph_guru_key_press),
+			    state);
+
+	control = gnm_graph_type_selector (state->graph);
+	gtk_notebook_prepend_page (state->steps, control, NULL);
+
+	gtk_widget_show (state->dialog);
+	gtk_widget_show (control);
+
+	/* Select first page */
+	state->current_page = -1;
+	graph_guru_set_page (state, 0);
+
 	return FALSE;
 }
 
@@ -365,8 +307,15 @@ void
 dialog_graph_guru (WorkbookControlGUI *wbcg)
 {
 	GraphGuruState *state;
+	GnmGraph *graph;
+	Range const * r;
+	int num_rows, num_cols;
 
 	g_return_if_fail (wbcg != NULL);
+
+	state->graph = graph;
+	if (graph == NULL)
+		return;
 
 	state = g_new0(GraphGuruState, 1);
 	state->wbcg	= wbcg;
@@ -377,11 +326,18 @@ dialog_graph_guru (WorkbookControlGUI *wbcg)
 	state->ranges   = NULL;
 	state->gui	= NULL;
 	state->control  = CORBA_OBJECT_NIL;
-	state->graph    = gnm_graph_new (state->wb);
+	state->graph    = graph;
 
-	if (state->graph == NULL ||
-	    graph_guru_init (state) ||
-	    graph_guru_init_vectors (state)) {
+	r = selection_first_range (state->sheet, NULL, NULL);
+	num_cols = range_width (r);
+	num_rows = range_height (r);
+
+	/* Excel docs claim that rows == cols uses rows */
+	state->is_columns = num_cols < num_rows;
+	state->ranges = selection_get_ranges (state->sheet, TRUE);
+	graph_guru_allocate_vectors (state);
+
+	if (graph_guru_init (state)) {
 		graph_guru_state_destroy (state);
 		return;
 	}
