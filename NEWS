@@ -4,6 +4,9 @@ Jody:
 	* Support Mac Office style 1904 date convention.
 	* Fix recalc problem with MMULT.
 
+Jon Kåre:
+	* Finish UI for managing hyperlinks of various sorts.
+
 Morten:
 	* Fix MDETERM.
 	* Lower number of matrix LU-decomposition routines from three to
