@@ -6,11 +6,13 @@
 	<cmd name="FilePrintPreview"
 	    _label="Print Previe_w..."
 	    _tip="Print preview"
-	    pixtype="stock" pixname="gtk-print-preview"/>
+	    pixtype="stock" pixname="gtk-print-preview"
+	    accel="*Shift**Control*p"/>
 	<cmd name="FilePrint"
 	    _label="_Print..."
 	    _tip="Print the current file"
-	    pixtype="stock" pixname="gtk-print"/>
+	    pixtype="stock" pixname="gtk-print"
+	    accel="*Control*p"/>
 
 	<cmd name="FileSummary"
 	    _label="Proper_ties..."

@@ -18,7 +18,8 @@
 	<cmd name="FileSaveAs"
 	    _label="Save _As..."
 	    _tip="Save the current file with a different name"
-	    pixtype="stock" pixname="gtk-save-as"/>
+	    pixtype="stock" pixname="gtk-save-as"
+	    accel="*Shift**Control*s"/>
 
 	<cmd name="FilePageSetup"
 	    _label="Page Set_up..."
@@ -27,7 +28,7 @@
 	    _label="Print Pre_view..."
 	    _tip="Print preview"
 	    pixtype="stock" pixname="gtk-print-preview"
-	    accel="*Shift*Control*p"/>
+	    accel="*Shift**Control*p"/>
 	<cmd name="FilePrint"
 	    _label="_Print..."
 	    _tip="Print the current file"
