@@ -467,9 +467,9 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 	PrintMargins *margins = &pj->pi->margins;
 	/* print_height/width are sizes of the regular grid,
 	 * not including repeating rows and columns */
-	float print_height, print_width;
-	float repeat_cols_used_x = 0., repeat_rows_used_y = 0.;
-	float x, y, clip_y;
+	double print_height, print_width;
+	double repeat_cols_used_x = 0., repeat_rows_used_y = 0.;
+	double x, y, clip_y;
 	char *pagenotxt;
 	gboolean printed;
 	GList *l;
@@ -651,10 +651,10 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
  */
 static int
 compute_group (PrintJobInfo const *pj, Sheet const *sheet,
-	       int start, int end, float usable,
+	       int start, int end, double usable,
 	       ColRowInfo const *(get_info)(Sheet const *sheet, int const p))
 {
-	float size_pts = 1.; /* The initial grid line */
+	double size_pts = 1.; /* The initial grid line */
 	int idx, count = 0;
 
 	for (idx = start; idx <= end; idx++, count++) {
@@ -684,14 +684,21 @@ compute_group (PrintJobInfo const *pj, Sheet const *sheet,
  */
 static double
 compute_scale_fit_to (PrintJobInfo const *pj, Sheet const *sheet,
-              int start, int end, float usable,
-              ColRowInfo const *(get_info)(Sheet const *sheet, int const p),
-              gint pages)
+		      int start, int end, double usable,
+		      ColRowInfo const *(get_info)(Sheet const *sheet, int const p),
+		      gint pages)
 {
-       float size_pts = 1. * pages; /* The initial grid line on each page*/
+       double size_pts; /* The initial grid line on each page*/
        int idx;
-       gdouble scale;
-       float max_unit = 0;
+       double scale;
+       double max_unit = 0;
+
+       if (pages <= 0) {
+	       g_warning ("Asked to scale to 0 pages -- assuming 1.");
+	       pages = 1;
+       }
+
+       size_pts =  1. * pages;
 
        /* Work how much space the sheet requires. */
        for (idx = start; idx <= end; idx++) {
@@ -704,12 +711,12 @@ compute_scale_fit_to (PrintJobInfo const *pj, Sheet const *sheet,
                }
        }
 
-       usable = usable * (double) pages; /* Our usable area is this big. */
+       usable *= pages; /* Our usable area is this big. */
 
        /* What scale is required to fit the sheet onto this usable area? */
        /* Note that on each page but the last we may loose space that can */
        /* be nearly as large as the largest unit. */
-       scale = (double) (usable / (size_pts + (pages - 1) * max_unit) * 100.);
+       scale = usable / (size_pts + (pages - 1) * max_unit) * 100.;
 
        /* If the sheet needs to be shrunk, we update the scale.
         * If it already fits, we simply leave the scale at 100.
@@ -726,8 +733,8 @@ static int
 print_range_down_then_right (PrintJobInfo const *pj, Sheet const *sheet,
 			     GnmRange const *r, gboolean output)
 {
-	float usable_x, usable_x_initial, usable_x_repeating;
-	float usable_y, usable_y_initial, usable_y_repeating;
+	double usable_x, usable_x_initial, usable_x_repeating;
+	double usable_y, usable_y_initial, usable_y_repeating;
 	int pages = 0;
 	int col = r->start.col;
 	gboolean printed;
@@ -838,8 +845,8 @@ static int
 print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
 			     GnmRange const *r, gboolean output)
 {
-	float usable_x, usable_x_initial, usable_x_repeating;
-	float usable_y, usable_y_initial, usable_y_repeating;
+	double usable_x, usable_x_initial, usable_x_repeating;
+	double usable_y, usable_y_initial, usable_y_repeating;
 	int pages = 0;
 	int row = r->start.row;
 	gboolean printed;

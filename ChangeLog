@@ -1,3 +1,10 @@
+2004-02-11  Morten Welinder  <terra@gnome.org>
+
+	* src/print.c (compute_scale_fit_to): Guard against pages <= 0.
+	Use doubles, not floats.
+	(print_range_down_then_right, print_range_right_then_down,
+	compute_group): Use doubles, not floats.
+
 2004-02-09  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-object-toolbar.c: Properly include
