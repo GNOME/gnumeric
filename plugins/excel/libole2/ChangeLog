@@ -1,3 +1,12 @@
+2000-04-17  Arturo Tena  <arturo@directmail.org>
+
+	* ms-ole.c: include config.h.
+	  (extend_file, ms_ole_open_vfs, ms_ole_create_vfs, ms_ole_destroy):
+	  use HAVE_MMAP wisely, for systems without a working mmap call.
+	  Michael told this is needed for the AbiWord guys.
+
+	* Makefile.am: added -DHAVE_MMAP when compiling libole2 under gnumeric.
+
 2000-04-09  Morten Welinder  <terra@diku.dk>
 
 	* ms-ole.c: Include <string.h> for memset.

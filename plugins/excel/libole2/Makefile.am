@@ -21,7 +21,10 @@ INCLUDES = 						\
 	-DGNUMERIC_VERSION=\""$(VERSION)"\"		\
 	-I$(includedir)				 	\
 	-I$(top_srcdir)/src				\
-	$(GNOME_INCLUDEDIR)
+	$(GNOME_INCLUDEDIR)				\
+	-DHAVE_MMAP
+## XXX delete HAVE_MMAP when gnumeric's configure.in includes AC_HAVE_MMAP
+
 noinst_LIBRARIES = libole2.a
 libole2_a_SOURCES =		\
 	$(libole2_sources)

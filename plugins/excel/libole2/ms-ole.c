@@ -21,6 +21,7 @@
 #include <string.h>
 
 #include "ms-ole.h"
+#include "config.h"
 
 
 #ifndef MAP_FAILED
@@ -697,21 +698,8 @@ read_bb (MsOle *f)
 static void
 extend_file (MsOle *f, guint blocks)
 {
-	if (!f->ole_mmap) {
-		BBBlkAttr *s;
-		guint32 blkidx, i;
-		
-		if (f->bbattr->len) {
-			s = g_ptr_array_index (f->bbattr, f->bbattr->len-1);
-			blkidx = s->blk+1;
-		} else
-			blkidx = 0;
-		
-		for (i=0;i<blocks;i++) {
-			g_ptr_array_add (f->bbattr, bb_blk_attr_new (blkidx++));
-			f->length+= BB_BLOCK_SIZE;
-		}
-	} else {
+#ifdef HAVE_MMAP
+	if (f->ole_mmap) {
 		int file;
 		guint8 *newptr, zero = 0;
 		guint32 filesize;
@@ -773,9 +761,26 @@ extend_file (MsOle *f, guint blocks)
 			f->mem = 0;
 			g_warning ("panic: re-map failed!");
 		}
-#endif
+#endif /* OLE_DEBUG */
 		f->mem = newptr;
+	} else /* !f->ole_mmap */ {
+#endif /* HAVE_MMAP */
+		BBBlkAttr *s;
+		guint32 blkidx, i;
+		
+		if (f->bbattr->len) {
+			s = g_ptr_array_index (f->bbattr, f->bbattr->len-1);
+			blkidx = s->blk+1;
+		} else
+			blkidx = 0;
+		
+		for (i=0;i<blocks;i++) {
+			g_ptr_array_add (f->bbattr, bb_blk_attr_new (blkidx++));
+			f->length+= BB_BLOCK_SIZE;
+		}
+#ifdef HAVE_MMAP
 	}
+#endif /* HAVE_MMAP */
 }
 
 static BLP
@@ -1517,10 +1522,12 @@ ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
 	}
 
 	if (try_mmap) {
+#ifdef HAVE_MMAP
 		(*f)->ole_mmap = TRUE;
 		(*f)->mem = mmap (0, (*f)->length, prot, MAP_SHARED, file, 0);
 
 		if (!(*f)->mem || (caddr_t)(*f)->mem == (caddr_t)MAP_FAILED) {
+#endif
 			g_warning ("I can't mmap that file, falling back to slower method");
 			(*f)->ole_mmap = FALSE;
 			(*f)->mem = g_new (guint8, BB_BLOCK_SIZE);
@@ -1532,7 +1539,9 @@ ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
 				g_free (*f);
 				return MS_OLE_ERR_EXIST;
 			}
+#ifdef HAVE_MMAP
 		}
+#endif
 	} else /* !try_mmap */ {
 		g_warning ("I won't mmap that file, using a slower method");
 		(*f)->ole_mmap = FALSE;
@@ -1632,14 +1641,18 @@ ms_ole_create_vfs (MsOle **f, const char *name, gboolean try_mmap,
 			(*f)->length);
 
 	if (try_mmap) {
+#ifdef HAVE_MMAP
 		(*f)->ole_mmap = TRUE;
 		(*f)->mem = mmap (0, (*f)->length, PROT_READ|PROT_WRITE,
 				  MAP_SHARED, file, 0);
 		if (!(*f)->mem || (caddr_t)(*f)->mem == (caddr_t)MAP_FAILED) {
+#endif
 			g_warning ("I can't mmap that file, falling back to slower method");
 			(*f)->ole_mmap = FALSE;
 			(*f)->mem  = g_new (guint8, BB_BLOCK_SIZE);
+#ifdef HAVE_MMAP
 		}
+#endif
 	} else /* !try_mmap */ {
 		g_warning ("I won't mmap that file, using a slower method");
 		(*f)->ole_mmap = FALSE;
@@ -1734,7 +1747,11 @@ ms_ole_destroy (MsOle **ptr)
 		if (f->mem == (void *)0xdeadbeef)
 		    f->mem = NULL;
 		else if (f->ole_mmap) {
+#ifdef HAVE_MMAP
 			munmap (f->mem, f->length);
+#else
+			g_warning ("Unmapping while we dont have mmap call");
+#endif
 		} else {
 			guint32 i;
 			for (i = 0; (f->bbattr) && (i < f->bbattr->len); i++) {
