@@ -570,7 +570,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 						   x, y, -1, -1, -1);
 
 			/* Only draw spaning cells after all the backgrounds
-			 * that we are goign to draw have been drawn.  No need
+			 * that we are going to draw have been drawn.  No need
 			 * to draw the edit cell, or blanks.
 			 */
 			} else if (edit_cell != span->cell &&

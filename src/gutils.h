@@ -69,8 +69,6 @@ G_STMT_START { \
 #define GNM_SLIST_SORT(list,cmp_func) \
 	(list = g_slist_sort (list, cmp_func))
 
-#define GNM_SIZEOF_ARRAY(array) ((int) (sizeof (array) / sizeof ((array)[0])))
-
 guint     gnumeric_ascii_strcase_hash  (gconstpointer v);
 gint      gnumeric_ascii_strcase_equal (gconstpointer v, gconstpointer v2);
 gint      gnumeric_utf8_collate_casefold (const char *a, const char *b);

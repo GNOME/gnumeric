@@ -25,7 +25,7 @@
 static char const hashes[] =
 "################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################################";
 
-const gunichar zero_width_space = 0x200b;
+gunichar const zero_width_space = 0x200b;
 
 /*
  *             G      G
@@ -101,7 +101,7 @@ cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	    cell_is_number (cell) &&
 	    !rv->numeric_overflow &&
 	    !rv->display_formula) {
-		const char *text = pango_layout_get_text (layout);
+		char const *text = pango_layout_get_text (layout);
 		/* This assumes that hash marks are wider than
 		   the characters in the number.  Probably ok.  */
 		pango_layout_set_text (layout, hashes,
@@ -136,7 +136,7 @@ cell_draw (Cell const *cell, GdkGC *gc, GdkDrawable *drawable,
 				 * of copies needed.  Instead we toss in a zero-width-space.
 				 */
 				int copies = (width - indent) / rv->layout_natural_width;
-				const char *copy1 = pango_layout_get_text (layout);
+				char const *copy1 = pango_layout_get_text (layout);
 				size_t len1 = strlen (copy1);
 				GString *multi = g_string_sized_new ((len1 + 6) * copies);
 				int i;
