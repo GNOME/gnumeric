@@ -706,6 +706,7 @@ static char *help_dget = {
 	   "error. "
 	   "If more than one items match the conditions, DGET returns #NUM! "
 	   "error. "
+	   "\n"
 	   "@EXAMPLES=\n"
            "DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
            "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"

@@ -997,7 +997,7 @@ static char * help_networkdays = {
 	   "NETWORKDAYS returns the number of non-weekend non-holidays between "
 	   "@start_date and @end_date.  Holidays optionally supplied in @holidays."
 	   "\n"
-	   "Returns #NUM if start_date or end_date are invalid.\n"
+	   "Returns #NUM! if start_date or end_date are invalid.\n"
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"

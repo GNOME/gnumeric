@@ -1688,7 +1688,7 @@ static char *help_delta = {
 
 	   "@DESCRIPTION="
 	   "DELTA function tests for numerical equivalence of two "
-	   "arguments returning 1 in case of equality.  "
+	   "arguments, returning 1 in case of equality.  "
 	   "@y is optional, and defaults to 0."
 	   "\n"
 	   "If either argument is non-numeric returns a #VALUE! error.\n"
@@ -1743,7 +1743,7 @@ static char *help_gestep = {
 	   "@SYNTAX=GESTEP(x[,y])\n"
 	   "@DESCRIPTION="
 	   "GESTEP function test for if @x is >= @y, returning 1 if it "
-	   "is so, and 0 otherwise @y is optional, and defaults to 0."
+	   "is so, and 0 otherwise. @y is optional, and defaults to 0."
 	   "\n"
 	   "If either argument is non-numeric returns a #VALUE! error.\n"
 	   "This function is Excel compatible."
