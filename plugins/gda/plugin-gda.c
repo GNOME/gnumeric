@@ -17,6 +17,7 @@
  */
 
 
+#include <config.h>
 #include <gnome.h>
 #include <glib.h>
 

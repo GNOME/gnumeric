@@ -2,6 +2,7 @@
  * Plugin for Gnumeric for the Perl scripting language.
  */
 
+#include <config.h>
 #include <EXTERN.h>
 #include <perl.h>
 #undef _

@@ -6,6 +6,7 @@
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 
+#include <config.h>
 #include <glib.h>
 #include <stdlib.h>
 

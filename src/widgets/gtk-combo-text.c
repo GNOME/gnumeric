@@ -1,3 +1,4 @@
+#include <config.h>
 #include "gtk-combo-text.h"
 #include <gtk/gtksignal.h>
 #include <gtk/gtkentry.h>

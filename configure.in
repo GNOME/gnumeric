@@ -296,7 +296,7 @@ dnl GnomePrint checking
 dnl ******************************
 AC_MSG_CHECKING(for GnomePrint libraries >= 0.19)
 if gnome-config --libs print > /dev/null 2>&1; then 
-    vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" | \
+    vers=`gnome-config --modversion print | sed -e "s/gnome-print-//" -e 's/cvs$//' | \
         awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
     if test "$vers" -ge 19; then
         AC_MSG_RESULT(found)

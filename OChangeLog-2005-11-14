@@ -1,3 +1,8 @@
+2000-05-08  Morten Welinder  <terra@diku.dk>
+
+	* configure.in (gnome-print): Survive version "0.19cvs".
+	* *: include <config.h>
+
 2000-05-08  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Disable the perl plugin
