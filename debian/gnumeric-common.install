@@ -7,6 +7,5 @@
 /usr/share/gnumeric/*/idl/*.idl
 /usr/share/gnumeric/*/templates/*.gnumeric
 /usr/share/locale/*/LC_MESSAGES/gnumeric.mo
-/usr/share/mc/templates/gnumeric.desktop
 /usr/share/mime-info/gnumeric.*
 /usr/share/pixmaps/*
