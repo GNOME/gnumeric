@@ -36,7 +36,8 @@ usability. Hopefully we left the bugs behind :).
 %ifarch alpha
   MYARCH_FLAGS="--host=alpha-redhat-linux"
 %endif
-CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%prefix $MYARCH_FLAGS --sysconfdir=/etc
+# Configure only showing me failures.
+CFLAGS="$RPM_OPT_FLAGS" ./configure --quiet --prefix=%prefix $MYARCH_FLAGS --sysconfdir=/etc
 
 if [ "$SMP" != "" ]; then
 	make -j$SMP "MAKE=make -j$SMP"
@@ -45,13 +46,78 @@ else
 fi
 
 %install
+[ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
 
 make prefix=$RPM_BUILD_ROOT%{prefix} sysconfdir=$RPM_BUILD_ROOT/etc install
 
+
 %clean
-rm -rf $RPM_BUILD_ROOT
+[ -n "$RPM_BUILD_ROOT" -a "$RPM_BUILD_ROOT" != / ] && rm -rf $RPM_BUILD_ROOT
+
+%files
+%defattr (444, bin, bin, 555)
+%lang(cs)      /usr/share/locale/cs/LC_MESSAGES/gnumeric.mo
+%lang(da)      /usr/share/locale/da/LC_MESSAGES/gnumeric.mo
+%lang(de)      /usr/share/locale/de/LC_MESSAGES/gnumeric.mo
+%lang(en)      /usr/share/locale/en_GB/LC_MESSAGES/gnumeric.mo
+%lang(es)      /usr/share/locale/es/LC_MESSAGES/gnumeric.mo
+%lang(es)      /usr/share/locale/es_DO/LC_MESSAGES/gnumeric.mo
+%lang(es)      /usr/share/locale/es_GT/LC_MESSAGES/gnumeric.mo
+%lang(es)      /usr/share/locale/es_HN/LC_MESSAGES/gnumeric.mo
+%lang(es)      /usr/share/locale/es_MX/LC_MESSAGES/gnumeric.mo
+%lang(es)      /usr/share/locale/es_PA/LC_MESSAGES/gnumeric.mo
+%lang(es)      /usr/share/locale/es_PE/LC_MESSAGES/gnumeric.mo
+%lang(es)      /usr/share/locale/es_SV/LC_MESSAGES/gnumeric.mo
+%lang(et)      /usr/share/locale/et/LC_MESSAGES/gnumeric.mo
+%lang(fi)      /usr/share/locale/fi/LC_MESSAGES/gnumeric.mo
+%lang(fr)      /usr/share/locale/fr/LC_MESSAGES/gnumeric.mo
+%lang(hu)      /usr/share/locale/hu/LC_MESSAGES/gnumeric.mo
+%lang(hr)      /usr/share/locale/hr/LC_MESSAGES/gnumeric.mo
+%lang(it)      /usr/share/locale/it/LC_MESSAGES/gnumeric.mo
+%lang(ja)      /usr/share/locale/ja/LC_MESSAGES/gnumeric.mo
+%lang(ko)      /usr/share/locale/ko/LC_MESSAGES/gnumeric.mo
+%lang(nl)      /usr/share/locale/nl/LC_MESSAGES/gnumeric.mo
+%lang(no)      /usr/share/locale/no/LC_MESSAGES/gnumeric.mo
+%lang(pt)      /usr/share/locale/pt/LC_MESSAGES/gnumeric.mo
+%lang(pt)      /usr/share/locale/pt_BR/LC_MESSAGES/gnumeric.mo
+%lang(ru)      /usr/share/locale/ru/LC_MESSAGES/gnumeric.mo
+%lang(pl)      /usr/share/locale/pl/LC_MESSAGES/gnumeric.mo
+%lang(sk)      /usr/share/locale/sk/LC_MESSAGES/gnumeric.mo
+%lang(zh)      /usr/share/locale/zh_TW.Big5/LC_MESSAGES/gnumeric.mo
+%lang(sv)      /usr/share/locale/sv/LC_MESSAGES/gnumeric.mo
+
+%defattr (0555, bin, bin)
+%{prefix}/bin/gnumeric
+%{prefix}/lib/gnumeric/plugins/%{version}/*.so.0.0.0
+%{prefix}/lib/gnumeric/plugins/%{version}/*.so.0
+
+%{prefix}/share/gnumeric/python/*
+%{prefix}/share/gnumeric/glade/*.glade
+
+%defattr (0444, bin, man, 0555)
+%{prefix}/share/gnome/help/gnumeric/C/images/*
+%{prefix}/share/gnome/help/gnumeric/C/*.html
+%{prefix}/share/gnome/help/gnumeric/C/*.dat
+%{prefix}/share/gnome/help/gnumeric/C/docbook.css
+%config %{prefix}/share/gnome/apps/Applications/gnumeric.desktop
+%{prefix}/share/pixmaps/gnumeric/*
+%{prefix}/share/pixmaps/gnome-gnumeric.png
+%{prefix}/share/pixmaps/gnome-gnumeric-xl.png
+%{prefix}/share/mime-info/gnumeric.keys
+%{prefix}/share/mime-info/gnumeric.mime
+%{prefix}/share/mc/templates/gnumeric.desktop
+
+
+%defattr (0444, bin, bin, 555)
+# This should go in a devel package...
+%{prefix}/share/idl/*.idl
+%config %{sysconfdir}/CORBA/servers/gnumeric.gnorba
+%doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
 
 %changelog
+* Mon Jan 03 2000 Gregory McLean <gregm@comstar.net>
+- Updated to 0.47
+
 * Mon Dec 20 1999 Jody Goldberg <jgolbderg@home.com>
 - Updated the libglade dependancy.
 - Remove req for guile.  We can build without it.
@@ -70,20 +136,3 @@ rm -rf $RPM_BUILD_ROOT
 * Thu Sep 24 1998 Michael Fulbright <msf@redhat.com>
 - Version 0.2
 
-%files
-%defattr(-, root, root)
-
-%doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
-
-%{prefix}/bin/*
-%{prefix}/lib/gnumeric/plugins/*
-%{prefix}/share/locale/*/*
-%{prefix}/share/gnome/apps/Applications/gnumeric.desktop
-%{prefix}/share/gnome/help/gnumeric
-%{prefix}/share/idl/Gnumeric.idl
-%{prefix}/share/mc/templates/*
-%{prefix}/share/mime-info/*
-%{prefix}/share/pixmaps/*
-%{prefix}/share/gnumeric/*
-
-%config /etc/CORBA/servers/*

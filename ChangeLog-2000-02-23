@@ -1,3 +1,8 @@
+2000-01-03  Gregory McLean <gregm@gnu.org>
+
+	* gnumeric.spec.in: Synced with my spec tree. This is in sync with
+	0.47 and includes all the bits.
+
 2000-01-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_new) : paste_special is only disabled for
