@@ -71,21 +71,21 @@ create_option_list (const char *const *list)
 }
 
 typedef enum {
-	MATCH_DAY_FULL = 1,
-	MATCH_DAY_NUMBER,
-	MATCH_MONTH_FULL,
-	MATCH_MONTH_SHORT,
-	MATCH_MONTH_NUMBER,
-	MATCH_YEAR_FULL,
-	MATCH_YEAR_SHORT,
-	MATCH_HOUR,
-	MATCH_MINUTE,
-	MATCH_SECOND,
-	MATCH_AMPM,
-	MATCH_STRING_CONSTANT,
-	MATCH_NUMBER,
-	MATCH_NUMBER_DECIMALS,
-	MATCH_PERCENT,
+	MATCH_DAY_FULL 		= 1,
+	MATCH_DAY_NUMBER	= 2,
+	MATCH_MONTH_FULL	= 3,
+	MATCH_MONTH_SHORT	= 4,
+	MATCH_MONTH_NUMBER	= 5,
+	MATCH_YEAR_FULL		= 6,
+	MATCH_YEAR_SHORT	= 7,
+	MATCH_HOUR		= 8,
+	MATCH_MINUTE		= 9,
+	MATCH_SECOND		= 10,
+	MATCH_AMPM		= 11,
+	MATCH_NUMBER		= 12,
+	MATCH_NUMBER_DECIMALS	= 13,
+	MATCH_PERCENT		= 14,
+	MATCH_STRING_CONSTANT	= 15,
 } MatchType;
 
 #define append_type(t) do { guint8 x = t; match_types = g_byte_array_append (match_types, &x, 1); } while (0)
@@ -792,7 +792,7 @@ compute_value (const char *s, const regmatch_t *mp,
 			break;
 
 		case MATCH_AMPM:
-			if (g_strcasecmp (str, "pm") == 0)
+			if (tolower ((unsigned char) *str) == 'p')
 				is_pm = TRUE;
 			idx++;
 			break;

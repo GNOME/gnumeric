@@ -32,6 +32,8 @@ struct _ColRowCollection
 
 #define COL_INTERNAL_WIDTH(col) ((col)->size_pixels - ((col)->margin_b + (col)->margin_a + 1))
 
+gboolean col_row_equal   (ColRowInfo const *a, ColRowInfo const *b);
+void     col_row_copy (ColRowInfo *dst, ColRowInfo const *src);
 gboolean col_row_foreach (ColRowCollection const *infos,
 			  int first, int last,
 			  col_row_callback callback,
@@ -49,7 +51,8 @@ void		 col_row_restore_sizes	      (Sheet *sheet, gboolean const is_cols,
 					       int first, int last, double *);
 void		 col_row_restore_sizes_group  (Sheet *sheet, gboolean const is_cols,
 					       ColRowIndexList *selection,
-					       ColRowSizeList *saved_sizes);
+					       ColRowSizeList *saved_sizes,
+					       int old_size);
 
 void		 rows_height_update	      (Sheet *sheet, Range const *range);
 

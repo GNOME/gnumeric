@@ -12,9 +12,13 @@ Jody:
 	* Improve support for named expressions.
 	* Name and Graph gurus support range selection.
 	* Improve internation keyboard support.
-	* Fix XIRR and friends.
+	* Fix XIRR and friends so that they support blanks.
 	* A few more bugs in printing multiline text.
 	* Correct handling of number formating in intl locales.
+	* Lots of formating bugs.
+	* Handle strings used as arguments to numeric operators.
+	* Begin support for non-cell dependencies.
+	* Improve performance and decrease memory for large row/col resizes.
 
 John Gill:
 	* Double click fill support.

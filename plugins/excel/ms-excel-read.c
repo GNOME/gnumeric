@@ -3417,7 +3417,7 @@ ms_excel_read_default_row_height (BiffQuery *q, ExcelSheet *sheet)
 	}
 #endif
 	height_units = get_row_height_units (height);
-	sheet_row_set_default_size_pts (sheet->gnum_sheet, height_units, FALSE, FALSE);
+	sheet_row_set_default_size_pts (sheet->gnum_sheet, height_units);
 }
 
 /**

@@ -4,8 +4,6 @@ and longer term bugs.
 
 Release Critical
 ----------------
-- Changing the size of all rows/cols creates big xml files, and slows
-  calculations to a crawl
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE in expressions.
 - The translate/untranslate routines for formats need to be written
@@ -30,6 +28,8 @@ Post 0.57 Changes
 
 Long term breakage
 ------------------
+- formats with AM/PM need to be internationalized.
+- We need to generate the date formats depending on locale.
 
 - Changing an expression name that is in use does not recalc, or regen depends
   correctly.

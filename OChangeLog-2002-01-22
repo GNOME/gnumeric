@@ -1,3 +1,32 @@
+2000-08-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/colrow.c (col_row_get_index_list) : Be more enthusiastic about
+	  merging and ordering.
+	(col_row_equal) : new function.
+	(col_row_copy) : new function.
+	(col_row_size_list_destroy) : Typo.
+	(col_row_restore_sizes_group) : Handle restoring default size.
+	(col_row_set_sizes) : In special case of resizing all be smart.
+	  This needs improving.
+
+2000-08-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/number-match.c (compute_value) : AM/PM regexp matchs against the
+	  'a' or 'p' not 'pm'
+
+	* src/sheet.c (sheet_{col,row}_set_size_{pts,pixels}) : Set hard size
+	  even if the size does not change.
+
+	* src/xml-io.c (xml_read_cols_info) : Restore the default col size,
+	  and rationalize the variable names.
+	(xml_read_rows_info) : Restore the default col size,
+	(xml_sheet_write) : Save the default row/col size in pts.
+	  Flush the run length encoding of the row/col sizes.
+	(xml_write_colrow_info) : Use run length encoding to decrease the size
+	  of the generated xml.
+
+	* src/colrow.c (col_row_equal) : new function.
+
 2000-08-31  Morten Welinder  <terra@diku.dk>
 
 	* src/goal-seek.c (goal_seek_trawl_normally): Respect xmin and

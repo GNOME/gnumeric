@@ -142,7 +142,7 @@ sheet_init_default_styles (Sheet *sheet)
 {
 	/* measurements are in pts including the margins and far grid line.  */
 	sheet_col_set_default_size_pts (sheet, 48);
-	sheet_row_set_default_size_pts (sheet, 12.75, FALSE, FALSE);
+	sheet_row_set_default_size_pts (sheet, 12.75);
 }
 
 /*
@@ -3370,7 +3370,7 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
  */
 void
 sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
-			 gboolean set_by_user)
+			gboolean set_by_user)
 {
 	ColRowInfo *ci;
 
@@ -3379,10 +3379,10 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 	g_return_if_fail (width_pts > 0.0);
 
 	ci = sheet_col_fetch (sheet, col);
+	ci->hard_size |= set_by_user;
 	if (ci->size_pts == width_pts)
 		return;
 
-	ci->hard_size |= set_by_user;
 	ci->size_pts = width_pts;
 	colrow_compute_pixels_from_pts (sheet, ci, TRUE);
 
@@ -3403,10 +3403,10 @@ sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 	g_return_if_fail (width_pixels > 0.0);
 
 	ci = sheet_col_fetch (sheet, col);
+	ci->hard_size |= set_by_user;
 	if (ci->size_pixels == width_pixels)
 		return;
 
-	ci->hard_size |= set_by_user;
 	ci->size_pixels = width_pixels;
 	colrow_compute_pts_from_pixels (sheet, ci, TRUE);
 
@@ -3433,15 +3433,32 @@ sheet_col_get_default_size_pts (Sheet const *sheet)
 	return  ci->size_pts;
 }
 
+int
+sheet_col_get_default_size_pixels (Sheet const *sheet)
+{
+	ColRowInfo const *ci;
+
+	g_assert (sheet != NULL);
+
+	ci = &sheet->cols.default_style;
+	return  ci->size_pixels;
+}
+
 void
 sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 {
 	sheet_col_row_default_init (sheet, width_pts, 2, 2, TRUE, TRUE);
+	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->recompute_spans = TRUE;
+	sheet->priv->reposition_col_comment = 0;
 }
 void
 sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
 {
 	sheet_col_row_default_init (sheet, width_pixels, 2, 2, TRUE, FALSE);
+	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->recompute_spans = TRUE;
+	sheet->priv->reposition_col_comment = 0;
 }
 
 /**************************************************************************/
@@ -3573,10 +3590,10 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
 	g_return_if_fail (height_pts > 0.0);
 
 	ri = sheet_row_fetch (sheet, row);
+	ri->hard_size |= set_by_user;
 	if (ri->size_pts == height_pts)
 		return;
 
-	ri->hard_size |= set_by_user;
 	ri->size_pts = height_pts;
 	colrow_compute_pixels_from_pts (sheet, ri, FALSE);
 
@@ -3611,10 +3628,10 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
 	g_return_if_fail (height_pixels > 0);
 
 	ri = sheet_row_fetch (sheet, row);
+	ri->hard_size |= set_by_user;
 	if (ri->size_pixels == height_pixels)
 		return;
 
-	ri->hard_size |= set_by_user;
 	ri->size_pixels = height_pixels;
 	colrow_compute_pts_from_pixels (sheet, ri, FALSE);
 
@@ -3640,26 +3657,33 @@ sheet_row_get_default_size_pts (Sheet const *sheet)
 	return  ci->size_pts;
 }
 
-void
-sheet_row_set_default_size_pts (Sheet *sheet, double height_pts,
-				gboolean thick_a, gboolean thick_b)
+int
+sheet_row_get_default_size_pixels (Sheet const *sheet)
 {
-	/* There are an addition few pixels above due the the fonts ascent */
-	/* Why XL chooses to be asymetric I don't know */
-	int const a = thick_a ? 2 : 1;
-	int const b = thick_b ? 1 : 0;
-	sheet_col_row_default_init (sheet, height_pts, a, b, FALSE, TRUE);
+	ColRowInfo const *ci;
+
+	g_assert (sheet != NULL);
+
+	ci = &sheet->rows.default_style;
+	return  ci->size_pixels;
+}
+
+void
+sheet_row_set_default_size_pts (Sheet *sheet, double height_pts)
+{
+	sheet_col_row_default_init (sheet, height_pts, 1, 0, FALSE, TRUE);
+	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->reposition_row_comment = 0;
 }
 void
-sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels,
-				   gboolean thick_a, gboolean thick_b)
+sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 {
-	/* There are an addition few pixels above due the the fonts ascent */
-	/* Why XL chooses to be asymetric I don't know */
-	int const a = thick_a ? 2 : 1;
-	int const b = thick_b ? 1 : 0;
-	sheet_col_row_default_init (sheet, height_pixels, a, b, FALSE, FALSE);
+	sheet_col_row_default_init (sheet, height_pixels, 1, 0, FALSE, FALSE);
+	sheet->priv->recompute_visibility = TRUE;
+	sheet->priv->reposition_row_comment = 0;
 }
+
+/****************************************************************************/
 
 void
 sheet_create_edit_cursor (Sheet *sheet)

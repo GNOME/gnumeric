@@ -1649,6 +1649,9 @@ typedef struct
 	gboolean is_column;
 	xmlNodePtr container;
 	XmlParseContext *ctxt;
+
+	ColRowInfo *previous;
+	int rle_count;
 } closure_write_colrow;
 
 static gboolean
@@ -1656,66 +1659,37 @@ xml_write_colrow_info (ColRowInfo *info, void *user_data)
 {
 	closure_write_colrow * closure = user_data;
 	xmlNodePtr cur;
+	ColRowInfo const *prev = closure->previous;
 
-	if (closure->is_column)
-		cur = xmlNewDocNode (closure->ctxt->doc,
-				     closure->ctxt->ns, "ColInfo", NULL);
-	else
-		cur = xmlNewDocNode (closure->ctxt->doc,
-				     closure->ctxt->ns, "RowInfo", NULL);
+	closure->rle_count++;
+	if (col_row_equal (prev, info))
+		return FALSE;
 
-	if (cur != NULL) {
-		xml_set_value_int (cur, "No", info->pos);
-		xml_set_value_double (cur, "Unit", info->size_pts);
-		xml_set_value_int (cur, "MarginA", info->margin_a);
-		xml_set_value_int (cur, "MarginB", info->margin_b);
-		xml_set_value_int (cur, "HardSize", info->hard_size);
-		xml_set_value_int (cur, "Hidden", !info->visible);
-
-		xmlAddChild (closure->container, cur);
-	}
-	return FALSE;
-}
-
-/*
- * Create a ColRowInfo equivalent to the XML subtree of doc.
- */
-static ColRowInfo *
-xml_read_colrow_info (XmlParseContext *ctxt, xmlNodePtr tree, ColRowInfo *ret, double *size_pts)
-{
-	int col = 0;
-	int val;
-
-	if (!strcmp (tree->name, "ColInfo")){
-		col = 1;
-	} else if (!strcmp (tree->name, "RowInfo")){
-		col = 0;
-	} else {
-		fprintf (stderr,
-			 "xml_read_colrow_info: invalid element type %s, 'ColInfo/RowInfo' expected`\n",
-			 tree->name);
-		return NULL;
-	}
-	if (ret == NULL){
-		if (col)
-			ret = sheet_col_new (ctxt->sheet);
+	if (prev != NULL) {
+		if (closure->is_column)
+			cur = xmlNewDocNode (closure->ctxt->doc,
+					     closure->ctxt->ns, "ColInfo", NULL);
 		else
-			ret = sheet_row_new (ctxt->sheet);
+			cur = xmlNewDocNode (closure->ctxt->doc,
+					     closure->ctxt->ns, "RowInfo", NULL);
+
+		if (cur != NULL) {
+			xml_set_value_int (cur, "No", prev->pos);
+			xml_set_value_double (cur, "Unit", prev->size_pts);
+			xml_set_value_int (cur, "MarginA", prev->margin_a);
+			xml_set_value_int (cur, "MarginB", prev->margin_b);
+			xml_set_value_int (cur, "HardSize", prev->hard_size);
+			xml_set_value_int (cur, "Hidden", !prev->visible);
+
+			if (closure->rle_count > 1)
+				xml_set_value_int (cur, "Count", closure->rle_count);
+			xmlAddChild (closure->container, cur);
+		}
 	}
-	if (ret == NULL)
-		return NULL;
+	closure->rle_count = 0;
+	closure->previous = info;
 
-	ret->size_pts = -1;
-	xml_get_value_int (tree, "No", &ret->pos);
-	xml_get_value_double (tree, "Unit", size_pts);
-	xml_get_value_int (tree, "MarginA", &ret->margin_a);
-	xml_get_value_int (tree, "MarginB", &ret->margin_b);
-	if (xml_get_value_int (tree, "HardSize", &val))
-		ret->hard_size = val;
-	if (xml_get_value_int (tree, "Hidden", &val) && val)
-		ret->visible = FALSE;
-
-	return ret;
+	return FALSE;
 }
 
 /*
@@ -2444,6 +2418,28 @@ xml_write_solver (XmlParseContext *ctxt, SolverParameters *param)
 	return cur;
 }
 
+/* 
+ *
+ */
+
+static int
+natural_order_cmp( const void *a, const void *b ) 
+{
+	const Cell *ca = *(void**)a ; 
+	const Cell *cb = *(void**)b ; 
+	return ( ca->row_info->pos != cb->row_info->pos )
+		? ca->row_info->pos - cb->row_info->pos 
+		: ca->col_info->pos - cb->col_info->pos ; 
+}
+
+static void
+copy_hash_table_to_ptr_array( gpointer key,gpointer value, gpointer user_data) 
+{
+	g_ptr_array_add(user_data,value) ; 
+}
+
+
+
 /*
  * Create an XML subtree of doc equivalent to the given Sheet.
  */
@@ -2513,28 +2509,34 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 	 * Cols informations.
 	 */
 	cols = xmlNewChild (cur, ctxt->ns, "Cols", NULL);
+	xml_set_value_double (cols, "DefaultSizePts", sheet_col_get_default_size_pts (sheet));
 	{
 		closure_write_colrow closure;
 		closure.is_column = TRUE;
 		closure.container = cols;
 		closure.ctxt = ctxt;
+		closure.previous = NULL;
 		col_row_foreach (&sheet->cols,
 				 0, SHEET_MAX_COLS-1,
 				 &xml_write_colrow_info, &closure);
+		xml_write_colrow_info (NULL, &closure); /* flush */
 	}
 
 	/*
 	 * Rows informations.
 	 */
 	rows = xmlNewChild (cur, ctxt->ns, "Rows", NULL);
+	xml_set_value_double (rows, "DefaultSizePts", sheet_row_get_default_size_pts (sheet));
 	{
 		closure_write_colrow closure;
 		closure.is_column = FALSE;
 		closure.container = rows;
 		closure.ctxt = ctxt;
+		closure.previous = NULL;
 		col_row_foreach (&sheet->rows,
 				 0, SHEET_MAX_ROWS-1,
 				 &xml_write_colrow_info, &closure);
+		xml_write_colrow_info (NULL, &closure); /* flush */
 	}
 
 	/* Save the current selection */
@@ -2565,7 +2567,22 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 	 */
 	cells = xmlNewChild (cur, ctxt->ns, "Cells", NULL);
 	ctxt->parent = cells;
-	g_hash_table_foreach (sheet->cell_hash, xml_write_cell_to, ctxt);
+	/* g_hash_table_foreach (sheet->cell_hash, xml_write_cell_to, ctxt); */
+	/* save cells in natural order */
+	{
+		gint i ,n ; 
+		n = g_hash_table_size(sheet->cell_hash) ; 
+		if ( n > 0 ) 
+		{
+			GPtrArray *natural = g_ptr_array_new() ; 
+			g_hash_table_foreach(sheet->cell_hash,copy_hash_table_to_ptr_array,natural) ; 
+			qsort( &g_ptr_array_index(natural,0),n,sizeof(gpointer),natural_order_cmp) ; 
+			for ( i = 0 ; i < n ; i++ ) 
+				xml_write_cell_to(NULL,g_ptr_array_index(natural,i),ctxt) ; 
+			g_ptr_array_free(natural,TRUE) ;
+		}
+	}
+
 
 	/*
 	 * Solver informations
@@ -2687,45 +2704,84 @@ xml_read_styles_ex (XmlParseContext *ctxt, xmlNodePtr tree, CellRegion *cr)
 	}
 }
 
+/*
+ * Create a ColRowInfo equivalent to the XML subtree of doc.
+ */
+static int
+xml_read_colrow_info (XmlParseContext *ctxt, xmlNodePtr tree,
+		      ColRowInfo *info, double *size_pts)
+{
+	int val, count;
+
+	info->size_pts = -1;
+	xml_get_value_int (tree, "No", &info->pos);
+	xml_get_value_double (tree, "Unit", size_pts);
+	xml_get_value_int (tree, "MarginA", &info->margin_a);
+	xml_get_value_int (tree, "MarginB", &info->margin_b);
+	if (xml_get_value_int (tree, "HardSize", &val))
+		info->hard_size = val;
+	if (xml_get_value_int (tree, "Hidden", &val) && val)
+		info->visible = FALSE;
+	if (xml_get_value_int (tree, "Count", &count))
+		return count;
+	return 1;
+}
+
 static void
 xml_read_cols_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 {
-	xmlNodePtr child, cols;
-	ColRowInfo *info;
+	xmlNodePtr cols, col;
+	double tmp;
 
-	child = xml_search_child (tree, "Cols");
-	if (child == NULL)
+	cols = xml_search_child (tree, "Cols");
+	if (cols == NULL)
 		return;
 
-	for (cols = child->childs; cols; cols = cols->next){
-		double size_pts;
+	if (xml_get_value_double (cols, "DefaultSizePts", &tmp))
+		sheet_col_set_default_size_pts (sheet, tmp);
 
-		info = xml_read_colrow_info (ctxt, cols, NULL, &size_pts);
-		if (!info)
-			continue;
+	for (col = cols->childs; col; col = col->next) {
+		double size_pts;
+		ColRowInfo *info;
+		int count, pos;
+
+		info = sheet_col_new (sheet);
+		count = xml_read_colrow_info (ctxt, col, info, &size_pts);
 		sheet_col_add (sheet, info);
 		sheet_col_set_size_pts (ctxt->sheet, info->pos, size_pts, info->hard_size);
+
+		/* resize flags are already set only need to copy the sizes */
+		for (pos = info->pos ; --count > 0 ; )
+			col_row_copy (sheet_col_fetch (ctxt->sheet, ++pos), info);
 	}
 }
 
 static void
 xml_read_rows_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 {
-	xmlNodePtr child, rows;
-	ColRowInfo *info;
+	xmlNodePtr rows, row;
+	double tmp;
 
-	child = xml_search_child (tree, "Rows");
-	if (child == NULL)
+	rows = xml_search_child (tree, "Rows");
+	if (rows == NULL)
 		return;
 
-	for (rows = child->childs; rows; rows = rows->next){
-		double size_pts;
+	if (xml_get_value_double (rows, "DefaultSizePts", &tmp))
+		sheet_row_set_default_size_pts (sheet, tmp);
 
-		info = xml_read_colrow_info (ctxt, rows, NULL, &size_pts);
-		if (!info)
-			continue;
+	for (row = rows->childs; row; row = row->next){
+		double size_pts;
+		ColRowInfo *info;
+		int count, pos;
+
+		info = sheet_row_new (sheet);
+		count = xml_read_colrow_info (ctxt, row, info, &size_pts);
 		sheet_row_add (sheet, info);
 		sheet_row_set_size_pts (ctxt->sheet, info->pos, size_pts, info->hard_size);
+
+		/* resize flags are already set only need to copy the sizes */
+		for (pos = info->pos ; --count > 0 ; )
+			col_row_copy (sheet_row_fetch (ctxt->sheet, ++pos), info);
 	}
 }
 

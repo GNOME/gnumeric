@@ -776,8 +776,7 @@ applix_read_view (ApplixReadState *state, char *name)
 
 			/* height + one for the grid line */
 			sheet_row_set_default_size_pixels (sheet,
-							   applix_height_to_pixels (height),
-							   FALSE, FALSE);
+							   applix_height_to_pixels (height));
 		} else if (!strncmp (buffer, "View Row Heights: ", 18)) {
 			char *ptr = buffer + 17;
 			do {

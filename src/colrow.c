@@ -14,6 +14,38 @@
 #include "sheet-private.h"
 
 /**
+ * col_row_equal :
+ * @a : ColRowInfo #1
+ * @b : ColRowInfo #2
+ *
+ * Returns true if the infos are equivalent.
+ */
+gboolean
+col_row_equal (ColRowInfo const *a, ColRowInfo const *b)
+{
+	if (a == NULL || b == NULL)
+		return FALSE;
+
+	return
+	    a->size_pts  == b->size_pts &&
+	    a->margin_a  == b->margin_a &&
+	    a->margin_b  == b->margin_b &&
+	    a->hard_size == b->hard_size &&
+	    a->visible   == b->visible;
+}
+
+void
+col_row_copy (ColRowInfo *dst, ColRowInfo const *src)
+{
+	dst->margin_a    = src->margin_a;
+	dst->margin_b    = src->margin_b;
+	dst->size_pts    = src->size_pts;
+	dst->size_pixels = src->size_pixels;
+	dst->hard_size   = src->hard_size;
+	dst->visible     = src->visible;
+}
+
+/**
  * col_row_foreach:
  * @sheet	the sheet
  * @infos	The Row or Column collection.
@@ -63,9 +95,9 @@ typedef struct _ColRowIndex
 } ColRowIndex;
 
 ColRowSizeList *
-col_row_size_list_destroy (ColRowIndexList *list)
+col_row_size_list_destroy (ColRowSizeList *list)
 {
-	ColRowIndexList *ptr;
+	ColRowSizeList *ptr;
 	for (ptr = list; ptr != NULL ; ptr = ptr->next)
 		g_free (ptr->data);
 	g_slist_free (list);
@@ -77,28 +109,49 @@ col_row_index_list_destroy (ColRowIndexList *list)
 	ColRowIndexList *ptr;
 	for (ptr = list; ptr != NULL ; ptr = ptr->next)
 		g_free (ptr->data);
-	g_slist_free (list);
+	g_list_free (list);
 	return NULL;
 }
 
+static gint
+colrow_index_compare (ColRowIndex const * a, ColRowIndex const * b)
+{
+	return a->first - b->first;
+}
+
+/**
+ * col_row_get_index_list :
+ *
+ * Build an ordered list of pairs doing intelligent merging
+ * of overlapping regions.
+ */
 ColRowIndexList *
 col_row_get_index_list (int first, int last, ColRowIndexList *list)
 {
-	ColRowIndex *tmp;
-	if (list != NULL) {
-		tmp = list->data;
-
-		if (tmp->last == (first-1)) {
-			tmp->last = last;
-			return list;
-		}
-	}
+	ColRowIndex *tmp, *prev;
+	GList *ptr;
 
 	tmp = g_new (ColRowIndex, 1);
 	tmp->first = first;
 	tmp->last = last;
 
-	return g_slist_prepend (list, tmp);
+	list = g_list_insert_sorted (list, tmp,
+				     (GCompareFunc)&colrow_index_compare);
+
+	prev = list->data;
+	for (ptr = list->next ; ptr != NULL ; ptr = ptr->next, prev = tmp) {
+		tmp = ptr->data;
+
+		/* at the end of existing segment or contained */
+		if (prev->last+1 >= tmp->first) {
+			GList *next = ptr->next;
+			if (tmp->last > prev->last)
+				tmp->last = last;
+			list = g_list_remove_link (list, ptr);
+			ptr = next;
+		}
+	}
+	return list;
 }
 
 double *
@@ -129,6 +182,24 @@ col_row_save_sizes (Sheet *sheet, gboolean const is_cols, int first, int last)
 	return res;
 }
 
+struct resize_closure
+{
+	Sheet *sheet;
+	int new_size;
+	gboolean is_cols;
+};
+
+static gboolean
+cb_set_colrow_size (ColRowInfo *info, void *userdata)
+{
+	struct resize_closure const *c = userdata;
+	if (c->is_cols)
+		sheet_col_set_size_pixels (c->sheet, info->pos, c->new_size, TRUE);
+	else
+		sheet_row_set_size_pixels (c->sheet, info->pos, c->new_size, TRUE);
+	return FALSE;
+}
+
 ColRowSizeList *
 col_row_set_sizes (Sheet *sheet, gboolean const is_cols,
 		   ColRowIndexList *src, int new_size)
@@ -141,6 +212,37 @@ col_row_set_sizes (Sheet *sheet, gboolean const is_cols,
 		ColRowIndex *index = ptr->data;
 		res = g_slist_prepend (res,
 			col_row_save_sizes (sheet, is_cols, index->first, index->last));
+
+		/* FIXME :
+		 * If we are changing the size of more than half of the rows/col to
+		 * something specific (not autosize) we should change the default
+		 * row/col size instead.  However, it is unclear how to handle
+		 * hard sizing.
+		 *
+		 * we need better management of rows/cols.  Currently if they are all
+		 * defined calculation speed grinds to a halt.
+		 */
+		if (new_size >= 0 && index->first == 0 &&
+		    index->last == ((is_cols ?SHEET_MAX_COLS:SHEET_MAX_ROWS)-1)) {
+			struct resize_closure closure;
+			double *def = g_new(double, 1);
+
+			res = g_slist_prepend (res, def);
+
+			if (is_cols) {
+				*def = sheet_col_get_default_size_pts (sheet);
+				sheet_col_set_default_size_pixels (sheet, new_size);
+			} else {
+				*def = sheet_row_get_default_size_pts (sheet);
+				sheet_row_set_default_size_pixels (sheet, new_size);
+			}
+			closure.sheet = sheet;
+			closure.new_size = new_size;
+			closure.is_cols = is_cols;
+			col_row_foreach (&sheet->cols, 0, SHEET_MAX_COLS,
+					 &cb_set_colrow_size, &closure);
+			return res;
+		}
 
 		for (i = index->first ; i <= index->last ; ++i) {
 			int tmp = new_size;
@@ -222,24 +324,38 @@ col_row_restore_sizes (Sheet *sheet, gboolean const is_cols,
 void
 col_row_restore_sizes_group (Sheet *sheet, gboolean const is_cols,
 			     ColRowIndexList *selection,
-			     ColRowSizeList *saved_sizes)
+			     ColRowSizeList *saved_sizes,
+			     int old_size)
 {
 	ColRowSizeList *ptr = saved_sizes;
 	while (selection != NULL && ptr != NULL) {
 		ColRowIndex *index = selection->data;
+
+		if (old_size >= 0 && index->first == 0 &&
+		    index->last == ((is_cols ?SHEET_MAX_COLS:SHEET_MAX_ROWS)-1)) {
+			double *old_def = ptr->data;
+
+			if (is_cols)
+				sheet_col_set_default_size_pts (sheet, *old_def);
+			else
+				sheet_row_set_default_size_pts (sheet, *old_def);
+
+			ptr = ptr->next;
+			g_free (old_def);
+		}
 
 		col_row_restore_sizes (sheet, is_cols,
 				       index->first, index->last,
 				       ptr->data);
 
 		selection = selection->next;
-		ptr = saved_sizes->next;
+		ptr = ptr->next;
 	}
 	g_slist_free (saved_sizes);
 }
 
 static gboolean
-cb_set_row_height (ColRowInfo *info, void *sheet)
+cb_autofit_height (ColRowInfo *info, void *sheet)
 {
 	/* If the size was not set by the user then auto resize */
 	if (!info->hard_size) {
@@ -265,7 +381,7 @@ rows_height_update (Sheet *sheet, Range const * range)
 	 * just contents.  Empty cells will cause resize also
 	 */
 	col_row_foreach (&sheet->rows, range->start.row, range->end.row,
-			 &cb_set_row_height, sheet);
+			 &cb_autofit_height, sheet);
 }
 /*****************************************************************************/
 
