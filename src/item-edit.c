@@ -115,8 +115,6 @@ item_edit_translate (GnomeCanvasItem *item, double dx, double dy)
 static int
 item_edit_event (GnomeCanvasItem *item, GdkEvent *event)
 {
-	printf ("Editor event!\n");
-	
 	return 0;
 }
 
