@@ -1009,19 +1009,16 @@ gnumeric_sheet_compute_visible_ranges (GnumericSheet *gsheet,
 	/* When col/row sizes change we need to do a full recompute */
 	if (full_recompute) {
 		GnomeCanvas *canvas;
-		int tmp;
 
 		gsheet->col_offset.first =
 		    sheet_col_get_distance_pixels (sheet, 0, gsheet->col.first);
 		canvas = GNOME_CANVAS_ITEM (gsheet->colbar)->canvas;
-		gnome_canvas_get_scroll_offsets (canvas, &tmp, NULL);
-		gnome_canvas_scroll_to (canvas, tmp, gsheet->col_offset.first);
+		gnome_canvas_scroll_to (canvas, gsheet->col_offset.first, 0);
 
 		gsheet->row_offset.first =
 		    sheet_row_get_distance_pixels (sheet, 0, gsheet->row.first);
 		canvas = GNOME_CANVAS_ITEM (gsheet->rowbar)->canvas;
-		gnome_canvas_get_scroll_offsets (canvas, &tmp, NULL);
-		gnome_canvas_scroll_to (canvas, tmp, gsheet->row_offset.first);
+		gnome_canvas_scroll_to (canvas, 0, gsheet->row_offset.first);
 
 		gnome_canvas_scroll_to (GNOME_CANVAS (gsheet),
 					gsheet->col_offset.first,
@@ -1132,7 +1129,7 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_first_row)
 	g_return_if_fail (0 <= new_first_row && new_first_row < SHEET_MAX_ROWS);
 
 	if (gsheet->row.first != new_first_row) {
-		int tmp;
+		int x;
 		GnomeCanvas * const canvas =
 		    GNOME_CANVAS(gsheet);
 		int const distance =
@@ -1141,8 +1138,8 @@ gnumeric_sheet_set_top_row (GnumericSheet *gsheet, int new_first_row)
 		gnumeric_sheet_compute_visible_ranges (gsheet, FALSE);
 
 		/* Scroll the cell canvas */
-		gnome_canvas_get_scroll_offsets (canvas, &tmp, NULL);
-		gnome_canvas_scroll_to (canvas, tmp, distance);
+		gnome_canvas_get_scroll_offsets (canvas, &x, NULL);
+		gnome_canvas_scroll_to (canvas, x, distance);
 	}
 }
 
@@ -1179,7 +1176,7 @@ gnumeric_sheet_set_left_col (GnumericSheet *gsheet, int new_first_col)
 	g_return_if_fail (0 <= new_first_col && new_first_col < SHEET_MAX_COLS);
 
 	if (gsheet->col.first != new_first_col) {
-		int tmp;
+		int y;
 		GnomeCanvas * const canvas =
 		    GNOME_CANVAS(gsheet);
 		int const distance =
@@ -1188,8 +1185,8 @@ gnumeric_sheet_set_left_col (GnumericSheet *gsheet, int new_first_col)
 		gnumeric_sheet_compute_visible_ranges (gsheet, FALSE);
 
 		/* Scroll the cell canvas */
-		gnome_canvas_get_scroll_offsets (canvas, NULL, &tmp);
-		gnome_canvas_scroll_to (canvas, distance, tmp);
+		gnome_canvas_get_scroll_offsets (canvas, NULL, &y);
+		gnome_canvas_scroll_to (canvas, distance, y);
 	}
 }
 

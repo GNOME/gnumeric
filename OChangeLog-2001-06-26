@@ -1,5 +1,9 @@
 2000-06-08  Jody Goldberg <jgoldberg@home.com>
 
+	* src/gnumeric-sheet.c (gnumeric_sheet_compute_visible_ranges) :
+	  ok now I understand what those calls to
+	  gnome_canvas_get_scroll_offsets where supposed to do.
+
 	* src/colrow.c (col_row_restore_sizes) : Arrgghh.  Stupid typo.
 	(col_row_restore_sizes_group) : Patch leak.
 
