@@ -292,61 +292,12 @@ gnumeric_main (void *closure, int argc, char *argv [])
 	gnome_config_drop_all ();
 }
 
-#ifdef HAVE_GUILE
-#include <libguile.h>
+	
 
-gboolean
-has_gnumeric_been_compiled_with_guile_support (void)
-{
-	return TRUE;
-}
-
-int
-main (int argc, char *argv [])
-{
-#if 0
-	int fd;
-
-	/* FIXME:
-	 *
-	 * We segfault inside scm_boot_guile if any of stdin, stdout or stderr
-	 * is missing. Up to gnome-libs 1.0.56, libgnorba closes stdin, so the
-	 * segfault *will* happen when gnumeric is activated that way. This fix
-	 * will make sure fd 0, 1 and 2 are valid. Enable when we know where
-	 * guile init ends up. */
-
-	fd = open("/dev/null", O_RDONLY);
-	if (fd == 0)
-		fdopen (fd, "r");
-	else
-		close (fd);
-	if (fd <= 2) {
-		for (;;) {
-			fd = open("/dev/null", O_WRONLY);
-			if (fd <= 2)
-				fdopen (fd, "w");
-			else {
-				close (fd);
-				break;
-			}
-		}
-	}
-#endif
-
-	scm_boot_guile (argc, argv, gnumeric_main, 0);
-	return 0;
-}
-#else
-gboolean
-has_gnumeric_been_compiled_with_guile_support (void)
-{
-	return FALSE;
-}
-
+	
 int
 main (int argc, char *argv [])
 {
 	gnumeric_main (0, argc, argv);
 	return 0;
 }
-#endif

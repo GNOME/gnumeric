@@ -52,6 +52,17 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
  */
 static EvalPos const *eval_pos = NULL;
 
+gboolean
+has_gnumeric_been_compiled_with_guile_support (void)
+{
+#ifdef HAVE_GUILE
+ 	return TRUE;
+#else
+        return FALSE;
+#endif
+	
+}
+
 static Value*
 func_scm_apply (FunctionEvalInfo *ei, GList *expr_node_list)
 {
@@ -209,6 +220,8 @@ plugin_init_general (ErrorInfo **ret_error)
 		return;
 	}
 
+	 scm_init_guile ();
+	
 	/* Initialize just in case. */
 	eval_pos = NULL;
 

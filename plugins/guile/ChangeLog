@@ -1,3 +1,11 @@
+2001-08-14  Ariel Rios  <ariel@linuxppc.org>
+
+	* plugin.c (plugin_init_general): We now initialize guile
+	here.
+	(has_gnumeric_been_compiled_with_guile_support): Probably,
+	we don't need this function anymore. Anyway, it was moved
+	from src/main.c
+
 2001-08-11  Ariel Rios  <ariel@linuxppc.org>
 
 	* plugin.c (func_scm_apply): Use scm_c_eval_string instead of 

@@ -1,3 +1,9 @@
+2001-08-14  Ariel Rios  <ariel@linuxppc.org>
+
+	* src/main.c (main): Remove guile stuff. We no longer need
+	to take over main and all guile init functions are now handle 
+	by the guile plugin itself.
+
 2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet-object-graphic.c (sheet_object_filled_user_config): Set
