@@ -1,5 +1,11 @@
 2001-11-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-control-gui.c (wbcg_rangesel_possible) : Doh!
+	  Use the logical entry when testing so that gurus work even if the
+	  current cell does not contain a valid range.
+
+2001-11-15  Jody Goldberg <jgoldberg@home.com>
+
 	* src/item-bar.c (is_pointer_on_division) : simplify.  No resize if
 	  there is a guru, or we are editing.
 	(ib_set_cursor) : no need to be fancy, is_pointer_on_division

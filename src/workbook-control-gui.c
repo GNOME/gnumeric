@@ -216,7 +216,7 @@ wbcg_rangesel_possible (WorkbookControlGUI const *wbcg)
 	if (!wbcg_is_editing (wbcg) && !wbcg_edit_entry_redirect_p (wbcg))
 		return FALSE;
 
-	return gnumeric_expr_entry_rangesel_meaningful (wbcg_get_entry (wbcg));
+	return gnumeric_expr_entry_rangesel_meaningful (wbcg_get_entry_logical (wbcg));
 }
 
 gboolean
