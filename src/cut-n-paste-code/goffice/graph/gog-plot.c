@@ -297,6 +297,7 @@ gog_plot_request_cardinality_update (GogPlot *plot)
 	if (plot->cardinality_valid) {
 		GogChart *chart = gog_plot_get_chart (plot);
 		plot->cardinality_valid = FALSE;
+		gog_object_request_update (GOG_OBJECT (plot));
 		if (chart != NULL)
 			gog_chart_request_cardinality_update (chart);
 	}

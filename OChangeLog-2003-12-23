@@ -1,3 +1,16 @@
+2003-06-10  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-image.c (sheet_object_image_print) : fix.
+
+	* src/sheet-object-graph.c (sheet_object_graph_update_bounds) :
+	  Handle inversion.
+	(sheet_object_graph_print) : implement.
+
+	* src/format-template.c (format_template_transform_edges) : minor
+	  pedantic reordering.
+
+	* src/print.c (print_sheet_objects) : handle inverted objects.
+
 2003-06-10  Morten Welinder  <terra@gnome.org>
 
 	* src/workbook-edit.c (wbcg_edit_start): Make sure we only mark

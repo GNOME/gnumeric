@@ -60,6 +60,8 @@ libgoffice_graph_a_SOURCES = \
 	gog-renderer-pixbuf.h		\
 	gog-control-foocanvas.c		\
 	gog-control-foocanvas.h		\
+	gog-renderer-gnome-print.c	\
+	gog-renderer-gnome-print.h	\
 	\
 	art_rgba_svp.h			\
 	art_rgba_svp.c

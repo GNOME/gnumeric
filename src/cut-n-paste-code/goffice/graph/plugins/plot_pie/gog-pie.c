@@ -361,6 +361,7 @@ enum {
 	SERIES_PROP_SEPARATION,
 };
 
+static GogObjectClass *series_parent_klass;
 static void
 gog_pie_series_set_property (GObject *obj, guint param_id,
 			     GValue const *value, GParamSpec *pspec)
@@ -404,13 +405,16 @@ static void
 gog_pie_series_update (GogObject *obj)
 {
 	double *vals, total;
-	int len;
+	int len = 0;
 	GogPieSeries *series = GOG_PIE_SERIES (obj);
 	unsigned old_num = series->num_elements;
 
-	vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-	series->num_elements = len = go_data_vector_get_len (
-		GO_DATA_VECTOR (series->base.values[1].data));
+	if (series->base.values[1].data != NULL) {
+		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
+		len = go_data_vector_get_len (
+			GO_DATA_VECTOR (series->base.values[1].data));
+	}
+	series->num_elements = len;
 
 	for (total = 0. ; len-- > 0 ;)
 		if (finite (vals[len]))
@@ -421,6 +425,9 @@ gog_pie_series_update (GogObject *obj)
 	gog_object_request_update (GOG_OBJECT (series->base.plot));
 	if (old_num != series->num_elements)
 		gog_plot_request_cardinality_update (series->base.plot);
+
+	if (series_parent_klass->update)
+		series_parent_klass->update (obj);
 }
 
 static void
@@ -428,6 +435,7 @@ gog_pie_series_class_init (GObjectClass *gobject_klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *)gobject_klass;
 
+	series_parent_klass = g_type_class_peek_parent (gobject_klass);
 	gog_klass->update = gog_pie_series_update;
 
 	gobject_klass->set_property = gog_pie_series_set_property;

@@ -97,10 +97,10 @@ Pending Patches
 ->	    1.16.1.1) Use ArtRender interface
 	1.16.2) Gradient fills (basic)				(DONE)
 	    1.16.2.1) use bbox.x2-bbox.x1 + 1 for size		(DONE)
-	1.16.3) Image fills
+	1.16.3) Image fills					(DONE)
 	1.16.4) path						(DONE)
 ->	    1.16.4.1) Use ArtRender interface
-	1.16.5) text
+	1.16.5) text						(DONE)
 	1.16.6) markers
     1.17) Connect the user_config handler for SheetObjectGraph	(DONE)
           to test the guru on existing graphs
@@ -140,9 +140,17 @@ Pending Patches
 	1.24.1) Have the legend use pts to size swatches	(DONE)
 	1.24.2) Test renderers mapping between pts & pixels	(DONE)
     1.25) Printing
+	1.25.1) gog-renderer-gnomeprint				(DONE)
+	1.25.2) sheet object wrapper for printing		(DONE)
+	1.25.3) paths						(DONE)
+	1.25.4) solid and empty polygons			(DONE)
+	1.25.5) image filled polygons
+	1.25.6) gradient filled polygons
+	1.25.7) measure text
+	1.25.8) draw text
     1.26) Move 'use_one_style' from pie -> plot with 1 series
-    1.27) Add a flag to gobject to go with its role indicating whether the
-    	  instance was autocreated or assigned.
+    1.27) Add a flag to gobject to go with its role indicating	(DONE)
+	whether the instance was autocreated or assigned.
 
     questions
 	- xml persistence : sax or dom ?

@@ -33,8 +33,6 @@
 GType gog_renderer_get_type            (void); 
 
 void  gog_renderer_request_update (GogRenderer *r);
-void  gog_renderer_begin_drawing  (GogRenderer *r);
-void  gog_renderer_end_drawing    (GogRenderer *r);
 
 void  gog_renderer_push_style     (GogRenderer *r, GogStyle *style);
 void  gog_renderer_pop_style      (GogRenderer *r);

@@ -47,9 +47,7 @@ struct _GogRendererPixbuf {
 	PangoContext *pango_context;
 };
 
-typedef struct {
-	GogRendererClass base;
-} GogRendererPixbufClass;
+typedef GogRendererClass GogRendererPixbufClass;
 
 static GObjectClass *parent_klass;
 
@@ -65,20 +63,6 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		(parent_klass->finalize) (obj);
-}
-
-static void
-gog_renderer_pixbuf_begin_drawing (GogRenderer *renderer)
-{
-	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (renderer);
-
-	if (prend->buffer == NULL) {
-		prend->buffer = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
-						prend->w, prend->h);
-		prend->pixels    = gdk_pixbuf_get_pixels (prend->buffer);
-		prend->rowstride = gdk_pixbuf_get_rowstride (prend->buffer);
-	}
-	gdk_pixbuf_fill (prend->buffer, 0);
 }
 
 static void
@@ -349,7 +333,6 @@ gog_renderer_pixbuf_class_init (GogRendererClass *rend_klass)
 
 	parent_klass = g_type_class_peek_parent (rend_klass);
 	gobject_klass->finalize	  = gog_renderer_pixbuf_finalize;
-	rend_klass->begin_drawing = gog_renderer_pixbuf_begin_drawing;
 	rend_klass->draw_path	  = gog_renderer_pixbuf_draw_path;
 	rend_klass->draw_polygon  = gog_renderer_pixbuf_draw_polygon;
 	rend_klass->draw_text	  = gog_renderer_pixbuf_draw_text;
@@ -488,9 +471,15 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 	g_warning ("rend_pixbuf:update = %d", redraw);
 
 	if (redraw) {
-		gog_renderer_begin_drawing (&prend->base);
+		if (prend->buffer == NULL) {
+			prend->buffer = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
+							prend->w, prend->h);
+			prend->pixels    = gdk_pixbuf_get_pixels (prend->buffer);
+			prend->rowstride = gdk_pixbuf_get_rowstride (prend->buffer);
+		}
+		gdk_pixbuf_fill (prend->buffer, 0);
+
 		gog_view_render	(view, NULL);
-		gog_renderer_end_drawing  (&prend->base);
 	}
 
 	return redraw;

@@ -494,9 +494,12 @@ gog_object_set_parent (GogObject *child, GogObject *parent,
 		g_free (child->name);
 	child->name = (name != NULL) ? name : gog_object_generate_name (child);
 
+	if (role->post_add != NULL)
+		(role->post_add) (parent, child);
+	(*klass->parent_changed) (child, TRUE);
+
 	g_signal_emit (G_OBJECT (parent),
 		gog_object_signals [CHILD_ADDED], 0, child);
-	(*klass->parent_changed) (child, TRUE);
 
 	return TRUE;
 }
@@ -505,6 +508,7 @@ GogObject *
 gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject *child)
 {
 	GType is_a;
+	gboolean const explicitly_typed_role = (child != NULL);
 
 	g_return_val_if_fail (role != NULL, NULL);
 	g_return_val_if_fail (GOG_OBJECT (parent) != NULL, NULL);
@@ -519,11 +523,9 @@ gog_object_add_by_role (GogObject *parent, GogObjectRole const *role, GogObject 
 			: g_object_new (is_a, NULL);
 
 	g_return_val_if_fail (G_TYPE_CHECK_INSTANCE_TYPE (child, is_a), NULL);
-	if (gog_object_set_parent (child, parent, role, NULL)) {
-		if (role->post_add != NULL)
-			(role->post_add) (parent, child);
+	child->explicitly_typed_role = explicitly_typed_role;
+	if (gog_object_set_parent (child, parent, role, NULL))
 		return child;
-	}
 	g_object_unref (child);
 	return NULL;
 }

@@ -35,6 +35,7 @@
 
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-data-allocator.h>
+#include <goffice/graph/gog-renderer-gnome-print.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/gog-control-foocanvas.h>
 #include <graph.h>
@@ -159,9 +160,10 @@ sheet_object_graph_update_bounds (SheetObject *so, GObject *view_obj)
 
 	scg_object_view_position (scg, so, coords);
 	foo_canvas_item_set (view,
-		"x", coords [0], "y", coords [1],
-		"w", coords [2] - coords [0] + 1.,
-		"h", coords [3] - coords [1] + 1.,
+		"x", MIN (coords [0], coords[2]),
+		"y", MIN (coords [3], coords[1]),
+		"w", fabs (coords [2] - coords [0]) + 1.,
+		"h", fabs (coords [3] - coords [1]) + 1.,
 		NULL);
 
 	if (so->is_visible)
@@ -202,16 +204,12 @@ static void
 sheet_object_graph_print (SheetObject const *so, GnomePrintContext *ctx,
 			  double base_x, double base_y)
 {
-#if 0
 	SheetObjectGraph *sog = SHEET_OBJECT_GRAPH (so);
 	double coords [4];
 
 	sheet_object_position_pts_get (so, coords);
-
-	gnome_print_gsave (ctx);
-
-	gnome_print_grestore (ctx);
-#endif
+	gog_graph_print_to_gnome_print (sog->graph, ctx,
+		base_x, base_y, coords);
 }
 
 static void

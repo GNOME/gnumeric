@@ -47,9 +47,6 @@ typedef struct {
 	GObjectClass base;
 
 	/* Virtuals */
-	void (*begin_drawing)  (GogRenderer *renderer);
-	void (*end_drawing)    (GogRenderer *renderer);
-
 	void (*push_style)     (GogRenderer *renderer, GogStyle *style);
 	void (*pop_style)      (GogRenderer *renderer);
 

@@ -35,10 +35,7 @@ struct _GogView {
 	GogView	    *parent;	/* potentially NULL */
 	GSList	    *children;
 
-	/* in renderer units */
-	GogViewRequisition requisition;
-	GogViewAllocation  allocation;
-
+	GogViewAllocation  allocation;	/* in renderer units */
 	unsigned allocation_valid : 1;  /* adjust our layout when child changes size */
 	unsigned child_allocations_valid : 1;  /* some children need to adjust their layout */
 	unsigned being_updated : 1;

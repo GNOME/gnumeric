@@ -182,6 +182,7 @@ gog_view_finalize (GObject *obj)
 static void
 gog_view_size_request_real (GogView *view, GogViewRequisition *req)
 {
+	req->w = req->h = 1.;
 }
 
 static void
@@ -308,13 +309,7 @@ gog_view_size_request (GogView *view, GogViewRequisition *requisition)
 
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (requisition != NULL);
-
-	if (klass->size_request != NULL) {
-		(klass->size_request) (view, requisition);
-		view->requisition = *requisition;
-	}
-
-	*requisition = view->requisition;
+	(klass->size_request) (view, requisition);
 }
 
 /**

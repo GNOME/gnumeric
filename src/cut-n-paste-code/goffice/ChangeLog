@@ -1,3 +1,14 @@
+2003-06-10  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_pie/gog-pie.c (gog_pie_series_update) :
+	  handle series before they are valid.
+	* graph/plugins/plot_barcol/gog-barcol.c (gog_barcol_series_update) : ditto.
+
+	* graph/gog-object.c (gog_object_set_parent) : call the role's
+	  post_add routine then objects parent_changed before signaling its
+	  addition.
+	(gog_object_add_by_role) : set_parent calls the role functions, not us.
+
 2003-06-07    Jean Brefort <jean.brefort@ac-dijon.fr>
 
 	* graph/gog-style.c (gog_style_editor) :

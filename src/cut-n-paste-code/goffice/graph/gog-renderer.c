@@ -153,24 +153,6 @@ gog_renderer_invalidate_size_requests (GogRenderer *rend)
 }
 
 void
-gog_renderer_begin_drawing (GogRenderer *rend)
-{
-	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
-	g_return_if_fail (klass != NULL);
-	if (klass->begin_drawing != NULL)
-		(klass->begin_drawing) (rend);
-}
-
-void
-gog_renderer_end_drawing (GogRenderer *rend)
-{
-	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);
-	g_return_if_fail (klass != NULL);
-	if (klass->end_drawing != NULL)
-		(klass->end_drawing) (rend);
-}
-
-void
 gog_renderer_push_style (GogRenderer *rend, GogStyle *style)
 {
 	GogRendererClass *klass = GOG_RENDERER_GET_CLASS (rend);

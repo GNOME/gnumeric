@@ -243,6 +243,7 @@ gnumeric_phi (FunctionEvalInfo *ei, Value **args)
 /* ------------------------------------------------------------------------- */
 
 static char const *help_nt_mu = {
+	/* xgettext: you can translate the funny character as an 'o' if unicode is not available. */
 	N_("@FUNCTION=NT_MU\n"
 	   "@SYNTAX=NT_MU(n)\n"
 	   "@DESCRIPTION="

@@ -794,4 +794,3 @@ Configuration:
 	GDA support:		${gda_msg}
 "
 	#Evolution Support:      ${evolution}
-	#Graph Support:          ${graph_msg}

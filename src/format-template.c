@@ -860,14 +860,13 @@ static FormatTemplate *
 format_template_transform_edges (FormatTemplate const *origft)
 {
 	FormatTemplate *ft;
-	GSList *iterator;
+	GSList *ptr0, *ptr1;
 
 	g_return_val_if_fail (origft != NULL, NULL);
 
 	ft = format_template_clone (origft);
-	iterator = ft->members;
-	while (iterator) {
-		TemplateMember *member = iterator->data;
+	for (ptr0 = ft->members; ptr0 != NULL ; ptr0 = ptr0->next) {
+		TemplateMember *member = ptr0->data;
 
 		gboolean left   = FALSE;
 		gboolean right  = FALSE;
@@ -890,10 +889,9 @@ format_template_transform_edges (FormatTemplate const *origft)
 		}
 
 		if (left || right || top || bottom) {
-			GSList *subiterator = ft->members;
 
-			while (subiterator) {
-				TemplateMember *submember = subiterator->data;
+			for (ptr1 = ft->members; ptr1 != NULL ; ptr1 = ptr1->next) {
+				TemplateMember *submember = ptr1->data;
 
 				if (left
 				    && submember->col.offset_gravity == member->col.offset_gravity) {
@@ -928,15 +926,11 @@ format_template_transform_edges (FormatTemplate const *origft)
 					else if (submember->direction != FREQ_DIRECTION_NONE)
 						submember->edge = 0;
 				}
-
-				subiterator = g_slist_next (subiterator);
 			}
 
-			ft->members = g_slist_remove (ft->members, iterator->data);
-			format_template_member_free (iterator->data);
+			format_template_member_free (ptr0->data);
+			ft->members = g_slist_remove (ft->members, ptr0->data);
 		}
-
-		iterator = g_slist_next (iterator);
 	}
 	return ft;
 }

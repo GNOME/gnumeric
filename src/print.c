@@ -162,12 +162,10 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 		sheet_object_position_pts_get (so, coords);
 		switch (pj->pi->scaling.type) {
 		case PERCENTAGE:
-			obj_base_x = base_x + coords [0]
-				- sheet_col_get_distance_pts (sheet, 0,
-							      range->start.col);
-			obj_base_y = base_y - coords [3]
-				+ sheet_row_get_distance_pts (sheet, 0,
-							      range->start.row);
+			obj_base_x = base_x + (MIN (coords [0], coords [2])
+				- sheet_col_get_distance_pts (sheet, 0, range->start.col));
+			obj_base_y = base_y - (MIN (coords [3], coords [1])
+				- sheet_row_get_distance_pts (sheet, 0, range->start.row));
 			break;
 		case SIZE_FIT:
 			g_warning ("SIZE_FIT not implemented for "

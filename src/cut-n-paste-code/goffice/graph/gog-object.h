@@ -58,8 +58,9 @@ struct _GogObject {
 	GogObjectPosition  position;
 	GogViewAllocation *manual_position;
 
-	unsigned  needs_update : 1;
-	unsigned  being_updated : 1;
+	unsigned needs_update : 1;
+	unsigned being_updated : 1;
+	unsigned explicitly_typed_role : 1; /* did we create it automatictly */
 };
 
 typedef struct {

@@ -460,13 +460,16 @@ static void
 gog_barcol_series_update (GogObject *obj)
 {
 	double *vals;
-	int len;
+	int len = 0;
 	GogBarColSeries *series = GOG_BARCOL_SERIES (obj);
 	unsigned old_num = series->num_elements;
 
-	vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
-	series->num_elements = len = go_data_vector_get_len (
-		GO_DATA_VECTOR (series->base.values[1].data));
+	if (series->base.values[1].data != NULL) {
+		vals = go_data_vector_get_values (GO_DATA_VECTOR (series->base.values[1].data));
+		len = go_data_vector_get_len (
+			GO_DATA_VECTOR (series->base.values[1].data));
+	}
+	series->num_elements = len;
 
 	/* queue plot for redraw */
 	gog_object_request_update (GOG_OBJECT (series->base.plot));

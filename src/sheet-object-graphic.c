@@ -371,8 +371,7 @@ sheet_object_graphic_print (SheetObject const *so, GnomePrintContext *ctx,
 	gnome_print_grestore (ctx);
 }
 
-typedef struct
-{
+typedef struct {
 	GladeXML           *gui;
 	GtkWidget          *dialog;
 	GtkWidget *canvas;

@@ -319,8 +319,7 @@ sheet_object_image_print (SheetObject const *so, GnomePrintContext *ctx,
 		sheet_object_position_pts_get (so, coords);
 		gnome_print_gsave (ctx);
 		gnome_print_translate (ctx,
-			base_x + MIN (coords[2], coords[0]),
-			base_y + MIN (coords[3], coords[1]));
+			base_x, base_y - fabs (coords[3] - coords[1]));
 		gnome_print_scale (ctx,
 			fabs (coords[2] - coords[0]),
 			fabs (coords[3] - coords[1]));
