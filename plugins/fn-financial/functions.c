@@ -2344,49 +2344,49 @@ one_euro (const char *str)
 	switch (*str) {
 	case 'A':
 	        if (strncmp ("ATS", str, 3) == 0)
-		        return GNUM_const (13.7603);
+		        return GNM_const (13.7603);
 		break;
 	case 'B':
 	        if (strncmp ("BEF", str, 3) == 0)
-		        return GNUM_const (40.3399);
+		        return GNM_const (40.3399);
 		break;
 	case 'D':
 	        if (strncmp ("DEM", str, 3) == 0)
-		        return GNUM_const (1.95583);
+		        return GNM_const (1.95583);
 		break;
 	case 'E':
 	        if (strncmp ("ESP", str, 3) == 0)
-		        return GNUM_const (166.386);
+		        return GNM_const (166.386);
 	        else if (strncmp ("EUR", str, 3) == 0)
-		        return GNUM_const (1.0);
+		        return GNM_const (1.0);
 		break;
 	case 'F':
 	        if (strncmp ("FIM", str, 3) == 0)
-		        return GNUM_const (5.94573);
+		        return GNM_const (5.94573);
 		else if (strncmp ("FRF", str, 3) == 0)
-		        return GNUM_const (6.55957);
+		        return GNM_const (6.55957);
 		break;
 	case 'I':
 	        if (strncmp ("IEP", str, 3) == 0)
-		        return GNUM_const (0.787564);
+		        return GNM_const (0.787564);
 		else if (strncmp ("ITL", str, 3) == 0)
-		        return GNUM_const (1936.27);
+		        return GNM_const (1936.27);
 		break;
 	case 'G':
 	        if (strncmp ("GRD", str, 3) == 0)
-		        return GNUM_const (340.75);
+		        return GNM_const (340.75);
 		break;
 	case 'L':
 	        if (strncmp ("LUX", str, 3) == 0)
-		        return GNUM_const (40.3399);
+		        return GNM_const (40.3399);
 		break;
 	case 'N':
 	        if (strncmp ("NLG", str, 3) == 0)
-		        return GNUM_const (2.20371);
+		        return GNM_const (2.20371);
 		break;
 	case 'P':
 	        if (strncmp ("PTE", str, 3) == 0)
-		        return GNUM_const (200.482);
+		        return GNM_const (200.482);
 		break;
 	default:
 	        break;

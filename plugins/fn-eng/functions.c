@@ -744,11 +744,11 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 
 	/* Distance constants */
 	#define one_m_to_mi     (one_m_to_yd / 1760)
-	#define one_m_to_Nmi    (1 / GNUM_const (1852.0))
-	#define one_m_to_in     (10000 / GNUM_const (254.0))
+	#define one_m_to_Nmi    (1 / GNM_const (1852.0))
+	#define one_m_to_in     (10000 / GNM_const (254.0))
 	#define one_m_to_ft     (one_m_to_in / 12)
 	#define one_m_to_yd     (one_m_to_ft / 3)
-	#define one_m_to_ang    GNUM_const (1e10)
+	#define one_m_to_ang    GNM_const (1e10)
 	#define one_m_to_Pica   2834.645669
 
 	/* Time constants */
@@ -773,8 +773,8 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	#define one_J_to_c      0.239006249
 	#define one_J_to_cal    0.238846191
 	#define one_J_to_eV     6.2146e+18
-	#define one_J_to_HPh    (GNUM_const (1.0) / (3600 * one_HP_to_W))
-	#define one_J_to_Wh     (GNUM_const (1.0) / 3600)
+	#define one_J_to_HPh    (GNM_const (1.0) / (3600 * one_HP_to_W))
+	#define one_J_to_Wh     (GNM_const (1.0) / 3600)
 	#define one_J_to_flb    23.73042222
 	#define one_J_to_BTU    0.000947815
 
@@ -782,38 +782,38 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	#define one_T_to_ga     10000
 
 	/* Temperature constants */
-	const gnm_float C_K_offset = GNUM_const (273.15);
+	const gnm_float C_K_offset = GNM_const (273.15);
 
 	/* Liquid measure constants */
-	#define one_tsp_to_tbs  (GNUM_const (1.0) / 3)
-	#define one_tsp_to_oz   (GNUM_const (1.0) / 6)
-	#define one_tsp_to_cup  (GNUM_const (1.0) / 48)
-	#define one_tsp_to_pt   (GNUM_const (1.0) / 96)
-	#define one_tsp_to_qt   (GNUM_const (1.0) / 192)
-	#define one_tsp_to_gal  (GNUM_const (1.0) / 768)
+	#define one_tsp_to_tbs  (GNM_const (1.0) / 3)
+	#define one_tsp_to_oz   (GNM_const (1.0) / 6)
+	#define one_tsp_to_cup  (GNM_const (1.0) / 48)
+	#define one_tsp_to_pt   (GNM_const (1.0) / 96)
+	#define one_tsp_to_qt   (GNM_const (1.0) / 192)
+	#define one_tsp_to_gal  (GNM_const (1.0) / 768)
 	#define one_tsp_to_l    0.004929994
 
 	/* Prefixes */
-	#define yotta  GNUM_const (1e+24)
-	#define zetta  GNUM_const (1e+21)
-	#define exa    GNUM_const (1e+18)
-	#define peta   GNUM_const (1e+15)
-	#define tera   GNUM_const (1e+12)
-	#define giga   GNUM_const (1e+09)
-	#define mega   GNUM_const (1e+06)
-	#define kilo   GNUM_const (1e+03)
-	#define hecto  GNUM_const (1e+02)
-	#define deka   GNUM_const (1e+01)
-	#define deci   GNUM_const (1e-01)
-	#define centi  GNUM_const (1e-02)
-	#define milli  GNUM_const (1e-03)
-	#define micro  GNUM_const (1e-06)
-	#define nano   GNUM_const (1e-09)
-	#define pico   GNUM_const (1e-12)
-	#define femto  GNUM_const (1e-15)
-	#define atto   GNUM_const (1e-18)
-	#define zepto  GNUM_const (1e-21)
-	#define yocto  GNUM_const (1e-24)
+	#define yotta  GNM_const (1e+24)
+	#define zetta  GNM_const (1e+21)
+	#define exa    GNM_const (1e+18)
+	#define peta   GNM_const (1e+15)
+	#define tera   GNM_const (1e+12)
+	#define giga   GNM_const (1e+09)
+	#define mega   GNM_const (1e+06)
+	#define kilo   GNM_const (1e+03)
+	#define hecto  GNM_const (1e+02)
+	#define deka   GNM_const (1e+01)
+	#define deci   GNM_const (1e-01)
+	#define centi  GNM_const (1e-02)
+	#define milli  GNM_const (1e-03)
+	#define micro  GNM_const (1e-06)
+	#define nano   GNM_const (1e-09)
+	#define pico   GNM_const (1e-12)
+	#define femto  GNM_const (1e-15)
+	#define atto   GNM_const (1e-18)
+	#define zepto  GNM_const (1e-21)
+	#define yocto  GNM_const (1e-24)
 
 	static const eng_convert_unit_t weight_units[] = {
 	        { "g",    1.0 },

@@ -115,7 +115,7 @@ gnm_float yngnum (int n, gnm_float x);
 #define GNUM_MIN LDBL_MIN
 #define GNUM_MAX LDBL_MAX
 #define GNUM_EPSILON LDBL_EPSILON
-#define GNUM_const(_c) _c ## L
+#define GNM_const(_c) _c ## L
 
 #else /* !WITH_LONG_DOUBLE */
 
@@ -177,7 +177,7 @@ typedef double gnm_float;
 #define GNUM_MIN DBL_MIN
 #define GNUM_MAX DBL_MAX
 #define GNUM_EPSILON DBL_EPSILON
-#define GNUM_const(_c) _c
+#define GNM_const(_c) _c
 
 #endif
 

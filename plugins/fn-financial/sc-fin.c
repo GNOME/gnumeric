@@ -316,7 +316,7 @@ Value *    get_yielddisc (GDate *nSettle, GDate *nMat, gnm_float fPrice,
 	/* FIXME: I think this is bogus stuff. */
 
 	fRet /= GetYearFrac ( nSettle, nMat, nBase );
-	fRet /= GNUM_const(0.99795);  /* don't know what this constant means in original */
+	fRet /= GNM_const(0.99795);  /* don't know what this constant means in original */
 
 	return value_new_float ( fRet );
 }

@@ -52,12 +52,12 @@
 #endif
 #endif
 
-#define M_LN_SQRT_2PI   GNUM_const(0.918938533204672741780329736406)  /* log(sqrt(2*pi)) */
-#define M_SQRT_32       GNUM_const(5.656854249492380195206754896838)  /* sqrt(32) */
-#define M_1_SQRT_2PI    GNUM_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
-#define M_SQRT_2dPI     GNUM_const(0.797884560802865355879892119869)  /* sqrt(2/pi) */
+#define M_LN_SQRT_2PI   GNM_const(0.918938533204672741780329736406)  /* log(sqrt(2*pi)) */
+#define M_SQRT_32       GNM_const(5.656854249492380195206754896838)  /* sqrt(32) */
+#define M_1_SQRT_2PI    GNM_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
+#define M_SQRT_2dPI     GNM_const(0.797884560802865355879892119869)  /* sqrt(2/pi) */
 #define M_2PIgnum       (2 * M_PIgnum)
-#define	M_Egnum         GNUM_const(2.718281828459045235360287471352662497757247)
+#define	M_Egnum         GNM_const(2.718281828459045235360287471352662497757247)
 
 /* Any better idea for a quick hack?  */
 #define ML_NAN (-HUGE_VAL * 0.0)
@@ -341,53 +341,53 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
    if(upper) return *ccum := P[X >  x] = 1 - P[X <= x]
 */
     const gnm_float a[5] = {
-	GNUM_const(2.2352520354606839287),
-	GNUM_const(161.02823106855587881),
-	GNUM_const(1067.6894854603709582),
-	GNUM_const(18154.981253343561249),
-	GNUM_const(0.065682337918207449113)
+	GNM_const(2.2352520354606839287),
+	GNM_const(161.02823106855587881),
+	GNM_const(1067.6894854603709582),
+	GNM_const(18154.981253343561249),
+	GNM_const(0.065682337918207449113)
     };
     const gnm_float b[4] = {
-	GNUM_const(47.20258190468824187),
-	GNUM_const(976.09855173777669322),
-	GNUM_const(10260.932208618978205),
-	GNUM_const(45507.789335026729956)
+	GNM_const(47.20258190468824187),
+	GNM_const(976.09855173777669322),
+	GNM_const(10260.932208618978205),
+	GNM_const(45507.789335026729956)
     };
     const gnm_float c[9] = {
-	GNUM_const(0.39894151208813466764),
-	GNUM_const(8.8831497943883759412),
-	GNUM_const(93.506656132177855979),
-	GNUM_const(597.27027639480026226),
-	GNUM_const(2494.5375852903726711),
-	GNUM_const(6848.1904505362823326),
-	GNUM_const(11602.651437647350124),
-	GNUM_const(9842.7148383839780218),
-	GNUM_const(1.0765576773720192317e-8)
+	GNM_const(0.39894151208813466764),
+	GNM_const(8.8831497943883759412),
+	GNM_const(93.506656132177855979),
+	GNM_const(597.27027639480026226),
+	GNM_const(2494.5375852903726711),
+	GNM_const(6848.1904505362823326),
+	GNM_const(11602.651437647350124),
+	GNM_const(9842.7148383839780218),
+	GNM_const(1.0765576773720192317e-8)
     };
     const gnm_float d[8] = {
-	GNUM_const(22.266688044328115691),
-	GNUM_const(235.38790178262499861),
-	GNUM_const(1519.377599407554805),
-	GNUM_const(6485.558298266760755),
-	GNUM_const(18615.571640885098091),
-	GNUM_const(34900.952721145977266),
-	GNUM_const(38912.003286093271411),
-	GNUM_const(19685.429676859990727)
+	GNM_const(22.266688044328115691),
+	GNM_const(235.38790178262499861),
+	GNM_const(1519.377599407554805),
+	GNM_const(6485.558298266760755),
+	GNM_const(18615.571640885098091),
+	GNM_const(34900.952721145977266),
+	GNM_const(38912.003286093271411),
+	GNM_const(19685.429676859990727)
     };
     const gnm_float p[6] = {
-	GNUM_const(0.21589853405795699),
-	GNUM_const(0.1274011611602473639),
-	GNUM_const(0.022235277870649807),
-	GNUM_const(0.001421619193227893466),
-	GNUM_const(2.9112874951168792e-5),
-	GNUM_const(0.02307344176494017303)
+	GNM_const(0.21589853405795699),
+	GNM_const(0.1274011611602473639),
+	GNM_const(0.022235277870649807),
+	GNM_const(0.001421619193227893466),
+	GNM_const(2.9112874951168792e-5),
+	GNM_const(0.02307344176494017303)
     };
     const gnm_float q[5] = {
-	GNUM_const(1.28426009614491121),
-	GNUM_const(0.468238212480865118),
-	GNUM_const(0.0659881378689285515),
-	GNUM_const(0.00378239633202758244),
-	GNUM_const(7.29751555083966205e-5)
+	GNM_const(1.28426009614491121),
+	GNM_const(0.468238212480865118),
+	GNM_const(0.0659881378689285515),
+	GNM_const(0.00378239633202758244),
+	GNM_const(7.29751555083966205e-5)
     };
 
     gnm_float xden, xnum, temp, del, eps, xsq, y;
@@ -594,10 +594,10 @@ gnm_float qnorm(gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail,
 	/* 0.08 <= p <= 0.92 */
 
 	r = q * q;
-	val = q * (((GNUM_const(-25.44106049637) * r + GNUM_const(41.39119773534)) * r
-		    - GNUM_const(18.61500062529)) * r + GNUM_const(2.50662823884))
-	    / ((((GNUM_const(3.13082909833) * r - GNUM_const(21.06224101826)) * r
-		 + GNUM_const(23.08336743743)) * r + GNUM_const(-8.47351093090)) * r + 1.0);
+	val = q * (((GNM_const(-25.44106049637) * r + GNM_const(41.39119773534)) * r
+		    - GNM_const(18.61500062529)) * r + GNM_const(2.50662823884))
+	    / ((((GNM_const(3.13082909833) * r - GNM_const(21.06224101826)) * r
+		 + GNM_const(23.08336743743)) * r + GNM_const(-8.47351093090)) * r + 1.0);
     }
     else {
 
@@ -618,9 +618,9 @@ gnm_float qnorm(gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail,
 #ifdef DEBUG_qnorm
 	    REprintf("\t new r = %7" GNUM_FORMAT_g " ( =? sqrtgnum(- loggnum(r)) )\n", r);
 #endif
-	    val = (((GNUM_const(2.32121276858) * r + GNUM_const(4.85014127135)) * r
-		    - GNUM_const(2.29796479134)) * r - GNUM_const(2.78718931138))
-		/ ((GNUM_const(1.63706781897) * r + GNUM_const(3.54388924762)) * r + 1.0);
+	    val = (((GNM_const(2.32121276858) * r + GNM_const(4.85014127135)) * r
+		    - GNM_const(2.29796479134)) * r - GNM_const(2.78718931138))
+		/ ((GNM_const(1.63706781897) * r + GNM_const(3.54388924762)) * r + 1.0);
 	    if (q < 0)
 		val = -val;
 	}
@@ -672,15 +672,15 @@ gnm_float qnorm(gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail,
     if (gnumabs(q) <= .425) {/* 0.075 <= p <= 0.925 */
         r = .180625 - q * q;
 	val =
-            q * (((((((r * GNUM_const(2509.0809287301226727) +
-                       GNUM_const(33430.575583588128105)) * r + GNUM_const(67265.770927008700853)) * r +
-                     GNUM_const(45921.953931549871457)) * r + GNUM_const(13731.693765509461125)) * r +
-                   GNUM_const(1971.5909503065514427)) * r + GNUM_const(133.14166789178437745)) * r +
-                 GNUM_const(3.387132872796366608))
-            / (((((((r * GNUM_const(5226.495278852854561) +
-                     GNUM_const(28729.085735721942674)) * r + GNUM_const(39307.89580009271061)) * r +
-                   GNUM_const(21213.794301586595867)) * r + GNUM_const(5394.1960214247511077)) * r +
-                 GNUM_const(687.1870074920579083)) * r + GNUM_const(42.313330701600911252)) * r + 1.);
+            q * (((((((r * GNM_const(2509.0809287301226727) +
+                       GNM_const(33430.575583588128105)) * r + GNM_const(67265.770927008700853)) * r +
+                     GNM_const(45921.953931549871457)) * r + GNM_const(13731.693765509461125)) * r +
+                   GNM_const(1971.5909503065514427)) * r + GNM_const(133.14166789178437745)) * r +
+                 GNM_const(3.387132872796366608))
+            / (((((((r * GNM_const(5226.495278852854561) +
+                     GNM_const(28729.085735721942674)) * r + GNM_const(39307.89580009271061)) * r +
+                   GNM_const(21213.794301586595867)) * r + GNM_const(5394.1960214247511077)) * r +
+                 GNM_const(687.1870074920579083)) * r + GNM_const(42.313330701600911252)) * r + 1.);
     }
     else { /* closer than 0.075 from {0,1} boundary */
 
@@ -700,33 +700,33 @@ gnm_float qnorm(gnm_float p, gnm_float mu, gnm_float sigma, gboolean lower_tail,
 
         if (r <= 5.) { /* <==> min(p,1-p) >= expgnum(-25) ~= 1.3888e-11 */
             r += -1.6;
-            val = (((((((r * GNUM_const(7.7454501427834140764e-4) +
-                       GNUM_const(.0227238449892691845833)) * r + GNUM_const(.24178072517745061177)) *
-                     r + GNUM_const(1.27045825245236838258)) * r +
-                    GNUM_const(3.64784832476320460504)) * r + GNUM_const(5.7694972214606914055)) *
-                  r + GNUM_const(4.6303378461565452959)) * r +
-                 GNUM_const(1.42343711074968357734))
+            val = (((((((r * GNM_const(7.7454501427834140764e-4) +
+                       GNM_const(.0227238449892691845833)) * r + GNM_const(.24178072517745061177)) *
+                     r + GNM_const(1.27045825245236838258)) * r +
+                    GNM_const(3.64784832476320460504)) * r + GNM_const(5.7694972214606914055)) *
+                  r + GNM_const(4.6303378461565452959)) * r +
+                 GNM_const(1.42343711074968357734))
                 / (((((((r *
-                         GNUM_const(1.05075007164441684324e-9) + GNUM_const(5.475938084995344946e-4)) *
-                        r + GNUM_const(.0151986665636164571966)) * r +
-                       GNUM_const(.14810397642748007459)) * r + GNUM_const(.68976733498510000455)) *
-                     r + GNUM_const(1.6763848301838038494)) * r +
-                    GNUM_const(2.05319162663775882187)) * r + 1.);
+                         GNM_const(1.05075007164441684324e-9) + GNM_const(5.475938084995344946e-4)) *
+                        r + GNM_const(.0151986665636164571966)) * r +
+                       GNM_const(.14810397642748007459)) * r + GNM_const(.68976733498510000455)) *
+                     r + GNM_const(1.6763848301838038494)) * r +
+                    GNM_const(2.05319162663775882187)) * r + 1.);
         }
         else { /* very close to  0 or 1 */
             r += -5.;
-            val = (((((((r * GNUM_const(2.01033439929228813265e-7) +
-                       GNUM_const(2.71155556874348757815e-5)) * r +
-                      GNUM_const(.0012426609473880784386)) * r + GNUM_const(.026532189526576123093)) *
-                    r + GNUM_const(.29656057182850489123)) * r +
-                   GNUM_const(1.7848265399172913358)) * r + GNUM_const(5.4637849111641143699)) *
-                 r + GNUM_const(6.6579046435011037772))
+            val = (((((((r * GNM_const(2.01033439929228813265e-7) +
+                       GNM_const(2.71155556874348757815e-5)) * r +
+                      GNM_const(.0012426609473880784386)) * r + GNM_const(.026532189526576123093)) *
+                    r + GNM_const(.29656057182850489123)) * r +
+                   GNM_const(1.7848265399172913358)) * r + GNM_const(5.4637849111641143699)) *
+                 r + GNM_const(6.6579046435011037772))
                 / (((((((r *
-                         GNUM_const(2.04426310338993978564e-15) + GNUM_const(1.4215117583164458887e-7))*
-                        r + GNUM_const(1.8463183175100546818e-5)) * r +
-                       GNUM_const(7.868691311456132591e-4)) * r + GNUM_const(.0148753612908506148525))
-                     * r + GNUM_const(.13692988092273580531)) * r +
-                    GNUM_const(.59983220655588793769)) * r + 1.);
+                         GNM_const(2.04426310338993978564e-15) + GNM_const(1.4215117583164458887e-7))*
+                        r + GNM_const(1.8463183175100546818e-5)) * r +
+                       GNM_const(7.868691311456132591e-4)) * r + GNM_const(.0148753612908506148525))
+                     * r + GNM_const(.13692988092273580531)) * r +
+                    GNM_const(.59983220655588793769)) * r + 1.);
         }
 
 	if(q < 0.0)
@@ -1010,47 +1010,47 @@ gnm_float qpois(gnm_float p, gnm_float lambda, gboolean lower_tail, gboolean log
 static gnm_float stirlerr(gnm_float n)
 {
 
-#define S0 GNUM_const(0.083333333333333333333)       /* 1/12 */
-#define S1 GNUM_const(0.00277777777777777777778)     /* 1/360 */
-#define S2 GNUM_const(0.00079365079365079365079365)  /* 1/1260 */
-#define S3 GNUM_const(0.000595238095238095238095238) /* 1/1680 */
-#define S4 GNUM_const(0.0008417508417508417508417508)/* 1/1188 */
+#define S0 GNM_const(0.083333333333333333333)       /* 1/12 */
+#define S1 GNM_const(0.00277777777777777777778)     /* 1/360 */
+#define S2 GNM_const(0.00079365079365079365079365)  /* 1/1260 */
+#define S3 GNM_const(0.000595238095238095238095238) /* 1/1680 */
+#define S4 GNM_const(0.0008417508417508417508417508)/* 1/1188 */
 
 /*
   error for 0, 0.5, 1.0, 1.5, ..., 14.5, 15.0.
 */
     const gnm_float sferr_halves[31] = {
 	0.0, /* n=0 - wrong, place holder only */
-	GNUM_const(0.1534264097200273452913848),  /* 0.5 */
-	GNUM_const(0.0810614667953272582196702),  /* 1.0 */
-	GNUM_const(0.0548141210519176538961390),  /* 1.5 */
-	GNUM_const(0.0413406959554092940938221),  /* 2.0 */
-	GNUM_const(0.03316287351993628748511048), /* 2.5 */
-	GNUM_const(0.02767792568499833914878929), /* 3.0 */
-	GNUM_const(0.02374616365629749597132920), /* 3.5 */
-	GNUM_const(0.02079067210376509311152277), /* 4.0 */
-	GNUM_const(0.01848845053267318523077934), /* 4.5 */
-	GNUM_const(0.01664469118982119216319487), /* 5.0 */
-	GNUM_const(0.01513497322191737887351255), /* 5.5 */
-	GNUM_const(0.01387612882307074799874573), /* 6.0 */
-	GNUM_const(0.01281046524292022692424986), /* 6.5 */
-	GNUM_const(0.01189670994589177009505572), /* 7.0 */
-	GNUM_const(0.01110455975820691732662991), /* 7.5 */
-	GNUM_const(0.010411265261972096497478567), /* 8.0 */
-	GNUM_const(0.009799416126158803298389475), /* 8.5 */
-	GNUM_const(0.009255462182712732917728637), /* 9.0 */
-	GNUM_const(0.008768700134139385462952823), /* 9.5 */
-	GNUM_const(0.008330563433362871256469318), /* 10.0 */
-	GNUM_const(0.007934114564314020547248100), /* 10.5 */
-	GNUM_const(0.007573675487951840794972024), /* 11.0 */
-	GNUM_const(0.007244554301320383179543912), /* 11.5 */
-	GNUM_const(0.006942840107209529865664152), /* 12.0 */
-	GNUM_const(0.006665247032707682442354394), /* 12.5 */
-	GNUM_const(0.006408994188004207068439631), /* 13.0 */
-	GNUM_const(0.006171712263039457647532867), /* 13.5 */
-	GNUM_const(0.005951370112758847735624416), /* 14.0 */
-	GNUM_const(0.005746216513010115682023589), /* 14.5 */
-	GNUM_const(0.005554733551962801371038690)  /* 15.0 */
+	GNM_const(0.1534264097200273452913848),  /* 0.5 */
+	GNM_const(0.0810614667953272582196702),  /* 1.0 */
+	GNM_const(0.0548141210519176538961390),  /* 1.5 */
+	GNM_const(0.0413406959554092940938221),  /* 2.0 */
+	GNM_const(0.03316287351993628748511048), /* 2.5 */
+	GNM_const(0.02767792568499833914878929), /* 3.0 */
+	GNM_const(0.02374616365629749597132920), /* 3.5 */
+	GNM_const(0.02079067210376509311152277), /* 4.0 */
+	GNM_const(0.01848845053267318523077934), /* 4.5 */
+	GNM_const(0.01664469118982119216319487), /* 5.0 */
+	GNM_const(0.01513497322191737887351255), /* 5.5 */
+	GNM_const(0.01387612882307074799874573), /* 6.0 */
+	GNM_const(0.01281046524292022692424986), /* 6.5 */
+	GNM_const(0.01189670994589177009505572), /* 7.0 */
+	GNM_const(0.01110455975820691732662991), /* 7.5 */
+	GNM_const(0.010411265261972096497478567), /* 8.0 */
+	GNM_const(0.009799416126158803298389475), /* 8.5 */
+	GNM_const(0.009255462182712732917728637), /* 9.0 */
+	GNM_const(0.008768700134139385462952823), /* 9.5 */
+	GNM_const(0.008330563433362871256469318), /* 10.0 */
+	GNM_const(0.007934114564314020547248100), /* 10.5 */
+	GNM_const(0.007573675487951840794972024), /* 11.0 */
+	GNM_const(0.007244554301320383179543912), /* 11.5 */
+	GNM_const(0.006942840107209529865664152), /* 12.0 */
+	GNM_const(0.006665247032707682442354394), /* 12.5 */
+	GNM_const(0.006408994188004207068439631), /* 13.0 */
+	GNM_const(0.006171712263039457647532867), /* 13.5 */
+	GNM_const(0.005951370112758847735624416), /* 14.0 */
+	GNM_const(0.005746216513010115682023589), /* 14.5 */
+	GNM_const(0.005554733551962801371038690)  /* 15.0 */
     };
     gnm_float nn;
 
@@ -1368,7 +1368,7 @@ gnm_float pgamma(gnm_float x, gnm_float alph, gnm_float scale, gboolean lower_ta
     /* use a normal approximation if alph > alphlimit */
 
     if (alph > alphlimit) {
-	pn1 = sqrtgnum(alph) * 3. * (powgnum(x/alph, GNUM_const(1.)/3.) + 1. / (9. * alph) - 1.);
+	pn1 = sqrtgnum(alph) * 3. * (powgnum(x/alph, GNM_const(1.)/3.) + 1. / (9. * alph) - 1.);
 	return pnorm(pn1, 0., 1., lower_tail, log_p);
     }
 
@@ -1599,21 +1599,21 @@ static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)
 static gnm_float lgammacor(gnm_float x)
 {
     const gnm_float algmcs[15] = {
-	GNUM_const(+.1666389480451863247205729650822e+0),
-	GNUM_const(-.1384948176067563840732986059135e-4),
-	GNUM_const(+.9810825646924729426157171547487e-8),
-	GNUM_const(-.1809129475572494194263306266719e-10),
-	GNUM_const(+.6221098041892605227126015543416e-13),
-	GNUM_const(-.3399615005417721944303330599666e-15),
-	GNUM_const(+.2683181998482698748957538846666e-17),
-	GNUM_const(-.2868042435334643284144622399999e-19),
-	GNUM_const(+.3962837061046434803679306666666e-21),
-	GNUM_const(-.6831888753985766870111999999999e-23),
-	GNUM_const(+.1429227355942498147573333333333e-24),
-	GNUM_const(-.3547598158101070547199999999999e-26),
-	GNUM_const(+.1025680058010470912000000000000e-27),
-	GNUM_const(-.3401102254316748799999999999999e-29),
-	GNUM_const(+.1276642195630062933333333333333e-30)
+	GNM_const(+.1666389480451863247205729650822e+0),
+	GNM_const(-.1384948176067563840732986059135e-4),
+	GNM_const(+.9810825646924729426157171547487e-8),
+	GNM_const(-.1809129475572494194263306266719e-10),
+	GNM_const(+.6221098041892605227126015543416e-13),
+	GNM_const(-.3399615005417721944303330599666e-15),
+	GNM_const(+.2683181998482698748957538846666e-17),
+	GNM_const(-.2868042435334643284144622399999e-19),
+	GNM_const(+.3962837061046434803679306666666e-21),
+	GNM_const(-.6831888753985766870111999999999e-23),
+	GNM_const(+.1429227355942498147573333333333e-24),
+	GNM_const(-.3547598158101070547199999999999e-26),
+	GNM_const(+.1025680058010470912000000000000e-27),
+	GNM_const(-.3401102254316748799999999999999e-29),
+	GNM_const(+.1276642195630062933333333333333e-30)
     };
 
     gnm_float tmp;
@@ -1632,12 +1632,12 @@ static gnm_float lgammacor(gnm_float x)
 	/*   = GNUM_MAX / 48 ~= 3.745e306 for IEEE gnm_float */
     }
 #else
-/* For IEEE gnm_float precision GNUM_EPSILON = 2^-52 = GNUM_const(2.220446049250313e-16) :
+/* For IEEE gnm_float precision GNUM_EPSILON = 2^-52 = GNM_const(2.220446049250313e-16) :
  *   xbig = 2 ^ 26.5
  *   xmax = GNUM_MAX / 48 =  2^1020 / 3 */
 # define nalgm 5
 # define xbig  94906265.62425156
-# define xmax  GNUM_const(3.745194030963158e306)
+# define xmax  GNM_const(3.745194030963158e306)
 #endif
 
     if (x < 10)
@@ -1995,7 +1995,7 @@ gnm_float qbeta(gnm_float alpha, gnm_float p, gnm_float q, gboolean lower_tail, 
 	s = 1. / (pp + pp - 1.);
 	t = 1. / (qq + qq - 1.);
 	h = 2. / (s + t);
-	w = y * sqrtgnum(h + r) / h - (t - s) * (r + GNUM_const(5.) / 6. - 2. / (3. * h));
+	w = y * sqrtgnum(h + r) / h - (t - s) * (r + GNM_const(5.) / 6. - 2. / (3. * h));
 	xinbta = pp / (pp + qq * expgnum(w + w));
     } else {
 	r = qq + qq;
@@ -3424,8 +3424,8 @@ And routine specific :
 #define sqxmin_BESS_K	1.49e-154
 
 /* x < eps_sinc	 <==>  singnum(x)/x == 1 (particularly "==>");
-  Linux (around 2001-02) gives GNUM_const(2.14946906753213e-08)
-  Solaris 2.5.1		 gives GNUM_const(2.14911933289084e-08)
+  Linux (around 2001-02) gives GNM_const(2.14946906753213e-08)
+  Solaris 2.5.1		 gives GNM_const(2.14911933289084e-08)
 */
 #define M_eps_sinc	2.149e-8
 
@@ -4080,29 +4080,29 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
      *	A = LOG(2) - Euler's constant
      *	D = SQRT(2/PI)
      ---------------------------------------------------------------------*/
-    const gnm_float a = GNUM_const(.11593151565841244881);
+    const gnm_float a = GNM_const(.11593151565841244881);
 
     /*---------------------------------------------------------------------
       P, Q - Approximation for LOG(GAMMA(1+ALPHA))/ALPHA + Euler's constant
       Coefficients converted from hex to decimal and modified
       by W. J. Cody, 2/26/82 */
-    const gnm_float p[8] = { GNUM_const(.805629875690432845),GNUM_const(20.4045500205365151),
-	    GNUM_const(157.705605106676174),GNUM_const(536.671116469207504),GNUM_const(900.382759291288778),
-	    GNUM_const(730.923886650660393),GNUM_const(229.299301509425145),GNUM_const(.822467033424113231) };
-    const gnm_float q[7] = { GNUM_const(29.4601986247850434),GNUM_const(277.577868510221208),
-	    GNUM_const(1206.70325591027438),GNUM_const(2762.91444159791519),GNUM_const(3443.74050506564618),
-	    GNUM_const(2210.63190113378647),GNUM_const(572.267338359892221) };
+    const gnm_float p[8] = { GNM_const(.805629875690432845),GNM_const(20.4045500205365151),
+	    GNM_const(157.705605106676174),GNM_const(536.671116469207504),GNM_const(900.382759291288778),
+	    GNM_const(730.923886650660393),GNM_const(229.299301509425145),GNM_const(.822467033424113231) };
+    const gnm_float q[7] = { GNM_const(29.4601986247850434),GNM_const(277.577868510221208),
+	    GNM_const(1206.70325591027438),GNM_const(2762.91444159791519),GNM_const(3443.74050506564618),
+	    GNM_const(2210.63190113378647),GNM_const(572.267338359892221) };
     /* R, S - Approximation for (1-ALPHA*PI/SIN(ALPHA*PI))/(2.D0*ALPHA) */
-    const gnm_float r[5] = { GNUM_const(-.48672575865218401848),GNUM_const(13.079485869097804016),
-	    GNUM_const(-101.96490580880537526),GNUM_const(347.65409106507813131),
-	    GNUM_const(3.495898124521934782e-4) };
-    const gnm_float s[4] = { GNUM_const(-25.579105509976461286),GNUM_const(212.57260432226544008),
-	    GNUM_const(-610.69018684944109624),GNUM_const(422.69668805777760407) };
+    const gnm_float r[5] = { GNM_const(-.48672575865218401848),GNM_const(13.079485869097804016),
+	    GNM_const(-101.96490580880537526),GNM_const(347.65409106507813131),
+	    GNM_const(3.495898124521934782e-4) };
+    const gnm_float s[4] = { GNM_const(-25.579105509976461286),GNM_const(212.57260432226544008),
+	    GNM_const(-610.69018684944109624),GNM_const(422.69668805777760407) };
     /* T    - Approximation for SINH(Y)/Y */
-    const gnm_float t[6] = { GNUM_const(1.6125990452916363814e-10),
-	    GNUM_const(2.5051878502858255354e-8),GNUM_const(2.7557319615147964774e-6),
-	    GNUM_const(1.9841269840928373686e-4),GNUM_const(.0083333333333334751799),
-	    GNUM_const(.16666666666666666446) };
+    const gnm_float t[6] = { GNM_const(1.6125990452916363814e-10),
+	    GNM_const(2.5051878502858255354e-8),GNM_const(2.7557319615147964774e-6),
+	    GNM_const(1.9841269840928373686e-4),GNM_const(.0083333333333334751799),
+	    GNM_const(.16666666666666666446) };
     /*---------------------------------------------------------------------*/
     const gnm_float estm[6] = { 52.0583,5.7607,2.7782,14.4303,185.3004, 9.3715 };
     const gnm_float estf[7] = { 41.8341,7.1075,6.4306,42.511,1.35633,84.5096,20.};
@@ -5731,7 +5731,7 @@ gpow2 (int n)
 		return (gnm_float) ldexp (1.0, n);
 	else if (n >= GNUM_MIN_EXP && n <= GNUM_MAX_EXP) {
 		gnm_float res = 1.0;
-		gnm_float p = (n >= 0) ? GNUM_const (2) : GNUM_const (0.5);
+		gnm_float p = (n >= 0) ? GNM_const (2) : GNM_const (0.5);
 
 		n = abs (n);
 		while (n > 0) {
@@ -5759,47 +5759,47 @@ gpow10 (int n)
 	const int maxn = GNUM_MAX_EXP;
 
 	static const gnm_float fast[] = {
-		GNUM_const (1e-20),
-		GNUM_const (1e-19),
-		GNUM_const (1e-18),
-		GNUM_const (1e-17),
-		GNUM_const (1e-16),
-		GNUM_const (1e-15),
-		GNUM_const (1e-14),
-		GNUM_const (1e-13),
-		GNUM_const (1e-12),
-		GNUM_const (1e-11),
-		GNUM_const (1e-10),
-		GNUM_const (1e-9),
-		GNUM_const (1e-8),
-		GNUM_const (1e-7),
-		GNUM_const (1e-6),
-		GNUM_const (1e-5),
-		GNUM_const (1e-4),
-		GNUM_const (1e-3),
-		GNUM_const (1e-2),
-		GNUM_const (1e-1),
-		GNUM_const (1),
-		GNUM_const (1e1),
-		GNUM_const (1e2),
-		GNUM_const (1e3),
-		GNUM_const (1e4),
-		GNUM_const (1e5),
-		GNUM_const (1e6),
-		GNUM_const (1e7),
-		GNUM_const (1e8),
-		GNUM_const (1e9),
-		GNUM_const (1e10),
-		GNUM_const (1e11),
-		GNUM_const (1e12),
-		GNUM_const (1e13),
-		GNUM_const (1e14),
-		GNUM_const (1e15),
-		GNUM_const (1e16),
-		GNUM_const (1e17),
-		GNUM_const (1e18),
-		GNUM_const (1e19),
-		GNUM_const (1e20)
+		GNM_const (1e-20),
+		GNM_const (1e-19),
+		GNM_const (1e-18),
+		GNM_const (1e-17),
+		GNM_const (1e-16),
+		GNM_const (1e-15),
+		GNM_const (1e-14),
+		GNM_const (1e-13),
+		GNM_const (1e-12),
+		GNM_const (1e-11),
+		GNM_const (1e-10),
+		GNM_const (1e-9),
+		GNM_const (1e-8),
+		GNM_const (1e-7),
+		GNM_const (1e-6),
+		GNM_const (1e-5),
+		GNM_const (1e-4),
+		GNM_const (1e-3),
+		GNM_const (1e-2),
+		GNM_const (1e-1),
+		GNM_const (1),
+		GNM_const (1e1),
+		GNM_const (1e2),
+		GNM_const (1e3),
+		GNM_const (1e4),
+		GNM_const (1e5),
+		GNM_const (1e6),
+		GNM_const (1e7),
+		GNM_const (1e8),
+		GNM_const (1e9),
+		GNM_const (1e10),
+		GNM_const (1e11),
+		GNM_const (1e12),
+		GNM_const (1e13),
+		GNM_const (1e14),
+		GNM_const (1e15),
+		GNM_const (1e16),
+		GNM_const (1e17),
+		GNM_const (1e18),
+		GNM_const (1e19),
+		GNM_const (1e20)
 	};
 
 	if (n >= -20 && n <= 20)
@@ -5809,7 +5809,7 @@ gpow10 (int n)
 		p = 10.0;
 		n = (n > maxn) ? maxn : n;
 	} else {
-		p = GNUM_const (0.1);
+		p = GNM_const (0.1);
 		/* Note carefully that we avoid overflow.  */
 		n = (n < -maxn) ? maxn : -n;
 	}
