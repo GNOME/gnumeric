@@ -19,112 +19,97 @@
 Value *
 value_new_empty (void)
 {
-	Value *v = g_new (Value, 1);
-	*((ValueType *)&(v->type)) = VALUE_EMPTY;
-
-	return v;
+	ValueType *v = g_new (ValueType, 1);
+	*v = VALUE_EMPTY;
+	return (Value *)v;
 }
 
 Value *
 value_new_bool (gboolean b)
 {
-	Value *v = g_new (Value, 1);
-
+	ValueBool *v = g_new (ValueBool, 1);
 	*((ValueType *)&(v->type)) = VALUE_BOOLEAN;
-	v->v.v_bool = b;
-
-	return v;
-}
-
-Value *
-value_new_error (EvalPosition const *ep, char const *mesg)
-{
-	Value *v = g_new (Value, 1);
-
-	*((ValueType *)&(v->type)) = VALUE_ERROR;
-	v->v.error.mesg = string_get (mesg);
-
-	return v;
-}
-
-Value *
-value_new_error_str (EvalPosition const *ep, String *mesg)
-{
-	Value *v = g_new (Value, 1);
-
-	*((ValueType *)&(v->type)) = VALUE_ERROR;
-	v->v.error.mesg = string_ref (mesg);
-
-	return v;
-}
-
-Value *
-value_new_string (const char *str)
-{
-	Value *v = g_new (Value, 1);
-
-	*((ValueType *)&(v->type)) = VALUE_STRING;
-	v->v.str = string_get (str);
-
-	return v;
-}
-
-Value *
-value_new_string_str (String *str)
-{
-	Value *v = g_new (Value, 1);
-
-	*((ValueType *)&(v->type)) = VALUE_STRING;
-	v->v.str = string_ref (str);
-
-	return v;
+	v->val = b;
+	return (Value *)v;
 }
 
 Value *
 value_new_int (int i)
 {
-	Value *v = g_new (Value, 1);
-
+	ValueInt *v = g_new (ValueInt, 1);
 	*((ValueType *)&(v->type)) = VALUE_INTEGER;
-	v->v.v_int = i;
-
-	return v;
+	v->val = i;
+	return (Value *)v;
 }
 
 Value *
 value_new_float (float_t f)
 {
-	Value *v = g_new (Value, 1);
-
+	ValueFloat *v = g_new (ValueFloat, 1);
 	*((ValueType *)&(v->type)) = VALUE_FLOAT;
-	v->v.v_float = f;
+	v->val = f;
+	return (Value *)v;
+}
 
-	return v;
+Value *
+value_new_error (EvalPosition const *ep, char const *mesg)
+{
+	ValueErr *v = g_new (ValueErr, 1);
+	*((ValueType *)&(v->type)) = VALUE_ERROR;
+	v->mesg = string_get (mesg);
+	return (Value *)v;
+}
+
+Value *
+value_new_error_str (EvalPosition const *ep, String *mesg)
+{
+	ValueErr *v = g_new (ValueErr, 1);
+	*((ValueType *)&(v->type)) = VALUE_ERROR;
+	v->mesg = string_ref (mesg);
+	return (Value *)v;
+}
+
+Value *
+value_new_string (const char *str)
+{
+	ValueStr *v = g_new (ValueStr, 1);
+	*((ValueType *)&(v->type)) = VALUE_STRING;
+	v->val = string_get (str);
+	return (Value *)v;
+}
+
+Value *
+value_new_string_str (String *str)
+{
+	ValueStr *v = g_new (ValueStr, 1);
+	*((ValueType *)&(v->type)) = VALUE_STRING;
+	v->val = string_ref (str);
+	return (Value *)v;
 }
 
 Value *
 value_new_cellrange_unsafe (const CellRef *a, const CellRef *b)
 {
-	Value *v = g_new (Value, 1);
+	ValueRange *v = g_new (ValueRange, 1);
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
-	v->v.cell_range.cell_a = *a;
-	v->v.cell_range.cell_b = *b;
-	return v;
+	v->cell_a = *a;
+	v->cell_b = *b;
+	return (Value *)v;
 }
 
 Value *
 value_new_cellrange (const CellRef *a, const CellRef *b,
 		     int const eval_col, int const eval_row)
 {
-	Value *v = g_new (Value, 1);
+	ValueRange *v = g_new (ValueRange, 1);
 	int tmp;
 
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
-	v->v.cell_range.cell_a = *a;
-	v->v.cell_range.cell_b = *b;
+	v->cell_a = *a;
+	v->cell_b = *b;
 
 	/* Sanity checking to avoid inverted ranges */
-		tmp = a->col;
+	tmp = a->col;
 	if (a->col_relative != b->col_relative) {
 		/* Make a tmp copy of a in the same mode as b */
 		if (a->col_relative)
@@ -133,10 +118,10 @@ value_new_cellrange (const CellRef *a, const CellRef *b,
 			tmp -= eval_col;
 	}
 	if (tmp > b->col) {
-		v->v.cell_range.cell_a.col = b->col;
-		v->v.cell_range.cell_a.col_relative = b->col_relative;
-		v->v.cell_range.cell_b.col = a->col;
-		v->v.cell_range.cell_b.col_relative = a->col_relative;
+		v->cell_a.col = b->col;
+		v->cell_a.col_relative = b->col_relative;
+		v->cell_b.col = a->col;
+		v->cell_b.col_relative = a->col_relative;
 	}
 
 	tmp = a->row;
@@ -148,24 +133,24 @@ value_new_cellrange (const CellRef *a, const CellRef *b,
 			tmp -= eval_row;
 	}
 	if (tmp > b->row) {
-		v->v.cell_range.cell_a.row = b->row;
-		v->v.cell_range.cell_a.row_relative = b->row_relative;
-		v->v.cell_range.cell_b.row = a->row;
-		v->v.cell_range.cell_b.row_relative = a->row_relative;
+		v->cell_a.row = b->row;
+		v->cell_a.row_relative = b->row_relative;
+		v->cell_b.row = a->row;
+		v->cell_b.row_relative = a->row_relative;
 	}
 
-	return v;
+	return (Value *)v;
 }
 
 Value *
 value_new_cellrange_r (Sheet *sheet, const Range *r)
 {
-	Value *v = g_new (Value, 1);
+	ValueRange *v = g_new (ValueRange, 1);
 	CellRef *a, *b;
 
 	*((ValueType *)&(v->type)) = VALUE_CELLRANGE;
-	a = &v->v.cell_range.cell_a;
-	b = &v->v.cell_range.cell_b;
+	a = &v->cell_a;
+	b = &v->cell_b;
 	
 	a->sheet = sheet;
 	b->sheet = NULL;
@@ -176,46 +161,46 @@ value_new_cellrange_r (Sheet *sheet, const Range *r)
 	a->col_relative = b->col_relative = FALSE;
 	a->row_relative = b->row_relative = FALSE;
 
-	return v;
+	return (Value *)v;
 }
 
 Value *
 value_new_array_non_init (guint cols, guint rows)
 {
-	Value *v = g_new (Value, 1);
+	ValueArray *v = g_new (ValueArray, 1);
 	*((ValueType *)&(v->type)) = VALUE_ARRAY;
-	v->v.array.x = cols;
-	v->v.array.y = rows;
-	v->v.array.vals = g_new (Value **, cols);
-	return v;
+	v->x = cols;
+	v->y = rows;
+	v->vals = g_new (Value **, cols);
+	return (Value *)v;
 }
 
 Value *
 value_new_array (guint cols, guint rows)
 {
 	int x, y;
-	Value * v = value_new_array_non_init (cols, rows);
+	ValueArray *v = (ValueArray *)value_new_array_non_init (cols, rows);
 
 	for (x = 0; x < cols; x++) {
-		v->v.array.vals [x] = g_new (Value *, rows);
+		v->vals [x] = g_new (Value *, rows);
 		for (y = 0; y < rows; y++)
-			v->v.array.vals [x] [y] = value_new_int (0);
+			v->vals [x] [y] = value_new_int (0);
 	}
-	return v;
+	return (Value *)v;
 }
 
 Value *
 value_new_array_empty (guint cols, guint rows)
 {
 	int x, y;
-	Value * v = value_new_array_non_init (cols, rows);
+	ValueArray *v = (ValueArray *)value_new_array_non_init (cols, rows);
 
 	for (x = 0; x < cols; x++) {
-		v->v.array.vals [x] = g_new (Value *, rows);
+		v->vals [x] = g_new (Value *, rows);
 		for (y = 0; y < rows; y++)
-			v->v.array.vals [x] [y] = NULL;
+			v->vals [x] [y] = NULL;
 	}
-	return v;
+	return (Value *)v;
 }
 
 void
@@ -232,34 +217,35 @@ value_release (Value *value)
 	case VALUE_BOOLEAN:
 		break;
 
-	case VALUE_ERROR:
-		string_unref (value->v.error.mesg);
-		break;
-
-	case VALUE_STRING:
-		string_unref (value->v.str);
-		break;
-
 	case VALUE_INTEGER:
-		mpz_clear (value->v.v_int);
+		mpz_clear (value->v_int.val);
 		break;
 
 	case VALUE_FLOAT:
-		mpf_clear (value->v.v_float);
+		mpf_clear (value->v_float.val);
+		break;
+
+	case VALUE_ERROR:
+		string_unref (value->v_err.mesg);
+		break;
+
+	case VALUE_STRING:
+		string_unref (value->v_str.val);
 		break;
 
 	case VALUE_ARRAY: {
+		ValueArray *v = (ValueArray *)value;
 		guint x, y;
 
-		for (x = 0; x < value->v.array.x; x++) {
-			for (y = 0; y < value->v.array.y; y++) {
-				if (value->v.array.vals [x] [y])
-					value_release (value->v.array.vals [x] [y]);
+		for (x = 0; x < v->x; x++) {
+			for (y = 0; y < v->y; y++) {
+				if (v->vals [x] [y])
+					value_release (v->vals [x] [y]);
 			}
-			g_free (value->v.array.vals [x]);
+			g_free (v->vals [x]);
 		}
 
-		g_free (value->v.array.vals);
+		g_free (v->vals);
 		break;
 	}
 
@@ -293,36 +279,37 @@ value_duplicate (const Value *src)
 		return value_new_empty();
 
 	case VALUE_BOOLEAN:
-		return value_new_bool(src->v.v_bool);
+		return value_new_bool(src->v_bool.val);
 
 	case VALUE_INTEGER:
-		return value_new_int (src->v.v_int);
+		return value_new_int (src->v_int.val);
 
 	case VALUE_FLOAT:
-		return value_new_float (src->v.v_float);
+		return value_new_float (src->v_float.val);
 
 	case VALUE_ERROR:
-		return value_new_error_str (&src->v.error.src,
-					    src->v.error.mesg);
+		return value_new_error_str (&src->v_err.src,
+					    src->v_err.mesg);
 
 	case VALUE_STRING:
-		return value_new_string_str (src->v.str);
+		return value_new_string_str (src->v_str.val);
 
 	case VALUE_CELLRANGE:
-		return value_new_cellrange_unsafe (&src->v.cell_range.cell_a,
-						   &src->v.cell_range.cell_b);
+		return value_new_cellrange_unsafe (&src->v_range.cell_a,
+						   &src->v_range.cell_b);
 
 	case VALUE_ARRAY:
 	{
 		int x, y;
-		Value *v = value_new_array_non_init (src->v.array.x, src->v.array.y);
+		ValueArray *res =
+		    (ValueArray *)value_new_array_non_init (src->v_array.x, src->v_array.y);
 
-		for (x = 0; x < v->v.array.x; x++) {
-			v->v.array.vals [x] = g_new (Value *, v->v.array.y);
-			for (y = 0; y < v->v.array.y; y++)
-				v->v.array.vals [x] [y] = value_duplicate (src->v.array.vals [x][y]);
+		for (x = 0; x < res->x; x++) {
+			res->vals [x] = g_new (Value *, res->y);
+			for (y = 0; y < res->y; y++)
+				res->vals [x] [y] = value_duplicate (src->v_array.vals [x][y]);
 		}
-		return v;
+		return (Value *)res;
 	}
 
 	default:
@@ -345,16 +332,16 @@ value_get_as_bool (Value const *v, gboolean *err)
 		return FALSE;
 
 	case VALUE_BOOLEAN:
-		return v->v.v_bool;
+		return v->v_bool.val;
 
 	case VALUE_STRING:
-		return v->v.str->str[0] != '\0';
+		return v->v_str.val->str[0] != '\0';
 
 	case VALUE_INTEGER:
-		return v->v.v_int != 0;
+		return v->v_int.val != 0;
 
 	case VALUE_FLOAT:
-		return v->v.v_float != 0.0;
+		return v->v_float.val != 0.0;
 
 	default:
 		g_warning ("Unhandled value in value_get_boolean");
@@ -395,28 +382,28 @@ value_get_as_string (const Value *value)
 		return g_strdup ("");
 
 	case VALUE_ERROR: 
-		return g_strdup (value->v.error.mesg->str);
+		return g_strdup (value->v_err.mesg->str);
 
 	case VALUE_BOOLEAN: 
-		return g_strdup (value->v.v_bool ? _("TRUE") : _("FALSE"));
+		return g_strdup (value->v_bool.val ? _("TRUE") : _("FALSE"));
 
 	case VALUE_STRING:
-		return g_strdup (value->v.str->str);
+		return g_strdup (value->v_str.val->str);
 
 	case VALUE_INTEGER:
-		return g_strdup_printf ("%d", value->v.v_int);
+		return g_strdup_printf ("%d", value->v_int.val);
 
 	case VALUE_FLOAT:
-		return g_strdup_printf ("%.*g", DBL_DIG, value->v.v_float);
+		return g_strdup_printf ("%.*g", DBL_DIG, value->v_float.val);
 
 	case VALUE_ARRAY: {
 		GString *str = g_string_new ("{");
 		guint x, y;
 		char *ans;
 
-		for (y = 0; y < value->v.array.y; y++){
-			for (x = 0; x < value->v.array.x; x++){
-				const Value *v = value->v.array.vals [x][y];
+		for (y = 0; y < value->v_array.y; y++){
+			for (x = 0; x < value->v_array.x; x++){
+				const Value *v = value->v_array.vals [x][y];
 
 				g_return_val_if_fail (v->type == VALUE_STRING ||
 						      v->type == VALUE_FLOAT ||
@@ -426,12 +413,12 @@ value_get_as_string (const Value *value)
 					g_string_sprintfa (str, separator);
 				if (v->type == VALUE_STRING)
 					g_string_sprintfa (str, "\"%s\"",
-							   v->v.str->str);
+							   v->v_str.val->str);
 				else
 					g_string_sprintfa (str, "%g",
 							   value_get_as_float (v));
 			}
-			if (y < value->v.array.y-1)
+			if (y < value->v_array.y-1)
 				g_string_sprintfa (str, ";");
 		}
 		g_string_sprintfa (str, "}");
@@ -464,23 +451,23 @@ value_get_as_int (const Value *v)
 		return 0;
 
 	case VALUE_STRING:
-		return atoi (v->v.str->str);
+		return atoi (v->v_str.val->str);
 
 	case VALUE_CELLRANGE:
 		g_warning ("Getting range as a int: what to do?");
 		return 0;
 
 	case VALUE_INTEGER:
-		return v->v.v_int;
+		return v->v_int.val;
 
 	case VALUE_ARRAY:
 		return 0;
 
 	case VALUE_FLOAT:
-		return (int) v->v.v_float;
+		return (int) v->v_float.val;
 
 	case VALUE_BOOLEAN:
-		return v->v.v_bool ? 1 : 0;
+		return v->v_bool.val ? 1 : 0;
 
 	case VALUE_ERROR:
 		return 0;
@@ -506,23 +493,23 @@ value_get_as_float (const Value *v)
 		return 0.;
 
 	case VALUE_STRING:
-		return atof (v->v.str->str);
+		return atof (v->v_str.val->str);
 
 	case VALUE_CELLRANGE:
 		g_warning ("Getting range as a double: what to do?");
 		return 0.0;
 
 	case VALUE_INTEGER:
-		return (float_t) v->v.v_int;
+		return (float_t) v->v_int.val;
 		
 	case VALUE_ARRAY:
 		return 0.0;
 
 	case VALUE_FLOAT:
-		return (float_t) v->v.v_float;
+		return (float_t) v->v_float.val;
 
 	case VALUE_BOOLEAN:
-		return v->v.v_bool ? 1. : 0.;
+		return v->v_bool.val ? 1. : 0.;
 
 	case VALUE_ERROR:
 		return 0.;
@@ -546,7 +533,7 @@ value_is_empty_cell (Value const *v)
 {
 	return v == NULL ||
 	      (v->type == VALUE_EMPTY) ||
-	      (v->type == VALUE_STRING && v->v.str->str[0] == '\0');
+	      (v->type == VALUE_STRING && v->v_str.val->str[0] == '\0');
 }
 
 /*
@@ -572,12 +559,12 @@ value_array_set (Value *array, guint col, guint row, Value *v)
 	g_return_if_fail (array->type == VALUE_ARRAY);
 	g_return_if_fail (col>=0);
 	g_return_if_fail (row>=0);
-	g_return_if_fail (array->v.array.y > row);
-	g_return_if_fail (array->v.array.x > col);
+	g_return_if_fail (array->v_array.y > row);
+	g_return_if_fail (array->v_array.x > col);
 
-	if (array->v.array.vals[col][row] != NULL)
-		value_release (array->v.array.vals[col][row]);
-	array->v.array.vals[col][row] = v;
+	if (array->v_array.vals[col][row] != NULL)
+		value_release (array->v_array.vals[col][row]);
+	array->v_array.vals[col][row] = v;
 }
 
 void
@@ -593,22 +580,22 @@ value_array_resize (Value *v, guint width, guint height)
 
 	newval = value_new_array (width, height);
 
-	xcpy = MIN (width, v->v.array.x);
-	ycpy = MIN (height, v->v.array.y);
+	xcpy = MIN (width, v->v_array.x);
+	ycpy = MIN (height, v->v_array.y);
 
 	for (x = 0; x < xcpy; x++)
 		for (y = 0; y < ycpy; y++) {
-			value_array_set (newval, x, y, v->v.array.vals[x][y]);
-			v->v.array.vals[x][y] = NULL;
+			value_array_set (newval, x, y, v->v_array.vals[x][y]);
+			v->v_array.vals[x][y] = NULL;
 		}
 
-	tmp = v->v.array.vals;
-	v->v.array.vals = newval->v.array.vals;
-	newval->v.array.vals = tmp;
-	newval->v.array.x = v->v.array.x;
-	newval->v.array.y = v->v.array.y;
-	v->v.array.x = width;
-	v->v.array.y = height;
+	tmp = v->v_array.vals;
+	v->v_array.vals = newval->v_array.vals;
+	newval->v_array.vals = tmp;
+	newval->v_array.x = v->v_array.x;
+	newval->v_array.y = v->v_array.y;
+	v->v_array.x = width;
+	v->v_array.y = height;
 
 	value_release (newval);
 }
@@ -631,40 +618,42 @@ value_equal (const Value *a, const Value *b)
 		return TRUE;
 
 	case VALUE_BOOLEAN:
-		return a->v.v_bool == b->v.v_bool;
+		return a->v_bool.val == b->v_bool.val;
 
 	case VALUE_INTEGER:
-		return a->v.v_int == b->v.v_int;
+		return a->v_int.val == b->v_int.val;
 
 	case VALUE_FLOAT:
-		return a->v.v_float == b->v.v_float;
+		return a->v_float.val == b->v_float.val;
 
 	case VALUE_ERROR:
-		return a->v.error.mesg == b->v.error.mesg;
+		return a->v_err.mesg == b->v_err.mesg;
 
 	case VALUE_STRING:
-		return a->v.str == b->v.str;
+		return a->v_str.val == b->v_str.val;
 
 	case VALUE_CELLRANGE:
-		return (!(memcmp (&a->v.cell_range.cell_a,
-				  &b->v.cell_range.cell_a,
+		return (!(memcmp (&a->v_range.cell_a,
+				  &b->v_range.cell_a,
 				  sizeof (CellRef))) &&
-			!(memcmp (&a->v.cell_range.cell_b,
-				  &b->v.cell_range.cell_b,
+			!(memcmp (&a->v_range.cell_b,
+				  &b->v_range.cell_b,
 				  sizeof (CellRef))));
 
 	case VALUE_ARRAY:
 	{
+		ValueArray *va = (ValueArray *)a;
+		ValueArray *vb = (ValueArray *)b;
 		guint x, y;
 
-		if (a->v.array.x != b->v.array.x ||
-		    a->v.array.y != b->v.array.y)
+		if (va->x != vb->x ||
+		    va->y != vb->y)
 			return FALSE;
 
-		for (y = 0; y < a->v.array.y; y++) {
-			for (x = 0; x < a->v.array.x; x++) {
-				if (!value_equal (a->v.array.vals [x] [y],
-						  b->v.array.vals [x] [y]))
+		for (y = 0; y < va->y; y++) {
+			for (x = 0; x < va->x; x++) {
+				if (!value_equal (va->vals [x] [y],
+						  vb->vals [x] [y]))
 					return FALSE;
 			}
 		}

@@ -495,18 +495,18 @@ handle_value_deps (Cell *cell, const Value *value, DepOperation operation)
 	{
 		int x, y;
 
-		for (x = 0; x < value->v.array.x; x++)
-			for (y = 0; y < value->v.array.y; y++)
+		for (x = 0; x < value->v_array.x; x++)
+			for (y = 0; y < value->v_array.y; y++)
 				handle_value_deps (cell,
-						   value->v.array.vals [x] [y],
+						   value->v_array.vals [x] [y],
 						   operation);
 		break;
 	}
 	case VALUE_CELLRANGE:
 		handle_cell_range_deps (
 			cell,
-			&value->v.cell_range.cell_a,
-			&value->v.cell_range.cell_b,
+			&value->v_range.cell_a,
+			&value->v_range.cell_b,
 			operation);
 		break;
 	default:

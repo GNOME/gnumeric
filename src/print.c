@@ -94,8 +94,8 @@ print_page_repeated_rows (Sheet *sheet,
 			  PrintJobInfo *pj)
 {
 	Value *value = &pj->pi->repeat_top.range;
-	CellRef *cell_a = &value->v.cell_range.cell_a;
-	CellRef *cell_b = &value->v.cell_range.cell_b;
+	CellRef *cell_a = &value->v_range.cell_a;
+	CellRef *cell_b = &value->v_range.cell_b;
 
 	base_y = pj->height - base_y;
 
@@ -123,8 +123,8 @@ print_page_repeated_cols (Sheet *sheet,
 			  PrintJobInfo *pj)
 {
 	Value *value = &pj->pi->repeat_top.range;
-	CellRef *cell_a = &value->v.cell_range.cell_a;
-	CellRef *cell_b = &value->v.cell_range.cell_b;
+	CellRef *cell_a = &value->v_range.cell_a;
+	CellRef *cell_b = &value->v_range.cell_b;
 
 	base_y = pj->height - base_y;
 
@@ -632,8 +632,8 @@ static double
 print_range_used_units (Sheet *sheet, gboolean compute_rows, PrintRepeatRange *range)
 {
 	Value *cell_range = &range->range;
-	CellRef *cell_a = &cell_range->v.cell_range.cell_a;
-	CellRef *cell_b = &cell_range->v.cell_range.cell_b;
+	CellRef *cell_a = &cell_range->v_range.cell_a;
+	CellRef *cell_b = &cell_range->v_range.cell_b;
 
 	if (compute_rows)
 		return sheet_row_get_distance_pts

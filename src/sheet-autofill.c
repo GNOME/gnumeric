@@ -244,9 +244,9 @@ fill_item_new (Cell *cell)
 		int  num, pos, i18;
 
 		fi->type = FILL_STRING_CONSTANT;
-		fi->v.str = string_ref (value->v.str);
+		fi->v.str = string_ref (value->v_str.val);
 
-		list = matches_list (value->v.str, &num, &i18);
+		list = matches_list (value->v_str.val, &num, &i18);
 		if (list){
 			fi->type = FILL_STRING_LIST;
 			fi->v.list.list = list;
@@ -255,9 +255,9 @@ fill_item_new (Cell *cell)
 			return fi;
 		}
 
-		if (string_has_number (value->v.str, &num, &pos)){
+		if (string_has_number (value->v_str.val, &num, &pos)){
 			fi->type = FILL_STRING_WITH_NUMBER;
-			fi->v.numstr.str = value->v.str;
+			fi->v.numstr.str = value->v_str.val;
 			fi->v.numstr.num = num;
 			fi->v.numstr.pos = pos;
 		}
@@ -294,7 +294,7 @@ autofill_compute_delta (GList *list_last, GList *fill_item_list)
 
 		if (fi->v.value->type == VALUE_INTEGER && lfi->v.value->type == VALUE_INTEGER){
 			fi->delta_is_float = FALSE;
-			fi->delta.d_int = fi->v.value->v.v_int - lfi->v.value->v.v_int;
+			fi->delta.d_int = fi->v.value->v_int.val - lfi->v.value->v_int.val;
 			return;
 		}
 
@@ -484,11 +484,11 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 
 		if (last->delta_is_float){
 			double const d =
-			    last->v.value->v.v_float + idx * last->delta.d_float;
+			    last->v.value->v_float.val + idx * last->delta.d_float;
 			sheet_cell_set_value (cell, value_new_float (d), NULL);
 		} else {
 			int const i =
-			    last->v.value->v.v_int + idx * last->delta.d_int;
+			    last->v.value->v_int.val + idx * last->delta.d_int;
 			sheet_cell_set_value (cell, value_new_int (i), NULL);
 		}
 		return;

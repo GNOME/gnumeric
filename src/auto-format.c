@@ -196,8 +196,8 @@ do_af_suggest (const ExprTree *expr, EvalPosition *ppos, char **explicit)
 			int col_a, col_b, row_a, row_b;
 			struct cb_af_suggest closure;
 
-			ref_a = &v->v.cell_range.cell_a;
-			ref_b = &v->v.cell_range.cell_b;
+			ref_a = &v->v_range.cell_a;
+			ref_b = &v->v_range.cell_b;
 			sheet = eval_sheet (ref_a->sheet, ppos->sheet);
 			/* If we don't have a sheet, we cannot look up vars. */
 			if (sheet == NULL)

@@ -273,13 +273,13 @@ callback_function_rank (Sheet *sheet, int col, int row,
 
 	switch (cell->value->type) {
         case VALUE_BOOLEAN:
-                x = cell->value->v.v_bool ? 1 : 0;
+                x = cell->value->v_bool.val ? 1 : 0;
                 break;
         case VALUE_INTEGER:
-                x = cell->value->v.v_int;
+                x = cell->value->v_int.val;
                 break;
         case VALUE_FLOAT:
-                x = cell->value->v.v_float;
+                x = cell->value->v_float.val;
                 break;
 	case VALUE_EMPTY:
         default:
@@ -310,12 +310,12 @@ gnumeric_rank (FunctionEvalInfo *ei, Value **argv)
 	        p.order = 0;
 	p.rank = 1;
 	ret = sheet_cell_foreach_range (
-	        eval_sheet (argv[1]->v.cell_range.cell_a.sheet,
+	        eval_sheet (argv[1]->v_range.cell_a.sheet,
 			    ei->pos->sheet), TRUE,
-		argv[1]->v.cell_range.cell_a.col,
-		argv[1]->v.cell_range.cell_a.row,
-		argv[1]->v.cell_range.cell_b.col,
-		argv[1]->v.cell_range.cell_b.row,
+		argv[1]->v_range.cell_a.col,
+		argv[1]->v_range.cell_a.row,
+		argv[1]->v_range.cell_b.col,
+		argv[1]->v_range.cell_b.row,
 		callback_function_rank,
 		&p);
 
@@ -827,7 +827,7 @@ callback_function_count (const EvalPosition *ep, Value *value, void *closure)
 	Value *result = (Value *) closure;
 
 	if (value && VALUE_IS_NUMBER (value))
-		result->v.v_int++;
+		result->v_int.val++;
 	return NULL;
 }
 
@@ -868,7 +868,7 @@ callback_function_counta (const EvalPosition *ep, Value *value, void *closure)
 {
         Value *result = (Value *) closure;
 
-	result->v.v_int++;
+	result->v_int.val++;
 	return NULL;
 }
 
@@ -1388,24 +1388,20 @@ callback_function_chitest_theoretical (const EvalPosition *ep, Value *value,
 static Value *
 gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 {
-        Sheet            *sheet;
 	stat_chitest_t   p1;
 	stat_chitest_t_t p2;
 	GSList           *tmp;
-	int              col, row, dof;
+	int               dof;
 	Value           *ret;
 
-	sheet = eval_sheet (argv[0]->v.cell.sheet, ei->pos->sheet);
-	col = argv[0]->v.cell.col;
-	row = argv[0]->v.cell.row;
-	p1.cols = argv[0]->v.cell_range.cell_b.col -
-	  argv[0]->v.cell_range.cell_a.col;
-	p2.cols = argv[1]->v.cell_range.cell_b.col -
-	  argv[1]->v.cell_range.cell_a.col;
-	p1.rows = argv[0]->v.cell_range.cell_b.row -
-	  argv[0]->v.cell_range.cell_a.row;
-	p2.rows = argv[1]->v.cell_range.cell_b.row -
-	  argv[1]->v.cell_range.cell_a.row;
+	p1.cols = argv[0]->v_range.cell_b.col -
+	  argv[0]->v_range.cell_a.col;
+	p2.cols = argv[1]->v_range.cell_b.col -
+	  argv[1]->v_range.cell_a.col;
+	p1.rows = argv[0]->v_range.cell_b.row -
+	  argv[0]->v_range.cell_a.row;
+	p2.rows = argv[1]->v_range.cell_b.row -
+	  argv[1]->v_range.cell_a.row;
 	p1.row = p1.col = 0;
 	p1.columns = p1.column = NULL;
 
@@ -2662,12 +2658,12 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 
         if (known_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-			eval_sheet (known_x->v.cell_range.cell_a.sheet,
+			eval_sheet (known_x->v_range.cell_a.sheet,
 				    ei->pos->sheet), TRUE,
-			known_x->v.cell_range.cell_a.col,
-			known_x->v.cell_range.cell_a.row,
-			known_x->v.cell_range.cell_b.col,
-			known_x->v.cell_range.cell_b.row,
+			known_x->v_range.cell_a.col,
+			known_x->v_range.cell_a.row,
+			known_x->v_range.cell_b.col,
+			known_x->v_range.cell_b.row,
 			callback_function_list,
 			&items_x);
 		if (ret != NULL) {
@@ -2692,12 +2688,12 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 
         if (known_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-			eval_sheet (known_y->v.cell_range.cell_a.sheet,
+			eval_sheet (known_y->v_range.cell_a.sheet,
 				    ei->pos->sheet),TRUE,
-			known_y->v.cell_range.cell_a.col,
-			known_y->v.cell_range.cell_a.row,
-			known_y->v.cell_range.cell_b.col,
-			known_y->v.cell_range.cell_b.row,
+			known_y->v_range.cell_a.col,
+			known_y->v_range.cell_a.row,
+			known_y->v_range.cell_b.col,
+			known_y->v_range.cell_b.row,
 			callback_function_list,
 			&items_y);
 		if (ret != NULL) {
@@ -3160,9 +3156,8 @@ static Value *
 gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 {
         stat_percentrank_t p;
-	Sheet              *sheet;
         float_t            x, k, pr;
-	int                col, row, n;
+	int                n;
         int                significance;
 	Value		   *ret;
 
@@ -3182,10 +3177,6 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 		if (significance < 1)
 		        return value_new_error (ei->pos, gnumeric_err_NUM);
 	}
-
-	sheet = eval_sheet (argv[0]->v.cell.sheet, ei->pos->sheet);
-	col = argv[0]->v.cell.col;
-	row = argv[0]->v.cell.row;
 
 	ret = function_iterate_do_value (ei->pos, (FunctionIterateCallback)
 					 callback_function_percentrank,
@@ -3385,7 +3376,7 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_cellref (&ep, ei->pos, &argv[0]->v.cell_range.cell_a),
+	    (eval_pos_cellref (&ep, ei->pos, &argv[0]->v_range.cell_a),
 	     &callback_function_stat, &cl, expr_node_list, TRUE);
 
 	if (err != NULL)
@@ -3406,7 +3397,7 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-		(eval_pos_cellref (&ep, ei->pos, &argv[1]->v.cell_range.cell_a),
+		(eval_pos_cellref (&ep, ei->pos, &argv[1]->v_range.cell_a),
 		 &callback_function_stat, &cl, expr_node_list, TRUE);
 	if (err != NULL)
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -3532,7 +3523,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
-		    (eval_pos_cellref (&ep, ei->pos, &argv[0]->v.cell_range.cell_a),
+		    (eval_pos_cellref (&ep, ei->pos, &argv[0]->v_range.cell_a),
 		     &callback_function_ttest, &t_cl, expr_node_list, TRUE);
 		if (err != NULL)
 		        return value_new_error (&ep, gnumeric_err_VALUE);
@@ -3547,7 +3538,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
-		    (eval_pos_cellref (&ep, ei->pos, &argv[1]->v.cell_range.cell_a),
+		    (eval_pos_cellref (&ep, ei->pos, &argv[1]->v_range.cell_a),
 		     &callback_function_ttest, &t_cl, expr_node_list, TRUE);
 
 		if (err != NULL)
@@ -3595,7 +3586,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
-		    (eval_pos_cellref (&ep, ei->pos, &argv[0]->v.cell_range.cell_a),
+		    (eval_pos_cellref (&ep, ei->pos, &argv[0]->v_range.cell_a),
 		     &callback_function_stat, &cl, expr_node_list, TRUE);
 
 		if (err != NULL)
@@ -3617,7 +3608,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
-		    (eval_pos_cellref (&ep, ei->pos, &argv[1]->v.cell_range.cell_a),
+		    (eval_pos_cellref (&ep, ei->pos, &argv[1]->v_range.cell_a),
 		     &callback_function_stat,
 		     &cl, expr_node_list,
 		     TRUE);
@@ -3745,10 +3736,10 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 	}
 
 	res = value_new_array_non_init (1, bin_cl.n + 1);
-	res->v.array.vals [0] = g_new (Value *, bin_cl.n + 1);
+	res->v_array.vals [0] = g_new (Value *, bin_cl.n + 1);
 
 	for (i = 0; i < bin_cl.n + 1; i++)
-		res->v.array.vals [0][i] = value_new_float (count[i]);
+		res->v_array.vals [0][i] = value_new_float (count[i]);
 
 	g_free (bin_array);
 	g_free (count);
@@ -3836,9 +3827,9 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 
 	if (argv[0]->type == VALUE_ARRAY)
 		ytype = ARRAY;
-	else if (argv[0]->v.cell_range.cell_a.col == argv[0]->v.cell_range.cell_b.col)
+	else if (argv[0]->v_range.cell_a.col == argv[0]->v_range.cell_b.col)
 		ytype = SINGLE_COL;
-	else if (argv[0]->v.cell_range.cell_a.row == argv[0]->v.cell_range.cell_b.row)
+	else if (argv[0]->v_range.cell_a.row == argv[0]->v_range.cell_b.row)
 		ytype = SINGLE_ROW;
 	else ytype = OTHER;
 
@@ -3874,14 +3865,14 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 		int firstcol, lastcol;
 		Value *copy;
 		xarg = 1;
-		firstcol = argv[1]->v.cell_range.cell_a.col;
-		lastcol  = argv[1]->v.cell_range.cell_b.col;
+		firstcol = argv[1]->v_range.cell_a.col;
+		lastcol  = argv[1]->v_range.cell_b.col;
 		dim = lastcol - firstcol + 1;
 		copy = value_duplicate (argv[1]);
 		xss = g_new (float_t *, dim);
 		for (i = firstcol; i <= lastcol; i++){
-			copy->v.cell_range.cell_a.col = i;
-			copy->v.cell_range.cell_b.col = i;
+			copy->v_range.cell_a.col = i;
+			copy->v_range.cell_b.col = i;
 			xss[i - firstcol] = collect_floats_value (copy, ei->pos,
 						       COLLECT_IGNORE_STRINGS |
 						       COLLECT_IGNORE_BOOLS,
@@ -3904,14 +3895,14 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 		int firstrow, lastrow;
 		Value *copy;
 		xarg = 1;
-		firstrow = argv[1]->v.cell_range.cell_a.row;
-		lastrow  = argv[1]->v.cell_range.cell_b.row;
+		firstrow = argv[1]->v_range.cell_a.row;
+		lastrow  = argv[1]->v_range.cell_b.row;
 		dim = lastrow - firstrow + 1;
 		copy = value_duplicate (argv[1]);
 		xss = g_new (float_t *, dim);
 		for (i = firstrow; i <= lastrow; i++){
-			copy->v.cell_range.cell_a.row = i;
-			copy->v.cell_range.cell_b.row = i;
+			copy->v_range.cell_a.row = i;
+			copy->v_range.cell_b.row = i;
 			xss[i - firstrow] = collect_floats_value (copy, ei->pos,
 						       COLLECT_IGNORE_STRINGS |
 						       COLLECT_IGNORE_BOOLS,
@@ -4190,9 +4181,9 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 
 	if (argv[0]->type == VALUE_ARRAY)
 		ytype = ARRAY;
-	else if (argv[0]->v.cell_range.cell_a.col == argv[0]->v.cell_range.cell_b.col)
+	else if (argv[0]->v_range.cell_a.col == argv[0]->v_range.cell_b.col)
 		ytype = SINGLE_COL;
-	else if (argv[0]->v.cell_range.cell_a.row == argv[0]->v.cell_range.cell_b.row)
+	else if (argv[0]->v_range.cell_a.row == argv[0]->v_range.cell_b.row)
 		ytype = SINGLE_ROW;
 	else ytype = OTHER;
 
@@ -4228,14 +4219,14 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 		int firstcol, lastcol;
 		Value *copy;
 		xarg = 1;
-		firstcol = argv[1]->v.cell_range.cell_a.col;
-		lastcol  = argv[1]->v.cell_range.cell_b.col;
+		firstcol = argv[1]->v_range.cell_a.col;
+		lastcol  = argv[1]->v_range.cell_b.col;
 		dim = lastcol - firstcol + 1;
 		copy = value_duplicate (argv[1]);
 		xss = g_new (float_t *, dim);
 		for (i = firstcol; i <= lastcol; i++){
-			copy->v.cell_range.cell_a.col = i;
-			copy->v.cell_range.cell_b.col = i;
+			copy->v_range.cell_a.col = i;
+			copy->v_range.cell_b.col = i;
 			xss[i - firstcol] = collect_floats_value (copy, ei->pos,
 						       COLLECT_IGNORE_STRINGS |
 						       COLLECT_IGNORE_BOOLS,
@@ -4258,14 +4249,14 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 		int firstrow, lastrow;
 		Value *copy;
 		xarg = 1;
-		firstrow = argv[1]->v.cell_range.cell_a.row;
-		lastrow  = argv[1]->v.cell_range.cell_b.row;
+		firstrow = argv[1]->v_range.cell_a.row;
+		lastrow  = argv[1]->v_range.cell_b.row;
 		dim = lastrow - firstrow + 1;
 		copy = value_duplicate (argv[1]);
 		xss = g_new (float_t *, dim);
 		for (i = firstrow; i <= lastrow; i++){
-			copy->v.cell_range.cell_a.row = i;
-			copy->v.cell_range.cell_b.row = i;
+			copy->v_range.cell_a.row = i;
+			copy->v_range.cell_b.row = i;
 			xss[i - firstrow] = collect_floats_value (copy, ei->pos,
 						       COLLECT_IGNORE_STRINGS |
 						       COLLECT_IGNORE_BOOLS,

@@ -10,9 +10,16 @@ typedef struct _Workbook	Workbook;
 typedef struct _Sheet		Sheet;
 typedef struct _Cell		Cell;
 
-typedef struct _Value		Value;
+typedef union _Value		Value;
+typedef struct _ValueBool	ValueBool;
+typedef struct _ValueInt	ValueInt;
+typedef struct _ValueFloat	ValueFloat;
+typedef struct _ValueErr	ValueErr;
+typedef struct _ValueStr	ValueStr;
+typedef struct _ValueRange	ValueRange;
+typedef struct _ValueArray	ValueArray;
+
 typedef struct _RenderedValue	RenderedValue;
-typedef struct _ErrorMessage	ErrorMessage;
 
 typedef struct _ExprTree	   ExprTree;
 typedef struct _ArrayRef	   ArrayRef;

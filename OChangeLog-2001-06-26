@@ -1,3 +1,11 @@
+2000-04-29  Jody Goldberg <jgoldberg@home.com>
+	
+	* * : Convert 'Value' into a union of real types and allocate each
+	  seperately.
+
+	* src/dialogs/dialog-printer-setup.c (do_print_preview_cb) :
+	  Suppress warning.
+
 2000-04-29  Almer. S. Tigelaar.  <almer1@dds.nl>
 
 	* src/dialogs/dialog-stf-preview.c :

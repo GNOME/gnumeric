@@ -625,7 +625,7 @@ write_node (PolishData *pd, ExprTree *tree)
 		{
 			guint8 data[2];
 			MS_OLE_SET_GUINT8 (data, FORMULA_PTG_BOOL);
-			MS_OLE_SET_GUINT8 (data+1, v->v.v_bool ? 1 : 0);
+			MS_OLE_SET_GUINT8 (data+1, v->v_bool.val ? 1 : 0);
 			ms_biff_put_var_write (pd->bp, data, 2);
 			break;
 		}
@@ -647,13 +647,13 @@ write_node (PolishData *pd, ExprTree *tree)
 		}
 
 		case VALUE_STRING:
-			write_string (pd, v->v.str->str);
+			write_string (pd, v->v_str.val->str);
 			break;
 
 		case VALUE_CELLRANGE:
 		{ /* FIXME: Could be 3D ! */
-			write_area (pd, &v->v.cell_range.cell_a,
-				    &v->v.cell_range.cell_b);
+			write_area (pd, &v->v_range.cell_a,
+				    &v->v_range.cell_b);
 			break;
 		}
 
@@ -662,13 +662,13 @@ write_node (PolishData *pd, ExprTree *tree)
 		{
 			guint8 data[8];
 
-			if (v->v.array.x > 256 ||
-			    v->v.array.y > 65536)
+			if (v->v_array.x > 256 ||
+			    v->v_array.y > 65536)
 				g_warning ("Array far too big");
 
 			MS_OLE_SET_GUINT8  (data + 0, FORMULA_PTG_ARRAY);
-			MS_OLE_SET_GUINT8  (data + 1, v->v.array.x - 1);
-			MS_OLE_SET_GUINT16 (data + 2, v->v.array.y - 1);
+			MS_OLE_SET_GUINT8  (data + 1, v->v_array.x - 1);
+			MS_OLE_SET_GUINT16 (data + 2, v->v_array.y - 1);
 			MS_OLE_SET_GUINT16 (data + 4, 0x0); /* ? */
 			MS_OLE_SET_GUINT16 (data + 6, 0x0); /* ? */
 			ms_biff_put_var_write (pd->bp, data, 8);
@@ -758,9 +758,9 @@ write_arrays (PolishData *pd)
 	array = pd->arrays->data;
 	g_return_if_fail (array->type == VALUE_ARRAY);
 
-	for (lpy = 0; lpy < array->v.array.y; lpy++) {
-		for (lpx = 0; lpx < array->v.array.x; lpx++) {
-			const Value *v = array->v.array.vals[lpx][lpy];
+	for (lpy = 0; lpy < array->v_array.y; lpy++) {
+		for (lpx = 0; lpx < array->v_array.x; lpx++) {
+			const Value *v = array->v_array.vals[lpx][lpy];
 
 			if (VALUE_IS_NUMBER (v)) {
 				push_guint8 (pd, 1);

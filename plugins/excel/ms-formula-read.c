@@ -688,7 +688,7 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 		if (tmp != NULL) {
 		    if (tmp->oper == OPER_CONSTANT &&
 			tmp->u.constant->type == VALUE_STRING)
-			f_name = tmp->u.constant->v.str->str;
+			f_name = tmp->u.constant->v_str.val->str;
 		    else if (tmp->oper == OPER_NAME)
 			f_name = tmp->u.name->name->str;
 		}

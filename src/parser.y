@@ -345,7 +345,7 @@ exp:	  NUMBER 	{ $$ = $1; }
 	;
 
 sheetref: STRING SHEET_SEP {
-		Sheet *sheet = sheet_lookup_by_name (parser_wb, $1->u.constant->v.str->str);
+		Sheet *sheet = sheet_lookup_by_name (parser_wb, $1->u.constant->v_str.val->str);
 		/* TODO : Get rid of ParseErr and replace it with something richer. */
 		unregister_allocation ($1); expr_tree_unref ($1);
 		if (sheet == NULL) {
@@ -365,11 +365,11 @@ sheetref: STRING SHEET_SEP {
 		 *  to mark the offending region.
 		 */
 		Workbook * wb =
-		    application_workbook_get_by_name ($2->u.constant->v.str->str);
+		    application_workbook_get_by_name ($2->u.constant->v_str.val->str);
 		Sheet *sheet = NULL;
 
 		if (wb != NULL)
-			sheet = sheet_lookup_by_name (wb, $4->u.constant->v.str->str);
+			sheet = sheet_lookup_by_name (wb, $4->u.constant->v_str.val->str);
 
 		unregister_allocation ($4); expr_tree_unref ($4);
 		unregister_allocation ($2); expr_tree_unref ($2);

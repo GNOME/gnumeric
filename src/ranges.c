@@ -195,8 +195,8 @@ range_list_foreach_full (GSList *ranges, void (*callback)(Cell *cell, void *data
 		
 		g_assert (value->type == VALUE_CELLRANGE);
 
-		a = value->v.cell_range.cell_a;
-		b = value->v.cell_range.cell_b;
+		a = value->v_range.cell_a;
+		b = value->v_range.cell_b;
 
 		for (col = a.col; col <= b.col; col++)
 			for (row = a.row; row < b.row; row++){
@@ -255,16 +255,16 @@ range_list_foreach_area (Sheet *sheet, GSList *ranges,
 		
 		g_assert (value->type == VALUE_CELLRANGE);
 
-		range.start.col = value->v.cell_range.cell_a.col;
-		range.start.row = value->v.cell_range.cell_a.row;
-		range.end.col   = value->v.cell_range.cell_b.col;
-		range.end.row   = value->v.cell_range.cell_b.row;
+		range.start.col = value->v_range.cell_a.col;
+		range.start.row = value->v_range.cell_a.row;
+		range.end.col   = value->v_range.cell_b.col;
+		range.end.row   = value->v_range.cell_b.row;
 
 		s = sheet;
-		if (value->v.cell_range.cell_b.sheet)
-			s = value->v.cell_range.cell_b.sheet;
-		if (value->v.cell_range.cell_a.sheet)
-			s = value->v.cell_range.cell_a.sheet;
+		if (value->v_range.cell_b.sheet)
+			s = value->v_range.cell_b.sheet;
+		if (value->v_range.cell_a.sheet)
+			s = value->v_range.cell_a.sheet;
 		callback (s, &range, user_data);
 	}
 }

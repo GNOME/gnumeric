@@ -91,40 +91,40 @@ value_to_scm (Value const *val, CellRef cell_ref)
 			return scm_long2num(0);
  
 		case VALUE_BOOLEAN :
-			return gh_bool2scm(val->v.v_bool);	
+			return gh_bool2scm(val->v_bool.val);	
 			
 		case VALUE_ERROR :
 			/* FIXME ?? what belongs here */
-			return scm_makfrom0str(val->v.error.mesg->str);
+			return scm_makfrom0str(val->v_err.mesg->str);
 
 		case VALUE_STRING :
-			return scm_makfrom0str(val->v.str->str);
+			return scm_makfrom0str(val->v_str.val->str);
 
 		case VALUE_INTEGER :
-			return scm_long2num(val->v.v_int);
+			return scm_long2num(val->v_int.val);
 
 		case VALUE_FLOAT :
-			return gh_double2scm(val->v.v_float);
+			return gh_double2scm(val->v_float.val);
 
 		case VALUE_CELLRANGE :
 			return scm_cons(scm_symbolfrom0str("cell-range"),
-					scm_cons(cell_ref_to_scm(val->v.cell_range.cell_a, cell_ref),
-						 cell_ref_to_scm(val->v.cell_range.cell_b, cell_ref)));
+					scm_cons(cell_ref_to_scm(val->v_range.cell_a, cell_ref),
+						 cell_ref_to_scm(val->v_range.cell_b, cell_ref)));
 
 		case VALUE_ARRAY :
 			{
 				int x, y, i, ii;
 				SCM ls;
 
-				x = val->v.array.x;
-				y = val->v.array.y;
+				x = val->v_array.x;
+				y = val->v_array.y;
 
 				ls = gh_eval_str("'()");
 
 				/* FIXME : I added the value_to_scm wrapper. This seems more correct */
 				for(i = 0; i < y; i++)
 					for (ii = 0; i < x; i++)
-						ls = scm_cons(value_to_scm(val->v.array.vals[ii][i], cell_ref), ls);
+						ls = scm_cons(value_to_scm(val->v_array.vals[ii][i], cell_ref), ls);
 				return ls;
 			}
 	}

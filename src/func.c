@@ -88,11 +88,11 @@ function_iterate_do_value (EvalPosition      const *ep,
 	{
 		int x, y;
 		
-		for (x = 0; x < value->v.array.x; x++) {
-			for (y = 0; y < value->v.array.y; y++) {
+		for (x = 0; x < value->v_array.x; x++) {
+			for (y = 0; y < value->v_array.y; y++) {
 				res = function_iterate_do_value (
 					ep, callback, closure,
-					value->v.array.vals [x][y],
+					value->v_array.vals [x][y],
 					strict);
 				if (res != NULL)
 					return res;
@@ -109,13 +109,13 @@ function_iterate_do_value (EvalPosition      const *ep,
 		data.closure  = closure;
 		data.strict   = strict;
 
-		cell_get_abs_col_row (&value->v.cell_range.cell_a, &ep->eval,
+		cell_get_abs_col_row (&value->v_range.cell_a, &ep->eval,
 				      &start_col, &start_row);
 
-		cell_get_abs_col_row (&value->v.cell_range.cell_b, &ep->eval,
+		cell_get_abs_col_row (&value->v_range.cell_b, &ep->eval,
 				      &end_col, &end_row);
 
-		sheet = eval_sheet (value->v.cell_range.cell_a.sheet, ep->sheet);
+		sheet = eval_sheet (value->v_range.cell_a.sheet, ep->sheet);
 		res = sheet_cell_foreach_range (
 			sheet, TRUE,
 			start_col, start_row,
@@ -384,8 +384,8 @@ function_marshal_arg (FunctionEvalInfo *ei,
 		if (v->type != VALUE_CELLRANGE)
 			*type_mismatch = TRUE;
 		else {
-			cell_ref_make_absolute (&v->v.cell_range.cell_a, ei->pos);
-			cell_ref_make_absolute (&v->v.cell_range.cell_b, ei->pos);
+			cell_ref_make_absolute (&v->v_range.cell_a, ei->pos);
+			cell_ref_make_absolute (&v->v_range.cell_b, ei->pos);
 		}
 		break;
 
@@ -400,8 +400,8 @@ function_marshal_arg (FunctionEvalInfo *ei,
 			*type_mismatch = TRUE;
 			
 		if (v->type == VALUE_CELLRANGE) {
-			cell_ref_make_absolute (&v->v.cell_range.cell_a, ei->pos);
-			cell_ref_make_absolute (&v->v.cell_range.cell_b, ei->pos);
+			cell_ref_make_absolute (&v->v_range.cell_a, ei->pos);
+			cell_ref_make_absolute (&v->v_range.cell_b, ei->pos);
 		}
 		break;
 	}

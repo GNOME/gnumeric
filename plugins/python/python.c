@@ -152,8 +152,8 @@ range_to_python (Value *v)
 
 	ret = PyObject_CallFunction
 		(klass, "O&O&",
-		 cell_ref_to_python, &v->v.cell_range.cell_a,
-		 cell_ref_to_python, &v->v.cell_range.cell_b);
+		 cell_ref_to_python, &v->v_range.cell_a,
+		 cell_ref_to_python, &v->v_range.cell_b);
 
 	Py_DECREF (klass);
 	return ret;
@@ -175,7 +175,7 @@ boolean_to_python (Value *v)
 	if ((mod = PyImport_ImportModule (GNUMERIC_DEFS_MODULE)) == NULL)
 		return NULL;
 
-	return PyObject_GetAttrString (mod, v->v.v_bool ? "TRUE" : "FALSE");
+	return PyObject_GetAttrString (mod, v->v_bool.val ? "TRUE" : "FALSE");
 }
 
 /**
@@ -192,13 +192,13 @@ row_to_python (Value *v, int j)
 	PyObject * list = NULL, *o = NULL;
 	int cols, i;
 
-	cols = v->v.array.x;
+	cols = v->v_array.x;
 	list = PyList_New (cols);
 	if (list == NULL)
 		return NULL;
 
 	for (i = 0; i < cols; i++) {
-		o = value_to_python (v->v.array.vals[i][j]);
+		o = value_to_python (v->v_array.vals[i][j]);
 		if (o == NULL) {
 			Py_DECREF(list);
 			return NULL;
@@ -216,7 +216,7 @@ row_to_python (Value *v, int j)
  * Converts an array to Python. Returns owned reference to python object.
  *
  * User visible array notation in Gnumeric: Row n, col m is [n][m]
- * In C, the same elt is v->v.array.vals[m][n]
+ * In C, the same elt is v->v_array.vals[m][n]
  * For scripting, I think it's best to do it the way the user sees it,
  * i.e. opposite from C.
  */
@@ -226,7 +226,7 @@ array_to_python (Value *v)
 	PyObject * list = NULL, *row = NULL;
 	int rows, j;
 
-	rows = v->v.array.y;
+	rows = v->v_array.y;
 	list = PyList_New (rows);
 	if (list == NULL)
 		return NULL;
@@ -261,13 +261,13 @@ value_to_python (Value *v)
 
 	switch (v->type) {
 	case VALUE_INTEGER:
-		o = PyInt_FromLong (v->v.v_int);
+		o = PyInt_FromLong (v->v_int.val);
 		break;
 	case VALUE_FLOAT:
-		o = PyFloat_FromDouble (v->v.v_float);
+		o = PyFloat_FromDouble (v->v_float.val);
 		break;
 	case VALUE_STRING:
-		o = PyString_FromString (v->v.str->str);
+		o = PyString_FromString (v->v_str.val->str);
 		break;
 	case VALUE_CELLRANGE:
 		o = range_to_python (v);
@@ -484,12 +484,12 @@ row_from_python (PyObject *o, int rowno, Value *array,
 {
 	PyObject *item;
 	int i;
-	int cols = array->v.array.x;
+	int cols = array->v_array.x;
 
 	for (i = 0; i < cols; i++) {
 		if ((item = PyList_GetItem (o, i)) == NULL)
 			return -1;
-		array->v.array.vals[i][rowno] =
+		array->v_array.vals[i][rowno] =
 		    value_from_python (item, pos);
 	}
 	return 0;
@@ -523,7 +523,7 @@ array_from_python (PyObject *o, EvalPosition const *pos)
 		cols = PyList_Size (row);
 		if (j == 0) {
 			array = value_new_array (cols, rows);
-		} else if (cols != array->v.array.x) {
+		} else if (cols != array->v_array.x) {
 			PyErr_SetString (PyExc_TypeError,
 					 "Rectangular array expected");
 			goto cleanup;
@@ -760,7 +760,7 @@ apply (PyObject *m, PyObject *py_args)
 	if (v->type == VALUE_ERROR) {
 		/* Raise an exception */
 		retval = NULL;
-		PyErr_SetString (GnumericError, v->v.error.mesg->str);
+		PyErr_SetString (GnumericError, v->v_err.mesg->str);
 	} else
 		retval = value_to_python (v);
 

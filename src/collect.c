@@ -37,7 +37,7 @@ callback_function_collect (const EvalPosition *ep, Value *value, void *closure)
 		if (cl->flags & COLLECT_IGNORE_BOOLS)
 			return NULL;
 		else if (cl->flags & COLLECT_ZEROONE_BOOLS)
-			x = (value->v.v_bool) ? 1. : 0.;
+			x = (value->v_bool.val) ? 1. : 0.;
 		else
 			return value_new_error (ep, gnumeric_err_VALUE);
 		break;

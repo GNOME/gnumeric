@@ -1260,17 +1260,17 @@ check_valid (const StyleFormatEntry *entry, const Value *value)
 		case '*':
 			return TRUE;
 		case '<':
-			return value->v.v_float < entry->restriction_value;
+			return value->v_float.val < entry->restriction_value;
 		case '>':
-			return value->v.v_float > entry->restriction_value;
+			return value->v_float.val > entry->restriction_value;
 		case '=':
-			return value->v.v_float == entry->restriction_value;
+			return value->v_float.val == entry->restriction_value;
 		case ',':
-			return value->v.v_float <= entry->restriction_value;
+			return value->v_float.val <= entry->restriction_value;
 		case '.':
-			return value->v.v_float >= entry->restriction_value;
+			return value->v_float.val >= entry->restriction_value;
 		case '+':
-			return value->v.v_float != entry->restriction_value;
+			return value->v_float.val != entry->restriction_value;
 		default:
 			return FALSE;
 		}
@@ -1281,17 +1281,17 @@ check_valid (const StyleFormatEntry *entry, const Value *value)
 		case '*':
 			return TRUE;
 		case '<':
-			return value->v.v_int < entry->restriction_value;
+			return value->v_int.val < entry->restriction_value;
 		case '>':
-			return value->v.v_int > entry->restriction_value;
+			return value->v_int.val > entry->restriction_value;
 		case '=':
-			return value->v.v_int == entry->restriction_value;
+			return value->v_int.val == entry->restriction_value;
 		case ',':
-			return value->v.v_int <= entry->restriction_value;
+			return value->v_int.val <= entry->restriction_value;
 		case '.':
-			return value->v.v_int >= entry->restriction_value;
+			return value->v_int.val >= entry->restriction_value;
 		case '+':
-			return value->v.v_int != entry->restriction_value;
+			return value->v_int.val != entry->restriction_value;
 		default:
 			return FALSE;
 		}
@@ -1360,7 +1360,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 		if (entered_text != NULL)
 			return g_strdup (entered_text);
 		if (value->type == VALUE_STRING)
-			return g_strdup (value->v.str->str);
+			return g_strdup (value->v_str.val->str);
 
 		/* FIXME : What does it mean to format a value as text
 		 * without specifying the entered text ??
@@ -1381,19 +1381,19 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 
 	switch (value->type){
 	case VALUE_FLOAT:
-		if (finite (value->v.v_float)) {
+		if (finite (value->v_float.val)) {
 			if (is_general){
 				/* FIXME FIXME FIXME : This is pathetic
 				 * rendering for General should be done
 				 * with knowledge of the cell width to
 				 * compute the optimal format
 				 */
-				if (floor (value->v.v_float) == value->v.v_float)
+				if (floor (value->v_float.val) == value->v_float.val)
 					entry.format = "0";
 				else
 					entry.format = _("0.0########");
 			}
-			v = format_number (value->v.v_float, &entry);
+			v = format_number (value->v_float.val, &entry);
 		} else
 			return g_strdup (gnumeric_err_VALUE);
 		break;
@@ -1401,17 +1401,17 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 	case VALUE_INTEGER:
 		if (is_general)
 			entry.format = "0";
-		v = format_number (value->v.v_int, &entry);
+		v = format_number (value->v_int.val, &entry);
 		break;
 
 	case VALUE_BOOLEAN:
-		return g_strdup (value->v.v_bool ? _("TRUE"):_("FALSE"));
+		return g_strdup (value->v_bool.val ? _("TRUE"):_("FALSE"));
 
 	case VALUE_ERROR:
-		return g_strdup (value->v.error.mesg->str);
+		return g_strdup (value->v_err.mesg->str);
 
 	case VALUE_STRING:
-		return g_strdup (value->v.str->str);
+		return g_strdup (value->v_str.val->str);
 
 	case VALUE_CELLRANGE:
 		return g_strdup (gnumeric_err_VALUE);

@@ -38,15 +38,15 @@ value2perl(Value *v)
 
     switch (v->type) {
     case VALUE_INTEGER:
-	sv = newSViv(v->v.v_int);
+	sv = newSViv(v->v_int.val);
 	break;
 	
     case VALUE_FLOAT:
-	sv = newSVnv(v->v.v_float);
+	sv = newSVnv(v->v_float.val);
 	break;
 	
     case VALUE_STRING:
-	sv = newSVpv(v->v.str->str, strlen(v->v.str->str));
+	sv = newSVpv(v->v_str.val->str, strlen(v->v_str.val->str));
 	break;
 	
     default:
@@ -59,17 +59,12 @@ value2perl(Value *v)
 static Value *
 perl2value(SV *sv)
 {
-    Value *v = g_new (Value, 1);
-
-    if (!v)
-	return NULL;
+    Value *v = NULL;
 
     if (SvIOK(sv)){
-	v->type = VALUE_INTEGER;
-	v->v.v_int = (int_t) SvIV(sv);
+	v = value_new_int ((int_t) SvIV(sv));
     } else if (SvNOK(sv)) {
-	v->type = VALUE_FLOAT;
-	v->v.v_float = (float_t) SvNV(sv);
+	v = value_new_float ((float_t) SvNV(sv));
     } else if (SvPOK(sv)) {
 	STRLEN size;
 	gchar *s,*tmp;
@@ -79,12 +74,8 @@ perl2value(SV *sv)
 	s = g_malloc (size + 1);
 	strncpy(s, tmp, size);
 	s[size] = '\0';
-	v->type = VALUE_STRING;
-	v->v.str = string_get (s);
+	v = value_new_string (s);
 	g_free (s);
-    } else {
-	g_free (v);
-	return NULL;
     }
 
     return v;
@@ -107,17 +98,15 @@ static Value *
 marshal_func (FunctionEvalInfo *ei, Value *argv[])
 {
     dSP;
-    FunctionDefinition *fndef = ei->func_def;
+    FunctionDefinition const *fndef = ei->func_def;
     GList *l;
     int count = strlen(fndef->args), r, i;
     SV * result;
     Value *v;
 
-    l = g_list_find_custom(funclist, fndef, (GCompareFunc) fndef_compare);
-    if (!l) {
-	error_message_set (ei->error, "Unable to lookup Perl code object.");
-	return NULL;
-    }
+    l = g_list_find_custom(funclist, (gpointer)fndef, (GCompareFunc) fndef_compare);
+    if (!l)
+	return value_new_error (ei->pos, "Unable to lookup Perl code object.");
 
     /* Read the perlcall man page for more information. */
     ENTER;

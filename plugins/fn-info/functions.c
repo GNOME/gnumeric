@@ -143,8 +143,8 @@ translate_cell_format (StyleFormat *format)
 static Value *
 gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 {
-	char * info_type = argv [0]->v.str->str;
-	CellRef ref = argv [1]->v.cell_range.cell_a;
+	char * info_type = argv [0]->v_str.val->str;
+	CellRef ref = argv [1]->v_range.cell_a;
 
 	if (!g_strcasecmp(info_type, "address")) {
 		/* Reference of the first cell in reference, as text. */
@@ -236,10 +236,10 @@ gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 
 	range = args[0];
 	sheet = eval_sheet (ei->pos->sheet, ei->pos->sheet);
-	col_a = range->v.cell_range.cell_a.col;
-	col_b = range->v.cell_range.cell_b.col;
-	row_a = range->v.cell_range.cell_a.row;
-	row_b = range->v.cell_range.cell_b.row;
+	col_a = range->v_range.cell_a.col;
+	col_b = range->v_range.cell_b.col;
+	row_a = range->v_range.cell_a.row;
+	row_b = range->v_range.cell_b.row;
 	count = 0;
 
 	for (i=col_a; i<=col_b; i++)
@@ -269,7 +269,7 @@ static char *help_info = {
 static Value *
 gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 {
-	char const * const info_type = argv [0]->v.str->str;
+	char const * const info_type = argv [0]->v_str.val->str;
 	if (!strcasecmp (info_type, "directory")) {
 		/* Path of the current directory or folder.  */
 		return value_new_error (ei->pos, _("Unimplemented"));
@@ -411,7 +411,7 @@ gnumeric_isna (FunctionEvalInfo *ei, GList *expr_node_list)
 	if (err != NULL)
 		return err;
 
-	b = (res && !strcmp (gnumeric_err_NA, res->v.error.mesg->str));
+	b = (res && !strcmp (gnumeric_err_NA, res->v_err.mesg->str));
 	if (res) value_release (res);
 	return value_new_bool (b);
 }
@@ -441,7 +441,7 @@ gnumeric_iserr (FunctionEvalInfo *ei, GList *expr_node_list)
 	if (err != NULL)
 		return err;
 
-	b = (res && strcmp (gnumeric_err_NA, res->v.error.mesg->str));
+	b = (res && strcmp (gnumeric_err_NA, res->v_err.mesg->str));
 	if (res) value_release (res);
 	return value_new_bool (b);
 }
@@ -481,7 +481,7 @@ gnumeric_error_type (FunctionEvalInfo *ei, GList *expr_node_list)
 	if (res == NULL)
 		return value_new_error (ei->pos, gnumeric_err_NA);
 	
-	mesg = res->v.error.mesg->str;
+	mesg = res->v_err.mesg->str;
 	if (!strcmp (gnumeric_err_NULL, mesg))
 		retval = 1;
 	else if (!strcmp (gnumeric_err_DIV0, mesg))
@@ -546,7 +546,7 @@ gnumeric_error (FunctionEvalInfo *ei, Value *argv[])
 	if (argv [0]->type != VALUE_STRING)
 		return value_new_error (ei->pos, _("Type mismatch"));
 
-	return value_new_error (ei->pos, argv [0]->v.str->str);
+	return value_new_error (ei->pos, argv [0]->v_str.val->str);
 }
 
 /***************************************************************************/
@@ -808,7 +808,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 	if (argv[0]->type != VALUE_STRING)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	str = argv[0]->v.str->str;
+	str = argv[0]->v_str.val->str;
 	if (NULL != (v = format_match (str, &format)))
 		return v;
 	return value_new_float (0);

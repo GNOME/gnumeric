@@ -594,11 +594,11 @@ cell_is_zero (const Cell *cell)
 	if (v == NULL)
 		return FALSE;
 	switch (v->type) {
-	case VALUE_BOOLEAN : return !v->v.v_bool;
-	case VALUE_INTEGER : return v->v.v_int == 0;
+	case VALUE_BOOLEAN : return !v->v_bool.val;
+	case VALUE_INTEGER : return v->v_int.val == 0;
 	case VALUE_FLOAT :
 	{
-		double const res = v->v.v_float;
+		double const res = v->v_float.val;
 		return (-1e-10 < res && res < 1e-10);
 	}
 

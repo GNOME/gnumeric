@@ -75,7 +75,7 @@ static Value *
 gnumeric_selection (FunctionEvalInfo *ei, Value *argv [])
 {
 	Sheet * const sheet = ei->pos->sheet;
-	gboolean const permit_intersection = argv [0]->v.v_bool;
+	gboolean const permit_intersection = argv [0]->v_bool.val;
 	Value * res;
 	int i;
 

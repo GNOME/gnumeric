@@ -19,33 +19,47 @@ typedef enum {
 	VALUE_ARRAY	= 80
 } ValueType;
 
-struct _ErrorMessage {
+struct _ValueBool {
+	ValueType const type;
+	gboolean val;
+};
+struct _ValueInt {
+	ValueType const type;
+	int_t val;
+};
+struct _ValueFloat {
+	ValueType const type;
+	float_t val;
+};
+struct _ValueErr {
+	ValueType const type;
 	String       *mesg;
-	EvalPosition  src; /* Will be used for audit functions */
+	/* Currently unused.  Intended to support audit functions */
+	EvalPosition  src;
+};
+struct _ValueStr {
+	ValueType const type;
+	String *val;
+};
+struct _ValueRange {
+	ValueType const type;
+	CellRef cell_a, cell_b;
+};
+struct _ValueArray {
+	ValueType const type;
+	int x, y;
+	Value ***vals;  /* Array [x][y] */
 };
 
-struct _Value {
+union _Value {
 	ValueType const type;
-	union {
-		/*
-		 * This element is used as a short hand for cell_range.cell_a
-		 */
-		CellRef cell;
-		struct {
-			CellRef cell_a;
-			CellRef cell_b;
-		} cell_range;
-
-		struct {
-			int x, y;
-			Value ***vals;  /* Array [x][y] */
-		} array;
-		String      *str;
-		float_t      v_float;	/* floating point */
-		int_t        v_int;
-		gboolean     v_bool;
-		ErrorMessage error;
-	} v;
+	ValueBool	v_bool;
+	ValueInt	v_int;
+	ValueFloat	v_float;
+	ValueErr	v_err;
+	ValueStr	v_str;
+	ValueRange	v_range;
+	ValueArray	v_array;
 };
 
 #define VALUE_IS_NUMBER(x) (((x)->type == VALUE_INTEGER) || \
@@ -57,12 +71,12 @@ struct _Value {
 
 Value       *value_new_empty            (void);
 Value       *value_new_bool             (gboolean b);
+Value       *value_new_int              (int i);
+Value       *value_new_float            (float_t f);
 Value       *value_new_error            (EvalPosition const *pos, char const *mesg);
 Value       *value_new_error_str        (EvalPosition const *pos, String *mesg);
 Value       *value_new_string           (const char *str);
 Value       *value_new_string_str       (String *str);
-Value       *value_new_int              (int i);
-Value       *value_new_float            (float_t f);
 Value       *value_new_cellrange_unsafe (const CellRef *a, const CellRef *b);
 Value       *value_new_cellrange        (const CellRef *a, const CellRef *b,
 				         int const eval_col, int const eval_row);

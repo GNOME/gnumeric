@@ -725,7 +725,7 @@ do_print_preview_cb (GtkWidget *w, dialog_print_info_t *dpi)
 	 * this, but you have to make sure that the print-preview
 	 * window is funcional
 	 */
-	gnome_dialog_close (dpi->dialog);
+	gnome_dialog_close (GNOME_DIALOG (dpi->dialog));
 }
 
 static void

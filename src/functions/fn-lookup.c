@@ -78,7 +78,7 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 	        text = g_new(gchar, 1);
 	        text[0] = '\0';
 	} else {
-	        gchar *p = args[4]->v.str->str;
+	        gchar *p = args[4]->v_str.val->str;
 		int   space = 0;
 
 		text = g_new(gchar, strlen(p) + 4);
@@ -86,9 +86,9 @@ gnumeric_address (FunctionEvalInfo *ei, Value **args)
 			if (*p++ == ' ')
 			        space = 1;
 		if (space)
-		        sprintf(text, "'%s'", args[4]->v.str->str);
+		        sprintf(text, "'%s'", args[4]->v_str.val->str);
 		else
-		        strcpy(text, args[4]->v.str->str);
+		        strcpy(text, args[4]->v_str.val->str);
 		strcat(text, "!");
 	}
 
@@ -596,7 +596,7 @@ match_compare (const Value *v1, const Value *v2)
 	}
 
 	case VALUE_STRING:
-		return strcasecmp (v1->v.str->str, v2->v.str->str);
+		return strcasecmp (v1->v_str.val->str, v2->v_str.val->str);
 
 	default:
 		return 0;
@@ -815,8 +815,8 @@ gnumeric_column (FunctionEvalInfo *ei, GList *nodes)
 	    expr->u.constant->type == VALUE_CELLRANGE) {
 		int i, j, col;
 		Value const * range = expr->u.constant;
-		CellRef const * a = &range->v.cell_range.cell_a;
-		CellRef const * b = &range->v.cell_range.cell_b;
+		CellRef const * a = &range->v_range.cell_a;
+		CellRef const * b = &range->v_range.cell_b;
 		Value * res = value_new_array (b->col - a->col + 1,
 					       b->row - a->row + 1);
 
@@ -887,8 +887,8 @@ gnumeric_offset (FunctionEvalInfo *ei, Value **args)
 
 	g_return_val_if_fail (args [0]->type == VALUE_CELLRANGE, NULL);
 
-	cell_ref_make_abs (&a, &args[0]->v.cell_range.cell_a, ei->pos);
-	cell_ref_make_abs (&b, &args[0]->v.cell_range.cell_b, ei->pos);
+	cell_ref_make_abs (&a, &args[0]->v_range.cell_a, ei->pos);
+	cell_ref_make_abs (&b, &args[0]->v_range.cell_b, ei->pos);
 
 	row_offset = value_get_as_int (args[1]);
 	col_offset = value_get_as_int (args[2]);
@@ -958,8 +958,8 @@ gnumeric_row (FunctionEvalInfo *ei, GList *nodes)
 	    expr->u.constant->type == VALUE_CELLRANGE) {
 		int i, j, row;
 		Value const * range = expr->u.constant;
-		CellRef const * a = &range->v.cell_range.cell_a;
-		CellRef const * b = &range->v.cell_range.cell_b;
+		CellRef const * a = &range->v_range.cell_a;
+		CellRef const * b = &range->v_range.cell_b;
 		Value * res = value_new_array (b->col - a->col + 1,
 					       b->row - a->row + 1);
 
@@ -1060,9 +1060,9 @@ gnumeric_transpose (FunctionEvalInfo *ei, Value **argv)
 	res = value_new_array_non_init (rows, cols);
 
 	for (r = 0; r < rows; ++r){
-		res->v.array.vals [r] = g_new (Value *, cols);
+		res->v_array.vals [r] = g_new (Value *, cols);
 		for (c = 0; c < cols; ++c)
-			res->v.array.vals[r][c] = 
+			res->v_array.vals[r][c] = 
 			    value_duplicate(value_area_get_x_y (ep, matrix,
 								c, r));
 	}

@@ -74,18 +74,18 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 		return value_duplicate(value);
 
 	case VALUE_STRING:
-		str = value->v.str->str;
+		str = value->v_str.val->str;
 		break;
 	case VALUE_BOOLEAN :
-		snprintf (buffer, sizeof (buffer)-1, "%d", value->v.v_bool?1:0);
+		snprintf (buffer, sizeof (buffer)-1, "%d", value->v_bool.val?1:0);
 		str = buffer;
 		break;
 	case VALUE_INTEGER:
-		snprintf (buffer, sizeof (buffer)-1, "%d", value->v.v_int);
+		snprintf (buffer, sizeof (buffer)-1, "%d", value->v_int.val);
 		str = buffer;
 		break;
 	case VALUE_FLOAT:
-		snprintf (buffer, sizeof (buffer)-1, "%8.0f", value->v.v_float);
+		snprintf (buffer, sizeof (buffer)-1, "%8.0f", value->v_float.val);
 		str = buffer;
 		break;
 	case VALUE_EMPTY:
@@ -662,7 +662,7 @@ gnumeric_complex (FunctionEvalInfo *ei, Value **argv)
 	if (argv[2] == NULL)
 	        suffix = "i";
 	else
-	        suffix = argv[2]->v.str->str;
+	        suffix = argv[2]->v_str.val->str;
 
 	if (strcmp(suffix, "i") != 0 &&
 	    strcmp(suffix, "j") != 0)
@@ -1606,8 +1606,8 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	Value   *v;
 
 	n = value_get_as_float (argv [0]);
-	from_unit = argv [1]->v.str->str;
-	to_unit = argv [2]->v.str->str;
+	from_unit = argv [1]->v_str.val->str;
+	to_unit = argv [2]->v_str.val->str;
 
 	if (strcmp(from_unit, "C") == 0 && strcmp(to_unit, "F") == 0)
 	        return value_new_float (1.8*n+32);
@@ -1769,7 +1769,7 @@ gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
 	switch ((vx->type > vy->type) ? vx->type : vy->type) {
 	case VALUE_BOOLEAN:
 		/* Only happens when both are bool */
-		ans = vx->v.v_bool == vy->v.v_bool;
+		ans = vx->v_bool.val == vy->v_bool.val;
 		break;
 	case VALUE_EMPTY:
 	case VALUE_INTEGER:
@@ -1823,7 +1823,7 @@ gnumeric_gestep (FunctionEvalInfo *ei, Value **argv)
 	switch ((vx->type > vy->type) ? vx->type : vy->type) {
 	case VALUE_BOOLEAN:
 		/* Only happens when both are bool */
-		ans = vx->v.v_bool >= vy->v.v_bool;
+		ans = vx->v_bool.val >= vy->v_bool.val;
 		break;
 	case VALUE_EMPTY:
 	case VALUE_INTEGER:

@@ -37,13 +37,13 @@ callback_function_sumxy (Sheet *sheet, int col, int row,
 		return value_terminate();
 
 	case VALUE_BOOLEAN:
-	        x = cell->value->v.v_bool ? 1 : 0;
+	        x = cell->value->v_bool.val ? 1 : 0;
 		break;
 	case VALUE_INTEGER:
-	        x = cell->value->v.v_int;
+	        x = cell->value->v_int.val;
 		break;
 	case VALUE_FLOAT:
-	        x = cell->value->v.v_float;
+	        x = cell->value->v_float.val;
 		break;
 	case VALUE_EMPTY:
 	default:
@@ -83,16 +83,16 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 
         switch (cell->value->type) {
 	case VALUE_BOOLEAN:
-	        v = value_new_bool (cell->value->v.v_bool);
+	        v = value_new_bool (cell->value->v_bool.val);
 		break;
 	case VALUE_INTEGER:
-	        v = value_new_int (cell->value->v.v_int);
+	        v = value_new_int (cell->value->v_int.val);
 		break;
 	case VALUE_FLOAT:
-	        v = value_new_float (cell->value->v.v_float);
+	        v = value_new_float (cell->value->v_float.val);
 		break;
 	case VALUE_STRING:
-	        v = value_new_string (cell->value->v.str->str);
+	        v = value_new_string (cell->value->v_str.val->str);
 		break;
 	case VALUE_EMPTY:
 	default:
@@ -195,10 +195,10 @@ callback_function_lcm (const EvalPosition *ep, Value *value, void *closure)
 
 	switch (value->type){
 	case VALUE_INTEGER:
-	        if (value->v.v_int < 1)
+	        if (value->v_int.val < 1)
 		        return value_terminate();
-	        result->v.v_int /= gcd(result->v.v_int, value->v.v_int);
-		result->v.v_int *= value->v.v_int;
+	        result->v_int.val /= gcd(result->v_int.val, value->v_int.val);
+		result->v_int.val *= value->v_int.val;
 		break;
 	case VALUE_EMPTY:
 	default:
@@ -518,18 +518,18 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
 		items.test_value = argv[1];
 	} else {
-	        parse_criteria(argv[1]->v.str->str,
+	        parse_criteria(argv[1]->v_str.val->str,
 			       &items.fun, &items.test_value);
 		tmpval = items.test_value;
 	}
 
-	sheet = eval_sheet (range->v.cell_range.cell_a.sheet, ei->pos->sheet);
+	sheet = eval_sheet (range->v_range.cell_a.sheet, ei->pos->sheet);
 	ret = sheet_cell_foreach_range ( sheet,
 		FALSE, /* Ignore empty cells */
-		range->v.cell_range.cell_a.col,
-		range->v.cell_range.cell_a.row,
-		range->v.cell_range.cell_b.col,
-		range->v.cell_range.cell_b.row,
+		range->v_range.cell_a.col,
+		range->v_range.cell_a.row,
+		range->v_range.cell_b.col,
+		range->v_range.cell_b.row,
 		callback_function_criteria,
 		&items);
 
@@ -589,17 +589,17 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 
         switch (cell->value->type) {
 	case VALUE_INTEGER:
-	        v = cell->value->v.v_int;
+	        v = cell->value->v_int.val;
 		break;
 	case VALUE_FLOAT:
-	        v = cell->value->v.v_float;
+	        v = cell->value->v_float.val;
 		break;
 	case VALUE_STRING:
 	        v = 0;
 		break;
 
 	case VALUE_BOOLEAN:
-	        v = cell->value->v.v_bool ? 1 : 0;
+	        v = cell->value->v_bool.val ? 1 : 0;
 		break;
 
 	case VALUE_ERROR:
@@ -648,7 +648,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
 		items.test_value = argv[1];
 	} else {
-	        parse_criteria(argv[1]->v.str->str,
+	        parse_criteria(argv[1]->v_str.val->str,
 			       &items.fun, &items.test_value);
 		tmpval = items.test_value;
 	}
@@ -659,14 +659,14 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	        items.actual_range = FALSE;
 
 	ret = sheet_cell_foreach_range (
-		eval_sheet (range->v.cell_range.cell_a.sheet, ei->pos->sheet),
+		eval_sheet (range->v_range.cell_a.sheet, ei->pos->sheet),
 		/* Do not ignore empty cells if there is an actual range */
 		actual_range == NULL,
 
-		range->v.cell_range.cell_a.col,
-		range->v.cell_range.cell_a.row,
-		range->v.cell_range.cell_b.col,
-		range->v.cell_range.cell_b.row,
+		range->v_range.cell_a.col,
+		range->v_range.cell_a.row,
+		range->v_range.cell_b.col,
+		range->v_range.cell_b.row,
 		callback_function_criteria,
 		&items);
 
@@ -692,14 +692,14 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	      items.current = items.list;
 	      items.sum = items.total_num = 0;
  	      ret = sheet_cell_foreach_range (
-			eval_sheet (actual_range->v.cell_range.cell_a.sheet, ei->pos->sheet),
+			eval_sheet (actual_range->v_range.cell_a.sheet, ei->pos->sheet),
 			/* Empty cells too.  Criteria and results must align */
 			FALSE,
 
-			actual_range->v.cell_range.cell_a.col,
-			actual_range->v.cell_range.cell_a.row,
-			actual_range->v.cell_range.cell_b.col,
-			actual_range->v.cell_range.cell_b.row,
+			actual_range->v_range.cell_a.col,
+			actual_range->v_range.cell_a.row,
+			actual_range->v_range.cell_b.col,
+			actual_range->v_range.cell_b.row,
 			callback_function_sumif,
 			&items);
 	      sum = items.sum;
@@ -1592,8 +1592,8 @@ callback_function_multinomial (const EvalPosition *ep, Value *value,
 
 	switch (value->type){
 	case VALUE_INTEGER:
-	        mm->product *= fact(value->v.v_int);
-		mm->sum += value->v.v_int;
+	        mm->product *= fact(value->v_int.val);
+		mm->sum += value->v_int.val;
 		mm->num++;
 		break;
 	case VALUE_EMPTY:
@@ -2540,10 +2540,10 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 		ret = sheet_cell_foreach_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet),
 			TRUE,
-			values_x->v.cell_range.cell_a.col,
-			values_x->v.cell_range.cell_a.row,
-			values_x->v.cell_range.cell_b.col,
-			values_x->v.cell_range.cell_b.row,
+			values_x->v_range.cell_a.col,
+			values_x->v_range.cell_a.row,
+			values_x->v_range.cell_b.col,
+			values_x->v_range.cell_b.row,
 			callback_function_sumxy,
 			&items_x);
 		
@@ -2556,10 +2556,10 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet), TRUE,
-			values_y->v.cell_range.cell_a.col,
-			values_y->v.cell_range.cell_a.row,
-			values_y->v.cell_range.cell_b.col,
-			values_y->v.cell_range.cell_b.row,
+			values_y->v_range.cell_a.col,
+			values_y->v_range.cell_a.row,
+			values_y->v_range.cell_b.col,
+			values_y->v_range.cell_b.row,
 			callback_function_sumxy,
 			&items_y);
 		if (ret != NULL)
@@ -2639,10 +2639,10 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 		ret = sheet_cell_foreach_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet),
 			TRUE,
-			values_x->v.cell_range.cell_a.col,
-			values_x->v.cell_range.cell_a.row,
-			values_x->v.cell_range.cell_b.col,
-			values_x->v.cell_range.cell_b.row,
+			values_x->v_range.cell_a.col,
+			values_x->v_range.cell_a.row,
+			values_x->v_range.cell_b.col,
+			values_x->v_range.cell_b.row,
 			callback_function_sumxy,
 			&items_x);
 		if (ret != NULL)
@@ -2654,10 +2654,10 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet), TRUE,
-			values_y->v.cell_range.cell_a.col,
-			values_y->v.cell_range.cell_a.row,
-			values_y->v.cell_range.cell_b.col,
-			values_y->v.cell_range.cell_b.row,
+			values_y->v_range.cell_a.col,
+			values_y->v_range.cell_a.row,
+			values_y->v_range.cell_b.col,
+			values_y->v_range.cell_b.row,
 			callback_function_sumxy,
 			&items_y);
 		if (ret != NULL)
@@ -2734,10 +2734,10 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
         if (values_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet), TRUE,
-			values_x->v.cell_range.cell_a.col,
-			values_x->v.cell_range.cell_a.row,
-			values_x->v.cell_range.cell_b.col,
-			values_x->v.cell_range.cell_b.row,
+			values_x->v_range.cell_a.col,
+			values_x->v_range.cell_a.row,
+			values_x->v_range.cell_b.col,
+			values_x->v_range.cell_b.row,
 			callback_function_sumxy,
 			&items_x);
 		if (ret != NULL)
@@ -2749,10 +2749,10 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
 			eval_sheet (ei->pos->sheet, ei->pos->sheet), TRUE,
-			values_y->v.cell_range.cell_a.col,
-			values_y->v.cell_range.cell_a.row,
-			values_y->v.cell_range.cell_b.col,
-			values_y->v.cell_range.cell_b.row,
+			values_y->v_range.cell_a.col,
+			values_y->v_range.cell_a.row,
+			values_y->v_range.cell_b.col,
+			values_y->v_range.cell_b.row,
 			callback_function_sumxy,
 			&items_y);
 		if (ret != NULL)
@@ -3050,18 +3050,18 @@ validate_range_numeric_matrix (const EvalPosition *ep, Value * matrix,
 	if (matrix->type == VALUE_ARRAY)
 	    return FALSE;
 
-	if (matrix->v.cell_range.cell_a.sheet !=
-	    matrix->v.cell_range.cell_b.sheet) {
+	if (matrix->v_range.cell_a.sheet !=
+	    matrix->v_range.cell_b.sheet) {
 		*error_string = _("#3D MULT?");
 		return TRUE;
 	}
 
 	res = sheet_cell_foreach_range (
-		eval_sheet (matrix->v.cell_range.cell_a.sheet, ep->sheet), TRUE,
-		matrix->v.cell_range.cell_a.col,
-		matrix->v.cell_range.cell_a.row,
-		matrix->v.cell_range.cell_b.col,
-		matrix->v.cell_range.cell_b.row,
+		eval_sheet (matrix->v_range.cell_a.sheet, ep->sheet), TRUE,
+		matrix->v_range.cell_a.col,
+		matrix->v_range.cell_a.row,
+		matrix->v_range.cell_b.col,
+		matrix->v_range.cell_b.row,
 		callback_function_mmult_validate,
 		&cell_count);
 
@@ -3115,12 +3115,12 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 	res = value_new_array_non_init (cols, rows);
 
 	for (c = 0; c < cols; ++c){
-		res->v.array.vals [c] = g_new (Value *, rows);
+		res->v_array.vals [c] = g_new (Value *, rows);
 		for (r = 0; r < rows; ++r){
 			float_t tmp;
 
 			tmp = *(inverse + r + c*rows);
-			res->v.array.vals[c][r] = value_new_float (tmp);
+			res->v_array.vals[c][r] = value_new_float (tmp);
 		}
 	}
 	g_free (inverse);
@@ -3192,9 +3192,9 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 	mmult (A, B, cols_a, rows_a, cols_b, product);
 
 	for (c=0; c<cols_b; c++) {
-	        res->v.array.vals[c] = g_new (Value *, rows_a);
+	        res->v_array.vals[c] = g_new (Value *, rows_a);
 	        for (r=0; r<rows_a; r++)
-		        res->v.array.vals[c][r] =
+		        res->v_array.vals[c][r] =
 			    value_new_float (product [r + c*rows_a]);
 	}
 	g_free (A);

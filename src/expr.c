@@ -176,7 +176,7 @@ expr_tree_get_const_int (ExprTree const * const expr)
 	g_return_val_if_fail (expr->u.constant, 0);
 	g_return_val_if_fail (expr->u.constant->type == VALUE_INTEGER, 0);
 
-	return expr->u.constant->v.v_int;
+	return expr->u.constant->v_int.val;
 }
 
 char const *
@@ -187,7 +187,7 @@ expr_tree_get_const_str (ExprTree const *const expr)
 	g_return_val_if_fail (expr->u.constant, NULL);
 	g_return_val_if_fail (expr->u.constant->type == VALUE_STRING, NULL);
 
-	return expr->u.constant->v.str->str;
+	return expr->u.constant->v_str.val->str;
 }
 
 ExprTree *
@@ -460,8 +460,8 @@ expr_implicit_intersection (EvalPosition const * const pos,
 	 * based on the required type for the argument.
 	 */
 	Value *res = NULL;
-	CellRef const * const a = & v->v.cell_range.cell_a;
-	CellRef const * const b = & v->v.cell_range.cell_b;
+	CellRef const * const a = & v->v_range.cell_a;
+	CellRef const * const b = & v->v_range.cell_b;
 
 	if (a->sheet == b->sheet) {
 		int a_col, a_row, b_col, b_row;
@@ -559,7 +559,7 @@ compare (Value const * const a, Value const * const b)
 		/* If both are strings compare as string */
 		case VALUE_STRING :
 		{
-			int const t = strcasecmp (a->v.str->str, b->v.str->str);
+			int const t = strcasecmp (a->v_str.val->str, b->v_str.val->str);
 			if (t == 0)
 				return IS_EQUAL;
 			else if (t > 0)
@@ -616,8 +616,8 @@ static void
 eval_range (EvalPosition const * const pos, Value *v)
 {
 	int start_col, start_row, end_col, end_row;
-	CellRef * a = &v->v.cell_range.cell_a;
-	CellRef * b = &v->v.cell_range.cell_b;
+	CellRef * a = &v->v_range.cell_a;
+	CellRef * b = &v->v_range.cell_b;
 	Sheet * sheet = a->sheet ? a->sheet : pos->sheet;
 	Cell * cell;
 	int r, c;
@@ -916,11 +916,11 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 		}
 		if (tree->oper == OPER_UNARY_NEG) {
 			if (a->type == VALUE_INTEGER)
-				res = value_new_int (-a->v.v_int);
+				res = value_new_int (-a->v_int.val);
 			else if (a->type == VALUE_FLOAT)
-				res = value_new_float (-a->v.v_float);
+				res = value_new_float (-a->v_float.val);
 			else
-				res = value_new_bool (!a->v.v_float);
+				res = value_new_bool (!a->v_float.val);
 		} else
 			res = value_new_float (value_get_as_float (a) * .01);
 		value_release (a);
@@ -1001,8 +1001,8 @@ eval_expr_real (EvalPosition const * const pos, ExprTree const * const tree,
 			 * being evaluated as an array or not because we can differentiate
 			 * based on the required type for the argument.
 			 */
-			CellRef const * const a = & res->v.cell_range.cell_a;
-			CellRef const * const b = & res->v.cell_range.cell_b;
+			CellRef const * const a = & res->v_range.cell_a;
+			CellRef const * const b = & res->v_range.cell_b;
 			gboolean found = FALSE;
 
 			if (a->sheet == b->sheet) {
@@ -1372,8 +1372,8 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 		case VALUE_CELLRANGE: {
 			char *a, *b, *res;
 
-			a = cellref_name (&v->v.cell_range.cell_a, pp);
-			b = cellref_name (&v->v.cell_range.cell_b, pp);
+			a = cellref_name (&v->v_range.cell_a, pp);
+			b = cellref_name (&v->v_range.cell_b, pp);
 
 			res = g_strconcat (a, ":", b, NULL);
 
@@ -1385,7 +1385,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 
 		case VALUE_STRING: {
 			char *str1, *str2;
-			str1 = strescape(v->v.str->str);
+			str1 = strescape(v->v_str.val->str);
 			str2 = g_strconcat ("\"", str1, "\"", NULL);
 			g_free(str1);
 			return str2;
@@ -1395,7 +1395,7 @@ do_expr_decode_tree (ExprTree *tree, ParsePosition const *pp,
 			return g_strdup ("");
 
 		case VALUE_ERROR:
-			return g_strdup (v->v.error.mesg->str);
+			return g_strdup (v->v_err.mesg->str);
 
 		case VALUE_BOOLEAN:
 		case VALUE_INTEGER:
@@ -1651,8 +1651,8 @@ expr_relocate (const ExprTree *expr,
 		Value const * const v = expr->u.constant;
 		if  (v->type == VALUE_CELLRANGE) {
 			/* TODO : Figure out the logic of 1 ref error 1 ok */
-			CellRef ref_a = v->v.cell_range.cell_a;
-			CellRef ref_b = v->v.cell_range.cell_b;
+			CellRef ref_a = v->v_range.cell_a;
+			CellRef ref_b = v->v_range.cell_b;
 			gboolean needs_reloc = FALSE;
 
 			switch (cellref_relocate (&ref_a, pos, rinfo)) {

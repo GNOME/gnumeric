@@ -1949,7 +1949,7 @@ static char *help_euro = {
 static Value *
 gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 {
-        char *str = argv[0]->v.str->str;
+        char *str = argv[0]->v_str.val->str;
 
 	switch (*str) {
 	case 'A':

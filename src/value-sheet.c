@@ -26,37 +26,37 @@ value_dump (const Value *value)
 		break;
 
 	case VALUE_ERROR:
-		printf ("ERROR: %s\n", value->v.error.mesg->str);
+		printf ("ERROR: %s\n", value->v_err.mesg->str);
 		break;
 
 	case VALUE_BOOLEAN:
-		printf ("BOOLEAN: %s\n", value->v.v_bool ?_("TRUE"):_("FALSE"));
+		printf ("BOOLEAN: %s\n", value->v_bool.val ?_("TRUE"):_("FALSE"));
 		break;
 
 	case VALUE_STRING:
-		printf ("STRING: %s\n", value->v.str->str);
+		printf ("STRING: %s\n", value->v_str.val->str);
 		break;
 
 	case VALUE_INTEGER:
-		printf ("NUM: %d\n", value->v.v_int);
+		printf ("NUM: %d\n", value->v_int.val);
 		break;
 
 	case VALUE_FLOAT:
-		printf ("Float: %f\n", value->v.v_float);
+		printf ("Float: %f\n", value->v_float.val);
 		break;
 
 	case VALUE_ARRAY: {
 		int x, y;
 
 		printf ("Array: { ");
-		for (y = 0; y < value->v.array.y; y++)
-			for (x = 0; x < value->v.array.x; x++)
-				value_dump (value->v.array.vals [x][y]);
+		for (y = 0; y < value->v_array.y; y++)
+			for (x = 0; x < value->v_array.x; x++)
+				value_dump (value->v_array.vals [x][y]);
 		printf ("}\n");
 		break;
 	}
 	case VALUE_CELLRANGE: {
-		CellRef const *c = &value->v.cell_range.cell_a;
+		CellRef const *c = &value->v_range.cell_a;
 		Sheet const *sheet = c->sheet;
 
 		printf ("CellRange\n");
@@ -67,7 +67,7 @@ value_dump (const Value *value)
 		printf ("%s%s%s%d\n",
 			(c->col_relative ? "":"$"), col_name(c->col),
 			(c->row_relative ? "":"$"), c->row+1);
-		c = &value->v.cell_range.cell_b;
+		c = &value->v_range.cell_b;
 		if (sheet && sheet->name_quoted)
 			printf ("%s:", sheet->name_unquoted);
 		else
@@ -118,8 +118,8 @@ value_cellrange_get_as_string (const Value *value, gboolean use_relative_syntax)
 	g_return_val_if_fail (value != NULL, NULL);
 	g_return_val_if_fail (value->type == VALUE_CELLRANGE, NULL);
 
-	a = &value->v.cell_range.cell_a;
-	b = &value->v.cell_range.cell_b;
+	a = &value->v_range.cell_a;
+	b = &value->v_range.cell_b;
 
 	str = g_string_new ("");
 	encode_cellref (str, a, use_relative_syntax);
@@ -142,17 +142,17 @@ value_area_get_width (const EvalPosition *ep, Value const *v)
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
 			      v->type == VALUE_CELLRANGE, 1);
 
-	if (v->type == VALUE_ARRAY)
-		return v->v.array.x;
-	else { /* FIXME: 3D references, may not clip correctly */
-		Sheet *sheeta = v->v.cell_range.cell_a.sheet ?
-			v->v.cell_range.cell_a.sheet:ep->sheet;
-		guint ans = v->v.cell_range.cell_b.col -
-			    v->v.cell_range.cell_a.col + 1;
+	if (v->type == VALUE_CELLRANGE) {
+		/* FIXME: 3D references, may not clip correctly */
+		Sheet *sheeta = v->v_range.cell_a.sheet ?
+			v->v_range.cell_a.sheet:ep->sheet;
+		guint ans = v->v_range.cell_b.col -
+			    v->v_range.cell_a.col + 1;
 		if (sheeta && sheeta->cols.max_used < ans) /* Clip */
 			ans = sheeta->cols.max_used+1;
 		return ans;
 	}
+	return v->v_array.x;
 }
 
 guint
@@ -162,16 +162,16 @@ value_area_get_height (const EvalPosition *ep, Value const *v)
 	g_return_val_if_fail (v->type == VALUE_ARRAY ||
 			      v->type == VALUE_CELLRANGE, 1);
 
-	if (v->type == VALUE_ARRAY)
-		return v->v.array.y;
-	else { /* FIXME: 3D references, may not clip correctly */
-		Sheet *sheeta = eval_sheet (v->v.cell_range.cell_a.sheet, ep->sheet);
-		guint ans = v->v.cell_range.cell_b.row -
-		            v->v.cell_range.cell_a.row + 1;
+	if (v->type == VALUE_CELLRANGE) {
+		/* FIXME: 3D references, may not clip correctly */
+		Sheet *sheeta = eval_sheet (v->v_range.cell_a.sheet, ep->sheet);
+		guint ans = v->v_range.cell_b.row -
+		            v->v_range.cell_a.row + 1;
 		if (sheeta && sheeta->rows.max_used < ans) /* Clip */
 			ans = sheeta->rows.max_used + 1;
 		return ans;
 	}
+	return v->v_array.y;
 }
 
 Value const *
@@ -200,13 +200,13 @@ value_area_get_x_y (EvalPosition const *ep, Value const *v, guint x, guint y)
 			      NULL);
 
 	if (v->type == VALUE_ARRAY){
-		g_return_val_if_fail (x < v->v.array.x &&
-				      y < v->v.array.y,
+		g_return_val_if_fail (x < v->v_array.x &&
+				      y < v->v_array.y,
 				      NULL);
-		return v->v.array.vals [x][y];
+		return v->v_array.vals [x][y];
 	} else {
-		CellRef const * const a = &v->v.cell_range.cell_a;
-		CellRef const * const b = &v->v.cell_range.cell_b;
+		CellRef const * const a = &v->v_range.cell_a;
+		CellRef const * const b = &v->v_range.cell_b;
 		int a_col = a->col;
 		int a_row = a->row;
 		int b_col = b->col;
@@ -310,12 +310,12 @@ value_area_foreach (EvalPosition const *ep, Value const *v,
 		wrap.ep = ep;
 		wrap.real_data = closure;
 		return sheet_cell_foreach_range (
-			eval_sheet (v->v.cell_range.cell_a.sheet, ep->sheet),
+			eval_sheet (v->v_range.cell_a.sheet, ep->sheet),
 			TRUE,
-			v->v.cell_range.cell_a.col,
-			v->v.cell_range.cell_a.row,
-			v->v.cell_range.cell_b.col,
-			v->v.cell_range.cell_b.row,
+			v->v_range.cell_a.col,
+			v->v_range.cell_a.row,
+			v->v_range.cell_b.col,
+			v->v_range.cell_b.row,
 			&wrapper_foreach_cell_in_area_callback,
 			(void *)&wrap);
 	}
@@ -324,9 +324,9 @@ value_area_foreach (EvalPosition const *ep, Value const *v,
         if (v->type != VALUE_ARRAY)
 		return (*callback)(ep, v, closure);
 
-	for (x = v->v.array.x; --x >= 0;)
-		for (y = v->v.array.y; --y >= 0;)
-			if ((tmp = (*callback)(ep, v->v.array.vals [x][y], closure)) != NULL)
+	for (x = v->v_array.x; --x >= 0;)
+		for (y = v->v_array.y; --y >= 0;)
+			if ((tmp = (*callback)(ep, v->v_array.vals [x][y], closure)) != NULL)
 				return tmp;
 
 	return NULL;

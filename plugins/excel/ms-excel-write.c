@@ -2157,7 +2157,7 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 int
 ms_excel_write_map_errcode (Value const * const v)
 {
-	char const * const mesg = v->v.error.mesg->str;
+	char const * const mesg = v->v_err.mesg->str;
 	if (!strcmp (gnumeric_err_NULL, mesg))
 		return 0;
 	if (!strcmp (gnumeric_err_DIV0, mesg))
@@ -2213,7 +2213,7 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 			MS_OLE_SET_GUINT8 (data + 6, ms_excel_write_map_errcode (v));
 			MS_OLE_SET_GUINT8 (data + 7, 1); /* Mark as a err */
 		} else {
-			MS_OLE_SET_GUINT8 (data + 6, v->v.v_bool ? 1 : 0);
+			MS_OLE_SET_GUINT8 (data + 6, v->v_bool.val ? 1 : 0);
 			MS_OLE_SET_GUINT8 (data + 7, 0); /* Mark as a bool */
 		}
 		ms_biff_put_commit (bp);
@@ -2221,15 +2221,15 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 	}
 	case VALUE_INTEGER:
 	{
-		int_t vint = v->v.v_int;
+		int_t vint = v->v_int.val;
 		guint8 *data;
 
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_write_debug > 3)
-			printf ("Writing %d %d\n", vint, v->v.v_int);
+			printf ("Writing %d %d\n", vint, v->v_int.val);
 #endif
 		if (((vint<<2)>>2) != vint) { /* Chain to floating point then. */
-			Value *vf = value_new_float (v->v.v_int);
+			Value *vf = value_new_float (v->v_int.val);
 			write_value (bp, vf, ver, col, row, xf);
 			value_release (vf);
 		} else {
@@ -2246,7 +2246,7 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 	}
 	case VALUE_FLOAT:
 	{
-		float_t val = v->v.v_float;
+		float_t val = v->v_float.val;
 		gboolean is_int = ((val - (int)val) == 0.0) &&
 			(((((int)val)<<2)>>2) == ((int)val));
 
@@ -2287,7 +2287,7 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 	case VALUE_STRING:
 	{
 		char data[16];
-		g_return_if_fail (v->v.str->str);
+		g_return_if_fail (v->v_str.val->str);
 
 		if (ver >= eBiffV8); /* Use SST stuff in fulness of time */
 
@@ -2297,9 +2297,9 @@ write_value (BiffPut *bp, Value *v, eBiff_version ver,
 		EX_SETXF (data, xf);
 		EX_SETCOL(data, col);
 		EX_SETROW(data, row);
-		EX_SETSTRLEN (data, strlen(v->v.str->str));
+		EX_SETSTRLEN (data, strlen(v->v_str.val->str));
 		ms_biff_put_var_write  (bp, data, 8);
-		biff_put_text (bp, v->v.str->str, eBiffV7, FALSE, AS_PER_VER);
+		biff_put_text (bp, v->v_str.val->str, eBiffV7, FALSE, AS_PER_VER);
 		ms_biff_put_commit (bp);
 		break;
 	}
@@ -2357,7 +2357,7 @@ write_formula (BiffPut *bp, ExcelSheet *sheet, const Cell *cell, gint16 xf)
 
 	case VALUE_BOOLEAN :
 		MS_OLE_SET_GUINT32 (data +  6,
-				    (v->v.v_bool ? 0x100 : 0x0) | 0x00000001);
+				    (v->v_bool.val ? 0x100 : 0x0) | 0x00000001);
 		MS_OLE_SET_GUINT32 (data + 10, 0xffff0000);
 		break;
 
