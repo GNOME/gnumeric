@@ -31,8 +31,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
-"POT-Creation-Date: 2002-10-15 00:52-0400\n"
-"PO-Revision-Date: 2002-10-14 22:01+0100\n"
+"POT-Creation-Date: 2002-10-17 17:56+0200\n"
+"PO-Revision-Date: 2002-10-17 17:53+0100\n"
 "Last-Translator: Christian Neumair <chris@gnome-de.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -113,7 +113,11 @@ msgid ""
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,rho)\n"
 "@DESCRIPTION=CUM_BIV_NORM_DIST calculates the cumulative bivariatenormal "
 "distribution from parameters a, b & rho"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=KUMBIVNORMVERT\n"
+"@SYNTAX=KUMBIVNORMVERT(a,b,rho)\n"
+"@DESCRIPTION=KUMBIVNORMVERT berechnet die kumulative bivariate "
+"Normalverteilung aus den Parametern a, b und Rho"
 
 #: plugins/derivatives/options.c:201
 msgid ""
@@ -503,7 +507,15 @@ msgid ""
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
-msgstr "LATER"
+msgstr ""
+"@FUNCTION=OPT_AUF_OPTIONEN\n"
+"@SYNTAX=OPT_AUF_OPTIONEN(type_flag,spot,strike1,strike1,time1,time2,rate,"
+"cost_of_carry,volatility)\n"
+"@DESCRIPTION=OPTAUFOPTIONEN berechnet den theoretischen Preis von Optionen "
+"auf Optionen.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1681
 #, no-c-format
@@ -518,6 +530,91 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr "LATER"
 
+#: plugins/derivatives/options.c:1697 plugins/derivatives/options.c:1702
+#: plugins/derivatives/options.c:1707 plugins/derivatives/options.c:1712
+#: plugins/derivatives/options.c:1727
+msgid "call_put_flag, spot, strike, time, rate, volatility, cost_of_carry"
+msgstr "call_put_flag, spot, strike, Zeit, Kurs, Volatilität, Übertragskosten"
+
+#: plugins/derivatives/options.c:1717 plugins/derivatives/options.c:1722
+msgid "spot, strike, time, rate, volatility, cost_of_carry"
+msgstr "spot, strike, Zeit, Kurs, Volatilität, Übertragskosten"
+
+#: plugins/derivatives/options.c:1732
+msgid "a, b, rho"
+msgstr "a, b, Rho"
+
+#: plugins/derivatives/options.c:1737
+msgid ""
+"call_put_flag, spot, strike, time, domestic_rate, foreign_rate, volatility"
+msgstr ""
+"call_put_flag, spot, strike, Zeit, inländischer_Kurs, ausländischer_Kurs, "
+"Volatilität"
+
+#: plugins/derivatives/options.c:1742
+msgid "call_put_flag, spot, strike, time, t2, rate, volatility, cost of carry"
+msgstr ""
+"call_put_flag, spot, strike, Zeit, Zeit2, Kurs, Volatilität, Übertragskosten"
+
+#: plugins/derivatives/options.c:1747
+msgid "call_put_flag, spot, strike, time, rate, volatility, lambda, gamma"
+msgstr "call_put_flag, spot, strike, Zeit, Kurs, Volatilität, Lambda, Gamma"
+
+#: plugins/derivatives/options.c:1752
+msgid ""
+"call_put_flag, spot, strike, time, rate, volatility, cost_of_carry, lambda"
+msgstr ""
+"call_put_flag, spot, strike, Zeit, Kurs, Volatilität, Übertragskosten, Lambda"
+
+#: plugins/derivatives/options.c:1757 plugins/derivatives/options.c:1767
+msgid "call_put_flag, spot, strike, time, rate, cost_of_carry, volatility"
+msgstr "call_put_flag, spot, strike, Zeit, Kurs, Übertragskosten, Volatilität"
+
+#: plugins/derivatives/options.c:1762
+msgid ""
+"call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, rho_se, rho_sf, rho_ef, "
+"kappa_e, kappa_f)"
+msgstr ""
+"call_put_flag, p_t, f_t, x, t1, t2, v_s, v_e, v_f, Rho_se, Rho_sf, Rho_ef, "
+"Kappa_e, Kappa_f)"
+
+#: plugins/derivatives/options.c:1772
+msgid "call_put_flag, spot, strike, t1, t2, rate, d, volatility"
+msgstr "call_put_flag, spot, strike, t1, t2, Kurs, d, Volatilität"
+
+#: plugins/derivatives/options.c:1777
+msgid ""
+"call_put_flag, spot, alpha, time1, time, rate, volatility, cost_of_carry"
+msgstr ""
+"call_put_flag, spot, Alpha, Zeit1, Zeit, Kurs, Volatilität, Übertragskosten"
+
+#: plugins/derivatives/options.c:1782
+msgid ""
+"call_put_flag, spot, strike, a, time, m, dt, rate, cost_of_carry, volatility"
+msgstr ""
+"call_put_flag, spot, strike, a, Zeit, m, dt, Kurs, Übertragskosten, "
+"Volatilität"
+
+#: plugins/derivatives/options.c:1787
+msgid "spot, strike, time1, time2, rate, cost_of_carry, volatility"
+msgstr "spot, strike, Zeit1, Zeit2, Zins, Übertragskosten, Volatilität"
+
+#: plugins/derivatives/options.c:1792
+msgid ""
+"spot, strike_call, strike_put, time, time_call, time_put, rate, "
+"cost_of_carry, volatility"
+msgstr ""
+"spot, strike_call, strike_put, Zeit, Zeit_call, Zeit_put, Kurs, "
+"Übertragskosten, Volatilität"
+
+#: plugins/derivatives/options.c:1797 plugins/derivatives/options.c:1802
+msgid ""
+"type_flag, spot, strike1, strike2, time1, time2, rate, cost_of_carry, "
+"volatility"
+msgstr ""
+"type_flag, spot, strike1, strike2, Zeit1, Zeit2, Kurs, Übertragskosten, "
+"Volatilität"
+
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
 msgid "Financial"
@@ -531,7 +628,7 @@ msgstr "Finanzfunktionen"
 msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
-#: plugins/dif/dif.c:60 plugins/excel/ms-excel-read.c:4795
+#: plugins/dif/dif.c:60 plugins/excel/ms-excel-read.c:4824
 #: plugins/mps/mps.c:554 src/xml-io.c:3389
 msgid "Reading file..."
 msgstr "Datei wird gelesen..."
@@ -651,23 +748,23 @@ msgstr "Diagramm%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4676
+#: plugins/excel/ms-excel-read.c:4705
 msgid "external references"
 msgstr "externe Bezüge"
 
-#: plugins/excel/ms-excel-read.c:4966
+#: plugins/excel/ms-excel-read.c:4995
 msgid "This file is encrypted"
 msgstr "Diese Datei ist verschlüsselt"
 
-#: plugins/excel/ms-excel-read.c:4968
+#: plugins/excel/ms-excel-read.c:4997
 msgid "No password supplied"
 msgstr "Kein Passwort angegeben"
 
-#: plugins/excel/ms-excel-read.c:4972
+#: plugins/excel/ms-excel-read.c:5001
 msgid "Invalid password"
 msgstr "Ungültiges Passwort"
 
-#: plugins/excel/ms-excel-read.c:5095
+#: plugins/excel/ms-excel-read.c:5124
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es konnte kein gültiges MS-Excel-Arbeitsbuch aufgefunden werden."
 
@@ -718,9 +815,9 @@ msgid ""
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
 "@DESCRIPTION=COMPLEX returns a complex number of the form x + yi.\n"
 "\n"
-"@real is the real and @im is the imaginary coefficient of the complex "
-"number.  @suffix is the suffix for the imaginary coefficient.  If it is "
-"omitted, COMPLEX uses 'i' by default.\n"
+"@real is the real and @im is the imaginary part of the complex number.  "
+"@suffix is the suffix for the imaginary part.  If it is omitted, COMPLEX "
+"uses 'i' by default.\n"
 "\n"
 "* If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! error.\n"
 "* This function is Excel compatible.\n"
@@ -736,7 +833,7 @@ msgstr ""
 "\n"
 "@Reel ist der reelle und @Imaginär der imaginäre Koeffizient der komplexen "
 "Zahl. @Suffix ist der Suffix des imaginären Koeffizienten.\n"
-"* Falls @Suffix ausgelassen wird, wird 'i' verwendet.\n"
+"\n"
 "* Falls @Suffix weder 'i' noch 'j' ist, liefert KOMPLEX einen #WERT!-"
 "Fehler.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
@@ -750,8 +847,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
-"@DESCRIPTION=IMAGINARY returns the imaginary coefficient of a complex "
-"number.\n"
+"@DESCRIPTION=IMAGINARY returns the imaginary part of a complex number.\n"
 "\n"
 "* If @inumber is not a valid complex number, IMAGINARY returns #VALUE! "
 "error.\n"
@@ -764,15 +860,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMAGINÄR\n"
 "@SYNTAX=IMAGINÄR(iZahl)\n"
-"@DESCRIPTION=IMAGINÄR liefert den imaginären Koeffizienten einer komplexen "
-"Zahl @iZahl.\n"
+"@DESCRIPTION=IMAGINÄR liefert den imaginären Teil einer komplexen Zahl "
+"@iZahl.\n"
 "\n"
 "* Falls @iZahl keine gültige komplexe Zahl ist, liefert IMAGINÄR einen "
 "#WERT!-Fehler.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
-"IMAGINARY(\"132-j\") liefert -1.\n"
+"IMAGINÄR(\"132-j\") liefert -1.\n"
 "\n"
 "@SEEALSO=IMREEL"
 
@@ -806,7 +902,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
-"@DESCRIPTION=IMREAL returns the real coefficient of a complex number.\n"
+"@DESCRIPTION=IMREAL returns the real part of a complex number.\n"
 "\n"
 "* If @inumber is not a valid complex number, IMREAL returns #VALUE! error.\n"
 "* This function is Excel compatible.\n"
@@ -818,8 +914,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMREEL\n"
 "@SYNTAX=IMREEL(iZahl)\n"
-"@DESCRIPTION=IMREEL liefert den reellen Koeffizienten einer komplexen Zahl "
-"@iZahl.\n"
+"@DESCRIPTION=IMREEL liefert den reellen Teil einer komplexen Zahl @iZahl.\n"
 "\n"
 "* Falls @iZahl keine gültige komplexe Zahl ist, liefert IMREEL einen #WERT!-"
 "Fehler.\n"
@@ -1097,11 +1192,14 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLN"
 
+# CHECK
 #: plugins/fn-complex/functions.c:505
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
-"@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number.\n"
+"@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number, i. "
+"e. the angle in radians from the real axis to the representation of the "
+"number in polar coordinates.\n"
 "\n"
 "* If @inumber is not a valid complex number, IMARGUMENT returns #VALUE! "
 "error.\n"
@@ -1115,7 +1213,8 @@ msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(iZahl)\n"
 "@DESCRIPTION=IMARGUMENT liefert das Argument Theta einer komplexen Zahl "
-"@iZahl.\n"
+"@iZahl, also den Winkel im Gradmaß von der reelen Achse zur Darstellung der "
+"Anzahl in Polarkoordinaten.\n"
 "\n"
 "* Falls @iZahl keine gültige komplexe Zahl ist, liefert IMARGUMENT einen "
 "#WERT!-Fehler.\n"
@@ -1126,14 +1225,15 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-complex/functions.c:535
+#: plugins/fn-complex/functions.c:537
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
-"@DESCRIPTION=IMLN returns the natural logarithm of a complex number. (The "
-"result will have an imaginary part between -pi and +pi.  The natural "
+"@DESCRIPTION=IMLN returns the natural logarithm of a complex number.\n"
+"\n"
+"The result will have an imaginary part between -pi and +pi.  The natural "
 "logarithm is not uniquely defined on complex numbers. You may need to add or "
-"subtract an even multiple of pi to the imaginary part.)\n"
+"subtract an even multiple of pi to the imaginary part.\n"
 "\n"
 "* If @inumber is not a valid complex number, IMLN returns #VALUE! error.\n"
 "* This function is Excel compatible.\n"
@@ -1147,11 +1247,11 @@ msgstr ""
 "@SYNTAX=IMLN(iZahl)\n"
 "@DESCRIPTION=IMLN liefert den natürlichen Logarithmus einer komplexen Zahl "
 "@iZahl.\n"
-"\n"
-"* Das Ergebnis hat einen imaginären Teil zwischen - und + PI. Der natürliche "
+"Das Ergebnis hat einen imaginären Teil zwischen - und + PI. Der natürliche "
 "Logarithmus ist für komplexe Zahlen nicht eindeutig definiert. "
 "Möglicherweise müssen Sie eine gerade Vielfache von PI vom imaginären Teil "
 "abziehen.\n"
+"\n"
 "* Falls @iZahl keine gültige komplexe Zahl ist, liefert IMLN einen #WERT!-"
 "Fehler.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
@@ -1161,7 +1261,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMEXP, IMLOG2, IMLOG10"
 
-#: plugins/fn-complex/functions.c:570
+#: plugins/fn-complex/functions.c:573
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
@@ -1189,7 +1289,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLÄNGE, IMLOG2"
 
-#: plugins/fn-complex/functions.c:602
+#: plugins/fn-complex/functions.c:605
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
@@ -1217,7 +1317,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMLÄNGE, IMLOG2"
 
-#: plugins/fn-complex/functions.c:634
+#: plugins/fn-complex/functions.c:637
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber1,inumber2)\n"
@@ -1250,7 +1350,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMWURZEL"
 
-#: plugins/fn-complex/functions.c:673
+#: plugins/fn-complex/functions.c:676
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber1,inumber2)\n"
@@ -1279,7 +1379,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPRODUKT"
 
-#: plugins/fn-complex/functions.c:710
+#: plugins/fn-complex/functions.c:713
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
@@ -1306,7 +1406,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOS, IMTAN"
 
-#: plugins/fn-complex/functions.c:740
+#: plugins/fn-complex/functions.c:743
 msgid ""
 "@FUNCTION=IMSINH\n"
 "@SYNTAX=IMSINH(inumber)\n"
@@ -1337,7 +1437,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMCOSHYP,IMTANHYP"
 
-#: plugins/fn-complex/functions.c:772
+#: plugins/fn-complex/functions.c:775
 msgid ""
 "@FUNCTION=IMCOSH\n"
 "@SYNTAX=IMCOSH(inumber)\n"
@@ -1368,7 +1468,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSINHYP, IMTANHYP"
 
-#: plugins/fn-complex/functions.c:803
+#: plugins/fn-complex/functions.c:806
 msgid ""
 "@FUNCTION=IMTANH\n"
 "@SYNTAX=IMTANH(inumber)\n"
@@ -1399,7 +1499,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSINHYP, IMCOSHYP"
 
-#: plugins/fn-complex/functions.c:834
+#: plugins/fn-complex/functions.c:837
 msgid ""
 "@FUNCTION=IMSECH\n"
 "@SYNTAX=IMSECH(inumber)\n"
@@ -1430,7 +1530,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMKOSEKHYP,IMCOTHYP"
 
-#: plugins/fn-complex/functions.c:865
+#: plugins/fn-complex/functions.c:868
 msgid ""
 "@FUNCTION=IMCSCH\n"
 "@SYNTAX=IMCSCH(inumber)\n"
@@ -1461,7 +1561,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSEKHYP,IMCOTHYP"
 
-#: plugins/fn-complex/functions.c:896
+#: plugins/fn-complex/functions.c:899
 msgid ""
 "@FUNCTION=IMCOTH\n"
 "@SYNTAX=IMCOTH(inumber)\n"
@@ -1492,7 +1592,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSEKHYP"
 
-#: plugins/fn-complex/functions.c:927
+#: plugins/fn-complex/functions.c:930
 msgid ""
 "@FUNCTION=IMARCSIN\n"
 "@SYNTAX=IMARCSIN(inumber)\n"
@@ -1522,7 +1622,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCCOS,IMARCTAN"
 
-#: plugins/fn-complex/functions.c:959
+#: plugins/fn-complex/functions.c:962
 msgid ""
 "@FUNCTION=IMARCCOS\n"
 "@SYNTAX=IMARCCOS(inumber)\n"
@@ -1552,12 +1652,12 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCTAN"
 
-#: plugins/fn-complex/functions.c:991
+#: plugins/fn-complex/functions.c:994
 msgid ""
 "@FUNCTION=IMARCTAN\n"
 "@SYNTAX=IMARCTAN(inumber)\n"
 "@DESCRIPTION=IMARCTAN returns the complex arctangent of the complex number "
-"inumber. The branch cuts are on the imaginary axis, below -i and above i.\n"
+"@inumber. The branch cuts are on the imaginary axis, below -i and above i.\n"
 "\n"
 "* If @inumber is not a valid complex number, IMARCTAN returns #VALUE! "
 "error.\n"
@@ -1581,7 +1681,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSIN,IMARCCOS"
 
-#: plugins/fn-complex/functions.c:1023
+#: plugins/fn-complex/functions.c:1026
 msgid ""
 "@FUNCTION=IMARCSEC\n"
 "@SYNTAX=IMARCSEC(inumber)\n"
@@ -1613,7 +1713,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCKOSEK,IMARCCOT"
 
-#: plugins/fn-complex/functions.c:1054
+#: plugins/fn-complex/functions.c:1057
 msgid ""
 "@FUNCTION=IMARCCSC\n"
 "@SYNTAX=IMARCCSC(inumber)\n"
@@ -1645,7 +1745,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSEK,IMARCCOT"
 
-#: plugins/fn-complex/functions.c:1085
+#: plugins/fn-complex/functions.c:1088
 msgid ""
 "@FUNCTION=IMARCCOT\n"
 "@SYNTAX=IMARCCOT(inumber)\n"
@@ -1677,7 +1777,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSEK,IMARCKOSEK"
 
-#: plugins/fn-complex/functions.c:1116
+#: plugins/fn-complex/functions.c:1119
 msgid ""
 "@FUNCTION=IMARCSINH\n"
 "@SYNTAX=IMARCSINH(inumber)\n"
@@ -1707,7 +1807,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCCOSINHYP,IMARCTANHYP"
 
-#: plugins/fn-complex/functions.c:1148
+#: plugins/fn-complex/functions.c:1151
 msgid ""
 "@FUNCTION=IMARCCOSH\n"
 "@SYNTAX=IMARCCOSH(inumber)\n"
@@ -1736,7 +1836,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSINHYP,IMARCTANHYP"
 
-#: plugins/fn-complex/functions.c:1180
+#: plugins/fn-complex/functions.c:1183
 msgid ""
 "@FUNCTION=IMARCTANH\n"
 "@SYNTAX=IMARCTANH(inumber)\n"
@@ -1766,7 +1866,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSINHYP,IMARCCOSHYP"
 
-#: plugins/fn-complex/functions.c:1212
+#: plugins/fn-complex/functions.c:1215
 msgid ""
 "@FUNCTION=IMARCSECH\n"
 "@SYNTAX=IMARCSECH(inumber)\n"
@@ -1798,7 +1898,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCKOSEKHYP,IMARCCOTHYP"
 
-#: plugins/fn-complex/functions.c:1244
+#: plugins/fn-complex/functions.c:1247
 msgid ""
 "@FUNCTION=IMARCCSCH\n"
 "@SYNTAX=IMARCCSCH(inumber)\n"
@@ -1830,7 +1930,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSEKHYP,IMARCCOTHYP"
 
-#: plugins/fn-complex/functions.c:1275
+#: plugins/fn-complex/functions.c:1278
 msgid ""
 "@FUNCTION=IMARCCOTH\n"
 "@SYNTAX=IMARCCOTH(inumber)\n"
@@ -1862,7 +1962,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMARCSEKHYP,IMARCKOSEKHYP"
 
-#: plugins/fn-complex/functions.c:1307
+#: plugins/fn-complex/functions.c:1310
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
@@ -1890,7 +1990,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMPOTENZ"
 
-#: plugins/fn-complex/functions.c:1338
+#: plugins/fn-complex/functions.c:1341
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber1,inumber2)\n"
@@ -1919,7 +2019,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUMME"
 
-#: plugins/fn-complex/functions.c:1372
+#: plugins/fn-complex/functions.c:1375
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
@@ -1948,7 +2048,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IMDIV"
 
-#: plugins/fn-complex/functions.c:1444
+#: plugins/fn-complex/functions.c:1447
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber1,inumber2)\n"
@@ -1977,38 +2077,36 @@ msgstr ""
 "\n"
 "@SEEALSO=IMSUB"
 
-#: plugins/fn-complex/functions.c:1480
+#: plugins/fn-complex/functions.c:1483
 msgid "real,im[,suffix]"
-msgstr ""
+msgstr "Reel, Imaginär[, Suffix]"
 
-#: plugins/fn-complex/functions.c:1483 plugins/fn-complex/functions.c:1486
-#: plugins/fn-complex/functions.c:1489 plugins/fn-complex/functions.c:1492
-#: plugins/fn-complex/functions.c:1495 plugins/fn-complex/functions.c:1501
-#: plugins/fn-complex/functions.c:1504 plugins/fn-complex/functions.c:1507
-#: plugins/fn-complex/functions.c:1510 plugins/fn-complex/functions.c:1516
-#: plugins/fn-complex/functions.c:1519 plugins/fn-complex/functions.c:1522
-#: plugins/fn-complex/functions.c:1532 plugins/fn-complex/functions.c:1535
-#: plugins/fn-complex/functions.c:1538 plugins/fn-complex/functions.c:1544
-#: plugins/fn-complex/functions.c:1547 plugins/fn-complex/functions.c:1550
-#: plugins/fn-complex/functions.c:1553 plugins/fn-complex/functions.c:1556
-#: plugins/fn-complex/functions.c:1559 plugins/fn-complex/functions.c:1562
-#: plugins/fn-complex/functions.c:1565 plugins/fn-complex/functions.c:1568
-#: plugins/fn-complex/functions.c:1571 plugins/fn-complex/functions.c:1574
-#: plugins/fn-complex/functions.c:1577 plugins/fn-complex/functions.c:1580
-#: plugins/fn-complex/functions.c:1583 plugins/fn-complex/functions.c:1586
-#: plugins/fn-complex/functions.c:1589 plugins/fn-complex/functions.c:1592
-#: plugins/fn-complex/functions.c:1595 plugins/fn-complex/functions.c:1598
-#: plugins/fn-complex/functions.c:1601 plugins/fn-complex/functions.c:1604
-#, fuzzy
+#: plugins/fn-complex/functions.c:1486 plugins/fn-complex/functions.c:1489
+#: plugins/fn-complex/functions.c:1492 plugins/fn-complex/functions.c:1495
+#: plugins/fn-complex/functions.c:1498 plugins/fn-complex/functions.c:1504
+#: plugins/fn-complex/functions.c:1507 plugins/fn-complex/functions.c:1510
+#: plugins/fn-complex/functions.c:1513 plugins/fn-complex/functions.c:1519
+#: plugins/fn-complex/functions.c:1522 plugins/fn-complex/functions.c:1525
+#: plugins/fn-complex/functions.c:1535 plugins/fn-complex/functions.c:1538
+#: plugins/fn-complex/functions.c:1541 plugins/fn-complex/functions.c:1547
+#: plugins/fn-complex/functions.c:1550 plugins/fn-complex/functions.c:1553
+#: plugins/fn-complex/functions.c:1556 plugins/fn-complex/functions.c:1559
+#: plugins/fn-complex/functions.c:1562 plugins/fn-complex/functions.c:1565
+#: plugins/fn-complex/functions.c:1568 plugins/fn-complex/functions.c:1571
+#: plugins/fn-complex/functions.c:1574 plugins/fn-complex/functions.c:1577
+#: plugins/fn-complex/functions.c:1580 plugins/fn-complex/functions.c:1583
+#: plugins/fn-complex/functions.c:1586 plugins/fn-complex/functions.c:1589
+#: plugins/fn-complex/functions.c:1592 plugins/fn-complex/functions.c:1595
+#: plugins/fn-complex/functions.c:1598 plugins/fn-complex/functions.c:1601
+#: plugins/fn-complex/functions.c:1604 plugins/fn-complex/functions.c:1607
 msgid "inumber"
-msgstr "Zahl"
+msgstr "iZahl"
 
-#: plugins/fn-complex/functions.c:1498 plugins/fn-complex/functions.c:1513
-#: plugins/fn-complex/functions.c:1525 plugins/fn-complex/functions.c:1528
-#: plugins/fn-complex/functions.c:1541
-#, fuzzy
+#: plugins/fn-complex/functions.c:1501 plugins/fn-complex/functions.c:1516
+#: plugins/fn-complex/functions.c:1528 plugins/fn-complex/functions.c:1531
+#: plugins/fn-complex/functions.c:1544
 msgid "inumber,inumber"
-msgstr "Zahl,Zahl"
+msgstr "iZahl,iZahl"
 
 #: plugins/fn-complex/plugin.xml.in.h:1
 msgid "Complex"
@@ -2022,9 +2120,7 @@ msgstr "Komplexe Funktionen"
 msgid "Functions for complex numbers"
 msgstr "Funktionen für komplexe Zahlen"
 
-#. *************************************************************************
-#. *************************************************************************
-#: plugins/fn-database/functions.c:301
+#: plugins/fn-database/functions.c:264
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -2074,8 +2170,41 @@ msgid ""
 "\n"
 "@SEEALSO=DCOUNT"
 msgstr ""
+"@FUNCTION=DBMITTELWERT\n"
+"@SYNTAX=DBMITTELWERT(Datenbank,Feld,Kriterien)\n"
+"@DESCRIPTION=DBMITTELWERT liefert den Durchschnitt der Werte in einer Liste "
+"oder Datenbank, die den angegebenen Kriterien entsprechen.\n"
+"\n"
+"@Datenbank ist ein Zellbereich, in dem Zeilen Datensätze und Spalten "
+"Datenfelder sind. Die erste Zeile einer Datenbank enthält die Beschriftungen "
+"für die jeweiligen Spalten.\n"
+"@Feld legt fest, welche Spalte für die Funktion verwendet wird und darf eine "
+"Ganzzahl oder eine Zeichenkette sein. Falls n (@Feld) ganzzahlig ist, wird "
+"die n-te Spalte verwendet, falls @Feld jedoch als Zeichenkette übergeben "
+"wird, wird diese als Bezug zur Spalte mit der Beschriftung \"@Feld\" "
+"interpretiert.\n"
+"@Kriterien ist der Zellbereich, der die zu erfüllenden Bedingungen enthält. "
+"Die erste Zeile in @Kriterien sollte die Beschriftungen der Felder "
+"enthalten, für die die Kriterien gelten. Zellen unterhalb der Beschriftungen "
+"legen Bedingungen fest, zum Beispiel »>3« oder »<9«. Ist-gleich-Bedingungen "
+"können als Wert (z.B. »3« oder »Johann«) übergeben werden. Jede Zeile in "
+"@Kriterien gibt eine einzelne Bedingung an. Wenn also eine Zeile in "
+"@Datenbank mit einer der Zeilen in @Kriterien übereinstimmt, dann wird diese "
+"Zeile gezählt (technisch ausgedrückt ist dies ein Boolsches ODER zwischen "
+"den Zeilen in @Kriterien). Falls @Kriterien mehr als eine Spalte angibt, "
+"muss jede der Bedingungen in diesen Spalten wahr sein, damit sie auf "
+"@Datenbank zutrifft (also ein Boolsches UND zwischen den Spalten in jeder "
+"Zeile in @Kriterien).\n"
+"\n"
+"@EXAMPLES=\n"
+"DBMITTELWERT(A1:C7, \"Gehalt\", A9:A11) liefert 42296.3333.\n"
+"DBMITTELWERT(A1:C7, \"Alter\", A9:A11) liefert 39.\n"
+"DBMITTELWERT(A1:C7, \"Gehalt\", A9:B11) liefert 40782.5.\n"
+"DBMITTELWERT(A1:C7, \"Alter\", A9:B11) liefert 36.\n"
+"\n"
+"@SEEALSO=DBANZAHL"
 
-#: plugins/fn-database/functions.c:374
+#: plugins/fn-database/functions.c:337
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -2124,8 +2253,39 @@ msgid ""
 "\n"
 "@SEEALSO=DAVERAGE"
 msgstr ""
+"@FUNCTION=DBANZAHL\n"
+"@SYNTAX=DBANZAHL(Datenbank,Feld,Kriterien)\n"
+"@DESCRIPTION=DBANZAHL zählt die Zellen in einer Datenbank, die Zahlen "
+"enthalten, die den angegebenen Kriterien entsprechen.\n"
+"\n"
+"@Datenbank ist ein Zellbereich, in dem Zeilen Datensätze und Spalten "
+"Datenfelder sind. Die erste Zeile einer Datenbank enthält die Beschriftungen "
+"für die jeweiligen Spalten.\n"
+"@Feld legt fest, welche Spalte für die Funktion verwendet wird und darf eine "
+"Ganzzahl oder eine Zeichenkette sein. Falls n (@Feld) ganzzahlig ist, wird "
+"die n-te Spalte verwendet, falls @Feld jedoch als Zeichenkette übergeben "
+"wird, wird diese als Bezug zur Spalte mit der Beschriftung \"@Feld\" "
+"interpretiert.\n"
+"@Kriterien ist der Zellbereich, der die zu erfüllenden Bedingungen enthält. "
+"Die erste Zeile in @Kriterien sollte die Beschriftungen der Felder "
+"enthalten, für die die Kriterien gelten. Zellen unterhalb der Beschriftungen "
+"legen Bedingungen fest, zum Beispiel »>3« oder »<9«. Ist-gleich-Bedingungen "
+"können als Wert (z.B. »3« oder »Johann«) übergeben werden. Jede Zeile in "
+"@Kriterien gibt eine einzelne Bedingung an. Wenn also eine Zeile in "
+"@Datenbank mit einer der Zeilen in @Kriterien übereinstimmt, dann wird diese "
+"Zeile gezählt (technisch ausgedrückt ist dies ein Boolsches ODER zwischen "
+"den Zeilen in @Kriterien). Falls @Kriterien mehr als eine Spalte angibt, "
+"muss jede der Bedingungen in diesen Spalten wahr sein, damit sie auf "
+"@Datenbank zutrifft (also ein Boolsches UND zwischen den Spalten in jeder "
+"Zeile in @Kriterien).\n"
+"@EXAMPLES=\n"
+"DBANZAHL(A1:C7, \"Gehalt\", A9:A11) liefert 3.\n"
+"DBANZAHL(A1:C7, \"Gehalt\", A9:B11) liefert 2.\n"
+"DBANZAHL(A1:C7, \"Name\", A9:B11) liefert 0.\n"
+"\n"
+"@SEEALSO=DBMITTELWERT"
 
-#: plugins/fn-database/functions.c:446
+#: plugins/fn-database/functions.c:409
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -2174,8 +2334,39 @@ msgid ""
 "\n"
 "@SEEALSO=DCOUNT"
 msgstr ""
+"@FUNCTION=DBANZAHL2\n"
+"@SYNTAX=DBANZAHL2(Datenbank,Feld,Kriterien)\n"
+"@DESCRIPTION=DBANZAHL2 zählt die Zellen in einer Datenbank, die Daten "
+"enthalten, die den angegebenen Kriterien entsprechen.\n"
+"\n"
+"@Datenbank ist ein Zellbereich, in dem Zeilen Datensätze und Spalten "
+"Datenfelder sind. Die erste Zeile einer Datenbank enthält die Beschriftungen "
+"für die jeweiligen Spalten.\n"
+"@Feld legt fest, welche Spalte für die Funktion verwendet wird und darf eine "
+"Ganzzahl oder eine Zeichenkette sein. Falls n (@Feld) ganzzahlig ist, wird "
+"die n-te Spalte verwendet, falls @Feld jedoch als Zeichenkette übergeben "
+"wird, wird diese als Bezug zur Spalte mit der Beschriftung \"@Feld\" "
+"interpretiert.\n"
+"@Kriterien ist der Zellbereich, der die zu erfüllenden Bedingungen enthält. "
+"Die erste Zeile in @Kriterien sollte die Beschriftungen der Felder "
+"enthalten, für die die Kriterien gelten. Zellen unterhalb der Beschriftungen "
+"legen Bedingungen fest, zum Beispiel »>3« oder »<9«. Ist-gleich-Bedingungen "
+"können als Wert (z.B. »3« oder »Johann«) übergeben werden. Jede Zeile in "
+"@Kriterien gibt eine einzelne Bedingung an. Wenn also eine Zeile in "
+"@Datenbank mit einer der Zeilen in @Kriterien übereinstimmt, dann wird diese "
+"Zeile gezählt (technisch ausgedrückt ist dies ein Boolsches ODER zwischen "
+"den Zeilen in @Kriterien). Falls @Kriterien mehr als eine Spalte angibt, "
+"muss jede der Bedingungen in diesen Spalten wahr sein, damit sie auf "
+"@Datenbank zutrifft (also ein Boolsches UND zwischen den Spalten in jeder "
+"Zeile in @Kriterien).\n"
+"@EXAMPLES=\n"
+"DBANZAHL2(A1:C7, \"Gehalt\", A9:A11) liefert 3.\n"
+"DBANZAHL2(A1:C7, \"Gehalt\", A9:B11) liefert 2.\n"
+"DBANZAHL2(A1:C7, \"Name\", A9:B11) liefert 2.\n"
+"\n"
+"@SEEALSO=DBANZAHL"
 
-#: plugins/fn-database/functions.c:516
+#: plugins/fn-database/functions.c:479
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -2226,8 +2417,44 @@ msgid ""
 "\n"
 "@SEEALSO=DCOUNT"
 msgstr ""
+"@FUNCTION=DBAUSZUG\n"
+"@SYNTAX=DBAUSZUG(Datenbank,Feld,Kriterien)\n"
+"@DESCRIPTION=DBAUSZUG liefert einen einzelnen Wert aus einer Spalte, der den "
+"angegebenen Kriterien entspricht.\n"
+"\n"
+"@Datenbank ist ein Zellbereich, in dem Zeilen Datensätze und Spalten "
+"Datenfelder sind. Die erste Zeile einer Datenbank enthält die Beschriftungen "
+"für die jeweiligen Spalten.\n"
+"@Feld legt fest, welche Spalte für die Funktion verwendet wird und darf eine "
+"Ganzzahl oder eine Zeichenkette sein. Falls n (@Feld) ganzzahlig ist, wird "
+"die n-te Spalte verwendet, falls @Feld jedoch als Zeichenkette übergeben "
+"wird, wird diese als Bezug zur Spalte mit der Beschriftung \"@Feld\" "
+"interpretiert.\n"
+"@Kriterien ist der Zellbereich, der die zu erfüllenden Bedingungen enthält. "
+"Die erste Zeile in @Kriterien sollte die Beschriftungen der Felder "
+"enthalten, für die die Kriterien gelten. Zellen unterhalb der Beschriftungen "
+"legen Bedingungen fest, zum Beispiel »>3« oder »<9«. Ist-gleich-Bedingungen "
+"können als Wert (z.B. »3« oder »Johann«) übergeben werden. Jede Zeile in "
+"@Kriterien gibt eine einzelne Bedingung an. Wenn also eine Zeile in "
+"@Datenbank mit einer der Zeilen in @Kriterien übereinstimmt, dann wird diese "
+"Zeile gezählt (technisch ausgedrückt ist dies ein Boolsches ODER zwischen "
+"den Zeilen in @Kriterien). Falls @Kriterien mehr als eine Spalte angibt, "
+"muss jede der Bedingungen in diesen Spalten wahr sein, damit sie auf "
+"@Datenbank zutrifft (also ein Boolsches UND zwischen den Spalten in jeder "
+"Zeile in @Kriterien).\n"
+"\n"
+"* Falls keiner der Posten die Bedingungen erfüllt, liefert DBAUSZUG einen "
+"#WERT!-Fehler.\n"
+"* Erfüllt mehr als ein Posten die Bedingungen, liefert DBAUSZUG einen #ZAHL!-"
+"Fehler\n"
+"\n"
+"@EXAMPLES=\n"
+"DBAUSZUG(A1:C7, \"Gehalt\", A9:A10) liefert 34323.\n"
+"DBAUSZUG(A1:C7, \"Name\", A9:A10) liefert \"Clark\".\n"
+"\n"
+"@SEEALSO=DBANZAHL"
 
-#: plugins/fn-database/functions.c:598
+#: plugins/fn-database/functions.c:561
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -2276,8 +2503,39 @@ msgid ""
 "\n"
 "@SEEALSO=DMIN"
 msgstr ""
+"@FUNCTION=DBMAX\n"
+"@SYNTAX=DBMAX(Datenbank,Feld,Kriterien)\n"
+"@DESCRIPTION=DBMAX liefert die größte Zahl in einer Spalte, die den "
+"angegebenen Kriterien entspricht.\n"
+"\n"
+"@Datenbank ist ein Zellbereich, in dem Zeilen Datensätze und Spalten "
+"Datenfelder sind. Die erste Zeile einer Datenbank enthält die Beschriftungen "
+"für die jeweiligen Spalten.\n"
+"@Feld legt fest, welche Spalte für die Funktion verwendet wird und darf eine "
+"Ganzzahl oder eine Zeichenkette sein. Falls n (@Feld) ganzzahlig ist, wird "
+"die n-te Spalte verwendet, falls @Feld jedoch als Zeichenkette übergeben "
+"wird, wird diese als Bezug zur Spalte mit der Beschriftung \"@Feld\" "
+"interpretiert.\n"
+"@Kriterien ist der Zellbereich, der die zu erfüllenden Bedingungen enthält. "
+"Die erste Zeile in @Kriterien sollte die Beschriftungen der Felder "
+"enthalten, für die die Kriterien gelten. Zellen unterhalb der Beschriftungen "
+"legen Bedingungen fest, zum Beispiel »>3« oder »<9«. Ist-gleich-Bedingungen "
+"können als Wert (z.B. »3« oder »Johann«) übergeben werden. Jede Zeile in "
+"@Kriterien gibt eine einzelne Bedingung an. Wenn also eine Zeile in "
+"@Datenbank mit einer der Zeilen in @Kriterien übereinstimmt, dann wird diese "
+"Zeile gezählt (technisch ausgedrückt ist dies ein Boolsches ODER zwischen "
+"den Zeilen in @Kriterien). Falls @Kriterien mehr als eine Spalte angibt, "
+"muss jede der Bedingungen in diesen Spalten wahr sein, damit sie auf "
+"@Datenbank zutrifft (also ein Boolsches UND zwischen den Spalten in jeder "
+"Zeile in @Kriterien).\n"
+"@EXAMPLES=\n"
+"DBMAX(A1:C7, \"Gehalt\", A9:A11) liefert 47242.\n"
+"DBMAX(A1:C7, \"Alter\", A9:A11) liefert 45.\n"
+"DBMAX(A1:C7, \"Alter\", A9:B11) liefert 43.\n"
+"\n"
+"@SEEALSO=DBMIN"
 
-#: plugins/fn-database/functions.c:672
+#: plugins/fn-database/functions.c:635
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -2325,8 +2583,38 @@ msgid ""
 "\n"
 "@SEEALSO=DMAX"
 msgstr ""
+"@FUNCTION=DBMIN\n"
+"@SYNTAX=DBMIN(Datenbank,Feld,Kriterien)\n"
+"@DESCRIPTION=DBMIN liefert die kleinste Zahl in einer Spalte, die den "
+"angegebenen Kriterien entspricht.\n"
+"\n"
+"@Datenbank ist ein Zellbereich, in dem Zeilen Datensätze und Spalten "
+"Datenfelder sind. Die erste Zeile einer Datenbank enthält die Beschriftungen "
+"für die jeweiligen Spalten.\n"
+"@Feld legt fest, welche Spalte für die Funktion verwendet wird und darf eine "
+"Ganzzahl oder eine Zeichenkette sein. Falls n (@Feld) ganzzahlig ist, wird "
+"die n-te Spalte verwendet, falls @Feld jedoch als Zeichenkette übergeben "
+"wird, wird diese als Bezug zur Spalte mit der Beschriftung \"@Feld\" "
+"interpretiert.\n"
+"@Kriterien ist der Zellbereich, der die zu erfüllenden Bedingungen enthält. "
+"Die erste Zeile in @Kriterien sollte die Beschriftungen der Felder "
+"enthalten, für die die Kriterien gelten. Zellen unterhalb der Beschriftungen "
+"legen Bedingungen fest, zum Beispiel »>3« oder »<9«. Ist-gleich-Bedingungen "
+"können als Wert (z.B. »3« oder »Johann«) übergeben werden. Jede Zeile in "
+"@Kriterien gibt eine einzelne Bedingung an. Wenn also eine Zeile in "
+"@Datenbank mit einer der Zeilen in @Kriterien übereinstimmt, dann wird diese "
+"Zeile gezählt (technisch ausgedrückt ist dies ein Boolsches ODER zwischen "
+"den Zeilen in @Kriterien). Falls @Kriterien mehr als eine Spalte angibt, "
+"muss jede der Bedingungen in diesen Spalten wahr sein, damit sie auf "
+"@Datenbank zutrifft (also ein Boolsches UND zwischen den Spalten in jeder "
+"Zeile in @Kriterien).\n"
+"@EXAMPLES=\n"
+"DBMIN(A1:C7, \"Gehalt\", A9:B11) liefert 34323.\n"
+"DBMIN(A1:C7, \"Alter\", A9:B11) liefert 29.\n"
+"\n"
+"@SEEALSO=DBMAX"
 
-#: plugins/fn-database/functions.c:743
+#: plugins/fn-database/functions.c:706
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -2373,8 +2661,37 @@ msgid ""
 "\n"
 "@SEEALSO=DSUM"
 msgstr ""
+"@FUNCTION=DBPRODUKT\n"
+"@SYNTAX=DBPRODUKT(Datenbank,Feld,Kriterien)\n"
+"@DESCRIPTION=DBPRODUKT liefert das Produkt in einer Spalte von Zahlen, die "
+"den angegebenen Kriterien entsprechen.\n"
+"\n"
+"@Datenbank ist ein Zellbereich, in dem Zeilen Datensätze und Spalten "
+"Datenfelder sind. Die erste Zeile einer Datenbank enthält die Beschriftungen "
+"für die jeweiligen Spalten.\n"
+"@Feld legt fest, welche Spalte für die Funktion verwendet wird und darf eine "
+"Ganzzahl oder eine Zeichenkette sein. Falls n (@Feld) ganzzahlig ist, wird "
+"die n-te Spalte verwendet, falls @Feld jedoch als Zeichenkette übergeben "
+"wird, wird diese als Bezug zur Spalte mit der Beschriftung \"@Feld\" "
+"interpretiert.\n"
+"@Kriterien ist der Zellbereich, der die zu erfüllenden Bedingungen enthält. "
+"Die erste Zeile in @Kriterien sollte die Beschriftungen der Felder "
+"enthalten, für die die Kriterien gelten. Zellen unterhalb der Beschriftungen "
+"legen Bedingungen fest, zum Beispiel »>3« oder »<9«. Ist-gleich-Bedingungen "
+"können als Wert (z.B. »3« oder »Johann«) übergeben werden. Jede Zeile in "
+"@Kriterien gibt eine einzelne Bedingung an. Wenn also eine Zeile in "
+"@Datenbank mit einer der Zeilen in @Kriterien übereinstimmt, dann wird diese "
+"Zeile gezählt (technisch ausgedrückt ist dies ein Boolsches ODER zwischen "
+"den Zeilen in @Kriterien). Falls @Kriterien mehr als eine Spalte angibt, "
+"muss jede der Bedingungen in diesen Spalten wahr sein, damit sie auf "
+"@Datenbank zutrifft (also ein Boolsches UND zwischen den Spalten in jeder "
+"Zeile in @Kriterien).\n"
+"@EXAMPLES=\n"
+"DBPRODUKT(A1:C7, \"Alter\", A9:B11) liefert 1247.\n"
+"\n"
+"@SEEALSO=DBSUMME"
 
-#: plugins/fn-database/functions.c:814
+#: plugins/fn-database/functions.c:777
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -2423,8 +2740,39 @@ msgid ""
 "\n"
 "@SEEALSO=DSTDEVP"
 msgstr ""
+"@FUNCTION=DBSTDABW\n"
+"@SYNTAX=DBSTDABW(Datenbank,Feld,Kriterien)\n"
+"@DESCRIPTION=DBSTDABW liefert die Standardabweichung Standardabweichung "
+"einer auf einer Stichprobe basierenden Pupulation. Die Populationen bestehen "
+"aus Zahlen, die die angegebenen Kriterien erfüllen.\n"
+"\n"
+"@Datenbank ist ein Zellbereich, in dem Zeilen Datensätze und Spalten "
+"Datenfelder sind. Die erste Zeile einer Datenbank enthält die Beschriftungen "
+"für die jeweiligen Spalten.\n"
+"@Feld legt fest, welche Spalte für die Funktion verwendet wird und darf eine "
+"Ganzzahl oder eine Zeichenkette sein. Falls n (@Feld) ganzzahlig ist, wird "
+"die n-te Spalte verwendet, falls @Feld jedoch als Zeichenkette übergeben "
+"wird, wird diese als Bezug zur Spalte mit der Beschriftung \"@Feld\" "
+"interpretiert.\n"
+"@Kriterien ist der Zellbereich, der die zu erfüllenden Bedingungen enthält. "
+"Die erste Zeile in @Kriterien sollte die Beschriftungen der Felder "
+"enthalten, für die die Kriterien gelten. Zellen unterhalb der Beschriftungen "
+"legen Bedingungen fest, zum Beispiel »>3« oder »<9«. Ist-gleich-Bedingungen "
+"können als Wert (z.B. »3« oder »Johann«) übergeben werden. Jede Zeile in "
+"@Kriterien gibt eine einzelne Bedingung an. Wenn also eine Zeile in "
+"@Datenbank mit einer der Zeilen in @Kriterien übereinstimmt, dann wird diese "
+"Zeile gezählt (technisch ausgedrückt ist dies ein Boolsches ODER zwischen "
+"den Zeilen in @Kriterien). Falls @Kriterien mehr als eine Spalte angibt, "
+"muss jede der Bedingungen in diesen Spalten wahr sein, damit sie auf "
+"@Datenbank zutrifft (also ein Boolsches UND zwischen den Spalten in jeder "
+"Zeile in @Kriterien).\n"
+"@EXAMPLES=\n"
+"DBSTDABW(A1:C7, \"Alter\", A9:B11) liefert 9.89949.\n"
+"DBSTDABW(A1:C7, \"Gehalt\", A9:B11) liefert 9135.112506.\n"
+"\n"
+"@SEEALSO=DBSTDABWN"
 
-#: plugins/fn-database/functions.c:886
+#: plugins/fn-database/functions.c:849
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -2473,8 +2821,39 @@ msgid ""
 "\n"
 "@SEEALSO=DSTDEV"
 msgstr ""
+"@FUNCTION=DBSTDABWN\n"
+"@SYNTAX=DBSTDABWN(Datenbank,Feld,Kriterien)\n"
+"@DESCRIPTION=DBSTDABWN liefert die Standardabweichung einer auf der "
+"Gesamtpopulation basierenden Pupulation. Die Populationen bestehen aus "
+"Zahlen, die die angegebenen Kriterien erfüllen.\n"
+"\n"
+"@Datenbank ist ein Zellbereich, in dem Zeilen Datensätze und Spalten "
+"Datenfelder sind. Die erste Zeile einer Datenbank enthält die Beschriftungen "
+"für die jeweiligen Spalten.\n"
+"@Feld legt fest, welche Spalte für die Funktion verwendet wird und darf eine "
+"Ganzzahl oder eine Zeichenkette sein. Falls n (@Feld) ganzzahlig ist, wird "
+"die n-te Spalte verwendet, falls @Feld jedoch als Zeichenkette übergeben "
+"wird, wird diese als Bezug zur Spalte mit der Beschriftung \"@Feld\" "
+"interpretiert.\n"
+"@Kriterien ist der Zellbereich, der die zu erfüllenden Bedingungen enthält. "
+"Die erste Zeile in @Kriterien sollte die Beschriftungen der Felder "
+"enthalten, für die die Kriterien gelten. Zellen unterhalb der Beschriftungen "
+"legen Bedingungen fest, zum Beispiel »>3« oder »<9«. Ist-gleich-Bedingungen "
+"können als Wert (z.B. »3« oder »Johann«) übergeben werden. Jede Zeile in "
+"@Kriterien gibt eine einzelne Bedingung an. Wenn also eine Zeile in "
+"@Datenbank mit einer der Zeilen in @Kriterien übereinstimmt, dann wird diese "
+"Zeile gezählt (technisch ausgedrückt ist dies ein Boolsches ODER zwischen "
+"den Zeilen in @Kriterien). Falls @Kriterien mehr als eine Spalte angibt, "
+"muss jede der Bedingungen in diesen Spalten wahr sein, damit sie auf "
+"@Datenbank zutrifft (also ein Boolsches UND zwischen den Spalten in jeder "
+"Zeile in @Kriterien).\n"
+"@EXAMPLES=\n"
+"DBSTDABWN(A1:C7, \"Alter\", A9:B11) liefert 7.\n"
+"DBSTDABWN(A1:C7, \"Gehalt\", A9:B11) liefert 6459.5.\n"
+"\n"
+"@SEEALSO=DBSTDABWN"
 
-#: plugins/fn-database/functions.c:958
+#: plugins/fn-database/functions.c:921
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -2522,8 +2901,38 @@ msgid ""
 "\n"
 "@SEEALSO=DPRODUCT"
 msgstr ""
+"@FUNCTION=DBSUMME\n"
+"@SYNTAX=DBSUMME(Datenbank,Feld,Kriterien)\n"
+"@DESCRIPTION=DBSUMME liefert in einer Spalte die Summe der Zahlen, die den "
+"angegebenen Kriterien entsprechen.\n"
+"\n"
+"@Datenbank ist ein Zellbereich, in dem Zeilen Datensätze und Spalten "
+"Datenfelder sind. Die erste Zeile einer Datenbank enthält die Beschriftungen "
+"für die jeweiligen Spalten.\n"
+"@Feld legt fest, welche Spalte für die Funktion verwendet wird und darf eine "
+"Ganzzahl oder eine Zeichenkette sein. Falls n (@Feld) ganzzahlig ist, wird "
+"die n-te Spalte verwendet, falls @Feld jedoch als Zeichenkette übergeben "
+"wird, wird diese als Bezug zur Spalte mit der Beschriftung \"@Feld\" "
+"interpretiert.\n"
+"@Kriterien ist der Zellbereich, der die zu erfüllenden Bedingungen enthält. "
+"Die erste Zeile in @Kriterien sollte die Beschriftungen der Felder "
+"enthalten, für die die Kriterien gelten. Zellen unterhalb der Beschriftungen "
+"legen Bedingungen fest, zum Beispiel »>3« oder »<9«. Ist-gleich-Bedingungen "
+"können als Wert (z.B. »3« oder »Johann«) übergeben werden. Jede Zeile in "
+"@Kriterien gibt eine einzelne Bedingung an. Wenn also eine Zeile in "
+"@Datenbank mit einer der Zeilen in @Kriterien übereinstimmt, dann wird diese "
+"Zeile gezählt (technisch ausgedrückt ist dies ein Boolsches ODER zwischen "
+"den Zeilen in @Kriterien). Falls @Kriterien mehr als eine Spalte angibt, "
+"muss jede der Bedingungen in diesen Spalten wahr sein, damit sie auf "
+"@Datenbank zutrifft (also ein Boolsches UND zwischen den Spalten in jeder "
+"Zeile in @Kriterien).\n"
+"@EXAMPLES=\n"
+"DBSUMME(A1:C7, \"Alter\", A9:B11) liefert 72.\n"
+"DBSUMME(A1:C7, \"Gehalt\", A9:B11) liefert 81565.\n"
+"\n"
+"@SEEALSO=DBPRODUKT"
 
-#: plugins/fn-database/functions.c:1030
+#: plugins/fn-database/functions.c:993
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -2572,8 +2981,39 @@ msgid ""
 "\n"
 "@SEEALSO=DVARP"
 msgstr ""
+"@FUNCTION=DBVARIANZ\n"
+"@SYNTAX=DBVARIANZ(Datenbank,Feld,Kriterien)\n"
+"@DESCRIPTION=DBVARIANZ liefert die geschätzte Varianz einer Population, "
+"basierend auf einer Stichprobe. Die Populationen bestehen aus Zahlen, die "
+"den angegebenen Kriterien entsprechen.\n"
+"\n"
+"@Datenbank ist ein Zellbereich, in dem Zeilen Datensätze und Spalten "
+"Datenfelder sind. Die erste Zeile einer Datenbank enthält die Beschriftungen "
+"für die jeweiligen Spalten.\n"
+"@Feld legt fest, welche Spalte für die Funktion verwendet wird und darf eine "
+"Ganzzahl oder eine Zeichenkette sein. Falls n (@Feld) ganzzahlig ist, wird "
+"die n-te Spalte verwendet, falls @Feld jedoch als Zeichenkette übergeben "
+"wird, wird diese als Bezug zur Spalte mit der Beschriftung \"@Feld\" "
+"interpretiert.\n"
+"@Kriterien ist der Zellbereich, der die zu erfüllenden Bedingungen enthält. "
+"Die erste Zeile in @Kriterien sollte die Beschriftungen der Felder "
+"enthalten, für die die Kriterien gelten. Zellen unterhalb der Beschriftungen "
+"legen Bedingungen fest, zum Beispiel »>3« oder »<9«. Ist-gleich-Bedingungen "
+"können als Wert (z.B. »3« oder »Johann«) übergeben werden. Jede Zeile in "
+"@Kriterien gibt eine einzelne Bedingung an. Wenn also eine Zeile in "
+"@Datenbank mit einer der Zeilen in @Kriterien übereinstimmt, dann wird diese "
+"Zeile gezählt (technisch ausgedrückt ist dies ein Boolsches ODER zwischen "
+"den Zeilen in @Kriterien). Falls @Kriterien mehr als eine Spalte angibt, "
+"muss jede der Bedingungen in diesen Spalten wahr sein, damit sie auf "
+"@Datenbank zutrifft (also ein Boolsches UND zwischen den Spalten in jeder "
+"Zeile in @Kriterien).\n"
+"@EXAMPLES=\n"
+"DBVARIANZ(A1:C7, \"Alter\", A9:B11) liefert 98.\n"
+"DBVARIANZ(A1:C7, \"Gehalt\", A9:B11) liefert 83450280.5.\n"
+"\n"
+"@SEEALSO=DBVARIANZEN"
 
-#: plugins/fn-database/functions.c:1102
+#: plugins/fn-database/functions.c:1065
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -2622,8 +3062,39 @@ msgid ""
 "\n"
 "@SEEALSO=DVAR"
 msgstr ""
+"@FUNCTION=DBVARIANZEN\n"
+"@SYNTAX=DBVARIANZEN(Datenbank,Feld,Kriterien)\n"
+"@DESCRIPTION=DBVARIANZEN liefert die Varianz einer Population, basierend auf "
+"den Gesamtpopulationen. Die Populationen bestehen aus Zahlen, die den "
+"angegebenen Kriterien entsprechen.\n"
+"\n"
+"@Datenbank ist ein Zellbereich, in dem Zeilen Datensätze und Spalten "
+"Datenfelder sind. Die erste Zeile einer Datenbank enthält die Beschriftungen "
+"für die jeweiligen Spalten.\n"
+"@Feld legt fest, welche Spalte für die Funktion verwendet wird und darf eine "
+"Ganzzahl oder eine Zeichenkette sein. Falls n (@Feld) ganzzahlig ist, wird "
+"die n-te Spalte verwendet, falls @Feld jedoch als Zeichenkette übergeben "
+"wird, wird diese als Bezug zur Spalte mit der Beschriftung \"@Feld\" "
+"interpretiert.\n"
+"@Kriterien ist der Zellbereich, der die zu erfüllenden Bedingungen enthält. "
+"Die erste Zeile in @Kriterien sollte die Beschriftungen der Felder "
+"enthalten, für die die Kriterien gelten. Zellen unterhalb der Beschriftungen "
+"legen Bedingungen fest, zum Beispiel »>3« oder »<9«. Ist-gleich-Bedingungen "
+"können als Wert (z.B. »3« oder »Johann«) übergeben werden. Jede Zeile in "
+"@Kriterien gibt eine einzelne Bedingung an. Wenn also eine Zeile in "
+"@Datenbank mit einer der Zeilen in @Kriterien übereinstimmt, dann wird diese "
+"Zeile gezählt (technisch ausgedrückt ist dies ein Boolsches ODER zwischen "
+"den Zeilen in @Kriterien). Falls @Kriterien mehr als eine Spalte angibt, "
+"muss jede der Bedingungen in diesen Spalten wahr sein, damit sie auf "
+"@Datenbank zutrifft (also ein Boolsches UND zwischen den Spalten in jeder "
+"Zeile in @Kriterien).\n"
+"@EXAMPLES=\n"
+"DBVARIANZEN(A1:C7, \"Alter\", A9:B11) liefert 49.\n"
+"DBVARIANZEN(A1:C7, \"Gehalt\", A9:B11) liefert 41725140.25.\n"
+"\n"
+"@SEEALSO=DBVARIANZ"
 
-#: plugins/fn-database/functions.c:1174
+#: plugins/fn-database/functions.c:1137
 msgid ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
@@ -2651,26 +3122,27 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-database/functions.c:1216 plugins/fn-database/functions.c:1219
-#: plugins/fn-database/functions.c:1222 plugins/fn-database/functions.c:1225
-#: plugins/fn-database/functions.c:1228 plugins/fn-database/functions.c:1231
-#: plugins/fn-database/functions.c:1234 plugins/fn-database/functions.c:1237
-#: plugins/fn-database/functions.c:1240 plugins/fn-database/functions.c:1243
-#: plugins/fn-database/functions.c:1246 plugins/fn-database/functions.c:1249
+#: plugins/fn-database/functions.c:1182 plugins/fn-database/functions.c:1185
+#: plugins/fn-database/functions.c:1188 plugins/fn-database/functions.c:1191
+#: plugins/fn-database/functions.c:1194 plugins/fn-database/functions.c:1197
+#: plugins/fn-database/functions.c:1200 plugins/fn-database/functions.c:1203
+#: plugins/fn-database/functions.c:1206 plugins/fn-database/functions.c:1209
+#: plugins/fn-database/functions.c:1212 plugins/fn-database/functions.c:1215
 msgid "database,field,criteria"
-msgstr ""
+msgstr "Datenbank, Feld, Kriterien"
 
-#: plugins/fn-database/functions.c:1252
+#. XL stores in lookup
+#: plugins/fn-database/functions.c:1220
 msgid "pivot_table,field_name"
-msgstr ""
+msgstr "Pivot_Tabelle, Feld_Name"
 
-#: plugins/fn-database/plugin.xml.in.h:1
-msgid "Database Functions"
-msgstr "Datenbank-Funktionen"
+#: plugins/fn-database/plugin.xml.in.h:1 plugins/gda/plugin.xml.in.h:1
+msgid "Database"
+msgstr "Datenbank"
 
 #: plugins/fn-database/plugin.xml.in.h:2
-msgid "Database/Time"
-msgstr "Datenbank / Zeit"
+msgid "Database Functions"
+msgstr "Datenbank-Funktionen"
 
 #: plugins/fn-database/plugin.xml.in.h:3
 msgid "Functions looking up values in databases"
@@ -2751,7 +3223,7 @@ msgid ""
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 msgstr ""
 "@FUNCTION=DATUMINUNIX\n"
-"@SYNTAX=DATUMINUNIX(Unix_Zeit)\n"
+"@SYNTAX=DATUMINUNIX(Seriennummer)\n"
 "@DESCRIPTION=DATUMINUNIX konvertiert eine für die Tabellenkalkulation "
 "lesbare Datums- und Zeit-Seriennummer in das Unix-Zeitformat.\n"
 "\n"
@@ -3321,7 +3793,7 @@ msgstr ""
 
 #. Path of the current directory or folder.
 #: plugins/fn-date/functions.c:971 plugins/fn-eng/functions.c:101
-#: plugins/fn-info/functions.c:1269 plugins/fn-info/functions.c:1285
+#: plugins/fn-info/functions.c:1270 plugins/fn-info/functions.c:1286
 msgid "Unimplemented"
 msgstr "Nicht implementiert"
 
@@ -3342,22 +3814,22 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 "@FUNCTION=NETTOARBEITSTAGE\n"
-"@SYNTAX=NETTOARBEITSTAGE(Ausgangsdatum,Enddatum,Freie_Tage)\n"
+"@SYNTAX=NETTOARBEITSTAGE(Ausgangsdatum,Zieldatum,Freie_Tage)\n"
 "@DESCRIPTION=NETTOARBEITSTAGE liefert die Anzahl der Werktage zwischen "
-"@Ausgangsdatum und @Enddatum einschließlich diesen. Feiertage, die "
+"@Ausgangsdatum und @Zieldatum einschließlich diesen. Feiertage, die "
 "zusätzlich als @Freie_Tage angegeben werden, werden ebenfalls "
 "berücksichtigt.\n"
 "\n"
-"* Falls @Ausgangsdatum oder @Monate ungültig ist, liefert NETTOARBEITSTAGE "
-"einen #ZAHL!-Fehler.\n"
+"* Falls @Ausgangsdatum oder @Zieldatum ungültig ist, liefert "
+"NETTOARBEITSTAGE einen #ZAHL!-Fehler.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
 "NETTOARBEITSTAGE(DATUM(2001,1,5),DATUM(2001,2,15)) liefert 33.\n"
 "\n"
-"@SEEALSO=NETTOARBEITSTAGE"
+"@SEEALSO=ARBEITSTAGE"
 
-#: plugins/fn-date/functions.c:1133
+#: plugins/fn-date/functions.c:1134
 msgid ""
 "@FUNCTION=ISOWEEKNUM\n"
 "@SYNTAX=ISOWEEKNUM (date)\n"
@@ -3392,7 +3864,7 @@ msgstr ""
 "Falls A1 12/21/00 enthält, liefert ISOWOCHENZAHL(A1) 51\n"
 "@SEEALSO=WOCHENZAHL, ISOJAHR"
 
-#: plugins/fn-date/functions.c:1175
+#: plugins/fn-date/functions.c:1176
 msgid ""
 "@FUNCTION=ISOYEAR\n"
 "@SYNTAX=ISOYEAR (date)\n"
@@ -3427,7 +3899,7 @@ msgstr ""
 "Falls A1 12/31/2001 enthält, liefert ISOJAHR 2002\n"
 "@SEEALSO=ISOWOCHENZAHL"
 
-#: plugins/fn-date/functions.c:1226
+#: plugins/fn-date/functions.c:1227
 msgid ""
 "@FUNCTION=WEEKNUM\n"
 "@SYNTAX=WEEKNUM (date, method)\n"
@@ -3471,7 +3943,7 @@ msgstr ""
 "Falls A1 12/21/00 enthält, liefert WOCHENZAHL(A1,2) 51\n"
 "@SEEALSO=ISOWOCHENZAHL"
 
-#: plugins/fn-date/functions.c:1277
+#: plugins/fn-date/functions.c:1278
 msgid ""
 "@FUNCTION=YEARFRAC\n"
 "@SYNTAX=WEEKNUM (start_date, end_date, basis)\n"
@@ -3482,72 +3954,76 @@ msgid ""
 "\n"
 "@SEEALSO=DATEDIF"
 msgstr ""
+"@FUNCTION=JAHRBRUCH\n"
+"@SYNTAX=JAHRBRUCH(Ausgangsdatum, Zieldatum, Basis)\n"
+"@DESCRIPTION=JAHRBRUCH liefert die Anzahl ganzer Tage zwischen "
+"@Ausgangsdatum und @Zieldatum entsprechend der @Basis.\n"
+"\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=DATEDIF"
 
-#: plugins/fn-date/functions.c:1298
+#: plugins/fn-date/functions.c:1299
 msgid "year,month,day"
-msgstr ""
+msgstr "Jahr, Monat, Tag"
 
-#: plugins/fn-date/functions.c:1301
-#, fuzzy
+#: plugins/fn-date/functions.c:1302
 msgid "date_str"
-msgstr "Datum"
+msgstr "Datum_Zeichenkette"
 
-#: plugins/fn-date/functions.c:1304
+#: plugins/fn-date/functions.c:1305
 msgid "date1,date2,Interval"
-msgstr ""
+msgstr "Datum1, Datum2, Intervall"
 
 #. TODO UNIMPLEMENTED and UNTESTED seems new to XL 2k
-#: plugins/fn-date/functions.c:1307 plugins/fn-date/functions.c:1325
-#: plugins/fn-date/functions.c:1346 plugins/fn-date/functions.c:1349
-#: plugins/fn-date/functions.c:1355 plugins/fn-date/functions.c:1360
-#: plugins/fn-date/functions.c:1371 plugins/fn-date/functions.c:1374
+#: plugins/fn-date/functions.c:1308 plugins/fn-date/functions.c:1326
+#: plugins/fn-date/functions.c:1347 plugins/fn-date/functions.c:1350
+#: plugins/fn-date/functions.c:1356 plugins/fn-date/functions.c:1361
+#: plugins/fn-date/functions.c:1372 plugins/fn-date/functions.c:1375
 #: src/print-info.c:579
 msgid "date"
 msgstr "Datum"
 
-#: plugins/fn-date/functions.c:1310
+#: plugins/fn-date/functions.c:1311
 msgid "date1,date2,method"
-msgstr ""
+msgstr "Datum1, Datum2, Methode"
 
-#: plugins/fn-date/functions.c:1313
+#: plugins/fn-date/functions.c:1314
 msgid "serial_number,months"
-msgstr ""
+msgstr "Seriennummer, Monate"
 
-#: plugins/fn-date/functions.c:1316
+#: plugins/fn-date/functions.c:1317
 msgid "start_date,months"
-msgstr ""
+msgstr "Ausgangsdatum, Monate"
 
-#: plugins/fn-date/functions.c:1319 plugins/fn-date/functions.c:1322
-#: plugins/fn-date/functions.c:1334 src/print-info.c:580
+#: plugins/fn-date/functions.c:1320 plugins/fn-date/functions.c:1323
+#: plugins/fn-date/functions.c:1335 src/print-info.c:580
 msgid "time"
 msgstr "Zeit"
 
-#: plugins/fn-date/functions.c:1328
+#: plugins/fn-date/functions.c:1329
 msgid "start_date,end_date,holidays"
-msgstr ""
+msgstr "Ausgangsdatum, Zieldatum, Monate"
 
-#: plugins/fn-date/functions.c:1337
+#: plugins/fn-date/functions.c:1338
 msgid "hours,minutes,seconds"
-msgstr ""
+msgstr "Stunden, Minuten, Sekunden"
 
-#: plugins/fn-date/functions.c:1340
-#, fuzzy
+#: plugins/fn-date/functions.c:1341
 msgid "timetext"
-msgstr "Zeit"
+msgstr "Zeittext"
 
-#: plugins/fn-date/functions.c:1352
+#: plugins/fn-date/functions.c:1353
 msgid "date,days,holidays"
-msgstr ""
+msgstr "Datum, Tage, Freie_Tage"
 
-#: plugins/fn-date/functions.c:1364
-#, fuzzy
+#: plugins/fn-date/functions.c:1365
 msgid "unixtime"
-msgstr "Zeit"
+msgstr "UNIX_Zeit"
 
-#: plugins/fn-date/functions.c:1367
-#, fuzzy
+#: plugins/fn-date/functions.c:1368
 msgid "serial"
-msgstr "Allgemein"
+msgstr "Seriennummer"
 
 #: plugins/fn-date/plugin.xml.in.h:1
 msgid "Date and Time Functions"
@@ -4366,32 +4842,6 @@ msgstr ""
 "@SEEALSO=FEHLERF"
 
 #: plugins/fn-eng/functions.c:1061
-#, fuzzy
-msgid ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(number)\n"
-"@DESCRIPTION=FACTDOUBLE returns the double factorial of @number \n"
-"* If @x is not numeric a #VALUE! error is returned.  \n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO="
-msgstr ""
-"@FUNCTION=DOPPELFAKULTÄT\n"
-"@SYNTAX=DOPPELFAKULTÄT(Zahl)\n"
-"@DESCRIPTION=DOPPELFAKULTÄT liefert die Doppelfakultät einer Zahl @Zahl, "
-"also x!!.\n"
-"\n"
-"* Falls @Zahl keine Ganzzahl ist, werden die Nachkommastellen "
-"abgeschnitten.\n"
-"* Falls @Zahl negativ ist, liefert DOPPELFAKULTÄT einen #ZAHL!-Fehler.\n"
-"* Diese Funktion ist Excel-kompatibel.\n"
-"\n"
-"@EXAMPLES=\n"
-"DOPPELFAKULTÄT(5) liefert 15.\n"
-"\n"
-"@SEEALSO=FAKULTÄT"
-
-#: plugins/fn-eng/functions.c:1083
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -4422,11 +4872,11 @@ msgstr ""
 "\n"
 "@SEEALSO=IDENTISCH,GESTEP"
 
-#: plugins/fn-eng/functions.c:1127 plugins/fn-eng/functions.c:1181
+#: plugins/fn-eng/functions.c:1105 plugins/fn-eng/functions.c:1159
 msgid "Impossible"
 msgstr "Unmöglich"
 
-#: plugins/fn-eng/functions.c:1138
+#: plugins/fn-eng/functions.c:1116
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -5386,8 +5836,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(Währung)\n"
-"@DESCRIPTION=EURO konvertiert einen Euro in eine angegebene nationale "
-"Währung der europäischen Währungsunion.\n"
+"@DESCRIPTION=EURO konvertiert einen Euro in die angegebene nationale Währung "
+"der europäischen Währungsunion.\n"
 "\n"
 "@Währung ist eine der Folgenden:\n"
 "\n"
@@ -5444,8 +5894,8 @@ msgstr ""
 "@FUNCTION=EUROKONVERTIEREN\n"
 "@SYNTAX=EUROKONVERTIEREN(n,Quelle,Ziel)\n"
 "@DESCRIPTION=EUROKONVERTIEREN konvertiert den Währungswert @n der Währung "
-"@Quelle in die Währung @Ziel. Beide Währungen werden als Zeichenkette mit "
-"drei Buchstaben im ISO-Ländercodesystem angegeben.\n"
+"@Quelle in die Währung @Ziel. Beide Währungen müssen als Zeichenkette im aus "
+"drei Buchstaben bestehenden ISO-Ländercode übergeben werden.\n"
 "\n"
 "Folgende Währungen sind verfügbar:\n"
 "\n"
@@ -6213,7 +6663,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1150
+#: plugins/fn-info/functions.c:1151
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -6235,7 +6685,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TEXT"
 
-#: plugins/fn-info/functions.c:1193
+#: plugins/fn-info/functions.c:1194
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -6260,7 +6710,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ANZAHL"
 
-#: plugins/fn-info/functions.c:1237
+#: plugins/fn-info/functions.c:1238
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(type)\n"
@@ -6309,31 +6759,31 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1292
+#: plugins/fn-info/functions.c:1293
 msgid "Unknown version"
 msgstr "Unbekannte Version"
 
-#: plugins/fn-info/functions.c:1294
+#: plugins/fn-info/functions.c:1295
 #, c-format
 msgid "%s version %s"
 msgstr "%s Version %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: plugins/fn-info/functions.c:1301 src/dialogs/dialog-cell-format.c:2675
+#: plugins/fn-info/functions.c:1302 src/dialogs/dialog-cell-format.c:2675
 #: src/dialogs/dialog-cell-format.c:2680 src/dialogs/dialog-cell-format.c:2690
 #: src/workbook-format-toolbar.c:837
 msgid "Automatic"
 msgstr "Automatisch"
 
-#: plugins/fn-info/functions.c:1310
+#: plugins/fn-info/functions.c:1311
 msgid "Unknown system"
 msgstr "Unbekanntes System"
 
-#: plugins/fn-info/functions.c:1320
+#: plugins/fn-info/functions.c:1321
 msgid "Unknown info_type"
 msgstr "Unbekannter Info_typ"
 
-#: plugins/fn-info/functions.c:1326
+#: plugins/fn-info/functions.c:1327
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -6357,7 +6807,7 @@ msgstr ""
 "ISTFEHLER(NA()) liefert WAHR.\n"
 "@SEEALSO=FEHLER"
 
-#: plugins/fn-info/functions.c:1348
+#: plugins/fn-info/functions.c:1349
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -6381,7 +6831,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NV"
 
-#: plugins/fn-info/functions.c:1375
+#: plugins/fn-info/functions.c:1376
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -6406,7 +6856,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTFEHLER"
 
-#: plugins/fn-info/functions.c:1398
+#: plugins/fn-info/functions.c:1399
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -6446,7 +6896,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTFEHLER"
 
-#: plugins/fn-info/functions.c:1450
+#: plugins/fn-info/functions.c:1451
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -6470,7 +6920,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTNV"
 
-#: plugins/fn-info/functions.c:1472
+#: plugins/fn-info/functions.c:1473
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -6490,7 +6940,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTFEHLER"
 
-#: plugins/fn-info/functions.c:1493
+#: plugins/fn-info/functions.c:1494
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -6514,12 +6964,12 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1513 plugins/fn-info/functions.c:1674
-#: src/func.c:723
+#: plugins/fn-info/functions.c:1514 plugins/fn-info/functions.c:1675
+#: src/func.c:778
 msgid "Invalid number of arguments"
 msgstr "Ungültige Anzahl an Argumenten"
 
-#: plugins/fn-info/functions.c:1543
+#: plugins/fn-info/functions.c:1544
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -6542,7 +6992,7 @@ msgstr ""
 "ISTGERADE(4) liefert WAHR.\n"
 "@SEEALSO=ISTUNGERADE"
 
-#: plugins/fn-info/functions.c:1565
+#: plugins/fn-info/functions.c:1566
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -6566,7 +7016,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1587
+#: plugins/fn-info/functions.c:1588
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -6590,7 +7040,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ISTTEXT"
 
-#: plugins/fn-info/functions.c:1609
+#: plugins/fn-info/functions.c:1610
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -6614,7 +7064,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1632
+#: plugins/fn-info/functions.c:1633
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -6637,7 +7087,7 @@ msgstr ""
 "ISTUNGERADE(3) liefert WAHR.\n"
 "@SEEALSO=ISTGERADE"
 
-#: plugins/fn-info/functions.c:1654
+#: plugins/fn-info/functions.c:1655
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -6661,7 +7111,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1686
+#: plugins/fn-info/functions.c:1687
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -6685,7 +7135,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1708
+#: plugins/fn-info/functions.c:1709
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -6711,7 +7161,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1747
+#: plugins/fn-info/functions.c:1748
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -6747,7 +7197,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1796
+#: plugins/fn-info/functions.c:1797
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -6773,42 +7223,43 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-info/functions.c:1824
+#: plugins/fn-info/functions.c:1825
 msgid "info_type, cell"
 msgstr "Info_typ, Zelle"
 
-#: plugins/fn-info/functions.c:1826
-msgid "range"
-msgstr "Bereich"
-
-#: plugins/fn-info/functions.c:1828 plugins/fn-string/functions.c:1241
-#: plugins/fn-string/functions.c:1243 plugins/fn-string/functions.c:1257
-#: plugins/fn-string/functions.c:1259 plugins/fn-string/functions.c:1261
-#: plugins/fn-string/functions.c:1279 plugins/fn-string/functions.c:1281
-#: plugins/fn-string/functions.c:1283
-msgid "text"
-msgstr "Text"
-
-#: plugins/fn-info/functions.c:1830 plugins/fn-info/functions.c:1836
-#: plugins/fn-info/functions.c:1838 plugins/fn-info/functions.c:1840
-#: plugins/fn-info/functions.c:1842 plugins/fn-info/functions.c:1844
-#: plugins/fn-info/functions.c:1846 plugins/fn-info/functions.c:1848
-#: plugins/fn-info/functions.c:1850 plugins/fn-info/functions.c:1852
-#: plugins/fn-info/functions.c:1854 plugins/fn-info/functions.c:1856
-#: plugins/fn-info/functions.c:1858 plugins/fn-info/functions.c:1862
-#: plugins/fn-string/functions.c:1275
+#: plugins/fn-info/functions.c:1828 plugins/fn-info/functions.c:1834
+#: plugins/fn-info/functions.c:1837 plugins/fn-info/functions.c:1840
+#: plugins/fn-info/functions.c:1843 plugins/fn-info/functions.c:1846
+#: plugins/fn-info/functions.c:1849 plugins/fn-info/functions.c:1852
+#: plugins/fn-info/functions.c:1855 plugins/fn-info/functions.c:1858
+#: plugins/fn-info/functions.c:1861 plugins/fn-info/functions.c:1864
+#: plugins/fn-info/functions.c:1867 plugins/fn-info/functions.c:1873
+#: plugins/fn-string/functions.c:1293
 msgid "value"
 msgstr "Wert"
 
-#: plugins/fn-info/functions.c:1832
-msgid "cell"
-msgstr "Zelle"
-
-#: plugins/fn-info/functions.c:1834
+#: plugins/fn-info/functions.c:1831
 msgid "info_type"
 msgstr "Info_typ"
 
-#: plugins/fn-info/functions.c:1864
+#. XL stores this in statistical ?
+#: plugins/fn-info/functions.c:1878
+msgid "range"
+msgstr "Bereich"
+
+#: plugins/fn-info/functions.c:1882 plugins/fn-string/functions.c:1242
+#: plugins/fn-string/functions.c:1245 plugins/fn-string/functions.c:1266
+#: plugins/fn-string/functions.c:1269 plugins/fn-string/functions.c:1275
+#: plugins/fn-string/functions.c:1299 plugins/fn-string/functions.c:1302
+#: plugins/fn-string/functions.c:1305
+msgid "text"
+msgstr "Text"
+
+#: plugins/fn-info/functions.c:1885
+msgid "cell"
+msgstr "Zelle"
+
+#: plugins/fn-info/functions.c:1888
 msgid "string"
 msgstr "Zeichenkette"
 
@@ -7017,7 +7468,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-logical/functions.c:280
+#: plugins/fn-logical/functions.c:281
 msgid ""
 "@FUNCTION=TRUE\n"
 "@SYNTAX=TRUE()\n"
@@ -7040,7 +7491,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FALSCH"
 
-#: plugins/fn-logical/functions.c:302
+#: plugins/fn-logical/functions.c:303
 msgid ""
 "@FUNCTION=FALSE\n"
 "@SYNTAX=FALSE()\n"
@@ -7063,48 +7514,50 @@ msgstr ""
 "\n"
 "@SEEALSO=WAHR"
 
-#: plugins/fn-logical/functions.c:324 plugins/fn-logical/functions.c:326
-#: plugins/fn-logical/functions.c:328 plugins/fn-math/functions.c:3188
-#: plugins/fn-stat/functions.c:5155 plugins/fn-stat/functions.c:5157
-#: plugins/fn-stat/functions.c:5159 plugins/fn-stat/functions.c:5179
-#: plugins/fn-stat/functions.c:5181 plugins/fn-stat/functions.c:5191
-#: plugins/fn-stat/functions.c:5223 plugins/fn-stat/functions.c:5231
-#: plugins/fn-stat/functions.c:5233 plugins/fn-stat/functions.c:5235
-#: plugins/fn-stat/functions.c:5241 plugins/fn-stat/functions.c:5253
-#: plugins/fn-stat/functions.c:5255 plugins/fn-stat/functions.c:5257
-#: plugins/fn-stat/functions.c:5259 plugins/fn-stat/functions.c:5261
-#: plugins/fn-stat/functions.c:5263 plugins/fn-stat/functions.c:5301
-#: plugins/fn-stat/functions.c:5305 plugins/fn-stat/functions.c:5307
-#: plugins/fn-stat/functions.c:5309 plugins/fn-stat/functions.c:5311
-#: plugins/fn-stat/functions.c:5327 plugins/fn-stat/functions.c:5329
-#: plugins/fn-stat/functions.c:5331 plugins/fn-stat/functions.c:5333
+#. not in XL
+#: plugins/fn-logical/functions.c:325 plugins/fn-logical/functions.c:328
+#: plugins/fn-logical/functions.c:346 plugins/fn-math/functions.c:3240
+#: plugins/fn-stat/functions.c:5155 plugins/fn-stat/functions.c:5158
+#: plugins/fn-stat/functions.c:5161 plugins/fn-stat/functions.c:5198
+#: plugins/fn-stat/functions.c:5201 plugins/fn-stat/functions.c:5210
+#: plugins/fn-stat/functions.c:5246 plugins/fn-stat/functions.c:5258
+#: plugins/fn-stat/functions.c:5261 plugins/fn-stat/functions.c:5264
+#: plugins/fn-stat/functions.c:5279 plugins/fn-stat/functions.c:5282
+#: plugins/fn-stat/functions.c:5285 plugins/fn-stat/functions.c:5288
+#: plugins/fn-stat/functions.c:5291 plugins/fn-stat/functions.c:5294
+#: plugins/fn-stat/functions.c:5339 plugins/fn-stat/functions.c:5345
+#: plugins/fn-stat/functions.c:5348 plugins/fn-stat/functions.c:5351
+#: plugins/fn-stat/functions.c:5354 plugins/fn-stat/functions.c:5381
+#: plugins/fn-stat/functions.c:5384 plugins/fn-stat/functions.c:5387
+#: plugins/fn-stat/functions.c:5390 plugins/fn-stat/functions.c:5406
 #: src/func-builtin.c:135 src/func-builtin.c:141
 msgid "number,number,"
 msgstr "Zahl,Zahl,"
 
-#: plugins/fn-logical/functions.c:330 plugins/fn-math/functions.c:3096
-#: plugins/fn-math/functions.c:3098 plugins/fn-math/functions.c:3100
-#: plugins/fn-math/functions.c:3102 plugins/fn-math/functions.c:3104
-#: plugins/fn-math/functions.c:3106 plugins/fn-math/functions.c:3108
-#: plugins/fn-math/functions.c:3112 plugins/fn-math/functions.c:3114
-#: plugins/fn-math/functions.c:3118 plugins/fn-math/functions.c:3122
-#: plugins/fn-math/functions.c:3124 plugins/fn-math/functions.c:3126
-#: plugins/fn-math/functions.c:3128 plugins/fn-math/functions.c:3130
-#: plugins/fn-math/functions.c:3132 plugins/fn-math/functions.c:3136
-#: plugins/fn-math/functions.c:3140 plugins/fn-math/functions.c:3144
-#: plugins/fn-math/functions.c:3148 plugins/fn-math/functions.c:3150
-#: plugins/fn-math/functions.c:3158 plugins/fn-math/functions.c:3162
-#: plugins/fn-math/functions.c:3166 plugins/fn-math/functions.c:3178
-#: plugins/fn-math/functions.c:3180 plugins/fn-math/functions.c:3182
-#: plugins/fn-math/functions.c:3184 plugins/fn-math/functions.c:3186
-#: plugins/fn-math/functions.c:3194 plugins/fn-math/functions.c:3202
-#: plugins/fn-math/functions.c:3204 plugins/fn-stat/functions.c:5205
-#: plugins/fn-stat/functions.c:5207 plugins/fn-stat/functions.c:5215
-#: plugins/fn-stat/functions.c:5271 plugins/fn-string/functions.c:1239
+#. MS Excel puts this in the engineering functions
+#: plugins/fn-logical/functions.c:332 plugins/fn-math/functions.c:3096
+#: plugins/fn-math/functions.c:3099 plugins/fn-math/functions.c:3102
+#: plugins/fn-math/functions.c:3105 plugins/fn-math/functions.c:3108
+#: plugins/fn-math/functions.c:3111 plugins/fn-math/functions.c:3114
+#: plugins/fn-math/functions.c:3120 plugins/fn-math/functions.c:3123
+#: plugins/fn-math/functions.c:3132 plugins/fn-math/functions.c:3138
+#: plugins/fn-math/functions.c:3141 plugins/fn-math/functions.c:3144
+#: plugins/fn-math/functions.c:3147 plugins/fn-math/functions.c:3152
+#: plugins/fn-math/functions.c:3156 plugins/fn-math/functions.c:3162
+#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3174
+#: plugins/fn-math/functions.c:3180 plugins/fn-math/functions.c:3183
+#: plugins/fn-math/functions.c:3195 plugins/fn-math/functions.c:3201
+#: plugins/fn-math/functions.c:3207 plugins/fn-math/functions.c:3225
+#: plugins/fn-math/functions.c:3228 plugins/fn-math/functions.c:3231
+#: plugins/fn-math/functions.c:3234 plugins/fn-math/functions.c:3237
+#: plugins/fn-math/functions.c:3249 plugins/fn-math/functions.c:3261
+#: plugins/fn-math/functions.c:3264 plugins/fn-stat/functions.c:5222
+#: plugins/fn-stat/functions.c:5225 plugins/fn-stat/functions.c:5243
+#: plugins/fn-stat/functions.c:5306 plugins/fn-string/functions.c:1239
 msgid "number"
 msgstr "Zahl"
 
-#: plugins/fn-logical/functions.c:331
+#: plugins/fn-logical/functions.c:335
 msgid "condition,if true,if false"
 msgstr "Bedingung, falls-wahr, falls-falsch"
 
@@ -7321,8 +7774,8 @@ msgstr ""
 "Zelle wird mittels @Zeile und @Spalte angegeben, die die Zeilen und Spalten "
 "im Feld zählen.\n"
 "\n"
-"* Falls @Zeile und @Spalte ausgelassen werden, wird angenommen, dass sie 1 "
-"sind.\n"
+"* Falls @Zeile und @Spalte nicht übergeben werden, wird angenommen, dass sie "
+"1 sind.\n"
 "* Falls der Bezug außerhalb des Feldes @Feld liegt, liefert INDEX einen "
 "#BEZUG!-Fehler.\n"
 "\n"
@@ -7360,7 +7813,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SPALTEN, ZEILE, ZEILEN"
 
-#: plugins/fn-lookup/functions.c:955
+#: plugins/fn-lookup/functions.c:956
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -7388,7 +7841,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SPALTE, ZEILE, ZEILEN"
 
-#: plugins/fn-lookup/functions.c:980
+#: plugins/fn-lookup/functions.c:981
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -7411,14 +7864,14 @@ msgstr ""
 "\n"
 "* Falls @Bereich weder eine Referenz noch ein Bereich ist, liefert BEREICH."
 "VERSCHIEBEN einen #WERT!-Fehler.\n"
-"* Falls entweder Höhe oder Breite ausgelassen werden, wird die Höhe oder "
-"Breite der Referenz verwendet.\n"
+"* Falls Höhe oder Breite nicht übergeben werden, wird die Höhe bzw. Breite "
+"der Referenz verwendet.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=SPALTE, SPALTEN, ZEILE, ZEILEN, INDEX, INDIREKT, ADRESSE"
 
-#: plugins/fn-lookup/functions.c:1037
+#: plugins/fn-lookup/functions.c:1038
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -7443,7 +7896,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SPALTE,SPALTEN,ZEILEN"
 
-#: plugins/fn-lookup/functions.c:1089
+#: plugins/fn-lookup/functions.c:1091
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -7468,7 +7921,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SPALTE,SPALTEN,ZEILE"
 
-#: plugins/fn-lookup/functions.c:1114
+#: plugins/fn-lookup/functions.c:1116
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
@@ -7490,7 +7943,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-lookup/functions.c:1139
+#: plugins/fn-lookup/functions.c:1141
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -7508,52 +7961,52 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: plugins/fn-lookup/functions.c:1183
+#: plugins/fn-lookup/functions.c:1185
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr "Anzahl_Zeilen,Anzahl_Spalten,Anzahl_Absolut,a1,Text"
 
-#: plugins/fn-lookup/functions.c:1185
+#: plugins/fn-lookup/functions.c:1188
 msgid "reference"
 msgstr "Bezug"
 
-#: plugins/fn-lookup/functions.c:1187
+#: plugins/fn-lookup/functions.c:1191
 msgid "index,value,"
 msgstr "Index,Wert,"
 
-#: plugins/fn-lookup/functions.c:1189 plugins/fn-lookup/functions.c:1191
-#: plugins/fn-lookup/functions.c:1207 plugins/fn-lookup/functions.c:1209
+#: plugins/fn-lookup/functions.c:1194 plugins/fn-lookup/functions.c:1197
+#: plugins/fn-lookup/functions.c:1221 plugins/fn-lookup/functions.c:1224
 msgid "ref"
 msgstr "Bez"
 
-#: plugins/fn-lookup/functions.c:1193 plugins/fn-lookup/functions.c:1213
+#: plugins/fn-lookup/functions.c:1200 plugins/fn-lookup/functions.c:1230
 msgid "val,range,col_idx,approx,as_index"
 msgstr "Wert,Bereich,Spalten_IDx,Approx,wie_Index"
 
-#: plugins/fn-lookup/functions.c:1195
+#: plugins/fn-lookup/functions.c:1203
 msgid "link_location, label"
 msgstr "Verknüpfung_Ziel,Beschriftung"
 
-#: plugins/fn-lookup/functions.c:1197
+#: plugins/fn-lookup/functions.c:1206
 msgid "ref_string,format"
 msgstr "Bez_Zkette,Format"
 
-#: plugins/fn-lookup/functions.c:1199
+#: plugins/fn-lookup/functions.c:1209
 msgid "reference,row,col,area"
 msgstr "Referenz,Zeile,Spalte,Bereich"
 
-#: plugins/fn-lookup/functions.c:1201
+#: plugins/fn-lookup/functions.c:1212
 msgid "val,range,range"
 msgstr "Wert,Bereich,Bereich"
 
-#: plugins/fn-lookup/functions.c:1203
+#: plugins/fn-lookup/functions.c:1215
 msgid "val,range,approx"
 msgstr "Wert,Bereich,Approx"
 
-#: plugins/fn-lookup/functions.c:1205
+#: plugins/fn-lookup/functions.c:1218
 msgid "ref,row,col,height,width"
 msgstr "Bez,Zeile,Spalte,Höhe,Breite"
 
-#: plugins/fn-lookup/functions.c:1211 plugins/fn-math/functions.c:3212
+#: plugins/fn-lookup/functions.c:1227 plugins/fn-math/functions.c:3276
 msgid "array"
 msgstr "Feld"
 
@@ -9389,71 +9842,72 @@ msgstr ""
 "\n"
 "@SEEALSO=SUMME, PRODUKT"
 
-#: plugins/fn-math/functions.c:3110
+#: plugins/fn-math/functions.c:3117
 msgid "xnum,ynum"
 msgstr "XZahl,YZahl"
 
-#: plugins/fn-math/functions.c:3116
+#. MS Excel puts this in statistical
+#: plugins/fn-math/functions.c:3128
 msgid "range,criteria"
 msgstr "Bereich,Kriterien"
 
-#: plugins/fn-math/functions.c:3120
+#: plugins/fn-math/functions.c:3135
 msgid "number,significance"
 msgstr "Zahl,Signifikanz"
 
-#: plugins/fn-math/functions.c:3134 plugins/fn-stat/functions.c:5195
+#: plugins/fn-math/functions.c:3159 plugins/fn-stat/functions.c:5321
 msgid "n,k"
 msgstr "n,k"
 
-#: plugins/fn-math/functions.c:3138
+#: plugins/fn-math/functions.c:3165
 msgid "number,number"
 msgstr "Zahl,Zahl"
 
-#: plugins/fn-math/functions.c:3146
+#: plugins/fn-math/functions.c:3177
 msgid "number,base"
 msgstr "Zahl,Basis"
 
-#: plugins/fn-math/functions.c:3152 plugins/fn-math/functions.c:3164
+#: plugins/fn-math/functions.c:3186 plugins/fn-math/functions.c:3204
 msgid "numerator,denominator"
 msgstr "Zähler,Nenner"
 
-#: plugins/fn-math/functions.c:3154
+#: plugins/fn-math/functions.c:3189
 msgid "number,multiple"
 msgstr "Zahl,Vielfaches"
 
-#: plugins/fn-math/functions.c:3160
+#: plugins/fn-math/functions.c:3198
 msgid "base,exponent"
 msgstr "Basis,Exponent"
 
-#: plugins/fn-math/functions.c:3168
+#: plugins/fn-math/functions.c:3210
 msgid "number,type"
 msgstr "Zahl,Typ"
 
-#: plugins/fn-math/functions.c:3170 plugins/fn-math/functions.c:3172
-#: plugins/fn-math/functions.c:3174 plugins/fn-math/functions.c:3206
+#: plugins/fn-math/functions.c:3213 plugins/fn-math/functions.c:3216
+#: plugins/fn-math/functions.c:3219 plugins/fn-math/functions.c:3267
 msgid "number,digits"
 msgstr "Zahl,Stellen"
 
-#: plugins/fn-math/functions.c:3176
+#: plugins/fn-math/functions.c:3222
 msgid "x,n,m,coefficients"
 msgstr "x,n,m,Koeffizienten"
 
-#: plugins/fn-math/functions.c:3190
+#: plugins/fn-math/functions.c:3243
 msgid "range,criteria,actual_range"
 msgstr "Reichweite,Kriterien,tatsächliche_Reichweite"
 
-#: plugins/fn-math/functions.c:3192
+#: plugins/fn-math/functions.c:3246
 msgid "range,range,"
 msgstr "Bereich,Bereich,"
 
-#: plugins/fn-math/functions.c:3196 plugins/fn-math/functions.c:3198
-#: plugins/fn-math/functions.c:3200 plugins/fn-math/functions.c:3210
-#: plugins/fn-stat/functions.c:5187 plugins/fn-stat/functions.c:5189
-#: plugins/fn-stat/functions.c:5281 plugins/fn-stat/functions.c:5293
+#: plugins/fn-math/functions.c:3252 plugins/fn-math/functions.c:3255
+#: plugins/fn-math/functions.c:3258 plugins/fn-math/functions.c:3273
+#: plugins/fn-stat/functions.c:5195 plugins/fn-stat/functions.c:5204
+#: plugins/fn-stat/functions.c:5312 plugins/fn-stat/functions.c:5360
 msgid "array1,array2"
 msgstr "Feld1,Feld2"
 
-#: plugins/fn-math/functions.c:3214 plugins/fn-math/functions.c:3217
+#: plugins/fn-math/functions.c:3279 plugins/fn-math/functions.c:3283
 msgid "array,matrix_type,bandsize"
 msgstr "Feld,Matrix_Typ,Streifenbreite"
 
@@ -9556,7 +10010,7 @@ msgstr ""
 "@Wertebereich. Die Wahrscheinlichkeiten für jeden Wert werden in "
 "@Wahrscheinlichkeitsbereich übergeben.\n"
 "\n"
-"* Falls @Wahrscheinlichkeitsbereich ausgelassen wird, wird eine diskrete "
+"* Falls @Wahrscheinlichkeitsbereich nicht übergeben wird, wird eine diskrete "
 "Normalverteilung angenommen.\n"
 "* Falls die Summe aller Werte im Bereich @Wahrscheinlichkeitsbereich "
 "ungleich eins ist, liefert ZUFALLSZAHL.DISKRET einen #ZAHL!-Fehler.\n"
@@ -10030,7 +10484,7 @@ msgstr ""
 "@SYNTAX=ZUFALLSZAHL.GEOM(n1,n2,t)\n"
 "@DESCRIPTION=ZUFALLSZAHL.GEOM liefert eine geometrisch verteilte "
 "Zufallszahl. Die Anzahl unabhängiger Versuche mit Probabilität @p bis zum "
-"ersten Erfolg Die Wahrscheinlichkeitsverteilung für geometrische "
+"ersten Erfolg. Die Wahrscheinlichkeitsverteilung für geometrische "
 "Zufallsvariablen ist\n"
 "\n"
 "\tp(k) =  p (1-p)^(k-1), für k >= 1.\n"
@@ -10164,7 +10618,7 @@ msgstr ""
 "\n"
 "* Falls @Typ weder 1 noch 2 ist, liefert ZUFALLSZAHL.GUMBEL einen #ZAHL!-"
 "Fehler.\n"
-"* Falls @Typ ausgelassen wird, wird Typ I angenommen.\n"
+"* Falls @Typ nicht übergeben wird, wird Typ I angenommen.\n"
 "\n"
 "@EXAMPLES=\n"
 "ZUFALLSZAHL.GUMBEL(0.5,1,2).\n"
@@ -10191,13 +10645,13 @@ msgid ""
 msgstr ""
 "@FUNCTION=ZUFALLSZAHL.LEVY\n"
 "@SYNTAX=ZUFALLSZAHL.LEVY(c,Alpha[,Beta])\n"
-"@DESCRIPTION=ZUFALLSZAHL.LEVY liefert eine Lévy-verteilte Zufallszahl. Falls "
-"@Beta ausgelassen wird, wird @Beta = 0 angenommen.\n"
+"@DESCRIPTION=ZUFALLSZAHL.LEVY liefert eine Lévy-verteilte Zufallszahl.\n"
 "\n"
 "* Für Alpha = 1 und Beta=0 wird die Lorentz-Verteilung verwendet.\n"
 "* Für Alpha = 2 und Beta=0 wird die Gaußsche Verteilung verwendet.\n"
 "\n"
-"* Falls @alpha <= 0 oder @alpha > 2, liefert ZUFALLSZAHL.LEVY einen #ZAHL!-"
+"* Falls @Beta nicht übergeben wird, wird @Beta = 0 angenommen.\n"
+"* Falls @Alpha <= 0 oder @Alpha > 2, liefert ZUFALLSZAHL.LEVY einen #ZAHL!-"
 "Fehler.\n"
 "* Falls @Beta < -1 oder @Beta > 1, liefert ZUFALLSZAHL.LEVY einen #ZAHL!-"
 "Fehler .\n"
@@ -10303,85 +10757,85 @@ msgid ""
 "@SEEALSO="
 msgstr "LATER"
 
-#: plugins/fn-random/functions.c:1097 plugins/fn-random/functions.c:1121
-#: plugins/fn-random/functions.c:1133 plugins/fn-stat/functions.c:5273
+#: plugins/fn-random/functions.c:1098 plugins/fn-random/functions.c:1134
+#: plugins/fn-random/functions.c:1152 plugins/fn-stat/functions.c:5309
 msgid "p"
 msgstr "p"
 
 # or better: Einzug?
 # 2001-11-27 14:16:24 CET -ke-
-#: plugins/fn-random/functions.c:1099 plugins/fn-random/functions.c:1113
-#: plugins/fn-random/functions.c:1117 plugins/fn-random/functions.c:1143
-#: plugins/fn-random/functions.c:1153 plugins/fn-random/functions.c:1155
+#: plugins/fn-random/functions.c:1101 plugins/fn-random/functions.c:1122
+#: plugins/fn-random/functions.c:1128 plugins/fn-random/functions.c:1167
+#: plugins/fn-random/functions.c:1182 plugins/fn-random/functions.c:1185
 msgid "a,b"
 msgstr "a,b"
 
-#: plugins/fn-random/functions.c:1101
+#: plugins/fn-random/functions.c:1104
 msgid "bottom,top"
 msgstr "unten,oben"
 
-#: plugins/fn-random/functions.c:1103
+#: plugins/fn-random/functions.c:1107
 msgid "p,trials"
 msgstr "p,Versuche"
 
-#: plugins/fn-random/functions.c:1105 plugins/fn-random/functions.c:1129
-#: plugins/fn-random/functions.c:1135
+#: plugins/fn-random/functions.c:1110 plugins/fn-random/functions.c:1146
+#: plugins/fn-random/functions.c:1155
 msgid "a"
 msgstr "a"
 
-#: plugins/fn-random/functions.c:1107 plugins/fn-random/functions.c:1151
+#: plugins/fn-random/functions.c:1113 plugins/fn-random/functions.c:1179
 msgid "nu"
 msgstr "Zahl"
 
-#: plugins/fn-random/functions.c:1109
+#: plugins/fn-random/functions.c:1116
 msgid "value_range,prob_range"
 msgstr "Wertebereich,Wahrscheinlichkeitsbereich"
 
-#: plugins/fn-random/functions.c:1111
+#: plugins/fn-random/functions.c:1119
 msgid "b"
 msgstr "b"
 
-#: plugins/fn-random/functions.c:1115
+#: plugins/fn-random/functions.c:1125
 msgid "nu1,nu2"
 msgstr "Zahl1,Zahl1"
 
-#: plugins/fn-random/functions.c:1119 plugins/fn-random/functions.c:1149
+#: plugins/fn-random/functions.c:1131 plugins/fn-random/functions.c:1176
 msgid "a,sigma"
 msgstr "a,Sigma"
 
-#: plugins/fn-random/functions.c:1123
+#: plugins/fn-random/functions.c:1137
 msgid "a,b[,type]"
 msgstr "a,b[,Typ]"
 
-#: plugins/fn-random/functions.c:1125
+#: plugins/fn-random/functions.c:1140
 msgid "n1,n2,t"
 msgstr "Zahl1,Zahl2,t"
 
-#: plugins/fn-random/functions.c:1131
+#: plugins/fn-random/functions.c:1149
 msgid "c,alpha[,beta]"
 msgstr "c,Alpha[,Beta]"
 
-#: plugins/fn-random/functions.c:1137
+#: plugins/fn-random/functions.c:1158
 msgid "zeta,sigma"
 msgstr "Zeta,Sigma"
 
-#: plugins/fn-random/functions.c:1139
+#: plugins/fn-random/functions.c:1161
 msgid "p,failures"
 msgstr "p,Fehlschläge"
 
-#: plugins/fn-random/functions.c:1141
+#: plugins/fn-random/functions.c:1164
 msgid "mean,stdev"
 msgstr "Mittel,Stdabw"
 
-#: plugins/fn-random/functions.c:1145
+#: plugins/fn-random/functions.c:1170
 msgid "lambda"
 msgstr "Lambda"
 
-#: plugins/fn-random/functions.c:1147
+#: plugins/fn-random/functions.c:1173
 msgid "sigma"
 msgstr "Sigma"
 
-#: plugins/fn-random/functions.c:1157
+#: plugins/fn-random/functions.c:1188
 msgid "d1[,d2,...,dN]"
 msgstr "d1[,d2,...,dN]"
 
@@ -12698,185 +13152,185 @@ msgstr ""
 "\n"
 "@SEEALSO=ZUFALLSZAHL.LAPLACE"
 
-#: plugins/fn-stat/functions.c:5161 plugins/fn-stat/functions.c:5221
+#: plugins/fn-stat/functions.c:5165 plugins/fn-stat/functions.c:5403
 msgid "k,p"
 msgstr "k,p"
 
-#: plugins/fn-stat/functions.c:5163
+#: plugins/fn-stat/functions.c:5169
 msgid "x,alpha,beta,a,b"
 msgstr "x,Alpha,Beta,a,b"
 
-#: plugins/fn-stat/functions.c:5165
+#: plugins/fn-stat/functions.c:5172
 msgid "p,alpha,beta,a,b"
 msgstr "p,Alpha,Beta,a,b"
 
-#: plugins/fn-stat/functions.c:5167
+#: plugins/fn-stat/functions.c:5175
 msgid "n,t,p,c"
 msgstr "n,t,p,c"
 
-#: plugins/fn-stat/functions.c:5169
+#: plugins/fn-stat/functions.c:5179
 msgid "x,a,cum"
 msgstr "x,a,Kum"
 
-#: plugins/fn-stat/functions.c:5171
+#: plugins/fn-stat/functions.c:5183
 msgid "x,dof"
 msgstr "x,Freiheitsgrad"
 
-#: plugins/fn-stat/functions.c:5173 plugins/fn-stat/functions.c:5319
+#: plugins/fn-stat/functions.c:5186 plugins/fn-stat/functions.c:5369
 msgid "p,dof"
 msgstr "x,Freiheitsgrad"
 
-#: plugins/fn-stat/functions.c:5175
+#: plugins/fn-stat/functions.c:5189
 msgid "act_range,theo_range"
 msgstr "act_Bereich,theo_Bereich"
 
-#: plugins/fn-stat/functions.c:5177
+#: plugins/fn-stat/functions.c:5192
 msgid "x,stddev,size"
 msgstr "x,Stdabw,Größe"
 
-#: plugins/fn-stat/functions.c:5183
+#: plugins/fn-stat/functions.c:5207
 msgid "trials,p,alpha"
 msgstr "Versuche,p,Alpha"
 
-#: plugins/fn-stat/functions.c:5185
-msgid "ref,ref,"
-msgstr "Bezug,Bezug,"
-
-#: plugins/fn-stat/functions.c:5193 plugins/fn-stat/functions.c:5275
-msgid "x,a,b"
-msgstr "x,a,b"
-
-#: plugins/fn-stat/functions.c:5197
-msgid "x,mean,cumulative"
-msgstr "x,Mittel,Kumulative"
-
-#: plugins/fn-stat/functions.c:5199
+#: plugins/fn-stat/functions.c:5213
 msgid "x,y,cumulative"
 msgstr "x,y,Kumulative"
 
-#: plugins/fn-stat/functions.c:5201
+#: plugins/fn-stat/functions.c:5216
 msgid "x,dof of num,dof of denom"
 msgstr "x,Freiheitsgrad des Zählers,Freiheitsgrad des Nenners"
 
-#: plugins/fn-stat/functions.c:5203
+#: plugins/fn-stat/functions.c:5219
 msgid "p,dof of num,dof of denom"
 msgstr "p,Freiheitsgrad des Zählers,Freiheitsgrad des Nenners"
 
-#: plugins/fn-stat/functions.c:5209
+#: plugins/fn-stat/functions.c:5228
 msgid "x,known y's,known x's"
 msgstr "x,Bekannte Y, Bekannte X"
 
-#: plugins/fn-stat/functions.c:5211
+#: plugins/fn-stat/functions.c:5231
 msgid "data_array,bins_array"
 msgstr "Daten_Feld,Klassen_Feld"
 
-#: plugins/fn-stat/functions.c:5213
+#: plugins/fn-stat/functions.c:5234
 msgid "arr1,arr2"
 msgstr "Arr1,Arr2"
 
-#: plugins/fn-stat/functions.c:5217
+#: plugins/fn-stat/functions.c:5237
 msgid "number,alpha,beta,cum"
 msgstr "Zahl,Alpha,Beta,Kum"
 
-#: plugins/fn-stat/functions.c:5219
+#: plugins/fn-stat/functions.c:5240
 msgid "number,alpha,beta"
 msgstr "Zahl,Alpha,Beta"
 
-#: plugins/fn-stat/functions.c:5225 plugins/fn-stat/functions.c:5321
+#: plugins/fn-stat/functions.c:5249 plugins/fn-stat/functions.c:5372
 msgid "known_y's,known_x's,new_x's,const"
 msgstr "bekannte_y,bekannte_x,Konst"
 
-#: plugins/fn-stat/functions.c:5229
+#: plugins/fn-stat/functions.c:5255
 msgid "x,n,M,N"
 msgstr "x,n,M,N"
 
-#: plugins/fn-stat/functions.c:5237
-msgid "x"
-msgstr "x"
-
-#: plugins/fn-stat/functions.c:5239 plugins/fn-stat/functions.c:5249
-msgid "x,a"
-msgstr "x,a"
-
-#: plugins/fn-stat/functions.c:5243 plugins/fn-stat/functions.c:5245
+#: plugins/fn-stat/functions.c:5267 plugins/fn-stat/functions.c:5270
 msgid "known_y's,known_x's,const,stat"
 msgstr "bekannte_y,bekannte_x,Konst,Stat"
 
-#: plugins/fn-stat/functions.c:5247
+#: plugins/fn-stat/functions.c:5273
 msgid "p,mean,stddev"
 msgstr "p,Mittel,Stdabw"
 
-#: plugins/fn-stat/functions.c:5251
+#: plugins/fn-stat/functions.c:5276
 msgid "x,meean,stdev"
 msgstr "x,Mittel,Stdabw"
 
-#: plugins/fn-stat/functions.c:5265
+#: plugins/fn-stat/functions.c:5297
 msgid "f,t,p"
 msgstr "f,t,p"
 
-#: plugins/fn-stat/functions.c:5267
+#: plugins/fn-stat/functions.c:5300
 msgid "x,mean,stdev,cumulative"
 msgstr "x,Mittel,Stdabw,Kumulative"
 
-#: plugins/fn-stat/functions.c:5269
+#: plugins/fn-stat/functions.c:5303
 msgid "p,mean,stdev"
 msgstr "p,Mittel,Stdabw"
 
-#: plugins/fn-stat/functions.c:5277
+#: plugins/fn-stat/functions.c:5315
 msgid "array,k"
 msgstr "Feld,k"
 
-#: plugins/fn-stat/functions.c:5279
+#: plugins/fn-stat/functions.c:5318
 msgid "array,x,significance"
 msgstr "Feld,x,Signifikanz"
 
-#: plugins/fn-stat/functions.c:5283
+#: plugins/fn-stat/functions.c:5324
+msgid "x,mean,cumulative"
+msgstr "x,Mittel,Kumulative"
+
+#: plugins/fn-stat/functions.c:5327
 msgid "x_range,prob_range,lower_limit,upper_limit"
 msgstr "x_Bereich,Wahrscheinlichkeitsbereich,untere_Grenze,obere_Grenze"
 
-#: plugins/fn-stat/functions.c:5285
+#: plugins/fn-stat/functions.c:5330
 msgid "array,quart"
 msgstr "Feld,Quart"
 
-#: plugins/fn-stat/functions.c:5289
-msgid "x,sigma"
-msgstr "x,Sigma"
-
-#: plugins/fn-stat/functions.c:5291
-msgid "x,a,sigma"
-msgstr "x,a,Sigma"
-
-#: plugins/fn-stat/functions.c:5299 plugins/fn-stat/functions.c:5313
+#: plugins/fn-stat/functions.c:5336 plugins/fn-stat/functions.c:5357
 msgid "known_y's,known_x's"
 msgstr "Bekannte_Y,Bekannte_X"
 
-#: plugins/fn-stat/functions.c:5303
+#: plugins/fn-stat/functions.c:5342
 msgid "x,mean,stddev"
 msgstr "x,Mittel,Stdabw"
 
-#: plugins/fn-stat/functions.c:5315
-msgid "function_nbr,ref,ref,"
-msgstr "Funktion_Zhl,Bez,Bez"
-
-#: plugins/fn-stat/functions.c:5317
+#: plugins/fn-stat/functions.c:5366
 msgid "x,dof,tails"
 msgstr "x,Freiheitsgrad,Tails"
 
-#: plugins/fn-stat/functions.c:5323
+#: plugins/fn-stat/functions.c:5375
 msgid "ref,fraction"
 msgstr "Bez,Bruch"
 
-#: plugins/fn-stat/functions.c:5325
+#: plugins/fn-stat/functions.c:5378
 msgid "array1,array2,tails,type"
 msgstr "Feld1,Feld2,Tails,Typ"
 
-#: plugins/fn-stat/functions.c:5335
+#: plugins/fn-stat/functions.c:5393
 msgid "x.alpha,beta,cumulative"
 msgstr "x,Alpha,Beta,Kumulative"
 
-#: plugins/fn-stat/functions.c:5337
+#: plugins/fn-stat/functions.c:5396
 msgid "ref,x"
 msgstr "Bezug,x"
+
+#: plugins/fn-stat/functions.c:5400 plugins/fn-stat/functions.c:5418
+msgid "x,a,b"
+msgstr "x,a,b"
+
+#: plugins/fn-stat/functions.c:5409
+msgid "x"
+msgstr "x"
+
+#: plugins/fn-stat/functions.c:5412 plugins/fn-stat/functions.c:5415
+msgid "x,a"
+msgstr "x,a"
+
+#: plugins/fn-stat/functions.c:5421
+msgid "x,sigma"
+msgstr "x,Sigma"
+
+#: plugins/fn-stat/functions.c:5424
+msgid "x,a,sigma"
+msgstr "x,a,Sigma"
+
+#: plugins/fn-stat/functions.c:5430
+msgid "function_nbr,ref,ref,"
+msgstr "Funktion_Zhl,Bez,Bez"
+
+#: plugins/fn-stat/functions.c:5433
+msgid "ref,ref,"
+msgstr "Bezug,Bezug,"
 
 #: plugins/fn-stat/plugin.xml.in.h:1
 msgid "Statistical Functions"
@@ -13204,8 +13658,9 @@ msgstr ""
 "@SYNTAX=FINDEN(Zeichenkette1, Zeichenkette2[, Beginn])\n"
 "@DESCRIPTION=FINDEN liefert die Position von @Zeichenkette1 in "
 "@Zeichenkette2 unter Berüchsichtigung der Groß-/Kleinschreibung, wobei nur "
-"ab dem Zeichen @Beginn gesucht wird (falls ausgelassen, wird 1 angenommen).\n"
+"ab dem Zeichen @Beginn gesucht wird.\n"
 "\n"
+"* Falls @Beginn nicht übergeben wird, wird @Beginn = 1 angenommen.\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
 "@BEISPIELE?\n"
@@ -13230,7 +13685,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=FEST\n"
 "@SYNTAX=FEST(Zahl[, Dezimalen, keine_Kommas])\n"
-"@DESCRIPTION=FEST gibt @Zahl als formatierte Zeichenkette mit @Dezimalen "
+"@DESCRIPTION=FEST liefert @Zahl als formatierte Zeichenkette mit @Dezimalen "
 "Zahlen hinter dem Dezimalpunkt, wobei Kommas, falls mit @keine_Kommas "
 "festgelegt, übergangen werden.\n"
 "\n"
@@ -13422,8 +13877,10 @@ msgid ""
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
 "@FUNCTION=WECHSELN\n"
-"@SYNTAX=WECHSELN\n"
-"@DESCRIPTION=WECHSELN ersetzt @Alt in @Text durch @Neu.\n"
+"@SYNTAX=WECHSELN(Text,Alt,Neu[,Zahl])\n"
+"@DESCRIPTION=WECHSELN ersetzt @Alt in @Text durch @Neu. Ersetzungen werden "
+"nur auf Instanz @Zahl von @Alt in @Text angewandt, andernfalls werden alle "
+"verändert.\n"
 "\n"
 "* Diese Funktion ist Excel-kompatibel.\n"
 "\n"
@@ -13510,51 +13967,51 @@ msgstr ""
 "\n"
 "@SEEALSO=FINDEN"
 
-#: plugins/fn-string/functions.c:1245
+#: plugins/fn-string/functions.c:1248
 msgid "text,text,"
 msgstr "Text,Text,"
 
-#: plugins/fn-string/functions.c:1247
+#: plugins/fn-string/functions.c:1251
 msgid "num,decimals"
 msgstr "Zahl,Dezimalen"
 
-#: plugins/fn-string/functions.c:1249
+#: plugins/fn-string/functions.c:1254
 msgid "text1,text2"
 msgstr "Text1,Text2"
 
-#: plugins/fn-string/functions.c:1251
+#: plugins/fn-string/functions.c:1257
 msgid "text1,text2,num"
 msgstr "Text1,Text2,Zahl"
 
-#: plugins/fn-string/functions.c:1253
+#: plugins/fn-string/functions.c:1260
 msgid "num,decs,no_commas"
 msgstr "Zahl,Dezimalen,Keine_Kommas"
 
-#: plugins/fn-string/functions.c:1255 plugins/fn-string/functions.c:1269
+#: plugins/fn-string/functions.c:1263 plugins/fn-string/functions.c:1284
 msgid "text,num_chars"
 msgstr "Text,Anzahl_Zeichen"
 
-#: plugins/fn-string/functions.c:1263
+#: plugins/fn-string/functions.c:1272
 msgid "text,pos,num"
 msgstr "Text,Pos,Zahl"
 
-#: plugins/fn-string/functions.c:1265
+#: plugins/fn-string/functions.c:1278
 msgid "old,start,num,new"
 msgstr "Alt,Start,Zahl,Neu"
 
-#: plugins/fn-string/functions.c:1267
+#: plugins/fn-string/functions.c:1281
 msgid "text,num"
 msgstr "Text,Zahl"
 
-#: plugins/fn-string/functions.c:1271
+#: plugins/fn-string/functions.c:1287
 msgid "find,within,start_num"
 msgstr "Begriff,innerhalb,Zahl_Beginn"
 
-#: plugins/fn-string/functions.c:1273
+#: plugins/fn-string/functions.c:1290
 msgid "text,old,new,num"
 msgstr "Text,Alt,Neu,Zahl"
 
-#: plugins/fn-string/functions.c:1277
+#: plugins/fn-string/functions.c:1296
 msgid "value,format_text"
 msgstr "Wert,Format_Text"
 
@@ -13563,7 +14020,7 @@ msgid "Functions for manipulating strings"
 msgstr "Funktionen zur Manipulation von Zeichenketten"
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:462
-#: src/dialogs/dialog-search.c:673 src/func.c:611
+#: src/dialogs/dialog-search.c:673 src/func.c:664
 msgid "String"
 msgstr "Zeichenkette"
 
@@ -13575,12 +14032,12 @@ msgstr "Zeichenketten-Funktionen"
 msgid "Unknown GB error"
 msgstr "Unbekannter GB-Fehler"
 
-#: plugins/gb/plugin.c:368
+#: plugins/gb/plugin.c:366
 #, c-format
 msgid "Error initializing gb '%s'"
 msgstr "Fehler bei der gb-Initialisierung »%s«"
 
-#: plugins/gb/plugin.c:383
+#: plugins/gb/plugin.c:381
 #, c-format
 msgid "Error in project '%s'"
 msgstr "Fehler in Projekt »%s«"
@@ -13635,10 +14092,6 @@ msgstr "Fehler: Die Verbindung mit %s konnte aufgebaut werden"
 msgid "Error: no recordsets were returned"
 msgstr "Fehler: Es wurden keine Datensätze zurückgegeben"
 
-#: plugins/gda/plugin.xml.in.h:1
-msgid "Database"
-msgstr "Datenbank"
-
 #: plugins/gda/plugin.xml.in.h:2
 msgid "Database functions for allowing the retrieval of data from a database"
 msgstr ""
@@ -13650,11 +14103,11 @@ msgstr "GNOME Glossar"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:2
 msgid "Gnome Glossary PO file format"
-msgstr "GNOME Glossar-PO-Dateiformat"
+msgstr "GNOME .po-Glossar-Dateiformat"
 
 #: plugins/gnome-glossary/plugin.xml.in.h:3
 msgid "It provides support for saving Gnome Glossary in .po files."
-msgstr "Erlaubt GNOME Glossare im PO-Dateiformat zu speichern"
+msgstr "Erlaubt GNOME, Glossare im .po-Dateiformat zu speichern"
 
 #: plugins/guile/plugin.c:108
 msgid "Guile error"
@@ -13738,7 +14191,7 @@ msgstr "Fehler beim Lesen der Lotus Arbeitsbuch-Datei."
 
 #: plugins/lotus-123/plugin.xml.in.h:1
 msgid "Imports Lotus 123 files"
-msgstr "Importier von »Lotus 123«-Dateien"
+msgstr "Import von »Lotus 123«-Dateien"
 
 #: plugins/lotus-123/plugin.xml.in.h:2
 msgid "Lotus 123"
@@ -14090,7 +14543,7 @@ msgstr "GNU Oleo (*.oleo)"
 
 #: plugins/oleo/plugin.xml.in.h:3
 msgid "Imports GNU Oleo documents"
-msgstr "»GNU Oleo«-Dokumenten importieren"
+msgstr "»GNU Oleo«-Dokumente importieren"
 
 #: plugins/openoffice/openoffice-read.c:373
 msgid "Missing expression"
@@ -14190,7 +14643,7 @@ msgstr "PLN Format"
 
 #: plugins/plan-perfect/plugin.xml.in.h:3
 msgid "Plan Perfect Format (PLN) import"
-msgstr "PLN Datei importieren"
+msgstr "PLN-Datei importieren"
 
 #: plugins/psiconv/plugin.xml.in.h:1
 msgid "Imports Psion 5 series Sheet files"
@@ -14544,7 +14997,7 @@ msgstr "Fett"
 msgid "Borders"
 msgstr "Ränder"
 
-#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:377
+#: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:516
 #: src/workbook-object-toolbar.c:138
 msgid "Button"
 msgstr "Knopf"
@@ -14965,7 +15418,7 @@ msgstr "Den Text aus einer Datei importieren"
 
 #: src/GNOME_Gnumeric.xml.h:111 src/workbook-control-gui.c:3112
 msgid "Imports a file"
-msgstr "Datei importieren"
+msgstr "Import einer Datei"
 
 #: src/GNOME_Gnumeric.xml.h:112 src/workbook-format-toolbar.c:372
 #: src/workbook-format-toolbar.c:476
@@ -15475,7 +15928,7 @@ msgid "Show all filtered and hidden rows"
 msgstr "Alle gefilterten und versteckten Zeilen anzeigen"
 
 #: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3775
-#: schemas/gnumeric-general.schemas.in.h:30
+#: schemas/gnumeric-general.schemas.in.h:29
 msgid "Sort Ascending"
 msgstr "Aufsteigend sortieren"
 
@@ -17118,8 +17571,8 @@ msgstr "Anza_hl der Stichproben:"
 
 #: src/dialogs/autocorrect.glade.h:1 src/dialogs/cell-format.glade.h:1
 #: src/dialogs/hyperlink.glade.h:1 src/dialogs/names.glade.h:1
-#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/solver.glade.h:1
-#: src/dialogs/workbook-attr.glade.h:1
+#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/so-frame.glade.h:1
+#: src/dialogs/solver.glade.h:1 src/dialogs/workbook-attr.glade.h:1
 msgid "*"
 msgstr "*"
 
@@ -17518,7 +17971,7 @@ msgid "None          (silently accept invalid input)"
 msgstr "Nichts        (Ungültige Eingaben werden ohne Warnung akzeptiert.)"
 
 #: src/dialogs/cell-format.glade.h:59 src/dialogs/dialog-search.c:466
-#: src/dialogs/dialog-search.c:677 src/func.c:609
+#: src/dialogs/dialog-search.c:677 src/func.c:662
 msgid "Number"
 msgstr "Zahl"
 
@@ -19605,7 +20058,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-export.glade.h:17
 msgid "Exporting structured text"
-msgstr "Export: Strukturierter Text"
+msgstr "Exportieren von strukturiertem Text"
 
 #: src/dialogs/dialog-stf-export.glade.h:18
 msgid "Hyphen (-)"
@@ -19749,7 +20202,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "Clear list of columns"
-msgstr "Liste Spalten entfernen"
+msgstr "Liste mit Spalten entfernen"
 
 #: src/dialogs/dialog-stf.glade.h:12
 msgid "Click to select a column"
@@ -19786,8 +20239,7 @@ msgid ""
 "example for instructions)"
 msgstr ""
 "Passen Sie die Spalten an, indem Sie die Knöpfe oder die Maus verwenden "
-"(führen Sie\n"
-"die Maus über das Beispiel, um Hinweise zu erlangen)."
+"(führen Sie die Maus über das Beispiel, um Hinweise zu erhalten)."
 
 #: src/dialogs/dialog-stf.glade.h:20
 msgid "Data type and number of lines"
@@ -19802,9 +20254,8 @@ msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
-"Die Spalten im Text sind durch ein Trennzeichen voneinander abgetrennt, "
-"z. B.\n"
-"durch ein Semikolon."
+"Die Spalten im Text sind durch ein Trennzeichen, z. B. einem Semikolon, "
+"unterteilt."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -19844,7 +20295,7 @@ msgstr "Trennstric_h (-)"
 
 #: src/dialogs/dialog-stf.glade.h:32
 msgid "Importing structured text"
-msgstr "Import: Strukturiertet Text"
+msgstr "Import von strukturiertem Text"
 
 #: src/dialogs/dialog-stf.glade.h:33
 msgid ""
@@ -19852,10 +20303,10 @@ msgid ""
 "an existing column or hold the left mouse button on a column border and drag "
 "to resize a column."
 msgstr ""
-"Klicken Sie mit links, um eine neue Spalte zu erzeugen, klicken Sie mit\n"
-"rechts auf den Rand einer Spalte, um eine vorhandene Spalte zu löschen\n"
-"oder halten Sie die linke Maustaste auf einen Spaltenrand und ziehen\n"
-"Sie, um die Spalte zu vergrößern."
+"Drücken Sie die linke Maustaste, um eine neue Spalte zu erzeugen, mit der "
+"Rechten auf den Rand einer vorhandenen Spalte, um sie zu löschen oder halten "
+"Sie die linke Maustaste auf einem Spaltenrand gedrückt und bewegen Sie die "
+"Maus, um diese Spalte zu vergrößern."
 
 #: src/dialogs/dialog-stf.glade.h:34
 msgid "Lines to import"
@@ -19898,7 +20349,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:44
 msgid "Remove selected column"
-msgstr "Markierte Spalte entfernen"
+msgstr "Die Markierte Spalte entfernen"
 
 #: src/dialogs/dialog-stf.glade.h:45
 msgid "S_ee two separators as one"
@@ -19941,7 +20392,7 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:51
 msgid "Select the structure of the text that most closely matches the data."
-msgstr "Die Struktur des Textes festlegen, die am meisten zu den Daten passt."
+msgstr "Legen Sie die Textstruktur fest, die den Daten am ehesten enspricht."
 
 #: src/dialogs/dialog-stf.glade.h:52
 msgid "Semicolo_n (;)"
@@ -19998,7 +20449,7 @@ msgstr "_Format:"
 
 #: src/dialogs/dialog-stf.glade.h:67
 msgid "_Separated"
-msgstr "_Abgetrennt mit"
+msgstr "_Unterteilt durch"
 
 #: src/dialogs/dialog-stf.glade.h:68
 msgid "_To line: "
@@ -20477,7 +20928,7 @@ msgstr "Das Plugin beim nächsten Start von Gnumeric _nicht aktivieren"
 
 #: src/dialogs/plugin-manager.glade.h:5
 msgid "Plugin Manager"
-msgstr "Plugin-Verwalter"
+msgstr "Plugin-Verwaltung"
 
 #: src/dialogs/plugin-manager.glade.h:6
 msgid "Plugin _list"
@@ -20508,7 +20959,7 @@ msgstr "_Verzeichnisse"
 
 #: src/dialogs/plugin-manager.glade.h:11
 msgid "_Plugin details"
-msgstr "_Plugin-Details"
+msgstr "Plugin-_Details"
 
 #: src/dialogs/preferences.glade.h:1
 msgid "Gnumeric Preferences"
@@ -21050,6 +21501,15 @@ msgstr "Kontrollkästchen konfigurieren"
 #: src/dialogs/so-fill.glade.h:1
 msgid "Configure Filled Object"
 msgstr "Gefülltes Objekt konfigurieren"
+
+#: src/dialogs/so-frame.glade.h:2
+msgid "Frame Label"
+msgstr "Beschriftung"
+
+# CHECK
+#: src/dialogs/so-frame.glade.h:3
+msgid "Frame Properties"
+msgstr "Eigenschaften des Rahmens"
 
 #: src/dialogs/so-scrollbar.glade.h:1
 msgid "Scrollbar Configure"
@@ -22271,40 +22731,44 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/func.c:95
+#: src/func.c:105
 #, c-format
 msgid "Cannot create file %s\n"
 msgstr "Es ist nicht möglich, die Datei %s anzulegen\n"
 
-#: src/func.c:258
+#: src/func.c:309
 msgid "Function implementation not available."
 msgstr "Funktionen Implementierung nicht verfügbar."
 
-#: src/func.c:464
+#: src/func.c:517
 msgid "Unknown Function"
 msgstr "Unbekannte Funktion"
 
-#: src/func.c:613
+#: src/func.c:666
 msgid "Boolean"
 msgstr "Wahrheitswert"
 
-#: src/func.c:615
+#: src/func.c:668
 msgid "Cell Range"
 msgstr "Zellbereich"
 
-#: src/func.c:617
+#: src/func.c:670
 msgid "Area"
 msgstr "Bereich"
 
-#: src/func.c:619
+#: src/func.c:672
+msgid "Scalar or Error"
+msgstr "Skalar oder Fehler"
+
+#: src/func.c:674
 msgid "Scalar"
 msgstr "Skalar"
 
-#: src/func.c:621
+#: src/func.c:676
 msgid "Any"
 msgstr "Beliebig"
 
-#: src/func.c:920
+#: src/func.c:983
 msgid "Function does not exist"
 msgstr "Funktion existiert nicht"
 
@@ -22336,7 +22800,7 @@ msgstr "Als Zeit formatieren"
 msgid "Format as alternative Number"
 msgstr "Als alternative Zahl formatieren"
 
-#: src/gnumeric-graph.c:928
+#: src/gnumeric-graph.c:929
 msgid "Data..."
 msgstr "Daten..."
 
@@ -22657,84 +23121,74 @@ msgstr "#NV"
 msgid "#RECALC!"
 msgstr "#NEU-BER!"
 
-#: src/parser.y:334
+#: src/parser.y:332
 msgid "Constructed ranges use simple references"
 msgstr "Erstellte Bereiche verwenden einfache Bezüge"
 
-#: src/parser.y:349 src/parser.y:363
+#: src/parser.y:346 src/parser.y:359
 msgid "All entries in the set must be references"
 msgstr "Alle Einträge im Satz müssen Bezüge sein"
 
-#: src/parser.y:446
+#: src/parser.y:447
 #, c-format
 msgid "Unknown sheet '%s'"
 msgstr "Unbekanntes Blatt »%s«"
 
-#: src/parser.y:535
+#: src/parser.y:537
 msgid "() is an invalid expression"
 msgstr "() ist ein ungültiger Ausdruck"
 
-#: src/parser.y:567
-#, c-format
-msgid "What is a 3D name %s:%s!%s ?"
-msgstr "Was ist ein 3D-Name %s:%s!%s ?"
-
-#: src/parser.y:576
+#: src/parser.y:570 src/parser.y:592
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "Name »%s« existiert im Blatt »%s« nicht"
 
-#: src/parser.y:598
+#: src/parser.y:638
 #, c-format
 msgid "Unknown workbook '%s'"
 msgstr "Unbekanntes Arbeitsbuch »%s«"
 
-#: src/parser.y:606
-#, c-format
-msgid "Name '%s' does not exist in workbook '%s'"
-msgstr "Name »%s« existiert im Arbeitsbuch »%s« nicht"
-
-#: src/parser.y:757
+#: src/parser.y:728
 msgid "This locale uses '\\' rather than ',' to separate array columns."
 msgstr ""
 "Diese Locale verwendet »\\« anstatt von »,«, um Feldspalten zu trennen."
 
-#: src/parser.y:770
+#: src/parser.y:741
 msgid "This locale uses ',' rather than '\\' to separate array columns."
 msgstr ""
 "Diese Locale verwendet »,« anstatt von »\\«, um Feldspalten zu trennen."
 
-#: src/parser.y:904 src/parser.y:1119
+#: src/parser.y:875 src/parser.y:1088
 msgid "Could not find matching closing quote"
 msgstr ""
 "Zugehöriges schliessendes Anführungszeichen konnte nicht gefunden werden"
 
-#: src/parser.y:1008
+#: src/parser.y:978
 msgid "Sheet name is required"
 msgstr "Blattname ist notwendig."
 
-#: src/parser.y:1057 src/parser.y:1066 src/parser.y:1092
+#: src/parser.y:1027 src/parser.y:1036 src/parser.y:1061
 msgid "The number is out of range"
 msgstr "Die Zahl liegt außerhalb des Gültigkeitbereichs"
 
-#: src/parser.y:1289
+#: src/parser.y:1257
 msgid "Multiple expressions are not supported in this context"
 msgstr "Mehrfache Ausdrücke werden in diesem Zusammenhang nicht unterstützt"
 
-#: src/parser.y:1311
+#: src/parser.y:1280
 msgid "Could not find matching opening parenthesis"
 msgstr "Zugehörige öffnende Klammer konnte nicht gefunden werden"
 
-#: src/parser.y:1315
+#: src/parser.y:1284
 msgid "Could not find matching closing parenthesis"
 msgstr "Zugehörige schließende Klammer konnte nicht gefunden werden"
 
-#: src/parser.y:1319
+#: src/parser.y:1288
 msgid "Invalid expression"
 msgstr "Ungültiger Ausdruck"
 
 # Token ~ Zeichen
-#: src/parser.y:1324
+#: src/parser.y:1292
 #, c-format
 msgid "Unexpected token %c"
 msgstr "Unerwartetes Zeichen %c"
@@ -23314,7 +23768,7 @@ msgstr "Datei kann nicht geladen werden: %s"
 msgid "Transparent"
 msgstr "Transparent"
 
-#: src/sheet-object-widget.c:980
+#: src/sheet-object-widget.c:1119
 #, c-format
 msgid "CheckBox %d"
 msgstr "Kontrollkästchen %d"
@@ -24732,25 +25186,25 @@ msgstr "Erneut _bearbeiten"
 msgid "Accept"
 msgstr "Akzeptieren"
 
-#: src/workbook-control.c:227
+#: src/workbook-control.c:228
 msgid "Define Name"
 msgstr "Namen festlegen"
 
-#: src/workbook-control.c:249
+#: src/workbook-control.c:250
 msgid "Address"
 msgstr "Adresse"
 
-#: src/workbook-edit.c:317
+#: src/workbook-edit.c:328
 #, c-format
 msgid "%s!%s is locked"
 msgstr "%s!%s ist gesperrt"
 
-#: src/workbook-edit.c:321
+#: src/workbook-edit.c:332
 msgid "Unprotect the workbook to enable editing."
 msgstr ""
 "Den Schutz des Arbeitsbuchs entfernen um das Bearbeiten zu ermöglichen."
 
-#: src/workbook-edit.c:322
+#: src/workbook-edit.c:333
 msgid "Unprotect the sheet to enable editing."
 msgstr "Den Schutz des Blatts entfernen um das Bearbeiten zu ermöglichen."
 
@@ -24892,7 +25346,7 @@ msgstr "Größe"
 
 #: src/workbook-object-toolbar.c:130
 msgid "Creates a label"
-msgstr "Ein Label erzeugen"
+msgstr "Eine Beschriftung erzeugen"
 
 #: src/workbook-object-toolbar.c:133
 msgid "Creates a frame"
@@ -25595,11 +26049,6 @@ msgstr "Benutzerverzeichnis für Auto-Formatierungen"
 msgid "lpr Printer"
 msgstr "lpr-Drucker"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:47
-#, fuzzy
-msgid "output.ps"
-msgstr "_Ausgaben:"
-
 #: schemas/gnumeric-general.schemas.in.h:1
 msgid "Auto Expression Recalculation Lag"
 msgstr "Verzögerung für Neuberechnung von Auto-Ausdrücken"
@@ -25651,15 +26100,11 @@ msgid "Default font name"
 msgstr "Vorgegebener Schriftname"
 
 #: schemas/gnumeric-general.schemas.in.h:12
-msgid "Helvetica"
-msgstr ""
-
-#: schemas/gnumeric-general.schemas.in.h:13
 msgid "Horizontal DPI"
 msgstr "DPI horizontal"
 
 # CHECK
-#: schemas/gnumeric-general.schemas.in.h:14
+#: schemas/gnumeric-general.schemas.in.h:13
 msgid ""
 "If this value is positive, auto expressions are recalculated within that "
 "many millesecond after a change. If it is negative they are recalculated "
@@ -25672,47 +26117,47 @@ msgstr ""
 "wobei »last« als Ende einer Periode dieser Größe nach einer Änderung ohne "
 "Änderungen festgelegt ist."
 
-#: schemas/gnumeric-general.schemas.in.h:15
+#: schemas/gnumeric-general.schemas.in.h:14
 msgid "Import Uses All Openers"
 msgstr "Import verwendet alle Öffner"
 
-#: schemas/gnumeric-general.schemas.in.h:16
+#: schemas/gnumeric-general.schemas.in.h:15
 msgid "Length of File History"
 msgstr "Länge der Dateichronik"
 
-#: schemas/gnumeric-general.schemas.in.h:17
+#: schemas/gnumeric-general.schemas.in.h:16
 msgid "Length of the Undo Descriptors"
 msgstr "Länge der Rückgängig-Beschreibungen"
 
-#: schemas/gnumeric-general.schemas.in.h:18
+#: schemas/gnumeric-general.schemas.in.h:17
 msgid "List of recently used files"
 msgstr "Liste zuletzt verwendeter Dateien"
 
-#: schemas/gnumeric-general.schemas.in.h:19
+#: schemas/gnumeric-general.schemas.in.h:18
 msgid "Live Scrolling"
 msgstr "Live-Scrolling"
 
-#: schemas/gnumeric-general.schemas.in.h:20
+#: schemas/gnumeric-general.schemas.in.h:19
 msgid "Maximal Undo Size"
 msgstr "Maximale Rückgängig-Größe"
 
-#: schemas/gnumeric-general.schemas.in.h:21
+#: schemas/gnumeric-general.schemas.in.h:20
 msgid "Number of Automatic Clauses"
 msgstr "Anzahl der automatischen Bedingungen"
 
-#: schemas/gnumeric-general.schemas.in.h:22
+#: schemas/gnumeric-general.schemas.in.h:21
 msgid "Number of Undo Items"
 msgstr "Anzahl der Rückgängig-Objekte"
 
-#: schemas/gnumeric-general.schemas.in.h:23
+#: schemas/gnumeric-general.schemas.in.h:22
 msgid "Screen resolution in the horizontal direction."
 msgstr "Bildschirmauflösung in horizontaler Richtung."
 
-#: schemas/gnumeric-general.schemas.in.h:24
+#: schemas/gnumeric-general.schemas.in.h:23
 msgid "Screen resolution in the vertical direction."
 msgstr "Bildschirmauflösung in vertikaler Richtung."
 
-#: schemas/gnumeric-general.schemas.in.h:25
+#: schemas/gnumeric-general.schemas.in.h:24
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to perform a "
 "case-sensitive sort and determine the initial state of the case-sensitive "
@@ -25723,7 +26168,7 @@ msgstr ""
 "durchzuführen und legt den Zustand des »Groß-/Kleinschreibung "
 "berücksichtigen«-Kontrollkästchens zu Beginn im Sortierdialog fest."
 
-#: schemas/gnumeric-general.schemas.in.h:26
+#: schemas/gnumeric-general.schemas.in.h:25
 msgid ""
 "Setting this option will cause the sort buttons on the toolbar to preserve "
 "the cell formats while sorting and determines the initial state of the "
@@ -25733,7 +26178,7 @@ msgstr ""
 "die Zellformate beizubehalten und legt den Zustand des »Formate beibehalten«-"
 "Kontrollkästchens zu Beginn im Sortierdialog fest."
 
-#: schemas/gnumeric-general.schemas.in.h:27
+#: schemas/gnumeric-general.schemas.in.h:26
 msgid ""
 "Setting this option will make the import menu item use all available file "
 "openers rather than just those marked as importers."
@@ -25742,11 +26187,11 @@ msgstr ""
 "verfügbaren Dateiöffner zu verwenden und nicht nur die als Importierer "
 "gekennzeichneten."
 
-#: schemas/gnumeric-general.schemas.in.h:28
+#: schemas/gnumeric-general.schemas.in.h:27
 msgid "Show Sheet Name in Undo List"
 msgstr "Name des Blattes in Rückgängig-Liste zeigen"
 
-#: schemas/gnumeric-general.schemas.in.h:29
+#: schemas/gnumeric-general.schemas.in.h:28
 msgid ""
 "Some file formats can contain only a single sheet. This variable determines "
 "whether the user will be warned if only a single sheet of a multi-sheet "
@@ -25756,54 +26201,54 @@ msgstr ""
 "legt fest, ob der Benutzer gewarnt wird, falls nur ein einzelnes Blatt eines "
 "Arbeitsbuches mit mehreren Blättern gespeichert wird."
 
-#: schemas/gnumeric-general.schemas.in.h:31
+#: schemas/gnumeric-general.schemas.in.h:30
 msgid "Sort Preserve Formats"
 msgstr "Beim Sortieren Formate beibehalten"
 
-#: schemas/gnumeric-general.schemas.in.h:32
+#: schemas/gnumeric-general.schemas.in.h:31
 msgid "Sort is Case-Sensitive"
 msgstr "Unter Berücksichtigung von Groß-/Kleinschreibung sortieren"
 
-#: schemas/gnumeric-general.schemas.in.h:33
+#: schemas/gnumeric-general.schemas.in.h:32
 msgid "The default font is bold."
 msgstr "Die vorgegebene Schrift ist fett."
 
-#: schemas/gnumeric-general.schemas.in.h:34
+#: schemas/gnumeric-general.schemas.in.h:33
 msgid "The default font is italic."
 msgstr "Die vorgegebene Schrift ist kursiv."
 
-#: schemas/gnumeric-general.schemas.in.h:35
+#: schemas/gnumeric-general.schemas.in.h:34
 msgid "The default font name for new workbooks."
 msgstr "Der Name der vorgegebenen Schrift für neue Arbeitsbücher.."
 
-#: schemas/gnumeric-general.schemas.in.h:36
+#: schemas/gnumeric-general.schemas.in.h:35
 msgid "The default font size for new workbooks."
 msgstr "Die vorgegebene Schriftgröße für neue Arbeitsbücher.."
 
-#: schemas/gnumeric-general.schemas.in.h:37
+#: schemas/gnumeric-general.schemas.in.h:36
 msgid ""
 "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
 "Das Dateimenü zeigt eine Liste zuletzt verwendeter Funktionen. Dies ist "
 "diese Liste."
 
-#: schemas/gnumeric-general.schemas.in.h:38
+#: schemas/gnumeric-general.schemas.in.h:37
 msgid "The initial zoom factor for new workbooks."
 msgstr "Der vorgegebene Vergrößerungsfaktor für neue Arbeitsbücher."
 
-#: schemas/gnumeric-general.schemas.in.h:39
+#: schemas/gnumeric-general.schemas.in.h:38
 msgid "The number of files kept in the `recent' section of the file menu."
 msgstr ""
 "Die Anzahl der Dateien, die im »Zuletzt geöffnete Dateien«-Abschnitt des "
 "Dateimenüs vorgehalten werden."
 
-#: schemas/gnumeric-general.schemas.in.h:40
+#: schemas/gnumeric-general.schemas.in.h:39
 msgid "The number of sheets initially created in a new workbook."
 msgstr ""
 "Die Anzahl der Blätter die in einem neuen Arbeitsbuch zu Beginn erzeugt "
 "werden."
 
-#: schemas/gnumeric-general.schemas.in.h:41
+#: schemas/gnumeric-general.schemas.in.h:40
 msgid ""
 "This integer (between 0 and 9) gives the amount compression performed by "
 "Gnumeric when saving files in the default file format. 0 is no compression "
@@ -25813,7 +26258,7 @@ msgstr ""
 "Gnumeric beim Speichern von Dateien im vorgegebenen Dateiformat durchgeführt "
 "wird. 0 führt zu keiner Kompression, während 9 die maximale Kompression ist."
 
-#: schemas/gnumeric-general.schemas.in.h:42
+#: schemas/gnumeric-general.schemas.in.h:41
 msgid ""
 "This number (between 0.25 and 1.00) gives the horizontal fraction of the "
 "screen size covered by the default window."
@@ -25821,7 +26266,7 @@ msgstr ""
 "Die Zahl (zwischen 0.25 und 1.00) gibt den horizontalen Anteil des "
 "Bildschirms an, der vom vorgegebenen Fenster belegt wird."
 
-#: schemas/gnumeric-general.schemas.in.h:43
+#: schemas/gnumeric-general.schemas.in.h:42
 msgid ""
 "This number (between 0.25 and 1.00) gives the vertical fraction of the "
 "screen size covered by the default window."
@@ -25829,7 +26274,7 @@ msgstr ""
 "Die Zahl (zwischen 0.25 und 1.00) gibt den vertikalen Anteil des Bildschirms "
 "an, der vom vorgegebenen Fenster belegt wird."
 
-#: schemas/gnumeric-general.schemas.in.h:44
+#: schemas/gnumeric-general.schemas.in.h:43
 msgid ""
 "This option determines the initial state of the sort-order button in the "
 "sort dialog."
@@ -25837,7 +26282,7 @@ msgstr ""
 "Diese Option legt den vorgegebenen Zustand des Sortier-Reihenfolge-Knopfes "
 "im Sortierdialog fest."
 
-#: schemas/gnumeric-general.schemas.in.h:45
+#: schemas/gnumeric-general.schemas.in.h:44
 msgid ""
 "This value determines the length of the undo chain. Each editing action has "
 "a size associate with it, to compare it with the memory requirements of a "
@@ -25850,28 +26295,28 @@ msgstr ""
 "vergleichen. Die Rückgängig-Liste wird abgeschnitten, wenn die gesamte Größe "
 "diesen konfiguriertbaren Wert überschreitet."
 
-#: schemas/gnumeric-general.schemas.in.h:46
+#: schemas/gnumeric-general.schemas.in.h:45
 msgid ""
 "This value determines the maximum number of items in the undo/redo list."
 msgstr ""
 "Diese Wert legt die maximale Anzahl der Objekte in der Rückgängig/Widerholen-"
 "Liste fest."
 
-#: schemas/gnumeric-general.schemas.in.h:47
+#: schemas/gnumeric-general.schemas.in.h:46
 msgid ""
 "This value determines whether the default font for a new workbook bold is."
 msgstr ""
 "Dieser Wert legt fest, ob die vorgegebene Schrift für ein neues Arbeitsbuch "
 "fett ist."
 
-#: schemas/gnumeric-general.schemas.in.h:48
+#: schemas/gnumeric-general.schemas.in.h:47
 msgid ""
 "This value determines whether the default font for a new workbook italic is."
 msgstr ""
 "Dieser Wert legt fest, ob die vorgegebene Schrift für ein neues Arbeitsbuch "
 "kursiv ist."
 
-#: schemas/gnumeric-general.schemas.in.h:49
+#: schemas/gnumeric-general.schemas.in.h:48
 msgid ""
 "This value determines whether to show the sheet names in the undo and redo "
 "lists."
@@ -25880,7 +26325,7 @@ msgstr ""
 "Wiederherstellen-Listen angezeigt werden sollen."
 
 # CHECK
-#: schemas/gnumeric-general.schemas.in.h:50
+#: schemas/gnumeric-general.schemas.in.h:49
 msgid ""
 "This value is indicative of the maximum length of the command descriptors in "
 "the undo and redo chains."
@@ -25888,13 +26333,13 @@ msgstr ""
 "Dieser Wert legt die maximale Länge der Befehlsbeschreibungen in Rückgängig- "
 "und Wiederholen-Ketten fest."
 
-#: schemas/gnumeric-general.schemas.in.h:51
+#: schemas/gnumeric-general.schemas.in.h:50
 msgid "This variable determines whether autocompletion is set on."
 msgstr ""
 "Die Variable legt fest, ob die automatische Vervollständigung durchgeführt "
 "wird."
 
-#: schemas/gnumeric-general.schemas.in.h:52
+#: schemas/gnumeric-general.schemas.in.h:51
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
@@ -25902,15 +26347,15 @@ msgstr ""
 "Diese Variable legt fest, ob Scrollbewegungen sofort umgesetzt werden "
 "(ansonsten Verzögerung)."
 
-#: schemas/gnumeric-general.schemas.in.h:53
+#: schemas/gnumeric-general.schemas.in.h:52
 msgid "Vertical DPI"
 msgstr "DPI vertikal"
 
-#: schemas/gnumeric-general.schemas.in.h:54
+#: schemas/gnumeric-general.schemas.in.h:53
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Beim Exportieren in ein Ein-Blatt-Format warnen"
 
-#: schemas/gnumeric-general.schemas.in.h:55
+#: schemas/gnumeric-general.schemas.in.h:54
 msgid ""
 "When selecting a sort region in the sort dialog, search clauses are "
 "automatically added. This number determines the maximum number of clauses to "
@@ -25920,360 +26365,8 @@ msgstr ""
 "Suchbedingungen hinzugefügt. Diese Zahl legt die maximale Anzahl automatisch "
 "hinzuzufügender Suchbedingungen fest."
 
-#~ msgid ""
-#~ "@FUNCTION=DAVERAGE\n"
-#~ "@SYNTAX=DAVERAGE(database,field,criteria)\n"
-#~ "@DESCRIPTION=DAVERAGE function returns the average of the values in a "
-#~ "list or database that match conditions specified.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "@FUNCTION=DBMITTELWERT\n"
-#~ "@SYNTAX=DBMITTELWERT(Datenbank,Feld,Kriterien)\n"
-#~ "@DESCRIPTION=DBMITTELWERT liefert das Mittel der Werte in einer Liste "
-#~ "oder Datenbank, die den angegebenen Kriterien entsprechen.\n"
-#~ "\n"
+#~ msgid "What is a 3D name %s:%s!%s ?"
+#~ msgstr "Was ist ein 3D-Name %s:%s!%s ?"
 
-#~ msgid ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-#~ "DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-#~ "DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-#~ "DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-#~ "\n"
-#~ "@SEEALSO=DCOUNT"
-#~ msgstr ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DAVERAGE(A1:C7, \"Gehalt\", A9:A11) liefert 42296.3333.\n"
-#~ "DAVERAGE(A1:C7, \"Alter\", A9:A11) liefert 39.\n"
-#~ "DAVERAGE(A1:C7, \"Gehalt\", A9:B11) liefert 40782.5.\n"
-#~ "DAVERAGE(A1:C7, \"Alter\", A9:B11) liefert 36.\n"
-#~ "\n"
-#~ "@SEEALSO=DCOUNT"
-
-#~ msgid ""
-#~ "@FUNCTION=DCOUNT\n"
-#~ "@SYNTAX=DCOUNT(database,field,criteria)\n"
-#~ "@DESCRIPTION=DCOUNT function counts the cells that contain numbers in a "
-#~ "database that match conditions specified.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "@FUNCTION=DBANZAHL\n"
-#~ "@SYNTAX=DBANZAHL(Datenbank,Feld,Kriterien)\n"
-#~ "@DESCRIPTION=DBANZAHL zählt die Zellen in einer Datenbank, die Zahlen "
-#~ "enthalten, die den angegebenen Kriterien entsprechen.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-#~ "DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-#~ "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-#~ "\n"
-#~ "@SEEALSO=DAVERAGE"
-#~ msgstr ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DCOUNT(A1:C7, \"Gehalt\", A9:A11) liefert 3.\n"
-#~ "DCOUNT(A1:C7, \"Gehalt\", A9:B11) liefert 2.\n"
-#~ "DCOUNT(A1:C7, \"Name\", A9:B11) liefert 0.\n"
-#~ "\n"
-#~ "@SEEALSO=DAVERAGE"
-
-#~ msgid ""
-#~ "@FUNCTION=DCOUNTA\n"
-#~ "@SYNTAX=DCOUNTA(database,field,criteria)\n"
-#~ "@DESCRIPTION=DCOUNTA function counts the cells that contain data in a "
-#~ "database that match conditions specified.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "@FUNCTION=DBANZAHL2\n"
-#~ "@SYNTAX=DBANZAHL2(Datenbank,Feld,Kriterien)\n"
-#~ "@DESCRIPTION=DBANZAHL2 zählt die Zellen in einer Datenbank, die Daten "
-#~ "enthalten, die den angegebenen Kriterien entsprechen.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-#~ "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-#~ "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-#~ "\n"
-#~ "@SEEALSO=DCOUNT"
-#~ msgstr ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DCOUNTA(A1:C7, \"Gehalt\", A9:A11) liefert 3.\n"
-#~ "DCOUNTA(A1:C7, \"Gehalt\", A9:B11) liefert 2.\n"
-#~ "DCOUNTA(A1:C7, \"Name\", A9:B11) liefert 2.\n"
-#~ "\n"
-#~ "@SEEALSO=DCOUNT"
-
-#~ msgid ""
-#~ "@FUNCTION=DGET\n"
-#~ "@SYNTAX=DGET(database,field,criteria)\n"
-#~ "@DESCRIPTION=DGET function returns a single value from a column that "
-#~ "match conditions specified.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "@FUNCTION=DBAUSZUG\n"
-#~ "@SYNTAX=DBAUSZUG(Datenbank,Feld,Kriterien)\n"
-#~ "@DESCRIPTION=DBAUSZUG liefert einen einzelnen Wert aus einer Spalte, der "
-#~ "den angegebenen Kriterien entspricht.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "* If none of the items match the conditions, DGET returns #VALUE! error.\n"
-#~ "* If more than one items match the conditions, DGET returns #NUM! error.\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-#~ "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-#~ "\n"
-#~ "@SEEALSO=DCOUNT"
-#~ msgstr ""
-#~ "\n"
-#~ "* Falls keiner der Posten die Bedingungen erfüllt, liefert DBAUSZUG einen "
-#~ "#WERT!-Fehler.\n"
-#~ "* Erfüllt mehr als ein Posten die Bedingungen, liefert DBAUSZUG einen "
-#~ "#ZAHL!-Fehler\n"
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DBAUSZUG(A1:C7, \"Gehalt\", A9:A10) liefert 34323.\n"
-#~ "DBAUSZUG(A1:C7, \"Name\", A9:A10) liefert \"Clark\".\n"
-#~ "\n"
-#~ "@SEEALSO=DBANZAHL"
-
-#~ msgid ""
-#~ "@FUNCTION=DMAX\n"
-#~ "@SYNTAX=DMAX(database,field,criteria)\n"
-#~ "@DESCRIPTION=DMAX function returns the largest number in a column that "
-#~ "match conditions specified.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "@FUNCTION=DBMAX\n"
-#~ "@SYNTAX=DBMAX(Datenbank,Feld,Kriterien)\n"
-#~ "@DESCRIPTION=DBMAX liefert die größte Zahl in einer Spalte, die den "
-#~ "angegebenen Kriterien entspricht.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-#~ "DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-#~ "DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-#~ "\n"
-#~ "@SEEALSO=DMIN"
-#~ msgstr ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DMAX(A1:C7, \"Gehalt\", A9:A11) liefert 47242.\n"
-#~ "DMAX(A1:C7, \"Alter\", A9:A11) liefert 45.\n"
-#~ "DMAX(A1:C7, \"Alter\", A9:B11) liefert 43.\n"
-#~ "\n"
-#~ "@SEEALSO=DMIN"
-
-#~ msgid ""
-#~ "@FUNCTION=DMIN\n"
-#~ "@SYNTAX=DMIN(database,field,criteria)\n"
-#~ "@DESCRIPTION=DMIN function returns the smallest number in a column that "
-#~ "match conditions specified.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "@FUNCTION=DBMIN\n"
-#~ "@SYNTAX=DBMIN(Datenbank,Feld,Kriterien)\n"
-#~ "@DESCRIPTION=DBMIN liefert die kleinste Zahl in einer Spalte, die den "
-#~ "angegebenen Kriterien entspricht.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-#~ "DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-#~ "\n"
-#~ "@SEEALSO=DMAX"
-#~ msgstr ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DMIN(A1:C7, \"Gehalt\", A9:B11) liefert 34323.\n"
-#~ "DMIN(A1:C7, \"Alter\", A9:B11) liefert 29.\n"
-#~ "\n"
-#~ "@SEEALSO=DMAX"
-
-#~ msgid ""
-#~ "@FUNCTION=DPRODUCT\n"
-#~ "@SYNTAX=DPRODUCT(database,field,criteria)\n"
-#~ "@DESCRIPTION=DPRODUCT function returns the product of numbers in a column "
-#~ "that match conditions specified.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "@FUNCTION=DBPRODUKT\n"
-#~ "@SYNTAX=DBPRODUKT(Datenbank,Feld,Kriterien)\n"
-#~ "@DESCRIPTION=DBPRODUKT liefert das Produkt in einer Spalte von Zahlen, "
-#~ "die den angegebenen Kriterien entsprechen.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-#~ "\n"
-#~ "@SEEALSO=DSUM"
-#~ msgstr ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DBPRODUKT(A1:C7, \"Alter\", A9:B11) liefert 1247.\n"
-#~ "\n"
-#~ "@SEEALSO=DBSUMME"
-
-#~ msgid ""
-#~ "@FUNCTION=DSTDEV\n"
-#~ "@SYNTAX=DSTDEV(database,field,criteria)\n"
-#~ "@DESCRIPTION=DSTDEV function returns the estimate of the standard "
-#~ "deviation of a population based on a sample. The populations consists of "
-#~ "numbers that match conditions specified.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "@FUNCTION=DBSTDABW\n"
-#~ "@SYNTAX=DBSTDABW(Datenbank,Feld,Kriterien)\n"
-#~ "@DESCRIPTION=DBSTDABW liefert die Standardabweichung Standardabweichung "
-#~ "einer auf einer Stichprobe basierenden Pupulation. Die Populationen "
-#~ "bestehen aus Zahlen, die die angegebenen Kriterien erfüllen.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-#~ "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-#~ "\n"
-#~ "@SEEALSO=DSTDEVP"
-#~ msgstr ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DBSTDABW(A1:C7, \"Alter\", A9:B11) liefert 9.89949.\n"
-#~ "DBSTDABW(A1:C7, \"Gehalt\", A9:B11) liefert 9135.112506.\n"
-#~ "\n"
-#~ "@SEEALSO=DBSTDABWN"
-
-#~ msgid ""
-#~ "@FUNCTION=DSTDEVP\n"
-#~ "@SYNTAX=DSTDEVP(database,field,criteria)\n"
-#~ "@DESCRIPTION=DSTDEVP function returns the standard deviation of a "
-#~ "population based on the entire populations. The populations consists of "
-#~ "numbers that match conditions specified.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "@FUNCTION=DBSTDABWN\n"
-#~ "@SYNTAX=DBSTDABWN(Datenbank,Feld,Kriterien)\n"
-#~ "@DESCRIPTION=DBSTDABWN liefert die Standardabweichung einer auf der "
-#~ "Gesamtpopulation basierenden Pupulation. Die Populationen bestehen aus "
-#~ "Zahlen, die die angegebenen Kriterien erfüllen.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-#~ "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-#~ "\n"
-#~ "@SEEALSO=DSTDEV"
-#~ msgstr ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DBSTDABWN(A1:C7, \"Alter\", A9:B11) liefert 7.\n"
-#~ "DBSTDABWN(A1:C7, \"Gehalt\", A9:B11) liefert 6459.5.\n"
-#~ "\n"
-#~ "@SEEALSO=DBSTDABWN"
-
-#~ msgid ""
-#~ "@FUNCTION=DSUM\n"
-#~ "@SYNTAX=DSUM(database,field,criteria)\n"
-#~ "@DESCRIPTION=DSUM function returns the sum of numbers in a column that "
-#~ "match conditions specified.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "@FUNCTION=DBSUMME\n"
-#~ "@SYNTAX=DBSUMME(Datenbank,Feld,Kriterien)\n"
-#~ "@DESCRIPTION=DBSUMME liefert in einer Spalte die Summe der Zahlen, die "
-#~ "den angegebenen Kriterien entsprechen.\n"
-#~ "\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-#~ "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-#~ "\n"
-#~ "@SEEALSO=DPRODUCT"
-#~ msgstr ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DBSUMME(A1:C7, \"Alter\", A9:B11) liefert 72.\n"
-#~ "DBSUMME(A1:C7, \"Gehalt\", A9:B11) liefert 81565.\n"
-#~ "\n"
-#~ "@SEEALSO=DBPRODUKT"
-
-#~ msgid ""
-#~ "@FUNCTION=DVAR\n"
-#~ "@SYNTAX=DVAR(database,field,criteria)\n"
-#~ "@DESCRIPTION=DVAR function returns the estimate of variance of a "
-#~ "population based on a sample. The populations consists of numbers that "
-#~ "match conditions specified.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "@FUNCTION=DBVARIANZ\n"
-#~ "@SYNTAX=DBVARIANZ(Datenbank,Feld,Kriterien)\n"
-#~ "@DESCRIPTION=DBVARIANZ liefert die geschätzte Varianz einer Population, "
-#~ "basierend auf einer Stichprobe. Die Populationen bestehen aus Zahlen, die "
-#~ "den angegebenen Kriterien entsprechen.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-#~ "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-#~ "\n"
-#~ "@SEEALSO=DVARP"
-#~ msgstr ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DBVARIANZ(A1:C7, \"Alter\", A9:B11) liefert 98.\n"
-#~ "DBVARIANZ(A1:C7, \"Gehalt\", A9:B11) liefert 83450280.5.\n"
-#~ "\n"
-#~ "@SEEALSO=DBVARIANZEN"
-
-#~ msgid ""
-#~ "@FUNCTION=DVARP\n"
-#~ "@SYNTAX=DVARP(database,field,criteria)\n"
-#~ "@DESCRIPTION=DVARP function returns the variance of a population based on "
-#~ "the entire populations. The populations consists of numbers that match "
-#~ "conditions specified.\n"
-#~ "\n"
-#~ msgstr ""
-#~ "@FUNCTION=DBVARIANZEN\n"
-#~ "@SYNTAX=DBVARIANZEN(Datenbank,Feld,Kriterien)\n"
-#~ "@DESCRIPTION=DBVARIANZEN liefert die Varianz einer Population, basierend "
-#~ "auf den Gesamtpopulationen. Die Populationen bestehen aus Zahlen, die den "
-#~ "angegebenen Kriterien entsprechen.\n"
-
-#~ msgid ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-#~ "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-#~ "\n"
-#~ "@SEEALSO=DVAR"
-#~ msgstr ""
-#~ "\n"
-#~ "@EXAMPLES=\n"
-#~ "DBVARIANZEN(A1:C7, \"Alter\", A9:B11) liefert 49.\n"
-#~ "DBVARIANZEN(A1:C7, \"Gehalt\", A9:B11) liefert 41725140.25.\n"
-#~ "\n"
-#~ "@SEEALSO=DBVARIANZ"
+#~ msgid "Name '%s' does not exist in workbook '%s'"
+#~ msgstr "Name »%s« existiert im Arbeitsbuch »%s« nicht"
