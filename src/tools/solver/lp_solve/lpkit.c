@@ -8,9 +8,9 @@
 
 
 /* Globals */
-int        Level;
-gnum_float Trej;
-gnum_float Extrad;
+int        lp_solve_Level;
+gnum_float lp_solve_Trej;
+gnum_float lp_solve_Extrad;
 
 
 lprec *
@@ -194,80 +194,8 @@ inc_mat_space (lprec *lp, int maxextra)
 	}
 }
  
-static void
-inc_row_space (lprec *lp)
-{
-        if (lp->rows > lp->rows_alloc) {
-	        lp->rows_alloc = lp->rows+10;
-		lp->sum_alloc  = lp->rows_alloc + lp->columns_alloc;
-		lp->orig_rh = g_renew (gnum_float, lp->orig_rh,
-				       lp->rows_alloc + 1);
-		lp->rh = g_renew (gnum_float, lp->rh, lp->rows_alloc + 1);
-		lp->rhs = g_renew (gnum_float, lp->rhs, lp->rows_alloc + 1);
-		lp->orig_upbo = g_renew (gnum_float, lp->orig_upbo,
-					 lp->sum_alloc + 1);
-		lp->upbo = g_renew (gnum_float, lp->upbo, lp->sum_alloc + 1);
-		lp->orig_lowbo = g_renew (gnum_float, lp->orig_lowbo,
-					  lp->sum_alloc + 1);
-		lp->lowbo = g_renew (gnum_float, lp->lowbo, lp->sum_alloc + 1);
-		lp->solution = g_renew (gnum_float, lp->solution,
-					lp->sum_alloc + 1);
-		lp->best_solution = g_renew (gnum_float, lp->best_solution,
-					     lp->sum_alloc + 1);
-		lp->row_end = g_renew (int, lp->row_end, lp->rows_alloc + 1);
-		lp->basis = g_renew (char, lp->basis, lp->sum_alloc + 1);
-		lp->lower = g_renew (char, lp->lower, lp->sum_alloc + 1);
-		lp->must_be_int = g_renew (char, lp->must_be_int,
-					   lp->sum_alloc + 1);
-		lp->bas = g_renew (int, lp->bas, lp->rows_alloc + 1);
-		lp->duals = g_renew (gnum_float, lp->duals,
-				     lp->rows_alloc + 1);
-		lp->ch_sign = g_renew (char, lp->ch_sign, lp->rows_alloc + 1);
-		lp->eta_col_end = g_renew (int, lp->eta_col_end,
-					   lp->rows_alloc
-					   + lp->max_num_inv + 1);
-		if (lp->names_used)
-		        lp->row_name = g_renew (nstring, lp->row_name,
-						lp->rows_alloc + 1);
-		if (lp->scaling_used)
-		        lp->scale = g_renew (gnum_float, lp->scale,
-					     lp->sum_alloc + 1);
-	}
-}
-
-static void
-inc_col_space (lprec *lp)
-{
-        if (lp->columns >= lp->columns_alloc) {
-	        lp->columns_alloc = lp->columns + 10;
-		lp->sum_alloc = lp->rows_alloc + lp->columns_alloc;
-		lp->must_be_int = g_renew (char, lp->must_be_int,
-					   lp->sum_alloc + 1);
-		lp->orig_upbo = g_renew (gnum_float, lp->orig_upbo,
-					 lp->sum_alloc + 1);
-		lp->upbo = g_renew (gnum_float, lp->upbo, lp->sum_alloc + 1);
-		lp->orig_lowbo = g_renew (gnum_float, lp->orig_lowbo,
-					  lp->sum_alloc + 1);
-		lp->lowbo = g_renew (gnum_float, lp->lowbo, lp->sum_alloc + 1);
-		lp->solution = g_renew (gnum_float, lp->solution,
-					lp->sum_alloc + 1);
-		lp->best_solution = g_renew (gnum_float, lp->best_solution,
-					     lp->sum_alloc + 1);
-		lp->basis = g_renew (char, lp->basis, lp->sum_alloc + 1);
-		lp->lower = g_renew (char, lp->lower, lp->sum_alloc + 1);
-		if (lp->names_used)
-		        lp->col_name = g_renew (nstring, lp->col_name,
-						lp->columns_alloc + 1);
-		if (lp->scaling_used)
-		        lp->scale = g_renew (gnum_float, lp->scale,
-					     lp->sum_alloc + 1);
-		lp->col_end = g_renew (int, lp->col_end,
-				       lp->columns_alloc + 1);
-	}
-}
-
 void
-set_mat (lprec *lp, int Row, int Column, gnum_float Value)
+lp_solve_set_mat (lprec *lp, int Row, int Column, gnum_float Value)
 {
         int elmnr, lastelm, i;
 
@@ -364,53 +292,9 @@ set_mat (lprec *lp, int Row, int Column, gnum_float Value)
 	}
 }
 
-static void
-add_lag_con (lprec *lp, gnum_float *row, SolverConstraintType con_type,
-	     gnum_float rhs)
-{
-        int        i;
-	gnum_float sign;
-
-	switch (con_type) {
-	case SolverLE:
-	case SolverEQ:
-	        sign = 1;
-		break;
-	case SolverGE:
-		sign = -1;
-		break;
-	default:
-	        g_error ("con_type not implemented");
-		return;
-	}
-
-	lp->nr_lagrange++;
-	if (lp->nr_lagrange == 1) {
-	        lp->lag_row = g_new (gnum_float*, lp->nr_lagrange);
-		lp->lag_rhs = g_new (gnum_float, lp->nr_lagrange);
-		lp->lambda = g_new (gnum_float, lp->nr_lagrange);
-		lp->lag_con_type = g_new (SolverConstraintType,
-					  lp->nr_lagrange);
-	} else {
-	        lp->lag_row = g_renew (gnum_float*, lp->lag_row,
-				       lp->nr_lagrange);
-		lp->lag_rhs = g_renew (gnum_float, lp->lag_rhs,
-				       lp->nr_lagrange);
-		lp->lambda = g_renew (gnum_float, lp->lambda, lp->nr_lagrange);
-		lp->lag_con_type = g_renew (SolverConstraintType,
-					    lp->lag_con_type,
-					    lp->nr_lagrange);
-	}
-	lp->lag_row[lp->nr_lagrange-1] = g_new (gnum_float, lp->columns+1);
-	lp->lag_rhs[lp->nr_lagrange-1] = rhs * sign;
-	for (i = 1; i <= lp->columns; i++)
-	        lp->lag_row[lp->nr_lagrange-1][i] = row[i] * sign;
-	lp->lambda[lp->nr_lagrange-1] = 0;
-	lp->lag_con_type[lp->nr_lagrange-1]=(con_type == SolverEQ);
-}
-
+#if 0
 void
-set_upbo (lprec *lp, int column, gnum_float value)
+lp_solve_set_upbo (lprec *lp, int column, gnum_float value)
 {
         if (column > lp->columns || column < 1)
 	        g_print ("Column out of range");
@@ -423,7 +307,7 @@ set_upbo (lprec *lp, int column, gnum_float value)
 }
 
 void
-set_lowbo (lprec *lp, int column, gnum_float value)
+lp_solve_set_lowbo (lprec *lp, int column, gnum_float value)
 {
         if (column > lp->columns || column < 1)
 	        g_print ("Column out of range");
@@ -438,6 +322,7 @@ set_lowbo (lprec *lp, int column, gnum_float value)
 	lp->eta_valid = FALSE;
 	lp->orig_lowbo[lp->rows + column] = value;
 }
+#endif
 
 void
 lp_solve_set_int (lprec *lp, int column, gboolean must_be_int)
@@ -447,11 +332,11 @@ lp_solve_set_int (lprec *lp, int column, gboolean must_be_int)
 	lp->must_be_int[lp->rows + column] = must_be_int;
 	if (must_be_int == TRUE)
 	        if (lp->columns_scaled)
-		        unscale_columns (lp);
+		        lp_solve_unscale_columns (lp);
 }
 
 void
-set_rh (lprec *lp, int row, gnum_float value)
+lp_solve_set_rh (lprec *lp, int row, gnum_float value)
 {
         if (row > lp->rows || row < 0)
 	        g_print ("Row out of Range");
@@ -474,7 +359,7 @@ set_rh (lprec *lp, int row, gnum_float value)
 } 
 
 void
-lpkit_set_maxim (lprec *lp)
+lp_solve_set_maxim (lprec *lp)
 {
         int i;
 	if (lp->maximise == FALSE) {
@@ -489,7 +374,7 @@ lpkit_set_maxim (lprec *lp)
 }
 
 void
-lpkit_set_minim (lprec *lp)
+lp_solve_set_minim (lprec *lp)
 {
         int i;
 	if (lp->maximise == TRUE) {
@@ -504,7 +389,7 @@ lpkit_set_minim (lprec *lp)
 }
 
 void
-set_constr_type (lprec *lp, int row, SolverConstraintType con_type)
+lp_solve_set_constr_type (lprec *lp, int row, SolverConstraintType con_type)
 {
         int i;
 	if (row > lp->rows || row < 1)
@@ -549,6 +434,7 @@ set_constr_type (lprec *lp, int row, SolverConstraintType con_type)
 	        g_print ("Constraint type not (yet) implemented");
 }
 
+#if 0
 gnum_float
 mat_elm (lprec *lp, int row, int column)
 {
@@ -571,9 +457,10 @@ mat_elm (lprec *lp, int row, int column)
 	}
 	return (value);
 }
+#endif
 
 void
-get_row (lprec *lp, int row_nr, gnum_float *row)
+lp_solve_get_row (lprec *lp, int row_nr, gnum_float *row)
 {
         int i, j;
 	
@@ -593,42 +480,9 @@ get_row (lprec *lp, int row_nr, gnum_float *row)
 			        row[i] = -row[i];
 }
 
-void
-get_reduced_costs (lprec *lp, gnum_float *rc)
-{
-        int        varnr, i, j;
-	gnum_float f;
-
-	if (!lp->basis_valid)
-	        g_print ("Not a valid basis in get_reduced_costs");
-
-	if (!lp->eta_valid)
-	        invert (lp);  
-
-	for (i = 1; i <= lp->sum; i++)
-	        rc[i] = 0;
-	rc[0] = 1;
-
-	btran (lp, rc);
-
-	for (i = 1; i <= lp->columns; i++) {
-	        varnr = lp->rows + i;
-		if (!lp->basis[varnr])
-		        if (lp->upbo[varnr] > 0) {
-			        f = 0;
-				for (j = lp->col_end[i - 1];
-				     j < lp->col_end[i]; j++)
-				        f += rc[lp->mat[j].row_nr] *
-					        lp->mat[j].value;
-				rc[varnr] = f;
-			}
-	}
-	for (i = 1; i <= lp->sum; i++)
-	        my_round (rc[i], lp->epsd);
-}   
-
+#if 0
 gboolean
-is_feasible (lprec *lp, gnum_float *values)
+lp_solve_is_feasible (lprec *lp, gnum_float *values)
 {
         int        i, elmnr;
 	gnum_float *this_rhs;
@@ -673,55 +527,10 @@ is_feasible (lprec *lp, gnum_float *values)
 	g_free (this_rhs);
 	return TRUE;
 }
-
-/* fixed by Enrico Faggiolo */
-gboolean
-column_in_lp (lprec *lp, gnum_float *testcolumn)
-{
-        int        i, j;
-	int        nz, ident;
-	gnum_float value;
-
-	for (nz = 0, i = 0; i <= lp->rows; i++)
-	        if (ABS (testcolumn[i]) > lp->epsel) nz++;
-
-	if (lp->scaling_used)
-	        for (i = 1; i <= lp->columns; i++) {
-		        ident = nz;
-			for (j = lp->col_end[i - 1]; j < lp->col_end[i]; j++) {
-			        value = lp->mat[j].value;
-				if (lp->ch_sign[lp->mat[j].row_nr])
-				        value = -value;
-				value /= lp->scale[lp->rows + i];
-				value /= lp->scale[lp->mat[j].row_nr];
-				value -= testcolumn[lp->mat[j].row_nr];
-				if (ABS (value) > lp->epsel)
-				        break;
-				ident--;
-				if (ident == 0)
-				        return TRUE;
-			}
-		}
-	else
-	        for (i = 1; i <= lp->columns; i++) {
-		        ident = nz;
-			for (j = lp->col_end[i - 1]; j < lp->col_end[i]; j++) {
-			        value = lp->mat[j].value;
-				if (lp->ch_sign[lp->mat[j].row_nr])
-				        value = -value;
-				value -= testcolumn[lp->mat[j].row_nr];
-				if (ABS (value) > lp->epsel)
-				        break;
-				ident--;
-				if (ident == 0)
-				        return TRUE;
-			}
-		}
-	return FALSE;
-}
+#endif
 
 void
-print_lp (lprec *lp)
+lp_solve_print_lp (lprec *lp)
 {
         int        i, j;
 	gnum_float *fatmat;
@@ -834,7 +643,7 @@ minmax_to_scale (gnum_float min, gnum_float max)
 }
 
 void
-unscale_columns (lprec *lp)
+lp_solve_unscale_columns (lprec *lp)
 {
         int i, j;
 
@@ -857,6 +666,7 @@ unscale_columns (lprec *lp)
 	lp->eta_valid = FALSE;
 }
 
+#if 0
 void
 unscale (lprec *lp)
 {
@@ -901,10 +711,10 @@ unscale (lprec *lp)
 		lp->eta_valid = FALSE;
 	}
 }
-
+#endif
 
 void
-auto_scale (lprec *lp)
+lp_solve_auto_scale (lprec *lp)
 {
         int        i, j, row_nr;
 	gnum_float *row_max, *row_min, *scalechange, absval;
@@ -1005,8 +815,9 @@ auto_scale (lprec *lp)
 	lp->eta_valid = FALSE;
 }
 
+#if 0
 void
-reset_basis (lprec *lp)
+lp_solve_reset_basis (lprec *lp)
 {
         lp->basis_valid = FALSE;
 }
@@ -1016,16 +827,10 @@ get_constraint_value (lprec *lp, int row)
 {
         return lp->best_solution[row + 1];
 }
-
-gnum_float
-lp_solve_get_dual (lprec *lp, int row)
-{
-        return lp->duals[row + 1];
-}
-
+#endif
 
 void
-print_solution (lprec *lp)
+lp_solve_print_solution (lprec *lp)
 {
         int  i;
 	FILE *stream;

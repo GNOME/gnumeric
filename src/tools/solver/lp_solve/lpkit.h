@@ -299,7 +299,7 @@ void       lp_solve_delete_lp (lprec *lp);
 lprec      *copy_lp (lprec *lp);
 /* copy a lp structure */
 
-void       set_mat (lprec *lp, int row, int column, gnum_float value);
+void       lp_solve_set_mat (lprec *lp, int row, int column, gnum_float value);
 /* fill in element (Row,Column) of the matrix
    Row in [0..Rows] and Column in [1..Columns] */
 
@@ -326,31 +326,20 @@ void       str_add_lag_con (lprec *lp, char *row,
 			    SolverConstraintType con_type, gnum_float rhs);
 /* The same, but with string input */
 
-void       add_column (lprec *lp, gnum_float *column);
-/* Add a Column to the problem */
-void       str_add_column (lprec *lp, char *col_string);
-/* The same, but with string input */
-
-void       del_column (lprec *lp, int column);
-/* Delete a column */
-
-void       set_upbo (lprec *lp, int column, gnum_float value);
+#if 0
+void       lp_solve_set_upbo (lprec *lp, int column, gnum_float value);
 /* Set the upperbound of a variable */
 
-void       set_lowbo (lprec *lp, int column, gnum_float value);
+void       lp_solve_set_lowbo (lprec *lp, int column, gnum_float value);
 /* Set the lowerbound of a variable */
+#endif
 
 void       lp_solve_set_int (lprec *lp, int column, gboolean must_be_int);
 /* Set the type of variable, if must_be_int = TRUE then the variable must
  * be integer */
 
-void       set_rh (lprec *lp, int row, gnum_float value);
+void       lp_solve_set_rh (lprec *lp, int row, gnum_float value);
 /* Set the right hand side of a constraint row */
-
-void       set_rh_vec (lprec *lp, gnum_float *rh);
-/* Set the right hand side vector */
-void       str_set_rh_vec (lprec *lp, char *rh_string);
-/* The same, but with string input */
 
 void       lp_solve_set_maxim (lprec *lp);
 /* maximise the objective function */
@@ -358,7 +347,8 @@ void       lp_solve_set_maxim (lprec *lp);
 void       lp_solve_set_minim (lprec *lp);
 /* minimise the objective function */
 
-void       set_constr_type (lprec *lp, int row, SolverConstraintType con_type);
+void       lp_solve_set_constr_type (lprec *lp, int row,
+				     SolverConstraintType con_type);
 /* Set the type of constraint in row Row (SolverLE, SolverGE, SolverEQ) */
 
 void       set_row_name (lprec *lp, int row, nstring new_name);
@@ -368,11 +358,13 @@ void       set_col_name (lprec *lp, int column, nstring new_name);
 /* Set the name of a varaible column, make sure that the name has < 25
  * characters */
 
-void       auto_scale (lprec *lp);
+void       lp_solve_auto_scale (lprec *lp);
 /* Automatic scaling of the problem */
 
+#if 0
 void       unscale (lprec *lp);
 /* Remove all scaling from the problem */
+#endif
 
 int        lp_solve_solve (lprec *lp);
 /* Solve the problem */
@@ -381,36 +373,28 @@ int        lag_solve (lprec *lp, gnum_float start_bound, int num_iter,
 		      gboolean verbose);
 /* Do NumIter iterations with Lagrangian relaxation constraints */
 
-void       reset_basis (lprec *lp);
+#if 0
+void       lp_solve_reset_basis (lprec *lp);
 /* Reset the basis of a problem, can be usefull in case of degeneracy - JD */
+#endif
 
 gnum_float mat_elm (lprec *lp, int row, int column);
 /* get a single element from the matrix */
 
-void       get_row (lprec *lp, int row_nr, gnum_float *row);
+void       lp_solve_get_row (lprec *lp, int row_nr, gnum_float *row);
 /* fill row with the row row_nr from the problem */
 
 void       get_column (lprec *lp, int col_nr, gnum_float *column);
 /* fill column with the column col_nr from the problem */
 
-void       get_reduced_costs (lprec *lp, gnum_float *rc);
-/* get the reduced costs vector */
-
-gboolean   is_feasible (lprec *lp, gnum_float *values);
+gboolean   lp_solve_is_feasible (lprec *lp, gnum_float *values);
 /* returns TRUE if the vector in values is a feasible solution to the lp */
 
-gboolean   column_in_lp (lprec *lp, gnum_float *column);
-/* returns TRUE if column is already present in lp. (Does not look at bounds
- * and types, only looks at matrix values */
-
-void       write_LP (lprec *lp, FILE *output);
-/* write a LP file to output */
-
-void       print_lp (lprec *lp);
+void       lp_solve_print_lp (lprec *lp);
 /* Print the current problem, only usefull in very small (test) problems. 
  * Shows the effect of scaling */
 
-void       print_solution (lprec *lp);
+void       lp_solve_print_solution (lprec *lp);
 /* Print the solution to stdout */
 
 void       print_duals (lprec *lp);
@@ -422,9 +406,6 @@ void       print_scales (lprec *lp);
 gnum_float lp_solve_get_solution (lprec *lp, int column);
 /* returns the value of a variable at the given column */
 
-gnum_float get_constraint_value (lprec *lp, int row);
-/* returns the value of a constraint. */
-
 gnum_float lp_solve_get_value_of_obj_fn (lprec *lp);
 /* returns the value of the objective function. */
 
@@ -435,11 +416,8 @@ void lp_solve_set_constr_mat (lprec *lp, int col, int row, gnum_float value);
 void lp_solve_set_constr_rhs (lprec *lp, int row, gnum_float value);
 void lp_solve_set_constr_type (lprec *lp, int row, SolverConstraintType type);
 
-void lpkit_set_minim (lprec *lp);
-void lpkit_set_maxim (lprec *lp);
-
 /* functions used internaly by the lp toolkit */
-void       unscale_columns (lprec *lp);
+void       lp_solve_unscale_columns (lprec *lp);
 void       btran (lprec *lp, gnum_float *row);
 void       invert (lprec *lp);
 void       presolve (lprec *lp);

@@ -199,7 +199,7 @@ setpivcol (lprec *lp,
 			for (i = lp->col_end[colnr - 1];
 			     i < lp->col_end[colnr]; i++)
 			        pcol[lp->mat[i].row_nr] = lp->mat[i].value;
-			pcol[0] -= Extrad;
+			pcol[0] -= lp_solve_Extrad;
 		}
 		else
 		        pcol[varin] = 1;
@@ -210,7 +210,7 @@ setpivcol (lprec *lp,
 			for (i = lp->col_end[colnr - 1];
 			     i < lp->col_end[colnr]; i++)
 			        pcol[lp->mat[i].row_nr] = -lp->mat[i].value;
-			pcol[0] += Extrad;
+			pcol[0] += lp_solve_Extrad;
 		} else
 		        pcol[varin] = -1;
 	}
@@ -230,9 +230,9 @@ minoriteration (lprec *lp, int colnr, int row_nr)
 	wk = elnr;
 	lp->eta_size++;
 
-	if (Extrad != 0) {
+	if (lp_solve_Extrad != 0) {
 	        lp->eta_row_nr[elnr] = 0;
-		lp->eta_value[elnr] = -Extrad;
+		lp->eta_value[elnr] = -lp_solve_Extrad;
 		elnr++;
 		if (elnr >= lp->eta_alloc)
 		        resize_eta(lp, elnr);
@@ -241,7 +241,7 @@ minoriteration (lprec *lp, int colnr, int row_nr)
 	for (j = lp->col_end[colnr - 1] ; j < lp->col_end[colnr]; j++) {
 	        k = lp->mat[j].row_nr;
 
-		if (k == 0 && Extrad != 0)
+		if (k == 0 && lp_solve_Extrad != 0)
 		        lp->eta_value[lp->eta_col_end[lp->eta_size - 1]] +=
 			  lp->mat[j].value;
 		else if (k != row_nr) {
@@ -482,7 +482,7 @@ invert (lprec *lp)
 		for (j = lp->col_end[colnr - 1]; j < lp->col_end[colnr]; j++)
 		        pcol[lp->mat[j].row_nr] = lp->mat[j].value;
 
-		pcol[0] -= Extrad;
+		pcol[0] -= lp_solve_Extrad;
 		condensecol(lp, row_nr, pcol);
 		theta = lp->rhs[row_nr] / (gnum_float) pcol[row_nr];
 		rhsmincol(lp, theta, row_nr, varin);
@@ -583,11 +583,12 @@ rowprim (lprec      *lp,
 	for (i = 1; i <= lp->rows; i++) {
 	        f = pcol[i];
 		if (f != 0) {
-		        if (ABS(f) < Trej) {
+		        if (ABS(f) < lp_solve_Trej) {
 			        lp_solve_debug_print(lp,
 						     "pivot %g rejected, "
 						     "too small (limit %g)\n",
-						     (double)f, (double)Trej);
+						     (double)f, 
+						     (double) lp_solve_Trej);
 			}
 			else { /* pivot alright */
 			        quot = 2 * lp->infinite;
@@ -761,7 +762,7 @@ coldual (lprec      *lp,
 			if (!lp->basis[varnr]) {
 			        matrec *matentry;
 
-				d = - Extrad * drow[0];
+				d = - lp_solve_Extrad * drow[0];
 				f = 0;
 				k = lp->col_end[i];
 				j = lp->col_end[i - 1];
@@ -962,7 +963,7 @@ solvelp (lprec *lp)
 		/* fix according to Joerg Herbers */
 		btran(lp, drow);
 
-		Extrad = 0;
+		lp_solve_Extrad = 0;
 
 		for (i = 1; i <= lp->columns; i++) {
 		        varnr = lp->rows + i;
@@ -973,14 +974,15 @@ solvelp (lprec *lp)
 				        drow[varnr] += drow[lp->mat[j].row_nr]
 					  * lp->mat[j].value;
 
-			if (drow[varnr] < Extrad)
-			        Extrad = drow[varnr];
+			if (drow[varnr] < lp_solve_Extrad)
+			        lp_solve_Extrad = drow[varnr];
 		}
 	} else
-	        Extrad = 0;
+	        lp_solve_Extrad = 0;
 
 	if (lp->trace)
-	        fprintf(stderr, "Extrad = %g\n", (double)Extrad);
+	        fprintf(stderr, "lp_solve_Extrad = %g\n",
+			(double) lp_solve_Extrad);
 
 	minit = FALSE;
 
@@ -1052,10 +1054,10 @@ solvelp (lprec *lp)
 				} else
 				        Status = SOLVER_LP_INFEASIBLE;
 			} else {
-			        primal   = TRUE;
-				Doiter   = FALSE;
-				Extrad   = 0;
-				DoInvert = TRUE;
+			        primal            = TRUE;
+				Doiter            = FALSE;
+				lp_solve_Extrad   = 0;
+				DoInvert          = TRUE;
 			}	  
 		}
 
@@ -1309,11 +1311,11 @@ milpsolve (lprec      *lp,
 	if (Break_bb)
 	        return(BREAK_BB);
 
-	Level++;
+	lp_solve_Level++;
 	lp->total_nodes++;
 
-	if (Level > lp->max_level)
-	        lp->max_level = Level;
+	if (lp_solve_Level > lp->max_level)
+	        lp->max_level = lp_solve_Level;
 
 	lp_solve_debug_print(lp, "starting solve");
 
@@ -1390,7 +1392,7 @@ milpsolve (lprec      *lp,
 				     "unbounded" : "infeasible");
 
 	if (failure == SOLVER_LP_INFEASIBLE && lp->verbose)
-	        fprintf(stderr, "level %d INF\n", Level);
+	        fprintf(stderr, "level %d INF\n", lp_solve_Level);
 
 	if (failure == SOLVER_LP_OPTIMAL) { /* there is a good solution */
 	        construct_solution(lp);
@@ -1418,12 +1420,12 @@ milpsolve (lprec      *lp,
 			         fprintf(stderr,
 					 "level %d OPT NOB value %g bound "
 					 "%g\n",
-					 Level, (double)lp->solution[0],
+					 lp_solve_Level, (double)lp->solution[0],
 					 (double)lp->best_solution[0]); 
 			lp_solve_debug_print(lp, 
 					     "but it was worse than the best "
 					     "sofar, discarded");
-			Level--;
+			lp_solve_Level--;
 			return (SOLVER_LP_MILP_FAIL);
 		}
 
@@ -1481,11 +1483,12 @@ milpsolve (lprec      *lp,
 		if (lp->verbose) {
 		        if (notint)
 			        fprintf(stderr, "level %d OPT     value %g\n",
-					Level,
+					lp_solve_Level,
 					(double)lp->solution[0]);
 			else
 			        fprintf(stderr,
-					"level %d OPT INT value %g\n", Level,
+					"level %d OPT INT value %g\n",
+					lp_solve_Level,
 					(double)lp->solution[0]);
 		}
 
@@ -1688,7 +1691,7 @@ milpsolve (lprec      *lp,
 				calculate_duals(lp);
 				
 				if (lp->print_sol)
-				        print_solution(lp); 
+				        lp_solve_print_solution (lp); 
 
 				if (lp->break_at_int) {
 				        if (lp->maximise &&
@@ -1705,7 +1708,7 @@ milpsolve (lprec      *lp,
 		}
 	}
 
-	Level--;
+	lp_solve_Level--;
 
 	/* failure can have the values SOLVER_LP_OPTIMAL, SOLVER_LP_UNBOUNDED
 	 * and SOLVER_LP_INFEASIBLE. */
@@ -1730,7 +1733,7 @@ lp_solve_solve (lprec *lp)
 		else
 		  lp->best_solution[0] = lp->obj_bound;
 
-		Level = 0;
+		lp_solve_Level = 0;
 
 		if (!lp->basis_valid) {
 		        for (i = 0; i <= lp->rows; i++) {
@@ -1782,7 +1785,7 @@ lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 	old_bas     = (int *) g_memdup (lp->bas, sizeof (int) * lp->rows + 1);
 	old_lower   = g_memdup (lp->lower, sizeof (char) * lp->sum + 1);
 
-	get_row(lp, 0, OrigObj);
+	lp_solve_get_row (lp, 0, OrigObj);
  
 	pie = 2;  
 
@@ -1818,7 +1821,7 @@ lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 			}
 		}
 		for (i = 1; i <= lp->columns; i++) {  
-		        set_mat(lp, 0, i, ModObj[i]);
+		        lp_solve_set_mat(lp, 0, i, ModObj[i]);
 		}
 		rhsmod = 0;
 		for (i = 0; i < lp->nr_lagrange; i++)
@@ -1840,12 +1843,12 @@ lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 		}
 
 		if (verbose && lp->sum < 20)
-		        print_lp(lp);
+		        lp_solve_print_lp(lp);
 
 		result = lp_solve_solve(lp);
 
 		if (verbose && lp->sum < 20) { 
-		        print_solution(lp);
+		        lp_solve_print_solution (lp);
 		}
 
 		same_basis = TRUE;
@@ -1955,7 +1958,7 @@ lag_solve (lprec *lp, gnum_float start_bound, int num_iter, gboolean verbose)
 	        lp->best_solution[i] = BestFeasSol[i];
  
 	for (i = 1; i <= lp->columns; i++)
-	        set_mat (lp, 0, i, OrigObj[i]);
+	        lp_solve_set_mat (lp, 0, i, OrigObj[i]);
 
 	if (lp->maximise)
 	        lp->lag_bound = Zub;

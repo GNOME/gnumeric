@@ -1,3 +1,10 @@
+2002-03-14  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* lpkit.[ch], solve.c: Fixed the name space bloating.
+
+	* lpkit.c (inc_col_space, inc_row_space): Removed.
+	(add_lag_con, get_reduced_costs): Removed.
+
 2002-03-12  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* Makefile.am, solver-lp-api-wrapper.c: Removed.  These things are

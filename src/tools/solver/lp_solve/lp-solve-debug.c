@@ -8,9 +8,9 @@ print_indent (void)
 {
         int i;
 
-	fprintf (stderr, "%2d", Level);
-	if (Level < 50) /* useless otherwise */
-	        for (i = Level; i > 0; i--)
+	fprintf (stderr, "%2d", lp_solve_Level);
+	if (lp_solve_Level < 50) /* useless otherwise */
+	        for (i = lp_solve_Level; i > 0; i--)
 		        fprintf (stderr, "--");
 	else
 	        fprintf (stderr, " *** too deep ***");

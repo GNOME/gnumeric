@@ -1,9 +1,9 @@
 #ifndef __LPGLOB_H__
 #define __LPGLOB_H__
 
-extern int        Level;
+extern int        lp_solve_Level;
 
-extern gnum_float Trej;
-extern gnum_float Extrad;
+extern gnum_float lp_solve_Trej;
+extern gnum_float lp_solve_Extrad;
 
 #endif
