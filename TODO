@@ -29,8 +29,6 @@ Gnumeric Spread Sheet task list
    * The mouse can select a range as the current argument while editing a
      formula without changing to a different cell.
 
-   * Support selecting a range on a different sheet.
-
    * C-Insert: Copy, S-Insert: Paste, S-Delete: cut; test.
 
 * Implement Even More Functions
@@ -43,7 +41,7 @@ Gnumeric Spread Sheet task list
 
 * Fix the Following Functions
 
-    * INDEX, MATCH, VLOOKUP, and LOOKUP
+    * INDEX, VLOOKUP, and LOOKUP
 
 * Printing
   * Preview
@@ -156,7 +154,7 @@ Gnumeric Spread Sheet task list
     I have the specs for the XS3 format.  SC should be
     trivial to support as well (from the guile sources)
 
-  * Applix, star office, kspread ?
+  * star office, kspread ?
 
   * Add "hints" to the file save routine based on the registered
     formats.
@@ -164,12 +162,12 @@ Gnumeric Spread Sheet task list
   * Supply default extension to use with a write operation
   * Improve error handling and display in file_read routines.
   * Add ability to send warnings, and progress while loading.
+  * Improve handling of unknown fonts and functions when importing.
 
 * Display Engine
   * drawing double line borders is broken
   * merged cells.
   * Continue cleaning cursor code.
-  * Rework borders to agregate the lines and draw them after backgrounds
 
 * Unicode support throughout
 
@@ -215,11 +213,6 @@ Office 2000 and 'explorer' compatibility.
       2. Pre-parse formulas
       3. Pre-render contents.
 
-   struct _Cell should be optimized with a typed union; merge
-   text, entered_text. Think about width, height, render_color
-   merge flags + generation + move comments to a parallel hash.
-   Use Memchunks for allocation of many things.
-
 * Rendering
 
   * Sort out the cell span stuff
@@ -232,9 +225,6 @@ Office 2000 and 'explorer' compatibility.
 
   * Dependancies for - CELL, INDIRECT functions.
 		     - Sheet objects
-
-  * Teach dependencies about implicit intersections
-    ( big speedup (assesed2.xls))
 
   * Rethink 'generation' mechanism.  It currently forces all cells to
     be recalculated when the value of any of them change.
@@ -257,17 +247,11 @@ Office 2000 and 'explorer' compatibility.
 
 * Undo 
   * Commands to do
-      - paste_cut
       - paste_copy
       - autofill
-      - insert array.
   * Commands to link in
       - Row/Col resize.  The current linkage between itembar and sheet is odd.
         we seem to set the column size for the sheet several times.
-  * Commands to fix
-      - SetText.  The current scheme of popping the settext command produced
-        before entering a non-singleton region is a kludge around to problem
-	of why the top left cells value is changed in the first place.
 
 * Make checks for inserting rows/cols more intelligent in the face of multiple
   selections.  Currently it just checks the first selected range for
@@ -276,7 +260,6 @@ Office 2000 and 'explorer' compatibility.
 * Excel Import
   * Localise sheet/workbook Name import,
   * Import names even if they arn't referenced.
-  * Figure out the scaling and remove the hack to zoom.
   * The big SST re-write.
 
 * Html export
