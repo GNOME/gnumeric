@@ -60,13 +60,6 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 
 }
 
-static gboolean
-wbcg_edit_error_dialog (WorkbookControlGUI *wbcg, char *str)
-{
-	return wb_control_validation_msg (WORKBOOK_CONTROL (wbcg),
-		VALIDATION_STYLE_STOP, NULL, str) != 1;
-}
-
 gboolean
 wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 {
@@ -117,7 +110,10 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		else
 			expr_txt = gnm_expr_char_start_p (txt);
 
-		if (expr_txt != NULL && *expr_txt != '\0') {
+		/* NOTE : do not modify gnm_expr_char_start_p to exclude "-"
+		 * it _can_ start an expression, which is required for rangesel
+		 * it just isn't an expression. */
+		if (expr_txt != NULL && *expr_txt != '\0' && strcmp (expr_txt, "-")) {
 			GnmExpr const *expr = NULL;
 			ParsePos    pp;
 			ParseError  perr;
@@ -144,7 +140,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 			}
 
 			if (expr == NULL && perr.err != NULL) {
-				int reedit;
+				ValidationStatus reedit;
 
 				/* set focus _before_ selection.  gtk2 seems to
 				 * screw with selection in gtk_entry_grab_focus
@@ -161,10 +157,17 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 					gtk_editable_set_position (
 						GTK_EDITABLE (wbcg_get_entry (wbcg)), -1);
 
-				reedit = wbcg_edit_error_dialog (wbcg, perr.err->message);
+				reedit = wb_control_validation_msg (WORKBOOK_CONTROL (wbcg),
+					VALIDATION_STYLE_PARSE_ERROR, NULL, perr.err->message);
+
 				parse_error_free (&perr);
-				if (reedit)
+				if (reedit == VALIDATION_STATUS_INVALID_EDIT)
 					return FALSE;
+				/* restore focus to sheet , or we'll leave edit
+				 * mode only to jump right back in in the new
+				 * cell because it looks like someone just
+				 * focused on the edit line (eg hit F2) */
+				wbcg_focus_cur_scg (wbcg);
 			}
 			if (expr != NULL)
 				gnm_expr_unref (expr);

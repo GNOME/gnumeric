@@ -14,6 +14,7 @@ Jody:
 	* Re-enable feedback for autocomplete.
 	* Fix xls names with unicode ids.
 	* Fix xls 2000 import for external names.
+	* Fix edit line behaviour.
 
 Morten:
 	* Clean up SERIESSUM.

@@ -5043,6 +5043,11 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 		btn1 = NULL;
 		type = GTK_MESSAGE_INFO;
 		break;
+	case VALIDATION_STYLE_PARSE_ERROR:
+		res0 = VALIDATION_STATUS_INVALID_EDIT;		btn0 = _("Re-Edit");
+		res1 = VALIDATION_STATUS_VALID;			btn1 = _("Accept");
+		type = GTK_MESSAGE_ERROR;
+		break;
 
 	default : g_return_val_if_fail (FALSE, 1);
 	}
