@@ -1,3 +1,11 @@
+2002-02-25  Morten Welinder  <terra@diku.dk>
+
+	Back-port from HEAD:
+	* src/mstyle.c (mstyle_to_string): Missing g_strdup added for
+ 	sanity check, just in case.
+	* src/summary.c (summary_item_as_text): Ditto.
+	* src/value.c (value_get_as_string): Ditto.
+
 2002-02-24  Almer S. Tigelaar  <almer@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=72416
