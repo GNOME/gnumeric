@@ -5,7 +5,8 @@
 		<attribute name="module_file" value="plan_perfect.so"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="pln" priority="1" probe="FALSE">
+		<service type="file_opener" id="pln" priority="1" probe="FALSE"
+		         open="FALSE" import="TRUE">
 			<information description="Plan Perfect Format (PLN) import"/>
 			<save_info saver_id="" format_level="manual"/>
 		</service>

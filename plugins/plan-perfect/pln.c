@@ -32,7 +32,7 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-void pln_file_open (FileOpener const *fo, IOContext *io_context,
+void pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
                     WorkbookView *view, char const *filename);
 
 
@@ -883,7 +883,7 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 }
 
 void
-pln_file_open (FileOpener const *fo, IOContext *io_context,
+pln_file_open (GnumFileOpener const *fo, IOContext *io_context,
                WorkbookView *view, char const *filename)
 {
 	int len;
