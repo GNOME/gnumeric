@@ -1,4 +1,4 @@
-<sect1 id="sect-files-saving">
+<sect1 id="sect-file-save">
     <title>Saving Files</title>
     
     <para>
@@ -113,7 +113,7 @@
   </para>
 
 
-  <sect2 id="file-format-save-dialog">
+  <sect2 id="sect-file-save-dialog">
     <title>Using the <interface>File Save</interface> dialog.</title>
 
     <para>
@@ -139,7 +139,7 @@
     </para>
 
 
-    <sect3 id="sect-file-format-save-dialog-compact-components">
+    <sect3 id="sect-file-save-dialog-compact-components">
       <title>
         The components of the compact <interface>File Save</interface>
         dialog. 
@@ -158,10 +158,10 @@
         The <interface>File Save</interface> dialog first opens in a
         compact layout. The different areas of the dialog in this
         compact layout are shown and labeled in <xref
-        linkend="fig-file-format-save-dialog-compact-components" />.
+        linkend="fig-file-save-dialog-compact-components" />.
       </para>
       
-      <figure id="fig-file-format-save-dialog-compact-components">
+      <figure id="fig-file-save-dialog-compact-components">
         <title>
 	  The compact form of the <interface>File Save</interface>
 	  dialog.
@@ -309,12 +309,12 @@
       <para>
         The procedure to save a file using this dialog in its compact
         form is present next, in <xref
-        linkend="sect-file-format-save-dialog-quickintro" />. The
+        linkend="sect-file-save-dialog-quickintro" />. The
         components of the dialog in its expanded layout, converted by
         clicking in area <emphasis role="bold">D</emphasis> when the
         <interface>File Save</interface> dialog is in its compact
         form, will be explained further on, in <xref
-        linkend="sect-file-format-save-dialog-expanded-components" />,
+        linkend="sect-file-save-dialog-expanded-components" />,
         followed by sections explaining the use of the dialog in this
         expanded layout.
       </para>
@@ -328,7 +328,7 @@
 
 
 
-    <sect3 id="sect-file-format-save-dialog-quickintro">
+    <sect3 id="sect-file-save-dialog-quickintro">
       <title>
         The basic file saving procedure.
       </title>
@@ -385,7 +385,7 @@
 	    name and the first character entered will delete the name
 	    given by default. The file name field is presented as area
 	    <emphasis role="bold">A</emphasis> in <xref
-	    linkend="fig-file-format-save-dialog-compact-components"/>.
+	    linkend="fig-file-save-dialog-compact-components"/>.
 	  </para>
 	  <note>
 	    <para>
@@ -408,7 +408,7 @@
 	    Then, the folder in which to save the file can be chosen
 	    from the drop down list shown as area <emphasis
 	    role="bold">B</emphasis> in <xref
-	    linkend="fig-file-format-save-dialog-compact-components"/>.
+	    linkend="fig-file-save-dialog-compact-components"/>.
 	  </para>
 
 	  <para>
@@ -433,9 +433,9 @@
 	    be changed, by clicking in area <emphasis
 	    role="bold">D</emphasis> to change to the expanded dialog,
 	    as will be explained further below, in <xref
-	    linkend="sect-file-format-save-dialog-chdir" />, <xref
-	    linkend="sect-file-format-save-dialog-mkdir" /> and <xref
-	    linkend="sect-file-format-save-dialog-bookmarks" />.
+	    linkend="sect-file-save-dialog-chdir" />, <xref
+	    linkend="sect-file-save-dialog-mkdir" /> and <xref
+	    linkend="sect-file-save-dialog-bookmarks" />.
 	  </para>
 	</step>
 
@@ -447,12 +447,12 @@
 	  <para>
 	    Next, the desired file type must be selected. Area
 	    <emphasis role="bold">C</emphasis> in <xref
-	    linkend="fig-file-format-save-dialog-compact-components"/>
+	    linkend="fig-file-save-dialog-compact-components"/>
 	    provides a drop down list of file types. The process for
 	    using this list is the same as was described in the
 	    previous step. The file types are listed below in <xref
-	    linkend="file-format-save-formats" /> and explained in
-	    detail in <xref linkend="sect-files-formats" />.
+	    linkend="sect-file-save-formats" /> and explained in
+	    detail in <xref linkend="sect-file-formats" />.
 	  </para>
 	</step> 
 
@@ -477,7 +477,7 @@
 
 
 
-    <sect3 id="sect-file-format-save-dialog-expanded-components">
+    <sect3 id="sect-file-save-dialog-expanded-components">
       <title>
         The extra components in the expanded <interface>File Save</interface>
         dialog. 
@@ -487,7 +487,7 @@
         In order to select folders other than those provided in the
         drop down list shown as area <emphasis
         role="bold">B</emphasis> in <xref
-        linkend="fig-file-format-save-dialog-compact-components"/>,
+        linkend="fig-file-save-dialog-compact-components"/>,
         the <interface>File Save</interface> dialog must be expanded
         by clicking in the area labeled <emphasis
         role="bold">D</emphasis>. In the expanded form, the
@@ -502,12 +502,12 @@
         This section will explain the extra components of the
         <interface>File Save</interface> dialog which are provided
         when the dialog is expanded. <xref
-        linkend="fig-file-format-save-dialog-expanded-components" />
+        linkend="fig-file-save-dialog-expanded-components" />
         shows these different areas and adds a label to each.
       </para>
       
 
-      <figure id="fig-file-format-save-dialog-expanded-components">
+      <figure id="fig-file-save-dialog-expanded-components">
         <title>
 	  The expanded form of the <interface>File Save</interface>
 	  dialog.
@@ -534,7 +534,7 @@
         Save</interface> dialog after it has been expanded have been
         shaded with boxes of different colors and labeled with a
         letter in <xref
-        linkend="fig-file-format-save-dialog-expanded-components"
+        linkend="fig-file-save-dialog-expanded-components"
         />. Five of the labeled areas are the same as the areas in the
         dialog when it is in a compact form; these areas were
         explained above. The remaining areas are explained below:
@@ -588,7 +588,7 @@
 	        standard locations, area <emphasis
 	        role="bold">F</emphasis> has a separator and the
 	        bookmarks selected by the user. In <xref
-	        linkend="fig-file-format-save-dialog-expanded-components"
+	        linkend="fig-file-save-dialog-expanded-components"
 	        /> the folder <filename>currentWork</filename> is a
 	        folder named by the user and added to the bookmark
 	        list. 
@@ -610,7 +610,7 @@
 	        displaying all the folders between the two. This area
 	        changes dynamically as the user changes to new
 	        folders. In the case shown in <xref
-	        linkend="fig-file-format-save-dialog-expanded-components"
+	        linkend="fig-file-save-dialog-expanded-components"
 	        />, the user has selected the 'Home' folder
 	        location in area <emphasis role="bold">F</emphasis>
 	        and has not navigated to any sub-folders.
@@ -680,7 +680,7 @@
 	            display all the files regardless of their
 	            extension, except possibly for the hidden files.
 		    <!-- TODO and defined in the mime type system. -->
-		  </para>
+	          </para>
 		</warning>
 	      </para>
 	    </listitem>
@@ -762,7 +762,7 @@
 
 
 
-    <sect3 id="sect-file-format-save-dialog-chdir">
+    <sect3 id="sect-file-save-dialog-chdir">
       <title>
         Changing the currently selected folder.
       </title>
@@ -778,7 +778,7 @@
         <title>Understanding the file organization system.</title>
 
         <para>
-	  In order to understand how to change folders) it is first
+	  In order to understand how to change folders, it is first
 	  necessary to understand the system by which documents are
 	  stored. This system is called the 'filesystem'.
 	</para>
@@ -800,7 +800,7 @@
 	  root folder and, by default, this folder is provided as the
 	  choice named <filename>Filesystem</filename> with an icon of
 	  a disk drive in area <emphasis role="bold">F</emphasis> in
-	  the <interface>File Save</interface>.
+	  the <interface>File Save</interface> dialog.
 	</para>
 
 	<para>
@@ -842,7 +842,7 @@
 	  role="bold">F</emphasis>, under the thin horizontal
 	  separator line. The creation and deletion of these bookmarks
 	  is explained below, in <xref
-	  linkend="sect-file-format-save-dialog-bookmarks" />.
+	  linkend="sect-file-save-dialog-bookmarks" />.
 	</para>
 
 	<para>
@@ -857,7 +857,7 @@
         <guibutton>Save</guibutton> button is pressed, the file will be
         saved in the folder listed as the right most button in area
         <emphasis role="bold">G</emphasis> of <xref
-        linkend="fig-file-format-save-dialog-expanded-components" />
+        linkend="fig-file-save-dialog-expanded-components" />
         which also means that the file will be saved alongside the
         folders and files listed in area <emphasis
         role="bold">I</emphasis>.
@@ -955,7 +955,7 @@
     </sect3>
 
 
-    <sect3 id="sect-file-format-save-dialog-mkdir">
+    <sect3 id="sect-file-save-dialog-mkdir">
       <title>
         Adding a folder.
       </title>
@@ -966,7 +966,7 @@
         be added to the folder tree by clicking on the
         <guibutton>Create Folder</guibutton> button, which is labeled
         as area <emphasis role="bold">H</emphasis> of <xref
-        linkend="fig-file-format-save-dialog-expanded-components"
+        linkend="fig-file-save-dialog-expanded-components"
         />. The button can be clicked by placing the mouse pointer
         over the button and pressing the primary mouse button.
       </para>
@@ -999,7 +999,8 @@
     </sect3>
 
 
-    <sect3 id="sect-file-format-save-dialog-bookmarks">
+    <!-- Keep in sync with similar section in file-open-dialog. -->
+    <sect3 id="sect-file-save-dialog-bookmarks">
       <title>
         Changing the list of bookmarks.
       </title>
@@ -1007,12 +1008,12 @@
       <para>
         The list of 'relative root' folders shown in area <emphasis
         role="bold">F</emphasis> of <xref
-        linkend="fig-file-format-save-dialog-expanded-components" />
+        linkend="fig-file-save-dialog-expanded-components" />
         may contain 'relative root' folders selected by the
         user. These folders are called 'bookmarks' and are listed in
         area <emphasis role="bold">F</emphasis> below a thin
         horizontal separator line. For example, <xref
-        linkend="fig-file-format-save-dialog-expanded-components" />
+        linkend="fig-file-save-dialog-expanded-components" />
         contains a folder named <filename>currentWork</filename> which
         is a folder bookmark selected by the user.
       </para>

@@ -1,4 +1,4 @@
-<sect1 id="file-format-export-text">
+<sect1 id="sect-file-textExport">
   <title>Exporting Text Files</title>
 
   <para>
@@ -8,6 +8,8 @@
   </para>
 
 
+
+  <!-- Old text follows: *********************************** -->
 
  <sect3 id="file-format-csv-export">
   <title>The Text Export Druid</title>

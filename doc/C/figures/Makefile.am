@@ -163,6 +163,7 @@ EXTRA_DIST = \
      dialog-auto-correct.png \
      dialog-autosave.png \
      dialog-border.png \
+     dialog-fileopen-withTags.png \
      dialog-filesave-compact-withTags.png \
      dialog-filesave-expanded-withTags.png \
      dialog-filter.png \

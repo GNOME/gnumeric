@@ -1,4 +1,4 @@
-<sect1 id="file-format-import-text">
+<sect1 id="sect-file-textImport">
   <title>Importing Text</title>
 
   <para>
@@ -13,7 +13,7 @@
     generally quite simple. Occasionally, this step may prove
     difficult if the <wordasword>'encoding'</wordasword> of the
     characters is misunderstood by &gnum;; see <xref
-    linkend="file-format-import-text-encodingNote"/> for a better
+    linkend="note-file-textImport-encoding"/> for a better
     explanation.
   </para>
 
@@ -44,13 +44,13 @@
 
 
 
-  <note id="file-format-import-text-encodingNote">
+  <sect2 id="note-file-textImport-encoding">
     <title>File Encodings</title>
 
     <para>
       TODO: Add a note on encodings and how &gnum; handles them.
     </para>
-  </note>
+  </sect2>
 
 
   <!-- Old text follows. ****************** -->

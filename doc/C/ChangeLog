@@ -1,3 +1,15 @@
+2004-09-29  Adrian Custer <acuster@gnome.org>
+
+	* figures/dialog-fileopen-withTags.png: Added
+	* figures/Makefile.am: Modified
+
+	* files-formats.xml: changed links (-files- to -file- );
+	* files-opening.xml: changed links (dropped -formats- ); Wrote;
+	* files-textopen.xml: changed links (dropped -formats- );
+	* files-saving.xml: changed links (dropped -formats- ); encoding
+	                    note => sect2; typo;
+	* files-textsave.xml: changed links (dropped -formats- );
+
 2004-09-28  Adrian Custer <acuster@gnome.org>
 
 	* files-saving.xml: maybe this one will help.
