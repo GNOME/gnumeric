@@ -67,7 +67,7 @@ FORMULA_OP_DATA formula_op_data[] = {
  **/
 FORMULA_FUNC_DATA formula_func_data[] =
 {
-	{ "COUNT", 2 },
+	{ "COUNT", -1 },
 	{ "IF", -1 },
 	{ "ISNA", 1 },
 	{ "ISERROR", 1 },
@@ -337,7 +337,7 @@ FORMULA_FUNC_DATA formula_func_data[] =
 	{ "0x10b", 8 },
 	{ "0x10c", 8 },
 	{ "AVEDEV", -1 },
-	{ "BETADIST", 3 },
+	{ "BETADIST", -1 },
 	{ "GAMMALN", 1 },
 	{ "BETAINV", 3 },
 	{ "BINOMDIST", 4 },
@@ -1052,10 +1052,15 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				if (attrs == 00) /* bitFSpace : ignore it */
 				/* Could perhaps pop top arg & append space ? */ ;
 				else
+#if FORMULA_DEBUG > 1
 					printf ("Redundant whitespace in formula 0x%x count %d\n", attrs, num_space) ;
+#else
+				;
+#endif
 			} else {
-				if (FORMULA_DEBUG>0)
-					printf ("Unknown PTG Attr 0x%x 0x%x\n", grbit, w) ;
+#if FORMULA_DEBUG > 0
+				printf ("Unknown PTG Attr 0x%x 0x%x\n", grbit, w) ;
+#endif
 				error = 1 ;
 			}
 		break ;
@@ -1122,8 +1127,9 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				tr->u.binary.value_a = parse_list_pop (&stack);
 				parse_list_push (&stack, tr);
 			} else {
-				if (FORMULA_DEBUG>0)
-					printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase);
+#if FORMULA_DEBUG > 0
+				printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase);
+#endif
 				error=1 ;
 			}
 		}
@@ -1133,8 +1139,7 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		cur+=    (ptg_length+1) ;
 		len_left-= (ptg_length+1) ;
 	}
-	if (error)
-	{
+	if (error) {
 		if (FORMULA_DEBUG>0) {
 			printf ("Unknown Formula/Array at [%d, %d]\n", fn_col, fn_row) ;
 			printf ("formula data : \n") ;
@@ -1146,9 +1151,10 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 	}
 	
 	if (!stack)
-		return expr_tree_string ("Stack too short");
+		return expr_tree_string ("Stack too short - unusual");
 	if (g_list_length(stack) > 1)
-		return expr_tree_string ("Too much data on stack");
+		return expr_tree_string ("Too much data on stack - probable cause: "
+					 "fixed args function is var-arg, put '-1' in the table above");
 	return parse_list_pop (&stack);
 }
 

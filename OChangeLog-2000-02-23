@@ -1,3 +1,7 @@
+1999-06-02  Michael Meeks  <michael@edenproject.org>
+
+	* src/expr.c (do_expr_decode_tree): Added ARRAY support.
+
 1999-06-01  Morten Welinder  <terra@diku.dk>
 
 	* src/format.c (format_value): Mark format for translation.

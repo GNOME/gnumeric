@@ -1445,6 +1445,9 @@ do_expr_decode_tree (ExprTree *tree, Sheet *sheet, int col, int row, int paren_l
 			return res;
 		}
 
+		case VALUE_ARRAY:
+			return value_get_as_string (v);
+
 		default:
 			g_assert_not_reached ();
 			return NULL;

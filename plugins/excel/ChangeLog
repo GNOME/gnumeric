@@ -1,3 +1,10 @@
+1999-06-02  Michael Meeks  <michael@edenproject.org>
+
+	* ms-formula-read.c (ms_excel_parse_formula): Elucidate
+	error messages.
+	(ms_excel_parse_formula): clean debug.
+	(formula_func_data): Fix COUNT and BETADIST.
+
 1999-06-01  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-write.c (write_sheet_bools): Added yet more
