@@ -392,9 +392,12 @@ preview_grid_draw_background (GdkDrawable *drawable, PreviewGrid const *pg, MSty
 			      int col, int row, int x, int y, int w, int h)
 {
 	GdkGC *gc = pg->gc.empty;
+	
 	if (gnumeric_background_set_gc (mstyle, gc, pg->canvas_item.canvas, FALSE))
 		/* Fill the entire cell (API excludes far pixel) */
 		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
+
+	style_border_draw_diag (mstyle, drawable, x, y, x+w, y+h);
 }
 
 #define border_null(b)	((b) == none || (b) == NULL)

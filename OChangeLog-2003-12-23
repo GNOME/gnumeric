@@ -1,3 +1,8 @@
+2001-05-07  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/preview-grid.c (preview_grid_draw_background):
+	Call style_border_draw_diag here.
+
 2001-05-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/style-border.c (style_borders_row_draw) : don't draw the
