@@ -1,5 +1,17 @@
 2001-02-05  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-style.c (sheet_style_get_extent) : this should search the
+	  entire sheet, not just decrease the extent passed in.
+
+	* src/style-border.c (style_borders_row_draw) : new function.
+
+	* src/print-cell.c (print_cell_grid) : delete.
+	(print_cell_range) : sync with itemgrid.
+	(print_merged_range) : ditto.
+	(print_cell_background) : ditto.
+
+2001-02-05  Jody Goldberg <jgoldberg@home.com>
+
 	* src/item-grid.c (item_grid_draw) : Off by one.
 	(item_grid_draw_merged_range) : some simple optimization.  No need to
 	  calc the coords for the entire cell unless we are painting the

@@ -1447,12 +1447,14 @@ cb_style_extent (MStyle *style,
  * visible.
  */
 void
-sheet_style_get_extent (Sheet const *sheet, Range *r)
+sheet_style_get_extent (Sheet const *sheet, Range *res)
 { 
+	Range r;
+
 	/* This could easily be optimized */
 	foreach_tile (sheet->style_data->styles,
-		      TILE_TOP_LEVEL, 0, 0, r,
-		      cb_style_extent, r);
+		      TILE_TOP_LEVEL, 0, 0, range_init_full_sheet(&r),
+		      cb_style_extent, res);
 }
 
 /****************************************************************************/

@@ -252,7 +252,8 @@ merged_col_cmp (Range const *a, Range const *b)
 }
 
 static void
-item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int draw_y, int width, int height)
+item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
+		int draw_x, int draw_y, int width, int height)
 {
 	GnomeCanvas *canvas = item->canvas;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);

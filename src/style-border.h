@@ -74,22 +74,24 @@ StyleBorderOrientation style_border_get_orientation (StyleBorderLocation type);
 gint   style_border_get_width   (StyleBorderType const line_type);
 void   style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type);
 
+void style_borders_row_draw  (StyleBorder const * const * prev_vert,
+			      StyleRow const *sr,
+			      StyleRow const *next_sr,
+			      GdkDrawable * const drawable,
+			      int x, int y1, int y2,
+			      Sheet const *sheet, gboolean draw_vertical);
+void style_borders_row_print (StyleBorder const * const * prev_vert,
+			      StyleRow const *sr,
+			      StyleRow const *next_sr,
+			      GnomePrintContext *context,
+			      float x, float y1, float y2,
+			      Sheet const *sheet, gboolean draw_vertical);
+
+/* deprecated */
 void style_border_draw  (StyleBorder const * const st, StyleBorderLocation const t,
 			 GdkDrawable * const drawable,
 			 int x1, int y1, int x2, int y2,
 			 StyleBorder const * const extend_begin,
 			 StyleBorder const * const extend_end);
-void style_border_print (StyleBorder const * const border, StyleBorderLocation const t,
-			 GnomePrintContext *context,
-			 double x1, double y1, double x2, double y2,
-			 StyleBorder const * const extend_begin,
-			 StyleBorder const * const extend_end);
-
-void style_borders_row_draw (StyleBorder const * const * prev_vert,
-			     StyleRow const *sr,
-			     StyleRow const *next_sr,
-			     GdkDrawable * const drawable,
-			     int x, int y1, int y2,
-			     Sheet const *sheet, gboolean draw_vertical);
 
 #endif /* GNUMERIC_STYLE_BORDER_H */

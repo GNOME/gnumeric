@@ -26,21 +26,13 @@
 #include "sheet-merge.h"
 #include "print-cell.h"
 #include "rendered-value.h"
+#include "portability.h"
 
 #if 0
 #define MERGE_DEBUG(range, str) do { range_dump (range, str); } while (0)
 #else
 #define MERGE_DEBUG(range, str)
 #endif
-
-static void
-print_vline (GnomePrintContext *context,
-	     double x, double y1, double y2)
-{
-	gnome_print_moveto (context, x, y1);
-	gnome_print_lineto (context, x, y2);
-	gnome_print_stroke (context);
-}
 
 static void
 print_hline (GnomePrintContext *context,
@@ -298,8 +290,8 @@ print_make_rectangle_path (GnomePrintContext *pc,
  *      \------/
  */
 static void
-print_cell (Cell const *cell, MStyle *mstyle,
-	    GnomePrintContext *context, double x1, double y1, double width, double height)
+print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
+	    double x1, double y1, double width, double height)
 {
 	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
 	GnomeFont *print_font = style_font->font;
@@ -581,86 +573,14 @@ print_rectangle (GnomePrintContext *context,
 	gnome_print_fill (context);
 }
 
-/*
- * TODO TODO TODO
- * Correctly support extended cells. Multi-line, or extending to the left
- * are incorrect currently.
- */
 static void
-print_border (GnomePrintContext *context, MStyle *mstyle,
-	      double x, double y, double w, double h,
-	      gboolean const extended_left)
+print_cell_background (GnomePrintContext *context,
+		       MStyle const *style, int col, int row,
+		       float x, float y, float w, float h)
 {
-	StyleBorder const * const top =
-	    mstyle_get_border (mstyle, MSTYLE_BORDER_TOP);
-	StyleBorder const * const left = extended_left ? NULL :
-	    mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
-	StyleBorder const * const diag =
-	    mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL);
-	StyleBorder const * const rev_diag =
-	    mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL);
-
-	if (top)
-		style_border_print (top, STYLE_BORDER_TOP, context,
-				   x, y, x + w, y, left, NULL);
-	if (left)
-		style_border_print (left, STYLE_BORDER_LEFT, context,
-				   x, y, x, y - h, top, NULL);
-
-	if (diag)
-		style_border_print (diag, STYLE_BORDER_DIAG, context,
-				   x, y - h, x + w, y, NULL, NULL);
-	if (rev_diag)
-		style_border_print (rev_diag, STYLE_BORDER_REV_DIAG, context,
-				   x, y, x + w, y - h, NULL, NULL);
-}
-
-static MStyle *
-print_cell_background (GnomePrintContext *context, Sheet *sheet,
-		       ColRowInfo const * const ci, ColRowInfo const * const ri,
-		       /* Pass the row, col because the ColRowInfos may be the default. */
-		       int col, int row, double x, double y,
-		       gboolean const extended_left)
-{
-	MStyle *mstyle = sheet_style_get (sheet, col, row);
-	float const w    = ci->size_pts;
-	float const h    = ri->size_pts;
-
-	if (gnumeric_background_set_pc (mstyle, context))
-		/* Fill the entire cell including the right & left grid line */
+	if (gnumeric_background_set_pc (style, context))
+		/* Fill the entire cell (API excludes far pixel) */
 		print_rectangle (context, x, y, w+1, h+1);
-	else if (extended_left) {
-		/* Fill the entire cell including left & excluding right grid line */
-		gnome_print_setrgbcolor (context, 1., 1., 1.);
-		/* FIXME : should not need the hack used in the drawing
-		 * code of +-1 to */
-		print_rectangle (context, x, y-1, w, h-1);
-	}
-
-	print_border (context, mstyle, x, y, w, h, extended_left);
-
-	return mstyle;
-
-#if 0
-	/*
-	 * Draw the background if the PATTERN is non 0
-	 * Draw a stipple too if the pattern is > 1
-	 */
-	if (!mstyle_is_element_set (mstyle, MSTYLE_PATTERN))
-		return;
-
-	pattern = mstyle_get_pattern (mstyle);
-	if (pattern > 0) {
-		StyleColor *back_col =
-			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
-		g_return_if_fail (back_col != NULL);
-
-		gnome_print_setrgbcolor (context,
-					 back_col->red   / (double) 0xffff,
-					 back_col->green / (double) 0xffff,
-					 back_col->blue  / (double) 0xffff);
-	}
-#endif
 }
 
 /**
@@ -675,80 +595,55 @@ print_merged_range (GnomePrintContext *context, Sheet *sheet,
 		    double start_x, double start_y,
 		    Range const *view, Range const *range)
 {
-	int tmp;
-	double l, r, t, b;
-	Cell const *cell = sheet_cell_get (sheet, range->start.col, range->start.row);
-	MStyle *mstyle = sheet_style_get (sheet, range->start.col, range->start.row);
-	gboolean const no_background = !(gnumeric_background_set_pc (mstyle, context));
+	float l, r, t, b;
+	int last;
+	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
 
-	/* FIXME : should not need the hack used in the drawing code of +-1 to
-	 * remove the grid lines. */
+	/* load style from corner which may not be visible */
+	MStyle const *mstyle = sheet_style_get (sheet, range->start.col, range->start.row);
 
 	l = r = start_x;
-	if (view->start.col <= range->start.col) {
+	if (view->start.col < range->start.col)
 		l += sheet_col_get_distance_pts (sheet,
 			view->start.col, range->start.col);
-		if (no_background)
-			l++;
-	}
-	if (range->end.col <= (tmp = view->end.col)) {
-		tmp = range->end.col;
-		if (no_background)
-			r--;
-	}
-	r += sheet_col_get_distance_pts (sheet, view->start.col, tmp+1);
+	if (range->end.col <= (last = view->end.col))
+		last = range->end.col;
+	r += sheet_col_get_distance_pts (sheet, view->start.col, last+1);
 
 	t = b = start_y;
-	if (view->start.row <= range->start.row) {
-		t -= sheet_row_get_distance_pts (sheet,
-			view->start.row, range->start.row);
-		if (no_background)
-			t--;
-	}
-	if (range->end.row <= (tmp = view->end.row)) {
-		tmp = range->end.row;
-		if (no_background)
-			b++;
-	}
-	b -= sheet_row_get_distance_pts (sheet, view->start.row, tmp+1);
-
-	/* Remember PS includes the far pixels */
-	if (no_background)
-		gnome_print_setrgbcolor (context, 1., 1., 1.);
-	print_rectangle (context, l, t, r-l, t-b);
-
-	if (range->start.col < view->start.col) {
-		l -= sheet_col_get_distance_pts (sheet,
-			range->start.col, view->start.col);
-	} else if (no_background)
-		l--;
-
-	if (view->end.col < range->end.col)
-		r += sheet_col_get_distance_pts (sheet,
-			view->end.col+1, range->end.col+1);
-	else if (no_background)
-		r++;
-	if (range->start.row < view->start.row)
+	if (view->start.row < range->start.row)
 		t += sheet_row_get_distance_pts (sheet,
-			range->start.row, view->start.row);
-	else if (no_background)
-		t++;
-	if (view->end.row < range->end.row)
-		b -= sheet_row_get_distance_pts (sheet,
-			view->end.row+1, range->end.row+1);
-	else if (no_background)
-		b--;
+			view->start.row, range->start.row);
+	if (range->end.row <= (last = view->end.row))
+		last = range->end.row;
+	b += sheet_row_get_distance_pts (sheet, view->start.row, last+1);
 
-	print_border (context, mstyle, l, t, r-l+1, t-b+1, FALSE);
+	if (gnumeric_background_set_pc (mstyle, context))
+		/* Remember api excludes the far pixels */
+		print_rectangle (context, l, t, r-l+1, b-t+1);
 
 	if (cell != NULL) {
 		ColRowInfo const * const ri = cell->row_info;
 		ColRowInfo const * const ci = cell->col_info;
 
+		if (range->start.col < view->start.col)
+			l -= sheet_col_get_distance_pts (sheet,
+				range->start.col, view->start.col);
+		if (view->end.col < range->end.col)
+			r += sheet_col_get_distance_pts (sheet,
+				view->end.col+1, range->end.col+1);
+		if (range->start.row < view->start.row)
+			t -= sheet_row_get_distance_pts (sheet,
+				range->start.row, view->start.row);
+		if (view->end.row < range->end.row)
+			b += sheet_row_get_distance_pts (sheet,
+				view->end.row+1, range->end.row+1);
+
+		/* FIXME : get the margins from the far col/row too */
 		print_cell (cell, mstyle, context,
-			   l, t,
-			   r - l - ci->margin_b - ci->margin_a,
-			   t - b - ri->margin_b - ri->margin_a);
+			    l, t,
+			    r - l - ci->margin_b - ci->margin_a,
+			    b - t - ri->margin_b - ri->margin_a);
 	}
 }
 
@@ -758,52 +653,87 @@ merged_col_cmp (Range const *a, Range const *b)
 	return a->start.col - b->start.col;
 }
 
-/*
- * print_cell_range:
- *
- * Prints the cell range.  If output if FALSE, then it does not actually print
- * but it only computes whether there is data to be printed at all.
- *
- * Return value: returns TRUE if at least one cell was printed
- */
-gboolean
+void
 print_cell_range (GnomePrintContext *context,
 		  Sheet *sheet,
 		  int start_col, int start_row,
 		  int end_col, int end_row,
 		  double base_x, double base_y,
-		  gboolean output)
+		  gboolean show_grid)
 {
+	int n, col, row;
 	double x, y;
-	gboolean printed = FALSE;
+	ColRowInfo const *ri = NULL, *next_ri = NULL;
 
-	int col, row;
-	GSList *merged_active, *merged_active_seen, *merged_unused, *merged_used, *ptr, **lag;
-	gboolean first_row;
-	Range view;
+	StyleRow sr, next_sr;
+	MStyle const **styles;
+	StyleBorder const **borders, **prev_vert;
+	StyleBorder const *none =
+		sheet->show_grid ? style_border_none () : NULL;
 
-	g_return_val_if_fail (GNOME_IS_PRINT_CONTEXT (context), FALSE);
-	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
-	g_return_val_if_fail (start_col <= end_col, FALSE);
-	g_return_val_if_fail (start_row <= end_row, FALSE);
+	Range     view;
+	gboolean  first_row;
+	GSList	 *merged_active, *merged_active_seen,
+		 *merged_used, *merged_unused, *ptr, **lag;
 
+	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (context));
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (start_col <= end_col);
+	g_return_if_fail (start_row <= end_row);
+
+	/* Skip any hidden rows at the start */
+	for (; start_row <= end_row ; ++start_row) {
+		ri = sheet_row_get_info (sheet, start_row);
+		if (ri->visible)
+			break;
+	}
+
+	/* Get ordered list of merged regions */
 	first_row = TRUE;
 	merged_active = merged_active_seen = merged_used = NULL;
 	merged_unused = sheet_merge_get_overlap (sheet,
 		range_init (&view, start_col, start_row, end_col, end_row));
 
-	y = base_y;
-	for (row = start_row; row <= end_row; row++) {
-		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
-		if (!ri->visible)
-			continue;
+	/*
+	 * allocate a single blob of memory for all 8 arrays of pointers.
+	 * 	- 6 arrays of n StyleBorder const *
+	 * 	- 2 arrays of n MStyle const *
+	 *
+	 * then alias the arrays for easy access so that array [col] is valid
+	 * for all elements start_col-1 .. end_col+1 inclusive.
+	 * Note that this means that in some cases array [-1] is legal.
+	 */
+	n = end_col - start_col + 3; /* 1 before, 1 after, 1 fencepost */
+	sr.vertical	 = g_alloca (n * 8 * sizeof (gpointer));
+	sr.vertical 	-= start_col-1;
+	sr.top		 = sr.vertical + n;
+	sr.bottom	 = sr.top + n;
+	next_sr.top	 = sr.bottom; /* yes they should share */
+	next_sr.bottom	 = next_sr.top + n;
+	next_sr.vertical = next_sr.bottom + n;
+	prev_vert	 = next_sr.vertical + n;
+	sr.styles	 = ((MStyle const **) (prev_vert + n));
+	next_sr.styles	 = sr.styles + n;
+	sr.start_col	 = next_sr.start_col	 = start_col;
+	sr.end_col	 = next_sr.end_col	 = end_col;
+	sr.show_grid = next_sr.show_grid = sheet->show_grid;
 
-		col = start_col;
-		x = base_x;
+	/* Init the areas that sheet_style_get_row will not */
+	for (col = start_col-1 ; col <= end_col+1; ++col)
+		prev_vert [col] = sr.top [col] = none;
+	sr.vertical	 [start_col-1] = sr.vertical	  [end_col+1] =
+	next_sr.vertical [start_col-1] = next_sr.vertical [end_col+1] =
+	next_sr.top	 [start_col-1] = next_sr.top	  [end_col+1] =
+	next_sr.bottom	 [start_col-1] = next_sr.bottom	  [end_col+1] = none;
 
-		/* Restore the set of ranges seen, but still active ranges.
-		 * Reinverting to maintain the original order */
-		g_return_val_if_fail (merged_active == NULL, FALSE);
+	/* load up the styles for the first row */
+	next_sr.row = sr.row = row = start_row;
+	sheet_style_get_row (sheet, &sr);
+
+	for (y = base_y; row <= end_row; row = sr.row = next_sr.row, ri = next_ri) {
+		/* Restore the set of ranges seen, but still active.
+		 * Reinverting list to maintain the original order */
+		g_return_if_fail (merged_active == NULL);
 
 		while (merged_active_seen != NULL) {
 			GSList *tmp = merged_active_seen->next;
@@ -813,8 +743,26 @@ print_cell_range (GnomePrintContext *context,
 			MERGE_DEBUG (merged_active->data, " : seen -> active\n");
 		}
 
+		/* find the next visible row */
+		while (1) {
+			++next_sr.row;
+			if (next_sr.row <= end_row) {
+				next_ri = sheet_row_get_info (sheet, next_sr.row);
+				if (next_ri->visible) {
+					sheet_style_get_row (sheet, &next_sr);
+					break;
+				}
+			} else {
+				for (col = start_col ; col <= end_col; ++col)
+					next_sr.vertical [col] =
+					next_sr.bottom [col] = none;
+				break;
+			}
+		}
+
 		/* look for merges that start on this row, on the first painted row
 		 * also check for merges that start above. */
+		view.start.row = row;
 		lag = &merged_unused;
 		for (ptr = merged_unused; ptr != NULL; ) {
 			Range * const r = ptr->data;
@@ -828,41 +776,49 @@ print_cell_range (GnomePrintContext *context,
 							(GCompareFunc)merged_col_cmp);
 				MERGE_DEBUG (r, " : unused -> active\n");
 
-				view.start.row = row;
-				view.start.col = col;
-				if (output)
-					print_merged_range (context, sheet,
-							    x, y, &view, r);
-				printed = TRUE;
+				print_merged_range (context, sheet,
+						    x, y, &view, r);
 			} else {
 				lag = &(ptr->next);
 				ptr = ptr->next;
 			}
 		}
-
 		first_row = FALSE;
 
-		/* DO NOT increment the column here, spanning cols are different */
-		while (col <= end_col) {
-			CellSpanInfo const * span;
-			ColRowInfo const * ci = sheet_col_get_info (sheet, col);
+		for (col = start_col, x = base_x; col <= end_col ; col++) {
+			MStyle const *style;
+			CellSpanInfo const *span;
+			ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 
-			if (!ci->visible) {
-				++col;
+			if (!ci->visible)
 				continue;
-			}
 
 			/* Skip any merged regions */
 			if (merged_active) {
 				Range const *r = merged_active->data;
 				if (r->start.col <= col) {
-					x += sheet_col_get_distance_pts (
-						sheet, col, r->end.col+1);
-					col = r->end.col + 1;
+					gboolean clear_top, clear_bottom = TRUE;
+					int i, first = r->start.col;
+					int last  = r->end.col;
+
+					x += sheet_col_get_distance_pts (sheet,
+						col, last+1);
+					col = last;
+
+					if (first < start_col) {
+						first = start_col;
+						sr.vertical [first] = NULL;
+					}
+					if (last > end_col) {
+						last = end_col;
+						sr.vertical [last+1] = NULL;
+					}
+					clear_top = (r->start.row != row);
 
 					ptr = merged_active;
 					merged_active = merged_active->next;
 					if (r->end.row == row) {
+						clear_bottom = FALSE;
 						ptr->next = merged_used;
 						merged_used = ptr;
 						MERGE_DEBUG (r, " : active -> used\n");
@@ -871,151 +827,98 @@ print_cell_range (GnomePrintContext *context,
 						merged_active_seen = ptr;
 						MERGE_DEBUG (r, " : active -> seen\n");
 					}
+
+					/* Clear the borders */
+					for (i = first ; i <= last ; i++) {
+						if (clear_top)
+							sr.top [i] = NULL;
+						if (clear_bottom)
+							sr.bottom [i] = NULL;
+						if (i > first)
+							sr.vertical [i] = NULL;
+					}
 					continue;
 				}
 			}
 
-			/*
-			 * Is this the start of a span?
+			style = sr.styles [col];
+			print_cell_background (context, style, col, row, x, y,
+					       ci->size_pts,
+					       ri->size_pts);
+
+			/* Is this part of a span?
 			 * 1) There are cells allocated in the row
 			 *       (indicated by ri->pos != -1)
 			 * 2) Look in the rows hash table to see if
 			 *    there is a span descriptor.
 			 */
 			if (ri->pos == -1 || NULL == (span = row_span_get (ri, col))) {
-				Cell   *cell   = sheet_cell_get (sheet, col, row);
-				MStyle *mstyle = (output)
-					? print_cell_background (
-						context, sheet, ci, ri,
-						col, row, x, y, FALSE)
-					: sheet_style_get (sheet, col, row);
 
-				if (!cell_is_blank (cell)) {
-					printed = TRUE;
-					if (output)
-						print_cell (cell, mstyle, context,
-							    x, y, -1., -1.);
-				} else {
-					if (!output)
-						printed |= mstyle_visible_in_blank (mstyle);
-				}
+				/* no need to draw the edit cell, or blanks */
+				Cell const *cell = sheet_cell_get (sheet, col, row);
+				if (!cell_is_blank (cell))
+					print_cell (cell, style, context,
+						    x, y, -1, -1);
 
-				/* Increment the column
-				 * DO NOT move this outside the if, spanning
-				 * columns increment themselves.
-				 */
-				x += ci->size_pts;
-				++col;
-			} else {
+			/* Only draw spaning cells after all the backgrounds
+			 * that we are goign to draw have been drawn.  No need
+			 * to draw the edit cell, or blanks.
+			 */
+			} else if (col == span->right || col == end_col) {
 				Cell const *cell = span->cell;
-				int const real_col = cell->pos.col;
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
-				int real_x = -1;
-				MStyle *real_style = NULL;
-				gboolean const is_visible =
-					ri->visible && ci->visible;
+				double real_x = x;
+				double tmp_width = ci->size_pts;
 
-				/* Paint the backgrounds & borders */
-				for (; col <= MIN (end_col, end_span_col) ; ++col) {
-					ci = sheet_col_get_info (sheet, col);
-					if (ci->visible) {
-						MStyle *mstyle = NULL;
+				if (col != cell->pos.col)
+					style = sheet_style_get (sheet,
+						cell->pos.col, ri->pos);
 
-						if (output)
-							mstyle = print_cell_background (
-								context, sheet, ci, ri,
-								col, row, x, y,
-								col != start_span_col && is_visible);
-
-						if (col == real_col) {
-							real_style = mstyle;
-							real_x = x;
-						}
-
-						x += ci->size_pts;
-					}
-				}
-
-				/* The real cell is not visible, we have not painted it.
-				 * Compute the style, and offset
+				/* x, y are relative to this cell origin, but the cell
+				 * might be using columns to the left (if it is set to right
+				 * justify or center justify) compute the pixel difference
 				 */
-				if (real_style == NULL) {
-					real_style = sheet_style_get (sheet, real_col, ri->pos);
-					real_x = x + sheet_col_get_distance_pts (cell->base.sheet,
-										 col, cell->pos.col);
+				if (start_span_col != col) {
+					double offset = sheet_col_get_distance_pts (
+						sheet, start_span_col, col);
+					real_x -= offset;
+					tmp_width += offset;
+					sr.vertical [col] = NULL;
+				}
+				if (end_span_col != col) {
+					tmp_width += sheet_col_get_distance_pts (
+						sheet, col+1, end_span_col + 1);
 				}
 
-				if (is_visible && output) {
-					/* FIXME : use correct margins */
-					double tmp_width  = ci->size_pts - (ci->margin_b + ci->margin_a + 1);
-					double tmp_x = real_x;
+				print_cell (cell, style, context,
+					    real_x, y, tmp_width, -1);
+			} else if (col != span->left)
+				sr.vertical [col] = NULL;
 
-					/* x1, y1 are relative to this cell origin, but the cell might
-					 * be using columns to the left (if it is set to right justify
-					 * or center justify) compute the difference in pts.
-					 */
-					if (start_span_col != cell->pos.col) {
-						int offset = sheet_col_get_distance_pts (sheet,
-							start_span_col, cell->pos.col);
-						tmp_x     -= offset;
-						tmp_width += offset;
-					}
-					if (end_span_col != cell->pos.col)
-						tmp_width += sheet_col_get_distance_pts (sheet,
-							cell->pos.col+1, end_span_col+1);
-
-					print_cell (cell, real_style, context,
-						    tmp_x, y, tmp_width, -1.);
-				}
-
-				printed = TRUE;
-			}
+			x += ci->size_pts;
 		}
+		style_borders_row_print (prev_vert, &sr, &next_sr,
+					 context, base_x, y, y-ri->size_pts,
+					 sheet, TRUE);
+
+		/* roll the pointers */
+		borders = prev_vert; prev_vert = sr.vertical;
+		sr.vertical = next_sr.vertical; next_sr.vertical = borders;
+		borders = sr.top; sr.top = sr.bottom;
+		sr.bottom = next_sr.top = next_sr.bottom; next_sr.bottom = borders;
+		styles = sr.styles; sr.styles = next_sr.styles; next_sr.styles = styles;
+
 		y -= ri->size_pts;
 	}
+	style_borders_row_print (prev_vert, &sr, &next_sr,
+				 context, base_x, y, y, sheet, FALSE);
 
-	return printed;
-}
+	if (merged_used)	/* ranges whose bottoms are in the view */
+		g_slist_free (merged_used);
+	if (merged_active_seen) /* ranges whose bottoms are below the view */
+		g_slist_free (merged_active_seen);
 
-void
-print_cell_grid (GnomePrintContext *context,
-		 Sheet *sheet,
-		 int start_col, int start_row,
-		 int end_col, int end_row,
-		 double base_x, double base_y,
-		 double width, double height)
-{
-	int col, row;
-	double x, y;
-
-	g_return_if_fail (context != NULL);
-	g_return_if_fail (GNOME_IS_PRINT_CONTEXT (context));
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (start_col <= end_col);
-	g_return_if_fail (start_row <= end_row);
-
-	/* thinest possible line */
-	gnome_print_setlinewidth (context, 0);
-
-	x = base_x;
-	print_vline (context, x, base_y, base_y - height);
-	for (col = start_col; col <= end_col; col++) {
-		ColRowInfo const *ci = sheet_col_get_info (sheet, col);
-		if (ci && ci->visible) {
-			x += ci->size_pts;
-			print_vline (context, x, base_y, base_y - height);
-		}
-	}
-
-	y = base_y;
-	print_hline (context, base_x, base_x + width, y);
-	for (row = start_row; row <= end_row; row++) {
-		ColRowInfo const *ri = sheet_row_get_info (sheet, row);
-		if (ri && ri->visible) {
-			y -= ri->size_pts;
-			print_hline (context, base_x, base_x + width, y);
-		}
-	}
+	g_return_if_fail (merged_unused == NULL);
+	g_return_if_fail (merged_active == NULL);
 }

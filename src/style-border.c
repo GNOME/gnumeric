@@ -286,33 +286,21 @@ style_border_get_gc (StyleBorder const *border, GdkWindow *window)
 }
 
 static void
-style_border_set_pc_dash (StyleBorderType const line_type,
+style_border_set_pc_dash (StyleBorderType const i,
 			  GnomePrintContext *context)
 {
 	GdkLineStyle style = GDK_LINE_SOLID;
-	int i;
 
 	g_return_if_fail (context != NULL);
-	g_return_if_fail (line_type >= STYLE_BORDER_NONE);
-	g_return_if_fail (line_type < STYLE_BORDER_MAX);
+	g_return_if_fail (i >= STYLE_BORDER_NONE);
+	g_return_if_fail (i < STYLE_BORDER_MAX);
 
-	if (line_type == STYLE_BORDER_NONE)
+	if (i == STYLE_BORDER_NONE)
 		return;
-
-	i = line_type - 1;
 
 	if (style_border_data[i].pattern != NULL)
 		style = GDK_LINE_ON_OFF_DASH;
 
-#if 0
-	/* FIXME FIXME FIXME :
-	 * We will want to Adjust the join styles eventually to get
-	 * corners to render nicely */
-	gdk_gc_set_line_attributes (gc,
-				    style_border_data[i].width,
-				    style,
-				    GDK_CAP_NOT_LAST, GDK_JOIN_MITER);
-#endif
 	gnome_print_setlinewidth (context, style_border_data[i].width);
 
 	if (style_border_data[i].pattern != NULL) {
@@ -323,14 +311,19 @@ style_border_set_pc_dash (StyleBorderType const line_type,
 	}
 }
 
-static void
+static inline gboolean
 style_border_set_pc (StyleBorder const * const border, GnomePrintContext *context)
 {
+	if (border == NULL)
+		return FALSE;
+
+	gnome_print_gsave (context);
 	style_border_set_pc_dash (border->line_type, context);
 	gnome_print_setrgbcolor (context,
 				 border->color->red   / (double) 0xffff,
 				 border->color->green / (double) 0xffff,
 				 border->color->blue  / (double) 0xffff);
+	return TRUE;
 }
 
 StyleBorder *
@@ -616,6 +609,78 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 	}
 }
 
+static inline void
+print_line (GnomePrintContext *context,
+	    float x1, float y1, float x2, float y2)
+{
+	gnome_print_moveto (context, x1, y1);
+	gnome_print_lineto (context, x2, y2);
+	gnome_print_stroke (context);
+}
+
+void
+style_borders_row_print (StyleBorder const * const * prev_vert,
+			 StyleRow const *sr,
+			 StyleRow const *next_sr,
+			 GnomePrintContext *context,
+			 float x, float y1, float y2,
+			 Sheet const *sheet, gboolean draw_vertical)
+{
+	int o[2][2], col;
+	float next_x;
+
+	for (col = sr->start_col; col <= sr->end_col ; col++, x = next_x) {
+		/* TODO : make this sheet agnostic.  Pass in an array of
+		 * widths and a flag for whether or not to draw grids.
+		 */
+		ColRowInfo const *cri = sheet_col_get_info (sheet, col);
+		if (!cri->visible)
+			continue;
+		next_x = x + cri->size_pts;
+
+		if (style_border_set_pc (sr->top [col], context)) {
+			float y = y1;
+			if (style_border_hmargins (prev_vert, sr, col, o)) {
+				print_line (context, x + o[1][0], y1+1.,
+					    next_x + o[1][1], y1+1.);
+				--y;
+			}
+
+			print_line (context, x + o[0][0], y,
+				    next_x + o[0][1], y);
+			gnome_print_grestore (context);
+		}
+
+		if (!draw_vertical)
+			continue;
+		if (style_border_set_pc (sr->vertical [col], context)) {
+			float x1 = x;
+			if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
+				print_line (context, x-1., y1 - o[1][0],
+					    x-1., y2 - o[1][1]);
+				++x1;
+			}
+			print_line (context, x1, y1 - o[0][0],
+				    x1, y2 - o[0][1]);
+			gnome_print_grestore (context);
+		}
+	}
+	if (draw_vertical) {
+		if (style_border_set_pc (sr->vertical [col], context)) {
+			float x1 = x;
+			if (style_border_vmargins (prev_vert, sr, next_sr, col, o)) {
+				print_line (context, x-1., y1 - o[1][0],
+					    x-1., y2 - o[1][1]);
+				++x1;
+			}
+			/* See note in style_border_set_gc_dash about +1 */
+			print_line (context, x, y1 - o[0][0],
+				    x1, y2 - o[0][1]);
+			gnome_print_grestore (context);
+		}
+	}
+}
+
 /*****************************************************************************/
 /* Old deprecated form of border drawing/printing.
  */
@@ -672,68 +737,5 @@ style_border_draw (StyleBorder const * const border, StyleBorderLocation const t
 			}
 		}
 		gdk_draw_line (drawable, gc, x1, y1, x2, y2);
-	}
-}
-
-void
-style_border_print (StyleBorder const * const border, StyleBorderLocation const t,
-		    GnomePrintContext *context,
-		    double x1, double y1, double x2, double y2,
-		    StyleBorder const * const extend_begin,
-		    StyleBorder const * const extend_end)
-{
-	if (border != NULL && border->line_type != STYLE_BORDER_NONE) {
-
-		gnome_print_gsave (context);
-
-		style_border_set_pc (border, context);
-
-		/* This is WRONG.  FIXME FIXME FIXME
-		 * when we are finished converting to drawing only top & left
-		 * then rework the state table.
-		 */
-		if (border->line_type == STYLE_BORDER_DOUBLE) {
-			static int const offsets[][2][4] = {
-			    { { 0,-1,0,-1}, { 0,1,0,1} }, /* TOP */
-			    { { 0,-1,0,-1}, { 0,1,0,1} }, /* BOTTOM */
-			    { { -1,0,-1,0}, { 1,0,1,0} }, /* LEFT */
-			    { { -1,0,-1,0}, { 1,0,1,0} }, /* RIGHT */
-			    { { 0,-2,-2,0 },{ 2,0,0,2} }, /* REV_DIAGONAL */
-			    { { 0,2,-2,0}, { 2,0,0,-2} }, /* DIAGONAL */
-			};
-			static int const extension_begin[][2][2] = {
-			    { { -1, 0 }, { 1, 0 } }, /* TOP */
-			    { {  1, 0 }, { -1, 0 } }, /* BOTTOM */
-			    { { 0, -1 }, { 0, 1} }, /* LEFT */
-			    { { 0, 1 }, { 0, -1} }, /* RIGHT */
-			    { { -1, -1}, { -1, -1} }, /* REV_DIAGONAL */
-			    { { 1, 1}, { 1, 1 } }, /* DIAGONAL */
-			};
-
-			int const * const o = (int *)&(offsets[t]);
-			double x = x1+o[0], y = y1-o[1];
-
-			if (extend_begin != NULL &&
-			    extend_begin->line_type != STYLE_BORDER_NONE) {
-				x += extension_begin[t][0][0];
-				y -= extension_begin[t][0][1];
-			}
-
-			gnome_print_moveto (context, x, y);
-			gnome_print_lineto (context, x2+o[2], y2-o[3]);
-			gnome_print_stroke (context);
-			x1 += o[4]; y1 -= o[5]; x2 += o[6]; y2 -= o[7];
-
-			if (extend_begin != NULL &&
-			    extend_begin->line_type != STYLE_BORDER_NONE) {
-				x1 += extension_begin[t][1][0];
-				y1 -= extension_begin[t][1][1];
-			}
-		}
-		gnome_print_moveto (context, x1, y1);
-		gnome_print_lineto (context, x2, y2);
-		gnome_print_stroke (context);
-
-		gnome_print_grestore (context);
 	}
 }

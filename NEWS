@@ -4,11 +4,13 @@ Chema:
 	* Massive bug hunting spree.
 
 Jody:
-	* Undo, persistance, cursor handling, and printing for merged cells
-	* Fix inverted objects
-	* Fix stupid memory corruption problem in the applix importer.
-	* Improve range selection for expressions.
+	* Finish merged cells.
 	* Rework style engine.
+	* Rework borders.
+	* Improve range selection for expressions.
+	* Fix sheet objects.
+	* Fix stupid memory corruption problem in the applix importer.
+	* Some mis-translations for spanish.
 
 Jon Kåre:
 	* Improve file save dialog.
@@ -32,6 +34,7 @@ JPablo:
 
 Zbigniew Chyla:
 	* Internationalization support for autoformat.
+	* Rework plugin architecture.
 
 --------------------------------------------------------------------------
 Gnumeric 0.61

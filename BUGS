@@ -9,7 +9,8 @@ Release Critical
 
 - Fix Borders
     - diagonals
-    - use new border code for autoformat-previews and printing.
+    - use new border code for autoformat-previews
+    * use new border code for cell format dialog
 
 Long term breakage
 ------------------

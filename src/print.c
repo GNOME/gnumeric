@@ -88,6 +88,19 @@ print_titles (Sheet *sheet, int start_col, int start_row, int end_col, int end_r
 {
 }
 
+static void
+print_page_cells (Sheet *sheet,
+		  int start_col, int start_row, int end_col, int end_row,
+		  double base_x, double base_y,
+		  PrintJobInfo *pj)
+{
+	base_y = pj->height - base_y;
+	print_cell_range (pj->print_context, sheet,
+		start_col, start_row,
+		end_col, end_row,
+		base_x, base_y, pj->pi->print_line_divisions);
+}
+
 /*
  * print_page_repeated_rows
  *
@@ -98,29 +111,15 @@ static void
 print_page_repeated_rows (Sheet *sheet,
 			  int start_col, int end_col,
 			  double base_x, double base_y,
-			  double print_width, double print_height,
 			  PrintJobInfo *pj)
 {
 	ValueRange const *value = &pj->pi->repeat_top.range;
 	CellRef const *cell_a = &value->cell.a;
 	CellRef const *cell_b = &value->cell.b;
-
-	base_y = pj->height - base_y;
-
-	if (pj->pi->print_line_divisions) {
-		print_cell_grid (
-			pj->print_context,
-			sheet,
-			start_col, cell_a->row,
-			end_col,   cell_b->row,
-			base_x, base_y,
-			print_width, print_height);
-	}
-	print_cell_range (
-		pj->print_context, sheet,
-		start_col, cell_a->row,
-		end_col,   cell_b->row,
-		base_x, base_y, TRUE);
+	print_page_cells (sheet,
+		start_col, MIN (cell_a->row, cell_b->row),
+		end_col,   MAX (cell_a->row, cell_b->row),
+		base_x, base_y, pj);
 }
 
 /*
@@ -133,29 +132,15 @@ static void
 print_page_repeated_cols (Sheet *sheet,
 			  int start_row, int end_row,
 			  double base_x, double base_y,
-			  double print_width, double print_height,
 			  PrintJobInfo *pj)
 {
 	ValueRange const *value = &pj->pi->repeat_left.range;
 	CellRef const *cell_a = &value->cell.a;
 	CellRef const *cell_b = &value->cell.b;
-
-	base_y = pj->height - base_y;
-
-	if (pj->pi->print_line_divisions) {
-		print_cell_grid (
-			pj->print_context,
-			sheet,
-			cell_a->col, start_row,
-			cell_b->col, end_row,
-			base_x, base_y,
-			print_width, print_height);
-	}
-	print_cell_range (
-		pj->print_context, sheet,
-		cell_a->col, start_row,
-		cell_b->col, end_row,
-		base_x, base_y, TRUE);
+	print_page_cells (sheet,
+		MIN (cell_a->col, cell_b->col), start_row,
+		MAX (cell_a->col, cell_b->col), end_row,
+		base_x, base_y, pj);
 }
 
 /*
@@ -175,32 +160,7 @@ print_page_repeated_intersect (Sheet *sheet,
 	print_page_repeated_rows (sheet,
 				  pj->pi->repeat_left.range.cell.a.col,
 				  pj->pi->repeat_left.range.cell.b.col,
-				  base_x, base_y, print_width, print_height,
-				  pj);
-}
-
-static void
-print_page_cells (Sheet *sheet,
-		  int start_col, int start_row, int end_col, int end_row,
-		  double base_x, double base_y, double print_width, double print_height,
-		  PrintJobInfo *pj)
-{
-	base_y = pj->height - base_y;
-
-	if (pj->pi->print_line_divisions){
-		print_cell_grid (
-			pj->print_context,
-			sheet, start_col, start_row,
-			end_col, end_row,
-			base_x, base_y,
-			print_width, print_height);
-	}
-
-	print_cell_range (
-		pj->print_context, sheet,
-		start_col, start_row,
-		end_col, end_row,
-		base_x, base_y, TRUE);
+				  base_x, base_y, pj);
 }
 
 #ifdef ENABLE_BONOBO
@@ -459,9 +419,9 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 	} else
 		repeat_cols_used_x = 0;
 
-	printed = print_cell_range (pj->print_context, sheet,
-				    start_col, start_row, end_col, end_row,
-				    0, 0, FALSE);
+	printed =  TRUE;
+#warning check for content WITHOUT pretending to print
+	    /* start_col, start_row, end_col, end_row */
 
 	if (!output)
 		return printed;
@@ -550,18 +510,16 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 					sheet, x, y, repeat_cols_used_x,
 					repeat_rows_used_y, pj);
 			}
-			print_page_repeated_rows (
-				sheet, start_col, end_col,
+			print_page_repeated_rows (sheet,
+				start_col, end_col,
 				x + repeat_cols_used_x,	y,
-				print_width, repeat_rows_used_y,
 				pj);
 			y += repeat_rows_used_y;
 		}
 
 		if (pj->pi->repeat_left.use && repeat_cols_used_x > 0. ) {
-			print_page_repeated_cols (
-				sheet, start_row, end_row, x, y,
-				repeat_cols_used_x, print_height, pj);
+			print_page_repeated_cols (sheet,
+				start_row, end_row, x, y, pj);
 
 			x += repeat_cols_used_x;
 		}
@@ -569,9 +527,8 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		/*
 		 * Print the body of the data
 		 */
-		print_page_cells (
-			sheet, start_col, start_row, end_col, end_row,
-			x, y, print_width, print_height, pj);
+		print_page_cells (sheet,
+			start_col, start_row, end_col, end_row, x, y, pj);
 
 #ifdef ENABLE_BONOBO
 		/*
