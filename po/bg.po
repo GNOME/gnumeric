@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 00:09-0500\n"
+"POT-Creation-Date: 2004-02-05 08:44-0500\n"
 "PO-Revision-Date: 2002-07-16 18:32GMT\n"
 "Last-Translator: Borislav Aleksandrov <B.Aleksandrov@cnsys.bg>\n"
 "Language-Team: Bulgarian <dict@linux.zonebg.com>\n"
@@ -15509,20 +15509,20 @@ msgstr ""
 msgid "Plot"
 msgstr "_Начертай"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
 msgid "H"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
 #, fuzzy
 msgid "Height"
 msgstr "В_исочина..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
 msgid "W"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
 #, fuzzy
 msgid "Width"
 msgstr "_Височина:"

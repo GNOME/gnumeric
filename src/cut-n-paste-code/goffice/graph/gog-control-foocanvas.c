@@ -155,26 +155,28 @@ gog_control_foocanvas_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	GdkRectangle display_rect, draw_rect;
 	GdkRegion *draw_region;
 
-	display_rect.x = item->x1;
-	display_rect.y = item->y1;
-	display_rect.width  = item->x2 - item->x1;
-	display_rect.height = item->y2 - item->y1;
+	if (buffer) {
+		display_rect.x = item->x1;
+		display_rect.y = item->y1;
+		display_rect.width  = item->x2 - item->x1;
+		display_rect.height = item->y2 - item->y1;
 
-	draw_region = gdk_region_rectangle (&display_rect);
-	gdk_region_intersect (draw_region, ev->region);
-	if (!gdk_region_empty (draw_region)) {
-		gdk_region_get_clipbox (draw_region, &draw_rect);
-		gdk_draw_pixbuf (drawable, NULL, buffer,
-			/* pixbuf 0, 0 is at pix_rect.x, pix_rect.y */
-			     draw_rect.x - display_rect.x,
-			     draw_rect.y - display_rect.y,
-			     draw_rect.x,
-			     draw_rect.y,
-			     draw_rect.width,
-			     draw_rect.height,
-			     GDK_RGB_DITHER_NORMAL, 0, 0);
+		draw_region = gdk_region_rectangle (&display_rect);
+		gdk_region_intersect (draw_region, ev->region);
+		if (!gdk_region_empty (draw_region)) {
+			gdk_region_get_clipbox (draw_region, &draw_rect);
+			gdk_draw_pixbuf (drawable, NULL, buffer,
+				/* pixbuf 0, 0 is at pix_rect.x, pix_rect.y */
+				     draw_rect.x - display_rect.x,
+				     draw_rect.y - display_rect.y,
+				     draw_rect.x,
+				     draw_rect.y,
+				     draw_rect.width,
+				     draw_rect.height,
+				     GDK_RGB_DITHER_NORMAL, 0, 0);
+		}
+		gdk_region_destroy (draw_region);
 	}
-	gdk_region_destroy (draw_region);
 
 	/* we are a canvas group, there could be some children */
 	if (FOO_CANVAS_ITEM_CLASS (parent_klass)->draw)

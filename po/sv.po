@@ -31,7 +31,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 00:09-0500\n"
+"POT-Creation-Date: 2004-02-05 08:44-0500\n"
 "PO-Revision-Date: 2004-02-02 13:55+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -20786,19 +20786,19 @@ msgstr "Z-aAxel"
 msgid "Plot"
 msgstr "Graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
 msgid "H"
 msgstr "H"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
 msgid "Height"
 msgstr "Höjd"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
 msgid "W"
 msgstr "B"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
 msgid "Width"
 msgstr "Bredd"
 

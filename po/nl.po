@@ -116,7 +116,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 00:09-0500\n"
+"POT-Creation-Date: 2004-02-05 08:44-0500\n"
 "PO-Revision-Date: 2004-02-03 15:36+0100\n"
 "Last-Translator: Tino Meinen <a.t.meinen@chello.nl>\n"
 "Language-Team: nl <vertaling@nl.linux.org>\n"
@@ -21057,20 +21057,20 @@ msgstr "Z-as"
 msgid "Plot"
 msgstr "Tekenen"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
 msgid "H"
 msgstr "H"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
 msgid "Height"
 msgstr "Hoogte"
 
 # Width-Breedte
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
 msgid "W"
 msgstr "W"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
 msgid "Width"
 msgstr "Breedte"
 

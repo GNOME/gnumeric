@@ -1,9 +1,17 @@
+Gnumeric 1.2.7
+
+Jody:
+	http://bugzilla.gnome.org/show_bug.cgi?id=97216
+	* Go back to the primary sheet when creating an object
+	http://bugzilla.gnome.org/show_bug.cgi?id=134627
+	* Display name of edit position after releasing Shift key
+
+--------------------------------------------------------------------------
 Gnumeric 1.2.6
 
 Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=127138
 	* Handle freezing when top or left is non 0
-	* Handle double underlines in applix importer
 	http://bugzilla.gnome.org/show_bug.cgi?id=132448
 	* Silly crash fix
 	http://bugzilla.gnome.org/show_bug.cgi?id=131933

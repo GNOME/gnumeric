@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 00:09-0500\n"
+"POT-Creation-Date: 2004-02-05 08:44-0500\n"
 "PO-Revision-Date: 2001-02-11 19:51+01:00\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: gnome-i18n@gnome.org\n"
@@ -15585,20 +15585,20 @@ msgstr ""
 msgid "Plot"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
 msgid "H"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
 #, fuzzy
 msgid "Height"
 msgstr "Centre section:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
 msgid "W"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
 #, fuzzy
 msgid "Width"
 msgstr "C_olour"

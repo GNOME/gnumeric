@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-02-05 00:09-0500\n"
+"POT-Creation-Date: 2004-02-05 08:44-0500\n"
 "PO-Revision-Date: 2003-02-23 09:00+0700\n"
 "Last-Translator: pclouds <pclouds@gmx.net>\n"
 "Language-Team: GnomeVI <gnomevi-list@lists.sourceforge.net>\n"
@@ -17022,20 +17022,20 @@ msgstr ""
 msgid "Plot"
 msgstr "_Vẽ"
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
 msgid "H"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:247
 #, fuzzy
 msgid "Height"
 msgstr "_Cao..."
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
 msgid "W"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:249
+#: src/cut-n-paste-code/goffice/graph/gog-control-foocanvas.c:250
 #, fuzzy
 msgid "Width"
 msgstr "_Với:"

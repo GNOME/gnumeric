@@ -1,3 +1,18 @@
+2004-02-19  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=134627
+	* src/workbook-view.c (wb_view_selection_desc) :
+
+2004-02-18  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=97216
+	* src/sheet-control-gui.c (scg_mode_create_object) : make sure we are
+	  displaying the right sheet.
+
+2004-02-04  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : post release bump
+
 2004-02-04  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.6
@@ -10,7 +25,7 @@
 	  seperator being the same.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=132448
-	* src/wbcg-actions.c (cb_auto_filter) : fix
+	* src/workbook-control-gui.c (cb_auto_filter) : fix
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=127138 (backport)
 	* src/workbook-control-gui.c (cb_view_freeze_panes) : Don't get confused by an

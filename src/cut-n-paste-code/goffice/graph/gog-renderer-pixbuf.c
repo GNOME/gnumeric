@@ -689,6 +689,10 @@ gog_renderer_pixbuf_update (GogRendererPixbuf *prend, int w, int h, double zoom)
 		if (prend->buffer == NULL) {
 			prend->buffer = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
 							prend->w, prend->h);
+			if (prend->buffer == NULL) {
+				g_warning ("Chart is too large");
+				return FALSE;
+			}
 			prend->pixels    = gdk_pixbuf_get_pixels (prend->buffer);
 			prend->rowstride = gdk_pixbuf_get_rowstride (prend->buffer);
 		}
