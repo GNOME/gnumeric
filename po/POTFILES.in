@@ -58,6 +58,7 @@ src/dialogs/dialog-insert-cells.c
 src/dialogs/dialog-paste-special.c
 src/dialogs/dialog-plugin-manager.c
 src/dialogs/dialog-printer-setup.c
+src/dialogs/dialog-search-replace.c
 src/dialogs/dialog-sheet-order.c
 src/dialogs/dialog-solver.c
 src/dialogs/dialog-stf-csv-page.c
@@ -85,6 +86,7 @@ src/dialogs/names.glade
 src/dialogs/plugin-manager.glade
 src/dialogs/print.glade
 src/dialogs/row-height.glade
+src/dialogs/search-replace.glade
 src/dialogs/sheet-order.glade
 src/dialogs/sheet-rename.glade
 src/dialogs/solver-options.glade
@@ -124,6 +126,7 @@ src/plugin-util.c
 src/plugin.c
 src/print-info.c
 src/print.c
+src/search.c
 src/selection.c
 src/sheet-autofill.c
 src/sheet-control-gui.c

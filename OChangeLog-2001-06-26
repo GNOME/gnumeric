@@ -1,5 +1,11 @@
 2001-01-11  Morten Welinder  <terra@diku.dk>
 
+	* src/search.h: New file.
+	* src/search.c: New file.
+
+	* src/workbook-control-gui.c (cb_edit_search_replace): New
+ 	function.
+
 	* src/gnumeric.xml: Fix edit->sheet->rename.
 	* src/workbook-control-gui.c: Ditto.
 

@@ -45,6 +45,7 @@ std_SOURCES =					\
 	dialog-paste-special.c			\
 	dialog-plugin-manager.c 		\
 	dialog-printer-setup.c			\
+	dialog-search-replace.c			\
 	dialog-sheet-order.c			\
 	dialog-simple-input.c			\
 	dialog-solver.c				\
@@ -74,36 +75,37 @@ gladedir   = $(gnumeric_libdir)/glade
 glade_DATA = 				\
 	advanced-filter.glade		\
 	analysis-tools.glade		\
-	autocorrect.glade		\
 	autocorrect-exceptions.glade	\
+	autocorrect.glade		\
 	autoformat.glade		\
-	autosave.glade			\
 	autosave-prompt.glade		\
-	col-width.glade			\
-	font-sel.glade			\
-	hf-config.glade			\
-	import.glade			\
-	names.glade			\
-	print.glade 			\
-	row-height.glade		\
-	sheet-order.glade		\
-	sheet-rename.glade		\
-	solver.glade			\
-	solver-options.glade		\
-	summary.glade			\
-	dialog-zoom.glade		\
-	insert-cells.glade		\
-	delete-cells.glade		\
+	autosave.glade			\
 	cell-format.glade		\
 	cell-sort.glade			\
-	dialog-stf.glade		\
+	col-width.glade			\
+	delete-cells.glade		\
 	dialog-stf-export.glade		\
-	plugin-manager.glade		\
-	function-select.glade 		\
+	dialog-stf.glade		\
+	dialog-zoom.glade		\
+	font-sel.glade			\
 	formula-guru.glade		\
-	workbook-attr.glade		\
+	function-select.glade 		\
 	graph-guru.glade		\
-	validate.glade
+	hf-config.glade			\
+	import.glade			\
+	insert-cells.glade		\
+	names.glade			\
+	plugin-manager.glade		\
+	print.glade 			\
+	row-height.glade		\
+	search-replace.glade		\
+	sheet-order.glade		\
+	sheet-rename.glade		\
+	solver-options.glade		\
+	solver.glade			\
+	summary.glade			\
+	validate.glade			\
+	workbook-attr.glade
 
 glade_msgs = 				\
 	advanced-filter.glade.h		\
@@ -111,33 +113,34 @@ glade_msgs = 				\
 	autocorrect-exceptions.glade.h	\
 	autocorrect.glade.h		\
 	autoformat.glade.h		\
-	autosave.glade.h		\
 	autosave-prompt.glade.h		\
+	autosave.glade.h		\
+	cell-format.glade.h		\
+	cell-sort.glade.h		\
 	cell-sort.glade.h		\
 	col-width.glade.h		\
+	delete-cells.glade.h		\
+	dialog-stf-export.glade.h	\
+	dialog-stf.glade.h		\
+	dialog-zoom.glade.h		\
 	font-sel.glade.h		\
+	formula-guru.glade.h		\
+	function-select.glade.h		\
+	graph-guru.glade.h		\
 	hf-config.glade.h		\
 	import.glade.h			\
 	insert-cells.glade.h		\
-	delete-cells.glade.h		\
 	names.glade.h			\
+	plugin-manager.glade.h		\
 	print.glade.h			\
 	row-height.glade.h		\
+	search-replace.glade.h		\
 	sheet-order.glade.h		\
 	sheet-rename.glade.h		\
-	solver.glade.h			\
 	solver-options.glade.h		\
+	solver.glade.h			\
 	summary.glade.h			\
-	dialog-zoom.glade.h		\
-	cell-format.glade.h		\
-	cell-sort.glade.h		\
-	dialog-stf.glade.h		\
-	dialog-stf-export.glade.h	\
-	plugin-manager.glade.h		\
-	function-select.glade.h		\
-	formula-guru.glade.h		\
-	workbook-attr.glade.h		\
-	graph-guru.glade.h		\
-	validate.glade.h
+	validate.glade.h		\
+	workbook-attr.glade.h
 
 EXTRA_DIST = $(glade_DATA) $(glade_msgs)

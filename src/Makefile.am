@@ -170,6 +170,8 @@ GNUMERIC_BASE_SOURCES =				\
 	render-ascii.h				\
 	rendered-value.c			\
 	rendered-value.h			\
+	search.h				\
+	search.c				\
 	selection.c				\
 	selection.h				\
 	sheet.c					\

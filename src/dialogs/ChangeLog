@@ -1,3 +1,10 @@
+2001-01-11  Morten Welinder  <terra@diku.dk>
+
+	* dialogs.h (dialog_search_replace): prototype.
+	* dialog-search-replace.h: New file.
+	* dialog-search-replace.c: New file.
+	* search-replace.glade: New file.
+
 2001-01-05  Jon K Hellan  <hellan@acm.org>
 
 	* import.glade, plugin-manager.glade, analysis-tools.glade

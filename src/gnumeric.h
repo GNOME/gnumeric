@@ -107,4 +107,6 @@ typedef enum _SpanCalcFlags {
 	SPANCALC_NO_DRAW	= 0x8,	/* Do not queue a redraw */
 } SpanCalcFlags;
 
+typedef struct _SearchReplace SearchReplace;
+
 #endif /* GNUMERIC_H */

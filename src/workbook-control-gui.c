@@ -49,6 +49,7 @@
 #include "str.h"
 #include "cell.h"
 #include "gui-file.h"
+#include "search.h"
 
 #ifdef ENABLE_BONOBO
 #include "sheet-object-container.h"
@@ -1238,6 +1239,19 @@ cb_edit_duplicate_sheet (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 static void
+cb_edit_search_replace (GtkWidget *unused, WorkbookControlGUI *wbcg)
+{
+	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	SearchReplace *sr = dialog_search_replace (wbcg);
+	if (!sr) return;
+
+	/* FIXME: undo/redo needs to be considered.  */
+	search_replace (wb_control_workbook (wbc), sr);
+
+	search_replace_free (sr);
+}
+
+static void
 cb_edit_goto (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	dialog_goto_cell (wbcg);
@@ -1831,6 +1845,10 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SUBTREE(N_("_Select"), workbook_menu_edit_select),
 
+	GNOMEUIINFO_ITEM_NONE (N_("Search and Replace..."),
+		N_("Search for some text and replace it with something else"),
+		cb_edit_search_replace),
+
 	/* Default <Ctrl-G> to be goto */
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),
 		  N_("Jump to a specified cell"),
@@ -1838,7 +1856,7 @@ static GnomeUIInfo workbook_menu_edit [] = {
 		  NULL, NULL, 0, 0, GDK_G, GDK_CONTROL_MASK },
 
 	/* Default <F9> to recalculate */
-	{ GNOME_APP_UI_ITEM, N_("_Recalculate"),
+	{ GNOME_APP_UI_ITEM, N_("Recalculate"),
 		  N_("Recalculate the spreadsheet"),
 		  cb_edit_recalc,
 		  NULL, NULL, 0, 0, GDK_F9, 0 },
@@ -2173,6 +2191,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditDelete", cb_edit_delete),
 	BONOBO_UI_UNSAFE_VERB ("EditDeleteSheet", cb_edit_delete_sheet),
 	BONOBO_UI_UNSAFE_VERB ("EditDuplicateSheet", cb_edit_duplicate_sheet),
+	BONOBO_UI_UNSAFE_VERB ("EditSearchReplace", cb_edit_search_replace),
 	BONOBO_UI_UNSAFE_VERB ("EditGoto", cb_edit_goto),
 	BONOBO_UI_UNSAFE_VERB ("EditRecalc", cb_edit_recalc),
 
