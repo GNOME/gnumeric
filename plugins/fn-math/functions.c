@@ -129,7 +129,7 @@ static char *help_and = {
 	   "if all of the expression evaluates to TRUE, otherwise it returns "
 	   "FALSE.\n"
 
-	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
+	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE. "
 	   "If an integer or floating point value is provided zero is considered "
 	   "FALSE and anything else is TRUE.\n"
 	   
@@ -619,7 +619,7 @@ static char *help_floor = {
 	N_("@FUNCTION=FLOOR\n"
 	   "@SYNTAX=FLOOR(x)\n"
 
-	   "@DESCRIPTION=The FLOOR function rounds x down to the next nearest"
+	   "@DESCRIPTION=The FLOOR function rounds x down to the next nearest "
 	   "integer."
 	   "\n"
 
@@ -686,7 +686,7 @@ gnumeric_log (struct FunctionDefinition *i, Value *argv [], char **error_string)
 }
 
 static char *help_log2 = {
-	N_("@FUNCTION=LOG2"
+	N_("@FUNCTION=LOG2\n"
 	   "@SYNTAX=LOG2(x)\n"
 
 	   "@DESCRIPTION="
@@ -711,7 +711,7 @@ gnumeric_log2 (struct FunctionDefinition *i, Value *argv [], char **error_string
 }
 
 static char *help_log10 = {
-	N_("@FUNCTION=LOG10"
+	N_("@FUNCTION=LOG10\n"
 	   "@SYNTAX=LOG10(x)\n"
 
 	   "@DESCRIPTION="
@@ -856,13 +856,13 @@ gnumeric_max (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 
 static char *help_or = {
 	N_("@FUNCTION=OR\n"
-	   "@SYNTAX=OR(b1, b2, ...)"
+	   "@SYNTAX=OR(b1, b2, ...)\n"
 
 	   "@DESCRIPTION="
-	   "Implements the logical OR function: the result is TRUE if any of the"
+	   "Implements the logical OR function: the result is TRUE if any of the "
 	   "values evaluated to TRUE.\n"
-	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE."
-	   "If an integer or floating point value is provided zero is considered"
+	   "b1, trough bN are expressions that should evaluate to TRUE or FALSE. "
+	   "If an integer or floating point value is provided zero is considered "
 	   "FALSE and anything else is TRUE.\n"
 	   "If the values contain strings or empty cells those values are "
 	   "ignored.  If no logical values are provided, then the error '#VALUE!'"
@@ -1096,8 +1096,7 @@ static char *help_pi = {
 	   "as defined by M_PI."
 	   "\n"
 
-	   "Performing this function on a string or empty cell"
-	   "returns an error. This function is called with no arguments."
+	   "This function is called with no arguments."
 	   "\n"
 	   "@SEEALSO=")
 };
