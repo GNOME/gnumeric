@@ -315,7 +315,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 		style = (GogStyle *)base_style;
 		gog_renderer_push_style (v->renderer, style);
 		dat->line_path[0].y = dat->line_path[1].y =  swatch.y + swatch.h / 2.;
-		gog_renderer_draw_path (v->renderer, dat->line_path, NULL);
+		gog_renderer_draw_sharp_path (v->renderer, dat->line_path, NULL);
 		gog_renderer_draw_marker (v->renderer,
 			(dat->line_path[0].x + dat->line_path[1].x) / 2.,
 			dat->line_path[0].y);
@@ -325,7 +325,7 @@ cb_render_elements (unsigned i, GogStyle const *base_style, char const *name,
 		style->outline.color = RGBA_BLACK;
 
 		gog_renderer_push_style (v->renderer, style);
-		gog_renderer_draw_rectangle (v->renderer, &swatch, NULL);
+		gog_renderer_draw_sharp_rectangle (v->renderer, &swatch, NULL);
 	}
 	pos.x = swatch.x + dat->label_offset;
 	pos.y = swatch.y;
@@ -377,6 +377,7 @@ gog_legend_view_class_init (GogLegendViewClass *gview_klass)
 	lview_parent_klass = g_type_class_peek_parent (gview_klass);
 	view_klass->size_request    = gog_legend_view_size_request;
 	view_klass->render	    = gog_legend_view_render;
+	view_klass->clip 	    = TRUE;
 }
 
 static GSF_CLASS (GogLegendView, gog_legend_view,

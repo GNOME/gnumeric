@@ -1,3 +1,65 @@
+2004-10-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/gog-axis.c (draw_axis_from_a_to_b): use
+	gog_style_is_line_visible instead of checking line width.
+	(gog_axis_view_render): ditto.
+	* graph/gog-label.c (gog_label_view_render): draw sharp rectangle
+	around label.
+	* graph/gog-legend.c (cb_render_elements): draw sharp sample line and
+	sharp rectangle around elements.
+	(gog_legend_class_init): set clip to TRUE in order to avoid sample
+	lines to extend beyond legend area.
+	* graph/gog-outlined-object.c (gog_outlined_view_size_request): use
+	gog_style_is_line_visible instead of checking for positive line width.
+	(gog_outlined_view_size_allocate): ditto.
+	(gog_outlined_view_render): draw sharp rectangle.
+	* graph/gog-renderer-gnome-print.c (set_dash): new.
+	(gog_renderer_gnome_print_draw_path): honor dash setting. Clip dashed path
+	in order to avoid huge memory allocation and crash for very long
+	lines.
+	(gog_renderer_gnome_print_draw_polygon): ditto.
+	* graph/gog-renderer-impl.h: add GogRenderer::line_dash and
+	GogRenderer::outline_dash members.
+	* graph/gog-renderer-pixbuf.c (gog_renderer_pixbuf_clip_push): fix
+	clip area rounding.
+	(line_size): new. Same as gog_renderer_line_size, but don't round
+	width < 1.0 .
+	(gog_renderer_pixbuf_line_size): use line_size.
+	(gog_renderer_pixbuf_sharp_path): fix rounding.
+	(gog_renderer_pixbuf_draw_path): honor dash setting.
+	(gog_renderer_pixbuf_draw_polygon): ditto.
+	* graph/gog-renderer-svg.c (gog_renderer_svg_clip_push): use C locale
+	for double to string conversion.
+	(stroke_dasharray): new.
+	(gog_renderer_svg_draw_path): honor dash setting.
+	(gog_renderer_svg_draw_polygon): ditto.
+	* graph/gog-renderer.c: define a hair line width and set it to 0.24pt.
+	(gog_renderer_finalize): free line_dash and outline_dash.
+	(update_dash): new. 
+	(gog_renderer_push_style): call update_dash.
+	(gog_renderer_pop_style): ditto.
+	(gog_renderer_clip_push): keep a pointer to the current clip.
+	(gog_renderer_clip_pop): ditto.
+	(draw_rectangle): new.
+	(gog_renderer_draw_sharp_rectangle): new.
+	(gog_renderer_line_size): return GOG_RENDERER_HAIR_LINE_WIDTH instead
+	of 1.0 for style->line.width == 0.0 .
+	* graph/gog-style-prefs.glade: add dash type combos.
+	* graph/gog-style.c (cb_outline_dash_type_changed): new.
+	(cb_line_dash_type_changed): new.
+	(outline_init): add dash selector.
+	(line_init): ditto.
+	(gog_style_line_load): load dash settings.
+	(gog_style_line_dom_save): save dash settings.
+	(gog_style_line_sax_save): ditto.
+	(gog_style_is_different_size): check dash_type.
+	(gog_style_is_outline_visible): new.
+	(gog_style_is_line_visible): check dash_type.
+	* graph/gog-theme.c (gog_themes_init): use dash_type.
+	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render): don't
+	draw sharp path.
+	* utils/go-line.[ch]: new.	
+
 2004-10-13  Jean Brefort <jean.brefort@normalesup.org>
 
 	* graph/gog-axis.c: add center_on_ticks boolean to force centering labels

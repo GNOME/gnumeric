@@ -30,6 +30,10 @@
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
+/* We need to define an hair line width for the svg and gnome_print renderer. 
+ * 0.24 pt is the dot size of a 300 dpi printer, if the plot is printed at scale 1:1 */
+#define GOG_RENDERER_HAIR_LINE_WIDTH	0.24
+
 enum {
 	RENDERER_PROP_0,
 	RENDERER_PROP_MODEL,
@@ -50,6 +54,11 @@ static void
 gog_renderer_finalize (GObject *obj)
 {
 	GogRenderer *rend = GOG_RENDERER (obj);
+
+	go_line_vpath_dash_free (rend->line_dash);
+	rend->line_dash = NULL;
+	go_line_vpath_dash_free (rend->outline_dash);
+	rend->outline_dash = NULL;
 
 	if (rend->clip_stack != NULL) 
 		g_warning ("Missing calls to gog_renderer_pop_clip");
@@ -161,6 +170,25 @@ gog_renderer_invalidate_size_requests (GogRenderer *rend)
 		gog_renderer_request_update (rend);
 }
 
+static void
+update_dash (GogRenderer *rend)
+{
+	double size;
+	
+	go_line_vpath_dash_free (rend->line_dash);
+	rend->line_dash = NULL;
+	go_line_vpath_dash_free (rend->outline_dash);
+	rend->outline_dash = NULL;
+	
+	if (rend->cur_style == NULL)
+		return;
+
+	size = gog_renderer_line_size (rend, rend->cur_style->line.width);
+	rend->line_dash = go_line_get_vpath_dash (rend->cur_style->line.dash_type, size);
+	size = gog_renderer_line_size (rend, rend->cur_style->outline.width);
+	rend->outline_dash = go_line_get_vpath_dash (rend->cur_style->outline.dash_type, size);
+}
+
 void
 gog_renderer_push_style (GogRenderer *rend, GogStyle const *style)
 {
@@ -177,6 +205,8 @@ gog_renderer_push_style (GogRenderer *rend, GogStyle const *style)
 
 	if (klass->push_style)
 		klass->push_style (rend, style);
+
+	update_dash (rend);
 }
 
 void
@@ -197,6 +227,8 @@ gog_renderer_pop_style (GogRenderer *rend)
 
 	if (klass->pop_style)
 		klass->pop_style (rend);
+
+	update_dash (rend);
 }
 
 /**
@@ -218,6 +250,7 @@ gog_renderer_clip_push (GogRenderer *rend, GogViewAllocation const *region)
 	clip->area = *region;
 
 	rend->clip_stack = g_slist_prepend (rend->clip_stack, clip);
+	rend->cur_clip = clip;
 	
 	(klass->clip_push) (rend, clip);
 }
@@ -243,6 +276,11 @@ gog_renderer_clip_pop (GogRenderer *rend)
 
 	g_free (clip);
 	rend->clip_stack = g_slist_delete_link (rend->clip_stack, rend->clip_stack);
+
+	if (rend->clip_stack != NULL)
+		rend->cur_clip = (GogRendererClip *) rend->clip_stack->data;
+	else
+		rend->cur_clip = NULL;
 }
 
 /**
@@ -484,7 +522,11 @@ gog_renderer_class_init (GogRendererClass *renderer_klass)
 static void
 gog_renderer_init (GogRenderer *rend)
 {
+	rend->cur_clip = NULL;
 	rend->clip_stack = NULL;
+
+	rend->line_dash = NULL;
+	rend->outline_dash = NULL;
 
 	rend->needs_update = FALSE;
 	rend->cur_style    = NULL;
@@ -509,9 +551,9 @@ GSF_CLASS (GogRenderer, gog_renderer,
  *
  * A utility routine to build a vpath in @rect.
  **/
-void
-gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect,
-			     GogViewAllocation const *bound)
+static void
+draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect,
+		GogViewAllocation const *bound, gboolean sharp)
 {
 	gboolean const narrow = (rect->w < 3.) || (rect->h < 3.);
 	double o, o_2;
@@ -533,7 +575,24 @@ gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect,
 	path[0].y = path[3].y = path[4].y = rect->y + o_2; 
 	path[1].y = path[2].y = path[0].y + rect->h - o; 
 
-	gog_renderer_draw_polygon (rend, path, narrow, bound);
+	if (sharp)
+		gog_renderer_draw_sharp_polygon (rend, path, narrow, bound);
+	else
+		gog_renderer_draw_polygon (rend, path, narrow, bound);
+}
+
+void
+gog_renderer_draw_sharp_rectangle (GogRenderer *rend, GogViewAllocation const *rect,
+				   GogViewAllocation const *bound)
+{
+	draw_rectangle (rend, rect, bound, TRUE);
+}
+
+void
+gog_renderer_draw_rectangle (GogRenderer *rend, GogViewAllocation const *rect,
+				   GogViewAllocation const *bound)
+{
+	draw_rectangle (rend, rect, bound, FALSE);
 }
 
 double
@@ -547,7 +606,7 @@ gog_renderer_line_size (GogRenderer const *rend, double width)
 	if (width < 0.)
 		return 0.;
 	if (width == 0.)
-		width = 1.;
+		width = GOG_RENDERER_HAIR_LINE_WIDTH;
 	return width * rend->scale;
 }
 

@@ -420,7 +420,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		if (!is_area_plot) {
 			path[i][lengths[i] +1].code = ART_END;
 
-			gog_renderer_draw_sharp_path (view->renderer,
+			gog_renderer_draw_path (view->renderer,
 				path[i], NULL);
 		} else {
 			switch (type) {
@@ -449,7 +449,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 				path[i][j+1].code = ART_END;
 				break;
 			}
-			gog_renderer_draw_sharp_polygon (view->renderer,
+			gog_renderer_draw_polygon (view->renderer,
 							 path[i], FALSE, NULL);
 		}
 

@@ -25,6 +25,7 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-file.h>
+#include <goffice/utils/go-line.h>
 #include <goffice/utils/go-marker.h>
 
 #include <goffice/gui-utils/go-color-palette.h>
@@ -162,6 +163,19 @@ gog_style_set_image_preview (GdkPixbuf *pix, StylePrefState *state)
 
 /************************************************************************/
 static void
+cb_outline_dash_type_changed (GtkWidget *cc, int dash_type, StylePrefState const *state)
+{
+	GogStyle *style = state->style;
+	gboolean is_auto = dash_type < 0;
+
+	if (is_auto) 
+		dash_type = -dash_type;
+	style->outline.auto_dash = is_auto;
+	style->outline.dash_type = dash_type;
+	set_style (state);
+}
+
+static void
 cb_outline_size_changed (GtkAdjustment *adj, StylePrefState *state)
 {
 	GogStyle *style = state->style;
@@ -199,23 +213,45 @@ outline_init (StylePrefState *state, gboolean enable)
 		return;
 	}
 
+	table = glade_xml_get_widget (state->gui, "outline_table");
+
+	/* DashType */
+	w = go_line_dash_selector (default_style->outline.dash_type);
+	gtk_table_attach (GTK_TABLE (table), w, 1, 3, 0, 1, 0, 0, 0, 0);
+	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (w), style->outline.dash_type);
+	g_signal_connect (G_OBJECT (w),
+			  "changed",
+			  G_CALLBACK (cb_outline_dash_type_changed), state);
+	/* Size */
 	w = glade_xml_get_widget (state->gui, "outline_size_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), style->outline.width);
 	g_signal_connect (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w)),
 		"value_changed",
 		G_CALLBACK (cb_outline_size_changed), state);
-
+	/* Color */
 	w = create_go_combo_color (state,
 		style->outline.color, default_style->outline.color,
 		"outline_color", "outline_color_label",
 		G_CALLBACK (cb_outline_color_changed));
-	table = glade_xml_get_widget (state->gui, "outline_table");
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 0, 1, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
 	gtk_widget_show_all (table);
 }
 
 
 /************************************************************************/
+
+static void
+cb_line_dash_type_changed (GtkWidget *cc, int dash_type, StylePrefState const *state)
+{
+	GogStyle *style = state->style;
+	gboolean is_auto = dash_type < 0;
+
+	if (is_auto) 
+		dash_type = -dash_type;
+	style->line.auto_dash = is_auto;
+	style->line.dash_type = dash_type;
+	set_style (state);
+}
 
 static void
 cb_line_size_changed (GtkAdjustment *adj, StylePrefState const *state)
@@ -255,6 +291,16 @@ line_init (StylePrefState *state, gboolean enable)
 		return;
 	}
 
+	table = glade_xml_get_widget (state->gui, "line_table");
+
+	/* DashType */
+	w = go_line_dash_selector (default_style->line.dash_type);
+	gtk_table_attach (GTK_TABLE (table), w, 1, 3, 0, 1, 0, 0, 0, 0);
+	go_combo_pixmaps_select_id (GO_COMBO_PIXMAPS (w), style->line.dash_type);
+	g_signal_connect (G_OBJECT (w),
+			  "changed",
+			  G_CALLBACK (cb_line_dash_type_changed), state);
+
 	/* Size */
 	w = glade_xml_get_widget (state->gui, "line_size_spin");
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), style->line.width);
@@ -267,8 +313,7 @@ line_init (StylePrefState *state, gboolean enable)
 		style->line.color, default_style->line.color,
 		"line_color", "line_color_label",
 		G_CALLBACK (cb_line_color_changed));
-	table = glade_xml_get_widget (state->gui, "line_table");
-	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 0, 1, 0, 0, 0, 0);
+	gtk_table_attach (GTK_TABLE (table), w, 1, 2, 1, 2, 0, 0, 0, 0);
 	gtk_widget_show_all (table);
 }
 
@@ -1098,6 +1143,8 @@ gog_style_init (GogStyle *style)
 	style->interesting_fields = GOG_STYLE_ALL;
 	style->disable_theming = 0;
 	gog_style_force_auto (style);
+	style->line.dash_type = GO_LINE_SOLID;
+	style->outline.dash_type = GO_LINE_SOLID;
 	style->outline.width = 0;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	style->fill.gradient.brightness = -1.;
@@ -1156,9 +1203,22 @@ gog_style_line_load (xmlNode *node, GogStyleLine *line)
 	char *str;
 	gboolean tmp;
 
+	str = xmlGetProp (node, "dash");
+	if (str != NULL) {
+		line->dash_type = go_line_dash_from_str (str);
+		xmlFree (str);
+	}
+	if (bool_prop (node, "auto-dash", &tmp))
+		line->auto_dash = tmp;
 	str = xmlGetProp (node, "width");
 	if (str != NULL) {
 		line->width = g_strtod (str, NULL);
+		/* For compatibility with older graphs, when dash_type
+		 * didn't exist */
+		if (line->width < 0.) {
+			line->width = 0.;
+			line->dash_type = GO_LINE_NONE;
+		}
 		xmlFree (str);
 	}
 	str = xmlGetProp (node, "color");
@@ -1177,6 +1237,10 @@ gog_style_line_dom_save (xmlNode *parent, xmlChar const *name,
 	gchar *str;
 	xmlNode *node = xmlNewDocNode (parent->doc, NULL, name, NULL);
 
+	xmlSetProp (node, (xmlChar const *) "dash", 
+		    go_line_dash_as_str (line->dash_type));
+	xmlSetProp (node, (xmlChar const *) "auto-dash",
+		    line->auto_dash ? "true" : "false");
 	str = g_strdup_printf ("%f",  line->width);
 	xmlSetProp (node, (xmlChar const *) "width", str);
 	g_free (str);
@@ -1192,6 +1256,9 @@ gog_style_line_sax_save (GsfXMLOut *output, char const *name,
 			 GogStyleLine const *line)
 {
 	gsf_xml_out_start_element (output, name);
+	gsf_xml_out_add_cstr_unchecked (output, "dash",
+		go_line_dash_as_str (line->dash_type));
+	gsf_xml_out_add_bool (output, "auto-dash", line->auto_dash);
 	gsf_xml_out_add_float (output, "width", line->width, 1);
 	go_xml_out_add_color (output, "color", line->color);
 	gsf_xml_out_add_bool (output, "auto-color", line->auto_color);
@@ -1626,7 +1693,8 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 {
 	if (a == NULL || b == NULL)
 		return TRUE;
-	return	a->outline.width != b->outline.width ||
+	return	a->outline.dash_type != b->outline.dash_type ||
+		a->outline.width != b->outline.width ||
 		a->line.width != b->line.width ||
 		a->fill.type != b->fill.type ||
 		!go_font_eq (a->font.font, b->font.font);
@@ -1641,10 +1709,21 @@ gog_style_is_marker_visible (GogStyle const *style)
 }
 
 gboolean
+gog_style_is_outline_visible (GogStyle const *style)
+{
+#warning TODO : make this smarter
+	return style->outline.width >= 0. && 
+		UINT_RGBA_A (style->outline.color) > 0 && 
+		style->outline.dash_type != GO_LINE_NONE;
+}
+
+gboolean
 gog_style_is_line_visible (GogStyle const *style)
 {
 #warning TODO : make this smarter
-	return style->line.width >= 0 && UINT_RGBA_A (style->line.color) > 0;
+	return style->line.width >= 0. && 
+		UINT_RGBA_A (style->line.color) > 0 && 
+		style->line.dash_type != GO_LINE_NONE;
 }
 
 void

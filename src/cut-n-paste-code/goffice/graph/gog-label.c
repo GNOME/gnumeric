@@ -229,7 +229,7 @@ gog_label_view_render (GogView *view, GogViewAllocation const *bbox)
 				rect = view->allocation;
 				rect.w = req.w + 2. * outline + pad_x;
 				rect.h = req.h + 2. * outline + pad_y;
-				gog_renderer_draw_rectangle (view->renderer, &rect, NULL);
+				gog_renderer_draw_sharp_rectangle (view->renderer, &rect, NULL);
 			}
 			gog_renderer_draw_text (view->renderer, text,
 						&view->residual, GTK_ANCHOR_NW, NULL);

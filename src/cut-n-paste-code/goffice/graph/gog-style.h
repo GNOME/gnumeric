@@ -25,6 +25,7 @@
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/utils/goffice-utils.h>
 #include <goffice/utils/go-gradient.h>
+#include <goffice/utils/go-line.h>
 #include <goffice/utils/go-pattern.h>
 #include <glib-object.h>
 #include <command-context.h>	/* for GnmCmdContext */
@@ -45,6 +46,7 @@ typedef enum {
 	GOG_STYLE_FONT		= 1 << 4,
 	GOG_STYLE_ALL		= 0x1F
 } GogStyleFlag;
+
 typedef enum {
 	GOG_FILL_STYLE_NONE	= 0,
 	GOG_FILL_STYLE_PATTERN	= 1,
@@ -62,11 +64,14 @@ typedef struct {
 	/* <0 == no outline,
 	 * =0 == hairline : unscaled, minimum useful (can be bigger than visible) size.
 	 * >0 in pts */
-	float	 width;
-	GOColor	 color;
-	gboolean auto_color;
-	unsigned pattern; /* TODO border type from gnumeric */
+	float	 	 width;
+	GOLineDashType 	 dash_type;
+	gboolean	 auto_dash;
+	GOColor	 	 color;
+	gboolean 	 auto_color;
+	unsigned 	 pattern; /* TODO border type from gnumeric */
 } GogStyleLine;
+
 typedef struct {
 	GOMarker *mark;
 	gboolean auto_shape;
@@ -119,6 +124,7 @@ void	   gog_style_set_fill_image_filename	(GogStyle *style, char *filename);
 gboolean   gog_style_is_different_size	(GogStyle const *a, GogStyle const *b);
 gboolean   gog_style_is_marker_visible	(GogStyle const *style);
 gboolean   gog_style_is_line_visible	(GogStyle const *style);
+gboolean   gog_style_is_outline_visible	(GogStyle const *style);
 void	   gog_style_force_auto		(GogStyle *style);
 
 gpointer   gog_style_editor		(GogStyle *style,

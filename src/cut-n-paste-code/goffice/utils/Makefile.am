@@ -12,6 +12,8 @@ libgoffice_utils_la_SOURCES =	\
 	go-format.h		\
 	go-gradient.c		\
 	go-gradient.h		\
+	go-line.c		\
+	go-line.h		\
 	go-marker.c		\
 	go-marker.h		\
 	go-pattern.c		\

@@ -107,10 +107,10 @@ gog_renderer_pixbuf_clip_push (GogRenderer *rend, GogRendererClip *clip)
 	graph_rect.width = gdk_pixbuf_get_width (prend->buffer);
 	graph_rect.height = gdk_pixbuf_get_height (prend->buffer);
 
-	clip_rect.x = clip->area.x - prend->x_offset;
-	clip_rect.y = clip->area.y - prend->y_offset;
-	clip_rect.width = clip->area.w + 1;
-	clip_rect.height = clip->area.h + 1;
+	clip_rect.x = floor (clip->area.x - prend->x_offset + 0.5);
+	clip_rect.y = floor (clip->area.y - prend->y_offset + 0.5);
+	clip_rect.width = floor (clip->area.x - prend->x_offset + clip->area.w + 0.5) - clip_rect.x;
+	clip_rect.height = floor (clip->area.y -prend->y_offset + clip->area.h + 0.5) - clip_rect.y;
 
 	if (gdk_rectangle_intersect (&graph_rect, &clip_rect, &res_rect)) {
 		clip_data->buffer = prend->buffer;
@@ -170,16 +170,29 @@ clip_path (GogViewAllocation const *bound)
 }
 
 static double
-gog_renderer_pixbuf_line_size (GogRenderer const *rend, double width)
+line_size (GogRenderer const *rend, double width)
 {
 	if (width < 0.)
 		return 0.;
 	if (width == 0.) /* cheesy version of hairline */
-		width = 1.;
-	width *= rend->scale;
-	if (width < 1.)
 		return 1.;
+	
+	width *= rend->scale;
+	if (width <= 1.)
+		return width;
+
 	return floor (width);
+}
+
+static double
+gog_renderer_pixbuf_line_size (GogRenderer const *rend, double width)
+{
+	double size = line_size (rend, width);
+
+	if (size < 1.0)
+		return ceil (size);
+
+	return size;
 }
 
 static void
@@ -187,16 +200,16 @@ gog_renderer_pixbuf_sharp_path (GogRenderer *rend, ArtVpath *path, double line_w
 {
 	ArtVpath *iter = path;
 
-	if ((int) (rint (line_width)) % 2 == 0) 
+	if (((int) (rint (line_width)) % 2 == 0) && line_width > 1.0) 
 		while (iter->code != ART_END) {
-			iter->x = floor (iter->x - .5);
-			iter->y = floor (iter->y - .5);
+			iter->x = floor (iter->x + .5);
+			iter->y = floor (iter->y + .5);
 			iter++;
 		}
 	else
 		while (iter->code != ART_END) {
-			iter->x = floor (iter->x + .5) - .5;
-			iter->y = floor (iter->y + .5) - .5;
+			iter->x = floor (iter->x) + .5;
+			iter->y = floor (iter->y) + .5;
 			iter++;
 		}
 }
@@ -207,10 +220,30 @@ gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path,
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	GogStyle const *style = rend->cur_style;
-	double width = gog_renderer_line_size (rend, style->line.width);
-	ArtSVP *svp = art_svp_vpath_stroke ((ArtVpath *)path,
-		ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_BUTT,
-		width, 4, 0.5);
+	double width = line_size (rend, style->line.width);
+	ArtSVP *svp;
+	ArtVpath *dashed_path;
+
+	switch (style->line.dash_type) {
+		case GO_LINE_NONE:
+			return;
+		case GO_LINE_SOLID:
+			svp = art_svp_vpath_stroke ((ArtVpath *) path,
+						    ART_PATH_STROKE_JOIN_MITER, 
+						    ART_PATH_STROKE_CAP_BUTT,
+						    width, 4, 0.5);
+			break;
+		default:
+			dashed_path = go_line_dash_vpath (path, rend->line_dash,  
+				rend->cur_clip != NULL ? &rend->cur_clip->area : NULL);
+			if (dashed_path == NULL)
+				return;
+			svp = art_svp_vpath_stroke (dashed_path,
+						    ART_PATH_STROKE_JOIN_MITER, 
+						    ART_PATH_STROKE_CAP_BUTT,
+						    width, 4, 0.5);
+			g_free (dashed_path);
+	}
 
 	if (bound != NULL) {
 		ArtSVP *orig = svp;
@@ -247,6 +280,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	GogStyle const *style = rend->cur_style;
+	ArtVpath *dashed_path;
 	ArtRender *render;
 	ArtSVP *fill, *outline = NULL;
 	ArtDRect bbox;
@@ -254,12 +288,30 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
 	ArtGradientStop stops[2];
 	GdkPixbuf *image;
 	gint i, j, imax, jmax, h, w;
+	double width = line_size (rend, style->outline.width);
 
-	if (!narrow && style->outline.width >= 0.) {
-		outline = art_svp_vpath_stroke ((ArtVpath *)path,
-			ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_SQUARE,
-			gog_renderer_line_size (rend, style->outline.width), 4, 0.5);
-		if (bound != NULL) {
+	if (!narrow) {
+		switch (style->outline.dash_type) {
+			case GO_LINE_NONE:
+				break;
+			case GO_LINE_SOLID:
+				outline = art_svp_vpath_stroke ((ArtVpath *) path,
+								ART_PATH_STROKE_JOIN_MITER, 
+								ART_PATH_STROKE_CAP_BUTT,
+								width, 4, 0.5);
+				break;
+			default:
+				dashed_path = go_line_dash_vpath (path, rend->outline_dash,  
+					rend->cur_clip != NULL ? &rend->cur_clip->area : NULL);
+				if (dashed_path != NULL) {
+					outline = art_svp_vpath_stroke (dashed_path,
+									ART_PATH_STROKE_JOIN_MITER, 
+									ART_PATH_STROKE_CAP_BUTT,
+									width, 4, 0.5);
+					g_free (dashed_path);
+				}
+		}
+		if (bound != NULL && outline != NULL) {
 			ArtSVP *orig = outline;
 			ArtSVP *clip = clip_path (bound);
 			outline = art_svp_intersect (clip, orig);
@@ -664,6 +716,7 @@ gog_renderer_pixbuf_init (GogRendererPixbuf *prend)
 {
 	prend->buffer = NULL;
 	prend->w = prend->h = 1; /* just in case */
+	prend->x_offset = prend->y_offset = 0;
 	prend->pango_layout = NULL;
 	prend->pango_context = NULL;
 }

@@ -85,9 +85,11 @@ gog_renderer_svg_clip_push (GogRenderer *rend, GogRendererClip *clip)
 	char *buf;
 	xmlNodePtr child;
 	xmlNodePtr node;
+	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 
 	prend->clip_counter++;
 	
+	setlocale (LC_NUMERIC, "C");
 	node = xmlNewDocNode (prend->doc, NULL, CC2XML("clipPath"), NULL);
 	xmlAddChild (prend->defs, node);
 	buf = g_strdup_printf ("clip%i", prend->clip_counter);
@@ -113,6 +115,8 @@ gog_renderer_svg_clip_push (GogRenderer *rend, GogRendererClip *clip)
 	buf = g_strdup_printf ("url(#clip%i)", prend->clip_counter);
 	xmlNewProp (node, CC2XML ("clip-path"), CC2XML (buf));
 	g_free (buf);
+	setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
 
 	prend->current_node = node;
 }
@@ -143,16 +147,38 @@ draw_path (GogRendererSvg *prend, ArtVpath const *path, GString *string)
 }
 
 static void
+stroke_dasharray (xmlNodePtr node, ArtVpathDash *dash)
+{
+	GString *string;
+	int i;
+
+	if (dash == NULL || dash->n_dash < 1)
+		return;
+
+	string = g_string_new ("");
+	for (i = 0; i < dash->n_dash; i++) 
+		g_string_append_printf (string, i == 0 ? "%g" : " %g", dash->dash[i]);
+	xmlNewProp (node, CC2XML ("stroke-dasharray"), CC2XML (string->str));
+	g_string_free (string, TRUE);
+}
+
+static void
 gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path,
 			    GogViewAllocation const *bound)
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	GogStyle const *style = renderer->cur_style;
-	xmlNodePtr node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
+	xmlNodePtr node;
 	GString *string;
 	char *buf;
 	int opacity;
-	char *old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
+	char *old_num_locale;
+
+	if (style->line.dash_type == GO_LINE_NONE)
+		return;
+	
+	node = xmlNewDocNode (prend->doc, NULL, "path", NULL);
+	old_num_locale = g_strdup (setlocale (LC_NUMERIC, NULL));
 
 	setlocale (LC_NUMERIC, "C");
 	xmlAddChild (prend->current_node, node);
@@ -164,6 +190,8 @@ gog_renderer_svg_draw_path (GogRenderer *renderer, ArtVpath const *path,
 	buf = g_strdup_printf ("%g", gog_renderer_line_size (renderer, style->line.width));
 	xmlNewProp (node, CC2XML ("stroke-width"), CC2XML (buf));
 	g_free (buf);
+	/* TODO: clip dashed lines to prevent possible rsvg crash */
+	stroke_dasharray (node, renderer->line_dash);
 	buf = g_strdup_printf ("#%06x", style->line.color >> 8);
 	xmlNewProp (node, CC2XML ("stroke"), CC2XML (buf));
 	g_free (buf);
@@ -183,7 +211,7 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 {
 	GogRendererSvg *prend = GOG_RENDERER_SVG (renderer);
 	GogStyle const *style = renderer->cur_style;
-	gboolean with_outline = (!narrow && style->outline.width >= 0.);
+	gboolean with_outline = (!narrow && style->outline.dash_type != GO_LINE_NONE);
 	xmlNodePtr node;
 	char *buf, *name, *id;
 	int opacity;
@@ -330,6 +358,8 @@ gog_renderer_svg_draw_polygon (GogRenderer *renderer, ArtVpath const *path,
 		xmlNewProp (node, CC2XML ("fill"), CC2XML ("none"));
 
 	if (with_outline) {
+		/* TODO: clip dashed lines to prevent possible rsvg crash */
+		stroke_dasharray (node, renderer->outline_dash);
 		buf = g_strdup_printf ("%g",  gog_renderer_line_size (renderer, style->outline.width));
 		xmlNewProp (node, CC2XML ("stroke-width"), CC2XML (buf));
 		g_free (buf);

@@ -2043,6 +2043,7 @@ draw_axis_from_a_to_b (GogView *v, GogAxis *axis, double ax, double ay, double b
 	GogViewRequisition txt_size;
 	GogViewAllocation label_pos, label_result, label_old = {0., 0., 0., 0.};
 	gboolean draw_major, draw_minor;
+	gboolean is_line_visible;
 
 	axis_length = sqrt ((ax-bx)*(ax-bx)+(ay-by)*(ay-by));
 	if (bx - ax != 0) {
@@ -2063,8 +2064,9 @@ draw_axis_from_a_to_b (GogView *v, GogAxis *axis, double ax, double ay, double b
 	cos_alpha = cos (axis_angle + M_PI / 2.0);
 	sin_alpha = sin (axis_angle + M_PI / 2.0);
 
+	is_line_visible = gog_style_is_line_visible (axis->base.style);
 	line_width = gog_renderer_line_size (v->renderer, axis->base.style->line.width) / 2;
-	if (line_width > 0)
+	if (is_line_visible)
 	{
 		path[0].code = ART_MOVETO;
 		path[1].code = ART_LINETO;
@@ -2100,7 +2102,7 @@ draw_axis_from_a_to_b (GogView *v, GogAxis *axis, double ax, double ay, double b
 		pos_x = ax + pos * cos (axis_angle);
 		pos_y = ay + pos * sin (axis_angle);
 
-		if (line_width > 0) {
+		if (is_line_visible) {
 			switch (axis->ticks[i].type) {
 				case GOG_AXIS_TICK_MAJOR:
 					if (draw_major) {
@@ -2144,7 +2146,7 @@ draw_axis_from_a_to_b (GogView *v, GogAxis *axis, double ax, double ay, double b
 		}	
 	}
 
-	if (line_width > 0)
+	if (is_line_visible)
 		gog_axis_map_free (map);
 }
 
@@ -2172,14 +2174,16 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 	double last_label_pos = .0, last_label_size = -DBL_MAX;
 	ArtVpath path[3];
 	GogAxis *axis = GOG_AXIS (v->model);
+	GogStyle *style = axis->base.style;
 	unsigned i;
 	double tick_len, label_pad, dir, center, label_spacing = 0.;
-	double line_width = gog_renderer_line_size (
-		v->renderer, axis->base.style->line.width) / 2;
+	double line_width = gog_renderer_line_size (v->renderer,
+						    style->line.width) / 2.;
 	double pos, offset;
 	double major_in = 0., major_out = 0.;
 	double minor_in = 0., minor_out = 0.;
 	gboolean draw_major, draw_minor;
+	gboolean is_line_visible = gog_style_is_line_visible (style);
 
 	gog_axis_view_render_children (v, bbox);
 
@@ -2188,10 +2192,10 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 	area = gog_chart_view_get_plot_area (v->parent);
 	g_return_if_fail (area != NULL);
 
-	gog_renderer_push_style (v->renderer, axis->base.style);
+	gog_renderer_push_style (v->renderer, style);
 
-	draw_major = (axis->major.tick_in || axis->major.tick_out) && line_width > 0;
-	draw_minor = (axis->minor.tick_in || axis->minor.tick_out) && line_width > 0;
+	draw_major = (axis->major.tick_in || axis->major.tick_out) && is_line_visible; 
+	draw_minor = (axis->minor.tick_in || axis->minor.tick_out) && is_line_visible;
 
 	path[0].code = ART_MOVETO;
 	path[1].code = ART_LINETO;
@@ -2221,7 +2225,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 		minor_out = axis->minor.tick_out ? center + dir * (line_width + tick_len) : center;
 		minor_in  = axis->minor.tick_in  ? center - dir * (line_width + tick_len) : center;
 
-		if (line_width > 0) {
+		if (is_line_visible) {
 			path[0].y = path[1].y = center;
 			path[0].x = area->x - line_width;
 			path[1].x = area->x + area->w + line_width;
@@ -2244,7 +2248,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			offset = (axis->is_discrete && !axis->center_on_ticks)? -0.5 : 0.0;
 			for (i = 0; i < axis->tick_nbr; i++) {
 
-				if (line_width > 0) {
+				if (is_line_visible) {
 					pos = gog_axis_map_to_canvas (map, axis->ticks[i].position + offset);
 					switch (axis->ticks[i].type) {
 						case GOG_AXIS_TICK_MAJOR:
@@ -2312,7 +2316,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 		minor_out = axis->minor.tick_out ? center + dir * (line_width + tick_len) : center;
 		minor_in  = axis->minor.tick_in  ? center - dir * (line_width + tick_len) : center;
 
-		if (line_width > 0) {
+		if (is_line_visible) {
 			path[0].x = path[1].x = center;
 			path[0].y = area->y + area->h + line_width;
 			path[1].y = area->y - line_width;
@@ -2333,7 +2337,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 			offset = (axis->is_discrete && !axis->center_on_ticks)? -0.5 : 0.0;
 			for (i = 0; i < axis->tick_nbr; i++) {
 				
-				if (line_width > 0) {
+				if (is_line_visible) {
 					pos = gog_axis_map_to_canvas (map, axis->ticks[i].position + offset);
 					switch (axis->ticks[i].type) {
 						case GOG_AXIS_TICK_MAJOR:

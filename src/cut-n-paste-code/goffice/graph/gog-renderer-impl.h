@@ -24,6 +24,7 @@
 
 #include <goffice/graph/goffice-graph.h>
 #include <goffice/utils/goffice-utils.h>
+#include <goffice/utils/go-line.h>
 #include <goffice/graph/gog-renderer.h>
 
 G_BEGIN_DECLS
@@ -43,6 +44,7 @@ struct _GogRenderer {
 	float	  scale, scale_x, scale_y;
 	float	  zoom;
 	
+	GogRendererClip const *cur_clip;
 	GSList	  *clip_stack;
 
 	GClosure *font_watcher;
@@ -50,6 +52,9 @@ struct _GogRenderer {
 
 	GogStyle const *cur_style;
 	GSList   *style_stack;
+
+	ArtVpathDash *line_dash;
+	ArtVpathDash *outline_dash;
 };
 
 typedef struct {
@@ -73,9 +78,11 @@ typedef struct {
 				 GogViewAllocation const *pos, GtkAnchorType anchor,
 				 GogViewAllocation *result);
 	void (*draw_marker)    	(GogRenderer *rend, double x, double y);
+	
 	void (*measure_text)   	(GogRenderer *rend, 
 				 char const *text, GogViewRequisition *size);
-	double (*line_size)	(GogRenderer const *rend, double width);
+	
+	double (*line_size)		(GogRenderer const *rend, double width);
 
 	/* Signals */
 	void (*request_update) (GogRenderer *renderer);
