@@ -1,6 +1,8 @@
 1999-11-10  Jody Goldberg <jgoldberg@home.com>
 
-1999-11-10  Jody Goldberg <jgoldberg@home.com>
+	* src/selection.c (sheet_selection_move) : Delete.
+	(sheet_selection_paste) : Use sheet_selection_set instead,
+	  and check for singletons and same shapeness when pasting a cut.
 
 	* src/item-cursor.c (item_cursor_tip_setlabel) : New function, not
 	  used yet.

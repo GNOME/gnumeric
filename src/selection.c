@@ -650,34 +650,6 @@ selection_move_range_cb (Sheet *sheet,
 	return TRUE;
 }
 
-static void
-sheet_selection_move (struct expr_relocate_info *rinfo)
-{
-	Sheet *sheet = rinfo->origin_sheet;
-
-	if (rinfo->origin_sheet == rinfo->target_sheet) {
-		GList *l;
-		for (l = sheet->selections; l != NULL; l = l->next) {
-			SheetSelection *ss = l->data;
-			ss->base.col += rinfo->col_offset;
-			ss->base.row += rinfo->row_offset;
-			range_translate (&ss->user, rinfo->col_offset,
-					 rinfo->row_offset);
-			if (!l->prev)
-				sheet_cursor_set (sheet,
-						  ss->base.col, ss->base.row,
-						  ss->user.start.col, ss->user.start.row,
-						  ss->user.end.col,   ss->user.end.row);
-			sheet_redraw_selection (sheet, ss);
-		}
-	} else {
-		selection_foreach_range (sheet,
-					 selection_move_range_cb,
-					 rinfo);
-		sheet_selection_reset (sheet);
-	}
-}
-
 void
 sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 		       int paste_flags, guint32 time)
@@ -687,21 +659,43 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (sheet->selections);
+
+	if (!selection_is_simple (sheet, _("paste")))
+		return;
 
 	area = application_clipboard_area_get ();
 	content = application_clipboard_contents_get ();
 
 	/* If contents are null this was a cut */
 	if (content == NULL) {
-		Sheet * src_sheet = application_clipboard_sheet_get ();
 		struct expr_relocate_info rinfo;
+		Sheet * src_sheet = application_clipboard_sheet_get ();
+		Range const *sel = selection_first_range (sheet, FALSE);
+		int right, bottom;
 
+		g_return_if_fail (sel != NULL);
 		g_return_if_fail (area != NULL);
 
-		/* TODO TODO TODO :
-		 * Make sure that the target area is a singleton or the same
-		 * shape as the cut region */
+		/* TODO FIXME : This should not be a dialog.
+		 * It should be an exception or a dialog depending
+		 * on the caller.
+		 */
+		if (!range_is_singleton (sel) &&
+		    ((sel->end.col - sel->start.col) != (area->end.col - area->start.col) ||
+		     (sel->end.row - sel->start.row) != (area->end.row - area->start.row))) {
+			char * msg = g_strdup_printf (
+				_("The area can not be pasted into the selection because it\n"
+				  "has a different shape (%dRx%dC vs %dRx%dC)\n\n"
+				  "Try selecting a single cell or an area of the same shape and size."),
+				(sel->end.row - sel->start.row)+1,
+				(sel->end.col - sel->start.col)+1,
+				(area->end.row - area->start.row)+1,
+				(area->end.col - area->start.col)+1);
+			gnumeric_notice (sheet->workbook, GNOME_MESSAGE_BOX_ERROR, msg);
+			g_free (msg);
+			return;
+		}
+
 		rinfo.origin = *area;
 		rinfo.col_offset = dest_col - rinfo.origin.start.col;
 		rinfo.row_offset = dest_row - rinfo.origin.start.row;
@@ -710,14 +704,18 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row,
 
 		sheet_move_range      (&rinfo);
 		sheet_selection_unant (src_sheet);
-		sheet_selection_move  (&rinfo);
-	} else {
-		if (!selection_is_simple (sheet, _("paste")))
-			return;
 
+		right  = dest_col + area->end.col - area->start.col;
+		bottom = dest_row + area->end.row - area->start.row;
+
+		if (right >= SHEET_MAX_COLS)
+			right = SHEET_MAX_COLS-1;
+		if (bottom >= SHEET_MAX_ROWS)
+			bottom = SHEET_MAX_ROWS-1;
+		sheet_selection_set (sheet, dest_col, dest_row, right, bottom);
+	} else
 		clipboard_paste_region (content, sheet, dest_col, dest_row,
 					paste_flags, time);
-	}
 }
 
 /* TODO TODO TODO : Remove these and just call the functions directly */
