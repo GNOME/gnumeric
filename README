@@ -33,13 +33,13 @@ You need:
 	NOTE : libole2 is also known as libgnomeole2
 
 Optionally:
-	bonobo == 0.20
+	bonobo == 0.24
 	NOTE : This is an unstable interface.  It is not part of the released
 	    GNOME 1.2 api and is subject to change.  Newer released versions of
 	    bonobo will almost certainly NOT compile with this release of
 	    gnumeric.
 	With the newer bonobo you will also want a newer gnome-libs
-	gnome-libs  >= 1.2.5	(gnome-libs 2.0 is not supported)
+	gnome-libs  >= 1.2.6	(gnome-libs 2.0 is not supported)
 	guppi == CVS module guppi3
 
 Notes regarding plugins
