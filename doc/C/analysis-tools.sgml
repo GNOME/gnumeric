@@ -697,21 +697,52 @@
   </figure>
 
      <para>Use this tool to rank given data and to calculate the
-     percentiles of each data point.   The variables for
-     are specified by the <quote><guilabel>Input  Range:</guilabel></quote> entry.  
-     The given range can be grouped either by columns or by rows.</para>
+     percentiles of each data point.</para>
+     <para>Specify the datasets to use in the <quote><guilabel>Input  
+     Range:</guilabel></quote> entry.  
+     The given range can be grouped into datasets by columns, by rows, or by areas.</para>
 
-     <para>For each variable, the tool creates three columns in the 
-     output table. The first column gives the indices of the 
-     ordered data from largest to smallest data value. The second column 
-     gives the corresponding data values while the third column indicates
-     the percentile of each data value.</para>
+     <para>For each dataset, the tool creates three columns in the 
+     output table:</para>
+     <orderedlist>
+     <listitem><para>The first column gives the indices of the 
+     ordered data from largest to smallest data value.</para></listitem>
+     <listitem><para>The second column 
+     gives data values corresponding to the indices in the first column.</para></listitem>
+     <listitem><para>The  third column indicates
+     the percentile of the  data value in the second column.</para></listitem>
+     </orderedlist>
 
-     <para>If you have labels, for example the names of the variables,
-     in the first row (or column) of the given range, you should select the
-     <quote><guilabel>Labels</guilabel></quote> option.  This leaves the first row (or column)  of
-     the input range out of the analysis.  In addition, the names of
-     the variables are printed in the output table.</para>
+     <para>If you have labels
+     in the first cell of each data set, select the
+     <quote><guilabel>Labels</guilabel></quote> option.</para>
+
+   <figure id="rank-example-1">
+    <title>Some Example Data for the Rank and Percentile Tool</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-rank-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+ <example id="usingranktool"><title>Using the Rank and Percentile Tool</title>
+     <para><xref linkend="rank-example-1"> shows some example data and 
+     <xref linkend="rank-example-2"> the corresponding output.
+     </para>
+</example>
+  <figure id="rank-example-2">
+    <title>Rank and Percentile Tool Output</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-rank-ex2.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+  <note><para>In the case of ties, the rank calculated by this tool differs from the 
+  value of the RANK function for the same data. This tool calculates the rank as it is 
+  normally used in Statistics: If two values are tied, the assigned rank is the average
+  rank for those entries. For example in <xref linkend="rank-example-1"> the two values 10
+  are the second and third largest values. Since they are equal each receives the rank of 
+  2.5, the average of 2 and 3. The rank function on the other hand assigns the rank as it 
+  is normally used to determine placements. The two values 10 would therefore each receive
+  a rank of 2.   
+  </para></note>
   </sect1>
 
   <sect1 id="regression-tool">
@@ -795,22 +826,69 @@
 
   <sect1 id="sampling-tool">
      <title>Sampling Tool</title>
-
+     <figure>
+        <title>Sampling Tool Dialog</title>
+	<screenshot>
+	   	<graphic fileref="figures/analysistools-sampling.png" format="PNG"></graphic>
+	</screenshot>
+      </figure>
      <para>Use the sampling tool to take a sample of a data set.  This
      tool can take both a random sample of a given size or a periodic
-     sample where, for example, every fourth value of the data set is
-     taken to the sample.</para>
+     sample:</para>
+     <variablelist>
+     <varlistentry><term>random sample</term>
+     <listitem><para>A random sample is a subset of the population such that 
+     every subset of that size has the same chance of being picked.</para></listitem>
+     </varlistentry>
+     <varlistentry><term>periodic sample</term>
+     <listitem><para>In a periodic sample every <parameter>k</parameter>th element in 
+     the population is selected.</para></listitem>
+     </varlistentry>
+     </variablelist>
 
-     <para>To use this tool, first specify the data set by setting the
-     <quote><guilabel>Input Range:</guilabel></quote> entry.  Then select the sampling method which
-     can be either periodic or random.  Periodic sampling requires
-     that you specify the period by typing a number to the <quote><guilabel>Period:</guilabel></quote>
-     entry.  For example, if you specify the period to be three then
-     you will get a sample that has every third value of the original
-     data set.  Random sampling requires that you specify the size of
-     the random sample in <quote><guilabel>Number of Samples:</guilabel></quote> entry.  The size
-     cannot be larger than the original data set since each value of
-     the original data set is taken at most once to the sample.</para>
+     <para>To use this tool, first specify the data set or data sets by setting the
+     <quote><guilabel>Input Range:</guilabel></quote> entry. The range or ranges 
+     given can be grouped into datasets by rows, by columns, or by areas.</para>
+     <para>If the first entry in each data set contains a variable, select the 
+     <quote><guilabel>Labels</guilabel></quote> option.</para>
+
+     <para>Select the sampling method which
+     can be either periodic or random.</para>
+     <variablelist>
+     <varlistentry><term>random sample</term>
+     <listitem><para>Specify the size of the random sample in the <quote><guilabel>Size 
+     of Sample:</guilabel></quote> entry.</para></listitem>
+     </varlistentry>
+     <varlistentry><term>periodic sample</term>
+     <listitem><para>Specify the period in the <quote><guilabel>Period:</guilabel></quote>
+     entry.</para></listitem>
+     </varlistentry>
+     </variablelist>
+
+     <para>Specify the number of samples you would like to obtain in the <quote><guilabel>
+     Number of Samples:</guilabel></quote> entry.</para>
+     <note><para> Since the period uniquely determines a periodic sample, if you specify 
+     that you would like 2 samples you will be given the identical sample twice.</para></note>
+     <note><para>If the dataset for a periodic sample is a two dimensional range, gnumeric 
+     will enumerate the data points by row first.</para></note>
+
+   <figure id="sampling-example-1">
+    <title>Some Example Data for the Sampling Tool</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-sampling-ex1.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
+ <example id="usingsamplingtool"><title>Using the Sampling Tool</title>
+     <para><xref linkend="sampling-example-1"> shows some example data and 
+     <xref linkend="sampling-example-2"> the corresponding output.
+     </para>
+</example>
+  <figure id="sampling-example-2">
+    <title>Sampling Tool Output</title>
+    <screenshot>
+	<graphic fileref="figures/analysistools-sampling-ex2.png" format="PNG"></graphic>
+    </screenshot>
+  </figure>
   </sect1>
 
 

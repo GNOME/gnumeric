@@ -1,3 +1,14 @@
+2001-12-22 Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.sgml : Improve and add example to Sampling
+	  Tool and Rank and Percentile Tool Documentation
+	* figures/analysistools-sampling.png : new figure
+	* figures/analysistools-sampling-ex1.png : new figure
+	* figures/analysistools-sampling-ex2.png : new figure
+	* figures/analysistools-rank.png : updated
+	* figures/analysistools-rank-ex1.png : new figure
+	* figures/analysistools-rank-ex2.png : new figure
+
 2001-12-19 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.sgml : Add example to Single Factor 
