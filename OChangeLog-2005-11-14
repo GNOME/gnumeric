@@ -1,3 +1,8 @@
+2005-01-15  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=161547
+	* configure.in : Make the python test more robust
+
 2005-01-14  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=163438
