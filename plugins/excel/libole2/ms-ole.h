@@ -46,7 +46,9 @@ typedef struct _MsOleDirectory MsOleDirectory;
 typedef enum { MsOleSeekSet, MsOleSeekCur } MsOleSeek;
 #ifdef G_HAVE_GINT64
         typedef guint32 MsOlePos;
+        typedef gint32  MsOleSPos;
 #else
+        typedef gint32  MsOleSPos;
         typedef guint32 MsOlePos;
 #endif
 
@@ -80,12 +82,14 @@ struct _MsOle
 };
 
 /* Create new OLE file */
-extern MsOle           *ms_ole_create  (const char *name) ;
+extern MsOle           *ms_ole_create      (const char *name) ;
 /* Open existing OLE file */
-extern MsOle           *ms_ole_open    (const char *name) ;
+extern MsOle           *ms_ole_open        (const char *name) ;
 /* Get a root directory handle */
-extern MsOleDirectory  *ms_ole_get_root (MsOle *);
-extern void             ms_ole_destroy (MsOle *ptr) ;
+extern MsOleDirectory  *ms_ole_get_root    (MsOle *);
+extern void             ms_ole_destroy     (MsOle *ptr) ;
+extern MsOleDirectory  *ms_ole_path_decode (MsOle *, const char *path);
+extern MsOleDirectory  *ms_ole_file_decode (MsOle *, const char *path, const char *file);
 
 struct _MsOleDirectory
 {
@@ -98,6 +102,7 @@ struct _MsOleDirectory
 	MsOle    *file ;
 };
 
+/* Directory manipulation API */
 extern MsOleDirectory *ms_ole_directory_new     (MsOle *) ;
 extern gboolean        ms_ole_directory_next    (MsOleDirectory *) ;
 extern void            ms_ole_directory_enter   (MsOleDirectory *) ;
@@ -111,40 +116,41 @@ extern void            ms_ole_directory_destroy (MsOleDirectory *) ;
 
 struct _MsOleStream
 {
-	GArray    *blocks;   /* A list of the blocks in the file if NULL: no file */
-	MsOlePos   position; /* Current offset into file. Points to the next byte to read */
-	MsOlePos   size;
-	enum { MsOleSmallBlock, MsOleLargeBlock } strtype; /* Type of stream */
+	MsOlePos        size; /* Size in bytes */
+	MsOleDirectory *dir;  /* directory handle for this file */
 
 	/**
 	 * Attempts to copy length bytes into *ptr, returns true if
 	 * successful, _does_ advance the stream pointer.
 	 **/
-	gboolean (*read_copy )(MsOleStream *, guint8 *ptr, guint32 length) ;
+	MsOlePos  (*read_copy )(MsOleStream *, guint8 *ptr, MsOlePos length) ;
 	/**
 	 * Acertains whether there is a contiguous block length bytes,
 	 * if so returns a pointer to it and _does_ advance the stream pointer.
 	 * otherwise returns NULL and does _not_ advance the stream pointer.
 	 **/
-	guint8*  (*read_ptr  )(MsOleStream *, guint32 length) ;
-	void     (*lseek     )(MsOleStream *, gint32 bytes, MsOleSeek type) ;
-	MsOlePos (*tell      )(MsOleStream *);
+	guint8*   (*read_ptr  )(MsOleStream *, MsOlePos length) ;
+	MsOleSPos (*lseek     )(MsOleStream *, MsOleSPos bytes, MsOleSeek type) ;
+	MsOlePos  (*tell      )(MsOleStream *);
 	/**
 	 * This writes length bytes at *ptr to the stream, and advances
 	 * the stream pointer.
 	 **/
-	void     (*write     )(MsOleStream *, guint8 *ptr, guint32 length) ;
+	MsOlePos  (*write     )(MsOleStream *, guint8 *ptr, MsOlePos length) ;
 
 	/**
 	 * PRIVATE
 	 **/
-	MsOle     *file ;
-	void      *pps ;   /* Straight PPS * */
+	MsOle      *file ;
+	void       *pps ;   /* Straight PPS * */
+	GArray     *blocks;   /* A list of the blocks in the file if NULL: no file */
+	MsOlePos    position; /* Current offset into file. Points to the next byte to read */
+	enum { MsOleSmallBlock, MsOleLargeBlock } strtype; /* Type of stream */
 };
 
 /* Mode = 'r' or 'w' */
 extern MsOleStream *ms_ole_stream_open      (MsOleDirectory *d, char mode) ;
-extern MsOleStream *ms_ole_stream_open_name (MsOleDirectory *d, char *name, char mode) ;
+extern MsOleStream *ms_ole_stream_open_name (MsOle *f, const char *name, char mode) ;
 extern MsOleStream *ms_ole_stream_copy      (MsOleStream *);
 extern void ms_ole_stream_close             (MsOleStream *) ;
 

@@ -1511,23 +1511,29 @@ free_allocation (MsOle *f, guint32 startblock, gboolean is_big_block_stream)
 	}
 }
 
-static void
-ms_ole_lseek (MsOleStream *s, gint32 bytes, MsOleSeek type)
+static MsOleSPos
+ms_ole_lseek (MsOleStream *s, MsOleSPos bytes, MsOleSeek type)
 {
-	g_return_if_fail (s);
+	MsOleSPos newpos;
 
+	g_return_val_if_fail (s, -1);
+
+	newpos = s->position;
 	if (type == MsOleSeekSet)
-		s->position = bytes;
+		newpos  = bytes;
 	else
-		s->position+= bytes;
-	if (s->position>s->size) {
-		s->position = s->size;
-		printf ("Truncated seek\n");
+		newpos += bytes;
+
+	if (newpos > s->size || newpos < 0) {
+		g_warning ("Invalid seek");
+		return -1;
 	}
+	s->position = newpos;
+	return newpos;
 }
 
 static guint8*
-ms_ole_read_ptr_bb (MsOleStream *s, guint32 length)
+ms_ole_read_ptr_bb (MsOleStream *s, MsOlePos length)
 {
 	int blockidx = s->position/BB_BLOCK_SIZE;
 	int blklen;
@@ -1560,7 +1566,7 @@ ms_ole_read_ptr_bb (MsOleStream *s, guint32 length)
 }
 
 static guint8*
-ms_ole_read_ptr_sb (MsOleStream *s, guint32 length)
+ms_ole_read_ptr_sb (MsOleStream *s, MsOlePos length)
 {
 	int blockidx = s->position/SB_BLOCK_SIZE;
 	int blklen;
@@ -1597,8 +1603,8 @@ ms_ole_read_ptr_sb (MsOleStream *s, guint32 length)
  *  0 - on error
  *  1 - on success
  **/
-static gboolean
-ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, guint32 length)
+static MsOlePos
+ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 {
 	int offset = s->position%BB_BLOCK_SIZE;
 	int blkidx = s->position/BB_BLOCK_SIZE;
@@ -1644,8 +1650,8 @@ ms_ole_read_copy_bb (MsOleStream *s, guint8 *ptr, guint32 length)
 	return 1;
 }
 
-static gboolean
-ms_ole_read_copy_sb (MsOleStream *s, guint8 *ptr, guint32 length)
+static MsOlePos
+ms_ole_read_copy_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 {
 	int offset = s->position%SB_BLOCK_SIZE;
 	int blkidx = s->position/SB_BLOCK_SIZE;
@@ -1755,8 +1761,9 @@ ms_ole_append_block (MsOleStream *s)
 	}
 }
 
-static void
-ms_ole_write_bb (MsOleStream *s, guint8 *ptr, guint32 length)
+/* FIXME: I'm sure these functions should fail gracefully somehow :-) */
+static MsOlePos
+ms_ole_write_bb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 {
 	guint8 *dest;
 	int     offset  = s->position%BB_BLOCK_SIZE;
@@ -1765,15 +1772,14 @@ ms_ole_write_bb (MsOleStream *s, guint8 *ptr, guint32 length)
 	gint32  lengthen;
 	
 	s->file->dirty = 1;
-	while (bytes>0)
-	{
+	while (bytes > 0) {
 		BLP block;
 		int cpylen = BB_BLOCK_SIZE - offset;
 
-		if (cpylen>bytes)
+		if (cpylen > bytes)
 			cpylen = bytes;
 		
-		if (!s->blocks || blkidx>=s->blocks->len)
+		if (!s->blocks || blkidx >= s->blocks->len)
 			ms_ole_append_block (s);
 
 		g_assert (blkidx < s->blocks->len);
@@ -1794,15 +1800,16 @@ ms_ole_write_bb (MsOleStream *s, guint8 *ptr, guint32 length)
 
 	lengthen = s->position - s->size + length;
 	if (lengthen > 0)
-		s->size+=lengthen;
+		s->size += lengthen;
 
 	s->lseek (s, length, MsOleSeekCur);
 	check_stream (s);
-	return;
+
+	return length;
 }
 
-static void
-ms_ole_write_sb (MsOleStream *s, guint8 *ptr, guint32 length)
+static MsOlePos
+ms_ole_write_sb (MsOleStream *s, guint8 *ptr, MsOlePos length)
 {
 	guint8 *dest;
 	int     offset  = s->position%SB_BLOCK_SIZE;
@@ -1811,12 +1818,11 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 	gint32  lengthen;
 	
 	s->file->dirty = 1;
-	while (bytes>0)
-	{
+	while (bytes > 0) {
 		BLP block;
 		int cpylen = SB_BLOCK_SIZE - offset;
 
-		if (cpylen>bytes)
+		if (cpylen > bytes)
 			cpylen = bytes;
 		
 		if (!s->blocks || blkidx >= s->blocks->len)
@@ -1828,7 +1834,7 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 		
 		dest = GET_SB_W_PTR(s->file, block) + offset;
 		
-		g_assert (cpylen>=0);
+		g_assert (cpylen >= 0);
 
 		memcpy (dest, ptr, cpylen);
 		ptr   += cpylen;
@@ -1836,7 +1842,7 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 
 		lengthen = s->position + length - bytes - s->size;
 		if (lengthen > 0)
-			s->size+=lengthen;
+			s->size += lengthen;
 		
 		/* Must be exactly filling the block */
 		if (s->size >= BB_THRESHOLD)
@@ -1861,7 +1867,7 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 			s->tell      = tell_pos;
 			s->write     = ms_ole_write_bb;
 
-			g_assert (s->size%SB_BLOCK_SIZE == 0);
+			g_assert (s->size % SB_BLOCK_SIZE == 0);
 
 			/* Convert the file to BBlocks */
 			s->size     = 0;
@@ -1873,13 +1879,13 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 			s->write (s, buffer, oldlen);
 
 			/* Continue the interrupted write */
-			ms_ole_write_bb(s, ptr, bytes);
+			ms_ole_write_bb (s, ptr, bytes);
 			bytes = 0;
 #if OLE_DEBUG > 1
 			printf ("\n\n--- Done ---\n\n\n");
 #endif
 			g_free (buffer);
-			return;
+			return length;
 		}
 		
 		offset = 0;
@@ -1887,7 +1893,8 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 		check_stream (s);
 	}
 	s->lseek (s, length, MsOleSeekCur);
-	return;
+
+	return length;
 }
 
 /**
@@ -1920,6 +1927,7 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 	p           = d->pps->data;
 
 	s           = g_new0 (MsOleStream, 1);
+	s->dir      = d;
 	s->file     = f;
 	s->pps      = p;
 	s->position = 0;
@@ -2039,8 +2047,8 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 
 /**
  * ms_ole_stream_open_name:
- * @d: parent directory
- * @name: name of file in @d
+ * @f: Ole file
+ * @name: name of file in @f including path if needed
  * @mode: mode of opening stream
  * 
  * Opens the stream with name @name in directory @d
@@ -2052,36 +2060,109 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
  * Return value: handle to opened stream.
  **/
 MsOleStream *
-ms_ole_stream_open_name (MsOleDirectory *d, char *name, char mode)
+ms_ole_stream_open_name (MsOle *f, const char *name, char mode)
 {
 	MsOleDirectory *dir;
 
-	g_return_val_if_fail (d != NULL, NULL);
-	g_return_val_if_fail (d->type == MsOlePPSStorage ||
-			      d->type == MsOlePPSRoot, NULL);
+	g_return_val_if_fail (f != NULL, NULL);
      
 	if (!name)
 		return NULL;
-	dir = ms_ole_directory_copy (d);
-	ms_ole_directory_enter (dir);
+	dir = ms_ole_path_decode (f, name);
 
-	while (ms_ole_directory_next(dir)) {
-		if (!dir->name) {
-#if OLE_DEBUG > 0
-			printf ("Odd: NULL dirctory name\n");
-#endif
-			continue;
-		}
-		if (g_strcasecmp(dir->name, name)==0) {
-			return ms_ole_stream_open (dir, mode);
-			ms_ole_directory_destroy (dir);
-		}
-	}
+	if (dir)
+		return ms_ole_stream_open (dir, mode);
+
 #if OLE_DEBUG > 0
 	printf ("Stream '%s' not found\n", name);
 #endif
 	ms_ole_directory_destroy (dir);
 	return NULL;
+}
+
+/**
+ * ms_ole_path_decode:
+ * @f: Ole file handle
+ * @path: The path we want a directory entry handle for
+ * 
+ *   This function the stream or storage in the 
+ * OLE file with the path specified.
+ * 
+ * Return value: Handle to the storage or file or NULL
+ *               on failure.
+ **/
+MsOleDirectory *
+ms_ole_path_decode (MsOle *f, const char *path)
+{
+	guint lp;
+	gchar **dirs;
+	MsOleDirectory *dir;
+	gboolean found;
+
+	g_return_val_if_fail (f != NULL, NULL);
+	g_return_val_if_fail (path != NULL, NULL);
+
+	dirs = g_strsplit (path, "/", -1);
+	g_return_val_if_fail (dirs != NULL, NULL);
+
+	dir = ms_ole_get_root (f);
+	ms_ole_directory_enter (dir);
+
+	for (lp = 0; dir && dirs[lp]; lp++) {
+
+		if (dirs[lp][0] == '\0')
+			continue;
+
+		found = FALSE;
+		do {
+
+			g_return_val_if_fail (dir != NULL, NULL);
+			if (g_strcasecmp (dir->name, dirs[lp]) == 0)
+				found = TRUE;
+
+		} while (!found && ms_ole_directory_next(dir));
+
+		if (found) {
+			g_free (dirs[lp]);
+			dirs[lp] = 0;
+			ms_ole_directory_enter (dir);
+		} else {
+#if OLE_DEBUG > 0
+			printf ("Stream '%s' not found\n", name);
+#endif
+			ms_ole_directory_destroy (dir);
+			dir = NULL;
+		}
+	}
+
+	while (dirs[lp])
+		g_free (dirs[lp++]);
+
+	return dir;
+}
+
+/**
+ * ms_ole_file_decode:
+ * @f: Ole file handle
+ * @path: path within it
+ * @file: file name in path
+ * 
+ * Return value: handle to file or NULL on failure.
+ **/
+MsOleDirectory *
+ms_ole_file_decode (MsOle *f, const char *path, const char *file)
+{
+	char *tmp;
+	MsOleDirectory *ans;
+
+	if (path[strlen(path)-1] == '/')
+		tmp = g_strconcat (path, file, NULL);
+	else
+		tmp = g_strconcat (path, "/", file, NULL);
+
+	ans = ms_ole_path_decode (f, tmp);
+	g_free (tmp);
+	return ans;
 }
 
 /**

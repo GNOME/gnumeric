@@ -7,8 +7,14 @@ Much useful information will be gleaned from the work on wine by.
 	Marcus Meissner, Francis Beaudet, Sylvain St-Germain
 and Thuy Nguyen
 
-	This code has now been re-written for the 3rd and hopefully
-final time.
+	The code breaks fairly cleanly into two seperate pieces,
+firstly the raw block API whether small or large, and 2ndly the FILE *
+style wrapper on top of the block API. Since there are two types of
+block, there are two functions per percieved method that are accessed
+via the stream's function pointer. This has a lot of good performance
+characteristics, despite the percieved overhead of a 'virtual' call.
+The exception to this being ms_ole_lseek which is non-staticly linked
+for homogeneity.
 
 	Further thanks for the summary information code go to
 

@@ -190,8 +190,7 @@ ms_ole_summary_open (MsOle *f)
 	MsOleStream *s;
 	g_return_val_if_fail (f != NULL, NULL);
 
-	s = ms_ole_stream_open_name (ms_ole_get_root (f),
-				     "SummaryInformation", 'r');
+	s = ms_ole_stream_open_name (f, "SummaryInformation", 'r');
 	if (!s)
 		return NULL;
 
@@ -245,8 +244,7 @@ ms_ole_summary_create (MsOle *f)
 	MsOleStream *s;
 	g_return_val_if_fail (f != NULL, NULL);
 
-	s = ms_ole_stream_open_name (ms_ole_get_root (f),
-				     "SummaryInformation", 'w');
+	s = ms_ole_stream_open_name (f, "SummaryInformation", 'w');
 	if (!s)
 		return NULL;
 

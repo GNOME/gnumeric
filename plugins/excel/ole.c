@@ -31,7 +31,7 @@ static GPtrArray *biff_types   = NULL;
 static GPtrArray *escher_types = NULL;
 typedef enum { eBiff=0, eEscher=1 } typeType;
 
-MsOleDirectory *current_directory = NULL;
+char *cur_dir = NULL;
 
 static void dump_vba (MsOle *f);
 
@@ -114,36 +114,12 @@ get_escher_opcode_name (guint16 opcode)
 	return "Unknown";
 }
 
-static MsOleDirectory *
-get_file_handle (MsOle *ole, char *name)
-{
-	MsOleDirectory *dir;
-	if (!name)
-		return NULL;
-	dir = ms_ole_directory_copy (current_directory);
-	ms_ole_directory_enter (dir);
-
-	while (ms_ole_directory_next(dir)) {
-		if (!dir->name) {
-			printf ("Odd: NULL dirctory name\n");
-			continue;
-		}
-		if (g_strcasecmp(dir->name, name)==0) {
-			return dir;
-		}
-	}	
-	printf ("Stream '%s' not found\n", name);
-	ms_ole_directory_destroy (dir);
-	return NULL;
-}
-
 static void
 list_files (MsOle *ole)
 {
-	MsOleDirectory *dir = ms_ole_directory_copy (current_directory);
-	ms_ole_directory_enter (dir);
-
+	MsOleDirectory *dir = ms_ole_path_decode (ole, cur_dir);
 	g_assert (dir);
+
 	while (ms_ole_directory_next(dir)) {
 		if (dir->type == MsOlePPSStream)
 			printf ("'%25s : length %d bytes\n", dir->name, dir->length);
@@ -313,7 +289,7 @@ dump_escher (guint8 *data, guint32 len, int level)
 static void
 enter_dir (MsOle *ole)
 {
-	char *ptr;
+	char *newpath, *ptr;
 	MsOleDirectory *dir;
 
 	ptr = strtok (NULL, delim);
@@ -321,24 +297,36 @@ enter_dir (MsOle *ole)
 		printf ("Takes a directory argument\n");
 		return;
 	}
-	dir = ms_ole_directory_copy (current_directory);
-	ms_ole_directory_enter (dir);
 
-	while (ms_ole_directory_next(dir)) {
-		if (!dir->name) {
-			printf ("Odd: NULL dirctory name\n");
-			continue;
-		}
-		if (g_strcasecmp(dir->name, ptr)==0) {
-			ms_ole_directory_destroy (current_directory);
-			current_directory = dir;
+	if (!g_strcasecmp (ptr, "..")) {
+		guint lp;
+		char **tmp;
+		GString *newp = g_string_new ("");
+
+		tmp = g_strsplit (cur_dir, "/", -1);
+		lp  = 0;
+		if (!tmp[lp])
 			return;
-		}
-	}	
-	printf ("Storage '%s' not found\n", ptr);
-	ms_ole_directory_destroy (dir);
 
-	return;
+		while (tmp[lp+1]) {
+			g_string_sprintfa (newp, "%s/", tmp[lp]);
+			lp++;
+		}
+		g_free (cur_dir);
+		cur_dir = newp->str;
+		g_string_free (newp, FALSE);
+	} else {
+		newpath = g_strconcat (cur_dir, ptr, "/", NULL);
+
+		dir = ms_ole_path_decode (ole, newpath);
+		if (!dir) {
+			printf ("Storage '%s' not found\n", ptr);
+			ms_ole_directory_destroy (dir);
+		} else {
+			g_free (cur_dir);
+			cur_dir = newpath;
+		}
+	}
 }
 
 static void
@@ -348,7 +336,7 @@ do_dump (MsOle *ole)
 	MsOleDirectory *dir;
 
 	ptr = strtok (NULL, delim);
-	if ((dir = get_file_handle (ole, ptr)))
+	if ((dir = ms_ole_file_decode (ole, cur_dir, ptr)))
 	{
 		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
 		guint8 *buffer = g_malloc (dir->length);
@@ -370,7 +358,7 @@ do_biff (MsOle *ole)
 	MsOleDirectory *dir;
 	
 	ptr = strtok (NULL, delim);
-	if ((dir = get_file_handle (ole, ptr)))
+	if ((dir = ms_ole_file_decode (ole, cur_dir, ptr)))
 	{
 		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
 		BiffQuery *q = ms_biff_query_new (stream);
@@ -406,7 +394,7 @@ do_biff_raw (MsOle *ole)
 	MsOleDirectory *dir;
 	
 	ptr = strtok (NULL, delim);
-	if ((dir = get_file_handle (ole, ptr)))
+	if ((dir = ms_ole_file_decode (ole, cur_dir, ptr)))
 	{
 		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
 		guint8 data[4], *buffer;
@@ -434,7 +422,7 @@ do_draw (MsOle *ole)
 	MsOleDirectory *dir;
 
 	ptr = strtok (NULL, delim);
-	if ((dir = get_file_handle (ole, ptr)))
+	if ((dir = ms_ole_file_decode (ole, cur_dir, ptr)))
 	{
 		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
 		BiffQuery *q = ms_biff_query_new (stream);
@@ -461,7 +449,7 @@ really_get (MsOle *ole, char *from, char *to)
 {
 	MsOleDirectory *dir;
 
-	if ((dir = get_file_handle (ole, from)))
+	if ((dir = ms_ole_file_decode (ole, cur_dir, from)))
 	{
 		MsOleStream *stream = ms_ole_stream_open (dir, 'r');
 		guint8 *buffer = g_malloc (dir->length);
@@ -501,8 +489,8 @@ really_put (MsOle *ole, char *from, char *to)
 		return;
 	}
 
-	if (!(dir = get_file_handle (ole, to)))
-		dir = ms_ole_directory_create (ms_ole_directory_copy (current_directory),
+	if (!(dir = ms_ole_file_decode (ole, cur_dir, to)))
+		dir = ms_ole_directory_create (ms_ole_path_decode (ole, cur_dir),
 					       to, MsOlePPSStream);
 		
 	if (dir)
@@ -742,7 +730,7 @@ int main (int argc, char **argv)
 		buffer = str; /* and again */
 	}
 
-	current_directory = ms_ole_get_root (ole);
+	cur_dir = g_strdup ("/");
 
 	do
 	{
@@ -797,13 +785,14 @@ int main (int argc, char **argv)
 }
 
 static void
-dump_vba_module (const MsOleDirectory *dir)
+dump_vba_module (MsOleDirectory *dir)
 {
 	MsOleStream *s;
 
 	g_return_if_fail (dir != NULL);
 
 	s = ms_ole_stream_open (dir, 'r');
+
 	if (!s) {
 		printf ("Strange: can't open '%s'\n", dir->name);
 		return;
@@ -858,15 +847,13 @@ dump_vba (MsOle *f)
 	MsOleStream *s;
 	char *txt;
 
-	dir = get_file_handle (f, "_VBA_PROJECT_CUR");
+	dir = ms_ole_path_decode (f, "_VBA_PROJECT_CUR");
 	if (!dir) {
 		printf ("No VBA found\n");
 		return;
 	}
-	ms_ole_directory_destroy (current_directory);
-	current_directory = dir;
 
-	s   = ms_ole_stream_open_name (dir, "PROJECT", 'r');
+	s   = ms_ole_stream_open_name (f, "/_VBA_PROJECT_CUR/PROJECT", 'r');
 	if (!s)
 		printf ("No project file... wierd\n");
 	else {
@@ -882,13 +869,11 @@ dump_vba (MsOle *f)
 		ms_ole_stream_close (s);
 	}
 
-	dir = get_file_handle (f, "VBA");
+	dir = ms_ole_path_decode (f, "/_VBA_PROJECT_CUR/VBA");
 	if (!dir) {
 		printf ("No VBA subdirectory found\n");
 		return;
 	}
-	ms_ole_directory_destroy (current_directory);
-	current_directory = dir;
 
 	{
 		int module_count = 0;
@@ -901,7 +886,7 @@ dump_vba (MsOle *f)
 				printf ("Odd: NULL dirctory name\n");
 				continue;
 			}
-			if (!g_strncasecmp(tmp->name, "Module", 6)) {
+			if (!g_strncasecmp (tmp->name, "Module", 6)) {
 				printf ("Module : %d = '%s'\n", module_count, tmp->name);
 				printf ("----------\n");
 				dump_vba_module (tmp);
@@ -911,7 +896,7 @@ dump_vba (MsOle *f)
 		}	
 		if (!module_count)
 			printf ("Strange no modules found\n");
+
 		ms_ole_directory_destroy (tmp);
 	}
 }
-

@@ -1,3 +1,37 @@
+1999-08-14  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.[ch]: Get seek to return new position.
+
+	* ms-ole.[ch]: Rehash all daft guint32 references converting
+	them to MsOlePos's.
+
+	* README: More chat.
+
+	* ms-ole.c (ms_ole_stream_open): Setup 'dir'
+
+	* ms-ole.h (struct _MsOleStream): Re-ordered elements to make
+	privacy more explicit, add 'dir' element to keep track of
+	the file's directory handle.
+
+	* ms-ole-summary.c (ms_ole_summary_open, ms_ole_summary_create):
+	Use new open_name semantics.
+
+	* gnome-stream-ole.[ch]: Created.
+
+	* gnome-storage-ole.[ch]: Created.
+
+1999-08-13  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_path_decode): Created.
+	(ms_ole_stream_open_name): Changed API to use path.
+	(ms_ole_file_decode): Added - This whole API needs fixing !
+
+	* Makefile.am: Added gnome-stream/storage bits.
+
+	* gnome-stream-ole.[ch]: Added.
+
+	* gnome-storage-ole.[ch]: Added.
+
 1999-07-26  Michael Meeks  <michael@edenproject.org>
 
 	* ms-ole-summary.c (ms_ole_summary_create_stream): Implemented.
