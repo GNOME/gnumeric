@@ -43,6 +43,9 @@ typedef struct {
 Sheet    *sheet_new                (Workbook *wb, char *name);
 ColInfo  *sheet_get_col_info       (Sheet *, int col);
 RowInfo  *sheet_get_row_info       (Sheet *, int row);
+int       sheet_col_get_distance   (Sheet *sheet, int from_col, int to_col);
+int       sheet_row_get_distance   (Sheet *sheet, int from_row, int to_row);
+
 
 Workbook *workbook_new             (void);
 Workbook *workbook_new_with_sheets (int sheet_count);

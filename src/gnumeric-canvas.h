@@ -2,6 +2,7 @@
 #define GNUMERIC_SHEET_H
 
 #include "item-grid.h"
+#include "item-cursor.h"
 
 #define GNUMERIC_TYPE_SHEET     (gnumeric_sheet_get_type ())
 #define GNUMERIC_SHEET(obj)     (GTK_CHECK_CAST((obj), GNUMERIC_TYPE_SHEET, GnumericSheet))
@@ -16,6 +17,7 @@ typedef struct {
 	RowType     top_row;
 
 	ItemGrid    *item_grid;
+	ItemCursor  *item_cursor;
 } GnumericSheet;
 
 GtkType gnumeric_sheet_get_type (void);

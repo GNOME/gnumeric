@@ -47,6 +47,7 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	gtk_notebook_append_page (GTK_NOTEBOOK (wb->notebook),
 				  sheet->sheet_view,
 				  gtk_label_new (sheet->name));
+	gtk_widget_grab_focus (GTK_WIDGET (sheet->sheet_view));
 }
 
 Workbook *

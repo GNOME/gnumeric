@@ -16,7 +16,7 @@ static GnomeCanvasItem *item_grid_parent_class;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_DEFAULT_GRID_COLOR
+	ARG_SHEET,
 };
 
 static void
@@ -82,13 +82,6 @@ static void
 item_grid_reconfigure (GnomeCanvasItem *item)
 {
 	g_warning ("item_grid_reconfigure\n");
-}
-
-static void
-cross (GdkDrawable *drawable, GdkGC *gc, int x1, int y1, int x2, int y2)
-{
-	gdk_draw_line (drawable, gc, x1, y1, x2, y2);
-	gdk_draw_line (drawable, gc, x1, y2, x2, y1);
 }
 
 /*
@@ -207,7 +200,7 @@ static double
 item_grid_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 		 GnomeCanvasItem **actual_item)
 {
-	*actual_item = NULL;
+	*actual_item = item;
 	return 0.0;
 }
 
@@ -262,6 +255,9 @@ item_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_grid = ITEM_GRID (o);
 	
 	switch (arg_id){
+	ARG_SHEET:
+		item_grid->sheet = GTK_VALUE_POINTER (*arg);
+		break;
 	}
 }
 
@@ -279,10 +275,8 @@ item_grid_class_init (ItemGridClass *item_grid_class)
 	object_class = (GtkObjectClass *) item_grid_class;
 	item_class = (GnomeCanvasItemClass *) item_grid_class;
 
-	gtk_object_add_arg_type ("ItemGrid::default_grid_color",
-				 GTK_TYPE_STRING,
-				 GTK_ARG_WRITABLE,
-				 ARG_DEFAULT_GRID_COLOR);
+	gtk_object_add_arg_type ("ItemGrid::Sheet", GTK_TYPE_POINTER, 
+				 GTK_ARG_WRITABLE, ARG_SHEET);
 	
 	object_class->set_arg = item_grid_set_arg;
 
