@@ -1,3 +1,10 @@
+1999-11-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/dialog-cell-format.c (fmt_dialog_init_format_page,
+	  fmt_dialog_impl, fmt_dialog_init_font_page, fmt_dialog_init_align_page,
+	  setup_color_pickers) :  Use mstyle_is_element_conflict.
+	(dialog_cell_format) : Use sheet_selection_get_unique_style.
+
 1999-11-09  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/xml-io.c (xml_read_style_border): update to STYLE_BORDER_NONE.

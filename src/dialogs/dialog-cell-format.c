@@ -97,7 +97,7 @@ typedef struct _FormatState
 		GtkBox		*box;
 		GtkWidget	*widget[F_MAX_WIDGET];
 
-		gchar 		*spec;
+		gchar const	*spec;
 		gint		 current_type;
 		int		 num_decimals;
 		int		 negative_format;
@@ -307,7 +307,8 @@ setup_color_pickers (GladeXML	 *gui,
 			    preview_update, state);
 
 
-	if (e != MSTYLE_ELEMENT_UNSET && mstyle_is_element_set (mstyle, e))
+	if (e != MSTYLE_ELEMENT_UNSET &&
+	    !mstyle_is_element_conflict (mstyle, e))
 		mcolor = mstyle_get_color (mstyle, e);
 
 	if (mcolor != NULL) {
@@ -549,7 +550,7 @@ fmt_dialog_enable_widgets (FormatState *state, int page)
 			 * not been found append it */
 			if  (page == 11 && select == -1) {
 				gchar *dummy[1];
-				dummy[0] = state->format.spec;
+				dummy[0] = (gchar *)state->format.spec;
 				select = gtk_clist_append (cl, dummy);
 			}
 			gtk_clist_thaw (cl);
@@ -626,12 +627,12 @@ fmt_dialog_init_format_page (FormatState *state)
 	FormatCharacteristics info;
 
 	/* Get the current format */
-	StyleFormat *format = NULL;
-	if (mstyle_is_element_set (state->style, MSTYLE_FORMAT))
-		format = mstyle_get_format (state->style);
+	char const * format = cell_formats [0][0];
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT))
+		format = mstyle_get_format (state->style)->format;
 
 	state->format.canvas = NULL;
-	state->format.spec = format->format;
+	state->format.spec = format;
 
 	/* The handlers will set the format family later.  -1 flags that
 	 * all widgets are already hidden. */
@@ -837,9 +838,9 @@ fmt_dialog_init_align_page (FormatState *state)
 	char const *name;
 	int i;
 
-	if (mstyle_is_element_set (state->style, MSTYLE_ALIGN_H))
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_ALIGN_H))
 		h = mstyle_get_align_h (state->style);
-	if (mstyle_is_element_set (state->style, MSTYLE_ALIGN_V))
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_ALIGN_V))
 		v = mstyle_get_align_v (state->style);
 
 	/* Setup the horizontal buttons */
@@ -855,7 +856,7 @@ fmt_dialog_init_align_page (FormatState *state)
 					     GTK_SIGNAL_FUNC (cb_align_v_toggle));
 
 	/* Setup the wrap button, and assign the current value */
-	if (mstyle_is_element_set (state->style, MSTYLE_FIT_IN_CELL))
+	if (!mstyle_is_element_conflict (state->style, MSTYLE_FIT_IN_CELL))
 		wrap = mstyle_get_fit_in_cell (state->style);
 
 	state->align.wrap =
@@ -957,6 +958,13 @@ fmt_dialog_init_font_page (FormatState *state)
 			    GTK_SIGNAL_FUNC (cb_font_changed), state);
 
 	state->font.selector = FONT_SELECTOR (font_widget);
+
+	/* If there is a conflict dont initialize the font */
+	if (mstyle_is_element_conflict (state->style, MSTYLE_FONT_NAME) ||
+	    mstyle_is_element_conflict (state->style, MSTYLE_FONT_BOLD) ||
+	    mstyle_is_element_conflict (state->style, MSTYLE_FONT_ITALIC) ||
+	    mstyle_is_element_conflict (state->style, MSTYLE_FONT_SIZE))
+		return;
 
 	/* Init the font selector with the current font */
 	font_selector_set (state->font.selector,
@@ -1827,7 +1835,7 @@ fmt_dialog_impl (Sheet *sheet, MStyle *mstyle, GladeXML  *gui, gboolean is_multi
 	 */
 	has_back = FALSE;
 	selected = 1;
-	if (mstyle_is_element_set (mstyle, MSTYLE_PATTERN)) {
+	if (!mstyle_is_element_conflict (mstyle, MSTYLE_PATTERN)) {
 		selected = mstyle_get_pattern (mstyle);
 		has_back = (selected != 0);
 	}
@@ -1893,6 +1901,9 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	MStyle      *mstyle;
 	gboolean     is_multi;
 
+	/* FIXME : Use this when it is ready */
+	MStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1907,9 +1918,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	is_multi = g_list_length (sheet->selections) != 1 ||
 	    !range_is_singleton (selection);
 
-	mstyle = sheet_style_compute (sheet,
-				      selection->start.col,
-				      selection->start.row);
+	mstyle = sheet_selection_get_unique_style (sheet, borders);
 	fmt_dialog_impl (sheet, mstyle, gui, is_multi);
 	
 	gtk_object_unref (GTK_OBJECT (gui));
