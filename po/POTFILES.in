@@ -147,7 +147,6 @@ src/dialogs/dialog-formula-guru.c
 src/dialogs/dialog-function-select.c
 src/dialogs/dialog-goal-seek.c
 src/dialogs/dialog-goto-cell.c
-src/dialogs/dialog-graph-guru.c
 src/dialogs/dialog-hyperlink.c
 src/dialogs/dialog-insert-cells.c
 src/dialogs/dialog-merge.c
@@ -190,7 +189,6 @@ src/dialogs/fourier-analysis.glade
 src/dialogs/function-select.glade
 src/dialogs/goalseek.glade
 src/dialogs/goto.glade
-src/dialogs/graph-guru.glade
 src/dialogs/hf-config.glade
 src/dialogs/histogram.glade
 src/dialogs/hyperlink.glade
