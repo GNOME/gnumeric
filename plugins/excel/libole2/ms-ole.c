@@ -308,6 +308,7 @@ dump_header (MsOle *f)
 	printf ("Num BBD Blocks : %d Root %%d, SB blocks %d\n",
 		f->bb?f->bb->len:-1,
 /*		f->pps?f->pps->len:-1, */
+/* FIXME tenix, here is not f->num_pps? */
 		f->sb?f->sb->len:-1);
 	printf ("-------------------------------------------------------------\n");
 }
@@ -325,6 +326,11 @@ characterise_block (MsOle *f, BLP blk, char **ans)
 		*ans = "special";
 		return;
 	}
+/* FIXME tenix added block type
+	else if (nblk == END_OF_CHAIN) {
+		*ans = "end of chain";
+	}
+*/
 	*ans = "unknown";
 	g_return_if_fail (f);
 	g_return_if_fail (f->bb);
@@ -1251,14 +1257,14 @@ ms_ole_open (MsOle **f, const char *name)
 	}
 	if ((file == -1) || fstat(file, &st) || !(S_ISREG(st.st_mode))) {
 		printf ("No such file '%s'\n", name);
-		g_free (f) ;
+		g_free (*f) ;
 		return MS_OLE_ERR_EXIST;
 	}
 	(*f)->length = st.st_size;
 	if ((*f)->length<=0x4c) { /* Bad show */
 		printf ("File '%s' too short\n", name);
 		close (file) ;
-		g_free (f) ;
+		g_free (*f) ;
 		return MS_OLE_ERR_FORMAT;
 	}
 
@@ -1272,7 +1278,7 @@ ms_ole_open (MsOle **f, const char *name)
 
 		if (!(*f)->mem || (read (file, (*f)->mem, BB_BLOCK_SIZE)==-1)) {
 			printf ("Error reading header\n");
-			g_free (f);
+			g_free (*f);
 			return MS_OLE_ERR_EXIST;
 		}
 	}

@@ -1,3 +1,8 @@
+1999-09-26  Arturo Tena <arturo@directmail.org>
+
+	* ms-ole.c (ms_ole_open): Fixed bug: core dumped when called with an
+	inexistent file name.
+
 1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ms-ole.c (read_bb): Add semicolon after assert.
