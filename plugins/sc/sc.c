@@ -367,7 +367,7 @@ sc_parse_sheet (GsfInputTextline *input, Sheet *sheet, GIConv ic)
 		g_strchomp (data);
 		utf8data = g_convert_with_iconv (data, -1, ic, NULL, NULL, NULL);
 
-		if (isalpha (*data) && !sc_parse_line (sheet, data)) {
+		if (isalpha (*data) && !sc_parse_line (sheet, utf8data)) {
 			g_free (utf8data);
 			return error_info_new_str (_("Error parsing line"));
 		}
