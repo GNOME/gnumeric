@@ -366,7 +366,7 @@ checkbox_widget_create (SheetObjectWidget *sow, SheetView *sheet_view)
 {
 	GtkWidget *checkbox;
 
-	checkbox = gtk_toggle_button_new();
+	checkbox = gtk_check_button_new();
 	gtk_toggle_button_set_mode (GTK_TOGGLE_BUTTON (checkbox), FALSE);
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (checkbox), FALSE);
 	gtk_widget_show (checkbox);

@@ -82,8 +82,8 @@ static void
 sheet_init_default_styles (Sheet *sheet)
 {
 	/* Sizes seem to match excel */
-	col_row_info_init (&sheet->default_col_style, 80.0);
-	col_row_info_init (&sheet->default_row_style, 18.0);
+	col_row_info_init (&sheet->default_col_style, 62.0);
+	col_row_info_init (&sheet->default_row_style, 15.0);
 }
 
 /* Initialize some of the columns and rows, to test the display engine */
@@ -748,7 +748,7 @@ col_row_distance (GList *list, int from, int to, int default_pixels)
  * Return the number of pixels between from_col to to_col
  */
 int
-sheet_col_get_distance (Sheet *sheet, int from_col, int to_col)
+sheet_col_get_distance (Sheet const *sheet, int from_col, int to_col)
 {
 	g_assert (from_col <= to_col);
 	g_assert (sheet != NULL);
@@ -791,7 +791,7 @@ col_row_unit_distance (GList *list, int from, int to, double default_units, doub
  * Return the number of points between from_col to to_col
  */
 double
-sheet_col_get_unit_distance (Sheet *sheet, int from_col, int to_col)
+sheet_col_get_unit_distance (Sheet const *sheet, int from_col, int to_col)
 {
 	g_assert (from_col <= to_col);
 	g_assert (sheet != NULL);
@@ -808,7 +808,7 @@ sheet_col_get_unit_distance (Sheet *sheet, int from_col, int to_col)
  * Return the number of points between from_row to to_row
  */
 double
-sheet_row_get_unit_distance (Sheet *sheet, int from_row, int to_row)
+sheet_row_get_unit_distance (Sheet const *sheet, int from_row, int to_row)
 {
 	g_assert (from_row <= to_row);
 	g_assert (sheet != NULL);
@@ -825,7 +825,7 @@ sheet_row_get_unit_distance (Sheet *sheet, int from_row, int to_row)
  * Return the number of pixels between from_row to to_row
  */
 int
-sheet_row_get_distance (Sheet *sheet, int from_row, int to_row)
+sheet_row_get_distance (Sheet const *sheet, int from_row, int to_row)
 {
 	g_assert (from_row <= to_row);
 	g_assert (sheet != NULL);

@@ -2,6 +2,7 @@ Gnumeric 0.36
 
 Jody:
 	* Improve selection to correctly handle overlapping ranges.
+	* Improve XL import of 'escher' stream for pictures and objects.
 
 Jukka:
 	* Major clean up to the documentation of functions.

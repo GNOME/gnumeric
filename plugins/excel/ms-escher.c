@@ -66,7 +66,7 @@ typedef struct {
 } EscherRecord;
 
 static EscherRecord *
-escher_record_new_blip (guint8 *data, guint32 len, const char *reproid)
+escher_record_new_blip (guint8 const *data, guint32 len, const char *reproid)
 {
 	EscherRecord *er = g_new (EscherRecord, 1);
 	guint8       *mem;
@@ -588,23 +588,34 @@ ms_escher_read_ChildAnchor (MSEscherState * state,
 			    MSEscherCommonHeader * containing_header)
 {
 }
+
+/* TODO : This is a guess that explains the sheets we have. Find some
+ * documentation. */
 static void
 ms_escher_read_ClientAnchor (MSEscherState * state,
 			     MSEscherCommonHeader * h)
 {
-	/* FIXME : This is a guess. */
+	Sheet const * sheet = state->sheet->gnum_sheet;
 	guint8 const * data = h->data + common_header_len;
-	int o = 0;
-	guint32 a = MS_OLE_GET_GUINT32(data+o);
-	guint32 b = MS_OLE_GET_GUINT32(data+o+4);
-	guint32 c = MS_OLE_GET_GUINT32(data+o+8);
-	guint32 d = MS_OLE_GET_GUINT32(data+o+12);
+	double const zoom = sheet->last_zoom_factor_used;
 
-	printf ("%10d %10d %10d %10d;\n", a,b,c,d);
-	printf ("0x%10x 0x%10x 0x%10x 0x%10x;\n", a,b,c,d);
-#if 0
-	dump (h->data+common_header_len, h->len-common_header_len);
-#endif
+	/* the word at offset 0 always seems to be 2 ?? */
+
+	int i;
+	/* Words 2, 6, 10, 14 : The row/col of the corners */
+	/* Words 4, 8, 12, 16 : distance from cell edge measured in 1/1440 of an inch */
+	float	margin[4], tmp;
+	int	pos[4];
+	for (i = 0; i < 4; ++i) {
+		pos[i] = MS_OLE_GET_GUINT16(data + 4*i + 2);
+		margin[i] = (MS_OLE_GET_GUINT16(data + 4*i + 4) / 20.);
+		tmp = (i&1) /* odds are rows */
+		    ? sheet_row_get_unit_distance (sheet, 0, pos[i])
+		    : sheet_col_get_unit_distance (sheet, 0, pos[i]);
+		margin[i] += tmp;
+		margin[i] *= zoom;
+	}
+
 #ifdef ENABLE_BONOBO
 	{ /* In the anals of ugly hacks, this is well up there :-) */
 		GList        *l = state->wb->eschers;
@@ -620,7 +631,8 @@ ms_escher_read_ClientAnchor (MSEscherState * state,
 
 		/* And lo, objects appeared always in the TLC */
 		so = sheet_object_container_new (state->sheet->gnum_sheet,
-						 10.0, 10.0, 110.0, 110.0,
+						 margin[0], margin[1],
+						 margin[2], margin[3],
 						 er->v.blip.reproid);
 		if (!sheet_object_container_load (so, er->v.blip.stream, TRUE))
 			g_warning ("Failed to load '%s' from stream",
@@ -631,6 +643,7 @@ ms_escher_read_ClientAnchor (MSEscherState * state,
 	}
 #endif
 }
+
 static void
 ms_escher_read_ClientData (MSEscherState * state,
 			   MSEscherCommonHeader * containing_header)

@@ -225,10 +225,10 @@ void        sheet_col_add                 (Sheet *sheet, ColRowInfo *cp);
 void        sheet_row_add                 (Sheet *sheet, ColRowInfo *cp);
 
 /* Measure distances in pixels from one col/row to another */
-int         sheet_col_get_distance        (Sheet *sheet, int from_col, int to_col);
-int         sheet_row_get_distance        (Sheet *sheet, int from_row, int to_row);
-double      sheet_row_get_unit_distance   (Sheet *sheet, int from_row, int to_row);
-double      sheet_col_get_unit_distance   (Sheet *sheet, int from_col, int to_col);
+int         sheet_col_get_distance        (Sheet const *sheet, int from_col, int to_col);
+int         sheet_row_get_distance        (Sheet const *sheet, int from_row, int to_row);
+double      sheet_row_get_unit_distance   (Sheet const *sheet, int from_row, int to_row);
+double      sheet_col_get_unit_distance   (Sheet const *sheet, int from_col, int to_col);
  
 void        sheet_clear_region            (Sheet *sheet,
 				           int start_col, int start_row,
