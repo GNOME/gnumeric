@@ -6,10 +6,7 @@
  *
  */
 #include <config.h>
-#include <gnome.h>
-#include <ctype.h>
 #include "gnumeric.h"
-#include "gnumeric-sheet.h"
 #include "utils.h"
 #include "func.h"
 
@@ -52,18 +49,17 @@ static Value *
 gnumeric_iserror (Sheet *sheet, GList *expr_node_list,
 		  int eval_col, int eval_row, char **error_string)
 {
-	int res, retval = 0;
+	int res;
 	res = gnumeric_check_for_err (sheet, expr_node_list,
 				      eval_col, eval_row, error_string);
 
 	if (res < 0)
 		return NULL;
-	if (res > 0)
-	{
+	if (res > 0) {
 		*error_string = NULL;
-		retval = 1;	/* We do not care what type */
+		return value_new_bool (TRUE);
 	}
-	return value_new_int (retval);
+	return value_new_bool (FALSE);
 }
 
 
@@ -85,19 +81,18 @@ static Value *
 gnumeric_isna (Sheet *sheet, GList *expr_node_list,
 	       int eval_col, int eval_row, char **error_string)
 {
-	int res, retval = 0;
+	int res;
 	res = gnumeric_check_for_err (sheet, expr_node_list,
 				      eval_col, eval_row, error_string);
 	if (res < 0)
 		return NULL;
-	if (res > 0)
-	{
-		if (!strcmp (gnumeric_err_NA, *error_string))
-			retval = 1;	/* Only for N/A */
+	if (res > 0) {
+		gboolean is_NA = (strcmp (gnumeric_err_NA, *error_string) == 0);
 		*error_string = NULL;
+		return value_new_bool (is_NA);
 	}
-	return value_new_int (retval);
-	}
+	return value_new_bool (FALSE);
+}
 
 
 static char *help_iserr = {
@@ -114,18 +109,17 @@ static Value *
 gnumeric_iserr (Sheet *sheet, GList *expr_node_list,
 		int eval_col, int eval_row, char **error_string)
 {
-	int res, retval = 0;
+	int res;
 	res = gnumeric_check_for_err (sheet, expr_node_list,
 				      eval_col, eval_row, error_string);
 	if (res < 0)
 		return NULL;
-	if (res > 0)
-	{
-		if (strcmp (gnumeric_err_NA, *error_string))
-			retval = 1;	/* Any error accept N/A */
+	if (res > 0) {
+		gboolean is_NA = (strcmp (gnumeric_err_NA, *error_string) == 0);
 		*error_string = NULL;
-}
-	return value_new_int (retval);
+		return value_new_bool (!is_NA);
+	}
+	return value_new_bool (FALSE);
 }
 
 

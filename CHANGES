@@ -42,6 +42,9 @@ Nick Lamb
 	* Fixed absolute shared formulae cell references.
 	* Supplied a spreadsheet to check date functions.
 
+Jody Goldberg
+	* Supplied many new error and error checking functions.
+
 Several translations updated: thanks to our translators
 
 And lots of bugs fixed.

@@ -1,4 +1,19 @@
-Sun Jun 13 14:16:16 1999  Morten Welinder  <welinder@rentec.com>
+1999-06-13  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-information.c: Prune includes.
+	* src/fn-string.c: Ditto.
+	* src/fn-sheet.c: Ditto.
+	* src/fn-misc.c: Ditto.
+
+	* src/fn-financial.c: Ditto.
+	* src/fn-date.c: Ditto.
+	* src/fn-database.c: Ditto.
+	* src/fn-lookup.c: Ditto.
+	* src/fn-stat.c: Ditto.
+	* src/fn-math.c: Ditto.
+	* src/fn-logical.c: Ditto.
+
+	* src/cell.h: Fix includes.
 
 	* src/fn-information.c (gnumeric_isblank): Return boolean.
 	(gnumeric_iseven): Ditto.
@@ -10,10 +25,11 @@ Sun Jun 13 14:16:16 1999  Morten Welinder  <welinder@rentec.com>
 	(gnumeric_istext): Ditto.
 	(gnumeric_n): Ditto.
 
-1999-06-13  Morten Welinder  <terra@diku.dk>
-
 	* src/expr.c (value_new_bool): New function.
 	(eval_expr): Return boolean Values.
+
+	* src/fn-misc.c (gnumeric_iserr, gnumeric_iserror, gnumeric_isna):
+ 	Return boolean;
 
 	* src/fn-logical.c (callback_function_and): Simplify.
 	(callback_function_or): Ditto.
