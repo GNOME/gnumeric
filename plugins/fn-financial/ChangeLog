@@ -1,3 +1,7 @@
+2003-06-27  Morten Welinder  <terra@gnome.org>
+
+	* sc-fin.c (get_yielddisc): Beat some sense into this.
+
 2003-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* functions.c: spelling fixes

@@ -312,11 +312,9 @@ get_amorlinc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 Value *    get_yielddisc (GDate *nSettle, GDate *nMat, gnm_float fPrice,
 			  gnm_float fRedemp, gint nBase)
 {
-        gnm_float fRet = 1.0 - fPrice / fRedemp;
-	/* FIXME: I think this is bogus stuff. */
+        gnm_float fRet = (fRedemp / fPrice) - 1;
 
 	fRet /= GetYearFrac ( nSettle, nMat, nBase );
-	fRet /= GNM_const(0.99795);  /* don't know what this constant means in original */
 
 	return value_new_float ( fRet );
 }
