@@ -64,10 +64,7 @@ static void
 shuffle_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 			       ShuffleState *state)
 {
-        Value *output_range   = NULL;
         Value *input_range    = NULL;
-
-	int i;
 
         input_range = gnm_expr_entry_parse_as_value (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
@@ -78,20 +75,6 @@ shuffle_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 		return;
 	} else
 		value_release (input_range);
-
-	i = gnumeric_glade_group_value (state->gui, output_group);
-	if (i == 2) {
-		output_range = gnm_expr_entry_parse_as_value
-			(GNUMERIC_EXPR_ENTRY (state->output_entry),
-			 state->sheet);
-		if (output_range == NULL) {
-			gtk_label_set_text (GTK_LABEL (state->warning),
-					    _("The output range is invalid."));
-			gtk_widget_set_sensitive (state->ok_button, FALSE);
-			return;
-		} else
-			value_release (output_range);
-	}
 
 	gtk_label_set_text (GTK_LABEL (state->warning), "");
 	gtk_widget_set_sensitive (state->ok_button, TRUE);
@@ -110,19 +93,25 @@ shuffle_update_sensitivity_cb (G_GNUC_UNUSED GtkWidget *dummy,
 static void
 shuffle_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button, ShuffleState *state)
 {
-	data_analysis_output_t  dao;
+	data_analysis_output_t  *dao;
+	data_shuffling_t        *ds;
+	WorkbookControl         *wbc;
 	Value                   *input;
 	int                     type;
+
+	/* This is free'ed by cmd_data_shuffle_finalize. */
+	dao = g_new (data_analysis_output_t, 1);
 
 	input = gnm_expr_entry_parse_as_value (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
-        parse_output ((GenericToolState *) state, &dao);
-
 	type = gnumeric_glade_group_value (state->gui, shuffle_by);
 
-	data_shuffling (WORKBOOK_CONTROL (state->wbcg),	&dao, state->sheet,
-			input, type);
+	ds = data_shuffling (WORKBOOK_CONTROL (state->wbcg), dao, 
+			     state->sheet, input, type);
+
+	wbc = WORKBOOK_CONTROL (state->wbcg);
+	cmd_data_shuffle (wbc, ds, state->sheet);
 
 	value_release (input);
 	gtk_widget_destroy (state->dialog);
@@ -166,7 +155,7 @@ dialog_shuffle (WorkbookControlGUI *wbcg)
 		return;
 
 	shuffle_update_sensitivity_cb (NULL, state);
-	tool_load_selection ((GenericToolState *)state, TRUE);
+	gtk_widget_show (state->dialog);
 
         return;
 }

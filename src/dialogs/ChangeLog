@@ -1,3 +1,8 @@
+2003-04-19  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* shuffle.glade: Support only in-place shuffling.
+	(dialog-shuffle.c): Related changes. Support Undo/Redo.
+
 2003-04-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-scenarios.c (scenarios_summary_clicked_cb): Check that
