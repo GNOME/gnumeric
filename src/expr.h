@@ -180,9 +180,9 @@ struct expr_relocate_info {
 	int col_offset, row_offset;/* and offset by this amount */
 };
 
-ExprTree * expr_relocate (ExprTree const *expr,
-			  EvalPosition const *pos,
-			  struct expr_relocate_info const *info);
+ExprTree       *expr_relocate (const ExprTree *expr,
+			       const EvalPosition *pos,
+			       const struct expr_relocate_info *info);
 
 int             expr_tree_get_const_int (ExprTree const *const expr);
 char const *	expr_tree_get_const_str (ExprTree const *const expr);

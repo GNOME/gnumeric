@@ -1373,9 +1373,9 @@ enum CellRefRelocate {
 };
 
 static enum CellRefRelocate
-cellref_relocate (CellRef * const ref,
-		  EvalPosition const * const pos,
-		  struct expr_relocate_info const * const rinfo)
+cellref_relocate (const CellRef * ref,
+		  const EvalPosition * const pos,
+		  const struct expr_relocate_info * const rinfo)
 {
 	/* For row or column refs
 	 * Ref	From	To
@@ -1475,9 +1475,9 @@ cellref_relocate (CellRef * const ref,
  * the move.
  */
 ExprTree *
-expr_relocate (ExprTree const *expr,
-	       EvalPosition const *pos,
-	       struct expr_relocate_info const *rinfo)
+expr_relocate (const ExprTree *expr,
+	       const EvalPosition *pos,
+	       const struct expr_relocate_info *rinfo)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 

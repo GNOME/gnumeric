@@ -27,6 +27,7 @@ static void  alloc_glist     (GList *l);
 static void  forget_glist    (GList *list);
 static void  forget_array    (GList *array);
 static void  forget_tree     (ExprTree *tree);
+static void  release_const_tree (ExprTree *tree);
 static void  alloc_list_free (void); 
 static Value*v_new (void);
 static void  v_forget (Value *v);
@@ -100,17 +101,21 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
 }
 
 static ExprTree *
-build_array_formula (ExprTree *func,
-		     ExprTree *expr_num_cols, ExprTree *expr_num_rows,
-		     ExprTree *expr_x, ExprTree *expr_y)
+build_array_formula (ExprTree *func, int cols, int rows, int x, int y)
 {
-	int const num_cols = expr_tree_get_const_int (expr_num_cols);
-	int const num_rows = expr_tree_get_const_int (expr_num_rows);
-	int const x = expr_tree_get_const_int (expr_x);
-	int const y = expr_tree_get_const_int (expr_y);
-	ExprTree * res = expr_tree_array_formula (x, y, num_rows, num_cols);
+	ExprTree *res = expr_tree_array_formula (x, y, rows, cols);
+
 	res->u.array.corner.func.expr = func;
 	return res;
+}
+
+static void
+release_const_tree (ExprTree *tree)
+{
+	g_assert (tree->oper == OPER_CONSTANT);
+
+	g_free (tree->u.constant);
+	g_free (tree);
 }
 
 static ExprTree *
@@ -146,7 +151,8 @@ build_array (GList *cols)
 
 			value_array_set (array, x, y, v);
 			v_forget (v);
-
+			g_free (expr);
+			
 			x++;
 			row = g_list_next (row);
 		}
@@ -195,7 +201,21 @@ int yyparse(void);
 line:	  exp           { *parser_result = $1; }
 
         | '{' exp '}' '(' NUMBER SEPARATOR NUMBER ')' '[' NUMBER ']' '[' NUMBER ']' {
-		*parser_result = build_array_formula ($2, $7, $5, $13, $10) ;
+		const int num_cols = expr_tree_get_const_int ($7);
+		const int num_rows = expr_tree_get_const_int ($5);
+		const int x = expr_tree_get_const_int ($13);
+		const int y = expr_tree_get_const_int ($10);
+
+		*parser_result = build_array_formula ($2, num_cols, num_rows, x, y);
+
+		/*
+		 * Notice that we have no use for the ExprTrees for the NUMBERS,
+		 * so we deallocate them.
+		 */
+		release_const_tree ($7);
+		release_const_tree ($5);
+		release_const_tree ($13);
+		release_const_tree ($10);
 	}
 
 	| error 	{ parser_error = PARSE_ERR_SYNTAX; }
@@ -389,18 +409,20 @@ make_string_return (char const *string, gboolean const possible_number)
 static int
 return_symbol (Symbol *sym)
 {
-	ExprTree *e = p_new (ExprTree);
+	ExprTree *e = NULL;
 	int type = STRING;
 	
-	e->ref_count = 1;
 	symbol_ref (sym);
 	
 	switch (sym->type){
 	case SYMBOL_FUNCTION:
+		e = p_new (ExprTree);
+		e->ref_count = 1;
 		e->oper = OPER_FUNCALL;
 		type = FUNCALL;
 		e->u.function.symbol = sym;
 		e->u.function.arg_list = NULL;
+		printf ("%p -> %s\n", e, sym->str);
 		break;
 		
 	case SYMBOL_VALUE:
@@ -412,6 +434,8 @@ return_symbol (Symbol *sym)
 		v = v_new ();
 		value_copy_to (v, dv);
 		
+		e = p_new (ExprTree);
+		e->ref_count = 1;
 		e->oper = OPER_CONSTANT;
 		e->u.constant = v;
 		type = CONSTANT;
@@ -822,6 +846,7 @@ gnumeric_expr_parser (const char *expr, const ParsePosition *pp,
 	if (parser_error == PARSE_OK)
 		alloc_list_free ();
 	else {
+		printf ("Parser error!\n");
 		alloc_clean ();
 		*parser_result = NULL;
 	}
