@@ -29,7 +29,15 @@
       <menuitem action="EditCopy"/>
       <menuitem action="EditPaste"/>
       <menuitem action="EditPasteSpecial"/>
+<!--TODO  menuitem action="EditPasteLink" -->
       <separator name="edit-sep2"/>
+      <menu name="Fill" action="MenuEditFill">
+        <menuitem action="EditFillAutofill"/>
+        <menuitem action="ToolsMerge"/>
+        <menuitem action="ToolsTabulate"/>
+        <menuitem action="EditFillSeries"/>
+        <menuitem action="RandomGenerator"/>
+      </menu>
       <menu name="Clear" action="MenuEditClear">
         <menuitem action="EditClearAll"/>
         <menuitem action="EditClearFormats"/>
@@ -41,7 +49,6 @@
 	<menuitem action="EditDeleteRows"/>
 	<menuitem action="EditDeleteCells"/>
       </menu>
-      <menuitem action="InsertComment"/>
       <separator name="edit-sep3"/>
       <menu name="EditSheet" action="MenuEditSheet">
         <menuitem action="SheetReorder"/>
@@ -60,15 +67,8 @@
         <menuitem action="EditSelectDepends"/>
         <menuitem action="EditSelectInputs"/>
       </menu>
-      <menu name="Fill" action="MenuEditFill">
-        <menuitem action="EditFillAutofill"/>
-        <menuitem action="ToolsMerge"/>
-        <menuitem action="ToolsTabulate"/>
-        <menuitem action="EditFillSeries"/>
-        <menuitem action="RandomGenerator"/>
-      </menu>
-      <menuitem action="EditSearch"/>
-      <menuitem action="EditSearchReplace"/>
+      <menuitem action="EditFind"/>
+      <menuitem action="EditReplace"/>
       <menuitem action="EditGoto"/>
       <menuitem action="EditRecalc"/>
       <placeholder name="ops"/>
@@ -102,6 +102,7 @@
       <menu name="Names" action="MenuInsertNames">
         <menuitem action="EditNames"/>
       </menu>
+      <menuitem action="InsertComment"/>
       <menuitem action="InsertHyperlink"/>
       <menu name="Special" action="MenuInsertSpecial">
         <menuitem action="InsertCurrentDate"/>

@@ -1007,7 +1007,7 @@ wbcg_menu_state_update (WorkbookControl *wbc, int flags)
 	if (MS_PRINT_SETUP & flags)
 		wbcg_set_action_sensitivity (wbcg, "FilePageSetup", !has_guru);
 	if (MS_SEARCH_REPLACE & flags)
-		wbcg_set_action_sensitivity (wbcg, "EditSearchReplace", !has_guru);
+		wbcg_set_action_sensitivity (wbcg, "EditReplace", !has_guru);
 	if (MS_DEFINE_NAME & flags)
 		wbcg_set_action_sensitivity (wbcg, "EditNames", !has_guru);
 	if (MS_CONSOLIDATE & flags)
