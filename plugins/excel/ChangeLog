@@ -1,3 +1,9 @@
+2002-02-24  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=72459
+	* ms-formula-write.c (write_node) : typo that broke switched unary
+	  operators.
+
 2002-01-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.4

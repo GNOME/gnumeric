@@ -530,8 +530,8 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 		{ 0, 0, 0, 0 }, /* Name     */
 		{ 0, 0, 0, 0 }, /* Constant */
 		{ 0, 0, 0, 0 }, /* Var      */
-		{ FORMULA_PTG_U_PLUS,	 5, 0, 0 }, /* Unary - */
-		{ FORMULA_PTG_U_MINUS,	 5, 0, 0 }, /* Unary + */
+		{ FORMULA_PTG_U_MINUS,	 5, 0, 0 }, /* Unary - */
+		{ FORMULA_PTG_U_PLUS,	 5, 0, 0 }, /* Unary + */
 		{ FORMULA_PTG_PERCENT,	 5, 0, 0 }, /* Percentage (NOT MODULO) */
 		{ 0, 0, 0, 0 }, /* Array    */
 		{ 0, 0, 0, 0 }  /* Set      */
