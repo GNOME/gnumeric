@@ -1,3 +1,23 @@
+2003-06-06  Morten Welinder  <terra@gnome.org>
+
+	* src/item-bar.c (struct _ItemBar): Add normal_font_ascent and
+	bold_font_ascent fields.  Change normal_font and bold_font to
+	PangoFonts.
+	(item_bar_calc_size): Set font and ascent fields.
+	(ib_draw_cell): Use them.
+	(item_bar_normal_font): Change to return a pango font.
+	(ib_fonts_unref): Use g_object_unref, not style_font_unref.
+	(ib_draw_cell): Use the right font for shaping.  (This prevents
+	the bold dancing effect.)
+
+	* src/sheet-control-gui.c (scg_setup_group_buttons): Match
+	item_bar_normal_font change.
+
+	* src/style.c (font_init): Don't export gnumeric_default_bold, but
+	gnumeric_default_bold_width instead.  Single user changed.
+	(style_font_string_width): Make static.
+	(style_font_get_height): Delete.
+
 2003-06-05  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-gconf.c (gnm_gconf_rm_notification) : delete.

@@ -337,7 +337,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 		double charwidth;
 		int    cellwidth;
 
-		charwidth = gnumeric_default_font->approx_width.pts.digit;
+		charwidth = gnumeric_default_font_width;
 		cellwidth = info->size_pts;
 
 		return value_new_int (rint (cellwidth / charwidth));

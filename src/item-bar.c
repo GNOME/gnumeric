@@ -39,7 +39,8 @@ struct _ItemBar {
 	GdkGC           *text_gc, *filter_gc, *lines, *shade;
 	GdkCursor       *normal_cursor;
 	GdkCursor       *change_cursor;
-	StyleFont	*normal_font, *bold_font;
+	PangoFont	*normal_font, *bold_font;
+	int             normal_font_ascent, bold_font_ascent;
 	GtkWidget       *tip;			/* Tip for scrolling */
 	gboolean	 dragging;
 	gboolean	 is_col_header;
@@ -83,12 +84,12 @@ static void
 ib_fonts_unref (ItemBar *ib)
 {
 	if (ib->normal_font != NULL) {
-		style_font_unref (ib->normal_font);
+		g_object_unref (ib->normal_font);
 		ib->normal_font = NULL;
 	}
 
 	if (ib->bold_font != NULL) {
-		style_font_unref (ib->bold_font);
+		g_object_unref (ib->bold_font);
 		ib->bold_font = NULL;
 	}
 }
@@ -107,46 +108,66 @@ item_bar_calc_size (ItemBar *ib)
 	Sheet const *sheet = ((SheetControl *) scg)->sheet;
 	double const zoom_factor = sheet->last_zoom_factor_used;
 	PangoContext *context;
-	PangoFontDescription *desc = wbcg_get_font_desc (scg->wbcg);
-	StyleFont *normal_font;
-	StyleFont *bold_font;
+	const PangoFontDescription *desc = wbcg_get_font_desc (scg->wbcg);
 	char const *font_name;
 	int size;
 
 	size      = pango_font_description_get_size (desc) / PANGO_SCALE;
 	font_name = pango_font_description_get_family (desc);
 
-	context = gtk_widget_get_pango_context
-		(GTK_WIDGET (ib->gcanvas));
-	/* ref before unref */
-	normal_font = style_font_new_simple (context,
-					     font_name, size,
-					     zoom_factor, FALSE, FALSE);
-	bold_font = style_font_new_simple (context,
-					   font_name, size,
-					   zoom_factor, TRUE, FALSE);
-
-	/* Now that we have the new fonts unref the old ones */
 	ib_fonts_unref (ib);
+	context = gtk_widget_get_pango_context (GTK_WIDGET (ib->gcanvas));
 
-	/* And finish up by assigning the new fonts. */
-	ib->normal_font = normal_font;
-	ib->bold_font = bold_font;
+	{
+		StyleFont *font =
+			style_font_new_simple (context,
+					       font_name, size,
+					       zoom_factor, FALSE, FALSE);
+		ib->normal_font = font->pango.font;
+		g_object_ref (ib->normal_font);
+		ib->normal_font_ascent = PANGO_PIXELS
+			(pango_font_metrics_get_ascent (font->pango.metrics));
+		style_font_unref (font);
+	}
 
-	ib->pango.item->analysis.font = g_object_ref (normal_font->pango.font);
+	{
+		StyleFont *font =
+			style_font_new_simple (context,
+					       font_name, size,
+					       zoom_factor, TRUE, FALSE);
+		ib->bold_font = font->pango.font;
+		g_object_ref (ib->bold_font);
+		ib->bold_font_ascent = PANGO_PIXELS
+			(pango_font_metrics_get_ascent (font->pango.metrics));
+		style_font_unref (font);
+	}
+
+	{
+		PangoLayout *layout = pango_layout_new (context);
+		PangoFontDescription *bold_desc = pango_font_describe (ib->bold_font);
+		int width, height;
+
+		pango_layout_set_font_description (layout, bold_desc);
+		pango_layout_set_text (layout, "188888", -1);
+		pango_layout_get_pixel_size (layout, &width, &height);
+		pango_font_description_free (bold_desc);
+		g_object_unref (layout);
+
+		/* Use the size of the bold header font to size the free dimensions No
+		 * need to zoom, the size of the font takes that into consideration.
+		 * 2 pixels above and below
+		 */
+		ib->cell_height = 2 + 2 + height;
+
+		/* 5 pixels left and right plus the width of the widest string I can think of */
+		ib->cell_width = 5 + 5 + width;
+	}
+
+	ib->pango.item->analysis.font = g_object_ref (ib->normal_font);
 	ib->pango.item->analysis.shape_engine =
-		pango_font_find_shaper (normal_font->pango.font,
-			pango_language_from_string ("C"), 'A');
+		pango_font_find_shaper (ib->normal_font,
+					pango_language_from_string ("C"), 'A');
 
-	/* Use the size of the bold header font to size the free dimensions No
-	 * need to zoom, the size of the font takes that into consideration.
-	 * 2 pixels above and below
-	 */
-	ib->cell_height = 2 + 2 + style_font_get_height (bold_font);
-
-	/* 5 pixels left and right plus the width of the widest string I can think of */
-	ib->cell_width = 5 + 5 +
-		style_font_string_width(bold_font, "188888");
 	ib->indent = ib->is_col_header
 		? ib_compute_pixels_from_indent (sheet, TRUE)
 		: ib_compute_pixels_from_indent (sheet, FALSE);
@@ -157,7 +178,7 @@ item_bar_calc_size (ItemBar *ib)
 		(ib->is_col_header ? ib->cell_height : ib->cell_width);
 }
 
-StyleFont const *
+PangoFont const *
 item_bar_normal_font (ItemBar const *ib)
 {
 	return ib->normal_font;
@@ -248,7 +269,7 @@ ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
 {
 	GtkWidget	*canvas = GTK_WIDGET (FOO_CANVAS_ITEM (ib)->canvas);
 	GdkGC 		*gc;
-	StyleFont	*font;
+	PangoFont	*font;
 	PangoRectangle   size;
 	int shadow, ascent;
 
@@ -258,23 +279,24 @@ ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
 		shadow = GTK_SHADOW_OUT;
 		gc = canvas->style->bg_gc [GTK_STATE_ACTIVE];
 		font = ib->normal_font;
+		ascent = ib->normal_font_ascent;
 		break;
 
 	case COL_ROW_PARTIAL_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		gc = canvas->style->dark_gc [GTK_STATE_PRELIGHT];
 		font = ib->bold_font;
+		ascent = ib->bold_font_ascent;
 		break;
 
 	case COL_ROW_FULL_SELECTION:
 		shadow = GTK_SHADOW_IN;
 		gc = canvas->style->dark_gc [GTK_STATE_NORMAL];
 		font = ib->bold_font;
+		ascent = ib->bold_font_ascent;
 		break;
 	}
 	g_return_if_fail (font != NULL);
-	g_return_if_fail (font->pango.font != NULL);
-	g_return_if_fail (font->pango.metrics != NULL);
 
 	gdk_draw_rectangle (drawable, gc, TRUE,
 			    rect->x + 1, rect->y + 1, rect->width-2, rect->height-2);
@@ -282,10 +304,11 @@ ib_draw_cell (ItemBar const * const ib, GdkDrawable *drawable,
 			 rect->x, rect->y, rect->width, rect->height);
 	gdk_gc_set_clip_rectangle (text_gc, rect);
 
-	ascent = PANGO_PIXELS (pango_font_metrics_get_ascent (font->pango.metrics));
+	g_object_unref (ib->pango.item->analysis.font);
+	ib->pango.item->analysis.font = g_object_ref (font);
 	pango_shape (str, strlen (str), &(ib->pango.item->analysis), ib->pango.glyphs);
-	pango_glyph_string_extents (ib->pango.glyphs, font->pango.font, NULL, &size);
-	gdk_draw_glyphs (drawable, text_gc, font->pango.font,
+	pango_glyph_string_extents (ib->pango.glyphs, font, NULL, &size);
+	gdk_draw_glyphs (drawable, text_gc, font,
 		rect->x + (rect->width - PANGO_PIXELS (size.width)) / 2,
 		rect->y + (rect->height - PANGO_PIXELS (size.height)) / 2 + ascent + 1,
 		ib->pango.glyphs);

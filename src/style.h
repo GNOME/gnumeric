@@ -71,10 +71,8 @@ StyleFont     *style_font_new_simple  (PangoContext *context,
 				       const char *font_name,
 				       double size_pts, double scale,
 				       gboolean bold, gboolean italic);
-int  style_font_get_height   (StyleFont const *sf);
 void style_font_ref          (StyleFont *sf);
 void style_font_unref        (StyleFont *sf);
-int  style_font_string_width (StyleFont const *font, char const *str);
 
 guint          style_font_hash_func (gconstpointer v);
 gint           style_font_equal (gconstpointer v, gconstpointer v2);
@@ -82,7 +80,7 @@ gint           style_font_equal (gconstpointer v, gconstpointer v2);
 SpanCalcFlags	 required_updates_for_style (MStyle *style);
 StyleHAlignFlags style_default_halign (MStyle const *mstyle, Cell const *c);
 
-extern StyleFont *gnumeric_default_font;
+extern double gnumeric_default_font_width;
 
 #include "mstyle.h"
 

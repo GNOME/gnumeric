@@ -29,7 +29,7 @@
 static GHashTable *style_font_hash;
 static GHashTable *style_font_negative_hash;
 
-StyleFont *gnumeric_default_font;
+double gnumeric_default_font_width;
 static char *gnumeric_default_font_name;
 static double gnumeric_default_font_size;
 
@@ -66,7 +66,7 @@ get_substitute_font (gchar const *fontname)
 	return NULL;
 }
 
-int
+static int
 style_font_string_width (StyleFont const *font, char const *str)
 {
 	int w;
@@ -265,15 +265,6 @@ style_font_new (PangoContext *context,
 	abort ();
 }
 
-int
-style_font_get_height (StyleFont const *sf)
-{
-	g_return_val_if_fail (sf != NULL, 0);
-
-	return PANGO_PIXELS(pango_font_metrics_get_ascent(sf->pango.metrics) +
-	       pango_font_metrics_get_descent(sf->pango.metrics));
-}
-
 void
 style_font_ref (StyleFont *sf)
 {
@@ -371,6 +362,7 @@ font_init (void)
 	GConfClient *client = application_get_gconf_client ();
 	GdkScreen *screen;
 	PangoContext *context;
+	StyleFont *gnumeric_default_font = NULL;
 
 	gnumeric_default_font_name =
 		gconf_client_get_string (client,
@@ -380,7 +372,6 @@ font_init (void)
 		gconf_client_get_float (client,
 					GCONF_DEFAULT_SIZE,
 					NULL);
-	gnumeric_default_font = NULL;
 
 	screen = gdk_screen_get_default ();
 	context = gdk_pango_context_get_for_screen (screen);
@@ -409,14 +400,17 @@ font_init (void)
 
 	if (!gnumeric_default_font)
 		exit (1);
+
+	gnumeric_default_font_width = gnumeric_default_font->approx_width.pts.digit;
+	style_font_unref (gnumeric_default_font);
 }
 
 void
 style_init (void)
 {
 	number_format_init ();
-	style_font_hash   = g_hash_table_new (style_font_hash_func,
-					      style_font_equal);
+	style_font_hash = g_hash_table_new (style_font_hash_func,
+					    style_font_equal);
 	style_font_negative_hash = g_hash_table_new (style_font_hash_func,
 						     style_font_equal);
 
@@ -447,12 +441,6 @@ list_cached_fonts (gpointer key, gpointer value, gpointer user_data)
 void
 style_shutdown (void)
 {
-	if (gnumeric_default_font->ref_count != 2) {
-		g_warning ("Default font has %d references.  It should have two.",
-			   gnumeric_default_font->ref_count);
-	}
-	style_font_unref (gnumeric_default_font);
-	gnumeric_default_font = NULL;
 	g_free (gnumeric_default_font_name);
 	gnumeric_default_font_name = NULL;
 
