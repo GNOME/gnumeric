@@ -51,7 +51,7 @@ msgstr ""
 #: plugins/dif/dif.c:246
 #, c-format
 msgid "Syntax error at line %d. Ignoring."
-msgstr "Синтаксична помилка в рядку %s. Про╕╜норовано."
+msgstr "Синтаксична помилка в рядку %d. Про╕╜норовано."
 
 #: plugins/dif/dif.c:283
 #, c-format

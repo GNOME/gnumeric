@@ -4812,7 +4812,7 @@ msgstr "Feil ved utkopling av tilleggsmodul"
 #: src/dialogs/dialog-plugin-manager.c:476
 #, c-format
 msgid "%s[in memory, marked for deactivation]"
-msgstr "% [lasta i minnet, merka for utkopling]"
+msgstr "%s [lasta i minnet, merka for utkopling]"
 
 #: src/dialogs/dialog-plugin-manager.c:479
 #, c-format

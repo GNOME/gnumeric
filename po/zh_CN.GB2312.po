@@ -55,7 +55,7 @@ msgstr "在第 %d 行出现语法错误. 忽视."
 #: plugins/dif/dif.c:283
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr "在第 %d 出现不知道的数据值 \"%s\". 忽视."
+msgstr "在第 %2$d 出现不知道的数据值 \"%1$s\". 忽视."
 
 #: plugins/dif/dif.c:290
 #, c-format
@@ -2679,12 +2679,12 @@ msgstr "在 %2$s 之前插入 %1$d 列"
 #: src/commands.c:1108
 #, c-format
 msgid "Inserting %d rows before %s"
-msgstr "在 %2$d 之前插入 %1$d 行"
+msgstr "在 %2$s 之前插入 %1$d 行"
 
 #: src/commands.c:1109
 #, c-format
 msgid "Inserting %d row before %s"
-msgstr "在 %2$d 之前插入 %1$d 行"
+msgstr "在 %2$s 之前插入 %1$d 行"
 
 # src/dialog-delete-cells.c:36
 #: src/commands.c:1120
@@ -2896,7 +2896,7 @@ msgstr "合并列 %s"
 #: src/commands.c:2272
 #, c-format
 msgid "Group rows %d:%d"
-msgstr "合并行 %f:%d"
+msgstr "合并行 %d:%d"
 
 #: src/commands.c:2272
 #, c-format

@@ -56,10 +56,10 @@ msgstr "%d行目に文法エラーがあります。無視します。"
 #: plugins/dif/dif.c:283
 #, c-format
 msgid "Unknown data value \"%s\" at line %d. Ignoring."
-msgstr "%d行目に不明なデータ値\"%s\"があります。無視します。"
+msgstr "%2$d行目に不明なデータ値\"%1$s\"があります。無視します。"
 
 #: plugins/dif/dif.c:290
-#, c-format
+#, fuzzy, c-format
 msgid "Unknown value type %d at line %d. Ignoring."
 msgstr "%d行に不明なデータ型があります。無視します。"
 
