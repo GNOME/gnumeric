@@ -1,3 +1,28 @@
+1999-05-06  Morten Welinder  <terra@diku.dk>
+
+	* src/eval.c (cell_queue_recalc): Don't re-queue cell.
+	(cell_queue_recalc_list): Don't re-queue cells.  (Because it is
+ 	wasteful and because unqueue then won't work right.)
+
+	* src/fn-lookup.c (gnumeric_column): Fix leak.
+	(gnumeric_row): Fix leak.
+	(gnumeric_choose): Fix leak.
+	(lookup_similar): Fix leaks.
+
+	* src/xml-io.c (xml_probe): Fix leak.
+	(xmlGetValue): Fix *HUGE* leak.
+	(readXmlStyle): Fix leaks.
+	(readXmlSheet): Fix leaks.
+	(createXmlSheet): Fix leak.
+	(readXmlCell): Move the freeze, just in case.
+
+	* src/fn-lookup.c (gnumeric_choose): Remove (incorrect) arg check.
+
+	* src/cell.c (cell_copy): Properly handle render_color member.
+  	Clear the CELL_QUEUED_FOR_RECALC flag.
+	(cell_destroy): Add code to make it painfully clear when members
+ 	of freed cells are accessed.
+
 1999-05-06  Michael Meeks  <michael@imaginator.com>
 
 	* src/cell.h: Added deep freeze prototypes.

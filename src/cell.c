@@ -38,6 +38,7 @@ cell_modified (Cell *cell)
 		sheet->modified = TRUE;
 }
 
+
 void
 cell_set_formula (Cell *cell, const char *text)
 {
@@ -537,7 +538,6 @@ cell_render_value (Cell *cell)
 	g_free (str);
 }
 
-
 /*
  * Sets the value for a cell:
  *
@@ -815,16 +815,23 @@ cell_copy (const Cell *cell)
 	new_cell->col   = NULL;
 	new_cell->row   = NULL;
 	new_cell->sheet = NULL;
+	new_cell->flags &= ~CELL_QUEUED_FOR_RECALC;
 
-	/* now copy propertly the rest */
+	/* now copy properly the rest */
 	if (new_cell->parsed_node)
-		expr_tree_ref   (new_cell->parsed_node);
-	string_ref      (new_cell->text);
+		expr_tree_ref (new_cell->parsed_node);
+
+	if (new_cell->text)
+		string_ref (new_cell->text);
 
 	if (new_cell->entered_text)
 		string_ref (new_cell->entered_text);
 
-	new_cell->style = style_duplicate (new_cell->style);
+	if (new_cell->style)
+		new_cell->style = style_duplicate (new_cell->style);
+
+	if (new_cell->render_color)
+		style_color_ref (new_cell->render_color);
 
 	/*
 	 * The cell->value can be NULL if the cell contains
@@ -833,9 +840,10 @@ cell_copy (const Cell *cell)
 	if (new_cell->value)
 		new_cell->value = value_duplicate (new_cell->value);
 
-	new_cell->comment = NULL;
-	if (cell->comment)
+	if (cell->comment) {
+		new_cell->comment = NULL;
 		cell_set_comment (new_cell, cell->comment->comment->str);
+	}
 
 	return new_cell;
 }
@@ -845,26 +853,38 @@ cell_destroy (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 
+	if (cell_hash_queue && g_hash_table_lookup (cell_hash_queue, cell)) {
+		g_warning ("FIXME: Deleting cell %s which was queued for redraw",
+			   cell_name (cell->col->pos, cell->row->pos));
+		g_hash_table_remove (cell_hash_queue, cell);
+	}
+
 	cell_modified (cell);
 
-	if (cell->parsed_node){
+	if (cell->parsed_node)
 		expr_tree_unref (cell->parsed_node);
-	}
+	cell->parsed_node = (void *)0xdeadbeef;
 
 	if (cell->render_color)
 		style_color_unref (cell->render_color);
+	cell->render_color = (void *)0xdeadbeef;
 
 	cell_comment_destroy (cell);
 
 	if (cell->text)
 		string_unref (cell->text);
+	cell->text = (void *)0xdeadbeef;
+
 	if (cell->entered_text)
 		string_unref (cell->entered_text);
+	cell->entered_text = (void *)0xdeadbeef;
 
 	style_destroy (cell->style);
+	cell->style = (void *)0xdeadbeef;
 
 	if (cell->value)
 		value_release (cell->value);
+	cell->value = (void *)0xdeadbeef;
 
 	g_free (cell);
 }
@@ -932,7 +952,7 @@ cell_queue_redraw (Cell *cell)
 		queue_cell (cell);
 		return;
 	}
-	
+
 	sheet_redraw_cell_region (cell->sheet,
 				  cell->col->pos, cell->row->pos,
 				  cell->col->pos, cell->row->pos);

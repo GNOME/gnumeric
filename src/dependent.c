@@ -372,6 +372,9 @@ cell_queue_recalc (Cell *cell)
 
 	g_return_if_fail (cell != NULL);
 	
+	if (cell->flags & CELL_QUEUED_FOR_RECALC)
+		return;
+
 	wb = ((Sheet *)cell->sheet)->workbook;
 	wb->eval_queue = g_list_prepend (wb->eval_queue, cell);
 	cell->flags |= CELL_QUEUED_FOR_RECALC;
@@ -405,20 +408,27 @@ cell_queue_recalc_list (GList *list)
 {
 	Workbook *wb;
 	Cell *first_cell;
-	
+	GList *list0 = list;
+
 	if (!list)
 		return;
 
 	first_cell = list->data;
 	wb = ((Sheet *)(first_cell->sheet))->workbook;
 
-	wb->eval_queue = g_list_concat (wb->eval_queue, list);
-
 	while (list) {
 		Cell *cell = list->data;
-		cell->flags |= CELL_QUEUED_FOR_RECALC;
 		list = list->next;
+
+		if (cell->flags & CELL_QUEUED_FOR_RECALC)
+			continue;
+
+		wb->eval_queue = g_list_prepend (wb->eval_queue, cell);
+
+		cell->flags |= CELL_QUEUED_FOR_RECALC;
 	}
+
+	g_list_free (list0);
 }
 
 static Cell *

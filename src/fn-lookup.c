@@ -35,8 +35,6 @@ gnumeric_choose (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row
 	Value  *v;
 	GList  *l=expr_node_list;
 
-	g_return_val_if_fail (l, NULL);
-
 	argc =  g_list_length(l);
 	if (argc<1 || !l->data) {
 		*error_string = _("#ARG!");
@@ -47,6 +45,7 @@ gnumeric_choose (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row
 	if (v->type != VALUE_INTEGER &&
 	    v->type != VALUE_FLOAT) {
 		*error_string = _("#VALUE!");
+		value_release (v);
 		return NULL;
 	}
 	index = value_get_as_int(v);
@@ -121,11 +120,16 @@ lookup_similar (const Value *data, const Value *templ, const Value *next_largest
 						char *c = value_string (next_largest);
 						int cmp = strcasecmp (a,c);
 						g_free (c);
-						if (cmp >= 0)
+						if (cmp >= 0) {
+							g_free (a);
+							g_free (b);
 							return -1;
-					}
-					else
+						}
+					} else {
+						g_free (a);
+						g_free (b);
 						return -1;
+					}
 				}
 			}
 			else
@@ -320,12 +324,15 @@ gnumeric_column (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row
 	switch (v->type){
 	case VALUE_CELLRANGE:
 		*error_string = _("Arrays not yet supported");
+		value_release (v);
 		return NULL;
 	case VALUE_ARRAY:
 		*error_string = _("Unimplemented");
+		value_release (v);
 		return NULL;
 	default:
 		*error_string = _("#VALUE!");
+		value_release (v);
 		return NULL;
 	}
 }
@@ -419,12 +426,15 @@ gnumeric_row (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, c
 	switch (v->type){
 	case VALUE_CELLRANGE:
 		*error_string = _("Arrays not yet supported");
+		value_release (v);
 		return NULL;
 	case VALUE_ARRAY:
 		*error_string = _("Unimplemented");
+		value_release (v);
 		return NULL;
 	default:
 		*error_string = _("#VALUE!");
+		value_release (v);
 		return NULL;
 	}
 }

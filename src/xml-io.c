@@ -56,7 +56,7 @@ xmlGetValue (xmlNodePtr node, const char *name)
 
 	ret = (char *) xmlGetProp (node, name);
 	if (ret != NULL)
-		return strdup (ret);
+		return ret;
 	child = node->childs;
 
 	while (child != NULL) {
@@ -886,7 +886,7 @@ static Style *
 readXmlStyle (parseXmlContextPtr ctxt, xmlNodePtr tree, Style * ret)
 {
 	xmlNodePtr child;
-	const char *prop;
+	char *prop;
 	int val;
 	StyleColor *c;
 
@@ -932,15 +932,16 @@ readXmlStyle (parseXmlContextPtr ctxt, xmlNodePtr tree, Style * ret)
 	prop = xmlGetValue (tree, "Format");
 	if (prop != NULL){
 		if (ret->format == NULL){
-			ret->format = style_format_new ((char *) prop);
+			ret->format = style_format_new ((const char *) prop);
 			ret->valid_flags |= STYLE_FORMAT;
 		}
+		free (prop);
 	}
 
 	child = tree->childs;
 	while (child != NULL){
 		if (!strcmp (child->name, "Font")){
-			const char *v;
+			char *v;
 
 			v = xmlGetValue (child, "NAME");
 			if (v){
@@ -957,6 +958,7 @@ readXmlStyle (parseXmlContextPtr ctxt, xmlNodePtr tree, Style * ret)
 					g_hash_table_insert (ctxt->nameTable, g_strdup (v), ret->font);
 					ret->valid_flags |= STYLE_FONT;
 				}
+				free (v);
 			} else {
 				StyleFont *font;
 
@@ -1234,8 +1236,6 @@ readXmlCell (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	int row = 0, col = 0;
 	char *content = NULL;
 
-	cell_deep_freeze_redraws ();
-
 	if (strcmp (tree->name, "Cell")){
 		fprintf (stderr,
 		 "readXmlCell: invalid element type %s, 'Cell' expected`\n",
@@ -1244,6 +1244,8 @@ readXmlCell (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	}
 	xmlGetIntValue (tree, "Col", &col);
 	xmlGetIntValue (tree, "Row", &row);
+
+	cell_deep_freeze_redraws ();
 
 	ret = sheet_cell_get (ctxt->sheet, col, row);
 	if (ret == NULL)
@@ -1402,7 +1404,7 @@ readXmlSheet (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	xmlNodePtr cells;
 	xmlNodePtr objects;
 	Sheet *ret = NULL;
-	const char *val;
+	char *val;
 
 	if (strcmp (tree->name, "Sheet")){
 		fprintf (stderr,
@@ -1421,6 +1423,7 @@ readXmlSheet (parseXmlContextPtr ctxt, xmlNodePtr tree)
 		ret = workbook_sheet_lookup (ctxt->wb, (const char *) val);
 		if (ret == NULL)
 			ret = sheet_new (ctxt->wb, (const char *) val);
+		free (val);
 	} 
 
 	if (ret == NULL)
@@ -1539,7 +1542,7 @@ writeXmlWorkbook (parseXmlContextPtr ctxt, Workbook *wb)
 static void
 createXmlSheet (parseXmlContextPtr ctxt, xmlNodePtr tree)
 {
-	const char *val;
+	char *val;
 	xmlNodePtr child;
 	
 	if (strcmp (tree->name, "Sheet")){
@@ -1553,8 +1556,9 @@ createXmlSheet (parseXmlContextPtr ctxt, xmlNodePtr tree)
 	if (val != NULL){
 		Sheet *sheet;
 		
-		sheet = sheet_new (ctxt->wb, (char *) val);
+		sheet = sheet_new (ctxt->wb, (const char *) val);
 		workbook_attach_sheet (ctxt->wb, sheet);
+		free (val);
 	}
 	return;
 }
@@ -1626,13 +1630,15 @@ xml_probe (const char *filename)
 {
 	xmlDocPtr res;
 	xmlNsPtr gmr;
-	
+
 	res = xmlParseFile (filename);
 	if (res == NULL)
 		return FALSE;
 
-	if (res->root == NULL)
+	if (res->root == NULL) {
+		xmlFreeDoc (res);
 		return FALSE;
+	}
 
 	gmr = xmlSearchNsByHref (res, res->root, "http://www.gnome.org/gnumeric/");
 	if (res->root->name == NULL || strcmp (res->root->name, "Workbook") || (gmr == NULL)){
