@@ -5,6 +5,8 @@ Andreas:
 	* Improve `T-Test (Paired Sample)'
 
 Emmanuel Pacaud:
+	http://bugzilla.gnome.org/show_bug.cgi?id=152615
+	New set of icons for charting engine
 	http://bugzilla.gnome.org/show_bug.cgi?id=152499
 	Fix crash when adding y-erros to an empty plot
 	http://bugzilla.gnome.org/show_bug.cgi?id=152201
