@@ -24,9 +24,6 @@ struct _SheetObject {
 typedef struct {
 	GObjectClass parent_class;
 
-	/* signals */
-	void (*unrealize) (SheetObject	*sheet_object);
-
 	/* Virtual methods */
 	gboolean (*remove_from_sheet) (SheetObject	*sheet_object);
 	gboolean   (*assign_to_sheet) (SheetObject	*sheet_object,
@@ -39,7 +36,7 @@ typedef struct {
 				      GtkMenu		*menu);
 	void	      (*user_config) (SheetObject	*sheet_object,
 				      SheetControl	*s_control);
-	void        (*update_bounds) (SheetObject	*so,
+	void   (*update_view_bounds) (SheetObject	*so,
 				      GObject		*obj_view);
 	void           (*set_active) (SheetObject	*so,
 				      GObject           *obj_view,
@@ -57,9 +54,10 @@ typedef struct {
 	SheetObject *       (*clone) (SheetObject const *so,
 				      Sheet *sheet);
 
-	void (*default_size) (SheetObject const *so, double *width, double *height);
+	void (*position_changed) (SheetObject const *so);
+	void (*default_size)	 (SheetObject const *so,
+				  double *width_pts, double *height_pts);
 
-	double	 default_width_pts, default_height_pts;
 	gboolean stipple_border;
 	gboolean rubber_band_directly; /* If false, we draw a rectangle where
 					* the object is going to be layed out

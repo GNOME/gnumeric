@@ -268,7 +268,7 @@ sheet_object_graph_class_init (GObjectClass *klass)
 
 	/* SheetObject class method overrides */
 	so_class->new_view	= sheet_object_graph_new_view;
-	so_class->update_bounds = sheet_object_graph_update_bounds;
+	so_class->update_view_bounds = sheet_object_graph_update_bounds;
 	so_class->read_xml	= sheet_object_graph_read_xml;
 	so_class->write_xml	= sheet_object_graph_write_xml;
 	so_class->clone         = sheet_object_graph_clone;

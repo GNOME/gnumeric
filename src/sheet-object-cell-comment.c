@@ -273,7 +273,7 @@ cell_comment_class_init (GObjectClass *object_class)
 	object_class->finalize = cell_comment_finalize;
 
 	/* SheetObject class method overrides */
-	sheet_object_class->update_bounds = &cell_comment_update_bounds;
+	sheet_object_class->update_view_bounds = &cell_comment_update_bounds;
 	sheet_object_class->new_view	  = &cell_comment_new_view;
 	sheet_object_class->read_xml      = &cell_comment_read_xml;
 	sheet_object_class->write_xml     = &cell_comment_write_xml;

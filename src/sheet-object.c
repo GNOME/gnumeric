@@ -257,22 +257,27 @@ sheet_object_init (GObject *object)
 }
 
 static void
+so_default_size (SheetObject const *so, double *width, double *height)
+{
+	/* Provide some defaults (derived classes may want to override) */
+	*width  = 72.;
+	*height = 72.;
+}
+
+static void
 sheet_object_class_init (GObjectClass *klass)
 {
 	SheetObjectClass *sheet_object_class = SHEET_OBJECT_CLASS (klass);
 
 	parent_klass = g_type_class_peek_parent (klass);
 	klass->finalize = sheet_object_finalize;
-	sheet_object_class->update_bounds        = NULL;
+	sheet_object_class->update_view_bounds   = NULL;
 	sheet_object_class->populate_menu        = sheet_object_populate_menu;
 	sheet_object_class->print                = NULL;
 	sheet_object_class->user_config          = NULL;
 	sheet_object_class->stipple_border	 = FALSE;
 	sheet_object_class->rubber_band_directly = FALSE;
-
-	/* Provide some defaults (derived classes may want to override) */
-	sheet_object_class->default_width_pts = 72.;	/* 1 inch */
-	sheet_object_class->default_height_pts = 36.;	/* 1/2 inch */
+	sheet_object_class->default_size	 = so_default_size;
 }
 
 GSF_CLASS (SheetObject, sheet_object,
@@ -357,9 +362,12 @@ sheet_object_update_bounds (SheetObject *so, CellPos const *pos)
 
 	so->is_visible = !is_hidden;
 
+	if (SO_CLASS (so)->position_changed)
+		SO_CLASS (so)->position_changed (so);
+
 	for (l = so->realized_list; l; l = l->next) {
 		GObject *view = G_OBJECT (l->data);
-		SO_CLASS (so)->update_bounds (so, view);
+		SO_CLASS (so)->update_view_bounds (so, view);
 	}
 }
 
@@ -479,7 +487,7 @@ sheet_object_new_view (SheetObject *so, SheetControl *sc, gpointer key)
 		(GWeakNotify) cb_sheet_object_view_finalized, so);
 	so->realized_list = g_list_prepend (so->realized_list, view);
 
-	SO_CLASS (so)->update_bounds (so, view);
+	SO_CLASS (so)->update_view_bounds (so, view);
 }
 
 void
@@ -707,11 +715,7 @@ sheet_object_default_size (SheetObject *so, double *w, double *h)
 	g_return_if_fail (w != NULL);
 	g_return_if_fail (h != NULL);
 
-	if (SO_CLASS (so)->default_size == NULL) {
-		*w = SO_CLASS(so)->default_width_pts;
-		*h = SO_CLASS(so)->default_height_pts;
-	} else
-		SO_CLASS (so)->default_size (so, w, h);
+	SO_CLASS (so)->default_size (so, w, h);
 }
 
 /**

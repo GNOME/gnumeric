@@ -624,7 +624,7 @@ sheet_object_graphic_class_init (GObjectClass *object_class)
 
 	/* SheetObject class method overrides */
 	so_class->new_view	= sheet_object_graphic_new_view;
-	so_class->update_bounds = sheet_object_graphic_update_bounds;
+	so_class->update_view_bounds = sheet_object_graphic_update_bounds;
 	so_class->read_xml	= sheet_object_graphic_read_xml;
 	so_class->write_xml	= sheet_object_graphic_write_xml;
 	so_class->clone         = sheet_object_graphic_clone;
@@ -1150,7 +1150,7 @@ sheet_object_filled_class_init (GObjectClass *object_class)
 
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  = sheet_object_filled_new_view;
-	sheet_object_class->update_bounds = sheet_object_filled_update_bounds;
+	sheet_object_class->update_view_bounds = sheet_object_filled_update_bounds;
 	sheet_object_class->read_xml	  = sheet_object_filled_read_xml;
 	sheet_object_class->write_xml	  = sheet_object_filled_write_xml;
 	sheet_object_class->clone         = sheet_object_filled_clone;
@@ -1326,7 +1326,7 @@ sheet_object_polygon_class_init (GObjectClass *object_class)
 	/* SheetObject class method overrides */
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  = sheet_object_polygon_new_view;
-	sheet_object_class->update_bounds = sheet_object_polygon_update_bounds;
+	sheet_object_class->update_view_bounds = sheet_object_polygon_update_bounds;
 	sheet_object_class->read_xml	  = sheet_object_polygon_read_xml;
 	sheet_object_class->write_xml	  = sheet_object_polygon_write_xml;
 	sheet_object_class->clone         = sheet_object_polygon_clone;
@@ -1610,7 +1610,7 @@ sheet_object_text_class_init (GObjectClass *object_class)
 	/* SheetObject class method overrides */
 	so_class = SHEET_OBJECT_CLASS (object_class);
 	so_class->new_view	= sheet_object_text_new_view;
-	so_class->update_bounds = sheet_object_text_update_bounds;
+	so_class->update_view_bounds = sheet_object_text_update_bounds;
 	so_class->read_xml	= sheet_object_text_read_xml;
 	so_class->write_xml	= sheet_object_text_write_xml;
 	so_class->clone         = sheet_object_text_clone;

@@ -587,7 +587,7 @@ filter_field_class_init (GObjectClass *object_class)
 	object_class->finalize = filter_field_finalize;
 
 	/* SheetObject class method overrides */
-	sheet_object_class->update_bounds = filter_field_update_bounds;
+	sheet_object_class->update_view_bounds = filter_field_update_bounds;
 	sheet_object_class->new_view	  = filter_field_new_view;
 	sheet_object_class->read_xml      = NULL;
 	sheet_object_class->write_xml     = NULL;

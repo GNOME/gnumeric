@@ -152,7 +152,7 @@ sheet_object_widget_class_init (GtkObjectClass *object_class)
 
 	/* SheetObject class method overrides */
 	so_class->new_view	= sheet_object_widget_new_view;
-	so_class->update_bounds = sheet_object_widget_update_bounds;
+	so_class->update_view_bounds = sheet_object_widget_update_bounds;
 
 	sow_class->create_widget = NULL;
 }

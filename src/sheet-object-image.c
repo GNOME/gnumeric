@@ -359,7 +359,7 @@ sheet_object_image_class_init (GObjectClass *object_class)
 	/* SheetObject class method overrides */
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
 	sheet_object_class->new_view	  = sheet_object_image_new_view;
-	sheet_object_class->update_bounds = sheet_object_image_update_bounds;
+	sheet_object_class->update_view_bounds = sheet_object_image_update_bounds;
 	sheet_object_class->read_xml	  = sheet_object_image_read_xml;
 	sheet_object_class->write_xml	  = sheet_object_image_write_xml;
 	sheet_object_class->clone         = sheet_object_image_clone;

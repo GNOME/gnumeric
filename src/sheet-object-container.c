@@ -136,7 +136,7 @@ sheet_object_container_class_init (GtkObjectClass *object_class)
 	/* SheetObject class method overrides */
 	so_class = SHEET_OBJECT_CLASS (object_class);
 	so_class->new_view 	= sheet_object_container_new_view;
-	so_class->update_bounds = sheet_object_container_update_bounds;
+	so_class->update_view_bounds = sheet_object_container_update_bounds;
 	so_class->set_active    = sheet_object_container_set_active;
 }
 

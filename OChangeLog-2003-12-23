@@ -1,3 +1,7 @@
+2003-05-01  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object.c (sheet_object_default_size) : simplify.
+
 2003-05-01  Morten Welinder  <terra@gnome.org>
 
 	* src/gutils.c (g_unichar_strstr_utf8, g_unichar_strchr,

@@ -58,7 +58,7 @@ sheet_object_item_class_init (GtkObjectClass *object_class)
 
 	/* SheetObject class method overrides */
 	sheet_object_class->new_view = sheet_object_item_new_view;
-	sheet_object_class->update_bounds = sheet_object_item_update_bounds;
+	sheet_object_class->update_view_bounds = sheet_object_item_update_bounds;
 }
 
 GSF_CLASS (SheetObjectItem, sheet_object_item,

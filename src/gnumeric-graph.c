@@ -784,8 +784,8 @@ gnm_graph_class_init (GObjectClass *object_class)
 	object_class->finalize = &gnm_graph_finalize;
 
 	sheet_object_class = SHEET_OBJECT_CLASS (object_class);
-	sheet_object_class->new_view	  = gnm_graph_new_view;
-	sheet_object_class->update_bounds = gnm_graph_update_bounds;
+	sheet_object_class->new_view	  	= gnm_graph_new_view;
+	sheet_object_class->update_view_bounds	= gnm_graph_update_bounds;
 	sheet_object_class->populate_menu = gnm_graph_populate_menu;
 	sheet_object_class->user_config   = gnm_graph_user_config;
 }
