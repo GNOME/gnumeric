@@ -12,6 +12,8 @@ Morten:
 	* A few multihead fixes.
 	* Upgrade to R's development version.
 	* Replace R's pbeta function.
+	* Fix precision of our versions of various long-double functions
+	  that Solaris lacks.
 
 --------------------------------------------------------------------------
 
