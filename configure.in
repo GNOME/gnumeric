@@ -107,12 +107,12 @@ dnl GB Plugin
 dnl ****************************
 #try_gda=true
 #gb_msg=yes
-try_gda=no
+try_gb=no
 gb_msg="Temporarily disabled during gnome2 porting"
 AC_ARG_WITH(gb,
-	[--{with,without}-gda      Compile the Gnome Database Access plugin],
+	[--{with,without}-gb      Compile the Gnome Basic plugin],
 	if test "x$withval" = xyes; then
-		#try_gda=true
+		#try_gb=true
 		gb_msg="We are not joking, it is temporarily disabled during gnome2 porting"
 		#gb_msg="Disabled by request"
 	fi
@@ -492,6 +492,7 @@ plugins/derivatives/Makefile
 plugins/sc/Makefile
 plugins/sylk/Makefile
 plugins/excel/Makefile
+plugins/gda/Makefile
 plugins/gb/Makefile
 plugins/lotus-123/Makefile
 plugins/oleo/Makefile
@@ -508,7 +509,6 @@ plugins/dif/Makefile
 plugins/xml_sax/Makefile
 plugins/applix/Makefile
 plugins/plan-perfect/Makefile
-plugins/gda/Makefile
 plugins/psiconv/Makefile
 plugins/mps/Makefile
 po/Makefile.in
