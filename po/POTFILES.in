@@ -157,3 +157,4 @@ src/workbook.c
 src/xml-io.c
 src/xml-io-autoft.c
 src/GNOME_Gnumeric.xml
+gnumeric.desktop
