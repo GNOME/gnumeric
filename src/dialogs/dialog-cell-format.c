@@ -1210,8 +1210,8 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 	guint8 const *ps;
 	guint8 *pd;
 
-	GtkStyle  *style = gtk_style_copy (GTK_WIDGET (canvas)->style);
-	style->bg [GTK_STATE_NORMAL] = gs_white;
+	GtkStyle *style = gtk_style_copy (GTK_WIDGET (canvas)->style);
+	style->bg[GTK_STATE_NORMAL] = style->white;
 	gtk_widget_set_style (GTK_WIDGET (canvas), style);
 	g_object_unref (style);
 
