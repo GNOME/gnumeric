@@ -5,6 +5,7 @@ and longer term bugs.
 Release Critical
 ----------------
 - FALSE is written in a locale specific format.  Apparently so are number formats.
+- Chema's style bug
 
 Long term breakage
 ------------------
@@ -20,14 +21,12 @@ Long term breakage
 - Auto resize needs to handle empty cells.
 - changing col/row sizes does not mark a sheet dirty.
 - changing col/row sizes does not have undo support.
-- pasting a copy does not have undo support.
 - auto-fill does not have undo support.
 - The implication of mixed mode references ($B$2:C3)
-  is large.  All accesses to a RangeRef need to be normalized.
+  is large.  All accesses to a RangeRef need to be normalized. (1/2 done)
 
-- gnumeric_ftest : Needs auditing.  All calls to eval_pos_init_cellref
-  are questionable.
 - Copy with destination larger than source does not duplicate the styles.
+- Copy
 
 - border style double_line does handle all of the different intersection cases.
 
@@ -52,6 +51,8 @@ Long term breakage
 
 - Underline should scale with font size.  (Say, min (1, pixel_height_of("O")/20).)
 
+- auto-fill does not resize row/col
+
 Dialogs
 -------
 - Finish function wizard
@@ -60,6 +61,8 @@ Dialogs
 Function Breakage
 -----------------
 - Index  : does not support 0,0 or reference syntax.
+- Sumif  : mis-handles blanks.
+- ftest : Needs auditing.  All calls to eval_pos_init_cellref are questionable.
 
 Printing
 --------
@@ -70,6 +73,5 @@ Widget polishing
 - gtk-combo-text
     : a value entered directly in the edit field does not handle selection in
       the list correctly
-    : the list does not auto scroll.
 
 - Add row (rows ?) for custom colours in the color combo dialog.
