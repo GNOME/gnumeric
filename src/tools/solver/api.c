@@ -96,7 +96,7 @@
  *   Sets or resets an integer constraint for a variable.  The column numbering
  *   begins from zero.
  *
- * typedef int           (solver_lp_solve_fn)            (SolverProgram p);
+ * typedef SolverStatus  (solver_lp_solve_fn)            (SolverProgram p);
  *   Runs the solver to determine the optimal solution.
  *
  * typedef gnum_float    (solver_lp_get_obj_fn_value_fn) (SolverProgram p);
@@ -117,9 +117,15 @@
  *
 */
 
+/* ------------------------------------------------------------------------- */
+
 /*
  * Solver's API wrappings for the LP Solve 3.2.
  *
+ * Package:    LP Solve
+ * Version:    3.2
+ * License:    LGPL
+ * Homepage:   
  */
 
 SolverProgram
@@ -176,7 +182,7 @@ w_lp_solve_set_int (SolverProgram lp, int col, gboolean must_be_int)
 	lp_solve_set_int (lp, col, must_be_int);
 }
 
-int
+SolverStatus
 w_lp_solve_solve (SolverProgram lp)
 {
         return lp_solve_solve (lp);
@@ -203,11 +209,147 @@ w_lp_solve_get_dual (SolverProgram lp, int row)
 {
         lprec *p = (lprec *) lp;
 
-        return p->duals[row + 1];
+        return p->duals [row + 1];
 }
 
-/* ------------------------------------------------------------------------- */
 
+/* ------------------------------------------------------------------------- */
+
+#if __HAVE_GLPK__
+
+/*
+ * Solver's API wrappings for the GLPK 3.0.5.
+ *
+ * Package:    GLPK
+ * Version:    3.0.5 (Jan 29, 2002)
+ * License:    GPL
+ * Homepage:   http://www.gnu.org/software/glpk/glpk.html
+ * Algorithm:  revised simplex method
+ *
+ */
+
+#include "glpk.h"
+
+SolverProgram
+w_glpk_init (int n_vars, int n_constraints)
+{
+        LPI     *lp;
+	int     i;
+	GString *str;
+
+        lp = glp_create_prob ("p");
+
+	for (i = 0; i < n_vars; i++) {
+	        str = g_string_new ("");
+		g_string_sprintfa (str, "X%d", i);
+		glp_new_col (lp, str->str)
+		g_string_free (str, FALSE);
+	}
+
+	for (i = 0; i < n_constraints; i++) {
+	        str = g_string_new ("");
+		g_string_sprintfa (str, "C%d", i);
+		glp_new_row (lp, str->str)
+		g_string_free (str, FALSE);
+	}
+
+	return lp;
+}
+
+void
+w_glpk_delete_lp (SolverProgram lp)
+{
+        glp_delete_prob (lp);
+}
+
+void
+w_glpk_set_maxim (SolverProgram lp)
+{
+        glp_set_obj_sense(lp, '+');
+}
+
+void
+w_glpk_set_minim (SolverProgram lp)
+{
+        glp_set_obj_sense(lp, '-');
+}
+
+void
+w_glpk_set_obj_fn (SolverProgram lp, int col, gnum_float value)
+{
+        glp_set_obj_coef (lp, col + 1, value);
+}
+
+void
+w_glpk_set_constr_mat (SolverProgram lp, int col, int row, gnum_float value)
+{
+        glp_new_aij (lp, row + 1, col + 1, value);
+}
+
+void
+w_glpk_set_constr_rhs (SolverProgram lp, int row, gnum_float value)
+{
+        /* FIXME */
+}
+
+void
+w_glpk_set_constr_type (SolverProgram lp, int row, SolverConstraintType type)
+{
+        glp_set_row_bnds(lp, 2, 'U', 0.0, 600.0);
+        /* FIXME */
+}
+
+void
+w_glpk_set_int (SolverProgram lp, int col, gboolean must_be_int)
+{
+        if (must_be_int)
+	        glp_set_col_kind (lp, col + 1, 'I');
+	else
+	        glp_set_col_kind (lp, col + 1, 'C');
+}
+
+SolverStatus
+w_glpk_simplex2_solve (SolverProgram lp)
+{
+        glp_simplex2 (lp, NULL);
+	switch (glp_get_status (lp)) {
+	case GLP_OPT:
+	        return SolverOptimal;
+	case GLP_INFEAS:
+	        return SolverInfeasible;
+	case GLP_UNBND:
+	        return SolverUnbounded;
+	default:
+	        printf ("Error: w_glpk_simplex2_solve\n");
+	}
+}
+
+gnum_float
+w_glpk_get_solution (SolverProgram lp, int column)
+{
+        double x;
+
+	glp_get_col_soln (lp, column, NULL, &x, NULL);
+	return x;
+}
+
+gnum_float
+w_glpk_get_value_of_obj_fn (SolverProgram lp)
+{
+        return glp_get_obj_val (lp);
+}
+
+gnum_float
+w_glpk_get_dual (SolverProgram lp, int row)
+{
+  glp_get_row_soln (lp, row + 1, NULL
+        /* FIXME */
+}
+
+#endif
+
+
+/* ------------------------------------------------------------------------- */
 
 /*
  * This array contains the linear programming algorithms available.
@@ -232,5 +374,25 @@ SolverLPAlgorithm lp_algorithm [] = {
 		(solver_lp_get_obj_fn_var_fn*)   w_lp_solve_get_solution,
 		(solver_lp_get_shadow_prize_fn*) w_lp_solve_get_dual
 	},
+
+#if __HAVE_GLPK__
+        {
+	        NULL,
+		(solver_lp_init_fn*)             w_glpk_init,
+		(solver_lp_remove_fn*)           w_glpk_delete_lp,
+		(solver_lp_set_obj_fn*)          w_glpk_set_obj_fn,
+		(solver_lp_set_constr_mat_fn*)   w_glpk_set_constr_mat,
+		(solver_lp_set_constr_type_fn*)  w_glpk_set_constr_type,
+		(solver_lp_set_constr_rhs_fn*)   w_glpk_set_constr_rhs,
+		(solver_lp_set_maxim_fn*)        w_glpk_set_maxim,
+		(solver_lp_set_minim_fn*)        w_glpk_set_minim,
+		(solver_lp_set_int_fn*)          w_glpk_set_int,
+		(solver_lp_solve_fn*)            w_glpk_solve,
+		(solver_lp_get_obj_fn_value_fn*) w_glpk_get_value_of_obj_fn,
+		(solver_lp_get_obj_fn_var_fn*)   w_glpk_get_solution,
+		(solver_lp_get_shadow_prize_fn*) w_glpk_get_dual
+	},
+#endif
+
 	{ NULL }
 };

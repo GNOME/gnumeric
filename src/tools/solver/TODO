@@ -5,13 +5,13 @@ Regarding LP & ILP:
 ===================
 
 Critical bugs:
-  * if the program is unbounded report it as such
   * check that the program is properly defined (e.g. no #DIV0, #NUM!, ...)
     - a badly formulated program may crash the spreadsheet
   * fix all memory leaks
 
 Usability fixes:
   * add `keep original values dialog'
+   - fix the saving of these values twice
   * get_lp_coeff: test that it's really LP
 
 Feature enhancements:

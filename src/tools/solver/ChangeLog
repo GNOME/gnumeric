@@ -1,3 +1,7 @@
+2002-03-15  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* api.c: Started adding support for GLPK.
+
 2002-03-14  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* api.c: Fixed the name space bloat from the LP Solve.

@@ -28,6 +28,6 @@
 #include "numbers.h"
 #include "solver.h"
 
-extern SolverLPAlgorithm lp_algorithm[];
+extern SolverLPAlgorithm lp_algorithm [];
 
 #endif

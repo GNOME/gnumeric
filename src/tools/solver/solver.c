@@ -615,7 +615,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	        + (end.tv_usec - start.tv_usec) / (gnum_float) G_USEC_PER_SEC;
 
 	res->param = sheet->solver_parameters;
-	if (res->status == SOLVER_LP_OPTIMAL) {
+	if (res->status == SolverOptimal) {
 	        res->value_of_obj_fn = lp_algorithm[param->options.algorithm]
 		        .get_obj_fn_value_fn (program);
 		for (i = 0; i < param->n_variables; i++) {
