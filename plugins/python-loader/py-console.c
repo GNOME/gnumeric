@@ -31,6 +31,8 @@ typedef enum {
 typedef struct {
 	GtkTextBuffer *text_buffer;
 	GtkTextTag *text_tags[FORMAT_LAST];
+	GtkTextView *text_view;
+	GtkTextMark *text_end;
 	GnmPyInterpreter *cur_interpreter;
 } App;
 
@@ -56,6 +58,7 @@ app_text_print (const char *line, PrintFormat format, gboolean newline)
 	if (newline) {
 		gtk_text_buffer_insert (app->text_buffer, &iter, "\n", -1);
 	}
+	gtk_text_view_scroll_mark_onscreen (app->text_view, app->text_end);
 }
 
 static void
@@ -109,7 +112,8 @@ cb_clear (GtkButton *button, gpointer data)
 void
 show_python_console (WorkbookControlGUI *wbcg)
 {
-	GtkWidget *win, *vbox, *text_view, *sc_win, *hbox, *sel, *cline, *w;
+	GtkWidget *win, *vbox, *sc_win, *hbox, *sel, *cline, *w;
+	GtkTextIter enditer;
 	PangoFontDescription *font_desc;
 
 	if (app != NULL) {
@@ -141,8 +145,8 @@ show_python_console (WorkbookControlGUI *wbcg)
 	sc_win = gtk_scrolled_window_new (NULL, NULL);
 	gtk_scrolled_window_set_policy (
 		GTK_SCROLLED_WINDOW (sc_win), GTK_POLICY_NEVER, GTK_POLICY_ALWAYS);
-	text_view = gtk_text_view_new ();
-	app->text_buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+	app->text_view = GTK_TEXT_VIEW (gtk_text_view_new ());
+	app->text_buffer = gtk_text_view_get_buffer (app->text_view);
 	app->text_tags[FORMAT_COMMAND] = gtk_text_buffer_create_tag (
 		app->text_buffer, NULL, "foreground", "black", NULL);
 	app->text_tags[FORMAT_RESULT] = gtk_text_buffer_create_tag (
@@ -153,12 +157,19 @@ show_python_console (WorkbookControlGUI *wbcg)
 		app->text_buffer, NULL, "foreground", "blue", NULL);
 	app->text_tags[FORMAT_STDERR] = gtk_text_buffer_create_tag (
 		app->text_buffer, NULL, "foreground", "red", NULL);
+	gtk_text_buffer_get_iter_at_offset (app->text_buffer, &enditer, -1);
+	app->text_end = gtk_text_buffer_create_mark (app->text_buffer,
+						     "text_end",
+						     &enditer,
+						     FALSE);
 	font_desc = pango_font_description_from_string ("Fixed");
-	gtk_widget_modify_font (GTK_WIDGET (text_view), font_desc);
+	gtk_widget_modify_font (GTK_WIDGET (app->text_view), font_desc);
 	pango_font_description_free (font_desc);
-	gtk_text_view_set_editable (GTK_TEXT_VIEW (text_view), FALSE);
-	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (text_view), GTK_WRAP_WORD);
-	gtk_container_add (GTK_CONTAINER (sc_win), text_view);
+	gtk_text_view_set_editable (GTK_TEXT_VIEW (app->text_view), FALSE);
+	gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (app->text_view),
+				     GTK_WRAP_WORD);
+	gtk_container_add (GTK_CONTAINER (sc_win), 
+			   GTK_WIDGET (app->text_view));
 	gtk_box_pack_start (GTK_BOX (vbox), sc_win, TRUE, TRUE, 0);
 
 	hbox = gtk_hbox_new (FALSE, 0);
@@ -172,6 +183,7 @@ show_python_console (WorkbookControlGUI *wbcg)
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
 
 	gtk_container_add (GTK_CONTAINER (win), vbox);
+	gtk_widget_grab_focus (cline);
 	gtk_widget_set_usize (win, 600, 400);
 	g_signal_connect (
 		win, "delete_event", G_CALLBACK (cb_delete_app), NULL);
