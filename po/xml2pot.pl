@@ -88,13 +88,16 @@ sub Xmlfiles {
         chomp $_;
         &Convert ($_);
     }
+    close FILE;
+
     open OUT, ">>$PACKAGE-xml.pot";
     &addMessages;
     close OUT;
-    `msghack --append gnumeric-source.pot gnumeric-xml.pot > gnumeric.pot`;
-    unlink "gnumeric-xml.pot";
-    unlink "gnumeric-source.pot";
-    print "done.\n";
+
+    system "msghack --append $PACKAGE-source.pot $PACKAGE-xml.pot > $PACKAGE.pot";
+    unlink "$PACKAGE-xml.pot";
+    unlink "$PACKAGE-source.pot";
+    print  "done.\n";
 }
 
 #-------------------
