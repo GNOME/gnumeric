@@ -19,6 +19,7 @@ Andreas:
 	* Fix locale specific parsing on paste
 	* Add undo to inserting of sheets via the tab context menu
 	* Clarify insert/append sheet commands
+        * Change layout of preference dialog
 
 Ben Liblit:
 	* Another attempt at configure time path generation.

@@ -1,3 +1,11 @@
+2003-07-07  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* preferences.glade: replace notebook tabs with treeview
+	* dialog-preferences.c (dialog_pref_add_item) : new
+	(dialog_pref_select_page): new
+	(cb_dialog_pref_selection_changed): new
+	(dialog_preferences): set up treeview
+
 2003-07-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf.c: change dialogresult->formats to

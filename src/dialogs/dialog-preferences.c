@@ -43,12 +43,21 @@
 #include <gtk/gtk.h>
 #include <string.h>
 
+enum {
+	ITEM_ICON,
+	ITEM_NAME,
+	PAGE_NUMBER,
+	NUM_COLUMNS
+};
+
 typedef struct {
 	GladeXML	*gui;
 	GtkWidget	*dialog;
 	GtkWidget	*notebook;
 	GtkTextView	*description;
 	GSList		*pages;
+	GtkTreeStore    *store;
+	GtkTreeView     *view;
 	GConfClient	*gconf;
 	Workbook	*wb;
 } PrefState;
@@ -56,12 +65,36 @@ typedef struct {
 typedef struct {
 	char const *page_name;
 	char const *icon_name;
+	char const *parent_path;
 	GtkWidget * (*page_initializer) (PrefState *state, gpointer data,
 					 GtkNotebook *notebook, gint page_num);
 	void	    (*page_open)	(PrefState *state, gpointer data,
 					 GtkNotebook *notebook, gint page_num);
 	gpointer data;
 } page_info_t;
+
+static void
+dialog_pref_add_item (PrefState *state, char const *page_name, char const *icon_name, 
+		      int page, char const* parent_path)
+{
+	GtkTreeIter iter, parent;
+	GdkPixbuf * icon = gtk_widget_render_icon (state->dialog, icon_name,
+						   GTK_ICON_SIZE_MENU,
+						   "Gnumeric-Preference-Dialog");
+	if ((parent_path != NULL) && gtk_tree_model_get_iter_from_string (GTK_TREE_MODEL (state->store),
+									  &parent, parent_path))
+		gtk_tree_store_append (state->store, &iter, &parent);
+	else
+		gtk_tree_store_append (state->store, &iter, NULL);
+
+	gtk_tree_store_set (state->store, &iter,
+			    ITEM_ICON, icon,
+			    ITEM_NAME, _(page_name),
+			    PAGE_NUMBER, page,
+			    -1);
+	g_object_unref (icon);
+}
+
 
 static gboolean
 cb_pref_notification_destroy (G_GNUC_UNUSED GtkWidget *page,
@@ -1324,16 +1357,51 @@ pref_file_page_initializer (PrefState *state,
 /*******************************************************************************************/
 
 static page_info_t page_info[] = {
-	{NULL, GTK_STOCK_ITALIC,	 pref_font_initializer, pref_font_page_open, NULL},
-	{NULL, "Gnumeric_ObjectCombo",	 pref_window_page_initializer, pref_window_page_open, NULL},
-	{NULL, GTK_STOCK_FLOPPY,	 pref_file_page_initializer, pref_file_page_open, NULL},
-	{NULL, GTK_STOCK_UNDO,		 pref_undo_page_initializer, pref_undo_page_open, NULL},
-	{NULL, GTK_STOCK_SORT_ASCENDING, pref_sort_page_initializer, pref_sort_page_open, NULL},
-	{NULL, GTK_STOCK_PREFERENCES,    pref_tree_initializer, pref_tree_page_open, pref_tree_data},
-	{NULL, GTK_STOCK_DIALOG_ERROR,   pref_tree_initializer, pref_tree_page_open, pref_tree_data_danger},
-	{NULL, NULL, NULL, NULL, NULL},
+	{N_("Font"),       GTK_STOCK_ITALIC,	         NULL, pref_font_initializer, pref_font_page_open, NULL},
+	{N_("Windows"),    "Gnumeric_ObjectCombo",	 NULL, pref_window_page_initializer, pref_window_page_open, NULL},
+	{N_("Files"),      GTK_STOCK_FLOPPY,	         NULL, pref_file_page_initializer, pref_file_page_open, NULL},
+	{N_("Undo"),       GTK_STOCK_UNDO,		 NULL, pref_undo_page_initializer, pref_undo_page_open, NULL},
+	{N_("Sorting"),    GTK_STOCK_SORT_ASCENDING,     NULL, pref_sort_page_initializer, pref_sort_page_open, NULL},
+	{N_("Various"),    GTK_STOCK_PREFERENCES,        NULL, pref_tree_initializer, pref_tree_page_open, pref_tree_data},
+	{N_("Internal"),   GTK_STOCK_DIALOG_ERROR,       "5",  pref_tree_initializer, pref_tree_page_open, pref_tree_data_danger},
+	{NULL, NULL, NULL, NULL, NULL, NULL},
 };
 
+static void
+dialog_pref_select_page (PrefState *state, char const *page)
+{
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (state->view);
+	GtkTreeIter iter;
+	GtkTreePath *path;
+
+	path = gtk_tree_path_new_from_string  (page);
+	
+	if (path != NULL) {
+		gtk_tree_selection_select_path (selection, path);
+		gtk_tree_path_free (path);
+	} else if (gtk_tree_model_get_iter_first (GTK_TREE_MODEL (state->store),
+						  &iter)) {
+		gtk_tree_selection_select_iter (selection, &iter);
+	}
+}
+
+static void
+cb_dialog_pref_selection_changed (GtkTreeSelection *selection,
+				  PrefState *state)
+{
+	GtkTreeIter iter;
+	int page;
+
+	if (gtk_tree_selection_get_selected (selection, NULL, &iter)) {
+		gtk_tree_model_get (GTK_TREE_MODEL (state->store), &iter,
+				    PAGE_NUMBER, &page,
+				    -1);
+		gtk_notebook_set_current_page (GTK_NOTEBOOK(state->notebook),
+					       page);
+	} else {
+		dialog_pref_select_page (state, "0");
+	}
+}
 
 static gboolean
 cb_preferences_destroy (G_GNUC_UNUSED GtkWidget *widget,
@@ -1376,7 +1444,7 @@ cb_dialog_pref_switch_page  (GtkNotebook *notebook,
 
 /* Note: The first page listed below is opened through File/Preferences, */
 /*       and the second through Format/Workbook */
-static gint startup_pages[] = {1, 0};
+static char const *startup_pages[] = {"1", "0"};
 
 void
 dialog_preferences (WorkbookControlGUI *wbcg, gint page)
@@ -1385,6 +1453,8 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 	GladeXML *gui;
 	GtkWidget *w;
 	gint i;
+	GtkTreeViewColumn *column;
+	GtkTreeSelection  *selection;
 
 	w = application_get_pref_dialog ();
 	if (w) {
@@ -1407,6 +1477,30 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 	state->description = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "description"));
 	state->wb	  = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 
+	state->view = GTK_TREE_VIEW(glade_xml_get_widget (gui, "itemlist"));
+	state->store = gtk_tree_store_new (NUM_COLUMNS,
+					   GDK_TYPE_PIXBUF,
+					   G_TYPE_STRING,
+					   G_TYPE_INT);
+	gtk_tree_view_set_model (state->view, GTK_TREE_MODEL(state->store));
+	selection = gtk_tree_view_get_selection (state->view);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+	column = gtk_tree_view_column_new_with_attributes ("",
+							   gtk_cell_renderer_pixbuf_new (),
+							   "pixbuf", ITEM_ICON,
+							   NULL);
+	gtk_tree_view_append_column (state->view, column);
+	column = gtk_tree_view_column_new_with_attributes ("",
+							   gtk_cell_renderer_text_new (),
+							   "text", ITEM_NAME,
+							   NULL);
+	gtk_tree_view_append_column (state->view, column);
+	gtk_tree_view_set_expander_column (state->view, column);
+
+	g_signal_connect (selection,
+			  "changed",
+			  G_CALLBACK (cb_dialog_pref_selection_changed), state);
+	
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
 		"clicked",
 		G_CALLBACK (cb_close_clicked), state);
@@ -1440,10 +1534,16 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 		else if (this_page->page_name)
 			label = gtk_label_new (this_page->page_name);
 		gtk_notebook_append_page (GTK_NOTEBOOK (state->notebook), page, label);
+		dialog_pref_add_item (state, this_page->page_name, this_page->icon_name, i, this_page->parent_path);
 	}
 
-	gtk_notebook_set_current_page   (GTK_NOTEBOOK (state->notebook), startup_pages[page]);
+	if (page != 0 && page != 1) {
+		g_warning ("Selected page is %i but should be 0 or 1", page);
+		page = 0;
+	}
 
 	wbcg_set_transient (wbcg, GTK_WINDOW (state->dialog));
 	gtk_widget_show (GTK_WIDGET (state->dialog));
+
+	dialog_pref_select_page (state, startup_pages[page]);
 }
