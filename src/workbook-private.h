@@ -46,6 +46,9 @@ struct _WorkbookPrivate {
 	/* Edit area */
 	GtkWidget  *ea_status;
 
+	/* While editing these should be visible */
+	GtkWidget *ok_button, *cancel_button;
+
         /* The status bar */
         GnomeAppBar *appbar;
 

@@ -1,6 +1,6 @@
 /*
  * GtkComboBox: A customizable ComboBox.
- *
+
  * Authors:
  *   Miguel de Icaza (miguel@gnu.org)
  *   Adrian E Feiguin (feiguin@ifir.edu.ar)
@@ -14,8 +14,9 @@
 #include <gtk/gtkmain.h>
 #include <gtk/gtksignal.h>
 #include <gtk/gtkwindow.h>
-#include <gdk/gdkkeysyms.h>
 #include <gtk/gtkframe.h>
+#include <gtk/gtkvbox.h>
+#include <gtk/gtktearoffmenuitem.h>
 #include "gtk-combo-box.h"
 
 static GtkHBoxClass *gtk_combo_box_parent_class;
@@ -39,7 +40,7 @@ struct _GtkComboBoxPrivate {
 	GtkWidget *frame;
 	GtkWidget *popwin;
 	GtkWidget *arrow_button;
-	
+
 	/*
 	 * Closure for invoking the callbacks above
 	 */
@@ -104,7 +105,7 @@ gtk_combo_box_popup_hide (GtkComboBox *combo_box)
 {
 	GtkWidget *arrow;
 	gboolean popup_info_destroyed = FALSE;
-	
+
 	g_return_if_fail (combo_box != NULL);
 	g_return_if_fail (GTK_IS_COMBO_BOX (combo_box));
 
@@ -117,7 +118,7 @@ gtk_combo_box_popup_hide (GtkComboBox *combo_box)
 	gtk_signal_emit (GTK_OBJECT (combo_box),
 			 gtk_combo_box_signals [POP_DOWN_DONE],
 			 combo_box->priv->pop_down_widget, &popup_info_destroyed);
-	
+
 	if (popup_info_destroyed){
 		gtk_container_remove (
 			GTK_CONTAINER (combo_box->priv->frame),
@@ -133,7 +134,7 @@ gtk_combo_box_popup_hide (GtkComboBox *combo_box)
 					  combo_box);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (arrow), FALSE);
-	
+
        	gtk_signal_handler_unblock_by_func (GTK_OBJECT (arrow),
 					    GTK_SIGNAL_FUNC (gtk_combo_toggle_pressed),
 					    combo_box);
@@ -148,17 +149,17 @@ gtk_combo_box_get_pos (GtkComboBox *combo_box, int *x, int *y)
 {
 	GtkWidget *wcombo = GTK_WIDGET (combo_box);
 	int ph, pw;
-	
+
 	gdk_window_get_origin (wcombo->window, x, y);
 	*y += wcombo->allocation.height + wcombo->allocation.y;
 	*x += wcombo->allocation.x;
 
 	ph = combo_box->priv->popwin->allocation.height;
 	pw = combo_box->priv->popwin->allocation.width;
-	
+
 	if ((*y + ph) > gdk_screen_height ())
 		*y = gdk_screen_height () - ph;
-	
+
 	if ((*x + pw) > gdk_screen_width ())
 		*x = gdk_screen_width () - pw;
 }
@@ -167,7 +168,7 @@ static void
 gtk_combo_box_popup_display (GtkComboBox *combo_box)
 {
 	int x, y;
-	
+
 	g_return_if_fail (combo_box != NULL);
 	g_return_if_fail (GTK_IS_COMBO_BOX (combo_box));
 
@@ -234,7 +235,7 @@ cb_state_change (GtkWidget *widget, GtkStateType old_state, GtkComboBox *combo_b
 	GtkStateType const new_state = GTK_WIDGET_STATE(widget);
 	gtk_widget_set_state ((combo_box->priv->display_widget != widget)
 			      ? combo_box->priv->display_widget
-			      : combo_box->priv->arrow_button, 
+			      : combo_box->priv->arrow_button,
 			      new_state);
 }
 
@@ -243,7 +244,7 @@ gtk_combo_box_init (GtkComboBox *combo_box)
 {
 	GtkWidget *arrow, *event_box;
 	GdkCursor *cursor;
-	
+
 	combo_box->priv = g_new0 (GtkComboBoxPrivate, 1);
 
 	/*
@@ -275,23 +276,21 @@ gtk_combo_box_init (GtkComboBox *combo_box)
 	event_box = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (combo_box->priv->popwin), event_box);
 	gtk_widget_show (event_box);
-	
+
 	gtk_widget_realize (event_box);
 	cursor = gdk_cursor_new (GDK_TOP_LEFT_ARROW);
 	gdk_window_set_cursor (event_box->window, cursor);
 	gdk_cursor_destroy (cursor);
-	
+
 	combo_box->priv->frame = gtk_frame_new (NULL);
 	gtk_container_add (GTK_CONTAINER (event_box), combo_box->priv->frame);
 	gtk_frame_set_shadow_type (GTK_FRAME (combo_box->priv->frame), GTK_SHADOW_OUT);
-	gtk_widget_show (combo_box->priv->frame);
 
 	gtk_signal_connect (
 		GTK_OBJECT (combo_box->priv->popwin), "button_press_event",
 		GTK_SIGNAL_FUNC (gtk_combo_box_button_press), combo_box);
-	
 }
-		
+
 GtkType
 gtk_combo_box_get_type (void)
 {
@@ -319,7 +318,7 @@ gtk_combo_box_get_type (void)
  * gtk_combo_box_set_display:
  * @combo_box: the Combo Box to modify
  * @display_widget: The widget to be displayed
- *
+
  * Sets the displayed widget for the @combo_box to be @display_widget
  */
 void
@@ -344,9 +343,27 @@ gtk_combo_box_set_display (GtkComboBox *combo_box, GtkWidget *display_widget)
 	gtk_box_pack_start (GTK_BOX (combo_box), display_widget, TRUE, TRUE, 0);
 }
 
+static gboolean
+cb_tearable_enter_leave (GtkWidget *w, GdkEventCrossing *event, gpointer data)
+{
+	gboolean const flag = GPOINTER_TO_INT(data);
+	gtk_widget_set_state (w, flag ? GTK_STATE_PRELIGHT : GTK_STATE_NORMAL);
+	return FALSE;
+}
+static gboolean
+cb_tearable_button_release (GtkWidget *w, GdkEventButton *event, gpointer data)
+{
+	/* FIXME : TODO finish this */
+	g_warning ("Tearoff is unfinished");
+	return TRUE;
+}
+
 void
 gtk_combo_box_construct (GtkComboBox *combo_box, GtkWidget *display_widget, GtkWidget *pop_down_widget)
 {
+	GtkWidget *tearable;
+	GtkWidget *vbox;
+
 	g_return_if_fail (combo_box != NULL);
 	g_return_if_fail (GTK_IS_COMBO_BOX (combo_box));
 	g_return_if_fail (display_widget  != NULL);
@@ -358,12 +375,27 @@ gtk_combo_box_construct (GtkComboBox *combo_box, GtkWidget *display_widget, GtkW
 	combo_box->priv->pop_down_widget = pop_down_widget;
 	combo_box->priv->display_widget = NULL;
 
+	vbox = gtk_vbox_new (FALSE, 5);
+	tearable = gtk_tearoff_menu_item_new ();
+	gtk_signal_connect (GTK_OBJECT (tearable), "enter-notify-event",
+			    GTK_SIGNAL_FUNC (cb_tearable_enter_leave),
+			    GINT_TO_POINTER (TRUE));
+	gtk_signal_connect (GTK_OBJECT (tearable), "leave-notify-event",
+			    GTK_SIGNAL_FUNC (cb_tearable_enter_leave),
+			    GINT_TO_POINTER (FALSE));
+	gtk_signal_connect (GTK_OBJECT (tearable), "button-release-event",
+			    GTK_SIGNAL_FUNC (cb_tearable_button_release),
+			    GINT_TO_POINTER (FALSE));
+	gtk_box_pack_start (GTK_BOX (vbox), tearable, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (vbox), pop_down_widget, TRUE, TRUE, 0);
+
 	/*
 	 * Finish setup
 	 */
 	gtk_combo_box_set_display (combo_box, display_widget);
 
-	gtk_container_add (GTK_CONTAINER (combo_box->priv->frame), pop_down_widget);
+	gtk_container_add (GTK_CONTAINER (combo_box->priv->frame), vbox);
+	gtk_widget_show_all (combo_box->priv->frame);
 }
 
 GtkWidget *

@@ -15,7 +15,7 @@ Description                                             Difficulty  Integration
   functions to samples/regress.gnumeric so we can be
   sure that we are returning the right error code.
 
-- Make the new combo boxes tear-off-able   		High	    Low
+- Finish making the new combo boxes tear-off-able	Low	    Low
 
 - Save/Restore the values of the last selected colours	Low	    Low
   from the toolbar for background or font.

@@ -1,3 +1,17 @@
+2000-03-11  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (cb_editline_focus_in) : When the edit lined receives
+	  focus start editing.
+	(accept_input) : No need to force edit mode we should already be in
+	  edit mode.
+	(workbook_setup_edit_area) : Move the wizard button to the begining of
+	  the list and store the ok and cancel buttons in the Private section.
+	  Hook cb_editline_focus_in to focus-in.
+	(workbook_new) : After show_all, we need to hide the ok/cancel edit
+	  buttons.  We start out not editing.
+	(workbook_start_editing_at_cursor) : Show the ok/cancel edit buttons.
+	(workbook_finish_editing) : Hide them.
+
 2000-03-11  Jon K Hellan  <hellan@acm.org>
 
 	* src/main.c (main): #ifdef out the fix for now.

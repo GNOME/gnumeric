@@ -202,7 +202,8 @@ color_table_setup (ColorCombo *cc, char const * const no_color_label, int ncols,
 	if (no_color_label != NULL) {
 	        desc_label = gtk_button_new_with_label (no_color_label);
 
-		gtk_table_attach (GTK_TABLE (table), desc_label, 0, ncols, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
+		gtk_table_attach (GTK_TABLE (table), desc_label,
+				  0, ncols, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 0);
 		gtk_signal_connect (GTK_OBJECT (desc_label), "clicked",
 				    GTK_SIGNAL_FUNC(desc_label_clicked), cc);
 	}
