@@ -103,8 +103,8 @@ LUPDecomp (gnum_float **A, gnum_float **LU, int *P, int n)
 		/* FIXME: there's some serious row/col confusion going on here.  */
 		for (j = 0; j < n; j++) {		/*swap the two rows */
 			gnum_float temp = LU[j][i];
-		  	LU[j][i] = LU[j][mov];
-		  	LU[j][mov] = temp;
+			LU[j][i] = LU[j][mov];
+			LU[j][mov] = temp;
 		}
 		for (j = i + 1; j < n; j++) {
 			LU[i][j] = LU[i][j] / LU[i][i];
@@ -288,9 +288,9 @@ general_linear_regression (gnum_float **xss, int xdim,
 				backsolve (LU, P, e, xdim, inv);
 				extra_stat->se[i] = sqrt (extra_stat->var * inv[i]);
 				e[i] = 0;
-		 	}
-		 	g_free (e);
-		  	g_free (inv);
+			}
+			g_free (e);
+			g_free (inv);
 		} else {
 			/* FIXME: got any better idea?  */
 			for (i = 0; i < xdim; i++)
@@ -305,7 +305,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 			extra_stat->t[i] = res[i] / extra_stat->se[i];
 
 		extra_stat->F = (extra_stat->sqr_r / (xdim - affine)) /
-		  		((1 - extra_stat->sqr_r) / (n - xdim));
+			((1 - extra_stat->sqr_r) / (n - xdim));
 
 		extra_stat->df = n-xdim;
 		for (i = 0; i < n; i++)
