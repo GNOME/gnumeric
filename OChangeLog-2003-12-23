@@ -1,3 +1,13 @@
+2001-10-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : don't move past
+	  the unhidden region.
+	* src/sheet.c (sheet_find_boundary_horizontal) : ditto.
+	(sheet_find_boundary_vertical) :ditto.
+
+	* src/colrow.c (colrow_set_visibility) : keep track of the bound of
+	  the unhidden region of the sheet.
+
 2001-10-12  Jody Goldberg <jgoldberg@home.com>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=62167

@@ -202,6 +202,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->priv->reposition_objects.col = SHEET_MAX_COLS;
 
 	sheet->priv->auto_expr_timer = 0;
+	range_init_full_sheet (&sheet->priv->unhidden_region);
 
 	sheet->signature = SHEET_SIGNATURE;
 	sheet->workbook = wb;
@@ -1822,6 +1823,7 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 	int new_col, prev_col, lagged_start_col;
 	int iterations = 0;
 	Range check_merge;
+	Range const * const bound = &sheet->priv->unhidden_region;
 
 	/* Jumping to bounds requires steping cell by cell */
 	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_col);
@@ -1859,14 +1861,14 @@ sheet_find_boundary_horizontal (Sheet *sheet, int start_col, int move_row,
 		++iterations;
 		keep_looking = FALSE;
 
-		if (new_col < 0)
-			return 0;
-		if (new_col >= SHEET_MAX_COLS)
-			return SHEET_MAX_COLS-1;
+		if (new_col < bound->start.col)
+			return bound->start.col;
+		if (new_col > bound->end.col)
+			return bound->end.col;
 		if (jump_to_boundaries) {
 			if (new_col > sheet->cols.max_used) {
 				if (count > 0)
-					return (find_nonblank || iterations == 1) ? SHEET_MAX_COLS-1 : prev_col;
+					return (find_nonblank || iterations == 1) ? bound->end.col : prev_col;
 				new_col = sheet->cols.max_used;
 			}
 			keep_looking = (sheet_is_cell_empty (sheet, new_col, move_row) == find_nonblank);
@@ -1925,6 +1927,7 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 	int new_row, prev_row, lagged_start_row;
 	int iterations = 0;
 	Range check_merge;
+	Range const * const bound = &sheet->priv->unhidden_region;
 
 	/* Jumping to bounds requires steping cell by cell */
 	g_return_val_if_fail (count == 1 || count == -1 || !jump_to_boundaries, start_row);
@@ -1962,14 +1965,14 @@ sheet_find_boundary_vertical (Sheet *sheet, int move_col, int start_row,
 		++iterations;
 		keep_looking = FALSE;
 
-		if (new_row < 0)
-			return 0;
-		if (new_row > SHEET_MAX_ROWS-1)
-			return SHEET_MAX_ROWS-1;
+		if (new_row < bound->start.row)
+			return bound->start.row;
+		if (new_row > bound->end.row)
+			return bound->end.row;
 		if (jump_to_boundaries) {
 			if (new_row > sheet->rows.max_used) {
 				if (count > 0)
-					return (find_nonblank || iterations == 1) ? SHEET_MAX_ROWS-1 : prev_row;
+					return (find_nonblank || iterations == 1) ? bound->end.row : prev_row;
 				new_row = sheet->rows.max_used;
 			}
 

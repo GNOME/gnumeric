@@ -16,6 +16,7 @@
 #include "parse-util.h"
 #include "ranges.h"
 #include "sheet.h"
+#include "sheet-private.h"
 #include "application.h"
 #include "workbook-view.h"
 #include "workbook-edit.h"
@@ -49,6 +50,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	WorkbookControlGUI *wbcg = gcanvas->scg->wbcg;
 	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
 	int state = gnumeric_filter_modifiers (event->state);
+	Range const * const bound = &sheet->priv->unhidden_region;
 	void (*movefn) (SheetControlGUI *, int n,
 			gboolean jump, gboolean horiz);
 
@@ -131,45 +133,45 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	switch (event->keyval) {
 	case GDK_KP_Left:
 	case GDK_Left:
-		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
-			scg_set_left_col (gcanvas->scg,
-					  gcanvas->first.col > 0
-					  ? gcanvas->first.col - 1
-					  : 0);
-		else
+		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
+			int left = gcanvas->first.col - 1;
+			if (left < bound->start.col)
+				left = bound->start.col;
+			scg_set_left_col (gcanvas->scg, left);
+		} else
 			(*movefn) (gcanvas->scg, -1, jump_to_bounds, TRUE);
 		break;
 
 	case GDK_KP_Right:
 	case GDK_Right:
-		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
-			scg_set_left_col (gcanvas->scg,
-					  gcanvas->first.col < SHEET_MAX_COLS - 1
-					  ? gcanvas->first.col + 1
-					  : SHEET_MAX_COLS - 1);
-		else
+		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
+			int left = gcanvas->first.col + 1;
+			if (left > bound->end.col)
+				left = bound->end.col;
+			scg_set_left_col (gcanvas->scg, left);
+		} else
 			(*movefn) (gcanvas->scg, 1, jump_to_bounds, TRUE);
 		break;
 
 	case GDK_KP_Up:
 	case GDK_Up:
-		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
-			scg_set_top_row (gcanvas->scg,
-					 gcanvas->first.row > 0
-					 ? gcanvas->first.row - 1
-					 : 0);
-		else
+		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
+			int top = gcanvas->first.row - 1;
+			if (top < bound->start.row)
+				top = bound->start.row;
+			scg_set_top_row (gcanvas->scg, top);
+		} else
 			(*movefn) (gcanvas->scg, -1, jump_to_bounds, FALSE);
 		break;
 
 	case GDK_KP_Down:
 	case GDK_Down:
-		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
-			scg_set_top_row (gcanvas->scg,
-					 gcanvas->first.row < SHEET_MAX_ROWS - 1
-					 ? gcanvas->first.row + 1
-					 : SHEET_MAX_ROWS - 1);
-		else
+		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
+			int top = gcanvas->first.row + 1;
+			if (top > bound->end.row)
+				top = bound->end.row;
+			scg_set_top_row (gcanvas->scg, top);
+		} else
 			(*movefn) (gcanvas->scg, 1, jump_to_bounds, FALSE);
 		break;
 

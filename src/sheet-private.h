@@ -14,6 +14,8 @@ struct _SheetPrivate {
 		gboolean format_changed;
 	} edit_pos;
 
+	Range		 unhidden_region;
+
 	/* State of menu items */
 	gboolean         enable_insert_rows;
 	gboolean         enable_insert_cols;

@@ -815,8 +815,36 @@ colrow_set_visibility (Sheet *sheet, gboolean const is_cols,
 {
 	int i, prev_outline = 0;
 	gboolean prev_changed = FALSE;
+	Range * const bound = &sheet->priv->unhidden_region;
 
 	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (first <= last);
+
+	if (visible) { /* expand to include newly visible regions */
+		if (is_cols) {
+			if (bound->start.col > first)
+				bound->start.col = first;
+			if (bound->end.col < last)
+				bound->end.col = last;
+		} else {
+			if (bound->start.row > first)
+				bound->start.row = first;
+			if (bound->end.row < last)
+				bound->end.row = last;
+		}
+	} else { /* contract to exclude newly hidden regions */
+		if (is_cols) {
+			if (bound->start.col >= first && bound->start.col <= last)
+				bound->start.col = last+1;
+			if (bound->end.col <= last && bound->end.col >= first)
+				bound->end.col = first-1;
+		} else {
+			if (bound->start.row >= first && bound->start.row <= last)
+				bound->start.row = last+1;
+			if (bound->end.row <= last && bound->end.row >= first)
+				bound->end.row = first-1;
+		}
+	}
 
 	for (i = first; i <= last ; ++i) {
 		ColRowInfo * const cri = is_cols
