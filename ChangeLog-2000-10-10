@@ -1,3 +1,14 @@
+2000-05-19  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_format_undo) : It is necessary to respan, resize
+	  things when some format elements change.
+
+	* src/sheet-style.c (sheet_range_apply_style) : Changing the word
+	  wrapping changes the size, changing the underline or strikethrough
+	  does not.
+	(required_updates_for_style) : Split out from sheet_range_apply_style.
+	(sheet_style_attach_list) : Track the types of updates required.
+
 2000-05-18  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_workbook_read) : Set the textdomain as well as the

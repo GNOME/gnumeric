@@ -695,6 +695,30 @@ sheet_style_compute (const Sheet *sheet, int col, int row)
 }
 
 /**
+ * required_updates_for_style
+ * @style: the style
+ *
+ * What changes are required after applying the supplied style.
+ */
+SpanCalcFlags
+required_updates_for_style (MStyle *style)
+{
+	gboolean const size_change =
+	    (mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC) ||
+	     mstyle_is_element_set  (style, MSTYLE_FONT_SIZE) ||
+	     mstyle_is_element_set  (style, MSTYLE_FIT_IN_CELL));
+	gboolean const format_change =
+	    mstyle_is_element_set (style, MSTYLE_FORMAT);
+
+	return format_change
+	    ? SPANCALC_RE_RENDER|SPANCALC_RESIZE
+	    : size_change ? SPANCALC_RESIZE
+			  : SPANCALC_SIMPLE;
+}
+
+/**
  * sheet_selection_apply_style:
  * @sheet: the sheet in which can be found
  * @range: the range to which should be applied
@@ -708,25 +732,13 @@ sheet_range_apply_style (Sheet       *sheet,
 			 const Range *range,
 			 MStyle      *style)
 {
-	gboolean const font_change =
-	    (mstyle_is_element_set  (style, MSTYLE_FONT_NAME) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_BOLD) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_ITALIC) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_UNDERLINE) ||
-	     mstyle_is_element_set  (style, MSTYLE_FONT_SIZE));
-	gboolean const format_change =
-	    mstyle_is_element_set (style, MSTYLE_FORMAT);
-
-	SpanCalcFlags spanflags =
-	format_change ? SPANCALC_RE_RENDER|SPANCALC_RESIZE
-		      : font_change ? SPANCALC_RESIZE
-		                    : SPANCALC_SIMPLE;
+	SpanCalcFlags const spanflags = required_updates_for_style (style);
 
 	sheet_style_attach   (sheet, *range, style);
 	sheet_style_optimize (sheet, *range);
 	sheet_range_calc_spans (sheet, *range, spanflags);
 
-	if (format_change || font_change)
+	if (spanflags != SPANCALC_SIMPLE)
 		rows_height_update (sheet, range);
 
 	sheet_redraw_range (sheet, range);
@@ -1166,14 +1178,15 @@ sheet_style_list_destroy (GList *list)
 	g_list_free (list);
 }
 
-void
+SpanCalcFlags
 sheet_style_attach_list (Sheet *sheet, const GList *list,
 			 const CellPos *corner, gboolean transpose)
 {
+	SpanCalcFlags spanflags = SPANCALC_SIMPLE;
 	const GList *l;
 
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
+	g_return_val_if_fail (sheet != NULL, spanflags);
+	g_return_val_if_fail (IS_SHEET (sheet), spanflags);
 
 	/* Sluggish but simple implementation for now */
 	for (l = list; l; l = g_list_next (l)) {
@@ -1186,7 +1199,9 @@ sheet_style_attach_list (Sheet *sheet, const GList *list,
 
 		mstyle_ref (sr->style);
 		sheet_style_attach (sheet, r, sr->style);
+		spanflags |= required_updates_for_style (sr->style);
 	}
+	return spanflags;
 }
 
 static void

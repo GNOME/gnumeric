@@ -47,6 +47,13 @@ typedef enum {
 	SHEET_MODE_OBJECT_SELECTED,
 } SheetModeType;
 
+typedef enum {
+    SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */
+    SPANCALC_RESIZE	= 0x1,	/* Calculate the size of the rendered result */
+    SPANCALC_RENDER	= 0x2,	/* render and size any unrendered cells */
+    SPANCALC_RE_RENDER	= 0x4,	/* render of all cells */
+} SpanCalcFlags;
+
 typedef struct _SheetPrivate SheetPrivate;
 
 struct _Sheet {
@@ -274,7 +281,7 @@ Range          sheet_get_extent                 (const Sheet *sheet);
 
 GList         *sheet_get_styles_in_range        (Sheet *sheet, const Range *r);
 void           sheet_style_list_destroy         (GList *l);
-void           sheet_style_attach_list          (Sheet *sheet, const GList *l,
+SpanCalcFlags  sheet_style_attach_list          (Sheet *sheet, const GList *l,
 						 const CellPos *corner, gboolean transpose);
 
 gboolean       sheet_range_splits_array   (Sheet const *sheet,
@@ -339,15 +346,11 @@ void sheet_cell_set_value (Cell *cell, Value *v, char const *optional_format);
 void sheet_cell_set_text  (Cell *cell, char const *str);
 void sheet_range_set_text (EvalPos const *pos, Range const *r, char const *str);
 
-typedef enum {
-    SPANCALC_SIMPLE 	= 0x0,	/* Just calc spans */
-    SPANCALC_RESIZE	= 0x1,	/* Calculate the size of the rendered result */
-    SPANCALC_RENDER	= 0x2,	/* render and size any unrendered cells */
-    SPANCALC_RE_RENDER	= 0x4,	/* render of all cells */
-} SpanCalcFlags;
 void sheet_calc_spans (Sheet const *sheet, SpanCalcFlags const flags);
 void sheet_range_calc_spans (Sheet *sheet, Range r, SpanCalcFlags const flags);
 void sheet_cell_calc_span (Cell const *cell, SpanCalcFlags const flags);
+SpanCalcFlags required_updates_for_style (MStyle      *style);
+
 /*
  * Sheet, Bobobo objects
  */

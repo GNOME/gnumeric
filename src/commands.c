@@ -1004,13 +1004,22 @@ cmd_format_undo (GnumericCommand *cmd, CommandContext *context)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	if (me->old_styles) {
-		GSList *l;
+		GSList *l1 = me->old_styles;
+		GSList *l2 = me->selection;
 
-		for (l = me->old_styles; l; l = l->next) {
-			CmdFormatOldStyle *os = l->data;
+		for (; l1; l1 = l1->next, l2 = l2->next) {
+			Range *r;
+			CmdFormatOldStyle *os = l1->data;
+			SpanCalcFlags flags = 
+				sheet_style_attach_list (me->sheet, os->styles,
+							 &os->pos, FALSE);
 
-			sheet_style_attach_list (me->sheet, os->styles,
-						 &os->pos, FALSE);
+			g_return_val_if_fail (l2 && l2->data, TRUE);
+
+			r = l2->data;
+			sheet_range_calc_spans (me->sheet, *r, flags);
+			if (flags != SPANCALC_SIMPLE)
+				rows_height_update (me->sheet, r);
 		}
 	}
 	
