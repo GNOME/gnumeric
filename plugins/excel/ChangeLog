@@ -4,6 +4,7 @@
 	(gnumeric_chart_new) : Create.
 
 	* ms-chart.c (ms_excel_chart) : Init the chart.
+	(BC_R(ifmt), BC_R(ai)) : Handle invalid/missing formats.
 
 	* ms-escher.c : More radical changes to support just in time
 	  merging.  This seems to solve the last of the problems of which
