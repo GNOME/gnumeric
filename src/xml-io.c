@@ -226,16 +226,19 @@ gboolean
 xml_node_get_int (xmlNodePtr node, char const *name, int *val)
 {
 	xmlChar *buf;
-	int res;
+	char *end;
 
 	buf = xml_node_get_cstr (node, name);
 	if (buf == NULL)
 		return FALSE;
-	res = sscanf (buf, "%d", val);
+
+	errno = 0; /* strto(ld) sets errno, but does not clear it.  */
+	*val = strtol (buf, &end, 10);
 	xmlFree (buf);
 
-	return (res == 1);
+	return ((char *)buf != end) && (errno != ERANGE);
 }
+
 void
 xml_node_set_int (xmlNodePtr node, char const *name, int val)
 {
@@ -247,17 +250,20 @@ xml_node_set_int (xmlNodePtr node, char const *name, int val)
 gboolean
 xml_node_get_double (xmlNodePtr node, char const *name, double *val)
 {
-	int res;
 	xmlChar *buf;
+	char *end;
 
 	buf = xml_node_get_cstr (node, name);
 	if (buf == NULL)
 		return FALSE;
-	res = sscanf (buf, "%lf", val);
+
+	errno = 0; /* strto(ld) sets errno, but does not clear it.  */
+	*val = strtod (buf, &end);
 	xmlFree (buf);
 
-	return (res == 1);
+	return ((char *)buf != end) && (errno != ERANGE);
 }
+
 void
 xml_node_set_double (xmlNodePtr node, char const *name, double val,
 		     int precision)

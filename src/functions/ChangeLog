@@ -1,3 +1,8 @@
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* fn-string.c (gnumeric_value) : number_match can match non-numbers too.
+	* fn-information.c (gnumeric_n) : ditto.
+
 2001-10-17  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* fn-database.c (find_cells_that_match) : Undefined cells should not satisfy

@@ -81,7 +81,7 @@ struct _FormulaGuruState
 	gboolean	    var_args;
 	ArgumentState	   *cur_arg;
 	int		    max_arg; /* max arg # with a value */
-	WorkbookControlGUI	   *wbcg;
+	WorkbookControlGUI *wbcg;
 	FunctionDefinition *fd;
 	TokenizedHelp	   *help_tokens;
 	GPtrArray	   *args;

@@ -532,11 +532,11 @@ rows_height_update (Sheet *sheet, Range const * range, gboolean shrink)
 
 /*****************************************************************************/
 
-struct colrow_visiblity
+typedef struct 
 {
 	gboolean is_cols, visible;
 	ColRowVisList *elements;
-};
+} colrow_visiblity;
 
 static gint
 colrow_index_cmp (ColRowIndex const *a, ColRowIndex const *b)
@@ -546,7 +546,7 @@ colrow_index_cmp (ColRowIndex const *a, ColRowIndex const *b)
 }
 
 static void
-colrow_visibility (Sheet const *sheet, struct colrow_visiblity * const dat,
+colrow_visibility (Sheet const *sheet, colrow_visiblity * const dat,
 		   int first, int last, gboolean honour_collapse)
 {
 	int i;
@@ -599,7 +599,7 @@ ColRowVisList *
 colrow_get_outline_toggle (Sheet const *sheet, gboolean is_cols, gboolean visible,
 			   int first, int last)
 {
-	struct colrow_visiblity closure;
+	colrow_visiblity closure;
 	closure.is_cols = is_cols;
 	closure.visible = visible;
 	closure.elements = NULL;
@@ -609,10 +609,9 @@ colrow_get_outline_toggle (Sheet const *sheet, gboolean is_cols, gboolean visibl
 }
 
 static void
-cb_colrow_visibility (Sheet *sheet, Range const *r,
-		       void *closure)
+cb_colrow_visibility (Sheet *sheet, Range const *r, void *closure)
 {
-	struct colrow_visiblity * const dat = (struct colrow_visiblity *)closure;
+	colrow_visiblity * const dat = (colrow_visiblity *)closure;
 	int first, last;
 
 	if (dat->is_cols) {
@@ -624,7 +623,8 @@ cb_colrow_visibility (Sheet *sheet, Range const *r,
 	}
 	colrow_visibility (sheet, dat, first, last, FALSE);
 }
-/*
+
+/**
  * colrow_get_visiblity_toggle :
  * @sheet : The sheet whose selection we are interested in.
  * @is_cols: A flag indicating whether this it is a column or a row.
@@ -640,7 +640,7 @@ ColRowVisList *
 colrow_get_visiblity_toggle (Sheet *sheet, gboolean is_cols,
 			     gboolean visible)
 {
-	struct colrow_visiblity closure;
+	colrow_visiblity closure;
 	closure.is_cols = is_cols;
 	closure.visible = visible;
 	closure.elements = NULL;

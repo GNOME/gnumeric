@@ -26,6 +26,9 @@ Jody:
 	* Fix graph leaks.
 	* Allow xls exporter to (poorly) handle large format regions.
 	* Fix changing data for graphs
+	* Format match can match strings, don't assume only numbers.
+	* Improve XL chart import.
+	* Plug memory leaks.
 
 John Gotts:
 	* Make bonobo optional in the sample rpm specfile.
@@ -35,6 +38,7 @@ Jukka:
 
 Morten:
 	* New Search Control Center.
+	* Find memory leaks.
 
 --------------------------------------------------------------------------
 Gnumeric 0.71

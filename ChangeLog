@@ -1,3 +1,12 @@
+2001-10-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_node_get_int) : use strtol
+	(xml_node_get_double) : strtod.
+
+	* src/number-match.c (format_match_number) : new.
+
+	* src/expr.c (eval_expr_real) : format_match can match non-numbers now.
+
 2001-10-18  Morten Welinder  <terra@diku.dk>
 
 	* src/pixmaps/16_search.xpm: new file (derived from from Evolution).

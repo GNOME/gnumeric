@@ -377,7 +377,7 @@ cb_dialog_apply_clicked(GtkWidget *button, GoalSeekState *state)
 
 	text = gtk_entry_get_text (GTK_ENTRY (state->to_value_entry));
 	format = mstyle_get_format (cell_get_mstyle (state->set_cell));
-	value = format_match (text, format, &target_value_format);
+	value = format_match_number (text, format, &target_value_format);
 	if (format != NULL) 
 		target_value_format = format;
 	state->target_value = value_get_as_float(value);
@@ -390,7 +390,7 @@ cb_dialog_apply_clicked(GtkWidget *button, GoalSeekState *state)
 	text = g_strdup(gtk_entry_get_text (GTK_ENTRY (state->at_least_entry)));
 	g_strstrip(text);
 	if (strlen(text) > 0) {
-		value = format_match (text, format, &min_value_format);
+		value = format_match_number (text, format, &min_value_format);
 		g_free(text);
 		if (format != NULL) 
 			min_value_format = format;
@@ -408,7 +408,7 @@ cb_dialog_apply_clicked(GtkWidget *button, GoalSeekState *state)
 	text = g_strdup(gtk_entry_get_text (GTK_ENTRY (state->at_most_entry)));
 	g_strstrip(text);
 	if (strlen(text) > 0) {
-		value = format_match (text, format, &max_value_format);
+		value = format_match_number (text, format, &max_value_format);
 		g_free(text);
 		if (format != NULL) 
 			max_value_format = format;

@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * fn-string.c:  Built in string functions.
  *
@@ -799,10 +800,10 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 		for (p = arg ; *p && isspace (*p) ; ++p)
 			;
 
-		v = format_match (p, NULL, NULL);
+		v = format_match_number (p, NULL, NULL);
 		g_free (arg);
 
-		if (v)
+		if (v != NULL)
 			return v;
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}

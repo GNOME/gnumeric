@@ -1046,7 +1046,6 @@ format_match_simple (char const *text)
  * @format : An optional place to store the target format
  *
  * Attempts to parse the supplied string to see if it matches a known value format.
- * Will eventually use the current cell format in preference to canned formats.
  * If @format is supplied it will get a copy of the matching format with no
  * additional references.   The caller is responsible for releasing the
  * resulting value.
@@ -1143,5 +1142,32 @@ format_match (char const *text, StyleFormat *cur_fmt,
 		}
 	}
 
+	return NULL;
+}
+
+/**
+ * format_match_number :
+ *
+ * @text : The text to parse
+ * @cur_fmt : The current format for the value (potentially NULL)
+ * @format : An optional place to store the target format
+ *
+ * Attempts to parse the supplied string to see if it matches a known value format.
+ * Will eventually use the current cell format in preference to canned formats.
+ * If @format is supplied it will get a copy of the matching format with no
+ * additional references.   The caller is responsible for releasing the
+ * resulting value.  Will ONLY return numbers.
+ */
+Value *
+format_match_number (char const *s, StyleFormat *current_format,
+		     StyleFormat **format)
+{
+	Value *res = format_match (s, current_format, format);
+
+	if (res != NULL) {
+		if (VALUE_IS_NUMBER (res))
+			return res;
+		value_release (res);
+	}
 	return NULL;
 }

@@ -611,7 +611,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 
 		/* 2) #!VALUE error if A is not a number */
 		if (a->type == VALUE_STRING) {
-			Value *tmp = format_match (a->v_str.val->str, NULL, NULL);
+			Value *tmp = format_match_number (a->v_str.val->str, NULL, NULL);
 
 			value_release (a);
 			if (tmp == NULL)
@@ -645,7 +645,7 @@ eval_expr_real (EvalPos const *pos, ExprTree const *expr,
 
 		/* 4) #!VALUE error if B is not a number */
 		if (b->type == VALUE_STRING) {
-			Value *tmp = format_match (b->v_str.val->str, NULL, NULL);
+			Value *tmp = format_match_number (b->v_str.val->str, NULL, NULL);
 
 			value_release (b);
 			if (tmp == NULL) {

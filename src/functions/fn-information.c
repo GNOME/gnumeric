@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * fn-information.c:  Information built-in functions
  *
@@ -888,7 +889,8 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	str = value_peek_string (argv[0]);
-	if (NULL != (v = format_match (str, NULL, NULL)))
+	v = format_match_number (str, NULL, NULL);
+	if (v != NULL)
 		return v;
 	return value_new_float (0);
 }

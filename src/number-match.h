@@ -9,6 +9,8 @@ void	 format_match_release (StyleFormat *fmt);
 Value   *format_match_simple (char const *s);
 Value   *format_match        (char const *s, StyleFormat *current_format,
 			      StyleFormat **format);
+Value   *format_match_number (char const *s, StyleFormat *current_format,
+			      StyleFormat **format);
 
 void format_match_init   (void);
 void format_match_finish (void);
