@@ -1030,7 +1030,7 @@
 	      <widget>
 		<class>GtkCheckButton</class>
 		<name>align_merge</name>
-		<sensitive>False</sensitive>
+		<sensitive>True</sensitive>
 		<can_focus>True</can_focus>
 		<label>_Merge Cells</label>
 		<active>False</active>

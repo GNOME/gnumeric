@@ -589,13 +589,13 @@ print_border (GnomePrintContext *context, MStyle *mstyle,
 	      double x, double y, double w, double h,
 	      gboolean const extended_left)
 {
-	MStyleBorder const * const top =
+	StyleBorder const * const top =
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_TOP);
-	MStyleBorder const * const left = extended_left ? NULL :
+	StyleBorder const * const left = extended_left ? NULL :
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
-	MStyleBorder const * const diag =
+	StyleBorder const * const diag =
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL);
-	MStyleBorder const * const rev_diag =
+	StyleBorder const * const rev_diag =
 	    mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL);
 
 	if (top)

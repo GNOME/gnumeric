@@ -62,7 +62,6 @@ typedef struct _RangeRef	RangeRef;
 
 typedef struct _MStyle		  MStyle;
 typedef enum   _MStyleElementType MStyleElementType;
-typedef struct _MStyleBorder      MStyleBorder;
 
 typedef struct _SheetStyleData	SheetStyleData;
 typedef struct _StyleRegion	StyleRegion;
@@ -77,15 +76,16 @@ typedef struct _String	 	 String;
 
 typedef struct _DependencyData   DependencyData;
 
-typedef enum _StyleHAlignFlags StyleHAlignFlags;
-typedef enum _StyleVAlignFlags StyleVAlignFlags;
-typedef enum _StyleOrientation StyleOrientation;
+typedef enum _StyleHAlignFlags    StyleHAlignFlags;
+typedef enum _StyleVAlignFlags    StyleVAlignFlags;
+typedef enum _StyleOrientation    StyleOrientation;
 typedef enum _StyleBorderLocation StyleBorderLocation;
-typedef enum _StyleUnderlineType StyleUnderlineType;
+typedef enum _StyleUnderlineType  StyleUnderlineType;
 
-typedef struct _StyleFormat		StyleFormat;
-typedef struct _StyleFont		StyleFont;
-typedef struct _StyleColor		StyleColor;
+typedef struct _StyleFormat	  StyleFormat;
+typedef struct _StyleFont	  StyleFont;
+typedef struct _StyleColor	  StyleColor;
+typedef struct _StyleBorder	  StyleBorder;
 
 /* Used to locate cells in a sheet */
 struct _CellPos {

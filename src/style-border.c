@@ -87,8 +87,8 @@ static GHashTable *border_hash = NULL;
 static gint
 style_border_equal (gconstpointer v1, gconstpointer v2)
 {
-	MStyleBorder const *k1 = (MStyleBorder const *) v1;
-	MStyleBorder const *k2 = (MStyleBorder const *) v2;
+	StyleBorder const *k1 = (StyleBorder const *) v1;
+	StyleBorder const *k2 = (StyleBorder const *) v2;
 
 	/*
 	 * ->color is a pointer, but the comparison is safe because
@@ -101,7 +101,7 @@ style_border_equal (gconstpointer v1, gconstpointer v2)
 static guint
 style_border_hash (gconstpointer v)
 {
-	MStyleBorder const *b = (MStyleBorder const *) v;
+	StyleBorder const *b = (StyleBorder const *) v;
 
 	/*
 	 * HACK ALERT!
@@ -120,12 +120,12 @@ style_border_hash (gconstpointer v)
 	border_hash = NULL;
 #endif
 
-MStyleBorder *
+StyleBorder *
 style_border_none (void)
 {
-	static MStyleBorder * none = NULL;
+	static StyleBorder * none = NULL;
 	if (none == NULL) {
-		none = g_new0 (MStyleBorder, 1);
+		none = g_new0 (StyleBorder, 1);
 		none->line_type = STYLE_BORDER_NONE;
 		none->color = style_color_new (0,0,0);
 		none->ref_count = 1;
@@ -142,13 +142,13 @@ style_border_none (void)
  * Fetches a StyleBorder from the cache, creating one if necessary.
  * Absorbs the colour reference.
  */
-MStyleBorder *
+StyleBorder *
 style_border_fetch (StyleBorderType const	 line_type,
 		    StyleColor 			*color,
 		    StyleBorderOrientation	 orientation)
 {
-	MStyleBorder *border;
-	MStyleBorder key;
+	StyleBorder *border;
+	StyleBorder key;
 
 	g_return_val_if_fail (line_type >= STYLE_BORDER_NONE, 0);
 	g_return_val_if_fail (line_type < STYLE_BORDER_MAX, 0);
@@ -174,7 +174,7 @@ style_border_fetch (StyleBorderType const	 line_type,
 		border_hash = g_hash_table_new (style_border_hash,
 						style_border_equal);
 
-	border = g_new0 (MStyleBorder, 1);
+	border = g_new0 (StyleBorder, 1);
 	*border = key;
 	g_hash_table_insert (border_hash, border, border);
 	border->ref_count = 1;
@@ -184,7 +184,7 @@ style_border_fetch (StyleBorderType const	 line_type,
 }
 
 gboolean
-style_border_visible_in_blank (MStyleBorder const *border)
+style_border_visible_in_blank (StyleBorder const *border)
 {
 	g_return_val_if_fail (border != NULL, FALSE);
 
@@ -242,7 +242,7 @@ style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type)
 }
 
 GdkGC *
-style_border_get_gc (MStyleBorder *border, GdkWindow *window)
+style_border_get_gc (StyleBorder *border, GdkWindow *window)
 {
 	g_return_val_if_fail (border != NULL, NULL);
 
@@ -294,7 +294,7 @@ style_border_set_pc_dash (StyleBorderType const line_type,
 }
 
 static void
-style_border_set_pc (MStyleBorder const * const border, GnomePrintContext *context)
+style_border_set_pc (StyleBorder const * const border, GnomePrintContext *context)
 {
 	style_border_set_pc_dash (border->line_type, context);
 	gnome_print_setrgbcolor (context,
@@ -303,8 +303,8 @@ style_border_set_pc (MStyleBorder const * const border, GnomePrintContext *conte
 				 border->color->blue  / (double) 0xffff);
 }
 
-MStyleBorder *
-style_border_ref (MStyleBorder *border)
+StyleBorder *
+style_border_ref (StyleBorder *border)
 {
 	/* NULL is ok */
 	if (border != NULL)
@@ -313,7 +313,7 @@ style_border_ref (MStyleBorder *border)
 }
 
 void
-style_border_unref (MStyleBorder *border)
+style_border_unref (StyleBorder *border)
 {
 	if (border == NULL)
 		return;
@@ -347,15 +347,15 @@ style_border_unref (MStyleBorder *border)
 }
 
 void
-style_border_draw (MStyleBorder const * const border, MStyleElementType const t,
+style_border_draw (StyleBorder const * const border, MStyleElementType const t,
 		   GdkDrawable * const drawable,
 		   int x1, int y1, int x2, int y2,
-		   MStyleBorder const * const extend_begin,
-		   MStyleBorder const * const extend_end)
+		   StyleBorder const * const extend_begin,
+		   StyleBorder const * const extend_end)
 {
 	if (border != NULL && border->line_type != STYLE_BORDER_NONE) {
 		/* Cast away const */
-		GdkGC *gc = style_border_get_gc ((MStyleBorder *)border, drawable);
+		GdkGC *gc = style_border_get_gc ((StyleBorder *)border, drawable);
 
 		/* This is WRONG.  FIXME FIXME FIXME
 		 * when we are finished converting to drawing only top & left
@@ -403,11 +403,11 @@ style_border_draw (MStyleBorder const * const border, MStyleElementType const t,
 }
 
 void
-style_border_print (MStyleBorder const * const border, MStyleElementType const t,
+style_border_print (StyleBorder const * const border, MStyleElementType const t,
 		    GnomePrintContext *context,
 		    double x1, double y1, double x2, double y2,
-		    MStyleBorder const * const extend_begin,
-		    MStyleBorder const * const extend_end)
+		    StyleBorder const * const extend_begin,
+		    StyleBorder const * const extend_end)
 {
 	if (border != NULL && border->line_type != STYLE_BORDER_NONE) {
 

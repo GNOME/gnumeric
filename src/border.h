@@ -32,7 +32,7 @@ typedef enum {
  	STYLE_BORDER_MAX
 } StyleBorderType;
 
-struct _MStyleBorder {
+struct _StyleBorder {
 	/* Key elements */
 	StyleBorderType	 line_type;
 	StyleColor     	*color;
@@ -42,30 +42,30 @@ struct _MStyleBorder {
 	gint	ref_count;
 };
 
-void	      style_border_unref (MStyleBorder *border);
-MStyleBorder *style_border_ref   (MStyleBorder *border);
+void	      style_border_unref (StyleBorder *border);
+StyleBorder  *style_border_ref   (StyleBorder *border);
 
-MStyleBorder *style_border_none  (void);
-MStyleBorder *style_border_fetch (StyleBorderType const	 line_type,
+StyleBorder  *style_border_none  (void);
+StyleBorder  *style_border_fetch (StyleBorderType const	 line_type,
 				  StyleColor 			*color,
 				  StyleBorderOrientation       orientation);
-gboolean style_border_visible_in_blank (MStyleBorder const *border);
+gboolean style_border_visible_in_blank (StyleBorder const *border);
 
 StyleBorderOrientation style_border_get_orientation (MStyleElementType type);
 
 gint   style_border_get_width   (StyleBorderType const line_type);
 void   style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type);
-GdkGC *style_border_get_gc      (MStyleBorder *border, GdkWindow *window);
+GdkGC *style_border_get_gc      (StyleBorder *border, GdkWindow *window);
 
-void style_border_draw  (MStyleBorder const * const st, MStyleElementType const t,
+void style_border_draw  (StyleBorder const * const st, MStyleElementType const t,
 			 GdkDrawable * const drawable,
 			 int x1, int y1, int x2, int y2,
-			 MStyleBorder const * const extend_begin,
-			 MStyleBorder const * const extend_end);
-void style_border_print (MStyleBorder const * const border, MStyleElementType const t,
+			 StyleBorder const * const extend_begin,
+			 StyleBorder const * const extend_end);
+void style_border_print (StyleBorder const * const border, MStyleElementType const t,
 			 GnomePrintContext *context,
 			 double x1, double y1, double x2, double y2,
-			 MStyleBorder const * const extend_begin,
-			 MStyleBorder const * const extend_end);
+			 StyleBorder const * const extend_begin,
+			 StyleBorder const * const extend_end);
 
 #endif /* GNUMERIC_BORDER_H */

@@ -72,8 +72,8 @@ void                mstyle_set_color       (MStyle *st, MStyleElementType t,
 					    StyleColor *col);
 StyleColor         *mstyle_get_color       (MStyle *st, MStyleElementType t);
 void                mstyle_set_border      (MStyle *st, MStyleElementType t,
-					    MStyleBorder *border);
-MStyleBorder	   *mstyle_get_border      (const MStyle *st, MStyleElementType t);
+					    StyleBorder *border);
+StyleBorder	   *mstyle_get_border      (const MStyle *st, MStyleElementType t);
 void                mstyle_set_pattern     (MStyle *st, int pattern);
 int                 mstyle_get_pattern     (const MStyle *st);
 void                mstyle_set_font_name   (MStyle *st, const char *name);

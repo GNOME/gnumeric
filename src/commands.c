@@ -1136,7 +1136,7 @@ typedef struct {
 	GSList        *old_styles;
 
 	MStyle        *new_style;
-	MStyleBorder **borders;
+	StyleBorder  **borders;
 } CmdFormat;
 
 GNUMERIC_MAKE_COMMAND (CmdFormat, cmd_format);
@@ -1251,14 +1251,14 @@ cmd_format_destroy (GtkObject *cmd)
  * @style: style to apply to the selection
  * @borders: borders to apply to the selection
  *
- * If borders is non NULL, then the MStyleBorder references are passed,
+ * If borders is non NULL, then the StyleBorder references are passed,
  * the MStyle reference is also passed.
  *
  * Return value: TRUE if there was a problem
  **/
 gboolean
 cmd_format (WorkbookControl *wbc, Sheet *sheet,
-	    MStyle *style, MStyleBorder **borders)
+	    MStyle *style, StyleBorder **borders)
 {
 	GtkObject *obj;
 	CmdFormat *me;
@@ -1298,7 +1298,7 @@ cmd_format (WorkbookControl *wbc, Sheet *sheet,
 	if (borders) {
 		int i;
 
-		me->borders = g_new (MStyleBorder *, STYLE_BORDER_EDGE_MAX);
+		me->borders = g_new (StyleBorder *, STYLE_BORDER_EDGE_MAX);
 		for (i = STYLE_BORDER_TOP; i < STYLE_BORDER_EDGE_MAX; i++)
 			me->borders [i] = borders [i];
 	} else

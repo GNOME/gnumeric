@@ -751,7 +751,7 @@ xml2ParseStyleRegionBorders (XML2ParseState *state, CHAR const **attrs)
 	if (pattern >= STYLE_BORDER_NONE) {
 		MStyleElementType const type = MSTYLE_BORDER_TOP +
 			state->state - STATE_BORDER_TOP;
-		MStyleBorder *border =
+		StyleBorder *border =
 			style_border_fetch ((StyleBorderType)pattern, colour,
 					    style_border_get_orientation (type));
 		mstyle_set_border (state->style, type, border);

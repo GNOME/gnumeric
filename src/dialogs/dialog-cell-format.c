@@ -1525,7 +1525,7 @@ static struct
 	{ { 0., 0., 0., 0. }, 0, 0 }
 };
 
-static MStyleBorder *
+static StyleBorder *
 border_get_mstyle (FormatState const *state, StyleBorderLocation const loc)
 {
 	BorderPicker const * edge = & state->border.edge[loc];
@@ -1873,7 +1873,7 @@ cb_border_color (GtkObject *obj, guint r, guint g, guint b, guint a,
 typedef struct
 {
 	StyleBorderLocation     t;
-	MStyleBorder const *res;
+	StyleBorder const *res;
 } check_border_closure_t;
 
 /*
@@ -1883,7 +1883,7 @@ typedef struct
 static void
 init_border_button (FormatState *state, StyleBorderLocation const i,
 		    GtkWidget *button,
-		    MStyleBorder const * const border)
+		    StyleBorder const * const border)
 {
 	if (border == NULL) {
 		state->border.edge[i].rgba = 0;
@@ -1922,7 +1922,7 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 static void
 cb_fmt_dialog_dialog_apply (GtkObject *w, int page, FormatState *state)
 {
-	MStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+	StyleBorder *borders[STYLE_BORDER_EDGE_MAX];
 	int i;
 
 	if (page != -1)
@@ -1994,7 +1994,7 @@ static void set_initial_focus (FormatState *state)
 }
 
 static void
-fmt_dialog_impl (FormatState *state, MStyleBorder **borders,
+fmt_dialog_impl (FormatState *state, StyleBorder **borders,
 		 FormatDialogPosition_t pageno)
 {
 	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
@@ -2262,7 +2262,7 @@ dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition
 	MStyle       *mstyle;
 	Value	     *sample_val;
 	Cell	     *edit_cell;
-	MStyleBorder *borders[STYLE_BORDER_EDGE_MAX];
+	StyleBorder  *borders[STYLE_BORDER_EDGE_MAX];
 	FormatState  *state;
 
 	g_return_if_fail (wbcg != NULL);

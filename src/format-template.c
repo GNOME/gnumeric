@@ -1052,8 +1052,8 @@ format_template_recalc_hash (FormatTemplate *ft)
 
 		for (row = ft->y1; row <= ft->y2; row++) {
 			for (col = ft->x1; col <= ft->x2; col++) {
-				MStyleBorder *bottom;
-				MStyleBorder *right;
+				StyleBorder *bottom;
+				StyleBorder *right;
 				MStyle *mstyle;
 				MStyle *mstyle_to_bottom;
 				MStyle *mstyle_to_right;
@@ -1178,8 +1178,8 @@ cb_format_sheet_style (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *shee
 static void
 cb_format_sheet_border (FormatTemplate *ft, Range *r, MStyle *mstyle, Sheet *sheet)
 {
-	MStyleBorder *bottom;
-	MStyleBorder *right;
+	StyleBorder *bottom;
+	StyleBorder *right;
 
 	g_return_if_fail (ft != NULL);
 	g_return_if_fail (r != NULL);

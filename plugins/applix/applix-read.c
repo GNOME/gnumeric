@@ -940,7 +940,7 @@ applix_read_cells (ApplixReadState *state)
 		if (mstyle_is_element_set (style, MSTYLE_BORDER_BOTTOM)) {
 			Range r;
 			MStyle *tmp = mstyle_new ();
-			MStyleBorder *border =
+			StyleBorder *border =
 				mstyle_get_border (style, MSTYLE_BORDER_BOTTOM);
 			mstyle_set_border (tmp, MSTYLE_BORDER_TOP,
 				style_border_ref (border));
@@ -950,7 +950,7 @@ applix_read_cells (ApplixReadState *state)
 		if (mstyle_is_element_set (style, MSTYLE_BORDER_RIGHT)) {
 			Range r;
 			MStyle *tmp = mstyle_new ();
-			MStyleBorder *border =
+			StyleBorder *border =
 				mstyle_get_border (style, MSTYLE_BORDER_RIGHT);
 			mstyle_set_border (tmp, MSTYLE_BORDER_LEFT,
 				style_border_ref (border));
@@ -1266,7 +1266,7 @@ applix_read_impl (ApplixReadState *state)
 					if (mstyle_is_element_set (style, MSTYLE_BORDER_BOTTOM)) {
 						Range offset = r;
 						MStyle *tmp = mstyle_new ();
-						MStyleBorder *border =
+						StyleBorder *border =
 							mstyle_get_border (style, MSTYLE_BORDER_BOTTOM);
 						mstyle_set_border (tmp, MSTYLE_BORDER_TOP,
 							style_border_ref (border));
@@ -1276,7 +1276,7 @@ applix_read_impl (ApplixReadState *state)
 					if (mstyle_is_element_set (style, MSTYLE_BORDER_RIGHT)) {
 						Range offset = r;
 						MStyle *tmp = mstyle_new ();
-						MStyleBorder *border =
+						StyleBorder *border =
 							mstyle_get_border (style, MSTYLE_BORDER_RIGHT);
 						mstyle_set_border (tmp, MSTYLE_BORDER_LEFT,
 							style_border_ref (border));

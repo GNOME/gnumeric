@@ -677,7 +677,7 @@ static void
 put_colors (MStyle *st, gconstpointer dummy, ExcelWorkbook *wb)
 {
 	int i;
-	const MStyleBorder * b;
+	const StyleBorder * b;
 
 	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_FORE));
 	put_color (wb, mstyle_get_color (st, MSTYLE_COLOR_BACK));
@@ -1877,7 +1877,7 @@ static void
 build_xf_data (ExcelWorkbook *wb, BiffXFData *xfd, MStyle *st)
 {
 	ExcelFont *f;
-	const MStyleBorder *b;
+	const StyleBorder *b;
 	int pat;
 	StyleColor *pattern_color;
 	StyleColor *back_color;

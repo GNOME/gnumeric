@@ -1439,10 +1439,10 @@ static void
 ms_excel_set_xf (ExcelSheet *sheet, int col, int row, guint16 xfidx)
 {
 #if UNDERSTAND_DUAL_BORDERS
-	MStyleBorder const * b;
+	StyleBorder const * b;
 #endif
 	Range   range;
-	MStyleBorder *border;
+	StyleBorder *border;
 	MStyle *existing_style, *restore_style = NULL;
 	MStyle *const * const mstyle  =
 	    ms_excel_get_style_from_xf (sheet, xfidx);

@@ -27,15 +27,15 @@ typedef struct {
 			StyleColor *pattern;
 		}                color;
 		union {
-			MStyleBorder *top;
-			MStyleBorder *bottom;
-			MStyleBorder *left;
-			MStyleBorder *right;
-			MStyleBorder *diagonal;
-			MStyleBorder *rev_diagonal;
+			StyleBorder *top;
+			StyleBorder *bottom;
+			StyleBorder *left;
+			StyleBorder *right;
+			StyleBorder *diagonal;
+			StyleBorder *rev_diagonal;
 
 			/* Used for loading */
-			MStyleBorder *any;
+			StyleBorder *any;
 		}                border;
 		guint32          pattern;
 
@@ -895,7 +895,7 @@ mstyle_get_color (MStyle *st, MStyleElementType t)
 
 void
 mstyle_set_border (MStyle *st, MStyleElementType t,
-		   MStyleBorder *border)
+		   StyleBorder *border)
 {
 	g_return_if_fail (st != NULL);
 
@@ -913,7 +913,7 @@ mstyle_set_border (MStyle *st, MStyleElementType t,
 
 }
 
-MStyleBorder *
+StyleBorder *
 mstyle_get_border (const MStyle *st, MStyleElementType t)
 {
 	g_return_val_if_fail (mstyle_is_element_set (st, t), NULL);

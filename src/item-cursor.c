@@ -1056,12 +1056,12 @@ cb_move_cursor (SheetControlGUI *scg, int col, int row, gpointer user_data)
 	if (corner_left < 0)
 		corner_left = 0;
 	else if (corner_left >= (SHEET_MAX_COLS - w))
-		corner_left = SHEET_MAX_COLS - w;
+		corner_left = SHEET_MAX_COLS - w - 1;
 
 	if (corner_top < 0)
 		corner_top = 0;
 	else if (corner_top >= (SHEET_MAX_ROWS - h))
-		corner_top = SHEET_MAX_ROWS - h;
+		corner_top = SHEET_MAX_ROWS - h - 1;
 
 #if 0
 	/*

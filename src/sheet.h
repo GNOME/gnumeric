@@ -206,9 +206,9 @@ void           sheet_style_relocate             (const ExprRelocateInfo *rinfo);
 void           sheet_style_apply_range          (Sheet *sheet, const Range *r,
 						 MStyle *style);
 void           sheet_range_set_border           (Sheet *sheet, const Range *r,
-						 MStyleBorder **borders);
+						 StyleBorder **borders);
 MStyle        *sheet_selection_get_unique_style (Sheet *sheet,
-						 MStyleBorder **borders);
+						 StyleBorder **borders);
 void           sheet_create_styles              (Sheet *sheet);
 void           sheet_destroy_styles             (Sheet *sheet);
 GList         *sheet_get_style_list             (Sheet const *sheet);

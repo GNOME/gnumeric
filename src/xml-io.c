@@ -736,7 +736,7 @@ xml_write_style_border (XmlParseContext *ctxt,
 	int        i;
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
-		MStyleBorder const *border;
+		StyleBorder const *border;
 		if (mstyle_is_element_set (style, i) &&
 		    NULL != (border = mstyle_get_border (style, i))) {
 			break;
@@ -748,7 +748,7 @@ xml_write_style_border (XmlParseContext *ctxt,
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleBorder", NULL);
 
 	for (i = MSTYLE_BORDER_TOP; i <= MSTYLE_BORDER_REV_DIAGONAL; i++) {
-		MStyleBorder const *border;
+		StyleBorder const *border;
 		if (mstyle_is_element_set (style, i) &&
 		    NULL != (border = mstyle_get_border (style, i))) {
 			StyleBorderType t = border->line_type;
@@ -784,7 +784,7 @@ xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, MStyle *mstyle)
 					      StyleSideNames [i - MSTYLE_BORDER_TOP])) != NULL) {
 			int		 t;
 			StyleColor      *color = NULL;
-			MStyleBorder    *border;
+			StyleBorder    *border;
 			xml_get_value_int (side, "Style", &t);
 			if (t != STYLE_BORDER_NONE)
 				xml_get_color_value (side, "Color", &color);

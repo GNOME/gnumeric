@@ -1231,7 +1231,7 @@ sheet_style_attach_list (Sheet *sheet, const GList *list,
 
 static void
 do_apply_border (Sheet *sheet, const Range *r,
-		 MStyleElementType t, int idx, MStyleBorder **borders)
+		 MStyleElementType t, int idx, StyleBorder **borders)
 {
 	MStyle *mstyle;
 
@@ -1268,13 +1268,13 @@ do_blank_border (Sheet *sheet, const Range *r,
  *
  * 'Outer' borders are cleared if they have been set.
  *
- * The MStyleBorder allocations are not swallowed
+ * The StyleBorder allocations are not swallowed
  *
  **/
 void
 sheet_range_set_border (Sheet         *sheet,
 			const Range   *range,
-			MStyleBorder **borders)
+			StyleBorder **borders)
 {
 	Range          r;
 	MStyle        *mstyle;
@@ -1438,7 +1438,7 @@ sheet_get_region_list_for_range (GList *style_list, const Range *range)
 
 typedef struct {
 	MStyle        *mstyle;
-	MStyleBorder **borders;
+	StyleBorder  **borders;
 	gboolean       border_valid[STYLE_BORDER_EDGE_MAX];
 } UniqueClosure;
 
@@ -1465,15 +1465,15 @@ border_invalidate (UniqueClosure *cl, StyleBorderLocation location)
  **/
 static void
 border_mask (UniqueClosure *cl, StyleBorderLocation location,
-	     const MStyleBorder *border)
+	     const StyleBorder *border)
 {
 	if (cl->border_valid [location]) {
 		if (!cl->borders [location])
-			cl->borders [location] = style_border_ref ((MStyleBorder *)border);
+			cl->borders [location] = style_border_ref ((StyleBorder *)border);
 
 		if (cl->borders [location] == style_border_none ()) {
 			style_border_unref (cl->borders [location]);
-			cl->borders [location] = style_border_ref ((MStyleBorder *)border);
+			cl->borders [location] = style_border_ref ((StyleBorder *)border);
 		} else if (border && border != cl->borders [location] &&
 			   border != style_border_none ()) {
 			border_invalidate (cl, location);
@@ -1495,7 +1495,7 @@ border_check (UniqueClosure *cl, GList *edge_list,
 	for (l = frags; l; l = g_list_next (l)) {
 		Range  *r   = l->data;
 		MStyle *inner_style, *outer_style = NULL;
-		const MStyleBorder *inner_border = NULL, *outer_border = NULL;
+		const StyleBorder *inner_border = NULL, *outer_border = NULL;
 		CellPos inner, outer;
 
 		inner = r->start;
@@ -1743,7 +1743,7 @@ sheet_unique_cb (Sheet *sheet, Range const *range,
  * Return value: the merged list; free this.
  **/
 MStyle *
-sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
+sheet_selection_get_unique_style (Sheet *sheet, StyleBorder **borders)
 {
 	int           i;
 	UniqueClosure cl;

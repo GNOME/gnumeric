@@ -505,6 +505,14 @@
 		 _label="CenterAcrossSelection" _tip="Centers across the selected cells"
 		 verb="CenterAcrossSelection"/>
 
+		<toolitem name="Merge" pixtype="stock" pixname="Gnumeric_MergeCells"
+		 _label="Merge" _tip="Merge a range of cells"
+		 verb="FormatMergeCells"/>
+
+		<toolitem name="Unmerge" pixtype="stock" pixname="Gnumeric_SplitCells"
+		 _label="Split" _tip="Split merged ranges of cells"
+		 verb="FormatUnmergeCells"/>
+
 		<separator/>
 
 		<toolitem name="Money" pixtype="stock" pixname="Gnumeric_FormatAsMoney"

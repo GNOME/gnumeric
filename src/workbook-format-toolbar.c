@@ -418,14 +418,12 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 		N_("Center across selection"), N_("Center across selection"),
 		&center_across_selection_cmd, NULL, NULL,
 		GNOME_APP_PIXMAP_STOCK, "Gnumeric_CenterAcrossSelection" },
-	{ GNOME_APP_UI_TOGGLEITEM,
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Merge"), N_("Merge a range of cells"),
-		&cb_merge_cells, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, "Gnumeric_MergeCells" },
-	{ GNOME_APP_UI_TOGGLEITEM,
+		&cb_merge_cells, "Gnumeric_MergeCells"),
+	GNOMEUIINFO_ITEM_STOCK (
 		N_("Split"), N_("Split merged ranges of cells"),
-		&cb_unmerge_cells, NULL, NULL,
-		GNOME_APP_PIXMAP_STOCK, "Gnumeric_SplitCells" },
+		&cb_unmerge_cells, "Gnumeric_SplitCells"),
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_ITEM_STOCK (
@@ -584,7 +582,7 @@ static void
 cb_border_changed (PixmapCombo *pixmap_combo, int index, WorkbookControlGUI *wbcg)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	MStyleBorder *borders [STYLE_BORDER_EDGE_MAX];
+	StyleBorder *borders [STYLE_BORDER_EDGE_MAX];
 	int i;
 
 	/* Init the list */
