@@ -1,3 +1,7 @@
+2000-04-15  Karl EICHWALDER  <ke@suse.de>
+
+	* configure.in (ALL_LINGUAS): Sort alphabetically.
+
 2000-04-15  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Require gnome-print >= 0.18
