@@ -1,0 +1,55 @@
+Fri Jun 26 14:40:03 1998  Scott D. Heavner  <sdh@po.cwru.edu>
+
+	* configure.in: AC_CHECK_CURSES & AM_CONDITIONAL(HAS_CURSES)
+	* acconfig.h: AC_DEFINES from macros/curses.m4
+
+1998-06-26  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* configure.in (AC_OUTPUT): Add `gyahtzee/pix/Makefile'.
+
+1998-06-24  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* configure.in (gtk_spin_button_set_snap_to_ticks): New check for
+	changed GtkSpinButton API.
+
+Wed Jun 10 16:25:53 EDT 1998 Gregory McLean <gregm@comstar.net>
+
+	* acconfig.h (HAVE_DEVGTK): new tag.
+
+Wed Jun  3 22:38:58 EDT 1998 Gregory McLean <gregm@comstar.net>
+
+	* acconfig.h : HAVE_GUILE new tag.
+
+Sun Mar  8 18:30:57 1998  Tom Tromey  <tromey@cygnus.com>
+
+	* version.h.in: Removed.
+	* configure.in: Don't create version.h.
+
+	* configure.in: Don't create support/Makefile.
+
+	* Makefile.am (SUBDIRS): Don't include support.
+	* configure.in: Don't call GNOME_SUPPORT_CHECKS.
+
+1998-02-24  Carsten Schaar  <nhadcasc@fs-maphy.uni-hannover.de>
+
+	* configure.in (ALL_LINGUAS): Added German translation.
+
+1998-02-15  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* configure.in (AC_OUTPUT): Also generate `macros/Makefile' and
+	`support/Makefile'. 
+	* Makefile.am (SUBDIRS): Include `macros/' and `support/'.
+	(macros/macros.dep): Maintainer rule for auto-regeneration of
+	aclocal.m4. 
+
+	* acconfig.h (HAVE_LIBSM): New tag.
+
+Sat Feb 14 18:09:57 KST 1998  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
+
+	* configure.in: Not output to freecell/Makefile.
+
+1998-02-13  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* autogen.sh: Use `macros/autogen.sh' for the guts.
+	
+
