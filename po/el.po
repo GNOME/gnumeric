@@ -12,7 +12,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.el\n"
-"POT-Creation-Date: 2003-06-23 17:46+0300\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-06-25 19:48-0400\n"
 "PO-Revision-Date: 2003-06-23 11:06+0300\n"
 "Last-Translator: Kostas Papadimas <pkst@gmx.net>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -545,7 +546,6 @@ msgid ""
 msgstr ""
 
 #: plugins/derivatives/plugin.xml.in.h:1
-#: plugins/fn-financial/plugin.xml.in.h:1
 msgid "Financial"
 msgstr "Οικονομικές"
 
@@ -4801,7 +4801,7 @@ msgid ""
 "where:\n"
 "\n"
 "PMT = Payment received on annuity\n"
-"IPMT(per) = amount of interest for period per\n"
+"IPMT(per) = amount of interest for period @per\n"
 "\n"
 "* If @fv is omitted, it is assumed to be 0.\n"
 "* If @type is omitted, it is assumed to be 0.\n"
@@ -4858,7 +4858,7 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=G_DURATION,MDURATION"
 msgstr ""
 
 #: plugins/fn-financial/functions.c:2180
@@ -4876,7 +4876,7 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=PPMT,PV,FV"
+"@SEEALSO=PPMT,PV,FV,DURATION,MDURATION"
 msgstr ""
 
 #: plugins/fn-financial/functions.c:2221
@@ -5151,7 +5151,7 @@ msgid ""
 "  3  actual days/365\n"
 "  4  European 30/360\n"
 "\n"
-"* If @frequency is other than 1, 2, or 4, ODDFYIELD returns #NUM! error.\n"
+"* If @frequency is other than 1, 2, or 4, ODDLPRICE returns #NUM! error.\n"
 "* If @basis is omitted, US 30/360 is applied.\n"
 "* If @basis is not in between 0 and 4, #NUM! error is returned.\n"
 "\n"
@@ -5408,7 +5408,7 @@ msgid ""
 "* If @basis is invalid, #NUM! error is returned.\n"
 "\n"
 "@EXAMPLES=\n"
-"COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 31-AUG-2002\n"
+"COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0) = 31-Aug-2002\n"
 "COUPPCD (DATE(2002,11,29),DATE(2004,2,29),4,0,FALSE) = 29-Nov-2002\n"
 "\n"
 "@SEEALSO="
@@ -5510,7 +5510,7 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=DURATION,G_DURATION"
 msgstr ""
 
 #: plugins/fn-financial/functions.c:3493
@@ -5531,6 +5531,11 @@ msgid ""
 "\n"
 "@SEEALSO=DB"
 msgstr ""
+
+#: plugins/fn-financial/plugin.xml.in.h:1
+#, fuzzy
+msgid "Finance"
+msgstr "Οικονομικές"
 
 #: plugins/fn-financial/plugin.xml.in.h:2
 #, fuzzy
@@ -5724,12 +5729,12 @@ msgstr ""
 #, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
-"@SYNTAX=ERROR(value)\n"
+"@SYNTAX=ERROR.TYPE(value)\n"
 "@DESCRIPTION=ERROR.TYPE returns an error number corresponding to the given "
 "error value.  The error numbers for error values are:\n"
 "\n"
 "\t#DIV/0!  \t\t2\n"
-"\t#VALUE!  \t\t3\n"
+"\t#VALUE!  \t3\n"
 "\t#REF!    \t\t4\n"
 "\t#NAME?   \t5\n"
 "\t#NUM!    \t\t6\n"
@@ -6039,7 +6044,7 @@ msgid ""
 "@SYNTAX=GETENV(string)\n"
 "@DESCRIPTION=GETENV retrieves a value from the execution environment.\n"
 "\n"
-"* If the variable specified by @STRING does not exist, #N/A! will be "
+"* If the variable specified by @string does not exist, #N/A! will be "
 "returned.  Note, that variable names are case sensitive.\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6111,8 +6116,8 @@ msgid ""
 "@DESCRIPTION=AND implements the logical AND function: the result is TRUE if "
 "all of the expressions evaluate to TRUE, otherwise it returns FALSE.\n"
 "\n"
-"@b1, trough @bN are expressions that should evaluate to TRUE or FALSE.  If "
-"an integer or floating point value is provided zero is considered FALSE and "
+"@b1 trough @bN are expressions that should evaluate to TRUE or FALSE.  If an "
+"integer or floating point value is provided, zero is considered FALSE and "
 "anything else is TRUE.\n"
 "\n"
 "* If the values contain strings or empty cells those values are ignored.\n"
@@ -6187,8 +6192,8 @@ msgid ""
 "@DESCRIPTION=OR implements the logical OR function: the result is TRUE if "
 "any of the values evaluated to TRUE.\n"
 "\n"
-"@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. If an "
-"integer or floating point value is provided zero is considered FALSE and "
+"@b1 trough @bN are expressions that should evaluate to TRUE or FALSE. If an "
+"integer or floating point value is provided, zero is considered FALSE and "
 "anything else is TRUE.\n"
 "\n"
 "* If the values contain strings or empty cells those values are ignored.\n"
@@ -6225,8 +6230,8 @@ msgid ""
 "@DESCRIPTION=XOR implements the logical exclusive OR function: the result is "
 "TRUE if an odd number of the values evaluated to TRUE.\n"
 "\n"
-"@b1, trough @bN are expressions that should evaluate to TRUE or FALSE. If an "
-"integer or floating point value is provided zero is considered FALSE and "
+"@b1 trough @bN are expressions that should evaluate to TRUE or FALSE. If an "
+"integer or floating point value is provided, zero is considered FALSE and "
 "anything else is TRUE.\n"
 "\n"
 "* If the values contain strings or empty cells those values are ignored.\n"
@@ -6329,7 +6334,7 @@ msgstr ""
 "@ΔΕΙΤΕ="
 
 #: plugins/fn-logical/functions.c:324 plugins/fn-logical/functions.c:328
-#: plugins/fn-logical/functions.c:348 plugins/fn-math/functions.c:3231
+#: plugins/fn-logical/functions.c:348 plugins/fn-math/functions.c:3232
 #: plugins/fn-stat/functions.c:5674 plugins/fn-stat/functions.c:5678
 #: plugins/fn-stat/functions.c:5682 plugins/fn-stat/functions.c:5720
 #: plugins/fn-stat/functions.c:5723 plugins/fn-stat/functions.c:5732
@@ -6348,23 +6353,23 @@ msgid "number,number,"
 msgstr ""
 
 #. MS Excel puts this in the engineering functions
-#: plugins/fn-logical/functions.c:332 plugins/fn-math/functions.c:3072
-#: plugins/fn-math/functions.c:3076 plugins/fn-math/functions.c:3079
-#: plugins/fn-math/functions.c:3082 plugins/fn-math/functions.c:3085
-#: plugins/fn-math/functions.c:3088 plugins/fn-math/functions.c:3091
-#: plugins/fn-math/functions.c:3097 plugins/fn-math/functions.c:3106
-#: plugins/fn-math/functions.c:3115 plugins/fn-math/functions.c:3123
-#: plugins/fn-math/functions.c:3126 plugins/fn-math/functions.c:3129
-#: plugins/fn-math/functions.c:3132 plugins/fn-math/functions.c:3137
-#: plugins/fn-math/functions.c:3141 plugins/fn-math/functions.c:3147
-#: plugins/fn-math/functions.c:3154 plugins/fn-math/functions.c:3161
-#: plugins/fn-math/functions.c:3167 plugins/fn-math/functions.c:3170
-#: plugins/fn-math/functions.c:3183 plugins/fn-math/functions.c:3189
-#: plugins/fn-math/functions.c:3195 plugins/fn-math/functions.c:3216
-#: plugins/fn-math/functions.c:3219 plugins/fn-math/functions.c:3222
-#: plugins/fn-math/functions.c:3225 plugins/fn-math/functions.c:3228
-#: plugins/fn-math/functions.c:3241 plugins/fn-math/functions.c:3253
-#: plugins/fn-math/functions.c:3256 plugins/fn-stat/functions.c:5744
+#: plugins/fn-logical/functions.c:332 plugins/fn-math/functions.c:3073
+#: plugins/fn-math/functions.c:3077 plugins/fn-math/functions.c:3080
+#: plugins/fn-math/functions.c:3083 plugins/fn-math/functions.c:3086
+#: plugins/fn-math/functions.c:3089 plugins/fn-math/functions.c:3092
+#: plugins/fn-math/functions.c:3098 plugins/fn-math/functions.c:3107
+#: plugins/fn-math/functions.c:3116 plugins/fn-math/functions.c:3124
+#: plugins/fn-math/functions.c:3127 plugins/fn-math/functions.c:3130
+#: plugins/fn-math/functions.c:3133 plugins/fn-math/functions.c:3138
+#: plugins/fn-math/functions.c:3142 plugins/fn-math/functions.c:3148
+#: plugins/fn-math/functions.c:3155 plugins/fn-math/functions.c:3162
+#: plugins/fn-math/functions.c:3168 plugins/fn-math/functions.c:3171
+#: plugins/fn-math/functions.c:3184 plugins/fn-math/functions.c:3190
+#: plugins/fn-math/functions.c:3196 plugins/fn-math/functions.c:3217
+#: plugins/fn-math/functions.c:3220 plugins/fn-math/functions.c:3223
+#: plugins/fn-math/functions.c:3226 plugins/fn-math/functions.c:3229
+#: plugins/fn-math/functions.c:3242 plugins/fn-math/functions.c:3254
+#: plugins/fn-math/functions.c:3257 plugins/fn-stat/functions.c:5744
 #: plugins/fn-stat/functions.c:5747 plugins/fn-stat/functions.c:5765
 #: plugins/fn-stat/functions.c:5843 plugins/fn-string/functions.c:1129
 #: plugins/fn-string/functions.c:1132
@@ -6380,12 +6385,13 @@ msgid "Functions for manipulating truth values"
 msgstr ""
 
 #: plugins/fn-logical/plugin.xml.in.h:2
-msgid "Logical"
+#, fuzzy
+msgid "Logic"
 msgstr "Λογικές"
 
 #: plugins/fn-logical/plugin.xml.in.h:3
 #, fuzzy
-msgid "Logical Functions"
+msgid "Logic Functions"
 msgstr "Ενέργεια"
 
 #: plugins/fn-lookup/functions.c:327
@@ -6442,11 +6448,11 @@ msgstr ""
 #, fuzzy
 msgid ""
 "@FUNCTION=AREAS\n"
-"@SYNTAX=AREAS(references)\n"
+"@SYNTAX=AREAS(reference)\n"
 "@DESCRIPTION=AREAS returns the number of areas in @reference. \n"
 "\n"
 "@EXAMPLES=\n"
-"AREAS((A1,B2,C3)) equals .\n"
+"AREAS((A1,B2,C3)) equals 3.\n"
 "\n"
 "@SEEALSO=ADDRESS,INDEX,INDIRECT,OFFSET"
 msgstr ""
@@ -6489,11 +6495,11 @@ msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate,as_index])\n"
 "@DESCRIPTION=VLOOKUP function finds the row in range that has a first column "
-"similar to value.  If @approximate is not true it finds the row with an "
+"similar to @value.  If @approximate is not true it finds the row with an "
 "exact equivilance.  If @approximate is true, then the values must be sorted "
 "in order of ascending value for correct function; in this case it finds the "
 "row with value less than @value.  It returns the value in the row found at a "
-"1 based offset in @column columns into the @range.  @as_index returns the 0 "
+"1-based offset in @column columns into the @range.  @as_index returns the 0-"
 "based offset that matched rather than the value.\n"
 "\n"
 "* VLOOKUP returns #NUM! if @column < 0.\n"
@@ -6524,12 +6530,12 @@ msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate,as_index])\n"
 "@DESCRIPTION=HLOOKUP function finds the col in range that has a first row "
-"cell similar to value.  If @approximate is not true it finds the col with an "
-"exact equivilance.  If @approximate is true, then the values must be sorted "
-"in order of ascending value for correct function; in this case it finds the "
-"col with value less than @value it returns the value in the col found at a 1 "
-"based offset in @row rows into the @range.  @as_index returns the offset "
-"that matched rather than the value.\n"
+"cell similar to @value.  If @approximate is not true it finds the col with "
+"an exact equivilance.  If @approximate is true, then the values must be "
+"sorted in order of ascending value for correct function; in this case it "
+"finds the col with value less than @value it returns the value in the col "
+"found at a 1-based offset in @row rows into the @range.  @as_index returns "
+"the 0-based offset that matched rather than the value.\n"
 "\n"
 "* HLOOKUP returns #NUM! if @row < 0.\n"
 "* HLOOKUP returns #REF! if @row falls outside @range.\n"
@@ -6553,18 +6559,17 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=VLOOKUP"
 
-#: plugins/fn-lookup/functions.c:673
+#: plugins/fn-lookup/functions.c:674
 #, fuzzy
 msgid ""
 "@FUNCTION=LOOKUP\n"
-"@SYNTAX=LOOKUP(value,vector1,vector2)\n"
-"@DESCRIPTION=LOOKUP function finds the row index of 'value' in @vector1 and "
-"returns the contents of value2 at that row index. If the area is longer than "
-"it is wide then the sense of the search is rotated. Alternatively a single "
-"array can be used.\n"
+"@SYNTAX=LOOKUP(value,vector1[,vector2])\n"
+"@DESCRIPTION=LOOKUP function finds the row index of @value in @vector1 and "
+"returns the contents of @vector2 at that row index. Alternatively a single "
+"array can be used for @vector1. If the area is longer than it is wide then "
+"the sense of the search is rotated. \n"
 "\n"
-"* If LOOKUP can't find @value it uses the next largest value less than "
-"value.\n"
+"* If LOOKUP can't find @value it uses the largest value less than @value.\n"
 "* The data must be sorted.\n"
 "* If @value is smaller than the first value it returns #N/A.\n"
 "\n"
@@ -6586,7 +6591,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=VLOOKUP,HLOOKUP"
 
-#: plugins/fn-lookup/functions.c:735
+#: plugins/fn-lookup/functions.c:737
 #, fuzzy
 msgid ""
 "@FUNCTION=MATCH\n"
@@ -6601,9 +6606,9 @@ msgid ""
 "* If @type = 1, MATCH finds largest value <= @seek.\n"
 "* If @type = 0, MATCH finds first value == @seek.\n"
 "* If @type = -1, MATCH finds smallest value >= @seek.\n"
-"* For type 0, the data can be in any order.  For types -1 and +1, the data "
-"must be sorted.  (And in this case, MATCH uses a binary search to locate the "
-"index.)\n"
+"* For @type = 0, the data can be in any order.  * For @type = -1 and @type = "
+"+1, the data must be sorted.  (And in these cases, MATCH uses a binary "
+"search to locate the index.)\n"
 "* If @seek could not be found, #N/A is returned.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -6625,15 +6630,15 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=LOOKUP"
 
-#: plugins/fn-lookup/functions.c:794
+#: plugins/fn-lookup/functions.c:797
 #, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
 "@DESCRIPTION=INDIRECT function returns the contents of the cell pointed to "
-"by the ref_text string. The string specifices a single cell reference the "
-"format of which is either A1 or R1C1 style. The style is set by the format "
-"boolean, which defaults to the former.\n"
+"by the @ref_text string. The string specifices a single cell reference the "
+"format of which is either A1 or R1C1 style. The style is set by the @format "
+"boolean, which defaults to the A1 style.\n"
 "\n"
 "* If @ref_text is not a valid reference returns #REF! \n"
 "@EXAMPLES=\n"
@@ -6653,7 +6658,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ="
 
-#: plugins/fn-lookup/functions.c:836
+#: plugins/fn-lookup/functions.c:840
 #, fuzzy
 msgid ""
 "@FUNCTION=INDEX\n"
@@ -6682,14 +6687,14 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=AVERAGE, COUNT"
 
-#: plugins/fn-lookup/functions.c:903
+#: plugins/fn-lookup/functions.c:907
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
-"@DESCRIPTION=COLUMN function returns an array of the column numbers taking a "
-"default argument of the containing cell position.\n"
-"\n"
+"@DESCRIPTION=COLUMN function returns the column number of the current cell "
+"unless @reference is given. In that case, it returns an array of the column "
+"numbers of all cells in @reference. \n"
 "* If @reference is neither an array nor a reference nor a range, COLUMN "
 "returns #VALUE! error.\n"
 "\n"
@@ -6708,7 +6713,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=COLUMNS,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:956
+#: plugins/fn-lookup/functions.c:962
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMNNUMBER\n"
@@ -6733,7 +6738,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:988
+#: plugins/fn-lookup/functions.c:994
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMNS\n"
@@ -6759,17 +6764,17 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=COLUMN,ROW,ROWS"
 
-#: plugins/fn-lookup/functions.c:1013
+#: plugins/fn-lookup/functions.c:1019
 #, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
-"@SYNTAX=OFFSET(range,row,col,height,width)\n"
+"@SYNTAX=OFFSET(range,row,col[,height[,width]])\n"
 "@DESCRIPTION=OFFSET function returns a cell range. The cell range starts at "
-"offset (@col,@row) from @range, and is of height @height and width @width.\n"
+"offset (@row,@col) from @range, and is of height @height and width @width.\n"
 "\n"
-"* If range is neither a reference nor a range returns #VALUE!.\n"
-"* If either height or width is omitted the height or width of the reference "
-"is used.\n"
+"* If @range is neither a reference nor a range, OFFSET returns #VALUE!.\n"
+"* If either @height or @width is omitted, the height or width of the "
+"reference is used.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6787,7 +6792,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1070
+#: plugins/fn-lookup/functions.c:1077
 #, fuzzy
 msgid ""
 "@FUNCTION=ROW\n"
@@ -6813,7 +6818,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=COLUMN,COLUMNS,ROWS"
 
-#: plugins/fn-lookup/functions.c:1123
+#: plugins/fn-lookup/functions.c:1130
 #, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
@@ -6827,7 +6832,7 @@ msgid ""
 "@EXAMPLES=\n"
 "ROWS(H7:I13) equals 7.\n"
 "\n"
-"@SEEALSO=COLUMN,ROW,ROWS"
+"@SEEALSO=COLUMN,COLUMNS,ROW"
 msgstr ""
 "@ΣΥΝΑΡΤΗΣΗ=ROWS\n"
 "@ΣΥΝΤΑΞΗ=ROWS(αναφορά)\n"
@@ -6839,7 +6844,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=COLUMN,COLUMNS,ROW"
 
-#: plugins/fn-lookup/functions.c:1148
+#: plugins/fn-lookup/functions.c:1155
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
@@ -6861,7 +6866,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ="
 
-#: plugins/fn-lookup/functions.c:1173
+#: plugins/fn-lookup/functions.c:1180
 #, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
@@ -6879,60 +6884,60 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=MMULT"
 
-#: plugins/fn-lookup/functions.c:1217
+#: plugins/fn-lookup/functions.c:1224
 msgid "row_num,col_num,abs_num,a1,text"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1220
+#: plugins/fn-lookup/functions.c:1227
 #, fuzzy
 msgid "reference"
 msgstr "Επιλογές..."
 
-#: plugins/fn-lookup/functions.c:1223
+#: plugins/fn-lookup/functions.c:1230
 msgid "index,value,"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1226 plugins/fn-lookup/functions.c:1232
-#: plugins/fn-lookup/functions.c:1256 plugins/fn-lookup/functions.c:1259
+#: plugins/fn-lookup/functions.c:1233 plugins/fn-lookup/functions.c:1239
+#: plugins/fn-lookup/functions.c:1263 plugins/fn-lookup/functions.c:1266
 #, fuzzy
 msgid "ref"
 msgstr "κόκκινο"
 
-#: plugins/fn-lookup/functions.c:1229
+#: plugins/fn-lookup/functions.c:1236
 #, fuzzy
 msgid "colname"
 msgstr "Φύλλο 1"
 
-#: plugins/fn-lookup/functions.c:1235 plugins/fn-lookup/functions.c:1265
+#: plugins/fn-lookup/functions.c:1242 plugins/fn-lookup/functions.c:1272
 msgid "val,range,col_idx,approx,as_index"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1238
+#: plugins/fn-lookup/functions.c:1245
 msgid "link_location, label"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1241
+#: plugins/fn-lookup/functions.c:1248
 msgid "ref_string,format"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1244
+#: plugins/fn-lookup/functions.c:1251
 msgid "reference,row,col,area"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1247
+#: plugins/fn-lookup/functions.c:1254
 #, fuzzy
 msgid "val,range,range"
 msgstr "πορτοκαλί"
 
-#: plugins/fn-lookup/functions.c:1250
+#: plugins/fn-lookup/functions.c:1257
 msgid "val,range,approx"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1253
+#: plugins/fn-lookup/functions.c:1260
 msgid "ref,row,col,height,width"
 msgstr ""
 
-#: plugins/fn-lookup/functions.c:1262 plugins/fn-math/functions.c:3269
+#: plugins/fn-lookup/functions.c:1269 plugins/fn-math/functions.c:3270
 #, fuzzy
 msgid "array"
 msgstr "Πίνακας"
@@ -6963,8 +6968,8 @@ msgid ""
 "* This function is Excel compatible.\n"
 "\n"
 "@EXAMPLES=\n"
-"GCD(470,770) equals to 10.\n"
-"GCD(470,770,1495) equals to 5.\n"
+"GCD(470,770) equals 10.\n"
+"GCD(470,770,1495) equals 5.\n"
 "\n"
 "@SEEALSO=LCM"
 msgstr ""
@@ -7192,7 +7197,7 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "ATANH(0.5) equals 0.549306.\n"
-" ATANH(0.8) equals 1.098612.\n"
+"ATANH(0.8) equals 1.098612.\n"
 "\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
@@ -7498,13 +7503,13 @@ msgid ""
 "@FUNCTION=BETA\n"
 "@SYNTAX=BETA(a,b)\n"
 "@DESCRIPTION=BETA function returns the value of the mathematic beta function "
-"extended to all real numbers, but non-negative integers.\n"
+"extended to all real numbers except 0 and negative integers.\n"
 "\n"
-"* If @a or @b are non-positive integers, BETA returns #NUM! error.\n"
+"* If @a or @b are 0 or negative integers, BETA returns #NUM! error.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=BETA,GAMMALN"
+"@SEEALSO=BETALN,GAMMA"
 msgstr ""
 "@ΣΥΝΑΡΤΗΣΗ=TIMEVALUE\n"
 "@ΣΥΝΤΑΞΗ=TIMEVALUE (κειμενο-ώρας)\n"
@@ -7514,7 +7519,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=HOUR"
 
-#: plugins/fn-math/functions.c:943
+#: plugins/fn-math/functions.c:944
 #, fuzzy
 msgid ""
 "@FUNCTION=BETALN\n"
@@ -7536,7 +7541,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=HOUR"
 
-#: plugins/fn-math/functions.c:970
+#: plugins/fn-math/functions.c:971
 #, fuzzy
 msgid ""
 "@FUNCTION=COMBIN\n"
@@ -7566,7 +7571,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-math/functions.c:1003
+#: plugins/fn-math/functions.c:1004
 #, fuzzy
 msgid ""
 "@FUNCTION=FLOOR\n"
@@ -7596,7 +7601,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=CEIL, ABS, INT"
 
-#: plugins/fn-math/functions.c:1041
+#: plugins/fn-math/functions.c:1042
 #, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
@@ -7623,7 +7628,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=FLOOR, CEIL, ABS"
 
-#: plugins/fn-math/functions.c:1066
+#: plugins/fn-math/functions.c:1067
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG\n"
@@ -7651,7 +7656,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=LN, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:1100
+#: plugins/fn-math/functions.c:1101
 #, fuzzy
 msgid ""
 "@FUNCTION=LN\n"
@@ -7675,7 +7680,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=EXP, LOG2, LOG10"
 
-#: plugins/fn-math/functions.c:1129
+#: plugins/fn-math/functions.c:1130
 #, fuzzy
 msgid ""
 "@FUNCTION=POWER\n"
@@ -7700,7 +7705,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=EXP"
 
-#: plugins/fn-math/functions.c:1161
+#: plugins/fn-math/functions.c:1162
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG2\n"
@@ -7723,7 +7728,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=EXP, LOG10, LOG"
 
-#: plugins/fn-math/functions.c:1187
+#: plugins/fn-math/functions.c:1188
 #, fuzzy
 msgid ""
 "@FUNCTION=LOG10\n"
@@ -7747,7 +7752,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=EXP, LOG2, LOG"
 
-#: plugins/fn-math/functions.c:1216
+#: plugins/fn-math/functions.c:1217
 #, fuzzy
 msgid ""
 "@FUNCTION=MOD\n"
@@ -7755,7 +7760,7 @@ msgid ""
 "@DESCRIPTION=MOD function returns the remainder when @divisor is divided "
 "into @number.\n"
 "\n"
-"* MOD returns #DIV/0! if divisor is zero.\n"
+"* MOD returns #DIV/0! if @divisor is zero.\n"
 "* This function is Excel compatible.\n"
 " \n"
 "@EXAMPLES=\n"
@@ -7774,7 +7779,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=INT,FLOOR,CEIL"
 
-#: plugins/fn-math/functions.c:1267
+#: plugins/fn-math/functions.c:1268
 #, fuzzy
 msgid ""
 "@FUNCTION=RADIANS\n"
@@ -7798,7 +7803,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=PI,DEGREES"
 
-#: plugins/fn-math/functions.c:1291
+#: plugins/fn-math/functions.c:1292
 #, fuzzy
 msgid ""
 "@FUNCTION=SIN\n"
@@ -7822,7 +7827,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: plugins/fn-math/functions.c:1314
+#: plugins/fn-math/functions.c:1315
 #, fuzzy
 msgid ""
 "@FUNCTION=SINH\n"
@@ -7849,7 +7854,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: plugins/fn-math/functions.c:1338
+#: plugins/fn-math/functions.c:1339
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
@@ -7874,7 +7879,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=POW"
 
-#: plugins/fn-math/functions.c:1366
+#: plugins/fn-math/functions.c:1367
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMA\n"
@@ -7906,7 +7911,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=AVERAGE, SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1398
+#: plugins/fn-math/functions.c:1399
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMSQ\n"
@@ -7935,7 +7940,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1429
+#: plugins/fn-math/functions.c:1430
 #, fuzzy
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
@@ -7960,7 +7965,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUM"
 
-#: plugins/fn-math/functions.c:1458
+#: plugins/fn-math/functions.c:1459
 #, fuzzy
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
@@ -7985,7 +7990,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUM, COUNT"
 
-#: plugins/fn-math/functions.c:1486
+#: plugins/fn-math/functions.c:1487
 #, fuzzy
 msgid ""
 "@FUNCTION=TAN\n"
@@ -8009,7 +8014,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1509
+#: plugins/fn-math/functions.c:1510
 #, fuzzy
 msgid ""
 "@FUNCTION=TANH\n"
@@ -8036,7 +8041,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: plugins/fn-math/functions.c:1532
+#: plugins/fn-math/functions.c:1533
 #, fuzzy
 msgid ""
 "@FUNCTION=PI\n"
@@ -8061,7 +8066,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SQRTPI"
 
-#: plugins/fn-math/functions.c:1557
+#: plugins/fn-math/functions.c:1558
 #, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
@@ -8089,7 +8094,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=INT"
 
-#: plugins/fn-math/functions.c:1592
+#: plugins/fn-math/functions.c:1593
 #, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
@@ -8113,7 +8118,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=ODD"
 
-#: plugins/fn-math/functions.c:1630
+#: plugins/fn-math/functions.c:1631
 #, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
@@ -8137,7 +8142,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=EVEN"
 
-#: plugins/fn-math/functions.c:1668
+#: plugins/fn-math/functions.c:1669
 #, fuzzy
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
@@ -8166,7 +8171,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=RAND"
 
-#: plugins/fn-math/functions.c:1706
+#: plugins/fn-math/functions.c:1707
 #, fuzzy
 msgid ""
 "@FUNCTION=FIB\n"
@@ -8193,7 +8198,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=RAND"
 
-#: plugins/fn-math/functions.c:1754
+#: plugins/fn-math/functions.c:1755
 #, fuzzy
 msgid ""
 "@FUNCTION=QUOTIENT\n"
@@ -8217,7 +8222,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=MOD"
 
-#: plugins/fn-math/functions.c:1786
+#: plugins/fn-math/functions.c:1787
 #, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
@@ -8246,7 +8251,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ="
 
-#: plugins/fn-math/functions.c:1820
+#: plugins/fn-math/functions.c:1821
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
@@ -8270,7 +8275,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=PI"
 
-#: plugins/fn-math/functions.c:1849
+#: plugins/fn-math/functions.c:1850
 #, fuzzy
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
@@ -8313,7 +8318,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:1893
+#: plugins/fn-math/functions.c:1894
 #, fuzzy
 msgid ""
 "@FUNCTION=ROUND\n"
@@ -8356,7 +8361,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=ROUNDDOWN,ROUNDUP"
 
-#: plugins/fn-math/functions.c:1934
+#: plugins/fn-math/functions.c:1935
 #, fuzzy
 msgid ""
 "@FUNCTION=ROUNDUP\n"
@@ -8400,7 +8405,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=ROUND,ROUNDDOWN"
 
-#: plugins/fn-math/functions.c:1978
+#: plugins/fn-math/functions.c:1979
 #, fuzzy
 msgid ""
 "@FUNCTION=MROUND\n"
@@ -8433,7 +8438,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: plugins/fn-math/functions.c:2032
+#: plugins/fn-math/functions.c:2033
 #, fuzzy
 msgid ""
 "@FUNCTION=ROMAN\n"
@@ -8477,7 +8482,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ="
 
-#: plugins/fn-math/functions.c:2298
+#: plugins/fn-math/functions.c:2299
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
@@ -8517,14 +8522,14 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUMSQ,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2354 plugins/fn-math/functions.c:2374
-#: plugins/fn-math/functions.c:2467 plugins/fn-math/functions.c:2487
-#: plugins/fn-math/functions.c:2578 plugins/fn-math/functions.c:2598
+#: plugins/fn-math/functions.c:2355 plugins/fn-math/functions.c:2375
+#: plugins/fn-math/functions.c:2468 plugins/fn-math/functions.c:2488
+#: plugins/fn-math/functions.c:2579 plugins/fn-math/functions.c:2599
 #: plugins/fn-stat/functions.c:2970 plugins/fn-stat/functions.c:3000
 msgid "Array version not implemented!"
 msgstr "Η περίπτωση για πίνακες δεν είναι υλοποιημένη!"
 
-#: plugins/fn-math/functions.c:2412
+#: plugins/fn-math/functions.c:2413
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
@@ -8564,7 +8569,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUMSQ,SUMX2MY2"
 
-#: plugins/fn-math/functions.c:2523
+#: plugins/fn-math/functions.c:2524
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMXMY2\n"
@@ -8604,7 +8609,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: plugins/fn-math/functions.c:2636
+#: plugins/fn-math/functions.c:2637
 #, fuzzy
 msgid ""
 "@FUNCTION=SERIESSUM\n"
@@ -8637,16 +8642,15 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=COUNT,SUM"
 
-#: plugins/fn-math/functions.c:2694
+#: plugins/fn-math/functions.c:2695
 #, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
-"@DESCRIPTION=MINVERSE function returns the inverse matrix of a given "
-"matrix.\n"
+"@DESCRIPTION=MINVERSE function returns the inverse matrix of @matrix.\n"
 "\n"
-"* If the @matrix cannot be inverted, MINVERSE returns #NUM! error.\n"
-"* If the @matrix does not contain equal number of columns and rows, MINVERSE "
+"* If @matrix cannot be inverted, MINVERSE returns #NUM! error.\n"
+"* If @matrix does not contain equal number of columns and rows, MINVERSE "
 "returns #VALUE! error.\n"
 "* This function is Excel compatible.\n"
 "\n"
@@ -8664,7 +8668,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=MMULT, MDETERM"
 
-#: plugins/fn-math/functions.c:2836
+#: plugins/fn-math/functions.c:2837
 #, fuzzy
 msgid ""
 "@FUNCTION=MMULT\n"
@@ -8688,7 +8692,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=TRANSPOSE,MINVERSE"
 
-#: plugins/fn-math/functions.c:2912
+#: plugins/fn-math/functions.c:2913
 #, fuzzy
 msgid ""
 "@FUNCTION=MDETERM\n"
@@ -8720,7 +8724,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=MMULT, MINVERSE"
 
-#: plugins/fn-math/functions.c:2960
+#: plugins/fn-math/functions.c:2961
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
@@ -8756,84 +8760,84 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUM,PRODUCT"
 
-#: plugins/fn-math/functions.c:3094
+#: plugins/fn-math/functions.c:3095
 msgid "xnum,ynum"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3100 plugins/fn-math/functions.c:3103
-#: plugins/fn-random/functions.c:1100 plugins/fn-random/functions.c:1121
-#: plugins/fn-random/functions.c:1127 plugins/fn-random/functions.c:1166
-#: plugins/fn-random/functions.c:1181 plugins/fn-random/functions.c:1184
+#: plugins/fn-math/functions.c:3101 plugins/fn-math/functions.c:3104
+#: plugins/fn-random/functions.c:1101 plugins/fn-random/functions.c:1122
+#: plugins/fn-random/functions.c:1128 plugins/fn-random/functions.c:1167
+#: plugins/fn-random/functions.c:1182 plugins/fn-random/functions.c:1185
 #, fuzzy
 msgid "a,b"
 msgstr "στηλοθ."
 
 #. MS Excel puts this in statistical
-#: plugins/fn-math/functions.c:3111
+#: plugins/fn-math/functions.c:3112
 #, fuzzy
 msgid "range,criteria"
 msgstr "Διάστημα Κ_ριτηρίων:"
 
-#: plugins/fn-math/functions.c:3119
+#: plugins/fn-math/functions.c:3120
 msgid "number,significance"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3144 plugins/fn-stat/functions.c:5858
+#: plugins/fn-math/functions.c:3145 plugins/fn-stat/functions.c:5858
 msgid "n,k"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3151
+#: plugins/fn-math/functions.c:3152
 msgid "number,number"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3164
+#: plugins/fn-math/functions.c:3165
 #, fuzzy
 msgid "number,base"
 msgstr "Αριθμός"
 
-#: plugins/fn-math/functions.c:3173 plugins/fn-math/functions.c:3192
+#: plugins/fn-math/functions.c:3174 plugins/fn-math/functions.c:3193
 msgid "numerator,denominator"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3176
+#: plugins/fn-math/functions.c:3177
 msgid "number,multiple"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3186
+#: plugins/fn-math/functions.c:3187
 msgid "base,exponent"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3198
+#: plugins/fn-math/functions.c:3199
 msgid "number,type"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3201 plugins/fn-math/functions.c:3205
-#: plugins/fn-math/functions.c:3209 plugins/fn-math/functions.c:3259
+#: plugins/fn-math/functions.c:3202 plugins/fn-math/functions.c:3206
+#: plugins/fn-math/functions.c:3210 plugins/fn-math/functions.c:3260
 msgid "number,digits"
 msgstr "αριθμός,ψηφία"
 
-#: plugins/fn-math/functions.c:3213
+#: plugins/fn-math/functions.c:3214
 #, fuzzy
 msgid "x,n,m,coefficients"
 msgstr "Σχόλια"
 
-#: plugins/fn-math/functions.c:3235
+#: plugins/fn-math/functions.c:3236
 msgid "range,criteria,actual_range"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3238
+#: plugins/fn-math/functions.c:3239
 #, fuzzy
 msgid "range,range,"
 msgstr "πορτοκαλί"
 
-#: plugins/fn-math/functions.c:3244 plugins/fn-math/functions.c:3247
-#: plugins/fn-math/functions.c:3250 plugins/fn-math/functions.c:3266
+#: plugins/fn-math/functions.c:3245 plugins/fn-math/functions.c:3248
+#: plugins/fn-math/functions.c:3251 plugins/fn-math/functions.c:3267
 #: plugins/fn-stat/functions.c:5717 plugins/fn-stat/functions.c:5726
 #: plugins/fn-stat/functions.c:5849 plugins/fn-stat/functions.c:5905
 msgid "array1,array2"
 msgstr ""
 
-#: plugins/fn-math/functions.c:3272 plugins/fn-math/functions.c:3276
+#: plugins/fn-math/functions.c:3273 plugins/fn-math/functions.c:3277
 msgid "array,matrix_type,bandsize"
 msgstr ""
 
@@ -8848,15 +8852,16 @@ msgstr ""
 
 #. *************************************************************************
 #: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:124
-msgid "Maths / Trig."
-msgstr "Μαθηματικές / Τριγ."
+#, fuzzy
+msgid "Mathematics"
+msgstr "Μάρτιος"
 
 #: plugins/fn-random/functions.c:49
 #, fuzzy
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
-"@DESCRIPTION=RAND returns a random number between zero and one ([0..1]).\n"
+"@DESCRIPTION=RAND returns a random number between zero and one.\n"
 "\n"
 "* This function is Excel compatible.\n"
 "\n"
@@ -9030,7 +9035,7 @@ msgid ""
 "number.\n"
 "\n"
 "* If @p < 0 or @p > 1, RANDNEGBINOM returns #NUM! error.\n"
-"* If @failures RANDNEGBINOM returns #NUM! error.\n"
+"* If @failures < 1, RANDNEGBINOM returns #NUM! error.\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDNEGBINOM(0.5,2).\n"
@@ -9406,7 +9411,7 @@ msgid ""
 "* If @p < 0 or @p > 1 RANDLOG returns #NUM! error.\n"
 "\n"
 "@EXAMPLES=\n"
-"RANDHYPERG(0.72).\n"
+"RANDLOG(0.72).\n"
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
@@ -9469,7 +9474,7 @@ msgid ""
 "random number. @type is either 1 or 2 and specifies the type of the "
 "distribution (Type I or Type II).\n"
 "\n"
-"* If @type is either 1 or 2, RANDGUMBEL returns #NUM! error.\n"
+"* If @type is neither 1 nor 2, RANDGUMBEL returns #NUM! error.\n"
 "* If @type is omitted, Type I is assumed.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -9493,10 +9498,10 @@ msgid ""
 "@FUNCTION=RANDLEVY\n"
 "@SYNTAX=RANDLEVY(c,alpha[,beta])\n"
 "@DESCRIPTION=RANDLEVY returns a Levy-distributed random number. If @beta is "
-"ommitted, it is assumed to be 0.\n"
+"omitted, it is assumed to be 0.\n"
 "\n"
-"* For alpha = 1, beta=0, we get the Lorentz distribution.\n"
-"* For alpha = 2, beta=0, we get the Gaussian distribution.\n"
+"* For @alpha = 1, @beta=0, we get the Lorentz distribution.\n"
+"* For @alpha = 2, @beta=0, we get the Gaussian distribution.\n"
 "\n"
 "* If @alpha <= 0 or @alpha > 2, RANDLEVY returns #NUM! error.\n"
 "* If @beta < -1 or @beta > 1, RANDLEVY returns #NUM! error.\n"
@@ -9518,6 +9523,7 @@ msgstr ""
 "@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:925
+#, fuzzy
 msgid ""
 "@FUNCTION=RANDEXPPOW\n"
 "@SYNTAX=RANDEXPPOW(a,b)\n"
@@ -9526,15 +9532,22 @@ msgid ""
 "\n"
 "\tp(x) dx = {1 over 2 a Gamma(1+1/b)} exp(-|x/a|^b) dx, for x >= 0.\n"
 "\n"
-"* For b = 1 this reduces to the Laplace distribution.\n"
-"* For b = 2 it has the same form as a gaussian distribution, but with a = "
-"sqrt{2} sigma.\n"
+"* For @b = 1 this reduces to the Laplace distribution.\n"
+"* For @b = 2 it has the same form as a gaussian distribution with sigma = a/"
+"sqrt(2).\n"
 "\n"
 "@EXAMPLES=\n"
 "RANDEXPPOW(0.5,0.1).\n"
 "\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@ΣΥΝΑΡΤΗΣΗ=RandPoisson\n"
+"@ΣΥΝΤΑΞΗ=RandPoisson(λ)\n"
+"@ΠΕΡΙΓΡΑΦΗ=Η RandPoisson επιστρέφει τυχαίους αριθμούς με κατανομή Poisson. \n"
+"@ΠΑΡΑΔΕΙΓΜΑΤΑ=\n"
+"RandPoisson(3).\n"
+"\n"
+"@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
 #: plugins/fn-random/functions.c:956
 msgid ""
@@ -9562,8 +9575,8 @@ msgid ""
 "@FUNCTION=RANDGAUSSIANTAIL\n"
 "@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
 "@DESCRIPTION=RANDGAUSSIANTAIL returns a random variates from the upper tail "
-"of a Gaussian distribution with standard deviation sigma. The values "
-"returned are larger than the lower limit a, which must be positive. The "
+"of a Gaussian distribution with standard deviation @sigma. The values "
+"returned are larger than the lower limit @a, which must be positive. The "
 "method is based on Marsaglia's famous rectangle-wedge-tail algorithm (Ann "
 "Math Stat 32, 894-899 (1961)), with this aspect explained in Knuth, v2, 3rd "
 "ed, p139, 586 (exercise 11).\n"
@@ -9591,7 +9604,7 @@ msgid ""
 "\n"
 "With the simulation tool and the SIMTABLE function you can test given "
 "decision variables. Each SIMTABLE function contains the possible values of a "
-"simulation variable. In most of valid simulation models you should have the "
+"simulation variable. In most valid simulation models you should have the "
 "same number of values @dN for all decision variables.  If the simulation is "
 "run more rounds than there are values defined, SIMTABLE returns #N/A! error "
 "(e.g. if A1 contains `=SIMTABLE(1)' and A2 `=SIMTABLE(1,2)', A1 yields #N/A! "
@@ -9600,10 +9613,10 @@ msgid ""
 "The successive use of the simulation tool also requires that you give to the "
 "tool at least one input variable having RAND() or any other "
 "RAND<distribution name>() function in it. On each round, the simulation tool "
-"iterates given number of times all the input variables to revalue them. On "
-"each iteration, the values of the of the output variables are stored, and "
-"when the round is completed, descriptive statistical information is created "
-"according to the values.\n"
+"iterates for thegiven number of rounds over all the input variables to "
+"reevaluate them. On each iteration, the values of the output variables are "
+"stored, and when the round is completed, descriptive statistical information "
+"is created according to the values.\n"
 "\n"
 "@EXAMPLES=\n"
 "SIMTABLE(TRUE,FALSE) returns TRUE on the first simulation round and FALSE on "
@@ -9613,82 +9626,82 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-random/functions.c:1097 plugins/fn-random/functions.c:1133
-#: plugins/fn-random/functions.c:1151 plugins/fn-stat/functions.c:5846
+#: plugins/fn-random/functions.c:1098 plugins/fn-random/functions.c:1134
+#: plugins/fn-random/functions.c:1152 plugins/fn-stat/functions.c:5846
 msgid "p"
 msgstr ""
 
-#: plugins/fn-random/functions.c:1103
+#: plugins/fn-random/functions.c:1104
 #, fuzzy
 msgid "bottom,top"
 msgstr "Κάτω"
 
-#: plugins/fn-random/functions.c:1106
+#: plugins/fn-random/functions.c:1107
 #, fuzzy
 msgid "p,trials"
 msgstr "Απρίλιος"
 
-#: plugins/fn-random/functions.c:1109 plugins/fn-random/functions.c:1145
-#: plugins/fn-random/functions.c:1154
+#: plugins/fn-random/functions.c:1110 plugins/fn-random/functions.c:1146
+#: plugins/fn-random/functions.c:1155
 msgid "a"
 msgstr ""
 
-#: plugins/fn-random/functions.c:1112 plugins/fn-random/functions.c:1178
+#: plugins/fn-random/functions.c:1113 plugins/fn-random/functions.c:1179
 msgid "nu"
 msgstr ""
 
-#: plugins/fn-random/functions.c:1115
+#: plugins/fn-random/functions.c:1116
 #, fuzzy
 msgid "value_range,prob_range"
 msgstr "πορτοκαλί"
 
-#: plugins/fn-random/functions.c:1118
+#: plugins/fn-random/functions.c:1119
 msgid "b"
 msgstr ""
 
-#: plugins/fn-random/functions.c:1124
+#: plugins/fn-random/functions.c:1125
 msgid "nu1,nu2"
 msgstr ""
 
-#: plugins/fn-random/functions.c:1130 plugins/fn-random/functions.c:1175
+#: plugins/fn-random/functions.c:1131 plugins/fn-random/functions.c:1176
 msgid "a,sigma"
 msgstr ""
 
-#: plugins/fn-random/functions.c:1136
+#: plugins/fn-random/functions.c:1137
 msgid "a,b[,type]"
 msgstr ""
 
-#: plugins/fn-random/functions.c:1139
+#: plugins/fn-random/functions.c:1140
 msgid "n1,n2,t"
 msgstr ""
 
-#: plugins/fn-random/functions.c:1148
+#: plugins/fn-random/functions.c:1149
 msgid "c,alpha[,beta]"
 msgstr ""
 
-#: plugins/fn-random/functions.c:1157
+#: plugins/fn-random/functions.c:1158
 msgid "zeta,sigma"
 msgstr ""
 
-#: plugins/fn-random/functions.c:1160
+#: plugins/fn-random/functions.c:1161
 #, fuzzy
 msgid "p,failures"
 msgstr "Τιμές"
 
-#: plugins/fn-random/functions.c:1163
+#: plugins/fn-random/functions.c:1164
 msgid "mean,stdev"
 msgstr ""
 
-#: plugins/fn-random/functions.c:1169
+#: plugins/fn-random/functions.c:1170
 #, fuzzy
 msgid "lambda"
 msgstr "Λάμδα"
 
-#: plugins/fn-random/functions.c:1172
+#: plugins/fn-random/functions.c:1173
 msgid "sigma"
 msgstr ""
 
-#: plugins/fn-random/functions.c:1187
+#: plugins/fn-random/functions.c:1188
 msgid "d1[,d2,...,dN]"
 msgstr ""
 
@@ -13485,8 +13498,13 @@ msgid "TROFF (*.me)"
 msgstr "Μορφή αρχείου TROFF (*.me)"
 
 #: plugins/html/plugin.xml.in.h:9
-msgid "XHTML (*.xhtml)"
+#, fuzzy
+msgid "XHTML (*.html)"
 msgstr "XHTML (*.xhtml)"
+
+#: plugins/html/plugin.xml.in.h:10
+msgid "XHTML range - for export to clipboard"
+msgstr ""
 
 #: plugins/lotus-123/boot.c:61
 #, fuzzy
@@ -13642,7 +13660,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -15431,7 +15449,7 @@ msgid "Left align"
 msgstr "Αριστερή στοίχιση"
 
 #: src/GNOME_Gnumeric.xml.h:144 src/dialogs/cell-format.glade.h:49
-#: src/dialogs/dialog-stf-main-page.c:366 src/workbook-object-toolbar.c:161
+#: src/dialogs/dialog-stf-main-page.c:354 src/workbook-object-toolbar.c:161
 msgid "Line"
 msgstr "Γραμμή"
 
@@ -16973,18 +16991,18 @@ msgstr ""
 msgid "Shuffle Data"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:96
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:108
 #, fuzzy
 msgid "Plot"
 msgstr "Ταξινόμιση"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:100
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:112
 #, fuzzy
 msgid "Legend"
 msgstr "Φθίνουσα"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:103
-#: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:115
+#: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:130
 #, fuzzy
 msgid "Title"
@@ -17006,7 +17024,7 @@ msgstr ""
 msgid "Width"
 msgstr "Πλάτος"
 
-#: src/cut-n-paste-code/goffice/graph/gog-graph.c:166
+#: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
 #, fuzzy
 msgid "Chart"
 msgstr "Κ-οστο Μεγαλύτερο:"
@@ -17103,7 +17121,7 @@ msgstr "Φύλλο 1"
 msgid "Plot Type"
 msgstr "Φύλλο 1"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:317
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:319
 msgid "Chart Theme"
 msgstr ""
 
@@ -17372,7 +17390,7 @@ msgid "Bar"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
-#: src/dialogs/dialog-stf.glade.h:15
+#: src/dialogs/dialog-stf.glade.h:16
 msgid "Column"
 msgstr "Στήλη"
 
@@ -17969,7 +17987,7 @@ msgstr "Π_ρώτο Γράμμα"
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:658
 #: src/format.c:1860 src/format.c:1947 src/format.c:1956 src/format.c:2024
-#: src/plugin-service.c:199 src/widgets/widget-format-selector.c:58
+#: src/plugin-service.c:199 src/widgets/widget-format-selector.c:59
 msgid "General"
 msgstr "Γενικό"
 
@@ -18076,7 +18094,7 @@ msgid "Items"
 msgstr ""
 
 #: src/dialogs/autofilter-top10.glade.h:4
-#: src/widgets/widget-format-selector.c:64
+#: src/widgets/widget-format-selector.c:65
 msgid "Percentage"
 msgstr "Ποσοστό"
 
@@ -18289,12 +18307,12 @@ msgid "Control"
 msgstr "Έλεγχος"
 
 #: src/dialogs/cell-format.glade.h:27 src/dialogs/dialog-stf-export.glade.h:17
-#: src/widgets/widget-format-selector.c:69
+#: src/widgets/widget-format-selector.c:70
 #, fuzzy
 msgid "Custom"
 msgstr "Τυποποιημένο"
 
-#: src/dialogs/cell-format.glade.h:28 src/widgets/widget-format-selector.c:62
+#: src/dialogs/cell-format.glade.h:28 src/widgets/widget-format-selector.c:63
 #, fuzzy
 msgid "Date"
 msgstr "_Ημ/νία"
@@ -18491,7 +18509,7 @@ msgstr "Λεπτές Ανάποδες Διαγώνιες Ρίγες"
 msgid "Thin Vertical Stripe"
 msgstr "Λεπτές Κατακόρυφες Ρίγες"
 
-#: src/dialogs/cell-format.glade.h:80 src/widgets/widget-format-selector.c:63
+#: src/dialogs/cell-format.glade.h:80 src/widgets/widget-format-selector.c:64
 msgid "Time"
 msgstr "Ώρα"
 
@@ -18951,14 +18969,14 @@ msgstr ""
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:64
 #, fuzzy
-msgid "Andreas J. Glzow, Gnumeric hacker."
+msgid "Andreas J. Gülzow, Gnumeric hacker."
 msgstr "Jon K Hellan, Excel hacker."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:67
 #, fuzzy
-msgid "Jon Kre Hellan, Gnumeric hacker."
+msgid "Jon Kåre Hellan, Gnumeric hacker."
 msgstr "Jon K Hellan, Excel hacker."
 
 #: src/dialogs/dialog-about.c:68
@@ -19396,12 +19414,12 @@ msgid "Double"
 msgstr "Διπλή"
 
 #: src/dialogs/dialog-cell-format.c:453 src/dialogs/dialog-search.c:140
-#: src/func.c:675 src/widgets/widget-format-selector.c:59
+#: src/func.c:675 src/widgets/widget-format-selector.c:60
 msgid "Number"
 msgstr "Αριθμός"
 
-#: src/dialogs/dialog-cell-format.c:654 src/dialogs/dialog-stf-main-page.c:375
-#: src/widgets/widget-format-selector.c:67
+#: src/dialogs/dialog-cell-format.c:654 src/dialogs/dialog-stf-main-page.c:363
+#: src/widgets/widget-format-selector.c:68
 msgid "Text"
 msgstr "Κείμενο"
 
@@ -20439,7 +20457,7 @@ msgstr "Άκυρο όρισμα"
 msgid "You need to select at least one sheet to export"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.c:50 src/dialogs/dialog-stf.c:52
+#: src/dialogs/dialog-stf-export.c:50 src/dialogs/dialog-stf.c:179
 #, fuzzy
 msgid "Are you sure you want to cancel?"
 msgstr "Είσαστε βέβαιοι ότι θέλετε να διαγράψετε το φύλλο με όνομα ;"
@@ -20541,7 +20559,7 @@ msgstr "Περιγραφή:"
 msgid "Macintosh (carriage return)"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:31
+#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:32
 msgid "Never"
 msgstr "Ποτέ"
 
@@ -20621,17 +20639,17 @@ msgstr ""
 msgid "You cannot have more than %d columns in this version of Gnumeric."
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:134
+#: src/dialogs/dialog-stf-main-page.c:136
 #, c-format
 msgid "%d of %d lines to import"
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:155
+#: src/dialogs/dialog-stf-main-page.c:157
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:387
+#: src/dialogs/dialog-stf-main-page.c:375
 #, c-format
 msgid "Data (from %s)"
 msgstr ""
@@ -20669,35 +20687,34 @@ msgid "Ban_g (!)"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:10
+msgid "CSV"
+msgstr ""
+
+#: src/dialogs/dialog-stf.glade.h:11
 #, fuzzy
 msgid "C_ustom"
 msgstr "Τυποποιημένο"
 
-#: src/dialogs/dialog-stf.glade.h:11
+#: src/dialogs/dialog-stf.glade.h:12
 msgid ""
 "Character interpreted as quote character. If a termination or separation "
 "character is encountered within quotes it will be considered part of the "
 "column text."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:12
+#: src/dialogs/dialog-stf.glade.h:13
 #, fuzzy
 msgid "Clear list of columns"
 msgstr "Ρύθμιση πλάτους της στήλης "
 
-#: src/dialogs/dialog-stf.glade.h:13
+#: src/dialogs/dialog-stf.glade.h:14
 #, fuzzy
 msgid "Co_lumn end: "
 msgstr "Τέλος στήλης: "
 
-#: src/dialogs/dialog-stf.glade.h:14
+#: src/dialogs/dialog-stf.glade.h:15
 msgid "Co_mma (,)"
 msgstr ""
-
-#: src/dialogs/dialog-stf.glade.h:16
-#, fuzzy
-msgid "Column formatting"
-msgstr "Πληροφορίες"
 
 #: src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
@@ -20708,43 +20725,46 @@ msgid "Custom separator, this can be any character."
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:20
-msgid "Data type and number of lines"
-msgstr ""
-
-#: src/dialogs/dialog-stf.glade.h:21
 msgid "Define the width of each column manually."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:22
+#: src/dialogs/dialog-stf.glade.h:21
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:23
+#: src/dialogs/dialog-stf.glade.h:22
 #, fuzzy
 msgid "Encoding:"
 msgstr "Αύξουσα"
 
-#: src/dialogs/dialog-stf.glade.h:24
+#: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
 msgstr ""
 
+#: src/dialogs/dialog-stf.glade.h:24
+#, fuzzy
+msgid "F_inish"
+msgstr "Ελάχιστο"
+
 #: src/dialogs/dialog-stf.glade.h:25
-msgid "Fixed width customization"
-msgstr ""
+#, fuzzy
+msgid "Fixed"
+msgstr "Τίτλος"
 
 #: src/dialogs/dialog-stf.glade.h:26
+#, fuzzy
+msgid "Format"
+msgstr "Μορφ_οποίηση"
+
+#: src/dialogs/dialog-stf.glade.h:27
 #, fuzzy
 msgid "Fr_om line:"
 msgstr "Στην τιμή:"
 
-#: src/dialogs/dialog-stf.glade.h:27
-msgid "H_yphen (-)"
-msgstr ""
-
 #: src/dialogs/dialog-stf.glade.h:28
-msgid "Importing structured text"
+msgid "H_yphen (-)"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:29
@@ -20756,71 +20776,72 @@ msgstr ""
 msgid "Lines to import"
 msgstr "Τίτλοι προς εκτύπωση"
 
-#: src/dialogs/dialog-stf.glade.h:32
+#: src/dialogs/dialog-stf.glade.h:31
+#, fuzzy
+msgid "Main"
+msgstr "Ελάχιστο"
+
+#: src/dialogs/dialog-stf.glade.h:33
 #, fuzzy
 msgid "Number of lines to import"
 msgstr "Τίτλοι προς εκτύπωση"
 
-#: src/dialogs/dialog-stf.glade.h:33
+#: src/dialogs/dialog-stf.glade.h:34
 msgid "On left side only"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:34
+#: src/dialogs/dialog-stf.glade.h:35
 msgid "On right side only"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:35
+#: src/dialogs/dialog-stf.glade.h:36
 #, fuzzy
 msgid "Original data type:"
 msgstr "Επανα_φορά Αρχικών Τιμών"
 
-#: src/dialogs/dialog-stf.glade.h:36
+#: src/dialogs/dialog-stf.glade.h:37
 #, fuzzy
 msgid "Overall formatting"
 msgstr "Συσχέτιση"
 
-#: src/dialogs/dialog-stf.glade.h:37
+#: src/dialogs/dialog-stf.glade.h:38
 msgid "P_ipe (|)"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:38
+#: src/dialogs/dialog-stf.glade.h:39
 #, fuzzy
 msgid "Per column formatting"
 msgstr "Συσχέτιση"
 
-#: src/dialogs/dialog-stf.glade.h:39
+#: src/dialogs/dialog-stf.glade.h:40
 msgid "Processing ends at this line, any subsequent lines will be ignored."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:40
+#: src/dialogs/dialog-stf.glade.h:41
 #, fuzzy
 msgid "Remove selected column"
 msgstr "Ταξινόμιση των επιλεγμένων κελιών"
 
-#: src/dialogs/dialog-stf.glade.h:41
+#: src/dialogs/dialog-stf.glade.h:42
 msgid "S_ee two separators as one"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:42
+#: src/dialogs/dialog-stf.glade.h:43
 #, fuzzy
 msgid "S_pace"
 msgstr "Αντικατά_σταση:"
 
-#: src/dialogs/dialog-stf.glade.h:43
+#: src/dialogs/dialog-stf.glade.h:44
 msgid "See two successive separators as one."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:44
+#: src/dialogs/dialog-stf.glade.h:45
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:45
-msgid "Semicolo_n (;)"
-msgstr ""
-
 #: src/dialogs/dialog-stf.glade.h:46
-msgid "Separation customization"
+msgid "Semicolo_n (;)"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:47
@@ -20917,6 +20938,10 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:70
 msgid "_Windows (CR+LF)"
+msgstr ""
+
+#: src/dialogs/dialog-stf.glade.h:72
+msgid "dialog1"
 msgstr ""
 
 #: src/dialogs/dialog-tabulate.c:146
@@ -21135,65 +21160,66 @@ msgid "Size:"
 msgstr "Μέγεθος:"
 
 #: src/dialogs/format-selector.glade.h:2
-msgid "<b>Categories</b>"
-msgstr ""
-
-#: src/dialogs/format-selector.glade.h:3
 #, fuzzy
 msgid "<b>Preview</b>"
 msgstr "Προεπισκόπηση"
 
-#: src/dialogs/format-selector.glade.h:4
+#: src/dialogs/format-selector.glade.h:3
 #, fuzzy
-msgid "De_lete Format"
-msgstr "Δια_γραφή μορφοποίησης"
+msgid "Ca_tegories:"
+msgstr "Κατηγορία:"
 
-#: src/dialogs/format-selector.glade.h:5
+#: src/dialogs/format-selector.glade.h:4
 msgid "Deci_mal places:"
 msgstr "Δεκα_δικά ψηφία:"
 
-#: src/dialogs/format-selector.glade.h:6
+#: src/dialogs/format-selector.glade.h:5
 msgid "Display amounts in traditional accounting styles."
 msgstr ""
 
-#: src/dialogs/format-selector.glade.h:7
+#: src/dialogs/format-selector.glade.h:6
 msgid "Display and input values as strings with no interpretation."
 msgstr ""
 
-#: src/dialogs/format-selector.glade.h:8
+#: src/dialogs/format-selector.glade.h:7
 msgid "Display currency amounts."
 msgstr ""
 
-#: src/dialogs/format-selector.glade.h:9
+#: src/dialogs/format-selector.glade.h:8
 msgid "Display dates and optionally times of day."
 msgstr ""
 
-#: src/dialogs/format-selector.glade.h:10
+#: src/dialogs/format-selector.glade.h:9
 msgid "Display numeric values with a fixed number of decimals."
 msgstr ""
 
-#: src/dialogs/format-selector.glade.h:11
+#: src/dialogs/format-selector.glade.h:10
 #, fuzzy
 msgid "Display times of day."
 msgstr "Εμφάνιση Ε_ξισώσεων"
 
-#: src/dialogs/format-selector.glade.h:12
+#: src/dialogs/format-selector.glade.h:11
 msgid "Display values as closest fractional approximation."
 msgstr ""
 
-#: src/dialogs/format-selector.glade.h:13
+#: src/dialogs/format-selector.glade.h:12
 #, fuzzy
 msgid "Display values as percentages."
 msgstr "Απεικόνιση τιμής όπως ακριβώς εισήχθη"
 
-#: src/dialogs/format-selector.glade.h:14
+#: src/dialogs/format-selector.glade.h:13
 msgid "Display values with power-of-ten scaling."
 msgstr ""
 
+#: src/dialogs/format-selector.glade.h:14
+#, fuzzy
+msgid "Format c_ode:"
+msgstr "Μορ_φοποίηση"
+
 #: src/dialogs/format-selector.glade.h:15
 #, fuzzy
-msgid "Format code:"
-msgstr "Μορ_φοποίηση"
+msgid "Negative number _format:"
+msgstr "Αρνητ_ικός αριθμός:"
 
 #: src/dialogs/format-selector.glade.h:16
 msgid "S_ymbol:"
@@ -21208,6 +21234,11 @@ msgid "Specify an XL-style format directly"
 msgstr ""
 
 #: src/dialogs/format-selector.glade.h:19
+#, fuzzy
+msgid "_Format:"
+msgstr "Μορ_φοποίηση"
+
+#: src/dialogs/format-selector.glade.h:20
 msgid "_Use Separator for 1000's"
 msgstr "Δια_χωρισμός 1000άδων"
 
@@ -23905,18 +23936,6 @@ msgstr ""
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr "Δολλάριο Ζιμπάμπουε"
 
-#: src/formats.c:831
-msgid ";[Red]"
-msgstr ";[Κόκκινο]"
-
-#: src/formats.c:833
-msgid "_);("
-msgstr "_);("
-
-#: src/formats.c:835
-msgid "_);[Red]("
-msgstr "_);[Κόκκινο]("
-
 #: src/func-builtin.c:34
 #, fuzzy
 msgid ""
@@ -24069,12 +24088,12 @@ msgstr "Μορφές"
 msgid "Format as alternative Number"
 msgstr "_Ποσοστό"
 
-#: src/gui-clipboard.c:113
+#: src/gui-clipboard.c:114
 #, fuzzy
 msgid "clipboard"
 msgstr "Επικόλληση τεμαχίου"
 
-#: src/gui-clipboard.c:121
+#: src/gui-clipboard.c:122
 msgid "Parse error while trying to parse data into cellregion"
 msgstr ""
 
@@ -24082,42 +24101,42 @@ msgstr ""
 msgid "Automatically detected"
 msgstr ""
 
-#: src/gui-file.c:169
+#: src/gui-file.c:175
 msgid "Character _encoding:"
 msgstr ""
 
 #. Pack it into file selector
-#: src/gui-file.c:172 src/workbook-control-gui.c:3187
+#: src/gui-file.c:178 src/workbook-control-gui.c:3187
 msgid "Load file"
 msgstr "Ανάγνωση αρχείου"
 
-#: src/gui-file.c:179
+#: src/gui-file.c:185
 #, fuzzy
 msgid "File _type:"
 msgstr "Μέγεθος αρχείου:"
 
-#: src/gui-file.c:243
+#: src/gui-file.c:249
 #, c-format
 msgid ""
 "%s\n"
 "is a directory name"
 msgstr ""
 
-#: src/gui-file.c:249
+#: src/gui-file.c:255
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
 "%s"
 msgstr ""
 
-#: src/gui-file.c:256
+#: src/gui-file.c:262
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
 "Do you want to save over it?"
 msgstr ""
 
-#: src/gui-file.c:277
+#: src/gui-file.c:283
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -24125,24 +24144,24 @@ msgid ""
 "Do you want to save only current sheet?"
 msgstr ""
 
-#: src/gui-file.c:304
+#: src/gui-file.c:310
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
 msgstr ""
 
-#: src/gui-file.c:310
+#: src/gui-file.c:316
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
 msgstr ""
 
 #. Pack it into file selector
-#: src/gui-file.c:357
+#: src/gui-file.c:363
 msgid "Save workbook as"
 msgstr "Αποθήκευση φύλλων ως"
 
-#: src/gui-file.c:435
+#: src/gui-file.c:441
 msgid "Which file format would you like?"
 msgstr ""
 
@@ -24318,7 +24337,7 @@ msgid ""
 "and that new features have been added in the meantime.\n"
 "\n"
 "Please consider upgrading before reporting any bugs.\n"
-"Consult http://www.gnumeric.org/ for details.\n"
+"Consult http://www.gnome.org/projects/gnumeric/ for details.\n"
 "\n"
 "-- The Gnumeric Team."
 msgstr ""
@@ -24478,7 +24497,7 @@ msgstr "Άγνωστη έκδοση'%s'"
 msgid "Service '%s' not supported by loader."
 msgstr ""
 
-#: src/plugin-service.c:163 src/plugin-service.c:253 src/plugin-service.c:1167
+#: src/plugin-service.c:163 src/plugin-service.c:253 src/plugin-service.c:1175
 #, fuzzy
 msgid "Error while loading plugin service."
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
@@ -24514,84 +24533,84 @@ msgstr ""
 msgid "Error while reading file."
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
-#: src/plugin-service.c:746
+#: src/plugin-service.c:754
 #, fuzzy
 msgid "File saver has no description"
 msgstr "Το άρθρωμα είναι ακόμα σε χρήση.\n"
 
-#: src/plugin-service.c:792
+#: src/plugin-service.c:800
 #, fuzzy, c-format
 msgid "File saver - %s"
 msgstr "Όνομα αρχείου: %s"
 
-#: src/plugin-service.c:854
+#: src/plugin-service.c:862
 #, fuzzy
 msgid "Error while saving file."
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
-#: src/plugin-service.c:1007
+#: src/plugin-service.c:1015
 msgid "Missing function category name."
 msgstr ""
 
-#: src/plugin-service.c:1011
+#: src/plugin-service.c:1019
 msgid "Function group is empty."
 msgstr ""
 
-#: src/plugin-service.c:1105
+#: src/plugin-service.c:1113
 #, fuzzy, c-format
 msgid "%d function in category \"%s\""
 msgstr "_%dΚατηγορίες Συναρτήσεων'%s'"
 
-#: src/plugin-service.c:1106
+#: src/plugin-service.c:1114
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr ""
 
-#: src/plugin-service.c:1202
+#: src/plugin-service.c:1210
 #, fuzzy
 msgid "Plugin loader"
 msgstr "Άγνωστο σφάλμα εκτίμησης"
 
-#: src/plugin-service.c:1279
+#: src/plugin-service.c:1287
 #, fuzzy
 msgid "Missing file name."
 msgstr "Απόντα εισαγωγικά"
 
-#: src/plugin-service.c:1345
+#: src/plugin-service.c:1353
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr ""
 
-#: src/plugin-service.c:1382
+#: src/plugin-service.c:1390
 #, c-format
 msgid "User interface with %d action"
 msgstr ""
 
-#: src/plugin-service.c:1383
+#: src/plugin-service.c:1391
 #, c-format
 msgid "User interface with %d actions"
 msgstr ""
 
-#: src/plugin-service.c:1413
+#: src/plugin-service.c:1421
 #, fuzzy
 msgid "GObject loader"
 msgstr "Αντικείμεν_ο..."
 
-#: src/plugin-service.c:1520
+#: src/plugin-service.c:1528
 msgid "No \"type\" attribute on \"service\" element."
 msgstr ""
 
-#: src/plugin-service.c:1526
+#: src/plugin-service.c:1534
 #, fuzzy, c-format
 msgid "Unknown service type: %s."
 msgstr "Άγνωστο σύστημα'%s'"
 
-#: src/plugin-service.c:1542
+#: src/plugin-service.c:1550
 #, fuzzy
 msgid "Error reading service information."
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
-#: src/plugin-service.c:1604
+#: src/plugin-service.c:1612
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -26267,8 +26286,9 @@ msgid "dull purple"
 msgstr ""
 
 #: src/widgets/color-palette.c:575
-msgid "dark grey"
-msgstr ""
+#, fuzzy
+msgid "dark gray"
+msgstr "Πίνακας"
 
 #: src/widgets/color-palette.c:578
 #, fuzzy
@@ -26339,8 +26359,9 @@ msgid "red purple"
 msgstr ""
 
 #: src/widgets/color-palette.c:595
-msgid "light grey"
-msgstr ""
+#, fuzzy
+msgid "light gray"
+msgstr "Δεξία στοίχιση"
 
 #: src/widgets/color-palette.c:598 src/widgets/color-palette.c:615
 #, fuzzy
@@ -26844,37 +26865,37 @@ msgstr ""
 msgid "Bold italic"
 msgstr "Έντονο πλάγιο"
 
-#: src/widgets/widget-format-selector.c:60
+#: src/widgets/widget-format-selector.c:61
 #, fuzzy
 msgid "Currency"
 msgstr "_Νόμισμα"
 
-#: src/widgets/widget-format-selector.c:61
+#: src/widgets/widget-format-selector.c:62
 #, fuzzy
 msgid "Accounting"
 msgstr "_Λογιστικό"
 
-#: src/widgets/widget-format-selector.c:65
+#: src/widgets/widget-format-selector.c:66
 #, fuzzy
 msgid "Fraction"
 msgstr "_Κλάσμα"
 
-#: src/widgets/widget-format-selector.c:66
+#: src/widgets/widget-format-selector.c:67
 #, fuzzy
 msgid "Scientific"
 msgstr "_Επιστημονικό"
 
-#: src/widgets/widget-format-selector.c:68
+#: src/widgets/widget-format-selector.c:69
 #, fuzzy
 msgid "Special"
 msgstr "Ει_δικό"
 
-#: src/widgets/widget-format-selector.c:883
+#: src/widgets/widget-format-selector.c:908
 #, fuzzy
 msgid "Negative Number Format"
 msgstr "Αρνητ_ικός αριθμός:"
 
-#: src/widgets/widget-format-selector.c:914
+#: src/widgets/widget-format-selector.c:939
 #, fuzzy
 msgid "Number Formats"
 msgstr "Αντιγραφή μορφοποίησης"
@@ -28000,6 +28021,26 @@ msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 #: src/xml-io.c:3951
 msgid "Gnumeric XML file format"
 msgstr "Μορφή αρχείου XML Gnumeric"
+
+#~ msgid "Maths / Trig."
+#~ msgstr "Μαθηματικές / Τριγ."
+
+#, fuzzy
+#~ msgid "Column formatting"
+#~ msgstr "Πληροφορίες"
+
+#, fuzzy
+#~ msgid "De_lete Format"
+#~ msgstr "Δια_γραφή μορφοποίησης"
+
+#~ msgid ";[Red]"
+#~ msgstr ";[Κόκκινο]"
+
+#~ msgid "_);("
+#~ msgstr "_);("
+
+#~ msgid "_);[Red]("
+#~ msgstr "_);[Κόκκινο]("
 
 #, fuzzy
 #~ msgid "Is not an Gnumeric Workbook file"

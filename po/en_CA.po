@@ -5,12 +5,13 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 2003-06-24 08:18-0600\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2003-06-25 19:48-0400\n"
 "PO-Revision-Date: 2003-06-24 08:21-0600\n"
 "Last-Translator: Andreas J. Guelzow <aguelzow@taliesin.ca>\n"
 "Language-Team: gnome-i18n@gnome.org\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=iso-8859-1\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
@@ -546,7 +547,7 @@ msgid "Functions related to financial derivatives"
 msgstr ""
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5121
-#: plugins/mps/mps.c:549 src/xml-io.c:3844
+#: plugins/mps/mps.c:549 src/xml-io.c:3839
 msgid "Reading file..."
 msgstr ""
 
@@ -4470,7 +4471,7 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=G_DURATION,MDURATION"
 msgstr ""
 
 #: plugins/fn-financial/functions.c:2180
@@ -4488,7 +4489,7 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=PPMT,PV,FV"
+"@SEEALSO=PPMT,PV,FV,DURATION,MDURATION"
 msgstr ""
 
 #: plugins/fn-financial/functions.c:2221
@@ -5111,7 +5112,7 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO="
+"@SEEALSO=DURATION,G_DURATION"
 msgstr ""
 
 #: plugins/fn-financial/functions.c:3493
@@ -7875,7 +7876,8 @@ msgstr "Centre section:"
 msgid "Mathematical Functions"
 msgstr ""
 
-#: plugins/fn-math/plugin.xml.in.h:3
+#. *************************************************************************
+#: plugins/fn-math/plugin.xml.in.h:3 src/func-builtin.c:124
 msgid "Mathematics"
 msgstr ""
 
@@ -11965,7 +11967,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (MÃ¶bius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -11979,7 +11981,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=The NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=The NT_MU function (MÃ¶bius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "-1 if @n has an odd  number of different prime factors .\n"
@@ -12493,7 +12495,7 @@ msgstr ""
 
 #: plugins/xbase/boot.c:175 src/dialogs/dialog-goto-cell.c:283
 #: src/dialogs/dialog-search.c:390 src/dialogs/print.glade.h:21
-#: src/workbook.c:1035 src/workbook.c:1365 src/xml-io.c:3592
+#: src/workbook.c:1035 src/workbook.c:1365 src/xml-io.c:3587
 msgid "Sheet"
 msgstr ""
 
@@ -13614,7 +13616,7 @@ msgid "Left align"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:144 src/dialogs/cell-format.glade.h:49
-#: src/dialogs/dialog-stf-main-page.c:366 src/workbook-object-toolbar.c:161
+#: src/dialogs/dialog-stf-main-page.c:354 src/workbook-object-toolbar.c:161
 msgid "Line"
 msgstr ""
 
@@ -15030,16 +15032,16 @@ msgstr ""
 msgid "Shuffle Data"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:96
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:108
 msgid "Plot"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:100
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:112
 msgid "Legend"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:103
-#: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:115
+#: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:130
 msgid "Title"
 msgstr ""
@@ -15062,7 +15064,7 @@ msgstr ""
 msgid "Width"
 msgstr "C_olour"
 
-#: src/cut-n-paste-code/goffice/graph/gog-graph.c:166
+#: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
 msgid "Chart"
 msgstr ""
 
@@ -15151,7 +15153,7 @@ msgstr ""
 msgid "Plot Type"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:317
+#: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:319
 msgid "Chart Theme"
 msgstr ""
 
@@ -15407,7 +15409,7 @@ msgid "Bar"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:14
-#: src/dialogs/dialog-stf.glade.h:15
+#: src/dialogs/dialog-stf.glade.h:16
 #, fuzzy
 msgid "Column"
 msgstr "C_olour"
@@ -15975,7 +15977,7 @@ msgstr ""
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:658
 #: src/format.c:1860 src/format.c:1947 src/format.c:1956 src/format.c:2024
-#: src/plugin-service.c:199 src/widgets/widget-format-selector.c:58
+#: src/plugin-service.c:199 src/widgets/widget-format-selector.c:59
 msgid "General"
 msgstr ""
 
@@ -16078,7 +16080,7 @@ msgid "Items"
 msgstr ""
 
 #: src/dialogs/autofilter-top10.glade.h:4
-#: src/widgets/widget-format-selector.c:64
+#: src/widgets/widget-format-selector.c:65
 #, fuzzy
 msgid "Percentage"
 msgstr "Centre"
@@ -16278,11 +16280,11 @@ msgid "Control"
 msgstr "Centre"
 
 #: src/dialogs/cell-format.glade.h:27 src/dialogs/dialog-stf-export.glade.h:17
-#: src/widgets/widget-format-selector.c:69
+#: src/widgets/widget-format-selector.c:70
 msgid "Custom"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:28 src/widgets/widget-format-selector.c:62
+#: src/dialogs/cell-format.glade.h:28 src/widgets/widget-format-selector.c:63
 msgid "Date"
 msgstr ""
 
@@ -16474,7 +16476,7 @@ msgstr ""
 msgid "Thin Vertical Stripe"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:80 src/widgets/widget-format-selector.c:63
+#: src/dialogs/cell-format.glade.h:80 src/widgets/widget-format-selector.c:64
 msgid "Time"
 msgstr ""
 
@@ -16894,13 +16896,13 @@ msgstr ""
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:64
-msgid "Andreas J. Glzow, Gnumeric hacker."
+msgid "Andreas J. GÃ¼lzow, Gnumeric hacker."
 msgstr ""
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:67
-msgid "Jon Kre Hellan, Gnumeric hacker."
+msgid "Jon KÃ¥re Hellan, Gnumeric hacker."
 msgstr ""
 
 #: src/dialogs/dialog-about.c:68
@@ -16986,7 +16988,7 @@ msgstr ""
 #. Translate the following string with the names of all translators for this locale.
 #: src/dialogs/dialog-about.c:117
 msgid "This is an untranslated version of Gnumeric."
-msgstr "Andreas J. Gülzow"
+msgstr "Andreas J. GÃ¼lzow"
 
 #: src/dialogs/dialog-about.c:123
 msgid "Gnumeric Home Page"
@@ -17302,12 +17304,12 @@ msgid "Double"
 msgstr ""
 
 #: src/dialogs/dialog-cell-format.c:453 src/dialogs/dialog-search.c:140
-#: src/func.c:675 src/widgets/widget-format-selector.c:59
+#: src/func.c:675 src/widgets/widget-format-selector.c:60
 msgid "Number"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:654 src/dialogs/dialog-stf-main-page.c:375
-#: src/widgets/widget-format-selector.c:67
+#: src/dialogs/dialog-cell-format.c:654 src/dialogs/dialog-stf-main-page.c:363
+#: src/widgets/widget-format-selector.c:68
 msgid "Text"
 msgstr ""
 
@@ -18258,7 +18260,7 @@ msgstr ""
 msgid "You need to select at least one sheet to export"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.c:50 src/dialogs/dialog-stf.c:52
+#: src/dialogs/dialog-stf-export.c:50 src/dialogs/dialog-stf.c:179
 msgid "Are you sure you want to cancel?"
 msgstr ""
 
@@ -18354,7 +18356,7 @@ msgstr ""
 msgid "Macintosh (carriage return)"
 msgstr ""
 
-#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:31
+#: src/dialogs/dialog-stf-export.glade.h:24 src/dialogs/dialog-stf.glade.h:32
 msgid "Never"
 msgstr ""
 
@@ -18429,17 +18431,17 @@ msgstr ""
 msgid "You cannot have more than %d columns in this version of Gnumeric."
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:134
+#: src/dialogs/dialog-stf-main-page.c:136
 #, c-format
 msgid "%d of %d lines to import"
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:155
+#: src/dialogs/dialog-stf-main-page.c:157
 #, c-format
 msgid "The data is not valid in encoding %s; please select another encoding."
 msgstr ""
 
-#: src/dialogs/dialog-stf-main-page.c:387
+#: src/dialogs/dialog-stf-main-page.c:375
 #, c-format
 msgid "Data (from %s)"
 msgstr ""
@@ -18476,33 +18478,32 @@ msgid "Ban_g (!)"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:10
-msgid "C_ustom"
+msgid "CSV"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:11
+msgid "C_ustom"
+msgstr ""
+
+#: src/dialogs/dialog-stf.glade.h:12
 msgid ""
 "Character interpreted as quote character. If a termination or separation "
 "character is encountered within quotes it will be considered part of the "
 "column text."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:12
+#: src/dialogs/dialog-stf.glade.h:13
 msgid "Clear list of columns"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:13
+#: src/dialogs/dialog-stf.glade.h:14
 #, fuzzy
 msgid "Co_lumn end: "
 msgstr "C_olour"
 
-#: src/dialogs/dialog-stf.glade.h:14
+#: src/dialogs/dialog-stf.glade.h:15
 msgid "Co_mma (,)"
 msgstr ""
-
-#: src/dialogs/dialog-stf.glade.h:16
-#, fuzzy
-msgid "Column formatting"
-msgstr "C_olour"
 
 #: src/dialogs/dialog-stf.glade.h:17
 #, fuzzy
@@ -18514,42 +18515,42 @@ msgid "Custom separator, this can be any character."
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:20
-msgid "Data type and number of lines"
-msgstr ""
-
-#: src/dialogs/dialog-stf.glade.h:21
 msgid "Define the width of each column manually."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:22
+#: src/dialogs/dialog-stf.glade.h:21
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:23
+#: src/dialogs/dialog-stf.glade.h:22
 msgid "Encoding:"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:24
+#: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
 msgstr ""
 
+#: src/dialogs/dialog-stf.glade.h:24
+msgid "F_inish"
+msgstr ""
+
 #: src/dialogs/dialog-stf.glade.h:25
-#, fuzzy
-msgid "Fixed width customization"
-msgstr "Separation customisation"
+msgid "Fixed"
+msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:26
+#, fuzzy
+msgid "Format"
+msgstr "Colour"
+
+#: src/dialogs/dialog-stf.glade.h:27
 msgid "Fr_om line:"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:27
-msgid "H_yphen (-)"
-msgstr ""
-
 #: src/dialogs/dialog-stf.glade.h:28
-msgid "Importing structured text"
+msgid "H_yphen (-)"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:29
@@ -18560,67 +18561,67 @@ msgstr ""
 msgid "Lines to import"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:32
-msgid "Number of lines to import"
+#: src/dialogs/dialog-stf.glade.h:31
+msgid "Main"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:33
-msgid "On left side only"
+msgid "Number of lines to import"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:34
-msgid "On right side only"
+msgid "On left side only"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:35
-msgid "Original data type:"
+msgid "On right side only"
 msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:36
+msgid "Original data type:"
+msgstr ""
+
+#: src/dialogs/dialog-stf.glade.h:37
 #, fuzzy
 msgid "Overall formatting"
 msgstr "C_olour"
 
-#: src/dialogs/dialog-stf.glade.h:37
+#: src/dialogs/dialog-stf.glade.h:38
 msgid "P_ipe (|)"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:38
+#: src/dialogs/dialog-stf.glade.h:39
 msgid "Per column formatting"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:39
+#: src/dialogs/dialog-stf.glade.h:40
 msgid "Processing ends at this line, any subsequent lines will be ignored."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:40
+#: src/dialogs/dialog-stf.glade.h:41
 msgid "Remove selected column"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:41
+#: src/dialogs/dialog-stf.glade.h:42
 msgid "S_ee two separators as one"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:42
+#: src/dialogs/dialog-stf.glade.h:43
 msgid "S_pace"
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:43
+#: src/dialogs/dialog-stf.glade.h:44
 msgid "See two successive separators as one."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:44
+#: src/dialogs/dialog-stf.glade.h:45
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 
-#: src/dialogs/dialog-stf.glade.h:45
+#: src/dialogs/dialog-stf.glade.h:46
 msgid "Semicolo_n (;)"
 msgstr ""
-
-#: src/dialogs/dialog-stf.glade.h:46
-msgid "Separation customization"
-msgstr "Separation customisation"
 
 #: src/dialogs/dialog-stf.glade.h:47
 msgid "Separators"
@@ -18710,6 +18711,10 @@ msgstr ""
 
 #: src/dialogs/dialog-stf.glade.h:70
 msgid "_Windows (CR+LF)"
+msgstr ""
+
+#: src/dialogs/dialog-stf.glade.h:72
+msgid "dialog1"
 msgstr ""
 
 #: src/dialogs/dialog-tabulate.c:146
@@ -21411,18 +21416,6 @@ msgstr ""
 msgid "Zimbabwe, Zimbabwe Dollars"
 msgstr ""
 
-#: src/formats.c:831
-msgid ";[Red]"
-msgstr ""
-
-#: src/formats.c:833
-msgid "_);("
-msgstr ""
-
-#: src/formats.c:835
-msgid "_);[Red]("
-msgstr ""
-
 #: src/func-builtin.c:34
 msgid ""
 "@FUNCTION=SUM\n"
@@ -21481,11 +21474,6 @@ msgstr ""
 "UPPER(\"cancelled\") equals \"CANCELLED\".\n"
 "\n"
 "@SEEALSO=LOWER"
-
-#. *************************************************************************
-#: src/func-builtin.c:124
-msgid "Maths / Trig."
-msgstr ""
 
 #: src/func.c:107
 #, c-format
@@ -24134,33 +24122,33 @@ msgstr ""
 msgid "Bold italic"
 msgstr ""
 
-#: src/widgets/widget-format-selector.c:60
+#: src/widgets/widget-format-selector.c:61
 msgid "Currency"
 msgstr ""
 
-#: src/widgets/widget-format-selector.c:61
+#: src/widgets/widget-format-selector.c:62
 #, fuzzy
 msgid "Accounting"
 msgstr "Centre"
 
-#: src/widgets/widget-format-selector.c:65
+#: src/widgets/widget-format-selector.c:66
 #, fuzzy
 msgid "Fraction"
 msgstr "Centre on page"
 
-#: src/widgets/widget-format-selector.c:66
+#: src/widgets/widget-format-selector.c:67
 msgid "Scientific"
 msgstr ""
 
-#: src/widgets/widget-format-selector.c:68
+#: src/widgets/widget-format-selector.c:69
 msgid "Special"
 msgstr ""
 
-#: src/widgets/widget-format-selector.c:895
+#: src/widgets/widget-format-selector.c:908
 msgid "Negative Number Format"
 msgstr ""
 
-#: src/widgets/widget-format-selector.c:926
+#: src/widgets/widget-format-selector.c:939
 msgid "Number Formats"
 msgstr ""
 
@@ -25207,33 +25195,44 @@ msgstr ""
 msgid "You may not use this name twice"
 msgstr ""
 
-#: src/xml-io.c:3303
+#: src/xml-io.c:3298
 msgid "Unparsable xml in clipboard"
 msgstr ""
 
-#: src/xml-io.c:3310
+#: src/xml-io.c:3305
 msgid "Clipboard is in unknown format"
 msgstr ""
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3724
+#: src/xml-io.c:3719
 msgid "Processing file..."
 msgstr ""
 
-#: src/xml-io.c:3886
+#: src/xml-io.c:3881
 #, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Could not initialise the Gnumeric Workbook factory"
 
-#: src/xml-io.c:3923
+#: src/xml-io.c:3918
 msgid "Failure saving file"
 msgstr ""
 
-#: src/xml-io.c:3956
+#: src/xml-io.c:3951
 msgid "Gnumeric XML file format"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Column formatting"
+#~ msgstr "C_olour"
+
+#, fuzzy
+#~ msgid "Fixed width customization"
+#~ msgstr "Separation customisation"
+
+#~ msgid "Separation customization"
+#~ msgstr "Separation customisation"
 
 #, fuzzy
 #~ msgid "Is not an Gnumeric Workbook file"
@@ -25362,31 +25361,31 @@ msgstr ""
 #~ msgstr "Hypothesised Mean Difference"
 
 #~ msgid "#,##0_);[Red](#,##0)"
-#~ msgstr "£#,##0_);[Red](£#,##0)"
+#~ msgstr "Â£#,##0_);[Red](Â£#,##0)"
 
 #~ msgid "#,##0.00_);[Red](#,##0.00)"
-#~ msgstr "£#,##0.00_);[Red](£#,##0.00)"
+#~ msgstr "Â£#,##0.00_);[Red](Â£#,##0.00)"
 
 #~ msgid "$#,##0_);($#,##0)"
-#~ msgstr "£#,##0_);(£#,##0)"
+#~ msgstr "Â£#,##0_);(Â£#,##0)"
 
 #~ msgid "$#,##0_);[Red]($#,##0)"
-#~ msgstr "£#,##0_);[Red](£#,##0)"
+#~ msgstr "Â£#,##0_);[Red](Â£#,##0)"
 
 #~ msgid "$#,##0.00_);($#,##0.00)"
-#~ msgstr "£#,##0.00_);(£#,##0.00)"
+#~ msgstr "Â£#,##0.00_);(Â£#,##0.00)"
 
 #~ msgid "$#,##0.00_);[Red]($#,##0.00)"
-#~ msgstr "£#,##0.00_);[Red](£#,##0.00)"
+#~ msgstr "Â£#,##0.00_);[Red](Â£#,##0.00)"
 
 #~ msgid "_($* #,##0_);_($* (#,##0);_($* \"-\"_);_(@_)"
-#~ msgstr "_(£* #,##0_);_(£* (#,##0);_(£* \"-\"_);_(@_)"
+#~ msgstr "_(Â£* #,##0_);_(Â£* (#,##0);_(Â£* \"-\"_);_(@_)"
 
 #~ msgid "_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)"
 #~ msgstr "_(* #,##0_);_(* (#,##0);_(* \"-\"_);_(@_)"
 
 #~ msgid "_($* #,##0.00_);_($* (#,##0.00);_($* \"-\"??_);_(@_)"
-#~ msgstr "_(£* #,##0.00_);_(£* (#,##0.00);_(£* \"-\"??_);_(@_)"
+#~ msgstr "_(Â£* #,##0.00_);_(Â£* (#,##0.00);_(Â£* \"-\"??_);_(@_)"
 
 #~ msgid "_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)"
 #~ msgstr "_(* #,##0.00_);_(* (#,##0.00);_(* \"-\"??_);_(@_)"
@@ -25434,10 +25433,10 @@ msgstr ""
 #~ msgstr "d/m/yyyy h:mm"
 
 #~ msgid "_($* #,##0.00_);($* #,##0.00)"
-#~ msgstr "_(£* #,##0.00_);(£* #,##0.00)"
+#~ msgstr "_(Â£* #,##0.00_);(Â£* #,##0.00)"
 
 #~ msgid "Use solid color"
 #~ msgstr "Use solid colour"
 
 #~ msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
-#~ msgstr "_(*£,££0_);_(*(#,##0);_(*\"-\"_);_(@_)"
+#~ msgstr "_(*Â£,Â£Â£0_);_(*(#,##0);_(*\"-\"_);_(@_)"
