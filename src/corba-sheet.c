@@ -26,6 +26,8 @@
 #include "colrow.h"
 #include "value.h"
 #include "sheet-private.h"
+#include "cell-comment.h"
+#include "rendered-value.h"
 
 #define verify(cond)          if (!(cond)){ out_of_range (ev); return; }
 #define verify_val(cond,val)  if (!(cond)){ out_of_range (ev); return (val); }
@@ -346,7 +348,7 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 		return;
 	}
 
-	sheet_cell_set_value (cell, v);
+	cell_set_value (cell, v, NULL);
 }
 
 static void

@@ -1,3 +1,10 @@
+2000-04-20  Matt Wilson  <msw@redhat.com>
+
+	* src/corba-sheet.c (Sheet_cell_set_value): 
+	sheet_cell_set_value -> cell_set_value
+
+	* src/corba-sheet.c: include cell-comment.h, rendered-value.h
+
 2000-04-20  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-cell-format.c : Use the edit_pos as the example
