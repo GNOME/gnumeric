@@ -223,6 +223,8 @@ gnumeric_arg_parse (int argc, char const *argv [])
 			break;
 	if (i >= argc)
 		gtk_init (&argc, (char ***)&argv);
+	else
+		g_type_init ();
 
 	arg_context = poptGetContext (PACKAGE, argc, argv, options, 0);
 	while (poptGetNextOpt (arg_context) > 0)

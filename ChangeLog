@@ -1,3 +1,8 @@
+2004-03-03  Jody Goldberg <jody@gnome.org>
+
+	* src/main-application.c (gnumeric_arg_parse) : When we don't need a
+	  gui we still need to initialize gobject.
+
 2004-03-01  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (gui_image_file_select): Adapt to latest gtk+ cvs
