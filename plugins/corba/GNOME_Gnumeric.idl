@@ -1,6 +1,8 @@
 #ifndef __GNUMERIC_IDL__
 #define __GNUMERIC_IDL__
 
+#include <Bonobo.idl>
+
 module GNOME {
 	module Gnumeric {
 		exception ErrorSystem  { string msg; };
@@ -11,13 +13,13 @@ module GNOME {
 		exception ErrorInvalid { string msg; };
 		exception ErrorSplitsArray { string msg; };
 
-		interface Sheet {
+		interface Sheet : Bonobo::Unknown {
 			attribute string name;
 			attribute short  index;
 		};
 		typedef sequence<Sheet>	Sheets;
 
-		interface Workbook {
+		interface Workbook : Bonobo::Unknown {
 			attribute string name;
 
 			Sheet  sheet_by_index (in short i);
@@ -27,7 +29,7 @@ module GNOME {
 		};
 		typedef sequence<Workbook>	Workbooks;
 
-		interface Application {
+		interface Application : Bonobo::Unknown {
 			Workbook  workbook_open (in string file_name,
 						 in boolean shared_view);
 			Workbooks workbooks ();
