@@ -79,24 +79,24 @@ find_bound_walk (int l, int h, int start, gboolean up, gboolean reset)
 		current = start;
 		orig = start;
 		sup = up;
-		started = FALSE;
+		started = up;
 		return current;
 	}
 	
 	if (sup) {
 		current++;
-		if (current > high && orig > low) {
+		if (current > high && sup == started) {
 			current = orig - 1;
 			sup = FALSE;
-		} else if (current > high && orig <= low) {
+		} else if (current > high && sup != started) {
 			return -1;
 		}
 	} else {
 		current--;
-		if (current < low && orig < high) {
+		if (current < low && sup == started) {
 			current = orig + 1;
 			sup = TRUE;
-		} else if (current < low && orig >= high) {
+		} else if (current < low && sup != started) {
 			return -1;
 		}
 	}
