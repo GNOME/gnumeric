@@ -17,6 +17,8 @@ Jody:
 	* Import sheet visibility from ms excel
 	* Split function docs into a distinct catalog
 
+Jon Kåre:
+        * Don't crash on CVS file with invalid unicode [#167190]
 Morten:
 	* Work around Pango bug causing XL save crash.  [#166532]
 

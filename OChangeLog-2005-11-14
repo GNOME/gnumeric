@@ -1,3 +1,8 @@
+2005-02-12  Jon K Hellan  <hellan@acm.org>
+
+	* src/stf-parse.c (stf_parse_sheet): Don't crash if parsing
+	doesn't return lines.
+
 2005-02-12  Jody Goldberg <jody@gnome.org>
 
 	* configure.in : move function docs into a distinct message catalog

@@ -1165,6 +1165,8 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 	lines_chunk = g_string_chunk_new (100 * 1024);
 	lines = stf_parse_general (parseoptions, lines_chunk, data, data_end,
 				   SHEET_MAX_ROWS);
+	if (lines == NULL)
+		return FALSE;
 	for (row = start_row, lrow = 0; lrow < lines->len ; row++, lrow++) {
 		col = start_col;
 		line = g_ptr_array_index (lines, lrow);
