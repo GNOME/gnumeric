@@ -1,3 +1,8 @@
+2004-03-13  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* graph/plugins/plot_xy/gog-xy.c: (gog_xy_view_render),
+	(gog_xy_series_update), (gog_xy_series_init_style): fixed tests about bubble plots.
+
 2004-03-13    <clahey@ximian.com>
 
 	* Makefile.am (SUBDIRS): Added drawing and ms-compat.
