@@ -710,3 +710,23 @@ gnumeric_glade_xml_new (CommandContext *context, char const * gladefile)
 
 	return gui;
 }
+
+static gint
+cb_non_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
+{
+	if(e->keyval == GDK_Escape) {
+		gtk_widget_destroy (w);
+		return TRUE;
+	} 
+
+	return FALSE;
+}
+
+void
+gnumeric_non_modal_dialog (Workbook *wb, GtkDialog *dialog)
+{
+	gtk_window_set_transient_for (GTK_WINDOW (dialog),
+				      GTK_WINDOW (wb->toplevel));
+	gtk_signal_connect (GTK_OBJECT (dialog), "key-press-event",
+			    (GtkSignalFunc) cb_non_modal_dialog_keypress, NULL);
+}

@@ -582,14 +582,6 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, guint time, gpoi
 			wb->clipboard_paste_callback_data = NULL;
 		}
 	}
-
-	/* Be careful to release memory BEFORE update and recalc.
-	 * this will be more friendly in low memory environments
-	 */
-	if (region_pastable) {
-		workbook_recalc (wb);
-		sheet_update (wb->current_sheet);
-	}
 }
 
 /**

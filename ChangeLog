@@ -1,3 +1,10 @@
+2000-07-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (x_selection_received) : No need to sheet_update or
+	  recalc.  cmd_paste_copy handles that.
+
+	* src/gnumeric-util.c (gnumeric_non_modal_dialog) : New function.
+
 2000-07-04  Morten Welinder  <terra@diku.dk>
 
 	* src/clipboard.c (x_selection_received): Update current sheet,
