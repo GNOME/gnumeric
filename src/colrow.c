@@ -430,7 +430,6 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 	int i;
 	ColRowStateGroup *res = NULL;
 	ColRowIndexList *ptr;
-	ColRowInfo *cri;
 
 	for (ptr = src; ptr != NULL ; ptr = ptr->next) {
 		ColRowIndex const *index = ptr->data;
@@ -498,7 +497,6 @@ colrow_set_sizes (Sheet *sheet, gboolean is_cols,
 				else
 					sheet_row_set_size_pixels (sheet, i,
 						sheet_row_get_default_size_pixels (sheet), FALSE);
-				}
 			}
 		}
 	}
