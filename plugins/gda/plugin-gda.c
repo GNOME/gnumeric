@@ -1,5 +1,6 @@
 /* Interface Gnumeric to Databases
  * Copyright (C) 1998,1999 Michael Lausch
+ * Copyright (C) 2000 Rodrigo Moya
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -18,15 +19,7 @@
 
 
 #include <config.h>
-#include <gnome.h>
-#include <glib.h>
-
-#include <gda-command.h>
-#include <gda-recordset.h>
-#include <gda-error.h>
-#include <gda-connection.h>
-#include <libgnorba/gnorba.h>
-
+#include <gda-client.h>
 
 #include "src/gnumeric.h"
 #include "src/func.h"
@@ -91,9 +84,10 @@ execSQL (void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **
 	gchar*          user;
 	gchar*          password;
 	GString*        stmt;
-	gint rc;
-	gchar  bfr[128];
-	gchar* provider;
+	gint            rc;
+	gchar           bfr[128];
+	gchar*          provider;
+	Gda_Dsn*        gda_dsn;
 
 
 	if (g_list_length(expr_node_list) < 4) {
@@ -172,14 +166,12 @@ execSQL (void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **
 		expr_node_list = g_list_next(expr_node_list);
 	}
 
-	g_snprintf(bfr, sizeof(bfr), "/gdalib/%s/Provider", &db_name[1]);
-	provider = gnome_config_get_string(bfr);
-	cnc = gda_connection_new(gnome_CORBA_ORB());
-	gda_connection_set_provider(cnc, provider);
-	g_snprintf(bfr, sizeof(bfr), "/gdalib/%s/DSN", &db_name[1]);
-	dsn = gnome_config_get_string(bfr);
+	gda_dsn = gda_dsn_find_by_name(&db_name[1]);
+	cnc = gda_connection_new(gda_corba_get_orb());
+	gda_connection_set_provider(cnc, GDA_DSN_PROVIDER(gda_dsn));
 
-	rc = gda_connection_open(cnc, dsn, &user[1], &password[1]);
+	rc = gda_connection_open(cnc, GDA_DSN_DSN(gda_dsn), &user[1], &password[1]);
+	gda_dsn_free(gda_dsn);
 	if (rc != 0) {
 		Gda_Error* e;
 		GList* errors;

@@ -1,3 +1,10 @@
+2000-11-16  Rodrigo Moya <rodrigo@linuxave.net>
+
+	* configure.in: added support for conditional compilation of
+	the GDA (GNOME-DB) plugin
+	* plugins/gda/*: updated to current GDA code. Does not compile
+	yet though
+
 2000-11-16  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/selection.c, src/dialogs/dialog-cell-sort.c: Marked strings

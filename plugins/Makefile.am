@@ -24,10 +24,16 @@ else
 GB_DIR =
 endif
 
+if WITH_GDA
+GDA_DIR=gda
+else
+GDA_DIR=
+endif
+
 SUBDIRS_FILE_FORMATS = excel lotus-123 oleo sc sylk xbase html dif plan-perfect \
 	xml2 applix
 
 SUBDIRS_FUNCTIONS = $(PYTHON_DIR) $(PERL_DIR) $(GUILE_DIR) $(GB_DIR) \
-	numtheory gda
+	numtheory $(GDA_DIR)
 
 SUBDIRS = $(SUBDIRS_FILE_FORMATS) $(SUBDIRS_FUNCTIONS)
