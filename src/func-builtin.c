@@ -122,21 +122,11 @@ gnumeric_version (FunctionEvalInfo *ei, Value *argv [])
 
 /***************************************************************************/
 
-gnumeric_selection (FunctionEvalInfo *ei, Value *argv [])
-{
-	return value_new_float (12.34);
-}
-
-/***************************************************************************/
-
 static const char *mathcatname = N_("Maths / Trig.");
 static GSList *mathfuncs = NULL;
 
 static const char *gnumericcatname = N_("Gnumeric");
 static GSList *gnumericfuncs = NULL;
-
-static const char *sheetcatname = N_("Sheet");
-static GSList *sheetfuncs = NULL;
 
 void
 func_builtin_init (void)
@@ -144,7 +134,6 @@ func_builtin_init (void)
 	FunctionDefinition *def;
 	FunctionCategory *mathcat = function_get_category (mathcatname);
 	FunctionCategory *gnumericcat = function_get_category (gnumericcatname);
-	FunctionCategory *sheetcat = function_get_category (sheetcatname);
 
 	def = function_add_nodes (mathcat, "sum",     0,
 				  N_("number,number,"),
@@ -185,5 +174,4 @@ func_builtin_shutdown (void)
 {
 	shutdown_cat (mathcatname, &mathfuncs);
 	shutdown_cat (gnumericcatname, &gnumericfuncs);
-	shutdown_cat (sheetcatname, &sheetfuncs);
 }

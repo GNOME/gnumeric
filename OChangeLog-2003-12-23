@@ -1,4 +1,14 @@
+2002-06-24  Jody Goldberg <jody@gnome.org>
+
+	* src/func-builtin.c : finish cleaning out the 'selection' function
+	and silence the warnings.
+
 2002-06-23  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui-priv.h (SCG_FOREACH_PANE) : respect the
+	  GnumericPane::is_active flag to begin support for h/v only freezing.
+	* src/sheet-control-gui.c (scg_redraw_headers) : ditto.
+	(scg_make_cell_visible) : ditto.
 
 	* src/sheet-view.c (sv_attach_control) : position the cursors for the
 	  newly attached control.
