@@ -4068,33 +4068,21 @@ cmd_reorganize_sheets_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	return cmd_reorganize_sheets_apply (me->new_order, me->new_names);
 }
 
-static void        
-cmd_reorganize_free_names (gpointer data, gpointer user_data)
-{
-	g_free (data);
-}
-
-
 static void
 cmd_reorganize_sheets_finalize (GObject *cmd)
 {
 	CmdReorganizeSheets *me = CMD_REORGANIZE_SHEETS (cmd);
 
-	if (me->old_order)
-		g_slist_free (me->old_order);
+	g_slist_free (me->old_order);
 	me->old_order = NULL;
-	if (me->new_order)
-		g_slist_free (me->new_order);
+
+	g_slist_free (me->new_order);
 	me->new_order = NULL;
-	if (me->old_names) {
-		g_slist_foreach (me->old_names, cmd_reorganize_free_names, NULL);
-		g_slist_free (me->old_names);
-	}
+
+	e_free_string_slist (me->old_names);
 	me->old_names = NULL;
-	if (me->new_names) {
-		g_slist_foreach (me->old_names, cmd_reorganize_free_names, NULL);
-		g_slist_free (me->new_names);
-	}
+
+	e_free_string_slist (me->old_names);
 	me->new_names = NULL;
 
 	gnumeric_command_finalize (cmd);
@@ -4125,8 +4113,8 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 			me->parent.cmd_descriptor = g_strdup ("Nothing to do?");
 		else if (new_names->next == NULL)
 			me->parent.cmd_descriptor = g_strdup_printf (_("Rename sheet '%s' '%s'"), 
-								     (char *)old_names->data,
-								     (char *)new_names->data);
+								     (const char *)old_names->data,
+								     (const char *)new_names->data);
 		else
 			me->parent.cmd_descriptor = g_strdup (_("Renaming Sheets"));		
 	} else {
