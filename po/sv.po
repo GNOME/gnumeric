@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2001-12-16 02:50-0500\n"
-"PO-Revision-Date: 2001-12-13 17:21+0100\n"
+"POT-Creation-Date: 2001-12-18 03:16+0100\n"
+"PO-Revision-Date: 2001-12-18 03:17+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1535,7 +1535,7 @@ msgstr "Lista"
 
 #: src/GNOME_Gnumeric.xml.h:123
 msgid "Lock or unlock the top left cols/rows"
-msgstr ""
+msgstr "Lås eller lås upp kolumnerna/raderna överst till vänster"
 
 #: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:2549
 msgid "Make a copy of the current sheet"
@@ -1881,35 +1881,35 @@ msgstr "Sammanfattningsinformation"
 
 #: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:2786
 msgid "Toggle whether or not to display column headers"
-msgstr ""
+msgstr "Växla huruvida kolumnrubriker ska visas"
 
 #: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:2780
 msgid "Toggle whether or not to display gridlines"
-msgstr ""
+msgstr "Växla huruvida rutnätslinjer ska visas"
 
 #: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2871
 msgid "Toggle whether or not to display outline groups"
-msgstr ""
+msgstr "Växla huruvida konturgrupper ska visas"
 
 #: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2792
 msgid "Toggle whether or not to display row headers"
-msgstr ""
+msgstr "Växla huruvida radrubriker ska visas"
 
 #: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2774
 msgid "Toggle whether or not to display zeros as blanks"
-msgstr ""
+msgstr "Växla huruvida nollor ska visas som blanksteg"
 
 #: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2883
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr ""
+msgstr "Växla huruvida kolumnkonturer ska visas till vänster eller höger"
 
 #: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2877
 msgid "Toggle whether to display row outlines on top or bottom"
-msgstr ""
+msgstr "Växla huruvida radkonturer ska visas överst eller nederst"
 
 #: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2858
 msgid "Uncollapse an outline group"
-msgstr ""
+msgstr "Fäll ihop en konturgrupp"
 
 #: src/GNOME_Gnumeric.xml.h:213 src/workbook-format-toolbar.c:427
 msgid "Underline"
@@ -1987,7 +1987,7 @@ msgstr "_Konsolidera..."
 msgid "_Content"
 msgstr "_Innehåll"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1016
+#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1014
 #: src/sheet-control-gui.c:1392 src/workbook-control-gui.c:2588
 msgid "_Copy"
 msgstr "_Kopiera"
@@ -2048,9 +2048,8 @@ msgid "_Goto cell..."
 msgstr "_Gå till cell.."
 
 #: src/GNOME_Gnumeric.xml.h:244
-#, fuzzy
 msgid "_Graph"
-msgstr "_Grupp"
+msgstr "_Graf"
 
 #: src/GNOME_Gnumeric.xml.h:245
 msgid "_Group"
@@ -2121,7 +2120,7 @@ msgstr "Skriv _ut..."
 msgid "_Redo"
 msgstr "_Gör om"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:12
 #: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2564
 msgid "_Remove"
 msgstr "_Ta bort"
@@ -2537,7 +2536,7 @@ msgstr "Innehåller inte en arbetsboksfil"
 
 #: src/bonobo-io.c:525
 msgid "EXPERIMENTAL Bonobo EFS format"
-msgstr ""
+msgstr "EXPERIMENTELLT Bonobo EFS-format"
 
 #: src/clipboard.c:299 src/clipboard.c:312 src/clipboard.c:324
 #: src/clipboard.c:332
@@ -2546,7 +2545,7 @@ msgstr "Kan inte klistra in"
 
 #: src/clipboard.c:300
 msgid "Content can only be pasted by value or by link."
-msgstr ""
+msgstr "Innehåll kan endast klistras in via värde eller genom länk."
 
 #: src/clipboard.c:308
 #, c-format
@@ -3239,44 +3238,40 @@ msgid "Correct _TWo INitial CApitals                           "
 msgstr "Korrigera _TVå STora bokstäver i början                     "
 
 #: src/dialogs/autocorrect.glade.h:5
-msgid "Correct accidental use of _cAPS LOCK key"
-msgstr "Korrigera felaktigt användande av _cAPS LOCK"
-
-#: src/dialogs/autocorrect.glade.h:6
 msgid "Do _not correct:"
 msgstr "_Rätta inte:"
 
-#: src/dialogs/autocorrect.glade.h:7
+#: src/dialogs/autocorrect.glade.h:6
 msgid "Re_place:"
 msgstr "Ers_ätt:"
 
-#: src/dialogs/autocorrect.glade.h:8 src/dialogs/consolidate.glade.h:26
+#: src/dialogs/autocorrect.glade.h:7 src/dialogs/consolidate.glade.h:26
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:6
 #: src/dialogs/solver.glade.h:16
 msgid "_Add"
 msgstr "_Lägg till"
 
-#: src/dialogs/autocorrect.glade.h:9
+#: src/dialogs/autocorrect.glade.h:8
 msgid "_Do not capitalize after:"
 msgstr "_Inför inte stor bokstav efter:"
 
-#: src/dialogs/autocorrect.glade.h:10
+#: src/dialogs/autocorrect.glade.h:9
 msgid "_First Letter"
 msgstr "_Första bokstaven"
 
-#: src/dialogs/autocorrect.glade.h:11 src/dialogs/cell-format.glade.h:111
+#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:111
 msgid "_General"
 msgstr "_Allmänt"
 
-#: src/dialogs/autocorrect.glade.h:12
+#: src/dialogs/autocorrect.glade.h:11
 msgid "_INitial CApitals"
 msgstr "_STora BOkstäver i början"
 
-#: src/dialogs/autocorrect.glade.h:14
+#: src/dialogs/autocorrect.glade.h:13
 msgid "_Replace text when typed"
 msgstr "_Ersätt text när den skrivs"
 
-#: src/dialogs/autocorrect.glade.h:15
+#: src/dialogs/autocorrect.glade.h:14
 msgid "_With:"
 msgstr "_Bredd:"
 
@@ -3758,7 +3753,7 @@ msgstr "Lodräta ränder"
 
 #: src/dialogs/cell-format.glade.h:101
 msgid "Warning      (accept/discard invalid input)"
-msgstr ""
+msgstr "Varning      (acceptera/förkasta ogiltig indata)"
 
 #: src/dialogs/cell-format.glade.h:102
 msgid "Whole numbers"
@@ -3951,7 +3946,7 @@ msgstr "_Kolumnbredd (pt):"
 
 #: src/dialogs/consolidate.glade.h:1
 msgid "Add the entered area to the list of source areas"
-msgstr ""
+msgstr "Lägg till det angivna området till listan över källområden"
 
 #: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3613
 msgid "Average"
@@ -4297,17 +4292,17 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:1101
 #: src/dialogs/dialog-analysis-tools.c:1216
 msgid "The selected input rows must have equal size!"
-msgstr ""
+msgstr "De valda indataraderna måste ha samma storlek!"
 
 #: src/dialogs/dialog-analysis-tools.c:1105
 #: src/dialogs/dialog-analysis-tools.c:1220
 msgid "The selected input columns must have equal size!"
-msgstr ""
+msgstr "De valda indatakolumnerna måste ha samma storlek!"
 
 #: src/dialogs/dialog-analysis-tools.c:1109
 #: src/dialogs/dialog-analysis-tools.c:1224
 msgid "The selected input areas must have equal size!"
-msgstr ""
+msgstr "De valda indataområdena måste ha samma storlek!"
 
 #. non-numeric probability (DiscreteDistribution) POST-RELEASE-FIX
 #: src/dialogs/dialog-analysis-tools.c:1112
@@ -4353,16 +4348,20 @@ msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
 msgstr ""
+"Ange en giltig populationsvarians\n"
+"för variabel 1."
 
 #: src/dialogs/dialog-analysis-tools.c:1700
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
 msgstr ""
+"Ange en giltig populationsvarians\n"
+"för variabel 2."
 
 #: src/dialogs/dialog-analysis-tools.c:1720
 msgid "The two input ranges must have the same size."
-msgstr ""
+msgstr "De två indataintervallen måste ha samma storlek."
 
 #: src/dialogs/dialog-analysis-tools.c:2004
 msgid "Var_iable 1 Range:"
@@ -4379,7 +4378,7 @@ msgstr "Kunde inte skapa dialogen för medelvärdestestverktyget."
 #: src/dialogs/dialog-analysis-tools.c:2125
 #: src/dialogs/dialog-analysis-tools.c:2129
 msgid "Each variable should have at least 2 observations!"
-msgstr ""
+msgstr "Varje variabel måste ha minst 2 observationer!"
 
 #: src/dialogs/dialog-analysis-tools.c:2246
 msgid "Var_iable 1 Range"
@@ -4608,7 +4607,7 @@ msgstr "t-Test: Två-prov med antagande av olika varianser"
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Test: Två prov för medelvärde"
 
-#: src/dialogs/dialog-autocorrect.c:293
+#: src/dialogs/dialog-autocorrect.c:292
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Kunde inte skapa autokorrigeringsdialogen."
 
@@ -5030,6 +5029,9 @@ msgid ""
 "Do you want to activate appropriate plugin together with this one?\n"
 "(otherwise, plugin won't be loaded)"
 msgstr ""
+"Denna insticksmodul beror på inläsare av typen \"%s\".\n"
+"Vill du aktivera lämplig insticksmodul tillsammans med denna?\n"
+"(annars kommer insticksmodulen inte att läsas in)"
 
 #: src/dialogs/dialog-plugin-manager.c:219
 msgid "Error while activating plugin loader"
@@ -5058,6 +5060,9 @@ msgid ""
 "Do you want to mark it for deactivation such that it will be inactive after "
 "restarting Gnumeric?"
 msgstr ""
+"Insticksmodulen kan inte deaktiveras eftersom den fortfarande används.\n"
+"Vill du att den ska markeras för deaktivering så att den blir inaktiv efter "
+"omstart av Gnumeric?"
 
 #: src/dialogs/dialog-plugin-manager.c:312
 msgid "Errors while activating plugins"
@@ -5351,7 +5356,7 @@ msgstr "Data (från %s)"
 #.
 #: src/dialogs/dialog-stf-preview.c:616 src/style.c:88
 msgid "fixed"
-msgstr ""
+msgstr "fixed"
 
 #: src/dialogs/dialog-stf-preview.h:19
 #, c-format
@@ -6555,9 +6560,10 @@ msgstr "Ersätt med"
 msgid "Replacing"
 msgstr "Ersättning"
 
+# Osäker
 #: src/dialogs/search-replace.glade.h:40
 msgid "Row major"
-msgstr ""
+msgstr "Radöverterm"
 
 #: src/dialogs/search-replace.glade.h:41
 msgid "Scope"
@@ -6745,7 +6751,7 @@ msgstr "Testar likhet av 2 varianser (F-test)"
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "Notebook _Tabs for Sheets"
-msgstr ""
+msgstr "_Flikar för blad"
 
 #: src/dialogs/workbook-attr.glade.h:2
 msgid "View"
@@ -6753,7 +6759,7 @@ msgstr "Visa"
 
 #: src/dialogs/workbook-attr.glade.h:3
 msgid "_Auto Complete Text in Cells"
-msgstr ""
+msgstr "Fyll _automatiskt i text i celler"
 
 #: src/dialogs/workbook-attr.glade.h:4
 msgid "_Horizontal Scrollbar"
@@ -7412,7 +7418,7 @@ msgstr "[$HTG]"
 
 #: src/formats.c:321
 msgid "Haitian gourde"
-msgstr ""
+msgstr "Haitiska gourde"
 
 #: src/formats.c:322
 msgid "[$HUF]"
@@ -7988,7 +7994,7 @@ msgstr "[$STD]"
 
 #: src/formats.c:393
 msgid "Sao Tome and Principe dobra"
-msgstr "Sao Tome och Principe-dobra"
+msgstr "São Tomé och Principe-dobra"
 
 #: src/formats.c:394
 msgid "[$SUR]"
@@ -8241,7 +8247,7 @@ msgstr "Kan inte skapa filen %s\n"
 
 #: src/func.c:281
 msgid "Function implementation not available."
-msgstr ""
+msgstr "Funktionsimplementationen är inte tillgänglig."
 
 #: src/func.c:497
 msgid "Unknown Function"
@@ -10419,6 +10425,33 @@ msgid ""
 "=INTRATE(36631, 36799, 100000, 103525, 1) which equals 0.0648 or 6.48%\n"
 "@SEEALSO=RECEIVED, DATE"
 msgstr ""
+"@FUNCTION=INTRATE\n"
+"@SYNTAX=INTRATE(avräkning;mognad;investering;utlösande[;bas])\n"
+"@DESCRIPTION=INTRATE beräknar och returnerar räntesatsen för en helt fast "
+"säkerhet. @avräkning är avräkningsdatumet för säkerheten. @mognad är "
+"mognadsdatumet för säkerheten. @investering är priset för säkerheten som "
+"betalades vid @avräkning och @utlösande är summan som ska fås vid @mognad. "
+"@bas är den typ av dagsräkningssystem som du vill använda:\n"
+"\n"
+"0  Amerikanskt 30/360\n"
+"1  verkliga dagar/verkliga dagar\n"
+"2  verkliga dagar/360\n"
+"3  verkliga dagar/365\n"
+"4  Europeiskt 30/360\n"
+"\n"
+"Om datumen @avräkning eller @mognad inte är giltiga returnerar INTRATE "
+"felvärdet #NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om "
+"@bas < 0 eller @bas > 4 returnerar INTRATE felvärdet #NUM!. Om @avräkning är "
+"efter @mognad eller om de är identiska returnerar ACCRINT felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"Om du hade en förbindelse med avräkningsdatumet 15 april 2000, "
+"mognadsdatumet 30 september 2000, en investering på 1000000 kr, "
+"utlösandevärdet 1035250 kr är (då verkliga/verkliga används) "
+"förbindelsereduceringshastigheten:\n"
+"=INTRATE(36631; 36799; 1000000; 1035250; 1) vilket är lika med 0,0767 eller "
+"7,68%\n"
+"@SEEALSO=RECEIVED, DATE"
 
 #: src/functions/fn-financial.c:1181
 msgid ""
@@ -10444,6 +10477,28 @@ msgid ""
 "\n"
 "@SEEALSO=INTRATE"
 msgstr ""
+"@FUNCTION=RECEIVED\n"
+"@SYNTAX=RECEIVED(avräkning;mognad;investering;hastighet[;bas])\n"
+"@DESCRIPTION=RECEIVED beräknar och returnerar summan som ska fås vid @mognad "
+"för en given säkerhet. @avräkning är avräkningsdatumet för säkerheten. "
+"@mognad är mognadsdatumet för säkerheten. @investering är priset för "
+"säkerheten. @hastighet är säkerhetens reduceringshastighet. @bas är den typ "
+"av dagsräkningssystem som du vill använda:\n"
+"\n"
+"0  Amerikanskt 30/360\n"
+"1  verkliga dagar/verkliga dagar\n"
+"2  verkliga dagar/360\n"
+"3  verkliga dagar/365\n"
+"4  Europeiskt 30/360\n"
+"\n"
+"Om datumen @avräkning eller @mognad inte är giltiga returnerar RECEIVED "
+"felvärdet #NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om "
+"@bas < 0 eller @bas > 4 returnerar RECEIVED felvärdet #NUM!. Om @avräkning "
+"är efter @mognad eller om de är identiska returnerar RECEIVED felvärdet "
+"#NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=INTRATE"
 
 #: src/functions/fn-financial.c:1236
 msgid ""
@@ -10470,6 +10525,29 @@ msgid ""
 "\n"
 "@SEEALSO=PRICEMAT"
 msgstr ""
+"@FUNCTION=PRICEDISC\n"
+"@SYNTAX=PRICEDISC(avräkning;mognad;reducering;utlösande[;bas])\n"
+"@DESCRIPTION=PRICEDISC beräknar och returnerar priset per $100 värde av en "
+"säkerhet. Säkerheten betalar inte ränta vid mognad. @avräkning är "
+"avräkningsdatumet för säkerheten. @mognad är mognadsdatumet för säkerheten. "
+"@reducering är hastigheten som säkerheten reduceras. @utlösande är summan "
+"som ska fås vid @mognad. @bas är den typ av dagsräkningssystem som du vill "
+"använda:\n"
+"\n"
+"0  Amerikanskt 30/360\n"
+"1  verkliga dagar/verkliga dagar\n"
+"2  verkliga dagar/360\n"
+"3  verkliga dagar/365\n"
+"4  Europeiskt 30/360\n"
+"\n"
+"Om datumen @avräkning eller @mognad inte är giltiga returnerar PRICEDISC "
+"felvärdet #NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om "
+"@bas < 0 eller @bas > 4 returnerar PRICEDISC felvärdet #NUM!. Om @avräkning "
+"är efter @mognad eller om de är identiska returnerar PRICEDISC felvärdet "
+"#NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=PRICEMAT"
 
 #: src/functions/fn-financial.c:1288
 msgid ""
@@ -10496,6 +10574,29 @@ msgid ""
 "\n"
 "@SEEALSO=PRICEDISC"
 msgstr ""
+"@FUNCTION=PRICEMAT\n"
+"@SYNTAX=PRICEMAT(avräkning;mognad;start;hastighet;avkastning[;bas])\n"
+"@DESCRIPTION=PRICEDISC beräknar och returnerar priset per $100 värde av en "
+"säkerhet. Säkerheten betalar inte ränta vid mognad. @avräkning är "
+"avräkningsdatumet för säkerheten. @mognad är mognadsdatumet för säkerheten. "
+"@reducering är hastigheten som säkerheten reduceras. @avkastning är den "
+"årliga avkastningen för säkerhet. @utlösande är summan som ska fås vid "
+"@mognad. @bas är den typ av dagsräkningssystem som du vill använda:\n"
+"\n"
+"0  Amerikanskt 30/360\n"
+"1  verkliga dagar/verkliga dagar\n"
+"2  verkliga dagar/360\n"
+"3  verkliga dagar/365\n"
+"4  Europeiskt 30/360\n"
+"\n"
+"Om datumen @avräkning eller @mognad inte är giltiga returnerar PRICEDISC "
+"felvärdet #NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om "
+"@bas < 0 eller @bas > 4 returnerar PRICEDISC felvärdet #NUM!. Om @avräkning "
+"är efter @mognad eller om de är identiska returnerar PRICEDISC felvärdet "
+"#NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=PRICEDISC"
 
 #: src/functions/fn-financial.c:1347
 msgid ""
@@ -10521,6 +10622,27 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=DISC\n"
+"@SYNTAX=DISC(avräkning;mognad;par;utlösande[;bas])\n"
+"@DESCRIPTION=DISC beräknar och returnerar reduceringshastigheten för en "
+"säkerhet. @avräkning är avräkningsdatumet för säkerheten. @mognad är "
+"mognadsdatumet för säkerheten. @par är priset per $100 av säkerheten. "
+"@reducering. @utlösande är utlösandevärdet per $100 av värdet på säkerheten. "
+"@bas är den typ av dagsräkningssystem som du vill använda:\n"
+"\n"
+"0  Amerikanskt 30/360\n"
+"1  verkliga dagar/verkliga dagar\n"
+"2  verkliga dagar/360\n"
+"3  verkliga dagar/365\n"
+"4  Europeiskt 30/360\n"
+"\n"
+"Om datumen @avräkning eller @mognad inte är giltiga returnerar DISC "
+"felvärdet #NUM!. Om @bas utelämnas används amerikanskt 30/360-system. Om "
+"@bas < 0 eller @bas > 4 returnerar DISC felvärdet #NUM!. Om @avräkning är "
+"efter @mognad eller om de är identiska returnerar DISC felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO="
 
 #: src/functions/fn-financial.c:1398
 msgid ""
@@ -10545,6 +10667,25 @@ msgid ""
 "percentage you will pay on your loan.\n"
 "@SEEALSO=NOMINAL"
 msgstr ""
+"@FUNCTION=EFFECT\n"
+"@SYNTAX=EFFECT(r;antper)\n"
+"@DESCRIPTION=EFFECT beräknar den effektiva räntan från en given nominell "
+"sats.\n"
+"Effektiv ränta beröknas med följande formel:\n"
+"\n"
+"         @r( 1 + ------ ) ^ @antper - 1       @antper\n"
+"där:\n"
+"\n"
+"@r = nominell räntesats (angiven i årliga villkor)\n"
+"@antper = antalet perioder som används för sammanräkning\n"
+"@EXAMPLES=\n"
+"Kreditkort brukar till exempel ange en ÅPS (årlig procentsats) som är en "
+"nominell räntesats.\n"
+"Om du till exempel vill veta hur mycket ränta du verkligen betalar på ditt "
+"kreditkort som anger en ÅPS på 19% som sammanräknas månadsvis anger du:\n"
+"=EFFECT(0,19;12) och du kommer att få 0,2075 eller 20,75%. Det är den "
+"effektiva räntan som du kommer att betala på ditt lån.\n"
+"@SEEALSO=NOMINAL"
 
 #: src/functions/fn-financial.c:1439
 msgid "effect - domain error"
@@ -10567,6 +10708,20 @@ msgid ""
 "\n"
 "@SEEALSO=EFFECT"
 msgstr ""
+"@FUNCTION=NOMINAL\n"
+"@SYNTAX=NOMINAL(r;antper)\n"
+"@DESCRIPTION=NOMINAL beräknar den nominella räntesatsen från en given "
+"effektiv sats.\n"
+"Nominell räntesats ges av följande formel:\n"
+"\n"
+"@antper * (( 1 + @r ) ^ (1 / @antper) - 1 )\n"
+"där:\n"
+"\n"
+"@r = effektiv räntesats\n"
+"@antper = antalet perioder som används för sammanräkning\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=EFFECT"
 
 #: src/functions/fn-financial.c:1477
 msgid "nominal - domain error"
@@ -10666,6 +10821,27 @@ msgid ""
 "This will return the yearly depreciation figure of $930.\n"
 "@SEEALSO=SYD"
 msgstr ""
+"@FUNCTION=SLN\n"
+"@SYNTAX=SLN(kostnad;slutvärde;livslängd)\n"
+"@DESCRIPTION=Funktionen SLN bestämmer den raka värdeminskningen för en "
+"tillgång under en ensam period. Summan du betalade för tillgången är "
+"@kostnad, @lsutvärde är slutvärdet för tillgången efter livslängden, och "
+"@livslängd är det antal perioder under vilken tillgången minskar värde. "
+"Denna värdeminskningsmetod delar kostnaden jämnt över livslängden för "
+"tillgången.\n"
+"Formeln som används för rak värdeminskning är:\n"
+"Värdeminskningskostnad = ( @kostnad - @slutvärde ) / @livslängd\n"
+"\t@kostnad = kostnaden för en tillgång då den införskaffas (marknadsvärde).\n"
+"\t@slutvärde = summan du får för tillgången då den säljs vid slutet av sin "
+"livslängd.\n"
+"\t@livslängd = uppskattad livsängd för en tillgång.\n"
+"@EXAMPLES=\n"
+"Låt oss anta att vårt företag köper en ny maskin för 100000 kr som har ett "
+"slutvärde på 7000 kr och en effektiv livslängd på 10 år. Den årliga SLN-"
+"värdeminskningen beräknas som följer:\n"
+"=SLN(100000; 7000; 10)\n"
+"Detta kommer att returnera det årliga värdeminskningsvärdet 9300 kr.\n"
+"@SEEALSO=SYD"
 
 #: src/functions/fn-financial.c:1668
 msgid "sln - domain error"
@@ -10779,6 +10955,13 @@ msgid ""
 "\n"
 "@SEEALSO=NPV"
 msgstr ""
+"@FUNCTION=MIRR\n"
+"@SYNTAX=MIRR(värden;finanshastighet;återinvesteringshastighet)\n"
+"@DESCRIPTION=Funktionen MIRR returnerar den modifierade interna hastigheten "
+"för returnering av ett angivet periodiskt kontantflöde.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=NPV"
 
 #: src/functions/fn-financial.c:1878
 msgid ""
@@ -10794,6 +10977,17 @@ msgid ""
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 msgstr ""
+"@FUNCTION=TBILLEQ\n"
+"@SYNTAX=TBILLEQ(avräkning;mognad;reducering)\n"
+"@DESCRIPTION=Funktionen TBILLEQ returnerar säkerhetsavkastningsekvivalenten "
+"(SAE) för en skattkammarväxel. TBILLEQ motsvarar (365 * @reducering) / (360 "
+"- @reducering * DSM) där DSM är dagarna mellan @avräkning och @mognad.\n"
+"Om @avräkning är efter @mognad eller om @mognad är inställd till över ett år "
+"senare än @avräkning, returnerar TBILLEQ felvärdet #NUM!. Om @avräkning är "
+"negativt returnerar TBILLEQ felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=TBILLPRICE,TBILLYIELD"
 
 #: src/functions/fn-financial.c:1923
 msgid ""
@@ -10810,6 +11004,18 @@ msgid ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 msgstr ""
+"@FUNCTION=TBILLPRICE\n"
+"@SYNTAX=TBILLPRICE(avräkning;mognad;reducering)\n"
+"@DESCRIPTION=Funktionen TBILLPRICE returnerar priset per $100 värde för en "
+"skattkammarväxel där @avräkning är avräkningsdatumet och @mognad är "
+"mognadsdatumet för växeln. @reducering är skattkammarväxelns "
+"reduceringshastighet.\n"
+"Om @avräkning är efter @mognad eller om @mognad är inställd till över ett år "
+"senare än @avräkning, returnerar TBILLPRICE felvärdet #NUM!. Om @avräkning "
+"är negativt returnerar TBILLPRICE felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=TBILLEQ,TBILLYIELD"
 
 #: src/functions/fn-financial.c:1964
 msgid ""
@@ -10825,6 +11031,18 @@ msgid ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 msgstr ""
+"@FUNCTION=TBILLYIELD\n"
+"@SYNTAX=TBILLYIELD(avräkning;mognad;pr)\n"
+"@DESCRIPTION=Funktionen TBILLYIELD returnerar avkastningen för en "
+"skattkammarväxel. @avräkning är avräkningsdatumet och @mognad är "
+"mognadsdatumet för växeln. @reducering är skattkammarväxelns "
+"reduceringshastighet.\n"
+"Om @avräkning är efter @mognad eller om @mognad är inställd till över ett år "
+"senare än @avräkning, returnerar TBILLYIELD felvärdet #NUM!. Om @avräkning "
+"är negativt returnerar TBILLYIELD felvärdet #NUM!.\n"
+"@EXAMPLES=\n"
+"\n"
+"@SEEALSO=TBILLEQ,TBILLYIELD"
 
 #: src/functions/fn-financial.c:2005
 msgid ""
@@ -10861,6 +11079,22 @@ msgid ""
 "IRR(A1:A8) returns 0.04375. \n"
 "@SEEALSO=FV,NPV,PV"
 msgstr ""
+"@FUNCTION=IRR\n"
+"@SYNTAX=IRR(värden[,gissning])\n"
+"@DESCRIPTION=IRR beräknar och returnerar den interna returneringshastigheten "
+"för en investering. Denna funktion är nära släkt med aktuellt nettovärde "
+"(NPV). IRR är den räntesats för en serie med pengaflöde där aktuellt "
+"nettovärde är noll.\n"
+"@värden innehåller den serie med pengaflöde som genereras av investeringen. "
+"Betalningarna bör inträffa med jämna mellanrum. Den valfria @gissningen är "
+"det ursprungliga värdet som används vid beräkning av IRR. Du behöver inte "
+"använda den, den tillhandahålls endast för kompabilitet med Excel.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1:A8 innehåller talen -32432, 5324, 7432, 9332, 12324, "
+"4334, 1235, -3422. Då är\n"
+"IRR(A1:A8) lika med 0,04375. \n"
+"@SEEALSO=FV,NPV,PV"
 
 #: src/functions/fn-financial.c:2236
 msgid ""
@@ -10958,6 +11192,26 @@ msgid ""
 "XIRR(A1:A5,B1:B5) returns 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 msgstr ""
+"@FUNCTION=XIRR\n"
+"@SYNTAX=XIRR(värden,datum[,gissning])\n"
+"@DESCRIPTION=XIRR beräknar och returnerar den interna "
+"returneringshastigheten för en investering som inte nödvändigtvis har "
+"periodiska betalningar. Denna funktion är nära släkt med aktuellt nettovärde "
+"(NPV och XNPV). XIRR är den räntesats för en serie med pengaflöde där XNPV "
+"är noll.\n"
+"@värden innehåller den serie med pengaflöde som genereras av investeringen. "
+"@datum innehåller datumen för betalningarna. Det första datumet är datumet "
+"för den första betalningen och därför måste alla andra värden vara efter "
+"detta datum. Den valfria @gissningen är det ursprungliga värdet som används "
+"vid beräkning av XIRR. Du behöver inte använda den, den tillhandahålls "
+"endast för kompabilitet med Excel.\n"
+"Denna funktion är kompatibel med Excel.\n"
+"@EXAMPLES=\n"
+"Antag att cellerna A1:A5 innehåller talen -6000, 2134, 1422, 1933 och 1422, "
+"och cellerna B1:B5 innehåller datumen \"1999-01-15\", \"1999-04-04\", \"1999-"
+"05-09\", \"2000-03-12\" och \"2000-05-01\". Då är\n"
+"XIRR(A1:A5;B1:B5) lika med 0,224838. \n"
+"@SEEALSO=IRR,XNPV"
 
 #: src/functions/fn-financial.c:2501
 msgid ""
@@ -16810,7 +17064,7 @@ msgstr "Formatera som tid"
 msgid "Format as alternative Number"
 msgstr "Formatera som alternativt tal"
 
-#: src/gnumeric-canvas.c:497
+#: src/gnumeric-canvas.c:503
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Filen \"%s\" har ett ogiltigt format."
@@ -16881,6 +17135,10 @@ msgid ""
 "different file format.\n"
 "Do you want to save only current sheet?"
 msgstr ""
+"Det valda filformatet stöder inte sparning av flera blad i samma fil.\n"
+"Om du vill spara alla blad bör du spara dem i separata filer eller välja\n"
+"ett annat filformat.\n"
+"Vill du spara endast det aktuella bladet?"
 
 #: src/gui-file.c:210
 msgid ""
@@ -17039,7 +17297,7 @@ msgstr "Bredd: %.2f pt (%d bildpunkter)"
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Höjd: %.2f punkter (%d bildpunkter)"
 
-#: src/item-cursor.c:903
+#: src/item-cursor.c:901
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -17049,35 +17307,35 @@ msgstr ""
 "existerande cellerna i det området. Vill du ersätta\n"
 "innehållet i området?"
 
-#: src/item-cursor.c:1013
+#: src/item-cursor.c:1011
 msgid "_Move"
 msgstr "_Flytta"
 
-#: src/item-cursor.c:1019
+#: src/item-cursor.c:1017
 msgid "Copy _Formats"
 msgstr "Kopiera _formatering"
 
-#: src/item-cursor.c:1021
+#: src/item-cursor.c:1019
 msgid "Copy _Values"
 msgstr "Kopiera _värden"
 
-#: src/item-cursor.c:1026
+#: src/item-cursor.c:1024
 msgid "Shift _Down and Copy"
 msgstr "Skifta celler _nedåt och kopiera"
 
-#: src/item-cursor.c:1028
+#: src/item-cursor.c:1026
 msgid "Shift _Right and Copy"
 msgstr "Skifta celler åt _höger och kopiera"
 
-#: src/item-cursor.c:1030
+#: src/item-cursor.c:1028
 msgid "Shift Dow_n and Move"
 msgstr "Skifta celler ne_dåt och flytta"
 
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1030
 msgid "Shift Righ_t and Move"
 msgstr "Skifta celler åt h_öger och flytta"
 
-#: src/item-cursor.c:1037
+#: src/item-cursor.c:1035
 msgid "C_ancel"
 msgstr "_Avbryt"
 
@@ -17087,11 +17345,11 @@ msgstr "Visa Gnumerics versionsnummer"
 
 #: src/main.c:84
 msgid "Set the root library directory"
-msgstr ""
+msgstr "Ställ in rotbibliotekskatalogen"
 
 #: src/main.c:86
 msgid "Adjust the root data directory"
-msgstr ""
+msgstr "Justera rotdatakatalogen"
 
 #: src/main.c:89
 msgid "Dumps the function definitions"
@@ -17140,6 +17398,16 @@ msgid ""
 "\n"
 "-- The Gnumeric Team."
 msgstr ""
+"Tack för att du använder Gnumeric!\n"
+"\n"
+"Den version av Gnumeric som du använder är ganska\n"
+"gammal nu. Troligtvis har många fel fixats och nya\n"
+"funktioner lagts till under tiden.\n"
+"\n"
+"Överväg att uppgradera innan du rapporterar några\n"
+"fel. Se http://www.gnumeric.org/ för detaljer.\n"
+"\n"
+"-- Gnumeric-teamet."
 
 #: src/main.c:191
 #, c-format
@@ -17231,7 +17499,7 @@ msgstr "Kunde inte hitta matchande avslutande citattecken"
 
 #: src/parser.y:1063
 msgid "Multiple expressions are not supported in this context"
-msgstr ""
+msgstr "Flera uttryck stöds inte i detta sammanhang"
 
 #: src/parser.y:1085
 msgid "Could not find matching opening parenthesis"
@@ -18675,6 +18943,9 @@ msgstr "Gnumeric XML-filformat"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME-kalkylprogrammet"
+
+#~ msgid "Correct accidental use of _cAPS LOCK key"
+#~ msgstr "Korrigera felaktigt användande av _cAPS LOCK"
 
 #~ msgid ""
 #~ "The top row contains labels, these will not be consolidated, but used as "
