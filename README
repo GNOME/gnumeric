@@ -29,7 +29,7 @@ You need:
 
 	libole2	    == 0.1.6
 	NOTE : libole2 is also known as libgnomeole2
-	gnome-print == 0.20
+	gnome-print == 0.21
 	libglade    == 0.13
 	gnome-libs  >= 1.0.57	(gnome-libs 2.0 is not supported)
 	glib	    >= 1.2.7	(glib-libs 1.3 is not supported)
@@ -38,7 +38,7 @@ You need:
 	NOTE : gnome-xml is also known as libxml
 
 Optionally:
-	bonobo == 0.16
+	bonobo == 0.17
 
 Notes regarding plugins
 -----------------------

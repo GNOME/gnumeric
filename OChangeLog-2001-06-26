@@ -1,5 +1,10 @@
 2000-08-12  Jody Goldberg <jgoldberg@home.com>
 
+	* configure.in : Bump bonobo version. 
+	* README : Ditto.
+
+2000-08-12  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook.c (insert_object_cmd) :
 	  s/gnome_bonobo_select_oaf_id/bonobo_selector_select_id.
 	* src/sheet-object.c (sheet_set_mode_type_full) : Ditto.
