@@ -54,6 +54,7 @@ Worries
     : STDEVA,VARA with 0-1 arguments should yield DIV0, not VALUE.
     : DEVSQ with no arguments should yield #NUM, not zero.
 	? How did you enter this.  xl-2k refuses to parse that
+        ! Import from a .csv file.
 
 -------------------------------------------------------------------------------
 Blocked Patches
