@@ -1,3 +1,17 @@
+2001-10-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-bar.c (ib_draw_cell) : add some protection in case of bad
+	  fonts.
+
+2001-10-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gui-util.c (gnumeric_create_popup_menu_list) : tweak this to
+	  take a list.
+	(gnumeric_create_popup_menu) : and make this a wrapper.
+
+	* src/gnumeric-graph.c (gnm_graph_user_config) : connect to the graph
+	  guru formatGuru.
+
 2001-10-17  Jon K Hellan  <hellan@acm.org>
 
 	* src/gnumeric-graph.h: Declare GNM_VECTOR_DATE to fix build.

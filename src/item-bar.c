@@ -238,6 +238,9 @@ ib_draw_cell (ItemBar const * const ib,
 	}
 
 	len = gdk_string_width (font, str);
+
+	g_return_if_fail (font != NULL);
+
 	texth = font->ascent + font->descent;
 
 	gdk_draw_rectangle (drawable, gc, TRUE,
