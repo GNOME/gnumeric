@@ -405,9 +405,9 @@ parse_cell_name_or_range (const char *cell_str, int *col, int *row, int *cols, i
 
 
 /*
- * Returns a list of cells in a string.  If the named cells does not
- * exist, they are created.  If the input string is not valid
- * error_flag is set.
+ * Returns a list of cells in a string.  If the named cells do not
+ * exist, they are created.  If the input string is not valid,
+ * the error_flag is set.
  */
 GSList *
 parse_cell_name_list (Sheet *sheet,
@@ -427,7 +427,7 @@ parse_cell_name_list (Sheet *sheet,
 	g_return_val_if_fail (error_flag != NULL, NULL);
 
 	buf = g_malloc (strlen (cell_name_str) + 1);
-	for (i = n = 0; ; i++){
+	for (i = n = 0; ; i++) {
 
 	        if ((cell_name_str [i] == ',') || 
 		    (cell_name_str [i] == ':') || 
@@ -439,16 +439,15 @@ parse_cell_name_list (Sheet *sheet,
 			        *error_flag = 1;
 				free (buf);
 				g_slist_free (cells);
+				g_free (tmp);
 				return NULL;
 			}
 
 			if (cell_name_str [i] == ':')
 			        if (range_flag) {
-				        g_free (tmp);
 				        goto error;
 				} else {
-				        tmp = g_new(char, strlen(buf)+1);
-					strcpy(tmp, buf);
+					tmp = g_strdup (buf);
 				        range_flag = 1;
 				}
 			else if (range_flag) {
@@ -476,6 +475,7 @@ parse_cell_name_list (Sheet *sheet,
 
 	*error_flag = 0;
 	free (buf);
+	g_free (tmp);
 	return cells;
 }
 

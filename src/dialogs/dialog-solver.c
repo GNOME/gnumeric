@@ -44,14 +44,14 @@ typedef struct {
 
 
 static void
-linearmodel_toggled(GtkWidget *widget, Sheet *sheet)
+linearmodel_toggled (GtkWidget *widget, Sheet *sheet)
 {
         sheet->solver_parameters.options.assume_linear_model =
 	        GTK_TOGGLE_BUTTON (widget)->active;
 }
 
 static void
-nonnegative_toggled(GtkWidget *widget, Sheet *sheet)
+nonnegative_toggled (GtkWidget *widget, Sheet *sheet)
 {
         sheet->solver_parameters.options.assume_non_negative =
 	        GTK_TOGGLE_BUTTON (widget)->active;
@@ -295,7 +295,6 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 	GList     *constraint_type_strs;
 	gint      v;
 	gchar     *txt, *entry;
-	char      buf[256];
 	int       col, row;
 	int       lhs_cols, lhs_rows;
 	int       rhs_cols, rhs_rows;
@@ -340,12 +339,19 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 	        gtk_entry_set_text (GTK_ENTRY (lhs_entry),
 				    cell_pos_name (&constraint->lhs));
 	else {
-	        sprintf(buf, "%s:", cell_pos_name (&constraint->lhs));
-		strcat (buf, cell_coord_name (constraint->lhs.col+
-					      constraint->cols-1,
-					      constraint->lhs.row+
-					      constraint->rows-1));
+		char *buf, *s1;
+
+		s1 = g_strdup (cell_pos_name (&constraint->lhs));
+		buf = g_strdup_printf ("%s:%s", s1,
+				       cell_coord_name (constraint->lhs.col +
+							constraint->cols - 1,
+							constraint->lhs.row +
+							constraint->rows - 1));
+		g_free (s1);
+
 		gtk_entry_set_text (GTK_ENTRY (lhs_entry), buf);
+
+		g_free (buf);
 	}
 
 	if (strcmp (constraint->type, "Int") != 0 &&
@@ -354,12 +360,19 @@ constr_change_click (GtkWidget *widget, constraint_dialog_t *data)
 		        gtk_entry_set_text (GTK_ENTRY (rhs_entry),
 					    cell_pos_name (&constraint->rhs));
 		else {
-		        sprintf(buf, "%s:", cell_pos_name (&constraint->rhs));
-			strcat (buf, cell_coord_name (constraint->rhs.col+
-						      constraint->cols-1,
-						      constraint->rhs.row+
-						      constraint->rows-1));
+			char *buf, *s1;
+
+			s1 = g_strdup (cell_pos_name (&constraint->rhs));
+			buf = g_strdup_printf ("%s:%s", s1,
+					       cell_coord_name (constraint->rhs.col +
+								constraint->cols - 1,
+								constraint->rhs.row +
+								constraint->rows - 1));
+			g_free (s1);
+
 			gtk_entry_set_text (GTK_ENTRY (rhs_entry), buf);
+
+			g_free (buf);
 		}
 	}
 
@@ -396,8 +409,7 @@ loop:
 		}
 
 		entry = gtk_entry_get_text (GTK_ENTRY (combo_entry));
-		constraint->type = g_malloc (strlen (entry) + 1);
-		strcpy (constraint->type, entry);
+		constraint->type = g_strdup (entry);
 
 		if (strcmp (constraint->type, "Int") == 0 ||
 		    strcmp (constraint->type, "Bool") == 0)
@@ -546,7 +558,7 @@ dialog_results (Workbook *wb, int res, gboolean ilp,
 	GtkWidget *radiobutton4;
 	gchar     *label_txt = "";
         gboolean  answer_s, sensitivity_s, limits_s;
-	gboolean  keep_solver_solution;
+	gboolean  keep_solver_solution = TRUE;
 	int       selection;
 
 	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
@@ -636,14 +648,25 @@ static void
 restore_original_values (CellList *input_cells, GSList *ov)
 {
         while (ov != NULL) {
-	        const char *str = (char *) ov->data;
-	        Cell *cell = (Cell *) input_cells->data;
+	        const char *str = ov->data;
+	        Cell *cell = (Cell *)input_cells->data;
 
 		sheet_cell_set_text (cell, str);
 		ov = ov->next;
 		input_cells = input_cells->next;
 	}
 }
+
+static void
+free_original_values (GSList *ov)
+{
+	GSList *tmp;
+	for (tmp = ov; tmp; tmp = tmp->next)
+		g_free (tmp->data);
+	g_slist_free (ov);
+}
+
+
 
 static gboolean
 check_int_constraints (CellList *input_cells, GSList *constraints, char **s)
@@ -683,7 +706,7 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 	GtkWidget *constr_add_button;
 	GtkWidget *constr_change_button;
 	GtkWidget *constr_delete_button;
-	GSList    *cur, *ov;
+	GSList    *cur;
 	gboolean  solver_solution;
 
 	SolverParameters    *param;
@@ -711,10 +734,10 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 
 	if (param->target_cell == NULL)
 	        target_entry_str =
-		  (gchar *) cell_pos_name (&sheet->cursor.edit_pos);
+			g_strdup (cell_pos_name (&sheet->cursor.edit_pos));
 	else
 	        target_entry_str =
-		  (gchar *) cell_name (param->target_cell);
+			g_strdup (cell_name (param->target_cell));
 
 	dialog = glade_xml_get_widget (gui, "Solver");
 	target_entry = glade_xml_get_widget (gui, "target-cell");
@@ -784,7 +807,7 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 				      SolverMinimize);
 
 	row = 0;
-	for (cur=constraint_dialog->constraints; cur != NULL; cur=cur->next) {
+	for (cur = constraint_dialog->constraints; cur != NULL; cur=cur->next) {
 	        SolverConstraint *c = (SolverConstraint *) cur->data;
 	        gchar *tmp[] = { NULL, NULL };
 
@@ -812,8 +835,7 @@ main_dialog:
 	        if (param->input_entry_str)
 		        g_free (param->input_entry_str);
 	        text = gtk_entry_get_text (GTK_ENTRY (input_entry));
-		param->input_entry_str = g_new (char, strlen (text)+1);
-		strcpy (param->input_entry_str, text);
+		param->input_entry_str = g_strdup (text);
 	}
 
 	switch (selection) {
@@ -852,7 +874,7 @@ main_dialog:
 	if (target_cell == NULL) {
 	        target_cell = sheet_cell_new (sheet, target_cell_col,
 					      target_cell_row);
-		sheet_cell_set_value (target_cell, value_new_empty(), NULL);
+		sheet_cell_set_value (target_cell, value_new_empty (), NULL);
 	}
 	ov_target = value_get_as_float (target_cell->value);
 
@@ -879,16 +901,18 @@ main_dialog:
 	        float_t  *opt_x, *sh_pr;
 		gboolean ilp;
 		char     *s;
+		GSList    *ov;
 
 		if (check_int_constraints (input_cells,
 					   constraint_dialog->constraints,
 					   &s)) {
-		        static char buf[1024];
+			char *str;
 
-			sprintf(buf, "Constraint `%s' is for a cell that "
-				"is not an input cell.", s);
-
-		        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, buf);
+			str = g_strdup_printf
+				(_("Constraint `%s' is for a cell that "
+				   "is not an input cell."), s);
+		        gnumeric_notice (wb, GNOME_MESSAGE_BOX_ERROR, str);
+			g_free (str);
 			goto main_dialog;
 		}
 	        ov = save_original_values (input_cells);
@@ -905,20 +929,15 @@ main_dialog:
 					   opt_x, sh_pr,
 					   answer, sensitivity, limits);
 
-			if (! solver_solution)
+			if (!solver_solution)
 			        restore_original_values (input_cells, ov);
 		} else {
 		        printf("NLP not implemented yet!\n");
 		}
+		free_original_values (ov);
 	}
 
-	text = gtk_entry_get_text (GTK_ENTRY (target_entry));
-	if (!target_entry_str)
-	        g_free (target_entry_str);
-	target_entry_str = g_new (gchar, strlen (text) + 1);
-	strcpy (target_entry_str, text);
-
-	text = gtk_entry_get_text (GTK_ENTRY (input_entry));
+	g_free (target_entry_str);
 
 	if (selection != -1)
 		gtk_object_destroy (GTK_OBJECT (dialog));

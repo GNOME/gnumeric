@@ -190,8 +190,7 @@ add_fl_clicked (GtkWidget *widget, exceptions_t *p)
 
 	        s[0] = txt;
 		s[1] = NULL;
-		str = g_new(gchar, strlen(txt)+1);
-		strcpy(str, txt);
+		str = g_strdup (txt);
 		row = gtk_clist_append(GTK_CLIST (p->list), s);
 		gtk_clist_set_row_data (GTK_CLIST (p->list), row, str);
 		autocorrect_fl_exceptions =
@@ -223,8 +222,7 @@ add_in_clicked (GtkWidget *widget, exceptions_t *p)
 
 	        s[0] = txt;
 		s[1] = NULL;
-		str = g_new(gchar, strlen(txt)+1);
-		strcpy(str, txt);
+		str = g_strdup (txt);
 		row = gtk_clist_append(GTK_CLIST (p->list), s);
 		gtk_clist_set_row_data (GTK_CLIST (p->list), row, str);
 		autocorrect_in_exceptions =

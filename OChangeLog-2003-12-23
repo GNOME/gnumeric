@@ -1,5 +1,7 @@
 2000-06-30  Morten Welinder  <terra@diku.dk>
 
+	* src/parse-util.c (parse_cell_name_list): Plug leak.
+
 	* src/solver-lp.c (write_constraint_str): Return an allocated
  	string instead of taking an unsized buffer.  Constify.  All
  	callers changed.
@@ -5284,4 +5286,3 @@
 	OOPS.  Add uih back.
 
 	* Fresh ChangeLog.
-
