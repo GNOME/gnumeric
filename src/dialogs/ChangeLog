@@ -1,3 +1,8 @@
+2001-10-22  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-define-names.c (cb_name_guru_add) : actually display the
+	  returned error.
+
 2001-10-21  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-graph-guru.c (dialog_graph_guru) : Users are probably

@@ -97,28 +97,22 @@ name_refer_circular (const char *name, ExprTree *expr)
 
 	switch (expr->any.oper) {
 	case OPER_ANY_BINARY:
-		if (!name_refer_circular (name, expr->binary.value_a))
-			return TRUE;
-		if (!name_refer_circular (name, expr->binary.value_b))
-			return TRUE;
-		break;
+		return (name_refer_circular (name, expr->binary.value_a) ||
+			name_refer_circular (name, expr->binary.value_b));
 	case OPER_ANY_UNARY:
-		if (!name_refer_circular (name, expr->unary.value))
-			return TRUE;
-		break;
-	case OPER_NAME:
-	{
-		const NamedExpression *expr_name = expr->name.name;
+		return name_refer_circular (name, expr->unary.value);
+	case OPER_NAME: {
+		NamedExpression const *expr_name = expr->name.name;
+		if (expr_name->builtin)
+			return FALSE;
+
 		if (!g_strcasecmp (expr_name->name->str, name))
 			return TRUE;
+
 		/* And look inside this name tree too */
-		if (!expr_name->builtin &&
-		    !name_refer_circular (name, expr_name->t.expr_tree))
-			return TRUE;
-		break;
+		return name_refer_circular (name, expr_name->t.expr_tree);
 	}
-	case OPER_FUNCALL:
-	{
+	case OPER_FUNCALL: {
 		GList *l = expr->func.arg_list;
 		while (l) {
 			if (name_refer_circular (name, l->data))
@@ -156,11 +150,11 @@ expr_name_add (Workbook *wb, Sheet *sheet, const char *name,
 {
 	NamedExpression *expr_name;
 
-	g_return_val_if_fail (name != NULL, 0);
-	g_return_val_if_fail (expr != NULL, 0);
+	g_return_val_if_fail (name != NULL, NULL);
+	g_return_val_if_fail (expr != NULL, NULL);
 
 	/* sheet, workbook, or global.  Pick only 1 */
-	g_return_val_if_fail (sheet == NULL || wb == NULL, 0);
+	g_return_val_if_fail (sheet == NULL || wb == NULL, NULL);
 
 /*	printf ("Adding name '%s' to %p %p\n", name, wb, sheet);*/
 

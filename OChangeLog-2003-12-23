@@ -1,4 +1,6 @@
-2001-10-21  Jody Goldberg <jgoldberg@home.com>
+2001-10-22  Jody Goldberg <jgoldberg@home.com>
+
+	* src/expr-name.c (name_refer_circular) : fix.
 
 	* src/print.c (print_sheet_objects) : filter hidden objects.
 
