@@ -1,0 +1,120 @@
+
+Hello fellow primates,
+
+   We have taken a long time to release Gnumeric 0.42, because major
+changes were being done to the rendering engine of Gnumeric.  Release
+0.41 was done just to clearly mark the "era change" in the internals
+of the program.
+
+   During the past few weeks the Gnumeric hackers have worked hard to
+improve the user interface of Gnumeric.  Jody called this "Eye Candy
+Gnumeric".  He spent weeks addressing various user interface issues. 
+
+* Availability, source code.
+
+	ftp://ftp.gnome.org/pub/GNOME/sources/gnumeric
+
+* Style engine change.
+
+	   If you are an avid Gnumeric user, you would have noticed
+	that Styles did not always behave the way you wanted to.
+	Basically.  We had a way too thick style granularity, which
+	meant that some attributes were tied to others (ie, it was not
+	possible to set only the bold attribute, we used to set the
+	entire font for the cells).
+	
+	   Michael took on the rather complex task of revamping the
+	entire way we manage styles internally, and the result is a
+	cleaner setup in which we can actually render all the styles
+	properly and we do what the user expects.
+	
+	   This work was pretty hard, as even if conceptually it is
+	cleaner, many optimization tricks had to be done, and a lot of
+	hard code had to be hacked.  Michael has now done all of this
+	and enabled us to do a lot of nice tricks now.
+	
+* GUI improvements
+
+	   Jody has worked very hard on the new Cell Format dialog
+	box, which now mimics the one from Excel and has finished the
+	rendering engine to support all the modes that you can
+	customize.
+	
+	   This means we have now: border support (various border
+	types, of course, and they always match the Excel ones, for
+	obvious reason), patterns, foreground, background are painted
+	emulating Excel.
+	
+	   Jody also improved our context sensitive popup to contain
+	nice icons :-)
+
+	   JP improved the sort dialog as well by switching it to
+	Glade. 
+
+	   Federico improved the dragging behaviour in the print
+	preview code.
+	
+* New functions and fixed functions.
+
+	* Jukka implemented IRR() and XIRR() finantial functions.
+
+	* Jukka also fixed the database criteria functions.
+
+	* Jukka fixed the non-numeric return values from DGET()
+
+	* Jukka fixed one-dimmensional GROWTH() and TREND() functions.
+
+* Improved documentation
+
+	* Jukka improved the database documentation 
+
+	* Jody extended the number format documentation and included
+	  more figures.
+
+* Embarassing bugs killed
+
+	   Cells that were referenced from a series did not get
+	recomputed properly, and I am the sole person to blame and
+	people usually resorted to queuing a recomputation (F9 key) to
+	get the proper results.
+	
+	   Nat and I are running our company finances on Gnumeric, so
+	it was important to fix this one for a very personal reason
+	:-)
+	
+	   It was a hard problem to track down, but the solution was
+	very simple and elegant and I am very confident of the
+	resulting computation engine.
+
+* Import filters
+
+	* We have got a basic Oleo file importer from Robert (only
+	  numbers and text are currently imported).
+
+	* We have got a Sylk file importer from Jeff Garzik
+
+	* We can now export to CSV (Jeff again)
+
+	* Jody fixed CSV importing (it was crashing for a few people).
+
+	* Frank improved our summary import/export and we are pretty
+	  much complete now.  He also re-structured the internals for
+	  this. 
+
+* Random things
+
+	* Morten kept the memory leaks down and keeps helping us to
+	  keep the code clean.
+
+	* As usual, the translators have done a great work at keeping
+	  Gnumeric translated to various languages.
+
+* Pending things
+
+	* I have been working on the graphics component.  This is not
+	  finished, and it is not available on the tar file
+	  distribution, you can only get this one from the CVS.
+	  Looking good, but not yet deployable.
+
+Enjoy,
+miguel.
