@@ -2,6 +2,12 @@
 # Copyright (C) 1998,1999 Free Software Foundation, Inc.
 # Richard Hult <rhult@hem2.passagen.se>, 1999.
 #
+# Regler:
+#
+# ' översätts med \"
+# Inga särskrivningar
+# Översätt INTE m/d/y/h/s i tidsangivelser än. Det funkar inte. Samma sak med decimaltecken.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.43\n"
@@ -39,12 +45,12 @@ msgstr "#OKÄND!"
 
 #: plugins/excel/ms-excel-read.c:3497
 msgid "No book or workbook streams found."
-msgstr ""
+msgstr "Hittade ingen stream med bok eller arbetsbok."
 
 #. All records after this are encrypted
 #: plugins/excel/ms-excel-read.c:3835
 msgid "Password protected workbooks are not supported yet."
-msgstr "Lösenords skyddade arbetsböcker stöds inte än."
+msgstr "Lösenordsskyddade arbetsböcker stöds inte än."
 
 #: plugins/excel/ms-formula-read.c:648
 msgid "Unknown Function"
@@ -61,17 +67,17 @@ msgstr "Okänd formel"
 #: plugins/ff-csv/csv-io.c:54
 #, c-format
 msgid "Invalid CSV file unexpected end of line at line %d"
-msgstr ""
+msgstr "Ogiltig CSV-fil, oväntat filslut på rad %d"
 
 #: plugins/ff-csv/csv-io.c:98
 #, c-format
 msgid "Invalid CSV file has more than the maximum number of rows %d"
-msgstr ""
+msgstr "Ogiltig CSV-fil, har fler än det maximalt tillåtna antalet rader %d"
 
 #: plugins/ff-csv/csv-io.c:105
 #, c-format
 msgid "Invalid CSV file has more than the maximum number of columns %d"
-msgstr ""
+msgstr "Ogiltig CSV-fil, har fler än det maximalt tillåtna antalet kolumner %d"
 
 #: plugins/ff-csv/csv-io.c:144 plugins/sylk/sylk.c:440
 #, c-format
@@ -80,7 +86,7 @@ msgstr "Importerade %s"
 
 #: plugins/ff-csv/csv-io.c:161
 msgid "Unable to mmap the file"
-msgstr ""
+msgstr "Kan inte minnesmappa (mmap) filen"
 
 #: plugins/ff-csv/csv-io.c:279
 msgid "Comma Separated Value (CSV) import"
@@ -196,7 +202,7 @@ msgstr "Filen är för stor"
 
 #: plugins/text/text-io.c:321
 msgid "Can not mmap the file"
-msgstr ""
+msgstr "Kan inte minnesmappa (mmap) filen"
 
 #: plugins/text/text-io.c:326
 msgid "NoName"
@@ -332,48 +338,49 @@ msgstr "Avvaktar omräkning"
 msgid "Circular reference"
 msgstr "Cirkulär referens"
 
+# detta står i sammanhanget Ångra: "blabla"
 #: src/commands.c:402
 #, c-format
 msgid "Typing \"%s%s\" in %s"
-msgstr ""
+msgstr "Mata in \"%s%s\" i %s"
 
 #: src/commands.c:592
 msgid "Inserting %d columns before %s"
-msgstr "Infogar %d kolumner före %s"
+msgstr "Infoga %d kolumner före %s"
 
 #: src/commands.c:593
 msgid "Inserting %d column before %s"
-msgstr "Infogar %d kolumner före %s"
+msgstr "Infoga %d kolumner före %s"
 
 #: src/commands.c:604
 #, c-format
 msgid "Inserting %d rows before %d"
-msgstr "Infogar %d rader före %d"
+msgstr "Infoga %d rader före %d"
 
 #: src/commands.c:605
 #, c-format
 msgid "Inserting %d row before %d"
-msgstr "Infogar %d rader före %d"
+msgstr "Infoga %d rader före %d"
 
 #. col_name uses a static buffer
 #: src/commands.c:618
 #, c-format
 msgid "Deleting %d columns (%s:"
-msgstr "Tar bort %d kolumner (%s:"
+msgstr "Ta bort %d kolumner (%s:"
 
 #: src/commands.c:623
 msgid "Deleting column %s"
-msgstr "Tar bort kolumnen %s"
+msgstr "Ta bort kolumnen %s"
 
 #: src/commands.c:633
 #, c-format
 msgid "Deleting %d rows (%d:%d"
-msgstr "Tar bort %d rader (%d:%d"
+msgstr "Ta bort %d rader (%d:%d"
 
 #: src/commands.c:635
 #, c-format
 msgid "Deleting row %d"
-msgstr "Tar bort raden %d"
+msgstr "Ta bort raden %d"
 
 #. TODO : Something more descriptive ? maybe the range name
 #: src/commands.c:768
@@ -383,7 +390,7 @@ msgstr "Töm"
 #: src/commands.c:899
 #, c-format
 msgid "Rename sheet '%s' '%s'"
-msgstr "Byt namn på blad '%s' '%s'"
+msgstr "Byt namn på blad \"%s\" \"%s\""
 
 #. FIXME : the '>' prefix is intended to give the translators
 #. * a chance to provide a locale specific date format.
@@ -404,26 +411,26 @@ msgstr ">hh:mm"
 #: src/commands.c:1032
 #, c-format
 msgid "Setting current date in %s"
-msgstr "Sätter nuvarande datum i %s"
+msgstr "Sätt nuvarande datum i %s"
 
 #: src/commands.c:1033
 #, c-format
 msgid "Setting current time in %s"
-msgstr "Sätter nuvarande tid i %s"
+msgstr "Sätt nuvarande tid i %s"
 
 #: src/commands.c:1119
 #, c-format
 msgid "Setting width of column %s"
-msgstr "Sätter bredd på kolumnen %s"
+msgstr "Sätt bredd på kolumnen %s"
 
 #: src/commands.c:1120
 #, c-format
 msgid "Setting height of row %d"
-msgstr "Sätter höjd på raden %d"
+msgstr "Sätt höjd på raden %d"
 
 #: src/commands.c:1229
 msgid "Sorting %s"
-msgstr "Sorterar %s"
+msgstr "Sortera %s"
 
 #: src/commands.c:1306
 msgid "Unhide columns"
@@ -444,11 +451,11 @@ msgstr "Göm rader"
 #. FIXME : improve on this
 #: src/commands.c:1417
 msgid "Moving cells"
-msgstr "Flyttar celler"
+msgstr "Flytta celler"
 
 #: src/corba-args.c:33
 msgid "Could not initialize the Gnumeric Workbook factory"
-msgstr "Kunde inte initialisera \"Gnumeric Workbook factory\""
+msgstr "Kunde inte initiera \"Gnumeric Workbook factory\""
 
 #: src/dates.c:14
 msgid "*Sun"
@@ -630,7 +637,7 @@ msgstr "Deskriptiv statistik"
 #: src/dialogs/dialog-analysis-tools.c:86
 #: src/dialogs/dialog-analysis-tools.c:1261
 msgid "F-Test: Two-Sample for Variances"
-msgstr ""
+msgstr "F-Test: två stickprov för varians"
 
 #: src/dialogs/dialog-analysis-tools.c:88
 #: src/dialogs/dialog-analysis-tools.c:1856
@@ -697,25 +704,25 @@ msgstr "Normal"
 #: src/dialogs/dialog-analysis-tools.c:1398
 #: src/dialogs/dialog-analysis-tools.c:1665
 msgid "Poisson"
-msgstr ""
+msgstr "Poisson"
 
 #: src/dialogs/dialog-analysis-tools.c:114
 #: src/dialogs/dialog-analysis-tools.c:1389
 #: src/dialogs/dialog-analysis-tools.c:1669
 msgid "Exponential"
-msgstr ""
+msgstr "Exponentiell"
 
 #: src/dialogs/dialog-analysis-tools.c:115
 #: src/dialogs/dialog-analysis-tools.c:1392
 #: src/dialogs/dialog-analysis-tools.c:1673
 msgid "Binomial"
-msgstr ""
+msgstr "Binomial"
 
 #: src/dialogs/dialog-analysis-tools.c:116
 #: src/dialogs/dialog-analysis-tools.c:1395
 #: src/dialogs/dialog-analysis-tools.c:1679
 msgid "Negative Binomial"
-msgstr ""
+msgstr "Negativ binomial"
 
 #: src/dialogs/dialog-analysis-tools.c:117
 #: src/dialogs/dialog-analysis-tools.c:1380
@@ -1365,7 +1372,7 @@ msgstr "Du måste ange ett giltigt cellnamn för \"Genom att ändra celler\""
 
 #: src/dialogs/dialog-solver.c:533
 msgid "The problem is unbounded and cannot be solved"
-msgstr ""
+msgstr "Problemet är obegränsat och kan inte lösas"
 
 #.
 #. * Translatable strings file generated by Glade.
@@ -1770,6 +1777,8 @@ msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
 msgstr ""
+"Allmänt-formaterade celler försöker välja ett lämpligt format beroende på "
+"värdet i cellen."
 
 #: src/dialogs/cell-format.glade.h:21
 msgid "Deci_mal places:"
@@ -1945,7 +1954,7 @@ msgstr "Ram"
 
 #: src/dialogs/cell-format.glade.h:72
 msgid "Inside Vertical"
-msgstr ""
+msgstr "Inuti, lodrätt"
 
 #: src/dialogs/cell-format.glade.h:73
 msgid "Inside"
@@ -2204,7 +2213,7 @@ msgstr "redan definierad"
 
 #: src/expr-name.c:180
 msgid "no scope"
-msgstr "ingen omgivning"
+msgstr "ingen räckvidd"
 
 #: src/expr-name.c:185
 msgid "circular reference"
@@ -2216,7 +2225,7 @@ msgstr "Inbyggd"
 
 #: src/expr-name.c:373
 msgid "Error: no sheet"
-msgstr "Fel: inget ark"
+msgstr "Fel: inget blad"
 
 #: src/expr.c:181
 msgid "Syntax error"
@@ -3178,12 +3187,6 @@ msgid ""
 "\n"
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
-"@FUNCTION=FACTDOUBLE\n"
-"@SYNTAX=FACTDOUBLE(tal)\n"
-"@DESCRIPTION=FACTDOUBLE beräknar semifakulteten för @tal.\n"
-"Om @tal inte är ett heltal, trunkeras det. Om @tal är negativt, returneras "
-"felet #NUM!\n"
-"@SEEALSO=FACT"
 
 #: src/functions/fn-eng.c:631
 msgid ""
@@ -8665,7 +8668,6 @@ msgstr ""
 "@SEEALSO=CODE"
 
 #: src/functions/fn-string.c:48
-#, fuzzy
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -8678,10 +8680,12 @@ msgstr ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(tecken)\n"
 "@DESCRIPTION=Returnerar ASCII-koden för tecknet @tecken.\n"
+"@EXAMPLES=\n"
+"CODE(\"A\") är lika med 65.\n"
+"\n"
 "@SEEALSO=CHAR"
 
 #: src/functions/fn-string.c:75
-#, fuzzy
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -8697,10 +8701,13 @@ msgstr ""
 "@SYNTAX=EXACT(sträng1, sträng2)\n"
 "@DESCRIPTION=Returnerar TRUE om @sträng1 är exakt lika med @sträng2 (inkl "
 "stora/små bokstäver).\n"
+"@EXAMPLES=\n"
+"EXACT(\"key\",\"key\") är lika med TRUE.\n"
+"EXACT(\"key\",\"Key\") är lika med FALSE.\n"
+"\n"
 "@SEEALSO=LEN"
 
 #: src/functions/fn-string.c:102
-#, fuzzy
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -8713,10 +8720,12 @@ msgstr ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(sträng)\n"
 "@DESCRIPTION=Returnerar längden i antal tecken av strängen @sträng.\n"
+"@EXAMPLES=\n"
+"len(\"Helsinki\") är lika med 8.\n"
+"\n"
 "@SEEALSO=CHAR, CODE"
 
 #: src/functions/fn-string.c:126
-#, fuzzy
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -8731,10 +8740,12 @@ msgstr ""
 "@SYNTAX=LEFT(text[,antal_tecken])\n"
 "@DESCRIPTION=Returnerar de @antal_tecken vänstra tecknen av @text, eller det "
 "tecken som är längst till vänster om @antal_tecken inte är angivet.\n"
+"@EXAMPLES=\n"
+"LEFT(\"Directory\",3) är lika med \"Dir\".\n"
+"\n"
 "@SEEALSO=MID, RIGHT"
 
 #: src/functions/fn-string.c:164
-#, fuzzy
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -8747,10 +8758,12 @@ msgstr ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
 "@DESCRIPTION=Omvandlar strängen @text till gemener.\n"
+"@EXAMPLES=\n"
+"LOWER(\"J. F. Kennedy\") är lika med \"j. f. kennedy\".\n"
+"\n"
 "@SEEALSO=UPPER"
 
 #: src/functions/fn-string.c:198
-#, fuzzy
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -8765,6 +8778,9 @@ msgstr ""
 "@SYNTAX=MID(sträng, position, längd)\n"
 "@DESCRIPTION=Returnerar de @antal_tecken högra tecknen av @text, eller det "
 "tecken som är längst till höger om @antal_tecken inte är angivet.\n"
+"@EXAMPLES=\n"
+"MID(\"testing\",2,3) är lika med \"est\".\n"
+"\n"
 "@SEEALSO=LEFT, RIGHT"
 
 #: src/functions/fn-string.c:227 src/functions/fn-string.c:680
@@ -8772,7 +8788,6 @@ msgid "Invalid arguments"
 msgstr "Ogiltiga argument"
 
 #: src/functions/fn-string.c:245
-#, fuzzy
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -8786,12 +8801,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,antal_tecken])\n"
-"@DESCRIPTION=Returns the rightmost @num_chars characters or the right "
-"character if @num_chars is not specified.\n"
+"@DESCRIPTION=Returnerar de @antal_tecken högra tecknen av @text, eller det "
+"tecken som är längst till höger om @antal_tecken inte är angivet.\n"
+"@EXAMPLES=\n"
+"RIGHT(\"end\") är lika med \"d\".\n"
+"RIGHT(\"end\",2) är lika med \"nd\".\n"
+"\n"
 "@SEEALSO=MID, LEFT"
 
 #: src/functions/fn-string.c:288
-#, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -8804,10 +8822,12 @@ msgstr ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
 "@DESCRIPTION=Omvandlar strängen @text till versaler.\n"
+"@EXAMPLES=\n"
+"UPPER(\"canceled\") är lika med \"CANCELED\".\n"
+"\n"
 "@SEEALSO=LOWER"
 
 #: src/functions/fn-string.c:323
-#, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -8820,10 +8840,12 @@ msgstr ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(sträng1[,sträng2...])\n"
 "@DESCRIPTION=Funktionen slår ihop strängarna @sträng1,...\n"
+"@EXAMPLES=\n"
+"CONCATENATE(\"aa\",\"bb\") är lika med \"aabb\".\n"
+"\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
 #: src/functions/fn-string.c:375
-#, fuzzy
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -8836,6 +8858,9 @@ msgstr ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(sträng,antal)\n"
 "@DESCRIPTION=Reperterar @sträng @antal gånger.\n"
+"@EXAMPLES=\n"
+"REPT(\".\",3) är lika med \"...\".\n"
+"\n"
 "@SEEALSO=CONCATENATE"
 
 #. start position too high or low
@@ -8845,7 +8870,6 @@ msgid "Invalid argument"
 msgstr "Ogiltigt argument"
 
 #: src/functions/fn-string.c:415
-#, fuzzy
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -8858,10 +8882,12 @@ msgstr ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(sträng)\n"
 "@DESCRIPTION=Rensar @sträng från eventuella icke-utskrivbara tecken.\n"
+"@EXAMPLES=\n"
+"CLEAN(\"one\"&char(7)) är lika med \"one\".\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-string.c:454
-#, fuzzy
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -8877,10 +8903,12 @@ msgstr ""
 "@DESCRIPTION=FIND söker efter @sträng1 i @sträng2 (med hänsyn till "
 "versaler/gemener), med start från @start (om ej angiven, 1). Returvärdet är "
 "den funna positionen.\n"
+"@EXAMPLES=\n"
+"FIND(\"ac\",\"Jack\") är lika med 2.\n"
+"\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
 #: src/functions/fn-string.c:493
-#, fuzzy
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
@@ -8895,10 +8923,12 @@ msgstr ""
 "@SYNTAX=FIXED(tal, [decimaler, ej_separator])\n"
 "@DESCRIPTION=Returner @tal som en formaterad sträng med @decimaler siffor "
 "efter decimaltecknet, utan tusentalsseparator om så anges i @ej_separator.\n"
+"@EXAMPLES=\n"
+"FIXED(1234.567,2) är lika med \"1,234.57\".\n"
+"\n"
 "@SEEALSO="
 
 #: src/functions/fn-string.c:600
-#, fuzzy
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -8911,10 +8941,12 @@ msgstr ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(sträng)\n"
 "@DESCRIPTION=Returnerar @sträng med versaler i början av alla ord.\n"
+"@EXAMPLES=\n"
+"PROPER(\"j. f. kennedy\") är lika med \"J. F. Kennedy\".\n"
+"\n"
 "@SEEALSO=LOWER, UPPER"
 
 #: src/functions/fn-string.c:649
-#, fuzzy
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -8929,10 +8961,12 @@ msgstr ""
 "@SYNTAX=REPLACE(gammal_sträng,start,position,ny_sträng)\n"
 "@DESCRIPTION=Ersätter tecken i @gammal_sträng från och med @position, med "
 "@ny_sträng.\n"
+"@EXAMPLES=\n"
+"REPLACE(\"testing\",2,3,\"*****\") är lika med \"t*****ing\".\n"
+"\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
 #: src/functions/fn-string.c:704
-#, fuzzy
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -8948,10 +8982,13 @@ msgstr ""
 "@SYNTAX=T(värde)\n"
 "@DESCRIPTION=Returnerar @värde om och bara om det är text, annars en tom "
 "sträng.\n"
+"@EXAMPLES=\n"
+"T(\"text\") är lika med \"text\".\n"
+"T(64) returnerar en tom cell.\n"
+"\n"
 "@SEEALSO=CELL, N, VALUE"
 
 #: src/functions/fn-string.c:728
-#, fuzzy
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -8965,10 +9002,13 @@ msgstr ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(värde,format_text)\n"
 "@DESCRIPTION=Returnerar @värde som en sträng med det angivna formatet.\n"
+"@EXAMPLES=\n"
+"TEXT(3.223,\"$0.00\") är lika med \"$3.22\".\n"
+"TEXT(date(1999,4,15),\"mmmm, dd, yy\") är lika med \"April, 15, 99\".\n"
+"\n"
 "@SEEALSO=DOLLAR"
 
 #: src/functions/fn-string.c:785
-#, fuzzy
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -8981,10 +9021,12 @@ msgstr ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
 "@DESCRIPTION=Returnerar @text med endast ett mellanslag mellan orden.\n"
+"@EXAMPLES=\n"
+"TRIM(\"  a bbb  cc\") är lika med \"a bbb cc\".\n"
+"\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
 #: src/functions/fn-string.c:835
-#, fuzzy
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -8997,10 +9039,12 @@ msgstr ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
 "@DESCRIPTION=Returnerar det numeriska värdet av @text.\n"
+"@EXAMPLES=\n"
+"VALUE(\"$1,000\") är lika med 1000.\n"
+"\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
 #: src/functions/fn-string.c:882
-#, fuzzy
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -9017,10 +9061,12 @@ msgstr ""
 "@DESCRIPTION=Ersätter delsträngen @gammal med @ny i strängen @text. "
 "Ersättning sker bara för förekomst @nr av delsträngen, om @nr är uteslutet "
 "ersätts alla förekomster.\n"
+"@EXAMPLES=\n"
+"SUBSTITUTE(\"testing\",\"test\",\"wait\") är lika med \"waiting\".\n"
+"\n"
 "@SEEALSO=REPLACE, TRIM"
 
 #: src/functions/fn-string.c:997
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num,[decimals])\n"
@@ -9033,10 +9079,12 @@ msgstr ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(tal,[decimaler])\n"
 "@DESCRIPTION=Returnerar @tal i valutaformat.\n"
+"@EXAMPLES=\n"
+"DOLLAR(12345) är lika med \"$12,345.00\".\n"
+"\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
 #: src/functions/fn-string.c:1067
-#, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -9073,6 +9121,10 @@ msgstr ""
 "Om @sök_text inte hittas, returneras felvärdet #VALUE! Också om "
 "@startposition är mindre än ett eller större än längden av @inom_text, "
 "returneras #VALUE!.\n"
+"@EXAMPLES=\n"
+"SEARCH(\"c\",\"Cancel\") är lika med 1.\n"
+"SEARCH(\"c\",\"Cancel\",2) är lika med 4.\n"
+"\n"
 "@SEEALSO=FIND"
 
 #: src/format.c:429
@@ -9130,7 +9182,7 @@ msgstr "ARRAY"
 
 #: src/formats.c:18 src/number-match.c:448
 msgid "General"
-msgstr "Allmänt"
+msgstr "Allmän"
 
 #: src/formats.c:24
 msgid "0"
@@ -9274,11 +9326,11 @@ msgstr "mmm-yyyy"
 
 #: src/formats.c:75 src/formats.c:94
 msgid "m/d/yy h:mm"
-msgstr "m/d/yy t:mm"
+msgstr "m/d/yy h:mm"
 
 #: src/formats.c:76
 msgid "m/d/yyyy h:mm"
-msgstr "m/d/yyyy t:mm"
+msgstr "m/d/yyyy h:mm"
 
 #: src/formats.c:77
 msgid "yyyy/mm/d"
@@ -10217,7 +10269,7 @@ msgstr "_Bredd"
 
 #: src/workbook.c:1156
 msgid "_Standard Width"
-msgstr "_Standard bredd"
+msgstr "_Standardbredd"
 
 #: src/workbook.c:1164
 msgid "_Height"
@@ -10225,7 +10277,7 @@ msgstr "_Höjd"
 
 #: src/workbook.c:1170
 msgid "_Standard Height"
-msgstr "_Standard höjd"
+msgstr "_Standardhöjd"
 
 #: src/workbook.c:1176
 msgid "_Change name"
@@ -10241,27 +10293,27 @@ msgstr "Göm _nollor"
 
 #: src/workbook.c:1184
 msgid "Hide _Gridlines"
-msgstr "Göm R_utnät"
+msgstr "Göm r_utnät"
 
 #: src/workbook.c:1186
 msgid "Hide _Column Header"
-msgstr ""
+msgstr "Göm _kolumnrubriker"
 
 #: src/workbook.c:1188
 msgid "Hide _Row Header"
-msgstr ""
+msgstr "Göm _radrubriker"
 
 #: src/workbook.c:1194
 msgid "Hide _Horizontal Scrollbar"
-msgstr ""
+msgstr "Göm vågrät rullningslist"
 
 #: src/workbook.c:1196
 msgid "Hide _Vertical Scrollbar"
-msgstr ""
+msgstr "Göm lodrät rullningslist"
 
 #: src/workbook.c:1198
 msgid "Hide Sheet _Tabs"
-msgstr ""
+msgstr "Göm blad_flikar"
 
 #: src/workbook.c:1204
 msgid "_Cells..."
@@ -10289,7 +10341,7 @@ msgstr ""
 
 #: src/workbook.c:1216
 msgid "Auto Correct"
-msgstr ""
+msgstr "Autorätta"
 
 #: src/workbook.c:1218
 msgid "_Auto Save..."
@@ -10325,7 +10377,7 @@ msgstr "_Filter..."
 
 #: src/workbook.c:1233
 msgid "Filter date with given criterias"
-msgstr ""
+msgstr "Filtrera datum efter givna kriterier"
 
 #: src/workbook.c:1249
 msgid "_Insert"
@@ -10421,7 +10473,7 @@ msgstr "Skapar en kryssruta"
 
 #: src/workbook.c:1315
 msgid "Creates a line object"
-msgstr "Skapar ett linje-objekt"
+msgstr "Skapar ett linjeobjekt"
 
 #: src/workbook.c:1318
 msgid "Arrow"
@@ -10429,7 +10481,7 @@ msgstr "Pil"
 
 #: src/workbook.c:1318
 msgid "Creates an arrow object"
-msgstr "Skapar ett pil-objekt"
+msgstr "Skapar ett pilobjekt"
 
 #: src/workbook.c:1321
 msgid "Rectangle"
@@ -10437,7 +10489,7 @@ msgstr "Rektangel"
 
 #: src/workbook.c:1321
 msgid "Creates a rectangle object"
-msgstr "Skapar ett rektangel-objekt"
+msgstr "Skapar ett rektangelobjekt"
 
 #: src/workbook.c:1324
 msgid "Ellipse"
@@ -10445,7 +10497,7 @@ msgstr "Ellips"
 
 #: src/workbook.c:1324
 msgid "Creates an ellipse object"
-msgstr "Skapar ett ellips-objekt"
+msgstr "Skapar ett ellipsobjekt"
 
 #: src/workbook.c:1548
 msgid "You should introduce a valid cell name"
