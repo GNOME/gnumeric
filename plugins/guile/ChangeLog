@@ -1,3 +1,8 @@
+2001-03-29  Morten Welinder  <terra@diku.dk>
+
+	* smob-value.c (scm_value_get_as_list): Don't use //.
+	(print_value): Ditto.
+
 2001-03-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.64

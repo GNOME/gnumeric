@@ -115,7 +115,9 @@ free_value (SCM value_smob)
 static int
 print_value (SCM value_smob, SCM port, scm_print_state *pstate)
 {
-	//SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
+#if 0
+	SCM_Value *v = (SCM_Value *) SCM_CDR (value_smob);
+#endif
 
 	scm_puts ("#<Value>", port);
 
@@ -238,7 +240,8 @@ scm_value_get_as_list (SCM value_smob)
 			for (i = 0; i < y; i++)
 				for (ii = 0; i < x; i++)
 					{
-						*ls = scm_cons (gh_double2scm (value_get_as_float (v->v->v_array.vals[i][ii])), *ls); // FIXME
+						*ls = scm_cons (gh_double2scm (value_get_as_float (v->v->v_array.vals[i][ii])), *ls);
+						/* FIXME */
 						ls = SCM_CDRLOC (*ls);
 					}
 			*ls = SCM_EOL;
