@@ -1,3 +1,19 @@
+2001-04-28  Jody Goldberg <jgoldberg@home.com>
+
+	* src/style-border.c (print_hline) : handle offset of screen coords vs
+	  printer coords.
+	(print_vline) : ditto.
+	(style_borders_row_print) : sync with style_borders_row_draw and pass
+	  width to the line drawing to handle different coordinate types.
+
+	* src/ranges.c (range_translate) : warn if clipped not just if
+	  removed.
+
+	* src/clipboard.c (clipboard_prepend_cell) : store the source sheet if
+	  possible.
+	(paste_link) : Use the right sheets.
+	(clipboard_paste_region) : send enough information into paste_link.
+
 2001-04-27  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (pre_parse_format) : Catch fractions too.

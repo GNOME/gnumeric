@@ -674,21 +674,27 @@ style_borders_row_draw (StyleBorder const * const * prev_vert,
 
 static inline void
 print_hline (GnomePrintContext *context,
-	     float x1, float x2, float y)
+	     float x1, float x2, float y, int width)
 {
+	if (width == 0 || width % 2)
+		y -= .5;
+
 	/* exclude far pixel to match gdk */
 	gnome_print_moveto (context, x1, y);
-	gnome_print_lineto (context, x2-1., y);
+	gnome_print_lineto (context, x2, y);
 	gnome_print_stroke (context);
 }
 
 static inline void
 print_vline (GnomePrintContext *context,
-	     float x, float y1, float y2)
+	     float x, float y1, float y2, int width)
 {
+	if (width == 0 || width % 2)
+		x += .5;
+
 	/* exclude far pixel to match gdk */
 	gnome_print_moveto (context, x, y1);
-	gnome_print_lineto (context, x, y2-1.);
+	gnome_print_lineto (context, x, y2);
 	gnome_print_stroke (context);
 }
 
@@ -701,6 +707,7 @@ style_borders_row_print (StyleBorder const * const * prev_vert,
 {
 	int o[2][2], col;
 	float next_x = x;
+	StyleBorder const *border;
 
 	for (col = sr->start_col; col <= sr->end_col ; col++, x = next_x) {
 		/* TODO : make this sheet agnostic.  Pass in an array of
@@ -711,41 +718,47 @@ style_borders_row_print (StyleBorder const * const * prev_vert,
 			continue;
 		next_x = x + cri->size_pts;
 
-		if (style_border_set_pc (sr->top [col], context)) {
+		border = sr->top [col];
+		if (style_border_set_pc (border, context)) {
 			float y = y1;
 			if (style_border_hmargins (prev_vert, sr, col, o)) {
 				print_hline (context, x + o[1][0],
-					    next_x + o[1][1], y1+1.);
+					     next_x + o[1][1] + 1., y1+1., border->width);
 				--y;
 			}
 
-			print_hline (context, x + o[0][0], next_x + o[0][1], y);
+			print_hline (context, x + o[0][0],
+				     next_x + o[0][1] + 1., y, border->width);
 			gnome_print_grestore (context);
 		}
 
 		if (!draw_vertical)
 			continue;
-		if (style_border_set_pc (sr->vertical [col], context)) {
+		border = sr->vertical [col];
+		if (style_border_set_pc (border, context)) {
 			float x1 = x;
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
 				print_vline (context, x-1., y1 - o[1][0],
-					     y2 - o[1][1]);
+					     y2 - o[1][1] - 1., border->width);
 				++x1;
 			}
-			print_vline (context, x1, y1 - o[0][0], y2 - o[0][1]);
+			print_vline (context, x1, y1 - o[0][0],
+				     y2 - o[0][1] - 1., border->width);
 			gnome_print_grestore (context);
 		}
 	}
 	if (draw_vertical) {
-		if (style_border_set_pc (sr->vertical [col], context)) {
+		border = sr->vertical [col];
+		if (style_border_set_pc (border, context)) {
 			float x1 = x;
 			if (style_border_vmargins (prev_vert, sr, col, o)) {
-				print_vline (context, x-1., y1 - o[1][0],
-					    y2 - o[1][1]);
+				print_vline (context, x-1., y1 - o[1][0] - 1.,
+					    y2 - o[1][1], border->width);
 				++x1;
 			}
 			/* See note in style_border_set_gc_dash about +1 */
-			print_vline (context, x, y1 - o[0][0], y2 - o[0][1]);
+			print_vline (context, x, y1 - o[0][0],
+				     y2 - o[0][1] - 1, border->width);
 			gnome_print_grestore (context);
 		}
 	}
