@@ -266,7 +266,7 @@ gnumeric_bonobo_write_workbook (GnumFileSaver const *fs,
 		return;
 	}
 	ctxt = xml_parse_ctx_new_full (
-		xml, NULL, GNUM_XML_V5, NULL,
+		xml, NULL, GNUM_XML_LATEST, NULL,
 		gnumeric_bonobo_obj_write, storage);
 
 	xml->root = xml_workbook_write (ctxt, wb_view);

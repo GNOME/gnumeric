@@ -11,10 +11,11 @@ Release Critical
     - Add an idle handler at start up to check for availablity of
       evo and guppi.  They should only be enabled if they are available.
 
-    - Check version in xml_parse_ctx_new.
-
 Pending Patches
 ---------------
+
+    - auto fill
+    - xml schema
 
 Long term breakage
 ------------------
@@ -39,14 +40,6 @@ Long term breakage
 
 - gnumeric_error_invalid change call sequence to use printf argument style.
 
-- Clean out the wasteful searching in every xml util.
-
-- clearing 64k expressions from a column is dog slow because we are using an slist.
-    : merge dep list and recalc queue.
-    : add a counter of # of items to recalc.
-    : use a hash instead of a list for deps
-    : keep the hash per sheet rather than per workbook.
-
 - Panes 
     : support horizontal or vertical only
 - outline mode
@@ -56,9 +49,6 @@ Long term breakage
 
 - Function range_min_k uses an O(n*log n) algorithm.  It should use O(n)
   algorithm, see Knuth.
-
-- Version the idl file so that future versions will not be confused by attempts
-  to use an older version of the idl.
 
 - It is possible to navigate to hidden cols/rows at the start/end of the sheet.
 
@@ -87,8 +77,11 @@ Names :
   - Querying is not implemented.
 
 - The max row/col canvas scroll size is still hard coded.
+
 - scrollbar sizes are based on rows/cols rather than visible pixels
+    : Is this a bug ?
 - scrollbar size includes hidden rows/cols
+    : Is this a bug ?
 
 - calculated cells do not span.
 

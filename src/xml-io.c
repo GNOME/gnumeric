@@ -107,7 +107,7 @@ xml_parse_ctx_new (xmlDocPtr doc,
 		   xmlNsPtr  ns)
 {
 	return xml_parse_ctx_new_full (
-		doc, ns, GNUM_XML_V7, NULL, NULL, NULL);
+		doc, ns, GNUM_XML_LATEST, NULL, NULL, NULL);
 }
 
 void
