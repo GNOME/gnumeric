@@ -220,14 +220,15 @@ color_hash (gconstpointer v)
 void
 gnumeric_color_init (void)
 {
-	GdkColormap *colormap = gtk_widget_get_default_colormap ();
-
 	e_color_init ();
 
-	/* Allocate the default colors */
-	gdk_color_white (colormap, &gs_white);
-	gdk_color_black (colormap, &gs_black);
-
+#warning "FIXME: Colours won't work on multiple screens."
+	/*
+	 * See http://bugzilla.ximian.com/show_bug.cgi?id=43377.  (We have
+	 * that problem for all gs_* colours.)
+	 */
+	gs_white = e_white;
+	gs_black = e_black;
 	e_color_alloc_name (NULL, "gray78",	 &gs_light_gray);
 	e_color_alloc_name (NULL, "gray20",	 &gs_dark_gray);
 	e_color_alloc_name (NULL, "red",	 &gs_red);
