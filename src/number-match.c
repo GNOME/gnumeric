@@ -94,7 +94,7 @@ typedef enum {
 #define append_type(t) do { guint8 x = t; match_types = g_byte_array_append (match_types, &x, 1); } while (0)
 
 static char *
-format_create_regexp (const unsigned char *format, GByteArray **dest)
+format_create_regexp (unsigned char const *format, GByteArray **dest)
 {
 	GString *regexp;
 	GByteArray *match_types;

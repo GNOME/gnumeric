@@ -263,7 +263,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	 * However, that feels like more hassle that it is worth.  Look into this someday.
 	 */
 	int x, y, col, row, n;
-	int const start_col = gnumeric_sheet_find_col (gsheet, draw_x-2, &x);
+	int start_col = gnumeric_sheet_find_col (gsheet, draw_x-2, &x);
 	int end_col = gnumeric_sheet_find_col (gsheet, draw_x+width+2, NULL);
 	int const diff_x = x - draw_x;
 	int start_row = gnumeric_sheet_find_row (gsheet, draw_y-2, &y);
@@ -288,12 +288,22 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	printf ("%s%d <= %d vs %d\n", col_name(end_col), end_row+1, y, draw_y);
 #endif
 
-	/* Skip any hidden rows at the start */
+	/* Skip any hidden cols/rows at the start */
+	for (; start_col <= end_col ; ++start_col) {
+		ri = sheet_col_get_info (sheet, start_col);
+		if (ri->visible)
+			break;
+	}
 	for (; start_row <= end_row ; ++start_row) {
 		ri = sheet_row_get_info (sheet, start_row);
 		if (ri->visible)
 			break;
 	}
+
+	/* if everything is hidden no need to draw */
+	if (end_col < 0 || start_col >= SHEET_MAX_COLS ||
+	    end_row < 0 || start_row >= SHEET_MAX_ROWS)
+		return;
 
 	/* Fill entire region with default background (even past far edge) */
 	gdk_draw_rectangle (drawable, ig->gc.fill, TRUE,

@@ -1,5 +1,8 @@
 2001-05-12  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-grid.c (item_grid_draw) : If everything is hidden we can
+	  get into odd states.
+
 	* src/expr.c (eval_expr_real) : New peek code generated some spurious
 	  errors when concatenating blanks.
 

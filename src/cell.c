@@ -734,6 +734,7 @@ cell_convert_expr_to_value (Cell *cell)
 
 	cell_dirty (cell);
 }
+
 guint
 cellpos_hash (CellPos const *key)
 {

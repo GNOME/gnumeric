@@ -263,8 +263,7 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 char *
 rendered_value_get_text (RenderedValue const *rv)
 {
-	g_return_val_if_fail (rv->rendered_text != NULL,
-			      g_strdup ("ERROR"));
+	g_return_val_if_fail (rv->rendered_text != NULL, g_strdup ("ERROR"));
 	return g_strdup (rv->rendered_text->str);
 }
 
@@ -281,8 +280,7 @@ rendered_value_get_text (RenderedValue const *rv)
 char *
 cell_get_rendered_text (Cell const *cell)
 {
-	g_return_val_if_fail (cell != NULL,
-			      g_strdup("ERROR"));
+	g_return_val_if_fail (cell != NULL, g_strdup("ERROR"));
 	return rendered_value_get_text (cell->rendered_value);
 }
 
