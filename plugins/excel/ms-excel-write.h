@@ -103,7 +103,9 @@ typedef enum {
 #define BORDER_MAGIC STYLE_BORDER_NONE
 
 extern int
-biff_put_text (BiffPut *bp, const char *txt, MsBiffVersion ver,
+biff_convert_text (char **buf, const char *txt, MsBiffVersion ver);
+extern int
+biff_put_text (BiffPut *bp, const char *txt, int len, MsBiffVersion ver,
 	       gboolean write_len, PutType how);
 extern int ms_excel_write_ExcelWorkbook (MsOle *file, ExcelWorkbook *wb,
 				          MsBiffVersion ver);

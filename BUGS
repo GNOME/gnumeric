@@ -7,11 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-    https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=62776
-    http://flowernet.gr.jp/jado/comp/patch/gnumeric/gnumeric-1.0.4-excel-cjk.patch
-    locale Doc breakage (disable for sgml)
-    file type change in 1.0.3
-
 Pending Patches
 ---------------
 

@@ -14,6 +14,8 @@ Jody:
 	* dateToUnix should return an integer
 	* Revert schema version change so that older gnumeric's can read newer
 	  files.
+	* Apply TagoH's patch to add more font maps to the excel importer.
+	* Apply contributed patch to fix multibyte excel export.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=74705
 	* Fix span calc when spanning through hidden columns with content.

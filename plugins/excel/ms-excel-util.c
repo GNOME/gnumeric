@@ -385,7 +385,7 @@ get_locale_charset_name (void)
 	charset = nl_langinfo (CODESET);
 #else
 	{
-		char* locale = setlocale(LC_CTYPE,NULL);
+		char* locale = setlocale(LC_CTYPE,"");
 		char* tmp = strchr(locale,'.');
 		if (tmp)
 			charset = tmp+1;
@@ -408,12 +408,39 @@ typedef struct
 /* here is a list of languages for which cp1251 is used on Windows*/
 static char const * const cyr_locales[] =
 {
-	"russian", "ru", "be", "uk", "ukrainian", NULL
+	"be", "be_BY", "bulgarian", "bg", "bg_BG", "mk", "mk_MK",
+	"russian", "ru", "ru_RU", "ru_UA", "sp", "sp_YU", "sr", "sr_YU",
+	"ukrainian", "uk", "uk_UA", NULL
+};
+
+/* here is a list of languages for which cp for cjk is used on Windows*/
+static char const * const jp_locales[] =
+{
+	"japan", "japanese", "ja", "ja_JP", NULL
+};
+
+static char const * const zhs_locales[] =
+{
+	"chinese-s", "zh", "zh_CN", NULL
+};
+
+static char const * const kr_locales[] =
+{
+	"korean", "ko", "ko_KR", NULL
+};
+
+static char const * const zht_locales[] =
+{
+	"chinese-t", "zh_HK", "zh_TW", NULL
 };
 
 static s_hash_entry const win_codepages[]=
 {
 	{ cyr_locales , 1251 },
+	{ jp_locales  , 932 },
+	{ zhs_locales , 936 },
+	{ kr_locales  , 949 },
+	{ zht_locales , 950 },
 	{ NULL } /*terminator*/
 };
 
@@ -426,8 +453,8 @@ excel_iconv_win_codepage (void)
 		char *lang;
 
 		if ((lang = getenv("WINDOWS_LANGUAGE")) == NULL) {
-			char const *locale = setlocale (LC_CTYPE, NULL);
-			char const *lang_sep = strchr (locale, '_');
+			char const *locale = setlocale (LC_CTYPE, "");
+			char const *lang_sep = strchr (locale, '.');
 			if (lang_sep)
 				lang = g_strndup (locale, lang_sep - locale);
 			else

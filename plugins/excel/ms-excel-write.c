@@ -73,18 +73,60 @@
 
 static excel_iconv_t current_workbook_iconv = NULL;
 /**
+ *  This function converts simple strings...
+ **/
+int
+biff_convert_text (char **buf, const char *txt, MsBiffVersion ver)
+{
+	guint32 lp, len;
+
+	g_return_val_if_fail (txt, 0);
+
+	len = strlen (txt);
+
+	if (ver >= MS_BIFF_V8) {	/* unicode */
+		wchar_t* wcbuf;
+		guint16 *outbuf;
+		len = mbstowcs(NULL, txt, 0);
+		g_return_val_if_fail (len > 0, 0);
+		wcbuf = g_new(wchar_t, len + 1);
+		mbstowcs(wcbuf,txt,len + 1);
+
+		outbuf = g_new(guint16, len);
+		*buf = (char *)outbuf;
+		for (lp = 0; lp < len; lp++) {
+			outbuf[lp] = wcbuf[lp];
+		}		
+		g_free(wcbuf);
+		len = lp * 2;
+	} else {
+		size_t inbufleft = len, outbufleft = len*8;
+		char *outbufptr;
+		char const * inbufptr = txt;
+
+		*buf = g_new(char, outbufleft);
+		outbufptr = *buf;
+
+		excel_iconv (current_workbook_iconv, &inbufptr, &inbufleft, 
+			     &outbufptr, &outbufleft);
+		len = outbufptr - *buf;
+	};
+	return len;
+}
+
+/**
  *  This function writes simple strings...
  *  FIXME: see S59D47.HTM for full description
  *  it returns the length of the string.
  **/
 int
-biff_put_text (BiffPut *bp, const char *txt, MsBiffVersion ver,
+biff_put_text (BiffPut *bp, const char *txt, int len, MsBiffVersion ver,
 	       gboolean write_len, PutType how)
 {
 #define BLK_LEN 16
 
 	guint8 data[BLK_LEN];
-	guint32 lp, len, ans;
+	guint32 lp, ans;
 
 	gboolean sixteen_bit_len;
 	gboolean unicode;
@@ -94,7 +136,6 @@ biff_put_text (BiffPut *bp, const char *txt, MsBiffVersion ver,
 	g_return_val_if_fail (txt, 0);
 
 	ans = 0;
-	len = strlen (txt);
 /*	printf ("Write '%s' len = %d\n", txt, len); */
 
 	if ((how == AS_PER_VER &&
@@ -110,49 +151,46 @@ biff_put_text (BiffPut *bp, const char *txt, MsBiffVersion ver,
 		unicode = FALSE;
 
 	off = 0;
-	if (write_len) {
-		if (sixteen_bit_len) {
-			MS_OLE_SET_GUINT16 (data, len);
-			off = 2;
-		} else {
-			g_return_val_if_fail (len<256, 0);
-			MS_OLE_SET_GUINT8  (data, len);
-			off = 1;
-		}
-	}
-
 	if (unicode) {
+		guint16 *buf = (guint16 *)txt;
+
+		if (write_len) {
+			if (sixteen_bit_len) {
+				MS_OLE_SET_GUINT16 (data, len/2);
+				off = 2;
+			} else {
+				g_return_val_if_fail (len/2<256, 0);
+				MS_OLE_SET_GUINT8  (data, len/2);
+				off = 1;
+			}
+		}
 		MS_OLE_SET_GUINT8  (data + off, 0x0);
 		off++;
-	}
-	ms_biff_put_var_write (bp, data, off);
+		ms_biff_put_var_write (bp, data, off);
 
-	if (unicode) {
-		wchar_t* wcbuf = g_new(wchar_t,len);
-		len = mbstowcs(wcbuf,txt,len);
-		for (lp = 0; lp < len; lp++) {
-			MS_OLE_SET_GUINT16 (data, wcbuf[lp]);
+		for (lp = 0; lp < len/2; lp++) {
+			MS_OLE_SET_GUINT16 (data, buf[lp]);
 			ms_biff_put_var_write (bp, data, 2);
-		}		
-		g_free(wcbuf);
-		lp *= 2;
+		}
 	} else {
-		size_t inbufleft = len, outbufleft = len*8;
-		char* mbbuf = g_new(char, outbufleft);
-		char *outbufptr = mbbuf;
-		char const * inbufptr = txt;
-		guint32 retlen;
+		if (write_len) {
+			if (sixteen_bit_len) {
+				MS_OLE_SET_GUINT16 (data, len);
+				off = 2;
+			} else {
+				g_return_val_if_fail (len<256, 0);
+				MS_OLE_SET_GUINT8  (data, len);
+				off = 1;
+			}
+			ms_biff_put_var_write (bp, data, off);
+		}
 
-		excel_iconv (current_workbook_iconv, &inbufptr, &inbufleft, 
-			     &outbufptr, &outbufleft);
-		retlen = outbufptr - mbbuf;
-		for (lp = 0; lp < retlen; lp++) {
-			MS_OLE_SET_GUINT8 (data, mbbuf[lp]);
+		for (lp = 0; lp < len; lp++) {
+			MS_OLE_SET_GUINT8 (data, txt[lp]);
 			ms_biff_put_var_write (bp, data, 1);			
 		}
-		g_free(mbbuf);
 	};
-	return off + lp;
+	return off + len;
 	/* An attempt at efficiency */
 /*	chunks = len/BLK_LEN;
 	pos    = 0;
@@ -354,17 +392,19 @@ write_externsheets (BiffPut *bp, ExcelWorkbook *wb, ExcelSheet *ignore)
 
 	for (lp = 0; lp < num_sheets; lp++) {
 		ExcelSheet *esheet = g_ptr_array_index (wb->sheets, lp);
-		gint len = strlen (esheet->gnum_sheet->name_quoted);
+		gint len;
+		char *buf;
 		guint8 data[8];
 
 		if (esheet == ignore) continue;
 
+		len = biff_convert_text (&buf, esheet->gnum_sheet->name_quoted, wb->ver);
 		ms_biff_put_var_next (bp, BIFF_EXTERNSHEET);
 		MS_OLE_SET_GUINT8(data, len);
 		MS_OLE_SET_GUINT8(data + 1, 3); /* Magic */
 		ms_biff_put_var_write (bp, data, 2);
-		biff_put_text (bp, esheet->gnum_sheet->name_quoted,
-			       wb->ver, FALSE, AS_PER_VER);
+		biff_put_text (bp, buf, len, wb->ver, FALSE, AS_PER_VER);
+		g_free(buf);
 		ms_biff_put_commit (bp);
 	}
 }
@@ -552,14 +592,15 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 			ms_biff_put_var_next (bp, BIFF_NAME);
 
 		text = expr_name->name->str;
-		name_len = strlen (expr_name->name->str);
+		name_len = biff_convert_text (&text, expr_name->name->str, wb->ver);
 
 		memset (data0, 0, sizeof (data0));
 		MS_OLE_SET_GUINT8 (data0 + 3, name_len); /* name_len */
 
 		/* This code will only work for MS_BIFF_V7. */
 		ms_biff_put_var_write (bp, data0, 14);
-		biff_put_text (bp, text, wb->ver, FALSE, AS_PER_VER);
+		biff_put_text (bp, text, name_len, wb->ver, FALSE, AS_PER_VER);
+		g_free(text);
 		ms_biff_put_var_seekto (bp, 14 + name_len);
 		len = ms_excel_write_formula (bp, esheet,
 			expr_name->t.expr_tree, 0, 0, 0);
@@ -580,14 +621,18 @@ write_bits (BiffPut *bp, ExcelWorkbook *wb, MsBiffVersion ver)
 {
 	guint8 *data;
 	char const *team = "The Gnumeric Development Team";
+	gint len;
+	char *buf;
 	guint8 pad [WRITEACCESS_LEN];
 
 	/* See: S59E1A.HTM */
-	g_assert (strlen (team) < WRITEACCESS_LEN);
+	len = biff_convert_text (&buf, team, ver);
+	g_assert (len < WRITEACCESS_LEN);
 	memset (pad, ' ', sizeof pad);
 	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
-	biff_put_text (bp, team, ver, TRUE, AS_PER_VER);
-	ms_biff_put_var_write (bp, pad, WRITEACCESS_LEN - strlen (team) - 1);
+	biff_put_text (bp, buf, len, ver, TRUE, AS_PER_VER);
+	g_free(buf);
+	ms_biff_put_var_write (bp, pad, WRITEACCESS_LEN - len - 1);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D66.HTM */
@@ -708,6 +753,8 @@ biff_boundsheet_write_first (BiffPut *bp, MsBiffFileType type,
 			     char *name, MsBiffVersion ver)
 {
 	guint32 pos;
+	gint len;
+	char *buf;
 	guint8 data[16];
 
 	ms_biff_put_var_next (bp, BIFF_BOUNDSHEET);
@@ -733,8 +780,9 @@ biff_boundsheet_write_first (BiffPut *bp, MsBiffFileType type,
 	}
 	MS_OLE_SET_GUINT8 (data+5, 0); /* Visible */
 	ms_biff_put_var_write (bp, data, 6);
-
-	biff_put_text (bp, name, ver, TRUE, AS_PER_VER);
+	len = biff_convert_text(&buf, name, ver);
+	biff_put_text (bp, buf, len, ver, TRUE, AS_PER_VER);
+	g_free(buf);
 
 	ms_biff_put_commit (bp);
 	return pos;
@@ -1251,6 +1299,8 @@ write_font (BiffPut *bp, ExcelWorkbook *wb, const ExcelFont *f)
 	guint8  family    = 0;
 	guint8  charset   = 0;	 /* Seems OK. */
 	char    *font_name = sf->font_name;
+	gint    len;
+	char    *buf;
 
 	d (1, printf ("Writing font %s, color idx %u\n",
 		      excel_font_to_string (f), color););
@@ -1273,8 +1323,9 @@ write_font (BiffPut *bp, ExcelWorkbook *wb, const ExcelFont *f)
 	MS_OLE_SET_GUINT8  (data + 12, charset);
 	MS_OLE_SET_GUINT8  (data +13, 0);
 	ms_biff_put_var_write (bp, data, 14);
-
-	biff_put_text (bp, font_name, wb->ver, TRUE, EIGHT_BIT);
+	len = biff_convert_text(&buf, font_name, wb->ver);
+	biff_put_text (bp, buf, len, wb->ver, TRUE, EIGHT_BIT);
+	g_free(buf);
 
 	ms_biff_put_commit (bp);
 }
@@ -1451,6 +1502,8 @@ gather_formats (ExcelWorkbook *wb)
 static void
 write_format (BiffPut *bp, ExcelWorkbook *wb, int fidx)
 {
+	gint len;
+	char *buf;
 	guint8 data[64];
 	StyleFormat const *sf = formats_get_format(wb, fidx);
 
@@ -1467,9 +1520,11 @@ write_format (BiffPut *bp, ExcelWorkbook *wb, int fidx)
 	MS_OLE_SET_GUINT16 (data, fidx);
 	ms_biff_put_var_write (bp, data, 2);
 
-	biff_put_text (bp, format, MS_BIFF_V7, TRUE, AS_PER_VER);
-	ms_biff_put_commit (bp);
+	len = biff_convert_text(&buf, format, MS_BIFF_V7);
+	biff_put_text (bp, buf, len, MS_BIFF_V7, TRUE, AS_PER_VER);
+	g_free (buf);
 	g_free (format);
+	ms_biff_put_commit (bp);
 }
 
 /**
@@ -2525,19 +2580,24 @@ write_value (BiffPut *bp, Value *v, MsBiffVersion ver,
 	}
 	case VALUE_STRING: {
 		guint8 data[16];
+		gint len;
+		char *buf;
+
 		g_return_if_fail (v->v_str.val->str);
 
 		g_return_if_fail (ver < MS_BIFF_V8); /* Use SST stuff in fulness of time */
 
 		/* See: S59DDC.HTM ( for RSTRING ) */
 		/* See: S59D9D.HTM ( for LABEL ) */
+		len = biff_convert_text(&buf, v->v_str.val->str, MS_BIFF_V7);
 		ms_biff_put_var_next   (bp, (0x200 | BIFF_LABEL));
 		EX_SETXF (data, xf);
 		EX_SETCOL(data, col);
 		EX_SETROW(data, row);
-		EX_SETSTRLEN (data, strlen(v->v_str.val->str));
+		EX_SETSTRLEN (data, len);
 		ms_biff_put_var_write  (bp, data, 8);
-		biff_put_text (bp, v->v_str.val->str, MS_BIFF_V7, FALSE, AS_PER_VER);
+		biff_put_text (bp, buf, len, MS_BIFF_V7, FALSE, AS_PER_VER);
+		g_free(buf);
 		ms_biff_put_commit (bp);
 		break;
 	}
@@ -2653,11 +2713,14 @@ write_formula (BiffPut *bp, ExcelSheet *esheet, const Cell *cell, gint16 xf)
 	}
 
 	if (string_result) {
-		gchar *str;
+		gint len;
+		gchar *str, *buf;
 
 		ms_biff_put_var_next (bp, 0x200|BIFF_STRING);
 		str = value_get_as_string (v);
-		biff_put_text (bp, str, MS_BIFF_V7, TRUE, SIXTEEN_BIT);
+		len = biff_convert_text(&buf, str, MS_BIFF_V7);
+		biff_put_text (bp, buf, len, MS_BIFF_V7, TRUE, SIXTEEN_BIT);
+		g_free (buf);
 		g_free (str);
 		ms_biff_put_commit (bp);
 	}
@@ -2682,11 +2745,13 @@ write_biff7_comments (BiffPut *bp, ExcelSheet *esheet)
 		Range const *pos = sheet_object_range_get (SHEET_OBJECT (cc));
 
 		guint16 len;
+		char *buf, *p;
 
 		g_return_if_fail (comment != NULL);
 		g_return_if_fail (pos != NULL);
 
-		len = strlen (comment);
+		len = biff_convert_text(&buf, comment, ver);
+		p = buf;
 		ms_biff_put_var_next (bp, BIFF_NOTE);
 		MS_OLE_SET_GUINT16 (data + 0, pos->start.row);
 		MS_OLE_SET_GUINT16 (data + 2, pos->start.col);
@@ -2695,15 +2760,11 @@ write_biff7_comments (BiffPut *bp, ExcelSheet *esheet)
 
 repeat:
 		if (len > MAX_BIFF_NOTE_CHUNK) {
-			char const tmp = comment [MAX_BIFF_NOTE_CHUNK];
-
-			comment [MAX_BIFF_NOTE_CHUNK] = '\0';
-			biff_put_text (bp, comment, ver, FALSE, AS_PER_VER);
-			comment [MAX_BIFF_NOTE_CHUNK] = tmp;
+			biff_put_text (bp, p, MAX_BIFF_NOTE_CHUNK, ver, FALSE, AS_PER_VER);
 
 			ms_biff_put_commit (bp);
 
-			comment += MAX_BIFF_NOTE_CHUNK;
+			p += MAX_BIFF_NOTE_CHUNK;
 			len -= MAX_BIFF_NOTE_CHUNK;
 
 			ms_biff_put_var_next (bp, BIFF_NOTE);
@@ -2714,9 +2775,10 @@ repeat:
 
 			goto repeat;
 		} else {
-			biff_put_text (bp, comment, ver, FALSE, AS_PER_VER);
+			biff_put_text (bp, p, len, ver, FALSE, AS_PER_VER);
 			ms_biff_put_commit (bp);
 		}
+		g_free(buf);
 	}
 	g_slist_free (comments);
 }
