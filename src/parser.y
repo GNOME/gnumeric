@@ -353,7 +353,7 @@ int yyparse (void);
 %type  <list>     arg_list array_row, array_cols
 %type  <tree>     exp array_exp string_opt_quote
 %token <tree>     STRING QUOTED_STRING CONSTANT CELLREF GTE LTE NE
-%token            SEPARATOR
+%token            SEPARATOR INVALID_TOKEN
 %type  <tree>     cellref
 %type  <sheet>    sheetref opt_sheetref
 
@@ -700,9 +700,10 @@ yylex (void)
 					state->expr_text = end;
 				} else {
 					if (tolower (c) != 'e') {
-						return gnumeric_parse_error (
+						gnumeric_parse_error (
 							state, g_strdup (_("The number is out of range")),
 							state->expr_text - state->expr_backup, end - start);
+						return INVALID_TOKEN;
 					} else {
 						/*
 						 * For an exponent it's hard to highlight
@@ -710,9 +711,10 @@ yylex (void)
 						 * ugly hack, for now the cursor is put
 						 * at the end.
 						 */
-						return gnumeric_parse_error (
+						gnumeric_parse_error (
 							state, g_strdup (_("The number is out of range")),
 							0, 0);
+						return INVALID_TOKEN;
 					}
 				}
 			} else
@@ -736,9 +738,10 @@ yylex (void)
 					state->expr_text = end;
 				} else {
 					if (l == LONG_MIN || l == LONG_MAX) {
-						return gnumeric_parse_error (
+						gnumeric_parse_error (
 							state, g_strdup (_("The number is out of range")),
 							state->expr_text - state->expr_backup, end - start);
+						return INVALID_TOKEN;
 					}
 				}
 			} else
@@ -768,9 +771,10 @@ yylex (void)
                         state->expr_text++;
                 }
                 if (!*state->expr_text) {
-			return gnumeric_parse_error (
+			gnumeric_parse_error (
 				state, g_strdup (_("Could not find matching closing quote")),
 				(p - state->expr_backup) + 1, 1);
+			return INVALID_TOKEN;
 		}
 
 		s = string = (char *) alloca (1 + state->expr_text - p);

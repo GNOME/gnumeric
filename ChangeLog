@@ -1,3 +1,15 @@
+2001-04-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/parser.y (yylex) : return INVALID_TOKEN rather than EOF when a
+	  lexical error is found.
+
+	* src/selection.c (sheet_selection_cut) : It is ok for the source
+	  region to have merged regions or arrays.  It is NOT ok for the
+	  target to have regions that are split.
+
+	* src/cmd-edit.c (cmd_paste) : Only clear the clipboard if the paste
+	  was successful.
+
 2001-04-29  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/commands.c (cmd_zoom) : Implement zoom undo/redo
