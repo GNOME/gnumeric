@@ -9,9 +9,9 @@ GNUMERIC_SRC_DIR = $(srcdir)/../../src
 # Where to install the plugin
 #
 plugindir = $(libdir)/gnumeric/plugins/$(VERSION)
-
 plugin_LTLIBRARIES = libgnum_gb.la
 
+#libgnum_gb_a_LIBADD = -lgb -lgbrun
 libgnum_gb_la_SOURCES = plugin.c
 
 INCLUDES = 						\
@@ -21,4 +21,3 @@ INCLUDES = 						\
 	-I$(includedir)					\
 	$(GNOME_INCLUDEDIR)
 
-libgnum_gb_la_LIBADD = -lgb -lgbrun
