@@ -7,11 +7,12 @@
 # Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2001.
 # 
 #: src/main.c:108
+#, no-wrap
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.99.0\n"
-"POT-Creation-Date: 2001-12-16 02:50-0500\n"
-"PO-Revision-Date: 2001-12-14 23:42+0900\n"
+"Project-Id-Version: gnumeric 0.99.1\n"
+"POT-Creation-Date: 2001-12-18 21:41+0900\n"
+"PO-Revision-Date: 2001-12-18 21:40+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +48,7 @@ msgid "Functions related to financial derivatives"
 msgstr "金融関係の関数"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
-#: plugins/mps/mps.c:571 src/xml-io.c:3425
+#: plugins/mps/mps.c:571 src/xml-io.c:3442
 msgid "Reading file..."
 msgstr "ファイルの読み込み中..."
 
@@ -986,11 +987,11 @@ msgstr "[試験的] XML ベースの SAX"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "XML I/O サブシステムに対応した次世代 SAX です"
 
-#: plugins/xml_sax/xml-sax-read.c:2230
+#: plugins/xml_sax/xml-sax-read.c:2228
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt () に失敗しました。"
 
-#: plugins/xml_sax/xml-sax-read.c:2239
+#: plugins/xml_sax/xml-sax-read.c:2237
 msgid "XML document not well formed!"
 msgstr "XML 文書がウエルフォーム形式ではありません！"
 
@@ -1039,7 +1040,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "一定間隔で現在の文書を自動的に保存します"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:840
+#: src/dialogs/dialog-cell-format.c:2695 src/workbook-format-toolbar.c:840
 #: src/workbook-format-toolbar.c:896
 msgid "Background"
 msgstr "背景"
@@ -1329,7 +1330,7 @@ msgstr "フォントのサイズを変更します"
 msgid "Font selector"
 msgstr "フォントを変更します"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2694
+#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2690
 #: src/workbook-format-toolbar.c:865 src/workbook-format-toolbar.c:899
 msgid "Foreground"
 msgstr "背景"
@@ -1954,7 +1955,7 @@ msgstr "合成(_C)..."
 msgid "_Content"
 msgstr "内容(_C)"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1016
+#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1014
 #: src/sheet-control-gui.c:1392 src/workbook-control-gui.c:2588
 msgid "_Copy"
 msgstr "コピー(_C)"
@@ -2015,9 +2016,8 @@ msgid "_Goto cell..."
 msgstr "セルに移動(_G)..."
 
 #: src/GNOME_Gnumeric.xml.h:244
-#, fuzzy
 msgid "_Graph"
-msgstr "グループ(_G)"
+msgstr "グラフ(_G)"
 
 #: src/GNOME_Gnumeric.xml.h:245
 msgid "_Group"
@@ -2088,7 +2088,7 @@ msgstr "印刷(_P)..."
 msgid "_Redo"
 msgstr "やり直し(_R)"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:12
 #: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2564
 msgid "_Remove"
 msgstr "削除(_R)"
@@ -2494,7 +2494,7 @@ msgstr "進捗 %"
 msgid "Error '%s' opening workbook stream"
 msgstr "ワークブックストリームを開くときにエラー '%s' が発生しました"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:424 src/xml-io.c:3448
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:424 src/xml-io.c:3465
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "不正な xml ファイルです。ツリーは空ですか？"
 
@@ -2593,22 +2593,22 @@ msgstr "\"%s%s\"を入力"
 #: src/commands.c:1081
 #, c-format
 msgid "Inserting %d columns before %s"
-msgstr "%d列を%sの前に挿入"
+msgstr "%d 列を %s の前に挿入"
 
 #: src/commands.c:1082
 #, c-format
 msgid "Inserting %d column before %s"
-msgstr "%d列を%sの前に挿入"
+msgstr "%d 列を %s の前に挿入"
 
 #: src/commands.c:1093
 #, c-format
 msgid "Inserting %d rows before %s"
-msgstr "%d行を%sの前に挿入"
+msgstr "%d 行を %s の前に挿入"
 
 #: src/commands.c:1094
 #, c-format
 msgid "Inserting %d row before %s"
-msgstr "%d行を%sの前に挿入"
+msgstr "%d 行を %s の前に挿入"
 
 #: src/commands.c:1105
 #, c-format
@@ -3205,44 +3205,40 @@ msgid "Correct _TWo INitial CApitals                           "
 msgstr "2文字目を小文字にする。                                 "
 
 #: src/dialogs/autocorrect.glade.h:5
-msgid "Correct accidental use of _cAPS LOCK key"
-msgstr "CAPS LOCKの押し間違いを訂正する(_C)"
-
-#: src/dialogs/autocorrect.glade.h:6
 msgid "Do _not correct:"
 msgstr "訂正しない(_N)"
 
-#: src/dialogs/autocorrect.glade.h:7
+#: src/dialogs/autocorrect.glade.h:6
 msgid "Re_place:"
 msgstr "修正文字(_P)"
 
-#: src/dialogs/autocorrect.glade.h:8 src/dialogs/consolidate.glade.h:26
+#: src/dialogs/autocorrect.glade.h:7 src/dialogs/consolidate.glade.h:26
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:6
 #: src/dialogs/solver.glade.h:16
 msgid "_Add"
 msgstr "追加(_A)"
 
-#: src/dialogs/autocorrect.glade.h:9
+#: src/dialogs/autocorrect.glade.h:8
 msgid "_Do not capitalize after:"
 msgstr "次に続く単語の先頭を大文字にしない:"
 
-#: src/dialogs/autocorrect.glade.h:10
+#: src/dialogs/autocorrect.glade.h:9
 msgid "_First Letter"
 msgstr "先頭の文字(_F)"
 
-#: src/dialogs/autocorrect.glade.h:11 src/dialogs/cell-format.glade.h:111
+#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:111
 msgid "_General"
 msgstr "汎用(_G)"
 
-#: src/dialogs/autocorrect.glade.h:12
+#: src/dialogs/autocorrect.glade.h:11
 msgid "_INitial CApitals"
 msgstr "大文字と小文字"
 
-#: src/dialogs/autocorrect.glade.h:14
+#: src/dialogs/autocorrect.glade.h:13
 msgid "_Replace text when typed"
 msgstr "入力時に訂正する(_R)"
 
-#: src/dialogs/autocorrect.glade.h:15
+#: src/dialogs/autocorrect.glade.h:14
 msgid "_With:"
 msgstr "修正後の文字(_W)"
 
@@ -3403,7 +3399,7 @@ msgstr "何か値                     (検証なし)"
 msgid "Background Color"
 msgstr "背景色"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2689
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2685
 msgid "Border"
 msgstr "罫線"
 
@@ -3586,7 +3582,7 @@ msgstr "方向"
 msgid "Outline"
 msgstr "外枠"
 
-#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2704
+#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2700
 msgid "Pattern"
 msgstr "パターン"
 
@@ -4240,19 +4236,19 @@ msgstr "Gnumeric ホームページ"
 msgid "Contract Support"
 msgstr "サポート"
 
-#: src/dialogs/dialog-advanced-filter.c:256
+#: src/dialogs/dialog-advanced-filter.c:253
 msgid "You should introduce a valid cell names in 'List Range:'"
 msgstr "'リスト範囲:'に正しいセルの名前を指定して下さい"
 
-#: src/dialogs/dialog-advanced-filter.c:270
+#: src/dialogs/dialog-advanced-filter.c:266
 msgid "You should introduce a valid cell names in 'Criteria Range:'"
 msgstr "'基準範囲:'に正しいセルの範囲を指定して下さい"
 
-#: src/dialogs/dialog-advanced-filter.c:289
+#: src/dialogs/dialog-advanced-filter.c:280
 msgid "You should introduce a valid cell range in 'Copy To:'"
 msgstr "'コピー先:'に正しいセルの範囲を指定して下さい"
 
-#: src/dialogs/dialog-advanced-filter.c:331
+#: src/dialogs/dialog-advanced-filter.c:327
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
@@ -4576,7 +4572,7 @@ msgstr "t 検定: 分散が等しくないと仮定した 2 標本による検定"
 msgid "z-Test: Two Sample for Means"
 msgstr "z 検定: 2 標本による平均の検定"
 
-#: src/dialogs/dialog-autocorrect.c:293
+#: src/dialogs/dialog-autocorrect.c:292
 msgid "Could not create the AutoCorrect dialog."
 msgstr "自動収集ダイアログが作成できませんでした。"
 
@@ -4718,30 +4714,30 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
-#: src/dialogs/dialog-cell-format.c:2153 src/dialogs/dialog-cell-format.c:2162
+#: src/dialogs/dialog-cell-format.c:2149 src/dialogs/dialog-cell-format.c:2158
 msgid "Minimum :"
 msgstr "最小 :"
 
-#: src/dialogs/dialog-cell-format.c:2154 src/dialogs/dialog-cell-format.c:2166
+#: src/dialogs/dialog-cell-format.c:2150 src/dialogs/dialog-cell-format.c:2162
 msgid "Maximum :"
 msgstr "最大 :"
 
-#: src/dialogs/dialog-cell-format.c:2158
+#: src/dialogs/dialog-cell-format.c:2154
 msgid "Value :"
 msgstr "値 :"
 
-#: src/dialogs/dialog-cell-format.c:2623
+#: src/dialogs/dialog-cell-format.c:2619
 msgid "Format Cells"
 msgstr "セルの書式設定"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2689 src/dialogs/dialog-cell-format.c:2694
-#: src/dialogs/dialog-cell-format.c:2704 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2685 src/dialogs/dialog-cell-format.c:2690
+#: src/dialogs/dialog-cell-format.c:2700 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:858
 msgid "Automatic"
 msgstr "自動"
 
-#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:833
+#: src/dialogs/dialog-cell-format.c:2695 src/workbook-format-toolbar.c:833
 msgid "Clear Background"
 msgstr "背景を消去"
 
@@ -6012,7 +6008,7 @@ msgstr "ヘッダ:"
 msgid "Headers and footers"
 msgstr "ヘッダとフッタ"
 
-#: src/dialogs/print.glade.h:10 src/print-info.c:430
+#: src/dialogs/print.glade.h:10 src/print-info.c:427
 msgid "In"
 msgstr "In"
 
@@ -6061,7 +6057,7 @@ msgid "Scale"
 msgstr "拡大"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:139
-#: src/workbook.c:1060 src/xml-io.c:3058
+#: src/workbook.c:1060 src/xml-io.c:3150
 msgid "Sheet"
 msgstr "シート"
 
@@ -6138,11 +6134,11 @@ msgid "_Vertically"
 msgstr "垂直(_V)"
 
 #. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:44 src/print-info.c:429
+#: src/dialogs/print.glade.h:44 src/print-info.c:426
 msgid "cm"
 msgstr "cm"
 
-#: src/dialogs/print.glade.h:45 src/print-info.c:428
+#: src/dialogs/print.glade.h:45 src/print-info.c:425
 msgid "mm"
 msgstr "mm"
 
@@ -6150,7 +6146,7 @@ msgstr "mm"
 msgid "page(s) wide by"
 msgstr "ページ幅 + "
 
-#: src/dialogs/print.glade.h:47 src/print-info.c:427
+#: src/dialogs/print.glade.h:47 src/print-info.c:424
 msgid "pts"
 msgstr "pts"
 
@@ -17900,7 +17896,7 @@ msgstr "時刻の書式"
 msgid "Format as alternative Number"
 msgstr "選択値の書式"
 
-#: src/gnumeric-canvas.c:497
+#: src/gnumeric-canvas.c:503
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "ファイル \"%s\" は不明な書式です。"
@@ -18132,7 +18128,7 @@ msgstr "幅: %.2f pts (%d ピクセル)"
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "高さ: %.2f pts (%d ピクセル)"
 
-#: src/item-cursor.c:903
+#: src/item-cursor.c:901
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -18141,35 +18137,35 @@ msgstr ""
 "ドラッグしたセルは、その範囲のすでに存在するセルの内容を上書きします。\n"
 "この範囲の内容を置き換えても宜しいですか？"
 
-#: src/item-cursor.c:1013
+#: src/item-cursor.c:1011
 msgid "_Move"
 msgstr "移動(_M)"
 
-#: src/item-cursor.c:1019
+#: src/item-cursor.c:1017
 msgid "Copy _Formats"
 msgstr "書式をコピー(_F)"
 
-#: src/item-cursor.c:1021
+#: src/item-cursor.c:1019
 msgid "Copy _Values"
 msgstr "値をコピー(_V)"
 
-#: src/item-cursor.c:1026
+#: src/item-cursor.c:1024
 msgid "Shift _Down and Copy"
 msgstr "セルを下にずらしてコピー(_D)"
 
-#: src/item-cursor.c:1028
+#: src/item-cursor.c:1026
 msgid "Shift _Right and Copy"
 msgstr "セルを右にずらしてコピー(_R)"
 
-#: src/item-cursor.c:1030
+#: src/item-cursor.c:1028
 msgid "Shift Dow_n and Move"
 msgstr "セルを下にずらして移動(_N)"
 
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1030
 msgid "Shift Righ_t and Move"
 msgstr "セルを右にずらして移動(_T)"
 
-#: src/item-cursor.c:1037
+#: src/item-cursor.c:1035
 msgid "C_ancel"
 msgstr "キャンセル(_A)"
 
@@ -18514,7 +18510,7 @@ msgstr "ファイル \"%s\" を読み込みでオープン中にエラーが発生しました。"
 msgid "Unable to mmap the file."
 msgstr "ファイルを mmap できません。"
 
-#: src/plugin-util.c:311 src/xml-io.c:3414
+#: src/plugin-util.c:311 src/xml-io.c:3431
 msgid "Cannot get file size."
 msgstr "ファイルサイズを取得できません。"
 
@@ -18651,7 +18647,7 @@ msgid "Errors while initializing plugin system."
 msgstr "プラグインシステムの初期化中にエラーが発生しました。"
 
 #: src/print-info.c:24 src/print-info.c:27 src/print-info.c:28
-#: src/print-info.c:279
+#: src/print-info.c:276
 msgid "Page &[PAGE]"
 msgstr "ページ &[PAGE]"
 
@@ -18660,7 +18656,7 @@ msgid "Page &[PAGE] of &[PAGES]"
 msgstr "ページ &[PAGE]/&[PAGES]"
 
 #: src/print-info.c:26 src/print-info.c:27 src/print-info.c:28
-#: src/print-info.c:30 src/print-info.c:278
+#: src/print-info.c:30 src/print-info.c:275
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
@@ -18668,43 +18664,43 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:427
+#: src/print-info.c:424
 msgid "points"
 msgstr "points"
 
-#: src/print-info.c:428
+#: src/print-info.c:425
 msgid "millimeter"
 msgstr "ミリメートル"
 
-#: src/print-info.c:429
+#: src/print-info.c:426
 msgid "centimeter"
 msgstr "センチメートル"
 
-#: src/print-info.c:430
+#: src/print-info.c:427
 msgid "inch"
 msgstr "インチ"
 
-#: src/print-info.c:520
+#: src/print-info.c:517
 msgid "Sheet 1"
 msgstr "シート 1"
 
-#: src/print-info.c:583
+#: src/print-info.c:580
 msgid "tab"
 msgstr "タブ"
 
-#: src/print-info.c:584
+#: src/print-info.c:581
 msgid "page"
 msgstr "ページ"
 
-#: src/print-info.c:585
+#: src/print-info.c:582
 msgid "pages"
 msgstr "ページ"
 
-#: src/print-info.c:586
+#: src/print-info.c:583
 msgid "date"
 msgstr "日付"
 
-#: src/print-info.c:587
+#: src/print-info.c:584
 msgid "time"
 msgstr "時間"
 
@@ -19733,26 +19729,30 @@ msgstr "自動書式のテンプレートファイルではありません"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "自動書式テンプレートからツリーの構築中にエラー"
 
+#: src/xml-io.c:2866
+msgid "Unparsable xml in clipboard"
+msgstr "クリップボードの中に解析不可の XML があります"
+
+#: src/xml-io.c:2873
+msgid "Clipboard is in unknown format"
+msgstr "クリップボードは不明な書式の中にあります"
+
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3184
+#: src/xml-io.c:3276
 msgid "Processing file..."
 msgstr "ファイルの解析中..."
 
-#: src/xml-io.c:3362
-msgid "Invalid xml clipboard data. Tree is empty ?"
-msgstr "不正な xml クリップボードデータです。ツリーが空ですか?"
-
-#: src/xml-io.c:3422
+#: src/xml-io.c:3439
 msgid "Not enough memory to create zlib decompression state."
 msgstr "zlib で解凍状況を生成するためのメモリが足りません。"
 
-#: src/xml-io.c:3457
+#: src/xml-io.c:3474
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Gnumericワークブックファイルではありません"
 
-#: src/xml-io.c:3514
+#: src/xml-io.c:3531
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML ファイル形式"
 
