@@ -1074,10 +1074,14 @@ cb_recalc_spans_in_col (ColRowInfo *ri, gpointer user)
 void
 sheet_recompute_spans_for_col (Sheet *sheet, int col)
 {
+	struct recalc_span_closure closure;
+	closure.sheet = sheet;
+	closure.col = col;
+
 	sheet_foreach_colrow (&sheet->rows,
 			      0, SHEET_MAX_ROWS-1,
 			      &cb_recalc_spans_in_col,
-			      GINT_TO_POINTER(col));
+			      &closure);
 }
 
 void

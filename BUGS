@@ -10,7 +10,7 @@ Long term breakage
 ------------------
 - The max row/col scroll size is still hard coded.
 
-- Sorting should move styles too.
+- Sorting should move styles too (jpr is working on this)
 
 - Increase/Decrease precision toolbar buttons should look at the displayed
   precision for the edit cell and assign the changed value to the entire

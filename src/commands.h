@@ -45,6 +45,10 @@ gboolean cmd_sort		(CommandContext *context, Sheet *sheet,
 gboolean cmd_format		(CommandContext *context, Sheet *sheet,
 				 MStyle *style, MStyleBorder **borders);
 
+gboolean cmd_autofill		(CommandContext *context, Sheet *sheet,
+				 int base_col, int base_row,
+				 int w, int h, int end_col, int end_row);
+
 gboolean cmd_clear_selection	(CommandContext *context, Sheet *sheet,
 				 int const clear_flags);
 gboolean cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,

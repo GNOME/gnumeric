@@ -151,14 +151,6 @@ Sheet_is_all_selected (PortableServer_Servant servant, CORBA_Environment *ev)
 }
 
 static void
-Sheet_selection_reset (PortableServer_Servant servant, CORBA_Environment *ev)
-{
-	Sheet *sheet = sheet_from_servant (servant);
-
-	sheet_selection_reset (sheet);
-}
-
-static void
 Sheet_selection_append (PortableServer_Servant servant,
 			const CORBA_long col, const CORBA_long row,
 			CORBA_Environment *ev)
@@ -1170,7 +1162,6 @@ Sheet_corba_class_init (void)
 	gnome_gnumeric_sheet_epv.make_cell_visible = Sheet_make_cell_visible;
 	gnome_gnumeric_sheet_epv.select_all = Sheet_select_all;
 	gnome_gnumeric_sheet_epv.is_all_selected = Sheet_is_all_selected;
-	gnome_gnumeric_sheet_epv.selection_reset = Sheet_selection_reset;
 	gnome_gnumeric_sheet_epv.selection_append = Sheet_selection_append;
 	gnome_gnumeric_sheet_epv.selection_append_range = Sheet_selection_append_range;
 	gnome_gnumeric_sheet_epv.selection_copy = Sheet_selection_copy;

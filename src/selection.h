@@ -20,10 +20,8 @@ void        sheet_selection_add_range    (Sheet *sheet,
 					  int base_col, int base_row,
 					  int move_col, int move_row);
 
-void        sheet_selection_reset        (Sheet *sheet);
 void        sheet_selection_reset_only   (Sheet *sheet);
 void        sheet_selection_free         (Sheet *sheet);
-CellList   *sheet_selection_to_list      (Sheet *sheet);
 void        sheet_cell_list_free         (CellList *cell_list);
 char       *sheet_selection_to_string    (Sheet *sheet, gboolean include_sheet_name_prefix);
 

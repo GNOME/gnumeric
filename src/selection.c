@@ -450,25 +450,6 @@ sheet_selection_reset_only (Sheet *sheet)
 	g_list_free (list);
 }
 
-/**
- * sheet_selection_reset:
- * @sheet:  The sheet
- *
- * Clears all of the selection ranges and resets it to a
- * selection that only covers the edit cursor.
- */
-void
-sheet_selection_reset (Sheet *sheet)
-{
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	sheet_selection_reset_only (sheet);
-	sheet_selection_add (sheet,
-			     sheet->cursor.edit_pos.col,
-			     sheet->cursor.edit_pos.row);
-}
-
 /*
  * assemble_cell_list: A callback for sheet_cell_foreach_range
  * intented to assemble a list of cells in a region.
@@ -495,17 +476,6 @@ assemble_selection_list (Sheet *sheet,
 		start_col, start_row,
 		end_col, end_row,
 		&assemble_cell_list, closure);
-}
-
-CellList *
-sheet_selection_to_list (Sheet *sheet)
-{
-	/* selection_apply will check all necessary invariants. */
-	CellList *list = NULL;
-
-	selection_apply (sheet, &assemble_selection_list, FALSE, &list);
-
-	return list;
 }
 
 void
@@ -1050,7 +1020,7 @@ selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 }
 
 /*
- * sheet_selection_to_list :
+ * selection_to_list :
  * @sheet : The whose selection we are interested in.
  *
  * Assembles a unique CellList of all the existing cells in the selection.

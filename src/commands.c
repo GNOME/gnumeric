@@ -41,6 +41,7 @@
 #include "border.h"
 #include "rendered-value.h"
 #include "dialogs/dialog-autocorrect.h"
+#include "sheet-autofill.h"
 
 /*
  * NOTE : This is a work in progress
@@ -479,7 +480,7 @@ cmd_area_set_text_undo (GnumericCommand *cmd, CommandContext *context)
 
 		c = me->old_content->data;
 		clipboard_paste_region (context,
-					paste_target_init (&pt, me->pos.sheet, r, PASTE_VALUES),
+					paste_target_init (&pt, me->pos.sheet, r, PASTE_FORMULAS),
 					c);
 		clipboard_release (c);
 		me->old_content = g_slist_remove (me->old_content, c);
@@ -984,7 +985,7 @@ cmd_clear_selection (CommandContext *context, Sheet *sheet, int clear_flags)
 
 	me->paste_flags = 0;
 	if (clear_flags & CLEAR_VALUES)
-		me->paste_flags |= PASTE_VALUES | PASTE_FORMULAS;
+		me->paste_flags |= PASTE_FORMULAS;
 	if (clear_flags & CLEAR_FORMATS)
 		me->paste_flags |= PASTE_FORMATS;
 	if (clear_flags & CLEAR_COMMENTS)
@@ -1485,10 +1486,6 @@ cmd_resize_row_col (CommandContext *context,
 	/* TODO :
 	 * - Patch into manual and auto resizing 
 	 * - store the selected sized,
-	 *
-	 * There is something odd about the way row/col resize is handled currently.
-	 * The item-bar sends a signal to all the sheet-views each of which sets
-	 * the size for the sheet.
 	 */
 
 	/* Register the command object */
@@ -2002,12 +1999,130 @@ cmd_paste_copy (CommandContext *context,
 
 /******************************************************************/
 
+#define CMD_AUTOFILL_TYPE        (cmd_autofill_get_type ())
+#define CMD_AUTOFILL(o)          (GTK_CHECK_CAST ((o), CMD_AUTOFILL_TYPE, CmdAutofill))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	CellRegion *content;
+	PasteTarget dst;
+	int base_col, base_row, w, h, end_col, end_row;
+} CmdAutofill;
+
+GNUMERIC_MAKE_COMMAND (CmdAutofill, cmd_autofill);
+
+static gboolean
+cmd_autofill_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdAutofill *me = CMD_AUTOFILL(cmd);
+	gboolean res;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->content != NULL, TRUE);
+
+	res = clipboard_paste_region (context, &me->dst, me->content);
+	clipboard_release (me->content);
+	me->content = NULL;
+
+	if (res)
+		return TRUE;
+
+	/* Make the newly pasted content the selection (this queues a redraw) */
+	sheet_selection_reset_only (me->dst.sheet);
+	sheet_selection_add_range (me->dst.sheet,
+				   me->base_col, me->base_row,
+				   me->base_col, me->base_row,
+				   me->base_col + me->w-1,
+				   me->base_row + me->h-1);
+
+	sheet_set_dirty (me->dst.sheet, TRUE);
+	workbook_recalc (me->dst.sheet->workbook);
+	sheet_update (me->dst.sheet);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_autofill_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdAutofill *me = CMD_AUTOFILL(cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->content == NULL, TRUE);
+
+	me->content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
+	sheet_autofill (me->dst.sheet,
+			me->base_col, me->base_row, me->w, me->h,
+			me->end_col, me->end_row);
+
+	/* Make the newly filled content the selection (this queues a redraw) */
+	sheet_selection_reset_only (me->dst.sheet);
+	sheet_selection_add_range (me->dst.sheet,
+				   me->base_col, me->base_row,
+				   me->base_col, me->base_row,
+				   me->end_col, me->end_row);
+
+	sheet_set_dirty (me->dst.sheet, TRUE);
+	workbook_recalc (me->dst.sheet->workbook);
+	sheet_update (me->dst.sheet);
+
+	return FALSE;
+}
+
+static void
+cmd_autofill_destroy (GtkObject *cmd)
+{
+	CmdAutofill *me = CMD_AUTOFILL(cmd);
+
+	if (me->content) {
+		clipboard_release (me->content);
+		me->content = NULL;
+	}
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_autofill (CommandContext *context, Sheet *sheet,
+	      int base_col, int base_row,
+	      int w, int h, int end_col, int end_row)
+{
+	GtkObject *obj;
+	CmdAutofill *me;
+
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_AUTOFILL_TYPE);
+	me = CMD_AUTOFILL (obj);
+
+	/* Store the specs for the object */
+	me->content = NULL;
+	me->dst.sheet = sheet;
+	me->dst.paste_flags = PASTE_FORMULAS | PASTE_FORMATS;
+
+	/* FIXME : We can copy less than this */
+	range_init (&me->dst.range,  base_col, base_row, end_col, end_row);
+	me->base_col = base_col;
+	me->base_row = base_row,
+	me->w = w;
+	me->h = h;
+	me->end_col = end_col;
+	me->end_row = end_row;
+
+	me->parent.cmd_descriptor = g_strdup (_("Autofill"));
+
+	/* Register the command object */
+	return command_push_undo (context, sheet->workbook, obj);
+}
+
+/******************************************************************/
+
 /*
  * - Complete colrow resize
  *
  * TODO : Make a list of commands that should have undo support
  *        that do not even have stubs
  *
- * - Autofill
  * - SheetObject creation & manipulation.
  */

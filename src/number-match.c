@@ -19,6 +19,7 @@
 #include <ctype.h>
 #include <sys/types.h>
 #include <regex.h>
+#include <errno.h>
 #include "number-match.h"
 #include "formats.h"
 #include "dates.h"
@@ -818,11 +819,13 @@ format_match (const char *text, StyleFormat **format)
 	{
 		char *end;
 		long l = strtol (text, &end, 10);
-		/* ignore spaces at the end . */
-		while (*end == ' ')
-			end++;
-		if (text != end && *end == '\0' && l == (int)l)
-			return value_new_int ((int)l);
+		if (errno != ERANGE) {
+			/* ignore spaces at the end . */
+			while (*end == ' ')
+				end++;
+			if (text != end && *end == '\0' && l == (int)l)
+				return value_new_int ((int)l);
+		}
 	}
 
 	/* Is it a double */

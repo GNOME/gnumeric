@@ -16,8 +16,8 @@
 #include "selection.h"
 #include "workbook.h"
 #include "gnumeric-util.h"
-#include "sheet-autofill.h"
 #include "cmd-edit.h"
+#include "commands.h"
 
 static GnomeCanvasItem *item_cursor_parent_class;
 
@@ -939,20 +939,11 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
-		if (!((item_cursor->pos.end.col == item_cursor->base_col + item_cursor->base_cols) &&
-		      (item_cursor->pos.end.row == item_cursor->base_row + item_cursor->base_rows))){
-
-			workbook_finish_editing (sheet->workbook, TRUE);
-			sheet_autofill (sheet,
-					item_cursor->base_col,    item_cursor->base_row,
-					item_cursor->base_cols+1, item_cursor->base_rows+1,
-					item_cursor->pos.end.col,     item_cursor->pos.end.row);
-		}
-		sheet_selection_reset_only (sheet);
-		sheet_selection_add_range (sheet,
-					   item_cursor->base_col, item_cursor->base_row,
-					   item_cursor->base_col, item_cursor->base_row,
-					   item_cursor->pos.end.col, item_cursor->pos.end.row);
+		workbook_finish_editing (sheet->workbook, TRUE);
+		cmd_autofill (workbook_command_context_gui (sheet->workbook), sheet,
+			      item_cursor->base_col,    item_cursor->base_row,
+			      item_cursor->base_cols+1, item_cursor->base_rows+1,
+			      item_cursor->pos.end.col, item_cursor->pos.end.row);
 
 		gtk_object_destroy (GTK_OBJECT (item));
 

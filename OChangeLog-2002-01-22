@@ -1,3 +1,26 @@
+2000-06-02  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (sheet_selection_reset) : Delete unused routine.
+	(sheet_selection_to_list) : Ditto.
+
+	* src/item-cursor.c (item_cursor_autofill_event) : Use new undoable
+	  version of autofill.
+
+	* src/corba-sheet.c (Sheet_selection_reset) : Delete.
+
+	* src/commands.c (cmd_area_set_text_undo) : We want to restore
+	  formulas, not values.
+	(cmd_clear_selection) : Paste by value should be exclusive of paste by
+	  formula.
+	(cmd_autofill_*) : New functions.
+
+	* idl/Gnumeric.idl : Remove useless function selection_reset.
+
+	* src/number-match.c (format_match) : Handle numbers larger than
+	  LONG_{MAX,MIN} by falling through to double.
+
+	* src/sheet.c (sheet_recompute_spans_for_col) : Use closure.
+
 2000-06-01  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_sheet_write) : Adjust to changes in
