@@ -13,43 +13,53 @@
 struct LineDotPattern {
 	gint const			elements;
 	unsigned char * const	pattern;
+	double * const		pattern_d;
 };
 
 static unsigned char dashed_pattern[] = { 3, 1 };
+static double dashed_pattern_d[] = { 3., 1. };
 static struct LineDotPattern dashed_line =
-{ sizeof (dashed_pattern), dashed_pattern };
+{ sizeof (dashed_pattern), dashed_pattern, dashed_pattern_d };
 
 static unsigned char med_dashed_pattern[] = { 9, 3 };
+static double med_dashed_pattern_d[] = { 9., 3. };
 static struct LineDotPattern med_dashed_line =
-{ sizeof (med_dashed_pattern), med_dashed_pattern };
+{ sizeof (med_dashed_pattern), med_dashed_pattern, med_dashed_pattern_d };
 
 static unsigned char dotted_pattern[] = { 2, 2 };
+static double dotted_pattern_d[] = { 2., 2. };
 static struct LineDotPattern dotted_line =
-{ sizeof (dotted_pattern), dotted_pattern };
+{ sizeof (dotted_pattern), dotted_pattern, dotted_pattern_d };
 
 static unsigned char hair_pattern[] = { 1, 1 };
+static double hair_pattern_d[] = { 1., 1. };
 static struct LineDotPattern hair_line =
-{ sizeof (hair_pattern), hair_pattern };
+{ sizeof (hair_pattern), hair_pattern, hair_pattern_d };
 
 static unsigned char dash_dot_pattern[] = { 8, 3, 3, 3 };
+static double dash_dot_pattern_d[] = { 8., 3., 3., 3. };
 static struct LineDotPattern dash_dot_line =
-{ sizeof (dash_dot_pattern), dash_dot_pattern };
+{ sizeof (dash_dot_pattern), dash_dot_pattern, dash_dot_pattern_d };
 
 static unsigned char med_dash_dot_pattern[] = { 9, 3, 3, 3 };
+static double med_dash_dot_pattern_d[] = { 9., 3., 3., 3. };
 static struct LineDotPattern med_dash_dot_line =
-{ sizeof (med_dash_dot_pattern), med_dash_dot_pattern };
+{ sizeof (med_dash_dot_pattern), med_dash_dot_pattern, med_dash_dot_pattern_d };
 
 static unsigned char dash_dot_dot_pattern[] = { 3, 3, 9, 3, 3, 3 };
+static double dash_dot_dot_pattern_d[] = { 3., 3., 9., 3., 3., 3. };
 static struct LineDotPattern dash_dot_dot_line =
-{ sizeof (dash_dot_dot_pattern), dash_dot_dot_pattern };
+{ sizeof (dash_dot_dot_pattern), dash_dot_dot_pattern, dash_dot_dot_pattern_d };
 
 static unsigned char med_dash_dot_dot_pattern[] = { 3, 3, 3, 3, 9, 3 };
+static double med_dash_dot_dot_pattern_d[] = { 3., 3., 3., 3., 9., 3. };
 static struct LineDotPattern med_dash_dot_dot_line =
-{ sizeof (med_dash_dot_dot_pattern), med_dash_dot_dot_pattern };
+{ sizeof (med_dash_dot_dot_pattern), med_dash_dot_dot_pattern, med_dash_dot_dot_pattern_d };
 
 static unsigned char slant_pattern[] = { 11, 1, 5, 1 };
+static double slant_pattern_d[] = { 11., 1., 5., 1. };
 static struct LineDotPattern slant_line =
-{ sizeof (slant_pattern), slant_pattern };
+{ sizeof (slant_pattern), slant_pattern, slant_pattern_d };
 
 struct {
 	gint const		          	width;
@@ -212,6 +222,54 @@ style_border_get_gc (MStyleBorder *border, GdkWindow *window)
 	return border->gc;
 }
 
+static void
+style_border_set_pc_dash (StyleBorderType const line_type,
+			  GnomePrintContext *context)
+{
+	GdkLineStyle style = GDK_LINE_SOLID;
+	int i;
+
+	g_return_if_fail (context != NULL);
+	g_return_if_fail (line_type >= STYLE_BORDER_NONE);
+	g_return_if_fail (line_type < STYLE_BORDER_MAX);
+
+	if (line_type == STYLE_BORDER_NONE)
+		return;
+
+	i = line_type - 1;
+
+	if (style_border_data[i].pattern != NULL)
+		style = GDK_LINE_ON_OFF_DASH;
+
+#if 0
+	/* FIXME FIXME FIXME :
+	 * We will want to Adjust the join styles eventually to get
+	 * corners to render nicely */
+	gdk_gc_set_line_attributes (gc,
+				    style_border_data[i].width,
+				    style,
+				    GDK_CAP_BUTT, GDK_JOIN_MITER);
+#endif
+	gnome_print_setlinewidth (context, style_border_data[i].width);
+
+	if (style_border_data[i].pattern != NULL) {
+		struct LineDotPattern const * const pat =
+			style_border_data[i].pattern;
+		gnome_print_setdash (context, pat->elements,
+				     pat->pattern_d, style_border_data[i].offset);
+	}
+}
+
+static void
+style_border_set_pc (MStyleBorder const * const border, GnomePrintContext *context)
+{
+	style_border_set_pc_dash (border->line_type, context);
+	gnome_print_setrgbcolor (context,
+				 border->color->red   / (double) 0xffff,
+				 border->color->green / (double) 0xffff,
+				 border->color->blue  / (double) 0xffff);
+}
+
 MStyleBorder *
 style_border_ref (MStyleBorder *border)
 {
@@ -302,6 +360,70 @@ style_border_draw (MStyleBorder const * const border, MStyleElementType const t,
 			}
 		}
 		gdk_draw_line (drawable, gc, x1, y1, x2, y2);
+	}
+}
+
+void
+style_border_print (MStyleBorder const * const border, MStyleElementType const t,
+		    GnomePrintContext *context,
+		    double x1, double y1, double x2, double y2,
+		    MStyleBorder const * const extend_begin,
+		    MStyleBorder const * const extend_end)
+{
+	if (border != NULL && border->line_type != STYLE_BORDER_NONE) {
+
+		gnome_print_gsave (context);
+
+		style_border_set_pc (border, context);
+
+		/* This is WRONG.  FIXME FIXME FIXME
+		 * when we are finished converting to drawing only top & left
+		 * then rework the state table.
+		 */
+		if (border->line_type == STYLE_BORDER_DOUBLE) {
+			static int const offsets[][2][4] = {
+			    { { 0,-1,0,-1}, { 0,1,0,1} }, /* TOP */
+			    { { 0,-1,0,-1}, { 0,1,0,1} }, /* BOTTOM */
+			    { { -1,0,-1,0}, { 1,0,1,0} }, /* LEFT */
+			    { { -1,0,-1,0}, { 1,0,1,0} }, /* RIGHT */
+			    { { 0,1,-1,0}, { 1,0,0,-1} }, /* DIAGONAL */
+			    { { 0,-1,-1,0 },{ 1,0,0,1} }, /* REV_DIAGONAL */
+			};
+			static int const extension_begin[][2][2] = {
+			    { { -1, 0 }, { 1, 0 } }, /* TOP */
+			    { {  1, 0 }, { -1, 0 } }, /* BOTTOM */
+			    { { 0, -1 }, { 0, 1} }, /* LEFT */
+			    { { 0, 1 }, { 0, -1} }, /* RIGHT */
+			    { { 1, 1}, { 1, 1 } }, /* DIAGONAL */
+			    { { -1, -1}, { -1, -1} }, /* REV_DIAGONAL */
+			};
+
+			int const i = t-MSTYLE_BORDER_TOP;
+			int const * const o = (int *)&(offsets[i]);
+			int x = x1+o[0], y = y1+o[1];
+
+			if (extend_begin != NULL &&
+			    extend_begin->line_type != STYLE_BORDER_NONE) {
+				x += extension_begin[i][0][0];
+				y += extension_begin[i][0][1];
+			}
+
+			gnome_print_moveto (context, x1, y1);
+			gnome_print_lineto (context, x2, y2);
+			gnome_print_stroke (context);
+			x1 += o[4]; y1 -= o[5]; x2 += o[6]; y2 -= o[7];
+
+			if (extend_begin != NULL &&
+			    extend_begin->line_type != STYLE_BORDER_NONE) {
+				x1 += extension_begin[i][1][0];
+				y1 -= extension_begin[i][1][1];
+			}
+		}
+		gnome_print_moveto (context, x1, y1);
+		gnome_print_lineto (context, x2, y2);
+		gnome_print_stroke (context);
+
+		gnome_print_grestore (context);
 	}
 }
 

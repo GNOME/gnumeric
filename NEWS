@@ -25,11 +25,11 @@ Jukka:
 	  and RandBernoulli() functions.
 
 Jody:
-	* Redraw improvements.
+	* Redraw improvements (cursor, selection, spanning, speed)
+	* Border improvements (combo, printing, partial double line).
 	* More work on undo.
 	* Parse interbook references.
 	* Mostly correct sizing of MS Excel cols/rows and objects.
-	* Border combo.
 
 Jon:
 	* Cursor fixes and speedups.

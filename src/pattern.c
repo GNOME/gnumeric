@@ -133,3 +133,55 @@ gnumeric_background_set_gc (MStyle *mstyle, GdkGC *gc,
 	return FALSE;
 }
 
+gboolean
+gnumeric_background_set_pc (MStyle *mstyle, GnomePrintContext *context)
+{
+	int pattern;
+
+	/*
+	 * Draw the background if the PATTERN is non 0
+	 * Draw a stipple too if the pattern is > 1
+	 */
+	if (!mstyle_is_element_set (mstyle, MSTYLE_PATTERN))
+		return FALSE;
+	pattern = mstyle_get_pattern (mstyle);
+	if (pattern > 0) {
+		GdkColor   *back;
+		StyleColor *back_col =
+			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
+
+		g_return_val_if_fail (back_col != NULL, FALSE);
+
+		gnome_print_setrgbcolor (context,
+					 back_col->red   / (double) 0xffff,
+					 back_col->green / (double) 0xffff,
+					 back_col->blue  / (double) 0xffff);
+
+		/* Support grey scale patterns.  FIXME how to do the rest ? */
+		if (pattern >= 1 && pattern <= 5) {
+			static double const gray[] = { 1., .75, .50, .25, .125, .0625 };
+
+			/* FIXME : why no support for setgray in gnome-print ? */
+		}
+
+#if 0
+		if (pattern > 1) {
+			StyleColor *pat_col =
+				mstyle_get_color (mstyle, MSTYLE_COLOR_PATTERN);
+			g_return_val_if_fail (pat_col != NULL, FALSE);
+
+			gdk_gc_set_fill (gc, GDK_OPAQUE_STIPPLED);
+			gdk_gc_set_foreground (gc, &pat_col->color);
+			gdk_gc_set_background (gc, back);
+			gdk_gc_set_stipple (gc, gnumeric_pattern_get_stipple (pattern));
+			gnome_canvas_set_stipple_origin (canvas, gc);
+		} else {
+			gdk_gc_set_fill (gc, GDK_SOLID);
+			gdk_gc_set_foreground (gc, back);
+		}
+#endif
+		return TRUE;
+	}
+
+	return FALSE;
+}

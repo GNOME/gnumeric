@@ -1,3 +1,18 @@
+2000-02-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell-print.c : Sync with logic in item-bar::draw to add borders
+	  and more correctly handle spanning.
+
+	* src/pattern.c (gnumeric_background_set_pc) : New routine cloned from
+	  gnumeric_background_set_gc.
+
+	* src/border.c (style_border_set_pc_dash) : New routine cloned from
+	  style_border_set_gc_dash.
+	(style_border_set_pc) : New routine cloned from style_border_set_gc.
+	(style_border_print) : New routine cloned from style_border_draw.
+
+	* src/cell-draw.c (cell_draw) : No need to return number of spans.
+
 2000-02-29  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/sheet.c (sheet_new): Added initialization of all the Solver

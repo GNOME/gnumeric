@@ -98,8 +98,6 @@ cell_split_text (GdkFont *font, char const *text, int const width)
 }
 
 /*
- * Returns the number of columns used for the draw
- *
  *             G      G
  *             r      r
  *             i      i
@@ -119,7 +117,7 @@ cell_split_text (GdkFont *font, char const *text, int const width)
  * @y1 : The pixel coord within the drawable of the upper left corner
  *       of the gridlines (marked a).
  */
-int 
+void 
 cell_draw (Cell *cell, MStyle *mstyle,
 	   SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable,
 	   int x1, int y1)
@@ -140,9 +138,10 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	CellSpanInfo const * spaninfo;
 
 	gsheet = GNUMERIC_SHEET (sheet_view->sheet_view);
-	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), 1);
-	g_return_val_if_fail (cell, 1);
-	g_return_val_if_fail (cell->text, 1);
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+	g_return_if_fail (cell);
+	g_return_if_fail (cell->text);
+
 	canvas = GNOME_CANVAS (gsheet);
 	
 	if (cell->text->str == NULL) {
@@ -236,7 +235,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	rect.height -= 2 + cell->row->margin_a + cell->row->margin_b;
 	gdk_gc_set_clip_rectangle (gc, &rect);
 
-	/* Set the font color */
+	/* Set the font colour */
 	gdk_gc_set_fill (gc, GDK_SOLID);
 	if (cell->render_color)
 		gdk_gc_set_foreground (gc, &cell->render_color->color);
@@ -249,7 +248,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 			       x1 + cell->col->margin_a + 1,
 			       text_base, width);
 		style_font_unref (style_font);
-		return 1;
+		return;
 	}
 
 	if (is_single_line) {
@@ -360,6 +359,4 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	}
 
 	style_font_unref (style_font);
-
-	return end_col - start_col + 1;
 }

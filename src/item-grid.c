@@ -277,11 +277,11 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 
 static MStyle *
 item_grid_draw_background (GdkDrawable *drawable, ItemGrid *item_grid,
-			    ColRowInfo const * const ci, ColRowInfo const * const ri,
-			    /* Pass the row, col because the ColRowInfos may be the default. */
-			    int col, int row, int x, int y,
-			    gboolean const extended_left,
-			    gboolean const extended_right /* This should go away */)
+			   ColRowInfo const * const ci, ColRowInfo const * const ri,
+			   /* Pass the row, col because the ColRowInfos may be the default. */
+			   int col, int row, int x, int y,
+			   gboolean const extended_left,
+			   gboolean const extended_right /* This should go away */)
 {
 	Sheet  *sheet  = item_grid->sheet_view->sheet;
 	MStyle *mstyle = sheet_style_compute (sheet, col, row);
@@ -295,7 +295,7 @@ item_grid_draw_background (GdkDrawable *drawable, ItemGrid *item_grid,
 	if (gnumeric_background_set_gc (mstyle, gc, item_grid->canvas_item.canvas, is_selected))
 		/* Fill the entire cell including the right & left grid line */
 		gdk_draw_rectangle (drawable, gc, TRUE, x, y, w+1, h+1);
-	else if (extended_left)
+	else if (extended_left && sheet->show_grid)
 		/* Fill the entire cell including left & excluding right grid line */
 		gdk_draw_rectangle (drawable, gc, TRUE, x, y+1, w, h-1);
 	else if (is_selected)
@@ -395,6 +395,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 			continue;
 
 		col = paint_col;
+		/* DO NOT increment the column here, spanning cols are different */
 		for (x_paint = -diff_x; x_paint < end_x && col < SHEET_MAX_COLS; ) {
 			CellSpanInfo const * span;
 			ColRowInfo const * ci = sheet_col_get_info (sheet, col);
@@ -420,10 +421,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int 
 							     mstyle, x_paint, y_paint);
 				mstyle_unref (mstyle);
 
-				/* Increment the column
-				 * DO NOT move this outside the if, spanning
-				 * columns increment themselves.
-				 */
+				/* Increment the column */
 				x_paint += ci->size_pixels;
 				++col;
 			} else {

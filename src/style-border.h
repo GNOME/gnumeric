@@ -2,6 +2,7 @@
 #define GNUMERIC_BORDER_H
 
 #include "style.h"
+#include <libgnomeprint/gnome-print.h>
 
 typedef enum {
 	STYLE_BORDER_HORIZONTAL,
@@ -55,10 +56,15 @@ gint   style_border_get_width   (StyleBorderType const line_type);
 void   style_border_set_gc_dash (GdkGC *gc, StyleBorderType const line_type);
 GdkGC *style_border_get_gc      (MStyleBorder *border, GdkWindow *window);
 
-void style_border_draw (MStyleBorder const * const st, MStyleElementType const t,
-			GdkDrawable * const drawable,
-			int const x1, int const y1, int const x2, int const y2,
-			MStyleBorder const * const extend_begin,
-			MStyleBorder const * const extend_end);
+void style_border_draw  (MStyleBorder const * const st, MStyleElementType const t,
+			 GdkDrawable * const drawable,
+			 int const x1, int const y1, int const x2, int const y2,
+			 MStyleBorder const * const extend_begin,
+			 MStyleBorder const * const extend_end);
+void style_border_print (MStyleBorder const * const border, MStyleElementType const t,
+			 GnomePrintContext *context,
+			 double x1, double y1, double x2, double y2,
+			 MStyleBorder const * const extend_begin,
+			 MStyleBorder const * const extend_end);
 
 #endif /* GNUMERIC_BORDER_H */

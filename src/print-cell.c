@@ -7,95 +7,37 @@
 #include <config.h>
 #include <gnome.h>
 #include <locale.h>
+#include <libgnomeprint/gnome-print.h>
 #include "gnumeric.h"
 #include "eval.h"
 #include "format.h"
 #include "color.h"
 #include "utils.h"
 #include "cell.h"
-#include <libgnomeprint/gnome-print.h>
+#include "border.h"
+#include "pattern.h"
+#include "cellspan.h"
 #include "print-cell.h"
 
-#define DIM(cri) (cri->size_pts)
-
-#define CELL_DIM(cell,p) DIM (cell->p)
-
-#if 0
-/* FIXME: need border support. */
 static void
-print_border (GnomePrintContext *pc, double x1, double y1, double x2, double y2,
-	      StyleBorder *b, int idx)
+print_vline (GnomePrintContext *context,
+	     double x, double y1, double y2)
 {
-	double width;
-	int dash_mode, dupit;
-
-	width = 0.5;
-	dash_mode = dupit = 0;
-
-	switch (b->type [idx]){
-	case BORDER_NONE:
-		return;
-
-	case BORDER_THIN:
-		break;
-
-	case BORDER_MEDIUM:
-		width = 1.0;
-		break;
-
-	case BORDER_DASHED:
-		dash_mode = 1;
-		break;
-
-	case BORDER_DOTTED:
-		dash_mode = 2;
-		break;
-
-	case BORDER_THICK:
-		width = 1.5;
-		break;
-
-	case BORDER_DOUBLE:
-		width = 0.5;
-		dupit = 2;
-		break;
-
-	case BORDER_HAIR:
-		g_warning ("FIXME: What is BORDER_HAIR?");
-
-	default :
-		return;
-	}
-	gnome_print_setlinewidth (pc, width);
-	gnome_print_moveto (pc, x1, y1);
-	gnome_print_lineto (pc, x2, y2);
-	gnome_print_stroke (pc);
-
-	if (!dupit)
-		return;
-
-	if (x1 == x2) {
-		gnome_print_moveto (pc, x1 + 1, y1);
-		gnome_print_lineto (pc, x2 + 1, y2);
-		gnome_print_stroke (pc);
-	} else {
-		gnome_print_moveto (pc, x1, y1 + 1);
-		gnome_print_lineto (pc, x2, y2 + 1);
-		gnome_print_stroke (pc);
-	}
+	gnome_print_moveto (context, x, y1);
+	gnome_print_lineto (context, x, y2);
+	gnome_print_stroke (context);
 }
 
-
 static void
-print_cell_border (GnomePrintContext *context, StyleBorder *border,
-		   double x1, double y1, double x2, double y2)
+print_hline (GnomePrintContext *context,
+	     double x1, double x2, double y)
 {
-	int i;
-
-	for (i = 0; i < STYLE_ORIENT_MAX; ++i)
-		print_border (context, x1, y1, x1, y2, border, i);
+	gnome_print_moveto (context, x1, y);
+	gnome_print_lineto (context, x2, y);
+	gnome_print_stroke (context);
 }
-#endif
+
+/***********************************************************/
 
 static void
 print_overflow (GnomePrintContext *context, Cell *cell)
@@ -179,11 +121,12 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
  *      \--- (x1, y1)
  */
 static void
-print_cell_text (Cell *cell, MStyle *mstyle,
-		 GnomePrintContext *context,
+print_cell_text (GnomePrintContext *context,
+		 Cell *cell, MStyle *mstyle,
 		 double x1, double y1)
 {
 	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
+	StyleColor *fore;
 	GnomeFont *print_font = style_font->font;
 	double const font_descent = gnome_font_get_descender (print_font);
 	double text_width, width;
@@ -192,6 +135,7 @@ print_cell_text (Cell *cell, MStyle *mstyle,
 	int start_col, end_col;
 	int halign;
 	char const *text;
+	CellSpanInfo const * spaninfo;
 
 	g_return_if_fail (cell);
 	g_return_if_fail (cell->text);
@@ -204,39 +148,19 @@ print_cell_text (Cell *cell, MStyle *mstyle,
 	} else
 		text = cell->text->str;
 
-	cell_calculate_span (cell, &start_col, &end_col);
+	spaninfo = row_span_get (cell->row, cell->col->pos);
+	if (spaninfo != NULL) {
+		start_col = spaninfo->left;
+		end_col = spaninfo->right;
+	} else
+		start_col = end_col = cell->col->pos;
+
 
 	/* Get the sizes exclusive of margins and grids */
 	width  = cell->col->size_pts - cell->col->margin_a - cell->col->margin_b - 1;
 	height = cell->row->size_pts - cell->row->margin_a - cell->row->margin_b - 1;
 
 	font_height = style_font->size;
-
-	{
-		static int warn_shown;
-
-		if (!warn_shown) {
-			g_warning ("Set clipping");
-			warn_shown = 1;
-		}
-	}
-
-#if 0
-	Enable this when clipping is ready.
-
-	/*
-	 * x1, y1 are relative to this cell origin, but the cell might be using
-	 * columns to the left (if it is set to right justify or center justify)
-	 * compute the pt difference 
-	 */
-	if (start_col != cell->col->pos) {
-		int const offset =
-		    sheet_col_get_distance_pts (cell->sheet,
-						start_col, cell->col->pos);
-		rect.x     -= offset;
-		rect.width += offset;
-	}
-#endif
 
 	switch (mstyle_get_align_v (mstyle)) {
 	default:
@@ -273,6 +197,64 @@ print_cell_text (Cell *cell, MStyle *mstyle,
 	is_single_line = (halign != HALIGN_JUSTIFY &&
 			  mstyle_get_align_v (mstyle) != VALIGN_JUSTIFY &&
 			  !mstyle_get_fit_in_cell (mstyle));
+
+	{
+		static int warn_shown;
+
+		if (!warn_shown) {
+			g_warning ("Set clipping");
+			warn_shown = 1;
+		}
+	}
+
+#if 0
+	Enable this when clipping is ready.
+
+	/* This rectangle has the whole area used by this cell
+	 * including the surrounding grid lines */
+	rect.x = x1;
+	rect.y = y1;
+	rect.width  = cell->col->size_pts + 1;
+	rect.height = cell->row->size_pts + 1;
+
+	/*
+	 * x1, y1 are relative to this cell origin, but the cell might be using
+	 * columns to the left (if it is set to right justify or center justify)
+	 * compute the difference in pts.
+	 */
+	if (start_col != cell->col->pos) {
+		int const offset =
+		    sheet_col_get_distance_pts (cell->sheet,
+						start_col, cell->col->pos);
+		rect.x     -= offset;
+		rect.width += offset;
+	}
+	if (end_col != cell->col->pos) {
+		int const offset =
+		    sheet_col_get_distance_pts (cell->sheet,
+						cell->col->pos+1, end_col+1);
+		rect.width += offset;
+	}
+
+	/* Do not allow text to impinge upon the grid lines or margins
+	 * FIXME : Should use margins from start_col and end_col
+	 */
+	rect.x += 1 + cell->col->margin_a;
+	rect.y += 1 + cell->row->margin_a;
+	rect.width -= 2 + cell->col->margin_a + cell->col->margin_b;
+	rect.height -= 2 + cell->row->margin_a + cell->row->margin_b;
+	gdk_gc_set_clip_rectangle (gc, &rect);
+#endif
+
+	/* Set the font colour */
+	if (cell->render_color)
+		fore = cell->render_color;
+	else
+		fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+	gnome_print_setrgbcolor (context,
+				 fore->red   / (double) 0xffff,
+				 fore->green / (double) 0xffff,
+				 fore->blue  / (double) 0xffff);
 
 	if (text_width > width && cell_is_number (cell)) {
 		print_overflow (context, cell);
@@ -408,13 +390,91 @@ print_cell_text (Cell *cell, MStyle *mstyle,
 }
 
 static void
-print_cell_background (GnomePrintContext *context, MStyle *mstyle,
-		       double x1, double y1, double x2, double y2)
+print_rectangle (GnomePrintContext *context,
+		 double x, double y, double w, double h)
 {
-	int pattern;
+	gnome_print_moveto (context, x, y);
+	gnome_print_lineto (context, x+w, y);
+	gnome_print_lineto (context, x+w, y-h);
+	gnome_print_lineto (context, x, y-h);
+	gnome_print_lineto (context, x, y);
+	gnome_print_fill (context);
+}
 
-	g_return_if_fail (mstyle != NULL);
+/*
+ * TODO TODO TODO
+ * Correctly support extended cells. Multi-line, or extending to the left
+ * are incorrect currently.
+ */
+static void
+print_border (GnomePrintContext *context, MStyle *mstyle,
+	      double x, double y, double w, double h,
+	      gboolean const extended_left,
+	      gboolean const extended_right /* This should go away */)
+{
+	MStyleBorder const * const top =
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_TOP);
+	MStyleBorder const * const left = extended_left ? NULL :
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_LEFT);
+	MStyleBorder const * const bottom =
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
+	MStyleBorder const * const right = extended_right ? NULL :
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
+	MStyleBorder const * const diag =
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_DIAGONAL);
+	MStyleBorder const * const rev_diag =
+	    mstyle_get_border (mstyle, MSTYLE_BORDER_REV_DIAGONAL);
 
+	if (top)
+		style_border_print (top, MSTYLE_BORDER_TOP, context,
+				   x, y, x + w, y, left, right);
+	if (left)
+		style_border_print (left, MSTYLE_BORDER_LEFT, context,
+				   x, y, x, y - h, top, bottom);
+	/* Deprecated : We should only paint borders on top and left. */
+	if (bottom)
+		style_border_print (bottom, MSTYLE_BORDER_BOTTOM, context,
+				   x, y - h, x + w, y - h, left, right);
+	/* Deprecated */
+	if (right)
+		style_border_print (right, MSTYLE_BORDER_RIGHT, context,
+				   x + w, y, x + w, y - h, top, bottom);
+
+	if (diag)
+		style_border_print (diag, MSTYLE_BORDER_DIAGONAL, context,
+				   x, y - h, x + w, y, NULL, NULL);
+	if (rev_diag)
+		style_border_print (rev_diag, MSTYLE_BORDER_REV_DIAGONAL, context,
+				   x, y, x + w, y - h, NULL, NULL);
+}
+
+static MStyle *
+print_cell_background (GnomePrintContext *context, Sheet *sheet,
+		       ColRowInfo const * const ci, ColRowInfo const * const ri,
+		       /* Pass the row, col because the ColRowInfos may be the default. */
+		       int col, int row, double x, double y,
+		       gboolean const extended_left,
+		       gboolean const extended_right /* This should go away */)
+{
+	MStyle *mstyle = sheet_style_compute (sheet, col, row);
+	float const w    = ci->size_pts;
+	float const h    = ri->size_pts;
+
+	if (gnumeric_background_set_pc (mstyle, context))
+		/* Fill the entire cell including the right & left grid line */
+		print_rectangle (context, x, y, w+1, h+1);
+	else if (extended_left) {
+		/* Fill the entire cell including left & excluding right grid line */
+		gnome_print_setrgbcolor (context, 1., 1., 1.);
+		print_rectangle (context, x, y-1, w, h-1);
+	}
+
+	print_border (context, mstyle, x, y, w, h,
+		      extended_left, extended_right);
+
+	return mstyle;
+
+#if 0
 	/*
 	 * Draw the background if the PATTERN is non 0
 	 * Draw a stipple too if the pattern is > 1
@@ -432,49 +492,8 @@ print_cell_background (GnomePrintContext *context, MStyle *mstyle,
 					 back_col->red   / (double) 0xffff,
 					 back_col->green / (double) 0xffff,
 					 back_col->blue  / (double) 0xffff);
-
-		/* TODO : Add borders and patterns */
-		/*	print_cell_border (context, style->border, x1, y1, x2, y2); */
-
-		gnome_print_moveto (context, x1, y1);
-		gnome_print_lineto (context, x1, y2);
-		gnome_print_lineto (context, x2, y2);
-		gnome_print_lineto (context, x2, y1);
-		gnome_print_lineto (context, x1, y1);
-		gnome_print_fill (context);
 	}
-}
-
-static void
-print_cell (GnomePrintContext *context, Cell *cell,
-	    double x1, double y1, double x2, double y2)
-{
-	MStyle     *mstyle = cell_get_mstyle  (cell);
-	StyleColor *fore   = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-
-	g_assert (cell != NULL);
-
-	print_cell_background (context, mstyle, x1, y1, x2, y2);
-
-	gnome_print_setrgbcolor (context,
-				 fore->red   / (double) 0xffff,
-				 fore->green / (double) 0xffff,
-				 fore->blue  / (double) 0xffff);
-
-	print_cell_text (cell, mstyle, context, x1, y1);
-	mstyle_unref (mstyle);
-}
-
-static void
-print_empty_cell (GnomePrintContext *context, Sheet *sheet, int col, int row,
-		  double x1, double y1, double x2, double y2)
-{
-	MStyle *mstyle;
-
-	mstyle = sheet_style_compute (sheet, col, row);
-	print_cell_background (context, mstyle, x1, y1, x2, y2);
-
-	mstyle_unref (mstyle);
+#endif
 }
 
 void
@@ -484,7 +503,6 @@ print_cell_range (GnomePrintContext *context,
 		  int end_col, int end_row,
 		  double base_x, double base_y)
 {
-	ColRowInfo *ci, *ri;
 	int row, col;
 	double x, y;
 
@@ -495,68 +513,86 @@ print_cell_range (GnomePrintContext *context,
 	g_return_if_fail (start_col <= end_col);
 	g_return_if_fail (start_row <= end_row);
 
-	y = 0;
-	ci = NULL;
+	y = base_y;
 	for (row = start_row; row <= end_row; row++){
-		ri = sheet_row_get_info (sheet, row);
-
-		/* Ignore hidden rows */
+		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
 		if (!ri->visible)
 			continue;
 
-		x = 0;
-		for (col = start_col; col <= end_col; col++){
-			double x1 = base_x + x;
-			double y1 = base_y + y;
-			Cell *cell;
+		x = base_x;
+		/* DO NOT increment the column here, spanning cols are different */
+		for (col = start_col; col <= end_col; ){
+			CellSpanInfo const * span;
+			ColRowInfo const * ci = sheet_col_get_info (sheet, col);
+			if (!ci->visible)
+				continue;
 
-			cell = sheet_cell_get (sheet, col, row);
-			if (cell){
-				double x2;
-				double y2;
+			/* Is this the start of a span?
+			 * 1) There are cells allocated in the row
+			 *       (indicated by ri->pos != -1)
+			 * 2) Look in the rows hash table to see if
+			 *    there is a span descriptor.
+			 */
+			if (ri->pos == -1 ||
+			    NULL == (span = row_span_get (ri, col))) {
+				Cell *cell = sheet_cell_get (sheet, col, row);
+				MStyle *mstyle = print_cell_background (
+					context, sheet, ci, ri,
+					col, row, x, y,
+					FALSE, FALSE);
 
-				ci = cell->col;
-				/* Ignore hidden columns */
-				if (!ci->visible)
-				    continue;
+				if (!cell_is_blank(cell))
+					print_cell_text (context, cell, mstyle, x, y);
+				mstyle_unref (mstyle);
 
-				x2 = x1 + cell->col->size_pts;
-				y2 = y1 - cell->row->size_pts;
-				print_cell (context, cell, x1, y1, x2, y2);
+				/* Increment the column
+				 * DO NOT move this outside the if, spanning
+				 * columns increment themselves.
+				 */
+				x += ci->size_pts;
+				++col;
 			} else {
-				double x2, y2;
+				Cell *cell = span->cell;
+				int const real_col = cell->col->pos;
+				int const start_span_col = span->left;
+				int const end_span_col = span->right;
+				int real_x = -1;
+				MStyle *real_style = NULL;
 
-				ci = sheet_col_get_info (sheet, col);
-				/* Ignore hidden columns */
-				if (!ci->visible)
-				    continue;
+				/* Paint the backgrounds & borders */
+				for (; col <= MIN(end_col,end_span_col) ; ++col) {
+					ci = sheet_col_get_info (sheet, col);
+					if (ci->visible) {
+						MStyle *mstyle = print_cell_background (
+							context, sheet, ci, ri,
+							col, row, x, y,
+							col != start_span_col,
+							col != end_span_col);
+						if (col == real_col) {
+							real_style = mstyle;
+							real_x = x;
+						} else
+							mstyle_unref (mstyle);
 
-				x2 = x1 + ci->size_pts;
-				y2 = y1 - ri->size_pts;
+						x += ci->size_pts;
+					}
+				}
 
-				print_empty_cell (context, sheet, col, row, x1, y1, x2, y2);
+				/* The real cell is not visible, we have not painted it.
+				 * Compute the style, and offset
+				 */
+				if (real_style == NULL) {
+					real_style = sheet_style_compute (sheet, real_col, ri->pos);
+					real_x = x + sheet_col_get_distance_pts (cell->sheet,
+										 col, cell->col->pos);
+				}
+
+				print_cell_text (context, cell, real_style, real_x, y);
+				mstyle_unref (real_style);
 			}
-
-			x += ci->size_pts;
 		}
 		y -= ri->size_pts;
 	}
-}
-
-static void
-vline (GnomePrintContext *context, double x, double y1, double y2)
-{
-	gnome_print_moveto (context, x, y1);
-	gnome_print_lineto (context, x, y2);
-	gnome_print_stroke (context);
-}
-
-static void
-hline (GnomePrintContext *context, double x1, double x2, double y)
-{
-	gnome_print_moveto (context, x1, y);
-	gnome_print_lineto (context, x2, y);
-	gnome_print_stroke (context);
 }
 
 void
@@ -580,22 +616,22 @@ print_cell_grid (GnomePrintContext *context,
 	gnome_print_setlinewidth (context, 0.5);
 
 	x = base_x;
-	vline (context, x, base_y, base_y - height);
+	print_vline (context, x, base_y, base_y - height);
 	for (col = start_col; col <= end_col; col++) {
 		ColRowInfo *ci = sheet_col_get_info (sheet, col);
 		if (ci && ci->visible) {
 			x += ci->size_pts;
-			vline (context, x, base_y, base_y - height);
+			print_vline (context, x, base_y, base_y - height);
 		}
 	}
 
 	y = base_y;
-	hline (context, base_x, base_x + width, y);
+	print_hline (context, base_x, base_x + width, y);
 	for (row = start_row; row <= end_row; row++){
 		ColRowInfo *ri = sheet_row_get_info (sheet, row);
 		if (ri && ri->visible) {
 			y -= ri->size_pts;
-			hline (context, base_x, base_x + width, y);
+			print_hline (context, base_x, base_x + width, y);
 		}
 	}
 }
