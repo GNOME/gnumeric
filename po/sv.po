@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-08 12:29+0900\n"
-"PO-Revision-Date: 2004-10-08 12:31+0900\n"
+"POT-Creation-Date: 2004-10-08 17:08+0900\n"
+"PO-Revision-Date: 2004-10-08 17:10+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -27453,28 +27453,25 @@ msgstr ""
 "%s"
 
 #: src/gui-file.c:406
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
 "\n"
 "Do you want to save over it?"
 msgstr ""
-"Arbetsboken %s finns redan %s.\n"
+"En fil kallad <i>%s</i> finns redan i %s.\n"
 "\n"
 "Vill du skriva över den?"
 
 #: src/gui-file.c:464
-#, fuzzy
 msgid "Images"
-msgstr "Bild"
+msgstr "Bilder"
 
 #: src/gui-file.c:504
-#, fuzzy
 msgid "Save as"
-msgstr "Spara alla"
+msgstr "Spara som"
 
 #: src/gui-file.c:553 src/gui-file.c:749
-#, fuzzy
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -27483,7 +27480,6 @@ msgstr ""
 "namn i alla fall?"
 
 #: src/gui-file.c:580
-#, fuzzy
 msgid "Select an Image"
 msgstr "Välj en bild"
 
@@ -27671,85 +27667,80 @@ msgstr ""
 
 #: src/main-application.c:191
 msgid "Gdk debugging flags to set"
-msgstr ""
+msgstr "Gdk avlusningsflaggor att använda"
 
 #: src/main-application.c:191 src/main-application.c:193
 #: src/main-application.c:205 src/main-application.c:207
-#, fuzzy
 msgid "FLAGS"
-msgstr "FALSKT"
+msgstr "FLAGGOR"
 
 #: src/main-application.c:193
 msgid "Gdk debugging flags to unset"
-msgstr ""
+msgstr "Gdk avlusningsflaggor att inte använda"
 
 #: src/main-application.c:195
-#, fuzzy
 msgid "X display to use"
-msgstr "Visa _formler"
+msgstr "X-display att använda"
 
 #: src/main-application.c:195
 msgid "DISPLAY"
-msgstr ""
+msgstr "DISPLAY"
 
 #: src/main-application.c:197
 msgid "X screen to use"
-msgstr ""
+msgstr "X-skärm att använda"
 
 #: src/main-application.c:197
 msgid "SCREEN"
-msgstr ""
+msgstr "SKÄRM"
 
 #: src/main-application.c:199
 msgid "Make X calls synchronous"
-msgstr ""
+msgstr "Synkrona X-anrop"
 
 #: src/main-application.c:201
 msgid "Program name as used by the window manager"
-msgstr ""
+msgstr "Applikationsnamn för fönsterhanteraren"
 
 #: src/main-application.c:201
-#, fuzzy
 msgid "NAME"
-msgstr "#NAMN?"
+msgstr "NAMN"
 
 #: src/main-application.c:203
 msgid "Program class as used by the window manager"
-msgstr ""
+msgstr "Applikationsklass för fönsterhanteraren"
 
 #: src/main-application.c:203
 msgid "CLASS"
-msgstr ""
+msgstr "KLASS"
 
 #: src/main-application.c:205
 msgid "Gtk+ debugging flags to set"
-msgstr ""
+msgstr "Gtk+ avlusningsflaggor att använda"
 
 #: src/main-application.c:207
 msgid "Gtk+ debugging flags to unset"
-msgstr ""
+msgstr "Gtk+ avlusningsflaggor att inte använda"
 
 #: src/main-application.c:209
 msgid "Make all warnings fatal"
-msgstr ""
+msgstr "Låt alla varningar vara fatala"
 
 #: src/main-application.c:211
 msgid "Load an additional Gtk module"
-msgstr ""
+msgstr "Ladda en extra Gtk-modul"
 
 #: src/main-application.c:211
 msgid "MODULE"
-msgstr ""
+msgstr "MODUL"
 
 #: src/main-application.c:217
-#, fuzzy
 msgid "Gnumeric options"
-msgstr "Gnumeric: Validering"
+msgstr "Gnumeric-alternativ"
 
 #: src/main-application.c:219
-#, fuzzy
 msgid "GTK+ options"
-msgstr "Oaf-alternativ"
+msgstr "GTK+-alternativ"
 
 #: src/main-application.c:258
 #, c-format
@@ -27763,13 +27754,12 @@ msgstr ""
 "bibliotekskatalog := \"%s\"\n"
 
 #: src/parser.y:298
-#, fuzzy
 msgid "An array must have at least 1 element"
-msgstr "Bladnamnet måste ha åtminstone 1 bokstav"
+msgstr "En matris måste ha åtminstone ett element"
 
 #: src/parser.y:330
 msgid "Arrays must be rectangular"
-msgstr ""
+msgstr "Matriser måste vara rektangulära"
 
 #: src/parser.y:349
 msgid "Constructed ranges use simple references"
@@ -28451,19 +28441,19 @@ msgstr ""
 
 #: src/sheet-object.c:106
 msgid "Pul_l to Front"
-msgstr ""
+msgstr "Flytta _överst"
 
 #: src/sheet-object.c:107
 msgid "Pull _Forward"
-msgstr ""
+msgstr "Flytta _framåt"
 
 #: src/sheet-object.c:108
 msgid "Push _Backward"
-msgstr ""
+msgstr "Flytta _underst"
 
 #: src/sheet-object.c:109
 msgid "Pus_h to Back"
-msgstr ""
+msgstr "Flytta _bakåt"
 
 #: src/sheet-object-container.c:171
 #, c-format
@@ -28477,20 +28467,19 @@ msgstr "Kunde inte läsa in fil: %s"
 
 #: src/sheet-object-graph.c:192 src/sheet-object-image.c:330
 msgid "SVG (vector graphics)"
-msgstr ""
+msgstr "SVG (vektorgrafik)"
 
 #: src/sheet-object-graph.c:193 src/sheet-object-image.c:326
 msgid "PNG (raster graphics)"
-msgstr ""
+msgstr "PNG (rastergrafik)"
 
 #: src/sheet-object-graph.c:194 src/sheet-object-image.c:328
 msgid "JPEG (photograph)"
-msgstr ""
+msgstr "JPER (fotografi)"
 
 #: src/sheet-object-graph.c:236 src/sheet-object-image.c:456
-#, fuzzy
 msgid "Unknown failure while saving image"
-msgstr "Okänt fel vid generering av SVG för diagram"
+msgstr "Okänt fel när bilden sparades"
 
 #: src/sheet-object-graph.c:249 src/sheet-object-image.c:471
 msgid "_Save as image"
@@ -28498,11 +28487,11 @@ msgstr "_Spara som bild"
 
 #: src/sheet-object-image.c:332
 msgid "EMF (extended metafile)"
-msgstr ""
+msgstr "EMF (utökad metafil)"
 
 #: src/sheet-object-image.c:334
 msgid "WMF (windows metafile)"
-msgstr ""
+msgstr "WMF (windows metafil)"
 
 #: src/sheet-object-widget.c:235 src/wbcg-actions.c:1912
 msgid "Frame"
@@ -28559,15 +28548,16 @@ msgid "List the available exporters"
 msgstr "Lista tillgängliga exportörer"
 
 #: src/ssconvert.c:56
-#, fuzzy
 msgid "List the available importers"
-msgstr "Lista tillgängliga exportörer"
+msgstr "Lista tillgängliga importörer"
 
 #: src/ssconvert.c:58
 msgid ""
 "Export a file for each sheet if the exporter only supports one sheet at a "
 "time."
 msgstr ""
+"Exportera en fil för varje blad om exportören bara stödjer ett blad åt "
+"gången."
 
 #: src/ssconvert.c:87
 #, c-format
@@ -28586,6 +28576,8 @@ msgid ""
 "Unknown exporter '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
+"Okänd exportör \"%s\".\n"
+"Använd --list-exporters för att se möjliga alternativ.\n"
 
 #: src/ssconvert.c:177
 #, c-format
@@ -28593,6 +28585,8 @@ msgid ""
 "Unable to guess exporter to use for '%s'.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
+"Kunde inte gissa vilken exportör som ska användas för \"%s\".\n"
+"Använd --list-exporters för att se möjliga alternativ.\n"
 
 #: src/ssconvert.c:184
 #, c-format
@@ -28600,6 +28594,8 @@ msgid ""
 "An output file name or an explicit export type is required.\n"
 "Try --list-exporters to see a list of possibilities.\n"
 msgstr ""
+"Ett filnamn eller en explicit exporttyp behövs.\n"
+"Använd --list-exporters för att se möjliga alternativ.\n"
 
 #: src/ssconvert.c:198
 #, c-format
@@ -28607,6 +28603,8 @@ msgid ""
 "Selected exporter (%s) does not support saving multiple sheets in one file.\n"
 "Only the current sheet will be saved."
 msgstr ""
+"Vald exportör (%s) stödjer inte att spara mer än ett blad i en fil.\n"
+"Endast det nuvarande bladet kommer sparas."
 
 #: src/stf.c:112
 msgid "Error while trying to read file"
@@ -28671,6 +28669,8 @@ msgid ""
 "There are more columns of data than there is room for in the sheet.  Extra "
 "columns will be ignored."
 msgstr ""
+"Det finns fler kolumner med data än det finns plats för i bladet. Dom extra "
+"kolumnerna kommer att ignoreras."
 
 #: src/tools/analysis-tools.c:220 src/tools/analysis-tools.c:409
 #: src/tools/analysis-tools.c:4658
@@ -28785,15 +28785,15 @@ msgid "z-Test"
 msgstr "z-Test"
 
 #: src/tools/analysis-tools.c:1870
-#, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "Observed Mean Difference/Variance of the Differences/df/t Stat/P (T<=t) one-"
 "tail/t Critical one-tail/P (T<=t) two-tail/t Critical two-tail"
 msgstr ""
-"/Medelvärde/Varians/Obserationer/Poolad varians/Hypotetiserad medeldifferens/"
-"Observerad medeldifferens/df/t-stat/P (T<=t) ensvansad/t kritiskt ensvansad/"
-"P (T<=t) tvåsvansad/t kritiskt tvåsvansad"
+"/Medelvärde/Varians/Obserationer/Pearson-korrelation/Hypotetiserad "
+"medeldifferens/Observerad medeldifferens/Varians av differenser/df/t-stat/P "
+"(T<=t) ensvansad/t kritiskt ensvansad/P (T<=t) tvåsvansad/t kritiskt "
+"tvåsvansad"
 
 #: src/tools/analysis-tools.c:2131
 #, c-format
@@ -29778,7 +29778,7 @@ msgstr "Ställ in vågrät justering"
 
 #: src/wbcg-actions.c:1117
 msgid "Set Vertical Alignment"
-msgstr "Ställ in logdrät justering"
+msgstr "Ställ in lodrät justering"
 
 #: src/wbcg-actions.c:1206
 msgid "Set Font Style"
@@ -29793,9 +29793,8 @@ msgid "Format as Currency"
 msgstr "Formatera som valuta"
 
 #: src/wbcg-actions.c:1242
-#, fuzzy
 msgid "Format as Accounting"
-msgstr "Formatera som vetenskaplig"
+msgstr "Formatera som redovisning"
 
 #: src/wbcg-actions.c:1248
 msgid "Format as Percentage"
@@ -29842,14 +29841,12 @@ msgid "Decrease Indent"
 msgstr "Minska indragning"
 
 #: src/wbcg-actions.c:1367
-#, fuzzy
 msgid "Copy down"
-msgstr "Kopiera"
+msgstr "Kopiera neråt"
 
 #: src/wbcg-actions.c:1373
-#, fuzzy
 msgid "Copy right"
-msgstr "Kopiera format till höger"
+msgstr "Kopiera till höger"
 
 #. Actions that are always sensitive
 #. const 142334
@@ -29874,7 +29871,6 @@ msgid "_Select"
 msgstr "_Markera"
 
 #: src/wbcg-actions.c:1436
-#, fuzzy
 msgid "F_ill"
 msgstr "_Fyll"
 
@@ -29883,14 +29879,12 @@ msgid "_View"
 msgstr "_Visa"
 
 #: src/wbcg-actions.c:1438
-#, fuzzy
 msgid "_Windows"
-msgstr "Windows"
+msgstr "_Windows"
 
 #: src/wbcg-actions.c:1439
-#, fuzzy
 msgid "_Toolbars"
-msgstr "_Verktygsrader..."
+msgstr "_Verktygsrader"
 
 #: src/wbcg-actions.c:1441
 msgid "_Names"
@@ -29971,33 +29965,31 @@ msgstr "_Innehåll"
 
 #: src/wbcg-actions.c:1470
 msgid "Open a viewer for Gnumeric's documentation"
-msgstr ""
+msgstr "Öppna läsare för Gnumerics dokumentation"
 
 #: src/wbcg-actions.c:1472
-#, fuzzy
 msgid "Gnumeric on the _Web"
-msgstr "Gnumerics hemsida"
+msgstr "Gnumeric på _Nätet"
 
 #: src/wbcg-actions.c:1473
 msgid "Browse to Gnumeric's website"
-msgstr ""
+msgstr "Gå till Gnumerics hemsida"
 
 #: src/wbcg-actions.c:1475
 msgid "_Live Assistance"
-msgstr ""
+msgstr "_Direkthjälp"
 
 #: src/wbcg-actions.c:1476
 msgid "See if anyone is available to answer questions"
-msgstr ""
+msgstr "Se om någon är tillgänglig för att svara på frågor"
 
 #: src/wbcg-actions.c:1478
 msgid "Report a _Problem"
-msgstr ""
+msgstr "Rapportera ett _problem"
 
 #: src/wbcg-actions.c:1479
-#, fuzzy
 msgid "Report problem "
-msgstr "Rapport skapad: "
+msgstr "Rapportera problem "
 
 #: src/wbcg-actions.c:1481
 msgid "_About"
@@ -30010,14 +30002,12 @@ msgstr "Om detta program"
 #. Special.  The sensitivity is chained to redo we do not want to
 #. * toggle it directly so we put it in here
 #: src/wbcg-actions.c:1487
-#, fuzzy
 msgid "Repeat"
-msgstr "Rapport"
+msgstr "Upprepa"
 
 #: src/wbcg-actions.c:1488
-#, fuzzy
 msgid "Repeat the previous action"
-msgstr "Gör om kommandot"
+msgstr "Upprepa kommandot"
 
 #: src/wbcg-actions.c:1495
 msgid "Create a new workbook"
@@ -30064,7 +30054,6 @@ msgid "Edit descriptive information"
 msgstr "Redigera beskrivande information"
 
 #: src/wbcg-actions.c:1521
-#, fuzzy
 msgid "Pre_ferences..."
 msgstr "I_nställningar..."
 
@@ -30097,14 +30086,12 @@ msgid "Clear the selected cells' contents"
 msgstr "Ta bort markerade cellers innehåll"
 
 #: src/wbcg-actions.c:1547
-#, fuzzy
 msgid "Delete the row(s) containing the selected cells"
-msgstr "Minska noggrannheten på de markerade cellerna"
+msgstr "Ta bort raderna med dom valda cellerna"
 
 #: src/wbcg-actions.c:1550
-#, fuzzy
 msgid "Delete the column(s) containing the selected cells"
-msgstr "Minska noggrannheten på de markerade cellerna"
+msgstr "Ta bort kolumnerna med dom valda cellerna"
 
 #. Insert
 #: src/wbcg-actions.c:1552 src/wbcg-actions.c:1659
@@ -30112,7 +30099,6 @@ msgid "C_ells..."
 msgstr "C_eller..."
 
 #: src/wbcg-actions.c:1553
-#, fuzzy
 msgid "Delete the selected cells, shifting others into their place"
 msgstr "Ta bort markerade celler, och flytta in andra celler"
 
@@ -30257,24 +30243,20 @@ msgid "Edit the selected cell's comment"
 msgstr "Ändra den markerade cellens kommentar"
 
 #: src/wbcg-actions.c:1627
-#, fuzzy
 msgid "_Find..."
-msgstr "_Bredd..."
+msgstr "_Sök..."
 
 #: src/wbcg-actions.c:1628
-#, fuzzy
 msgid "Search for something"
-msgstr "Sök efter någon text"
+msgstr "Sök efter någonting"
 
 #: src/wbcg-actions.c:1630
-#, fuzzy
 msgid "R_eplace..."
-msgstr "Ers_ätt:"
+msgstr "Ers_ätt..."
 
 #: src/wbcg-actions.c:1631
-#, fuzzy
 msgid "Search for some something and replace it with something else"
-msgstr "Sök efter text och ersätt den med någonting annat"
+msgstr "Sök efter någonting och ersätt den med någonting annat"
 
 #: src/wbcg-actions.c:1633
 msgid "_Goto cell..."
@@ -30318,23 +30300,20 @@ msgid "Zoom the spreadsheet in or out"
 msgstr "Zooma in eller ut i kalkylbladet"
 
 #: src/wbcg-actions.c:1651
-#, fuzzy
 msgid "Zoom _In"
-msgstr "Zooma"
+msgstr "Zooma _in"
 
 #: src/wbcg-actions.c:1652
-#, fuzzy
 msgid "Increase the zoom to make things larger"
-msgstr "Öka antalet visade decimaler"
+msgstr "Öka inzoomningen så allt blir större"
 
 #: src/wbcg-actions.c:1654
-#, fuzzy
 msgid "Zoom _Out"
-msgstr "Zooma"
+msgstr "Zooma _ut"
 
 #: src/wbcg-actions.c:1655
 msgid "Decrease the zoom to make things smaller"
-msgstr ""
+msgstr "Minska inzoomningen så allt blir mindre"
 
 #: src/wbcg-actions.c:1660
 msgid "Insert new cells"
@@ -30353,9 +30332,8 @@ msgid "C_hart..."
 msgstr "D_iagram..."
 
 #: src/wbcg-actions.c:1670
-#, fuzzy
 msgid "Insert a Chart"
-msgstr "Infoga en bild"
+msgstr "Infoga en graf"
 
 #: src/wbcg-actions.c:1672
 msgid "_Image..."
@@ -30391,14 +30369,12 @@ msgid "Insert the current time into the selected cell(s)"
 msgstr "Infoga aktuell tid i markerade cell(er)"
 
 #: src/wbcg-actions.c:1688
-#, fuzzy
 msgid "Current d_ate and time"
-msgstr "Aktuell _tid"
+msgstr "Aktuellt _datum och tid"
 
 #: src/wbcg-actions.c:1689
-#, fuzzy
 msgid "Insert the current date and time into the selected cell(s)"
-msgstr "Infoga aktuell tid i markerade cell(er)"
+msgstr "Infoga aktuellt datum och tid i markerade cell(er)"
 
 #. Insert -> Name
 #: src/wbcg-actions.c:1693
@@ -30651,12 +30627,10 @@ msgstr ""
 "med olika varians: t-test..."
 
 #: src/wbcg-actions.c:1808
-#, fuzzy
 msgid "_Known Variances: Z-Test..."
-msgstr "_Två varianser: FTest..."
+msgstr "_Kända varianser: Z-test..."
 
 #: src/wbcg-actions.c:1809
-#, fuzzy
 msgid ""
 "Comparing two population means from populations with known variances: z-"
 "test..."
@@ -30984,83 +30958,72 @@ msgid "Split merged ranges of cells"
 msgstr "Dela sammanslagna cellområden"
 
 #: src/wbcg-actions.c:1961
-#, fuzzy
 msgid "Format the selection as numbers"
-msgstr "Formatera markerade celler som valuta"
+msgstr "Formatera markeringen som siffror"
 
 #: src/wbcg-actions.c:1963 src/widgets/widget-format-selector.c:77
 msgid "Currency"
 msgstr "Valuta"
 
 #: src/wbcg-actions.c:1964
-#, fuzzy
 msgid "Format the selection as currency"
-msgstr "Formatera markerade celler som valuta"
+msgstr "Formatera markeringen som valuta"
 
 #: src/wbcg-actions.c:1966 src/widgets/widget-format-selector.c:78
 msgid "Accounting"
 msgstr "Redovisning"
 
 #: src/wbcg-actions.c:1967
-#, fuzzy
 msgid "Format the selection as accounting"
-msgstr "Formatera markerade celler som valuta"
+msgstr "Formatera markeringen som redovisning"
 
 #: src/wbcg-actions.c:1969 src/widgets/widget-format-selector.c:81
 msgid "Percentage"
 msgstr "Procent"
 
 #: src/wbcg-actions.c:1970
-#, fuzzy
 msgid "Format the selection as percentage"
-msgstr "Formatera markerade celler som procent"
+msgstr "Formatera markeringen som procent"
 
 #: src/wbcg-actions.c:1972 src/widgets/widget-format-selector.c:83
 msgid "Scientific"
 msgstr "Vetenskaplig"
 
 #: src/wbcg-actions.c:1973
-#, fuzzy
 msgid "Format the selection as scientific"
-msgstr "Formatera som vetenskaplig"
+msgstr "Formatera markeringen som vetenskaplig"
 
 #: src/wbcg-actions.c:1975 src/widgets/widget-format-selector.c:79
 msgid "Date"
 msgstr "Datum"
 
 #: src/wbcg-actions.c:1976
-#, fuzzy
 msgid "Format the selection as date"
-msgstr "Formatera markerade celler som valuta"
+msgstr "Formatera markeringen som datum"
 
 #: src/wbcg-actions.c:1978 src/widgets/widget-format-selector.c:80
 msgid "Time"
 msgstr "Tid"
 
 #: src/wbcg-actions.c:1979
-#, fuzzy
 msgid "Format the selection as time"
-msgstr "Formatera markerade celler som valuta"
+msgstr "Formatera markeringen som tid"
 
 #: src/wbcg-actions.c:1981
-#, fuzzy
 msgid "AddBorders"
 msgstr "Lägg till kanter"
 
 #: src/wbcg-actions.c:1982
-#, fuzzy
 msgid "Add a border the the selection"
-msgstr "Töm det markerade området"
+msgstr "Lägg till en kant till markeringen"
 
 #: src/wbcg-actions.c:1984
-#, fuzzy
 msgid "ClearBorders"
 msgstr "Ta bort kanter"
 
 #: src/wbcg-actions.c:1985
-#, fuzzy
 msgid "Clear the border around the selection"
-msgstr "Töm det markerade området"
+msgstr "Ta bort kanter från markeringen"
 
 #: src/wbcg-actions.c:1988
 msgid "Thousands Separator"
@@ -31165,45 +31128,40 @@ msgid "_Left Align"
 msgstr "_Vänsterjustera"
 
 #: src/wbcg-actions.c:2066 src/wbc-gtk.c:323
-#, fuzzy
 msgid "Align left"
-msgstr "Justering"
+msgstr "Justera vänster"
 
 #: src/wbcg-actions.c:2068
 msgid "_Center"
 msgstr "_Centrera"
 
 #: src/wbcg-actions.c:2069 src/wbc-gtk.c:324
-#, fuzzy
 msgid "Center horizontally"
-msgstr "_Vågrätt"
+msgstr "Centrera vågrätt"
 
 #: src/wbcg-actions.c:2071
 msgid "_Right Align"
 msgstr "_Högerjustera"
 
 #: src/wbcg-actions.c:2072 src/wbc-gtk.c:325
-#, fuzzy
 msgid "Align right"
-msgstr "Konturer till _höger"
+msgstr "Justera höger"
 
 #: src/wbcg-actions.c:2074
 msgid "_Center Across Selection"
 msgstr "_Centrera över valda"
 
 #: src/wbcg-actions.c:2075 src/wbc-gtk.c:328
-#, fuzzy
 msgid "Center horizontally across the selection"
-msgstr "Centrera över _markering"
+msgstr "Centrera vågrätt över markeringen"
 
 #: src/wbcg-actions.c:2078
-#, fuzzy
 msgid "_Merge and Center"
-msgstr "Centrera _lodrätt"
+msgstr "Slå ihop och centrera"
 
 #: src/wbcg-actions.c:2079
 msgid "Merge the selection into 1 cell, and center horizontaly."
-msgstr ""
+msgstr "Slå ihop markeringen till en cell och centrera vågrätt."
 
 #: src/wbcg-actions.c:2086
 msgid "Align _Top"
@@ -31231,21 +31189,19 @@ msgstr "Justera underkant"
 
 #: src/wbcg-actions.c:2096
 msgid "View _Statusbar"
-msgstr ""
+msgstr "Visa _Statusrad"
 
 #: src/wbcg-actions.c:2097
 msgid "Toggle visibility of statusbar"
-msgstr ""
+msgstr "Växla synlighet på staturaden"
 
 #: src/wbcg-actions.c:2101
-#, fuzzy
 msgid "F_ull Screen..."
-msgstr "_Målsökning..."
+msgstr "_Fullskärm..."
 
 #: src/wbcg-actions.c:2102
-#, fuzzy
 msgid "in or out"
-msgstr "Stäng inte"
+msgstr "in eller ut"
 
 #: src/wbcg-actions.c:2107
 msgid "_Bold"
@@ -31283,19 +31239,16 @@ msgid "Strike Through"
 msgstr "Genomstrykning"
 
 #: src/wbcg-actions.c:2120
-#, fuzzy
 msgid "_Double Underline"
-msgstr "_Understrykning"
+msgstr "_Dubbel understrykning"
 
 #: src/wbcg-actions.c:2121
-#, fuzzy
 msgid "Double Underline"
-msgstr "Understrykning"
+msgstr "Dubbel understrykning"
 
 #: src/wbc-gtk.c:171
-#, fuzzy
 msgid "_Zoom"
-msgstr "Zooma"
+msgstr "_Zooma"
 
 #: src/wbc-gtk.c:201
 msgid "Clear Borders"
@@ -31342,33 +31295,28 @@ msgid "Borders"
 msgstr "Kanter"
 
 #: src/wbc-gtk.c:326
-#, fuzzy
 msgid "Fill Horizontally"
-msgstr "_Vågrätt"
+msgstr "Fyll vågrätt"
 
 #: src/wbc-gtk.c:327
-#, fuzzy
 msgid "Justify Horizontally"
-msgstr "_Vågrätt"
+msgstr "Justera vågrätt"
 
 #: src/wbc-gtk.c:330
 msgid "Align numbers right, and text left"
-msgstr ""
+msgstr "Högerjustera siffror och vänsterjustera text"
 
 #: src/wbc-gtk.c:336
-#, fuzzy
 msgid "Center Vertically"
-msgstr "_Lodrätt"
+msgstr "Centrera lodrätt"
 
 #: src/wbc-gtk.c:359 src/wbc-gtk.c:360 src/wbc-gtk.c:363 src/wbc-gtk.c:378
-#, fuzzy
 msgid "Horzontal Alignment"
-msgstr "Ställ in vågrät justering"
+msgstr "Vågrät justering"
 
 #: src/wbc-gtk.c:374 src/wbc-gtk.c:375
-#, fuzzy
 msgid "Vertical Alignment"
-msgstr "Ställ in logdrät justering"
+msgstr "Lodrät justering"
 
 #: src/wbc-gtk.c:472
 msgid "Undo the last action"
@@ -31392,9 +31340,9 @@ msgid "Set Background Color"
 msgstr "Ställ in bakgrundsfärg"
 
 #: src/wbc-gtk.c:615
-#, fuzzy, c-format
+#, c-format
 msgid "Font Name %s"
-msgstr "Uppdatera namn %s"
+msgstr "Typsnittsnamn %s"
 
 #: src/wbc-gtk.c:664
 #, c-format
@@ -31419,12 +31367,12 @@ msgstr "Ingenting"
 #: src/wbc-gtk.c:986
 #, c-format
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
-msgstr ""
+msgstr "I menyn \"%s\", används nyckeln \"%s\" för både \"%s\" och \"%s\"."
 
 #: src/wbc-gtk.c:1104
-#, fuzzy, c-format
+#, c-format
 msgid "Show/Hide toolbar %s"
-msgstr "Visa/dölj verktygsrad %s"
+msgstr "Dölj/visa verktygsrad %s"
 
 #: src/widgets/gnumeric-expr-entry.c:1249
 msgid "Expecting a single range"
@@ -32718,9 +32666,8 @@ msgid "Failure saving file"
 msgstr "Fel vid sparande av fil"
 
 #: src/xml-io.c:4333
-#, fuzzy
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
-msgstr "Gnumeric-filformat (*.gnumeric), XML-baserat"
+msgstr "Gnumeric XML (*.gnumeric) ursprunglig, långsam, exportör"
 
 #~ msgid ""
 #~ "Show\n"
