@@ -1,3 +1,8 @@
+1998-12-10  Owen Taylor  <otaylor@redhat.com>
+
+	* src/workbook.c (filenames_dropped): Make toplevel
+	windows drop targets for files.
+
 1998-12-09  Michael Meeks    <michael@imaginator.com>
 
 	* plugins/excel/ms-ole.c: Indented correctly, implemented writes

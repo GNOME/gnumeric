@@ -649,6 +649,30 @@ about_cmd (GtkWidget *widget, Workbook *wb)
 	dialog_about (wb);
 }
 
+static void
+filenames_dropped(GtkWidget * widget,
+		  GdkDragContext   *context,
+		  gint              x,
+		  gint              y,
+		  GtkSelectionData *selection_data,
+		  guint             info,
+		  guint             time)
+{
+	GList *names, *tmp_list;
+  
+	names = gnome_uri_list_extract_filenames ((char *)selection_data->data);
+	tmp_list = names;
+	
+	while (tmp_list) {
+		Workbook *new_wb;
+		
+		if ((new_wb = workbook_read (tmp_list->data)))
+			gtk_widget_show (new_wb->toplevel);
+		
+		tmp_list = tmp_list->next;
+	}
+}
+
 /* File menu */
 
 static GnomeUIInfo workbook_menu_file [] = {
@@ -1186,6 +1210,12 @@ workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb)
 Workbook *
 workbook_new (void)
 {
+	static GtkTargetEntry drag_types[] =
+	{
+		{ "text/uri-list", 0, 0 },
+	};
+	static gint n_drag_types = sizeof(drag_types)/sizeof(drag_types[0]);
+
 	Workbook *wb;
 
 	wb = g_new0 (Workbook, 1);
@@ -1217,6 +1247,17 @@ workbook_new (void)
 	gtk_signal_connect (
 		GTK_OBJECT (wb->toplevel), "destroy",
 		GTK_SIGNAL_FUNC (workbook_widget_destroy), wb);
+
+	/* Enable toplevel as a drop target */
+
+	gtk_drag_dest_set (wb->toplevel,
+			   GTK_DEST_DEFAULT_ALL,
+			   drag_types, n_drag_types,
+			   GDK_ACTION_COPY);
+
+	gtk_signal_connect (GTK_OBJECT(wb->toplevel), 
+			    "drag_data_received",
+			    GTK_SIGNAL_FUNC(filenames_dropped), NULL);
 
 	/* clipboard setup */
 	x_clipboard_bind_workbook (wb);
