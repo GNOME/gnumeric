@@ -1,3 +1,10 @@
+2001-10-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/Makefile.am : don't use _SOURCES for things that are not
+	  directly related to automake.  1.5 complains.
+
+	* idl/Makefile.am (CLEANFILES) : New automake warnings.
+
 2001-10-01  Morten Welinder  <terra@diku.dk>
 
 	* src/search.h (SearchReplaceQuery): Add SRQ_query.

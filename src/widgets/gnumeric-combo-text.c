@@ -14,10 +14,77 @@ static GtkObjectClass *gnm_combo_text_parent_class;
 static gboolean cb_pop_down (GtkWidget *w, GtkWidget *pop_down,
 			     gpointer dummy);
 
-static void list_unselect_cb (GtkWidget *list, GtkWidget *child,
-			      gpointer data);
-
 static void update_list_selection (GnmComboText *ct, const gchar *text);
+
+static void
+entry_activate_cb (GtkWidget *entry, gpointer data)
+{
+	GnmComboText *combo = GNM_COMBO_TEXT (data);
+
+	update_list_selection (combo,
+			       gtk_entry_get_text (GTK_ENTRY (combo->entry)));
+}
+
+static void
+list_select_cb (GtkWidget *list, GtkWidget *child, gpointer data)
+{
+	GnmComboText *combo = GNM_COMBO_TEXT (data);
+	GtkEntry *entry = GTK_ENTRY (combo->entry);
+	gchar *value = (gchar*) gtk_object_get_data
+		(GTK_OBJECT (child), "value");
+
+	g_return_if_fail (entry && value);
+
+	if (combo->cached_entry == child)
+		combo->cached_entry = NULL;
+
+	gtk_entry_set_text (entry, value);
+	gtk_signal_handler_block_by_func (GTK_OBJECT (entry), 
+					  GTK_SIGNAL_FUNC (entry_activate_cb),
+					  (gpointer) combo);
+	gtk_signal_emit_by_name (GTK_OBJECT (entry), "activate");
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (entry), 
+					  GTK_SIGNAL_FUNC (entry_activate_cb),
+					  (gpointer) combo);
+
+	gtk_combo_box_popup_hide (GTK_COMBO_BOX (data));
+}
+
+static void
+list_unselect_cb (GtkWidget *list, GtkWidget *child, gpointer data)
+{
+	if (GTK_WIDGET_VISIBLE (list)) /* Undo interactive unselect */
+		gtk_list_select_child (GTK_LIST (list), child);
+}
+
+static void
+update_list_selection (GnmComboText *ct, const gchar *text)
+{
+	gpointer candidate;
+	GtkWidget *child;
+
+	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
+					  GTK_SIGNAL_FUNC (list_select_cb),
+					  (gpointer) ct);
+	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
+					  GTK_SIGNAL_FUNC (list_unselect_cb),
+					  (gpointer) ct);
+	
+	gtk_list_unselect_all (GTK_LIST (ct->list));
+	candidate = g_hash_table_lookup (ct->elements, (gconstpointer) text);
+	if (candidate && GTK_IS_WIDGET (candidate)) {
+		child = GTK_WIDGET (candidate);
+		gtk_list_select_child (GTK_LIST (ct->list), child);
+		gtk_widget_grab_focus (child);
+	}
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
+					    GTK_SIGNAL_FUNC (list_select_cb),
+					    (gpointer) ct);
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
+					    GTK_SIGNAL_FUNC (list_unselect_cb),
+					    (gpointer) ct);
+}
+
 
 static void
 gnm_combo_text_destroy (GtkObject *object)
@@ -43,11 +110,6 @@ gnm_combo_text_class_init (GtkObjectClass *object_class)
 	gnm_combo_text_parent_class = gtk_type_class (gtk_combo_box_get_type ());
 }
 
-static void
-gnm_combo_text_init (GnmComboText *object)
-{
-}
-
 GtkType
 gnm_combo_text_get_type (void)
 {
@@ -59,7 +121,7 @@ gnm_combo_text_get_type (void)
 			sizeof (GnmComboText),
 			sizeof (GnmComboTextClass),
 			(GtkClassInitFunc) gnm_combo_text_class_init,
-			(GtkObjectInitFunc) gnm_combo_text_init,
+			(GtkObjectInitFunc) NULL,
 			NULL, /* reserved 1 */
 			NULL, /* reserved 2 */
 			(GtkClassInitFunc) NULL
@@ -145,48 +207,6 @@ gnm_combo_text_set_case_sensitive (GnmComboText *combo, gboolean val)
 }
 
 static void
-entry_activate_cb (GtkWidget *entry, gpointer data)
-{
-	GnmComboText *combo = GNM_COMBO_TEXT (data);
-
-	update_list_selection (combo,
-			       gtk_entry_get_text (GTK_ENTRY (combo->entry)));
-}
-
-
-static void
-list_select_cb (GtkWidget *list, GtkWidget *child, gpointer data)
-{
-	GnmComboText *combo = GNM_COMBO_TEXT (data);
-	GtkEntry *entry = GTK_ENTRY (combo->entry);
-	gchar *value = (gchar*) gtk_object_get_data
-		(GTK_OBJECT (child), "value");
-
-	g_return_if_fail (entry && value);
-
-	if (combo->cached_entry == child)
-		combo->cached_entry = NULL;
-
-	gtk_entry_set_text (entry, value);
-	gtk_signal_handler_block_by_func (GTK_OBJECT (entry), 
-					  GTK_SIGNAL_FUNC (entry_activate_cb),
-					  (gpointer) combo);
-	gtk_signal_emit_by_name (GTK_OBJECT (entry), "activate");
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (entry), 
-					  GTK_SIGNAL_FUNC (entry_activate_cb),
-					  (gpointer) combo);
-
-	gtk_combo_box_popup_hide (GTK_COMBO_BOX (data));
-}
-
-static void
-list_unselect_cb (GtkWidget *list, GtkWidget *child, gpointer data)
-{
-	if (GTK_WIDGET_VISIBLE (list)) /* Undo interactive unselect */
-		gtk_list_select_child (GTK_LIST (list), child);
-}
-
-static void
 cb_toggle (GtkWidget *child, gpointer data)
 {
 	GnmComboText *ct = GNM_COMBO_TEXT (data);
@@ -198,34 +218,6 @@ void
 gnm_combo_text_select_item (GnmComboText *ct, int elem)
 {
 	gtk_list_select_item (GTK_LIST(ct->list), elem);
-}
-
-static void
-update_list_selection (GnmComboText *ct, const gchar *text)
-{
-	gpointer candidate;
-	GtkWidget *child;
-
-	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
-					  GTK_SIGNAL_FUNC (list_select_cb),
-					  (gpointer) ct);
-	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
-					  GTK_SIGNAL_FUNC (list_unselect_cb),
-					  (gpointer) ct);
-	
-	gtk_list_unselect_all (GTK_LIST (ct->list));
-	candidate = g_hash_table_lookup (ct->elements, (gconstpointer) text);
-	if (candidate && GTK_IS_WIDGET (candidate)) {
-		child = GTK_WIDGET (candidate);
-		gtk_list_select_child (GTK_LIST (ct->list), child);
-		gtk_widget_grab_focus (child);
-	}
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
-					    GTK_SIGNAL_FUNC (list_select_cb),
-					    (gpointer) ct);
-	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
-					    GTK_SIGNAL_FUNC (list_unselect_cb),
-					    (gpointer) ct);
 }
 
 void

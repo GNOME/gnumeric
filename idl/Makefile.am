@@ -60,9 +60,9 @@ idl_DATA = GNOME_Gnumeric_Graph.idl GNOME_Gnumeric.idl
 EXTRA_DIST = $(idl_DATA)
 # Do not use built sources BUILT_SOURCES
 # it attempts to build the source even if it is not used.
-CLEANFILES  += $(GNUMERIC_GENERATED)		\
-	       $(GNUMERIC_GRAPH_GENERATED)	\
-	       $(EVOLUTION_GENERATED)		\
+CLEANFILES  = $(GNUMERIC_GENERATED)		\
+	      $(GNUMERIC_GRAPH_GENERATED)	\
+	      $(EVOLUTION_GENERATED)		\
 		stamp_Gnumeric_idl stamp_Gnumeric_Graph_idl stamp_evolution_idl
 
 dist-hook :

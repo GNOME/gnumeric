@@ -3,7 +3,7 @@
 /*
  * dialog-graph-guru.c:  The Graph guru
  *
- * Copyright (C) 2000 Jody Goldberg (jgoldberg@home.com)
+ * Copyright (C) 2000-2001 Jody Goldberg (jgoldberg@home.com)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License as
@@ -108,6 +108,16 @@ graph_guru_clear_sample (GraphGuruState *state)
 }
 
 static void
+vector_state_set_entry (VectorState *vs)
+{
+	gnumeric_expr_entry_set_rangesel_from_dep (
+		vs->entry,
+		gnm_graph_vector_get_dependent (vs->vector));
+	gnumeric_expr_entry_set_flags (vs->entry,
+		GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
+}
+
+static void
 vector_state_fill (VectorState *vs, xmlNode *series)
 {
 	xmlNode *dim;
@@ -122,19 +132,15 @@ vector_state_fill (VectorState *vs, xmlNode *series)
 		GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
 	vs->state->updating = FALSE;
 
+	vs->vector = NULL;
 	dim = gnm_graph_series_get_dimension (series, vs->element);
 	if (dim != NULL) {
 		id = e_xml_get_integer_prop_by_name_with_default (dim, "ID", -1);
 		if (id >= 0) {
 			vs->vector = gnm_graph_get_vector (vs->state->graph, id);
-			gnumeric_expr_entry_set_rangesel_from_dep (
-				vs->entry,
-				gnm_graph_vector_get_dependent (vs->vector));
-			gnumeric_expr_entry_set_flags (vs->entry,
-				GNUM_EE_ABS_COL|GNUM_EE_ABS_ROW, GNUM_EE_MASK);
+			vector_state_set_entry (vs);
 		}
-	} else
-		vs->vector = NULL;
+	}
 }
 
 static void
@@ -614,9 +620,15 @@ cb_graph_guru_focus (GtkWindow *window, GtkWidget *focus, GraphGuruState *state)
 				puts ("Adding a new dimension");
 			}
 		} else if (vs->vector != NULL) {
-			puts ("removing an existing (check optional)");
-		} else {
-			puts ("should not happen");
+			/* removing an existing dimension */
+			if (vs->is_optional) {
+				puts ("Remove an optional dimension");
+			} else {
+				/* We need this, reset to original content */
+				state->updating = TRUE;
+				vector_state_set_entry (vs);
+				state->updating = FALSE;
+			}
 		}
 	}
 

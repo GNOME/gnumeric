@@ -1,3 +1,12 @@
+2001-10-01  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-graph-guru.c (cb_graph_guru_focus) : removing an already
+	  non-existent dimension is possible in the event that a user changes
+	  their mind.
+
+	* dialog-graph-guru.c (vector_state_fill) : split actual setting out
+	  into vector_state_set_entry.
+
 2001-10-01  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search-replace.c (dialog_search_replace_query): New

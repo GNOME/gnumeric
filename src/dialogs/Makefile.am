@@ -5,10 +5,10 @@ iconsdir = $(datadir)/pixmaps/gnumeric
 
 if BONOBO
 gnumeric_version="$(VERSION)-bonobo"
-libdialogs_a_SOURCES =	$(std_SOURCES) dialog-graph-guru.c
+libdialogs_a_SOURCES =	$(base_files) dialog-graph-guru.c
 else
 gnumeric_version="$(VERSION)"
-libdialogs_a_SOURCES =	$(std_SOURCES)
+libdialogs_a_SOURCES =	$(base_files)
 endif
 gnumeric_libdir = $(datadir)/gnumeric/$(gnumeric_version)
 
@@ -25,7 +25,7 @@ INCLUDES = 								\
 
 noinst_LIBRARIES = libdialogs.a
 
-std_SOURCES =					\
+base_files =					\
 	dialog-about.c				\
 	dialog-advanced-filter.c		\
 	dialog-analysis-tools.c			\

@@ -21,7 +21,7 @@ INCLUDES = 								\
 	$(EXTRA_GNOME_CFLAGS)						\
 	$(GUILE_INCS)
 
-GNUMERIC_BASE_SOURCES =				\
+GNUMERIC_BASE =					\
 	analysis-tools.c			\
 	analysis-tools.h			\
 	application.c				\
@@ -240,11 +240,11 @@ GNUMERIC_BASE_SOURCES =				\
 	xml-io-autoft.h
 
 # TODO : split the bonobo and corba tests one day
-GNUMERIC_CORBA_SOURCES = 			\
+GNUMERIC_CORBA = 				\
 	workbook-control-corba.c		\
 	workbook-control-corba.h
 
-GNUMERIC_BONOBO_SOURCES = 			\
+GNUMERIC_BONOBO = 				\
 	bonobo-io.c				\
 	bonobo-io.h				\
 	embeddable-grid.c			\
@@ -257,13 +257,13 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
 	sheet-object-item.h			\
-	$(GNUMERIC_CORBA_SOURCES)
+	$(GNUMERIC_CORBA)
 
 if BONOBO
 gnumeric_SOURCES =				\
-	$(GNUMERIC_BASE_SOURCES)		\
+	$(GNUMERIC_BASE)			\
 	corba-args.c				\
-	$(GNUMERIC_BONOBO_SOURCES)
+	$(GNUMERIC_BONOBO)
 
 gnumeric_LDADD =				\
 	$(gnumeric_libs)			\
@@ -275,7 +275,7 @@ gnumeric_LDADD =				\
 	$(INTLLIBS)
 else
 gnumeric_SOURCES =				\
-	$(GNUMERIC_BASE_SOURCES)		\
+	$(GNUMERIC_BASE)			\
 	normal-args.c
 
 gnumeric_LDADD = 				\
@@ -297,7 +297,7 @@ gnumeric_libs =					\
 # what the build
 EXTRA_DIST = portability.h.in GNOME_Gnumeric.xml \
 	    normal-args.c corba-args.c		 \
-	    $(GNUMERIC_BONOBO_SOURCES)
+	    $(GNUMERIC_BONOBO)
 dist-hook:
 	-mkdir $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
