@@ -12,6 +12,7 @@
 #include "gnumeric.h"
 #include "utils.h"
 #include "func.h"
+#include "number-match.h"
 
 static char *help_char = {
 	N_("@FUNCTION=CHAR\n"
@@ -685,12 +686,34 @@ static char *help_value = {
 
 static Value *
 gnumeric_value (FunctionEvalInfo *ei, Value **argv)
-/* FIXME: in Excel, VALUE("$1, 000") = 1000, and dates etc. supported */
 {
-	if (argv[0]->type != VALUE_STRING)
-		return function_error (ei, _("Type mismatch"));
+	char *arg, *p, *q;
+	double v;
+	char *format;
+	gboolean ok;
 
-	return value_new_float (value_get_as_float (argv[0]));
+	switch (argv[0]->type) {
+	case VALUE_INTEGER:
+	case VALUE_FLOAT:
+		/* This specifically should not be used for VALUE_BOOL.  */
+		return value_duplicate (argv[0]);
+	default:
+		q = p = arg = value_get_as_string (argv[0]);
+		while (*p) {
+			if (!isspace ((unsigned char)*p))
+				*q++ = *p;
+			p++;
+		}
+		*q = 0;
+
+		ok = format_match (arg, &v, &format);
+		free (arg);
+
+		if (ok)
+			return value_new_float (v);
+		else
+			return function_error (ei, gnumeric_err_VALUE);
+	}
 }
 
 struct subs_string {
@@ -1023,13 +1046,11 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 	else
 	        start_num = value_get_as_int(argv[2]) - 1;
 
-	text = g_new(gchar, strlen(argv[0]->v.str->str) + 1);
-	within = g_new(gchar, strlen(argv[1]->v.str->str) + 1);
-	strcpy(text, argv[0]->v.str->str);
-	strcpy(within, argv[1]->v.str->str);
+	text = value_get_as_string (argv[0]);
+	within = value_get_as_string (argv[1]);
 	g_strdown(text);
 	g_strdown(within);
-	
+
 	within_len = strlen(within);
 
 	if (within_len <= start_num) {
@@ -1045,7 +1066,7 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 		return function_error (ei, gnumeric_err_VALUE);
 	}
 
-	match_str = within;
+	match_str = within + start_num;
 
 match_again:
 	current = conditions;
@@ -1125,7 +1146,7 @@ string_functions_init ()
 			    &help_trim,       gnumeric_trim);
 	function_add_args  (cat, "upper",      "s",    "text",
 			    &help_upper,      gnumeric_upper);
-	function_add_args  (cat, "value",      "s",    "text",
+	function_add_args  (cat, "value",      "?",    "text",
 			    &help_value,      gnumeric_value);
 
 /* Missing:
