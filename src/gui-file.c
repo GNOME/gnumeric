@@ -207,7 +207,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
-			       "title", "Select a file",
+			       "title", _("Select a file"),
 			       NULL));
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -229,12 +229,12 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		GList *l;
 
 		filter = gtk_file_filter_new ();
-		gtk_file_filter_set_name (filter, "All Files");
+		gtk_file_filter_set_name (filter, _("All Files"));
 		gtk_file_filter_add_pattern (filter, "*");
 		gtk_file_chooser_add_filter (fsel, filter);
 
 		filter = gtk_file_filter_new ();
-		gtk_file_filter_set_name (filter, "Spreadsheets");
+		gtk_file_filter_set_name (filter, _("Spreadsheets"));
 		for (l = openers->next; l; l = l->next) {
 			GnmFileOpener *o = l->data;
 			/* FIXME: add all known extensions.  */
@@ -438,7 +438,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
 			       "action", GTK_FILE_CHOOSER_ACTION_SAVE,
-			       "title", "Select a file",
+			       "title", _("Select a file"),
 			       NULL));
 	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
 				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -460,14 +460,22 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		GList *l;
 
 		filter = gtk_file_filter_new ();
-		gtk_file_filter_set_name (filter, "All Files");
+		gtk_file_filter_set_name (filter, _("All Files"));
 		gtk_file_filter_add_pattern (filter, "*");
 		gtk_file_chooser_add_filter (fsel, filter);
 
 		filter = gtk_file_filter_new ();
-		gtk_file_filter_set_name (filter, "Spreadsheets");
+		gtk_file_filter_set_name (filter, _("Spreadsheets"));
 		for (l = savers->next; l; l = l->next) {
-			GnmFileSaver *s = l->data;
+			GnmFileSaver *fs = l->data;
+			const char *ext = gnm_file_saver_get_extension (fs);
+			const char *mime = gnm_file_saver_get_mime_type (fs);
+			g_warning ("%s: ext:%s  mime:%s scope:%d",
+				   gnm_file_saver_get_id (fs),
+				   ext ? ext : "(null)",
+				   mime ? mime : "(null)",
+				   gnm_file_saver_get_save_scope (fs)
+				   );
 			/* FIXME: add all known extensions.  */
 		}
 #warning "FIXME: make extension discovery above work and delete these"
