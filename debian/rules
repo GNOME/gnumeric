@@ -229,6 +229,7 @@ binary-indep: build install
 	dh_installchangelogs ChangeLog -i
 	dh_gconf -i
 	dh_scrollkeeper -i
+	dh_desktop -i
 	dh_link -i
 	dh_compress -i
 	dh_fixperms -i
@@ -263,6 +264,7 @@ endif
 	dh_installchangelogs ChangeLog -a
 	dh_gconf -a
 	dh_scrollkeeper -a
+	dh_desktop -a
 	dh_strip -a
 	dh_link -a
 	dh_compress -a
