@@ -36,6 +36,7 @@ Morten:
 	* Use unicode minus (U2212) for numbers.  [#168467]
 	* Improve format selection dialog for text import.
 	* Constification.
+	* Use FooCanvas for rotation part of cell format dialog.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

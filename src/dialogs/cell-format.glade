@@ -746,7 +746,7 @@
 			      <property name="spacing">0</property>
 
 			      <child>
-				<widget class="GtkScrolledWindow" id="scrolledwindow16">
+				<widget class="GtkScrolledWindow" id="rotate_canvas_container">
 				  <property name="width_request">140</property>
 				  <property name="height_request">210</property>
 				  <property name="visible">True</property>
@@ -757,16 +757,7 @@
 				  <property name="window_placement">GTK_CORNER_TOP_LEFT</property>
 
 				  <child>
-				    <widget class="GnomeCanvas" id="rotate_canvas">
-				      <property name="visible">True</property>
-				      <property name="can_focus">True</property>
-				      <property name="anti_aliased">False</property>
-				      <property name="scroll_x1">0</property>
-				      <property name="scroll_y1">0</property>
-				      <property name="scroll_x2">100</property>
-				      <property name="scroll_y2">200</property>
-				      <property name="pixels_per_unit">1</property>
-				    </widget>
+				    <placeholder/>
 				  </child>
 				</widget>
 				<packing>

@@ -82,7 +82,12 @@
 #include <libgnomecanvas/gnome-canvas-util.h>
 #include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
 #include <libgnomecanvas/gnome-canvas-pixbuf.h>
-#include <pango/pangoft2.h>
+#include <libfoocanvas/foo-canvas.h>
+#include <libfoocanvas/foo-canvas-util.h>
+#include <libfoocanvas/foo-canvas-line.h>
+#include <libfoocanvas/foo-canvas-pixbuf.h>
+#include <libfoocanvas/foo-canvas-rect-ellipse.h>
+#include <libfoocanvas/foo-canvas-widget.h>
 
 static struct {
 	char const *Cname;
@@ -166,9 +171,11 @@ typedef struct _FormatState
 		int		 indent;
 
 		GtkSpinButton	*rotate_spinner;
-		GnomeCanvasItem *rotate_marks[13];
-		GnomeCanvasItem *line;
-		GnomeCanvasItem *text;
+		FooCanvas       *rotate_canvas;
+		FooCanvasItem   *rotate_marks[13];
+		FooCanvasItem   *line;
+		GtkWidget       *text_widget;
+		FooCanvasItem   *text;
 		int		 rot_width, rot_height;
 		int		 rotation;
 		gulong		 motion_handle;
@@ -568,7 +575,6 @@ fmt_dialog_init_align_radio (char const *const name,
 static void
 cb_rotate_changed (GtkEditable *editable, FormatState *state)
 {
-	double res[6], trans[6];
 	char const *colour;
 	int i;
 
@@ -584,164 +590,112 @@ cb_rotate_changed (GtkEditable *editable, FormatState *state)
 	}
 
 	for (i = 0 ; i <= 12 ; i++)
-		if (state->align.rotate_marks [i] != NULL) {
+		if (state->align.rotate_marks[i] != NULL) {
 			colour = (state->align.rotation == (i-6)*15) ? "green" : "black";
-			gnome_canvas_item_set (state->align.rotate_marks [i],
-					       "fill_color",	colour,
-					       NULL);
+			foo_canvas_item_set (state->align.rotate_marks[i],
+					     "fill_color", colour,
+					     NULL);
 		}
 	if (state->align.line != NULL) {
-		GnomeCanvasPoints *points = gnome_canvas_points_new (2);
+		FooCanvasPoints *points = foo_canvas_points_new (2);
 		double rad = state->align.rotation * M_PIgnum / 180.;
-		points->coords [0] =  15 + cos (rad) * state->align.rot_width;
-		points->coords [1] = 100 - sin (rad) * state->align.rot_width;
-		points->coords [2] =  15 + cos (rad) * 72.;
-		points->coords [3] = 100 - sin (rad) * 72.;
-		gnome_canvas_item_set (state->align.line,
-				       "points", points,
-				       NULL);
-		gnome_canvas_points_free (points);
+		points->coords[0] =  15 + cos (rad) * state->align.rot_width;
+		points->coords[1] = 100 - sin (rad) * state->align.rot_width;
+		points->coords[2] =  15 + cos (rad) * 72.;
+		points->coords[3] = 100 - sin (rad) * 72.;
+		foo_canvas_item_set (state->align.line,
+				     "points", points,
+				     NULL);
+		foo_canvas_points_free (points);
 	}
 
 	if (state->align.text) {
-		art_affine_translate (trans, 0., -state->align.rot_height/2);
-		art_affine_rotate (res, -state->align.rotation);
-		art_affine_multiply (res, trans, res);
-		art_affine_translate (trans, 15., 100.);
-		art_affine_multiply (res, res, trans);
-		gnome_canvas_item_affine_absolute (state->align.text, res);
+		double x = 15.0;
+		double y = 100.0;
+		double rad = state->align.rotation * M_PIgnum / 180.;
+		x -= state->align.rot_height * sin (fabs (rad)) / 2;
+		y -= state->align.rot_height * cos (rad) / 2;
+		if (rad >= 0)
+			y -= state->align.rot_width * sin (rad);
+		foo_canvas_item_set (state->align.text,
+				     "x", x, "y", y,
+				     NULL);
+		gtk_label_set_angle (GTK_LABEL (state->align.text_widget),
+				     (state->align.rotation + 360) % 360);
 	}
 }
 
 static void
-cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
+cb_rotate_canvas_realize (FooCanvas *canvas, FormatState *state)
 {
-	GnomeCanvasItem *item;
-	GnomeCanvasGroup  *group;
-	double rad, x, y, size;
-	int i, bx, by;
-	gint w, h;
-	GdkPixbuf *pixbuf;
-	FT_Bitmap ft_bitmap;
-	PangoLayout *layout;
-	PangoContext *context;
-	PangoAttrList	*attrs;
-	PangoAttribute  *attr;
-	PangoFT2FontMap *font_map;
-	guint8 const *ps;
-	guint8 *pd;
-
+	FooCanvasGroup  *group = FOO_CANVAS_GROUP (foo_canvas_root (canvas));
+	int i;
 	GtkStyle *style = gtk_style_copy (GTK_WIDGET (canvas)->style);
 	style->bg[GTK_STATE_NORMAL] = style->white;
 	gtk_widget_set_style (GTK_WIDGET (canvas), style);
 	g_object_unref (style);
 
-	gnome_canvas_set_scroll_region (canvas, 0, 0, 100, 200);
-	gnome_canvas_scroll_to (canvas, 0, 0);
+	foo_canvas_set_scroll_region (canvas, 0, 0, 100, 200);
+	foo_canvas_scroll_to (canvas, 0, 0);
 
-	group = GNOME_CANVAS_GROUP (gnome_canvas_root (canvas));
 	for (i = 0 ; i <= 12 ; i++) {
-		rad = (i-6) * M_PIgnum / 12.;
-		x = 15 + cos (rad) * 80.;
-		y = 100 - sin (rad) * 80.;
-		size = (i % 3) ? 3 : 4;
-		item = gnome_canvas_item_new (group,
-			GNOME_TYPE_CANVAS_ELLIPSE,
-			"x1", x-size,	"y1", y-size,
-			"x2", x+size,	"y2", y+size,
-			"width_pixels", (int) 1,
-			"outline_color","black",
-			"fill_color",	"black",
-			NULL);
-		state->align.rotate_marks [i] = item;
+		double rad = (i-6) * M_PIgnum / 12.;
+		double x = 15 + cos (rad) * 80.;
+		double y = 100 - sin (rad) * 80.;
+		double size = (i % 3) ? 3.0 : 4.0;
+		FooCanvasItem *item =
+			foo_canvas_item_new (group,
+					     FOO_TYPE_CANVAS_ELLIPSE,
+					     "x1", x-size,	"y1", y-size,
+					     "x2", x+size,	"y2", y+size,
+					     "width_pixels", (int) 1,
+					     "outline_color","black",
+					     "fill_color",	"black",
+					     NULL);
+		state->align.rotate_marks[i] = item;
 	}
-	state->align.line = gnome_canvas_item_new (group,
-		GNOME_TYPE_CANVAS_LINE,
+	state->align.line = foo_canvas_item_new (group,
+		FOO_TYPE_CANVAS_LINE,
 		"fill_color",	"black",
 		"width_units",	2.,
 		NULL);
-	state->align.text = gnome_canvas_item_new (group,
-		GNOME_TYPE_CANVAS_PIXBUF,
-		NULL);
 
-	font_map = PANGO_FT2_FONT_MAP (pango_ft2_font_map_new ());
-	pango_ft2_font_map_set_resolution (font_map,
-		gnm_app_display_dpi_get (TRUE),
-		gnm_app_display_dpi_get (FALSE));
-	context = pango_ft2_font_map_create_context (font_map);
-	// g_object_unref (font_map);
-	layout = pango_layout_new (context);
-	g_object_unref (context);
-	pango_layout_set_font_description (layout,
-		pango_context_get_font_description (gtk_widget_get_pango_context (GTK_WIDGET (canvas))));
-	pango_layout_set_text (layout, _("Text"), -1);
- 	attrs = pango_attr_list_new ();
-	attr = pango_attr_scale_new (1.3);
-	attr->start_index = 0;
-	attr->end_index = -1;
-	pango_attr_list_insert (attrs, attr);
-	pango_layout_set_attributes (layout, attrs);
-	pango_attr_list_unref (attrs);
-
-#if 0
-	w = h = 1;
-#else
-	pango_layout_get_pixel_size (layout, &w, &h);
+	{
+		int w, h;
+		GtkWidget *tw = state->align.text_widget = gtk_label_new (_("Text"));
+		PangoAttrList *attrs = pango_attr_list_new ();
+		PangoAttribute *attr = pango_attr_scale_new (1.3);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs, attr);
+#ifdef DEBUG_ROTATION
+		attr = pango_attr_background_new (0xffff, 0, 0);
+		attr->start_index = 0;
+		attr->end_index = -1;
+		pango_attr_list_insert (attrs, attr);
 #endif
+		gtk_label_set_attributes (GTK_LABEL (tw), attrs);
+		pango_attr_list_unref (attrs);
 
-	if (w == 0 || h == 0)
-		goto out;
+		pango_layout_get_pixel_size (gtk_label_get_layout (GTK_LABEL (tw)), &w, &h);
+		state->align.rot_width  = w;
+		state->align.rot_height = h;
 
-	ft_bitmap.rows         = h;
-	ft_bitmap.width        = w;
-	ft_bitmap.pitch        = (w+3) & ~3;
-	ft_bitmap.buffer       = g_malloc0 (ft_bitmap.rows * ft_bitmap.pitch);
-	ft_bitmap.num_grays    = 256;
-	ft_bitmap.pixel_mode   = ft_pixel_mode_grays;
-	ft_bitmap.palette_mode = 0;
-	ft_bitmap.palette      = NULL;
-
-#if 1
-	pango_ft2_render_layout (&ft_bitmap, layout, 0, 0);
-#endif
-
-	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
-				 ft_bitmap.width, ft_bitmap.rows);
-	for (by = 0; by < ft_bitmap.rows; by++) {
-	        pd = gdk_pixbuf_get_pixels (pixbuf)
-			+ by * gdk_pixbuf_get_rowstride (pixbuf);
-		ps = ft_bitmap.buffer + by * ft_bitmap.pitch;
-		for (bx = 0; bx < ft_bitmap.width; bx++) {
-			*pd++ = 0;
-		        *pd++ = 0;
-			*pd++ = 0;
-			*pd++ = *ps++;
-		}
+		state->align.text = foo_canvas_item_new (group,
+							 FOO_TYPE_CANVAS_WIDGET,
+							 "widget", tw,
+							 NULL);
+		gtk_widget_show (tw);
 	}
-	g_free (ft_bitmap.buffer);
 
-	gnome_canvas_item_set (state->align.text,
-		"pixbuf",	pixbuf,
-		NULL);
-	g_object_unref (G_OBJECT (pixbuf));
-	state->align.rot_width  = w;
-	state->align.rot_height = h;
 	cb_rotate_changed (NULL, state);
-
- out:
-	g_object_unref (layout);
-
-	/* See http://bugzilla.gnome.org/show_bug.cgi?id=143542  */
-	go_pango_fc_font_map_cache_clear (PANGO_FC_FONT_MAP (font_map));
-
-	g_object_unref (font_map);
 }
 
 static void
-set_rot_from_point (FormatState *state, GnomeCanvas *canvas, double x, double y)
+set_rot_from_point (FormatState *state, FooCanvas *canvas, double x, double y)
 {
 	double degrees;
-	gnome_canvas_window_to_world (canvas, x, y, &x, &y);
+	foo_canvas_window_to_world (canvas, x, y, &x, &y);
 	x -= 15.;	if (x < 0.) x = 0.;
 	y -= 100.;
 
@@ -752,7 +706,7 @@ set_rot_from_point (FormatState *state, GnomeCanvas *canvas, double x, double y)
 }
 
 static gboolean
-cb_rotate_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *event,
+cb_rotate_motion_notify_event (FooCanvas *canvas, GdkEventMotion *event,
 			       FormatState *state)
 {
 	set_rot_from_point (state, canvas, event->x, event->y);
@@ -760,7 +714,7 @@ cb_rotate_motion_notify_event (GnomeCanvas *canvas, GdkEventMotion *event,
 }
 
 static gboolean
-cb_rotate_canvas_button (GnomeCanvas *canvas, GdkEventButton *event,
+cb_rotate_canvas_button (FooCanvas *canvas, GdkEventButton *event,
 			 FormatState *state)
 {
 	if (event->type == GDK_BUTTON_PRESS) {
@@ -878,6 +832,7 @@ fmt_dialog_init_align_page (FormatState *state)
 	/* setup the rotation canvas */
 	state->align.line = NULL;
 	state->align.text = NULL;
+	state->align.text_widget = NULL;
 	state->align.rotation =
 		mstyle_is_element_conflict (state->style, MSTYLE_ROTATION)
 		? 0
@@ -891,7 +846,7 @@ fmt_dialog_init_align_page (FormatState *state)
 		G_CALLBACK (cb_rotate_changed), state);
 
 	state->align.motion_handle = 0;
-	w = glade_xml_get_widget (state->gui, "rotate_canvas");
+	w = GTK_WIDGET (state->align.rotate_canvas);
 	g_signal_connect (G_OBJECT (w),
 		"realize",
 		G_CALLBACK (cb_rotate_canvas_realize), state);
@@ -2334,7 +2289,6 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 
 	default_border_color = &GTK_WIDGET (state->dialog)->style->black;
 
-
 	if (pageno == FD_CURRENT)
 		pageno = fmt_dialog_page;
 	gtk_notebook_set_current_page (state->notebook, pageno);
@@ -2541,6 +2495,10 @@ dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
 	state->gui	= gui;
 	state->sv	= wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet	= sv_sheet (state->sv);
+	state->align.rotate_canvas = FOO_CANVAS (foo_canvas_new ());
+	gtk_container_add (GTK_CONTAINER (glade_xml_get_widget (state->gui, "rotate_canvas_container")),
+			   GTK_WIDGET (state->align.rotate_canvas));
+	gtk_widget_show (GTK_WIDGET (state->align.rotate_canvas));
 
 	edit_cell = sheet_cell_get (state->sheet,
 				    state->sv->edit_pos.col,
