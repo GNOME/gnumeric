@@ -83,8 +83,8 @@ GetZw ( gnm_float fZins, gnm_float fZzr, gnm_float fRmz, gnm_float fBw,
         return -fZw;
 }
 
-gnm_float
-sc_Duration (GDate *nSettle, GDate *nMat, gnm_float fCoup, gnm_float fYield,
+static gnm_float
+Duration (GDate *nSettle, GDate *nMat, gnm_float fCoup, gnm_float fYield,
 	  gint nFreq, gint nBase, gnm_float fNumOfCoups)
 {
         /* gnm_float  fYearfrac   = yearfrac ( nSettle, nMat, nBase ); */
@@ -190,9 +190,8 @@ get_amorlinc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 
 /***************************************************************************/
 
-GnmValue *
-get_yieldmat (GDate *nSettle, GDate *nMat, GDate *nIssue,
-	      gnm_float fRate, gnm_float fPrice, gint nBase)
+GnmValue *	   get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
+			  gnm_float fRate, gnm_float fPrice, gint nBase)
 {
         gnm_float   fIssMat = yearfrac ( nIssue, nMat, nBase );
         gnm_float   fIssSet = yearfrac ( nIssue, nSettle, nBase );
@@ -209,8 +208,34 @@ get_yieldmat (GDate *nSettle, GDate *nMat, GDate *nIssue,
 /***************************************************************************/
 
 GnmValue *
-get_cumprinc (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
-	      gint nStart, gint nEnd, gint nPayType)
+get_duration  (GDate *nSettle, GDate *nMat, gnm_float fCoup,
+	       gnm_float fYield, gint nFreq, gint nBase,
+	       gnm_float fNumOfCoups)
+{
+        return value_new_float ( Duration (nSettle, nMat, fCoup, fYield, nFreq,
+					   nBase, fNumOfCoups) );
+}
+
+/***************************************************************************/
+
+GnmValue *
+get_mduration (GDate *nSettle, GDate *nMat, gnm_float fCoup,
+	       gnm_float fYield, gint nFreq, gint nBase,
+	       gnm_float fNumOfCoups)
+{
+	gnm_float fRet = Duration (nSettle, nMat, fCoup, fYield, nFreq, nBase,
+				    fNumOfCoups);
+
+	fRet /= 1.0 + ( fYield / (gnm_float) nFreq );
+
+        return value_new_float ( fRet );
+}
+
+/***************************************************************************/
+
+GnmValue *
+get_cumprinc  (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
+	       gint nStart, gint nEnd, gint nPayType)
 {
         gnm_float fRmz, fKapZ;
 	gint       i;

@@ -10,10 +10,12 @@ GnmValue *get_amorlinc  (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
 			 gint nBase);
 GnmValue *get_yieldmat  (GDate *nSettle, GDate *nMat, GDate *nIssue,
 			 gnm_float fRate, gnm_float fPrice, gint nBase);
-gnm_float sc_Duration	(GDate *nSettle, GDate *nMat, gnm_float fCoup,
+GnmValue *get_duration  (GDate *nSettle, GDate *nMat, gnm_float fCoup,
 			 gnm_float fYield, gint nFreq, gint nBase,
 			 gnm_float fNumOfCoups);
-
+GnmValue *get_mduration (GDate *nSettle, GDate *nMat, gnm_float fCoup,
+			 gnm_float fYield, gint nFreq, gint nBase,
+			 gnm_float fNumOfCoups);
 GnmValue *get_cumprinc  (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
 			 gint nStartPer, gint nEndPer, gint nPayType);
 GnmValue *get_cumipmt   (gnm_float fRate, gint nNumPeriods, gnm_float fVal,
