@@ -241,7 +241,7 @@ block of store on the stack, to reduce the use of malloc/free. The threshold is
 in a macro that can be changed at configure time. */
 
 int
-gnumeric_regexec(gnumeric_regex_t *preg, const char *string, size_t nmatch,
+gnumeric_regexec(const gnumeric_regex_t *preg, const char *string, size_t nmatch,
   regmatch_t pmatch[], int eflags)
 {
 int rc;
@@ -253,7 +253,7 @@ BOOL allocated_ovector = FALSE;
 if ((eflags & REG_NOTBOL) != 0) options |= PCRE_NOTBOL;
 if ((eflags & REG_NOTEOL) != 0) options |= PCRE_NOTEOL;
 
-preg->re_erroffset = (size_t)(-1);   /* Only has meaning after compile */
+((gnumeric_regex_t *)preg)->re_erroffset = (size_t)(-1);   /* Only has meaning after compile */
 
 if (nmatch > 0)
   {

@@ -82,7 +82,7 @@ typedef struct {
 /* The functions */
 
 extern int gnumeric_regcomp(gnumeric_regex_t *, const char *, int);
-extern int gnumeric_regexec(gnumeric_regex_t *, const char *, size_t, regmatch_t *, int);
+extern int gnumeric_regexec(const gnumeric_regex_t *, const char *, size_t, regmatch_t *, int);
 extern size_t gnumeric_regerror(int, const gnumeric_regex_t *, char *, size_t);
 extern void gnumeric_regfree(gnumeric_regex_t *);
 

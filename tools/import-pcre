@@ -100,6 +100,10 @@ for my $filename (@SRC_C, @SRC_H) {
 	    s/\bregfree\b/gnumeric_regfree/g;
 
 	    s/options/options | PCRE_UTF8/ if /pcre_compile/;
+
+	    # Bug fix...
+	    s/gnumeric_regex_t/const gnumeric_regex_t/ if /gnumeric_regexec/;
+	    s/(preg)(->re_erroffset\s*=\s*\(size_t\))/((gnumeric_regex_t *)$1)$2/;
 	}
 
 	print DST;
