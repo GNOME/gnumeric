@@ -6,8 +6,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 2.2\n"
-"POT-Creation-Date: 2003-04-12 17:39+0100\n"
-"PO-Revision-Date: 2003-04-12 17:58+0000\n"
+"POT-Creation-Date: 2003-04-16 21:23+0100\n"
+"PO-Revision-Date: 2003-04-16 21:25+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -833,7 +833,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funções relacionadas com derivadas financeiras"
 
 #: plugins/dif/dif.c:65 plugins/excel/ms-excel-read.c:5116
-#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3588
+#: plugins/gnumeric_1_0/xml-io.c:3369 plugins/mps/mps.c:549 src/xml-io.c:3751
 msgid "Reading file..."
 msgstr "A ler ficheiro..."
 
@@ -16746,25 +16746,25 @@ msgstr "Formato de ficheiro Glossário Gnome PO"
 msgid "It provides support for saving Gnome Glossary in .po files."
 msgstr "Disponibiliza suporte para gravar o Glossário Gnome em ficheiros .po"
 
-#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3047
+#: plugins/gnumeric_1_0/xml-io.c:2824 src/xml-io.c:3210
 msgid "Unparsable xml in clipboard"
 msgstr "XML inparseável na área de transferência"
 
-#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3054
+#: plugins/gnumeric_1_0/xml-io.c:2831 src/xml-io.c:3217
 msgid "Clipboard is in unknown format"
 msgstr "Área de transferência tem formato desconhecido"
 
 #: plugins/gnumeric_1_0/xml-io.c:3111 plugins/xbase/boot.c:175
 #: src/dialogs/dialog-goto-cell.c:283 src/dialogs/dialog-search.c:721
 #: src/dialogs/print.glade.h:21 src/workbook.c:1048 src/workbook.c:1378
-#: src/xml-io.c:3336
+#: src/xml-io.c:3499
 msgid "Sheet"
 msgstr "Folha"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3468
+#: plugins/gnumeric_1_0/xml-io.c:3238 src/xml-io.c:3631
 msgid "Processing file..."
 msgstr "A processar ficheiro..."
 
@@ -16772,7 +16772,7 @@ msgstr "A processar ficheiro..."
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Não é um ficheiro Livro de Trabalho Gnumeric"
 
-#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3667
+#: plugins/gnumeric_1_0/xml-io.c:3446 src/xml-io.c:3830
 msgid "Failure saving file"
 msgstr "Falha ao gravar ficheiro"
 
@@ -16885,7 +16885,7 @@ msgstr "Restrições:"
 #: src/cut-n-paste-code/egg/menu/egg-action.c:120
 #: src/dialogs/dialog-define-names.c:500 src/dialogs/dialog-formula-guru.c:811
 #: src/dialogs/dialog-function-select.c:417
-#: src/dialogs/dialog-function-select.c:439 src/dialogs/dialog-scenarios.c:324
+#: src/dialogs/dialog-function-select.c:439 src/dialogs/dialog-scenarios.c:331
 #: src/format-template.c:408 src/tools/solver/reports-write.c:81
 #: src/tools/solver/reports-write.c:103 src/tools/solver/reports-write.c:130
 #: src/tools/solver/reports-write.c:237 src/tools/solver/reports-write.c:283
@@ -20581,7 +20581,8 @@ msgstr "Novo Livro d_e Trabalho"
 #: src/dialogs/moving-averages.glade.h:9
 #: src/dialogs/random-generation.glade.h:6 src/dialogs/rank.glade.h:7
 #: src/dialogs/regression.glade.h:8 src/dialogs/sampling.glade.h:8
-#: src/dialogs/shuffle.glade.h:6 src/dialogs/variance-tests.glade.h:6
+#: src/dialogs/shuffle.glade.h:6 src/dialogs/solver.glade.h:19
+#: src/dialogs/variance-tests.glade.h:6
 msgid "Output"
 msgstr "Saida"
 
@@ -20772,7 +20773,7 @@ msgstr "Su_bstituir:"
 
 #: src/dialogs/autocorrect.glade.h:11 src/dialogs/consolidate.glade.h:26
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:6
-#: src/dialogs/solver.glade.h:26
+#: src/dialogs/solver.glade.h:28
 msgid "_Add"
 msgstr "_Adicionar"
 
@@ -22962,35 +22963,44 @@ msgstr ""
 "Definir altura de linha da selecção em <span style='italic' weogth='bold'>%"
 "s</span>"
 
-#: src/dialogs/dialog-scenarios.c:100
+#: src/dialogs/dialog-scenarios.c:101
 msgid "Invalid changing cells"
 msgstr "Alteração células inválida"
 
-#: src/dialogs/dialog-scenarios.c:108
+#: src/dialogs/dialog-scenarios.c:109
 msgid "Changing cells should be on the current sheet only."
 msgstr "Alterar células deveria ser apenas na folha actual."
 
-#: src/dialogs/dialog-scenarios.c:119
+#: src/dialogs/dialog-scenarios.c:120
 msgid "Scenario name already used"
 msgstr "Nome de cenário já utilizado"
 
-#: src/dialogs/dialog-scenarios.c:124
+#: src/dialogs/dialog-scenarios.c:125
 msgid "Invalid scenario name"
 msgstr "Nome de cenário inválido"
 
-#: src/dialogs/dialog-scenarios.c:170
+#: src/dialogs/dialog-scenarios.c:146
+msgid ""
+"Changing cells contain at least one expression that is not just a value. "
+"Note that showing the scenario will overwrite the formula with it's current "
+"value."
+msgstr ""
+"Alterar células contém pelo menos uma expressão que não é apenas um valor. "
+"Note que apresentar o cenário irá sobrepor a fórmula com o seu valor actual."
+
+#: src/dialogs/dialog-scenarios.c:180
 msgid "Could not create the Scenario Add dialog."
 msgstr "Incapaz de criar o diálogo de Adicionar Cenário."
 
-#: src/dialogs/dialog-scenarios.c:187 src/dialogs/scenario-add.glade.h:5
+#: src/dialogs/dialog-scenarios.c:197 src/dialogs/scenario-add.glade.h:5
 msgid "_Changing cells:"
 msgstr "A Alterar _células:"
 
-#: src/dialogs/dialog-scenarios.c:202
+#: src/dialogs/dialog-scenarios.c:212
 msgid "Created on "
 msgstr "Criado em "
 
-#: src/dialogs/dialog-scenarios.c:487
+#: src/dialogs/dialog-scenarios.c:539
 msgid "Could not create the Scenarios dialog."
 msgstr "Incapaz de criar o diálogo de Cenários."
 
@@ -23122,41 +23132,41 @@ msgstr "_Saidas:"
 msgid "Could not create the Simulation dialog."
 msgstr "Incapaz de criar o diálogo de Simulação."
 
-#: src/dialogs/dialog-solver.c:83 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:84 src/dialogs/solver.glade.h:2
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:84 src/dialogs/solver.glade.h:4
+#: src/dialogs/dialog-solver.c:85 src/dialogs/solver.glade.h:4
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:85 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:86 src/dialogs/solver.glade.h:3
 msgid "="
 msgstr "="
 
 #. xgettext: Int == Integer constraint for the linear program
-#: src/dialogs/dialog-solver.c:87 src/dialogs/solver.glade.h:13
+#: src/dialogs/dialog-solver.c:88 src/dialogs/solver.glade.h:13
 msgid "Int"
 msgstr "Int"
 
 #. xgettext: Bool == Boolean (or binary) constraint for the linear program
-#: src/dialogs/dialog-solver.c:89 src/dialogs/solver.glade.h:10
+#: src/dialogs/dialog-solver.c:90 src/dialogs/solver.glade.h:10
 msgid "Bool"
 msgstr "Boleana"
 
-#: src/dialogs/dialog-solver.c:103
+#: src/dialogs/dialog-solver.c:104
 msgid "Revised Simplex (GLPK 3.2)"
 msgstr "Simplex Revisto (GLPK 3.2)"
 
-#: src/dialogs/dialog-solver.c:104
+#: src/dialogs/dialog-solver.c:105
 msgid "Simplex (LP Solve 3.2)"
 msgstr "Simplex (LP Solve 3.2)"
 
-#: src/dialogs/dialog-solver.c:105
+#: src/dialogs/dialog-solver.c:106
 msgid "< Not available >"
 msgstr "< Indisponível >"
 
-#: src/dialogs/dialog-solver.c:432
+#: src/dialogs/dialog-solver.c:433
 msgid ""
 "Looking for a subject for your thesis? Maybe you would like to write a QP "
 "solver for Gnumeric?"
@@ -23164,7 +23174,7 @@ msgstr ""
 "Procura um assunto para a sua tese? Talvez queira escrever um solucionador "
 "QP para o Gnumeric?"
 
-#: src/dialogs/dialog-solver.c:749
+#: src/dialogs/dialog-solver.c:750
 msgid ""
 "Solver found an optimal solution.  All constraints and optimality conditions "
 "are satisfied.\n"
@@ -23172,7 +23182,7 @@ msgstr ""
 "O Solucionador encontrou uma solução óptima. Todas as restrições e condições "
 "de optimização são satisfeitas.\n"
 
-#: src/dialogs/dialog-solver.c:758
+#: src/dialogs/dialog-solver.c:759
 msgid ""
 "Sensitivity nor limits report are not meaningful if the program has integer "
 "constraints. These reports will thus not be created."
@@ -23180,14 +23190,14 @@ msgstr ""
 "Relatórios de limites e sensibilidade não têm significado se a aplicação "
 "tiver restrições de inteiros. Assim, estes relatórios não serão gerados."
 
-#: src/dialogs/dialog-solver.c:776
+#: src/dialogs/dialog-solver.c:777
 msgid ""
 "The Target Cell value specified does not converge!  The program is unbounded."
 msgstr ""
 "O valor de Célula Objectivo não converge! A aplicação não tem limites "
 "definidos."
 
-#: src/dialogs/dialog-solver.c:790
+#: src/dialogs/dialog-solver.c:791
 msgid ""
 "A feasible solution could not be found.  All specified constraints cannot be "
 "met simultaneously. "
@@ -23195,7 +23205,7 @@ msgstr ""
 "Não foi encontrada uma solução válida. As restrições definidas não podem ser "
 "cumpridas simultaneamente. "
 
-#: src/dialogs/dialog-solver.c:805
+#: src/dialogs/dialog-solver.c:806
 msgid ""
 "The maximum number of iterations exceeded. The optimal value could not be "
 "found."
@@ -23203,7 +23213,7 @@ msgstr ""
 "O número máximo de iterações foi excedido. Não foi possível encontrar o "
 "valor óptimo."
 
-#: src/dialogs/dialog-solver.c:819
+#: src/dialogs/dialog-solver.c:820
 msgid ""
 "The maximum time exceeded. The optimal value could not be found in given "
 "time."
@@ -23211,24 +23221,32 @@ msgstr ""
 "O tempo limite foi excedido. Não foi possível encontrar o valor óptimo "
 "dentro do tempo limite."
 
-#: src/dialogs/dialog-solver.c:863
+#: src/dialogs/dialog-solver.c:847
+msgid "Optimal solution created by solver.\n"
+msgstr "Solução óptima criada pelo solucionador.\n"
+
+#: src/dialogs/dialog-solver.c:878
 msgid "Unknown error."
 msgstr "Erro desconhecido."
 
-#: src/dialogs/dialog-solver.c:880
+#: src/dialogs/dialog-solver.c:895
 msgid "You have not specified a problem to be solved"
 msgstr "Não especificou um problema a resolver"
 
-#: src/dialogs/dialog-solver.c:899 src/tools/solver/solver.c:390
+#: src/dialogs/dialog-solver.c:914 src/tools/solver/solver.c:392
 msgid "Target cell should contain a formula."
 msgstr "A célula alvo deveria conter uma fórmula."
 
-#: src/dialogs/dialog-solver.c:977
+#: src/dialogs/dialog-solver.c:996
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Restrição `%s' é para uma célula que não é de entrada."
 
-#: src/dialogs/dialog-solver.c:1322
+#: src/dialogs/dialog-solver.c:1018
+msgid "No constraints defined for the problem."
+msgstr "Nenhuma restrição definida para o problema."
+
+#: src/dialogs/dialog-solver.c:1364
 msgid "Could not create the Solver dialog."
 msgstr "Incapaz de criar a janela do Solucionador."
 
@@ -24174,7 +24192,7 @@ msgstr "Definição"
 msgid "Workbook"
 msgstr "Livro Trabalho"
 
-#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:29
+#: src/dialogs/names.glade.h:7 src/dialogs/solver.glade.h:32
 msgid "_Delete"
 msgstr "Apa_gar"
 
@@ -24182,7 +24200,7 @@ msgstr "Apa_gar"
 msgid "_Expression: "
 msgstr "_Expressão: "
 
-#: src/dialogs/names.glade.h:9
+#: src/dialogs/names.glade.h:9 src/dialogs/solver.glade.h:38
 msgid "_Name: "
 msgstr "_Nome: "
 
@@ -24523,7 +24541,7 @@ msgstr "A Alterar células:"
 msgid "Scenario Manager"
 msgstr "Gestor Cenários"
 
-#: src/dialogs/scenario-manager.glade.h:6
+#: src/dialogs/scenario-manager.glade.h:6 src/dialogs/solver.glade.h:23
 msgid "Scenarios:"
 msgstr "Cenários:"
 
@@ -25028,83 +25046,91 @@ msgstr "Pressupostos Modelo:"
 msgid "Options:"
 msgstr "Opções:"
 
-#: src/dialogs/solver.glade.h:19
+#: src/dialogs/solver.glade.h:20
 msgid "P_rogram"
 msgstr "_Aplicação"
 
-#: src/dialogs/solver.glade.h:20
+#: src/dialogs/solver.glade.h:21
 msgid "Parameters"
 msgstr "Parâmetros"
 
-#: src/dialogs/solver.glade.h:21
-msgid "Reports"
-msgstr "Relatórios"
-
 #: src/dialogs/solver.glade.h:22
+msgid "Reports:"
+msgstr "Relatórios:"
+
+#: src/dialogs/solver.glade.h:24
 msgid "Show Iteration _Results"
 msgstr "Mostrar _Resultados Iteração"
 
-#: src/dialogs/solver.glade.h:23
+#: src/dialogs/solver.glade.h:25
 msgid "Solve"
 msgstr "Solucionar"
 
 #. Fill in the header titles.
-#: src/dialogs/solver.glade.h:24 src/tools/solver/reports-write.c:195
+#: src/dialogs/solver.glade.h:26 src/tools/solver/reports-write.c:195
 #: src/tools/solver/reports-write.c:356 src/tools/solver/reports-write.c:486
 #: src/tools/solver/reports-write.c:747 src/tools/solver/reports-write.c:910
 #: src/tools/solver/reports-write.c:961
 msgid "Solver"
 msgstr "Solucionador"
 
-#: src/dialogs/solver.glade.h:25
+#: src/dialogs/solver.glade.h:27
 msgid "Subject to the Constraints:"
 msgstr "Sujeito às Restrições:"
 
-#: src/dialogs/solver.glade.h:27
+#: src/dialogs/solver.glade.h:29
 msgid "_Answer"
 msgstr "_Resposta"
 
-#: src/dialogs/solver.glade.h:28
+#: src/dialogs/solver.glade.h:30
 msgid "_Change"
 msgstr "Modifi_cação"
 
-#: src/dialogs/solver.glade.h:30
+#: src/dialogs/solver.glade.h:31
+msgid "_Create a scenario if the optimal solution is found"
+msgstr "_Criar um cenário se for encontrada a solução óptima"
+
+#: src/dialogs/solver.glade.h:33
+msgid "_Do not create scenarios"
+msgstr "_Não criar cenários"
+
+#: src/dialogs/solver.glade.h:34
 msgid "_Left Hand Side:"
 msgstr "Lado _Esquerdo:"
 
-#: src/dialogs/solver.glade.h:31
+#: src/dialogs/solver.glade.h:35
 msgid "_Limits"
 msgstr "_Limites"
 
-#: src/dialogs/solver.glade.h:32
+#: src/dialogs/solver.glade.h:36
 msgid "_Linear Model (LP/MILP)"
 msgstr "Modelo _Linear (LP/MILP)"
 
-#: src/dialogs/solver.glade.h:33
+#: src/dialogs/solver.glade.h:37
 msgid "_Max"
 msgstr "_Máx"
 
-#: src/dialogs/solver.glade.h:34
+#: src/dialogs/solver.glade.h:39
 msgid "_Performance"
 msgstr "Desem_penho"
 
-#: src/dialogs/solver.glade.h:35
+#: src/dialogs/solver.glade.h:40
 msgid "_Quadratic Model (QP/MIQP)"
 msgstr "Modelo _Quadrático (QP/MIPQ)"
 
-#: src/dialogs/solver.glade.h:36
+#: src/dialogs/solver.glade.h:41
 msgid "_Right Hand Side:"
 msgstr "Lado _Direito:"
 
-#: src/dialogs/solver.glade.h:37
+#: src/dialogs/solver.glade.h:42
 msgid "_Sensitivity"
 msgstr "_Sensibilidade"
 
-#: src/dialogs/solver.glade.h:38
+#: src/dialogs/solver.glade.h:43
 msgid "_Set Target Cell:       "
 msgstr "_Definir Célula Alvo:   "
 
-#: src/dialogs/solver.glade.h:39
+#: src/dialogs/solver.glade.h:44
 msgid "_Type:"
 msgstr "_Tipo:"
 
@@ -27735,23 +27761,23 @@ msgstr "Séries Fourier (%s)"
 msgid "Fourier Series"
 msgstr "Séries Fourier"
 
-#: src/tools/dao.c:127
+#: src/tools/dao.c:128
 msgid "New Sheet"
 msgstr "Nova Folha"
 
-#: src/tools/dao.c:130
+#: src/tools/dao.c:131
 msgid "New Workbook"
 msgstr "Novo Livro de Trabalho"
 
-#: src/tools/dao.c:742
+#: src/tools/dao.c:770
 msgid "Gnumeric "
 msgstr "Gnumeric "
 
-#: src/tools/dao.c:747
+#: src/tools/dao.c:775
 msgid "Worksheet:"
 msgstr "Folha de Trabalho:"
 
-#: src/tools/dao.c:754
+#: src/tools/dao.c:782
 msgid "Report Created: "
 msgstr "Relatório Criado: "
 
@@ -28202,7 +28228,7 @@ msgstr ""
 "Modelo é demasiado grande para geração de relatório de programa. Relatório "
 "de programa não foi criado."
 
-#: src/tools/solver/solver.c:406
+#: src/tools/solver/solver.c:408
 msgid ""
 "The LHS cells should contain formulas that yield proper numerical values.  "
 "Specify valid LHS entries."
@@ -28210,7 +28236,7 @@ msgstr ""
 "As células LHS deveriam conter fórmulas que retornariam valores numéricos "
 "apropriados. Especifique uma entrada LHS válida."
 
-#: src/tools/solver/solver.c:445
+#: src/tools/solver/solver.c:447
 msgid ""
 "The RHS cells should contain proper numerical values only.  Specify valid "
 "RHS entries."
@@ -28218,7 +28244,7 @@ msgstr ""
 "As células RHS deveriam conter apenas valores numéricos apropriados. "
 "Especifique uma entrada LHS válida."
 
-#: src/tools/solver/solver.c:524
+#: src/tools/solver/solver.c:526
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
@@ -28719,11 +28745,11 @@ msgstr "Já existe uma folha chamada"
 msgid "You may not use this name twice"
 msgstr "Não pode utilizar este nome duas vezes"
 
-#: src/xml-io.c:3630
+#: src/xml-io.c:3793
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "O ficheiro não é um ficheiro Livro de Trabalho Gnumeric"
 
-#: src/xml-io.c:3699
+#: src/xml-io.c:3862
 msgid "Gnumeric XML file format"
 msgstr "Formato de ficheiro XML Gnumeric"
 
