@@ -290,27 +290,34 @@ cb_selection_changed (GtkTreeSelection *new_selection,
 		      TextExportState *state)
 {
 	GtkTreeIter iter, it;
-	gboolean first_selected, last_selected;
+	gboolean first_selected = TRUE, last_selected = TRUE;
 
 	GtkTreeSelection  *selection = 
 		(new_selection == NULL) 
 		? gtk_tree_view_get_selection (state->sheets.view) 
 		: new_selection;
 
-	gtk_tree_model_get_iter_first 
-		(GTK_TREE_MODEL (state->sheets.model),
-		 &iter);
-	first_selected = gtk_tree_selection_iter_is_selected (selection, &iter);
-	it = iter;
-	while (gtk_tree_model_iter_next (GTK_TREE_MODEL (state->sheets.model),
-					 &it))
-		iter = it;
-	last_selected = gtk_tree_selection_iter_is_selected (selection, &iter);
+	if (selection != NULL) {
+		gtk_tree_model_get_iter_first 
+			(GTK_TREE_MODEL (state->sheets.model),
+			 &iter);
+		first_selected = gtk_tree_selection_iter_is_selected 
+			(selection, &iter);
+		it = iter;
+		while (gtk_tree_model_iter_next 
+		       (GTK_TREE_MODEL (state->sheets.model),
+			&it))
+			iter = it;
+		last_selected = gtk_tree_selection_iter_is_selected 
+			(selection, &iter);
+	}
 
 	gtk_widget_set_sensitive (state->sheets.top, !first_selected);
 	gtk_widget_set_sensitive (state->sheets.up, !first_selected);
 	gtk_widget_set_sensitive (state->sheets.bottom, !last_selected);
 	gtk_widget_set_sensitive (state->sheets.down, !last_selected);
+
+	return;
 }
 
 static void

@@ -1,5 +1,10 @@
 2004-11-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-stf-export.c (cb_selection_changed): disable
+	  movement buttons if there is no selection.
+	
+2004-11-01  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-stf-export.c (location_of_iter): deleted
 	(cb_selection_changed): check whether first and last item 
 	  are selected
