@@ -253,7 +253,7 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 	MpsRow *row;
 	GSList *current;
 	gint   i, n;
-	static gchar  *type_str[] = { "=", "<=", ">=" };
+	static const gchar *type_str[] = { "=", "<=", ">=" };
 	Cell *cell;
 	SolverParameters *param = &sh->solver_parameters;
 
@@ -352,7 +352,7 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 		          continue;
 
 		  /* Add row name */
-		  mps_set_cell (sh, CONSTRAINT_COL - 1, i+CONSTRAINT_ROW,
+		  mps_set_cell (sh, CONSTRAINT_COL - 1, i + CONSTRAINT_ROW,
 				row->name);
 
 		  /* Add Type field */
@@ -375,26 +375,26 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 		  /* Add Slack calculation */
 		  buf = g_string_new ("");
 		  if (row->type == LessOrEqualRow) {
-		          g_string_sprintfa(buf, "=%s-",
-					    cell_coord_name (ctxt->n_cols + 3,
-							     i+CONSTRAINT_ROW));
-			  g_string_sprintfa(buf, "%s",
-					    cell_coord_name (ctxt->n_cols + 1,
-							     i+CONSTRAINT_ROW));
+		          g_string_sprintfa (buf, "=%s-",
+					     cell_coord_name (ctxt->n_cols + 3,
+							      i + CONSTRAINT_ROW));
+			  g_string_sprintfa (buf, "%s",
+					     cell_coord_name (ctxt->n_cols + 1,
+							      i + CONSTRAINT_ROW));
 		  } else if (row->type == GreaterOrEqualRow) {
-		          g_string_sprintfa(buf, "=%s-",
-					    cell_coord_name (ctxt->n_cols + 1,
-							     i+CONSTRAINT_ROW));
-			  g_string_sprintfa(buf, "%s",
-					    cell_coord_name (ctxt->n_cols + 3,
-							     i+CONSTRAINT_ROW));
+		          g_string_sprintfa (buf, "=%s-",
+					     cell_coord_name (ctxt->n_cols + 1,
+							      i + CONSTRAINT_ROW));
+			  g_string_sprintfa (buf, "%s",
+					     cell_coord_name (ctxt->n_cols + 3,
+							      i + CONSTRAINT_ROW));
 		  } else {
-		          g_string_sprintfa(buf, "=ABS(%s-",
-					    cell_coord_name (ctxt->n_cols + 1,
-							     i+CONSTRAINT_ROW));
-			  g_string_sprintfa(buf, "%s",
-					    cell_coord_name (ctxt->n_cols + 3,
-							     i+CONSTRAINT_ROW));
+		          g_string_sprintfa (buf, "=ABS(%s-",
+					     cell_coord_name (ctxt->n_cols + 1,
+							      i + CONSTRAINT_ROW));
+			  g_string_sprintfa (buf, "%s",
+					     cell_coord_name (ctxt->n_cols + 3,
+							      i + CONSTRAINT_ROW));
 			  g_string_sprintfa (buf, ")");
 		  }
 		  cell = sheet_cell_fetch (sh, ctxt->n_cols + 4,
@@ -405,22 +405,22 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 		  /* Add Status field */
 		  buf = g_string_new ("");
 		  if (row->type == EqualityRow) {
-		          g_string_sprintfa(buf,
-					    "=IF(%s>%s,\"NOK\", \"Binding\")",
-					    cell_coord_name (ctxt->n_cols + 4,
-							     i + CONSTRAINT_ROW),
-					    BINDING_LIMIT);
+		          g_string_sprintfa (buf,
+					     "=IF(%s>%s,\"NOK\", \"Binding\")",
+					     cell_coord_name (ctxt->n_cols + 4,
+							      i + CONSTRAINT_ROW),
+					     BINDING_LIMIT);
 		  } else {
-		          g_string_sprintfa(buf,
-					    "=IF(%s<0,\"NOK\", ",
-					    cell_coord_name (ctxt->n_cols + 4,
-							     i+CONSTRAINT_ROW));
-			  g_string_sprintfa(buf,
-					    "IF(%s<=%s,\"Binding\","
-					    "\"Not Binding\"))",
-					    cell_coord_name (ctxt->n_cols + 4,
-							     i + CONSTRAINT_ROW),
-					    BINDING_LIMIT);
+		          g_string_sprintfa (buf,
+					     "=IF(%s<0,\"NOK\", ",
+					     cell_coord_name (ctxt->n_cols + 4,
+							      i + CONSTRAINT_ROW));
+			  g_string_sprintfa (buf,
+					     "IF(%s<=%s,\"Binding\","
+					     "\"Not Binding\"))",
+					     cell_coord_name (ctxt->n_cols + 4,
+							      i + CONSTRAINT_ROW),
+					     BINDING_LIMIT);
 		  }
 		  cell = sheet_cell_fetch (sh, ctxt->n_cols + 5,
 					   i + CONSTRAINT_ROW);
@@ -441,7 +441,7 @@ mps_create_sheet (MpsInputContext *ctxt,  WorkbookView *wbv)
 		  c->lhs.row = i + CONSTRAINT_ROW;
 		  c->rhs.col = ctxt->n_cols + 3;
 		  c->rhs.row = i + CONSTRAINT_ROW;
-		  c->type = type_str[row->type];
+		  c->type = (char *)(type_str[row->type]);  /* const_cast */
 		  c->cols = 1;
 		  c->rows = 1;
 		  c->str = write_constraint_str (c->lhs.col, c->lhs.row,
@@ -859,7 +859,7 @@ mps_add_column (MpsInputContext *ctxt, gchar *row_name, gchar *col_name,
 	MpsRow *row;
 	MpsColInfo *i;
 
-	row = (MpsRow *) g_hash_table_lookup(ctxt->row_hash, row_name);
+	row = (MpsRow *) g_hash_table_lookup (ctxt->row_hash, row_name);
 	if (row == NULL)
 	          return FALSE;
 	col = g_new (MpsCol, 1);
@@ -890,7 +890,7 @@ mps_add_rhs (MpsInputContext *ctxt, gchar *rhs_name, gchar *row_name,
 
 	rhs = g_new (MpsRhs, 1);
 	rhs->name = g_strdup (rhs_name);
-	rhs->row = (MpsRow *) g_hash_table_lookup(ctxt->row_hash, row_name);
+	rhs->row = (MpsRow *) g_hash_table_lookup (ctxt->row_hash, row_name);
 	if (rhs->row == NULL)
 	          return FALSE;
 	rhs->value = atof (value_str);
@@ -935,7 +935,7 @@ mps_parse_name (MpsInputContext *ctxt)
 		        return FALSE;
 
 		if (strncmp (ctxt->line, "NAME", 4) == 0
-		    && isspace (ctxt->line[4])) {
+		    && isspace ((unsigned char)(ctxt->line[4]))) {
 		        line = ctxt->line + 5;
 			while (isspace ((unsigned char) *line))
 			        line++;
@@ -982,16 +982,16 @@ mps_parse_rows (MpsInputContext *ctxt)
 			        return FALSE;
 		}
 
-		if (strcmp(type, "E") == 0) {
+		if (strcmp (type, "E") == 0) {
 		        if (!mps_add_row (ctxt, EqualityRow, n1))
 			        return FALSE;
-		} else if (strcmp(type, "L") == 0) {
+		} else if (strcmp (type, "L") == 0) {
 		        if (!mps_add_row (ctxt, LessOrEqualRow, n1))
 			        return FALSE;
-		} else if (strcmp(type, "G") == 0) {
+		} else if (strcmp (type, "G") == 0) {
 		        if (!mps_add_row (ctxt, GreaterOrEqualRow, n1))
 			        return FALSE;
-		} else if (strcmp(type, "N") == 0) {
+		} else if (strcmp (type, "N") == 0) {
 		        if (!mps_add_row (ctxt, ObjectiveRow, n1))
 			        return FALSE;
 		} else
@@ -1001,7 +1001,9 @@ mps_parse_rows (MpsInputContext *ctxt)
  ok_out:
 	for (tmp = ctxt->rows; tmp != NULL; tmp = tmp->next) {
 	        MpsRow *row = (MpsRow *) tmp->data;
-		g_hash_table_insert(ctxt->row_hash, row->name, (gpointer) row);
+		g_hash_table_insert (ctxt->row_hash,
+				     row->name,
+				     (gpointer) row);
 	}
 
 	return TRUE;
