@@ -124,6 +124,54 @@ csv_page_custom_toggled (GtkCheckButton *button, DruidPageData_t *data)
 	csv_page_global_change (NULL, data);
 }
 
+static void
+csv_page_parseoptions_to_gui (DruidPageData_t *pagedata)
+{
+	StfParseOptions_t *po = pagedata->parseoptions;
+
+	{
+		const char *sep;
+		gboolean s_tab = FALSE;
+		gboolean s_colon = FALSE;
+		gboolean s_comma = FALSE;
+		gboolean s_space = FALSE;
+		gboolean s_semicolon = FALSE;
+		gboolean s_pipe = FALSE;
+		gboolean s_slash = FALSE;
+		gboolean s_hyphen = FALSE;
+		gboolean s_bang = FALSE;
+
+		if (po->sep.chr)
+			for (sep = po->sep.chr; *sep; sep++) {
+				switch (*sep) {
+				case '\t': s_tab = TRUE; break;
+				case ':': s_colon = TRUE; break;
+				case ',': s_comma = TRUE; break;
+				case ' ': s_space = TRUE; break;
+				case ';': s_semicolon = TRUE; break;
+				case '|': s_pipe = TRUE; break;
+				case '/': s_slash = TRUE; break;
+				case '-': s_hyphen = TRUE; break;
+				case '!': s_bang = TRUE; break;
+				default: break;
+				}
+			}
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_tab), s_tab);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_colon), s_colon);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_comma), s_comma);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_space), s_space);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_semicolon), s_semicolon);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_pipe), s_pipe);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_slash), s_slash);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_hyphen), s_hyphen);
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_bang), s_bang);
+	}
+
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_duplicates),
+				      po->duplicates);
+}
+
+
 /**
  * stf_dialog_csv_page_prepare
  * @page : The druidpage that emitted the signal
@@ -139,10 +187,7 @@ csv_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 		  G_GNUC_UNUSED GnomeDruid *druid,
 		  DruidPageData_t *pagedata)
 {
-	if (format_get_arg_sep () == ',')
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_comma), TRUE);
-	else
-		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->csv.csv_semicolon), TRUE);
+	csv_page_parseoptions_to_gui (pagedata);
 
 	/* Calling this routine will also automatically call global change which updates the preview too */
 	csv_page_custom_toggled (pagedata->csv.csv_custom, pagedata);

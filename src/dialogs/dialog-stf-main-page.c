@@ -272,6 +272,53 @@ main_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 	main_page_update_preview (pagedata);
 }
 
+static void
+main_page_parseoptions_to_gui (DruidPageData_t *pagedata)
+{
+	StfParseOptions_t *po = pagedata->parseoptions;
+
+#if 0
+	charmap_selector_set_encoding (pagedata->main.charmap_selector, pagedata->encoding);
+#endif
+
+	switch (po->parsetype) {
+	case PARSE_TYPE_CSV:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->main.main_separated),
+					      TRUE);
+		break;
+	case PARSE_TYPE_FIXED:
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (pagedata->main.main_fixed),
+					      TRUE);
+		break;
+	default:
+		break;
+	};
+
+	{
+		gboolean lb_unix = FALSE, lb_windows = FALSE, lb_mac = FALSE;
+		GSList *l;
+	
+		for (l = po->terminator; l; l = l->next) {
+			const char *term = l->data;
+			if (strcmp (term, "\n") == 0)
+				lb_unix = TRUE;
+			else if (strcmp (term, "\r\n") == 0)
+				lb_windows = TRUE;
+			else if (strcmp (term, "\r") == 0)
+				lb_mac = TRUE;
+		}
+
+		gtk_toggle_button_set_active
+			(GTK_TOGGLE_BUTTON (pagedata->main.line_break_unix),
+			 lb_unix);
+		gtk_toggle_button_set_active
+			(GTK_TOGGLE_BUTTON (pagedata->main.line_break_windows),
+			 lb_windows);
+		gtk_toggle_button_set_active
+			(GTK_TOGGLE_BUTTON (pagedata->main.line_break_mac),
+			 lb_mac);
+	}
+}
 
 /*************************************************************************************************
  * MAIN EXPORTED FUNCTIONS
@@ -328,6 +375,9 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	gtk_widget_show_all (GTK_WIDGET (pagedata->main.charmap_selector));
 	gtk_widget_set_sensitive (GTK_WIDGET (pagedata->main.charmap_selector),
 				  !pagedata->fixed_encoding);
+
+	pagedata->parseoptions = stf_parse_options_guess (pagedata->utf8_data);
+	main_page_parseoptions_to_gui (pagedata);
 
 	renderdata = pagedata->main.renderdata = stf_preview_new
 		(pagedata->main.main_data_container,

@@ -184,18 +184,18 @@ Pending Patches
 	 more than 256 columns.  (Think of this as a special
 	 "format".)
     2.7) Create interface for line terminator selection         (DONE)
-    2.8) Make listed separators locale dependent
+    2.8) Make listed separators locale dependent		(DONE)
     2.9) User specifiable locale encoding (not to be confused
          with character encoding)			
     2.10) Fix stf bugs                                          (DONE)
     2.11) Improve initial file preview                          (DONE)
     2.12) Hook up workbook-control-gui.c:cb_data_import_text
 	Data -> External -> Import _Text File...
-    2.13) Separate guessing of csv/fixed from importer.
+    2.13) Separate guessing of csv/fixed from importer.         (DONE)
     2.14) Implement format guessing.
     2.15) Put big "best guess" button on from page.
     2.16) Fix character set mess on paste                       (DONE)
-    2.17) Tabs: either map to spaces or handle expansion.
+    2.17) Tabs: handle optional expansion.
     2.18) Kill use of "importlines" and properly find the end.  (DONE)
 
 3) hlinks

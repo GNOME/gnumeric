@@ -471,7 +471,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	pagedata.fixed_page  = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "fixed_page"));
 	pagedata.format_page = GNOME_DRUID_PAGE (glade_xml_get_widget (gui, "format_page"));
 	pagedata.position    = DPG_MAIN;
-	pagedata.parseoptions = stf_parse_options_new ();
+	pagedata.parseoptions = NULL;
 
 	stf_dialog_main_page_init   (gui, &pagedata);
 	stf_dialog_csv_page_init    (gui, &pagedata);

@@ -1,3 +1,12 @@
+2003-06-16  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-csv-page.c (csv_page_parseoptions_to_gui): Use
+	guessed parse options.
+
+	* dialog-stf-main-page.c (main_page_parseoptions_to_gui): New
+	function.
+	(stf_dialog_main_page_init): Guess initial parseoptions.
+
 2003-06-14  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-sheet-order.c (dialog_sheet_order): Fix typo
