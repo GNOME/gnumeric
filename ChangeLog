@@ -1,3 +1,22 @@
+2002-03-04  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet.c (sheet_cell_insert) : make it clear that this routine
+	  does not link the expression or register the dependencies.
+	(sheet_cell_remove_from_hash) : document state changes and use
+	  dependend_unlink.
+	(cb_remove_allcells) : cell_destroy will unlink.
+	(cb_collect_cell) : be clear that the results are unlinked.
+	(colrow_move) : some docs.
+	(sheet_move_range) : simplify now that the collected cells are
+	  unlinked rather than just having their depends dropped.
+
+	* src/eval.c (cell_add_dependencies) : delete.
+	(cell_drop_dependencies) : delete.
+
+	* src/style.c (style_font_new_simple) : If we can't find a font check
+	  a map to see if we know of something similar.
+	(get_substitute_font) : moved here from the XL importer.
+
 2002-03-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_rename_sheet,...) : now a wrapper around 

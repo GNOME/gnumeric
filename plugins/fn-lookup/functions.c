@@ -735,6 +735,12 @@ static const char *help_indirect = {
 	   "@SEEALSO=")
 };
 
+static void
+gnumeric_indirect_unlink (FunctionEvalInfo *ei)
+{
+	puts ("UNLINK indirect");
+}
+
 static Value *
 gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 {
@@ -1138,8 +1144,11 @@ lookup_functions_init (void)
 	function_add_args  (cat, "hyperlink",
 			    "s|s","link_location, optional_label",
 			    &help_hyperlink, gnumeric_hyperlink);
-	function_add_args  (cat, "indirect",  "s|b","ref_string,format",
-			    &help_indirect, gnumeric_indirect);
+	function_set_link_handlers (
+		function_add_args  (cat, "indirect",  "s|b","ref_string,format",
+				    &help_indirect, gnumeric_indirect),
+		NULL, gnumeric_indirect_unlink);
+
 	function_add_args  (cat, "index",     "A|fff","reference,row,col,area",
 			    &help_index,    gnumeric_index);
 	function_add_args  (cat, "lookup",    "?A|r", "val,range,range",

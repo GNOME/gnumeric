@@ -935,43 +935,6 @@ dependent_changed (Dependent *dep, gboolean queue_recalc)
 	}
 }
 
-/**
- * cell_add_dependencies:
- * @cell:
- *
- * This registers the dependencies for this cell
- * by scanning all of the references made in the
- * parsed expression.
- **/
-void
-cell_add_dependencies (Cell *cell)
-{
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->base.sheet != NULL);
-	g_return_if_fail (cell->base.sheet->deps != NULL);
-
-	if (cell_has_expr (cell))
-		handle_tree_deps (CELL_TO_DEP (cell), &cell->pos,
-				  cell->base.expression, ADD_DEPS);
-}
-
-/**
- * cell_drop_dependencies:
- * @cell:
- *
- *
- **/
-void
-cell_drop_dependencies (Cell *cell)
-{
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->base.sheet != NULL);
-
-	if (cell_has_expr (cell))
-		handle_tree_deps (CELL_TO_DEP (cell), &cell->pos,
-				  cell->base.expression, REMOVE_DEPS);
-}
-
 void
 cell_eval (Cell *cell)
 {

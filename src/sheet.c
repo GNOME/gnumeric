@@ -2580,6 +2580,7 @@ sheet_cell_add_to_hash (Sheet *sheet, Cell *cell)
 		cell->base.flags |= CELL_IS_MERGED;
 }
 
+/* Does NOT link expressions */
 static void
 sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row, gboolean recalc_span)
 {
@@ -2588,8 +2589,6 @@ sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row, gboolean recalc_s
 	cell->pos.row = row;
 
 	sheet_cell_add_to_hash (sheet, cell);
-	cell_add_dependencies (cell);
-
 	if (recalc_span && !cell_needs_recalc (cell))
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
 }
@@ -2617,14 +2616,19 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	return cell;
 }
 
+/**
+ * sheet_cell_remove_from_hash :
+ *
+ * Removes a cell from the sheet hash, clears any spans, and unlinks it from
+ * the dependent collection.
+ */
 static void
 sheet_cell_remove_from_hash (Sheet *sheet, Cell *cell)
 {
 	g_return_if_fail (cell_is_linked (cell));
 
 	cell_unregister_span   (cell);
-	cell_drop_dependencies (cell);
-
+	dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 	g_hash_table_remove (sheet->cell_hash, &cell->pos);
 	cell->base.flags &= ~(CELL_IN_SHEET_LIST|CELL_IS_MERGED);
 }
@@ -2766,7 +2770,6 @@ static gboolean
 cb_remove_allcells (gpointer ignored, gpointer value, gpointer flags)
 {
 	Cell *cell = value;
-	cell_drop_dependencies (cell);
 
 	cell->base.flags &= ~CELL_IN_SHEET_LIST;
 	cell->base.sheet = NULL;
@@ -3280,8 +3283,8 @@ sheet_is_pristine (Sheet const *sheet)
 /****************************************************************************/
 
 /*
- * Callback for sheet_foreach_cell_in_range to remove a cell and
- * put it in a temporary list.
+ * Callback for sheet_foreach_cell_in_range to remove a cell from the sheet
+ * hash, unlink from the dependent collection and put it in a temporary list.
  */
 static Value *
 cb_collect_cell (Sheet *sheet, int col, int row, Cell *cell,
@@ -3353,6 +3356,8 @@ colrow_move (Sheet *sheet,
 			cell->pos.row = new_pos;
 
 		sheet_cell_add_to_hash (sheet, cell);
+
+		/* relinks expressions */
 		cell_relocate (cell, NULL);
 	}
 }
@@ -3662,7 +3667,7 @@ sheet_move_range (WorkbookControl *wbc,
 	GList *cells = NULL;
 	Cell  *cell;
 	Range  dst;
-	gboolean inter_sheet_expr, out_of_range;
+	gboolean out_of_range;
 
 	g_return_if_fail (rinfo != NULL);
 	g_return_if_fail (IS_SHEET (rinfo->origin_sheet));
@@ -3758,26 +3763,14 @@ sheet_move_range (WorkbookControl *wbc,
 		/* check for out of bounds and delete if necessary */
 		if ((cell->pos.col + rinfo->col_offset) >= SHEET_MAX_COLS ||
 		    (cell->pos.row + rinfo->row_offset) >= SHEET_MAX_ROWS) {
-			if (cell_has_expr (cell))
-				dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 			cell_destroy (cell);
 			continue;
 		}
-
-		/* Inter sheet movement requires the moving the expression too */
-		inter_sheet_expr  = (cell->base.sheet != rinfo->target_sheet &&
-				     cell_has_expr (cell));
-		if (inter_sheet_expr)
-			dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
 
 		/* Update the location */
 		sheet_cell_insert (rinfo->target_sheet, cell,
 				   cell->pos.col + rinfo->col_offset,
 				   cell->pos.row + rinfo->row_offset, TRUE);
-
-		if (inter_sheet_expr)
-			dependent_link (CELL_TO_DEP (cell), &cell->pos);
-
 		cell_relocate (cell, NULL);
 	}
 

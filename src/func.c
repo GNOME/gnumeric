@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * func.c: Function management and utility routines.
  *
@@ -556,6 +558,25 @@ function_def_count_args (FunctionDefinition const *fn_def,
 	*max = i;
 	if (!vararg)
 		*min = i;
+}
+
+/**
+ * function_set_link_handlers :
+ *
+ * Add callbacks for a function to perform special handling as each instance
+ * of the function is linked or unlinked from the sheet.
+ */
+void
+function_set_link_handlers (FunctionDefinition *fn_def,
+			    FuncLinkHandle link, FuncLinkHandle unlink)
+{
+	/* Be paranoid for now */
+	g_return_if_fail (fn_def != NULL);
+	g_return_if_fail (fn_def->link == NULL);
+	g_return_if_fail (fn_def->unlink == NULL);
+
+	fn_def->link = link;
+	fn_def->unlink = unlink;
 }
 
 /**

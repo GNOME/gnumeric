@@ -36,6 +36,32 @@ StyleFont *gnumeric_default_font;
 StyleFont *gnumeric_default_bold_font;
 StyleFont *gnumeric_default_italic_font;
 
+/**
+ * get_substitute_font
+ * @fontname    The font name
+ *
+ * Tries to find a gnome font which matches the Excel font.
+ * Returns the name of the substitute font if found. Otherwise returns NULL
+ */
+/* This is very ad hoc - throw it away when something better comes along */
+static gchar const *
+get_substitute_font (gchar const *fontname)
+{
+	int i;
+
+	static char const *map[][2] = {
+		{ "Times New Roman", "Times"},
+		{ "Arial",           "Helvetica"},
+		{ "Courier New",     "Courier"},
+		{ NULL }
+	};
+	for (i = 0; map[i][0]; i++)
+		if (strcmp (map[i][0], fontname) == 0)
+			return map[i][1];
+
+	return NULL;
+}
+
 StyleFont *
 style_font_new_simple (char const *font_name, double size_pts, double scale,
 		       gboolean bold, gboolean italic)
@@ -54,9 +80,7 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 	key.scale     = scale;
 
 	font = (StyleFont *) g_hash_table_lookup (style_font_hash, &key);
-	if (font) {
-		font->ref_count++;
-	} else {
+	if (font == NULL) {
 		PangoFontDescription *desc;
 		if (g_hash_table_lookup (style_font_negative_hash, &key))
 			return NULL;
@@ -83,9 +107,19 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		font->pango.font = pango_context_load_font (font->pango.context,
 							    desc);
 		if (font->pango.font == NULL) {
-			g_hash_table_insert (style_font_negative_hash,
-					     font, font);
-			return NULL;
+			/* if we fail try to be smart and map to something similar */
+			char const *sub = get_substitute_font (font_name);
+			if (sub != NULL) {
+				pango_font_description_set_family (desc, font_name);
+				font->pango.font = pango_context_load_font (font->pango.context,
+									    desc);
+			}
+
+			if (font->pango.font == NULL) {
+				g_hash_table_insert (style_font_negative_hash,
+						     font, font);
+				return NULL;
+			}
 		}
 		font->pango.metrics = pango_font_get_metrics (font->pango.font,
 			gtk_get_default_language ());
@@ -119,7 +153,8 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 #endif
 
 		g_hash_table_insert (style_font_hash, font, font);
-	}
+	} else
+		font->ref_count++;
 
 #ifdef DEBUG_REF_COUNT
 	fprintf (stderr, __FUNCTION__ " font=%p name=%s%s%s ref_count=%d\n",

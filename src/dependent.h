@@ -68,8 +68,6 @@ gboolean dependent_eval		   (Dependent *dep);
 void	 dependent_changed	   (Dependent *dep, gboolean queue_recalc);
 void	 cb_dependent_queue_recalc (Dependent *dep, gpointer ignore);
 
-void cell_add_dependencies	 (Cell *cell);
-void cell_drop_dependencies	 (Cell *cell);
 void cell_queue_recalc		 (Cell const *cell);
 void cell_foreach_dep		 (Cell const *cell, DepFunc func, gpointer user);
 void cell_eval		 	 (Cell *cell);
