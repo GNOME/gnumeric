@@ -215,6 +215,7 @@ go_fonts_init (void)
 	fontmap = pango_ft2_font_map_new ();
 	pango_ft2_font_map_set_resolution (PANGO_FT2_FONT_MAP (fontmap), 96, 96);
 	context = pango_ft2_font_map_create_context (PANGO_FT2_FONT_MAP (fontmap));
+	g_object_unref (fontmap);
 
 	pango_context_list_families (context, &pango_families, &n_families);
 	qsort (pango_families, n_families, sizeof (*pango_families),
