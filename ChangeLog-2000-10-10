@@ -1,5 +1,9 @@
 2000-09-21  Jody Goldberg <jgoldberg@home.com>
 
+	* src/position.c (eval_pos_init_dep) : typo.
+
+2000-09-21  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook-format-toolbar.c (workbook_cmd_format_as_money) :
 	  no need to translate the money format.  We generate it elsewhere.
 	(workbook_cmd_format_as_percent) : ditto.
