@@ -898,8 +898,10 @@ eval_expr_real (FunctionEvalInfo *s, ExprTree const *tree)
 		}
 
 		if (a->type != VALUE_FLOAT && b->type != VALUE_FLOAT){
-			int const ia = value_get_as_int (a);
+			int ia = value_get_as_int (a);
 			int ib = value_get_as_int (b);
+			value_release (a);
+			value_release (b);
 
 			switch (tree->oper){
 			case OPER_SUB:

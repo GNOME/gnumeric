@@ -1,3 +1,7 @@
+1999-08-02  Morten Welinder  <terra@diku.dk>
+
+	* src/expr.c (eval_expr_real): Plug leak...
+
 1999-08-02  Jody Goldberg  <jgoldberg@home.com>
 
 	* src/item-bar.c (item_bar_event) : Button3 should select the
