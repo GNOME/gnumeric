@@ -1032,12 +1032,25 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	if (!info->canceled && info->selected_template) {
 		WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 		Sheet *sheet = wb_control_cur_sheet (wbc);
+		GSList *selection = selection_get_ranges (sheet, FALSE);
 
 		cmd_autoformat (wbc, sheet,
 			format_template_clone (info->selected_template));
 
 		format_template_apply_to_sheet_regions (info->selected_template,
-			sheet, selection_get_ranges (sheet, FALSE));
+			sheet, selection);
+
+		/*
+		 * Free selection ranges
+		 */
+		if (selection != NULL) {
+			GSList *l;
+			
+			for (l = selection ; l != NULL ; l = g_slist_remove (l, l->data))
+				g_free (l->data);
+				
+			selection = NULL;
+		}
 	}
 
 	/*

@@ -1,3 +1,9 @@
+2000-11-01  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/dialogs/dialog-autoformat.c:
+	(dialog_autoformat): Kill memory leak, we were not freeing
+	the list of acquired selection ranges.
+
 2000-10-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_set_text_undo) : Use sheet_clear_region to
