@@ -217,6 +217,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 	rect.width  = sheet_col_get_distance_pixels (cell->sheet,
 						     start_col, end_col + 1) + 1;
 	rect.height = cell->row->size_pixels + 1;
+	gdk_gc_set_clip_rectangle (gc, &rect);
 
 	/*
 	 * x1, y1 are relative to this cell origin, but the cell might be using
@@ -237,8 +238,7 @@ cell_draw (Cell *cell, MStyle *mstyle,
 		gdk_draw_rectangle (drawable, gc, TRUE,
 				    rect.x+1, rect.y+1, rect.width-2, rect.height-2);
 
-
-	/* And now reset the previous foreground color */
+	/* Set the font color */
 	gdk_gc_set_fill (gc, GDK_SOLID);
 	if (cell->render_color)
 		gdk_gc_set_foreground (gc, &cell->render_color->color);

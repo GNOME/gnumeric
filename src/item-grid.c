@@ -265,53 +265,6 @@ item_grid_draw_border (GdkDrawable *drawable, MStyle *mstyle,
 				   x, y, x + w, y + h);
 }
 
-/*
- * Draw a cell.  It gets pixel level coordinates
- *
- * Returns the number of columns used by the cell.
- */
-static int
-item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
-		     Cell *cell, int x1, int y1)
-{
-	Sheet      *sheet  = cell->sheet;
-	MStyle     *mstyle = sheet_style_compute (cell->sheet, cell->col->pos, cell->row->pos);
-	GdkGC      *gc     = item_grid->gc;
-	int         count  = 1;
-
-	int const w = cell->col->size_pixels;
-	int const h = cell->row->size_pixels;
-
-	gboolean const is_selected = !(sheet->cursor_col == cell->col->pos &&
-				       sheet->cursor_row == cell->row->pos) &&
-	    sheet_selection_is_cell_selected (sheet, cell->col->pos, cell->row->pos);
-
-	/* setup foreground */
-	gdk_gc_set_foreground (gc, &item_grid->default_color);
-	if (cell->render_color)
-		gdk_gc_set_foreground (gc, &cell->render_color->color);
-	else if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_FORE))
-		gdk_gc_set_foreground (gc,
-				       &mstyle_get_color (mstyle, MSTYLE_COLOR_FORE)->color);
-
-	if (mstyle_is_element_set (mstyle, MSTYLE_COLOR_BACK))
-		gdk_gc_set_background (gc,
-				       &mstyle_get_color (mstyle, MSTYLE_COLOR_BACK)->color);
-	else
-		gdk_gc_set_background (gc, &item_grid->background);
-
-	/* Draw cell contents BEFORE border */
-	if (cell->sheet->display_zero || !cell_is_zero (cell))
-		count = cell_draw (cell, mstyle, item_grid->sheet_view, gc, drawable,
-				   x1, y1, is_selected);
-
-	item_grid_draw_border (drawable, mstyle, x1, y1, w, h, count > 1, FALSE);
-
-	mstyle_unref (mstyle);
-
-	return count;
-}
-
 static void
 item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			    ColRowInfo const * const ci, ColRowInfo const * const ri,
@@ -342,6 +295,47 @@ item_grid_paint_empty_cell (GdkDrawable *drawable, ItemGrid *item_grid,
 			       span_count > 0);
 
 	mstyle_unref (mstyle);
+}
+
+/*
+ * Draw a cell.  It gets pixel level coordinates
+ *
+ * Returns the number of columns used by the cell.
+ */
+static int
+item_grid_draw_cell (GdkDrawable *drawable, ItemGrid *item_grid,
+		     Cell *cell, int x1, int y1)
+{
+	if (cell->sheet->display_zero || !cell_is_zero (cell)) {
+		Sheet      *sheet  = cell->sheet;
+		MStyle     *mstyle = sheet_style_compute (cell->sheet, cell->col->pos, cell->row->pos);
+		GdkGC      *gc     = item_grid->gc;
+		int         count  = 1;
+
+		int const w = cell->col->size_pixels;
+		int const h = cell->row->size_pixels;
+
+		gboolean const is_selected = !(sheet->cursor_col == cell->col->pos &&
+					       sheet->cursor_row == cell->row->pos) &&
+		    sheet_selection_is_cell_selected (sheet, cell->col->pos, cell->row->pos);
+
+		/* Draw cell contents BEFORE border */
+		count = cell_draw (cell, mstyle, item_grid->sheet_view, gc, drawable,
+				   x1, y1, is_selected);
+
+		item_grid_draw_border (drawable, mstyle, x1, y1, w, h, count > 1, FALSE);
+
+		mstyle_unref (mstyle);
+
+		return count;
+	}
+
+	/* Pretend it is an empty */
+	item_grid_paint_empty_cell (drawable, item_grid,
+				    cell->col, cell->row,
+				    cell->col->pos, cell->row->pos,
+				    x1, y1, 1);
+	return 1;
 }
 
 static void

@@ -1,5 +1,13 @@
 2000-02-13  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-grid.c (item_grid_paint_empty_cell) : Move above item_grid_draw_cell.
+	(item_grid_draw_cell) : Do not to set colours here that is handled
+	  elsewhere.  Call empty_cell for zeros when we are not displaying them.
+
+	* src/cell-draw.c (cell_draw) : Reset the clipping region
+	  to avoid losing the background colour because the previous cell
+	  drawn had set a non overlapping clipping region.
+
 	* src/workbook-view.c (workbook_view_set_size) : Clarify that the
 	  measurements are in pixels.
 
