@@ -21,12 +21,10 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
+#include "xml-sax.h"
 #include "xml-io-version.h"
-#include <goffice/app/io-context.h>
-#include <goffice/app/go-plugin.h>
-#include <gnm-plugin.h>
+#include "gnm-plugin.h"
 #include "sheet-view.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
@@ -47,18 +45,22 @@
 #include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include <goffice/app/error-info.h>
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 #include "gnm-so-line.h"
 #include "gnm-so-filled.h"
 #include "sheet-object-graph.h"
+
+#include <goffice/app/io-context.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/error-info.h>
 #include <goffice/utils/go-glib-extras.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-memory.h>
 #include <gsf/gsf-input-gzip.h>
+#include <glib/gi18n.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/parserInternals.h>
@@ -1617,7 +1619,7 @@ GSF_XML_IN_NODE_FULL (START, WB, GNM, "Workbook", FALSE, TRUE, FALSE, &xml_sax_w
   GSF_XML_IN_NODE (WB, WB_CALC, GNM, "Calculation", FALSE, &xml_sax_calculation, NULL),
   { NULL }
 };
-static GsfXMLInDoc *doc;
+GsfXMLInDoc *gnm_sax_in_doc;
 
 #if 0 /* requires gsf 1.11.0 */
 static gboolean
@@ -1714,7 +1716,7 @@ maybe_convert (GsfInput *input, gboolean quiet)
 
 void
 gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
-		   WorkbookView *wb_view, GsfInput *input)
+		   gpointer wb_view, GsfInput *input)
 {
 	XMLSaxParseState state;
 	char *old_num_locale, *old_monetary_locale;
@@ -1723,7 +1725,7 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	g_return_if_fail (GSF_IS_INPUT (input));
 
 	/* init */
-	state.base.doc = doc;
+	state.base.doc = gnm_sax_in_doc;
 
 	state.context = io_context;
 	state.wb_view = wb_view;
@@ -1773,16 +1775,19 @@ gnm_xml_file_open (GOFileOpener const *fo, IOContext *io_context,
 	g_hash_table_destroy (state.expr_map);
 }
 
+#warning FIXME register these
+#if 0
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
+	gnm_sax_in_doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
 #if 0 /* requires gsf 1.11.0 */
-	gsf_xml_in_doc_set_unknown_handler (doc, &xml_sax_unknown);
+	gsf_xml_in_doc_set_unknown_handler (gnm_sax_in_doc, &xml_sax_unknown);
 #endif
 }
 G_MODULE_EXPORT void
 go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
-	gsf_xml_in_doc_free (doc);
+	gsf_xml_in_doc_free (gnm_sax_in_doc);
 }
+#endif

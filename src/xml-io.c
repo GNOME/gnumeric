@@ -12,6 +12,7 @@
 #include <glib/gi18n.h>
 #include "gnumeric.h"
 #include "xml-io.h"
+#include "xml-sax.h"
 #include "xml-io-version.h"
 
 #include "style-color.h"

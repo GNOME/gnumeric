@@ -1107,7 +1107,7 @@ xml_io_conventions (void)
 
 void
 gnm_xml_file_save (GOFileSaver const *fs, IOContext *io_context,
-		   WorkbookView const *wb_view, GsfOutput *output)
+		   gconstpointer wb_view, GsfOutput *output)
 {
 	GnmOutputXML state;
 	char *old_num_locale, *old_monetary_locale;

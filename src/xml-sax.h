@@ -6,10 +6,10 @@
 #include <gsf/gsf-output-memory.h>
 
 void	gnm_xml_file_open	(GOFileOpener const *fo, IOContext *io_context,
-				 WorkbookView *wb_view, GsfInput *input);
+				 gpointer wb_view, GsfInput *input);
 
 void	gnm_xml_file_save	(GOFileSaver const *fs, IOContext *io_context,
-				 WorkbookView const *wb_view, GsfOutput *output);
+				 gconstpointer wb_view, GsfOutput *output);
 GsfOutputMemory *
 	gnm_cellregion_to_xml	(GnmCellRegion const *cr);
 
