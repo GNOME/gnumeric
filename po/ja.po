@@ -14153,7 +14153,6 @@ msgstr ""
 "@SEEALSO=RAND,RANDBETWEEN"
 
 #: plugins/fn-stat/functions.c:5646
-#, fuzzy
 msgid ""
 "@FUNCTION=LAPLACE\n"
 "@SYNTAX=LAPLACE(x,a)\n"
@@ -14164,13 +14163,14 @@ msgid ""
 "\n"
 "@SEEALSO=RANDLAPLACE"
 msgstr ""
-"@FUNCTION=RANDEXP\n"
-"@SYNTAX=RANDEXP(b)\n"
-"@DESCRIPTION=RANDEXP 関数は指数分布を用いて乱数を発生させます。\n"
+"@FUNCTION=LAPLACE\n"
+"@SYNTAX=LAPLACE(x,a)\n"
+"@DESCRIPTION=LAPLACE関数は、平均値@aのラプラス分布の@xにおける"
+"確率密度p(x)を返します。\n"
 "@EXAMPLES=\n"
-"RANDEXP(0.5)\n"
+"LAPLACE(0.4,1)です。\n"
 "\n"
-"@SEEALSO=RAND,RANDBETWEEN"
+"@SEEALSO=RANDLAPLACE"
 
 #: plugins/fn-stat/functions.c:5687 plugins/fn-stat/functions.c:5949
 msgid "k,p"
@@ -14357,16 +14357,14 @@ msgid "ref,ref,"
 msgstr ""
 
 #: plugins/fn-stat/plugin.xml.in.h:1
-#, fuzzy
 msgid "Statistical Functions"
-msgstr "数学関数"
+msgstr "統計関数"
 
 #: plugins/fn-stat/plugin.xml.in.h:2
 msgid "Statistics"
 msgstr "統計"
 
 #: plugins/fn-string/functions.c:60
-#, fuzzy
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
@@ -14380,13 +14378,13 @@ msgstr ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
 "@DESCRIPTION=CHAR 関数は数値 @x で表現される ASCII 文字を返します。\n"
+"\n"
 "@EXAMPLES=\n"
 "CHAR(65) = A です。\n"
 "\n"
 "@SEEALSO=CODE"
 
 #: plugins/fn-string/functions.c:102
-#, fuzzy
 msgid ""
 "@FUNCTION=UNICHAR\n"
 "@SYNTAX=UNICHAR(x)\n"
@@ -14399,16 +14397,17 @@ msgid ""
 "\n"
 "@SEEALSO=CHAR,UNICODE,CODE"
 msgstr ""
-"@FUNCTION=CHAR\n"
-"@SYNTAX=CHAR(x)\n"
-"@DESCRIPTION=CHAR 関数は数値 @x で表現される ASCII 文字を返します。\n"
+"@FUNCTION=UNICHAR\n"
+"@SYNTAX=UNICHAR(x)\n"
+"@DESCRIPTION=UNICHAR 関数は数値 @x で表現されるユニコード文字を返します。\n"
 "@EXAMPLES=\n"
-"CHAR(65) = A です。\n"
 "\n"
-"@SEEALSO=CODE"
+"UNICHAR(65) = A です。\n"
+"UNICHAR(960)はギリシャ文字の小文字のπです。\n"
+"\n"
+"@SEEALSO=CHAR,UNICODE,CODE"
 
 #: plugins/fn-string/functions.c:134
-#, fuzzy
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -14424,14 +14423,15 @@ msgstr ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
 "@DESCRIPTION=CODE 関数は文字 @char に対する ASCII コードを返します。\n"
+"\n"
 "この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "CODE(\"A\") = 65 です。\n"
 "\n"
 "@SEEALSO=CHAR"
 
 #: plugins/fn-string/functions.c:179
-#, fuzzy
 msgid ""
 "@FUNCTION=UNICODE\n"
 "@SYNTAX=UNICODE(char)\n"
@@ -14443,17 +14443,17 @@ msgid ""
 "\n"
 "@SEEALSO=UNICHAR,CODE,CHAR"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=CODE 関数は文字 @char に対する ASCII コードを返します。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"CODE(\"A\") = 65 です。\n"
+"@FUNCTION=UNICODE\n"
+"@SYNTAX=UNICODE(char)\n"
+"@DESCRIPTION=UNICODE 関数は文字 @char に対する ユニコード番号を返します。\n"
 "\n"
-"@SEEALSO=CHAR"
+"\n"
+"@EXAMPLES=\n"
+"UNICODE(\"A\") = 65 です。\n"
+"\n"
+"@SEEALSO=UNICHAR,CODE,CHAR"
 
 #: plugins/fn-string/functions.c:205
-#, fuzzy
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -14472,7 +14472,9 @@ msgstr ""
 "@SYNTAX=EXACT(文字列1, 文字列2)\n"
 "@DESCRIPTION=EXACT は@文字列1と@文字列2が完全に同じ場合に TRUE を返します。"
 "(この関数は大文字、小文字を区別します)\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "EXACT(\"key\",\"key\") = TRUE です。\n"
 "EXACT(\"key\",\"Key\") = FALSE です。\n"
@@ -14480,7 +14482,6 @@ msgstr ""
 "@SEEALSO=LEN, SEARCH, DELTA"
 
 #: plugins/fn-string/functions.c:230
-#, fuzzy
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -14496,14 +14497,15 @@ msgstr ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(文字列)\n"
 "@DESCRIPTION=LEN 関数は @文字列 の長さを返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "len(\"Helsinki\") = 8 です。\n"
 "\n"
 "@SEEALSO=CHAR, CODE"
 
 #: plugins/fn-string/functions.c:252
-#, fuzzy
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -14521,14 +14523,15 @@ msgstr ""
 "@SYNTAX=LEFT(文字列[,文字数])\n"
 "@DESCRIPTION=LEFT 関数は @文字列 の先頭から @文字数 に指定された数の文字を返"
 "します。@文字数 を指定しないと、先頭の文字を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "LEFT(\"Directory\",3) = \"Dir\" です。\n"
 "\n"
 "@SEEALSO=MID, RIGHT"
 
 #: plugins/fn-string/functions.c:288
-#, fuzzy
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -14543,16 +14546,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(文字列)\n"
-"@DESCRIPTION=LOWER 関数は @文字列 に含まれる大文字を小文字に変換した文字列を"
-"返します。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=LOWER 関数は @文字列 に含まれる大文字を小文字に変換した"
+"文字列を返します。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "LOWER(\"J. F. Kennedy\") = \"j. f. kennedy\" です。\n"
 "\n"
 "@SEEALSO=UPPER"
 
 #: plugins/fn-string/functions.c:310
-#, fuzzy
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -14568,16 +14572,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(文字列,位置,長さ)\n"
-"@DESCRIPTION=MID 関数は @文字列 の @位置 から計算して @長さ 分の文字列を返し"
-"ます。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=MID 関数は @文字列 の @位置 から計算して @長さ 分の文字列を"
+"返します。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
 "MID(\"testing\",2,3) = \"est\" です。\n"
 "\n"
 "@SEEALSO=LEFT, RIGHT"
 
 #: plugins/fn-string/functions.c:355
-#, fuzzy
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -14596,7 +14600,8 @@ msgstr ""
 "@SYNTAX=RIGHT(文字列[,文字数])\n"
 "@DESCRIPTION=RIGHT 関数は @文字列 の右から指定された @文字数 分の文字列を、@"
 "文字数 の指定がない場合は右端の文字を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* この関数は Excel 互換です。\n"
 "@EXAMPLES=\n"
 "RIGHT(\"end\") = \"d\" です。\n"
 "RIGHT(\"end\",2) = \"nd\" です。\n"
@@ -16353,10 +16358,12 @@ msgstr "新規ワークブックのデフォルトフォントサイズです。
 msgid ""
 "The file menu shows a list of recently used functions. This is that list."
 msgstr ""
+"ファイルメニューは最近使用した関数の一覧を表示します。これはその"
+"一覧です。"
 
 #: schemas/gnumeric-general.schemas.in.h:37
 msgid "The initial zoom factor for new workbooks."
-msgstr ""
+msgstr "新規ワークブックでの最初の拡大倍率です。"
 
 #: schemas/gnumeric-general.schemas.in.h:38
 msgid "The number of files kept in the `recent' section of the file menu."
@@ -16364,7 +16371,7 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:39
 msgid "The number of sheets initially created in a new workbook."
-msgstr ""
+msgstr "新規ワークブックで最初に作成するシートの数です。"
 
 #: schemas/gnumeric-general.schemas.in.h:40
 msgid ""
@@ -16594,12 +16601,10 @@ msgid "Center"
 msgstr "中央"
 
 #: src/GNOME_Gnumeric.xml.h:25 src/workbook-format-toolbar.c:449
-#, fuzzy
 msgid "Center Across Selection"
 msgstr "選択範囲の中央揃え"
 
 #: src/GNOME_Gnumeric.xml.h:26 src/workbook-format-toolbar.c:449
-#, fuzzy
 msgid "Center across the selected cells"
 msgstr "選択したセルを中央揃えにします"
 
