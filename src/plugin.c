@@ -1504,7 +1504,9 @@ plugin_db_activate_saved_active_plugins (ErrorInfo **ret_error)
 	*ret_error = error;
 	g_list_free (plugin_list);
 
+#ifndef PLUGIN_DEBUG
 	plugin_db_update_saved_active_plugin_id_list ();
+#endif
 }
 
 void
@@ -1551,7 +1553,9 @@ plugins_shutdown (void)
 	for (l = plugins_marked_for_deactivation; l != NULL; l = l->next) {
 		plugin_info_force_mark_inactive ((PluginInfo *) l->data);
 	}
-	plugin_db_update_saved_active_plugin_id_list ();
+	if (plugins_marked_for_deactivation != NULL) {
+		plugin_db_update_saved_active_plugin_id_list ();
+	}
 	plugin_db_shutdown (&ignored_error);
 	error_info_free (ignored_error);
 	gnome_config_sync ();

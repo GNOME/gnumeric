@@ -1,3 +1,10 @@
+2001-04-01  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* src/plugin.c
+	(plugin_db_activate_saved_active_plugins): Don't update saved active
+	plugin ids if PLUGIN_DEBUG is defined.
+	(plugins_shutdown): Update saved active plugin ids only if needed.
+
 2001-04-01  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/commands.c
