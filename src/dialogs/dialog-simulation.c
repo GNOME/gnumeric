@@ -163,32 +163,76 @@ prepare_ranges (simulation_t *sim)
 }
 
 static void
-update_log (simulation_t *sim)
+update_log (SimulationState *state, simulation_t *sim)
 {
-	const gchar   *t1 = _("Simulations\t\t\t= ");
-	const gchar   *t2 = _("Iterations\t\t\t= ");
-	const gchar   *t3 = _("# Input variables\t\t= ");
-	const gchar   *t4 = _("# Output variables\t= ");
-	const gchar   *t5 = _("Runtime\t\t\t= ");
-	const gchar   *t6 = _("Run on\t\t\t= ");
-	GString *buf;
+	const gchar   *txt [6] = {
+		_("Simulations"), _("Iterations"), _("# Input variables"),
+		_("# Output variables"), _("Runtime"), _("Run on")
+	};
+	GtkTreeIter  iter;
+	GtkListStore *store;
+	GtkTreePath  *path;
+	GtkWidget    *view;
+	GString      *buf;
+	int          i;
 
-	buf = g_string_new (NULL);
-	g_string_append_printf (buf, "%s %d\n", t1,
-			   sim->last_round - sim->first_round + 1);
-	g_string_append_printf (buf, "%s %d\n", t2, sim->n_iterations);
-	g_string_append_printf (buf, "%s %d\n", t3, sim->n_input_vars);
-	g_string_append_printf (buf, "%s %d\n", t4, sim->n_output_vars);
-	g_string_append_printf (buf, "%s %.2f sec.\n", t5, 
-			   sim->end.tv_sec - sim->start.tv_sec +
-			   (sim->end.tv_usec - sim->start.tv_usec) /
-			   (gnm_float) G_USEC_PER_SEC);
-	g_string_append_printf (buf, "%s ", t6);
-	dao_append_date (buf);
-	g_string_append_printf (buf, "\n");
+	view = glade_xml_get_widget (state->gui, "last-run-view");
 
-	gtk_text_buffer_set_text (log_buffer, buf->str, strlen (buf->str));
-	g_string_free (buf, FALSE);
+	store = gtk_list_store_new (2, G_TYPE_STRING, G_TYPE_STRING);
+
+	for (i = 0; i < 6; i++) {
+		buf = g_string_new (NULL);
+		switch (i) {
+		case 0:
+			g_string_append_printf (buf, "%d",
+						sim->last_round - 
+						sim->first_round + 1);
+			break;
+		case 1:
+			g_string_append_printf (buf, "%d", sim->n_iterations);
+			break;
+		case 2:
+			g_string_append_printf (buf, "%d", sim->n_input_vars);
+			break;
+		case 3:
+			g_string_append_printf (buf, "%d", sim->n_output_vars);
+			break;
+		case 4:
+			g_string_append_printf (buf, "%.2g", 
+						sim->end.tv_sec -
+						sim->start.tv_sec +
+						(sim->end.tv_usec -
+						 sim->start.tv_usec) /
+						(gnm_float) G_USEC_PER_SEC);
+			break;
+		case 5:
+			dao_append_date (buf);
+			break;
+		default:
+			g_string_append_printf (buf, "Error");
+			break;
+		}
+
+		gtk_list_store_append (store, &iter);
+		gtk_list_store_set (store, &iter, 0, txt [i], 1, buf->str, -1);
+		g_string_free (buf, FALSE);
+	}
+
+	path = gtk_tree_path_new_from_string ("0");
+	gtk_tree_model_get_iter (GTK_TREE_MODEL (store), &iter, path);
+	gtk_tree_path_free (path);
+	  
+	gtk_tree_view_append_column
+		(GTK_TREE_VIEW (view),
+		 gtk_tree_view_column_new_with_attributes 
+		 (_("Name"),
+		  gtk_cell_renderer_text_new (), "text", 0, NULL));
+	gtk_tree_view_append_column
+		(GTK_TREE_VIEW (view),
+		 gtk_tree_view_column_new_with_attributes 
+		 (_("Value"),
+		  gtk_cell_renderer_text_new (), "text", 1, NULL));
+	gtk_tree_view_set_model (GTK_TREE_VIEW (view), GTK_TREE_MODEL (store));
 }
 
 static void
@@ -311,7 +355,7 @@ simulation_ok_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 
       	if (err == NULL) {
 		results_sim_index = sim.first_round;
-		update_log (&sim);
+		update_log (state, &sim);
 		update_results_view (&sim);
 
 		if (sim.last_round > results_sim_index) {
@@ -343,19 +387,6 @@ cb_tool_cancel_clicked (G_GNUC_UNUSED GtkWidget *button,
 {
 	simulation_tool_destroy (current_sim);
 	gtk_widget_destroy (state->dialog);
-}
-
-static void
-init_log (SimulationState *state)
-{
-	GtkTextView     *view;
-	GtkTextTagTable *tag_table;
-
-	tag_table  = gtk_text_tag_table_new ();
-	log_buffer = gtk_text_buffer_new (tag_table);
-	view = GTK_TEXT_VIEW (glade_xml_get_widget (state->gui,
-						    "last-run-view"));
-	gtk_text_view_set_buffer (view, log_buffer);
 }
 
 static void
@@ -407,7 +438,6 @@ dialog_simulation (WorkbookControlGUI *wbcg, G_GNUC_UNUSED Sheet *sheet)
 			      0))
 		return;
 
-	init_log (state);
 	init_results_view (state);
 	current_sim = NULL;
 
