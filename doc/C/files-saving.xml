@@ -14,7 +14,7 @@
   </para>
 
   <tip>
-    <title>Saving files direclty</title>
+    <title>Saving files directly</title>
     <para>
       If the workbook has already been saved to a file
       or if the workbook was opened from a file that already existed,
@@ -83,7 +83,7 @@
   </tip>
 
   <para>
-    Users wisching to save an existing file to a new file must invoke
+    Users wishing to save an existing file to a new file must invoke
     the <interface>Save As...</interface> dialog. The <interface>Save
     As...</interface> dialog can be invoked at any time to save the
     current workbook to a new file with either a different name or a
@@ -579,7 +579,7 @@
       <para>
         This basic procedure does not allow a user to save the file
         into folder other than one already provided. An expanded
-        proceedure is needed to explain how to save a file into other
+        procedure is needed to explain how to save a file into other
         folders in the file system. The next section explains the
         extra elements provided when the <interface>File
         Save</interface> dialog is expanded and that section is

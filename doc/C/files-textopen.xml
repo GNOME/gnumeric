@@ -29,7 +29,7 @@
     panel allows the user to define the columns by either, for
     separated data, setting the separating character and text
     delimiting character, or, for fixed space data, by setting the
-    column spacing. The thrid panel allows the user to select which
+    column spacing. The third panel allows the user to select which
     columns to import and define their data types.
   </para>
 
@@ -158,7 +158,7 @@
       of characters which includes both text glyphs (shapes) and
       formatting indicators. Each encoding defines a way to interpret
       the binary digits and uses the characters from a particular
-      character set. The alternative character enocding strategies are
+      character set. The alternative character encoding strategies are
       explained in greater detail in <xref
       linkend="sect-file-textImport-complex-encoding"/>, below.
     </para>
@@ -170,7 +170,7 @@
       specific character or sequence of characters. The complexity
       involves the particular character sequence used to determine the
       end of each line. Different conventions have been used in
-      different computer systems. The alternative ine breaking
+      different computer systems. The alternative line breaking
       strategies are explained in greater detail in <xref
       linkend="sect-file-textImport-complex-lineBreak"/>, below.
     </para>
@@ -195,7 +195,7 @@
       file. This enables users to change the settings which determine
       each of these three conventions until the text in the preview
       correctly shows the contents of the data file. Therefore, while
-      the details of these three steps are complex, the pratical
+      the details of these three steps are complex, the practical
       impact on users is minimal. Users can simply experiment until
       the file appears correct without having to understand each of
       these complexities in detail.
@@ -259,7 +259,7 @@
       a graphical representation (a glyph) does not exist in the font
       being used and is therefore displayed using a small box with
       four numbers inside, such as &#x0080; and &#x0082;. Each of
-      these errors indcates that the encoding scheme used to read the
+      these errors indicates that the encoding scheme used to read the
       file was not the same encoding scheme as was used to create the
       file. The difficulty is then to determine what encoding scheme
       to use. A simple process of trial and error should lead to
@@ -298,7 +298,7 @@
       The ISO-8859-x family of encoding schemes
            * single byte, all eight bits used
 
-        [From Wikipaedia: http://en.wikipedia.org/wiki/ISO_8859-1]
+        [From Wikipedia: http://en.wikipedia.org/wiki/ISO_8859-1]
       Albanian, Basque, Catalan, Danish, Dutch, English,
       Faroese, French (missing only &#x0153;), Finnish, German
       (missing &#x201e; and &#x201c;), Icelandic, Irish, Italian, Norwegian,
@@ -331,7 +331,7 @@
       Alphabet Soup</ulink>", which may alternatively be found <ulink
       type="http"
       url="http://www.unicodecharacter.com/charsets/iso8859.html"
-      >here</ulink>. A similar discussion on Wikipaedia, focusing on
+      >here</ulink>. A similar discussion on Wikipedia, focusing on
       the western alphabets, can be found <ulink type="http"
       url="http://en.wikipedia.org/wiki/ISO_8859-1" >here</ulink>.
 
@@ -356,7 +356,7 @@
 
      <para>
         The use of text files to store data in a structured fashion
-        for use by spreadsheet programs requires a scheme to seprate
+        for use by spreadsheet programs requires a scheme to separate
         each line of the file. Structured text files rely on the files
         having explicitly defined rows within the file as one
         component in the structuring system. Each of these rows is
@@ -440,11 +440,11 @@
        for-example 'Comma Separated Value' files use a comma character
        to separate values while 'Tab Separated Value' files use a tab
        character. &gnum; allows the user to define the value separator
-       to be any one of several common characters or a specfic
+       to be any one of several common characters or a specific
        sequence of characters, either on their own or in
        combination. For example, a file could use both space
        characters and tab characters to separate values. Similarly, a
-       file could be read which used the entire word 'STOP' to separte
+       file could be read which used the entire word 'STOP' to separate
        values like the common scheme to separate sentences in a
        telegram.
      </para>
@@ -455,7 +455,7 @@
        character used to separate values. The quote character is often
        used in this role but &gnum; allows users to configure any
        character in this role. For example, a file which used the
-       comma to separate values could nontheless contain a value like
+       comma to separate values could nonetheless contain a value like
        "Zoe, Sally, Dodji" if this value had appropriate text
        indicating characters at either end.
     </para>
@@ -498,10 +498,10 @@
     <para>
       The first panel allows users to configure the character encoding
       used by the file, to determine the character sequences used to
-      seprate lines, configure the type of structuring being used and
-      select the lines of the file to import.  The second colum allows
+      separate lines, configure the type of structuring being used and
+      select the lines of the file to import.  The second column allows
       the user to define the separation strategy used for each
-      value. For separated value files this invovles defining the
+      value. For separated value files this involves defining the
       separating character sequences and the text indicating
       character. For fixed width files, this involves defining the
       width of each column.  The third panel allows the user to select
@@ -513,7 +513,7 @@
       Users navigate the <interface>Text Import</interface> druid by
       clicking on the <guibutton>Forward</guibutton> button on each
       panel after they have configured the settings properly. The
-      thrid panel contains a <guibutton>Finish</guibutton> which
+      third panel contains a <guibutton>Finish</guibutton> which
       causes the file to be imported to a workbook using all the
       settings as they are configured.
     </para>
@@ -527,7 +527,7 @@
       <para>
         The first panel of the <interface>Text Import</interface>
         Druid allows users to set the file encoding, to determine the
-        character sequences used to seprate lines, configure the type
+        character sequences used to separate lines, configure the type
         of structuring being used and select the lines of the file to
         import.
       </para>
@@ -703,7 +703,7 @@
 
       <para>
         The second panel of the <interface>Text Import</interface>
-        Druid used for separted data allows the user to configure the
+        Druid used for separated data allows the user to configure the
         character sequences used to separate the values in each row
         and to configure the text delimiting characters. &gnum;, by
         default, guesses which characters are being used to separate
@@ -983,7 +983,7 @@
 	        columns or to join previously separate columns.
 	      </para>
 	      <para>
-	        A new column can be defined by palcing the mouse
+	        A new column can be defined by placing the mouse
 	        pointer where the column should start and
 	        double-clicking with the primary mouse button. This
 	        will split the column which used to contain this
@@ -991,7 +991,7 @@
 	        location.
 	      </para>
 	      <para>
-	        To remove the definition of a column which alredy
+	        To remove the definition of a column which already
 	        exists or to alter the ending position of a column,
 	        the context menu must be used. The context menu
 	        appears by clicking with one of the secondary mouse

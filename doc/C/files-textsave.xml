@@ -5,7 +5,7 @@
 
   <para>
     &gnum; can export worksheets to text files using some kind of data
-    structing mechanism. Creating a text file requires, first, using
+    structuring mechanism. Creating a text file requires, first, using
     the <interface>Save As</interface> dialog to name the file,
     select a folder in which to save it, and choose the file format
     "Text export (configurable)", then, using the <interface>Text
@@ -118,7 +118,7 @@ files or file fragments that consist entirely of
       The <interface>Text Export</interface> druid consists of two
       panels. The first panel allows the user to select the worksheets
       included in the export and their order. The second panel allows
-      the user to configure the sturcturing elements, the line
+      the user to configure the structuring elements, the line
       delimiting characters, value separating characters, text indicating
       characters, and file encoding. 
     </para>
@@ -131,7 +131,7 @@ files or file fragments that consist entirely of
       <para>
         The first panel of the <interface>Text Export</interface>
         Druid allows users to set the file encoding, to determine the
-        character sequences used to seprate lines, configure the type
+        character sequences used to separate lines, configure the type
         of structuring being used and select the lines of the file to
         import.
       </para>
@@ -300,7 +300,7 @@ files or file fragments that consist entirely of
 		    <para>
 		      This button allows the user to activate a drop
 	              down list from which to select the character
-	              used to indicate the end of a line and begining
+	              used to indicate the end of a line and beginning
 	              of the next. The three commonly used
 	              alternatives are provided. See <xref
 	              linkend="sect-file-textImport-complex-lineBreak"
@@ -329,7 +329,7 @@ files or file fragments that consist entirely of
 		    <para>
 		      This entry area allows the user to define
 	              explicitly the character or character sequence
-	              which should be used to seprate each value field
+	              which should be used to separate each value field
 	              on every line. This area is only active if the
 	              "Custom" type has been selected from the list in
 	              the button above.
@@ -387,7 +387,7 @@ files or file fragments that consist entirely of
 		    </para>
 		    <para>
 		      This button selects whether to escape or
-	              translitterate characters which &gnum; does not
+	              transliterate characters which &gnum; does not
 	              recognize.
 		    </para>
 		  </listitem>

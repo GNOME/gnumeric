@@ -1,3 +1,10 @@
+2004-10-03  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* manual-usage.xml: Comment out reference to the "About" chapter.
+	* files-saving.xml, files-textopen.xml, files-textsave.xml,
+	getting-involved.xml, graphics-plots.xml, gui-menus.xml,
+	gui-other-elements.xml: Spelling/typo fixes.
+
 2004-10-03  Adrian Custer <acuster@gnome.org>
 
 	* NEWS Finished this revision of the 'Working with files' chapter.

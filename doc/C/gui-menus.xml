@@ -994,7 +994,7 @@
 						the top-most and leftmost visible portion of the worksheet. This is
 						useful to be able to line up portions of the worksheet which are
 						not usually together. For instance, if a user had a very large table
-						with the titles of each oolumn of data on row 12, the user could
+						with the titles of each column of data on row 12, the user could
 						select row 13 and select this menu item.  If the user scrolled 
 						through each data row, the data would line up underneath each header.
 						</para>
@@ -1002,7 +1002,7 @@
 						visible and is above and left of the current selection. If the
 						selection is not visible, then the frozen section will be nine rows
 						tall and five columns wide unless the selection is in a currently
-						visible column or row in which case that postion is used.
+						visible column or row in which case that position is used.
 						</para>
 						<para><application>Gnumeric</application> currently does not support freezing only columns or 
 						only rows. The user can simply move the selection far to the 
@@ -1334,7 +1334,7 @@
 	 		     </listitem>
     	          <listitem>
      	           <para>
-     	           <guimenuitem>Unhide</guimenuitem> --- This menu item wiil
+     	           <guimenuitem>Unhide</guimenuitem> --- This menu item will
 								 show columns which are hidden if the selection spans the two
 								 columns on either side of the selection. If columns D, E, and
 								 F have been hidden, the selection must span at least across
@@ -1428,7 +1428,7 @@
               <listitem>
                 <para>
                 <guimenuitem>Display Formulas</guimenuitem> --- This menu item
-								acts as a toogle. By default it is unset and formulas results
+								acts as a toggle. By default it is unset and formulas results
 								are displayed. If this menu item is clicked, it will display a
 								little check mark on the left. The worksheet will show the
 								actual formulas for all cells with formulas instead of showing
@@ -2004,7 +2004,7 @@
 		    </screenshot>
 	    </figure>
 	<para>The context menu which relates to column or row headers is similar to
-	the context menu for the grid area. Both insert and delte operations are
+	the context menu for the grid area. Both insert and delete operations are
 	modified to operate explicitly on rows or on columns. An option is added
 	which changes the height of rows or the width of columns. This context menu
 	also provides a way to hide rows or columns and a way to reveal missing
