@@ -155,8 +155,7 @@ gog_plot1_5d_update (GogObject *obj)
 	if (model->num_elements != num_elements) {
 		model->num_elements = num_elements;
 		gog_axis_bound_changed (
-			gog_plot1_5d_get_index_axis (model), GOG_OBJECT (model),
-			1, num_elements);
+			gog_plot1_5d_get_index_axis (model), GOG_OBJECT (model));
 	}
 	model->num_series = num_series;
 
@@ -182,12 +181,40 @@ gog_plot1_5d_update (GogObject *obj)
 
 	if (old_minimum != model->minimum || old_maximum != model->maximum)
 		gog_axis_bound_changed (
-			gog_plot1_5d_get_value_axis (model), GOG_OBJECT (model),
-			model->minimum, model->maximum);
+			gog_plot1_5d_get_value_axis (model), GOG_OBJECT (model));
 
 	gog_object_emit_changed (GOG_OBJECT (obj), FALSE);
 	if (plot1_5d_parent_klass->update)
 		plot1_5d_parent_klass->update (obj);
+}
+
+static GOData *
+gog_plot1_5d_axis_bounds (GogPlot *plot, GogAxisType axis,
+			  double *min, double *max,
+			  double *logical_min, double *logical_max)
+{
+	GogPlot1_5d *model = GOG_PLOT1_5D (plot);
+	if (axis == gog_axis_get_atype (gog_plot1_5d_get_value_axis (model))) {
+		*min = 1;
+		*max = model->num_elements;
+		if (model->type == GOG_1_5D_AS_PERCENTAGE) {
+			*logical_min = -1.;
+			*logical_max = 1.;
+		} else {
+			*logical_min = gnm_nan;
+			*logical_max = gnm_nan;
+		}
+		return NULL;
+	} else if (axis == gog_axis_get_atype (gog_plot1_5d_get_index_axis (model))) {
+		*min = 1;
+		*max = model->num_elements;
+		*logical_min = 1;
+		*logical_max = gnm_nan;
+		return NULL;
+	}
+
+	g_warning ("not reached");
+	return NULL;
 }
 
 static GogAxisSet
@@ -245,6 +272,7 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 	plot_klass->desc.num_series_min = 1;
 	plot_klass->desc.num_series_max = G_MAXINT;
 	plot_klass->series_type = gog_series1_5d_get_type ();
+	plot_klass->axis_bounds	      = gog_plot1_5d_axis_bounds;
 	plot_klass->axis_set_pref     = gog_plot1_5d_axis_set_pref;
 	plot_klass->axis_set_is_valid = gog_plot1_5d_axis_set_is_valid;
 	plot_klass->axis_set_assign   = gog_plot1_5d_axis_set_assign;

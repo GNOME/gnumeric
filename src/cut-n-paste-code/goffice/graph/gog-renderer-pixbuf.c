@@ -76,12 +76,12 @@ gog_renderer_pixbuf_finalize (GObject *obj)
 }
 
 static void
-gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath *path)
+gog_renderer_pixbuf_draw_path (GogRenderer *rend, ArtVpath const *path)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	GogStyle const *style = rend->cur_style;
 	double width = gog_renderer_line_size (rend, style->line.width);
-	ArtSVP *svp = art_svp_vpath_stroke (path,
+	ArtSVP *svp = art_svp_vpath_stroke ((ArtVpath *)path,
 		ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_SQUARE,
 		width, 4, 0.5);
 	go_color_render_svp (style->line.color, svp,
@@ -100,7 +100,8 @@ gog_art_renderer_new (GogRendererPixbuf *prend)
 }
 
 static void
-gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath *path, gboolean narrow)
+gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath const *path,
+				  gboolean narrow)
 {
 	GogRendererPixbuf *prend = GOG_RENDERER_PIXBUF (rend);
 	GogStyle const *style = rend->cur_style;
@@ -113,12 +114,12 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath *path, gboolean na
 	gint i, j, imax, jmax, w, h, x, y;
 
 	if (!narrow && style->outline.width >= 0.)
-		outline = art_svp_vpath_stroke (path,
+		outline = art_svp_vpath_stroke ((ArtVpath *)path,
 			ART_PATH_STROKE_JOIN_MITER, ART_PATH_STROKE_CAP_SQUARE,
 			gog_renderer_line_size (rend, style->outline.width), 4, 0.5);
 
 	if (style->fill.type != GOG_FILL_STYLE_NONE) {
-		fill = art_svp_from_vpath (path);
+		fill = art_svp_from_vpath ((ArtVpath *)path);
 #if 0 /* art_svp_minus is not implemented */
 		if (outline != NULL) {
 			ArtSVP *tmp = art_svp_minus (fill, outline);
@@ -136,7 +137,7 @@ gog_renderer_pixbuf_draw_polygon (GogRenderer *rend, ArtVpath *path, gboolean na
 
 		case GOG_FILL_STYLE_GRADIENT: {
 
-			art_vpath_bbox_drect (path, &bbox);
+			art_vpath_bbox_drect ((ArtVpath *)path, &bbox);
 			render = gog_art_renderer_new (prend);
 			art_render_svp (render, fill);
 			
@@ -256,7 +257,7 @@ make_layout (GogRendererPixbuf *prend, char const *text)
 }
 
 static void
-gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint *pos,
+gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint const *pos, GtkAnchorType anchor,
 			       char const *text, GogViewRequisition *size)
 {
 	FT_Bitmap ft_bitmap;
@@ -266,6 +267,7 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint *pos,
 	guint8 r, g, b, a, alpha, *dst, *src;
 	int h, w, i;
 	GogStyle const *style = rend->cur_style;
+	ArtPoint real_pos = *pos;
 
 	pango_layout_get_pixel_extents (layout, &rect, NULL);
 	if (rect.width == 0 || rect.height == 0)
@@ -285,20 +287,39 @@ gog_renderer_pixbuf_draw_text (GogRenderer *rend, ArtPoint *pos,
 	b = UINT_RGBA_B (style->font.color);
 	a = UINT_RGBA_A (style->font.color);
 
+	switch (anchor) {
+	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_N : case GTK_ANCHOR_S :
+		real_pos.x -= rect.width / 2;
+		break;
+	case GTK_ANCHOR_NE : case GTK_ANCHOR_SE : case GTK_ANCHOR_E :
+		real_pos.x -= rect.width;
+		break;
+	default : break;
+	}
+	switch (anchor) {
+	case GTK_ANCHOR_CENTER : case GTK_ANCHOR_E : case GTK_ANCHOR_W :
+		real_pos.y -= rect.height / 2;
+		break;
+	case GTK_ANCHOR_SE : case GTK_ANCHOR_S : case GTK_ANCHOR_SW :
+		real_pos.y -= rect.height;
+		break;
+	default : break;
+	}
+
 	/* do the compositing manually, ArtRender as used in librsvg is dog
 	 * slow, and I do not feel like leaping through 20 different data
 	 * structures to composite 1 byte images, onto rgba */
 	dst = prend->pixels;
-	dst += ((int)pos->y * prend->rowstride);
-	dst += ((int)pos->x + rect.x)* 4;
+	dst += ((int)real_pos.y * prend->rowstride);
+	dst += ((int)real_pos.x + rect.x)* 4;
 	src = ft_bitmap.buffer;
 
 	w = rect.width;
-	if (size != NULL && w > size->w)
+	if (size != NULL && w > size->w && size->w >= 0)
 		w = size->w;
 
 	h = rect.height;
-	if (size != NULL && h > size->h)
+	if (size != NULL && h > size->h && size->h >= 0)
 		h = size->h;
 	while (h--) {
 		for (i = w; i-- > 0 ; dst += 4, src++) {
