@@ -39,6 +39,7 @@ Jody:
 	  the number of problems with gnome-print installs.
 
 Jukka:
+	* Fixed COUPNUM().
 	* MPS importer plugin implemented.  Reads a linear program in MPS
 	  format and creates a spreadsheet model of it.  Currently, the
 	  bounds and ranges are not implemented yet.

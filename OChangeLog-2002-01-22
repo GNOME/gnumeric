@@ -1,3 +1,8 @@
+2001-10-03  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* src/functions/fn-financial.c (coupnum): Fixed frequency 2 and 4.
+	Now it can pass quite extensive test suite.
+
 2001-10-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_point) : disable events that could

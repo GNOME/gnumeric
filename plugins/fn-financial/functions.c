@@ -426,16 +426,16 @@ coupnum(GDate *settlement, GDate *maturity, int freq, int basis)
 	        return years*2
 		        + (months >  6) + (months ==  6 && days > 0)
 		        + (months >  0) + (months ==  0 && days > 0)
-		        - (months < -6) - (months == -6 && days < 0);
+		        - (months < -6) - (months == -6 && days <= 0);
 	else
 	        return years*4
 		        + (months >  9) + (months ==  9 && days > 0)
 		        + (months >  6) + (months ==  6 && days > 0)
 		        + (months >  3) + (months ==  3 && days > 0)
 		        + (months >  0) + (months ==  0 && days > 0)
-		        - (months < -3) - (months == -3 && days < 0)
-		        - (months < -6) - (months == -6 && days < 0)
-		        - (months < -9) - (months == -9 && days < 0);
+		        - (months < -3) - (months == -3 && days <= 0)
+		        - (months < -6) - (months == -6 && days <= 0)
+		        - (months < -9) - (months == -9 && days <= 0);
 }
 
 static GDate *
