@@ -72,7 +72,7 @@ application_init (void)
  * not empty.
  */
 void
-application_clipboard_clear (void)
+application_clipboard_clear (gboolean drop_selection)
 {
 	if (app.clipboard_copied_contents) {
 		clipboard_release (app.clipboard_copied_contents);
@@ -86,9 +86,10 @@ application_clipboard_clear (void)
 		app.clipboard_sheet = NULL;
 
 		/* Release the selection */
-		gtk_selection_owner_set (NULL,
-					 GDK_SELECTION_PRIMARY,
-					 GDK_CURRENT_TIME);
+		if (drop_selection)
+			gtk_selection_owner_set (NULL,
+						 GDK_SELECTION_PRIMARY,
+						 GDK_CURRENT_TIME);
 	}
 }
 
@@ -104,19 +105,7 @@ application_set_selected_sheet (Sheet *sheet)
 {
 	g_return_val_if_fail (sheet != NULL, FALSE);
 
-	/* Short circuit if we already have the selection */
-	if (app.clipboard_sheet != NULL &&
-	    app.clipboard_sheet->workbook == sheet->workbook) {
-		if (app.clipboard_copied_contents) {
-			clipboard_release (app.clipboard_copied_contents);
-			app.clipboard_copied_contents = NULL;
-		}
-		sheet_selection_unant (app.clipboard_sheet);
-		app.clipboard_sheet = sheet;
-		return TRUE;
-	}
-
-	application_clipboard_clear ();
+	application_clipboard_clear (FALSE);
 
 	if (gtk_selection_owner_set (sheet->workbook->toplevel,
 				     GDK_SELECTION_PRIMARY,

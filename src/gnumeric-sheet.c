@@ -196,6 +196,9 @@ gnumeric_sheet_can_select_expr_range (GnumericSheet *gsheet)
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), FALSE);
 
 	wb = gsheet->sheet_view->sheet->workbook;
+	if (workbook_edit_has_guru (wb))
+		return TRUE;
+
 	if (!wb->editing)
 		return FALSE;
 
@@ -795,7 +798,7 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 }
 
 static gint
-gnumeric_sheet_key (GtkWidget *widget, GdkEventKey *event)
+gnumeric_sheet_key_press (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
 	Sheet *sheet = gsheet->sheet_view->sheet;
@@ -830,6 +833,24 @@ gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 		workbook_set_region_status (sheet->workbook,
 					    cell_pos_name (&sheet->cursor.edit_pos));
 
+	return FALSE;
+}
+
+/* Focus in handler for the canvas */
+static gint
+gnumeric_sheet_focus_in (GtkWidget *widget, GdkEventFocus *event)
+{
+	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
+	if (gsheet->ic)
+		gdk_im_begin (gsheet->ic, gsheet->canvas.layout.bin_window);
+	return FALSE;
+}
+
+/* Focus out handler for the canvas */
+static gint
+gnumeric_sheet_focus_out (GtkWidget *widget, GdkEventFocus *event)
+{
+	gdk_im_end ();
 	return FALSE;
 }
 
@@ -981,6 +1002,7 @@ static void
 gnumeric_sheet_realize (GtkWidget *widget)
 {
 	GdkWindow *window;
+	GnumericSheet *gsheet;
 
 	if (GTK_WIDGET_CLASS (sheet_parent_class)->realize)
 		(*GTK_WIDGET_CLASS (sheet_parent_class)->realize)(widget);
@@ -989,6 +1011,52 @@ gnumeric_sheet_realize (GtkWidget *widget)
 	gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE);
 
 	cursor_set (window, GNUMERIC_CURSOR_FAT_CROSS);
+
+	gsheet = GNUMERIC_SHEET (widget);
+	if (gdk_im_ready () && (gsheet->ic_attr = gdk_ic_attr_new ()) != NULL) {
+		GdkEventMask mask;
+		GdkICAttr *attr = gsheet->ic_attr;
+		GdkICAttributesType attrmask = GDK_IC_ALL_REQ;
+		GdkIMStyle style;
+		GdkIMStyle supported_style = GDK_IM_PREEDIT_NONE |
+			GDK_IM_PREEDIT_NOTHING |
+			GDK_IM_STATUS_NONE |
+			GDK_IM_STATUS_NOTHING;
+
+		attr->style = style = gdk_im_decide_style (supported_style);
+		attr->client_window = gsheet->canvas.layout.bin_window;
+
+		gsheet->ic = gdk_ic_new (attr, attrmask);
+		if (gsheet->ic != NULL) {
+			mask = gdk_window_get_events (attr->client_window);
+			mask |= gdk_ic_get_events (gsheet->ic);
+			gdk_window_set_events (attr->client_window, mask);
+
+			if (GTK_WIDGET_HAS_FOCUS (widget))
+				gdk_im_begin (gsheet->ic, attr->client_window);
+		} else
+			g_warning ("Can't create input context.");
+	}
+}
+
+static void
+gnumeric_sheet_unrealize (GtkWidget *widget)
+{
+	GnumericSheet *gsheet;
+
+	gsheet = GNUMERIC_SHEET (widget);
+	g_return_if_fail (gsheet != NULL);
+
+	if (gsheet->ic) {
+		gdk_ic_destroy (gsheet->ic);
+		gsheet->ic = NULL;
+	}
+	if (gsheet->ic_attr) {
+		gdk_ic_attr_destroy (gsheet->ic_attr);
+		gsheet->ic_attr = NULL;
+	}
+
+	(*GTK_WIDGET_CLASS (sheet_parent_class)->unrealize)(widget);
 }
 
 /*
@@ -1295,7 +1363,7 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
 }
 
 static void
-gnumeric_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
+gnumeric_sheet_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
 {
 	(*GTK_WIDGET_CLASS (sheet_parent_class)->size_allocate)(widget, allocation);
 
@@ -1318,16 +1386,22 @@ gnumeric_sheet_class_init (GnumericSheetClass *Class)
 	/* Method override */
 	object_class->destroy = gnumeric_sheet_destroy;
 
-	widget_class->realize              = gnumeric_sheet_realize;
- 	widget_class->size_allocate        = gnumeric_size_allocate;
-	widget_class->key_press_event      = gnumeric_sheet_key;
-	widget_class->key_release_event    = gnumeric_sheet_key_release;
+	widget_class->realize           = gnumeric_sheet_realize;
+	widget_class->unrealize		= gnumeric_sheet_unrealize;
+ 	widget_class->size_allocate     = gnumeric_sheet_size_allocate;
+	widget_class->key_press_event   = gnumeric_sheet_key_press;
+	widget_class->key_release_event = gnumeric_sheet_key_release;
+	widget_class->focus_in_event	= gnumeric_sheet_focus_in;
+	widget_class->focus_out_event	= gnumeric_sheet_focus_out;
 }
 
 static void
 gnumeric_sheet_init (GnumericSheet *gsheet)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
+
+	gsheet->ic = NULL;
+	gsheet->ic_attr = NULL;
 
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_FOCUS);
 	GTK_WIDGET_SET_FLAGS (canvas, GTK_CAN_DEFAULT);

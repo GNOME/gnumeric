@@ -58,6 +58,10 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 
 	g_return_if_fail (wb != NULL);
 
+	/* We may have a guru up even if if re not editing */
+	if (wb->priv->edit_line.guru != NULL)
+		gtk_widget_destroy (wb->priv->edit_line.guru);
+
 	if (!wb->editing)
 		return;
 
@@ -118,9 +122,6 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 
 	/* Only the edit sheet has an edit cursor */
 	sheet_stop_editing (sheet);
-
-	if (wb->priv->edit_line.guru != NULL)
-		gtk_widget_destroy (wb->priv->edit_line.guru);
 
 	workbook_auto_complete_destroy (wb);
 
@@ -184,14 +185,15 @@ void
 workbook_start_editing_at_cursor (Workbook *wb, gboolean blankp,
 				  gboolean cursorp)
 {
-	static gboolean inside_editing = 0;
+	static gboolean inside_editing = FALSE;
 	Sheet *sheet;
 	Cell *cell;
 	char *text = NULL;
 
 	g_return_if_fail (wb != NULL);
 
-	if (inside_editing)
+	/* Avoid recursion, and do not begin editing if a guru is up */
+	if (inside_editing || workbook_edit_has_guru (wb))
 		return;
 
 	inside_editing = TRUE;
@@ -326,9 +328,21 @@ workbook_edit_detach_guru (Workbook *wb)
 	g_return_if_fail (wb->priv != NULL);
 	g_return_if_fail (wb->priv->edit_line.guru != NULL);
 
-	gtk_entry_set_editable (wb->priv->edit_line.entry, TRUE);
-	wb->priv->edit_line.temp_entry = NULL;
+	workbook_set_entry (wb, NULL);
 	wb->priv->edit_line.guru = NULL;
+	gtk_entry_set_editable (wb->priv->edit_line.entry, TRUE);
+}
+
+gboolean
+workbook_edit_has_guru (Workbook const *wb)
+{
+	return (wb->priv->edit_line.guru != NULL);
+}
+
+void
+workbook_edit_select_absolute (Workbook *wb)
+{
+	wb->use_absolute_cols = wb->use_absolute_rows = TRUE;
 }
 
 gboolean

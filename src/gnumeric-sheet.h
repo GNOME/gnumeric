@@ -37,6 +37,10 @@ typedef struct {
 	int             sel_text_len;
 	ItemCursor     *sel_cursor;
 
+	/* Input context for dead key support */
+	GdkIC     *ic;
+	GdkICAttr *ic_attr;
+
 	/*
 	 * The column and row bars
 	 */

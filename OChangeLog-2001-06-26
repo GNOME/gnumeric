@@ -1,3 +1,29 @@
+2000-06-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_can_select_expr_range) : It is
+	  possible to have a guru up without editing.
+	(gnumeric_sheet_key_press) : rename from gnumeric_sheet_key.
+	(gnumeric_sheet_size_allocate) : rename from gnumeric_size_allocate.
+	(gnumeric_sheet_focus_in) : Enable the input context.
+	(gnumeric_sheet_focus_out) : Disable the input context.
+	(gnumeric_sheet_realize) : Create the input context.
+	(gnumeric_sheet_unrealize) : Destroy the input context.
+	(gnumeric_sheet_class_init) : Register the new methods.
+	(gnumeric_sheet_init) : Init the input context.
+
+	* src/clipboard.c (x_selection_handler) : Adjust to changes in
+	  application_clipboard_clear.
+	(x_selection_clear) : Ditto.
+	* src/cmd-edit.c (cmd_paste) : Ditto.
+	* src/sheet.c (sheet_destroy) : Ditto.
+
+	* src/application.c (application_clipboard_clear) : Make dropping the
+	  selection optional.  This removes the kludges necessary to handle
+	  changing the clipboard when we already have the selection.
+
+	* src/functions/fn-logical.c (gnumeric_true, gnumeric_false) :
+	  fix signatures.
+
 2000-06-30  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/functions/fn-logical.c: Added FALSE().

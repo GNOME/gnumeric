@@ -2288,7 +2288,7 @@ sheet_destroy (Sheet *sheet)
 
 	/* Clear the cliboard to avoid dangling references to the deleted sheet */
 	if (sheet == application_clipboard_sheet_get ())
-		application_clipboard_clear ();
+		application_clipboard_clear (TRUE);
 
 	sheet_destroy_styles (sheet);
 

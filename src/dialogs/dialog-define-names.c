@@ -12,24 +12,30 @@
 #include "expr.h"
 #include "expr-name.h"
 #include "workbook.h"
+#include "workbook-edit.h"
 #include "gnumeric-util.h"
 
 #define LIST_KEY "name_list_data"
 
 typedef struct {
 	GladeXML  *gui;
-	GtkWidget *dia;
+	GtkWidget *dialog;
 	GtkList   *list;
 	GtkEntry  *name;
 	GtkEntry  *value;
 	GList     *expr_names;
 	gint       selected;
 
+	GtkWidget *ok_button;
+	GtkWidget *add_button;
+	GtkWidget *close_button;
+	GtkWidget *delete_button;
+
 	Workbook  *wb;
-} state_t;
+} NameGuruState;
 
 static void
-update_edit (state_t *state)
+update_edit (NameGuruState *state)
 {
 	gint          i = state->selected;
 	NamedExpression     *expr_name;
@@ -51,7 +57,7 @@ update_edit (state_t *state)
 }
 
 static void
-select_name (GtkWidget *w, state_t *state)
+select_name (GtkWidget *w, NameGuruState *state)
 {
 	guint     i    = 0;
 	GList    *sel  = GTK_LIST(w)->selection;
@@ -77,7 +83,7 @@ select_name (GtkWidget *w, state_t *state)
 }
 
 static void
-fill_list (state_t *state)
+fill_list (NameGuruState *state)
 {
 	GList *names;
 	GtkContainer *list;
@@ -103,7 +109,7 @@ fill_list (state_t *state)
 }
 
 static void
-destroy_state (state_t *state)
+clear_state (NameGuruState *state)
 {
 	if (state->expr_names)
 		g_list_free (state->expr_names);
@@ -112,20 +118,19 @@ destroy_state (state_t *state)
 }
 
 static void
-empty_list (state_t *state)
+empty_list (NameGuruState *state)
 {
 	if (state->list)
 		gtk_list_clear_items (state->list, 0, -1);
 	state->list = NULL;
-	destroy_state (state);
+	clear_state (state);
 }
 
 static void
-remove_name (GtkWidget *widget, state_t *state)
+remove_name (GtkWidget *ignored, NameGuruState *state)
 {
 	gint i;
 	g_return_if_fail (state != NULL);
-	g_return_if_fail (widget != NULL);
 
 	i = state->selected;
 	if (i >= 0) {
@@ -143,7 +148,7 @@ remove_name (GtkWidget *widget, state_t *state)
 }
 
 static gboolean
-grab_text_ok (state_t *state, gboolean update_list)
+grab_text_ok (NameGuruState *state, gboolean update_list)
 {
 	NamedExpression     *expr_name;
 	ExprTree     *expr;
@@ -199,94 +204,114 @@ grab_text_ok (state_t *state, gboolean update_list)
 }
 
 static void
-destroy_dialog (state_t *state)
+cb_name_guru_clicked (GtkWidget *button, NameGuruState *state)
 {
-	if (state->dia)
-		gnome_dialog_close (GNOME_DIALOG (state->dia));
-	state->dia   = NULL;
-	state->list  = NULL;
-	state->name  = NULL;
-	state->value = NULL;
+	if (state->dialog == NULL)
+		return;
+
+	if (button == state->delete_button) {
+		remove_name (NULL, state);
+		return;
+	}
+
+	if (button == state->add_button || button == state->ok_button)
+		grab_text_ok (state, TRUE);
+
+	if (button == state->close_button || button == state->ok_button)
+		gtk_widget_destroy (state->dialog);
 }
 
-static void
-add_name (GtkWidget *widget, state_t *state)
+static GtkWidget *
+name_guru_init_button (NameGuruState *state, char const *name)
 {
-	grab_text_ok (state, TRUE);
+	GtkWidget *tmp = glade_xml_get_widget (state->gui, name);
+	gtk_signal_connect (GTK_OBJECT (tmp), "clicked",
+			    GTK_SIGNAL_FUNC (cb_name_guru_clicked),
+			    state);
+	return tmp;
 }
 
-static void
-close_name (GtkWidget *widget, state_t *state)
+static gboolean
+cb_name_guru_destroy (GtkObject *w, NameGuruState *state)
 {
-	destroy_state  (state);
-	destroy_dialog (state);
+	g_return_val_if_fail (w != NULL, FALSE);
+	g_return_val_if_fail (state != NULL, FALSE);
+
+	workbook_edit_detach_guru (state->wb);
+
+	if (state->gui != NULL) {
+		gtk_object_unref (GTK_OBJECT (state->gui));
+		state->gui = NULL;
+	}
+
+	/* Handle window manger closing the dialog.
+	 * This will be ignored if we are being destroyed differently.
+	 */
+	workbook_finish_editing (state->wb, FALSE);
+
+	state->dialog = NULL;
+
+	g_free (state);
+	return FALSE;
 }
 
-static void
-ok_name (GtkWidget *widget, state_t *state)
+static gboolean
+name_guru_init (NameGuruState *state)
 {
-	if (grab_text_ok (state, FALSE))
-		close_name (widget, state);
+	state->gui = gnumeric_glade_xml_new (workbook_command_context_gui (state->wb),
+					     "names.glade");
+        if (state->gui == NULL)
+                return TRUE;
+
+	state->dialog = glade_xml_get_widget (state->gui, "NamesDialog");
+	state->name  = GTK_ENTRY (glade_xml_get_widget (state->gui, "name"));
+	state->value = GTK_ENTRY (glade_xml_get_widget (state->gui, "value"));
+	state->list  = GTK_LIST  (glade_xml_get_widget (state->gui, "name_list"));
+	state->expr_names = NULL;
+	state->selected   = -1;
+
+	state->ok_button = name_guru_init_button (state, "ok_button");
+	state->close_button = name_guru_init_button (state, "close_button");
+	state->add_button = name_guru_init_button (state, "add_button");
+	state->delete_button = name_guru_init_button (state, "delete_button");
+
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE(state->name));
+ 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
+				  GTK_EDITABLE (state->value));
+
+	fill_list (state);
+
+	gtk_signal_connect (GTK_OBJECT (state->list), "selection_changed",
+			    GTK_SIGNAL_FUNC (select_name), &state);
+
+	gtk_signal_connect (GTK_OBJECT (state->dialog), "destroy",
+			    GTK_SIGNAL_FUNC (cb_name_guru_destroy),
+			    state);
+
+	gtk_window_set_transient_for (GTK_WINDOW (state->dialog),
+				      GTK_WINDOW (state->wb->toplevel));
+
+	workbook_set_entry (state->wb, state->value);
+	workbook_edit_attach_guru (state->wb, state->dialog);
+	workbook_edit_select_absolute (state->wb);
+
+	return FALSE;
 }
 
 void
 dialog_define_names (Workbook *wb)
 {
-	gint       v;
-	state_t    state;
-	GtkWidget *w;
+	NameGuruState *state;
 
 	g_return_if_fail (wb != NULL);
 
-	state.wb  = wb;
-	state.gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
-				      "names.glade");
-        if (state.gui == NULL)
-                return;
-
-	state.name  = GTK_ENTRY (glade_xml_get_widget (state.gui, "name"));
-	state.value = GTK_ENTRY (glade_xml_get_widget (state.gui, "value"));
-	state.list  = GTK_LIST  (glade_xml_get_widget (state.gui, "name_list"));
-	state.expr_names = NULL;
-	state.selected   = -1;
-
-	w = glade_xml_get_widget (state.gui, "ok");
-	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-			    GTK_SIGNAL_FUNC (ok_name), &state);
-
-	w = glade_xml_get_widget (state.gui, "close");
-	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-			    GTK_SIGNAL_FUNC (close_name), &state);
-
-	w = glade_xml_get_widget (state.gui, "add");
-	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-			    GTK_SIGNAL_FUNC (add_name), &state);
-
-	w = glade_xml_get_widget (state.gui, "delete");
-	gtk_signal_connect (GTK_OBJECT (w), "clicked",
-			    GTK_SIGNAL_FUNC (remove_name), &state);
-
-	state.dia = glade_xml_get_widget (state.gui, "NamesDialog");
-	if (!state.dia) {
-		printf ("Corrupt file names.glade\n");
+	state = g_new (NameGuruState, 1);
+	state->wb  = wb;
+	if (name_guru_init (state)) {
+		g_free (state);
 		return;
 	}
- 	gnome_dialog_editable_enters(GNOME_DIALOG(state.dia),
-				     GTK_EDITABLE(state.name));
- 	gnome_dialog_editable_enters(GNOME_DIALOG(state.dia),
-				     GTK_EDITABLE(state.value));
 
-	fill_list (&state);
-
-	gtk_signal_connect (GTK_OBJECT (state.list), "selection_changed",
-			    GTK_SIGNAL_FUNC (select_name), &state);
-
-	v = gnumeric_dialog_run (wb, GNOME_DIALOG (state.dia));
-
-	if (v == -1)
-		destroy_state (&state);
-	else
-		destroy_dialog (&state);
-
-	gtk_object_unref (GTK_OBJECT (state.gui));
+	gtk_widget_show (state->dialog);
 }

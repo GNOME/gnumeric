@@ -557,7 +557,6 @@ formula_guru_init (FormulaGuruState *state, ExprTree const *expr, Cell const *ce
         if (state->gui == NULL)
                 return TRUE;
 
-
 	state->args	= NULL;
 	state->max_arg	= 0;
 	state->help_tokens = tokenized_help_new (state->fd);

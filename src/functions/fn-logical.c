@@ -239,7 +239,7 @@ static char *help_true = {
 };
 
 static Value *
-gnumeric_true (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_true (FunctionEvalInfo *ei, Value **args)
 {
 	return value_new_bool (TRUE);
 }
@@ -261,7 +261,7 @@ static char *help_false = {
 };
 
 static Value *
-gnumeric_false (FunctionEvalInfo *ei, GList *expr_node_list)
+gnumeric_false (FunctionEvalInfo *ei, Value **args)
 {
 	return value_new_bool (FALSE);
 }

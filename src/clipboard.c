@@ -671,7 +671,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 				    CLEAR_VALUES|CLEAR_COMMENTS);
 
 		clipboard_release (clipboard);
-		application_clipboard_clear ();
+		application_clipboard_clear (TRUE);
 	}
 }
 
@@ -683,7 +683,8 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 static gint
 x_selection_clear (GtkWidget *widget, GdkEventSelection *event, Workbook *wb)
 {
-	application_clipboard_clear ();
+	/* we have already lost the selection, no need to clear it */
+	application_clipboard_clear (FALSE);
 
 	return TRUE;
 }

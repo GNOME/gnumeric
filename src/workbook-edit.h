@@ -11,6 +11,8 @@ GtkEntry   *workbook_get_entry_logical       (Workbook const *wb);
 void	    workbook_set_entry               (Workbook       *wb, GtkEntry *new_entry);
 void	    workbook_edit_attach_guru	     (Workbook       *wb, GtkWidget *guru);
 void	    workbook_edit_detach_guru	     (Workbook       *wb);
+gboolean    workbook_edit_has_guru	     (Workbook const *wb);
+void	    workbook_edit_select_absolute    (Workbook       *wb);
 
 void        workbook_auto_complete_destroy   (Workbook *wb);
 

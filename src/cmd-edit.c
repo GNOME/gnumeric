@@ -325,7 +325,7 @@ cmd_paste (CommandContext *context, PasteTarget const *pt, guint32 time)
 		rinfo.target_sheet = pt->sheet;
 
 		cmd_paste_cut (context, &rinfo);
-		application_clipboard_clear ();
+		application_clipboard_clear (TRUE);
 	} else
 		/*
 		 * Pasting a Copy or from the X selection
