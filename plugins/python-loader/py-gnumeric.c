@@ -24,6 +24,46 @@
 #include "gnm-py-interpreter.h"
 #include "py-gnumeric.h"
 
+static PyTypeObject py_Boolean_object_type;
+typedef struct _py_Boolean_object py_Boolean_object;
+static PyObject *py_new_Boolean_object (gboolean value);
+static gboolean py_Boolean_as_gboolean (py_Boolean_object *self);
+
+static PyTypeObject py_CellPos_object_type;
+typedef struct _py_CellPos_object py_CellPos_object;
+
+static PyTypeObject py_Range_object_type;
+typedef struct _py_Range_object py_Range_object;
+
+static PyTypeObject py_CellRef_object_type;
+typedef struct _py_CellRef_object py_CellRef_object;
+
+static PyTypeObject py_RangeRef_object_type;
+typedef struct _py_RangeRef_object py_RangeRef_object;
+static PyObject *py_new_RangeRef_object (const RangeRef *range_ref);
+static RangeRef *py_RangeRef_as_RangeRef (py_RangeRef_object *self);
+
+static PyTypeObject py_MStyle_object_type;
+typedef struct _py_MStyle_object py_MStyle_object;
+
+static PyTypeObject py_Cell_object_type;
+typedef struct _py_Cell_object py_Cell_object;
+
+static PyTypeObject py_Sheet_object_type;
+typedef struct _py_Sheet_object py_Sheet_object;
+
+static PyTypeObject py_Workbook_object_type;
+typedef struct _py_Workbook_object py_Workbook_object;
+
+static PyTypeObject py_GnmPlugin_object_type;
+typedef struct _py_GnmPlugin_object py_GnmPlugin_object;
+
+typedef struct _py_GnumericFunc_object py_GnumericFunc_object;
+static PyTypeObject py_GnumericFunc_object_type;
+
+typedef struct _py_GnumericFuncDict_object py_GnumericFuncDict_object;
+static PyTypeObject py_GnumericFuncDict_object_type;
+
 /*
 Available types, attributes, methods, etc.:
 (please update this list after adding/removing anything)
@@ -124,236 +164,8 @@ Module Gnumeric:
 #define SET_EVAL_POS(val) \
 	GNUMERIC_MODULE_SET ("Gnumeric_eval_pos", PyCObject_FromVoidPtr (val, NULL))
 
-static const EvalPos *
-get_eval_pos ()
-{
-        PyObject *gep = GNUMERIC_MODULE_GET ("Gnumeric_eval_pos");
-
-	return gep ? PyCObject_AsVoidPtr (gep) : NULL;
-}
-
-PyObject *
-python_call_gnumeric_function (GnmFunc *fn_def, const EvalPos *opt_eval_pos, PyObject *args)
-{
-	gint n_args, i;
-	Value **values, *ret_val;
-	PyObject *py_ret_val;
-	const EvalPos *eval_pos;
-
-	g_return_val_if_fail (fn_def != NULL, NULL);
-	g_return_val_if_fail (args != NULL && PySequence_Check (args), NULL);
-
-	if (opt_eval_pos != NULL) {
-		eval_pos = opt_eval_pos;
-	} else {
-		eval_pos = get_eval_pos ();
-	}
-	if (eval_pos == NULL) {
-		PyErr_SetString (GNUMERIC_MODULE_GET ("GnumericError"),
-		                 "Missing Evaluation Position.");
-		return NULL;
-	}
-
-	n_args = PySequence_Length (args);
-	values = g_new (Value *, n_args);
-	for (i = 0; i < n_args; i++) {
-		PyObject *py_val;
-
-		py_val = PySequence_GetItem (args, i);
-		g_assert (py_val != NULL);
-		values[i] = convert_python_to_gnumeric_value (eval_pos, py_val);
-	}
-
-	ret_val = function_def_call_with_values (eval_pos, fn_def, n_args, values);
-	py_ret_val = convert_gnumeric_value_to_python (eval_pos, ret_val);
-	value_release (ret_val);
-	for (i = 0; i < n_args; i++) {
-		value_release (values[i]);
-	}
-	g_free (values);
-
-	return py_ret_val;
-}
-
-Value *
-call_python_function (PyObject *python_fn, const EvalPos *eval_pos, gint n_args, Value **args)
-{
-	PyObject *python_args;
-	PyObject *python_ret_value;
-	gint i;
-	Value *ret_value;
-	gboolean eval_pos_set;
-
-	g_return_val_if_fail (python_fn != NULL && PyCallable_Check (python_fn), NULL);
-
-	python_args = PyTuple_New (n_args);
-	g_return_val_if_fail (python_args != NULL, NULL);
-	for (i = 0; i < n_args; i++) {
-		(void) PyTuple_SetItem (python_args, i, convert_gnumeric_value_to_python (eval_pos, args[i]));
-	}
-	if (get_eval_pos () != NULL) {
-		eval_pos_set = FALSE;
-	} else {
-		SET_EVAL_POS ((EvalPos *) eval_pos);
-		eval_pos_set = TRUE;
-	}
-	python_ret_value = PyObject_CallObject (python_fn, python_args);
-	Py_DECREF (python_args);
-	if (python_ret_value != NULL) {
-		ret_value = convert_python_to_gnumeric_value (eval_pos, python_ret_value);
-	} else {
-		ret_value = convert_python_exception_to_gnumeric_value (eval_pos);
-		PyErr_Clear ();;
-	}
-	if (eval_pos_set) {
-		SET_EVAL_POS (NULL);
-	}
-
-	return ret_value;
-}
-
-gchar *
-convert_python_exception_to_string (void)
-{
-	PyObject *exc_type, *exc_value, *exc_traceback;
-	PyObject *exc_type_str = NULL, *exc_value_str = NULL;
-	gchar *error_str;
-
-	g_return_val_if_fail (PyErr_Occurred () != NULL, NULL);
-
-	PyErr_Fetch (&exc_type, &exc_value, &exc_traceback);
-	if (PyErr_GivenExceptionMatches (exc_type, GNUMERIC_MODULE_GET ("GnumericError"))) {
-		if (exc_value != NULL) {
-			exc_value_str = PyObject_Str (exc_value);
-			g_assert (exc_value_str != NULL);
-			error_str = g_strdup (PyString_AsString (exc_value_str));
-		} else {
-			error_str = g_strdup (_("Unknown error"));
-		}
-	} else {
-		exc_type_str = PyObject_Str (exc_type);
-		if (exc_value != NULL) {
-			exc_value_str = PyObject_Str (exc_value);
-			error_str = g_strdup_printf (_("Python exception (%s: %s)"),
-			                             PyString_AsString (exc_type_str),
-			                             PyString_AsString (exc_value_str));
-		} else {
-			error_str = g_strdup_printf (_("Python exception (%s)"),
-			                             PyString_AsString (exc_type_str));
-		}
-	}
-
-	Py_DECREF (exc_type);
-	Py_XDECREF (exc_value);
-	Py_XDECREF (exc_traceback);
-	Py_XDECREF (exc_type_str);
-	Py_XDECREF (exc_value_str);
-
-	return error_str;
-}
-
-Value *
-convert_python_exception_to_gnumeric_value (const EvalPos *eval_pos)
-{
-	Value *ret_value;
-	PyObject *exc_type, *exc_value, *exc_traceback;
-	PyObject *exc_type_str = NULL, *exc_value_str = NULL;
-
-	g_return_val_if_fail (PyErr_Occurred () != NULL, NULL);
-
-	PyErr_Fetch (&exc_type, &exc_value, &exc_traceback);
-	if (PyErr_GivenExceptionMatches (exc_type, GNUMERIC_MODULE_GET ("GnumericError"))) {
-		if (exc_value != NULL) {
-			exc_value_str = PyObject_Str (exc_value);
-			g_assert (exc_value_str != NULL);
-			ret_value = value_new_error (eval_pos, PyString_AsString (exc_value_str));
-		} else {
-			ret_value = value_new_error (eval_pos, _("Unknown error"));
-		}
-	} else {
-		gchar *error_str;
-
-		exc_type_str = PyObject_Str (exc_type);
-		if (exc_value != NULL) {
-			exc_value_str = PyObject_Str (exc_value);
-			error_str = g_strdup_printf (_("Python exception (%s: %s)"),
-			                             PyString_AsString (exc_type_str),
-			                             PyString_AsString (exc_value_str));
-		} else {
-			error_str = g_strdup_printf (_("Python exception (%s)"),
-			                             PyString_AsString (exc_type_str));
-		}
-		ret_value = value_new_error (eval_pos, error_str);
-		g_free (error_str);
-	}
-
-	Py_DECREF (exc_type);
-	Py_XDECREF (exc_value);
-	Py_XDECREF (exc_traceback);
-	Py_XDECREF (exc_type_str);
-	Py_XDECREF (exc_value_str);
-
-	return ret_value;
-}
-
-PyObject *
-convert_gnumeric_value_to_python (const EvalPos *eval_pos, const Value *val)
-{
-	PyObject *py_val = NULL;
-
-	g_return_val_if_fail (eval_pos != NULL, NULL);
-	g_return_val_if_fail (val != NULL, NULL);
-
-    switch (val->type) {
-	case VALUE_BOOLEAN:
-		py_val = py_new_Boolean_object (val->v_bool.val);
-		break;
-	case VALUE_INTEGER:
-		py_val = PyInt_FromLong (val->v_int.val);
-		break;
-	case VALUE_FLOAT:
-		py_val = PyFloat_FromDouble (val->v_float.val);
-		break;
-	case VALUE_STRING: {
-		py_val = PyString_FromString (val->v_str.val->str);
-		break;
-	}
-	case VALUE_CELLRANGE:
-		py_val = py_new_RangeRef_object (&val->v_range.cell);
-		break;
-	case VALUE_ARRAY: {
-		gint x;
-
-		py_val = PyList_New(val->v_array.x);
-		g_return_val_if_fail (py_val != NULL, NULL);
-		for (x = 0; x < val->v_array.x; x++) {
-			PyObject *col, *python_val;
-			gint y;
-
-			col = PyList_New(val->v_array.y);
-			for (y = 0; y < val->v_array.y; y++) {
-				python_val = convert_gnumeric_value_to_python (eval_pos, val->v_array.vals[x][y]);
-				(void) PyList_SetItem (col, y, python_val);
-			}
-			(void) PyList_SetItem (py_val, x, col);
-		}
-		break;
-	}
-	case VALUE_ERROR:
-		g_warning ("convert_gnumeric_value_to_python(): unsupported value type");
-	case VALUE_EMPTY:
-		Py_INCREF (Py_None);
-		py_val = Py_None;
-		break;
-	default:
-		g_assert_not_reached ();
-	}
-
-	return py_val;
-}
-
-Value *
-convert_python_to_gnumeric_value (const EvalPos *eval_pos, PyObject *py_val)
+static Value *
+py_obj_to_gnm_value (const EvalPos *eval_pos, PyObject *py_val)
 {
 	PyObject *py_val_type;
 	Value *ret_val;
@@ -407,7 +219,7 @@ convert_python_to_gnumeric_value (const EvalPos *eval_pos, PyObject *py_val)
 
 					python_val = PyList_GetItem (col, y);
 					g_assert (python_val != NULL);
-					ret_val->v_array.vals[x][y] = convert_python_to_gnumeric_value (eval_pos, python_val);
+					ret_val->v_array.vals[x][y] = py_obj_to_gnm_value (eval_pos, python_val);
 				}
 			}
 		} else {
@@ -429,6 +241,202 @@ convert_python_to_gnumeric_value (const EvalPos *eval_pos, PyObject *py_val)
 	return ret_val;
 }
 
+gchar *
+py_exc_to_string (void)
+{
+	PyObject *exc_type, *exc_value, *exc_traceback;
+	PyObject *exc_type_str = NULL, *exc_value_str = NULL;
+	gchar *error_str;
+
+	g_return_val_if_fail (PyErr_Occurred () != NULL, NULL);
+
+	PyErr_Fetch (&exc_type, &exc_value, &exc_traceback);
+	if (PyErr_GivenExceptionMatches (exc_type, GNUMERIC_MODULE_GET ("GnumericError"))) {
+		if (exc_value != NULL) {
+			exc_value_str = PyObject_Str (exc_value);
+			g_assert (exc_value_str != NULL);
+			error_str = g_strdup (PyString_AsString (exc_value_str));
+		} else {
+			error_str = g_strdup (_("Unknown error"));
+		}
+	} else {
+		exc_type_str = PyObject_Str (exc_type);
+		if (exc_value != NULL) {
+			exc_value_str = PyObject_Str (exc_value);
+			error_str = g_strdup_printf (_("Python exception (%s: %s)"),
+			                             PyString_AsString (exc_type_str),
+			                             PyString_AsString (exc_value_str));
+		} else {
+			error_str = g_strdup_printf (_("Python exception (%s)"),
+			                             PyString_AsString (exc_type_str));
+		}
+	}
+
+	Py_DECREF (exc_type);
+	Py_XDECREF (exc_value);
+	Py_XDECREF (exc_traceback);
+	Py_XDECREF (exc_type_str);
+	Py_XDECREF (exc_value_str);
+
+	return error_str;
+}
+
+static Value *
+py_exc_to_gnm_value (const EvalPos *eval_pos)
+{
+	gchar *error_str = py_exc_to_string ();
+	Value *ret_value = value_new_error (eval_pos, error_str);
+
+	g_free (error_str);
+	return ret_value;
+}
+
+static PyObject *
+gnm_value_to_py_obj (const EvalPos *eval_pos, const Value *val)
+{
+	PyObject *py_val = NULL;
+
+	g_return_val_if_fail (eval_pos != NULL, NULL);
+	g_return_val_if_fail (val != NULL, NULL);
+
+    switch (val->type) {
+	case VALUE_BOOLEAN:
+		py_val = py_new_Boolean_object (val->v_bool.val);
+		break;
+	case VALUE_INTEGER:
+		py_val = PyInt_FromLong (val->v_int.val);
+		break;
+	case VALUE_FLOAT:
+		py_val = PyFloat_FromDouble (val->v_float.val);
+		break;
+	case VALUE_STRING: {
+		py_val = PyString_FromString (val->v_str.val->str);
+		break;
+	}
+	case VALUE_CELLRANGE:
+		py_val = py_new_RangeRef_object (&val->v_range.cell);
+		break;
+	case VALUE_ARRAY: {
+		gint x;
+
+		py_val = PyList_New(val->v_array.x);
+		g_return_val_if_fail (py_val != NULL, NULL);
+		for (x = 0; x < val->v_array.x; x++) {
+			PyObject *col, *python_val;
+			gint y;
+
+			col = PyList_New(val->v_array.y);
+			for (y = 0; y < val->v_array.y; y++) {
+				python_val = gnm_value_to_py_obj (eval_pos, val->v_array.vals[x][y]);
+				(void) PyList_SetItem (col, y, python_val);
+			}
+			(void) PyList_SetItem (py_val, x, col);
+		}
+		break;
+	}
+	case VALUE_ERROR:
+		g_warning ("gnm_value_to_py_obj(): unsupported value type");
+	case VALUE_EMPTY:
+		Py_INCREF (Py_None);
+		py_val = Py_None;
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+
+	return py_val;
+}
+
+static const EvalPos *
+get_eval_pos (void)
+{
+        PyObject *gep = GNUMERIC_MODULE_GET ("Gnumeric_eval_pos");
+
+	return gep ? PyCObject_AsVoidPtr (gep) : NULL;
+}
+
+static PyObject *
+python_call_gnumeric_function (GnmFunc *fn_def, const EvalPos *opt_eval_pos, PyObject *args)
+{
+	gint n_args, i;
+	Value **values, *ret_val;
+	PyObject *py_ret_val;
+	const EvalPos *eval_pos;
+
+	g_return_val_if_fail (fn_def != NULL, NULL);
+	g_return_val_if_fail (args != NULL && PySequence_Check (args), NULL);
+
+	if (opt_eval_pos != NULL) {
+		eval_pos = opt_eval_pos;
+	} else {
+		eval_pos = get_eval_pos ();
+	}
+	if (eval_pos == NULL) {
+		PyErr_SetString (GNUMERIC_MODULE_GET ("GnumericError"),
+		                 "Missing Evaluation Position.");
+		return NULL;
+	}
+
+	n_args = PySequence_Length (args);
+	values = g_new (Value *, n_args);
+	for (i = 0; i < n_args; i++) {
+		PyObject *py_val;
+
+		py_val = PySequence_GetItem (args, i);
+		g_assert (py_val != NULL);
+		values[i] = py_obj_to_gnm_value (eval_pos, py_val);
+	}
+
+	ret_val = function_def_call_with_values (eval_pos, fn_def, n_args, values);
+	py_ret_val = gnm_value_to_py_obj (eval_pos, ret_val);
+	value_release (ret_val);
+	for (i = 0; i < n_args; i++) {
+		value_release (values[i]);
+	}
+	g_free (values);
+
+	return py_ret_val;
+}
+
+Value *
+call_python_function (PyObject *python_fn, const EvalPos *eval_pos, gint n_args, Value **args)
+{
+	PyObject *python_args;
+	PyObject *python_ret_value;
+	gint i;
+	Value *ret_value;
+	gboolean eval_pos_set;
+
+	g_return_val_if_fail (python_fn != NULL && PyCallable_Check (python_fn), NULL);
+
+	python_args = PyTuple_New (n_args);
+	g_return_val_if_fail (python_args != NULL, NULL);
+	for (i = 0; i < n_args; i++) {
+		(void) PyTuple_SetItem (python_args, i, 
+					gnm_value_to_py_obj (eval_pos, 
+							     args[i]));
+	}
+	if (get_eval_pos () != NULL) {
+		eval_pos_set = FALSE;
+	} else {
+		SET_EVAL_POS ((EvalPos *) eval_pos);
+		eval_pos_set = TRUE;
+	}
+	python_ret_value = PyObject_CallObject (python_fn, python_args);
+	Py_DECREF (python_args);
+	if (python_ret_value != NULL) {
+		ret_value = py_obj_to_gnm_value (eval_pos, python_ret_value);
+	} else {
+		ret_value = py_exc_to_gnm_value (eval_pos);
+		PyErr_Clear ();
+	}
+	if (eval_pos_set) {
+		SET_EVAL_POS (NULL);
+	}
+
+	return ret_value;
+}
+
 
 /*
  * Boolean
@@ -439,7 +447,7 @@ struct _py_Boolean_object {
 	gboolean value;
 };
 
-gboolean
+static gboolean
 py_Boolean_as_gboolean (py_Boolean_object *self)
 {
 	return self->value;
@@ -457,7 +465,7 @@ py_Boolean_object_dealloc (py_Boolean_object *self)
 	free (self);
 }
 
-PyObject *
+static PyObject *
 py_new_Boolean_object (gboolean value)
 {
 	py_Boolean_object *self;
@@ -471,7 +479,7 @@ py_new_Boolean_object (gboolean value)
 	return (PyObject *) self;
 }
 
-PyTypeObject py_Boolean_object_type = {
+static PyTypeObject py_Boolean_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
 	(char *) "Boolean",                       /* tp_name */
@@ -514,7 +522,7 @@ static struct PyMethodDef py_CellPos_object_methods[] = {
 	{NULL, NULL}
 };
 
-CellPos *
+static CellPos *
 py_CellPos_as_CellPos (py_CellPos_object *self)
 {
 	return &self->cell_pos;
@@ -548,7 +556,7 @@ py_CellPos_object_dealloc (py_CellPos_object *self)
 	free (self);
 }
 
-PyObject *
+static PyObject *
 py_new_CellPos_object (const CellPos *cell_pos)
 {
 	py_CellPos_object *self;
@@ -573,7 +581,7 @@ py_new_CellPos_object_from_col_row (gint col, gint row)
 	return py_new_CellPos_object (&cell_pos);
 }
 
-PyTypeObject py_CellPos_object_type = {
+static PyTypeObject py_CellPos_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
 	(char * ) "CellPos",                      /* tp_name */
@@ -616,7 +624,7 @@ static struct PyMethodDef py_Range_object_methods[] = {
 	{NULL, NULL}
 };
 
-Range *
+static Range *
 py_Range_as_Range (py_Range_object *self)
 {
 	return &self->range;
@@ -652,7 +660,7 @@ py_Range_object_dealloc (py_Range_object *self)
 	free (self);
 }
 
-PyObject *
+static PyObject *
 py_new_Range_object (const Range *range)
 {
 	py_Range_object *self;
@@ -677,7 +685,7 @@ py_new_Range_object_from_start_end (const CellPos *start, const CellPos *end)
 	return py_new_Range_object (&range);
 }
 
-PyTypeObject py_Range_object_type = {
+static PyTypeObject py_Range_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
 	(char *) "Range",                         /* tp_name */
@@ -716,7 +724,7 @@ static struct PyMethodDef py_CellRef_object_methods[] = {
 	{NULL, NULL}
 };
 
-CellRef *
+static CellRef *
 py_CellRef_as_CellRef (py_CellRef_object *self)
 {
 	return &self->cell_ref;
@@ -734,7 +742,7 @@ py_CellRef_object_dealloc (py_CellRef_object *self)
 	free (self);
 }
 
-PyObject *
+static PyObject *
 py_new_CellRef_object (const CellRef *cell_ref)
 {
 	py_CellRef_object *self;
@@ -748,7 +756,7 @@ py_new_CellRef_object (const CellRef *cell_ref)
 	return (PyObject *) self;
 }
 
-PyTypeObject py_CellRef_object_type = {
+static PyTypeObject py_CellRef_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
 	(char *) "CellRef",                       /* tp_name */
@@ -787,7 +795,7 @@ static struct PyMethodDef py_RangeRef_object_methods[] = {
 	{NULL, NULL}
 };
 
-RangeRef *
+static RangeRef *
 py_RangeRef_as_RangeRef (py_RangeRef_object *self)
 {
 	return &self->range_ref;
@@ -805,7 +813,7 @@ py_RangeRef_object_dealloc (py_RangeRef_object *self)
 	free (self);
 }
 
-PyObject *
+static PyObject *
 py_new_RangeRef_object (const RangeRef *range_ref)
 {
 	py_RangeRef_object *self;
@@ -819,7 +827,7 @@ py_new_RangeRef_object (const RangeRef *range_ref)
 	return (PyObject *) self;
 }
 
-PyTypeObject py_RangeRef_object_type = {
+static PyTypeObject py_RangeRef_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
 	(char *) "RangeRef",                       /* tp_name */
@@ -898,7 +906,7 @@ static struct PyMethodDef py_MStyle_object_methods[] = {
 	{NULL, NULL}
 };
 
-MStyle *
+static MStyle *
 py_mstyle_as_MStyle (py_MStyle_object *self)
 {
 	return self->mstyle;
@@ -1048,7 +1056,7 @@ py_MStyle_object_dealloc (py_MStyle_object *self)
 	free (self);
 }
 
-PyObject *
+static PyObject *
 py_new_MStyle_object (MStyle *mstyle)
 {
 	py_MStyle_object *self;
@@ -1063,7 +1071,7 @@ py_new_MStyle_object (MStyle *mstyle)
 	return (PyObject *) self;
 }
 
-PyTypeObject py_MStyle_object_type = {
+static PyTypeObject py_MStyle_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
 	(char *) "MStyle",  /* tp_name */
@@ -1126,7 +1134,7 @@ static struct PyMethodDef py_Cell_object_methods[] = {
 	{NULL, NULL}
 };
 
-Cell *
+static Cell *
 py_Cell_as_Cell (py_Cell_object *self)
 {
 	return self->cell;
@@ -1171,7 +1179,7 @@ py_Cell_get_value_method (py_Cell_object *self, PyObject *args)
 	}
 
 	(void) eval_pos_init_cell (&eval_pos, self->cell);
-	return convert_gnumeric_value_to_python (&eval_pos, self->cell->value);
+	return gnm_value_to_py_obj (&eval_pos, self->cell->value);
 }
 
 static PyObject *
@@ -1237,7 +1245,7 @@ py_Cell_object_dealloc (py_Cell_object *self)
 	free (self);
 }
 
-PyObject *
+static PyObject *
 py_new_Cell_object (Cell *cell)
 {
 	py_Cell_object *self;
@@ -1251,7 +1259,7 @@ py_new_Cell_object (Cell *cell)
 	return (PyObject *) self;
 }
 
-PyTypeObject py_Cell_object_type = {
+static PyTypeObject py_Cell_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
 	(char *) "Cell",  /* tp_name */
@@ -1322,7 +1330,7 @@ static struct PyMethodDef py_Sheet_object_methods[] = {
 	{NULL, NULL}
 };
 
-Sheet *
+static Sheet *
 py_sheet_as_Sheet (py_Sheet_object *self)
 {
 	return self->sheet;
@@ -1513,7 +1521,7 @@ static PyMappingMethods py_sheet_as_mapping = {
 	0  /* mp_ass_subscript */
 };
 
-PyTypeObject py_Sheet_object_type = {
+static PyTypeObject py_Sheet_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
 	(char *) "Sheet",  /* tp_name */
@@ -1547,7 +1555,7 @@ struct _py_Workbook_object {
 	Workbook *wb;
 };
 
-Workbook *
+static Workbook *
 py_Workbook_as_Workbook (py_Workbook_object *self)
 {
 	return self->wb;
@@ -1607,6 +1615,8 @@ py_Workbook_object_getattr (py_Workbook_object *self, gchar *name)
 		 METH_VARARGS},
 		{ (char *) "sheet_add",	(PyCFunction) py_Workbook_sheet_add,
 		 METH_VARARGS},
+		{ (char *) "show",	(PyCFunction) py_Workbook_show,
+		 METH_VARARGS},
 
 		{NULL, NULL}
 	};
@@ -1633,7 +1643,7 @@ py_new_Workbook_object (Workbook *wb)
 	return (PyObject *) self;
 }
 
-PyTypeObject py_Workbook_object_type = {
+static PyTypeObject py_Workbook_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
 	(char *) "Workbook",  /* tp_name */
@@ -1662,14 +1672,12 @@ PyTypeObject py_Workbook_object_type = {
  * GnumericFunc
  */
 
-typedef struct _py_GnumericFunc_object py_GnumericFunc_object;
 struct _py_GnumericFunc_object {
 	PyObject_HEAD
 	GnmFunc *fn_def;
 	EvalPos *eval_pos;
 };
 
-PyTypeObject py_GnumericFunc_object_type;
 
 static PyObject *
 py_GnumericFunc_call (py_GnumericFunc_object *self, PyObject *args, PyObject *keywords)
@@ -1707,7 +1715,7 @@ py_new_GnumericFunc_object (GnmFunc *fn_def, const EvalPos *opt_eval_pos)
 	return (PyObject *) self;
 }
 
-PyTypeObject py_GnumericFunc_object_type = {
+static PyTypeObject py_GnumericFunc_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
 	(char *) "GnumericFunc",  /* tp_name */
@@ -1736,13 +1744,11 @@ PyTypeObject py_GnumericFunc_object_type = {
  * GnumericFuncDict
  */
 
-typedef struct _py_GnumericFuncDict_object py_GnumericFuncDict_object;
 struct _py_GnumericFuncDict_object {
 	PyObject_HEAD
 	PyObject *module_dict;
 };
 
-PyTypeObject py_GnumericFuncDict_object_type;
 
 static PyObject *
 py_GnumericFuncDict_subscript (py_GnumericFuncDict_object *self, PyObject *key)
@@ -1791,7 +1797,7 @@ PyMappingMethods py_GnumericFuncDict_mapping_methods = {
 	0  /* mp_ass_subscript */
 };
 
-PyTypeObject py_GnumericFuncDict_object_type = {
+static PyTypeObject py_GnumericFuncDict_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
 	(char *) "GnumericFuncDict",  /* tp_name */
@@ -1886,7 +1892,7 @@ py_GnmPlugin_get_description_method (py_GnmPlugin_object *self, PyObject *args)
 	return PyString_FromString (gnm_plugin_get_description (self->pinfo));
 }
 
-GnmPlugin *
+static GnmPlugin *
 py_GnmPlugin_as_GnmPlugin (py_GnmPlugin_object *self)
 {
 	return self->pinfo;
@@ -1904,7 +1910,7 @@ py_GnmPlugin_object_dealloc (py_GnmPlugin_object *self)
 	free (self);
 }
 
-PyObject *
+static PyObject *
 py_new_GnmPlugin_object (GnmPlugin *pinfo)
 {
 	py_GnmPlugin_object *self;
@@ -1918,7 +1924,7 @@ py_new_GnmPlugin_object (GnmPlugin *pinfo)
 	return (PyObject *) self;
 }
 
-PyTypeObject py_GnmPlugin_object_type = {
+static PyTypeObject py_GnmPlugin_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
 	(char *) "GnmPlugin",                                /* tp_name */
@@ -2090,7 +2096,6 @@ py_initgnumeric (GnmPyInterpreter *interpreter)
 	py_GnumericFuncDict_object_type.ob_type =
 	py_GnmPlugin_object_type.ob_type        = &PyType_Type;
 
-	PyImport_AddModule ((char *) "Gnumeric");
 	module = Py_InitModule ((char *) "Gnumeric", GnumericMethods);
 	module_dict = PyModule_GetDict (module);
 

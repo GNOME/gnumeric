@@ -1,3 +1,34 @@
+2003-07-25  Jon K Hellan  <hellan@acm.org>
+
+	* py-gnumeric.[ch]: Make most stuff static.
+	
+	* py-gnumeric.c: Rename convert_python_exception_to_gnumeric_value
+	py_exc_to_gnm_value, convert_python_exception_to_string to
+	py_exc_to_string, convert_python_to_gnumeric_value, to
+	py_obj_to_gnm_value, convert_gnumeric_value_to_python to
+	gnm_value_to_py_obj.
+	(call_python_function): Use renamed py_exc_to_gnm_value.
+	(py_exc_to_gnm_value): Kill duplicated implementation and make it
+	a wrapper around py_exc_to_string.
+	(python_call_gnumeric_function, call_python_function,
+	py_obj_to_gnm_value): Use renamed py_obj_to_gnm_value.
+	(python_call_gnumeric_function, call_python_function,
+	gnm_value_to_py_obj, py_Cell_get_value_method): Use renamed
+	gnm_value_to_py_obj.
+	(python_call_gnumeric_function): Make static.
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_probe,
+	gnumeric_plugin_loader_python_func_file_open,
+	gnumeric_plugin_loader_python_func_file_save): Use renamed
+	py_exc_to_string.
+
+	* py-console.c (cb_key_event): New event handler: Close window on
+	Ctrl+W.
+	(show_python_console): Connect it.
+
+	* gnm-py-interpreter.c (gnm_py_interpreter_run_string): Check for
+	errors and clear Python exceptions when necessary.
+
 2003-07-23  Jon K Hellan  <hellan@acm.org>
 
 	* py-gnumeric.c (EVAL_POS): Recode as new function get_eval_pos

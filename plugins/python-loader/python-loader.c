@@ -249,7 +249,7 @@ gnumeric_plugin_loader_python_func_file_probe (
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	input_wrapper = pygobject_new (G_OBJECT (input));
 	if (input_wrapper == NULL) {
-		g_warning (convert_python_exception_to_string ());
+		g_warning (py_exc_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 	}
 	if (input_wrapper != NULL) {
@@ -311,7 +311,7 @@ gnumeric_plugin_loader_python_func_file_open (GnmFileOpener const *fo,
 		Py_DECREF (open_result);
 		workbook_sheet_attach (wb_view_workbook (wb_view), sheet, NULL);
 	} else {
-		gnumeric_io_error_string (io_context, convert_python_exception_to_string ());
+		gnumeric_io_error_string (io_context, py_exc_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 		sheet_destroy (sheet);
 	}
@@ -409,7 +409,7 @@ gnumeric_plugin_loader_python_func_file_save (GnmFileSaver const *fs, PluginServ
 	if (save_result != NULL) {
 		Py_DECREF (save_result);
 	} else {
-		gnumeric_io_error_string (io_context, convert_python_exception_to_string ());
+		gnumeric_io_error_string (io_context, py_exc_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
 	}
 #endif

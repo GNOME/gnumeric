@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include <workbook-control-gui.h>
 #include <plugin.h>
 #include <module-plugin-defs.h>
@@ -46,6 +47,20 @@ cb_delete_app (GtkWidget *caller, GdkEvent *event, gpointer data)
 	app = NULL;
 
 	return FALSE;
+}
+
+/* Close window on Ctrl+W */
+static gint
+cb_key_event (GtkWidget *widget, GdkEventKey *event, gpointer user_data)
+{
+	if (event->keyval == GDK_w && (event->state & GDK_CONTROL_MASK)) {
+		g_signal_stop_emission_by_name (G_OBJECT (widget),
+						"key_press_event");
+		gtk_widget_destroy (app->win);
+		app = NULL;
+		return TRUE;
+	} else
+		return FALSE;
 }
 
 static void
@@ -142,15 +157,16 @@ show_python_console (WorkbookControlGUI *wbcg)
 	app->cur_interpreter =
 		gnm_py_interpreter_selector_get_current (GNM_PY_INTERPRETER_SELECTOR (sel));
 	g_signal_connect_object (
-		sel, "interpreter_changed", G_CALLBACK (app_interpreter_changed),
-		app->win, 0);
+		G_OBJECT (sel), "interpreter_changed", 
+		G_CALLBACK (app_interpreter_changed), app->win, 0);
 	w = gtk_label_new_with_mnemonic (_("E_xecute in:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), sel);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 4);
 	gtk_box_pack_start (GTK_BOX (hbox), sel, FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox), gtk_label_new (""), TRUE, TRUE, 0);
 	w = gtk_button_new_from_stock (GTK_STOCK_CLEAR);
-	g_signal_connect (w, "clicked", G_CALLBACK (cb_clear), NULL);
+	g_signal_connect (G_OBJECT (w), "clicked", 
+			  G_CALLBACK (cb_clear), NULL);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 2);
 
@@ -186,8 +202,8 @@ show_python_console (WorkbookControlGUI *wbcg)
 
 	hbox = gtk_hbox_new (FALSE, 0);
 	cline = gnm_py_command_line_new ();
-	g_signal_connect (
-		cline, "entered", G_CALLBACK (app_cline_entered), NULL);
+	g_signal_connect (G_OBJECT (cline), "entered", 
+			  G_CALLBACK (app_cline_entered), NULL);
 	w = gtk_label_new_with_mnemonic (_("C_ommand:"));
 	gtk_label_set_mnemonic_widget (GTK_LABEL (w), cline);
 	gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 4);
@@ -197,8 +213,10 @@ show_python_console (WorkbookControlGUI *wbcg)
 	gtk_container_add (GTK_CONTAINER (app->win), vbox);
 	gtk_widget_grab_focus (cline);
 	gtk_window_set_default_size (GTK_WINDOW (app->win), 600, 400);
-	g_signal_connect (
-		app->win, "delete_event", G_CALLBACK (cb_delete_app), NULL);
+	g_signal_connect (G_OBJECT (app->win), "delete_event",
+			  G_CALLBACK (cb_delete_app), NULL);
+	g_signal_connect (G_OBJECT (app->win), "key_press_event",
+			  G_CALLBACK (cb_key_event), NULL);
 
 	gtk_widget_show_all (app->win);
 }
