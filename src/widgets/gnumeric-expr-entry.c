@@ -36,12 +36,9 @@
 #include <stdio.h>
 
 typedef struct {
-	Range range;
-	Sheet *sheet;
 	int text_start;
 	int text_end;
-	gboolean  abs_col;
-	gboolean  abs_row;
+	RangeRef ref;
 	gboolean  is_valid;
 } Rangesel;
 
@@ -49,18 +46,20 @@ struct _GnumericExprEntry {
 	GtkHBox	parent;
 
 	GtkEntry		*entry;
-	WorkbookControlGUI	*wbcg;
-	SheetControlGUI		*scg;
+	SheetControlGUI		*scg;	/* the source of the edit */
+	WorkbookControlGUI	*wbcg;	/* from scg */
+	Sheet			*sheet;	/* from scg */
+	Rangesel		 rangesel;
+
 	GnumericExprEntryFlags	 flags;
 	int			 freeze_count;
-	Sheet			*target_sheet;
-	Rangesel		 rangesel;
 
 	GtkUpdateType		 update_policy;
 	guint			 update_timeout_id;
 
 	gboolean                 is_cell_renderer;  /* as cell_editable */
 	gboolean                 editing_canceled;  /* as cell_editable */
+	gboolean                 ignore_changes; /* internal mutex */
 };
 
 typedef struct _GnumericExprEntryClass {
@@ -94,7 +93,7 @@ static void     gee_get_property (GObject *object, guint prop_id,
 				  GValue *value, GParamSpec *pspec);
 static void     gee_class_init (GtkObjectClass *klass);
 static void     gee_init (GnumericExprEntry *entry);
-static void     gnumeric_expr_entry_cell_editable_init (GtkCellEditableIface *iface);
+static void     gee_cell_editable_init (GtkCellEditableIface *iface);
 
 
 /* GtkHBox methods
@@ -103,7 +102,7 @@ static void     gnumeric_expr_entry_cell_editable_init (GtkCellEditableIface *if
 
 /* GtkCellEditable
  */
-static void     gnumeric_expr_entry_start_editing (GtkCellEditable *cell_editable,
+static void     gee_start_editing (GtkCellEditable *cell_editable,
 						   GdkEvent *event);
 static void     gnumeric_cell_editable_entry_activated (gpointer data,
 							GnumericExprEntry *entry);
@@ -119,10 +118,7 @@ static gint     cb_gee_key_press_event (GtkEntry *entry, GdkEventKey *key_event,
 /* Internal routines
  */
 static void     gee_rangesel_reset (GnumericExprEntry *gee);
-static void     gee_make_display_range (GnumericExprEntry *gee, Range *dst);
-static char    *gee_rangesel_make_text (GnumericExprEntry *gee);
 static void     gee_rangesel_update_text (GnumericExprEntry *gee);
-static gboolean split_char_p (unsigned char c);
 static void     gee_detach_scg (GnumericExprEntry *gee);
 static gboolean gee_update_timeout (gpointer data);
 static void     gee_remove_update_timer (GnumericExprEntry *range);
@@ -133,10 +129,22 @@ static void     gee_notify_cursor_position (GObject *object, GParamSpec *pspec,
 
 static GtkHBoxClass *gnumeric_expr_entry_parent_class = NULL;
 
-/* E_MAKE_TYPE (gnumeric_expr_entry, "GnumericExprEntry", GnumericExprEntry, */
-/* 	     gee_class_init, NULL, GTK_TYPE_HBOX)                            */
+static gboolean
+split_char_p (unsigned char const *c)
+{
+	switch (*c) {
+	case ',': case '=':
+	case '(': case '<': case '>':
+	case '+': case '-': case '*': case '/':
+	case '^': case '&': case '%': case '!':
+		return TRUE;
+	default :
+		return FALSE;
+	}
+}
 
-GType gnumeric_expr_entry_get_type(void)
+GType
+gnumeric_expr_entry_get_type(void)
 {
         static GType type = 0;
         if (!type){
@@ -151,12 +159,11 @@ GType gnumeric_expr_entry_get_type(void)
                         (GtkClassInitFunc) NULL,
                 };
 
-		static const GInterfaceInfo cell_editable_info =
-			{
-				(GInterfaceInitFunc) gnumeric_expr_entry_cell_editable_init,
-				NULL,
-				NULL
-			};
+		static GInterfaceInfo const cell_editable_info = {
+			(GInterfaceInitFunc) gee_cell_editable_init,
+			NULL,
+			NULL
+		};
 
 		type = gtk_type_unique (GTK_TYPE_HBOX, &object_info);
 		g_type_add_interface_static (type,
@@ -207,23 +214,43 @@ gee_class_init (GtkObjectClass *klass)
 }
 
 static void
-gee_init (GnumericExprEntry *entry)
+gee_rangesel_reset (GnumericExprEntry *gee)
 {
-	entry->editing_canceled = FALSE;
-	entry->is_cell_renderer = FALSE;
-	entry->rangesel.is_valid = FALSE;
-	entry->scg = NULL;
+	Rangesel *rs = &gee->rangesel;
+
+	rs->text_start = 0;
+	rs->text_end = 0;
+	memset (&rs->ref, 0, sizeof (Range));
+
+	/* restore the default based on the flags */
+	rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNUM_EE_ABS_COL) != 0;
+	rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNUM_EE_ABS_ROW) != 0;
+
+	gee->rangesel.is_valid = FALSE;
 }
 
 static void
-gnumeric_expr_entry_cell_editable_init (GtkCellEditableIface *iface)
+gee_init (GnumericExprEntry *gee)
 {
-  iface->start_editing = gnumeric_expr_entry_start_editing;
+	gee->editing_canceled = FALSE;
+	gee->is_cell_renderer = FALSE;
+	gee->ignore_changes = FALSE;
+	gee->flags = 0;
+	gee->scg = NULL;
+	gee->sheet = NULL;
+	gee->wbcg = NULL;
+	gee_rangesel_reset (gee);
+}
+
+static void
+gee_cell_editable_init (GtkCellEditableIface *iface)
+{
+	iface->start_editing = gee_start_editing;
 }
 
 
 static void
-gnumeric_expr_entry_start_editing (GtkCellEditable *cell_editable,
+gee_start_editing (GtkCellEditable *cell_editable,
 				   GdkEvent *event)
 {
   GNUMERIC_EXPR_ENTRY (cell_editable)->is_cell_renderer = TRUE;
@@ -240,78 +267,61 @@ gnumeric_expr_entry_start_editing (GtkCellEditable *cell_editable,
 static void
 gnumeric_cell_editable_entry_activated (gpointer data, GnumericExprEntry *entry)
 {
-  gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (entry));
+	gtk_cell_editable_editing_done (GTK_CELL_EDITABLE (entry));
 }
 
+/**
+ * gee_prepare_range :
+ * @gee :
+ * @dst :
+ *
+ * Adjust @dst as necessary to conform to @gee's requirements
+ **/
 static void
-gee_rangesel_reset (GnumericExprEntry *gee)
+gee_prepare_range (GnumericExprEntry const *gee, RangeRef *dst)
 {
-	Rangesel *rs = &gee->rangesel;
+	Rangesel const *rs = &gee->rangesel;
 
-	rs->sheet = NULL;
-	rs->text_start = 0;
-	rs->text_end = 0;
-	memset (&rs->range, 0, sizeof (Range));
+	*dst = rs->ref;
 
-	/* restore the default based on the flags */
-	gee->rangesel.abs_col = (gee->flags & GNUM_EE_ABS_COL) != 0;
-	gee->rangesel.abs_row = (gee->flags & GNUM_EE_ABS_ROW) != 0;
-	gee->rangesel.is_valid = FALSE;
-}
-
-static void
-gee_make_display_range (GnumericExprEntry *gee, Range *dst)
-{
-	*dst = gee->rangesel.range;
-
-	if (gee->flags & GNUM_EE_FULL_COL) {
-		dst->start.row = 0;
-		dst->end.row   = SHEET_MAX_ROWS - 1;
-	}
 	if (gee->flags & GNUM_EE_FULL_ROW) {
-		dst->start.col = 0;
-		dst->end.col   = SHEET_MAX_COLS - 1;
+		dst->a.col = 0;
+		dst->b.col   = SHEET_MAX_COLS - 1;
 	}
+	if (gee->flags & GNUM_EE_FULL_COL) {
+		dst->a.row = 0;
+		dst->b.row = SHEET_MAX_ROWS - 1;
+	}
+
+	/* special case a single merge to be only corner */
+	if (!(gee->flags & (GNUM_EE_FULL_ROW|GNUM_EE_FULL_COL))) {
+		Range const *merge;
+		CellPos  corner;
+
+		corner.col = MIN (dst->a.col, dst->b.col);
+		corner.row = MIN (dst->a.row, dst->b.row);
+		merge = sheet_merge_is_corner (gee->sheet, &corner);
+		if (merge != NULL &&
+		    merge->end.col == MAX (dst->a.col, dst->b.col) &&
+		    merge->end.row == MAX (dst->a.row, dst->b.row)) {
+			dst->a.col = dst->b.col;
+			dst->a.row = dst->b.row;
+		}
+	}
+
+	if (dst->a.sheet == NULL && !(gee->flags & GNUM_EE_SHEET_OPTIONAL))
+		dst->a.sheet = gee->sheet;
 }
 
 static char *
-gee_rangesel_make_text (GnumericExprEntry *gee)
+gee_rangesel_make_text (GnumericExprEntry const *gee)
 {
-	char *buffer;
-	gboolean inter_sheet;
-	Range display_range;
-	Range const *m;
-	Rangesel const *rs = &gee->rangesel;
+	RangeRef ref;
+	ParsePos pp;
 
-	inter_sheet = (rs->sheet != gee->target_sheet);
-	gee_make_display_range (gee, &display_range);
-	buffer = g_strdup_printf (
-		"%s%s%s%d",
-		rs->abs_col ? "$" : "",
-		col_name (display_range.start.col),
-		rs->abs_row ? "$" : "",
-		display_range.start.row+1);
+	gee_prepare_range (gee, &ref);
+	return rangeref_as_string (&ref, parse_pos_init (&pp, NULL, gee->sheet, 0, 0));
 
-	m = sheet_merge_is_corner (rs->sheet, &display_range.start);
-	if (!range_is_singleton (&display_range) &&
-	    ((m == NULL) || !range_equal (m, &display_range))) {
-		char *tmp = g_strdup_printf (
-			"%s:%s%s%s%d",buffer,
-			rs->abs_col ? "$" : "",
-			col_name (display_range.end.col),
-			rs->abs_row ? "$" : "",
-			display_range.end.row+1);
-		g_free (buffer);
-		buffer = tmp;
-	}
-	if (inter_sheet || !(gee->flags & GNUM_EE_SHEET_OPTIONAL)) {
-		char *tmp = g_strdup_printf ("%s!%s", rs->sheet->name_quoted,
-					     buffer);
-		g_free (buffer);
-		buffer = tmp;
-	}
-
-	return buffer;
 }
 
 static void
@@ -320,9 +330,11 @@ gee_rangesel_update_text (GnumericExprEntry *gee)
 	GtkEditable *editable = GTK_EDITABLE (gee->entry);
 	Rangesel *rs = &gee->rangesel;
 	int len;
-
 	char *text = gee_rangesel_make_text (gee);
 
+	g_return_if_fail (!gee->ignore_changes);
+
+	gee->ignore_changes = TRUE;
 	if (rs->text_end > rs->text_start) {
 		if (text == NULL)
 			gtk_editable_delete_text (editable,
@@ -340,14 +352,15 @@ gee_rangesel_update_text (GnumericExprEntry *gee)
 		rs->text_start = rs->text_end =
 			gtk_editable_get_position (GTK_EDITABLE (gee->entry));
 
-	if (text == NULL)
-		return;
+	if (text != NULL) {
+		/* Set the cursor at the end.  It looks nicer */
+		len = strlen (text);
+		gtk_editable_insert_text (editable, text, len, &rs->text_end);
+		gtk_editable_set_position (editable, rs->text_end);
+		g_free (text);
+	}
 
-	/* Set the cursor at the end.  It looks nicer */
-	len = strlen (text);
-	gtk_editable_insert_text (editable, text, len, &rs->text_end);
-	gtk_editable_set_position (editable, rs->text_end);
-	g_free (text);
+	gee->ignore_changes = FALSE;
 }
 
 /**
@@ -361,74 +374,79 @@ gee_rangesel_update_text (GnumericExprEntry *gee)
 void
 gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 {
-	int cursor, start, last, end;
-	int from, to;
-	char const *text;
-	RangeRef *range;
+	gboolean  single;
+	char const *text, *cursor, *tmp, *ptr;
+	RangeRef  range;
 	Rangesel *rs;
-	gboolean single = (gee->flags & (GNUM_EE_SINGLE_RANGE != 0));
+	ParsePos  pp;
+	int len;
 
-	rs = &gee->rangesel;
+	g_return_if_fail (gee != NULL);
+
+	rs     = &gee->rangesel;
+	single = (gee->flags & (GNUM_EE_SINGLE_RANGE != 0));
+
 	text = gtk_entry_get_text (gee->entry);
-	cursor = gtk_editable_get_position (GTK_EDITABLE (gee->entry));
-	rs->abs_col = (gee->flags & GNUM_EE_ABS_COL) != 0;
-	rs->abs_row = (gee->flags & GNUM_EE_ABS_ROW) != 0;
-	rs->sheet = gee->target_sheet;
+	cursor = text + gtk_editable_get_position (GTK_EDITABLE (gee->entry));
+
+	rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNUM_EE_ABS_COL) == 0;
+	rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNUM_EE_ABS_ROW) == 0;
+	rs->ref.a.sheet = rs->ref.b.sheet = NULL;
 	rs->is_valid = FALSE;
 	if (text == NULL)
 		return;
-	last = strlen (text);
+	len = strlen (text);
 
-	if (parse_surrounding_ranges  (text, cursor, rs->sheet, 
-				       !single, &from, &to,
-				       &range))
-	{
-		Sheet *end_sheet;
-		EvalPos ep;
-		
-		/* Note:
-		 * If single is not true, we just have one range here!
-		 **/
-		rs->abs_col = !range->a.col_relative;
-		rs->abs_row = !range->a.row_relative;
-		ep.eval.col = 0;
-		ep.eval.row = 0;
-		ep.sheet = rs->sheet;
-		
-		rangeref_normalize (&ep, range, &rs->sheet, &end_sheet,
-				    &rs->range);
-		rs->is_valid = TRUE;
-		g_free (range);
-		rs->text_start = from;
-		rs->text_end = to;
-		if (single) {
-			rs->text_start = 0;
-			rs->text_end = last;
-		}
-		return;
+	parse_pos_init (&pp, NULL, gee->sheet, 0, 0);
+	ptr = gnumeric_char_start_expr_p (text);
+	while (ptr != NULL && *ptr && ptr < cursor) {
+		tmp = rangeref_parse (&range, ptr, &pp);
+		if (tmp != ptr) {
+			if (tmp > cursor) {
+				rs->is_valid = TRUE;
+				rs->ref = range;
+				if (single) {
+					rs->text_start = 0;
+					rs->text_end = len;
+				} else {
+					rs->text_start = ptr - text;
+					rs->text_end = tmp - text;
+				}
+				return;
+			}
+			ptr = tmp;
+		} else if (*ptr == '\'' || *ptr == '\"') {
+			char const quote = *ptr;
+			ptr = g_utf8_next_char (ptr);
+			for (; *ptr && *ptr != quote; ptr = g_utf8_next_char (ptr))
+				if (*ptr == '\\' && ptr[1])
+					ptr = g_utf8_next_char (ptr+1);
+			if (*ptr == quote)
+				ptr = g_utf8_next_char (ptr+1);
+		} else
+			ptr = g_utf8_next_char (ptr);
 	}
 
 	if (single) {
 		rs->text_start = 0;
-		rs->text_end = last;
+		rs->text_end = len;
 	} else {
-		for (start = cursor; start > 0; start = g_utf8_prev_char (text + start) - text) {
-			gunichar c = g_utf8_get_char (text + start);
+		for (tmp = cursor; tmp > text; tmp = g_utf8_prev_char (tmp)) {
+			gunichar c = g_utf8_get_char (tmp);
 			if (!isalnum (c)) {
-				start = g_utf8_next_char (text + start) - text;
+				tmp = g_utf8_next_char (tmp);
 				break;
 			}
 		}
-		rs->text_start = (cursor < start) ? cursor : start;
-		for (end = cursor; end < last; end = g_utf8_next_char (text + end) - text) {
-			gunichar c = g_utf8_get_char (text + end);
-			if (!g_unichar_isalnum (c)) {
+
+		rs->text_start = ((cursor < tmp) ? cursor : tmp) - text;
+		for (tmp = cursor; tmp < (text + len); tmp = g_utf8_next_char (tmp)) {
+			gunichar c = g_utf8_get_char (tmp);
+			if (!g_unichar_isalnum (c))
 				break;
-			}
 		}
-		rs->text_end = (cursor < end) ? end : cursor;
+		rs->text_end = ((cursor < (text+len)) ? tmp : cursor) - text;
 	}
-	return;
 }
 
 /**
@@ -464,7 +482,7 @@ cb_scg_destroy (GnumericExprEntry *gee, SheetControlGUI *scg)
 
 	gee_rangesel_reset (gee);
 	gee->scg = NULL;
-	gee->target_sheet = NULL;
+	gee->sheet = NULL;
 }
 
 static void
@@ -581,13 +599,17 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 		if (abs_rows) {
 			if (abs_cols)
 				return TRUE;
-			rs->abs_col = !rs->abs_col;
+			rs->ref.b.col_relative = rs->ref.a.col_relative =
+				!rs->ref.a.col_relative;
 		} else if (abs_cols)
-			rs->abs_row = !rs->abs_row;
+			rs->ref.b.row_relative = rs->ref.a.row_relative =
+				!rs->ref.a.row_relative;
 		else {
 			/* It's late. I'm doing this the straightforward way. */
-			rs->abs_row = (rs->abs_row == rs->abs_col);
-			rs->abs_col = !rs->abs_col;
+			rs->ref.b.row_relative = rs->ref.a.row_relative =
+				(rs->ref.a.row_relative != rs->ref.a.col_relative);
+			rs->ref.b.col_relative = rs->ref.a.col_relative =
+				!rs->ref.a.col_relative;
 		}
 
 		gee_rangesel_update_text (gee);
@@ -624,7 +646,7 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 			break;
 
 		/* Be careful to use the editing sheet */
-		sv = sheet_get_view (wbcg->editing_sheet,
+		sv = sheet_get_view (wbcg->wb_control.editing_sheet,
 			wb_control_view (WORKBOOK_CONTROL (wbcg)));
 
 		if (state == GDK_CONTROL_MASK ||
@@ -659,6 +681,8 @@ gee_notify_cursor_position (GObject *object, GParamSpec *pspec, GnumericExprEntr
 {
 	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
 
+	if (gee->ignore_changes)
+		return;
 	if (!gnm_expr_entry_can_rangesel (gee))
 		scg_rangesel_stop (gee->scg, FALSE);
 }
@@ -723,10 +747,12 @@ gee_get_property (GObject      *object,
 static void
 cb_entry_changed (GtkEntry *ignored, GnumericExprEntry *gee)
 {
-	if (!gee->is_cell_renderer &&
-	    !gnm_expr_entry_can_rangesel (gee) &&
-	    gee->scg != NULL)
-		scg_rangesel_stop (gee->scg, FALSE);
+	if (!gee->ignore_changes) {
+		if (!gee->is_cell_renderer &&
+		    !gnm_expr_entry_can_rangesel (gee) &&
+		    gee->scg != NULL)
+			scg_rangesel_stop (gee->scg, FALSE);
+	}
 
 	g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
 }
@@ -819,13 +845,16 @@ gnm_expr_entry_set_flags (GnumericExprEntry *gee,
 			       GnumericExprEntryFlags flags,
 			       GnumericExprEntryFlags mask)
 {
+	Rangesel *rs;
+
 	g_return_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee));
 
 	gee->flags = (gee->flags & ~mask) | (flags & mask);
+	rs = &gee->rangesel;
 	if (mask & GNUM_EE_ABS_COL)
-		gee->rangesel.abs_col = (gee->flags & GNUM_EE_ABS_COL) != 0;
+		rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNUM_EE_ABS_COL) != 0;
 	if (mask & GNUM_EE_ABS_ROW)
-		gee->rangesel.abs_row = (gee->flags & GNUM_EE_ABS_ROW) != 0;
+		rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNUM_EE_ABS_ROW) != 0;
 }
 
 /**
@@ -851,9 +880,9 @@ gnm_expr_entry_set_scg (GnumericExprEntry *gee, SheetControlGUI *scg)
 	if (scg) {
 		g_object_weak_ref (G_OBJECT (gee->scg),
 				   (GWeakNotify) cb_scg_destroy, gee);
-		gee->target_sheet = sc_sheet (SHEET_CONTROL (scg));
+		gee->sheet = sc_sheet (SHEET_CONTROL (scg));
 	} else
-		gee->target_sheet = NULL;
+		gee->sheet = NULL;
 }
 
 /**
@@ -951,23 +980,33 @@ gnm_expr_entry_load_from_range (GnumericExprEntry *gee,
 
 	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+	g_return_val_if_fail (r != NULL, FALSE);
 
-	if (r)
-		needs_change =  (gee->flags & GNUM_EE_FULL_COL &&
- 				 !range_is_full (r, TRUE)) ||
- 				(gee->flags & GNUM_EE_FULL_ROW &&
- 				 !range_is_full (r, FALSE));
+	needs_change =  (gee->flags & GNUM_EE_FULL_COL &&
+			 !range_is_full (r, TRUE)) ||
+			(gee->flags & GNUM_EE_FULL_ROW &&
+			 !range_is_full (r, FALSE));
 
 	rs = &gee->rangesel;
-	if (range_equal (r, &rs->range) && rs->sheet == sheet)
+	if (rs->ref.a.col == r->start.col &&
+	    rs->ref.b.col == r->end.col &&
+	    rs->ref.a.row == r->start.row &&
+	    rs->ref.b.row == r->end.row &&
+	    rs->ref.a.sheet == sheet &&
+	    (rs->ref.b.sheet == NULL || rs->ref.b.sheet == sheet))
 		return needs_change; /* FIXME ??? */
 
-	if (r)
-		rs->range = *r;
-	else
-		memset (&rs->range, 0, sizeof (Range));
+	if (r != NULL) {
+		rs->ref.a.col = r->start.col;
+		rs->ref.b.col = r->end.col;
+		rs->ref.a.row = r->start.row;
+		rs->ref.b.row = r->end.row;
+	} else
+		rs->ref.a.col = rs->ref.b.col = rs->ref.a.row = rs->ref.b.row = 0;
 
-	rs->sheet = sheet;
+	rs->ref.a.sheet =
+		(sheet != gee->sheet || !(gee->flags & GNUM_EE_SHEET_OPTIONAL)) ? sheet : NULL;
+	rs->ref.b.sheet = NULL;
 
 	if (gee->freeze_count == 0)
 		gee_rangesel_update_text (gee);
@@ -989,15 +1028,24 @@ gboolean
 gnm_expr_entry_get_rangesel (GnumericExprEntry *gee,
 			     Range *r, Sheet **sheet)
 {
+	RangeRef ref;
+	Rangesel const *rs = &gee->rangesel;
+
 	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
-	g_return_val_if_fail (r != NULL, FALSE);
 
-	if (r)
-		gee_make_display_range (gee, r);
-	if (sheet)
-		*sheet = gee->rangesel.sheet;
+	gee_prepare_range (gee, &ref);
+	if (r != NULL) {
+		r->start.col = rs->ref.a.col;
+		r->end.col   = rs->ref.b.col;
+		r->start.row = rs->ref.a.row;
+		r->end.row   = rs->ref.b.row;
+	}
 
-	return gee->rangesel.is_valid;
+	/* TODO : does not handle 3d, neither does this interface */
+	if (sheet != NULL)
+		*sheet = eval_sheet (rs->ref.a.sheet, gee->sheet);
+
+	return rs->is_valid;
 }
 
 /**
@@ -1017,22 +1065,6 @@ gnm_expr_entry_set_absolute (GnumericExprEntry *gee)
 	gnm_expr_entry_set_flags (gee, flags, flags);
 }
 
-
-#warning  FIXME: this is definitely not utf8 clean
-
-static gboolean
-split_char_p (unsigned char c)
-{
-	switch (c) {
-	case ',': case '=':
-	case '(': case '<': case '>':
-	case '+': case '-': case '*': case '/':
-	case '^': case '&': case '%': case '!':
-		return TRUE;
-	default :
-		return FALSE;
-	}
-}
 
 /**
  * gnm_expr_entry_can_rangesel
@@ -1078,7 +1110,7 @@ gnm_expr_entry_can_rangesel (GnumericExprEntry *gee)
 		return TRUE;
 
 	cursor_pos = gtk_editable_get_position (GTK_EDITABLE (gee->entry));
-	return (cursor_pos <= 0) || split_char_p (text [cursor_pos-1]);
+	return (cursor_pos <= 0) || split_char_p (text + cursor_pos - 1);
 }
 
 /**
@@ -1136,11 +1168,11 @@ gnm_expr_entry_parse (GnumericExprEntry *gee, ParsePos const *pp,
 	str = gnm_expr_as_string (expr, pp);
 	if (strcmp (str, text)) {
 		SheetControlGUI *scg = wbcg_cur_scg (gee->wbcg);
-		if (start_sel && sc_sheet (SHEET_CONTROL (scg)) == gee->rangesel.sheet) {
-			Range const *r = &gee->rangesel.range;
+		Rangesel const *rs = &gee->rangesel;
+		if (start_sel && sc_sheet (SHEET_CONTROL (scg)) == rs->ref.a.sheet) {
 			scg_rangesel_bound (scg,
-				r->start.col, r->start.row,
-				r->end.col, r->end.row);
+				rs->ref.a.col, rs->ref.a.row,
+				rs->ref.b.col, rs->ref.b.row);
 		} else
 			gtk_entry_set_text (gee->entry, str);
 	}

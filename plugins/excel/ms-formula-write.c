@@ -239,7 +239,6 @@ ms_formula_write_pre_data (BiffPut *bp, ExcelSheet *sheet,
 				GSF_LE_SET_GUINT16 (data + 4, 0x0);
 				ms_biff_put_var_write (bp, data, 6);
 				txt = g_strdup (fce->u.ename_v7.name);
-				g_strup (txt); /* scraping the barrel here */
 				len = biff_convert_text(&buf, txt, MS_BIFF_V7);
 				biff_put_text (bp, buf, len,
 					       MS_BIFF_V7,

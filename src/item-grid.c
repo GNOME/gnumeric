@@ -303,7 +303,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	GnomeCanvas *canvas = item->canvas;
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
 	Sheet const *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
-	Cell const * const edit_cell = gcanvas->simple.scg->wbcg->editing_cell;
+	Cell const * const edit_cell = gcanvas->simple.scg->wbcg->wb_control.editing_cell;
 	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 

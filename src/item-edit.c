@@ -140,7 +140,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	pango_layout_set_width (layout, (int)(item->x2-item->x1)*PANGO_SCALE);
 	pango_layout_get_pixel_size (layout, &width, &height);
 
- 	attrs = pango_attr_list_new();
+ 	attrs = pango_attr_list_new ();
 	pango_layout_set_attributes (layout, attrs);
 
 	text = wbcg_edit_get_display_text (item_edit->scg->wbcg);
@@ -153,6 +153,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			left_pos + PANGO_PIXELS (pos.x), top_pos + PANGO_PIXELS (pos.y),
 			left_pos + PANGO_PIXELS (pos.x), top_pos + PANGO_PIXELS (pos.y + pos.height));
 	g_object_unref (G_OBJECT (layout));
+	pango_attr_list_unref (attrs);
 }
 
 static double

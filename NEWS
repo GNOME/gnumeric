@@ -10,6 +10,7 @@ Jody:
 	* Fix some drawing issues related to the pango conversion
 	* remove some deprecated functions
 	* Fix handling of files named .xml.gz
+	* Improvements for ExprEntry
 
 Morten:
 	* Leak plugging.

@@ -88,7 +88,7 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	if (NULL != wbcg->rangesel)
 		scg_rangesel_stop (wbcg->rangesel, !accept);
 
-	if (!wbcg->editing) {
+	if (!wbcg_is_editing (wbcg)) {
 		/* We may have a guru up even if we are not editing. remove it.
 		 * Do NOT remove until later it if we are editing, it is possible
 		 * that we may want to continue editing.
@@ -99,9 +99,9 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		return TRUE;
 	}
 
-	g_return_val_if_fail (IS_SHEET (wbcg->editing_sheet), TRUE);
+	g_return_val_if_fail (IS_SHEET (wbcg->wb_control.editing_sheet), TRUE);
 
-	sheet = wbcg->editing_sheet;
+	sheet = wbcg->wb_control.editing_sheet;
 	sv = sheet_get_view (sheet, wbv);
 
 	/* Save the results before changing focus */
@@ -193,9 +193,9 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 	}
 
 	/* Stop editing */
-	wbcg->editing = FALSE;
-	wbcg->editing_sheet = NULL;
-	wbcg->editing_cell = NULL;
+	wbcg->wb_control.editing = FALSE;
+	wbcg->wb_control.editing_sheet = NULL;
+	wbcg->wb_control.editing_cell = NULL;
 
 	if (wbcg->edit_line.guru != NULL)
 		gtk_widget_destroy (wbcg->edit_line.guru);
@@ -287,7 +287,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
 
-	if (wbcg->editing)
+	if (wbcg_is_editing (wbcg))
 		return TRUE;
 
 	/* Avoid recursion, and do not begin editing if a guru is up */
@@ -362,9 +362,9 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 		gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
 				      GTK_WIDGET (wbcg_get_entry (wbcg)));
 
-	wbcg->editing = TRUE;
-	wbcg->editing_sheet = sv->sheet;
-	wbcg->editing_cell = cell;
+	wbcg->wb_control.editing = TRUE;
+	wbcg->wb_control.editing_sheet = sv->sheet;
+	wbcg->wb_control.editing_cell = cell;
 
 	/* If this assert fails, it means editing was not shut down
 	 * properly before

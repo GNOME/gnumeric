@@ -8,6 +8,12 @@ struct _WorkbookControl {
 	CommandContext	context;
 
 	WorkbookView *wb_view;
+
+	/* When editing a cell: the cell (may be NULL) */
+	Cell        *editing_cell;
+	Sheet       *editing_sheet;
+	gboolean     editing;
+
 	gulong clipboard_changed_signal;
 };
 typedef struct {

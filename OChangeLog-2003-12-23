@@ -1,3 +1,14 @@
+2002-09-06  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_colrow_select) : don't do a start and a
+	  change.  Do a start or a change.  do not sheet_update for rangesel.
+
+	* src/parser.y : some utf8 fixes for escaped characters
+
+	* src/expr.c (do_expr_as_string) : rangeref_name -> rangeref_as_string
+	* src/parse-util.c (rangeref_parse) : new.
+	(parse_surrounding_ranges) : delete.
+
 2002-09-06  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-control-gui.c (setup_progress_bar): Use

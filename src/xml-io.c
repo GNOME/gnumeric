@@ -759,7 +759,7 @@ xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree,
 			xmlChar *pos_txt = xml_node_get_cstr (position, NULL);
 			if (pos_txt != NULL) {
 				CellRef tmp;
-				char const *res = cellref_a1_get (&tmp, (const char *)pos_txt, &pp.eval);
+				char const *res = cellref_get (&tmp, (const char *)pos_txt, &pp.eval);
 				if (res != NULL && *res == '\0') {
 					pp.eval.col = tmp.col;
 					pp.eval.row = tmp.row;

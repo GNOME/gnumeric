@@ -492,7 +492,8 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 	}
 
 	/* The edit pos, and the selection may have changed */
-	sheet_update (sv->sheet);
+	if (!rangesel)
+		sheet_update (sv->sheet);
 	return TRUE;
 }
 
@@ -2229,12 +2230,12 @@ scg_rangesel_move (SheetControlGUI *scg, int n, gboolean jump_to_bound,
 	SheetView *sv = sc_view ((SheetControl *) scg);
 	CellPos tmp;
 
-	if (!scg->rangesel.active)
-		scg_rangesel_start (scg,
-			sv->edit_pos_real.col, sv->edit_pos_real.row,
-			sv->edit_pos_real.col, sv->edit_pos_real.row);
+	if (!scg->rangesel.active) {
+		tmp.col = sv->edit_pos_real.col;
+		tmp.row = sv->edit_pos_real.row;
+	} else
+		tmp = scg->rangesel.base_corner;
 
-	tmp = scg->rangesel.base_corner;
 	if (horiz)
 		tmp.col = sheet_find_boundary_horizontal (
 			sv_sheet (sv), tmp.col, tmp.row, tmp.row, n, jump_to_bound);
@@ -2242,7 +2243,10 @@ scg_rangesel_move (SheetControlGUI *scg, int n, gboolean jump_to_bound,
 		tmp.row = sheet_find_boundary_vertical (
 			sv_sheet (sv), tmp.col, tmp.row, tmp.col, n, jump_to_bound);
 
-	scg_rangesel_changed (scg, tmp.col, tmp.row, tmp.col, tmp.row);
+	if (scg->rangesel.active)
+		scg_rangesel_changed (scg, tmp.col, tmp.row, tmp.col, tmp.row);
+	else
+		scg_rangesel_start   (scg, tmp.col, tmp.row, tmp.col, tmp.row);
 	scg_make_cell_visible (scg, tmp.col, tmp.row, FALSE, TRUE);
 }
 

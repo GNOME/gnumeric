@@ -66,7 +66,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	/* Magic : Some of these are accelerators,
 	 * we need to catch them before entering because they appear to be printable
 	 */
-	if (!wbcg->editing && event->keyval == GDK_space &&
+	if (!wbcg_is_editing (wbcg) && event->keyval == GDK_space &&
 	    (event->state & (GDK_SHIFT_MASK|GDK_CONTROL_MASK)))
 		return FALSE;
 
@@ -256,7 +256,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 	 */
 	case GDK_KP_Enter:
 	case GDK_Return:
-		if (wbcg->editing &&
+		if (wbcg_is_editing (wbcg) &&
 		    (state == GDK_CONTROL_MASK ||
 		     state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK) ||
 		     event->state == GDK_MOD1_MASK))
@@ -273,8 +273,8 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 			break;
 
 		/* Be careful to restore the editing sheet if we are editing */
-		if (wbcg->editing)
-			sheet = wbcg->editing_sheet;
+		if (wbcg_is_editing (wbcg))
+			sheet = wbcg->wb_control.editing_sheet;
 
 		if (wbcg_edit_finish (wbcg, TRUE)) {
 			/* Figure out the direction */
@@ -292,7 +292,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		break;
 
 	case GDK_F4:
-		if (wbcg->editing)
+		if (wbcg_is_editing (wbcg))
 			return gtk_widget_event (GTK_WIDGET (gnm_expr_entry_get_entry (wbcg_get_entry_logical (wbcg))),
 						 (GdkEvent *) event);
 		return TRUE;
@@ -307,14 +307,14 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 
 	case GDK_BackSpace:
 		/* Re-center the view on the active cell */
-		if (!wbcg->editing && (event->state & GDK_CONTROL_MASK) != 0) {
+		if (!wbcg_is_editing (wbcg) && (event->state & GDK_CONTROL_MASK) != 0) {
 			scg_make_cell_visible (gcanvas->simple.scg, sv->edit_pos.col,
 					       sv->edit_pos.row, FALSE, TRUE);
 			break;
 		}
 
 	default:
-		if (!wbcg->editing) {
+		if (!wbcg_is_editing (wbcg)) {
 			if ((event->state & (GDK_MOD1_MASK|GDK_CONTROL_MASK)) != 0)
 				return FALSE;
 
@@ -332,7 +332,7 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 					 (GdkEvent *) event);
 	}
 
-	if (wbcg->editing)
+	if (wbcg_is_editing (wbcg))
 		sheet_update_only_grid (sheet);
 	else
 		sheet_update (sheet);

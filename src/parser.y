@@ -669,8 +669,8 @@ cellref:  CELLREF {
 	/* special case to handle 3:5 or A:C style references. */
 	| RANGEREF { $$ = $1; }
 	| sheetref RANGEREF {
-		(Value *)($2->constant.value)->v_range.cell.a.sheet = $1.first;
-		(Value *)($2->constant.value)->v_range.cell.b.sheet = $1.last;
+		((Value *)$2->constant.value)->v_range.cell.a.sheet = $1.first;
+		((Value *)$2->constant.value)->v_range.cell.b.sheet = $1.last;
 	}
 
 	| CELLREF RANGE_SEP CELLREF {
@@ -861,7 +861,7 @@ find_char (char const *str, char c)
 {
 	for (; *str && *str != c; str = g_utf8_next_char (str))
 		if (*str == '\\' && str[1])
-			str = g_utf8_next_char (str);
+			str = g_utf8_next_char (str+1);
 	return str;
 }
 
@@ -991,12 +991,17 @@ yylex (void)
 			} else if (errno != ERANGE) {
 				/* Check for a Row range ref (3:4 == A3:IV4) */
 				if (end[0] == ':' && end[1] != '\0' && l < SHEET_MAX_ROWS) {
-					char *end2;
-					long r = strtol (end+1, &end2, 10);
-					if (end+1 != end2 && errno != ERANGE && r < SHEET_MAX_ROWS) {
+					char *begin, *end2;
+					long r;
+					gboolean const b_row_relative = (end[1] != '$');
+
+					begin = end + ((b_row_relative) ? 1 : 2);
+					r = strtol (begin, &end2, 10);
+					if (begin != end2 && errno != ERANGE && r < SHEET_MAX_ROWS) {
 						CellRef a, b;
 						a.sheet = b.sheet = NULL;
-						a.col_relative = a.row_relative = b.col_relative = b.row_relative = TRUE;
+						a.col_relative = a.row_relative = b.col_relative = TRUE;
+						b.row_relative = TRUE;
 						a.col = 0;	b.col = SHEET_MAX_COLS - 1;
 						a.row = l;	b.row = r;
 						yylval.expr = register_expr_allocation (
@@ -1054,15 +1059,16 @@ yylex (void)
 			return INVALID_TOKEN;
 		}
 
-		s = string = (char *) alloca (1 + state->expr_text - p);
-		/* this is safe for utf8 */
-		while (p != state->expr_text) {
-			if (*p == '\\'){
-				p++;
-				*s++ = *p++;
+		s = string = (char *) g_alloca (1 + state->expr_text - p);
+		while (p != state->expr_text)
+			if (*p == '\\') {
+				int n = g_utf8_skip [*(guchar *)(++p)];
+				strncpy (s, p, n);
+				s += n;
+				p += n;
 			} else
 				*s++ = *p++;
-		}
+
 		*s = 0;
 		state->expr_text++;
 

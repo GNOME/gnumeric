@@ -3,24 +3,23 @@
 
 #include "gnumeric.h"
 
-char const  *col_name                 (int col);
-char const  *cols_name                (int start_col, int end_col);
-char const  *row_name                 (int row);
-char const  *rows_name                (int start_row, int end_col);
+char const  *col_name		(int col);
+char const  *cols_name		(int start_col, int end_col);
+char const  *row_name		(int row);
+char const  *rows_name		(int start_row, int end_col);
 
-char	    *rangeref_name	     (RangeRef const *ref, ParsePos const *pp);
-char        *cellref_name            (CellRef const *ref,
-				      ParsePos const *pp, gboolean no_sheetname);
-char const  *cellref_get             (CellRef *out, char const *in,
-				      CellPos const *pos);
-char const  *cellref_a1_get          (CellRef *out, char const *in,
-				      CellPos const *pos);
-char const  *cellref_r1c1_get        (CellRef *out, char const *in,
-				      CellPos const *pos);
+char	    *rangeref_as_string	(RangeRef const *ref, ParsePos const *pp);
+char const  *rangeref_parse	(RangeRef *res, char const *in,
+				 ParsePos const *pp);
 
-char const *cell_coord_name	     (int col, int row);
-char const *cell_pos_name	     (CellPos const *pos);
-char const *cell_name                (Cell const *cell);
+char        *cellref_name	(CellRef const *ref,
+				 ParsePos const *pp, gboolean no_sheetname);
+char const  *cellref_get	(CellRef *out, char const *in,
+				 CellPos const *pos);
+
+char const *cell_coord_name	(int col, int row);
+char const *cell_pos_name	(CellPos const *pos);
+char const *cell_name		(Cell const *cell);
 
 /* Various parsing routines */
 int         parse_col_name           (char const *cell_str, char const **endptr);
@@ -32,9 +31,6 @@ void	    parse_text_value_or_expr (ParsePos const *pos,
 				      char const *text,
 				      Value **val, GnmExpr const **expr,
 				      StyleFormat *current_format /* can be NULL */);
-gboolean   parse_surrounding_ranges  (char const *text, gint cursor, Sheet *sheet,
-				      gboolean single_range_only, gint *from, gint *to,
-				      RangeRef **range);
 
 /* Is this string potentially the start of an expression */
 char const * gnumeric_char_start_expr_p (char const * c);

@@ -1,3 +1,9 @@
+2002-09-06  Jody Goldberg <jody@gnome.org>
+
+	* xml-sax-read.c (xml_sax_finish_parse_wb_names_name) : convert to
+	  cellref_get.
+	(xml_sax_finish_parse_sheet_names_name) : ditto.
+
 2002-08-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.8

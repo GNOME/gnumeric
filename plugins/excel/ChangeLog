@@ -1,3 +1,8 @@
+2002-09-05  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-write.c (ms_formula_write_pre_data) : remove some obvious
+	  silliness
+
 2002-09-04  Jody Goldberg <jody@gnome.org>
 
 	* *.c : remove ifdef WITH_BONOBOization of graphs

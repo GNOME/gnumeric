@@ -318,6 +318,7 @@ sv_menu_enable_insert (SheetView *sv, gboolean col, gboolean row)
 	WORKBOOK_VIEW_FOREACH_CONTROL(sv_wbv (sv), wbc,
 		wb_control_menu_state_update (wbc, flags););
 }
+
 /**
  * selection_first_range
  * @sheet        : The sheet whose selection we are testing.

@@ -92,13 +92,13 @@ cellref_abs_row (CellRef const *ref, ParsePos const *pp)
 }
 
 /**
- * rangeref_name :
+ * rangeref_as_string :
  * @ref :
  * @pp :
  *
  **/
 char *
-rangeref_name (RangeRef const *ref, ParsePos const *pp)
+rangeref_as_string (RangeRef const *ref, ParsePos const *pp)
 {
 	char buf [2*(10  /* max digits in 32 bit row */
 		     + 7 /* max letters in 32 bit col */
@@ -228,7 +228,7 @@ cellref_name (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname
 		return g_strdup (buffer);
 }
 
-char const *
+static char const *
 cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 {
 	int col = 0;
@@ -333,12 +333,9 @@ r1c1_get_item (int *num, unsigned char *rel, char const * *in)
 	return TRUE;
 }
 
-char const *
+static char const *
 cellref_r1c1_get (CellRef *out, char const *in, CellPos const *pos)
 {
-	g_return_val_if_fail (in != NULL, NULL);
-	g_return_val_if_fail (out != NULL, NULL);
-
 	out->row_relative = FALSE;
 	out->col_relative = FALSE;
 	out->col = pos->col;
@@ -378,7 +375,12 @@ cellref_r1c1_get (CellRef *out, char const *in, CellPos const *pos)
 char const *
 cellref_get (CellRef *out, char const *in, CellPos const *pos)
 {
-	char const *res = cellref_a1_get (out, in, pos);
+	char const *res;
+	
+	g_return_val_if_fail (in != NULL, NULL);
+	g_return_val_if_fail (out != NULL, NULL);
+
+	res = cellref_a1_get (out, in, pos);
 	if (res != NULL)
 		return res;
 	return cellref_r1c1_get (out, in, pos);
@@ -654,84 +656,218 @@ parse_error_free (ParseError *pe)
 	}
 }
 
+/***************************************************************************/
 
-#undef DEBUG_PARSE_SURROUNDING_RANGES
-
-gboolean   
-parse_surrounding_ranges  (char const *text, gint cursor, Sheet *sheet, 
-			   gboolean single_range_only, gint *from, gint *to,
-			   RangeRef **range)
+static char const *
+check_quoted (char const *str, int *num_escapes)
 {
-	int start, end, last;
-	gchar *test;
-	gboolean last_was_alnum = FALSE;
-	
-	if (text == NULL)
-		return FALSE;
-
-#ifdef DEBUG_PARSE_SURROUNDING_RANGES
-			g_warning ("Starting  to parse [%s]", text);
-#endif
-	
-	last = strlen (text);
-	for (start = 0;
-	     start <= cursor;
-	     start = g_utf8_next_char (text + start) - text) {
-		int next_end = -1;
-		gboolean next_was_alnum = FALSE;
-		gunichar c = g_utf8_get_char (text + start);
-		gboolean is_alnum = g_unichar_isalnum (c);
-
-		/* A range does not start in the middle of a word.  */
-		if (last_was_alnum && is_alnum)
-			continue;
-		last_was_alnum = is_alnum;
-		/* A range starts with a letter, a quote, or a dollar sign.  */
-		if (is_alnum ? g_unichar_isdigit (c) : (c != '\'' && c != '$'))
-			continue;
-
-		for (end = last; end >= MAX (cursor, start + 1); end = next_end) {
-			GSList *ranges;
-			gunichar c_end;
-			gboolean is_alnum;
-
-			next_end = g_utf8_prev_char (text + end) - text;
-			c_end = g_utf8_get_char (text + next_end);
-			is_alnum = g_unichar_isalnum (c_end);
-
-			/* A range does not end in the middle of a word.  */
-			if (is_alnum && next_was_alnum)
-				continue;
-			next_was_alnum = is_alnum;
-			/* A range ends in a letter, digit, or quote.  */
-			if (!is_alnum && c_end != '\'')
-				continue;
-
-			test = g_strndup (text + start, end - start);
-
-#ifdef DEBUG_PARSE_SURROUNDING_RANGES
-			g_warning ("Parsing [%s]", test);
-#endif
-
-			ranges = global_range_list_parse (sheet, test);
-			g_free (test);
-
-			if (ranges != NULL) {
-				if ((ranges->next != NULL) && single_range_only) { 
-					range_list_destroy (ranges);
-					continue;
-				}
-				*from = start;
-				*to = end;
-				if (range) {
-					*range = value_to_rangeref 
-						((Value *) ((g_slist_last 
-							     (ranges))->data), FALSE);
-				}
-				range_list_destroy (ranges);
-				return TRUE;
+	if (*str == '\'' || *str == '\"') {
+		char const quote = *str;
+		*num_escapes = 0;
+		for (; *str && *str != quote; str = g_utf8_next_char (str))
+			if (*str == '\\' && str[1]) {
+				str = g_utf8_next_char (str+1);
+				(*num_escapes)++;
 			}
+	} else
+		*num_escapes = -1;
+	return str;
+}
+
+static void
+unquote (char *dst, char const *src, int n)
+{
+	while (n-- > 0)
+		if (*src == '\\') {
+			int n = g_utf8_skip [*(guchar *)(++src)];
+			strncpy (dst, src, n);
+			dst += n;
+			src += n;
+		} else
+			*dst++ = *src++;
+	*dst = 0;
+}
+
+static char const *
+wbref_parse (char const *start, Workbook **wb)
+{
+	/* Is this an external reference ? */
+	if (*start == '[') {
+		int num_escapes;
+		char const *end = check_quoted (start, &num_escapes);
+		char *name;
+
+		if (end == start) {
+			end = strchr (start, ']');
+			if (end == NULL)
+				return start;
 		}
+		if (*end != ']')
+			return NULL;
+
+		/* might be too big if quoted (remember leading [' */
+		name = g_alloca (1 + end - start - 2);
+		if (num_escapes < 0) {
+			strncpy (name, start+1, end-start-1);
+			name [end-start-1] = '\0';
+		} else
+			unquote (name, start+2, end-start-2);
+#warning TODO
+		return end + 1;
 	}
-	return FALSE;
+
+	return start;
+}
+
+static char const *
+sheet_parse (char const *start, Sheet **sheet, Workbook const *wb,
+	     gboolean allow_3d)
+{
+	int num_escapes;
+	char const *end = check_quoted (start, &num_escapes);
+	char *name;
+
+	*sheet = NULL;
+
+	/* Quoted definitely indicates a sheet */
+	if (end == start)
+		while (*end && g_unichar_isalnum (g_utf8_get_char (end)))
+			end = g_utf8_next_char (end);
+
+	if (*end != '!' && (!allow_3d || *end != ':'))
+		return start;
+
+	/* might be too big if quoted */
+	name = g_alloca (1 + end - start);
+	if (num_escapes < 0) {
+		strncpy (name, start, end-start);
+		name [end-start-1] = '\0';
+	} else
+		unquote (name, start+1, end-start-2);
+
+	*sheet = workbook_sheet_by_name (wb, name);
+	return *sheet != NULL ? end : start;
+}
+
+static char const *
+col_parse (char const *str, int *res, unsigned char *relative)
+{
+	char const *ptr = str;
+	int col = 0;
+
+	if (!(*relative = (*ptr != '$')))
+		ptr++;
+
+	for (; TRUE ; ptr++)
+		if (('a' <= *ptr && *ptr <= 'z'))
+			col = col * 26 + (*ptr - 'a');
+		else if (('A' <= *ptr && *ptr <= 'Z'))
+			col = col * 26 + (*ptr - 'A');
+		else if (col < SHEET_MAX_COLS) {
+			*res = col;
+			return ptr;
+		} else
+			return str;
+}
+
+static char const *
+row_parse (char const *str, int *res, unsigned char *relative)
+{
+	char const *ptr = str;
+	int row;
+
+	if (!(*relative = (*ptr != '$')))
+		ptr++;
+
+	row = strtol (str, (char **)&ptr, 10);
+	if (0 < row && row <= SHEET_MAX_ROWS) {
+		*res = row - 1;
+		return ptr;
+	} else
+		return str;
+}
+
+/** rangeref_parse :
+ * @res : where to store the result
+ * @start : the start of the string to parse
+ * @pos : the location to parse relative to
+ *
+ * Returns the a pointer to the first invalid character.
+ * If the result != @start then @res is valid.
+ **/
+char const *
+rangeref_parse (RangeRef *res, char const *start, ParsePos const *pp)
+{
+	char const *ptr = start, *start_sheet, *tmp1, *tmp2;
+	Workbook *wb;
+
+	g_return_val_if_fail (start != NULL, start);
+	g_return_val_if_fail (pp != NULL, start);
+
+	wb = pp->wb;
+	start_sheet = wbref_parse (start, &wb);
+	if (start_sheet == NULL)
+		return start; /* TODO error unknown workbook */
+	ptr = sheet_parse (start_sheet, &res->a.sheet, wb, TRUE);
+	if (ptr == NULL)
+		return start; /* TODO erro unknown sheet */
+	if (ptr != start_sheet) {
+		if (*ptr == ':') { /* 3d ref */
+			ptr = sheet_parse (ptr, &res->b.sheet, wb, FALSE);
+			if (ptr == NULL)
+				return start; /* TODO error unknown sheet */
+		} else
+			res->b.sheet = NULL;
+
+		if (*ptr != '!')
+			return start; /* TODO syntax error */
+	}
+
+	tmp1 = col_parse (ptr, &res->a.col, &res->a.col_relative);
+	if (tmp1 == ptr) { /* check for row only ref 2:3 */ 
+		tmp1 = row_parse (ptr, &res->a.row, &res->a.row_relative);
+		if (*tmp1++ != ':') /* row only requires : even for singleton */
+			return start;
+		tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
+		if (tmp2 == tmp1)
+			return start;
+		res->a.col_relative = res->b.col_relative = FALSE;
+		res->a.col = 0; res->b.col = SHEET_MAX_COLS-1;
+		return tmp2;
+	}
+
+	tmp2 = row_parse (tmp1, &res->a.row, &res->a.row_relative);
+	if (tmp2 == tmp1) { /* check for col only ref B:C */ 
+		if (*tmp1++ != ':') /* col only requires : even for singleton */
+			return start;
+		tmp2 = col_parse (tmp1, &res->b.col, &res->b.col_relative);
+		if (tmp2 == tmp1)
+			return start;
+		res->a.row_relative = res->b.row_relative = FALSE;
+		res->a.row = 0; res->b.row = SHEET_MAX_ROWS-1;
+		return tmp2;
+	}
+
+	/* prepare as if its a singleton, in case we want to fall back */
+	if (res->a.col_relative)
+		res->a.col -= pp->eval.col;
+	if (res->a.row_relative)
+		res->a.row -= pp->eval.row;
+	res->b = res->a;
+	if (*tmp2 != ':')
+		return tmp2;
+	ptr = tmp2;
+
+	tmp1 = col_parse (ptr, &res->b.col, &res->b.col_relative);
+	if (tmp1 == tmp2)
+		return ptr;	/* valid singleton */
+	tmp2 = row_parse (tmp1, &res->b.row, &res->b.row_relative);
+	if (tmp2 == tmp1)
+		return ptr;	/* valid singleton */
+
+	if (res->b.col_relative)
+		res->b.col -= pp->eval.col;
+	if (res->b.row_relative)
+		res->b.row -= pp->eval.row;
+	return tmp2;
 }

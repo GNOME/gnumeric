@@ -279,7 +279,7 @@ gboolean
 wbcg_is_editing (WorkbookControlGUI const *wbcg)
 {
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
-	return wbcg->editing;
+	return wbcg->wb_control.editing;
 }
 
 void
@@ -2691,7 +2691,7 @@ cb_autosum (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	GtkEntry *entry;
 	gchar const *txt;
 
-	if (wbcg->editing)
+	if (wbcg_is_editing (wbcg))
 		return;
 
 	entry = wbcg_get_entry (wbcg);
@@ -3776,7 +3776,7 @@ static gboolean
 cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event,
 		      WorkbookControlGUI *wbcg)
 {
-	if (!wbcg->editing)
+	if (!wbcg_is_editing (wbcg))
 		if (!wbcg_edit_start (wbcg, FALSE, TRUE))
 			wbcg_focus_cur_scg (wbcg);
 
@@ -3840,7 +3840,7 @@ cb_autofunction (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	GtkEntry *entry;
 	gchar const *txt;
 
-	if (wbcg->editing)
+	if (wbcg_is_editing (wbcg))
 		return;
 
 	entry = wbcg_get_entry (wbcg);
@@ -3997,7 +3997,7 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	 * Make absolutely sure the expression doesn't get 'lost', if it's invalid
 	 * then prompt the user and don't switch the notebook page.
 	 */
-	if (wbcg->editing) {
+	if (wbcg_is_editing (wbcg)) {
 		guint prev = GPOINTER_TO_INT (gtk_object_get_data (GTK_OBJECT (notebook), "previous_page"));
 
 		if (prev == page_num)
@@ -4784,9 +4784,9 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	wb_view_menus_update (wb_control_view (WORKBOOK_CONTROL (wbcg)));
 
 	/* We are not in edit mode */
-	wbcg->editing = FALSE;
-	wbcg->editing_sheet = NULL;
-	wbcg->editing_cell = NULL;
+	wbcg->wb_control.editing = FALSE;
+	wbcg->wb_control.editing_sheet = NULL;
+	wbcg->wb_control.editing_cell = NULL;
 	wbcg->rangesel = NULL;
 
 	g_signal_connect_after (G_OBJECT (wbcg->toplevel),

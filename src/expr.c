@@ -1252,7 +1252,7 @@ do_expr_as_string (GnmExpr const *expr, ParsePos const *pp,
 		if (v->type == VALUE_STRING)
 			return gnumeric_strescape (v->v_str.val->str);
 		if (v->type == VALUE_CELLRANGE)
-			return rangeref_name (&v->v_range.cell, pp);
+			return rangeref_as_string (&v->v_range.cell, pp);
 
 		res = value_get_as_string (v);
 
