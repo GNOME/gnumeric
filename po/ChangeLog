@@ -1,3 +1,12 @@
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+	* update.pl (GeneratePot) : disable the xml2pot stage until after
+	  release.
+
 2000-10-09  Szabolcs BAN  <shooby@gnome.hu>
 
 	* hu.po: Updated some Hungarian translations, thanks to Emese Kovacs

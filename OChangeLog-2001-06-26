@@ -1,3 +1,12 @@
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+	* src/dialogs/Makefile.am (INCLUDES) : Be sure to include top_srcdir
+	  to get access to the idl directory.
+
 2000-10-07  Jon K Hellan  <hellan@acm.org>
 
 	* src/workbook-view.c (workbook_view_history_update): Add

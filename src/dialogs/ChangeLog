@@ -1,3 +1,7 @@
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
 2000-10-04  Jon K Hellan  <hellan@acm.org>
 
 	* dialog-printer-setup.c (struct dialog_print_info_t): Added

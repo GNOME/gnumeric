@@ -8,7 +8,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.56\n"
-"POT-Creation-Date: 2000-10-09 11:03+0200\n"
+"POT-Creation-Date: 2000-10-10 11:30-0400\n"
 "PO-Revision-Date: 2000-10-09 10:46+0202\n"
 "Last-Translator: Christophe Merlet (RedFox) <christophe@merlet.net>\n"
 "Language-Team: GNOME French Team <gnomefr@gnomefr.traduc.org>\n"
@@ -5790,6 +5790,17 @@ msgstr ""
 "@DESCRIPTION=La fonction DAVERAGE retourne la moyenne des valeurs d'une "
 "liste ou d'une base de données qui remplissent les conditions spécifiées.\n"
 
+#: src/functions/fn-database.c:500
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:561
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5801,6 +5812,16 @@ msgstr ""
 "@SYNTAX=DCOUNT(base_de_données,champ,critère)\n"
 "@DESCRIPTION=La fonction DCOUNT compte les cellules qui contiennent des "
 "nombres dans une base de données qui remplit les conditions spécifiées.\n"
+
+#: src/functions/fn-database.c:569
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
+msgstr ""
 
 #: src/functions/fn-database.c:622
 msgid ""
@@ -5814,6 +5835,16 @@ msgstr ""
 "@DESCRIPTION=La fonction DCOUNTA compte les cellules qui contiennent des "
 "données dans une base de données qui remplit les conditions spécifiées.\n"
 
+#: src/functions/fn-database.c:630
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:680
 msgid ""
 "@FUNCTION=DGET\n"
@@ -5825,6 +5856,17 @@ msgstr ""
 "@SYNTAX=DGET(base_de_données,champ,critère)\n"
 "@DESCRIPTION=La fonction DGET retourne une seule valeur d'une colonne qui "
 "remplit les conditions spécifiées.\n"
+
+#: src/functions/fn-database.c:688
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
+msgstr ""
 
 #: src/functions/fn-database.c:748
 msgid ""
@@ -5838,6 +5880,16 @@ msgstr ""
 "@DESCRIPTION=La fonction DMAX retourne le plus grand nombre d'une colonne "
 "qui remplit les conditions spécifiées.\n"
 
+#: src/functions/fn-database.c:756
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
+
 #: src/functions/fn-database.c:819
 msgid ""
 "@FUNCTION=DMIN\n"
@@ -5849,6 +5901,15 @@ msgstr ""
 "@SYNTAX=DMIN(base_de_données,champ,critère)\n"
 "@DESCRIPTION=La fonction DMIN retourne le plus petit nombre d'une colonne "
 "qui remplit les conditions spécifiées.\n"
+
+#: src/functions/fn-database.c:827
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
+msgstr ""
 
 #: src/functions/fn-database.c:889
 msgid ""
@@ -5862,6 +5923,14 @@ msgstr ""
 "@DESCRIPTION=La fonction DPRODUCT retourne le produit des nombres des "
 "nombres d'une colonne qui remplit les conditions spécifiées.\n"
 
+#: src/functions/fn-database.c:897
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
+msgstr ""
+
 #: src/functions/fn-database.c:956
 msgid ""
 "@FUNCTION=DSTDEV\n"
@@ -5869,6 +5938,15 @@ msgid ""
 "@DESCRIPTION=DSTDEV function returns the estimate of the standard deviation "
 "of a population based on a sample. The populations consists of numbers that "
 "match conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:965
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
 msgstr ""
 
 #: src/functions/fn-database.c:1022
@@ -5880,12 +5958,30 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:1031
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
+msgstr ""
+
 #: src/functions/fn-database.c:1090
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=DSUM function returns the sum of numbers in a column that match "
 "conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:1098
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
 msgstr ""
 
 #: src/functions/fn-database.c:1157
@@ -5897,6 +5993,15 @@ msgid ""
 "specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:1166
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
 #: src/functions/fn-database.c:1225
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5904,6 +6009,15 @@ msgid ""
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:1234
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
 msgstr ""
 
 #: src/functions/fn-database.c:1294
@@ -15078,475 +15192,310 @@ msgstr "Format de fichier Gnumeric XML"
 msgid "Is not an autoformat template file"
 msgstr ""
 
-#: src/gnumeric.xml:426
-msgid "*Control*b"
-msgstr "*Contrôle*b"
+#~ msgid "*Control*b"
+#~ msgstr "*Contrôle*b"
 
-#: src/gnumeric.xml:430
-msgid "*Control*i"
-msgstr "*Contrôle*i"
+#~ msgid "*Control*i"
+#~ msgstr "*Contrôle*i"
 
-#: src/gnumeric.xml:434
-msgid "*Control*u"
-msgstr "*Contrôle*u"
+#~ msgid "*Control*u"
+#~ msgstr "*Contrôle*u"
 
-#: src/gnumeric.xml:419
-msgid "2"
-msgstr "2"
+#~ msgid "2"
+#~ msgstr "2"
 
-#: src/gnumeric.xml:475
-msgid "3"
-msgstr "3"
+#~ msgid "3"
+#~ msgstr "3"
 
-#: src/gnumeric.xml:344
-msgid "About this application"
-msgstr "À propos de cette application"
+#~ msgid "About this application"
+#~ msgstr "À propos de cette application"
 
-#: src/gnumeric.xml:83
-msgid "C_lear..."
-msgstr "Vi_der..."
+#~ msgid "C_lear..."
+#~ msgstr "Vi_der..."
 
-#: src/gnumeric.xml:65
-msgid "C_ut"
-msgstr "Co_uper"
+#~ msgid "C_ut"
+#~ msgstr "Co_uper"
 
-#: src/gnumeric.xml:443
-msgid "Centers the text in each selection"
-msgstr "Centre le texte pour chaque sélection"
+#~ msgid "Centers the text in each selection"
+#~ msgstr "Centre le texte pour chaque sélection"
 
-#: src/gnumeric.xml:241
-msgid "Change height of the selected rows"
-msgstr "Changer la hauteur des lignes sélectionnées"
+#~ msgid "Change height of the selected rows"
+#~ msgstr "Changer la hauteur des lignes sélectionnées"
 
-#: src/gnumeric.xml:231
-msgid "Change the default column width"
-msgstr "Changer la largeur par défaut de la colonne"
+#~ msgid "Change the default column width"
+#~ msgstr "Changer la largeur par défaut de la colonne"
 
-#: src/gnumeric.xml:253
-msgid "Change the default row height"
-msgstr "Changer la hauteur par dfaut de la ligne"
+#~ msgid "Change the default row height"
+#~ msgstr "Changer la hauteur par dfaut de la ligne"
 
-#: src/gnumeric.xml:263
-msgid "Change the order the sheets are displayed"
-msgstr "Changer l'ordre ou les feuilles sont affichées"
+#~ msgid "Change the order the sheets are displayed"
+#~ msgstr "Changer l'ordre ou les feuilles sont affichées"
 
-#: src/gnumeric.xml:219
-msgid "Change width of the selected columns"
-msgstr "Changer la largeur des colonnes sélectionnés"
+#~ msgid "Change width of the selected columns"
+#~ msgstr "Changer la largeur des colonnes sélectionnés"
 
-#: src/gnumeric.xml:104
-msgid "Clear the selection"
-msgstr "Vider la sélection"
+#~ msgid "Clear the selection"
+#~ msgstr "Vider la sélection"
 
-#: src/gnumeric.xml:47
-msgid "Close the current file"
-msgstr "Ferme le fichier en cours"
+#~ msgid "Close the current file"
+#~ msgstr "Ferme le fichier en cours"
 
-#: src/gnumeric.xml:489
-msgid "Combo Box"
-msgstr ""
+#~ msgid "Copy the current selection to the clipboard"
+#~ msgstr "Copier la sélection en cours vers le presse-papier"
 
-#: src/gnumeric.xml:378
-msgid "Copy the current selection to the clipboard"
-msgstr "Copier la sélection en cours vers le presse-papier"
+#~ msgid "Copy the selection"
+#~ msgstr "Copier la sélection"
 
-#: src/gnumeric.xml:69
-msgid "Copy the selection"
-msgstr "Copier la sélection"
+#~ msgid "Create a button"
+#~ msgstr "Créer un bouton"
 
-#: src/gnumeric.xml:481
-msgid "Create a button"
-msgstr "Créer un bouton"
+#~ msgid "Create a checkbox"
+#~ msgstr "Créer une case à cocher"
 
-#: src/gnumeric.xml:483
-msgid "Create a checkbox"
-msgstr "Créer une case à cocher"
-
-#: src/gnumeric.xml:489
 #, fuzzy
-msgid "Create a combo box"
-msgstr "Créer une case à cocher"
+#~ msgid "Create a combo box"
+#~ msgstr "Créer une case à cocher"
 
-#: src/gnumeric.xml:494
 #, fuzzy
-msgid "Create a frame"
-msgstr "Créer une case à cocher"
+#~ msgid "Create a frame"
+#~ msgstr "Créer une case à cocher"
 
-#: src/gnumeric.xml:477
-msgid "Create a label"
-msgstr "Créer un titre"
+#~ msgid "Create a label"
+#~ msgstr "Créer un titre"
 
-#: src/gnumeric.xml:492
-msgid "Create a line"
-msgstr "Créer une ligne"
+#~ msgid "Create a line"
+#~ msgstr "Créer une ligne"
 
-#: src/gnumeric.xml:487
-msgid "Create a list"
-msgstr "Créer une liste"
+#~ msgid "Create a list"
+#~ msgstr "Créer une liste"
 
-#: src/gnumeric.xml:354
-msgid "Create a new workbook"
-msgstr "Créer un nouveau classeur"
+#~ msgid "Create a new workbook"
+#~ msgstr "Créer un nouveau classeur"
 
-#: src/gnumeric.xml:485
-msgid "Create a radio button"
-msgstr "Créer un bouton radio"
+#~ msgid "Create a radio button"
+#~ msgstr "Créer un bouton radio"
 
-#: src/gnumeric.xml:65
-msgid "Cut the selection"
-msgstr "Couper la sélection"
+#~ msgid "Cut the selection"
+#~ msgstr "Couper la sélection"
 
-#: src/gnumeric.xml:464
-msgid "Decrease Precision"
-msgstr "Diminuer la précision"
+#~ msgid "Decrease Precision"
+#~ msgstr "Diminuer la précision"
 
-#: src/gnumeric.xml:267
-msgid "Display the value of a formula or the formula itself"
-msgstr ""
+#~ msgid "Draw a rectangle"
+#~ msgstr "Dessiner un rectangle"
 
-#: src/gnumeric.xml:496
-msgid "Draw a rectangle"
-msgstr "Dessiner un rectangle"
+#~ msgid "Draw an oval"
+#~ msgstr "Dessiner un ovale"
 
-#: src/gnumeric.xml:498
-msgid "Draw an oval"
-msgstr "Dessiner un ovale"
+#~ msgid "E_xit"
+#~ msgstr "_Quitter"
 
-#: src/gnumeric.xml:50
-msgid "E_xit"
-msgstr "_Quitter"
+#~ msgid "Edit a formula in the current cell"
+#~ msgstr "Éditer une formule dans la cellule en cours"
 
-#: src/gnumeric.xml:395
-msgid "Edit a formula in the current cell"
-msgstr "Éditer une formule dans la cellule en cours"
+#~ msgid "Edit the name of the current sheet"
+#~ msgstr "Éditer le nom de la feuille en cours"
 
-#: src/gnumeric.xml:259
-msgid "Edit the name of the current sheet"
-msgstr "Éditer le nom de la feuille en cours"
+#~ msgid "Exit the program"
+#~ msgstr "Quitte le programme"
 
-#: src/gnumeric.xml:215
-msgid "Ensure columns are just wide enough to display content"
-msgstr ""
-
-#: src/gnumeric.xml:237
-msgid "Ensure rows are just tall enough to display content"
-msgstr ""
-
-#: src/gnumeric.xml:50
-msgid "Exit the program"
-msgstr "Quitte le programme"
-
-#: src/gnumeric.xml:452
 #, fuzzy
-msgid "Format the selected cells as money"
-msgstr "Formate les cellules sélectionnées comme monétaire"
+#~ msgid "Format the selected cells as money"
+#~ msgstr "Formate les cellules sélectionnées comme monétaire"
 
-#: src/gnumeric.xml:455
 #, fuzzy
-msgid "Format the selected cells as percentages"
-msgstr "Modifier le formatage des cellules sélectionnées"
+#~ msgid "Format the selected cells as percentages"
+#~ msgstr "Modifier le formatage des cellules sélectionnées"
 
-#: src/gnumeric.xml:395
-msgid "Function Guru"
-msgstr "Gourou Fonction"
+#~ msgid "Function Guru"
+#~ msgstr "Gourou Fonction"
 
-#: src/gnumeric.xml:407
-msgid "Graph Guru"
-msgstr "Gourou Graphique"
+#~ msgid "Graph Guru"
+#~ msgstr "Gourou Graphique"
 
-#: src/gnumeric.xml:278
 #, fuzzy
-msgid "Hide _Column Headers"
-msgstr "Cacher l'en-tête de _colonne"
+#~ msgid "Hide _Column Headers"
+#~ msgstr "Cacher l'en-tête de _colonne"
 
-#: src/gnumeric.xml:282
 #, fuzzy
-msgid "Hide _Row Headers"
-msgstr "Cacher l'en-têtes de _lignes"
+#~ msgid "Hide _Row Headers"
+#~ msgstr "Cacher l'en-têtes de _lignes"
 
-#: src/gnumeric.xml:223
 #, fuzzy
-msgid "Hide the selected columns"
-msgstr "Trie les cellules sélectionnées"
+#~ msgid "Hide the selected columns"
+#~ msgstr "Trie les cellules sélectionnées"
 
-#: src/gnumeric.xml:245
 #, fuzzy
-msgid "Hide the selected rows"
-msgstr "Trie les cellules sélectionnées"
+#~ msgid "Hide the selected rows"
+#~ msgstr "Trie les cellules sélectionnées"
 
-#: src/gnumeric.xml:458
-msgid "Includes a thousands seperator in the selected cells"
-msgstr "Inclure un séparateur de centaine dans les cellules sélectionnées"
+#~ msgid "Includes a thousands seperator in the selected cells"
+#~ msgstr "Inclure un séparateur de centaine dans les cellules sélectionnées"
 
-#: src/gnumeric.xml:461
-msgid "Increase Precision"
-msgstr "Augmenter la précision"
+#~ msgid "Increase Precision"
+#~ msgstr "Augmenter la précision"
 
-#: src/gnumeric.xml:461
 #, fuzzy
-msgid "Increase the preceision of the selected cells"
-msgstr "Insérer la date courante dans la(les) cellule(s) sélectionnée(s)"
+#~ msgid "Increase the preceision of the selected cells"
+#~ msgstr "Insérer la date courante dans la(les) cellule(s) sélectionnée(s)"
 
-#: src/gnumeric.xml:410
 #, fuzzy
-msgid "Insert Component"
-msgstr "Insérer de nouvelles colonnes"
+#~ msgid "Insert Component"
+#~ msgstr "Insérer de nouvelles colonnes"
 
-#: src/gnumeric.xml:413
 #, fuzzy
-msgid "Insert Shaped Component"
-msgstr "Insérer un objet Bonobo"
+#~ msgid "Insert Shaped Component"
+#~ msgstr "Insérer un objet Bonobo"
 
-#: src/gnumeric.xml:413
 #, fuzzy
-msgid "Insert a shaped component into the spreadsheet"
-msgstr "Créer un graphique dans la feuille"
+#~ msgid "Insert a shaped component into the spreadsheet"
+#~ msgstr "Créer un graphique dans la feuille"
 
-#: src/gnumeric.xml:410
 #, fuzzy
-msgid "Insert an object into the spreadsheet"
-msgstr "Insérer une nouvelle feuille"
+#~ msgid "Insert an object into the spreadsheet"
+#~ msgstr "Insérer une nouvelle feuille"
 
-#: src/gnumeric.xml:407
-msgid "Invoke the graph guru to create a graph"
-msgstr ""
-
-#: src/gnumeric.xml:429
 #, fuzzy
-msgid "Italicize"
-msgstr "Italique"
+#~ msgid "Italicize"
+#~ msgstr "Italique"
 
-#: src/gnumeric.xml:440
 #, fuzzy
-msgid "Left justifies the contents of each cell"
-msgstr "Justifier à gauche le contenu des cellules"
+#~ msgid "Left justifies the contents of each cell"
+#~ msgstr "Justifier à gauche le contenu des cellules"
 
-#: src/gnumeric.xml:227
-msgid "Make any hidden columns in the selection visible"
-msgstr ""
-
-#: src/gnumeric.xml:249
 #, fuzzy
-msgid "Make any hidden rows in the selection visible"
-msgstr "Impossible d'ajouter plus que la longueur de la sélection."
+#~ msgid "Make any hidden rows in the selection visible"
+#~ msgstr "Impossible d'ajouter plus que la longueur de la sélection."
 
-#: src/gnumeric.xml:425
 #, fuzzy
-msgid "Make font bold"
-msgstr "Utiliser une police italique"
+#~ msgid "Make font bold"
+#~ msgstr "Utiliser une police italique"
 
-#: src/gnumeric.xml:429
 #, fuzzy
-msgid "Makes font italic"
-msgstr "Utiliser une police italique"
+#~ msgid "Makes font italic"
+#~ msgstr "Utiliser une police italique"
 
-#: src/gnumeric.xml:300
-msgid "Manage available plugin modules"
-msgstr "Gère les greffons disponibles"
+#~ msgid "Manage available plugin modules"
+#~ msgstr "Gère les greffons disponibles"
 
-#: src/gnumeric.xml:375
 #, fuzzy
-msgid "Mark the current selection for movement"
-msgstr "Coupe la sélection vers le presse-papier"
+#~ msgid "Mark the current selection for movement"
+#~ msgstr "Coupe la sélection vers le presse-papier"
 
-#: src/gnumeric.xml:452
 #, fuzzy
-msgid "Money"
-msgstr "lundi"
+#~ msgid "Money"
+#~ msgstr "lundi"
 
-#: src/gnumeric.xml:10
 #, fuzzy
-msgid "Open a file"
-msgstr "Importe un fichier"
+#~ msgid "Open a file"
+#~ msgstr "Importe un fichier"
 
-#: src/gnumeric.xml:357
 #, fuzzy
-msgid "Open an existing workbook"
-msgstr "Ouvrir une feuille existante"
+#~ msgid "Open an existing workbook"
+#~ msgstr "Ouvrir une feuille existante"
 
-#: src/gnumeric.xml:498
-msgid "Oval"
-msgstr "Ovale"
+#~ msgid "Oval"
+#~ msgstr "Ovale"
 
-#: src/gnumeric.xml:73
 #, fuzzy
-msgid "Paste the clipboard"
-msgstr "Colle le contenu du presse-papier"
+#~ msgid "Paste the clipboard"
+#~ msgstr "Colle le contenu du presse-papier"
 
-#: src/gnumeric.xml:381
-msgid "Paste the contents of the clipboard or cut buffer"
-msgstr ""
+#~ msgid "Print Pre_view"
+#~ msgstr "_Aperçu avant impression"
 
-#: src/gnumeric.xml:35
-msgid "Print Pre_view"
-msgstr "_Aperçu avant impression"
+#~ msgid "Print Preview"
+#~ msgstr "Aperçu avant impression"
 
-#: src/gnumeric.xml:369
-msgid "Print Preview"
-msgstr "Aperçu avant impression"
+#~ msgid "Print S_etup..."
+#~ msgstr "Mis_e en page..."
 
-#: src/gnumeric.xml:27
-msgid "Print S_etup..."
-msgstr "Mis_e en page..."
+#~ msgid "Print the current file"
+#~ msgstr "Imprime le fichier en cours"
 
-#: src/gnumeric.xml:36
-msgid "Print the current file"
-msgstr "Imprime le fichier en cours"
+#~ msgid "Print the workbook"
+#~ msgstr "Imprimer le classeur"
 
-#: src/gnumeric.xml:366
-msgid "Print the workbook"
-msgstr "Imprimer le classeur"
+#~ msgid "Radio Button"
+#~ msgstr "Bouton radio"
 
-#: src/gnumeric.xml:485
-msgid "Radio Button"
-msgstr "Bouton radio"
-
-#: src/gnumeric.xml:60
 #, fuzzy
-msgid "Redo the undone action"
-msgstr "Génération de nombres aléatoires"
+#~ msgid "Redo the undone action"
+#~ msgstr "Génération de nombres aléatoires"
 
-#: src/gnumeric.xml:107
-msgid "Remove selected cells, shifting others into their place"
-msgstr ""
-
-#: src/gnumeric.xml:446
 #, fuzzy
-msgid "Right justifies the contents of each cell"
-msgstr "Justifier à droite le contenu des cellules"
+#~ msgid "Right justifies the contents of each cell"
+#~ msgstr "Justifier à droite le contenu des cellules"
 
-#: src/gnumeric.xml:21
-msgid "Save _As..."
-msgstr "Enregistrer _sous..."
+#~ msgid "Save _As..."
+#~ msgstr "Enregistrer _sous..."
 
-#: src/gnumeric.xml:18
-msgid "Save the current file"
-msgstr "Enregistre le fichier en cours"
+#~ msgid "Save the current file"
+#~ msgstr "Enregistre le fichier en cours"
 
-#: src/gnumeric.xml:22
 #, fuzzy
-msgid "Save the current file with a different name"
-msgstr "Coupe la sélection vers le presse-papier"
+#~ msgid "Save the current file with a different name"
+#~ msgstr "Coupe la sélection vers le presse-papier"
 
-#: src/gnumeric.xml:360
-msgid "Save the current workbook"
-msgstr "Enregistrer le classeur en cours"
+#~ msgid "Save the current workbook"
+#~ msgstr "Enregistrer le classeur en cours"
 
-#: src/gnumeric.xml:135
-msgid "Select all the cells that depend on the current edit cell"
-msgstr ""
+#~ msgid "Statistical methods"
+#~ msgstr "Méthodes statistiques"
 
-#: src/gnumeric.xml:28
-msgid "Setup the page settings for your current printer"
-msgstr ""
+#~ msgid "Underlines the text"
+#~ msgstr "Sousligne le texte"
 
-#: src/gnumeric.xml:398
-msgid ""
-"Sort the selected region in ascending order based on the first column "
-"selected"
-msgstr ""
+#~ msgid "Undo the last action"
+#~ msgstr "Défaire la dernière action"
 
-#: src/gnumeric.xml:401
-msgid ""
-"Sort the selected region in descending order based on the first column "
-"selected"
-msgstr ""
+#~ msgid "_About..."
+#~ msgstr "À _propos..."
 
-#: src/gnumeric.xml:326
-msgid "Statistical methods"
-msgstr "Méthodes statistiques"
+#~ msgid "_Add / modify comment..."
+#~ msgstr "_Ajouter/modifier commentaire..."
 
-#: src/gnumeric.xml:392
-msgid "Sum into the current cell"
-msgstr ""
+#~ msgid "_Cells"
+#~ msgstr "_Cellules"
 
-#: src/gnumeric.xml:279
-msgid "Toggle whether or not to display column headers"
-msgstr ""
+#~ msgid "_Change Name"
+#~ msgstr "_Changer le nom"
 
-#: src/gnumeric.xml:275
-msgid "Toggle whether or not to display gridlines"
-msgstr ""
+#~ msgid "_Close"
+#~ msgstr "_Fermer"
 
-#: src/gnumeric.xml:283
-msgid "Toggle whether or not to display row headers"
-msgstr ""
+#~ msgid "_Edit"
+#~ msgstr "_Édition"
 
-#: src/gnumeric.xml:271
-msgid "Toggle whether or not to display zeros as blanks"
-msgstr ""
+#~ msgid "_File"
+#~ msgstr "_Fichier"
 
-#: src/gnumeric.xml:433
-msgid "Underlines the text"
-msgstr "Sousligne le texte"
+#~ msgid "_Help"
+#~ msgstr "_Aide"
 
-#: src/gnumeric.xml:57
-msgid "Undo the last action"
-msgstr "Défaire la dernière action"
+#~ msgid "_Object"
+#~ msgstr "_Objet"
 
-#: src/gnumeric.xml:344
-msgid "_About..."
-msgstr "À _propos..."
+#~ msgid "_Open..."
+#~ msgstr "_Ouvrir..."
 
-#: src/gnumeric.xml:185
-msgid "_Add / modify comment..."
-msgstr "_Ajouter/modifier commentaire..."
+#~ msgid "_Paste special..."
+#~ msgstr "Coll_age spécial..."
 
-#: src/gnumeric.xml:170
-msgid "_Cells"
-msgstr "_Cellules"
+#~ msgid "_Print"
+#~ msgstr "_Imprimer"
 
-#: src/gnumeric.xml:258
-msgid "_Change Name"
-msgstr "_Changer le nom"
+#~ msgid "_Redo"
+#~ msgstr "_Refaire"
 
-#: src/gnumeric.xml:46
-msgid "_Close"
-msgstr "_Fermer"
+#~ msgid "_Save"
+#~ msgstr "_Enregistrer"
 
-#: src/gnumeric.xml:55
-msgid "_Edit"
-msgstr "_Édition"
+#~ msgid "_Undo"
+#~ msgstr "_Défaire"
 
-#: src/gnumeric.xml:3
-msgid "_File"
-msgstr "_Fichier"
-
-#: src/gnumeric.xml:340
-msgid "_Help"
-msgstr "_Aide"
-
-#: src/gnumeric.xml:173
-msgid "_Object"
-msgstr "_Objet"
-
-#: src/gnumeric.xml:9
-msgid "_Open..."
-msgstr "_Ouvrir..."
-
-#: src/gnumeric.xml:77
-msgid "_Paste special..."
-msgstr "Coll_age spécial..."
-
-#: src/gnumeric.xml:31
-msgid "_Print"
-msgstr "_Imprimer"
-
-#: src/gnumeric.xml:60
-msgid "_Redo"
-msgstr "_Refaire"
-
-#: src/gnumeric.xml:17
-msgid "_Save"
-msgstr "_Enregistrer"
-
-#: src/gnumeric.xml:57
-msgid "_Undo"
-msgstr "_Défaire"
-
-#: src/gnumeric.xml:151
-msgid "_View"
-msgstr "_Vue"
+#~ msgid "_View"
+#~ msgstr "_Vue"
 
 #~ msgid "Templates"
 #~ msgstr "Modèles"

@@ -1,12 +1,5 @@
 Gnumeric 0.57
 
-Kenneth:
-	* Created xml2pot script, and integrated it with Gnumeric
-	* Update update.pl script to make it more genetic, and work
-	  with the xml2pot script. It actually now requires it.
-	* Updated the spec file a little.
-        * Made 'make update-po' and 'make dist' work with new update.pl
-
 Almer:
 	* Fix stf importer bugs.
 	* Add "Autodiscovery" feature to stf fixed width importer.
@@ -32,13 +25,13 @@ Jody:
 	* Improve performance and decrease memory for large row/col resizes.
 	* Bug fixes for ins/del row/col & cut&paste
 	* Locale safe formating.
-	* Non Cell dependencies.
 
 John Gill:
 	* Double click fill support.
 
 Jon Kåre:
         * Make print work with new gnome-print
+	* Lots of printing/margin bugs.
 
 JPR:
 	* Put more effort into reverse engineering MATCH (and friends)
@@ -51,6 +44,13 @@ Jukka:
 	* Implemented COUPNUM and COUPNCD
 	* Implemented TRUE and FALSE logical functions
 	* Started the implementation of COUPDAYBS and COUPDAYS.
+
+Kenneth:
+	* Created xml2pot script, and integrated it with Gnumeric
+	* Update update.pl script to make it more genetic, and work
+	  with the xml2pot script. It actually now requires it.
+	* Updated the spec file a little.
+        * Made 'make update-po' and 'make dist' work with new update.pl
 
 Matthew D. Bissiri:
 	* Paste special arithmetic operations, skip blanks, paste link.

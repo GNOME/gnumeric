@@ -1,3 +1,7 @@
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
 2000-09-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Makefile.am : Moved lots of widgets into the Gnome Application

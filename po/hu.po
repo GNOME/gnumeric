@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 2000-10-09 16:26+0200\n"
+"POT-Creation-Date: 2000-10-10 11:30-0400\n"
 "PO-Revision-Date: 2000-10-09 13:46+0202\n"
 "Last-Translator: Emese Kovacs <emese@gnome.hu>\n"
 "Language-Team: Hungarian\n"
@@ -1893,7 +1893,7 @@ msgstr "_Cellarácsokkal"
 #: src/dialogs/autoformat.glade.h:14
 #, fuzzy
 msgid "_New..."
-msgstr "Új..." 
+msgstr "Új..."
 
 #: src/dialogs/autoformat.glade.h:15
 msgid "_Edit..."
@@ -5773,6 +5773,17 @@ msgstr ""
 "@DESCRIPTION=A DAVERAGE függvény átlagolja az adott listából vagy "
 "adatbázisból a megadott feltételnek megfelelõ értékeket.\n"
 
+#: src/functions/fn-database.c:500
+msgid ""
+"\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:561
 msgid ""
 "@FUNCTION=DCOUNT\n"
@@ -5784,6 +5795,16 @@ msgstr ""
 "@SYNTAX=DCOUNT(adatbázis,mezõ,kritérium)\n"
 "@DESCRIPTION=A DCOUNT függvény megszámolja, hogy hány számokat tartalmazó "
 "cella felel meg a paraméterben megadott feltételnek.\n"
+
+#: src/functions/fn-database.c:569
+msgid ""
+"\n"
+"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
+"\n"
+"@SEEALSO=DAVERAGE"
+msgstr ""
 
 #: src/functions/fn-database.c:622
 msgid ""
@@ -5797,12 +5818,33 @@ msgstr ""
 "@DESCRIPTION=A DCOUNTA függvény megszámolja, hogy hány adatot tartalmazó "
 "cella felel meg a paraméterben megadott feltételnek.\n"
 
+#: src/functions/fn-database.c:630
+msgid ""
+"\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
+"\n"
+"@SEEALSO=DCOUNT"
+msgstr ""
+
 #: src/functions/fn-database.c:680
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
 "@DESCRIPTION=DGET function returns a single value from a column that match "
 "conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:688
+msgid ""
+"\n"
+"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
+"\n"
+"If none of the items match the conditions, DGET returns #VALUE! error. If "
+"more than one items match the conditions, DGET returns #NUM! error. \n"
+"@SEEALSO=DCOUNT"
 msgstr ""
 
 #: src/functions/fn-database.c:748
@@ -5813,12 +5855,31 @@ msgid ""
 "conditions specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:756
+msgid ""
+"\n"
+"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
+"\n"
+"@SEEALSO=DMIN"
+msgstr ""
+
 #: src/functions/fn-database.c:819
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
 "@DESCRIPTION=DMIN function returns the smallest number in a column that "
 "match conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:827
+msgid ""
+"\n"
+"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
+"\n"
+"@SEEALSO=DMAX"
 msgstr ""
 
 #: src/functions/fn-database.c:889
@@ -5835,6 +5896,14 @@ msgstr ""
 "január 1.-tõl eltelt napokat jelzi.\n"
 "@SEEALSO=TODAY, NOW"
 
+#: src/functions/fn-database.c:897
+msgid ""
+"\n"
+"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
+"\n"
+"@SEEALSO=DSUM"
+msgstr ""
+
 #: src/functions/fn-database.c:956
 msgid ""
 "@FUNCTION=DSTDEV\n"
@@ -5844,6 +5913,15 @@ msgid ""
 "match conditions specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:965
+msgid ""
+"\n"
+"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
+"\n"
+"@SEEALSO=DSTDEVP"
+msgstr ""
+
 #: src/functions/fn-database.c:1022
 msgid ""
 "@FUNCTION=DSTDEVP\n"
@@ -5851,6 +5929,15 @@ msgid ""
 "@DESCRIPTION=DSTDEVP function returns the standard deviation of a population "
 "based on the entire populations. The populations consists of numbers that "
 "match conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:1031
+msgid ""
+"\n"
+"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
+"\n"
+"@SEEALSO=DSTDEV"
 msgstr ""
 
 #: src/functions/fn-database.c:1090
@@ -5867,6 +5954,15 @@ msgstr ""
 "január 1.-tõl eltelt napokat jelzi.\n"
 "@SEEALSO=TODAY, NOW"
 
+#: src/functions/fn-database.c:1098
+msgid ""
+"\n"
+"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
+"\n"
+"@SEEALSO=DPRODUCT"
+msgstr ""
+
 #: src/functions/fn-database.c:1157
 msgid ""
 "@FUNCTION=DVAR\n"
@@ -5876,6 +5972,15 @@ msgid ""
 "specified. \n"
 msgstr ""
 
+#: src/functions/fn-database.c:1166
+msgid ""
+"\n"
+"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
+"\n"
+"@SEEALSO=DVARP"
+msgstr ""
+
 #: src/functions/fn-database.c:1225
 msgid ""
 "@FUNCTION=DVARP\n"
@@ -5883,6 +5988,15 @@ msgid ""
 "@DESCRIPTION=DVARP function returns the variance of a population based on "
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
+msgstr ""
+
+#: src/functions/fn-database.c:1234
+msgid ""
+"\n"
+"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
+"\n"
+"@SEEALSO=DVAR"
 msgstr ""
 
 #: src/functions/fn-database.c:1294
@@ -12334,12 +12448,12 @@ msgstr "Nem tudom mmap-olni a fájlt"
 #. * 'Print Preview' item in the
 #. * 'File' menu
 #.
-#: src/history.c:143 src/history.c:156
+#: src/history.c:145 src/history.c:158
 #, fuzzy
 msgid "File/Print preview"
 msgstr "Nyomtatási kép"
 
-#: src/history.c:236
+#: src/history.c:245
 #, fuzzy
 msgid "File/"
 msgstr "Cím"
@@ -13881,526 +13995,313 @@ msgstr "Gnumeric XML fájlformátum"
 msgid "Is not an autoformat template file"
 msgstr ""
 
-#: src/gnumeric.xml:426
 #, fuzzy
-msgid "*Control*b"
-msgstr "Szöveg elhelyezése"
+#~ msgid "*Control*b"
+#~ msgstr "Szöveg elhelyezése"
 
-#: src/gnumeric.xml:430
 #, fuzzy
-msgid "*Control*i"
-msgstr "Szöveg elhelyezése"
+#~ msgid "*Control*i"
+#~ msgstr "Szöveg elhelyezése"
 
-#: src/gnumeric.xml:434
 #, fuzzy
-msgid "*Control*u"
-msgstr "Szöveg elhelyezése"
+#~ msgid "*Control*u"
+#~ msgstr "Szöveg elhelyezése"
 
-#: src/gnumeric.xml:419
-msgid "2"
-msgstr ""
-
-#: src/gnumeric.xml:475
-msgid "3"
-msgstr ""
-
-#: src/gnumeric.xml:344
-msgid "About this application"
-msgstr ""
-
-#: src/gnumeric.xml:83
 #, fuzzy
-msgid "C_lear..."
-msgstr "_Törlés"
+#~ msgid "C_lear..."
+#~ msgstr "_Törlés"
 
-#: src/gnumeric.xml:65
 #, fuzzy
-msgid "C_ut"
-msgstr "Kivágás"
+#~ msgid "C_ut"
+#~ msgstr "Kivágás"
 
-#: src/gnumeric.xml:443
 #, fuzzy
-msgid "Centers the text in each selection"
-msgstr "Add meg a formátum karakterláncot mindegyik részhez:"
+#~ msgid "Centers the text in each selection"
+#~ msgstr "Add meg a formátum karakterláncot mindegyik részhez:"
 
-#: src/gnumeric.xml:241
 #, fuzzy
-msgid "Change height of the selected rows"
-msgstr "Sormagasság beállítása"
-
-#: src/gnumeric.xml:231
-msgid "Change the default column width"
-msgstr ""
+#~ msgid "Change height of the selected rows"
+#~ msgstr "Sormagasság beállítása"
 
-#: src/gnumeric.xml:253
-msgid "Change the default row height"
-msgstr ""
-
-#: src/gnumeric.xml:263
-msgid "Change the order the sheets are displayed"
-msgstr ""
-
-#: src/gnumeric.xml:219
 #, fuzzy
-msgid "Change width of the selected columns"
-msgstr "Oszlopszélesség beállítása"
+#~ msgid "Change width of the selected columns"
+#~ msgstr "Oszlopszélesség beállítása"
 
-#: src/gnumeric.xml:104
 #, fuzzy
-msgid "Clear the selection"
-msgstr "Középsõ rész:"
+#~ msgid "Clear the selection"
+#~ msgstr "Középsõ rész:"
 
-#: src/gnumeric.xml:45
-msgid "Close the current file"
-msgstr ""
-
-#: src/gnumeric.xml:489
 #, fuzzy
-msgid "Combo Box"
-msgstr "Szín"
+#~ msgid "Combo Box"
+#~ msgstr "Szín"
 
-#: src/gnumeric.xml:378
 #, fuzzy
-msgid "Copy the current selection to the clipboard"
-msgstr "Kimásolja a kiválasztott részt a vágólapra"
+#~ msgid "Copy the current selection to the clipboard"
+#~ msgstr "Kimásolja a kiválasztott részt a vágólapra"
 
-#: src/gnumeric.xml:69
 #, fuzzy
-msgid "Copy the selection"
-msgstr "Balra zárás"
+#~ msgid "Copy the selection"
+#~ msgstr "Balra zárás"
 
-#: src/gnumeric.xml:481
 #, fuzzy
-msgid "Create a button"
-msgstr "Létrehoz egy gombot"
+#~ msgid "Create a button"
+#~ msgstr "Létrehoz egy gombot"
 
-#: src/gnumeric.xml:483
 #, fuzzy
-msgid "Create a checkbox"
-msgstr "Új munkalap"
+#~ msgid "Create a checkbox"
+#~ msgstr "Új munkalap"
 
-#: src/gnumeric.xml:489
 #, fuzzy
-msgid "Create a combo box"
-msgstr "Új munkalap"
+#~ msgid "Create a combo box"
+#~ msgstr "Új munkalap"
 
-#: src/gnumeric.xml:494
 #, fuzzy
-msgid "Create a frame"
-msgstr "Új munkalap"
+#~ msgid "Create a frame"
+#~ msgstr "Új munkalap"
 
-#: src/gnumeric.xml:477
 #, fuzzy
-msgid "Create a label"
-msgstr "Vonalrajzolás"
+#~ msgid "Create a label"
+#~ msgstr "Vonalrajzolás"
 
-#: src/gnumeric.xml:492
 #, fuzzy
-msgid "Create a line"
-msgstr "Vonalrajzolás"
+#~ msgid "Create a line"
+#~ msgstr "Vonalrajzolás"
 
-#: src/gnumeric.xml:487
 #, fuzzy
-msgid "Create a list"
-msgstr "Vonalrajzolás"
+#~ msgid "Create a list"
+#~ msgstr "Vonalrajzolás"
 
-#: src/gnumeric.xml:354
 #, fuzzy
-msgid "Create a new workbook"
-msgstr "Nevek a munkafüzetben:"
+#~ msgid "Create a new workbook"
+#~ msgstr "Nevek a munkafüzetben:"
 
-#: src/gnumeric.xml:485
 #, fuzzy
-msgid "Create a radio button"
-msgstr "Létrehoz egy gombot"
+#~ msgid "Create a radio button"
+#~ msgstr "Létrehoz egy gombot"
 
-#: src/gnumeric.xml:65
 #, fuzzy
-msgid "Cut the selection"
-msgstr "Balra zárás"
+#~ msgid "Cut the selection"
+#~ msgstr "Balra zárás"
 
-#: src/gnumeric.xml:464
 #, fuzzy
-msgid "Decrease Precision"
-msgstr "december"
-
-#: src/gnumeric.xml:267
-msgid "Display the value of a formula or the formula itself"
-msgstr ""
+#~ msgid "Decrease Precision"
+#~ msgstr "december"
 
-#: src/gnumeric.xml:496
 #, fuzzy
-msgid "Draw a rectangle"
-msgstr "Téglalaprajzolás"
+#~ msgid "Draw a rectangle"
+#~ msgstr "Téglalaprajzolás"
 
-#: src/gnumeric.xml:498
-msgid "Draw an oval"
-msgstr ""
-
-#: src/gnumeric.xml:50
 #, fuzzy
-msgid "E_xit"
-msgstr "Szö_veg"
-
-#: src/gnumeric.xml:395
-msgid "Edit a formula in the current cell"
-msgstr ""
-
-#: src/gnumeric.xml:259
-msgid "Edit the name of the current sheet"
-msgstr ""
-
-#: src/gnumeric.xml:215
-msgid "Ensure columns are just wide enough to display content"
-msgstr ""
+#~ msgid "E_xit"
+#~ msgstr "Szö_veg"
 
-#: src/gnumeric.xml:237
-msgid "Ensure rows are just tall enough to display content"
-msgstr ""
-
-#: src/gnumeric.xml:50
-msgid "Exit the program"
-msgstr ""
-
-#: src/gnumeric.xml:452
 #, fuzzy
-msgid "Format the selected cells as money"
-msgstr "A kiválasztott cellákat sorbarendezi"
+#~ msgid "Format the selected cells as money"
+#~ msgstr "A kiválasztott cellákat sorbarendezi"
 
-#: src/gnumeric.xml:455
 #, fuzzy
-msgid "Format the selected cells as percentages"
-msgstr "Középre zárás"
+#~ msgid "Format the selected cells as percentages"
+#~ msgstr "Középre zárás"
 
-#: src/gnumeric.xml:395
 #, fuzzy
-msgid "Function Guru"
-msgstr "_Tört"
+#~ msgid "Function Guru"
+#~ msgstr "_Tört"
 
-#: src/gnumeric.xml:407
 #, fuzzy
-msgid "Graph Guru"
-msgstr "Képletet"
+#~ msgid "Graph Guru"
+#~ msgstr "Képletet"
 
-#: src/gnumeric.xml:278
 #, fuzzy
-msgid "Hide _Column Headers"
-msgstr "Oszlopok rejtése"
+#~ msgid "Hide _Column Headers"
+#~ msgstr "Oszlopok rejtése"
 
-#: src/gnumeric.xml:282
 #, fuzzy
-msgid "Hide _Row Headers"
-msgstr "Sorok rejtése"
+#~ msgid "Hide _Row Headers"
+#~ msgstr "Sorok rejtése"
 
-#: src/gnumeric.xml:223
 #, fuzzy
-msgid "Hide the selected columns"
-msgstr "A kiválasztott cellákat sorbarendezi"
+#~ msgid "Hide the selected columns"
+#~ msgstr "A kiválasztott cellákat sorbarendezi"
 
-#: src/gnumeric.xml:245
 #, fuzzy
-msgid "Hide the selected rows"
-msgstr "A kiválasztott cellákat sorbarendezi"
+#~ msgid "Hide the selected rows"
+#~ msgstr "A kiválasztott cellákat sorbarendezi"
 
-#: src/gnumeric.xml:458
 #, fuzzy
-msgid "Includes a thousands seperator in the selected cells"
-msgstr "Beszúrja a jelenlegi dátumot a kiválasztott cellá(k)ba"
+#~ msgid "Includes a thousands seperator in the selected cells"
+#~ msgstr "Beszúrja a jelenlegi dátumot a kiválasztott cellá(k)ba"
 
-#: src/gnumeric.xml:461
-msgid "Increase Precision"
-msgstr ""
-
-#: src/gnumeric.xml:461
 #, fuzzy
-msgid "Increase the preceision of the selected cells"
-msgstr "Beszúrja a jelenlegi dátumot a kiválasztott cellá(k)ba"
+#~ msgid "Increase the preceision of the selected cells"
+#~ msgstr "Beszúrja a jelenlegi dátumot a kiválasztott cellá(k)ba"
 
-#: src/gnumeric.xml:410
 #, fuzzy
-msgid "Insert Component"
-msgstr "_Oszlopo(ka)t szúr be"
+#~ msgid "Insert Component"
+#~ msgstr "_Oszlopo(ka)t szúr be"
 
-#: src/gnumeric.xml:413
 #, fuzzy
-msgid "Insert Shaped Component"
-msgstr "Bonobo objektumot szúr be"
+#~ msgid "Insert Shaped Component"
+#~ msgstr "Bonobo objektumot szúr be"
 
-#: src/gnumeric.xml:413
 #, fuzzy
-msgid "Insert a shaped component into the spreadsheet"
-msgstr "Új diagrammot hoz létre az aktuális munkalapon"
+#~ msgid "Insert a shaped component into the spreadsheet"
+#~ msgstr "Új diagrammot hoz létre az aktuális munkalapon"
 
-#: src/gnumeric.xml:410
 #, fuzzy
-msgid "Insert an object into the spreadsheet"
-msgstr "Új munkalap beszúrása"
-
-#: src/gnumeric.xml:407
-msgid "Invoke the graph guru to create a graph"
-msgstr ""
+#~ msgid "Insert an object into the spreadsheet"
+#~ msgstr "Új munkalap beszúrása"
 
-#: src/gnumeric.xml:429
 #, fuzzy
-msgid "Italicize"
-msgstr "Dõlt"
+#~ msgid "Italicize"
+#~ msgstr "Dõlt"
 
-#: src/gnumeric.xml:440
 #, fuzzy
-msgid "Left justifies the contents of each cell"
-msgstr "Középre zárás"
+#~ msgid "Left justifies the contents of each cell"
+#~ msgstr "Középre zárás"
 
-#: src/gnumeric.xml:227
-msgid "Make any hidden columns in the selection visible"
-msgstr ""
-
-#: src/gnumeric.xml:249
 #, fuzzy
-msgid "Make any hidden rows in the selection visible"
-msgstr "Nem adhatsz többet hozzá, mint a kijelölt rész hossza."
+#~ msgid "Make any hidden rows in the selection visible"
+#~ msgstr "Nem adhatsz többet hozzá, mint a kijelölt rész hossza."
 
-#: src/gnumeric.xml:425
 #, fuzzy
-msgid "Make font bold"
-msgstr "Medönti a betûket"
+#~ msgid "Make font bold"
+#~ msgstr "Medönti a betûket"
 
-#: src/gnumeric.xml:429
 #, fuzzy
-msgid "Makes font italic"
-msgstr "Medönti a betûket"
-
-#: src/gnumeric.xml:300
-msgid "Manage available plugin modules"
-msgstr ""
+#~ msgid "Makes font italic"
+#~ msgstr "Medönti a betûket"
 
-#: src/gnumeric.xml:375
 #, fuzzy
-msgid "Mark the current selection for movement"
-msgstr "Kivágja a kiválasztott részt a vágólapra"
+#~ msgid "Mark the current selection for movement"
+#~ msgstr "Kivágja a kiválasztott részt a vágólapra"
 
-#: src/gnumeric.xml:452
 #, fuzzy
-msgid "Money"
-msgstr "Hétfõ"
+#~ msgid "Money"
+#~ msgstr "Hétfõ"
 
-#: src/gnumeric.xml:10
 #, fuzzy
-msgid "Open a file"
-msgstr "Fájlt importál be"
+#~ msgid "Open a file"
+#~ msgstr "Fájlt importál be"
 
-#: src/gnumeric.xml:357
 #, fuzzy
-msgid "Open an existing workbook"
-msgstr "Egy létezõ munkafüzet megnyitása"
+#~ msgid "Open an existing workbook"
+#~ msgstr "Egy létezõ munkafüzet megnyitása"
 
-#: src/gnumeric.xml:498
-msgid "Oval"
-msgstr ""
-
-#: src/gnumeric.xml:73
 #, fuzzy
-msgid "Paste the clipboard"
-msgstr "Beilleszti a vágólap tartalmát"
-
-#: src/gnumeric.xml:381
-msgid "Paste the contents of the clipboard or cut buffer"
-msgstr ""
+#~ msgid "Paste the clipboard"
+#~ msgstr "Beilleszti a vágólap tartalmát"
 
-#: src/gnumeric.xml:35
 #, fuzzy
-msgid "Print Pre_view"
-msgstr "Nyomtatási _kép"
+#~ msgid "Print Pre_view"
+#~ msgstr "Nyomtatási _kép"
 
-#: src/gnumeric.xml:369
 #, fuzzy
-msgid "Print Preview"
-msgstr "Nyomtatási kép"
+#~ msgid "Print Preview"
+#~ msgstr "Nyomtatási kép"
 
-#: src/gnumeric.xml:27
 #, fuzzy
-msgid "Print S_etup..."
-msgstr "Nyomtatás beállítása"
+#~ msgid "Print S_etup..."
+#~ msgstr "Nyomtatás beállítása"
 
-#: src/gnumeric.xml:36
-msgid "Print the current file"
-msgstr ""
-
-#: src/gnumeric.xml:366
 #, fuzzy
-msgid "Print the workbook"
-msgstr "Munkafüzet nyomtatása"
+#~ msgid "Print the workbook"
+#~ msgstr "Munkafüzet nyomtatása"
 
-#: src/gnumeric.xml:485
 #, fuzzy
-msgid "Radio Button"
-msgstr "Gomb"
+#~ msgid "Radio Button"
+#~ msgstr "Gomb"
 
-#: src/gnumeric.xml:60
 #, fuzzy
-msgid "Redo the undone action"
-msgstr "Véletlenszám-generálás"
-
-#: src/gnumeric.xml:107
-msgid "Remove selected cells, shifting others into their place"
-msgstr ""
+#~ msgid "Redo the undone action"
+#~ msgstr "Véletlenszám-generálás"
 
-#: src/gnumeric.xml:446
 #, fuzzy
-msgid "Right justifies the contents of each cell"
-msgstr "Középre zárás"
+#~ msgid "Right justifies the contents of each cell"
+#~ msgstr "Középre zárás"
 
-#: src/gnumeric.xml:21
 #, fuzzy
-msgid "Save _As..."
-msgstr "_Cellák..."
+#~ msgid "Save _As..."
+#~ msgstr "_Cellák..."
 
-#: src/gnumeric.xml:18
-msgid "Save the current file"
-msgstr ""
-
-#: src/gnumeric.xml:22
 #, fuzzy
-msgid "Save the current file with a different name"
-msgstr "Kivágja a kiválasztott részt a vágólapra"
+#~ msgid "Save the current file with a different name"
+#~ msgstr "Kivágja a kiválasztott részt a vágólapra"
 
-#: src/gnumeric.xml:360
 #, fuzzy
-msgid "Save the current workbook"
-msgstr "Munkafüzet mentése"
-
-#: src/gnumeric.xml:135
-msgid "Select all the cells that depend on the current edit cell"
-msgstr ""
-
-#: src/gnumeric.xml:28
-msgid "Setup the page settings for your current printer"
-msgstr ""
-
-#: src/gnumeric.xml:398
-msgid ""
-"Sort the selected region in ascending order based on the first column "
-"selected"
-msgstr ""
-
-#: src/gnumeric.xml:401
-msgid ""
-"Sort the selected region in descending order based on the first column "
-"selected"
-msgstr ""
-
-#: src/gnumeric.xml:326
-msgid "Statistical methods"
-msgstr ""
-
-#: src/gnumeric.xml:392
-msgid "Sum into the current cell"
-msgstr ""
-
-#: src/gnumeric.xml:279
-msgid "Toggle whether or not to display column headers"
-msgstr ""
-
-#: src/gnumeric.xml:275
-msgid "Toggle whether or not to display gridlines"
-msgstr ""
-
-#: src/gnumeric.xml:283
-msgid "Toggle whether or not to display row headers"
-msgstr ""
-
-#: src/gnumeric.xml:271
-msgid "Toggle whether or not to display zeros as blanks"
-msgstr ""
+#~ msgid "Save the current workbook"
+#~ msgstr "Munkafüzet mentése"
 
-#: src/gnumeric.xml:433
 #, fuzzy
-msgid "Underlines the text"
-msgstr "_Aláhúzás:"
+#~ msgid "Underlines the text"
+#~ msgstr "_Aláhúzás:"
 
-#: src/gnumeric.xml:57
 #, fuzzy
-msgid "Undo the last action"
-msgstr "Ismeretlen mûvelet"
+#~ msgid "Undo the last action"
+#~ msgstr "Ismeretlen mûvelet"
 
-#: src/gnumeric.xml:344
 #, fuzzy
-msgid "_About..."
-msgstr "Sorba ren_dezés..."
+#~ msgid "_About..."
+#~ msgstr "Sorba ren_dezés..."
 
-#: src/gnumeric.xml:185
 #, fuzzy
-msgid "_Add / modify comment..."
-msgstr "Megjegyzés beszúrása/módosítása..."
+#~ msgid "_Add / modify comment..."
+#~ msgstr "Megjegyzés beszúrása/módosítása..."
 
-#: src/gnumeric.xml:170
 #, fuzzy
-msgid "_Cells"
-msgstr "Cella"
+#~ msgid "_Cells"
+#~ msgstr "Cella"
 
-#: src/gnumeric.xml:258
 #, fuzzy
-msgid "_Change Name"
-msgstr "Átne_vezés"
+#~ msgid "_Change Name"
+#~ msgstr "Átne_vezés"
 
-#: src/gnumeric.xml:44
 #, fuzzy
-msgid "_Close"
-msgstr "Törlés"
+#~ msgid "_Close"
+#~ msgstr "Törlés"
 
-#: src/gnumeric.xml:55
 #, fuzzy
-msgid "_Edit"
-msgstr "Törlés"
+#~ msgid "_Edit"
+#~ msgstr "Törlés"
 
-#: src/gnumeric.xml:3
 #, fuzzy
-msgid "_File"
-msgstr "K_itöltve"
+#~ msgid "_File"
+#~ msgstr "K_itöltve"
 
-#: src/gnumeric.xml:340
 #, fuzzy
-msgid "_Help"
-msgstr "_Elrejt"
+#~ msgid "_Help"
+#~ msgstr "_Elrejt"
 
-#: src/gnumeric.xml:173
 #, fuzzy
-msgid "_Object"
-msgstr "_Objektum..."
+#~ msgid "_Object"
+#~ msgstr "_Objektum..."
 
-#: src/gnumeric.xml:9
 #, fuzzy
-msgid "_Open..."
-msgstr "Új dok_umentum"
+#~ msgid "_Open..."
+#~ msgstr "Új dok_umentum"
 
-#: src/gnumeric.xml:77
 #, fuzzy
-msgid "_Paste special..."
-msgstr "Irányított beillesztés"
+#~ msgid "_Paste special..."
+#~ msgstr "Irányított beillesztés"
 
-#: src/gnumeric.xml:31
 #, fuzzy
-msgid "_Print"
-msgstr "Nyomtatás"
+#~ msgid "_Print"
+#~ msgstr "Nyomtatás"
 
-#: src/gnumeric.xml:60
 #, fuzzy
-msgid "_Redo"
-msgstr "Véletlenszerû"
+#~ msgid "_Redo"
+#~ msgstr "Véletlenszerû"
 
-#: src/gnumeric.xml:17
 #, fuzzy
-msgid "_Save"
-msgstr "Mentés"
+#~ msgid "_Save"
+#~ msgstr "Mentés"
 
-#: src/gnumeric.xml:57
 #, fuzzy
-msgid "_Undo"
-msgstr "Véletlenszerû"
+#~ msgid "_Undo"
+#~ msgstr "Véletlenszerû"
 
-#: src/gnumeric.xml:151
 #, fuzzy
-msgid "_View"
-msgstr "_Nézet"
+#~ msgid "_View"
+#~ msgstr "_Nézet"
 
 #~ msgid "Warning"
 #~ msgstr "Figyelmeztetés"

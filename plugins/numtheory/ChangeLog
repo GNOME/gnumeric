@@ -1,3 +1,7 @@
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
 2000-09-12  Morten Welinder  <terra@diku.dk>
 
 	* numtheory.c: help texts for bit operators.

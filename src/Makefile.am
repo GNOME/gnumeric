@@ -32,8 +32,8 @@ INCLUDES = 								\
 	-DGNOME_ICONDIR=\""$(datadir)/pixmaps"\"			\
 	-DGNOME_DATADIR=\""$(datadir)"\"	 			\
 	-I$(includedir)				 			\
-	-I$(top_srcdir)/						\
-	-I$(srcdir)/							\
+	-I$(top_srcdir)							\
+	-I$(srcdir)							\
 	-I$(srcdir)/widgets						\
 	-I$(srcdir)/functions						\
 	-I$(srcdir)/dialogs						\

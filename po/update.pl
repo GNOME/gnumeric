@@ -157,11 +157,11 @@ sub GeneratePot{
       ." --files-from\=\.\/POTFILES\.in ";  
     $c1="test \! -f $PACKAGE\.po \|\| \( rm -f \.\/$PACKAGE\-source.pot "
        ."&& mv $PACKAGE\.po \.\/$PACKAGE\-source.pot \)";
-    $c2="\.\/xml2pot\.pl";
+#   $c2="\.\/xml2pot\.pl";
 
     system($c);
     system($c1);
-    system($c2);
+#   system($c2);
 }
 
 sub Merging{

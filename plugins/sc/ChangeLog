@@ -1,3 +1,7 @@
+2000-10-10  Jody Goldberg <jgoldberg@home.com>
+
+        * Release 0.57
+
 2000-08-30  Jody Goldberg <jgoldberg@home.com>
 
 	* sc.c : include style.h directly.
