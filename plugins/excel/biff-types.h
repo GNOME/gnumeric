@@ -16,15 +16,20 @@
 #define BIFF_FOOTER                     0x15
 #define BIFF_EXTERNCOUNT                0x16 /* number of external references*/
 #define BIFF_EXTERNSHEET                0x17
+#define BIFF_NOTE                       0x1c
 #define BIFF_SELECTION                  0x1d
 #define BIFF_FORMAT                     0x1e
 #define BIFF_ARRAY                      0x21
 #define BIFF_EXTERNNAME                 0x23
+#define BIFF_FILEPASS                   0x2f
 #define BIFF_FONT                       0x31
+#define BIFF_CONTINUE                   0x3c
 #define BIFF_XF_OLD                     0x43
 
+#define BIFF_OBJ                        0x5d
 #define BIFF_COLINFO                    0x7d
 #define BIFF_RK                         0x7e
+#define BIFF_IMDATA                     0x7f
 #define BIFF_BOUNDSHEET                 0x85
 #define BIFF_PALETTE                    0x92
 #define BIFF_SHRFMLA                    0xbc

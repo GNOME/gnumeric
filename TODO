@@ -92,20 +92,41 @@ GNOME Spread Sheet task list
 
 * Excel importing
 
-   Sort out mul-blank records.
+   BIFF_NOTE ( comments ) importing.
 
-   Sensible Unicode support.
+   BIFF_OBJ: Embedded objects. S59DAD.HTM
+
+   Re-engineer to use PtrArrays in several places instead
+   of hashing on an integer: speedup.
+
+   Fix odd integer formatting hiding some numbers,
+
+   Sort cycadelic colours.
 
    Add collation of BIFF continuation records to the
    previous record, to save many checks in the code.
 
+   * Formulae
+   
+      Sort out PtgRefN family, convert to correct posn.
+
+   Get Nested OLE object streams working nicely.
+
 * OLE
 
-   Serious testing required.
-   Integrate 'advance' into read_copy, and write, and rename to lseek
-
-   Snarf wine OLE API.
+   Integrate into libvfs.
+   Update to better understanding of file, see wine.
 
 * Sheets
 
 When adding a sheet or renaming a sheet, should we reparse everything?
+
+
+
+
+
+
+
+
+
+

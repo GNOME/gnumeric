@@ -846,7 +846,11 @@ ms_excel_set_cell_xf (MS_EXCEL_SHEET * sheet, Cell * cell, guint16 xfidx)
 	BIFF_XF_DATA *xf;
 	StyleColor *fore;
 
-	g_return_if_fail (cell->value) ;
+	if (!cell->value) {
+		if (EXCEL_DEBUG>0)
+			printf ("FIXME: Error setting xf on cell\n");
+		return;
+	}
 
 	if (xfidx == 0){
 /*		printf ("Normal cell formatting\n"); */
@@ -1212,6 +1216,33 @@ ms_excel_sheet_insert (MS_EXCEL_SHEET * sheet, int xfidx, int col, int row, char
 	else
 		cell_set_text_simple (cell, "") ;
 	ms_excel_set_cell_xf (sheet, cell, xfidx);
+}
+
+static void
+ms_excel_sheet_set_comment (MS_EXCEL_SHEET * sheet, int col, int row, char *text)
+{
+	if (text)
+	{
+		Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+		sheet->blank = 0 ;
+		cell_set_comment (cell, text);
+	}
+}
+
+static void
+ms_excel_sheet_append_comment (MS_EXCEL_SHEET * sheet, int col, int row, char *text)
+{
+	if (text)
+	{
+		Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
+		if (cell->comment && cell->comment->comment &&
+		    cell->comment->comment->str) {
+			char *txt = g_strconcat (cell->comment->comment->str, txt, NULL);
+			sheet->blank = 0 ;
+			cell_set_comment (cell, txt);
+			g_free (txt);
+		}
+	}
 }
 
 static void
@@ -1859,6 +1890,36 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 		case BIFF_MS_O_DRAWING: /* FIXME: See: S59DA4.HTM */
 			printf ("FIXME: MS Drawing\n");
 			break;
+		case BIFF_NOTE: /* See: S59DAB.HTM */
+		{
+			guint16 row = EX_GETROW(q);
+			guint16 col = EX_GETCOL(q);
+			if ( sheet->ver >= eBiffV8 ) {
+				guint16 options = BIFF_GETWORD(q->data+4);
+				guint16 obj_id  = BIFF_GETWORD(q->data+6);
+				guint16 author_len = BIFF_GETWORD(q->data+8);
+				char *author=biff_get_text(author_len%2?q->data+11:q->data+10,
+							   author_len, NULL);
+				int hidden;
+				if (options&0xffd)
+					printf ("FIXME: Error in options\n");
+				hidden = (options&0x2)==0;
+				if (EXCEL_DEBUG>0)
+					printf ("Comment at %d,%d id %d options 0x%x hidden %d by '%s'\n",
+						col, row, obj_id, options, hidden, author);
+			} else {
+				guint16 author_len = BIFF_GETWORD(q->data+4);
+				char *text=biff_get_text(q->data+6, author_len, NULL);
+				if (EXCEL_DEBUG>1)
+					printf ("Comment at %d,%d '%s'\n", col, row, text);
+
+				if (row==0xffff && col==0)
+					ms_excel_sheet_append_comment (sheet, col, row, text);
+				else
+					ms_excel_sheet_set_comment (sheet, col, row, text);
+			}
+			break;
+		}
 		default:
 			switch (q->opcode) {
 			case BIFF_WINDOW2: /* FIXME: see S59E18.HTM */

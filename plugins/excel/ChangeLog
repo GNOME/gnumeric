@@ -1,5 +1,15 @@
 1999-04-12  Michael Meeks <michael@imaginator.com>
 
+	* biff-types.h: Fleshed out.
+
+	* ms-excel.c (ms_excel_sheet_set_comment): Created
+	(ms_excel_sheet_append_comment): Created
+	(ms_excel_read_sheet): Added BIFF_NOTE support.
+	(ms_excel_set_cell_xf): Fixed spurious debug, and made more
+	robust.
+	
+1999-04-12  Michael Meeks <michael@imaginator.com>
+
 	* ms-excel.c: Various unneeded BIFF tags implemented for
 	completeness.
 
