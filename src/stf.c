@@ -477,7 +477,6 @@ csv_tsv_probe (GOFileOpener const *fo, GsfInput *input, FileProbeLevel pl)
 		if (name == NULL)
 			return FALSE;
 		name = gsf_extension_pointer (name);
-		g_print ("Extension [%s]\n", name ? name : "(null)");
 		return (name != NULL &&
 			(g_ascii_strcasecmp (name, "csv") == 0 ||
 			 g_ascii_strcasecmp (name, "tsv") == 0 ||
