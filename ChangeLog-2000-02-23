@@ -1,5 +1,11 @@
 2000-01-24  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/dialogs/analysis-tools.glade, src/dialogs/Makefile.am: New
+ 	file added.
+
+	* src/dialogs/dialog-analysis-tools.c (dialog_data_analysis): Made
+ 	the main dialog of the analysis tools to use the new Glade file.
+
 	* src/dialogs/solver-options.glade, src/dialogs/Makefile.am: New
  	file for Solver options.
 

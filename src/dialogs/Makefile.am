@@ -45,6 +45,7 @@ libdialogs_a_SOURCES =				\
 
 gladedir   = $(datadir)/gnumeric/glade
 glade_DATA = 				\
+	analysis-tools.glade		\
 	autocorrect.glade		\
 	autocorrect-exceptions.glade	\
 	autosave.glade			\

@@ -7,6 +7,7 @@
 
 #include <config.h>
 #include <gnome.h>
+#include <glade/glade.h>
 #include <string.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
@@ -2060,60 +2061,37 @@ selection_made (GtkWidget *clist, gint row, gint column,
 void
 dialog_data_analysis (Workbook *wb, Sheet *sheet)
 {
-	static GtkWidget *dialog, *scrolled_win;
-	static GtkWidget *main_label;
-	static GtkWidget *tool_list;
+        GladeXML  *gui;
+	GtkWidget *dialog;
+	GtkWidget *tool_list;
 
-	int i, selection;
+	int       i, selection;
 
-	if (!dialog) {
-		GtkWidget *box;
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
 
-		dialog = gnome_dialog_new (_("Data Analysis"),
-					   GNOME_STOCK_BUTTON_OK,
-					   GNOME_STOCK_BUTTON_CANCEL,
-					   NULL);
-		gnome_dialog_close_hides (GNOME_DIALOG (dialog), TRUE);
-		gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
+        if (!gui) {
+                printf ("Could not find analysis-tools.glade\n");
+                return;
+        }
 
-		box = gtk_vbox_new (FALSE, 0);
-		main_label = gtk_label_new(_("Analysis Tools"));
-                gtk_misc_set_alignment (GTK_MISC(main_label), 0,0);
- 		gtk_box_pack_start_defaults (GTK_BOX (box), main_label);
+	dialog = glade_xml_get_widget (gui, "AnalysisTools");
+        if (!dialog) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return;
+        }
 
-		scrolled_win = gtk_scrolled_window_new (NULL, NULL);
-		gtk_container_set_border_width (GTK_CONTAINER (scrolled_win),
-						5);
-		gtk_widget_set_usize (scrolled_win, 330, 160);
-		gtk_box_pack_start (GTK_BOX (box), scrolled_win,
-				    TRUE, TRUE, 0);
-		gtk_scrolled_window_set_policy
-		  (GTK_SCROLLED_WINDOW (scrolled_win),
-		   GTK_POLICY_AUTOMATIC,
-		   GTK_POLICY_AUTOMATIC);
+        gnome_dialog_set_parent (GNOME_DIALOG (dialog),
+                                 GTK_WINDOW (wb->toplevel));
 
-		tool_list = gtk_clist_new (1);
-		gtk_clist_set_selection_mode (GTK_CLIST (tool_list),
-					      GTK_SELECTION_SINGLE);
-		gtk_scrolled_window_add_with_viewport
-		  (GTK_SCROLLED_WINDOW (scrolled_win), tool_list);
+        tool_list = glade_xml_get_widget (gui, "clist1");
+	gtk_signal_connect (GTK_OBJECT(tool_list), "select_row",
+			    GTK_SIGNAL_FUNC(selection_made), NULL);
 
-		for (i=0; tools[i].fun; i++)
-		        gtk_clist_append (GTK_CLIST (tool_list),
-					  (char **) &tools[i].name);
-		
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-		gtk_signal_connect (GTK_OBJECT(tool_list), "select_row",
-				    GTK_SIGNAL_FUNC(selection_made), NULL);
+	for (i=0; tools[i].fun; i++)
+	        gtk_clist_append (GTK_CLIST (tool_list),
+				  (char **) &tools[i].name);
+	gtk_clist_select_row (GTK_CLIST (tool_list), selected_row, 0);
 
-		if (tools[0].fun)
-			gtk_clist_select_row(GTK_CLIST(tool_list), 0, 0);
-
-		gtk_widget_show_all (dialog);
-	} else
-		gtk_widget_show (dialog);
-	
 	gtk_widget_grab_focus (GTK_WIDGET(tool_list));
 
 	/* Run the dialog */
