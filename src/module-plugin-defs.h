@@ -48,6 +48,7 @@ void      plugin_cleanup (void);
 
 
 #ifdef PLUGIN_ID
+
 static GnmPlugin *gnm_get_current_plugin (void)
 {
 	static GnmPlugin *plugin = NULL;
@@ -55,17 +56,6 @@ static GnmPlugin *gnm_get_current_plugin (void)
 	return plugin;
 }
 #define PLUGIN (gnm_get_current_plugin ())
-#endif
-
-
-/* All fields in this structure are PRIVATE. */
-typedef struct {
-	guint32 magic_number;
-	gchar gnumeric_plugin_version[64];
-} ModulePluginFileStruct;
-#define GNUMERIC_MODULE_PLUGIN_MAGIC_NUMBER             0x476e756d
-#define GNUMERIC_MODULE_PLUGIN_FILE_STRUCT_INITIALIZER  {GNUMERIC_MODULE_PLUGIN_MAGIC_NUMBER, GNUMERIC_VERSION}
-
 
 /* Use this macro for defining types inside plugins */
 #define	PLUGIN_CLASS(name, prefix, class_init, instance_init, parent_type) \
@@ -87,10 +77,22 @@ prefix ## _get_type (void) \
 			NULL \
 		}; \
 		type = g_type_module_register_type ( \
-			G_TYPE_MODULE (PLUGIN), parent_type, #name, \
+			G_TYPE_MODULE (gnm_get_current_plugin ()), parent_type, #name, \
 			&object_info, 0); \
 	} \
 	return type; \
 }
+
+#endif
+
+
+/* All fields in this structure are PRIVATE. */
+typedef struct {
+	guint32 magic_number;
+	gchar gnumeric_plugin_version[64];
+} ModulePluginFileStruct;
+#define GNUMERIC_MODULE_PLUGIN_MAGIC_NUMBER             0x476e756d
+#define GNUMERIC_MODULE_PLUGIN_FILE_STRUCT_INITIALIZER  {GNUMERIC_MODULE_PLUGIN_MAGIC_NUMBER, GNUMERIC_VERSION}
+
 
 #endif /* GNUMERIC_MODULE_PLUGIN_DEFS_H */
