@@ -987,7 +987,16 @@ sheet_print (Sheet *sheet, gboolean preview, PrintRange default_range)
 			(gpm, _("Print preview"), landscape);
 		gtk_widget_show (GTK_WIDGET (pmp));
 	} else {
-		gnome_print_master_print (gpm);
+		int result = gnome_print_master_print (gpm);
+		if (result == -1) {
+			/*
+			 * FIXME: not a great message, but at this point we don't
+			 * know *what* went wrong.
+			 */
+			gnumeric_notice (
+				sheet->workbook, GNOME_MESSAGE_BOX_ERROR,
+				_("Printing failed"));
+		}
 	}
 	gtk_object_unref (GTK_OBJECT (gpm));
   	print_job_info_destroy (pj);
