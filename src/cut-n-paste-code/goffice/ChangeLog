@@ -1,7 +1,8 @@
 2004-09-02  Morten Welinder  <terra@gnome.org>
 
 	* graph/plugins/plot_radar/gog-radar-prefs.glade: Someone
-	accidentally cut the guts of this.
+	accidentally cut the guts of this.  Add vary-style button that the
+	code appears to want.
 
 2004-08-31  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
