@@ -1,3 +1,9 @@
+1999-11-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (sheet_selection_move) : Fix.
+	  Use sheet_selection_set rather than passing a partially
+	  initialized sheet_set_selection.
+
 1999-11-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : Delete
@@ -14,7 +20,6 @@
 	* src/cell.c (cell_calc_dimensions) : Behave better when zoomed.
 
 1999-11-15  Jody Goldberg <jgoldberg@home.com>
-
 
 	* src/sheet-view.c (sheet_view_set_zoom_factor) : We are already
 	  manually scaling everything.  Don't do it again by scrolling the

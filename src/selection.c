@@ -638,18 +638,19 @@ sheet_selection_cut (Sheet *sheet)
 static void
 sheet_selection_move (struct expr_relocate_info *rinfo)
 {
-	Sheet *sheet = rinfo->target_sheet;
-	SheetSelection sel;
+	Sheet * const sheet = rinfo->target_sheet;
+	Range r = rinfo->origin;
 
-	sel.user = rinfo->origin;
-	range_translate (&sel.user, rinfo->col_offset, rinfo->row_offset);
+	range_translate (&r, rinfo->col_offset, rinfo->row_offset);
 
-	sheet_selection_free (sheet);
-	sheet_selection_append_range (sheet, sel.user.start.col,
-				      sel.user.start.row,
-				      sel.user.start.col, sel.user.start.row,
-				      sel.user.end.col, sel.user.end.row);
-	sheet_set_selection (sheet, &sel);
+	sheet_selection_set (sheet,
+			     r.start.col, r.start.row,
+			     r.end.col, r.end.row);
+
+	/* NOTE : This is not XL compatible.  It does not
+	 *  clear the selection on a different sheet.
+	 *  However, this seems like a better idea.
+	 */
 	if (rinfo->origin_sheet != rinfo->target_sheet)
 		sheet_selection_reset (rinfo->origin_sheet);
 }
