@@ -558,7 +558,7 @@ typedef struct {
 	GHashTable *names;  /* A hash table for cell names->row. */
 	int        col;
 	int        row;
-	Value      *results;
+	GSList     *results;
 } summary_cb_t;
 
 static Value *
@@ -622,7 +622,7 @@ summary_cb (int col, int row, Value *v, summary_cb_t *p)
 }
 
 static void
-scenario_summary_res_cells (WorkbookControl *wbc, Value *results,
+scenario_summary_res_cells (WorkbookControl *wbc, GSList *results,
 			    summary_cb_t *cb)
 {
 	data_analysis_output_t dao;
@@ -634,48 +634,54 @@ scenario_summary_res_cells (WorkbookControl *wbc, Value *results,
 
 	dao_set_cell (&cb->dao, 0, 3 + cb->row++, _("Result Cells:"));
 
-	range_init_value (&r, (Value *) results);
-	for (i = r.start.col; i <= r.end.col; i++)
-		for (j = r.start.row; j <= r.end.row; j++) {
-			scenario_t *ov = NULL;
-			Cell       *cell;
-			GList      *cur;
+	while (results != NULL) {
+		range_init_value (&r, (Value *) results->data);
+		for (i = r.start.col; i <= r.end.col; i++)
+			for (j = r.start.row; j <= r.end.row; j++) {
+				scenario_t *ov = NULL;
+				Cell       *cell;
+				GList      *cur;
 			
-			cell = sheet_cell_fetch (cb->sheet, i, j);
-			
-			/* Names of the result cells. */
-			dao_set_cell (&cb->dao, 0, 3 + cb->row,
-				      cell_name (cell));
-			
-			/* Current value. */
-			dao_set_cell_value (&cb->dao, 1, 3 + cb->row,
-					    value_duplicate (cell->value));
-			
-			/* Evaluate and write the value of the cell
-			 * with all different scenario values. */
-			col = 2;
-			for (cur = cb->sheet->scenarios; cur != NULL;
-			     cur = cur->next) {
-				scenario_t *s = (scenario_t *) cur->data;
-				
-				ov = scenario_show (wbc, s, ov, &dao);
-				
 				cell = sheet_cell_fetch (cb->sheet, i, j);
-				
-				cell_queue_recalc (cell);
-				cell_eval (cell);
-				dao_set_cell_value (&cb->dao, col++,
-						    3 + cb->row,
-						    value_duplicate
-						    (cell->value));
-			}
-			cb->row++;
 			
-			/* Use show to clean up 'ov'. */
-			scenario_show (wbc, NULL, ov, &dao);
-			ov = NULL;
-		}
-	
+				/* Names of the result cells. */
+				dao_set_cell (&cb->dao, 0, 3 + cb->row,
+					      cell_name (cell));
+			
+				/* Current value. */
+				dao_set_cell_value
+					(&cb->dao, 1, 3 + cb->row,
+					 value_duplicate (cell->value));
+			
+				/* Evaluate and write the value of the cell
+				 * with all different scenario values. */
+				col = 2;
+				for (cur = cb->sheet->scenarios; cur != NULL;
+				     cur = cur->next) {
+					scenario_t *s =
+						(scenario_t *) cur->data;
+					
+					ov = scenario_show (wbc, s, ov, &dao);
+					
+					cell = sheet_cell_fetch (cb->sheet,
+								 i, j);
+					
+					cell_queue_recalc (cell);
+					cell_eval (cell);
+					dao_set_cell_value (&cb->dao, col++,
+							    3 + cb->row,
+							    value_duplicate
+							    (cell->value));
+				}
+				cb->row++;
+				
+				/* Use show to clean up 'ov'. */
+				scenario_show (wbc, NULL, ov, &dao);
+				ov = NULL;
+			}
+		results = results->next;
+	}
+
 	/* Set the alignment of names of result cells to be right. */
 	dao_set_align (&cb->dao, 0, tmp_row, 0, 2 + cb->row,
 		       HALIGN_RIGHT, VALIGN_BOTTOM);
@@ -684,7 +690,7 @@ scenario_summary_res_cells (WorkbookControl *wbc, Value *results,
 void
 scenario_summary (WorkbookControl *wbc,
 		  Sheet           *sheet,
-		  Value           *results,
+		  GSList          *results,
 		  Sheet           **new_sheet)
 {
 	summary_cb_t cb;

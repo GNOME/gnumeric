@@ -1,5 +1,8 @@
 2003-04-20  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* scenarios.[ch]: Results cell in summary reporting can also be a
+	list of cell ranges.
+
 	* scenarios.c (scenario_summary_res_cells): Fixed the results
 	reporting in summary report.
 

@@ -53,7 +53,7 @@ GList      *scenario_delete       (GList *scenarios, gchar *name);
 scenario_t *scenario_copy         (scenario_t *s, Sheet *new_sheet);
 void        scenario_summary      (WorkbookControl        *wbc,
 				   Sheet                  *sheet,
-				   Value                  *results,
+				   GSList                 *results,
 				   Sheet                  **new_sheet);
 
 #endif

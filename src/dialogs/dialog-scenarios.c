@@ -531,15 +531,21 @@ scenarios_delete_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 }
 
 static void
+cb_free (gpointer p, void *data)
+{
+	value_release (p);
+}
+
+static void
 scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 			      ScenariosState *state)
 {
-	Sheet *new_sheet;
-	Value *results;
+	Sheet  *new_sheet;
+	GSList *results;
 
 	restore_old_values (state);
 
-	results = gnm_expr_entry_parse_as_value (
+	results = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
 
 	if (results == NULL) {
@@ -555,8 +561,10 @@ scenarios_summary_clicked_cb (G_GNUC_UNUSED GtkWidget *button,
 	state->scenario_state->new_report_sheets =
 		g_slist_prepend (state->scenario_state->new_report_sheets,
 				 new_sheet);
-	if (results)
-		value_release (results);
+	if (results) {
+		g_slist_foreach (results, cb_free, NULL);
+		g_slist_free (results);
+	}
 }
 
 static void
