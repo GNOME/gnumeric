@@ -1,3 +1,7 @@
+1999-12-10  Ariel Rios <jarios@usa.net>
+
+	* plugin.c: (expr_to_scm) The OPER_PERCENT case was included.
+
 1999-12-09  Ariel Rios <jarios@usa.net>
 
 	* plugin.c: We now include guile/gh.h so we can transform from doubles to scm numbers.

@@ -209,6 +209,11 @@ expr_to_scm (ExprTree *expr, CellRef cell_ref)
 					 expr_to_scm(expr->u.binary.value_a, cell_ref),
 					 expr_to_scm(expr->u.binary.value_b, cell_ref));
 
+	        case OPER_PERCENT :
+			return SCM_LIST3(scm_symbolfrom0str("modulo"),
+					 expr_to_scm(expr->u.binary.value_a, cell_ref),
+					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+
 		case OPER_EXP :
 			return SCM_LIST3(scm_symbolfrom0str("expt"),
 					 expr_to_scm(expr->u.binary.value_a, cell_ref),
