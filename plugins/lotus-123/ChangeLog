@@ -1,3 +1,7 @@
+2003-03-05  Morten Welinder  <terra@diku.dk>
+
+	* lotus.c (record_peek_next): Fix integer/gboolean confusion.
+
 2003-01-28  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.16

@@ -2723,7 +2723,7 @@ callback_function_mmult_validate (Sheet *sheet, int col, int row,
 	return NULL;
 }
 
-static int
+static gboolean
 validate_range_numeric_matrix (const EvalPos *ep, Value * matrix,
 			       int *rows, int *cols,
 			       GnmStdError *err)

@@ -777,7 +777,7 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 	return style;
 }
 
-static int
+static gboolean
 applix_read_attributes (ApplixReadState *state)
 {
 	int count = 0;
@@ -802,7 +802,7 @@ applix_read_attributes (ApplixReadState *state)
 	}
 
 	/* NOTREACHED */
-	return 0;
+	return FALSE;
 }
 
 static Sheet *

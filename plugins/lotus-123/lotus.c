@@ -136,7 +136,7 @@ record_peek_next (record_t *r)
 	guint8 const *header;
 	guint16 type;
 
-	g_return_val_if_fail (r != NULL, FALSE);
+	g_return_val_if_fail (r != NULL, LOTUS_EOF);
 
 	header = gsf_input_read (r->input, 2, NULL);
 	if (header == NULL)
