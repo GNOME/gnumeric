@@ -1410,6 +1410,8 @@ plugin_service_ui_activate (PluginService *service, ErrorInfo **ret_error)
 	g_free (full_file_name);
 
 	xml_ui = bonobo_ui_node_to_string (uinode, TRUE);
+	bonobo_ui_node_free (uinode);
+
 	textdomain = gnm_plugin_get_textdomain (service->plugin);
 	service_ui->ui = register_xml_ui (
 		xml_ui, textdomain, service_ui->verbs, ui_verb_fn, service);

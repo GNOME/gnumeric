@@ -85,7 +85,7 @@ enum {
 	ARG_SHEET_CONTROL_GUI,	/* The SheetControlGUI * argument */
 	ARG_STYLE,              /* The style type */
 	ARG_BUTTON,		/* The button used to drag this cursor around */
-	ARG_COLOR,              /* The optional color */
+	ARG_COLOR               /* The optional color */
 };
 
 static int
