@@ -281,13 +281,23 @@ workbook_save_as (Workbook *wb)
 		char *name = gtk_file_selection_get_filename (fsel);
 
 		if (name [strlen (name)-1] != '/'){
-			workbook_set_filename (wb, name);
-
+			char *base = g_basename (name);
+			
 			current_saver = insure_saver (current_saver);
 			if (!current_saver)
 				gnumeric_notice (_("Sorry, there are no file savers loaded, I can not save"));
-			else
+			else {
+				if (strchr (base, '.') == NULL){
+					name = g_strconcat (name, current_saver->extension, NULL);
+				} else
+					name = g_strdup (name);
+				
+				workbook_set_filename (wb, name);
+				
 				current_saver->save (wb, wb->filename);
+				
+				g_free (name);
+			}
 		}
 	}
 	gtk_widget_destroy (GTK_WIDGET (fsel));
