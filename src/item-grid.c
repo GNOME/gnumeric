@@ -177,13 +177,6 @@ item_grid_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags)
 	item->y2 = INT_MAX/2;
 }
 
-/**
- * item_grid_draw_merged_range:
- *
- * Handle the special drawing requirements for a 'merged cell'.
- * First draw the entire range (clipped to the visible region) then redraw any
- * segments that are selected.
- */
 static void
 item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 			     int start_x, int start_y,
@@ -195,6 +188,7 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 	SheetView const *sv = ((SheetControl *) ig->scg)->view;
 	Sheet const *sheet  = sv->sheet;
 	GnmCell  const *cell   = sheet_cell_get (sheet, range->start.col, range->start.row);
+	int const dir = sheet->text_is_rtl ? -1 : 1;
 
 	/* load style from corner which may not be visible */
 	GnmStyle const *style = sheet_style_get (sheet, range->start.col, range->start.row);
@@ -205,11 +199,11 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 
 	l = r = start_x;
 	if (view->start.col < range->start.col)
-		l += scg_colrow_distance_get (ig->scg, TRUE,
+		l += dir * scg_colrow_distance_get (ig->scg, TRUE,
 			view->start.col, range->start.col);
 	if (range->end.col <= (last = view->end.col))
 		last = range->end.col;
-	r += scg_colrow_distance_get (ig->scg, TRUE, view->start.col, last+1);
+	r += dir * scg_colrow_distance_get (ig->scg, TRUE, view->start.col, last+1);
 
 	t = b = start_y;
 	if (view->start.row < range->start.row)
@@ -225,15 +219,19 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 	/* Check for background THEN selection */
 	if (gnumeric_background_set_gc (style, gc,
 			ig->canvas_item.canvas, is_selected) ||
-	    is_selected)
+	    is_selected) {
 		/* Remember X excludes the far pixels */
+		if (sheet->text_is_rtl)
+			gdk_draw_rectangle (drawable, gc, TRUE, r, t, l-r+1, b-t+1);
+		else
 		gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
+	}
 
 	if (range->start.col < view->start.col)
-		l -= scg_colrow_distance_get (ig->scg, TRUE,
+		l -= dir * scg_colrow_distance_get (ig->scg, TRUE,
 			range->start.col, view->start.col);
 	if (view->end.col < range->end.col)
-		r += scg_colrow_distance_get (ig->scg, TRUE,
+		r += dir * scg_colrow_distance_get (ig->scg, TRUE,
 			view->end.col+1, range->end.col+1);
 	if (range->start.row < view->start.row)
 		t -= scg_colrow_distance_get (ig->scg, FALSE,
@@ -250,6 +248,12 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 			row_calc_spans ((ColRowInfo *)ri, sheet);
 
 		/* FIXME : get the margins from the far col/row too */
+		if (sheet->text_is_rtl)
+			cell_draw (cell, ig->gc.cell, drawable,
+				   r, t,
+				   l - r - (ci->margin_b + ci->margin_a + 1),
+				   b - t - (ri->margin_b + ri->margin_a + 1), -1);
+		else
 		cell_draw (cell, ig->gc.cell, drawable,
 			   l, t,
 			   r - l - (ci->margin_b + ci->margin_a + 1),
@@ -293,11 +297,8 @@ merged_col_cmp (GnmRange const *a, GnmRange const *b)
 }
 
 static void
-item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
-		GdkEventExpose *expose)
+item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable, GdkEventExpose *expose)
 {
-	gint draw_x = expose->area.x;
-	gint draw_y = expose->area.y;
 	gint width  = expose->area.width;
 	gint height = expose->area.height;
 	FooCanvas *canvas = item->canvas;
@@ -306,6 +307,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	GnmCell const * const edit_cell = gcanvas->simple.scg->wbcg->wb_control.editing_cell;
 	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
+	int const dir = gcanvas->simple.scg->rtl ? -1 : 1;
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2
 	 * pixels around the target area which would include the surrounding
@@ -314,13 +316,10 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	 * painting the borders of the edges and not the content.
 	 * However, that feels like more hassle that it is worth.  Look into this someday.
 	 */
-	int x, y, col, row, n;
-	int start_col = gnm_canvas_find_col (gcanvas, draw_x-2, &x);
-	int end_col = gnm_canvas_find_col (gcanvas, draw_x+width+2, NULL);
-	int const diff_x = x;
-	int start_row = gnm_canvas_find_row (gcanvas, draw_y-2, &y);
-	int end_row = gnm_canvas_find_row (gcanvas, draw_y+height+2, NULL);
-	int const diff_y = y;
+	int x, y, col, row, n, start_col, end_col, start_x, offset;
+	int start_row = gnm_canvas_find_row (gcanvas, expose->area.y-2, &y);
+	int end_row = gnm_canvas_find_row (gcanvas, expose->area.y+height+2, NULL);
+	int const start_y = y;
 
 	GnmRow sr, next_sr;
 	GnmStyle const **styles;
@@ -338,9 +337,19 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		ig->scg->selected_objects == NULL &&
 		ig->scg->new_object == NULL;
 
+	if (dir < 0) {
+		start_col = gnm_canvas_find_col (gcanvas, expose->area.x+width+2, &start_x);
+		end_col   = gnm_canvas_find_col (gcanvas, expose->area.x-2, NULL);
+	} else {
+		start_col = gnm_canvas_find_col (gcanvas, expose->area.x-2, &start_x);
+		end_col   = gnm_canvas_find_col (gcanvas, expose->area.x+width+2, NULL);
+	}
+
+	g_return_if_fail (start_col <= end_col);
+
 #if 0
 	fprintf (stderr, "%s%s:", col_name(start_col), row_name(start_row));
-	fprintf (stderr, "%s%s <= %d vs %d\n", col_name(end_col), row_name(end_row), y, draw_y);
+	fprintf (stderr, "%s%s <= %d vs %d\n", col_name(end_col), row_name(end_row), y, expose->area.y);
 #endif
 
 	/* clip to bounds */
@@ -370,7 +379,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 	/* Fill entire region with default background (even past far edge) */
 	gdk_draw_rectangle (drawable, ig->gc.fill, TRUE,
-			    draw_x, draw_y, width, height);
+		expose->area.x, expose->area.y, width, height);
 
 	/* Get ordered list of merged regions */
 	merged_active = merged_active_seen = merged_used = NULL;
@@ -398,7 +407,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		colwidths[col] = ci->visible ? ci->size_pixels : -1;
 	}
 
-	for (y = diff_y; row <= end_row; row = sr.row = next_sr.row, ri = next_ri) {
+	for (y = start_y; row <= end_row; row = sr.row = next_sr.row, ri = next_ri) {
 		/* Restore the set of ranges seen, but still active.
 		 * Reinverting list to maintain the original order */
 		g_return_if_fail (merged_active == NULL);
@@ -461,7 +470,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 					if (ci->visible)
 						item_grid_draw_merged_range (drawable, ig,
-							diff_x, y, &view, r, draw_selection);
+							start_x, y, &view, r, draw_selection);
 				}
 			} else {
 				lag = &(ptr->next);
@@ -469,7 +478,7 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			}
 		}
 
-		for (col = start_col, x = diff_x; col <= end_col ; col++) {
+		for (col = start_col, x = start_x; col <= end_col ; col++) {
 			GnmStyle const *style;
 			CellSpanInfo const *span;
 			ColRowInfo const *ci = sheet_col_get_info (sheet, col);
@@ -551,6 +560,8 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 			}
 
 plain_draw : /* a quick hack to deal with 142267 */
+			if (dir < 0)
+				x -= ci->size_pixels;
 			style = sr.styles [col];
 			item_grid_draw_background (drawable, ig,
 				style, col, row, x, y,
@@ -572,8 +583,7 @@ plain_draw : /* a quick hack to deal with 142267 */
 				 */
 				GnmCell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_empty (cell) && cell != edit_cell)
-					cell_draw (cell,
-						   ig->gc.cell, drawable,
+					cell_draw (cell, ig->gc.cell, drawable,
 						   x, y, -1, -1, -1);
 
 			/* Only draw spaning cells after all the backgrounds
@@ -605,30 +615,34 @@ plain_draw : /* a quick hack to deal with 142267 */
 						start_span_col, cell->pos.col);
 
 				if (start_span_col != col) {
-					int offset = scg_colrow_distance_get (
+					offset = scg_colrow_distance_get (
 						gcanvas->simple.scg, TRUE,
 						start_span_col, col);
-					real_x -= offset;
 					tmp_width += offset;
+					if (dir > 0)
+						real_x -= offset;
 					sr.vertical [col] = NULL;
 				}
 				if (end_span_col != col) {
-					tmp_width += scg_colrow_distance_get (
+					offset = scg_colrow_distance_get (
 						gcanvas->simple.scg, TRUE,
 						col+1, end_span_col + 1);
+					tmp_width += offset;
+					if (dir < 0)
+						real_x -= offset;
 				}
 
-				cell_draw (cell,
-					   ig->gc.cell, drawable,
+				cell_draw (cell, ig->gc.cell, drawable,
 					   real_x, y, tmp_width, -1, center_offset);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 
+			if (dir > 0)
 			x += ci->size_pixels;
 		}
 		style_borders_row_draw (prev_vert, &sr,
-					drawable, diff_x, y, y+ri->size_pixels,
-					colwidths, TRUE);
+					drawable, start_x, y, y+ri->size_pixels,
+					colwidths, TRUE, dir);
 
 		/* In case there were hidden merges that trailed off the end */
 		while (merged_active != NULL) {
@@ -658,14 +672,14 @@ plain_draw : /* a quick hack to deal with 142267 */
 
 	if (row >= ig->bound.end.row) {
 		style_borders_row_draw (prev_vert, &sr,
-					drawable, diff_x, y, y, colwidths, FALSE);
+					drawable, start_x, y, y, colwidths, FALSE, dir);
 		if (gcanvas->pane->index >= 2)
-			gdk_draw_line (drawable, ig->gc.bound, diff_x, y, x, y);
+			gdk_draw_line (drawable, ig->gc.bound, start_x, y, x, y);
 	}
 	if (col >= ig->bound.end.col &&
 	    /* TODO : Add pane flags to avoid hard coding pane numbers */
 	    (gcanvas->pane->index == 1 || gcanvas->pane->index == 2))
-		gdk_draw_line (drawable, ig->gc.bound, x, diff_y, x, y);
+		gdk_draw_line (drawable, ig->gc.bound, x, start_y, x, y);
 
 	g_slist_free (merged_used);	   /* merges with bottom in view */
 	g_slist_free (merged_active_seen); /* merges with bottom the view */

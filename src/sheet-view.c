@@ -85,7 +85,7 @@ sv_init_sc (SheetView const *sv, SheetControl *sc)
 {
 	GnmCellPos initial;
 
-	sc_set_zoom_factor (sc);
+	sc_scale_changed (sc);
 
 	/* set_panes will change the initial so cache it */
 	initial = sv->initial_top_left;
@@ -98,6 +98,7 @@ sv_init_sc (SheetView const *sv, SheetControl *sc)
 	/* Set the visible bound, not the logical bound */
 	sc_cursor_bound (sc, selection_first_range (sv, NULL, NULL));
 	sc_ant (sc);
+	sc_direction_changed (sc);
 }
 
 void
@@ -211,6 +212,7 @@ sheet_view_init (GObject *object)
 	sv->selection_content_changed = TRUE;
 	sv->reposition_selection = TRUE;
 	sv->auto_expr_timer = 0;
+	sv->text_is_rtl	= FALSE;
 
 	sv->frozen_top_left.col = sv->frozen_top_left.row =
 	sv->unfrozen_top_left.col = sv->unfrozen_top_left.row = -1;
@@ -775,4 +777,13 @@ sv_set_initial_top_left (SheetView *sv, int col, int row)
 
 	sv->initial_top_left.col = col;
 	sv->initial_top_left.row = row;
+}
+
+void
+sv_direction_changed (SheetView *sv)
+{
+	if (sv->sheet != NULL) {
+		sv->text_is_rtl = sv->sheet->text_is_rtl;
+		SHEET_VIEW_FOREACH_CONTROL (sv, sc, sc_direction_changed (sc););
+	}
 }

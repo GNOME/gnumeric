@@ -296,11 +296,11 @@ ie_layout (FooCanvasItem *item)
 
 	text = wbcg_edit_get_display_text (scg_get_wbcg (ie->scg));
 
-	if (GNM_CANVAS (canvas)->preedit_length) {
+	if (gcanvas->preedit_length) {
 		PangoAttrList *tmp_attrs = pango_attr_list_new ();
-		pango_attr_list_splice (tmp_attrs, GNM_CANVAS (canvas)->preedit_attrs,
+		pango_attr_list_splice (tmp_attrs, gcanvas->preedit_attrs,
 			g_utf8_offset_to_pointer (text, cursor_pos) - text,
-			g_utf8_offset_to_pointer (text, cursor_pos + GNM_CANVAS (canvas)->preedit_length) - text);
+			g_utf8_offset_to_pointer (text, cursor_pos + gcanvas->preedit_length) - text);
 		pango_layout_set_attributes (ie->layout, tmp_attrs);
 		pango_attr_list_unref (tmp_attrs);
 	}
@@ -310,6 +310,17 @@ ie_layout (FooCanvasItem *item)
 
 	/* Start after the grid line and the left margin */
 	col_size = cri->size_pixels - cri->margin_a - 1;
+	if (ie->scg->rtl)
+		while (col_size < width &&
+		       end_col > gcanvas->first.col &&
+		       end_col > 0) {
+			end_col--;
+			cri = sheet_col_get_info (sheet, end_col);
+			g_return_if_fail (cri != NULL);
+			if (cri->visible)
+				col_size += cri->size_pixels;
+		}
+	else
 	while (col_size < width &&
 	       end_col <= gcanvas->last_full.col &&
 	       end_col < SHEET_MAX_COLS-1) {
@@ -330,20 +341,23 @@ ie_layout (FooCanvasItem *item)
 
 	/* The lower right is based on the span size excluding the grid lines
 	 * Recall that the bound excludes the far point */
-	item->x2 = 1 + item->x1 +
-		scg_colrow_distance_get (ie->scg, TRUE,
-					 ie->pos.col, end_col+1) - 2;
 
-	tmp = gcanvas->first_offset.col +
-		GTK_WIDGET (item->canvas)->allocation.width;
+	if (ie->scg->rtl) {
+		tmp = gnm_simple_canvas_x_w2c (item->canvas, gcanvas->first_offset.col);
+		item->x2 = 1 + item->x1 +
+			scg_colrow_distance_get (ie->scg, TRUE, end_col, ie->pos.col+1) - 2;
+	} else {
+		tmp = gcanvas->first_offset.col + canvas->allocation.width;
+		item->x2 = 1 + item->x1 +
+			scg_colrow_distance_get (ie->scg, TRUE, ie->pos.col, end_col+1) - 2;
+	}
 	if (item->x2 >= tmp) {
 		item->x2 = tmp;
 		pango_layout_set_width (ie->layout, (item->x2 - item->x1 + 1)*PANGO_SCALE);
 		pango_layout_get_pixel_size (ie->layout, &width, &height);
 	}
 
-	tmp = scg_colrow_distance_get (ie->scg, FALSE,
-				       ie->pos.row, end_row+1) - 2;
+	tmp = scg_colrow_distance_get (ie->scg, FALSE, ie->pos.row, end_row+1) - 2;
 	item->y2 = item->y1 + MAX (height-1, tmp);
 }
 
@@ -377,6 +391,8 @@ item_edit_realize (FooCanvasItem *item)
 		gdk_gc_set_rgb_fg_color (ie->fill_gc, &gs_yellow);
 
 	ie->layout = gtk_widget_create_pango_layout (GTK_WIDGET (item->canvas), NULL);
+	pango_layout_set_alignment (ie->layout,
+		ie->scg->rtl ? PANGO_ALIGN_RIGHT : PANGO_ALIGN_LEFT);
 }
 
 static void
@@ -557,13 +573,17 @@ item_edit_set_property (GObject *gobject, guint param_id,
 		if (mstyle_get_align_h (ie->style) == HALIGN_GENERAL)
 			mstyle_set_align_h (ie->style, HALIGN_LEFT);
 
-		/* move inwards 1 pixel for the grid line */
-		item->x1 = 1 + gcanvas->first_offset.col +
-			scg_colrow_distance_get (ie->scg, TRUE,
-					  gcanvas->first.col, ie->pos.col);
+		/* move inwards 1 pixel from the grid line */
 		item->y1 = 1 + gcanvas->first_offset.row +
 			scg_colrow_distance_get (ie->scg, FALSE,
 					  gcanvas->first.row, ie->pos.row);
+		item->x1 = 1 + gcanvas->first_offset.col +
+			scg_colrow_distance_get (ie->scg, TRUE,
+				gcanvas->first.col, ie->pos.col);
+		if (ie->scg->rtl) /* -1 to remove the above, then 2 more to move from next cell back */
+			item->x1 = 2 + gnm_simple_canvas_x_w2c (item->canvas, item->x1 +
+				scg_colrow_distance_get (ie->scg, TRUE,
+					ie->pos.col, ie->pos.col + 1) - 1);
 
 		item->x2 = item->x1 + 1;
 		item->y2 = item->y2 + 1;

@@ -41,6 +41,7 @@ void       wbcg_copy_toolbar_visibility (WorkbookControlGUI *new_wbcg,
 
 void       wbcg_toggle_end_mode   (WorkbookControlGUI *wbcg);
 void       wbcg_set_end_mode      (WorkbookControlGUI *wbcg, gboolean flag);
+void	   wbcg_set_direction	  (WorkbookControlGUI *wbcg);
 
 PangoFontDescription *wbcg_get_font_desc (WorkbookControlGUI *wbcg);
 

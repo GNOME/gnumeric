@@ -21,7 +21,6 @@ WorkbookControl *sc_wbc		(SheetControl const *sc);
  * more than a passthrough.
  */
 void sc_resize			(SheetControl *sc, gboolean force_scroll);
-void sc_set_zoom_factor		(SheetControl *sc);
 void sc_redraw_all		(SheetControl *sc, gboolean headers);
 void sc_redraw_range		(SheetControl *sc, GnmRange const *r);
 void sc_redraw_headers		(SheetControl *sc,
@@ -43,5 +42,7 @@ void sc_make_cell_visible      	(SheetControl *sc, int col, int row,
 void sc_cursor_bound		(SheetControl *sc, GnmRange const *r);
 void sc_set_panes		(SheetControl *sc);
 void sc_object_create_view	(SheetControl *sc, SheetObject *so);
+void sc_direction_changed	(SheetControl *sc);
+void sc_scale_changed		(SheetControl *sc);
 
 #endif /* GNUMERIC_SHEET_CONTROL_H */

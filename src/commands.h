@@ -157,5 +157,6 @@ gboolean cmd_tabulate (WorkbookControl *wbc, gpointer data);
 
 gboolean cmd_so_graph_config (WorkbookControl *wbc, SheetObject *sog,  
                               GObject *n_graph, GObject *o_graph);
+gboolean cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet);
 
 #endif /* GNUMERIC_COMMANDS_H */

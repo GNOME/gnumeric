@@ -564,10 +564,8 @@ excel_write_WINDOW2 (BiffPut *bp, ExcelWriteSheet *esheet, SheetView *sv)
 		top_left = sv->initial_top_left;
 	if (!sheet->hide_zero)
 		options |= 0x0010;
-#if 0
-	if (sheet->rtl)
+	if (sheet->text_is_rtl)
 		options |= 0x0040;
-#endif
 	/* Grid / auto pattern color */
 	if (!style_color_equal (sheet_auto, default_auto)) {
 		biff_pat_col = gnm_color_to_bgr (sheet_auto);
@@ -2091,8 +2089,9 @@ build_xf_data (ExcelWriteState *ewb, BiffXFData *xfd, GnmStyle *st)
 	xfd->halign	= mstyle_get_align_h (st);
 	xfd->valign	= mstyle_get_align_v (st);
 	xfd->wrap_text	= mstyle_get_wrap_text (st);
-	xfd->rotation	= mstyle_get_rotation (st);
 	xfd->indent	= mstyle_get_indent (st);
+	xfd->rotation	= mstyle_get_rotation (st);
+	xfd->text_dir	= mstyle_get_text_dir (st);
 
 	/* Borders */
 	for (i = STYLE_TOP; i < STYLE_ORIENT_MAX; i++) {
@@ -2185,7 +2184,12 @@ excel_write_XF (BiffPut *bp, ExcelWriteState *ewb, BiffXFData *xfd)
 		if (xfd->shrink_to_fit)
 			tmp16 |= (1 << 4);
 		/* tmp16 |= (0 << 5);	flag merges in MERGECELL */
-		/* tmp16 |= (0 << 6);	Read order by context */
+		switch (xfd->text_dir) {
+		default :
+		case GNM_TEXT_DIR_CONTEXT:	tmp16 |= (0 << 6); break;
+		case GNM_TEXT_DIR_LTR:		tmp16 |= (1 << 6); break;
+		case GNM_TEXT_DIR_RTL:		tmp16 |= (2 << 6); break;
+		}
 		tmp16 |= 0xFC00;		/* we store everything */
 		GSF_LE_SET_GUINT16 (data+8, tmp16);
 

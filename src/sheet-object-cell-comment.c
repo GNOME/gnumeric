@@ -54,45 +54,6 @@ enum {
 static GObjectClass *parent_klass;
 
 #define TRIANGLE_WIDTH 6
-static FooCanvasPoints *
-comment_get_points (SheetControlGUI *scg, SheetObject *so)
-{
-	FooCanvasPoints *points;
-	int x, y, i, far_col;
-	GnmRange const *r;
-
-	r = sheet_merge_is_corner (so->sheet, &so->anchor.cell_bound.start);
-	if (r != NULL) {
-		so->anchor.cell_bound.end.col = r->end.col;
-		far_col = 1 + r->end.col;
-	} else
-		far_col = 1 + so->anchor.cell_bound.start.col;
-
-	/* TODO : This could be optimized using the offsets associated with the visible region */
-	/* Add 1 to y because we measure from start, x is measured from end, so
-	 * it does not need it */
-	y = scg_colrow_distance_get (scg, FALSE, 0, so->anchor.cell_bound.start.row)+ 1;
-	x = scg_colrow_distance_get (scg, TRUE, 0, far_col);
-
-	points = foo_canvas_points_new (3);
-	points->coords [0] = x - TRIANGLE_WIDTH;
-	points->coords [1] = y;
-	points->coords [2] = x;
-	points->coords [3] = y;
-	points->coords [4] = x;
-	points->coords [5] = y + TRIANGLE_WIDTH;
-
-	/* Just use pane 0 for sizing, it always exists */
-	for (i = 0; i < 3; i++)
-		foo_canvas_c2w (FOO_CANVAS (scg_pane (scg, 0)),
-				  points->coords [i*2],
-				  points->coords [i*2+1],
-				  &(points->coords [i*2]),
-				  &(points->coords [i*2+1]));
-
-	return points;
-}
-
 
 static void
 comment_view_destroy (SheetObjectView *sov)
@@ -104,9 +65,36 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 {
 	FooCanvasItem *view = FOO_CANVAS_ITEM (sov);
 	if (visible) {
-		FooCanvasPoints *points = comment_get_points (
-			GNM_SIMPLE_CANVAS (view->canvas)->scg,
-			sheet_object_view_get_so (sov));
+		SheetObject *so = sheet_object_view_get_so (sov);
+		SheetControlGUI const *scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
+		double scale;
+		int x, y, i, far_col;
+		FooCanvasPoints *points = foo_canvas_points_new (3);
+		GnmRange const *r = sheet_merge_is_corner (so->sheet,
+			&so->anchor.cell_bound.start);
+
+		if (r != NULL) {
+			so->anchor.cell_bound.end.col = r->end.col;
+			far_col = 1 + r->end.col;
+		} else
+			far_col = 1 + so->anchor.cell_bound.start.col;
+
+		/* TODO : This could be optimized using the offsets associated with the visible region */
+		/* Add 1 to y because we measure from start, x is measured from end, so
+		 * it does not need it */
+		y = scg_colrow_distance_get (scg, FALSE, 0, so->anchor.cell_bound.start.row)+ 1;
+		x = scg_colrow_distance_get (scg, TRUE, 0, far_col);
+
+		scale = 1. / view->canvas->pixels_per_unit;
+		points->coords [1] = scale * y;
+		points->coords [3] = scale * y;
+		points->coords [5] = scale * (y + TRIANGLE_WIDTH);
+		if (scg->rtl)
+			scale *= -1;
+		points->coords [0] = scale * (x - TRIANGLE_WIDTH);
+		points->coords [2] = scale * x;
+		points->coords [4] = scale * x;
+
 		foo_canvas_item_set (view, "points", points, NULL);
 		foo_canvas_points_free (points);
 		foo_canvas_item_show (view);

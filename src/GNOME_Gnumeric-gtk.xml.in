@@ -241,6 +241,7 @@
     <separator name="std-sep5"/>
     <toolitem action="ChartGuru" />
     <toolitem action="Zoom"/>
+    <toolitem action="Direction"/>
   </toolbar>
   <toolbar _name="FormatToolbar">
     <toolitem action="FontName"/>

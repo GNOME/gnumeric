@@ -79,6 +79,7 @@ typedef struct {
 		}                align;
 		int		 indent;
 		int		 rotation;
+		int		 text_dir;
 		gboolean         wrap_text;
 		gboolean         shrink_to_fit;
 		gboolean         content_locked;
@@ -137,7 +138,8 @@ struct _GnmStyle {
                                 case MSTYLE_ALIGN_H
 
 #define MSTYLE_ANY_GUINT32           MSTYLE_PATTERN: \
-				case MSTYLE_ROTATION
+				case MSTYLE_ROTATION:\
+				case MSTYLE_TEXT_DIR
 
 #define MSTYLE_ANY_FLOAT             MSTYLE_FONT_SIZE
 
@@ -358,6 +360,9 @@ mstyle_element_dump (const MStyleElement *e)
 	case MSTYLE_ROTATION:
 		g_string_printf (ans, "\trotation %d\n", e->u.rotation);
 		break;
+	case MSTYLE_TEXT_DIR:
+		g_string_printf (ans, "\ttext dir %d\n", e->u.text_dir);
+		break;
 
 	case MSTYLE_WRAP_TEXT :
 		g_string_printf (ans, "\twrap text %d\n", e->u.wrap_text);
@@ -434,6 +439,8 @@ mstyle_element_equal (MStyleElement const *a,
 		return (a->u.indent == b->u.indent);
 	case MSTYLE_ROTATION:
 		return (a->u.rotation == b->u.rotation);
+	case MSTYLE_TEXT_DIR:
+		return (a->u.text_dir == b->u.text_dir);
 	case MSTYLE_WRAP_TEXT:
 		return (a->u.wrap_text == b->u.wrap_text);
 	case MSTYLE_SHRINK_TO_FIT:
@@ -695,6 +702,7 @@ mstyle_new_default (void)
 	mstyle_set_align_h     (mstyle, HALIGN_GENERAL);
 	mstyle_set_indent      (mstyle, 0);
 	mstyle_set_rotation    (mstyle, 0);
+	mstyle_set_text_dir    (mstyle, GNM_TEXT_DIR_CONTEXT);
 	mstyle_set_wrap_text   (mstyle, FALSE);
 	mstyle_set_shrink_to_fit (mstyle, FALSE);
 	mstyle_set_content_locked (mstyle, TRUE);
@@ -1453,6 +1461,23 @@ mstyle_get_rotation (const GnmStyle *style)
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_ROTATION), 0);
 
 	return style->elements[MSTYLE_ROTATION].u.rotation;
+}
+
+void
+mstyle_set_text_dir (GnmStyle *style, GnmTextDir text_dir)
+{
+	g_return_if_fail (style != NULL);
+
+	style->elements[MSTYLE_TEXT_DIR].type = MSTYLE_TEXT_DIR;
+	style->elements[MSTYLE_TEXT_DIR].u.text_dir = text_dir;
+}
+
+GnmTextDir
+mstyle_get_text_dir (const GnmStyle *style)
+{
+	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_TEXT_DIR), 0);
+
+	return style->elements[MSTYLE_TEXT_DIR].u.text_dir;
 }
 
 void

@@ -2922,6 +2922,8 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet const *sheet)
 	xml_node_set_bool (sheetNode, "DisplayOutlines", sheet->display_outlines);
 	xml_node_set_bool (sheetNode, "OutlineSymbolsBelow", sheet->outline_symbols_below);
 	xml_node_set_bool (sheetNode, "OutlineSymbolsRight", sheet->outline_symbols_right);
+	if (sheet->text_is_rtl)
+		xml_node_set_bool (sheetNode, "RTL_Layout", sheet->text_is_rtl);
 
 	if (sheet->tab_color != NULL)
 		xml_node_set_color (sheetNode, "TabColor", sheet->tab_color);
@@ -3208,6 +3210,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	/* xmlNodePtr styles; */
 	Sheet *sheet = NULL;
 	double zoom_factor;
+	gboolean tmp;
 	xmlChar *val;
 
 	if (strcmp (tree->name, "Sheet")){
@@ -3250,6 +3253,8 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 		sheet->outline_symbols_below = TRUE;
 	if (!xml_node_get_bool (tree, "OutlineSymbolsRight", &(sheet->outline_symbols_right)))
 		sheet->outline_symbols_right = TRUE;
+	if (xml_node_get_bool (tree, "RTL_Layout", &tmp))
+		sheet_set_direction (sheet, tmp);
 	sheet->tab_color = xml_node_get_color (tree, "TabColor");
 	sheet->tab_text_color = xml_node_get_color (tree, "TabTextColor");
 

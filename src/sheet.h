@@ -57,6 +57,7 @@ struct _Sheet {
 	gboolean    display_outlines;
 	gboolean    outline_symbols_below;
 	gboolean    outline_symbols_right;
+	gboolean    text_is_rtl;
 
 	gboolean    has_filtered_rows;
 
@@ -261,7 +262,8 @@ void	     sheet_queue_respan     (Sheet const *sheet, int start_row, int end_row
 void	     sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags);
 void	     sheet_cell_calc_span   (GnmCell *cell, SpanCalcFlags flags);
 
-void	     sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols);
+void	     sheet_set_direction    (Sheet *sheet, gboolean text_is_rtl);
+void	     sheet_set_outline_direction (Sheet *sheet, gboolean is_cols);
 
 /* Implementation for commands, no undo */
 struct _GnmRelocUndo {

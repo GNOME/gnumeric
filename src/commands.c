@@ -7028,7 +7028,6 @@ cmd_tabulate (WorkbookControl *wbc, gpointer data)
 
 /******************************************************************/
 
-
 #define CMD_SO_GRAPH_CONFIG_TYPE (cmd_so_graph_config_get_type ())
 #define CMD_SO_GRAPH_CONFIG(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_SO_GRAPH_CONFIG_TYPE, CmdSOGraphConfig))
 
@@ -7100,3 +7099,44 @@ cmd_so_graph_config (WorkbookControl *wbc, SheetObject *so,
 }
 
 /******************************************************************/
+
+#define CMD_TOGGLE_RTL_TYPE (cmd_toggle_rtl_get_type ())
+#define CMD_TOGGLE_RTL(o)   (G_TYPE_CHECK_INSTANCE_CAST ((o), CMD_TOGGLE_RTL_TYPE, CmdToggleRTL))
+
+typedef GnmCommand CmdToggleRTL;
+
+MAKE_GNM_COMMAND (CmdToggleRTL, cmd_toggle_rtl, NULL);
+
+static gboolean
+cmd_toggle_rtl_redo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	sheet_set_direction (cmd->sheet, !cmd->sheet->text_is_rtl);
+	return FALSE;
+}
+static gboolean
+cmd_toggle_rtl_undo (GnmCommand *cmd, G_GNUC_UNUSED WorkbookControl *wbc)
+{
+	return cmd_toggle_rtl_redo (cmd, wbc);
+}
+
+static void
+cmd_toggle_rtl_finalize (GObject *cmd)
+{
+	gnm_command_finalize (cmd);
+}
+
+gboolean
+cmd_toggle_rtl (WorkbookControl *wbc, Sheet *sheet)
+{
+	CmdToggleRTL *me;
+
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), TRUE);
+	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
+	
+	me = g_object_new (CMD_TOGGLE_RTL_TYPE, NULL);
+	me->sheet = sheet;
+	me->size = 1;
+	me->cmd_descriptor = g_strdup (sheet->text_is_rtl ? _("Left to Right") : _("Right to Left"));
+
+	return command_push_undo (wbc, G_OBJECT (me));
+}

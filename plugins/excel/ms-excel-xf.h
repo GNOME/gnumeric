@@ -40,7 +40,7 @@ typedef struct _BiffXFData {
 	gboolean shrink_to_fit;
 	int rotation;
 	int indent;
-	MsBiffEastern eastern;
+	GnmTextDir text_dir;
 	guint16 border_color[STYLE_ORIENT_MAX];
 	StyleBorderType border_type[STYLE_ORIENT_MAX];
 	guint16 fill_pattern_idx;

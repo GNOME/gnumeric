@@ -41,6 +41,7 @@ typedef enum {
 	        MSTYLE_ALIGN_H,
 	        MSTYLE_INDENT,
 		MSTYLE_ROTATION,
+		MSTYLE_TEXT_DIR,
 		MSTYLE_WRAP_TEXT,
 		MSTYLE_SHRINK_TO_FIT,
 
@@ -119,6 +120,8 @@ int		    mstyle_get_indent	   (const GnmStyle *st);
 
 void                mstyle_set_rotation	   (GnmStyle *st, int r);
 int            	    mstyle_get_rotation    (const GnmStyle *st);
+void		    mstyle_set_text_dir    (GnmStyle *style, GnmTextDir text_dir);
+GnmTextDir	    mstyle_get_text_dir	   (const GnmStyle *style);
 
 void                mstyle_set_wrap_text   (GnmStyle *st, gboolean f);
 gboolean            mstyle_get_wrap_text   (const GnmStyle *st);

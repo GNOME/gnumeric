@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * print.c: Printing routines for Gnumeric
  *
@@ -130,7 +132,7 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range
 		     double base_x, double base_y)
 {
 	GList *l;
-	double end_x, end_y;
+	double end_x, end_y, len;
 
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (pj != NULL);
@@ -138,16 +140,20 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range
 
 	gnome_print_gsave (pj->print_context);
 
-	/*
-	 * Make sure the object doesn't go beyond the specified
-	 * cells.
-	 */
-	end_x = base_x + sheet_col_get_distance_pts (sheet, range->start.col,
-						     range->end.col + 1);
+	/* Make sure the object doesn't go beyond the specified cells. */
 	end_y = base_y - sheet_row_get_distance_pts (sheet, range->start.row,
 						     range->end.row + 1);
-	print_make_rectangle_path (pj->print_context, base_x, base_y,
-				   end_x, end_y);
+	len = sheet_col_get_distance_pts (sheet,
+		range->start.col, range->end.col + 1);
+	if (sheet->text_is_rtl) {
+		end_x = base_x - len;
+		print_make_rectangle_path (pj->print_context,
+			end_x, end_y, base_x, base_y);
+	} else {
+		end_x = base_x + len;
+		print_make_rectangle_path (pj->print_context,
+			base_x, base_y, end_x, end_y);
+	}
 #ifndef NO_DEBUG_PRINT
 	if (print_debugging > 0) {
 		gnome_print_gsave (pj->print_context);
@@ -171,11 +177,18 @@ print_sheet_objects (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range
 		sheet_object_position_pts_get (so, coords);
 		gnome_print_gsave (pj->print_context);
 		/* move to top left */
-		gnome_print_translate (pj->print_context,
-			base_x + (MIN (coords [0], coords [2])
-			    - sheet_col_get_distance_pts (sheet, 0, range->start.col)),
-			base_y - (MIN (coords [3], coords [1])
-			    - sheet_row_get_distance_pts (sheet, 0, range->start.row)));
+		if (sheet->text_is_rtl)
+			gnome_print_translate (pj->print_context,
+				base_x - (MAX (coords [0], coords [2])
+				    - sheet_col_get_distance_pts (sheet, 0, range->start.col)),
+				base_y - (MIN (coords [3], coords [1])
+				    - sheet_row_get_distance_pts (sheet, 0, range->start.row)));
+		else
+			gnome_print_translate (pj->print_context,
+				base_x + (MIN (coords [0], coords [2])
+				    - sheet_col_get_distance_pts (sheet, 0, range->start.col)),
+				base_y - (MIN (coords [3], coords [1])
+				    - sheet_row_get_distance_pts (sheet, 0, range->start.row)));
 
 		sheet_object_print (so, pj->print_context,
 			fabs (coords[2] - coords[0]),
@@ -193,6 +206,8 @@ print_page_cells (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 	/* Invert PostScript Y coordinates to make X&Y cases the same */
 	base_y = (pj->height / (pj->pi->scaling.percentage.y / 100.)) - base_y;
 
+	if (sheet->text_is_rtl)
+		base_x += (pj->width / (pj->pi->scaling.percentage.x / 100.));
 	print_cell_range (pj->print_context, sheet, range,
 			  base_x, base_y, !pj->pi->print_grid_lines);
 	print_sheet_objects (pj, sheet, range, base_x, base_y);

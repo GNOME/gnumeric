@@ -1,3 +1,14 @@
+2004-12-07  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_WINDOW2) : export sheet level rtl
+	  setting (we could move it to SheetView)
+	(build_xf_data) : store the text dir.
+	(excel_write_XF) : write it.
+
+	* ms-excel-read.c (excel_read_WINDOW2) : read sheet level rtl flag
+	(excel_read_XF) : read the text dir.
+	(excel_get_style_from_xf) : store the text dir.
+
 2005-01-17  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.2

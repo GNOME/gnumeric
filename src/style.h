@@ -31,6 +31,13 @@ typedef enum {
 	UNDERLINE_SINGLE = 1,
 	UNDERLINE_DOUBLE = 2
 } StyleUnderlineType;
+
+typedef enum {
+	GNM_TEXT_DIR_RTL	= -1,
+	GNM_TEXT_DIR_CONTEXT	=  0,
+	GNM_TEXT_DIR_LTR	=  1
+} GnmTextDir;
+
 #include "mstyle.h"
 
 void           style_init  	      (void);

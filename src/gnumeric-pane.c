@@ -57,9 +57,9 @@ gnumeric_pane_header_init (GnmPane *pane, SheetControlGUI *scg,
 		"IsColHeader", is_col_header,
 		NULL);
 
+	foo_canvas_set_center_scroll_region (canvas, FALSE);
 	/* give a non-constraining default in case something scrolls before we
-	 * are realized
-	 */
+	 * are realized */
 	foo_canvas_set_scroll_region (canvas,
 		0, 0, GNUMERIC_CANVAS_FACTOR_X, GNUMERIC_CANVAS_FACTOR_Y);
 	if (is_col_header) {
@@ -177,7 +177,6 @@ gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 {
 	FooCanvasItem	 *item;
 	Sheet *sheet;
-	GnmRange r;
 
 	g_return_if_fail (!pane->is_active);
 
@@ -199,7 +198,6 @@ gnm_pane_init (GnmPane *pane, SheetControlGUI *scg,
 		"SheetControlGUI", scg,
 		NULL);
 	pane->cursor.std = ITEM_CURSOR (item);
-	gnm_pane_cursor_bound_set (pane, range_init (&r, 0, 0, 0, 0)); /* A1 */
 
 	pane->editor = NULL;
 	pane->cursor.rangesel = NULL;
@@ -319,8 +317,10 @@ gnm_pane_colrow_resize_start (GnmPane *pane,
 
 	points = pane->colrow_resize.points = foo_canvas_points_new (2);
 	if (is_cols) {
-		double const x = scg_colrow_distance_get (scg, TRUE,
+		double x = scg_colrow_distance_get (scg, TRUE,
 					0, resize_pos) / zoom;
+		if (scg->rtl)
+			x = -x;
 		points->coords [0] = x;
 		points->coords [1] = scg_colrow_distance_get (scg, FALSE,
 					0, gcanvas->first.row) / zoom;
@@ -336,6 +336,11 @@ gnm_pane_colrow_resize_start (GnmPane *pane,
 		points->coords [2] = scg_colrow_distance_get (scg, TRUE,
 					0, gcanvas->last_visible.col+1) / zoom;
 		points->coords [3] = y;
+
+		if (scg->rtl) {
+			points->coords [0] *= -1.;
+			points->coords [2] *= -1.;
+		}
 	}
 
 	/* Position the stationary only.  Guide line is handled elsewhere. */
@@ -375,23 +380,17 @@ gnm_pane_colrow_resize_stop (GnmPane *pane)
 }
 
 void
-gnm_pane_colrow_resize_move (GnmPane *pane,
-			     gboolean is_cols, int resize_pos)
+gnm_pane_colrow_resize_move (GnmPane *pane, gboolean is_cols, int resize_pos)
 {
-	FooCanvasItem *resize_guide;
-	FooCanvasPoints *points;
-	double zoom;
-
-	g_return_if_fail (pane != NULL);
-
-	resize_guide = FOO_CANVAS_ITEM (pane->colrow_resize.guide);
-	points = pane->colrow_resize.points;
-	zoom = FOO_CANVAS (pane->gcanvas)->pixels_per_unit;
+	FooCanvasItem *resize_guide = FOO_CANVAS_ITEM (pane->colrow_resize.guide);
+	FooCanvasPoints *points     = pane->colrow_resize.points;
+	double const	 scale	    = 1. / resize_guide->canvas->pixels_per_unit;
 
 	if (is_cols)
-		points->coords [0] = points->coords [2] = resize_pos / zoom;
+		points->coords [0] = points->coords [2] = scale *
+			(pane->gcanvas->simple.scg->rtl ? -resize_pos : resize_pos);
 	else
-		points->coords [1] = points->coords [3] = resize_pos / zoom;
+		points->coords [1] = points->coords [3] = scale * resize_pos;
 
 	foo_canvas_item_set (resize_guide, "points",  points, NULL);
 }
@@ -574,6 +573,7 @@ gnm_pane_edit_stop (GnmPane *pane)
 /* space for 2 halves and a full */
 #define CTRL_PT_TOTAL_SIZE 	(CTRL_PT_SIZE*4 + CTRL_PT_OUTLINE*2)
 
+/* new_x and new_y are in world coords */
 static void
 gnm_pane_object_move (GnmPane *pane, GObject *ctrl_pt,
 		      gdouble new_x, gdouble new_y,
@@ -583,6 +583,7 @@ gnm_pane_object_move (GnmPane *pane, GObject *ctrl_pt,
 	SheetObject *so  = g_object_get_data (G_OBJECT (ctrl_pt), "so");
 	double dx = new_x - pane->drag.last_x;
 	double dy = new_y - pane->drag.last_y;
+
 	pane->drag.last_x = new_x;
 	pane->drag.last_y = new_y;
 	pane->drag.had_motion = TRUE;
@@ -596,15 +597,18 @@ static gboolean
 cb_slide_handler (GnmCanvas *gcanvas, int col, int row, gpointer ctrl_pt)
 {
 	int x, y;
-	gdouble new_x, new_y;
-	SheetControlGUI *scg = gcanvas->simple.scg;
+	SheetControlGUI const *scg = gcanvas->simple.scg;
+	double const scale = 1. / FOO_CANVAS (gcanvas)->pixels_per_unit;
 
 	x = scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, col);
 	x += gcanvas->first_offset.col;
 	y = scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, row);
 	y += gcanvas->first_offset.row;
-	foo_canvas_c2w (FOO_CANVAS (gcanvas), x, y, &new_x, &new_y);
-	gnm_pane_object_move (gcanvas->pane, ctrl_pt, new_x, new_y, FALSE);
+
+	if (scg->rtl)
+		x *= -1;
+
+	gnm_pane_object_move (gcanvas->pane, ctrl_pt, x * scale, y * scale, FALSE);
 
 	return TRUE;
 }

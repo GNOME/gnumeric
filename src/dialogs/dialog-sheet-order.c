@@ -73,6 +73,9 @@ typedef struct {
 	GdkPixbuf *image_padlock;
 	GdkPixbuf *image_padlock_no;
 
+	GdkPixbuf *image_ltr;
+	GdkPixbuf *image_rtl;
+	
 	GdkPixbuf *image_visible;
 
 	gboolean initial_colors_set;
@@ -93,6 +96,8 @@ enum {
 	IS_DELETED,
 	BACKGROUND_COLOUR,
 	FOREGROUND_COLOUR,
+	SHEET_DIRECTION,
+	SHEET_DIRECTION_IMAGE,
 	NUM_COLMNS
 };
 
@@ -240,6 +245,25 @@ cb_toggled_lock (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 }
 
 static void
+cb_toggled_direction (G_GNUC_UNUSED GtkCellRendererToggle *cell,
+		      gchar		*path_string,
+		      SheetManager	*state)
+{
+	GtkTreeModel *model = GTK_TREE_MODEL (state->model);
+	GtkTreePath  *path  = gtk_tree_path_new_from_string (path_string);
+	GtkTreeIter iter;
+	gboolean value;
+
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_get (model, &iter, SHEET_DIRECTION, &value, -1);
+	gtk_list_store_set (GTK_LIST_STORE (model), &iter,
+		SHEET_DIRECTION,	!value,
+		SHEET_DIRECTION_IMAGE,	value ? state->image_ltr : state->image_rtl,
+		-1);
+	gtk_tree_path_free (path);
+}
+
+static void
 cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 		 gchar                 *path_string,
 		 gpointer               data)
@@ -256,6 +280,7 @@ cb_toggled_visible (G_GNUC_UNUSED GtkCellRendererToggle *cell,
 	if (value) {
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter, SHEET_VISIBLE, FALSE,
 				   SHEET_VISIBLE_IMAGE, NULL, -1);
+		
 	} else {
 		gtk_list_store_set (GTK_LIST_STORE (model), &iter, SHEET_VISIBLE, TRUE,
 				   SHEET_VISIBLE_IMAGE, state->image_visible, -1);
@@ -272,6 +297,7 @@ populate_sheet_list (SheetManager *state)
 	GtkTreeIter iter;
 	GtkWidget *scrolled = glade_xml_get_widget (state->gui, "scrolled");
 	Sheet *cur_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg));
+	
 	int i, n = workbook_sheet_count (wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)));
 	GtkCellRenderer *renderer;
 
@@ -286,7 +312,9 @@ populate_sheet_list (SheetManager *state)
 					   G_TYPE_BOOLEAN,
 					   G_TYPE_BOOLEAN,
 					   GDK_TYPE_COLOR,
-					   GDK_TYPE_COLOR);
+					   GDK_TYPE_COLOR,
+                       G_TYPE_BOOLEAN,
+					   GDK_TYPE_PIXBUF);
 	state->sheet_list = GTK_TREE_VIEW (gtk_tree_view_new_with_model
 					   (GTK_TREE_MODEL (state->model)));
 	selection = gtk_tree_view_get_selection (state->sheet_list);
@@ -294,6 +322,7 @@ populate_sheet_list (SheetManager *state)
 	for (i = 0 ; i < n ; i++) {
 		Sheet *sheet = workbook_sheet_by_index (
 			wb_control_workbook (WORKBOOK_CONTROL (state->wbcg)), i);
+		
 		GdkColor *color = NULL;
 		GdkColor *text_color = NULL;
 
@@ -317,6 +346,9 @@ populate_sheet_list (SheetManager *state)
 				    IS_DELETED,	FALSE,
 				    BACKGROUND_COLOUR, color,
 				    FOREGROUND_COLOUR, text_color,
+                    SHEET_DIRECTION, sheet->text_is_rtl,
+                    SHEET_DIRECTION_IMAGE, sheet->text_is_rtl ?
+				    state->image_rtl : state->image_ltr,
 				    -1);
 		if (sheet == cur_sheet)
 			gtk_tree_selection_select_iter (selection, &iter);
@@ -347,6 +379,15 @@ populate_sheet_list (SheetManager *state)
 							   NULL);
 	gtk_tree_view_append_column (state->sheet_list, column);
 
+	renderer = gnumeric_cell_renderer_toggle_new ();
+	g_signal_connect (G_OBJECT (renderer), "toggled",
+		G_CALLBACK (cb_toggled_direction), state);
+	column = gtk_tree_view_column_new_with_attributes ("", renderer,
+			"active", SHEET_DIRECTION,
+			"pixbuf", SHEET_DIRECTION_IMAGE,
+			NULL);
+	gtk_tree_view_append_column (state->sheet_list, column);
+	
 	column = gtk_tree_view_column_new_with_attributes (_("Current Name"),
 					      gnumeric_cell_renderer_text_new (),
 					      "text", SHEET_NAME,
@@ -368,6 +409,7 @@ populate_sheet_list (SheetManager *state)
 	gtk_tree_view_append_column (state->sheet_list, column);
 	g_signal_connect (G_OBJECT (renderer), "edited",
 			  G_CALLBACK (cb_name_edited), state);
+			  
 	gtk_tree_view_set_reorderable (state->sheet_list, TRUE);
 
 	/* Init the buttons & selection */
@@ -461,6 +503,8 @@ cb_add_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 			    IS_DELETED,	FALSE,
 			    BACKGROUND_COLOUR, 0,
 			    FOREGROUND_COLOUR, 0,
+			    SHEET_DIRECTION, FALSE,
+			    SHEET_DIRECTION_IMAGE, state->image_ltr,
 			    -1);
 	gtk_tree_selection_select_iter (selection, &iter);
 	g_free (name);
@@ -470,6 +514,7 @@ static void
 cb_duplicate_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		      G_GNUC_UNUSED SheetManager *state)
 {
+#warning implement this
 	g_warning ("'Duplicate' not implemented.");
 }
 
@@ -558,7 +603,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 	gint i = 0;
 	GSList *this_new, *list;
 	gboolean order_has_changed = FALSE;
-	gboolean is_deleted, is_locked, is_visible;
+	gboolean is_deleted, is_locked, is_visible, is_rtl;
 	GdkColor *back, *fore;
 	gboolean fore_changed, back_changed, lock_changed, vis_changed, one_is_visible = FALSE;
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
@@ -574,6 +619,7 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 				    IS_DELETED, &is_deleted,
 				    BACKGROUND_COLOUR, &back,
 				    FOREGROUND_COLOUR, &fore,
+				    SHEET_DIRECTION, &is_rtl,
 				    -1);
 		this_sheet_idx = (this_sheet == NULL ? -1 
 				  : this_sheet->index_in_wb); 
@@ -639,6 +685,8 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 					(new_visibility,
 					 GINT_TO_POINTER (is_visible));
 			}
+			
+			sheet_set_direction (this_sheet, is_rtl);
 		} else {
 			deleted_sheets = g_slist_prepend (deleted_sheets, 
 				 GINT_TO_POINTER (this_sheet_idx));
@@ -777,6 +825,11 @@ cb_sheet_order_destroy (SheetManager *state)
 	g_object_unref (state->image_visible);
 	state->image_visible = NULL;
 
+	g_object_unref (state->image_rtl);
+	state->image_rtl = NULL;
+	g_object_unref (state->image_ltr);
+    state->image_ltr = NULL;
+	
 	if (state->old_order != NULL) {
 		g_slist_free (state->old_order);
 		state->old_order = NULL;
@@ -792,6 +845,7 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 	gboolean is_editable;
 	gboolean is_locked;
 	gboolean is_visible;
+	gboolean is_rtl;
 	GdkColor *back, *fore;
 	GtkTreeIter iter;
 	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
@@ -832,6 +886,7 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 			IS_DELETED, &is_deleted,
 			BACKGROUND_COLOUR, &back,
 			FOREGROUND_COLOUR, &fore,
+			SHEET_DIRECTION, &is_rtl,
 			-1);
 		gtk_list_store_remove (state->model, &iter);
 		gtk_list_store_insert (state->model, &iter, i);
@@ -849,6 +904,9 @@ dialog_sheet_order_update_sheet_order (SheetManager *state)
 				    IS_DELETED, is_deleted,
 				    BACKGROUND_COLOUR, back,
 				    FOREGROUND_COLOUR, fore,
+				    SHEET_DIRECTION, is_rtl,
+				    SHEET_DIRECTION_IMAGE,
+					    is_rtl ? state->image_rtl : state->image_ltr,
 				    -1);
 		if (back)
 			gdk_color_free (back);
@@ -967,6 +1025,14 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
                                              "Gnumeric-Sheet-Manager");
 	state->image_visible = gtk_widget_render_icon (state->dialog,
                                              "Gnumeric_Visible",
+                                             GTK_ICON_SIZE_LARGE_TOOLBAR,
+                                             "Gnumeric-Sheet-Manager");
+	state->image_ltr =  gtk_widget_render_icon (state->dialog,
+                                             "gtk-go-forward",
+                                             GTK_ICON_SIZE_LARGE_TOOLBAR,
+                                             "Gnumeric-Sheet-Manager");
+	state->image_rtl =  gtk_widget_render_icon (state->dialog,
+                                             "gtk-go-back",
                                              GTK_ICON_SIZE_LARGE_TOOLBAR,
                                              "Gnumeric-Sheet-Manager");
 	/* Listen for changes in the sheet order. */

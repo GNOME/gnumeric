@@ -46,8 +46,8 @@ struct _GnmCanvas {
 GType gnm_canvas_get_type (void);
 GnmCanvas *gnm_canvas_new (SheetControlGUI *scg, GnmPane *pane);
 
-int  gnm_canvas_find_col (GnmCanvas *gsheet, int x, int *col_origin);
-int  gnm_canvas_find_row (GnmCanvas *gsheet, int y, int *row_origin);
+int  gnm_canvas_find_col (GnmCanvas const *gsheet, int x, int *col_origin);
+int  gnm_canvas_find_row (GnmCanvas const *gsheet, int y, int *row_origin);
 void gnm_canvas_redraw_range (GnmCanvas *gsheet, GnmRange const *r);
 void gnm_canvas_compute_visible_region (GnmCanvas *gsheet,
 					gboolean const full_recompute);

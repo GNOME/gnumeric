@@ -1473,6 +1473,8 @@ cb_notebook_switch_page (GtkNotebook *notebook, GtkNotebookPage *page,
 	if (wbcg->updating_ui)
 		return;
 
+	wbcg_set_direction (wbcg);
+
 	/* If we are not at a subexpression boundary then finish editing */
 	if (NULL != wbcg->rangesel)
 		scg_rangesel_stop (wbcg->rangesel, TRUE);
@@ -1924,17 +1926,14 @@ show_gui (WorkbookControlGUI *wbcg)
 		/* Use default */
 		gtk_window_set_default_size (wbcg->toplevel, sx * fx, sy * fy);
 	}
+	wbcg_set_direction (wbcg);
 
 	x_geometry = NULL;
 	gtk_widget_show (GTK_WIDGET (wbcg->toplevel));
 
 	/* rehide headers if necessary */
-	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))) {
-		SheetControl *sc;
-
-		sc = SHEET_CONTROL (wbcg_cur_scg (wbcg));
-		scg_adjust_preferences (sc);
-	}
+	if (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)))
+		scg_adjust_preferences (SHEET_CONTROL (wbcg_cur_scg (wbcg)));
 
 	return FALSE;
 }
@@ -2286,6 +2285,33 @@ wbcg_progress_message_set (GnmCmdContext *cc, gchar const *msg)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)cc;
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), msg);
+}
+
+static void
+set_dir (GtkWidget *w, GtkTextDirection *dir)
+{
+	gtk_widget_set_direction (w, *dir);
+	if (GTK_IS_CONTAINER (w))
+		gtk_container_foreach (GTK_CONTAINER (w),
+			(GtkCallback) &set_dir, dir);
+}
+
+void
+wbcg_set_direction (WorkbookControlGUI *wbcg)
+{
+	GtkTextDirection dir;
+	GtkWidget *w = (GtkWidget *)wbcg->notebook;
+	GtkWidget *child = gtk_notebook_get_nth_page (wbcg->notebook,
+		gtk_notebook_get_current_page (wbcg->notebook));
+	SheetControlGUI const *scg =
+		g_object_get_data (G_OBJECT (child), SHEET_CONTROL_KEY);
+
+	g_return_if_fail (scg != NULL);
+
+	dir = scg->rtl ? GTK_TEXT_DIR_RTL : GTK_TEXT_DIR_LTR;
+	if (dir != gtk_widget_get_direction (w))
+		set_dir (w, &dir);
+	g_object_set (scg->hs, "inverted", scg->rtl, NULL);
 }
 
 /***************************************************************************/

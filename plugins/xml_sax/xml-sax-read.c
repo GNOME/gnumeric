@@ -255,6 +255,7 @@ typedef struct {
 	int display_outlines;
 	int outline_symbols_below;
 	int outline_symbols_right;
+	int text_is_rtl;
 	GnmColor *tab_color;
 
 	/* expressions with ref > 1 a map from index -> expr pointer */
@@ -419,7 +420,7 @@ xml_sax_sheet_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	state->hide_col_header = state->hide_row_header =
 	state->display_formulas = state->hide_zero =
 	state->hide_grid = state->display_outlines =
-	state->outline_symbols_below = state->outline_symbols_right = -1;
+	state->outline_symbols_below = state->outline_symbols_right = state->text_is_rtl = -1;
 	state->tab_color = NULL;
 	state->sheet_zoom = 1.; /* default */
 
@@ -440,6 +441,8 @@ xml_sax_sheet_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 			state->outline_symbols_below = tmp;
 		else if (xml_sax_attr_bool (attrs, "OutlineSymbolsRight", &tmp))
 			state->outline_symbols_right = tmp;
+		else if (xml_sax_attr_bool (attrs, "RTL_Layout", &tmp))
+			state->text_is_rtl = tmp;
 		else if (xml_sax_attr_color (attrs, "TabColor", &color))
 			state->tab_color = color;
 		else
@@ -498,6 +501,8 @@ xml_sax_sheet_name (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 		state->sheet->outline_symbols_below = state->outline_symbols_below;
 	if (state->outline_symbols_right >= 0)
 		state->sheet->outline_symbols_right = state->outline_symbols_right;
+	if (state->text_is_rtl >= 0)
+		sheet_set_direction (state->sheet, state->text_is_rtl);
 	state->sheet->tab_color = state->tab_color;
 }
 

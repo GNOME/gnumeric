@@ -657,15 +657,18 @@ print_merged_range (GnomePrintContext *context, PangoContext *pcontext,
 	float l, r, t, b;
 	int last;
 	GnmCell  const *cell  = sheet_cell_get (sheet, range->start.col, range->start.row);
+	int const dir = sheet->text_is_rtl ? -1 : 1;
+
+	/* load style from corner which may not be visible */
 	GnmStyle const *style = sheet_style_get (sheet, range->start.col, range->start.row);
 
 	l = r = start_x;
 	if (view->start.col < range->start.col)
-		l += sheet_col_get_distance_pts (sheet,
+		l += dir * sheet_col_get_distance_pts (sheet,
 			view->start.col, range->start.col);
 	if (range->end.col <= (last = view->end.col))
 		last = range->end.col;
-	r += sheet_col_get_distance_pts (sheet, view->start.col, last+1);
+	r += dir * sheet_col_get_distance_pts (sheet, view->start.col, last+1);
 
 	t = b = start_y;
 	if (view->start.row < range->start.row)
@@ -683,10 +686,10 @@ print_merged_range (GnomePrintContext *context, PangoContext *pcontext,
 		print_rectangle (context, l, t, r-l+1, t-b+1);
 
 	if (range->start.col < view->start.col)
-		l -= sheet_col_get_distance_pts (sheet,
+		l -= dir * sheet_col_get_distance_pts (sheet,
 			range->start.col, view->start.col);
 	if (view->end.col < range->end.col)
-		r += sheet_col_get_distance_pts (sheet,
+		r += dir * sheet_col_get_distance_pts (sheet,
 			view->end.col+1, range->end.col+1);
 	if (range->start.row < view->start.row)
 		t += sheet_row_get_distance_pts (sheet,
@@ -723,9 +726,8 @@ print_cell_range (GnomePrintContext *context,
 		  double base_x, double base_y,
 		  gboolean hide_grid)
 {
-	int n, col, row;
-	double x, y;
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
+	int const dir = sheet->text_is_rtl ? -1 : 1;
 	int start_row, start_col, end_col, end_row;
 	PangoContext *pcontext;
 
@@ -735,6 +737,8 @@ print_cell_range (GnomePrintContext *context,
 	GnmBorder const *none =
 		hide_grid ? NULL : style_border_none ();
 
+	int n, col, row;
+	double x, y, offset;
 	GnmRange     view;
 	GSList	 *merged_active, *merged_active_seen,
 		 *merged_used, *merged_unused, *ptr, **lag;
@@ -934,6 +938,8 @@ print_cell_range (GnomePrintContext *context,
 				}
 			}
 
+			if (dir < 0)
+				x -= ci->size_pts;
 			style = sr.styles [col];
 			print_cell_background (context, style, col, row, x, y,
 					       ci->size_pts, ri->size_pts);
@@ -961,7 +967,7 @@ print_cell_range (GnomePrintContext *context,
 				int const start_span_col = span->left;
 				int const end_span_col = span->right;
 				double real_x = x;
-				double h_center = cell->col_info->size_pts / 2;
+				double center_offset = cell->col_info->size_pts / 2;
 				/* TODO : Use the spanning margins */
 				double tmp_width = ci->size_pts -
 					ci->margin_b - ci->margin_a;
@@ -975,30 +981,36 @@ print_cell_range (GnomePrintContext *context,
 				 * justify or center justify) compute the pixel difference
 				 */
 				if (start_span_col != cell->pos.col)
-					h_center += sheet_col_get_distance_pts (
+					center_offset += sheet_col_get_distance_pts (
 						sheet, start_span_col, cell->pos.col);
 
 				if (start_span_col != col) {
-					double offset = sheet_col_get_distance_pts (
+					offset = sheet_col_get_distance_pts (
 						sheet, start_span_col, col);
-					real_x -= offset;
 					tmp_width += offset;
+					if (dir > 0)
+						real_x -= offset;
 					sr.vertical [col] = NULL;
 				}
-				if (end_span_col != col)
-					tmp_width += sheet_col_get_distance_pts (
+				if (end_span_col != col) {
+					offset = sheet_col_get_distance_pts (
 						sheet, col+1, end_span_col + 1);
+					tmp_width += offset;
+					if (dir < 0)
+						real_x -= offset;
+				}
 
 				print_cell (cell, style, context, pcontext,
-					    real_x, y, tmp_width, -1, h_center);
+					    real_x, y, tmp_width, -1, center_offset);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
 
+			if (dir > 0)
 			x += ci->size_pts;
 		}
 		style_borders_row_print (prev_vert, &sr,
 					 context, base_x, y, y-ri->size_pts,
-					 sheet, TRUE);
+					 sheet, TRUE, dir);
 
 		/* In case there were hidden merges that trailed off the end */
 		while (merged_active != NULL) {
@@ -1025,7 +1037,7 @@ print_cell_range (GnomePrintContext *context,
 		y -= ri->size_pts;
 	}
 	style_borders_row_print (prev_vert, &sr,
-				 context, base_x, y, y, sheet, FALSE);
+				 context, base_x, y, y, sheet, FALSE, dir);
 
 	g_slist_free (merged_used);	   /* merges with bottom in view */
 	g_slist_free (merged_active_seen); /* merges with bottom the view */

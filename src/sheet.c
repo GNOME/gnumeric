@@ -66,12 +66,47 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void sheet_redraw_partial_row (Sheet const *sheet, int row,
-				      int start_col, int end_col);
-
 /* quick and simple */
 typedef GObjectClass SheetClass;
-static GSF_CLASS (Sheet, sheet, NULL, NULL, G_TYPE_OBJECT);
+
+static void
+gnm_sheet_set_property (GObject *obj, guint param_id,
+			GValue const *value, GParamSpec *pspec)
+{
+}
+
+static void
+gnm_sheet_get_property (GObject *obj, guint param_id,
+		       GValue *value, GParamSpec *pspec)
+{
+}
+
+static void
+gnm_sheet_init (Sheet *sheet)
+{
+	sheet->text_is_rtl =
+#ifdef WITH_GTK
+	gtk_widget_get_default_direction () == GTK_TEXT_DIR_RTL
+#else
+	FALSE
+#endif
+	;
+}
+
+static void
+gnm_sheet_class_init (GObjectClass *gobject_class)
+{
+	gobject_class->set_property	= gnm_sheet_set_property;
+	gobject_class->get_property	= gnm_sheet_get_property;
+#if 0
+        g_object_class_install_property (gobject_class, GNM_SHEET_PROP_LTR,
+		g_param_spec_boolean ("text-is-ltr", "text-is-ltr",
+			"Text goes from right to left",
+			TRUE, G_PARAM_READWRITE ));
+#endif
+}
+static GSF_CLASS (Sheet, gnm_sheet,
+	   gnm_sheet_class_init, gnm_sheet_init, G_TYPE_OBJECT)
 
 void
 sheet_redraw_all (Sheet const *sheet, gboolean headers)
@@ -127,6 +162,7 @@ sheet_attach_view (Sheet *sheet, SheetView *sv)
 		sheet->sheet_views = g_ptr_array_new ();
 	g_ptr_array_add (sheet->sheet_views, sv);
 	sv->sheet = sheet;
+	sv->text_is_rtl = sheet->text_is_rtl;
 }
 
 void
@@ -160,7 +196,7 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (name != NULL, NULL);
 
-	sheet = g_object_new (sheet_get_type (), NULL);
+	sheet = g_object_new (gnm_sheet_get_type (), NULL);
 	sheet->priv = g_new0 (SheetPrivate, 1);
 	sheet->sheet_views = NULL;
 
@@ -315,6 +351,16 @@ sheet_range_calc_spans (Sheet *sheet, GnmRange const *r, SpanCalcFlags flags)
 
 	/* Redraw the new region in case the span changes */
 	sheet_redraw_range (sheet, r);
+}
+
+static void
+sheet_redraw_partial_row (Sheet const *sheet, int const row,
+			  int const start_col, int const end_col)
+{
+	GnmRange r;
+	range_init (&r, start_col, row, end_col, row);
+	SHEET_FOREACH_CONTROL (sheet, view, control,
+		sc_redraw_range (control, &r););
 }
 
 void
@@ -489,7 +535,7 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 			&cb_colrow_compute_pixels_from_pts, &closure);
 
 	g_hash_table_foreach (sheet->cell_hash, (GHFunc)&cb_clear_rendered_cells, NULL);
-	SHEET_FOREACH_CONTROL (sheet, view, control, sc_set_zoom_factor (control););
+	SHEET_FOREACH_CONTROL (sheet, view, control, sc_scale_changed (control););
 
 	/*
 	 * The font size does not scale linearly with the zoom factor
@@ -1548,16 +1594,6 @@ sheet_redraw_range (Sheet const *sheet, GnmRange const *range)
 	sheet_redraw_region (sheet,
 			     range->start.col, range->start.row,
 			     range->end.col, range->end.row);
-}
-
-static void
-sheet_redraw_partial_row (Sheet const *sheet, int const row,
-			  int const start_col, int const end_col)
-{
-	GnmRange r;
-	range_init (&r, start_col, row, end_col, row);
-	SHEET_FOREACH_CONTROL (sheet, view, control,
-		sc_redraw_range (control, &r););
 }
 
 void
@@ -4118,15 +4154,15 @@ sheet_set_tab_color (Sheet *sheet, GnmColor *tab_color, GnmColor *text_color)
 }
 
 /**
- * sheet_adjust_outline_dir :
+ * sheet_set_outline_direction :
  * @sheet   : the sheet
  * @is_cols : use cols or rows
  *
  * When changing the placement of outline collapse markers the flags
  * need to be recomputed.
- */
+ **/
 void
-sheet_adjust_outline_dir (Sheet *sheet, gboolean is_cols)
+sheet_set_outline_direction (Sheet *sheet, gboolean is_cols)
 {
 	unsigned i;
 	g_return_if_fail (IS_SHEET (sheet));
@@ -4242,4 +4278,18 @@ sheet_set_visibility (Sheet *sheet, gboolean visible)
 		workbook_sheet_unhide_controls (sheet->workbook, sheet);
 	else
 		workbook_sheet_hide_controls (sheet->workbook, sheet);
+}
+
+void
+sheet_set_direction (Sheet *sheet, gboolean text_is_rtl)
+{
+	g_return_if_fail (IS_SHEET (sheet));
+
+	if ((!text_is_rtl) != (!sheet->text_is_rtl)) {
+		GnmRange r;
+		sheet_range_calc_spans (sheet, range_init_full_sheet (&r), SPANCALC_RE_RENDER);
+		sheet->text_is_rtl = text_is_rtl;
+		sheet->priv->reposition_objects.col = 0;
+		SHEET_FOREACH_VIEW (sheet, sv, sv_direction_changed (sv););
+	}
 }

@@ -46,6 +46,7 @@ struct _ItemCursor {
 	FooCanvasItem canvas_item;
 
 	SheetControlGUI *scg;
+	gboolean	 pos_initialized;
 	GnmRange		 pos;
 
 	/* Offset of dragging cell from top left of pos */
@@ -69,8 +70,9 @@ struct _ItemCursor {
 	GnmRange autofill_src;
 	int   autofill_hsize, autofill_vsize;
 
-	/* Cached values of the last bounding box information used */
-	int      cached_x, cached_y, cached_w, cached_h;
+	struct { /* cursor outline in canvas coords (bounding box is larger) */
+		int x1, x2, y1, y2;
+	} outline;
 	int	 drag_button;
 
 	gboolean visible;
@@ -175,28 +177,12 @@ item_cursor_unrealize (FooCanvasItem *item)
 }
 
 static void
-item_cursor_request_redraw (ItemCursor *ic)
-{
-	FooCanvas *canvas = FOO_CANVAS_ITEM (ic)->canvas;
-	int const x = ic->cached_x;
-	int const y = ic->cached_y;
-	int const w = ic->cached_w;
-	int const h = ic->cached_h;
-
-	foo_canvas_request_redraw (canvas, x - 2, y - 2, x + 2, y + h + 2);
-	foo_canvas_request_redraw (canvas, x - 2, y - 2, x + w + 2, y + 2);
-	foo_canvas_request_redraw (canvas, x + w - 2, y - 2, x + w + 5, y + h + 5);
-	foo_canvas_request_redraw (canvas, x - 2, y + h - 2, x + w + 5, y + h + 5);
-}
-
-static void
 item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags)
 {
 	ItemCursor    *ic = ITEM_CURSOR (item);
 	GnmCanvas *gcanvas = GNM_CANVAS (item->canvas);
 	SheetControlGUI const * const scg = ic->scg;
-
-	int x, y, w, h, extra;
+	int tmp;
 
 	/* Clip the bounds of the cursor to the visible region of cells */
 	int const left = MAX (gcanvas->first.col-1, ic->pos.start.col);
@@ -204,44 +190,43 @@ item_cursor_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags
 	int const top = MAX (gcanvas->first.row-1, ic->pos.start.row);
 	int const bottom = MIN (gcanvas->last_visible.row+1, ic->pos.end.row);
 
-	/* Erase the old cursor */
-	item_cursor_request_redraw (ic);
+	foo_canvas_item_request_redraw (item); /* Erase the old cursor */
 
-	ic->cached_x = x =
-		gcanvas->first_offset.col +
+	ic->outline.x1 = gcanvas->first_offset.col +
 		scg_colrow_distance_get (scg, TRUE, gcanvas->first.col, left);
-	ic->cached_y = y =
-		gcanvas->first_offset.row +
+	ic->outline.x2 = ic->outline.x1 +
+		scg_colrow_distance_get (scg, TRUE, left, right+1);
+	ic->outline.y1 = gcanvas->first_offset.row +
 		scg_colrow_distance_get (scg, FALSE, gcanvas->first.row, top);
-	ic->cached_w = w = scg_colrow_distance_get (scg, TRUE, left, right+1);
-	ic->cached_h = h = scg_colrow_distance_get (scg, FALSE,top, bottom+1);
+	ic->outline.y2 = ic->outline.y1 +
+		scg_colrow_distance_get (scg, FALSE,top, bottom+1);
 
-	item->x1 = x - 1;
-	item->y1 = y - 1;
+	if (scg->rtl) {
+		tmp = ic->outline.x1;
+		ic->outline.x1 = gnm_simple_canvas_x_w2c (item->canvas, ic->outline.x2);
+		ic->outline.x2 = gnm_simple_canvas_x_w2c (item->canvas, tmp);
+	}
+	/* NOTE : sometimes y1 > y2 || x1 > x2 when we create a cursor in an
+	 * invisible region such as above a frozen pane */
+
+	item->x1 = ic->outline.x1 - 1;
+	item->y1 = ic->outline.y1 - 1;
 
 	/* for the autohandle */
-	extra = (ic->style == ITEM_CURSOR_SELECTION) ? AUTO_HANDLE_WIDTH : 0;
+	tmp = (ic->style == ITEM_CURSOR_SELECTION) ? AUTO_HANDLE_WIDTH : 0;
+	item->x2 = ic->outline.x2 + 3 + tmp;
+	item->y2 = ic->outline.y2 + 3 + tmp;
 
-	item->x2 = x + w + 3 + extra;
-	item->y2 = y + h + 3 + extra;
+	foo_canvas_item_request_redraw (item); /* draw the new cursor */
 
-	/* Draw the new cursor */
-	item_cursor_request_redraw (ic);
-
-#if 0
-	fprintf (stderr, "update %d,%d %d,%d\n", x, y, w,h);
-#endif
 	if (parent_class->update)
 		(*parent_class->update) (item, i2w_dx, i2w_dy, flags);
 }
 
 /*
- * item_cursor_draw
- *
  * Draw an item of this type.  (x, y) are the upper-left canvas pixel
  * coordinates of the drawable, a temporary pixmap, where things get
  * drawn.  (width, height) are the dimensions of the drawable.
- *
  * In other words - a clipping region.
  */
 static void
@@ -250,29 +235,32 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 {
 	GdkGCValues values;
 	ItemCursor *ic = ITEM_CURSOR (item);
-	int dx0, dy0, dx1, dy1;
+	int x0, y0, x1, y1; /* in canvas coordinates */
 	GdkPoint points [5];
 	int draw_thick, draw_handle;
 	int premove = 0;
 	GdkColor *fore = NULL, *back = NULL;
 	gboolean draw_stippled, draw_center, draw_external, draw_internal;
 
-	int const xd = ic->cached_x;
-	int const yd = ic->cached_y;
-	int const w = ic->cached_w;
-	int const h = ic->cached_h;
-
 #if 0
-	fprintf (stderr, "draw %d,%d %d,%d\n", xd, yd, w,h);
+	fprintf (stderr, "draw[%d] %d,%d %d,%d\n",
+		 GNM_CANVAS (item->canvas)->pane->index, 
+		 ic->outline.x1,
+		 ic->outline.y1,
+		 ic->outline.x2,
+		 ic->outline.y2);
 #endif
-	if (!ic->visible)
+	if (!ic->visible || !ic->pos_initialized)
 		return;
 
-	/* Top left and bottom right corner of cursor, in pixmap coordinates */
-	dx0 = xd;
-	dy0 = yd;
-	dx1 = dx0 + w;
-	dy1 = dy0 + h;
+	x0 = ic->outline.x1;
+	y0 = ic->outline.y1;
+	x1 = ic->outline.x2;
+	y1 = ic->outline.y2;
+
+	/* only mostly in invisible areas (eg on creation of frozen panes) */
+	if (x0 > x1 || y0 > y1)
+		return;
 
 	draw_external = FALSE;
 	draw_internal = FALSE;
@@ -346,10 +334,10 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	 * the shape we draw, so long as no lines or parts of
 	 * rectangles are moved from outside to inside the clipping
 	 * region */
-	dx0 = MAX (dx0, expose->area.x - CLIP_SAFETY_MARGIN);
-	dy0 = MAX (dy0, expose->area.y - CLIP_SAFETY_MARGIN);
-	dx1 = MIN (dx1, expose->area.x + expose->area.width + CLIP_SAFETY_MARGIN);
-	dy1 = MIN (dy1, expose->area.y + expose->area.height + CLIP_SAFETY_MARGIN);
+	x0 = MAX (x0, expose->area.x - CLIP_SAFETY_MARGIN);
+	y0 = MAX (y0, expose->area.y - CLIP_SAFETY_MARGIN);
+	x1 = MIN (x1, expose->area.x + expose->area.width + CLIP_SAFETY_MARGIN);
+	y1 = MIN (y1, expose->area.y + expose->area.height + CLIP_SAFETY_MARGIN);
 
 	gdk_gc_set_line_attributes (ic->gc, 1,
 		GDK_LINE_SOLID, GDK_CAP_BUTT, GDK_JOIN_MITER);
@@ -367,15 +355,15 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 		/* No auto handle */
 		case 0 :
-			points [0].x = dx1 + 1;
-			points [0].y = dy1 + 1 - premove;
+			points [0].x = x1 + 1;
+			points [0].y = y1 + 1 - premove;
 			points [1].x = points [0].x;
-			points [1].y = dy0 - 1;
-			points [2].x = dx0 - 1;
-			points [2].y = dy0 - 1;
-			points [3].x = dx0 - 1;
-			points [3].y = dy1 + 1;
-			points [4].x = dx1 + 1 - premove;
+			points [1].y = y0 - 1;
+			points [2].x = x0 - 1;
+			points [2].y = y0 - 1;
+			points [3].x = x0 - 1;
+			points [3].y = y1 + 1;
+			points [4].x = x1 + 1 - premove;
 			points [4].y = points [3].y;
 			break;
 
@@ -385,15 +373,15 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 		/* Auto handle at top of sheet */
 		case 3 :
-			points [0].x = dx1 + 1;
-			points [0].y = dy0 - 1 + AUTO_HANDLE_SPACE;
+			points [0].x = x1 + 1;
+			points [0].y = y0 - 1 + AUTO_HANDLE_SPACE;
 			points [1].x = points [0].x;
-			points [1].y = dy1 + 1;
-			points [2].x = dx0 - 1;
+			points [1].y = y1 + 1;
+			points [2].x = x0 - 1;
 			points [2].y = points [1].y;
 			points [3].x = points [2].x;
-			points [3].y = dy0 - 1;
-			points [4].x = dx1 + 1 - premove;
+			points [3].y = y0 - 1;
+			points [4].x = x1 + 1 - premove;
 			points [4].y = points [3].y;
 			break;
 
@@ -427,31 +415,31 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 	}
 
 	if (draw_handle == 1 || draw_handle == 2) {
-		int const y_off = (draw_handle == 1) ? dy1 - dy0 : 0;
+		int const y_off = (draw_handle == 1) ? y1 - y0 : 0;
 		gdk_draw_rectangle (drawable, ic->gc, TRUE,
-				    dx1 - 2,
-				    dy0 + y_off - 2,
+				    x1 - 2,
+				    y0 + y_off - 2,
 				    2, 2);
 		gdk_draw_rectangle (drawable, ic->gc, TRUE,
-				    dx1 + 1,
-				    dy0 + y_off - 2,
+				    x1 + 1,
+				    y0 + y_off - 2,
 				    2, 2);
 		gdk_draw_rectangle (drawable, ic->gc, TRUE,
-				    dx1 - 2,
-				    dy0 + y_off + 1,
+				    x1 - 2,
+				    y0 + y_off + 1,
 				    2, 2);
 		gdk_draw_rectangle (drawable, ic->gc, TRUE,
-				    dx1 + 1,
-				    dy0 + y_off + 1,
+				    x1 + 1,
+				    y0 + y_off + 1,
 				    2, 2);
 	} else if (draw_handle == 3) {
 		gdk_draw_rectangle (drawable, ic->gc, TRUE,
-				    dx1 - 2,
-				    dy0 + 1,
+				    x1 - 2,
+				    y0 + 1,
 				    2, 4);
 		gdk_draw_rectangle (drawable, ic->gc, TRUE,
-				    dx1 + 1,
-				    dy0 + 1,
+				    x1 + 1,
+				    y0 + 1,
 				    2, 4);
 	}
 
@@ -470,12 +458,12 @@ item_cursor_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 		/* Stay in the boundary */
 		if ((draw_thick % 2) == 0) {
-			dx0++;
-			dy0++;
+			x0++;
+			y0++;
 		}
 		gdk_draw_rectangle (drawable, ic->gc, FALSE,
-				    dx0, dy0,
-				    abs (dx1 - dx0), abs (dy1 - dy0));
+				    x0, y0,
+				    abs (x1 - x0), abs (y1 - y0));
 	}
 }
 
@@ -485,10 +473,11 @@ item_cursor_bound_set (ItemCursor *ic, GnmRange const *new_bound)
 	g_return_val_if_fail (IS_ITEM_CURSOR (ic), FALSE);
 	g_return_val_if_fail (range_is_sane (new_bound), FALSE);
 
-	if (range_equal (&ic->pos, new_bound))
+	if (range_equal (&ic->pos, new_bound) && ic->pos_initialized)
 		return FALSE;
 
 	ic->pos = *new_bound;
+	ic->pos_initialized = TRUE;
 
 	foo_canvas_item_request_update (FOO_CANVAS_ITEM (ic));
 
@@ -1388,6 +1377,7 @@ item_cursor_init (ItemCursor *ic)
 	item->x2 = 1;
 	item->y2 = 1;
 
+	ic->pos_initialized = FALSE;
 	ic->pos.start.col = 0;
 	ic->pos.end.col   = 0;
 	ic->pos.start.row = 0;

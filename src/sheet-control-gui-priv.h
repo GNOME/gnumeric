@@ -57,11 +57,11 @@ struct _SheetControlGUI {
 		gboolean	jump, horiz;
 		SCGUIMoveFunc	handler;
 	} delayedMovement;
+	gboolean rtl;
 };
 typedef SheetControlClass SheetControlGUIClass;
 
 /* SCG virtual methods are called directly from the GUI layer*/
-void scg_set_zoom_factor        (SheetControl *sc);
 void scg_adjust_preferences     (SheetControl *sc);
 void scg_scrollbar_config       (SheetControl const *sc);
 void scg_mode_edit		(SheetControl *sc);

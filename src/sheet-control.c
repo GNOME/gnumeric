@@ -85,8 +85,6 @@ sc_view (SheetControl const *sc)
 
 SC_VIRTUAL (resize, (SheetControl *sc, gboolean force_scroll), (sc, force_scroll))
 
-SC_VIRTUAL (set_zoom_factor, (SheetControl *sc), (sc))
-
 SC_VIRTUAL (redraw_all, (SheetControl *sc, gboolean headers), (sc, headers))
 SC_VIRTUAL (redraw_range,
 	    (SheetControl *sc, GnmRange const *r),
@@ -119,3 +117,6 @@ SC_VIRTUAL (cursor_bound, (SheetControl *sc, GnmRange const *r), (sc, r))
 SC_VIRTUAL (set_panes, (SheetControl *sc), (sc))
 
 SC_VIRTUAL (object_create_view,	(SheetControl *sc, SheetObject *so), (sc, so));
+SC_VIRTUAL (direction_changed,	(SheetControl *sc),(sc));
+SC_VIRTUAL (scale_changed,	(SheetControl *sc), (sc))
+

@@ -490,6 +490,12 @@ static GNM_ACTION_DEF (cb_repeat)	{ command_repeat (WORKBOOK_CONTROL (wbcg)); }
 
 /****************************************************************************/
 
+static GNM_ACTION_DEF (cb_direction)
+{
+	cmd_toggle_rtl (WORKBOOK_CONTROL (wbcg),
+		wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg)));
+}
+
 static GNM_ACTION_DEF (cb_view_zoom_out)
 {
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
@@ -1642,6 +1648,9 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 	{ "ViewZoomOut", GTK_STOCK_ZOOM_OUT, N_("Zoom _Out"),
 		NULL, N_("Decrease the zoom to make things smaller"),
 		G_CALLBACK (cb_view_zoom_out) },
+	{ "Direction", GTK_STOCK_GO_FORWARD, N_("Direction"),
+		NULL, N_("Toggle sheet direction, left to right vs right to left"),
+		G_CALLBACK (cb_direction) },
 
 /* Insert */
 	{ "InsertCells", NULL, N_("C_ells..."),
@@ -2015,11 +2024,11 @@ TOGGLE_HANDLER (hide_col_header, sheet_adjust_preferences (sheet, FALSE, FALSE);
 TOGGLE_HANDLER (hide_row_header, sheet_adjust_preferences (sheet, FALSE, FALSE);)
 TOGGLE_HANDLER (display_outlines, sheet_adjust_preferences (sheet, TRUE, TRUE);)
 TOGGLE_HANDLER (outline_symbols_below, {
-		sheet_adjust_outline_dir (sheet, FALSE);
+		sheet_set_outline_direction (sheet, FALSE);
 		sheet_adjust_preferences (sheet, TRUE, TRUE);
 })
 TOGGLE_HANDLER (outline_symbols_right,{
-		sheet_adjust_outline_dir (sheet, TRUE);
+		sheet_set_outline_direction (sheet, TRUE);
 		sheet_adjust_preferences (sheet, TRUE, TRUE);
 })
 

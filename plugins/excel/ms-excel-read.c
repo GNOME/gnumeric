@@ -1608,6 +1608,7 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 	mstyle_set_shrink_to_fit (mstyle, xf->shrink_to_fit);
 	mstyle_set_indent    (mstyle, xf->indent);
 	mstyle_set_rotation  (mstyle, xf->rotation);
+	mstyle_set_text_dir  (mstyle, xf->text_dir);
 
 	/* Font */
 	fd = excel_get_font (esheet->container.ewb, xf->font_idx);
@@ -1883,8 +1884,9 @@ excel_read_XF_OLD (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 	}
 
         xf->valign = VALIGN_BOTTOM;
-        xf->rotation = 0;
         xf->indent = 0;
+        xf->rotation = 0;
+	xf->text_dir = GNM_TEXT_DIR_CONTEXT;
         xf->differences = 0;
 
 	if (ver >= MS_BIFF_V3) {
@@ -2055,11 +2057,11 @@ excel_read_XF (BiffQuery *q, ExcelWorkbook *ewb, MsBiffVersion ver)
 
 		subdata = (data & 0x00C0) >> 10;
 		switch (subdata) {
-		case 0: xf->eastern = MS_BIFF_E_CONTEXT; break;
-		case 1: xf->eastern = MS_BIFF_E_LEFT_TO_RIGHT; break;
-		case 2: xf->eastern = MS_BIFF_E_RIGHT_TO_LEFT; break;
+		case 0: xf->text_dir = GNM_TEXT_DIR_CONTEXT; break;
+		case 1: xf->text_dir = GNM_TEXT_DIR_LTR; break;
+		case 2: xf->text_dir = GNM_TEXT_DIR_RTL; break;
 		default:
-			fprintf (stderr,"Unknown location %d\n", subdata);
+			fprintf (stderr,"Unknown text direction %d\n", subdata);
 			break;
 		}
 	} else {
@@ -4248,7 +4250,7 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 		esheet->freeze_panes		= ((options & 0x0008) != 0);
 		esheet->sheet->hide_zero	= ((options & 0x0010) == 0);
 		set_grid_color = (options & 0x0020) == 0;
-		/* esheet->sheet->rtl		= ((options & 0x0040) != 0); */
+		sheet_set_direction (esheet->sheet, (options & 0x0040) != 0);
 
 		top_row      = GSF_LE_GET_GUINT16 (q->data + 2);
 		left_col     = GSF_LE_GET_GUINT16 (q->data + 4);

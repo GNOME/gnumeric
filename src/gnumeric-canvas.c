@@ -36,6 +36,7 @@
 
 #define SCROLL_LOCK_MASK GDK_MOD5_MASK
 
+typedef FooCanvasClass GnmCanvasClass;
 static FooCanvasClass *parent_klass;
 
 static gboolean
@@ -54,10 +55,11 @@ gnm_canvas_guru_key (WorkbookControlGUI const *wbcg, GdkEventKey *event)
 static gboolean
 gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 {
-	SheetControl *sc = (SheetControl *) gcanvas->simple.scg;
+	SheetControlGUI *scg = gcanvas->simple.scg;
+	SheetControl *sc = (SheetControl *) scg;
 	Sheet *sheet = sc->sheet;
 	SheetView *sv = sc->view;
-	WorkbookControlGUI *wbcg = gcanvas->simple.scg->wbcg;
+	WorkbookControlGUI *wbcg = scg->wbcg;
 	gboolean delayed_movement = FALSE;
 	gboolean jump_to_bounds = event->state & GDK_CONTROL_MASK;
 	int state = gnumeric_filter_modifiers (event->state);
@@ -102,7 +104,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 				 -(gcanvas->last_visible.col-gcanvas->first.col),
 				 FALSE, TRUE);
 		} else
-			(*movefn) (gcanvas->simple.scg, -1, jump_to_bounds || end_mode, TRUE);
+			(*movefn) (gcanvas->simple.scg, scg->rtl ? 1 : -1, jump_to_bounds || end_mode, TRUE);
 		break;
 
 	case GDK_KP_Right:
@@ -115,7 +117,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 				 gcanvas->last_visible.col-gcanvas->first.col,
 				 FALSE, TRUE);
 		} else
-			(*movefn) (gcanvas->simple.scg, 1, jump_to_bounds || end_mode, TRUE);
+			(*movefn) (gcanvas->simple.scg, scg->rtl ? -1 : 1, jump_to_bounds || end_mode, TRUE);
 		break;
 
 	case GDK_KP_Up:
@@ -220,7 +222,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 		if (gnm_canvas_guru_key (wbcg, event))
 			break;
 		if (state == GDK_CONTROL_MASK)
-			sv_selection_copy (sc_view (sc), WORKBOOK_CONTROL (wbcg));
+			sv_selection_copy (sv, WORKBOOK_CONTROL (wbcg));
 		else if (state == GDK_SHIFT_MASK)
 			cmd_paste_to_selection (WORKBOOK_CONTROL (wbcg), sv, PASTE_DEFAULT);
 		break;
@@ -231,7 +233,7 @@ gnm_canvas_key_mode_sheet (GnmCanvas *gcanvas, GdkEventKey *event)
 			break;
 		if (state == GDK_SHIFT_MASK) {
 			scg_mode_edit (sc);
-			sv_selection_cut (sc_view (sc), WORKBOOK_CONTROL (wbcg));
+			sv_selection_cut (sv, WORKBOOK_CONTROL (wbcg));
 		} else
 			cmd_selection_clear (WORKBOOK_CONTROL (wbcg), CLEAR_VALUES);
 		break;
@@ -391,10 +393,12 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *ev)
 		break;
 
 	case GDK_KP_Left: case GDK_Left:
-		scg_objects_nudge (scg, (alt ? 4 : (control ? 3 : 8)), -delta, 0, symmetric);
+		scg_objects_nudge (scg, (alt ? 4 : (control ? 3 : 8)),
+			scg->rtl ? delta : -delta, 0, symmetric);
 		return TRUE;
 	case GDK_KP_Right: case GDK_Right:
-		scg_objects_nudge (scg, (alt ? 4 : (control ? 3 : 8)), delta, 0, symmetric);
+		scg_objects_nudge (scg, (alt ? 4 : (control ? 3 : 8)),
+			scg->rtl ? -delta : delta, 0, symmetric);
 		return TRUE;
 	case GDK_KP_Up: case GDK_Up:
 		scg_objects_nudge (scg, (alt ? 6 : (control ? 1 : 8)), 0, -delta, symmetric);
@@ -534,17 +538,12 @@ gnm_canvas_unrealize (GtkWidget *widget)
 }
 
 static void
-gnm_canvas_size_allocate (GtkWidget *widget, GtkAllocation *allocation)
+gnm_canvas_size_allocate (GtkWidget *w, GtkAllocation *allocation)
 {
-	(*GTK_WIDGET_CLASS (parent_klass)->size_allocate)(widget, allocation);
-
-	gnm_canvas_compute_visible_region (GNM_CANVAS (widget), FALSE);
+	GnmCanvas *gcanvas = GNM_CANVAS (w);
+	(*GTK_WIDGET_CLASS (parent_klass)->size_allocate) (w, allocation);
+	gnm_canvas_compute_visible_region (gcanvas, TRUE);
 }
-
-typedef struct {
-	FooCanvasClass parent_class;
-} GnmCanvasClass;
-#define GNM_CANVAS_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k),	  GNM_CANVAS_TYPE))
 
 static void
 gnm_canvas_finalize (GObject *object)
@@ -738,14 +737,22 @@ gnm_canvas_new (SheetControlGUI *scg, GnmPane *pane)
 }
 
 /**
- * gnm_canvas_find_col: return the column containing pixel x
- */
+ * gnm_canvas_find_col:
+ * @gcanvas :
+ * @x : In canvas coords
+ * @col_origin : optionally return the canvas coord of the col
+ *
+ * Returns the column containing canvas coord @x
+ **/
 int
-gnm_canvas_find_col (GnmCanvas *gcanvas, int x, int *col_origin)
+gnm_canvas_find_col (GnmCanvas const *gcanvas, int x, int *col_origin)
 {
-	Sheet *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
+	Sheet const *sheet = ((SheetControl const *) gcanvas->simple.scg)->sheet;
 	int col   = gcanvas->first.col;
 	int pixel = gcanvas->first_offset.col;
+
+	if (sheet->text_is_rtl)
+		x = - (x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit);
 
 	if (x < pixel) {
 		while (col > 0) {
@@ -754,13 +761,15 @@ gnm_canvas_find_col (GnmCanvas *gcanvas, int x, int *col_origin)
 				pixel -= ci->size_pixels;
 				if (x >= pixel) {
 					if (col_origin)
-						*col_origin = pixel;
+						*col_origin = (sheet->text_is_rtl)
+							? - (pixel + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : pixel;
 					return col;
 				}
 			}
 		}
 		if (col_origin)
-			*col_origin = 0;
+			*col_origin = (sheet->text_is_rtl)
+				? - gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit : 0;
 		return 0;
 	}
 
@@ -770,24 +779,31 @@ gnm_canvas_find_col (GnmCanvas *gcanvas, int x, int *col_origin)
 			int const tmp = ci->size_pixels;
 			if (x <= pixel + tmp) {
 				if (col_origin)
-					*col_origin = pixel;
+					*col_origin = (sheet->text_is_rtl)
+						? - (pixel + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : pixel;
 				return col;
 			}
 			pixel += tmp;
 		}
 	} while (++col < SHEET_MAX_COLS-1);
 	if (col_origin)
-		*col_origin = pixel;
+		*col_origin = (sheet->text_is_rtl)
+			? - (pixel + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : pixel;
 	return SHEET_MAX_COLS-1;
 }
 
-/*
- * gnm_canvas_find_row: return the row where y belongs to
- */
+/**
+ * gnm_canvas_find_row:
+ * @gcanvas :
+ * @y : In canvas coords
+ * @row_origin : optionally return the canvas coord of the row
+ *
+ * Returns the column containing canvas coord @y
+ **/
 int
-gnm_canvas_find_row (GnmCanvas *gcanvas, int y, int *row_origin)
+gnm_canvas_find_row (GnmCanvas const *gcanvas, int y, int *row_origin)
 {
-	Sheet *sheet = ((SheetControl *) gcanvas->simple.scg)->sheet;
+	Sheet const *sheet = ((SheetControl const *) gcanvas->simple.scg)->sheet;
 	int row   = gcanvas->first.row;
 	int pixel = gcanvas->first_offset.row;
 
@@ -842,13 +858,20 @@ gnm_canvas_compute_visible_region (GnmCanvas *gcanvas,
 	FooCanvas   *canvas = FOO_CANVAS (gcanvas);
 	int pixels, col, row, width, height;
 
+#if 0
+	g_warning ("compute_vis(W)[%d] = %d", gcanvas->pane->index,
+		   GTK_WIDGET (gcanvas)->allocation.width);
+#endif
+
 	/* When col/row sizes change we need to do a full recompute */
 	if (full_recompute) {
-		gcanvas->first_offset.col = scg_colrow_distance_get (scg,
+		int col_offset = gcanvas->first_offset.col = scg_colrow_distance_get (scg,
 			TRUE, 0, gcanvas->first.col);
+		if (scg->rtl)
+			col_offset = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas,
+				gcanvas->first_offset.col + GTK_WIDGET (gcanvas)->allocation.width);
 		if (NULL != gcanvas->pane->col.canvas)
-			foo_canvas_scroll_to (gcanvas->pane->col.canvas,
-				gcanvas->first_offset.col, 0);
+			foo_canvas_scroll_to (gcanvas->pane->col.canvas, col_offset, 0);
 
 		gcanvas->first_offset.row = scg_colrow_distance_get (scg,
 			FALSE, 0, gcanvas->first.row);
@@ -857,8 +880,7 @@ gnm_canvas_compute_visible_region (GnmCanvas *gcanvas,
 				0, gcanvas->first_offset.row);
 
 		foo_canvas_scroll_to (FOO_CANVAS (gcanvas),
-					gcanvas->first_offset.col,
-					gcanvas->first_offset.row);
+			col_offset, gcanvas->first_offset.row);
 	}
 
 	/* Find out the last visible col and the last full visible column */
@@ -938,14 +960,12 @@ void
 gnm_canvas_redraw_range (GnmCanvas *gcanvas, GnmRange const *r)
 {
 	SheetControlGUI *scg;
-	FooCanvas *canvas;
 	int x1, y1, x2, y2;
 	GnmRange tmp;
 
 	g_return_if_fail (IS_GNM_CANVAS (gcanvas));
 
 	scg = gcanvas->simple.scg;
-	canvas = FOO_CANVAS (gcanvas);
 
 	if ((r->end.col < gcanvas->first.col) ||
 	    (r->end.row < gcanvas->first.row) ||
@@ -980,7 +1000,12 @@ gnm_canvas_redraw_range (GnmCanvas *gcanvas, GnmRange const *r)
 	fprintf (stderr, "%s%s\n", col_name (max_col), row_name (last_row));
 #endif
 
-	foo_canvas_request_redraw (FOO_CANVAS (gcanvas), x1-2, y1-2, x2, y2);
+	if (scg->rtl)  {
+		int tmp = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas, x1);
+		x1 = gnm_simple_canvas_x_w2c (&gcanvas->simple.canvas, x2);
+		x2 = tmp;
+	}
+	foo_canvas_request_redraw (&gcanvas->simple.canvas, x1-2, y1-2, x2, y2);
 }
 
 /*****************************************************************************/
@@ -1032,6 +1057,9 @@ gcanvas_sliding_callback (gpointer data)
 	gboolean slide_x = FALSE, slide_y = FALSE;
 	int col = -1, row = -1;
 
+#if 0
+	g_warning ("slide: %d, %d", gcanvas->sliding_dx, gcanvas->sliding_dy);
+#endif
 	if (gcanvas->sliding_dx > 0) {
 		GnmCanvas *target_gcanvas = gcanvas;
 
@@ -1042,7 +1070,8 @@ gcanvas_sliding_callback (gpointer data)
 				int x = gcanvas->first_offset.col + width + gcanvas->sliding_dx;
 
 				/* in case pane is narrow */
-				col = gnm_canvas_find_col (gcanvas, x, NULL);
+				col = gnm_canvas_find_col (gcanvas, (gcanvas->simple.scg->rtl)
+					? -(x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : x, NULL);
 				if (col > gcanvas0->last_full.col) {
 					gcanvas->sliding_adjacent_h = TRUE;
 					gcanvas->sliding_dx = 1; /* good enough */
@@ -1071,7 +1100,8 @@ gcanvas_sliding_callback (gpointer data)
 				if (gcanvas->sliding_dx > (-width) &&
 				    col <= gcanvas1->last_visible.col) {
 					int x = gcanvas1->first_offset.col + width + gcanvas->sliding_dx;
-					col = gnm_canvas_find_col (gcanvas1, x, NULL);
+					col = gnm_canvas_find_col (gcanvas, (gcanvas->simple.scg->rtl)
+						? -(x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : x, NULL);
 					slide_x = FALSE;
 				}
 			}
@@ -1145,9 +1175,11 @@ gcanvas_sliding_callback (gpointer data)
 		return TRUE;
 	}
 
-	if (col < 0)
-		col = gnm_canvas_find_col (gcanvas, gcanvas->sliding_x, NULL);
-	else if (row < 0)
+	if (col < 0) {
+		col = gnm_canvas_find_col (gcanvas, (gcanvas->simple.scg->rtl)
+			? -(gcanvas->sliding_x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit)
+			: gcanvas->sliding_x, NULL);
+	} else if (row < 0)
 		row = gnm_canvas_find_row (gcanvas, gcanvas->sliding_y, NULL);
 
 	if (gcanvas->slide_handler == NULL ||
@@ -1168,7 +1200,7 @@ gcanvas_sliding_callback (gpointer data)
  * gnm_canvas_handle_motion :
  * @gcanvas	 : The GnmCanvas managing the scroll
  * @canvas	 : The Canvas the event comes from
- * @event	 : The motion event
+ * @event	 : The motion event (in world coords, with rtl inversion)
  * @slide_flags	 :
  * @slide_handler: The handler when sliding
  * @user_data	 : closure data
@@ -1194,7 +1226,29 @@ gnm_canvas_handle_motion (GnmCanvas *gcanvas,
 	g_return_val_if_fail (event != NULL, FALSE);
 	g_return_val_if_fail (slide_handler != NULL, FALSE);
 
-	foo_canvas_w2c (canvas, event->x, event->y, &x, &y);
+	/* NOTE : work around a bug in gtk's use of X.
+	 * When dragging past the right edge of the sheet in rtl mode
+	 * we are operating at the edge of a 32k wide window and the event
+	 * coords get larger than can be held in a signed short.  As a result
+	 * we get world coords of -65535 or so.
+	 *
+	 * KLUDGE KLUDGE KLUDGE
+	 * with our current limit of 256 columns it is unlikely that we'll hit
+	 * -65535 (at appropriate zoom) as a valid coord (it would require all
+	 * cols to be 256 pixels wide.  it is not impossible, but at least
+	 * unlikely.  So we put in a kludge here to catch the screw up and
+	 * remap it.   This is not pretty,  at large zooms this is not far
+	 * fetched.*/
+	if (gcanvas->simple.scg->rtl &&
+	    event->x < (-64000 / gcanvas->simple.canvas.pixels_per_unit)) {
+#if SHEET_MAX_COLS > 700 /* a guestimate */
+#error We need a better solution to the rtl event kludge with SHEET_MAX_COLS so large
+#endif
+		foo_canvas_w2c (canvas, event->x + 65536, event->y, &x, &y);
+	} else
+		foo_canvas_w2c (canvas, event->x, event->y, &x, &y);
+	if (gcanvas->simple.scg->rtl)
+		x = -(x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit);
 
 	pane = gcanvas->pane->index;
 	left = gcanvas->first_offset.col;
@@ -1273,8 +1327,9 @@ gnm_canvas_handle_motion (GnmCanvas *gcanvas,
 	/* Movement is inside the visible region */
 	if (dx == 0 && dy == 0) {
 		if (!(slide_flags & GNM_CANVAS_SLIDE_EXTERIOR_ONLY)) {
-			int const col = gnm_canvas_find_col (gcanvas, x, NULL);
 			int const row = gnm_canvas_find_row (gcanvas, y, NULL);
+			int const col = gnm_canvas_find_col (gcanvas, (gcanvas->simple.scg->rtl)
+				? -(x + gcanvas->simple.canvas.scroll_x1 * gcanvas->simple.canvas.pixels_per_unit) : x, NULL);
 
 			(*slide_handler) (gcanvas, col, row, user_data);
 		}

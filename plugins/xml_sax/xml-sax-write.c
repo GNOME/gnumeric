@@ -1049,6 +1049,9 @@ xml_write_sheet (GnmOutputXML *state, Sheet const *sheet)
 		"OutlineSymbolsBelow",	sheet->outline_symbols_below);
 	gsf_xml_out_add_bool (state->output,
 		"OutlineSymbolsRight",	sheet->outline_symbols_right);
+	if (sheet->text_is_rtl)
+		gsf_xml_out_add_bool (state->output,
+			"RTL_Layout", sheet->text_is_rtl);
 
 	if (sheet->tab_color != NULL)
 		gnm_xml_out_add_color (state->output, "TabColor", sheet->tab_color);

@@ -437,7 +437,7 @@ preview_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 
 		style_borders_row_draw (prev_vert, &sr,
 					drawable, diff_x, y, y+row_height,
-					colwidths, TRUE);
+					colwidths, TRUE, 1 /* cheat dir == 1 for now */);
 
 		/* roll the pointers */
 		borders = prev_vert; prev_vert = sr.vertical;

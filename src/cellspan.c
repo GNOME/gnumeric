@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * cellspan.c: Keep track of the columns on which a cell
  * displays information.
@@ -13,7 +15,6 @@
  *
  * The reason we need this is that the Grid draw code expects to find
  * the "owner" of the cell to be able to repaint its contents.
- *
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"
@@ -229,8 +230,11 @@ cell_calc_span (GnmCell const *cell, int *col1, int *col2)
 	align = style_default_halign (mstyle, cell);
 	row   = cell->pos.row;
 	indented_w = cell_width_pixel = cell_rendered_width (cell);
-	if (align == HALIGN_LEFT || align == HALIGN_RIGHT)
+	if (align == HALIGN_LEFT || align == HALIGN_RIGHT) {
 		indented_w += cell_rendered_offset (cell);
+		if (sheet->text_is_rtl)
+			align = (align == HALIGN_LEFT) ? HALIGN_RIGHT : HALIGN_LEFT;
+	}
 
 	if (cell_is_empty (cell) ||
 	    !cell->col_info->visible ||

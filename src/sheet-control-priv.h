@@ -17,7 +17,6 @@ typedef struct {
 	void (*init_state) (SheetControl *sc);
 
 	void (*resize)			(SheetControl *sc, gboolean force_scroll);
-	void (*set_zoom_factor)		(SheetControl *sc);
 	void (*redraw_all)		(SheetControl *sc, gboolean headers);
 	void (*redraw_range)		(SheetControl *sc, GnmRange const *r);
 	void (*redraw_headers)		(SheetControl *sc,
@@ -38,6 +37,8 @@ typedef struct {
 	float (*colrow_distance_get)	(SheetControl const *sc, gboolean is_col,
 					 int start, int end);
 	void (*object_create_view)	(SheetControl *sc, SheetObject *so);
+	void (*direction_changed)	(SheetControl *sc);
+	void (*scale_changed)		(SheetControl *sc);
 } SheetControlClass;
 
 #define SHEET_CONTROL_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), SHEET_CONTROL_TYPE, SheetControlClass))
