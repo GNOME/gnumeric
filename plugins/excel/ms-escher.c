@@ -422,7 +422,6 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 				guint8 *buffer = g_malloc (len);
 
 				int res = uncompress (buffer, &len, tmp, compressed_len);
-				printf ("%d v %ld\n", uncompressed_len, len);
 				if (res != Z_OK) {
 					g_free (buffer);
 					failure = TRUE;
@@ -818,189 +817,171 @@ ms_escher_read_Dgg (MSEscherState *state, MSEscherHeader *h)
 	return FALSE;
 }
 
-typedef struct
-{
+typedef struct {
 	gint dummy;
 } EscherOption;
 
-typedef enum
-{
-    shape_Lines = 0,        /* straight line segments */
-    shape_LinesClosed = 1,  /* closed polygonal shape */
-    shape_Curves = 2,       /* Bezier curve segments */
-    shape_CurvesClosed = 3, /* A closed shape with curved edges */
-    shape_Complex = 4,      /* pSegmentInfo must be non-empty */
+typedef enum {
+	shape_Lines = 0,        /* straight line segments */
+	shape_LinesClosed = 1,  /* closed polygonal shape */
+	shape_Curves = 2,       /* Bezier curve segments */
+	shape_CurvesClosed = 3, /* A closed shape with curved edges */
+	shape_Complex = 4,      /* pSegmentInfo must be non-empty */
 } ShapePath;
 
-typedef enum
-{
-    wrap_Square = 0,
-    wrap_ByPoints = 1,
-    wrap_None = 2,
-    wrap_TopBottom = 3,
-    wrap_Through = 4,
+typedef enum {
+	wrap_Square = 0,
+	wrap_ByPoints = 1,
+	wrap_None = 2,
+	wrap_TopBottom = 3,
+	wrap_Through = 4,
 } WrapMode;
 
-typedef enum
-{
-    bw_Color = 0,          /* only used for predefined shades */
-    bw_Automatic = 1,      /* depends on object type */
-    bw_GrayScale = 2,      /* shades of gray only */
-    bw_LightGrayScale = 3, /* shades of light gray only */
-    bw_InverseGray = 4,    /* dark gray mapped to light gray, etc. */
-    bw_GrayOutline = 5,    /* pure gray and white */
-    bw_BlackTextLine = 6,  /* black text and lines, all else grayscale */
-    bw_HighContrast = 7,   /* pure black and white mode (no grays) */
-    bw_Black = 7,          /* solid black */
-    bw_White = 8,          /* solid white */
-    bw_DontShow = 9,       /* object not drawn */
+typedef enum {
+	bw_Color = 0,          /* only used for predefined shades */
+	bw_Automatic = 1,      /* depends on object type */
+	bw_GrayScale = 2,      /* shades of gray only */
+	bw_LightGrayScale = 3, /* shades of light gray only */
+	bw_InverseGray = 4,    /* dark gray mapped to light gray, etc. */
+	bw_GrayOutline = 5,    /* pure gray and white */
+	bw_BlackTextLine = 6,  /* black text and lines, all else grayscale */
+	bw_HighContrast = 7,   /* pure black and white mode (no grays) */
+	bw_Black = 7,          /* solid black */
+	bw_White = 8,          /* solid white */
+	bw_DontShow = 9,       /* object not drawn */
 } BlackWhiteMode;
 
-typedef enum
-{
-    anchor_Top,
-    anchor_Middle,
-    anchor_Bottom,
-    anchor_TopCentered,
-    anchor_MiddleCentered,
-    anchor_BottomCentered,
-    anchor_TopBaseline,
-    anchor_BottomBaseline,
-    anchor_TopCenteredBaseline,
-    anchor_BottomCenteredBaseline
+typedef enum {
+	anchor_Top,
+	anchor_Middle,
+	anchor_Bottom,
+	anchor_TopCentered,
+	anchor_MiddleCentered,
+	anchor_BottomCentered,
+	anchor_TopBaseline,
+	anchor_BottomBaseline,
+	anchor_TopCenteredBaseline,
+	anchor_BottomCenteredBaseline
 } AnchorType;
 
-typedef enum
-{
-    rotate_0 = 0,	/* Right */
-    rotate_90 = 1,	/* Down */
-    rotate_180 = 2,	/* Left */
-    rotate_270 = 3	/* Up */
+typedef enum {
+	rotate_0 = 0,	/* Right */
+	rotate_90 = 1,	/* Down */
+	rotate_180 = 2,	/* Left */
+	rotate_270 = 3	/* Up */
 } RotationType;
 
-typedef enum
-{
-    connect_Straight = 0,
-    connect_Bent = 1,
-    connect_Curved = 2,
-    connect_None = 3
+typedef enum {
+	connect_Straight = 0,
+	connect_Bent = 1,
+	connect_Curved = 2,
+	connect_None = 3
 } ConnectStyle;
 
-typedef enum
-{
-    flow_HorzN = 0,	/* Horizontal non-@ */
-    flow_TtoBA = 1,	/* Top to Bottom @-font */
-    flow_BtoT = 2,	/* Bottom to Top non-@ */
-    flow_TtoBN = 3,	/* Top to Bottom non-@ */
-    flow_HorzA = 4,	/* Horizontal @-font */
-    flow_VertN = 5,	/* Vertical, non-@ */
+typedef enum {
+	flow_HorzN = 0,	/* Horizontal non-@ */
+	flow_TtoBA = 1,	/* Top to Bottom @-font */
+	flow_BtoT = 2,	/* Bottom to Top non-@ */
+	flow_TtoBN = 3,	/* Top to Bottom non-@ */
+	flow_HorzA = 4,	/* Horizontal @-font */
+	flow_VertN = 5,	/* Vertical, non-@ */
 } TextFlow;
 
-typedef enum
-{
-    textdir_LtoR = 0,
-    textdir_RtoL = 1,
-    textdir_Context = 2,	/* depends on context */
+typedef enum {
+	textdir_LtoR = 0,
+	textdir_RtoL = 1,
+	textdir_Context = 2,	/* depends on context */
 } TextDirection;
 
-typedef enum
-{
-    callout_RightAngle = 1,
-    callout_OneSegment = 2,
-    callout_TwoSegment = 3,
-    callout_ThreeSegment = 4,
+typedef enum {
+	callout_RightAngle = 1,
+	callout_OneSegment = 2,
+	callout_TwoSegment = 3,
+	callout_ThreeSegment = 4,
 } CalloutType;
 
-typedef enum
-{
-    callout_angle_Any = 0,
-    callout_angle_30 = 1,
-    callout_angle_45 = 2,
-    callout_angle_60 = 3,
-    callout_angle_90 = 4,
-    callout_angle_0 = 5
+typedef enum {
+	callout_angle_Any = 0,
+	callout_angle_30 = 1,
+	callout_angle_45 = 2,
+	callout_angle_60 = 3,
+	callout_angle_90 = 4,
+	callout_angle_0 = 5
 } CallOutAngle;
 
 typedef enum
 {
-    callout_drop_Top = 0,
-    callout_drop_Center = 1,
-    callout_drop_Bottom = 2,
-    callout_drop_Specified = 3,
+	callout_drop_Top = 0,
+	callout_drop_Center = 1,
+	callout_drop_Bottom = 2,
+	callout_drop_Specified = 3,
 } CalloutDrop;
 
 /* Alignment - WordArt only */
-typedef enum
-{
-    align_TextStretch,      /* Stretch each line of text to fit width. */
-    align_TextCenter,       /* Center text on width. */
-    align_TextLeft,         /* Left justify. */
-    align_TextRight,        /* Right justify. */
-    align_TextLetterJust,   /* Spread letters out to fit width. */
-    align_TextWordJust,     /* Spread words out to fit width. */
-    align_TextInvalid       /* Invalid */
+typedef enum {
+	align_TextStretch,      /* Stretch each line of text to fit width. */
+	align_TextCenter,       /* Center text on width. */
+	align_TextLeft,         /* Left justify. */
+	align_TextRight,        /* Right justify. */
+	align_TextLetterJust,   /* Spread letters out to fit width. */
+	align_TextWordJust,     /* Spread words out to fit width. */
+	align_TextInvalid       /* Invalid */
 } Alignment;
 
-typedef enum
-{
-    render_FullRender,
-    render_Wireframe,
-    render_BoundingCube,
+typedef enum {
+	render_FullRender,
+	render_Wireframe,
+	render_BoundingCube,
 } RenderMode;
 
-typedef enum
-{
-    transform_Absolute,   /* Apply in absolute space centered on shape */
-    transform_Shape,      /* Apply to shape geometry */
-    transform_Drawing     /* Apply in drawing space */
+typedef enum {
+	transform_Absolute,   /* Apply in absolute space centered on shape */
+	transform_Shape,      /* Apply to shape geometry */
+	transform_Drawing     /* Apply in drawing space */
 } Transform;
 
-typedef enum
-{
-    shadow_Offset,    /* N pixel offset shadow */
-    shadow_Double,    /* Use second offset too */
-    shadow_Rich,      /* Rich perspective shadow (cast relative to shape) */
-    shadow_Shape,     /* Rich perspective shadow (cast in shape space) */
-    shadow_Drawing,   /* Perspective shadow cast in drawing space */
-    shadow_EmbossOrEngrave,
+typedef enum {
+	shadow_Offset,    /* N pixel offset shadow */
+	shadow_Double,    /* Use second offset too */
+	shadow_Rich,      /* Rich perspective shadow (cast relative to shape) */
+	shadow_Shape,     /* Rich perspective shadow (cast in shape space) */
+	shadow_Drawing,   /* Perspective shadow cast in drawing space */
+	shadow_EmbossOrEngrave,
 } Shadow;
 
 /* LengthMeasure - the type of a (length) measurement */
-typedef enum
-{
-    measure_Default      = 0,  /* Default size, ignore the values */
-    measure_A            = 1,  /* Values are in EMUs */
-    measure_V            = 2,  /* Values are in pixels */
-    measure_Shape        = 3,  /* Values are 16.16 fractions of shape size */
-    measure_FixedAspect  = 4,  /* Aspect ratio is fixed */
-    measure_AFixed       = 5,  /* EMUs, fixed aspect ratio */
-    measure_VFixed       = 6,  /* Pixels, fixed aspect ratio */
-    measure_ShapeFixed   = 7,  /* Proportion of shape, fixed aspect ratio */
-    measure_FixedAspectEnlarge = 8,  /*  Aspect ratio is fixed, favor larger size */
-    measure_AFixedBig    = 9,  /* EMUs, fixed aspect ratio */
-    measure_VFixedBig    = 10, /* Pixels, fixed aspect ratio */
-    measure_ShapeFixedBig= 11, /* Proportion of shape, fixed aspect ratio */
+typedef enum {
+	measure_Default      = 0,  /* Default size, ignore the values */
+	measure_A            = 1,  /* Values are in EMUs */
+	measure_V            = 2,  /* Values are in pixels */
+	measure_Shape        = 3,  /* Values are 16.16 fractions of shape size */
+	measure_FixedAspect  = 4,  /* Aspect ratio is fixed */
+	measure_AFixed       = 5,  /* EMUs, fixed aspect ratio */
+	measure_VFixed       = 6,  /* Pixels, fixed aspect ratio */
+	measure_ShapeFixed   = 7,  /* Proportion of shape, fixed aspect ratio */
+	measure_FixedAspectEnlarge = 8,  /*  Aspect ratio is fixed, favor larger size */
+	measure_AFixedBig    = 9,  /* EMUs, fixed aspect ratio */
+	measure_VFixedBig    = 10, /* Pixels, fixed aspect ratio */
+	measure_ShapeFixedBig= 11, /* Proportion of shape, fixed aspect ratio */
 } LengthMeasure;
 
-typedef enum
-{
-    fill_Solid = 0,
-    fill_Pattern = 1,	/* bitmap */
-    fill_Texture = 2,	/* pattern with private Colour map) */
-    fill_Picture = 3,	/* Center picture on the shape */
-    fill_Shade = 4,	/* Shade from start to end points */
-    fill_ShadeCenter =5,/* Shade from bounding rectangle to end point */
-    fill_ShadeShape = 6,/* Shade from shape outline to end point */
-    fill_ShadeScale = 7,/* Like fill_Shade, but fillAngle is also scaled by
-			   the aspect ratio of the shape. If shape is square,
-			   it is the same as fill_Shade. */
-    fill_ShadeTitle = 8,/* shade to title  ?? what is this for */
-    fill_Background = 9	/* Use background fill color/pattern */
+typedef enum {
+	fill_Solid = 0,
+	fill_Pattern = 1,	/* bitmap */
+	fill_Texture = 2,	/* pattern with private Colour map) */
+	fill_Picture = 3,	/* Center picture on the shape */
+	fill_Shade = 4,	/* Shade from start to end points */
+	fill_ShadeCenter =5,/* Shade from bounding rectangle to end point */
+	fill_ShadeShape = 6,/* Shade from shape outline to end point */
+	fill_ShadeScale = 7,/* Like fill_Shade, but fillAngle is also scaled by
+			       the aspect ratio of the shape. If shape is square,
+			       it is the same as fill_Shade. */
+	fill_ShadeTitle = 8,/* shade to title  ?? what is this for */
+	fill_Background = 9	/* Use background fill color/pattern */
 } FillType;
 
 /* Colours in a shaded fill. */
-typedef enum
-{
+typedef enum {
 	shade_None  = 0,        /* Interpolate without correction between RGBs */
 	shade_Gamma = 1,        /* Apply gamma correction to colors */
 	shade_Sigma = 2,        /* Apply a sigma transfer function to position */
@@ -1017,75 +998,67 @@ typedef enum
 } ShadeType;
 
 /* LineStyle - compound line style */
-typedef enum
-{
-    line_Simple,            /* Single line (of width lineWidth) */
-    line_Double,            /* Double lines of equal width */
-    line_ThickThin,         /* Double lines, one thick, one thin */
-    line_ThinThick,         /* Double lines, reverse order */
-    line_Triple             /* Three lines, thin, thick, thin */
+typedef enum {
+	line_Simple,            /* Single line (of width lineWidth) */
+	line_Double,            /* Double lines of equal width */
+	line_ThickThin,         /* Double lines, one thick, one thin */
+	line_ThinThick,         /* Double lines, reverse order */
+	line_Triple             /* Three lines, thin, thick, thin */
 } LineStyle;
 
-typedef enum
-{
-    line_fill_SolidType,         /* Fill with a solid color */
-    line_fill_Pattern,           /* Fill with a pattern (bitmap) */
-    line_fill_Texture,           /* A texture (pattern with its own color map) */
-    line_fill_Picture            /* Center a picture in the shape */
+typedef enum {
+	line_fill_SolidType,         /* Fill with a solid color */
+	line_fill_Pattern,           /* Fill with a pattern (bitmap) */
+	line_fill_Texture,           /* A texture (pattern with its own color map) */
+	line_fill_Picture            /* Center a picture in the shape */
 } LineFill;
 
-typedef enum
-{
-    dash_Solid,              /* Solid (continuous) pen */
-    dash_DashSys,            /* PS_DASH system   dash style */
-    dash_DotSys,             /* PS_DOT system   dash style */
-    dash_DashDotSys,         /* PS_DASHDOT system dash style */
-    dash_DashDotDotSys,      /* PS_DASHDOTDOT system dash style */
-    dash_DotGEL,             /* square dot style */
-    dash_DashGEL,            /* dash style */
-    dash_LongDashGEL,        /* long dash style */
-    dash_DashDotGEL,         /* dash short dash */
-    dash_LongDashDotGEL,     /* long dash short dash */
-    dash_LongDashDotDotGEL   /* long dash short dash short dash */
+typedef enum {
+	dash_Solid,              /* Solid (continuous) pen */
+	dash_DashSys,            /* PS_DASH system   dash style */
+	dash_DotSys,             /* PS_DOT system   dash style */
+	dash_DashDotSys,         /* PS_DASHDOT system dash style */
+	dash_DashDotDotSys,      /* PS_DASHDOTDOT system dash style */
+	dash_DotGEL,             /* square dot style */
+	dash_DashGEL,            /* dash style */
+	dash_LongDashGEL,        /* long dash style */
+	dash_DashDotGEL,         /* dash short dash */
+	dash_LongDashDotGEL,     /* long dash short dash */
+	dash_LongDashDotDotGEL   /* long dash short dash short dash */
 } DashedLineStyle;
 
-typedef enum
-{
-    line_end_NoEnd,
-    line_end_ArrowEnd,
-    line_end_ArrowStealthEnd,
-    line_end_ArrowDiamondEnd,
-    line_end_ArrowOvalEnd,
-    line_end_ArrowOpenEnd,
+typedef enum {
+	line_end_NoEnd,
+	line_end_ArrowEnd,
+	line_end_ArrowStealthEnd,
+	line_end_ArrowDiamondEnd,
+	line_end_ArrowOvalEnd,
+	line_end_ArrowOpenEnd,
 } LineEndStyle;
 
-typedef enum
-{
-    arrow_width_Narrow = 0,
-    arrow_width_Medium = 1,
-    arrow_width_Wide = 2
+typedef enum {
+	arrow_width_Narrow = 0,
+	arrow_width_Medium = 1,
+	arrow_width_Wide = 2
 } ArrowWidth;
 
-typedef enum
-{
-    arrow_len_Short = 0,
-    arrow_len_Medium = 1,
-    arrow_len_Long = 2
+typedef enum {
+	arrow_len_Short = 0,
+	arrow_len_Medium = 1,
+	arrow_len_Long = 2
 } ArrowLength;
 
-typedef enum
-{
-    line_join_Bevel,     /* Join edges by a straight line */
-    line_join_Miter,     /* Extend edges until they join */
-    line_join_Round      /* Draw an arc between the two edges */
+typedef enum {
+	line_join_Bevel,     /* Join edges by a straight line */
+	line_join_Miter,     /* Extend edges until they join */
+	line_join_Round      /* Draw an arc between the two edges */
 } LineJoin;
 
 /* Line cap style (applies to ends of dash segments too). */
-typedef enum
-{
-    line_cap_Round,   /* Rounded ends - the default */
-    line_cap_Square,  /* Square protrudes by half line width */
-    line_cap_Flat     /* Line ends at end point */
+typedef enum {
+	line_cap_Round,   /* Rounded ends - the default */
+	line_cap_Square,  /* Square protrudes by half line width */
+	line_cap_Flat     /* Line ends at end point */
 } LineCap;
 
 static gboolean
