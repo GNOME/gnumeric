@@ -156,11 +156,12 @@ Pending Patches
     make workbook dirty not the new sheet.
 
 23) gconf.
-    23.1) Check for errors
+    23.1) Check for errors					(DONE)
     23.2) double check that we update on remote changes
 
 24) Plugins
     24.1) enhance gobject service to do delayed load		(DONE)
+    24.2) pluginize paste types
 
 25) Audit all fixed-length buffers.  Most non-time-critical can be replaced
     by proper usage of g_strdup_printf.
