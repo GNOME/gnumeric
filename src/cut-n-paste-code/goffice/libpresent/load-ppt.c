@@ -549,7 +549,7 @@ handle_atom (GOMSParserRecord *record, GSList *stack, const guint8 *data, GsfInp
 
 					sublen += 12;
 					if (fields & TEXT_FIELD_PARAGRAPH_PROPERTY_EXISTS_ALIGNMENT) {
-						g_object_set (para_attr, "alignment", (guint) GSF_LE_GET_GUINT16 (data + i + sublen));
+						g_object_set (para_attr, "alignment", (guint) GSF_LE_GET_GUINT16 (data + i + sublen), NULL);
 						sublen += 2;
 					}
 

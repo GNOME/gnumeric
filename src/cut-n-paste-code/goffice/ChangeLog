@@ -1,5 +1,9 @@
 2004-07-20  Christopher James Lahey  <clahey@ximian.com>
 
+	* libpresent/load-ppt.c (handle_atom): Missing NULL.
+
+2004-07-20  Christopher James Lahey  <clahey@ximian.com>
+
 	* drawing/god-drawing-renderer-gdk.c (draw_text),
 	drawing/god-paragraph-attributes.c,
 	drawing/god-paragraph-attributes.h, libpresent/load-ppt.c: Support
