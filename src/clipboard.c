@@ -488,24 +488,14 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 	CellRegion *cr = user_data;
 	ExprArray const *a;
 	CellCopy *copy;
-	CellPos  pos;
 	CellComment   *comment;
 	
-	pos.col = col;
-	pos.row = row;
-	comment = cell_has_comment_pos (sheet, &pos);
-	
-	if (cell == NULL && comment == NULL) 
-		return NULL;
-
-	if (cell == NULL)
-		cell = sheet_cell_fetch (sheet, col, row);
-
 	copy = g_new (CellCopy, 1);
 	copy->type       = CELL_COPY_TYPE_CELL;
 	copy->u.cell     = cell_copy (cell);
 	copy->u.cell->pos.col = copy->col_offset = col - cr->base.col;
 	copy->u.cell->pos.row = copy->row_offset = row - cr->base.row;
+	comment = cell_has_comment_pos (sheet, &cell->pos);
 	if (comment)
 		copy->comment = g_strdup (cell_comment_text_get (comment));
 	else
@@ -529,6 +519,19 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 	return NULL;
 }
 
+static void
+clipboard_prepend_comment (SheetObject const *so, void *user_data)
+{
+	Range const *r = sheet_object_range_get (so);
+	Sheet       *sheet = sheet_object_get_sheet (so);
+	Cell        *the_cell = sheet_cell_get (sheet, r->start.col, r->start.row);
+
+	if (the_cell == NULL)
+		clipboard_prepend_cell (sheet,  r->start.col, r->start.row, 
+					sheet_cell_fetch (sheet, r->start.col, r->start.row),
+					user_data);
+}
+
 /**
  * clipboard_copy_range:
  *
@@ -539,6 +542,7 @@ clipboard_copy_range (Sheet *sheet, Range const *r)
 {
 	CellRegion *cr;
 	GSList *merged, *ptr;
+	GSList *comments;
 
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (range_is_sane (r), NULL);
@@ -548,10 +552,13 @@ clipboard_copy_range (Sheet *sheet, Range const *r)
 	cr->cols = range_width (r);
 	cr->rows = range_height (r);
 
-	sheet_foreach_cell_in_range ( sheet, FALSE,
+	sheet_foreach_cell_in_range ( sheet, TRUE,
 		r->start.col, r->start.row,
 		r->end.col, r->end.row,
 		clipboard_prepend_cell, cr);
+	comments = sheet_objects_get (sheet, r, cell_comment_get_type ());
+	g_slist_foreach (comments, clipboard_prepend_comment, cr);
+	g_slist_free(comments);
 
 	cr->styles = sheet_style_get_list (sheet, r);
 

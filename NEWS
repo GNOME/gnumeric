@@ -4,37 +4,37 @@ Almer:
 	* Fixes to the STF exporter. (#72416, #71783)
 
 Andreas:
-	* Port gnumeric_notice to gnome2
-	* Fix #63485
-	* Make the autosave dialog non-modal, port to gnome2
-	* Make the analysis tools warnings non-modal
-	* Make the autocorrect dialog non-modal, port to gnome2
-	* Fix gnome2 specific random tool crash
-	* Destroy outadated dialogs
-	* Port solver dialog to gnome2
-	* Make the solver information dialogs non-modal
-	* Make the goal-seek warnings non-modal
-	* Port consolidate dialog to gnome2
-	* Make the consolidate warning dialogs non-modal
-	* Allow cross-sheet consolidation
-	* Turn sheet-rename dialog into guru
+	* Port gnumeric_notice to gnome2.
+	* Fix #63485.
+	* Make the autosave dialog non-modal, port to gnome2.
+	* Make the analysis tools warnings non-modal.
+	* Make the autocorrect dialog non-modal, port to gnome2.
+	* Fix gnome2 specific random tool crash.
+	* Destroy outadated dialogs.
+	* Port solver dialog to gnome2.
+	* Make the solver information dialogs non-modal.
+	* Make the goal-seek warnings non-modal.
+	* Port consolidate dialog to gnome2.
+	* Make the consolidate warning dialogs non-modal.
+	* Allow cross-sheet consolidation.
+	* Turn sheet-rename dialog into guru.
 	* Port filter dialog to gnome2 using the expr-entry
-	  widget and improve filter mechanism
-	* Port the plugin manager dialog to gnome2
-	* Improve numerical precision in single factor ANOVA
-	* Correct regression analysis tool (intercept == 0 case)
-	* Port and redesign sort dialog
-	* Reenable the expr entry widgets in gurus
-	* Fix about dialog
+	  widget and improve filter mechanism.
+	* Port the plugin manager dialog to gnome2.
+	* Improve numerical precision in single factor ANOVA.
+	* Correct regression analysis tool (intercept == 0 case).
+	* Port and redesign sort dialog.
+	* Reenable the expr entry widgets in gurus.
+	* Fix about dialog.
 	* Convert lots of dialogs to use the new expr entry
-	  widget correctly
-	* Add help buttons to various dialogs
-	* Make reordering of sheets undoable
-	* Port zoom dialog and convert it into a guru
-	* Improve Sheet-Order dialog
-	* Make add/modify comment undoable
-	* Make comment clearing undoable
-	* Make comment deletion undoable
+	  widget correctly.
+	* Add help buttons to various dialogs.
+	* Make reordering of sheets undoable.
+	* Port zoom dialog and convert it into a guru.
+	* Improve Sheet-Order dialog.
+	* Make add/modify comment undoable.
+	* Make comment clearing undoable.
+	* Make comment deletion undoable.
 
 Jody:
 	* Initial port to gnome2.
@@ -86,6 +86,9 @@ Morten:
 
 Scott Ananian:
 	* Update the debian control files.
+
+Wayne Schuster:
+	* Implement opening of comment dialog by double clicking marker.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.3

@@ -28,6 +28,8 @@
 #include "sheet.h"
 #include "sheet-merge.h"
 #include "sheet-control-gui-priv.h"
+#include "dialogs.h"
+
 
 #include <libxml/globals.h>
 #include <gal/util/e-util.h>
@@ -129,6 +131,7 @@ cell_comment_event (GnomeCanvasItem *view, GdkEvent *event, SheetControlGUI *scg
 {
 	CellComment *cc;
 	SheetObject *so;
+	Range const *r;
 
 	switch (event->type) {
 	default:
@@ -139,6 +142,7 @@ cell_comment_event (GnomeCanvasItem *view, GdkEvent *event, SheetControlGUI *scg
 			return FALSE;
 	case GDK_ENTER_NOTIFY:
 	case GDK_LEAVE_NOTIFY:
+	case GDK_2BUTTON_PRESS:
 		break;
 	}
 
@@ -161,6 +165,11 @@ cell_comment_event (GnomeCanvasItem *view, GdkEvent *event, SheetControlGUI *scg
 		scg_comment_unselect (scg, cc);
 		break;
 
+	case GDK_2BUTTON_PRESS:
+		r = sheet_object_range_get (so);
+		dialog_cell_comment(scg->wbcg, so->sheet, &r->start);
+ 		break;
+ 
 	default:
 		return FALSE;
 	}

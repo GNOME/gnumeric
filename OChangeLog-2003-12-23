@@ -1,5 +1,14 @@
 2002-03-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/clipboard.c (clipboard_copy_range, clipboard_prepend_cell
+	  clipboard_prepend_comment) : check existing cells and all
+	  comments.
+	* sheet-object-cell-comment.c (cell_comment_event) : handle
+	  double click by opening dialog (slightly modified patch by
+	  Wayne Schuster)
+
+2002-03-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/clipboard.h : PASTE_ALL_TYPES should include comments
 
 2002-03-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
