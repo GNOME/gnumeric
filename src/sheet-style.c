@@ -116,14 +116,14 @@ sheet_style_compute_blank (Sheet const *sheet, int col, int row)
 }
 
 /** 
- * sheet_apply_style_to_selection:
+ * sheet_selection_apply_style:
  * @style: style to be attached
  *
  * This routine attaches @style to the various SheetSelections
  *
  */
 void
-sheet_apply_style_to_selection (Sheet *sheet, MStyle *style)
+sheet_selection_apply_style (Sheet *sheet, MStyle *style)
 {
 	Range const * range = selection_first_range (sheet);
 
@@ -159,6 +159,8 @@ sheet_selection_get_uniq_style (Sheet *sheet)
 
 	g_warning ("Unimplemented - worse still; wrong, needs perfect"
 		   "redundant area clipping to work");
+	/* Or in fact, merge needs to be spatially aware in some clever way:
+	   this is a nightmare so, instead get duplicate culling perfect */
 
 	style_list = NULL;
 	/* Look in the styles applied to the sheet */

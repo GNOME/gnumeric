@@ -1,3 +1,27 @@
+1999-10-05  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet.c (sheet_update_controls): Use new workbook_feedback_set.
+
+	* src/workbook-format-toolbar.c (workbook_feedback_set): Pass the style
+	element array instead + hack to use this.
+
+1999-10-04  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (sheet_selection_apply_style): renamed.
+
+	* src/dialogs/dialog-cell-format.c (set_color_picker_from_style): created.
+	(create_coloring_page): simplify & update.
+	(apply_coloring_format): 
+
+1999-10-04  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/dialogs/dialog-cell-format.c (dialog_cell_format): Update style
+	stuff. (cells_get_format): remove (create_number_format_page): update.
+	(create_align_page): update. (apply_align_format): update.
+	(apply_number_formats): ditto. (apply_font_format): re-implemented &
+	commented out large chunks of stuff.
+	(create_font_page): update: needs work. (create_coloring_page): update.
+
 1999-09-29  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/mstyle.c (mstyle_do_merge): Updated API & stuff.

@@ -295,7 +295,7 @@ Style         *sheet_style_compute            (Sheet const *sheet,
 					       int col, int row);
 Style         *sheet_style_compute_blank      (Sheet const *sheet,
 					       int col, int row);
-void           sheet_apply_style_to_selection (Sheet *sheet, MStyle *style);
+void           sheet_selection_apply_style    (Sheet *sheet, MStyle *style);
 MStyleElement *sheet_selection_get_uniq_style (Sheet *sheet);
 
 /* Redraw */

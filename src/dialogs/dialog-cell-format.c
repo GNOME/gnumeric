@@ -182,31 +182,6 @@ format_selected (GtkCList *clist, gint row, gint col, GdkEvent *event, GnomeProp
 }
 
 /*
- * cells_get_format:
- *
- * Checks if all the cells in the list share the same format string
- */
-static StyleFormat *
-cells_get_format (CellList *cells)
-{
-	StyleFormat *last_format;
-	
-	for (last_format = NULL; cells; cells = cells->next){
-		Style *style = cell_get_style (cells->data);
-
-		if (!last_format) {
-			last_format = style->format;
-			continue;
-		}
-
-		if (style->format != last_format)
-			return NULL;
-	}
-
-	return last_format;
-}
-
-/*
  * Creates the lists for the number display with our defaults
  */
 static GtkWidget *
@@ -238,7 +213,7 @@ format_code_changed (GtkEntry *entry, GnomePropertyBox *prop_win)
  * Creates the widget that represents the number format configuration page
  */
 static GtkWidget *
-create_number_format_page (GtkWidget *prop_win, CellList *cells)
+create_number_format_page (GtkWidget *prop_win, MStyleElement *styles)
 {
 	StyleFormat *format;
 	GtkWidget *l, *scrolled_list;
@@ -253,7 +228,10 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 	t = (GtkTable *) gtk_table_new (0, 0, 0);
 
 	/* try to select the current format the user is using */
-	format = cells_get_format (cells);
+	format = NULL;
+	if (styles [MSTYLE_FORMAT].type != MSTYLE_ELEMENT_CONFLICT &&
+	    styles [MSTYLE_FORMAT].type)
+		format = styles [MSTYLE_FORMAT].u.format;
 
 	/* 1. Categories */
 	gtk_table_attach (t, l = gtk_label_new (_("Categories")),
@@ -288,21 +266,25 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 	tt = GTK_TABLE (gtk_table_new (0, 0, 0));
 	
 	/* 2.1 Input line */
-	gtk_table_attach (tt, gtk_label_new (_("Code:")), 0, 1, 0, 1, 0, 0, 2, 0);
+	gtk_table_attach (tt, gtk_label_new (_("Code:")),
+			  0, 1, 0, 1, 0, 0, 2, 0);
 	
 	number_input = gtk_entry_new ();
 	gtk_signal_connect (GTK_OBJECT (number_input), "changed",
 			    GTK_SIGNAL_FUNC (format_code_changed), prop_win);
 
-	gtk_table_attach (tt, number_input, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 2);
+	gtk_table_attach (tt, number_input, 1, 2, 0, 1,
+			  GTK_FILL | GTK_EXPAND, 0, 0, 2);
 	
 	/* 2.2 Sample */
-	gtk_table_attach (tt, gtk_label_new (_("Sample:")), 0, 1, 1, 2, 0, 0, 2, 0);
+	gtk_table_attach (tt, gtk_label_new (_("Sample:")),
+			  0, 1, 1, 2, 0, 0, 2, 0);
 	number_sample = gtk_label_new ("X");
 	gtk_misc_set_alignment (GTK_MISC (number_sample), 0.0, 0.5);
-	gtk_table_attach (tt, number_sample, 1, 2, 1, 2, GTK_FILL | GTK_EXPAND, 0, 0, 2);
+	gtk_table_attach (tt, number_sample, 1, 2, 1, 2,
+			  GTK_FILL | GTK_EXPAND, 0, 0, 2);
 
-	gtk_table_attach (t, GTK_WIDGET (tt), 0, 2, INPUT_LINE, INPUT_LINE+1,
+	gtk_table_attach (t, GTK_WIDGET (tt), 0, 2, INPUT_LINE, INPUT_LINE + 1,
 			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
 
 	/* 3. Format codes */
@@ -313,7 +295,8 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 			  1, 2, BOXES_LINE, BOXES_LINE+1,
 			  GTK_FILL | GTK_EXPAND, 0, 0, 0);
 	gtk_misc_set_alignment (GTK_MISC (l), 0.0, 0.5);
-	gtk_table_attach_defaults (t, scrolled_list, 1, 2, BOXES_LINE + 1, BOXES_LINE + 2);
+	gtk_table_attach_defaults (t, scrolled_list, 1, 2,
+				   BOXES_LINE + 1, BOXES_LINE + 2);
 	format_list_fill (0);
 
 	/* 3.1 connect the signal handled for row selected */
@@ -322,9 +305,10 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 
 
 	/* 3.2: Invoke the current style for the cell if possible */
-	if (format){
+	if (format) {
 		if (!format_find (format->format))
-		    gtk_entry_set_text (GTK_ENTRY (number_input), format->format);
+		    gtk_entry_set_text (GTK_ENTRY (number_input),
+					format->format);
 	}
 
 
@@ -335,21 +319,17 @@ create_number_format_page (GtkWidget *prop_win, CellList *cells)
 }
 
 static void
-apply_number_formats (Style *style, Sheet *sheet, CellList *list)
+apply_number_formats (Style *style, Sheet *sheet, MStyleElement *styles)
 {
+	MStyleElement e;
 	char *str = gtk_entry_get_text (GTK_ENTRY (number_input));
 	
 	if (!strcmp (str, ""))
 		return;
 
-	for (;list; list = list->next){
-		Cell *cell = list->data;
-
-		cell_set_format (cell, str);
-	}
-
-	style->valid_flags |= STYLE_FORMAT;
-	style->format = style_format_new (str);
+	e.type = MSTYLE_FORMAT;
+	e.u.format = style_format_new (str);
+	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
 }
 
 typedef struct {
@@ -416,12 +396,11 @@ make_radio_selection (GtkWidget *prop_win, char *title, align_def_t *array, GSLi
 }
 
 static GtkWidget *
-create_align_page (GtkWidget *prop_win, CellList *cells)
+create_align_page (GtkWidget *prop_win, MStyleElement *styles)
 {
-	GtkTable *t;
+	GtkTable  *t;
 	GtkWidget *w;
-	int ha, va, autor, ok = 0;
-	GList *l;
+	int        n;
 	
 	t = (GtkTable *) gtk_table_new (0, 0, 0);
 
@@ -438,49 +417,28 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 	gtk_signal_connect (GTK_OBJECT (auto_return), "toggled",
 			    GTK_SIGNAL_FUNC (prop_modified), prop_win);
 	
-	/* Check if all cells have the same properties */
-	/*
-	 * FIXME: This should check the cells *AND* the
-	 * style regions to figure out what to check and what
-	 * not, right now this is broken in that regard
-	 */
-	if (cells){
-		Style *style = cell_get_style (cells->data);
-		ha    = style->halign;
-		va    = style->valign;
-		autor = style->fit_in_cell;
-		
-		for (ok = 1, l = cells; l; l = l->next){
-			Style *style = cell_get_style (l->data);
-			
-			if (style->halign != ha ||
-			    style->valign != va ||
-			    style->fit_in_cell != autor){
-				ok = 0;
+	if (styles [MSTYLE_ALIGN_H].type != MSTYLE_ELEMENT_CONFLICT &&
+	    styles [MSTYLE_ALIGN_H].type)
+		for (n = 0; horizontal_aligns [n].name; n++)
+			if (horizontal_aligns [n].flag ==
+			    styles [MSTYLE_ALIGN_H].u.align.h) {
+				gtk_radio_button_select (hradio_list, n);
 				break;
 			}
-		}
-
-		/* If all the cells share the same alignment, select that on the radio boxes */
-		if (ok){
-			int n;
-
-			for (n = 0; horizontal_aligns [n].name; n++)
-				if (horizontal_aligns [n].flag == ha){
-					gtk_radio_button_select (hradio_list, n);
-					break;
-				}
+	if (styles [MSTYLE_ALIGN_V].type != MSTYLE_ELEMENT_CONFLICT &&
+	    styles [MSTYLE_ALIGN_V].type)
+		for (n = 0; vertical_aligns [n].name; n++)
+			if (vertical_aligns [n].flag ==
+			    styles [MSTYLE_ALIGN_V].u.align.v) {
+				gtk_radio_button_select (vradio_list, n);
+				break;
+			}
 			
-			for (n = 0; vertical_aligns [n].name; n++)
-				if (vertical_aligns [n].flag == va){
-					gtk_radio_button_select (vradio_list, n);
-					break;
-				}
 
-			if (autor)
-				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (auto_return), 1);
-		}
-	}
+	if (styles [MSTYLE_FIT_IN_CELL].type != MSTYLE_ELEMENT_CONFLICT &&
+	    styles [MSTYLE_FIT_IN_CELL].type)
+		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (auto_return),
+					      styles [MSTYLE_FIT_IN_CELL].u.fit_in_cell);
 
 	/* Now after we *potentially* toggled the radio button above, we
 	 * connect the signals to activate the propertybox
@@ -494,27 +452,38 @@ create_align_page (GtkWidget *prop_win, CellList *cells)
 }
 
 static void
-apply_align_format (Style *style, Sheet *sheet, CellList *cells)
+apply_align_format (Style *style, Sheet *sheet, MStyleElement *styles)
 {
 	int i;
 	int halign, valign, autor;
+	MStyleElement e;
 
 	i = gtk_radio_group_get_selected (hradio_list);
 	halign = horizontal_aligns [i].flag;
+	if (halign) {
+		e.type = MSTYLE_ALIGN_H;
+		e.u.align.h = halign;
+		sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+	}
+
 	i = gtk_radio_group_get_selected (vradio_list);
 	valign = vertical_aligns [i].flag;
-	autor = GTK_TOGGLE_BUTTON (auto_return)->active;
-
-	for (; cells; cells = cells->next){
-		Cell *cell = cells->data;
-		
-		cell_set_alignment (cell, halign, valign, ORIENT_HORIZ, autor);
+	if (valign) {
+		e.type = MSTYLE_ALIGN_V;
+		e.u.align.v = valign;
+		sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
 	}
-	style->halign = halign;
-	style->valign = valign;
-	style->orientation = ORIENT_HORIZ;
-	style->fit_in_cell = autor;
-	style->valid_flags |= STYLE_ALIGN;
+
+	autor = GTK_TOGGLE_BUTTON (auto_return)->active;
+	if (autor) {
+		e.type = MSTYLE_FIT_IN_CELL;
+		e.u.fit_in_cell = autor;
+		sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+	}
+
+	e.type = MSTYLE_ORIENTATION;
+	e.u.orientation = ORIENT_HORIZ;
+	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
 }
 
 static void
@@ -524,7 +493,7 @@ font_changed (GtkWidget *widget, GtkStyle *previous_style, GnomePropertyBox *pro
 }
 
 static GtkWidget *
-create_font_page (GtkWidget *prop_win, CellList *cells)
+create_font_page (GtkWidget *prop_win, MStyleElement *styles)
 {
 	font_widget = font_selector_new ();
 	gtk_widget_show (font_widget);
@@ -536,12 +505,12 @@ create_font_page (GtkWidget *prop_win, CellList *cells)
 }
 
 static void
-apply_font_format (Style *style, Sheet *sheet, CellList *cells)
+apply_font_format (Style *style, Sheet *sheet, MStyleElement *styles)
 {
 	FontSelector *font_sel = FONT_SELECTOR (font_widget);
 	GnomeDisplayFont *gnome_display_font;
 	GnomeFont *gnome_font;
-	GList *l;
+	MStyleElement e;
 	char *family_name;
 	double height;
 
@@ -553,28 +522,44 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 	family_name = gnome_font->fontmap_entry->familyname;
 	height = gnome_display_font->gnome_font->size;
 
-	style->valid_flags |= STYLE_FONT;
+/*	style->valid_flags |= STYLE_FONT;
 	style->font = style_font_new (
 		family_name,
 		gnome_font->size,
 		sheet->last_zoom_factor_used,
 		gnome_font->fontmap_entry->weight_code >= GNOME_FONT_BOLD,
-		gnome_font->fontmap_entry->italic);
+		gnome_font->fontmap_entry->italic);*/
+
+	e.type = MSTYLE_FONT_NAME;
+	e.u.font.name = g_strdup (family_name);
+	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+
+	e.type = MSTYLE_FONT_SIZE;
+	e.u.font.size = gnome_font->size;
+	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+		
+	e.type = MSTYLE_FONT_BOLD;
+	e.u.font.bold = gnome_font->fontmap_entry->weight_code >= GNOME_FONT_BOLD;
+	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
+		
+	e.type = MSTYLE_FONT_ITALIC;
+	e.u.font.italic = gnome_font->fontmap_entry->italic;
+	sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
 		
 	/* Apply the new font to all of the cell rows */
-	for (; cells; cells = cells->next){
+/*	for (; cells; cells = cells->next){
 		Cell *cell = cells->data;
 		
 		cell_set_font_from_style (cell, style->font);
-	}
+		}*/
 
 	/* Now apply it to every row in the selection */
-	for (l = sheet->selections; l; l = l->next){
+/*	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
-		GList *rl;
+		GList *rl;*/
 		
 		/* Special case, the whole spreadsheet */
-		if (ss->user.start.row == 0 && ss->user.end.row == SHEET_MAX_ROWS-1)
+/*		if (ss->user.start.row == 0 && ss->user.end.row == SHEET_MAX_ROWS-1)
 			sheet_row_set_internal_height (sheet, &sheet->default_row_style, height);
 
 		for (rl = sheet->rows_info; rl; rl = rl->next){
@@ -587,7 +572,7 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 			
 			sheet_row_set_internal_height (sheet, ri, height);
 		}
-	}
+		}*/
 }
 
 
@@ -689,120 +674,63 @@ create_background_radio (GtkWidget *prop_win)
 	return frame;
 }
 
+static void
+set_color_picker_from_style (GnomeColorPicker *cp, MStyleElement e)
+{
+	gdouble rd, gd, bd, ad;
+	gushort red, green, blue;
+
+	g_return_if_fail (cp != NULL);
+	g_return_if_fail (e.type == MSTYLE_COLOR_FORE ||
+			  e.type == MSTYLE_COLOR_BACK);
+
+	red   = e.u.color.fore->red;
+	green = e.u.color.fore->green;
+	blue  = e.u.color.fore->blue;
+	
+	rd = (gdouble) red / 65535;
+	gd = (gdouble) green / 65535;
+	bd = (gdouble) blue / 65535;
+	ad = 1.0;
+	gnome_color_picker_set_d (cp, rd, gd, bd, ad);
+}
+
 static GtkWidget *
-create_coloring_page (GtkWidget *prop_win, CellList *cells)
+create_coloring_page (GtkWidget *prop_win,
+		      MStyleElement *styles)
 {
 	GtkTable *t;
 	GtkWidget *fore, *back;
 	int e = GTK_FILL | GTK_EXPAND;
-
-	gdouble rd, gd, bd, ad;
-	gushort fore_red, fore_green, fore_blue;
-	gushort back_red, back_green, back_blue;
-	GList *l;
-	int ok_fore, ok_back, foreground_flag, background_flag;
 
 	t = (GtkTable *) gtk_table_new (0, 0, 0);
 
 	fore = create_foreground_radio (prop_win);
 	back = create_background_radio (prop_win);
 
-	/* Check if all cells have the same properties */
-	/*
-	 * FIXME: This should check the cells *AND* the
-	 * style regions to figure out what to check and what
-	 * not, right now this is broken in that regard
-	 */
-	if (cells) {
-		Style *style = cell_get_style (cells->data);
-		
-		fore_red   = style->fore_color->color.red;
-		fore_green = style->fore_color->color.green;
-		fore_blue  = style->fore_color->color.blue;
-			     
-		back_red   = style->back_color->color.red;
-		back_green = style->back_color->color.green;
-		back_blue  = style->back_color->color.blue;
-
-		/*
-		 * What follows is ugly: I believe we should use the method illustrated
-		 * in the following two lines:
-		 * foreground_flag = (((Cell *) (cells->data))->style->valid_flags & STYLE_FORE_COLOR);
-		 * background_flag = (((Cell *) (cells->data))->style->valid_flags & STYLE_BACK_COLOR);
-		 * instead of what we are using, but it just does not work (even though the
-		 * flag is being set/cleared cell by cell and style-wise in function apply_coloring_format)
-		 */
-		if (fore_red   == 0 &&
-		    fore_green == 0 &&
-		    fore_blue  == 0){
-			foreground_flag = 0;
+	if (styles [MSTYLE_COLOR_FORE].type != MSTYLE_ELEMENT_CONFLICT)
+		if (styles [MSTYLE_COLOR_FORE].type) {
+			gtk_radio_button_select (foreground_radio_list, 0);
+			gnome_color_picker_set_d (GNOME_COLOR_PICKER (foreground_cs), 0, 0, 0, 0);
 		} else {
-			foreground_flag = STYLE_FORE_COLOR;
+			gtk_radio_button_select (foreground_radio_list, 1);
+			set_color_picker_from_style (GNOME_COLOR_PICKER (foreground_cs),
+						     styles [MSTYLE_COLOR_FORE]);
 		}
-		if (back_red   == 0xffff &&
-		    back_green == 0xffff &&
-		    back_blue  == 0xffff){
-			background_flag = 0;
-		} else {
-			background_flag = STYLE_BACK_COLOR;
-		}
-		
-		/*
-		 * First scan is to find out whether all cells have the same foreground color,
-		 * second one is the equivalent for background
-		 */
-		for (ok_fore = 1, l = cells; l; l = l->next){
-			Style *style = cell_get_style (l->data);
+	else
+		gtk_radio_button_select (foreground_radio_list, 2);
 
-			if (style->fore_color->color.red != fore_red ||
-			    style->fore_color->color.green != fore_green ||
-			    style->fore_color->color.blue != fore_blue){
-				ok_fore = 0;
-				break;
-			}
-		}
-		for (ok_back = 1, l = cells; l; l = l->next){
-			Style *style = cell_get_style (l->data);
-
-			if (style->back_color->color.red != back_red ||
-			    style->back_color->color.green != back_green ||
-			    style->back_color->color.blue != back_blue){
-				ok_back = 0;
-				break;
-			}
-		}
-
-		if (ok_fore != 0){
-			if (foreground_flag == 0){
-				gtk_radio_button_select (foreground_radio_list, 0);
-				gnome_color_picker_set_d (GNOME_COLOR_PICKER (foreground_cs), 0, 0, 0, 0);
-			} else {
-				rd = (gdouble) fore_red / 65535;
-				gd = (gdouble) fore_green / 65535;
-				bd = (gdouble) fore_blue / 65535;
-				ad = 1;
-				gtk_radio_button_select (foreground_radio_list, 1);
-				gnome_color_picker_set_d (GNOME_COLOR_PICKER (foreground_cs), rd, gd, bd, ad);
-			}
+	if (styles [MSTYLE_COLOR_BACK].type != MSTYLE_ELEMENT_CONFLICT)
+		if (styles [MSTYLE_COLOR_BACK].type) {
+			gtk_radio_button_select (background_radio_list, 0);
+			gnome_color_picker_set_d (GNOME_COLOR_PICKER (background_cs), 0, 0, 0, 0);
 		} else {
-			gtk_radio_button_select (foreground_radio_list, 2);
+			gtk_radio_button_select (background_radio_list, 1);
+			set_color_picker_from_style (GNOME_COLOR_PICKER (background_cs),
+						     styles [MSTYLE_COLOR_BACK]);
 		}
-		if (ok_back != 0){
-			if (background_flag == 0){
-				gtk_radio_button_select (background_radio_list, 0);
-				gnome_color_picker_set_d (GNOME_COLOR_PICKER (background_cs), 1, 1, 1, 1);
-			} else {
-				rd = (gdouble) back_red / 65535;
-				gd = (gdouble) back_green / 65535;
-				bd = (gdouble) back_blue / 65535;
-				ad = 1;
-				gtk_radio_button_select (background_radio_list, 1);
-				gnome_color_picker_set_d (GNOME_COLOR_PICKER (background_cs), rd, gd, bd, ad);
-			}
-		} else {
-			gtk_radio_button_select (background_radio_list, 3);
-		}
-	}
+	else
+		gtk_radio_button_select (foreground_radio_list, 2);
 
 	make_radio_notify_change (foreground_radio_list, prop_win);
 	make_radio_notify_change (background_radio_list, prop_win);
@@ -816,14 +744,13 @@ create_coloring_page (GtkWidget *prop_win, CellList *cells)
 }
 
 static void
-apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
+apply_coloring_format (Style *style, Sheet *sheet, MStyleElement *styles)
 {
 	double rd, gd, bd, ad;
 	gushort fore_change = FALSE, back_change = FALSE;
 	gushort fore_red=0, fore_green=0, fore_blue=0;
 	gushort back_red=0xff, back_green=0xff, back_blue=0xff;
-
-	Cell *cell;
+	MStyleElement e;
 
 	/*
 	 * Let's check the foreground first
@@ -833,11 +760,12 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 	 * case 0 means no foreground
 	 */
 	case 0:
-		fore_red   = 0;
+		g_warning ("Default unimplemented");
+/*		fore_red   = 0;
 		fore_green = 0;
 		fore_blue  = 0;
 		style->valid_flags &= ~STYLE_FORE_COLOR;
-		fore_change = TRUE;
+		fore_change = TRUE;*/
 		break;
 	/*
 	 * case 1 means colored foreground
@@ -847,7 +775,6 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		fore_red   = rd * 65535;
 		fore_green = gd * 65535;
 		fore_blue  = bd * 65535;
-		style->valid_flags |= STYLE_FORE_COLOR;
 		fore_change = TRUE;
 		break;
 	/*
@@ -867,11 +794,12 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 	 * case 0 means no background
 	 */
 	case 0:
-		back_red   = 0xffff;
+		g_warning ("Default unimplemented");
+/*		back_red   = 0xffff;
 		back_green = 0xffff;
 		back_blue  = 0xffff;
 		style->valid_flags &= ~STYLE_BACK_COLOR;
-		style->valid_flags &= ~STYLE_PATTERN;
+		style->valid_flags &= ~STYLE_PATTERN;*/
 		back_change = TRUE;
 		break;
 
@@ -884,8 +812,6 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		back_red   = rd * 65535;
 		back_green = gd * 65535;
 		back_blue  = bd * 65535;
-		style->valid_flags |= STYLE_BACK_COLOR;
-		style->valid_flags &= ~STYLE_PATTERN;
 		back_change = TRUE;
 		break;
 
@@ -897,8 +823,7 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		back_green = 0xffff;
 		back_blue = 0xffff;
 		
-		style->valid_flags &= ~STYLE_BACK_COLOR;
-		style->valid_flags |= STYLE_PATTERN;
+		g_warning ("Pattern rendering unimplemented");
 		back_change = TRUE;
 		break;
 	/*
@@ -909,32 +834,25 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 		break;
 	}
 
-	/* Apply the color to the cells */
-	for (; cells; cells = cells->next){
-		cell = cells->data;
-
-		if (fore_change==TRUE) {
-			cell_set_foreground (
-				cell, fore_red, fore_green, fore_blue);
-		}
-		if (back_change==TRUE) {
-			cell_set_background (cell, back_red, back_green, back_blue);
-/*			cell_set_pattern    (cell, 2); */
-		}
+	if (fore_change) {
+		e.type = MSTYLE_COLOR_FORE;
+		e.u.color.fore = style_color_new (fore_red, fore_green, fore_blue);
+		sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
 	}
 
-	if (fore_change==TRUE) {
-		style->fore_color  = style_color_new (fore_red, fore_green, fore_blue);
-	}
-	if (back_change==TRUE) {
-		style->back_color  = style_color_new (back_red, back_green, back_blue);
+	if (back_change) {
+		e.type = MSTYLE_COLOR_BACK;
+		e.u.color.fore = style_color_new (back_red, back_green, back_blue);
+		sheet_selection_apply_style (sheet, mstyle_new_elem (NULL, e));
 	}
 }
 
 static struct {
 	char       *title;
-	GtkWidget *(*create_page)(GtkWidget *prop_win, CellList *cells);
-	void       (*apply_page)(Style *style, Sheet *sheet, CellList *cells);
+	GtkWidget *(*create_page) (GtkWidget *prop_win,
+				   MStyleElement *styles);
+	void       (*apply_page)  (Style *style, Sheet *sheet,
+				   MStyleElement *styles);
 } cell_format_pages [] = {
 	{ N_("Number"),    create_number_format_page,  apply_number_formats  },
 	{ N_("Alignment"), create_align_page,          apply_align_format    },
@@ -944,7 +862,7 @@ static struct {
 };
 
 static void
-cell_properties_apply (GtkObject *w, int page, CellList *cells)
+cell_properties_apply (GtkObject *w, int page, MStyleElement *styles)
 {
 	Sheet *sheet;
 	Style *style;
@@ -960,22 +878,16 @@ cell_properties_apply (GtkObject *w, int page, CellList *cells)
 	style = style_new_empty ();
 	style->valid_flags = 0;
 
-	for (l = cells; l; l = l->next){
-		Cell *cell = l->data;
-
-		cell_queue_redraw (cell);
-	}
-
 	cell_freeze_redraws ();
 	
 	for (i = 0; cell_format_pages [i].title; i++)
-		(*cell_format_pages [i].apply_page)(style, sheet, cells);
+		(*cell_format_pages [i].apply_page)(style, sheet, styles);
 
 	cell_thaw_redraws ();
 	
 	/* Attach this style to all of the selections */
 	for (l = sheet->selections; l; l = l->next){
-		SheetSelection *ss = l->data;
+/*		SheetSelection *ss = l->data;*/
 		
 		g_warning ("No style attachment");
 /*		sheet_style_attach (
@@ -1005,31 +917,26 @@ void
 dialog_cell_format (Workbook *wb, Sheet *sheet)
 {
 	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
-	GtkWidget *prop_win;
-	CellList  *cells;
-	int i;
-
+	GtkWidget     *prop_win;
+	MStyleElement *styles;
+	int            i;
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_assert (cell_format_prop_win == NULL);
 
-	/* TODO : rework to use selection_apply, but for now we don't care
-	 * about duplicates */
-	cells = selection_to_list (sheet, TRUE);
+	styles = sheet_selection_get_uniq_style (sheet);
 	
 	prop_win = gnome_property_box_new ();
-	gnome_dialog_set_parent (GNOME_DIALOG (prop_win), GTK_WINDOW (wb->toplevel));
+	gnome_dialog_set_parent (GNOME_DIALOG (prop_win),
+				 GTK_WINDOW (wb->toplevel));
 	
-	if (cells)
-		first_cell = cells->data;
-	else
-		first_cell = NULL;
+	g_warning ("First cell should be setup");
 	
 	for (i = 0; cell_format_pages [i].title; i++){
 		GtkWidget *page;
 
-		page = (*cell_format_pages [i].create_page)(prop_win, cells);
+		page = (*cell_format_pages [i].create_page) (prop_win, styles);
 		gnome_property_box_append_page (
 			GNOME_PROPERTY_BOX (prop_win), page,
 			gtk_label_new (_(cell_format_pages [i].title)));
@@ -1037,7 +944,7 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	}
 
 	gtk_signal_connect (GTK_OBJECT (prop_win), "apply",
-			    GTK_SIGNAL_FUNC (cell_properties_apply), cells);
+			    GTK_SIGNAL_FUNC (cell_properties_apply), styles);
 	gtk_signal_connect (GTK_OBJECT (prop_win), "help",
 			    GTK_SIGNAL_FUNC (gnome_help_pbox_goto), &help_ref);
 	
@@ -1057,5 +964,5 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 	gtk_main ();
 	cell_format_prop_win = NULL;
 
-	sheet_cell_list_free (cells);
+	g_free (styles);
 }

@@ -1271,54 +1271,11 @@ range_is_homogeneous(Sheet *sheet,
 void
 sheet_update_controls (Sheet *sheet)
 {
-/*	range_homogeneous_style_p closure;
-	int flags;
-	
-	memset (&closure, 0, sizeof (closure));
-	closure.first = TRUE;
-	closure.bold_common = TRUE;
-	closure.italic_common = TRUE;
-	closure.font_common = TRUE;
-	closure.font_size_common = TRUE;
+	MStyleElement *styles = sheet_selection_get_uniq_style (sheet);
 
-*//* Double counting is ok, don't bother breaking up the regions *//*
-	selection_apply (sheet, &range_is_homogeneous,
-			 TRUE, &closure);
-
-	if (closure.first) {
-								   *//*
-		 * If no cells are on the selection, use the first cell
-		 * in the range to compute the values
-		 *//*
-		SheetSelection const * const ss = sheet->selections->data;
-		Style *style = sheet_style_compute (sheet, ss->user.start.col,
-						    ss->user.start.row, NULL);
-		closure.bold = style->font->is_bold;
-		closure.italic = style->font->is_italic;
-		closure.font = style->font->font;
-		closure.font_size = style->font->size;
-
-		flags = WORKBOOK_FEEDBACK_BOLD |
-			WORKBOOK_FEEDBACK_ITALIC |
-			WORKBOOK_FEEDBACK_FONT_SIZE |
-			WORKBOOK_FEEDBACK_FONT;
-		
-		style_destroy (style);
-	} else 
-		flags = (closure.bold_common ? WORKBOOK_FEEDBACK_BOLD : 0) |
-			(closure.italic_common ? WORKBOOK_FEEDBACK_ITALIC : 0) |
-			(closure.font_size_common ? WORKBOOK_FEEDBACK_FONT_SIZE : 0) |
-			(closure.font_common ? WORKBOOK_FEEDBACK_FONT : 0);
+	workbook_feedback_set (sheet->workbook, styles);
 	
-	if (flags == 0)
-		return;
-	
-	workbook_feedback_set (sheet->workbook, flags,
-			       closure.italic,
-			       closure.bold,
-			       closure.font_size,
-			       closure.font);*/
-	g_warning ("implement sheet_update_controls");
+	g_free (styles);
 }		
 
 int
