@@ -36,4 +36,4 @@ gnum_gb_la_LIBADD =		\
 	$(EXTRA_GNOME_LIBS)	\
 	-lm @GLIB_LIBS@ -lgb -lgbrun
 
-EXTRA_DIST = README main.gba gnumeric.gbp
+EXTRA_DIST = README main.gba gnumeric.gbp $(gnum_gb_DATA)
