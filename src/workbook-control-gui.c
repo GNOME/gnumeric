@@ -643,10 +643,10 @@ cb_sheet_label_button_press (GtkWidget *widget, GdkEventButton *event,
 	notebook = child->parent;
 	page_number = gtk_notebook_page_num (GTK_NOTEBOOK (notebook), child);
 
-	if (event->button == 1 || NULL != scg->wbcg->rangesel) {
-		gtk_notebook_set_page (GTK_NOTEBOOK (notebook), page_number);
+	gtk_notebook_set_page (GTK_NOTEBOOK (notebook), page_number);
+
+	if (event->button == 1 || NULL != scg->wbcg->rangesel)
 		return TRUE;
-	}
 
 	if (event->button == 3) {
 		sheet_menu_label_run (SHEET_CONTROL_GUI (obj), event);

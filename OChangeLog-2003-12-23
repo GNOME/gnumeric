@@ -1,3 +1,9 @@
+2002-07-21  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_sheet_label_button_press) : be
+	  consistent and select before bringing up the context menu given
+	  that the menu is being applied to the tab.
+
 2002-07-20  Jon K Hellan  <hellan@acm.org>
 
 	* configure.in: Test for BROKEN_PY_INITIALIZE feature (before
