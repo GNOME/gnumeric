@@ -128,7 +128,6 @@ is_still_feasible (Sheet *sheet, SolverResults *res, int col, gnm_float value)
 			break;
 		case SolverINT:
 		case SolverBOOL:
-		case SolverOF:
 		        break;
 		}
 	}

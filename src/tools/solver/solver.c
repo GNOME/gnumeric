@@ -312,7 +312,7 @@ restore_original_values (SolverResults *res)
  */
 
 static int
-get_col_nbr (SolverResults *res, GnmCellPos *pos)
+get_col_nbr (SolverResults *res, GnmCellPos const *pos)
 {
         int  i;
         GnmCell *cell;
@@ -384,7 +384,7 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 
 	/* Add constraints. */
 	for (i = ind = 0; i < param->n_total_constraints; i++) {
-	        SolverConstraint *c = solver_get_constraint (res, i);
+	        SolverConstraint const *c = solver_get_constraint (res, i);
 		GTimeVal cur_time;
 
 		target = sheet_cell_get (sheet, c->lhs.col, c->lhs.row);
@@ -462,22 +462,35 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 	        alg->maxim_fn (program);
 	        break;
 	case SolverEqualTo:
+		*errmsg = _("EqualTo models are not supported yet.  Please use Min or Max");
+		solver_results_free (res);
 	        return NULL; /* FIXME: Equal to feature not yet implemented. */
 	default:
+		g_warning ("unknown problem type %d", param->problem_type);
+		solver_results_free (res);
 	        return NULL;
 	}
 
 	/* Set options. */
 	if (alg->set_option_fn (program, SolverOptAutomaticScaling,
 				&(param->options.automatic_scaling),
-				NULL, NULL))
+				NULL, NULL)) {
+		*errmsg = _("Failure setting automatic scaling with this solver, try a different algorithm.");
+		solver_results_free (res);
 	        return NULL;
+	}
 	if (alg->set_option_fn (program, SolverOptMaxIter, NULL, NULL,
-				&(param->options.max_iter)))
+				&(param->options.max_iter))) {
+		*errmsg = _("Failure setting the maximum number of iterations with this solver, try a different algorithm.");
+		solver_results_free (res);
 	        return NULL;
+	}
 	if (alg->set_option_fn (program, SolverOptMaxTimeSec, NULL, &start_time,
-				&(param->options.max_time_sec)))
+				&(param->options.max_time_sec))) {
+		*errmsg = _("Failure setting setting the maximum solving time with this solver, try a different algorithm.");
+		solver_results_free (res);
 	        return NULL;
+	}
 
 	/* Assume Integer (Discrete) button. */
 	if (param->options.assume_discrete) {

@@ -1,3 +1,23 @@
+2004-11-04  Jody Goldberg <jody@gnome.org>
+
+	* solver.glade : link up the Type mnemonic, and name the left/right
+	  labels so that we can connect them to the expr entries.  Add some
+	  icons to the constraint page.
+
+	* dialog-solver.c (solver_reporting) : handle the report generation
+	  potentially deleting the dialog and state.
+	(cb_dialog_solve_clicked) : ditto
+	(dialog_init) : have the contraint entries activation add the
+	  constraint rather than running solve.
+	(cb_dialog_set_rhs_sensitivity) : re-enable this code and handle the
+	  label too.
+
+2004-11-03  Jody Goldberg <jody@gnome.org>
+
+	* dialog-solver.c (check_int_constraints) : Adjust calling convention
+	  to handle new signature for global_range_contained.
+	* dialog-merge.c (cb_merge_merge_clicked) : ditto.
+
 2004-11-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-preferences.c: reenable some of the `internal' 

@@ -5,6 +5,15 @@ Andreas:
 	* Fix default font selection in preference dialog. [#157238]
 	* Fix preference dialog window fraction selection. [#157239]
 
+Jody:
+	* Fix perl and python tests in configure
+	* Fix creation of slow sheet objects when there are frozen panes
+	* Fix the solver and several related reports
+	* Make the solver dialog's contraint page more usable
+
+Kasal:
+	* More cleanup in configure
+
 Morten:
 	* Fix Clear-All crash.  [#157376]
 

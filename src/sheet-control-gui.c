@@ -1674,14 +1674,14 @@ scg_mode_edit (SheetControl *sc)
 	scg_mode_clear (scg);
 
 	/* During destruction we have already been disconnected
-	 * so don't bother changing the cursor
-	 */
+	 * so don't bother changing the cursor */
 	if (sc->sheet != NULL && sc->view != NULL) {
 		scg_set_display_cursor (scg);
 		scg_cursor_visible (scg, TRUE);
 	}
 
-	if (scg->wbcg != NULL && wbcg_edit_get_guru (scg->wbcg) != NULL)
+	if (scg->wbcg != NULL && wbcg_edit_get_guru (scg->wbcg) != NULL &&
+	    scg == wbcg_cur_scg	(scg->wbcg))
 		wbcg_edit_finish (scg->wbcg, WBC_EDIT_REJECT, NULL);
 }
 

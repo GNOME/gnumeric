@@ -251,9 +251,8 @@ cb_merge_merge_clicked (G_GNUC_UNUSED GtkWidget *ignore,
 		g_free (field_string);
 
 		g_return_if_fail (v_data != NULL && v_field != NULL);
-		if (!global_range_contained (v_field, v_zone)) {
+		if (!global_range_contained (state->sheet, v_field, v_zone))
 			field_problems++;
-		}
 		data_list = g_slist_prepend (data_list, v_data);
 		field_list = g_slist_prepend (field_list, v_field);
 		n++;

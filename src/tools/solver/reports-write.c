@@ -782,8 +782,8 @@ solver_program_report (WorkbookControl *wbc,
 	        col = 0;
 		for (i = 0; i < vars; i++) {
 		        if (res->obj_coeff[i] != 0) {
-			  if (1 + col*3 + 3 > 15) /* SHEET_MAX_COLS) */
-				        goto unsuccessful;
+				if (1 + col*3 + 3 > SHEET_MAX_COLS)
+					goto unsuccessful;
 
 			        /* Print the sign. */
 			        if (res->obj_coeff[i] < 0)
@@ -811,13 +811,19 @@ solver_program_report (WorkbookControl *wbc,
 
 	/* Print the constraints. */
 	row = 10;
-	for (i = 0; i < res->param->n_total_constraints; i++) {
-	        SolverConstraint *c = res->constraints_array[i];
+	for (i = 0; i < res->param->n_total_constraints; i++, row++) {
+	        SolverConstraint const *c = res->constraints_array[i];
 
 		/* Print the constraint function. */
 		col = 0;
-		if (c->type == SolverINT || c->type == SolverBOOL)
+		if (c->type == SolverINT) {
+		        dao_set_cell (&dao, col*3 + 1, row, "integer");
 		        continue;
+		}
+		if (c->type == SolverBOOL) {
+		        dao_set_cell (&dao, col*3 + 1, row, "bool");
+		        continue;
+		}
 		for (n = 0; n < res->param->n_variables; n++) {
 		        if (res->constr_coeff[i][n] != 0) {
 			        /* Print the sign. */
@@ -857,15 +863,12 @@ solver_program_report (WorkbookControl *wbc,
 		case SolverEQ:
 		        dao_set_cell (&dao, col*3 + 1, row, "=");
 		        break;
-		case SolverINT:
-		case SolverBOOL:
-		case SolverOF:
-		        break;
+		default :
+			g_warning ("unknown constraint type %d", c->type);
 		}
 
 		/* Set RHS column. */
 		dao_set_cell_float (&dao, col*3 + 2, row, res->rhs[i]);
-		row++;
 	}
 
 

@@ -673,7 +673,7 @@ int main(int argc, char *argv[])
 #endif
 
   if(sectimeout>0)
-    set_timeout(lp, sectimeout);
+    lp_solve_set_timeout(lp, sectimeout);
   set_print_sol(lp, print_sol);
   set_epsilon(lp, epsilon);
   set_epspivot(lp, epspivot);

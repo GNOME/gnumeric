@@ -1,3 +1,13 @@
+2004-11-04  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-control-gui.c (scg_mode_edit) : no need to finish editing
+	  if we are not current sheet.
+
+2004-11-03  Jody Goldberg <jody@gnome.org>
+
+	* src/ranges.c (global_range_contained) : adjust the signature to
+	  provide a Sheet* context.
+
 2004-11-04  Morten Welinder  <terra@gnome.org>
 
 	* src/mathfunc.c (lgamma1p): Fix gnm_float buglet.

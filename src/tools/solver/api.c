@@ -136,8 +136,15 @@ w_lp_solve_set_constr (SolverProgram program, int row,
 		       SolverConstraintType type, gnm_float rhs)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
-
-        lp_solve_set_constr_type (lp->p, row + 1, type);
+	int lp_contraint_type;
+	switch (type) {
+	case SolverLE:	lp_contraint_type = LE;	break;
+	case SolverGE:	lp_contraint_type = GE; break;
+	case SolverEQ:	lp_contraint_type = EQ; break;
+	default:
+		g_warning ("unexpected contraint type %d", type);
+	}
+        lp_solve_set_constr_type (lp->p, row + 1, lp_contraint_type);
         lp_solve_set_rh (lp->p, row + 1, rhs);
 }
 
@@ -185,12 +192,34 @@ w_lp_solve_print_lp (SolverProgram program)
 static SolverStatus
 w_lp_solve_solve (SolverProgram program)
 {
+	int res;
 	lp_solve_t *lp = (lp_solve_t *) program;
 
 #if SOLVER_DEBUG
 	w_lp_solve_print_lp (program);
 #endif
-        return lp_solve_solve (lp->p);
+        switch ((res = res = lp_solve_solve (lp->p))) {
+	default:
+		g_warning ("unknown result from lp_solve_solve '%d'" ,lp->p);
+
+	case UNKNOWNERROR:
+	case DATAIGNORED:
+	case NOBFP:
+	case NOMEMORY:
+	case NOTRUN:
+	case DEGENERATE:
+	case NUMFAILURE:
+	case USERABORT:
+	case TIMEOUT:
+		return SolverFailure;
+
+	case OPTIMAL:	return SolverOptimal;
+	case SUBOPTIMAL: return SolverMaxIterExc; /* or SolverMaxTimeExc */
+	case NOFEASFOUND:
+	case INFEASIBLE:return SolverInfeasible;
+	case UNBOUNDED:	return SolverUnbounded;
+	case RUNNING:	return SolverRunning;
+	}
 }
 
 static gnm_float
@@ -216,6 +245,9 @@ static gnm_float
 w_lp_solve_get_value_of_obj_fn (SolverProgram program)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
+	g_return_val_if_fail (lp != NULL, 0.);
+	g_return_val_if_fail (lp->p != NULL, 0.);
+	g_return_val_if_fail (lp->p->best_solution != NULL, 0.);
 
         return lp->p->best_solution [0];
 }
@@ -224,6 +256,9 @@ static gnm_float
 w_lp_solve_get_dual (SolverProgram program, int row)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
+	g_return_val_if_fail (lp != NULL, 0.);
+	g_return_val_if_fail (lp->p != NULL, 0.);
+	g_return_val_if_fail (lp->p->duals != NULL, 0.);
 
         return lp->p->duals [row + 1];
 }
@@ -232,6 +267,8 @@ static int
 w_lp_solve_get_iterations (SolverProgram program)
 {
 	lp_solve_t *lp = (lp_solve_t *) program;
+	g_return_val_if_fail (lp != NULL, 0);
+	g_return_val_if_fail (lp->p != NULL, 0);
 
         return lp->p->total_iter;
 }
@@ -245,17 +282,16 @@ w_lp_solve_set_option (SolverProgram program, SolverOptionType option,
 
         switch (option) {
 	case SolverOptAutomaticScaling:
-	        if (*b_value)
-		        lp_solve_auto_scale (lp->p);
-	        return FALSE;
 #if 0
+	No longer needed with 5.x
+#endif
+	        return FALSE;
 	case SolverOptMaxIter:
-	        lp_solve_set_max_iter (lp->p, *i_value);
+	        lp_solve_set_scalelimit (lp->p, *i_value);
 	        return FALSE;
 	case SolverOptMaxTimeSec:
-	        lp_solve_ set_max_time (lp->p, *i_value, *f_value);
+	        lp_solve_set_timeout (lp->p, *i_value);
 	        return FALSE;
-#endif
 	default:
 	        return TRUE;
 	}
