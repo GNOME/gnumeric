@@ -13,7 +13,9 @@
 #include "gnumeric-paths.h"
 
 #include <libgnome/gnome-program.h>
+#include <libgnome/gnome-init.h>
 #include <libgnomeui/gnome-ui-init.h>
+#include <string.h>
 
 static GnomeProgram *program;
 
@@ -28,9 +30,16 @@ poptContext
 gnumeric_arg_parse (int argc, char *argv [])
 {
 	poptContext ctx = NULL;
+	int i;
+
+	/* no need to init gtk when dumping function info */
+	for (i = 0 ; i < argc ; i++)
+		if (argv[i] && 0 == strncmp ("--dump-func", argv[i], 11))
+			break;
 
 	program = gnome_program_init (PACKAGE, VERSION,
-		LIBGNOMEUI_MODULE, argc, argv,
+		(i < argc) ? LIBGNOME_MODULE : LIBGNOMEUI_MODULE,
+		argc, argv,
 		GNOME_PARAM_APP_PREFIX,		GNUMERIC_PREFIX,
 		GNOME_PARAM_APP_SYSCONFDIR,	GNUMERIC_SYSCONFDIR,
 		GNOME_PARAM_APP_DATADIR,	GNUMERIC_DATADIR,

@@ -1,5 +1,10 @@
 2003-11-15  Jody Goldberg <jody@gnome.org>
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=116090
+	* src/normal-args.c (gnumeric_arg_parse) : function info dumps do not
+	  require libgnomui.
+	* src/main-application.c (main) : only init session when we have a gui.
+
 	* gnumeric.xsd : Add the Calculation info
 
 	* src/xml-io.c (xml_workbook_write) : Save manual recalc and iteration
