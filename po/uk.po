@@ -4728,7 +4728,7 @@ msgstr "[$EGP]"
 
 #: src/formats.c:208
 msgid "Egyptian pound"
-msgstr ""╢гипетський фунт"
+msgstr "╢гипетський фунт"
 
 #: src/formats.c:209
 msgid "[$ESP]"
