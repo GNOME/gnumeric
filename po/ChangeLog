@@ -1,3 +1,10 @@
+2001-09-03  Christian Rose  <menthos@menthos.com>
+
+	* POTFILES.in: Removed non-existant src/gnumeric-util.c.
+	* sv.po: Added additional translations from
+	Jörgen Tegnér <jorgen.tegner@telia.com>, and updated
+	some more.
+
 2001-08-31  Abel Cheung  <maddog@linux.org.hk>
 
 	* zh_TW.Big5.po: Rename to ......
