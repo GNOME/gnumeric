@@ -9,15 +9,8 @@
 #ifndef MS_OLE_H
 #define MS_OLE_H
 
-
 #include <fcntl.h>	/* for mode_t */
 #include <glib.h>
-
-
-
-/*
- * Miscellaneous types
- */
 
 typedef enum {
 	MS_OLE_ERR_OK,
@@ -31,7 +24,36 @@ typedef enum {
 	MS_OLE_ERR_BADARG
 } MsOleErr;
 
+typedef enum {
+	MsOleSeekSet,
+	MsOleSeekCur,
+	MsOleSeekEnd
+} MsOleSeek;
+
+typedef enum  {
+	MsOleStorageT = 1,
+	MsOleStreamT  = 2,
+	MsOleRootT    = 5
+} MsOleType;
+
+typedef guint32 MsOlePos;
+typedef gint32  MsOleSPos;
+/*
+#ifdef G_HAVE_GINT64
+	typedef guint64 MsOlePos;
+	typedef gint64  MsOleSPos;
+#else
+	typedef guint32 MsOlePos;
+	typedef gint32  MsOleSPos;
+#endif
+*/
+
+
+typedef struct _MsOle             MsOle;
+typedef struct _MsOleStat         MsOleStat;
+typedef struct _MsOleStream       MsOleStream;
 typedef struct _MsOleSysWrappers  MsOleSysWrappers;
+
 struct _MsOleSysWrappers {
 	int     (*open2)	(const char *pathname, int flags);
 	int     (*open3)	(const char *pathname, int flags, mode_t mode);
@@ -43,51 +65,17 @@ struct _MsOleSysWrappers {
 	int     (*getfilesize)	(int fd, guint32 *size);
 };
 
-typedef enum {
-	MsOleSeekSet,
-	MsOleSeekCur,
-	MsOleSeekEnd
-} MsOleSeek;
-
-typedef guint32 MsOlePos;
-typedef gint32  MsOleSPos;
-/*
-   The next was intended for supporting very large files (64 bits), but we
-   need a complete 64 bit C API then.
-#ifdef G_HAVE_GINT64
-	typedef guint64 MsOlePos;
-	typedef gint64  MsOleSPos;
-#else
-	typedef guint32 MsOlePos;
-	typedef gint32  MsOleSPos;
-#endif
-*/
-
-
-/*
- * MsOle
- */
-
-typedef struct _MsOle MsOle;
-
-typedef enum  {
-	MsOleStorageT = 1,
-	MsOleStreamT  = 2,
-	MsOleRootT    = 5
-} MsOleType;
-
-typedef struct _MsOleStat MsOleStat;
 struct _MsOleStat {
 	MsOleType type;
 	MsOlePos  size;
 };
 
-#define ms_ole_open(fs,path)     ms_ole_open_vfs ((fs), (path), TRUE, NULL)
+#define                 ms_ole_open(fs,path)     ms_ole_open_vfs ((fs), (path), TRUE, NULL)
 extern MsOleErr		ms_ole_open_vfs		(MsOle **fs,
 						 const char *path,
 						 gboolean try_mmap,
 						 MsOleSysWrappers *wrappers);
-#define ms_ole_create(fs,path)     ms_ole_create_vfs ((fs), (path), TRUE, NULL)
+#define                 ms_ole_create(fs,path)   ms_ole_create_vfs ((fs), (path), TRUE, NULL)
 extern MsOleErr		ms_ole_create_vfs	(MsOle **fs,
 						 const char *path,
 						 int try_mmap,
@@ -103,15 +91,8 @@ extern MsOleErr		ms_ole_stat		(MsOleStat *stat,
 						 const char *dirpath,
 						 const char *name);
 
+struct _MsOleStream {
 
-/*
- * MsOleStream
- */
-
-typedef struct _MsOleStream MsOleStream;
-
-struct _MsOleStream
-{
 	MsOlePos size;
 
 	gint		(*read_copy)	(MsOleStream *stream,
@@ -133,7 +114,7 @@ struct _MsOleStream
 
 
 	/**
-	 * PRIVATE (do not use)
+	 * Private.
 	 **/
 	enum {
 		MsOleSmallBlock,
@@ -164,30 +145,20 @@ struct _MsOleStream
 				 (*((guint8 *)(p)+1)=((n)>>8)&0xff),      \
 				 (*((guint8 *)(p)+2)=((n)>>16)&0xff),     \
 				 (*((guint8 *)(p)+3)=((n)>>24)&0xff))
+
 extern MsOleErr		ms_ole_stream_open	(MsOleStream ** const stream,
 						 MsOle *fs,
 						 const char *dirpath,
 						 const char *name,
 						 char mode);
 extern MsOleErr		ms_ole_stream_close	(MsOleStream ** const stream);
-extern MsOleErr		ms_ole_stream_duplicate	(MsOleStream **
-						 	const stream_copy,
+extern MsOleErr		ms_ole_stream_duplicate	(MsOleStream ** const stream_copy,
 						 const MsOleStream *
-							const stream);
-
-
-/*
- * Miscellaneous
- */
+						 const stream);
 
 extern void		ms_ole_dump		(guint8 const *ptr,
 						 guint32 len);
 
-
-
-/*
- * PRIVATE (do not use)
- */
 extern void		ms_ole_ref		(MsOle *fs);
 extern void		ms_ole_unref		(MsOle *fs);
 extern void		ms_ole_debug		(MsOle *fs,
@@ -196,4 +167,3 @@ extern void		ms_ole_debug		(MsOle *fs,
 
 
 #endif	/* MS_OLE_H */
-

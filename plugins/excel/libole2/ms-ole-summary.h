@@ -12,9 +12,7 @@
 #ifndef MS_OLE_SUMMARY_H
 #define MS_OLE_SUMMARY_H
 
-
 #include <time.h>
-
 
 /*
  * MS Ole Property Set IDs
@@ -46,16 +44,16 @@ typedef struct {
 	MsOlePropertySetID	ps_id;
 } MsOleSummarySection;
 
-MsOleSummary *	ms_ole_summary_open		(MsOle *f);
-MsOleSummary *	ms_ole_docsummary_open		(MsOle *f);
-MsOleSummary *	ms_ole_summary_open_stream	(MsOleStream *stream,
+MsOleSummary *ms_ole_summary_open		(MsOle *f);
+MsOleSummary *ms_ole_docsummary_open		(MsOle *f);
+MsOleSummary *ms_ole_summary_open_stream	(MsOleStream *stream,
 						 const MsOlePropertySetID psid);
-MsOleSummary *	ms_ole_summary_create		(MsOle *f);
-MsOleSummary *	ms_ole_docsummary_create	(MsOle *f);
-MsOleSummary *	ms_ole_summary_create_stream	(MsOleStream *s,
+MsOleSummary *ms_ole_summary_create		(MsOle *f);
+MsOleSummary *ms_ole_docsummary_create		(MsOle *f);
+MsOleSummary *ms_ole_summary_create_stream	(MsOleStream *s,
 						 const MsOlePropertySetID psid);
-GArray *	ms_ole_summary_get_properties	(MsOleSummary *si);
-void		ms_ole_summary_close		(MsOleSummary *si);
+GArray       *ms_ole_summary_get_properties	(MsOleSummary *si);
+void	      ms_ole_summary_close		(MsOleSummary *si);
 
 
 /*
@@ -190,7 +188,6 @@ void			ms_ole_summary_set_preview	(MsOleSummary *si,
 							 const
 							 MsOleSummaryPreview *
 							 preview);
-
 
 #endif	/* MS_OLE_SUMMARY_H */
 

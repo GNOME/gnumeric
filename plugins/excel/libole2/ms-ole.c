@@ -1119,15 +1119,12 @@ pps_encode_tree_chain (MsOle *f, GList *list)
 	lchildren = parent->children;
 
 	/* The base node of the directory */
+
 	/* Choose the first child */
 	mem_parent = get_pps_ptr (f, parent->idx, TRUE);
 
 	if (len == 1) {
 		PPS_SET_DIR (mem_parent, ((PPS *)(lchildren->data))->idx);
-		/*
-		  PPS_SET_PREV (mem_parent, PPS_END_OF_CHAIN);
-		  PPS_SET_NEXT (mem_parent, PPS_END_OF_CHAIN);
-		*/
 
 #if OLE_DEBUG > 1
 		printf ("tenix3 Final encode '%s' as \n",
@@ -1159,30 +1156,25 @@ pps_encode_tree_chain (MsOle *f, GList *list)
 
 		mem = get_pps_ptr (f, children->idx, TRUE);
 		if (i == half_way) {
-			if (g_list_previous(lchildren)) {
+			if (g_list_previous (lchildren)) {
 				prev = g_list_previous(lchildren)->data;
 				PPS_SET_PREV (mem, prev->idx);
-			} /* else
-				PPS_SET_PREV (mem, PPS_END_OF_CHAIN); */
-			if (g_list_next(lchildren)) {
-				next = g_list_next(lchildren)->data;
+			}
+
+			if (g_list_next (lchildren)) {
+				next = g_list_next (lchildren)->data;
 				PPS_SET_NEXT (mem, next->idx);
-			} /* else
-				PPS_SET_NEXT (mem, PPS_END_OF_CHAIN); */
+			}
 		} else if (i < half_way) {
-			/* PPS_SET_NEXT (mem, PPS_END_OF_CHAIN); */
 			if (g_list_previous(lchildren)) {
-				prev = g_list_previous(lchildren)->data;
+				prev = g_list_previous (lchildren)->data;
 				PPS_SET_PREV (mem, prev->idx);
-			} /* else
-				PPS_SET_PREV (mem, PPS_END_OF_CHAIN); */
+			}
 		} else /* i > half_way */ {
-			/* PPS_SET_PREV (mem, PPS_END_OF_CHAIN); */
 			if (g_list_next(lchildren)) {
-				next = g_list_next(lchildren)->data;
+				next = g_list_next (lchildren)->data;
 				PPS_SET_NEXT (mem, next->idx);
-			} /* else
-				PPS_SET_NEXT (mem, PPS_END_OF_CHAIN); */
+			}
 		}
 
 #if OLE_DEBUG > 1

@@ -1,3 +1,11 @@
+2000-04-25  Michael Meeks  <michael@helixcode.com>
+
+	* Makefile.am: Add vba modules.
+
+	* ms-ole.c (pps_encode_tree_chain): clean redundant code from comments.
+
+	* ms-ole-vba.[ch]: Implement.
+
 2000-04-21  Arturo Tena  <arturo@directmail.org>
 
 	* ms-ole.c (read_sb): Fix for files with broken small block descriptors.
