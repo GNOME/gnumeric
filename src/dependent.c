@@ -935,7 +935,7 @@ dependent_unlink (Dependent *dep, CellPos const *pos)
 	g_return_if_fail (IS_SHEET (dep->sheet));
 
 	if (pos == NULL)
-		pos = &dummy;
+		pos = (dependent_is_cell (dep)) ? &DEP_TO_CELL(dep)->pos : &dummy;
 
 	unlink_expr_dep (dep, pos, dep->expression);
 	if (dep->sheet->deps != NULL) {

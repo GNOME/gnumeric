@@ -9,7 +9,12 @@ Jody:
 	* Implement some of Harlan's CELL routines to help the wk1 importer
 	* Make sheet deletion multi-view safe.
 	* More fixes for named expressions.
-	* Handle special case ofexporting #REF!
+	* Remove old bogosity when importing the err form of #REF!
+	* Fix handling of embedded newlines for gtk2
+	* Fix Chema's bug.
+	* Don't leak clipboard on exit.
+	* Have Enter move the edit_pos while in the editline the same way it
+	  does in the cell.
 
 Jukka:
 	* New random distribution functions (mostly integrated from the 

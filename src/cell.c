@@ -674,10 +674,20 @@ cell_init (void)
 #endif
 }
 
+#if USE_CELL_POOL
+static void
+cb_cell_pool_leak (gpointer data, gpointer user)
+{
+	Cell const *cell = data;
+	fprintf (stderr, "Leaking cell %p at %s\n", cell, cell_pos_name (&cell->pos));
+}
+#endif
+
 void
 cell_shutdown (void)
 {
 #if USE_CELL_POOL
+	gnm_mem_chunk_foreach_leak (cell_pool, cb_cell_pool_leak, NULL);
 	gnm_mem_chunk_destroy (cell_pool, FALSE);
 	cell_pool = NULL;
 #endif

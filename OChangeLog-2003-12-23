@@ -1,5 +1,21 @@
 2002-08-04  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-control-gui.c (workbook_setup_edit_area) : no need to
+	  handle activate.  That is too late to do the cursor movement
+	  correctly.
+
+	* src/libgnumeric.c (gnm_shutdown) : don't leak the clipboard on exit.
+
+	* src/cell.c (cb_cell_pool_leak) : new.
+	(cell_shutdown) : use it.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=88057
+	* src/dependent.c (dependent_unlink) : unlink from the correct
+	  position if we are unlinking a cell but the caller passed in a NULL
+	  position.
+
+2002-08-04  Jody Goldberg <jody@gnome.org>
+
 	* src/expr-name.c (expr_name_new) : init as inactive.
 	(expr_name_add) : activate when the name is added.
 	(expr_name_create) : clarify the life cycle of the expression.

@@ -167,6 +167,7 @@ void
 gnm_shutdown (void)
 {
 	application_release_pref_dialog ();
+	application_clipboard_clear (TRUE);
 
 	autocorrect_shutdown ();
 	plugins_shutdown ();

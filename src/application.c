@@ -585,12 +585,6 @@ gnumeric_application_setup_icons (void)
 static void
 gnumeric_application_finalize (GObject *object)
 {
-#if 0
-	if (app->clipboard_copied_contents) {
-		cellregion_free (app->clipboard_copied_contents);
-		app->clipboard_copied_contents = NULL;
-	}
-#endif
 	app = NULL;
 	G_OBJECT_CLASS (gnumeric_application_parent_class)->finalize (object);
 }

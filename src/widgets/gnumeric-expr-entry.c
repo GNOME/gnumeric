@@ -23,6 +23,7 @@
 #include <expr.h>
 #include <dependent.h>
 #include <sheet.h>
+#include <selection.h>
 #include <commands.h>
 #include <gnm-marshalers.h>
 
@@ -604,7 +605,9 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 		return TRUE;
 
 	case GDK_KP_Enter:
-	case GDK_Return:
+	case GDK_Return: {
+		SheetView *sv;
+
 		if (gee->is_cell_renderer)
 			return FALSE;
 		/* Is this the right way to append a newline ?? */
@@ -619,25 +622,30 @@ cb_gee_key_press_event (GtkEntry	  *entry,
 		if (!wbcg_is_editing (wbcg))
 			break;
 
+		/* Be careful to use the editing sheet */
+		sv = sheet_get_view (wbcg->editing_sheet,
+			wb_control_view (WORKBOOK_CONTROL (wbcg)));
+
 		if (state == GDK_CONTROL_MASK ||
 		    state == (GDK_CONTROL_MASK|GDK_SHIFT_MASK)) {
 			gboolean const is_array = (state & GDK_SHIFT_MASK);
 			char const *text = gtk_entry_get_text (
 				wbcg_get_entry (wbcg));
 
-			/* Be careful to use the editing sheet */
-			cmd_area_set_text (WORKBOOK_CONTROL (wbcg),
-				sheet_get_view (wbcg->editing_sheet,
-						wb_control_view (WORKBOOK_CONTROL (wbcg))),
+			cmd_area_set_text (WORKBOOK_CONTROL (wbcg), sv,
 				text, is_array);
 
-			/* Finish editing but do NOT store the results
-			 * If the assignment was successful it will
-			 * have taken care of that.
+			/* do NOT store the results If the assignment was
+			 * successful it will have taken care of that.
 			 */
 			wbcg_edit_finish (wbcg, FALSE);
-			return TRUE;
+		} else if (wbcg_edit_finish (wbcg, TRUE)) {
+			/* move the edit pos */
+			gboolean const direction = (event->state & GDK_SHIFT_MASK) ? FALSE : TRUE;
+			sv_selection_walk_step (sv, direction, FALSE);
 		}
+		return TRUE;
+	}
 	default:
 		break;
 	}

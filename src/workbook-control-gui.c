@@ -3906,9 +3906,6 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 	g_signal_connect (G_OBJECT (entry),
 		"focus-in-event",
 		G_CALLBACK (cb_editline_focus_in), wbcg);
-	g_signal_connect (G_OBJECT (entry),
-		"activate",
-		G_CALLBACK (cb_accept_input), wbcg);
 
 	/* Do signal setup for the status input line */
 	g_signal_connect (G_OBJECT (wbcg->selection_descriptor),

@@ -3361,7 +3361,7 @@ sheet_move_range (WorkbookControl *wbc,
 	/* 1. invalidate references to any cells in the destination range that
 	 * are not shared with the src.  This must be done before the references
 	 * to from the src range are adjusted because they will point into
-	 * the destinatin.
+	 * the destination.
 	 */
 	if (reloc_storage != NULL) {
 		*reloc_storage = NULL;
