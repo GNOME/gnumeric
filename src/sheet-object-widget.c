@@ -604,11 +604,9 @@ cb_scrollbar_value_changed (GtkAdjustment *adjustment,
 }
 
 static void
-sheet_widget_scrollbar_construct_with_ref (SheetObjectWidget *sow,
-					  CellRef const *ref)
+sheet_widget_scrollbar_construct_with_ref (SheetWidgetScrollbar *swb,
+					   CellRef const *ref)
 {
-	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (sow);
-
 	g_return_if_fail (swb != NULL);
 
 	swb->adjustment = GTK_ADJUSTMENT (gtk_adjustment_new (0., 0., 100., 1., 10., 1.));
@@ -627,7 +625,7 @@ sheet_widget_scrollbar_construct_with_ref (SheetObjectWidget *sow,
 static void
 sheet_widget_scrollbar_construct (SheetObjectWidget *sow)
 {
-	sheet_widget_scrollbar_construct_with_ref (sow, NULL);
+	sheet_widget_scrollbar_construct_with_ref (SHEET_WIDGET_SCROLLBAR (sow), NULL);
 }
 
 static void
@@ -668,17 +666,17 @@ sheet_widget_scrollbar_create_widget (SheetObjectWidget *sow, SheetControlGUI *s
 }
 
 static SheetObject *
-sheet_widget_scrollbar_clone (SheetObject const *so, Sheet *new_sheet)
+sheet_widget_scrollbar_clone (SheetObject const *src_so, Sheet *new_sheet)
 {
-	SheetWidgetScrollbar *swb = SHEET_WIDGET_SCROLLBAR (so);
-	SheetObjectWidget *new_sow = sheet_object_widget_clone (so, new_sheet);
+	SheetWidgetScrollbar *src_swb = SHEET_WIDGET_SCROLLBAR (src_so);
+	SheetObjectWidget *new_sow = sheet_object_widget_clone (src_so, new_sheet);
 	GtkAdjustment *new_adjust, *old_adjust;
 	CellRef ref;
 
-	sheet_widget_scrollbar_construct_with_ref (new_sow,
-		(sheet_widget_scrollbar_get_ref (swb, &ref)) ? &ref : NULL);
+	sheet_widget_scrollbar_construct_with_ref (SHEET_WIDGET_SCROLLBAR (new_sow),
+		(sheet_widget_scrollbar_get_ref (src_swb, &ref)) ? &ref : NULL);
 	new_adjust = SHEET_WIDGET_SCROLLBAR (new_sow)->adjustment;
-	old_adjust = SHEET_WIDGET_SCROLLBAR (so)->adjustment;
+	old_adjust = SHEET_WIDGET_SCROLLBAR (src_so)->adjustment;
 
 	new_adjust->lower = old_adjust->lower;
 	new_adjust->upper = old_adjust->upper;
@@ -893,9 +891,7 @@ sheet_widget_scrollbar_read_xml (SheetObject *so,
 	double tmp;
 	gchar *input_txt;
 
-	swb->dep.sheet = NULL;
-	swb->dep.expression = NULL;
-	swb->dep.flags = scrollbar_get_dep_type ();
+	sheet_widget_scrollbar_construct_with_ref (swb, NULL);
 
 	input_txt = (gchar *)xmlGetProp (tree, (xmlChar *)"Input");
 	if (input_txt != NULL && *input_txt != '\0') {

@@ -1,3 +1,8 @@
+2002-01-27  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_scrollbar_read_xml) : simple
+	  fix for reading scrollbars.  A better fix is in HEAD.
+
 2002-01-25  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/cell.h (cell_get_render_color) : new

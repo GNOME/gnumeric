@@ -1,16 +1,26 @@
 Gnumeric 1.0.4
 
 Andreas:
-	* http://bugzilla.gnome.org/show_bug.cgi?id=69832
-	  (crash in goalseek)
 	* Fix LaTeX and HTML exporter crashes	
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=69832
+	* crash in goalseek
+
 Jody:
+	* Crash importing scrollbars from xml.
+	* xml-sax support for v10 of gnumeric's format.
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=69400
-	- Slow sort dialog startup.
+	* Slow sort dialog startup.
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=69577
-	- number matching broken in some locales.
+	* number matching broken in some locales.
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=69795
+	* Dont put non ascii characters in the translated source.
+
+Jon Kåre:
+	* Improve scrolling alignment of formula guru.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.3
