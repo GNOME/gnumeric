@@ -1,3 +1,9 @@
+2004-12-20  Morten Welinder  <terra@gnome.org>
+
+	* src/format.c (gnm_format_parse_markup): Attribute offsets are
+	unsigned.  Drop nops.
+	(cb_attrs_as_string): Ditto.
+
 2004-11-14  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object-image.c (sheet_object_image_set_image) : renamed

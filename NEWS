@@ -27,6 +27,7 @@ Morten:
 	* Fix torn off undo/redo crash.
 	* Fix cell format dialog initialization problems.
 	* Doc fixes for ODD and EVEN.
+	* Fix rich text crash.  [#161621]
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.1

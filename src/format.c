@@ -2273,6 +2273,9 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 {
 	PangoColor const *c;
 
+	if (a->start_index >= a->end_index)
+		return FALSE;
+
 	switch (a->klass->type) {
 	case PANGO_ATTR_FAMILY :
 		g_string_append_printf (accum, "[family=%s",
@@ -2318,7 +2321,7 @@ cb_attrs_as_string (PangoAttribute *a, GString *accum)
 	default :
 		return FALSE; /* ignored */
 	}
-	g_string_append_printf (accum, ":%d:%d]", a->start_index, a->end_index);
+	g_string_append_printf (accum, ":%u:%u]", a->start_index, a->end_index);
 	return FALSE;
 }
 
@@ -2352,32 +2355,51 @@ gnm_format_parse_markup (char *str)
 		*closer = '\0';
 
 		a = NULL;
-		if (len == 4) {
+		switch (len) {
+		case 4:
 			if (0 == strncmp (str, "size", 4))
 				a = pango_attr_size_new (atoi (val));
 			else if (0 == strncmp (str, "bold", 4))
 				a = pango_attr_weight_new (atoi (val) ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
-		} else if (len == 5 && 0 == strncmp (str, "color", 5) &&
-			   3 == sscanf (val, "%02xx%02xx%02x", &r, &g, &b))
-			a = pango_attr_foreground_new ((r << 8) | r, (g << 8) | g, (b << 8) | b);
-		else if (len == 6) {
+			break;
+
+		case 5:
+			if (0 == strncmp (str, "color", 5) &&
+			    3 == sscanf (val, "%02xx%02xx%02x", &r, &g, &b))
+				a = pango_attr_foreground_new ((r << 8) | r, (g << 8) | g, (b << 8) | b);
+			break;
+
+		case 6:
 			if (0 == strncmp (str, "family", 6))
 				a = pango_attr_family_new (val);
 			else if (0 == strncmp (str, "italic", 6))
 				a = pango_attr_style_new (atoi (val) ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
-		} else if (len == 9 && 0 == strncmp (str, "underline", 9)) {
-			if (0 == strcmp (val, "none"))
-				a = pango_attr_underline_new (PANGO_UNDERLINE_NONE);
-			else if (0 == strcmp (val, "single"))
-				a = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
-			else if (0 == strcmp (val, "double"))
-				a = pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE);
-		} else if (len == 13 && 0 == strncmp (str, "strikethrough", 13))
-			a = pango_attr_strikethrough_new (atoi (val) != 0);
+			break;
 
-		if (a != NULL && val_end != NULL &&
-		    2 == sscanf (val_end+1, "%d:%d]", &a->start_index, &a->end_index))
-			pango_attr_list_insert (attrs, a);
+		case 9:
+			if (0 == strncmp (str, "underline", 9)) {
+				if (0 == strcmp (val, "none"))
+					a = pango_attr_underline_new (PANGO_UNDERLINE_NONE);
+				else if (0 == strcmp (val, "single"))
+					a = pango_attr_underline_new (PANGO_UNDERLINE_SINGLE);
+				else if (0 == strcmp (val, "double"))
+					a = pango_attr_underline_new (PANGO_UNDERLINE_DOUBLE);
+			}
+			break;
+
+		case 13:
+			if (0 == strncmp (str, "strikethrough", 13))
+				a = pango_attr_strikethrough_new (atoi (val) != 0);
+			break;
+		}
+
+		if (a != NULL && val_end != NULL) {
+			if (sscanf (val_end+1, "%u:%u]", &a->start_index, &a->end_index) == 2 &&
+				a->start_index < a->end_index)
+				pango_attr_list_insert (attrs, a);
+			else
+				pango_attribute_destroy (a);
+		}
 
 		*val_end = ':';
 		*closer = ']';
