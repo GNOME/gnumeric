@@ -46,6 +46,7 @@
 #define M_1_SQRT_2PI    GNUM_const(0.398942280401432677939946059934)  /* 1/sqrt(2pi) */
 #define M_SQRT_2dPI     GNUM_const(0.797884560802865355879892119869)  /* sqrt(2/pi) */
 #define M_2PIgnum       (2 * M_PIgnum)
+#define	M_Egnum         GNUM_const(2.718281828459045235360287471352662497757247)
 
 /* Any better idea for a quick hack?  */
 #define ML_NAN (-HUGE_VAL * 0.0)
@@ -4310,7 +4311,7 @@ random_01 (void)
 	}
 
 	if (device_fd >= 0) {
-		unsigned data[sizeof (gnum_float)];
+		unsigned char data[sizeof (gnum_float)];
 
 		if (fullread (device_fd, &data, sizeof (gnum_float)) == sizeof (gnum_float)) {
 			gnum_float res = 0;
@@ -4393,6 +4394,7 @@ random_binomial (gnum_float p, int trials)
 	gnum_float t = x;
 	gnum_float i = 0;
 
+	/* FIXME: how many times can this loop?  */
 	while (r > t) {
 	      x *= (((trials - i) * p) / ((1 + i) * (1 - p)));
 	      i += 1;
@@ -4413,6 +4415,7 @@ random_negbinom (gnum_float p, int f)
 	gnum_float t = x;
 	gnum_float i = 0;
 
+	/* FIXME: how many times can this loop?  */
 	while (r > t) {
 	      x *= (((f + i) * (1 - p)) / (1 + i));
 	      i += 1;
@@ -4455,7 +4458,7 @@ random_cauchy (gnum_float a)
 	        u = random_01 ();
 	} while (u == 0.5);
 
-	return a * tan (M_PI * u);
+	return a * tangnum (M_PIgnum * u);
 }
 
 /*
@@ -4478,9 +4481,9 @@ random_lognormal (gnum_float zeta, gnum_float sigma)
 		r2 = u * u + v * v;
 	} while (r2 > 1.0 || r2 == 0);
 
-	normal = u * sqrt (-2.0 * log (r2) / r2);
+	normal = u * sqrtgnum (-2.0 * loggnum (r2) / r2);
 
-	return exp (sigma * normal + zeta);
+	return expgnum (sigma * normal + zeta);
 }
 
 /*
@@ -4497,7 +4500,7 @@ random_weibull (gnum_float a, gnum_float b)
 	        x = random_01 ();
 	} while (x == 0.0);
 
-	z = pow (-log (x), 1 / b);
+	z = powgnum (-loggnum (x), 1 / b);
 
 	return a * z;
 }
@@ -4517,9 +4520,9 @@ random_laplace (gnum_float a)
 	} while (u == 0.0);
 
 	if (u < 0)
-	        return a * log ( -u );
+	        return a * loggnum ( -u );
 	else
-	        return -a * log ( u );
+	        return -a * loggnum ( u );
 }
 
 /*
@@ -4536,7 +4539,7 @@ random_rayleigh (gnum_float sigma)
 	        u = random_01 ();
 	} while (u == 0.0);
 
-	return sigma * sqrt (-2.0 * log (u));
+	return sigma * sqrtgnum (-2.0 * loggnum (u));
 }
 
 
@@ -4557,20 +4560,21 @@ gamma_frac (gnum_float a)
         /* This is exercise 16 from Knuth; see page 135, and the solution is
 	 * on page 551.  */
 
-        gnum_float p, q, x, u, v;
-	p = M_E / (a + M_E);
+        gnum_float x, q;
+	gnum_float p = M_Egnum / (a + M_Egnum);
 	do {
-	        u = random_01 ();
+		gnum_float v;
+	        gnum_float u = random_01 ();
 		do {
 		        v = random_01 ();
 		} while (v == 0.0);
 
 		if (u < p) {
-		        x = exp ((1 / a) * log (v));
-			q = exp (-x);
+		        x = powgnum (v, 1 / a);
+			q = expgnum (-x);
 		} else {
-		        x = 1 - log (v);
-			q = exp ((a - 1) * log (x));
+		        x = 1 - loggnum (v);
+			q = powgnum (x, a - 1);
 		}
 	} while (random_01 () >= q);
 
@@ -4588,15 +4592,15 @@ gamma_large (gnum_float a)
 	 */
 
          gnum_float sqa, x, y, v;
-	 sqa = sqrt (2 * a - 1);
+	 sqa = sqrtgnum (2 * a - 1);
 	 do {
 	         do {
-		         y = tan (M_PI * random_01 ());
+		         y = tangnum (M_PIgnum * random_01 ());
 			 x = sqa * y + a - 1;
 		 } while (x <= 0);
 		 v = random_01 ();
-	 } while (v > (1 + y * y) * exp ((a - 1) * log (x / (a - 1)) -
-					 sqa * y));
+	 } while (v > (1 + y * y) * expgnum ((a - 1) * loggnum (x / (a - 1)) -
+					     sqa * y));
 
 	 return x;
 }
@@ -4617,15 +4621,17 @@ ran_gamma_int (unsigned int a)
 		         prod *= u;
 		 }
 
+		 /* FIXME: this assumption just isn't right.  */
+
 		 /* Note: for 12 iterations we are safe against underflow,
 		  * since the smallest positive random number is O(2^-32).
 		  * This means the smallest possible product is
 		  * 2^(-12*32) = 10^-116 which is within the range of double
 		  * precision. */
 
-		 return -log (prod);
+		 return -loggnum (prod);
 	} else
-	         return gamma_large ((gnum_float) a);
+	         return gamma_large (a);
 }
 
 /*
@@ -4636,7 +4642,8 @@ gnum_float
 random_gamma (gnum_float a, gnum_float b)
 {
         /* assume a > 0 */
-        unsigned int na = floor (a);
+	/* FIXME: why not simply a gnum_float?  */
+        unsigned int na = floorgnum (a);
 
 	if (a == na)
 	        return b * ran_gamma_int (na);
@@ -4659,7 +4666,7 @@ random_pareto (gnum_float a, gnum_float b)
 	        x = random_01 ();
 	} while (x == 0.0);
 
-	return b * pow (x, -1 / a);
+	return b * powgnum (x, -1 / a);
 }
 
 /*
@@ -4689,7 +4696,7 @@ random_beta (gnum_float a, gnum_float b)
 }
 
 /*
- * Generate a Chi-Square-distributed number. From the GNU Scientific library 
+ * Generate a Chi-Square-distributed number. From the GNU Scientific library
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
@@ -4700,7 +4707,7 @@ random_chisq (gnum_float nu)
 }
 
 /*
- * Generate a logistic-distributed number. From the GNU Scientific library 
+ * Generate a logistic-distributed number. From the GNU Scientific library
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
@@ -4717,7 +4724,7 @@ random_logistic (gnum_float a)
 }
 
 /*
- * Generate a geometric-distributed number. From the GNU Scientific library 
+ * Generate a geometric-distributed number. From the GNU Scientific library
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
@@ -4732,11 +4739,11 @@ random_geometric (gnum_float p)
 	        u = random_01 ();
 	} while (u == 0);
 
-	return (unsigned int) (log (u) / log (1 - p) + 1);
+	return floorgnum (loggnum (u) / log1pgnum (-p) + 1);
 }
 
 /*
- * Generate a hypergeometric-distributed number. From the GNU Scientific 
+ * Generate a hypergeometric-distributed number. From the GNU Scientific
  * library 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
@@ -4750,13 +4757,15 @@ random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
 	unsigned int b = n1 + n2;
 	unsigned int k = 0;
 
+	/* FIXME: performance for large t?  */
+
 	if (t > n)
 	        t = n;
 
 	if (t < n / 2) {
 	        for (i = 0 ; i < t ; i++) {
 		        gnum_float u = random_01 ();
-          
+
 			if (b * u < a) {
 			        k++;
 				if (k == n1)
@@ -4769,7 +4778,7 @@ random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
 	} else {
 	        for (i = 0 ; i < n - t ; i++) {
 		        gnum_float u = random_01 ();
-          
+
 			if (b * u < a) {
 			        k++;
 				if (k == n1)
@@ -4784,7 +4793,7 @@ random_hypergeometric (unsigned int n1, unsigned int n2, unsigned int t)
 
 
 /*
- * Generate a logarithmic-distributed number. From the GNU Scientific library 
+ * Generate a logarithmic-distributed number. From the GNU Scientific library
  * 1.1.1.
  * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
  */
@@ -4793,7 +4802,7 @@ random_logarithmic (gnum_float p)
 {
         gnum_float c, v;
 
-	c = log (1 - p);
+	c = log1pgnum (-p);
 	do {
 	        v = random_01 ();
 	} while (v == 0);
@@ -4806,10 +4815,10 @@ random_logarithmic (gnum_float p)
 		do {
 		        u = random_01 ();
 		} while (u == 0);
-		q = 1 - exp (c * u);
+		q = expm1gnum (c * u);
 
 		if (v <= q * q)
-		        return (unsigned int) (1 + log (v) / log (q));
+		        return floorgnum (1 + loggnum (v) / loggnum (q));
 		else if (v <= q)
 		        return 2;
 		else
@@ -4828,23 +4837,23 @@ random_tdist (gnum_float nu)
 	        gnum_float Y1 = random_normal ();
 		gnum_float Y2 = random_chisq (nu);
 
-		gnum_float t = Y1 / sqrt (Y2 / nu);
+		gnum_float t = Y1 / sqrtgnum (Y2 / nu);
 
 		return t;
 	} else {
 	        gnum_float Y1, Y2, Z, t;
 		do {
 		        Y1 = random_normal ();
-			Y2 = random_exponential (1 / (nu/2 - 1));
+			Y2 = random_exponential (1 / (nu / 2 - 1));
 
 			Z = Y1 * Y1 / (nu - 2);
-		} while (1 - Z < 0 || exp (-Y2 - Z) > (1 - Z));
+		} while (1 - Z < 0 || expgnum (-Y2 - Z) > (1 - Z));
 
 		/* Note that there is a typo in Knuth's formula, the line below
 		 * is taken from the original paper of Marsaglia, Mathematics
 		 * of Computation, 34 (1980), p 234-256. */
 
-		t = Y1 / sqrt ((1 - 2 / nu) * (1 - Z));
+		t = Y1 / sqrtgnum ((1 - 2 / nu) * (1 - Z));
 		return t;
 	}
 }

@@ -1,4 +1,4 @@
-2002-07-16  Morten Welinder  <welinder@rentec.com>
+2002-07-16  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_dollarde): Use gpow10.
 	(gnumeric_dollarfr): Ditto.

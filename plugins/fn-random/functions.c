@@ -810,6 +810,8 @@ const ModulePluginFunctionInfo random_functions[] = {
         {NULL}
 };
 
+#if 0
+
 /* FIXME: Should be merged into the above.  */
 static const struct {
 	const char *func;
@@ -834,3 +836,5 @@ plugin_cleanup (void)
 	for (i = 0; af_info[i].func; i++)
 		auto_format_function_result_remove (af_info[i].func);
 }
+
+#endif
