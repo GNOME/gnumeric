@@ -1,3 +1,7 @@
+2005-03-16  Morten Welinder  <terra@gnome.org>
+
+	* src/parse-util.c (row_parse): Fix parsing problem.  [#170465]
+
 2005-03-16  Stepan Kasal  <kasal@ucw.cz>
 
 	* autogen.sh: require intltool >= 0.29; fix IFS handling;

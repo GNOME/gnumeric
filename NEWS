@@ -49,6 +49,8 @@ Morten:
 	* Fix save-as for non-local files.  [#170308]
 	* Drop gtk+-bug workaround.  [#162952]
 	* Make sheets even more object-like.
+	* Fix parsing problem with names that start out with something
+	  that can be parsed as a cell, e.g., "K3P".  [#170465]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

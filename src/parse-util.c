@@ -175,8 +175,15 @@ row_parse (char const *str, int *res, unsigned char *relative)
 	if (*ptr <= '0' || *ptr > '9')
 		return NULL;
 
+	/*
+	 * Do not allow letters after the row number.  If we did, then
+	 * the name "K3P" would lex as the reference K3 followed by the
+	 * name "P".
+	 */
 	row = strtol (ptr, (char **)&end, 10);
-	if (ptr != end && 0 < row && row <= SHEET_MAX_ROWS) {
+	if (ptr != end &&
+	    !g_unichar_isalnum (g_utf8_get_char (end)) && *end != '_' &&
+	    0 < row && row <= SHEET_MAX_ROWS) {
 		*res = row - 1;
 		return end;
 	} else
