@@ -104,17 +104,25 @@ go_shell_arg_to_uri (const char *arg)
 char *
 go_basename_from_uri (const char *uri)
 {
+#ifdef WITH_GNOME
+	char *raw_uri = gnome_vfs_unescape_string (uri, G_DIR_SEPARATOR_S);
+	char *basename = raw_uri ? g_path_get_basename (raw_uri) : NULL;
+	g_free (raw_uri);
+#else
 	char *uri_basename = g_path_get_basename (uri);
 	char *fake_uri = g_strconcat ("file:///", uri_basename, NULL);
 	char *filename = go_filename_from_uri (fake_uri);
 	char *basename = filename ? g_path_get_basename (filename) : NULL;
-	char *basename_utf8 = basename ? g_filename_to_utf8 (basename, -1, NULL, NULL, NULL) : NULL;
 	g_free (uri_basename);
 	g_free (fake_uri);
 	g_free (filename);
-	g_free (basename);
 
-	return basename_utf8;
+#endif
+	{
+		char *basename_utf8 = basename ? g_filename_to_utf8 (basename, -1, NULL, NULL, NULL) : NULL;
+		g_free (basename);
+		return basename_utf8;
+	}
 }
 
 /* ------------------------------------------------------------------------- */

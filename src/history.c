@@ -20,13 +20,13 @@ gchar *
 history_item_label (gchar const *uri, int accel_number)
 {
 	GString *res = g_string_new (NULL);
-	char *menuname, *basename, *tmp;
+	char *basename, *tmp;
 	int len;
 
 	basename = go_basename_from_uri (uri);
 
 	/* Remove .gnumeric, if present.  */
-	len = basename ? 0 : strlen (basename);
+	len = basename ? strlen (basename) : 0;
 	if (len > 9 && strcmp (basename + len - 9, ".gnumeric") == 0)
 		basename[len - 9] = 0;
 
@@ -37,19 +37,13 @@ history_item_label (gchar const *uri, int accel_number)
 	else
 		g_string_append_printf (res, "%d ", accel_number);
 
-	menuname = basename
-		? g_filename_to_utf8 (basename, -1, NULL, NULL, NULL)
-		: NULL;
-	if (!menuname)
-		menuname = g_strdup (_("(Filename in invalid encoding)"));
-	g_free (basename);
 	/* Underscores need to be doubled.  */
-	for (tmp = menuname; *tmp; tmp++) {
+	for (tmp = basename; *tmp; tmp++) {
 		if (*tmp == '_')
 			g_string_append_c (res, '_');
 		g_string_append_c (res, *tmp);
 	}
-	g_free (menuname);
+	g_free (basename);
 
 	return g_string_free (res, FALSE);
 }
