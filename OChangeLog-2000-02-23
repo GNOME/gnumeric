@@ -1,3 +1,9 @@
+1999-11-13  JP Rosevear  <jpr@arcavia.com>
+
+	* src/dialogs/cell-sort.glade*: glade files for sort dialog
+	* src/dialogs/dialog-cell-sort.c: Use the glade stuff and
+	implement the header skipping for selections.
+
 1999-11-13  Michael Meeks  <mmeeks@gnu.org>
 
 	* src/sheet-style.c (border_check): fixup for border, no border

@@ -41,6 +41,7 @@ src/dialogs/row-height.glade.h
 src/dialogs/sheet-rename.glade.h
 src/dialogs/summary.glade.h
 src/dialogs/cell-format.glade.h
+src/dialogs/cell-sort.glade.h
 src/dump.c
 src/embeddable-grid.c
 src/eval.c

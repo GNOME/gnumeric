@@ -7,6 +7,7 @@
  */
 #include <config.h>
 #include <gnome.h>
+#include <glade/glade.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
@@ -303,6 +304,8 @@ static void del_clause(GtkWidget * widget, SORT_FLOW * sf)
 void
 dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 {
+	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/cell-sort.glade", NULL);
+	GtkWidget *table, *check;
 	int lp;
 	int start_col, start_row, end_col, end_row;
 	Range const * sel;
@@ -311,6 +314,19 @@ dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 	g_return_if_fail(inwb);
 	g_return_if_fail(sheet);
 	g_return_if_fail(IS_SHEET(sheet));
+
+	if (!gui) {
+		printf ("Could not find cell-sort.glade\n");
+		return;
+	}
+	
+	sort_flow.dialog = glade_xml_get_widget (gui, "CellSort");
+	table = glade_xml_get_widget (gui, "cell_sort_table");
+	check = glade_xml_get_widget (gui, "cell_sort_header_check");
+	if (!sort_flow.dialog && !table && !check) {
+		printf ("Corrupt file cell-sort.glade\n");
+		return;
+	}
 
 	if ((sel = selection_first_range (sheet, FALSE)) == NULL) {
 		gnumeric_notice(inwb, GNOME_MESSAGE_BOX_ERROR,
@@ -338,28 +354,21 @@ dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 	{			/* Setup the dialog */
 		sort_flow.wb = inwb;
 
-		sort_flow.dialog = gnome_dialog_new(_("Sort Cells"),
-						    GNOME_STOCK_BUTTON_OK,
-					       GNOME_STOCK_BUTTON_CANCEL,
-						    NULL);
-
 		gnome_dialog_set_parent(GNOME_DIALOG(sort_flow.dialog), GTK_WINDOW(sort_flow.wb->toplevel));
-		gtk_window_set_modal(GTK_WINDOW(sort_flow.dialog), TRUE);
 
-		sort_flow.clause_box = gtk_vbox_new(0, 0);
-		gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(sort_flow.dialog)->vbox),
-				   sort_flow.clause_box, FALSE, TRUE, 0);
+		sort_flow.clause_box = gtk_vbox_new(FALSE, FALSE);
+		gtk_table_attach_defaults(GTK_TABLE(table), sort_flow.clause_box, 0, 1, 0, 1);
 
 		for (lp = 0; lp < sort_flow.num_clause; lp++){
 			sort_flow.clauses[lp] =
 			    order_box_new(sort_flow.clause_box,
-					lp ? _("then by") : _("sort by"),
+					lp ? _("then by") : _("Sort by"),
 					  lp ? "" : col_name(start_col));
 			if (!lp)
 				order_box_set_default(sort_flow.clauses[lp]);
 		}
 
-		if (end_col - start_col > 1) { /* only one or two cols wide */
+		if (end_col - start_col > 1) { /* if more than one or two cols wide */
 			GtkWidget *hb = gtk_hbox_new(0, 0);
 			GtkWidget *button;
 			button = gtk_button_new_with_label("Add clause");
@@ -370,7 +379,7 @@ dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 			gtk_box_pack_start(GTK_BOX(hb), button, FALSE, TRUE, 0);
 			gtk_signal_connect(GTK_OBJECT(button), "clicked",
 				GTK_SIGNAL_FUNC(del_clause), &sort_flow);
-			gtk_box_pack_start(GTK_BOX(GNOME_DIALOG(sort_flow.dialog)->vbox),
+			gtk_box_pack_start(GTK_BOX(sort_flow.clause_box),
 					   hb, FALSE, TRUE, 0);
 		}
 		gtk_widget_show_all(sort_flow.dialog);
@@ -404,9 +413,12 @@ dialog_cell_sort(Workbook * inwb, Sheet * sheet)
 				g_free(txt);
 			}
 			if (!sort_flow.retry)
-				sort_cell_range(sheet, array, sort_flow.num_clause,
-						start_col, start_row,
-						end_col, end_row);
+				if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)))
+					sort_cell_range(sheet, array, sort_flow.num_clause, start_col, start_row+1,
+							end_col, end_row);
+				else
+					sort_cell_range(sheet, array, sort_flow.num_clause, start_col, start_row,
+							end_col, end_row);
 			g_free (array);
 		} else
 			sort_flow.retry = 0;

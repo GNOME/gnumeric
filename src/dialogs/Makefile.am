@@ -55,7 +55,8 @@ glade_DATA = 				\
 	dialog-zoom.glade		\
 	insert-cells.glade		\
 	delete-cells.glade		\
-	cell-format.glade
+	cell-format.glade		\
+	cell-sort.glade
 
 glade_msgs = 				\
 	col-width.glade.h		\
