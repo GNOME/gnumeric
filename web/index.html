@@ -38,15 +38,22 @@
 
 <H3>
 <A NAME="whatis"></A>What is Gnumeric</H3>
-The Gnumeric spreadhseet is part of the <A HREF="http://www.gnome.org">GNOME</A>
-desktop environment: a project to create a user friendly free desktop environment.&nbsp;
-As every other component of GNOME, Gnumeric is <A HREF="http://www.gnu.org/philosophy/free-sw.html">free
-software</A>&nbsp; and it is licensed under the terms of the GNU <A HREF="http://www.gnu.org/copyleft/gpl.html">GPL.</A>
-<P>You can see some <A HREF="http://www.gnome.org/gnumeric/screenshots">screenshots</A>
-of Gnumeric.
-<P>Gnumeric is intended to be a replacement for a commercial spreadsheet,
-so a lot of effort and work has still to go into it, but I believe we have
-the right framework to do it.
+
+The Gnumeric spreadhseet is part of the <A
+HREF="http://www.gnome.org">GNOME</A> desktop environment: a project
+to create a user friendly free desktop environment.&nbsp; As every
+other component of GNOME, Gnumeric is <A
+HREF="http://www.gnu.org/philosophy/free-sw.html">free
+software</A>&nbsp; and it is licensed under the terms of the GNU <A
+HREF="http://www.gnu.org/copyleft/gpl.html">GPL.</A> 
+
+<P>You can see some <A
+HREF="http://www.gnome.org/gnumeric/screenshots">screenshots</A> of
+Gnumeric.
+
+<P>Gnumeric is intended to be a replacement for a commercial
+spreadsheet, so a lot of effort and work has still to go into it, but
+I believe we have the right framework to do it.
 
 <h3>
 <a name="download"></a>Downloading</h3>
@@ -79,55 +86,77 @@ Read about the announcements of Gnumeric:
 
 <H3>
 <A NAME="future"></A>Future projects</H3>
-In the future, I would like to add support for Guile modules, as well as
-using the Guile computation engine for the native number formats in Gnumeric
-(which would give us arbitrary precision integers, and support for precise
-and imprecise numbers as well as other goodies).
-<P>Printing is going to be achieved by the GNOME priting framework which
-is being designed right now by Raph Levien.
+
+I would like to add support for arbitrary precision arithmetic in the
+future using the GNU Multi precission library.
+
+<P>Printing is going to be achieved by the GNOME priting framework
+which is being designed right now by Raph Levien.  The internal
+changes to Gnumeric to support printing are important, so the code to
+handle printing is kept on a branch in CVS until we are ready to
+deploy it in the main distribution.  You can get a copy of the printing code by using 
+the command "cvs co -r GNUMERIC_PRINT gnumeric" on the GNOME CVS or AnonCVS machine.
+
 <P>Read the README and the Future-Roadmap files included with Gnumeruic
 to learn more about our plans with Gnumeric.
-<p>Graphics in Gnumeric will be implemented by using the
-<a href="/guppi">GUPPI</a> plotting engine trough CORBA and the
-Baboon infrastructure.
-<p>
-Michael Meeks and Bruno Unna have been working on Excel import code.  Talk to them
-if you are interested in helping the project. 
+
+<p>Graphics in Gnumeric will be implemented by using the <a
+href="/guppi">GUPPI</a> plotting engine trough CORBA and the Bonobo
+infrastructure.  To test drive the code that includes Bonobo support
+you need to get a copy of Bonobo (this is not yet released, you need
+to get a snapshot from the CVS, using the command "cvs co bonobo".  Be
+warned that until Bonobo's release we are not commiting to any sort of
+support on Gnumeric).
+
+<p> Michael Meeks, Sean Atkinson and Bruno Unna have been working on
+Excel import code.  Talk to them if you are interested in helping the
+project.
 
 <H3>
 <A NAME="corba"></A>CORBA, compound documents</H3>
-As part of the GNOME desktop, Gnumeric will be using the <A HREF="http://cvs.labs.redhat.com/ORBit">ORBIT</A>
-CORBA implementation to expose its services to the world and it will be
-a Baboon component (Baboon is the compound document architecture of GNOME).
+
+As part of the GNOME desktop, Gnumeric will be using the <A
+HREF="http://cvs.labs.redhat.com/ORBit">ORBit</A> CORBA implementation
+to expose its services to the world and it will be a Baboon component
+(Baboon is the compound document architecture of GNOME).
+
 <H3>
 <A NAME="plugin"></A>Plugin system</H3>
-Gnumeric has a plugin system based on shared libraries right now (which
-means that all plugins right now fall under the GNU GPL). A plugin exists
-for defining your own functions in Python.
-<P>Part of this CORBA integration will enable people to write non-GPL plugins
-(I understand this is something some people might want to do, and for them,
-the CORBA-based plugin architecture will fit their needs). This is not
-yet implemented, but will soon be.
+
+Gnumeric has a plugin system based on shared libraries right now
+(which means that all plugins right now fall under the GNU GPL). A
+plugin exists for defining your own functions in Python.<P>
+
+Gnumeric exports a number of CORBA interfaces that enable programmers
+to control Gnumeric remotely within an authenticated GNOME desktop
+
 <H3>
 <A NAME="lists"></A>Mailing lists</H3>
-The Gnumeric mailing list can be reached at <A HREF="mailto:gnumeric-list@gnome.org">gnumeric-list@gnome.org</A>.
-If you want to subscribe to the mailing list, send mail to:
-<A HREF="mailto:gnumeric-list-request@gnome.org">gnumeric-list-request@gnome.org</A>
+
+The Gnumeric mailing list can be reached at <A
+HREF="mailto:gnumeric-list@gnome.org">gnumeric-list@gnome.org</A>.  If
+you want to subscribe to the mailing list, send mail to: <A
+HREF="mailto:gnumeric-list-request@gnome.org">gnumeric-list-request@gnome.org</A>
 and in the body of your message put the word "subscribe".
+
 <H3>
 <A NAME="getting"></A>Getting Gnumeric</H3>
-As with any other software in GNOME, you can fetch the latest development
-version of Gnumeric from the <A HREF="http://www.gnome.org/devel/whatiscvs.shtml">GNOME
-Anonymous CVS</A> and from the GNOME CVS from the module "gnumeric".
-<P>To compile Gnumeric you will need the gnome-libs package and the gnome-xml
-package. The gnome-libs package in turn requires glib, gtk+ and the imlib
-packages.
+
+As with any other software in GNOME, you can fetch the latest
+development version of Gnumeric from the <A
+HREF="http://www.gnome.org/devel/whatiscvs.shtml">GNOME Anonymous
+CVS</A> and from the GNOME CVS from the module "gnumeric".  <P>To
+compile Gnumeric you will need the gnome-libs package and the
+gnome-xml package. The gnome-libs package in turn requires glib, gtk+
+and the imlib packages.
+
 <H3>
 <A NAME="Thanks">Thanks to</a></H3>
+
 Tom Miller at <a href="http://www.xess.com">XESS</a> for helping me
 understand various spreadsheet issues and making the source code for
-his first spreadsheet program available to me for study.
-<p>
+his first spreadsheet program available to me for study.  <p>
+
 <h3>Developers</h3>
 Gnumeric has been coded mainly by Miguel de Icaza, with help from 
 other intrepid hackers that have contributed code, bug fixes and
@@ -135,10 +164,12 @@ documentation:
 <ul>
 	<li>Daniel Veillard (XML file load/save support).
 	<li>Tom Dyas (Plugin setup, Python plugin).
-	<li>Michael Meeks and Bruno Unna (Excel file loading code).
+	<li>Michael Meeks, Sean Atkinson and Bruno Unna (Excel file loading code).
+	<li>Jukka-Pekka Iivonen (lots of Gnumeric's functions).
 	<li>Jakub Jelinek (new scrolling engine)
 	<li>Chris Lahey (number formatting engine).
 	<li>Adrian Likins (manual, online help).
+	<li>Vladimir Vuksan (various Gnumeric functions).
 	<li>Mark Probst (Guile plugin).
 	<li>Federico Mena (canvas support).
 	<li>Morten Welinder (lots of fixes and code auditing).
