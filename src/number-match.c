@@ -49,7 +49,7 @@ create_option_list (char **list)
 	res [0] = '(';
 	res [1] = 0;
 	for (p = list; *p; p++){
-		char *v = *p;
+		char *v = _(*p);
 
 		if (*v == '*')
 			v++;

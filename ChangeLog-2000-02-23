@@ -1,3 +1,26 @@
+1998-10-03  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/fn-math.c (callback_function_sum): Do not try to be smart
+	about string content.  Let the smartiness to other layers. 
+	(gnumeric_average): Handle division by zero on average routine. 
+
+	* src/number-match.c (create_option_list): Small bug fix:  First
+	translate, then move the pointer ahead.
+
+	* src/cell.c (str_trim_spaces): Trim space routine was removing
+	everything after the first space instead of removing only the
+	trailing space. 
+	(cell_draw): Free the original string, not the modified copy.
+
+	* src/sheet.c (sheet_set_text): Test if the format has been
+	manually set by the user before trying to do format matching. 
+
+	* src/cell.h: New flag: CELL_FORMAT_SET, used if the user has
+	manually specified a format. FIXME: This information should be
+	saved and loaded.
+	
+	* src/cell.c (cell_set_format): Set the CELL_FORMAT_SET flag
+
 1998-10-03  Nuno Ferreira  <nmrf@rnl.ist.utl.pt>
 
 	* src/workbook.c: Added some more keys to navigate the menus.
@@ -29,6 +52,7 @@
 	used for item_grid->selecting to avoid shutting down entirely the
 	formula selection range on mouse release.
 
+>>>>>>> 1.164
 1998-10-02 Vincent Renardias <vincent@waw.com>
 
 	* Changed 'es@mx' into 'es_MX' for locale stuff in

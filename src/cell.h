@@ -23,6 +23,7 @@ typedef struct {
 
 #define CELL_ERROR       1
 #define CELL_HAS_COMMENT 2
+#define CELL_FORMAT_SET  4
 
 typedef struct {
 	void        *sheet;
@@ -51,8 +52,9 @@ typedef struct {
 
 typedef GList CellList;
 
-#define CELL_TEXT_GET(cell) ((cell)->text ? cell->text->str : cell->entered_text->str)
-#define CELL_IS_FORMULA(cell) ((cell)->entered_text->str [0] == '=')
+#define CELL_TEXT_GET(cell)      ((cell)->text ? cell->text->str : cell->entered_text->str)
+#define CELL_IS_FORMULA(cell)    ((cell)->entered_text->str [0] == '=')
+#define CELL_IS_FORMAT_SET(cell) ((cell)->flags & CELL_FORMAT_SET)
 
 typedef enum {
 	CELL_COPY_TYPE_CELL,

@@ -496,6 +496,7 @@ cell_set_format_simple (Cell *cell, char *format)
 	/* Change the format */
 	style_format_unref (cell->style->format);
 	cell->style->format = style_format_new (format);
+	cell->flags |= CELL_FORMAT_SET;
 }
 
 /*
@@ -519,7 +520,8 @@ cell_set_format (Cell *cell, char *format)
 	/* Change the format */
 	style_format_unref (cell->style->format);
 	cell->style->format = style_format_new (format);
-
+	cell->flags |= CELL_FORMAT_SET;
+	
 	/* re-render the cell text */
 	cell_render_value (cell);
 	cell_queue_redraw (cell);
@@ -1000,6 +1002,8 @@ str_trim_spaces (char *s)
 	while (p >= s){
 		if (*p == ' ')
 			*p = 0;
+		else
+			break;
 		p--;
 	}
 	return s;
@@ -1148,7 +1152,7 @@ cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y
 			gdk_draw_text (drawable, font, gc, x1 + x_offset, y1 + y_offset, str, strlen (str));
 			y_offset += inter_space;
 			
-			g_free (str);
+			g_free (l->data);
 		}
 		g_list_free (lines);
 		

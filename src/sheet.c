@@ -650,7 +650,7 @@ sheet_set_text (Sheet *sheet, int col, int row, char *str)
 	 * a rendered version of the text, if they compare equally, then
 	 * use that.
 	 */
-	if (*text != '=' && format_match (text, &v, &format)){
+	if (!CELL_IS_FORMAT_SET (cell) && (*text != '=' && format_match (text, &v, &format))){
 		StyleFormat *sf;
 		char *new_text;
 		char buffer [50];

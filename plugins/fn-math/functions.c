@@ -341,7 +341,7 @@ gnumeric_average (void *tsheet, GList *expr_node_list, int eval_col, int eval_ro
 		return NULL;
 	
 	count = gnumeric_count (tsheet, expr_node_list, eval_col, eval_row, error_string);
-	if (!count){
+	if (!count || (count && count->v.v_int == 0)){
 		value_release (sum);
 		return NULL;
 	}
@@ -1002,10 +1002,6 @@ callback_function_sum (Sheet *sheet, Value *value, char **error_string, void *cl
 		result->v.v_float += value->v.v_float;
 		break;
 		
-	case VALUE_STRING:
-		result->v.v_float += atof (value->v.str->str);
-		break;
-
 	default:
 		g_warning ("Unknown VALUE type in callback_function_sum");
 		break;
@@ -1130,4 +1126,5 @@ FunctionDefinition math_functions [] = {
 	{ "pi",      "",     "",          &help_pi,      NULL,gnumeric_pi },
 	{ NULL, NULL },
 };
+
 
