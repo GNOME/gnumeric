@@ -508,54 +508,43 @@ workbook_close_if_user_permits (Workbook *wb)
 
 	while (workbook_is_dirty (wb) && !done) {
 
-		GtkWidget *d, *l, *cancel_button;
+		GtkWidget *d;
 		int button;
-		char *s;
+		char *msg;
 
 		iteration++;
 
-		d = gnome_dialog_new (
-			_("Warning"),
+		if (wb->filename)
+			msg = g_strdup_printf (
+				_("Workbook %s has unsaved changes, save them?"),
+				g_basename (wb->filename));
+		else
+			msg = g_strdup (_("Workbook has unsaved changes, save them?"));
+
+		d = gnome_message_box_new (msg,
+			GNOME_MESSAGE_BOX_WARNING,
 			GNOME_STOCK_BUTTON_YES,
 			GNOME_STOCK_BUTTON_NO,
 			GNOME_STOCK_BUTTON_CANCEL,
 			NULL);
-		cancel_button = g_list_last (GNOME_DIALOG (d)->buttons)->data;
-		gtk_widget_grab_focus (cancel_button);
-		gnome_dialog_set_parent (GNOME_DIALOG (d), GTK_WINDOW (workbook_get_toplevel (wb)));
-
-		if (wb->filename)
-			s = g_strdup_printf (
-				_("Workbook %s has unsaved changes, save them?"),
-				g_basename (wb->filename));
-		else
-			s = g_strdup (_("Workbook has unsaved changes, save them?"));
-
-		l = gtk_label_new (s);
-		gtk_widget_show (l);
-		g_free (s);
-
-		gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (d)->vbox), l, TRUE, TRUE, 0);
 
 		gtk_window_set_position (GTK_WINDOW (d), GTK_WIN_POS_MOUSE);
 		button = gnome_dialog_run_and_close (GNOME_DIALOG (d));
+		g_free (msg);
 
 		switch (button) {
-			/* YES */
-		case 0:
+		case 0: /* YES */
 			done = workbook_save (workbook_command_context_gui (wb), wb);
 			break;
 
-			/* NO */
-		case 1:
+		case 1: /* NO */
 			can_close = TRUE;
 			done      = TRUE;
 			workbook_set_dirty (wb, FALSE);
 			break;
 
-			/* CANCEL */
 		case -1:
-		case 2:
+		case 2: /* CANCEL */
 			can_close = FALSE;
 			done      = TRUE;
 			break;

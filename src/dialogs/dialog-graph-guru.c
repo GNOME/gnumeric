@@ -75,7 +75,6 @@ graph_guru_state_destroy (GraphGuruState *state)
 		state->gui = NULL;
 	}
 
-#if 0
 	/* Release the series objects */
 	if (state->series != NULL) {
 		int i = state->series->len;
@@ -86,7 +85,6 @@ graph_guru_state_destroy (GraphGuruState *state)
 		g_ptr_array_free (state->series, TRUE);
 		state->series = NULL;
 	}
-#endif
 
 	if (state->control != CORBA_OBJECT_NIL) {
 		CORBA_Environment ev;
@@ -167,6 +165,13 @@ graph_guru_set_page (GraphGuruState *state, int page)
 	gtk_widget_set_sensitive (state->button_next, next_ok);
 }
 
+static gboolean
+cb_graph_series_destroy (GtkObject *w, gpointer series)
+{
+	printf ("series destroy %p\n", series);
+	return FALSE;
+}
+
 static void
 cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 {
@@ -195,6 +200,21 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 			SheetObject *so = sheet_object_container_new_bonobo (
 				state->wb->current_sheet, client_site);
 			sheet_mode_create_object (so);
+		}
+
+		/* Add a reference to the series so that they continue to exist
+		 * when the dialog goes away.  Then tie them to the destruction of
+		 * the client_site.
+		 */
+		if (state->series != NULL) {
+			int i = state->series->len;
+			while (i-- > 0) {
+				gpointer *elem = g_ptr_array_index (state->series, i);
+				gtk_object_ref (GTK_OBJECT (elem));
+				gtk_signal_connect (GTK_OBJECT (client_site), "destroy",
+						    GTK_SIGNAL_FUNC (cb_graph_series_destroy),
+						    elem);
+			}
 		}
 	}
 
@@ -416,7 +436,6 @@ dialog_graph_guru (Workbook *wb)
 		graph_guru_state_destroy (state);
 		return;
 	}
-
 
 	/* Ok everything is hooked up. Let-er rip */
 	state->valid = TRUE;

@@ -532,7 +532,9 @@ graph_series_set_subscriber (GraphSeries *series, CORBA_Object graph_manager)
 	default :
 		g_assert_not_reached();
 	}
+
 	if (ev._major != CORBA_NO_EXCEPTION)
 		g_warning ("Problems registering series %p", series);
+
 	CORBA_exception_free (&ev);
 }
