@@ -25,7 +25,7 @@ server_DATA	= GNOME_Gnumeric.server
 @INTLTOOL_SERVER_RULE@
 
 EXTRA_DIST = \
-	gnumeric.desktop.in gnumeric.spec.in 				\
+	gnumeric.desktop.in gnumeric.spec.in GNOME_Gnumeric.server.in.in\
 	gnumeric.keys.in gnumeric.mime 					\
 	gnumeric.xsd							\
 	README HACKING NEWS BEVERAGES BUGS MAINTAINERS AUTHORS $(change_logs)	\

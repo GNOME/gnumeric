@@ -83,6 +83,7 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const guchar *src, int len
 		ccopy->col_offset = 0;
 		ccopy->row_offset = 0;
 		ccopy->u.text = g_strdup (data);
+		ccopy->comment = NULL;
 
 		cr = cellregion_new (NULL);
 		cr->content = g_list_prepend (cr->content, ccopy);

@@ -2525,6 +2525,7 @@ cell_copy_new (void)
 	cc         = g_new (CellCopy, 1);
 	cc->type   = CELL_COPY_TYPE_CELL;
 	cc->u.cell = cell;
+	cc->comment= NULL;
 
 	return cc;
 }

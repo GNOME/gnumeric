@@ -1,3 +1,19 @@
+2002-03-12  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : Generate GNOME_Gnumeric.server.in
+	* Generate GNOME_Gnumeric.server : start to think about this.
+
+	* src/expr-name.c (expr_name_unlink_deps) : handle delayed hash
+	  creation.
+	(expr_name_new) : dont init the hash table.
+	(expr_name_add_dep) : until here.
+
+	* src/sheet.c (sheet_destroy_contents) : free the primary array too.
+
+	* src/xml-io.c (cell_copy_new) : set comment to NULL.
+	* src/gui-clipboard.c (x_selection_to_cell_region) : ditto.
+	* src/stf-parse.c (stf_parse_region) : ditto.
+
 2002-03-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* workbook-control-gui.c : add Merge to the Edit/Fill menu

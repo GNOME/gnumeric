@@ -37,6 +37,10 @@ static GSList *
 expr_name_unlink_deps (NamedExpression *nexpr)
 {
 	GSList *ptr, *deps = NULL;
+
+	if (nexpr->dependents == NULL)
+		return NULL;
+
 	g_hash_table_foreach (nexpr->dependents, cb_collect_name_deps, &deps);
 
 	/* pull them out */
@@ -164,7 +168,7 @@ expr_name_new (char const *name, gboolean builtin)
 	nexpr->active  = TRUE;
 	nexpr->name    = string_get (name);
 	nexpr->t.expr_tree = NULL;
-	nexpr->dependents  = g_hash_table_new (g_direct_hash, g_direct_equal);
+	nexpr->dependents  = NULL;
 
 	g_return_val_if_fail (nexpr->name != NULL, NULL);
 
@@ -503,15 +507,20 @@ expr_name_set_expr (NamedExpression *nexpr, ExprTree *new_expr)
 void
 expr_name_add_dep (NamedExpression *nexpr, Dependent *dep)
 {
+	if (nexpr->dependents == NULL)
+		nexpr->dependents = g_hash_table_new (g_direct_hash,
+						      g_direct_equal);
+
 	g_hash_table_insert (nexpr->dependents, dep, dep);
 }
 
 void
 expr_name_remove_dep (NamedExpression *nexpr, Dependent *dep)
 {
+	g_return_if_fail (nexpr->dependents != NULL);
+
 	g_hash_table_remove (nexpr->dependents, dep);
 }
-
 
 /* ------------------------------------------------------------- */
 

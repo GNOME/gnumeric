@@ -7,7 +7,6 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- changes to gal colour combo to differentiate auto
 - http://bugzilla.gnome.org/show_bug.cgi?id=71551
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.
@@ -30,6 +29,7 @@ Release Critical
 Pending Patches
 ---------------
 
+- jpablo's sheet tab color patch
 - Yukihiro's IM support (broken in the context of gnome2)
 - http://flowernet.gr.jp/jado/comp/patch/gnumeric/gnumeric-1.0.4-excel-cjk.patch   
 

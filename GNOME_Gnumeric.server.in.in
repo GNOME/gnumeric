@@ -1,0 +1,25 @@
+<oaf_info>
+    <oaf_server iid="OAFIID:GNOME_Gnumeric_Application"
+		type="exe"
+		location="@prefix@/bin/gnumeric">
+	    <oaf_attribute name="repo_ids" type="stringv">
+		    <item value="IDL:Bonobo/GenericFactory:1.0"/>
+		    <item value="IDL:GNOME/Gnumeric/Application:1.0"/>
+	    </oaf_attribute>
+	    <oaf_attribute name="name" type="string" value="Gnumeric Application"/>
+	    <oaf_attribute name="description" type="string" value="The manager for workbooks"/>
+    </oaf_server>
+
+    <oaf_server iid="OAFIID:GNOME_Gnumeric_Workbook"
+		type="factory"
+		location="OAFIID:GNOME_Gnumeric_Application">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+	    <item value="IDL:GNOME/Gnumeric/Workbook:1.0"/>
+	    <item value="IDL:GNOME/Gnumeric/Sheet:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+	 value="Workbook component"/>
+    </oaf_server>
+</oaf_info>

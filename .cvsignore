@@ -26,5 +26,6 @@ tags
 intltool-extract*
 intltool-merge*
 intltool-update*
+GNOME_Gnumeric.server.in
 GNOME_Gnumeric.server
 .intltool-cache*

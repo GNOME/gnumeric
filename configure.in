@@ -590,6 +590,7 @@ dnl ====================================
 
 AC_OUTPUT([
 gnumeric.spec
+GNOME_Gnumeric.server.in
 Makefile
 src/Makefile
 icons/Makefile
