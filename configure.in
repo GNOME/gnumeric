@@ -770,7 +770,6 @@ src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile
-doc/de/Makefile
 doc/es/Makefile
 doc/hu/Makefile
 doc/ja/Makefile
