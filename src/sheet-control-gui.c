@@ -2955,8 +2955,6 @@ scg_image_create (SheetControlGUI *scg, SheetObjectAnchor *anchor,
 	SheetObject *so;
 	double w, h;
 
-	printf ("scg_image_create, len=%d\n", len);
-
 	soi = g_object_new (SHEET_OBJECT_IMAGE_TYPE, NULL);
 	sheet_object_image_set_image (soi, "", (guint8 *)data, len, TRUE);
 
@@ -2974,8 +2972,6 @@ scg_paste_image (SheetControlGUI *scg, GnmRange *where,
 		 guint8 const *data, unsigned len)
 {
 	SheetObjectAnchor anchor;
-
-	printf ("scg_paste_image, len=%d\n", len);
 
 	sheet_object_anchor_init (&anchor, where, NULL, NULL, 
 				  SO_DIR_DOWN_RIGHT);
