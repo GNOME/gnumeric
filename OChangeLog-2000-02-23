@@ -1,3 +1,12 @@
+2000-02-07  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/dialogs/dialog-autosave.c (dialog_autosave): Change the
+	order here.
+	(dialog_autosave): Correct.  Help button does not mean OK.  Hook
+	up help.
+
+	* src/dialogs/auto-save.glade: Beautify.
+
 2000-02-01  ERDI Gergo  <cactus@cactus.rulez.org>
 
 	* src/about.c (dialog_about): Added myself to the contributors list

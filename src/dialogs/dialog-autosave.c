@@ -1,8 +1,9 @@
 /*
  * dialog-autosave.c:
  *
- * Author:
+ * Authors:
  *        Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *        Miguel de Icaza (miguel@kernel.org)
  *
  * (C) Copyright 2000 by Jukka-Pekka Iivonen <iivonen@iki.fi>
  **/
@@ -17,7 +18,10 @@
 static void
 autosave_on_off_toggled(GtkWidget *widget, Workbook *wb)
 {
+	GtkWidget *entry = gtk_object_get_user_data (GTK_OBJECT (widget));
+	
         wb->autosave = GTK_TOGGLE_BUTTON (widget)->active;
+	gtk_widget_set_sensitive (entry, wb->autosave);
 }
 
 static void
@@ -92,13 +96,23 @@ dialog_autosave (Workbook *wb)
 		return;
 	}
 
+	minutes = glade_xml_get_widget (gui, "minutes");
+	sprintf(buf, "%d", wb->autosave_minutes);
+	gtk_entry_set_text (GTK_ENTRY (minutes), buf);
+
+	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
+				      GTK_EDITABLE (minutes));
+
 	autosave_on_off = glade_xml_get_widget (gui, "autosave_on_off");
 
-        if (wb->autosave)
-	        gtk_toggle_button_set_active ((GtkToggleButton *)
-					      autosave_on_off, wb->autosave);
 	gtk_signal_connect (GTK_OBJECT (autosave_on_off), "toggled",
 			    GTK_SIGNAL_FUNC (autosave_on_off_toggled), wb);
+	gtk_object_set_user_data (GTK_OBJECT (autosave_on_off), minutes);
+	
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (autosave_on_off), wb->autosave);
+	if (!wb->autosave)
+		gtk_widget_set_sensitive (minutes, FALSE);
+	
 	prompt_on_off = glade_xml_get_widget (gui, "prompt_on_off");
 	if (wb->autosave_prompt)
 	        gtk_toggle_button_set_active ((GtkToggleButton *)
@@ -106,13 +120,6 @@ dialog_autosave (Workbook *wb)
 					      wb->autosave_prompt);
 	gtk_signal_connect (GTK_OBJECT (prompt_on_off), "toggled",
 			    GTK_SIGNAL_FUNC (prompt_on_off_toggled), wb);
-
-	minutes = glade_xml_get_widget (gui, "minutes");
-	sprintf(buf, "%d", wb->autosave_minutes);
-	gtk_entry_set_text (GTK_ENTRY (minutes), buf);
-
-	gnome_dialog_editable_enters (GNOME_DIALOG (dia),
-				      GTK_EDITABLE (minutes));
 
 loop:	
 	v = gnumeric_dialog_run (wb, GNOME_DIALOG (dia));
@@ -129,7 +136,12 @@ loop:
 			gtk_widget_grab_focus (minutes);
 			goto loop;
 		}
-	} else {
+	} else if (v == 2) {
+		GnomeHelpMenuEntry *help_ref = { "gnumeric", "autosave.html" };
+		
+		gnome_help_display (NULL, &help_ref);
+		
+	} else if (v == 1) {
 	        wb->autosave = old_autosave;
 	        wb->autosave_prompt = old_prompt;
 		wb->autosave_minutes = old_minutes;

@@ -45,7 +45,7 @@
     <homogeneous>False</homogeneous>
     <spacing>8</spacing>
     <child>
-      <padding>4</padding>
+      <padding>2</padding>
       <expand>True</expand>
       <fill>True</fill>
     </child>
@@ -73,56 +73,41 @@
 	</child>
 
 	<widget>
-	  <class>GtkVBox</class>
-	  <name>vbox2</name>
+	  <class>GtkTable</class>
+	  <name>table1</name>
+	  <rows>3</rows>
+	  <columns>1</columns>
 	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
+	  <row_spacing>0</row_spacing>
+	  <column_spacing>0</column_spacing>
 	  <child>
-	    <padding>0</padding>
+	    <padding>2</padding>
 	    <expand>True</expand>
 	    <fill>True</fill>
 	  </child>
 
 	  <widget>
-	    <class>GtkHBox</class>
-	    <name>hbox2</name>
-	    <homogeneous>False</homogeneous>
-	    <spacing>0</spacing>
+	    <class>GtkCheckButton</class>
+	    <name>autosave_on_off</name>
+	    <can_focus>True</can_focus>
+	    <has_focus>True</has_focus>
+	    <label>_Automatic Save Every</label>
+	    <active>False</active>
+	    <draw_indicator>True</draw_indicator>
 	    <child>
-	      <padding>0</padding>
-	      <expand>True</expand>
-	      <fill>True</fill>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>0</top_attach>
+	      <bottom_attach>1</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>True</xexpand>
+	      <yexpand>False</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
 	    </child>
-
-	    <widget>
-	      <class>GtkCheckButton</class>
-	      <name>autosave_on_off</name>
-	      <can_focus>True</can_focus>
-	      <has_focus>True</has_focus>
-	      <label>_Automatic Save Every</label>
-	      <active>False</active>
-	      <draw_indicator>True</draw_indicator>
-	      <child>
-		<padding>0</padding>
-		<expand>False</expand>
-		<fill>False</fill>
-	      </child>
-	    </widget>
-
-	    <widget>
-	      <class>GtkEntry</class>
-	      <name>minutes</name>
-	      <can_focus>True</can_focus>
-	      <editable>True</editable>
-	      <text_visible>True</text_visible>
-	      <text_max_length>3</text_max_length>
-	      <text></text>
-	      <child>
-		<padding>0</padding>
-		<expand>True</expand>
-		<fill>True</fill>
-	      </child>
-	    </widget>
 	  </widget>
 
 	  <widget>
@@ -133,48 +118,73 @@
 	    <active>False</active>
 	    <draw_indicator>True</draw_indicator>
 	    <child>
-	      <padding>0</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>2</top_attach>
+	      <bottom_attach>3</bottom_attach>
+	      <xpad>0</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>True</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>False</yfill>
 	    </child>
 	  </widget>
-	</widget>
-
-	<widget>
-	  <class>GtkVBox</class>
-	  <name>vbox3</name>
-	  <homogeneous>False</homogeneous>
-	  <spacing>0</spacing>
-	  <child>
-	    <padding>0</padding>
-	    <expand>False</expand>
-	    <fill>False</fill>
-	  </child>
 
 	  <widget>
-	    <class>GtkLabel</class>
-	    <name>label1</name>
-	    <label>_Minutes</label>
-	    <justify>GTK_JUSTIFY_CENTER</justify>
-	    <wrap>False</wrap>
-	    <xalign>0.5</xalign>
-	    <yalign>0.5</yalign>
-	    <xpad>0</xpad>
-	    <ypad>0</ypad>
-	    <focus_target>minutes</focus_target>
+	    <class>GtkHBox</class>
+	    <name>hbox2</name>
+	    <homogeneous>False</homogeneous>
+	    <spacing>0</spacing>
 	    <child>
-	      <padding>0</padding>
-	      <expand>False</expand>
-	      <fill>False</fill>
+	      <left_attach>0</left_attach>
+	      <right_attach>1</right_attach>
+	      <top_attach>1</top_attach>
+	      <bottom_attach>2</bottom_attach>
+	      <xpad>20</xpad>
+	      <ypad>0</ypad>
+	      <xexpand>False</xexpand>
+	      <yexpand>True</yexpand>
+	      <xshrink>False</xshrink>
+	      <yshrink>False</yshrink>
+	      <xfill>True</xfill>
+	      <yfill>True</yfill>
 	    </child>
-	  </widget>
 
-	  <widget>
-	    <class>Placeholder</class>
-	  </widget>
+	    <widget>
+	      <class>GtkEntry</class>
+	      <name>minutes</name>
+	      <width>40</width>
+	      <can_focus>True</can_focus>
+	      <editable>True</editable>
+	      <text_visible>True</text_visible>
+	      <text_max_length>3</text_max_length>
+	      <text></text>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
 
-	  <widget>
-	    <class>Placeholder</class>
+	    <widget>
+	      <class>GtkLabel</class>
+	      <name>label1</name>
+	      <label>minutes</label>
+	      <justify>GTK_JUSTIFY_CENTER</justify>
+	      <wrap>False</wrap>
+	      <xalign>0.5</xalign>
+	      <yalign>0.5</yalign>
+	      <xpad>4</xpad>
+	      <ypad>0</ypad>
+	      <child>
+		<padding>0</padding>
+		<expand>False</expand>
+		<fill>False</fill>
+	      </child>
+	    </widget>
 	  </widget>
 	</widget>
       </widget>
