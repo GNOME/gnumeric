@@ -1,3 +1,8 @@
+2003-06-19  Morten Welinder  <terra@gnome.org>
+
+	* src/format.c (format_get_decimal, format_get_thousand): Return a
+	UTF-8 string, not a char.  All callers changed.
+
 2003-06-19  Jon K Hellan  <hellan@acm.org>
 
 	* src/main-application.c (main): Don't load any more workbooks if

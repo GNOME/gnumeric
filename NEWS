@@ -43,6 +43,7 @@ Morten:
 	* Improve stf import's handing of strange line terminators.
 	* Fix nasty locale-changing problem (localeconv data changing
 	  underneath us).
+	* Make locale handling UTF-8 safe.
 
 --------------------------------------------------------------------------
 

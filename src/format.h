@@ -65,8 +65,8 @@ char const *format_get_currency     (gboolean *precedes, gboolean *space_sep);
 gboolean    format_month_before_day (void);
 char        format_get_arg_sep      (void);
 char        format_get_col_sep      (void);
-char        format_get_thousand     (void);
-char        format_get_decimal      (void);
+char const *format_get_thousand     (void);
+char const *format_get_decimal      (void);
 
 void number_format_init (void);
 void number_format_shutdown (void);

@@ -117,6 +117,25 @@ char_to_re (char dst[7], gunichar c)
 	}
 }
 
+static void
+str_to_re (GString *target, const char *s)
+{
+	/* This ought to be UTF-8 safe.  */
+	while (*s) {
+		switch (*s) {
+		case '^': case '$': case '.': case '[':
+		case '+': case '*': case '?':
+		case '\\':
+			g_string_append_c (target, '\\');
+			/* Fall through.  */
+		default:
+			g_string_append_c (target, *s);
+		}
+		s++;
+	}
+}
+
+
 #define append_type(t) do { guint8 x = t; match_types = g_byte_array_append (match_types, &x, 1); } while (0)
 
 /*
@@ -131,12 +150,8 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 	GByteArray *match_types;
 	char *str;
 	gboolean hour_seen = FALSE;
-	char re_thousands_sep[7], re_decimal[7];
 
 	g_return_val_if_fail (format != NULL, NULL);
-
-	char_to_re (re_thousands_sep, format_get_thousand ());
-	char_to_re (re_decimal, format_get_decimal ());
 
 #ifdef DEBUG_NUMBER_MATCH
 	printf ("'%s' = ", format);
@@ -229,7 +244,7 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 				 * as a result $1000 would not be recognized.
 				 */
 				g_string_append (regexp, "([-+]?[0-9]+(");
-				g_string_append (regexp, re_thousands_sep);
+				str_to_re (regexp, format_get_thousand ());
 				g_string_append (regexp, "[0-9]{3})*)");
 				append_type (MATCH_SKIP);
 			} else
@@ -237,7 +252,7 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 
 			if (include_decimal) {
 				g_string_append (regexp, "?(");
-				g_string_append (regexp, re_decimal);
+				str_to_re (regexp, format_get_decimal ());
 				g_string_append (regexp, "[0-9]+([Ee][-+]?[0-9]+)?)");
 				append_type (MATCH_NUMBER_DECIMALS);
 			}
@@ -756,8 +771,8 @@ compute_value (char const *s, const regmatch_t *mp,
 	int hours, minutes;
 	gnm_float seconds;
 
-	char const thousands_sep = format_get_thousand ();
-	char const decimal = format_get_decimal ();
+	char const *thousands_sep = format_get_thousand ();
+	char const *decimal = format_get_decimal ();
 
 	month = day = year = year_short = -1;
 	hours = minutes = -1;
@@ -821,7 +836,7 @@ compute_value (char const *s, const regmatch_t *mp,
 
 				number = 0.;
 				/* FIXME: this loop is bogus.  */
-				do {
+				while (1) {
 					int thisnumber;
 					if (number > DBL_MAX / 1000.0) {
 						g_free (str);
@@ -838,7 +853,12 @@ compute_value (char const *s, const regmatch_t *mp,
 					}
 
 					number += thisnumber;
-				} while (*(ptr++) == thousands_sep);
+
+					if (strncmp (ptr, thousands_sep, strlen (thousands_sep)) != 0)
+						break;
+
+					ptr += strlen (thousands_sep);
+				}
 				is_number = TRUE;
 				if (is_neg) number = -number;
 			}
@@ -846,7 +866,7 @@ compute_value (char const *s, const regmatch_t *mp,
 
 		case MATCH_NUMBER_DECIMALS: {
 			char *exppart = NULL;
-			if (*str == decimal) {
+			if (strncmp (str, decimal, strlen (decimal)) == 0) {
 				char *end;
 				errno = 0; /* strtognum sets errno, but does not clear it.  */
 				if (seconds < 0) {

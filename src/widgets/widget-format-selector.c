@@ -157,8 +157,8 @@ fillin_negative_samples (NumberFormatSelector *nfs)
 	int const page = nfs->format.current_type;
 	char const *space_b = "", *currency_b;
 	char const *space_a = "", *currency_a;
-	char decimal[2] = { '\0', '\0' } ;
-	char thousand_sep[2] = { '\0', '\0' } ;
+	const char *decimal;
+	const char *thousand_sep;
 	int i;
 	GtkTreeIter  iter;
 	GtkTreePath *path;
@@ -170,9 +170,13 @@ fillin_negative_samples (NumberFormatSelector *nfs)
 	START_LOCALE_SWITCH;
 		
 	if (nfs->format.use_separator)
-		thousand_sep[0] = format_get_thousand ();
+		thousand_sep = format_get_thousand ();
+	else
+		thousand_sep = "";
 	if (nfs->format.num_decimals > 0)
-		decimal[0] = format_get_decimal ();
+		decimal = format_get_decimal ();
+	else
+		decimal = "";
 
 	if (page == 2) {
 		currency_b = (const gchar *)currency_symbols[nfs->format.currency_index].symbol;
@@ -484,8 +488,7 @@ cb_format_class_changed (GtkOptionMenu *menu, NumberFormatSelector *nfs)
 
 	selection = gtk_option_menu_get_history (menu);
 
-	if (selection >= 0)
-	{
+	if (selection >= 0) {
 		fmt_dialog_enable_widgets (nfs, selection);
 	}
 }
@@ -687,8 +690,7 @@ nfs_init (NumberFormatSelector *nfs)
 	for (i = 0; (name = widget_names[i]) != NULL; ++i) {
 		tmp = glade_xml_get_widget (nfs->gui, name);
 
-		if (tmp == NULL)
-		{
+		if (tmp == NULL) {
 			g_warning ("nfs_init : failed to load widget %s", name);
 		}
 
