@@ -4,6 +4,9 @@ Jody:
 	http://bugzilla.gnome.org/show_bug.cgi?id=86338
 	* Match cummulative time
 
+	http://bugzilla.gnome.org/show_bug.cgi?id=87106
+	* Fix typo that broke workbook-view attribute import.
+
 --------------------------------------------------------------------------
 Gnumeric 1.0.8
 

@@ -1,3 +1,9 @@
+2002-07-02  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=87106
+	* src/xml-io.c (xml_read_attributes) : fix typo that broke
+	  workbook-view attribute import.
+
 2002-06-24  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=86338

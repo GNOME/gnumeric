@@ -1036,7 +1036,7 @@ xml_read_attributes (XmlParseContext *ctxt, xmlNodePtr tree, GList **list)
 
 			subchild = e_xml_get_child_by_name (child, (xmlChar *)"type");
 			if (subchild)
-				xml_node_get_int (child, NULL, &type);
+				xml_node_get_int (subchild, NULL, &type);
 
 			if (name && type) {
 				arg = gtk_arg_new (type);
