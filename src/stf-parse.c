@@ -835,22 +835,24 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, char const *data, int c
 gboolean
 stf_parse_convert_to_unix (char *data)
 {
-	char *s;
-	char *d;
-
+	char *s, *d;
+	
 	if (!data)
 		return FALSE;
 
-	for (s = d = data; *s != '\0'; s++, d++) {
+	for (s = d = data; *s != '\0';) {
 		if (*s == '\r') {
 			*d++ = '\n';
 			s++;
 			if (*s == '\n')
 				s++;
+			continue;
 		} else if (*s == '\f') {
 			s++;
-		} else
-			*d = *s;
+			continue;
+		}
+		
+		*d++ = *s++;
 	}
 	*d = '\0';
 
