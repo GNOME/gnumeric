@@ -18,22 +18,23 @@
 #define GNUMERIC_HELP_H
 
 /* ../sheet-object-graphic.c   */
-#define GNUMERIC_HELP_LINK_SO_LINE ""
-#define GNUMERIC_HELP_LINK_SO_ARROW ""
+#define GNUMERIC_HELP_LINK_SO_LINE "sect-graphics-drawings"
+#define GNUMERIC_HELP_LINK_SO_ARROW "sect-graphics-drawings"
 
 /* ../sheet-object-graphic.c   */
-#define GNUMERIC_HELP_LINK_SO_FILLED ""
+#define GNUMERIC_HELP_LINK_SO_FILLED "sect-graphics-drawings"
 
 /* ../sheet-object-widget.c    */
-#define GNUMERIC_HELP_LINK_SO_FRAME ""
-#define GNUMERIC_HELP_LINK_SO_ADJUSTMENT ""
-#define GNUMERIC_HELP_LINK_SO_CHECKBOX ""
+#define GNUMERIC_HELP_LINK_SO_FRAME "sect-graphics-drawings"
+#define GNUMERIC_HELP_LINK_SO_ADJUSTMENT "sect-graphics-drawings"
+#define GNUMERIC_HELP_LINK_SO_CHECKBOX "sect-graphics-drawings"
 
 /* dialog-autocorrect.c        */
 #define GNUMERIC_HELP_LINK_AUTOCORRECT "sect-data-entry"
 
 /* dialog-autofilter.c         */
-#define GNUMERIC_HELP_LINK_AUTOFILTER ""
+#define GNUMERIC_HELP_LINK_AUTOFILTER_TOP_TEN "sect-data-modify"
+#define GNUMERIC_HELP_LINK_AUTOFILTER_CUSTOM "sect-data-modify"
 
 /* dialog-autoformat.c         */
 #define GNUMERIC_HELP_LINK_AUTOFORMAT "sect-data-entry"
@@ -69,7 +70,7 @@
 #define GNUMERIC_HELP_LINK_FUNCTION_SELECT "sect-data-entry"
 
 /* dialog-goal-seek.c  */
-#define GNUMERIC_HELP_LINK_GOAL_SEEK "sect-analysis-goalseek"
+#define GNUMERIC_HELP_LINK_GOAL_SEEK "sect-advanced-analysis-goalseek"
 
 /* dialog-goto-cell.c  */
 #define GNUMERIC_HELP_LINK_GOTO_CELL "sect-worksheets-viewing"
@@ -110,7 +111,7 @@
 #define GNUMERIC_HELP_LINK_SHEET_MANAGER "sect-worksheets-managing"
 
 /* dialog-solver.c    */
-#define GNUMERIC_HELP_LINK_SOLVER "sect-analysis-solver"
+#define GNUMERIC_HELP_LINK_SOLVER "sect-advanced-analysis-solver"
 
 /* dialog-summary.c   */
 #define GNUMERIC_HELP_LINK_SUMMARY "sect-workbooks-docsummary"
@@ -156,14 +157,14 @@
 #define GNUMERIC_HELP_LINK_RANDOM_GENERATOR "sect-dataentryadv"
 
 /* dialog-scenarios.c */
-#define GNUMERIC_HELP_LINK_SCENARIOS_ADD ""
-#define GNUMERIC_HELP_LINK_SCENARIOS_VIEW ""
+#define GNUMERIC_HELP_LINK_SCENARIOS_ADD "sect-advanced-analysis-scenarios"
+#define GNUMERIC_HELP_LINK_SCENARIOS_VIEW "sect-advanced-analysis-scenarios"
 
 /* dialog-shuffle.c   */
 #define GNUMERIC_HELP_LINK_DATA_SHUFFLE "sect-data-modify"
 
 /* dialog-simulation.c */
-#define GNUMERIC_HELP_LINK_SIMULATION "sect-analysis-simulation"
+#define GNUMERIC_HELP_LINK_SIMULATION "sect-advanced-analysis-simulation"
 
 
 /**********************************************************************/

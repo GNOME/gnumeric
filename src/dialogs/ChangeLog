@@ -1,3 +1,10 @@
+2003-08-11  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* help.h: add and change a few links
+	* dialog-autofilter.c (dialog_auto_filter): vary the help link
+	  depending on which dialog we a reusing
+	* dialog-autosave.c (dialog_autosave): fix typo
+
 2003-08-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* help.h: new, list of help links for all help buttons

@@ -289,7 +289,8 @@ dialog_auto_filter (WorkbookControlGUI *wbcg,
 	/* a candidate for merging into attach guru */
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),
-		GNUMERIC_HELP_LINK_AUTOFILTER);
+		is_expr ? GNUMERIC_HELP_LINK_AUTOFILTER_CUSTOM :
+		GNUMERIC_HELP_LINK_AUTOFILTER_TOP_TEN);
 	g_object_set_data_full (G_OBJECT (state->dialog),
 		"state", state, (GDestroyNotify)cb_autofilter_destroy);
 	wbcg_edit_attach_guru (state->wbcg, state->dialog);

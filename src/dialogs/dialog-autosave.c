@@ -210,7 +210,7 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "button3"),
-		GNUMERIC_HELP_LINK_AUTOFILTER);
+		GNUMERIC_HELP_LINK_AUTOSAVE);
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (state->autosave_on_off),
 				      wbcg->autosave);
