@@ -201,7 +201,7 @@
      of freedom for both variables.  It also calculates the F-value,
      the one-tailed probability for the F-value, and the F Critical
      value for one-tailed test.  The one-tailed probability for the
-     F-value (``P(F<=f) one-tail'' row) describes the risk of making a
+     F-value (``P(F&lt;=f) one-tail'' row) describes the risk of making a
      Type I error of one-tailed test.</para>
   </sect2>
 
@@ -329,7 +329,7 @@
      both variables.  It also calculates the z-value, the one-tailed
      and two-tailed probability for the z-value, and the z Critical
      value for one-tailed and two-tailed tests.  The one-tailed
-     probability for the z-value (``P(Z<=z) one-tail'' row) describes
+     probability for the z-value (``P(Z&lt;=z) one-tail'' row) describes
      the risk of making a Type I error of one-tailed test.</para>
   </sect2>
 
