@@ -2,6 +2,7 @@
 
 	* src/workbook-view.c (wb_view_auto_expr_recalc): Take format from
 	auto-format.
+	(wb_view_auto_expr_recalc): Plug leak.
 
 	* src/xml-io.c: Don't include <goffice/utils/go-locale.h> which
 	just went away and wasn't needed anyway.

@@ -416,6 +416,7 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	if (v) {
 		GString *str = g_string_new (wbv->auto_expr_desc);
 		GOFormat const *format = NULL;
+		GOFormat *tmp_format = NULL;
 
 		g_string_append_c (str, '=');
 		if (!no_auto_expr_format) {
@@ -425,7 +426,8 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 					gnm_expr_new_funcall (gnm_expr_get_func_def (wbv->auto_expr),
 							      selection);
 				selection = NULL;
-				format = auto_style_format_suggest (fcall, ei.pos);
+				format = tmp_format =
+					auto_style_format_suggest (fcall, ei.pos);
 				gnm_expr_unref (fcall);
 			}
 		}
@@ -433,6 +435,8 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 		if (format) {
 			format_value_gstring (str, format, v, NULL,
 					      -1, workbook_date_conv (wb_view_workbook (wbv)));
+			if (tmp_format)
+				style_format_unref (tmp_format);
 		} else {
 			g_string_append (str, value_peek_string (v));
 		}
