@@ -46,6 +46,9 @@ color_combo_finalize (GtkObject *object)
 {
 	ColorCombo *cc = COLOR_COMBO (object);
 
+	if (cc->current)
+		g_free (cc->current);
+	
 	g_free (cc->items);
 	(*color_combo_parent_class->finalize) (object);
 }
