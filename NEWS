@@ -14,6 +14,9 @@ Jody:
 	* Data points define the axis, not the number of labels
 	http://bugzilla.gnome.org/show_bug.cgi?id=132390
 	* Fix crash when updating chart style combos
+	http://bugzilla.gnome.org/show_bug.cgi?id=132017
+	* Support double underline when importing from applix
+	* Fix our exported xls with macros with named sheets
 
 Nick Lamb:
 	* Support the older xor style of xls encryption too
