@@ -47,9 +47,10 @@ gboolean  gog_plot_supports_vary_style_by_element (GogPlot const *plot);
 GogSeries	  *gog_plot_new_series	  (GogPlot *plot);
 GogPlotDesc const *gog_plot_description	  (GogPlot const *plot);
 
-GogAxisSet gog_plot_axis_set_pref      (GogPlot const *plot);
-gboolean   gog_plot_axis_set_is_valid  (GogPlot const *plot, GogAxisSet type);
-gboolean   gog_plot_axis_set_assign    (GogPlot *plot, GogAxisSet type);
+GogAxisSet gog_plot_axis_set_pref	(GogPlot const *plot);
+gboolean   gog_plot_axis_set_is_valid	(GogPlot const *plot, GogAxisSet type);
+gboolean   gog_plot_axis_set_assign	(GogPlot *plot, GogAxisSet type);
+void	   gog_plot_axis_clear		(GogPlot *plot, GogAxisSet filter);
 
 G_END_DECLS
 

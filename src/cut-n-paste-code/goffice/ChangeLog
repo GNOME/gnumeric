@@ -1,3 +1,15 @@
+2003-09-08  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_barcol/plot-types.xml.in : fix icons to match
+	  reality.  All lines currently have markers by default.
+
+	* graph/plugins/plot_barcol/gog-line.c
+	(gog_line_update_stacked_and_percentage) : Generate the correct bounds.
+
+	* graph/plugins/plot_barcol/gog-barcol.c
+	(gog_barcol_update_stacked_and_percentage) : Why special case 0..1
+	(gog_barcol_view_render) : handle bound clipping.
+
 2003-09-08  Jon K Hellan  <hellan@acm.org>
 
 	* graph/gog-renderer-svg.c (gog_renderer_svg_draw_marker): New

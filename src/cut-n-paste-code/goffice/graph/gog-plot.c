@@ -49,6 +49,8 @@ gog_plot_finalize (GObject *obj)
 
 	g_slist_free (plot->series); /* GogObject does the unref */
 
+	gog_plot_axis_clear (plot, GOG_AXIS_SET_ALL); /* just in case */
+
 	if (parent_klass != NULL && parent_klass->finalize != NULL)
 		(parent_klass->finalize) (obj);
 }
@@ -391,6 +393,27 @@ gog_plot_axis_set_assign (GogPlot *plot, GogAxisSet axis_set)
 		return axis_set == GOG_AXIS_SET_NONE;
 
 	return (klass->axis_set_assign) (plot, axis_set);
+}
+
+/**
+ * gog_plot_axis_clear : 
+ * @plot : #GogPlot
+ * @filter : #GogAxisSet
+ * 
+ * A utility method to clear all existing axis associations flagged by @filter
+ **/
+void
+gog_plot_axis_clear (GogPlot *plot, GogAxisSet filter)
+{
+	GogAxisType type;
+
+	g_return_if_fail (GOG_PLOT (plot) != NULL);
+
+	for (type = 0 ; type < GOG_AXIS_TYPES ; type++)
+		if (plot->axis[type] != NULL && ((1 << type) & filter)) {
+			gog_axis_del_contributor (plot->axis[type], GOG_OBJECT (plot));
+			plot->axis[type] = NULL;
+		}
 }
 
 /****************************************************************************/

@@ -48,10 +48,13 @@ GogAxisPosition gog_axis_get_pos 	 (GogAxis const *axis);
 gboolean	gog_axis_get_bounds 	 (GogAxis const *axis,
 					  double *min_val, double *max_val);
 
-void		gog_axis_add_contributor (GogAxis *axis, GogObject *contrib);
-void		gog_axis_del_contributor (GogAxis *axis, GogObject *contrib);
-void		gog_axis_bound_changed   (GogAxis *axis, GogObject *contrib,
-					  double low, double high);
+void 	      gog_axis_add_contributor	  (GogAxis *axis, GogObject *contrib);
+void 	      gog_axis_del_contributor	  (GogAxis *axis, GogObject *contrib);
+GSList const *gog_axis_contributors	  (GogAxis *axis);
+void	      gog_axis_clear_contributors (GogAxis *axis);
+void	      gog_axis_bound_changed	  (GogAxis *axis, GogObject *contrib,
+					   double low, double high);
+
 G_END_DECLS
 
 #endif /* GOG_AXIS_H */

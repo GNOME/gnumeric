@@ -126,6 +126,7 @@ static void
 role_plot_pre_remove (GogObject *parent, GogObject *plot)
 {
 	GogChart *chart = GOG_CHART (parent);
+	gog_plot_axis_clear (GOG_PLOT (plot), GOG_AXIS_SET_ALL);
 	chart->plots = g_slist_remove (chart->plots, plot);
 	gog_chart_request_cardinality_update (chart);
 }
@@ -138,6 +139,11 @@ axis_can_add (GogObject const *parent, GogAxisType t)
 		return FALSE;
 	return (chart->axis_set & (1 << t)) != 0;
 }
+static gboolean
+axis_can_remove (GogObject const *child)
+{
+	return NULL == gog_axis_contributors (GOG_AXIS (child));
+}
 
 static void
 axis_post_add (GogObject *axis, GogAxisType t)
@@ -148,21 +154,19 @@ axis_post_add (GogObject *axis, GogAxisType t)
 }
 
 static void
-axis_pre_remove (GogObject *axis, GogAxisType t)
+axis_pre_remove (GogObject *parent, GogObject *axis)
 {
-	GogChart *chart = GOG_CHART (axis->parent);
+	GogChart *chart = GOG_CHART (parent);
+	gog_axis_clear_contributors (GOG_AXIS (axis));
 	chart->axes = g_slist_remove (chart->axes, axis);
 }
 
 static gboolean x_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_X); }
 static void x_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_X); }
-static void x_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre_remove (child, GOG_AXIS_X); }
 static gboolean y_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_Y); }
 static void y_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_Y); }
-static void y_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre_remove (child, GOG_AXIS_Y); }
 static gboolean z_axis_can_add (GogObject const *parent) { return axis_can_add (parent, GOG_AXIS_Z); }
 static void z_axis_post_add    (GogObject *parent, GogObject *child)  { axis_post_add   (child, GOG_AXIS_Z); }
-static void z_axis_pre_remove  (GogObject *parent, GogObject *child)  { axis_pre_remove (child, GOG_AXIS_Z); }
 
 static GogObjectRole const roles[] = {
 	{ N_("Legend"), "GogLegend",	0,
@@ -173,15 +177,15 @@ static GogObjectRole const roles[] = {
 	  NULL, NULL, NULL, NULL, NULL, NULL, { -1 } },
 	{ N_("X-Axis"), "GogAxis",	0,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-	  x_axis_can_add, NULL, NULL, x_axis_post_add, x_axis_pre_remove, NULL,
+	  x_axis_can_add, axis_can_remove, NULL, x_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_X } },
 	{ N_("Y-Axis"), "GogAxis",	1,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-	  y_axis_can_add, NULL, NULL, y_axis_post_add, y_axis_pre_remove, NULL,
+	  y_axis_can_add, axis_can_remove, NULL, y_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_Y } },
 	{ N_("Z-Axis"), "GogAxis",	2,
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_ROLE,
-	  z_axis_can_add, NULL, NULL, z_axis_post_add, z_axis_pre_remove, NULL,
+	  z_axis_can_add, axis_can_remove, NULL, z_axis_post_add, axis_pre_remove, NULL,
 	  { GOG_AXIS_Z } },
 	{ N_("Plot"), "GogPlot",	3,	/* keep the axis before the plots */
 	  GOG_POSITION_SPECIAL, GOG_POSITION_SPECIAL, GOG_OBJECT_NAME_BY_TYPE,

@@ -13,16 +13,6 @@ send us some email, there are lots of projects available.
 
 To report Gnumeric bugs, please visit bugzilla.gnome.org.
 
-WARNING WARNING WARNING
-
-    This is the _DEVELOPMENT_ branch of gnumeric.  It is undergoing rapid change
-    and is _NOT_ suitable for packaging or production work.  Please use the
-    stable branch
-
-	cvs co -r gnome_1_4 gnumeric
-
-WARNING WARNING WARNING
-
 Requirements
 ------------
 
@@ -37,7 +27,7 @@ You need:                                Debian package name
 	libgnomeprintui	>= 2.2.0	libgnomeprintui2.2-dev
 	libgsf		>= 1.8.1	libgsf-1-dev + libgsf-gnome-1-dev
 	libglade	>= 2.0.0	libglade2-dev
-	intltools	>= 0.9		intltool
+	intltools	>= 0.27.2	intltool
 	gnome-xml   	>= 2.4.12	libxml2-dev
 	libart   	>= 2.3.11	libart-2.0-dev
 	NOTE : gnome-xml is also known as libxml

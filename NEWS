@@ -42,6 +42,8 @@ Jody:
 	* Improve performance when deleting multiple sheets at once.
 	* Only export a charting style field if it is interesting.
 	* Hook up the Jean's SVG exporter to Jon Kåre's Chart Save As
+	* Bound clipping for xy/bar/col/line/area
+	* Finish axis life cycle support
 
 Morten:
 	* Support End+Home key sequence.

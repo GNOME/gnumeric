@@ -8,19 +8,19 @@
 	<Type _name="Lines" row="1" col="1"
 		engine="GogLinePlot" family="Line"
 		_description="Line plot."
-		sample_image_file="chart_line_1_1.png">
+		sample_image_file="chart_line_2_1.png">
 		<property name="type">normal</property>
 	</Type>
 	<Type _name="Stacked Lines" row="1" col="2"
 		engine="GogLinePlot" family="Line"
 		_description="Stacked line plot."
-		sample_image_file="chart_line_1_2.png">
+		sample_image_file="chart_line_2_2.png">
 		<property name="type">stacked</property>
 	</Type>
 	<Type _name="Percentage Lines" row="1" col="3"
 		engine="GogLinePlot" family="Line"
 		_description="Percentage line plot."
-		sample_image_file="chart_line_1_3.png">
+		sample_image_file="chart_line_2_3.png">
 		<property name="type">as_percentage</property>
 	</Type>
 

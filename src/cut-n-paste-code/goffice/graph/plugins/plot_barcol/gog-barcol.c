@@ -24,6 +24,7 @@
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/gog-style.h>
+#include <goffice/graph/gog-axis.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
 
@@ -90,8 +91,7 @@ gog_barcol_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 {
 	/* xgettext : the base for how to name bar/col plot objects
 	 * eg The 2nd bar/col plot in a chart will be called
-	 * 	PlotBarCol2
-	 */
+	 * 	PlotBarCol2 */
 	return N_("PlotBarCol");
 }
 
@@ -137,14 +137,11 @@ gog_barcol_update_stacked_and_percentage (GogPlot1_5d *model,
 			if (model->maximum < pos_sum)
 				model->maximum = pos_sum;
 		} else {
-			if (neg_sum < 0) {
-				tmp = pos_sum / (pos_sum - neg_sum);
-				if (model->minimum > (tmp - 1.))
-					model->minimum = tmp - 1.;
-				if (model->maximum < tmp)
-					model->maximum = tmp;
-			} else
-				model->maximum = 1.;
+			tmp = pos_sum / (pos_sum - neg_sum);
+			if (model->minimum > (tmp - 1.))
+				model->minimum = tmp - 1.;
+			if (model->maximum < tmp)
+				model->maximum = tmp;
 		}
 	}
 }
@@ -261,7 +258,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	GogViewAllocation base, work;
 	GogRenderer *rend = view->renderer;
 	gboolean is_vertical = ! (model->horizontal);
-	double **vals, sum, neg_base, pos_base, tmp;
+	double **vals, sum, neg_base, pos_base, tmp, val_min, val_max;
 	double col_step, group_step, scale, data_scale;
 	unsigned i, j;
 	unsigned num_elements = gog_1_5d_model->num_elements;
@@ -271,9 +268,11 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	GSList *ptr;
 	unsigned *lengths;
 
-	if (num_elements <= 0 || num_series <= 0 ||
-	    (gnumeric_sub_epsilon (-gog_1_5d_model->minimum) < 0. &&
-	     gnumeric_sub_epsilon (gog_1_5d_model->maximum) < 0.))
+	if (num_elements <= 0 || num_series <= 0)
+		return;
+
+	if (!gog_axis_get_bounds (GOG_PLOT (model)->axis[1], &val_min, &val_max) ||
+	    val_min >= val_max)
 		return;
 
 	vals = g_alloca (num_series * sizeof (double *));
@@ -307,11 +306,10 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 	col_step *= work.h;
 	group_step *= work.h;
 	work.y = base.h - group_step / 2.; /* indent by half a group step */
-	scale = data_scale = base.w / (gog_1_5d_model->maximum - gog_1_5d_model->minimum);
+	scale = data_scale = base.w / (val_max - val_min);
 
 	group_step -= col_step; /* inner loop increments 1 extra time */
 	for (i = 0 ; i < num_elements ; i++, work.y -= group_step) {
-		pos_base = neg_base = -gog_1_5d_model->minimum * scale;
 		if (type == GOG_1_5D_AS_PERCENTAGE) {
 			sum = 0.;
 			for (j = num_series ; j-- > 0 ; ) {
@@ -328,6 +326,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			data_scale = scale / sum;
 		}
 
+		pos_base = neg_base = -val_min * scale;
 		work.y -= work.h;
 		for (j = 0 ; j < num_series ; j++, work.y -= col_step) {
 			if (i >= lengths[j])
@@ -341,15 +340,22 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				work.w = tmp;
 				if (GOG_1_5D_NORMAL != type)
 					pos_base += tmp;
-#warning clip
 			} else {
 				work.x = neg_base + tmp;
 				work.w = -tmp;
 				if (GOG_1_5D_NORMAL != type)
 					neg_base += tmp;
-#warning clip
 			}
 
+			if (work.x < 0) {
+				work.w += work.x;
+				work.x = 0;
+			} else if (work.x >= base.w)
+				continue;
+			if (work.w < 0)
+				continue;
+			if ((work.x + work.w) >= base.w)
+				work.w = base.w - work.x;
 			gog_renderer_push_style (view->renderer, styles[j]);
 			barcol_draw_rect (rend, is_vertical, &base, &work);
 			gog_renderer_pop_style (view->renderer);

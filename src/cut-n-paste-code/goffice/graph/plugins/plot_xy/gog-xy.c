@@ -52,7 +52,10 @@ static GType gog_xy_view_get_type (void);
 static char const *
 gog_xy_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 {
-	return N_("XYPlot");
+	/* xgettext : the base for how to name scatter plot objects
+	 * eg The 2nd plot in a chart will be called
+	 * 	PlotXY2 */
+	return N_("PlotXY");
 }
 
 static void

@@ -27,6 +27,7 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-view.h>
 #include <goffice/graph/gog-chart.h>
+#include <goffice/graph/gog-plot.h>
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/go-data.h>
 
@@ -140,6 +141,8 @@ static void
 gog_axis_finalize (GObject *obj)
 {
 	GogAxis *axis = GOG_AXIS (obj);
+
+	gog_axis_clear_contributors (axis);
 
 	g_slist_free (axis->i_cross);	 	axis->i_cross = NULL;
 	g_slist_free (axis->crosses_me); 	axis->crosses_me = NULL;
@@ -378,6 +381,29 @@ gog_axis_del_contributor (GogAxis *axis, GogObject *contrib)
 	g_return_if_fail (g_slist_find (axis->contributors, contrib) != NULL);
 
 	axis->contributors = g_slist_remove (axis->contributors, contrib);
+}
+
+void
+gog_axis_clear_contributors (GogAxis *axis)
+{
+	GSList *ptr, *list;
+	GogAxisSet filter;
+
+	g_return_if_fail (GOG_AXIS (axis) != NULL);
+
+	filter = 1 << axis->type;
+	list = g_slist_copy (axis->contributors);
+	for (ptr = list; ptr != NULL ; ptr = ptr->next)
+		gog_plot_axis_clear (GOG_PLOT (ptr->data), filter);
+	g_slist_free (list);
+}
+
+GSList const *
+gog_axis_contributors (GogAxis *axis)
+{
+	g_return_val_if_fail (GOG_AXIS (axis) != NULL, NULL);
+
+	return axis->contributors;
 }
 
 /**
