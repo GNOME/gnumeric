@@ -1,3 +1,11 @@
+2002-01-18  Neil Booth  <neil@daikokuya.demon.co.uk>
+
+	* functions/fn-financial.c (is_valid_basis, is_valid_freq): New.
+	(gnumeric_accrint, gnumeric_accrintm, gnumeric_intrate,
+	gnumeric_received, gnumeric_pricedisc, gnumeric_pricemat,
+	gnumeric_disc, gnumeric_price, gnumeric_yield,
+	gnumeric_oddfprice): Use them.
+
 2002-01-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* fn-financial.c : change arguments to coupdaybs, coupdaysnc, 

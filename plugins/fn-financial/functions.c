@@ -24,6 +24,8 @@
 #include <limits.h>
 #include <string.h>
 
+#define is_valid_basis(B) (B >= 0 && B <= 5)
+#define is_valid_freq(F) (F == 1 || F == 2 || F == 4)
 
 /***************************************************************************
  *
@@ -400,7 +402,8 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+        if (!is_valid_basis (basis)
+	    || !is_valid_freq (freq)
 	    || g_date_compare (settlement, first_interest) > 0
 	    || g_date_compare (first_interest, maturity) < 0) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
@@ -410,8 +413,7 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 	a = days_monthly_basis (argv[0], argv[2], basis);
 	d = annual_year_basis (argv[0], basis);
 
-	if (a < 0 || d <= 0 || par <= 0 || rate <= 0 || basis < 0 || basis > 4
-	    || freq == 0) {
+	if (a < 0 || d <= 0 || par <= 0 || rate <= 0) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
 	}
@@ -475,7 +477,8 @@ gnumeric_accrintm (FunctionEvalInfo *ei, Value **argv)
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
 
-	if (a < 0 || d <= 0 || par <= 0 || rate <= 0 || basis < 0 || basis > 4)
+	if (a < 0 || d <= 0 || par <= 0 || rate <= 0
+	    || !is_valid_basis (basis))
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (par * rate * a/d);
@@ -535,7 +538,7 @@ gnumeric_intrate (FunctionEvalInfo *ei, Value **argv)
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
 
-	if (basis < 0 || basis > 4 || a <= 0 || d <= 0 || investment == 0)
+	if (!is_valid_basis (basis) || a <= 0 || d <= 0 || investment == 0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float ((redemption - investment) / investment *
@@ -587,7 +590,7 @@ gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
 
-	if (a <= 0 || d <= 0 || basis < 0 || basis > 4)
+	if (a <= 0 || d <= 0 || !is_valid_basis (basis))
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	n = 1.0 - (discount * a/d);
@@ -643,7 +646,7 @@ gnumeric_pricedisc (FunctionEvalInfo *ei, Value **argv)
 	a = days_monthly_basis (argv[0], argv[1], basis);
 	d = annual_year_basis (argv[0], basis);
 
-	if (a <= 0 || d <= 0 || basis < 0 || basis > 4)
+	if (a <= 0 || d <= 0 || !is_valid_basis (basis))
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	return value_new_float (redemption - discount * redemption * a/d);
@@ -696,8 +699,8 @@ gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
 	a   = days_monthly_basis (argv[2], argv[0], basis);
 	b   = annual_year_basis (argv[0], basis);
 
-	if (a <= 0 || b <= 0 || dsm <= 0 || dim <= 0 || basis < 0 ||
-	    basis > 4)
+	if (a <= 0 || b <= 0 || dsm <= 0 || dim <= 0
+	    || !is_valid_basis (basis))
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
 	n = 1 + (dsm/b * yield);
@@ -752,7 +755,7 @@ gnumeric_disc (FunctionEvalInfo *ei, Value **argv)
 	b = annual_year_basis (argv[0], basis);
 	dsm = days_monthly_basis (argv[0], argv[1], basis);
 
-	if (dsm <= 0 || b <= 0 || dsm <= 0 || basis < 0 || basis > 4
+	if (dsm <= 0 || b <= 0 || dsm <= 0 || !is_valid_basis (basis)
 	    || redemption == 0)
                 return value_new_error (ei->pos, gnumeric_err_NUM);
 
@@ -2299,7 +2302,8 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+        if (!is_valid_basis (basis)
+	    || !is_valid_freq (freq)
             || g_date_compare (settlement, maturity) > 0) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
@@ -2387,7 +2391,8 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+        if (!is_valid_basis (basis)
+	    || !is_valid_freq (freq)
             || g_date_compare (settlement, maturity) > 0) {
 		result = value_new_error (ei->pos, gnumeric_err_NUM);
 		goto out;
@@ -2556,7 +2561,8 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+        if (!is_valid_basis (basis)
+	    || !is_valid_freq (freq)
             || g_date_compare (issue, settlement) > 0
 	    || g_date_compare (settlement, first_coupon) > 0
 	    || g_date_compare (first_coupon, maturity) > 0) {
