@@ -17,11 +17,7 @@ Gnumeric Spread Sheet task list
    (This is not a claim that these are all.)
 
 * Printing
-
-  * xml-io.c:
-     * Compat style font loading.
-     * Version checking on load to find mode of operation.
-
+  * libglade localization stinrgs.
   * Screen layout is broken for right justified text.
   * Save print information in workbook
   * Load print information from workbook
