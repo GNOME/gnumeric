@@ -37,6 +37,10 @@ Jody:
 Jon Kåre:
 	* Export images to Excel
 	* Read images from native Gnumeric format
+	* Read and save images we cannot render without loss to and
+	  from Excel and native Gnumeric format
+	* Add 'Save As' menu entry for image objects.
+	* Add format chooser to 'Save As' dialog for images and graphs.
 
 Morten:
 	* Add Ctrl-5 for strike-through.
