@@ -42,6 +42,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 #include <zlib.h>
 #include <gal/util/e-xml-utils.h>
 #include <gnome.h>
