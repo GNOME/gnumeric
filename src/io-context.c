@@ -475,4 +475,5 @@ gnm_io_warning_unknown_function	(IOContext *context, char const *funct_name)
 void
 gnm_io_warning_unsupported_feature (IOContext *context, char const *feature)
 {
+	g_warning ("%s : are not supported yet", feature);
 }

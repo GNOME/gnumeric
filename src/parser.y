@@ -233,6 +233,31 @@ build_binop (ExprTree *l, Operation op, ExprTree *r)
 	unregister_allocation (l);
 	return register_expr_allocation (expr_tree_new_binary (l, op, r));
 }
+static ExprTree *
+build_logical (ExprTree *l, gboolean is_and, ExprTree *r)
+{
+	static FunctionDefinition *and_func = NULL, *or_func = NULL;
+
+	if (and_func == NULL)
+		and_func = func_lookup_by_name ("AND", NULL);
+	if (or_func == NULL)
+		or_func = func_lookup_by_name ("OR", NULL);
+
+	unregister_allocation (r);
+	unregister_allocation (l);
+	return register_expr_allocation (expr_tree_new_funcall (is_and ? and_func : or_func,
+		    g_slist_prepend (g_slist_prepend (NULL, l), r)));
+}
+static ExprTree *
+build_not (ExprTree *expr)
+{
+	static FunctionDefinition *not_func = NULL;
+	if (not_func == NULL)
+		not_func = func_lookup_by_name ("NOT", NULL);
+	unregister_allocation (expr);
+	return register_expr_allocation (expr_tree_new_funcall (not_func,
+		    g_slist_prepend (NULL, expr)));
+}
 
 static ExprTree *
 build_array (GSList *cols)
@@ -364,7 +389,7 @@ int yyparse (void);
 }
 %type  <list>     opt_exp arg_list array_row, array_cols
 %type  <tree>     exp array_exp string_opt_quote
-%token <tree>     STRING QUOTED_STRING CONSTANT CELLREF GTE LTE NE
+%token <tree>     STRING QUOTED_STRING CONSTANT CELLREF GTE LTE NE AND OR NOT
 %token            SEPARATOR INVALID_TOKEN
 %type  <tree>     cellref
 %type  <sheet>    sheetref opt_sheetref
@@ -373,9 +398,10 @@ int yyparse (void);
 %left '<' '>' '=' GTE LTE NE
 %left '-' '+'
 %left '*' '/'
-%left NEG PLUS
+%left NEG PLUS NOT
 %left RANGE_SEP SHEET_SEP
 %right '^'
+%left AND OR
 %right '%'
 
 %%
@@ -403,23 +429,26 @@ exp:	  CONSTANT 	{ $$ = $1; }
 	| QUOTED_STRING { $$ = $1; }
 	| STRING        { $$ = parse_string_as_value_or_name ($1); }
         | cellref       { $$ = $1; }
-	| exp '+' exp	{ $$ = build_binop ($1, OPER_ADD,       $3); }
-	| exp '-' exp	{ $$ = build_binop ($1, OPER_SUB,       $3); }
-	| exp '*' exp	{ $$ = build_binop ($1, OPER_MULT,      $3); }
-	| exp '/' exp	{ $$ = build_binop ($1, OPER_DIV,       $3); }
-	| exp '^' exp	{ $$ = build_binop ($1, OPER_EXP,       $3); }
-	| exp '&' exp	{ $$ = build_binop ($1, OPER_CONCAT,    $3); }
-	| exp '=' exp	{ $$ = build_binop ($1, OPER_EQUAL,     $3); }
-	| exp '<' exp	{ $$ = build_binop ($1, OPER_LT,        $3); }
-	| exp '>' exp	{ $$ = build_binop ($1, OPER_GT,        $3); }
-	| exp GTE exp	{ $$ = build_binop ($1, OPER_GTE,       $3); }
-	| exp NE  exp	{ $$ = build_binop ($1, OPER_NOT_EQUAL, $3); }
-	| exp LTE exp	{ $$ = build_binop ($1, OPER_LTE,       $3); }
+	| exp '+' exp	{ $$ = build_binop ($1, OPER_ADD,	$3); }
+	| exp '-' exp	{ $$ = build_binop ($1, OPER_SUB,	$3); }
+	| exp '*' exp	{ $$ = build_binop ($1, OPER_MULT,	$3); }
+	| exp '/' exp	{ $$ = build_binop ($1, OPER_DIV,	$3); }
+	| exp '^' exp	{ $$ = build_binop ($1, OPER_EXP,	$3); }
+	| exp '&' exp	{ $$ = build_binop ($1, OPER_CONCAT,	$3); }
+	| exp '=' exp	{ $$ = build_binop ($1, OPER_EQUAL,	$3); }
+	| exp '<' exp	{ $$ = build_binop ($1, OPER_LT,	$3); }
+	| exp '>' exp	{ $$ = build_binop ($1, OPER_GT,	$3); }
+	| exp GTE exp	{ $$ = build_binop ($1, OPER_GTE,	$3); }
+	| exp NE  exp	{ $$ = build_binop ($1, OPER_NOT_EQUAL,	$3); }
+	| exp LTE exp	{ $$ = build_binop ($1, OPER_LTE,	$3); }
+	| exp AND exp	{ $$ = build_logical ($1, TRUE,		$3); }
+	| exp OR  exp	{ $$ = build_logical ($1, FALSE,	$3); }
 	| '(' exp ')'   { $$ = $2; }
 
-        | exp '%' { $$ = build_unary_op (OPER_PERCENT, $1); }
         | '-' exp %prec NEG { $$ = build_unary_op (OPER_UNARY_NEG, $2); }
         | '+' exp %prec PLUS { $$ = build_unary_op (OPER_UNARY_PLUS, $2); }
+        | NOT exp { $$ = build_not ($2); }
+        | exp '%' { $$ = build_unary_op (OPER_PERCENT, $1); }
 
         | '{' array_cols '}' {
 		unregister_allocation ($2);
@@ -787,6 +816,20 @@ yylex (void)
 		}
 		if (c == ':')
 			return SHEET_SEP;
+		if (c == '#') {
+			if (!strncmp (state->expr_text, "NOT#", 4)) {
+				state->expr_text += 4;
+				return NOT;
+			}
+			if (!strncmp (state->expr_text, "AND#", 4)) {
+				state->expr_text += 4;
+				return AND;
+			}
+			if (!strncmp (state->expr_text, "OR#", 3)) {
+				state->expr_text += 3;
+				return OR;
+			}
+		}
 	}
 
 	if (c == state->separator)

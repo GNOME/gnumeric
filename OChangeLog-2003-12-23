@@ -1,3 +1,14 @@
+2002-03-13  Jody Goldberg <jody@gnome.org>
+
+	* src/sheet-object-widget.c (sheet_widget_scrollbar_get_ref) : Add a
+	  force_sheet parameter.
+	(sheet_widget_checkbox_get_ref) : ditto.
+	(sheet_widget_scrollbar_clone) : do not force a fully qualified ref here.
+	  It would incorrectly cause the new object to link to the old sheet.
+	(sheet_widget_checkbox_clone) : ditto.
+
+	* src/parser.y : support the applix #AND# #OR# #NOT# operators.
+
 2002-03-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c (cmd_merge_data_redo) : handle sheet objects 

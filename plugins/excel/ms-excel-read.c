@@ -4341,12 +4341,12 @@ ms_excel_externsheet_v7 (BiffQuery const *q, ExcelWorkbook *ewb)
 			Sheet *sheet = workbook_sheet_by_name (ewb->gnum_wb, name);
 			if (sheet == NULL) {
 				sheet = sheet_new (ewb->gnum_wb, name);
-				d (-1, printf ("ExternSheet: added forward referenced sheet '%s'\n", name););
+				d (1, printf ("ExternSheet: added forward referenced sheet '%s'\n", name););
 			}
 		}
-	} else {
-		g_warning ("external references not supported yet.");
-	}
+	} else
+		gnm_io_warning_unsupported_feature (ewb->context,
+			_("external references"));
 
 	/* Fix when we get placeholders to external workbooks */
 	g_ptr_array_add (ewb->extern_sheet_v7, NULL);

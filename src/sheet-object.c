@@ -880,7 +880,7 @@ sheet_object_clone (SheetObject const *so, Sheet *sheet)
  * Clones the objects of the src sheet and attaches them into the dst sheet
  **/
 void
-sheet_object_clone_sheet (const Sheet *src, Sheet *dst)
+sheet_object_clone_sheet (Sheet const *src, Sheet *dst)
 {
 	SheetObject *so;
 	SheetObject *new_so;

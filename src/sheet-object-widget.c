@@ -500,7 +500,8 @@ scrollbar_debug_name (Dependent const *dep, FILE *out)
 static DEPENDENT_MAKE_TYPE (scrollbar, NULL)
 
 static CellRef *
-sheet_widget_scrollbar_get_ref (SheetWidgetScrollbar const *swb, CellRef *res)
+sheet_widget_scrollbar_get_ref (SheetWidgetScrollbar const *swb,
+				CellRef *res, gboolean force_sheet)
 {
 	Value *target;
 	g_return_val_if_fail (swb != NULL, NULL);
@@ -518,7 +519,7 @@ sheet_widget_scrollbar_get_ref (SheetWidgetScrollbar const *swb, CellRef *res)
 	g_return_val_if_fail (!res->col_relative, FALSE);
 	g_return_val_if_fail (!res->row_relative, FALSE);
 
-	if (res->sheet == NULL)
+	if (force_sheet && res->sheet == NULL)
 		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swb));
 	return res;
 }
@@ -533,7 +534,7 @@ cb_scrollbar_value_changed (GtkAdjustment *adjustment,
 		return;
 
 	swb->being_updated = TRUE;
-	if (sheet_widget_scrollbar_get_ref (swb, &ref) != NULL) {
+	if (sheet_widget_scrollbar_get_ref (swb, &ref, TRUE) != NULL) {
 		Cell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		/* TODO : add more control for precision, XL is stupid */
 		sheet_cell_set_value (cell, value_new_int (swb->adjustment->value));
@@ -614,7 +615,7 @@ sheet_widget_scrollbar_clone (SheetObject const *src_so, Sheet *new_sheet)
 	CellRef ref;
 
 	sheet_widget_scrollbar_init_full (swb,
-		sheet_widget_scrollbar_get_ref (src_swb, &ref));
+		sheet_widget_scrollbar_get_ref (src_swb, &ref, FALSE));
 	adjust = swb->adjustment;
 	src_adjust = src_swb->adjustment;
 
@@ -998,7 +999,8 @@ sheet_widget_checkbox_finalize (GObject *obj)
 }
 
 static CellRef *
-sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc, CellRef *res)
+sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc,
+			       CellRef *res, gboolean force_sheet)
 {
 	Value *target;
 	g_return_val_if_fail (swc != NULL, NULL);
@@ -1016,7 +1018,7 @@ sheet_widget_checkbox_get_ref (SheetWidgetCheckbox const *swc, CellRef *res)
 	g_return_val_if_fail (!res->col_relative, FALSE);
 	g_return_val_if_fail (!res->row_relative, FALSE);
 
-	if (res->sheet == NULL)
+	if (force_sheet && res->sheet == NULL)
 		res->sheet = sheet_object_get_sheet (SHEET_OBJECT (swc));
 	return res;
 }
@@ -1031,7 +1033,7 @@ cb_checkbox_toggled (GtkToggleButton *button, SheetWidgetCheckbox *swc)
 	swc->value = gtk_toggle_button_get_active (button);
 	sheet_widget_checkbox_set_active (swc);
 
-	if (sheet_widget_checkbox_get_ref (swc, &ref) != NULL) {
+	if (sheet_widget_checkbox_get_ref (swc, &ref, TRUE) != NULL) {
 		gboolean const new_val = gtk_toggle_button_get_active (button);
 		Cell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		sheet_cell_set_value (cell, value_new_bool (new_val));
@@ -1067,7 +1069,7 @@ sheet_widget_checkbox_clone (SheetObject const *src_so, Sheet *new_sheet)
 	CellRef ref;
 
 	sheet_widget_checkbox_init_full (swc,
-		sheet_widget_checkbox_get_ref (src_swc, &ref),
+		sheet_widget_checkbox_get_ref (src_swc, &ref, FALSE),
 		src_swc->label);
 	swc->value = src_swc->value;
 
