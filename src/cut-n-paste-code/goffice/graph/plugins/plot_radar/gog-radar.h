@@ -2,7 +2,7 @@
 /*
  * gog-radar.h
  *
- * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2004 Michael Devine (mdevine@cs.stanford.edu)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -47,25 +47,6 @@ typedef struct {
 #define GOG_IS_PLOT_RADAR(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RADAR_PLOT_TYPE))
 
 GType gog_radar_plot_get_type (void);
-
-/*-----------------------------------------------------------------------------
- *
- * GogRadarSeries
- *
- *-----------------------------------------------------------------------------
- */
-
-typedef struct {
-	GogSeries base;
-	unsigned num_elements;
-} GogRadarSeries;
-typedef GogSeriesClass GogRadarSeriesClass;
-
-#define GOG_RADAR_SERIES_TYPE	(gog_radar_series_get_type ())
-#define GOG_RADAR_SERIES(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_RADAR_SERIES_TYPE, GogRadarSeries))
-#define GOG_IS_RADAR_SERIES(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_RADAR_SERIES_TYPE))
-
-GType gog_radar_series_get_type (void);
 
 G_END_DECLS
 

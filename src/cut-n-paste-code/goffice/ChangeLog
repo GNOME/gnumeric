@@ -1,3 +1,8 @@
+2004-03-07  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_radar/gog-radar.c (gog_radar_plot_type_name) :
+	  remove the starting angle pref.  That is better handled by the axis.
+
 2004-03-13  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
 	* graph/plugins/plot_xy/gog-xy.c: (gog_xy_view_render),

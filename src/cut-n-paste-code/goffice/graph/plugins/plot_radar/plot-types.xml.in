@@ -11,7 +11,7 @@
 		engine="GogRadarPlot" family="Radar"
 		_description="Radar plot with dots."
 		sample_image_file="chart_line_2_2.png">
-		<property name="defaut-style-has-markers">True</property>
+		<property name="default-style-has-markers">True</property>
 	</Type>
 	<Type _name="Area Radar" row="1" col="3"
 		engine="GogRadarPlot" family="Radar"

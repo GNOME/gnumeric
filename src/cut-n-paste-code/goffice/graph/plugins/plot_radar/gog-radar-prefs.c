@@ -25,26 +25,27 @@
 #include <src/gui-util.h>
 
 #include <glade/glade-xml.h>
-#include <gtk/gtkspinbutton.h>
+#include <gtk/gtktogglebutton.h>
 
 GtkWidget *gog_radar_plot_pref (GogRadarPlot *plot, GnmCmdContext *cc);
 
 static void
-cb_rotation_changed (GtkAdjustment *adj, GObject *radar)
+cb_use_style_toggled (GtkToggleButton *button, GObject *series)
 {
-	g_object_set (radar, "initial_angle", adj->value, NULL);
+	g_object_set (series, "vary_style_by_element",
+		gtk_toggle_button_get_active (button), NULL);
 }
 
 static void
 gog_radar_plot_pref_signal_connect (GogRadarPlot *radar, GladeXML *gui)
 {
 	GtkWidget *w;
-	
-	w = glade_xml_get_widget (gui, "rotation_spinner");
-	gtk_spin_button_set_value (GTK_SPIN_BUTTON (w), radar->initial_angle);
-	g_signal_connect (G_OBJECT (gtk_spin_button_get_adjustment (GTK_SPIN_BUTTON (w))),
-		"value_changed",
-		G_CALLBACK (cb_rotation_changed), radar);
+
+	w = glade_xml_get_widget (gui, "vary_style_by_element");
+	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (w), radar->base.vary_style_by_element);
+	g_signal_connect (G_OBJECT (w),
+		"toggled",
+		G_CALLBACK (cb_use_style_toggled), radar);
 }
 
 GtkWidget *
