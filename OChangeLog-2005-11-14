@@ -1,3 +1,8 @@
+2004-10-21  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* src/plugin-loader.c (gnm_plugin_loader_load_service):
+	Output error when no set_attributes method.
+
 2004-10-20  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-clipboard.c (x_clipboard_get_cb): Crash protection.

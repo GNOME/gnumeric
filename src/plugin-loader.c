@@ -172,7 +172,11 @@ gnm_plugin_loader_set_attributes (GnmPluginLoader *loader,
 	g_return_if_fail (IS_GNM_PLUGIN_LOADER (loader));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	PL_GET_CLASS (loader)->set_attributes (loader, attrs, ret_error);
+	if (PL_GET_CLASS (loader)->set_attributes ) {
+		PL_GET_CLASS (loader)->set_attributes (loader, attrs, ret_error);
+	} else {
+		*ret_error = error_info_new_printf (_("Loader has no set_attributes method.\n"));
+	}
 }
 
 void
