@@ -1,5 +1,23 @@
 2001-02-18  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-control-gui.c : Back port the help text from the bonobo
+	  verson.
+	(workbook_menu_edit_select) : Use Meta-space for select row,
+	  Shift-space does not work well.
+	(wbcg_close_control) : fix typo (bug 51058)
+
+	* src/workbook-edit.c (workbook_finish_editing) : Editig is local to
+	  the control.
+	(workbook_start_editing_at_cursor) : ditto.
+
+2001-02-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c : reindent some ugliness from the rename.
+
+	* src/sheet.c (sheet_create_editor) : delete.
+
+2001-02-18  Jody Goldberg <jgoldberg@home.com>
+
 	s/display_zero/hide_zero/		+ necessary logic inversions
 	s/show_grid/hide_grid/			+ necessary logic inversions
 	s/show_col_header/hide_col_header/	+ necessary logic inversions

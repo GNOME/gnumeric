@@ -3550,24 +3550,6 @@ sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 /****************************************************************************/
 
 void
-sheet_create_editor (Sheet *sheet)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_create_editor (control););
-}
-
-void
-sheet_stop_editing (Sheet *sheet)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-	SHEET_FOREACH_CONTROL (sheet, control,
-		scg_stop_editing (control););
-}
-
-void
 sheet_stop_cell_selection (Sheet *sheet, gboolean clear_string)
 {
 	g_return_if_fail (IS_SHEET (sheet));

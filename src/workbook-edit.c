@@ -128,7 +128,7 @@ workbook_finish_editing (WorkbookControlGUI *wbcg, gboolean const accept)
 	wb_view_sheet_focus (wbv, sheet);
 
 	/* Only the edit sheet has an edit cursor */
-	sheet_stop_editing (sheet);
+	scg_stop_editing (wb_control_gui_cur_sheet (wbcg));
 
 	workbook_auto_complete_destroy (wbcg);
 
@@ -210,7 +210,7 @@ workbook_start_editing_at_cursor (WorkbookControlGUI *wbcg,
 	inside_editing = TRUE;
 
 	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
 
 	col = sheet->edit_pos.col;
 	row = sheet->edit_pos.row;
@@ -234,7 +234,7 @@ workbook_start_editing_at_cursor (WorkbookControlGUI *wbcg,
 	} else
 		gtk_entry_set_text (workbook_get_entry (wbcg), "");
 
-	sheet_create_editor (sheet);
+	scg_create_editor (wb_control_gui_cur_sheet (wbcg));
 
 	/* Redraw the cell contents in case there was a span */
 	sheet_redraw_cell_region (sheet, col, row, col, row);

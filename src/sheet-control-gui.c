@@ -79,8 +79,8 @@ scg_redraw_all (SheetControlGUI *scg)
  */
 void
 scg_redraw_cell_region (SheetControlGUI *scg,
-			       int start_col, int start_row,
-			       int end_col, int end_row)
+			int start_col, int start_row,
+			int end_col, int end_row)
 {
 	GnumericSheet *gsheet;
 	GnomeCanvas *canvas;
@@ -126,8 +126,8 @@ scg_redraw_cell_region (SheetControlGUI *scg,
 
 void
 scg_redraw_headers (SheetControlGUI *scg,
-			   gboolean const col, gboolean const row,
-			   Range const * r /* optional == NULL */)
+		    gboolean const col, gboolean const row,
+		    Range const * r /* optional == NULL */)
 {
 	GnumericSheet *gsheet;
 
@@ -910,9 +910,9 @@ scg_sliding_callback (gpointer data)
 
 gboolean
 scg_start_sliding (SheetControlGUI *scg,
-			  SheetControlGUISlideHandler slide_handler,
-			  gpointer user_data,
-			  int col, int row, int dx, int dy)
+		   SheetControlGUISlideHandler slide_handler,
+		   gpointer user_data,
+		   int col, int row, int dx, int dy)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (scg->canvas);
 

@@ -216,8 +216,6 @@ char       *sheet_name_quote              (const char *unquoted_name);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 /* Utilities for various flavours of cursor */
-void        sheet_create_editor		     (Sheet *sheet);
-void        sheet_stop_editing               (Sheet *sheet);
 void        sheet_stop_cell_selection	     (Sheet *sheet, gboolean clear_string);
 
 /*

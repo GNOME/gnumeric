@@ -1017,7 +1017,7 @@ wbcg_close_control (WorkbookControlGUI *wbcg)
 		g_return_val_if_fail (wb->wb_views != NULL, TRUE);
 
 		/* This is the last view */
-		if (wb_view->wb_controls->len <= 1)
+		if (wb->wb_views->len <= 1)
 			return workbook_close_if_user_permits (wbcg, wb_view);
 
 		gtk_object_unref (GTK_OBJECT (wb_view));
@@ -1905,7 +1905,7 @@ static GnomeUIInfo workbook_menu_edit_select [] = {
 	{ GNOME_APP_UI_ITEM, N_("Select _Row"),
 	  N_("Select an entire row"),
 	  cb_edit_select_row, NULL,
-	  NULL, 0, 0, ' ', GDK_SHIFT_MASK },
+	  NULL, 0, 0, ' ', GDK_MOD1_MASK },
 
 	{ GNOME_APP_UI_ITEM, N_("Select _Column"),
 	  N_("Select an entire column"),
@@ -1938,7 +1938,7 @@ static GnomeUIInfo workbook_menu_edit_sheet [] = {
 		cb_sheet_change_name),
 
 	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets..."),
-		NULL,
+		N_("Change the order the sheets are displayed"),
 		cb_sheet_order),
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Remove"),
@@ -2068,71 +2068,76 @@ static GnomeUIInfo workbook_menu_insert [] = {
 /* Format menu */
 static GnomeUIInfo workbook_menu_format_column [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Auto fit selection"),
-		NULL,
+		N_("Ensure columns are just wide enough to display content"),
 		workbook_cmd_format_column_auto_fit),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Width..."),
-		NULL,
+		N_("Change width of the selected columns"),
 		sheet_dialog_set_column_width, "Menu_Gnumeric_ColumnSize"),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Hide"),
-		NULL,
+		N_("Hide the selected columns"),
 		workbook_cmd_format_column_hide, "Menu_Gnumeric_ColumnHide"),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Unhide"),
-		NULL,
+		N_("Make any hidden columns in the selection visible"),
 		workbook_cmd_format_column_unhide, "Menu_Gnumeric_ColumnUnhide"),
 	GNOMEUIINFO_ITEM_NONE (N_("_Standard Width"),
-		NULL,
+		N_("Change the default column width"),
 		workbook_cmd_format_column_std_width),
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_format_row [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Auto fit selection"),
-		NULL,
+		N_("Ensure rows are just tall enough to display content"),
 		workbook_cmd_format_row_auto_fit),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Height..."),
-		NULL,
+		N_("Change height of the selected rows"),
 		sheet_dialog_set_row_height, "Menu_Gnumeric_RowSize"),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Hide"),
-		NULL,
+		N_("Hide the selected rows"),
 		workbook_cmd_format_row_hide, "Menu_Gnumeric_RowHide"),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Unhide"),
-		NULL,
+		N_("Make any hidden rows in the selection visible"),
 		workbook_cmd_format_row_unhide, "Menu_Gnumeric_RowUnhide"),
 	GNOMEUIINFO_ITEM_NONE (N_("_Standard Height"),
-		NULL,
+		N_("Change the default row height"),
 		workbook_cmd_format_row_std_height),
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_format_sheet [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Change name"),
-		NULL,
+		N_("Edit the name of the current sheet"),
 		cb_sheet_change_name),
 	GNOMEUIINFO_ITEM_NONE (N_("Re-_Order Sheets..."),
-		NULL,
+		N_("Change the order the sheets are displayed"),
 		cb_sheet_order),
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Display _Formulas"), NULL,
+		N_("Display _Formulas"),
+		N_("Display the value of a formula or the formula itself"),
 		cb_sheet_pref_display_formulas, NULL, NULL,
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
 	},
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Hide _Zeros"), NULL,
+		N_("Hide _Zeros"),
+		N_("Toggle whether or not to display zeros as blanks"),
 		cb_sheet_pref_hide_zeros, NULL, NULL,
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
 	},
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Hide _Gridlines"), NULL,
+		N_("Hide _Gridlines"),
+		N_("Toggle whether or not to display gridlines"),
 		cb_sheet_pref_hide_grid_lines, NULL, NULL,
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
 	},
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Hide _Column Header"), NULL,
+		N_("Hide _Column Header"),
+		N_("Toggle whether or not to display column headers"),
 		cb_sheet_pref_hide_col_header, NULL, NULL,
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
 	},
 	{ GNOME_APP_UI_TOGGLEITEM,
-		N_("Hide _Row Header"), NULL,
+		N_("Hide _Row Header"),
+		N_("Toggle whether or not to display row headers"),
 		cb_sheet_pref_hide_row_header, NULL, NULL,
 		GNOME_APP_PIXMAP_NONE, NULL, 0, (GdkModifierType) 0, NULL
 	},
