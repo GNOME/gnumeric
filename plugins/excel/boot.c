@@ -81,6 +81,7 @@ excel_load (IOContext *context, WorkbookView *new_wb_view,
 		return -1;
 	}
 
+	puts (filename);
 	result = ms_excel_read_workbook (context, new_wb_view, f);
 	if (result == 0) {
 		Workbook *wb = wb_view_workbook (new_wb_view);

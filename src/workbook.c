@@ -169,7 +169,7 @@ workbook_destroy (GtkObject *wb_object)
 	for (ptr = sheets; ptr != NULL ; ptr = ptr->next) {
 		Sheet *sheet = ptr->data;
 
-		workbook_sheet_detach (wb, sheet, TRUE);
+		workbook_sheet_detach (wb, sheet);
 	}
 	g_list_free (sheets);
 
@@ -1038,8 +1038,12 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
  * Detaches @sheet from the workbook @wb.
  */
 gboolean
-workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean force)
+workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 {
+	gboolean do_recalc = FALSE;
+	Sheet *focus = NULL;
+	int sheet_index;
+
 	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->workbook == wb, FALSE);
@@ -1049,20 +1053,34 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean force)
 	/* Finish any object editing */
 	sheet_mode_edit (sheet);
 
-	/* Remove all views */
-	/* TODO : Double check that focus passes smoothly in the view */
+	sheet_index = workbook_sheet_index_get (wb, sheet);
+
+	/* If not exiting, adjust the focus for any views whose focuse sheet
+	 * was the one being deleted, and prepare to recalc */
+	if (!wb->priv->during_destruction) {
+		do_recalc = TRUE;
+		if (sheet_index > 0)
+			focus = g_ptr_array_index (wb->sheets, sheet_index-1);
+		else if ((sheet_index+1) < wb->sheets->len)
+			focus = g_ptr_array_index (wb->sheets, sheet_index+1);
+
+		WORKBOOK_FOREACH_VIEW (wb, view,
+		{
+			if (view->current_sheet == sheet)
+				wb_view_sheet_focus (view, focus);
+		});
+	}
+
+	/* Remove all controls */
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		wb_control_sheet_remove (control, sheet););
 
 	/* Remove our reference to this sheet */
-	g_ptr_array_remove_index (wb->sheets, 
-				  workbook_sheet_index_get (wb, sheet));
+	g_ptr_array_remove_index (wb->sheets, sheet_index);
 	g_hash_table_remove (wb->sheet_hash_private, sheet->name_unquoted);
-
 	sheet_destroy (sheet);
 
-	/* No need to recalc if we are exiting */
-	if (!wb->priv->during_destruction)
+	if (do_recalc);
 		workbook_recalc_all (wb);
 
 	return TRUE;
@@ -1112,7 +1130,7 @@ workbook_sheet_delete (Sheet *sheet)
 	expr_name_invalidate_refs_sheet (sheet);
 
 	/* All is fine, remove the sheet */
-	workbook_sheet_detach (wb, sheet, FALSE);
+	workbook_sheet_detach (wb, sheet);
 }
 
 /*

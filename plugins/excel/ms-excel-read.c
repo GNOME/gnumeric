@@ -2190,7 +2190,7 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		} else
 			cell_assign_value (cell, val, NULL);
 	} else if (!cell_has_expr (cell)) {
-		cell_set_expr_and_value (cell, expr, val);
+		cell_set_expr_and_value (cell, expr, val, NULL);
 		expr_tree_unref (expr);
 	} else {
 		/*
@@ -2591,7 +2591,7 @@ ms_excel_workbook_detach (ExcelWorkbook *wb, ExcelSheet *ans)
 	int    idx = 0;
 
 	if (ans->gnum_sheet) {
-		if (!workbook_sheet_detach (wb->gnum_wb, ans->gnum_sheet, FALSE))
+		if (!workbook_sheet_detach (wb->gnum_wb, ans->gnum_sheet))
 			return FALSE;
 		/* Detaching the sheet deletes it */
 		ans->gnum_sheet = NULL;

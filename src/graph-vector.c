@@ -176,19 +176,19 @@ graph_vector_eval (Dependent *dep)
 	CORBA_exception_init (&ev);
 	switch (vector->type) {
 	case VECTOR_SCALAR :
-		GNOME_Gnumeric_VectorScalarNotify_value_changed (
+		GNOME_Gnumeric_VectorScalarNotify_valueChanged (
 			vector->subscriber.scalar,
 			0, graph_vector_seq_scalar (vector), &ev);
 		break;
 
 	case VECTOR_DATE :
-		GNOME_Gnumeric_VectorDateNotify_value_changed (
+		GNOME_Gnumeric_VectorDateNotify_valueChanged (
 			vector->subscriber.date,
 			0, graph_vector_seq_date (vector), &ev);
 		break;
 
 	case VECTOR_STRING :
-		GNOME_Gnumeric_VectorStringNotify_value_changed (
+		GNOME_Gnumeric_VectorStringNotify_valueChanged (
 			vector->subscriber.string,
 			0, graph_vector_seq_string (vector), &ev);
 		break;
@@ -314,21 +314,21 @@ corba_implementation_classes_init (void)
 	static POA_GNOME_Gnumeric_VectorString__epv
 		vector_string_epv;
 
-	vector_scalar_notify_epv.value_changed = &impl_vector_scalar_changed;
+	vector_scalar_notify_epv.valueChanged = &impl_vector_scalar_changed;
 	vector_scalar_epv.value = & impl_vector_scalar_value;
 	vector_scalar_vepv.GNOME_Gnumeric_VectorScalarNotify_epv =
 		&vector_scalar_notify_epv;
 	vector_scalar_vepv.GNOME_Gnumeric_VectorScalar_epv =
 		&vector_scalar_epv;
 
-	vector_date_notify_epv.value_changed = & impl_vector_date_changed;
+	vector_date_notify_epv.valueChanged = & impl_vector_date_changed;
 	vector_date_epv.value = & impl_vector_date_value;
 	vector_date_vepv.GNOME_Gnumeric_VectorDateNotify_epv =
 		&vector_date_notify_epv;
 	vector_date_vepv.GNOME_Gnumeric_VectorDate_epv =
 		&vector_date_epv;
 
-	vector_string_notify_epv.value_changed = & impl_vector_string_changed;
+	vector_string_notify_epv.valueChanged = & impl_vector_string_changed;
 	vector_string_epv.value = & impl_vector_string_value;
 	vector_string_vepv.GNOME_Gnumeric_VectorStringNotify_epv =
 		&vector_string_notify_epv;
@@ -517,19 +517,19 @@ graph_vector_set_subscriber (GraphVector *vector, CORBA_Object graph_manager)
 	switch (vector->type) {
 	case VECTOR_SCALAR :
 		vector->subscriber.scalar =
-			GNOME_Gnumeric_Graph_Manager_add_vector_scalar (manager,
+			GNOME_Gnumeric_Graph_Manager_addVectorScalar (manager,
 				vector->vector_ref, &ev);
 		break;
 
 	case VECTOR_DATE :
 		vector->subscriber.date =
-			GNOME_Gnumeric_Graph_Manager_add_vector_date (manager,
+			GNOME_Gnumeric_Graph_Manager_addVectorDate (manager,
 				vector->vector_ref, &ev);
 		break;
 
 	case VECTOR_STRING :
 		vector->subscriber.string =
-			GNOME_Gnumeric_Graph_Manager_add_vector_string (manager,
+			GNOME_Gnumeric_Graph_Manager_addVectorString (manager,
 				vector->vector_ref, &ev);
 		break;
 	default :

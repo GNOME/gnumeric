@@ -911,7 +911,7 @@ pln_read_workbook (CommandContext *context, WorkbookView *view,
 		result = pln_parse_sheet (context, &src);
 
 		if (result != 0)
-			workbook_sheet_detach (book, src.sheet, TRUE);
+			workbook_sheet_detach (book, src.sheet);
 		else
 			workbook_set_saveinfo (book, filename,
 					       FILE_FL_MANUAL, NULL);

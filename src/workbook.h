@@ -78,7 +78,7 @@ Sheet      *workbook_sheet_by_index	 (Workbook *wb, int i);
 Sheet      *workbook_sheet_by_name       (Workbook *wb, const char *sheet_name);
 void        workbook_sheet_attach        (Workbook *, Sheet *new_sheet,
 					  Sheet const *insert_after);
-gboolean    workbook_sheet_detach        (Workbook *, Sheet *, gboolean);
+gboolean    workbook_sheet_detach        (Workbook *, Sheet *);
 Sheet	   *workbook_sheet_add		 (Workbook *wb,
 					  Sheet const *insert_after,
 					  gboolean make_dirty);

@@ -26,8 +26,6 @@
 #include "command-context.h"
 #include "guile-support.h"
 
-
-
 /* This is damn ugly.
  * However, it will get things working again (I hope)
  * until someone who actually uses this thing takes

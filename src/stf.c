@@ -175,7 +175,7 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 
 		if (!stf_parse_sheet (dialogresult->parseoptions, dialogresult->newstart, sheet)) {
 
-			workbook_sheet_detach (book, sheet, TRUE);
+			workbook_sheet_detach (book, sheet);
 			/*
 			 * Note this buffer was allocated with malloc, not g_malloc
 			 */
@@ -212,7 +212,7 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 		workbook_set_saveinfo (book, filename, FILE_FL_MANUAL,
 				       gnumeric_xml_write_workbook);
 	} else
-		workbook_sheet_detach (book, sheet, TRUE);
+		workbook_sheet_detach (book, sheet);
 
 	/*
 	 * Note the buffer was allocated with malloc, not with g_malloc

@@ -277,7 +277,7 @@ get_selector_control (GraphGuruState *state)
 	GtkWidget *res = NULL;
 
 	CORBA_exception_init (&ev);
-	state->control = GNOME_Gnumeric_Graph_Manager_get_type_select_control (state->manager, &ev);
+	state->control = GNOME_Gnumeric_Graph_Manager_getTypeSelectControl (state->manager, &ev);
 	if (ev._major != CORBA_NO_EXCEPTION)
 		return NULL;
 	CORBA_exception_free (&ev);
