@@ -2403,7 +2403,7 @@ gnumeric_fisher (FunctionEvalInfo *ei, GnmValue **argv)
         if (x <= -1.0 || x >= 1.0)
                 return value_new_error_NUM (ei->pos);
 
-        return value_new_float (0.5 * loggnum ((1.0 + x) / (1.0 - x)));
+        return value_new_float (0.5 * (log1pgnum (x) - log1pgnum (-x)));
 }
 
 /***************************************************************************/
