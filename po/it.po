@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
 "POT-Creation-Date: 2002-02-18 00:59-0500\n"
-"PO-Revision-Date: 2001-01-04 20:05+01:00\n"
+"PO-Revision-Date: 2002-02-26 12:33+0100\n"
 "Last-Translator: Leandro Noferini <lnoferin@cybervalley.org>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -292,12 +292,12 @@ msgstr "Il file DIF ha un numero di colonne maggiore di %d. Ignoro le colonne su
 #: plugins/dif/dif.c:314
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
-msgstr ""
+msgstr "Fine del file inaspettata alla linea %d delle intestazioni."
 
 #: plugins/dif/dif.c:318
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
-msgstr ""
+msgstr "Fine del file inaspettata alla linea %d dei dati."
 
 #: plugins/dif/dif.c:334
 msgid "Error while reading DIF file."
@@ -651,29 +651,27 @@ msgstr "Stato"
 
 #: plugins/mps/mps.c:1126
 msgid "Problem name was not defined in the file."
-msgstr ""
+msgstr "Il problema non ,bh(B stato definito nel file."
 
 #: plugins/mps/mps.c:1129
 msgid "Invalid ROWS section in the file."
-msgstr ""
+msgstr "Sezione RIGHE non valida nel file."
 
 #: plugins/mps/mps.c:1132
 msgid "Invalid COLUMNS section in the file."
-msgstr ""
+msgstr "Sezione COLONNE non valida nel file."
 
 #: plugins/mps/mps.c:1135
-#, fuzzy
 msgid "Invalid RHS section in the file."
-msgstr "Impossibile caricare in memoria il file"
+msgstr "Sezione RHS non valida nel file."
 
 #: plugins/mps/mps.c:1138
 msgid "Invalid BOUNDS section in the file."
-msgstr ""
+msgstr "Sezione BOUNDS non valida nel file."
 
 #: plugins/mps/mps.c:1154
-#, fuzzy
 msgid "Error while reading MPS file."
-msgstr "Errore scrivendo il file csv"
+msgstr "Errore leggendo il file MPS."
 
 #: plugins/mps/plugin.xml.in.h:1
 #, fuzzy
@@ -926,7 +924,9 @@ msgstr "PLN : il foglio è crittato con password"
 msgid ""
 "Invalid PLN file has more than the maximum\n"
 "number of %s %d"
-msgstr "File PLN invalido perché ha un numero di %s e %d maggiore del massimo"
+msgstr ""
+"File PLN invalido perché ha un numero di %s e %d\n"
+"maggiore del massimo"
 
 #: plugins/plan-perfect/pln.c:819
 msgid "rows"
@@ -990,9 +990,8 @@ msgid "Sample Python plugin providing some (useless) functions."
 msgstr "Plugin Python d'esempio che fornisce alcune (inutili) funzioni."
 
 #: plugins/python-loader/plugin.xml.in.h:1
-#, fuzzy
 msgid "Python plugin loader"
-msgstr "Errore di valutazione sconosciuto"
+msgstr "Caricatore del modulo Python"
 
 #: plugins/python-loader/plugin.xml.in.h:2
 msgid "This plugin provides support for Python plugins"
@@ -1000,53 +999,51 @@ msgstr "Questo plugin fornisce supporto per i plugin di Python"
 
 #: plugins/python-loader/py-gnumeric.c:273
 #: plugins/python-loader/py-gnumeric.c:313
-#, fuzzy
 msgid "Unknown error"
-msgstr "Errore di Gnome Basic sconosciuto"
+msgstr "Errore sconosciuto"
 
 #: plugins/python-loader/py-gnumeric.c:279
 #: plugins/python-loader/py-gnumeric.c:321
-#, fuzzy, c-format
+#, c-format
 msgid "Python exception (%s: %s)"
-msgstr "Eccezione Python"
+msgstr "Eccezione Python (%s: %s)"
 
 #: plugins/python-loader/py-gnumeric.c:283
 #: plugins/python-loader/py-gnumeric.c:325
-#, fuzzy, c-format
+#, c-format
 msgid "Python exception (%s)"
-msgstr "Eccezione Python"
+msgstr "Eccezione Python (%s)"
 
 #: plugins/python-loader/py-gnumeric.c:456
 msgid "Python list is not an array"
-msgstr ""
+msgstr "La lista Python non ,bh(B un vettore"
 
 #: plugins/python-loader/py-gnumeric.c:463
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported Python type: %s"
-msgstr "Tipo Python sconosciuto"
+msgstr "Tipo Python sconosciuto: %s"
 
 #: plugins/python-loader/python-loader.c:128
 msgid "Python module name not given."
-msgstr ""
+msgstr "Nome modulo Python non inserito."
 
 #: plugins/python-loader/python-loader.c:171
-#, fuzzy, c-format
+#, c-format
 msgid "Module \"%s\" doesn't exist."
-msgstr "Il plugin \"%s\" non contien la funzione init_plugin."
+msgstr "Il modulo \"%s\" non esiste."
 
 #: plugins/python-loader/python-loader.c:196
 #, c-format
 msgid "Execution of module \"%s\" failed."
-msgstr ""
+msgstr "Esecuzione del modulo \"%s\" fallita."
 
 #: plugins/python-loader/python-loader.c:228 src/plugin-loader-module.c:193
-#, fuzzy
 msgid "Loader"
-msgstr "Bordo"
+msgstr "Caricatore"
 
 #: plugins/python-loader/python-loader.c:231
 msgid "Python module name"
-msgstr ""
+msgstr "Nome del modulo Python"
 
 #: plugins/python-loader/python-loader.c:332
 #, fuzzy
@@ -1058,35 +1055,33 @@ msgstr "Nome del foglio"
 #: plugins/python-loader/python-loader.c:677
 #, c-format
 msgid "Python file \"%s\" has invalid format."
-msgstr ""
+msgstr "Il file Python \"%s\" ha un formato non valido."
 
 #: plugins/python-loader/python-loader.c:398
 #: plugins/python-loader/python-loader.c:404
 #: plugins/python-loader/python-loader.c:482 src/plugin-loader-module.c:440
 #: src/plugin-loader-module.c:446 src/plugin-loader-module.c:511
-#, fuzzy, c-format
+#, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr "Il plugin \"%s\" non contien la funzione init_plugin."
+msgstr "Il file non contiene la funzione \"%s\"."
 
 #: plugins/python-loader/python-loader.c:682
-#, fuzzy, c-format
+#, c-format
 msgid "File doesn't contain \"%s\" dictionary."
-msgstr "Il plugin \"%s\" non contien la funzione init_plugin."
+msgstr "Il file \"%s\" non contiene il dizionario."
 
 #: plugins/python-loader/python-loader.c:687
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
-msgstr ""
+msgstr "L'oggetto \"%s\" non ,bh(B un dizionario."
 
 #: plugins/python/plugin.xml.in.h:1
-#, fuzzy
 msgid "Python Plugin"
-msgstr "Eccezione Python"
+msgstr "Plugin Python"
 
 #: plugins/python/plugin.xml.in.h:2
-#, fuzzy
 msgid "This plugin provides Python language support in Gnumeric"
-msgstr "Questo plugin abilita il supporto di Guile (scheme) in Gnumeric"
+msgstr "Questo plugin abilita il supporto del linguaggio Python in Gnumeric"
 
 #: plugins/python/python.c:52
 msgid "Python exception"
@@ -1105,33 +1100,29 @@ msgid "object must be callable"
 msgstr "l'oggetto deve essere richiamabile"
 
 #: plugins/python/python.c:922
-#, fuzzy, c-format
+#, c-format
 msgid "Unhandled Python exception: %s"
-msgstr "Eccezione Python"
+msgstr "Eccezione Python non gestita: %s"
 
 #: plugins/sc/plugin.xml.in.h:1
 msgid "Imports SC/XSpread files"
 msgstr "Importa file SC/XSpread"
 
 #: plugins/sc/plugin.xml.in.h:2
-#, fuzzy
 msgid "SC/XSpread"
 msgstr "SC/XSpread "
 
 #: plugins/sc/plugin.xml.in.h:3
-#, fuzzy
 msgid "SC/xspread"
-msgstr "SC/XSpread "
+msgstr "SC/xspread "
 
 #: plugins/sc/sc.c:387
-#, fuzzy
 msgid "Error parsing line"
-msgstr "errore nel parsare la linea\n"
+msgstr "Errore di sintassi nella linea"
 
 #: plugins/sc/sc.c:433
-#, fuzzy
 msgid "Error reading sheet."
-msgstr "Errore: nessun foglio"
+msgstr "Errore leggendo il foglio."
 
 #: plugins/sylk/plugin.xml.in.h:1
 msgid "Imports MultiPlan (SYLK) files"
@@ -1154,19 +1145,16 @@ msgid "error parsing line\n"
 msgstr "errore nel parsare la linea\n"
 
 #: plugins/sylk/sylk.c:455
-#, fuzzy
 msgid "Error while opening sylk file."
-msgstr "Errore scrivendo il file csv"
+msgstr "Errore aprendo il file sylk."
 
 #: plugins/sylk/sylk.c:474
-#, fuzzy
 msgid "Error while reading sheet."
-msgstr "Errore: nessun foglio"
+msgstr "Errore leggendo il foglio."
 
 #: plugins/xbase/boot.c:163
-#, fuzzy
 msgid "Error while opening xbase file."
-msgstr "Errore scrivendo il file csv"
+msgstr "Errore aprendo il file xbase."
 
 #: plugins/xbase/plugin.xml.in.h:1
 msgid "Imports XBase files"
@@ -1181,14 +1169,12 @@ msgid "Xbase (*.dbf) file format"
 msgstr "File in formato Xbase (*.dbf)"
 
 #: plugins/xml_sax/plugin.xml.in.h:1
-#, fuzzy
 msgid "EXPERIMENTAL SAX based Gnumeric (*.gnumeric)"
-msgstr "Formato file di gnumeric SPERIMENTALE basato su XML (*.gnumeric)"
+msgstr "Formato file di gnumeric SPERIMENTALE basato su SAX (*.gnumeric)"
 
 #: plugins/xml_sax/plugin.xml.in.h:2
-#, fuzzy
 msgid "EXPERIMENTAL SAX based XML"
-msgstr "XML SPERIMENTALE"
+msgstr "XML SPERIMENTALE basato su SAX"
 
 #: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
@@ -1196,15 +1182,15 @@ msgstr "Il sottosistema di I/O per xml basato su sax"
 
 #: plugins/xml_sax/xml-sax-read.c:2092
 msgid "xmlCreateFileParserCtxt () failed."
-msgstr ""
+msgstr "xmlCreateFileParserCtxt () fallita."
 
 #: plugins/xml_sax/xml-sax-read.c:2101
 msgid "XML document not well formed!"
-msgstr ""
+msgstr "Documento XML non ben formato!"
 
 #: src/GNOME_Gnumeric.xml.h:1
 msgid "About this application"
-msgstr ""
+msgstr "Informazioni su questo programma"
 
 #: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3065
 #, fuzzy
@@ -1212,9 +1198,8 @@ msgid "Add an outline group"
 msgstr "Aggiungi una nuova colonna"
 
 #: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3095
-#, fuzzy
 msgid "Advanced _Filter..."
-msgstr "Filtro avanzato"
+msgstr "_Filtro avanzato..."
 
 #: src/GNOME_Gnumeric.xml.h:4 src/workbook-format-toolbar.c:476
 msgid "Aligns the contents to the left and decreases the indent"
@@ -1233,14 +1218,12 @@ msgid "Auto _Correct..."
 msgstr "_Correttore automatico..."
 
 #: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2663
-#, fuzzy
 msgid "Auto_fill"
-msgstr "Autoriempimento"
+msgstr "Auto_riempimento"
 
 #: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2664
-#, fuzzy
 msgid "Automatically fill the current selection"
-msgstr "Esegui automaticamente la correzione ortografica semplice"
+msgstr "Riempie automaticamente la selezione corrente"
 
 #: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3034
 msgid "Automatically perform simple spell checking"
@@ -1287,42 +1270,37 @@ msgid "Center"
 msgstr "Centro"
 
 #: src/GNOME_Gnumeric.xml.h:20
-#, fuzzy
 msgid "CenterAcrossSelection"
-msgstr "_Centra all'interno della selezione"
+msgstr "CenterAcrossSelection"
 
 #: src/GNOME_Gnumeric.xml.h:21
-#, fuzzy
 msgid "Centers across the selected cells"
-msgstr "_Centra all'interno della selezione"
+msgstr "_Centra all'interno delle celle selezionate"
 
 #: src/GNOME_Gnumeric.xml.h:22
-#, fuzzy
 msgid "Centers the text in each selection"
-msgstr "Immetti le stringhe di formattazione per ogni sezione:"
+msgstr "Centra il testo in ogni selezione"
 
 #: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2854
-#, fuzzy
 msgid "Change height of the selected rows"
-msgstr "Sto sistemando la lunghezza delle righe"
+msgstr "Cambia l'altezza delle righe selezionate"
 
 #: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:2847
 msgid "Change the default column width"
-msgstr ""
+msgstr "Cambia la larghezza predefinita delle colonne"
 
 #: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:2866
 msgid "Change the default row height"
-msgstr ""
+msgstr "Cambia l'altezza predefinita delle righe"
 
 #: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:2690
 #: src/workbook-control-gui.c:2876
 msgid "Change the order the sheets are displayed"
-msgstr ""
+msgstr "Cambia l'ordine di visualizzazione dei fogli"
 
 #: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:2835
-#, fuzzy
 msgid "Change width of the selected columns"
-msgstr "Sto sistemando la larghezza delle colonne"
+msgstr "Cambia la larghezza delle colonne selezionate"
 
 #: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:145
 msgid "Checkbox"
@@ -1345,16 +1323,14 @@ msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Elimina dalle celle selezionate i formati, i commenti e i contenuti"
 
 #: src/GNOME_Gnumeric.xml.h:33
-#, fuzzy
 msgid "Close the current file"
-msgstr "Somma nella cella corrente."
+msgstr "Chiude il file corrente"
 
 #: src/GNOME_Gnumeric.xml.h:34 src/workbook-control-gui.c:2623
 msgid "Co_mments"
 msgstr "Co_mmenti"
 
 #: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:2992
-#, fuzzy
 msgid "Co_variance"
 msgstr "Covarianza"
 
@@ -1363,9 +1339,8 @@ msgid "Collapse an outline group"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:37
-#, fuzzy
 msgid "Combo Box"
-msgstr "Combo"
+msgstr "Area Combo"
 
 #: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:2964
 msgid "Comparing two population means for two paired samples.: t-test"
@@ -1394,9 +1369,8 @@ msgid "Comparing two population variances"
 msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:43
-#, fuzzy
 msgid "Configure toolbars"
-msgstr "Configura"
+msgstr "Configura le toolbar"
 
 #: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3113
 msgid "Consolidate regions using a function"
@@ -1408,53 +1382,44 @@ msgid "Copy"
 msgstr "Copia"
 
 #: src/GNOME_Gnumeric.xml.h:46
-#, fuzzy
 msgid "Copy the current selection to the clipboard"
-msgstr "Copia la selezione nella cartella appunti"
+msgstr "Copia la selezione corrente nella cartella appunti"
 
 #: src/GNOME_Gnumeric.xml.h:47
-#, fuzzy
 msgid "Copy the selection"
-msgstr "Allineamento a sinistra"
+msgstr "Copia la selezione"
 
 #: src/GNOME_Gnumeric.xml.h:48 src/workbook-control-gui.c:2993
 msgid "Covariance"
 msgstr "Covarianza"
 
 #: src/GNOME_Gnumeric.xml.h:49
-#, fuzzy
 msgid "Create a button"
 msgstr "Crea un bottone"
 
 #: src/GNOME_Gnumeric.xml.h:50
-#, fuzzy
 msgid "Create a checkbox"
 msgstr "Crea una casella di spunta"
 
 #: src/GNOME_Gnumeric.xml.h:51
-#, fuzzy
 msgid "Create a combo box"
 msgstr "Crea un'area combo"
 
 #: src/GNOME_Gnumeric.xml.h:52
-#, fuzzy
 msgid "Create a frame"
 msgstr "Crea una cornice"
 
 #: src/GNOME_Gnumeric.xml.h:53
-#, fuzzy
 msgid "Create a label"
 msgstr "Crea un'etichetta"
 
 #: src/GNOME_Gnumeric.xml.h:54
-#, fuzzy
 msgid "Create a line"
-msgstr "Crea un oggetto lista"
+msgstr "Crea una linea"
 
 #: src/GNOME_Gnumeric.xml.h:55
-#, fuzzy
 msgid "Create a list"
-msgstr "Crea un oggetto lista"
+msgstr "Crea una lista"
 
 #: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:2759
 msgid "Create a new shared view of the workbook"
@@ -1469,24 +1434,20 @@ msgid "Create a new unshared view of the workbook"
 msgstr "Crea una nuova vista Non-Divisa della cartella di lavoro"
 
 #: src/GNOME_Gnumeric.xml.h:59
-#, fuzzy
 msgid "Create a new workbook"
 msgstr "Crea una nuova cartella di lavoro"
 
 #: src/GNOME_Gnumeric.xml.h:60
-#, fuzzy
 msgid "Create a radio button"
 msgstr "Crea un bottone radio"
 
 #: src/GNOME_Gnumeric.xml.h:61
-#, fuzzy
 msgid "Create a scrollbar"
-msgstr "Crea una cornice"
+msgstr "Crea una barra di scorrimento"
 
 #: src/GNOME_Gnumeric.xml.h:62
-#, fuzzy
 msgid "Create an arrow"
-msgstr "Crea un oggetto freccia"
+msgstr "Crea una freccia"
 
 #: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1409
 msgid "Cu_t"
@@ -1508,9 +1469,8 @@ msgid "Cut"
 msgstr "Taglia"
 
 #: src/GNOME_Gnumeric.xml.h:67
-#, fuzzy
 msgid "Cut the selection"
-msgstr "Allineamento a sinistra"
+msgstr "Taglia la selezione"
 
 #: src/GNOME_Gnumeric.xml.h:68 src/workbook-format-toolbar.c:396
 #: src/workbook-format-toolbar.c:476
@@ -1519,12 +1479,10 @@ msgid "Decrease Indent"
 msgstr "Diminuisci"
 
 #: src/GNOME_Gnumeric.xml.h:69
-#, fuzzy
 msgid "Decrease Precision"
-msgstr "Diminuisci"
+msgstr "Diminuisci la precisione"
 
 #: src/GNOME_Gnumeric.xml.h:70 src/workbook-format-toolbar.c:470
-#, fuzzy
 msgid "Decreases the number of decimals displayed"
 msgstr "Diminuisce il numero dei decimali visualizzati"
 
@@ -1539,32 +1497,27 @@ msgstr "Mostra le _Formule"
 
 #: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:2882
 msgid "Display the value of a formula or the formula itself"
-msgstr ""
+msgstr "Mostra il valore di una formula o la formula stessa"
 
 #: src/GNOME_Gnumeric.xml.h:74
-#, fuzzy
 msgid "Draw a rectangle"
-msgstr "Crea un oggetto rettangolo"
+msgstr "Crea un rettangolo"
 
 #: src/GNOME_Gnumeric.xml.h:75
-#, fuzzy
 msgid "Draw an ellipse"
-msgstr "Crea un oggetto ellisse"
+msgstr "Crea un'ellisse"
 
 #: src/GNOME_Gnumeric.xml.h:76
-#, fuzzy
 msgid "E_xit"
-msgstr "Te_sto"
+msgstr "E_sci"
 
 #: src/GNOME_Gnumeric.xml.h:77
-#, fuzzy
 msgid "Edit a formula in the current cell"
-msgstr "Modifica una funzione nella cella corrente."
+msgstr "Modifica una formula nella cella corrente."
 
 #: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2604
-#, fuzzy
 msgid "Edit descriptive information"
-msgstr "Informazione"
+msgstr "Modifica l'informazione descrittiva"
 
 #: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2795
 msgid "Edit sheet and workbook names"
@@ -1588,7 +1541,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:84
 msgid "Exit the program"
-msgstr ""
+msgstr "Esci dal programma"
 
 #: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:2951
 #, fuzzy
