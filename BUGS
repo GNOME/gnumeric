@@ -112,7 +112,7 @@ UTF-8:
 
 Bonobo component
     Install it in libexec					(DONE)
-    Investigate warnings
+    Investigate warnings 					(DONE)
 
 Autocolors
     Export/import them to/from gnumeric format.

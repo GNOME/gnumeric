@@ -166,7 +166,7 @@ filter_field_update_bounds (SheetObject *so, GObject *view_obj)
 static void
 do_focus_change (GtkWidget *widget, gboolean   in)
 {
-	GdkEvent *fevent = gdk_event_new (GDK_FOCUS_CHANGE);
+	GdkEventFocus fevent;
   
 	g_object_ref (widget);
   
@@ -175,18 +175,15 @@ do_focus_change (GtkWidget *widget, gboolean   in)
 	else
 		GTK_WIDGET_UNSET_FLAGS (widget, GTK_HAS_FOCUS);
   
-	fevent->focus_change.type = GDK_FOCUS_CHANGE;
-	fevent->focus_change.window = widget->window;
-	if (widget->window)
-		g_object_ref (widget->window);
-	fevent->focus_change.in = in;
+	fevent.type = GDK_FOCUS_CHANGE;
+	fevent.window = widget->window;
+	fevent.in = in;
 	
-	gtk_widget_event (widget, fevent);
+	gtk_widget_event (widget, &fevent);
   
 	g_object_notify (G_OBJECT (widget), "has_focus");
 
 	g_object_unref (widget);
-	gdk_event_free (fevent);
 }
 
 static void filter_popup_destroy (GtkWidget *popup, GtkWidget *list)

@@ -1,5 +1,10 @@
 2002-12-08  Jon K Hellan  <hellan@acm.org>
 
+	* src/sheet-filter.c (do_focus_change): Use stack allocated events
+	rather than 2.1.x addition gdk_event_new.
+
+2002-12-08  Jon K Hellan  <hellan@acm.org>
+
 	* src/bonobo-io.c (gnumeric_bonobo_read_from_stream): Bitrot was
 	setting in. Fix.
 
