@@ -35,11 +35,15 @@ my @files =
      "dbinom.c",
      "qbinom.c",
      "dnbinom.c",
+     "pnbinom.c",
      "dhyper.c",
+     "phyper.c",
      "dexp.c",
      "pexp.c",
      "dgeom.c",
      "pgeom.c",
+     "dcauchy.c",
+     "pcauchy.c",
      "bessel.h",
      "bessel_i.c",
      "bessel_k.c",
@@ -103,7 +107,7 @@ sub import_file {
 
 	    s/\bISNAN\b/isnangnum/g;
 	    s/\bR_FINITE\b/finitegnum/g;
-	    s/\b(sqrt|exp|log|pow|log1p|floor|sin|sinh)(\s|$|\()/$1gnum$2/g;
+	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|sin|sinh|tan)(\s|$|\()/$1gnum$2/g;
 	    s/\bfabs\b/gnumabs/g;
 	    s/\bDBL_(EPSILON|MIN|MAX)/GNUM_$1/g;
 

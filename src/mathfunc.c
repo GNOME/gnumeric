@@ -78,10 +78,11 @@
 #define lgammafn(_x) lgamma (_x)
 #define gammafn(_x) expgnum (lgammafn (_x))
 #define gamma_cody(_x) gammafn (_x)
+#define lfastchoose(_n,_k) (lgammafn((_n) + 1.0) - lgammafn((_k) + 1.0) - lgammafn((_n) - (_k) + 1.0))
 
 #define MATHLIB_STANDALONE
 #define ML_ERR_return_NAN { return ML_NAN; }
-static void pnorm_both(gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gboolean log_p);
+static void pnorm_both (gnum_float x, gnum_float *cum, gnum_float *ccum, int i_tail, gboolean log_p);
 
 /* MW ---------------------------------------------------------------------- */
 
@@ -173,11 +174,11 @@ gnumeric_fake_trunc (gnum_float x)
 #define R_DT_val(x)	R_D_val(R_D_Lval(x))		/*  x  in pF */
 #define R_DT_Cval(x)	R_D_val(R_D_Cval(x))		/*  1 - x */
 /*#define R_DT_qIv(p)	R_D_Lval(R_D_qIv(p))		 *  p  in qF ! */
-#define R_DT_qIv(p)	(log_p ? (lower_tail ? expgnum(p) : - expm1(p)) \
+#define R_DT_qIv(p)	(log_p ? (lower_tail ? expgnum(p) : - expm1gnum(p)) \
 			       : R_D_Lval(p))
 
 /*#define R_DT_CIv(p)	R_D_Cval(R_D_qIv(p))		 *  1 - p in qF */
-#define R_DT_CIv(p)	(log_p ? (lower_tail ? -expm1(p) : expgnum(p)) \
+#define R_DT_CIv(p)	(log_p ? (lower_tail ? -expm1gnum(p) : expgnum(p)) \
 			       : R_D_Cval(p))
 
 
@@ -1990,7 +1991,7 @@ static gnum_float pbeta_raw(gnum_float x, gnum_float pin, gnum_float qin, gboole
 
 	xb = p * loggnum(fmax2(y, sml)) - loggnum(p) - lbeta(p, q);
 	if (xb > lnsml && y != 0) {
-	    ans = (swap_tail == lower_tail) ? -expm1(xb) : expgnum(xb);
+	    ans = (swap_tail == lower_tail) ? -expm1gnum(xb) : expgnum(xb);
 	} else {
 	    ans = (swap_tail == lower_tail) ? 1. : 0;
 	}
@@ -2411,7 +2412,7 @@ gnum_float qt(gnum_float p, gnum_float ndf, gboolean lower_tail, gboolean log_p)
     }
     else if (ndf < 1 + eps) { /* df ~= 1  (df < 1 excluded above !) */
 	if(P > 0)
-	    q = - tan((P+1) * M_PI_2gnum);
+	    q = - tangnum((P+1) * M_PI_2gnum);
 
 	else { /* P = 0, but maybe p_ = expgnum(p) ! */
 	    if(log_p) q = M_1_PI * expgnum(-R_D_Lval(p));/* cot(e) ~ 1/e */
@@ -2441,7 +2442,7 @@ gnum_float qt(gnum_float p, gnum_float ndf, gboolean lower_tail, gboolean log_p)
 	    c = (((0.05 * d * x - 5) * x - 7) * x - 2) * x + b + c;
 	    y = (((((0.4 * y + 6.3) * y + 36) * y + 94.5) / c
 		  - y - 3) / b + 1) * x;
-	    y = expm1(a * y * y);
+	    y = expm1gnum(a * y * y);
 	} else {
 	    y = ((1 / (((ndf + 6) / (ndf * y) - 0.089 * d - 0.822)
 		       * (ndf + 2) * 3) + 0.5 / (ndf + 4))
@@ -2707,8 +2708,8 @@ gnum_float pweibull(gnum_float x, gnum_float shape, gnum_float scale, gboolean l
     if (lower_tail)
 	return (log_p
 		/* loggnum(1 - expgnum(x))  for x < 0 : */
-		? (x > -M_LN2gnum ? loggnum(-expm1(x)) : log1pgnum(-expgnum(x)))
-		: -expm1(x));
+		? (x > -M_LN2gnum ? loggnum(-expm1gnum(x)) : log1pgnum(-expgnum(x)))
+		: -expm1gnum(x));
     /* else:  !lower_tail */
     return R_D_exp(x);
 }
@@ -3011,6 +3012,52 @@ gnum_float dnbinom(gnum_float x, gnum_float n, gnum_float p, gboolean give_log)
 }
 
 /* ------------------------------------------------------------------------ */
+/* Imported src/nmath/pnbinom.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *	The distribution function of the negative binomial distribution.
+ *
+ *  NOTES
+ *
+ *	x = the number of failures before the n-th success
+ */
+
+
+gnum_float pnbinom(gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (isnangnum(x) || isnangnum(n) || isnangnum(p))
+	return x + n + p;
+    if(!finitegnum(n) || !finitegnum(p))	ML_ERR_return_NAN;
+#endif
+    if (n <= 0 || p <= 0 || p >= 1)	ML_ERR_return_NAN;
+
+    x = floorgnum(x + 1e-7);
+    if (x < 0) return R_DT_0;
+    if (!finitegnum(x)) return R_DT_1;
+    return pbeta(p, n, x + 1, lower_tail, log_p);
+}
+
+/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/dhyper.c from R.  */
 /*
  *  AUTHOR
@@ -3080,6 +3127,84 @@ gnum_float dhyper(gnum_float x, gnum_float r, gnum_float b, gnum_float n, gboole
 
     return( (give_log) ? p1 + p2 - p3 : p1*p2/p3 );
 }
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/phyper.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 1999-2000  The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *	The distribution function of the hypergeometric distribution.
+ */
+
+gnum_float phyper(gnum_float x, gnum_float NR, gnum_float NB, gnum_float n,
+	      gboolean lower_tail, gboolean log_p)
+{
+/* Sample of  n balls from  NR red  and	 NB black ones;	 x are red */
+
+/* basically the same code is used also in  ./qhyper.c -- keep in sync! */
+    gnum_float N, xstart, xend, xr, xb, sum, term;
+    int small_N;
+#ifdef IEEE_754
+    if(isnangnum(x) || isnangnum(NR) || isnangnum(NB) || isnangnum(n))
+	return x + NR + NB + n;
+    if(!finitegnum(x) || !finitegnum(NR) || !finitegnum(NB) || !finitegnum(n))
+	ML_ERR_return_NAN;
+#endif
+
+    x = floorgnum(x + 1e-7);
+    NR = floorgnum(NR + 0.5);
+    NB = floorgnum(NB + 0.5);
+    N = NR + NB;
+    n = floorgnum(n + 0.5);
+    if (NR < 0 || NB < 0 || n < 0 || n > N)
+	ML_ERR_return_NAN;
+
+    xstart = fmax2(0, n - NB);
+    xend = fmin2(n, NR);
+    if(x < xstart) return R_DT_0;
+    if(x >= xend)  return R_DT_1;
+
+    xr = xstart;
+    xb = n - xr;
+
+    small_N = (N < 1000); /* won't have underflow in product below */
+    /* if N is small,  term := product.ratio( bin.coef );
+       otherwise work with its logarithm to protect against underflow */
+    term = lfastchoose(NR, xr) + lfastchoose(NB, xb) - lfastchoose(N, n);
+    if(small_N) term = expgnum(term);
+    NR -= xr;
+    NB -= xb;
+    sum = 0.0;
+    while(xr <= x) {
+	sum += (small_N ? term : expgnum(term));
+	xr++;
+	NB++;
+	if(small_N) term *= (NR / xr) * (xb / NB);
+	else	term += loggnum((NR / xr) * (xb / NB));
+	xb--;
+	NR--;
+    }
+    return R_DT_val(sum);
+}
+
 
 /* ------------------------------------------------------------------------ */
 /* Imported src/nmath/dexp.c from R.  */
@@ -3166,8 +3291,8 @@ gnum_float pexp(gnum_float x, gnum_float scale, gboolean lower_tail, gboolean lo
     if (lower_tail)
 	return (log_p
 		/* loggnum(1 - expgnum(x))  for x < 0 : */
-		? (x > -M_LN2gnum ? loggnum(-expm1(x)) : log1pgnum(-expgnum(x)))
-		: -expm1(x));
+		? (x > -M_LN2gnum ? loggnum(-expm1gnum(x)) : log1pgnum(-expgnum(x)))
+		: -expm1gnum(x));
     /* else:  !lower_tail */
     return R_D_exp(x);
 }
@@ -3264,6 +3389,96 @@ gnum_float pgeom(gnum_float x, gnum_float p, gboolean lower_tail, gboolean log_p
     if(log_p && !lower_tail)
 	return log1pgnum (-p) * (x + 1);
     return R_DT_Cval(powgnum(1 - p, x + 1));
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/dcauchy.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *
+ *  DESCRIPTION
+ *
+ *    The density of the Cauchy distribution.
+ */
+
+
+gnum_float dcauchy(gnum_float x, gnum_float location, gnum_float scale, gboolean give_log)
+{
+    gnum_float y;
+#ifdef IEEE_754
+    /* NaNs propagated correctly */
+    if (isnangnum(x) || isnangnum(location) || isnangnum(scale))
+	return x + location + scale;
+#endif
+    if (scale <= 0) ML_ERR_return_NAN;
+
+    y = (x - location) / scale;
+    return give_log ?
+	- loggnum(M_PIgnum * scale * (1. + y * y)) :
+	1. / (M_PIgnum * scale * (1. + y * y));
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/pcauchy.c from R.  */
+/*
+ *  Mathlib : A C Library of Special Functions
+ *  Copyright (C) 1998 Ross Ihaka
+ *  Copyright (C) 2000 The R Development Core Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *  DESCRIPTION
+ *
+ *	The distribution function of the Cauchy distribution.
+ */
+
+
+gnum_float pcauchy(gnum_float x, gnum_float location, gnum_float scale,
+	       gboolean lower_tail, gboolean log_p)
+{
+#ifdef IEEE_754
+    if (isnangnum(x) || isnangnum(location) || isnangnum(scale))
+	return x + location + scale;
+#endif
+    if (scale <= 0) ML_ERR_return_NAN;
+
+    x = (x - location) / scale;
+    if (isnangnum(x)) ML_ERR_return_NAN;
+#ifdef IEEE_754
+    if(!finitegnum(x)) {
+	if(x < 0) return R_DT_0;
+	else return R_DT_1;
+    }
+#endif
+    return R_DT_val(0.5 + atan(x) / M_PIgnum);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -4387,29 +4602,6 @@ L420:
 	    (*ncalc)++;
 	}
     }
-}
-
-gnum_float dcauchy(gnum_float x, gnum_float location, gnum_float scale, int give_log)
-{
-    gnum_float y;
-
-    if (scale <= 0) ML_ERR_return_NAN;
-
-    y = (x - location) / scale;
-    return give_log ?
-        - loggnum(M_PI * scale * (1. + y * y)) :
-        1. / (M_PI * scale * (1. + y * y));
-}
-
-gnum_float pcauchy(gnum_float x, gnum_float location, gnum_float scale,
-               int lower_tail, int log_p)
-{
-
-    if (scale <= 0) ML_ERR_return_NAN;
-
-    x = (x - location) / scale;
-
-    return R_DT_val(0.5 + atangnum(x) / M_PI);
 }
 
 /* ------------------------------------------------------------------------ */

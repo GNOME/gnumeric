@@ -1,3 +1,8 @@
+2002-07-26  Morten Welinder  <terra@diku.dk>
+
+	* import-R: Add dcauchy, pcauchy, phyper, and pnbinom.
+	(import_file): gnum_float-handle tan and expm1.
+
 2002-07-25  Morten Welinder  <terra@diku.dk>
 
 	* import-R: Import also dgeom and pgeom.
