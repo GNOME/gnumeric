@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
-  <gmr:Information author="Gnumeric Team" name="Table" description="Very simple table template with the same border everywhere " category="General"/>
+  <gmr:Information _author="Gnumeric Team" _name="Table" _description="Very simple table template with the same border everywhere " category="General"/>
   <gmr:Members>
     <gmr:Member>
       <gmr:Row>

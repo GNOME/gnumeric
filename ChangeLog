@@ -1,3 +1,10 @@
+2004-10-21  Yukihiro Nakai  <nakai@gnome.gr.jp>
+
+	* src/format-template.c: (xml_read_format_template_members)
+	Gettextize author,name,descr field.
+
+	* templates/autoformat/: Move xml to xml.in and gettextize them
+
 2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* schemas/gnumeric-general.schemas.in: change recalclag 

@@ -1,3 +1,8 @@
+SUFFIXES = .xml.in .xml
+.xml.in.xml:
+	sed -e 's/ _author *=/ author=/' -e 's/ _name *=/ name=/' \
+	-e 's/ _description *=/ description=/' < $< > $@
+
 autoformat_templatesdir = $(gnumeric_autoformatdir)
 
 ThreeDdir        = $(autoformat_templatesdir)/3D
@@ -11,43 +16,51 @@ Category_files = \
 	3D.category Classical.category Colourful.category \
 	Financial.category General.category List.category
 
-ThreeD_DATA = \
-	autoformat.3D.button.xml                \
-	autoformat.3D.list.xml
+ThreeD_xml_in_files = \
+	autoformat.3D.button.xml.in                \
+	autoformat.3D.list.xml.in
 
-Classical_DATA = \
-	autoformat.Classical.cool.xml           \
-	autoformat.Classical.simple.xml         \
-	autoformat.Classical.trendy.xml
+Classical_xml_in_files = \
+	autoformat.Classical.cool.xml.in           \
+	autoformat.Classical.simple.xml.in         \
+	autoformat.Classical.trendy.xml.in
 
-Colourful_DATA = \
-	autoformat.Colourful.banana.xml         \
-	autoformat.Colourful.black.xml          \
-	autoformat.Colourful.blue.xml           \
-	autoformat.Colourful.orange.xml         \
-	autoformat.Colourful.vanilla.xml
+Colourful_xml_in_files = \
+	autoformat.Colourful.banana.xml.in         \
+	autoformat.Colourful.black.xml.in          \
+	autoformat.Colourful.blue.xml.in           \
+	autoformat.Colourful.orange.xml.in         \
+	autoformat.Colourful.vanilla.xml.in
 
-Financial_DATA = \
-	autoformat.Financial.basic.xml          \
-	autoformat.Financial.desert.xml         \
-	autoformat.Financial.ice.xml            \
-	autoformat.Financial.modern.xml         \
-	autoformat.Financial.purple.xml
+Financial_xml_in_files = \
+	autoformat.Financial.basic.xml.in          \
+	autoformat.Financial.desert.xml.in         \
+	autoformat.Financial.ice.xml.in            \
+	autoformat.Financial.modern.xml.in         \
+	autoformat.Financial.purple.xml.in
 
-General_DATA = \
-	autoformat.General.advanced.xml         \
-	autoformat.General.basic.xml            \
-	autoformat.General.empty.xml            \
-	autoformat.General.table.xml
+General_xml_in_files = \
+	autoformat.General.advanced.xml.in         \
+	autoformat.General.basic.xml.in            \
+	autoformat.General.empty.xml.in            \
+	autoformat.General.table.xml.in
 
-List_DATA = \
-	autoformat.List.basic.xml               \
-	autoformat.List.green.xml               \
-	autoformat.List.lila.xml                \
-	autoformat.List.simple.xml
+List_xml_in_files = \
+	autoformat.List.basic.xml.in               \
+	autoformat.List.green.xml.in               \
+	autoformat.List.lila.xml.in                \
+	autoformat.List.simple.xml.in
 
-EXTRA_DIST = $(ThreeD_DATA) $(Classical_DATA) $(Colourful_DATA) \
-             $(Financial_DATA) $(General_DATA) $(List_DATA) \
+ThreeD_DATA      = $(ThreeD_xml_in_files:.xml.in=.xml)
+Classical_DATA   = $(Classical_xml_in_files:.xml.in=.xml)
+Colourful_DATA   = $(Colourful_xml_in_files:.xml.in=.xml)
+Financial_DATA   = $(Financial_xml_in_files:.xml.in=.xml)
+General_DATA     = $(General_xml_in_files:.xml.in=.xml)
+List_DATA        = $(List_xml_in_files:.xml.in=.xml)
+
+EXTRA_DIST = $(ThreeD_xml_in_files) $(Classical_xml_in_files) \
+	     $(Colourful_xml_in_files) $(Financial_xml_in_files) \
+	     $(General_xml_in_files) $(List_xml_in_files) \
              $(Category_files)
 
 install-data-local:

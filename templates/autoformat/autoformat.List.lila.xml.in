@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gmr:FormatTemplate xmlns:gmr="http://www.gnome.org/gnumeric/format-template/v1">
-  <gmr:Information author="Gnumeric Team" name="Lila" description="Lila list template" category="List"/>
+  <gmr:Information _author="Gnumeric Team" _name="Lila" _description="Lila list template" category="List"/>
   <gmr:Members>
     <gmr:Member>
       <gmr:Row>

@@ -419,9 +419,9 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
 		xmlChar *name   = xml_node_get_cstr (child, "name");
 		xmlChar *descr  = xml_node_get_cstr (child, "description");
 
-		format_template_set_author (ft, CXML2C (author));
-		format_template_set_name (ft,  CXML2C (name));
-		format_template_set_description (ft,  CXML2C (descr));
+		format_template_set_author (ft, _(CXML2C (author)));
+		format_template_set_name (ft,  _(CXML2C (name)));
+		format_template_set_description (ft,  _(CXML2C (descr)));
 
 		xmlFree (author);
 		xmlFree (name);
