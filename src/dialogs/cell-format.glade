@@ -433,7 +433,7 @@
 		    <wrap>False</wrap>
 		    <value>2</value>
 		    <lower>0</lower>
-		    <upper>15</upper>
+		    <upper>30</upper>
 		    <step>1</step>
 		    <page>3</page>
 		    <page_size>3</page_size>
@@ -581,7 +581,7 @@
 		    <wrap>False</wrap>
 		    <value>2</value>
 		    <lower>0</lower>
-		    <upper>15</upper>
+		    <upper>30</upper>
 		    <step>1</step>
 		    <page>3</page>
 		    <page_size>3</page_size>
@@ -752,7 +752,7 @@ None
 		  <wrap>False</wrap>
 		  <value>2</value>
 		  <lower>0</lower>
-		  <upper>15</upper>
+		  <upper>30</upper>
 		  <step>1</step>
 		  <page>3</page>
 		  <page_size>3</page_size>
@@ -960,7 +960,7 @@ $
 		  <wrap>False</wrap>
 		  <value>2</value>
 		  <lower>0</lower>
-		  <upper>15</upper>
+		  <upper>30</upper>
 		  <step>1</step>
 		  <page>3</page>
 		  <page_size>3</page_size>
@@ -1068,7 +1068,7 @@ $
 		<wrap>False</wrap>
 		<value>2</value>
 		<lower>0</lower>
-		<upper>15</upper>
+		<upper>30</upper>
 		<step>1</step>
 		<page>3</page>
 		<page_size>3</page_size>
