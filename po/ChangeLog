@@ -1,3 +1,7 @@
+2003-05-26  Vincent van Adrighem  <V.vanAdrighem@dirck.mine.nu>
+
+	* nl.po: Dutch translation updated by Vincent van Adrighem.
+
 2003-05-25  Jody Goldberg <jody@gnome.org>
 
 	* POTFILES.skip : skip schemas/plot-types.xml.in we'll delete it when
