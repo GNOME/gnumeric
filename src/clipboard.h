@@ -29,8 +29,11 @@ enum {
 	/* Do not paste merged regions (probably not needed) */
 	PASTE_DONT_MERGE        = 1 << 12,
 
+	/* Do not clear comments */
+	PASTE_IGNORE_COMMENTS   = 1 << 13,
+
 	/* Update the row height when pasting? (for large fonts, etc.) */
-	PASTE_UPDATE_ROW_HEIGHT = 1 << 13
+	PASTE_UPDATE_ROW_HEIGHT = 1 << 14
 };
 
 #define PASTE_ALL_TYPES (PASTE_CONTENT | PASTE_FORMATS)

@@ -24,6 +24,7 @@
 #include "sheet-object-cell-comment.h"
 #include "sheet-object-impl.h"
 #include "sheet.h"
+#include "sheet-merge.h"
 #include "sheet-control-gui.h"
 #include "gnumeric-type-util.h"
 #include <gal/widgets/e-cursors.h>
@@ -66,10 +67,14 @@ static GnomeCanvasPoints *
 comment_get_points (SheetControlGUI *scg, SheetObject const *so)
 {
 	GnomeCanvasPoints *points;
-	int x, y, i;
+	int x, y, i, far_col;
+	Range const *r;
+
+	r = sheet_merge_is_corner (so->sheet, &so->cell_bound.start);
+	far_col = 1 + ((r != NULL) ? r->end.col : so->cell_bound.start.col);
 
 	/* TODO : This could be optimized using the offsets associated with the visible region */
-	x = scg_colrow_distance_get (scg, TRUE, 0, so->cell_bound.start.col + 1) - 1;
+	x = scg_colrow_distance_get (scg, TRUE, 0, far_col) - 1;
 	y = scg_colrow_distance_get (scg, FALSE, 0, so->cell_bound.start.row) + 1;
 
 	points = gnome_canvas_points_new (3);

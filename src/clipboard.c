@@ -314,8 +314,11 @@ clipboard_paste_region (WorkbookControl *wbc,
 
 	tmp = 0;
 	/* clear the region where we will paste */
-	if (has_content)
-		tmp = CLEAR_VALUES | CLEAR_COMMENTS;
+	if (has_content) {
+		tmp = CLEAR_VALUES;
+		if (!(pt->paste_flags & PASTE_IGNORE_COMMENTS))
+			tmp |= CLEAR_COMMENTS;
+	}
 
 	/* No need to clear the formats.  We will paste over top of these. */
 	/* if (pt->paste_flags & PASTE_FORMATS) tmp |= CLEAR_FORMATS; */

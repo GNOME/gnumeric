@@ -1,3 +1,21 @@
+2001-05-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (clipboard_paste_region) : Add PASTE_IGNORE_COMMENTS.
+
+	* src/commands.c (cmd_merge_cells_undo) : Use it here.
+
+2001-05-07  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-merge.c (sheet_merge_remove) : adjust comments.
+	(sheet_merge_add) : ditto.
+
+	* src/sheet-object-cell-comment.c (comment_get_points) : handle merged
+	  cells.
+
+	* src/commands.c (cmd_unmerge_cells) : don't queue an undo object if
+	  there is nothing to do.
+	(cmd_merge_cells) : filter existing ranges too.
+
 2001-05-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_event) : ignore events while editing.

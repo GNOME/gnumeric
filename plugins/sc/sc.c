@@ -315,7 +315,7 @@ sc_parse_let (sc_file_state_t *src, const char *cmd, const char *str, int col, i
 
 typedef struct {
 	const char *name;
-	size_t namelen;
+	int namelen;
 	gboolean (*handler) (sc_file_state_t *src, const char *name,
 			     const char *str, int col, int row);
 	unsigned have_coord : 1;

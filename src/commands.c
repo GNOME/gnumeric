@@ -2906,8 +2906,18 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 	
 	me->unmerged_regions = NULL;
 	me->ranges = g_array_new (FALSE, FALSE, sizeof (Range));
-	for ( ; selection != NULL ; selection = selection->next)
-		g_array_append_val (me->ranges, *(Range *)selection->data);
+	for ( ; selection != NULL ; selection = selection->next) {
+		GSList *merged = sheet_merge_get_overlap (sheet, selection->data);
+		if (merged != NULL) {
+			g_array_append_val (me->ranges, *(Range *)selection->data);
+			g_slist_free (merged);
+		}
+	}
+
+	if (me->ranges->len <= 0) {
+		gtk_object_destroy (GTK_OBJECT (me));
+		return TRUE;
+	}
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
@@ -2949,7 +2959,7 @@ cmd_merge_cells_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		c = me->old_content->data;
 		clipboard_paste_region (wbc,
 					paste_target_init (&pt, me->parent.sheet, r,
-							   PASTE_CONTENT | PASTE_FORMATS),
+							   PASTE_CONTENT | PASTE_FORMATS | PASTE_IGNORE_COMMENTS),
 					c);
 		cellregion_free (c);
 		me->old_content = g_slist_remove (me->old_content, c);
@@ -3034,9 +3044,17 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 	g_string_free (names, TRUE);
 
 	me->ranges = g_array_new (FALSE, FALSE, sizeof (Range));
-	for ( ; selection != NULL ; selection = selection->next)
-		if (!range_is_singleton (selection->data))
-			g_array_append_val (me->ranges, *(Range *)selection->data);
+	for ( ; selection != NULL ; selection = selection->next) {
+		Range const *exist;
+		Range const *r = selection->data;
+		if (range_is_singleton (selection->data))
+			continue;
+		if (NULL != (exist = sheet_merge_is_corner (sheet, &r->start)) &&
+		    range_equal (r, exist))
+			continue;
+		g_array_append_val (me->ranges, *(Range *)selection->data);
+	}
+
 	if (me->ranges->len <= 0) {
 		gtk_object_destroy (GTK_OBJECT (me));
 		return TRUE;

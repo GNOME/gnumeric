@@ -22,6 +22,7 @@
  */
 #include <config.h>
 #include "sheet-merge.h"
+#include "sheet-object.h"
 #include "sheet.h"
 #include "sheet-private.h"
 #include "ranges.h"
@@ -63,6 +64,7 @@ sheet_merge_add (WorkbookControl *wbc,
 	Range  *r_copy;
 	Cell   *cell;
 	MStyle *style;
+	CellComment *comment;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
 	g_return_val_if_fail (range_is_sane (r), TRUE);
@@ -125,6 +127,10 @@ sheet_merge_add (WorkbookControl *wbc,
 	if (range_contains (r, sheet->edit_pos.col, sheet->edit_pos.row))
 		sheet_set_edit_pos (sheet, r->start.col, r->start.row);
 
+	comment = cell_has_comment_pos (sheet, &r->start);
+	if (comment != NULL)
+		sheet_object_position (SHEET_OBJECT (comment), NULL);
+
 	sheet->priv->reposition_selection = TRUE;
 	return FALSE;
 }
@@ -140,25 +146,30 @@ sheet_merge_add (WorkbookControl *wbc,
  * returns TRUE if there was an error.
  */
 gboolean
-sheet_merge_remove (WorkbookControl *wbc, Sheet *sheet, Range const *range)
+sheet_merge_remove (WorkbookControl *wbc, Sheet *sheet, Range const *r)
 {
 	Range *r_copy;
 	Cell *cell;
+	CellComment *comment;
 
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
-	g_return_val_if_fail (range != NULL, TRUE);
+	g_return_val_if_fail (r != NULL, TRUE);
 
-	r_copy = g_hash_table_lookup (sheet->hash_merged, &range->start);
+	r_copy = g_hash_table_lookup (sheet->hash_merged, &r->start);
 
 	g_return_val_if_fail (r_copy != NULL, TRUE);
-	g_return_val_if_fail (range_equal (range, r_copy), TRUE);
+	g_return_val_if_fail (range_equal (r, r_copy), TRUE);
 
 	g_hash_table_remove (sheet->hash_merged, &r_copy->start);
 	sheet->list_merged = g_slist_remove (sheet->list_merged, r_copy);
 
-	cell = sheet_cell_get (sheet, range->start.col, range->start.row);
+	cell = sheet_cell_get (sheet, r->start.col, r->start.row);
 	if (cell != NULL)
 		cell->base.flags &= ~CELL_IS_MERGED;
+
+	comment = cell_has_comment_pos (sheet, &r->start);
+	if (comment != NULL)
+		sheet_object_position (SHEET_OBJECT (comment), NULL);
 
 	g_free (r_copy);
 	sheet->priv->reposition_selection = TRUE;
