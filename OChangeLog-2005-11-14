@@ -1,3 +1,9 @@
+2002-02-19  Jody Goldberg <jody@gnome.org>
+	From C. Scott Ananian <cananian@lesser-magoo.lcs.mit.edu>
+
+	* src/xml-io.c (xml_read_attributes) : fix import of WorkbookView
+	  attributes.
+
 2002-02-15  Morten Welinder  <terra@diku.dk>
 
 	* src/regression.c (LUPDecomp): Use fabs, not abs.

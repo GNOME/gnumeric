@@ -29,6 +29,7 @@ Peter Moulder:
 
 C. Scott Ananian:
 	* Some documentation fixes.
+	* Fix import of WorkbookView attributes.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.4

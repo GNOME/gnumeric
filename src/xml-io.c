@@ -1024,11 +1024,12 @@ xml_read_attributes (XmlParseContext *ctxt, xmlNodePtr tree, GList **list)
 		if (child->name && !strcmp (child->name, "Attribute")) {
 
 			subchild = e_xml_get_child_by_name (child, (xmlChar *)"name");
-			if (subchild) {
+			if (subchild)
 				name = xmlNodeGetContent (subchild);
-			}
 
-			xml_node_get_int (child, "type", &type);
+			subchild = e_xml_get_child_by_name (child, (xmlChar *)"type");
+			if (subchild)
+				xml_node_get_int (child, NULL, &type);
 
 			if (name && type) {
 				arg = gtk_arg_new (type);
