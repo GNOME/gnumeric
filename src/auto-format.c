@@ -231,7 +231,7 @@ do_af_suggest (const ExprTree *expr, EvalPos const *epos, char **explicit)
 			return AF_UNKNOWN;
 
 		*explicit = cell_get_format (cell);
-		return explicit ? AF_EXPLICIT : AF_UNKNOWN;
+		return *explicit ? AF_EXPLICIT : AF_UNKNOWN;
 	}
 
 	case OPER_UNARY_NEG:

@@ -1,3 +1,4 @@
+#include <config.h>
 #include <libgnorba/gnome-factory.h>
 #include "Gnumeric.h"
 

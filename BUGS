@@ -44,6 +44,9 @@ Long term breakage
 - All forms of autoscroll should use the timer mechanism from item-grid.
 - The auto scroll timer from item-grid needs to move to sheet-view.
 
+- AutoFormat should probably be returning a StyleFormat instead of a text
+  string so we can kill a few leaks.
+
 Dialogs
 -------
 - Finish function wizard
