@@ -145,7 +145,6 @@ main (int argc, char *argv [])
 {
 	gboolean opened_workbook = FALSE;
 	WorkbookControl *wbc;
-	const char *gnumeric_binary = argv[0];
 
 	/* Make stdout line unbuffered - we only use it for debug info */
 	setvbuf (stdout, NULL, _IOLBF, 0);

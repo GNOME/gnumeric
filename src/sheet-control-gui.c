@@ -50,6 +50,7 @@
 #include <gal/util/e-util.h>
 #include <gal/widgets/e-cursors.h>
 #include <string.h>
+#include <math.h>
 
 static SheetControlClass *scg_parent_class;
 
@@ -1995,17 +1996,17 @@ scg_object_update_bbox (SheetControlGUI *scg, SheetObject *so,
 	set_item_x_y (scg, so_view_obj, 0, l, t,
 		      E_CURSOR_SIZE_TL, TRUE);
 	set_item_x_y (scg, so_view_obj, 1, (l + r) / 2, t,
-		      E_CURSOR_SIZE_Y, (r-l) >= CTRL_PT_TOTAL_SIZE);
+		      E_CURSOR_SIZE_Y, fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (scg, so_view_obj, 2, r, t,
 		      E_CURSOR_SIZE_TR, TRUE);
 	set_item_x_y (scg, so_view_obj, 3, l, (t + b) / 2,
-		      E_CURSOR_SIZE_X, (b-t) >= CTRL_PT_TOTAL_SIZE);
+		      E_CURSOR_SIZE_X, fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (scg, so_view_obj, 4, r, (t + b) / 2,
-		      E_CURSOR_SIZE_X, (b-t) >= CTRL_PT_TOTAL_SIZE);
+		      E_CURSOR_SIZE_X, fabs (b-t) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (scg, so_view_obj, 5, l, b,
 		      E_CURSOR_SIZE_TR, TRUE);
 	set_item_x_y (scg, so_view_obj, 6, (l + r) / 2, b,
-		      E_CURSOR_SIZE_Y, (r-l) >= CTRL_PT_TOTAL_SIZE);
+		      E_CURSOR_SIZE_Y, fabs (r-l) >= CTRL_PT_TOTAL_SIZE);
 	set_item_x_y (scg, so_view_obj, 7, r, b,
 		      E_CURSOR_SIZE_TL, TRUE);
 }

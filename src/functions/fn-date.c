@@ -8,6 +8,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <func.h>
+#include <mathfunc.h>
 
 #include <parse-util.h>
 #include <str.h>

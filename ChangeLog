@@ -1,5 +1,7 @@
 2002-04-12  Jody Goldberg <jody@gnome.org>
 
+	* src/sheet-control-gui.c (scg_object_update_bbox) : back port fix.
+
 	* src/main.c (handle_paint_events) : disable warning for old versions.
 
 2002-04-12  Jon K Hellan  <hellan@acm.org>
