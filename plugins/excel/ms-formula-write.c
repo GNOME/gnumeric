@@ -530,8 +530,8 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 		{ 0, 0, 0, 0 }, /* Name     */
 		{ 0, 0, 0, 0 }, /* Constant */
 		{ 0, 0, 0, 0 }, /* Var      */
-		{ FORMULA_PTG_U_PLUS,	 5, 0, 0 }, /* Unary - */
-		{ FORMULA_PTG_U_MINUS,	 5, 0, 0 }, /* Unary + */
+		{ FORMULA_PTG_U_MINUS	 5, 0, 0 }, /* Unary - */
+		{ FORMULA_PTG_U_PLUS,	 5, 0, 0 }, /* Unary + */
 		{ FORMULA_PTG_PERCENT,	 5, 0, 0 }, /* Percentage (NOT MODULO) */
 		{ 0, 0, 0, 0 }, /* Array    */
 		{ 0, 0, 0, 0 }  /* Set      */
@@ -687,8 +687,7 @@ write_node (PolishData *pd, ExprTree *tree, int paren_level)
 		write_ref (pd, &tree->var.ref);
 		break;
 
-	case OPER_NAME:
-	{
+	case OPER_NAME: {
 		guint8 data[14];
 		guint16 idx;
 		for (idx = 0; idx <14; idx++) data[idx] = 0;
