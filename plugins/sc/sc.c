@@ -41,7 +41,7 @@ void sc_file_open (GnumFileOpener const *fo, IOContext *io_context,
 typedef enum {
 	LABEL,
 	LEFTSTRING,
-	RIGHTSTRING,
+	RIGHTSTRING
 } sc_string_cmd_t;
 
 

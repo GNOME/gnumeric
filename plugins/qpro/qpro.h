@@ -344,8 +344,7 @@ typedef enum {
 	QPRO_OP_FUNC_PROPERTY = 159,	/* @Property */
 	QPRO_OP_FUNC_DDELINK = 160,	/* @DDELink */
 	QPRO_OP_FUNC_COMMAND = 161,	/* @Command */
-	QPRO_OP_LAST_FUNC = 161,
-
+	QPRO_OP_LAST_FUNC = 161
 } QProOperators;
 
 

@@ -1,3 +1,9 @@
+2002-09-10  Morten Welinder  <terra@diku.dk>
+
+	* ms-escher.c: Make shade_ParamMask be within int's range by
+	casting it.
+	* ms-escher.c: Avoid trailing commas in enums.
+
 2002-09-05  Jody Goldberg <jody@gnome.org>
 
 	* ms-formula-write.c (ms_formula_write_pre_data) : remove some obvious

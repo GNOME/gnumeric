@@ -59,7 +59,7 @@ string_get (const char *s)
  * string_get_nocopy :
  *
  * Take control of the supplied string.
- * delete it if it is already availabl.e
+ * delete it if it is already available.
  */
 String *
 string_get_nocopy (char *s)

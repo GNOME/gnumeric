@@ -55,7 +55,7 @@ typedef enum {
 	GNM_SLIDE_X = 1,
 	GNM_SLIDE_Y = 2,
 	GNM_SLIDE_EXTERIOR_ONLY = 4,
-	GNM_SLIDE_AT_COLROW_BOUND = 8, /* not implemented */
+	GNM_SLIDE_AT_COLROW_BOUND = 8 /* not implemented */
 } GnumericSlideFlags;
 void	 gnm_canvas_slide_stop	(GnumericCanvas *gsheet);
 void	 gnm_canvas_slide_init	(GnumericCanvas *gsheet);

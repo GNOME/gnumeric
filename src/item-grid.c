@@ -58,7 +58,7 @@ static GnomeCanvasItemClass *item_grid_parent_class;
 enum {
 	ARG_0,
 	ARG_SHEET_CONTROL_GUI,
-	ARG_SHEET_BOUND,
+	ARG_SHEET_BOUND
 };
 typedef enum {
 	ITEM_GRID_NO_SELECTION,

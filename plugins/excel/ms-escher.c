@@ -827,7 +827,7 @@ typedef enum {
 	shape_LinesClosed = 1,  /* closed polygonal shape */
 	shape_Curves = 2,       /* Bezier curve segments */
 	shape_CurvesClosed = 3, /* A closed shape with curved edges */
-	shape_Complex = 4,      /* pSegmentInfo must be non-empty */
+	shape_Complex = 4       /* pSegmentInfo must be non-empty */
 } ShapePath;
 
 typedef enum {
@@ -835,7 +835,7 @@ typedef enum {
 	wrap_ByPoints = 1,
 	wrap_None = 2,
 	wrap_TopBottom = 3,
-	wrap_Through = 4,
+	wrap_Through = 4
 } WrapMode;
 
 typedef enum {
@@ -849,7 +849,7 @@ typedef enum {
 	bw_HighContrast = 7,   /* pure black and white mode (no grays) */
 	bw_Black = 7,          /* solid black */
 	bw_White = 8,          /* solid white */
-	bw_DontShow = 9,       /* object not drawn */
+	bw_DontShow = 9        /* object not drawn */
 } BlackWhiteMode;
 
 typedef enum {
@@ -885,20 +885,20 @@ typedef enum {
 	flow_BtoT = 2,	/* Bottom to Top non-@ */
 	flow_TtoBN = 3,	/* Top to Bottom non-@ */
 	flow_HorzA = 4,	/* Horizontal @-font */
-	flow_VertN = 5,	/* Vertical, non-@ */
+	flow_VertN = 5	/* Vertical, non-@ */
 } TextFlow;
 
 typedef enum {
 	textdir_LtoR = 0,
 	textdir_RtoL = 1,
-	textdir_Context = 2,	/* depends on context */
+	textdir_Context = 2	/* depends on context */
 } TextDirection;
 
 typedef enum {
 	callout_RightAngle = 1,
 	callout_OneSegment = 2,
 	callout_TwoSegment = 3,
-	callout_ThreeSegment = 4,
+	callout_ThreeSegment = 4
 } CalloutType;
 
 typedef enum {
@@ -915,7 +915,7 @@ typedef enum
 	callout_drop_Top = 0,
 	callout_drop_Center = 1,
 	callout_drop_Bottom = 2,
-	callout_drop_Specified = 3,
+	callout_drop_Specified = 3
 } CalloutDrop;
 
 /* Alignment - WordArt only */
@@ -932,7 +932,7 @@ typedef enum {
 typedef enum {
 	render_FullRender,
 	render_Wireframe,
-	render_BoundingCube,
+	render_BoundingCube
 } RenderMode;
 
 typedef enum {
@@ -947,7 +947,7 @@ typedef enum {
 	shadow_Rich,      /* Rich perspective shadow (cast relative to shape) */
 	shadow_Shape,     /* Rich perspective shadow (cast in shape space) */
 	shadow_Drawing,   /* Perspective shadow cast in drawing space */
-	shadow_EmbossOrEngrave,
+	shadow_EmbossOrEngrave
 } Shadow;
 
 /* LengthMeasure - the type of a (length) measurement */
@@ -963,7 +963,7 @@ typedef enum {
 	measure_FixedAspectEnlarge = 8,  /*  Aspect ratio is fixed, favor larger size */
 	measure_AFixedBig    = 9,  /* EMUs, fixed aspect ratio */
 	measure_VFixedBig    = 10, /* Pixels, fixed aspect ratio */
-	measure_ShapeFixedBig= 11, /* Proportion of shape, fixed aspect ratio */
+	measure_ShapeFixedBig= 11  /* Proportion of shape, fixed aspect ratio */
 } LengthMeasure;
 
 typedef enum {
@@ -993,7 +993,7 @@ typedef enum {
 	 * The Sigma shade style seems to hard code that to be 0x4000 ??
 	 */
 	shade_ParamShift = 16,
-	shade_ParamMask  = 0xffff0000,
+	shade_ParamMask  = (int)0xffff0000,
 
 	shade_Default = (shade_Gamma|shade_Sigma|(0x4000<<shade_ParamShift))
 } ShadeType;
@@ -1034,7 +1034,7 @@ typedef enum {
 	line_end_ArrowStealthEnd,
 	line_end_ArrowDiamondEnd,
 	line_end_ArrowOvalEnd,
-	line_end_ArrowOpenEnd,
+	line_end_ArrowOpenEnd
 } LineEndStyle;
 
 typedef enum {

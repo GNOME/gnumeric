@@ -43,7 +43,7 @@ static GnomeCanvasItem *item_edit_parent_class;
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_SHEET_CONTROL_GUI,	/* The SheetControlGUI * argument */
+	ARG_SHEET_CONTROL_GUI	/* The SheetControlGUI * argument */
 };
 
 static gboolean

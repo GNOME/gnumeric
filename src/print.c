@@ -254,7 +254,7 @@ print_page_repeated_intersect (PrintJobInfo const *pj, Sheet const *sheet,
 typedef enum {
 	LEFT_HEADER,
 	RIGHT_HEADER,
-	MIDDLE_HEADER,
+	MIDDLE_HEADER
 } HFSide;
 
 /*
