@@ -1,5 +1,9 @@
 2003-07-30  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* samples/test-math.gnumeric: add apostrophes around PASS and NO.
+	
+2003-07-30  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	* src/workbook-control-gui.c: Change verb name ToolsScenario to 
 	  ToolsScenarioAdd
 
