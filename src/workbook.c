@@ -5,7 +5,6 @@
 #include "gnumeric-util.h"
 #include "gnumeric-sheet.h"
 #include "dialogs.h"
-#include "xml-io.h"
 
 #include "pixmaps.h"
 
@@ -19,19 +18,37 @@
 Workbook *current_workbook;
 
 static void
-workbook_new_cmd (void)
+new_cmd (void)
 {
-	workbook_new_with_sheets (1);
+	Workbook *wb;
+	
+	wb = workbook_new_with_sheets (1);
+	gtk_widget_show (wb->toplevel);
 }
 
 static void
-workbook_open_cmd (void)
+open_cmd (void)
 {
+	char *fname = dialog_query_load_file ();
+	Workbook *wb;
+	
+	if (!fname)
+		return;
+	wb = gnumericReadXmlWorkbook (fname);
+	if (wb)
+		gtk_widget_show (wb->toplevel);
 }
 
 static void
-workbook_save_cmd (void)
+save_cmd (GtkWidget *widget, Workbook *wb)
 {
+	workbook_save (wb);
+}
+
+static void
+save_as_cmd (GtkWidget *widget, Workbook *wb)
+{
+	workbook_save_as (wb);
 }
 
 static void
@@ -73,12 +90,6 @@ static void
 quit_cmd (void)
 {
 	gtk_main_quit ();
-}
-
-static void
-save_cmd (GtkWidget *widget, Workbook *wb)
-{
-        gnumericWriteXmlWorkbook (wb, "default.wb");
 }
 
 static void
@@ -213,7 +224,13 @@ format_cells_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static GnomeUIInfo workbook_menu_file [] = {
+	{ GNOME_APP_UI_ITEM, N_("New"), NULL, new_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_NEW },
+	{ GNOME_APP_UI_ITEM, N_("Open"), NULL, open_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_OPEN },
 	{ GNOME_APP_UI_ITEM, N_("Save"), NULL, save_cmd, NULL, NULL,
+	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
+	{ GNOME_APP_UI_ITEM, N_("Save as..."), NULL, save_as_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_SAVE },
 	{ GNOME_APP_UI_ITEM, N_("Exit"), NULL, quit_cmd, NULL, NULL,
 	  GNOME_APP_PIXMAP_STOCK, GNOME_STOCK_MENU_EXIT },
@@ -276,13 +293,13 @@ static GnomeUIInfo workbook_menu [] = {
 static GnomeUIInfo workbook_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (N_("New"),
 				N_("Create a new sheet"),
-				workbook_new_cmd, GNOME_STOCK_PIXMAP_NEW),
+				new_cmd, GNOME_STOCK_PIXMAP_NEW),
 	GNOMEUIINFO_ITEM_STOCK (N_("Open"),
 				N_("Opens an existing workbook"),
-				workbook_open_cmd, GNOME_STOCK_PIXMAP_OPEN),
+				open_cmd, GNOME_STOCK_PIXMAP_OPEN),
 	GNOMEUIINFO_ITEM_STOCK (N_("Save"),
 				N_("Saves the workbook"),
-				workbook_save_cmd, GNOME_STOCK_PIXMAP_SAVE),
+				save_cmd, GNOME_STOCK_PIXMAP_SAVE),
 	GNOMEUIINFO_SEPARATOR,
 	GNOMEUIINFO_ITEM_STOCK (N_("Cut"),
 				N_("Cuts the selection to the clipboard"),

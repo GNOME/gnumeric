@@ -19,6 +19,8 @@ typedef struct {
 } StyleRegion;
 
 typedef struct {
+	char       *filename;
+	
 	GtkWidget  *toplevel;
 	GtkWidget  *notebook;
 	GtkWidget  *table;
@@ -267,6 +269,9 @@ void        sheet_selection_row_extend_to (Sheet *sheet, int row);
  */
 Workbook   *workbook_new                 (void);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
+
+void        workbook_save_as             (Workbook *);
+void        workbook_save                (Workbook *);
 void        workbook_attach_sheet        (Workbook *, Sheet *);
 Sheet      *workbook_focus_current_sheet (Workbook *wb);
 Sheet      *workbook_get_current_sheet   (Workbook *wb);

@@ -660,6 +660,7 @@ static void
 cell_properties_close (void)
 {
 	gtk_main_quit ();
+	gtk_widget_destroy (cell_format_prop_win);
 	cell_format_prop_win = 0;
 }
 

@@ -882,9 +882,9 @@ static Cell *readXmlCell(parseXmlContextPtr ctxt, xmlNodePtr tree) {
     xmlGetIntValue(tree, "Col", &col);
     xmlGetIntValue(tree, "Row", &row);
 
-    ret = sheet_cell_get(ctxt->sheet, row, col);
+    ret = sheet_cell_get(ctxt->sheet, col, row);
     if (ret == NULL)
-        ret = sheet_cell_new(ctxt->sheet, row, col);
+        ret = sheet_cell_new(ctxt->sheet, col, row);
     if (ret == NULL) return(NULL);
 
     if (tree->content != NULL)

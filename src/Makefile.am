@@ -17,9 +17,6 @@ GNUMERIC_BASE_SOURCES =		\
 	sheet.h			\
 	sheet-view.c		\
 	sheet-view.h		\
-	\
-	\
-	\
 	cell.h			\
 	cell.c			\
 	clipboard.c		\
@@ -34,6 +31,8 @@ GNUMERIC_BASE_SOURCES =		\
 	eval.c			\
 	expr.c			\
 	expr.h			\
+	file.c			\
+	file.h			\
 	func.c			\
 	func.h			\
 	fn-sheet.c		\
