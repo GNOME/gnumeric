@@ -1,12 +1,12 @@
 Gnumeric 1.1.12
 
-Andreas
-	* Hide hidden cells in groff/troff export
-	* Fix 78356
+Andreas:
+	* Hide hidden cells in groff/troff export.
+	* Fix 78356.
 
-Jody
-	* POISSON is defined for x == 0
-	* Start work on rotated text
+Jody:
+	* POISSON is defined for x == 0.
+	* Start work on rotated text.
 
 Morten:
 	* Spelling fixes all over.
@@ -20,8 +20,8 @@ J.H.M. Dassen (Ray):
 	* Updates to the build system.
 	* Some code janitor work.
 
-Olaf Till
-	* 2 new logarithmic regression functions, one of them
+Olaf Till:
+	* Two new logarithmic regression functions, one of them
 	  with nonlinear fitting of a horizontal curve shift.
 
 --------------------------------------------------------------------------
