@@ -55,6 +55,9 @@ entities =  about-authors.xml \
      legal.xml \
      manual-usage.xml \
      morehelp.xml \
+     print-worksheet-job.png \
+     print-worksheet-paper.png \
+     print-worksheet-printer.png \
      printing.xml \
      quick-start.xml \
      welcome.xml \
@@ -67,6 +70,3 @@ man_MANS = gnumeric.1 ssconvert.1
 EXTRA_DIST = $(man_MANS)
 
 include $(top_srcdir)/doc/gnumeric-doc.make
-     print-worksheet-job.png \
-     print-worksheet-paper.png \
-     print-worksheet-printer.png \
