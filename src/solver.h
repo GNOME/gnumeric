@@ -1,3 +1,26 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+/*
+ * solver.h: Solver's APIs and data structures.
+ *
+ * Author:
+ *  Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *
+ * (C) Copyright 2000, 2002 by Jukka-Pekka Iivonen <iivonen@iki.fi>
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
 #ifndef GNUMERIC_SOLVER_H
 #define GNUMERIC_SOLVER_H 1
 
@@ -177,26 +200,53 @@ typedef struct {
         SolverParameters *param;
 } SolverResults;
 
+
+/**************************************************************************
+ *
+ * The API functions to the Solver tool.
+ */
 
+/* Runs the solver.  Returs a pointer to a data structure containing
+ * the results of the run.  Note that it should be freed when no longer
+ * needed (by calling solver_results_free). */
 SolverResults    *solver               (WorkbookControl *wbc, Sheet *sheet,
 					gchar **errmsg);
+
+/* Creates the Solver's reports. */
 void             solver_reports        (WorkbookControl *wbc, Sheet *sheet,
 					SolverResults *res,
 					gboolean answer, gboolean sensitivity, 
 					gboolean limits, gboolean performance,
 					gboolean program, gboolean dual);
+
 char             *write_constraint_str (int lhs_col, int lhs_row,
 					int rhs_col, int rhs_row,
 					SolverConstraintType type,
 					int cols, int rows);
+
+/* Initializes the Solver's data structure containing the parameters.
+ * Each sheet can currently have one copy of this data structure. */
 SolverParameters *solver_param_new     (void);
+
+/* Frees the memory resources in the solver parameter structure. */
+void             solver_param_destroy  (SolverParameters *);
+
+/* Creates a copy of the Solver's data structures when a sheet is
+ * duplicated. */
 SolverParameters *solver_lp_copy       (const SolverParameters *src_param,
 					Sheet *new_sheet);
-void             solver_param_destroy  (SolverParameters *);
+
+/* Frees the data structure allocated for the results. */
 void             solver_results_free   (SolverResults *res);
 
+/* Returns a pointer to the target cell of the model attached to the
+ * given sheet. */
 Cell*            solver_get_target_cell (Sheet *sheet);
+
+/* Returns a pointer to a input variable cell. */
 Cell*            solver_get_input_var (SolverResults *res, int n);
+
+/* Retruns a pointer to a constraint. */
 SolverConstraint* solver_get_constraint (SolverResults *res, int n);
 
 
