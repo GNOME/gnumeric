@@ -11,6 +11,11 @@ Release Critical
 Long term breakage
 ------------------
 
+- In selected regions the borders of cells that
+  have their background color set are drawn incorrectly.
+  An off-by-one pixel problem. For details see :
+  http://bugzilla.gnome.org/show_bug.cgi?id=52240
+
 - XL import should honour style requests for full columns.
 
 - Format toolbar is too wide.  (The foreground colour combo has fallen
