@@ -1,3 +1,8 @@
+2003-03-26  Morten Welinder  <terra@diku.dk>
+
+	* src/style.c (style_font_string_width): Dont'ask for height just
+	to throw it away.
+
 2003-03-26  Jody Goldberg <jody@gnome.org>
 
 	* src/commands.c (command_register_undo) : handle 0 sized command

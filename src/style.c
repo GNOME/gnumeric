@@ -69,9 +69,9 @@ get_substitute_font (gchar const *fontname)
 int
 style_font_string_width (StyleFont const *font, char const *str)
 {
-	int w,h;
+	int w;
 	pango_layout_set_text (font->pango.layout, str, -1);
-	pango_layout_get_pixel_size (font->pango.layout,&w,&h);
+	pango_layout_get_pixel_size (font->pango.layout, &w, NULL);
 	return w;
 }
 
