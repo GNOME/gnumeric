@@ -1,3 +1,8 @@
+1998-09-21  Adrian Likins <adrian@gimp.org>
+
+	*src/fn-math.c: firat stab at fleshing out the help 
+	blurbs here.
+
 1998-09-21  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/expr.c (do_expr_decode_tree): When decoding a tree, include
