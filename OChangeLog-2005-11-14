@@ -1,5 +1,12 @@
 2004-04-07  Morten Welinder  <terra@gnome.org>
 
+	* src/gui-file.c (gui_file_read): Make sure new windows appear
+	on the right screen.
+	* src/wbcg-actions.c (cb_file_new): Make sure new windows appear
+	on the right screen.
+
+2004-04-07  Morten Welinder  <terra@gnome.org>
+
 	* src/wbcg-actions.c (cb_file_new): Copy toolbar visibility to new
 	window.
 	* src/gui-file.c (gui_file_read): Copy toolbar visibility to new

@@ -54,7 +54,7 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	WorkbookControl *new_wbc;
 	gboolean shared;
-	GdkScreen *screen = NULL;
+	GdkScreen *screen;
 	GSList *buttons = gtk_radio_button_get_group (state->location_elsewhere);
 
 	shared = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (glade_xml_get_widget (state->gui, "view_shared")));
@@ -88,7 +88,6 @@ cb_view_ok_clicked (G_GNUC_UNUSED GtkWidget *button,
 		screen = gdk_display_get_default_screen (display);
 	} else {
 		screen = g_object_get_data (buttons->data, "screen");
-		/* screen will be NULL for current screen.  */
 	}
 
 	gtk_widget_destroy (state->dialog);
@@ -163,10 +162,9 @@ dialog_new_view (WorkbookControlGUI *wbcg)
 
 			if (screen == this_screen)
 				gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
-			else
-				g_object_set_data (G_OBJECT (button),
-						   "screen",
-						   screen);
+
+			g_object_set_data (G_OBJECT (button),
+					   "screen", screen);
 
 			gtk_box_pack_start (box, button, TRUE, TRUE, 0);
 		}
