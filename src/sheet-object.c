@@ -464,13 +464,11 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 #endif
 
 	case SHEET_MODE_CREATE_BUTTON:
-		o = sheet_object_widget_new (
-			sheet, x1, y1, x2, y2, button_widget_create, NULL);
+		o = sheet_object_create_button (sheet, x1, y1, x2, y2);
 		break;
 		
 	case SHEET_MODE_CREATE_CHECKBOX:
-		o = sheet_object_widget_new (
-			sheet, x1, y1, x2, y2, checkbox_widget_create, NULL);
+		o = sheet_object_create_checkbox (sheet, x1, y1, x2, y2);
 		break;
 
 	case SHEET_MODE_SHEET:
@@ -862,7 +860,7 @@ control_point_handle_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject 
 
 	case GDK_MOTION_NOTIFY: {
 		double   *coords = so->bbox_points->coords;
-		double    dx, dy, zoom;
+		double    dx, dy;
 
 		if (!so->dragging)
 			return FALSE;

@@ -1374,6 +1374,9 @@ xml_write_sheet_object (parse_xml_context_t *ctxt, SheetObject *object)
 	case SHEET_OBJECT_LINE:
 		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Line", NULL);
 		break;
+
+	default :
+		cur = NULL;
 	}
 	if (cur == NULL)
 		return NULL;

@@ -1,3 +1,10 @@
+1999-09-22  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_write_sheet_object) : Avoid warning about
+	  unhandled object types.
+
+	* src/sheet-object.c (control_point_handle_event) : unused variable.
+
 1999-09-22  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/item-grid.c (item_grid_paint_empty_cell): I am now using a

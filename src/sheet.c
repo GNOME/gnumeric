@@ -301,7 +301,6 @@ sheet_set_zoom_factor (Sheet *sheet, double factor)
 		SheetView *sheet_view = l->data;
 
 		sheet_view_set_zoom_factor (sheet_view, factor);
-
 	}
 
 	for (cl = sheet->comment_list; cl; cl = cl->next){
