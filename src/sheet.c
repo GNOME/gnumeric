@@ -1919,6 +1919,8 @@ sheet_range_splits_region (Sheet const *sheet,
 
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			Range const *m = ptr->data;
+			if (ignore != NULL && range_contained (m, ignore))
+				continue;
 			if (!range_contained (m, r))
 				break;
 		}

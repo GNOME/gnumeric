@@ -1,3 +1,15 @@
+2001-05-06  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c (cb_merge_cells) : fragment the
+	  selection just in case.
+	(cb_unmerge_cells) : ditto.  Thanks Juan Pablo.
+
+	* src/commands.c (cmd_unmerge_cells) : remove ugly hack cast.
+	(cmd_merge_cells) : ditto.  DO NOT DO THAT !
+
+	* src/sheet.c (sheet_range_splits_region) : implement the optional
+	  ignore feature for merged regions too.
+
 2001-05-06  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/colrow.c (colrow_restore_sizes): Don't free things

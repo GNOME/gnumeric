@@ -114,7 +114,9 @@ cb_merge_cells (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	cmd_merge_cells (wbc, sheet, sheet->selections);
+	GSList *range_list = selection_get_ranges (sheet, FALSE);
+	cmd_merge_cells (wbc, sheet, range_list);
+	g_slist_free (range_list);
 }
 
 static void
@@ -122,7 +124,9 @@ cb_unmerge_cells (GtkWidget *ignore, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
-	cmd_unmerge_cells (wbc, sheet, sheet->selections);
+	GSList *range_list = selection_get_ranges (sheet, FALSE);
+	cmd_unmerge_cells (wbc, sheet, range_list);
+	g_slist_free (range_list);
 }
 
 /*

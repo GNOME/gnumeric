@@ -64,9 +64,9 @@ gboolean cmd_colrow_outline_change (WorkbookControl *wbc, Sheet *sheet,
 				    gboolean is_cols, int index, int depth);
 
 gboolean cmd_merge_cells	(WorkbookControl *wbc, Sheet *sheet,
-				 GList const *selection);
+				 GSList const *selection);
 gboolean cmd_unmerge_cells	(WorkbookControl *wbc, Sheet *sheet,
-				 GList const *selection);
+				 GSList const *selection);
 
 gboolean cmd_search_replace     (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr);
 

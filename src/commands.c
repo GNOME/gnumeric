@@ -2886,7 +2886,7 @@ cmd_unmerge_cells_destroy (GtkObject *cmd)
  * Return value: TRUE if there was a problem
  **/
 gboolean
-cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
+cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 {
 	GtkObject *obj;
 	CmdUnmergeCells *me;
@@ -2900,7 +2900,7 @@ cmd_unmerge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
 	me->parent.sheet = sheet;
 	me->parent.size = 1;
 
-	names = range_list_to_string ((GSList *) selection);
+	names = range_list_to_string (selection);
 	me->parent.cmd_descriptor = g_strdup_printf (_("Unmerging %s"), names->str);
 	g_string_free (names, TRUE);
 	
@@ -3014,7 +3014,7 @@ cmd_merge_cells_destroy (GtkObject *cmd)
  * Return value: TRUE if there was a problem
  **/
 gboolean
-cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
+cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GSList const *selection)
 {
 	GtkObject *obj;
 	CmdMergeCells *me;
@@ -3028,7 +3028,7 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
 	me->parent.sheet = sheet;
 	me->parent.size = 1;
 
-	names = range_list_to_string ((GSList *) (selection));
+	names = range_list_to_string (selection);
 	me->parent.cmd_descriptor = g_strdup_printf (_("Merging %s"),
 						     names->str);
 	g_string_free (names, TRUE);
