@@ -36,6 +36,7 @@
 #include "streams.h"
 #include "excel-gb-application.h"
 #include "excel-gb-worksheet.h"
+#include "excel-gb-context.h"
 #include "../excel/excel.h"
 
 #ifndef MAP_FAILED
@@ -171,7 +172,9 @@ read_gb (gpointer            *jody_broke_the_context,
 	/* FIXME: leak for Morten */
 	wd = g_new0 (GBWorkbookData, 1);
 
-	wd->ec = gbrun_eval_context_new ("Gnumeric GB plugin", GBRUN_SEC_HARD);
+	wd->ec = GBRUN_EVAL_CONTEXT (
+		excel_gb_context_new (
+			"Gnumeric GB plugin", GBRUN_SEC_HARD));
 
 	gb_proj = gb_project_new (GB_EVAL_CONTEXT (wd->ec), proj_stream);
 	if (!gb_proj) {

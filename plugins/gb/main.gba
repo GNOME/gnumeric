@@ -13,6 +13,11 @@ Function proxyCos (value As Double) As Double
 	proxyCos = WorksheetFunction.Cos (value)
 End Function
 
+Sub color (r As Range, pattern As Integer, color As Long)
+	r.Interior.PatternColor = color
+	r.Interior.Pattern      = pattern
+End Sub
+
 Function demo () As Variant
 	Dim WKS As Worksheet
 
@@ -20,18 +25,18 @@ Function demo () As Variant
 
 ' Draw 'Gnu' with the selection
 
-	WKS.Range ("C4").Select
-	WKS.Range ("B5:B8").Select
-	WKS.Range ("C9").Select
-	WKS.Range ("D7:D8").Select
+	color (WKS.Range ("C4"), 1, vbBlue)
+	color (WKS.Range ("B5:B8"), 1, vbBlue)
+	color (WKS.Range ("C9"), 1, vbBlue)
+	color (WKS.Range ("D7:D8"), 1, vbBlue)
 
-	WKS.Range ("F6:F9").Select
-	WKS.Range ("G6").Select
-	WKS.Range ("H7:H9").Select
+	color (WKS.Range ("F6:F9"), 1, vbGreen)
+	color (WKS.Range ("G6"), 1, vbGreen)
+	color (WKS.Range ("H7:H9"), 1, vbGreen)
 
-	WKS.Range ("J6:J9").Select
-	WKS.Range ("K9").Select
-	WKS.Range ("L6:L9").Select
+	color (WKS.Range ("J6:J9"), 1, vbRed)
+	color (WKS.Range ("K9"), 1, vbRed)
+	color (WKS.Range ("L6:L9"), 1, vbRed)
 
 ' Draw two rows of 'Not Unix'
 
@@ -52,9 +57,20 @@ Function demo () As Variant
 
 ' Make a little area of random numbers
 
+	col = 0
+
 	For y = 11 To 19
 		For x = 1 To 11
-			WKS.Cells (x, y).Value = rnd ()
+			r = WKS.Cells (x, y)
+
+			r.Value = rnd ()
+			r.Interior.Pattern = 1
+			r.Interior.PatternColorIndex = col
+			If col < 56 Then
+				col = col + 1
+			Else
+				col = 0
+			End If
 		Next x
 	Next y
 

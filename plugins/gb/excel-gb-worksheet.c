@@ -17,8 +17,14 @@
 #include "excel-gb-worksheet-function.h"
 #include "excel-gb-worksheet.h"
 #include "excel-gb-range.h"
+#include "excel-gb-selection.h"
 
 #define ITEM_NAME "gb-worksheet"
+
+enum {
+	FIRST_ARG = 0,
+	NAME = 1
+};
 
 static GBValue *
 excel_gb_worksheet_range (GBRunEvalContext *ec,
@@ -57,6 +63,63 @@ excel_gb_worksheet_activecell (GBRunEvalContext *ec,
 
 	if (range)
 		return gb_value_new_object (GB_OBJECT (range));
+	else
+		return NULL;
+}
+
+static gboolean
+excel_gb_worksheet_set_arg (GBRunEvalContext *ec,
+			    GBRunObject      *object,
+			    int               property,
+			    GBValue          *val)
+{
+	ExcelGBWorksheet *worksheet = EXCEL_GB_WORKSHEET (object);
+	
+	switch (property) {
+		
+	case NAME:
+		sheet_rename (worksheet->sheet, val->v.s->str);
+		return TRUE;
+	
+	default:
+		g_warning ("Unhandled property '%d'", property);
+		return FALSE;
+	}
+}
+
+static GBValue *
+excel_gb_worksheet_get_arg (GBRunEvalContext *ec,
+			    GBRunObject      *object,
+			    int               property)
+{
+	ExcelGBWorksheet *worksheet = EXCEL_GB_WORKSHEET (object);
+
+	switch (property) {
+		
+	case NAME: {
+		return (gb_value_new_string_chars (worksheet->sheet->name_unquoted));
+		break;
+	}
+	default:
+		g_warning ("Unhandled property '%d'", property);
+		return NULL;
+	}
+}
+
+static GBValue *
+excel_gb_worksheet_selection (GBRunEvalContext *ec,
+			      GBRunObject      *object,
+			      GBValue         **args)
+{
+	Sheet            *sheet;
+	ExcelGBSelection *selection;
+
+	sheet = EXCEL_GB_WORKSHEET (object)->sheet;
+
+	selection = excel_gb_selection_new (sheet);
+
+	if (selection)
+		return gb_value_new_object (GB_OBJECT (selection));
 	else
 		return NULL;
 }
@@ -100,17 +163,25 @@ excel_gb_worksheet_class_init (GBRunObjectClass *klass)
 {
 	GBRunObjectClass *gbrun_class = (GBRunObjectClass *) klass;
 
+	gbrun_class->set_arg = excel_gb_worksheet_set_arg;
+	gbrun_class->get_arg = excel_gb_worksheet_get_arg;
+	
 	gbrun_object_add_method_arg (gbrun_class, "func;range;range,string;range;n",
 				     excel_gb_worksheet_range);
 
 	gbrun_object_add_method_arg (gbrun_class, "func;activecell;.;range;n",
 				     excel_gb_worksheet_activecell);
 
+	gbrun_object_add_method_arg (gbrun_class, "func;selection;.;range;n",
+				     excel_gb_worksheet_selection);
+
 	gbrun_object_add_method_arg (gbrun_class, "func;cells;col,long;row,long;range;n",
 				     excel_gb_worksheet_cells);
 
 	gbrun_object_add_method_arg (gbrun_class, "func;worksheetfunction;.;worksheetfunction;n",
 				     excel_gb_worksheet_function);
+	gbrun_object_add_property (gbrun_class, "name",
+				   gb_type_string, NAME);
 }
 
 GtkType

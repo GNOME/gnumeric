@@ -21,6 +21,7 @@
 #include <gbrun/libgbrun.h>
 
 #include "excel-gb-range.h"
+#include "excel-gb-interior.h"
 #include "common.h"
 
 #define ITEM_NAME "VB.Range"
@@ -167,6 +168,22 @@ excel_gb_range_clear (GBRunEvalContext *ec,
 	return gb_value_new_empty ();
 }
 
+static GBValue *
+excel_gb_range_interior (GBRunEvalContext *ec,
+			 GBRunObject      *object,
+			 GBValue         **args)
+{
+	ExcelGBRange    *range = EXCEL_GB_RANGE (object);
+	ExcelGBInterior *interior;
+
+	interior = excel_gb_interior_new (range->sheet, range->range);
+
+	if (interior)
+		return gb_value_new_object (GB_OBJECT (interior));
+	else
+		return NULL;
+}
+
 static void
 excel_gb_range_class_init (GBRunObjectClass *klass)
 {
@@ -187,6 +204,8 @@ excel_gb_range_class_init (GBRunObjectClass *klass)
 	gbrun_object_add_method_arg (gbrun_class, "sub;select;.;n",
 				     excel_gb_range_select);
 
+	gbrun_object_add_method_arg (gbrun_class, "func;interior;.;range;n",
+				     excel_gb_range_interior);
 	/*
 	 * Delete, HasFormula, Row, Col, Activate, WorkSheet
 	 */

@@ -12,8 +12,14 @@ gnum_gb_la_SOURCES =			\
 	common.h			\
 	excel-gb-application.c		\
 	excel-gb-application.h		\
+	excel-gb-context.c		\
+	excel-gb-context.h		\
+	excel-gb-interior.c		\
+	excel-gb-interior.h		\
 	excel-gb-range.c		\
 	excel-gb-range.h		\
+	excel-gb-selection.c		\
+	excel-gb-selection.h		\
 	excel-gb-worksheet.c		\
 	excel-gb-worksheet.h		\
 	excel-gb-worksheet-function.c	\

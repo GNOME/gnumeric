@@ -1,5 +1,18 @@
 2000-11-02  Michael Meeks  <michael@helixcode.com>
 
+	* excel-gb-range.c (excel_gb_range_interior): add.
+
+2000-11-02  Thomas Meeks  <thomas@imaginator.com>
+
+	* excel-gb-interior.[ch]: Create.
+
+	* excel-gb-selection.[ch]: Create.
+
+	* excel-gb-worksheet.c (excel_gb_worksheet_set_arg): add
+	the 'Name' property.
+
+2000-11-02  Michael Meeks  <michael@helixcode.com>
+
 	* excel-gb-range.c (excel_gb_range_clear): cripple this function
 	until the command context is sorted out.
 
