@@ -10,9 +10,16 @@ Release Critical
 Pending Patches
 ---------------
     - ?? more work on D&D based sheet reorg ?
-    - XIM menu http://bugzilla.gnome.org/show_bug.cgi?id=84062
+
+    http://bugzilla.gnome.org/show_bug.cgi?id=84062
+    - XIM menu
+
+    http://bugzilla.gnome.org/show_bug.cgi?id=101304
+    http://bugzilla.gnome.org/show_bug.cgi?id=101762
     - move format generation out of dialog
-    - Fit-to printing: http://bugzilla.gnome.org/show_bug.cgi?id=67822
+
+    http://bugzilla.gnome.org/show_bug.cgi?id=67822
+    - Fit-to printing
 
 1.2 Targets
 -----------

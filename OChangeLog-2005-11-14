@@ -1,3 +1,11 @@
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* configure.in : post release version bump
+
+2002-12-22  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.13
+
 2002-12-20  Jody Goldberg <jody@gnome.org>
 
 	* src/stf-parse.c (stf_parse_sheet) : use cell_set_value and simplify.
