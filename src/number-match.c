@@ -89,7 +89,8 @@ typedef enum {
 	MATCH_NUMBER		= 12,
 	MATCH_NUMBER_DECIMALS	= 13,
 	MATCH_PERCENT		= 14,
-	MATCH_STRING_CONSTANT	= 15,
+	MATCH_SKIP		= 15,
+	MATCH_STRING_CONSTANT	= 16,
 } MatchType;
 
 #define append_type(t) do { guint8 x = t; match_types = g_byte_array_append (match_types, &x, 1); } while (0)
@@ -195,6 +196,7 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 			}
 			format--;
 
+			append_type (MATCH_NUMBER);
 			if (include_sep) {
 				/* Not strictly correct.
 				 * There should be a limit of 1-3 digits.
@@ -208,10 +210,10 @@ format_create_regexp (unsigned char const *format, GByteArray **dest)
 				g_string_append (regexp, "([-+]?[0-9]+(\\");
 				g_string_append_c (regexp, thousands_sep);
 				g_string_append (regexp, "[0-9]{3})*)");
+				append_type (MATCH_SKIP);
 			} else
 				g_string_append (regexp, "([-+]?[0-9]+)");
 
-			append_type (MATCH_NUMBER);
 			if (include_decimal) {
 				g_string_append (regexp, "?(\\");
 				g_string_append_c (regexp, decimal);
@@ -724,7 +726,7 @@ compute_value (char const *s, const regmatch_t *mp,
 	gboolean is_number  = FALSE;
 	gboolean is_pm      = FALSE;
 	gboolean is_explicit_am = FALSE;
-	int idx = 1, i;
+	int i;
 	int month, day, year, year_short;
 	int hours, minutes;
 	gnum_float seconds;
@@ -736,15 +738,14 @@ compute_value (char const *s, const regmatch_t *mp,
 	hours = minutes = -1;
 	seconds = -1.;
 
-	for (i = 0; i < len; i++) {
+	for (i = 0; i < len; ) {
 		MatchType type = *(data++);
 		char *str;
 
-		str = extract_text (s, &mp[idx]);
-
+		str = extract_text (s, &mp[++i]);
 
 #ifdef DEBUG_NUMBER_MATCH
-		printf ("Item %d is a %d\n", idx, type);
+		printf ("Item[%d] = \'%s\' is a %d\n", i, str, type);
 #endif
 		switch (type) {
 		case MATCH_MONTH_FULL:
@@ -752,12 +753,10 @@ compute_value (char const *s, const regmatch_t *mp,
 			if (month == -1)
 				return FALSE;
 			month++;
-			idx++;
 			break;
 
 		case MATCH_MONTH_NUMBER:
 			month = atoi (str);
-			idx++;
 			break;
 
 		case MATCH_MONTH_SHORT:
@@ -765,17 +764,14 @@ compute_value (char const *s, const regmatch_t *mp,
 			if (month == -1)
 				return FALSE;
 			month++;
-			idx++;
 			break;
 
 		case MATCH_DAY_FULL:
 			/* FIXME: handle weekday */
-			idx++;
 			break;
 
 		case MATCH_DAY_NUMBER:
 			day = atoi (str);
-			idx++;
 			break;
 
 		case MATCH_NUMBER:
@@ -803,12 +799,6 @@ compute_value (char const *s, const regmatch_t *mp,
 				} while (*(ptr++) == thousands_sep);
 				is_number = TRUE;
 			}
-
-			/* HACK : if we've seen seconds this is a different regexp */
-			if (seconds < 0)
-				idx += 2;
-			else
-				idx++;
 			break;
 
 		case MATCH_NUMBER_DECIMALS:
@@ -825,32 +815,26 @@ compute_value (char const *s, const regmatch_t *mp,
 
 		case MATCH_HOUR:
 			hours = atoi (str);
-			idx++;
 			break;
 
 		case MATCH_MINUTE:
 			minutes = atoi (str);
-			idx++;
 			break;
 
 		case MATCH_SECOND:
 			seconds = atoi (str);
-			idx++;
 			break;
 
 		case MATCH_PERCENT:
 			percentify = TRUE;
-			idx++;
 			break;
 
 		case MATCH_YEAR_FULL:
 			year = atoi (str);
-			idx++;
 			break;
 
 		case MATCH_YEAR_SHORT:
 			year_short = atoi (str);
-			idx++;
 			break;
 
 		case MATCH_AMPM:
@@ -858,12 +842,15 @@ compute_value (char const *s, const regmatch_t *mp,
 				is_pm = TRUE;
 			else
 				is_explicit_am = TRUE;
-			idx++;
+			break;
+
+		case MATCH_SKIP:
 			break;
 
 		case MATCH_STRING_CONSTANT:
+		default :
 			g_warning ("compute_value: This should not happen\n");
-			idx++;
+			break;
 		}
 
 		g_free (str);
@@ -1086,6 +1073,22 @@ format_match (char const *text, StyleFormat *cur_fmt,
 		if (cur_fmt->regexp_str != NULL &&
 		    regexec (&cur_fmt->regexp, text, NM, mp, 0) != REG_NOMATCH &&
 		    compute_value (text, mp, cur_fmt->match_tags, &result)) {
+#ifdef DEBUG_NUMBER_MATCH
+		{
+			int i;
+			printf ("matches expression: %s %s\n", cur_fmt->format, cur_fmt->regexp_str);
+			for (i = 0; i < NM; i++) {
+				char *p;
+
+				if (mp[i].rm_so == -1)
+					break;
+
+				p = extract_text (text, &mp[i]);
+				printf ("%d %d->%s\n", mp[i].rm_so, mp[i].rm_eo, p);
+			}
+		}
+#endif
+
 			if (matching_format)
 				*matching_format = cur_fmt;
 			return value_new_float (result);
@@ -1103,7 +1106,7 @@ format_match (char const *text, StyleFormat *cur_fmt,
 		gboolean b;
 		StyleFormat *fmt = l->data;
 #ifdef DEBUG_NUMBER_MATCH
-		printf ("test: %s \'%s\'\n", fp->format_str, fp->regexp_str);
+		printf ("test: %s \'%s\'\n", fmt->format, fmt->regexp_str);
 #endif
 		if (regexec (&fmt->regexp, text, NM, mp, 0) == REG_NOMATCH)
 			continue;

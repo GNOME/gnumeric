@@ -1,3 +1,11 @@
+2001-09-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/number-match.c (format_create_regexp) : fix matching for
+	  non-separated numbers.  This still needs work.  The regexp is
+	  not handling the precision.
+	(compute_value) : improve debug output.
+	(format_match) : ditto.
+
 2001-09-21  Jody Goldberg <jgoldberg@home.com>
 
 	* src/clipboard.c (cellregion_to_string) : don't append tabs or
