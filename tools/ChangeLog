@@ -1,3 +1,7 @@
+2003-05-13  Morten Welinder  <terra@gnome.org>
+
+	* import-R: Import qnbinom.c also.
+
 2003-05-12  Morten Welinder  <terra@gnome.org>
 
 	* import-pcre: Fix a bunch of ABRs on the fly.  (Reported upstream
