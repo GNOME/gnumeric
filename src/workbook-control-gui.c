@@ -695,6 +695,52 @@ wbcg_undo_redo_push (WorkbookControl *wbc, char const *text, gboolean is_undo)
 }
 
 static void
+change_menu_sensitivity (
+#ifndef ENABLE_BONOBO
+		   GtkWidget *menu_item,
+#else
+		   WorkbookControlGUI const *wbcg,
+		   char const *verb_path,
+		   char const *menu_path, /* FIXME we need verb level labels. */
+#endif
+		   gboolean sensitive)
+{
+#ifndef ENABLE_BONOBO
+	g_return_if_fail (menu_item != NULL);
+
+	gtk_widget_set_sensitive (menu_item, sensitive);
+#else
+	CORBA_Environment  ev;
+
+	g_return_if_fail (wbcg != NULL);
+
+	CORBA_exception_init (&ev);
+	bonobo_ui_component_set_prop (wbcg->uic, verb_path,
+				      "sensitive", sensitive ? "1" : "0", &ev);
+	CORBA_exception_free (&ev);	
+#endif
+}
+
+static void
+wbcg_insert_cols_rows_enable (WorkbookControl *wbc, gboolean col, gboolean enable)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	g_return_if_fail (wbcg != NULL);
+
+#ifndef ENABLE_BONOBO
+	if (col) 
+		change_menu_sensitivity (wbcg->menu_item_insert_cols, enable);
+	else
+		change_menu_sensitivity (wbcg->menu_item_insert_rows, enable);
+#else
+	if (col)
+		change_menu_sensitivity (wbcg, "/commands/InsertCols", "/menu/Insert/Cols", enable);
+	else
+		change_menu_sensitivity (wbcg, "/commands/InsertRows", "/menu/Insert/Rows", enable);
+#endif
+}
+
+static void
 change_menu_label (
 #ifndef ENABLE_BONOBO
 		   GtkWidget *menu_item,
@@ -3066,9 +3112,11 @@ workbook_control_gui_init (WorkbookControlGUI *wbcg,
 	/* Get the menu items that will be enabled disabled based on
 	 * workbook state.
 	 */
-	wbcg->menu_item_undo	  = workbook_menu_edit[0].widget;
-	wbcg->menu_item_redo	  = workbook_menu_edit[1].widget;
+	wbcg->menu_item_undo	      = workbook_menu_edit[0].widget;
+	wbcg->menu_item_redo	      = workbook_menu_edit[1].widget;
 	wbcg->menu_item_paste_special = workbook_menu_edit[6].widget;
+	wbcg->menu_item_insert_rows   = workbook_menu_insert[1].widget;
+	wbcg->menu_item_insert_cols   = workbook_menu_insert[2].widget;
 #else
 	bonobo_window_set_contents (BONOBO_WINDOW (wbcg->toplevel), wbcg->table);
 
@@ -3189,6 +3237,8 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 	wbc_class->undo_redo.push     = wbcg_undo_redo_push;
 	wbc_class->undo_redo.labels   = wbcg_undo_redo_labels;
 
+	wbc_class->insert.cols_rows_enable = wbcg_insert_cols_rows_enable;
+	
 	wbc_class->paste.special_enable = wbcg_paste_special_enable;
 	wbc_class->paste.from_selection = wbcg_paste_from_selection;
 	wbc_class->claim_selection	= wbcg_claim_selection;

@@ -14,6 +14,7 @@
 #include "ranges.h"
 #include "application.h"
 #include "command-context.h"
+#include "workbook-control.h"
 #include "workbook-view.h"
 #include "workbook.h"
 #include "commands.h"
@@ -502,7 +503,9 @@ sheet_selection_add_range (Sheet *sheet,
 			   int base_col, int base_row,
 			   int move_col, int move_row)
 {
+	GList *list;
 	Range *ss;
+	gboolean do_rows, do_cols;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -513,6 +516,28 @@ sheet_selection_add_range (Sheet *sheet,
 				      edit_col, edit_row,
 				      base_col, base_row,
 				      move_col, move_row, TRUE);
+
+	/*
+	 * Now see if there is some selection which selects a
+	 * whole row, a whole column or the whole sheet and de-activate
+	 * insert row/cols accordingly.
+	 */
+	do_rows = do_cols = TRUE;
+	for (list = sheet->selections; list && (do_cols || do_rows); list = list->next){
+		Range *r = list->data;
+
+		if (do_rows && r->start.row == 0 && r->end.row == SHEET_MAX_ROWS - 1) {
+			WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+						  wb_control_insert_cols_rows_enable (control, FALSE, FALSE););
+			do_rows = FALSE;
+		}
+
+		if (do_cols && r->start.col == 0 && r->end.col == SHEET_MAX_COLS - 1) {
+			WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+						  wb_control_insert_cols_rows_enable (control, TRUE, FALSE););
+			do_cols = FALSE;
+		}
+	}	
 }
 
 void
@@ -570,6 +595,12 @@ sheet_selection_reset_only (Sheet *sheet)
 	}
 
 	g_list_free (list);
+
+	/* Make sure we re-enable the insert col/rows menu items */
+	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+				  wb_control_insert_cols_rows_enable (control, FALSE, TRUE););
+	WORKBOOK_FOREACH_CONTROL (sheet->workbook, view, control,
+				  wb_control_insert_cols_rows_enable (control, TRUE, TRUE););
 }
 
 static void

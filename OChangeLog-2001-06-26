@@ -1,3 +1,27 @@
+2001-01-22  Almer S. Tigelaar  <almer1@dds.nl>
+
+	Fixes #32417
+	
+	* src/workbook-control-gui.c, src/workbook-control-gui-priv.h:
+	(wbcg_insert_cols_rows_enable): New, handles enabling/disabling
+	of insert cols/rows menu items.
+	(change_menu_sensitivity): New, for settings the sensitivity
+	of menu items.
+	(workbook_control_gui_ctor_class): Add insert_cols_rows.enable
+	here.
+	
+	* src/workbook-control.c, src/workbook-control.h: Add 
+	insert_cols_rows_enable as a virtual function.
+
+	* src/workbook-control-priv.h: Add struct for insert_cols_rows
+	here.
+	
+	* src/selection.c 
+	(sheet_selection_add_range): After adding a range, find out if 
+	any range specifies either a whole row or whole col selection 
+	and disable insert rows/cols accordingly.
+	(sheet_selection_reset_only): Re-enable insert rows/cols here.
+
 2001-01-18  Morten Welinder  <terra@diku.dk>
 
 	* src/search.c (search_replace_verify, search_replace_string): New

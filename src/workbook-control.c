@@ -95,6 +95,10 @@ WBC_VIRTUAL_FULL (undo_redo_labels, undo_redo.labels,
 	(WorkbookControl *wbc, char const *undo, char const *redo),
 	(wbc, undo, redo))
 
+WBC_VIRTUAL_FULL (insert_cols_rows_enable, insert.cols_rows_enable,
+	(WorkbookControl *wbc, gboolean col, gboolean enable),
+	(wbc, col, enable))
+
 WBC_VIRTUAL_FULL (paste_special_enable, paste.special_enable,
 	(WorkbookControl *wbc, gboolean enable), (wbc, enable))
 WBC_VIRTUAL_FULL (paste_from_selection, paste.from_selection,

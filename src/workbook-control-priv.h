@@ -42,6 +42,10 @@ typedef struct {
 				 char const *undo, char const *redo);
 	} undo_redo;
 	struct {
+		void (*cols_rows_enable) (WorkbookControl *wbc, gboolean col,
+					  gboolean enable);
+	} insert;
+	struct {
 		void (*special_enable) (WorkbookControl *wbc, gboolean enable);
 		void (*from_selection) (WorkbookControl *wbc,
 					PasteTarget const *pt, guint32 time);

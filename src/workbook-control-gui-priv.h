@@ -26,7 +26,9 @@ struct _WorkbookControlGUI {
 	GtkWidget  *menu_item_undo;
 	GtkWidget  *menu_item_redo;
 	GtkWidget  *menu_item_paste_special;
-
+	GtkWidget  *menu_item_insert_rows;
+	GtkWidget  *menu_item_insert_cols;
+	
 	/* Toolbars */
 	GtkWidget *standard_toolbar;
 	GtkWidget *format_toolbar;
