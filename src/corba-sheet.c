@@ -110,7 +110,7 @@ Sheet_cursor_set (PortableServer_Servant servant,
 	verify ((base_row >= start_row) && (base_row <= end_row) &&
 		(base_col >= start_col) && (base_col <= end_col));
 
-	sheet_cursor_set (sheet, base_col, base_row, start_col, start_row, end_col, end_row);
+	sheet_selection_set (sheet, base_col, base_row, start_col, start_row, end_col, end_row);
 }
 
 static void
@@ -121,7 +121,7 @@ Sheet_cursor_move (PortableServer_Servant servant, const CORBA_long col, const C
 	verify_col (col);
 	verify_row (row);
 
-	sheet_cursor_set (sheet, col, row, col, row, col, row);
+	sheet_selection_set (sheet, col, row, col, row, col, row);
 }
 
 static void

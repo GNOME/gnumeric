@@ -53,9 +53,9 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 {
 	Sheet *sheet = gsheet->scg->sheet;
 	WorkbookControlGUI *wbcg = gsheet->scg->wbcg;
-	void (*movefn_horizontal) (SheetControlGUI *, int, gboolean);
-	void (*movefn_vertical)   (SheetControlGUI *, int, gboolean);
 	gboolean const jump_to_bounds = event->state & GDK_CONTROL_MASK;
+	void (*movefn) (SheetControlGUI *, int n,
+			gboolean jump, gboolean horiz);
 
 	/* Magic : Some of these are accelerators,
 	 * we need to catch them before entering because they appear to be printable
@@ -73,42 +73,34 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			return 1;
 		}
 
-		if (event->state & GDK_SHIFT_MASK) {
-			movefn_horizontal = scg_rangesel_extend_h;
-			movefn_vertical   = scg_rangesel_extend_v;
-		} else {
-			movefn_horizontal = scg_rangesel_move_h;
-			movefn_vertical   = scg_rangesel_move_v;
-		}
+		movefn = (event->state & GDK_SHIFT_MASK)
+			? scg_rangesel_extend
+			: scg_rangesel_move;
 	} else {
-		if (event->state & GDK_SHIFT_MASK) {
-			movefn_horizontal = scg_cursor_extend_h;
-			movefn_vertical   = scg_cursor_extend_v;
-		} else {
-			movefn_horizontal = scg_cursor_move_h;
-			movefn_vertical   = scg_cursor_move_v;
-		}
+		movefn = (event->state & GDK_SHIFT_MASK)
+			? scg_cursor_extend
+			: scg_cursor_move;
 	}
 
 	switch (event->keyval) {
 	case GDK_KP_Left:
 	case GDK_Left:
-		(*movefn_horizontal)(gsheet->scg, -1, jump_to_bounds);
+		(*movefn) (gsheet->scg, -1, jump_to_bounds, TRUE);
 		break;
 
 	case GDK_KP_Right:
 	case GDK_Right:
-		(*movefn_horizontal)(gsheet->scg, 1, jump_to_bounds);
+		(*movefn) (gsheet->scg, 1, jump_to_bounds, TRUE);
 		break;
 
 	case GDK_KP_Up:
 	case GDK_Up:
-		(*movefn_vertical)(gsheet->scg, -1, jump_to_bounds);
+		(*movefn) (gsheet->scg, -1, jump_to_bounds, FALSE);
 		break;
 
 	case GDK_KP_Down:
 	case GDK_Down:
-		(*movefn_vertical)(gsheet->scg, 1, jump_to_bounds);
+		(*movefn) (gsheet->scg, 1, jump_to_bounds, FALSE);
 		break;
 
 	case GDK_KP_Page_Up:
@@ -116,15 +108,13 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_prev_page (wbcg->notebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0)
-			(*movefn_vertical)(
-				gsheet->scg,
-				-(gsheet->row.last_visible-gsheet->row.first),
-				FALSE);
+			(*movefn)( gsheet->scg,
+				   -(gsheet->row.last_visible-gsheet->row.first),
+				   FALSE, FALSE);
 		else
-			(*movefn_horizontal)(
-				gsheet->scg,
-				-(gsheet->col.last_visible-gsheet->col.first),
-				FALSE);
+			(*movefn)(gsheet->scg,
+				  -(gsheet->col.last_visible-gsheet->col.first),
+				  FALSE, TRUE);
 		break;
 
 	case GDK_KP_Page_Down:
@@ -132,24 +122,21 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		if ((event->state & GDK_CONTROL_MASK) != 0)
 			gtk_notebook_next_page (wbcg->notebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0)
-			(*movefn_vertical)(
-				gsheet->scg,
-				gsheet->row.last_visible-gsheet->row.first,
-				FALSE);
+			(*movefn)(gsheet->scg,
+				  gsheet->row.last_visible-gsheet->row.first,
+				  FALSE, FALSE);
 		else
-			(*movefn_horizontal)(
-				gsheet->scg,
-				gsheet->col.last_visible-gsheet->col.first,
-				FALSE);
+			(*movefn)(gsheet->scg,
+				  gsheet->col.last_visible-gsheet->col.first,
+				  FALSE, TRUE);
 		break;
 
 	case GDK_KP_Home:
 	case GDK_Home:
-		if ((event->state & GDK_CONTROL_MASK) != 0)
-			scg_cursor_move (gsheet->scg, 0, 0, TRUE);
-		else
-			(*movefn_horizontal)(
-				gsheet->scg, -sheet->edit_pos.col, FALSE);
+		/* do the ctrl-home jump to A1 in 2 steps */
+		(*movefn)(gsheet->scg, -SHEET_MAX_COLS, FALSE, TRUE);
+		if ((event->state & GDK_CONTROL_MASK))
+			(*movefn)(gsheet->scg, -SHEET_MAX_ROWS, FALSE, FALSE);
 		break;
 
 	case GDK_KP_Delete:

@@ -97,10 +97,6 @@ void        sheet_set_zoom_factor	(Sheet *sheet, double factor,
 void        sheet_cursor_set		(Sheet *sheet,
 					 int edit_col, int edit_row,
 					 int base_col, int base_row,
-					 int move_col, int move_row);
-void        sheet_cursor_set_full	(Sheet *sheet,
-					 int edit_col, int edit_row,
-					 int base_col, int base_row,
 					 int move_col, int move_row,
 					 Range const *cursor_bound);
 void        sheet_set_edit_pos		(Sheet *sheet, int col, int row);

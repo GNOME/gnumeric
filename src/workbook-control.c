@@ -27,6 +27,7 @@
 #include "gnumeric-type-util.h"
 #include "parse-util.h"
 #include "sheet.h"
+#include "selection.h"
 #include "commands.h"
 
 #include <gnome.h> /* Ick.  This is required to get _("") */
@@ -178,11 +179,14 @@ workbook_parse_and_jump (WorkbookControl *wbc, const char *text)
 {
 	int col, row;
 
-	if (parse_cell_name (text, &col, &row, TRUE, NULL)){
+	/* FIXME : handle inter-sheet jumps too */
+	if (parse_cell_name (text, &col, &row, TRUE, NULL)) {
 		Sheet *sheet = wb_control_cur_sheet (wbc);
-		sheet_cursor_set (sheet, col, row, col, row, col, row);
+		sheet_selection_set (sheet, col, row, col, row, col, row);
 		sheet_make_cell_visible (sheet, col, row);
 		return TRUE;
+	} else {
+		/* TODO : create a name */
 	}
 
 	gnumeric_error_invalid (COMMAND_CONTEXT (wbc), _("Address"), text);

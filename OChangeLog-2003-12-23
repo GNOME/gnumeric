@@ -1,3 +1,87 @@
+2001-05-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/selection.c (sheet_selection_set_internal) : split this out into.
+	* src/sheet-merge.c (sheet_merge_find_container) : here.
+	* src/sheet-control-gui.c (scg_rangesel_changed) : and here.
+
+2001-05-08  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c (xml_read_selection_info) : Use sheet_set_edit_pos.
+
+	* src/selection.c (sheet_selection_extend) : merge into
+	  scg_cursor_extend.
+
+	* src/sheet-control-gui.c (scg_cursor_move_to) : rename from
+	  scg_cursor_move.
+	(scg_cursor_extend) : merge scg_cursor_extend_[hv]
+	(scg_cursor_move) : merge scg_cursor_move_[hv]
+	(scg_rangesel_extend) : merge scg_rangesel_extend_[hv]
+	(scg_rangesel_move) : merge scg_rangesel_move_[hv]
+	(scg_rangesel_start) : cleanup.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : fix handling
+	  of Home. Simplify the function pointers for move vs extend by
+	  merging horizontal and vertical versions.
+
+2001-05-08  Jody Goldberg <jgoldberg@home.com>
+
+	s/scg_stop_range_selection/scg_rangesel_stop/
+
+	s/scg_set_cursor_bounds/scg_cursor_bound/
+	s/scg_cursor_vertical_extend/scg_cursor_extend_v/
+	s/scg_cursor_horizontal_extend/scg_cursor_extend_h/
+	s/scg_cursor_vertical_move/scg_cursor_move_v/
+	s/scg_cursor_horizontal_move/scg_cursor_move_h/
+	s/scg_cursor_vertical_extend/scg_rangesel_extend_v/
+	s/scg_cursor_horizontal_extend/scg_rangesel_extend_h/
+	s/scg_cursor_vertical_move/scg_rangesel_move_v/
+	s/scg_cursor_horizontal_move/scg_rangesel_move_h/
+
+	* src/sheet-control-gui.[ch] : Move the rangesel info from
+	  gnumeric-sheet into here in preparation for panes.
+	(scg_rangesel_extend_v) : merge content from
+	  gnumeric-sheet equivalent.
+	(scg_rangesel_extend_h) : ditto.
+	(scg_rangesel_move_v) : ditto.
+	(scg_rangesel_move_h) : ditto.
+	(scg_rangesel_start) : ditto.
+	(scg_rangesel_stop) : ditto.
+	(start_range_selection) : moved from gnumeric-sheet.
+	(scg_rangesel_possible) : renamed from
+	    gnumeric_sheet_can_select_expr_range.
+	(scg_rangesel_changed) : renamed from scg_range_selection_changed
+	  and make this the point that rationalizes the cursor points.
+	(scg_cursor_bound) : renamed from scg_set_cursor_bounds
+	  and make this the point that raionalizes the cursor points.
+	(scg_ant) : changes to item_cursor_set_bounds.
+	(scg_colrow_select) : rangesel support is now in scg.
+	(scg_select_all) : ditto.
+
+	* src/workbook-edit.c : cleanup includes.
+
+	* src/item-grid.c (item_grid_event) : rangesel support is now in scg.
+	(item_grid_button_1) : ditto.
+
+	* src/item-cursor.h : privatize the structure and class.
+
+	* src/item-cursor.c (cb_autofill_scroll) : changes to
+	  item_cursor_set_bounds_visibly signature.
+	(cb_move_cursor) : ditto.
+	(item_cursor_set_bounds_visibly) : changes to item_cursor_set_bounds
+	  signature.
+	(item_cursor_selection_event) : ditto.
+	(item_cursor_set_bounds) : simplify.
+
+	* src/item-bar.c (is_pointer_on_division) : rangesel support is now in scg.
+
+	* src/gnumeric-sheet.[ch] : move the rangesel logic up into scg.
+
+2001-05-08  Jody Goldberg <jgoldberg@home.com>
+
+	From Juan Pablo Mendoza <pablo_juan@yahoo.com>
+	* src/sheet.c: (sheet_clone_colrow_info): Clone col and row
+	  default size.
+
 2001-05-08  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/colrow.c (colrow_restore_sizes_group): Restore

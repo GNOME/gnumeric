@@ -137,40 +137,8 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 	});
 }
 
-/*
- * sheet_selection_extend
- * @sheet              : Sheet to operate in.
- * @n                  : Units to extend the selection
- * @jump_to_boundaries : Move to transitions between cells and blanks,
- *                       or move in single steps.
- * @horizontal         : extend vertically or horizontally.
- */
-void
-sheet_selection_extend (Sheet *sheet, int n, gboolean jump_to_boundaries,
-			gboolean const horizontal)
-{
-	/* Use a tmp variable so that the extend_to routine knows that the
-	 * selection has actually changed.
-	 */
-	CellPos tmp = sheet->cursor.move_corner;
-
-	if (horizontal)
-		tmp.col = sheet_find_boundary_horizontal (sheet,
-				tmp.col, tmp.row,
-				sheet->cursor.base_corner.row,
-				n, jump_to_boundaries);
-	else
-		tmp.row = sheet_find_boundary_vertical (sheet,
-				tmp.col, tmp.row,
-				sheet->cursor.base_corner.col,
-				n, jump_to_boundaries);
-
-	sheet_selection_extend_to (sheet, tmp.col, tmp.row);
-	sheet_make_cell_visible (sheet, tmp.col, tmp.row);
-}
-
 gboolean
-sheet_is_all_selected (Sheet const * const sheet)
+sheet_is_all_selected (Sheet const *sheet)
 {
 	Range *ss;
 	GList *l;
@@ -190,7 +158,7 @@ sheet_is_all_selected (Sheet const * const sheet)
 }
 
 gboolean
-sheet_is_cell_selected (Sheet const * const sheet, int col, int row)
+sheet_is_cell_selected (Sheet const *sheet, int col, int row)
 {
 	GList *list;
 
@@ -223,7 +191,7 @@ sheet_selection_redraw (Sheet const *sheet)
  * TRUE : If the range overlaps with any part of the selection
  */
 gboolean
-sheet_is_range_selected (Sheet const * const sheet, Range const *r)
+sheet_is_range_selected (Sheet const *sheet, Range const *r)
 {
 	GList *list;
 
@@ -240,7 +208,7 @@ sheet_is_range_selected (Sheet const * const sheet, Range const *r)
  * TRUE : If entire range is contained in the selection
  */
 gboolean
-sheet_is_full_range_selected (Sheet const * const sheet, Range const *r)
+sheet_is_full_range_selected (Sheet const *sheet, Range const *r)
 {
 	GList *list;
 
@@ -260,9 +228,7 @@ sheet_selection_set_internal (Sheet *sheet,
 			      int move_col, int move_row,
 			      gboolean just_add_it)
 {
-	GSList *merged, *ptr;
 	GList *list;
-	gboolean changed;
 	Range *ss;
 	Range old_sel, new_sel;
 	gboolean do_cols, do_rows;
@@ -277,32 +243,7 @@ sheet_selection_set_internal (Sheet *sheet,
 	new_sel.end.col = MAX(base_col, move_col);
 	new_sel.end.row = MAX(base_row, move_row);
 
-	/* expand to include any merged regions */
-	do {
-		changed = FALSE;
-		merged = sheet_merge_get_overlap (sheet, &new_sel);
-		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
-			Range const *r = ptr->data;
-			if (new_sel.start.col > r->start.col) {
-				new_sel.start.col = r->start.col;
-				changed = TRUE;
-			}
-			if (new_sel.start.row > r->start.row) {
-				new_sel.start.row = r->start.row;
-				changed = TRUE;
-			}
-			if (new_sel.end.col < r->end.col) {
-				new_sel.end.col = r->end.col;
-				changed = TRUE;
-			}
-			if (new_sel.end.row < r->end.row) {
-				new_sel.end.row = r->end.row;
-				changed = TRUE;
-			}
-		}
-		g_slist_free (merged);
-	} while (changed);
-
+	sheet_merge_find_container (sheet, &new_sel);
 	if (!just_add_it && range_equal (ss, &new_sel))
 		return;
 
@@ -310,10 +251,10 @@ sheet_selection_set_internal (Sheet *sheet,
 	*ss = new_sel;
 
 	/* Set the cursor boundary */
-	sheet_cursor_set_full (sheet,
-			       edit_col, edit_row,
-			       base_col, base_row,
-			       move_col, move_row, ss);
+	sheet_cursor_set (sheet,
+			  edit_col, edit_row,
+			  base_col, base_row,
+			  move_col, move_row, ss);
 
 	if (just_add_it) {
 		sheet_redraw_range (sheet, &new_sel);
@@ -640,7 +581,7 @@ sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
  * @allow_intersection : Divide the selection into nonoverlapping subranges.
  */
 GSList *
-selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
+selection_get_ranges (Sheet const *sheet, gboolean allow_intersection)
 {
 	GList  *l;
 	GSList *proposed = NULL;
@@ -1167,8 +1108,8 @@ loop :
 
 void
 sheet_selection_walk_step (Sheet *sheet,
-			   gboolean const forward,
-			   gboolean const horizontal)
+			   gboolean forward,
+			   gboolean horizontal)
 {
 	int selections_count;
 	CellPos destination;
@@ -1249,7 +1190,7 @@ sheet_selection_walk_step (Sheet *sheet,
 			sheet_cursor_set (sheet,
 					  destination.col, destination.row,
 					  ss->start.col, ss->start.row,
-					  ss->end.col, ss->end.row);
+					  ss->end.col, ss->end.row, NULL);
 	}
 
 	sheet_set_edit_pos (sheet, destination.col, destination.row);

@@ -335,3 +335,42 @@ sheet_merge_relocate (ExprRelocateInfo const *ri)
 	}
 	g_slist_free (to_move);
 }
+
+/**
+ * sheet_merge_find_container
+ * @sheet : sheet
+ * @r     : the range to test
+ */
+void
+sheet_merge_find_container (Sheet const *sheet, Range *target)
+{
+	gboolean changed;
+	GSList *merged, *ptr;
+
+	/* expand to include any merged regions */
+	do {
+		changed = FALSE;
+		merged = sheet_merge_get_overlap (sheet, target);
+		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
+			Range const *r = ptr->data;
+			if (target->start.col > r->start.col) {
+				target->start.col = r->start.col;
+				changed = TRUE;
+			}
+			if (target->start.row > r->start.row) {
+				target->start.row = r->start.row;
+				changed = TRUE;
+			}
+			if (target->end.col < r->end.col) {
+				target->end.col = r->end.col;
+				changed = TRUE;
+			}
+			if (target->end.row < r->end.row) {
+				target->end.row = r->end.row;
+				changed = TRUE;
+			}
+		}
+		g_slist_free (merged);
+	} while (changed);
+
+}

@@ -1,3 +1,7 @@
+2001-05-08  Jody Goldberg <jgoldberg@home.com>
+
+	* numtheory.c (WORD_BIT) : suppress warning.
+
 2001-03-17  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.64

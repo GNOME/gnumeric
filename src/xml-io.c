@@ -517,17 +517,16 @@ xml_read_selection_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 		return;
 
 	sheet_selection_reset (sheet);
-	for (sel = selections->xmlChildrenNode; sel; sel = sel->next) {
+	for (sel = selections->xmlChildrenNode; sel; sel = sel->next)
 		if (xml_read_range (sel, &r))
 			sheet_selection_add_range (sheet,
 						   r.start.col, r.start.row,
 						   r.start.col, r.start.row,
 						   r.end.col, r.end.row);
-	}
 
 	if (xml_get_value_int (tree, "CursorCol", &col) &&
 	    xml_get_value_int (tree, "CursorRow", &row))
-		sheet_cursor_set (sheet, col, row, col, row, col, row);
+		sheet_set_edit_pos (sheet, col, row);
 }
 
 static void

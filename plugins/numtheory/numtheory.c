@@ -21,7 +21,7 @@
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 #ifndef WORD_BIT
-#define WORD_BIT (sizeof (int) * CHAR_BIT)
+#define WORD_BIT ((int)(sizeof (int) * CHAR_BIT))
 #endif
 
 #define OUT_OF_BOUNDS "#LIMIT!"

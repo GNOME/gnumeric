@@ -2907,41 +2907,13 @@ sheet_set_edit_pos (Sheet *sheet, int col, int row)
 	}
 }
 
+
 void
 sheet_cursor_set (Sheet *sheet,
 		  int edit_col, int edit_row,
 		  int base_col, int base_row,
-		  int move_col, int move_row)
-{
-	g_return_if_fail (IS_SHEET (sheet));
-
-#if 0
-	fprintf (stderr, "extend to %s%d\n", col_name (col), row+1);
-	fprintf (stderr, "edit %s%d\n", col_name (sheet->edit_pos.col), sheet->edit_pos.row+1);
-	fprintf (stderr, "base %s%d\n", col_name (sheet->cursor.base_corner.col), sheet->cursor.base_corner.row+1);
-	fprintf (stderr, "move %s%d\n", col_name (sheet->cursor.move_corner.col), sheet->cursor.move_corner.row+1);
-#endif
-
-	/* Change the edit position */
-	sheet_set_edit_pos (sheet, edit_col, edit_row);
-
-	sheet->cursor.base_corner.col = base_col;
-	sheet->cursor.base_corner.row = base_row;
-	sheet->cursor.move_corner.col = move_col;
-	sheet->cursor.move_corner.row = move_row;
-
-	SHEET_FOREACH_CONTROL(sheet, scg,
-		scg_cursor_bound (scg,
-				  &sheet->cursor.base_corner,
-				  &sheet->cursor.move_corner););
-}
-
-void
-sheet_cursor_set_full (Sheet *sheet,
-		       int edit_col, int edit_row,
-		       int base_col, int base_row,
-		       int move_col, int move_row,
-		       Range const *cursor_bound)
+		  int move_col, int move_row,
+		  Range const *cursor_bound)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -2953,10 +2925,17 @@ sheet_cursor_set_full (Sheet *sheet,
 	sheet->cursor.move_corner.col = move_col;
 	sheet->cursor.move_corner.row = move_row;
 
-	SHEET_FOREACH_CONTROL(sheet, scg,
-		scg_cursor_bound (scg,
-				  &cursor_bound->start,
-				  &cursor_bound->end););
+	if (cursor_bound != NULL) {
+		SHEET_FOREACH_CONTROL(sheet, scg,
+			scg_cursor_bound (scg,
+					  &cursor_bound->start,
+					  &cursor_bound->end););
+	} else {
+		SHEET_FOREACH_CONTROL(sheet, scg,
+			scg_cursor_bound (scg,
+					  &sheet->cursor.base_corner,
+					  &sheet->cursor.move_corner););
+	}
 }
 
 void

@@ -133,27 +133,19 @@ void	 scg_rangesel_cursor_extend (SheetControlGUI *scg, int col, int row);
 void	 scg_rangesel_cursor_bounds (SheetControlGUI *scg,
 				     int base_col, int base_row,
 				     int move_col, int move_row);
-void	 scg_rangesel_move_h	    (SheetControlGUI *scg, int dir,
-				     gboolean jump_to_boundaries);
-void	 scg_rangesel_move_v	    (SheetControlGUI *scg, int dir,
-				     gboolean jump_to_boundaries);
-void	 scg_rangesel_extend_h	    (SheetControlGUI *scg, int n,
-				     gboolean jump_to_boundaries);
-void	 scg_rangesel_extend_v	    (SheetControlGUI *scg, int n,
-				     gboolean jump_to_boundaries);
+void	 scg_rangesel_move	    (SheetControlGUI *scg, int dir,
+				     gboolean jump_to_bound, gboolean horiz);
+void	 scg_rangesel_extend	    (SheetControlGUI *scg, int n,
+				     gboolean jump_to_bound, gboolean horiz);
 
-void scg_cursor_bound	 (SheetControlGUI *scg,
-			  CellPos const *base, CellPos const *move);
-void scg_cursor_move     (SheetControlGUI *Scg, int col, int row,
-			  gboolean clear_selection);
-void scg_cursor_move_h   (SheetControlGUI *scg, int dir,
-			  gboolean jump_to_boundaries);
-void scg_cursor_move_v   (SheetControlGUI *scg, int dir,
-			  gboolean jump_to_boundaries);
-void scg_cursor_extend_h (SheetControlGUI *scg, int n,
-			  gboolean jump_to_boundaries);
-void scg_cursor_extend_v (SheetControlGUI *scg, int n,
-			  gboolean jump_to_boundaries);
+void scg_cursor_bound	(SheetControlGUI *scg,
+			 CellPos const *base, CellPos const *move);
+void scg_cursor_move_to (SheetControlGUI *Scg, int col, int row,
+			 gboolean clear_selection);
+void scg_cursor_move    (SheetControlGUI *scg, int dir,
+			 gboolean jump_to_bound, gboolean horiz);
+void scg_cursor_extend  (SheetControlGUI *scg, int n,
+			 gboolean jump_to_bound, gboolean horiz);
 
 /* FIXME : Move these around to a more reasonable location */
 SheetControlGUI *sheet_new_scg (Sheet *sheet);
