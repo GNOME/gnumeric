@@ -598,8 +598,10 @@ gnumeric_plugin_loader_python_func_get_full_function_info (PluginService *servic
                                                            gchar **args_ptr,
                                                            gchar **arg_names_ptr,
                                                            gchar ***help_ptr,
-                                                           FunctionArgs **fn_args_ptr,
-                                                           FunctionNodes **fn_nodes_ptr)
+                                                           FunctionArgs	 *fn_args_ptr,
+                                                           FunctionNodes *fn_nodes_ptr,
+							   FuncLinkHandle   *link,
+							   FuncUnlinkHandle *unlink)
 {
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *fn_info_obj;
@@ -630,6 +632,8 @@ gnumeric_plugin_loader_python_func_get_full_function_info (PluginService *servic
 			                                               python_fn, fn_name);
 			*fn_args_ptr = &call_python_function_args;
 			*fn_nodes_ptr = NULL;
+			*link = NULL;
+			*unlink = NULL;
 			return TRUE;
 		} else {
 			clear_python_error_if_needed ();

@@ -516,43 +516,43 @@ static const char *help_opt_bs_vega = {
 ModulePluginFunctionInfo derivatives_functions[] = {
 	{"opt_bs_call",
 	 "fffff", "strike, price, volatility, days_to_maturity, rate",
-	 &help_opt_bs_call, func_opt_bs_call},
+	 &help_opt_bs_call, func_opt_bs_call, NULL, NULL, NULL },
 
 	{"opt_bs_put",
 	 "fffff", "strike, price, volatility, days_to_maturity, rate",
-	 &help_opt_bs_put, func_opt_bs_put},
+	 &help_opt_bs_put, func_opt_bs_put, NULL, NULL, NULL },
 
 	{"opt_bs_call_delta",
 	 "fffff", "strike, price, volatility, days_to_maturity, rate",
-	 &help_opt_bs_call_delta, func_opt_bs_call_delta},
+	 &help_opt_bs_call_delta, func_opt_bs_call_delta, NULL, NULL, NULL },
 
 	{"opt_bs_put_delta",
 	 "fffff", "strike, price, volatility, days_to_maturity, rate",
-	 &help_opt_bs_put_delta, func_opt_bs_put_delta},
+	 &help_opt_bs_put_delta, func_opt_bs_put_delta, NULL, NULL, NULL },
 
 	{"opt_bs_call_rho",
 	 "fffff", "strike, price, volatility, days_to_maturity, rate",
-	 &help_opt_bs_call_rho, func_opt_bs_call_rho},
+	 &help_opt_bs_call_rho, func_opt_bs_call_rho, NULL, NULL, NULL },
 
 	{"opt_bs_put_rho",
 	 "fffff", "strike, price, volatility, days_to_maturity, rate",
-	 &help_opt_bs_put_rho, func_opt_bs_put_rho},
+	 &help_opt_bs_put_rho, func_opt_bs_put_rho, NULL, NULL, NULL },
 
 	{"opt_bs_call_theta",
 	 "fffff", "strike, price, volatility, days_to_maturity, rate",
-	 &help_opt_bs_call_theta, func_opt_bs_call_theta},
+	 &help_opt_bs_call_theta, func_opt_bs_call_theta, NULL, NULL, NULL },
 
 	{"opt_bs_put_theta",
 	 "fffff", "strike, price, volatility, days_to_maturity, rate",
-	 &help_opt_bs_put_theta, func_opt_bs_put_theta},
+	 &help_opt_bs_put_theta, func_opt_bs_put_theta, NULL, NULL, NULL },
 
 	{"opt_bs_gamma",
 	 "fffff", "strike, price, volatility, days_to_maturity, rate",
-	 &help_opt_bs_gamma, func_opt_bs_gamma},
+	 &help_opt_bs_gamma, func_opt_bs_gamma, NULL, NULL, NULL },
 
 	{"opt_bs_vega",
 	 "fffff", "strike, price, volatility, days_to_maturity, rate",
-	 &help_opt_bs_vega, func_opt_bs_vega},
+	 &help_opt_bs_vega, func_opt_bs_vega, NULL, NULL, NULL },
 
 	{NULL}
 };
