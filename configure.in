@@ -727,6 +727,7 @@ po/Makefile.in
 templates/Makefile
 templates/english/Makefile
 templates/autoformat/Makefile
+tools/Makefile
 macros/Makefile
 stamp.h
 ])

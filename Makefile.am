@@ -1,4 +1,4 @@
-SUBDIRS = . intl po macros idl src plugins doc icons templates
+SUBDIRS = . intl po macros idl src plugins doc icons templates tools
 
 XML_I18N_XML_KIND = --pass-through
 

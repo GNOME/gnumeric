@@ -7,11 +7,10 @@
 # Takeshi Aihana <aihana@gnome.gr.jp>, 2000-2001.
 # 
 #: src/main.c:108
-#, no-wrap
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.99.0\n"
-"POT-Creation-Date: 2001-12-14 23:38+0900\n"
+"POT-Creation-Date: 2001-12-14 18:21-0500\n"
 "PO-Revision-Date: 2001-12-14 23:42+0900\n"
 "Last-Translator: Takeshi Aihana <aihana@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
@@ -491,6 +490,7 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
+#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -1039,7 +1039,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "一定間隔で現在の文書を自動的に保存します"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2673 src/workbook-format-toolbar.c:840
+#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:840
 #: src/workbook-format-toolbar.c:896
 msgid "Background"
 msgstr "背景"
@@ -1329,7 +1329,7 @@ msgstr "フォントのサイズを変更します"
 msgid "Font selector"
 msgstr "フォントを変更します"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2668
+#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2694
 #: src/workbook-format-toolbar.c:865 src/workbook-format-toolbar.c:899
 msgid "Foreground"
 msgstr "背景"
@@ -3398,7 +3398,7 @@ msgstr "何か値                     (検証なし)"
 msgid "Background Color"
 msgstr "背景色"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2663
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2689
 msgid "Border"
 msgstr "罫線"
 
@@ -3480,8 +3480,8 @@ msgstr "左下がり斜線の縞"
 msgid "Display the value exactly as it was entered"
 msgstr "入力された通りに値を表示します"
 
-#: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:1280
-#: src/dialogs/dialog-cell-format.c:1340
+#: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:1306
+#: src/dialogs/dialog-cell-format.c:1366
 msgid "Double"
 msgstr "二重"
 
@@ -3559,8 +3559,8 @@ msgstr "メッセージ :"
 msgid "Negat_ive number:"
 msgstr "負数(_I):"
 
-#: src/dialogs/cell-format.glade.h:61 src/dialogs/dialog-cell-format.c:1282
-#: src/dialogs/dialog-cell-format.c:1338 src/dialogs/dialog-paste-special.c:34
+#: src/dialogs/cell-format.glade.h:61 src/dialogs/dialog-cell-format.c:1308
+#: src/dialogs/dialog-cell-format.c:1364 src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "なし"
 
@@ -3581,7 +3581,7 @@ msgstr "方向"
 msgid "Outline"
 msgstr "外枠"
 
-#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2678
+#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2704
 msgid "Pattern"
 msgstr "パターン"
 
@@ -3614,8 +3614,8 @@ msgid "Shrin_k to fit"
 msgstr "セルに合わせて縮小"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1278
-#: src/dialogs/dialog-cell-format.c:1339
+#: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1304
+#: src/dialogs/dialog-cell-format.c:1365
 msgid "Single"
 msgstr "一重"
 
@@ -4713,30 +4713,30 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
-#: src/dialogs/dialog-cell-format.c:2127 src/dialogs/dialog-cell-format.c:2136
+#: src/dialogs/dialog-cell-format.c:2153 src/dialogs/dialog-cell-format.c:2162
 msgid "Minimum :"
 msgstr "最小 :"
 
-#: src/dialogs/dialog-cell-format.c:2128 src/dialogs/dialog-cell-format.c:2140
+#: src/dialogs/dialog-cell-format.c:2154 src/dialogs/dialog-cell-format.c:2166
 msgid "Maximum :"
 msgstr "最大 :"
 
-#: src/dialogs/dialog-cell-format.c:2132
+#: src/dialogs/dialog-cell-format.c:2158
 msgid "Value :"
 msgstr "値 :"
 
-#: src/dialogs/dialog-cell-format.c:2597
+#: src/dialogs/dialog-cell-format.c:2623
 msgid "Format Cells"
 msgstr "セルの書式設定"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2663 src/dialogs/dialog-cell-format.c:2668
-#: src/dialogs/dialog-cell-format.c:2678 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2689 src/dialogs/dialog-cell-format.c:2694
+#: src/dialogs/dialog-cell-format.c:2704 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:858
 msgid "Automatic"
 msgstr "自動"
 
-#: src/dialogs/dialog-cell-format.c:2673 src/workbook-format-toolbar.c:833
+#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:833
 msgid "Clear Background"
 msgstr "背景を消去"
 

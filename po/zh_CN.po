@@ -2,10 +2,11 @@
 # Copyright (C) 1998-2001 Free Software Foundation, Inc.
 # Dillion Chen <dillon.chen@turbolinux.com.cn>, 2001.
 # Donald Park <xlpark@kankou.cs.uec.ac.jp>, 2001.
+#: src/main.c:108
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.70\n"
-"POT-Creation-Date: 2001-11-18 21:49-0500\n"
+"POT-Creation-Date: 2001-12-14 18:21-0500\n"
 "PO-Revision-Date: 2001-08-10 11:05-0400\n"
 "Last-Translator: Donald Park <xlpark@kankou.cs.uec.ac.jp>\n"
 "Language-Team: Chinese Team\n"
@@ -43,8 +44,8 @@ msgstr "财政金融"
 msgid "Functions related to financial derivatives"
 msgstr ""
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4466
-#: plugins/mps/mps.c:571 src/xml-io.c:3433
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
+#: plugins/mps/mps.c:571 src/xml-io.c:3425
 msgid "Reading file..."
 msgstr "读文件..."
 
@@ -142,7 +143,7 @@ msgstr "#UNKNOWN!"
 
 # src/workbook.c:1810 src/workbook.c:1838
 #: plugins/excel/ms-excel-read.c:563 plugins/lotus-123/lotus.c:190
-#: plugins/oleo/oleo.c:377 plugins/psiconv/psiconv-read.c:496
+#: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:496
 #, c-format
 msgid "Sheet%d"
 msgstr "工作页%d"
@@ -162,33 +163,33 @@ msgstr ""
 msgid "Module%d"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:4461
+#: plugins/excel/ms-excel-read.c:4460
 msgid "No book or workbook streams found."
 msgstr "没有发现账本或者工作账本流"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4625
+#: plugins/excel/ms-excel-read.c:4624
 msgid "Password protected workbooks are not supported yet."
 msgstr "用口令保护的工作账本还未支持"
 
-#: plugins/excel/ms-excel-read.c:4738
+#: plugins/excel/ms-excel-read.c:4737
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "不能找到有效的微软 Excel 工作账本"
 
-#: plugins/excel/ms-excel-write.c:3479
+#: plugins/excel/ms-excel-write.c:3504
 #, fuzzy, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "对这种格式有太多的行数"
 
-#: plugins/excel/ms-excel-write.c:3707
+#: plugins/excel/ms-excel-write.c:3732
 msgid "Can't open stream for writing\n"
 msgstr "不能打开写入流\n"
 
-#: plugins/excel/ms-formula-read.c:644
+#: plugins/excel/ms-formula-read.c:642
 msgid "Broken function"
 msgstr "失效的函数"
 
-#: plugins/excel/ms-formula-read.c:1413
+#: plugins/excel/ms-formula-read.c:1411
 msgid " Unknown formula"
 msgstr "未知的公式"
 
@@ -298,7 +299,7 @@ msgstr ""
 #: src/functions/fn-information.c:766 src/functions/fn-information.c:794
 #: src/functions/fn-information.c:821 src/functions/fn-information.c:872
 #: src/functions/fn-information.c:902 src/functions/fn-information.c:969
-#: src/functions/fn-logical.c:194 src/functions/fn-string.c:322
+#: src/functions/fn-logical.c:194 src/functions/fn-string.c:323
 msgid "Invalid number of arguments"
 msgstr "引数个数错误"
 
@@ -353,14 +354,10 @@ msgid "Import/Export of HTML, TeX, DVI, roff"
 msgstr ""
 
 #: plugins/html/plugin.xml.in.h:7
-msgid "LaTeX 2.09 (*.tex)"
+msgid "LaTeX 2e (*.tex)"
 msgstr ""
 
 #: plugins/html/plugin.xml.in.h:8
-msgid "LaTeX2e (*.tex)"
-msgstr ""
-
-#: plugins/html/plugin.xml.in.h:9
 msgid "TROFF (*.me)"
 msgstr ""
 
@@ -1090,7 +1087,7 @@ msgid "Aligns the contents to the left and increases the indent"
 msgstr "内容左边对齐并增加缩排"
 
 # src/workbook.c:765
-#: src/GNOME_Gnumeric.xml.h:6 src/workbook-object-toolbar.c:171
+#: src/GNOME_Gnumeric.xml.h:6 src/workbook-object-toolbar.c:176
 msgid "Arrow"
 msgstr "箭头"
 
@@ -1118,7 +1115,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "在正常间隔内自动存储当前文档"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2673 src/workbook-format-toolbar.c:840
+#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:840
 #: src/workbook-format-toolbar.c:896
 msgid "Background"
 msgstr "背景"
@@ -1137,7 +1134,7 @@ msgstr "边框线"
 
 # src/dialog-cell-format.c:370
 #: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:413
-#: src/workbook-object-toolbar.c:149
+#: src/workbook-object-toolbar.c:154
 msgid "Button"
 msgstr "按钮"
 
@@ -1196,7 +1193,7 @@ msgstr "改变所显示表格的顺序"
 msgid "Change width of the selected columns"
 msgstr "改变所选择列的宽度"
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:153
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:158
 msgid "Checkbox"
 msgstr "检查盒"
 
@@ -1311,7 +1308,7 @@ msgid "Create an arrow"
 msgstr "创建一个箭头"
 
 # src/item-grid.c:526 src/workbook.c:847
-#: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1316
+#: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1390
 #: src/workbook-control-gui.c:2584
 msgid "Cu_t"
 msgstr "剪下(_T)"
@@ -1431,7 +1428,7 @@ msgstr "字体大小"
 msgid "Font selector"
 msgstr "字体选择"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2668
+#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2694
 #: src/workbook-format-toolbar.c:865 src/workbook-format-toolbar.c:899
 msgid "Foreground"
 msgstr "前景色"
@@ -1452,7 +1449,7 @@ msgstr "格式化所选择的单元作为百分比"
 
 # src/plugin-manager.c:95 src/plugin-manager.c:96
 #: src/GNOME_Gnumeric.xml.h:85 src/sheet-object-widget.c:316
-#: src/workbook-object-toolbar.c:144
+#: src/workbook-object-toolbar.c:149
 msgid "Frame"
 msgstr "桢"
 
@@ -1599,7 +1596,7 @@ msgid "Jump to a specified cell"
 msgstr "调到指定的单元"
 
 #: src/GNOME_Gnumeric.xml.h:118 src/sheet-object-widget.c:219
-#: src/workbook-object-toolbar.c:141
+#: src/workbook-object-toolbar.c:146
 msgid "Label"
 msgstr "标签"
 
@@ -1615,12 +1612,12 @@ msgstr "每一个单元的内容向左对齐"
 
 # src/workbook.c:879
 #: src/GNOME_Gnumeric.xml.h:121 src/dialogs/cell-format.glade.h:56
-#: src/workbook-object-toolbar.c:168
+#: src/workbook-object-toolbar.c:173
 msgid "Line"
 msgstr "直线"
 
 #: src/GNOME_Gnumeric.xml.h:122 src/dialogs/cell-format.glade.h:57
-#: src/workbook-object-toolbar.c:162
+#: src/workbook-object-toolbar.c:167
 msgid "List"
 msgstr "列表"
 
@@ -1747,8 +1744,8 @@ msgid "Paste with optional filters and transformations"
 msgstr "用可选的过虑与变换贴付"
 
 # src/dialog-cell-format.c:70
-#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2766
-#: src/analysis-tools.c:2792 src/workbook-format-toolbar.c:464
+#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2710
+#: src/workbook-format-toolbar.c:464
 msgid "Percent"
 msgstr "百分比"
 
@@ -1814,7 +1811,7 @@ msgid "Recalculate the spreadsheet"
 msgstr "重新计算电子表格"
 
 # src/workbook.c:885
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-object-toolbar.c:174
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-object-toolbar.c:179
 msgid "Rectangle"
 msgstr "长方形"
 
@@ -1988,9 +1985,9 @@ msgid "Su_mmary..."
 msgstr "总结(_M)..."
 
 # src/workbook.c:1130
-#: src/GNOME_Gnumeric.xml.h:202 src/analysis-tools.c:3322
-#: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2986
-#: src/workbook-control-gui.c:3608 src/workbook-view.c:520
+#: src/GNOME_Gnumeric.xml.h:202 src/dialogs/consolidate.glade.h:19
+#: src/workbook-control-gui.c:2986 src/workbook-control-gui.c:3610
+#: src/workbook-view.c:517
 msgid "Sum"
 msgstr "合计"
 
@@ -2103,7 +2100,7 @@ msgstr "关闭(_C)"
 #: src/dialogs/correlation.glade.h:7 src/dialogs/covariance.glade.h:7
 #: src/dialogs/descriptive-stats.glade.h:15
 #: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:12
-#: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:6
+#: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:7
 #: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:13
 #: src/workbook-control-gui.c:2699
 msgid "_Columns"
@@ -2119,8 +2116,8 @@ msgid "_Content"
 msgstr "内容(_C)"
 
 # src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:850
-#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1022
-#: src/sheet-control-gui.c:1318 src/workbook-control-gui.c:2588
+#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1016
+#: src/sheet-control-gui.c:1392 src/workbook-control-gui.c:2588
 msgid "_Copy"
 msgstr "复制(_C)"
 
@@ -2139,7 +2136,7 @@ msgid "_Define"
 msgstr "定义(_D)"
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
-#: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1336
+#: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1410
 #: src/workbook-control-gui.c:2605
 msgid "_Delete..."
 msgstr "删除(_D)..."
@@ -2175,7 +2172,7 @@ msgstr "文件(_F)"
 msgid "_Formats"
 msgstr "格式(_F)"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:960
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:962
 #: src/workbook-control-gui.c:2656
 msgid "_Freeze Panes"
 msgstr "冻结方格"
@@ -2202,8 +2199,8 @@ msgstr "组与轮廓(_G)"
 msgid "_Help"
 msgstr "帮助(_H)"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1359
-#: src/sheet-control-gui.c:1367 src/workbook-control-gui.c:2726
+#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1433
+#: src/sheet-control-gui.c:1441 src/workbook-control-gui.c:2726
 #: src/workbook-control-gui.c:2745
 msgid "_Hide"
 msgstr "隐藏(_H)"
@@ -2248,7 +2245,7 @@ msgid "_Open..."
 msgstr "打开"
 
 # src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
-#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1320
+#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1394
 #: src/workbook-control-gui.c:2592
 msgid "_Paste"
 msgstr "贴上(_P)"
@@ -2264,7 +2261,7 @@ msgid "_Print..."
 msgstr "打印(_P)"
 
 # src/dialog-define-names.c:27 src/plugin-manager.c:132
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:1027
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:1029
 #: src/workbook-control-gui.c:2577
 msgid "_Redo"
 msgstr "重做(_R)"
@@ -2284,8 +2281,8 @@ msgstr "行(_R)"
 #: src/GNOME_Gnumeric.xml.h:262 src/dialogs/anova-one.glade.h:14
 #: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
 #: src/dialogs/descriptive-stats.glade.h:20
-#: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:17
-#: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:11
+#: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:18
+#: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:19
 #: src/workbook-control-gui.c:2696
 msgid "_Rows"
@@ -2338,7 +2335,7 @@ msgstr "工具(_T)"
 msgid "_Tools"
 msgstr "工具(_T)"
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:1026
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:1028
 #: src/workbook-control-gui.c:2573
 msgid "_Undo"
 msgstr "不做(_U)"
@@ -2347,8 +2344,8 @@ msgstr "不做(_U)"
 msgid "_Ungroup"
 msgstr "合并(_U)"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1361
-#: src/sheet-control-gui.c:1369 src/workbook-control-gui.c:2729
+#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1435
+#: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2729
 #: src/workbook-control-gui.c:2748
 msgid "_Unhide"
 msgstr "取消隐藏(_U)"
@@ -2376,39 +2373,39 @@ msgid "_Zoom..."
 msgstr "缩放(_Z)..."
 
 # src/sheet-view.c:336 src/sheet-view.c:410
-#: src/analysis-tools.c:195
+#: src/analysis-tools.c:194 src/analysis-tools.c:3188
 #, fuzzy, c-format
 msgid "Row %i"
 msgstr "行: %d"
 
 # src/sheet-view.c:343 src/sheet-view.c:382
-#: src/analysis-tools.c:198
+#: src/analysis-tools.c:197 src/analysis-tools.c:3180
 #, fuzzy, c-format
 msgid "Column %i"
 msgstr "列: %d"
 
 # src/workbook.c:1131
-#: src/analysis-tools.c:201
+#: src/analysis-tools.c:200
 #, fuzzy, c-format
 msgid "Bin %i"
 msgstr "二进制"
 
-#: src/analysis-tools.c:205
+#: src/analysis-tools.c:204
 #, c-format
 msgid "Area %i"
 msgstr ""
 
 # src/dialog-cell-format.c:71
-#: src/analysis-tools.c:875 src/analysis-tools.c:878
+#: src/analysis-tools.c:798 src/analysis-tools.c:801
 msgid "Correlations"
 msgstr "相关"
 
-#: src/analysis-tools.c:966 src/analysis-tools.c:969
+#: src/analysis-tools.c:889 src/analysis-tools.c:892
 #, fuzzy
 msgid "Covariances"
 msgstr "共方差"
 
-#: src/analysis-tools.c:1047
+#: src/analysis-tools.c:970
 msgid "Summary Statistics"
 msgstr "统计量一览"
 
@@ -2419,7 +2416,7 @@ msgstr "统计量一览"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:1058
+#: src/analysis-tools.c:981
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -2427,55 +2424,56 @@ msgstr ""
 "/平均/标准错误/中值/模式/标准偏差/样本方差/峰态/非对称/范围/最小/最大/合计/计"
 "数"
 
-#: src/analysis-tools.c:1143
+#: src/analysis-tools.c:1066
 #, fuzzy
 msgid "Confidence Interval for the Mean"
 msgstr "平均信赖级"
 
-#: src/analysis-tools.c:1144
+#: src/analysis-tools.c:1067
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr ""
 
-#: src/analysis-tools.c:1179 src/dialogs/descriptive-stats.glade.h:9
+#: src/analysis-tools.c:1103 src/dialogs/descriptive-stats.glade.h:9
 msgid "Kth Largest"
 msgstr "第 K 个最大的值"
 
-#: src/analysis-tools.c:1180
+#: src/analysis-tools.c:1104
 #, c-format
 msgid "Largest (%d)"
 msgstr "最大 (%d)"
 
-#: src/analysis-tools.c:1203 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1127 src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Smallest"
 msgstr "第 K 个最小的值"
 
-#: src/analysis-tools.c:1204
+#: src/analysis-tools.c:1128
 #, c-format
 msgid "Smallest (%d)"
 msgstr "最小 (%d)"
 
 # src/dialog-cell-format.c:297
-#: src/analysis-tools.c:1328 src/analysis-tools.c:3366
+#. POST-RELEASE-FIX:  this should be Rows rather than Sample
+#: src/analysis-tools.c:1252 src/analysis-tools.c:3270
 #: src/dialogs/cell-format.glade.h:72
 msgid "Sample"
 msgstr "范例"
 
-#: src/analysis-tools.c:1424 src/analysis-tools.c:1426
-#: src/analysis-tools.c:1542 src/analysis-tools.c:1544
-#: src/analysis-tools.c:1698 src/analysis-tools.c:1700
-#: src/analysis-tools.c:1825 src/analysis-tools.c:1827
-#: src/analysis-tools.c:1959 src/analysis-tools.c:1961
+#: src/analysis-tools.c:1348 src/analysis-tools.c:1350
+#: src/analysis-tools.c:1469 src/analysis-tools.c:1471
+#: src/analysis-tools.c:1630 src/analysis-tools.c:1632
+#: src/analysis-tools.c:1760 src/analysis-tools.c:1762
+#: src/analysis-tools.c:1898 src/analysis-tools.c:1900
 #, fuzzy, c-format
 msgid "Variable %i"
 msgstr "变量 2"
 
 # src/dialog-cell-format.c:73
-#: src/analysis-tools.c:1428
+#: src/analysis-tools.c:1352
 msgid "z-Test"
 msgstr "z-检测"
 
-#: src/analysis-tools.c:1431
+#: src/analysis-tools.c:1355
 #, fuzzy
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
@@ -2486,12 +2484,12 @@ msgstr ""
 "临界二维"
 
 # src/dialog-cell-format.c:73
-#: src/analysis-tools.c:1556 src/analysis-tools.c:1702
-#: src/analysis-tools.c:1829
+#: src/analysis-tools.c:1485 src/analysis-tools.c:1634
+#: src/analysis-tools.c:1764
 msgid "t-Test"
 msgstr "t-检测"
 
-#: src/analysis-tools.c:1559
+#: src/analysis-tools.c:1488
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -2500,7 +2498,7 @@ msgstr ""
 "/平均/方差/观察/Pearson 相关分析/假设平均差分/自由度/t 状态/P (T<=t) 一维/t "
 "临界一维/P (T<=t) 二维/t 临界二维"
 
-#: src/analysis-tools.c:1705
+#: src/analysis-tools.c:1637
 #, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
@@ -2510,7 +2508,7 @@ msgstr ""
 "/平均/方差/观察/Pooled 方差/假设平均差分/自由度/t 状态/P (T<=t) 一维/t 临界一"
 "维/P (T<=t) 二维/t 临界二维"
 
-#: src/analysis-tools.c:1832
+#: src/analysis-tools.c:1767
 #, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
@@ -2521,11 +2519,11 @@ msgstr ""
 "二维/t 临界二维"
 
 # src/dialog-cell-format.c:73
-#: src/analysis-tools.c:1968
+#: src/analysis-tools.c:1907
 msgid "F-Test"
 msgstr "F-检测"
 
-#: src/analysis-tools.c:1974
+#: src/analysis-tools.c:1913
 #, fuzzy
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
@@ -2534,25 +2532,25 @@ msgstr ""
 "/平均/方差/观察/假设平均差分/自由度/t 状态/P (T<=t) 一维/t 临界一维/P (T<=t) "
 "二维/t 临界二维"
 
-#: src/analysis-tools.c:2093
+#: src/analysis-tools.c:2033 src/analysis-tools.c:2091
 msgid "Random"
 msgstr "随机数"
 
-#: src/analysis-tools.c:2261
+#: src/analysis-tools.c:2207
 msgid "Not implemented yet.\n"
 msgstr "还未实现.\n"
 
-#: src/analysis-tools.c:2337
+#: src/analysis-tools.c:2283
 #, fuzzy
 msgid "Y Variable"
 msgstr "变量 2"
 
-#: src/analysis-tools.c:2395 src/dialogs/dialog-analysis-tools.c:4131
+#: src/analysis-tools.c:2342 src/dialogs/dialog-analysis-tools.c:4390
 #: src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr "回归"
 
-#: src/analysis-tools.c:2397
+#: src/analysis-tools.c:2344
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -2560,188 +2558,143 @@ msgstr ""
 "/总计输出/回归统计/多维回归/R 平方/调整的 R 平方/标准错误/观察//方差分析//回"
 "归/残数/全部///截距"
 
-#: src/analysis-tools.c:2418
+#: src/analysis-tools.c:2365
 #, fuzzy
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/自由度/平方和/平均平方/F/有效 F"
 
-#: src/analysis-tools.c:2425
+#: src/analysis-tools.c:2372
 #, fuzzy, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr "/系数/标准错误/t 状态/P-值/低于 95%/高于 95%"
 
 # src/workbook.c:1133
-#: src/analysis-tools.c:2594
+#: src/analysis-tools.c:2541
 msgid "Moving Averages"
 msgstr "移动平均"
 
-#: src/analysis-tools.c:2672 src/dialogs/dialog-analysis-tools.c:4119
+#: src/analysis-tools.c:2619 src/dialogs/dialog-analysis-tools.c:4376
 #, fuzzy
 msgid "Exponential Smoothing"
 msgstr "指数"
 
-#: src/analysis-tools.c:2747
+#: src/analysis-tools.c:2698
 msgid "Ranks"
 msgstr "阶数"
 
 # src/dialog-cell-format.c:917
-#: src/analysis-tools.c:2755 src/analysis-tools.c:2780
+#: src/analysis-tools.c:2707
 msgid "Point"
 msgstr "点"
 
-# src/sheet-view.c:343 src/sheet-view.c:382
-#: src/analysis-tools.c:2763 src/analysis-tools.c:3056
-#: src/dialogs/dialog-stf-preview.h:19
-#, c-format
-msgid "Column %d"
-msgstr "列: %d"
-
-#: src/analysis-tools.c:2765 src/analysis-tools.c:2791
+#: src/analysis-tools.c:2709
 msgid "Rank"
 msgstr "阶数"
 
-# src/sheet-view.c:336 src/sheet-view.c:410
-#: src/analysis-tools.c:2789 src/analysis-tools.c:3073
-#, c-format
-msgid "Row %d"
-msgstr "行: %d"
-
-#: src/analysis-tools.c:2892 src/analysis-tools.c:3038
-#: src/analysis-tools.c:3229
+#. We are ready to create the summary table
+#: src/analysis-tools.c:2794 src/analysis-tools.c:2980
+#: src/analysis-tools.c:3240
 msgid "Anova"
 msgstr "分散解析"
 
-#: src/analysis-tools.c:2894 src/dialogs/dialog-analysis-tools.c:4107
+#: src/analysis-tools.c:2796 src/dialogs/dialog-analysis-tools.c:4366
 msgid "Anova: Single Factor"
 msgstr "分散解析: 一元配置"
 
-#: src/analysis-tools.c:2895 src/analysis-tools.c:3232
+#: src/analysis-tools.c:2797 src/analysis-tools.c:3243
 msgid "SUMMARY"
 msgstr "总计"
 
-#: src/analysis-tools.c:2896
+#: src/analysis-tools.c:2798
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/组/计数/合计/平均/方差"
 
-#: src/analysis-tools.c:2959
+#: src/analysis-tools.c:2861
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/方差分析/变分的源/介于两组/两组之间/全部"
 
-#: src/analysis-tools.c:2964 src/analysis-tools.c:3146
+#: src/analysis-tools.c:2866 src/analysis-tools.c:3062
+#: src/analysis-tools.c:3276
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/平方和/自由度/平均平方/F/P-值/F 临界"
 
-#: src/analysis-tools.c:3043
+#: src/analysis-tools.c:2986
 msgid "Anova: Two-Factor Without Replication"
 msgstr "分散解析: 没有重复的二元配置"
 
-#: src/analysis-tools.c:3044
+#. POST-RELEASE-FIX:  Next 2 commands should be fused
+#: src/analysis-tools.c:2987 src/analysis-tools.c:3249
+#: src/analysis-tools.c:3259
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "总计/计数/合计/平均/方差"
 
-#: src/analysis-tools.c:3140
+#: src/analysis-tools.c:3056
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "方差分析/变分的源/行/列/错误/全部"
 
-#: src/analysis-tools.c:3231
+#: src/analysis-tools.c:3242
 msgid "Anova: Two-Factor With Replication"
 msgstr "分散解析: 有重复的二元配置"
 
-#: src/analysis-tools.c:3248 src/analysis-tools.c:3319
-#: src/analysis-tools.c:3370 src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3257 src/analysis-tools.c:3264
+#: src/analysis-tools.c:3274 src/dialogs/dialog-autoformat.c:77
 #: src/dialogs/dialog-autoformat.c:81
 msgid "Total"
 msgstr "合计"
 
-# src/workbook.c:1134
-#: src/analysis-tools.c:3321 src/dialogs/consolidate.glade.h:5
-#: src/workbook-control-gui.c:3612
-msgid "Count"
-msgstr "回数"
-
-# src/workbook.c:1133
-#: src/analysis-tools.c:3323 src/dialogs/consolidate.glade.h:2
-#: src/workbook-control-gui.c:3611
-msgid "Average"
-msgstr "平均"
-
-#: src/analysis-tools.c:3324
-msgid "Variance"
-msgstr "方差"
-
-#: src/analysis-tools.c:3364
+#. POST-RELEASE-FIX:  We should be using / notation for the next 7 commands
+#: src/analysis-tools.c:3267
 msgid "ANOVA"
 msgstr "方差分析"
 
-#: src/analysis-tools.c:3365
+#: src/analysis-tools.c:3268
 msgid "Source of Variation"
 msgstr "变分的源"
 
 # src/workbook.c:767
-#: src/analysis-tools.c:3367 src/dialogs/dialog-stf.glade.h:17
+#: src/analysis-tools.c:3271 src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
 msgstr "列"
 
 # src/dialog-cell-format.c:71
-#: src/analysis-tools.c:3368
+#: src/analysis-tools.c:3272
 msgid "Interaction"
 msgstr "相互作用"
 
 # src/workbook.c:784
-#: src/analysis-tools.c:3369
+#: src/analysis-tools.c:3273
 msgid "Within"
 msgstr "在...中"
 
-#: src/analysis-tools.c:3372
-msgid "SS"
-msgstr "平方和"
-
-#: src/analysis-tools.c:3379
-msgid "df"
-msgstr "自由度"
-
-#. Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within should all be the same
-#: src/analysis-tools.c:3388
-msgid "MS"
-msgstr "平均平方"
-
-#: src/analysis-tools.c:3395
-msgid "F"
-msgstr "F"
-
-# src/dialog-paste-special.c:22
-#: src/analysis-tools.c:3401
-msgid "P-value"
-msgstr "P-值"
-
-# src/dates.c:19
-#: src/analysis-tools.c:3406
-msgid "F crit"
-msgstr "F 临界"
-
 # src/item-cursor.c:580
-#: src/analysis-tools.c:3539
+#: src/analysis-tools.c:3658
 #, fuzzy
 msgid "More"
 msgstr "移动(_M)"
 
 #. { N_("Fourier Analysis"),
 #. dialog_fourier_tool },
-#: src/analysis-tools.c:3572 src/dialogs/dialog-analysis-tools.c:4123
+#: src/analysis-tools.c:3692 src/dialogs/dialog-analysis-tools.c:4382
 #: src/dialogs/histogram.glade.h:5
 msgid "Histogram"
 msgstr "柱状图"
 
 # src/workbook.c:1131
-#: src/analysis-tools.c:3577
+#: src/analysis-tools.c:3697
 msgid "Bin"
 msgstr "二进制"
 
-#: src/analysis-tools.c:3599
+#: src/analysis-tools.c:3722
 msgid "Frequency"
 msgstr "频率"
 
-#: src/analysis-tools.c:3602
+# src/formats.c:74
+#: src/analysis-tools.c:3724 src/dialogs/dialog-zoom.glade.h:2
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: src/analysis-tools.c:3727
 #, no-c-format
 msgid "Cumulative %"
 msgstr "累积 %"
@@ -2751,7 +2704,7 @@ msgstr "累积 %"
 msgid "Error '%s' opening workbook stream"
 msgstr "打开工作本流时发生 '%s' 错误"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3456
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:424 src/xml-io.c:3448
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "无效的 xml 文件. 树是空的吗?"
 
@@ -2763,16 +2716,16 @@ msgstr "不是确定的工作本文件"
 msgid "EXPERIMENTAL Bonobo EFS format"
 msgstr ""
 
-#: src/clipboard.c:297 src/clipboard.c:310 src/clipboard.c:322
-#: src/clipboard.c:330
+#: src/clipboard.c:299 src/clipboard.c:312 src/clipboard.c:324
+#: src/clipboard.c:332
 msgid "Unable to paste"
 msgstr "不能贴付"
 
-#: src/clipboard.c:298
+#: src/clipboard.c:300
 msgid "Content can only be pasted by value or by link."
 msgstr "内容只能用值或联接贴付."
 
-#: src/clipboard.c:306
+#: src/clipboard.c:308
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -2783,7 +2736,7 @@ msgstr ""
 "\n"
 "试一下选择单一单元或相同形状相同大小的区域"
 
-#: src/clipboard.c:318
+#: src/clipboard.c:320
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -2794,7 +2747,7 @@ msgstr ""
 "\n"
 "试一下选择单一单元或相同形状相同大小的区域"
 
-#: src/clipboard.c:331
+#: src/clipboard.c:333
 msgid "result passes the sheet boundary"
 msgstr "结果传递给工作单边界"
 
@@ -2847,316 +2800,316 @@ msgstr "设定文本"
 msgid "Typing \"%s%s\" in %s"
 msgstr "在 %3$s 中输入 \"%1$s%2$s\""
 
-#: src/commands.c:833
+#: src/commands.c:832
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "输入 \"%s%s\""
 
 # src/workbook.c:767
-#: src/commands.c:1093
+#: src/commands.c:1081
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "在 %2$s 之前插入 %1$d 列"
 
 # src/workbook.c:767
-#: src/commands.c:1094
+#: src/commands.c:1082
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "在 %2$s 之前插入 %1$d 列"
 
-#: src/commands.c:1105
+#: src/commands.c:1093
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "在 %2$s 之前插入 %1$d 行"
 
-#: src/commands.c:1106
+#: src/commands.c:1094
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "在 %2$s 之前插入 %1$d 行"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1117
+#: src/commands.c:1105
 #, c-format
 msgid "Deleting columns %s"
 msgstr "删除列 %s"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1118
+#: src/commands.c:1106
 #, c-format
 msgid "Deleting column %s"
 msgstr "删除列 %s"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:1128
+#: src/commands.c:1116
 #, c-format
 msgid "Deleting rows %s"
 msgstr "删除行 %s"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:1129
+#: src/commands.c:1117
 #, c-format
 msgid "Deleting row %s"
 msgstr "删除行 %s"
 
 # src/workbook.c:713
-#: src/commands.c:1204
+#: src/commands.c:1192
 msgid "Undo Clear"
 msgstr "不做清除"
 
 # src/workbook.c:703
-#: src/commands.c:1283
+#: src/commands.c:1271
 msgid "contents"
 msgstr "内容"
 
 # src/dialog-paste-special.c:23
-#: src/commands.c:1285
+#: src/commands.c:1273
 msgid "formats"
 msgstr "格式"
 
 # src/workbook.c:701
-#: src/commands.c:1287
+#: src/commands.c:1275
 msgid "comments"
 msgstr "注释"
 
 # src/workbook.c:873
-#: src/commands.c:1303
+#: src/commands.c:1291
 msgid "all"
 msgstr "全部"
 
-#: src/commands.c:1310
+#: src/commands.c:1298
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "在 %2$s 中清除 %1$s"
 
 # src/dump.c:29
-#: src/commands.c:1505
+#: src/commands.c:1493
 #, c-format
 msgid "Changing format of %s"
 msgstr "改变 %s 的格式"
 
-#: src/commands.c:1581
+#: src/commands.c:1569
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "改名表格 '%s' 为 '%s'"
 
-#: src/commands.c:1691
+#: src/commands.c:1679
 msgid "Set Date/Time"
 msgstr "设置日期/时间"
 
-#: src/commands.c:1708
+#: src/commands.c:1696
 #, c-format
 msgid "Setting current date in %s"
 msgstr "用 %s 设置当前日期"
 
-#: src/commands.c:1709
+#: src/commands.c:1697
 #, c-format
 msgid "Setting current time in %s"
 msgstr "用 %s 设置当前时间"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1817
+#: src/commands.c:1804
 #, c-format
 msgid "Autofitting column %s"
 msgstr "自动调整列 %s"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:1818
+#: src/commands.c:1805
 #, c-format
 msgid "Autofitting row %s"
 msgstr "自动调整行 %s"
 
-#: src/commands.c:1821
+#: src/commands.c:1808
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "设置列 %s 的宽度为 %d 象素"
 
-#: src/commands.c:1823
+#: src/commands.c:1810
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "设置行 %s 的高度为 %d 象素"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:1828 src/commands.c:1829
+#: src/commands.c:1815 src/commands.c:1816
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "自动调整列 %s"
 
-#: src/commands.c:1832
+#: src/commands.c:1819
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "设置列 %s 的宽度为 %d 象素"
 
-#: src/commands.c:1834
+#: src/commands.c:1821
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "设置行 %s 的高度为 %d 象素"
 
-#: src/commands.c:1918
+#: src/commands.c:1905
 #, c-format
 msgid "Sorting %s"
 msgstr "排序 %s"
 
 # src/dialog-insert-cells.c:37
-#: src/commands.c:2046
+#: src/commands.c:2033
 msgid "Unhide columns"
 msgstr "取消隐藏列"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:2046
+#: src/commands.c:2033
 msgid "Hide columns"
 msgstr "隐藏列"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/commands.c:2047
+#: src/commands.c:2034
 msgid "Unhide rows"
 msgstr "取消隐藏行"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/commands.c:2047
+#: src/commands.c:2034
 msgid "Hide rows"
 msgstr "隐藏行"
 
 # src/dialog-insert-cells.c:37
-#: src/commands.c:2131
+#: src/commands.c:2115
 msgid "Expand columns"
 msgstr "扩大列"
 
 # src/workbook.c:767
-#: src/commands.c:2131
+#: src/commands.c:2115
 msgid "Collapse columns"
 msgstr "合并列"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/commands.c:2132
+#: src/commands.c:2116
 msgid "Expand rows"
 msgstr "扩大行"
 
-#: src/commands.c:2132
+#: src/commands.c:2116
 msgid "Collapse rows"
 msgstr "合并行"
 
-#: src/commands.c:2233
+#: src/commands.c:2185
 msgid "Those columns are already grouped"
 msgstr "那些列已被分组"
 
-#: src/commands.c:2234
+#: src/commands.c:2186
 msgid "Those rows are already grouped"
 msgstr "那些行已被分组"
 
-#: src/commands.c:2237
+#: src/commands.c:2189
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "那些列还未被分组, 你不能合并它们"
 
-#: src/commands.c:2238
+#: src/commands.c:2190
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "那些行还未被分组, 你不能合并它们"
 
 # src/sheet-view.c:343 src/sheet-view.c:382
-#: src/commands.c:2249
+#: src/commands.c:2201
 #, c-format
 msgid "Group columns %s"
 msgstr "组列 %s"
 
 # src/dialog-delete-cells.c:36
-#: src/commands.c:2249
+#: src/commands.c:2201
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "合并列 %s"
 
-#: src/commands.c:2251
+#: src/commands.c:2203
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "合并行 %d:%d"
 
-#: src/commands.c:2251
+#: src/commands.c:2203
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "合并行 %d:%d"
 
 # src/dialog-insert-cells.c:26
-#: src/commands.c:2454
+#: src/commands.c:2403
 #, c-format
 msgid "Moving %s"
 msgstr "移动 %s"
 
-#: src/commands.c:2463 src/commands.c:2647
+#: src/commands.c:2412 src/commands.c:2593
 msgid "is beyond sheet boundaries"
 msgstr "超过表格边界"
 
 #. FIXME?
-#: src/commands.c:2618
+#: src/commands.c:2564
 #, c-format
 msgid "Pasting into %s"
 msgstr "贴入 %s"
 
 #. Check arrays or merged regions
-#: src/commands.c:2801 src/workbook-control-gui.c:1829
+#: src/commands.c:2757 src/workbook-control-gui.c:1831
 msgid "Autofill"
 msgstr "自动填入"
 
 #. Changed in initial redo.
-#: src/commands.c:2824
+#: src/commands.c:2780
 #, c-format
 msgid "Autofilling %s"
 msgstr "自动填入 %s"
 
 # src/item-cursor.c:581
-#: src/commands.c:2977
+#: src/commands.c:2933
 #, c-format
 msgid "Autoformatting %s"
 msgstr "自动格式化 %s"
 
-#: src/commands.c:3087
+#: src/commands.c:3043
 #, c-format
 msgid "Unmerging %s"
 msgstr "不合并 %s"
 
 # src/workbook.c:1131
-#: src/commands.c:3225
+#: src/commands.c:3181
 #, c-format
 msgid "Merging %s"
 msgstr "合并 %s"
 
 #. Corrected below.
-#: src/commands.c:3603 src/dialogs/search-replace.glade.h:43
+#: src/commands.c:3559 src/dialogs/search-replace.glade.h:43
 msgid "Search and Replace"
 msgstr "查找并替换"
 
-#: src/commands.c:3699
+#: src/commands.c:3655
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "设置缺省列的宽度为 %.2fpts"
 
-#: src/commands.c:3700
+#: src/commands.c:3656
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "设置缺省行的高度为 %.2fpts"
 
 #. Changed in initial redo.
-#: src/commands.c:3785
+#: src/commands.c:3741
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "合并为 %s!%s"
 
-#: src/commands.c:3900
+#: src/commands.c:3856
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "放大 %s 为 %.0f%%"
 
-#: src/commands.c:3969
+#: src/commands.c:3925
 msgid "Insert object"
 msgstr "插入对象"
 
 # src/dialog-delete-cells.c:35
-#: src/commands.c:4027
+#: src/commands.c:3983
 msgid "Delete object"
 msgstr "删除对象"
 
-#: src/commands.c:4108
+#: src/commands.c:4064
 msgid "Resize object"
 msgstr "改变对象大小"
 
-#: src/commands.c:4108
+#: src/commands.c:4064
 msgid "Move object"
 msgstr "移动对象"
 
@@ -3402,8 +3355,8 @@ msgstr "仅显示唯一记录"
 msgid "Data Analysis Tools"
 msgstr "分析工具"
 
-#: src/dialogs/anova-one.glade.h:1 src/dialogs/mean-tests.glade.h:2
-#: src/dialogs/variance-tests.glade.h:1
+#: src/dialogs/anova-one.glade.h:1 src/dialogs/anova-two.glade.h:1
+#: src/dialogs/mean-tests.glade.h:2 src/dialogs/variance-tests.glade.h:1
 #, fuzzy
 msgid "0.05"
 msgstr "0.95"
@@ -3421,7 +3374,7 @@ msgstr "分散解析: 一元配置"
 msgid "Grouped By:"
 msgstr "分组方法:"
 
-#: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:5
+#: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:4
 #: src/dialogs/correlation.glade.h:3 src/dialogs/covariance.glade.h:3
 #: src/dialogs/descriptive-stats.glade.h:7
 #: src/dialogs/fourier-analysis.glade.h:4 src/dialogs/histogram.glade.h:6
@@ -3432,7 +3385,7 @@ msgid "Input"
 msgstr "输入"
 
 # src/file.c:257
-#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:6
+#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:5
 #: src/dialogs/correlation.glade.h:4 src/dialogs/covariance.glade.h:4
 #: src/dialogs/descriptive-stats.glade.h:11
 #: src/dialogs/fourier-analysis.glade.h:5 src/dialogs/histogram.glade.h:8
@@ -3443,7 +3396,7 @@ msgstr "输入"
 msgid "N_ew Workbook"
 msgstr "新工作本(_E)"
 
-#: src/dialogs/anova-one.glade.h:6 src/dialogs/anova-two.glade.h:8
+#: src/dialogs/anova-one.glade.h:6 src/dialogs/anova-two.glade.h:7
 #: src/dialogs/correlation.glade.h:5 src/dialogs/covariance.glade.h:5
 #: src/dialogs/descriptive-stats.glade.h:12
 #: src/dialogs/fourier-analysis.glade.h:6 src/dialogs/histogram.glade.h:9
@@ -3455,15 +3408,15 @@ msgstr "新工作本(_E)"
 msgid "Output"
 msgstr "输出范围:"
 
-#: src/dialogs/anova-one.glade.h:7
+#: src/dialogs/anova-one.glade.h:7 src/dialogs/anova-two.glade.h:8
 #, fuzzy
 msgid "_Alpha = "
 msgstr "1 - _Alpha:"
 
 #: src/dialogs/anova-one.glade.h:8 src/dialogs/correlation.glade.h:6
 #: src/dialogs/covariance.glade.h:6 src/dialogs/descriptive-stats.glade.h:14
-#: src/dialogs/histogram.glade.h:10 src/dialogs/regression.glade.h:11
-#: src/dialogs/sampling.glade.h:12
+#: src/dialogs/histogram.glade.h:10 src/dialogs/rank.glade.h:6
+#: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:12
 #, fuzzy
 msgid "_Areas"
 msgstr "连续(_S)"
@@ -3471,11 +3424,11 @@ msgstr "连续(_S)"
 #: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:9
 #: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
 #: src/dialogs/descriptive-stats.glade.h:16
-#: src/dialogs/dialog-analysis-tools.c:725
-#: src/dialogs/dialog-analysis-tools.c:3598
-#: src/dialogs/dialog-analysis-tools.c:3674
+#: src/dialogs/dialog-analysis-tools.c:895
+#: src/dialogs/dialog-analysis-tools.c:3874
+#: src/dialogs/dialog-analysis-tools.c:3950
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:13
-#: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:7
+#: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:8
 msgid "_Input Range:"
 msgstr "输入范围(_I):"
 
@@ -3483,7 +3436,7 @@ msgstr "输入范围(_I):"
 #: src/dialogs/correlation.glade.h:9 src/dialogs/covariance.glade.h:9
 #: src/dialogs/descriptive-stats.glade.h:17
 #: src/dialogs/fourier-analysis.glade.h:9 src/dialogs/mean-tests.glade.h:21
-#: src/dialogs/moving-averages.glade.h:10 src/dialogs/rank.glade.h:8
+#: src/dialogs/moving-averages.glade.h:10 src/dialogs/rank.glade.h:9
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:14
 #: src/dialogs/variance-tests.glade.h:10
 msgid "_Labels"
@@ -3495,7 +3448,7 @@ msgstr "标签(_L)"
 #: src/dialogs/descriptive-stats.glade.h:18
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:14
 #: src/dialogs/mean-tests.glade.h:22 src/dialogs/moving-averages.glade.h:11
-#: src/dialogs/random-generation.glade.h:9 src/dialogs/rank.glade.h:9
+#: src/dialogs/random-generation.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:14 src/dialogs/sampling.glade.h:15
 #: src/dialogs/variance-tests.glade.h:11
 msgid "_New Sheet"
@@ -3506,31 +3459,22 @@ msgstr "新工作单(_N)"
 #: src/dialogs/descriptive-stats.glade.h:19
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:15
 #: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:12
-#: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:10
+#: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:11
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:16
 #: src/dialogs/variance-tests.glade.h:12
 msgid "_Output Range:"
 msgstr "输出范围(_O)"
 
-#: src/dialogs/anova-two.glade.h:1
-#, fuzzy
-msgid "(1 - _Alpha) = "
-msgstr "1 - _Alpha:"
-
-#: src/dialogs/anova-two.glade.h:2 src/dialogs/regression.glade.h:1
-msgid "0.95"
-msgstr "0.95"
-
-#: src/dialogs/anova-two.glade.h:3 src/dialogs/descriptive-stats.glade.h:3
+#: src/dialogs/anova-two.glade.h:2 src/dialogs/descriptive-stats.glade.h:3
 #: src/dialogs/random-generation.glade.h:1 src/dialogs/sampling.glade.h:1
 msgid "1"
 msgstr "1"
 
-#: src/dialogs/anova-two.glade.h:4
+#: src/dialogs/anova-two.glade.h:3
 msgid "ANOVA - Two-Factor"
 msgstr ""
 
-#: src/dialogs/anova-two.glade.h:7
+#: src/dialogs/anova-two.glade.h:6
 #, fuzzy
 msgid "Number of Rows _Per Sample:"
 msgstr "例子数(_R):"
@@ -3770,7 +3714,7 @@ msgid "Background Color"
 msgstr "背景颜色"
 
 # src/workbook.c:870
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2663
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2689
 msgid "Border"
 msgstr "边框线"
 
@@ -3873,8 +3817,8 @@ msgid "Display the value exactly as it was entered"
 msgstr "怎么输入的就怎么显示"
 
 # src/format.c:404
-#: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:1280
-#: src/dialogs/dialog-cell-format.c:1340
+#: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:1306
+#: src/dialogs/dialog-cell-format.c:1366
 msgid "Double"
 msgstr "双重"
 
@@ -3965,8 +3909,8 @@ msgstr "负数(_I):"
 
 # src/dialog-cell-format.c:606 src/dialog-cell-format.c:639
 # src/dialog-paste-special.c:28
-#: src/dialogs/cell-format.glade.h:61 src/dialogs/dialog-cell-format.c:1282
-#: src/dialogs/dialog-cell-format.c:1338 src/dialogs/dialog-paste-special.c:34
+#: src/dialogs/cell-format.glade.h:61 src/dialogs/dialog-cell-format.c:1308
+#: src/dialogs/dialog-cell-format.c:1364 src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "无"
 
@@ -3990,7 +3934,7 @@ msgid "Outline"
 msgstr "轮廓"
 
 # src/item-grid.c:528 src/sheet.c:2577 src/workbook.c:853
-#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2678
+#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2704
 msgid "Pattern"
 msgstr "贴上"
 
@@ -4027,8 +3971,8 @@ msgstr "适当收缩(_K)"
 
 # src/plugin-manager.c:95 src/plugin-manager.c:96
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1278
-#: src/dialogs/dialog-cell-format.c:1339
+#: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1304
+#: src/dialogs/dialog-cell-format.c:1365
 msgid "Single"
 msgstr "单重"
 
@@ -4213,7 +4157,7 @@ msgid "_Number"
 msgstr "数字(_N)"
 
 # src/dialog-cell-format.c:70
-#: src/dialogs/cell-format.glade.h:118
+#: src/dialogs/cell-format.glade.h:118 src/dialogs/histogram.glade.h:17
 msgid "_Percentage"
 msgstr "百分比(_P)"
 
@@ -4266,28 +4210,28 @@ msgid "val != bound                  (not equal to)"
 msgstr "值 != 边界值\t\t\t(不等于)"
 
 #: src/dialogs/cell-format.glade.h:130
-msgid "val >  bound                  (greater than)"
-msgstr "值 > 边界值\t\t\t(大于)"
-
-#: src/dialogs/cell-format.glade.h:131
-msgid "val >=bound                  (greater than or equal to)"
-msgstr "值 >= 边界值\t\t\t(大于等于)"
-
-#: src/dialogs/cell-format.glade.h:132
 msgid "val <  bound                  (less than)"
 msgstr "值 < 边界值\t\t\t(小于)"
 
-#: src/dialogs/cell-format.glade.h:133
+#: src/dialogs/cell-format.glade.h:131
 msgid "val <= min || max <= val (not between)"
 msgstr "值 <= 最小值 || 最大值 <= 值 (不在两者之间)"
 
-#: src/dialogs/cell-format.glade.h:134
+#: src/dialogs/cell-format.glade.h:132
 msgid "val <=bound                  (less than or equal to)"
 msgstr "值 <= 边界值\t\t\t(小于等于)"
 
-#: src/dialogs/cell-format.glade.h:135
+#: src/dialogs/cell-format.glade.h:133
 msgid "val == bound                 (equal to)"
 msgstr "值 == 边界值\t\t\t(等于)"
+
+#: src/dialogs/cell-format.glade.h:134
+msgid "val >  bound                  (greater than)"
+msgstr "值 > 边界值\t\t\t(大于)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "值 >= 边界值\t\t\t(大于等于)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A header"
@@ -4362,6 +4306,11 @@ msgstr "列的宽度(pts)(_C):"
 msgid "Add the entered area to the list of source areas"
 msgstr "把输入域追加到源域列表中"
 
+# src/workbook.c:1133
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3613
+msgid "Average"
+msgstr "平均"
+
 # src/item-cursor.c:582
 #: src/dialogs/consolidate.glade.h:3
 msgid "C_opy labels"
@@ -4371,6 +4320,11 @@ msgstr "复制标签(_O)"
 #: src/dialogs/consolidate.glade.h:4
 msgid "Clear the list of source areas"
 msgstr "清除源域列表"
+
+# src/workbook.c:1134
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3614
+msgid "Count"
+msgstr "回数"
 
 # src/dialog-delete-cells.c:32 src/item-grid.c:532
 #: src/dialogs/consolidate.glade.h:6
@@ -4404,12 +4358,12 @@ msgid "Labels"
 msgstr "标签(_L)"
 
 # src/workbook.c:1132
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3610
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3612
 msgid "Max"
 msgstr "最大"
 
 # src/workbook.c:1131
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3609
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3611
 msgid "Min"
 msgstr "最小"
 
@@ -4478,11 +4432,11 @@ msgid "_Put :"
 msgstr "放(_P):"
 
 # src/dialog-cell-format.c:71
-#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4111
+#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4370
 msgid "Correlation"
 msgstr "相关"
 
-#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4113
+#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4372
 msgid "Covariance"
 msgstr "共方差"
 
@@ -4533,7 +4487,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr "平均信赖级"
 
 #: src/dialogs/descriptive-stats.glade.h:5
-#: src/dialogs/dialog-analysis-tools.c:4115
+#: src/dialogs/dialog-analysis-tools.c:4374
 msgid "Descriptive Statistics"
 msgstr "记述统计"
 
@@ -4728,212 +4682,223 @@ msgstr "在'标准范围:'中请使用合法的储存格域名"
 msgid "You should introduce a valid cell range in 'Copy To:'"
 msgstr "在'复制到:'中请使用合法的储存格范围"
 
-#: src/dialogs/dialog-advanced-filter.c:335
+#: src/dialogs/dialog-advanced-filter.c:331
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
 msgstr "在'列表范围:'和'标准范围:'中请使用同一的列号"
 
-#: src/dialogs/dialog-analysis-tools.c:993
-#: src/dialogs/dialog-analysis-tools.c:1108
+#: src/dialogs/dialog-analysis-tools.c:1101
+#: src/dialogs/dialog-analysis-tools.c:1216
 msgid "The selected input rows must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:997
-#: src/dialogs/dialog-analysis-tools.c:1112
+#: src/dialogs/dialog-analysis-tools.c:1105
+#: src/dialogs/dialog-analysis-tools.c:1220
 msgid "The selected input columns must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1001
-#: src/dialogs/dialog-analysis-tools.c:1116
+#: src/dialogs/dialog-analysis-tools.c:1109
+#: src/dialogs/dialog-analysis-tools.c:1224
 msgid "The selected input areas must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1004
-#: src/dialogs/dialog-analysis-tools.c:1119
-#: src/dialogs/dialog-analysis-tools.c:1424
-#: src/dialogs/dialog-analysis-tools.c:1586
-#: src/dialogs/dialog-analysis-tools.c:1939
-#: src/dialogs/dialog-analysis-tools.c:2122
-#: src/dialogs/dialog-analysis-tools.c:2599
-#: src/dialogs/dialog-analysis-tools.c:3090
-#: src/dialogs/dialog-analysis-tools.c:3268
-#: src/dialogs/dialog-analysis-tools.c:3547
-#: src/dialogs/dialog-analysis-tools.c:3742
-#: src/dialogs/dialog-analysis-tools.c:3926
-#: src/dialogs/dialog-analysis-tools.c:3956
+#. non-numeric probability (DiscreteDistribution) POST-RELEASE-FIX
+#: src/dialogs/dialog-analysis-tools.c:1112
+#: src/dialogs/dialog-analysis-tools.c:1227
+#: src/dialogs/dialog-analysis-tools.c:1354
+#: src/dialogs/dialog-analysis-tools.c:1554
+#: src/dialogs/dialog-analysis-tools.c:1724
+#: src/dialogs/dialog-analysis-tools.c:2132
+#: src/dialogs/dialog-analysis-tools.c:2357
+#: src/dialogs/dialog-analysis-tools.c:2861
+#: src/dialogs/dialog-analysis-tools.c:2866
+#: src/dialogs/dialog-analysis-tools.c:2871
+#: src/dialogs/dialog-analysis-tools.c:2876
+#: src/dialogs/dialog-analysis-tools.c:2881
+#: src/dialogs/dialog-analysis-tools.c:3369
+#: src/dialogs/dialog-analysis-tools.c:3543
+#: src/dialogs/dialog-analysis-tools.c:3824
+#: src/dialogs/dialog-analysis-tools.c:4017
+#: src/dialogs/dialog-analysis-tools.c:4212
+#: src/dialogs/dialog-analysis-tools.c:4217
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr ""
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:1050
+#: src/dialogs/dialog-analysis-tools.c:1158
 #, fuzzy
 msgid "Could not create the Correlation Tool dialog."
 msgstr "无法创建 Name Guru."
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:1165
+#: src/dialogs/dialog-analysis-tools.c:1273
 #, fuzzy
 msgid "Could not create the Covariance Tool dialog."
 msgstr "无法创建 Name Guru."
 
-#: src/dialogs/dialog-analysis-tools.c:1367
+#: src/dialogs/dialog-analysis-tools.c:1501
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1470
+#: src/dialogs/dialog-analysis-tools.c:1600
 msgid "Could not create the Rank and  Percentile Tools dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1582
+#: src/dialogs/dialog-analysis-tools.c:1693
+msgid ""
+"Please enter a valid\n"
+"population variance for variable 1."
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1700
+msgid ""
+"Please enter a valid\n"
+"population variance for variable 2."
+msgstr ""
+
+#: src/dialogs/dialog-analysis-tools.c:1720
 msgid "The two input ranges must have the same size."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1811
+#: src/dialogs/dialog-analysis-tools.c:2004
 #, fuzzy
 msgid "Var_iable 1 Range:"
 msgstr "变量 1 范围:"
 
-#: src/dialogs/dialog-analysis-tools.c:1812
+#: src/dialogs/dialog-analysis-tools.c:2005
 #, fuzzy
 msgid "_Variable 2 Range:"
 msgstr "变量 2 范围:"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:1816
+#: src/dialogs/dialog-analysis-tools.c:2009
 #, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "无法创建 Name Guru."
 
-#: src/dialogs/dialog-analysis-tools.c:1932
-#: src/dialogs/dialog-analysis-tools.c:1936
+#: src/dialogs/dialog-analysis-tools.c:2125
+#: src/dialogs/dialog-analysis-tools.c:2129
 msgid "Each variable should have at least 2 observations!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2004
+#: src/dialogs/dialog-analysis-tools.c:2246
 #, fuzzy
 msgid "Var_iable 1 Range"
 msgstr "变量 1 范围:"
 
-#: src/dialogs/dialog-analysis-tools.c:2005
+#: src/dialogs/dialog-analysis-tools.c:2247
 #, fuzzy
 msgid "_Variable 2 Range"
 msgstr "变量 2 范围:"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:2009
+#: src/dialogs/dialog-analysis-tools.c:2251
 #, fuzzy
 msgid "Could not create the FTest Tool dialog."
 msgstr "无法创建 Name Guru."
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:2270
+#: src/dialogs/dialog-analysis-tools.c:2506
 #, fuzzy
 msgid "Could not create the Sampling Tool dialog."
 msgstr "无法创建 Name Guru."
 
-#: src/dialogs/dialog-analysis-tools.c:2307
+#: src/dialogs/dialog-analysis-tools.c:2543
 msgid "Discrete"
 msgstr "离散"
 
-#: src/dialogs/dialog-analysis-tools.c:2307
+#: src/dialogs/dialog-analysis-tools.c:2543
 #, fuzzy
 msgid "_Value And Probability Input Range:"
 msgstr "值和确率的输入范围(_V):"
 
 # src/dialog-paste-special.c:23
-#: src/dialogs/dialog-analysis-tools.c:2309
+#: src/dialogs/dialog-analysis-tools.c:2545
 #: src/dialogs/search-replace.glade.h:24
 #: src/widgets/widget-font-selector.c:113
 msgid "Normal"
 msgstr "标准"
 
-#: src/dialogs/dialog-analysis-tools.c:2309
+#: src/dialogs/dialog-analysis-tools.c:2545
 msgid "_Mean:"
 msgstr "平均(_M)"
 
-#: src/dialogs/dialog-analysis-tools.c:2309
+#: src/dialogs/dialog-analysis-tools.c:2545
 #, fuzzy
 msgid "_Standard Deviation:"
 msgstr "标准偏差(_S)"
 
-#: src/dialogs/dialog-analysis-tools.c:2311
+#: src/dialogs/dialog-analysis-tools.c:2547
 msgid "Poisson"
 msgstr "Poisson 函数"
 
-#: src/dialogs/dialog-analysis-tools.c:2311
+#: src/dialogs/dialog-analysis-tools.c:2547
 msgid "_Lambda:"
 msgstr "Lambda(_L) 函数:"
 
-#: src/dialogs/dialog-analysis-tools.c:2313
+#: src/dialogs/dialog-analysis-tools.c:2549
 msgid "Exponential"
 msgstr "指数"
 
 # src/format.c:404
-#: src/dialogs/dialog-analysis-tools.c:2313
+#: src/dialogs/dialog-analysis-tools.c:2549
 #, fuzzy
 msgid "_b Value:"
 msgstr "_b 值"
 
-#: src/dialogs/dialog-analysis-tools.c:2315
+#: src/dialogs/dialog-analysis-tools.c:2551
 msgid "Binomial"
 msgstr "二项式"
 
 # src/item-cursor.c:582
-#: src/dialogs/dialog-analysis-tools.c:2315
-#: src/dialogs/dialog-analysis-tools.c:2317
-#: src/dialogs/dialog-analysis-tools.c:2320
+#: src/dialogs/dialog-analysis-tools.c:2551
+#: src/dialogs/dialog-analysis-tools.c:2553
+#: src/dialogs/dialog-analysis-tools.c:2556
 #, fuzzy
 msgid "_p Value:"
 msgstr "_p 值"
 
-#: src/dialogs/dialog-analysis-tools.c:2315
+#: src/dialogs/dialog-analysis-tools.c:2551
 #, fuzzy
 msgid "N_umber of Trials:"
 msgstr "试验数(_U)"
 
-#: src/dialogs/dialog-analysis-tools.c:2317
+#: src/dialogs/dialog-analysis-tools.c:2553
 msgid "Negative Binomial"
 msgstr "负二项式"
 
-#: src/dialogs/dialog-analysis-tools.c:2318
+#: src/dialogs/dialog-analysis-tools.c:2554
 #, fuzzy
 msgid "N_umber of Failures"
 msgstr "失败次数(_U)"
 
-#: src/dialogs/dialog-analysis-tools.c:2320
+#: src/dialogs/dialog-analysis-tools.c:2556
 msgid "Bernoulli"
 msgstr "Bernoulli函数"
 
-#: src/dialogs/dialog-analysis-tools.c:2322
+#: src/dialogs/dialog-analysis-tools.c:2558
 msgid "Uniform"
 msgstr "统一"
 
-#: src/dialogs/dialog-analysis-tools.c:2322
+#: src/dialogs/dialog-analysis-tools.c:2558
 #, fuzzy
 msgid "_Lower Bound:"
 msgstr "下界(_L)"
 
-#: src/dialogs/dialog-analysis-tools.c:2322
+#: src/dialogs/dialog-analysis-tools.c:2558
 #, fuzzy
 msgid "_Upper Bound:"
 msgstr "上界(_U)"
 
-# src/workbook.c:969
-#: src/dialogs/dialog-analysis-tools.c:2571
-msgid ""
-"You should introduce a valid cell range in 'Value and probability input "
-"Range:'"
-msgstr "在'值和确率的输入范围:'中请使用合法的储存格范围"
-
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:2753
+#: src/dialogs/dialog-analysis-tools.c:3044
 #, fuzzy
 msgid "Could not create the Random Tool dialog."
 msgstr "无法创建 Name Guru."
 
-#: src/dialogs/dialog-analysis-tools.c:2819
+#: src/dialogs/dialog-analysis-tools.c:3106
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -4941,7 +4906,7 @@ msgstr ""
 "没有足够的数据点去求回归.\n"
 "应该至少要有和自由变量一样多的数据点."
 
-#: src/dialogs/dialog-analysis-tools.c:2825
+#: src/dialogs/dialog-analysis-tools.c:3112
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
@@ -4950,140 +4915,140 @@ msgstr ""
 "因为两个或两个以上的独立变量线性依存, 所以不能求回归.\n"
 "请把独立变量中的任何一个删除之后再求回归."
 
-#: src/dialogs/dialog-analysis-tools.c:2832
+#: src/dialogs/dialog-analysis-tools.c:3119
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr "在求回归时, 对每一个变量一定要有相同的入口个数."
 
-#: src/dialogs/dialog-analysis-tools.c:2940
+#: src/dialogs/dialog-analysis-tools.c:3219
 #, fuzzy
 msgid "_X Variables:"
 msgstr "X 变量 %d"
 
-#: src/dialogs/dialog-analysis-tools.c:2965
+#: src/dialogs/dialog-analysis-tools.c:3243
 #, fuzzy
 msgid "_Y Variable:"
 msgstr "变量 2 范围:"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:3031
+#: src/dialogs/dialog-analysis-tools.c:3310
 #, fuzzy
 msgid "Could not create the Regression Tool dialog."
 msgstr "无法创建 Name Guru."
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:3207
+#: src/dialogs/dialog-analysis-tools.c:3482
 #, fuzzy
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "无法创建 Name Guru."
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:3382
+#: src/dialogs/dialog-analysis-tools.c:3653
 #, fuzzy
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "无法创建 Name Guru."
 
-#: src/dialogs/dialog-analysis-tools.c:3429
+#: src/dialogs/dialog-analysis-tools.c:3703
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "对不起, Fourier 分析还未实现."
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:3472
+#: src/dialogs/dialog-analysis-tools.c:3746
 #, fuzzy
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "无法创建 Name Guru."
 
-#: src/dialogs/dialog-analysis-tools.c:3543
+#: src/dialogs/dialog-analysis-tools.c:3820
 msgid ""
 "Each row of the bin range should contain one numeric value\n"
 "(ignoring the label if applicable)."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:3675 src/dialogs/histogram.glade.h:1
+#: src/dialogs/dialog-analysis-tools.c:3951 src/dialogs/histogram.glade.h:1
 #, fuzzy
 msgid "Bin _Range:"
 msgstr "2 元范围(_B):"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:3679
+#: src/dialogs/dialog-analysis-tools.c:3955
 #, fuzzy
 msgid "Could not create the Histogram Tool dialog."
 msgstr "无法创建 Name Guru."
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:3862
+#: src/dialogs/dialog-analysis-tools.c:4133
 #, fuzzy
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "无法创建 Name Guru."
 
-#: src/dialogs/dialog-analysis-tools.c:3941
+#: src/dialogs/dialog-analysis-tools.c:4197
 #, fuzzy
 msgid "Each sample must contain the same number of rows."
 msgstr "每一个样本应包含相同的行数 ('Rows per sample:')"
 
-#: src/dialogs/dialog-analysis-tools.c:3946
+#: src/dialogs/dialog-analysis-tools.c:4202
 msgid "Given input range contains non-numeric data."
 msgstr "给出的输入范围含有非数字数据."
 
-#: src/dialogs/dialog-analysis-tools.c:3951
+#: src/dialogs/dialog-analysis-tools.c:4207
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr "给出的输入范围应至少包含数据和标签两列."
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-analysis-tools.c:4078
+#: src/dialogs/dialog-analysis-tools.c:4337
 #, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "无法创建 Name Guru."
 
-#: src/dialogs/dialog-analysis-tools.c:4109
+#: src/dialogs/dialog-analysis-tools.c:4368
 #, fuzzy
 msgid "Anova: Two-Factor With Or Without Replication"
 msgstr "分散解析: 没有重复的二元配置"
 
-#: src/dialogs/dialog-analysis-tools.c:4117
+#: src/dialogs/dialog-analysis-tools.c:4378
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F-检测: 使用两个标本检测方差"
 
 # src/workbook.c:1133
-#: src/dialogs/dialog-analysis-tools.c:4125
+#: src/dialogs/dialog-analysis-tools.c:4384
 #: src/dialogs/moving-averages.glade.h:5
 msgid "Moving Average"
 msgstr "移动平均"
 
-#: src/dialogs/dialog-analysis-tools.c:4127
+#: src/dialogs/dialog-analysis-tools.c:4386
 #: src/dialogs/random-generation.glade.h:5
 msgid "Random Number Generation"
 msgstr "产生随机数"
 
-#: src/dialogs/dialog-analysis-tools.c:4129 src/dialogs/rank.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:4388 src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
 msgstr "阶数和百分位数"
 
 # src/dialog-cell-format.c:297
-#: src/dialogs/dialog-analysis-tools.c:4133 src/dialogs/sampling.glade.h:9
+#: src/dialogs/dialog-analysis-tools.c:4392 src/dialogs/sampling.glade.h:9
 msgid "Sampling"
 msgstr "样本"
 
-#: src/dialogs/dialog-analysis-tools.c:4135
+#: src/dialogs/dialog-analysis-tools.c:4394
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t-检测: 成对二元样本平均检测"
 
-#: src/dialogs/dialog-analysis-tools.c:4137
+#: src/dialogs/dialog-analysis-tools.c:4396
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t-检测: 二元样本等方差检测"
 
-#: src/dialogs/dialog-analysis-tools.c:4139
+#: src/dialogs/dialog-analysis-tools.c:4398
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t-检测: 二元样本不等方差检测"
 
-#: src/dialogs/dialog-analysis-tools.c:4141
+#: src/dialogs/dialog-analysis-tools.c:4400
 msgid "z-Test: Two Sample for Means"
 msgstr "z-检测: 二元样本平均检测"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-autocorrect.c:292
+#: src/dialogs/dialog-autocorrect.c:293
 #, fuzzy
 msgid "Could not create the AutoCorrect dialog."
 msgstr "无法创建 Name Guru."
@@ -5211,12 +5176,12 @@ msgstr "当读入分类表时出现错误"
 # src/dialog-cell-format.c:358 src/formats.c:16 src/number-match.c:455
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:958 src/format.c:1702 src/format.c:1794
-#: src/format.c:1803 src/format.c:1872
+#: src/dialogs/dialog-autoformat.c:958 src/format.c:1664 src/format.c:1756
+#: src/format.c:1765 src/format.c:1834
 msgid "General"
 msgstr "一般"
 
-#: src/dialogs/dialog-autosave.c:122
+#: src/dialogs/dialog-autosave.c:119
 msgid "You should introduce a proper number of minutes in the entry."
 msgstr "应输入正确的分钟数."
 
@@ -5238,34 +5203,34 @@ msgid "_);[Red]("
 msgstr "_);[红色]("
 
 # src/workbook.c:1131
-#: src/dialogs/dialog-cell-format.c:2127 src/dialogs/dialog-cell-format.c:2136
+#: src/dialogs/dialog-cell-format.c:2153 src/dialogs/dialog-cell-format.c:2162
 msgid "Minimum :"
 msgstr "最小 :"
 
 # src/workbook.c:1132
-#: src/dialogs/dialog-cell-format.c:2128 src/dialogs/dialog-cell-format.c:2140
+#: src/dialogs/dialog-cell-format.c:2154 src/dialogs/dialog-cell-format.c:2166
 msgid "Maximum :"
 msgstr "最大 :"
 
 # src/dialog-paste-special.c:22
-#: src/dialogs/dialog-cell-format.c:2132
+#: src/dialogs/dialog-cell-format.c:2158
 msgid "Value :"
 msgstr "值 :"
 
 # src/dialog-cell-format.c:309
-#: src/dialogs/dialog-cell-format.c:2597
+#: src/dialogs/dialog-cell-format.c:2623
 msgid "Format Cells"
 msgstr "格式化单元"
 
 # src/workbook.c:783 src/workbook.c:789
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2663 src/dialogs/dialog-cell-format.c:2668
-#: src/dialogs/dialog-cell-format.c:2678 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2689 src/dialogs/dialog-cell-format.c:2694
+#: src/dialogs/dialog-cell-format.c:2704 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:858
 msgid "Automatic"
 msgstr "自动调整"
 
-#: src/dialogs/dialog-cell-format.c:2673 src/workbook-format-toolbar.c:833
+#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:833
 msgid "Clear Background"
 msgstr "清除背景"
 
@@ -5346,12 +5311,12 @@ msgstr "源区域 %s 与目的区域相重叠"
 msgid "%s is not a valid source region"
 msgstr "%s 不是一个有效的源区域"
 
-#: src/dialogs/dialog-define-names.c:376
+#: src/dialogs/dialog-define-names.c:377
 msgid "You cannot redefine a builtin name."
 msgstr "不能重新定义内嵌的名字."
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-define-names.c:589
+#: src/dialogs/dialog-define-names.c:590
 msgid "Could not create the Name Guru."
 msgstr "无法创建 Name Guru."
 
@@ -5363,7 +5328,7 @@ msgstr "值 %d"
 
 # src/workbook.c:284
 #: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:131
-#: src/functions/fn-string.c:1251
+#: src/functions/fn-string.c:1215
 msgid "String"
 msgstr "文字列"
 
@@ -5394,43 +5359,43 @@ msgid "Any"
 msgstr "任意"
 
 # src/workbook.c:969
-#: src/dialogs/dialog-goal-seek.c:367
+#: src/dialogs/dialog-goal-seek.c:368
 #, fuzzy
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "在'设置单元'中请使用合法的储存格域名"
 
-#: src/dialogs/dialog-goal-seek.c:375
+#: src/dialogs/dialog-goal-seek.c:376
 #, fuzzy
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "'设置单元'中的单元名必须包含一个公式"
 
 # src/workbook.c:969
-#: src/dialogs/dialog-goal-seek.c:383
+#: src/dialogs/dialog-goal-seek.c:384
 #, fuzzy
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "在'通过变换单元'中请使用合法的储存格域名"
 
-#: src/dialogs/dialog-goal-seek.c:392
+#: src/dialogs/dialog-goal-seek.c:393
 #, fuzzy
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr "'通过变换单元'中的单元名一定不包含一个公式"
 
-#: src/dialogs/dialog-goal-seek.c:405
+#: src/dialogs/dialog-goal-seek.c:406
 msgid "The value given in 'To Value:' is not valid."
 msgstr ""
 
-#: src/dialogs/dialog-goal-seek.c:482
+#: src/dialogs/dialog-goal-seek.c:483
 #, fuzzy, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "单元 %s 的目标检索发现一个解"
 
-#: src/dialogs/dialog-goal-seek.c:498
+#: src/dialogs/dialog-goal-seek.c:499
 #, fuzzy, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr "单元 %s 的目标检索发现一个解"
 
 # plugins/guile/plugin.c:278
-#: src/dialogs/dialog-goal-seek.c:667
+#: src/dialogs/dialog-goal-seek.c:668
 #, fuzzy
 msgid "Could not create the Goal-Seek dialog."
 msgstr "无法创建 Name Guru."
@@ -5446,40 +5411,40 @@ msgstr "储存格"
 msgid "Go to..."
 msgstr "跳越至 ..."
 
-#: src/dialogs/dialog-graph-guru.c:743
+#: src/dialogs/dialog-graph-guru.c:742
 #, fuzzy
 msgid "Step 1 of 3: Select graph type"
 msgstr "步骤 3 的 1: 选择图形类型"
 
-#: src/dialogs/dialog-graph-guru.c:749
+#: src/dialogs/dialog-graph-guru.c:748
 msgid "Step 2 of 3: Select data ranges"
 msgstr "步骤 3 的 2: 选择数据范围"
 
 # src/dialog-paste-special.c:21
-#: src/dialogs/dialog-graph-guru.c:751
+#: src/dialogs/dialog-graph-guru.c:750
 #, fuzzy
 msgid "Graph Data"
 msgstr "图形上帝"
 
-#: src/dialogs/dialog-graph-guru.c:756
+#: src/dialogs/dialog-graph-guru.c:755
 #, fuzzy
 msgid "Step 3 of 3: Customize graph"
 msgstr "步骤 3 的 3: 自订图形"
 
 # src/dialog-paste-special.c:21
-#: src/dialogs/dialog-graph-guru.c:758
+#: src/dialogs/dialog-graph-guru.c:757
 #, fuzzy
 msgid "Format Graph"
 msgstr "数式的上帝"
 
 # src/workbook.c:1810 src/workbook.c:1838
-#: src/dialogs/dialog-graph-guru.c:933
+#: src/dialogs/dialog-graph-guru.c:932
 #, fuzzy
 msgid "Plot name"
 msgstr "一些名"
 
 # src/workbook.c:1810 src/workbook.c:1838
-#: src/dialogs/dialog-graph-guru.c:936
+#: src/dialogs/dialog-graph-guru.c:935
 #, fuzzy
 msgid "Series name"
 msgstr "表名"
@@ -5674,25 +5639,25 @@ msgstr "其它值"
 msgid "Comment"
 msgstr "注释"
 
-#: src/dialogs/dialog-search-replace.c:130 src/dialogs/dialog-search.c:367
+#: src/dialogs/dialog-search-replace.c:131 src/dialogs/dialog-search.c:368
 msgid "You must select some cell types to search."
 msgstr "为了检索一定要选择单元的类型."
 
 # src/workbook.c:1509
-#: src/dialogs/dialog-sheet-order.c:147 src/workbook-control-gui.c:408
+#: src/dialogs/dialog-sheet-order.c:147 src/workbook-control-gui.c:410
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "确定要移除名为 `%s' 的表格吗?"
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:68 src/dialogs/solver.glade.h:1
+#: src/dialogs/dialog-solver.c:68 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:69 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:69 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5737,23 +5702,23 @@ msgstr "需要选择至少一个表进行输出"
 msgid "Are you sure you want to cancel?"
 msgstr "确实要取消吗?"
 
+#: src/dialogs/dialog-stf-export.glade.h:1 src/dialogs/dialog-stf.glade.h:1
+msgid "\""
+msgstr "\""
+
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
+msgid "'"
+msgstr "'"
+
 # src/dialog-define-names.c:27 src/plugin-manager.c:132
-#: src/dialogs/dialog-stf-export.glade.h:1
+#: src/dialogs/dialog-stf-export.glade.h:3
 msgid "<- Remove"
 msgstr "<- 删除"
 
 # src/dialog-define-names.c:27 src/plugin-manager.c:132
-#: src/dialogs/dialog-stf-export.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:4
 msgid "<- Remove all"
 msgstr "<- 全部删除"
-
-#: src/dialogs/dialog-stf-export.glade.h:3 src/dialogs/dialog-stf.glade.h:1
-msgid "\""
-msgstr "\""
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
-msgid "'"
-msgstr "'"
 
 # src/dialog-define-names.c:26 src/dialog-paste-special.c:29
 #: src/dialogs/dialog-stf-export.glade.h:5
@@ -5906,6 +5871,12 @@ msgstr "数据 (从 %s)"
 #: src/dialogs/dialog-stf-preview.c:616 src/style.c:88
 msgid "fixed"
 msgstr ""
+
+# src/sheet-view.c:343 src/sheet-view.c:382
+#: src/dialogs/dialog-stf-preview.h:19
+#, c-format
+msgid "Column %d"
+msgstr "列: %d"
 
 #: src/dialogs/dialog-stf.glade.h:3
 msgid ""
@@ -6192,12 +6163,6 @@ msgstr "终了行(_T):"
 #: src/dialogs/dialog-workbook-attr.c:166
 msgid "Workbook Attributes"
 msgstr "工作本属性"
-
-# src/formats.c:74
-#: src/dialogs/dialog-zoom.glade.h:2
-#, no-c-format
-msgid "%"
-msgstr "%"
 
 #: src/dialogs/dialog-zoom.glade.h:4
 #, no-c-format
@@ -6717,7 +6682,7 @@ msgstr "放大"
 
 # src/workbook.c:761 src/workbook.c:809
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:139
-#: src/workbook.c:1060 src/xml-io.c:3068
+#: src/workbook.c:1060 src/xml-io.c:3058
 msgid "Sheet"
 msgstr "表格"
 
@@ -6842,6 +6807,10 @@ msgstr "样本数:"
 #: src/dialogs/random-generation.glade.h:8
 msgid "_Distribution:"
 msgstr "分布(_D):"
+
+#: src/dialogs/regression.glade.h:1
+msgid "0.95"
+msgstr "0.95"
 
 #: src/dialogs/regression.glade.h:2
 msgid "Confidence Level:"
@@ -7474,45 +7443,45 @@ msgstr "水平滚动条(_H)"
 msgid "_Vertical Scrollbar"
 msgstr "垂直滚动条(_V)"
 
-#: src/expr-name.c:220
+#: src/expr-name.c:225
 msgid "already defined in sheet"
 msgstr "表中已定义"
 
 # src/dialog-define-names.c:42
-#: src/expr-name.c:224
+#: src/expr-name.c:229
 msgid "already defined in workbook"
 msgstr "在工作簿中已定义"
 
-#: src/expr-name.c:228
+#: src/expr-name.c:233
 #, fuzzy
 msgid "already globally defined "
 msgstr "表中已定义"
 
-#: src/expr-name.c:234
+#: src/expr-name.c:239
 #, fuzzy, c-format
 msgid "'%s' has a circular reference"
 msgstr "循环参照"
 
-#: src/expr-name.c:397
+#: src/expr-name.c:402
 msgid "Builtin"
 msgstr "内嵌"
 
-#: src/expr-name.c:489 src/expr-name.c:501
+#: src/expr-name.c:494 src/expr-name.c:506
 msgid "Error: no sheet"
 msgstr "错误: 无表"
 
 # src/expr.c:775
-#: src/expr.c:580
+#: src/expr.c:566
 msgid "Internal type error"
 msgstr "内部类型错误"
 
 # src/expr.c:1044
-#: src/expr.c:759
+#: src/expr.c:745
 msgid "Unknown operator"
 msgstr "不明的演算符"
 
 # src/expr.c:1044
-#: src/expr.c:980
+#: src/expr.c:968
 msgid "Unknown evaluation error"
 msgstr "不明的评估错误"
 
@@ -7616,19 +7585,19 @@ msgid "yellow"
 msgstr "黄色"
 
 #. Is it a boolean?
-#: src/format.c:1609 src/number-match.c:1066 src/value-sheet.c:34
-#: src/value.c:247 src/value.c:485
+#: src/format.c:1571 src/number-match.c:1066 src/value-sheet.c:34
+#: src/value.c:248 src/value.c:487
 msgid "TRUE"
 msgstr "真"
 
 # src/main.c:36
-#: src/format.c:1609 src/number-match.c:1068 src/value-sheet.c:34
-#: src/value.c:249 src/value.c:485
+#: src/format.c:1571 src/number-match.c:1068 src/value-sheet.c:34
+#: src/value.c:250 src/value.c:487
 msgid "FALSE"
 msgstr "假"
 
 #. Array of arrays ??
-#: src/format.c:1637
+#: src/format.c:1599
 msgid "ARRAY"
 msgstr "数组"
 
@@ -10969,7 +10938,7 @@ msgstr ""
 msgid "Engineering"
 msgstr "工程"
 
-#: src/functions/fn-financial.c:936
+#: src/functions/fn-financial.c:990
 #, fuzzy
 msgid ""
 "@FUNCTION=ACCRINT\n"
@@ -11019,7 +10988,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINTM"
 
-#: src/functions/fn-financial.c:1014
+#: src/functions/fn-financial.c:1068
 #, fuzzy
 msgid ""
 "@FUNCTION=ACCRINTM\n"
@@ -11067,7 +11036,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ACCRINT"
 
-#: src/functions/fn-financial.c:1066
+#: src/functions/fn-financial.c:1120
 #, fuzzy
 msgid ""
 "@FUNCTION=INTRATE\n"
@@ -11121,7 +11090,7 @@ msgstr ""
 "=INTRATE(36631, 36799, 100000, 103525, 1) = 0.0648 或者 6.48%\n"
 "@SEEALSO=RECEIVED, DATE"
 
-#: src/functions/fn-financial.c:1127
+#: src/functions/fn-financial.c:1181
 #, fuzzy
 msgid ""
 "@FUNCTION=RECEIVED\n"
@@ -11165,7 +11134,7 @@ msgstr ""
 "\n"
 "@SEEALSO=INTRATE"
 
-#: src/functions/fn-financial.c:1182
+#: src/functions/fn-financial.c:1236
 #, fuzzy
 msgid ""
 "@FUNCTION=PRICEDISC\n"
@@ -11212,7 +11181,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEMAT"
 
-#: src/functions/fn-financial.c:1234
+#: src/functions/fn-financial.c:1288
 #, fuzzy
 msgid ""
 "@FUNCTION=PRICEMAT\n"
@@ -11257,7 +11226,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEDISC"
 
-#: src/functions/fn-financial.c:1293
+#: src/functions/fn-financial.c:1347
 #, fuzzy
 msgid ""
 "@FUNCTION=DISC\n"
@@ -11300,7 +11269,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:1344
+#: src/functions/fn-financial.c:1398
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -11341,11 +11310,11 @@ msgstr ""
 "@SEEALSO=NOMINAL"
 
 # src/fn-math.c:87
-#: src/functions/fn-financial.c:1385
+#: src/functions/fn-financial.c:1439
 msgid "effect - domain error"
 msgstr "effect - 值域错误"
 
-#: src/functions/fn-financial.c:1393
+#: src/functions/fn-financial.c:1447
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -11377,11 +11346,11 @@ msgstr ""
 "@SEEALSO=EFFECT"
 
 # src/fn-math.c:215
-#: src/functions/fn-financial.c:1423
+#: src/functions/fn-financial.c:1477
 msgid "nominal - domain error"
 msgstr "nominal - 值域错误"
 
-#: src/functions/fn-financial.c:1432
+#: src/functions/fn-financial.c:1486
 msgid ""
 "@FUNCTION=ISPMT\n"
 "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
@@ -11399,7 +11368,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV"
 
-#: src/functions/fn-financial.c:1466
+#: src/functions/fn-financial.c:1520
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -11422,7 +11391,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
 
-#: src/functions/fn-financial.c:1522
+#: src/functions/fn-financial.c:1576
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -11447,7 +11416,7 @@ msgstr ""
 "\n"
 "@SEEALSO=SLN,SYD"
 
-#: src/functions/fn-financial.c:1570
+#: src/functions/fn-financial.c:1624
 #, fuzzy
 msgid ""
 "@FUNCTION=SLN\n"
@@ -11487,11 +11456,11 @@ msgstr ""
 "@SEEALSO=SYD"
 
 # src/fn-math.c:215
-#: src/functions/fn-financial.c:1614
+#: src/functions/fn-financial.c:1668
 msgid "sln - domain error"
 msgstr "sln - 值域错误"
 
-#: src/functions/fn-financial.c:1622
+#: src/functions/fn-financial.c:1676
 #, fuzzy
 msgid ""
 "@FUNCTION=SYD\n"
@@ -11534,11 +11503,11 @@ msgstr ""
 "@SEEALSO=SLN"
 
 # src/fn-math.c:87
-#: src/functions/fn-financial.c:1668
+#: src/functions/fn-financial.c:1722
 msgid "syd - domain error"
 msgstr "syd - 值域错误"
 
-#: src/functions/fn-financial.c:1678
+#: src/functions/fn-financial.c:1732
 #, fuzzy
 msgid ""
 "@FUNCTION=DOLLARDE\n"
@@ -11562,7 +11531,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARFR"
 
-#: src/functions/fn-financial.c:1722
+#: src/functions/fn-financial.c:1776
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -11583,7 +11552,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLARDE"
 
-#: src/functions/fn-financial.c:1764
+#: src/functions/fn-financial.c:1818
 msgid ""
 "@FUNCTION=MIRR\n"
 "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
@@ -11600,7 +11569,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV"
 
-#: src/functions/fn-financial.c:1824
+#: src/functions/fn-financial.c:1878
 msgid ""
 "@FUNCTION=TBILLEQ\n"
 "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
@@ -11625,7 +11594,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1869
+#: src/functions/fn-financial.c:1923
 msgid ""
 "@FUNCTION=TBILLPRICE\n"
 "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
@@ -11650,7 +11619,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
 
-#: src/functions/fn-financial.c:1910
+#: src/functions/fn-financial.c:1964
 msgid ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
@@ -11674,7 +11643,7 @@ msgstr ""
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
 
-#: src/functions/fn-financial.c:1951
+#: src/functions/fn-financial.c:2005
 #, fuzzy
 msgid ""
 "@FUNCTION=RATE\n"
@@ -11691,7 +11660,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:2059
+#: src/functions/fn-financial.c:2113
 msgid ""
 "@FUNCTION=IRR\n"
 "@SYNTAX=IRR(values[,guess])\n"
@@ -11723,7 +11692,7 @@ msgstr ""
 "IRR(A1:A8) 返回 0.04375. \n"
 "@SEEALSO=FV,NPV,PV"
 
-#: src/functions/fn-financial.c:2182
+#: src/functions/fn-financial.c:2236
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
@@ -11745,7 +11714,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: src/functions/fn-financial.c:2229
+#: src/functions/fn-financial.c:2283
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -11767,7 +11736,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,XNPV"
 
-#: src/functions/fn-financial.c:2283
+#: src/functions/fn-financial.c:2337
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -11790,7 +11759,7 @@ msgstr ""
 "\n"
 "@SEEALSO=NPV,PV"
 
-#: src/functions/fn-financial.c:2343
+#: src/functions/fn-financial.c:2397
 msgid ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(values,dates[,guess])\n"
@@ -11828,7 +11797,7 @@ msgstr ""
 "XIRR(A1:A5,B1:B5) 返回 0.224838. \n"
 "@SEEALSO=IRR,XNPV"
 
-#: src/functions/fn-financial.c:2447
+#: src/functions/fn-financial.c:2501
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
@@ -11852,7 +11821,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PV,PMT,PPMT"
 
-#: src/functions/fn-financial.c:2486
+#: src/functions/fn-financial.c:2540
 #, fuzzy
 msgid ""
 "@FUNCTION=PMT\n"
@@ -11878,7 +11847,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FV"
 
-#: src/functions/fn-financial.c:2524
+#: src/functions/fn-financial.c:2578
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -11905,7 +11874,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2571
+#: src/functions/fn-financial.c:2625
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -11932,7 +11901,7 @@ msgstr ""
 "\n"
 "@SEEALSO=IPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2620
+#: src/functions/fn-financial.c:2674
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -11963,7 +11932,7 @@ msgstr ""
 "前, 你的存款可以成为两倍.\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2669
+#: src/functions/fn-financial.c:2723
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -11984,7 +11953,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PPMT,PV,FV"
 
-#: src/functions/fn-financial.c:2706
+#: src/functions/fn-financial.c:2760
 msgid ""
 "@FUNCTION=FVSCHEDULE\n"
 "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
@@ -12008,7 +11977,7 @@ msgstr ""
 "FVSCHEDULE(3000,A1:A5) = 4942.7911611.\n"
 "@SEEALSO=PV,FV"
 
-#: src/functions/fn-financial.c:2750
+#: src/functions/fn-financial.c:2804
 msgid ""
 "@FUNCTION=EURO\n"
 "@SYNTAX=EURO(currency)\n"
@@ -12053,7 +12022,7 @@ msgstr ""
 "EURO(\"DEM\") 返回 1.95583.\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2832
+#: src/functions/fn-financial.c:2886
 #, fuzzy
 msgid ""
 "@FUNCTION=PRICE\n"
@@ -12095,7 +12064,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2907
+#: src/functions/fn-financial.c:2961
 #, fuzzy
 msgid ""
 "@FUNCTION=YIELD\n"
@@ -12136,7 +12105,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:2983
+#: src/functions/fn-financial.c:3037
 #, fuzzy
 msgid ""
 "@FUNCTION=YIELDDISC\n"
@@ -12178,7 +12147,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3019
+#: src/functions/fn-financial.c:3073
 #, fuzzy
 msgid ""
 "@FUNCTION=YIELDMAT\n"
@@ -12222,7 +12191,7 @@ msgstr ""
 "\n"
 "@SEEALSO=PRICEDISC"
 
-#: src/functions/fn-financial.c:3056
+#: src/functions/fn-financial.c:3110
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
@@ -12266,7 +12235,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3144
+#: src/functions/fn-financial.c:3198
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
@@ -12309,7 +12278,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3181
+#: src/functions/fn-financial.c:3235
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
@@ -12353,7 +12322,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3218
+#: src/functions/fn-financial.c:3272
 #, fuzzy
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
@@ -12396,7 +12365,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3255
+#: src/functions/fn-financial.c:3309
 #, fuzzy
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
@@ -12438,7 +12407,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3289
+#: src/functions/fn-financial.c:3343
 #, fuzzy
 msgid ""
 "@FUNCTION=AMORLINC\n"
@@ -12480,7 +12449,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3323
+#: src/functions/fn-financial.c:3377
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
@@ -12523,7 +12492,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3381
+#: src/functions/fn-financial.c:3435
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYS\n"
@@ -12565,7 +12534,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3439
+#: src/functions/fn-financial.c:3493
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
@@ -12607,7 +12576,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3497
+#: src/functions/fn-financial.c:3551
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPNCD\n"
@@ -12649,7 +12618,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3554
+#: src/functions/fn-financial.c:3608
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
@@ -12691,7 +12660,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3589
+#: src/functions/fn-financial.c:3643
 #, fuzzy
 msgid ""
 "@FUNCTION=COUPNUM\n"
@@ -12734,7 +12703,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3644
+#: src/functions/fn-financial.c:3698
 #, fuzzy
 msgid ""
 "@FUNCTION=CUMIPMT\n"
@@ -12753,7 +12722,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3664
+#: src/functions/fn-financial.c:3718
 #, fuzzy
 msgid ""
 "@FUNCTION=CUMPRINC\n"
@@ -12772,7 +12741,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3684
+#: src/functions/fn-financial.c:3738
 #, fuzzy
 msgid ""
 "@FUNCTION=MDURATION\n"
@@ -12790,7 +12759,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-financial.c:3705
+#: src/functions/fn-financial.c:3759
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -12808,7 +12777,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DB"
 
-#: src/functions/fn-financial.c:3731
+#: src/functions/fn-financial.c:3785
 msgid "Financial"
 msgstr "财政金融"
 
@@ -13335,7 +13304,7 @@ msgstr ""
 # src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271
 # src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:571
 # src/fn-string.c:612 src/fn-string.c:681 src/fn-string.c:726
-#: src/functions/fn-logical.c:101 src/functions/fn-string.c:502
+#: src/functions/fn-logical.c:101 src/functions/fn-string.c:504
 msgid "Type Mismatch"
 msgstr "类型不匹配"
 
@@ -13510,7 +13479,7 @@ msgstr ""
 msgid "#ARG!"
 msgstr "#ARG"
 
-#: src/functions/fn-lookup.c:478
+#: src/functions/fn-lookup.c:475
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate])\n"
@@ -13538,7 +13507,7 @@ msgstr ""
 "\n"
 "@SEEALSO=HLOOKUP"
 
-#: src/functions/fn-lookup.c:539
+#: src/functions/fn-lookup.c:536
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate])\n"
@@ -13565,7 +13534,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VLOOKUP"
 
-#: src/functions/fn-lookup.c:600
+#: src/functions/fn-lookup.c:597
 #, fuzzy
 msgid ""
 "@FUNCTION=LOOKUP\n"
@@ -13591,7 +13560,7 @@ msgstr ""
 "\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
-#: src/functions/fn-lookup.c:667
+#: src/functions/fn-lookup.c:664
 #, fuzzy
 msgid ""
 "@FUNCTION=MATCH\n"
@@ -13628,7 +13597,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOOKUP"
 
-#: src/functions/fn-lookup.c:727
+#: src/functions/fn-lookup.c:724
 #, fuzzy
 msgid ""
 "@FUNCTION=INDIRECT\n"
@@ -13653,7 +13622,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:788
+#: src/functions/fn-lookup.c:785
 #, fuzzy
 msgid ""
 "@FUNCTION=INDEX\n"
@@ -13674,7 +13643,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:834
+#: src/functions/fn-lookup.c:831
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMN\n"
@@ -13696,7 +13665,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:887
+#: src/functions/fn-lookup.c:884
 #, fuzzy
 msgid ""
 "@FUNCTION=COLUMNS\n"
@@ -13718,7 +13687,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:913
+#: src/functions/fn-lookup.c:910
 #, fuzzy
 msgid ""
 "@FUNCTION=OFFSET\n"
@@ -13742,7 +13711,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:976
+#: src/functions/fn-lookup.c:973
 #, fuzzy
 msgid ""
 "@FUNCTION=ROW\n"
@@ -13764,7 +13733,7 @@ msgstr ""
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:1029
+#: src/functions/fn-lookup.c:1026
 #, fuzzy
 msgid ""
 "@FUNCTION=ROWS\n"
@@ -13787,7 +13756,7 @@ msgstr ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 
 # src/fn-math.c:1290
-#: src/functions/fn-lookup.c:1055
+#: src/functions/fn-lookup.c:1052
 #, fuzzy
 msgid ""
 "@FUNCTION=HYPERLINK\n"
@@ -13810,7 +13779,7 @@ msgstr ""
 "@SEEALSO="
 
 # src/fn-string.c:84
-#: src/functions/fn-lookup.c:1081
+#: src/functions/fn-lookup.c:1078
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -13826,7 +13795,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MMULT"
 
-#: src/functions/fn-lookup.c:1129
+#: src/functions/fn-lookup.c:1126
 msgid "Data / Lookup"
 msgstr "数据 / 查找"
 
@@ -17984,7 +17953,7 @@ msgid "Statistics"
 msgstr "统计"
 
 # src/fn-string.c:18
-#: src/functions/fn-string.c:27
+#: src/functions/fn-string.c:28
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
@@ -18003,7 +17972,7 @@ msgstr ""
 "@SEEALSO=CODE"
 
 # src/fn-string.c:40
-#: src/functions/fn-string.c:53
+#: src/functions/fn-string.c:54
 #, fuzzy
 msgid ""
 "@FUNCTION=CODE\n"
@@ -18024,7 +17993,7 @@ msgstr ""
 "@SEEALSO=CHAR"
 
 # src/fn-string.c:62
-#: src/functions/fn-string.c:75
+#: src/functions/fn-string.c:76
 #, fuzzy
 msgid ""
 "@FUNCTION=EXACT\n"
@@ -18048,7 +18017,7 @@ msgstr ""
 "@SEEALSO=LEN"
 
 # src/fn-string.c:84
-#: src/functions/fn-string.c:100
+#: src/functions/fn-string.c:101
 #, fuzzy
 msgid ""
 "@FUNCTION=LEN\n"
@@ -18069,7 +18038,7 @@ msgstr ""
 "@SEEALSO=CHAR, CODE"
 
 # src/fn-string.c:106
-#: src/functions/fn-string.c:122
+#: src/functions/fn-string.c:123
 #, fuzzy
 msgid ""
 "@FUNCTION=LEFT\n"
@@ -18092,7 +18061,7 @@ msgstr ""
 "@SEEALSO=MID, RIGHT"
 
 # src/fn-string.c:139
-#: src/functions/fn-string.c:158
+#: src/functions/fn-string.c:159
 #, fuzzy
 msgid ""
 "@FUNCTION=LOWER\n"
@@ -18113,7 +18082,7 @@ msgstr ""
 "@SEEALSO=UPPER"
 
 # src/fn-string.c:172
-#: src/functions/fn-string.c:188
+#: src/functions/fn-string.c:189
 #, fuzzy
 msgid ""
 "@FUNCTION=MID\n"
@@ -18136,12 +18105,12 @@ msgstr ""
 "@SEEALSO=LEFT, RIGHT"
 
 # src/fn-string.c:200 src/fn-string.c:621
-#: src/functions/fn-string.c:214
+#: src/functions/fn-string.c:215
 msgid "Invalid arguments"
 msgstr "无效的变量"
 
 # src/fn-string.c:218
-#: src/functions/fn-string.c:233
+#: src/functions/fn-string.c:234
 #, fuzzy
 msgid ""
 "@FUNCTION=RIGHT\n"
@@ -18166,7 +18135,7 @@ msgstr ""
 "@SEEALSO=MID, LEFT"
 
 # src/fn-string.c:255
-#: src/functions/fn-string.c:272
+#: src/functions/fn-string.c:273
 #, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
@@ -18187,7 +18156,7 @@ msgstr ""
 "@SEEALSO=LOWER"
 
 # src/fn-string.c:289
-#: src/functions/fn-string.c:302
+#: src/functions/fn-string.c:303
 #, fuzzy
 msgid ""
 "@FUNCTION=CONCATENATE\n"
@@ -18208,7 +18177,7 @@ msgstr ""
 "@SEEALSO=LEFT, MID, RIGHT"
 
 # src/fn-string.c:335
-#: src/functions/fn-string.c:344
+#: src/functions/fn-string.c:345
 #, fuzzy
 msgid ""
 "@FUNCTION=REPT\n"
@@ -18230,12 +18199,12 @@ msgstr ""
 
 #. FIXME: this and above case should probably have the
 #. same error message.
-#: src/functions/fn-string.c:383
+#: src/functions/fn-string.c:384
 msgid "Out of memory"
 msgstr "内存溢出"
 
 # src/fn-string.c:373
-#: src/functions/fn-string.c:399
+#: src/functions/fn-string.c:400
 #, fuzzy
 msgid ""
 "@FUNCTION=CLEAN\n"
@@ -18256,7 +18225,7 @@ msgstr ""
 "@SEEALSO="
 
 # src/fn-string.c:412
-#: src/functions/fn-string.c:431
+#: src/functions/fn-string.c:432
 #, fuzzy
 msgid ""
 "@FUNCTION=FIND\n"
@@ -18279,7 +18248,7 @@ msgstr ""
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
 # src/fn-string.c:451
-#: src/functions/fn-string.c:473
+#: src/functions/fn-string.c:474
 #, fuzzy
 msgid ""
 "@FUNCTION=FIXED\n"
@@ -18302,7 +18271,7 @@ msgstr ""
 "@SEEALSO="
 
 # src/fn-string.c:556
-#: src/functions/fn-string.c:578
+#: src/functions/fn-string.c:542
 #, fuzzy
 msgid ""
 "@FUNCTION=PROPER\n"
@@ -18323,7 +18292,7 @@ msgstr ""
 "@SEEALSO=LOWER, UPPER"
 
 # src/fn-string.c:595
-#: src/functions/fn-string.c:624
+#: src/functions/fn-string.c:588
 #, fuzzy
 msgid ""
 "@FUNCTION=REPLACE\n"
@@ -18345,7 +18314,7 @@ msgstr ""
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
 # src/fn-string.c:644
-#: src/functions/fn-string.c:674
+#: src/functions/fn-string.c:638
 #, fuzzy
 msgid ""
 "@FUNCTION=T\n"
@@ -18368,7 +18337,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CELL, N, VALUE"
 
-#: src/functions/fn-string.c:700
+#: src/functions/fn-string.c:664
 #, fuzzy
 msgid ""
 "@FUNCTION=TEXT\n"
@@ -18395,12 +18364,12 @@ msgstr ""
 # src/fn-string.c:155 src/fn-string.c:192 src/fn-string.c:271
 # src/fn-string.c:350 src/fn-string.c:390 src/fn-string.c:571
 # src/fn-string.c:612 src/fn-string.c:681 src/fn-string.c:726
-#: src/functions/fn-string.c:736
+#: src/functions/fn-string.c:700
 msgid "Type mismatch"
 msgstr "类型不匹配"
 
 # src/fn-string.c:667
-#: src/functions/fn-string.c:748
+#: src/functions/fn-string.c:712
 #, fuzzy
 msgid ""
 "@FUNCTION=TRIM\n"
@@ -18421,7 +18390,7 @@ msgstr ""
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
 # src/fn-string.c:714
-#: src/functions/fn-string.c:794
+#: src/functions/fn-string.c:758
 #, fuzzy
 msgid ""
 "@FUNCTION=VALUE\n"
@@ -18442,7 +18411,7 @@ msgstr ""
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
 # src/fn-string.c:775
-#: src/functions/fn-string.c:837
+#: src/functions/fn-string.c:801
 #, fuzzy
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
@@ -18466,7 +18435,7 @@ msgstr ""
 "@SEEALSO=REPLACE, TRIM"
 
 # src/fn-string.c:845
-#: src/functions/fn-string.c:953
+#: src/functions/fn-string.c:917
 #, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
@@ -18486,7 +18455,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: src/functions/fn-string.c:1022
+#: src/functions/fn-string.c:986
 #, fuzzy
 msgid ""
 "@FUNCTION=SEARCH\n"
@@ -18563,7 +18532,7 @@ msgid "File \"%s\" has unknown format."
 msgstr "文件 \"%s\" 中有未知的格式."
 
 # src/dialog-cell-format.c:68
-#: src/gnumeric-graph.c:1025
+#: src/gnumeric-graph.c:1024
 #, fuzzy
 msgid "Data..."
 msgstr "数据(_D)"
@@ -18777,10 +18746,15 @@ msgstr "离散"
 #.
 #. * xgettext:
 #. * This string must translate to exactly the same strings as the
-#. * 'Print Preview' item in the
+#. * 'Print Preview...' item in the
 #. * 'File' menu
 #.
-#: src/history.c:129 src/history.c:142
+#: src/history.c:129
+#, fuzzy
+msgid "File/Print Preview..."
+msgstr "文件/打印预览"
+
+#: src/history.c:142
 msgid "File/Print Preview"
 msgstr "文件/打印预览"
 
@@ -18789,18 +18763,18 @@ msgstr "文件/打印预览"
 msgid "File/"
 msgstr "文件/"
 
-#: src/item-bar.c:609
+#: src/item-bar.c:618
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "宽度: %.2f pts (%d pixels)"
 
-#: src/item-bar.c:612
+#: src/item-bar.c:621
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "高度: %.2f pts (%d pixels)"
 
 # src/item-cursor.c:498
-#: src/item-cursor.c:909
+#: src/item-cursor.c:903
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -18811,96 +18785,96 @@ msgstr ""
 "的内容吗？"
 
 # src/item-cursor.c:580
-#: src/item-cursor.c:1019
+#: src/item-cursor.c:1013
 msgid "_Move"
 msgstr "移动(_M)"
 
 # src/item-cursor.c:581
-#: src/item-cursor.c:1025
+#: src/item-cursor.c:1019
 msgid "Copy _Formats"
 msgstr "复制格式(_F)"
 
 # src/item-cursor.c:582
-#: src/item-cursor.c:1027
+#: src/item-cursor.c:1021
 msgid "Copy _Values"
 msgstr "复制数值(_V)"
 
 # src/item-cursor.c:583
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1026
 msgid "Shift _Down and Copy"
 msgstr "储存格向下移位并复制(_D)"
 
 # src/item-cursor.c:584
-#: src/item-cursor.c:1034
+#: src/item-cursor.c:1028
 msgid "Shift _Right and Copy"
 msgstr "储存格向右移位并复制(_R)"
 
 # src/item-cursor.c:585
-#: src/item-cursor.c:1036
+#: src/item-cursor.c:1030
 msgid "Shift Dow_n and Move"
 msgstr "储存格向下移位并搬移(_N)"
 
 # src/item-cursor.c:586
-#: src/item-cursor.c:1038
+#: src/item-cursor.c:1032
 msgid "Shift Righ_t and Move"
 msgstr "储存格向右移位并搬移(_T)"
 
-#: src/item-cursor.c:1043
+#: src/item-cursor.c:1037
 msgid "C_ancel"
 msgstr "取消(_A)"
 
-#: src/main.c:81
+#: src/main.c:82
 msgid "Display Gnumeric's version"
 msgstr "显示 Gnumeric 的版本"
 
-#: src/main.c:83
+#: src/main.c:84
 msgid "Set the root library directory"
 msgstr "设置根库目录"
 
-#: src/main.c:85
+#: src/main.c:86
 msgid "Adjust the root data directory"
 msgstr "调整根数据目录"
 
 # src/main.c:36
-#: src/main.c:88
+#: src/main.c:89
 msgid "Dumps the function definitions"
 msgstr "印出现在的函数定义"
 
 # src/main.c:36
-#: src/main.c:88
+#: src/main.c:89
 msgid "FILE"
 msgstr "文件"
 
 # src/main.c:38
-#: src/main.c:91
+#: src/main.c:92
 msgid "Enables some debugging functions"
 msgstr "启动调试功能"
 
 # src/main.c:38
-#: src/main.c:91 src/main.c:94 src/main.c:96
+#: src/main.c:92 src/main.c:95 src/main.c:97
 msgid "LEVEL"
 msgstr "等级"
 
 # src/main.c:38
-#: src/main.c:94
+#: src/main.c:95
 msgid "Enables some dependency related debugging functions"
 msgstr "启动与调试函数相依存的函数"
 
 # src/main.c:38
-#: src/main.c:96
+#: src/main.c:97
 msgid "Enables some print debugging behavior"
 msgstr "启动打印调试信息"
 
-#: src/main.c:99
+#: src/main.c:100
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "装入所选书之后立即退出 (测试时有用)."
 
 # src/main.c:38
-#: src/main.c:103
+#: src/main.c:104
 msgid "Enables extra consistency checking while reading ole files"
 msgstr "当读 ole 文件时启动附加的一致性检查"
 
-#: src/main.c:133
+#: src/main.c:137
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -18923,7 +18897,7 @@ msgstr ""
 "\n"
 "-- Gnumeric 开发组."
 
-#: src/main.c:187
+#: src/main.c:191
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -18934,11 +18908,11 @@ msgstr ""
 "数据目录 := '%s'\n"
 "库目录 := '%s'\n"
 
-#: src/main.c:238
+#: src/main.c:242
 msgid "Could not initialize Workbook factory"
 msgstr "不能初始化工作本工厂"
 
-#: src/main.c:242
+#: src/main.c:246
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "不能初始化内嵌 Grid 工厂"
 
@@ -18978,57 +18952,61 @@ msgstr "#N/A"
 msgid "#RECALC!"
 msgstr "#RECALC!"
 
-#: src/parser.y:360
+#: src/parser.y:351
 #, fuzzy
 msgid "Sheet name is required"
 msgstr "至少需要一个子句"
 
-#: src/parser.y:463
+#: src/parser.y:461
 #, fuzzy, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "在工作单 '%s' 中不存在表达式 '%s'"
 
-#: src/parser.y:485
+#: src/parser.y:483
 #, fuzzy, c-format
 msgid "Unknown workbook '%s'"
 msgstr "未知工作单 '%s'"
 
-#: src/parser.y:497
+#: src/parser.y:495
 #, fuzzy, c-format
 msgid "Name '%s' does not exist in workbook '%s'"
 msgstr "在工作单 '%s' 中不存在表达式 '%s'"
 
-#: src/parser.y:522 src/parser.y:545
+#: src/parser.y:520 src/parser.y:543
 #, c-format
 msgid "Unknown sheet '%s'"
 msgstr "未知工作单 '%s'"
 
-#: src/parser.y:652 src/parser.y:666
+#: src/parser.y:651 src/parser.y:665
 #, fuzzy, c-format
 msgid "The character %c cannot be used to separate array elements"
 msgstr "字符 %c 不能用于分离数组元素"
 
-#: src/parser.y:827 src/parser.y:839 src/parser.y:872
+#: src/parser.y:826 src/parser.y:836 src/parser.y:869
 msgid "The number is out of range"
 msgstr "数据超出范围"
 
-#: src/parser.y:900
+#: src/parser.y:897
 msgid "Could not find matching closing quote"
 msgstr "找不到与引号内内容相匹配的内容"
 
-#: src/parser.y:1049
+#: src/parser.y:1063
+msgid "Multiple expressions are not supported in this context"
+msgstr ""
+
+#: src/parser.y:1085
 msgid "Could not find matching opening parenthesis"
 msgstr "找不到与括号外内容相匹配的内容"
 
-#: src/parser.y:1053
+#: src/parser.y:1089
 msgid "Could not find matching closing parenthesis"
 msgstr "找不到与括号内内容相匹配的内容"
 
-#: src/parser.y:1057
+#: src/parser.y:1093
 msgid "Invalid expression"
 msgstr "无效的表达式"
 
-#: src/parser.y:1062
+#: src/parser.y:1098
 #, c-format
 msgid "Unexpected token %c"
 msgstr "不期望的记号 %c"
@@ -19206,7 +19184,7 @@ msgid "Unable to mmap the file."
 msgstr "不能 mmap 文件"
 
 # src/dump.c:29
-#: src/plugin-util.c:311 src/xml-io.c:3422
+#: src/plugin-util.c:311 src/xml-io.c:3414
 msgid "Cannot get file size."
 msgstr "无法取得文件大小."
 
@@ -19447,21 +19425,21 @@ msgstr "所要替换的字符串一定要设置."
 msgid "You must specify a range to search."
 msgstr "一定要指定检索范围."
 
-#: src/search.c:150
+#: src/search.c:148
 msgid "The search range is invalid."
 msgstr "检索范围无效."
 
 # src/fn-string.c:353 src/fn-string.c:433 src/fn-string.c:440
 # src/fn-string.c:479
-#: src/search.c:155
+#: src/search.c:154
 msgid "Invalid search pattern."
 msgstr "无效的检索模式"
 
-#: src/search.c:170 src/search.c:174
+#: src/search.c:169 src/search.c:173
 msgid "Invalid $-specification in replacement."
 msgstr "在替换中无效的 $-指定."
 
-#: src/search.c:179
+#: src/search.c:178
 msgid "Invalid trailing backslash in replacement."
 msgstr "在替换中无效的跟踪反斜线."
 
@@ -19470,19 +19448,19 @@ msgid "cannot be performed with multiple ranges selected"
 msgstr "不能跨过数个区段执行"
 
 # src/sheet-view.c:336 src/sheet-view.c:410
-#: src/sheet-control-gui.c:496
+#: src/sheet-control-gui.c:554
 #, c-format
 msgid "Row: %s"
 msgstr "行: %s"
 
 # src/sheet-view.c:343 src/sheet-view.c:382
-#: src/sheet-control-gui.c:511
+#: src/sheet-control-gui.c:569
 #, c-format
 msgid "Column: %s"
 msgstr "列: %s"
 
 # src/dialog-paste-special.c:56 src/item-grid.c:529
-#: src/sheet-control-gui.c:1322
+#: src/sheet-control-gui.c:1396
 msgid "Paste _Special"
 msgstr "选择性贴上(_S)"
 
@@ -19494,48 +19472,48 @@ msgstr "选择性贴上(_S)"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1334
+#: src/sheet-control-gui.c:1408
 msgid "_Insert..."
 msgstr "插入(_I)..."
 
 # src/dialog-insert-cells.c:37
-#: src/sheet-control-gui.c:1338
+#: src/sheet-control-gui.c:1412
 msgid "_Insert Column(s)"
 msgstr "插入列(_I)"
 
 # src/dialog-delete-cells.c:36
-#: src/sheet-control-gui.c:1340
+#: src/sheet-control-gui.c:1414
 msgid "_Delete Column(s)"
 msgstr "删除列(_D)"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/sheet-control-gui.c:1342
+#: src/sheet-control-gui.c:1416
 msgid "_Insert Row(s)"
 msgstr "插入行(_I)"
 
 # src/dialog-delete-cells.c:35
-#: src/sheet-control-gui.c:1344
+#: src/sheet-control-gui.c:1418
 msgid "_Delete Row(s)"
 msgstr "删除行(_D)"
 
 # src/workbook.c:703
-#: src/sheet-control-gui.c:1347
+#: src/sheet-control-gui.c:1421
 msgid "Clear Co_ntents"
 msgstr "清除内容(_N)"
 
 # src/workbook.c:763 src/workbook.c:801
-#: src/sheet-control-gui.c:1353
+#: src/sheet-control-gui.c:1427
 msgid "_Format Cells..."
 msgstr "格式化储存格(_F)..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1357
+#: src/sheet-control-gui.c:1431
 msgid "Column _Width..."
 msgstr "列宽(_W)..."
 
 # src/workbook.c:790
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1365
+#: src/sheet-control-gui.c:1439
 msgid "_Row Height..."
 msgstr "行高度(_R)..."
 
@@ -19642,42 +19620,42 @@ msgstr "标签 :"
 msgid "Properties..."
 msgstr "选项..."
 
-#: src/sheet.c:2182
+#: src/sheet.c:2121
 msgid "Target region contains merged cells"
 msgstr "目的区域包含合并的单元"
 
-#: src/sheet.c:2244
+#: src/sheet.c:2183
 #, fuzzy
 msgid "cannot operate on merged cells"
 msgstr "不能在合并的单元上操作"
 
-#: src/sheet.c:2255
+#: src/sheet.c:2194
 #, fuzzy
 msgid "cannot operate on array formulae"
 msgstr "不能在数组公式上操作"
 
 # src/workbook.c:713
-#: src/sheet.c:3064
+#: src/sheet.c:3048
 msgid "Clear"
 msgstr "清除"
 
 # src/dialog-insert-cells.c:37
-#: src/sheet.c:3404
+#: src/sheet.c:3450
 msgid "Insert Columns"
 msgstr "插入列"
 
 # src/dialog-delete-cells.c:36
-#: src/sheet.c:3473
+#: src/sheet.c:3507
 msgid "Delete Columns"
 msgstr "删除列"
 
 # src/workbook.c:484 src/workbook.c:500
-#: src/sheet.c:3538
+#: src/sheet.c:3560
 msgid "Insert Rows"
 msgstr "插入行"
 
 # src/dialog-delete-cells.c:35
-#: src/sheet.c:3607
+#: src/sheet.c:3617
 msgid "Delete Rows"
 msgstr "删除行"
 
@@ -19899,7 +19877,7 @@ msgstr "对 Helvetica, fontmap 文件没有一个有效的入口."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "在所希望的目录中, 没有找到 fontmap 文件."
 
-#: src/value.c:671
+#: src/value.c:673
 msgid "Terminate"
 msgstr "终端"
 
@@ -19925,82 +19903,82 @@ msgstr "删除边框"
 msgid "You entered an invalid column width value.  It must be bigger than 0"
 msgstr "输入了一个无效的列宽值. 列宽值一定要大于零"
 
-#: src/workbook-cmd-format.c:189
+#: src/workbook-cmd-format.c:187
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "输入了一个无效的行高值. 行高值一定要大于零"
 
-#: src/workbook-cmd-format.c:236
+#: src/workbook-cmd-format.c:234
 msgid ""
 "You entered an invalid default column width value.  It must be bigger than 0"
 msgstr "输入了一个无效的缺省列宽值. 列宽值一定要大于零"
 
-#: src/workbook-cmd-format.c:264
+#: src/workbook-cmd-format.c:262
 msgid ""
 "You entered an invalid default row height value.  It must be bigger than 0"
 msgstr "输入了一个无效的缺省行高值. 行高值一定要大于零"
 
 # src/about.c:51
-#: src/workbook-control-gui.c:288
+#: src/workbook-control-gui.c:290
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
 # src/workbook.c:1548
-#: src/workbook-control-gui.c:474
+#: src/workbook-control-gui.c:476
 msgid "Add another sheet"
 msgstr "增加另一个表格"
 
 # src/workbook.c:1549
-#: src/workbook-control-gui.c:475
+#: src/workbook-control-gui.c:477
 msgid "Remove this sheet"
 msgstr "删除此表格"
 
 # src/workbook.c:1549
-#: src/workbook-control-gui.c:476
+#: src/workbook-control-gui.c:478
 msgid "Rename this sheet"
 msgstr "改名此表格"
 
-#: src/workbook-control-gui.c:477
+#: src/workbook-control-gui.c:479
 msgid "Duplicate this sheet"
 msgstr "复制此表格"
 
-#: src/workbook-control-gui.c:478
+#: src/workbook-control-gui.c:480
 msgid "Re-order sheets"
 msgstr "重新排序表格"
 
-#: src/workbook-control-gui.c:810 src/workbook-control-gui.c:868
+#: src/workbook-control-gui.c:812 src/workbook-control-gui.c:870
 msgid "Nothing"
 msgstr "无"
 
-#: src/workbook-control-gui.c:960
+#: src/workbook-control-gui.c:962
 #, fuzzy
 msgid "Un_freeze Panes"
 msgstr "解冻方格"
 
-#: src/workbook-control-gui.c:1023 src/workbook-control-gui.c:2973
+#: src/workbook-control-gui.c:1025 src/workbook-control-gui.c:2973
 #: src/workbook-control-gui.c:3156 src/workbook-control-gui.c:3196
 msgid "Undo"
 msgstr "不做"
 
-#: src/workbook-control-gui.c:1024 src/workbook-control-gui.c:2976
+#: src/workbook-control-gui.c:1026 src/workbook-control-gui.c:2976
 #: src/workbook-control-gui.c:3164 src/workbook-control-gui.c:3198
 msgid "Redo"
 msgstr "重做"
 
-#: src/workbook-control-gui.c:1178
+#: src/workbook-control-gui.c:1180
 #, c-format
 msgid "Would split array %s"
 msgstr "分割数组 %s"
 
-#: src/workbook-control-gui.c:1239
+#: src/workbook-control-gui.c:1241
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "工作本 %s 还未存储所修改的内容, 存储吗?"
 
-#: src/workbook-control-gui.c:1242
+#: src/workbook-control-gui.c:1244
 msgid "Workbook has unsaved changes, save them?"
 msgstr "工作本还未存储所修改的内容, 存储吗?"
 
-#: src/workbook-control-gui.c:1741
+#: src/workbook-control-gui.c:1743
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -20017,7 +19995,7 @@ msgstr ""
 "\t%s\n"
 "所替换. 但因不正确而中止. 没有改变任何内容."
 
-#: src/workbook-control-gui.c:1779
+#: src/workbook-control-gui.c:1781
 #, fuzzy, c-format
 msgid "Comment in cell %s!%s"
 msgstr "合并为 %s!%s"
@@ -20027,7 +20005,7 @@ msgstr "合并为 %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1962
+#: src/workbook-control-gui.c:1964
 msgid "Insert rows"
 msgstr "插入行"
 
@@ -20036,25 +20014,25 @@ msgstr "插入行"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1980
+#: src/workbook-control-gui.c:1982
 msgid "Insert columns"
 msgstr "插入列"
 
-#: src/workbook-control-gui.c:2001
+#: src/workbook-control-gui.c:2003
 msgid "Select an object to add"
 msgstr "为了增加, 选择一个对象"
 
 # src/plugin.c:40
-#: src/workbook-control-gui.c:2012
+#: src/workbook-control-gui.c:2014
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "无法创建 '%s' 类型的对象"
 
-#: src/workbook-control-gui.c:2233
+#: src/workbook-control-gui.c:2235
 msgid "Show"
 msgstr "显示"
 
-#: src/workbook-control-gui.c:2233
+#: src/workbook-control-gui.c:2235
 msgid "Hide"
 msgstr "隐藏"
 
@@ -20216,11 +20194,11 @@ msgid ""
 msgstr "基于第一列把所选择的区域按降序排序"
 
 # src/dates.c:26
-#: src/workbook-control-gui.c:3760
+#: src/workbook-control-gui.c:3940
 msgid "Send"
 msgstr "发送"
 
-#: src/workbook-control-gui.c:3760
+#: src/workbook-control-gui.c:3940
 msgid "Send the current file in email"
 msgstr "用电子邮件发送当前的文件"
 
@@ -20416,61 +20394,61 @@ msgstr "设置边框线"
 msgid "Size"
 msgstr "大小"
 
-#: src/workbook-object-toolbar.c:141
+#: src/workbook-object-toolbar.c:146
 msgid "Creates a label"
 msgstr "创建一个标签"
 
-#: src/workbook-object-toolbar.c:144
+#: src/workbook-object-toolbar.c:149
 msgid "Creates a frame"
 msgstr "创建一个桢"
 
-#: src/workbook-object-toolbar.c:149
+#: src/workbook-object-toolbar.c:154
 msgid "Creates a button"
 msgstr "创建一个按钮"
 
-#: src/workbook-object-toolbar.c:153
+#: src/workbook-object-toolbar.c:158
 msgid "Creates a checkbox"
 msgstr "创建一个检查盒"
 
 # src/dialog-cell-format.c:370
-#: src/workbook-object-toolbar.c:158
+#: src/workbook-object-toolbar.c:163
 msgid "RadioButton"
 msgstr "收音机按钮"
 
-#: src/workbook-object-toolbar.c:158
+#: src/workbook-object-toolbar.c:163
 msgid "Creates a radio button"
 msgstr "创建一个收音机按钮"
 
-#: src/workbook-object-toolbar.c:162
+#: src/workbook-object-toolbar.c:167
 msgid "Creates a list"
 msgstr "创建一个列表"
 
 # src/dialog-cell-format.c:918
-#: src/workbook-object-toolbar.c:165
+#: src/workbook-object-toolbar.c:170
 msgid "Combo"
 msgstr "小型"
 
-#: src/workbook-object-toolbar.c:165
+#: src/workbook-object-toolbar.c:170
 msgid "Creates a combobox"
 msgstr "创建一个小型盒"
 
-#: src/workbook-object-toolbar.c:168
+#: src/workbook-object-toolbar.c:173
 msgid "Creates a line object"
 msgstr "创建一个行对象"
 
-#: src/workbook-object-toolbar.c:171
+#: src/workbook-object-toolbar.c:176
 msgid "Creates an arrow object"
 msgstr "创建一个箭头对象"
 
-#: src/workbook-object-toolbar.c:174
+#: src/workbook-object-toolbar.c:179
 msgid "Creates a rectangle object"
 msgstr "创建一个长方形对象"
 
-#: src/workbook-object-toolbar.c:177
+#: src/workbook-object-toolbar.c:182
 msgid "Ellipse"
 msgstr "椭圆"
 
-#: src/workbook-object-toolbar.c:177
+#: src/workbook-object-toolbar.c:182
 msgid "Creates an ellipse object"
 msgstr "创建一个椭圆对象"
 
@@ -20479,20 +20457,20 @@ msgstr "创建一个椭圆对象"
 msgid "%dR x %dC"
 msgstr "%dLx%dC"
 
-#: src/workbook-view.c:379
+#: src/workbook-view.c:376
 msgid "Internal ERROR"
 msgstr "内部错误"
 
-#: src/workbook-view.c:657
+#: src/workbook-view.c:654
 msgid "Default file saver is not available."
 msgstr "缺省的文件存储器不可用"
 
 # src/file.c:257
-#: src/workbook-view.c:746
+#: src/workbook-view.c:743
 msgid "No sheets in workbook."
 msgstr "在工作本中没有表格"
 
-#: src/workbook-view.c:756
+#: src/workbook-view.c:753
 msgid "Unsupported file format."
 msgstr "不支持的文件格式"
 
@@ -20514,35 +20492,35 @@ msgstr "至少一定要有一个字符"
 msgid "There is already a sheet named"
 msgstr "已经有一个表名"
 
-#: src/xml-io-autoft.c:419
+#: src/xml-io-autoft.c:418
 msgid "Error while trying to load autoformat template"
 msgstr "当试图装入自动格式模板时出现错误"
 
-#: src/xml-io-autoft.c:436
+#: src/xml-io-autoft.c:435
 msgid "Is not an autoformat template file"
 msgstr "不是一个自动格式模板文件"
 
-#: src/xml-io-autoft.c:446
+#: src/xml-io-autoft.c:445
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "当试图从自动格式模板文件建立树时出现错误"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3194
+#: src/xml-io.c:3184
 #, fuzzy
 msgid "Processing file..."
 msgstr "语法扫描 XML 文件..."
 
-#: src/xml-io.c:3370
+#: src/xml-io.c:3362
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "无效的 xml 剪贴板数据. 树是空?"
 
-#: src/xml-io.c:3430
+#: src/xml-io.c:3422
 msgid "Not enough memory to create zlib decompression state."
 msgstr "没有足够的内存来创建 zlib 解压缩状态"
 
-#: src/xml-io.c:3465
+#: src/xml-io.c:3457
 msgid "Is not an Gnumeric Workbook file"
 msgstr "不是 Gnumeric 工作本文件"
 
@@ -20554,6 +20532,43 @@ msgstr "Gnumeric XML 文件格式"
 #: gnumeric.desktop.in.h:2
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME 电子表格"
+
+# src/sheet-view.c:336 src/sheet-view.c:410
+#~ msgid "Row %d"
+#~ msgstr "行: %d"
+
+#~ msgid "Variance"
+#~ msgstr "方差"
+
+#~ msgid "SS"
+#~ msgstr "平方和"
+
+#~ msgid "df"
+#~ msgstr "自由度"
+
+#~ msgid "MS"
+#~ msgstr "平均平方"
+
+#~ msgid "F"
+#~ msgstr "F"
+
+# src/dialog-paste-special.c:22
+#~ msgid "P-value"
+#~ msgstr "P-值"
+
+# src/dates.c:19
+#~ msgid "F crit"
+#~ msgstr "F 临界"
+
+#, fuzzy
+#~ msgid "(1 - _Alpha) = "
+#~ msgstr "1 - _Alpha:"
+
+# src/workbook.c:969
+#~ msgid ""
+#~ "You should introduce a valid cell range in 'Value and probability input "
+#~ "Range:'"
+#~ msgstr "在'值和确率的输入范围:'中请使用合法的储存格范围"
 
 #~ msgid "_Open"
 #~ msgstr "打开(_O)"

@@ -3,10 +3,11 @@
 # Nilgün Belma Bugüner <nilgun@fide.org>, 2001
 # Görkem Çetin <gorkem@gelecek.com.tr>, 2000.
 #
+#: src/main.c:108
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.76\n"
-"POT-Creation-Date: 2001-11-21 06:13-0500\n"
+"POT-Creation-Date: 2001-12-14 18:21-0500\n"
 "PO-Revision-Date: 2001-12-06 18:24+0200\n"
 "Last-Translator: Nilgün Belma Bugüner <nilgun@fide.org>\n"
 "Language-Team: Turkish <gnome-turk@gnome.org>\n"
@@ -42,8 +43,8 @@ msgstr "Finansal Türevler"
 msgid "Functions related to financial derivatives"
 msgstr "Finansal türevlerle ilgili işlevler"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4467
-#: plugins/mps/mps.c:571 src/xml-io.c:3433
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
+#: plugins/mps/mps.c:571 src/xml-io.c:3425
 msgid "Reading file..."
 msgstr "Dosya okunuyor..."
 
@@ -111,7 +112,8 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Veri Değişim Biçemi (DIF) modülü"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid ""
+"Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Veri Değişim Biçemi (*.dif) olarak kayıtlı bilgileri okur ve yazar"
 
 #: plugins/excel/boot.c:104
@@ -141,7 +143,7 @@ msgid "#UNKNOWN!"
 msgstr "#BİLİNMEYEN!"
 
 #: plugins/excel/ms-excel-read.c:563 plugins/lotus-123/lotus.c:190
-#: plugins/oleo/oleo.c:377 plugins/psiconv/psiconv-read.c:496
+#: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:496
 #, c-format
 msgid "Sheet%d"
 msgstr "Çizelge%d"
@@ -161,33 +163,33 @@ msgstr "Grafik%d"
 msgid "Module%d"
 msgstr "Modül%d"
 
-#: plugins/excel/ms-excel-read.c:4462
+#: plugins/excel/ms-excel-read.c:4460
 msgid "No book or workbook streams found."
 msgstr "Bir defter bulunamadı"
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4626
+#: plugins/excel/ms-excel-read.c:4624
 msgid "Password protected workbooks are not supported yet."
 msgstr "Parola korumalı defterler henüz desteklenmiyor."
 
-#: plugins/excel/ms-excel-read.c:4739
+#: plugins/excel/ms-excel-read.c:4737
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "MS Excel defteri konumlanamadı"
 
-#: plugins/excel/ms-excel-write.c:3479
+#: plugins/excel/ms-excel-write.c:3504
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Bu biçem için çok fazla satır (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3707
+#: plugins/excel/ms-excel-write.c:3732
 msgid "Can't open stream for writing\n"
 msgstr "Veri yolu yazmak için açılamadı\n"
 
-#: plugins/excel/ms-formula-read.c:644
+#: plugins/excel/ms-formula-read.c:642
 msgid "Broken function"
 msgstr "Hatalı işlev"
 
-#: plugins/excel/ms-formula-read.c:1413
+#: plugins/excel/ms-formula-read.c:1411
 msgid " Unknown formula"
 msgstr " Bilinmeyen formül"
 
@@ -289,7 +291,7 @@ msgstr "Gnome Terimlerini .po dosyasına kaydetmek için destek sağlar."
 #: src/functions/fn-information.c:766 src/functions/fn-information.c:794
 #: src/functions/fn-information.c:821 src/functions/fn-information.c:872
 #: src/functions/fn-information.c:902 src/functions/fn-information.c:969
-#: src/functions/fn-logical.c:194 src/functions/fn-string.c:322
+#: src/functions/fn-logical.c:194 src/functions/fn-string.c:323
 msgid "Invalid number of arguments"
 msgstr "#EKSiK!"
 
@@ -339,14 +341,11 @@ msgid "Import/Export of HTML, TeX, DVI, roff"
 msgstr "HTML, TeX, DVI, roff dosyalarını okur/kaydeder"
 
 #: plugins/html/plugin.xml.in.h:7
-msgid "LaTeX 2.09 (*.tex)"
-msgstr "LaTeX 2.09 (*.tex)"
-
-#: plugins/html/plugin.xml.in.h:8
-msgid "LaTeX2e (*.tex)"
+#, fuzzy
+msgid "LaTeX 2e (*.tex)"
 msgstr "LaTeX2e (*.tex)"
 
-#: plugins/html/plugin.xml.in.h:9
+#: plugins/html/plugin.xml.in.h:8
 msgid "TROFF (*.me)"
 msgstr "TROFF (*.me)"
 
@@ -482,12 +481,14 @@ msgstr ""
 "@FUNCTION=NT_PHI\n"
 "@SYNTAX=NT_PHI(n)\n"
 "@DESCRIPTION=NT_PHI işlevi @n'in asal çarpanlarından @n'e eşit ya da küçük "
-"tamsayıların sayısını hesaplar. Bu işlev tek argüman alır.\n\n"
+"tamsayıların sayısını hesaplar. Bu işlev tek argüman alır.\n"
+"\n"
 "Benzeleri: NT_D, ITHPRIME, NT_SIGMA\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
+#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -506,8 +507,8 @@ msgstr ""
 "@DESCRIPTION=NT_MU Mbius mü işlevini hesaplar.\n"
 " @n bir asal sayının karesi ile bölünebiliyorsa 0,\n"
 " @n tek sayıda farklı asal çarpanlara sahipse -1,\n"
-" @n çift sayıda farklı asal çarpanlara sahipse ya da "
-" @n=1 ise 1 dir.\n\n"
+" @n çift sayıda farklı asal çarpanlara sahipse ya da  @n=1 ise 1 dir.\n"
+"\n"
 "Benzerleri: NT_D, ITHPRIME, NT_PHI\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
@@ -524,7 +525,8 @@ msgstr ""
 "@FUNCTION=NT_D\n"
 "@SYNTAX=NT_D(n)\n"
 "@DESCRIPTION=NT_D işlevi @n'in bölenlerinin sayısını hesaplar. Bu işlev tek "
-"argüman alır.\n\n"
+"argüman alır.\n"
+"\n"
 "Benzerleri: ITHPRIME, NT_PHI, NT_SIGMA\n"
 "@EXAMPLES=\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_SIGMA"
@@ -541,8 +543,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=NT_SIGMA\n"
 "@SYNTAX=NT_SIGMA(n)\n"
-"@DESCRIPTION=NT_SIGMA işlevi @n'in bölenlerinin toplamını hesaplar."
-"Bu işlev tek argüman alır.\n\n"
+"@DESCRIPTION=NT_SIGMA işlevi @n'in bölenlerinin toplamını hesaplar.Bu işlev "
+"tek argüman alır.\n"
+"\n"
 "Benzerleri: NT_D, ITHPRIME, NT_PHI\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, ITHPRIME, NT_PHI"
@@ -559,7 +562,8 @@ msgstr ""
 "@FUNCTION=ITHPRIME\n"
 "@SYNTAX=ITHPRIME(i)\n"
 "@DESCRIPTION=ITHPRIME işlevinin sonucu @i'nci asal sayıyı verir. Bu işlev "
-"tek argüman alır.\n\n"
+"tek argüman alır.\n"
+"\n"
 "Benzerleri: NT_D, NT_SIGMA\n"
 "@EXAMPLES=\n"
 "@SEEALSO=NT_D, NT_SIGMA"
@@ -576,7 +580,8 @@ msgstr ""
 "@FUNCTION=ISPRIME\n"
 "@SYNTAX=ISPRIME(i)\n"
 "@DESCRIPTION=ISPRIME işlevinin sonucu, @i bir asal sayı ise DOĞRU, değilse "
-"YANLIŞtır. Bu işlev tek argüman alır.\n\n"
+"YANLIŞtır. Bu işlev tek argüman alır.\n"
+"\n"
 "Benzerleri: ITHPRIME, NT_D, NT_SIGMA\n"
 "@SEEALSO=ITHPRIME, NT_D, NT_SIGMA"
 
@@ -592,7 +597,8 @@ msgstr ""
 "@FUNCTION=NT_PI\n"
 "@SYNTAX=NT_PI(n)\n"
 "@DESCRIPTION=NT_PI işlevinin sonucu, @n'e eşit ya da küçük asal sayıların "
-"sayısını verir. Bu işlev tek argüman alır.\n\n"
+"sayısını verir. Bu işlev tek argüman alır.\n"
+"\n"
 "Benzerleri: ITHPRIME, NT_PHI, NT_D, NT_SIGMA\n"
 "@SEEALSO=ITHPRIME, NT_PHI, NT_D, NT_SIGMA"
 
@@ -1022,7 +1028,7 @@ msgstr "İçeriği sola yanaştırır ve girintiyi azaltır"
 msgid "Aligns the contents to the left and increases the indent"
 msgstr "İçeriği sola yanaştırır ve girintiyi arttırır"
 
-#: src/GNOME_Gnumeric.xml.h:6 src/workbook-object-toolbar.c:171
+#: src/GNOME_Gnumeric.xml.h:6 src/workbook-object-toolbar.c:176
 msgid "Arrow"
 msgstr "Ok"
 
@@ -1047,7 +1053,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "Çalışılan belgeyi düzenli aralıklarla kaydeder"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2673 src/workbook-format-toolbar.c:840
+#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:840
 #: src/workbook-format-toolbar.c:896
 msgid "Background"
 msgstr "Artalan"
@@ -1063,7 +1069,7 @@ msgid "Borders"
 msgstr "Kenarlık"
 
 #: src/GNOME_Gnumeric.xml.h:15 src/sheet-object-widget.c:413
-#: src/workbook-object-toolbar.c:149
+#: src/workbook-object-toolbar.c:154
 msgid "Button"
 msgstr "Düğme"
 
@@ -1116,7 +1122,7 @@ msgstr "Gösterilen çizelgelerin sırasını değiştirir"
 msgid "Change width of the selected columns"
 msgstr "Seçilen sütunun genişliğini değiştirir"
 
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:153
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:158
 msgid "Checkbox"
 msgstr "Onay Düğmesi"
 
@@ -1226,7 +1232,7 @@ msgstr "Bir seçenek düğmesi nesnesi oluşturur"
 msgid "Create an arrow"
 msgstr "Bir ok nesnesi oluşturur"
 
-#: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1316
+#: src/GNOME_Gnumeric.xml.h:55 src/sheet-control-gui.c:1390
 #: src/workbook-control-gui.c:2584
 msgid "Cu_t"
 msgstr "K_es"
@@ -1337,7 +1343,7 @@ msgstr "Yazı tipi Yüksekliği"
 msgid "Font selector"
 msgstr "Yazı tipi listesi"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2668
+#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2694
 #: src/workbook-format-toolbar.c:865 src/workbook-format-toolbar.c:899
 msgid "Foreground"
 msgstr "Önalan"
@@ -1355,7 +1361,7 @@ msgid "Format the selected cells as percentages"
 msgstr "Seçili gözeleri yüzde oranı olarak biçimlendirir"
 
 #: src/GNOME_Gnumeric.xml.h:85 src/sheet-object-widget.c:316
-#: src/workbook-object-toolbar.c:144
+#: src/workbook-object-toolbar.c:149
 msgid "Frame"
 msgstr "Çerçeve"
 
@@ -1491,7 +1497,7 @@ msgid "Jump to a specified cell"
 msgstr "Belirtilen gözeye gider"
 
 #: src/GNOME_Gnumeric.xml.h:118 src/sheet-object-widget.c:219
-#: src/workbook-object-toolbar.c:141
+#: src/workbook-object-toolbar.c:146
 msgid "Label"
 msgstr "Etiket"
 
@@ -1505,12 +1511,12 @@ msgid "Left justifies the contents of each cell"
 msgstr "Göze içeriğini sola yanaştırır"
 
 #: src/GNOME_Gnumeric.xml.h:121 src/dialogs/cell-format.glade.h:56
-#: src/workbook-object-toolbar.c:168
+#: src/workbook-object-toolbar.c:173
 msgid "Line"
 msgstr "Çizgi"
 
 #: src/GNOME_Gnumeric.xml.h:122 src/dialogs/cell-format.glade.h:57
-#: src/workbook-object-toolbar.c:162
+#: src/workbook-object-toolbar.c:167
 msgid "List"
 msgstr "Liste"
 
@@ -1624,8 +1630,8 @@ msgstr "Pano içeriğini yapıştır"
 msgid "Paste with optional filters and transformations"
 msgstr "İsteğe bağlı süzgeçler ve dönüşümler kullanılarak yapıştırma yapılır"
 
-#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2771
-#: src/analysis-tools.c:2798 src/workbook-format-toolbar.c:464
+#: src/GNOME_Gnumeric.xml.h:150 src/analysis-tools.c:2710
+#: src/workbook-format-toolbar.c:464
 msgid "Percent"
 msgstr "Yüzde"
 
@@ -1684,7 +1690,7 @@ msgstr "Yeniden Hesapla"
 msgid "Recalculate the spreadsheet"
 msgstr "Çizelgedeki hesapları yeniden yapar"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-object-toolbar.c:174
+#: src/GNOME_Gnumeric.xml.h:164 src/workbook-object-toolbar.c:179
 msgid "Rectangle"
 msgstr "Dörtgen"
 
@@ -1842,9 +1848,9 @@ msgstr "İstatistiksel yöntemler"
 msgid "Su_mmary..."
 msgstr "_Belge Hakkında..."
 
-#: src/GNOME_Gnumeric.xml.h:202 src/analysis-tools.c:3328
-#: src/dialogs/consolidate.glade.h:19 src/workbook-control-gui.c:2986
-#: src/workbook-control-gui.c:3608 src/workbook-view.c:520
+#: src/GNOME_Gnumeric.xml.h:202 src/dialogs/consolidate.glade.h:19
+#: src/workbook-control-gui.c:2986 src/workbook-control-gui.c:3610
+#: src/workbook-view.c:517
 msgid "Sum"
 msgstr "Toplam"
 
@@ -1878,7 +1884,8 @@ msgstr "Sıfırların boşluk olarak gösterilip gösterilmeyeceği seçilir"
 
 #: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2883
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr "Sütunun sol ve sağındaki sınırların gösterilip gösterilmeyeceği seçilir"
+msgstr ""
+"Sütunun sol ve sağındaki sınırların gösterilip gösterilmeyeceği seçilir"
 
 #: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2877
 msgid "Toggle whether to display row outlines on top or bottom"
@@ -1950,7 +1957,7 @@ msgstr "Kapa_t"
 #: src/dialogs/correlation.glade.h:7 src/dialogs/covariance.glade.h:7
 #: src/dialogs/descriptive-stats.glade.h:15
 #: src/dialogs/fourier-analysis.glade.h:7 src/dialogs/histogram.glade.h:12
-#: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:6
+#: src/dialogs/moving-averages.glade.h:8 src/dialogs/rank.glade.h:7
 #: src/dialogs/regression.glade.h:12 src/dialogs/sampling.glade.h:13
 #: src/workbook-control-gui.c:2699
 msgid "_Columns"
@@ -1964,8 +1971,8 @@ msgstr "_Birleştir..."
 msgid "_Content"
 msgstr "İ_çerik"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1022
-#: src/sheet-control-gui.c:1318 src/workbook-control-gui.c:2588
+#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1016
+#: src/sheet-control-gui.c:1392 src/workbook-control-gui.c:2588
 msgid "_Copy"
 msgstr "_Kopyala"
 
@@ -1981,7 +1988,7 @@ msgstr "_Veri Analizi..."
 msgid "_Define"
 msgstr "_Tanımla"
 
-#: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1336
+#: src/GNOME_Gnumeric.xml.h:234 src/sheet-control-gui.c:1410
 #: src/workbook-control-gui.c:2605
 msgid "_Delete..."
 msgstr "S_il..."
@@ -2011,7 +2018,7 @@ msgstr "Sü_zgeç"
 msgid "_Formats"
 msgstr "_Biçemler"
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:960
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:962
 #: src/workbook-control-gui.c:2656
 msgid "_Freeze Panes"
 msgstr "Yüzeyleri _Dondur"
@@ -2036,8 +2043,8 @@ msgstr "_Grupla ve Sınırla"
 msgid "_Help"
 msgstr "_Yardım"
 
-#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1359
-#: src/sheet-control-gui.c:1367 src/workbook-control-gui.c:2726
+#: src/GNOME_Gnumeric.xml.h:247 src/sheet-control-gui.c:1433
+#: src/sheet-control-gui.c:1441 src/workbook-control-gui.c:2726
 #: src/workbook-control-gui.c:2745
 msgid "_Hide"
 msgstr "_Gizle"
@@ -2075,7 +2082,7 @@ msgstr "_Nesne"
 msgid "_Open..."
 msgstr "_Aç..."
 
-#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1320
+#: src/GNOME_Gnumeric.xml.h:256 src/sheet-control-gui.c:1394
 #: src/workbook-control-gui.c:2592
 msgid "_Paste"
 msgstr "_Yapıştır"
@@ -2088,7 +2095,7 @@ msgstr "_Eklentiler..."
 msgid "_Print..."
 msgstr "_Yazdır..."
 
-#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:1027
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:1029
 #: src/workbook-control-gui.c:2577
 msgid "_Redo"
 msgstr "_Tekrar Yap"
@@ -2105,8 +2112,8 @@ msgstr "_Satır"
 #: src/GNOME_Gnumeric.xml.h:262 src/dialogs/anova-one.glade.h:14
 #: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
 #: src/dialogs/descriptive-stats.glade.h:20
-#: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:17
-#: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:11
+#: src/dialogs/fourier-analysis.glade.h:12 src/dialogs/histogram.glade.h:18
+#: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:12
 #: src/dialogs/regression.glade.h:16 src/dialogs/sampling.glade.h:19
 #: src/workbook-control-gui.c:2696
 msgid "_Rows"
@@ -2153,7 +2160,7 @@ msgstr "_Araç Çubukları..."
 msgid "_Tools"
 msgstr "_Araçlar"
 
-#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:1026
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:1028
 #: src/workbook-control-gui.c:2573
 msgid "_Undo"
 msgstr "_Geri Al"
@@ -2162,8 +2169,8 @@ msgstr "_Geri Al"
 msgid "_Ungroup"
 msgstr "_Grubu çöz"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1361
-#: src/sheet-control-gui.c:1369 src/workbook-control-gui.c:2729
+#: src/GNOME_Gnumeric.xml.h:275 src/sheet-control-gui.c:1435
+#: src/sheet-control-gui.c:1443 src/workbook-control-gui.c:2729
 #: src/workbook-control-gui.c:2748
 msgid "_Unhide"
 msgstr "Gö_ster"
@@ -2188,35 +2195,35 @@ msgstr "_Defter..."
 msgid "_Zoom..."
 msgstr "_Yakınlaştır..."
 
-#: src/analysis-tools.c:195
+#: src/analysis-tools.c:194 src/analysis-tools.c:3188
 #, c-format
 msgid "Row %i"
 msgstr "%i. satır"
 
-#: src/analysis-tools.c:198
+#: src/analysis-tools.c:197 src/analysis-tools.c:3180
 #, c-format
 msgid "Column %i"
 msgstr "%i. sütun"
 
-#: src/analysis-tools.c:201
+#: src/analysis-tools.c:200
 #, c-format
 msgid "Bin %i"
 msgstr "Kutu %i"
 
-#: src/analysis-tools.c:205
+#: src/analysis-tools.c:204
 #, c-format
 msgid "Area %i"
 msgstr "%i Alanı"
 
-#: src/analysis-tools.c:876 src/analysis-tools.c:879
+#: src/analysis-tools.c:798 src/analysis-tools.c:801
 msgid "Correlations"
 msgstr "İlişkiler"
 
-#: src/analysis-tools.c:967 src/analysis-tools.c:970
+#: src/analysis-tools.c:889 src/analysis-tools.c:892
 msgid "Covariances"
 msgstr "Uyuşmazlıklar"
 
-#: src/analysis-tools.c:1048
+#: src/analysis-tools.c:970
 msgid "Summary Statistics"
 msgstr "Özet İstatistikleri"
 
@@ -2227,7 +2234,7 @@ msgstr "Özet İstatistikleri"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/analysis-tools.c:1059
+#: src/analysis-tools.c:981
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -2235,52 +2242,53 @@ msgstr ""
 "/Ortalama/Standart Hata/Orta/Bölüm/Standart Sapma/Örnek Değişim/Kurtosis/"
 "Eğrilik/Aralık/Enaz/Ençok/Toplam/Sayaç"
 
-#: src/analysis-tools.c:1144
+#: src/analysis-tools.c:1066
 msgid "Confidence Interval for the Mean"
 msgstr "Ortalama için Emniyet Aralığı"
 
-#: src/analysis-tools.c:1145
+#: src/analysis-tools.c:1067
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
 msgstr "/%%%g CI, Ortalama için"
 
-#: src/analysis-tools.c:1181 src/dialogs/descriptive-stats.glade.h:9
+#: src/analysis-tools.c:1103 src/dialogs/descriptive-stats.glade.h:9
 msgid "Kth Largest"
 msgstr "En büyük K'ıncı"
 
-#: src/analysis-tools.c:1182
+#: src/analysis-tools.c:1104
 #, c-format
 msgid "Largest (%d)"
 msgstr "En büyük (%d)"
 
-#: src/analysis-tools.c:1205 src/dialogs/descriptive-stats.glade.h:10
+#: src/analysis-tools.c:1127 src/dialogs/descriptive-stats.glade.h:10
 msgid "Kth Smallest"
 msgstr "En küçük K'ıncı"
 
-#: src/analysis-tools.c:1206
+#: src/analysis-tools.c:1128
 #, c-format
 msgid "Smallest (%d)"
 msgstr "En küçük (%d)"
 
-#: src/analysis-tools.c:1330 src/analysis-tools.c:3372
+#. POST-RELEASE-FIX:  this should be Rows rather than Sample
+#: src/analysis-tools.c:1252 src/analysis-tools.c:3270
 #: src/dialogs/cell-format.glade.h:72
 msgid "Sample"
 msgstr "Örnek"
 
-#: src/analysis-tools.c:1426 src/analysis-tools.c:1428
-#: src/analysis-tools.c:1544 src/analysis-tools.c:1546
-#: src/analysis-tools.c:1700 src/analysis-tools.c:1702
-#: src/analysis-tools.c:1827 src/analysis-tools.c:1829
-#: src/analysis-tools.c:1962 src/analysis-tools.c:1964
+#: src/analysis-tools.c:1348 src/analysis-tools.c:1350
+#: src/analysis-tools.c:1469 src/analysis-tools.c:1471
+#: src/analysis-tools.c:1630 src/analysis-tools.c:1632
+#: src/analysis-tools.c:1760 src/analysis-tools.c:1762
+#: src/analysis-tools.c:1898 src/analysis-tools.c:1900
 #, c-format
 msgid "Variable %i"
 msgstr "%i. Değişken"
 
-#: src/analysis-tools.c:1430
+#: src/analysis-tools.c:1352
 msgid "z-Test"
 msgstr "z-Testi"
 
-#: src/analysis-tools.c:1433
+#: src/analysis-tools.c:1355
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -2290,12 +2298,12 @@ msgstr ""
 "Ortalama Farkı/z/P (Z<=z) tek-uçlusu/z kritik tek-uçlusu/P (Z<=z) iki-uçlusu/"
 "z kritik iki-uçlusu"
 
-#: src/analysis-tools.c:1558 src/analysis-tools.c:1704
-#: src/analysis-tools.c:1831
+#: src/analysis-tools.c:1485 src/analysis-tools.c:1634
+#: src/analysis-tools.c:1764
 msgid "t-Test"
 msgstr "t-Testi"
 
-#: src/analysis-tools.c:1561
+#: src/analysis-tools.c:1488
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -2305,7 +2313,7 @@ msgstr ""
 "Hali/P (T<=t) tek-uçlusu/t kritik tek-uçlusu/P (T<=t) iki-uçlusu/t kritik "
 "iki-uçlusu"
 
-#: src/analysis-tools.c:1707
+#: src/analysis-tools.c:1637
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -2315,7 +2323,7 @@ msgstr ""
 "Gözlemli Ortalama Farkı/df/t Hali/P (T<=t) tek-uçlusu/t kritik tek-uçlusu/P "
 "(T<=t) iki-uçlusu/t kritik iki-uçlusu"
 
-#: src/analysis-tools.c:1834
+#: src/analysis-tools.c:1767
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -2325,36 +2333,36 @@ msgstr ""
 "Farkı/df/t Hali/P (T<=t) tek-uçlusu/t kritik tek-uçlusu/P (T<=t) iki-uçlusu/"
 "t kritik iki-uçlusu"
 
-#: src/analysis-tools.c:1971
+#: src/analysis-tools.c:1907
 msgid "F-Test"
 msgstr "F-Testi"
 
-#: src/analysis-tools.c:1977
+#: src/analysis-tools.c:1913
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
 msgstr ""
-"/Ortalama/Değişim/Gözlemler/df/F/P (F<=f) sağ-uç/F Kritik sağ-uç/P "
-"(f<=F) sol-uç/F Kritik sol-uç/P iki-sonlusu/F Kritik iki-sonlusu"
+"/Ortalama/Değişim/Gözlemler/df/F/P (F<=f) sağ-uç/F Kritik sağ-uç/P (f<=F) "
+"sol-uç/F Kritik sol-uç/P iki-sonlusu/F Kritik iki-sonlusu"
 
-#: src/analysis-tools.c:2096
+#: src/analysis-tools.c:2033 src/analysis-tools.c:2091
 msgid "Random"
 msgstr "Rasgele"
 
-#: src/analysis-tools.c:2264
+#: src/analysis-tools.c:2207
 msgid "Not implemented yet.\n"
 msgstr "Daha programlanmadı.\n"
 
-#: src/analysis-tools.c:2340
+#: src/analysis-tools.c:2283
 msgid "Y Variable"
 msgstr "Y Değişkeni"
 
-#: src/analysis-tools.c:2399 src/dialogs/dialog-analysis-tools.c:4339
+#: src/analysis-tools.c:2342 src/dialogs/dialog-analysis-tools.c:4390
 #: src/dialogs/regression.glade.h:8
 msgid "Regression"
 msgstr "Geri dönme"
 
-#: src/analysis-tools.c:2401
+#: src/analysis-tools.c:2344
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -2362,173 +2370,132 @@ msgstr ""
 "/ÖZET ÇIKTI//Geri dönme İstatistikleri/Çoklu R/R Kare/Ayarlı R Kare/Standart "
 "Hata/Gözlemler//ANOVA//Geri dönme/Artan/Toplam///Kesir"
 
-#: src/analysis-tools.c:2422
+#: src/analysis-tools.c:2365
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/Önem F"
 
-#: src/analysis-tools.c:2429
+#: src/analysis-tools.c:2372
 #, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
 msgstr "/Katsayılar/Standart Hata/t Hali/P-değeri/Alt %%%0.0f/Üst %%%0.0f"
 
-#: src/analysis-tools.c:2598
+#: src/analysis-tools.c:2541
 msgid "Moving Averages"
 msgstr "Taşınan Ortalamalar"
 
-#: src/analysis-tools.c:2676 src/dialogs/dialog-analysis-tools.c:4327
+#: src/analysis-tools.c:2619 src/dialogs/dialog-analysis-tools.c:4376
 msgid "Exponential Smoothing"
 msgstr "Üstel Yuvarlama"
 
-#: src/analysis-tools.c:2751
+#: src/analysis-tools.c:2698
 msgid "Ranks"
 msgstr "Sıralamalar"
 
-#: src/analysis-tools.c:2759 src/analysis-tools.c:2785
+#: src/analysis-tools.c:2707
 msgid "Point"
 msgstr "Nokta"
 
-#: src/analysis-tools.c:2768 src/analysis-tools.c:3062
-#: src/dialogs/dialog-stf-preview.h:19
-#, c-format
-msgid "Column %d"
-msgstr "%d. sütun"
-
-#: src/analysis-tools.c:2770 src/analysis-tools.c:2797
+#: src/analysis-tools.c:2709
 msgid "Rank"
 msgstr "Sıralama"
 
-#: src/analysis-tools.c:2795 src/analysis-tools.c:3079
-#, c-format
-msgid "Row %d"
-msgstr "%d. satır"
-
-#: src/analysis-tools.c:2898 src/analysis-tools.c:3044
-#: src/analysis-tools.c:3235
+#. We are ready to create the summary table
+#: src/analysis-tools.c:2794 src/analysis-tools.c:2980
+#: src/analysis-tools.c:3240
 msgid "Anova"
 msgstr "Anova"
 
-#: src/analysis-tools.c:2900 src/dialogs/dialog-analysis-tools.c:4315
+#: src/analysis-tools.c:2796 src/dialogs/dialog-analysis-tools.c:4366
 msgid "Anova: Single Factor"
 msgstr "Anova: Tek çarpan"
 
-#: src/analysis-tools.c:2901 src/analysis-tools.c:3238
+#: src/analysis-tools.c:2797 src/analysis-tools.c:3243
 msgid "SUMMARY"
 msgstr "ÖZET"
 
-#: src/analysis-tools.c:2902
+#: src/analysis-tools.c:2798
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Gruplar/Sayaç/Toplam/Ortalama/Değişim"
 
-#: src/analysis-tools.c:2965
+#: src/analysis-tools.c:2861
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Değişim Kaynağı/Gruplar Arasında/Grupların İçinde/Toplam"
 
-#: src/analysis-tools.c:2970 src/analysis-tools.c:3152
+#: src/analysis-tools.c:2866 src/analysis-tools.c:3062
+#: src/analysis-tools.c:3276
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-değeri/F kritik"
 
-#: src/analysis-tools.c:3049
+#: src/analysis-tools.c:2986
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Örneklemeksizin iki-çarpan"
 
-#: src/analysis-tools.c:3050
+#. POST-RELEASE-FIX:  Next 2 commands should be fused
+#: src/analysis-tools.c:2987 src/analysis-tools.c:3249
+#: src/analysis-tools.c:3259
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/ÖZET/Sayaç/Toplam/Ortalama/Değişim"
 
-#: src/analysis-tools.c:3146
+#: src/analysis-tools.c:3056
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Değişim Kaynağı/Satırlar/Sütunlar/Hata/Toplam"
 
-#: src/analysis-tools.c:3237
+#: src/analysis-tools.c:3242
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Örneklemeli iki-çarpan"
 
-#: src/analysis-tools.c:3254 src/analysis-tools.c:3325
-#: src/analysis-tools.c:3376 src/dialogs/dialog-autoformat.c:77
+#: src/analysis-tools.c:3257 src/analysis-tools.c:3264
+#: src/analysis-tools.c:3274 src/dialogs/dialog-autoformat.c:77
 #: src/dialogs/dialog-autoformat.c:81
 msgid "Total"
 msgstr "Toplam"
 
-#: src/analysis-tools.c:3327 src/dialogs/consolidate.glade.h:5
-#: src/workbook-control-gui.c:3612
-msgid "Count"
-msgstr "Sayaç"
-
-#: src/analysis-tools.c:3329 src/dialogs/consolidate.glade.h:2
-#: src/workbook-control-gui.c:3611
-msgid "Average"
-msgstr "Ortalama"
-
-#: src/analysis-tools.c:3330
-msgid "Variance"
-msgstr "Değişim"
-
-#: src/analysis-tools.c:3370
+#. POST-RELEASE-FIX:  We should be using / notation for the next 7 commands
+#: src/analysis-tools.c:3267
 msgid "ANOVA"
 msgstr "ANOVA"
 
-#: src/analysis-tools.c:3371
+#: src/analysis-tools.c:3268
 msgid "Source of Variation"
 msgstr "Değişim Kaynağı"
 
-#: src/analysis-tools.c:3373 src/dialogs/dialog-stf.glade.h:17
+#: src/analysis-tools.c:3271 src/dialogs/dialog-stf.glade.h:17
 msgid "Columns"
 msgstr "Sütun"
 
-#: src/analysis-tools.c:3374
+#: src/analysis-tools.c:3272
 msgid "Interaction"
 msgstr "Etkileşim"
 
-#: src/analysis-tools.c:3375
+#: src/analysis-tools.c:3273
 msgid "Within"
 msgstr "İçinde"
 
-#: src/analysis-tools.c:3378
-msgid "SS"
-msgstr "SS"
-
-#: src/analysis-tools.c:3385
-msgid "df"
-msgstr "df"
-
-#. Note: a * b * rows_per_sample, tot_count and df_gr+df_col+df_inter+df_within
-#. should all be the same
-#: src/analysis-tools.c:3395
-msgid "MS"
-msgstr "MS"
-
-#: src/analysis-tools.c:3402
-msgid "F"
-msgstr "F"
-
-#: src/analysis-tools.c:3408
-msgid "P-value"
-msgstr "P-değeri"
-
-#: src/analysis-tools.c:3413
-msgid "F crit"
-msgstr "F krit"
-
-#: src/analysis-tools.c:3546
+#: src/analysis-tools.c:3658
 msgid "More"
 msgstr "Başka"
 
 #. { N_("Fourier Analysis"),
 #. dialog_fourier_tool },
-#: src/analysis-tools.c:3580 src/dialogs/dialog-analysis-tools.c:4331
+#: src/analysis-tools.c:3692 src/dialogs/dialog-analysis-tools.c:4382
 #: src/dialogs/histogram.glade.h:5
 msgid "Histogram"
 msgstr "Histogram"
 
-#: src/analysis-tools.c:3585
+#: src/analysis-tools.c:3697
 msgid "Bin"
 msgstr "Kutu"
 
-#: src/analysis-tools.c:3607
+#: src/analysis-tools.c:3722
 msgid "Frequency"
 msgstr "Frekans"
 
-#: src/analysis-tools.c:3610
+#: src/analysis-tools.c:3724 src/dialogs/dialog-zoom.glade.h:2
+#, no-c-format
+msgid "%"
+msgstr "%"
+
+#: src/analysis-tools.c:3727
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Kümülatif %"
@@ -2538,7 +2505,7 @@ msgstr "Kümülatif %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Defter veri yolu açılırken hata: '%s' "
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:425 src/xml-io.c:3456
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:424 src/xml-io.c:3448
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "xml dosyası geçersiz. Ağaç boş mu?"
 
@@ -2550,16 +2517,16 @@ msgstr "Bir defter dosyası içermiyor"
 msgid "EXPERIMENTAL Bonobo EFS format"
 msgstr "DENEYSEL Bonobo EFS biçemi"
 
-#: src/clipboard.c:297 src/clipboard.c:310 src/clipboard.c:322
-#: src/clipboard.c:330
+#: src/clipboard.c:299 src/clipboard.c:312 src/clipboard.c:324
+#: src/clipboard.c:332
 msgid "Unable to paste"
 msgstr "Yapıştırılamadı"
 
-#: src/clipboard.c:298
+#: src/clipboard.c:300
 msgid "Content can only be pasted by value or by link."
 msgstr "İçerik sadece değeriyle ya da bir bağ ile yapıştırılabilir"
 
-#: src/clipboard.c:306
+#: src/clipboard.c:308
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -2570,7 +2537,7 @@ msgstr ""
 "\n"
 "Tek bir göze ya da aynı yükseklik ve genişlikte bir alan seçmeyi deneyin."
 
-#: src/clipboard.c:318
+#: src/clipboard.c:320
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -2581,7 +2548,7 @@ msgstr ""
 "\n"
 "Tek bir göze ya da aynı yükseklik ve genişlikte bir alan seçmeyi deneyin."
 
-#: src/clipboard.c:331
+#: src/clipboard.c:333
 msgid "result passes the sheet boundary"
 msgstr "sonuç çizelge sınırlarını geçiyor"
 
@@ -2629,288 +2596,288 @@ msgstr "Metni Belirle"
 msgid "Typing \"%s%s\" in %s"
 msgstr "\"%s%s\" %s'e yazılıyor"
 
-#: src/commands.c:833
+#: src/commands.c:832
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "\"%s%s\" yazılıyor"
 
-#: src/commands.c:1093
+#: src/commands.c:1081
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "%d sütun %s sütununun soluna ekleniyor"
 
-#: src/commands.c:1094
+#: src/commands.c:1082
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "%d sütun %s sütununun soluna ekleniyor"
 
-#: src/commands.c:1105
+#: src/commands.c:1093
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "%d satır %s satırının üstüne ekleniyor"
 
-#: src/commands.c:1106
+#: src/commands.c:1094
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "%d satır %s satırının üstüne ekleniyor"
 
-#: src/commands.c:1117
+#: src/commands.c:1105
 #, c-format
 msgid "Deleting columns %s"
 msgstr "%s sütunları siliniyor"
 
-#: src/commands.c:1118
+#: src/commands.c:1106
 #, c-format
 msgid "Deleting column %s"
 msgstr "%s sütunu siliniyor"
 
-#: src/commands.c:1128
+#: src/commands.c:1116
 #, c-format
 msgid "Deleting rows %s"
 msgstr "%s satırları siliniyor"
 
-#: src/commands.c:1129
+#: src/commands.c:1117
 #, c-format
 msgid "Deleting row %s"
 msgstr "%s satırı siliniyor"
 
-#: src/commands.c:1204
+#: src/commands.c:1192
 msgid "Undo Clear"
 msgstr "Temizlemeyi Geri al"
 
-#: src/commands.c:1283
+#: src/commands.c:1271
 msgid "contents"
 msgstr "içerik"
 
-#: src/commands.c:1285
+#: src/commands.c:1273
 msgid "formats"
 msgstr "biçem"
 
-#: src/commands.c:1287
+#: src/commands.c:1275
 msgid "comments"
 msgstr "yorum"
 
-#: src/commands.c:1303
+#: src/commands.c:1291
 msgid "all"
 msgstr "tümü"
 
-#: src/commands.c:1310
+#: src/commands.c:1298
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "%s %s'den siliniyor"
 
-#: src/commands.c:1505
+#: src/commands.c:1493
 #, c-format
 msgid "Changing format of %s"
 msgstr "%s için biçem değiştirilmesi"
 
-#: src/commands.c:1581
+#: src/commands.c:1569
 #, c-format
 msgid "Rename sheet '%s' '%s'"
 msgstr "'%s' çizelgesinin adını '%s' yapıyor"
 
-#: src/commands.c:1691
+#: src/commands.c:1679
 msgid "Set Date/Time"
 msgstr "Tarihi/Saati Ayarla"
 
-#: src/commands.c:1708
+#: src/commands.c:1696
 #, c-format
 msgid "Setting current date in %s"
 msgstr "Tarihi %s yapıyor"
 
-#: src/commands.c:1709
+#: src/commands.c:1697
 #, c-format
 msgid "Setting current time in %s"
 msgstr "Saati %s yapıyor"
 
-#: src/commands.c:1817
+#: src/commands.c:1804
 #, c-format
 msgid "Autofitting column %s"
 msgstr "%s sütunu ayarlanıyor"
 
-#: src/commands.c:1818
+#: src/commands.c:1805
 #, c-format
 msgid "Autofitting row %s"
 msgstr "%s satırı ayarlanıyor"
 
-#: src/commands.c:1821
+#: src/commands.c:1808
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "%s sütunun genişliği %d piksele ayarlanıyor"
 
-#: src/commands.c:1823
+#: src/commands.c:1810
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "%s satırın yüksekliği %d piksele ayarlanıyor"
 
-#: src/commands.c:1828 src/commands.c:1829
+#: src/commands.c:1815 src/commands.c:1816
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "%s sütunları ayarlanıyor"
 
-#: src/commands.c:1832
+#: src/commands.c:1819
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "%s sütunun genişliği %d piksele ayarlanıyor"
 
-#: src/commands.c:1834
+#: src/commands.c:1821
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "%s satırın yüksekliği %d piksele ayarlanıyor"
 
-#: src/commands.c:1918
+#: src/commands.c:1905
 #, c-format
 msgid "Sorting %s"
 msgstr "%s sıralanıyor"
 
-#: src/commands.c:2046
+#: src/commands.c:2033
 msgid "Unhide columns"
 msgstr "Gizli sütunları göster"
 
-#: src/commands.c:2046
+#: src/commands.c:2033
 msgid "Hide columns"
 msgstr "Sütunları gizle"
 
-#: src/commands.c:2047
+#: src/commands.c:2034
 msgid "Unhide rows"
 msgstr "Gizli satırları göster"
 
-#: src/commands.c:2047
+#: src/commands.c:2034
 msgid "Hide rows"
 msgstr "Satırları gizler"
 
-#: src/commands.c:2131
+#: src/commands.c:2115
 msgid "Expand columns"
 msgstr "Sütunları genişlet"
 
-#: src/commands.c:2131
+#: src/commands.c:2115
 msgid "Collapse columns"
 msgstr "Sütunları topla"
 
-#: src/commands.c:2132
+#: src/commands.c:2116
 msgid "Expand rows"
 msgstr "Satırları genişlet"
 
-#: src/commands.c:2132
+#: src/commands.c:2116
 msgid "Collapse rows"
 msgstr "Satırları topla"
 
-#: src/commands.c:2233
+#: src/commands.c:2185
 msgid "Those columns are already grouped"
 msgstr "Bu sütunlar zaten gruplanmış"
 
-#: src/commands.c:2234
+#: src/commands.c:2186
 msgid "Those rows are already grouped"
 msgstr "Bu satırlar zaten gruplanmış"
 
-#: src/commands.c:2237
+#: src/commands.c:2189
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Bu sütunlar zaten gruplanmamış"
 
-#: src/commands.c:2238
+#: src/commands.c:2190
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Bu satırlar zaten gruplanmamış"
 
-#: src/commands.c:2249
+#: src/commands.c:2201
 #, c-format
 msgid "Group columns %s"
 msgstr "%s sütunlarını grupla"
 
-#: src/commands.c:2249
+#: src/commands.c:2201
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "%s sütunlarını ayır"
 
-#: src/commands.c:2251
+#: src/commands.c:2203
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "%d:%d satırlarını grupla"
 
-#: src/commands.c:2251
+#: src/commands.c:2203
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "%d:%d satırlarını ayır"
 
-#: src/commands.c:2454
+#: src/commands.c:2403
 #, c-format
 msgid "Moving %s"
 msgstr "%s taşıma"
 
-#: src/commands.c:2463 src/commands.c:2647
+#: src/commands.c:2412 src/commands.c:2593
 msgid "is beyond sheet boundaries"
 msgstr "çizelge sınırlarını geçiyor"
 
 #. FIXME?
-#: src/commands.c:2618
+#: src/commands.c:2564
 #, c-format
 msgid "Pasting into %s"
 msgstr "%s'e yapıştırma"
 
 #. Check arrays or merged regions
-#: src/commands.c:2801 src/workbook-control-gui.c:1829
+#: src/commands.c:2757 src/workbook-control-gui.c:1831
 msgid "Autofill"
 msgstr "Otomatik sınırla"
 
 #. Changed in initial redo.
-#: src/commands.c:2824
+#: src/commands.c:2780
 #, c-format
 msgid "Autofilling %s"
 msgstr "%s otomatik sınırlanıyor"
 
-#: src/commands.c:2977
+#: src/commands.c:2933
 #, c-format
 msgid "Autoformatting %s"
 msgstr "%s otomatik biçemleniyor"
 
-#: src/commands.c:3087
+#: src/commands.c:3043
 #, c-format
 msgid "Unmerging %s"
 msgstr "%s birleşik göze ayrılıyor"
 
-#: src/commands.c:3225
+#: src/commands.c:3181
 #, c-format
 msgid "Merging %s"
 msgstr "%s birleştiriliyor"
 
 #. Corrected below.
-#: src/commands.c:3603 src/dialogs/search-replace.glade.h:43
+#: src/commands.c:3559 src/dialogs/search-replace.glade.h:43
 msgid "Search and Replace"
 msgstr "Bul ve Değiştir"
 
-#: src/commands.c:3699
+#: src/commands.c:3655
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Sütunların öntanımlı genişliği %.2f punto yapılıyor"
 
-#: src/commands.c:3700
+#: src/commands.c:3656
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Satırların öntanımlı yüksekliği %.2f punto yapılıyor"
 
 #. Changed in initial redo.
-#: src/commands.c:3785
+#: src/commands.c:3741
 #, c-format
 msgid "Consolidating to %s!%s"
 msgstr "%s!%s'e birleştiriliyor"
 
-#: src/commands.c:3900
+#: src/commands.c:3856
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "%s büyüklüğü %.0f%% yapılıyor"
 
-#: src/commands.c:3969
+#: src/commands.c:3925
 msgid "Insert object"
 msgstr "Nesne ekle"
 
-#: src/commands.c:4027
+#: src/commands.c:3983
 msgid "Delete object"
 msgstr "Nesne sil"
 
-#: src/commands.c:4108
+#: src/commands.c:4064
 msgid "Resize object"
 msgstr "Nesneyi boyutlandır"
 
-#: src/commands.c:4108
+#: src/commands.c:4064
 msgid "Move object"
 msgstr "Nesneyi taşı"
 
@@ -3114,8 +3081,8 @@ msgstr "Sadece _benzersiz kayıtlar"
 msgid "Data Analysis Tools"
 msgstr "Veri Analiz Araçları"
 
-#: src/dialogs/anova-one.glade.h:1 src/dialogs/mean-tests.glade.h:2
-#: src/dialogs/variance-tests.glade.h:1
+#: src/dialogs/anova-one.glade.h:1 src/dialogs/anova-two.glade.h:1
+#: src/dialogs/mean-tests.glade.h:2 src/dialogs/variance-tests.glade.h:1
 msgid "0.05"
 msgstr "0.05"
 
@@ -3131,7 +3098,7 @@ msgstr "Anova - Tek çarpan"
 msgid "Grouped By:"
 msgstr "Gruplayan:"
 
-#: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:5
+#: src/dialogs/anova-one.glade.h:4 src/dialogs/anova-two.glade.h:4
 #: src/dialogs/correlation.glade.h:3 src/dialogs/covariance.glade.h:3
 #: src/dialogs/descriptive-stats.glade.h:7
 #: src/dialogs/fourier-analysis.glade.h:4 src/dialogs/histogram.glade.h:6
@@ -3141,7 +3108,7 @@ msgstr "Gruplayan:"
 msgid "Input"
 msgstr "Girdi"
 
-#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:6
+#: src/dialogs/anova-one.glade.h:5 src/dialogs/anova-two.glade.h:5
 #: src/dialogs/correlation.glade.h:4 src/dialogs/covariance.glade.h:4
 #: src/dialogs/descriptive-stats.glade.h:11
 #: src/dialogs/fourier-analysis.glade.h:5 src/dialogs/histogram.glade.h:8
@@ -3152,7 +3119,7 @@ msgstr "Girdi"
 msgid "N_ew Workbook"
 msgstr "Y_eni Defter"
 
-#: src/dialogs/anova-one.glade.h:6 src/dialogs/anova-two.glade.h:8
+#: src/dialogs/anova-one.glade.h:6 src/dialogs/anova-two.glade.h:7
 #: src/dialogs/correlation.glade.h:5 src/dialogs/covariance.glade.h:5
 #: src/dialogs/descriptive-stats.glade.h:12
 #: src/dialogs/fourier-analysis.glade.h:6 src/dialogs/histogram.glade.h:9
@@ -3163,25 +3130,25 @@ msgstr "Y_eni Defter"
 msgid "Output"
 msgstr "Çıktı"
 
-#: src/dialogs/anova-one.glade.h:7
+#: src/dialogs/anova-one.glade.h:7 src/dialogs/anova-two.glade.h:8
 msgid "_Alpha = "
 msgstr "_Alfa = "
 
 #: src/dialogs/anova-one.glade.h:8 src/dialogs/correlation.glade.h:6
 #: src/dialogs/covariance.glade.h:6 src/dialogs/descriptive-stats.glade.h:14
-#: src/dialogs/histogram.glade.h:10 src/dialogs/regression.glade.h:11
-#: src/dialogs/sampling.glade.h:12
+#: src/dialogs/histogram.glade.h:10 src/dialogs/rank.glade.h:6
+#: src/dialogs/regression.glade.h:11 src/dialogs/sampling.glade.h:12
 msgid "_Areas"
 msgstr "Alanlar"
 
 #: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:9
 #: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
 #: src/dialogs/descriptive-stats.glade.h:16
-#: src/dialogs/dialog-analysis-tools.c:853
-#: src/dialogs/dialog-analysis-tools.c:3813
-#: src/dialogs/dialog-analysis-tools.c:3891
+#: src/dialogs/dialog-analysis-tools.c:895
+#: src/dialogs/dialog-analysis-tools.c:3874
+#: src/dialogs/dialog-analysis-tools.c:3950
 #: src/dialogs/fourier-analysis.glade.h:8 src/dialogs/histogram.glade.h:13
-#: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:7
+#: src/dialogs/moving-averages.glade.h:9 src/dialogs/rank.glade.h:8
 msgid "_Input Range:"
 msgstr "G_irdi Aralığı:"
 
@@ -3189,7 +3156,7 @@ msgstr "G_irdi Aralığı:"
 #: src/dialogs/correlation.glade.h:9 src/dialogs/covariance.glade.h:9
 #: src/dialogs/descriptive-stats.glade.h:17
 #: src/dialogs/fourier-analysis.glade.h:9 src/dialogs/mean-tests.glade.h:21
-#: src/dialogs/moving-averages.glade.h:10 src/dialogs/rank.glade.h:8
+#: src/dialogs/moving-averages.glade.h:10 src/dialogs/rank.glade.h:9
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:14
 #: src/dialogs/variance-tests.glade.h:10
 msgid "_Labels"
@@ -3200,7 +3167,7 @@ msgstr "_Etiketler"
 #: src/dialogs/descriptive-stats.glade.h:18
 #: src/dialogs/fourier-analysis.glade.h:10 src/dialogs/histogram.glade.h:14
 #: src/dialogs/mean-tests.glade.h:22 src/dialogs/moving-averages.glade.h:11
-#: src/dialogs/random-generation.glade.h:9 src/dialogs/rank.glade.h:9
+#: src/dialogs/random-generation.glade.h:9 src/dialogs/rank.glade.h:10
 #: src/dialogs/regression.glade.h:14 src/dialogs/sampling.glade.h:15
 #: src/dialogs/variance-tests.glade.h:11
 msgid "_New Sheet"
@@ -3211,30 +3178,22 @@ msgstr "Ye_ni Çizelge"
 #: src/dialogs/descriptive-stats.glade.h:19
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:15
 #: src/dialogs/mean-tests.glade.h:23 src/dialogs/moving-averages.glade.h:12
-#: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:10
+#: src/dialogs/random-generation.glade.h:10 src/dialogs/rank.glade.h:11
 #: src/dialogs/regression.glade.h:15 src/dialogs/sampling.glade.h:16
 #: src/dialogs/variance-tests.glade.h:12
 msgid "_Output Range:"
 msgstr "Çı_ktı Aralığı:"
 
-#: src/dialogs/anova-two.glade.h:1
-msgid "(1 - _Alpha) = "
-msgstr "(1 - _Alfa) = "
-
-#: src/dialogs/anova-two.glade.h:2 src/dialogs/regression.glade.h:1
-msgid "0.95"
-msgstr "0.95"
-
-#: src/dialogs/anova-two.glade.h:3 src/dialogs/descriptive-stats.glade.h:3
+#: src/dialogs/anova-two.glade.h:2 src/dialogs/descriptive-stats.glade.h:3
 #: src/dialogs/random-generation.glade.h:1 src/dialogs/sampling.glade.h:1
 msgid "1"
 msgstr "1"
 
-#: src/dialogs/anova-two.glade.h:4
+#: src/dialogs/anova-two.glade.h:3
 msgid "ANOVA - Two-Factor"
 msgstr "ANOVA - İki-çarpan"
 
-#: src/dialogs/anova-two.glade.h:7
+#: src/dialogs/anova-two.glade.h:6
 msgid "Number of Rows _Per Sample:"
 msgstr "Ö_rnek başına Satır Sayısı:"
 
@@ -3453,7 +3412,7 @@ msgstr "Bir değer                    (değerlemesiz)"
 msgid "Background Color"
 msgstr "Artalan Rengi"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2663
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2689
 msgid "Border"
 msgstr "Kenarlık"
 
@@ -3535,8 +3494,8 @@ msgstr "Çapraz Şerit"
 msgid "Display the value exactly as it was entered"
 msgstr "Değeri tam girildiği gibi gösterir."
 
-#: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:1280
-#: src/dialogs/dialog-cell-format.c:1340
+#: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:1306
+#: src/dialogs/dialog-cell-format.c:1366
 msgid "Double"
 msgstr "Çift"
 
@@ -3556,7 +3515,8 @@ msgstr "Önalan Dolgu"
 msgid ""
 "General format cells attempt to select an appropriate format depending on "
 "the value of the cell."
-msgstr "Genel biçimli gözeler için gözenin değerine bağlı uygun bir biçim seçilir."
+msgstr ""
+"Genel biçimli gözeler için gözenin değerine bağlı uygun bir biçim seçilir."
 
 #: src/dialogs/cell-format.glade.h:44
 msgid "Horizontal"
@@ -3604,7 +3564,8 @@ msgstr "Büyük Daireler"
 
 #: src/dialogs/cell-format.glade.h:58
 msgid "Locking cells or hiding formulas only affects protected worksheets."
-msgstr "Göze kilitleme ve formül gizleme sadece korumalı defterlerde etkilidir."
+msgstr ""
+"Göze kilitleme ve formül gizleme sadece korumalı defterlerde etkilidir."
 
 #: src/dialogs/cell-format.glade.h:59
 msgid "Message :"
@@ -3614,8 +3575,8 @@ msgstr "İleti:"
 msgid "Negat_ive number:"
 msgstr "_Negatif sayı:"
 
-#: src/dialogs/cell-format.glade.h:61 src/dialogs/dialog-cell-format.c:1282
-#: src/dialogs/dialog-cell-format.c:1338 src/dialogs/dialog-paste-special.c:34
+#: src/dialogs/cell-format.glade.h:61 src/dialogs/dialog-cell-format.c:1308
+#: src/dialogs/dialog-cell-format.c:1364 src/dialogs/dialog-paste-special.c:34
 msgid "None"
 msgstr "Hiçbiri"
 
@@ -3636,7 +3597,7 @@ msgstr "Yön"
 msgid "Outline"
 msgstr "Ana Hatlar"
 
-#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2678
+#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2704
 msgid "Pattern"
 msgstr "Desen"
 
@@ -3669,8 +3630,8 @@ msgid "Shrin_k to fit"
 msgstr "Fazlasını _kes"
 
 #. There must be a better way than this
-#: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1278
-#: src/dialogs/dialog-cell-format.c:1339
+#: src/dialogs/cell-format.glade.h:76 src/dialogs/dialog-cell-format.c:1304
+#: src/dialogs/dialog-cell-format.c:1365
 msgid "Single"
 msgstr "Tek"
 
@@ -3833,7 +3794,7 @@ msgstr "_Kilitli"
 msgid "_Number"
 msgstr "_Sayı"
 
-#: src/dialogs/cell-format.glade.h:118
+#: src/dialogs/cell-format.glade.h:118 src/dialogs/histogram.glade.h:17
 msgid "_Percentage"
 msgstr "_Yüzde"
 
@@ -3970,6 +3931,10 @@ msgstr "Süt_un genişliği (piksel):"
 msgid "Add the entered area to the list of source areas"
 msgstr "Girilen alanı kaynak alanları listesine ekler"
 
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:3613
+msgid "Average"
+msgstr "Ortalama"
+
 #: src/dialogs/consolidate.glade.h:3
 msgid "C_opy labels"
 msgstr "_Etiketleri Kopyala"
@@ -3977,6 +3942,10 @@ msgstr "_Etiketleri Kopyala"
 #: src/dialogs/consolidate.glade.h:4
 msgid "Clear the list of source areas"
 msgstr "Kaynak alanların listesini temizle"
+
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:3614
+msgid "Count"
+msgstr "Sayaç"
 
 #: src/dialogs/consolidate.glade.h:6
 msgid "D_elete"
@@ -4006,11 +3975,11 @@ msgstr "Üst S_atırda"
 msgid "Labels"
 msgstr "Etiketler"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3610
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:3612
 msgid "Max"
 msgstr "En çok"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3609
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:3611
 msgid "Min"
 msgstr "En az"
 
@@ -4078,11 +4047,11 @@ msgstr "İşle_v:"
 msgid "_Put :"
 msgstr "_Yerleştir:"
 
-#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4319
+#: src/dialogs/correlation.glade.h:1 src/dialogs/dialog-analysis-tools.c:4370
 msgid "Correlation"
 msgstr "Bağıntılama"
 
-#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4321
+#: src/dialogs/covariance.glade.h:1 src/dialogs/dialog-analysis-tools.c:4372
 msgid "Covariance"
 msgstr "Uyumsuzluk"
 
@@ -4124,7 +4093,7 @@ msgid "Confidence Interval for the _Mean"
 msgstr "_Ortalama için Emniyet Aralığı"
 
 #: src/dialogs/descriptive-stats.glade.h:5
-#: src/dialogs/dialog-analysis-tools.c:4323
+#: src/dialogs/dialog-analysis-tools.c:4374
 msgid "Descriptive Statistics"
 msgstr "Tanımsal İstatistikler"
 
@@ -4296,7 +4265,7 @@ msgstr "'Koşul Aralığı:' içinde geçerli göze isimlerini tanıtmalısını
 msgid "You should introduce a valid cell range in 'Copy To:'"
 msgstr "'Kopyala:' içinde geçerli göze aralığını tanıtmalısınız"
 
-#: src/dialogs/dialog-advanced-filter.c:335
+#: src/dialogs/dialog-advanced-filter.c:331
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
@@ -4304,56 +4273,61 @@ msgstr ""
 "'Koşul Aralığı:' ve 'Liste Aralığı:' alanlarında aynı sayıda sütun "
 "tanıtmalısınız"
 
-#: src/dialogs/dialog-analysis-tools.c:1115
-#: src/dialogs/dialog-analysis-tools.c:1230
+#: src/dialogs/dialog-analysis-tools.c:1101
+#: src/dialogs/dialog-analysis-tools.c:1216
 msgid "The selected input rows must have equal size!"
 msgstr "Seçilen girdi satırları eşit uzunlukta olmalı!"
 
-#: src/dialogs/dialog-analysis-tools.c:1119
-#: src/dialogs/dialog-analysis-tools.c:1234
+#: src/dialogs/dialog-analysis-tools.c:1105
+#: src/dialogs/dialog-analysis-tools.c:1220
 msgid "The selected input columns must have equal size!"
 msgstr "Seçilen girdi sütunları eşit yükseklikte olmalı!"
 
-#: src/dialogs/dialog-analysis-tools.c:1123
-#: src/dialogs/dialog-analysis-tools.c:1238
+#: src/dialogs/dialog-analysis-tools.c:1109
+#: src/dialogs/dialog-analysis-tools.c:1224
 msgid "The selected input areas must have equal size!"
 msgstr "Seçilen girdi alanları aynı boyutlarda olmalı!"
 
-#: src/dialogs/dialog-analysis-tools.c:1126
-#: src/dialogs/dialog-analysis-tools.c:1241
-#: src/dialogs/dialog-analysis-tools.c:1368
-#: src/dialogs/dialog-analysis-tools.c:1569
-#: src/dialogs/dialog-analysis-tools.c:1739
-#: src/dialogs/dialog-analysis-tools.c:2145
-#: src/dialogs/dialog-analysis-tools.c:2369
-#: src/dialogs/dialog-analysis-tools.c:2828
-#: src/dialogs/dialog-analysis-tools.c:3309
-#: src/dialogs/dialog-analysis-tools.c:3483
-#: src/dialogs/dialog-analysis-tools.c:3761
-#: src/dialogs/dialog-analysis-tools.c:3958
-#: src/dialogs/dialog-analysis-tools.c:4136
-#: src/dialogs/dialog-analysis-tools.c:4166
+#. non-numeric probability (DiscreteDistribution) POST-RELEASE-FIX
+#: src/dialogs/dialog-analysis-tools.c:1112
+#: src/dialogs/dialog-analysis-tools.c:1227
+#: src/dialogs/dialog-analysis-tools.c:1354
+#: src/dialogs/dialog-analysis-tools.c:1554
+#: src/dialogs/dialog-analysis-tools.c:1724
+#: src/dialogs/dialog-analysis-tools.c:2132
+#: src/dialogs/dialog-analysis-tools.c:2357
+#: src/dialogs/dialog-analysis-tools.c:2861
+#: src/dialogs/dialog-analysis-tools.c:2866
+#: src/dialogs/dialog-analysis-tools.c:2871
+#: src/dialogs/dialog-analysis-tools.c:2876
+#: src/dialogs/dialog-analysis-tools.c:2881
+#: src/dialogs/dialog-analysis-tools.c:3369
+#: src/dialogs/dialog-analysis-tools.c:3543
+#: src/dialogs/dialog-analysis-tools.c:3824
+#: src/dialogs/dialog-analysis-tools.c:4017
+#: src/dialogs/dialog-analysis-tools.c:4212
+#: src/dialogs/dialog-analysis-tools.c:4217
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Umulmadık bir hata saptandı: %d."
 
-#: src/dialogs/dialog-analysis-tools.c:1172
+#: src/dialogs/dialog-analysis-tools.c:1158
 msgid "Could not create the Correlation Tool dialog."
 msgstr "İlinti Araçları diyaloğu oluştururlamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1287
+#: src/dialogs/dialog-analysis-tools.c:1273
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Uyumsuzluk Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1512
+#: src/dialogs/dialog-analysis-tools.c:1501
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Açıklamalı İstatistikler Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1615
+#: src/dialogs/dialog-analysis-tools.c:1600
 msgid "Could not create the Rank and  Percentile Tools dialog."
 msgstr "Sıralama ve Oranlama Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:1708
+#: src/dialogs/dialog-analysis-tools.c:1693
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -4361,7 +4335,7 @@ msgstr ""
 "Lütfen 1.değişken için\n"
 "dağılım değişimini girin."
 
-#: src/dialogs/dialog-analysis-tools.c:1715
+#: src/dialogs/dialog-analysis-tools.c:1700
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -4369,132 +4343,124 @@ msgstr ""
 "Lütfen 2.değişken için\n"
 "dağılım değişimini girin."
 
-#: src/dialogs/dialog-analysis-tools.c:1735
+#: src/dialogs/dialog-analysis-tools.c:1720
 msgid "The two input ranges must have the same size."
 msgstr "İki girdi alanı aynı boyutlarda olmalı"
 
-#: src/dialogs/dialog-analysis-tools.c:2017
+#: src/dialogs/dialog-analysis-tools.c:2004
 msgid "Var_iable 1 Range:"
 msgstr "_1. Değişken Aralığı:"
 
-#: src/dialogs/dialog-analysis-tools.c:2018
+#: src/dialogs/dialog-analysis-tools.c:2005
 msgid "_Variable 2 Range:"
 msgstr "_2. Değişken Aralığı:"
 
-#: src/dialogs/dialog-analysis-tools.c:2022
+#: src/dialogs/dialog-analysis-tools.c:2009
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Ortalama Testleri Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:2138
-#: src/dialogs/dialog-analysis-tools.c:2142
+#: src/dialogs/dialog-analysis-tools.c:2125
+#: src/dialogs/dialog-analysis-tools.c:2129
 msgid "Each variable should have at least 2 observations!"
 msgstr "Her değişken en az 2 gözlem içermelidir!"
 
-#: src/dialogs/dialog-analysis-tools.c:2258
+#: src/dialogs/dialog-analysis-tools.c:2246
 msgid "Var_iable 1 Range"
 msgstr "_1. Değişken Aralığı"
 
-#: src/dialogs/dialog-analysis-tools.c:2259
+#: src/dialogs/dialog-analysis-tools.c:2247
 msgid "_Variable 2 Range"
 msgstr "_2. Değişken Aralığı"
 
-#: src/dialogs/dialog-analysis-tools.c:2263
+#: src/dialogs/dialog-analysis-tools.c:2251
 msgid "Could not create the FTest Tool dialog."
 msgstr "FTest Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:2517
+#: src/dialogs/dialog-analysis-tools.c:2506
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Örnekleme Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:2554
+#: src/dialogs/dialog-analysis-tools.c:2543
 msgid "Discrete"
 msgstr "Soyut"
 
-#: src/dialogs/dialog-analysis-tools.c:2554
+#: src/dialogs/dialog-analysis-tools.c:2543
 msgid "_Value And Probability Input Range:"
 msgstr "_Değer ve Olasılık Girdileri Aralığı:"
 
-#: src/dialogs/dialog-analysis-tools.c:2556
+#: src/dialogs/dialog-analysis-tools.c:2545
 #: src/dialogs/search-replace.glade.h:24
 #: src/widgets/widget-font-selector.c:113
 msgid "Normal"
 msgstr "Normal"
 
-#: src/dialogs/dialog-analysis-tools.c:2556
+#: src/dialogs/dialog-analysis-tools.c:2545
 msgid "_Mean:"
 msgstr "_Ortalama:"
 
-#: src/dialogs/dialog-analysis-tools.c:2556
+#: src/dialogs/dialog-analysis-tools.c:2545
 msgid "_Standard Deviation:"
 msgstr "_Standart Sapma:"
 
-#: src/dialogs/dialog-analysis-tools.c:2558
+#: src/dialogs/dialog-analysis-tools.c:2547
 msgid "Poisson"
 msgstr "Poisson"
 
-#: src/dialogs/dialog-analysis-tools.c:2558
+#: src/dialogs/dialog-analysis-tools.c:2547
 msgid "_Lambda:"
 msgstr "_Lambda:"
 
-#: src/dialogs/dialog-analysis-tools.c:2560
+#: src/dialogs/dialog-analysis-tools.c:2549
 msgid "Exponential"
 msgstr "Üstel"
 
-#: src/dialogs/dialog-analysis-tools.c:2560
+#: src/dialogs/dialog-analysis-tools.c:2549
 msgid "_b Value:"
 msgstr "_b Değeri:"
 
-#: src/dialogs/dialog-analysis-tools.c:2562
+#: src/dialogs/dialog-analysis-tools.c:2551
 msgid "Binomial"
 msgstr "Binom"
 
-#: src/dialogs/dialog-analysis-tools.c:2562
-#: src/dialogs/dialog-analysis-tools.c:2564
-#: src/dialogs/dialog-analysis-tools.c:2567
+#: src/dialogs/dialog-analysis-tools.c:2551
+#: src/dialogs/dialog-analysis-tools.c:2553
+#: src/dialogs/dialog-analysis-tools.c:2556
 msgid "_p Value:"
 msgstr "_p Değeri:"
 
-#: src/dialogs/dialog-analysis-tools.c:2562
+#: src/dialogs/dialog-analysis-tools.c:2551
 msgid "N_umber of Trials:"
 msgstr "Deneme Sayısı:"
 
-#: src/dialogs/dialog-analysis-tools.c:2564
+#: src/dialogs/dialog-analysis-tools.c:2553
 msgid "Negative Binomial"
 msgstr "Negatif Binom"
 
-#: src/dialogs/dialog-analysis-tools.c:2565
+#: src/dialogs/dialog-analysis-tools.c:2554
 msgid "N_umber of Failures"
 msgstr "_Başarısızlık Sayısı"
 
-#: src/dialogs/dialog-analysis-tools.c:2567
+#: src/dialogs/dialog-analysis-tools.c:2556
 msgid "Bernoulli"
 msgstr "Bernoulli"
 
-#: src/dialogs/dialog-analysis-tools.c:2569
+#: src/dialogs/dialog-analysis-tools.c:2558
 msgid "Uniform"
 msgstr "Uniform"
 
-#: src/dialogs/dialog-analysis-tools.c:2569
+#: src/dialogs/dialog-analysis-tools.c:2558
 msgid "_Lower Bound:"
 msgstr "_Alt Sınır:"
 
-#: src/dialogs/dialog-analysis-tools.c:2569
+#: src/dialogs/dialog-analysis-tools.c:2558
 msgid "_Upper Bound:"
 msgstr "Ü_st Sınır:"
 
-#: src/dialogs/dialog-analysis-tools.c:2800
-msgid ""
-"You should introduce a valid cell range in 'Value and probability input "
-"Range:'"
-msgstr ""
-"'Değer ve olasılık girdi aralığı:' içinde geçerli göze aralığını "
-"tanıtmalısınız"
-
-#: src/dialogs/dialog-analysis-tools.c:2982
+#: src/dialogs/dialog-analysis-tools.c:3044
 msgid "Could not create the Random Tool dialog."
 msgstr "Rasgele Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:3044
+#: src/dialogs/dialog-analysis-tools.c:3106
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
@@ -4502,7 +4468,7 @@ msgstr ""
 "Bu geri dönmeye bağlı çok az veri noktası var.\n"
 "Serbest değişkenler olarak bir kaç veri noktası daha belirtmelisiniz."
 
-#: src/dialogs/dialog-analysis-tools.c:3050
+#: src/dialogs/dialog-analysis-tools.c:3112
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
@@ -4512,39 +4478,40 @@ msgstr ""
 "ve geri dönme hesaplanamadı. Bu değişkenleri kaldırdıktan sonra\n"
 "geri dönme hesabını tekrarlayın."
 
-#: src/dialogs/dialog-analysis-tools.c:3057
-msgid "There must be an equal number of entries for each variable in the regression."
+#: src/dialogs/dialog-analysis-tools.c:3119
+msgid ""
+"There must be an equal number of entries for each variable in the regression."
 msgstr "Geri dönme içindeki her değişken için aynı sayıda girdi olmalıdır."
 
-#: src/dialogs/dialog-analysis-tools.c:3159
+#: src/dialogs/dialog-analysis-tools.c:3219
 msgid "_X Variables:"
 msgstr "_X Değişkenleri:"
 
-#: src/dialogs/dialog-analysis-tools.c:3184
+#: src/dialogs/dialog-analysis-tools.c:3243
 msgid "_Y Variable:"
 msgstr "_Y Değişkeni:"
 
-#: src/dialogs/dialog-analysis-tools.c:3250
+#: src/dialogs/dialog-analysis-tools.c:3310
 msgid "Could not create the Regression Tool dialog."
 msgstr "Geri Dönme Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:3422
+#: src/dialogs/dialog-analysis-tools.c:3482
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Üstel Yuvarlama Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:3593
+#: src/dialogs/dialog-analysis-tools.c:3653
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Hareketli Ortalama Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:3643
+#: src/dialogs/dialog-analysis-tools.c:3703
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "Fourier analizi daha programlanmadı."
 
-#: src/dialogs/dialog-analysis-tools.c:3686
+#: src/dialogs/dialog-analysis-tools.c:3746
 msgid "Could not create the Fourier Analyis Tool dialog."
 msgstr "Fourier Analizi Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:3757
+#: src/dialogs/dialog-analysis-tools.c:3820
 msgid ""
 "Each row of the bin range should contain one numeric value\n"
 "(ignoring the label if applicable)."
@@ -4552,79 +4519,79 @@ msgstr ""
 "Kutu kapsamındaki her satır bir sayısal değer içermelidir.\n"
 "(uygulanabilirse etiket yoksayılır)"
 
-#: src/dialogs/dialog-analysis-tools.c:3892 src/dialogs/histogram.glade.h:1
+#: src/dialogs/dialog-analysis-tools.c:3951 src/dialogs/histogram.glade.h:1
 msgid "Bin _Range:"
 msgstr "K_utu Aralığı:"
 
-#: src/dialogs/dialog-analysis-tools.c:3896
+#: src/dialogs/dialog-analysis-tools.c:3955
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Histogram Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:4074
+#: src/dialogs/dialog-analysis-tools.c:4133
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "ANOVA (tek çarpan) Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:4151
+#: src/dialogs/dialog-analysis-tools.c:4197
 msgid "Each sample must contain the same number of rows."
 msgstr "Her örnek aynı sayıda satır içermelidir."
 
-#: src/dialogs/dialog-analysis-tools.c:4156
+#: src/dialogs/dialog-analysis-tools.c:4202
 msgid "Given input range contains non-numeric data."
 msgstr "Verilen girdiler sayısal olmayan veri içeriyor."
 
-#: src/dialogs/dialog-analysis-tools.c:4161
+#: src/dialogs/dialog-analysis-tools.c:4207
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr "Verilen girdi alanı en az iki veri sütunu ve etiketlerini içermeli."
 
-#: src/dialogs/dialog-analysis-tools.c:4286
+#: src/dialogs/dialog-analysis-tools.c:4337
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "ANOVA (iki çarpan) Araçları diyaloğu oluşturulamadı."
 
-#: src/dialogs/dialog-analysis-tools.c:4317
+#: src/dialogs/dialog-analysis-tools.c:4368
 msgid "Anova: Two-Factor With Or Without Replication"
 msgstr "Anova: Örneklemesiz/örneklemeli iki-çarpan"
 
-#: src/dialogs/dialog-analysis-tools.c:4325
+#: src/dialogs/dialog-analysis-tools.c:4378
 msgid "F-Test: Two-Sample for Variances"
 msgstr "F Test: Değişimler için örnek-ikili"
 
-#: src/dialogs/dialog-analysis-tools.c:4333
+#: src/dialogs/dialog-analysis-tools.c:4384
 #: src/dialogs/moving-averages.glade.h:5
 msgid "Moving Average"
 msgstr "Hareket Ortalaması"
 
-#: src/dialogs/dialog-analysis-tools.c:4335
+#: src/dialogs/dialog-analysis-tools.c:4386
 #: src/dialogs/random-generation.glade.h:5
 msgid "Random Number Generation"
 msgstr "Rasgele Sayı Üreteci"
 
-#: src/dialogs/dialog-analysis-tools.c:4337 src/dialogs/rank.glade.h:5
+#: src/dialogs/dialog-analysis-tools.c:4388 src/dialogs/rank.glade.h:5
 msgid "Rank and Percentile"
 msgstr "Sıralama ve Oranlama"
 
-#: src/dialogs/dialog-analysis-tools.c:4341 src/dialogs/sampling.glade.h:9
+#: src/dialogs/dialog-analysis-tools.c:4392 src/dialogs/sampling.glade.h:9
 msgid "Sampling"
 msgstr "Örnekleme"
 
-#: src/dialogs/dialog-analysis-tools.c:4343
+#: src/dialogs/dialog-analysis-tools.c:4394
 msgid "t-Test: Paired Two Sample for Means"
 msgstr "t-Test: Ortalamalar için İki Örnek Çifti"
 
-#: src/dialogs/dialog-analysis-tools.c:4345
+#: src/dialogs/dialog-analysis-tools.c:4396
 msgid "t-Test: Two-Sample Assuming Equal Variances"
 msgstr "t-Test: İki Örneğin Değişimleri Aynı Varsayımı"
 
-#: src/dialogs/dialog-analysis-tools.c:4347
+#: src/dialogs/dialog-analysis-tools.c:4398
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr "t-Test: İki Örneğin Değişimleri Farklı Varsayımı"
 
-#: src/dialogs/dialog-analysis-tools.c:4349
+#: src/dialogs/dialog-analysis-tools.c:4400
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Test: Ortalama için İki Örnek"
 
-#: src/dialogs/dialog-autocorrect.c:292
+#: src/dialogs/dialog-autocorrect.c:293
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Otomatik Düzeltme diyaloğu oluşturulamadı."
 
@@ -4741,12 +4708,12 @@ msgstr "Kategori listesi okunurken bir hata oluştu"
 
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
-#: src/dialogs/dialog-autoformat.c:958 src/format.c:1702 src/format.c:1794
-#: src/format.c:1803 src/format.c:1872
+#: src/dialogs/dialog-autoformat.c:958 src/format.c:1664 src/format.c:1756
+#: src/format.c:1765 src/format.c:1834
 msgid "General"
 msgstr "Genel"
 
-#: src/dialogs/dialog-autosave.c:122
+#: src/dialogs/dialog-autosave.c:119
 msgid "You should introduce a proper number of minutes in the entry."
 msgstr "Girdide belirli bir dakika sayısını belirtmelisiniz."
 
@@ -4766,30 +4733,30 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Kırmızı]("
 
-#: src/dialogs/dialog-cell-format.c:2127 src/dialogs/dialog-cell-format.c:2136
+#: src/dialogs/dialog-cell-format.c:2153 src/dialogs/dialog-cell-format.c:2162
 msgid "Minimum :"
 msgstr "En az:"
 
-#: src/dialogs/dialog-cell-format.c:2128 src/dialogs/dialog-cell-format.c:2140
+#: src/dialogs/dialog-cell-format.c:2154 src/dialogs/dialog-cell-format.c:2166
 msgid "Maximum :"
 msgstr "En çok:"
 
-#: src/dialogs/dialog-cell-format.c:2132
+#: src/dialogs/dialog-cell-format.c:2158
 msgid "Value :"
 msgstr "Değer:"
 
-#: src/dialogs/dialog-cell-format.c:2597
+#: src/dialogs/dialog-cell-format.c:2623
 msgid "Format Cells"
 msgstr "Gözeleri Biçimlendir"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2663 src/dialogs/dialog-cell-format.c:2668
-#: src/dialogs/dialog-cell-format.c:2678 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2689 src/dialogs/dialog-cell-format.c:2694
+#: src/dialogs/dialog-cell-format.c:2704 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:858
 msgid "Automatic"
 msgstr "Otomatik"
 
-#: src/dialogs/dialog-cell-format.c:2673 src/workbook-format-toolbar.c:833
+#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:833
 msgid "Clear Background"
 msgstr "Arkaplanı Temizle"
 
@@ -4866,11 +4833,11 @@ msgstr "%s bölgesi hedef bölge ile karışıyor"
 msgid "%s is not a valid source region"
 msgstr "%s geçerli bir kaynak bölgesi değil"
 
-#: src/dialogs/dialog-define-names.c:376
+#: src/dialogs/dialog-define-names.c:377
 msgid "You cannot redefine a builtin name."
 msgstr "Bir yerleşik ismi değiştiremezsiniz."
 
-#: src/dialogs/dialog-define-names.c:589
+#: src/dialogs/dialog-define-names.c:590
 msgid "Could not create the Name Guru."
 msgstr "İsim Uzmanı oluşturulamadı."
 
@@ -4880,7 +4847,7 @@ msgid "Value%d"
 msgstr "Değer%d"
 
 #: src/dialogs/dialog-formula-guru.c:431 src/dialogs/dialog-search.c:131
-#: src/functions/fn-string.c:1251
+#: src/functions/fn-string.c:1215
 msgid "String"
 msgstr "Dizge"
 
@@ -4908,37 +4875,37 @@ msgstr "Sayısal"
 msgid "Any"
 msgstr "Herhangi"
 
-#: src/dialogs/dialog-goal-seek.c:367
+#: src/dialogs/dialog-goal-seek.c:368
 msgid "You should introduce a valid cell name in 'Set Cell:'!"
 msgstr "'Göze belirtin:' alanında geçerli göze ismini vermelisiniz!"
 
-#: src/dialogs/dialog-goal-seek.c:375
+#: src/dialogs/dialog-goal-seek.c:376
 msgid "The cell named in 'Set Cell:' must contain a formula!"
 msgstr "'Göze belirtin:' alanında belirtilen göze bir formül içermeli!"
 
-#: src/dialogs/dialog-goal-seek.c:383
+#: src/dialogs/dialog-goal-seek.c:384
 msgid "You should introduce a valid cell name in 'By Changing Cell:'!"
 msgstr "'Bu gözeyi değiştirerek:' alanında geçerli göze ismini vermelisiniz!"
 
-#: src/dialogs/dialog-goal-seek.c:392
+#: src/dialogs/dialog-goal-seek.c:393
 msgid "The cell named in 'By changing cell' must not contain a formula."
 msgstr "'Bu gözeyi değiştirerek:' alanında belirtilen göze bir formül içermeli"
 
-#: src/dialogs/dialog-goal-seek.c:405
+#: src/dialogs/dialog-goal-seek.c:406
 msgid "The value given in 'To Value:' is not valid."
 msgstr "'Bu Değere:' alanında verilen değer geçersiz."
 
-#: src/dialogs/dialog-goal-seek.c:482
+#: src/dialogs/dialog-goal-seek.c:483
 #, c-format
 msgid "Goal seeking with cell %s found a solution."
 msgstr "%s gözesi ile sonuç arama bir çözüme ulaştı."
 
-#: src/dialogs/dialog-goal-seek.c:498
+#: src/dialogs/dialog-goal-seek.c:499
 #, c-format
 msgid "Goal seeking with cell %s did not find a solution."
 msgstr "%s gözesi ile sonuç arama bir çözüme ulaşmadı."
 
-#: src/dialogs/dialog-goal-seek.c:667
+#: src/dialogs/dialog-goal-seek.c:668
 msgid "Could not create the Goal-Seek dialog."
 msgstr "Çözüm Arama diyaloğu oluşturulamadı."
 
@@ -4951,31 +4918,31 @@ msgstr "Göze"
 msgid "Go to..."
 msgstr "Git..."
 
-#: src/dialogs/dialog-graph-guru.c:743
+#: src/dialogs/dialog-graph-guru.c:742
 msgid "Step 1 of 3: Select graph type"
 msgstr "Adım 1/3: Grafik türü seçimi"
 
-#: src/dialogs/dialog-graph-guru.c:749
+#: src/dialogs/dialog-graph-guru.c:748
 msgid "Step 2 of 3: Select data ranges"
 msgstr "Adım 2/3: Veri bölgesi seçimi"
 
-#: src/dialogs/dialog-graph-guru.c:751
+#: src/dialogs/dialog-graph-guru.c:750
 msgid "Graph Data"
 msgstr "Çizim Verisi"
 
-#: src/dialogs/dialog-graph-guru.c:756
+#: src/dialogs/dialog-graph-guru.c:755
 msgid "Step 3 of 3: Customize graph"
 msgstr "Adım 3/3: Grafiğin özelleştirilmesi"
 
-#: src/dialogs/dialog-graph-guru.c:758
+#: src/dialogs/dialog-graph-guru.c:757
 msgid "Format Graph"
 msgstr "Grafiği Biçemle"
 
-#: src/dialogs/dialog-graph-guru.c:933
+#: src/dialogs/dialog-graph-guru.c:932
 msgid "Plot name"
 msgstr "Çizim ismi"
 
-#: src/dialogs/dialog-graph-guru.c:936
+#: src/dialogs/dialog-graph-guru.c:935
 msgid "Series name"
 msgstr "Seri ismi"
 
@@ -5146,11 +5113,11 @@ msgstr "Diğer değer"
 msgid "Comment"
 msgstr "Yorum"
 
-#: src/dialogs/dialog-search-replace.c:130 src/dialogs/dialog-search.c:367
+#: src/dialogs/dialog-search-replace.c:131 src/dialogs/dialog-search.c:368
 msgid "You must select some cell types to search."
 msgstr "Arama yapmak için bazı göze türlerini seçmelisiniz."
 
-#: src/dialogs/dialog-sheet-order.c:147 src/workbook-control-gui.c:408
+#: src/dialogs/dialog-sheet-order.c:147 src/workbook-control-gui.c:410
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "`%s' çizelgesini gerçekten silmek istiyor musunuz?"
@@ -5379,6 +5346,11 @@ msgstr "Veri (%s'ten)"
 msgid "fixed"
 msgstr "sabit"
 
+#: src/dialogs/dialog-stf-preview.h:19
+#, c-format
+msgid "Column %d"
+msgstr "%d. sütun"
+
 #: src/dialogs/dialog-stf.glade.h:3
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
@@ -5570,7 +5542,8 @@ msgid "See two successive separators as one."
 msgstr "İki ardarda ayracı tek olarak görür."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid "See two successive text indicators as one that does not terminate the cell."
+msgid ""
+"See two successive text indicators as one that does not terminate the cell."
 msgstr ""
 "İki ardarda metin belirtecini gözeyi sonlandırmayan tek belirteç olarak "
 "görür."
@@ -5660,11 +5633,6 @@ msgstr "Sa_tırına:"
 #: src/dialogs/dialog-workbook-attr.c:166
 msgid "Workbook Attributes"
 msgstr "Defter Özellikleri"
-
-#: src/dialogs/dialog-zoom.glade.h:2
-#, no-c-format
-msgid "%"
-msgstr "%"
 
 #: src/dialogs/dialog-zoom.glade.h:4
 #, no-c-format
@@ -6111,7 +6079,7 @@ msgid "Scale"
 msgstr "Oranla"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:139
-#: src/workbook.c:1060 src/xml-io.c:3068
+#: src/workbook.c:1060 src/xml-io.c:3058
 msgid "Sheet"
 msgstr "Çizelge"
 
@@ -6223,6 +6191,10 @@ msgstr "Ör_nek Boyutu:"
 #: src/dialogs/random-generation.glade.h:8
 msgid "_Distribution:"
 msgstr "_Açılım:"
+
+#: src/dialogs/regression.glade.h:1
+msgid "0.95"
+msgstr "0.95"
 
 #: src/dialogs/regression.glade.h:2
 msgid "Confidence Level:"
@@ -6778,40 +6750,40 @@ msgstr "_Yatay Kaydırma Çubuğu"
 msgid "_Vertical Scrollbar"
 msgstr "_Dikey Kaydırma Çubuğu"
 
-#: src/expr-name.c:220
+#: src/expr-name.c:225
 msgid "already defined in sheet"
 msgstr "Zaten çizelgede atanmış"
 
-#: src/expr-name.c:224
+#: src/expr-name.c:229
 msgid "already defined in workbook"
 msgstr "zaten defterde atanmış"
 
-#: src/expr-name.c:228
+#: src/expr-name.c:233
 msgid "already globally defined "
 msgstr "Zaten genelde atanmış "
 
-#: src/expr-name.c:234
+#: src/expr-name.c:239
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "'%s' bir döngüsel başvuru içeriyor"
 
-#: src/expr-name.c:397
+#: src/expr-name.c:402
 msgid "Builtin"
 msgstr "Yerleşik"
 
-#: src/expr-name.c:489 src/expr-name.c:501
+#: src/expr-name.c:494 src/expr-name.c:506
 msgid "Error: no sheet"
 msgstr "Hata: Çizelge yok"
 
-#: src/expr.c:580
+#: src/expr.c:566
 msgid "Internal type error"
 msgstr "İç hata"
 
-#: src/expr.c:759
+#: src/expr.c:745
 msgid "Unknown operator"
 msgstr "Bilinmeyen operatör"
 
-#: src/expr.c:980
+#: src/expr.c:968
 msgid "Unknown evaluation error"
 msgstr "Bilinmeyen değerleme hatası"
 
@@ -6849,14 +6821,16 @@ msgid "Saving over old files of this type is disabled for safety."
 msgstr "Bu türün güvenlik için iptal edilen eski dosyalarına kaydediliyor."
 
 #: src/file.c:495
-msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid ""
+"You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "İlgili eklenti.xml dosyasını düzenleyerek, bu emniyet özelliğini "
 "kapatabilirsiniz."
 
 #: src/format-template.c:873
 #, c-format
-msgid "The target region is too small.  It should be at least %d rows by %d columns"
+msgid ""
+"The target region is too small.  It should be at least %d rows by %d columns"
 msgstr "Hedef bölge çok küçük.  En azından %d satır x %d sütun olmalıydı"
 
 #: src/format-template.c:876
@@ -6902,18 +6876,18 @@ msgid "yellow"
 msgstr "sarı"
 
 #. Is it a boolean?
-#: src/format.c:1609 src/number-match.c:1066 src/value-sheet.c:34
-#: src/value.c:247 src/value.c:485
+#: src/format.c:1571 src/number-match.c:1066 src/value-sheet.c:34
+#: src/value.c:248 src/value.c:487
 msgid "TRUE"
 msgstr "DOĞRU"
 
-#: src/format.c:1609 src/number-match.c:1068 src/value-sheet.c:34
-#: src/value.c:249 src/value.c:485
+#: src/format.c:1571 src/number-match.c:1068 src/value-sheet.c:34
+#: src/value.c:250 src/value.c:487
 msgid "FALSE"
 msgstr "YANLIŞ"
 
 #. Array of arrays ??
-#: src/format.c:1637
+#: src/format.c:1599
 msgid "ARRAY"
 msgstr "DİZİ"
 
@@ -8274,7 +8248,8 @@ msgstr ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(veritabanı,alan,koşul)\n"
 "@DESCRIPTION=DAVERAGE işlevi belirtilen koşulları sağlayan bir liste ya da "
-"veritabanındaki değerlerin ortalamasını hesaplar.\n\n"
+"veritabanındaki değerlerin ortalamasını hesaplar.\n"
+"\n"
 
 #: src/functions/fn-database.c:511
 msgid ""
@@ -8306,7 +8281,8 @@ msgstr ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(veritabanı,alan,koşul)\n"
 "@DESCRIPTION=DCOUNT işlevi belirtilen koşulları sağlayan sayıları içeren "
-"gözeleri sayar.\n\n"
+"gözeleri sayar.\n"
+"\n"
 
 #: src/functions/fn-database.c:581
 msgid ""
@@ -8634,9 +8610,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=GETPIVOTDATA\n"
 "@SYNTAX=GETPIVOTDATA(aralık,alan_ismi)\n"
-"@DESCRIPTION=GETPIVOTDATA bir mihver tablodan özet veri çıkarır. "
-"@aralık, mihver tabloyu içeren aralık, @alan_ismi özet verinin alan ismidir. "
-"Özet veri yosa işlev #REF! hatası ile sonuçlanır.\n"
+"@DESCRIPTION=GETPIVOTDATA bir mihver tablodan özet veri çıkarır. @aralık, "
+"mihver tabloyu içeren aralık, @alan_ismi özet verinin alan ismidir. Özet "
+"veri yosa işlev #REF! hatası ile sonuçlanır.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -8665,12 +8641,14 @@ msgstr ""
 "tarihine göre fark olarak algılanır. @ay negatif olamaz.  @gün negatif ise "
 "bir önceki aydan o kadar gün çıkarılır (geri sayılır).  Hesaplanabilir en "
 "küçük tarih 1 Ocak 0001 dir. Verilen tarih geçersizse #DEĞER! hatası döner.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "DATE(-1, 3, 30) işlevinin sonucu\n"
 "'30/Mar/1999' ya da 36249\n"
 "(Sonucun gösterimi göze biçemine bağlıdır.)\n"
-"\nBenzerleri: TODAY, NOW\n"
+"\n"
+"Benzerleri: TODAY, NOW\n"
 "@EXAMPLES=\n"
 "DATE(-1, 3, 30) eşittir '30/Mar/1999' ya da 36249\n"
 "(Sonucun gösterimi göze biçemine bağlıdır.)\n"
@@ -8696,9 +8674,11 @@ msgstr ""
 "@SYNTAX=DATEVALUE(tarih_dizgesi)\n"
 "@DESCRIPTION=DATEVALUE 1 Ocak 1900 tarihi ile verilen tarih arasında kaç gün "
 "geçtiğini hesaplar. @tarih_dizgesi metin biçiminde verilmelidir. \n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
-"DATEVALUE(\"30/3/1999\") eşittir 36249\n\n"
+"DATEVALUE(\"30/3/1999\") eşittir 36249\n"
+"\n"
 "Benzeri: DATE\n"
 "@EXAMPLES=\n"
 "DATEVALUE(\"30/3/1999\") eşittir 36249. \n"
@@ -8728,8 +8708,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(tarih1,tarih2,birim)\n"
-"@DESCRIPTION=DATEDIF iki tarih arasındaki farkı hesaplar."
-"@birim için olası değerler:\n"
+"@DESCRIPTION=DATEDIF iki tarih arasındaki farkı hesaplar.@birim için olası "
+"değerler:\n"
 "\"y\", \"m\", \"d\", \"ym\", \"md\", ve \"yd\".\n"
 "İlk üçü sırasıyla yıl, ay, gün karşılığıdır ve fark bu birimler cinsinden "
 "hesaplanır.\n"
@@ -8739,7 +8719,8 @@ msgstr ""
 "arasındaki fark hesaplanır.\n"
 "\"yd\" verildiğinde yıllar arasındaki fark yok sayılarak sadece günler "
 "arasındaki fark hesaplanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"d\") eişttir 1191.\n"
 "DATEDIF(DATE(2000,4,30),DATE(2003,8,4),\"y\") eşittir 3.\n"
@@ -8773,7 +8754,8 @@ msgstr ""
 "ondalık haneler atılarak tamsayı yapılır.\n"
 "Bu işlev Excel uyumludur.\n"
 "Örnek:\n"
-"EDATE(DATE(2001,12,30),2) eşittir 28/Şub/2002.\n\n"
+"EDATE(DATE(2001,12,30),2) eşittir 28/Şub/2002.\n"
+"\n"
 "Benzeri: DATE\n"
 "@EXAMPLES=\n"
 "EDATE(DATE(2001,12,30),2) eşittir 28/Şub/2002.\n"
@@ -8796,10 +8778,12 @@ msgstr ""
 "@SYNTAX=TODAY ()\n"
 "@DESCRIPTION=Bugünün tarihini verir. (1 Ocak 1900 tarihinden itibaren bugüne "
 "kadar kaç gün geçtiği hesaplanır).\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "TODAY() işlevinin sonucu 25 Kasım 2001 günü\n"
-"25/Kas/2001 ya da 37220 dir.\n\n"
+"25/Kas/2001 ya da 37220 dir.\n"
+"\n"
 "Benzeri: NOW\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8828,13 +8812,15 @@ msgid ""
 msgstr ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
-"@DESCRIPTION=Bu anın değerini gerçel sayı olarak verir. "
-"Bu sayı şöyle oluşur: Tamsayı kısmı 1 Ocak 1900 den itibaren gün sayısı, "
-"ondalık kısım ise saniye cinsinden hesaplanan anın tam güne oranıdır.\n"
+"@DESCRIPTION=Bu anın değerini gerçel sayı olarak verir. Bu sayı şöyle "
+"oluşur: Tamsayı kısmı 1 Ocak 1900 den itibaren gün sayısı, ondalık kısım ise "
+"saniye cinsinden hesaplanan anın tam güne oranıdır.\n"
 "Örneğin *.0 geceyarısı, *.5 öğledir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
-"NOW()\n\n"
+"NOW()\n"
+"\n"
 "Benzerleri: TODAY, NOW\n"
 "@EXAMPLES=\n"
 "NOW().\n"
@@ -8855,8 +8841,11 @@ msgstr ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (saat,dakika,saniye)\n"
 "@DESCRIPTION= Saat, dakika ve saniye cinsinden verilen zamanı hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
-"Örnek:\nTIME(13, 5, 23) eşittir 13:05:23\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
+"Örnek:\n"
+"TIME(13, 5, 23) eşittir 13:05:23\n"
+"\n"
 "Benzeri: HOUR\n"
 "@EXAMPLES=\n"
 "TIME(13, 5, 23) eşittir 13:05:23\n"
@@ -8883,7 +8872,8 @@ msgstr ""
 "Bu işlev Excel uyumludur.\n"
 "Örnekler:\n"
 "TIMEVALUE(\"3:05\") eşittir 0.128472.\n"
-"TIMEVALUE(\"2:24:53 PM\") eşittir 0.600613.\n\n"
+"TIMEVALUE(\"2:24:53 PM\") eşittir 0.600613.\n"
+"\n"
 "Benzerleri: HOUR, MINUTE\n"
 "@EXAMPLES=\n"
 "TIMEVALUE(\"3:05\") eşittir 0.128472.\n"
@@ -8908,11 +8898,12 @@ msgstr ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (günlük_zaman)\n"
 "@DESCRIPTION=1 Ocak 1900 tarihine göre gün cinsinden verilen zamanın ondalık "
-"kısmını 24 saatlik saat cinsinden hesaplar. @günlük_zaman tarih dizgesi olarak da verilebilir. "
-"Gnumeric bu dönüşümü yapar.\n"
+"kısmını 24 saatlik saat cinsinden hesaplar. @günlük_zaman tarih dizgesi "
+"olarak da verilebilir. Gnumeric bu dönüşümü yapar.\n"
 "Bu işlev Excel uyumludur.\n"
 "Örnek:\n"
-"HOUR(0.128472) eşittir 3\n\n"
+"HOUR(0.128472) eşittir 3\n"
+"\n"
 "Benzer işlevler: MINUTE, NOW, TIME, SECOND\n"
 "@EXAMPLES=\n"
 "SAAT(0.128472) eşittir 3.\n"
@@ -8936,11 +8927,12 @@ msgstr ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (günlük_zaman)\n"
 "@DESCRIPTION=1 Ocak 1900 tarihine göre gün cinsinden verilen zamanın ondalık "
-"kısmını 0..59 arasında dakika cinsinden verir. "
-"Bu işlevde zamanı dizge olarak da verebilirsiniz.\n"
+"kısmını 0..59 arasında dakika cinsinden verir. Bu işlevde zamanı dizge "
+"olarak da verebilirsiniz.\n"
 "Bu işlev Excel uyumludur.\n"
 "Örnek:\n"
-"MINUTE(0.128472) eşittir 5\n\n"
+"MINUTE(0.128472) eşittir 5\n"
+"\n"
 "Benzerleri: HOUR, NOW, TIME, SECOND\n"
 "@EXAMPLES=\n"
 "MINUTE(0.128472) eşittir 5.\n"
@@ -8964,9 +8956,9 @@ msgstr ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (günlük_zaman)\n"
 "@DESCRIPTION=1 Ocak 1900 tarihine göre verilen zamanın ondalık kısmını 0..59 "
-"arasında saniye cinsinden verir. "
-"Bu işlevde zamanı dizge olarak da verebilirsiniz. "
-"Bu işlev Excel uyumludur.\n\n"
+"arasında saniye cinsinden verir. Bu işlevde zamanı dizge olarak da "
+"verebilirsiniz. Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "SECOND(0.600613) eşittir 53\n"
 "\n"
@@ -9453,8 +9445,11 @@ msgstr ""
 "@DESCRIPTION=The OCT2BIN işlevi bir sekizlik sayıyı iklik eşdeğerine "
 "çevirir. @hane_sayısı ile isteğe bağlı olarak hane sayısı verilebilir. "
 "@hane_sayısı negatif ise ya da çok küçük ise işlev #NUM! hatası verir.\n"
-"Bu işlev Excel uyumludur.\n\n"
-"Örnek:\nOCT2BIN(\"213\") eşittir 10001011\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
+"Örnek:\n"
+"OCT2BIN(\"213\") eşittir 10001011\n"
+"\n"
 "Benzerleri: BIN2OCT, OCT2DEC, OCT2HEX\n"
 "@EXAMPLES=\n"
 "OCT2BIN(\"213\") eşittir 10001011.\n"
@@ -9538,7 +9533,8 @@ msgstr ""
 "@DESCRIPTION=The HEX2OCT işlevi bir onaltılık sayıyı sekizlik eşdeğerine "
 "çevirir. @hane_sayısı ile isteğe bağlı olarak hane sayısı verilebilir. "
 "@hane_sayısı negatif ise ya da çok küçük ise işlev #NUM! hatası verir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "HEX2OCT(\"2A\",3) eşittir 052\n"
 "\n"
@@ -9564,7 +9560,8 @@ msgstr ""
 "@SYNTAX=HEX2DEC(x)\n"
 "@DESCRIPTION=The HEX2DEC işlevi bir onaltılık sayıyı ondalık eşdeğerine "
 "çevirir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "HEX2DEC(\"2A\") eşittir 42\n"
 "\n"
@@ -9592,9 +9589,9 @@ msgstr ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
 "@DESCRIPTION=BESSELI işlevi Neumann, Weber ve Bessel işlevlerini hesaplar. "
-"@x işlevin işlem yaptığı değer, @y ise bessel işlevinin derecesidir. Tamsayı değilse "
-"ondalık kısım atılır. @x ya da @y bir sayı değilse işlev #DEĞER! hatası verir. @y < 0 ise "
-"#SAYI! hatası verir.\n"
+"@x işlevin işlem yaptığı değer, @y ise bessel işlevinin derecesidir. Tamsayı "
+"değilse ondalık kısım atılır. @x ya da @y bir sayı değilse işlev #DEĞER! "
+"hatası verir. @y < 0 ise #SAYI! hatası verir.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -9624,9 +9621,9 @@ msgstr ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
 "@DESCRIPTION=BESSELK işlevi Neumann, Weber ve Bessel işlevlerini hesaplar. "
-"@x işlevin işlem yaptığı değer, @y ise bessel işlevinin derecesidir. Tamsayı değilse "
-"ondalık kısım atılır. @x ya da @y bir sayı değilse işlev #DEĞER! hatası verir. @y < 0 ise "
-"#SAYI! hatası verir.\n"
+"@x işlevin işlem yaptığı değer, @y ise bessel işlevinin derecesidir. Tamsayı "
+"değilse ondalık kısım atılır. @x ya da @y bir sayı değilse işlev #DEĞER! "
+"hatası verir. @y < 0 ise #SAYI! hatası verir.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -9655,10 +9652,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
-"@DESCRIPTION=BESSELJ işlevi Bessel işlevini hesaplar. "
-"@x işlevin işlem yaptığı değer, @y ise bessel işlevinin derecesidir. Tamsayı değilse "
-"ondalık kısım atılır. @x ya da @y bir sayı değilse işlev #DEĞER! hatası verir. @y < 0 ise "
-"#SAYI! hatası verir.\n"
+"@DESCRIPTION=BESSELJ işlevi Bessel işlevini hesaplar. @x işlevin işlem "
+"yaptığı değer, @y ise bessel işlevinin derecesidir. Tamsayı değilse ondalık "
+"kısım atılır. @x ya da @y bir sayı değilse işlev #DEĞER! hatası verir. @y < "
+"0 ise #SAYI! hatası verir.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -9688,9 +9685,9 @@ msgstr ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
 "@DESCRIPTION=BESSELY işlevi Neumann, Weber ve Bessel işlevlerini hesaplar. "
-"@x işlevin işlem yaptığı değer, @y ise bessel işlevinin derecesidir. Tamsayı değilse "
-"ondalık kısım atılır. @x ya da @y bir sayı değilse işlev #DEĞER! hatası verir. @y < 0 ise "
-"#SAYI! hatası verir.\n"
+"@x işlevin işlem yaptığı değer, @y ise bessel işlevinin derecesidir. Tamsayı "
+"değilse ondalık kısım atılır. @x ya da @y bir sayı değilse işlev #DEĞER! "
+"hatası verir. @y < 0 ise #SAYI! hatası verir.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -9722,7 +9719,8 @@ msgstr ""
 "@DESCRIPTION=COMPLEX işlevi x+yi biçiminde bir karmaşık sayı ile sonuçlanır. "
 "@gerçel ve @sanal karmaşık sayının gerçel ve sanal katsayılarıdır. @sonek i "
 "veya j olabilir, verilmezse öntanımlı olarak i kullanılır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "COMPLEX(1,-1) eşittir 1-i.\n"
 "@EXAMPLES=\n"
@@ -9746,7 +9744,8 @@ msgstr ""
 "@SYNTAX=IMAGINARY(karmaşık_sayı)\n"
 "@DESCRIPTION=IMAGINARY işlevi verilen @karmaşık_sayının sanal kısmının "
 "katsayısını verir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "IMAGINARY(\"132-j\") eşittir -1\n"
 "\n"
@@ -9770,8 +9769,12 @@ msgstr ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(karmaşık_sayı)\n"
 "@DESCRIPTION=IMREAL işlevi verilen @karmaşık_sayının gerçel kısmının "
-"katsayısını verir.\nBu işlev Excel uyumludur.\n\n"
-"Örnek:\nimreal(\"132-j\") eşittir 132\n\n"
+"katsayısını verir.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
+"Örnek:\n"
+"imreal(\"132-j\") eşittir 132\n"
+"\n"
 "Benzeri: IMAGINARY\n"
 "@EXAMPLES=\n"
 "imreal(\"132-j\") eşittir 132\n"
@@ -9793,7 +9796,8 @@ msgstr ""
 "@SYNTAX=IMABS(karmaşık_sayı)\n"
 "@DESCRIPTION=IMABS işlevi verilen @karmaşık_sayı'nın mutlak değerini "
 "hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "IMABS(\"2-j\") eşittir 2.23606798\n"
 "\n"
@@ -9816,8 +9820,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(karmaşık_sayı)\n"
-"@DESCRIPTION=IMCONJUGATE işlevi verilen @karmaşık_sayı'nın eşleniğini verir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"@DESCRIPTION=IMCONJUGATE işlevi verilen @karmaşık_sayı'nın eşleniğini "
+"verir.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "IMCONJUGATE(\"1-j\") eşittir 1+j.\n"
 "\n"
@@ -9841,7 +9847,8 @@ msgstr ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(karmaşık_sayı)\n"
 "@DESCRIPTION=IMCOS verilen bir @karmaşık_sayı'nın kosinüsünü hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "IMCOS(\"1+j\") eşittir 0.833730-0.988898j\n"
 "\n"
@@ -9864,7 +9871,8 @@ msgstr ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(karmaşık_sayı)\n"
 "@DESCRIPTION=IMTAN verilen @karmaşık_sayı'nın tanjantını hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Benzerleri: IMSIN, IMCOS\n"
 "@EXAMPLES=\n"
 "\n"
@@ -9885,7 +9893,8 @@ msgstr ""
 "@SYNTAX=IMEXP(karmaşık_sayı)\n"
 "@DESCRIPTION=IMEXP işlevi verilen bir @karmaşık_sayı'nın üstel değerini "
 "hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "IMEXP(\"2-j\") eşittir 3.992324-6.217676j\n"
 "\n"
@@ -9908,14 +9917,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(karmaşık_sayı)\n"
-"@DESCRIPTION=IMARGUMENT işlevi verilen @karmaşık_sayı'nın tetasını"
-"hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"@DESCRIPTION=IMARGUMENT işlevi verilen @karmaşık_sayı'nın tetasınıhesaplar.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "IMARGUMENT(\"2-j\") eşittir -0.463647609\n"
 "@EXAMPLES=\n"
-"IMARGUMENT(\"2-j\") eşittir -0.463647609\n\\ "
-"Benzeri: IMCONJUGATE\n"
+"IMARGUMENT(\"2-j\") eşittir -0.463647609\n"
+"\\ Benzeri: IMCONJUGATE\n"
 "\n"
 "@SEEALSO="
 
@@ -9938,8 +9947,10 @@ msgstr ""
 "@DESCRIPTION=IMLN işlevi verilen @karmaşık_sayı'nın tabii logaritmasını "
 "hesaplar. (Sonuç -pi ile +pi arasında bir sanal kısma sahip olmalıdır. Tabii "
 "logaritma karmaşık sayılar için tam istenen değeri vermeyebilir. Bu durumda "
-"sanal kısma pi'nin katlarını eklemek ya da çıkarmak zorunda kalabilirsiniz.)\n"
-"Bu işlev Excel uyumludur.\n\n"
+"sanal kısma pi'nin katlarını eklemek ya da çıkarmak zorunda "
+"kalabilirsiniz.)\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "IMLN(\"3-j\") eşittir 1.15129-0.32175j\n"
 "\n"
@@ -9964,7 +9975,8 @@ msgstr ""
 "@SYNTAX=IMLOG2(karmaşık_sayı)\n"
 "@DESCRIPTION=IMLOG2 işlevi verilen @karmaşık_sayı'nın 2 tabanına göre "
 "logaritmasını hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "IMLOG2(\"3-j\") eşittir 1.66096-0.46419j\n"
 "\n"
@@ -9989,7 +10001,8 @@ msgstr ""
 "@SYNTAX=IMLOG10(karmaşık_sayı)\n"
 "@DESCRIPTION=IMLOG10 işlevi verilen @karmaşık_sayı'nın 10 tabanına göre "
 "logaritmasını hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "IMLOG10(\"3-j\") eşittir 0.5-0.13973j\n"
 "\n"
@@ -10014,8 +10027,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(karmaşık_sayı,kuvvet)\n"
-"@DESCRIPTION=IMPOWER işlevi verilen @karmaşık_sayı'nın @kuvvet'ini hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"@DESCRIPTION=IMPOWER işlevi verilen @karmaşık_sayı'nın @kuvvet'ini "
+"hesaplar.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "IMPOWER(\"4-j\",2) eşittir 15-8j\n"
 "\n"
@@ -10039,7 +10054,8 @@ msgstr ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(karmaşık_sayı1,karmaşık_sayı2)\n"
 "@DESCRIPTION=IMDIV işlevi iki karmaşık sayının bölümünü hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "IMDIV(\"2-j\",\"2+j\") eşittir 0.6-0.8j\n"
 "\n"
@@ -10063,7 +10079,8 @@ msgstr ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(karmaşık_sayı)\n"
 "@DESCRIPTION=IMSIN işlevi @karmaşık_sayı'nın sinüsünü hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "IMSIN(\"1+j\") eşittir 1.29846+0.63496j\n"
 "\n"
@@ -10086,9 +10103,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(karmaşık_sayı)\n"
-"@DESCRIPTION=IMSQRT işlevi @karmaşık_sayı'nın karekökünü hesaplar.\nBu işlev "
-"Excel uyumludur.\n\n"
-"Örnek:\nIMSQRT(\"1+j\") eşittir 1.09868+0.4550899j\n\n"
+"@DESCRIPTION=IMSQRT işlevi @karmaşık_sayı'nın karekökünü hesaplar.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
+"Örnek:\n"
+"IMSQRT(\"1+j\") eşittir 1.09868+0.4550899j\n"
+"\n"
 "Benzeri: IMPOWER\n"
 "@EXAMPLES=\n"
 "IMSQRT(\"1+j\") eşittir 1.09868+0.4550899j\n"
@@ -10108,9 +10128,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(karmaşık_sayı1,karmaşık_sayı2)\n"
-"@DESCRIPTION=IMSUB işlevi iki karmaşık sayının farkını hesaplar.\nBu işlev "
-"Excel uyumludur.\n\n"
-"Örnek:\nIMSUB(\"3-j\",\"2+j\") eşittir 1-2j\n\n"
+"@DESCRIPTION=IMSUB işlevi iki karmaşık sayının farkını hesaplar.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
+"Örnek:\n"
+"IMSUB(\"3-j\",\"2+j\") eşittir 1-2j\n"
+"\n"
 "Benzeri: IMSUM\n"
 "@EXAMPLES=\n"
 "IMSUB(\"3-j\",\"2+j\") eşittir 1-2j\n"
@@ -10131,8 +10154,12 @@ msgstr ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(karmaşık_sayı1[,karmaşık_sayı2,...])\n"
 "@DESCRIPTION=IMPRODUCT işlevi verilen @karmaşık_sayı'ların çarpımını "
-"hesaplar.\nBu işlev Excel uyumludur.\n\n"
-"Örnek:\nIMPRODUCT(\"2-j\";\"4-2j\") eşittir 8-6j\n\n"
+"hesaplar.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
+"Örnek:\n"
+"IMPRODUCT(\"2-j\";\"4-2j\") eşittir 8-6j\n"
+"\n"
 "Benzeri: IMDIV\n"
 "@EXAMPLES=\n"
 "IMPRODUCT(\"2-j\";\"4-2j\") eşittir 8-6j\n"
@@ -10153,8 +10180,11 @@ msgstr ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(karmaşık_sayı1,karmaşık_sayı2)\n"
 "@DESCRIPTION=IMSUM işlevi verilen iki karmaşık sayının toplamını hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
-"Örnek:\nIMSUM(\"2-4j\",\"9-j\") eşittir 11-5j\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
+"Örnek:\n"
+"IMSUM(\"2-4j\",\"9-j\") eşittir 11-5j\n"
+"\n"
 "Benzeri: IMSUB\n"
 "@EXAMPLES=\n"
 "IMSUM(\"2-4j\",\"9-j\") eşittir 11-5j\n"
@@ -10360,7 +10390,8 @@ msgstr ""
 "'a'  atto   1E-18\n"
 "\n"
 "Farklı sistemler arasında dönüşümler #SAYI! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "CONVERT(3,\"lbm\",\"g\") eşittir 1360.7769\n"
 "CONVERT(5.8,\"m\",\"in\") eşittir 228.3465\n"
@@ -10399,20 +10430,22 @@ msgstr ""
 "exp(-t*t) dt integrali) hata işlevi ile sonuçlanır. İki argüman verilmişse "
 "bunlar integralin alt ve üst sınırlarıdır. @alt_sınır ve @üst_sınır "
 "değerleri sayısal değilse #DEĞER! hatası verir.\n"
-"Bu işlev negatif argüman kabul etmek dışında Excel ile uyumludur.\n\n"
+"Bu işlev negatif argüman kabul etmek dışında Excel ile uyumludur.\n"
+"\n"
 "Örnek:\n"
 "ERF(0.4) eşittir 0.428392355\n"
 "ERF(1.6448536269515/SQRT(2)) eşittir 0.90\n"
 "\n"
-"İkinci örnek ortalamadan yaklaşık 1.645 standart sapma ile rastlanan bir %"
-"90 lık değişime sahip bir normal açılımla bir rastgele değişken gösterir.\n\n"
+"İkinci örnek ortalamadan yaklaşık 1.645 standart sapma ile rastlanan bir %90 "
+"lık değişime sahip bir normal açılımla bir rastgele değişken gösterir.\n"
+"\n"
 "Benzeri: ERFC\n"
 "@EXAMPLES=\n"
 "ERF(0.4) eşittir 0.428392355\n"
 "ERF(1.6448536269515/SQRT(2)) eşittir 0.90\n"
 "\n"
-"İkinci örnek ortalamadan yaklaşık 1.645 standart sapma ile rastlanan bir %"
-"90 lık değişime sahip bir normal açılımla bir rastgele değişken gösterir.\n"
+"İkinci örnek ortalamadan yaklaşık 1.645 standart sapma ile rastlanan bir %90 "
+"lık değişime sahip bir normal açılımla bir rastgele değişken gösterir.\n"
 "@SEEALSO=ERFC"
 
 #: src/functions/fn-eng.c:1654
@@ -10432,7 +10465,8 @@ msgstr ""
 "@SYNTAX=ERFC(x)\n"
 "@DESCRIPTION=ERFC işlevi 1 - erf(x) olarak verilen eşlenik hata işlevini "
 "hesaplar. erfc(x) 0.5 den daha büyük argümanlar için daha yüksek doğruluk "
-"sağlar. @x bir sayı değilse #DEĞER! hatası verir.\n\n"
+"sağlar. @x bir sayı değilse #DEĞER! hatası verir.\n"
+"\n"
 "Örnek:\n"
 "ERFC(6) eşittir 2.15197367e-17\n"
 "\n"
@@ -10460,7 +10494,8 @@ msgstr ""
 "@DESCRIPTION=DELTA işlevi iki argümanın sayısal eşdeğerliliğini test eder. "
 "@y isteğe bağlıdır ve öntanımlı olarak sıfırdır.\n"
 "Sayısal olmayan argümanlar işlevin #DEĞER! hatası vermesiyle sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "DELTA(42.99,43) eşittir 0\n"
 "\n"
@@ -10492,7 +10527,8 @@ msgstr ""
 "@DESCRIPTION=GESTEP işlevi @x >= @y ise 1 ile değilse 0 ile sonuçlanır. @y "
 "isteğe bağlıdır ve öntanımlı olarak sıfırdır. Sayısal olmayan argümanın "
 "varlığı işlevin #DEĞER! hatası ile sonuçlanmasına sebep olur.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "GESTEP(5,4) eşittir 1\n"
 "\n"
@@ -11646,8 +11682,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(türü,ref)\n"
-"@DESCRIPTION=Gözenin içeriği, konumu ve biçemleme bilgilerini verir. "
-"@türü ile aradığınız bilgi türünü belirtebilirsiniz:\n"
+"@DESCRIPTION=Gözenin içeriği, konumu ve biçemleme bilgilerini verir. @türü "
+"ile aradığınız bilgi türünü belirtebilirsiniz:\n"
 " address       belirtilen göze başvurusu\n"
 " col           @ref içindeki sütun sayısı\n"
 " contents      @ref içindeki gözelerin\n"
@@ -11749,8 +11785,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(türü)\n"
-"@DESCRIPTION= İşletim sistemi hakkında bilgi verir. "
-"@türü ile aradığınız bilgi türünü belirtebilirsiniz:\n"
+"@DESCRIPTION= İşletim sistemi hakkında bilgi verir. @türü ile aradığınız "
+"bilgi türünü belirtebilirsiniz:\n"
 " memavail    Serbest bellek miktarı (bayt)\n"
 " memused     Kullanımdaki bellek miktarı (bayt)\n"
 " numfile     Etkin çizelge sayısı\n"
@@ -11884,8 +11920,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR.TYPE(değer)\n"
-"@DESCRIPTION=Verilen bir hata değerine karşılık olan hata "
-"numarası ile sonuçlanır. Bazı hata değerleri ve numaraları:\n"
+"@DESCRIPTION=Verilen bir hata değerine karşılık olan hata numarası ile "
+"sonuçlanır. Bazı hata değerleri ve numaraları:\n"
 " #BÖL/0!    2\n"
 " #DEĞER!    3\n"
 " #REF!      4\n"
@@ -11985,7 +12021,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(değer)\n"
-"@DESCRIPTION=ISEVEN işlevi verilen değer çift sayı ise DOĞRU ile sonuçlanır.\n"
+"@DESCRIPTION=ISEVEN işlevi verilen değer çift sayı ise DOĞRU ile "
+"sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -12131,7 +12168,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(değer)\n"
-"@DESCRIPTION=ISTEXT işlevi verilen değer bir metin ise DOĞRU ile sonuçlanır.\n"
+"@DESCRIPTION=ISTEXT işlevi verilen değer bir metin ise DOĞRU ile "
+"sonuçlanır.\n"
 "Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -12275,7 +12313,7 @@ msgstr ""
 "\n"
 "@SEEALSO=AND, OR"
 
-#: src/functions/fn-logical.c:101 src/functions/fn-string.c:502
+#: src/functions/fn-logical.c:101 src/functions/fn-string.c:504
 msgid "Type Mismatch"
 msgstr "Tür Uyumsuz"
 
@@ -12299,8 +12337,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1,b2, ...)\n"
-"@DESCRIPTION=OR mantıksal VEYA işlevidir. @b1, .. @bN ile verilen ve her biri "
-"DOĞRU veya YANLIŞ olarak sonuçlanan ifadelerin bazıları DOĞRU ise işlev "
+"@DESCRIPTION=OR mantıksal VEYA işlevidir. @b1, .. @bN ile verilen ve her "
+"biri DOĞRU veya YANLIŞ olarak sonuçlanan ifadelerin bazıları DOĞRU ise işlev "
 "DOĞRU ile sonuçlanır. Tam ya da gerçel sayı olsun değer sıfır ise YANLIŞ "
 "değilse DOĞRU kabul edilir. Metin içeren ve boş gözeler yoksayılır. "
 "Mantıksal olmayan bir değerin varlığı #DEĞER! hatası ile sonuçlanır.\n"
@@ -12435,7 +12473,8 @@ msgstr ""
 "ise R1C1-tipi başvuru (R4C4) ile sonuçlanır. @metin dış başvuru kaynağı "
 "olarak kullanılan bir çizelgenin ismini belirtmek için kullanılır. "
 "@satır_num veya @sütun_num birden küçük ise işlev #SAYI! hatası ile "
-"sonuçlanır.\n\n"
+"sonuçlanır.\n"
+"\n"
 "Örnek:\n"
 "ADDRESS(5,4) eşittir \"$D$5\"\n"
 "ADDRESS(5,4,4) eşittir \"D5\"\n"
@@ -12463,7 +12502,8 @@ msgstr ""
 "@SYNTAX=CHOOSE(indeks[,değer1][,değer2]...)\n"
 "@DESCRIPTION=CHOOSE işlevi @indeks'teki değerle döner. @indeks bir tamsayı "
 "değilse tamsayıya yuvarlanır. @indeks < 1 veya @indeks > değerlerin sayısı "
-"ise #DEĞER! hatası verir.\n\n"
+"ise #DEĞER! hatası verir.\n"
+"\n"
 "Örnek:\n"
 "CHOOSE(3,\"Elma\",\"Portakal\",\"Armut\",\"Mandalina\") eşittir \"Armut\".\n"
 "\n"
@@ -12477,7 +12517,7 @@ msgstr ""
 msgid "#ARG!"
 msgstr "#ARG!"
 
-#: src/functions/fn-lookup.c:478
+#: src/functions/fn-lookup.c:475
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column[,approximate])\n"
@@ -12501,13 +12541,14 @@ msgstr ""
 "sırada sıralanmış olmalıdır. Bu durumda @değerden küçük değere sahip olan "
 "satırı @aralık içindeki @sütununun başlangıcını 1 kabul eden bir sayı olarak "
 "bulur. @sütun < 0 ise #SAYI!, @sütun @aralık dışında ise #REF! hatası "
-"verir.\n\n"
+"verir.\n"
+"\n"
 "Benzeri: HLOOKUP\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HLOOKUP"
 
-#: src/functions/fn-lookup.c:539
+#: src/functions/fn-lookup.c:536
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row[,approximate])\n"
@@ -12530,13 +12571,14 @@ msgstr ""
 "sırada sıralanmış olmalıdır. Bu durumda @değerden küçük değere sahip olan "
 "sütunu @aralık içindeki @satırının başlangıcını 1 kabul eden bir sayı olarak "
 "bulur. @satır < 0 ise #SAYI!, @satır @aralık dışında ise #REF! hatası "
-"verir.\n\n"
+"verir.\n"
+"\n"
 "Benzeri: VLOOKUP\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=VLOOKUP"
 
-#: src/functions/fn-lookup.c:600
+#: src/functions/fn-lookup.c:597
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -12558,13 +12600,15 @@ msgstr ""
 "genişliğinden daha büyükse aramanın duyarlığı döndürülür. Alternatif olarak "
 "bir tek dizi kullanılabilir.\n"
 "İşlev @değeri bulamazsa değerden küçük sonraki en büyük değeri kullanır. "
-"Veri sıralanmış olmalıdır. @değer ilk değerden küçükse işlev #YOK! hatası ile sonuçlanır.\n\n"
+"Veri sıralanmış olmalıdır. @değer ilk değerden küçükse işlev #YOK! hatası "
+"ile sonuçlanır.\n"
+"\n"
 "Benzerleri: VLOOKUP,HLOOKUP\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=VLOOKUP,HLOOKUP"
 
-#: src/functions/fn-lookup.c:667
+#: src/functions/fn-lookup.c:664
 msgid ""
 "@FUNCTION=MATCH\n"
 "@SYNTAX=MATCH(seek,vector[,type])\n"
@@ -12592,16 +12636,18 @@ msgstr ""
 "denetimi:\n"
 " @türü = 1 ise @sıradan küçük ya da eşit en büyük değeri bulur.\n"
 " @türü = 0 ise @sıraya eşit ilk değeri bulur.\n"
-" @türü = -1 ise @sıradan büyük ya da eşit en küçük değeri bulur.\n\n"
+" @türü = -1 ise @sıradan büyük ya da eşit en küçük değeri bulur.\n"
+"\n"
 " @türü = 0 için veri herhangi bir sırada olabilir. Diğer türler için veri "
 "sıralı olmalıdır. (Bu durumda işlev indeksi bulurken ikilik arama yapar.)\n"
-" @sıra bulunamazsa #YOK! hatası verir.\n\n"
+" @sıra bulunamazsa #YOK! hatası verir.\n"
+"\n"
 "Benzeri: LOOKUP\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=LOOKUP"
 
-#: src/functions/fn-lookup.c:727
+#: src/functions/fn-lookup.c:724
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text,[format])\n"
@@ -12619,10 +12665,13 @@ msgstr ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_metin[,biçem])\n"
 "@DESCRIPTION=INDIRECT işlevi @ref_metin dizgesiyle başvurulan gözenin "
-"içeriğini verir. Başvuru A1 ya da R1C1 türünde olabilir. Tür, @biçem "
-"ile mevcut gösterimi öntanımlı kabul ederek mantıksal bir değer olarak "
-"belirtilebilir. @ref_metin geçerli bir başvuru içermiyorsa #REF! hatası verir.\n\n"
-"Örnek:\nA1 -> 3.14 ve A2 -> A1 içeriyorsa,\n"
+"içeriğini verir. Başvuru A1 ya da R1C1 türünde olabilir. Tür, @biçem ile "
+"mevcut gösterimi öntanımlı kabul ederek mantıksal bir değer olarak "
+"belirtilebilir. @ref_metin geçerli bir başvuru içermiyorsa #REF! hatası "
+"verir.\n"
+"\n"
+"Örnek:\n"
+"A1 -> 3.14 ve A2 -> A1 içeriyorsa,\n"
 "INDIRECT(A2) eşittir 3.14\n"
 "@EXAMPLES=\n"
 "A1 -> 3.14 ve A2 -> A1 içeriyorsa,\n"
@@ -12630,7 +12679,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:788
+#: src/functions/fn-lookup.c:785
 msgid ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(reference,[row, col, area])\n"
@@ -12650,7 +12699,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:834
+#: src/functions/fn-lookup.c:831
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -12667,16 +12716,18 @@ msgstr ""
 "@SYNTAX=COLUMN([referans])\n"
 "@DESCRIPTION=COLUMN işlevi göze konumlarını içeren bir öntanımlı değer "
 "alarak bir sütun numaraları dizisi ile sonuçlanır. @referans bir dizi, bir "
-"aralık ya da bir başvuru değilse işlev #DEĞER! hatası ile sonuçlanır.\n\n"
+"aralık ya da bir başvuru değilse işlev #DEĞER! hatası ile sonuçlanır.\n"
+"\n"
 "Örnek:\n"
-"E1 içinde COLUMN() eşittir 5\n\n"
+"E1 içinde COLUMN() eşittir 5\n"
+"\n"
 "Benzerleri: COLUMNS, ROW, ROWS\n"
 "@EXAMPLES=\n"
 "E1 içinde COLUMN() eşittir 5\n"
 "\n"
 "@SEEALSO=COLUMNS,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:887
+#: src/functions/fn-lookup.c:884
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -12693,15 +12744,18 @@ msgstr ""
 "@SYNTAX=COLUMNS(referans)\n"
 "@DESCRIPTION=COLUMNS işlevi belirtilen alandaki sütun sayısı ile sonuçlanır. "
 "@referans bir dizi, bir aralık ya da bir başvuru değilse işlev #DEĞER! "
-"hatası ile sonuçlanır.\n\n"
-"Örnek:\nCOLUMNS(H2:J3) eşittir 3\n\n"
+"hatası ile sonuçlanır.\n"
+"\n"
+"Örnek:\n"
+"COLUMNS(H2:J3) eşittir 3\n"
+"\n"
 "Benzerleri: COLUMN, ROW, ROWS\n"
 "@EXAMPLES=\n"
 "COLUMNS(H2:J3) eşittir 3\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:913
+#: src/functions/fn-lookup.c:910
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -12719,13 +12773,14 @@ msgstr ""
 "@aralık içindeki (@satır, @sütun) adresinden başlayan @yükseklik ve "
 "@genişlikte bir bölgedir. @aralık bir aralık ya da bir başvuru değilse işlev "
 "#DEĞER! hatası ile sonuçlanır. @yükseklik ya da @genişlik verilmezse @aralık "
-"sınırları kullanılır.\n\n"
+"sınırları kullanılır.\n"
+"\n"
 "Benzerleri: COLUMN, COLUMNS, ROWS\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:976
+#: src/functions/fn-lookup.c:973
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -12742,15 +12797,18 @@ msgstr ""
 "@SYNTAX=ROW([referans])\n"
 "@DESCRIPTION=ROW işlevi göze konumlarını içeren bir öntanımlı değer alarak "
 "bir satır numaraları dizisi ile sonuçlanır. @referans bir dizi, bir aralık "
-"ya da bir başvuru değilse işlev #DEĞER! hatası ile sonuçlanır.\n\n"
-"Örnek:\nG13 içinde ROW() eşittir 13\n\n"
+"ya da bir başvuru değilse işlev #DEĞER! hatası ile sonuçlanır.\n"
+"\n"
+"Örnek:\n"
+"G13 içinde ROW() eşittir 13\n"
+"\n"
 "Benzerleri: COLUMN, COLUMNS, ROWS\n"
 "@EXAMPLES=\n"
 "G13 içinde ROW() eşittir 13\n"
 "\n"
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 
-#: src/functions/fn-lookup.c:1029
+#: src/functions/fn-lookup.c:1026
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -12767,15 +12825,18 @@ msgstr ""
 "@SYNTAX=ROWS(referans)\n"
 "@DESCRIPTION=The ROWS işlevi verilen alandaki satır sayısını verir. "
 "@referans bir dizi, bir aralık ya da bir başvuru değilse işlev #DEĞER! "
-"hatası ile sonuçlanır.\n\n"
-"Örnek:\nROWS(H7:I13) eşittir 7\n\n"
+"hatası ile sonuçlanır.\n"
+"\n"
+"Örnek:\n"
+"ROWS(H7:I13) eşittir 7\n"
+"\n"
 "Benzerleri: COLUMN, ROW, ROWS\n"
 "@EXAMPLES=\n"
 "ROWS(H7:I13) eşittir 7\n"
 "\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 
-#: src/functions/fn-lookup.c:1055
+#: src/functions/fn-lookup.c:1052
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
@@ -12789,14 +12850,16 @@ msgid ""
 msgstr ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(bağ_konumu,seçimlik_etiket)\n"
-"@DESCRIPTION=HYPERLINK işlevi 2. argümanla yoksa 1. argümanla sonuçlanır.\n\n"
-"Örnek:\nHYPERLINK(\"www.gnome.org\",\"GNOME\")\n"
+"@DESCRIPTION=HYPERLINK işlevi 2. argümanla yoksa 1. argümanla sonuçlanır.\n"
+"\n"
+"Örnek:\n"
+"HYPERLINK(\"www.gnome.org\",\"GNOME\")\n"
 "@EXAMPLES=\n"
 "HYPERLINK(\"www.gnome.org\",\"GNOME\")\n"
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-lookup.c:1081
+#: src/functions/fn-lookup.c:1078
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -12807,13 +12870,14 @@ msgid ""
 msgstr ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matris)\n"
-"@DESCRIPTION=TRANSPOSE işlevi giriş @matrisinin transpozesini hesaplar.\n\n"
+"@DESCRIPTION=TRANSPOSE işlevi giriş @matrisinin transpozesini hesaplar.\n"
+"\n"
 "Benzeri: MMULT\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MMULT"
 
-#: src/functions/fn-lookup.c:1129
+#: src/functions/fn-lookup.c:1126
 msgid "Data / Lookup"
 msgstr "Veri / Arama"
 
@@ -12836,7 +12900,8 @@ msgstr ""
 "@DESCRIPTION=GCD işlevi verilen sayıların en büyük ortak bölenini hesaplar. "
 "Sayılar negatif değer içeriyorsa işlev #SAYI! hatası ile sonuçlanır. Tamsayı "
 "olmayan değerlerin ondalık kısmı atılarak tamsayıya dönüştürülür.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "GCD(470,770) eşittir 10\n"
 "GCD(470,770,1495) eşittir 5\n"
@@ -12869,7 +12934,8 @@ msgstr ""
 "küçük ortak çarpım, verilen tamsayıların çarpımlarının en küçüğüdür. Verilen "
 "değerler arasında birden küçük olan varsa işlev #SAYI! hatası ile "
 "sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "LCM(2,13) eşittir 26\n"
 "LCM(4,7,5) eşittir 140\n"
@@ -12899,7 +12965,8 @@ msgstr ""
 "@SYNTAX=ABS(b1)\n"
 "@DESCRIPTION=ABS işlevi bir sayının mutlak değerini verir. Basitçe sayıda "
 "eksi işareti varsa kaldırılır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "ABS(7) eşittir 7\n"
 "ABS(-3.14) eşittir 3.14\n"
@@ -12927,10 +12994,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
-"@DESCRIPTION=ACOS işlevi kosinüsü x olan açıyı hesaplar. @x değeri "
-"-1 ile 1 arasında değilse işlev #SAYI! hatası ile sonuçlanır. Sonuç radyan "
+"@DESCRIPTION=ACOS işlevi kosinüsü x olan açıyı hesaplar. @x değeri -1 ile 1 "
+"arasında değilse işlev #SAYI! hatası ile sonuçlanır. Sonuç radyan "
 "cinsindendir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "ACOS(0.1) eşittir 1.470629\n"
 "ACOS(-0.1) eşittir 1.670964\n"
@@ -12958,9 +13026,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=ACOSH işlevi hiperbolik kosinüsü @x olan açıyı hesaplar. "
-"@x < 1.0 ise işlev #SAYI! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"@DESCRIPTION=ACOSH işlevi hiperbolik kosinüsü @x olan açıyı hesaplar. @x < "
+"1.0 ise işlev #SAYI! hatası ile sonuçlanır.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "ACOSH(2) eşittir 1.31696\n"
 "ACOSH(5.3) eşittir 2.35183\n"
@@ -12990,7 +13059,8 @@ msgstr ""
 "@SYNTAX=ASIN(x)\n"
 "@DESCRIPTION=ASIN işlevi sinüsü @x olan açıyı hesaplar. @x değeri -1 ile 1 "
 "arasında değilse işlev #SAYI! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "ASIN(0.5) eşittir 0.523599\n"
 "ASIN(1) eşittir 1.570797\n"
@@ -13018,7 +13088,8 @@ msgstr ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
 "@DESCRIPTION=ASINH işlevi hiperbolik sinüsü @x olan açıyı hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "ASINH(0.5) eşittir 0.481212\n"
 "ASINH(1.0) eşittir 0.881374\n"
@@ -13046,7 +13117,8 @@ msgstr ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
 "@DESCRIPTION=ATAN işlevi tanjantı @x olan açıyı radyan cinsinden hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "ATAN(0.5) eşittir 0,463648\n"
 "ATAN(1) eşittir 0,785398\n"
@@ -13074,9 +13146,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
-"@DESCRIPTION=ATANH işlevi hiperbolik tanjantı @x olan açıyı hesaplar. "
-"@x'in mutlak değeri 1.0 dan büyükse işlev #SAYI! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"@DESCRIPTION=ATANH işlevi hiperbolik tanjantı @x olan açıyı hesaplar. @x'in "
+"mutlak değeri 1.0 dan büyükse işlev #SAYI! hatası ile sonuçlanır.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "ATANH(0.5) eşittir 0.549306\n"
 "ATANH(0.8) eşittir 1.098612\n"
@@ -13109,7 +13182,8 @@ msgstr ""
 "hesaplar. Sonucun koordinat ekseninin hangi çeyreğinde olduğunu her iki "
 "argümanın işaretlerine bakarak saptamanın dışında atan(@b2/@b1) hesabına "
 "benzer. Sonuç radyan cinsindendir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "ATAN2(0.5,1.0) eşittir 1.107149\n"
 "ATAN2(-0.5,2.0) eşittir 1.815775\n"
@@ -13137,7 +13211,8 @@ msgstr ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
 "@DESCRIPTION=CEIL işlevi @x'i en yakın büyük tamsayıya yuvarlar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "CEIL(0.4) eşittir 1\n"
 "CEIL(-1.1) eşittir -1\n"
@@ -13172,7 +13247,8 @@ msgstr ""
 "@SYNTAX=COUNTIF(aralık,koşul)\n"
 "@DESCRIPTION=COUNTIF işlevi @aralık içindeki değerlerden @koşulu "
 "sağlayanların sayısını bulur.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "A1, A2, ..., A5 gözeleri sırasıyla 23, 27, 28, 33, ve 39 değerlerini "
 "içeriyorsa:\n"
@@ -13218,7 +13294,8 @@ msgstr ""
 "değerlerin toplamını hesaplar. @güncel_aralık verilmişse, @aralık içinde "
 "@koşula uyan değerlere @güncel_aralık içinde karşı düşen değerlerin "
 "toplamını hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "A1, A2, ..., A5 gözeleri sırasıyla 23, 27, 28, 33, ve 39 değerlerini "
 "içeriyorsa:\n"
@@ -13260,7 +13337,8 @@ msgstr ""
 "@DESCRIPTION=CEILING işlevi @x'i @önem'in çarpanı olduğu en yakın tamsayıya "
 "yuvarlar. @x ya da @önem sayısal değilse @DEĞER!, farklı işaretlere "
 "sahipseler @SAYI! hatasıyla sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "CEILING(2.43,1) eşittir 3\n"
 "CEILING(123.123,3) eşittir 126\n"
@@ -13289,7 +13367,8 @@ msgstr ""
 "@SYNTAX=COS(x)\n"
 "@DESCRIPTION=COS işlevi radyan cinsinden verildiğinde @x'in kosinüsünü "
 "hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "COS(0.5) eşittir 0.877583\n"
 "COS(1) eşittir 0.540302\n"
@@ -13319,7 +13398,8 @@ msgstr ""
 "@DESCRIPTION=COSH işlevi matematiksel olarak (exp(@x) + exp(-@x)) / 2 "
 "ifadesi ile tanımlanan sinüs hiperbolik @x'i hesaplar. @x radyan cinsinden "
 "olmalıdır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "COSH(0.5) eşittir 1.127626\n"
 "COSH(1) eşittir 1.543081\n"
@@ -13347,7 +13427,8 @@ msgstr ""
 "@SYNTAX=DEGREES(x)\n"
 "@DESCRIPTION=DEGREES işlevi radyan cinsinden verilen @x'in derece cinsinden "
 "eşdeğerini hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "DEGREES(2.5) eşittir 143.2394\n"
 "\n"
@@ -13372,7 +13453,8 @@ msgstr ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
 "@DESCRIPTION=EXP işlevi e üssü @x hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "EXP(2) eşittir 7.389056\n"
 "\n"
@@ -13397,7 +13479,8 @@ msgstr ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
 "@DESCRIPTION=FACT işlevi (@x!) @x faktöriyeli hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "FACT(3) eşittir 6\n"
 "FACT(9) eşittir 362880\n"
@@ -13425,7 +13508,8 @@ msgstr ""
 "@SYNTAX=COMBIN(n,k)\n"
 "@DESCRIPTION=COMBIN işlevi birleşim sayısını hesaplar. Tamsayı olmayan ya da "
 "negatif sayılar verilirse ya da @n < @k ise hata verir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "COMBIN(8,6) eşittir 28\n"
 "COMBIN(6,2) eşittir 15\n"
@@ -13454,7 +13538,8 @@ msgstr ""
 "@SYNTAX=FLOOR(x[,önem])\n"
 "@DESCRIPTION=FLOOR işlevi @x'i, @önem'in sonraki en yakın küçük çarpımına "
 "yuvarlar. @önem öntanımlı olarak 1 dir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "FLOOR(0.5) eşittir 0\n"
 "FLOOR(5,2) eşittir 4\n"
@@ -13487,7 +13572,8 @@ msgstr ""
 "@SYNTAX=INT(a)\n"
 "@DESCRIPTION=The INT işlevi verilen sayıyı en yakın küçük tamsayıya "
 "yuvarlar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "INT(7.2) eşittir 7\n"
 "INT(-5.5) eşittir -6\n"
@@ -13516,7 +13602,8 @@ msgstr ""
 "@SYNTAX=LOG(x[,taban])\n"
 "@DESCRIPTION=LOG işlevi @x'in @taban tabanındaki logaritmasını hesaplar. "
 "@taban verilmezse 10 kabul edilir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "LOG(2) eşittir 0.30103\n"
 "LOG(8192,2) eşittir 13\n"
@@ -13544,7 +13631,8 @@ msgstr ""
 "@SYNTAX=LN(x)\n"
 "@DESCRIPTION=LN işlevi @x'in tabii logaritmasını hesaplar. @x <=0 ile işlev "
 "#SAYI! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "LN(7) eşittir 1.94591\n"
 "\n"
@@ -13570,7 +13658,8 @@ msgstr ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
 "@DESCRIPTION=POWER işlevi @x üssü @y hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "POWER(2,3) eşittir 8\n"
 "POWER(3,3.141) eşittir 31.523749\n"
@@ -13596,7 +13685,8 @@ msgstr ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
 "@DESCRIPTION=LOG2 işlevi @x'in 2 tabanına göre logaritmasını hesaplar. @x <= "
-"0 ise işlev #SAYI! hatası ile sonuçlanır.\n\n"
+"0 ise işlev #SAYI! hatası ile sonuçlanır.\n"
+"\n"
 "Örnek:\n"
 "LOG2(1024) eşittir 10\n"
 "\n"
@@ -13622,7 +13712,8 @@ msgstr ""
 "@SYNTAX=LOG10(x)\n"
 "@DESCRIPTION=LOG10 işlevi @x'in 10 tabanına göre logaritmasını hesaplar. @x "
 "<=0 ise işlev #SAYI! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "LOG10(7) eşittir 0.845098\n"
 "\n"
@@ -13650,7 +13741,8 @@ msgstr ""
 "@SYNTAX=MOD(sayı,bölen)\n"
 "@DESCRIPTION=MOD işlevi @sayının @bölenle bölünmesinde kalanı verir. @bölen "
 "sıfırsa işlev #BÖL/0! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "MOD(23,7) eşittir 2\n"
 "\n"
@@ -13676,7 +13768,8 @@ msgstr ""
 "@SYNTAX=RADIANS(x)\n"
 "@DESCRIPTION=RADIANS işlev, derece cinsinden verilen @x'in radyan eşdeğerini "
 "hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "RADIANS(180) eşittir 3.14159\n"
 "\n"
@@ -13700,7 +13793,8 @@ msgstr ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
 "@DESCRIPTION=RAND işlevi sıfır ile bir arasında rasgele bir sayı verir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Benzeri: RANDBETWEEN\n"
 "@EXAMPLES=\n"
 "\n"
@@ -13718,8 +13812,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RandExp\n"
 "@SYNTAX=RandExp(b)\n"
-"@DESCRIPTION=RandExp işlevi bir üstel açılımlı rasgele sayı ile "
-"sonuçlanır.\n\n"
+"@DESCRIPTION=RandExp işlevi bir üstel açılımlı rasgele sayı ile sonuçlanır.\n"
+"\n"
 "Örnek:\n"
 "RandExp(0.5)\n"
 "\n"
@@ -13741,7 +13835,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=RandPoisson\n"
 "@SYNTAX=RandPoisson(lambda)\n"
-"@DESCRIPTION=RandPoisson işlevi poisson açılımlı bir rasgele sayı verir.\n\n"
+"@DESCRIPTION=RandPoisson işlevi poisson açılımlı bir rasgele sayı verir.\n"
+"\n"
 "Örnek:\n"
 "RandPoisson(3)\n"
 "\n"
@@ -13766,7 +13861,8 @@ msgstr ""
 "@FUNCTION=RandBinom\n"
 "@SYNTAX=RandBinom(p,deneme)\n"
 "@DESCRIPTION=RandBinom işlevi binom açılımlı bir rasgele sayı verir. @p < 0 "
-"veya @p > 1 veya @deneme < 0 ise işlev #SAYI! hatası verir.\n\n"
+"veya @p > 1 veya @deneme < 0 ise işlev #SAYI! hatası verir.\n"
+"\n"
 "Örnek:\n"
 "RandBinom(0.5,2)\n"
 "\n"
@@ -13792,7 +13888,8 @@ msgstr ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,yanılma)\n"
 "@DESCRIPTION=RANDNEGBINOM işlevi negatif binom açılımlı bir rasgele sayı "
-"verir. @p < 0 veya @p > 1 veya @yanılma < 0 ise işlev #SAYI! hatası verir.\n\n"
+"verir. @p < 0 veya @p > 1 veya @yanılma < 0 ise işlev #SAYI! hatası verir.\n"
+"\n"
 "Örnek:\n"
 "RANDNEGBINOM(0.5,2)\n"
 "\n"
@@ -13815,8 +13912,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=RandBernoulli\n"
 "@SYNTAX=RandBernoulli(p)\n"
-"@DESCRIPTION=RandBernoulli işlevi Bernoulli açılımlı bir rasgele sayı "
-"verir. @p < 0 veya @p > 1 ise işlev #SAYI! hatası verir.\n\n"
+"@DESCRIPTION=RandBernoulli işlevi Bernoulli açılımlı bir rasgele sayı verir. "
+"@p < 0 veya @p > 1 ise işlev #SAYI! hatası verir.\n"
+"\n"
 "Örnek:\n"
 "RandBernoulli(0.5)\n"
 "\n"
@@ -13840,8 +13938,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
-"@DESCRIPTION=SIN işlevi radyan olarak verilen @x açısının sinüsünü hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"@DESCRIPTION=SIN işlevi radyan olarak verilen @x açısının sinüsünü "
+"hesaplar.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "SIN(0.5) eşittir 0.479426\n"
 "\n"
@@ -13867,7 +13967,8 @@ msgstr ""
 "@SYNTAX=SINH(x)\n"
 "@DESCRIPTION=SINH işlevi matematiksel olarak (exp(@x) - exp(-@x)) / 2 ile "
 "ifade edilen sinüs hiperbolik @x'i hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "SINH(0.5) eşittir 0.521095\n"
 "\n"
@@ -13893,7 +13994,8 @@ msgstr ""
 "@SYNTAX=SQRT(x)\n"
 "@DESCRIPTION=SQRT işlevi @x'in karekökünü hesaplar. @x negatifse işlev "
 "#SAYI! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "SQRT(2) eşittir 1.4142136\n"
 "\n"
@@ -13920,7 +14022,8 @@ msgstr ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(değer1,değer2, ...)\n"
 "@DESCRIPTION=SUM işlevi verilen değerlerin toplamını hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "A1, A2, ..., A5 gözeleri 11, 15, 17, 21, 43 değerlerini içeriyorsa:\n"
 "SUM(A1:A5) eşittir 107\n"
@@ -13953,7 +14056,8 @@ msgstr ""
 "@DESCRIPTION=SUMA işlevi verilen değerlerin toplamını hesaplar. Sayılar, "
 "metin ve mantıksal değerler hesaba dahildir. Göze metin içeriyorsa ya da "
 "YANLIŞ sonuç veren bir ifade içeriyorsa değeri (0) sıfır, DOĞRU sonuçlanan "
-"bir ifade içeriyorsa bir (1) olarak değerlendirilir.\n\n"
+"bir ifade içeriyorsa bir (1) olarak değerlendirilir.\n"
+"\n"
 "Örnek:\n"
 "A1, A2, ..., A5 gözeleri 11, 15, 17, 21, 43 değerlerini içeriyorsa:\n"
 "SUMA(A1:A5) eşittir 107\n"
@@ -13981,8 +14085,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(değer1,değer2, ...)\n"
-"@DESCRIPTION=SUMSQ işlevi verilen değerlerin karelerinin toplamını hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"@DESCRIPTION=SUMSQ işlevi verilen değerlerin karelerinin toplamını "
+"hesaplar.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örenk:\n"
 "A1, A2, ..., A5 gözeleri 11, 15, 17, 21, 43 değerlerini içeriyorsa:\n"
 "SUMSQ(A1:A5) eşittir 2925\n"
@@ -14010,7 +14116,8 @@ msgstr ""
 "@SYNTAX=MULTINOMIAL(değer1, değer2, ...)\n"
 "@DESCRIPTION=MULTINOMIAL işlevi değerler toplamının faktoriyelinin, "
 "faktoriyeller çarpımına oranını verir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "MULTINOMIAL(2,3,4) eşittir 1260\n"
 "\n"
@@ -14036,8 +14143,9 @@ msgstr ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(değer1, değer2, ...)\n"
 "@DESCRIPTION=PRODUCT işlevi verilen değerlerin birbirleri ile çarpımını "
-"hesaplar. Bu işlev Excel uyumludur. Uyum gereği boş gözelerin değeri 1 sayılırsa "
-"da tüm gözeler boşsa sonuç sıfır olacaktır.\n\n"
+"hesaplar. Bu işlev Excel uyumludur. Uyum gereği boş gözelerin değeri 1 "
+"sayılırsa da tüm gözeler boşsa sonuç sıfır olacaktır.\n"
+"\n"
 "Örnek:\n"
 "PRODUCT(2,5,9) eşittir 90\n"
 "\n"
@@ -14062,7 +14170,8 @@ msgstr ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(değer1, değer2, ...)\n"
 "@DESCRIPTION=PRODUCT işlevi verilen değerlerin birbirleri ile çarpımını "
-"hesaplar. Boş gözelerin değeri 1 sayılır.\n\n"
+"hesaplar. Boş gözelerin değeri 1 sayılır.\n"
+"\n"
 "Örnek:\n"
 "G_PRODUCT(2,5,9) eşittir 90\n"
 "\n"
@@ -14088,7 +14197,8 @@ msgstr ""
 "@SYNTAX=TAN(x)\n"
 "@DESCRIPTION=TAN işlevi radyan cinsinden verilen @x açısının tanjantını "
 "hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "TAN(3) eşittir -0.1425465\n"
 "\n"
@@ -14114,7 +14224,8 @@ msgstr ""
 "@SYNTAX=TANH(x)\n"
 "@DESCRIPTION=TANH işlevi sinh(@x) / cosh(@x) olarak ifade edilen tanjant "
 "hiperbolik @x'i hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "TANH(2) eşittir 0.96402758\n"
 "\n"
@@ -14139,7 +14250,8 @@ msgstr ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
 "@DESCRIPTION=PI işlevi pi sayısını verir. Argümansız kullanılır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "PI() eşittir 3.141593\n"
 "\n"
@@ -14167,7 +14279,8 @@ msgstr ""
 "@SYNTAX=TRUNC(sayı[,hane])\n"
 "@DESCRIPTION=TRUNC işlevi @sayıyı belirtilen @hane sayısına alta yuvarlar. "
 "@hane verilmezsa sıfır kabul edilir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "TRUNC(3.12) eşittir 3\n"
 "TRUNC(4.15,1) eşittir 4.1\n"
@@ -14194,7 +14307,8 @@ msgstr ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(sayı)\n"
 "@DESCRIPTION=EVEN işlevi @sayı'yı en yakın büyük çift sayıya yuvarlar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "EVEN(5.4) eşittir 6\n"
 "\n"
@@ -14219,7 +14333,8 @@ msgstr ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(sayı)\n"
 "@DESCRIPTION=ODD işlevi @sayı'yı en yakın büyük tek sayıya yuvarlar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "ODD(4.4) eşittir 5\n"
 "\n"
@@ -14246,9 +14361,10 @@ msgstr ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(sayı)\n"
 "@DESCRIPTION=FACTDOUBLE işlevi @sayı'nın çift faktoriyelini hesaplar. @sayı "
-"tamsayı değilse ondalık kısmı atılır, @sayı negatifse işlev #SAYI! hatası ile "
-"sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"tamsayı değilse ondalık kısmı atılır, @sayı negatifse işlev #SAYI! hatası "
+"ile sonuçlanır.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "FACTDOUBLE(5) eşittir 15\n"
 "\n"
@@ -14274,7 +14390,8 @@ msgstr ""
 "@SYNTAX=QUOTIENT(sayı,bölen)\n"
 "@DESCRIPTION=QUOTIENT işlevi @sayı @bölen ile bölündüğünde bölümün tamsayı "
 "kısmı ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "QUOTIENT(23,5) eşittir 4\n"
 "\n"
@@ -14302,7 +14419,8 @@ msgstr ""
 "@SYNTAX=SIGN(sayı)\n"
 "@DESCRIPTION=SIGN işlevi @sayı > 0 ise 1, @sayı = 0 ise 0, @sayı < 0 ise -1 "
 "ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "SIGN(3) eşittir 1\n"
 "SIGN(-3) eşittir -1\n"
@@ -14329,7 +14447,8 @@ msgstr ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(sayı)\n"
 "@DESCRIPTION=SQRTPI işlevi @sayı'nın pi ile çarpımının karekökünü hesaplar.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "SQRTPI(2) eşittir 2.506628275\n"
 "\n"
@@ -14358,7 +14477,8 @@ msgstr ""
 "@DESCRIPTION=RANDBETWEEN işlevi @alt ile @üst arasında rasgele bir sayı "
 "üretir. @alt ya da @üst tamsayı değilse alta yuvarlanır. @alt > @üst ise "
 "işlev #SAYI! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "RANDBETWEEN(3,7)\n"
 "\n"
@@ -14396,7 +14516,8 @@ msgstr ""
 "yuvarlanır. Pozitif @haneler ondalık noktanın sağındaki hane sayısını, "
 "negatif @haneler ise ondalık noktanın solundaki sıfırların sayısını "
 "gösterir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "ROUNDDOWN(5.5) eşittir 5\n"
 "ROUNDDOWN(-3.3) eşittir -4\n"
@@ -14439,7 +14560,8 @@ msgstr ""
 "kabul edilir ve bu durumda sayı en yakın tamsayıya yuvarlanır. Pozitif "
 "@haneler ondalık noktanın sağındaki hane sayısını, negatif @haneler ise "
 "ondalık noktanın solundaki sıfırların sayısını gösterir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "ROUND(5.5) eşittir 6\n"
 "ROUND(-3.3) eşittir -3\n"
@@ -14483,7 +14605,8 @@ msgstr ""
 "yuvarlanır. Pozitif @haneler ondalık noktanın sağındaki hane sayısını, "
 "negatif @haneler ise ondalık noktanın solundaki sıfırların sayısını "
 "gösterir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "ROUNDUP(5.5) equals 6\n"
 "ROUNDUP(-3.3) equals -3\n"
@@ -14522,7 +14645,8 @@ msgstr ""
 "@DESCRIPTION=MROUND işlevi verilen @sayı'yı @çarpan'ı verilen sayıya "
 "yuvarlar. @sayı ve @çarpan farklı işaretlere sahipse işlev #SAYI! hatası ile "
 "sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "MROUND(1.7,0.2) eşittir 1.8\n"
 "MROUND(321.123,0.12) eşittir 321.12\n"
@@ -14560,9 +14684,10 @@ msgstr ""
 "@DESCRIPTION=ROMAN işlevi arap rakamlarını roma rakamlarına dönüştürür. "
 "@sayı dönüşümü yapılacak değer, @türü ise elde edilecek roma rakamlarının "
 "hassasiyetini belirten indistir. @türü verilmezse 0 kabul edilir. 0 klasik "
-"türdür, @türü büyüdükçe hassasiyet artar. 4 en yüksek indistir. @sayı "
-"3999 dan büyükse işlev #DEĞER! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"türdür, @türü büyüdükçe hassasiyet artar. 4 en yüksek indistir. @sayı 3999 "
+"dan büyükse işlev #DEĞER! hatası ile sonuçlanır.\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "ROMAN(999) eşittir CMXCIX\n"
 "ROMAN(999,1) eşittir LMVLIV\n"
@@ -14604,7 +14729,8 @@ msgstr ""
 "karelerinin farklarının toplamını hesaplar. Eşitlik SUM (x²-y²) şeklindedir. "
 "Dizgeler ve boş gözeler yok sayılır. @dizi_x ve @dizi_y farklı sayıda değer "
 "içeriyorsa işlev #YOK! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "A1, A2, ..., A5 gözeleri 11, 15, 17, 21, 43 ve B1, B2, ..., B5 gözeleri 13, "
 "22, 31, 33, 39 içeriyorsa:\n"
@@ -14651,7 +14777,8 @@ msgstr ""
 "karelerinin toplamlarının toplamını hesaplar. Eşitlik SUM (x²+y²) "
 "şeklindedir. Dizgeler ve boş gözeler yok sayılır. @dizi_x ve @dizi_y farklı "
 "sayıda değer içeriyorsa işlev #YOK! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "A1, A2, ..., A5 gözeleri 11, 15, 17, 21, 43 ve B1, B2, ..., B5 gözeleri 13, "
 "22, 31, 33, 39 içeriyorsa:\n"
@@ -14691,7 +14818,8 @@ msgstr ""
 "farklarının kareleri toplamını hesaplar. Eşitlik SUM (x-y)² şeklindedir. "
 "Dizgeler ve boş gözeler yoksayılır. @dizi_x ve @dizi_y farklı sayıda değer "
 "içeriyorsa işlev #YOK! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "A1, A2, ..., A5 gözeleri 11, 15, 17, 21, 43 ve B1, B2, ..., B5 gözeleri 13, "
 "22, 31, 33, 39 içeriyorsa:\n"
@@ -14751,7 +14879,8 @@ msgstr ""
 "9   SUM\n"
 "10   VAR\n"
 "11   VARP\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnekler:\n"
 "A1, A2, ..., A5 gözeleri 23, 27, 28, 33, 39 içeriyorsa:\n"
 "SUBTOTAL(1,A1:A5) eşittir 30\n"
@@ -14792,7 +14921,8 @@ msgstr ""
 "@DESCRIPTION=SERIESSUM işlevi üslü serinin toplamını hesaplar. @x üssün "
 "tabanını, @n üssün değeri, @n serideki her değer için üs artışı, katsayılar "
 "ise her terimin katsayılarının bulunduğu göze aralığıdır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "A1, A2, ..., A5 gözeleri sırasıyla 1.23, 2.32, 2.98, 3.42, ve 4.33 "
 "içeriyorsa:\n"
@@ -14825,7 +14955,8 @@ msgstr ""
 "@DESCRIPTION=MINVERSE işlevi verilen matrisin tersini verir. @matris ters "
 "çevrilemezse işlev #SAYI! hatası ile sonuçlanır. @matris eşit sayıda satır "
 "ve sütun içermiyorsa işlev #DEĞER! hatası ile sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Benzerleri: MMULT, MDETERM\n"
 "@EXAMPLES=\n"
 "\n"
@@ -14851,7 +14982,8 @@ msgstr ""
 "@SYNTAX=MMULT(dizi1,dizi2)\n"
 "@DESCRIPTION=MMULT işlevi iki dizinin matrisel çarpımını hesaplar. Sonuç "
 "@dizi1 ile aynı satır ve @dizi2 ile aynı sütun sayısında bir dizidir.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Benzerleri: TRANSPOSE, MINVERSE\n"
 "@EXAMPLES=\n"
 "\n"
@@ -14878,7 +15010,8 @@ msgstr ""
 "@DESCRIPTION=MDETERM işlevi verilen matrisin determinantını hesaplar. "
 "@matris eşit sayıda satır ve sütun içermiyorsa işlev #DEĞER! hatası ile "
 "sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "A1, ..., A4 gözeleri 2, 3, 7, 3\n"
 "B1, ..., B4 gözeleri 4, 2, 4, 1\n"
@@ -14920,7 +15053,8 @@ msgstr ""
 "gözelerin çarpımlarının toplamını hesaplar. Göze içeriği sayı değilse, sıfır "
 "kabul edilir. Dizi uzunlukları farklıysa işlev #DEĞER! hatası ile "
 "sonuçlanır.\n"
-"Bu işlev Excel uyumludur.\n\n"
+"Bu işlev Excel uyumludur.\n"
+"\n"
 "Örnek:\n"
 "A1, A2 gözeleri 2, 5 ve B1, B2 gözeleri 4, 3 içeriyorsa:\n"
 "SUMPRODUCT(A1:A2,B1:B2) eşittir 23\n"
@@ -14955,9 +15089,9 @@ msgstr ""
 "@SYNTAX=SELECTION(kesişme_izni)\n"
 "@DESCRIPTION=SELECTION işlevi mevcut seçim içindeki değerleri içeren bir "
 "liste ile sonuçlanır. Hesap sonuçlarını toplamakda yararlıdır.\n"
-"@kesişme_izni DOĞRU ise BİRBİRLERİNİ KAPSASALAR bile seçilen aralık içindekiler "
-"döndürülür, YANLIŞ ise seçim alanları ayrı döndürülür ki bazan seçilenden "
-"fazlasını da içerebilir.\n"
+"@kesişme_izni DOĞRU ise BİRBİRLERİNİ KAPSASALAR bile seçilen aralık "
+"içindekiler döndürülür, YANLIŞ ise seçim alanları ayrı döndürülür ki bazan "
+"seçilenden fazlasını da içerebilir.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
@@ -15000,14 +15134,14 @@ msgstr ""
 "kümenin değişimini hesaplar. (VARP, N değişimi olarak da bilinir.)\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "VARP(A1:A5) eşittir 94.112\n"
 "\n"
 "Benzerleri: AVERAGE, DVAR, DVARP, STDEV, VAR\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "VARP(A1:A5) eşittir 94.112\n"
 "\n"
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
@@ -15037,14 +15171,14 @@ msgstr ""
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "VAR(A1:A5) eşittir 117.64\n"
 "\n"
 "Benzerleri: VARP, STDEV\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "VAR(A1:A5) eşittir 117.64\n"
 "\n"
 "@SEEALSO=VARP,STDEV"
@@ -15135,14 +15269,14 @@ msgstr ""
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "RANK(17.3,A1:A5) eşittir 4\n"
 "\n"
 "Benzeri: PERCENTRANK\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "RANK(17.3,A1:A5) eşittir 4\n"
 "\n"
 "@SEEALSO=PERCENTRANK"
@@ -15170,20 +15304,20 @@ msgstr ""
 "@DESCRIPTION=TRIMMEAN bir veri kümesinin iç kısımlarındaki değerlerin "
 "ortalamasını hesaplar. @ref ortalaması hesaplanacak değerlerin listesi "
 "@dış_oran ise ortalama hesabında dışlanacak veri sayısını belirleyecek "
-"orandır. Örneğin 40 üyeli bir veri kümesi ile @dış_oran = 0.2 verilmişse "
-"40 üyenin alttan 4 ve üstten de 4 üyesi olmak üzere (40 x 0.2) 8 üye "
-"ortalama hesabına alınmayacaktır.\n"
+"orandır. Örneğin 40 üyeli bir veri kümesi ile @dış_oran = 0.2 verilmişse 40 "
+"üyenin alttan 4 ve üstten de 4 üyesi olmak üzere (40 x 0.2) 8 üye ortalama "
+"hesabına alınmayacaktır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "TRIMMEAN(A1:A5,0.2) eşittir 23.2\n"
 "\n"
 "Benzerleri: AVERAGE, GEOMEAN, HARMEAN, MEDIAN, MODE\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "TRIMMEAN(A1:A5,0.2) eşittir 23.2\n"
 "\n"
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
@@ -15210,16 +15344,14 @@ msgstr ""
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1, ve "
-"B1, B2, ... B5 gözeleri de 23.2, 25.8, 29.9, 33.5, 42.7 değerlerini "
-"içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1, ve B1, "
+"B2, ... B5 gözeleri de 23.2, 25.8, 29.9, 33.5, 42.7 değerlerini içeriyorsa:\n"
 "COVAR(A1:A5,B1:B5) eşittir 65.858\n"
 "\n"
 "Benzerleri: CORREL, FISHER, FISHERINV\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1, ve "
-"B1, B2, ... B5 gözeleri de 23.2, 25.8, 29.9, 33.5, 42.7 değerlerini "
-"içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1, ve B1, "
+"B2, ... B5 gözeleri de 23.2, 25.8, 29.9, 33.5, 42.7 değerlerini içeriyorsa:\n"
 "COVAR(A1:A5,B1:B5) eşittir 65.858\n"
 "\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
@@ -15241,21 +15373,21 @@ msgid ""
 msgstr ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(dizi1,dizi2)\n"
-"@DESCRIPTION=CORREL iki veri kümesinin ilinti katsayısını hesaplar. "
-"Dizgeler ve boş gözeler yoksayılır.\n"
+"@DESCRIPTION=CORREL iki veri kümesinin ilinti katsayısını hesaplar. Dizgeler "
+"ve boş gözeler yoksayılır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, "
-"21.3, 25.9, 40.1, değerlerini ve B1, B2, ... B5 gözeleri de "
-"23.2, 25.8, 29.9, 33.5, 42.7 değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1, değerlerini "
+"ve B1, B2, ... B5 gözeleri de 23.2, 25.8, 29.9, 33.5, 42.7 değerlerini "
+"içeriyorsa:\n"
 "CORREL(A1:A5,B1:B5) eşittir 0.996124788\n"
 "\n"
 "Benzerleri: COVAR, FISHER, FISHERINV\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, "
-"21.3, 25.9, 40.1, değerlerini ve B1, B2, ... B5 gözeleri de "
-"23.2, 25.8, 29.9, 33.5, 42.7 değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1, değerlerini "
+"ve B1, B2, ... B5 gözeleri de 23.2, 25.8, 29.9, 33.5, 42.7 değerlerini "
+"içeriyorsa:\n"
 "CORREL(A1:A5,B1:B5) eşittir 0.996124788\n"
 "\n"
 "@SEEALSO=COVAR,FISHER,FISHERINV"
@@ -15280,10 +15412,9 @@ msgstr ""
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
 "@DESCRIPTION=NEGBINOMDIST negatif binom açılımını hesaplar. @f "
 "başarısızlıkların sayısı, @t başarılıların eşik değeri ve @p başarı "
-"olasılığıdır. "
-"@f ve @t tamsayı değilse ondalık kısım atılır. (@f + @t -1) <= 0, @p < 0 "
-"ya da @p > 1 ise işlev #SAYI! hatası verir."
-"Bu işlev Excel uyumludur.\n"
+"olasılığıdır. @f ve @t tamsayı değilse ondalık kısım atılır. (@f + @t -1) <= "
+"0, @p < 0 ya da @p > 1 ise işlev #SAYI! hatası verir.Bu işlev Excel "
+"uyumludur.\n"
 "\n"
 "Örnek:\n"
 "NEGBINOMDIST(2,5,0.55) eşittir 0.152872629\n"
@@ -15308,8 +15439,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
-"@DESCRIPTION=NORMSDIST standart normal kümülatif açılımı hesaplar. "
-"@x açılımınızın değeridir.\n"
+"@DESCRIPTION=NORMSDIST standart normal kümülatif açılımı hesaplar. @x "
+"açılımınızın değeridir.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -15338,8 +15469,8 @@ msgstr ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
 "@DESCRIPTION=NORMSINV standart normal kümülatif açılımın tersini hesaplar. "
-"@p normal açılıma karşılık düşen olasılıktır. "
-"@p < 0 veya @p > 1 ise işlev #SAYI! hatası ile sonuçlanır.\n"
+"@p normal açılıma karşılık düşen olasılıktır. @p < 0 veya @p > 1 ise işlev "
+"#SAYI! hatası ile sonuçlanır.\n"
 "Bu işlev excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -15369,9 +15500,9 @@ msgstr ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,ort,stdsapma)\n"
 "@DESCRIPTION=LOGNORMDIST lognormal açılımı hesaplar. @x istenen açılımın "
-"değeri, @ort açılımın ortalaması, @stdsapma ise açılımın standart sapmasıdır. "
-"@stdev = 0 ise işlev #BÖL/0! hatası ile, @x <= 0, @mean < 0 ya da "
-"@stdev < 0 ise #SAYI! hatası ile sonuçlanır.\n"
+"değeri, @ort açılımın ortalaması, @stdsapma ise açılımın standart "
+"sapmasıdır. @stdev = 0 ise işlev #BÖL/0! hatası ile, @x <= 0, @mean < 0 ya "
+"da @stdev < 0 ise #SAYI! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -15400,10 +15531,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,ort,stdsapma)\n"
-"@DESCRIPTION=LOGINV lognormal kümülatif açılımın tersini hesaplar. @p "
-"normal açılıma karşı düşen olasılık olarak verilir. @ort açılımın aritmetik "
-"ortalaması, @stdsapma ise açılımın standart sapmasıdır. "
-"@p < 0, @p > 1 veya @stdev <= 0 ise işlev #SAYI! hatası ile sonuçlanır.\n"
+"@DESCRIPTION=LOGINV lognormal kümülatif açılımın tersini hesaplar. @p normal "
+"açılıma karşı düşen olasılık olarak verilir. @ort açılımın aritmetik "
+"ortalaması, @stdsapma ise açılımın standart sapmasıdır. @p < 0, @p > 1 veya "
+"@stdev <= 0 ise işlev #SAYI! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -15430,8 +15561,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
-"@DESCRIPTION=FISHERINV işlevi @x için Fisher dönüşümünün tersini "
-"hesaplar. @x sayı değilse işlev #DEĞER! hatası ile sonuçlanır.\n"
+"@DESCRIPTION=FISHERINV işlevi @x için Fisher dönüşümünün tersini hesaplar. "
+"@x sayı değilse işlev #DEĞER! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -15527,7 +15658,8 @@ msgstr ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1,b2, ...)\n"
 "@DESCRIPTION=GEOMEAN işlevi verilen değerlerin geometrik ortalamasını "
-"hesaplar. Bu değerlerin çarpımının n. (değer sayısı) dereceden köküne eşittir.\n"
+"hesaplar. Bu değerlerin çarpımının n. (değer sayısı) dereceden köküne "
+"eşittir.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -15733,21 +15865,21 @@ msgstr ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
 "@DESCRIPTION=SKEW bir açılımın yanlı olmayan yaklaşık çarpıklığını hesaplar. "
-"Bu, sadece uyumsuz açılım aslında bir üçüncü kuvvete sahipse anlamlıdır. "
-"Bir simetrik (örn. normal) açılımın çarpıklığı sıfırdır.\n"
+"Bu, sadece uyumsuz açılım aslında bir üçüncü kuvvete sahipse anlamlıdır. Bir "
+"simetrik (örn. normal) açılımın çarpıklığı sıfırdır.\n"
 "Dizgeler ve boş gözeler yok sayılır. Üçten az değer verilirse işlev #BÖL/0! "
 "hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "SKEW(A1:A5) eşittir 0.976798268\n"
 "\n"
 "Benzerleri: AVERAGE, VAR, SKEWP, KURT\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "SKEW(A1:A5) eşittir 0.976798268\n"
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
@@ -15768,19 +15900,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
-"@DESCRIPTION=SKEWP bir veri kümesinin dağılım çarpıklığını hesaplar. Dizgeler "
-"ve boş gözeler yoksayılır. İkiden az değer verilirse işlev #BÖL/0! hatası "
-"ile sonuçlanır.\n"
+"@DESCRIPTION=SKEWP bir veri kümesinin dağılım çarpıklığını hesaplar. "
+"Dizgeler ve boş gözeler yoksayılır. İkiden az değer verilirse işlev #BÖL/0! "
+"hatası ile sonuçlanır.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "SKEWP(A1:A5) eşittir 0.655256198\n"
 "\n"
 "Benzerleri: AVERAGE, VARP, SKEW, KURTP\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "SKEWP(A1:A5) eşittir 0.655256198\n"
 "\n"
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
@@ -15802,8 +15934,8 @@ msgstr ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,kümülatif)\n"
 "@DESCRIPTION=EXPONDIST işlevi üstel açılımı verir. @kümülatif YANLIŞ ise @y "
-"* exp (-@y * @x), değilse 1 - exp (-@y * @x) hesaplanır. @x < 0 veya "
-"@y <= 0 ise işlev hata verir.\n"
+"* exp (-@y * @x), değilse 1 - exp (-@y * @x) hesaplanır. @x < 0 veya @y <= 0 "
+"ise işlev hata verir.\n"
 "İşlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -15863,8 +15995,8 @@ msgstr ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alfa,beta,küm)\n"
 "@DESCRIPTION=GAMMADIST gamma açılımını hesaplar. @küm DOĞRU ise işlev eksik "
-"gamma işlevini, aksi takdirde olasılık yığını işlevini hesaplar. "
-"@x < 0,  @alfa <= 0 ya da @beta <= 0 ise işlev #SAYI! hatası ile sonuçlanır.\n"
+"gamma işlevini, aksi takdirde olasılık yığını işlevini hesaplar. @x < 0,  "
+"@alfa <= 0 ya da @beta <= 0 ise işlev #SAYI! hatası ile sonuçlanır.\n"
 "İşlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -15892,9 +16024,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alfa,beta)\n"
-"@DESCRIPTION=GAMMAINV kümülatif gamma açılımının tersini hesaplar. "
-"@p < 0,  @p > 1 @alfa <= 0 ya da @beta <= 0 ise işlev #SAYI! hatası ile "
-"sonuçlanır.\n"
+"@DESCRIPTION=GAMMAINV kümülatif gamma açılımının tersini hesaplar. @p < 0,  "
+"@p > 1 @alfa <= 0 ya da @beta <= 0 ise işlev #SAYI! hatası ile sonuçlanır.\n"
 "İşlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -15922,9 +16053,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,sd)\n"
-"@DESCRIPTION=CHIDIST çe-kare açılımının tek sonlu olasılığını hesaplar. "
-"@sd serbestlik derecesidir ve tam sayı değilse ondalık kısmı atılır. "
-"@sd < 1 ise işlev #SAYI! hatası ile sonuçlanır.\n"
+"@DESCRIPTION=CHIDIST çe-kare açılımının tek sonlu olasılığını hesaplar. @sd "
+"serbestlik derecesidir ve tam sayı değilse ondalık kısmı atılır. @sd < 1 ise "
+"işlev #SAYI! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -15951,9 +16082,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,sd)\n"
-"@DESCRIPTION=CHIINV çe-kare açılımının tek sonlu olasılığının tersini hesaplar. "
-"@sd serbestlik derecesidir ve tam sayı değilse ondalık kısmı atılır. "
-"@p < 0, @p > 1 ya da @sd < 1 ise işlev #SAYI! hatası ile sonuçlanır.\n"
+"@DESCRIPTION=CHIINV çe-kare açılımının tek sonlu olasılığının tersini "
+"hesaplar. @sd serbestlik derecesidir ve tam sayı değilse ondalık kısmı "
+"atılır. @p < 0, @p > 1 ya da @sd < 1 ise işlev #SAYI! hatası ile "
+"sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -15981,9 +16113,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(pratik_aralık,teorik_aralık)\n"
-"@DESCRIPTION=CHITEST çe-kare açılımının olabilirliğini bulur. "
-"@pratik_aralık bulunan veri noktalarını, teorik_aralık ise umulan veri "
-"noktalarını içerir.\n"
+"@DESCRIPTION=CHITEST çe-kare açılımının olabilirliğini bulur. @pratik_aralık "
+"bulunan veri noktalarını, teorik_aralık ise umulan veri noktalarını içerir.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Benzerleri:CHIDIST, CHIINV\n"
@@ -16010,10 +16141,9 @@ msgstr ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alfa,beta[,a,b])\n"
 "@DESCRIPTION=BETADIST kümülatif beta açılımını hesaplar. @a ve @b "
-"seçimliktir ve @a @x'in alt indis değeri, @b ise üst indis değeridir. "
-"@a verilmemişse 0, @b verilmemişse 1 kabul edilir. "
-"@x < @a, @x > @b, @alpha <= 0, @beta <= 0 veya @a >= @b ise işlev #SAYI! "
-"hatası verir.\n"
+"seçimliktir ve @a @x'in alt indis değeri, @b ise üst indis değeridir. @a "
+"verilmemişse 0, @b verilmemişse 1 kabul edilir. @x < @a, @x > @b, @alpha <= "
+"0, @beta <= 0 veya @a >= @b ise işlev #SAYI! hatası verir.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16043,11 +16173,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alfa,beta[,a,b])\n"
-"@DESCRIPTION=BETAINV kümülatif beta açılımının tersini hesaplar. "
-"@a ve @b seçimliktir ve @a @x'in alt indis değeri, @b ise üst indis değeridir. "
-"@a verilmemişse 0, @b verilmemişse 1 kabul edilir. "
-"@x < @a, @x > @b, @alpha <= 0, @beta <= 0 veya @a >= @b ise işlev #SAYI! "
-"hatası verir.\n"
+"@DESCRIPTION=BETAINV kümülatif beta açılımının tersini hesaplar. @a ve @b "
+"seçimliktir ve @a @x'in alt indis değeri, @b ise üst indis değeridir. @a "
+"verilmemişse 0, @b verilmemişse 1 kabul edilir. @x < @a, @x > @b, @alpha <= "
+"0, @beta <= 0 veya @a >= @b ise işlev #SAYI! hatası verir.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16078,8 +16207,8 @@ msgstr ""
 "@SYNTAX=TDIST(x,sd,son)\n"
 "@DESCRIPTION=TDIST Talebelerinin t-açılımını hesaplar. @sd serbestlik "
 "derecesidir. @son ile açılımın 1 sonlu mu yoksa 2 sonlu mu istendiği "
-"belirtilir. @sd < 1 ya da @son 1 veya 2 den farklı ise işlev #SAYI! "
-"hatası ile sonuçlanır.\n"
+"belirtilir. @sd < 1 ya da @son 1 veya 2 den farklı ise işlev #SAYI! hatası "
+"ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16106,8 +16235,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,sd)\n"
-"@DESCRIPTION=TINV Talebelerinin t-dağılımının tersini hesaplar. "
-"@p < 0, @p > 1 veya @sd < 1 ise işlev @SAYI! hatası ile sonuçlanır.\n"
+"@DESCRIPTION=TINV Talebelerinin t-dağılımının tersini hesaplar. @p < 0, @p > "
+"1 veya @sd < 1 ise işlev @SAYI! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16137,8 +16266,8 @@ msgstr ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,sdpay,sdpayda)\n"
 "@DESCRIPTION=FDIST F olasılık açılımını hesaplar. @sdpay serbestlik derecesi "
-"payı, @sdpayda ise paydasıdır. "
-"@x < 0, @sdpay < 1 ya da @sdpayda < 1 ise işlev @SAYI! hatası ile sonuçlanır.\n"
+"payı, @sdpayda ise paydasıdır. @x < 0, @sdpay < 1 ya da @sdpayda < 1 ise "
+"işlev @SAYI! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16166,10 +16295,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=FINV(p,sdpay,sdpayda)\n"
-"@DESCRIPTION=FINV F olasılık açılımının tersini hesaplar. @sdpay "
-"serbestlik derecesi payı, @sdpayda ise paydasıdır. "
-"@p < 0, @p > 1 @sdpay < 1 ya da @sdpayda < 1 ise işlev @SAYI! hatası "
-"ile sonuçlanır.\n"
+"@DESCRIPTION=FINV F olasılık açılımının tersini hesaplar. @sdpay serbestlik "
+"derecesi payı, @sdpayda ise paydasıdır. @p < 0, @p > 1 @sdpay < 1 ya da "
+"@sdpayda < 1 ise işlev @SAYI! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16200,11 +16328,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,deneme,p,kümülatif)\n"
-"@DESCRIPTION=BINOMDIST binom açılımını hesaplar. @n başarı sayısı, "
-"@deneme bağımsız denemelerin toplam sayısı, @kümülatif ise binom işlevinin "
-"0 dan @n e kadar toplam olup olmadığıdır. "
-"@n ve @deneme tamsayı değilse ondalık kısım atılır. @n < 0, @deneme < 0, "
-"@n > @deneme, @p < 0 ya da @p > 1 ise işlev #SAYI! hatası verir.\n"
+"@DESCRIPTION=BINOMDIST binom açılımını hesaplar. @n başarı sayısı, @deneme "
+"bağımsız denemelerin toplam sayısı, @kümülatif ise binom işlevinin 0 dan @n "
+"e kadar toplam olup olmadığıdır. @n ve @deneme tamsayı değilse ondalık kısım "
+"atılır. @n < 0, @deneme < 0, @n > @deneme, @p < 0 ya da @p > 1 ise işlev "
+"#SAYI! hatası verir.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16238,9 +16366,9 @@ msgstr ""
 "@DESCRIPTION=CRITBINOM verilen değere eşit yada ondan büyük kümülatif "
 "değerlerin en küçüğünü verir. @n deneme sayısı, @p denemelerdeki başarı "
 "olasılığı, @alfa ise koşul değerini içerir.\n"
-"function returns the smallest value for which "
-"@n tamsayı değilse ondalık kısım atılır. @n < 0, @p < 0, @p > 1, @alfa < 0, "
-"ya da @alfa > 1 ise işlev #SAYI! hatası ile sonuçlanır.\n"
+"function returns the smallest value for which @n tamsayı değilse ondalık "
+"kısım atılır. @n < 0, @p < 0, @p > 1, @alfa < 0, ya da @alfa > 1 ise işlev "
+"#SAYI! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16268,9 +16396,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
-"@DESCRIPTION=PERMUT işlevi devşirim sayısını hesaplar. @n nesne "
-"sayısı, @k ise her devşirimdeki nesne sayısıdır. @n=0 ya da @n < @k ise "
-"işlev #SAYI! hatası ile sonuçlanır.\n"
+"@DESCRIPTION=PERMUT işlevi devşirim sayısını hesaplar. @n nesne sayısı, @k "
+"ise her devşirimdeki nesne sayısıdır. @n=0 ya da @n < @k ise işlev #SAYI! "
+"hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16302,10 +16430,9 @@ msgstr ""
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
 "@DESCRIPTION=HYPGEOMDIST hiper geometrik açılımı hesaplar. @x örneklerdeki "
 "başarı sayısı, @n deneme sayısı, @M tüm başarıların sayısı, @N ise toplanan "
-"örnek sayısıdır. "
-"@x,@n,@M veya @N tamsayı değilse ondalık kısım atılır. @x,@n,@M veya @N "
-"sıfırdan küçükse veya  @x > @M ya da @n > @N ise işlev #SAYI! hatası ile "
-"sonuçlanır.\n"
+"örnek sayısıdır. @x,@n,@M veya @N tamsayı değilse ondalık kısım atılır. @x,"
+"@n,@M veya @N sıfırdan küçükse veya  @x > @M ya da @n > @N ise işlev #SAYI! "
+"hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16334,9 +16461,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stdsapma,boyut)\n"
-"@DESCRIPTION=CONFIDENCE bir ortalamanın emniyet aralığını hesaplar. @x ağırlık "
-"seviyesi, @boyut ise örnek sayısıdır ve tamsayı değilse ondalık kısmı atılır. "
-"@boyut < 0 ise işlev #SAYI!, @boyut = 0 ise #BÖL/0! hatası ile sonuçlanır.\n"
+"@DESCRIPTION=CONFIDENCE bir ortalamanın emniyet aralığını hesaplar. @x "
+"ağırlık seviyesi, @boyut ise örnek sayısıdır ve tamsayı değilse ondalık "
+"kısmı atılır. @boyut < 0 ise işlev #SAYI!, @boyut = 0 ise #BÖL/0! hatası ile "
+"sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16364,10 +16492,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,ort,stdsapma)\n"
-"@DESCRIPTION=STANDARDIZE bir normalleştirilmiş değer ile döner. "
-"@x normalleştirilecek sayı, @ort açılımın ortalaması, @stdsapma ise "
-"açılımın standart sapmasıdır. "
-"@stdsapma 0 ise işlev #BÖL/0 hatası ile sonuçlanır.\n"
+"@DESCRIPTION=STANDARDIZE bir normalleştirilmiş değer ile döner. @x "
+"normalleştirilecek sayı, @ort açılımın ortalaması, @stdsapma ise açılımın "
+"standart sapmasıdır. @stdsapma 0 ise işlev #BÖL/0 hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16397,10 +16524,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alfa,beta,kümülatif)\n"
-"@DESCRIPTION=WEIBULL açılımını hesaplar. @kümülatif DOĞRU ise sonuç "
-"1 - exp (-(@x/@beta)^@alfa) ile değilse (@alfa/@beta^@alfa) * "
-"@x^(@alfa-1) * exp(-(@x/@beta^@alfa)) ile hesaplanır."
-"@x < 0, @alpha <= 0 ya da @beta <= 0 ise WEIBULL #SAYI! hatası ile sonuçlanır.\n"
+"@DESCRIPTION=WEIBULL açılımını hesaplar. @kümülatif DOĞRU ise sonuç 1 - exp "
+"(-(@x/@beta)^@alfa) ile değilse (@alfa/@beta^@alfa) * @x^(@alfa-1) * exp(-"
+"(@x/@beta^@alfa)) ile hesaplanır.@x < 0, @alpha <= 0 ya da @beta <= 0 ise "
+"WEIBULL #SAYI! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16459,10 +16586,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,ort,stdsapma)\n"
-"@DESCRIPTION=NORMINV normal kümülatif açılımın tersini hesaplar. @p ile normal "
-"açılıma karşı düşen olasılık verilir. @ort açılımın aritmetik ortalamasıdır. "
-"@stdsapma ise açılımın standart sapmasıdır. "
-"@p < 0, @p > 1 veya @stsapma <= 0 ise işlev #SAYI! hatası ile sonuçlanır.\n"
+"@DESCRIPTION=NORMINV normal kümülatif açılımın tersini hesaplar. @p ile "
+"normal açılıma karşı düşen olasılık verilir. @ort açılımın aritmetik "
+"ortalamasıdır. @stdsapma ise açılımın standart sapmasıdır. @p < 0, @p > 1 "
+"veya @stsapma <= 0 ise işlev #SAYI! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16497,22 +16624,21 @@ msgstr ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
 "@DESCRIPTION=KURT bir veri kümesinin kurtosisinin tarafsız bir tahminini "
-"hesaplar. "
-"Not: Bu, yalnızca dağılımın 4. kuvveti var ise anlamlı olan bir hesaptır. İlk"
-"üç kuvvetin kurtosis'e olan etkisi öyledir ki, normal dağılımın kurtosis'i"
-"sıfıra eşittir. Dizgeler ve boş hücreler yok sayılır. Eğer 4 den az "
-"sayı verilirse veya hepsi eşit ise KURT #BÖL/0 hatasını verir."
-"İşlev Excel uyumludur.\n"
+"hesaplar. Not: Bu, yalnızca dağılımın 4. kuvveti var ise anlamlı olan bir "
+"hesaptır. İlküç kuvvetin kurtosis'e olan etkisi öyledir ki, normal dağılımın "
+"kurtosis'isıfıra eşittir. Dizgeler ve boş hücreler yok sayılır. Eğer 4 den "
+"az sayı verilirse veya hepsi eşit ise KURT #BÖL/0 hatasını verir.İşlev Excel "
+"uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "KURT(A1:A5) eşittir 1.234546305\n"
 "\n"
 "Benzerleri: AVERAGE,VAR,SKEW,KURTP\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "KURT(A1:A5) eşittir 1.234546305\n"
 "\n"
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
@@ -16534,9 +16660,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
-"@DESCRIPTION=KURTP bir veri kümesinin dağılım kurtosisini hesaplar. "
-"Dizgeler ve boş gözeler yok sayılır. "
-"Eğer 2 den az sayı verilirse veya hepsi eşit ise KURTP #BÖL/0 hatasını verir.\n"
+"@DESCRIPTION=KURTP bir veri kümesinin dağılım kurtosisini hesaplar. Dizgeler "
+"ve boş gözeler yok sayılır. Eğer 2 den az sayı verilirse veya hepsi eşit ise "
+"KURTP #BÖL/0 hatasını verir.\n"
 "\n"
 "Örnek:\n"
 "A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, ve 40.1 "
@@ -16572,8 +16698,8 @@ msgstr ""
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3,"
-"21.3, 25.9, 40.1. değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3,21.3, 25.9, 40.1. değerlerini "
+"içeriyorsa:\n"
 "AVEDEV(A1:A5) eşittir 7.84\n"
 "\n"
 "Benzeri: STDEV\n"
@@ -16607,14 +16733,14 @@ msgstr ""
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "DEVSQ(A1:A5) eşittir 470.56\n"
 "\n"
 "Benzeri: STDEV\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "DEVSQ(A1:A5) eşittir 470.56\n"
 "\n"
 "@SEEALSO=STDEV"
@@ -16666,10 +16792,9 @@ msgstr ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,ortalama,kümülatif)\n"
 "@DESCRIPTION=POISSON açılımını hesaplar. @x eylem sayısı, @ortalama beklenen "
-"sayısal değer, @kümülatif ise 0 dan @x e kadar poisson işlevinin toplamı olup "
-"olmadığıdır. "
-"@x tamsayı değilse ondalık kısım atılır. @x < 0 ya da @ortalama <= 0 ise "
-"işlev #SAYI! hatası ile sonuçlanır.\n"
+"sayısal değer, @kümülatif ise 0 dan @x e kadar poisson işlevinin toplamı "
+"olup olmadığıdır. @x tamsayı değilse ondalık kısım atılır. @x < 0 ya da "
+"@ortalama <= 0 ise işlev #SAYI! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -16720,7 +16845,8 @@ msgstr ""
 "@SYNTAX=RSQ(dizi1,dizi2)\n"
 "@DESCRIPTION=RSQ işlevi iki veri kümesinin Pearson ilinti katsayısının "
 "karesini hesaplar. Metin içeren ve boş olan gözeler yoksayılır.\n"
-"\nBu işlev Excel uyumludur.\n"
+"\n"
+"Bu işlev Excel uyumludur.\n"
 "\n"
 "Benzerleri: CORREL, COVAR, INTERCEPT, LINEST, LOGEST, PEARSON, SLOPE, STEYX, "
 "TREND\n"
@@ -16892,21 +17018,20 @@ msgid ""
 msgstr ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(yler,xler)\n"
-"@DESCRIPTION=STEYX bağlanımdaki her @x için tahmini y değerlerinin "
-"standart sapmasını hesaplar. "
-"@xler ve @yler boşsa ya da aynı sayıda argüman içermiyorlarsa işlev #YOK! "
-"hatası ile sonuçlanır.\n"
+"@DESCRIPTION=STEYX bağlanımdaki her @x için tahmini y değerlerinin standart "
+"sapmasını hesaplar. @xler ve @yler boşsa ya da aynı sayıda argüman "
+"içermiyorlarsa işlev #YOK! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1, ve "
-"B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, 42.7 değerlerini içeriyorsa\n"
+"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1, ve B1, B2, ... B5 "
+"23.2, 25.8, 29.9, 33.5, 42.7 değerlerini içeriyorsa\n"
 "STEYX(A1:A5,B1:B5) eşittir 1.101509979\n"
 "\n"
 "Benzerleri: PEARSON, RSQ, SLOPE\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1, ve "
-"B1, B2, ... B5 23.2, 25.8, 29.9, 33.5, 42.7 değerlerini içeriyorsa\n"
+"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1, ve B1, B2, ... B5 "
+"23.2, 25.8, 29.9, 33.5, 42.7 değerlerini içeriyorsa\n"
 "STEYX(A1:A5,B1:B5) eşittir 1.101509979\n"
 "\n"
 "@SEEALSO=PEARSON,RSQ,SLOPE"
@@ -16928,21 +17053,20 @@ msgid ""
 msgstr ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
-"@DESCRIPTION=ZTEST bir z-testinin iki-sonlu olasılığını hesaplar. "
-"@ref ile veri kümesi, @x ile test edilecek değer belirtilir. "
-"@ref 2 den az veri içeriyorsa işlev #BÖL/0! hatası ile sonuçlanır.\n"
+"@DESCRIPTION=ZTEST bir z-testinin iki-sonlu olasılığını hesaplar. @ref ile "
+"veri kümesi, @x ile test edilecek değer belirtilir. @ref 2 den az veri "
+"içeriyorsa işlev #BÖL/0! hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "ZTEST(A1:A5,20) eşittir 0.254717826\n"
 "\n"
-"Benzerleri: CONFIDENCE, NORMDIST, NORMINV, NORMSDIST, NORMSINV, "
-"STANDARDIZE\n"
+"Benzerleri: CONFIDENCE, NORMDIST, NORMINV, NORMSDIST, NORMSINV, STANDARDIZE\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "ZTEST(A1:A5,20) eşittir 0.254717826\n"
 "\n"
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
@@ -17237,12 +17361,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(dizi,x[,önem])\n"
-"@DESCRIPTION=PERCENTRANK bir veri kümesindeki bir verinin sıralamadaki yerini "
-"verir. @dizi sayısal değerler içeren bir aralık, @x yeri aranan değerdir. "
-"Seçimlik olarak verilen @önem ise sonucun önemli hanelerinin sayısıdır, "
-"verilmezse 3 hane varsayılır. "
-"@dizi boşsa ya da @önem < 1 ise işlev #SAYI! hatası ile sonuçlanır. @x "
-"@dizi içinde yoksa ya da birden fazla varsa sonuç aradeğer olarak verilir.\n"
+"@DESCRIPTION=PERCENTRANK bir veri kümesindeki bir verinin sıralamadaki "
+"yerini verir. @dizi sayısal değerler içeren bir aralık, @x yeri aranan "
+"değerdir. Seçimlik olarak verilen @önem ise sonucun önemli hanelerinin "
+"sayısıdır, verilmezse 3 hane varsayılır. @dizi boşsa ya da @önem < 1 ise "
+"işlev #SAYI! hatası ile sonuçlanır. @x @dizi içinde yoksa ya da birden fazla "
+"varsa sonuç aradeğer olarak verilir.\n"
 "\n"
 "Benzerleri: LARGE, MAX, MEDIAN, MIN, PERCENTILE, QUARTILE, SMALL\n"
 "@EXAMPLES=\n"
@@ -17268,19 +17392,19 @@ msgid ""
 msgstr ""
 "@FUNCTION=PERCENTILE\n"
 "@SYNTAX=PERCENTILE(dizi,k)\n"
-"@DESCRIPTION=PERCENTILE veri noktalarının yüzde 100*@k lığını hesaplar. "
-"@k < 0, @k > 1 ya da @dizi boşsa işlev #SAYI hatası ile sonuçlanır.\n"
+"@DESCRIPTION=PERCENTILE veri noktalarının yüzde 100*@k lığını hesaplar. @k < "
+"0, @k > 1 ya da @dizi boşsa işlev #SAYI hatası ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "PERCENTILE(A1:A5,0.42) eşittir 20.02\n"
 "\n"
 "Benzeri: QUARTILE\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "PERCENTILE(A1:A5,0.42) eşittir 20.02\n"
 "\n"
 "@SEEALSO=QUARTILE"
@@ -17311,22 +17435,22 @@ msgid ""
 msgstr ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(dizi,çeyrek)\n"
-"@DESCRIPTION= QUARTILE veri kümesinin çeyreklerini hesaplar. "
-"@dizi boşsa, @çeyrek <0 ya da @çeyrek > 4 ise işlev #SAYI! hatası ile "
-"sonuçlanır. @çeyrek bir tamsayı değilse ondalık kısmı atılır. @çeyrek 0 "
-"ise @dizideki en küçük değer, 4 ise en büyük değer, ara değerlerde ise "
-"çeyreklerdeki değerler döner.\n"
+"@DESCRIPTION= QUARTILE veri kümesinin çeyreklerini hesaplar. @dizi boşsa, "
+"@çeyrek <0 ya da @çeyrek > 4 ise işlev #SAYI! hatası ile sonuçlanır. @çeyrek "
+"bir tamsayı değilse ondalık kısmı atılır. @çeyrek 0 ise @dizideki en küçük "
+"değer, 4 ise en büyük değer, ara değerlerde ise çeyreklerdeki değerler "
+"döner.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "QUARTILE(A1:A5,1) eşittir 17.3\n"
 "\n"
 "Benzerleri: LARGE, MAX, MEDIAN, MIN, PERCENTILE, SMALL\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 "
-"değerlerini içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1 değerlerini "
+"içeriyorsa:\n"
 "QUARTILE(A1:A5,1) eşittir 17.3\n"
 "\n"
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
@@ -17353,16 +17477,14 @@ msgstr ""
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
-"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1, ve "
-"B1, B2, ... B5 gözeleri de 23.2, 25.8, 29.9, 33.5, 42.7 değerlerini "
-"içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sırasıyla 11.4, 17.3, 21.3, 25.9, 40.1, ve B1, "
+"B2, ... B5 gözeleri de 23.2, 25.8, 29.9, 33.5, 42.7 değerlerini içeriyorsa:\n"
 "FTEST(A1:A5,B1:B5) eşittir 0.510815017\n"
 "\n"
 "Benzerleri: FDIST, FINV\n"
 "@EXAMPLES=\n"
-"A1, A2, ..., A5 gözeleri sıasıyla 11.4, 17.3, 21.3, 25.9, 40.1, ve "
-"B1, B2, ... B5 gözeleri de 23.2, 25.8, 29.9, 33.5, 42.7 değerlerini "
-"içeriyorsa:\n"
+"A1, A2, ..., A5 gözeleri sıasıyla 11.4, 17.3, 21.3, 25.9, 40.1, ve B1, "
+"B2, ... B5 gözeleri de 23.2, 25.8, 29.9, 33.5, 42.7 değerlerini içeriyorsa:\n"
 "FTEST(A1:A5,B1:B5) eşittir 0.510815017\n"
 "\n"
 "@SEEALSO=FDIST,FINV"
@@ -17399,17 +17521,17 @@ msgstr ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(dizi1,dizi2,son,tür)\n"
 "@DESCRIPTION=TTEST işlevi öğrencilerin t-testinin olasılığını hesaplar. "
-"@dizi1 ilk veri kümesi, @dizi2 ise ikinci veri kümesidir. @son 1 ise "
-"işlev bir-sonlu, 2 ise işlev iki-sonlu açılım kullanır.@tür test çeşidini "
+"@dizi1 ilk veri kümesi, @dizi2 ise ikinci veri kümesidir. @son 1 ise işlev "
+"bir-sonlu, 2 ise işlev iki-sonlu açılım kullanır.@tür test çeşidini "
 "belirler:\n"
 "1  Eşli test\n"
 "2  İki örnekli eşit değişim\n"
 "3  İki örnekli farklı değişim\n"
 "\n"
 "Veri kümeleri farklı sayıda veri noktaları içeriyor ve test eşli (1. tür) "
-"ise işlev #DEĞER! hatası ile sonuçlanır. @son ve @tür tamsayıya "
-"yuvarlanır. @son 1 ya da 2 değilse ya da @tür 1, 2, veya 3 değilse işlev "
-"#DEĞER! hatası ile sonuçlanır.\n"
+"ise işlev #DEĞER! hatası ile sonuçlanır. @son ve @tür tamsayıya yuvarlanır. "
+"@son 1 ya da 2 değilse ya da @tür 1, 2, veya 3 değilse işlev #DEĞER! hatası "
+"ile sonuçlanır.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnekler:\n"
@@ -17530,13 +17652,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(yler[,xler],yeni_xler])\n"
-"@DESCRIPTION=TREND işlevi 'en küçük kareler yöntemi' ile verilerinize uyan en "
-"yakın değerleri tahmin eder. @yler y=mx+b denklemindeki y değerleri ve "
+"@DESCRIPTION=TREND işlevi 'en küçük kareler yöntemi' ile verilerinize uyan "
+"en yakın değerleri tahmin eder. @yler y=mx+b denklemindeki y değerleri ve "
 "@xler ise bu y değerlerine karşı düşen x değerleridir. @yeni_xler tahmin "
 "edilecek y değerlerine karşı düşen x değerleridir. @xler verilmezse {1, 2, "
 "3, ...} dizisi kullanılır. @yeni_xler verilmezse @xler ile aynı kabul "
-"edilir. @xler ve @ylerde değer eksikse işlev #DEĞER! hatası ile "
-"sonuçlanır.\n"
+"edilir. @xler ve @ylerde değer eksikse işlev #DEĞER! hatası ile sonuçlanır.\n"
 "\n"
 "Örnek:\n"
 "A1, A2, ..., A5 gözeleri sırayla 11.4, 17.3, 21.3, 25.9, 40.1, ve B1, "
@@ -17591,8 +17712,8 @@ msgstr ""
 "oluşur. İlk satırda m1, (m2, ...), b katsayıları için standart hata "
 "değerleri, ikinci satırda R nin karesi ve yaklaşık y için standart hata, "
 "üçüncü satırda F-gözlem değeri ve serbestlik derecesi, son satırda ise "
-"sapmaların ve artanların kareler toplamı bulunur. @durum için öntanımlı değer "
-"YANLIŞtır.\n"
+"sapmaların ve artanların kareler toplamı bulunur. @durum için öntanımlı "
+"değer YANLIŞtır.\n"
 "\n"
 "Benzerleri: LINEST, GROWTH, TREND\n"
 "@EXAMPLES=\n"
@@ -17623,10 +17744,10 @@ msgstr ""
 "@DESCRIPTION=GROWTH işlevi en küçük kareler yöntemi ile verilerinize uyan "
 "üstel eğriyi hesaplar ve bu eğriyi kullanarak üstel gelişimi tahmin eder. "
 "@xler verilmezse {1, 2, 3, ...} dizisi kullanılır. @yeni_xler verilmezse "
-"@xler ile aynı kabul edilir. GROWTH @yeni_xlerdeki her nokta için bir "
-"sütun ve bir satır ile sonuçlanır. @xler ve @ylerde  değer eksikse işlev "
-"#DEĞER! hatası ile sonuçlanır. @sabit YANLIŞ ise çizgi orijinden geçecek ve "
-"b sıfır olacaktır. Öntanımlı değer DOĞRU'dur.\n"
+"@xler ile aynı kabul edilir. GROWTH @yeni_xlerdeki her nokta için bir sütun "
+"ve bir satır ile sonuçlanır. @xler ve @ylerde  değer eksikse işlev #DEĞER! "
+"hatası ile sonuçlanır. @sabit YANLIŞ ise çizgi orijinden geçecek ve b sıfır "
+"olacaktır. Öntanımlı değer DOĞRU'dur.\n"
 "\n"
 "Benzerleri: LOGEST, GROWTH, TREND\n"
 "@EXAMPLES=\n"
@@ -17753,7 +17874,7 @@ msgstr ""
 msgid "Statistics"
 msgstr "İstatistikler"
 
-#: src/functions/fn-string.c:27
+#: src/functions/fn-string.c:28
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
@@ -17775,7 +17896,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CODE"
 
-#: src/functions/fn-string.c:53
+#: src/functions/fn-string.c:54
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -17800,7 +17921,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHAR"
 
-#: src/functions/fn-string.c:75
+#: src/functions/fn-string.c:76
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -17830,7 +17951,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEN, SEARCH, DELTA"
 
-#: src/functions/fn-string.c:100
+#: src/functions/fn-string.c:101
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -17855,7 +17976,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CHAR, CODE"
 
-#: src/functions/fn-string.c:122
+#: src/functions/fn-string.c:123
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -17881,7 +18002,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/functions/fn-string.c:158
+#: src/functions/fn-string.c:159
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -17906,7 +18027,7 @@ msgstr ""
 "\n"
 "@SEEALSO=UPPER"
 
-#: src/functions/fn-string.c:188
+#: src/functions/fn-string.c:189
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -17933,11 +18054,11 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: src/functions/fn-string.c:214
+#: src/functions/fn-string.c:215
 msgid "Invalid arguments"
 msgstr "Argümanlar geçersiz"
 
-#: src/functions/fn-string.c:233
+#: src/functions/fn-string.c:234
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -17967,7 +18088,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, LEFT"
 
-#: src/functions/fn-string.c:272
+#: src/functions/fn-string.c:273
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -17992,7 +18113,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER"
 
-#: src/functions/fn-string.c:302
+#: src/functions/fn-string.c:303
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
@@ -18017,7 +18138,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 
-#: src/functions/fn-string.c:344
+#: src/functions/fn-string.c:345
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
@@ -18044,11 +18165,11 @@ msgstr ""
 
 #. FIXME: this and above case should probably have the
 #. same error message.
-#: src/functions/fn-string.c:383
+#: src/functions/fn-string.c:384
 msgid "Out of memory"
 msgstr "Bellek yetersiz"
 
-#: src/functions/fn-string.c:399
+#: src/functions/fn-string.c:400
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -18071,7 +18192,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:431
+#: src/functions/fn-string.c:432
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -18098,7 +18219,7 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 
-#: src/functions/fn-string.c:473
+#: src/functions/fn-string.c:474
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
@@ -18112,9 +18233,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(sayı,[basamak,no_commas])\n"
-"@DESCRIPTION=FIXED @sayı'nın ondalık basamaklarını @basamak ile "
-"sınırlayarak @sayı'yı bir dizge değeri olarak verir. @no_commas belirtilirse "
-"binler ayracı konmaz.\n"
+"@DESCRIPTION=FIXED @sayı'nın ondalık basamaklarını @basamak ile sınırlayarak "
+"@sayı'yı bir dizge değeri olarak verir. @no_commas belirtilirse binler "
+"ayracı konmaz.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -18124,7 +18245,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/functions/fn-string.c:578
+#: src/functions/fn-string.c:542
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
@@ -18149,7 +18270,7 @@ msgstr ""
 "\n"
 "@SEEALSO=LOWER, UPPER"
 
-#: src/functions/fn-string.c:624
+#: src/functions/fn-string.c:588
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
@@ -18176,7 +18297,7 @@ msgstr ""
 "\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
-#: src/functions/fn-string.c:674
+#: src/functions/fn-string.c:638
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -18206,7 +18327,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CELL, N, VALUE"
 
-#: src/functions/fn-string.c:700
+#: src/functions/fn-string.c:664
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
@@ -18235,11 +18356,11 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR"
 
-#: src/functions/fn-string.c:736
+#: src/functions/fn-string.c:700
 msgid "Type mismatch"
 msgstr "Tür uyumsuz"
 
-#: src/functions/fn-string.c:748
+#: src/functions/fn-string.c:712
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
@@ -18265,7 +18386,7 @@ msgstr ""
 "\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: src/functions/fn-string.c:794
+#: src/functions/fn-string.c:758
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
@@ -18290,7 +18411,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: src/functions/fn-string.c:837
+#: src/functions/fn-string.c:801
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -18322,7 +18443,7 @@ msgstr ""
 "\n"
 "@SEEALSO=REPLACE, TRIM"
 
-#: src/functions/fn-string.c:953
+#: src/functions/fn-string.c:917
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num[,decimals])\n"
@@ -18335,8 +18456,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(sayı[,basamak])\n"
-"@DESCRIPTION=DOLLAR işlevi @sayı değerini para olarak biçimlendirir."
-"Ondalık @basamak sayısı verilmezse 2 kabul edilir.\n"
+"@DESCRIPTION=DOLLAR işlevi @sayı değerini para olarak biçimlendirir.Ondalık "
+"@basamak sayısı verilmezse 2 kabul edilir.\n"
 "Bu işlev Excel uyumludur.\n"
 "\n"
 "Örnek:\n"
@@ -18348,7 +18469,7 @@ msgstr ""
 "\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 
-#: src/functions/fn-string.c:1022
+#: src/functions/fn-string.c:986
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -18429,7 +18550,7 @@ msgstr "Almaşık sayı olarak Biçemle"
 msgid "File \"%s\" has unknown format."
 msgstr "\"%s\" dosyasının biçemi bilinmiyor."
 
-#: src/gnumeric-graph.c:1025
+#: src/gnumeric-graph.c:1024
 msgid "Data..."
 msgstr "Veri..."
 
@@ -18632,10 +18753,15 @@ msgstr "İptal"
 #.
 #. * xgettext:
 #. * This string must translate to exactly the same strings as the
-#. * 'Print Preview' item in the
+#. * 'Print Preview...' item in the
 #. * 'File' menu
 #.
-#: src/history.c:129 src/history.c:142
+#: src/history.c:129
+#, fuzzy
+msgid "File/Print Preview..."
+msgstr "Dosya/Yazdırma Önizleme"
+
+#: src/history.c:142
 msgid "File/Print Preview"
 msgstr "Dosya/Yazdırma Önizleme"
 
@@ -18643,17 +18769,17 @@ msgstr "Dosya/Yazdırma Önizleme"
 msgid "File/"
 msgstr "Dosya/"
 
-#: src/item-bar.c:609
+#: src/item-bar.c:618
 #, c-format
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Genişlik: %.2f punto (%d piksel)"
 
-#: src/item-bar.c:612
+#: src/item-bar.c:621
 #, c-format
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Yükseklik: %.2f punto (%d piksel)"
 
-#: src/item-cursor.c:909
+#: src/item-cursor.c:903
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -18662,83 +18788,83 @@ msgstr ""
 "Sürüklenen gözeler mevcut gözelerin içeriğini değiştirecek\n"
 "Bu değişikliğin yapılmasını istiyor musunuz?"
 
-#: src/item-cursor.c:1019
+#: src/item-cursor.c:1013
 msgid "_Move"
 msgstr "_Taşı"
 
-#: src/item-cursor.c:1025
+#: src/item-cursor.c:1019
 msgid "Copy _Formats"
 msgstr "_Biçemleri Kopyala"
 
-#: src/item-cursor.c:1027
+#: src/item-cursor.c:1021
 msgid "Copy _Values"
 msgstr "_Değerleri Kopyala"
 
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1026
 msgid "Shift _Down and Copy"
 msgstr "Aşağı _Kaydır ve Kopyala"
 
-#: src/item-cursor.c:1034
+#: src/item-cursor.c:1028
 msgid "Shift _Right and Copy"
 msgstr "_Sağa Kaydır ve Kopyala"
 
-#: src/item-cursor.c:1036
+#: src/item-cursor.c:1030
 msgid "Shift Dow_n and Move"
 msgstr "Aşağı Kaydır ve _Taşı"
 
-#: src/item-cursor.c:1038
+#: src/item-cursor.c:1032
 msgid "Shift Righ_t and Move"
 msgstr "Sağa Kaydı_r ve Taşı"
 
-#: src/item-cursor.c:1043
+#: src/item-cursor.c:1037
 msgid "C_ancel"
 msgstr "İp_tal"
 
-#: src/main.c:81
+#: src/main.c:82
 msgid "Display Gnumeric's version"
 msgstr "Gnumeric sürümünü göster"
 
-#: src/main.c:83
+#: src/main.c:84
 msgid "Set the root library directory"
 msgstr "Kök kütüphane dizinini tanımla"
 
-#: src/main.c:85
+#: src/main.c:86
 msgid "Adjust the root data directory"
 msgstr "Kök veri dizinini ayarla"
 
-#: src/main.c:88
+#: src/main.c:89
 msgid "Dumps the function definitions"
 msgstr "İşlev tanımlarını çıkarır"
 
-#: src/main.c:88
+#: src/main.c:89
 msgid "FILE"
 msgstr "DOSYA"
 
-#: src/main.c:91
+#: src/main.c:92
 msgid "Enables some debugging functions"
 msgstr "Bazı hata ayıklama işlevlerini etkinleştirir"
 
-#: src/main.c:91 src/main.c:94 src/main.c:96
+#: src/main.c:92 src/main.c:95 src/main.c:97
 msgid "LEVEL"
 msgstr "SEVİYE"
 
-#: src/main.c:94
+#: src/main.c:95
 msgid "Enables some dependency related debugging functions"
 msgstr "Bağımlılıkla ilgili bazı hata ayıklama işlevlerini etkinleştirir"
 
-#: src/main.c:96
+#: src/main.c:97
 msgid "Enables some print debugging behavior"
 msgstr "Yazdırma hatalarını ayıklama davranışını etkinleştirir"
 
-#: src/main.c:99
+#: src/main.c:100
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr "Seçilen paketleri yükledikten hemen sonra çıkar (test için kullanılır)"
 
-#: src/main.c:103
+#: src/main.c:104
 msgid "Enables extra consistency checking while reading ole files"
 msgstr "Ole dosyalarını okurken fazladan kararlılık denetimi yapar"
 
-#: src/main.c:133
+#: src/main.c:137
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -18764,7 +18890,7 @@ msgstr ""
 "\n"
 "-- GNumeric Ekibi."
 
-#: src/main.c:187
+#: src/main.c:191
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -18775,11 +18901,11 @@ msgstr ""
 "veri dizini := '%s'\n"
 "kitaplık dizini := '%s'\n"
 
-#: src/main.c:238
+#: src/main.c:242
 msgid "Could not initialize Workbook factory"
 msgstr "Defter yapımcısı başlatılamadı"
 
-#: src/main.c:242
+#: src/main.c:246
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Gömülebilir Izgara yapımcısı başlatılamadı"
 
@@ -18815,56 +18941,60 @@ msgstr "#YOK!"
 msgid "#RECALC!"
 msgstr "#HESAP!"
 
-#: src/parser.y:360
+#: src/parser.y:351
 msgid "Sheet name is required"
 msgstr "Çizelge ismi gerekli."
 
-#: src/parser.y:463
+#: src/parser.y:461
 #, c-format
 msgid "Name '%s' does not exist in sheet '%s'"
 msgstr "İsim '%s' '%s' çizelgesinde yok"
 
-#: src/parser.y:485
+#: src/parser.y:483
 #, c-format
 msgid "Unknown workbook '%s'"
 msgstr "Defter '%s' bilinmiyor"
 
-#: src/parser.y:497
+#: src/parser.y:495
 #, c-format
 msgid "Name '%s' does not exist in workbook '%s'"
 msgstr "İsim '%s' '%s' defterinde yok"
 
-#: src/parser.y:522 src/parser.y:545
+#: src/parser.y:520 src/parser.y:543
 #, c-format
 msgid "Unknown sheet '%s'"
 msgstr "Çizelge '%s' bilinmiyor"
 
-#: src/parser.y:652 src/parser.y:666
+#: src/parser.y:651 src/parser.y:665
 #, c-format
 msgid "The character %c cannot be used to separate array elements"
 msgstr "%c karakteri dizi elemanları arasında ayraç olarak kullanılamaz"
 
-#: src/parser.y:827 src/parser.y:839 src/parser.y:872
+#: src/parser.y:826 src/parser.y:836 src/parser.y:869
 msgid "The number is out of range"
 msgstr "Sayı kapsam dışı"
 
-#: src/parser.y:900
+#: src/parser.y:897
 msgid "Could not find matching closing quote"
 msgstr "Eşleşen son tırnak bulunamadı"
 
-#: src/parser.y:1049
+#: src/parser.y:1063
+msgid "Multiple expressions are not supported in this context"
+msgstr ""
+
+#: src/parser.y:1085
 msgid "Could not find matching opening parenthesis"
 msgstr "Eşleşen aç-parantez bulunamadı"
 
-#: src/parser.y:1053
+#: src/parser.y:1089
 msgid "Could not find matching closing parenthesis"
 msgstr "Eşleşen kapa-parantez bulunamadı"
 
-#: src/parser.y:1057
+#: src/parser.y:1093
 msgid "Invalid expression"
 msgstr "İfade geçersiz"
 
-#: src/parser.y:1062
+#: src/parser.y:1098
 #, c-format
 msgid "Unexpected token %c"
 msgstr "dizgecik %c anlaşılamadı"
@@ -19030,14 +19160,15 @@ msgstr "\"%s\" dosyası okumak için açılırken hata oluştu."
 msgid "Unable to mmap the file."
 msgstr "mmap() gerçekleştirilemedi"
 
-#: src/plugin-util.c:311 src/xml-io.c:3422
+#: src/plugin-util.c:311 src/xml-io.c:3414
 msgid "Cannot get file size."
 msgstr "Dosya boyutu alınamıyor."
 
 #: src/plugin.c:238
 #, c-format
 msgid "File contain plugin info with invalid id (%s), expected %s."
-msgstr "Dosya geçersiz kimlikli (%s) eklenti bilgileri içeriyor. Kimlik %s olmalıydı."
+msgstr ""
+"Dosya geçersiz kimlikli (%s) eklenti bilgileri içeriyor. Kimlik %s olmalıydı."
 
 #: src/plugin.c:242
 msgid "Couldn't read plugin info from file."
@@ -19260,19 +19391,19 @@ msgstr "Yerleştirilecek dizge belirtilmeli."
 msgid "You must specify a range to search."
 msgstr "Araştırılacak bölge belirtilmeli."
 
-#: src/search.c:150
+#: src/search.c:148
 msgid "The search range is invalid."
 msgstr "Arama bölgesi geçersiz."
 
-#: src/search.c:155
+#: src/search.c:154
 msgid "Invalid search pattern."
 msgstr "Aranacak mask geçersiz."
 
-#: src/search.c:170 src/search.c:174
+#: src/search.c:169 src/search.c:173
 msgid "Invalid $-specification in replacement."
 msgstr "Değiştirilecek dizgedeki $-niteleyici geçersiz"
 
-#: src/search.c:179
+#: src/search.c:178
 msgid "Invalid trailing backslash in replacement."
 msgstr "Değiştirilecek dizgedeki \\ geçersiz"
 
@@ -19280,17 +19411,17 @@ msgstr "Değiştirilecek dizgedeki \\ geçersiz"
 msgid "cannot be performed with multiple ranges selected"
 msgstr "seçilen çok sayıdaki aralık ile uygulanamıyor."
 
-#: src/sheet-control-gui.c:496
+#: src/sheet-control-gui.c:554
 #, c-format
 msgid "Row: %s"
 msgstr "Satır: %s"
 
-#: src/sheet-control-gui.c:511
+#: src/sheet-control-gui.c:569
 #, c-format
 msgid "Column: %s"
 msgstr "Sütun: %s"
 
-#: src/sheet-control-gui.c:1322
+#: src/sheet-control-gui.c:1396
 msgid "Paste _Special"
 msgstr "Ö_zel Yapıştır"
 
@@ -19301,41 +19432,41 @@ msgstr "Ö_zel Yapıştır"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1334
+#: src/sheet-control-gui.c:1408
 msgid "_Insert..."
 msgstr "_Ekle..."
 
-#: src/sheet-control-gui.c:1338
+#: src/sheet-control-gui.c:1412
 msgid "_Insert Column(s)"
 msgstr "Araya Süt_un Ekle"
 
-#: src/sheet-control-gui.c:1340
+#: src/sheet-control-gui.c:1414
 msgid "_Delete Column(s)"
 msgstr "Sütunla_rı Sil"
 
-#: src/sheet-control-gui.c:1342
+#: src/sheet-control-gui.c:1416
 msgid "_Insert Row(s)"
 msgstr "Satır _Ekle"
 
-#: src/sheet-control-gui.c:1344
+#: src/sheet-control-gui.c:1418
 msgid "_Delete Row(s)"
 msgstr "Satır S_il"
 
-#: src/sheet-control-gui.c:1347
+#: src/sheet-control-gui.c:1421
 msgid "Clear Co_ntents"
 msgstr "İçerikleri _Temizle"
 
-#: src/sheet-control-gui.c:1353
+#: src/sheet-control-gui.c:1427
 msgid "_Format Cells..."
 msgstr "_Gözeleri Biçimlendir..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1357
+#: src/sheet-control-gui.c:1431
 msgid "Column _Width..."
 msgstr "Sütun _Genişliği..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1365
+#: src/sheet-control-gui.c:1439
 msgid "_Row Height..."
 msgstr "_Satır Yüksekliği..."
 
@@ -19426,35 +19557,35 @@ msgstr "Etiket:"
 msgid "Properties..."
 msgstr "Özellikler..."
 
-#: src/sheet.c:2182
+#: src/sheet.c:2121
 msgid "Target region contains merged cells"
 msgstr "Hedef alan birleşik gözeler içeriyor"
 
-#: src/sheet.c:2244
+#: src/sheet.c:2183
 msgid "cannot operate on merged cells"
 msgstr "birleşik gözelerde işlem yapılamıyor"
 
-#: src/sheet.c:2255
+#: src/sheet.c:2194
 msgid "cannot operate on array formulae"
 msgstr "dizi formülünde işlem yapılamıyor"
 
-#: src/sheet.c:3064
+#: src/sheet.c:3048
 msgid "Clear"
 msgstr "Temizle"
 
-#: src/sheet.c:3404
+#: src/sheet.c:3450
 msgid "Insert Columns"
 msgstr "Sütun Ekle"
 
-#: src/sheet.c:3473
+#: src/sheet.c:3507
 msgid "Delete Columns"
 msgstr "Sütun Sil"
 
-#: src/sheet.c:3538
+#: src/sheet.c:3560
 msgid "Insert Rows"
 msgstr "Satır Ekle"
 
-#: src/sheet.c:3607
+#: src/sheet.c:3617
 msgid "Delete Rows"
 msgstr "Satır Sil"
 
@@ -19666,7 +19797,7 @@ msgstr "fontmap2 dosyanızda Helvetica için geçerli bir girdi yok."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "fontmap2 dosyanız yerinde bulunamadı."
 
-#: src/value.c:671
+#: src/value.c:673
 msgid "Terminate"
 msgstr "Bitir"
 
@@ -19692,81 +19823,83 @@ msgstr ""
 "Geçersiz sütun genişliği girdiniz. Sıfırdan büyük (pozitif) bir değer "
 "verilmeli."
 
-#: src/workbook-cmd-format.c:189
+#: src/workbook-cmd-format.c:187
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 "Geçersiz satır yüksekliği girdiniz. Sıfırdan büyük (pozitif) bir değer "
 "verilmeli."
 
-#: src/workbook-cmd-format.c:236
-msgid "You entered an invalid default column width value.  It must be bigger than 0"
+#: src/workbook-cmd-format.c:234
+msgid ""
+"You entered an invalid default column width value.  It must be bigger than 0"
 msgstr ""
 "Girdiğiniz öntanımlı sütun genişliği geçersiz. Sıfırdan büyük (pozitif) bir "
 "değer verilmeli."
 
-#: src/workbook-cmd-format.c:264
-msgid "You entered an invalid default row height value.  It must be bigger than 0"
+#: src/workbook-cmd-format.c:262
+msgid ""
+"You entered an invalid default row height value.  It must be bigger than 0"
 msgstr ""
 "Girdiğiniz öntanımlı satır yüksekliği geçersiz. Sıfırdan büyük (pozitif) bir "
 "değer verilmeli."
 
-#: src/workbook-control-gui.c:288
+#: src/workbook-control-gui.c:290
 msgid " : Gnumeric"
 msgstr " : Gnumeric"
 
-#: src/workbook-control-gui.c:474
+#: src/workbook-control-gui.c:476
 msgid "Add another sheet"
 msgstr "Diğer çizelgeyi ekler"
 
-#: src/workbook-control-gui.c:475
+#: src/workbook-control-gui.c:477
 msgid "Remove this sheet"
 msgstr "Bu çizelgeyi siler"
 
-#: src/workbook-control-gui.c:476
+#: src/workbook-control-gui.c:478
 msgid "Rename this sheet"
 msgstr "Bu çizelgenin ismini değiştirir"
 
-#: src/workbook-control-gui.c:477
+#: src/workbook-control-gui.c:479
 msgid "Duplicate this sheet"
 msgstr "Bu çizelgenin aynısını oluşturur"
 
-#: src/workbook-control-gui.c:478
+#: src/workbook-control-gui.c:480
 msgid "Re-order sheets"
 msgstr "Çizelgeleri yeniden sıraya dizer"
 
-#: src/workbook-control-gui.c:810 src/workbook-control-gui.c:868
+#: src/workbook-control-gui.c:812 src/workbook-control-gui.c:870
 msgid "Nothing"
 msgstr "Yok"
 
-#: src/workbook-control-gui.c:960
+#: src/workbook-control-gui.c:962
 msgid "Un_freeze Panes"
 msgstr "Yüzeyleri _Çöz"
 
-#: src/workbook-control-gui.c:1023 src/workbook-control-gui.c:2973
+#: src/workbook-control-gui.c:1025 src/workbook-control-gui.c:2973
 #: src/workbook-control-gui.c:3156 src/workbook-control-gui.c:3196
 msgid "Undo"
 msgstr "Geri al"
 
-#: src/workbook-control-gui.c:1024 src/workbook-control-gui.c:2976
+#: src/workbook-control-gui.c:1026 src/workbook-control-gui.c:2976
 #: src/workbook-control-gui.c:3164 src/workbook-control-gui.c:3198
 msgid "Redo"
 msgstr "Tekrar Yap"
 
-#: src/workbook-control-gui.c:1178
+#: src/workbook-control-gui.c:1180
 #, c-format
 msgid "Would split array %s"
 msgstr "%s dizisi ayrılacaktı."
 
-#: src/workbook-control-gui.c:1239
+#: src/workbook-control-gui.c:1241
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "%s defterindeki değişiklikler kaydedilsin mi?"
 
-#: src/workbook-control-gui.c:1242
+#: src/workbook-control-gui.c:1244
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Defterdeki değişiklikler kaydedilsin mi?"
 
-#: src/workbook-control-gui.c:1741
+#: src/workbook-control-gui.c:1743
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -19785,7 +19918,7 @@ msgstr ""
 "\n"
 "Hiçbir yerleştirme yapılmadı ve çıkıldı."
 
-#: src/workbook-control-gui.c:1779
+#: src/workbook-control-gui.c:1781
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "%s!%s yorumu"
@@ -19794,7 +19927,7 @@ msgstr "%s!%s yorumu"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1962
+#: src/workbook-control-gui.c:1964
 msgid "Insert rows"
 msgstr "Satır ekle"
 
@@ -19802,24 +19935,24 @@ msgstr "Satır ekle"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:1980
+#: src/workbook-control-gui.c:1982
 msgid "Insert columns"
 msgstr "Sütun ekler"
 
-#: src/workbook-control-gui.c:2001
+#: src/workbook-control-gui.c:2003
 msgid "Select an object to add"
 msgstr "Eklenecek nesneyi seçin"
 
-#: src/workbook-control-gui.c:2012
+#: src/workbook-control-gui.c:2014
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "'%s' türünde nesne oluşturulamadı"
 
-#: src/workbook-control-gui.c:2233
+#: src/workbook-control-gui.c:2235
 msgid "Show"
 msgstr "Göster"
 
-#: src/workbook-control-gui.c:2233
+#: src/workbook-control-gui.c:2235
 msgid "Hide"
 msgstr "Gizle"
 
@@ -19959,19 +20092,21 @@ msgstr "Gözedeki işlevi düzenlemeniz için diyalog açar."
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
-msgstr "Seçimin ilk sütununu temel alarak seçilen bölgeyi artan sıralamayla dizer."
+msgstr ""
+"Seçimin ilk sütununu temel alarak seçilen bölgeyi artan sıralamayla dizer."
 
 #: src/workbook-control-gui.c:2996
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
-msgstr "Seçimin ilk sütununu temel alarak seçilen bölgeyi azalan sıralamayla dizer."
+msgstr ""
+"Seçimin ilk sütununu temel alarak seçilen bölgeyi azalan sıralamayla dizer."
 
-#: src/workbook-control-gui.c:3760
+#: src/workbook-control-gui.c:3940
 msgid "Send"
 msgstr "Gönder"
 
-#: src/workbook-control-gui.c:3760
+#: src/workbook-control-gui.c:3940
 msgid "Send the current file in email"
 msgstr "Mevcut dosyayı e-posta ile gönder"
 
@@ -20077,7 +20212,8 @@ msgstr "Binler ayracı"
 
 #: src/workbook-format-toolbar.c:467
 msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr "Seçilen gözelerin içeriğini binler ayracı kullanılacak şekilde biçimlendirir"
+msgstr ""
+"Seçilen gözelerin içeriğini binler ayracı kullanılacak şekilde biçimlendirir"
 
 #: src/workbook-format-toolbar.c:470
 msgid "Add decimals"
@@ -20147,59 +20283,59 @@ msgstr "Kenarlıklar"
 msgid "Size"
 msgstr "Boyut"
 
-#: src/workbook-object-toolbar.c:141
+#: src/workbook-object-toolbar.c:146
 msgid "Creates a label"
 msgstr "Bir etiket oluşturur"
 
-#: src/workbook-object-toolbar.c:144
+#: src/workbook-object-toolbar.c:149
 msgid "Creates a frame"
 msgstr "Bir çerçeve nesnesi oluşturur"
 
-#: src/workbook-object-toolbar.c:149
+#: src/workbook-object-toolbar.c:154
 msgid "Creates a button"
 msgstr "Bir düğme nesnesi oluşturur"
 
-#: src/workbook-object-toolbar.c:153
+#: src/workbook-object-toolbar.c:158
 msgid "Creates a checkbox"
 msgstr "Onay Düğmesi nesnesi oluşturur"
 
-#: src/workbook-object-toolbar.c:158
+#: src/workbook-object-toolbar.c:163
 msgid "RadioButton"
 msgstr "Radyo Düğmesi"
 
-#: src/workbook-object-toolbar.c:158
+#: src/workbook-object-toolbar.c:163
 msgid "Creates a radio button"
 msgstr "Bir radyo düğmesi yaratır"
 
-#: src/workbook-object-toolbar.c:162
+#: src/workbook-object-toolbar.c:167
 msgid "Creates a list"
 msgstr "Bir liste nesnesi oluşturur"
 
-#: src/workbook-object-toolbar.c:165
+#: src/workbook-object-toolbar.c:170
 msgid "Combo"
 msgstr "Kombo"
 
-#: src/workbook-object-toolbar.c:165
+#: src/workbook-object-toolbar.c:170
 msgid "Creates a combobox"
 msgstr "Etkileşimli liste nesnesi oluşturur"
 
-#: src/workbook-object-toolbar.c:168
+#: src/workbook-object-toolbar.c:173
 msgid "Creates a line object"
 msgstr "Çizgi nesnesi oluşturur"
 
-#: src/workbook-object-toolbar.c:171
+#: src/workbook-object-toolbar.c:176
 msgid "Creates an arrow object"
 msgstr "Ok nesnesi oluşturur"
 
-#: src/workbook-object-toolbar.c:174
+#: src/workbook-object-toolbar.c:179
 msgid "Creates a rectangle object"
 msgstr "Dörtgen nesnesi oluşturur"
 
-#: src/workbook-object-toolbar.c:177
+#: src/workbook-object-toolbar.c:182
 msgid "Ellipse"
 msgstr "Elips"
 
-#: src/workbook-object-toolbar.c:177
+#: src/workbook-object-toolbar.c:182
 msgid "Creates an ellipse object"
 msgstr "Elips nesnesi oluşturur"
 
@@ -20208,19 +20344,19 @@ msgstr "Elips nesnesi oluşturur"
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:379
+#: src/workbook-view.c:376
 msgid "Internal ERROR"
 msgstr "İç HATA"
 
-#: src/workbook-view.c:657
+#: src/workbook-view.c:654
 msgid "Default file saver is not available."
 msgstr "Öntanımlı dosya kaydedici kullanılabilir değil."
 
-#: src/workbook-view.c:746
+#: src/workbook-view.c:743
 msgid "No sheets in workbook."
 msgstr "Defterde çizelge yok."
 
-#: src/workbook-view.c:756
+#: src/workbook-view.c:753
 msgid "Unsupported file format."
 msgstr "Dosya biçemi desteklenmiyor."
 
@@ -20241,15 +20377,15 @@ msgstr "En az bir harf olmalı"
 msgid "There is already a sheet named"
 msgstr "Bu isimde bir çizelge zaten var"
 
-#: src/xml-io-autoft.c:419
+#: src/xml-io-autoft.c:418
 msgid "Error while trying to load autoformat template"
 msgstr "Otomatik biçim şablonu yüklenirken hata oluştu"
 
-#: src/xml-io-autoft.c:436
+#: src/xml-io-autoft.c:435
 msgid "Is not an autoformat template file"
 msgstr "Otomatik biçimleme şablonu dosyası değil"
 
-#: src/xml-io-autoft.c:446
+#: src/xml-io-autoft.c:445
 msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 "Otomatik biçemleme şablonu dosyasından ağacı kurgulamaya çalışırken hata "
@@ -20258,19 +20394,19 @@ msgstr ""
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3194
+#: src/xml-io.c:3184
 msgid "Processing file..."
 msgstr "Dosya işleniyor..."
 
-#: src/xml-io.c:3370
+#: src/xml-io.c:3362
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "Panodaki xml verisi geçersiz. Ağaç boş mu?"
 
-#: src/xml-io.c:3430
+#: src/xml-io.c:3422
 msgid "Not enough memory to create zlib decompression state."
 msgstr "zlib genişletme durumunu oluşturmak için bellek yetersiz."
 
-#: src/xml-io.c:3465
+#: src/xml-io.c:3457
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Bu bir Gnumeric defter dosyası değil"
 
@@ -20282,3 +20418,39 @@ msgstr "Gnumeric XML dosya biçimi"
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME Hesap Çizelgesi"
 
+#~ msgid "LaTeX 2.09 (*.tex)"
+#~ msgstr "LaTeX 2.09 (*.tex)"
+
+#~ msgid "Row %d"
+#~ msgstr "%d. satır"
+
+#~ msgid "Variance"
+#~ msgstr "Değişim"
+
+#~ msgid "SS"
+#~ msgstr "SS"
+
+#~ msgid "df"
+#~ msgstr "df"
+
+#~ msgid "MS"
+#~ msgstr "MS"
+
+#~ msgid "F"
+#~ msgstr "F"
+
+#~ msgid "P-value"
+#~ msgstr "P-değeri"
+
+#~ msgid "F crit"
+#~ msgstr "F krit"
+
+#~ msgid "(1 - _Alpha) = "
+#~ msgstr "(1 - _Alfa) = "
+
+#~ msgid ""
+#~ "You should introduce a valid cell range in 'Value and probability input "
+#~ "Range:'"
+#~ msgstr ""
+#~ "'Değer ve olasılık girdi aralığı:' içinde geçerli göze aralığını "
+#~ "tanıtmalısınız"
