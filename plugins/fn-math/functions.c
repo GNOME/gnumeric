@@ -1681,10 +1681,11 @@ static char *help_pi = {
 	   "@SYNTAX=PI()\n"
 
 	   "@DESCRIPTION="
-	   "PI functions returns the value of Pi. "
+	   "PI functions returns the value of pi. "
 	   "\n"
 	   "This function is called with no arguments.\n"
-	   "This function is Excel compatible. "
+	   "This function is Excel compatible, except that "
+           "it returns pi with a better precision. "
 	   "\n"
 	   "@EXAMPLES=\n"
 	   "PI() equals 3.141593.\n"
