@@ -559,19 +559,20 @@ gog_error_bar_get_minmax (const GogErrorBar *bar, double *min, double *max)
 	int i, imax;
 	double tmp_min, tmp_max, plus, minus;
 	
-	*min = DBL_MAX;
-	*max = -DBL_MAX;
-
 	g_return_if_fail (GOG_ERROR_BAR (bar) != NULL);
-	g_return_if_fail (bar->series->values != NULL);
-	g_return_if_fail (bar->series->values[bar->dim_i].data != NULL);
-	
-	imax = go_data_vector_get_len (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data));
 
+	if (!gog_series_is_valid (bar->series)) {
+		*min = DBL_MAX;
+		*max = -DBL_MAX;
+		return;
+	}
+
+	imax = go_data_vector_get_len (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data));
 	go_data_vector_get_minmax (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data), min, max);
 	for (i = 0; i < imax; i++) {
 		if  (gog_error_bar_get_bounds (bar, i, &minus, &plus)) {
-			value = go_data_vector_get_values (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data))[i];
+			value = go_data_vector_get_values 
+				(GO_DATA_VECTOR (bar->series->values[bar->dim_i].data))[i];
 			tmp_min = value - minus;
 			tmp_max = value + plus;
 			if (tmp_min < *min)
