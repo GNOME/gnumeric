@@ -1,3 +1,9 @@
+1998-10-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/sheet-object.c (create_object): Rectangles have the same
+	problems Ovals do in terms of Canvas cordinate constraints. 
+	(sheet_view_object_realize): same.
+
 1998-10-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/sheet-view.c (sheet_view_col_selection_changed): Make sure

@@ -202,20 +202,23 @@ sheet_view_object_realize (SheetView *sheet_view, SheetObject *object)
 			NULL);
 		break;
 
-	case SHEET_OBJECT_RECTANGLE:
+	case SHEET_OBJECT_RECTANGLE: {
+		double *c = object->points->coords;
+
 		item = gnome_canvas_item_new (
 			sheet_view->object_group,
 			gnome_canvas_rect_get_type (),
-			"x1",            object->points->coords [0],
-			"y1",            object->points->coords [1],
-			"x2",            object->points->coords [2],
-			"y2",            object->points->coords [3],
+			"x1",            MIN (c [0], c [2]),
+			"y1",            MIN (c [1], c [3]),
+			"x2",            MAX (c [0], c [2]),
+			"y2",            MAX (c [1], c [3]),
 			"fill_color",    filled_object->fill_color ?
 			filled_object->fill_color->str : NULL,
 			"outline_color", object->color->str,
 			"width_pixels",  object->width,
 			NULL);
 		break;
+	}
 
 	case SHEET_OBJECT_ELLIPSE: {
 		double *c = object->points->coords;
@@ -354,13 +357,20 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 			"black", 1);
 		break;
 		
-	case SHEET_MODE_CREATE_BOX:
+	case SHEET_MODE_CREATE_BOX: {
+		double x1, x2, y1, y2;
+
+		x1 = MIN (oc->x, to_x);
+		x2 = MAX (oc->x, to_x);
+		y1 = MIN (oc->y, to_y);
+		y2 = MAX (oc->y, to_y);
+		
 		o = sheet_object_create_filled (
 			sheet, SHEET_OBJECT_RECTANGLE,
-			oc->x, oc->y,
-			to_x, to_y,
+			x1, y1, x2, y2,
 			NULL, "black", 1);
 		break;
+	}
 
 	case SHEET_MODE_CREATE_OVAL: {
 		double x1, x2, y1, y2;
