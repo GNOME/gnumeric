@@ -7,6 +7,7 @@
  */
 
 #include <glib.h>
+#include <stdlib.h>
 
 #define GNUMERIC_COMPLEX_IMPLEMENTATION
 #include "complex.h"
@@ -128,33 +129,6 @@ complex_from_string (complex_t *dst, const char *src, char *imunit)
 	}
 
 	return -1;
-}
-
-/* ------------------------------------------------------------------------- */
-
-void
-complex_to_polar (float_t *mod, float_t *angle, const complex_t *src)
-{
-	*mod = complex_mod (src);
-	*angle = complex_angle (src);
-}
-
-/* ------------------------------------------------------------------------- */
-
-void
-complex_from_polar (complex_t *dst, float_t mod, float_t angle)
-{
-	complex_init (dst, mod * cos (angle), mod * sin (angle));
-}
-
-/* ------------------------------------------------------------------------- */
-
-void
-complex_sqrt (complex_t *dst, const complex_t *src)
-{
-	complex_from_polar (dst,
-			    sqrt (complex_mod (src)),
-			    complex_angle (src) / 2);
 }
 
 /* ------------------------------------------------------------------------- */

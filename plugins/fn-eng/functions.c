@@ -845,7 +845,7 @@ static Value *
 gnumeric_impower (struct FunctionDefinition *fd, 
 		  Value *argv [], char **error_string)
 {
-	complex_t a, b, lna, b_lna, res;
+	complex_t a, b, res;
 	char imunit;
 
 	if (value_get_as_complex (argv[0], &a, &imunit)) {
@@ -858,14 +858,12 @@ gnumeric_impower (struct FunctionDefinition *fd,
 		return NULL;
 	}
 
-	if (a.re == 0) {
+	if (complex_real_p (&a) && a.re <= 0  && !complex_real_p (&b)) {
 		*error_string = gnumeric_err_DIV0;
 		return NULL;
 	}
 
-	complex_ln (&lna, &a);
-	complex_mul (&b_lna, &b, &lna);
-	complex_exp (&res, &b_lna);
+	complex_pow (&res, &a, &b);
 	return value_new_complex (&res, imunit);
 }
 
@@ -1008,7 +1006,7 @@ callback_function_imoper (Sheet *sheet, Value *value,
 			  char **error_string, void *closure)
 {
         eng_imoper_t *result = closure;
-	complex_t c, newres;
+	complex_t c;
 	char *imptr, dummy;
 
 	imptr = VALUE_IS_NUMBER (value) ? &dummy : &result->imunit;
@@ -1019,17 +1017,15 @@ callback_function_imoper (Sheet *sheet, Value *value,
 
 	switch (result->type) {
 	case Improduct:
-		complex_mul (&newres, &result->res, &c);
+		complex_mul (&result->res, &result->res, &c);
 	        break;
 	case Imsum:
-		complex_add (&newres, &result->res, &c);
+		complex_add (&result->res, &result->res, &c);
 	        break;
 	default:
 		abort ();
 	}
 
-	/* Complex routines assume pointers are different.  */
-	result->res = newres;
         return TRUE;
 }
 

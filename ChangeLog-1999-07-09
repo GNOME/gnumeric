@@ -1,13 +1,26 @@
+1999-06-17  Morten Welinder  <terra@diku.dk>
+
+	* src/complex.c: Fix includes.
+
+	* src/fn-eng.c (gnumeric_impower): Use new complex_pow.
+	(callback_function_imoper): Benefit from new and more intuitive
+ 	behavoiur of complex_mul and complex_add.
+
+	* src/complex.h (complex_mod): Use hypot for better precision.
+	(complex_*): Use complex_init when possible.  (This means that the
+ 	output can be the same as one of the inputs without any trouble.)
+	(complex_pow): New function.
+
 1999-06-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-stat.c (gnumeric_percentrank): Interpolation and rounding
 	fixes.
-	
+
 1999-06-17  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-eng.c (gnumeric_erf): ERF() changed back to the previous
  	form.  Negative arguments are wrong.
-	
+
 1999-06-16  Morten Welinder  <terra@diku.dk>
 
 	* src/complex.h, src/complex.c: New files.
@@ -23,7 +36,7 @@
 	* samples/finfuns.xls: A new file for financial functions.
 
 	* samples/engfuns.xls: A new file for engineering functions.
-	
+
 	* samples/mathfuns.xls: COMBIN and FACT fixed.
 
 	* samples/statfuns.xls: Accuracy dropped again.
@@ -48,7 +61,7 @@
 
 	* src/fn-eng.c (gnumeric_improduct, gnumeric_imsum): Made IMSUM()
 	and IMPRODUCT() to take variable number of arguments.
-	
+
 1999-06-15  Morten Welinder  <terra@diku.dk>
 
 	* src/style.c (style_font_new_simple): Plug leak.
