@@ -276,7 +276,7 @@ correl(data_set_t *set_one, data_set_t *set_two, int *error_flag)
 /* If columns_flag is set, the data entries are groupped by columns 
  * otherwise by rows.
  */
-void
+int
 correlation_tool (Workbook *wb, Sheet *current_sheet, 
 		  Range *input_range, int columns_flag,
 		  data_analysis_output_t *dao)
@@ -351,6 +351,8 @@ correlation_tool (Workbook *wb, Sheet *current_sheet,
 
 	for (i=0; i<vars; i++)
 	        free_data_set(&data_sets[i]);
+
+	return 0;
 }
 
 
@@ -400,7 +402,7 @@ covar(data_set_t *set_one, data_set_t *set_two, int *error_flag)
 /* If columns_flag is set, the data entries are groupped by columns 
  * otherwise by rows.
  */
-void
+int
 covariance_tool (Workbook *wb, Sheet *current_sheet, 
 		 Range *input_range, int columns_flag,
 		 data_analysis_output_t *dao)
@@ -475,6 +477,8 @@ covariance_tool (Workbook *wb, Sheet *current_sheet,
 
 	for (i=0; i<vars; i++)
 	        free_data_set(&data_sets[i]);
+
+	return 0;
 }
 
 
@@ -587,10 +591,12 @@ summary_statistics(Workbook *wb, data_set_t *data_set, int vars,
         set_cell (dao, 0, 13, "Count");
 
 	for (col=0; col<vars; col++) {
-	        float_t var = (data_set[col].sqrsum - 
+	        float_t var, stdev;
+
+		var = (data_set[col].sqrsum - 
 			       data_set[col].sum2/data_set[col].n) /
 		        (data_set[col].n - 1);
-		float_t stdev = sqrt(var);
+		stdev = sqrt(var);
 
 		data_set[col].array = 
 		        g_slist_sort(data_set[col].array, 
@@ -630,13 +636,19 @@ summary_statistics(Workbook *wb, data_set_t *data_set, int vars,
 		set_cell (dao, col+1, 6, buf);
 
 		/* Kurtosis */
-	        x = kurt(&data_set[col], &error);
-	        sprintf(buf, "%f", x);
+		if (data_set[col].n > 3) {
+		        x = kurt(&data_set[col], &error);
+			sprintf(buf, "%f", x);
+		} else
+		        sprintf(buf, "#N/A");
 		set_cell (dao, col+1, 7, buf);
 
 		/* Skewness */
-	        x = skew(&data_set[col], &error);
-	        sprintf(buf, "%f", x);
+		if (data_set[col].n > 2) {
+		        x = skew(&data_set[col], &error);
+			sprintf(buf, "%f", x);
+		} else
+		        sprintf(buf, "#N/A");
 		set_cell (dao, col+1, 8, buf);
 
 		/* Range */
@@ -753,7 +765,7 @@ kth_smallest(Workbook *wb, data_set_t *data_set, int vars, int k,
 
 /* Descriptive Statistics
  */
-void
+int
 descriptive_stat_tool (Workbook *wb, Sheet *current_sheet, 
                        Range *input_range, int columns_flag,
 		       descriptive_stat_tool_t *ds,
@@ -792,6 +804,8 @@ descriptive_stat_tool (Workbook *wb, Sheet *current_sheet,
 
 	for (i=0; i<vars; i++)
 	        free_data_set(&data_sets[i]);
+
+	return 0;
 }
 
 

@@ -362,7 +362,8 @@ correlation_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto correlation_dialog_loop;
 
-	correlation_tool (wb, sheet, &range, !i, &dao);
+	if (correlation_tool (wb, sheet, &range, !i, &dao))
+	        goto correlation_dialog_loop;
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -447,7 +448,8 @@ covariance_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto covariance_dialog_loop;
 
-	covariance_tool (wb, sheet, &range, !i, &dao);
+	if (covariance_tool (wb, sheet, &range, !i, &dao))
+	        goto covariance_dialog_loop;
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -552,7 +554,9 @@ sampling_dialog_loop:
 
 	text = gtk_entry_get_text (GTK_ENTRY (sampling_entry[i]));
 	size = atoi(text);
-	sampling_tool (wb, sheet, &range, !i, size, &dao);
+
+	if (sampling_tool (wb, sheet, &range, !i, size, &dao))
+	        goto sampling_dialog_loop;
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -651,7 +655,8 @@ stat_dialog_loop:
 	text = gtk_entry_get_text (GTK_ENTRY (ds.entry[3]));
 	ds.k_smallest = atoi(text);
 
-	descriptive_stat_tool(wb, sheet, &range, !i, &ds, &dao);
+	if (descriptive_stat_tool(wb, sheet, &range, !i, &ds, &dao))
+	        goto stat_dialog_loop;
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -761,8 +766,9 @@ ztest_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto ztest_dialog_loop;
 
-	ztest_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
-		    var1, var2, alpha, &dao);
+	if (ztest_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
+		    var1, var2, alpha, &dao))
+	        goto ztest_dialog_loop;
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -859,8 +865,9 @@ ttest_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto ttest_dialog_loop;
 
-	ttest_paired_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
-			   alpha, &dao);
+	if (ttest_paired_tool (wb, sheet, &range_input1, &range_input2,
+			       mean_diff, alpha, &dao))
+	        goto ttest_dialog_loop;
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -958,8 +965,9 @@ ttest_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto ttest_dialog_loop;
 
-	ttest_eq_var_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
-			   alpha, &dao);
+	if (ttest_eq_var_tool (wb, sheet, &range_input1, &range_input2,
+			       mean_diff, alpha, &dao))
+	        goto ttest_dialog_loop;
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -1057,8 +1065,9 @@ ttest_dialog_loop:
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
 	        goto ttest_dialog_loop;
 
-	ttest_neq_var_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
-			    alpha, &dao);
+	if (ttest_neq_var_tool (wb, sheet, &range_input1, &range_input2,
+				mean_diff, alpha, &dao))
+	        goto ttest_dialog_loop;
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
@@ -1111,7 +1120,7 @@ dialog_ftest_tool(Workbook *wb, Sheet *sheet)
 
         gtk_widget_grab_focus (range1_entry);
 
-ttest_dialog_loop:
+ftest_dialog_loop:
 
 	selection = gnome_dialog_run (GNOME_DIALOG (dialog));
 	if (selection == 1) {
@@ -1129,7 +1138,7 @@ ttest_dialog_loop:
 	        error_in_entry(wb, range1_entry, 
 			       "You should introduce a valid cell range "
 			       "in 'Variable 1:'");
-		goto ttest_dialog_loop;
+		goto ftest_dialog_loop;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range2_entry));
@@ -1140,16 +1149,17 @@ ttest_dialog_loop:
 	        error_in_entry(wb, range2_entry, 
 			       "You should introduce a valid cell range "
 			       "in 'Variable 2:'");
-		goto ttest_dialog_loop;
+		goto ftest_dialog_loop;
 	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
 	alpha = atof(text);
 
 	if (parse_output(output, sheet, output_range_entry, wb, &dao))
-	        goto ttest_dialog_loop;
+	        goto ftest_dialog_loop;
 
-	ftest_tool (wb, sheet, &range_input1, &range_input2, alpha, &dao);
+	if (ftest_tool (wb, sheet, &range_input1, &range_input2, alpha, &dao))
+	        goto ftest_dialog_loop;
 
 	workbook_focus_sheet(sheet);
  	gnome_dialog_close (GNOME_DIALOG (dialog));
