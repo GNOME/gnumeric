@@ -550,6 +550,12 @@ Plugins
     : creates formulae by making strings and then parsing them.
       (Wasteful and won't work in non-C locales.)
 
+Clipboard
+---------
+- Fall back to string import when incoming html and OpenOffice doesn't
+  contain tables.
+- May be not export html as table when just one cell is selected.
+
 --------------------------------------------------------------------------------
 Finished
 

@@ -37,6 +37,7 @@ Jon Kåre:
 	* Make splash screen display code clairvoyant.
 	* Import OpenOffice.org 1.1 from clipboard.
 	* Export XHTML to clipboard.
+	* Fix clipboard export of non-Latin 1 content as text.
 
 Morten:
 	* Hopefully fix NAN issues on Alphas.
