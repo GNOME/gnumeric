@@ -695,7 +695,7 @@ decompress_vba (guint8 *data, guint32 len)
 				}
 				printf ("\n");
 				for (lp = 0; lp < (dt & BUF_MASK); lp++) {
-					guint8 c = buffer[( (dt >> BUF_BITS) + lp ) % BUF_SIZE];
+					guint8 c = buffer[( pos - (dt >> BUF_BITS) + lp ) % BUF_SIZE];
 					buffer [pos++ % BUF_SIZE] = c;
 					printf ("%c", c);
 				}
