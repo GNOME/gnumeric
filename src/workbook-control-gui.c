@@ -532,12 +532,47 @@ cb_sheet_label_edit_finished (EditableLabel *el, char const *new_name,
 }
 
 static void
+cb_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
+{
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+	GList *workbooks = workbook_sheets (wb);
+	GList *this = NULL;
+	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	GList *current = g_list_find (workbooks, sheet);
+	GSList *new_order = NULL;
+
+	workbooks = g_list_insert_before (workbooks, current->next, NULL);
+
+	for (this = workbooks; this != NULL; this = this->next) 
+		new_order = g_slist_prepend (new_order, this->data);
+	new_order = g_slist_reverse (new_order);
+	g_list_free (workbooks);
+
+	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL, new_order,
+			       g_slist_prepend (NULL, NULL),
+			       g_slist_prepend (NULL, NULL),
+			       NULL, NULL, NULL, NULL, NULL, NULL);
+}
+
+static void
+cb_append_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
+{
+	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL, NULL,
+			       g_slist_prepend (NULL, NULL),
+			       g_slist_prepend (NULL, NULL),
+			       NULL, NULL, NULL, NULL, NULL, NULL);
+}
+
+static void
 sheet_action_add_sheet (GtkWidget *widget, SheetControlGUI *scg)
 {
-	SheetControl *sc = (SheetControl *) scg;
+	cb_append_sheet (NULL, scg->wbcg);
+}
 
-	workbook_sheet_add (wb_control_workbook (sc->wbc), sc->sheet, TRUE);
-	wbcg_focus_cur_scg (scg->wbcg);
+static void
+sheet_action_insert_sheet (GtkWidget *widget, SheetControlGUI *scg)
+{
+	cb_insert_sheet (NULL, scg->wbcg);
 }
 
 static void
@@ -606,10 +641,12 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		int  flags;
 	} const sheet_label_context_actions [] = {
 		{ N_("Manage sheets..."), &sheet_action_reorder_sheet, 0},
-		{ N_("Duplicate this sheet"), &sheet_action_clone_sheet, 0 },
-		{ N_("Insert a new sheet"), &sheet_action_add_sheet, 0 },
-		{ N_("Rename this sheet"), &sheet_action_rename_sheet, 0 },
-		{ N_("Remove this sheet"), &delete_sheet_if_possible, SHEET_CONTEXT_TEST_SIZE },
+		{ "", NULL, 0},
+		{ N_("Insert"), &sheet_action_insert_sheet, 0 },
+		{ N_("Append"), &sheet_action_add_sheet, 0 },
+		{ N_("Duplicate"), &sheet_action_clone_sheet, 0 },
+		{ N_("Remove"), &delete_sheet_if_possible, SHEET_CONTEXT_TEST_SIZE },
+		{ N_("Rename"), &sheet_action_rename_sheet, 0 },
 		{ NULL, NULL }
 	};
 
@@ -625,15 +662,18 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 		if (flags & SHEET_CONTEXT_TEST_SIZE &&
 		    workbook_sheet_count (sc->sheet->workbook) < 2)
 				continue;
-
-		item = gtk_menu_item_new_with_label (
-			_(sheet_label_context_actions [i].text));
+		if (sheet_label_context_actions [i].text[0] == '\0') {
+			item = gtk_separator_menu_item_new ();
+		} else {
+			item = gtk_menu_item_new_with_label (
+				_(sheet_label_context_actions [i].text));
+			g_signal_connect (G_OBJECT (item),
+					  "activate",
+					  G_CALLBACK (sheet_label_context_actions [i].function), scg);
+		}
+		
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		gtk_widget_show (item);
-
-		g_signal_connect (G_OBJECT (item),
-			"activate",
-			G_CALLBACK (sheet_label_context_actions [i].function), scg);
 	}
 
 	gnumeric_popup_menu (GTK_MENU (menu), event);
@@ -2455,15 +2495,6 @@ cb_define_name (GtkWidget *unused, WorkbookControlGUI *wbcg)
 }
 
 static void
-cb_insert_sheet (GtkWidget *unused, WorkbookControlGUI *wbcg)
-{
-	cmd_reorganize_sheets (WORKBOOK_CONTROL (wbcg), NULL, NULL,
-			       g_slist_prepend (NULL, NULL),
-			       g_slist_prepend (NULL, NULL),
-			       NULL, NULL, NULL, NULL, NULL, NULL);
-}
-
-static void
 cb_insert_rows (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
@@ -3384,25 +3415,32 @@ static GnomeUIInfo workbook_menu_edit_fill [] = {
 };
 
 static GnomeUIInfo workbook_menu_edit_sheet [] = {
-	GNOMEUIINFO_ITEM_NONE (N_("_Duplicate"),
-		N_("Make a copy of the current sheet"),
-		cb_edit_duplicate_sheet),
-
-	GNOMEUIINFO_ITEM_NONE (N_("_Insert"),
-		N_("Insert a new sheet"),
-		cb_insert_sheet),
-
-	GNOMEUIINFO_ITEM_NONE (N_("Re_name..."),
-		N_("Rename the current sheet"),
-		cb_sheet_name),
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Manage Sheets..."),
 		N_("Manage the sheets in this workbook"),
 		cb_sheet_order),
 
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Insert"),
+		N_("Insert a new sheet"),
+		cb_insert_sheet),
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Append"),
+		N_("Append a new sheet"),
+		cb_append_sheet),
+
+	GNOMEUIINFO_ITEM_NONE (N_("_Duplicate"),
+		N_("Make a copy of the current sheet"),
+		cb_edit_duplicate_sheet),
+
 	GNOMEUIINFO_ITEM_NONE (N_("_Remove"),
 		N_("Irrevocably remove an entire sheet"),
 		cb_sheet_remove),
+
+	GNOMEUIINFO_ITEM_NONE (N_("Re_name"),
+		N_("Rename the current sheet"),
+		cb_sheet_name),
 
 	GNOMEUIINFO_END
 };
@@ -3527,7 +3565,7 @@ static GnomeUIInfo workbook_menu_insert [] = {
 		N_("Insert new rows"),
 		cb_insert_rows, "Gnumeric_RowAdd"),
 	GNOMEUIINFO_ITEM_NONE (N_("_Sheet"),
-		N_("Insert a new spreadsheet"),
+		N_("Insert a new sheet"),
 		cb_insert_sheet),
 
 	GNOMEUIINFO_SEPARATOR,
@@ -3595,13 +3633,13 @@ static GnomeUIInfo workbook_menu_format_row [] = {
 };
 
 static GnomeUIInfo workbook_menu_format_sheet [] = {
-	GNOMEUIINFO_ITEM_NONE (N_("Re_name..."),
-		N_("Rename the current sheet"),
-		cb_sheet_name),
 	GNOMEUIINFO_ITEM_NONE (N_("_Manage Sheets..."),
 		N_("Manage the sheets in this workbook"),
 		cb_sheet_order),
-
+	GNOMEUIINFO_ITEM_NONE (N_("Re_name"),
+		N_("Rename the current sheet"),
+		cb_sheet_name),
+	GNOMEUIINFO_SEPARATOR,
 	/* Default <Ctrl-`> (control backquote) to insert toggle formula/value display */
 	{ GNOME_APP_UI_TOGGLEITEM,
 		N_("Display _Formulas"),
@@ -4047,6 +4085,7 @@ static BonoboUIVerb verbs [] = {
 	BONOBO_UI_UNSAFE_VERB ("EditNames", cb_define_name),
 
 	BONOBO_UI_UNSAFE_VERB ("InsertSheet", cb_insert_sheet),
+	BONOBO_UI_UNSAFE_VERB ("InsertSheetAtEnd", cb_append_sheet),
 	BONOBO_UI_UNSAFE_VERB ("InsertRows", cb_insert_rows),
 	BONOBO_UI_UNSAFE_VERB ("InsertColumns", cb_insert_cols),
 	BONOBO_UI_UNSAFE_VERB ("InsertCells", cb_insert_cells),

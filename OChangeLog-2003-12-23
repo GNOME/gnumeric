@@ -1,3 +1,14 @@
+2003-07-06  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/GNOME_Gnumeric.xml: clean up the sheet insert/append issue
+	* src/workbook-control-gui.c: ditto
+	(cb_insert_sheet): insert the sheet after the current sheet 
+	  rather than append
+	(cb_append_sheet): append a new sheet
+	(sheet_action_add_sheet): use cmd_... via cb_append_sheet rather
+	  than adding without undo
+	(sheet_action_insert_sheet): new
+
 2003-07-05  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/gui-clipboard.c: change dialogresult->formats to

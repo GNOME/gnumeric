@@ -17,6 +17,8 @@ Andreas:
 	* Permit to ignore any columns during text import
 	* Add column header menu to format page of text import
 	* Fix locale specific parsing on paste
+	* Add undo to inserting of sheets via the tab context menu
+	* Clarify insert/append sheet commands
 
 Ben Liblit:
 	* Another attempt at configure time path generation.

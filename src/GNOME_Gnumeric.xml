@@ -220,25 +220,31 @@
 	    <separator/>
 
 	    <submenu name="EditSheet" _label="S_heet">
-		<menuitem name="EditDuplicateSheet" verb=""
-		    _label="_Duplicate"
-		    _tip="Make a copy of the current sheet"/>
+		<menuitem name="SheetReorder" verb=""
+		    _label="_Manage Sheets..."
+		    _tip="Manage the sheets in this workbook" />
+  
+                <separator/>
 
 		<menuitem name="InsertSheet" verb=""
 		    _label="_Insert"
 		    _tip="Insert a new sheet"/>
 
-		<menuitem name="SheetChangeName" verb=""
-		    _label="Re_name..."
-		    _tip="Rename the current sheet"/>
+		<menuitem name="InsertSheetAtEnd" verb=""
+		    _label="_Append"
+		    _tip="Append a new sheet"/>
 
-		<menuitem name="SheetReorder" verb=""
-		    _label="_Manage Sheets..."
-		    _tip="Manage the sheets in this workbook" />
+		<menuitem name="EditDuplicateSheet" verb=""
+		    _label="_Duplicate"
+		    _tip="Make a copy of the current sheet"/>
 
 		<menuitem name="SheetRemove" verb=""
 		    _label="_Remove"
 		    _tip="Irrevocably remove an entire sheet"/>
+
+		<menuitem name="SheetChangeName" verb=""
+		    _label="Re_name"
+		    _tip="Rename the current sheet"/>
 	    </submenu>
 
 	    <submenu name="Select" _label="_Select">
@@ -349,7 +355,7 @@
 		_tip="Insert new rows"/>
 	    <menuitem name="InsertSheet" verb=""
 		_label="_Sheet"
-		_tip="Insert a new spreadsheet"/>
+		_tip="Insert a new sheet"/>
 
       	    <separator/>
 
@@ -469,13 +475,15 @@
 	    </submenu>
 
 	    <submenu _label="_Sheet">
-		<menuitem name="SheetChangeName" verb=""
-		    _label="Re_name..."
-		    _tip="Rename the current sheet"/>
-
 		<menuitem name="SheetReorder" verb=""
 		    _label="_Manage Sheets..."
 		    _tip="Manage the sheets in this workbook" />
+
+		<menuitem name="SheetChangeName" verb=""
+		    _label="Re_name"
+		    _tip="Rename the current sheet"/>
+
+		<separator/>
 
 		<menuitem name="SheetDisplayFormulas"	verb="" />
 		<menuitem name="SheetHideZeros"		verb="" />
