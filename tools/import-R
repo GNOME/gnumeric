@@ -106,6 +106,8 @@ sub import_file {
 	    s/\bdouble\b/gnm_float/g;
 	    s/\bRboolean\b/gboolean/g;
 
+	    s/^(\s*)(const\s+gnm_float\s+([a-zA-Z_][a-zA-Z0-9_]*)\s*\[\s*\d+\s*\]\s*=)/$1static $2/;
+
 	    # Improve precision of "log(1-x)".
 	    s/\blog\s*\(\s*1\s*-\s*([a-zA-Z0-9_]+)\s*\)/log1pgnum (-$1)/g;
 
@@ -114,7 +116,7 @@ sub import_file {
 
 	    s/\bISNAN\b/isnangnum/g;
 	    s/\bR_FINITE\b/finitegnum/g;
-	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|sin|sinh|tan)(\s|$|\()/$1gnum$2/g;
+	    s/\b(sqrt|exp|log|pow|log1p|expm1|floor|ceil|sin|sinh|tan)(\s|$|\()/$1gnum$2/g;
 	    s/\bfabs\b/gnumabs/g;
 	    s/\bDBL_(EPSILON|MIN|MAX)/GNUM_$1/g;
 
@@ -140,7 +142,7 @@ sub import_file {
 	    s/pnorm5/pnorm/g;
 	    s/qnorm5/qnorm/g;
 
-	    s/\b(trunc|ftrunc)\b/gnumeric_trunc/g;
+	    s/\b(trunc|ftrunc)\b/gnm_trunc/g;
 	    s/\b(lgammafn|lgamma)\b/lgammagnum/g;
 	    s/\bML_NAN\b/gnm_nan/g;
 	    s/\bML_VALID\b/\!isnangnum/g;

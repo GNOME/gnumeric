@@ -14,11 +14,11 @@
  */
 
 /*
- * NOTE 1: most of this file comes from the "R" package, notably version 1.8.1
+ * NOTE 1: most of this file comes from the "R" package, notably version 2
  * or newer (we re-sync from time to time).
  * "R" is distributed under GPL licence, see file COPYING.
  * The relevant parts are copyright (C) 1998 Ross Ihaka and
- * 2000-2002 The R Development Core Team.
+ * 2000-2004 The R Development Core Team.
  *
  * Thank you!
  */
@@ -290,10 +290,10 @@ gnumeric_fake_trunc (gnm_float x)
  */
 
 
-gnm_float gnumeric_trunc(gnm_float x)
+gnm_float gnm_trunc(gnm_float x)
 {
 	if(x >= 0) return floorgnum(x);
-	else return ceil(x);
+	else return ceilgnum(x);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -447,20 +447,20 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
    if(lower) return  *cum := P[X <= x]
    if(upper) return *ccum := P[X >  x] = 1 - P[X <= x]
 */
-    const gnm_float a[5] = {
+    static const gnm_float a[5] = {
 	GNM_const(2.2352520354606839287),
 	GNM_const(161.02823106855587881),
 	GNM_const(1067.6894854603709582),
 	GNM_const(18154.981253343561249),
 	GNM_const(0.065682337918207449113)
     };
-    const gnm_float b[4] = {
+    static const gnm_float b[4] = {
 	GNM_const(47.20258190468824187),
 	GNM_const(976.09855173777669322),
 	GNM_const(10260.932208618978205),
 	GNM_const(45507.789335026729956)
     };
-    const gnm_float c[9] = {
+    static const gnm_float c[9] = {
 	GNM_const(0.39894151208813466764),
 	GNM_const(8.8831497943883759412),
 	GNM_const(93.506656132177855979),
@@ -471,7 +471,7 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
 	GNM_const(9842.7148383839780218),
 	GNM_const(1.0765576773720192317e-8)
     };
-    const gnm_float d[8] = {
+    static const gnm_float d[8] = {
 	GNM_const(22.266688044328115691),
 	GNM_const(235.38790178262499861),
 	GNM_const(1519.377599407554805),
@@ -481,7 +481,7 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
 	GNM_const(38912.003286093271411),
 	GNM_const(19685.429676859990727)
     };
-    const gnm_float p[6] = {
+    static const gnm_float p[6] = {
 	GNM_const(0.21589853405795699),
 	GNM_const(0.1274011611602473639),
 	GNM_const(0.022235277870649807),
@@ -489,7 +489,7 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
 	GNM_const(2.9112874951168792e-5),
 	GNM_const(0.02307344176494017303)
     };
-    const gnm_float q[5] = {
+    static const gnm_float q[5] = {
 	GNM_const(1.28426009614491121),
 	GNM_const(0.468238212480865118),
 	GNM_const(0.0659881378689285515),
@@ -547,7 +547,7 @@ void pnorm_both(gnm_float x, gnm_float *cum, gnm_float *ccum, int i_tail, gboole
 	temp = (xnum + c[7]) / (xden + d[7]);
 
 #define do_del(X)							\
-	xsq = gnumeric_trunc(X * SIXTEN) / SIXTEN;				\
+	xsq = gnm_trunc(X * SIXTEN) / SIXTEN;				\
 	del = (X - xsq) * (X + xsq);					\
 	if(log_p) {							\
 	    *cum = (-xsq * xsq * 0.5) + (-del * 0.5) + loggnum(temp);	\
@@ -1071,7 +1071,7 @@ static gnm_float stirlerr(gnm_float n)
 /*
   error for 0, 0.5, 1.0, 1.5, ..., 14.5, 15.0.
 */
-    const gnm_float sferr_halves[31] = {
+    static const gnm_float sferr_halves[31] = {
 	0.0, /* n=0 - wrong, place holder only */
 	GNM_const(0.1534264097200273452913848),  /* 0.5 */
 	GNM_const(0.0810614667953272582196702),  /* 1.0 */
@@ -1632,7 +1632,7 @@ static gnm_float chebyshev_eval(gnm_float x, const gnm_float *a, const int n)
 
 static gnm_float lgammacor(gnm_float x)
 {
-    const gnm_float algmcs[15] = {
+    static const gnm_float algmcs[15] = {
 	GNM_const(+.1666389480451863247205729650822e+0),
 	GNM_const(-.1384948176067563840732986059135e-4),
 	GNM_const(+.9810825646924729426157171547487e-8),
@@ -3883,26 +3883,26 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
       P, Q - Approximation for LOG(GAMMA(1+ALPHA))/ALPHA + Euler's constant
       Coefficients converted from hex to decimal and modified
       by W. J. Cody, 2/26/82 */
-    const gnm_float p[8] = { GNM_const(.805629875690432845),GNM_const(20.4045500205365151),
+    static const gnm_float p[8] = { GNM_const(.805629875690432845),GNM_const(20.4045500205365151),
 	    GNM_const(157.705605106676174),GNM_const(536.671116469207504),GNM_const(900.382759291288778),
 	    GNM_const(730.923886650660393),GNM_const(229.299301509425145),GNM_const(.822467033424113231) };
-    const gnm_float q[7] = { GNM_const(29.4601986247850434),GNM_const(277.577868510221208),
+    static const gnm_float q[7] = { GNM_const(29.4601986247850434),GNM_const(277.577868510221208),
 	    GNM_const(1206.70325591027438),GNM_const(2762.91444159791519),GNM_const(3443.74050506564618),
 	    GNM_const(2210.63190113378647),GNM_const(572.267338359892221) };
     /* R, S - Approximation for (1-ALPHA*PI/SIN(ALPHA*PI))/(2.D0*ALPHA) */
-    const gnm_float r[5] = { GNM_const(-.48672575865218401848),GNM_const(13.079485869097804016),
+    static const gnm_float r[5] = { GNM_const(-.48672575865218401848),GNM_const(13.079485869097804016),
 	    GNM_const(-101.96490580880537526),GNM_const(347.65409106507813131),
 	    GNM_const(3.495898124521934782e-4) };
-    const gnm_float s[4] = { GNM_const(-25.579105509976461286),GNM_const(212.57260432226544008),
+    static const gnm_float s[4] = { GNM_const(-25.579105509976461286),GNM_const(212.57260432226544008),
 	    GNM_const(-610.69018684944109624),GNM_const(422.69668805777760407) };
     /* T    - Approximation for SINH(Y)/Y */
-    const gnm_float t[6] = { GNM_const(1.6125990452916363814e-10),
+    static const gnm_float t[6] = { GNM_const(1.6125990452916363814e-10),
 	    GNM_const(2.5051878502858255354e-8),GNM_const(2.7557319615147964774e-6),
 	    GNM_const(1.9841269840928373686e-4),GNM_const(.0083333333333334751799),
 	    GNM_const(.16666666666666666446) };
     /*---------------------------------------------------------------------*/
-    const gnm_float estm[6] = { 52.0583,5.7607,2.7782,14.4303,185.3004, 9.3715 };
-    const gnm_float estf[7] = { 41.8341,7.1075,6.4306,42.511,1.35633,84.5096,20.};
+    static const gnm_float estm[6] = { 52.0583,5.7607,2.7782,14.4303,185.3004, 9.3715 };
+    static const gnm_float estf[7] = { 41.8341,7.1075,6.4306,42.511,1.35633,84.5096,20.};
 
     /* Local variables */
     long iend, i, j, k, m, ii, mplus1;
@@ -4081,7 +4081,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		/* ----------------------------------------------------------
 		   Calculation of K(ALPHA+1,X)/K(ALPHA,X),  1.0 <= X <= 4.0
 		   ----------------------------------------------------------*/
-		d2 = gnumeric_trunc(estm[0] / ex + estm[1]);
+		d2 = gnm_trunc(estm[0] / ex + estm[1]);
 		m = (long) d2;
 		d1 = d2 + d2;
 		d2 -= .5;
@@ -4095,7 +4095,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		   Calculation of I(|ALPHA|,X) and I(|ALPHA|+1,X) by backward
 		   recurrence and K(ALPHA,X) from the wronskian
 		   -----------------------------------------------------------*/
-		d2 = gnumeric_trunc(estm[2] * ex + estm[3]);
+		d2 = gnm_trunc(estm[2] * ex + estm[3]);
 		m = (long) d2;
 		c = gnumabs(nu);
 		d3 = c + c;
@@ -4129,7 +4129,7 @@ static void K_bessel(gnm_float *x, gnm_float *alpha, long *nb,
 		   Calculation of K(ALPHA,X) and K(ALPHA+1,X)/K(ALPHA,X), by
 		   backward recurrence, for  X > 4.0
 		   ----------------------------------------------------------*/
-		dm = gnumeric_trunc(estm[4] / ex + estm[5]);
+		dm = gnm_trunc(estm[4] / ex + estm[5]);
 		m = (long) dm;
 		d2 = dm - .5;
 		d2 *= d2;
