@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.66\n"
-"POT-Creation-Date: 2002-09-21 13:55+0200\n"
+"POT-Creation-Date: 2002-09-22 11:26-0400\n"
 "PO-Revision-Date: 2002-09-21 14:29+0200\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -531,8 +531,11 @@ msgstr ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffiks])\n"
 "@DESCRIPTION=COMPLEX returnerer et komplekst tall på formen x + yi.\n"
-"@real er realtallet og @im er den imaginære koeffisienten for det komplekse tallet.  @suffiks er suffikset for den imaginære koeffisienten. Hvis den er utelatt, bruker COMPLEX 'i' som forvalg.\n"
-"* Hvis @suffiks er hverken 'i' eller 'j', returnerer COMPLEX en #VALUE! feil.\n"
+"@real er realtallet og @im er den imaginære koeffisienten for det komplekse "
+"tallet.  @suffiks er suffikset for den imaginære koeffisienten. Hvis den er "
+"utelatt, bruker COMPLEX 'i' som forvalg.\n"
+"* Hvis @suffiks er hverken 'i' eller 'j', returnerer COMPLEX en #VALUE! "
+"feil.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
 "COMPLEX(1,-1) er lik 1-i.\n"
@@ -557,8 +560,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(itall)\n"
-"@DESCRIPTION=IMAGINARY returnerer den imaginære koeffisienten av et komplekst tall.\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMAGINARY en #VALUE!-feil.\n"
+"@DESCRIPTION=IMAGINARY returnerer den imaginære koeffisienten av et "
+"komplekst tall.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMAGINARY en "
+"#VALUE!-feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -583,7 +588,8 @@ msgstr ""
 "@SYNTAX=IMABS(itall)\n"
 "@DESCRIPTION=IMABS returnerer den absolutte verdien av et komplekst tall.\n"
 "\n"
-"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMABS en #VALUE!-feil.\n"
+"* Hvis @itall ikke er et gyldig komplekst tall returnerer IMABS en #VALUE!-"
+"feil.\n"
 "* Denne funksjonen er Excel kompatibel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -12987,7 +12993,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -13823,7 +13829,7 @@ msgstr "Lag et rullefelt"
 msgid "Create an arrow"
 msgstr "Lag en pil"
 
-#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1406
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1422
 msgid "Cu_t"
 msgstr "Klipp u_t"
 
@@ -14143,8 +14149,8 @@ msgstr "Venstre"
 msgid "Left justifies the contents of each cell"
 msgstr "Venstrejusterer innholdet i hver celle"
 
-#: schemas/plot-types.xml.in.h:32 src/GNOME_Gnumeric.xml.h:138
-#: src/dialogs/cell-format.glade.h:53 src/workbook-object-toolbar.c:160
+#: src/GNOME_Gnumeric.xml.h:138 src/dialogs/cell-format.glade.h:53
+#: src/workbook-object-toolbar.c:160 schemas/plot-types.xml.in.h:32
 msgid "Line"
 msgstr "Linje"
 
@@ -14508,8 +14514,8 @@ msgstr "Endre sideoppsettet for din skriver"
 msgid "Show all filtered and hidden rows"
 msgstr "Vis filtrerte og skjulte rader"
 
-#: schemas/gnumeric-general.schemas.in.h:41 src/GNOME_Gnumeric.xml.h:225
-#: src/workbook-control-gui.c:3545
+#: src/GNOME_Gnumeric.xml.h:225 src/workbook-control-gui.c:3545
+#: schemas/gnumeric-general.schemas.in.h:41
 msgid "Sort Ascending"
 msgstr "Sorter stigende"
 
@@ -14655,7 +14661,7 @@ msgstr "_ANOVA"
 msgid "_About..."
 msgstr "_Om..."
 
-#: src/GNOME_Gnumeric.xml.h:258 src/sheet-control-gui.c:1439
+#: src/GNOME_Gnumeric.xml.h:258 src/sheet-control-gui.c:1455
 #: src/workbook-control-gui.c:3151
 msgid "_Add / Modify comment..."
 msgstr "_Legg til / modifiser kommentar..."
@@ -14706,7 +14712,7 @@ msgid "_Content"
 msgstr "_Innhold"
 
 #: src/GNOME_Gnumeric.xml.h:268 src/item-cursor.c:1012
-#: src/sheet-control-gui.c:1408
+#: src/sheet-control-gui.c:1424
 msgid "_Copy"
 msgstr "_Kopier"
 
@@ -14722,7 +14728,7 @@ msgstr "_Data"
 msgid "_Define..."
 msgstr "_Definer..."
 
-#: src/GNOME_Gnumeric.xml.h:272 src/sheet-control-gui.c:1426
+#: src/GNOME_Gnumeric.xml.h:272 src/sheet-control-gui.c:1442
 #: src/workbook-control-gui.c:3034
 msgid "_Delete..."
 msgstr "_Slett..."
@@ -14801,8 +14807,8 @@ msgstr "_Grupper og disponer"
 msgid "_Help"
 msgstr "_Hjelp"
 
-#: src/GNOME_Gnumeric.xml.h:291 src/sheet-control-gui.c:1451
-#: src/sheet-control-gui.c:1459 src/workbook-control-gui.c:3172
+#: src/GNOME_Gnumeric.xml.h:291 src/sheet-control-gui.c:1467
+#: src/sheet-control-gui.c:1475 src/workbook-control-gui.c:3172
 #: src/workbook-control-gui.c:3191
 msgid "_Hide"
 msgstr "_Skjul"
@@ -14869,7 +14875,7 @@ msgstr "_Åpne..."
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:307 src/sheet-control-gui.c:1410
+#: src/GNOME_Gnumeric.xml.h:307 src/sheet-control-gui.c:1426
 msgid "_Paste"
 msgstr "_Lim inn"
 
@@ -14990,8 +14996,8 @@ msgstr "_Angre"
 msgid "_Ungroup"
 msgstr "_Fjern gruppering"
 
-#: src/GNOME_Gnumeric.xml.h:335 src/sheet-control-gui.c:1453
-#: src/sheet-control-gui.c:1461 src/workbook-control-gui.c:3175
+#: src/GNOME_Gnumeric.xml.h:335 src/sheet-control-gui.c:1469
+#: src/sheet-control-gui.c:1477 src/workbook-control-gui.c:3175
 #: src/workbook-control-gui.c:3194
 msgid "_Unhide"
 msgstr "_Ta frem"
@@ -16107,9 +16113,9 @@ msgstr "_Innområde:"
 msgid "_Labels"
 msgstr "_Etiketter"
 
-#: schemas/gnumeric-general.schemas.in.h:2 src/dialogs/anova-two.glade.h:2
-#: src/dialogs/descriptive-stats.glade.h:3
+#: src/dialogs/anova-two.glade.h:2 src/dialogs/descriptive-stats.glade.h:3
 #: src/dialogs/random-generation.glade.h:1 src/dialogs/sampling.glade.h:1
+#: schemas/gnumeric-general.schemas.in.h:2
 msgid "1"
 msgstr "1"
 
@@ -16121,8 +16127,8 @@ msgstr "ANOVA - tofaktor"
 msgid "Number of Rows _Per Sample:"
 msgstr "Antall rader _per datapunkt:"
 
-#: src/dialogs/autocorrect.glade.h:1 src/dialogs/plugin-manager.glade.h:1
-#: src/dialogs/solver.glade.h:1
+#: src/dialogs/autocorrect.glade.h:1 src/dialogs/hyperlink.glade.h:1
+#: src/dialogs/plugin-manager.glade.h:1 src/dialogs/solver.glade.h:1
 msgid "*"
 msgstr ""
 
@@ -17445,7 +17451,7 @@ msgstr "6"
 msgid "13"
 msgstr "13"
 
-#: schemas/gnumeric-general.schemas.in.h:6 src/dialogs/dialog-autoformat.c:69
+#: src/dialogs/dialog-autoformat.c:69 schemas/gnumeric-general.schemas.in.h:6
 msgid "20"
 msgstr "20"
 
@@ -17457,7 +17463,7 @@ msgstr "39"
 msgid "South"
 msgstr "Syd"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:1 src/dialogs/dialog-autoformat.c:70
+#: src/dialogs/dialog-autoformat.c:70 schemas/gnumeric-dialogs.schemas.in.h:1
 msgid "12"
 msgstr "12"
 
@@ -17489,7 +17495,7 @@ msgstr "2"
 msgid "0"
 msgstr "0"
 
-#: schemas/gnumeric-general.schemas.in.h:3 src/dialogs/dialog-autoformat.c:71
+#: src/dialogs/dialog-autoformat.c:71 schemas/gnumeric-general.schemas.in.h:3
 msgid "10"
 msgstr "10"
 
@@ -17754,6 +17760,46 @@ msgstr "Navn på plott"
 msgid "Series name"
 msgstr "Navn på serie"
 
+#: src/dialogs/dialog-hyperlink.c:87
+#, fuzzy
+msgid "_Internal Link"
+msgstr "Intern FEIL"
+
+#: src/dialogs/dialog-hyperlink.c:89
+msgid "Jump to specific cells or named range in the current workbook"
+msgstr ""
+
+#: src/dialogs/dialog-hyperlink.c:90
+#, fuzzy
+msgid "_External Link"
+msgstr "Intern FEIL"
+
+#: src/dialogs/dialog-hyperlink.c:92
+msgid "Open an external file with the specified name"
+msgstr ""
+
+#: src/dialogs/dialog-hyperlink.c:93
+msgid "Send _Email"
+msgstr ""
+
+#: src/dialogs/dialog-hyperlink.c:95
+#, fuzzy
+msgid "Prepare an email"
+msgstr "Lag en etikett"
+
+#: src/dialogs/dialog-hyperlink.c:96
+msgid "_URL"
+msgstr ""
+
+#: src/dialogs/dialog-hyperlink.c:98
+msgid "Browse to the specified URL"
+msgstr ""
+
+#: src/dialogs/dialog-hyperlink.c:272
+#, fuzzy
+msgid "Could not create the hyperlink dialog."
+msgstr "Kunne ikke opprette dialog for problemløser."
+
 #: src/dialogs/dialog-insert-cells.c:130 src/dialogs/insert-cells.glade.h:1
 msgid "Insert"
 msgstr "Sett inn"
@@ -17912,19 +17958,17 @@ msgid "Directory"
 msgstr "Katalog"
 
 #. Is it a boolean?
-#: schemas/gnumeric-dialogs.schemas.in.h:30
-#: schemas/gnumeric-general.schemas.in.h:44
 #: src/dialogs/dialog-preferences.c:374 src/format.c:1556
 #: src/number-match.c:1109 src/value-sheet.c:33 src/value.c:298
-#: src/value.c:607
+#: src/value.c:607 schemas/gnumeric-dialogs.schemas.in.h:30
+#: schemas/gnumeric-general.schemas.in.h:44
 msgid "TRUE"
 msgstr "SANN"
 
-#: schemas/gnumeric-dialogs.schemas.in.h:13
-#: schemas/gnumeric-general.schemas.in.h:22
 #: src/dialogs/dialog-preferences.c:375 src/format.c:1556
 #: src/number-match.c:1111 src/value-sheet.c:33 src/value.c:300
-#: src/value.c:607
+#: src/value.c:607 schemas/gnumeric-dialogs.schemas.in.h:13
+#: schemas/gnumeric-general.schemas.in.h:22
 msgid "FALSE"
 msgstr "USANN"
 
@@ -18650,7 +18694,7 @@ msgstr "Ko_lonneslutt : "
 msgid "Co_mma (,)"
 msgstr "Ko_mma (,)"
 
-#: schemas/plot-types.xml.in.h:27 src/dialogs/dialog-stf.glade.h:15
+#: src/dialogs/dialog-stf.glade.h:15 schemas/plot-types.xml.in.h:27
 msgid "Column"
 msgstr "Kolonne"
 
@@ -19170,6 +19214,45 @@ msgstr "_N:"
 #: src/dialogs/histogram.glade.h:28
 msgid "_Options"
 msgstr "_Alternativer"
+
+#: src/dialogs/hyperlink.glade.h:2
+msgid "<small>Optional</small>"
+msgstr ""
+
+#: src/dialogs/hyperlink.glade.h:3
+#, fuzzy
+msgid "Email _Address:"
+msgstr "Adresse"
+
+#: src/dialogs/hyperlink.glade.h:4
+#, fuzzy
+msgid "HyperLink"
+msgstr "_Hyperlenke"
+
+#: src/dialogs/hyperlink.glade.h:5
+#, fuzzy
+msgid "Target _Range:"
+msgstr "Flett område:"
+
+#: src/dialogs/hyperlink.glade.h:6
+#, fuzzy
+msgid "_File:"
+msgstr "_Fil"
+
+#: src/dialogs/hyperlink.glade.h:7
+#, fuzzy
+msgid "_Subject:"
+msgstr "_Objekt..."
+
+#: src/dialogs/hyperlink.glade.h:8
+#, fuzzy
+msgid "_Tip:"
+msgstr "Ø_verst:"
+
+#: src/dialogs/hyperlink.glade.h:9
+#, fuzzy
+msgid "_Web Address:"
+msgstr "Adresse"
 
 #: src/dialogs/insert-cells.glade.h:2
 msgid "Insert _column(s)"
@@ -21004,10 +21087,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=SUM beregner summen av alle verdier og celler som refereres i argumentlisten.\n"
+"@DESCRIPTION=SUM beregner summen av alle verdier og celler som refereres i "
+"argumentlisten.\n"
 "* Denne funksjonen er Excel kompatibel. \n"
 "@EXAMPLES=\n"
-"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21 og 43. Da får vi at\n"
+"La oss anta at cellene A1, A2, ..., A5 inneholder tallene 11, 15, 17, 21 og "
+"43. Da får vi at\n"
 "SUM(A1:A5) er lik 107.\n"
 "\n"
 "@SEEALSO=AVERAGE, COUNT"
@@ -21029,8 +21114,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(verdi1, verdi2, ...)\n"
-"@DESCRIPTION=PRODUCT returnerer produktet av alle verdier og celler som er referert i argumentlisten.\n"
-"* Denne funksjonen er Excel kompatibel. Dette vil i praksis si at hvis alle celler er tomme, vil resultatet bli 0.\n"
+"@DESCRIPTION=PRODUCT returnerer produktet av alle verdier og celler som er "
+"referert i argumentlisten.\n"
+"* Denne funksjonen er Excel kompatibel. Dette vil i praksis si at hvis alle "
+"celler er tomme, vil resultatet bli 0.\n"
 "@EXAMPLES=\n"
 "PRODUCT(2,5,9) er lik 90.\n"
 "\n"
@@ -21219,13 +21306,15 @@ msgstr ""
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "frexpgnum."
-msgstr "Denne versjonen av Gnumeric er kompilert med dårlig presisjon i modfgnum."
+msgstr ""
+"Denne versjonen av Gnumeric er kompilert med dårlig presisjon i modfgnum."
 
 #: src/gutils.c:614
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
-msgstr "Denne versjonen av Gnumeric er kompilert med dårlig presisjon i yngnum."
+msgstr ""
+"Denne versjonen av Gnumeric er kompilert med dårlig presisjon i yngnum."
 
 #.
 #. * xgettext:
@@ -21245,10 +21334,15 @@ msgstr "Fil/"
 msgid "Link target"
 msgstr "Lenkemål"
 
-#: src/hlink.c:220
+#: src/hlink.c:218
 #, c-format
 msgid "Unable to activate the url '%s'"
 msgstr "Kan ikke aktivere url «%s»"
+
+#: src/hlink.c:268
+#, fuzzy, c-format
+msgid "Unable to open '%s'"
+msgstr "Kunne ikke åpne fil '%s'"
 
 #: src/item-bar.c:625
 #, c-format
@@ -21605,8 +21699,12 @@ msgstr "Funksjonsgruppen er tom."
 #: src/plugin-service.c:1167
 #, fuzzy, c-format
 msgid "%d function in category \"%s\""
-msgid_plural "Group of %d functions in category \"%s\""
-msgstr[0] "Mangler kategorinavn for funksjon."
+msgstr "Mangler kategorinavn for funksjon."
+
+#: src/plugin-service.c:1168
+#, fuzzy, c-format
+msgid "Group of %d functions in category \"%s\""
+msgstr "Mangler kategorinavn for funksjon."
 
 #: src/plugin-service.c:1264
 msgid "Plugin loader"
@@ -21624,8 +21722,12 @@ msgstr "Kan ikke brukergrensesnittdefinisjon fra XML-fil %s."
 #: src/plugin-service.c:1441
 #, c-format
 msgid "User interface with %d action"
-msgid_plural "User interface with %d actions"
-msgstr[0] ""
+msgstr ""
+
+#: src/plugin-service.c:1442
+#, c-format
+msgid "User interface with %d actions"
+msgstr ""
 
 #: src/plugin-service.c:1530
 msgid "No \"type\" attribute on \"service\" element."
@@ -21955,7 +22057,12 @@ msgstr "Ugyldig etterfølgende backslash i erstatningen."
 msgid "cannot be performed with multiple ranges selected"
 msgstr "kan ikke utføres på flere områder valgt"
 
-#: src/sheet-control-gui.c:1412
+#: src/sheet-control-gui.c:1392
+#, fuzzy
+msgid "Remove Hyperlink"
+msgstr "Fje_rn hyperlenke"
+
+#: src/sheet-control-gui.c:1428
 msgid "Paste _Special"
 msgstr "Lim inn _spesial"
 
@@ -21966,53 +22073,53 @@ msgstr "Lim inn _spesial"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1424
+#: src/sheet-control-gui.c:1440
 msgid "_Insert..."
 msgstr "Sett _inn..."
 
-#: src/sheet-control-gui.c:1428
+#: src/sheet-control-gui.c:1444
 msgid "_Insert Column(s)"
 msgstr "Sett _inn kolonne(r)"
 
-#: src/sheet-control-gui.c:1430
+#: src/sheet-control-gui.c:1446
 msgid "_Delete Column(s)"
 msgstr "S_lett kolonne(r)"
 
-#: src/sheet-control-gui.c:1432
+#: src/sheet-control-gui.c:1448
 msgid "_Insert Row(s)"
 msgstr "Sett _inn rad(er)"
 
-#: src/sheet-control-gui.c:1434
+#: src/sheet-control-gui.c:1450
 msgid "_Delete Row(s)"
 msgstr "S_lett rad(er)"
 
-#: src/sheet-control-gui.c:1437
+#: src/sheet-control-gui.c:1453
 msgid "Clear Co_ntents"
 msgstr "Tøm i_nnhold"
 
-#: src/sheet-control-gui.c:1445
+#: src/sheet-control-gui.c:1461
 msgid "_Format Cells..."
 msgstr "Formater _celler..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1449
+#: src/sheet-control-gui.c:1465
 msgid "Column _Width..."
 msgstr "_Kolonnebredde..."
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1457
+#: src/sheet-control-gui.c:1473
 msgid "_Row Height..."
 msgstr "_Radhøyde..."
 
-#: src/sheet-control-gui.c:1464
+#: src/sheet-control-gui.c:1480
 msgid "_Hyperlink"
 msgstr "_Hyperlenke"
 
-#: src/sheet-control-gui.c:1467
+#: src/sheet-control-gui.c:1483
 msgid "Edit _Hyperlink"
 msgstr "Rediger _hyperlenke"
 
-#: src/sheet-control-gui.c:1470
+#: src/sheet-control-gui.c:1486
 msgid "_Remove Hyperlink"
 msgstr "Fje_rn hyperlenke"
 
@@ -25426,9 +25533,6 @@ msgstr "usann"
 
 #~ msgid "_Right:"
 #~ msgstr "Høy_re:"
-
-#~ msgid "_Top:"
-#~ msgstr "Ø_verst:"
 
 #~ msgid "First argument to SCM must be a Guile expression"
 #~ msgstr "Første argument til SCM må være et Guile-uttrykk"
