@@ -8,7 +8,7 @@ Emmanuel Pacaud:
 	http://bugzilla.gnome.org/show_bug.cgi?id=152499
 	Fix crash when adding y-erros to an empty plot
 	http://bugzilla.gnome.org/show_bug.cgi?id=152201
-	* Fix the performance degredation with too many axis ticks
+	* Fix the performance degradation with too many axis ticks
 
 Jody:
 	* XLS import formatted single points in charts (only pie for now)
