@@ -735,7 +735,8 @@ sheet_autofill_dir (Sheet *sheet,
 	GList *all_items, *major, *minor;
 	int col = base_col;
 	int row = base_row;
-	int pos, sub_index, loops, group_count;
+	int count, sub_index, loops, group_count;
+	int count_max;
 
 	/* Create the fill items */
 	all_items = autofill_create_fill_items (
@@ -749,7 +750,10 @@ sheet_autofill_dir (Sheet *sheet,
 	major = all_items;
 	minor = NULL;
 	loops = sub_index = group_count = 0;
-	for (pos = start_pos + region_count; pos < end_pos; pos++) {
+
+	count_max = (start_pos < end_pos) ? end_pos - start_pos - region_count 
+					  : start_pos - end_pos - region_count;
+	for (count = 0; count < count_max; count++) {
 		FillItem *fi;
 		Cell *cell;
 
@@ -828,11 +832,27 @@ sheet_autofill (Sheet *sheet, gboolean default_increment,
 		autofill_inited = TRUE;
 	}
 
-	if (end_col != base_col + w - 1) {
-		for (series = 0; series < h; series++)
-			sheet_autofill_dir (sheet, base_col, base_row+series, w, base_col, end_col+1, 1, 0);
+	/* FIXME: replace with enum: FILL_DIR_{NORTH|EAST|SOUTH|WEST} */
+	if (base_col > end_col || base_row > end_row) {
+		/* Inverse Auto-fill */
+		if (base_col != end_col + w - 1) {
+			for (series = 0; series < h; series++)
+				sheet_autofill_dir (sheet, base_col, base_row-series, w,
+						    base_col, end_col-1, -1, 0);
+		} else {
+			for (series = 0; series < w; series++)
+				sheet_autofill_dir (sheet, base_col-series, base_row, h, 
+						    base_row, end_row-1, 0, -1);
+		}
 	} else {
-		for (series = 0; series < w; series++)
-			sheet_autofill_dir (sheet, base_col+series, base_row, h, base_row, end_row+1, 0, 1);
+		if (end_col != base_col + w - 1) {
+			for (series = 0; series < h; series++)
+				sheet_autofill_dir (sheet, base_col, base_row+series, w,
+						    base_col, end_col+1, 1, 0);
+		} else {
+			for (series = 0; series < w; series++)
+				sheet_autofill_dir (sheet, base_col+series, base_row, h, 
+						    base_row, end_row+1, 0, 1);
+		}
 	}
 }

@@ -1,5 +1,8 @@
 Gnumeric 0.76
 
+Alex Barnes:
+	* Autofill backwards.
+
 Andreas:
 	* Fix handling of missing observations in F-test, z-test,
 	  one-factor ANOVA, histogram, regression, and t-tests analysis 

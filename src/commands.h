@@ -55,7 +55,8 @@ gboolean cmd_format		(WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_autofill		(WorkbookControl *wbc, Sheet *sheet,
 				 gboolean default_increment,
 				 int base_col, int base_row,
-				 int w, int h, int end_col, int end_row);
+				 int w, int h, int end_col, int end_row,
+				 gboolean inverse_autofill);
 
 gboolean cmd_clear_selection	(WorkbookControl *wbc, Sheet *sheet,
 				 int clear_flags);

@@ -1,5 +1,32 @@
 2001-11-17  Jody Goldberg <jgoldberg@home.com>
 
+	* src/commands.c (cmd_set_date_time_redo) : Use the stock formats.
+
+	* src/item-cursor.c (cb_autofill_scroll) : tweak to try and keep one
+	  end visible when we switch dimensions.
+
+2001-11-03  Alex Barnes <alex.barnes@sympatico.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=63160 (inverse autofill feature request)
+	* src/item-cursor.c
+	  (item_cursor_selection_event, item_cursor_autofill_event, cb_autofill_scroll) :
+	  allow inverse auto-fill, pass parameter to cmd_autofill to indicate inverse autofill
+
+	* commands.h (cmd_autofill) :
+	* commands.c (CmdAutofill, cmd_autofill) : extra parameter and struct 
+	  member to support inverse autofill
+	  (cmd_autofill_redo) : flipped row, col parameters to sheet_autofill
+	  for inverse autofill
+
+	* sheet-autofill.c (sheet_autofill, sheet_autofill_dir) :
+	  modifications to support inverse autofill, changed variable pos to count
+	  since it isn't used inside the loop
+
+	* workbook-control-gui.c (cb_edit_fill_autofill) : added parameter in call
+	  to cmd_autofill for consistency
+			     
+2001-11-17  Jody Goldberg <jgoldberg@home.com>
+
 	* src/workbook-control-gui.c (workbook_close_if_user_permits) : fix
 	  the return type.
 	(wbcg_close_control) : don't close if we are being reerence by another

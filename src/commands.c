@@ -28,6 +28,7 @@
 #include "sheet.h"
 #include "sheet-style.h"
 #include "format.h"
+#include "formats.h"
 #include "command-context.h"
 #include "workbook-control.h"
 #include "workbook-view.h"
@@ -1643,20 +1644,10 @@ cmd_set_date_time_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	if (me->is_date) {
 		v = value_new_int (datetime_timet_to_serial (time (NULL)));
-
-		/* FIXME : the '>' prefix is intended to give the translators
-		 * a chance to provide a locale specific date format.
-		 * This is ugly because the format may not show up in the
-		 * list of date formats, and will be marked custom.  In addition
-		 * translators should be aware that the leading character of the
-		 * result will be ignored.
-		 */
-		prefered_format = style_format_new_XL (_(">mm/dd/yyyy") + 1, TRUE);
+		prefered_format = style_format_new_XL (cell_formats[FMT_DATE][0], TRUE);
 	} else {
 		v = value_new_float (datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
-
-		/* FIXME : See comment above */
-		prefered_format = style_format_new_XL (_(">hh:mm") + 1, TRUE);
+		prefered_format = style_format_new_XL (cell_formats[FMT_TIME][0], TRUE);
 	}
 
 	/* Get the cell (creating it if needed) */
@@ -2682,6 +2673,7 @@ typedef struct
 	PasteTarget dst;
 	int base_col, base_row, w, h, end_col, end_row;
 	gboolean default_increment;
+	gboolean inverse_autofill;
 } CmdAutofill;
 
 GNUMERIC_MAKE_COMMAND (CmdAutofill, cmd_autofill);
@@ -2736,7 +2728,12 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	/* Queue depends of region as a block beforehand */
 	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
 
-	sheet_autofill (me->dst.sheet, me->default_increment,
+	if (me->inverse_autofill)
+		sheet_autofill (me->dst.sheet, me->default_increment,
+			me->end_col, me->end_row, me->w, me->h,
+			me->base_col, me->base_row);
+	else
+		sheet_autofill (me->dst.sheet, me->default_increment,
 			me->base_col, me->base_row, me->w, me->h,
 			me->end_col, me->end_row);
 
@@ -2771,7 +2768,8 @@ gboolean
 cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	      gboolean default_increment,
 	      int base_col, int base_row,
-	      int w, int h, int end_col, int end_row)
+	      int w, int h, int end_col, int end_row,
+	      gboolean inverse_autofill)
 {
 	GtkObject *obj;
 	CmdAutofill *me;
@@ -2783,12 +2781,21 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	if (base_col+w-1 == end_col && base_row+h-1 == end_row)
 		return FALSE;
 
-	if (end_col != base_col + w - 1)
-		range_init (&r, base_col + w, base_row,
-			    end_col, end_row);
-	else
-		range_init (&r, base_col, base_row + h,
-			    end_col, end_row);
+	if (inverse_autofill) {
+		if (end_col != base_col + w - 1)
+			range_init (&r, base_col, base_row,
+				    end_col - w, end_row);
+		else
+			range_init (&r, base_col, base_row,
+				    end_col, end_row - h);
+	} else {
+		if (end_col != base_col + w - 1)
+			range_init (&r, base_col + w, base_row,
+				    end_col, end_row);
+		else
+			range_init (&r, base_col, base_row + h,
+				    end_col, end_row);
+	}
 
 	/* Check arrays or merged regions */
 	if (sheet_range_splits_region (sheet, &r, NULL, wbc, _("Autofill")))
@@ -2810,6 +2817,7 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 	me->end_col = end_col;
 	me->end_row = end_row;
 	me->default_increment = default_increment;
+	me->inverse_autofill = inverse_autofill;
 
 	me->parent.sheet = sheet;
 	me->parent.size = 1;  /* Changed in initial redo.  */

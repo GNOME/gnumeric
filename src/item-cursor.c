@@ -547,13 +547,9 @@ item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 	if (cy > item->y2+3)
 		return INT_MAX;
 
-	/* FIXME: this needs to handle better the small little square case
-	 * for ITEM_CURSOR_SELECTION style
-	 */
-	if ((cx < (item->x1 + 4)) ||
-	    (cx > (item->x2 - 8)) ||
-	    (cy < (item->y1 + 4)) ||
-	    (cy > (item->y2 - 8))) {
+	/* FIXME: the drag handle for ITEM_CURSOR_SELECTION needs work */
+	if ((cx < (item->x1 + 4)) || (cx > (item->x2 - 8)) ||
+	    (cy < (item->y1 + 4)) || (cy > (item->y2 - 8))) {
 		*actual_item = item;
 		return 0.0;
 	}
@@ -581,13 +577,13 @@ item_cursor_setup_auto_fill (ItemCursor *ic, ItemCursor const *parent, int x, in
 static inline gboolean
 item_cursor_in_drag_handle (ItemCursor *ic, int x, int y)
 {
-	int const y_test = ic->auto_fill_handle_at_top 
+	int const y_test = ic->auto_fill_handle_at_top
 		? ic->canvas_item.y1 + AUTO_HANDLE_WIDTH
 		: ic->canvas_item.y2 - AUTO_HANDLE_WIDTH;
 
 	if ((y_test-AUTO_HANDLE_SPACE) <= y &&
 	    y <= (y_test+AUTO_HANDLE_SPACE)) {
-		int const x_test = ic->auto_fill_handle_at_left 
+		int const x_test = ic->auto_fill_handle_at_left
 			? ic->canvas_item.x1 + AUTO_HANDLE_WIDTH
 			: ic->canvas_item.x2 - AUTO_HANDLE_WIDTH;
 		return (x_test-AUTO_HANDLE_SPACE) <= x &&
@@ -614,7 +610,7 @@ cb_autofill_bound (Sheet *sheet, int col, int row,
 		   Cell *cell, gpointer want_cols)
 {
 	gboolean cols = GPOINTER_TO_INT (want_cols);
-	
+
 	if (!cell_is_blank (cell))
 		return cols ? value_new_int (col) : value_new_int (row);
 	else
@@ -795,7 +791,7 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		} else {
 			int template_row = ic->pos.end.row + 1;
 			int template_col = ic->pos.start.col - 1;
-			
+
 			if (template_col < 0 ||
 			    sheet_is_cell_empty (sheet, template_col,
 						 ic->pos.start.row)) {
@@ -841,7 +837,8 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 			      ic->pos.start.col, ic->pos.start.row,
 			      ic->pos.end.col - ic->pos.start.col + 1,
 			      ic->pos.end.row - ic->pos.start.row + 1,
-			      final_col, final_row);
+			      final_col, final_row,
+			      FALSE);
 
 		return TRUE;
 	}
@@ -1172,7 +1169,7 @@ item_cursor_tip_setstatus (ItemCursor *ic)
 		snprintf (buffer+tmp, sizeof (buffer)-tmp, ":%s%s",
 			  col_name (src->end.col),
 			  row_name (src->end.row));
-			  
+
 	wb_control_gui_set_status_text (ic->scg->wbcg, buffer);
 }
 
@@ -1183,7 +1180,7 @@ cb_move_cursor (GnumericCanvas *gcanvas, int col, int row, gpointer user_data)
 	int const w = (ic->pos.end.col - ic->pos.start.col);
 	int const h = (ic->pos.end.row - ic->pos.start.row);
 	CellPos corner;
-	
+
 	corner.col = col - ic->col_delta;
 	if (corner.col < 0)
 		corner.col = 0;
@@ -1203,7 +1200,7 @@ cb_move_cursor (GnumericCanvas *gcanvas, int col, int row, gpointer user_data)
 	item_cursor_tip_setlabel (ic);
 #endif
 	item_cursor_tip_setstatus (ic);
-	
+
 	/* Make target cell visible, and adjust the cursor size */
 	item_cursor_set_bounds_visibly (ic, col, row, &corner,
 					corner.col + w, corner.row + h);
@@ -1258,28 +1255,36 @@ static gboolean
 cb_autofill_scroll (GnumericCanvas *gcanvas, int col, int row, gpointer user_data)
 {
 	ItemCursor *ic = user_data;
-	int bottom = ic->base.row + ic->base_rows;
-	int right = ic->base.col + ic->base_cols;
+	CellPos corner = ic->base;
+	int bottom = corner.row + ic->base_rows;
+	int right  = corner.col + ic->base_cols;
+
+	/* compass offsets are distances (in cells) from the edges of the
+	 * selected area to the mouse cursor
+	 */
+	int north_offset = corner.row - row;
+	int south_offset = row - bottom;
+	int west_offset  = corner.col - col;
+	int east_offset  = col - right;
 
 	/* Autofill by row or by col, NOT both. */
-	if ((right - col) > (bottom - row)) {
-		/* FIXME : We do not support inverted auto-fill */
-		if (bottom < row)
+	if ( MAX (north_offset, south_offset) > MAX (west_offset, east_offset) ) {
+		if (north_offset > south_offset)
+			corner.row = row;
+		else
 			bottom = row;
+		col = corner.col;
 	} else {
-		/* FIXME : We do not support inverted auto-fill */
-		if (right < col)
+		if (west_offset > east_offset)
+			corner.col = col;
+		else
 			right = col;
+		row = corner.row;
 	}
 
-	/* Do not auto scroll past the start */
-	if (row < ic->base.row)
-		row = ic->base.row;
-	if (col < ic->base.col)
-		col = ic->base.col;
-
 	item_cursor_set_bounds_visibly (ic, col, row,
-					&ic->base, right, bottom);
+		&corner, right, bottom);
+
 	return FALSE;
 }
 
@@ -1288,9 +1293,9 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	ItemCursor *ic = ITEM_CURSOR (item);
 	SheetControl *sc = (SheetControl *) ic->scg;
-	
-	switch (event->type) {
+	gboolean inverse_autofill;
 
+	switch (event->type) {
 	case GDK_BUTTON_RELEASE:
 		gnm_canvas_slide_stop (GNUMERIC_CANVAS (item->canvas));
 
@@ -1301,14 +1306,17 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
+		inverse_autofill = (ic->pos.start.col < ic->base.col ||
+				    ic->pos.start.row < ic->base.row);
+
 		cmd_autofill (sc->wbc, sc->sheet,
 			      event->button.state & GDK_CONTROL_MASK,
-			      ic->base.col,    ic->base.row,
-			      ic->base_cols+1, ic->base_rows+1,
-			      ic->pos.end.col, ic->pos.end.row);
+			      ic->pos.start.col, ic->pos.start.row,
+	  		      ic->base_cols+1, ic->base_rows+1,
+			      ic->pos.end.col, ic->pos.end.row,
+			      inverse_autofill);
 
 		scg_special_cursor_stop	(ic->scg);
-
 		return TRUE;
 
 	case GDK_MOTION_NOTIFY:

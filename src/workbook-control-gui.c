@@ -1845,7 +1845,8 @@ cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
 			      sel->start.col, sel->start.row,
 			      template.end.col - sel->start.col + 1,
 			      template.end.row - sel->start.row + 1,
-			      sel->end.col, sel->end.row);
+			      sel->end.col, sel->end.row,
+			      FALSE);
  	}
 }
 
