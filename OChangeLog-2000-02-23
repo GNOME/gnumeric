@@ -1,3 +1,11 @@
+1998-10-27  Daniel Veillard <Daniel.Veillard@w3.org>
+
+	* src/xml-io.c: adapted code to the new XML tree format, however
+	  to compile you need to update your libxml from the CVS tree too.
+	  Not a definite solution I'm thinking about a more general API
+	  for XML tree values encoding/decoding. I modified the endoding
+	  format but backward compatibility should be maintained.
+
 1998-10-23  Federico Mena Quintero  <federico@nuclecu.unam.mx>
 
 	* src/workbook.c: Made the menus consistent with the (unwritten!)
