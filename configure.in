@@ -419,9 +419,11 @@ dnl * Check for Python
 dnl **************************************************
 try_python=true
 try_pygtk=false
+python_msg=no
 AC_ARG_WITH(python,
 	[--{with,without}-python   Compile the Python plugin loader],
 	if test "x$withval" = xno; then
+		python_msg="Disabled by request"
 		try_python=false
 	else
 		python_prog="$withval"
@@ -434,6 +436,7 @@ if $try_python; then
 	fi
 
 	python_val=
+	python_msg="unable to find python"
 	AC_CHECK_PROG(python_val, "$python_prog", true, false)
 	if $python_val; then
 		  PY_PREFIX=`$python_prog -c 'import sys ; print sys.prefix'`
@@ -447,7 +450,9 @@ if int(sys.version[0]) < 2:
 else:
     print "no"'`
 		  changequote([, ])dnl
+		  AC_MSG_CHECKING(Look for $PY_PREFIX/include/python$PY_VERSION/Python.h)
 		  if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
+			  AC_MSG_RESULT(yes)
 			  PY_LIBS="python$PY_VERSION"
 			  PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
 			  PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
@@ -464,6 +469,7 @@ else:
 			  	AC_DEFINE(BROKEN_PY_INITIALIZE)
 			  fi
 		  else
+			  AC_MSG_RESULT(no)
 			  python_val=false
 		  fi
 	fi
@@ -483,9 +489,11 @@ EOF
 		   /bin/sh ../libtool --mode=link ${CC} -o testpython.la -rpath `pwd` -module -avoid-version $PY_LIB_LOC testpython.lo -l$PY_LIBS $PY_EXTRA_LIBS >/dev/null 2>&1 && \
 		   grep 'dlname.*testpython' testpython.la >/dev/null 2>&1; then
 			AC_MSG_RESULT(yes)
+			python_msg="yes"
 		else
 			AC_MSG_RESULT(no)
 			python_val=false
+			python_msg="unable to link to python"
 		fi
 		cd ..
 		rm -rf testpython
@@ -596,6 +604,8 @@ if test x"$have_bonobo" = "xtrue" -a x"$try_evolution" = "xtrue" ; then
  		echo "be sure to set EVOLUTION_IDL_DIR to a dir containing Evolution-Composer.idl"
  		evolution=yes
  	fi
+else
+ 		evolution="Disabled until it is ported to gnome-2.0"
 fi
 AM_CONDITIONAL(ENABLE_EVOLUTION, test x"$evolution" = "xyes")
 if test x"$evolution" = "xyes" ; then
@@ -740,8 +750,9 @@ Configuration:
 	Compiler flags:		${CFLAGS}
 	Floating point type:	${float_msg}
 
-	GDA support:		${gda_msg}
-	Bonobo Support:		${bonobo_msg}
+	Python Support:		${python_msg}
 	Guile Support:		${guile_msg}
+	Bonobo Support:		${bonobo_msg}
+	GDA support:		${gda_msg}
 	Evolution Support:      ${evolution}
 "
