@@ -18341,14 +18341,12 @@ msgid "Label"
 msgstr "ラベル"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1541
-#, fuzzy
 msgid "MinorGrid"
-msgstr "金曜日"
+msgstr "マイナーグリッド"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis.c:1544
-#, fuzzy
 msgid "MajorGrid"
-msgstr "金曜日"
+msgstr "メジャーグリッド"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
 #, fuzzy
@@ -18366,29 +18364,24 @@ msgid "<b>Minor ticks</b>"
 msgstr "<b>パターン</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
 msgid "<b>Position</b>"
-msgstr "<b>行</b>"
+msgstr "<b>位置</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#, fuzzy
 msgid "I_nside"
-msgstr "内側"
+msgstr "内側(_N)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
-#, fuzzy
 msgid "O_utside"
-msgstr "外枠"
+msgstr "外側(_U)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
-#, fuzzy
 msgid "_High"
-msgstr "高さ"
+msgstr "高(_H)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
-#, fuzzy
 msgid "_Inside"
-msgstr "内側"
+msgstr "内側(_I)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
 #, fuzzy
@@ -18396,14 +18389,12 @@ msgid "_Invert axis"
 msgstr "挿入(_I)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
-#, fuzzy
 msgid "_Low"
-msgstr "行(_R)"
+msgstr "低(_L)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
-#, fuzzy
 msgid "_Outside"
-msgstr "外枠"
+msgstr "外側(_O)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:13
 msgid "_Show Labels"
@@ -18426,9 +18417,8 @@ msgid "Title"
 msgstr "題名"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
-#, fuzzy
 msgid "Grid"
-msgstr "金曜日"
+msgstr "グリッド"
 
 #: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
@@ -18491,16 +18481,15 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:1
 msgid "(+)"
-msgstr ""
+msgstr "(+)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:2
 msgid "(-)"
-msgstr ""
+msgstr "(-)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:3
-#, fuzzy
 msgid "<b>Error category</b>"
-msgstr "<b>エラー通知</b>"
+msgstr "<b>エラーカテゴリ</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:4
 #: src/dialogs/cell-format.glade.h:21
@@ -18508,19 +18497,16 @@ msgid "<b>Style</b>"
 msgstr "<b>スタイル</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:5
-#, fuzzy
 msgid "<b>Values</b>"
-msgstr "<b>スケール</b>"
+msgstr "<b>値</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:6
-#, fuzzy
 msgid "Colo_r:"
-msgstr "色:"
+msgstr "色(_R):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:7
-#, fuzzy
 msgid "Dis_play:"
-msgstr "日(_A)"
+msgstr "表示(_P):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:8
 msgid ""
@@ -18529,16 +18515,18 @@ msgid ""
 "Relative\n"
 "Percent"
 msgstr ""
+"なし\n"
+"絶対\n"
+"相対\n"
+"パーセント"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:12
-#, fuzzy
 msgid "_Line width:"
-msgstr "線の幅:"
+msgstr "線の幅(_L):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-error-bar-prefs.glade.h:13
-#, fuzzy
 msgid "_Width:"
-msgstr "修正後の文字(_W)"
+msgstr "幅(_W):"
 
 #. default
 #. Cheat and assign a name here, graphs will not have parents until we
@@ -18574,19 +18562,19 @@ msgstr "GNOMEオフィス グラフ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:2
 msgid "Pull f_orward"
-msgstr ""
+msgstr "1つ前面に送る(_O)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
 msgid "Pull to _front"
-msgstr ""
+msgstr "最前面に送る(_F)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:4
 msgid "Push b_ackward"
-msgstr ""
+msgstr "1つ背面に送る(_A)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
 msgid "Push to _back"
-msgstr ""
+msgstr "最背面に送る(_B)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:6
 #: src/dialogs/autocorrect.glade.h:12 src/dialogs/names.glade.h:7
@@ -18606,16 +18594,14 @@ msgid "_Order"
 msgstr "順序(_O)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:109
-#, fuzzy
 msgid "_Text:"
-msgstr "テキスト(_X)"
+msgstr "テキスト(_T)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:116
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:426
 #: src/dialogs/dialog-stf.glade.h:19
-#, fuzzy
 msgid "Data"
-msgstr "データ(_D)"
+msgstr "データ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot.c:182
 #: src/dialogs/fill-series.glade.h:8
@@ -18624,14 +18610,12 @@ msgid "Series"
 msgstr "連続(_S)"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:54
-#, fuzzy
 msgid "Plot Engine"
-msgstr "プロット名"
+msgstr "プロットエンジン"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:246
-#, fuzzy
 msgid "Plot Type"
-msgstr "プロット名"
+msgstr "プロットタイプ"
 
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:328
 msgid "Chart Theme"
@@ -18711,9 +18695,8 @@ msgid "O_utline color:"
 msgstr "アウトラインカラー(_U):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:13
-#, fuzzy
 msgid "Sha_pe:"
-msgstr "範囲(_S):"
+msgstr "形(_P):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
 msgid "Si_ze:"
@@ -18722,7 +18705,7 @@ msgstr "サイズ(_Z):"
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
 #: src/dialogs/hyperlink.glade.h:5
 msgid "T_ype:"
-msgstr "型(_Y):"
+msgstr "タイプ(_Y):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
 msgid "_Background:"
@@ -18741,9 +18724,8 @@ msgid "_Fill color:"
 msgstr "塗りつぶし(_F):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
-#, fuzzy
 msgid "_Fit:"
-msgstr "次のサイズに合わせる(_F):"
+msgstr "合わせる(_F):"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
 msgid "_Foreground:"
@@ -18810,9 +18792,8 @@ msgid "Values"
 msgstr "値"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:448
-#, fuzzy
 msgid "Error bars"
-msgstr "行の構文解析中にエラーが発生しました"
+msgstr "エラーバー"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
