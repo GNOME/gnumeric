@@ -142,7 +142,7 @@ extern MsOleErr ms_ole_stream_duplicate  (MsOleStream ** const copy,
 struct _MsOleSysWrappers {
 	int (*open2) (const char *pathname, int flags);
 	int (*open3) (const char *pathname, int flags, mode_t mode);
-	size_t (*read) (int fd, void *buf, size_t count);
+	ssize_t (*read) (int fd, void *buf, size_t count);
 	int (*close) (int fd);
 	int (*fstat) (int filedes, struct stat *buf);
 	ssize_t (*write) (int fd, const void *buf, size_t count);

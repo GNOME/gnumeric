@@ -100,7 +100,7 @@ open3_wrap (const char *pathname, int flags, mode_t mode)
 	return open (pathname, flags, mode);
 }
 
-static size_t
+static ssize_t
 read_wrap (int fd, void *buf, size_t count)
 {
 	return read (fd, buf, count);
@@ -118,7 +118,7 @@ fstat_wrap (int filedes, struct stat *buf)
 	return fstat (filedes, buf);
 }
 
-static int
+static ssize_t
 write_wrap (int fd, const void *buf, size_t count)
 {
 	return write (fd, buf, count);
@@ -1437,7 +1437,7 @@ ms_ole_open_vfs (MsOle **f, const char *name, gboolean try_mmap,
 		(*f)->ole_mmap = TRUE;
 		(*f)->mem = mmap (0, (*f)->length, prot, MAP_SHARED, file, 0);
 
-		if (!(*f)->mem || (*f)->mem == MAP_FAILED) {
+		if (!(*f)->mem || (caddr_t)(*f)->mem == (caddr_t)MAP_FAILED) {
 			g_warning ("I can't mmap that file, falling back to slower method");
 			(*f)->ole_mmap = FALSE;
 			(*f)->mem = g_new (guint8, BB_BLOCK_SIZE);
@@ -1546,7 +1546,7 @@ ms_ole_create_vfs (MsOle **f, const char *name, gboolean try_mmap,
 		(*f)->ole_mmap = TRUE;
 		(*f)->mem = mmap (0, (*f)->length, PROT_READ|PROT_WRITE,
 				  MAP_SHARED, file, 0);
-		if (!(*f)->mem || (*f)->mem == MAP_FAILED) {
+		if (!(*f)->mem || (caddr_t)(*f)->mem == (caddr_t)MAP_FAILED) {
 			g_warning ("I can't mmap that file, falling back to slower method");
 			(*f)->ole_mmap = FALSE;
 			(*f)->mem  = g_new (guint8, BB_BLOCK_SIZE);
