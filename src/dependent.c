@@ -372,7 +372,7 @@ micro_hash_insert (MicroHash *hash_table, gpointer key)
 static void
 micro_hash_remove (MicroHash *hash_table, gpointer key)
 {
-	GSList **head;
+	GSList **head, *old;
 	int const hash_size = hash_table->num_buckets;
 
 	if (hash_size > 1) {
@@ -383,9 +383,9 @@ micro_hash_remove (MicroHash *hash_table, gpointer key)
 
 	for (; *head != NULL ; head = &((*head)->next))
 		if ((*head)->data == key) {
-			GSList *next = (*head)->next;
-			g_slist_free_1 (*head);
-			*head = next;
+			old = *head;
+			*head = old->next;
+			g_slist_free_1 (old);
 			hash_table->num_elements--;
 			MICRO_HASH_RESIZE (hash_table);
 			return;

@@ -291,7 +291,6 @@ gnumeric_SOURCES =				\
 gnumeric_LDADD =				\
 	$(gnumeric_app_libs)			\
 	$(GNUMERIC_LIBS)			\
-	$(LIBBONOBO_LIBS)			\
 	$(INTLLIBS)
 else
 gnumeric_SOURCES =				\

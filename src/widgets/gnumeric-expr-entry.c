@@ -286,7 +286,7 @@ gee_prepare_range (GnumericExprEntry const *gee, RangeRef *dst)
 
 	if (gee->flags & GNUM_EE_FULL_ROW) {
 		dst->a.col = 0;
-		dst->b.col   = SHEET_MAX_COLS - 1;
+		dst->b.col = SHEET_MAX_COLS - 1;
 	}
 	if (gee->flags & GNUM_EE_FULL_COL) {
 		dst->a.row = 0;
@@ -842,8 +842,8 @@ gnm_expr_entry_thaw (GnumericExprEntry *gee)
  **/
 void
 gnm_expr_entry_set_flags (GnumericExprEntry *gee,
-			       GnumericExprEntryFlags flags,
-			       GnumericExprEntryFlags mask)
+			  GnumericExprEntryFlags flags,
+			  GnumericExprEntryFlags mask)
 {
 	Rangesel *rs;
 
@@ -1023,6 +1023,7 @@ gnm_expr_entry_load_from_range (GnumericExprEntry *gee,
  * Get the range selection. Range is copied, Sheet is not. If sheet
  * argument is NULL, the corresponding value is not returned.
  * Returns TRUE if the returned range is indeed valid.
+ * The resulting range is normalized.
  **/
 gboolean
 gnm_expr_entry_get_rangesel (GnumericExprEntry *gee,
@@ -1035,10 +1036,24 @@ gnm_expr_entry_get_rangesel (GnumericExprEntry *gee,
 
 	gee_prepare_range (gee, &ref);
 	if (r != NULL) {
-		r->start.col = rs->ref.a.col;
-		r->end.col   = rs->ref.b.col;
-		r->start.row = rs->ref.a.row;
-		r->end.row   = rs->ref.b.row;
+		/* normalize but don't bother with rel vs absolute conversions
+		 * we always work realtive to A1 internally so there is no
+		 * difference
+		 */
+		if (rs->ref.a.col < rs->ref.b.col) {
+			r->start.col = rs->ref.a.col;
+			r->end.col   = rs->ref.b.col;
+		} else {
+			r->start.col = rs->ref.b.col;
+			r->end.col   = rs->ref.a.col;
+		}
+		if (rs->ref.a.row < rs->ref.b.row) {
+			r->start.row = rs->ref.a.row;
+			r->end.row   = rs->ref.b.row;
+		} else {
+			r->start.row = rs->ref.b.row;
+			r->end.row   = rs->ref.a.row;
+		}
 	}
 
 	/* TODO : does not handle 3d, neither does this interface */

@@ -71,6 +71,12 @@ IMAGES = @STRIP_BEGIN@ 						\
 	padlock.xpm			\
 	padlock_no.xpm			\
 	\
+	link_add_16.png 		link_add_24.png		\
+	link_delete_16.png 					\
+	link_edit_16.png 					\
+					link_external_24.png 	\
+					link_internal_24.png 	\
+	\
 	@STRIP_END@
 
 VARIABLES = @STRIP_BEGIN@ 									\
@@ -144,10 +150,10 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	\
 	gnm_object_button_24			$(srcdir)/button.xpm				\
 	gnm_object_checkbox_24			$(srcdir)/object_checkbox_24.png		\
-	gnm_object_combo_24			$(srcdir)/object_combo_24.png				\
+	gnm_object_combo_24			$(srcdir)/object_combo_24.png			\
 	gnm_object_frame_24			$(srcdir)/object_frame_24.png			\
 	gnm_object_label_24			$(srcdir)/object_label_24.png			\
-	gnm_object_list_24			$(srcdir)/object_list_24.png				\
+	gnm_object_list_24			$(srcdir)/object_list_24.png			\
 	gnm_object_radiobutton_24		$(srcdir)/radiobutton.xpm			\
 	gnm_object_scrollbar_24			$(srcdir)/object_scrollbar_24.png		\
 	\
@@ -166,6 +172,13 @@ VARIABLES = @STRIP_BEGIN@ 									\
 	\
 	gnm_padlock				$(srcdir)/padlock.xpm				\
 	gnm_padlock_no				$(srcdir)/padlock_no.xpm			\
+	\
+	gnm_link_add_16				$(srcdir)/link_add_16.png			\
+	gnm_link_add_24				$(srcdir)/link_add_24.png			\
+	gnm_link_delete_16			$(srcdir)/link_delete_16.png			\
+	gnm_link_edit_16			$(srcdir)/link_edit_16.png			\
+	gnm_link_external_24			$(srcdir)/link_external_24.png			\
+	gnm_link_internal_24			$(srcdir)/link_internal_24.png			\
 	@STRIP_END@
 
 pixbuf_file = $(top_builddir)/src/pixmaps/gnumeric-stock-pixbufs.h

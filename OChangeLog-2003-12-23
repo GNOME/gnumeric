@@ -1,3 +1,20 @@
+2002-09-20  Jody Goldberg <jody@gnome.org>
+
+	* src/print.c : revert to gnome-2-0 versions of gnome-print
+
+	* src/application.c (gnumeric_application_setup_icons) : Add jimmac's
+	  new hyperlink icons.
+	* src/pixmaps/Makefile.am : ditto.
+
+	* src/Makefile.am : remove the extra BONOBO libs that is now handled
+	  correctly in configure.
+
+	* configure.in : Prep for graphs
+	    --with-graphs defaults to guppi, but can also be gtkextra-2
+	    tidy up the compile/link line by being smarter, and merging in
+	    the bonobo specific libs earlier
+	    Enforce a gnome-2-0 limit on the printing libraries
+
 2002-09-19  Morten Welinder  <terra@diku.dk>
 
 	* src/dependent.c (micro_hash_remove): Plug leak.
