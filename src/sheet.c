@@ -31,6 +31,30 @@ sheet_redraw_all (Sheet *sheet)
 }
 
 static void
+sheet_redraw_cols (Sheet *sheet)
+{
+	GList *l;
+	
+	for (l = sheet->sheet_views; l; l = l->next){
+		SheetView *sheet_view = l->data;
+		
+		sheet_view_redraw_columns (sheet_view);
+	}
+}
+
+static void
+sheet_redraw_rows (Sheet *sheet)
+{
+	GList *l;
+	
+	for (l = sheet->sheet_views; l; l = l->next){
+		SheetView *sheet_view = l->data;
+		
+		sheet_view_redraw_rows (sheet_view);
+	}
+}
+
+static void
 sheet_init_default_styles (Sheet *sheet)
 {
 	/* The default column style */
@@ -39,7 +63,6 @@ sheet_init_default_styles (Sheet *sheet)
 	sheet->default_col_style.pixels     = 0;
 	sheet->default_col_style.margin_a   = 1;
 	sheet->default_col_style.margin_b   = 1;
-	sheet->default_col_style.selected   = 0;
 	sheet->default_col_style.data       = NULL;
 
 	/* The default row style */
@@ -48,7 +71,6 @@ sheet_init_default_styles (Sheet *sheet)
 	sheet->default_row_style.pixels   = 0;
 	sheet->default_row_style.margin_a = 1;
 	sheet->default_row_style.margin_b = 1;
-	sheet->default_row_style.selected = 0;
 	sheet->default_row_style.data     = NULL;
 }
 
@@ -70,7 +92,6 @@ sheet_init_dummy_stuff (Sheet *sheet)
 		rp = sheet_row_new (sheet);
 		rp->pos = y;
 		rp->units = (20 * (y + 1));
-		rp->selected = 0;
 		sheet_row_add (sheet, rp);
 	}
 }
@@ -912,6 +933,9 @@ sheet_selection_append_range (Sheet *sheet,
 		gnumeric_sheet_set_selection (gsheet, ss);
 	}
 	sheet_redraw_selection (sheet, ss);
+	
+	sheet_redraw_cols (sheet);
+	sheet_redraw_rows (sheet);
 
 	sheet_selection_changed_hook (sheet);
 }
@@ -971,155 +995,20 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 	
 	sheet_redraw_selection (sheet, &old_selection);
 	sheet_redraw_selection (sheet, ss);
-}
-
-/*
- * sheet_selection_col_extend_to
- * @sheet: the sheet
- * @col:   column that gets covered
- *
- * Special version of sheet_selection_extend_to that
- * is used by the column marking to keep the
- * ColRowInfo->selected flag in sync
- */
-void
-sheet_selection_col_extend_to (Sheet *sheet, int col)
-{
-	SheetSelection *ss, old_selection;
-	int max_col, min_col, state, i;
-		
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	g_assert (sheet->selections);
-
-	ss = (SheetSelection *) sheet->selections->data;
-	old_selection = *ss;
-
-	sheet_selection_extend_to (sheet, col, SHEET_MAX_ROWS-1);
-
-	min_col = MIN (old_selection.start_col, ss->start_col);
-	max_col = MAX (old_selection.end_col, ss->end_col);
-
-	for (i = min_col; i <= max_col; i++){
-		ColRowInfo *ci = sheet_col_get (sheet, i);
-		
-		if ((ci->pos < ss->start_col) || 
-		    (ci->pos > ss->end_col))
-			state = 0;
-		else
-			state = 1;
-		sheet_col_set_selection (sheet, ci, state);
-	}
-	sheet_selection_changed_hook (sheet);
-}
-
-/*
- * sheet_selection_row_extend_to
- * @sheet: the sheet
- * @row:   row that gets covered
- *
- * Special version of sheet_selection_extend_to that
- * is used by the row marking to keep the ColRowInfo->selected
- * flag in sync. 
- */
-void
-sheet_selection_row_extend_to (Sheet *sheet, int row)
-{
-	SheetSelection *ss, old_selection;
-	int min_row, max_row, state, i;
 	
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-
-	g_assert (sheet->selections);
-
-	ss = (SheetSelection *) sheet->selections->data;
-	old_selection = *ss;
-
-	sheet_selection_extend_to (sheet, SHEET_MAX_COLS-1, row);
-
-	min_row = MIN (old_selection.start_row, ss->start_row);
-	max_row = MAX (old_selection.end_row, ss->end_row);
+	if (ss->start_col != old_selection.start_col ||
+	    ss->end_col != old_selection.end_col ||
+	    ((ss->start_row == 0 && ss->end_row == SHEET_MAX_ROWS-1) ^
+	     (old_selection.start_row == 0 &&
+	      old_selection.end_row == SHEET_MAX_ROWS-1)))
+		sheet_redraw_cols (sheet);
 	
-	for (i = min_row; i <= max_row; i++){
-		ColRowInfo *ri = sheet_row_get (sheet, i);
-
-		if ((ri->pos < ss->start_row) ||
-		    (ri->pos > ss->end_row))
-			state = 0;
-		else
-			state = 1;
-
-		sheet_row_set_selection (sheet, ri, state);
-	}
-	sheet_selection_changed_hook (sheet);
-}
-
-void
-sheet_row_set_selection (Sheet *sheet, ColRowInfo *ri, int value)
-{
-	GList *l;
-	
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (ri != NULL);
-	
-	if (ri->selected == value)
-		return;
-	
-	ri->selected = value;
-
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
-		
-		sheet_view_row_set_selection (sheet_view, ri);
-	}
-}
-
-void
-sheet_col_set_selection (Sheet *sheet, ColRowInfo *ci, int value)
-{
-	GList *l;
-	
-	g_return_if_fail (sheet != NULL);
-	g_return_if_fail (IS_SHEET (sheet));
-	g_return_if_fail (ci != NULL);
-	
-	if (ci->selected == value)
-		return;
-	
-	ci->selected = value;
-
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
-
-		sheet_view_col_set_selection (sheet_view, ci);
-	}
-}
-
-static void
-sheet_redraw_cols (Sheet *sheet)
-{
-	GList *l;
-	
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
-		
-		sheet_view_redraw_columns (sheet_view);
-	}
-}
-
-static void
-sheet_redraw_rows (Sheet *sheet)
-{
-	GList *l;
-	
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetView *sheet_view = l->data;
-		
-		sheet_view_redraw_rows (sheet_view);
-	}
+	if (ss->start_row != old_selection.start_row ||
+	    ss->end_row != old_selection.end_row ||
+	    ((ss->start_col == 0 && ss->end_col == SHEET_MAX_COLS-1) ^
+	     (old_selection.start_col == 0 &&
+	      old_selection.end_col == SHEET_MAX_COLS-1)))
+		sheet_redraw_rows (sheet);
 }
 
 /* sheet_select_all
@@ -1130,27 +1019,13 @@ sheet_redraw_rows (Sheet *sheet)
 void
 sheet_select_all (Sheet *sheet)
 {
-	GList *l;
-	
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	sheet_selection_reset_only (sheet);
-	sheet_cursor_set (sheet, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+	sheet_cursor_move (sheet, 0, 0);
 	sheet_selection_append_range (sheet, 0, 0, 0, 0,
 		SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
-
-	for (l = sheet->cols_info; l; l = l->next){
-		ColRowInfo *ci = (ColRowInfo *)l->data;
-
-		sheet_col_set_selection (sheet, ci, 1);
-	}
-
-	for (l = sheet->rows_info; l; l = l->next){
-		ColRowInfo *ri = (ColRowInfo *)l->data;
-
-		sheet_row_set_selection (sheet, ri, 1);
-	}
 
 	/* Queue redraws for columns and rows */
 	sheet_redraw_rows (sheet);
@@ -1161,19 +1036,87 @@ int
 sheet_is_all_selected (Sheet *sheet)
 {
 	SheetSelection *ss;
+	GList *l;
 
 	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	
-	ss = sheet->selections->data;
+	for (l = sheet->selections; l != NULL; l = l->next){
+		ss = l->data;
 
-	if (ss->start_col == 0 &&
-	    ss->start_row == 0 &&
-	    ss->end_col == SHEET_MAX_COLS-1 &&
-	    ss->end_row == SHEET_MAX_ROWS-1)
-		return TRUE;
-	else
-		return FALSE;
+		if (ss->start_col == 0 &&
+		    ss->start_row == 0 &&
+		    ss->end_col == SHEET_MAX_COLS-1 &&
+		    ss->end_row == SHEET_MAX_ROWS-1)
+			return TRUE;
+	}
+	return FALSE;
+}
+
+int
+sheet_col_selection_type (Sheet *sheet, int col)
+{
+	SheetSelection *ss;
+	GList *l;
+	int ret = ITEM_BAR_NO_SELECTION;
+
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+
+	if (sheet->selections == NULL){
+		if (col == sheet->cursor_col)
+			return ITEM_BAR_PARTIAL_SELECTION;
+		return ret;
+	}
+	
+	for (l = sheet->selections; l != NULL; l = l->next){
+		ss = l->data;
+
+		if (ss->start_col > col ||
+		    ss->end_col < col)
+			continue;
+			
+		if (ss->start_row == 0 &&
+		    ss->end_row == SHEET_MAX_ROWS-1)
+			return ITEM_BAR_FULL_SELECTION;
+		
+		ret = ITEM_BAR_PARTIAL_SELECTION;
+	}
+	
+	return ret;
+}
+
+int
+sheet_row_selection_type (Sheet *sheet, int row)
+{
+	SheetSelection *ss;
+	GList *l;
+	int ret = ITEM_BAR_NO_SELECTION;
+
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
+
+	if (sheet->selections == NULL){
+		if (row == sheet->cursor_row)
+			return ITEM_BAR_PARTIAL_SELECTION;
+		return ret;
+	}
+	
+	for (l = sheet->selections; l != NULL; l = l->next){
+		ss = l->data;
+
+		if (ss->start_row > row ||
+		    ss->end_row < row)
+			continue;
+			
+		if (ss->start_col == 0 &&
+		    ss->end_col == SHEET_MAX_COLS-1)
+			return ITEM_BAR_FULL_SELECTION;
+		
+		ret = ITEM_BAR_PARTIAL_SELECTION;
+	}
+	
+	return ret;
 }
 
 /*
@@ -1260,6 +1203,20 @@ sheet_selection_change (Sheet *sheet, SheetSelection *old, SheetSelection *new)
 		
 		gnumeric_sheet_set_selection (gsheet, new);
 	}
+	
+	if (new->start_col != old->start_col ||
+	    new->end_col != old->end_col ||
+	    ((new->start_row == 0 && new->end_row == SHEET_MAX_ROWS-1) ^
+	     (old->start_row == 0 &&
+	      old->end_row == SHEET_MAX_ROWS-1)))
+		sheet_redraw_cols (sheet);
+	
+	if (new->start_row != old->start_row ||
+	    new->end_row != old->end_row ||
+	    ((new->start_col == 0 && new->end_col == SHEET_MAX_COLS-1) ^
+	     (old->start_col == 0 &&
+	      old->end_col == SHEET_MAX_COLS-1)))
+		sheet_redraw_rows (sheet);
 }
 
 /*
@@ -1332,18 +1289,24 @@ sheet_selection_extend_vertical (Sheet *sheet, int n)
 	sheet_selection_change (sheet, &old_selection, ss);
 }
 
-/*
- * Clear the selection from the columns or rows
- */
-static void
-clean_bar_selection (GList *list)
+void
+sheet_selection_set (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
 {
-	for (; list; list = list->next){
-		ColRowInfo *info = (ColRowInfo *)list->data;
-
-		if (info->selected)
-			info->selected = 0;
-	}
+	SheetSelection *ss;
+	SheetSelection old_selection;
+	
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet)); 
+	
+	ss = (SheetSelection *)sheet->selections->data;
+	old_selection = *ss;
+	
+	ss->start_row = start_row;
+	ss->end_row = end_row;
+	ss->start_col = start_col;
+	ss->end_col = end_col;
+	
+	sheet_selection_change (sheet, &old_selection, ss);
 }
 
 /*
@@ -1372,12 +1335,10 @@ sheet_selection_reset_only (Sheet *sheet)
 	sheet->selections = NULL;
 	sheet->walk_info.current = NULL;
 		
-	/* Unselect the column bar */
-	clean_bar_selection (sheet->cols_info);
+	/* Redraw column bar */
 	sheet_redraw_cols (sheet);
 
-	/* Unselect the row bar */
-	clean_bar_selection (sheet->rows_info);
+	/* Redraw the row bar */
 	sheet_redraw_rows (sheet);
 }
 
@@ -2270,7 +2231,6 @@ sheet_selection_cut (Sheet *sheet)
 void
 sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags, guint32 time)
 {
-	SheetSelection *ss;
 	CellRegion *content;
 	
 	g_return_if_fail (sheet != NULL);
@@ -2962,7 +2922,7 @@ void
 sheet_cursor_set (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
 {
 	GList *l;
-	
+
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (start_col <= end_col);

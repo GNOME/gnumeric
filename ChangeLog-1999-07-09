@@ -1,3 +1,59 @@
+1998-10-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/style.c (font_init): New routine: loads a couple of default
+	fonts to be used in Gnumeric.
+
+	* src/item-bar.c (bar_draw_cell): Make the SELECTION cells display
+	with a bold font. 
+	(item_bar_realize, item_bar_unrealize): reference and unreference
+	the gnumeric_default_bold_font.
+
+1998-10-07  Jakub Jelinek  <jj@ultra.linux.cz>
+
+	* src/item-grid.c (item_grid_button_1): Handle shift+click
+	on cells (removes last selection and selects from last base
+	to current mouse location).
+	(item_grid_event): Don't lock up if mouse is moved during
+	selection behind left or top margin of sheet canvas (later
+	on we should move the current view).
+
+	* src/cell.c (cell_formula_changed): Cast void * to something
+	reasonable.
+
+	* src/item-bar.c (draw_bar_cell): Switch from 2 state bars
+	to 3 state: whole column/row is selected in one of the current
+	selections, some cells are selected in one of the selections
+	or nothing is selected. Get rid of ci->selected, compute it
+	from the selections.
+	(item_bar_draw): Ditto.
+
+	* src/cell.h (selected): Ditto.
+
+	* src/sheet.c (sheet_init_default_styles, sheet_init_dummy_stuff):
+	Ditto.
+	(sheet_selection_row_extend_to, sheet_selection_col_extend_to):
+	Remove.
+	(sheet_all_is_selected): True if any of the selections covers whole
+	sheet.
+	(sheet_col_selection_type, sheet_row_selection_type): New functions.
+	(sheet_selection_set): New function.
+
+	* src/sheet-view.c (sheet_view_row_set_selection,
+	sheet_view_col_set_selection): Remove.
+	(sheet_view_col_selection_changed, sheet_view_row_selection_changed):
+	Handle shift+click and ctrl+click on whole columns/bars as well.
+	(sheet_view_col_size_changed, sheet_view_row_size_changed): Use
+	sheet_*_selection_type instead of ci->selected.
+
+	* src/item-bar.h (ItemBarSelectionType): Enum for the new 3 state
+	column/row titles.
+	(ItemBarClass): selection_changed takes modifier mask as argument.
+
+	* src/sheet-view.h (sheet_view_*_set_selection): Remove prototypes.
+
+	* src/sheet.h (sheet_selection_*_extend_to): Ditto.
+	(sheet_selection_set, sheet_*_selection_type): New prototypes.
+	
 1998-10-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (cell_modified): Cells from the clipboard do not have

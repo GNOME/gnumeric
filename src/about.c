@@ -26,6 +26,7 @@ dialog_about (void)
 		"Tom Dyas, Plugin support.",
 		"Federico Mena, Canvas support.",
 		"Adrian Likins, Documentation, debugging",
+		"Jakub Jelinek, Gnumeric hacker",
 		NULL
 	};
 

@@ -13,7 +13,6 @@ typedef struct {
 	int        margin_b; 		/* in pixels: bottom/right margin */
 	int        pixels;		/* we compute this from the above parameters */
 
-	unsigned   int selected:1;	/* is this selected? */
 	unsigned   int hard_size:1;     /* has the user explicitly set the dimensions? */
 	void       *data;
 } ColRowInfo;

@@ -12,13 +12,17 @@
 #include "format.h"
 #include "color.h"
 
-#define DEFAULT_FONT "-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*"
+#define DEFAULT_FONT      "-adobe-helvetica-medium-r-normal--*-120-*-*-*-*-*-*"
+#define DEFAULT_BOLD_FONT "-adobe-helvetica-bold-r-normal--*-120-*-*-*-*-*-*"
 #define DEFAULT_SIZE 14
 
 static GHashTable *style_format_hash;
 static GHashTable *style_font_hash;
 static GHashTable *style_border_hash;
 static GHashTable *style_color_hash;
+
+StyleFont *gnumeric_default_font;
+StyleFont *gnumeric_default_bold_font;
 
 StyleFormat *
 style_format_new (char *name)
@@ -135,14 +139,10 @@ style_font_new (char *font_name, int units)
 	g_return_val_if_fail (units != 0, NULL);
 
 	font = style_font_new_simple (font_name, units);
-	if (!font)
-		font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE);
-
-	if (!font)
-		font = style_font_new_simple ("fixed", DEFAULT_SIZE);
-
-	if (!font)
-		g_error ("Can not load fixed font\n");
+	if (!font){
+		font = gnumeric_default_font;
+		style_font_ref (font);
+	}
 
 	return font;
 }
@@ -464,15 +464,6 @@ color_hash (gconstpointer v)
 }
 
 void
-style_init (void)
-{
-	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
-	style_font_hash   = g_hash_table_new (font_hash, font_equal);
-	style_border_hash = g_hash_table_new (border_hash, border_equal);
-	style_color_hash  = g_hash_table_new (color_hash, color_equal);
-}
-
-void
 style_merge_to (Style *target, Style *source)
 {
 	if (!(target->valid_flags & STYLE_FORMAT))
@@ -526,3 +517,30 @@ style_merge_to (Style *target, Style *source)
 			target->pattern = source->pattern;
 		}
 }
+
+static void
+font_init (void)
+{
+	gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE);
+
+	if (!gnumeric_default_font)
+		gnumeric_default_font = style_font_new_simple ("fixed", DEFAULT_SIZE);
+
+	if (!gnumeric_default_font)
+		g_error ("Could not load the default font");
+
+	gnumeric_default_bold_font = style_font_new (DEFAULT_BOLD_FONT, DEFAULT_SIZE);
+	
+}
+
+void
+style_init (void)
+{
+	style_format_hash = g_hash_table_new (g_str_hash, g_str_equal);
+	style_font_hash   = g_hash_table_new (font_hash, font_equal);
+	style_border_hash = g_hash_table_new (border_hash, border_equal);
+	style_color_hash  = g_hash_table_new (color_hash, color_equal);
+
+	font_init ();
+}
+

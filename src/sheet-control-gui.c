@@ -101,22 +101,6 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 }
 
 void
-sheet_view_row_set_selection (SheetView *sheet_view, ColRowInfo *ri)
-{
-	gnome_canvas_request_redraw (
-		GNOME_CANVAS (sheet_view->row_canvas),
-		0, 0, INT_MAX, INT_MAX);
-}
-
-void
-sheet_view_col_set_selection (SheetView *sheet_view, ColRowInfo *ci)
-{
-	gnome_canvas_request_redraw (
-		GNOME_CANVAS (sheet_view->col_canvas),
-		0, 0, INT_MAX, INT_MAX);
-}
-
-void
 sheet_view_redraw_columns (SheetView *sheet_view)
 {
 	g_return_if_fail (sheet_view != NULL);
@@ -219,22 +203,32 @@ sheet_view_size_allocate (GtkWidget *widget, GtkAllocation *alloc, SheetView *sh
 }
 
 static void
-sheet_view_col_selection_changed (ItemBar *item_bar, int column, int reset, SheetView *sheet_view)
+sheet_view_col_selection_changed (ItemBar *item_bar, int column, int modifiers, SheetView *sheet_view)
 {	
-	ColRowInfo *ci;
 	Sheet *sheet = sheet_view->sheet;
 	
-	if (reset){
-		sheet_cursor_set (sheet, column, 0, column, SHEET_MAX_ROWS - 1);
-		sheet_selection_reset_only (sheet);
+	if (modifiers){
+		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
+			SheetSelection *ss = sheet->selections->data;
+			int start_col, end_col;
+			
+			start_col = MIN (ss->base_col, column);
+			end_col = MAX (ss->base_col, column);
+			
+			sheet_selection_set (sheet,
+					     start_col, 0,
+					     end_col, SHEET_MAX_ROWS-1);
+			return;
+		}
+		sheet_cursor_move (sheet, column, 0);
+		if (!(modifiers & GDK_CONTROL_MASK))
+			sheet_selection_reset_only (sheet);
 		sheet_selection_append_range (sheet,
 					      column, 0,
 					      column, 0,
 					      column, SHEET_MAX_ROWS-1);
-		ci = sheet_col_get (sheet, column);
-		sheet_col_set_selection (sheet, ci, 1);
 	} else
-		sheet_selection_col_extend_to (sheet, column);
+		sheet_selection_extend_to (sheet, column, SHEET_MAX_ROWS - 1);
 }
 
 static void
@@ -242,54 +236,51 @@ sheet_view_col_size_changed (ItemBar *item_bar, int col, int width, SheetView *s
 {
 	Sheet *sheet = sheet_view->sheet;
 	GList *l;
-	gboolean size_change_selected = FALSE;
+	ItemBarSelectionType type;
 
-	if (sheet_is_all_selected (sheet))
-		sheet_col_info_set_width (sheet, &sheet->default_col_style, width);
-	else {
-		for (l = sheet->cols_info; l; l = l->next){
-			ColRowInfo *ci = l->data;
-			
-			if (ci->selected) {
-				if (ci->pos == col) {
-					size_change_selected = TRUE;
-					break;
-				}
-			}
-		}
-		
-		if (size_change_selected) {
-			for (l = sheet->cols_info; l; l = l->next){
-				ColRowInfo *ci = l->data;
-				
-				if (ci->selected)
-					sheet_col_set_width (sheet, ci->pos, width);
-			}
-		} else {
-			sheet_col_set_width (sheet, col, width);
-		}
-	}
+	type = sheet_col_selection_type (sheet, col);
+
+ 	if (type == ITEM_BAR_FULL_SELECTION)
+ 		for (l = sheet->cols_info; l; l = l->next){
+ 			ColRowInfo *ci = l->data;
+ 
+ 			if (sheet_col_selection_type (sheet, ci->pos) == ITEM_BAR_FULL_SELECTION)
+ 				sheet_col_set_width (sheet, ci->pos, width);
+ 		}
+ 	else
+ 		sheet_col_set_width (sheet, col, width);
 	
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet_view->sheet_view));
 }
 
 static void
-sheet_view_row_selection_changed (ItemBar *item_bar, int row, int reset, SheetView *sheet_view)
+sheet_view_row_selection_changed (ItemBar *item_bar, int row, int modifiers, SheetView *sheet_view)
 {
-	ColRowInfo *ri;
 	Sheet *sheet = sheet_view->sheet;
+
+	if (modifiers){
+		if ((modifiers & GDK_SHIFT_MASK) && sheet->selections){
+			SheetSelection *ss = sheet->selections->data;
+			int start_row, end_row;
+			
+			start_row = MIN (ss->base_row, row);
+			end_row = MAX (ss->base_row, row);
+			
+			sheet_selection_set (sheet,
+					     0, start_row,
+					     SHEET_MAX_COLS-1, end_row);
+			return;
+		}
+		sheet_cursor_move (sheet, 0, row);
+		if (!(modifiers & GDK_CONTROL_MASK))
+ 			sheet_selection_reset_only (sheet);
 	
-	if (reset){
-		sheet_cursor_set (sheet, 0, row, SHEET_MAX_COLS-1, row);
-		sheet_selection_reset_only (sheet);
 		sheet_selection_append_range (sheet,
 					      0, row,
 					      0, row,
 					      SHEET_MAX_COLS-1, row);
-		ri = sheet_row_get (sheet, row);
-		sheet_row_set_selection (sheet, ri, 1);
 	} else
-		sheet_selection_row_extend_to (sheet, row);
+		sheet_selection_extend_to (sheet, SHEET_MAX_COLS-1, row);
 }
 
 static void
@@ -297,32 +288,21 @@ sheet_view_row_size_changed (ItemBar *item_bar, int row, int height, SheetView *
 {
 	Sheet *sheet = sheet_view->sheet;
 	GList *l;
-	gboolean size_change_selected = FALSE;
-	
-	if (sheet_is_all_selected (sheet))
-		sheet_row_info_set_height (sheet, &sheet->default_row_style, height, TRUE);
-	else {
+	ItemBarSelectionType type;
+
+	type = sheet_row_selection_type (sheet, row);
+
+	if (type == ITEM_BAR_FULL_SELECTION)
 		for (l = sheet->rows_info; l; l = l->next){
 			ColRowInfo *ri = l->data;
 			
-			if (ri->selected) {
-				if (ri->pos == row) {
-					size_change_selected = TRUE;
-					break;
-				}
-			}
-		}
-		if (size_change_selected) {
-			for (l = sheet->rows_info; l; l = l->next){
-				ColRowInfo *ri = l->data;
-				
-				if (ri->selected)
+			if (sheet_col_selection_type (sheet, ri->pos) == ITEM_BAR_FULL_SELECTION)
 					sheet_row_set_height (sheet, ri->pos, height, TRUE);
-			}
-		} else {
-			sheet_row_set_height (sheet, row, height, TRUE);
+			
 		}
-	}
+	else
+		sheet_row_set_height (sheet, row, height, TRUE);
+
 	gnumeric_sheet_compute_visible_ranges (GNUMERIC_SHEET (sheet_view->sheet_view));
 }
 

@@ -158,6 +158,9 @@ void        sheet_select_all             (Sheet *sheet);
 int         sheet_is_all_selected        (Sheet *sheet);
 void        sheet_selection_append       (Sheet *sheet, int col, int row);
 void        sheet_selection_extend_to    (Sheet *sheet, int col, int row);
+void	    sheet_selection_set		 (Sheet *sheet,
+					  int start_col, int start_row,
+					  int end_col, int end_row);
 void        sheet_selection_reset        (Sheet *sheet);
 void        sheet_selection_reset_only   (Sheet *sheet);
 int         sheet_selection_equal        (SheetSelection *a, SheetSelection *b);
@@ -297,8 +300,9 @@ void        sheet_set_current_value       (Sheet *sheet);
 void        sheet_accept_pending_input    (Sheet *sheet);
 void        sheet_cancel_pending_input    (Sheet *sheet);
 void        sheet_load_cell_val           (Sheet *sheet);
-void        sheet_selection_col_extend_to (Sheet *sheet, int col);
-void        sheet_selection_row_extend_to (Sheet *sheet, int row);
+
+int         sheet_col_selection_type      (Sheet *sheet, int col);
+int         sheet_row_selection_type      (Sheet *sheet, int row);
 
 /*
  * Event state manipulation (for mode operation)

@@ -76,13 +76,17 @@ item_bar_realize (GnomeCanvasItem *item)
 		item_bar->change_cursor = gdk_cursor_new (GDK_SB_V_DOUBLE_ARROW);
 	else
 		item_bar->change_cursor = gdk_cursor_new (GDK_SB_H_DOUBLE_ARROW);
+
+	/* Reference the bold font */
+	style_font_ref (gnumeric_default_bold_font);
 }
 
 static void
 item_bar_unrealize (GnomeCanvasItem *item)
 {
 	ItemBar *item_bar = ITEM_BAR (item);
-	
+
+	style_font_unref (gnumeric_default_bold_font);
 	gdk_gc_unref (item_bar->gc);
 	gdk_cursor_destroy (item_bar->change_cursor);
 	gdk_cursor_destroy (item_bar->normal_cursor);
@@ -131,7 +135,7 @@ get_col_name (int n)
 }
 
 static void
-bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, int draw_selected, char *str, int x1, int y1, int x2, int y2)
+bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, ItemBarSelectionType type, char *str, int x1, int y1, int x2, int y2)
 {
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item_bar)->canvas);
 	GdkFont *font = canvas->style->font;
@@ -141,12 +145,22 @@ bar_draw_cell (ItemBar *item_bar, GdkDrawable *drawable, int draw_selected, char
 	len = gdk_string_width (font, str);
 	texth = font->ascent + font->descent;
 
-	if (draw_selected){
-		shadow = GTK_SHADOW_IN;
-		gc = canvas->style->dark_gc [GTK_STATE_NORMAL];
-	} else {
+	switch (type){
+	default:
+	case ITEM_BAR_NO_SELECTION:
 		shadow = GTK_SHADOW_OUT;
 		gc = canvas->style->bg_gc [GTK_STATE_ACTIVE];
+		break;
+	case ITEM_BAR_PARTIAL_SELECTION:
+		shadow = GTK_SHADOW_OUT;
+		gc = canvas->style->bg_gc [GTK_STATE_ACTIVE];
+		font = gnumeric_default_bold_font->font;
+		break;
+	case ITEM_BAR_FULL_SELECTION:
+		shadow = GTK_SHADOW_IN;
+		gc = canvas->style->dark_gc [GTK_STATE_NORMAL];
+		font = gnumeric_default_bold_font->font;
+		break;
 	}
 
 	gdk_draw_rectangle (drawable, gc, TRUE, x1 + 1, y1 + 1, x2-x1-2, y2-y1-2);
@@ -164,7 +178,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 	ItemBar *item_bar = ITEM_BAR (item);
 	Sheet   *sheet = item_bar->sheet_view->sheet;
 	ColRowInfo *cri;
-	int element, total, pixels, limit, all_selected;
+	int element, total, pixels, limit;
 	char *str;
 	
 	element = item_bar->first_element;
@@ -176,11 +190,6 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 	
 	total = 0;
 
-	if (sheet_is_all_selected (sheet))
-		all_selected = 1;
-	else
-		all_selected = 0;
-	
 	do {
 		if (item_bar->orientation == GTK_ORIENTATION_VERTICAL){
 			
@@ -201,7 +210,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			if (total + pixels >= y){
 				str = get_row_name (element);
 				bar_draw_cell (item_bar, drawable,
-					       cri->selected | all_selected,
+					       sheet_row_selection_type (sheet, element),
 					       str, -x, 1 + total - y,
 					       item->canvas->width - x,
 					       1 + total + pixels - y);
@@ -224,7 +233,7 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 			if (total + pixels >= x){
 				str = get_col_name (element);
 				bar_draw_cell (item_bar, drawable,
-					       cri->selected | all_selected,
+					       sheet_col_selection_type (sheet, element),
 					       str, 1 + total - x, -y,
 					       1 + total + pixels - x,
 					       item->canvas->height - y);
@@ -443,7 +452,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			gtk_signal_emit (
 				GTK_OBJECT (item),
 				item_bar_signals [SELECTION_CHANGED],
-				element, FALSE);
+				element, 0);
 
 			set_cursor (item_bar, pos);
 		}
@@ -489,7 +498,7 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 						e->button.time);
 			gtk_signal_emit (GTK_OBJECT (item),
 					 item_bar_signals [SELECTION_CHANGED],
-					 element, TRUE);
+					 element, e->button.state | GDK_BUTTON1_MASK);
 		}
 		break;
 

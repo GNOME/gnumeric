@@ -7,6 +7,12 @@
 
 #define ITEM_BAR_RESIZING(x) (ITEM_BAR(x)->resize_pos != -1)
 
+typedef enum {
+	ITEM_BAR_NO_SELECTION,
+	ITEM_BAR_PARTIAL_SELECTION,
+	ITEM_BAR_FULL_SELECTION
+} ItemBarSelectionType;
+
 typedef struct {
 	GnomeCanvasItem canvas_item;
 	SheetView       *sheet_view;
@@ -36,7 +42,7 @@ typedef struct {
 	GnomeCanvasItemClass parent_class;
 
 	/* Signals emited */
-	void (* selection_changed) (ItemBar *, int column, int reset);
+	void (* selection_changed) (ItemBar *, int column, int modifiers);
 	void (* size_changed)      (ItemBar *, int column, int new_width);
 } ItemBarClass;
 

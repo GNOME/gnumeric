@@ -25,8 +25,6 @@ GdkColor gs_white, gs_black, gs_light_gray, gs_dark_gray, gs_red;
 
 
 static GnomeCanvasClass *sheet_parent_class;
-static void stop_cell_selection (GnumericSheet *gsheet);
-
 
 static void
 gnumeric_sheet_destroy (GtkObject *object)
@@ -271,7 +269,6 @@ start_cell_selection_at (GnumericSheet *gsheet, int col, int row)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
-	Sheet *sheet = gsheet->sheet_view->sheet;
 	
 	g_return_if_fail (gsheet->selecting_cell == FALSE);
 	

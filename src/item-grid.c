@@ -605,12 +605,19 @@ item_grid_button_1 (Sheet *sheet, GdkEvent *event, ItemGrid *item_grid, int col,
 	 */
 	sheet_accept_pending_input (sheet);
 
-	sheet_cursor_move (sheet, col, row);
-	if (!(event->button.state & GDK_CONTROL_MASK))
-		sheet_selection_reset_only (sheet);
+	if (!(event->button.state & GDK_SHIFT_MASK))
+		sheet_cursor_move (sheet, col, row);
 
+	if (!(event->button.state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
+		sheet_selection_reset_only (sheet);
+ 
 	item_grid->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
-	sheet_selection_append (sheet, col, row);
+
+	if ((event->button.state & GDK_SHIFT_MASK) && sheet->selections)
+		sheet_selection_extend_to (sheet, col, row);
+	else
+		sheet_selection_append (sheet, col, row);
+
 	gnome_canvas_item_grab (item,
 				GDK_POINTER_MOTION_MASK |
 				GDK_BUTTON_RELEASE_MASK,
@@ -657,6 +664,10 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		
 	case GDK_MOTION_NOTIFY:
 		convert (canvas, event->motion.x, event->motion.y, &x, &y);
+		
+		if (x < 0 || y < 0)
+			return 1;
+			
 		col = item_grid_find_col (item_grid, x, NULL);
 		row = item_grid_find_row (item_grid, y, NULL);
 
@@ -681,9 +692,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		sheet_selection_extend_to (sheet, col, row);
 		return 1;
 		
-	case GDK_BUTTON_PRESS: {
-		Cell *cell;
-		
+	case GDK_BUTTON_PRESS:
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 
 		convert (canvas, event->button.x, event->button.y, &x, &y);
@@ -698,8 +707,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			item_grid_popup_menu (item_grid, event, col, row);
 			return 1;
 		}
-	}
-	
+
 	default:
 		return 0;	
 	}

@@ -43,9 +43,6 @@ GtkWidget  *sheet_view_new                   (Sheet *sheet);
 
 void        sheet_view_set_zoom_factor       (SheetView *sheet_view, double factor);
 
-void        sheet_view_col_set_selection     (SheetView *sheet_view, ColRowInfo *ci);
-void        sheet_view_row_set_selection     (SheetView *sheet_view, ColRowInfo *ci);
-
 void        sheet_view_redraw_all            (SheetView *sheet_view);
 void        sheet_view_redraw_cell_region    (SheetView *sheet_view,
 					      int start_col, int start_row,

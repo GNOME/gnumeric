@@ -2,7 +2,6 @@
 
 GNOME Spread Sheet task list
 
-
 * Number formatting
 
    The formatting code should take the current GtkFont for the cell
