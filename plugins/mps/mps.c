@@ -264,12 +264,12 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 
 	/* Print 'Program Name'. */
 	mps_set_cell (sh, MAIN_INFO_COL, MAIN_INFO_ROW - 1,
-		      "Program Name");
+		      _("Program Name"));
 	mps_set_cell (sh, MAIN_INFO_COL, MAIN_INFO_ROW, ctxt->name);
 
 	/* Print 'Objective value'. */
 	mps_set_cell (sh, MAIN_INFO_COL + 1, MAIN_INFO_ROW - 1,
-		      "Objective Value");
+		      _("Objective Value"));
 	range_init (&range, VARIABLE_COL, VARIABLE_ROW + 1,
 		    ctxt->n_cols, VARIABLE_ROW + 1);
 	buf = g_string_new ("");
@@ -280,7 +280,7 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 	g_string_free (buf, FALSE);
 
 	/* Print 'Status'. */
-	mps_set_cell (sh, MAIN_INFO_COL + 3, MAIN_INFO_ROW - 1, "Feasible");
+	mps_set_cell (sh, MAIN_INFO_COL + 3, MAIN_INFO_ROW - 1, _("Feasible"));
 	range_init (&range, ctxt->n_cols + 5, CONSTRAINT_ROW,
 		    ctxt->n_cols + 5, CONSTRAINT_ROW + ctxt->n_rows - 2);
 	buf = g_string_new ("=IF(COUNTIF(");
@@ -295,10 +295,10 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 	 */
 
 	/* Print 'Objective function:' */
-	mps_set_cell (sh, VARIABLE_COL, VARIABLE_ROW - 2, "Objective function:");
+	mps_set_cell (sh, VARIABLE_COL, VARIABLE_ROW - 2, _("Objective function:"));
 
 	/* Print 'Current values' */
-	mps_set_cell (sh, VARIABLE_COL - 1, VARIABLE_ROW, "Current values");
+	mps_set_cell (sh, VARIABLE_COL - 1, VARIABLE_ROW, _("Current values"));
 
 	/* Print the name of the objective function */
 	mps_set_cell (sh, VARIABLE_COL - 1, VARIABLE_ROW + 1,
@@ -319,18 +319,18 @@ mps_create_sheet (WorkbookView *wbv, MpsInputContext *ctxt)
 	 */
 
 	/* Print 'Constraints:'. */
-	mps_set_cell (sh, CONSTRAINT_COL, CONSTRAINT_ROW - 2, "Constraints:");
+	mps_set_cell (sh, CONSTRAINT_COL, CONSTRAINT_ROW - 2, _("Constraints:"));
 
 	/* Print constraint titles. */
-	mps_set_cell (sh, CONSTRAINT_COL - 1, CONSTRAINT_ROW - 1, "Name");
+	mps_set_cell (sh, CONSTRAINT_COL - 1, CONSTRAINT_ROW - 1, _("Name"));
 	for (i = 0; i < ctxt->n_cols; i++)
 	          mps_set_cell (sh, i + CONSTRAINT_COL, CONSTRAINT_ROW - 1,
 				ctxt->col_name_tbl[i]);
-	mps_set_cell (sh, ctxt->n_cols + 1, CONSTRAINT_ROW - 1, "Value");
-	mps_set_cell (sh, ctxt->n_cols + 2, CONSTRAINT_ROW - 1, "Type");
-	mps_set_cell (sh, ctxt->n_cols + 3, CONSTRAINT_ROW - 1, "RHS");
-	mps_set_cell (sh, ctxt->n_cols + 4, CONSTRAINT_ROW - 1, "Slack");
-	mps_set_cell (sh, ctxt->n_cols + 5, CONSTRAINT_ROW - 1, "Status");
+	mps_set_cell (sh, ctxt->n_cols + 1, CONSTRAINT_ROW - 1, _("Value"));
+	mps_set_cell (sh, ctxt->n_cols + 2, CONSTRAINT_ROW - 1, _("Type"));
+	mps_set_cell (sh, ctxt->n_cols + 3, CONSTRAINT_ROW - 1, _("RHS"));
+	mps_set_cell (sh, ctxt->n_cols + 4, CONSTRAINT_ROW - 1, _("Slack"));
+	mps_set_cell (sh, ctxt->n_cols + 5, CONSTRAINT_ROW - 1, _("Status"));
 
 	/* Print constraints. */
 	i = 0;
