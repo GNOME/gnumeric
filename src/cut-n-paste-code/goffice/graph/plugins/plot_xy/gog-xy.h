@@ -44,6 +44,10 @@ typedef struct {
 
 typedef struct {
 	Gog2DPlot	base;
+	gboolean size_as_area;
+	gboolean in_3d;
+	gboolean show_negatives;
+	float bubble_scale;
 } GogBubblePlot;
 
 #define GOG_2D_PLOT_TYPE	(gog_2d_plot_get_type ())

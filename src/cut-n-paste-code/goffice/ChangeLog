@@ -1,3 +1,15 @@
+2004-03-12  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* graph/plugins/plot_xy/Makefile.am:
+	* graph/plugins/plot_xy/gog-xy.c: (gog_bubble_plot_editor),
+	(gog_bubble_plot_set_property), (gog_bubble_plot_get_property),
+	(gog_bubble_plot_class_init), (gog_bubble_plot_adjust_bounds),
+	(gog_bubble_plot_init), (gog_xy_view_render),
+	(gog_xy_series_update), (gog_xy_series_init_style):
+	* graph/plugins/plot_xy/gog-xy.h: added bublles options.
+	* graph/plugins/plot_xy/gog-bubble-prefs.c: new file
+	* graph/plugins/plot_xy/gog-bubble-glade: new file
+
 2004-03-11  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
  
 	* graph/plugins/plot_xy/gog-xy.c : draw markers when they are in plot
