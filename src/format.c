@@ -479,10 +479,10 @@ lookup_color (const char *str, const char *end)
 	int i;
 
 	for (i = 0; format_colors [i].name; i++){
-		int len = strlen (format_colors [i].name);
-
-		if ((strncasecmp (format_colors [i].name, str, len) == 0) ||
-		    (strncasecmp (_(format_colors [i].name), str, len) == 0)){
+		char const *pre = _(format_colors [i].name);
+		char const *post = _(pre);
+		if ((strcasecmp (format_colors [i].name, str) == 0) ||
+		    (pre != post && strcasecmp (_(format_colors [i].name), str) == 0)){
 			style_color_ref (format_colors [i].color);
 			return format_colors [i].color;
 		}

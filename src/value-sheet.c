@@ -110,7 +110,7 @@ encode_cellref (GString *dest, const CellRef *ref, gboolean use_relative_syntax)
  * @use_relative_syntax: true if you want the result to contain relative indicators
  *
  * Returns: a string reprensenting the Value, for example:
- * use_relative_syntax == TRUE: $a4:$b$1
+ * use_relative_syntax == TRUE: $a$4:$b$1
  * use_relative_syntax == FALSE: a4:b1
  */
 char *
@@ -343,81 +343,9 @@ value_area_foreach (EvalPos const *ep, Value const *v,
 	return NULL;
 }
 
-/*
- * Initialize temporarily with statics.  The real versions from the locale
- * will be setup in constants_init
- */
-char const *gnumeric_err_NULL  = "#NULL!";
-char const *gnumeric_err_DIV0  = "#DIV/0!";
-char const *gnumeric_err_VALUE = "#VALUE!";
-char const *gnumeric_err_REF   = "#REF!";
-char const *gnumeric_err_NAME  = "#NAME?";
-char const *gnumeric_err_NUM   = "#NUM!";
-char const *gnumeric_err_NA    = "#N/A";
-char const *gnumeric_err_RECALC= "#RECALC!";
-
-static struct gnumeric_error_info
-{
-	char const *str;
-	int len;
-} gnumeric_error_data[8];
-
-static char const *
-gnumeric_error_init (int const indx, char const * str)
-{
-	g_return_val_if_fail (indx >= 0, str);
-	g_return_val_if_fail (indx < sizeof(gnumeric_error_data)/sizeof(struct gnumeric_error_info), str);
-
-	gnumeric_error_data[indx].str = str;
-	gnumeric_error_data[indx].len = strlen(str);
-	return str;
-}
-
-/*
- * value_is_error : Check to see if a string begins with one of the magic
- * error strings.
- *
- * @str : The string to test
- * @offset : A place to store the size of the leading error string if it
- *           exists.
- *
- * returns : an error if there is one, or NULL.
- */
-Value *
-value_is_error (char const * const str, int *offset)
-{
-	int i = sizeof(gnumeric_error_data)/sizeof(struct gnumeric_error_info);
-
-	g_return_val_if_fail (str != NULL, NULL);
-
-	while (--i >= 0) {
-		int const len = gnumeric_error_data[i].len;
-		if (strncmp (str, gnumeric_error_data[i].str, len) == 0) {
-			*offset = len;
-			return value_new_error (NULL, gnumeric_error_data[i].str);
-		}
-	}
-	return NULL;
-}
-
 void
 constants_init (void)
 {
-	int i = 0;
-
-	symbol_install (global_symbol_table, "FALSE", SYMBOL_VALUE,
-			value_new_bool (FALSE));
-	symbol_install (global_symbol_table, "TRUE", SYMBOL_VALUE,
-			value_new_bool (TRUE));
 	symbol_install (global_symbol_table, "GNUMERIC_VERSION", SYMBOL_VALUE,
 			value_new_float (atof (GNUMERIC_VERSION)));
-
-	gnumeric_err_NULL	= gnumeric_error_init (i++, _("#NULL!"));
-	gnumeric_err_DIV0	= gnumeric_error_init (i++, _("#DIV/0!"));
-	gnumeric_err_VALUE	= gnumeric_error_init (i++, _("#VALUE!"));
-	gnumeric_err_REF	= gnumeric_error_init (i++, _("#REF!"));
-	gnumeric_err_NAME	= gnumeric_error_init (i++, _("#NAME?"));
-	gnumeric_err_NUM	= gnumeric_error_init (i++, _("#NUM!"));
-	gnumeric_err_NA		= gnumeric_error_init (i++, _("#N/A"));
-	gnumeric_err_RECALC	= gnumeric_error_init (i++, _("#RECALC!"));
 }

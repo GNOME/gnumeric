@@ -673,8 +673,7 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 {
 	Symbol *name=NULL;
 
-	if (fn_idx == 0xff)
-	{
+	if (fn_idx == 0xff) {
 		/*
 		 * This is undocumented.
 		 * function 0xff seems to indicate an external function whose
@@ -688,17 +687,17 @@ make_function (ParseList **stack, int fn_idx, int numargs)
 		if (tmp != NULL) {
 		    if (tmp->any.oper == OPER_CONSTANT &&
 			tmp->constant.value->type == VALUE_STRING)
-			f_name = tmp->constant.value->v_str.val->str;
+			    f_name = tmp->constant.value->v_str.val->str;
 		    else if (tmp->any.oper == OPER_NAME)
-			f_name = tmp->name.name->name->str;
+			    f_name = tmp->name.name->name->str;
 		}
 
 		if (f_name == NULL) {
-			if (tmp) expr_tree_unref (tmp);
+			if (tmp)
+				expr_tree_unref (tmp);
 			parse_list_free (&args);
 			parse_list_push_raw (stack,
-					     value_new_error (NULL,
-							      _("Broken function")));
+				value_new_error (NULL, _("Broken function")));
 			printf ("So much for that theory.\n");
 			return FALSE;
 		}

@@ -459,6 +459,59 @@ format_match_define (const char *format)
 }
 
 /*
+ * Initialize temporarily with statics.  The real versions from the locale
+ * will be setup in constants_init
+ */
+char const *gnumeric_err_NULL  = "#NULL!";
+char const *gnumeric_err_DIV0  = "#DIV/0!";
+char const *gnumeric_err_VALUE = "#VALUE!";
+char const *gnumeric_err_REF   = "#REF!";
+char const *gnumeric_err_NAME  = "#NAME?";
+char const *gnumeric_err_NUM   = "#NUM!";
+char const *gnumeric_err_NA    = "#N/A";
+char const *gnumeric_err_RECALC= "#RECALC!";
+
+static struct gnumeric_error_info
+{
+	char const *str;
+	int len;
+} gnumeric_error_data[8];
+
+static char const *
+gnumeric_error_init (int const indx, char const * str)
+{
+	g_return_val_if_fail (indx >= 0, str);
+	g_return_val_if_fail (indx < sizeof(gnumeric_error_data)/sizeof(struct gnumeric_error_info), str);
+
+	gnumeric_error_data[indx].str = str;
+	gnumeric_error_data[indx].len = strlen(str);
+	return str;
+}
+
+/*
+ * value_is_error : Check to see if a string begins with one of the magic
+ * error strings.
+ *
+ * @str : The string to test
+ *
+ * returns : an error if there is one, or NULL.
+ */
+Value *
+value_is_error (char const * const str)
+{
+	int i = sizeof(gnumeric_error_data)/sizeof(struct gnumeric_error_info);
+
+	g_return_val_if_fail (str != NULL, NULL);
+
+	while (--i >= 0) {
+		int const len = gnumeric_error_data[i].len;
+		if (strncmp (str, gnumeric_error_data[i].str, len) == 0)
+			return value_new_error (NULL, gnumeric_error_data[i].str);
+	}
+	return NULL;
+}
+
+/*
  * Loads the initial formats that we will recognize
  */
 void
@@ -479,6 +532,15 @@ format_match_init (void)
 		}
 	}
 
+	i = 0;
+	gnumeric_err_NULL	= gnumeric_error_init (i++, _("#NULL!"));
+	gnumeric_err_DIV0	= gnumeric_error_init (i++, _("#DIV/0!"));
+	gnumeric_err_VALUE	= gnumeric_error_init (i++, _("#VALUE!"));
+	gnumeric_err_REF	= gnumeric_error_init (i++, _("#REF!"));
+	gnumeric_err_NAME	= gnumeric_error_init (i++, _("#NAME?"));
+	gnumeric_err_NUM	= gnumeric_error_init (i++, _("#NUM!"));
+	gnumeric_err_NA		= gnumeric_error_init (i++, _("#N/A"));
+	gnumeric_err_RECALC	= gnumeric_error_init (i++, _("#RECALC!"));
 }
 
 void
@@ -571,7 +633,7 @@ compute_value (const char *s, const regmatch_t *mp,
 	int hours, minutes, seconds;
 
 	char *thousands_sep = format_get_thousand ();
-	char *decimal = format_get_decimal ();
+	/* char *decimal = format_get_decimal (); */
 
 	month = day = year = year_short = -1;
 	hours = minutes = seconds = -1;
@@ -818,6 +880,19 @@ format_match (const char *text, StyleFormat **format)
 	/* If it begins with a '\'' it is a string */
 	if (text[0] == '\'')
 		return value_new_string (text+1);
+
+	/* Is it a boolean */
+	if (0 == g_strcasecmp (text, _("TRUE")))
+		return value_new_bool (TRUE);
+	if (0 == g_strcasecmp (text, _("FALSE")))
+		return value_new_bool (FALSE);
+
+	/* Is it an error */
+	if (*text == '#') {
+		Value *err = value_is_error (text);
+		if (err != NULL)
+			return err;
+	}
 
 	/* TODO : We should check the format associated with the region first,
 	 *        but we're not passing that information in yet

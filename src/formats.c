@@ -458,8 +458,7 @@ cell_format_is_number (char const * const fmt, FormatCharacteristics *info)
 	++ptr;
 
 	if (ptr[0] == '[') {
-		/* TODO : Do we handle 'Red' being translated ?? */
-		if (g_strncasecmp (N_("[Red]"), ptr, 5) != 0)
+		if (g_strncasecmp (_("[Red]"), ptr, 5) != 0)
 			return FMT_UNKNOWN;
 		ptr += 5;
 		use_red = 1;

@@ -525,7 +525,7 @@ make_string_return (char const *string, gboolean const possible_number)
 		v = value_new_string (string);
 
 	yylval.tree = register_expr_allocation (expr_tree_new_constant (v));
-	return STRING;
+	return (v->type == VALUE_STRING) ? STRING : CONSTANT;
 }
 
 static int
@@ -679,19 +679,6 @@ yylex (void)
 		parser_expr = tmp;
 		return NUMBER;
 	}
-
-	case '#' :
-	{
-		int offset = 0;
-		/* we already took the leading '#' off */
-		Value *err = value_is_error (parser_expr-1, &offset);
-		if (err != NULL) {
-			yylval.tree = register_expr_allocation (expr_tree_new_constant (err));
-			parser_expr += offset - 1;
-			return CONSTANT;
-		}
-	}
-	break;
 
 	case '\'':
 	case '"': {

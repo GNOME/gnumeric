@@ -1,5 +1,19 @@
 2000-06-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/value-sheet.c (value_is_error) : No need for 'offset' parm.
+
+	* src/number-match.c (format_match) : Parse TRUE/FALSE as this level.
+
+	* src/value-sheet.c (constants_init) : TRUE/FALSE are not symbols.
+	  They are values.  A symbol only has value in an expression.
+	  A value operates at a lower level.  eg
+	A1 : '=TRUE' will work as a value or a symbol
+	A1 : 'TRUE' will only work as a value
+
+2000-06-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/format.c (lookup_color) : Handle translated colours.
+
 	* src/number-match.c (format_create_regexp) : Build the regexp
 	  ourselves.  The poor translators had no idea what the hell that was
 	  supposed to do.  The regexp is still way way to general.

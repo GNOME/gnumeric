@@ -6,7 +6,6 @@ Release Critical
 ----------------
 - Parser is incorrectly giving precedence to function names during look up.
   eg it is impossible to have a sheet named 'exp'.
-- The strings TRUE and FALSE are not recognized as values.
 - Changing the size of all rows/cols creates big xml files.
 - Changing an expression name that is in use causes a crash.
 
@@ -27,6 +26,8 @@ Long term breakage
   This would mirror the application of bold/italic/underline
 - Moreover, the above buttons ought to work.  Try "44", click $, then add
   and remove decimals.
+- While we're playing with those functions, lets add simple ones like inc/dec
+  font size and things like that.
 
 - Auto resize needs to handle empty cells.
 - auto-fill does not resize row/col
@@ -56,8 +57,9 @@ Long term breakage
   gnome-print has a function we could use for printing which returns the
   underline thickness.
 
-- While resizing multiple columns, only the first one is being shown in its
-  new size.
+- Error handling is completely hosed.  We currently save the value of a cell
+  as a string.  This means that we need to be able to parse that a value is an
+  error.  Currently this only works for the standard errors.
 
 Dialogs
 -------

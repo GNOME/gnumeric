@@ -132,7 +132,6 @@ Value * value_area_foreach (EvalPos const *ep, Value const *v,
 void value_array_set       (Value *array, guint col, guint row, Value *v);
 void value_array_resize    (Value *v, guint width, guint height);
 
-Value * value_is_error (char const * const str, int *offset);
 StyleHAlignFlags value_get_default_halign (Value const *v, MStyle const *mstyle);
 
 /* Some utility constants to make sure we all spell correctly */
