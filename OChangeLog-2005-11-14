@@ -1,3 +1,8 @@
+2005-02-05  Morten Welinder  <terra@gnome.org>
+
+	* src/print.c: Avoid going PangoFontDescription -> GnomeFont ->
+	PangoFontDescription.
+
 2005-02-04  Morten Welinder  <terra@gnome.org>
 
 	* src/item-bar.c (item_bar_calc_size): Measure height of letters

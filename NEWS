@@ -32,6 +32,7 @@ Morten:
 	* Fix fake rounding functions for very large numbers.  [#166188]
 	* Eliminate old printing code.
 	* Clean out workarounds for old libraries.
+	* Avoid GnomeFont in printing.
 
 --------------------------------------------------------------------------
 Gnumeric 1.4.2

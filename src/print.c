@@ -5,6 +5,7 @@
  *
  * Author:
  *    Miguel de Icaza (miguel@gnu.org)
+ *    Morten Welinder (terra@gnome.org)
  *
  * Handles printing of Sheets.
  */
@@ -32,7 +33,6 @@
 #include "application.h"
 #include "sheet-style.h"
 #include "ranges.h"
-#include "style.h"
 #include "style-font.h"
 #include "gnumeric-gconf.h"
 
@@ -113,7 +113,7 @@ typedef struct {
 	 * Part 5: Headers and footers
 	 */
 	HFRenderInfo *render_info;
-	GnomeFont    *decoration_font;
+	PangoLayout *decoration_layout;
 
 	/* 6: The config */
 	GnomePrintConfig *gp_config;
@@ -268,17 +268,28 @@ print_page_repeated_intersect (PrintJobInfo const *pj, Sheet const *sheet,
 				  base_x, base_y);
 }
 
-typedef enum {
-	LEFT_HEADER,
-	RIGHT_HEADER,
-	MIDDLE_HEADER
-} HFSide;
+static PangoLayout *
+ensure_decoration_layout (PrintJobInfo *pj)
+{
 
-static const PangoAlignment hfside_to_alignment[] = {
-	PANGO_ALIGN_LEFT,
-	PANGO_ALIGN_RIGHT,
-	PANGO_ALIGN_CENTER
-};
+	if (!pj->decoration_layout) {
+		PangoLayout *layout = gnome_print_pango_create_layout (pj->print_context);
+		/*
+		 * Copy the style so we don't leave a cached GnmFont in the prefs
+		 * object.
+		 */
+		GnmStyle *style = mstyle_copy (gnm_app_prefs->printer_decoration_font);
+		GnmFont *font = mstyle_get_font (style,
+						 pango_layout_get_context (layout),
+						 1.);
+
+		pj->decoration_layout = layout;
+		pango_layout_set_font_description (layout, font->pango.font_descr);
+		style_font_unref (font);
+		mstyle_unref (style);
+	}
+	return pj->decoration_layout;
+}
 
 
 /*
@@ -295,12 +306,11 @@ static const PangoAlignment hfside_to_alignment[] = {
  */
 static void
 print_hf_element (PrintJobInfo const *pj, char const *format,
-		  HFSide side, double y)
+		  PangoAlignment side, double y, gboolean align_bottom)
 {
 	char *text;
 
 	g_return_if_fail (pj != NULL);
-	g_return_if_fail (pj->decoration_font != NULL);
 	g_return_if_fail (pj->render_info != NULL);
 
 	text = hf_format_render (format, pj->render_info, HF_RENDER_PRINT);
@@ -308,30 +318,22 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
 	g_return_if_fail (text != NULL);
 
 	if (text[0]) {
-		const double dummy_dpi = 300; /* FIXME: What exactly is this?  */
-		PangoLayout *layout =
-			gnome_print_pango_create_layout (pj->print_context);
-		PangoFontDescription *pango_font =
-			gnome_font_get_pango_description (pj->decoration_font, dummy_dpi);
-		int height;
 		double header = 0, footer = 0, left = 0, right = 0;
+		PangoLayout *layout = ensure_decoration_layout ((PrintJobInfo *)pj);
 
 		print_info_get_margins (pj->pi, &header, &footer, &left, &right);
-		pango_layout_set_alignment (layout,
-					    hfside_to_alignment[side]);
-		pango_layout_set_font_description (layout, pango_font);
+		pango_layout_set_alignment (layout, side);
 		pango_layout_set_width (layout, (pj->width - left - right) * PANGO_SCALE);
 		pango_layout_set_text (layout, text, -1);
 
-		pango_layout_get_size (layout, NULL, &height);
+		if (align_bottom) {
+			int height;
+			pango_layout_get_size (layout, NULL, &height);
+			y += height / (double)PANGO_SCALE;
+		}
 
-		gnome_print_moveto (pj->print_context,
-				    left,
-				    y + height / (double)PANGO_SCALE);
+		gnome_print_moveto (pj->print_context, left, y);
 		gnome_print_pango_layout (pj->print_context, layout);
-
-		g_object_unref (layout);
-		pango_font_description_free (pango_font);
 	}
 	g_free (text);
 }
@@ -353,11 +355,10 @@ print_hf_element (PrintJobInfo const *pj, char const *format,
  */
 static void
 print_hf_line (PrintJobInfo const *pj, PrintHF const *hf,
-	       double y, double left, double bottom, double right, double top)
+	       double y,
+	       double left, double bottom, double right, double top,
+	       gboolean align_bottom)
 {
-	gnome_print_setfont (pj->print_context, pj->decoration_font);
-	gnome_print_setrgbcolor (pj->print_context, 0, 0, 0);
-
 	/* Check if there's room to print. top and bottom are on the clip
 	 * path, so we are actually requiring room for a 6x4 pt
 	 * character. */
@@ -368,13 +369,15 @@ print_hf_line (PrintJobInfo const *pj, PrintHF const *hf,
 
 	gnome_print_gsave (pj->print_context);
 
+	gnome_print_setrgbcolor (pj->print_context, 0, 0, 0);
+
 	print_make_rectangle_path (pj->print_context,
 				   left, bottom, right, top);
 
 #ifndef NO_DEBUG_PRINT
 	if (print_debugging > 0) {
-		static double dash[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
-		static gint n_dash = 6;
+		static const double dash[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
+		static gint n_dash = G_N_ELEMENTS (dash);
 
 		gnome_print_gsave (pj->print_context);
 		gnome_print_setdash (pj->print_context, n_dash, dash, 0.0);
@@ -383,11 +386,12 @@ print_hf_line (PrintJobInfo const *pj, PrintHF const *hf,
 	}
 #endif
 	/* Clip the header or footer */
-	gnome_print_clip      (pj->print_context);
+	// gnome_print_clip      (pj->print_context);
 
-	print_hf_element (pj, hf->left_format,   LEFT_HEADER, y);
-	print_hf_element (pj, hf->middle_format, MIDDLE_HEADER, y);
-	print_hf_element (pj, hf->right_format,  RIGHT_HEADER, y);
+	print_hf_element (pj, hf->left_format, PANGO_ALIGN_LEFT, y, align_bottom);
+	print_hf_element (pj, hf->middle_format, PANGO_ALIGN_CENTER, y, align_bottom);
+	print_hf_element (pj, hf->right_format, PANGO_ALIGN_RIGHT, y, align_bottom);
+
 	gnome_print_grestore (pj->print_context);
 }
 
@@ -402,19 +406,19 @@ static void
 print_headers (PrintJobInfo const *pj)
 {
 	PrintMargins const *pm = &pj->pi->margins;
-	double top, bottom, y, ascender;
+	double top, bottom, y;
 	double header = 0, footer = 0, left = 0, right = 0;
 
-	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
+	print_info_get_margins (pj->pi, &header, &footer, &left, &right);
 
-	ascender = gnome_font_get_ascender (pj->decoration_font);
-	y = pj->height - header - ascender;
+	y = pj->height - header;
 	top    =  1 + pj->height - MIN (header, pm->top.points);
 	bottom = -1 + pj->height - MAX (header, pm->top.points);
 
 	print_hf_line (pj, pj->pi->header, y,
 		       -1 + left, bottom,
-		       pj->width - right, top);
+		       pj->width - right, top,
+		       FALSE);
 }
 
 /*
@@ -431,10 +435,9 @@ print_footers (PrintJobInfo const *pj)
 	double top, bottom, y;
 	double header = 0, footer = 0, left = 0, right = 0;
 
-	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
+	print_info_get_margins (pj->pi, &header, &footer, &left, &right);
 
-	y = footer
-		- gnome_font_get_descender (pj->decoration_font);
+	y = footer;
 	top    =  1 + MAX (footer, pm->bottom.points);
 	bottom = -1 + MIN (footer, pm->bottom.points);
 
@@ -443,7 +446,8 @@ print_footers (PrintJobInfo const *pj)
 	 */
 	print_hf_line (pj, pj->pi->footer, y,
 		       -1 + left, bottom,
-		       pj->width - right, top);
+		       pj->width - right, top,
+		       TRUE);
 }
 
 static void
@@ -455,7 +459,6 @@ setup_scale (PrintJobInfo const *pj)
 
 	art_affine_scale (affine, x_scale, y_scale);
 	gnome_print_concat (pj->print_context, affine);
-
 }
 
 static GnmValue *
@@ -583,7 +586,7 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 		x = (pj->x_points - w)/2;
 	}
 
-	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
+	print_info_get_margins (pj->pi, &header, &footer, &left, &right);
 	/* Margins */
 	x += left;
 	y += MAX (margins->top.points, header);
@@ -605,10 +608,8 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, GnmRange *range,
 	gnome_print_beginpage (pj->print_context, pagenotxt);
 	g_free (pagenotxt);
 
-	if (pj->decoration_font) {
-		print_headers (pj);
-		print_footers (pj);
-	}
+	print_headers (pj);
+	print_footers (pj);
 
 	/*
 	 * Print any titles that might be used
@@ -1178,7 +1179,7 @@ print_job_info_update_from_config (PrintJobInfo *pj)
 	if (!gnome_print_config_get_page_size (pj->gp_config, &pj->width, &pj->height))
 		pj->width = pj->height = 1.;
 
-	print_info_get_margins   (pj->pi, &header, &footer, &left, &right);
+	print_info_get_margins (pj->pi, &header, &footer, &left, &right);
 	pj->x_points = pj->width - (left + right);
 	pj->y_points = pj->height -
 		(MAX (pm->top.points, header) +
@@ -1188,9 +1189,7 @@ print_job_info_update_from_config (PrintJobInfo *pj)
 static PrintJobInfo *
 print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 {
-	PrintJobInfo *pj;
-
-	pj = g_new0 (PrintJobInfo, 1);
+	PrintJobInfo *pj = g_new0 (PrintJobInfo, 1);
 
 	/*
 	 * Handy pointers
@@ -1203,7 +1202,7 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	 * Values that should be entered in a dialog box
 	 */
 	pj->start_page = 0;
-	pj->end_page = workbook_sheet_count (sheet->workbook)-1;
+	pj->end_page = workbook_sheet_count (sheet->workbook) - 1;
 	pj->range = range;
 	pj->sorted_print = TRUE;
 	pj->is_preview = preview;
@@ -1219,13 +1218,6 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->render_info->sheet = sheet;
 	pj->render_info->page = 1;
 
-	pj->decoration_font = gnm_font_find_closest_from_weight_slant 
-	     (mstyle_get_font_name (gnm_app_prefs->printer_decoration_font), 
-	      mstyle_get_font_bold (gnm_app_prefs->printer_decoration_font)
-	      ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR,
-	      mstyle_get_font_italic (gnm_app_prefs->printer_decoration_font),
-	      mstyle_get_font_size (gnm_app_prefs->printer_decoration_font));
-
 	return pj;
 }
 
@@ -1235,8 +1227,8 @@ print_job_info_destroy (PrintJobInfo *pj)
 	print_info_load_config (pj->sheet->print_info, pj->gp_config);
 	g_object_unref (pj->gp_config);
 	hf_render_info_destroy (pj->render_info);
-	if (pj->decoration_font)
-		g_object_unref (pj->decoration_font);
+	if (pj->decoration_layout)
+		g_object_unref (pj->decoration_layout);
 	if (pj->print_context)
 		g_object_unref (pj->print_context);
 	print_info_free (pj->pi);
@@ -1282,7 +1274,7 @@ sheet_print_real (WorkbookControlGUI *wbcg, Sheet *sheet,
 		  gboolean preview, PrintJobInfo *pj, 
 		  PrintRange default_range)
 {
-	GnomePrintJob *gpm = NULL;
+	GnomePrintJob *gpm;
 
 	gpm = gnome_print_job_new (pj->gp_config);
 	pj->print_context = gnome_print_job_get_context (gpm);
