@@ -505,10 +505,10 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
 	GogObject *parent, *obj_follows;
 	GSList **ptr, *tmp;
 
-	g_return_if_fail (GOG_OBJECT (obj) != NULL);
+	g_return_val_if_fail (GOG_OBJECT (obj) != NULL, NULL);
 
 	if (obj->parent == NULL || gog_object_get_graph (obj) == NULL)
-		return;
+		return NULL;
 	parent = obj->parent;
 
 	if (inc)
@@ -517,8 +517,8 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
 	for (ptr = &parent->children; *ptr != NULL && (*ptr)->data != obj ;)
 		ptr = &(*ptr)->next;
 
-	g_return_if_fail (*ptr != NULL);
-	g_return_if_fail ((*ptr)->next != NULL);
+	g_return_val_if_fail (*ptr != NULL, NULL);
+	g_return_val_if_fail ((*ptr)->next != NULL, NULL);
 
 	tmp = *ptr;
 	*ptr = tmp->next;
