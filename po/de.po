@@ -5,6 +5,8 @@
 # Matthias Warkus <mawa@iname.com>, 1999, 2000.
 # Ralf Baechle <ralf@gnu.org>, 1999.
 #
+# Thanks for improvements to "Andreas J. Guelzow" <aguelzow@taliesin.ca>, 2001.
+#
 # Future translators, please take care to translate error messages correctly:
 # #3D MULT? == #3D-MULT?
 # #ARG! == #ARG!
@@ -34,9 +36,9 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.70\n"
+"Project-Id-Version: gnumeric 0.77\n"
 "POT-Creation-Date: 2001-11-18 21:49-0500\n"
-"PO-Revision-Date: 2001-11-27 14:16+0100\n"
+"PO-Revision-Date: 2001-12-07 08:51+0100\n"
 "Last-Translator: Karl Eichwalder <ke@suse.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -2253,26 +2255,26 @@ msgid "_Zoom..."
 msgstr "Ansicht verändern (_Zoom)..."
 
 #: src/analysis-tools.c:195
-#, fuzzy, c-format
+#, c-format
 msgid "Row %i"
-msgstr "Zeile %d"
+msgstr "Zeile %i"
 
 #: src/analysis-tools.c:198
-#, fuzzy, c-format
+#, c-format
 msgid "Column %i"
-msgstr "Spalte %d"
+msgstr "Spalte %i"
 
 # = numerisch?
 # 2001-02-11 07:05:07 CET -ke-
 #: src/analysis-tools.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "Bin %i"
-msgstr "Num"
+msgstr "Klasse %i"
 
 #: src/analysis-tools.c:205
 #, c-format
 msgid "Area %i"
-msgstr ""
+msgstr "Region %i"
 
 #: src/analysis-tools.c:875 src/analysis-tools.c:878
 msgid "Correlations"
@@ -2300,18 +2302,17 @@ msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
 msgstr ""
-"/Mittel/Standardfehler/Median/Modus/Standardabweichung/Beispielvarianz/"
+"/Durchschnitt/Standardfehler/Median/Modus/Standardabweichung/Stichprobenvarianz/"
 "Kurtosis/Skewness/Bereich/Minimum/Maximum/Summe/Anzahl"
 
 #: src/analysis-tools.c:1143
-#, fuzzy
 msgid "Confidence Interval for the Mean"
-msgstr "Vertrauenswert für Mittel"
+msgstr "Konfidenzbereich für den Durchschnitt"
 
 #: src/analysis-tools.c:1144
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
-msgstr ""
+msgstr "/%g%% Konfidenzbereich für den Durchschnitt von/bis"
 
 #: src/analysis-tools.c:1179 src/dialogs/descriptive-stats.glade.h:9
 msgid "Kth Largest"
@@ -2334,30 +2335,29 @@ msgstr "Kleinste (%d)"
 #: src/analysis-tools.c:1328 src/analysis-tools.c:3366
 #: src/dialogs/cell-format.glade.h:72
 msgid "Sample"
-msgstr "Beispiel"
+msgstr "Stichprobe"
 
 #: src/analysis-tools.c:1424 src/analysis-tools.c:1426
 #: src/analysis-tools.c:1542 src/analysis-tools.c:1544
 #: src/analysis-tools.c:1698 src/analysis-tools.c:1700
 #: src/analysis-tools.c:1825 src/analysis-tools.c:1827
 #: src/analysis-tools.c:1959 src/analysis-tools.c:1961
-#, fuzzy, c-format
+#, c-format
 msgid "Variable %i"
-msgstr "Variable 2"
+msgstr "Variable %i"
 
 #: src/analysis-tools.c:1428
 msgid "z-Test"
 msgstr "z-Test"
 
 #: src/analysis-tools.c:1431
-#, fuzzy
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
 "Critical two-tail"
 msgstr ""
-"/Mittel/Bekannte Varianz/Beobachtungen/Hypothetische Mitteldifferenz/z/P "
-"(Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z Critical two-tail"
+"/Durchschnitt/Bekannte Varianz/Beobachtungen/Hypothetische Mitteldifferenz/Realisierte Mitteldifferenz/z"
+"/Einseitiges P (Z<=z)/ Einseitig Kritisches z/ZweiseitigesP (Z<=z)/Zweiseitig Kritisches z"
 
 #: src/analysis-tools.c:1556 src/analysis-tools.c:1702
 #: src/analysis-tools.c:1829
@@ -2365,14 +2365,14 @@ msgid "t-Test"
 msgstr "t-Test"
 
 #: src/analysis-tools.c:1559
-#, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
 "two-tail"
 msgstr ""
-"/Mittel/Varianz/Beobachtungen/Person Correlations/Hypothetische "
-"Mitteldifferenz/"
+"/Durchschnitt/Varianz/Beobachtungen/Korrelationskoeffizient/Hypothetische "
+"Mitteldifferenz/df/t/Einseitiges P (Z<=z)/ Einseitig Kritisches z/"
+"Zweiseitiges P (Z<=z)/Zweiseitig Kritisches z"
 
 #: src/analysis-tools.c:1705
 #, fuzzy
@@ -2384,12 +2384,12 @@ msgstr ""
 "/Mittel/Varianz/Beobachtungen/Pooled Variance/Hypothetische Mitteldifferenz/"
 
 #: src/analysis-tools.c:1832
-#, fuzzy
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
 "t Critical two-tail"
-msgstr "/Mittel/Varianz/Beobachtungen/Hypothetische Mitteldifferenz/"
+msgstr "/Durchschnitt/Varianz/Beobachtungen/Hypothetische Mitteldifferenz/Realisierte Mitteldifferenz"
+"/df/t/Einseitiges P (Z<=z)/ Einseitig Kritisches z/Zweiseitiges P (Z<=z)/Zweiseitig Kritisches z"
 
 #: src/analysis-tools.c:1968
 msgid "F-Test"
@@ -2418,7 +2418,7 @@ msgstr "Variable 2"
 #: src/analysis-tools.c:2395 src/dialogs/dialog-analysis-tools.c:4131
 #: src/dialogs/regression.glade.h:8
 msgid "Regression"
-msgstr "Rückbildung"
+msgstr "Regressionsanalyse"
 
 #: src/analysis-tools.c:2397
 #, fuzzy
@@ -3200,14 +3200,12 @@ msgstr "Analyse-Werkzeuge"
 
 #: src/dialogs/anova-one.glade.h:1 src/dialogs/mean-tests.glade.h:2
 #: src/dialogs/variance-tests.glade.h:1
-#, fuzzy
 msgid "0.05"
-msgstr "0,95"
+msgstr "0,05"
 
 #: src/dialogs/anova-one.glade.h:2
-#, fuzzy
 msgid "ANOVA - Single Factor"
-msgstr "Anova: Einzelner Faktor"
+msgstr "1-Faktor Varianzanalyse"
 
 #: src/dialogs/anova-one.glade.h:3 src/dialogs/correlation.glade.h:2
 #: src/dialogs/covariance.glade.h:2 src/dialogs/descriptive-stats.glade.h:6
@@ -3246,22 +3244,19 @@ msgstr "N_eues Arbeitsbuch"
 #: src/dialogs/random-generation.glade.h:4 src/dialogs/rank.glade.h:4
 #: src/dialogs/regression.glade.h:7 src/dialogs/sampling.glade.h:7
 #: src/dialogs/variance-tests.glade.h:4
-#, fuzzy
 msgid "Output"
-msgstr "Ausgabebereich:"
+msgstr "Ausgabe"
 
 #: src/dialogs/anova-one.glade.h:7
-#, fuzzy
 msgid "_Alpha = "
-msgstr "1 - _Alpha:"
+msgstr "_Alpha = "
 
 #: src/dialogs/anova-one.glade.h:8 src/dialogs/correlation.glade.h:6
 #: src/dialogs/covariance.glade.h:6 src/dialogs/descriptive-stats.glade.h:14
 #: src/dialogs/histogram.glade.h:10 src/dialogs/regression.glade.h:11
 #: src/dialogs/sampling.glade.h:12
-#, fuzzy
 msgid "_Areas"
-msgstr "Blätter"
+msgstr "_Regionen"
 
 #: src/dialogs/anova-one.glade.h:10 src/dialogs/anova-two.glade.h:9
 #: src/dialogs/correlation.glade.h:8 src/dialogs/covariance.glade.h:8
@@ -3322,10 +3317,9 @@ msgstr "1"
 
 #: src/dialogs/anova-two.glade.h:4
 msgid "ANOVA - Two-Factor"
-msgstr ""
+msgstr "2-Faktor Varianzanalyse"
 
 #: src/dialogs/anova-two.glade.h:7
-#, fuzzy
 msgid "Number of Rows _Per Sample:"
 msgstr "Anza_hl der Stichproben:"
 
@@ -3873,7 +3867,6 @@ msgid "Unfinished"
 msgstr "Unvollendet"
 
 #: src/dialogs/cell-format.glade.h:98
-#, fuzzy
 msgid "Validation"
 msgstr "Überprüfung der Eingabe"
 
@@ -4231,19 +4224,16 @@ msgid "Shift cells _up"
 msgstr "Zellen nach _oben versetzen"
 
 #: src/dialogs/descriptive-stats.glade.h:1
-#, fuzzy
 msgid "(1 - alpha) = "
 msgstr "1 - _Alpha:"
 
 #: src/dialogs/descriptive-stats.glade.h:2
-#, fuzzy
 msgid ".95"
 msgstr "0,95"
 
 #: src/dialogs/descriptive-stats.glade.h:4
-#, fuzzy
 msgid "Confidence Interval for the _Mean"
-msgstr "Vertrauenswert für Mittel"
+msgstr "Konfidenzbereich für den _Durchschnitt"
 
 #: src/dialogs/descriptive-stats.glade.h:5
 #: src/dialogs/dialog-analysis-tools.c:4115
@@ -4252,12 +4242,11 @@ msgstr "Statistischer Überblick"
 
 #: src/dialogs/descriptive-stats.glade.h:8
 msgid "K = "
-msgstr ""
+msgstr "K = "
 
 #: src/dialogs/descriptive-stats.glade.h:13
-#, fuzzy
 msgid "S_ummary Statistics"
-msgstr "Statistischer Überblick"
+msgstr "_Statistischer Überblick"
 
 #: src/dialogs/dialog-about.c:30
 msgid "Miguel de Icaza, creator."
@@ -4308,9 +4297,10 @@ msgstr "Gergo Érdi, Gnumeric-Hacker."
 msgid "John Gotts, rpm packaging."
 msgstr ""
 
+# Add comment to source; cf. Gergo
 #: src/dialogs/dialog-about.c:44
 msgid "Andreas J. Guelzow, statistics stuff."
-msgstr "Andreas J. Guelzow, statistische Angelegenheiten."
+msgstr "Andreas J. Gülzow, statistische Angelegenheiten."
 
 #: src/dialogs/dialog-about.c:45
 msgid "Jon K. Hellan, Gnumeric hacker."
@@ -4435,17 +4425,17 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:993
 #: src/dialogs/dialog-analysis-tools.c:1108
 msgid "The selected input rows must have equal size!"
-msgstr ""
+msgstr "Die Eingabezeilern müssen die gleiche Größe haben."
 
 #: src/dialogs/dialog-analysis-tools.c:997
 #: src/dialogs/dialog-analysis-tools.c:1112
 msgid "The selected input columns must have equal size!"
-msgstr ""
+msgstr "Die Eingabespalten müssen die gleiche Größe haben."
 
 #: src/dialogs/dialog-analysis-tools.c:1001
 #: src/dialogs/dialog-analysis-tools.c:1116
 msgid "The selected input areas must have equal size!"
-msgstr ""
+msgstr "Die Eingabebereiche müssen die gleiche Größe haben."
 
 #: src/dialogs/dialog-analysis-tools.c:1004
 #: src/dialogs/dialog-analysis-tools.c:1119
@@ -4462,76 +4452,69 @@ msgstr ""
 #: src/dialogs/dialog-analysis-tools.c:3956
 #, c-format
 msgid "An unexpected error has occurred: %d."
-msgstr ""
+msgstr "Ein unerwarteter Fehler ist aufgetreten: %d."
 
 #: src/dialogs/dialog-analysis-tools.c:1050
-#, fuzzy
 msgid "Could not create the Correlation Tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Korrelation-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:1165
-#, fuzzy
 msgid "Could not create the Covariance Tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Kovarianz-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:1367
+#, fuzzy
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr ""
+msgstr "Es war nicht möglich, den Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:1470
+#, fuzzy
 msgid "Could not create the Rank and  Percentile Tools dialog."
-msgstr ""
+msgstr "Es war nicht möglich, den Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:1582
 msgid "The two input ranges must have the same size."
-msgstr ""
+msgstr "Die Eingabebereiche müssen die gleiche Größe haben."
 
 #: src/dialogs/dialog-analysis-tools.c:1811
-#, fuzzy
 msgid "Var_iable 1 Range:"
-msgstr "Bereich Variable 1:"
+msgstr "Bere_ich für Variable 1:"
 
 #: src/dialogs/dialog-analysis-tools.c:1812
-#, fuzzy
 msgid "_Variable 2 Range:"
-msgstr "Bereich Variable 2:"
+msgstr "Bereich für _Variable 2:"
 
 #: src/dialogs/dialog-analysis-tools.c:1816
 #, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Durchschnittstest-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:1932
 #: src/dialogs/dialog-analysis-tools.c:1936
 msgid "Each variable should have at least 2 observations!"
-msgstr ""
+msgstr "Jede Variable sollte wenigstens 2 Beobachtungen haben!"
 
 #: src/dialogs/dialog-analysis-tools.c:2004
-#, fuzzy
 msgid "Var_iable 1 Range"
-msgstr "Bereich Variable 1:"
+msgstr "Bere_ich für Variable 1:"
 
 #: src/dialogs/dialog-analysis-tools.c:2005
-#, fuzzy
 msgid "_Variable 2 Range"
-msgstr "Bereich Variable 2:"
+msgstr "Bereich für _Variable 2:"
 
 #: src/dialogs/dialog-analysis-tools.c:2009
-#, fuzzy
 msgid "Could not create the FTest Tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den FTest-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:2270
-#, fuzzy
 msgid "Could not create the Sampling Tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Stichproben-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:2307
 msgid "Discrete"
 msgstr "Diskret"
 
 #: src/dialogs/dialog-analysis-tools.c:2307
-#, fuzzy
 msgid "_Value And Probability Input Range:"
 msgstr "Eingabebereich für _Wert und Wahrscheinlichkeit:"
 
@@ -4543,10 +4526,9 @@ msgstr "Normal"
 
 #: src/dialogs/dialog-analysis-tools.c:2309
 msgid "_Mean:"
-msgstr "_Mittel:"
+msgstr "_Durchschnitt:"
 
 #: src/dialogs/dialog-analysis-tools.c:2309
-#, fuzzy
 msgid "_Standard Deviation:"
 msgstr "_Standardabweichung:"
 
@@ -4619,9 +4601,8 @@ msgstr ""
 "Wahrscheinlichkeit:' eintragen."
 
 #: src/dialogs/dialog-analysis-tools.c:2753
-#, fuzzy
 msgid "Could not create the Random Tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Zufallsnummern-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:2819
 msgid ""
@@ -4649,14 +4630,12 @@ msgstr ""
 "vorhanden sein."
 
 #: src/dialogs/dialog-analysis-tools.c:2940
-#, fuzzy
 msgid "_X Variables:"
-msgstr "X-Variable %d"
+msgstr "_X-Variablen:"
 
 #: src/dialogs/dialog-analysis-tools.c:2965
-#, fuzzy
 msgid "_Y Variable:"
-msgstr "Bereich Variable 2:"
+msgstr "_Y-Variable:"
 
 #: src/dialogs/dialog-analysis-tools.c:3031
 #, fuzzy
@@ -4669,46 +4648,39 @@ msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:3382
-#, fuzzy
 msgid "Could not create the Moving Average Tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Gleitende-Durchschnitt-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:3429
 msgid "Fourier analysis is not implemented yet.  Sorry."
 msgstr "Fourier-Analyse ist leider noch nicht implementiert."
 
 #: src/dialogs/dialog-analysis-tools.c:3472
-#, fuzzy
 msgid "Could not create the Fourier Analyis Tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Fourier-Analyse-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:3543
 msgid ""
 "Each row of the bin range should contain one numeric value\n"
 "(ignoring the label if applicable)."
-msgstr ""
+msgstr "Jede Zeile der Klasseneinteilung sollte einen numerischen Wert"
+"enthalten (und möglicherweise einen Klassenname)"
 
 #: src/dialogs/dialog-analysis-tools.c:3675 src/dialogs/histogram.glade.h:1
-#, fuzzy
 msgid "Bin _Range:"
-msgstr "_Numerischer Wertebereich (Bin Range):"
+msgstr "_Klassen Einteilung:"
 
 #: src/dialogs/dialog-analysis-tools.c:3679
-#, fuzzy
 msgid "Could not create the Histogram Tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Histogramm-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:3862
-#, fuzzy
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Varianzanalyse-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:3941
-#, fuzzy
 msgid "Each sample must contain the same number of rows."
-msgstr ""
-"Jedes Beispiel sollte die gleiche Anzahl von Zeilen haben ('Zeilen pro "
-"Beispiel:')."
+msgstr "Jede Stichprobe sollte die gleiche Anzahl von Zeilen haben ('Zeilen je Stichprobe:')."
 
 #: src/dialogs/dialog-analysis-tools.c:3946
 msgid "Given input range contains non-numeric data."
@@ -4723,17 +4695,17 @@ msgstr ""
 "umfassen."
 
 #: src/dialogs/dialog-analysis-tools.c:4078
-#, fuzzy
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Varianzanalyse-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-analysis-tools.c:4109
+#, fuzzy
 msgid "Anova: Two-Factor With Or Without Replication"
-msgstr ""
+msgstr "Varianzanalyse: 2 Faktoren"
 
 #: src/dialogs/dialog-analysis-tools.c:4117
 msgid "F-Test: Two-Sample for Variances"
-msgstr ""
+msgstr "F-Test: Varianzen zweier Stichproben"
 
 #: src/dialogs/dialog-analysis-tools.c:4125
 #: src/dialogs/moving-averages.glade.h:5
@@ -4751,28 +4723,28 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:4133 src/dialogs/sampling.glade.h:9
 msgid "Sampling"
-msgstr "Sampling"
+msgstr "Stichproben"
 
 #: src/dialogs/dialog-analysis-tools.c:4135
 msgid "t-Test: Paired Two Sample for Means"
-msgstr ""
+msgstr "t-Test: 2 von einander abhängige Stichproben"
 
 #: src/dialogs/dialog-analysis-tools.c:4137
 msgid "t-Test: Two-Sample Assuming Equal Variances"
-msgstr ""
+msgstr "t-Test: 2 Stichproben mit gleicher Varianz"
 
 #: src/dialogs/dialog-analysis-tools.c:4139
 msgid "t-Test: Two-Sample Assuming Unequal Variances"
-msgstr ""
+msgstr "t-Test: 2 Stichproben mit unterschiedlicher Varianz"
 
 #: src/dialogs/dialog-analysis-tools.c:4141
 msgid "z-Test: Two Sample for Means"
-msgstr ""
+msgstr "z-Test: 2 Stichproben"
 
 #: src/dialogs/dialog-autocorrect.c:292
 #, fuzzy
 msgid "Could not create the AutoCorrect dialog."
-msgstr "Es war nicht möglich, den Namen-Druiden zu erzeugen."
+msgstr "Es war nicht möglich, den Korrigier-Druiden zu erzeugen."
 
 #: src/dialogs/dialog-autoformat.c:77
 msgid " "
