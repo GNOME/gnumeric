@@ -318,7 +318,7 @@ append_hour (GString *string, int n, struct tm const *time_split,
  * Renders the hour.
  */
 static void
-append_hour_elapsed (GString *string, struct tm *tm, gnm_float number)
+append_hour_elapsed (GString *string, struct tm *tm, gnum_float number)
 {
 	char buf[(DBL_MANT_DIG + DBL_MAX_EXP) * 2 + 1];
 	double res, int_part;
