@@ -3,6 +3,14 @@ Gnumeric 1.1.8
 Jody:
 	* Add XL for polygon colours.
 
+Jukka:
+	* Solver improvements:
+	  - Imported the GLPK (GNU linear programming kit) version 3.2.
+	    It provides a revised simplex algorithm for solving large
+	    scale problems, written by Andrew Makhorin.  It performs 
+	    much better than lp-solve if the model is large, see
+	    a benchmark in ftp://plato.la.asu.edu/pub/lpsimp.txt.
+
 Morten:
 	* Add poor man's utf8 regexp routines.
 

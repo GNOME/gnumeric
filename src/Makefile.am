@@ -321,6 +321,7 @@ gnumeric_app_libs =				\
 	widgets/libwidgets.a			\
 	tools/libtools.a			\
 	tools/solver/libsolver.a		\
+	tools/solver/glpk/source/libglpk.a	\
 	tools/solver/lp_solve/liblp_solve.a
 
 

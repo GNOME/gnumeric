@@ -1,0 +1,302 @@
+GLPK 3.2 (release date: Jul 15, 2002)
+
+        New edition of the document "GLPK: Reference Manual" was
+        included (see the files 'refman.latex', 'refman.dvi', and
+        'refman.ps' in the subdirectory 'doc').
+
+        New edition of the document "GLPK: Modeling Language GLPK/L" was
+        included (see the files 'lang.latex', 'lang.dvi', and 'lang.ps'
+        in the subdirectory 'doc').
+
+        The following new API routines were added to the package:
+
+        lpx_transform_row (transform explicitly specified row);
+        lpx_transform_col (transform explicitly specified column);
+        lpx_prim_ratio_test (perform primal ratio test);
+        lpx_dual_ratio_test (perform dual ratio test);
+        lpx_interior (solve LP problem using interior point method);
+        lpx_get_ips_stat (query status of interior point solution);
+        lpx_get_ips_row (obtain row interior point solution);
+        lpx_get_ips_col (obtain column interior point solution);
+        lpx_get_ips_obj (obtain interior point value of obj.func.);
+        lpx_read_lpm (read LP/MIP model written in GLPK/L);
+        lpx_write_mps (write problem data using MPS format);
+        lpx_print_ips (print interior point solution).
+
+        Detailed description of all these new API routines are given in
+        the new edition of the reference manual.
+
+        New version of the stand-alone solver glpsol (which is based on
+        the new API) was implemented.
+
+        So long as the new API (introduced in glpk 3.0) now provides
+        all the functions, which were provided by the old API, the old
+        API routines were removed from the package at all.
+
+GLPK 3.1 (release date: May 27, 2002)
+
+        A preliminary implementation of new API routines was completed
+        and included in the package.
+
+        These new API routines provide much more flexible interaction
+        between the application program, LP/MIP problem instances, and
+        solver routines. Based on completely changed data structures
+        they are, however, similar to the API routines and provide the
+        same functionality. Please note that three routines, namely,
+        solving LPs using interior point method, reading model written
+        in the GLPK/L modeling language, and writing problem data in
+        the MPS format, are not implemented in the new API, however,
+        these routines are planned to be implemented in the next version
+        of the package.
+
+        A description of the new API routines is given in the document
+        "GLPK Reference Manual", a draft edition of which is included
+        in the package (see the files 'refman.latex', 'refman.dvi', and
+        'refman.ps' in the subdirectory 'doc').
+
+        Although the old API routines are kept in the package, they are
+        no longer supported and will be removed in the future.
+
+GLPK 3.0.8 (release date: May 13, 2002)
+
+        A preliminary implementation of new API routines was included
+        in the package. These new API routines are intended to provide
+        much more flexible interaction between the application program,
+        LP/MIP problem and solver routines. See the document "New GLPK
+        API Routines" (the file 'newapi.txt' in the subdirectory 'doc')
+        also included in the package.
+
+        The api routines glp_simplex2, glp_call_ipm1, glp_call_bbm1 were
+        renamed, respectively, to glp_simplex, glp_interior, glp_integer
+        in order to reflect changes in implementation. The api routines
+        glp_call_rsm1, glp_simplex1, glp_pivot_in, glp_pivout_out were
+        removed from the package since they are completely supreseded by
+        the new API routines (however, these routines still can be found
+        in the subdirectory 'oldsrc'). Please consult a new edition of
+        the document "GLPK User's Guide" about all these changes in the
+        existing api routines.
+
+        The document "GLPK Library Reference" was removed from the
+        package (into the subdirectory 'oldsrc') since it describes the
+        obsolete library routines, most of which are no longer used.
+
+GLPK 3.0.7 (release date: Apr 22, 2002)
+
+        A new, more efficient implementation of the primal/dual simplex
+        method was included in the package. Due to some improvements the
+        simplex-based solver allows solving many LP problems faster and
+        provides more reliable results. Note that the new implementation
+        is currently incomplete and available only via the api routine
+        glp_simplex2.
+
+        All the changes are transparent on API level.
+
+GLPK 3.0.6 (release date: Mar 28, 2002)
+
+        New version of LU-factorization and basis maintenance routines
+        (based on Forrest-Tomlin updating technique) was implemented.
+        Since these new routines functionally supersede some routines
+        (which implement other forms of the basis matrix) and make them
+        obsolete, the latter were removed from the package (they still
+        can be found in the subdirectory 'oldsrc').
+
+        All the changes are transparent on API level.
+
+GLPK 3.0.5 (release date: Jan 29, 2002)
+
+        New edition of the document "GLPK User's Guide" was included in
+        the distribution. Now it describes all additional API routines,
+        which were recently added to the package.
+
+        Structure of the package was re-organized in order to make its
+        maintenance easier (all small files in the subdurectory 'source'
+        were merged in bigger units). These changes are transparent for
+        the user.
+
+GLPK 3.0.4 (release date: Dec 10, 2001)
+
+        A new, more efficient implementation of the two-phase primal
+        simplex method was included in the package. Due to some new
+        features (an advanced initial basis, projected steepest edge,
+        recursive updating values and reduced costs) the new LP solver
+        is faster and numerically more stable than the old one.
+
+        The new LP solver is available as API routine glp_simplex2 and
+        has the same purpose as API routine glp_call_rsm1. For detailed
+        specification see the file 'newapi.txt' in the directory 'doc'.
+
+        Now the new LP solver is also used by default to solve an
+        initial LP problem in the branch-and-bound routine glp_call_bbm1
+        instead the routine rsm1_driver. Note that the branch-and-bound
+        procedure itself is still based on rsm1_driver.
+
+        The new LP solver is also used as default solver in GLPSOL for
+        solving LP and MIP problems. In order to choose the old solver
+        the option '--old-sim' can be specified in the command line.
+
+GLPK 3.0.3 (release date: Oct 03, 2001)
+
+        Some minor changes were made in the simplex method routines in
+        order to improve numerical stability of the method.
+
+GLPK 3.0.2 (release date: Sep 24, 2001)
+
+        A new implementation of the basis maintaining routines was
+        included in the package. These routines, which are based on so
+        called FHV-factorization (a variety of LU-factorization) of the
+        basis matrix and Gustavson's data structures, allows performing
+        the main operations faster at the expense of some worsening
+        numerical accuracy.
+
+        AFI (Advanced Form of the Inverse), which is the form of the
+        basis matrix based on FHV-factorization, is available via the
+        parameter form = 3 (on API level) or via the option --afi (in
+        GLPSOL solver).
+
+GLPK 3.0.1 (release date: Aug 01, 2001)
+
+        Old GLPK API routines have been removed from the package.
+
+        New GLPK API routines were added:
+
+        - scaling routines;
+
+        - a routine for writing problem data in MPS format;
+
+        - a comprehensive driver to the simplex method;
+
+        - basis maintaining routines.
+
+        A description of the new API routines is given in the document
+        "Additional GLPK API Routines". This document is included into
+        the distribution in plain text format (see the file 'newapi.txt'
+        in the subdirectory 'doc').
+
+        Now the distribution includes a non-trivial example of using
+        GLPK as a base LP solver for Concorde, a well known program that
+        solves Traveling Salesman Problem (TSP). For further details see
+        comments in the file 'sample/lpglpk30.c'.
+
+GLPK 3.0 (release date: Jul 19, 2001)
+
+        Now GLPK is provided with new API, which being more flexible
+        can be used in more complex algorithmic schemes.
+
+        New edition of the document "GLPK User's Guide" is included in
+        the distribution. Now it completely corresponds to the new GLPK
+        API routines.
+
+        Old API routines are not removed yet from the package, however
+        they became obsolete and therefore should not be used. Since now
+        the header glpk.h corresponds to new API, in order to compile
+        existing programs that use old GLPK API routines the statement
+
+        #define GLP_OLD_API
+
+        should be inserted before the statement
+
+        #include "glpk.h"
+
+GLPK 2.4.1 (release date: Jun 14, 2001)
+
+        The document "Modeling language GLPK/L" is included into the
+        distribution in texinfo format.
+
+        New edition of the document "GLPK User's Guide" is included in
+        the distribution. Now it describes all additional API routines
+        which were recently added to the package.
+
+GLPK 2.4 (release date: May 10, 2001)
+
+        Now GLPK includes an implementation of a preliminary version
+        of the GLPK/L modeling language. This language is intended for
+        writing mathematcal programming models. The name GLPK/L is
+        derived from GNU Linear Programming Kit Language.
+
+        A brief description of the GLPK/L language is given in the
+        document "GLPK/L Modeling Language: A Brief Description". This
+        document is included into the distribution in plain text format
+        (see the file 'language.txt' in the subdirectory 'doc').
+
+        The language processor (which is a program that analyzes model
+        description written in GLPK/L and translates it to internal data
+        structures) is available as the GLPK API routine.
+
+        The stand-alone solver GLPSOL now is able: a) to process model
+        descriptions written in the GLPK/L language; b) to solve pure LP
+        problems using the interior point method (therefore the program
+        GLPIPM was removed from the package).
+
+GLPK 2.3 (release date: Apr 09, 2001)
+
+        New edition of the document "GLPK User's Guide" is included in
+        the distribution. Now it describes all additional API routines
+        which were recently added to the package.
+
+        The MIP solver was fully re-programmed in order to improve its
+        robustness and performance. In particular, a basis recovering
+        procedure was implemented (this procedure allows switching to
+        the primal simplex method in case when the dual simplex method
+        fails).
+
+GLPK 2.2 (release date: Mar 15, 2001)
+
+        Now GLPK includes a tentative implementation of the
+        branch-and-bound procedure based on the dual simplex method for
+        mixed integer linear programming (MIP).
+
+        Complete description of this new feature of the package is given
+        in the preliminary document "Mixed Integer Linear Programming
+        Using GLPK Version 2.2 (Supplement to GLPK User's Guide)". This
+        document is included into the distribution in plain text format
+        (see the file 'mip.txt' in the subdirectory 'doc').
+
+        The MIP solver (glp_integer) can be used as GLPK API routine in
+        the same way as the pure LP solver (glp_simplex).
+
+        The stand-alone program 'glpsol' is now able to solve LP as well
+        as MIP problems.
+
+        Note that the current version of GLPK MIP solver is based on
+        easiest heuristics for branching and backtrackng. Therefore the
+        solver is fit mainly for MIP problems which are not very hard
+        and have few integer variables.
+
+GLPK 2.1 (release date: Feb 19, 2001)
+
+        The document "GLPK Implementation of the Revised Simplex Method"
+        is included into the distribution. This document describes most
+        of routines related to the revised simplex method.
+
+GLPK 2.0 (release date: Jan 25, 2001)
+
+        Now GLPK includes a tentative implementation of the primal-dual
+        interior point method for large-scale linear programming.
+
+        The interior point solver can be used as GLPK API routine in the
+        same manner as the simplex method solver (glp_simplex):
+
+        ret = glp_interior();
+
+        Note that currently the interior point solver implemented in
+        GLPK doesn't include many important features, in particular:
+
+        * it can't process dense columns; therefore if the problem has
+          dense columns, the solving will be extremely inefficient;
+
+        * it has no special features against numerical unstability;
+          some problems may cause premature termination of the solving
+          when the matrix A*D*A' becomes ill-conditioned;
+
+        * it computes only values of primal (auxiliary and structural)
+          variables and doesn't compute values of dual variables (i.e.
+          reduced costs) which are just set to zero;
+
+        * it doesn't identify optimal basis corresponding to the found
+          interior point solution; all variables in the found solution
+          are just marked as basic variables.
+
+        GLPK also includes a stand-alone program 'glpipm' which is a
+        demo based on the interior point method. It may be used in the
+        same way as the program 'glpsol' that is based on the simplex
+        method.

@@ -1,0 +1,2542 @@
+%% lang.latex %%
+
+%% Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
+%%               Department for Applied Informatics, Moscow Aviation
+%%               Institute, Moscow, Russia. All rights reserved.
+%%
+%% This file is a part of GLPK (GNU Linear Programming Kit).
+%%
+%% GLPK is free software; you can redistribute it and/or modify it
+%% under the terms of the GNU General Public License as published by
+%% the Free Software Foundation; either version 2, or (at your option)
+%% any later version.
+%%
+%% GLPK is distributed in the hope that it will be useful, but WITHOUT
+%% ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+%% or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public
+%% License for more details.
+%%
+%% You should have received a copy of the GNU General Public License
+%% along with GLPK; see the file COPYING. If not, write to the Free
+%% Software Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+%% 02111-1307, USA.
+
+\documentclass[a4paper,11pt,twoside,draft]{report}
+
+\setlength{\paperwidth}{210mm}
+\setlength{\paperheight}{297mm}
+\setlength{\hoffset}{-1in}
+\addtolength{\hoffset}{5mm}
+\setlength{\oddsidemargin}{25mm}
+\setlength{\voffset}{-1in}
+\addtolength{\voffset}{20mm}
+\setlength{\topmargin}{0mm}
+\setlength{\headheight}{3mm}
+\setlength{\headsep}{7mm}
+\setlength{\textwidth}{150mm}
+\setlength{\textheight}{230mm}
+\setlength{\parindent}{18pt}
+
+\pagestyle{myheadings}
+\sloppy
+
+\begin{document}
+
+\begin{titlepage}
+\begin{center}
+
+\vspace*{2.5in}
+
+\begin{huge}
+{\bf GNU Linear Programming Kit}
+\end{huge}
+
+\vspace{0.5in}
+
+\begin{LARGE}
+{\bf Modeling Language GLPK/L}
+\end{LARGE}
+
+\vspace{0.5in}
+
+\begin{LARGE}
+{\bf Version 3.2}
+\end{LARGE}
+
+\vspace{0.5in}
+\begin{Large}
+(Draft Edition, June 2002)
+\end{Large}
+\end{center}
+
+\newpage
+\vspace*{1in}
+\vfill
+
+\noindent
+The GLPK package is a part of the GNU project released under the aegis
+of GNU.
+
+\medskip \noindent
+Copyright \copyright{} 2000, 2001, 2002 Andrew Makhorin, Department for
+Applied Informatics, Moscow Aviation Institute, Moscow, Russia. All
+rights reserved.
+
+\medskip \noindent
+Free Software Foundation, Inc., 59 Temple Place --- Suite 330, Boston,
+MA 02111, USA.
+
+\medskip \noindent
+Permission is granted to make and distribute verbatim copies of this
+manual provided the copyright notice and this permission notice are
+preserved on all copies.
+
+\medskip \noindent
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided also that the
+entire resulting derived work is distributed under the terms of
+a permission notice identical to this one.
+
+\medskip \noindent
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions.
+\end{titlepage}
+
+\tableofcontents
+
+\chapter{Basic Concepts}
+
+\section{Introduction}
+
+GLPK/L modeling language is intended for writing mathematical
+programming models. Its name is derived from \underline{G}NU
+\underline{L}inear \underline{P}rogramming \underline{K}it
+\underline{L}anguage.
+
+Model description written in GLPK/L language consists of a sequence of
+statements constructed by the user from the language elements described
+in this document.
+
+In a process called translation a program called the language
+processor analyzes the model description statements and translates them
+into internal data structures, which may be then used either for
+generating mathematical programming problem data or directly by
+a program called the solver for obtaining numerical solution of the
+problem.
+
+GLPK/L modeling language is a part of the GLPK package.
+
+\section{Mathematical programming problem}
+
+GLPK/L assumes the following formulation of mathematical non-linear
+programming (NLP) problem\footnote{Processing model description written
+in GLPK/L language assumes generating data for mathematical programming
+problem. Although the GLPK package is designed for linear problems, the
+GLPK/L language is suitable for expressing linear as well as non-linear
+problems. That is the reason why the general formulation is given
+here.}:
+
+\medskip
+
+\noindent
+\hspace{1in} minimize (or maximize)
+$$Z = x_{obj} \eqno (1.1)$$
+\hspace{1in} subject to (non-linear) constraints
+$$
+\begin{array}{c}
+\nonumber x_1 = f_1(x_{m+1}, x_{m+2}, \dots, x_{m+n}) \\
+\nonumber x_2 = f_2(x_{m+1}, x_{m+2}, \dots, x_{m+n}) \\
+\nonumber \dots \dots \dots \dots \dots \dots \\
+\nonumber x_m = f_m(x_{m+1}, x_{m+2}, \dots, x_{m+n}) \\
+\end{array} \eqno (1.2)
+$$
+\hspace{1in} and bounds of variables
+$$
+\begin{array}{c}
+\nonumber l_1 \leq x_1 \leq u_1 \\
+\nonumber l_2 \leq x_2 \leq u_2 \\
+\nonumber \dots \dots \dots \\
+\nonumber l_{m+n} \leq x_{m+n} \leq u_{m+n} \\
+\end{array} \eqno (1.3)
+$$
+where: $x_1, x_2, \dots, x_m$ --- rows or auxiliary variables;
+$x_{m+1}, x_{m+2}, \dots, x_{m+n}$ --- columns or structural variables;
+$Z$ --- objective function;
+$obj$ --- the number of a row, which defines the objective function;
+$f_1, f_2, \dots, f_m$ --- (non-linear) functions, which define the
+equiality constraints;
+$l_1, l_2, \dots, l_{m+n}$ --- lower bounds of variables;
+$u_1, u_2, \dots, u_{m+n}$ --- upper bounds of variables.
+
+If all the functions $f_1$, $f_2$, \dots, $f_m$ are linear, the
+problem (1.1)---(1.3) turns into linear programming (LP) problem. LP
+differs from NLP only in the system of equality constraints (1.2), which
+in the case of LP is the following:
+$$
+\begin{array}{c}
+\nonumber x_1 = a_{11}x_{m+1} + a_{12}x_{m+2} + \dots + a_{1n}x_{m+n} \\
+\nonumber x_2 = a_{21}x_{m+1} + a_{22}x_{m+2} + \dots + a_{2n}x_{m+n} \\
+\nonumber \dots \dots \dots \dots \dots \dots \\
+\nonumber x_m = a_{m1}x_{m+1} + a_{m2}x_{m+2} + \dots + a_{mn}x_{m+n} \\
+\end{array} \eqno (1.4)
+$$
+where $a_{11}$, $a_{12}$, \dots, $a_{mn}$ are constraint coefficients.
+
+Auxiliary variables are called {\it rows}, because they correspond to
+rows of the constraint matrix (i.e. the matrix built of constraint
+coefficients as in the case of LP). Analogously, structural variables
+are called {\it columns}, because they correspond to columns of the
+constraint matrix.
+
+Bounds of variables can be finite as well as infinite. Besides, lower
+and upper bounds can be equal to each other. Thus, the following types
+of variables are possible:
+\begin{center}
+\begin{tabular}{r@{}c@{}ll}
+\multicolumn{3}{c}{Bounds of variable} & Type of variable \\
+\hline
+$-\infty <$ &$\ x_k\ $& $< +\infty$ & Free (unbounded) variable \\
+$l_k \leq$ &$\ x_k\ $& $< +\infty$  & Variable with lower bound \\
+$-\infty <$ &$\ x_k\ $& $\leq u_k$  & Variable with upper bound \\
+$l_k \leq$ &$\ x_k\ $& $\leq u_k$   & Double-bounded variable \\
+$l_k =$ &$\ x_k\ $& $= u_k$         & Fixed variable \\
+\end{tabular}
+\end{center}
+\noindent
+Note that the types of variables shown above are applicable to
+structural as well as to auxiliary variables.
+
+In addition to LP and NLP problems GLPK/L allows mixed integer linear
+or non-linear (MIP) problems, where some (or all) variables are
+required to be integer. GLPK/L assumes that MIP problem has the same
+formulation as ordinary (pure) LP or NLP problem, i.e. includes
+structural and auxiliary variables, which can have lower and/or upper
+bounds. Note that in GLPK/L only structural variables (columns) are
+allowed to be of integer kind.
+
+\section{Model expressions}
+
+Principal constituents of the system of equality constraints (1.2) are
+functions $f_1$, $f_2$, \dots, $f_m$ of structural variables. In GLPK/L
+it is assumed that these functions can be expressed in the form of so
+called model expressions.
+
+{\it Model expression} is an algebraic formula composed of numeric
+constants, structural variables, and arithmetic operators.
+
+For example, the formula
+$$x+2\cdot(y-3\cdot z)+4.5$$
+is a model expression, where $x$, $y$, $z$ are structural variables,
+2, 3, 4.5 are numeric constants, $+$, $-$, $\cdot$ are arithmetic
+operators.
+
+In GLPK/L model expressions are used as ``values'', which can be
+assigned to some language objects (like, say, floating-point numbers can
+be assigned to variables in programming languages). In this sense the
+language objects are close to objects of computer algebra systems.
+Although model expressions have a special internal representation, the
+user can think them just as character strings that represent the
+corresponding formulae.
+
+Being algebraic objects model expressions allow all operations, which
+are applicable to numbers. Let, for example, $e_1$ and $e_2$ be the
+following model expressions:
+$$
+\begin{array}{r@{}c@{}l}
+e_1 & \ = \ & x + 2\cdot y \\
+e_2 & \ = \ & z + 1 \\
+\end{array}
+$$
+Then it is possible to compute, say, the sum of $e_1$ and $e_2$:
+$$e = e_1+e_2 = x + 2\cdot y + z + 1,$$
+where $e$ is the resultant model expression.
+
+It is understood that ordinary numeric constants can be considered as
+a particular form of model expressions.
+
+Model expression, which contain no structural variables, is called
+{\it constant model expression}. The language processor always reduces
+constant model expressions to the form of numeric constants. On the
+other hand, if at least one model expression participating in an
+operation is not a constant expression, the language processor keeps the
+resultant expression ``as is'', performing no algebraic transformations.
+Let, for example, $e_1=2\cdot x+1$ and $e_2=3\cdot x+2$. Addition of
+$e_1$ and $e_2$ gives the resultant expression
+$e = e_1+e_2 = 2\cdot x + 1 + 3\cdot x + 2$ in spite of that it could be
+reduced to $e=5\cdot x + 3$.
+
+In order to attach a model expression to a particular constraint the
+assigned statement should be used (see Section 5.1).
+
+The GLPK package is not intended to deal with non-linear problems,
+so all model expressions used to build equiality constraints should be
+linear.
+
+{\it Linear model expression} can be defined recursively as follows:
+
+1. Constant model expression is linear model expression.
+
+2. Structural variable is linear model expression.
+
+3. Let $e_1$ and $e_2$ be linear model expressions, $c$ be constant
+model expression. Then expressions $+e_1$, $-e_1$, $e_1+e_2$,
+$e_1-e_2$, $c\cdot e_1$, $e_1\cdot c$, and $e_1/c$ are linear model
+expressions.
+
+4. No else is linear model expression.
+
+For example, the expression
+$$x+2\cdot(y-3\cdot x)/(10+2.5)-4.5$$
+is linear, and the expression
+$$x+2\cdot(y-3\cdot x)/(10+2.5\cdot x)-4.5$$
+is not.
+
+\section{Model objects}
+
+The GLPK/L modeling language is designed to simplify preparing problem
+data, especially in the case of large scale problems.
+
+So far as components of mathematical programming problems are usually
+correspond to entities of the real world, composing such problems is
+called {\it modeling}, and a description of such problems expressed in
+a formal modeling language is called {\it mathematical model} or simply
+{\it model}.
+
+In GLPK/L model is described in terms of sets, parameters, predicates,
+variables, and constraints, which are called {\it model objects}.
+
+The user introduces particular model objects using declaration
+statements. Each model object is provided with a symbolic name, which
+uniquely identifies the object and is intended for referencing purposes.
+
+\subsection{Sets}
+
+{\it Set} is a collection of elementary abstract objects called
+{\it items}.
+
+Each set and each item have a symbolic name given by the user in the set
+declaration statement.
+
+Set can contain arbitrary number of items. Different sets can't contain
+the same item.
+
+In GLPK/L sets are used only as index sets (domains).
+
+\subsection{Parameters}
+
+{\it Parameter} is a multidimensional array built over sets.
+A particular element of parameter is called {\it parameter member}.
+Within array each parameter member is uniquely identified by its
+subscript list called {\it tuple}, which is an ordered sequence of items
+of the corresponding index sets.
+
+Number of sets, over which a parameter is built (i.e. number of items,
+which identify each parameter member, or, equivalently, number of its
+subscripts), is called {\it dimension}. In the current version of the
+language parameters can be built over up to 6 sets. 0-dimensional
+parameter is called {\it scalar parameter}.
+
+Each parameter has a symbolic name given by the user in the parameter
+declaration statement. Parameter members have no individual names.
+
+Parameters have sparse structure. This means that some (or even all)
+parameter members may not exist.
+
+If a parameter member exists, it always has an assigned value. Values
+assigned to parameter members are model expressions (see Section 1.3).
+Since model expressions may have the form of numeric constants,
+parameters are also able to represent ordinary arrays of numeric data.
+
+Formally a parameter $F$ is the mapping
+$$F:S_1\times S_2\times \dots\times S_n \rightarrow \Xi,\eqno(1.5)$$
+where $S_1\times S_2\times \dots\times S_n$ is the Cartesian product of
+index sets, over which the parameter $F$ is built, $\Xi$ is the set of
+all model expressions (expanded with the special value \verb|nil|, to
+which all missing parameter members are mapped).
+
+The structure of $n$-dimensional model parameter is schematically shown
+on Fig. 1.1.
+
+\begin{figure}
+\begin{center}
+\setlength{\unitlength}{0.75mm}
+\begin{picture}(90,70)
+\put(0,0){\makebox(40,10)[b]{Tuple}}
+\put(1,10){$\underbrace{\makebox(38,10){}}$}
+\put(40,0){\makebox(50,10)[b]{Assigned value}}
+\put(41,10){$\underbrace{\makebox(48,10){}}$}
+\put(0,10){\line(1,0){90}}
+\put(0,20){\line(1,0){90}}
+\put(0,10){\line(0,1){10}}
+\put(0,10){\makebox(10,10){$i_1$}}
+\put(10,10){\line(0,1){10}}
+\put(10,10){\makebox(10,10){$i_2$}}
+\put(20,10){\line(0,1){10}}
+\put(20,10){\makebox(10,10){\dots}}
+\put(30,10){\line(0,1){10}}
+\put(30,10){\makebox(10,10){$i_n$}}
+\put(40,10){\line(0,1){10}}
+\put(40,10){\makebox(50,10){Model expression}}
+\put(90,10){\line(0,1){10}}
+\put(30,30){\line(1,0){30}}
+\put(30,40){\line(1,0){30}}
+\put(30,30){\line(0,1){10}}
+\put(60,30){\line(0,1){10}}
+\put(60,35){\line(1,0){5}}
+\put(35,45){\line(1,0){30}}
+\put(35,40){\line(0,1){5}}
+\put(65,35){\line(0,1){10}}
+\put(65,40){\line(1,0){5}}
+\put(40,50){\line(1,0){30}}
+\put(40,45){\line(0,1){5}}
+\put(70,40){\line(0,1){10}}
+\put(30,30){\makebox(30,10){Member}}
+\put(0,20){\line(3,1){30}}
+\put(60,30){\line(3,-1){30}}
+\put(30,60){\framebox(40,10){Parameter}}
+\put(50,50){\line(0,1){10}}
+\end{picture}
+
+\bigskip
+
+Fig. 1.1. Structure of $n$-dimensional model parameter
+\end{center}
+\end{figure}
+
+Note that from the formal definition (1.5) it follows that:
+
+a) all members of the same parameter should have different tuples, i.e.
+multiplets (members with identical tuples) are not allowed;
+
+b) in the case of 0-dimensional (scalar) parameters the Cartesian
+product formally has one element. And since sparse parameters are
+allowed, each scalar parameter can have either one member or no member.
+
+\subsection{Predicates}
+
+Predicates have the same structure as parameters, i.e. {\it predicate}
+is a multidimensional array built over sets. However, unlike parameters
+predicate members have no assigned values.
+
+Formally a predicate $P$ is the mapping
+$$P:S_1\times S_2\times \dots\times S_n \rightarrow
+\{{\tt true}, {\tt false}\}, \eqno(1.6)$$
+where $S_1\times S_2\times \dots\times S_n$ is the Cartesian product of
+index sets, over which the predicate $P$ is built,
+$\{{\tt true}, {\tt false}\}$ is the set of Boolean values. Existing
+predicate members are mapped to {\tt true}, and all other elements of
+the Cartesian product, which are missing in the predicate, are mapped to
+{\tt false} (thus, predicates also have sparse structure).
+
+The structure of $n$-dimensional model predicate is schematically shown
+on Fig. 1.2.
+
+\begin{figure}
+\begin{center}
+\setlength{\unitlength}{0.75mm}
+\begin{picture}(90,70)
+\put(0,0){\makebox(40,10)[b]{Tuple}}
+\put(1,10){$\underbrace{\makebox(38,10){}}$}
+\put(0,10){\line(1,0){90}}
+\put(0,20){\line(1,0){90}}
+\put(0,10){\line(0,1){10}}
+\put(0,10){\makebox(10,10){$i_1$}}
+\put(10,10){\line(0,1){10}}
+\put(10,10){\makebox(10,10){$i_2$}}
+\put(20,10){\line(0,1){10}}
+\put(20,10){\makebox(10,10){\dots}}
+\put(30,10){\line(0,1){10}}
+\put(30,10){\makebox(10,10){$i_n$}}
+\put(40,10){\line(0,1){10}}
+\put(40,10){\makebox(50,10){(no assigned value)}}
+\put(90,10){\line(0,1){10}}
+\put(30,30){\line(1,0){30}}
+\put(30,40){\line(1,0){30}}
+\put(30,30){\line(0,1){10}}
+\put(60,30){\line(0,1){10}}
+\put(60,35){\line(1,0){5}}
+\put(35,45){\line(1,0){30}}
+\put(35,40){\line(0,1){5}}
+\put(65,35){\line(0,1){10}}
+\put(65,40){\line(1,0){5}}
+\put(40,50){\line(1,0){30}}
+\put(40,45){\line(0,1){5}}
+\put(70,40){\line(0,1){10}}
+\put(30,30){\makebox(30,10){Member}}
+\put(0,20){\line(3,1){30}}
+\put(60,30){\line(3,-1){30}}
+\put(30,60){\framebox(40,10){Predicate}}
+\put(50,50){\line(0,1){10}}
+\end{picture}
+
+\bigskip
+
+Fig. 1.2. Structure of $n$-dimensional model predicate
+\end{center}
+\end{figure}
+
+Predicates are mainly intended for expressing relationships between
+items that can be used for constructing various logical conditions.
+
+As a rule predicates appear as intermediate results, but the user can
+explicitly declare a named predicate using the predicate declaration
+statement.
+
+May note that predicates are similar to Boolean arrays in programming
+languages.
+
+\subsection{Variables}
+
+{\it Variable} is a multidimensional array built over sets like
+parameters and predicates.
+
+Members of variables called {\it elemental variables} play double role.
+Firstly, each elemental variable defines the corresponding structural
+variable of the problem. And secondly, each elemental variable being
+a valid model expression can be used in the same sense as model
+expressions assigned to parameter members.
+
+Formally, a variable $V$ is the mapping
+$$V:S_1\times S_2\times \dots\times S_n \rightarrow X, \eqno(1.7)$$
+where $S_1\times S_2\times \dots\times S_n$ is the Cartesian product of
+index sets, over which the variable $V$ is built,
+$X=\{x_{m+1},x_{m+2},\dots,x_{m+n}\}$ is the set of structural
+variables (see Section 1.1).
+
+The structure of $n$-dimensional model variable is schematically shown
+on Fig. 1.3.
+
+\begin{figure}
+\begin{center}
+\setlength{\unitlength}{0.75mm}
+\begin{picture}(90,70)
+\put(0,0){\makebox(40,10)[b]{Tuple}}
+\put(1,10){$\underbrace{\makebox(38,10){}}$}
+\put(0,10){\line(1,0){90}}
+\put(0,20){\line(1,0){90}}
+\put(0,10){\line(0,1){10}}
+\put(0,10){\makebox(10,10){$i_1$}}
+\put(10,10){\line(0,1){10}}
+\put(10,10){\makebox(10,10){$i_2$}}
+\put(20,10){\line(0,1){10}}
+\put(20,10){\makebox(10,10){\dots}}
+\put(30,10){\line(0,1){10}}
+\put(30,10){\makebox(10,10){$i_n$}}
+\put(40,10){\line(0,1){10}}
+\put(40,10){\makebox(50,10){Structural variable}}
+\put(90,10){\line(0,1){10}}
+\put(30,30){\line(1,0){30}}
+\put(30,40){\line(1,0){30}}
+\put(30,30){\line(0,1){10}}
+\put(60,30){\line(0,1){10}}
+\put(60,35){\line(1,0){5}}
+\put(35,45){\line(1,0){30}}
+\put(35,40){\line(0,1){5}}
+\put(65,35){\line(0,1){10}}
+\put(65,40){\line(1,0){5}}
+\put(40,50){\line(1,0){30}}
+\put(40,45){\line(0,1){5}}
+\put(70,40){\line(0,1){10}}
+\put(30,30){\makebox(30,10){Member}}
+\put(0,20){\line(3,1){30}}
+\put(60,30){\line(3,-1){30}}
+\put(30,60){\framebox(40,10){Variable}}
+\put(50,50){\line(0,1){10}}
+\end{picture}
+
+\bigskip
+
+Fig. 1.3. Structure of $n$-dimensional model variable
+\end{center}
+\end{figure}
+
+The user introduces variables into model using the variable declaration
+statements, which also creates all elemental variables. As a rule there
+is no need to have sparse variables, however, the user can declare
+a sparse variable using the predicate-controlled declaration. Note that
+nothing can be assigned to variables, because variables are unknown
+quantities.
+
+\subsection{Constraints}
+
+{\it Constraint} is a multidimensional array built over sets, i.e. this
+model object has the same structure as parameters, predicates, and
+variables.
+
+Members of constraints called {\it elemental constraints} like members
+of variables play double role. Firstly, each elemental constraint
+defines the corresponding equality constraint of the problem. And
+secondly, since each elemental constraint has an associated model
+expression (which defines a function of structural variables), it can
+be used in the same sense as model expressions assigned to parameter
+members.
+
+Formally a constraint $C$ is the mapping
+$$C:S_1\times S_2\times \dots\times S_n \rightarrow R, \eqno(1.8)$$
+where $S_1\times S_2\times \dots\times S_n$ is the Cartesian product of
+index sets, over which the constraint $C$ is built, $R$ is the set of
+equality constraints (1.2) of the problem (see Section 1.2).
+
+The structure of $n$-dimensional model constraint is schematically shown
+on Fig. 1.4.
+
+\begin{figure}
+\begin{center}
+\setlength{\unitlength}{0.75mm}
+\begin{picture}(90,70)
+\put(0,0){\makebox(40,10)[b]{Tuple}}
+\put(1,10){$\underbrace{\makebox(38,10){}}$}
+\put(40,0){\makebox(50,10)[b]{Assigned value}}
+\put(41,10){$\underbrace{\makebox(48,10){}}$}
+\put(0,10){\line(1,0){90}}
+\put(0,20){\line(1,0){90}}
+\put(0,10){\line(0,1){10}}
+\put(0,10){\makebox(10,10){$i_1$}}
+\put(10,10){\line(0,1){10}}
+\put(10,10){\makebox(10,10){$i_2$}}
+\put(20,10){\line(0,1){10}}
+\put(20,10){\makebox(10,10){\dots}}
+\put(30,10){\line(0,1){10}}
+\put(30,10){\makebox(10,10){$i_n$}}
+\put(40,10){\line(0,1){10}}
+\put(40,10){\makebox(50,10){Problem constraint}}
+\put(90,10){\line(0,1){10}}
+\put(30,30){\line(1,0){30}}
+\put(30,40){\line(1,0){30}}
+\put(30,30){\line(0,1){10}}
+\put(60,30){\line(0,1){10}}
+\put(60,35){\line(1,0){5}}
+\put(35,45){\line(1,0){30}}
+\put(35,40){\line(0,1){5}}
+\put(65,35){\line(0,1){10}}
+\put(65,40){\line(1,0){5}}
+\put(40,50){\line(1,0){30}}
+\put(40,45){\line(0,1){5}}
+\put(70,40){\line(0,1){10}}
+\put(30,30){\makebox(30,10){Member}}
+\put(0,20){\line(3,1){30}}
+\put(60,30){\line(3,-1){30}}
+\put(30,60){\framebox(40,10){Constraint}}
+\put(50,50){\line(0,1){10}}
+\end{picture}
+
+\bigskip
+
+Fig. 1.4. Structure of $n$-dimensional model constraint
+\end{center}
+\end{figure}
+
+The user introduces constraints into model by means of the constraint
+declaration statements. Unlike variables being declared constraints have
+no members. In order to create elemental constraints and assign some
+model expressions to them the assignment statements should be used in
+the same way as for model parameters.
+
+\subsection{Implicit parameters}
+
+Being declared each model variable and each model constraint cause three
+implicit parameters to be automatically introduced into the model, which
+are {\it lo-parameter}, {\it up-parameter}, and {\it fx-parameter}.
+These three parameters have the same dimension and are built over the
+same set as the corresponding model object.
+
+Members of implicit parameters define the type and bounds of the
+corresponding elemental structural or auxiliary variable $x_k$ as shown
+below:
+
+\begin{center}
+\begin{tabular}{lccc}
+\hline
+Type of variable & lo-parameter & up-parameter & fx-parameter \\
+\hline
+Free (unbounded) variable & --- & --- & --- \\
+Variable with lower bound & $l_k$ & --- & --- \\
+Variable with upper bound & --- & $u_k$ & --- \\
+Double-bounded variable & $l_k$ & $u_k$ & --- \\
+Fixed variable & --- & --- & $s_k$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent
+where $l_k$ is lower bound, $u_k$ is upper bound, $s_k$ is fixed value,
+``---'' means the corresponding parameter member doesn't exist (see
+also Section 1.2).
+
+Implicit parameters can be used in the same way as explicitly declared
+parameters. However, all model expressions assigned to members of
+implicit parameters should be constant model expressions (see Section
+1.3).
+
+Should note that creating a member of one implicit parameter may
+involve deleting members of other implicit parameters associated with
+the same model object. For example, assigning a constant expression to
+a member of fx-parameter causes deleting members with the same tuple
+from lo- and up-parameter, and vice versa.
+
+Implicit parameters allow the user changing types and bounds of
+elemental variables as well as using the current bounds as numeric data
+for computing other quantities.
+
+\chapter{Elements of the language}
+
+\section{Coding model description}
+
+Model description is coded in the plain text format using the following
+character set:
+
+\begin{verbatim}
+<upper case letter> ::= A | B | C | D | E | F | G | H | I | J | K | L |
+    M | N | O | P | Q | R | S | T | U | V | W | X | Y | Z
+<lower case letter> ::= a | b | c | d | e | f | g | h | i | j | k | l |
+    m | n | o | p | q | r | s | t | u | v | w | x | y | z
+<letter> ::= <upper case letter> | _ | <lower case letter>
+<digit> ::= 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+<graphic character> ::= ! | # | ( | ) | * | + | , | - | . | / | : | ; |
+    < | = | > | [ | ]
+<white-space character> ::= SP | HT | CR | NL | VT | FF
+<valid character> ::= <letter> | <digit> | <graphic character> |
+    <white-space character>
+\end{verbatim}
+
+Only \verb|<valid characters>| are valid in model description. (However,
+within comment sequences any printable characters are allowed; see
+Section 2.5.)
+
+White-space characters are non-significant. They can be used freely
+between syntactic units (see below) to improve readability of model
+description. They are also used to separate syntactic units from each
+other if there is no other way to do that.
+
+Syntactically model description is a sequence of the following syntactic
+units composed from letters, digits, and graphic characters:
+
+\begin{verbatim}
+<syntactic unit> ::= <symbolic name> | <numeric constant> |
+    <delimiter> | <comment sequence>
+\end{verbatim}
+
+Syntactic units are described in the next sections.
+
+\section{Symbolic names}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<symbolic name> ::= <letter> | <symbolic name> <letter> |
+    <symbolic name> <digit>
+\end{verbatim}
+
+\paragraph{Examples}
+
+\begin{verbatim}
+alpha
+this_is_a_name
+P123_abc321_
+_12345
+\end{verbatim}
+
+\paragraph{Semantics}
+
+Symbolic names are used in model description to identify model objects
+in the following categories: sets, items, parameters, predicates,
+variables, and constraints. Symbolic names should be unique, i.e.
+no objects can have the same symbolic name.
+
+Maximal length of symbolic names is 31 characters. All symbolic names
+are distinct (case sensitive).
+
+Symbolic names are introduced into model description by means of
+declaration statements.
+
+In GLPK/L there are some reserved keywords, which have fixed meaning
+and therefore should not be used as symbolic names. These are:
+
+\begin{verbatim}
+      and         binary       constraint   constraints   display
+      end         false        in           integer       maximize
+      minimize    model        nil          not           or
+      parameter   parameters   predicate    predicates    set
+      sets        true         variable     variables     where
+\end{verbatim}
+
+\section{Numeric constants}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<integer constant> ::= <digit> | <integer constant> <digit>
+<base constant> ::= <integer constant> | . <integer constant> |
+    <integer constant> . | <integer constant> . <integer constant>
+<exponent> ::= e <integer constant> | e + <integer constant> |
+    e - <integer constant>
+<numeric constant> ::= <base constant> | <base constant> <exponent>
+\end{verbatim}
+
+(It is allowed to write the letter \verb|E| instead the letter
+\verb|e|.)
+
+\paragraph{Examples}
+
+\begin{verbatim}
+0
+123
+3.14159
+56.
+.78
+123.456e-7
+\end{verbatim}
+
+\paragraph{Semantics}
+
+Numeric constants are self-defined literals, which have obvious fixed
+meaning.
+
+\section{Delimiters}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<delimiter> ::= # | ( | ) | * | + | , | - | . | / | : | ; | < | = | > |
+    [ | ] | ++ | -- | := | <= | >= | !=
+\end{verbatim}
+
+(In case of two-character delimiter there should be no white-space
+characters between delimiter characters.)
+
+\paragraph{Semantics}
+
+Delimiters are used for different purposes. Their meaning will be
+explained below.
+
+\section{Comment sequences}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<comment sequence> ::= /* <any printable and white-space characters> */
+\end{verbatim}
+
+\paragraph{Example}
+
+\begin{verbatim}
+/* This is a comment */
+\end{verbatim}
+
+\paragraph{Semantics}
+
+Comment sequences are non-significant syntactic units ignored by the
+language processor. They can appear anywhere in model description,
+where white-space characters are allowed.
+
+The user can provide the model description with comments in order to
+improve its readability and for documenting purposes.
+
+\chapter{Declaration statements}
+
+Declaration statements are intended to explicitly declare certain
+properties of the model objects (which are sets, parameters, predicates,
+variables, and constraints) used in the model description, and to
+associate them with symbolic names.
+
+No symbolic names can be declared more than once.
+
+\section{Set statement}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<set name> ::= <symbolic name>
+<item name> ::= <symbolic name>
+<item list> ::= <item name> | <item list> , <item name>
+<set declaration> ::= <set name> = ( ) | <set name> = ( <item list> )
+<set list> ::= <set declaration> | <set list> , <set declaration>
+<set statement> ::= set <set list> ; | sets <set list> ;
+\end{verbatim}
+
+\paragraph{Examples}
+
+\begin{verbatim}
+set colors = (red, green, blue);
+sets months = (Jan, Feb, Mar, Apr, May, Jun),
+     cities = (Boston, Chicago, Dallas, Memphis, Portland),
+     empty = ();
+\end{verbatim}
+
+\paragraph{Semantics}
+
+The set statement is intended to declare certain symbolic names to
+represent sets and to declare certain symbolic names to represent items
+(see Subsection 1.4.1).
+
+\section{Parameter statement}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<parameter name> ::= <symbolic name>
+<set name> ::= <symbolic name>
+<domain list> ::= <set name> | <domain list> , <set name>
+<parameter declaration> ::= <parameter name> |
+    <parameter name> [ <domain list> ]
+<parameter list> ::= <parameter declaration> |
+    <parameter list> , <parameter declaration>
+<parameter statement> ::= parameter <parameter list> ; |
+    parameters <parameter list> ;
+\end{verbatim}
+
+\paragraph{Examples}
+
+\begin{verbatim}
+parameter pi;
+parameters dist[cities,cities], st[cities,months,cities];
+\end{verbatim}
+
+\paragraph{Semantics}
+
+The parameter statement is intended to declare certain symbolic names
+to represent model parameters, and to specify sets, over which the
+parameters should be built (see Subsection 1.4.2).
+
+Being declared a parameter initially has no members. In order to create
+some parameter members and to assign some values (i.e. model
+expressions) to them the assignment statement should be used (see
+Section 5.1).
+
+\section{Predicate statement}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<predicate name> ::= <symbolic name>
+<set name> ::= <symbolic name>
+<domain list> ::= <set name> | <domain list> , <set name>
+<predicate declaration> ::= <predicate name> |
+    <predicate name> [ <domain list> ]
+<predicate list> ::= <predicate declaration> |
+    <predicate list> , <predicate declaration>
+<predicate statement> ::= predicate <predicate list> ; |
+    predicates <predicate list> ;
+\end{verbatim}
+
+\paragraph{Examples}
+
+\begin{verbatim}
+predicate cond[cities,cities];
+predicates winter[months], p123;
+\end{verbatim}
+
+\paragraph{Semantics}
+
+The predicate statement is intended to declare certain symbolic names
+to represent model predicates, and to specify sets, over which the
+predicates should be built (see Subsection 1.4.3).
+
+Being declared a predicate initially has no members (thus, formally,
+such predicate has the Boolean value \verb|false| on all elements of the
+corresponding Cartesian product). In order to create some predicate
+members (i.e. assign the Boolean value \verb|true| to some elements of
+the Cartesian product) the assignment statement should be used (see
+Section 5.1).
+
+\newpage
+
+\section{Variable statement}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<variable name> ::= <symbolic name>
+<set name> ::= <symbolic name>
+<domain list> ::= <set name> | <domain list> , <set name>
+<mute letter> ::= <lower case letter>
+<qualified letter> ::= <mute letter> in <set name>
+<qualified list> ::= <qualified letter> |
+    <qualified list> , <qualified letter>
+<variable declaration> ::= <variable name> |
+    <variable name> [ <domain list> ] |
+    <variable name> [ <qualified list> ] where <predicate expression>
+<variable declaration> ::= <variable list> |
+    <variable declaration> , <variable list>
+<variable kind> ::= <empty> | integer | binary
+<variable statement> ::= <variable kind> variable <variable list> ; |
+    <variable kind> variables <variable list> ;
+\end{verbatim}
+
+\paragraph{Examples}
+
+\begin{verbatim}
+variables x[cities,months], z1, z2, z3;
+binary variable t[i in cities, k in cities] where dist[k,i] <= 300;
+\end{verbatim}
+
+\paragraph{Semantics}
+
+The variable statement is intended to declare certain symbolic names to
+represent model variables, and to specify sets, over which the variables
+should be built (see Subsection 1.4.4).
+
+Unlike parameters and predicates, elemental variables (i.e. members)
+associated with a particular model variable are created by the variable
+statement. Note that being initially created and attached to a model
+variable an array of elemental variables can't be changed later by other
+statements.
+
+As it follows from the syntactic definition, the variable declaration
+has two different forms.
+
+The first form called {\it simple declaration} is the following:
+
+\begin{verbatim}
+    <variable name> [ <domain list> ]
+\end{verbatim}
+
+If the simple declaration is used, each element of the Cartesian product
+(of sets, over which the variable is built) produces exactly one
+elemental variable.
+
+The second form called {\it predicate-controlled declaration} is the
+following:
+
+\begin{verbatim}
+    <variable name> [ <qualified list> ] where <predicate expression>
+\end{verbatim}
+
+If the predicate controlled declaration is used, the following actions
+are performed:
+
+1. Qualified list is processed. All mute letters (see Section 4.2) in
+the qualified list should be different.
+
+2. Predicate expression is computed and the resultant predcate is
+determined (see Section 4.6). All mute letters of the resultant
+predicate should be presented in the qualified list.
+
+3. If the qualified list contains mute letter(s), which are missing in
+the resultant predicate, the latter is expanded over set(s) that
+correspond to the missing mute letters.
+
+4. Each member of the resultant predicate (after expansion) produces
+exactly one elemental variable.
+
+Note that simple declaration is equivalent to predicate-controlled
+declaration, where predicate expression is the constant \verb|true|.
+
+If neither \verb|integer| nor \verb|binary| keywords appear before the
+keyword \verb|variable|, all variables listed in the statement (more
+exactly, all their elemental variables) are considered as
+{\it continuous non-negative} structural variables. In order to declare
+{\it integer non-negative} variables the keyword \verb|integer| should
+be given before the keyword \verb|variable|. Analogously, in order to
+declare {\it binary} variables, i.e. integer variables whose lower bound
+is zero and upper bound is one, the keyword \verb|binary| should be
+given before the keyword \verb|variable|.
+
+Note that the variable statement doesn't allow to explicitly specify
+lower and/or upper bounds of particular elemental variables. In order to
+do that the assignment statement (see Section 5.1) should be used.
+
+\section{Constraint statement}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<constraint name> ::= <symbolic name>
+<set name> ::= <symbolic name>
+<domain list> ::= <set name> | <domain list> , <set name>
+<constraint declaration> ::= <constraint name> |
+    <constraint name> [ <domain list> ]
+<constraint list> ::= <constraint declaration> |
+    <constraint list> , <constraint declaration>
+<constraint statement> ::= constraint <constraint list> ; |
+    constraints <constraint list> ;
+\end{verbatim}
+
+\paragraph{Examples}
+
+\begin{verbatim}
+constraints r1, r2, rd[cities];
+constraint rs[months,colors];
+\end{verbatim}
+
+\paragraph{Semantics}
+
+The constraint statement is intended to declare certain symbolic names
+to represent model constraints, and to specify sets, over which the
+constraints should be built (see Subsection 1.4.5).
+
+Being declared a constraint initially has no members (elemental
+constraints). In order to create some elemental constraints and to
+attach some model expressions to them the assignment statement should
+be used (see Section 5.1).
+
+\chapter{Expressions}
+
+\section{Prelude}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<expression> ::= <parameter expression> | <predicate expression>
+\end{verbatim}
+
+\paragraph{Semantics}
+
+Parameter expression is a rule for computing parameter. Analogously,
+predicate expression is a rule for computing predicate. (Should
+especially emphasize that parameter and predicate expressions considered
+in this chapter and model expressions discussed in Section 1.3 are
+absolutely different things. Model expressions are ``values'' that can
+be assigned to parameter or constraint members, and parameter and
+predicate expressions are language constructions used as constituents of
+statements.)
+
+The result of computation of any (intermediate or final) expression is
+always either parameter or predicate. Such temporary objects are
+implicitly introduced into model description by the language processor.
+
+Consider, for example, the following parameter expression:
+
+\begin{verbatim}
+    a + b * c
+\end{verbatim}
+
+\noindent
+This expression is computed by the language processor in the following
+way:
+
+\begin{verbatim}
+    t1 := a;
+    t2 := b;
+    t3 := c;
+    t4 := t2 * t3;
+    t5 := t1 + t4;
+\end{verbatim}
+
+\noindent
+where \verb|t1|, \dots, \verb|t5| are temporary parameters.
+
+\newpage
+
+\section{Mute letters}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<mute letter> ::= <lower case letter>
+\end{verbatim}
+
+\paragraph{Semantics}
+
+Being computed each temporary parameter or predicate (see Section 4.1)
+acquires so called mute letters (except scalar parameters and predicates
+which need no mute letters).
+
+{\it Mute letter} is an auxiliary object, which denotes an index set.
+The user can also think mute letters as symbols (or indices), whose
+values are items of the set associated with a mute letter.
+
+In case of designators mute letters are introduced by the user.
+Otherwise, if a parameter or a predicate is the result of an operation,
+it automatically inherits mute letters of operands.
+
+All mute letters associated with index positions of a temporary
+parameter or predicate are always different.
+
+Let, for example, the following declaration be given:
+
+\begin{center}
+\verb|parameter dist[cities,cities];|
+\end{center}
+
+\noindent
+and consider the expression
+
+\begin{center}
+\verb|0.5 * (dist[i,j] + dist[j,i])|
+\end{center}
+
+\noindent
+In this expression the letters \verb|i| and \verb|j| are mute letters.
+They are used to explain how the language processor should perform
+addition. Thus, in the given case the expression is computed as follows:
+
+\begin{center}
+\begin{tabular}{ll}
+\verb|t1[i,j] := dist[i,j]| &
+   for all $i \in$ \verb|cities|, $j \in$ \verb|cities| \\
+\verb|t2[i,j] := dist[j,i]| &
+   for all $i \in$ \verb|cities|, $j \in$ \verb|cities| \\
+\verb|t3[i,j] := t1[i,j] + t2[i,j]| &
+   for all $i \in$ \verb|cities|, $j \in$ \verb|cities| \\
+\verb|t4[i,j] := 0.5 * t3[i,j]| &
+   for all $i \in$ \verb|cities|, $j \in$ \verb|cities| \\
+\end{tabular}
+\end{center}
+
+\noindent
+where \verb|t1|, \verb|t2|, \verb|t3| are intermediate temporary
+parameters, and \verb|t4| is a final temporary parameter, which defines
+the result of computation.
+
+Now consider another example:
+
+\begin{center}
+\verb|0.5 * (dist[i,j] + dist[j,k])|
+\end{center}
+
+\noindent
+This expression is computed as follows:
+
+\begin{center}
+\begin{tabular}{ll}
+\verb|t1[i,j] := dist[i,j]| &
+   for all $i \in$ \verb|cities|, $j \in$ \verb|cities| \\
+\verb|t2[j,k] := dist[j,k]| &
+   for all $j \in$ \verb|cities|, $k \in$ \verb|cities| \\
+\verb|t3[i,j,k] := t1[i,j] + t2[j,k]| &
+   for all $i \in$ \verb|cities|, $j \in$ \verb|cities|,
+   $k \in$ \verb|cities| \\
+\verb|t4[i,j,k] := 0.5 * t3[i,j,k]| &
+   for all $i \in$ \verb|cities|, $j \in$ \verb|cities|,
+   $k \in$ \verb|cities| \\
+\end{tabular}
+\end{center}
+
+Finally, consider yet another example:
+
+\begin{center}
+\verb|0.5 * (dist[i,i] + dist[i,#Boston])|
+\end{center}
+
+\noindent
+This expression is computed in the following way:
+
+\begin{center}
+\begin{tabular}{ll}
+\verb|t1[i] := dist[i,i]| &
+   for all $i \in$ \verb|cities| \\
+\verb|t2[i] := dist[i,j]| &
+   for all $i \in$ \verb|cities|, $j =$ \verb|Boston| \\
+\verb|t3[i] := t1[i] + t2[i]| &
+   for all $i \in$ \verb|cities| \\
+\verb|t4[i] := 0.5 * t3[i]| &
+   for all $i \in$ \verb|cities| \\
+\end{tabular}
+\end{center}
+
+Mute letters needn't to be declared. They are recognized by context.
+
+Note that identical mute letters denote the same sets only within a
+statement. If identical mute letters appear in different statements,
+they may denote different sets.
+
+\section{Designators}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<set name> ::= <symbolic name>
+<parameter name> ::= <symbolic name>
+<predicate name> ::= <symbolic name>
+<variable name> ::= <symbolic name>
+<constraint name> ::= <symbolic name>
+<suffix> ::= <empty> | . lo | . up | . fx
+<reference> ::= <set name> | <parameter name> | <predicate name> |
+    <variable name> <suffix> | <constraint name> <suffix>
+<mute letter> ::= <lower case letter>
+<item name> ::= <symbolic name>
+<offset> ::= <integer constant>
+<subscript> ::= <mute letter> | # <item name> |
+    <mute letter> + <offset> | <mute letter> - <offset> |
+    <mute letter> ++ <offset> | <mute letter> -- <offset>
+<subscript list> ::= <subscript> | <subscript list> , <subscript>
+<designator> ::= <reference> | <reference> [ <subscript list> ]
+\end{verbatim}
+
+\paragraph{Examples}
+
+\begin{verbatim}
+alpha
+x[i,j]
+stat[i++2,j--1,#Jan,i]
+r.up[#Feb,#white,k+1]
+\end{verbatim}
+
+\paragraph{Semantics}
+
+Designator is a primary expression, which allows to refer to sets,
+parameters (including implicit parameters), predicates, variables, and
+constraints.
+
+Number of subscripts in the designator should be the same as the
+dimension of the corresponding model object. If the object is
+0-dimensional (scalar), subscript list and square brackets \verb|[| and
+\verb|]| should be omitted.
+
+The correspondence between subscripts and sets, over which the object
+is built, is positional, i.e. the first subscript corresponds to the
+first set specified in the object declaration, the second subscript
+corresponds to the second set, and so on.
+
+If all subscripts are different mute letters, the result of computation
+of a designator is determined as follows:
+
+1. If \verb|<reference>| is a set, the result is 1-dimensional predicate
+built over this set. Members of the resultant predicate correspond to
+items of this set (i.e. the resultant predicate has the value
+\verb|true| on all items). Being temporary the resultant predicate
+acquires the mute letter specified in the subscript list.
+
+2. If \verb|<reference>| is a parameter, the result is an exact copy of
+this parameter, which acquires the mute letters specified in the
+subscript list.
+
+3. If \verb|<reference>| is a predicate, the result is an exact copy of
+this predicate, which acquires the mute letters specified in the
+subscript list.
+
+4. If \verb|<reference>| is a variable, the result is a parameter, which
+has the same dimension, built over the same sets, and has the same
+members as the specified variable. The model expression assigned to
+a particular member of the resultant parameter is the corresponding
+elemental variable. Being temporary the resultant parameter acquires the
+mute letters specified in the subscript list.
+
+5. If \verb|<reference>| is a constraint, the result is a parameter,
+which has the same dimension, built over the same sets, and has the same
+members as the specified constraint. The model expression assigned to
+a particular member of the resultant parameter is an exact copy of the
+model expression assigned to the corresponding elemental constraint.
+Being temporary the resultant parameter acquires the mute letters
+specified in the subscript list.
+
+6. If \verb|<reference>| has the suffixed form, it refers to an implicit
+parameter associated with the corresponding variable or constraint (see
+Subsection 1.4.6). In this case the result is an exact copy of the
+specified implicit parameter (as if it were an ordinary explicit
+parameter), which acquires the mute letters specified in the subscript
+list.
+
+If some subscripts are identical mute letters, the result of computation
+of the designator is determined in the same way as above, however, the
+resultant object will have only such members, where items that
+correspond to identical mute letters are equal to each other (this
+assumes that identical mute letters should refer to the same set).
+Besides, in the resultant object identical mute letters are replaced by
+one mute letter that involves decreasing the object dimension. For
+example, being computed the designator \verb|u[i,j,j,i,j]| gives
+a temporary object in the form \verb|u'[i,j]|.
+
+If \verb|<subscript>| is a particular item, i.e. has the form
+\verb|#<item name>|, the result of computation of the designator is
+determined in the same way as above, however, the resultant object will
+have only such members, where items that correspond to the subscript are
+equal to the specified item (this assumes that the specified item should
+belong to the appropriate set). Using particular items also involves
+decreasing dimension of the resultant object. For example, being
+computed the designator \verb|v[i,#aaa,j,#bbb]| gives a temporary object
+in the form \verb|v'[i,j]|.
+
+\paragraph{Lag and lead operators}
+
+In GLPK/L there are so called {\it lag} and {\it lead operators}, which
+have the following syntactic forms:
+
+\begin{center}
+\begin{tabular}{ll}
+\verb|i + n|  & linear lag operator \\
+\verb|i - n|  & linear lead operator \\
+\verb|i ++ n| & circular lag operator \\
+\verb|i -- n| & circular lead operator \\
+\end{tabular}
+\end{center}
+
+\noindent
+where \verb|i| is a mute letter, \verb|n| is an offset (unsigned
+integer).
+
+Lag and lead operators assume that items of an index set are renumbered
+by integers 1, 2, \dots, $n$ in the order, in which these items appear
+in the set declaration. Thus, a set $S$ may be written as
+$$S = \{i_1, i_2, \dots, i_n\},$$
+where $i_1$, $i_2$, \dots, $i_n$ are items. In the case of linear
+lag and lead operators items preceding the first item $i_1$ and
+following the last item $i_n$ are undefined. However, in the case of
+circular lag and lead operators it is assumed that the first item
+follows the last item and the last item precedes the first item, thus,
+for example, $i_{n+1}$ is the same as $i_1$ and $i_0$ is the same as
+$i_n$.
+
+The result of computation of a designator, where lag and/or lead
+operators are used, is determined in the following way.
+
+At first, the intermediate object (parameter or predicate) is computed
+in the same way as if there were no lag/lead operators. Then all
+elements of the Cartesian products are looked through. Let
+$t = (i_p, j_q, k_r, \dots)$ be a tuple, i.e. some element of the
+Cartesian product, where $p, q, r, \dots$ are ordinal numbers of items
+in the corresponding sets. If lag or lead operator is applied, say, to
+$i_p$, this means that this item is replaced by $i_{p+\delta}$ (in the
+case of lag operator) or by $i_{p-\delta}$ (in the case of lead
+operator). If there are other lag and/or lead operators, they are
+applied in the same way. Such replacement(s) gives a \it shifted \rm
+tuple $t' = (i'_p, j'_q, k'_r, \dots)$. If the shifted tuple $t'$ is
+undefined (that may happen in the case of linear operators as it was
+explained above) or if there is no member with the shifted tuple $t'$
+in the intermediate object, no member is included in the final resultant
+object. Otherwise, the original tuple $t$ (not the shifted tuple $t'$)
+and the value assigned to the member with the shifted tuple $t'$
+(not the original tuple $t$) of the intermediate object give a member,
+which is included in the final resultant object.
+
+Let, for example, the set \verb|S| be declared as follows:
+
+\begin{center}
+\begin{verbatim}
+    set S = (a, b, c, d, e);
+\end{verbatim}
+\end{center}
+
+\noindent
+and the one-dimensional parameter \verb|u| be built over the set
+\verb|S|:
+
+\begin{verbatim}
+    parameter u[S];
+    u[i] := data(i in S: a 1, b 2, c 3, d 4, e 5);
+\end{verbatim}
+
+\noindent
+Then some resultant parameters are computed as follows:
+
+\begin{center}
+\begin{tabular}{ccccc}
+\verb|u[i]|& \verb|u[i+2]|&\verb|u[i-2]|&\verb|u[i++2]|&\verb|u[i--2]|\\
+\hline
+\verb|a 1| & ---        & \verb|c 1| & \verb|d 1| & \verb|c 1| \\
+\verb|b 2| & ---        & \verb|d 2| & \verb|e 2| & \verb|d 2| \\
+\verb|c 3| & \verb|a 3| & \verb|e 3| & \verb|a 3| & \verb|e 3| \\
+\verb|d 4| & \verb|b 4| & ---        & \verb|b 4| & \verb|a 4| \\
+\verb|e 5| & \verb|c 5| & ---        & \verb|c 5| & \verb|b 5| \\
+\end{tabular}
+\end{center}
+
+\noindent
+where ``---'' means a member, which is not included in the resultant
+object.
+
+\newpage
+
+\section{Parameter expressions}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<parameter primary> ::= nil | <numeric constant> | <designator> |
+    <parameter clause> | ( <parameter expression> )
+<parameter term> ::= <parameter primary> |
+    <parameter term> * <parameter primary> |
+    <parameter term> / <parameter primary>
+<simple parameter expression> ::= <parameter term> |
+    + <parameter term> | - <parameter term> |
+    <simple parameter expression> + <parameter term> |
+    <simple parameter expression> - <parameter term>
+<parameter expression> ::= <simple parameter expression> |
+    <simple parameter expression> where <predicate expression>
+\end{verbatim}
+
+\paragraph{Examples}
+
+\begin{verbatim}
+3 * (x1 + 0.7 * x2 - x3) / 1.5
+0.30 * c[#red,k] + 0.45 * c[#green,k] + 0.25 * c[#blue,k]
+sum((j,l), x[i,j,k,l] where mh[l,k] != 0) + y[i-1,k] - y[i,k] - z[i,k]
+\end{verbatim}
+
+\paragraph{Semantics}
+
+Parameter expression is a rule for computing a parameter. Being
+temporary the resultant parameter always has mute letters (see also
+Sections 4.1 and 4.2).
+
+Depending on what are constituents of a parameter expression the
+resultant parameter is computed as described below.
+
+\paragraph{Primary parameter expressions}
+
+The result of computation of the constant \verb|nil| is 0-dimensional
+(scalar) parameter, which has no member.
+
+The result of computation of a numeric constant is 0-dimensional
+(scalar) parameter, which has the only member. Model expression assigned
+to this member is the numeric constant.
+
+In the case of a designator the result is computed as was explained in
+Section 4.3. Note that parameter expression requires the resultant
+object to be a parameter (not a predicate).
+
+In the case of a parameter clause the result is computed as will be
+explained below in Section 4.5.
+
+The result of computation of a paranthesized parameter expression is
+the result of computation of the parameter expression enclosed in
+parentheses.
+
+\paragraph{Unary plus}
+
+The resultant parameter is an exact copy of the operand.
+
+\paragraph{Unary minus}
+
+The resultant parameter has the same dimension, is built over the same
+sets, and has the same members as the operand. If a value assigned to
+a member of the operand is the model expression $e$, the value assigned
+to the corresponding member of the resultant parameter is $(-e)$.
+
+\paragraph{Addition}
+
+If operands of the addition operation have identical mute letters,
+these letters should refer to the same set.
+
+If one operand has a mute letter, which is missing in other operand,
+the latter is expanded over the corresponding set. For example:
+
+\begin{center}
+\verb|u[i,j] + v[j,k]|
+\end{center}
+
+\noindent
+In this expression the mute letter \verb|i| is missing in the second
+operand, therefore the second operand is expanded over the set defined
+by the letter \verb|i| as follows:
+
+\begin{center}
+\verb|v'[i,j,k] := v[j,k]| for all $i \in S$
+\end{center}
+
+\noindent
+and then the operand \verb|v[j,k]| is replaced by the expanded object
+\verb|v'[i,j,k]|.
+
+If necessary, expansion is applied several times in order that both
+operands have the same mute letters.
+
+After expansion addition is performed. Members included in the resultant
+parameter is the union (as sets) of members of operands. If values
+assigned to members (with identical tuples) of the first and the second
+operands are $e_1$ and $e_2$ respectively, the value assigned to the
+corresponding member of the resultant parameter is the model expression
+$(e_1 + e_2)$. If a member of one operand has no match in other operand,
+this member just becomes a member of the resultant parameter.
+
+\paragraph{Subtraction}
+
+The result of computation of the expression \verb|x - y| is the same as
+the result of computation of the expression \verb|x + (-y)|.
+
+\paragraph{Multiplication}
+
+If necessary, before multiplication expansion is performed in the same
+way as for addition in order that both operands have the same mute
+letters. Members included in the resultant parameter is the intersection
+(as sets) of members of operands. If values assigned to members (with
+identical tuples) of the first and the second operands are $e_1$ and
+$e_2$ respectively, the value assigned to the corresponding member of
+the resultant parameter is the model expression $(e_1 \cdot e_2)$.
+
+\paragraph{Division}
+
+Division is performed in the same way as multiplication. However, the
+value assigned to the corresponding member of the resultant parameter is
+the model expression $(e_1 / e_2)$.
+
+\paragraph{Selection}
+
+All mute letters of the second operand (which follows the keyword
+\verb|where|) should be presented in the first operand (which precedes
+the keyword \verb|where|). If necessary, expansion is applied to the
+second operand in order that both operands have the same mute letters.
+Then all members of the first operand, which have no matches in the
+second operand, are deleted, that gives the resultant parameter.
+
+\section{Parameter clauses}
+
+Parameter clause is a primary parameter expression, the syntactic form
+of which looks like a function call (in programming languages).
+
+\begin{verbatim}
+<parameter clause> ::= <data clause> | <table clause> | <sum clause>
+\end{verbatim}
+
+\subsection{{\tt data()} clause}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<set name> ::= <symbolic name>
+<item name> ::= <symbolic name>
+<mute letter> ::= <lower case letter>
+<qualified letter> ::= <mute letter> in <set name>
+<qualified list> ::= <qualified letter> |
+    <qualified list> , <qualified letter>
+<item reference> ::= <item name> | .
+<tuple> ::= <item reference> | <tuple> , <item reference>
+<data member> ::= <tuple> , <parameter expression>
+<data list> ::= <data member> | <data list> , <data member>
+<data clause> ::= data ( <qualified list> : <data list> )
+\end{verbatim}
+
+(If it doesn't involve ambiguity, the comma between \verb|<tuple>|
+and \verb|<item reference>|, and/or between \verb|<tuple>| and
+\verb|<parameter expression>|, and/or between \verb|<data list>| and
+\verb|<data member>| may be omitted.)
+
+\paragraph{Examples}
+
+\begin{verbatim}
+data(i in cities, j in cities:
+     Boston       Chicago      58
+     Portland     .            130
+     Chicago      Memphis      32
+     .            Portland     130
+     Dallas       Memphis      28
+     .            Boston       75
+     Portland     Dallas       48)
+
+data(i in machines, j in modes, k in parts:
+     M1,    normal,    nuts,    0.3 * x1 + x2,
+     .,     overtime,  .,       0.7 * x1 + x2,
+     M2,    normal,    bolts,   0.55 * (x1 + x2),
+     M3,    normal,    bolts,   x1 + 0.2 * x2)
+\end{verbatim}
+
+\paragraph{Semantics}
+
+The \verb|data()| clause is intended for constructing a temporary
+parameter, which can be used as a primary parameter expression.
+
+From the syntactic definition it follows that the \verb|data()| clause
+has the form:
+
+\begin{verbatim}
+               data(i in S, i in S, ..., i in S:
+                    item,   item,   ..., item,   expr,
+                    item,   item,   ..., item,   expr,
+                     .  .  .  .  .  .  .  .  .  .  .
+                    item,   item,   ..., item,   expr)
+\end{verbatim}
+
+\noindent
+where \verb|i| is a mute letter, \verb|S| is a set (domain) name,
+\verb|item| is an item name, \verb|expr| is a parameter expression.
+
+The resultant temporary parameter, which is the result of computation of
+the \verb|data()| clause, inherits mute letters and index sets specified
+in \verb|<qualified list>|. Each \verb|<data member>| specified in
+\verb|<data list>| is included in the resultant parameter. All
+\verb|<parameter expressions>| specified in \verb|<data list>| should be
+0-dimensional (scalar).
+
+For the sake of convenience it is allowed to write the period
+character (\verb|.|) instead \verb|<item name>|. In this case the
+corresponding \verb|<item name>| from the immediately preceding
+\verb|<data member>| is used.
+
+\subsection{{\tt table()} clause}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<set name> ::= <symbolic name>
+<item name> ::= <symbolic name>
+<mute letter> ::= <lower case letter>
+<qualified letter> ::= <mute letter> in <set name>
+<column list> ::= <item name> | <column list> , <item name>
+<entry> ::= <parameter expression> | .
+<entry list> ::= <entry> | <entry list> , <entry>
+<row> ::= <item name> , <entry list>
+<row list> ::= <row> | <row list> , <row>
+<table clause> ::= table ( <qualified letter> , <qualified letter> :
+    <column list> : <row list> )
+\end{verbatim}
+
+(If it doesn't involve ambiguity, the comma between \verb|<column list>|
+and \verb|<item name>|, and/or between \verb|<item name>| and
+\verb|<entry list>|, and/or between \verb|<entry list>| and
+\verb|<entry>| may be omitted.)
+
+\paragraph{Examples}
+
+\begin{verbatim}
+table(i in cities, j in cities:
+          Boston   Chicago  Dallas   Memphis  Portland
+Boston    .        58       .        .        .
+Chicago   .        .        .        32       130
+Dallas    75       .        .        28       .
+Memphis   55       .        82       .        .
+Portland  130      .        48       .        .       )
+
+table(i in machines, j in modes:
+      normal,    overtime:
+M1,   x1+x2,     1.5*x1+x2,
+M2,   x1+x2,     1.6*x1+x2,
+M3,   1.1*x1+x2, 1.8*x1+x2)
+\end{verbatim}
+
+\paragraph{Semantics}
+
+The \verb|table()| clause is intended for constructing a two-dimensional
+temporary parameter, which can be used as a primary parameter
+expression.
+
+From the syntactic definition it follows that the \verb|table()| clause
+has the form:
+
+\newpage
+
+\begin{verbatim}
+                     table(i in S, i in S:
+                           item, item, ..., item:
+                     item, expr, expr, ..., expr,
+                     item, expr, expr, ..., expr,
+                      .  .  .  .  .  .  .  .  .
+                     item, expr, expr, ..., expr)
+\end{verbatim}
+
+\noindent
+where \verb|i| is a mute letter, \verb|S| is a set (domain) name,
+\verb|item| is an item name, \verb|expr| is a parameter expression.
+
+The resultant temporary parameter inherits two mute letters and two
+index sets specified in \verb|<table clause>|. Each
+\verb|<parameter expression>|, which should be 0-dimensional (scalar),
+gives one member included in the resultant parameter. The first item
+assigned to a member tuple is the item specified in the corresponding
+row of the table, and the second item is the item specified in the
+corresponding column of the table. In order {\it not} to include
+a member in the resultant parameter, the period character (\verb|.|)
+should be written instead \verb|<parameter expression>|.
+
+\subsection{{\tt sum()} clause}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<mute letter> ::= <lower case letter>
+<mute list> ::= <mute letter> | <mute list> , <mute letter>
+<sum clause> ::= sum ( <mute letter> , <parameter expression> ) |
+    sum ( ( <mute list> ) , <parameter expression> )
+\end{verbatim}
+
+\paragraph{Examples}
+
+\begin{verbatim}
+sum(j, a[i,j] * x[j])
+sum((i,k), c[i,j,k] + 2.5 * (x[i,j,k] + y[j,k]))
+\end{verbatim}
+
+\paragraph{Semantics}
+
+The \verb|sum()| clause is intended to sum parameter members over given
+set(s). The result of computation is a temporary parameter, which can be
+used as an operand in a primary parameter expression.
+
+The base form of the \verb|sum()| clause is
+
+\begin{center}
+\verb|sum(i, e)|
+\end{center}
+
+\noindent
+where \verb|i| is a mute letter, \verb|e| is a parameter expression.
+
+Let $i \in S$, where $S$ be the set, which the letter $i$ refers to.
+Then the result of computation of the base form is
+$$f_{jk\dots} = \sum_{i \in S} e_{ijk\dots},$$
+where $f$ is the resultant parameter, $i, j, k, \dots$ are mute letters
+bound to the specified parameter expression. Note that the mute letter
+specified in the \verb|sum()| clause is dropped out from the resultant
+parameter.
+
+The general form of the \verb|sum()| clause
+
+\begin{center}
+\verb|sum((i,j,k,...), e)|
+\end{center}
+
+\noindent
+is equivalent to the following base form:
+
+\begin{center}
+\verb|sum(i, sum((j,k,...), e))|
+\end{center}
+
+\noindent
+that gives a recursive rule for computing the resultant parameter in
+the general case.
+
+\section{Predicate expressions}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<relational operator> ::= < | <= | = | >= | > | !=
+<relation> ::= <simple parameter expression> <relational operator>
+    <simple parameter expression>
+<predicate primary> ::= true | false | <designator> | <relation> |
+    ( <predicate expression> )
+<predicate secondary> ::= <predicate primary> | not <predicate primary>
+<predicate term> ::= <predicate secondary> |
+    <predicate term> and <predicate secondary>
+<predicate expression> ::= <predicate term> |
+    <predicate expression> or <predicate term>
+\end{verbatim}
+
+\paragraph{Examples}
+
+\begin{verbatim}
+alpha <= 100
+f[i,j] >= 2.5 * g[i-1,j+1] and (beta[i] != 0.0 or not p[j,k])
+gamma[i,#red,k] and gamma[i,#green,k] and gamma[i,#blue,k]
+\end{verbatim}
+
+\paragraph{Semantics}
+
+Predicate expression is a rule for computing a predicate. Being
+temporary the resultant predicate always has mute letters (see also
+Section 4.1 and 4.2).
+
+Depending on what are constituents of a predicate expression the
+resultant predicate is computed as described below.
+
+\paragraph{Primary predicate expression}
+
+The result of computation of the constant \verb|true| is 0-dimensional
+(scalar) predicate, which has the only member.
+
+The result of computation of the constant \verb|false| is 0-dimensional
+(scalar) predicate, which has no member.
+
+In the case of a designator the result is computed as was explained in
+Section 4.3. Note that predicate expression requires the resultant
+object to be a predicate (not a parameter).
+
+In the case of a relation the result is computed as explained below.
+
+The result of computation of a parenthesized predicate is the result of
+computation of the predicate expression enclosed in parentheses.
+
+\paragraph{Numeric comparison}
+
+Operands of a relational operator should satisfy to the following two
+requirements:
+
+1. The first operand (which precedes the relational operator) should be
+a parameter. All model expressions assigned to its members should be
+constant model expressions (see Section 1.3).
+
+2. The second operand (which follows the relational operator) should be
+a 0-di\-me\-nsional (scalar) parameter. The model expression assigned to
+its member (which should exist) should be a constant model expression.
+
+(Note that syntactically \verb|<relational operator>| requires both
+operands to be \verb|<simple parameter expression>|. So, if necessary
+to use \verb|<parameter expression>| that contains the keyword
+\verb|where|, it should be enclosed in parentheses.)
+
+The resultant predicate has the same dimension and is built over the
+same sets as the first operand. If a value (which is a numeric constant)
+assigned to a member of the first operand satisfies to the specified
+relation, the member with the same tuple is included in the resultant
+predicate. Otherwise, the member is not included.
+
+\paragraph{Inversion (logical ``not'')}
+
+The resultant predicate has the same dimension and is built over the
+same sets as the operand. The language processor generates all tuples
+(elements of the Cartesian product of the corresponding sets) and
+includes in the resultant predicate a member if and only if a member
+with the same tuple is missing in the operand.
+
+Note that since sparse parameters are allowed, in general case, for
+example, the predicate
+
+\begin{center}
+\verb|dist[i,j] >= 70|
+\end{center}
+
+\noindent
+is {\it not} equivalent to the predicate
+
+\begin{center}
+\verb|not dist[i,j] < 70|
+\end{center}
+
+\paragraph{Conjunction (logical ``and'')}
+
+If necessary, before conjunction expansion is performed in the same way
+as in the case of addition (see Section 4.4) in order that both operands
+have the same mute letters. Members included in the resultant predicate
+is the intersection (as sets) of members of the operands.
+
+\paragraph{Disjunction (logical ``or'')}
+
+If necessary, before disjunction expansion is performed in the same way
+as in the case of addition (see Section 4.4) in order that both operands
+have the same mute letters. Members included in the resultant predicate
+is the union (as sets) of members of the operands.
+
+\chapter{Functional statements}
+
+Functional statements are intended to perform certain operations on the
+model objects or to pass the language processor some additional
+information.
+
+\section{Assignment statement}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<parameter name> ::= <symbolic name>
+<predicate name> ::= <symbolic name>
+<variable name> ::= <symbolic name>
+<constraint name> ::= <symbolic name>
+<suffix> ::= <empty> | .lo | .up | .fx
+<reference> ::= <parameter name> | <predicate name> |
+    <variable name> <suffix> | <constraint name> <suffix>
+<mute letter> ::= <lower case letter>
+<item name> ::= <symbolic name>
+<subscript> ::= <mute letter> | # <item name>
+<subscript list> ::= <subscript> | <subscript list> , <subscript>
+<destination> ::= <reference> | <reference> [ <subscript list> ]
+<assignment statement> ::= <destination> := <expression> ; |
+    <destination> where <predicate expression> := <expression> ;
+\end{verbatim}
+
+(Syntactically \verb|<destination>| is a particular case of
+\verb|<designator>|, which is defined in Section 4.3, so the same
+non-terminals are used here.)
+
+\paragraph{Examples}
+
+\begin{verbatim}
+alpha := 1;
+t[i,j] where d[j] = 1 := sum(k, a[i,j,k]);
+x.lo := nil;
+y.fx[i,j] where s[i] != 0 := 2.5 * beta[j];
+r[i] := sum(j, a[i,j] * x[j]) <= sum(j, b[j] where r[j] >= 0);
+\end{verbatim}
+
+\paragraph{Semantics}
+
+The assignment statement is intended to create and/or delete some
+members of a parameter (including implicit parameters), or a predicate,
+or a constraint, and assign some values (i.e. model expressions) to
+members of a parameter or a constraint.
+
+Number of subscripts in the destination should be the same as the
+dimension of the corresponding object. If the destination object is
+0-dimensional (scalar), subscript list and square brackets \verb|[| and
+\verb|]| should be omitted.
+
+The correspondence between subscripts and index sets, over which the
+destination object is defined, is positional, i.e. the first subscript
+corresponds to the first index set given in the object declaration, the
+second subscript corresponds to the second index set, and so on.
+
+All mute letters given in the subscript list should be different.
+
+The result of computation of the expression that follows the keyword
+\verb|where| in the left part of the assignment statement should be
+a predicate. All mute letters of this predicate should be presented in
+the destination.
+
+\paragraph{Assignment to parameter or predicate}
+
+If the destination object is a parameter, \verb|<expression>| in the
+right part should be \verb|<parameter expression>| (see Section 4.4).
+Analogously, if the destination object is a predicate,
+\verb|<expression>| in the right part should be
+\verb|<predicate expression>| (see Section 4.6).
+
+In both these cases the assignment statement is performed in the
+following way:
+
+1. Reference and subscripts specified in the desination are processed.
+
+2. The expression, which follows the keyword \verb|where|, is computed.
+If no condition is given, the constant \verb|true| is assumed. The
+result of computation of this expression should be a predicate, all mute
+letters of which should be presented in the destination. If necessary,
+the predicate is expanded (in the same way as in the case of addition;
+see Section 4.4) in order that it has the same mute letters as the
+destination.
+
+3. The expression in the right part of the assignment statement is
+computed. All mute letters of the resultant object (which is either
+a parameter or a predicate) should be presented in the destination. If
+necessary, the resultant object is expanded in order that it has the
+same mute letters as the destination.
+
+4. The members of the destination object, which fall under specified
+items (or all members if no items are specified) and which satisfy to
+the given condition, are deleted from the object.
+
+5. The members of the object computed on the step 3, which satisfy to
+the given condition, are included in the destination object, and all
+other members are ignored. If there are items specified in the
+destination, they are used to construct complete tuples of the members
+included in the destination object.
+
+Consider, for example, the following assignment statement:
+
+\begin{center}
+\verb|v[i,#red,j] where p[j] := u[i];|
+\end{center}
+
+\noindent
+At first, the language processor computes the predicate \verb|p[j]| and
+expands it to \verb|p'[i,j]|, and computes the object \verb|u[i]| and
+expands it to \verb|u'[i,j]|. Then the language processor deletes from
+the object \verb|v| all the members, which have the form
+\verb|v[i,#red,j]| (for all $i \in I$ and $j \in J$) and for which the
+predicate \verb|p'[i,j]| is \verb|true|. Finally, the language processor
+includes in the object \verb|v| the members of the object
+\verb|u'[i,j]|, for which the predicate \verb|p'[i,j]| is \verb|true|.
+So far as \verb|v| is 3-dimensional object, but \verb|u'| is
+2-dimensional object, tuples of each member of \verb|u'| are expanded
+with the item \verb|red|.
+
+Note that members of the destination object are deleted {\it after} the
+right part of the assignment statement has been computed. Therefore the
+destination object can be used in the right part expression.
+
+\paragraph{Assignment to variable}
+
+Assignment to a variable is not allowed, therefore the destination
+object can't be a variable. However, assignment to an implicit parameter
+associated with a variable is allowed (see below).
+
+\paragraph{Assignment to constraint}
+
+If the destination object is a constraint, the expression in the right
+part of the assignment statement should have one of the following four
+syntactic forms:
+
+\begin{verbatim}
+    <simple parameter expression>
+    <simple parameter expression> >= <simple parameter expression>
+    <simple parameter expression> <= <simple parameter expression>
+    <simple parameter expression>  = <simple parameter expression>
+\end{verbatim}
+
+\noindent
+In other word, the expression in the right part should either have
+the syntactic form of \verb|<simple parameter expression>| or
+a particular form of \verb|<relation>|.
+
+If the right part expression has the form of \verb|<relation>|, the
+language processor automatically moves the parameter expression, which
+follows the relational operator, to the left-hand side with opposite
+sign, that allows to reduce the right part expression to the following
+four base forms:
+
+\begin{verbatim}
+    <simple parameter expression>
+    <simple parameter expression> >= 0
+    <simple parameter expression> <= 0
+    <simple parameter expression>  = 0
+\end{verbatim}
+
+Assignment to a constraint is performed exactly in the same way as if
+there were a parameter in the left part of the assignment statement, and
+the right part were just \verb|<simple parameter expression>|. However,
+relational operator is additionally used to create and initialize some
+members of implicit parameters associated with the constraint as shown
+below:
+
+\begin{center}
+\begin{tabular}{cccc}
+Relational operator & lo-parameter & up-parameter & fx-parameter \\
+\hline
+not specified & --- & --- & --- \\
+\verb|>=|     &  0  & --- & --- \\
+\verb|<=|     & --- &  0  & --- \\
+\verb|=|      & --- & --- &  0  \\
+\end{tabular}
+\end{center}
+
+\noindent
+where 0 is the numeric zero constant assigned to parameter members,
+and ``---'' denotes missing parameter members.
+
+Let, for example, the set \verb|S| be declared as follows:
+
+\begin{verbatim}
+    set S = (a, b, c);
+\end{verbatim}
+
+\noindent
+and the following assignment statement be given:
+
+\begin{verbatim}
+    r[i] := x[i] + y[i] >= z[i] + 2;
+\end{verbatim}
+
+\noindent
+where \verb|r| is a constraint, \verb|x|, \verb|y|, \verb|z| are
+variables.
+
+Then the model expressions, which are assigned to elemental constraints,
+are the following:
+
+\begin{verbatim}
+    r[a] = "(x[a] + y[a]) - (z[a] + 2)"
+    r[b] = "(x[b] + y[b]) - (z[b] + 2)"
+    r[c] = "(x[c] + y[c]) - (z[c] + 2)"
+\end{verbatim}
+
+\noindent
+Besides, the implicit parameter \verb|r.lo| will contain three members
+\verb|r.lo[a]|, \verb|r.lo[b]|, and \verb|r.lo[c]|, to which the numeric
+constant 0 will be assigned, and two other implicit parameters
+\verb|r.up| and \verb|r.fx| will contain no members.
+
+Should note that if a model expression assigned to an elemental
+constraint has a constant term (as in the example above), this term is
+considered as a part of the expression and doesn't affect on zero
+numeric constant, which is assigned to members of implicit parameters.
+
+\paragraph{Assignment to implicit parameters}
+
+Assignment to implicit parameters is performed exactly in the same way
+as in the case of ordinary explicit parameters (see above). However,
+so far as implicit parameters represent bounds of structural and
+auxiliary variables, all model expressions participating in such
+assignment should be constant model expressions.
+
+\section{Objective statement}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<constraint name> ::= <symbolic name>
+<item name> ::= <symbolic name>
+<item list> ::= # <item name> | <item list> , # <item name>
+<objective function> ::= <constraint name> |
+    <constraint name> [ <item list> ]
+<objective statement> ::= minimize <objective function> ; |
+    maximize <objective function> ;
+\end{verbatim}
+
+\paragraph{Examples}
+
+\begin{verbatim}
+minimize cost;
+maximize func[#red,#green];
+\end{verbatim}
+
+\paragraph{Semantics}
+
+The objective statement is intended:
+
+a) to specify the direction (the sense) of optimization, and
+
+b) to specify an elemental constraint, model expression assigned to
+which should be used as the objective function.
+
+Number of items in \verb|<objective function>| should be the same as
+the dimension of the corresponding constraint. If the constraint is
+0-dimensional (scalar), item list and square brackets \verb|[| and
+\verb|]| should be omitted.
+
+The correspondence between items and index sets, over which the
+constraint is built, is positional, i.e. the first item corresponds to
+the first index set given in the constraint declaration, the second item
+corresponds to the second set, and so on.
+
+The objective statement can appear in the model description only once.
+
+\newpage
+
+\section{Display statement}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<object> ::= <symbolic name> | ( <expression> )
+<object list> ::= <object> | <object list> , <object>
+<display statement> ::= display <object list> ;
+\end{verbatim}
+
+\paragraph{Example}
+
+\begin{verbatim}
+display x, dist, (dist[i,j]), (0.5 * (x[i,j] + x[j,i]));
+\end{verbatim}
+
+\paragraph{Semantics}
+
+The display statement allows to display any object or the result of
+computation of any expression. This statement is intended for model
+debugging purposes.
+
+If an expression is specified, the display statement additionally
+displays all mute letters associated with the corresponding temporary
+object.
+
+In the current implementation of the language processor the display
+statement sends all information to the standard output.
+
+\section{Model description}
+
+\paragraph{Syntax}
+
+\begin{verbatim}
+<statement> ::= <set statement> | <parameter statement> |
+    <predicate statement> | <variable statement> |
+    <constraint statement> | <objective statement> |
+    <display statement>
+<statement list> ::= <statement> | <statement list> <statement>
+<model> ::= model <symbolic name> ; <statement list> end ;
+\end{verbatim}
+
+(The metasymbol \verb|<model>| is the main non-terminal, which
+corresponds to model description.)
+
+\paragraph{Example}
+
+See example of a complete model description in Appendix C.
+
+\paragraph{Semantics}
+
+Model description is a sequence of statements, which being processed by
+the language processor produces a particular instance of mathematical
+programming problem.
+
+Symbolic name, which follows the keyword \verb|model|, is informative.
+
+\appendix
+
+\chapter{Using the language processor with GLPK API}
+
+The current version of the GLPK package includes the API routine
+\verb|lpx_read_lpm|. This routine is an interface to the GLPK/L
+language processor, which can be used in the same way as the API routine
+\verb|lpx_read_mps| (for details see the GLPK reference manual included
+in the package.)
+
+\paragraph{Synopsis}
+
+\begin{verbatim}
+#include "glpk.h"
+LPX *lpx_read_lpm(char *infile, char *outfile);
+\end{verbatim}
+
+\paragraph{Description}
+
+The routine \verb|lpx_read_lpm| reads LP/MIP model written in the
+modeling language GLPK/L from a text file whose name is the character
+string \verb|infile|.
+
+If the parameter \verb|outfile| is not \verb|NULL|, the routine
+writes generated LP/MIP problem to a text file whose name is the
+character string \verb|outfile|.
+
+\paragraph{Returns}
+
+If no error occurred, the routine returns a pointer to the created
+problem object. Otherwise the routine sends diagnostics to the standard
+output and returns \verb|NULL|.
+
+\chapter{Using GLPK/L models with the solver GLPSOL}
+
+The current version of the stand-alone solver GLPSOL (which is a part
+of the GLPK package) allows processing models written in the GLPK/L
+modeling language.
+
+In order to tell the solver that the input file is a model description,
+the option \verb|--lpm| should be used in the command line.
+For example:
+
+\begin{verbatim}
+    glpsol --lpm foobar.lpm
+\end{verbatim}
+
+\noindent
+where \verb|.lpm| is a recommended extension (which means ``linear
+programming model'').
+
+In order to see what a problem instance has been generated from the
+model description, the option \verb|--gener| should be used.
+For example:
+
+\begin{verbatim}
+    glpsol --lpm foobar.lpm --gener foobar.lst
+\end{verbatim}
+
+\noindent
+In this case the solver writes the generated LP/MIP problem to the
+output text file, whose name follows the \verb|--gener| option, in plain
+text format.
+
+In order not to solve the generated problem (that is useful for model
+debugging purposes), the option \verb|--check| should be passed to the
+solver. For example:
+
+\begin{verbatim}
+    glpsol --lpm foobar.lpm --gener foobar.lst --check
+\end{verbatim}
+
+\noindent
+In this case the solver just reads the input text file and writes the
+output text file.
+
+Sometimes it is desirable to write the generated problem in MPS format.
+In order to do that the option \verb|--write| should be used in the
+command line. For example:
+
+\begin{verbatim}
+    glpsol --lpm foobar.lpm --check --write foobar.mps
+\end{verbatim}
+
+\noindent
+In this case the solver writes the generated LP/MIP problem to the
+output text file, whose name follows the \verb|--write| option, using
+MPS format.
+
+\chapter{Example of model description}
+
+\section{Model description written in GLPK/L}
+
+\begin{verbatim}
+model TRNSPORT /* TRANSPORTATION PROBLEM */;
+
+/*----------------------------------------------------------------------
+* This problem finds a least cost shipping schedule that meets
+* requirements at markets and supplies at factories.
+*
+*  Reference:  Dantzig, G B., Linear Programming and Extensions
+*              Princeton University Press, Princeton, New Jersey, 1963,
+*              Chapter 3-3. */
+
+  sets I   /* canning plants */   = ( SEATTLE, SAN_DIEGO ),
+       J   /* markets        */   = ( NEW_YORK, CHICAGO, TOPEKA ) ;
+
+  parameters
+       A[I]  /* capacity of plant i in cases */,
+       B[J]  /* demand at market j in cases  */;
+
+  A[i] := data(i in I:
+              SEATTLE     350
+              SAN_DIEGO   600  );
+
+  B[j] := data(j in J:
+              NEW_YORK    325
+              CHICAGO     300
+              TOPEKA      275  ) ;
+
+  parameter D[I,J]  /* distance in thousands of miles */;
+
+  D[i,j] := table(i in I, j in J:
+                    NEW_YORK       CHICAGO      TOPEKA:
+      SEATTLE          2.5           1.7          1.8
+      SAN_DIEGO        2.5           1.8          1.4  );
+
+  parameter F /* freight in dollars per case per thousand miles */;
+
+  F := 90;
+
+  parameter C[I,J]
+              /* transport cost in thousands of dollars per case */;
+
+  C[i,j] := F * D[i,j] / 1000 ;
+
+  variables
+       X[I,J] /* shipment quantities in cases */;
+
+  constraints
+       Z      /* total transportation costs in thousands of dollars */,
+       SUPPLY[I]   /* observe supply limit at plant i */,
+       DEMAND[J]   /* satisfy demand at market j */;
+
+  Z := sum((i,j), C[i,j]*X[i,j]) ;
+
+  SUPPLY[i] :=   sum(j, X[i,j])  <=  A[i] ;
+
+  DEMAND[j] :=   sum(i, X[i,j])  >=  B[j] ;
+
+  minimize Z;
+
+end;
+\end{verbatim}
+
+\newpage
+
+\section{Generated LP problem in plain text format}
+
+\begin{verbatim}
+Generated LP/MIP problem
+
+Problem:    TRNSPORT
+Rows:       6
+Columns:    6
+Non-zeros:  18
+Objective:  Z (MINimization)
+
+****** ROWS (CONSTRAINTS) ******
+
+row 1: DEMAND[NEW_YORK] >= 325
+   1 * X[SEATTLE,NEW_YORK]
+   1 * X[SAN_DIEGO,NEW_YORK]
+
+row 2: DEMAND[CHICAGO] >= 300
+   1 * X[SEATTLE,CHICAGO]
+   1 * X[SAN_DIEGO,CHICAGO]
+
+row 3: DEMAND[TOPEKA] >= 275
+   1 * X[SEATTLE,TOPEKA]
+   1 * X[SAN_DIEGO,TOPEKA]
+
+row 4: SUPPLY[SEATTLE] <= 350
+   1 * X[SEATTLE,NEW_YORK]
+   1 * X[SEATTLE,CHICAGO]
+   1 * X[SEATTLE,TOPEKA]
+
+row 5: SUPPLY[SAN_DIEGO] <= 600
+   1 * X[SAN_DIEGO,NEW_YORK]
+   1 * X[SAN_DIEGO,CHICAGO]
+   1 * X[SAN_DIEGO,TOPEKA]
+
+row 6: Z
+   0.225 * X[SEATTLE,NEW_YORK]
+   0.153 * X[SEATTLE,CHICAGO]
+   0.162 * X[SEATTLE,TOPEKA]
+   0.225 * X[SAN_DIEGO,NEW_YORK]
+   0.162 * X[SAN_DIEGO,CHICAGO]
+   0.126 * X[SAN_DIEGO,TOPEKA]
+
+****** COLUMNS (VARIABLES) ******
+
+col 1: X[SEATTLE,NEW_YORK] >= 0
+   DEMAND[NEW_YORK] ... 1
+   SUPPLY[SEATTLE] ... 1
+   Z ... 0.225
+
+col 2: X[SEATTLE,CHICAGO] >= 0
+   DEMAND[CHICAGO] ... 1
+   SUPPLY[SEATTLE] ... 1
+   Z ... 0.153
+
+col 3: X[SEATTLE,TOPEKA] >= 0
+   DEMAND[TOPEKA] ... 1
+   SUPPLY[SEATTLE] ... 1
+   Z ... 0.162
+
+col 4: X[SAN_DIEGO,NEW_YORK] >= 0
+   DEMAND[NEW_YORK] ... 1
+   SUPPLY[SAN_DIEGO] ... 1
+   Z ... 0.225
+
+col 5: X[SAN_DIEGO,CHICAGO] >= 0
+   DEMAND[CHICAGO] ... 1
+   SUPPLY[SAN_DIEGO] ... 1
+   Z ... 0.162
+
+col 6: X[SAN_DIEGO,TOPEKA] >= 0
+   DEMAND[TOPEKA] ... 1
+   SUPPLY[SAN_DIEGO] ... 1
+   Z ... 0.126
+
+End of output
+\end{verbatim}
+
+\newpage
+
+\section{Generated LP problem in MPS format}
+
+\begin{verbatim}
+* Problem:    TRNSPORT
+* Class:      LP
+* Rows:       6
+* Columns:    6
+* Non-zeros:  18
+*
+NAME          TRNSPORT
+ROWS
+ G  R0000001
+ G  R0000002
+ G  R0000003
+ L  R0000004
+ L  R0000005
+ N  R0000006
+COLUMNS
+    C0000001  R0000001             1   R0000004             1
+    C0000001  R0000006         0.225
+    C0000002  R0000002             1   R0000004             1
+    C0000002  R0000006         0.153
+    C0000003  R0000003             1   R0000004             1
+    C0000003  R0000006         0.162
+    C0000004  R0000001             1   R0000005             1
+    C0000004  R0000006         0.225
+    C0000005  R0000002             1   R0000005             1
+    C0000005  R0000006         0.162
+    C0000006  R0000003             1   R0000005             1
+    C0000006  R0000006         0.126
+RHS
+    RHS1      R0000001           325   R0000002           300
+    RHS1      R0000003           275   R0000004           350
+    RHS1      R0000005           600
+ENDATA
+\end{verbatim}
+
+\newpage
+
+\section{Optimal solution of the generated LP problem}
+
+\begin{small}
+\begin{verbatim}
+Problem:    TRNSPORT
+Rows:       6
+Columns:    6
+Non-zeros:  18
+Status:     OPTIMAL
+Objective:  Z = 153.675 (MINimum)
+
+   No.   Row name   St   Activity     Lower bound   Upper bound    Marginal
+------ ------------ -- ------------- ------------- ------------- -------------
+     1 DEMAND[NEW_YORK]
+                    NL           325           325                       0.225
+     2 DEMAND[CHICAGO]
+                    NL           300           300                       0.153
+     3 DEMAND[TOPEKA]
+                    NL           275           275                       0.126
+     4 SUPPLY[SEATTLE]
+                    B            300                         350 
+     5 SUPPLY[SAN_DIEGO]
+                    B            600                         600 
+     6 Z            B        153.675                             
+
+   No. Column name  St   Activity     Lower bound   Upper bound    Marginal
+------ ------------ -- ------------- ------------- ------------- -------------
+     1 X[SEATTLE,NEW_YORK]
+                    NL             0             0                       < eps
+     2 X[SEATTLE,CHICAGO]
+                    B            300             0               
+     3 X[SEATTLE,TOPEKA]
+                    NL             0             0                       0.036
+     4 X[SAN_DIEGO,NEW_YORK]
+                    B            325             0               
+     5 X[SAN_DIEGO,CHICAGO]
+                    NL             0             0                       0.009
+     6 X[SAN_DIEGO,TOPEKA]
+                    B            275             0               
+
+End of output
+\end{verbatim}
+\end{small}
+
+\end{document}
+
+%% eof %%

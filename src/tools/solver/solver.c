@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * solver.c:  The Solver's core system.
  *
@@ -489,10 +490,6 @@ lp_qp_solver_init (Sheet *sheet, const SolverParameters *param,
 		        alg->set_int_fn (program, i);
 		res->ilp_flag = TRUE;
 	}
-
-#if 0
-	alg->print_fn (program);
-#endif
 
 	return program;
 }

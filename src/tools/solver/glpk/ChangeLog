@@ -1,0 +1,484 @@
+Mon Jul 15 12:00:00 2002 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 3.2 has been released.
+
+        * glplpx.h, glplpx1.c, glplpx2.c
+        The identifier 'class' (used as a member name in the structure
+        LPX and as an argument name in the routine lpx_set_class) was
+        changed to 'clss' in order to avoid conflicts with C++ reserved
+        words.
+
+        * glpk.h, glplpx.h, glplpx1.c, glplpx2.c, glplpx6a.c,
+        * glplpx6b.c, glplpx6c.c, glplpx7.c, glplpx8.c
+        The following new api routines were added: lpx_set_obj_name,
+        lpx_get_obj_name, lpx_get_row_mark, lpx_get_col_mark,
+        lpx_transform_row, lpx_transform_col, lpx_prim_ratio_test,
+        lpx_dual_ratio_test, lpx_interior, lpx_get_ips_stat,
+        lpx_get_ips_row, lpx_get_ips_col, lpx_get_ips_obj, lpx_read_lpm,
+        lpx_write_mps, lpx_print_ips.
+
+        * glpsol.c
+        The solver was completely re-programmed using new api routines.
+
+        * lang.latex, lang.dvi, lang.ps
+        New edition of the document "GLPK: Modeling Language GLPK/L"
+        was included in the distribution.
+
+        * refman.latex, refman.dvi, refman.ps
+        New edition of the document "GLPK: Reference Manual" (which
+        contains descriptions of all new api routines) was included in
+        the distribution.
+
+        * glpapi.h, glpapi1.c, glpapi2.c, glpapi3.c, glpapi4.c
+        These files (which contain old api routines) were removed from
+        the package.
+
+        * glpipm1.c, glpipm2.c
+        The file glpipm1.c was renamed to glpipm.c. The file glpipm2.c
+        was used only by old api routines and therefore was removed from
+        the package.
+
+        * language.texinfo
+        Old version of the document "GLPK: Modeling Language GLPK/L" was
+        removed from the distribution.
+
+Mon May 27 12:00:00 2002 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 3.1 has been released.
+
+        * glplpx.h, glplpx1.c, glplpx2.c, glplpx3.c, glplpx4.c,
+        * glplpx5.c, glplpx6.c, glplpx7.c, glplpx8.c
+        A preliminary implementation of new API routines was completed.
+
+        * refman.latex, refman.dvi, refman.ps
+        A draft edition of the document "GLPK Reference Manual", which
+        describes new API routines, was included.
+
+        * glplib3.c
+        A bug in measuring long time intervals was fixed up.
+
+        * glprsm3.c
+        This module contains some obsolete routines not longer used and
+        therefore it was removed from the package (into the subdirectory
+        'oldsrc').
+
+        * glprsm.h
+        Some declarations related to the module 'glprsm3.c' (see above)
+        were removed.
+
+        * guide.texinfo
+        The document "GLPK User's Guide" describing old API routines was
+        removed from the package (into the subdirectory 'oldsrc').
+
+        * newapi.txt
+        The document "New GLPK API Routines" was removed at all, because
+        it is superseded by the new reference manual (see above).
+
+Mon May 13 12:00:00 2002 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 3.0.8 has been released.
+
+        * glplpx.h, glplpx1.c, glplpx2.c, glplpx3.c, glplpx4.c,
+        * glplpx5.c, glplpx6.c, glplpx7.c
+        A preliminary (currently incomplete) implementation of new api
+        routines was included.
+
+        * sample/newsamp.c
+        A sample program for the new api routines was included.
+
+        * newapi.txt
+        A draft of the document "New GLPK API Routines" was included.
+
+        * glpapi2.c, glpapi5.c, glpapi6.c
+        These modules (which contain the api routines glp_call_rsm1,
+        glp_simplex1, glp_pivot_in, glp_pivot_out) were removed from the
+        package (to the subdirectory 'oldsrc') since these routines are
+        functionally superseded by the new api routines.
+
+        * glpk.h, glpapi2.c, glpapi3.c, glpapi4.c
+        The api routines glp_simplex2, glp_call_ipm1, glp_call_bbm1 were
+        renamed to glp_simplex, glp_interior, glp_integer, respectively.
+
+        * sample/glpsol.c
+        Some command-line options (which got obsolete due to the recent
+        changes in api) were excluded.
+
+        * doc/guide.texinfo
+        New edition of the document "GLPK User's Guide" was included in
+        the distribution to reflect the changes in some api routines.
+
+        * doc/libref.texinfo
+        This document was removed from the package (to the subdirectory
+        'oldsrc') since it describes the library routines, most of which
+        got obsolete and no longer used.
+
+        * Makefile.in
+        A minor bug was fixed up due to bug report from Hans Schwengeler
+        <Hans.Schwengeler@unibas.ch>.
+
+Mon Apr 22 12:00:00 2002 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 3.0.7 has been released.
+
+        * glpduff.h, glpduff.c, glpspx.h, glpspx1.c, glpspx2.c,
+        * glpapi7.c
+        These modules were replaced by a new implementation of the
+        simplex method and therefore they were removed from the package
+        (however they still can be found in the subdirectory 'oldsrc').
+
+        * glprsm1.c
+        The routine crash_aa was replaced by a new implementation and
+        therefore it was removed from the file 'glprsm1.c'.
+
+        * glplpx.h, glplpx.c, glpspx.h, glpspx1.c, glpspx2.c, glpspx3.c,
+        * glpspx4.c, glpapi7.c
+        New (currently incomplete) implementation of the simplex method
+        components was included in the package.
+
+Thu Mar 28 12:00:00 2002 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 3.0.6 has been released.
+
+        * glpluf.h, glpluf.c, glpinv.h, glpinv.c
+        New version of LU-factorization and basis maintenance routines
+        (based on Forrest-Tomlin updating technique) was implemented.
+
+        * glpeta.h, glpeta.c, glpfhv.h, glpfhv.c, glpgel.h, glpgel.c,
+        * glppfi.h, glppfi.c, glprfi.h, glprfi.c
+        These routines implement some other forms of the basis matrix.
+        Now they became obsolete being functionally superseded by the
+        new version of basis maintenance routines (see above) and were
+        removed from the package (however they still can be found in the
+        subdirectory 'oldsrc').
+
+        * glpbbm.c, glprsm.h, glprsm1.h, glprsm2.h, glpspx.h, glpspx2.c,
+        * glprsm2.c, glpsol.c
+        Necessary changes were made in order to use the new version of
+        basis maintenance routines.
+
+Tue Jan 29 12:00:00 2002 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 3.0.5 has been released.
+        Structure of the package was re-organized in order to simplify
+        its maintenance.
+
+        * doc/guide.texinfo
+        New edition of the document "GLPK User's Guide" was included in
+        the distribution. Now the document includes descriptions of some
+        additional API routines recently added to the package.
+
+        * doc/newapi.txt
+        The document "Additional GLPK API Routines" was removed from the
+        distribution, because the corresponding material was included in
+        the user's guide (see above).
+
+Mon Dec 10 12:00:00 2001 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 3.0.4 has been released.
+
+        * glpspx.h, glpspx1.c, glpspx2.c, glpapi/glp_simplex2.h
+        A new, more efficient version of the two-phase primal simplex
+        method was implemented (advanced initial basis, projected
+        steepest edge, recursive computations of solution components).
+
+        * glpapi/glp_call_bbm1.c
+        Now LP relaxation can be solved either using rsm1_driver(), or
+        using glp_simplex2(). The choice is controlled by the parameter
+        'meth' (a member of struct bbm1).
+
+        * sample/glpsol.c
+        The new implementation of the simplex method is now used by
+        default. The old version is available via --old-sim option.
+
+        * glpmat/gm_scaling.c
+        Now this routine displays only two lines: an initial "quality"
+        and a final "quality".
+
+        * glplp/prepro_lp.c
+        Identifiers 'fmin' and 'fmax' renamed to 'f_min' and 'f_max' in
+        order to avoid conflict with <math.h>. The bug was fixed due to
+        report provided by Sami Farin <sfarin@ratol.fi>.
+
+Wed Oct 03 12:00:00 2001 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 3.0.3 has been released.
+
+        * glprsm/harris_row.c, glprsm/harris_col.c
+        The relative tolerance used on the first pass of the two-pass
+        ratio test was replaced by the absolute tolerance.
+
+        * glprsm/rsm_primal.c, glprsm/rsm_feas.c, glprsm/rsm_dual.c
+        The absolute tolerance passed to the two-pass ratio test routine
+        was decaresed (for both primal and dual simplex).
+
+        These changes were made in order to improve numerical stability
+        of the simplex method.
+
+        * glprsm/glp_call_rsm1.c, glprsm/glp_call_bbm1.c,
+        * glprsm/glp_simplex1, glprsm/glp_pivoting.c
+        Default form of the inverse was changed from RFI to AFI.
+
+Mon Sep 24 12:00:00 2001 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 3.0.2 has been released.
+
+        * glpfhv.h, glpfhv.c
+        New version of the basis maintaining routines was implemented.
+        These routines, which are based on so called FHV-factorization
+        (a variety of LU-factorization) and Gustavson's data structures,
+        perform the main operations on the basis matrix faster at the
+        expense of some worsening numerical accuracy.
+
+        * glprsm.h, glprsm/afi.c
+        The routines, which implement AFI (Advanced Form of the
+        Inverse) based on FHV-factorization, were added to the package.
+        This new form is available via the parameter form = 3 (on API
+        level) or via the option --afi (in GLPSOL solver).
+
+        * EFI was renamed to PFI
+        In order to correct terminology the acronym EFI (Elimination
+        Form of the Inverse) was replaced by PFI (Product Form of the
+        Inverse) everywhere in the source code and the documentation.
+
+        * glpset/umalloc.c, glpset/ucalloc.c
+        * glpset/get_atom.c, glpset/get_atomv.c
+        These memory management routines were changed in order *not* to
+        clear allocated memory blocks by binary zeros.
+
+Wed Aug 01 12:00:00 2001 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 3.0.1 has been released.
+
+        * glpapi/old_api.c, glplp/extract_lp.c, store_lpsol.c
+        Old API routines were deleted from the package.
+
+        * include/glpk.h, include/glpapi.h, include/glplp.h
+        Specifications of old API routines and data structures were
+        removed from the headers.
+
+        * sample/glpsol.c
+        New version of the stand-alone solver GLPSOL that now uses new
+        API routines was implemented.
+
+        * glpapi/glp_set_row_fctr.c, glpapi/glp_set_col_fctr.c,
+        * glpapi/glp_get_row_fctr.c, glpapi/glp_get_col_fctr.c,
+        * glpapi/glp_scale_prob.c
+        Scaling routines were added.
+
+        * glpapi/glp_write_mps.c
+        The routine for writing problem data in MPS format was added.
+
+        * glpapi/glp_simplex1.c
+        Comprehensive driver to the simplex method was added.
+
+        * glpapi/glp_pivoting.c
+        The routines glp_pivot_in() and glp_pivot_out() intended for
+        basis maintaining were added.
+
+        * glprsm/create_rsm.c, glprsm/delete_rsm.c, glprsm/scale_rsm.c,
+        * glprsm/build_basis.c
+        Additional low level routines related to the simplex method
+        were added.
+
+        * glpk.h, glpapi.h, glprsm.h
+        Additional specifications for new routines and data structures
+        were added.
+
+        * sample/lpglpk30.c
+        A non-trivial example was added. It allows using GLPK as a base
+        LP solver for Concorde, a program for solving Traveling Salesman
+        Problem (TSP). For details see comments in 'lpglpk30.c'.
+
+        * doc/newapi.txt
+        The document "Additional GLPK API Routines" that describes some
+        new API routines was included.
+
+Thu Jul 19 12:00:00 2001 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 3.0 has been released.
+
+        Now GLPK is provided with new API, which is intended for using
+        the package in more complex algorithmic schemes.
+
+        * glpapi/old_api.c
+        All routines related to old API were gathered in one file named
+        'old_api.c'.
+
+        * glpapi/*.c
+        These routines that implement new API were added to the package.
+
+        * include/glpk.h, include/glpapi.h
+        Specifications of new API routines and data structures were
+        added to these headers. Specifications of old API routines and
+        data structures were locked by #ifdef GLP_OLD_API directive.
+
+        * doc/guide.texinfo
+        New edition of the document "GLPK User's Guide" that correspond
+        to new API was included.
+
+Thu Jun 14 12:00:00 2001 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 2.4.1 has been released.
+
+        * doc/glpk_ml.texinfo
+        The new document "Modeling Language GLPK/L" was included.
+
+        * doc/glpk_ug.texinfo
+        New edition of the document "GLPK User's Guide" was included.
+
+        * doc/language.txt
+        The preliminary document "GLPK/L Modeling Language: A Brief
+        description" was removed from the distribution, because it has
+        been replaced by the new document "Modeling Language GLPK/L".
+
+        * glplang/l_spar.c
+        The routine comparison() was re-programmed in order to
+        implement the relation operation as specified in the language
+        description.
+
+        * glpmip.h, glpmip/*.c
+        The partition 'glpmip' was renamed to 'glpbbm'.
+
+Thu May 10 12:00:00 2001 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 2.4 has been released.
+
+        Now GLPK includes an implementation of a preliminary version of
+        the GLPK/L modeling language.
+
+        * glplang.h, glplang/*.c
+        The header 'glplang.h' and a set of routines that implements
+        the GLPK/L language processor (the partition 'glplang') were
+        added to the package.
+
+        * doc/language.txt
+        The document "GLPK/L Modeling Language: A Brief Description
+        (Supplement to GLPK User's Guide)" in plain text format was
+        included in the package (see the file 'language.txt' in the
+        subdirectory 'doc' of the distribution).
+
+        * ex/model1.lpm, ex/model2.lpm
+        Two examples of model descriptions written in GLPK/L were added
+        to the package.
+
+        * sample/glpsol.c
+        This program was modified in order: a) to allow processing
+        model description written in GLPK/L; b) to allow solving pure
+        LP problem using the interior point method.
+
+        * sample/glpipm.c
+        This program was removed from the package, because its function
+        was passed to the GLPSOL solver.
+
+        * Makefile.in
+        This file was changed in order to install the GLPSOL solver
+        executable.
+
+Mon Apr 09 12:00:00 2001 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 2.3 has been released.
+
+        * glpmip.h, glpmip/*.c
+        These routines (that implement the branch-and-bound method) were
+        re-programmed in order to improve robustness of implementation.
+        In particular, heuristic routines were carried out from the main
+        driver routine.
+
+        Additional GLPK API routines were documented.
+
+        New edition of the document "GLPK User's Guide" was included in
+        the package.
+
+        The preliminary document "Mixed Integer Programming Using GLPK
+        Version 2.2 (Supplement to GLPK User's Guide)" was removed from
+        the package, because this material was included in GLPK User's
+        Guide.
+
+Thu Mar 15 12:00:00 2001 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 2.2 has been released.
+
+        Now GLPK includes a tentative implementation of the
+        branch-and-bound procedure based on the dual simplex method for
+        mixed integer linear programming (MIP).
+
+        The preliminary document "Mixed Integer Programming Using GLPK
+        Version 2.2 (Supplement to GLPK User's Guide)" was included into
+        the package in plain text format (see the file 'mip.txt' in the
+        subdirectory 'doc' of the distribution).
+
+        * glpmip.h, glpmip/*.c, glpapi/glp_integer.c
+        These routines (that implement the branch-and-bound method) were
+        added to the package.
+
+        * sample/glpsol.c
+        This program was modified in order to allow solving LP and MIP
+        problems.
+
+        * glprsm/rsm_primal.c, glprsm/rsm_dual.c, glprsm/rsm_feas.c,
+        * glprsm/rsm1_driver.c
+        These routines (which are drivers to basic components of the
+        revised simplex method) were added to the package.
+
+Mon Feb 19 12:00:00 2001 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 2.1 has been released.
+
+        * glprsm.h, glprsm/*.c
+        These routines (that implement components of the revised simplex
+        method) were re-programmed and documented.
+
+        The document "GLPK Implementation of the Revised Simplex Method"
+        was included into the package.
+
+Thu Jan 25 12:00:00 2001 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 2.0 has been released.
+
+        Now GLPK includes a tentative implementation of the primal-dual
+        interior point method for large-scale linear programming (for
+        more details see the file `NEWS' in the distribution). A number
+        of routines related to the interior point method were added to
+        the package.
+
+        * insist.c
+        The routine `insist' and the macro of the same name were
+        introduced into the package in order to replace the standard
+        macro `assert'. Some routines require the expression specified
+        in the `assert' macro to be evaluated, but compiling the package
+        with NDEBUG option prevents from that. This bug was fixed due to
+        bug report provided by Peter A. Huegler <phuegler@bsco.com>.
+
+        * Makefile.in
+        Minor bug was fixed due to a patch provided by Alexandre Oliva
+        <oliva@lsd.ic.unicamp.br>.
+
+Wed Jan 10 12:00:00 2001 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 1.1.2 has been released.
+
+        * umalloc.c, ufree.c, create_pool.c, get_atom.c, get_atomv.c
+        These routines were changed in order to fix a bug due to
+        report provided by Andrew Hood <ajhood@fl.net.au>. Because of
+        this bug data alignment error occured on the Sparc computer.
+
+Tue Dec 14 12:00:00 2000 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 1.1.1 has been released.
+
+        Minor bug was fixed in `Makefile.in'.
+
+        GLPK Library Reference was included.
+
+Mon Nov 27 12:00:00 2000 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 1.1 has been released.
+
+        Minor changes were made in order to co-ordinate GLPK routines
+        with their descriptions.
+
+        GLPK User's Guide was included.
+
+Fri Oct 20 12:00:00 2000 Andrew Makhorin <mao@mai2.rcnet.ru>
+
+        * GLPK 1.0 has been released.

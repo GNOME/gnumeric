@@ -652,6 +652,8 @@ src/pixmaps/Makefile
 src/widgets/Makefile
 src/tools/Makefile
 src/tools/solver/Makefile
+src/tools/solver/glpk/Makefile
+src/tools/solver/glpk/source/Makefile
 src/tools/solver/lp_solve/Makefile
 doc/Makefile
 doc/C/Makefile

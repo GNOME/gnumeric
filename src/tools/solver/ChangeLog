@@ -1,3 +1,15 @@
+2002-08-13  Jukka Pekka <jiivonen@hutcs.cs.hut.fi>
+
+	* glpk/*.: Imported GLPK (The GNU linear programming kit) version
+	3.2.
+
+	* api.c: Lot's of changes for the glpk wrappers since the
+	interface has changed a lot since version 3.0.5.
+
+	* api.h: Added SOLVER_DEBUG constant.
+
+	* solver.c: Moved the model printing into the api.c.
+	
 2002-08-13 Jukka Pekka   <jiivonen@localhost.localdomain>
 
 	* reports.c (solver_prepare_reports_success): Bug fix: wrong loop

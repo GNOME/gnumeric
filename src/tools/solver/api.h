@@ -31,6 +31,7 @@
 extern const SolverLPAlgorithm lp_algorithm [];
 extern const SolverLPAlgorithm qp_algorithm [];
 
-#define __HAVE_GLPK__ 0
+#define __HAVE_GLPK__ 1
+#define SOLVER_DEBUG  0
 
 #endif

@@ -1,4 +1,4 @@
-SUBDIRS = lp_solve
+SUBDIRS = glpk lp_solve
 
 INCLUDES = 						\
 	-DGNOMELOCALEDIR=\""$(datadir)/locale"\" 	\
@@ -7,6 +7,7 @@ INCLUDES = 						\
 	-I$(top_srcdir)/src/dialogs			\
 	-I$(top_srcdir)/src/tools			\
 	-I$(top_srcdir)/src/tools/solver		\
+	-I$(top_srcdir)/src/tools/solver/glpk/include	\
 	$(GNUMERIC_CFLAGS)
 
 noinst_LIBRARIES = libsolver.a
