@@ -25,6 +25,7 @@ Jon Kåre:
 	* Import html hyperlinks as hyperlinks.
 	* Fix session management bug when gnumeric is minimized. [#166769]
 	* Receive drag/drop images.
+	* Paste images from clipboard.
 
 Morten:
 	* Work around Pango bug causing XL save crash.  [#166532]
