@@ -1,5 +1,10 @@
 2002-02-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* dialog-cell-sort.c : fine-tune the sort dialog and connect 
+	  to sort-command
+
+2002-02-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* dialog-cell-sort.c : complete the sort dialog. Note: The 
 	  dialog is still not connected to the sort engine. 
 
