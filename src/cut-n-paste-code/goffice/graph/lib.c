@@ -31,7 +31,7 @@
 #include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-theme.h>
 
-int goffice_graph_debug_level = 10;
+int goffice_graph_debug_level = 0;
 
 void
 libgoffice_init (void)

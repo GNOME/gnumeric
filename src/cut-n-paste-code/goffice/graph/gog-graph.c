@@ -499,7 +499,7 @@ gog_graph_view_size_allocate (GogView *view, GogViewAllocation const *a)
 	unsigned x, y, rows, cols;
 	GogView *child;
 	GogGraph *graph = GOG_GRAPH (view->model);
-	GogViewAllocation res, tmp;
+	GogViewAllocation tmp, res = *a;
 	double outline = gog_renderer_outline_size (
 		view->renderer, graph->base.style);
 
