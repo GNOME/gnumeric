@@ -135,7 +135,7 @@ set_cell_na (data_analysis_output_t *dao, int col, int row)
 /*
  * Set a column of text from a string like "/first/second/third" or "|foo|bar|baz".
  */
-void
+static void
 set_cell_text_col (data_analysis_output_t *dao, int col, int row, const char *text)
 {
 	gboolean leave = FALSE;
@@ -161,7 +161,7 @@ set_cell_text_col (data_analysis_output_t *dao, int col, int row, const char *te
 /*
  * Set a row of text from a string like "/first/second/third" or "|foo|bar|baz".
  */
-void
+static void
 set_cell_text_row (data_analysis_output_t *dao, int col, int row, const char *text)
 {
 	gboolean leave = 0;

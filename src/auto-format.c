@@ -1,6 +1,10 @@
 /*
  * auto-format.c: Suggest formats for expressions.
  *
+ * NOTE: If you were looking for the code to automatically put style on a
+ * region, you are in the wrong place.  See the files file-autoft.c and
+ * dialogs/dialog-autoformat.c instead.
+ *
  * Authors:
  *   Morten Welinder <terra@diku.dk>
  */
