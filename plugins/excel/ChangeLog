@@ -1,3 +1,10 @@
+2001-05-21  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* boot.c (excel_file_probe, excel_file_open, excel97_file_save,
+	excel95_file_save):
+	s/FileOpener/GnumFileOpener/
+	s/FileSaver/GnumFileSaver/
+
 2001-05-20  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.65

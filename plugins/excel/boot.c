@@ -53,14 +53,14 @@ gint ms_excel_object_debug = 0;
 
 MsExcelReadGbFn ms_excel_read_gb = NULL;
 
-gboolean excel_file_probe (FileOpener const *fo, const char *filename);
-void excel_file_open (FileOpener const *fo, IOContext *context, WorkbookView *new_wb_view, const char *filename);
-void excel97_file_save (FileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
-void excel95_file_save (FileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
+gboolean excel_file_probe (GnumFileOpener const *fo, const char *filename);
+void excel_file_open (GnumFileOpener const *fo, IOContext *context, WorkbookView *new_wb_view, const char *filename);
+void excel97_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
+void excel95_file_save (GnumFileSaver const *fs, IOContext *context, WorkbookView *wb_view, const char *filename);
 void plugin_cleanup (void);
 
 gboolean
-excel_file_probe (FileOpener const *fo, const char *filename)
+excel_file_probe (GnumFileOpener const *fo, const char *filename)
 {
 	MsOle    *file;
 
@@ -94,7 +94,7 @@ excel_file_probe (FileOpener const *fo, const char *filename)
  * Load en excel workbook.
  */
 void
-excel_file_open (FileOpener const *fo, IOContext *context,
+excel_file_open (GnumFileOpener const *fo, IOContext *context,
                  WorkbookView *new_wb_view, const char *filename)
 {
 	MsOleErr  ole_error;
@@ -184,14 +184,14 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 }
 
 void
-excel97_file_save (FileSaver const *fs, IOContext *context,
+excel97_file_save (GnumFileSaver const *fs, IOContext *context,
                    WorkbookView *wb_view, const char *filename)
 {
 	excel_save (context, wb_view, filename, MS_BIFF_V8);
 }
 
 void
-excel95_file_save (FileSaver const *fs, IOContext *context,
+excel95_file_save (GnumFileSaver const *fs, IOContext *context,
                    WorkbookView *wb_view, const char *filename)
 {
 	excel_save (context, wb_view, filename, MS_BIFF_V7);
