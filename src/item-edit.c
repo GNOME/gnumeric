@@ -69,7 +69,7 @@ item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 		/* FIXME : This is a temporary fix.
 		 * We need a multi line editor for this case and others.
 		 */
-		if (item_edit->col >= SHEET_MAX_COLS)
+		if (item_edit->col + item_edit->col_span >= SHEET_MAX_COLS)
 			break;
 		if (total_len >= wd)
 			item_edit->col_span++;
