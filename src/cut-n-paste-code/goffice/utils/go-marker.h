@@ -76,6 +76,10 @@ struct _GOMarker {
 
 GType go_marker_get_type (void); 
 
+
+GOMarkerShape    go_marker_shape_from_str       (const gchar *name);
+const gchar     *go_marker_shape_as_str         (GOMarkerShape shape);
+gboolean         go_marker_is_auto              (GOMarker *m);
 void		 go_marker_get_paths (GOMarker * marker,
 				      ArtVpath const **outline_path,
 				      ArtVpath const **fill_path);

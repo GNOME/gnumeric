@@ -252,6 +252,27 @@ static MarkerShape const marker_shapes[GO_MARKER_LAST] = {
 	{ N_("hourglass"),	hourglass_path, hourglass_path}
 };
 
+static struct {
+	GOMarkerShape shape;
+	const gchar  *name;
+} marker_shape_names[] = {
+	GO_MARKER_NONE,           "none",
+	GO_MARKER_SQUARE,         "square",
+	GO_MARKER_DIAMOND,        "diamond",
+	GO_MARKER_TRIANGLE_DOWN,  "triangle-down",
+	GO_MARKER_TRIANGLE_UP,    "triangle-up",
+	GO_MARKER_TRIANGLE_RIGHT, "triangle-right",
+	GO_MARKER_TRIANGLE_LEFT,  "triangle-left",
+	GO_MARKER_CIRCLE,         "circle",
+	GO_MARKER_X,              "x",
+	GO_MARKER_CROSS,          "cross",
+	GO_MARKER_ASTERISK,       "asterisk",
+	GO_MARKER_BAR,            "bar",
+	GO_MARKER_HALF_BAR,       "half-bar",
+	GO_MARKER_BUTTERFLY,      "butterfly",
+	GO_MARKER_HOURGLASS,      "hourglass"
+};
+
 static GObjectClass *marker_parent_klass;
 
 static void
@@ -461,6 +482,48 @@ go_marker_class_init (GOMarkerClass * marker_klass)
 			"Marker size", 0, G_MAXINT, MARKER_DEFAULT_SIZE, G_PARAM_READWRITE));
 
 	gobject_klass->finalize	    = go_marker_finalize;
+}
+
+GOMarkerShape
+go_marker_shape_from_str (const gchar *name)
+{
+	unsigned i;
+	GOMarkerShape ret = GO_MARKER_NONE;
+
+	for (i = 0; 
+	     i < sizeof marker_shape_names / sizeof marker_shape_names[0]; 
+	     i++) {
+		if (strcmp (marker_shape_names[i].name, name) == 0) {
+			ret = marker_shape_names[i].shape;
+			break;
+		}
+	}
+	return ret;
+}
+
+const gchar *
+go_marker_shape_as_str (GOMarkerShape shape)
+{
+	unsigned i;
+	const gchar *ret = "pattern";
+
+	for (i = 0; 
+	     i < sizeof marker_shape_names / sizeof marker_shape_names[0]; 
+	     i++) {
+		if (marker_shape_names[i].shape == shape) {
+			ret = marker_shape_names[i].name;
+			break;
+		}
+	}
+	return ret;
+}
+
+gboolean
+go_marker_is_auto (GOMarker *marker)
+{
+	return (marker->shape         == marker->defaults.shape &&
+		marker->outline_color == marker->defaults.outline_color &&
+		marker->fill_color    == marker->defaults.fill_color);
 }
 
 void
