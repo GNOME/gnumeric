@@ -16,6 +16,7 @@
 #include "sheet-object-container.h"
 #include <bonobo/gnome-container.h>
 #include <bonobo/gnome-component.h>
+#include "PlotComponent.h"
 
 static SheetObject *sheet_object_container_parent_class;
 
@@ -124,8 +125,9 @@ sheet_object_container_realize (SheetObject *so, SheetView *sheet_view)
 	
 	if (soc->client_site == NULL)
 		w = gtk_button_new_with_label (_("Object server"));
-	else 
+	else {
 		w = gnome_component_new_view (soc->object_server);
+	}
 	
 	i = make_container_item (so, sheet_view, w);
 
@@ -267,9 +269,75 @@ sheet_object_container_new (Sheet *sheet,
 	g_return_val_if_fail (x1 <= x2, NULL);
 	g_return_val_if_fail (y1 <= y2, NULL);
 
-        object_server = gnome_object_activate_with_repo_id (NULL, repoid, 0, NULL);
+        object_server = gnome_object_activate_with_goad_id (NULL, repoid, 0, NULL);
 	if (!object_server)
 		return NULL;
+
+	{
+		CORBA_Environment ev;
+		GNOME_Plot_VectorFactory vf;
+		GNOME_Plot_Vector v;
+		GNOME_Plot_DoubleSeq seq;
+		SheetSelection *ss;
+		double *values;
+		int rows, i;
+		CORBA_Object component;
+
+		/* Hackety hack */
+		CORBA_exception_init (&ev);
+		printf ("10\n");
+
+		component = GNOME_obj_query_interface (GNOME_OBJECT (object_server)->object, "IDL:GNOME/Plot/PlotComponent:1.0", &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_error ("Failed");
+
+		GNOME_Plot_PlotComponent_set_plot_type(component, "Bar", &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_error ("Failed");
+
+		vf = GNOME_Plot_PlotComponent_get_vector_factory (component, &ev);
+		if (vf == NULL){
+			printf ("it is null");
+			abort ();
+		}
+
+		printf ("11\n");
+		v = GNOME_Plot_VectorFactory_create_numeric_vector (vf, &ev);
+		if (ev._major != CORBA_NO_EXCEPTION)
+			g_error ("Excption");
+		printf ("1\n");
+		ss = sheet->selections->data;
+		printf ("2\n");
+
+		rows = ss->end_row - ss->start_row;
+		values = g_new (double, rows);
+		printf ("3\n");
+		printf ("Roiws: %d\n", rows);
+		for (i = 0; i < rows; i++){
+			Cell *cell;
+			
+			cell = sheet_cell_get (sheet, ss->start_col, ss->start_row + i);
+			if (cell && cell->value)
+				values [i] = value_get_as_float (cell->value);
+			else
+				values [i] = 0.0;
+		}
+					       
+		seq._length = rows;
+		seq._maximum = rows;
+		seq._buffer = values;
+
+		GNOME_Plot_Vector_set_from_double_seq (v, 0, &seq, &ev);
+
+		{
+			CORBA_Object plotstate = GNOME_Plot_PlotComponent_get_plot(component, &ev);
+			
+			GNOME_Plot_CategoricalPlot_set_scalar_data(plotstate, v, &ev);
+		}
+
+		CORBA_exception_free (&ev);
+		printf ("leaving\n");
+	}
 
 	c = gtk_type_new (sheet_object_container_get_type ());
 	so = SHEET_OBJECT (c);
@@ -291,5 +359,5 @@ sheet_object_graphic_new (Sheet *sheet,
 			  double x1, double y1,
 			  double x2, double y2)
 {
-	return sheet_object_container_new (sheet, x1, y1, x2, y2, "IDL:Sample/server:1.0");
+	return sheet_object_container_new (sheet, x1, y1, x2, y2, "Guppi_component");
 }

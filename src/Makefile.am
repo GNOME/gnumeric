@@ -149,6 +149,8 @@ GNUMERIC_CORBA_GENERATED = 			\
 	Gnumeric-common.c			\
 	Gnumeric-skels.c			\
 	Gnumeric-stubs.c			\
+	PlotComponent-common.c			\
+	PlotComponent-stubs.c			\
 	Gnumeric.h
 
 GNUMERIC_BONOBO_SOURCES = 			\
