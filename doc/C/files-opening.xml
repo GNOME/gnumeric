@@ -165,8 +165,8 @@
 	      <para>
 	        The folders listed in this area include the standard
 	        folders provided by the system and a number of folders
-	        added, as bookmarks, by the user. The standard folders
-	        provided by the system will vary for different
+	        added, as bookmark folders, by the user. The standard
+	        folders provided by the system will vary for different
 	        machines and system administrators may have disabled
 	        access to certain branches of the filesystem. By
 	        default, the standard folders provided include the
@@ -187,12 +187,13 @@
 	        top of the filesystem tree, which on GNU systems is
 	        also known as <filename>/</filename>. The list also
 	        presents peripheral or external devices. Below the
-	        standard locations, area <emphasis
+	        standard folders, area <emphasis
 	        role="bold">A</emphasis> has a separator and the
-	        bookmarks selected by the user. In <xref
+	        bookmark folders selected by the user. In <xref
 	        linkend="fig-file-open-dialog-components" /> the
 	        folder <filename>currentWork</filename> is a folder
-	        named by the user and added to the bookmark list.
+	        named by the user and added to the list of
+	        bookmark folders.
 	      </para>
 
 
@@ -256,16 +257,18 @@
 	</para>
 	  
 	<para>
-	  Additional starting folders can be added as 'bookmarks' by
-	  the users themselves. These bookmarks do not provide access
-	  to a different set of folders but merely provide efficient
-	  access to a folder and its sub-folders. These bookmarks are
-	  easy to change to allow a user to work efficiently. These
-	  bookmarks are listed, in area <emphasis
-	  role="bold">A</emphasis>, under the thin horizontal
-	  separator line. The creation and deletion of these bookmarks
-	  is explained below, in <xref
-	  linkend="sect-file-open-dialog-bookmarks" />.
+	  Additional starting folders can be added as 'bookmark
+	  folders' by the users themselves. These bookmark folders do
+	  not provide access to a different set of folders but merely
+	  provide efficient access to a folder and its
+	  sub-folders. These bookmark folders are easy to change to
+	  allow a user to work efficiently. These bookmark folders are
+	  listed, in area <emphasis role="bold">A</emphasis>, under
+	  the thin horizontal separator line. The creation and
+	  deletion of these bookmark folders is explained below, in
+	  <xref linkend="sect-file-open-dialog-bookmarks" />.
+
+
 	</para>
 
 	<para>
@@ -285,17 +288,17 @@
 	    <listitem>
 	      <para>
 	        This area displays the folder hierarchy starting from
-	        the location selected in area <emphasis
+	        the starting folder selected in area <emphasis
 	        role="bold">A</emphasis> and ending in the current
 	        folder, the folder whose contents are displayed in
 	        area <emphasis role="bold">C</emphasis>, while
 	        displaying all the folders between the two. This area
 	        changes dynamically as the user changes to new
 	        folders. In the case shown in <xref
-	        linkend="fig-file-open-dialog-components"
-	        />, the user has selected the 'Home' folder
-	        location in area <emphasis role="bold">A</emphasis>
-	        and has not navigated to any sub-folders.
+	        linkend="fig-file-open-dialog-components" />, the user
+	        has selected their 'Home' folder as the starting folder
+	        in area <emphasis role="bold">A</emphasis> and has not
+	        navigated to any sub-folders.
 	      </para>
 	    </listitem>
           </varlistentry>
@@ -375,20 +378,20 @@
 
 	  <varlistentry>
 	    <term>
-	      <emphasis role="bold">E</emphasis> - The bookmark
-	      modification buttons.
+	      <emphasis role="bold">E</emphasis> - The bookmark folder
+	      list modification buttons.
 
 	    </term>
 	    <listitem>
 	      <para>
 	        These buttons will add or remove folders to or from
-	        the bookmark list in area <emphasis
+	        the list of bookmark folders in area <emphasis
 	        role="bold">A</emphasis>. The
 	        <guibutton>Add</guibutton> button will add the folder
 	        currently selected in area <emphasis
 	        role="bold">C</emphasis>. The
 	        <guibutton>Remove</guibutton> button will remove any
-	        bookmark that is selected in area <emphasis
+	        bookmark folder that is selected in area <emphasis
 	        role="bold">A</emphasis>.
 	      </para>
 	    </listitem>
@@ -525,7 +528,7 @@
 	        menu in area <emphasis role="bold">H</emphasis>. By
 	        default, the encoding is set for the locale of the
 	        user. The locale is set by the operating system and
-	        defines the language, time zone and other location
+	        defines the language, time zone and other geographic
 	        related preferences of the user.
 <!-- TODO: add link to locale --> 
 		The character encoding is changed by clicking on the
@@ -850,7 +853,7 @@
     <!-- Keep in sync with similar section in file-save-dialog. -->
     <sect3 id="sect-file-open-dialog-bookmarks">
       <title>
-        Changing the list of bookmarks.
+        Changing the list of bookmark folders.
       </title>
 
       <para>
@@ -858,12 +861,12 @@
         role="bold">A</emphasis> of <xref
         linkend="fig-file-open-dialog-components" />
         may contain starting folders selected by the
-        user. These folders are called 'bookmarks' and are listed in
+        user. These folders are called 'bookmark folders' and are listed in
         area <emphasis role="bold">A</emphasis> below a thin
         horizontal separator line. For example, <xref
         linkend="fig-file-open-dialog-components" />
         contains a folder named <filename>currentWork</filename> which
-        is a folder bookmark selected by the user.
+        is a bookmark folder selected by the user.
       </para>
 
       <para>

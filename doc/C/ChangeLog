@@ -1,5 +1,15 @@
 2004-10-01  Adrian Custer <acuster@gnome.org>
 
+	* NEWS: Minor tweaks.
+
+	* files-formats.xml: Add TODO comments.
+	* files-opening.xml: Change 'location' to 'folder'. Change
+	                     'bookmarks' to 'bookmark folders'.
+	* files-saving.xml: Change 'location' to 'folder'. Change
+	                    'bookmarks' to 'bookmark folders'.
+	
+2004-10-01  Adrian Custer <acuster@gnome.org>
+
 	* NEWS: Doc Cleanup: Standardize the TODO comments.
 
 	* manual-usage.xml: massage TODO statements for grep.

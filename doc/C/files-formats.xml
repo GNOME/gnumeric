@@ -249,6 +249,7 @@
 	    itself. The newer version is in a plugin called
 	    "EXPERIMENTAL SAX based XML" because the parser is based
 	    on SAX.
+<!-- TODO: explain SAX differences and advantages. -->
 	  </para>
 	</listitem>
       </varlistentry>
@@ -381,8 +382,9 @@ gunzip Book1.text.gz
             or pager, like <application>Less</application>.
           </para>
 
-	  <para></para><!-- Shaun why is this needed? -->
+	  <para></para><!-- Shaun why is this needed to get a par break? -->
 
+<!-- TODO: add uses of XML manipulation of .gnumeric files. -->
           <para>
 	    XML manipulation tools can be used to transform &gnum;
             files and access the data they contain, since the file
@@ -1773,7 +1775,7 @@ Columns:  2-3        5-12      15-22     25-36     40-47     50-61
 
 
 
-
+<!-- TODO: split or explain the three OOo formats OASIS/sxc/sxw -->
   <sect2 id="file-format-ooo">
     <title>OpenOffice.org XML File Format</title>
 

@@ -133,9 +133,9 @@
       folder which is not in the preselected list, the expanded
       <interface>File Save</interface> dialog will be required. The
       components of the expanded <interface>File Save</interface>
-      dialog, the procedure for saving files in a different location,
-      and an explanation of bookmarks and their use are given further
-      below.
+      dialog, the procedure for saving files in a different folder,
+      and an explanation of bookmark folders and their use are given
+      further below.
     </para>
 
 
@@ -268,11 +268,12 @@
 	        This area will alter the dialog to expand or collapse
 	        it. When expanded the dialog provides a way to select
 	        any folder accessible on the system, to create new
-	        folders and to add and remove bookmarks from the
-	        user's bookmark list. When the dialog is expanded, the
-	        small arrow will point downward, the areas showing in
-	        <xref linkend=""/> will appear and area <emphasis
-	        role="bold">B</emphasis> will be disabled.
+	        folders and to add and remove bookmark folders from
+	        the user's bookmark folder list. When the dialog is
+	        expanded, the small arrow will point downward, the
+	        areas showing in <xref linkend=""/> will appear and
+	        area <emphasis role="bold">B</emphasis> will be
+	        disabled.
 	      </para>
 	    </listitem>
           </varlistentry>
@@ -290,7 +291,7 @@
 	      <guibutton>Cancel</guibutton> button will dismiss the dialog
 	      and return the user to the worksheet. Clicking the
 	      <guibutton>Save</guibutton> button will cause a file to
-	      be created with the currently selected name, location
+	      be created with the currently selected name, parent folder
 	      and format. If the selected file already exists, &gnum;
 	      will open a confirmation dialog since the command will
 	      obliterate the previously existing file.
@@ -429,7 +430,7 @@
 	    including several standard folders and any bookmark
 	    folders the user has previously added to the file
 	    selector. Other folders can be chosen, new folders can be
-	    created, and the list of bookmarked folders available can
+	    created, and the list of bookmark folders available can
 	    be changed, by clicking in area <emphasis
 	    role="bold">D</emphasis> to change to the expanded dialog,
 	    as will be explained further below, in <xref
@@ -493,7 +494,7 @@
         role="bold">D</emphasis>. In the expanded form, the
         <interface>File Save</interface> dialog allows a user to
         select a new folder in which to save a file, to create new
-        folders, and to add folder bookmark shortcuts to the list
+        folders, and to add bookmark folders to the list
         provided in the area labeled <emphasis
         role="bold">C</emphasis>.
       </para>
@@ -563,7 +564,7 @@
 	      <para>
 	        The folders listed in this area include the standard
 	        folders provided by the system and a number of folders
-	        added, as bookmarks, by the user. The standard folders
+	        added, as bookmark folders, by the user. The standard folders
 	        provided by the system will vary for different
 	        machines and system administrators may have disabled
 	        access to certain areas. By default, the standard
@@ -585,13 +586,13 @@
 	        top of the filesystem tree, which on GNU systems is
 	        also known as <filename>/</filename>. The list also
 	        presents peripheral or external devices. Below the
-	        standard locations, area <emphasis
+	        standard folders, area <emphasis
 	        role="bold">F</emphasis> has a separator and the
-	        bookmarks selected by the user. In <xref
+	        bookmark folders selected by the user. In <xref
 	        linkend="fig-file-save-dialog-expanded-components"
 	        /> the folder <filename>currentWork</filename> is a
-	        folder named by the user and added to the bookmark
-	        list. 
+	        folder named by the user and added to the list of
+	        bookmark folders. 
 	      </para>
 	    </listitem>
           </varlistentry>
@@ -603,17 +604,18 @@
 	    <listitem>
 	      <para>
 	        This area displays the folder hierarchy starting from
-	        the location selected in area <emphasis
+	        the starting folder selected in area <emphasis
 	        role="bold">F</emphasis> and ending in the current
 	        folder, the folder whose contents are displayed in
 	        area <emphasis role="bold">I</emphasis>, while
 	        displaying all the folders between the two. This area
 	        changes dynamically as the user changes to new
 	        folders. In the case shown in <xref
-	        linkend="fig-file-save-dialog-expanded-components"
-	        />, the user has selected the 'Home' folder
-	        location in area <emphasis role="bold">F</emphasis>
-	        and has not navigated to any sub-folders.
+	        linkend="fig-file-save-dialog-expanded-components" />,
+	        the user has selected the 'Home' folder as the
+	        starting folder in area <emphasis
+	        role="bold">F</emphasis> and has not navigated to any
+	        sub-folders.
 	      </para>
 	    </listitem>
           </varlistentry>
@@ -708,19 +710,19 @@
 	  <varlistentry>
 	    <term>
 	      <emphasis role="bold">K</emphasis> - The bookmark
-	      modification buttons.
+	      folder list modification buttons.
 
 	    </term>
 	    <listitem>
 	      <para>
 	        These buttons will add or remove folders to or from
-	        the bookmark list in area <emphasis
+	        the list of bookmark folders in area <emphasis
 	        role="bold">F</emphasis>. The
 	        <guibutton>Add</guibutton> button will add the folder
 	        currently selected in area <emphasis
 	        role="bold">G</emphasis>. The
 	        <guibutton>Remove</guibutton> button will remove any
-	        bookmark that is selected in area <emphasis
+	        bookmark folder that is selected in area <emphasis
 	        role="bold">F</emphasis>.
 	      </para>
 	    </listitem>
@@ -835,13 +837,13 @@
 	</para>
 	  
 	<para>
-	  Additional 'relative root' folders can be added as
-	  'bookmarks' by the users themselves. These bookmarks can be
-	  used to access quickly folders which are commonly used. The
-	  bookmarks are listed, in area <emphasis
+	  Additional 'relative root' folders can be added as 'bookmark
+	  folders' by the users themselves. These bookmark folders can
+	  be used to access quickly folders which are commonly
+	  used. The bookmark folders are listed, in area <emphasis
 	  role="bold">F</emphasis>, under the thin horizontal
-	  separator line. The creation and deletion of these bookmarks
-	  is explained below, in <xref
+	  separator line. The creation and deletion of these bookmark
+	  folders is explained below, in <xref
 	  linkend="sect-file-save-dialog-bookmarks" />.
 	</para>
 
@@ -1002,20 +1004,20 @@
     <!-- Keep in sync with similar section in file-open-dialog. -->
     <sect3 id="sect-file-save-dialog-bookmarks">
       <title>
-        Changing the list of bookmarks.
+        Changing the list of bookmark folders.
       </title>
 
       <para>
         The list of 'relative root' folders shown in area <emphasis
         role="bold">F</emphasis> of <xref
-        linkend="fig-file-save-dialog-expanded-components" />
-        may contain 'relative root' folders selected by the
-        user. These folders are called 'bookmarks' and are listed in
-        area <emphasis role="bold">F</emphasis> below a thin
-        horizontal separator line. For example, <xref
-        linkend="fig-file-save-dialog-expanded-components" />
-        contains a folder named <filename>currentWork</filename> which
-        is a folder bookmark selected by the user.
+        linkend="fig-file-save-dialog-expanded-components" /> may
+        contain 'relative root' folders selected by the user. These
+        folders are called 'bookmark folders' and are listed in area
+        <emphasis role="bold">F</emphasis> below a thin horizontal
+        separator line. For example, <xref
+        linkend="fig-file-save-dialog-expanded-components" /> contains
+        a folder named <filename>currentWork</filename> which is a
+        bookmark folder selected by the user.
       </para>
 
       <para>
