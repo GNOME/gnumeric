@@ -1042,77 +1042,6 @@ format_template_recalc_hash (FormatTemplate *ft)
 
 	format_template_calculate (ft, s, (PCalcCallback) cb_format_hash_style, ft->table);
 
-	/*
-	 * What follows is an ugly workaround
-	 * to set bottom and right borders
-	 * Remove this once border handling is improved.
-	 */
-	{
-		int row, col;
-
-		for (row = ft->y1; row <= ft->y2; row++) {
-			for (col = ft->x1; col <= ft->x2; col++) {
-				StyleBorder *bottom;
-				StyleBorder *right;
-				MStyle *mstyle;
-				MStyle *mstyle_to_bottom;
-				MStyle *mstyle_to_right;
-
-				mstyle = format_template_get_style (ft, row, col);
-				if (!mstyle)
-					continue;
-
-				mstyle_to_bottom = format_template_get_style (ft, row + 1, col);
-				mstyle_to_right = format_template_get_style (ft, row, col + 1);
-
-				bottom = mstyle_get_border (mstyle, MSTYLE_BORDER_BOTTOM);
-				right = mstyle_get_border (mstyle, MSTYLE_BORDER_RIGHT);
-
-				if (bottom != NULL && bottom->line_type != STYLE_BORDER_NONE) {
-
-					if (!mstyle_to_bottom) {
-						MStyle *mstyle_default;
-
-						mstyle_default = mstyle_new_default ();
-						mstyle_to_bottom = mstyle_copy (mstyle_default);
-						mstyle_unref (mstyle_default);
-
-						mstyle_set_border (mstyle_to_bottom, MSTYLE_BORDER_TOP,
-							   style_border_ref (bottom));
-
-						hash_table_insert (ft->table, row + 1, col, mstyle_to_bottom);
-
-						mstyle_unref (mstyle_to_bottom);
-					} else {
-						mstyle_set_border (mstyle_to_bottom, MSTYLE_BORDER_TOP,
-							   style_border_ref (bottom));
-					}
-				}
-
-				if (right != NULL && right->line_type != STYLE_BORDER_NONE) {
-
-					if (!mstyle_to_right) {
-						MStyle *mstyle_default;
-
-						mstyle_default = mstyle_new_default ();
-						mstyle_to_right = mstyle_copy (mstyle_default);
-						mstyle_unref (mstyle_default);
-
-						mstyle_set_border (mstyle_to_right, MSTYLE_BORDER_LEFT,
-								   style_border_ref (right));
-
-						hash_table_insert (ft->table, row, col + 1, mstyle_to_right);
-
-						mstyle_unref (mstyle_to_right);
-					} else {
-						mstyle_set_border (mstyle_to_right, MSTYLE_BORDER_LEFT,
-								   style_border_ref (right));
-					}
-				}
-			}
-		}
-	}
-
 	g_hash_table_thaw (ft->table);
 }
 
@@ -1358,7 +1287,7 @@ format_template_set_category (FormatTemplate *ft, FormatTemplateCategory *catego
 void
 format_template_set_filter (FormatTemplate *ft,
 			    gboolean number, gboolean border,
-			    gboolean font, gboolean patterns,
+			    gboolean font,   gboolean patterns,
 			    gboolean alignment)
 {
 	g_return_if_fail (ft != NULL);

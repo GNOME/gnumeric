@@ -1242,17 +1242,6 @@ sheet_style_get_uniform	(Sheet const *sheet, Range const *range,
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (borders != NULL);
 
- 	/* Create the range including a border of 1 cell where possible */
-	all = *range;
-	if (all.start.col > 0)
-		all.start.col--;
-	if (all.end.col < SHEET_MAX_COLS)
-		all.end.col++;
- 	if (all.start.row > 0)
-		all.start.row--;
-	if (all.end.row < SHEET_MAX_ROWS)
-		all.end.row++;
-
 	/* init style set with a copy of the top left corner of the 1st range */
 	if (*style == NULL) {
 		MStyle const *tmp;
@@ -1269,6 +1258,19 @@ sheet_style_get_uniform	(Sheet const *sheet, Range const *range,
 	foreach_tile (sheet->style_data->styles,
 		      TILE_TOP_LEVEL, 0, 0, &all,
 		      cb_filter_style, &closure);
+
+#if 0
+ 	/* Create the range including a border of 1 cell where possible */
+	all = *range;
+	if (all.start.col > 0)
+		all.start.col--;
+	if (all.end.col < SHEET_MAX_COLS)
+		all.end.col++;
+ 	if (all.start.row > 0)
+		all.start.row--;
+	if (all.end.row < SHEET_MAX_ROWS)
+		all.end.row++;
+#endif
 
 	for (i = STYLE_BORDER_TOP ; i <= STYLE_BORDER_RIGHT ; i++)
 		borders [i] = style_border_ref (style_border_none ());

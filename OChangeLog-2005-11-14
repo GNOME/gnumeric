@@ -1,5 +1,15 @@
 2001-01-24  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-style.c (sheet_style_get_uniform) : disable stupid cruft
+	  until I actually write this function.
+
+	* src/format-template.c (format_template_recalc_hash) : remove the
+	  cruft to apply shifted borders.
+
+	* src/gnumeric.xml : Define font Underline/Italic as toggles.
+
+2001-01-24  Jody Goldberg <jgoldberg@home.com>
+
 	* src/clipboard.c (clipboard_copy_range) : save the merged regions.
 	(clipboard_release) : cleanup merged regions.
 

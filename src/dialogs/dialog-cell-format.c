@@ -1958,7 +1958,8 @@ cb_fmt_dialog_dialog_destroy (GtkObject *unused, FormatState *state)
 }
 
 /* Set initial focus */
-static void set_initial_focus (FormatState *state)
+static void
+set_initial_focus (FormatState *state)
 {
 	GtkWidget *focus_widget = NULL, *pagew;
 	gchar *name;
