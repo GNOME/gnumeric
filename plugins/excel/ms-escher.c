@@ -1,3 +1,5 @@
+/* vim: set sw=8: */
+
 /*
  * ms-escher.c: MS Office drawing layer support
  *
@@ -1124,6 +1126,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		gboolean const is_blip = (tmp & 0x4000) != 0;
 		gboolean const is_complex = (tmp & 0x8000) != 0;
 		guint32 const val = MS_OLE_GET_GUINT32(fopte+2);
+		MSObjAttrID id = MS_OBJ_ATTR_NONE;
 
 		/* container is sorted by pid. Use this as sanity test */
 		if (prev_pid >= pid) {
@@ -1249,9 +1252,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		case 259 : name = "fixed16_16 cropFromRight"; break;
 
 		/* NULL : Blip to display */
-		case 260 : ms_escher_header_add_attr (h, 
-				ms_object_attr_new_int (MS_OBJ_ATTR_BLIP_ID,
-				(int)val - 1));
+		case 260 :
 			   name = "Blip * pib";
 			   break;
 
@@ -1345,9 +1346,12 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 	/* FillStyle */
 		/* Solid : Type of fill */
 		case 384 : name = "FillType fillType"; break;
+
 		/* white : Foreground color */
-		case 385 :
-			   name = "Colour fillColor"; break;
+		case 385 : id = MS_OBJ_ATTR_FILL_COLOR;
+			   name = "Colour fillColor";
+			   break;
+
 		/* 1<<16 : Fixed 16.16 */
 		case 386 : name = "long fillOpacity"; break;
 		/* white : Background color */
@@ -1421,8 +1425,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 			 * 0x010000	filled
 			 */
 			if (val & 0x10)
-				ms_escher_header_add_attr (h, 
-					ms_object_attr_new_flag (MS_OBJ_ATTR_FILLED));
+				id = MS_OBJ_ATTR_FILLED;
 			name = "bool fNoFillHitTest";
 			break;
 
@@ -1460,13 +1463,11 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		/* NULL : As Win32 ExtCreatePen */
 		case 463 : name = "IMsoArray lineDashStyle"; break;
 		/* NoEnd : Arrow at start */
-		case 464 : ms_escher_header_add_attr (h, 
-				ms_object_attr_new_flag (MS_OBJ_ATTR_ARROW_START));
+		case 464 : id = MS_OBJ_ATTR_ARROW_START;
 			   name = "LineEndStyle lineStartArrowhead";
 			   break;
 		/* NoEnd : Arrow at end */
-		case 465 : ms_escher_header_add_attr (h, 
-				ms_object_attr_new_flag (MS_OBJ_ATTR_ARROW_END));
+		case 465 : id = MS_OBJ_ATTR_ARROW_END;
 			   name = "LineEndStyle lineEndArrowhead";
 			   break;
 		/* MediumWidthArrow : Arrow at start */
@@ -1755,12 +1756,20 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 				is_blip ? " is blip" : "",
 				is_complex ? " is complex" : "");
 #endif
+		/* TODO : use this for something */
 		if (is_complex) {
 			extra += val;
 
 			/* check for over run */
 			g_return_val_if_fail (extra - data + common_header_len <= h->len, TRUE);
 		}
+
+		if (id & MS_OBJ_ATTR_IS_INT_MASK)
+			ms_escher_header_add_attr (h, 
+				ms_object_attr_new_uint (id, val));
+		else if (id != MS_OBJ_ATTR_NONE)
+			ms_escher_header_add_attr (h, 
+				ms_object_attr_new_flag (id));
 	}
 	if (needs_free)
 		g_free ((guint8 *)data);

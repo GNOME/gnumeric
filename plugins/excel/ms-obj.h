@@ -17,6 +17,8 @@
 #define MS_ANCHOR_SIZE	18
 
 typedef enum {
+	MS_OBJ_ATTR_NONE = 0,
+
     /* Flags */
 	MS_OBJ_ATTR_FLIP_H,
 	MS_OBJ_ATTR_FLIP_V,
@@ -27,10 +29,12 @@ typedef enum {
 	MS_OBJ_ATTR_ARROW_END,
 	
     /* Integers & Enums */
+	MS_OBJ_ATTR_IS_INT_MASK = 0x1000,
 	MS_OBJ_ATTR_BLIP_ID,
+	MS_OBJ_ATTR_FILL_COLOR,
 
     /* Ptrs */
-	MS_OBJ_ATTR_NEEDS_FREE_MASK = 0x1000,
+	MS_OBJ_ATTR_NEEDS_FREE_MASK = 0x2000,
 	MS_OBJ_ATTR_ANCHOR
 } MSObjAttrID;
 
@@ -38,13 +42,13 @@ typedef struct {
 	MSObjAttrID const id;
 	union {
 		gboolean v_boolean;
-		int	 v_int;
+		guint32	 v_uint;
 		gpointer v_ptr;
 	} v;
 } MSObjAttr;
 
 MSObjAttr    *ms_object_attr_new_flag    (MSObjAttrID id);
-MSObjAttr    *ms_object_attr_new_int     (MSObjAttrID id, int val);
+MSObjAttr    *ms_object_attr_new_uint    (MSObjAttrID id, guint32 val);
 MSObjAttr    *ms_object_attr_new_ptr     (MSObjAttrID id, gpointer val);
 void	      ms_object_attr_destroy     (MSObjAttr *attr);
 

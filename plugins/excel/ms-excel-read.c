@@ -2116,6 +2116,27 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	return FALSE;
 }
 
+static StyleColor *
+ms_sheet_map_color (ExcelSheet const *esheet, MSObj const *obj, MSObjAttrID id)
+{
+	gushort r, g, b;
+	MSObjAttr *attr = ms_object_attr_bag_lookup (obj->attrs, id);
+
+	if (attr == NULL)
+		return NULL;
+
+	if ((~0x7ffffff) & attr->v.v_uint)
+		return ms_excel_palette_get (esheet->wb->palette,
+			(0x7ffffff & attr->v.v_uint));
+
+	r = (attr->v.v_uint)       & 0xff;
+	g = (attr->v.v_uint >> 8)  & 0xff;
+	b = (attr->v.v_uint >> 16) & 0xff;
+
+	/* scale 8 bit/color ->  16 bit/color by cloning */
+	return style_color_new ((r << 8) | r, (g << 8) | g, (b << 8) | b);
+}
+
 static GtkObject *
 ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 {
@@ -2140,9 +2161,12 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	}
 	case 0x02:
 	case 0x03: { /* Box or Oval */
+		StyleColor *fill_color = NULL;
 		so = sheet_object_box_new (obj->excel_type == 3);
-		if (NULL == ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
-			sheet_object_graphic_fill_color_set (so, NULL);
+		if (ms_object_attr_bag_lookup (obj->attrs, MS_OBJ_ATTR_FILLED))
+			fill_color = ms_sheet_map_color (esheet, obj,
+				MS_OBJ_ATTR_FILL_COLOR);
+		sheet_object_graphic_fill_color_set (so, fill_color);
 		break;
 	}
 
@@ -2168,7 +2192,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 
 		if (blip_id != NULL) {
 			MSEscherBlip const *blip =
-				ms_container_get_blip (container, blip_id->v.v_int);
+				ms_container_get_blip (container, blip_id->v.v_uint - 1);
 
 			if (blip != NULL) {
 				SheetObjectBonobo *sob;

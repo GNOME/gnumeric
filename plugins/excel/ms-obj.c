@@ -65,7 +65,7 @@ ms_object_attr_new_flag (MSObjAttrID id)
 }
 
 MSObjAttr *
-ms_object_attr_new_int (MSObjAttrID id, int val)
+ms_object_attr_new_uint (MSObjAttrID id, guint32 val)
 {
 	MSObjAttr *res = g_new (MSObjAttr, 1);
 
@@ -73,7 +73,7 @@ ms_object_attr_new_int (MSObjAttrID id, int val)
 
 	/* be anal about constness */
 	*((MSObjAttrID *)&(res->id)) = id;
-	res->v.v_int = val;
+	res->v.v_uint = val;
 	return res;
 }
 MSObjAttr *

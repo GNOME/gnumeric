@@ -1,3 +1,14 @@
+2001-09-27  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-excel-read.c (ms_sheet_map_color) : new utility.
+	(ms_sheet_create_obj) : set the fill colour.
+
+	* ms-escher.c (ms_escher_read_OPT) : generalize to make things more
+	  efficient.
+
+	* ms-obj.c (ms_object_attr_new_uint) : store a uint to facilitate
+	  colors.
+
 2001-09-26  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-escher.c (ms_escher_parse) : call ms_escher_header_release.
