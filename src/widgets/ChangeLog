@@ -1,3 +1,11 @@
+2001-12-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
+	
+	http://bugzilla.gnome.org/show_bug.cgi?id=65894
+	* gnumeric-expr-entry.c (gnumeric_expr_entry_button_press_event) :
+	  new signal handler
+	(gnumeric_expr_entry_class_init) : install 
+	  gnumeric_expr_entry_button_press_event
+	
 2001-12-19  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (gnumeric_expr_entry_parse) : make starting a

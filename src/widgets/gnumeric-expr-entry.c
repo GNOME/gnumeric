@@ -416,6 +416,19 @@ gnumeric_expr_entry_key_press_event (GtkWidget *widget, GdkEventKey *event)
 	return result;
 }
 
+static int
+gnumeric_expr_entry_button_press_event (GtkWidget *widget, GdkEventButton *event)
+{
+	int result;
+	result = GTK_WIDGET_CLASS (gnumeric_expr_entry_parent_class)->
+		button_press_event (widget, event);
+
+	if (!gnumeric_expr_entry_rangesel_meaningful (GNUMERIC_EXPR_ENTRY (widget)))
+		scg_rangesel_stop (GNUMERIC_EXPR_ENTRY (widget)->scg, FALSE);
+
+	return result;
+}
+
 static void
 gnumeric_expr_entry_class_init (GtkObjectClass *object_class)
 {
@@ -426,6 +439,17 @@ gnumeric_expr_entry_class_init (GtkObjectClass *object_class)
 
 	object_class->destroy		= gnumeric_expr_entry_destroy;
 	widget_class->key_press_event   = gnumeric_expr_entry_key_press_event;
+
+/*
+ *      FIXME:
+ *      You would think that rather than button_press_event we would use a signal
+ *      specific to the movement of the cursor (that signal would probably be at the 
+ *      GTKENTRY level). Unfortunately there is no such signal, yet. In Gnome2
+ *      GTKENTRY will have a move_cursor signal which we should use then!
+ *
+ */
+
+	widget_class->button_press_event= gnumeric_expr_entry_button_press_event;
 }
 
 E_MAKE_TYPE (gnumeric_expr_entry, "GnumericExprEntry", GnumericExprEntry,

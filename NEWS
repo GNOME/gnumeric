@@ -5,6 +5,9 @@ Andreas:
 	* Implement merges and spans in html exporter
 	* Make output from HTML4.0 and HTML3.2 exporters validate 
 	* Fix copy multiple cells to single merged cell (#67298)
+	* Fix expr entry widget: used to fet confised on mouse clicks
+          (#65894)
+
 Jody:
 	* Add insert Graph menu item & icon
 	* Fix Exit icon for bonbo build.
