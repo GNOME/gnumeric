@@ -213,8 +213,9 @@ load_formats (void)
 	for (i = 0; i < format_count; i++){
 		char *str = g_strdup_printf ("Format-%d", i);
 		PrintHF *format;
-		
+
 		format = load_hf (str, "", "", "");
+		g_free (str);
 		hf_formats = g_list_prepend (hf_formats, format);
 	}
 	hf_formats = g_list_reverse (hf_formats);
