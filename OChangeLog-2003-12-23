@@ -1,5 +1,9 @@
 2002-12-11  Jon K Hellan  <hellan@acm.org>
 
+	* src/bonobo-io.c: Remove 10 unnecessary includes.
+
+2002-12-11  Jon K Hellan  <hellan@acm.org>
+
 	* GNOME_Gnumeric.server.in.in (OAFIID:GNOME_Gnumeric_Control):
 	Don't pretend to support  Bonobo/PersistFile.
 

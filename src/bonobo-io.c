@@ -8,25 +8,14 @@
  */
 
 #include <gnumeric-config.h>
-#include <gnumeric-i18n.h>
 #include "gnumeric.h"
 #include "bonobo-io.h"
 
-#include "sheet-object-bonobo.h"
-#include "sheet-object-container.h"
 #include "command-context.h"
 #include "io-context.h"
 #include "workbook-control-component.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "sheet.h"
-#include "file.h"
-
-#include <stdio.h>
-#include <string.h>
-#include <locale.h>
-#include <math.h>
-#include <limits.h>
 #include <bonobo.h>
 
 #include <gsf/gsf-input.h>
