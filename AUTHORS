@@ -1,11 +1,13 @@
 Miguel de Icaza, creator.
 Jody Goldberg, maintainer.
 Sean Atkinson, functions and X-Base importing.
+Michel Berkelaar, Simplex algorithm for Solver (LP Solve).
 Grandma Chema Celorio, Tester and sheet copy.
 Frank Chiulli, OLE support.
 Kenneth Christiansen, i18n, misc stuff.
 Zbigniew Chyla, plugin system, i18n.
 J.H.M. Dassen (Ray), debian packaging.
+Jeroen Dirks, Simplex algorithm for Solver (LP Solve).
 Tom Dyas, plugin support.
 Gergo Erdi, Gnumeric hacker.
 John Gotts, rpm packaging.

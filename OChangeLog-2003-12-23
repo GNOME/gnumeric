@@ -1,3 +1,7 @@
+2002-03-21  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* AUTHORS: Added the authors of the LP Solve algorithm.
+
 2002-03-20  Jody Goldberg <jody@gnome.org>
 
 	* src/cellspan.c (cell_calc_span) : Fix span calc when spanning
