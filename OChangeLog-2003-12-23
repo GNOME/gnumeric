@@ -1,3 +1,8 @@
+2002-12-03  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-filter.c (cb_filter_button_release): Check if event
+	window is popup window.
+
 2002-12-03  Morten Welinder  <terra@diku.dk>
 
 	* src/xml-io.c (POINT_SIZE_PRECISION): Increase to 4.

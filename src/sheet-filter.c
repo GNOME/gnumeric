@@ -212,7 +212,8 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 		GTK_WIDGET_MAPPED (popup));
 
 	/* A release inside popup accepts */
-	if (event->x < 0 || event->y < 0 ||
+	if (event->window != popup->window ||
+	    event->x < 0 || event->y < 0 ||
 	    event->x >= popup->allocation.width ||
 	    event->y >= popup->allocation.height)
 		return TRUE;
