@@ -1,3 +1,17 @@
+2001-02-13  Maciej Stachowiak  <mjs@eazel.com>
+
+	Changes to make gnumeric distcheck properly (mildly xml-i18n-tools
+	related).
+	
+	* po/Makefile.in.in: Remove; this should not be in cvs, autogen
+	will create it with gettextize and patch it with xml-i18n-tools.
+	
+	* src/dialogs/Makefile.am: Remove define of glade_msgs and remove
+	it from EXTRA_DIST; these files are not in cvs any more, rather
+	they are generated on demand by the xml-i18n-tools extraction
+	code, so they should not (and cannot) go into the distribution
+	tarball.
+
 2001-02-12  Karl Eichwalder  <ke@suse.de>
 
 	* templates/autoformat/Makefile.am (Category_files): Typo.
