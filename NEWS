@@ -54,6 +54,7 @@ Morten:
           with lots of ()s.
 	* Improve number rendering when showing more decimals than backed
 	  by precision.
+	* Fix covariance too.
 
 Thomas Miesbauer:
 	* Redo screenshots

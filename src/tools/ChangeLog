@@ -1,3 +1,9 @@
+2003-09-29  Morten Welinder  <terra@gnome.org>
+
+	* analysis-tools.c (analysis_tool_covariance_engine_run):
+	Covar(X,X) happens to be the same as Var(X,X) and is generally not
+	1.  (Population variance, that is.)
+
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.0

@@ -829,35 +829,29 @@ analysis_tool_covariance_engine_run (data_analysis_output_t *dao,
 		dao_set_cell_printf (dao, row+1, 0, row_data->label);
 		dao_set_italic (dao, row+1, 0,  row+1, 0);
 		for (col = 0; col < data->len; col++) {
-		        if (row == col) {
-			        dao_set_cell_int (dao, col + 1, row + 1, 1);
-				break;
+			if (row < col) {
+				dao_set_cell (dao, col + 1, row + 1, NULL);
 			} else {
-				if (row < col) {
-					dao_set_cell (dao, col + 1, row + 1, NULL);
-				} else {
-					col_data = g_ptr_array_index (data, col);
-					missing = union_of_int_sets (col_data->missing,
-								     row_data->missing);
-					clean_col_data = strip_missing (col_data->data,
-									missing);
-					clean_row_data = strip_missing (row_data->data,
-									missing);
-					g_slist_free (missing);
-					error =  range_covar
-						((gnm_float *)(clean_col_data->data),
-						 (gnm_float *)(clean_row_data->data),
-						 clean_col_data->len, &x);
-					if (clean_col_data != col_data->data)
-						g_array_free (clean_col_data, TRUE);
-					if (clean_row_data != row_data->data)
-						g_array_free (clean_row_data, TRUE);
-					if (error)
-						dao_set_cell_na (dao, col + 1, row + 1);
-					else
-						dao_set_cell_float (dao, col + 1, row + 1, x);
-				}
-
+				col_data = g_ptr_array_index (data, col);
+				missing = union_of_int_sets (col_data->missing,
+							     row_data->missing);
+				clean_col_data = strip_missing (col_data->data,
+								missing);
+				clean_row_data = strip_missing (row_data->data,
+								missing);
+				g_slist_free (missing);
+				error =  range_covar
+					((gnm_float *)(clean_col_data->data),
+					 (gnm_float *)(clean_row_data->data),
+					 clean_col_data->len, &x);
+				if (clean_col_data != col_data->data)
+					g_array_free (clean_col_data, TRUE);
+				if (clean_row_data != row_data->data)
+					g_array_free (clean_row_data, TRUE);
+				if (error)
+					dao_set_cell_na (dao, col + 1, row + 1);
+				else
+					dao_set_cell_float (dao, col + 1, row + 1, x);
 			}
 		}
 	}
