@@ -287,7 +287,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	}
 
  out:
-	gtk_object_destroy (GTK_OBJECT (fsel));
+	gtk_widget_destroy (GTK_WIDGET (fsel));
 	g_list_free (openers);
 }
 
@@ -414,7 +414,7 @@ gboolean
 gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
 	GList *savers = NULL, *l;
-	GtkFileSelection *fsel;
+	GtkFileChooser *fsel;
 	GtkOptionMenu *omenu;
 	GtkWidget *format_chooser;
 	GnmFileSaver *fs;
@@ -435,10 +435,51 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	omenu = GTK_OPTION_MENU (gtk_option_menu_new ());
 	format_chooser = make_format_chooser (savers, omenu);
 
-	/* Pack it into file selector */
-	fsel = GTK_FILE_SELECTION (gtk_file_selection_new (_("Save workbook as")));
-	gtk_box_pack_start (GTK_BOX (fsel->action_area), format_chooser,
-	                    FALSE, TRUE, 0);
+	fsel = GTK_FILE_CHOOSER
+		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
+			       "action", GTK_FILE_CHOOSER_ACTION_SAVE,
+			       "title", "Select a file",
+			       NULL));
+	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
+				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+				GTK_STOCK_SAVE, GTK_RESPONSE_OK,
+				NULL);
+	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
+
+#warning "FIXME: this is a gross way to set size."
+	{
+		GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (fsel));
+		gtk_window_set_default_size (GTK_WINDOW (fsel),
+					     gdk_screen_get_width (screen) / 3,
+					     gdk_screen_get_width (screen) / 3);
+	}
+
+	/* Filters */
+	{	
+		GtkFileFilter *filter;
+		GList *l;
+
+		filter = gtk_file_filter_new ();
+		gtk_file_filter_set_name (filter, "All Files");
+		gtk_file_filter_add_pattern (filter, "*");
+		gtk_file_chooser_add_filter (fsel, filter);
+
+		filter = gtk_file_filter_new ();
+		gtk_file_filter_set_name (filter, "Spreadsheets");
+		for (l = savers->next; l; l = l->next) {
+			GnmFileSaver *s = l->data;
+			/* FIXME: add all known extensions.  */
+		}
+#warning "FIXME: make extension discovery above work and delete these"
+		gtk_file_filter_add_pattern (filter, "*.gnumeric");
+		gtk_file_filter_add_pattern (filter, "*.xls");
+
+		gtk_file_chooser_add_filter (fsel, filter);
+		/* Make this filter the default */
+		gtk_file_chooser_set_filter (fsel, filter);
+	}
+
+	gtk_file_chooser_set_extra_widget (fsel, format_chooser);
 
 	/* Set default file saver */
 	fs = wbcg->current_saver;
@@ -452,14 +493,27 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	/* Set default file name */
 	wb_file_name = workbook_get_filename (wb_view_workbook (wb_view));
 	if (wb_file_name != NULL) {
-		gchar *tmp_name, *p;
+		char *tmp_name = g_strdup (wb_file_name);
+		char *p = tmp_name + strlen (tmp_name);
 
-		tmp_name = g_strdup (wb_file_name);
-		p = strrchr (tmp_name, '.');
-		if (p != NULL) {
-			*p = '\0';
+		/* Remove extension, but not in directory name.  */
+		while (p > tmp_name) {
+			p--;
+			if (*p == '.') {
+				*p = 0;
+				break;
+			} else if (*p == G_DIR_SEPARATOR)
+				break;
 		}
-		gtk_file_selection_set_filename (fsel, tmp_name);
+
+		if (g_path_is_absolute (tmp_name)) {
+			gtk_file_chooser_set_filename (fsel, tmp_name);
+			p = g_path_get_basename (tmp_name);
+			g_free (tmp_name);
+			tmp_name = p;
+		}
+		gtk_file_chooser_unselect_all (fsel);
+		gtk_file_chooser_set_current_name (fsel, tmp_name);
 		g_free (tmp_name);
 	}
 
@@ -467,8 +521,10 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	if (gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel))) {
 		fs = g_list_nth_data (savers, gtk_option_menu_get_history (omenu));
 		if (fs != NULL) {
-			success = do_save_as (wbcg, wb_view, fs,
-			                      gtk_file_selection_get_filename (fsel));
+			char *filename = gtk_file_chooser_get_filename (fsel);
+			success = do_save_as (wbcg, wb_view, fs, filename);
+			g_free (filename);
+
 			if (success) {
 				wbcg->current_saver = fs;
 			}
