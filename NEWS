@@ -23,7 +23,8 @@ Jody:
 	* CODE assumes unsigned char
 	* Improve parser's handling of integers larger than int.
 	* Improve cursor & scroll bounds checking.
-	* graph leaks.
+	* Fix graph leaks.
+	* Allow xls exporter to handle large format regions.
 
 John Gotts:
 	* Make bonobo optional in the sample rpm specfile.
