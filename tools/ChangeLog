@@ -1,5 +1,7 @@
 2003-05-18  Morten Welinder  <terra@gnome.org>
 
+	* fixup-deprecated: New script.
+
 	* import-foocanvas: undef GTK_DISABLE_DEPRECATED.
 
 2003-05-14  Morten Welinder  <terra@gnome.org>
