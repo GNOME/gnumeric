@@ -1,3 +1,7 @@
+2003-04-23  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric-expr-entry.c (cb_entry_activate) : patch warning.
+
 2003-04-22  Jody Goldberg <jody@gnome.org>
 
 	* gnumeric-expr-entry.c (cb_entry_activate) : queue an update.

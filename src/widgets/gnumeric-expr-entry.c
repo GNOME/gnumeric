@@ -193,7 +193,7 @@ gee_get_property (GObject      *object,
 }
 
 static void
-cb_entry_activate (G_GNUC_UNUSED GtkWidget *w, GObject *gee)
+cb_entry_activate (G_GNUC_UNUSED GtkWidget *w, GnmExprEntry *gee)
 {
 	g_signal_emit (G_OBJECT (gee), signals [ACTIVATE], 0);
 	gnm_expr_entry_signal_update (gee, TRUE);
