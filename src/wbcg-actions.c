@@ -76,9 +76,6 @@
 #include <glib/gi18n.h>
 #include <gsf/gsf-input.h>
 #include <string.h>
-#ifdef WITH_GNOME
-#include <libgnome/gnome-url.h>
-#endif
 
 static GNM_ACTION_DEF (cb_file_new)
 {
@@ -852,47 +849,29 @@ static GNM_ACTION_DEF (cb_help_docs)
 
 static GNM_ACTION_DEF (cb_help_web)
 {
-#ifdef WITH_GNOME
-	GError *err = NULL;
-
-	gnome_url_show ("http://www.gnumeric.org/", &err);
+	GError *err = go_url_show ("http://www.gnumeric.org/");
 	if (err != NULL) {
 		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 		g_error_free (err);
 	}
-#else
-#warning "We need a non-gnome version of this."
-#endif
 }
 
 static GNM_ACTION_DEF (cb_help_irc)
 {
-#ifdef WITH_GNOME
-	GError *err = NULL;
-
-	gnome_url_show ("irc://irc.gnome.org/gnumeric", &err);
+	GError *err = go_url_show ("irc://irc.gnome.org/gnumeric");
 	if (err != NULL) {
 		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 		g_error_free (err);
 	}
-#else
-#warning "We need a non-gnome version of this."
-#endif
 }
 
 static GNM_ACTION_DEF (cb_help_bug)
 {
-#ifdef WITH_GNOME
-	GError *err = NULL;
-
-	gnome_url_show ("http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric", &err);
+	GError *err = go_url_show ("http://bugzilla.gnome.org/enter_bug.cgi?product=Gnumeric");
 	if (err != NULL) {
 		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
 		g_error_free (err);
 	}
-#else
-#warning "We need a non-gnome version of this."
-#endif
 }
 
 static GNM_ACTION_DEF (cb_help_about) { dialog_about (wbcg); }
@@ -1696,9 +1675,9 @@ static /* const 142334 */ GtkActionEntry actions[] = {
 		"<control>F3", N_("Edit sheet and workbook names"),
 		G_CALLBACK (cb_define_name) },
 #if 0
-	GNOMEUIINFO_ITEM_NONE (N_("_Auto generate names..."),
-		N_("Use the current selection to create names"),
-		cb_auto_generate__named_expr),
+	{ "EditGenerateName", NULL,  N_("_Auto generate names..."),
+		NULL, N_("Use the current selection to create names"),
+		G_CALLBACK (cb_auto_generate__named_expr) },
 #endif
 
 /* Format */

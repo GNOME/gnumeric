@@ -37,6 +37,7 @@
 #include "value.h"
 #include "mstyle.h"
 
+#include <goffice/utils/go-file.h>
 #include <gsf/gsf-impl-utils.h>
 
 #define GET_CLASS(instance) G_TYPE_INSTANCE_GET_CLASS (instance, GNM_HLINK_TYPE, GnmHLinkClass)
@@ -217,11 +218,7 @@ gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
 	if (lnk->target == NULL)
 		return FALSE;
 
-#ifdef WITH_GNOME
-	res = gnome_url_show (lnk->target, &err);
-#else
-	err = g_error_new (0, 0, "No browser connected on this platform");
-#endif
+	err = go_url_show (lnk->target);
 
 	if (err != NULL) {
 		char *msg = g_strdup_printf(_("Unable to activate the url '%s'"), lnk->target);
@@ -230,7 +227,7 @@ gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
 		g_error_free (err);
 	}
 
-	return res;
+	return err == NULL;
 }
 
 static void

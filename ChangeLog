@@ -1,3 +1,10 @@
+2004-12-08  Jody Goldberg <jody@gnome.org>
+
+	* src/hlink.c (gnm_hlink_url_activate) : use go_url_show
+	* src/wbcg-actions.c (cb_help_web) : ditto.
+	(cb_help_irc) : ditto
+	(cb_help_bug) : ditto
+
 2004-12-06  Morten Welinder  <terra@gnome.org>
 
 	* src/func.c (function_dump_defs): Use CSS for styling.

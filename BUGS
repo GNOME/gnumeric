@@ -54,6 +54,10 @@ Worries
     selected add "Unhide column to the left" and "... right" to the context
     menu (when relevant).
 
+After Branch
+------------
+    : update foocanvas to include the expose patch
+
 -------------------------------------------------------------------------------
 Blocked Patches
 ---------------

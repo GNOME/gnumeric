@@ -1,3 +1,7 @@
+2004-12-08  Jody Goldberg <jody@gnome.org>
+
+	* utils/go-file.c (go_url_show) : new with a win32 and non-gnome wrapper
+
 2004-12-01  Jody Goldberg <jody@gnome.org>
 
 	* goffice.mk (INCLUDES) : remove GNUMERIC_ICON_DIR
