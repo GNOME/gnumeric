@@ -1,3 +1,8 @@
+2002-02-06  Jody Goldberg <jody@gnome.org>
+
+	* src/auto-format.c (auto_style_format_suggest) : it is now the
+	  primitive.
+
 2002-02-06  Michael Meeks  <michael@ximian.com>
 
 	* src/workbook.c (workbook_bonobo_setup): don't
