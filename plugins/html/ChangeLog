@@ -1,5 +1,9 @@
 2003-01-16  Jon K Hellan  <hellan@acm.org>
 
+	(html_read_table): Take two.
+
+2003-01-16  Jon K Hellan  <hellan@acm.org>
+
 	* html_read.c (struct GnmHtmlTableCtxt): Add. Keep state while
 	traversing thead, tfoot, tbody parts.
 	(html_read_row): Replace row and sheet parameters with a

@@ -247,6 +247,7 @@ html_read_table (htmlNodePtr cur, htmlDocPtr doc, WorkbookView *wb_view)
 			html_read_rows (ptr, doc, wb, &tc);
 		} else if (xmlStrEqual (ptr->name, (xmlChar *)"tr")) {
 			html_read_rows (cur, doc, wb, &tc);
+			break;
 		}
 	}
 }
