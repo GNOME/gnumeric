@@ -1,3 +1,9 @@
+2003-06-10  Jody Goldberg <jody@gnome.org>
+
+	* dialog-about.c (dialog_about) : www.gnumeric.org is still down
+	  and there is no clear solution in sight until the dotster account is
+	  cleared.
+
 2003-06-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* descriptive-stats.glade: use notebook

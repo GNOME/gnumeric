@@ -53,14 +53,17 @@ dialog_about (WorkbookControlGUI *wbcg)
 		N_("J.H.M. Dassen (Ray), debian packaging."),
 		N_("Jeroen Dirks, Simplex algorithm for Solver (LP Solve)."),
 		N_("Tom Dyas, plugin support."),
-		/* if your charset allows it, replace the 'o' of 'Gergo'
+		/* xgettext:
+		 * if your charset allows it, replace the 'o' of 'Gergo'
 		 * with 'odoubleacute' (U0151) and the 'E' of 'Erdi'
 		 * with 'Eacute' (U00C9) */
 		N_("Gergo Erdi, Gnumeric hacker."),
 		N_("John Gotts, rpm packaging."),
-		/* The funny character between "G" and "l" here is a \"u.  */
+		/* xgettext:
+		 * The funny character between "G" and "l" here is a \"u.  */
 		N_("Andreas J. G\xc3\xbclzow, Gnumeric hacker."),
-		/* The funny character between "K" and "r" here is 'aring'.  */
+		/* xgettext:
+		 * The funny character between "K" and "r" here is 'aring'.  */
 		N_("Jon K\xc3\xa5re Hellan, Gnumeric hacker."),
 		N_("Ross Ihaka, special functions."),
 		N_("Jukka-Pekka Iivonen, numerous functions and tools."),
@@ -117,7 +120,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 
 	hbox = gtk_hbox_new (TRUE, 0);
 	gtk_box_pack_start (GTK_BOX (hbox),
-		gnome_href_new ("http://www.gnumeric.org", _("Gnumeric Home Page")),
+		gnome_href_new ("http://www.gnome.org/projects/gnumeric", _("Gnumeric Home Page")),
 		FALSE, FALSE, 0);
 
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (about)->vbox),
