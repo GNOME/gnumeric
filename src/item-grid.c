@@ -656,12 +656,12 @@ item_grid_draw (FooCanvasItem *item, GdkDrawable *drawable,
 		style_borders_row_draw (prev_vert, &sr,
 					drawable, diff_x, y, y, colwidths, FALSE);
 		if (gcanvas->pane->index >= 2)
-			gdk_draw_line (drawable, ig->gc.bound, 0, y, x, y);
+			gdk_draw_line (drawable, ig->gc.bound, diff_x, y, x, y);
 	}
 	if (col >= ig->bound.end.col &&
 	    /* TODO : Add pane flags to avoid hard coding pane numbers */
 	    (gcanvas->pane->index == 1 || gcanvas->pane->index == 2))
-		gdk_draw_line (drawable, ig->gc.bound, x, 0, x, y);
+		gdk_draw_line (drawable, ig->gc.bound, x, diff_y, x, y);
 
 	g_slist_free (merged_used);	   /* merges with bottom in view */
 	g_slist_free (merged_active_seen); /* merges with bottom the view */

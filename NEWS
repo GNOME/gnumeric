@@ -104,6 +104,8 @@ Jody:
 	* Don't add a grid if there wasn't one in the xls
 	http://bugzilla.gnome.org/show_bug.cgi?id=127238
 	* Fix memory handling for autoformats
+	http://bugzilla.gnome.org/show_bug.cgi?id=127262
+	* Fix minor cosmetic issue with the boarder between frozen panes
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

@@ -1,3 +1,9 @@
+2003-11-18  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=127262
+	* src/item-grid.c (item_grid_draw) : Avoid 16bit overflow when drawing
+	  the divider line,  just draw the visible bit.
+
 2003-11-17  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=127238
