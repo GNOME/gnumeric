@@ -1,5 +1,7 @@
 2001-10-16  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-object.c (sheet_object_clear_sheet) : fix leak.
+
 	* src/gnumeric-graph.c (gnm_graph_import_specification) : fix leak.
 
 2001-10-16  Jody Goldberg <jgoldberg@home.com>

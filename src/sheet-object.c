@@ -341,6 +341,7 @@ sheet_object_clear_sheet (SheetObject *so)
 	sheet_object_unrealize (so);
 	so->sheet->sheet_objects = g_list_remove_link (so->sheet->sheet_objects, ptr);
 	so->sheet = NULL;
+	g_list_free (ptr);
 
 	return FALSE;
 }
