@@ -3,7 +3,7 @@
 
 #define GNUMERIC_TYPE_SHEET     (gnumeric_sheet_get_type ())
 #define GNUMERIC_SHEET(obj)     (GTK_CHECK_CAST((obj), GNUMERIC_TYPE_SHEET, GnumericSheet))
-#define GNUMERIC_SHEET_CLASS(k) (GTK_CHECK_CLASS_CAST (k), GNUMERIC_TYPE_SHEET)
+#define GNUMERIC_SHEET_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), GNUMERIC_TYPE_SHEET))
 #define GNUMERIC_IS_SHEET(o)    (GTK_CHECK_TYPE((o), GNUMERIC_TYPE_SHEET))
 
 typedef struct {
@@ -19,7 +19,7 @@ typedef struct {
 
 GtkType gnumeric_sheet_get_type (void);
 
-GnumericSheet *gnumeric_sheet_new (Sheet *sheet);
+GtkWidget *gnumeric_sheet_new (Sheet *sheet);
 
 typedef struct {
 	GnomeCanvasClass parent_class;

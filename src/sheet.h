@@ -1,5 +1,5 @@
-#ifndef GNUMERIC_SHEET_H
-#define GNUMERIC_SHEET_H
+#ifndef SHEET_H
+#define SHEET_H
 
 typedef GList ColStyleList;
 
@@ -18,7 +18,16 @@ typedef struct {
 } ColInfo;
 
 typedef struct {
-	struct     Workbook *parent_workbook;
+	GtkWidget  *toplevel;
+	GtkWidget  *notebook;
+	
+	Style      style;
+	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */
+} Workbook;
+
+typedef struct {
+	Workbook   *parent_workbook;
+	GtkWidget  *sheet_view;
 	char       *name;
 		   
 	Style      style;
@@ -27,8 +36,10 @@ typedef struct {
 	void       *contents;
 } Sheet;
 
-typedef struct {
-	Style      style;
-	GHashTable *sheets;	/* keeps a list of the sheets on this workbook */
-} Workbook;
+Sheet    *sheet_new                (Workbook *wb, char *name);
+
+Workbook *workbook_new             (void);
+Workbook *workbook_new_with_sheets (int sheet_count);
+void      workbook_attach_sheet    (Workbook *, Sheet *);
+
 #endif

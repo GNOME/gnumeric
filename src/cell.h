@@ -23,7 +23,7 @@ typedef struct {
 	} v;
 } Value;
 
-typedef {
+typedef struct {
 	int       ref_count;
 	GdkColor  color;
 } CellColor;
