@@ -1,3 +1,9 @@
+1999-07-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialog-analysis-tools.c, src/analysis-tools.c: Made ``Labels
+ 	in the first row'' option to actually work.  Killed some warnings
+ 	and bugs related to outputs too.
+
 1999-07-12  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/cell.c (cell_set_font): Now takes a "points" argument.

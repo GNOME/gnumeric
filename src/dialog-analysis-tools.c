@@ -156,6 +156,12 @@ static check_button_t first_row_label_button[] = {
         { NULL, NULL }
 };
 
+static check_button_t label_button[] = {
+        { N_("Labels"), first_row_label_signal_fun, FALSE,
+	  N_("") },
+        { NULL, NULL }
+};
+
 static check_button_t standard_errors_button[] = {
         { N_("Standard Errors"), standard_errors_signal_fun, FALSE,
 	  N_("") },
@@ -337,7 +343,7 @@ add_output_frame(GtkWidget *box, GSList **output_ops)
 	gtk_box_pack_start_defaults (GTK_BOX (box), r);
 	hbox = gtk_hbox_new (FALSE, 0);
 	r = gtk_radio_button_new_with_label(*output_ops,
-					    "Into a Range:");
+					    "Output Range:");
 	*output_ops = GTK_RADIO_BUTTON (r)->group;
 	gtk_box_pack_start_defaults (GTK_BOX (hbox), r);
 	output_range_entry = gtk_entry_new_with_max_length (20);
@@ -376,8 +382,8 @@ add_groupped_by(GtkWidget *box)
 static void
 dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 {
-        static GtkWidget *dialog, *box, *group_box, *groupped_label;
-	static GtkWidget *range_entry, *r, *output_range_entry;
+        static GtkWidget *dialog, *box;
+	static GtkWidget *range_entry, *output_range_entry;
 	static GSList    *group_ops, *output_ops;
 	static int       labels = 0;
 
@@ -405,7 +411,7 @@ dialog_correlation_tool(Workbook *wb, Sheet *sheet)
 
 		group_ops = add_groupped_by(box);
 
-		add_check_buttons(box, first_row_label_button);
+		add_check_buttons(box, label_button);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -445,8 +451,7 @@ correlation_dialog_loop:
 	        goto correlation_dialog_loop;
 
 	labels = label_row_flag;
-	if (labels)
-	        range.start_row++;
+	dao.labels_flag = labels;
 
 	if (correlation_tool (wb, sheet, &range, !i, &dao))
 	        goto correlation_dialog_loop;
@@ -458,7 +463,7 @@ correlation_dialog_loop:
 static void
 dialog_covariance_tool(Workbook *wb, Sheet *sheet)
 {
-        static GtkWidget *dialog, *box, *group_box, *groupped_label;
+        static GtkWidget *dialog, *box;
 	static GtkWidget *range_entry, *output_range_entry;
 	static GSList    *group_ops, *output_ops;
 	static int       labels = 0;
@@ -486,7 +491,7 @@ dialog_covariance_tool(Workbook *wb, Sheet *sheet)
 		  ("Input Range:", "", 20, box);
 
 		group_ops = add_groupped_by(box);
-		add_check_buttons(box, first_row_label_button);
+		add_check_buttons(box, label_button);
 
 		box = gtk_vbox_new (FALSE, 0);
 		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
@@ -526,8 +531,7 @@ covariance_dialog_loop:
 	        goto covariance_dialog_loop;
 
 	labels = label_row_flag;
-	if (labels)
-	        range.start_row++;
+	dao.labels_flag = labels;
 
 	if (covariance_tool (wb, sheet, &range, !i, &dao))
 	        goto covariance_dialog_loop;
@@ -646,7 +650,7 @@ sampling_dialog_loop:
 static void
 dialog_descriptive_stat_tool(Workbook *wb, Sheet *sheet)
 {
-        static GtkWidget *dialog, *box, *group_box, *groupped_label;
+        static GtkWidget *dialog, *box;
 	static GtkWidget *range_entry, *output_range_entry;
 	static GtkWidget *check_buttons;
 	static GSList    *group_ops, *output_ops;
@@ -846,10 +850,7 @@ ztest_dialog_loop:
 	        goto ztest_dialog_loop;
 
 	labels = label_row_flag;
-	if (labels) {
-	        range_input1.start_row++;
-	        range_input2.start_row++;
-	}
+	dao.labels_flag = labels;
 
 	if (ztest_tool (wb, sheet, &range_input1, &range_input2, mean_diff,
 		    var1, var2, alpha, &dao))
@@ -954,10 +955,7 @@ ttest_dialog_loop:
 	        goto ttest_dialog_loop;
 
 	labels = label_row_flag;
-	if (labels) {
-	        range_input1.start_row++;
-	        range_input2.start_row++;
-	}
+	dao.labels_flag = labels;
 
 	if (ttest_paired_tool (wb, sheet, &range_input1, &range_input2,
 			       mean_diff, alpha, &dao))
@@ -1063,10 +1061,7 @@ ttest_dialog_loop:
 	        goto ttest_dialog_loop;
 
 	labels = label_row_flag;
-	if (labels) {
-	        range_input1.start_row++;
-	        range_input2.start_row++;
-	}
+	dao.labels_flag = labels;
 
 	if (ttest_eq_var_tool (wb, sheet, &range_input1, &range_input2,
 			       mean_diff, alpha, &dao))
@@ -1172,10 +1167,7 @@ ttest_dialog_loop:
 	        goto ttest_dialog_loop;
 
 	labels = label_row_flag;
-	if (labels) {
-	        range_input1.start_row++;
-	        range_input2.start_row++;
-	}
+	dao.labels_flag = labels;
 
 	if (ttest_neq_var_tool (wb, sheet, &range_input1, &range_input2,
 				mean_diff, alpha, &dao))
@@ -1273,10 +1265,7 @@ ftest_dialog_loop:
 	        goto ftest_dialog_loop;
 
 	labels = label_row_flag;
-	if (labels) {
-	        range_input1.start_row++;
-	        range_input2.start_row++;
-	}
+	dao.labels_flag = labels;
 
 	if (ftest_tool (wb, sheet, &range_input1, &range_input2, alpha, &dao))
 	        goto ftest_dialog_loop;
@@ -1348,7 +1337,7 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 	static GtkWidget *normal_mean_entry, *normal_stdev_entry;
 	static GtkWidget *poisson_lambda_entry;
 
-	static GSList    *group_ops, *output_ops;
+	static GSList    *output_ops;
 	static GList     *distribution_type_strs;
 
 	int    vars, count;
@@ -1359,8 +1348,7 @@ dialog_random_tool(Workbook *wb, Sheet *sheet)
 
 	char  *text;
 	int   selection;
-	static Range range;
-	int   i=0, output;
+	int   output;
 
 	if (!dialog) {
 	        dialog = new_dialog("Random Number Generation", wb->toplevel);
@@ -1709,8 +1697,8 @@ dialog_loop:
 static void
 dialog_ranking_tool(Workbook *wb, Sheet *sheet)
 {
-        static GtkWidget *dialog, *box, *group_box, *groupped_label;
-	static GtkWidget *range_entry, *r, *output_range_entry;
+        static GtkWidget *dialog, *box;
+	static GtkWidget *range_entry, *output_range_entry;
 	static GSList    *group_ops, *output_ops;
 	static int       labels = 0;
 

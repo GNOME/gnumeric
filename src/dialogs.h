@@ -74,6 +74,7 @@ typedef struct {
         Sheet                       *sheet;
         int                         start_col, cols;
         int                         start_row, rows;
+        gboolean                    labels_flag;
 } data_analysis_output_t;
 
 void  dialog_goto_cell       (Workbook *wb);
