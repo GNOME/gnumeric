@@ -669,7 +669,7 @@ cb_destroy (gpointer data, gpointer user_data)
 
 
 static void
-solver_lp_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
+solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 {
 	SolverOptions *opt = &res->param->options;
 
@@ -692,14 +692,14 @@ solver_lp_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 				   "not meaningful if the program has "
 				   "integer constraints. These reports "
 				   "will thus not be created."));
-		solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
-				   state->sheet, res,
-				   opt->answer_report,
-				   opt->sensitivity_report,
-				   opt->limits_report,
-				   opt->performance_report,
-				   opt->program_report,
-				   opt->dual_program_report);
+		solver_reports (WORKBOOK_CONTROL(state->wbcg),
+				state->sheet, res,
+				opt->answer_report,
+				opt->sensitivity_report,
+				opt->limits_report,
+				opt->performance_report,
+				opt->program_report,
+				opt->dual_program_report);
 		break;
 	case SolverUnbounded :
 		gnumeric_notice_nonmodal
@@ -708,12 +708,12 @@ solver_lp_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 			 GTK_MESSAGE_WARNING, 
 			 _("The Target Cell value specified does not "
 			   "converge!  The program is unbounded."));
-		solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
-				   state->sheet, res,
-				   FALSE, FALSE, FALSE,
-				   opt->performance_report,
-				   opt->program_report,
-				   opt->dual_program_report);
+		solver_reports (WORKBOOK_CONTROL(state->wbcg),
+				state->sheet, res,
+				FALSE, FALSE, FALSE,
+				opt->performance_report,
+				opt->program_report,
+				opt->dual_program_report);
 		break;
 	case SolverInfeasible :
 		gnumeric_notice_nonmodal
@@ -723,12 +723,12 @@ solver_lp_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 			 _("A feasible solution could not be found.  "
 			   "All specified constraints cannot be met "
 			   "simultaneously. "));
-		solver_lp_reports (WORKBOOK_CONTROL(state->wbcg),
-				   state->sheet, res,
-				   FALSE, FALSE, FALSE,
-				   opt->performance_report,
-				   opt->program_report,
-				   opt->dual_program_report);
+		solver_reports (WORKBOOK_CONTROL(state->wbcg),
+				state->sheet, res,
+				FALSE, FALSE, FALSE,
+				opt->performance_report,
+				opt->program_report,
+				opt->dual_program_report);
 		break;
 	default:
 		gnumeric_notice_nonmodal
@@ -740,31 +740,6 @@ solver_lp_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
 
 }
 
-static void
-solver_qp_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
-{
-}
-
-static void
-solver_nlp_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
-{
-}
-
-static void
-solver_reporting (SolverState *state, SolverResults *res, gchar *errmsg)
-{
-	switch (res->param->options.model_type) {
-	case SolverLPModel:
-		solver_lp_reporting (state, res, errmsg);
-		break;
-	case SolverQPModel:
-		solver_qp_reporting (state, res, errmsg);
-		break;
-	case SolverNLPModel:
-		solver_nlp_reporting (state, res, errmsg);
-		break;
-	}
-}
 
 /**
  * cb_dialog_solve_clicked:

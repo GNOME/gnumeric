@@ -185,7 +185,7 @@
                 <child>
                   <widget class="GtkRadioButton" id="qp_model_button">
                     <property name="can_focus">yes</property>
-                    <property name="label" translatable="yes">_Quadratic Model (QP)</property>
+                    <property name="label" translatable="yes">_Quadratic Model (QP/MIQP)</property>
                     <property name="active">no</property>
                     <property name="draw_indicator">yes</property>
                     <property name="visible">yes</property>
