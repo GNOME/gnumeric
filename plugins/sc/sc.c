@@ -325,19 +325,20 @@ sc_parse_line (Sheet *sheet, char *buf)
 	g_return_val_if_fail (sheet, FALSE);
 	g_return_val_if_fail (buf, FALSE);
 
-	space = strchr (buf, ' ');
-	if (!space)
+	for (space = buf; g_ascii_isalnum (*space) || *space == '_'; space++)
+		; /* Nothing */
+	if (*space == 0)
 		return TRUE;
 	cmdlen = space - buf;
+	while (*space == ' ')
+		space++;
 
 	for (i = 0 ; sc_cmd_list[i].name != NULL ; ++i) {
 		cmd = &sc_cmd_list [i];
 		if (cmd->namelen == cmdlen &&
 		    strncmp (cmd->name, buf, cmdlen) == 0) {
 			int col = -1, row = -1;
-			const char *strdata;
-
-			strdata = space + 1;
+			const char *strdata = space;
 
 			if (cmd->have_coord)
 				sc_parse_coord (&strdata, &col, &row);
@@ -357,13 +358,21 @@ sc_parse_line (Sheet *sheet, char *buf)
 
 
 static ErrorInfo *
-sc_parse_sheet (GsfInputTextline *input, Sheet *sheet)
+sc_parse_sheet (GsfInputTextline *input, Sheet *sheet, GIConv ic)
 {
 	unsigned char *data;
 	while ((data = gsf_input_textline_ascii_gets (input)) != NULL) {
+		char *utf8data;
+
 		g_strchomp (data);
-		if (isalpha (*data) && !sc_parse_line (sheet, data))
+		utf8data = g_convert_with_iconv (data, -1, ic, NULL, NULL, NULL);
+
+		if (isalpha (*data) && !sc_parse_line (sheet, data)) {
+			g_free (utf8data);
 			return error_info_new_str (_("Error parsing line"));
+		}
+
+		g_free (utf8data);
 	}
 
 	return NULL;
@@ -378,6 +387,7 @@ sc_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	ErrorInfo *error;
 	Sheet	  *sheet;
 	GsfInputTextline *textline;
+	GIConv    ic;
 
 	wb    = wb_view_workbook (wb_view);
 	name  = workbook_sheet_get_free_name (wb, "SC", FALSE, TRUE);
@@ -385,13 +395,17 @@ sc_file_open (GnumFileOpener const *fo, IOContext *io_context,
 	g_free (name);
 	workbook_sheet_attach (wb, sheet, NULL);
 
+	/* This should probably come from import dialog.  */
+	ic = g_iconv_open ("UTF-8", "ISO-8859-1");
+
 	textline = gsf_input_textline_new (input);
-	error = sc_parse_sheet (textline, sheet);
+	error = sc_parse_sheet (textline, sheet, ic);
 	if (error != NULL) {
 		workbook_sheet_detach (wb, sheet);
 		gnumeric_io_error_info_set (io_context, error);
 	}
 	g_object_unref (G_OBJECT (textline));
+	g_iconv_close (ic);
 }
 
 static guint8 const signature[] =

@@ -1,3 +1,10 @@
+2002-11-13  Morten Welinder  <terra@diku.dk>
+
+	* sc.c (sc_file_open): Create a GIConv object and pass it to
+	sc_parse_sheet.
+	(sc_parse_sheet): Convert lines here.
+	(sc_parse_line): Improve the command extraction.
+
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.11

@@ -46,6 +46,7 @@ Morten:
 	* Fix SUBSTITUTE (for non-blank fourth argument) and make it UTF-8
 	  safe.
 	* Make SEARCH function UTF-8 safe.
+	* Fix sc importer to do ISO-8859-1 -> UTF-8 conversion.
 
 Nick Lamb:
 	* Initial support for pre-ole xls files.
