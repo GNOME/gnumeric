@@ -1833,7 +1833,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		default : name = "";
 		};
 
-		d (0, printf ("%s %d = 0x%x (=%d) %s%s;\n", name, pid, val, val,
+		d (0, printf ("%s %d = 0x%08x (=%d) %s%s;\n", name, pid, val, val,
 			      is_blip ? " is blip" : "",
 			      is_complex ? " is complex" : ""););
 

@@ -1,3 +1,8 @@
+2004-09-17  Jody Goldberg <jody@gnome.org>
+
+	* ms-escher.c (ms_escher_read_OPT) : make debug spew slightly easier
+	  to read.
+
 2004-09-16  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (xf_init): Register default XF, its font and
