@@ -1719,7 +1719,13 @@ sheet_deps_destroy (Sheet *sheet)
 	rwinfo.type = GNM_EXPR_REWRITE_SHEET;
 	rwinfo.u.sheet = sheet;
 
+	/* The GnmDepContainer contains the names that reference this, not the
+	 * names it contains.  Remove them here. NOTE : they may continue to exist
+	 * inactively for a bit.
+	 */
 	do_deps_destroy (sheet, &rwinfo);
+	expr_name_list_destroy (sheet->names);
+	sheet->names = NULL;
 }
 
 void
@@ -1739,6 +1745,8 @@ workbook_deps_destroy (Workbook *wb)
 	}
 
 	WORKBOOK_FOREACH_SHEET (wb, sheet, do_deps_destroy (sheet, &rwinfo););
+	expr_name_list_destroy (wb->names);
+	wb->names = NULL;
 }
 
 void

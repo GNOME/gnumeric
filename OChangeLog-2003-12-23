@@ -1,3 +1,16 @@
+2002-08-04  Jody Goldberg <jody@gnome.org>
+
+	* src/expr-name.c (expr_name_new) : init as inactive.
+	(expr_name_add) : activate when the name is added.
+	(expr_name_create) : clarify the life cycle of the expression.
+	(expr_name_unref) : it should not be possible to destroy a name that
+	  is still in the lists.
+	(expr_name_unlink) : delete and merge into expr_name_remove.
+	(expr_name_list_destroy) : use remove.
+
+	* src/dependent.c (sheet_deps_destroy) : remove the names in the sheet.
+	(workbook_deps_destroy) : ditto.
+
 2002-08-04  Jon K Hellan  <hellan@acm.org>
 
 	* src/search.c: Include gutils.h.

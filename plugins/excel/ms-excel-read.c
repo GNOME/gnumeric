@@ -1531,9 +1531,6 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 		      font_color->red>>8, font_color->green>>8, font_color->blue>>8,
 		      xf->fill_pattern_idx););
 
-	/*
-	 * This is riddled with leaking StyleColor references !
-	 */
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, font_color);
 	mstyle_set_color (mstyle, MSTYLE_COLOR_BACK, back_color);
 	mstyle_set_color (mstyle, MSTYLE_COLOR_PATTERN, pattern_color);
@@ -2584,10 +2581,6 @@ ms_excel_parse_NAME (ExcelWorkbook *ewb, int sheet_index,
 		 * away.  externames do not get references and are unrefed
 		 * after import finishes, which destroys them if they are not
 		 * in use.
-		 */
-
-		/*
-		 * FIXME: We leak here for mathfuns.xls.
 		 */
 		expr_name_ref (nexpr);
 		return nexpr;

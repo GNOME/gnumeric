@@ -183,7 +183,7 @@ expr_name_new (char const *name, gboolean builtin)
 
 	nexpr->ref_count = 1;
 	nexpr->builtin = builtin;
-	nexpr->active  = TRUE;
+	nexpr->active  = FALSE;
 	nexpr->name    = string_get (name);
 	nexpr->t.expr_tree = NULL;
 	nexpr->dependents  = NULL;
@@ -294,6 +294,7 @@ expr_name_add (ParsePos const *pp, char const *name,
 	expr_name_set_expr (nexpr, expr, NULL);
 
 	*scope = g_list_append (*scope, nexpr);
+	nexpr->active = TRUE;
 
 	return nexpr;
 }
@@ -320,7 +321,7 @@ expr_name_create (ParsePos const *pp, char const *name,
 	GnmExpr const *expr = gnm_expr_parse_str (value, pp,
 		GNM_EXPR_PARSE_DEFAULT, error);
 
-	if (!expr)
+	if (expr == NULL)
 		return NULL;
 
 	/* We know there has been no parse error, but set the
@@ -328,7 +329,6 @@ expr_name_create (ParsePos const *pp, char const *name,
 	 * creation error back to the calling routine
 	 */
 	res = expr_name_add (pp, name, expr, &err);
-	gnm_expr_unref (expr);
 	if (err != NULL)
 		error->message = g_strdup (err);
 	return res;
@@ -350,6 +350,8 @@ expr_name_unref (GnmNamedExpr *nexpr)
 	if (nexpr->ref_count-- > 1)
 		return;
 
+	g_return_if_fail (!nexpr->active);
+
 	if (nexpr->name) {
 		string_unref (nexpr->name);
 		nexpr->name = NULL;
@@ -369,16 +371,13 @@ expr_name_unref (GnmNamedExpr *nexpr)
 	g_free (nexpr);
 }
 
-/**
- * expr_name_unlink :
- *
- * Linked names can be looked up and used.  It is possible to have a non-zero
- * ref count and be unlinked.
- */
-static void
-expr_name_unlink (GnmNamedExpr *nexpr)
+void
+expr_name_remove (GnmNamedExpr *nexpr)
 {
+	g_return_if_fail (nexpr != NULL);
 	g_return_if_fail (nexpr->active);
+
+	expr_name_ref (nexpr);
 
 	if (nexpr->pos.sheet) {
 		Sheet *sheet = nexpr->pos.sheet;
@@ -392,19 +391,9 @@ expr_name_unlink (GnmNamedExpr *nexpr)
 		g_return_if_fail (g_list_find (global_names, nexpr) != NULL);
 		global_names = g_list_remove (global_names, nexpr);
 	}
-	expr_name_unref (nexpr);
 	nexpr->active = FALSE;
-}
+	expr_name_unref (nexpr);
 
-void
-expr_name_remove (GnmNamedExpr *nexpr)
-{
-	g_return_if_fail (nexpr != NULL);
-	g_return_if_fail (nexpr->active);
-
-	/* ref so that we can safely clear the expression later */
-	expr_name_ref (nexpr);
-	expr_name_unlink (nexpr);
 	expr_name_set_expr (nexpr, NULL, NULL);
 	expr_name_unref (nexpr);
 }
@@ -422,13 +411,12 @@ expr_name_remove (GnmNamedExpr *nexpr)
 void
 expr_name_list_destroy (GList *names)
 {
-	GList *p;
+	GList *ptr = names;
 
-	/* Empty the name list */
-	for (p = names ; p != NULL ; p = g_list_next (p)) {
-		GnmNamedExpr *nexpr = p->data;
-		nexpr->active = FALSE;
-		expr_name_unref (nexpr);
+	while (ptr != NULL) {
+		GnmNamedExpr *nexpr = ptr->data;
+		ptr = ptr->next;
+		expr_name_remove (nexpr);
 	}
 	g_list_free (names);
 }

@@ -6,9 +6,10 @@ Jody:
 	* Fix import of frozen panes.
 	* Fix XL export of functions with fewer args than XL requires
 	* Improve the wk1 importer
-	* Implement some of Harlan's CELL routines to help the wk1 test
+	* Implement some of Harlan's CELL routines to help the wk1 importer
 	* Make sheet deletion multi-view safe.
 	* More fixes for named expressions.
+	* Handle special case ofexporting #REF!
 
 Jukka:
 	* New random distribution functions (mostly integrated from the 
@@ -32,6 +33,9 @@ Jukka:
 	  XL, you have to pay more to get it as an extra add-in.
 	* Implemented SIMTABLE() function related to the risk simulation
 	  tool.
+
+Zbigniew:
+	* Work on the plugins.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.6

@@ -945,15 +945,7 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 		break;
 
 		case FORMULA_PTG_ERR: {
-			guint8 err_num;
-			const char *errtxt;
-
-			err_num = GSF_LE_GET_GUINT8 (cur);
-			if (err_num == 0x17) { /* Magic 'Addin Name' error number */
-				parse_list_free (&stack);
-				return NULL;   /* To tell name stuff */
-			}
-			errtxt  = biff_get_error_text (err_num);
+			const char *errtxt = biff_get_error_text (GSF_LE_GET_GUINT8 (cur));
 			parse_list_push_raw (&stack, value_new_error (NULL, errtxt));
 			ptg_length = 1;
 			break;

@@ -1,3 +1,8 @@
+2002-08-04  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (ms_excel_parse_formula) : remove bogisity about
+	  'Magic Addin Name'
+
 2002-07-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* plugin.xml.in: Set loader type to "Gnumeric_Builtin:module".

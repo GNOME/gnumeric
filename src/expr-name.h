@@ -19,8 +19,9 @@ struct _GnmNamedExpr {
 	} t;
 };
 
-GnmNamedExpr *expr_name_new    (char const *name, gboolean builtin);
 GnmNamedExpr *expr_name_lookup (ParsePos const *pos, char const *name);
+
+GnmNamedExpr *expr_name_new    (char const *name, gboolean builtin);
 GnmNamedExpr *expr_name_add    (ParsePos const *pp, char const *name,
 				GnmExpr const *expr, char const **error_msg);
 GnmNamedExpr *expr_name_create (ParsePos const *pp, char const *name,
