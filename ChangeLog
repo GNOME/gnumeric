@@ -1,5 +1,8 @@
 2003-05-14  Morten Welinder  <terra@gnome.org>
 
+	* src/gutils.c (ldexpgnum): Use gnm_pinf and gnm_ninf.
+	* src/regression.c (general_linear_regression): Ditto.
+
 	* src/mathfunc.c (mathfunc_init): Generate gnm_pinf and gnm_ninf
 	also.  Try much harder at making a NaN.
 

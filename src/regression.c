@@ -527,7 +527,7 @@ general_linear_regression (gnm_float **xss, int xdim,
 
 		for (i = 0; i < xdim; i++)
 			regression_stat->t[i] = (regression_stat->se[i] == 0)
-				? +HUGE_VAL
+				? gnm_pinf
 				: result[i] / regression_stat->se[i];
 
 		regression_stat->df_resid = n - xdim;
@@ -535,7 +535,7 @@ general_linear_regression (gnm_float **xss, int xdim,
 		regression_stat->df_total = regression_stat->df_resid + regression_stat->df_reg;
 
 		regression_stat->F = (regression_stat->sqr_r == 1)
-			? HUGE_VAL
+			? gnm_pinf
 			: ((regression_stat->sqr_r / regression_stat->df_reg) /
 			   (1 - regression_stat->sqr_r) * regression_stat->df_resid);
 

@@ -462,7 +462,7 @@ ldexpgnum (gnm_float x, int exp)
 			return res;
 		else {
 			errno = ERANGE;
-			return (x > 0) ? HUGE_VAL : -HUGE_VAL;
+			return (x > 0) ? gnm_pinf : gnm_ninf;
 		}
 	}
 }
