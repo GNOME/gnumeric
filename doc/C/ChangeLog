@@ -1,3 +1,14 @@
+2001-12-22 Wayne Schuller <k_wayne@linuxpower.org>
+
+	* introduction.sgml : Improve 
+	* printing.sgml : Update and improve
+	* figures/printing-setup-header.png : updated
+	* figures/printing-setup-margins.png : updated
+	* figures/printing-setup-page.png : updated
+	* figures/printing-setup-header-config.png : new figure
+	* figures/printing-setup-sheet.png : new figure
+	* figures/sample_gnumeric.png : new figure
+
 2001-12-22 Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* analysis-tools.sgml : Improve and add example to

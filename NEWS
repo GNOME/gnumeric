@@ -39,6 +39,7 @@ Morten:
 
 Wayne Schuller:
 	* Search and search-replace history persistence.
+	* Improve documentation: intro and printing
 
 Tino Meinen:
 	* Make bound errors for INDEX consistent.

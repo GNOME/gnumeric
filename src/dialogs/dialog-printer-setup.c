@@ -1064,14 +1064,11 @@ hf_customize_apply (GnomePropertyBox *dialog, gint page_num, PrinterSetupState *
 	display_hf_preview (state, header);
 }
 
-/* FIXME: Finish. */
 static void
 hf_customize_help (GnomePropertyBox *dialog, gint page_num, gpointer data)
 {
-#if 0
-	GnomeHelpMenuEntry help_ref = { "gnumeric", "customize_hf.html" };
+	GnomeHelpMenuEntry help_ref = { "gnumeric", "print-setup.html#PRINT-SETUP-HEADER-CONFIG" };
 	gnome_help_display (NULL, &help_ref);
-#endif
 }
 
 /*

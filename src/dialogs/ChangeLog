@@ -1,3 +1,8 @@
+2001-12-22  Wayne Schuller  <k_wayne@linuxpower.org>
+
+	* dialog-printer-setup.c (hf_customize_help) : hook up help
+
+
 2001-12-21  Wayne Schuller  <k_wayne@linuxpower.org>
 
 	* dialog-advanced-filter.c (dialog_advanced_filter) : fix
