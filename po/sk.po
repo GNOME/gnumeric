@@ -5,9 +5,9 @@
 #: src/main.c:108
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.73\n"
-"POT-Creation-Date: 2001-12-16 02:50-0500\n"
-"PO-Revision-Date: 2001-11-20 13:19CET\n"
+"Project-Id-Version: gnumeric 1.0\n"
+"POT-Creation-Date: 2001-12-18 16:32+0100\n"
+"PO-Revision-Date: 2001-12-18 16:33CET\n"
 "Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
@@ -16,7 +16,7 @@ msgstr ""
 "<bobo@bobo.bspc.sk>\n"
 "Date: 1999-04-30 12:12:02+0000\n"
 "From: Bobo Rajec,BSP Consulting,+42 7 5330 017,, <bobo@bobo.bspc.sk>\n"
-"X-Generator: KBabel 0.9.5\n"
+"X-Generator: KBabel 0.9.6\n"
 
 #: plugins/applix/applix-read.c:78
 msgid "Parse error while reading Applix file."
@@ -47,7 +47,7 @@ msgid "Functions related to financial derivatives"
 msgstr "Funkcie pre finančné produkty"
 
 #: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4465
-#: plugins/mps/mps.c:571 src/xml-io.c:3425
+#: plugins/mps/mps.c:571 src/xml-io.c:3442
 msgid "Reading file..."
 msgstr "Čítam súbor..."
 
@@ -115,8 +115,7 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Modul pre Data Interchange Format (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr "Zapisuje a číta informácie uložené v Data Interchange Format (*.dif)"
 
 #: plugins/excel/boot.c:104
@@ -346,9 +345,8 @@ msgid "Import/Export of HTML, TeX, DVI, roff"
 msgstr "Import a export súborov HTML, TeX, DVI, roff"
 
 #: plugins/html/plugin.xml.in.h:7
-#, fuzzy
 msgid "LaTeX 2e (*.tex)"
-msgstr "LaTeX2e (*.tex)"
+msgstr "LaTeX 2e (*.tex)"
 
 #: plugins/html/plugin.xml.in.h:8
 msgid "TROFF (*.me)"
@@ -492,7 +490,6 @@ msgstr ""
 "@SEEALSO=NT_D, ITHPRIME, NT_SIGMA"
 
 #: plugins/numtheory/numtheory.c:233
-#, fuzzy
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
@@ -988,11 +985,11 @@ msgstr "EXPERIMENTÁLNE XML založené na SAX"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Nová generácia V/V XML subsystému založená na sax"
 
-#: plugins/xml_sax/xml-sax-read.c:2230
+#: plugins/xml_sax/xml-sax-read.c:2228
 msgid "xmlCreateFileParserCtxt () failed."
 msgstr "xmlCreateFileParserCtxt() zlyhala."
 
-#: plugins/xml_sax/xml-sax-read.c:2239
+#: plugins/xml_sax/xml-sax-read.c:2237
 msgid "XML document not well formed!"
 msgstr "XML dokument nie je syntakticky správny!"
 
@@ -1041,7 +1038,7 @@ msgid "Automatically save the current document at regular intervals"
 msgstr "Automaticky ukladá aktuálny dokument v pravidelných intervaloch"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
-#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:840
+#: src/dialogs/dialog-cell-format.c:2695 src/workbook-format-toolbar.c:840
 #: src/workbook-format-toolbar.c:896
 msgid "Background"
 msgstr "Pozadie"
@@ -1331,7 +1328,7 @@ msgstr "Veľkosť písma"
 msgid "Font selector"
 msgstr "Výber písma"
 
-#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2694
+#: src/GNOME_Gnumeric.xml.h:81 src/dialogs/dialog-cell-format.c:2690
 #: src/workbook-format-toolbar.c:865 src/workbook-format-toolbar.c:899
 msgid "Foreground"
 msgstr "Popredie"
@@ -1476,8 +1473,7 @@ msgstr "Opakovane prepočítava pre nájdenie cieľovej hodnoty"
 
 #: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2841
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
+msgstr "Opakovane prepočítava s obmedzeniami, až kým nedosiahne cieľovú hodnotu"
 
 #: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2629
 msgid "Jump to a specified cell"
@@ -1957,7 +1953,7 @@ msgstr "_Konzolidovať..."
 msgid "_Content"
 msgstr "_Obsah"
 
-#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1016
+#: src/GNOME_Gnumeric.xml.h:230 src/item-cursor.c:1014
 #: src/sheet-control-gui.c:1392 src/workbook-control-gui.c:2588
 msgid "_Copy"
 msgstr "_Kopírovať"
@@ -2018,9 +2014,8 @@ msgid "_Goto cell..."
 msgstr "_Prejsť na bunku..."
 
 #: src/GNOME_Gnumeric.xml.h:244
-#, fuzzy
 msgid "_Graph"
-msgstr "_Zoskupiť"
+msgstr "_Graf"
 
 #: src/GNOME_Gnumeric.xml.h:245
 msgid "_Group"
@@ -2091,7 +2086,7 @@ msgstr "_Tlačiť..."
 msgid "_Redo"
 msgstr "_Opakovať vrátené"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:261 src/dialogs/autocorrect.glade.h:12
 #: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2564
 msgid "_Remove"
 msgstr "_Odstrániť"
@@ -2504,7 +2499,7 @@ msgstr "Kumulatívne %"
 msgid "Error '%s' opening workbook stream"
 msgstr "Chyba '%s' pri otváraní kanálu zošitu"
 
-#: src/bonobo-io.c:467 src/xml-io-autoft.c:424 src/xml-io.c:3448
+#: src/bonobo-io.c:467 src/xml-io-autoft.c:424 src/xml-io.c:3465
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "Neplatný XML súbor. Strom je prázdny?"
 
@@ -3213,44 +3208,40 @@ msgid "Correct _TWo INitial CApitals                           "
 msgstr "Opravovať _DVe VEľké POčiatočné PÍsmená                           "
 
 #: src/dialogs/autocorrect.glade.h:5
-msgid "Correct accidental use of _cAPS LOCK key"
-msgstr "Opravovať náhodné použitie _cAPS LOCK"
-
-#: src/dialogs/autocorrect.glade.h:6
 msgid "Do _not correct:"
 msgstr "_Neopravovať:"
 
-#: src/dialogs/autocorrect.glade.h:7
+#: src/dialogs/autocorrect.glade.h:6
 msgid "Re_place:"
 msgstr "_Nahradiť:"
 
-#: src/dialogs/autocorrect.glade.h:8 src/dialogs/consolidate.glade.h:26
+#: src/dialogs/autocorrect.glade.h:7 src/dialogs/consolidate.glade.h:26
 #: src/dialogs/dialog-stf.glade.h:61 src/dialogs/names.glade.h:6
 #: src/dialogs/solver.glade.h:16
 msgid "_Add"
 msgstr "_Pridať"
 
-#: src/dialogs/autocorrect.glade.h:9
+#: src/dialogs/autocorrect.glade.h:8
 msgid "_Do not capitalize after:"
 msgstr "_Nemeniť na veľké po:"
 
-#: src/dialogs/autocorrect.glade.h:10
+#: src/dialogs/autocorrect.glade.h:9
 msgid "_First Letter"
 msgstr "_Prvé písmeno"
 
-#: src/dialogs/autocorrect.glade.h:11 src/dialogs/cell-format.glade.h:111
+#: src/dialogs/autocorrect.glade.h:10 src/dialogs/cell-format.glade.h:111
 msgid "_General"
 msgstr "_Všeobecné"
 
-#: src/dialogs/autocorrect.glade.h:12
+#: src/dialogs/autocorrect.glade.h:11
 msgid "_INitial CApitals"
 msgstr "_POčiatočné PÍsmená"
 
-#: src/dialogs/autocorrect.glade.h:14
+#: src/dialogs/autocorrect.glade.h:13
 msgid "_Replace text when typed"
 msgstr "_Nahradiť text pri písaní"
 
-#: src/dialogs/autocorrect.glade.h:15
+#: src/dialogs/autocorrect.glade.h:14
 msgid "_With:"
 msgstr "Ší_rka:"
 
@@ -3411,7 +3402,7 @@ msgstr "Ľubovoľná hodnota (bez overenia)"
 msgid "Background Color"
 msgstr "Farba pozadia"
 
-#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2689
+#: src/dialogs/cell-format.glade.h:18 src/dialogs/dialog-cell-format.c:2685
 msgid "Border"
 msgstr "Okraje"
 
@@ -3596,7 +3587,7 @@ msgstr "Orientácia"
 msgid "Outline"
 msgstr "Vonkajšie"
 
-#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2704
+#: src/dialogs/cell-format.glade.h:66 src/dialogs/dialog-cell-format.c:2700
 msgid "Pattern"
 msgstr "Vzorka"
 
@@ -4249,19 +4240,19 @@ msgstr "Domovská stránka Gnumericu"
 msgid "Contract Support"
 msgstr "Kontakty"
 
-#: src/dialogs/dialog-advanced-filter.c:256
+#: src/dialogs/dialog-advanced-filter.c:253
 msgid "You should introduce a valid cell names in 'List Range:'"
 msgstr "Mali by ste zadať platné meno bunky v 'Rozsahu zoznamu:'"
 
-#: src/dialogs/dialog-advanced-filter.c:270
+#: src/dialogs/dialog-advanced-filter.c:266
 msgid "You should introduce a valid cell names in 'Criteria Range:'"
 msgstr "Mali by ste zadať platné meno bunky v 'Rozsahu kritéria:'"
 
-#: src/dialogs/dialog-advanced-filter.c:289
+#: src/dialogs/dialog-advanced-filter.c:280
 msgid "You should introduce a valid cell range in 'Copy To:'"
 msgstr "Mali by ste zadať platné meno bunky v 'Skopírovať do:'"
 
-#: src/dialogs/dialog-advanced-filter.c:331
+#: src/dialogs/dialog-advanced-filter.c:327
 msgid ""
 "You should introduce the same number of columns in the `List Range' and in "
 "`Criteria Range:'"
@@ -4475,8 +4466,7 @@ msgstr ""
 "premenných a skúste to znovu."
 
 #: src/dialogs/dialog-analysis-tools.c:3119
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr "Pre každú premennú regresie musí byť rovnaký počet položiek."
 
 #: src/dialogs/dialog-analysis-tools.c:3219
@@ -4525,8 +4515,7 @@ msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre histogram."
 
 #: src/dialogs/dialog-analysis-tools.c:4133
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr ""
-"Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
+msgstr "Nepodarilo sa vytvoriť dialóg nástroja pre ANOVA (jednoduché triedenie)."
 
 #: src/dialogs/dialog-analysis-tools.c:4197
 msgid "Each sample must contain the same number of rows."
@@ -4588,7 +4577,7 @@ msgstr "t-Test: Dvoch výberov s predpokladom nerovnakých rozptylov"
 msgid "z-Test: Two Sample for Means"
 msgstr "z-Test: Dvoch výberov pre priemery"
 
-#: src/dialogs/dialog-autocorrect.c:293
+#: src/dialogs/dialog-autocorrect.c:292
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Nepodarilo sa vytvoriť dialóg pre automatické opravy."
 
@@ -4730,30 +4719,30 @@ msgstr "_);("
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
-#: src/dialogs/dialog-cell-format.c:2153 src/dialogs/dialog-cell-format.c:2162
+#: src/dialogs/dialog-cell-format.c:2149 src/dialogs/dialog-cell-format.c:2158
 msgid "Minimum :"
 msgstr "Minimum:"
 
-#: src/dialogs/dialog-cell-format.c:2154 src/dialogs/dialog-cell-format.c:2166
+#: src/dialogs/dialog-cell-format.c:2150 src/dialogs/dialog-cell-format.c:2162
 msgid "Maximum :"
 msgstr "Maximum:"
 
-#: src/dialogs/dialog-cell-format.c:2158
+#: src/dialogs/dialog-cell-format.c:2154
 msgid "Value :"
 msgstr "Hodnota:"
 
-#: src/dialogs/dialog-cell-format.c:2623
+#: src/dialogs/dialog-cell-format.c:2619
 msgid "Format Cells"
 msgstr "Formát buniek"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/dialogs/dialog-cell-format.c:2689 src/dialogs/dialog-cell-format.c:2694
-#: src/dialogs/dialog-cell-format.c:2704 src/functions/fn-information.c:427
+#: src/dialogs/dialog-cell-format.c:2685 src/dialogs/dialog-cell-format.c:2690
+#: src/dialogs/dialog-cell-format.c:2700 src/functions/fn-information.c:427
 #: src/workbook-format-toolbar.c:858
 msgid "Automatic"
 msgstr "Automatické"
 
-#: src/dialogs/dialog-cell-format.c:2699 src/workbook-format-toolbar.c:833
+#: src/dialogs/dialog-cell-format.c:2695 src/workbook-format-toolbar.c:833
 msgid "Clear Background"
 msgstr "Vymazať pozadie"
 
@@ -5350,8 +5339,7 @@ msgstr "Stĺpec %d"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr ""
-"Spracovanie začne na tomto riadku, všetky predchádzajúce budú ignorované."
+msgstr "Spracovanie začne na tomto riadku, všetky predchádzajúce budú ignorované."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -5433,8 +5421,7 @@ msgstr "Definovať šírku každého stĺpca ručne."
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
-msgstr ""
-"Každý stĺpec v texte je oddelený oddeľovacím znakom, napr. bodkočiarkou."
+msgstr "Každý stĺpec v texte je oddelený oddeľovacím znakom, napr. bodkočiarkou."
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -5539,10 +5526,8 @@ msgid "See two successive separators as one."
 msgstr "Dva za sebou idúce oddeľovače chápať ako jeden."
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
-msgstr ""
-"Dva za sebou idúce označovače textu chápať ako jeden, ktorý nekončí bunku."
+msgid "See two successive text indicators as one that does not terminate the cell."
+msgstr "Dva za sebou idúce označovače textu chápať ako jeden, ktorý nekončí bunku."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -6026,7 +6011,7 @@ msgstr "Hlavička:"
 msgid "Headers and footers"
 msgstr "Hlavičky a pätičky"
 
-#: src/dialogs/print.glade.h:10 src/print-info.c:430
+#: src/dialogs/print.glade.h:10 src/print-info.c:427
 msgid "In"
 msgstr "In"
 
@@ -6075,7 +6060,7 @@ msgid "Scale"
 msgstr "Veľkosť"
 
 #: src/dialogs/print.glade.h:25 src/functions/fn-sheet.c:139
-#: src/workbook.c:1060 src/xml-io.c:3058
+#: src/workbook.c:1060 src/xml-io.c:3150
 msgid "Sheet"
 msgstr "List"
 
@@ -6152,11 +6137,11 @@ msgid "_Vertically"
 msgstr "V_ertikálne"
 
 #. 1in = 25.4mm, exact
-#: src/dialogs/print.glade.h:44 src/print-info.c:429
+#: src/dialogs/print.glade.h:44 src/print-info.c:426
 msgid "cm"
 msgstr "cm"
 
-#: src/dialogs/print.glade.h:45 src/print-info.c:428
+#: src/dialogs/print.glade.h:45 src/print-info.c:425
 msgid "mm"
 msgstr "mm"
 
@@ -6164,7 +6149,7 @@ msgstr "mm"
 msgid "page(s) wide by"
 msgstr "strán na šírku a "
 
-#: src/dialogs/print.glade.h:47 src/print-info.c:427
+#: src/dialogs/print.glade.h:47 src/print-info.c:424
 msgid "pts"
 msgstr "pts"
 
@@ -6815,18 +6800,15 @@ msgid "Saving over old files of this type is disabled for safety."
 msgstr "Uloženie do starých súborov tohto typu je kvôli bezpečenosti vypnuté."
 
 #: src/file.c:495
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Túto funkciu môžete bezpečne vypnúť úpravou zodpovedajúceho súboru plugin."
 "xml."
 
 #: src/format-template.c:873
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
-msgstr ""
-"Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
+msgstr "Cieľová oblasť je príliš malá, mala by byť aspoň %d riadkov a %d stĺpcov"
 
 #: src/format-template.c:876
 #, c-format
@@ -18003,7 +17985,7 @@ msgstr "Formát ako Čas"
 msgid "Format as alternative Number"
 msgstr "Formát ako alternatívne Číslo"
 
-#: src/gnumeric-canvas.c:497
+#: src/gnumeric-canvas.c:503
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr "Súbor \"%s\" má neznámy formát."
@@ -18217,9 +18199,8 @@ msgstr "Zahodiť"
 #. * 'File' menu
 #.
 #: src/history.c:129
-#, fuzzy
 msgid "File/Print Preview..."
-msgstr "Súbor/Ukážka pred tlačou"
+msgstr "Súbor/Náhľad pred tlačou..."
 
 #: src/history.c:142
 msgid "File/Print Preview"
@@ -18239,7 +18220,7 @@ msgstr "Šírka: %.2f bodov (%d pixelov)"
 msgid "Height: %.2f pts (%d pixels)"
 msgstr "Výška: %.2f bodov (%d pixelov)"
 
-#: src/item-cursor.c:903
+#: src/item-cursor.c:901
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -18248,35 +18229,35 @@ msgstr ""
 "Presúvané bunky prepíšu obsah existujúcich buniek\n"
 "v tomto rozsahu. Chcete nahradiť obsah buniek v tomto regióne?"
 
-#: src/item-cursor.c:1013
+#: src/item-cursor.c:1011
 msgid "_Move"
 msgstr "_Presunúť"
 
-#: src/item-cursor.c:1019
+#: src/item-cursor.c:1017
 msgid "Copy _Formats"
 msgstr "Kopírovať _formát"
 
-#: src/item-cursor.c:1021
+#: src/item-cursor.c:1019
 msgid "Copy _Values"
 msgstr "Kopírovať _hodnoty"
 
-#: src/item-cursor.c:1026
+#: src/item-cursor.c:1024
 msgid "Shift _Down and Copy"
 msgstr "Posunúť bunky _dolu a kopírovať"
 
-#: src/item-cursor.c:1028
+#: src/item-cursor.c:1026
 msgid "Shift _Right and Copy"
 msgstr "Posunúť bunky dop_rava a kopírovať"
 
-#: src/item-cursor.c:1030
+#: src/item-cursor.c:1028
 msgid "Shift Dow_n and Move"
 msgstr "Posunúť bunky do_lu a presunúť"
 
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1030
 msgid "Shift Righ_t and Move"
 msgstr "Posunúť bunky dopra_va a presunúť"
 
-#: src/item-cursor.c:1037
+#: src/item-cursor.c:1035
 msgid "C_ancel"
 msgstr "_Zrušiť"
 
@@ -18439,7 +18420,7 @@ msgstr "Nepodarilo sa nájsť odpovedajúce koncové úvodzovky"
 
 #: src/parser.y:1063
 msgid "Multiple expressions are not supported in this context"
-msgstr ""
+msgstr "V tomto kontexte nie sú podporované viacnásobné výrazy"
 
 #: src/parser.y:1085
 msgid "Could not find matching opening parenthesis"
@@ -18619,7 +18600,7 @@ msgstr "Chyba pri otváraní súboru \"%s\" pre čítanie."
 msgid "Unable to mmap the file."
 msgstr "Nepodarilo sa namapovať súbor."
 
-#: src/plugin-util.c:311 src/xml-io.c:3414
+#: src/plugin-util.c:311 src/xml-io.c:3431
 msgid "Cannot get file size."
 msgstr "Nemôžem získať veľkosť súboru."
 
@@ -18755,7 +18736,7 @@ msgid "Errors while initializing plugin system."
 msgstr "Chyby poča inicializácie systému modulov."
 
 #: src/print-info.c:24 src/print-info.c:27 src/print-info.c:28
-#: src/print-info.c:279
+#: src/print-info.c:276
 msgid "Page &[PAGE]"
 msgstr "Strana &[PAGE]"
 
@@ -18764,7 +18745,7 @@ msgid "Page &[PAGE] of &[PAGES]"
 msgstr "Strana &[PAGE] z &[PAGES]"
 
 #: src/print-info.c:26 src/print-info.c:27 src/print-info.c:28
-#: src/print-info.c:30 src/print-info.c:278
+#: src/print-info.c:30 src/print-info.c:275
 msgid "&[TAB]"
 msgstr "&[TAB]"
 
@@ -18772,43 +18753,43 @@ msgstr "&[TAB]"
 msgid "&[DATE]"
 msgstr "&[DATE]"
 
-#: src/print-info.c:427
+#: src/print-info.c:424
 msgid "points"
 msgstr "body"
 
-#: src/print-info.c:428
+#: src/print-info.c:425
 msgid "millimeter"
 msgstr "millimeter"
 
-#: src/print-info.c:429
+#: src/print-info.c:426
 msgid "centimeter"
 msgstr "centimeter"
 
-#: src/print-info.c:430
+#: src/print-info.c:427
 msgid "inch"
 msgstr "palec"
 
-#: src/print-info.c:520
+#: src/print-info.c:517
 msgid "Sheet 1"
 msgstr "List 1"
 
-#: src/print-info.c:583
+#: src/print-info.c:580
 msgid "tab"
 msgstr "tab"
 
-#: src/print-info.c:584
+#: src/print-info.c:581
 msgid "page"
 msgstr "strana"
 
-#: src/print-info.c:585
+#: src/print-info.c:582
 msgid "pages"
 msgstr "strán"
 
-#: src/print-info.c:586
+#: src/print-info.c:583
 msgid "date"
 msgstr "dátum"
 
-#: src/print-info.c:587
+#: src/print-info.c:584
 msgid "time"
 msgstr "čas"
 
@@ -19285,13 +19266,11 @@ msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "Zadali ste neplatnú výšku riadku. Musí byť väčšia ako 0"
 
 #: src/workbook-cmd-format.c:234
-msgid ""
-"You entered an invalid default column width value.  It must be bigger than 0"
+msgid "You entered an invalid default column width value.  It must be bigger than 0"
 msgstr "Zadali ste neplatnú štandardnú šírku stĺpca. Musí byť väčšia ako 0"
 
 #: src/workbook-cmd-format.c:262
-msgid ""
-"You entered an invalid default row height value.  It must be bigger than 0"
+msgid "You entered an invalid default row height value.  It must be bigger than 0"
 msgstr "Zadali ste neplatnú štandardnú výšku riadku. Musí byť väčšia ako 0"
 
 #: src/workbook-control-gui.c:290
@@ -19837,26 +19816,30 @@ msgstr "Nie je šablóna autoformátu"
 msgid "Error while trying to build tree from autoformat template file"
 msgstr "Chyba pri vytváraní stromu z šablóny autoformátu"
 
+#: src/xml-io.c:2866
+msgid "Unparsable xml in clipboard"
+msgstr "XML obsah schránky nie je možné spracovať"
+
+#: src/xml-io.c:2873
+msgid "Clipboard is in unknown format"
+msgstr "Obsah schránky má neznámy formát."
+
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3184
+#: src/xml-io.c:3276
 msgid "Processing file..."
 msgstr "Spracovávam súbor..."
 
-#: src/xml-io.c:3362
-msgid "Invalid xml clipboard data. Tree is empty ?"
-msgstr "Neplatné XML dáta v schránke. Strom je prázdny ?"
-
-#: src/xml-io.c:3422
+#: src/xml-io.c:3439
 msgid "Not enough memory to create zlib decompression state."
 msgstr "Nedostatok pamäti pre vytvorenie zlib rozbaleného stavu."
 
-#: src/xml-io.c:3457
+#: src/xml-io.c:3474
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Nie je súbor so zošitom Gnumeric"
 
-#: src/xml-io.c:3514
+#: src/xml-io.c:3531
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
 
@@ -19864,39 +19847,3 @@ msgstr "Súborový formát Gnumeric XML"
 msgid "The GNOME Spreadsheet"
 msgstr "GNOME tabuľka"
 
-#~ msgid "LaTeX 2.09 (*.tex)"
-#~ msgstr "LaTeX 2.09 (*.tex)"
-
-#~ msgid "Row %d"
-#~ msgstr "Riadok %d"
-
-#~ msgid "Variance"
-#~ msgstr "Odchýlka"
-
-#~ msgid "SS"
-#~ msgstr "SS"
-
-#~ msgid "df"
-#~ msgstr "df"
-
-#~ msgid "MS"
-#~ msgstr "MS"
-
-#~ msgid "F"
-#~ msgstr "F"
-
-#~ msgid "P-value"
-#~ msgstr "P-Hodnota"
-
-#~ msgid "F crit"
-#~ msgstr "Kritická hodnota F"
-
-#~ msgid "(1 - _Alpha) = "
-#~ msgstr "(1 - _Alfa) = "
-
-#~ msgid ""
-#~ "You should introduce a valid cell range in 'Value and probability input "
-#~ "Range:'"
-#~ msgstr ""
-#~ "Mali by ste uviesť platný rozsah buniek v 'Vstupný rozsah hodnôt a "
-#~ "pravdepodobností:'"
