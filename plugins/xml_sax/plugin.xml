@@ -1,13 +1,13 @@
 <?xml version="1.0"?>
 <gnumeric_plugin_group>
-<plugin id="Gnumeric_xml2">
-	<information name="EXPERIMENTAL XML" description="The next generation sax based xml I/O subsystem"/>
+<plugin id="Gnumeric_xml_sax">
+	<information name="EXPERIMENTAL SAX based XML" description="The next generation sax based xml I/O subsystem"/>
 	<loader type="g_module">
-		<attribute name="module_file" value="xml2.so"/>
+		<attribute name="module_file" value="xml_sax.so"/>
 	</loader>
 	<services>
-		<service type="file_opener" id="xml2" priority="1" probe="FALSE">
-			<information description="EXPERIMENTAL Gnumeric (*.gnumeric) XML based file format"/>
+		<service type="file_opener" id="xml_sax" priority="1" probe="FALSE">
+			<information description="EXPERIMENTAL Gnumeric (*.gnumeric) SAX based XML file format"/>
 			<save_info saver_id="" format_level="manual_remember"/>
 		</service>
 	</services>
