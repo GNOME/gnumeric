@@ -1,3 +1,26 @@
+2000-01-14  Jon K Hellan  <hellan@acm.org>
+
+	* python.c (convert_py_exception_to_string): New function.
+	(marshal_func): Convert exception info to string which is
+	displayed in sheet. Did not remove traceback to stderr.
+	(gnumeric_apply): New function. Invoke a gnumeric function from
+	python.
+	(__register_function): Rename to gnumeric_register_function. No
+	need for funny "__" in a static function.
+	(gnumeric_register_function): Fix typo. Category should be
+	"Python", not "Perl".
+	(gnumeric_funcs): Register gnumeric_apply. Use METH_VARARGS
+	constant instead of 1.
+	(init_plugin): Convert exception info to string which is displayed
+	in dialog box. Did not remove traceback to stderr.
+
+	* gnumeric_startup.py (gnumeric_mid): Register as "py_mid" instead
+	of "mid" - no longer overrides built-in version.
+	(py_abs): New function. Example of invoking a gnumeric function
+	from Python.
+	(run_user_init_file): New function. Run user init file
+	~/.gnumeric/rc.py if present.
+
 2000-01-03  Jon K Hellan  <hellan@acm.org>
 
         * plugins/python/python.c (initgnumeric): No longer display

@@ -9,8 +9,14 @@
 #include "../../src/func.h"
 #include "../../src/symbol.h"
 #include "../../src/plugin.h"
+#include "../../src/command-context.h"
 
 #include "Python.h"
+
+/* Yuck!
+ * See comment in plugins/guile/plugin.c
+ */
+static EvalPosition *eval_pos = NULL;
 
 /*
  * Support for registering Python-based functions for use in formulas.
@@ -34,6 +40,12 @@ convert_value_to_python (Value *v)
 		o = PyString_FromString(v->v.str->str);
 		break;
 
+		/* The following aren't implemented yet */
+	case VALUE_EMPTY:
+	case VALUE_BOOLEAN:
+	case VALUE_ERROR:
+	case VALUE_CELLRANGE:
+	case VALUE_ARRAY:
 	default:
 		o = NULL;
 		break;
@@ -86,6 +98,60 @@ fndef_compare(FuncData *fdata, FunctionDefinition *fndef)
 	return (fdata->fndef != fndef);
 }
 
+static char *
+convert_py_exception_to_string ()
+{
+	char *header = _("Python exception");
+	char *retval = header;
+	char buf [256];
+	int pos;
+	
+	PyObject *ptype = NULL, *pvalue = NULL, *ptraceback = NULL;
+	PyObject *stype = NULL, *svalue = NULL;
+	
+	PyErr_Fetch (&ptype, &pvalue, &ptraceback);
+	if (!ptype)
+		goto cleanup;
+	stype = PyObject_Str (ptype);
+	if (!stype)
+		goto cleanup;
+	pos = snprintf (buf, sizeof buf, "%s: %s",
+			header, PyString_AsString (stype));
+	retval = buf;
+	
+	if (pvalue && (pos + 3 < sizeof buf))
+		svalue = PyObject_Str (pvalue);
+	if (!svalue)
+		goto cleanup;
+	snprintf (buf + pos , sizeof buf - pos , ": %s",
+			PyString_AsString (svalue));
+cleanup:
+	Py_XDECREF (stype);
+	Py_XDECREF (svalue);
+	PyErr_Restore (ptype, pvalue, ptraceback);
+
+	return g_strdup (retval);
+}
+
+/* FIXME: What to about exceptions?
+ *
+ * Suggestion: A python console to display tracebacks - tag each with
+ * eval_pos.  Certainly not a popup window for each exception. There
+ * can be many for each recomputation. */
+/* It is possible to replace the sys.stderr binding with a cStringIO object.
+
+  { PyObject *mod, *klass, *obj;
+
+    mod = PyImport_ImportModule("cStringIO");
+    klass = PyObject_GetAttrString(mod, "StringIO");
+    obj = PyObject_CallFunction(klass, NULL);
+    Py_DECREF(klass);
+
+    PySys_SetObject("stderr", obj);
+  }
+  -- "Michael P. Reilly" <arcege@shore.net>
+*/
+
 static Value *
 marshal_func (FunctionEvalInfo *ei, Value *argv [])
 {
@@ -93,8 +159,10 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 	FunctionDefinition const * const fndef = ei->func_def;
 	Value *v;
 	GList *l;
+	EvalPosition *old_eval_pos;
 	int i, min, max;
-
+	char *exc_string;
+	
 	function_def_count_args (fndef, &min, &max);
 
 	/* Find the Python code object for this FunctionDefinition. */
@@ -109,13 +177,20 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 		PyTuple_SetItem (args, i, convert_value_to_python (argv [i]));
 	}
 
+	old_eval_pos = eval_pos;
+	eval_pos = ei->pos;
 	/* Call the Python object. */
 	result = PyEval_CallObject (((FuncData *)(l->data))->codeobj, args);
 	Py_DECREF (args);
+	eval_pos = old_eval_pos;
 
 	if (!result) {
-		PyErr_Clear (); /* XXX should popup window with exception info */
-		return value_new_error (ei->pos, _("Python exception."));
+		exc_string = convert_py_exception_to_string ();
+		PyErr_Print ();	/* Traceback to stderr for now */
+		PyErr_Clear ();
+		v = value_new_error (ei->pos, exc_string);
+		g_free (exc_string);
+		return v;
 	}
 
 	v = convert_python_to_value (result);
@@ -124,7 +199,47 @@ marshal_func (FunctionEvalInfo *ei, Value *argv [])
 }
 
 static PyObject *
-__register_function (PyObject *m, PyObject *py_args)
+gnumeric_apply (PyObject *m, PyObject *py_args)
+{
+	PyObject *seq = NULL, *item = NULL, *retval = NULL;
+	char *funcname;
+	int i, num_args;
+	Value **values;
+	Value *v = NULL;
+
+	if (!PyArg_ParseTuple (py_args, "sO", &funcname, &seq))
+		goto cleanup;
+
+	/* Second arg should be a sequence */
+	if (!PySequence_Check (seq)) {
+		PyErr_SetString(PyExc_TypeError,
+				"Argument list must be a sequence");
+		goto cleanup;
+	}
+
+	num_args = PySequence_Length (seq);
+	values = g_new(Value*, num_args);
+	for (i = 0; i < num_args; ++i)
+	{
+		item = PySequence_GetItem (seq, i);
+		if (item == NULL)
+			goto cleanup;
+		Py_DECREF (item);
+		values[i] = convert_python_to_value (item);
+	}
+	Py_INCREF (item);	/* Otherwise, we would decrement twice. */
+
+	v = function_call_with_values(eval_pos, funcname, num_args, values);
+	retval = convert_value_to_python (v);
+
+cleanup:
+	Py_XDECREF(item);
+	/* We do not own a reference to seq, so don't decrement it. */
+	return retval;
+}
+
+static PyObject *
+gnumeric_register_function (PyObject *m, PyObject *py_args)
 {
 	FunctionCategory *cat;
 	FunctionDefinition *fndef;
@@ -140,7 +255,7 @@ __register_function (PyObject *m, PyObject *py_args)
 		return NULL;
 	}
 
-	cat   = function_get_category (_("Perl"));
+	cat   = function_get_category (_("Python"));
 	help  = g_new (char *, 1);
 	*help = g_strdup (help1);
 	fndef = function_add_args (cat, g_strdup (name), g_strdup (args),
@@ -157,7 +272,8 @@ __register_function (PyObject *m, PyObject *py_args)
 }
 
 static PyMethodDef gnumeric_funcs[] = {
-	{ "register_function", __register_function, 1 },
+	{ "apply",             gnumeric_apply,             METH_VARARGS },
+	{ "register_function", gnumeric_register_function, METH_VARARGS },
 	{ NULL, NULL },
 };
 
@@ -177,6 +293,8 @@ no_unloading_for_me (PluginData *pd)
 PluginInitResult
 init_plugin (CommandContext *context, PluginData * pd)
 {
+	char *exc_string;
+
 	if (plugin_version_mismatch  (context, pd, GNUMERIC_VERSION))
 		return PLUGIN_QUIET_ERROR;
 
@@ -190,12 +308,12 @@ init_plugin (CommandContext *context, PluginData * pd)
 	/* setup standard functions */
 	initgnumeric ();
 	if (PyErr_Occurred ()) {
-		/* FIXME : If I knew how to get the string representation of the
-		 * error I'd use gnumeric_error_plugin_problem()
-		 * We need a maintainer for this code that knows python.
-		 */
-		PyErr_Print ();
-		return PLUGIN_ERROR;
+		exc_string = convert_py_exception_to_string ();
+		PyErr_Print (); /* Also do a full traceback to stderr */
+		gnumeric_error_plugin_problem (context, exc_string);
+		g_free (exc_string);
+		Py_Finalize ();
+		return PLUGIN_QUIET_ERROR;
 	}
 
 	/* plugin stuff */
