@@ -431,7 +431,7 @@ sheet_compute_visible_ranges (Sheet const *sheet)
 	}
 }
 
-static void
+void
 sheet_reposition_comments_from_row (Sheet *sheet, int row)
 {
 	GList *l;
@@ -445,7 +445,7 @@ sheet_reposition_comments_from_row (Sheet *sheet, int row)
 	}
 }
 
-static void
+void
 sheet_reposition_comments_from_col (Sheet *sheet, int col)
 {
 	GList *l;
@@ -731,7 +731,7 @@ cb_collect_cells_in_col (Sheet *sheet, ColRowInfo *ri, closure_cells_in_col *dat
  * This routine recomputes the column span for the cells that touches
  * the column.
  */
-static void
+void
 sheet_recompute_spans_for_col (Sheet *sheet, int col)
 {
 	GList *l;
@@ -3280,14 +3280,23 @@ sheet_save_row_col_sizes (Sheet *sheet, gboolean const is_cols,
 		ColRowInfo *info = is_cols
 		    ? sheet_col_get_info (sheet, index + i)
 		    : sheet_row_get_info (sheet, index + i);
+
 		g_return_val_if_fail (info != NULL, NULL); /* be anal, and leak */
-		res[i] = info->size_pts;
-		if (info->hard_size)
-			res[i] *= -1.;
+
+		if (info->pos != -1) {
+			res[i] = info->size_pts;
+			if (info->hard_size)
+				res[i] *= -1.;
+		} else
+			res[i] = 0.;
 	}
 	return res;
 }
 
+/*
+ * NOTE : this is a low level routine it does not redraw or
+ *        reposition objects
+ */
 void
 sheet_restore_row_col_sizes (Sheet *sheet, gboolean const is_cols,
 			     int index, int count, double *sizes)
@@ -3300,14 +3309,32 @@ sheet_restore_row_col_sizes (Sheet *sheet, gboolean const is_cols,
 
 	for (i = 0 ; i < count ; ++i) {
 		gboolean hard_size = FALSE;
-		if (sizes[i] < 0.) {
-			hard_size = TRUE;
-			sizes[i] *= -1.;
+
+		/* Reset to the default */
+		if (sizes[i] == 0.) {
+			ColRowCollection *infos = &(sheet->cols) : &(sheet->rows);
+			ColRowInfo ***segment =
+				(ColRowInfo ***)&COLROW_GET_SEGMENT(infos, index+i);
+			int const sub = COLROW_SUB_INDEX (index+i);
+			ColRowInfo *cri = NULL;
+			if (*segment != NULL) {
+				ci = (*segment)[sub];
+				if (ci != NULL) {
+					(*segment)[sub] = NULL;
+					g_free (ci);
+				}
+			}
+		} else
+		{
+			if (sizes[i] < 0.) {
+				hard_size = TRUE;
+				sizes[i] *= -1.;
+			}
+			if (is_cols)
+				sheet_col_set_size_pts (sheet, index+i, sizes[i], hard_size);
+			else
+				sheet_row_set_size_pts (sheet, index+i, sizes[i], hard_size);
 		}
-		if (is_cols)
-			sheet_col_set_size_pts (sheet, index+i, sizes[i], hard_size);
-		else
-			sheet_row_set_size_pts (sheet, index+i, sizes[i], hard_size);
 	}
 
 	g_free (sizes);
@@ -3416,6 +3443,18 @@ sheet_col_get_distance_pts (Sheet const *sheet, int from, int to)
 	return units;
 }
 
+/**
+ * sheet_col_set_size_pts:
+ * @sheet:	 The sheet
+ * @col:	 The col
+ * @widtht_pts:	 The desired widtht in pts
+ * @set_by_user: TRUE if this was done by a user (ie, user manually
+ *               set the width)
+ *
+ * Sets width of a col in pts, INCLUDING left and right margins, and the far
+ * grid line.  This is a low level internal routine.  It does NOT redraw,
+ * or reposition objects.
+ */
 void
 sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 			 gboolean set_by_user)
@@ -3433,11 +3472,6 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 	ci->hard_size |= set_by_user;
 	ci->size_pts = width_pts;
 	colrow_compute_pixels_from_pts (sheet, ci, (void*)TRUE);
-
-	sheet_recompute_spans_for_col (sheet, col);
-	sheet_compute_visible_ranges (sheet);
-	sheet_reposition_comments_from_col (sheet, ci->pos);
-	sheet_redraw_all (sheet);
 }
 
 void
@@ -3550,12 +3584,13 @@ sheet_row_get_distance_pts (Sheet const *sheet, int from, int to)
  * sheet_row_set_size_pts:
  * @sheet:	 The sheet
  * @row:	 The row
- * @height:	 The desired height in pts
+ * @height_pts:	 The desired height in pts
  * @set_by_user: TRUE if this was done by a user (ie, user manually
- *                      set the width)
+ *               set the height)
  *
  * Sets height of a row in pts, INCLUDING top and bottom margins, and the lower
- * grid line.
+ * grid line.  This is a low level internal routine.  It does NOT redraw,
+ * or reposition objects.
  */
 void
 sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
@@ -3574,10 +3609,6 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
 	ri->hard_size |= set_by_user;
 	ri->size_pts = height_pts;
 	colrow_compute_pixels_from_pts (sheet, ri, (void*)FALSE);
-
-	sheet_compute_visible_ranges (sheet);
-	sheet_reposition_comments_from_row (sheet, ri->pos);
-	sheet_redraw_all (sheet);
 }
 
 /**
@@ -3590,6 +3621,10 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
  *
  * Sets height of a row in pixels, INCLUDING top and bottom margins, and the lower
  * grid line.
+ *
+ * FIXME : This should not be calling redraw or its relatives.
+ *         We should store the fact that objects need moving and take care of
+ *         that in redraw.
  */
 void
 sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,

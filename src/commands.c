@@ -1442,58 +1442,6 @@ cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
 	/* Register the command object */
 	return command_push_undo (sheet->workbook, obj, FALSE);
 }
-
-/******************************************************************/
-
-#define CMD_PASTE_COPY_TYPE        (cmd_paste_copy_get_type ())
-#define CMD_PASTE_COPY(o)          (GTK_CHECK_CAST ((o), CMD_PASTE_COPY_TYPE, CmdPasteCopy))
-
-typedef struct
-{
-	GnumericCommand parent;
-} CmdPasteCopy;
-
-GNUMERIC_MAKE_COMMAND (CmdPasteCopy, cmd_paste_copy);
-
-static gboolean
-cmd_paste_copy_undo (GnumericCommand *cmd, CommandContext *context)
-{
-	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	/* FIXME : Fill in */
-	return FALSE;
-}
-
-static gboolean
-cmd_paste_copy_redo (GnumericCommand *cmd, CommandContext *context)
-{
-	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
-
-	g_return_val_if_fail (me != NULL, TRUE);
-
-	/* FIXME : Fill in */
-	return FALSE;
-}
-static void
-cmd_paste_copy_destroy (GtkObject *cmd)
-{
-#if 0
-	CmdPasteCopy *me = CMD_PASTE_COPY (cmd);
-#endif
-	/* FIXME : Fill in */
-	gnumeric_command_destroy (cmd);
-}
-
-#if 0
-gboolean
-cmd_paste_copy (CommandContext *context,
-{
-	return FALSE;
-}
-#endif
-
 /******************************************************************/
 
 #define CMD_PASTE_CUT_TYPE        (cmd_paste_cut_get_type ())
@@ -1605,6 +1553,61 @@ cmd_paste_cut (CommandContext *context, ExprRelocateInfo const * const info)
 	 * Probably when the clear in the original is undone.
 	 */
 	return command_push_undo (info->target_sheet->workbook, obj, trouble);
+}
+
+/******************************************************************/
+
+#define CMD_COLROW_RESIZE_TYPE        (cmd_colrow_resize_get_type ())
+#define CMD_COLROW_RESIZE(o)          (GTK_CHECK_CAST ((o), CMD_COLROW_RESIZE_TYPE, CmdColRowResize))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	GSList *colrows;
+	int size_pixels;
+} CmdColRowResize;
+
+GNUMERIC_MAKE_COMMAND (CmdColRowResize, cmd_colrow_resize);
+
+static gboolean
+cmd_colrow_resize_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdColRowResize *me = CMD_COLROW_RESIZE (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* FIXME : Fill in */
+	return FALSE;
+}
+
+static gboolean
+cmd_colrow_resize_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdColRowResize *me = CMD_COLROW_RESIZE (cmd);
+
+	g_return_val_if_fail (me != NULL, TRUE);
+
+	/* FIXME : Fill in */
+	return FALSE;
+}
+static void
+cmd_colrow_resize_destroy (GtkObject *cmd)
+{
+#if 0
+	CmdColRowResize *me = CMD_COLROW_RESIZE (cmd);
+#endif
+	/* FIXME : Fill in */
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_colrow_resize (CommandContext *context,
+		   gboolean is_cols,
+		   GSList *colrows,
+		   int size_pixels)
+{
+	return FALSE;
 }
 
 /******************************************************************/

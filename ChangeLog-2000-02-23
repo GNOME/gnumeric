@@ -1,3 +1,17 @@
+2000-02-15  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-cmd-format.c (workbook_cmd_format_{column,row}_auto_fit) :
+	  Handle repositioning and redrawing here in preparation to adding undo.
+	(workbook_cmd_format_column_width) : Ditto.
+	(workbook_cmd_format_row_height) : Ditto.
+
+	* src/sheet.c (sheet_reposition_comments_from_{row,col}) : publicize.
+	(sheet_recompute_spans_for_col) : Ditto.
+	(sheet_save_row_col_sizes) : Store cols/rows of 'default' size as 0.
+	(sheet_restore_row_col_sizes) : Restore cols/rows to true default state.
+	(sheet_{col,row}_set_size_pts) : document, and REMOVE calls to reposition
+	  and redraw.
+
 2000-02-16  Jon K Hellan  <hellan@acm.org>
 
 	* src/sheet.c (col_row_info_init): Fix typo

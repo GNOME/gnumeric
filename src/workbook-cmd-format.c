@@ -22,13 +22,14 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	GList *l;
-	int col;
+	int min_col = SHEET_MAX_COLS;
 	
 	/*
 	 * Apply autofit to any columns where the selection is
 	 */
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
+		int col;
 
 		for (col = ss->user.start.col; col <= ss->user.end.col; col++){
 			int ideal_size;
@@ -37,10 +38,18 @@ workbook_cmd_format_column_auto_fit (GtkWidget *widget, Workbook *wb)
 			if (ideal_size == 0)
 				continue;
 
+			/* would be better outside loop, but lets
+			 * be careful in case the fit fails
+			 */
+			if (col < min_col)
+				min_col = col;
 			sheet_col_set_size_pixels (sheet, col, ideal_size, TRUE);
 		}
 	}
 	sheet_set_dirty (sheet, TRUE);
+	sheet_compute_visible_ranges (sheet);
+	sheet_reposition_comments_from_col (sheet, min_col);
+	sheet_redraw_all (sheet);
 }
 
 void
@@ -49,15 +58,16 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = wb->current_sheet;
 	GList *l;
 	double value = 0.0;
-	int col;
+	int min_col = SHEET_MAX_COLS;
 	
 	/*
 	 * Find out the initial value to display
 	 */
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
+		int col;
 		
-		for (col = ss->user.start.col; col <= ss->user.end.col; col++){
+		for (col = ss->user.start.col; col <= ss->user.end.col; ++col){
 			ColRowInfo *ci;
 
 			ci = sheet_col_get_info (sheet, col);
@@ -94,38 +104,54 @@ workbook_cmd_format_column_width (GtkWidget *widget, Workbook *wb)
 	 */
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
-		int col;
-		
-		for (col = ss->user.start.col; col <= ss->user.end.col; col++)
+		int col = ss->user.start.col;
+
+		if (col < min_col)
+			min_col = col;
+		for (; col <= ss->user.end.col; ++col) {
 			sheet_col_set_size_pts (sheet, col, value, TRUE);
+			sheet_recompute_spans_for_col (sheet, col);
+		}
 	}
 	sheet_set_dirty (sheet, TRUE);
+	sheet_compute_visible_ranges (sheet);
+	sheet_reposition_comments_from_col (sheet, min_col);
+	sheet_redraw_all (sheet);
 }
 
 void
 workbook_cmd_format_row_auto_fit (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
-	GList *l;
-	int row;
+	int min_row = SHEET_MAX_ROWS;
+	GList *l = sheet->selections;
 	
-	/*
-	 * Apply autofit to any columns where the selection is
-	 */
-	for (l = sheet->selections; l; l = l->next){
-		SheetSelection *ss = l->data;
+	g_return_if_fail (l != NULL);
 
-		for (row = ss->user.start.row; row <= ss->user.end.row; row++){
+	/* Apply autofit to any columns contained in selection */
+	for (; l != NULL; l = l->next){
+		SheetSelection *ss = l->data;
+		int row;
+
+		for (row = ss->user.start.row; row <= ss->user.end.row; ++row) {
 			int ideal_size;
 
 			ideal_size = sheet_row_size_fit_pixels (sheet, row);
 			if (ideal_size == 0)
 				continue;
 
+			/* would be better outside loop, but lets
+			 * be careful in case the fit fails
+			 */
+			if (row < min_row)
+				min_row = row;
 			sheet_row_set_size_pixels (sheet, row, ideal_size, FALSE);
 		}
 	}
 	sheet_set_dirty (sheet, TRUE);
+	sheet_compute_visible_ranges (sheet);
+	sheet_reposition_comments_from_row (sheet, min_row);
+	sheet_redraw_all (sheet);
 }
 
 void
@@ -134,7 +160,8 @@ workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 	Sheet *sheet = wb->current_sheet;
 	GList *l;
 	double value = 0.0;
-	
+	int min_row = SHEET_MAX_ROWS;
+
 	/*
 	 * Find out the initial value to display
 	 */
@@ -178,12 +205,18 @@ workbook_cmd_format_row_height (GtkWidget *widget, Workbook *wb)
 	 */
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
-		int row;
+		int row = ss->user.start.row;
 		
-		for (row = ss->user.start.row; row <= ss->user.end.row; row++)
+		if (row < min_row)
+			min_row = row;
+		for (;row <= ss->user.end.row; ++row)
 			sheet_row_set_size_pts (sheet, row, value, TRUE);
 	}
+
 	sheet_set_dirty (sheet, TRUE);
+	sheet_compute_visible_ranges (sheet);
+	sheet_reposition_comments_from_row (sheet, min_row);
+	sheet_redraw_all (sheet);
 }
 
 void
