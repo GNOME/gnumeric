@@ -209,8 +209,10 @@ stf_parse_options_before_modification (StfParseOptions_t *parseoptions)
 	/* Copy the old splitpositions into a temporary array so we can compare them later */
 	parseoptions->oldsplitpositions = g_array_new (FALSE, FALSE, sizeof (int));
 
-	for (i = 0; i < parseoptions->splitpositions->len; i++)
-		g_array_append_val (parseoptions->oldsplitpositions, (int) g_array_index (parseoptions->splitpositions, int, i));
+	for (i = 0; i < parseoptions->splitpositions->len; i++) {
+		int idx = g_array_index (parseoptions->splitpositions, int, i);
+		g_array_append_val (parseoptions->oldsplitpositions, idx);
+	}
 }
 
 /**

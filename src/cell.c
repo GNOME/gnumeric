@@ -611,7 +611,7 @@ cell_is_error (Cell const * cell)
 	return NULL;
 }
 
-inline gboolean
+gboolean
 cell_is_number (Cell const *cell)
 {
 	/* FIXME : This does not handle arrays or ranges */
@@ -638,7 +638,7 @@ cell_is_zero (Cell const *cell)
 	}
 }
 
-inline ExprArray const *
+ExprArray const *
 cell_is_array (Cell const *cell)
 {
 	if (cell != NULL && cell_has_expr (cell) &&

@@ -77,7 +77,7 @@ gtk_combo_box_finalize (GtkObject *object)
 		gtk_object_destroy
 			(GTK_OBJECT (combo_box->priv->tearoff_window));
 		gtk_object_unref
-			(GTK_OBJECT (combo_box->priv->tearoff_window)); // ??
+			(GTK_OBJECT (combo_box->priv->tearoff_window)); /* ?? */
 	}
 	g_free (combo_box->priv);
 

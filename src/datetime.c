@@ -112,7 +112,7 @@ datetime_timet_to_serial_raw (time_t t)
 
 /* ------------------------------------------------------------------------- */
 
-inline int
+int
 datetime_serial_raw_to_serial (float_t raw)
 {
 	return (int) floor (raw + HALF_SEC);
@@ -148,7 +148,7 @@ datetime_value_to_g (const Value *v)
 /* This is time-only assuming a 24h day.  It probably loses completely on */
 /* days with summer time ("daylight savings") changes.  */
 
-inline int
+int
 datetime_serial_raw_to_seconds (float_t raw)
 {
 	raw += HALF_SEC;

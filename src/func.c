@@ -323,7 +323,7 @@ function_def_get_name (const FunctionDefinition *fndef)
  * 'nodes' function.
  * 
  **/
-inline void
+void
 function_def_count_args (const FunctionDefinition *fndef,
 			 int *min, int *max)
 {
@@ -366,7 +366,7 @@ function_def_count_args (const FunctionDefinition *fndef,
  * 
  * Return value: the type of the argument
  **/
-inline char
+char
 function_def_get_arg_type (const FunctionDefinition *fndef,
 			   int arg_idx)
 {

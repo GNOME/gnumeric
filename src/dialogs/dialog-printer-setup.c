@@ -1052,7 +1052,7 @@ do_setup_page_info (dialog_print_info_t *dpi)
 	if (dpi->pi->repeat_top.use){
 		char *s;
 
-		s = value_cellrange_get_as_string (&dpi->pi->repeat_top.range, FALSE);
+		s = value_cellrange_get_as_string ((Value *)&dpi->pi->repeat_top.range, FALSE);
 		gtk_entry_set_text (entry_top, s);
 		g_free (s);
 	}
@@ -1060,7 +1060,7 @@ do_setup_page_info (dialog_print_info_t *dpi)
 	if (dpi->pi->repeat_left.use){
 		char *s;
 
-		s = value_cellrange_get_as_string (&dpi->pi->repeat_left.range, FALSE);
+		s = value_cellrange_get_as_string ((Value *)&dpi->pi->repeat_left.range, FALSE);
 		gtk_entry_set_text (entry_left, s);
 		g_free (s);
 	}
@@ -1388,14 +1388,14 @@ do_fetch_page_info (dialog_print_info_t *dpi)
 	top_range = range_parse (NULL, gtk_entry_get_text (entry_top), TRUE);
 
 	if (top_range){
-		dpi->pi->repeat_top.range = *top_range;
+		dpi->pi->repeat_top.range = top_range->v_range;
 		dpi->pi->repeat_top.use = TRUE;
 		value_release (top_range);
 	}
 
 	left_range = range_parse (NULL, gtk_entry_get_text (entry_left), TRUE);
 	if (left_range){
-		dpi->pi->repeat_left.range = *left_range;
+		dpi->pi->repeat_left.range = left_range->v_range;
 		dpi->pi->repeat_left.use = TRUE;
 		value_release (left_range);
 	}

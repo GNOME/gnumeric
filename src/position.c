@@ -28,7 +28,7 @@
 #include "value.h"
 #include "ranges.h"
 
-inline EvalPos *
+EvalPos *
 eval_pos_init (EvalPos *eval_pos, Sheet *sheet, CellPos const *pos)
 {
 	g_return_val_if_fail (eval_pos != NULL, NULL);

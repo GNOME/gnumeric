@@ -296,14 +296,14 @@ print_info_new (void)
 	 * Load the columns/rows to repeat
 	 */
 	if ((cellrange = load_range ("repeat_top_range=")) != NULL){
-		pi->repeat_top.range = *cellrange;
+		pi->repeat_top.range = cellrange->v_range;
 		pi->repeat_top.use = TRUE;
 		value_release (cellrange);
 	} else
 		pi->repeat_top.use = FALSE;
 
 	if ((cellrange = load_range ("repeat_left_range=")) != NULL){
-		pi->repeat_left.range = *cellrange;
+		pi->repeat_left.range = cellrange->v_range;
 		pi->repeat_left.use = TRUE;
 		value_release (cellrange);
 	} else
@@ -331,7 +331,7 @@ save_range (const char *section, PrintRepeatRange *repeat)
 	if (repeat->use){
 		char *s;
 
-		s = value_cellrange_get_as_string (&repeat->range, FALSE);
+		s = value_cellrange_get_as_string ((Value *)&repeat->range, FALSE);
 		gnome_config_set_string (section, s);
 		g_free (s);
 	} else

@@ -97,11 +97,13 @@ history_menu_item_create (Workbook *wb, gchar *name, gint accel_number,
 			  GtkWidget *menu, gint pos)
 {
 	GnomeUIInfo info[] = {
-		{ GNOME_APP_UI_ITEM, "", name, file_history_cmd, wb },
+		{ GNOME_APP_UI_ITEM, NULL, NULL, file_history_cmd, NULL },
 		GNOMEUIINFO_END
 	};
 
+	info [0].hint = name;
 	info [0].label = history_item_label (name, accel_number);
+	info [0].user_data = wb;
 
 #ifndef ENABLE_BONOBO
 	gnome_app_fill_menu (GTK_MENU_SHELL (menu), info,

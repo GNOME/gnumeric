@@ -781,7 +781,7 @@ mstyle_verify (const MStyle *style)
 	return TRUE;
 }
 
-gboolean inline
+gboolean
 mstyle_is_element_set (const MStyle *st, MStyleElementType t)
 {
 	g_return_val_if_fail (st != NULL, FALSE);

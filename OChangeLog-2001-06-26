@@ -1,5 +1,15 @@
 2000-07-09  Jody Goldberg <jgoldberg@home.com>
 
+	* src/history.c (history_menu_item_create) : Fix.
+
+	* src/stf-parse.c (stf_parse_options_before_modification) : Simplify
+	  for irix compiler.
+
+	* src/print-info.c (print_info_new) : cellrange is a ValueRange.
+	(save_range) : Ditto.
+	* src/dialogs/dialog-printer-setup.c (do_setup_page_info) : Ditto.
+	(do_fetch_page_info) : Ditto.
+
 	* src/application.c (application_dpi_to_pixels) : return a double.
 	  returning a float caused just enough loss of precision to break
 	  my putrid use of 9pt fonts.

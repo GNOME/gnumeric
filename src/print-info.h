@@ -63,7 +63,7 @@ typedef struct {
 
 typedef struct {
 	gboolean use;
-	Value range;
+	ValueRange range;
 } PrintRepeatRange;
 
 struct _PrintInformation {

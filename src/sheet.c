@@ -770,7 +770,7 @@ sheet_compute_visible_ranges (Sheet const *sheet)
  * Return value: a (Cell *) containing the Cell, or NULL if
  * the cell does not exist
  */
-inline Cell *
+Cell *
 sheet_cell_get (Sheet const *sheet, int col, int row)
 {
 	Cell *cell;
@@ -795,7 +795,7 @@ sheet_cell_get (Sheet const *sheet, int col, int row)
  * Return value: a (Cell *) containing the Cell at col, row.
  * If no cell existed at that location before, it is created.
  */
-inline Cell *
+Cell *
 sheet_cell_fetch (Sheet *sheet, int col, int row)
 {
 	Cell *cell;
