@@ -4,6 +4,10 @@ Andreas:
 	http://bugzilla.gnome.org/show_bug.cgi?id=84929
 	* use value_as_string for array content
 
+Jody:
+	http://bugzilla.gnome.org/show_bug.cgi?id=84930
+	* COUNT should only count ints and floats not bools
+
 Morten:
 	http://bugzilla.gnome.org/show_bug.cgi?id=84929
 	* make value_as_string as smarter when handling ValueError.
