@@ -23,22 +23,6 @@ Long term breakage
 - Click-and-release on the border of a selection causes an empty "moving
   cells" undo record.
 
-- Typing [space] and [return] causes a zero-valued cell.
-
-- Something with cell moving leaks.
-
-         MLK: 48 bytes leaked in 3 blocks
-               g_malloc       [gmem.c:177]
-               range_split_ranges [ranges.c:558]
-               cmd_paste_cut_redo [commands.c:1774]
-               command_push_undo [commands.c:304]
-               cmd_paste_cut  [commands.c:1865]
-               cmd_paste      [cmd-edit.c:329]
-               item_cursor_do_action [item-cursor.c:744]
-               item_cursor_do_drop [item-cursor.c:785]
-               item_cursor_drag_event [item-cursor.c:953]
-               item_cursor_event [item-cursor.c:1059]
-
 - Increase/Decrease precision toolbar buttons should look at the displayed
   precision for the edit cell and assign the changed value to the entire
   selection.  Not individually adjusting each non-blank cell's precision.
@@ -86,7 +70,6 @@ Dialogs
 -------
 - Use color combos in format dialog.
 - Function selector
-    : Double click in the function list should select a function.
     : 'Most recently used'
     : typing in the function list should jump to an entry that starts with the
       requested letter.
