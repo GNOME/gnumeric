@@ -1,11 +1,15 @@
 2001-01-30  Jody Goldberg <jgoldberg@home.com>
 
+	* src/xml-io.c (xml_sheet_create) : typo.
+
+2001-01-30  Jody Goldberg <jgoldberg@home.com>
+
 	s/float_t/gnum_float/
 	s/int_t/gnum_int/
 
 	* src/sheet-style.c (sheet_style_get_uniform) : implement.
 
-	* src/parse-util.c (parse_text_value_or_expr) : dont loose the entered
+	* src/parse-util.c (parse_text_value_or_expr) : dont lose the entered
 	  text.
 
 	* src/history.c (history_menu_insert_separator) : keep case

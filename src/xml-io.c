@@ -2876,7 +2876,7 @@ xml_sheet_create (XmlParseContext *ctxt, xmlNodePtr node)
 			 "xml_sheet_create: invalid element type %s, 'Sheet' expected\n",
 			 node->name);
 	} else {
-		char *name = xml_value_get (node->xmlChildrenNode, "Name");
+		char *name = xml_value_get (node, "Name");
 
 		if (name == NULL)
 			name = workbook_sheet_get_free_name (ctxt->wb,
