@@ -1408,7 +1408,7 @@
               <listitem>
                 <para>
                 <guimenuitem>Display Formulas</guimenuitem> &mdash; This menu item
-								acts as a toogle. By default it is unset and formulas results
+								acts as a toggle. By default it is unset and formulas results
 								are displayed. If this menu item is clicked, it will display a
 								little check mark on the left. The worksheet will show the
 								actual formulas for all cells with formulas instead of showing

@@ -1,3 +1,7 @@
+2004-10-05  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* gui-menus.xml, quick-start.xml: Fixed typos.
+
 2004-10-05  Adrian Custer <acuster@gnome.org>
 
 	* NEWS Updated the 'Elements' chapter.
