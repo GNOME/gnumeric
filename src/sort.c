@@ -195,7 +195,7 @@ sort_qsort_compare (const void *_a, const void *_b)
 	const SortDataPerm *a = (const SortDataPerm *)_a;
 	const SortDataPerm *b = (const SortDataPerm *)_b;
 
-	return sort_compare_sets (a->data, a->index, b->index);	
+	return sort_compare_sets (a->data, a->index, b->index);
 }
 
 
@@ -227,8 +227,6 @@ sort_permute (CommandContext *context, SortData *data, const int *perm, int leng
 	pt.paste_flags = PASTE_FORMATS | PASTE_FORMULAS	| PASTE_EXPR_RELOCATE;
 
 	rperm = g_new (int, length);
-	
-	memcpy (rperm, perm, length * sizeof (int));
 	for (i = 0; i < length; i++)
 		rperm[perm[i]] = i;
 
