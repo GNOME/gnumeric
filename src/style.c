@@ -7,7 +7,8 @@
  */
 #include <config.h>
 #include <gnome.h>
-#include "style.h"
+#include "gnumeric.h"
+#include "format.h"
 
 static GHashTable *style_format_hash;
 static GHashTable *style_font_hash;
@@ -25,6 +26,7 @@ style_format_new (char *name)
 	if (!format){
 		format = g_new0 (StyleFormat, 1);
 		format->format = g_strdup (name);
+		format_compile (format);
 		g_hash_table_insert (style_format_hash, name, format);
 	}
 	format->ref_count++;
@@ -48,8 +50,10 @@ style_format_unref (StyleFormat *sf)
 	sf->ref_count--;
 	if (sf->ref_count != 0)
 		return;
-	
+
 	g_hash_table_remove (style_format_hash, sf->format);
+
+	format_destroy (sf);
 	g_free (sf->format);
 	g_free (sf);
 }

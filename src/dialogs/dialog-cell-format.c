@@ -191,11 +191,8 @@ render_formated_version (char *format)
 		char *str;
 
 		style_format = style_format_new (format);
-		str = value_format (v, style_format, NULL);
+		str = format_value (style_format, v, NULL);
 
-		if (!str)
-			str = g_strdup (_("Format error"));
-		
 		gtk_label_set (GTK_LABEL (number_sample), str);
 		g_free (str);
 		style_format_unref (style_format);

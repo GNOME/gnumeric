@@ -894,6 +894,7 @@ sheet_redraw_cell_region (Sheet *sheet, int start_col, int start_row,
 			  int end_col, int end_row)
 {
 	GnumericSheet *gsheet;
+	int first_visible_col, first_visible_row;
 	int x, y, w, h;
 	
 	g_return_if_fail (sheet != NULL);
@@ -901,9 +902,19 @@ sheet_redraw_cell_region (Sheet *sheet, int start_col, int start_row,
 
 	gsheet = GNUMERIC_SHEET (sheet->sheet_view);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
+
+	if (gsheet->top_col > start_col)
+		first_visible_col = start_col;
+	else
+		first_visible_col = gsheet->top_col;
+
+	if (gsheet->top_row > start_row)
+		first_visible_row = start_row;
+	else
+		first_visible_row = gsheet->top_row;
 	
-	x = sheet_col_get_distance (sheet, gsheet->top_col, start_col);
-	y = sheet_row_get_distance (sheet, gsheet->top_row, start_row);
+	x = sheet_col_get_distance (sheet, first_visible_col, start_col);
+	y = sheet_row_get_distance (sheet, first_visible_row, start_row);
 	w = sheet_col_get_distance (sheet, start_col, end_col+1);
 	h = sheet_col_get_distance (sheet, start_col, end_col+1);
 

@@ -22,6 +22,7 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
+#include "gnumeric.h"
 #include "format.h"
 
 static int append_year( GString *string, gchar *format, struct tm *time_split );
@@ -280,8 +281,27 @@ typedef struct
   int hasnumbers;
 } format_info;
 
-gchar *
-format_number( gdouble number, gchar *format, char **color_name )
+void
+format_compile (StyleFormat *format)
+{
+	/* This routine should always return, it cant fail, in the worst
+	 * case it should just downgrade to stupid formatting
+	 */
+}
+
+void
+format_destroy (StyleFormat *format)
+{
+	/* This routine is invoked when the last user of the
+	 * format is gone (ie, refcount has reached zero) just
+	 * before the StyleFormat structure is actually released.
+	 *
+	 * resources allocated in format_compile should be disposed here
+	 */
+}
+
+static gchar *
+format_number(gdouble number, StyleFormat *style_format, char **color_name )
 {
   gint left_req = 0, right_req = 0;
   gint left_spaces = 0, right_spaces = 0;
@@ -291,6 +311,7 @@ format_number( gdouble number, gchar *format, char **color_name )
   gboolean negative = FALSE;
   GString *string = g_string_new( "" );
   GString *number_string = g_string_new( "" );
+  gchar *format = style_format->format;
   gint length = strlen(format);
   gchar *returnvalue;
   gint zero_count;
@@ -541,5 +562,33 @@ format_number( gdouble number, gchar *format, char **color_name )
   g_string_free( number_string, TRUE );
   
   return returnvalue;
+}
+
+gchar *
+format_value (StyleFormat *format, Value *value, char **color_name)
+{
+	char *v = NULL;
+	
+	switch (value->type){
+	case VALUE_FLOAT:
+		v = format_number (value->v.v_float, format, color_name);
+		break;
+
+	case VALUE_INTEGER:
+		v = format_number (value->v.v_int, format, color_name);
+		break;
+		
+	case VALUE_STRING:
+		return g_strdup (value->v.str->str);
+
+	default:
+		return g_strdup ("Internal error");
+	}
+	
+	/* Format error, return a default value */
+	if (v == NULL)
+		return value_string (value);
+
+	return v;
 }
 

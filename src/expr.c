@@ -168,27 +168,6 @@ value_string (Value *value)
 	return g_strdup (buffer);
 }
 
-/*
- * formats a number with the format string
- */
-char *
-value_format (Value *v, StyleFormat *format, char **color)
-{
-	switch (v->type){
-	case VALUE_INTEGER:
-		return format_number (v->v.v_int, format->format, color);
-
-	case VALUE_FLOAT:
-		return format_number (v->v.v_float, format->format, color);
-
-	default:
-		if (color)
-			*color = NULL;
-		
-		return value_string (v);
-	}
-}
-
 void
 value_release (Value *value)
 {

@@ -2,6 +2,7 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "eval.h"
+#include "format.h"
 
 void
 cell_formula_changed (Cell *cell)
@@ -158,7 +159,7 @@ cell_render_value (Cell *cell)
 	g_return_if_fail (cell->value != NULL);
 
 	cell_auto_align (cell);
-	str = value_format (cell->value, cell->style->format, NULL);
+	str = format_value (cell->style->format, cell->value, NULL);
 	cell_set_rendered_text (cell, str);
 	g_free (str);
 }
