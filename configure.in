@@ -24,6 +24,8 @@ AC_PROG_LN_S
 AM_PROG_LIBTOOL
 AC_STDC_HEADERS
 
+AC_SUBST(ACLOCAL_FLAGS)
+
 if test "$GCC" = "yes"; then
   gcc_check=`$CC -v 2>&1 | grep '^gcc version 2\.96'`
   if test "$gcc_check" != ""; then
@@ -77,7 +79,7 @@ AC_ARG_WITH(gnome,
 	fi
 )
 if test "x$gnome_msg" = "xyes"; then
-	PKG_CHECK_MODULES(GNOME, [$gnome_extension_reqs],	
+	PKG_CHECK_MODULES(GNOME, [$gnome_extension_reqs],
 		[gnome_msg="yes"],
 		[gnome_msg="missing dependencies"])
 fi
@@ -287,7 +289,7 @@ dnl 	        AC_MSG_RESULT(found)
 dnl 		guile_msg="yes"
 dnl 		enable_guile=true
 dnl 	fi
-dnl 	
+dnl
 dnl fi
 dnl if $enable_guile; then
 dnl 	GNOME_CHECK_GUILE
@@ -346,7 +348,7 @@ AC_ARG_WITH(paradox,
 if $try_paradox; then
 	PKG_CHECK_MODULES(PARADOX, [
 		pxlib >= 0.3.0
-		],	
+		],
 		[paradox_msg="yes"],
 		[paradox_msg="missing dependencies"])
 fi
@@ -663,7 +665,7 @@ else:
 			  AC_MSG_RESULT(no)
 			  python_val=false
 			  python_msg="NO.  Python version is too old."
-		  else	
+		  else
 			  AC_MSG_RESULT(yes)
 		  fi
 	fi

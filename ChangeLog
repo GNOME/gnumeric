@@ -1,3 +1,17 @@
+2004-08-31  Jody Goldberg <jody@gnome.org>
+
+	* src/tools/dao.c : Remove unnecessary include of gtk/gtk.h
+
+2004-07-31  Stepan Kasal  <kasal@ucw.cz>
+
+	* configure.in: Gnomish autogen.sh uses ACLOCAL_FLAGS, if some of the
+	  macros are in nonstandard places.  If you touch configure.in then,
+	  aclocal.m4 is regenerated, but without ACLOCAL_FLAGS.  This change
+	  ensures that ACLOCAL_FLAGS is propagated to the Makefile.
+	* Makefile.am: ACLOCAL_AMFLAGS = @ACLOCAL_FLAGS@
+
+	* src/ssconvert.c: s/exporter/importer/
+
 2004-08-31  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_chain_sensitivity): Renamed from

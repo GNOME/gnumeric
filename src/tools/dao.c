@@ -26,8 +26,6 @@
  */
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
-#include <string.h>
 #include "dao.h"
 
 #include "expr.h"
@@ -45,7 +43,8 @@
 #include "commands.h"
 #include "style-color.h"
 
-#include <gtk/gtk.h>
+#include <glib/gi18n.h>
+#include <string.h>
 #include <time.h>
 #include <parse-util.h>
 
