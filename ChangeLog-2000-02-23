@@ -1,3 +1,9 @@
+1999-11-19  JP Rosevear  <jpr@arcavia.com>
+
+	* src/dialogs/dialog-cell-sort.c: Allow selection of the columns
+	by header name.  Put Add/Remove buttons at the bottom with stock
+	icons.
+
 1999-11-19  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell.c (cell_relocate) : optionally do a bounds check on

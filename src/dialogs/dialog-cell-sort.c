@@ -29,44 +29,40 @@ typedef struct {
 } ORDER_BOX;
 
 static ORDER_BOX *
-order_box_new (GtkWidget * parent, const char *frame_text, const char *default_text)
+order_box_new(GtkWidget * parent, const gchar *frame_text, GList *colnames, gboolean empty)
 {
 	ORDER_BOX *This = g_new(ORDER_BOX, 1);
-	GtkWidget *box = gtk_hbox_new(0, 0);
+	GtkWidget *hbox = gtk_hbox_new(FALSE, 2);
 
 	This->parent = parent;
 	This->main_frame = gtk_frame_new(frame_text);
 	This->asc = 1;
 	{
-		GtkTable *tt;
-		tt = GTK_TABLE(gtk_table_new(0, 0, 0));
-		gtk_table_attach(tt, gtk_label_new(_("Column:")), 0, 1, 0, 1, 0, 0, 2, 0);
-		This->rangetext = gnumeric_dialog_entry_new_with_max_length
-			(GNOME_DIALOG(gtk_widget_get_toplevel(parent)), 5);
-		gtk_entry_set_text(GTK_ENTRY(This->rangetext), default_text);
-		gtk_table_attach(tt, This->rangetext, 1, 2, 0, 1, 0, 0, 0, 2);
-/*              gtk_table_attach (tt, This->rangetext, 1, 2, 0, 1, GTK_FILL | GTK_EXPAND, 0, 0, 2); */
-		gtk_box_pack_start(GTK_BOX(box), GTK_WIDGET(tt), FALSE, TRUE, 2);
-/*              gtk_box_pack_start (GTK_BOX(box), GTK_WIDGET(This->rangetext), TRUE, FALSE, 2); */
+		This->rangetext = gtk_combo_new();
+		gtk_combo_set_popdown_strings(GTK_COMBO(This->rangetext), colnames);
+		if (empty)
+			gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(This->rangetext)->entry), "");
+		gtk_box_pack_start(GTK_BOX(hbox), This->rangetext, FALSE, FALSE,  0);
 	}
 
 	{			/* Asc / Desc buttons */
 		GtkWidget *item;
 		GSList *group = NULL;
 
-		This->asc_desc = gtk_vbox_new(0, 0);
+		This->asc_desc = gtk_hbox_new(FALSE, 0);
 
-		item = gtk_radio_button_new_with_label(group, _("Asc"));
-		gtk_box_pack_start_defaults(GTK_BOX(This->asc_desc), item);
+		item = gtk_radio_button_new_with_label(group, _("Ascending"));
+		gtk_box_pack_start(GTK_BOX(This->asc_desc), item, FALSE, FALSE,  0);
 		group = gtk_radio_button_group(GTK_RADIO_BUTTON(item));
-		item = gtk_radio_button_new_with_label(group, _("Desc"));
-		gtk_box_pack_start_defaults(GTK_BOX(This->asc_desc), item);
+		item = gtk_radio_button_new_with_label(group, _("Descending"));
+		gtk_box_pack_start(GTK_BOX(This->asc_desc), item, FALSE, FALSE,  0);
 		group = gtk_radio_button_group(GTK_RADIO_BUTTON(item));
 		This->group = group;
 
-		gtk_box_pack_start(GTK_BOX(box), This->asc_desc, FALSE, FALSE, 0);
-	}
-	gtk_container_add(GTK_CONTAINER(This->main_frame), box);
+		gtk_box_pack_start(GTK_BOX(hbox), This->asc_desc, FALSE, FALSE,  0);
+	}	
+
+	gtk_container_add(GTK_CONTAINER(This->main_frame), hbox);
 	gtk_box_pack_start(GTK_BOX(parent), GTK_WIDGET(This->main_frame), FALSE, TRUE, 0);
 	return This;
 }
@@ -93,14 +89,11 @@ order_box_destroy (ORDER_BOX * This)
 	g_free(This);
 }
 
-/**
- * Return value must be g_freed
- **/
 static char *
 order_box_get_text (ORDER_BOX * This, int *asc)
 {
 	*asc = gtk_radio_group_get_selected(This->group);
-	return gtk_editable_get_chars(GTK_EDITABLE(This->rangetext), 0, -1);
+	return gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(This->rangetext)->entry));
 }
 
 typedef struct {
@@ -265,23 +258,55 @@ typedef struct {
 	ORDER_BOX *clauses[MAX_CLAUSE];
 	GtkWidget *dialog;
 	GtkWidget *clause_box;
+	gboolean header;
+	GList *colnames_plain;
+	GList *colnames_header;
 	Workbook *wb;
 } SORT_FLOW;
 
-static void
-add_clause (GtkWidget * widget, SORT_FLOW * sf)
+static gchar *cell_sort_name (Sheet *sheet, int col, int row, gboolean header)
 {
-	if (sf->num_clause >= sf->max_clause)
-		gnumeric_notice(sf->wb, GNOME_MESSAGE_BOX_ERROR,
-				_("more clauses than rows ?"));
-	else if (sf->num_clause >= MAX_CLAUSE)
-		gnumeric_notice(sf->wb, GNOME_MESSAGE_BOX_ERROR,
-				_("too many clauses"));
-	else {
-		sf->clauses[sf->num_clause] = order_box_new(sf->clause_box, "then by", "");
-		gtk_widget_show_all(sf->dialog);
-		sf->num_clause++;
+	Cell *cell;
+	gchar *str = NULL;
+
+	if (header) {
+		cell = sheet_cell_get(sheet, col, row);
+		if (cell)
+			str = cell_get_text(cell);
+		else
+			str = strdup(col_name(col));
+	} else {
+		str = strdup(col_name(col));
 	}
+	return str;
+}
+
+static GList *col_name_list (Sheet *sheet, int start_col, int end_col, int row, gboolean header)
+{
+	gchar *str;
+	GList *list;
+	int i;
+
+	list = NULL;
+	for (i=start_col; i<end_col-start_col+1; i++) {
+		str = cell_sort_name(sheet, i, row, header);
+		list = g_list_append(list, (gpointer) str);
+	}
+	return list;
+}
+
+static GList *row_name_list (Sheet *sheet, int start_row, int end_row, int col, gboolean header)
+{
+	gchar *str;
+	GList *list;
+	int i;
+
+	list = NULL;
+	for (i=start_row; i<end_row-start_row+1; i++) {
+		str = cell_sort_name(sheet, i, col, header);
+		list = g_list_append(list, (gpointer) str);
+	}
+	return list;
 }
 
 static void
@@ -297,7 +322,43 @@ del_clause (GtkWidget * widget, SORT_FLOW * sf)
 		sf->clauses[sf->num_clause] = NULL;
 	} else
 		gnumeric_notice(sf->wb, GNOME_MESSAGE_BOX_ERROR,
-				_("Need at least one clause"));
+				_("At least one clause is required."));
+}
+
+static void add_clause(GtkWidget * widget, SORT_FLOW * sf)
+{
+	if (sf->num_clause >= sf->max_clause)
+		gnumeric_notice(sf->wb, GNOME_MESSAGE_BOX_ERROR,
+				_("Can't add more than the selection length."));
+	else if (sf->num_clause >= MAX_CLAUSE)
+		gnumeric_notice(sf->wb, GNOME_MESSAGE_BOX_ERROR,
+				_("Maximum number of clauses has been reached."));
+	else {
+		if (sf->header)
+			sf->clauses[sf->num_clause] = order_box_new(sf->clause_box, "then by", sf->colnames_header, TRUE );
+		else
+			sf->clauses[sf->num_clause] = order_box_new(sf->clause_box, "then by", sf->colnames_plain, TRUE );
+
+		gtk_widget_show_all(sf->dialog);
+		sf->num_clause++;
+	}
+}
+
+static void header_toggled(GtkWidget *widget, SORT_FLOW *sf)
+{
+	int i;
+
+	sf->header = GTK_TOGGLE_BUTTON (widget)->active;
+	for (i=0; i<sf->num_clause; i++) {
+		if (sf->header) {
+			gtk_combo_set_popdown_strings(GTK_COMBO(sf->clauses[i]->rangetext), sf->colnames_header);
+		} else {
+			gtk_combo_set_popdown_strings(GTK_COMBO(sf->clauses[i]->rangetext), sf->colnames_plain);
+		}
+		if (i > 0)
+			gtk_entry_set_text(GTK_ENTRY(GTK_COMBO(sf->clauses[i]->rangetext)->entry), "");
+	}
+
 }
 
 /*
@@ -308,7 +369,7 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 {
 	GladeXML  *gui = glade_xml_new (GNUMERIC_GLADEDIR "/cell-sort.glade", NULL);
 	GtkWidget *table, *check;
-	int lp;
+	int btn, lp, i;
 	int start_col, start_row, end_col, end_row;
 	Range const * sel;
 	SORT_FLOW sort_flow;
@@ -355,6 +416,11 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 
 	{			/* Setup the dialog */
 		sort_flow.wb = inwb;
+		sort_flow.header = FALSE;
+		sort_flow.colnames_plain = col_name_list(sheet, start_col, end_col, start_row, FALSE);
+		sort_flow.colnames_header = col_name_list(sheet, start_col, end_col, start_row, TRUE);
+		gtk_signal_connect(GTK_OBJECT(check), "toggled",
+			GTK_SIGNAL_FUNC(header_toggled), &sort_flow);	
 
 		gnome_dialog_set_parent(GNOME_DIALOG(sort_flow.dialog), GTK_WINDOW(sort_flow.wb->toplevel));
 
@@ -362,35 +428,21 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 		gtk_table_attach_defaults(GTK_TABLE(table), sort_flow.clause_box, 0, 1, 0, 1);
 
 		for (lp = 0; lp < sort_flow.num_clause; lp++){
-			sort_flow.clauses[lp] =
-			    order_box_new(sort_flow.clause_box,
-					lp ? _("then by") : _("Sort by"),
-					  lp ? "" : col_name(start_col));
+			sort_flow.clauses[lp] = order_box_new(sort_flow.clause_box, lp ? _("then by") : _("Sort by"),
+											  sort_flow.colnames_plain, lp ? TRUE : FALSE);
+
 			if (!lp)
 				order_box_set_default(sort_flow.clauses[lp]);
 		}
 
-		if (end_col - start_col > 1) { /* if more than one or two cols wide */
-			GtkWidget *hb = gtk_hbox_new(0, 0);
-			GtkWidget *button;
-			button = gtk_button_new_with_label("Add clause");
-			gtk_box_pack_start(GTK_BOX(hb), button, FALSE, TRUE, 0);
-			gtk_signal_connect(GTK_OBJECT(button), "clicked",
-				GTK_SIGNAL_FUNC(add_clause), &sort_flow);
-			button = gtk_button_new_with_label("Remove clause");
-			gtk_box_pack_start(GTK_BOX(hb), button, FALSE, TRUE, 0);
-			gtk_signal_connect(GTK_OBJECT(button), "clicked",
-				GTK_SIGNAL_FUNC(del_clause), &sort_flow);
-			gtk_box_pack_start(GTK_BOX(sort_flow.clause_box),
-					   hb, FALSE, TRUE, 0);
-		}
 		gtk_widget_show_all(sort_flow.dialog);
 	}
 
 	do {			/* Run the dialog */
 		sort_flow.retry = 0;
 		sort_flow.force_redisplay = 0;
-		if (gnome_dialog_run(GNOME_DIALOG(sort_flow.dialog)) == 0){
+		btn = gnome_dialog_run(GNOME_DIALOG(sort_flow.dialog)) ;
+		if (btn == 0) {
 			ClauseData *array;
 
 			array = g_new(ClauseData, sort_flow.num_clause);
@@ -399,7 +451,16 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 				char *txt = order_box_get_text(sort_flow.clauses[lp],
 							 &array[lp].asc);
 				if (strlen(txt)){
-					col = col_from_name(txt);
+					if (sort_flow.header) {
+						col = -1;
+						for (i=0; i<end_col-start_col+1; i++) {
+							if (!strcmp(txt, g_list_nth_data(sort_flow.colnames_header, i))) {
+								col = i; break;
+							}
+						}
+					} else {
+						col = col_from_name(txt);
+					}
 					if (col < start_col || col > end_col){
 						gnumeric_notice(sort_flow.wb, GNOME_MESSAGE_BOX_ERROR,
 								_("Column must be within range"));
@@ -412,7 +473,6 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 					sort_flow.retry = 1;
 				} else	/* Just duplicate the last condition: slow but sure */
 					array[lp].col_offset = array[lp - 1].col_offset;
-				g_free(txt);
 			}
 			if (!sort_flow.retry) {
 				if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(check)))
@@ -423,8 +483,15 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 							end_col, end_row);
 			}
 			g_free (array);
-		} else
+		} else if (btn == 1) {
+			add_clause (NULL, &sort_flow);
+			sort_flow.retry = 1;
+		} else if (btn == 2) {
+			del_clause (NULL, &sort_flow);
+			sort_flow.retry = 1;
+		} else  {
 			sort_flow.retry = 0;
+		}
 	}
 	while (sort_flow.retry || sort_flow.force_redisplay);
 
@@ -433,4 +500,7 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 
 	for (lp = 0; lp < sort_flow.num_clause; lp++)
 		order_box_destroy (sort_flow.clauses[lp]);
+
+	g_list_free(sort_flow.colnames_plain);
+	g_list_free(sort_flow.colnames_header);
 }

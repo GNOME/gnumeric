@@ -29,6 +29,7 @@
   <class>GnomeDialog</class>
   <name>CellSort</name>
   <visible>False</visible>
+  <title>Sort...</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_CENTER</position>
   <modal>True</modal>
@@ -41,7 +42,7 @@
   <widget>
     <class>GtkVBox</class>
     <child_name>GnomeDialog:vbox</child_name>
-    <name>dialog-vbox1</name>
+    <name>dialog-vbox2</name>
     <homogeneous>False</homogeneous>
     <spacing>8</spacing>
     <child>
@@ -66,7 +67,7 @@
 
       <widget>
 	<class>GtkFrame</class>
-	<name>frame1</name>
+	<name>frame2</name>
 	<label>My selection has</label>
 	<label_xalign>0</label_xalign>
 	<shadow_type>GTK_SHADOW_ETCHED_IN</shadow_type>
@@ -89,7 +90,7 @@
 	  <class>GtkCheckButton</class>
 	  <name>cell_sort_header_check</name>
 	  <can_focus>True</can_focus>
-	  <label>A header row</label>
+	  <label>A header</label>
 	  <active>False</active>
 	  <draw_indicator>True</draw_indicator>
 	</widget>
@@ -99,8 +100,8 @@
     <widget>
       <class>GtkHButtonBox</class>
       <child_name>GnomeDialog:action_area</child_name>
-      <name>dialog-action_area1</name>
-      <layout_style>GTK_BUTTONBOX_END</layout_style>
+      <name>dialog-action_area2</name>
+      <layout_style>GTK_BUTTONBOX_START</layout_style>
       <spacing>8</spacing>
       <child_min_width>85</child_min_width>
       <child_min_height>27</child_min_height>
@@ -115,16 +116,33 @@
 
       <widget>
 	<class>GtkButton</class>
-	<name>button1</name>
+	<name>button4</name>
 	<can_default>True</can_default>
-	<has_default>True</has_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_OK</stock_button>
       </widget>
 
       <widget>
 	<class>GtkButton</class>
-	<name>button3</name>
+	<name>cell_sort_add</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Add</label>
+	<stock_pixmap>GNOME_STOCK_PIXMAP_ADD</stock_pixmap>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>cell_sort_remove</name>
+	<can_default>True</can_default>
+	<can_focus>True</can_focus>
+	<label>Remove</label>
+	<stock_pixmap>GNOME_STOCK_PIXMAP_REMOVE</stock_pixmap>
+      </widget>
+
+      <widget>
+	<class>GtkButton</class>
+	<name>button8</name>
 	<can_default>True</can_default>
 	<can_focus>True</can_focus>
 	<stock_button>GNOME_STOCK_BUTTON_CANCEL</stock_button>

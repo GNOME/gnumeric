@@ -4,5 +4,8 @@
  * DO NOT compile it as part of your application.
  */
 
+gchar *s = N_("Sort...");
 gchar *s = N_("My selection has");
-gchar *s = N_("A header row");
+gchar *s = N_("A header");
+gchar *s = N_("Add");
+gchar *s = N_("Remove");
