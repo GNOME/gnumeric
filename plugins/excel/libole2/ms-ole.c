@@ -419,11 +419,14 @@ static void
 ms_ole_deanalyse (MS_OLE *f)
 {
 	g_return_if_fail (f);
-	g_array_free (f->header.sbd_list, TRUE);
+	if (f->header.sbd_list)
+		g_array_free (f->header.sbd_list, TRUE);
 	f->header.sbd_list = NULL;
-	g_array_free (f->header.sbf_list, TRUE);
+	if (f->header.sbf_list)
+		g_array_free (f->header.sbf_list, TRUE);
 	f->header.sbf_list = NULL;
-	g_array_free (f->header.root_list, TRUE);
+	if (f->header.root_list)
+		g_array_free (f->header.root_list, TRUE);
 	f->header.root_list = NULL;
 }
 
@@ -454,6 +457,9 @@ ms_ole_create (const char *name)
 	}
 
 	f = g_new0 (MS_OLE, 1);
+	f->header.sbd_list = 0;
+	f->header.sbf_list = 0;
+	f->header.root_list = 0;
 	f->file_descriptor = file;
 	fstat(file, &st);
 	f->length = st.st_size;
@@ -561,6 +567,10 @@ ms_ole_new (const char *name)
 	if (OLE_DEBUG>0)
 		printf ("New OLE file '%s'\n", name);
 	f = g_new0 (MS_OLE, 1);
+
+	f->header.sbd_list = 0;
+	f->header.sbf_list = 0;
+	f->header.root_list = 0;
 
 	f->file_descriptor = file = open (name, O_RDWR);
 	f->mode = 'w';
