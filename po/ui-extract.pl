@@ -30,7 +30,7 @@ use Getopt::Long;
 
 #---------------------------
 
-my $VERSION     = "0.7.1";
+my $VERSION     = "0.8";
 
 #---------------------------
 
@@ -47,7 +47,8 @@ my $OUTFILE;
 #---------------------------
 
 my %string 	=  ();
-my $n		= "0";
+my @elements;
+my $n;
 
 #---------------------------
 
@@ -223,15 +224,32 @@ sub addMessages{
 	my ($lineNo,$fileName) = @{ $string{$theMessage} };
 
     if ($theMessage =~ /\n/) {
-	print OUT "gchar *s = N_("; 
 
 	$n = 1;
-        for (split /\n/, $theMessage) {
-	    $_ =~ s/^\s+//mg;
-	    if ($n > 1) { print OUT "              ";}
-            $n++;
-	    print OUT "\"$_\");\n";
-	}
+
+        @elements =  split (/\n/, $theMessage);
+        for ($n = 0; $n < @elements; $n++) {
+
+           # Replace XML codes for special chars to 
+           # geniune gettext syntax
+           #---------------------------------------
+           $elements[$n] =~ s/&quot;/\\"/mg;
+
+           if ($n == 0) { 
+	       print OUT "gchar *s = N_"; 
+               print OUT "(\"$elements[$n]\\n\");\n";
+           }
+
+           elsif ($n == @elements - 1) { 
+	       print OUT "             ";
+               print OUT "(\"$elements[$n]\");\n";
+           }
+
+           elsif ($n > 0)  { 	
+	       print OUT "             ";
+               print OUT "(\"$elements[$n]\\n\");\n";
+           }
+        }
 
 	} else {
 		
