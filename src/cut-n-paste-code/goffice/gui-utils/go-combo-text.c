@@ -143,11 +143,10 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 			
 			avail_height = mon_height - 20
 				- GTK_CONTAINER (widget)->border_width * 2 + 4;
-			nitems = MIN (20, avail_height / w->requisition.height * ct->rows);
+			nitems = MIN (20, avail_height * ct->rows / w->requisition.height);
 			height = nitems *  w->requisition.height / ct->rows;
 			if (height > list_req.height)
 				height = list_req.height;
-			
 		}
 
 		/* FIXME : Why do we need 4 ??
