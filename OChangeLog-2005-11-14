@@ -1,5 +1,9 @@
 2002-06-01  Jody Goldberg <jody@gnome.org>
 
+ 	http://bugzilla.gnome.org/show_bug.cgi?id=83794
+	* src/stf.c (stf_read_workbook_auto_csvtab) : simple autodetection of
+	  tab delimited vs csv
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=82847
 	* src/value.c (parse_criteria_range) : Check for null in both cases.
 	  Clean up a touch while we are in here.

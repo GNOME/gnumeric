@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * stf.c : Utilizes the stf-parse engine and the dialog-stf to provide a plug-in for
  *         importing text files with a structure (CSV/fixed width)
@@ -239,16 +240,16 @@ stf_read_workbook (GnumFileOpener const *fo, IOContext *context, WorkbookView *w
 }
 
 /**
- * stf_read_workbook_default_csv
+ * stf_read_workbook_auto_csvtab
  * @fo       : file opener
  * @context  : command context
  * @book     : workbook
  * @filename : file to read from+convert
  *
- * Automatic importing of a comma delimited csv file.
+ * Attempt to auto-detect CSV or tab-delimited file
  **/
 static void
-stf_read_workbook_default_csv (GnumFileOpener const *fo, IOContext *context,
+stf_read_workbook_auto_csvtab (GnumFileOpener const *fo, IOContext *context,
 			       WorkbookView *wbv, char const *filename)
 {
 	Sheet *sheet;
@@ -256,10 +257,21 @@ stf_read_workbook_default_csv (GnumFileOpener const *fo, IOContext *context,
 	char *name, *data;
 	StfParseOptions_t *po;
 
+	char *pos;
+	unsigned int comma = 0, tab = 0, lines = 0;
+
 	book = wb_view_workbook (wbv);
 	data = stf_preparse (context, filename);
 	if (!data)
 		return;
+
+        for( pos = data ; *pos ; ++pos )
+		if (*pos == ',')
+			++comma;
+		else if (*pos == '\t')
+			++tab;
+		else if (*pos == '\n')
+			++lines;
 
 	name = g_strdup_printf (_("Imported %s"), g_basename (filename));
 	sheet = sheet_new (book, name);
@@ -273,10 +285,14 @@ stf_read_workbook_default_csv (GnumFileOpener const *fo, IOContext *context,
 	stf_parse_options_set_trim_spaces (po, TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
 	stf_parse_options_set_lines_to_parse (po, -1);
 
-	stf_parse_options_csv_set_separators (po, ",", NULL);
 	stf_parse_options_csv_set_stringindicator (po, '"');
 	stf_parse_options_csv_set_indicator_2x_is_single (po, FALSE);
 	stf_parse_options_csv_set_duplicates (po, FALSE);
+
+	/* Guess */
+	stf_parse_options_csv_set_separators (po, ",", NULL);
+	if (tab >= lines && tab > comma)
+		stf_parse_options_csv_set_separators (po, "\t", NULL);
 
 	if (!stf_parse_sheet (po, data, sheet)) {
 
@@ -406,9 +422,9 @@ void
 stf_init (void)
 {
 	register_file_opener (gnum_file_opener_new (
-		"Gnumeric_stf:stf_csv",
-		_("Text import (defaults to csv)"),
-		stf_read_default_probe, stf_read_workbook_default_csv), 0);
+		"Gnumeric_stf:stf_csvtab",
+		_("Text import (auto-detect CSV or tab-delimited)"),
+		stf_read_default_probe, stf_read_workbook_auto_csvtab), 0);
 	register_file_opener_as_importer_as_default (gnum_file_opener_new (
 		"Gnumeric_stf:stf_druid",
 		_("Text import (configurable)"),
