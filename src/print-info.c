@@ -257,8 +257,6 @@ print_info_new (void)
 
 	gnome_config_push_prefix ("/Gnumeric/Print/");
 
-	pi->n_copies = gnome_config_get_int ("num_copies=1");
-
 	pi->orientation = gnome_config_get_bool ("vertical_print=false")
 		? PRINT_ORIENT_VERTICAL : PRINT_ORIENT_HORIZONTAL;
 
@@ -400,7 +398,6 @@ print_info_save (PrintInformation const *pi)
 
 	gnome_config_push_prefix ("/Gnumeric/Print/");
 
-	gnome_config_set_int ("num_copies", pi->n_copies);
 	gnome_config_set_bool ("vertical_print", pi->orientation == PRINT_ORIENT_VERTICAL);
 	gnome_config_set_bool ("do_scale_percent", pi->scaling.type == PERCENTAGE);
 	gnome_config_set_float ("scale_percent", pi->scaling.percentage.x);
@@ -807,4 +804,14 @@ print_info_set_margins (PrintInformation *pi,
 	print_info_set_margin_footer (pi, bottom);
 	print_info_set_margin_left (pi, left);
 	print_info_set_margin_right (pi, right);
+}
+
+void        
+print_info_set_n_copies  (PrintInformation *pi, guint copies)
+{
+	g_return_if_fail (pi->print_config != NULL);
+
+	gnome_print_config_set_int (pi->print_config, 
+				    GNOME_PRINT_KEY_NUM_COPIES, 
+				    (gint)copies);
 }

@@ -1,3 +1,12 @@
+2003-11-19  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* src/print-info.c (print_info_new): don't read n_copies from
+	  gnome_config
+	(print_info_save): don't bother writing n_copies to gnome_config
+	(print_info_set_n_copies): new
+	* src/print-info.h: remove n_copies field from PrintInformation
+	(print_info_set_n_copies): new
+
 2003-11-18  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=64297

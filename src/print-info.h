@@ -66,7 +66,6 @@ struct _PrintInformation {
 	PrintScaling     scaling;
 	PrintMargins     margins;
 	PrintRepeatRange repeat_top, repeat_left;
-	int	         n_copies;
 	unsigned int     center_vertically:1;
 	unsigned int     center_horizontally:1;
 
@@ -126,6 +125,7 @@ double      unit_convert             (double value,
 void        print_init               (void);
 void        print_shutdown           (void);
 
+void        print_info_set_n_copies  (PrintInformation *pi, guint copies);
 gboolean    print_info_get_margins   (PrintInformation const *pi,
 				      double *header, double *footer, double *left, double *right);
 void        print_info_set_margins   (PrintInformation *pi,

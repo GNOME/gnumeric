@@ -12,6 +12,7 @@ Andreas:
           or to the right.
 	* Upon deleting of cells try to guess whether to move cells up 
           or to the left.
+	* Use the number of copies info read from an XL file
 
 Emmanuel Pacaud:
 	* Add clipping for plot areas.

@@ -3534,7 +3534,8 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 
 	/* If the extra info is valid use it */
 	if ((grbit & 0x4) != 0x4) {
-		pi->n_copies = GSF_LE_GET_GUINT16 (q->data + 32);
+		print_info_set_n_copies (pi, 
+					 GSF_LE_GET_GUINT16 (q->data + 32));
 		/* 0x40 == orientation is set */
 		if ((grbit & 0x40) != 0x40) {
 			pi->orientation = (grbit & 0x2)

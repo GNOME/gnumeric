@@ -1,3 +1,7 @@
+2003-11-19  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* ms-excel-read.c (excel_read_SETUP): use print_info_set_n_copies
+
 2003-11-18  Jody Goldberg <jody@gnome.org>
 
 	* ms-chart.c (BC_R(lineformat)) : Handle 'invisible'
