@@ -679,9 +679,9 @@ cmd_ins_del_row_col_undo (GnumericCommand *cmd, CommandContext *context)
 
 	/* restore row/col contents */
 	if (me->is_cols)
-		(void) range_init (&r, index, 0, index, SHEET_MAX_ROWS);
+		(void) range_init (&r, index, 0, index, SHEET_MAX_ROWS-1);
 	else
-		(void) range_init (&r, 0, index, SHEET_MAX_COLS, index);
+		(void) range_init (&r, 0, index, SHEET_MAX_COLS-1, index);
 
 	clipboard_paste_region (context,
 				paste_target_init (&pt, me->sheet, &r, PASTE_ALL_TYPES),
@@ -1686,6 +1686,7 @@ cmd_hide_selection_rows_cols (CommandContext *context, Sheet *sheet,
 	/* Register the command object */
 	return command_push_undo (context, sheet->workbook, obj);
 }
+
 /******************************************************************/
 
 #define CMD_PASTE_CUT_TYPE        (cmd_paste_cut_get_type ())
@@ -1928,6 +1929,125 @@ cmd_paste_copy (CommandContext *context,
 	/* Register the command object */
 	return command_push_undo (context, pt->sheet->workbook, obj);
 }
+
+/******************************************************************/
+
+#define CMD_SHIFT_CELLS_TYPE        (cmd_shift_cells_get_type ())
+#define CMD_SHIFT_CELLS(o)          (GTK_CHECK_CAST ((o), CMD_SHIFT_CELLS_TYPE, CmdShiftCells))
+
+typedef struct
+{
+	GnumericCommand parent;
+
+	ExprRelocateInfo info;
+	CellRegion 	*contents;
+} CmdShiftCells;
+
+GNUMERIC_MAKE_COMMAND (CmdShiftCells, cmd_shift_cells);
+
+static gboolean
+cmd_shift_cells_undo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdShiftCells *me = CMD_SHIFT_CELLS(cmd);
+	ExprRelocateInfo reverse;
+	PasteTarget pt;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->contents != NULL, TRUE);
+
+	reverse.target_sheet = me->info.origin_sheet;
+	reverse.origin_sheet = me->info.target_sheet;
+	reverse.origin = me->info.origin;
+	range_translate (&reverse.origin,
+			 me->info.col_offset,
+			 me->info.row_offset);
+	reverse.col_offset = -me->info.col_offset;
+	reverse.row_offset = -me->info.row_offset;
+
+	sheet_move_range (context, &reverse);
+	clipboard_paste_region (context,
+				paste_target_init (&pt, me->info.target_sheet,
+						   &reverse.origin, PASTE_ALL_TYPES),
+				me->contents);
+	clipboard_release (me->contents);
+	me->contents = NULL;
+
+	/* Force update of the status area */
+	sheet_flag_status_update_range (me->info.target_sheet, NULL /* force update */);
+
+	sheet_set_dirty (me->info.target_sheet, TRUE);
+	workbook_recalc (me->info.target_sheet->workbook);
+	sheet_update (me->info.target_sheet);
+
+	return FALSE;
+}
+
+static gboolean
+cmd_shift_cells_redo (GnumericCommand *cmd, CommandContext *context)
+{
+	CmdShiftCells *me = CMD_SHIFT_CELLS(cmd);
+	Range tmp;
+
+	g_return_val_if_fail (me != NULL, TRUE);
+	g_return_val_if_fail (me->contents == NULL, TRUE);
+
+	tmp = me->info.origin;
+	range_translate (&tmp, me->info.col_offset, me->info.row_offset);
+
+	/* Store the original contents */
+	me->contents = clipboard_copy_range (me->info.target_sheet,  &tmp);
+
+	/* Make sure the destination is selected */
+	sheet_selection_set (me->info.target_sheet,
+			     tmp.start.col, tmp.start.row,
+			     tmp.start.col, tmp.start.row,
+			     tmp.end.col, tmp.end.row);
+
+	sheet_move_range (context, &me->info);
+
+	sheet_set_dirty (me->info.target_sheet, TRUE);
+	workbook_recalc (me->info.target_sheet->workbook);
+	sheet_update (me->info.target_sheet);
+
+	return FALSE;
+}
+static void
+cmd_shift_cells_destroy (GtkObject *cmd)
+{
+	CmdShiftCells *me = CMD_SHIFT_CELLS(cmd);
+
+	if (me->contents) {
+		clipboard_release (me->contents);
+		me->contents = NULL;
+	}
+	gnumeric_command_destroy (cmd);
+}
+
+gboolean
+cmd_shift_cells (CommandContext *context, ExprRelocateInfo const *info)
+{
+	GtkObject *obj;
+	CmdShiftCells *me;
+
+	/* FIXME : improve on this */
+	char *descriptor = g_strdup_printf (_("Shift cells") );
+
+	g_return_val_if_fail (info != NULL, TRUE);
+
+	obj = gtk_type_new (CMD_SHIFT_CELLS_TYPE);
+	me = CMD_SHIFT_CELLS (obj);
+
+	/* Store the specs for the object */
+	me->info = *info;
+	me->contents = NULL;
+
+	me->parent.cmd_descriptor = descriptor;
+
+	/* Register the command object */
+	return command_push_undo (context, info->target_sheet->workbook, obj);
+}
+
+/******************************************************************/
 
 /*
  * - Complete colrow resize
