@@ -1,5 +1,10 @@
 Gnumeric 1.0.5
 
+Almer:
+	http://bugzilla.gnome.org/show_bug.cgi?id=72416
+	http://bugzilla.gnome.org/show_bug.cgi?id=71783
+	* Fixes to the STF exporter.
+
 Andreas:
 	* Improve numerical precision in single factor ANOVA
 

@@ -231,10 +231,10 @@ stf_export_cell (StfExportOptions_t *export_options, Cell *cell)
 			g_string_append_c (res, export_options->quoting_char);
 
 		while (*s) {
-
-			if (*s == export_options->quoting_char)
-				g_string_append (res, "\"\"");
-			else
+			if (quoting && *s == export_options->quoting_char) {
+				g_string_append_c (res, export_options->quoting_char);
+				g_string_append_c (res, export_options->quoting_char);
+			} else
 				g_string_append_c (res, *s);
 
 			s++;
