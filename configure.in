@@ -45,7 +45,7 @@ AC_PATH_PROG(GDK_PIXBUF_CSOURCE, gdk-pixbuf-csource)
 ## this should come after `AC_PROG_CC'
 GNOME_COMPILE_WARNINGS
 set_more_warnings=yes
-if test "$GCC" = "yes" -a "$set_more_warnings" != "no"; then
+if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
 	for option in -Wsign-promo -Wsign-compare -Wpointer-arith -Wnested-externs -Wchar-subscripts -Wwrite-strings; do
 		SAVE_CFLAGS="$CFLAGS"
 		CFLAGS="$CFLAGS $option"
@@ -69,7 +69,7 @@ AC_ARG_WITH(long_double,
 	[--{with,without}-long-double		Use long double for floating point],
 	[if test "x$withval" = xyes; then
 		AC_C_LONG_DOUBLE
-		if test "$ac_cv_c_long_double" != "yes"; then
+		if test "x$ac_cv_c_long_double" != "xyes"; then
 			AC_MSG_ERROR([Long double type is not available.])
 		fi
 
@@ -85,7 +85,7 @@ AC_ARG_WITH(long_double,
 				  ,
 				  AC_CHECK_LIB(sunmath,
 				      $ldfunc,
-				      [ if test "$need_sunmath" = "no"; then
+				      [ if test "x$need_sunmath" = "xno"; then
 					    # FIXME: better idea?
 					    LDFLAGS="$LDFLAGS -L/opt/SUNWspro/lib -R/opt/SUNWspro/lib -lsunmath"
 					    sunmathinclude=`ls -d /opt/SUNWspro/*/include/cc | tail -1`
@@ -95,14 +95,14 @@ AC_ARG_WITH(long_double,
 				      AC_MSG_ERROR([Long doubles require the $ldfunc function.]),
 				      -L/opt/SUNWspro/lib $GNUMERIC_LIBS)))
 		done
-		if test "$need_sunmath" = "yes"; then
+		if test "x$need_sunmath" = "xyes"; then
 			AC_CHECK_HEADERS([sunmath.h floatingpoint.h],
 					 ,
 					 AC_MSG_ERROR([Long doubles require the sunmath.h header.]))
 		fi
 		AC_CHECK_FUNCS(modfl frexpl ldexpl strtold string_to_decimal decimal_to_quadruple)
 
-		if test "$ac_cv_func_strtold" = "yes"; then
+		if test "x$ac_cv_func_strtold" = "xyes"; then
 			AC_MSG_CHECKING([if we must prototype strtold ourselves])
 			AC_TRY_RUN([
 				#include <stdlib.h>
@@ -119,15 +119,15 @@ AC_ARG_WITH(long_double,
 				 AC_DEFINE(MUST_PROTOTYPE_STRTOLD)],
 				AC_MSG_RESULT(assuming not));
 			true
-		elif test "$ac_cv_func_string_to_decimal" = "yes" -a \
-			  "$ac_cv_func_decimal_to_quadruple" = "yes" -a \
-			  "$ac_cv_header_floatingpoint_h" = "yes"; then
+		elif test "x$ac_cv_func_string_to_decimal" = "xyes" -a \
+			  "x$ac_cv_func_decimal_to_quadruple" = "xyes" -a \
+			  "x$ac_cv_header_floatingpoint_h" = "xyes"; then
 			true
 		else
 			AC_MSG_WARN([You lack the strtold function -- precision will be impaired])
 		fi
 
-		if test "$ac_cv_func_modfl" != "yes"; then
+		    if test "x$ac_cv_func_modfl" != "xyes"; then
 			AC_MSG_WARN([You lack the modfl function -- precision will be impaired])
 		fi
 

@@ -34,8 +34,17 @@
 #include "ms-excel-read.h"
 #include "ms-obj.h"
 
+#include <zlib.h>
+
 #undef G_LOG_DOMAIN
 #define G_LOG_DOMAIN "gnumeric:escher"
+
+/* #define NO_DEBUG_EXCEL */
+#ifndef NO_DEBUG_EXCEL
+#define d(level, code)	do { if (ms_excel_escher_debug > level) { code } } while (0)
+#else
+#define d(level, code)
+#endif
 
 /* A storage accumulator for common state information */
 typedef struct
@@ -63,7 +72,9 @@ typedef struct _MSEscherHeader
 
 	MSObjAttrBag *attrs;
 } MSEscherHeader;
-#define common_header_len 8
+
+#define COMMON_HEADER_LEN	 8
+#define META_FILE_HEADER_LEN	34
 
 /* NOTE : this does not init h->container or h->offset */
 static void
@@ -133,23 +144,18 @@ ms_escher_blip_free (MSEscherBlip *blip)
 static guint8 const *
 ms_escher_get_data (MSEscherState * state,
 		    gint offset,	/* bytes from logical start of the stream */
-		    gint num_bytes,	/* how many bytes we want, incl prefix */
-		    gint prefix,	/* number of bytes of header to skip */
+		    gint num_bytes,	/* how many bytes we want, NOT incl prefix */
 		    gboolean * needs_free)
 {
 	BiffQuery *q = state->q;
 	guint8    *res;
-
-	g_return_val_if_fail (num_bytes >= prefix, NULL);
-	offset += prefix;
-	num_bytes -= prefix;
 
 	g_return_val_if_fail (offset >= state->start_offset, NULL);
 
 	/* find the 1st containing record */
 	while (offset >= state->end_offset) {
 		if (!ms_biff_query_next (q)) {
-			g_warning ("unexpected end of stream;\n");
+			g_warning ("unexpected end of stream;");
 			return NULL;
 		}
 
@@ -157,19 +163,16 @@ ms_escher_get_data (MSEscherState * state,
 		    q->opcode != BIFF_MS_O_DRAWING_GROUP &&
 		    q->opcode != BIFF_MS_O_DRAWING_SELECTION &&
 		    q->opcode != BIFF_CONTINUE) {
-			g_warning ("Unexpected record type 0x%x len=0x%x\n", q->opcode, q->length);
+			g_warning ("Unexpected record type 0x%x len=0x%x;", q->opcode, q->length);
 			return NULL;
 		}
 
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_escher_debug > 1)
-			printf ("Target is 0x%x bytes at 0x%x, current = 0x%x..0x%x;\n"
-				"Adding biff-0x%x of length 0x%x;\n",
-				num_bytes, offset,
-				state->start_offset,
-				state->end_offset,
-				q->opcode, q->length);
-#endif
+		d (1, printf ("Target is 0x%x bytes at 0x%x, current = 0x%x..0x%x;\n"
+			      "Adding biff-0x%x of length 0x%x;\n",
+			      num_bytes, offset,
+			      state->start_offset,
+			      state->end_offset,
+			      q->opcode, q->length););
 
 		state->start_offset = state->end_offset;
 		state->end_offset += q->length;
@@ -185,24 +188,18 @@ ms_escher_get_data (MSEscherState * state,
 		int len = q->length - (res - q->data);
 		int counter = 0;
 
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_escher_debug > 1)
-			printf ("MERGE needed (%d+%d) >= %d;\n",
-				offset, num_bytes, state->end_offset);
-#endif
+		d (1, printf ("MERGE needed (%d) which is >= %d + %d;\n",
+			      num_bytes, offset, state->end_offset););
 
 		do {
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_escher_debug > 1)
-				printf ("record %d) add %d bytes;\n", ++counter, len);
-#endif
+			d (1, printf ("record %d) add %d bytes;\n", ++counter, len););
 			/* copy necessary portion of current record */
 			memcpy (tmp, res, len);
 			tmp += len;
 
 			/* Get next record */
 			if (!ms_biff_query_next (q)) {
-				g_warning ("unexpected end of stream;\n");
+				g_warning ("unexpected end of stream;");
 				return NULL;
 			}
 
@@ -211,7 +208,7 @@ ms_escher_get_data (MSEscherState * state,
 			    q->opcode != BIFF_MS_O_DRAWING_GROUP &&
 			    q->opcode != BIFF_MS_O_DRAWING_SELECTION &&
 			    q->opcode != BIFF_CONTINUE) {
-				g_warning ("Unexpected record type 0x%x\n", q->opcode);
+				g_warning ("Unexpected record type 0x%x;", q->opcode);
 				return NULL;
 			}
 
@@ -226,10 +223,7 @@ ms_escher_get_data (MSEscherState * state,
 
 		/* Copy back stub */
 		memcpy (tmp, res, num_bytes - (tmp-buffer));
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_escher_debug > 1)
-			printf ("record %d) add %d bytes;\n", ++counter, num_bytes - (tmp-buffer));
-#endif
+		d (1, printf ("record %d) add %d bytes;\n", ++counter, num_bytes - (tmp-buffer)););
 		return buffer;
 	}
 
@@ -257,13 +251,11 @@ ms_escher_read_CLSID (MSEscherState * state, MSEscherHeader * h)
 static gboolean
 ms_escher_read_ColorMRU (MSEscherState * state, MSEscherHeader * h)
 {
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_escher_debug > 3) {
+	d (3 , {
 		guint const num_Colours = h->instance;
 		printf ("There are %d Colours in a record with remaining length %d;\n",
-			num_Colours, (h->len - common_header_len));
-	}
-#endif
+			num_Colours, (h->len - COMMON_HEADER_LEN));
+	});
 
 	/* Colors in order from left to right.  */
 	/* TODO : When we know how to parse a Colour record read these */
@@ -279,18 +271,15 @@ ms_escher_read_SplitMenuColors (MSEscherState * state, MSEscherHeader * h)
 	g_return_val_if_fail (h->instance == 4, TRUE);
 	g_return_val_if_fail (h->len == 24, TRUE); /* header + 4*4 */
 
-	if ((data = ms_escher_get_data (state, h->offset, 24,
-					common_header_len, &needs_free))) {
+	if ((data = ms_escher_get_data (state, h->offset + COMMON_HEADER_LEN,
+					16, &needs_free))) {
 		guint32 const top_level_fill = MS_OLE_GET_GUINT32(data + 0);
 		guint32 const line	= MS_OLE_GET_GUINT32(data + 4);
 		guint32 const shadow	= MS_OLE_GET_GUINT32(data + 8);
 		guint32 const threeD	= MS_OLE_GET_GUINT32(data + 12);
 
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_escher_debug > 0)
-			printf ("top_level_fill = 0x%x;\nline = 0x%x;\nshadow = 0x%x;\nthreeD = 0x%x;\n",
-				top_level_fill, line, shadow, threeD);
-#endif
+		d (0, printf ("top_level_fill = 0x%x;\nline = 0x%x;\nshadow = 0x%x;\nthreeD = 0x%x;\n",
+			      top_level_fill, line, shadow, threeD););
 	} else
 		return TRUE;
 	return FALSE;
@@ -321,9 +310,8 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 {
 	/* read the header */
 	gboolean needs_free;
-	guint8 const * data =
-		ms_escher_get_data (state, h->offset, 36,
-				    common_header_len, &needs_free);
+	guint8 const * data = ms_escher_get_data (state,
+		h->offset + COMMON_HEADER_LEN, 36, &needs_free);
 	guint8 const  win_type	= MS_OLE_GET_GUINT8  (data + 0);
 	guint8 const  mac_type	= MS_OLE_GET_GUINT8  (data + 1);
 	/*guint16 const tag	= MS_OLE_GET_GUINT16 (data + 18);*/
@@ -338,8 +326,7 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 	for (i = 16; i-- > 0;)
 		checksum[i] = MS_OLE_GET_GUINT8 (data + 2 + i);
 
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_escher_debug > 0) {
+	d (0 , {
 		printf ("Win type = %s;\n", bliptype_name (win_type));
 		printf ("Mac type = %s;\n", bliptype_name (mac_type));
 		printf ("Size = 0x%x(=%d) RefCount = 0x%x DelayOffset = 0x%x '%s';\n",
@@ -355,8 +342,7 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 		for (i = 0; i < 16; ++i)
 			printf ("%02x", checksum[i]);
 		printf (";\n");
-	}
-#endif
+	});
 
 	/* Very red herring I think */
 	if (name_len != 0) {
@@ -365,7 +351,7 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 	}
 
 	/* Ignore empties */
-	if (h->len > 36 + common_header_len)
+	if (h->len > 36 + COMMON_HEADER_LEN)
 		return ms_escher_read_container (state, h, 36);
 
 	/* Store a blank */
@@ -376,12 +362,12 @@ ms_escher_read_BSE (MSEscherState * state, MSEscherHeader * h)
 static gboolean
 ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 {
-	int blip_header = -1, primary_uid_size = 0;
-	guint32 blip_instance = h->instance;
-	gboolean res = FALSE;
+	int offset = COMMON_HEADER_LEN + 16;
+	guint32 inst = h->instance;
+	gboolean needs_free, failure = FALSE;
+	guint8 const *data;
 	MSEscherBlip *blip = NULL;
 	char const   *type = NULL;
-
 
 	/*  This doesn't make alot of sense.
 	 *  Which is the normative indicator of what type the blip is ?
@@ -390,7 +376,7 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 	 *  things to use, but the comments from S59FE3.HTM
 	 *
 	 *  NOTE!: The primary UID is only saved to disk
-	 *     if (blip_instance ^ blip_signature == 1).
+	 *     if (inst ^ blip_signature == 1).
 	 *
 	 * suggest that sometimes the magic numers have built flags.
 	 * I'll assume that what they mean to say is that the magic number
@@ -398,61 +384,83 @@ ms_escher_read_Blip (MSEscherState * state, MSEscherHeader * h)
 	 * presence of a primary uid if the rest of the signature is one
 	 * of the known signatures.
 	 */
-	if (blip_instance & 0x1) {
-		primary_uid_size = 16;
-		blip_instance &= (~0x1);
+	if (inst & 0x1) {
+		offset += 16;
+		inst &= (~0x1);
 	}
 
 	/* Clients may set bit 0x800 */
-	blip_instance &= (~0x800);
+	inst &= (~0x800);
+	if (inst == 0x216 || inst == 0x3d4 || inst == 0x542) {
+		guint8 const *tmp = ms_escher_get_data (state, h->offset + offset,
+			META_FILE_HEADER_LEN, &needs_free);
+		guint32 uncompressed_len = MS_OLE_GET_GUINT32 (tmp+0);
+		guint32 compressed_len = MS_OLE_GET_GUINT32 (tmp+28);
+		guint8  compress = tmp[32];
+		guint8  filter	 = tmp[33];
 
-/*
- * TODO : read /scratch/openoffice/svx/source/msfilter/msdffimp.cxx
- */
-	switch (blip_instance) {
-	case 0x216 : /* compressed WMF, with Metafile header */
-		type = "wmf.gz";
-		blip_header = 20 + 8 + 6;
-		break;
-	case 0x3d4 : /* compressed EMF, with Metafile header */
-		type = "emf.gz";
-		blip_header = 20 + 8 + 6;
-		break;
-	case 0x542 : /* compressed PICT, with Metafile header */
-		type = "pict.gz";
-		blip_header = 20 + 8 + 6;
-		break;
-	case 0x46a : /* JPEG data, with 1 byte header */
-		type = "jpeg";
-		blip_header = 1;
-		break;
-	case 0x6e0 : /* PNG  data, with 1 byte header */
-		type = "png";
-		blip_header = 1;
-		break;
-	case 0x7a8 : /* DIB  data, with 1 byte header */
-		type = "dib";
-		blip_header = 1;
-		break;
+		if (needs_free)
+			g_free ((guint8*)tmp);
+		offset += META_FILE_HEADER_LEN;
 
-	default:
-		res = TRUE;
-		g_warning ("Don't know what to do with this image %x\n",
-			   h->instance);
-	};
+		if (inst == 0x216)
+			type = "wmf";
+		else if (inst == 0x3d4)
+			type = "emf";
+		else
+			type = "pict";
 
-	if (blip_header >= 0) {
-		int const header = blip_header + 16 + primary_uid_size + common_header_len;
-		gboolean needs_free;
-		guint8 const *data = ms_escher_get_data (state, h->offset, h->len,
-			header, &needs_free);
-		blip = ms_escher_blip_new ((guint8 *)data, h->len - header, type,
+		if (filter != 0xfe /* must be none */	||
+		    (unsigned)(h->len - offset) != compressed_len) {
+			failure = TRUE;
+			g_warning ("invalid metafile header;");
+		} else {
+			tmp = ms_escher_get_data (state, h->offset + offset,
+				compressed_len, &needs_free);
+			if (compress == 0) {		/* Yes 0 == deflate */
+				uLongf len = uncompressed_len*4;
+				guint8 *buffer = g_malloc (len);
+
+				int res = uncompress (buffer, &len, tmp, compressed_len);
+				printf ("%d v %ld\n", uncompressed_len, len);
+				if (res != Z_OK) {
+					g_free (buffer);
+					failure = TRUE;
+					g_warning ("compression failure %d;", res);
+				} else
+					blip = ms_escher_blip_new (buffer,
+						len, type, FALSE);
+			} else if (compress == 0xfe) {	/* 0xfe  == none */
+				blip = ms_escher_blip_new ((guint8 *)tmp, compressed_len,
+					type, !needs_free);
+				needs_free = FALSE;
+			} else {
+				failure = TRUE;
+				g_warning ("Unknown compression type %hhx;", compress);
+			}
+			if (needs_free)
+				g_free ((guint8*)tmp);
+		}
+	} else if (inst == 0x46a || inst == 0x6e0 || inst == 0x7a8) {
+		if (inst == 0x46a)	/* JPEG data, with 1 byte header */
+			type = "jpeg";
+		else if (inst == 0x6e0)	/* PNG  data, with 1 byte header */
+			type = "png";
+		else			/* DIB  data, with 1 byte header */
+			type = "dib";
+		offset++;
+		data = ms_escher_get_data (state, h->offset + offset,
+			h->len - offset, &needs_free);
+		blip = ms_escher_blip_new ((guint8 *)data, h->len - offset, type,
 			!needs_free);
+	} else {
+		failure = TRUE;
+		g_warning ("Don't know what to do with this image %x;", inst);
 	}
 
 	/* Always add a blip to keep the indicies in sync, even if its NULL */
 	ms_container_add_blip (state->container, blip);
-	return res;
+	return failure;
 }
 
 static gboolean
@@ -616,11 +624,8 @@ ms_escher_read_Spgr (MSEscherState * state, MSEscherHeader * h)
 	g_return_val_if_fail (h->instance >= 0, TRUE);
 	g_return_val_if_fail (h->instance <= 202, TRUE);
 
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_escher_debug > 0)
-		printf ("%s (0x%x);\n", shape_names[h->instance],
-			h->instance);
-#endif
+	d (0, printf ("%s (0x%x);\n", shape_names[h->instance],
+		      h->instance););
 	return FALSE;
 }
 
@@ -628,17 +633,14 @@ static gboolean
 ms_escher_read_Sp (MSEscherState * state, MSEscherHeader * h)
 {
 	gboolean needs_free;
-	guint8 const *data =
-		ms_escher_get_data (state, h->offset, 8,
-				    common_header_len, &needs_free);
+	guint8 const *data = ms_escher_get_data (state,
+		h->offset + COMMON_HEADER_LEN, 8, &needs_free);
 
 	if (data != NULL) {
 		guint32 const spid  = MS_OLE_GET_GUINT32 (data+0);
 		guint32 const flags = MS_OLE_GET_GUINT32 (data+4);
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_escher_debug > 0)
-			printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n",
-				spid, h->instance,
+		d (0, printf ("SPID %d, Type %d,%s%s%s%s%s%s%s%s%s%s%s;\n",
+			      spid, h->instance,
 				(flags&0x01) ? " Group": "",
 				(flags&0x02) ? " Child": "",
 				(flags&0x04) ? " Patriarch": "",
@@ -650,8 +652,7 @@ ms_escher_read_Sp (MSEscherState * state, MSEscherHeader * h)
 				(flags&0x100) ? " Connector":"",
 				(flags&0x200) ? " HasAnchor": "",
 				(flags&0x400) ? " TypeProp": ""
-			       );
-#endif
+			       ););
 		if (flags & 0x40)
 			ms_escher_header_add_attr (h,
 				ms_object_attr_new_flag (MS_OBJ_ATTR_FLIP_H));
@@ -698,8 +699,8 @@ ms_escher_read_ClientAnchor (MSEscherState *state, MSEscherHeader *h)
 	g_return_val_if_fail (state != NULL, TRUE);
 	g_return_val_if_fail (state->container != NULL, TRUE);
 
-	data = ms_escher_get_data (state, h->offset, MS_ANCHOR_SIZE,
-				   common_header_len, &needs_free);
+	data = ms_escher_get_data (state, h->offset + COMMON_HEADER_LEN,
+		MS_ANCHOR_SIZE, &needs_free);
 	if (data) {
 		guint8 *anchor = g_malloc (MS_ANCHOR_SIZE);
 		memcpy (anchor, data, MS_ANCHOR_SIZE);
@@ -765,7 +766,7 @@ static gboolean
 ms_escher_read_Dg (MSEscherState *state, MSEscherHeader *h)
 {
 #if 0
-	guint8 const *data = h->data + common_header_len;
+	guint8 const *data = h->data + COMMON_HEADER_LEN;
 	guint32 num_shapes = MS_OLE_GET_GUINT32(data);
 	/* spid_cur = last SPID given to an SP in this DG :-)  */
 	guint32 spid_cur   = MS_OLE_GET_GUINT32(data+4);
@@ -795,7 +796,7 @@ ms_escher_read_Dgg (MSEscherState *state, MSEscherHeader *h)
 
 	FDGG fd;
 	guint32 lp;
-	guint8 const *data = h->data + common_header_len;
+	guint8 const *data = h->data + COMMON_HEADER_LEN;
 	fd.id_clusts = g_array_new (1, 1, sizeof(ID_CLUST));
 	fd.max_spid           = MS_OLE_GET_GUINT32(data+ 0);
 	fd.num_id_clust       = MS_OLE_GET_GUINT32(data+ 4);
@@ -1092,9 +1093,8 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 {
 	int const num_properties = h->instance;
 	gboolean needs_free;
-	guint8 const * const data =
-		ms_escher_get_data (state, h->offset, h->len,
-				    common_header_len, &needs_free);
+	guint8 const *data = ms_escher_get_data (state,
+		h->offset + COMMON_HEADER_LEN, h->len, &needs_free);
 	guint8 const *fopte = data;
 	guint8 const *extra = fopte + 6*num_properties;
 	guint prev_pid = 0; /* A debug tool */
@@ -1102,7 +1102,7 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 	int i;
 
 	/* lets be really careful */
-	g_return_val_if_fail (6*num_properties + common_header_len <= h->len, TRUE);
+	g_return_val_if_fail (6*num_properties + COMMON_HEADER_LEN <= h->len, TRUE);
 
 	for (i = 0; i < num_properties; ++i, fopte += 6) {
 		guint16 const tmp = MS_OLE_GET_GUINT32(fopte);
@@ -1742,18 +1742,16 @@ ms_escher_read_OPT (MSEscherState *state, MSEscherHeader *h)
 		default : name = "";
 		};
 
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_escher_debug > 0)
-			printf ("%s %d = 0x%x (=%d) %s%s;\n", name, pid, val, val,
-				is_blip ? " is blip" : "",
-				is_complex ? " is complex" : "");
-#endif
+		d (0, printf ("%s %d = 0x%x (=%d) %s%s;\n", name, pid, val, val,
+			      is_blip ? " is blip" : "",
+			      is_complex ? " is complex" : ""););
+
 		/* TODO : use this for something */
 		if (is_complex) {
 			extra += val;
 
 			/* check for over run */
-			g_return_val_if_fail (extra - data + common_header_len <= h->len, TRUE);
+			g_return_val_if_fail (extra - data + COMMON_HEADER_LEN <= h->len, TRUE);
 		}
 
 		if (id & MS_OBJ_ATTR_IS_INT_MASK)
@@ -1790,7 +1788,7 @@ ms_escher_read_ClientTextbox (MSEscherState *state, MSEscherHeader *h)
 	guint16 opcode;
 	int has_next_record;
 
-	g_return_val_if_fail (h->len == common_header_len, TRUE);
+	g_return_val_if_fail (h->len == COMMON_HEADER_LEN, TRUE);
 	g_return_val_if_fail (h->offset + h->len == state->end_offset, TRUE);
 
 	/* Read the TXO, be VERY careful until we are sure of the state */
@@ -1813,7 +1811,7 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 	guint16 opcode;
 	int has_next_record;
 
-	g_return_val_if_fail (h->len == common_header_len, TRUE);
+	g_return_val_if_fail (h->len == COMMON_HEADER_LEN, TRUE);
 	g_return_val_if_fail (h->offset + h->len == state->end_offset, TRUE);
 
 	/* Read the OBJ, be VERY careful until we are sure of the state */
@@ -1842,7 +1840,7 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 	h.container = container;
 
 	/* Skip the common header */
-	h.offset = container->offset + prefix + common_header_len;
+	h.offset = container->offset + prefix + COMMON_HEADER_LEN;
 
 	do {
 		guint16 tmp;
@@ -1851,9 +1849,8 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 				    MSEscherHeader *container) = NULL;
 		gboolean needs_free;
 
-		guint8 const *data =
-			ms_escher_get_data (state, h.offset, common_header_len,
-					    0, &needs_free);
+		guint8 const *data = ms_escher_get_data (state, h.offset,
+			COMMON_HEADER_LEN, &needs_free);
 
 		if (!data) {
 			ms_escher_header_release (&h);
@@ -1864,16 +1861,12 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 		h.fbt	= MS_OLE_GET_GUINT16 (data + 2);
 
 		/* Include the length of this header in the record size */
-		h.len	   = MS_OLE_GET_GUINT32 (data + 4) + common_header_len;
+		h.len	   = MS_OLE_GET_GUINT32 (data + 4) + COMMON_HEADER_LEN;
 		h.ver      = tmp & 0x0f;
 		h.instance = (tmp >> 4) & 0xfff;
 
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_escher_debug > 0) {
-			printf ("length 0x%x(=%d), ver 0x%x, instance 0x%x, offset = 0x%x(=%d);\n",
-				h.len, h.len, h.ver, h.instance, h.offset, h.offset);
-		}
-#endif
+		d (0 , printf ("length 0x%x(=%d), ver 0x%x, instance 0x%x, offset = 0x%x(=%d);\n",
+			       h.len, h.len, h.ver, h.instance, h.offset, h.offset););
 
 		if (needs_free)
 			g_free ((void *)data);
@@ -1929,24 +1922,18 @@ ms_escher_read_container (MSEscherState *state, MSEscherHeader *container,
 			/* Not really needed */
 			g_return_val_if_fail (handler != NULL, TRUE);
 
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_escher_debug > 0)
-				printf ("{ /* %s */\n", fbt_name);
-#endif
+			d (0, printf ("{ /* %s */\n", fbt_name););
 			res = (*handler)(state, &h);
 
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_escher_debug > 0)
-				printf ("}; /* %s */\n", fbt_name);
-#endif
+			d (0, printf ("}; /* %s */\n", fbt_name););
 			if (res) {
 				ms_escher_header_release (&h);
-				g_warning ("%s;\n", fbt_name);
+				g_warning ("%s;", fbt_name);
 				return TRUE;
 			}
 
 		} else
-			g_warning ("Invalid fbt = %x\n", h.fbt);
+			g_warning ("Invalid fbt = %x;", h.fbt);
 
 		h.offset += h.len;
 	} while (h.offset < (container->offset + container->len));
@@ -1980,11 +1967,10 @@ ms_escher_parse (BiffQuery *q, MSContainer *container)
 	else if (q->opcode != BIFF_MS_O_DRAWING_SELECTION)
 		drawing_record_name = "Drawing Selection";
 	else {
-		g_warning ("EXCEL : unexpected biff type %x\n", q->opcode);
+		g_warning ("EXCEL : unexpected biff type %x;", q->opcode);
 		return;
 	}
 
-	/*ms_excel_escher_debug = 2; */
 	state.container	   = container;
 	state.q		   = q;
 	state.segment_len  = q->length;
@@ -1995,16 +1981,8 @@ ms_escher_parse (BiffQuery *q, MSContainer *container)
 	fake_header.container = NULL;
 	fake_header.offset = 0;
 
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_escher_debug > 0)
-		printf ("{  /* Escher '%s'*/\n", drawing_record_name);
-#endif
-
-	ms_escher_read_container (&state, &fake_header, -common_header_len);
-
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_escher_debug > 0)
-		printf ("}; /* Escher '%s'*/\n", drawing_record_name);
-#endif
+	d (0, printf ("{  /* Escher '%s'*/\n", drawing_record_name););
+	ms_escher_read_container (&state, &fake_header, -COMMON_HEADER_LEN);
+	d (0, printf ("}; /* Escher '%s'*/\n", drawing_record_name););
 	ms_escher_header_release (&fake_header);
 }

@@ -4,7 +4,6 @@
  * Author:
  *    Miguel de Icaza 1999 (miguel@kernel.org)
  *
- * g_unichar_to_utf8: Copyright Red Hat, Inc
  * i18n of printing: Copyright 2001 by Vlad Harchev <hvv@hippo.ru>
  */
 #include <gnumeric-config.h>
@@ -56,51 +55,6 @@ print_hline (GnomePrintContext *context,
 	gnome_print_lineto (context, x2, y);
 	gnome_print_stroke (context);
 }
-
-#ifndef _PROPER_I18N
-/*
- * print_show_iso8859_1
- *
- * Like gnome_print_show, but expects an ISO 8859.1 string.
- *
- * NOTE: This function got introduced when gnome-print switched to UTF-8,
- * and will disappear again once Gnumeric makes the switch. Deprecated at
- * birth!
- */
-int
-print_show_iso8859_1 (GnomePrintContext *pc, char const *text)
-{
-	gchar *p, *utf, *udyn, ubuf[4096];
-	gint len, ret, i;
-
-	g_return_val_if_fail (pc && text, -1);
-
-	if (!*text)
-		return 0;
-
-	/* We need only length * 2, because iso-8859-1 is encoded in 1-2 bytes */
-	len = strlen (text);
-	if (len * 2 > sizeof (ubuf)) {
-		udyn = g_new (gchar, len * 2);
-		utf = udyn;
-	} else {
-		udyn = NULL;
-		utf = ubuf;
-	}
-	p = utf;
-
-	for (i = 0; i < len; i++) {
-		p += g_unichar_to_utf8 (((guchar *) text)[i], p);
-	}
-
-	ret = gnome_print_show_sized (pc, utf, p - utf);
-
-	if (udyn)
-		g_free (udyn);
-
-	return ret;
-}
-#endif
 
 int
 print_show (GnomePrintContext *pc, char const *text)

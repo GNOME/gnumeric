@@ -42,6 +42,13 @@ typedef struct {
 
 static SheetObjectClass *sheet_object_image_parent_class;
 
+/**
+ * sheet_object_image_new :
+ * @type : 
+ * @data :
+ * @data_len
+ * @copy_data :
+ */
 SheetObject *
 sheet_object_image_new (char const   *type,
 			guint8       *data,
@@ -133,7 +140,9 @@ soi_get_pixbuf (SheetObjectImage *soi, double scale)
 #warning Add optional use of libwmf here to handle wmf
 	loader = gdk_pixbuf_loader_new ();
 
-	if (!gdk_pixbuf_loader_write (loader, soi->data, soi->data_len, &err)) {
+	if (!strcmp (soi->type, "emf") ||
+	    !strcmp (soi->type, "wmf") ||
+	    !gdk_pixbuf_loader_write (loader, soi->data, soi->data_len, &err)) {
 
 		if (!soi->dumped) {
 			static int count = 0;

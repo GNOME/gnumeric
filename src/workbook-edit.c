@@ -438,15 +438,13 @@ wbcg_set_entry (WorkbookControlGUI *wbcg, GnumericExprEntry *entry)
 }
 
 static void
-guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
-			WorkbookControlGUI *wbcg)
+cb_guru_set_focus (GtkWidget *window, GtkWidget *focus_widget,
+		   WorkbookControlGUI *wbcg)
 {
-	if (focus_widget != NULL && IS_GNUMERIC_EXPR_ENTRY (focus_widget->parent)) {
-		wbcg_set_entry (wbcg,
-				GNUMERIC_EXPR_ENTRY (focus_widget->parent));
-	} else {
-		wbcg_set_entry (wbcg, NULL);
-	}
+	GnumericExprEntry *gee = NULL;
+	if (focus_widget != NULL && IS_GNUMERIC_EXPR_ENTRY (focus_widget->parent))
+		gee = GNUMERIC_EXPR_ENTRY (focus_widget->parent);
+	wbcg_set_entry (wbcg, gee);
 }
 
 void
@@ -470,7 +468,7 @@ wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 
 	g_signal_connect (G_OBJECT (guru),
 		"set-focus",
-		G_CALLBACK (guru_set_focus), wbcg);
+		G_CALLBACK (cb_guru_set_focus), wbcg);
 }
 
 void

@@ -98,7 +98,6 @@ typedef struct _ExcelWorkbook
 	char               **global_strings;
 	guint32              global_string_max;
 
-	gboolean warn_unsupported_images : 1;
 	gboolean warn_unsupported_graphs : 1;
 
 	/**

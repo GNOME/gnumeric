@@ -38,12 +38,21 @@ doc_DATA = index.html
 
 sgml_files = $(sgml_ents) $(docname).sgml
 
-omffile = gnumeric-C.omf
+omf_dir=$(top_srcdir)/omf-install
 
-EXTRA_DIST = $(sgml_files) $(doc_DATA) $(figs)
+EXTRA_DIST = $(sgml_files) $(doc_DATA) $(omffile) $(figs)
 
+CLEANFILES = omf_timestamp
 
-all: index.html
+all: index.html omf
+
+omf: omf_timestamp
+
+omf_timestamp: $(omffile)
+	-for file in $(omffile); do \
+	  scrollkeeper-preinstall $(docdir)/$(docname).sgml $(srcdir)/$$file $(omf_dir)/$$file; \
+	done
+	touch omf_timestamp
 
 index.html: $(docname)/index.html
 	-cp $(docname)/index.html .
@@ -80,10 +89,12 @@ app-dist-hook: index.html
 		cp $(srcdir)/topic.dat $(distdir); \
 	 fi
 
-install-data-am: index.html
+install-data-am: index.html omf
 	-$(mkinstalldirs) $(DESTDIR)$(docdir)/stylesheet-images
 	-$(mkinstalldirs) $(DESTDIR)$(docdir)/figures
-	-cp $(srcdir)/$(sgml_files) $(DESTDIR)$(docdir)
+	-for file in $(sgml_files); do			\
+	  cp $(srcdir)/$$file $(DESTDIR)$(docdir) ;	\
+	done
 	-for file in $(srcdir)/$(docname)/*.html $(srcdir)/$(docname)/*.css; do \
 	  basefile=`echo $$file | sed -e 's,^.*/,,'`; \
 	  $(INSTALL_DATA) $$file $(DESTDIR)$(docdir)/$$basefile; \

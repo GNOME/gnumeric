@@ -1,5 +1,5 @@
 omf_dest_dir=$(datadir)/omf/gnumeric
-scrollkeeper_localstate_dir = $(SCROLLKEEPER_LOCALSTATE_DIR)
+scrollkeeper_localstate_dir = $(localstatedir)/scrollkeeper
 
 install-data-local:
 	$(mkinstalldirs) $(DESTDIR)$(omf_dest_dir)

@@ -1,3 +1,21 @@
+2002-02-26  Jody Goldberg <jody@gnome.org>
+
+	* ms-escher.c (ms_escher_get_data) : clarify the interface.
+	(ms_escher_read_BSE) : fix call to ms_escher_get_data.
+	(ms_escher_read_Sp) : ditto.
+	(ms_escher_read_ClientAnchor) : ditto.
+	(ms_escher_read_OPT) : ditto.
+	(ms_escher_read_container) : ditto.
+	(ms_escher_read_Blip) : support decompress and validate emf & wmf.
+
+	* ms-excel-util.c (excel_iconv_open_for_import) : recognize that
+	cp1200 makes no sense in that context and fall back to 8859-1.
+
+2002-02-24  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=72459
+	* ms-formula-write.c (write_node) : fix typo.
+
 2002-02-26  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (biff_get_rk): Improve precision ever so

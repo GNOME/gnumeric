@@ -1123,19 +1123,14 @@ static void
 wbcg_progress_message_set (CommandContext *cc, gchar const *msg)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
-	GtkProgress *progress;
+	GtkProgressBar *progress;
 
 #ifdef ENABLE_BONOBO
-	progress = GTK_PROGRESS (wbcg->progress_bar);
+	progress = GTK_PROGRESS_BAR (wbcg->progress_bar);
 #else
 	progress = gnome_appbar_get_progress (wbcg->appbar);
 #endif
-	if (msg != NULL) {
-		gtk_progress_set_format_string (progress, msg);
-		gtk_progress_set_show_text (progress, TRUE);
-	} else {
-		gtk_progress_set_show_text (progress, FALSE);
-	}
+	gtk_progress_bar_set_text (progress, msg);
 }
 
 static void
@@ -3121,7 +3116,7 @@ static GnomeUIInfo workbook_menu_data [] = {
 };
 
 static GnomeUIInfo workbook_menu_help [] = {
-	GNOMEUIINFO_HELP ("gnumeric"),
+	GNOMEUIINFO_HELP ((char *)"gnumeric"),
         GNOMEUIINFO_MENU_ABOUT_ITEM (cb_help_about, NULL),
 	GNOMEUIINFO_END
 };

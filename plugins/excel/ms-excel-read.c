@@ -51,6 +51,9 @@
 #include <libgnome/gnome-i18n.h>
 #include <locale.h>
 
+#undef G_LOG_DOMAIN
+#define G_LOG_DOMAIN "gnumeric:read"
+
 #define N_BYTES_BETWEEN_PROGRESS_UPDATES   0x1000
 
 /* #define NO_DEBUG_EXCEL */
@@ -2492,7 +2495,6 @@ ms_excel_workbook_new (MsBiffVersion ver)
 	ans->global_string_max  = 0;
 	ans->read_drawing_group = 0;
 
-	ans->warn_unsupported_images = TRUE;
 	ans->warn_unsupported_graphs = TRUE;
 	return ans;
 }

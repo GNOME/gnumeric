@@ -457,13 +457,23 @@ excel_iconv_open_for_import (guint codepage)
 #ifndef HAVE_ICONV
 	return (excel_iconv_t)(-1);
 #else
-	char* src_charset;
 	iconv_t iconv_handle;
 
-	src_charset = g_strdup_printf ("CP%d",codepage);
-	iconv_handle = iconv_open (get_locale_charset_name (), src_charset);
-	g_free(src_charset);
-	return iconv_handle;
+	/* What the hell ?
+	 * this makes no sense.  UCS2 is a 2 byte encoding.
+	 * We only use this for 1 byte strings.  What does it mean
+	 * to say that all strings are 2 byte, then store them a 1 byte.
+	 * Make a big big guess and just assume 8859-1
+	 */
+	if (codepage != 1200) {
+		char* src_charset = g_strdup_printf ("CP%d", codepage);
+		iconv_handle = iconv_open ("UTF-8", src_charset);
+		g_free (src_charset);
+		if (iconv_handle != (excel_iconv_t)(-1))
+			return iconv_handle;
+		g_warning ("Unknown codepage %d", codepage);
+	}
+	return iconv_open ("UTF-8", "ISO-8859-1");
 #endif
 }
 
