@@ -533,7 +533,7 @@ wants_to_overwrite (Workbook *wb, char *name)
 {
 	GtkWidget *d, *button_no;
 	char *message = g_strdup_printf
-		(_("Workbook %s already exists\nDo you want to save over it?"),
+		(_("Workbook %s already exists.\nDo you want to save over it?"),
 		 name);
 	
 	d = gnome_message_box_new (

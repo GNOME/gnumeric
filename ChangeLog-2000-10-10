@@ -1,3 +1,7 @@
+2000-04-14  Karl EICHWALDER  <ke@suse.de>
+
+	* src/file.c (wants_to_overwrite): Add missing dot.
+
 2000-04-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/print.c : make ENABLE_BONOBO_PRINT conditional on ENABLE_BONOBO.
