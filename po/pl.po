@@ -1,54 +1,54 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-08-22 16:06-0500\n"
-"PO-Revision-Date: 1999-02-12 16:18+0100\n"
-"Last-Translator: Zbigniew Chyla <cyba@t19.ds.pwr.wroc.pl>\n"
+"Project-Id-Version: gnumeric\n"
+"POT-Creation-Date: 1999-08-29 16:46+0200\n"
+"PO-Revision-Date: 1999-07-23 14:45+CET\n"
+"Last-Translator: GNOME PL Team\n"
+"Language-Team: Polish <gnomepl@pandora.info.bielsko.pl>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
 
 #: plugins/excel/boot.c:75
 msgid "Saving over old files disabled for safety"
-msgstr ""
+msgstr "Nadpisywanie plików zosta³o dla bezpieczeñstwa zablokowane"
 
 #: plugins/excel/boot.c:83
 msgid "Can't open"
-msgstr ""
+msgstr "Nie mo¿na otworzyæ"
 
 #: plugins/excel/boot.c:116
 msgid "Microsoft(R) Excel file format"
-msgstr ""
+msgstr "Format pliku Microsoft(R) Excel"
 
 #: plugins/excel/boot.c:117
 msgid "Excel(R) 97 file format"
-msgstr ""
+msgstr "Format pliku Excel(R) 97"
 
 #: plugins/excel/boot.c:118
 msgid "Excel(R) 95 file format"
-msgstr ""
+msgstr "Format pliku Excel(R) 95"
 
 #: plugins/excel/ms-excel-read.c:264
 msgid "#UNKNOWN!"
-msgstr ""
+msgstr "#NIEZNANY!"
 
 #: plugins/excel/ms-formula-read.c:645
-#, fuzzy
 msgid "Unknown Function"
-msgstr "Nieznany b³±d obliczeñ"
+msgstr "Nieznana funkcja"
 
 #: plugins/excel/ms-formula-read.c:690
 msgid "Broken function"
-msgstr ""
+msgstr "Uszkodzona funkcja"
 
 #: plugins/excel/ms-formula-read.c:1385
-#, fuzzy
 msgid " Unknown formula"
-msgstr "Nieznany b³±d obliczeñ"
+msgstr ""
 
 #: plugins/ff-csv/csv-io.c:52
-#, fuzzy, c-format
+#, c-format
 msgid "Imported %s"
-msgstr "_Format"
+msgstr "Zaimportowano %s"
 
 #: plugins/ff-csv/csv-io.c:82
 msgid "Comma Separated Value (CSV) import"
@@ -60,128 +60,126 @@ msgstr ""
 
 #: plugins/guile/plugin.c:219
 msgid "Argument must be a Guile expression"
-msgstr ""
+msgstr "Argument musi byæ wyra¿eniem Guile"
 
-#: plugins/guile/plugin.c:237 src/expr.c:502 src/fn-information.c:334
-#: src/fn-information.c:394 src/fn-information.c:416 src/fn-information.c:437
-#: src/fn-information.c:477 src/fn-information.c:501 src/fn-information.c:557
-#: src/fn-logical.c:159 src/fn-lookup.c:443 src/fn-sheet.c:35
-#: src/fn-string.c:293
+#: plugins/guile/plugin.c:237 src/expr.c:502
+#: src/functions/fn-information.c:334 src/functions/fn-information.c:394
+#: src/functions/fn-information.c:416 src/functions/fn-information.c:437
+#: src/functions/fn-information.c:477 src/functions/fn-information.c:501
+#: src/functions/fn-information.c:557 src/functions/fn-logical.c:159
+#: src/functions/fn-lookup.c:443 src/functions/fn-sheet.c:35
+#: src/functions/fn-string.c:293
 msgid "Invalid number of arguments"
 msgstr "Niew³a¶ciwa liczba argumentów"
 
 #: plugins/guile/plugin.c:241 plugins/guile/plugin.c:245
 msgid "First argument to SCM must be a Guile expression"
-msgstr ""
+msgstr "Pierwszym argumentem SCM musi byæ wyra¿enie Guile"
 
 #: plugins/guile/plugin.c:249
 msgid "Undefined scheme function"
-msgstr ""
+msgstr "Niezdefiniowana funkcja scheme"
 
 #: plugins/guile/plugin.c:265
 msgid "Could not evaluate argument"
-msgstr ""
+msgstr "Nie mo¿na obliczyæ argumentu"
 
 #: plugins/guile/plugin.c:375
-#, fuzzy
 msgid "Unable to lookup Guile function."
-msgstr "nie mo¿na wczytaæ pliku z modu³em: "
+msgstr "Nie mo¿na odnale¼æ funkcji Guile."
 
 #: plugins/guile/plugin.c:439
-#, fuzzy
 msgid "Guile Plugin"
-msgstr "Pluginy Gnumeric"
+msgstr "Wtyczka Guile"
 
 #: plugins/html/boot.c:65
 msgid "HTML 3.2 file format (*.html)"
-msgstr ""
+msgstr "Format pliku HTML 3.2 (*.html)"
 
 #: plugins/html/boot.c:67
 msgid "HTML 4.0 file format (*.html)"
-msgstr ""
+msgstr "Format pliku HTML 4.0 (*.html)"
 
 #: plugins/html/boot.c:69
 msgid "HTML file made by gnumeric"
-msgstr ""
+msgstr "Plik HTML utworzony przez gnumerica"
 
 #: plugins/html/boot.c:73
 msgid "LaTeX file format (*.tex)"
-msgstr ""
+msgstr "Format  pliku LaTeX (*.tex)"
 
 #: plugins/html/boot.c:75
 msgid "LaTeX2e file format (*.tex)"
-msgstr ""
+msgstr "Format pliku LaTeX2e (*.tex)"
 
 #: plugins/html/boot.c:78
 msgid "PS file format (via groff)"
-msgstr ""
+msgstr "Format pliku PS (prez groffa)"
 
 #: plugins/html/boot.c:80
 msgid "DVI TeX file format (via groff)"
-msgstr ""
+msgstr "Format pliku DVI (prez groffa)"
 
 #: plugins/html/boot.c:82
-#, fuzzy
 msgid "TROFF file format (*.me)"
-msgstr "Format komórki"
+msgstr "Format pliku TROFF (*.me)"
 
 #: plugins/html/boot.c:84
 msgid "PDF file format (via groff/gs)"
-msgstr ""
+msgstr "Format pliku PDF (prez groffa/gs)"
 
 #: plugins/html/boot.c:87
 msgid "EPS file format (*.eps)"
-msgstr ""
+msgstr "Format pliku EPS (*.eps)"
 
 #: plugins/html/boot.c:100
 msgid "HTML (simple html export/import plugin)"
-msgstr ""
+msgstr "HTML (prosta wtyczka importu/eksportu HTML-a)"
 
 #: plugins/lotus-123/boot.c:88
 msgid "Lotus (*.wk1) file format"
-msgstr ""
+msgstr "Format pliku Lotus (*.wk1)"
 
 #: plugins/lotus-123/boot.c:94
 msgid "Lotus 123 file import/export plugin"
-msgstr ""
+msgstr "Wtyczka importu/eksportu plików Lotus 123"
 
 #: plugins/python/python.c:101
 msgid "Unable to lookup Python code object."
-msgstr ""
+msgstr "Nie mo¿na odnale¼æ obiektu kodu Pythona"
 
 #. XXX should popup window with exception info
 #: plugins/python/python.c:116
 msgid "Python exception."
-msgstr ""
+msgstr "Wyj±tek Pythona."
 
 #: plugins/python/python.c:137
 msgid "object must be callable"
-msgstr ""
+msgstr "obiekt musi byæ wywo³ywalny"
 
 #: plugins/python/python.c:143
 msgid "could not alloc FuncDef"
-msgstr ""
+msgstr "nie mo¿na zaalokowaæ FuncDef"
 
 #: plugins/python/python.c:147
 msgid "Perl"
-msgstr ""
+msgstr "Perl"
 
 #: plugins/python/python.c:173
 msgid "Gnumeric/Python module initialized\n"
-msgstr ""
+msgstr "Modu³ Gnumeric/Python zainicjowany\n"
 
 #: plugins/python/python.c:186
 msgid "Python Plugin"
-msgstr ""
+msgstr "Wtyczka Python"
 
 #: plugins/sample/plugin-sample.c:49
-#, fuzzy
 msgid "Sample Plugin"
-msgstr "Pluginy Gnumeric"
+msgstr "Przyk³adowa wtyczka"
 
 #: plugins/stat/stat.c:27
 msgid "OLD Statistics Plugin, not required anymore"
-msgstr ""
+msgstr "Stara wtyczka statystyczna, zbêdna"
 
 #: plugins/text/text-io.c:305
 #, c-format
@@ -189,79 +187,80 @@ msgid ""
 "While opening %s\n"
 "%s"
 msgstr ""
+"Podczas otwierania %s\n"
+"%s"
 
 #: plugins/text/text-io.c:337
 msgid "NoName"
 msgstr "BezNazwy"
 
 #: plugins/text/text-io.c:428
-#, fuzzy
 msgid "Simple Text Format"
-msgstr "Format komórki"
+msgstr "Prosty format tekstowy"
 
 #: plugins/text/text-io.c:458
 msgid "TXT (simple text import/export plugin)"
-msgstr ""
+msgstr "TXT (prosta wtyczka importu/eksportu tekstu)"
 
 #: plugins/xbase/boot.c:207
 msgid "Xbase (*.dbf) file format"
-msgstr ""
+msgstr "Format pliku Xbase (*.dbf)"
 
 #: plugins/xbase/boot.c:214
 msgid "XBase file import/export plugin"
-msgstr ""
+msgstr "Wtyczka importu/eksportu plików Xbase"
 
 #: src/about.c:24
 msgid "Miguel de Icaza, main programmer."
-msgstr ""
+msgstr "Miguel de Icaza, g³ówny programista."
 
 #: src/about.c:25
 msgid "Sean Atkinson, Functions and X-Base importing."
-msgstr ""
+msgstr "Sean Atkinson, funkcje oraz importowanie xbase."
 
 #: src/about.c:26
 msgid "Tom Dyas, Plugin support."
-msgstr ""
+msgstr "Tom Dyas, Obs³uga wtyczek."
 
 #: src/about.c:27
 msgid "Jody Goldberg, Excel hacker."
-msgstr ""
+msgstr "Jody Goldberg, Excel hacker."
 
 #: src/about.c:28
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
-msgstr ""
+msgstr "Jukka-Pekka Iivonen, wiele funkcji i narzêdzi."
 
 #: src/about.c:29
 msgid "Jakub Jelinek, Gnumeric hacker."
-msgstr ""
+msgstr "Jakub Jelinek, Gnumeric hacker."
 
 #: src/about.c:30
 msgid "Chris Lahey, Number format engine."
-msgstr ""
+msgstr "Chris Lahey, Mechanizm formatowania liczb."
 
 #: src/about.c:31
 msgid "Adrian Likins, Documentation, debugging."
-msgstr ""
+msgstr "Adrian Likins, Dokumentacja, poprawianie b³êdów."
 
 #: src/about.c:32
 msgid "Takashi Matsuda, simple text plugin."
-msgstr ""
+msgstr "Takashi Matsuda, wtyczka tekstowa."
 
 #: src/about.c:33
 msgid "Federico Mena, Canvas support."
-msgstr ""
+msgstr "Federico Mena, Obs³uga GnomeCanvas."
 
 #: src/about.c:34
 msgid "Michael Meeks, Excel and OLE2 importing."
-msgstr ""
+msgstr "Michael Meeks, Excel i importowanie OLE2."
 
 #: src/about.c:35
 msgid "Mark Probst, Guile support."
-msgstr ""
+msgstr "Mark Probst, obs³uga Guile."
 
 #: src/about.c:36
 msgid "Rasca, HTML, troff, LaTeX exporters."
-msgstr ""
+msgstr "Rasca, export HTML, troff i LaTeX."
 
 #: src/about.c:37
 msgid "Vincent Renardias, CSV support, French localisation."
@@ -269,19 +268,19 @@ msgstr ""
 
 #: src/about.c:38
 msgid "Bruno Unna, Excel bits."
-msgstr ""
+msgstr "Bruno Unna, kod Excel."
 
 #: src/about.c:39
 msgid "Daniel Veillard, XML support."
-msgstr ""
+msgstr "Daniel Veillard, obs³uga XML."
 
 #: src/about.c:40
 msgid "Vladimir Vuksan, financial functions."
-msgstr ""
+msgstr "Vladimir Vuksan, funkcje finansowe."
 
 #: src/about.c:41
 msgid "Morten Welinder, Gnumeric hacker."
-msgstr ""
+msgstr "Morten Welinder, Gnumeric hacker."
 
 #: src/about.c:55
 msgid "Gnumeric"
@@ -289,25 +288,24 @@ msgstr "Gnumeric"
 
 #: src/about.c:56
 msgid "(C) 1998-1999 Miguel de Icaza"
-msgstr ""
+msgstr "(C) 1998-1999 Miguel de Icaza"
 
 #: src/about.c:63
-#, fuzzy
 msgid "Gnumeric Home Page"
-msgstr "Gnumeric"
+msgstr "Strona domowa Gnumerica"
 
 #: src/about.c:65
 msgid "Gnumeric Support page"
-msgstr ""
+msgstr "Strona obs³ugi Gnumerica"
 
 #: src/cell.c:74
 msgid "ERROR"
-msgstr ""
+msgstr "B£¡D"
 
 #. Until the value is recomputed, we put in this value.
-#: src/cell.c:125 src/cell.c:756
+#: src/cell.c:125 src/cell.c:754
 msgid "Circular reference"
-msgstr ""
+msgstr "Zapêtlone odwo³anie"
 
 #: src/corba-args.c:33
 msgid "Could not initialize the Gnumeric Workbook factory"
@@ -465,686 +463,895 @@ msgstr "Listopad"
 msgid "December"
 msgstr "Grudzieñ"
 
-#: src/dialog-analysis-tools.c:106
+#: src/dialogs/dialog-analysis-tools.c:106
 msgid "Discrete"
 msgstr ""
 
-#: src/dialog-analysis-tools.c:107 src/widget-font-selector.c:117
-#, fuzzy
+#: src/dialogs/dialog-analysis-tools.c:107
+#: src/widgets/widget-font-selector.c:117
 msgid "Normal"
-msgstr "Formaty"
+msgstr ""
 
-#: src/dialog-analysis-tools.c:108
+#: src/dialogs/dialog-analysis-tools.c:108
 msgid "Bernoulli"
 msgstr ""
 
-#: src/dialog-analysis-tools.c:109
+#: src/dialogs/dialog-analysis-tools.c:109
 msgid "Uniform"
 msgstr ""
 
-#: src/dialog-analysis-tools.c:150
+#: src/dialogs/dialog-analysis-tools.c:150
 msgid "Summary Statistics"
 msgstr ""
 
-#: src/dialog-analysis-tools.c:152
+#: src/dialogs/dialog-analysis-tools.c:152
 msgid "Confidence Level for Mean"
 msgstr ""
 
-#: src/dialog-analysis-tools.c:153
+#: src/dialogs/dialog-analysis-tools.c:153
 msgid "0.95"
-msgstr ""
+msgstr "0.95"
 
-#: src/dialog-analysis-tools.c:154
+#: src/dialogs/dialog-analysis-tools.c:154
 msgid "Kth Largest:"
 msgstr ""
 
-#: src/dialog-analysis-tools.c:155 src/dialog-analysis-tools.c:157
+#: src/dialogs/dialog-analysis-tools.c:155
+#: src/dialogs/dialog-analysis-tools.c:157
 msgid "1"
-msgstr ""
+msgstr "1"
 
-#: src/dialog-analysis-tools.c:156
+#: src/dialogs/dialog-analysis-tools.c:156
 msgid "Kth Smallest:"
 msgstr ""
 
-#: src/dialog-analysis-tools.c:162
+#: src/dialogs/dialog-analysis-tools.c:162
 msgid "Labels in First Row"
-msgstr ""
+msgstr "Etykiety w pierwszym wierszu"
 
-#: src/dialog-analysis-tools.c:168
+#: src/dialogs/dialog-analysis-tools.c:168
 msgid "Labels"
-msgstr ""
+msgstr "Etykiety"
 
-#: src/dialog-analysis-tools.c:174
+#: src/dialogs/dialog-analysis-tools.c:174
 msgid "Standard Errors"
-msgstr ""
+msgstr "Standardowe b³êdy"
 
-#: src/dialog-analysis-tools.c:201
-#, fuzzy
+#: src/dialogs/dialog-analysis-tools.c:201
 msgid "Columns"
-msgstr "_Kolumny"
+msgstr "Kolumny"
 
-#: src/dialog-analysis-tools.c:202
-#, fuzzy
+#: src/dialogs/dialog-analysis-tools.c:202
 msgid "Rows"
-msgstr "_Wiersze"
+msgstr "Wiersze"
 
-#: src/dialog-analysis-tools.c:207
+#: src/dialogs/dialog-analysis-tools.c:207
 msgid "Periodic"
 msgstr ""
 
-#: src/dialog-analysis-tools.c:208
+#: src/dialogs/dialog-analysis-tools.c:208
 msgid "Random"
 msgstr ""
 
-#: src/dialog-analysis-tools.c:237 src/dialog-analysis-tools.c:2010
+#: src/dialogs/dialog-analysis-tools.c:237
+#: src/dialogs/dialog-analysis-tools.c:2010
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
-#: src/dialog-analysis-tools.c:2009
+#: src/dialogs/dialog-analysis-tools.c:2009
 msgid "Data Analysis"
-msgstr ""
+msgstr "Analiza Danych"
 
-#: src/dialog-cell-comment.c:25
-#, fuzzy
+#: src/dialogs/dialog-cell-comment.c:25
 msgid "Cell comment"
-msgstr "_Komentarze"
+msgstr "Komentarz do komórki"
 
-#: src/dialog-cell-format.c:68
+#: src/dialogs/dialog-cell-format.c:68
 msgid "Numbers"
 msgstr "Liczby"
 
-#: src/dialog-cell-format.c:69
+#: src/dialogs/dialog-cell-format.c:69
 msgid "Accounting"
-msgstr "Rachunkowy"
+msgstr "Rachunkowe"
 
-#: src/dialog-cell-format.c:70
+#: src/dialogs/dialog-cell-format.c:70
 msgid "Date"
 msgstr "Data"
 
-#: src/dialog-cell-format.c:71
+#: src/dialogs/dialog-cell-format.c:71
 msgid "Time"
 msgstr "Czas"
 
-#: src/dialog-cell-format.c:72
+#: src/dialogs/dialog-cell-format.c:72
 msgid "Percent"
-msgstr "Procent"
+msgstr "Procentowe"
 
-#: src/dialog-cell-format.c:73
+#: src/dialogs/dialog-cell-format.c:73
 msgid "Fraction"
-msgstr "U³amek"
+msgstr "U³amki"
 
-#: src/dialog-cell-format.c:74
+#: src/dialogs/dialog-cell-format.c:74
 msgid "Scientific"
-msgstr "Naukowy"
+msgstr "Naukowe"
 
-#: src/dialog-cell-format.c:75
+#: src/dialogs/dialog-cell-format.c:75
 msgid "Text"
 msgstr "Tekst"
 
-#: src/dialog-cell-format.c:76
+#: src/dialogs/dialog-cell-format.c:76
 msgid "Money"
-msgstr "Waluta"
+msgstr "Walutowe"
 
 #. 1. Categories
-#: src/dialog-cell-format.c:258
+#: src/dialogs/dialog-cell-format.c:258
 msgid "Categories"
-msgstr "Kategorie"
+msgstr "Kategorie formatu"
 
 #. 2.1 Input line
-#: src/dialog-cell-format.c:290
+#: src/dialogs/dialog-cell-format.c:290
 msgid "Code:"
 msgstr "Kod:"
 
 #. 2.2 Sample
-#: src/dialog-cell-format.c:299
+#: src/dialogs/dialog-cell-format.c:299
 msgid "Sample:"
 msgstr "Próbka:"
 
-#: src/dialog-cell-format.c:311
+#: src/dialogs/dialog-cell-format.c:311
 msgid "Format codes"
 msgstr "Kody formatu"
 
-#: src/dialog-cell-format.c:360 src/formats.c:16 src/number-match.c:457
+#: src/dialogs/dialog-cell-format.c:360 src/formats.c:16
+#: src/number-match.c:457
 msgid "General"
 msgstr "Ogólne"
 
-#: src/dialog-cell-format.c:361
+#: src/dialogs/dialog-cell-format.c:361
 msgid "Left"
 msgstr "Do lewej"
 
-#: src/dialog-cell-format.c:362 src/dialog-cell-format.c:371
-#: src/workbook.c:1137
+#: src/dialogs/dialog-cell-format.c:362 src/dialogs/dialog-cell-format.c:371
+#: src/workbook.c:1129
 msgid "Center"
 msgstr "Wycentruj"
 
-#: src/dialog-cell-format.c:363
+#: src/dialogs/dialog-cell-format.c:363
 msgid "Right"
 msgstr "Do prawej"
 
-#: src/dialog-cell-format.c:364
+#: src/dialogs/dialog-cell-format.c:364
 msgid "Fill"
 msgstr "Wype³nij"
 
-#: src/dialog-cell-format.c:365 src/dialog-cell-format.c:373
+#: src/dialogs/dialog-cell-format.c:365 src/dialogs/dialog-cell-format.c:373
 msgid "Justify"
 msgstr "Justuj"
 
-#: src/dialog-cell-format.c:370
+#: src/dialogs/dialog-cell-format.c:370
 msgid "Top"
 msgstr "Góra"
 
-#: src/dialog-cell-format.c:372
+#: src/dialogs/dialog-cell-format.c:372
 msgid "Bottom"
 msgstr "Dó³"
 
 #. Vertical alignment
-#: src/dialog-cell-format.c:428 src/print.glade.h:9
+#: src/dialogs/dialog-cell-format.c:428 src/dialogs/print.glade.h:9
 msgid "Vertical"
 msgstr "Pionowo"
 
 #. Horizontal alignment
-#: src/dialog-cell-format.c:432 src/print.glade.h:10
+#: src/dialogs/dialog-cell-format.c:432 src/dialogs/print.glade.h:10
 msgid "Horizontal"
 msgstr "Poziomo"
 
-#: src/dialog-cell-format.c:435
+#: src/dialogs/dialog-cell-format.c:435
 msgid "Auto return"
-msgstr ""
+msgstr "Automatyczne ³amanie wiersza"
 
-#: src/dialog-cell-format.c:611
+#: src/dialogs/dialog-cell-format.c:611
 msgid "Text color"
 msgstr "Kolor tekstu"
 
 #. The radio buttons
-#: src/dialog-cell-format.c:615 src/dialog-cell-format.c:648
-#: src/dialog-paste-special.c:28
+#: src/dialogs/dialog-cell-format.c:615 src/dialogs/dialog-cell-format.c:648
+#: src/dialogs/dialog-paste-special.c:28
 msgid "None"
 msgstr "Brak"
 
-#: src/dialog-cell-format.c:617
+#: src/dialogs/dialog-cell-format.c:617
 msgid "Use this color"
-msgstr "U¿yj tego koloru"
+msgstr "Zdefiniowany kolor"
 
-#: src/dialog-cell-format.c:619 src/dialog-cell-format.c:654
-#, fuzzy
+#: src/dialogs/dialog-cell-format.c:619 src/dialogs/dialog-cell-format.c:654
 msgid "No change"
-msgstr "Brak"
+msgstr "Bez zmian"
 
-#: src/dialog-cell-format.c:642
+#: src/dialogs/dialog-cell-format.c:642
 msgid "Background configuration"
 msgstr "Konfiguracja t³a"
 
-#: src/dialog-cell-format.c:650
+#: src/dialogs/dialog-cell-format.c:650
 msgid "Use solid color"
-msgstr "U¿yj jednolitego koloru"
+msgstr "Jednolity kolor"
 
-#: src/dialog-cell-format.c:652
+#: src/dialogs/dialog-cell-format.c:652
 msgid "Use a pattern"
-msgstr "U¿yj wzorka"
+msgstr "Wzorek"
 
-#: src/dialog-cell-format.c:923 src/dialog-function-wizard.c:209
+#: src/dialogs/dialog-cell-format.c:923
+#: src/dialogs/dialog-function-wizard.c:209
 msgid "Number"
 msgstr "Liczba"
 
-#: src/dialog-cell-format.c:924
+#: src/dialogs/dialog-cell-format.c:924
 msgid "Alignment"
 msgstr "Wyrównanie"
 
-#: src/dialog-cell-format.c:925
-#, fuzzy
+#: src/dialogs/dialog-cell-format.c:925
 msgid "Font"
-msgstr "Liczba"
+msgstr "Font"
 
-#: src/dialog-cell-format.c:926
+#: src/dialogs/dialog-cell-format.c:926
 msgid "Coloring"
-msgstr ""
+msgstr "Kolory"
 
-#: src/dialog-cell-sort.c:40
-#, fuzzy
+#: src/dialogs/dialog-cell-sort.c:40
 msgid "Column:"
-msgstr "_Kolumna"
+msgstr "Kolumna:"
 
-#: src/dialog-cell-sort.c:55
+#: src/dialogs/dialog-cell-sort.c:55
 msgid "Asc"
 msgstr ""
 
-#: src/dialog-cell-sort.c:58
-#, fuzzy
+#: src/dialogs/dialog-cell-sort.c:58
 msgid "Desc"
-msgstr "*Gru"
+msgstr ""
 
-#: src/dialog-cell-sort.c:271
+#: src/dialogs/dialog-cell-sort.c:271
 msgid "more clauses than rows ?"
-msgstr ""
+msgstr "wiêcej klauzul ni¿ wierszy?"
 
-#: src/dialog-cell-sort.c:274
+#: src/dialogs/dialog-cell-sort.c:274
 msgid "too many clauses"
-msgstr ""
+msgstr "zbyt wiele klauzul"
 
-#: src/dialog-cell-sort.c:294
+#: src/dialogs/dialog-cell-sort.c:294
 msgid "Need at least one clause"
 msgstr ""
 
-#: src/dialog-cell-sort.c:314 src/workbook.c:1493
+#: src/dialogs/dialog-cell-sort.c:314 src/workbook.c:1485
 msgid "Selection must be a single range"
-msgstr ""
+msgstr "Zaznaczenie musi byæ pojedynczym obszarem"
 
-#: src/dialog-cell-sort.c:320
+#: src/dialogs/dialog-cell-sort.c:320
 msgid "Selection must be a finite range"
-msgstr ""
+msgstr "Zaznaczenie musi byæ obszarem skoñczonym"
 
-#: src/dialog-cell-sort.c:332
-#, fuzzy
+#: src/dialogs/dialog-cell-sort.c:332
 msgid "Sort Cells"
-msgstr "wstaw komórki"
+msgstr "Sortuj komórki"
 
-#: src/dialog-cell-sort.c:347
+#: src/dialogs/dialog-cell-sort.c:347
 msgid "then by"
-msgstr ""
+msgstr "nastêpnie wed³ug"
 
-#: src/dialog-cell-sort.c:347
+#: src/dialogs/dialog-cell-sort.c:347
 msgid "sort by"
-msgstr ""
+msgstr "sortuj wed³ug"
 
-#: src/dialog-cell-sort.c:385
-#, fuzzy
+#: src/dialogs/dialog-cell-sort.c:385
 msgid "Column must be within range"
-msgstr "Kolumna poza zakresem"
+msgstr "Kolumna musi byæ wewn±trz zakresu"
 
-#: src/dialog-cell-sort.c:391
+#: src/dialogs/dialog-cell-sort.c:391
 msgid "First column must be valid"
-msgstr ""
+msgstr "Pierwsza kolumna musi byæ poprawna"
 
-#: src/dialog-delete-cells.c:25
+#: src/dialogs/dialog-delete-cells.c:25
 msgid "delete cells"
 msgstr "usuñ komórki"
 
-#: src/dialog-delete-cells.c:45
+#: src/dialogs/dialog-delete-cells.c:45
 msgid "Delete cells"
 msgstr "Usuñ komórki"
 
-#: src/dialog-delete-cells.c:48 src/item-grid.c:605
+#: src/dialogs/dialog-delete-cells.c:48 src/item-grid.c:605
 msgid "Delete"
 msgstr "Usuñ"
 
-#: src/dialog-delete-cells.c:49
+#: src/dialogs/dialog-delete-cells.c:49
 msgid "Shift cells left"
 msgstr "Przesuñ komórki w lewo"
 
-#: src/dialog-delete-cells.c:50
+#: src/dialogs/dialog-delete-cells.c:50
 msgid "Shift cells up"
 msgstr "Przesuñ komórki w górê"
 
-#: src/dialog-delete-cells.c:51
+#: src/dialogs/dialog-delete-cells.c:51
 msgid "Delete row(s)"
 msgstr "Usuñ wiersz(e)"
 
-#: src/dialog-delete-cells.c:52
+#: src/dialogs/dialog-delete-cells.c:52
 msgid "Delete column(s)"
 msgstr "Usuñ kolumnê/y"
 
-#: src/dialog-function-select.c:188
-#, fuzzy
+#: src/dialogs/dialog-function-select.c:188
 msgid "Formula Selection"
-msgstr "U³amek"
+msgstr ""
 
-#: src/dialog-function-wizard.c:206 src/fn-string.c:1183
-#, fuzzy
+#: src/dialogs/dialog-function-wizard.c:206 src/functions/fn-string.c:1183
 msgid "String"
-msgstr "Ostrze¿enie"
+msgstr "Ci±g"
 
-#: src/dialog-function-wizard.c:212
+#: src/dialogs/dialog-function-wizard.c:212
 msgid "Boolean"
 msgstr ""
 
-#: src/dialog-function-wizard.c:215
-#, fuzzy
+#: src/dialogs/dialog-function-wizard.c:215
 msgid "Range"
-msgstr "Prostok±t"
+msgstr "Zakres"
 
-#: src/dialog-function-wizard.c:218
-#, fuzzy
+#: src/dialogs/dialog-function-wizard.c:218
 msgid "Array"
-msgstr "Strza³ka"
+msgstr "Tablica"
 
-#: src/dialog-function-wizard.c:221
+#: src/dialogs/dialog-function-wizard.c:221
 msgid "Range/Array"
-msgstr ""
+msgstr "Zakres/Tablica"
 
-#: src/dialog-function-wizard.c:224
+#: src/dialogs/dialog-function-wizard.c:224
 msgid "Any"
 msgstr ""
 
-#: src/dialog-function-wizard.c:227
-#, fuzzy
+#: src/dialogs/dialog-function-wizard.c:227
 msgid "Unknown"
-msgstr "Nieznany b³±d obliczeñ"
+msgstr "Nieznana"
 
-#: src/dialog-function-wizard.c:334
-#, fuzzy
+#: src/dialogs/dialog-function-wizard.c:334
 msgid "Formula Wizard"
-msgstr "Formu³y"
+msgstr ""
 
-#: src/dialog-goal-seek.c:191
+#: src/dialogs/dialog-goal-seek.c:191
 #, c-format
 msgid "Goal seeking with cell %s found a solution"
 msgstr ""
 
-#: src/dialog-goal-seek.c:195
+#: src/dialogs/dialog-goal-seek.c:195
 #, c-format
 msgid "Target value:   %12.2f"
-msgstr ""
+msgstr "Warto¶æ docelowa:   %12.2f"
 
-#: src/dialog-goal-seek.c:198
+#: src/dialogs/dialog-goal-seek.c:198
 #, c-format
 msgid "Current value:  %12.2f"
-msgstr ""
+msgstr "Aktualna warto¶æ:  %12.2f"
 
-#: src/dialog-goal-seek.c:201
+#: src/dialogs/dialog-goal-seek.c:201
 #, c-format
 msgid "Solution:       %12.2f"
-msgstr ""
+msgstr "Rozwi±zanie:       %12.2f"
 
-#: src/dialog-goal-seek.c:204
+#: src/dialogs/dialog-goal-seek.c:204
 msgid "Goal Seek Report"
 msgstr ""
 
-#: src/dialog-goal-seek.c:266
-#, fuzzy
+#: src/dialogs/dialog-goal-seek.c:266
 msgid "Goal Seek..."
-msgstr "Id¼ do..."
-
-#: src/dialog-goal-seek.c:280
-#, fuzzy
-msgid "Set cell:"
-msgstr "usuñ komórki"
-
-#: src/dialog-goal-seek.c:281
-#, fuzzy
-msgid "To value:"
-msgstr "Kopiuj warto¶ci"
-
-#: src/dialog-goal-seek.c:282
-msgid "By changing cell:"
 msgstr ""
 
-#: src/dialog-goal-seek.c:283
+#: src/dialogs/dialog-goal-seek.c:280
+msgid "Set cell:"
+msgstr "Ustaw komórkê:"
+
+#: src/dialogs/dialog-goal-seek.c:281
+msgid "To value:"
+msgstr ""
+
+#: src/dialogs/dialog-goal-seek.c:282
+msgid "By changing cell:"
+msgstr "Zmieniaj±c komórkê:"
+
+#: src/dialogs/dialog-goal-seek.c:283
 msgid "To a value of at least [optional]:"
 msgstr ""
 
-#: src/dialog-goal-seek.c:284
+#: src/dialogs/dialog-goal-seek.c:284
 msgid "But no bigger than [optional]:"
 msgstr ""
 
-#: src/dialog-goal-seek.c:343
+#: src/dialogs/dialog-goal-seek.c:343
 msgid "You should introduce a valid cell name in 'Set cell'"
-msgstr ""
+msgstr "Nale¿y wprowadziæ poprawn± nazwê komórki w 'Ustaw komórkê'"
 
-#: src/dialog-goal-seek.c:351
+#: src/dialogs/dialog-goal-seek.c:351
 msgid "The cell named in 'Set cell' must contain a formula"
 msgstr ""
 
-#: src/dialog-goal-seek.c:364
+#: src/dialogs/dialog-goal-seek.c:364
 msgid "You should introduce a valid cell name in 'By changing cell'"
 msgstr ""
 
-#: src/dialog-goal-seek.c:373
+#: src/dialogs/dialog-goal-seek.c:373
 msgid "The cell named in 'By changing cell' must not contain a formula"
 msgstr ""
 
-#: src/dialog-goal-seek.c:420
+#: src/dialogs/dialog-goal-seek.c:420
 msgid "Goal seek did not find a solution!"
 msgstr ""
 
-#: src/dialog-goto-cell.c:42
+#: src/dialogs/dialog-goto-cell.c:42
 msgid "Cell"
 msgstr "Komórka"
 
-#: src/dialog-goto-cell.c:45
+#: src/dialogs/dialog-goto-cell.c:45
 msgid "Go to..."
 msgstr "Id¼ do..."
 
-#: src/dialog-goto-cell.c:47
+#: src/dialogs/dialog-goto-cell.c:47
 msgid "Special..."
 msgstr "Specjalne..."
 
-#: src/dialog-insert-cells.c:26
+#: src/dialogs/dialog-insert-cells.c:26
 msgid "insert cells"
 msgstr "wstaw komórki"
 
-#: src/dialog-insert-cells.c:46
+#: src/dialogs/dialog-insert-cells.c:46
 msgid "Insert cells"
-msgstr "wstaw komórki"
+msgstr "Wstaw komórki"
 
-#: src/dialog-insert-cells.c:49 src/item-grid.c:604
+#: src/dialogs/dialog-insert-cells.c:49 src/item-grid.c:604
 msgid "Insert"
 msgstr "Wstaw"
 
-#: src/dialog-insert-cells.c:50
+#: src/dialogs/dialog-insert-cells.c:50
 msgid "Shift cells right"
 msgstr "Przesuñ komórki w prawo"
 
-#: src/dialog-insert-cells.c:51
+#: src/dialogs/dialog-insert-cells.c:51
 msgid "Shift cells down"
 msgstr "Przesuñ komórki w dó³"
 
-#: src/dialog-insert-cells.c:52
+#: src/dialogs/dialog-insert-cells.c:52
 msgid "Insert row(s)"
 msgstr "Wstaw wiersz(e)"
 
-#: src/dialog-insert-cells.c:53
+#: src/dialogs/dialog-insert-cells.c:53
 msgid "Insert column(s)"
 msgstr "Wstaw kolumnê/y"
 
-#: src/dialog-paste-special.c:20 src/dialog-solver.c:32
+#: src/dialogs/dialog-paste-special.c:20 src/dialogs/dialog-solver.c:36
 msgid "All"
 msgstr "Wszystko"
 
-#: src/dialog-paste-special.c:21 src/dialog-solver.c:33
+#: src/dialogs/dialog-paste-special.c:21 src/dialogs/dialog-solver.c:37
 msgid "Formulas"
 msgstr "Formu³y"
 
-#: src/dialog-paste-special.c:22 src/dialog-solver.c:34
+#: src/dialogs/dialog-paste-special.c:22 src/dialogs/dialog-solver.c:38
 msgid "Values"
 msgstr "Warto¶ci"
 
-#: src/dialog-paste-special.c:23 src/dialog-solver.c:35
+#: src/dialogs/dialog-paste-special.c:23 src/dialogs/dialog-solver.c:39
 msgid "Formats"
 msgstr "Formaty"
 
-#: src/dialog-paste-special.c:29
-#, fuzzy
+#: src/dialogs/dialog-paste-special.c:29
 msgid "Add "
-msgstr "Dodaj"
+msgstr "Dodaj "
 
-#: src/dialog-paste-special.c:30
+#: src/dialogs/dialog-paste-special.c:30
 msgid "Substract"
 msgstr "Odejmij"
 
-#: src/dialog-paste-special.c:31
+#: src/dialogs/dialog-paste-special.c:31
 msgid "Multiply"
 msgstr "Przemnó¿"
 
-#: src/dialog-paste-special.c:32
+#: src/dialogs/dialog-paste-special.c:32
 msgid "Divide"
 msgstr "Podziel"
 
-#: src/dialog-paste-special.c:64 src/item-grid.c:602
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:602
 msgid "Paste special"
 msgstr "Wklej specjalnie"
 
-#: src/dialog-paste-special.c:69
+#: src/dialogs/dialog-paste-special.c:69
 msgid "Paste type"
-msgstr "Typ wklejenia"
+msgstr "Sposób wklejenia"
 
-#: src/dialog-paste-special.c:73
+#: src/dialogs/dialog-paste-special.c:73
 msgid "Operation"
 msgstr "Operacja"
 
-#: src/dialog-paste-special.c:104
+#: src/dialogs/dialog-paste-special.c:104
 msgid "Transpose"
-msgstr ""
+msgstr "Transponuj"
 
-#: src/dialog-printer-setup.c:461
-#, fuzzy
+#: src/dialogs/dialog-printer-setup.c:461
 msgid "Custom header configuration"
-msgstr "Konfiguracja t³a"
+msgstr "Dowolna konfiguracja g³ówki"
 
-#: src/dialog-printer-setup.c:472
+#: src/dialogs/dialog-printer-setup.c:472
 msgid "Custom footer configuration"
-msgstr ""
+msgstr "Dowolna konfiguracja stopki"
 
-#: src/dialog-printer-setup.c:670
-#, fuzzy
+#: src/dialogs/dialog-printer-setup.c:670
 msgid "Print setup"
-msgstr "Procent"
+msgstr "Ustawienia wydruku"
 
-#: src/dialog-solver.c:19
+#: src/dialogs/dialog-solver.c:23
 msgid "<="
-msgstr ""
+msgstr "<="
 
-#: src/dialog-solver.c:20
-msgid "="
-msgstr ""
-
-#: src/dialog-solver.c:21
+#. N_("="),
+#: src/dialogs/dialog-solver.c:25
 msgid ">="
-msgstr ""
+msgstr ">="
 
-#: src/dialog-solver.c:22
-#, fuzzy
-msgid "int"
-msgstr "Procent"
-
-#: src/dialog-solver.c:23
-msgid "bool"
-msgstr ""
-
-#: src/dialog-solver.c:41 src/workbook.c:1603
+#: src/dialogs/dialog-solver.c:45 src/workbook.c:1595
 msgid "Max"
 msgstr "Maksimum"
 
-#: src/dialog-solver.c:42 src/workbook.c:1602
+#: src/dialogs/dialog-solver.c:46 src/workbook.c:1594
 msgid "Min"
 msgstr "Minimum"
 
-#: src/dialog-solver.c:47
+#: src/dialogs/dialog-solver.c:51
 msgid "Tangent"
-msgstr ""
+msgstr "Tangens"
 
-#: src/dialog-solver.c:48
+#: src/dialogs/dialog-solver.c:52
 msgid "Quadratic"
 msgstr ""
 
-#: src/dialog-solver.c:53
+#: src/dialogs/dialog-solver.c:57
 msgid "Forward"
 msgstr ""
 
-#: src/dialog-solver.c:54
-#, fuzzy
+#: src/dialogs/dialog-solver.c:58
 msgid "Central"
-msgstr "Wycentruj"
+msgstr ""
 
-#: src/dialog-solver.c:59
-#, fuzzy
+#: src/dialogs/dialog-solver.c:63
 msgid "Newton"
-msgstr "Nowy"
+msgstr ""
 
-#: src/dialog-solver.c:60
+#: src/dialogs/dialog-solver.c:64
 msgid "Conjugate"
 msgstr ""
 
-#: src/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:69
 msgid "Assume Linear Model"
 msgstr ""
 
-#: src/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:70
 msgid "Assume Non-Negative"
 msgstr ""
 
-#: src/dialog-solver.c:71
+#: src/dialogs/dialog-solver.c:75
 msgid "Use Automatic Scaling"
 msgstr ""
 
-#: src/dialog-solver.c:72
+#: src/dialogs/dialog-solver.c:76
 msgid "Show Iteration Results"
 msgstr ""
 
-#: src/dialog-solver.c:143
-#, fuzzy
+#: src/dialogs/dialog-solver.c:147
 msgid "Gnumeric Solver Options"
-msgstr "Pluginy Gnumeric"
+msgstr ""
 
-#: src/dialog-solver.c:211
+#: src/dialogs/dialog-solver.c:246
 msgid "Add Constraint"
 msgstr ""
 
-#: src/dialog-solver.c:214
+#: src/dialogs/dialog-solver.c:249
 msgid "Add"
 msgstr "Dodaj"
 
-#: src/dialog-solver.c:354
-#, fuzzy
+#: src/dialogs/dialog-solver.c:366
 msgid "Gnumeric Solver Parameters"
-msgstr "Gnumeric"
-
-#: src/dialog-solver.c:355
-#, fuzzy
-msgid "Solve"
-msgstr "Przenie¶"
-
-#: src/dialog-solver.c:357
-#, fuzzy
-msgid "Options..."
-msgstr "Operacja"
-
-#: src/dialog-solver.c:486
-msgid "You should introduce a valid cell name for 'Target cell'"
 msgstr ""
 
-#: src/dialog-solver.c:507
+#: src/dialogs/dialog-solver.c:367
+msgid "Solve"
+msgstr ""
+
+#: src/dialogs/dialog-solver.c:369
+msgid "Options..."
+msgstr "Opcje..."
+
+#: src/dialogs/dialog-solver.c:496
+msgid "You should introduce a valid cell name for 'Target cell'"
+msgstr "Nale¿y wprowadziæ poprawn± nazwê komórki dla 'Komórka docelowa'"
+
+#: src/dialogs/dialog-solver.c:517
 msgid "You should introduce a valid cell names in 'By changing cells'"
 msgstr ""
 
-#: src/dialog-zoom.c:47 src/dialog-zoom.c:50
+#: src/dialogs/dialog-zoom.c:47 src/dialogs/dialog-zoom.c:50
 msgid "Zoom"
 msgstr "Powiêkszenie"
 
-#: src/dialog-zoom.c:56
+#: src/dialogs/dialog-zoom.c:56
 msgid "Custom"
-msgstr "U¿ytkownika"
+msgstr "Dowolne"
 
-#: src/dialog-zoom.c:87
-#, fuzzy, c-format
+#: src/dialogs/dialog-zoom.c:88
+#, no-c-format
 msgid "Zoom factor should be at least 25%"
-msgstr "Wspó³czynnik powiêkszenia nie powinien byæ mniejszy ni¿ 50%"
+msgstr "Wspó³czynnik powiêkszenia nie powinien byæ mniejszy ni¿ 25%"
 
-#: src/dialog-zoom.c:93
-#, c-format
+#: src/dialogs/dialog-zoom.c:95
+#, no-c-format
 msgid "Zoom factor should be at most 900%"
 msgstr "Wspó³czynnik powiêkszenia nie powinien byæ wiêkszy ni¿ 900%"
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/dialogs/hf-config.glade.h:7
+msgid "Left section:"
+msgstr ""
+
+#: src/dialogs/hf-config.glade.h:8
+msgid "Center section:"
+msgstr ""
+
+#: src/dialogs/hf-config.glade.h:9
+msgid "Right section:"
+msgstr ""
+
+#: src/dialogs/hf-config.glade.h:10
+msgid "Enter the format strings for each section:"
+msgstr "Wprowad¼ format napisu dla ka¿dej sekcji:"
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/dialogs/font-sel.glade.h:7
+msgid "window1"
+msgstr "okno1"
+
+#: src/dialogs/font-sel.glade.h:8
+msgid "Font:"
+msgstr "Font:"
+
+#: src/dialogs/font-sel.glade.h:9
+msgid "Font style:"
+msgstr "Styl fontu:"
+
+#: src/dialogs/font-sel.glade.h:10
+msgid "Size:"
+msgstr "Rozmiar:"
+
+#: src/dialogs/font-sel.glade.h:11
+msgid "Preview:"
+msgstr "Podgl±d:"
+
+#: src/dialogs/font-sel.glade.h:12
+msgid "AaBbCcDdEe12345"
+msgstr "AaBbCc¡±Ææ12345"
+
+#: src/dialogs/font-sel.glade.h:13
+msgid "label7"
+msgstr "atykieta7"
+
+#: src/dialogs/font-sel.glade.h:14
+msgid "label8"
+msgstr "etykieta8"
+
+#: src/dialogs/font-sel.glade.h:15
+msgid "label9"
+msgstr "etykieta9"
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/dialogs/import.glade.h:7
+msgid "Choose an import filter for loading the file:"
+msgstr "Wybierz filtr do wykorzystania przy imporcie pliku:"
+
+#: src/dialogs/import.glade.h:8
+msgid "label2"
+msgstr "etykieta2"
+
+#.
+#. * Translatable strings file generated by Glade.
+#. * Add this file to your project's POTFILES.in.
+#. * DO NOT compile it as part of your application.
+#.
+#: src/dialogs/print.glade.h:7
+msgid "window2"
+msgstr "window2"
+
+#: src/dialogs/print.glade.h:8
+msgid "Orientation"
+msgstr "Orientacja"
+
+#: src/dialogs/print.glade.h:11
+msgid "Scale"
+msgstr "Skala"
+
+#: src/dialogs/print.glade.h:12 src/dialogs/print.glade.h:13
+msgid "Adjust to"
+msgstr ""
+
+#: src/dialogs/print.glade.h:14
+#, c-format
+msgid "% of the original size"
+msgstr "% oryginalnego rozmiaru"
+
+#: src/dialogs/print.glade.h:15
+msgid "pages wider by "
+msgstr ""
+
+#: src/dialogs/print.glade.h:16
+msgid "pages of height"
+msgstr ""
+
+#: src/dialogs/print.glade.h:17
+msgid "Paper size:"
+msgstr "Rozmiar papieru:"
+
+#: src/dialogs/print.glade.h:18
+msgid "First page number:"
+msgstr "Numer pierwszej strony:"
+
+#: src/dialogs/print.glade.h:19 src/dialogs/print.glade.h:32
+#: src/dialogs/print.glade.h:40 src/dialogs/print.glade.h:48
+#: src/dialogs/print.glade.h:56 src/workbook.c:1108
+msgid "Print"
+msgstr "Drukuj"
+
+#: src/dialogs/print.glade.h:20 src/dialogs/print.glade.h:33
+#: src/dialogs/print.glade.h:41 src/dialogs/print.glade.h:57
+msgid "Print preview"
+msgstr "Podgl±d wydruku"
+
+#: src/dialogs/print.glade.h:21 src/dialogs/print.glade.h:34
+#: src/dialogs/print.glade.h:42 src/dialogs/print.glade.h:58
+msgid "Options"
+msgstr "Opcje"
+
+#: src/dialogs/print.glade.h:22 src/dialogs/print.glade.h:59
+msgid "Page"
+msgstr "Strona"
+
+#: src/dialogs/print.glade.h:23
+msgid "Superior:"
+msgstr ""
+
+#: src/dialogs/print.glade.h:24
+msgid "Header:"
+msgstr "G³ówka:"
+
+#: src/dialogs/print.glade.h:25
+msgid "Lower:"
+msgstr ""
+
+#: src/dialogs/print.glade.h:26
+msgid "Footer"
+msgstr "Stopka"
+
+#: src/dialogs/print.glade.h:27
+msgid "Center on page"
+msgstr "Wycentruj na stronie"
+
+#: src/dialogs/print.glade.h:28
+msgid "Horizontally"
+msgstr "Poziomo"
+
+#: src/dialogs/print.glade.h:29
+msgid "Vertically"
+msgstr "Pionowo"
+
+#: src/dialogs/print.glade.h:30
+msgid "Left:"
+msgstr "Do lewej"
+
+#: src/dialogs/print.glade.h:31
+msgid "Right:"
+msgstr "Do prawej"
+
+#: src/dialogs/print.glade.h:35
+msgid "Margins"
+msgstr "Marginesy"
+
+#: src/dialogs/print.glade.h:36 src/dialogs/print.glade.h:39
+msgid "sample goes here"
+msgstr ""
+
+#: src/dialogs/print.glade.h:37
+msgid "Header"
+msgstr "G³ówka:"
+
+#: src/dialogs/print.glade.h:38
+msgid "Footer:"
+msgstr "Stopka:"
+
+#: src/dialogs/print.glade.h:43
+msgid "Headers and footers"
+msgstr "G³ówki i stopki"
+
+#: src/dialogs/print.glade.h:44
+msgid "Print region:"
+msgstr "Obszar drukowania:"
+
+#: src/dialogs/print.glade.h:45
+msgid "Titles to print"
+msgstr "Drukowane nag³ówki"
+
+#: src/dialogs/print.glade.h:46
+msgid "Rows to repeat on the left side:"
+msgstr "Kolumny powtarzanane po lewej stronie:"
+
+#: src/dialogs/print.glade.h:47
+msgid "Rows to repeat on the upper region:"
+msgstr "Wiersze powtarzane o góry:"
+
+#: src/dialogs/print.glade.h:49
+msgid "Division lines"
+msgstr "Linie dziel±ce komórki"
+
+#: src/dialogs/print.glade.h:50
+msgid "Black and white"
+msgstr "Czarno-Bia³y"
+
+#: src/dialogs/print.glade.h:51
+msgid "Titles of rows and columns."
+msgstr "Nag³ówki wierszy i kolumn"
+
+#: src/dialogs/print.glade.h:52
+msgid "Comments"
+msgstr "Komentarze"
+
+#: src/dialogs/print.glade.h:53
+msgid "Page order"
+msgstr "Kolejno¶æ stron"
+
+#: src/dialogs/print.glade.h:54
+msgid "Down, then right"
+msgstr "W dó³, nastêpnie w prawo"
+
+#: src/dialogs/print.glade.h:55
+msgid "Right, then down"
+msgstr "W prawo, nastêpnie w dó³"
+
+#: src/dialogs/print.glade.h:60
+msgid "Customize header"
+msgstr ""
+
+#: src/dialogs/print.glade.h:61
+msgid "Customize footer"
+msgstr ""
 
 #: src/dump.c:31
 #, c-format
 msgid "Can not create file %s\n"
-msgstr ""
+msgstr "Nie mo¿na utworzyæ pliku %s\n"
 
-#: src/embeddable-grid.c:149
+#: src/embeddable-grid.c:153
 msgid "Embedded Sheet"
-msgstr ""
+msgstr "Zagnie¿d¿ony arkusz"
 
 #: src/expr-name.c:131
 msgid "already defined"
-msgstr ""
+msgstr "ju¿ zdefiniowane"
 
 #: src/expr-name.c:134
-#, fuzzy
 msgid "no workbook"
-msgstr "Zeszyt "
+msgstr "brak zeszytu"
 
 #: src/expr-name.c:139
 msgid "circular reference"
-msgstr ""
+msgstr "zapêtlone odwo³anie"
 
 #: src/expr-name.c:248
 msgid "Builtin"
@@ -1152,7 +1359,7 @@ msgstr ""
 
 #: src/expr-name.c:279
 msgid "Error: no sheet"
-msgstr ""
+msgstr "B³±d: brak zeszytu"
 
 #: src/expr.c:216
 msgid "Syntax error"
@@ -1164,45 +1371,40 @@ msgstr "Brakuj±cy apostrof"
 
 #: src/expr.c:224
 msgid "Impossible!"
-msgstr ""
+msgstr "Niemo¿liwe!"
 
 #: src/expr.c:475
-#, fuzzy
 msgid "Internal error"
-msgstr "B³±d sk³adniowy"
+msgstr "B³±d wewnêtrzny"
 
 #: src/expr.c:858
-#, fuzzy
 msgid "Internal type error"
-msgstr "B³±d typu"
+msgstr "Wewnêtrzny b³±d typu"
 
 #: src/expr.c:997
-#, fuzzy
 msgid "Unknown operator"
-msgstr "Nieznany b³±d obliczeñ"
+msgstr "Nieznany operator"
 
 #: src/expr.c:1136
 msgid "Unknown evaluation error"
 msgstr "Nieznany b³±d obliczeñ"
 
 #: src/expr.c:1536
-#, fuzzy
 msgid "#Reference to deleted cell!"
-msgstr "Wyczy¶æ wybrane komórki"
+msgstr "#Odwo³anie do usuniêtej komórki!"
 
 #: src/expr.c:1565
 msgid "#Reference to deleted range!"
-msgstr ""
+msgstr "#Odwo³anie do usuniêtego zakresu!"
 
 #: src/file.c:184
 #, c-format
 msgid "Could not read file %s"
-msgstr ""
+msgstr "Nie mo¿na odczytaæ pliku %s"
 
 #: src/file.c:353
-#, fuzzy
 msgid "File format:"
-msgstr "Format komórki"
+msgstr "Format pliku:"
 
 #: src/file.c:397
 msgid "Save workbook as"
@@ -1210,13 +1412,13 @@ msgstr "Zapisz zeszyt jako"
 
 #: src/file.c:436
 msgid "Sorry, there are no file savers loaded, I cannot save"
-msgstr ""
+msgstr "Niestety, nie za³adowano obs³ugi zapisu pliku w jakimkolwiek formacie"
 
 #: src/file.c:474
 msgid "Load file"
 msgstr "Wczytaj plik"
 
-#: src/fn-database.c:340
+#: src/functions/fn-database.c:340
 msgid ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
@@ -1235,7 +1437,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr ""
 
-#: src/fn-database.c:407
+#: src/functions/fn-database.c:407
 msgid ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
@@ -1254,7 +1456,7 @@ msgid ""
 "@SEEALSO=DAVERAGE"
 msgstr ""
 
-#: src/fn-database.c:470
+#: src/functions/fn-database.c:470
 msgid ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
@@ -1273,7 +1475,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr ""
 
-#: src/fn-database.c:530
+#: src/functions/fn-database.c:530
 msgid ""
 "@FUNCTION=DGET\n"
 "@SYNTAX=DGET(database,field,criteria)\n"
@@ -1294,7 +1496,7 @@ msgid ""
 "@SEEALSO=DCOUNT"
 msgstr ""
 
-#: src/fn-database.c:605
+#: src/functions/fn-database.c:605
 msgid ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
@@ -1313,7 +1515,7 @@ msgid ""
 "@SEEALSO=DMIN"
 msgstr ""
 
-#: src/fn-database.c:676
+#: src/functions/fn-database.c:676
 msgid ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
@@ -1332,7 +1534,7 @@ msgid ""
 "@SEEALSO=DMAX"
 msgstr ""
 
-#: src/fn-database.c:749
+#: src/functions/fn-database.c:749
 msgid ""
 "@FUNCTION=DPRODUCT\n"
 "@SYNTAX=DPRODUCT(database,field,criteria)\n"
@@ -1351,7 +1553,7 @@ msgid ""
 "@SEEALSO=DSUM"
 msgstr ""
 
-#: src/fn-database.c:821
+#: src/functions/fn-database.c:821
 msgid ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
@@ -1371,7 +1573,7 @@ msgid ""
 "@SEEALSO=DSTDEVP"
 msgstr ""
 
-#: src/fn-database.c:890
+#: src/functions/fn-database.c:890
 msgid ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
@@ -1391,7 +1593,7 @@ msgid ""
 "@SEEALSO=DSTDEV"
 msgstr ""
 
-#: src/fn-database.c:961
+#: src/functions/fn-database.c:961
 msgid ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
@@ -1410,7 +1612,7 @@ msgid ""
 "@SEEALSO=DPRODUCT"
 msgstr ""
 
-#: src/fn-database.c:1031
+#: src/functions/fn-database.c:1031
 msgid ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
@@ -1430,7 +1632,7 @@ msgid ""
 "@SEEALSO=DVARP"
 msgstr ""
 
-#: src/fn-database.c:1102
+#: src/functions/fn-database.c:1102
 msgid ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
@@ -1450,13 +1652,11 @@ msgid ""
 "@SEEALSO=DVAR"
 msgstr ""
 
-#: src/fn-database.c:1177
-#, fuzzy
+#: src/functions/fn-database.c:1177
 msgid "Database"
-msgstr "Data"
+msgstr "Baza danych"
 
-#: src/fn-date.c:66
-#, fuzzy
+#: src/functions/fn-date.c:66
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -1468,21 +1668,21 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (rok,miesi±c,dzieñ)\n"
-"@DESCRIPTION=Oblicza liczbê dni od pierwszego stycznia 1900 (numer seryjny "
-"daty) dla podanego roku, miesi±ca i dnia.\n"
-"dzieñ mo¿e byæ liczb± ujemn± (dla liczenia wstecz) i jest liczony wzglêdem "
-"poprzedniego miesi±ca. Rok powinien byæ nie mniejszy ni¿ 1900\n"
+"@DESCRIPTION=Oblicza liczbê dni od pierwszego stycznia 1900 roku (numer "
+"seryjny daty) dla podanego roku, miesi±ca i dnia.\n"
+"Dzieñ mo¿e byæ liczb± ujemn± (dla liczenia wstecz) i jest liczony wzglêdem "
+"poprzedniego miesi±ca. Rok powinien byæ nie mniejszy ni¿ 1900.\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:98
+#: src/functions/fn-date.c:98
 msgid "Invalid month or year"
 msgstr "Niew³a¶ciwy miesi±c lub rok"
 
-#: src/fn-date.c:110
+#: src/functions/fn-date.c:110
 msgid "Invalid day"
 msgstr "Niew³a¶ciwy dzieñ"
 
-#: src/fn-date.c:119
+#: src/functions/fn-date.c:119
 msgid ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(date_str)\n"
@@ -1491,8 +1691,14 @@ msgid ""
 "equals to 36160. \n"
 "@SEEALSO=DATE"
 msgstr ""
+"@FUNCTION=DATEVALUE\n"
+"@SYNTAX=DATEVALUE(napis_daty)\n"
+"@DESCRIPTION=DATEVALUE zwraca numer seryjny daty. Parametr @napis_daty jest "
+"napisem zawieraj±cym datê. Na przyk³ad DATEVALUE(\"1/1/1999\") wynosi "
+"36160.\n"
+"@SEEALSO=DATE"
 
-#: src/fn-date.c:138
+#: src/functions/fn-date.c:138
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -1503,9 +1709,18 @@ msgid ""
 "If @months is not an integer, it is truncated.\n"
 "@SEEALSO=DATE"
 msgstr ""
+"@FUNCTION=EDATE\n"
+"@SYNTAX=EDATE(@data,@miesi±ce)\n"
+"@DESCRIPTION=Funkcja EDATE zwraca numer seryjny daty, która wyst±pi³a "
+"okre¶lon± liczbê miesiêcy po podanej dacie. Parametr @data jest numerem "
+"seryjnym pocz±tkowej daty, natomiast @miesi±ce okre¶la przesuniêcie w "
+"miesi±cach w stosunku do tej daty - przed ni± (liczba ujemna) lub po niej "
+"(liczba dodatnia).\n"
+"Je¶li @miesi±ce nie jest liczb± ca³kowit±, wówczas warto¶æ ta jest "
+"obcinana.\n"
+"@SEEALSO=DATE"
 
-#: src/fn-date.c:182
-#, fuzzy
+#: src/functions/fn-date.c:182
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -1516,11 +1731,10 @@ msgstr ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
 "@DESCRIPTION=Zwraca numer seryjny dla dnia dzisiejszego (liczbê dni od "
-"pierwszego stycznia 1900 roku)\n"
+"pierwszego stycznia 1900 roku do dzi¶).\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:206
-#, fuzzy
+#: src/functions/fn-date.c:206
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -1537,29 +1751,28 @@ msgstr ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
 "@DESCRIPTION=Zwraca numer seryjny dla daty i czasu wywo³ania funkcji.\n"
-" Numery seryjne w Gnumericu s± reprezentowane w nastêpuj±cy sposób: "
-"Ca³kowita czê¶æ liczby jest liczb± dni od pierwszego stycznia 1900 roku. "
-"Dziesiêtna czê¶æ reprezentuje czê¶æ dnia i jest odwzorowywana na godzinê, "
-"minuty i sekundy\n"
+"Numery seryjne w Gnumericu s± reprezentowane w nastêpuj±cy sposób: Ca³kowita "
+"czê¶æ liczby jest liczb± dni od pierwszego stycznia 1900 roku. Dziesiêtna "
+"czê¶æ reprezentuje czê¶æ dnia i jest odwzorowywana na godzinê, minuty i "
+"sekundy.\n"
 "Na przyk³ad: .0 reprezentuje pocz±tek dnia, natomiast 0.5 reprezentuje "
-"po³udnie\n"
+"po³udnie.\n"
 "@SEEALSO=TODAY, NOW"
 
-#: src/fn-date.c:247
-#, fuzzy
+#: src/functions/fn-date.c:247
 msgid ""
 "@FUNCTION=TIME\n"
 "@SYNTAX=TIME (hours,minutes,seconds)\n"
 "@DESCRIPTION=Returns a fraction representing the time of day.\n"
 "@SEEALSO=HOUR"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=TIME\n"
+"@SYNTAX=TIME (godziny,minuty,sekundy)\n"
+"@DESCRIPTION=Zwraca u³amek reprezentuj±cy czê¶æ dnia odpowiadaj±c± podanym "
+"warto¶ciom (godziny, minuty i sekundy)\n"
+"@SEEALSO=HOUR"
 
-#: src/fn-date.c:272
-#, fuzzy
+#: src/functions/fn-date.c:272
 msgid ""
 "@FUNCTION=TIMEVALUE\n"
 "@SYNTAX=TIMEVALUE (timetext)\n"
@@ -1567,12 +1780,13 @@ msgid ""
 "between 0 and 1.\n"
 "@SEEALSO=HOUR"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=TIMEVALUE\n"
+"@SYNTAX=TIME (napis)\n"
+"@DESCRIPTION=Zwraca u³amek reprezentuj±cy czê¶æ dnia - liczbê pomiêdzy 0 i "
+"1.\n"
+"@SEEALSO=HOUR"
 
-#: src/fn-date.c:291
+#: src/functions/fn-date.c:291
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -1582,8 +1796,15 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
 msgstr ""
+"@FUNCTION=HOUR\n"
+"@SYNTAX=HOUR (numer_seryjny).\n"
+"@DESCRIPTION=Konwertuje numer seryjny do godziny. Godzina jest zwracana jako "
+"liczba ca³kowita w przedziale od 0 (00:00) to 23 (23:00)\n"
+"Gnumeric wykona zwyk³e przekszta³cenie napisu do numeru seryjnego, wiêc "
+"argument mo¿e byæ wprowadzony jako napis.\n"
+"@SEEALSO=MINUTE, NOW, TIME, SECOND"
 
-#: src/fn-date.c:316
+#: src/functions/fn-date.c:316
 msgid ""
 "@FUNCTION=MINUTE\n"
 "@SYNTAX=MINUTE (serial_number)\n"
@@ -1593,8 +1814,15 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=HOUR, NOW, TIME, SECOND"
 msgstr ""
+"@FUNCTION=MINUTE\n"
+"@SYNTAX=MINUTE (numer_seryjny)\n"
+"@DESCRIPTION=Konwertuje numer seryjny do minuty. Minuta jest zwracana jako "
+"liczba ca³kowita w przedziale od 0 do 59.\n"
+"Gnumeric wykona zwyk³e przekszta³cenie napisu do numeru seryjnego, wiêc "
+"argument mo¿e byæ wprowadzony jako napis.\n"
+"@SEEALSO=HOUR, NOW, TIME, SECOND"
 
-#: src/fn-date.c:341
+#: src/functions/fn-date.c:341
 msgid ""
 "@FUNCTION=SECOND\n"
 "@SYNTAX=SECOND (serial_number)\n"
@@ -1604,8 +1832,15 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
 msgstr ""
+"@FUNCTION=SECOND\n"
+"@SYNTAX=SECOND (numer seryjny)\n"
+"@DESCRIPTION=Konwertuje numer seryjny do sekundy. Sekunda jest zwracana jako "
+"liczba ca³kowita w przedziale od 0 do 59.\n"
+"Gnumeric wykona zwyk³e przekszta³cenie napisu do numeru seryjnego, wiêc "
+"argument mo¿e byæ wprowadzony jako napis.\n"
+"@SEEALSO=HOUR, MINUTE, NOW, TIME"
 
-#: src/fn-date.c:366
+#: src/functions/fn-date.c:366
 msgid ""
 "@FUNCTION=YEAR\n"
 "@SYNTAX=YEAR (serial_number)\n"
@@ -1614,8 +1849,14 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
 msgstr ""
+"@FUNCTION=YEAR\n"
+"@SYNTAX=YEAR (numer seryjny)\n"
+"@DESCRIPTION=Konwertuje numer seryjny do roku.\n"
+"Gnumeric wykona zwyk³e przekszta³cenie napisu do numeru seryjnego, wiêc "
+"argument mo¿e byæ wprowadzony jako napis\n"
+"@SEEALSO=DAY, MONTH, TIME, NOW"
 
-#: src/fn-date.c:393
+#: src/functions/fn-date.c:393
 msgid ""
 "@FUNCTION=MONTH\n"
 "@SYNTAX=MONTH (serial_number)\n"
@@ -1624,8 +1865,14 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=DAY, TIME, NOW, YEAR"
 msgstr ""
+"@FUNCTION=MONTH\n"
+"@SYNTAX=MONTH (numer_seryjny)\n"
+"@DESCRIPTION=Konwertuje numer seryjny do miesi±ca.\n"
+"Gnumeric wykona zwyk³e przekszta³cenie napisu do numeru seryjnego, wiêc "
+"argument mo¿e byæ wprowadzony jako napis\n"
+"@SEEALSO=DAY, TIME, NOW, YEAR"
 
-#: src/fn-date.c:420
+#: src/functions/fn-date.c:420
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -1634,8 +1881,14 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
+"@FUNCTION=DAY\n"
+"@SYNTAX=DAY (numer_seryjny)\n"
+"@DESCRIPTION=Konwertuje numer seryjny do dnia.\n"
+"Gnumeric wykona zwyk³e przekszta³cenie napisu do numeru seryjnego, wiêc "
+"argument mo¿e byæ wprowadzony jako napis\n"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/fn-date.c:447
+#: src/functions/fn-date.c:447
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number)\n"
@@ -1644,8 +1897,14 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
+"@FUNCTION=WEEKDAY\n"
+"@SYNTAX=WEEKDAY (numer_seryjny)\n"
+"@DESCRIPTION=Konwertuje numer seryjny do numeru dnia tygodnia.\n"
+"Gnumeric wykona zwyk³e przekszta³cenie napisu do numeru seryjnego, wiêc "
+"argument mo¿e byæ wprowadzony jako napis\n"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/fn-date.c:474
+#: src/functions/fn-date.c:474
 msgid ""
 "@FUNCTION=DAYS360 \n"
 "@SYNTAX=DAYS360 (date1,date2,method)\n"
@@ -1659,12 +1918,24 @@ msgid ""
 "for you, so you can enter a date as a string.\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
 msgstr ""
+"@FUNCTION=DAY\n"
+"@SYNTAX=DAYS360 (data1,data2,metoda)\n"
+"@DESCRIPTION=Zwraca liczbê dni od @daty1 do @daty2 wed³ug 360-dniowego "
+"kalendarza, w którym zak³ada siê, ¿e wszystkie miesi±ce maj± 30 dni.\n"
+"Je¶li @metoda ma warto¶æ TRUE, wykorzystana bêdzie metoda europejska - w tym "
+"przypadku je¶li dzieñ miesi±ca ma warto¶æ 31, przyjmuje siê j± jako 30.\n"
+"Je¶li @metoda ma warto¶æ FALSE lub nie zosta³a podana, wykorzystana zostanie "
+"metoda amerykañska - do¶æ skomplikowana metoda bêd±ca standardem "
+"przemys³owym.\n"
+"Gnumeric wykona zwyk³e przekszta³cenie napisu do numeru seryjnego, wiêc "
+"argumenty mog± byæ wprowadzone jako napisy.\n"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
 
-#: src/fn-date.c:507
+#: src/functions/fn-date.c:507
 msgid "Unsupported method"
-msgstr ""
+msgstr "Nieobs³ugiwana metoda"
 
-#: src/fn-date.c:568
+#: src/functions/fn-date.c:568
 msgid ""
 "@FUNCTION=EOMONTH\n"
 "@SYNTAX=EOMONTH (start_date,months)\n"
@@ -1673,8 +1944,14 @@ msgid ""
 "Returns #NUM! if start_date or months are invalid.\n"
 "@SEEALSO=MONTH"
 msgstr ""
+"@FUNCTION=EOMONTH\n"
+"@SYNTAX=EOMONTH (data_pocz±tkowa,miesi±ce)\n"
+"@DESCRIPTION=Zwraca ostatni dzieñ miesi±ca odleg³ego o @miesi±ce miesiêcy od "
+"daty @data_pocz±tkowa.\n"
+"Zwraca b³±d #LICZBA!, je¶li który¶ z argumentów jest niepoprawny.\n"
+"@SEEALSO=MONTH"
 
-#: src/fn-date.c:610
+#: src/functions/fn-date.c:610
 msgid ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
@@ -1688,13 +1965,15 @@ msgstr ""
 #. 1 if the cell is formatted in color for negative values;
 #. * otherwise returns 0 (zero).
 #.
-#: src/fn-date.c:639 src/fn-eng.c:120 src/fn-information.c:152
-#: src/fn-information.c:164 src/fn-information.c:181 src/fn-information.c:184
-#: src/fn-information.c:203 src/fn-information.c:262 src/fn-information.c:278
+#: src/functions/fn-date.c:639 src/functions/fn-eng.c:120
+#: src/functions/fn-information.c:152 src/functions/fn-information.c:164
+#: src/functions/fn-information.c:181 src/functions/fn-information.c:184
+#: src/functions/fn-information.c:203 src/functions/fn-information.c:262
+#: src/functions/fn-information.c:278
 msgid "Unimplemented"
-msgstr ""
+msgstr "Nie zaimplementowane"
 
-#: src/fn-date.c:674
+#: src/functions/fn-date.c:674
 msgid ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
@@ -1704,11 +1983,11 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/fn-date.c:785
+#: src/functions/fn-date.c:785
 msgid "Date / Time"
-msgstr ""
+msgstr "Data / Czas"
 
-#: src/fn-eng.c:22 src/fn-math.c:19
+#: src/functions/fn-eng.c:22 src/functions/fn-math.c:19
 msgid ""
 "@FUNCTION=NAME\n"
 "@SYNTAX=(b1, b2, ...)\n"
@@ -1716,13 +1995,17 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=NAME\n"
+"@SYNTAX=(b1, b2, ...)\n"
+"@DESCRIPTION\n"
+"\n"
+"@SEEALSO="
 
-#: src/fn-eng.c:57
-#, fuzzy
+#: src/functions/fn-eng.c:57
 msgid "Base error"
-msgstr "B³±d typu"
+msgstr ""
 
-#: src/fn-eng.c:133
+#: src/functions/fn-eng.c:133
 msgid ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
@@ -1731,8 +2014,14 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 msgstr ""
+"@FUNCTION=BIN2DEC\n"
+"@SYNTAX=BIN2DEC(x)\n"
+"@DESCRIPTION=Funkcja BIN2DEC konwertuje liczbê zapisan± dwójkowo w napisie "
+"lub liczbie na odpowiednik dziesiêtny.\n"
+"\n"
+"@SEEALSO=DEC2BIN, BIN2OCT, BIN2HEX"
 
-#: src/fn-eng.c:151
+#: src/functions/fn-eng.c:151
 msgid ""
 "@FUNCTION=BIN2OCT\n"
 "@SYNTAX=BIN2OCT(number[,places])\n"
@@ -1743,7 +2032,7 @@ msgid ""
 "@SEEALSO=OCT2BIN, BIN2DEC, BIN2HEX"
 msgstr ""
 
-#: src/fn-eng.c:171
+#: src/functions/fn-eng.c:171
 msgid ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(number[,places])\n"
@@ -1754,7 +2043,7 @@ msgid ""
 "@SEEALSO=HEX2BIN, BIN2OCT, BIN2DEC"
 msgstr ""
 
-#: src/fn-eng.c:191
+#: src/functions/fn-eng.c:191
 msgid ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(number[,places])\n"
@@ -1765,7 +2054,7 @@ msgid ""
 "@SEEALSO=BIN2DEC, DEC2OCT, DEC2HEX"
 msgstr ""
 
-#: src/fn-eng.c:211
+#: src/functions/fn-eng.c:211
 msgid ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(number[,places])\n"
@@ -1776,7 +2065,7 @@ msgid ""
 "@SEEALSO=OCT2DEC, DEC2BIN, DEC2HEX"
 msgstr ""
 
-#: src/fn-eng.c:231
+#: src/functions/fn-eng.c:231
 msgid ""
 "@FUNCTION=DEC2HEX\n"
 "@SYNTAX=DEC2HEX(number[,places])\n"
@@ -1787,7 +2076,7 @@ msgid ""
 "@SEEALSO=HEX2DEC, DEC2BIN, DEC2OCT"
 msgstr ""
 
-#: src/fn-eng.c:251
+#: src/functions/fn-eng.c:251
 msgid ""
 "@FUNCTION=OCT2DEC\n"
 "@SYNTAX=OCT2DEC(x)\n"
@@ -1797,7 +2086,7 @@ msgid ""
 "@SEEALSO=DEC2OCT, OCT2BIN, OCT2HEX"
 msgstr ""
 
-#: src/fn-eng.c:269
+#: src/functions/fn-eng.c:269
 msgid ""
 "@FUNCTION=OCT2BIN\n"
 "@SYNTAX=OCT2BIN(number[,places])\n"
@@ -1808,7 +2097,7 @@ msgid ""
 "@SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX"
 msgstr ""
 
-#: src/fn-eng.c:289
+#: src/functions/fn-eng.c:289
 msgid ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(number[,places])\n"
@@ -1819,7 +2108,7 @@ msgid ""
 "@SEEALSO=HEX2OCT, OCT2BIN, OCT2DEC"
 msgstr ""
 
-#: src/fn-eng.c:309
+#: src/functions/fn-eng.c:309
 msgid ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(number[,places])\n"
@@ -1830,7 +2119,7 @@ msgid ""
 "@SEEALSO=BIN2HEX, HEX2OCT, HEX2DEC"
 msgstr ""
 
-#: src/fn-eng.c:329
+#: src/functions/fn-eng.c:329
 msgid ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(number[,places])\n"
@@ -1841,8 +2130,7 @@ msgid ""
 "@SEEALSO=OCT2HEX, HEX2BIN, HEX2DEC"
 msgstr ""
 
-#: src/fn-eng.c:349
-#, fuzzy
+#: src/functions/fn-eng.c:349
 msgid ""
 "@FUNCTION=HEX2DEC\n"
 "@SYNTAX=HEX2DEC(x)\n"
@@ -1851,12 +2139,8 @@ msgid ""
 "\n"
 "@SEEALSO=DEC2HEX, HEX2BIN, HEX2OCT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-eng.c:367
+#: src/functions/fn-eng.c:367
 msgid ""
 "@FUNCTION=BESSELI\n"
 "@SYNTAX=BESSELI(x,y)\n"
@@ -1868,7 +2152,7 @@ msgid ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
 
-#: src/fn-eng.c:404
+#: src/functions/fn-eng.c:404
 msgid ""
 "@FUNCTION=BESSELK\n"
 "@SYNTAX=BESSELK(x,y)\n"
@@ -1880,7 +2164,7 @@ msgid ""
 "@SEEALSO=BESSELI,BESSELJ,BESSELY"
 msgstr ""
 
-#: src/fn-eng.c:440
+#: src/functions/fn-eng.c:440
 msgid ""
 "@FUNCTION=BESSELJ\n"
 "@SYNTAX=BESSELJ(x,y)\n"
@@ -1892,7 +2176,7 @@ msgid ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
 
-#: src/fn-eng.c:471
+#: src/functions/fn-eng.c:471
 msgid ""
 "@FUNCTION=BESSELY\n"
 "@SYNTAX=BESSELY(x,y)\n"
@@ -1904,7 +2188,7 @@ msgid ""
 "@SEEALSO=BESSELJ,BESSELK,BESSELY"
 msgstr ""
 
-#: src/fn-eng.c:542
+#: src/functions/fn-eng.c:542
 msgid ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
@@ -1915,8 +2199,7 @@ msgid ""
 "If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! error. @SEEALSO="
 msgstr ""
 
-#: src/fn-eng.c:579
-#, fuzzy
+#: src/functions/fn-eng.c:579
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -1924,103 +2207,84 @@ msgid ""
 "number.\n"
 "@SEEALSO=IMREAL"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=IMAGINARY\n"
+"@SYNTAX=IMAGINARY(liczba_zespolona)\n"
+"@DESCRIPTION=Funkcja IMAGINARY zwraca czê¶æ urojon± liczby zespolonej.\n"
+" @SEEALSO=IMREAL"
 
-#: src/fn-eng.c:604
-#, fuzzy
+#: src/functions/fn-eng.c:604
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
 "@DESCRIPTION=IMREAL returns the real coefficient of a complex number.\n"
 "@SEEALSO=IMAGINARY"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=IMREAL\n"
+"@SYNTAX=IMREAL(liczba_zespolona)\n"
+"@DESCRIPTION=Funkcja IMAGINARY zwraca czê¶æ rzeczywist± liczby zespolonej.\n"
+" @SEEALSO=IMAGINARY"
 
-#: src/fn-eng.c:629
-#, fuzzy
+#: src/functions/fn-eng.c:629
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
 "@DESCRIPTION=IMABS returns the absolute value of a complex number.\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=IMABS\n"
+"@SYNTAX=IMABS(liczba_zespolona)\n"
+"@DESCRIPTION=Funkcja IMABS zwraca warto¶æ bezwzglêdn± liczby zespolonej.\n"
+"@SEEALSO=IMAGINARY,IMREAL"
 
-#: src/fn-eng.c:654
-#, fuzzy
+#: src/functions/fn-eng.c:654
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
 "@DESCRIPTION=IMCONJUGATE returns the complex conjugate of a complex number.\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-eng.c:679
-#, fuzzy
+#: src/functions/fn-eng.c:679
 msgid ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(inumber)\n"
 "@DESCRIPTION=IMCOS returns the cosine of a complex number.\n"
 "@SEEALSO=IMSIN,IMTAN"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=IMCOS\n"
+"@SYNTAX=IMCOS(liczba_zespolona)\n"
+"@DESCRIPTION=Funkcja IMCOS zwraca cosinus liczby zespolonej.\n"
+"@SEEALSO=IMSIN,IMTAN"
 
-#: src/fn-eng.c:701
-#, fuzzy
+#: src/functions/fn-eng.c:701
 msgid ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(inumber)\n"
 "@DESCRIPTION=IMTAN returns the tangent of a complex number.\n"
 "@SEEALSO=IMSIN,IMCOS"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=IMTAN\n"
+"@SYNTAX=IMTAN(liczba_zespolona)\n"
+"@DESCRIPTION=Funkcja IMTAN zwraca tangens liczby zespolonej.\n"
+"@SEEALSO=IMSIN,IMCOS"
 
-#: src/fn-eng.c:723
-#, fuzzy
+#: src/functions/fn-eng.c:723
 msgid ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(inumber)\n"
 "@DESCRIPTION=IMEXP returns the exponential of a complex number.\n"
 "@SEEALSO=IMLN"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-eng.c:745
-#, fuzzy
+#: src/functions/fn-eng.c:745
 msgid ""
 "@FUNCTION=IMARGUMENT\n"
 "@SYNTAX=IMARGUMENT(inumber)\n"
 "@DESCRIPTION=IMARGUMENT returns the argument theta of a complex number.\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-eng.c:766
+#: src/functions/fn-eng.c:766
 msgid ""
 "@FUNCTION=IMLN\n"
 "@SYNTAX=IMLN(inumber)\n"
@@ -2031,33 +2295,33 @@ msgid ""
 "@SEEALSO=IMEXP,IMLOG2,IMLOG10"
 msgstr ""
 
-#: src/fn-eng.c:791
-#, fuzzy
+#: src/functions/fn-eng.c:791
 msgid ""
 "@FUNCTION=IMLOG2\n"
 "@SYNTAX=IMLOG2(inumber)\n"
 "@DESCRIPTION=IMLOG2 returns the logarithm of a complex number in base 2.\n"
 "@SEEALSO=IMLN,IMLOG10"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=IMLOG2\n"
+"@SYNTAX=IMLOG2(liczba_zesplona)\n"
+"@DESCRIPTION=Funkcja IMLOG2 zwraca logarytm o podstawie 2 z liczby "
+"zespolonej.\n"
+"@SEEALSO=IMLN,IMLOG10"
 
-#: src/fn-eng.c:815
-#, fuzzy
+#: src/functions/fn-eng.c:815
 msgid ""
 "@FUNCTION=IMLOG10\n"
 "@SYNTAX=IMLOG10(inumber)\n"
 "@DESCRIPTION=IMLOG10 returns the logarithm of a complex number in base 10.\n"
 "@SEEALSO=IMLN,IMLOG2"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=IMLOG10\n"
+"@SYNTAX=IMLOG10(liczba_zespolona)\n"
+"@DESCRIPTION=Funkcja IMLOG10 zwraca logarytm o podstawie 10 z liczby "
+"zespolonej.\n"
+"@SEEALSO=IMLN,IMLOG2"
 
-#: src/fn-eng.c:839
+#: src/functions/fn-eng.c:839
 msgid ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(inumber,number)\n"
@@ -2067,86 +2331,72 @@ msgid ""
 "@SEEALSO=IMSQRT"
 msgstr ""
 
-#: src/fn-eng.c:869
-#, fuzzy
+#: src/functions/fn-eng.c:869
 msgid ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(inumber,inumber)\n"
 "@DESCRIPTION=IMDIV returns the quotient of two complex numbers.\n"
 "@SEEALSO=IMPRODUCT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-eng.c:897
-#, fuzzy
+#: src/functions/fn-eng.c:897
 msgid ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(inumber)\n"
 "@DESCRIPTION=IMSIN returns the sine of a complex number.\n"
 "@SEEALSO=IMCOS,IMTAN"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=IMSIN\n"
+"@SYNTAX=IMSIN(liczba_zespolona)\n"
+"@DESCRIPTION=Funkcja IMSIN zwraca sinus liczby zespolonej.\n"
+"@SEEALSO=IMCOS,IMTAN"
 
-#: src/fn-eng.c:919
-#, fuzzy
+#: src/functions/fn-eng.c:919
 msgid ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(inumber)\n"
 "@DESCRIPTION=IMSQRT returns the square root of a complex number.\n"
 "@SEEALSO=IMPOWER"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=IMSQRT\n"
+"@SYNTAX=IMSQRT(liczba_zespolona)\n"
+"@DESCRIPTION=Funkcja IMSQRT zwraca pierwiastek kwadratowy z liczby "
+"zespolonej.\n"
+"@SEEALSO=IMPOWER"
 
-#: src/fn-eng.c:941
-#, fuzzy
+#: src/functions/fn-eng.c:941
 msgid ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(inumber,inumber)\n"
 "@DESCRIPTION=IMSUB returns the difference of two complex numbers.\n"
 "@SEEALSO=IMSUM"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-eng.c:966
-#, fuzzy
+#: src/functions/fn-eng.c:966
 msgid ""
 "@FUNCTION=IMPRODUCT\n"
 "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
 "@DESCRIPTION=IMPRODUCT returns the product of given complex numbers.\n"
 "@SEEALSO=IMDIV"
 msgstr ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(warto¶æ1, warto¶æ2, ...)@DESCRIPTION=Oblicza standardowe "
-"odchylenie dla wszystkich warto¶ci z listy argumentów. Jest one równe "
-"pierwiastkowi kwadratowemu wariancji.\n"
-"@SEEALSO=VARIANCE"
+"@FUNCTION=IMPRODUCT\n"
+"@SYNTAX=IMPRODUCT(liczba_zespolona1[,liczba_zespolona2,...])\n"
+"@DESCRIPTION=Funkcja IMPRODUCT zwraca iloczyn podanych liczb zespolonych.\n"
+"@SEEALSO=IMDIV"
 
-#: src/fn-eng.c:1030
-#, fuzzy
+#: src/functions/fn-eng.c:1030
 msgid ""
 "@FUNCTION=IMSUM\n"
 "@SYNTAX=IMSUM(inumber,inumber)\n"
 "@DESCRIPTION=IMSUM returns the sum of two complex numbers.\n"
 "@SEEALSO=IMSUB"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=IMSUM\n"
+"@SYNTAX=IMSUM(liczba_zespolona1,liczba_zespolona2)\n"
+"@DESCRIPTION=Funkcja IMSUM zwraca sumê dwóch liczb zespolonych.\n"
+"@SEEALSO=IMSUB"
 
-#: src/fn-eng.c:1058
+#: src/functions/fn-eng.c:1058
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -2246,7 +2496,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-eng.c:1445
+#: src/functions/fn-eng.c:1445
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF(lower limit[,upper_limit])\n"
@@ -2259,7 +2509,7 @@ msgid ""
 "@SEEALSO=ERFC"
 msgstr ""
 
-#: src/fn-eng.c:1482
+#: src/functions/fn-eng.c:1482
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -2270,7 +2520,7 @@ msgid ""
 "@SEEALSO=ERF"
 msgstr ""
 
-#: src/fn-eng.c:1508
+#: src/functions/fn-eng.c:1508
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -2280,12 +2530,11 @@ msgid ""
 "@SEEALSO=EXACT,GESTEP"
 msgstr ""
 
-#: src/fn-eng.c:1551 src/fn-eng.c:1602
-#, fuzzy
+#: src/functions/fn-eng.c:1551 src/functions/fn-eng.c:1602
 msgid "Impossible"
-msgstr "Wczytaj plik"
+msgstr "Niemo¿liwe"
 
-#: src/fn-eng.c:1560
+#: src/functions/fn-eng.c:1560
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -2295,11 +2544,11 @@ msgid ""
 "@SEEALSO=DELTA"
 msgstr ""
 
-#: src/fn-eng.c:1612
+#: src/functions/fn-eng.c:1612
 msgid "Engineering"
 msgstr ""
 
-#: src/fn-financial.c:105
+#: src/functions/fn-financial.c:120
 msgid ""
 "@FUNCTION=EFFECT\n"
 "@SYNTAX=EFFECT(r,nper)\n"
@@ -2322,12 +2571,11 @@ msgid ""
 "@SEEALSO=NOMINAL"
 msgstr ""
 
-#: src/fn-financial.c:145
-#, fuzzy
+#: src/functions/fn-financial.c:159
 msgid "effect - domain error"
-msgstr "acos - b³±d dziedziny"
+msgstr "effect - b³±d dziedziny"
 
-#: src/fn-financial.c:153
+#: src/functions/fn-financial.c:166
 msgid ""
 "@FUNCTION=NOMINAL\n"
 "@SYNTAX=NOMINAL(r,nper)\n"
@@ -2343,12 +2591,20 @@ msgid ""
 "@SEEALSO=EFFECT"
 msgstr ""
 
-#: src/fn-financial.c:180
-#, fuzzy
+#: src/functions/fn-financial.c:193
 msgid "nominal - domain error"
-msgstr "asin - b³±d dziedziny"
+msgstr "nominal - b³±d dziedziny"
 
-#: src/fn-financial.c:187
+#: src/functions/fn-financial.c:200
+msgid ""
+"@FUNCTION=ISPMT\n"
+"@SYNTAX=ISPMT(rate,per,nper,pv)\n"
+"@DESCRIPTION=ISPMT function returns the interest payed on a given period. \n"
+"If @per < 1 or @per > @nper, ISPMT returns #NUM! error. \n"
+"@SEEALSO=PV"
+msgstr ""
+
+#: src/functions/fn-financial.c:230
 msgid ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
@@ -2361,7 +2617,7 @@ msgid ""
 "@SEEALSO=DDB,SLN,SYD,VDB"
 msgstr ""
 
-#: src/fn-financial.c:237
+#: src/functions/fn-financial.c:280
 msgid ""
 "@FUNCTION=DDB\n"
 "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
@@ -2375,7 +2631,7 @@ msgid ""
 "@SEEALSO=SLN,SYD,VDB"
 msgstr ""
 
-#: src/fn-financial.c:281
+#: src/functions/fn-financial.c:324
 msgid ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(cost,salvage_value,life)\n"
@@ -2389,12 +2645,11 @@ msgid ""
 "@SEEALSO=SYD"
 msgstr ""
 
-#: src/fn-financial.c:310
-#, fuzzy
+#: src/functions/fn-financial.c:354
 msgid "sln - domain error"
-msgstr "asin - b³±d dziedziny"
+msgstr "sln - b³±d dziedziny"
 
-#: src/fn-financial.c:316
+#: src/functions/fn-financial.c:360
 msgid ""
 "@FUNCTION=SYD\n"
 "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
@@ -2409,12 +2664,11 @@ msgid ""
 "@SEEALSO=SLN"
 msgstr ""
 
-#: src/fn-financial.c:349
-#, fuzzy
+#: src/functions/fn-financial.c:394
 msgid "syd - domain error"
-msgstr "acos - b³±d dziedziny"
+msgstr "syd - b³±d dziedziny"
 
-#: src/fn-financial.c:355
+#: src/functions/fn-financial.c:402
 msgid ""
 "@FUNCTION=DOLLARDE\n"
 "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
@@ -2425,7 +2679,7 @@ msgid ""
 "@SEEALSO=DOLLARFR"
 msgstr ""
 
-#: src/fn-financial.c:393
+#: src/functions/fn-financial.c:439
 msgid ""
 "@FUNCTION=DOLLARFR\n"
 "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
@@ -2436,7 +2690,56 @@ msgid ""
 "@SEEALSO=DOLLARDE"
 msgstr ""
 
-#: src/fn-financial.c:432
+#: src/functions/fn-financial.c:476
+msgid ""
+"@FUNCTION=MIRR\n"
+"@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
+"@DESCRIPTION=MIRR function returns the modified internal rate of return for "
+"a given periodic cash flow. \n"
+"@SEEALSO=NPV"
+msgstr ""
+
+#: src/functions/fn-financial.c:524
+msgid ""
+"@FUNCTION=TBILLEQ\n"
+"@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
+"@DESCRIPTION=TBILLEQ function returns the bond-yield equivalent (BEY) for a "
+"treasury bill.  TBILLEQ is equivalent to (365 x discount) / (360 - discount "
+"x DSM) where DSM is the days between @settlement and @maturity. \n"
+"If @settlement is after @maturity or the @maturity is set to over one year "
+"later than the @settlement, TBILLEQ returns NUM! error. If @discount is "
+"negative, TBILLEQ returns NUM! error. \n"
+"@SEEALSO=TBILLPRICE,TBILLYIELD"
+msgstr ""
+
+#: src/functions/fn-financial.c:561
+msgid ""
+"@FUNCTION=TBILLPRICE\n"
+"@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
+"@DESCRIPTION=TBILLPRICE function returns the price per $100 value for a "
+"treasury bill where @settlement is the settlement date and @maturity is the "
+"maturity date of the bill.  @discount is the treasury bill's discount rate. "
+"\n"
+"If @settlement is after @maturity or the @maturity is set to over one year "
+"later than the @settlement, TBILLPRICE returns NUM! error. If @discount is "
+"negative, TBILLPRICE returns NUM! error. \n"
+"@SEEALSO=TBILLEQ,TBILLYIELD"
+msgstr ""
+
+#: src/functions/fn-financial.c:598
+msgid ""
+"@FUNCTION=TBILLYIELD\n"
+"@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
+"@DESCRIPTION=TBILLYIELD function returns the yield for a treasury bill. "
+"@settlement is the settlement date and @maturity is the maturity date of the "
+"bill.  @discount is the treasury bill's discount rate. \n"
+"If @settlement is after @maturity or the @maturity is set to over one year "
+"later than the @settlement, TBILLYIELD returns NUM! error. If @pr is "
+"negative, TBILLYIELD returns NUM! error. \n"
+"@SEEALSO=TBILLEQ,TBILLPRICE"
+msgstr ""
+
+#: src/functions/fn-financial.c:635
 msgid ""
 "@FUNCTION=RATE\n"
 "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
@@ -2444,25 +2747,19 @@ msgid ""
 "@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:530
-#, fuzzy
+#: src/functions/fn-financial.c:734
 msgid ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
 "@DESCRIPTION=Calculates the present value of an investment.\n"
 "@SEEALSO=FV"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-financial.c:552
-#, fuzzy
+#: src/functions/fn-financial.c:755
 msgid "pv - domain error"
-msgstr "acos - b³±d dziedziny"
+msgstr "pv - b³±d dziedziny"
 
-#: src/fn-financial.c:563
+#: src/functions/fn-financial.c:766
 msgid ""
 "@FUNCTION=NPV\n"
 "@SYNTAX=NPV(rate,v1,v2,...)\n"
@@ -2473,7 +2770,7 @@ msgid ""
 "@SEEALSO=PV,XNPV"
 msgstr ""
 
-#: src/fn-financial.c:612
+#: src/functions/fn-financial.c:815
 msgid ""
 "@FUNCTION=XNPV\n"
 "@SYNTAX=XNPV(rate,values,dates)\n"
@@ -2486,33 +2783,23 @@ msgid ""
 "@SEEALSO=NPV,PV"
 msgstr ""
 
-#: src/fn-financial.c:665
-#, fuzzy
+#: src/functions/fn-financial.c:868
 msgid ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
 "@DESCRIPTION=Calculates the future value of an investment.\n"
 "@SEEALSO=PV,PMT,PPMT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-financial.c:695
-#, fuzzy
+#: src/functions/fn-financial.c:896
 msgid ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
 "@DESCRIPTION=Calculates the present value of an investment.\n"
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-financial.c:725
+#: src/functions/fn-financial.c:925
 msgid ""
 "@FUNCTION=IPMT\n"
 "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
@@ -2527,7 +2814,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:766
+#: src/functions/fn-financial.c:975
 msgid ""
 "@FUNCTION=PPMT\n"
 "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
@@ -2541,7 +2828,7 @@ msgid ""
 "@SEEALSO=IPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:817
+#: src/functions/fn-financial.c:1026
 msgid ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
@@ -2549,7 +2836,7 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:847
+#: src/functions/fn-financial.c:1057
 msgid ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(rate,pv,fv)\n"
@@ -2560,12 +2847,20 @@ msgid ""
 "@SEEALSO=PPMT,PV,FV"
 msgstr ""
 
-#: src/fn-financial.c:879
-msgid "Financial"
+#: src/functions/fn-financial.c:1090
+msgid ""
+"@FUNCTION=FVSCHEDULE\n"
+"@SYNTAX=FVSCHEDULE(pv,schedule)\n"
+"@DESCRIPTION=FVSCHEDULE returns the future value of given initial value @pv "
+"after applying a series of compound periodic interest rates. \n"
+"@SEEALSO=PV,FV"
 msgstr ""
 
-#: src/fn-information.c:67
-#, fuzzy
+#: src/functions/fn-financial.c:1126
+msgid "Financial"
+msgstr "Finansowe"
+
+#: src/functions/fn-information.c:67
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL()\n"
@@ -2573,31 +2868,24 @@ msgid ""
 "contents of a cell. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-information.c:206 src/fn-information.c:314
-#, fuzzy
+#: src/functions/fn-information.c:206 src/functions/fn-information.c:314
 msgid "Unknown info_type"
-msgstr "Nieznany b³±d obliczeñ"
+msgstr ""
 
-#: src/fn-information.c:211
-#, fuzzy
+#: src/functions/fn-information.c:211
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
 "@DESCRIPTION=COUNTBLANK returns the number of blank cells in a @range. \n"
 "@SEEALSO=COUNT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=COUNTBLANK\n"
+"@SYNTAX=COUNTBLANK(zakres)\n"
+"@DESCRIPTION=Funkcja COUNTBLANK zwraca liczbê pustych komórek w @zakresie. \n"
+"@SEEALSO=COUNT"
 
-#: src/fn-information.c:246
-#, fuzzy
+#: src/functions/fn-information.c:246
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO()\n"
@@ -2605,137 +2893,120 @@ msgid ""
 "environment. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-information.c:284
-#, fuzzy
+#: src/functions/fn-information.c:284
 msgid "Unknown version"
-msgstr "Nieznany b³±d obliczeñ"
+msgstr "Nieznana wersja"
 
-#: src/fn-information.c:286
+#: src/functions/fn-information.c:286
 #, c-format
 msgid "%s version %s"
-msgstr ""
+msgstr "%s wersja %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: src/fn-information.c:295
+#: src/functions/fn-information.c:295
 msgid "Automatic"
 msgstr ""
 
-#: src/fn-information.c:304
-#, fuzzy
+#: src/functions/fn-information.c:304
 msgid "Unknown system"
-msgstr "Nieznany b³±d obliczeñ"
+msgstr "Nieznany system"
 
-#: src/fn-information.c:319
-#, fuzzy
+#: src/functions/fn-information.c:319
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK()\n"
 "@DESCRIPTION=ISBLANK returns TRUE if the value is blank. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ISBLANK\n"
+"@SYNTAX=ISBLANK()\n"
+"@DESCRIPTION=Funkcja ISBLANK zwraca PRAWDA, je¶li warto¶æ jest pusta. \n"
+"@SEEALSO="
 
-#: src/fn-information.c:362
-#, fuzzy
+#: src/functions/fn-information.c:362
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN()\n"
 "@DESCRIPTION=ISEVEN returns TRUE if the number is even. \n"
 "@SEEALSO=ISODD"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ISEVEN\n"
+"@SYNTAX=ISEVEN()\n"
+"@DESCRIPTION=Funkcja ISEVEN zwraca PRAWDA, je¶li warto¶æ jest parzysta. \n"
+"@SEEALSO=ISODD"
 
-#: src/fn-information.c:379
-#, fuzzy
+#: src/functions/fn-information.c:379
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL()\n"
 "@DESCRIPTION=ISLOGICAL returns TRUE if the value is a logical value. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ISLOGICAL\n"
+"@SYNTAX=ISLOGICAL()\n"
+"@DESCRIPTION=Funkcja ISLOGICAL zwraca PRAWDA, je¶li warto¶æ jest warto¶ci± "
+"logiczn±. \n"
+"@SEEALSO="
 
-#: src/fn-information.c:403
-#, fuzzy
+#: src/functions/fn-information.c:403
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT()\n"
 "@DESCRIPTION=ISNONTEXT Returns TRUE if the value is not text. \n"
 "@SEEALSO=ISTEXT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ISNONTEXT\n"
+"@SYNTAX=ISNONTEXT()\n"
+"@DESCRIPTION=Funkcja ISNONTEXT zwraca PRAWDA, je¶li warto¶æ nie jest "
+"napisem. \n"
+"@SEEALSO=ISTEXT"
 
-#: src/fn-information.c:424
-#, fuzzy
+#: src/functions/fn-information.c:424
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER()\n"
 "@DESCRIPTION=ISNUMBER returns TRUE if the value is a number. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ISNUMBER\n"
+"@SYNTAX=ISNUMBER()\n"
+"@DESCRIPTION=Funkcja ISNUMBER zwraca PRAWDA, je¶li warto¶æ jest liczb±. \n"
+"@SEEALSO="
 
-#: src/fn-information.c:445
-#, fuzzy
+#: src/functions/fn-information.c:445
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD()\n"
 "@DESCRIPTION=ISODD returns TRUE if the number is odd. \n"
 "@SEEALSO=ISEVEN"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ISODD\n"
+"@SYNTAX=ISODD()\n"
+"@DESCRIPTION=Funkcja ISODD zwraca PRAWDA, jesli liczba jest nieparzysta. \n"
+"@SEEALSO=ISEVEN"
 
-#: src/fn-information.c:462
-#, fuzzy
+#: src/functions/fn-information.c:462
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF()\n"
 "@DESCRIPTION=ISREF returns TRUE if the value is a reference. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-information.c:488
-#, fuzzy
+#: src/functions/fn-information.c:488
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT()\n"
 "@DESCRIPTION=ISTEXT returns TRUE if the value is text. \n"
 "@SEEALSO=ISNONTEXT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ISTEXT\n"
+"@SYNTAX=ISTEXT()\n"
+"@DESCRIPTION=Funkcja ISTEXT zwraca PRAWDA, je¶li warto¶c jest napisem. \n"
+"@SEEALSO=ISNONTEXT"
 
-#: src/fn-information.c:509
-#, fuzzy
+#: src/functions/fn-information.c:509
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N()\n"
@@ -2743,30 +3014,25 @@ msgid ""
 "text are converted to the zero value. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=N\n"
+"@SYNTAX=N()\n"
+"@DESCRIPTION=Funkcja N zwraca warto¶æ przekonwertowan± na liczbê. Napisy nie "
+"zawieraj±ce liczb s± zamieniane na warto¶æ zero. \n"
+"@SEEALSO="
 
-#: src/fn-information.c:544
-#, fuzzy
+#: src/functions/fn-information.c:544
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE()\n"
 "@DESCRIPTION=TYPE returns a number indicating the data type of a value. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-information.c:565
-#, fuzzy
+#: src/functions/fn-information.c:565
 msgid "Information"
-msgstr "U³amek"
+msgstr "Informacja"
 
-#: src/fn-logical.c:15
+#: src/functions/fn-logical.c:15
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -2780,8 +3046,7 @@ msgid ""
 "@SEEALSO=OR, NOT"
 msgstr ""
 
-#: src/fn-logical.c:66
-#, fuzzy
+#: src/functions/fn-logical.c:66
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -2790,18 +3055,13 @@ msgid ""
 "\n"
 "@SEEALSO=AND, OR"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-logical.c:81 src/fn-lookup.c:439 src/fn-lookup.c:446
-#: src/fn-string.c:457
-#, fuzzy
+#: src/functions/fn-logical.c:81 src/functions/fn-lookup.c:439
+#: src/functions/fn-lookup.c:446 src/functions/fn-string.c:457
 msgid "Type Mismatch"
 msgstr "Niezgodno¶æ typów"
 
-#: src/fn-logical.c:86
+#: src/functions/fn-logical.c:86
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -2815,7 +3075,7 @@ msgid ""
 "@SEEALSO=AND, NOT"
 msgstr ""
 
-#: src/fn-logical.c:135
+#: src/functions/fn-logical.c:135
 msgid ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition[,if-true,if-false])\n"
@@ -2827,11 +3087,11 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-logical.c:192
+#: src/functions/fn-logical.c:192
 msgid "Logical"
-msgstr ""
+msgstr "Logiczne"
 
-#: src/fn-lookup.c:16
+#: src/functions/fn-lookup.c:16
 msgid ""
 "@FUNCTION=ADDRESS\n"
 "@SYNTAX=ADDRESS(row_num,col_num[,abs_num,a1,text])\n"
@@ -2851,7 +3111,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-lookup.c:128
+#: src/functions/fn-lookup.c:128
 msgid ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(index[,value1][,value2]...)\n"
@@ -2861,12 +3121,11 @@ msgid ""
 "@SEEALSO=IF"
 msgstr ""
 
-#: src/fn-lookup.c:150
-#, fuzzy
+#: src/functions/fn-lookup.c:150
 msgid "#ARG!"
-msgstr "#WARTO¦Æ"
+msgstr "#ARG!"
 
-#: src/fn-lookup.c:175
+#: src/functions/fn-lookup.c:175
 msgid ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(value,range,column,[approximate])\n"
@@ -2880,7 +3139,7 @@ msgid ""
 "@SEEALSO=HLOOKUP"
 msgstr ""
 
-#: src/fn-lookup.c:326
+#: src/functions/fn-lookup.c:326
 msgid ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(value,range,row,[approximate])\n"
@@ -2894,7 +3153,7 @@ msgid ""
 "@SEEALSO=VLOOKUP"
 msgstr ""
 
-#: src/fn-lookup.c:407
+#: src/functions/fn-lookup.c:407
 msgid ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(value,vector1,vector2)\n"
@@ -2908,7 +3167,7 @@ msgid ""
 "@SEEALSO=VLOOKUP,HLOOKUP"
 msgstr ""
 
-#: src/fn-lookup.c:500
+#: src/functions/fn-lookup.c:500
 msgid ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(ref_text, [format])\n"
@@ -2920,7 +3179,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-lookup.c:554
+#: src/functions/fn-lookup.c:554
 msgid ""
 "@FUNCTION=COLUMN\n"
 "@SYNTAX=COLUMN([reference])\n"
@@ -2931,8 +3190,7 @@ msgid ""
 "@SEEALSO=COLUMNS,ROW,ROWS"
 msgstr ""
 
-#: src/fn-lookup.c:603
-#, fuzzy
+#: src/functions/fn-lookup.c:603
 msgid ""
 "@FUNCTION=COLUMNS\n"
 "@SYNTAX=COLUMNS(reference)\n"
@@ -2942,12 +3200,8 @@ msgid ""
 "#VALUE!.\n"
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-lookup.c:624
+#: src/functions/fn-lookup.c:624
 msgid ""
 "@FUNCTION=OFFSET\n"
 "@SYNTAX=OFFSET(range,row,col,height,width)\n"
@@ -2959,7 +3213,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/fn-lookup.c:683
+#: src/functions/fn-lookup.c:683
 msgid ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([reference])\n"
@@ -2970,7 +3224,7 @@ msgid ""
 "@SEEALSO=COLUMN,COLUMNS,ROWS"
 msgstr ""
 
-#: src/fn-lookup.c:732
+#: src/functions/fn-lookup.c:732
 msgid ""
 "@FUNCTION=ROWS\n"
 "@SYNTAX=ROWS(reference)\n"
@@ -2981,8 +3235,7 @@ msgid ""
 "@SEEALSO=COLUMN,ROW,ROWS"
 msgstr ""
 
-#: src/fn-lookup.c:755
-#, fuzzy
+#: src/functions/fn-lookup.c:755
 msgid ""
 "@FUNCTION=HYPERLINK\n"
 "@SYNTAX=HYPERLINK(reference)\n"
@@ -2991,16 +3244,12 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-lookup.c:779
+#: src/functions/fn-lookup.c:779
 msgid "Data / Lookup"
-msgstr ""
+msgstr "Dane / Wyszukiwanie"
 
-#: src/fn-math.c:156
+#: src/functions/fn-math.c:156
 msgid ""
 "@FUNCTION=GCD\n"
 "@SYNTAX=GCD(number1,number2,...)\n"
@@ -3008,8 +3257,14 @@ msgid ""
 "If any of the arguments is less than zero, GCD returns #NUM! error. \n"
 "@SEEALSO=LCM"
 msgstr ""
+"@FUNCTION=GCD\n"
+"@SYNTAX=GCD(a,b)\n"
+"@DESCRIPTION=Funkcja GCD zwraca najwiêkszy wspólny dzielnik dwóch liczb.\n"
+"Je¶li którykolwiek z argumentów jest mniejszy od zera, GCD zwraca b³±d "
+"#LICZBA!\n"
+"@SEEALSO=LCM"
 
-#: src/fn-math.c:197
+#: src/functions/fn-math.c:197
 msgid ""
 "@FUNCTION=LCM\n"
 "@SYNTAX=LCM(number1,number2,...)\n"
@@ -3019,8 +3274,16 @@ msgid ""
 "If any of the arguments is less than one, LCM returns #NUM! error. \n"
 "@SEEALSO=GCD"
 msgstr ""
+"@FUNCTION=LCM\n"
+"@SYNTAX=LCM(liczba1,liczba2,...)\n"
+"@DESCRIPTION=Funkcja LCM zwraca najmniejsz± wspóln± wielokrotno¶æ dwóch "
+"liczb ca³kowitych. Najmniejsza wspólna wielokrotno¶æ jest najmniejsz± liczb± "
+"dodatni±, która jest wielokrotno¶ci± ka¿dego z argumentów ca³kowitych.\n"
+"Je¶li którykolwiek z argumentów jest mniejszy od jednego, LCM zwraca b³±d "
+"#LICZBA!\n"
+"@SEEALSO=GCD"
 
-#: src/fn-math.c:248
+#: src/functions/fn-math.c:248
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -3030,9 +3293,14 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
+"@FUNCTION=ABS\n"
+"@SYNTAX=ABS(b1)\n"
+"@DESCRIPTION=Oblicza warto¶æ bezwzglêdn± argumentu, który mo¿e byæ liczb± "
+"ca³kowit± lub zmiennoprzecinkow±.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=CEIL, FLOOR"
 
-#: src/fn-math.c:267
-#, fuzzy
+#: src/functions/fn-math.c:267
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -3044,17 +3312,19 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ACOS\n"
+"@SYNTAX=ACOS(x)\n"
+"@DESCRIPTION=Funkcja ACOS oblicza arcus cosinus z x; jest to warto¶æ, której "
+"cosinus jest równy x. Je¶li x jest spoza przedzia³u od -1 do 1, funkcja ACOS "
+"zwraca b³±d 'acos - b³±d dziedziny'. Zwracana warto¶æ jest w radianach.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:289
+#: src/functions/fn-math.c:289
 msgid "acos - domain error"
 msgstr "acos - b³±d dziedziny"
 
-#: src/fn-math.c:295
-#, fuzzy
+#: src/functions/fn-math.c:295
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -3065,17 +3335,19 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=ACOS, ASINH, DEGREES, RADIANS "
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ACOSH\n"
+"@SYNTAX=ACOSH(x)\n"
+"@DESCRIPTION=Funkcja ACOSH oblicza area cosinus z x; jest to warto¶æ, której "
+"cosinus hiperboliczny jest równy x. Je¶li x jest mniejsze ni¿ 1.0, acosh() "
+"zwraca b³±d 'acosh - b³±d dziedziny'\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=ACOS, DEGREES, RADIANS "
 
-#: src/fn-math.c:317
+#: src/functions/fn-math.c:317
 msgid "acosh - domain error"
 msgstr "acosh - b³±d dziedziny"
 
-#: src/fn-math.c:323
-#, fuzzy
+#: src/functions/fn-math.c:323
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -3086,17 +3358,19 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ASIN\n"
+"@SYNTAX=ASIN(x)\n"
+"@DESCRIPTION=Funkcja ASIN oblicza arcus cosinus z x; jest to warto¶æ, której "
+"sinus jest równy x. Je¶li x jest spoza przedzia³u od -1 do 1, funkcja ASIN "
+"zwraca b³±d 'asin - b³±d dziedziny'. Zwracana warto¶æ jest w radianach.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=SIN, COS, ASINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:344
+#: src/functions/fn-math.c:344
 msgid "asin - domain error"
 msgstr "asin - b³±d dziedziny"
 
-#: src/fn-math.c:350
-#, fuzzy
+#: src/functions/fn-math.c:350
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -3106,13 +3380,14 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=ASIN, ACOSH, SIN, COS, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ASINH\n"
+"@SYNTAX=ASINH(x)\n"
+"@DESCRIPTION=Funkcja ASINH oblicza area sinus z x; jest to warto¶æ, której "
+"sinus hiperboliczny jest równy x.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=ASIN, SIN, COS, DEGREES, RADIANS"
 
-#: src/fn-math.c:371
-#, fuzzy
+#: src/functions/fn-math.c:371
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -3122,13 +3397,14 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ATAN\n"
+"@SYNTAX=ATAN(x)\n"
+"@DESCRIPTION=Funkcja ATAN oblicza arcus tangens z x; jest to warto¶æ, której "
+"tangens jest równy x. Zwracana warto¶æ jest w radianach.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:394
-#, fuzzy
+#: src/functions/fn-math.c:394
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -3140,16 +3416,19 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ATANH\n"
+"@SYNTAX=ATANH(x)\n"
+"@DESCRIPTION=Funkcja ATANH oblicza area tangens z x; jest to warto¶æ, której "
+"tangens hiperboliczny jest równy x. Je¶li warto¶æ bezwzglêdna z x jest "
+"wiêksza ni¿ 1.0, ATANH zwraca b³±d 'atanh: b³±d dziedziny'.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=ATAN, TAN, SIN, COS, DEGREES, RADIANS"
 
-#: src/fn-math.c:417
+#: src/functions/fn-math.c:417
 msgid "atanh: domain error"
 msgstr "atanh: b³±d dziedziny"
 
-#: src/fn-math.c:423
+#: src/functions/fn-math.c:423
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -3160,9 +3439,16 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing. \n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 msgstr ""
+"@FUNCTION=ATAN2\n"
+"@SYNTAX=ATAN2(b1,b2)\n"
+"@DESCRIPTION=Funkcja ATAN2 oblicza arcus tangens dwóch argumentów: b1 i b2. "
+"Jej dzia³anie jest podobna do obliczania arcus tangensa z b2 / b1, jednak "
+"znaki obu argumentów s± u¿ywane do okre¶lenia kwadrantu wyniku. Wynik "
+"podawany jest w radianach.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:447
-#, fuzzy
+#: src/functions/fn-math.c:447
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -3170,13 +3456,14 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=CEIL\n"
+"@SYNTAX=CEIL(x)\n"
+"@DESCRIPTION=Funkcja CEIL zaokr±gla x w górê do najbli¿szej liczby "
+"ca³kowitej.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=ABS, FLOOR, INT"
 
-#: src/fn-math.c:466
-#, fuzzy
+#: src/functions/fn-math.c:466
 msgid ""
 "@FUNCTION=COUNTIF\n"
 "@SYNTAX=COUNTIF(range,criteria)\n"
@@ -3184,13 +3471,13 @@ msgid ""
 "that meet the given @criteria. \n"
 "@SEEALSO=COUNT,SUMIF"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=COUNTIF\n"
+"@SYNTAX=COUNTIF(obszar,kryterium)\n"
+"@DESCRIPTION=Funkcja COUNTIF oblicza liczbê komórek w podanym obszarze, "
+"które spe³niaj± okre¶lone kryterium.\n"
+"@SEEALSO=COUNT,SUMIF"
 
-#: src/fn-math.c:535
-#, fuzzy
+#: src/functions/fn-math.c:535
 msgid ""
 "@FUNCTION=SUMIF\n"
 "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
@@ -3200,14 +3487,15 @@ msgid ""
 "@criteria. \n"
 "@SEEALSO=COUNTIF, SUM"
 msgstr ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(warto¶æ1, warto¶æ2, ...)@DESCRIPTION=Oblicza standardowe "
-"odchylenie dla wszystkich warto¶ci z listy argumentów. Jest one równe "
-"pierwiastkowi kwadratowemu wariancji.\n"
-"@SEEALSO=VARIANCE"
+"@FUNCTION=SUMIF\n"
+"@SYNTAX=SUMIF(obszar,kryterium[,w³a¶ciwy_obszar])\n"
+"@DESCRIPTION=Funkcja SUMIF sumuje warto¶ci w podanym obszarze, które "
+"spe³niaj± okre¶lone kryterium. Je¶li podano argument @w³a¶ciwy_obszar, "
+"wówczas funkcja sumuje warto¶ci z @w³a¶ciwego_obszaru, dla których "
+"odpowiadaj±ce im warto¶ci z @obszaru spe³niaj± okre¶lone kryterium.\n"
+"@SEEALSO=COUNTIF,SUM"
 
-#: src/fn-math.c:679
-#, fuzzy
+#: src/functions/fn-math.c:679
 msgid ""
 "@FUNCTION=CEILING\n"
 "@SYNTAX=CEILING(x,significance)\n"
@@ -3217,13 +3505,15 @@ msgid ""
 "and @significance have different signs CEILING returns #NUM! error. \n"
 "@SEEALSO=CEIL"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=CEILING\n"
+"@SYNTAX=CEILING(x,wa¿no¶æ)\n"
+"@DESCRIPTION=Funkcja CEILING zaokr±gla @x do najbli¿szej wielokrotno¶ci "
+"@wa¿no¶ci.\n"
+"Je¶li który¶ z argumentów nie jst liczb±, CEILING zwraca b³±d #WARTO¦Æ!. "
+"Je¶li argumenty maj± ró¿ne znaki, CEILING zwraca b³±d #!LICZBA.\n"
+"@SEEALSO=CEIL"
 
-#: src/fn-math.c:712
-#, fuzzy
+#: src/functions/fn-math.c:712
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -3233,13 +3523,14 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=COS\n"
+"@SYNTAX=COS(x)\n"
+"@DESCRIPTION=Funkcja COS zwraca cosinus z x, gdzie x jest podane w "
+"radianach.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=COSH, SIN, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:732
-#, fuzzy
+#: src/functions/fn-math.c:732
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -3250,13 +3541,15 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=COSH\n"
+"@SYNTAX=COSH(x)\n"
+"@DESCRIPTION=Funkcja COSH zwraca cosinus hiperboliczny z x, który jest "
+"zdefiniowany matematycznie jako (exp(x) + exp(-x)) / 2. Warto¶æ x jest "
+"podana w radianach.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/fn-math.c:753
-#, fuzzy
+#: src/functions/fn-math.c:753
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -3264,13 +3557,13 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing. \n"
 "@SEEALSO=RADIANS, PI"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=DEGREES\n"
+"@SYNTAX=DEGREES(x)\n"
+"@DESCRIPTION=Oblicza liczbê stopni równowa¿n± x radianom.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=RADIANS, PI"
 
-#: src/fn-math.c:774
-#, fuzzy
+#: src/functions/fn-math.c:774
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -3279,13 +3572,14 @@ msgid ""
 "Performing this function on a string or empty cell returns an error.\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=EXP\n"
+"@SYNTAX=EXP(x)\n"
+"@DESCRIPTION=Oblicza warto¶æ e (podstawê logarytmów naturalnych) podniesion± "
+"do potêgi x.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=LOG, LOG2, LOG10"
 
-#: src/fn-math.c:801
-#, fuzzy
+#: src/functions/fn-math.c:801
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -3294,13 +3588,13 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=FACT\n"
+"@SYNTAX=FACT(x)\n"
+"@DESCRIPTION=Oblicza silniê z x, tj. x!\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki zwraca b³±d.\n"
+"@SEEALSO="
 
-#: src/fn-math.c:838
-#, fuzzy
+#: src/functions/fn-math.c:838
 msgid ""
 "@FUNCTION=COMBIN\n"
 "@SYNTAX=COMBIN(n,k)\n"
@@ -3310,13 +3604,15 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=Oblicza liczbê kombinacji k-elementowych ze zbioru "
+"n-elementowego\n"
+"Wywo³anie funkcji dla argumentów nie bêd±cych nieujemnymi liczbami "
+"ca³kowitymi zwraca b³±d. B³±d wyst±pi równie¿, je¶li n bêdzie mniejsze od k\n"
+"@SEEALSO="
 
-#: src/fn-math.c:882
-#, fuzzy
+#: src/functions/fn-math.c:882
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x,significance)\n"
@@ -3325,13 +3621,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=CEIL, ABS, INT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-math.c:912
-#, fuzzy
+#: src/functions/fn-math.c:912
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
@@ -3341,13 +3632,15 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=INT\n"
+"@SYNTAX=INT(b1, b2, ...)\n"
+"@DESCRIPTION=Fukcja INT zaokr±gla bx do najbli¿szej liczby ca³kowitej o "
+"warto¶ci bezwzglêdnej nie wiêkszej od bx. Warto¶æ funkcji dla bx jest równa "
+"FLOOR(bx) dla bx > 0 oraz CEIL(bx) dla bx < 0.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/fn-math.c:939
-#, fuzzy
+#: src/functions/fn-math.c:939
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -3355,26 +3648,25 @@ msgid ""
 "@base is given LOG returns the logarithm in base 10. \n"
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=LOG\n"
+"@SYNTAX=LOG(x[,podstawa])\n"
+"@DESCRIPTION=Oblicza logaryrytm z x o podanej podstawie. Je¶li nie podano "
+"podstawy, LOG zwraca logarytm o podstawie 10.\n"
+"@SEEALSO=LN, LOG2, LOG10"
 
-#: src/fn-math.c:968
-#, fuzzy
+#: src/functions/fn-math.c:968
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
 "@DESCRIPTION=LN returns the natural logarithm of @x. \n"
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=LN\n"
+"@SYNTAX=LN(x)\n"
+"@DESCRIPTION=Oblicza logarytm naturalny z x.\n"
+"@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:991
-#, fuzzy
+#: src/functions/fn-math.c:991
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -3382,13 +3674,13 @@ msgid ""
 "Performing this function on a string or empty cell returns an error.\n"
 "@SEEALSO=EXP"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Zwraca warto¶æ x podniesion± do potêgi y\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki zwraca b³±d.\n"
+"@SEEALSO=EXP"
 
-#: src/fn-math.c:1018
-#, fuzzy
+#: src/functions/fn-math.c:1018
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -3396,17 +3688,17 @@ msgid ""
 "Performing this function on a string or empty cell returns an error. \n"
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=LOG2\n"
+"@SYNTAX=LOG2(x)\n"
+"@DESCRIPTION=Oblicza logarytm o podstawie 2 z x.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki zwraca b³±d.\n"
+"@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:1036
+#: src/functions/fn-math.c:1036
 msgid "log2: domain error"
 msgstr "log2: b³±d dziedziny"
 
-#: src/fn-math.c:1042
-#, fuzzy
+#: src/functions/fn-math.c:1042
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -3414,16 +3706,17 @@ msgid ""
 "Performing this function on a string or empty cell returns an error. \n"
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=LOG10\n"
+"@SYNTAX=LOG10(x)\n"
+"@DESCRIPTION=Oblicza logarytm o podstawie 10 z x.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki zwraca b³±d.\n"
+"@SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:1061
+#: src/functions/fn-math.c:1061
 msgid "log10: domain error"
 msgstr "log10: b³±d dziedziny"
 
-#: src/fn-math.c:1067
+#: src/functions/fn-math.c:1067
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -3432,9 +3725,13 @@ msgid ""
 "Returns #DIV/0! if divisor is zero.\n"
 "@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
+"@FUNCTION=MOD\n"
+"@SYNTAX=MOD(liczba,dzielnik)\n"
+"@DESCRIPTION=Realizuje arytmetykê modulo. Zwraca resztê z dzielenia warto¶ci "
+"bezwzglêdnej z @liczby przez @dzielnik.\n"
+"Zwraca #DZIELENIE/0! je¶li dzielnik jest zerem.@SEEALSO=INT,FLOOR,CEIL"
 
-#: src/fn-math.c:1104
-#, fuzzy
+#: src/functions/fn-math.c:1104
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -3442,13 +3739,13 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing. \n"
 "@SEEALSO=PI,DEGREES"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=RADIANS\n"
+"@SYNTAX=RADIANS(x)\n"
+"@DESCRIPTION=Oblicza liczbê radianów równowa¿n± x stopniom.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:1125
-#, fuzzy
+#: src/functions/fn-math.c:1125
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -3457,13 +3754,12 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=RAND\n"
+"@SYNTAX=RAND()\n"
+"@DESCRIPTION=Zwraca liczbê losow± nie mniejsz± ni¿ 0 i mniejsz± od 1.\n"
+"@SEEALSO="
 
-#: src/fn-math.c:1143
-#, fuzzy
+#: src/functions/fn-math.c:1143
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -3473,13 +3769,14 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=SIN\n"
+"@SYNTAX=SIN(x)\n"
+"@DESCRIPTION=Funkcja SIN zwraca cosinus z x, gdzie x jest podane w "
+"radianach.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:1163
-#, fuzzy
+#: src/functions/fn-math.c:1163
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -3489,13 +3786,15 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=SINH\n"
+"@SYNTAX=SINH(x)\n"
+"@DESCRIPTION=Funkcja SINH zwraca sinus hiperboliczny z x, który jest "
+"zdefiniowany matematycznie jako (exp(x) - exp(-x)) / 2. Warto¶æ x jest "
+"podana w radianach.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:1183
-#, fuzzy
+#: src/functions/fn-math.c:1183
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -3503,12 +3802,13 @@ msgid ""
 "If @x is negative returns #NUM!. This function only takes one argument.\n"
 "@SEEALSO=POW"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=funkcja SQRT zwraca pierwiastek kwadratowy z x.\n"
+"Je¶li x jest liczb± ujemn±, zwraca #NUM!.\n"
+"@SEEALSO=POW"
 
-#: src/fn-math.c:1206
+#: src/functions/fn-math.c:1206
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -3516,8 +3816,12 @@ msgid ""
 "argument list. \n"
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
+"@FUNCTION=SUM\n"
+"@SYNTAX=SUM(warto¶æ1, warto¶æ2, ...)\n"
+"@DESCRIPTION=Oblicza sumê wszystkich warto¶ci i komórek z listy argumentów.\n"
+"@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1227
+#: src/functions/fn-math.c:1227
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -3528,9 +3832,16 @@ msgid ""
 "it is counted as one (1). Note that empty cells are not counted.\n"
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
+"@FUNCTION=SUMA\n"
+"@SYNTAX=SUMA(warto¶æ1, warto¶æ2, ...)\n"
+"@DESCRIPTION=Oblicza sumê wszystkich warto¶ci i komórek z listy argumentów "
+"Liczby, napisy i warto¶ci logiczne równie¿ s± uwzglêdniane w obliczeniach "
+"Je¶li komórka zawiera tekst lub argument przyjmuje warto¶æ FA£SZ, jest "
+"liczona jak warto¶æ zero (0). Je¶li argument przyjmuje warto¶æ TRUE, jest "
+"liczony jako jeden (1). Puste komórki nie s± brane pod uwagê.\n"
+"@SEEALSO=AVERAGE, SUM, COUNT"
 
-#: src/fn-math.c:1252
-#, fuzzy
+#: src/functions/fn-math.c:1252
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -3538,13 +3849,13 @@ msgid ""
 "cells referenced in the argument list. \n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(warto¶æ1, warto¶æ2, ...)@DESCRIPTION=Oblicza standardowe "
-"odchylenie dla wszystkich warto¶ci z listy argumentów. Jest one równe "
-"pierwiastkowi kwadratowemu wariancji.\n"
-"@SEEALSO=VARIANCE"
+"@FUNCTION=SUMSQ\n"
+"@SYNTAX=SUMSQ(warto¶æ1, warto¶æ2, ...)\n"
+"@DESCRIPTION=Funkcja SUMSQ zwraca sumê kwadratów wszystkich warto¶ci i "
+"komórek z listy argumentów.\n"
+"@SEEALSO=SUM, COUNT"
 
-#: src/fn-math.c:1274
+#: src/functions/fn-math.c:1274
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -3553,8 +3864,7 @@ msgid ""
 "@SEEALSO=SUM"
 msgstr ""
 
-#: src/fn-math.c:1329
-#, fuzzy
+#: src/functions/fn-math.c:1329
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -3562,13 +3872,13 @@ msgid ""
 "referenced in the argument list. \n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(warto¶æ1, warto¶æ2, ...)@DESCRIPTION=Oblicza standardowe "
-"odchylenie dla wszystkich warto¶ci z listy argumentów. Jest one równe "
-"pierwiastkowi kwadratowemu wariancji.\n"
-"@SEEALSO=VARIANCE"
+"@FUNCTION=PRODUCT\n"
+"@SYNTAX=PRODUCT(warto¶æ1, warto¶æ2, ...)\n"
+"@DESCRIPTION=Funkcja PRODUCT zwraca iloczyn wszystkich warto¶ci i komórek z "
+"listy argumentów.\n"
+"@SEEALSO=SUM, COUNT"
 
-#: src/fn-math.c:1350
+#: src/functions/fn-math.c:1350
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -3578,9 +3888,14 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
+"@FUNCTION=TAN\n"
+"@SYNTAX=TAN(x)\n"
+"@DESCRIPTION=Funkcja TAN zwraca tangens z x, gdzie x jest podane w "
+"radianach.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1370
-#, fuzzy
+#: src/functions/fn-math.c:1370
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -3590,12 +3905,15 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=TANH\n"
+"@SYNTAX=TANH(x)\n"
+"@DESCRIPTION=Funkcja TANH zwraca sinus hiperboliczny z x, który jest "
+"zdefiniowany matematycznie jako sinh(x) / cosh(x). Warto¶æ x jest podana w "
+"radianach.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1390
+#: src/functions/fn-math.c:1390
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -3603,9 +3921,14 @@ msgid ""
 "This function is called with no arguments.\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=PI\n"
+"@SYNTAX=PI()\n"
+"@DESCRIPTION=Funkcja PI zwraca warto¶æ sta³ej Pi tak±, jaka jest "
+"zdefiniowana przez M_PI w bibliotece standardowej C.\n"
+"Funkcja wywo³ywana jest bez argumentów.\n"
+"@SEEALSO="
 
-#: src/fn-math.c:1409
-#, fuzzy
+#: src/functions/fn-math.c:1409
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -3615,13 +3938,14 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=TRUNC\n"
+"@SYNTAX=TRUNC(liczba[,cyfry])\n"
+"@DESCRIPTION=Funkcja TRUNC zwraca warto¶æ @liczba obciêt± do okre¶lonej "
+"liczby cyfr. Je¶li parametr @cyfry zostanie pominiêty, przyjmowana jest "
+"warto¶æ zero.\n"
+"@SEEALSO="
 
-#: src/fn-math.c:1442
-#, fuzzy
+#: src/functions/fn-math.c:1442
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -3629,13 +3953,13 @@ msgid ""
 "integer. \n"
 "@SEEALSO=ODD"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(liczba)\n"
+"@DESCRIPTION=Funkcja EVEN zwraca liczbê zaokr±glon± do najbli¿szej liczby "
+"parzystej.\n"
+"@SEEALSO=ODD"
 
-#: src/fn-math.c:1473
-#, fuzzy
+#: src/functions/fn-math.c:1473
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -3643,13 +3967,13 @@ msgid ""
 "integer. \n"
 "@SEEALSO=EVEN"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ODD\n"
+"@SYNTAX=ODD(liczba)\n"
+"@DESCRIPTION=Funkcja ODD zwraca liczbê zaokr±glon± do najbli¿szej liczby "
+"nieparzystej.\n"
+"@SEEALSO=EVEN"
 
-#: src/fn-math.c:1504
-#, fuzzy
+#: src/functions/fn-math.c:1504
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -3659,12 +3983,14 @@ msgid ""
 "FACTDOUBLE returns #NUM! error. \n"
 "@SEEALSO=FACT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=FACTDOUBLE\n"
+"@SYNTAX=FACTDOUBLE(liczba)\n"
+"@DESCRIPTION=Funkcja FACTDOUBLE zwraca podwójn± silniê z liczby.\n"
+"Je¶li @liczba nie jest ca³kowita, jest obcinana do czê¶ci ca³kowitej. Je¶li "
+"@liczba jest ujemna FACTDOUBLE zwraca b³±d #LICZBA!.\n"
+"@SEEALSO=FACT"
 
-#: src/fn-math.c:1535
+#: src/functions/fn-math.c:1535
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -3672,9 +3998,13 @@ msgid ""
 "@num is the divided and @den is the divisor. \n"
 "@SEEALSO=MOD"
 msgstr ""
+"@FUNCTION=QUOTIENT\n"
+"@SYNTAX=QUOTIENT(liczba,dzielnik)\n"
+"@DESCRIPTION=Funkcja QUOTIENT zwraca czê¶æ ca³kowit± z dzielenia. Parametr "
+"@liczba jest dzieln±, za¶ @dzielnik dzielnikiem.\n"
+"@SEEALSO=MOD"
 
-#: src/fn-math.c:1556
-#, fuzzy
+#: src/functions/fn-math.c:1556
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -3682,13 +4012,13 @@ msgid ""
 "@number is 0, and -1 if the @number is negative. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=SIGN\n"
+"@SYNTAX=SIGN(liczba)\n"
+"@DESCRIPTION=Funkcja SIGN zwraca 1 je¶li liczba bêd±ca argumentem jest "
+"dodatnia, zero je¶li jest równa 0 oraz -1 je¶li liczba jest ujemna.\n"
+"@SEEALSO="
 
-#: src/fn-math.c:1581
-#, fuzzy
+#: src/functions/fn-math.c:1581
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -3696,12 +4026,13 @@ msgid ""
 "by pi. \n"
 "@SEEALSO=PI"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=SQRTPI\n"
+"@SYNTAX=SQRTPI(liczba)\n"
+"@DESCRIPTION=Funkcja SQRTPI zwraca pierwiastek kwadratowy z liczby "
+"@liczbapomno¿onej przez sta³± PI.\n"
+"@SEEALSO=PI"
 
-#: src/fn-math.c:1603
+#: src/functions/fn-math.c:1603
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -3711,8 +4042,15 @@ msgid ""
 "RANDBETWEEN returns #NUM! error.\n"
 "@SEEALSO=RAND"
 msgstr ""
+"@FUNCTION=RANDBETWEEN\n"
+"@SYNTAX=RANDBETWEEN(dó³,góra)\n"
+"@DESCRIPTION=Funkcja RANDBETWEEN zwraca losow± liczbê ca³kowit± zawart± "
+"pomiêdzy @dó³ i @góra.\n"
+"Je¶li który¶ z argumentów nie jest liczb± ca³kowit± - jest obcinany do "
+"czê¶ci ca³kowitej. Je¶li @dó³ > @góra RANDBETWEEN zwraca b³±d #LICZBA!.\n"
+"@SEEALSO=RAND"
 
-#: src/fn-math.c:1629
+#: src/functions/fn-math.c:1629
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -3725,8 +4063,18 @@ msgid ""
 "the left of the decimal point. \n"
 "@SEEALSO=ROUNDUP"
 msgstr ""
+"@FUNCTION=ROUNDDOWN\n"
+"@SYNTAX=ROUNDDOWN(liczba[,cyfry])\n"
+"@DESCRIPTION=Funkcja ROUNDDOWN zaokr±gla @liczbê w kierunku do zera. "
+"Parametr @cyfry okre¶la liczbê cyfr, do której ma byæ zaokr±glona liczba.\n"
+"Je¶li parametr @cyfry jest wiêkszy od zera, @liczba jest zaokr±glana do "
+"podanej liczby cyfr. Je¶li jest równy zero lub pominiêty, @liczba jest "
+"zaokr±glana do najbli¿szej warto¶ci ca³kowitej. Je¶li jest mniejszy od zera "
+"@liczba jest zaokr±glana do podanej liczby cyfr na lewo od kropki "
+"dziesiêtnej.\n"
+"@SEEALSO=ROUNDUP"
 
-#: src/fn-math.c:1667
+#: src/functions/fn-math.c:1667
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -3739,8 +4087,18 @@ msgid ""
 "decimal point. \n"
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
+"@FUNCTION=ROUND\n"
+"@SYNTAX=ROUND(liczba[,cyfry])\n"
+"@DESCRIPTION=Funkcja ROUND zaokr±gla @liczbê. Parametr @cyfry okre¶la liczbê "
+"cyfr, do której ma byæ zaokr±glona liczba.\n"
+"Je¶li parametr @cyfry jest wiêkszy od zera, @liczba jest zaokr±glana do "
+"podanej liczby cyfr. Je¶li jest równy zero lub pominiêty, @liczba jest "
+"zaokr±glana do najbli¿szej warto¶ci ca³kowitej. Je¶li jest mniejszy od zera "
+"@liczba jest zaokr±glana do podanej liczby cyfr na lewo od kropki "
+"dziesiêtnej.\n"
+"@SEEALSO=ROUNDDOWN,ROUNDUP"
 
-#: src/fn-math.c:1702
+#: src/functions/fn-math.c:1702
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -3753,8 +4111,18 @@ msgid ""
 "left of the decimal point. \n"
 "@SEEALSO=ROUNDDOWN"
 msgstr ""
+"@FUNCTION=ROUNDUP\n"
+"@SYNTAX=ROUNDUP(liczba[,cyfry])\n"
+"@DESCRIPTION=Funkcja ROUNDUP zaokr±gla @liczbê w kierunku od zera. Parametr "
+"@cyfry okre¶la liczbê cyfr, do której ma byæ zaokr±glona liczba.\n"
+"Je¶li parametr @cyfry jest wiêkszy od zera, @liczba jest zaokr±glana do "
+"podanej liczby cyfr. Je¶li jest równy zero lub pominiêty, @liczba jest "
+"zaokr±glana do najbli¿szej warto¶ci ca³kowitej. Je¶li jest mniejszy od zera "
+"@liczba jest zaokr±glana do podanej liczby cyfr na lewo od kropki "
+"dziesiêtnej.\n"
+"@SEEALSO=ROUNDDOWN"
 
-#: src/fn-math.c:1740
+#: src/functions/fn-math.c:1740
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -3765,8 +4133,14 @@ msgid ""
 "If @number and @multiple have different sign, MROUND returns #NUM! error. \n"
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
+"@FUNCTION=MROUND\n"
+"@SYNTAX=MROUND(liczba,wielokrotno¶æ)\n"
+"@DESCRIPTION=Funkcja MROUND zaokr±gla @liczbê do @wielokrotno¶ci. Na "
+"przyk³ad, MROUND(1.7, 0.2) jest równe 1.8.\n"
+"Je¶li parametry maj± ró¿ne znaki, MROUND zwraca b³±d #LICZBA!\n"
+"@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: src/fn-math.c:1784
+#: src/functions/fn-math.c:1784
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -3779,8 +4153,16 @@ msgid ""
 "If @number is negative or greater than 3999, ROMAN returns #VALUE! error. \n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=ROMAN\n"
+"@SYNTAX=ROMAN(liczba[,typ])\n"
+"@DESCRIPTION=Funkcja ROMAN zwraca jako tekst podan± @liczbê w zapisie "
+"rzymskim. Parametr @typ okre¶la typ zapisu rzymskiego. Je¶li jest równy 0 "
+"lub zostanie pominiêty, ROMAN zwraca klasyczne liczby rzymskie. Typy 1,2,3 "
+"oraz 4 nie s± jeszcze zaimplementowane. Je¶li @liczbe jest ujemna lub "
+"wiêksza od 3999, ROMAN zwraca b³±d #WARTO¦Æ!\n"
+"@SEEALSO="
 
-#: src/fn-math.c:2043
+#: src/functions/fn-math.c:2043
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -3793,13 +4175,24 @@ msgid ""
 "returns #N/A! error. \n"
 "@SEEALSO=SUMSQ"
 msgstr ""
+"@FUNCTION=SUMX2MY2\n"
+"@SYNTAX=SUMX2MY2(tablica1,tablica2)\n"
+"@DESCRIPTION=Funkcja SUMX2MY2 zwraca sumê ró¿nic kwadratów odpowiadaj±cych "
+"sobie warto¶ci w obu tablicach podanych jako argumenty: @tablica1 oraz "
+"@tablica2. Funkcja SUMX2MY2 oblicza warto¶æ wed³ug wzoru: SUM (x^2-y^2).\n"
+"Ci±gi oraz puste komórki s± ignorowane.\n"
+"Je¶li @tablica1 i @tablica2 zawieraj± ró¿n± liczbê danych, SUMX2MY2 zwraca "
+"b³±d #N/A!\n"
+"@SEEALSO=SUMSQ"
 
-#: src/fn-math.c:2090 src/fn-math.c:2104 src/fn-math.c:2177 src/fn-math.c:2191
-#: src/fn-math.c:2263 src/fn-math.c:2277 src/fn-stat.c:2303 src/fn-stat.c:2333
+#: src/functions/fn-math.c:2090 src/functions/fn-math.c:2104
+#: src/functions/fn-math.c:2177 src/functions/fn-math.c:2191
+#: src/functions/fn-math.c:2263 src/functions/fn-math.c:2277
+#: src/functions/fn-stat.c:2303 src/functions/fn-stat.c:2333
 msgid "Array version not implemented!"
-msgstr ""
+msgstr "Wersja tablicowa nie zosta³a zaimplementowana!"
 
-#: src/fn-math.c:2131
+#: src/functions/fn-math.c:2131
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -3812,8 +4205,17 @@ msgid ""
 "returns #N/A! error. \n"
 "@SEEALSO=SUMSQ"
 msgstr ""
+"@FUNCTION=SUMX2PY2\n"
+"@SYNTAX=SUMX2PY2(tablica1,tablica2)\n"
+"@DESCRIPTION=Funkcja SUMX2PY2 zwraca sumê sum kwadratów odpowiadaj±cych "
+"sobie warto¶ci w dwóch tablicach: @tablica1 i @tablica2. Warto¶æ funkcji "
+"jest obliczana ze wzoru: SUM (x^2 + y^2).\n"
+"Ci±gi i puste komórki s± pomijane.\n"
+"Je¶li tablice bêd±ce argumentami s± ró¿nych rozmiarów, funkcja zwraca b³±d "
+"#N/A!\n"
+"@SEEALSO=SUMSQ"
 
-#: src/fn-math.c:2218
+#: src/functions/fn-math.c:2218
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -3826,8 +4228,17 @@ msgid ""
 "#N/A! error. \n"
 "@SEEALSO=SUMSQ"
 msgstr ""
+"@FUNCTION=SUMXMY2\n"
+"@SYNTAX=SUMXMY2(tablica1,tablica2)\n"
+"@DESCRIPTION=Funkcja SUMXMY2 zwraca sumê kwadratów ró¿nic odpowiadaj±cych "
+"sobie warto¶ci w dwóch tablicach: @tablica1 i @tablica2. Warto¶æ funkcji "
+"jest obliczana ze wzoru SUM (x-y)^2.\n"
+"Ci±gi i puste komórki s± pomijane.\n"
+"Je¶li tablice bêd±ce argumentami s± ró¿nych rozmiarów, funkcja zwraca b³±d "
+"#N/A!\n"
+"@SEEALSO=SUMSQ"
 
-#: src/fn-math.c:2304
+#: src/functions/fn-math.c:2304
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -3849,7 +4260,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2385
+#: src/functions/fn-math.c:2385
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -3860,20 +4271,19 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/fn-math.c:2502
-#, fuzzy
+#: src/functions/fn-math.c:2502
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
 "@DESCRIPTION=TRANSPOSE function returns the transpose of the input @matrix.\n"
 "@SEEALSO=MMULT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=TRANSPOSE\n"
+"@SYNTAX=TRANSPOSE(macierz)\n"
+"@DESCRIPTION=Funkcja TRANSPOSE zwraca transpozycjê macierzy @macierz.\n"
+"@SEEALSO=MMULT"
 
-#: src/fn-math.c:2545
+#: src/functions/fn-math.c:2545
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(array)\n"
@@ -3885,11 +4295,11 @@ msgid ""
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
 
-#: src/fn-math.c:2590
+#: src/functions/fn-math.c:2590
 msgid "#3D MULT?"
-msgstr ""
+msgstr "#3D MULT?"
 
-#: src/fn-math.c:2726
+#: src/functions/fn-math.c:2726
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -3898,8 +4308,14 @@ msgid ""
 "number of columns as @array2.\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
+"@FUNCTION=MMULT\n"
+"@SYNTAX=MMULT(tablica1,tablica2)\n"
+"@DESCRIPTION=Funkcja MMULT zwraca iloczyn macierzowy dwóch tablic. Wynikiem "
+"jest tablica z tak± sam± ilo¶ci± wierszy, jak @tablica1 i tak± ilo¶ci± "
+"kolumn jak @tablica2.\n"
+"@SEEALSO=SUMPRODUCT"
 
-#: src/fn-math.c:2788
+#: src/functions/fn-math.c:2788
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(array)\n"
@@ -3907,9 +4323,9 @@ msgid ""
 "If the matrix does not contain equal number of columns and rows, MDETERM "
 "returns #VALUE! error.\n"
 "@SEEALSO=MMULT, MINVERSE"
-msgstr ""
+msgstr "@SEEALSO=FACT"
 
-#: src/fn-math.c:2905
+#: src/functions/fn-math.c:2905
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -3920,18 +4336,25 @@ msgid ""
 "returns #VALUE! error. \n"
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
+"@FUNCTION=SUMPRODUCT\n"
+"@SYNTAX=SUMPRODUCT(zakres1,zakres2,...)\n"
+"@DESCRIPTION=Funkcja SUMPRODUCT zwraca sumê iloczynów odpowiadaj±cych sobie "
+"warto¶ci w tablicach lub zakresach podanych jako argumenty. Je¶li element "
+"tablicy nie jest warto¶ci± numeryczn±, przyjmuje siê zamiast niego warto¶æ "
+"0.\n"
+"Je¶li argumenty nie maj± tych samych wymiarów, funkcja zwraca b³±d "
+"#WARTO¦Æ!\n"
+"@SEEALSO=SUM,PRODUCT"
 
-#: src/fn-math.c:3002
+#: src/functions/fn-math.c:3002
 msgid "Maths / Trig."
-msgstr ""
+msgstr "matymatyczne / Trygonom."
 
-#: src/fn-misc.c:23
-#, fuzzy
+#: src/functions/fn-misc.c:23
 msgid "Argument mismatch"
-msgstr "Niezgodno¶æ typów"
+msgstr "Niezgodno¶æ argumentów"
 
-#: src/fn-misc.c:38
-#, fuzzy
+#: src/functions/fn-misc.c:38
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(exp)\n"
@@ -3939,26 +4362,26 @@ msgid ""
 "\n"
 "@SEEALSO=ERROR"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(wyra¿enie)\n"
+"@DESCRIPTION=Zwraca warto¶æ TRUE je¶li wyra¿enie zawiera b³±d\n"
+"\n"
+"@SEEALSO=ERROR"
 
-#: src/fn-misc.c:65
-#, fuzzy
+#: src/functions/fn-misc.c:65
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA()\n"
 "@DESCRIPTION=ISNA returns TRUE if the value is the #N/A error value. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ISNA\n"
+"@SYNTAX=ISNA(wyra¿enie)\n"
+"@DESCRIPTION=Funkcja zwraca TRUE, jesli warto¶ci± @wyra¿enia jest b³±d "
+"#N/A.\n"
+"@SEEALSO="
 
-#: src/fn-misc.c:95
-#, fuzzy
+#: src/functions/fn-misc.c:95
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR()\n"
@@ -3966,39 +4389,37 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ISERR\n"
+"@SYNTAX=ISERR(wyra¿enie)\n"
+"@DESCRIPTION=Zwraca warto¶æ TRUE je¶li warto¶ci± @wyra¿enia jest dowolny "
+"b³±d poza #N/A.\n"
+"@SEEALSO=ERROR"
 
-#: src/fn-misc.c:121
-#, fuzzy
+#: src/functions/fn-misc.c:121
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(exp)\n"
 "@DESCRIPTION=FIXME\n"
 "@SEEALSO=ISERROR"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ERROR.TYPE\n"
+"@SYNTAX=ERROR(wyra¿enie)\n"
+"@DESCRIPTION=FIXME\n"
+"@SEEALSO=ISERROR"
 
-#: src/fn-misc.c:169
-#, fuzzy
+#: src/functions/fn-misc.c:169
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
 "@DESCRIPTION=NA returns the error value #N/A. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=NA\n"
+"@SYNTAX=NA()\n"
+"@DESCRIPTION=Funkcja zwraca warto¶æ b³êdu #N/A. \n"
+"@SEEALSO="
 
-#: src/fn-misc.c:185
-#, fuzzy
+#: src/functions/fn-misc.c:185
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -4006,24 +4427,27 @@ msgid ""
 "\n"
 "@SEEALSO=ISERROR"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=ERROR\n"
+"@SYNTAX=ERROR(tekst)\n"
+"@DESCRIPTION=Zwraca okre¶lony b³±d\n"
+"\n"
+"@SEEALSO=ISERROR"
 
-#: src/fn-misc.c:199 src/fn-string.c:57 src/fn-string.c:79 src/fn-string.c:100
-#: src/fn-string.c:155 src/fn-string.c:189 src/fn-string.c:264
-#: src/fn-string.c:340 src/fn-string.c:375 src/fn-string.c:552
-#: src/fn-string.c:594 src/fn-string.c:686 src/fn-string.c:714
+#: src/functions/fn-misc.c:199 src/functions/fn-string.c:57
+#: src/functions/fn-string.c:79 src/functions/fn-string.c:100
+#: src/functions/fn-string.c:155 src/functions/fn-string.c:189
+#: src/functions/fn-string.c:264 src/functions/fn-string.c:340
+#: src/functions/fn-string.c:375 src/functions/fn-string.c:552
+#: src/functions/fn-string.c:594 src/functions/fn-string.c:686
+#: src/functions/fn-string.c:714
 msgid "Type mismatch"
 msgstr "Niezgodno¶æ typów"
 
-#: src/fn-misc.c:206
+#: src/functions/fn-misc.c:206
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Ró¿ne"
 
-#: src/fn-sheet.c:15
-#, fuzzy
+#: src/functions/fn-sheet.c:15
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(x)\n"
@@ -4032,17 +4456,16 @@ msgid ""
 "computation of values.\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=SELECTION\n"
+"@SYNTAX=SELECTION(x)\n"
+"@DESCRIPTION=Funkcja SELECTION zwraca listê warto¶ci aktualnego zaznaczenia\n"
+"@SEEALSO="
 
-#: src/fn-sheet.c:75
-#, fuzzy
+#: src/functions/fn-sheet.c:75
 msgid "Sheet"
-msgstr "_Arkusz"
+msgstr "Arkusz"
 
-#: src/fn-stat.c:107
+#: src/functions/fn-stat.c:107
 msgid ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
@@ -4053,7 +4476,7 @@ msgid ""
 "@SEEALSO=STDEV,VAR,MEAN"
 msgstr ""
 
-#: src/fn-stat.c:134
+#: src/functions/fn-stat.c:134
 msgid ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
@@ -4065,8 +4488,7 @@ msgid ""
 "@SEEALSO=VARP,STDEV"
 msgstr ""
 
-#: src/fn-stat.c:162
-#, fuzzy
+#: src/functions/fn-stat.c:162
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
@@ -4075,13 +4497,14 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=VAR,MEAN"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=CEIL\n"
+"@SYNTAX=CEIL(x)\n"
+"@DESCRIPTION=Funkcja CEIL zaokr±gla x w górê do najbli¿szej liczby "
+"ca³kowitej.\n"
+"Wywo³anie funkcji dla napisu lub pustej komórki nie odnosi efektu.\n"
+"@SEEALSO=ABS, FLOOR, INT"
 
-#: src/fn-stat.c:185
-#, fuzzy
+#: src/functions/fn-stat.c:185
 msgid ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
@@ -4090,12 +4513,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=STDEV,VAR,MEAN"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-stat.c:210
+#: src/functions/fn-stat.c:210
 msgid ""
 "@FUNCTION=RANK\n"
 "@SYNTAX=RANK(x,ref[,order])\n"
@@ -4106,7 +4525,7 @@ msgid ""
 "@SEEALSO=PERCENTRANK"
 msgstr ""
 
-#: src/fn-stat.c:294
+#: src/functions/fn-stat.c:294
 msgid ""
 "@FUNCTION=TRIMMEAN\n"
 "@SYNTAX=TRIMMEAN(ref,percent)\n"
@@ -4118,8 +4537,7 @@ msgid ""
 "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE"
 msgstr ""
 
-#: src/fn-stat.c:347
-#, fuzzy
+#: src/functions/fn-stat.c:347
 msgid ""
 "@FUNCTION=COVAR\n"
 "@SYNTAX=COVAR(array1,array2)\n"
@@ -4127,12 +4545,8 @@ msgid ""
 "Strings and empty cells are simply ignored.\n"
 "@SEEALSO=CORREL,FISHER,FISHERINV"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-stat.c:370
+#: src/functions/fn-stat.c:370
 msgid ""
 "@FUNCTION=CORREL\n"
 "@SYNTAX=CORREL(array1,array2)\n"
@@ -4141,7 +4555,7 @@ msgid ""
 "@SEEALSO=COVAR,FISHER,FISHERINV"
 msgstr ""
 
-#: src/fn-stat.c:393
+#: src/functions/fn-stat.c:393
 msgid ""
 "@FUNCTION=NEGBINOMDIST\n"
 "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
@@ -4154,8 +4568,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT"
 msgstr ""
 
-#: src/fn-stat.c:426
-#, fuzzy
+#: src/functions/fn-stat.c:426
 msgid ""
 "@FUNCTION=NORMSDIST\n"
 "@SYNTAX=NORMSDIST(x)\n"
@@ -4164,12 +4577,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=NOMRDIST"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-stat.c:450
+#: src/functions/fn-stat.c:450
 msgid ""
 "@FUNCTION=NORMSINV\n"
 "@SYNTAX=NORMSINV(p)\n"
@@ -4180,7 +4589,7 @@ msgid ""
 "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST"
 msgstr ""
 
-#: src/fn-stat.c:477
+#: src/functions/fn-stat.c:477
 msgid ""
 "@FUNCTION=LOGNORMDIST\n"
 "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
@@ -4193,7 +4602,7 @@ msgid ""
 "@SEEALSO=NORMDIST"
 msgstr ""
 
-#: src/fn-stat.c:514
+#: src/functions/fn-stat.c:514
 msgid ""
 "@FUNCTION=LOGINV\n"
 "@SYNTAX=LOGINV(p,mean,stdev)\n"
@@ -4205,8 +4614,7 @@ msgid ""
 "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST"
 msgstr ""
 
-#: src/fn-stat.c:545
-#, fuzzy
+#: src/functions/fn-stat.c:545
 msgid ""
 "@FUNCTION=FISHERINV\n"
 "@SYNTAX=FISHERINV(x)\n"
@@ -4215,12 +4623,13 @@ msgid ""
 "If @x is non-number FISHERINV returns #VALUE! error.\n"
 "@SEEALSO=FISHER"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=funkcja SQRT zwraca pierwiastek kwadratowy z x.\n"
+"Je¶li x jest liczb± ujemn±, zwraca #NUM!.\n"
+"@SEEALSO=POW"
 
-#: src/fn-stat.c:567
+#: src/functions/fn-stat.c:567
 msgid ""
 "@FUNCTION=MODE\n"
 "@SYNTAX=MODE(n1, n2, ...)\n"
@@ -4231,8 +4640,7 @@ msgid ""
 "@SEEALSO=AVERAGE,MEDIAN"
 msgstr ""
 
-#: src/fn-stat.c:653
-#, fuzzy
+#: src/functions/fn-stat.c:653
 msgid ""
 "@FUNCTION=HARMEAN\n"
 "@SYNTAX=HARMEAN(b1, b2, ...)\n"
@@ -4240,13 +4648,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-stat.c:677
-#, fuzzy
+#: src/functions/fn-stat.c:677
 msgid ""
 "@FUNCTION=GEOMEAN\n"
 "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
@@ -4255,13 +4658,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=HARMEAN,MEDIAN,MEAN,MODE"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-stat.c:702
-#, fuzzy
+#: src/functions/fn-stat.c:702
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -4270,13 +4668,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=AVERAGE"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-stat.c:738
-#, fuzzy
+#: src/functions/fn-stat.c:738
 msgid ""
 "@FUNCTION=COUNTA\n"
 "@SYNTAX=COUNTA(b1, b2, ...)\n"
@@ -4284,14 +4677,8 @@ msgid ""
 "cells.\n"
 "@SEEALSO=AVERAGE,COUNT,DCOUNT,DCOUNTA,PRODUCT,SUM"
 msgstr ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(warto¶æ1, warto¶æ2, ...)@DESCRIPTION=Oblicza standardowe "
-"odchylenie dla wszystkich warto¶ci z listy argumentów. Jest one równe "
-"pierwiastkowi kwadratowemu wariancji.\n"
-"@SEEALSO=VARIANCE"
 
-#: src/fn-stat.c:770
-#, fuzzy
+#: src/functions/fn-stat.c:770
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -4300,14 +4687,8 @@ msgid ""
 "by the count of the arguments.\n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNCTION=NVARIANCE\n"
-"@SYNTAX = NVARIANCE(warto¶æ1, warto¶æ2, ...)@DESCRIPTION=Oblicza wariancjê "
-"wszystkich warto¶ci i komórek z listy argumentów. Jest ona równa sumie "
-"(warto¶æ - ¶rednia)^2, podzielonej przez liczbê warto¶ci Aby uzyskaæ sumê "
-"podzielon± przez N - 1 zamiast N, u¿yj VARIANCE.@SEEALSO=AVERAGE, VARIANCE"
 
-#: src/fn-stat.c:793
-#, fuzzy
+#: src/functions/fn-stat.c:793
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -4317,13 +4698,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=MAX,ABS"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-stat.c:819
-#, fuzzy
+#: src/functions/fn-stat.c:819
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -4333,12 +4709,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=MIN,ABS"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-stat.c:845
+#: src/functions/fn-stat.c:845
 msgid ""
 "@FUNCTION=SKEW\n"
 "@SYNTAX=SKEW(n1, n2, ...)\n"
@@ -4352,7 +4724,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEWP,KURT"
 msgstr ""
 
-#: src/fn-stat.c:874
+#: src/functions/fn-stat.c:874
 msgid ""
 "@FUNCTION=SKEWP\n"
 "@SYNTAX=SKEWP(n1, n2, ...)\n"
@@ -4362,7 +4734,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEW,KURTP"
 msgstr ""
 
-#: src/fn-stat.c:899
+#: src/functions/fn-stat.c:899
 msgid ""
 "@FUNCTION=EXPONDIST\n"
 "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
@@ -4374,7 +4746,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:938
+#: src/functions/fn-stat.c:938
 msgid ""
 "@FUNCTION=GAMMALN\n"
 "@SYNTAX=GAMMALN(x)\n"
@@ -4385,7 +4757,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:969
+#: src/functions/fn-stat.c:969
 msgid ""
 "@FUNCTION=GAMMADIST\n"
 "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
@@ -4397,7 +4769,7 @@ msgid ""
 "@SEEALSO=GAMMAINV"
 msgstr ""
 
-#: src/fn-stat.c:1004
+#: src/functions/fn-stat.c:1004
 msgid ""
 "@FUNCTION=GAMMAINV\n"
 "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
@@ -4408,7 +4780,7 @@ msgid ""
 "@SEEALSO=GAMMADIST"
 msgstr ""
 
-#: src/fn-stat.c:1034
+#: src/functions/fn-stat.c:1034
 msgid ""
 "@FUNCTION=CHIDIST\n"
 "@SYNTAX=CHIDIST(x,dof)\n"
@@ -4419,7 +4791,7 @@ msgid ""
 "@SEEALSO=CHIINV,CHITEST"
 msgstr ""
 
-#: src/fn-stat.c:1064
+#: src/functions/fn-stat.c:1064
 msgid ""
 "@FUNCTION=CHIINV\n"
 "@SYNTAX=CHIINV(p,dof)\n"
@@ -4429,7 +4801,7 @@ msgid ""
 "@SEEALSO=CHIDIST,CHITEST"
 msgstr ""
 
-#: src/fn-stat.c:1092
+#: src/functions/fn-stat.c:1092
 msgid ""
 "@FUNCTION=CHITEST\n"
 "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
@@ -4441,7 +4813,7 @@ msgid ""
 "@SEEALSO=CHIDIST,CHIINV"
 msgstr ""
 
-#: src/fn-stat.c:1231
+#: src/functions/fn-stat.c:1231
 msgid ""
 "@FUNCTION=BETADIST\n"
 "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
@@ -4454,7 +4826,7 @@ msgid ""
 "@SEEALSO=BETAINV"
 msgstr ""
 
-#: src/fn-stat.c:1271
+#: src/functions/fn-stat.c:1271
 msgid ""
 "@FUNCTION=BETAINV\n"
 "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
@@ -4467,7 +4839,7 @@ msgid ""
 "@SEEALSO=BETADIST"
 msgstr ""
 
-#: src/fn-stat.c:1311
+#: src/functions/fn-stat.c:1311
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -4479,7 +4851,7 @@ msgid ""
 "@SEEALSO=TINV,TTEST"
 msgstr ""
 
-#: src/fn-stat.c:1345
+#: src/functions/fn-stat.c:1345
 msgid ""
 "@FUNCTION=TINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -4489,7 +4861,7 @@ msgid ""
 "@SEEALSO=TDIST,TTEST"
 msgstr ""
 
-#: src/fn-stat.c:1373
+#: src/functions/fn-stat.c:1373
 msgid ""
 "@FUNCTION=FDIST\n"
 "@SYNTAX=FDIST(x,dof1,dof2)\n"
@@ -4501,7 +4873,7 @@ msgid ""
 "@SEEALSO=FINV"
 msgstr ""
 
-#: src/fn-stat.c:1404
+#: src/functions/fn-stat.c:1404
 msgid ""
 "@FUNCTION=FINV\n"
 "@SYNTAX=TINV(p,dof)\n"
@@ -4512,7 +4884,7 @@ msgid ""
 "@SEEALSO=FDIST"
 msgstr ""
 
-#: src/fn-stat.c:1434
+#: src/functions/fn-stat.c:1434
 msgid ""
 "@FUNCTION=BINOMDIST\n"
 "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
@@ -4527,7 +4899,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:1476
+#: src/functions/fn-stat.c:1476
 msgid ""
 "@FUNCTION=CRITBINOM\n"
 "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
@@ -4541,7 +4913,7 @@ msgid ""
 "@SEEALSO=BINOMDIST"
 msgstr ""
 
-#: src/fn-stat.c:1510
+#: src/functions/fn-stat.c:1510
 msgid ""
 "@FUNCTION=PERMUT\n"
 "@SYNTAX=PERMUT(n,k)\n"
@@ -4552,7 +4924,7 @@ msgid ""
 "@SEEALSO=COMBIN"
 msgstr ""
 
-#: src/fn-stat.c:1539
+#: src/functions/fn-stat.c:1539
 msgid ""
 "@FUNCTION=HYPGEOMDIST\n"
 "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
@@ -4566,7 +4938,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,POISSON"
 msgstr ""
 
-#: src/fn-stat.c:1573
+#: src/functions/fn-stat.c:1573
 msgid ""
 "@FUNCTION=CONFIDENCE\n"
 "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
@@ -4578,11 +4950,11 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/fn-stat.c:1599 src/value.c:875
+#: src/functions/fn-stat.c:1599 src/value.c:875
 msgid "#DIV/0!"
 msgstr ""
 
-#: src/fn-stat.c:1608
+#: src/functions/fn-stat.c:1608
 msgid ""
 "@FUNCTION=STANDARDIZE\n"
 "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
@@ -4593,7 +4965,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/fn-stat.c:1639
+#: src/functions/fn-stat.c:1639
 msgid ""
 "@FUNCTION=WEIBULL\n"
 "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
@@ -4606,7 +4978,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:1679
+#: src/functions/fn-stat.c:1679
 msgid ""
 "@FUNCTION=NORMDIST\n"
 "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
@@ -4617,7 +4989,7 @@ msgid ""
 "@SEEALSO=POISSON"
 msgstr ""
 
-#: src/fn-stat.c:1718
+#: src/functions/fn-stat.c:1718
 msgid ""
 "@FUNCTION=NORMINV\n"
 "@SYNTAX=NORMINV(p,mean,stdev)\n"
@@ -4629,7 +5001,7 @@ msgid ""
 "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST"
 msgstr ""
 
-#: src/fn-stat.c:1750
+#: src/functions/fn-stat.c:1750
 msgid ""
 "@FUNCTION=KURT\n"
 "@SYNTAX=KURT(n1, n2, ...)\n"
@@ -4644,7 +5016,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VAR,SKEW,KURTP"
 msgstr ""
 
-#: src/fn-stat.c:1781
+#: src/functions/fn-stat.c:1781
 msgid ""
 "@FUNCTION=KURTP\n"
 "@SYNTAX=KURTP(n1, n2, ...)\n"
@@ -4655,8 +5027,7 @@ msgid ""
 "@SEEALSO=AVERAGE,VARP,SKEWP,KURT"
 msgstr ""
 
-#: src/fn-stat.c:1807
-#, fuzzy
+#: src/functions/fn-stat.c:1807
 msgid ""
 "@FUNCTION=AVEDEV\n"
 "@SYNTAX=AVEDEV(n1, n2, ...)\n"
@@ -4665,13 +5036,8 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=STDEV"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-stat.c:1832
-#, fuzzy
+#: src/functions/fn-stat.c:1832
 msgid ""
 "@FUNCTION=DEVSQ\n"
 "@SYNTAX=DEVSQ(n1, n2, ...)\n"
@@ -4680,14 +5046,8 @@ msgid ""
 "Strings and empty cells are simply ignored.\n"
 "@SEEALSO=STDEV"
 msgstr ""
-"@FUNCTION=STDEV\n"
-"@SYNTAX = STDEV(warto¶æ1, warto¶æ2, ...)@DESCRIPTION=Oblicza standardowe "
-"odchylenie dla wszystkich warto¶ci z listy argumentów. Jest one równe "
-"pierwiastkowi kwadratowemu wariancji.\n"
-"@SEEALSO=VARIANCE"
 
-#: src/fn-stat.c:1856
-#, fuzzy
+#: src/functions/fn-stat.c:1856
 msgid ""
 "@FUNCTION=FISHER\n"
 "@SYNTAX=FISHER(x)\n"
@@ -4696,12 +5056,8 @@ msgid ""
 "FISHER returns #NUM! error\n"
 "@SEEALSO=SKEW"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-stat.c:1885
+#: src/functions/fn-stat.c:1885
 msgid ""
 "@FUNCTION=POISSON\n"
 "@SYNTAX=POISSON(x,mean,cumulative)\n"
@@ -4713,7 +5069,7 @@ msgid ""
 "@SEEALSO=NORMDIST, WEIBULL"
 msgstr ""
 
-#: src/fn-stat.c:1922
+#: src/functions/fn-stat.c:1922
 msgid ""
 "@FUNCTION=PEARSON\n"
 "@SYNTAX=PEARSON(array1,array2)\n"
@@ -4723,7 +5079,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,LINEST,RSQ,SLOPE,STEYX"
 msgstr ""
 
-#: src/fn-stat.c:1942
+#: src/functions/fn-stat.c:1942
 msgid ""
 "@FUNCTION=RSQ\n"
 "@SYNTAX=RSQ(array1,array2)\n"
@@ -4733,7 +5089,7 @@ msgid ""
 "@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND"
 msgstr ""
 
-#: src/fn-stat.c:1968
+#: src/functions/fn-stat.c:1968
 msgid ""
 "@FUNCTION=MEDIAN\n"
 "@SYNTAX=MEDIAN(n1, n2, ...)\n"
@@ -4743,7 +5099,7 @@ msgid ""
 "@SEEALSO=AVERAGE,COUNT,COUNTA,DAVERAGE,MODE,SUM"
 msgstr ""
 
-#: src/fn-stat.c:2010
+#: src/functions/fn-stat.c:2010
 msgid ""
 "@FUNCTION=LARGE\n"
 "@SYNTAX=LARGE(n1, n2, ..., k)\n"
@@ -4753,7 +5109,7 @@ msgid ""
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,SMALL"
 msgstr ""
 
-#: src/fn-stat.c:2053
+#: src/functions/fn-stat.c:2053
 msgid ""
 "@FUNCTION=SMALL\n"
 "@SYNTAX=SMALL(n1, n2, ..., k)\n"
@@ -4763,7 +5119,7 @@ msgid ""
 "@SEEALSO=PERCENTILE,PERCENTRANK,QUARTILE,LARGE"
 msgstr ""
 
-#: src/fn-stat.c:2120
+#: src/functions/fn-stat.c:2120
 msgid ""
 "@FUNCTION=PROB\n"
 "@SYNTAX=PROB(range_x,prob_range,lower_limit[,upper_limit])\n"
@@ -4777,7 +5133,7 @@ msgid ""
 "@SEEALSO=BINOMDIST,CRITBINOM"
 msgstr ""
 
-#: src/fn-stat.c:2246
+#: src/functions/fn-stat.c:2246
 msgid ""
 "@FUNCTION=STEYX\n"
 "@SYNTAX=STEYX(known_y's,known_x's)\n"
@@ -4788,7 +5144,7 @@ msgid ""
 "@SEEALSO=PEARSON,RSQ,SLOPE"
 msgstr ""
 
-#: src/fn-stat.c:2392
+#: src/functions/fn-stat.c:2392
 msgid ""
 "@FUNCTION=ZTEST\n"
 "@SYNTAX=ZTEST(ref,x)\n"
@@ -4798,7 +5154,7 @@ msgid ""
 "@SEEALSO=CONFIDENCE,NORMDIST,NORMINV,NORMSDIST,NORMSINV,STANDARDIZE"
 msgstr ""
 
-#: src/fn-stat.c:2465
+#: src/functions/fn-stat.c:2465
 msgid ""
 "@FUNCTION=AVERAGEA\n"
 "@SYNTAX=AVERAGEA(number1,number2,...)\n"
@@ -4810,7 +5166,7 @@ msgid ""
 "@SEEALSO=AVERAGE"
 msgstr ""
 
-#: src/fn-stat.c:2491
+#: src/functions/fn-stat.c:2491
 msgid ""
 "@FUNCTION=MAXA\n"
 "@SYNTAX=MAXA(number1,number2,...)\n"
@@ -4822,7 +5178,7 @@ msgid ""
 "@SEEALSO=MAX,MINA"
 msgstr ""
 
-#: src/fn-stat.c:2517
+#: src/functions/fn-stat.c:2517
 msgid ""
 "@FUNCTION=MINA\n"
 "@SYNTAX=MINA(number1,number2,...)\n"
@@ -4834,7 +5190,7 @@ msgid ""
 "@SEEALSO=MIN,MAXA"
 msgstr ""
 
-#: src/fn-stat.c:2543
+#: src/functions/fn-stat.c:2543
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -4846,7 +5202,7 @@ msgid ""
 "@SEEALSO=VAR,VARPA"
 msgstr ""
 
-#: src/fn-stat.c:2569
+#: src/functions/fn-stat.c:2569
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -4858,7 +5214,7 @@ msgid ""
 "@SEEALSO=VARP,VARP"
 msgstr ""
 
-#: src/fn-stat.c:2595
+#: src/functions/fn-stat.c:2595
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -4870,7 +5226,7 @@ msgid ""
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
 
-#: src/fn-stat.c:2621
+#: src/functions/fn-stat.c:2621
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -4882,7 +5238,7 @@ msgid ""
 "@SEEALSO=STDEVA,STDEVP"
 msgstr ""
 
-#: src/fn-stat.c:2647
+#: src/functions/fn-stat.c:2647
 msgid ""
 "@FUNCTION=PERCENTRANK\n"
 "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
@@ -4898,7 +5254,7 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,QUARTILE,SMALL"
 msgstr ""
 
-#: src/fn-stat.c:2755
+#: src/functions/fn-stat.c:2755
 msgid ""
 "@FUNCTION=QUARTILE\n"
 "@SYNTAX=QUARTILE(array,quart)\n"
@@ -4917,7 +5273,7 @@ msgid ""
 "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL"
 msgstr ""
 
-#: src/fn-stat.c:2810
+#: src/functions/fn-stat.c:2810
 msgid ""
 "@FUNCTION=FTEST\n"
 "@SYNTAX=FTEST(array1,array2)\n"
@@ -4926,7 +5282,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/fn-stat.c:2897
+#: src/functions/fn-stat.c:2897
 msgid ""
 "@FUNCTION=TTEST\n"
 "@SYNTAX=TTEST(array1,array2,tails,type)\n"
@@ -4946,7 +5302,7 @@ msgid ""
 "@SEEALSO=FDIST,FINV"
 msgstr ""
 
-#: src/fn-stat.c:3141
+#: src/functions/fn-stat.c:3141
 msgid ""
 "@FUNCTION=FREQUENCY\n"
 "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
@@ -4959,7 +5315,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/fn-stat.c:3251
+#: src/functions/fn-stat.c:3251
 msgid ""
 "@FUNCTION=LINEST\n"
 "@SYNTAX=LINEST(known_y's[,known_x's])\n"
@@ -4974,7 +5330,7 @@ msgid ""
 "@SEEALSO=LOGEST,TREND"
 msgstr ""
 
-#: src/fn-stat.c:3320
+#: src/functions/fn-stat.c:3320
 msgid ""
 "@FUNCTION=TREND\n"
 "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
@@ -4988,7 +5344,7 @@ msgid ""
 "@SEEALSO=LINEST"
 msgstr ""
 
-#: src/fn-stat.c:3399
+#: src/functions/fn-stat.c:3399
 msgid ""
 "@FUNCTION=FORECAST\n"
 "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
@@ -5001,7 +5357,7 @@ msgid ""
 "@SEEALSO=INTERCEPT,TREND"
 msgstr ""
 
-#: src/fn-stat.c:3460
+#: src/functions/fn-stat.c:3460
 msgid ""
 "@FUNCTION=INTERCEPT\n"
 "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
@@ -5013,39 +5369,31 @@ msgid ""
 "@SEEALSO=FORECAST,TREND"
 msgstr ""
 
-#: src/fn-stat.c:3499
-#, fuzzy
+#: src/functions/fn-stat.c:3499
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
 "@DESCRIPTION=SLOPE returns the slope of the linear regression line.\n"
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-stat.c:3534
-#, fuzzy
+#: src/functions/fn-stat.c:3534
 msgid "Statistics"
-msgstr "Plugin statystyczny"
+msgstr "Statystyczne"
 
-#: src/fn-string.c:19
-#, fuzzy
+#: src/functions/fn-string.c:19
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
 "@DESCRIPTION=Returns the ASCII character represented by the number @x.\n"
 "@SEEALSO=CODE"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=CHAR\n"
+"@SYNTAX=CHAR(x)\n"
+"@DESCRIPTION=Zwraca znak ascii o kodzie x.\n"
+"@SEEALSO=CODE"
 
-#: src/fn-string.c:41
-#, fuzzy
+#: src/functions/fn-string.c:41
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -5057,8 +5405,7 @@ msgstr ""
 "@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
 "@SEEALSO=CHAR"
 
-#: src/fn-string.c:64
-#, fuzzy
+#: src/functions/fn-string.c:64
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -5066,21 +5413,25 @@ msgid ""
 "routine is case sensitive).\n"
 "@SEEALSO=LEN"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=EXACT\n"
+"@SYNTAX=EXACT(napis1, napis2)\n"
+"@DESCRIPTION=Zwraca warto¶æ TRUE, je¶li @napis1 jest dok³adnie równy "
+"napisowi @napis2 (z rozró¿nianiem ma³ych i wielkich liter).\n"
+"@SEEALSO=LEN"
 
-#: src/fn-string.c:86
+#: src/functions/fn-string.c:86
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
 "@DESCRIPTION=Returns the length in characters of the string @string.\n"
 "@SEEALSO=CHAR, CODE"
 msgstr ""
+"@FUNCTION=LEN\n"
+"@SYNTAX=LEN(napis)\n"
+"@DESCRIPTION=Zwraca d³ugo¶æ napisu @napis liczon± w znakach.\n"
+"@SEEALSO=CHAR, CODE"
 
-#: src/fn-string.c:106
-#, fuzzy
+#: src/functions/fn-string.c:106
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -5088,20 +5439,26 @@ msgid ""
 "character if @num_chars is not specified.\n"
 "@SEEALSO=MID, RIGHT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=LEFT\n"
+"@SYNTAX=LEFT(napis[,liczba_znaków])\n"
+"@DESCRIPTION=Zwraca @liczba_znaków pierwszych znaków napisu lub pierwszy "
+"znak, je¶li @liczba_znaków nie zosta³a podana\n"
+"@SEEALSO=MID, RIGHT"
 
-#: src/fn-string.c:139
+#: src/functions/fn-string.c:139
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
 "@DESCRIPTION=Returns a lower-case version of the string in @text\n"
 "@SEEALSO=UPPER"
 msgstr ""
+"@FUNCTION=LOWER\n"
+"@SYNTAX=LOWER(napis)\n"
+"@DESCRIPTION=Zwraca napis @napis z zamian± wszystkich wielkich liter na "
+"ma³e\n"
+"@SEEALSO=UPPER"
 
-#: src/fn-string.c:168
+#: src/functions/fn-string.c:168
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
@@ -5109,14 +5466,17 @@ msgid ""
 "@length characters.\n"
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
+"@FUNCTION=MID\n"
+"@SYNTAX=MID(napis, pozycja, d³ugo¶æ)\n"
+"@DESCRIPTION=Zwraca czê¶æ napisu @napis rozpoczynaj±c± siê od pozycji "
+"@pozycja o d³ugo¶ci @d³ugo¶æ znaków\n"
+"@SEEALSO=LEFT, RIGHT"
 
-#: src/fn-string.c:195 src/fn-string.c:601
-#, fuzzy
+#: src/functions/fn-string.c:195 src/functions/fn-string.c:601
 msgid "Invalid arguments"
-msgstr "Niew³a¶ciwa liczba argumentów"
+msgstr "Niew³a¶ciwe argumenty"
 
-#: src/fn-string.c:211
-#, fuzzy
+#: src/functions/fn-string.c:211
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -5124,66 +5484,69 @@ msgid ""
 "character if @num_chars is not specified.\n"
 "@SEEALSO=MID, LEFT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=RIGHT\n"
+"@SYNTAX=RIGHT(napis[,liczba_znaków])\n"
+"@DESCRIPTION=Zwraca @liczba_znaków ostatnich znaków napisu lub ostatni znak, "
+"je¶li @liczba_znaków nie zosta³a podana\n"
+"@SEEALSO=MID, LEFT"
 
-#: src/fn-string.c:248
-#, fuzzy
+#: src/functions/fn-string.c:248
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
 "@DESCRIPTION=Returns a upper-case version of the string in @text.\n"
 "@SEEALSO=LOWER"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=UPPER\n"
+"@SYNTAX=UPPER(napis)\n"
+"@DESCRIPTION=Zwraca napis @napis z zamian± wszystkich ma³ych liter na "
+"wielkie\n"
+"@SEEALSO=LOWER"
 
-#: src/fn-string.c:278
-#, fuzzy
+#: src/functions/fn-string.c:278
 msgid ""
 "@FUNCTION=CONCATENATE\n"
 "@SYNTAX=CONCATENATE(string1[,string2...])\n"
 "@DESCRIPTION=Returns up appended strings.\n"
 "@SEEALSO=LEFT, MID, RIGHT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=CONCATENATE\n"
+"@SYNTAX=CONCATENATE(napis1[,napis2...])\n"
+"@DESCRIPTION=Zwraca napis powsta³y po po³±czeniu napisów bêd±cych "
+"argumentami\n"
+"@SEEALSO=LEFT, MID, RIGHT"
 
-#: src/fn-string.c:323
-#, fuzzy
+#: src/functions/fn-string.c:323
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
 "@DESCRIPTION=Returns @num repetitions of @string.\n"
 "@SEEALSO=CONCATENATE"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(napis,liczba)\n"
+"@DESCRIPTION=Zwraca @liczba powtórzeñ napisu @napis\n"
+"@SEEALSO=CONCATENATE"
 
 #. start position too high or low
-#: src/fn-string.c:342 src/fn-string.c:417 src/fn-string.c:422
-#: src/fn-string.c:462
-#, fuzzy
+#: src/functions/fn-string.c:342 src/functions/fn-string.c:417
+#: src/functions/fn-string.c:422 src/functions/fn-string.c:462
 msgid "Invalid argument"
-msgstr "Niew³a¶ciwa liczba argumentów"
+msgstr "Niew³a¶ciwy argument"
 
-#: src/fn-string.c:358
+#: src/functions/fn-string.c:358
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
 "@DESCRIPTION=Cleans the string from any non-printable characters.\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=CLEAN\n"
+"@SYNTAX=CLEAN(napis)\n"
+"@DESCRIPTION=Usuwa z napisu wszystkie znaki niedrukowalne.\n"
+"@SEEALSO="
 
-#: src/fn-string.c:394
+#: src/functions/fn-string.c:394
 msgid ""
 "@FUNCTION=FIND\n"
 "@SYNTAX=FIND(string1,string2[,start])\n"
@@ -5191,8 +5554,15 @@ msgid ""
 "searching only from character @start onwards (assumed 1 if omitted).\n"
 "@SEEALSO=EXACT, LEN, MID, SEARCH"
 msgstr ""
+"@FUNCTION=FIND\n"
+"@SYNTAX=FIND(napis1,napis2[,pocz±tek])\n"
+"@DESCRIPTION=Zwraca pozycjê napisu @napis1 w napisie @napis2 (z "
+"rozró¿nianiem ma³ych i du¿ych liter). Poszukiwanie w napisie @napis2 "
+"rozpoczyna siê od pozycji @pocz±tek (przy pominiêciu parametru @pocz±tek "
+"przyjmowana jest warto¶æ 1).\n"
+"@SEEALSO=EXACT, LEN, MID, SEARCH"
 
-#: src/fn-string.c:428
+#: src/functions/fn-string.c:428
 msgid ""
 "@FUNCTION=FIXED\n"
 "@SYNTAX=FIXED(num, [decimals, no_commas])\n"
@@ -5200,35 +5570,40 @@ msgid ""
 "the decimal point, omitting commas if requested by @no_commas.\n"
 "@SEEALSO="
 msgstr ""
+"@FUNCTION=FIXED\n"
+"@SYNTAX=FIXED(liczba, [dziesiêtne, bez_przecinków])\n"
+"@DESCRIPTION=Funkcja zwraca argument @liczba jako napis z liczb± cyfr po "
+"przecinku okre¶lon± przez argument @dziesiêtne, pomijaj±c przecinki je¶li "
+"okre¶lono to warto¶ci± argumentu @bez_przecinków.\n"
+"@SEEALSO="
 
-#: src/fn-string.c:535
-#, fuzzy
+#: src/functions/fn-string.c:535
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
 "@DESCRIPTION=Returns @string with initial of each word capitalised.\n"
 "@SEEALSO=LOWER, UPPER"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=PROPER\n"
+"@SYNTAX=PROPER(napis)\n"
+"@DESCRIPTION=Zwraca napis @napis z ka¿dym wyrazem rozpoczynaj±cym siê wielk± "
+"liter±\n"
+"@SEEALSO=LOWER, UPPER"
 
-#: src/fn-string.c:574
-#, fuzzy
+#: src/functions/fn-string.c:574
 msgid ""
 "@FUNCTION=REPLACE\n"
 "@SYNTAX=REPLACE(old,start,num,new)\n"
 "@DESCRIPTION=Returns @old with @new replacing @num characters from @start.\n"
 "@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=REPLACE\n"
+"@SYNTAX=REPLACE(stary,pocz±tek,liczba,nowy)\n"
+"@DESCRIPTION=Zwraca napis @stary zastêpuj±c @liczba znaków od pozycji "
+"@pocz±tek na napis @nowy\n"
+"@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
 
-#: src/fn-string.c:625
-#, fuzzy
+#: src/functions/fn-string.c:625
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -5236,51 +5611,46 @@ msgid ""
 "string.\n"
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=T\n"
+"@SYNTAX=T(warto¶æ)\n"
+"@DESCRIPTION=Zwraca @warto¶æ tylko je¶li jest ona napisem, w przeciwnym za¶ "
+"wypadku pusty napis\n"
+"@SEEALSO=CELL, N, VALUE"
 
-#: src/fn-string.c:645
-#, fuzzy
+#: src/functions/fn-string.c:645
 msgid ""
 "@FUNCTION=TEXT\n"
 "@SYNTAX=TEXT(value,format_text)\n"
 "@DESCRIPTION=Returns @value as a string with the specified format.\n"
 "@SEEALSO=DOLLAR"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
 
-#: src/fn-string.c:698
-#, fuzzy
+#: src/functions/fn-string.c:698
 msgid ""
 "@FUNCTION=TRIM\n"
 "@SYNTAX=TRIM(text)\n"
 "@DESCRIPTION=Returns @text with only single spaces between words.\n"
 "@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=TRIM\n"
+"@SYNTAX=TRIM(napis)\n"
+"@DESCRIPTION=Zwraca @napis pozostawiaj±c tylko pojedyncze spacje pomiêdzy "
+"wyrazami\n"
+"@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
 
-#: src/fn-string.c:743
-#, fuzzy
+#: src/functions/fn-string.c:743
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
 "@DESCRIPTION=Returns numeric value of @text.\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=VALUE\n"
+"@SYNTAX=VALUE(napis)\n"
+"@DESCRIPTION=Zwraca warto¶æ numeryczn± napisu @napis\n"
+"@SEEALSO=DOLLAR, FIXED, TEXT"
 
-#: src/fn-string.c:824
+#: src/functions/fn-string.c:824
 msgid ""
 "@FUNCTION=SUBSTITUTE\n"
 "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
@@ -5288,21 +5658,26 @@ msgid ""
 "applied to instance @num of @old in @text, otherwise every one is changed.\n"
 "@SEEALSO=REPLACE, TRIM"
 msgstr ""
+"@FUNCTION=SUBSTITUTE\n"
+"@SYNTAX=SUBSTITUTE(tekst, stary, nowy [,numer])\n"
+"@DESCRIPTION=Zastêpuje @stary na @nowy w napisie @tekst. Je¶li okre¶lono "
+"@numer, wówczas zastêpowane jest tylko wyst±pienie o podanym numerze, w "
+"przeciwnym wypadku zastêpowane s± wszystkie wyst±pienia\n"
+"@SEEALSO=REPLACE, TRIM"
 
-#: src/fn-string.c:895
-#, fuzzy
+#: src/functions/fn-string.c:895
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num,[decimals])\n"
 "@DESCRIPTION=Returns @num formatted as currency.\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
-"@FUNCTION=CODE\n"
-"@SYNTAX=CODE(znak)\n"
-"@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-"@SEEALSO=CHAR"
+"@FUNCTION=DOLLAR\n"
+"@SYNTAX=DOLLAR(liczba,[dziesiêtne])\n"
+"@DESCRIPTION=Zwraca warto¶æ @liczba sformatowan± jako waluta\n"
+"@SEEALSO=FIXED, TEXT, VALUE"
 
-#: src/fn-string.c:960
+#: src/functions/fn-string.c:960
 msgid ""
 "@FUNCTION=SEARCH\n"
 "@SYNTAX=SEARCH(text,within[,start_num])\n"
@@ -5320,48 +5695,22 @@ msgid ""
 "error. \n"
 "@SEEALSO=FIND"
 msgstr ""
-
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
-#: src/font-sel.glade.h:7
-msgid "window1"
-msgstr ""
-
-#: src/font-sel.glade.h:8
-#, fuzzy
-msgid "Font:"
-msgstr "Liczba"
-
-#: src/font-sel.glade.h:9
-msgid "Font style:"
-msgstr ""
-
-#: src/font-sel.glade.h:10
-msgid "Size:"
-msgstr ""
-
-#: src/font-sel.glade.h:11
-msgid "Preview:"
-msgstr ""
-
-#: src/font-sel.glade.h:12
-msgid "AaBbCcDdEe12345"
-msgstr ""
-
-#: src/font-sel.glade.h:13
-msgid "label7"
-msgstr ""
-
-#: src/font-sel.glade.h:14
-msgid "label8"
-msgstr ""
-
-#: src/font-sel.glade.h:15
-msgid "label9"
-msgstr ""
+"@FUNCTION=SEARCH\n"
+"@SYNTAX=SEARCH(napis,przeszukiwany[,pozycja])\n"
+"@DESCRIPTION=Zwraca pozycjê napisu @napis w napisie @przeszukiwany. Argument "
+"@pozycja okre¶la pozycjê w napisie @przeszukiwany, od krórej rozpoczyna siê "
+"wyszukiwanie. Je¶li argument @pozycja zostanie pominiêty, przyjmuje siê "
+"warto¶æ 1.\n"
+"Przeszukiwanie odbywa siê z rozró¿nianiem ma³ych i wielkich liter.\n"
+"Argument @napis mo¿e zawieraæ znaki specjalne: \"*\" oraz \"?\" - pierwszy "
+"odpowiada dowolnemu (równie¿ pustemu) napisowi, natomiast drugi - dowolnemu "
+"(lecz dok³adnie jednemu) znakowi. W celu znalezienia napisu zawieraj±cego "
+"jeden z tych znaków nale¿y przed znakiem umie¶ciæ tyldê (\"~\"), która "
+"anuluje specjalne jego traktowanie.\n"
+"Je¶li napis nie zostanie odnaleziony lub je¶li argument @pozycja jest "
+"mniejszy od 1 lub wiêkszy od d³ugo¶ci napisu @przeszukiwany, funkcja zwraca "
+"b³±d #WARTO¦Æ!\n"
+"@SEEALSO=FIND"
 
 #: src/format.c:397
 msgid "black"
@@ -5373,7 +5722,7 @@ msgstr "niebieski"
 
 #: src/format.c:399
 msgid "cyan"
-msgstr ""
+msgstr "cyjanowy"
 
 #: src/format.c:400
 msgid "green"
@@ -5381,7 +5730,7 @@ msgstr "zielony"
 
 #: src/format.c:401
 msgid "magenta"
-msgstr ""
+msgstr "magenta"
 
 #: src/format.c:402
 msgid "red"
@@ -5397,25 +5746,24 @@ msgstr "¿ó³ty"
 
 #: src/format.c:1063
 msgid "0.0########"
-msgstr ""
+msgstr "0,0########"
 
 #: src/format.c:1077 src/value.c:184 src/value.c:367
 msgid "TRUE"
-msgstr ""
+msgstr "PRAWDA"
 
 #: src/format.c:1077 src/value.c:184 src/value.c:367
-#, fuzzy
 msgid "FALSE"
-msgstr "PLIK"
+msgstr "FA£SZ"
 
 #: src/format.c:1086
 msgid "CELLRANGE"
-msgstr ""
+msgstr "ZAKRES_KOMÓREK"
 
 #. Array of arrays ??
 #: src/format.c:1090
 msgid "ARRAY"
-msgstr ""
+msgstr "TABLICA"
 
 #: src/formats.c:17
 msgid "0"
@@ -5423,19 +5771,19 @@ msgstr "0"
 
 #: src/formats.c:18
 msgid "0.00"
-msgstr ""
+msgstr "0,00"
 
 #: src/formats.c:19
 msgid "#,##0"
-msgstr ""
+msgstr "#.##0"
 
 #: src/formats.c:20
 msgid "#,##0.00"
-msgstr ""
+msgstr "#.##0.00"
 
 #: src/formats.c:21
 msgid "#,##0_);(#,##0)"
-msgstr ""
+msgstr "#.##0_);(#.##0)"
 
 #: src/formats.c:22
 msgid "#,##0_);[Red](#,##0)"
@@ -5443,7 +5791,7 @@ msgstr ""
 
 #: src/formats.c:23
 msgid "#,##0.00_);(#,##0.00)"
-msgstr ""
+msgstr "#.##0.00_);(#.##0,00)"
 
 #: src/formats.c:24
 msgid "#,##0.00_);[Red](#,##0.00)"
@@ -5451,193 +5799,193 @@ msgstr ""
 
 #: src/formats.c:25
 msgid "0.0"
-msgstr ""
+msgstr "0,0"
 
 #: src/formats.c:30
 msgid "_($*#,##0_);_($*(#,##0);_($*\"-\"_);_(@_)"
-msgstr ""
+msgstr "_($*#.##0_);_($*(#.##0);_($*\"-\"_);_(@_)"
 
 #: src/formats.c:31
 msgid "_(*$,$$0_);_(*(#,##0);_(*\"-\"_);_(@_)"
-msgstr ""
+msgstr "_(*$.$$0_);_(*(#.##0);_(*\"-\"_);_(@_)"
 
 #: src/formats.c:32
 msgid "_($*#,##0.00_);_($*(#,##0.00);_($*\"-\"??_);_(@_)"
-msgstr ""
+msgstr "_($*#.##0,00_);_($*(#.##0,00);_($*\"-\"??_);_(@_)"
 
 #: src/formats.c:33
 msgid "_(*#,##0.00_);_(*(#,##0.00);_(*\"-\"??_);_(@_)"
-msgstr ""
+msgstr "_(*#.##0,00_);_(*(#.##0,00);_(*\"-\"??_);_(@_)"
 
 #: src/formats.c:38
 msgid "m/d/yy"
-msgstr ""
+msgstr "m/d/rr"
 
 #: src/formats.c:39
 msgid "m/d/yyyy"
-msgstr ""
+msgstr "m/d/rrrr"
 
 #: src/formats.c:40
 msgid "d-mmm-yy"
-msgstr ""
+msgstr "d-mmm-rr"
 
 #: src/formats.c:41
 msgid "d-mmm-yyyy"
-msgstr ""
+msgstr "d-mmm-rrrr"
 
 #: src/formats.c:42
 msgid "d-mmm"
-msgstr ""
+msgstr "d-mmm"
 
 #: src/formats.c:43
 msgid "d-mm"
-msgstr ""
+msgstr "d-mm"
 
 #: src/formats.c:44
 msgid "mmm/d"
-msgstr ""
+msgstr "mmm/d"
 
 #: src/formats.c:45
 msgid "mm/d"
-msgstr ""
+msgstr "mm/d"
 
 #: src/formats.c:46
 msgid "mm/dd/yy"
-msgstr ""
+msgstr "mm/dd/rr"
 
 #: src/formats.c:47
 msgid "mm/dd/yyyy"
-msgstr ""
+msgstr "mm/dd/rrrr"
 
 #: src/formats.c:48
 msgid "mmm/dd/yy"
-msgstr ""
+msgstr "mmm/dd/rr"
 
 #: src/formats.c:49
 msgid "mmm/dd/yyyy"
-msgstr ""
+msgstr "mm/dd/rrrr"
 
 #: src/formats.c:50
 msgid "mmm/ddd/yy"
-msgstr ""
+msgstr "mmm/ddd/rr"
 
 #: src/formats.c:51
 msgid "mmm/ddd/yyyy"
-msgstr ""
+msgstr "mmm/ddd/rrrr"
 
 #: src/formats.c:52
 msgid "mm/ddd/yy"
-msgstr ""
+msgstr "mm/ddd/rr"
 
 #: src/formats.c:53
 msgid "mm/ddd/yyyy"
-msgstr ""
+msgstr "mm/ddd/rrrr"
 
 #: src/formats.c:54
 msgid "mmm-yy"
-msgstr ""
+msgstr "mmm-rr"
 
 #: src/formats.c:55
 msgid "mmm-yyyy"
-msgstr ""
+msgstr "mmm-rrrr"
 
 #: src/formats.c:56 src/formats.c:74
 msgid "m/d/yy h:mm"
-msgstr ""
+msgstr "m/d/rr g:mm"
 
 #: src/formats.c:57
 msgid "m/d/yyyy h:mm"
-msgstr ""
+msgstr "m/d/rrr g:mm"
 
 #: src/formats.c:58
 msgid "yyyy/mm/d"
-msgstr ""
+msgstr "rrrr/mm/d"
 
 #: src/formats.c:59
 msgid "yyyy/mmm/d"
-msgstr ""
+msgstr "rrrr/mmm/d"
 
 #: src/formats.c:60
 msgid "yyyy/mm/dd"
-msgstr ""
+msgstr "rrrr/mm/dd"
 
 #: src/formats.c:61
 msgid "yyyy/mmm/dd"
-msgstr ""
+msgstr "rrrr/mmm/dd"
 
 #: src/formats.c:62
 msgid "yyyy-mm-d"
-msgstr ""
+msgstr "rrrr-mm-d"
 
 #: src/formats.c:63
 msgid "yyyy-mmm-d"
-msgstr ""
+msgstr "rrrr-mmm-d"
 
 #: src/formats.c:64
 msgid "yyyy-mm-dd"
-msgstr ""
+msgstr "rrrr-mm-d"
 
 #: src/formats.c:65
 msgid "yyyy-mmm-dd"
-msgstr ""
+msgstr "rrrr-mmm-dd"
 
 #: src/formats.c:70
 msgid "h:mm AM/PM"
-msgstr ""
+msgstr "g:mm AP/PM"
 
 #: src/formats.c:71
 msgid "h:mm:ss AM/PM"
-msgstr ""
+msgstr "g:mm:ss AM/PM"
 
 #: src/formats.c:72
 msgid "h:mm"
-msgstr ""
+msgstr "g:mm"
 
 #: src/formats.c:73
 msgid "h:mm:ss"
-msgstr ""
+msgstr "g:mm:ss"
 
 #: src/formats.c:75
 msgid "mm:ss"
-msgstr ""
+msgstr "mm:ss"
 
 #: src/formats.c:76
 msgid "mm:ss.0"
-msgstr ""
+msgstr "mm:ss.0"
 
 #: src/formats.c:77
 msgid "[h]:mm:ss"
-msgstr ""
+msgstr "[h]:mm:ss"
 
 #: src/formats.c:82
 #, c-format
 msgid "0%"
-msgstr ""
+msgstr "0%"
 
 #: src/formats.c:83
 #, c-format
 msgid "0.00%"
-msgstr ""
+msgstr "0,00%"
 
 #: src/formats.c:88
 msgid "# ?/?"
-msgstr ""
+msgstr "# ?/?"
 
 #: src/formats.c:89
 msgid "# ??/??"
-msgstr ""
+msgstr "# ??/??"
 
 #: src/formats.c:94
 msgid "0.00E+00"
-msgstr ""
+msgstr "0,00E+00"
 
 #: src/formats.c:95
 msgid "##0.0E+0"
-msgstr ""
+msgstr "##0,0E+0"
 
 #: src/formats.c:105
 msgid "$#,##0_);($#,##0)"
-msgstr ""
+msgstr "$#.##0_);($#.##0)"
 
 #: src/formats.c:106
 msgid "$#,##0_);[Red]($#,##0)"
@@ -5653,134 +6001,92 @@ msgstr ""
 
 #: src/func.c:424
 msgid "Function does not exist"
-msgstr ""
+msgstr "Funkcja nie istnieje"
 
 #: src/func.c:426
 msgid "Calling non-function"
-msgstr ""
+msgstr "Wywo³anie nie-funkcji"
 
-#: src/gnumeric-sheet.c:983
-#, fuzzy
+#: src/gnumeric-sheet.c:984
 msgid "Solid"
-msgstr "Pogrubiony"
+msgstr "Jednolity"
 
-#: src/gnumeric-sheet.c:986
-#, c-format
+#: src/gnumeric-sheet.c:988
+#, no-c-format
 msgid "75%"
 msgstr "75%"
 
-#: src/gnumeric-sheet.c:989
-#, c-format
+#: src/gnumeric-sheet.c:992
+#, no-c-format
 msgid "50%"
 msgstr "50%"
 
-#: src/gnumeric-sheet.c:992
-#, c-format
+#: src/gnumeric-sheet.c:996
+#, no-c-format
 msgid "25%"
 msgstr "25%"
 
-#: src/gnumeric-sheet.c:995
-#, fuzzy, c-format
+#: src/gnumeric-sheet.c:1000
+#, no-c-format
 msgid "12.5%"
-msgstr "25%"
-
-#: src/gnumeric-sheet.c:998
-#, fuzzy, c-format
-msgid "6.25%"
-msgstr "25%"
-
-#: src/gnumeric-sheet.c:1001
-#, fuzzy
-msgid "Horizontal Stripe"
-msgstr "Linie poziome"
+msgstr "12.5%"
 
 #: src/gnumeric-sheet.c:1004
-#, fuzzy
-msgid "Vertical Stripe"
-msgstr "Linie pionowe"
+#, no-c-format
+msgid "6.25%"
+msgstr "6.25%"
 
 #: src/gnumeric-sheet.c:1007
-msgid "Reverse Diagonal Stripe"
-msgstr ""
+msgid "Horizontal Stripe"
+msgstr "Poziome pr±¿ki"
 
 #: src/gnumeric-sheet.c:1010
-msgid "Diagonal Stripe"
-msgstr ""
+msgid "Vertical Stripe"
+msgstr "Pionowe pr±¿ki"
 
 #: src/gnumeric-sheet.c:1013
-msgid "Diagonal Crosshatch"
-msgstr ""
+msgid "Reverse Diagonal Stripe"
+msgstr "Odwrócone uko¶ne pr±¿ki"
 
 #: src/gnumeric-sheet.c:1016
-msgid "Thick Diagonal Crosshatch"
-msgstr ""
+msgid "Diagonal Stripe"
+msgstr "Uko¶ne pr±¿ki"
 
 #: src/gnumeric-sheet.c:1019
-#, fuzzy
-msgid "Thin Horizontal Stripe"
-msgstr "Linie poziome"
+msgid "Diagonal Crosshatch"
+msgstr "Uko¶nie skrzy¿owane pr±¿ki"
 
 #: src/gnumeric-sheet.c:1022
-#, fuzzy
-msgid "Thin Vertical Stripe"
-msgstr "Linie pionowe"
+msgid "Thick Diagonal Crosshatch"
+msgstr "Grube uko¶nie skrzy¿owane pr±¿ki"
 
 #: src/gnumeric-sheet.c:1025
-msgid "Thin Reverse Diagonal Stripe"
-msgstr ""
+msgid "Thin Horizontal Stripe"
+msgstr "Cienkie poziome pr±¿ki"
 
 #: src/gnumeric-sheet.c:1028
-msgid "Thin Diagonal Stripe"
-msgstr ""
+msgid "Thin Vertical Stripe"
+msgstr "Cienkie pionowe pr±¿ki"
 
 #: src/gnumeric-sheet.c:1031
-msgid "Thin Crosshatch"
-msgstr ""
+msgid "Thin Reverse Diagonal Stripe"
+msgstr "Cienkie odwrócone uko¶ne pr±¿ki"
 
 #: src/gnumeric-sheet.c:1034
+msgid "Thin Diagonal Stripe"
+msgstr "Cienkie uko¶ne pr±¿ki"
+
+#: src/gnumeric-sheet.c:1037
+msgid "Thin Crosshatch"
+msgstr "Cienkie skrzy¿owane pr±¿ki"
+
+#: src/gnumeric-sheet.c:1040
 msgid "Thin Diagonal Crosshatch"
-msgstr ""
+msgstr "Cienkie skrzy¿owane uko¶nie pr±¿ki"
 
 #: src/gnumeric-util.c:19
 msgid "You cannot change part of an array."
-msgstr ""
-
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
-#: src/hf-config.glade.h:7
-#, fuzzy
-msgid "Left section:"
-msgstr "Wyrównaj do lewej"
-
-#: src/hf-config.glade.h:8
-#, fuzzy
-msgid "Center section:"
-msgstr "Wycentruj"
-
-#: src/hf-config.glade.h:9
-#, fuzzy
-msgid "Right section:"
-msgstr "Wyrównaj do prawej"
-
-#: src/hf-config.glade.h:10
-msgid "Enter the format strings for each section:"
-msgstr ""
-
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
-#: src/import.glade.h:7
-msgid "Choose an import filter for loading the file:"
-msgstr ""
-
-#: src/import.glade.h:8
-msgid "label2"
-msgstr ""
+msgstr "Nie mo¿esz zmieniæ czê¶ci tablicy."
 
 #: src/item-cursor.c:499
 msgid ""
@@ -5788,8 +6094,11 @@ msgid ""
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
+"Przeci±gniête komórki zama¿± zawarto¶æ istniej±cych\n"
+"komórek w tym obszarze.\n"
+"Czy chcesz zast±piæ zawarto¶ci w tym obszarze?"
 
-#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1125
+#: src/item-cursor.c:580 src/item-grid.c:600 src/workbook.c:1117
 msgid "Copy"
 msgstr "Kopiuj"
 
@@ -5821,11 +6130,11 @@ msgstr "Przesuñ komórki w dó³ i przenie¶"
 msgid "Shift cells right and move"
 msgstr "Przesuñ komórki w prawo i przenie¶"
 
-#: src/item-grid.c:599 src/workbook.c:1122
+#: src/item-grid.c:599 src/workbook.c:1114
 msgid "Cut"
 msgstr "Wytnij"
 
-#: src/item-grid.c:601 src/workbook.c:1128
+#: src/item-grid.c:601 src/workbook.c:1120
 msgid "Paste"
 msgstr "Wklej"
 
@@ -5839,7 +6148,7 @@ msgstr "Format komórki"
 
 #: src/main.c:43
 msgid "Dumps the function definitions"
-msgstr ""
+msgstr "Wypisuje definicje funkcji"
 
 #: src/main.c:43
 msgid "FILE"
@@ -5847,7 +6156,7 @@ msgstr "PLIK"
 
 #: src/main.c:45
 msgid "Enables some debugging functions"
-msgstr ""
+msgstr "Uaktywnia funkcje ¶ledzenia b³êdów"
 
 #: src/main.c:45 src/main.c:50 src/main.c:54 src/main.c:58 src/main.c:62
 msgid "LEVEL"
@@ -5855,23 +6164,24 @@ msgstr "POZIOM"
 
 #: src/main.c:49
 msgid "Enables debugging mesgs while reading excel workbooks"
-msgstr ""
+msgstr "Uaktywnia komunikaty wy¶wietlane podczas odczytu zeszytów excela"
 
 #: src/main.c:53
 msgid "Enables debugging mesgs while reading excel functions"
-msgstr ""
+msgstr "Uaktywnia komunikaty wy¶wietlane podczas odczytu funkcji excela"
 
 #: src/main.c:57
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
+"Uaktywnia komunikaty wy¶wietlane podczas odczytu kolorów i wzorków excela"
 
 #: src/main.c:61
 msgid "Enables debugging mesgs while reading excel charts"
-msgstr ""
+msgstr "Uaktywnia komunikaty wy¶wietlane podczas odczytu wykresów excela"
 
 #: src/number-match.c:150
 msgid "(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
-msgstr ""
+msgstr "(([-+]?[0-9.]+)?(\\,?[0-9]*)?([Ee][-+][0-9]+)?)"
 
 #: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
@@ -5899,7 +6209,7 @@ msgstr "nie mo¿na wczytaæ pliku z modu³em: "
 
 #: src/plugin.c:51
 msgid "Plugin must contain init_plugin function."
-msgstr "Plugin musi zawieraæ funkcjê init_plugin."
+msgstr "Wtyczka musi zawieraæ funkcjê init_plugin."
 
 #: src/plugin.c:57
 msgid "init_plugin returned error"
@@ -5907,7 +6217,7 @@ msgstr "funkcja init_plugin zwróci³a kod b³êdu"
 
 #: src/plugin.c:77
 msgid "Plugin is still in use.\n"
-msgstr "Plugin jest w u¿yciu.\n"
+msgstr "Wtyczka jest w u¿yciu.\n"
 
 #: src/print-info.c:20 src/print-info.c:23 src/print-info.c:24
 msgid "Page &[PAGE]"
@@ -5935,31 +6245,28 @@ msgid "Page &[NUM]"
 msgstr ""
 
 #: src/print-info.c:418
-#, fuzzy
 msgid "pts"
-msgstr "Operacja"
+msgstr ""
 
 #: src/print-info.c:418
-#, fuzzy
 msgid "points"
-msgstr "Operacja"
+msgstr "punkty"
 
 #: src/print-info.c:419
 msgid "mm"
-msgstr ""
+msgstr "mm"
 
 #: src/print-info.c:419
 msgid "millimeter"
-msgstr ""
+msgstr "milimetr"
 
 #: src/print-info.c:420
 msgid "cm"
-msgstr ""
+msgstr "cm"
 
 #: src/print-info.c:420
-#, fuzzy
 msgid "centimeter"
-msgstr "Wycentruj"
+msgstr "centymetr"
 
 #: src/print-info.c:421
 msgid "In"
@@ -5967,45 +6274,39 @@ msgstr ""
 
 #: src/print-info.c:421
 msgid "inch"
-msgstr ""
+msgstr "cal"
 
 #: src/print-info.c:481
-#, fuzzy
 msgid "Sheet 1"
-msgstr "_Arkusz"
+msgstr "Arkusz 1"
 
 #: src/print-info.c:539
 msgid "tab"
 msgstr ""
 
 #: src/print-info.c:540
-#, fuzzy
 msgid "page"
-msgstr "Wklej"
+msgstr "strona"
 
 #: src/print-info.c:541
-#, fuzzy
 msgid "pages"
-msgstr "Wklej"
+msgstr "strony"
 
 #: src/print-info.c:542
-#, fuzzy
 msgid "date"
-msgstr "Data"
+msgstr "data"
 
 #: src/print-info.c:543
-#, fuzzy
 msgid "time"
-msgstr "Czas"
+msgstr "czas"
 
-#: src/sheet-object-container.c:187 src/workbook.c:901
-#, fuzzy
+#: src/sheet-object-container.c:187 src/workbook.c:893
 msgid "Select an object"
-msgstr "Tworzy obiekt - liniê"
+msgstr ""
 
 #: src/sheet-object-container.c:290
 msgid "Object server"
-msgstr ""
+msgstr "Serwer obiektu"
 
 #: src/sheet-view.c:337 src/sheet-view.c:415
 #, c-format
@@ -6018,41 +6319,37 @@ msgid "Column: %s"
 msgstr "Kolumna: %s"
 
 #: src/sheet.c:828
-#, fuzzy
 msgid "Internal ERROR"
-msgstr "B³±d sk³adniowy"
+msgstr "B³±d wewnêrzny"
 
 #: src/sheet.c:2968
 msgid "The command `"
-msgstr ""
+msgstr "Polecenie `"
 
 #: src/sheet.c:2970
 msgid "' cannot be performed with multiple selections"
-msgstr ""
+msgstr "' nie mo¿e byæ wykonane z wielokrotnym zaznaczeniem"
 
 #: src/sheet.c:2985
-#, fuzzy
 msgid "copy"
-msgstr "Kopiuj"
+msgstr "kopiuj"
 
 #: src/sheet.c:3010
-#, fuzzy
 msgid "cut"
-msgstr "Wytnij"
+msgstr "wytnij"
 
 #: src/sheet.c:3066
-#, fuzzy
 msgid "paste"
-msgstr "Wklej"
+msgstr "wklej"
 
-#: src/sheet.c:4233
+#: src/sheet.c:4238
 #, c-format
 msgid "I was not able to activate object %s"
-msgstr ""
+msgstr "Nie mo¿na aktywowaæ obiektu %s"
 
-#: src/sheet.c:4245
+#: src/sheet.c:4250
 msgid "I was unable to the bind object"
-msgstr ""
+msgstr "Nie mo¿na przy³±czyæ obiektu"
 
 #: src/value.c:583
 msgid "Terminate"
@@ -6060,12 +6357,11 @@ msgstr ""
 
 #: src/value.c:874
 msgid "#NULL!"
-msgstr ""
+msgstr "#PUSTE!"
 
 #: src/value.c:876
-#, fuzzy
 msgid "#VALUE!"
-msgstr "#WARTO¦Æ"
+msgstr "#WARTO¦Æ!"
 
 #: src/value.c:877
 msgid "#REF!"
@@ -6073,773 +6369,468 @@ msgstr ""
 
 #: src/value.c:878
 msgid "#NAME?"
-msgstr ""
+msgstr "#NAZWA?"
 
 #: src/value.c:879
 msgid "#NUM!"
-msgstr ""
+msgstr "#LICZBA!"
 
 #: src/value.c:880
 msgid "#N/A"
 msgstr ""
 
-#: src/widget-font-selector.c:118 src/workbook.c:1145
+#: src/widgets/widget-font-selector.c:118 src/workbook.c:1137
 msgid "Bold"
 msgstr "Pogrubiony"
 
-#: src/widget-font-selector.c:119
+#: src/widgets/widget-font-selector.c:119
 msgid "Bold italic"
 msgstr ""
 
-#: src/widget-font-selector.c:120 src/workbook.c:1148
+#: src/widgets/widget-font-selector.c:120 src/workbook.c:1140
 msgid "Italic"
 msgstr "Italic"
 
-#: src/workbook.c:457
+#: src/workbook.c:449
 msgid "Warning"
 msgstr "Ostrze¿enie"
 
-#: src/workbook.c:466
+#: src/workbook.c:458
 #, c-format
 msgid "Workbook %s has unsaved changes, save them?"
 msgstr "Zeszyt %s zawiera nie zapisane zmiany, zapisaæ?"
 
-#: src/workbook.c:469
+#: src/workbook.c:461
 msgid "Workbook has unsaved changes, save them?"
 msgstr "Zeszyt zawiera nie zapisane zmiany, zapisaæ?"
 
-#: src/workbook.c:668
-#, fuzzy
+#: src/workbook.c:660
 msgid "Insert cols"
-msgstr "wstaw komórki"
+msgstr "Wstaw kolumny"
 
-#: src/workbook.c:687
+#: src/workbook.c:679
 msgid "Insert rows"
 msgstr "Wstaw wiersze"
 
-#: src/workbook.c:783
+#: src/workbook.c:775
 msgid ">mm/dd/yyyy"
-msgstr ""
+msgstr ">mm/dd/rrrr"
 
-#: src/workbook.c:802
+#: src/workbook.c:794
 msgid ">hh:mm"
-msgstr ""
+msgstr ">gg:mm"
 
-#: src/workbook.c:910
+#: src/workbook.c:902
 msgid "_New"
 msgstr "_Nowy"
 
-#: src/workbook.c:910
+#: src/workbook.c:902
 msgid "Create a new spreadsheet"
-msgstr "Utwórz nowy arkusz"
+msgstr "Tworzy nowy zeszyt"
 
-#: src/workbook.c:914
-#, fuzzy
+#: src/workbook.c:906
 msgid "_Import"
-msgstr "_Format"
+msgstr "_Importuj"
 
-#: src/workbook.c:914
-#, fuzzy
+#: src/workbook.c:906
 msgid "Imports a file"
-msgstr "Wczytaj plik"
+msgstr "Importuje plik"
 
-#: src/workbook.c:920
+#: src/workbook.c:912
 msgid "Su_mmary..."
 msgstr ""
 
-#: src/workbook.c:920
+#: src/workbook.c:912
 msgid "Summary information"
 msgstr ""
 
-#: src/workbook.c:925
+#: src/workbook.c:917
 msgid "Plu_g-ins..."
-msgstr "_Pluginy"
+msgstr "W_tyczki"
 
-#: src/workbook.c:925
+#: src/workbook.c:917
 msgid "Gnumeric plugins"
-msgstr "Pluginy Gnumeric"
+msgstr "Wtyczki Gnumeric"
 
-#: src/workbook.c:946
+#: src/workbook.c:938
 msgid "_All"
 msgstr "_Wszystko"
 
-#: src/workbook.c:947
+#: src/workbook.c:939
 msgid "Clear the selected cells' formats, comments, and contents"
-msgstr "Wyczy¶æ formaty, komentarze i zawarto¶æ wybranych komórek"
+msgstr "Czy¶ci formaty, komentarze i zawarto¶æ zaznaczonych komórek"
 
-#: src/workbook.c:949
+#: src/workbook.c:941
 msgid "_Formats"
 msgstr "_Formaty"
 
-#: src/workbook.c:950
+#: src/workbook.c:942
 msgid "Clear the selected cells' formats"
-msgstr "Wyczy¶æ formaty wybranych komórek"
+msgstr "Czy¶ci formaty zaznaczonych komórek"
 
-#: src/workbook.c:951
+#: src/workbook.c:943
 msgid "_Comments"
 msgstr "_Komentarze"
 
-#: src/workbook.c:952
+#: src/workbook.c:944
 msgid "Clear the selected cells' comments"
-msgstr "Czy¶ci komentarze dla wybranych komórek"
+msgstr "Czy¶ci komentarze dla zaznaczonych komórek"
 
-#: src/workbook.c:953
+#: src/workbook.c:945
 msgid "_Content"
 msgstr "_Zawarto¶æ"
 
-#: src/workbook.c:954
+#: src/workbook.c:946
 msgid "Clear the selected cells' contents"
-msgstr "Czy¶ci zawarto¶æ wybranych komórek"
+msgstr "Czy¶ci zawarto¶æ zaznaczonych komórek"
 
-#: src/workbook.c:962
+#: src/workbook.c:954
 msgid "P_aste special..."
 msgstr "Wklej _specjalnie..."
 
-#: src/workbook.c:963
+#: src/workbook.c:955
 msgid "C_lear"
 msgstr "Wyczy¶æ"
 
-#: src/workbook.c:964
+#: src/workbook.c:956
 msgid "Clear the selected cell(s)"
-msgstr "Wyczy¶æ wybrane komórki"
+msgstr "Czy¶ci zaznaczone komórki"
 
-#: src/workbook.c:968
+#: src/workbook.c:960
 msgid "_Select All"
 msgstr "_Zaznacz wszystko"
 
-#: src/workbook.c:969
+#: src/workbook.c:961
 msgid "Select all cells in the spreadsheet"
-msgstr "Wybierz wszystkie komórki w arkuszu"
+msgstr "Zaznacza wszystkie komórki w arkuszu"
 
-#: src/workbook.c:971
-#, fuzzy
+#: src/workbook.c:963
 msgid "_Goto cell..."
 msgstr "_Id¼ do komórki..."
 
-#: src/workbook.c:972
+#: src/workbook.c:964
 msgid "Jump to a specified cell"
-msgstr "Skocz do okre¶lonej komórki"
+msgstr "Przenosi kursor do okre¶lonej komórki"
+
+#: src/workbook.c:970
+msgid "Insert object..."
+msgstr "Wstaw obiekt..."
+
+#: src/workbook.c:971
+msgid "Inserts a Bonobo object"
+msgstr "Wstawia obiekt Bonobo"
 
 #: src/workbook.c:978
-msgid "Insert object..."
-msgstr ""
-
-#: src/workbook.c:979
-#, fuzzy
-msgid "Inserts a Bonobo object"
-msgstr "Tworzy obiekt - liniê"
-
-#: src/workbook.c:986
 msgid "_Define cell names"
 msgstr "_Definiuj nazwy komórek"
 
-#: src/workbook.c:990
+#: src/workbook.c:982
 msgid "_Recalculate"
 msgstr "_Przelicz"
 
-#: src/workbook.c:991
+#: src/workbook.c:983
 msgid "Recalculate the spreadsheet"
-msgstr "Przelicz arkusz"
+msgstr "Przelicza arkusz"
 
-#: src/workbook.c:999
+#: src/workbook.c:991
 msgid "_Zoom..."
 msgstr "_Powiêkszenie..."
 
-#: src/workbook.c:1000
+#: src/workbook.c:992
 msgid "Zoom the spreadsheet in or out"
-msgstr "Zmieñ powiêkszenie widoku arkusza"
+msgstr "Zmienia powiêkszenie widoku arkusza"
 
-#: src/workbook.c:1007
+#: src/workbook.c:999
 msgid "Current _date"
-msgstr "Bie¿±ca _data"
+msgstr "Bie¿±cê _datê"
 
-#: src/workbook.c:1008
-msgid "Insert the current data into the selected cell(s)"
-msgstr "Wstaw bie¿±c± date do wybranych kommorek"
+#: src/workbook.c:1000
+msgid "Insert the current date into the selected cell(s)"
+msgstr "Wstawia bie¿±c± datê do zaznaczonych komórek"
 
-#: src/workbook.c:1011
+#: src/workbook.c:1003
 msgid "Current _time"
-msgstr "Bie¿±cy _czas"
+msgstr "Aktualny _czas"
 
-#: src/workbook.c:1012
+#: src/workbook.c:1004
 msgid "Insert the current time into the selected cell(s)"
-msgstr "Wstaw bie¿±cy czas do wybranych komórek"
+msgstr "Wstawia aktualny czas do zaznaczonych komórek"
 
-#: src/workbook.c:1019 src/workbook.c:1065
+#: src/workbook.c:1011 src/workbook.c:1057
 msgid "_Sheet"
 msgstr "_Arkusz"
 
-#: src/workbook.c:1019
+#: src/workbook.c:1011
 msgid "Insert a new spreadsheet"
-msgstr "Wstaw nowy arkusz"
+msgstr "Wstawia nowy arkusz"
 
-#: src/workbook.c:1021 src/workbook.c:1059
+#: src/workbook.c:1013 src/workbook.c:1051
 msgid "_Cells..."
 msgstr "_Komórki..."
 
-#: src/workbook.c:1021
+#: src/workbook.c:1013
 msgid "Insert new cells"
-msgstr "Wstaw komórkê"
+msgstr "Wstawia komórki"
 
-#: src/workbook.c:1023
+#: src/workbook.c:1015
 msgid "_Rows"
 msgstr "_Wiersze"
 
-#: src/workbook.c:1023
+#: src/workbook.c:1015
 msgid "Insert new rows"
-msgstr "Wstaw wiersze"
+msgstr "Wstawia wiersze"
 
-#: src/workbook.c:1025
+#: src/workbook.c:1017
 msgid "C_olumns"
 msgstr "_Kolumny"
 
-#: src/workbook.c:1025
+#: src/workbook.c:1017
 msgid "Insert new columns"
-msgstr "Wstaw kolumny"
+msgstr "Wstawia kolumny"
 
-#: src/workbook.c:1030
-#, fuzzy
+#: src/workbook.c:1022
 msgid "_Add/modify comment..."
-msgstr "_Dodaj/modyfikuj komentarz"
+msgstr "_Dodaj/modyfikuj komentarz..."
 
-#: src/workbook.c:1031
+#: src/workbook.c:1023
 msgid "Edit the selected cell's comment"
-msgstr "Edytuj komentarz dla wybranych komórek"
+msgstr "Modyfikuje komentarz dla zaznaczonych komórek"
 
-#: src/workbook.c:1032
+#: src/workbook.c:1024
 msgid "_Special"
 msgstr "_Specjalne"
 
-#: src/workbook.c:1041 src/workbook.c:1047
+#: src/workbook.c:1033 src/workbook.c:1039
 msgid "_Autoadjust"
 msgstr ""
 
-#: src/workbook.c:1042
+#: src/workbook.c:1034
 msgid "_Width"
 msgstr "_Szeroko¶æ"
 
-#: src/workbook.c:1048
+#: src/workbook.c:1040
 msgid "_Height"
 msgstr "_Wysoko¶æ"
 
-#: src/workbook.c:1053
+#: src/workbook.c:1045
 msgid "_Change name"
 msgstr "_Zmieñ nazwê"
 
-#: src/workbook.c:1060
+#: src/workbook.c:1052
 msgid "Modify the formatting of the selected cells"
-msgstr ""
+msgstr "Zmienia formatowanie zaznaczonych komórek"
 
-#: src/workbook.c:1063
+#: src/workbook.c:1055
 msgid "C_olumn"
 msgstr "_Kolumna"
 
-#: src/workbook.c:1064
+#: src/workbook.c:1056
 msgid "_Row"
 msgstr "_Wiersz"
 
-#: src/workbook.c:1072
-#, fuzzy
+#: src/workbook.c:1064
 msgid "_Sort..."
-msgstr "_Format"
+msgstr "_Sortuj..."
 
-#: src/workbook.c:1073
-#, fuzzy
+#: src/workbook.c:1065
 msgid "Sort the selected cells"
-msgstr "Wyczy¶æ wybrane komórki"
+msgstr "Sortuje zaznaczone komórki"
 
-#: src/workbook.c:1074
+#: src/workbook.c:1066
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/workbook.c:1076
+#: src/workbook.c:1068
 msgid "_Solver..."
 msgstr ""
 
-#: src/workbook.c:1078
+#: src/workbook.c:1070
 msgid "_Data Analysis..."
-msgstr ""
+msgstr "Analiza _Danych..."
 
-#: src/workbook.c:1092
+#: src/workbook.c:1084
 msgid "_Insert"
 msgstr "_Wklej"
 
-#: src/workbook.c:1093
+#: src/workbook.c:1085
 msgid "F_ormat"
 msgstr "_Format"
 
-#: src/workbook.c:1094
+#: src/workbook.c:1086
 msgid "_Tools"
-msgstr ""
+msgstr "_Narzêdzia"
 
-#: src/workbook.c:1107
+#: src/workbook.c:1099
 msgid "New"
 msgstr "Nowy"
 
-#: src/workbook.c:1107
-#, fuzzy
+#: src/workbook.c:1099
 msgid "Creates a new sheet"
-msgstr "Utwórz nowy arkusz"
+msgstr "Tworzy nowy zeszyt"
 
-#: src/workbook.c:1110
+#: src/workbook.c:1102
 msgid "Open"
 msgstr "Otwórz"
 
-#: src/workbook.c:1110
+#: src/workbook.c:1102
 msgid "Opens an existing workbook"
 msgstr "Otwiera istniej±cy zeszyt"
 
-#: src/workbook.c:1113
+#: src/workbook.c:1105
 msgid "Save"
 msgstr "Zapisz"
 
-#: src/workbook.c:1113
+#: src/workbook.c:1105
 msgid "Saves the workbook"
 msgstr "Zapisuje zeszyt"
 
-#: src/print.glade.h:19 src/print.glade.h:32 src/print.glade.h:40
-#: src/print.glade.h:48 src/print.glade.h:56 src/workbook.c:1116
-#, fuzzy
-msgid "Print"
-msgstr "Procent"
-
-#: src/workbook.c:1116
-#, fuzzy
+#: src/workbook.c:1108
 msgid "Prints the workbook"
-msgstr "Zapisuje zeszyt"
+msgstr "Drukuje zeszyt"
 
-#: src/workbook.c:1122
+#: src/workbook.c:1114
 msgid "Cuts the selection to the clipboard"
 msgstr "Wycina zaznaczenie do schowka"
 
-#: src/workbook.c:1125
+#: src/workbook.c:1117
 msgid "Copies the selection to the clipboard"
 msgstr "Kopiuje zaznaczenie do schowka"
 
-#: src/workbook.c:1128
+#: src/workbook.c:1120
 msgid "Pastes the clipboard"
 msgstr "Wkleja zawarto¶æ schowka"
 
-#: src/workbook.c:1134
+#: src/workbook.c:1126
 msgid "Left align"
 msgstr "Wyrównaj do lewej"
 
-#: src/workbook.c:1134
-#, fuzzy
+#: src/workbook.c:1126
 msgid "Left justifies the cell contents"
-msgstr "Wy¶rodkowuje zawarto¶æ komórki"
+msgstr "Wyrównuje zawarto¶æ komórki do lewej"
 
-#: src/workbook.c:1137
+#: src/workbook.c:1129
 msgid "Centers the cell contents"
 msgstr "Wy¶rodkowuje zawarto¶æ komórki"
 
-#: src/workbook.c:1140
+#: src/workbook.c:1132
 msgid "Right align"
 msgstr "Wyrównaj do prawej"
 
-#: src/workbook.c:1140
-#, fuzzy
+#: src/workbook.c:1132
 msgid "Right justifies the cell contents"
-msgstr "Wy¶rodkowuje zawarto¶æ komórki"
+msgstr "Wyrównuje zawarto¶æ komórki do prawej"
 
-#: src/workbook.c:1145
-#, fuzzy
+#: src/workbook.c:1137
 msgid "Sets the bold font"
-msgstr "Ustawia atrybut pogrubienia dla komórki"
+msgstr "Ustawia font pogrubiony"
 
-#: src/workbook.c:1148
+#: src/workbook.c:1140
 msgid "Makes the font italic"
-msgstr ""
+msgstr "Ustawia font italic"
 
-#: src/workbook.c:1155
+#: src/workbook.c:1147
 msgid "Graphic"
-msgstr ""
+msgstr "Grafika"
 
-#: src/workbook.c:1155
-#, fuzzy
+#: src/workbook.c:1147
 msgid "Creates a graphic in the spreadsheet"
-msgstr "Utwórz nowy arkusz"
+msgstr "Tworzy grafikê w arkuszu"
 
-#: src/workbook.c:1159
+#: src/workbook.c:1151
 msgid "Line"
 msgstr "Linia"
 
-#: src/workbook.c:1159
+#: src/workbook.c:1151
 msgid "Creates a line object"
 msgstr "Tworzy obiekt - liniê"
 
-#: src/workbook.c:1162
+#: src/workbook.c:1154
 msgid "Arrow"
 msgstr "Strza³ka"
 
-#: src/workbook.c:1162
+#: src/workbook.c:1154
 msgid "Creates an arrow object"
 msgstr "Tworzy obiekt - strza³kê"
 
-#: src/workbook.c:1165
+#: src/workbook.c:1157
 msgid "Rectangle"
 msgstr "Prostok±t"
 
-#: src/workbook.c:1165
+#: src/workbook.c:1157
 msgid "Creates a rectangle object"
 msgstr "Tworzy obiekt - prostok±t"
 
-#: src/workbook.c:1168
+#: src/workbook.c:1160
 msgid "Ellipse"
 msgstr "Elipsa"
 
-#: src/workbook.c:1168
+#: src/workbook.c:1160
 msgid "Creates an ellipse object"
 msgstr "Tworzy obiekt - elipsê"
 
-#: src/workbook.c:1386
+#: src/workbook.c:1378
 msgid "You should introduce a valid cell name"
-msgstr ""
+msgstr "Nale¿y wprowadziæ poprawn± nazwê komórki"
 
-#: src/workbook.c:1395
+#: src/workbook.c:1387
 msgid "Column out of range"
 msgstr "Kolumna poza zakresem"
 
-#: src/workbook.c:1401
+#: src/workbook.c:1393
 msgid "Row number out of range"
 msgstr "Wiersz poza zakresem"
 
-#: src/workbook.c:1601
+#: src/workbook.c:1593
 msgid "Sum"
 msgstr "Suma"
 
-#: src/workbook.c:1604
+#: src/workbook.c:1596
 msgid "Average"
 msgstr "¦rednia"
 
-#: src/workbook.c:1605
+#: src/workbook.c:1597
 msgid "Count"
 msgstr "Liczba"
 
-#: src/workbook.c:2018
+#: src/workbook.c:1997
 msgid "Untitled.gnumeric"
 msgstr "BezNazwy.gnumeric"
 
-#: src/workbook.c:2119
+#: src/workbook.c:2098
 msgid "Zoom out"
 msgstr "Pomniejsz"
 
-#: src/workbook.c:2126
+#: src/workbook.c:2105
 msgid "Zoom in"
 msgstr "Powiêksz"
 
-#: src/workbook.c:2221
+#: src/workbook.c:2200
 #, c-format
-msgid "Are you sure you want to remove the sheet called `%s' "
-msgstr ""
+msgid "Are you sure you want to remove the sheet called `%s'?"
+msgstr "Czy na pewno chcesz usun±æ arkusz '%s'?"
+
+#
+#: src/workbook.c:2219
+msgid "Other sheets depend on the values on this sheet; I cannot remove it."
+msgstr "Inne arkusze zale¿± od warto¶ci w tym arkuszu, nie mo¿na go usun±æ."
+
+#: src/workbook.c:2239
+msgid "Add another sheet"
+msgstr "Dodaj kolejny arkusz"
 
 #: src/workbook.c:2240
-msgid "Other sheets depend on the values on this sheet; I cannot remove it"
-msgstr ""
-
-#: src/workbook.c:2260
-msgid "Add another sheet"
-msgstr ""
-
-#: src/workbook.c:2261
 msgid "Remove this sheet"
-msgstr ""
+msgstr "Usuñ arkusz"
 
-#: src/workbook.c:2527 src/workbook.c:2562
-#, fuzzy, c-format
+#: src/workbook.c:2506 src/workbook.c:2541
+#, c-format
 msgid "Sheet%d"
-msgstr "Arkusz %d"
+msgstr "Arkusz%d"
 
-#: src/workbook.c:2636
-#, fuzzy
+#: src/workbook.c:2615
 msgid "Gnumeric: "
-msgstr "Gnumeric"
+msgstr "Gnumeric:"
 
 #: src/xml-io.c:2033
-#, fuzzy
 msgid "Old Gnumeric XML file format"
-msgstr "Format pliku Gnumeric XML"
-
-#.
-#. * Translatable strings file generated by Glade.
-#. * Add this file to your project's POTFILES.in.
-#. * DO NOT compile it as part of your application.
-#.
-#: src/print.glade.h:7
-msgid "window2"
-msgstr ""
-
-#: src/print.glade.h:8
-#, fuzzy
-msgid "Orientation"
-msgstr "Operacja"
-
-#: src/print.glade.h:11
-#, fuzzy
-msgid "Scale"
-msgstr "Próbka:"
-
-#: src/print.glade.h:12 src/print.glade.h:13
-msgid "Adjust to"
-msgstr ""
-
-#: src/print.glade.h:14
-#, c-format
-msgid "% of the original size"
-msgstr ""
-
-#: src/print.glade.h:15
-msgid "pages wider by "
-msgstr ""
-
-#: src/print.glade.h:16
-msgid "pages of height"
-msgstr ""
-
-#: src/print.glade.h:17
-msgid "Paper size:"
-msgstr ""
-
-#: src/print.glade.h:18
-msgid "First page number:"
-msgstr ""
-
-#: src/print.glade.h:20 src/print.glade.h:33 src/print.glade.h:41
-#: src/print.glade.h:57
-msgid "Print preview"
-msgstr ""
-
-#: src/print.glade.h:21 src/print.glade.h:34 src/print.glade.h:42
-#: src/print.glade.h:58
-#, fuzzy
-msgid "Options"
-msgstr "Operacja"
-
-#: src/print.glade.h:22 src/print.glade.h:59
-#, fuzzy
-msgid "Page"
-msgstr "Wklej"
-
-#: src/print.glade.h:23
-msgid "Superior:"
-msgstr ""
-
-#: src/print.glade.h:24
-msgid "Header:"
-msgstr ""
-
-#: src/print.glade.h:25
-msgid "Lower:"
-msgstr ""
-
-#: src/print.glade.h:26
-#, fuzzy
-msgid "Footer"
-msgstr "Font"
-
-#: src/print.glade.h:27
-#, fuzzy
-msgid "Center on page"
-msgstr "Wycentruj"
-
-#: src/print.glade.h:28
-#, fuzzy
-msgid "Horizontally"
-msgstr "Poziomo"
-
-#: src/print.glade.h:29
-#, fuzzy
-msgid "Vertically"
-msgstr "Pionowo"
-
-#: src/print.glade.h:30
-#, fuzzy
-msgid "Left:"
-msgstr "Do lewej"
-
-#: src/print.glade.h:31
-#, fuzzy
-msgid "Right:"
-msgstr "Do prawej"
-
-#: src/print.glade.h:35
-#, fuzzy
-msgid "Margins"
-msgstr "Minimum"
-
-#: src/print.glade.h:36 src/print.glade.h:39
-msgid "sample goes here"
-msgstr ""
-
-#: src/print.glade.h:37
-msgid "Header"
-msgstr ""
-
-#: src/print.glade.h:38
-msgid "Footer:"
-msgstr ""
-
-#: src/print.glade.h:43
-msgid "Headers and footers"
-msgstr ""
-
-#: src/print.glade.h:44
-msgid "Print region:"
-msgstr ""
-
-#: src/print.glade.h:45
-msgid "Titles to print"
-msgstr ""
-
-#: src/print.glade.h:46
-msgid "Rows to repeat on the left side:"
-msgstr ""
-
-#: src/print.glade.h:47
-msgid "Rows to repeat on the upper region:"
-msgstr ""
-
-#: src/print.glade.h:49
-#, fuzzy
-msgid "Division lines"
-msgstr "Dzielenie przez zero"
-
-#: src/print.glade.h:50
-msgid "Black and white"
-msgstr ""
-
-#: src/print.glade.h:51
-msgid "Titles of rows and columns."
-msgstr ""
-
-#: src/print.glade.h:52
-#, fuzzy
-msgid "Comments"
-msgstr "_Komentarze"
-
-#: src/print.glade.h:53
-msgid "Page order"
-msgstr ""
-
-#: src/print.glade.h:54
-msgid "Down, then right"
-msgstr ""
-
-#: src/print.glade.h:55
-#, fuzzy
-msgid "Right, then down"
-msgstr "Wyrównaj do prawej"
-
-#: src/print.glade.h:60
-msgid "Customize header"
-msgstr ""
-
-#: src/print.glade.h:61
-msgid "Customize footer"
-msgstr ""
-
-#, fuzzy
-#~ msgid ""
-#~ "@FUNCTION=NPV\n"
-#~ "@SYNTAX=NPV(rate,v1,v2,...)\n"
-#~ "@DESCRIPTION=Calculates the net present value of an investment.\n"
-#~ "@SEEALSO=PV"
-#~ msgstr ""
-#~ "@FUNCTION=CODE\n"
-#~ "@SYNTAX=CODE(znak)\n"
-#~ "@DESCRIPTION=Zwraca warto¶æ w kodzie ASCII dla znaku 'znak'.\n"
-#~ "@SEEALSO=CHAR"
-
-#~ msgid "Define names"
-#~ msgstr "Definiuj nazwy"
-
-#~ msgid "Names in the workbook"
-#~ msgstr "Nazwy w zeszycie"
-
-#~ msgid "Refers to"
-#~ msgstr "Odnosi siê do"
-
-#, fuzzy
-#~ msgid ""
-#~ "The GNOME spreadsheet.\n"
-#~ "http://www.gnome.org/gnumeric/"
-#~ msgstr ""
-#~ "Arkusz kalkulacyjny GNOME.\n"
-#~ "http://www.gnome.org/gnumeric"
-
-#~ msgid "12%"
-#~ msgstr "12%"
-
-#~ msgid "6%"
-#~ msgstr "6%"
-
-#~ msgid "#VALUE"
-#~ msgstr "#WARTO¦Æ"
-
-#~ msgid "log: domain error"
-#~ msgstr "log: b³±d dziedziny"
-
-#~ msgid ""
-#~ "@FUNCTION=VARIANCE\n"
-#~ "@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
-#~ "of all the values and cells referenced in the argument list. This "
-#~ "is\tequivalent to the sum of (value - average)^2, divided by the number of "
-#~ "values minus 1. If you want it divided by N instead of N - 1, use "
-#~ "NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
-#~ msgstr ""
-#~ "@SYNTAX = VARIANCE(warto¶æ1, warto¶æ2, ...)@DESCRIPTION=Oblicza wariancjê "
-#~ "wszystkich warto¶ci i komórek z listy argumentów. Jest ona równa sumie "
-#~ "(warto¶æ - ¶rednia)^2, podzielonej przez liczbê warto¶ci zmniejszon± o 1. "
-#~ "Aby uzyskaæ sumê podzielon± przez N zamiast N - 1, u¿yj "
-#~ "NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
-
-#~ msgid "variance - division by 0"
-#~ msgstr "wariancja - dzielenie przez 0"
-
-#~ msgid "Sets the cell alignment to the left"
-#~ msgstr "Ustawia wyrównanie komórki do lewej"
-
-#~ msgid "Sets the cell alignment to the right"
-#~ msgstr "Ustawia wyrównanie komórki do prawej"
-
-#~ msgid "Sets the italic attribute on the cell"
-#~ msgstr "Ustawia atrybut italic dla komórki"
-
-#~ msgid "_Open..."
-#~ msgstr "_Otwórz..."
-
-#~ msgid "_Save"
-#~ msgstr "_Zapisz"
-
-#~ msgid "Save _as..."
-#~ msgstr "Zapisz jako..."
-
-#~ msgid "_Close"
-#~ msgstr "_Zamknij"
-
-#~ msgid "E_xit"
-#~ msgstr "Zakoñcz"
-
-#~ msgid "Cu_t"
-#~ msgstr "_Wytnij"
-
-#~ msgid "_Copy"
-#~ msgstr "_Kopiuj"
-
-#~ msgid "_Paste"
-#~ msgstr "_Wklej"
-
-#~ msgid "_About Gnumeric..."
-#~ msgstr "Informacje o Gnumeric..."
-
-#~ msgid "_File"
-#~ msgstr "_Plik"
-
-#~ msgid "_Edit"
-#~ msgstr "_Edycja"
-
-#~ msgid "_View"
-#~ msgstr "_Widok"
-
-#~ msgid "_Help"
-#~ msgstr "Pomo_c"
+msgstr "Stary format Gnumeric XML"
