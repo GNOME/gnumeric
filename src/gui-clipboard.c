@@ -478,7 +478,7 @@ image_write (GnmCellRegion *cr, Sheet *sheet, gchar const *mime_type,
 {
 	guchar *ret = NULL;
 	SheetObject *so;
-	char *format;
+	const char *format;
 	GsfOutput *output;
 	GsfOutputMemory *omem;
 	gsf_off_t osize;
