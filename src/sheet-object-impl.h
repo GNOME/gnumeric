@@ -137,4 +137,13 @@ void so_vc_anchor_to_coords (SheetObjectViewContainer *sovc,
 void so_vc_coords_to_anchor (SheetObjectViewContainer *sovc,
 			     double const *input, SheetObjectAnchor *output);
 
+/***************************************************************************/
+
+struct _SheetObjectImageableIface {
+	GTypeInterface base;
+
+	void (*write_image)	(SheetObject const *so, const char *format,
+				 GsfOutput *output, GError **err);
+};
+
 #endif /* GNUMERIC_SHEET_OBJECT_PRIV_H */

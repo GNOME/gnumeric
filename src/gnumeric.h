@@ -32,6 +32,7 @@ typedef struct _SheetObject		SheetObject;
 typedef struct _SheetObjectAnchor	SheetObjectAnchor;
 typedef struct _SheetObjectView		 SheetObjectView;
 typedef struct _SheetObjectViewContainer SheetObjectViewContainer;
+typedef struct _SheetObjectImageableIface SheetObjectImageableIface;
 
 typedef struct _GnmDepContainer		GnmDepContainer;
 typedef struct _GnmDependent		GnmDependent;

@@ -935,6 +935,38 @@ sheet_object_view_get_type (void)
 	return type;
 }
 
+/*****************************************************************************/
+
+GType
+sheet_object_imageable_get_type (void)
+{
+	static GType type = 0;
+
+	if (!type) {
+		static GTypeInfo const type_info = {
+			sizeof (SheetObjectImageableIface), /* class_size */
+			NULL,				/* base_init */
+			NULL,				/* base_finalize */
+		};
+
+		type = g_type_register_static (G_TYPE_INTERFACE,
+			"SheetObjectImageable", &type_info, 0);
+	}
+
+	return type;
+}
+
+#define SHEET_OBJECT_IMAGEABLE_CLASS(o)	(G_TYPE_INSTANCE_GET_INTERFACE ((o), SHEET_OBJECT_IMAGEABLE_TYPE, SheetObjectImageableIface))
+
+void sheet_object_write_image (SheetObject const *so, const char *format,
+			       GsfOutput *output, GError **err)
+{
+	g_return_if_fail (IS_SHEET_OBJECT_IMAGEABLE (so));
+
+	SHEET_OBJECT_IMAGEABLE_CLASS (so)->write_image (so, format, 
+							output, err);
+
+}
 
 /*****************************************************************************/
 
@@ -954,4 +986,3 @@ sheet_objects_init (void)
 	sov_so_quark = g_quark_from_static_string ("SheetObject");
 	sov_container_quark = g_quark_from_static_string ("SheetObjectViewContainer");
 }
-

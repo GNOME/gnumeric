@@ -4,6 +4,7 @@
 
 #include "gnumeric.h"
 #include <libgnomeprint/gnome-print.h>
+#include <gsf/gsf-output.h>
 
 typedef enum {
 	SO_ANCHOR_UNKNOWN			= 0x00,
@@ -43,6 +44,12 @@ struct _SheetObjectAnchor {
 #define SHEET_OBJECT(obj)     (G_TYPE_CHECK_INSTANCE_CAST((obj), SHEET_OBJECT_TYPE, SheetObject))
 #define IS_SHEET_OBJECT(o)    (G_TYPE_CHECK_INSTANCE_TYPE((o), SHEET_OBJECT_TYPE))
 GType sheet_object_get_type (void);
+
+#define SHEET_OBJECT_IMAGEABLE_TYPE  (sheet_object_imageable_get_type ())
+#define SHEET_OBJECT_IMAGEABLE(o)     (G_TYPE_CHECK_INSTANCE_CAST ((o), SHEET_OBJECT_IMAGEABLE_TYPE, SheetObjectImageableIface))
+#define IS_SHEET_OBJECT_IMAGEABLE(o)  (G_TYPE_CHECK_INSTANCE_TYPE ((o), SHEET_OBJECT_IMAGEABLE_TYPE))
+
+GType sheet_object_imageable_get_type (void);
 
 gboolean      sheet_object_set_sheet	 (SheetObject *so, Sheet *sheet);
 Sheet	     *sheet_object_get_sheet	 (SheetObject const *so);
@@ -89,6 +96,11 @@ void sheet_object_anchor_init	(SheetObjectAnchor *anchor,
 				 SheetObjectDirection direction);
 void sheet_object_anchor_cpy	(SheetObjectAnchor *dst,
 				 SheetObjectAnchor const *src);
+
+/* Image rendering */
+void sheet_object_write_image 	(SheetObject const *so, 
+				 const char *format,
+				 GsfOutput *output, GError **err);
 
 /* management routine to register all the builtin object types */
 void sheet_objects_init (void);
