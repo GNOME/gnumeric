@@ -12,6 +12,7 @@ struct _SheetPrivate {
 	gboolean	 selection_content_changed;
 	gboolean	 recompute_visibility;
 	gboolean	 recompute_spans;
+	gboolean	 resize_scrollbar;
 	int		 reposition_row_comment;
 	int		 reposition_col_comment;
 };

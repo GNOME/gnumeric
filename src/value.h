@@ -63,12 +63,11 @@ union _Value {
 	ValueArray	v_array;
 };
 
-#define VALUE_IS_NUMBER(x) (((x)->type == VALUE_INTEGER) || \
-			    ((x)->type == VALUE_FLOAT) || \
-			    ((x)->type == VALUE_BOOLEAN))
-
-#define VALUE_IS_EMPTY_OR_ERROR(x) (value_is_empty_cell (x) || \
-				    ((x)->type == VALUE_ERROR))
+#define VALUE_IS_EMPTY(v)		(((v) == NULL) || ((v)->type == VALUE_EMPTY))
+#define VALUE_IS_EMPTY_OR_ERROR(v)	(VALUE_IS_EMPTY(v) || (v)->type == VALUE_ERROR)
+#define VALUE_IS_NUMBER(v)		(((v)->type == VALUE_INTEGER) || \
+					 ((v)->type == VALUE_FLOAT) || \
+					 ((v)->type == VALUE_BOOLEAN))
 
 Value       *value_new_empty            (void);
 Value       *value_new_bool             (gboolean b);
@@ -97,9 +96,6 @@ int          value_get_as_int      (const Value *v);
 float_t      value_get_as_float    (const Value *v);
 char        *value_cellrange_get_as_string (const Value *value,
 					    gboolean use_relative_syntax);
-
-/* Does the value correspond to an empty cell ? */
-gboolean     value_is_empty_cell (Value const *v);
 
 /* Return a Special error value indicating that the iteration should stop */
 Value       *value_terminate (void);

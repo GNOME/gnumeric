@@ -38,7 +38,7 @@
 #define TARGETS_ATOM_NAME "TARGETS"
 
 /**
- * paste_cell_flags: Pastes a cell in the spreadsheet
+ * paste_cell: Pastes a cell in the spreadsheet
  *
  * @dest_sheet:  The sheet where the pasting will be done
  * @new_cell:    A new cell (not linked into the sheet, or wb->expr_list)
@@ -47,10 +47,10 @@
  * @paste_flags: Bit mask that describes the paste options.
  */
 static void
-paste_cell_flags (Sheet *dest_sheet,
-		  int target_col, int target_row,
-		  int col_offset, int row_offset,
-		  CellCopy *c_copy, int paste_flags)
+paste_cell (Sheet *dest_sheet,
+	    int target_col, int target_row,
+	    int col_offset, int row_offset,
+	    CellCopy *c_copy, int paste_flags)
 {
 	if ((paste_flags & (PASTE_FORMULAS | PASTE_VALUES))){
 		if (c_copy->type == CELL_COPY_TYPE_CELL) {
@@ -205,10 +205,10 @@ clipboard_paste_region (CommandContext *context,
 					target_row += c_copy->row_offset;
 				}
 
-				paste_cell_flags (pt->sheet,
-						  target_col, target_row,
-						  col_offset, row_offset,
-						  c_copy, pt->paste_flags);
+				paste_cell (pt->sheet,
+					    target_col, target_row,
+					    col_offset, row_offset,
+					    c_copy, pt->paste_flags);
 			}
 		}
 

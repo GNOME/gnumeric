@@ -463,8 +463,8 @@ compare (Value const *a, Value const *b)
 	if (a == b)
 		return IS_EQUAL;
 
-	ta = value_is_empty_cell (a) ? VALUE_EMPTY : a->type;
-	tb = value_is_empty_cell (b) ? VALUE_EMPTY : b->type;
+	ta = VALUE_IS_EMPTY (a) ? VALUE_EMPTY : a->type;
+	tb = VALUE_IS_EMPTY (b) ? VALUE_EMPTY : b->type;
 
 	/* string > empty */
 	if (ta == VALUE_STRING) {

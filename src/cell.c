@@ -43,7 +43,7 @@ cell_dirty (Cell *cell)
 static void
 cell_formula_changed (Cell *cell, gboolean queue_recalc)
 {
-	sheet_cell_formula_link (cell);
+	sheet_cell_expr_link (cell);
 	if (queue_recalc)
 		eval_queue_cell (cell);
 }
@@ -72,8 +72,8 @@ cell_cleanout (Cell *cell)
 	/* A cell can have either an expression or entered text */
 	if (cell_has_expr (cell)) {
 		/* Clipboard cells, e.g., are not attached to a sheet.  */
-		if (cell->sheet)
-			sheet_cell_formula_unlink (cell);
+		if (cell_expr_is_linked (cell))
+			sheet_cell_expr_unlink (cell);
 		expr_tree_unref (cell->u.expression);
 		cell->u.expression = NULL;
 	} else if (cell->u.entered_text) {
@@ -200,7 +200,7 @@ cell_relocate (Cell *cell, int col_offset, int row_offset, gboolean check_bounds
 	/* 2. If the cell contains a formula, relocate the formula */
 	if (cell_has_expr (cell)) {
 		if (cell_expr_is_linked (cell))
-			sheet_cell_formula_unlink (cell);
+			sheet_cell_expr_unlink (cell);
 
 		/*
 		 * WARNING WARNING WARNING
@@ -238,8 +238,8 @@ cell_relocate (Cell *cell, int col_offset, int row_offset, gboolean check_bounds
 			rinfo->origin.start.row =
 				rinfo->origin.end.row = cell->row_info->pos;
 			rinfo->origin_sheet = rinfo->target_sheet = cell->sheet;
-			rinfo->col_offset = 0;
-			rinfo->row_offset = 0;
+			rinfo->col_offset = col_offset;
+			rinfo->row_offset = row_offset;
 			eval_pos_init_cell (&rinfo->pos, cell);
 			expr = expr_rewrite (expr, &rwinfo);
 
@@ -450,7 +450,7 @@ cell_set_expr_and_value (Cell *cell, ExprTree *expr, Value *v)
 
 	cell->u.expression = expr;
 	cell->cell_flags |= CELL_HAS_EXPRESSION;
-	sheet_cell_formula_link (cell);
+	sheet_cell_expr_link (cell);
 #if 0
 	/* TODO : Should we add this for consistancy ? */
 	cell->format = fmt;

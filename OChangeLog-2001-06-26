@@ -1,3 +1,25 @@
+2000-06-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c (sheet_cell_expr_{link,unlink}) : renamed from
+	  sheet_cell_formula_{link,unlink}.
+
+	* src/cell.c (cell_relocate) : Doh! use the offset flags now that they
+	  are being passed.
+
+	* src/clipboard.c (paste_cell) : Renamed from paste_cell_flags.
+
+	* src/expr.c (compare) : value_is_empty_cell -> VALUE_IS_EMPTY.
+
+	* src/value.c (VALUE_IS_EMPTY) : rename from value_is_empty_cell.
+
+	* src/sheet-private.h : Add resize_scrollbar.
+
+	* src/sheet.c (sheet_{col,row}_add) : Use resize_scrollbar flag rather
+	  than manually updating the scrolling bar.
+	(sheet_update) : Handle resize_scrollbar.
+	(sheet_cell_expr_link) : renamed from sheet_cell_formula_link.
+	(sheet_cell_expr_unlink) : renamed from sheet_cell_formula_unlink.
+
 2000-06-04  Jody Goldberg <jgoldberg@home.com>
 
 	* src/value.c (value_is_empty_cell) : str == "" is not empty

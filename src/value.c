@@ -534,18 +534,6 @@ value_get_as_float (const Value *v)
 }
 
 /*
- * Test @v to see if it fits the heurists used to identify the results of
- * accessing an empty cell.  Which are currently
- * 1) v == NULL
- * 2) v->type == VALUE_EMPTY (new)
- */
-gboolean
-value_is_empty_cell (Value const *v)
-{
-	return v == NULL || (v->type == VALUE_EMPTY);
-}
-
-/*
  * A utility routine for create a special static instance of Value to be used
  * as a magic pointer to flag a request to terminate an iteration.
  * This object should not be copied, or returned to a user visible routine.

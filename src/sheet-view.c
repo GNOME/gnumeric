@@ -370,7 +370,7 @@ cb_colrow_resize (Sheet *sheet, Range const *r, gpointer user_data)
 	int tmp;
 
 	if (info->is_cols) {
-		if (r->start.row == 0 && r->end.row   >= SHEET_MAX_ROWS - 1)
+		if (r->start.row == 0 && r->end.row >= SHEET_MAX_ROWS - 1)
 			for (tmp = r->start.col; tmp <= r->end.col ; ++tmp) {
 				sheet_col_set_size_pixels (sheet, tmp, info->size_pixels, TRUE);
 				/* FIXME should be done later */

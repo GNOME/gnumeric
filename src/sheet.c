@@ -544,14 +544,8 @@ sheet_col_add (Sheet *sheet, ColRowInfo *cp)
 	(*segment)[COLROW_SUB_INDEX(col)] = cp;
 
 	if (col > sheet->cols.max_used){
-		GList *l;
-
 		sheet->cols.max_used = col;
-
-		for (l = sheet->sheet_views; l; l = l->next){
-			SheetView *sheet_view = l->data;
-			sheet_view_scrollbar_config (sheet_view);
-		}
+		sheet->priv->resize_scrollbar = TRUE;
 	}
 }
 
@@ -569,14 +563,8 @@ sheet_row_add (Sheet *sheet, ColRowInfo *rp)
 	(*segment)[COLROW_SUB_INDEX(row)] = rp;
 
 	if (rp->pos > sheet->rows.max_used){
-		GList *l;
-
 		sheet->rows.max_used = row;
-
-		for (l = sheet->sheet_views; l; l = l->next){
-			SheetView *sheet_view = l->data;
-			sheet_view_scrollbar_config (sheet_view);
-		}
+		sheet->priv->resize_scrollbar = TRUE;
 	}
 }
 
@@ -751,9 +739,20 @@ sheet_update (Sheet const *sheet)
 		 * and use that.
 		 */
 		p->recompute_visibility = FALSE;
+		p->resize_scrollbar = FALSE; /* compute_visible_ranges does this */
 		sheet_compute_visible_ranges (sheet);
 		sheet_update_cursor_pos (sheet);
 		sheet_redraw_all (sheet);
+	}
+
+	if (p->resize_scrollbar) {
+		GList *l;
+
+		for (l = sheet->sheet_views; l; l = l->next){
+			SheetView *sheet_view = l->data;
+			sheet_view_scrollbar_config (sheet_view);
+		}
+		p->resize_scrollbar = FALSE;
 	}
 
 	/* Only manipulate the status line if we are not selecting a region */
@@ -2062,7 +2061,7 @@ sheet_cell_remove_simple (Sheet *sheet, Cell *cell)
 		eval_unqueue_cell (cell);
 
 	if (cell_has_expr (cell))
-		sheet_cell_formula_unlink (cell);
+		sheet_cell_expr_unlink (cell);
 
 	deps = cell_get_dependencies (cell);
 	if (deps)
@@ -2121,7 +2120,7 @@ sheet_cell_comment_unlink (Cell *cell)
 }
 
 void
-sheet_cell_formula_link (Cell *cell)
+sheet_cell_expr_link (Cell *cell)
 {
 	Sheet *sheet;
 
@@ -2146,7 +2145,7 @@ sheet_cell_formula_link (Cell *cell)
 }
 
 void
-sheet_cell_formula_unlink (Cell *cell)
+sheet_cell_expr_unlink (Cell *cell)
 {
 	Sheet *sheet;
 
@@ -2154,10 +2153,12 @@ sheet_cell_formula_unlink (Cell *cell)
 	g_return_if_fail (cell_has_expr (cell));
 	g_return_if_fail (cell_expr_is_linked (cell));
 
-	sheet = cell->sheet;
-	g_return_if_fail (sheet != NULL); /* Catch use of deleted cell */
-
 	cell->cell_flags &= ~CELL_IN_EXPR_LIST;
+
+	sheet = cell->sheet;
+	if (sheet == NULL)
+		return;
+
 	cell_drop_dependencies (cell);
 	sheet->workbook->formula_cell_list = g_list_remove (sheet->workbook->formula_cell_list, cell);
 
@@ -2167,14 +2168,14 @@ sheet_cell_formula_unlink (Cell *cell)
 }
 
 /**
- * sheet_formulas_unlink : An internal routine to remove all expressions
+ * sheet_expr_unlink : An internal routine to remove all expressions
  *      associated with a given sheet from the workbook wide expression list.
  *
  * WARNING : This is a dangerous internal function.  it leaves the cells in an
  *	invalid state.  It is intended for use by sheet_destroy_contents.
  */
 static void
-sheet_formulas_unlink (Sheet *sheet)
+sheet_expr_unlink (Sheet *sheet)
 {
 	GList *ptr, *next, *queue;
 	Workbook *wb;
@@ -2310,7 +2311,7 @@ sheet_destroy_contents (Sheet *sheet)
 	eval_unqueue_sheet (sheet);
 
 	/* Unlink expressions from the workbook expr list */
-	sheet_formulas_unlink (sheet);
+	sheet_expr_unlink (sheet);
 
 	/* Remove all the cells */
 	g_hash_table_foreach_remove (sheet->cell_hash, &cb_remove_allcells, NULL);
@@ -3259,7 +3260,7 @@ sheet_move_range (CommandContext *context,
 	GList *cells = NULL;
 	Cell  *cell;
 	Range  dst;
-	gboolean inter_sheet_formula, out_of_range;
+	gboolean inter_sheet_expr, out_of_range;
 
 	g_return_if_fail (rinfo != NULL);
 	g_return_if_fail (rinfo->origin_sheet != NULL);
@@ -3361,25 +3362,25 @@ sheet_move_range (CommandContext *context,
 		if ((cell->col_info->pos + rinfo->col_offset) >= SHEET_MAX_COLS ||
 		    (cell->row_info->pos + rinfo->row_offset) >= SHEET_MAX_ROWS) {
 			if (cell_has_expr (cell))
-				sheet_cell_formula_unlink (cell);
+				sheet_cell_expr_unlink (cell);
 			cell_unrealize (cell);
 			cell_destroy (cell);
 			continue;
 		}
 
-		/* Inter sheet movement requires the moving the formula too */
-		inter_sheet_formula  = (cell->sheet != rinfo->target_sheet &&
-					cell_has_expr (cell));
-		if (inter_sheet_formula)
-			sheet_cell_formula_unlink (cell);
+		/* Inter sheet movement requires the moving the expression too */
+		inter_sheet_expr  = (cell->sheet != rinfo->target_sheet &&
+				     cell_has_expr (cell));
+		if (inter_sheet_expr)
+			sheet_cell_expr_unlink (cell);
 
 		/* Update the location */
 		sheet_cell_insert (rinfo->target_sheet, cell,
 				   cell->col_info->pos + rinfo->col_offset,
 				   cell->row_info->pos + rinfo->row_offset);
 
-		if (inter_sheet_formula)
-			sheet_cell_formula_link (cell);
+		if (inter_sheet_expr)
+			sheet_cell_expr_link (cell);
 
 		/* Move comments */
 		cell_relocate (cell, 0, 0, FALSE);

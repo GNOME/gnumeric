@@ -7,6 +7,7 @@ Release Critical
 - Changing a name that is in use causes a crash.
 - The max row/col canvas scroll size is still hard coded.
 - Resize row/col undo is unfinished.
+- changing col/row sizes does not mark a sheet dirty.
 - Saving xml should not rely on changing the textdomain to disable translation
   of TRUE/FALSE.
 
@@ -24,9 +25,6 @@ Long term breakage
   and remove decimals.
 
 - Auto resize needs to handle empty cells.
-- changing col/row sizes does not mark a sheet dirty.
-- changing col/row sizes does not have undo support.
-- auto-fill does not have undo support.
 - The implication of mixed mode references ($B$2:C3)
   is large.  All accesses to a RangeRef need to be normalized. (1/2 done)
 
