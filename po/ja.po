@@ -1,4 +1,4 @@
-# gnumeric ja.p encoding="UTF-8"o.
+# gnumeric ja.po.
 # Copyright (C) 1998-2002 Free Software Foundation, Inc.
 # Mitsuru Oka <95i44@is.kochi-u.ac.jp>, 1998.
 # Mitsuru Oka <mitsu-o@is.aist-nara.ac.jp>, 1999-2000.
@@ -8,10 +8,10 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 1.1.20\n"
+"Project-Id-Version: gnumeric 1.1.90\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-08-21 18:36-0400\n"
-"PO-Revision-Date: 2003-07-25 18:30+0900\n"
+"PO-Revision-Date: 2003-08-30 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -937,12 +937,10 @@ msgid ""
 msgstr "Data Interchange 形式 (*.dif) で保存された情報の読み取り/書き込み"
 
 #: plugins/excel/boot.c:167
-#, fuzzy
 msgid "No Workbook or Book streams found."
-msgstr "ブックあるいはワークブックストリームが見つかりませんでした。"
+msgstr "ワークブックあるいはブックストリームが見つかりませんでした。"
 
 #: plugins/excel/boot.c:210
-#, fuzzy
 msgid "Preparing to save..."
 msgstr "保存の準備中です..."
 
@@ -953,7 +951,7 @@ msgstr "ファイルの保存中..."
 #: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:269
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
-msgstr ""
+msgstr "予期しない属性 %s::%s == '%s'です。"
 
 #: plugins/excel/excel-xml-read.c:186 plugins/openoffice/openoffice-read.c:975
 #: plugins/xml_sax/xml-sax-read.c:1592
@@ -989,9 +987,8 @@ msgid "Module%d"
 msgstr "モジュール%d"
 
 #: plugins/excel/ms-excel-read.c:2695
-#, fuzzy, c-format
 msgid "Failure parsing name '%s'"
-msgstr "ファイルセーバーに ID がありません。"
+msgstr "名前 '%s' のパースで失敗しました"
 
 #: plugins/excel/ms-excel-read.c:2751
 #, c-format
@@ -999,6 +996,8 @@ msgid ""
 "DDE links are no supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
+"DDEリンクはサポートされていません。\n"
+"名前 '%s' は失われます。\n"
 
 #: plugins/excel/ms-excel-read.c:2757
 #, c-format
@@ -1006,11 +1005,12 @@ msgid ""
 "OLE links are no supported.\n"
 "Name '%s' will be lost.\n"
 msgstr ""
+"OLEリンクはサポートされていません。\n"
+"名前 '%s' は失われます。\n"
 
 #: plugins/excel/ms-excel-read.c:2809
-#, fuzzy
 msgid "Failure parsing AutoFilter."
-msgstr "ファイルセーバーに ID がありません。"
+msgstr "オートフィルタのパースに失敗しました。"
 
 #: plugins/excel/ms-excel-read.c:4568
 msgid "external references"
@@ -1018,7 +1018,7 @@ msgstr "外部参照"
 
 #: plugins/excel/ms-excel-read.c:5295
 msgid "No password supplied"
-msgstr ""
+msgstr "パスワードがありません"
 
 #: plugins/excel/ms-excel-read.c:5299
 msgid "Invalid password"
@@ -1034,6 +1034,8 @@ msgid ""
 "We already wrote a length for a string that is being truncated due to "
 "encoding problems."
 msgstr ""
+"これはどこかが壊れています。\n"
+"エンコーディングの問題で省略された文字列の長さはすでに書きこみました。"
 
 #: plugins/excel/ms-excel-write.c:3753
 #, c-format
@@ -1041,6 +1043,8 @@ msgid ""
 "Some content will be lost when saving as MS Excel (tm) 95. It only supports %"
 "d rows, and this workbook has %d"
 msgstr ""
+"MS Excel(tm) 95型式で保存すると失われるデータがあります。Excel 95型式は"
+"%d行までサポートしていますが、このワークブックには%d行あります"
 
 #: plugins/excel/ms-excel-write.c:3760
 #, c-format
@@ -1048,16 +1052,16 @@ msgid ""
 "Some content will be lost when saving as MS Excel (tm). It only supports %d "
 "rows, and this workbook has %d"
 msgstr ""
+"MS Excel(tm)型式で保存すると失われるデータがあります。Excel型式は"
+"%d行までサポートしていますが、このワークブックには%d行あります"
 
 #: plugins/excel/ms-excel-write.c:4178
-#, fuzzy
 msgid "Couldn't open stream 'Book' for writing\n"
-msgstr "書き出しのストリームが開けません\n"
+msgstr "書き込み用のストリーム'Book'を開けませんでした\n"
 
 #: plugins/excel/ms-excel-write.c:4198
-#, fuzzy
 msgid "Couldn't open stream 'Workbook' for writing\n"
-msgstr "書き出しのストリームが開けません\n"
+msgstr "書き込み用のストリーム'Workbook'が開けませんでした\n"
 
 #: plugins/excel/ms-formula-read.c:614
 msgid "Broken function"
@@ -1068,6 +1072,7 @@ msgstr "壊れた関数"
 msgid ""
 "Too many arguments for function, MS Excel expects exactly %d and we have more"
 msgstr ""
+"関数の引数が多すぎます。MS Excelは%d個を使いますが、それ以上指定されています"
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
@@ -1082,27 +1087,22 @@ msgid "MS Excel (tm) (*.xls)"
 msgstr "MS Excel (tm) (*.xls)"
 
 #: plugins/excel/plugin.xml.in.h:4
-#, fuzzy
 msgid "MS Excel (tm) 5.0/95"
-msgstr "MS Excel (tm)"
+msgstr "MS Excel (tm) 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:5
-#, fuzzy
 msgid "MS Excel (tm) 97/2000/XP"
-msgstr "MS Excel (tm) 97 ファイル形式"
+msgstr "MS Excel (tm) 97/2000/XP ファイル形式"
 
 #: plugins/excel/plugin.xml.in.h:6
-#, fuzzy
 msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
-msgstr "MS Excel (tm) 97 ファイル形式"
+msgstr "MS Excel (tm) 97/2000/XP 及び 5.0/95 ファイル形式"
 
 #: plugins/excel/plugin.xml.in.h:7
-#, fuzzy
 msgid "MS Excel (tm) XML"
-msgstr "MS Excel (tm)"
+msgstr "MS Excel (tm) XML"
 
 #: plugins/fn-complex/functions.c:80
-#, fuzzy
 msgid ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(real,im[,suffix])\n"
@@ -1125,15 +1125,16 @@ msgstr ""
 "@DESCRIPTION=COMPLEX は 'x + yi' の形式の複素数を返します。@実数には複素数の"
 "実数係数を、@虚数には虚数係数を指定します。@虚数単位には虚数の単位として使う"
 "文字を指定します。省略した場合には'i' をデフォルトとして使用します。\n"
-"@虚数単位が 'i' でも 'j' でもない場合、#VALUE! エラーが返されます。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* @虚数単位が 'i' でも 'j' でもない場合、#VALUE! エラーが返されます。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "COMPLEX(1,-1) = 1-i です。\n"
 "\n"
 "@SEEALSO="
 
 #: plugins/fn-complex/functions.c:119
-#, fuzzy
 msgid ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(inumber)\n"
@@ -1151,14 +1152,17 @@ msgstr ""
 "@FUNCTION=IMAGINARY\n"
 "@SYNTAX=IMAGINARY(複素数)\n"
 "@DESCRIPTION=IMAGINARY 関数は複素数の虚数部の係数を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMAGINARY関数は#VALUE!エラーを"
+"返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "IMAGINARY(\"132-j\") = -1 です。\n"
 "\n"
 "@SEEALSO=IMREAL"
 
 #: plugins/fn-complex/functions.c:152
-#, fuzzy
 msgid ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(inumber)\n"
@@ -1175,14 +1179,17 @@ msgstr ""
 "@FUNCTION=IMABS\n"
 "@SYNTAX=IMABS(複素数)\n"
 "@DESCRIPTION=IMABS は複素数の絶対値を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMABS関数は#VALUE!エラーを"
+"返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "IMABS(\"2-j\") = 2.23606798 です。\n"
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: plugins/fn-complex/functions.c:185
-#, fuzzy
 msgid ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(inumber)\n"
@@ -1199,14 +1206,17 @@ msgstr ""
 "@FUNCTION=IMREAL\n"
 "@SYNTAX=IMREAL(複素数)\n"
 "@DESCRIPTION=IMREAL 関数は複素数の実数部の係数を返します。\n"
-"この関数は Excel 互換です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMREAL関数は#VALUE!エラーを"
+"返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "imreal(\"132-j\") = 132 です。\n"
 "\n"
 "@SEEALSO=IMAGINARY"
 
 #: plugins/fn-complex/functions.c:218
-#, fuzzy
 msgid ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(inumber)\n"
@@ -1223,15 +1233,17 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCONJUGATE\n"
 "@SYNTAX=IMCONJUGATE(複素数)\n"
-"@DESCRIPTION=IMCONJUGATE は複素数の複素共役を返します。\n"
-"この関数は Excel 互換です。\n"
+"@DESCRIPTION=IMCONJUGATE は複素数の共役複素数を返します。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMCONJUGATEは#VALUE!エラーを返します。\n"
+"* この関数は Excel 互換です。\n"
+"\n"
 "@EXAMPLES=\n"
 "IMCONJUGATE(\"1-j\") = 1+j です。\n"
 "\n"
 "@SEEALSO=IMAGINARY,IMREAL"
 
 #: plugins/fn-complex/functions.c:252
-#, fuzzy
 msgid ""
 "@FUNCTION=IMINV\n"
 "@SYNTAX=IMINV(inumber)\n"
@@ -1247,17 +1259,20 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMSIN\n"
-"@SYNTAX=IMSIN(複素数)\n"
-"@DESCRIPTION=IMSIN 関数は複素数の正弦を返します。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"IMSIN(\"1+j\") = 1.29846+0.63496j です。\n"
+"@FUNCTION=IMINV\n"
+"@SYNTAX=IMINV(複素数)\n"
+"@DESCRIPTION=IMSIN 関数は複素数の逆コサイン、または逆数を返します。"
+"@複素数をzとすると、\n"
+"\t1/z = (x - i y)/(x^2 + y^2)です。\n"
 "\n"
-"@SEEALSO=IMCOS,IMTAN"
+"* もし@複素数が正しい複素数でなければ、IMINV関数は#VALUE!エラーを返します。\n"
+"\n"
+"@EXAMPLES=\n"
+"IMINV(\"1-j\") = 0.5+0.5j です。\n"
+"\n"
+"@SEEALSO="
 
 #: plugins/fn-complex/functions.c:283
-#, fuzzy
 msgid ""
 "@FUNCTION=IMNEG\n"
 "@SYNTAX=IMNEG(inumber)\n"
@@ -1273,14 +1288,18 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=IMEXP\n"
-"@SYNTAX=IMEXP(複素数)\n"
-"@DESCRIPTION=IMEXP 関数は複素数の指数を返します。\n"
-"この関数は Excel 互換です。\n"
-"@EXAMPLES=\n"
-"IMEXP(\"2-j\") = 3.992324-6.217676j です。\n"
+"@FUNCTION=IMNEG\n"
+"@SYNTAX=IMNEG(複素数)\n"
+"@DESCRIPTION=IMNEG関数は、複素数の正負の数を返します。@複素数がzとすると\n"
 "\n"
-"@SEEALSO=IMLN"
+"\t-z = (-x) + i(-y)です。\n"
+"\n"
+"* もし@複素数が正しい複素数でなければ、IMNEG関数は#VALUE!エラーを返します。\n"
+"\n"
+"@EXAMPLES=\n"
+"IMNEG(\"1-j\") = -1+j です。\n"
+"\n"
+"@SEEALSO="
 
 #: plugins/fn-complex/functions.c:314
 #, fuzzy
