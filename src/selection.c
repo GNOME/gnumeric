@@ -392,7 +392,8 @@ sheet_selection_set_internal (Sheet *sheet,
 	/* Has the entire row been selected/unselected */
 	if ((new_sel.start.row == 0 && new_sel.end.row == SHEET_MAX_ROWS-1) ^
 	    (old_sel.start.row == 0 && old_sel.end.row == SHEET_MAX_ROWS-1)) {
-		sheet_redraw_headers (sheet, TRUE, FALSE, &new_sel);
+		Range tmp = range_union (&new_sel, &old_sel);
+		sheet_redraw_headers (sheet, TRUE, FALSE, &tmp);
 	} else {
 		Range tmp = new_sel;
 		int diff;
@@ -424,7 +425,8 @@ sheet_selection_set_internal (Sheet *sheet,
 	/* Has the entire col been selected/unselected */
 	if ((new_sel.start.col == 0 && new_sel.end.col == SHEET_MAX_COLS-1) ^
 	    (old_sel.start.col == 0 && old_sel.end.col == SHEET_MAX_COLS-1)) {
-		sheet_redraw_headers (sheet, FALSE, TRUE, &new_sel);
+		Range tmp = range_union (&new_sel, &old_sel);
+		sheet_redraw_headers (sheet, FALSE, TRUE, &tmp);
 	} else {
 		Range tmp = new_sel;
 		int diff;

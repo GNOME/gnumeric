@@ -9,6 +9,7 @@ Jody:
 	* Fix merge undo.
 	* Fix interactions between spans and hidden rows/cols.
 	* Work around xls files which specify col/row too small.
+	* Header redraw of shrinking selections with merged full col/row
 
 Morten:
 	* Make search-and-replace dialog non-modal.
