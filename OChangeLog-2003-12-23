@@ -5,10 +5,10 @@
 
 2001-10-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-        * src/analysis-tools.c (get_data) : Use sheet_cell_get_value rather 
+        * src/analysis-tools.c (get_data) : Use sheet_cell_get_value rather
 	  than sheet_cell_get
 	  (covariance_tool) : These are covariances rather than correlations.
-	
+
 2001-10-03  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in :  Improve the oaf test.
@@ -151,7 +151,7 @@
 2001-09-25  Jon K Hellan  <hellan@acm.org>
 
 	* idl/.cvsignore: Adapt to present reality.
-	
+
 2001-09-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook-view.c (wb_view_selection_desc) : fix old typo.
@@ -374,12 +374,12 @@
 
 2001-09-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
-	* src/dialogs/descriptive-stats.glade : New file. Template for 
+	* src/dialogs/descriptive-stats.glade : New file. Template for
 	  descriptive stats analysis tool dialog.
 	* src/analysis-tools.h : Separate descriptive_stat_tool_t type into
-	  descriptive_stat_tool_t (used by descriptive stats tool) and 
+	  descriptive_stat_tool_t (used by descriptive stats tool) and
 	  stat_tool_t (used by other tools).
-	* src/dialogs/dialog-analysis-tools.c : Rewrote code related to 
+	* src/dialogs/dialog-analysis-tools.c : Rewrote code related to
 	  descriptive stats tool to use glade template and gnumeric-expr-entry
 	  widget.
 	(summary_stat_signal_fun) : deleted
@@ -531,7 +531,7 @@
 	(cb_range_recalc_all_depends) : delete.
 	(cb_recalc_all_depends) : new.
 	(cb_dep_hash_invalidate) : merge cb_single_hash_invalidate,
-	  cb_range_hash_invalidate. 
+	  cb_range_hash_invalidate.
 	(do_deps_destroy) : use the merged invalidation routines.
 	(add_range_dep) : loop through the range buckets.
 	(drop_range_dep) : loop through the range buckets.
@@ -546,7 +546,7 @@
 	(WORKBOOK_FOREACH_DEPENDENT): Re-factor.
 	(Workbook): Move dependents to DependencyContainer, see below.
 	Introduce new external_dependents, not yet used.
-	
+
 	* src/sheet.h (SHEET_FOREACH_DEPENDENT): New macro.
 
 	* src/eval.h: (DependencyContainer): type moved from eval.c and
@@ -690,7 +690,7 @@
 
 	* src/sheet-object-graphic.c (sheet_object_graphic_init) : default
 	  fill colour to white.  It makes for bett looking paceholders.
-	 
+
 2001-08-26  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* plugins/mps/mps.c, plugins/mps/plugin.xml,
@@ -815,7 +815,7 @@
 
 	* src/style.c (font_init) : Mention only the file fontmap2.
 
-	* src/item-bar.c (item_bar_realize) : Don't attempt to use a gc from 
+	* src/item-bar.c (item_bar_realize) : Don't attempt to use a gc from
 	  an unrealized button.  Do it manually instead.
 
 	* src/sheet-object.c (sheet_object_populate_menu) : Put Properties
@@ -882,7 +882,7 @@
 	Try opening only regular files.
 
 2001-08-22  Almer S. Tigelaar  <almer@gnome.org>
- 
+
 	* src/workbook-control-gui.c (wbcg_edit_error_dialog) :
  	Dialog for displaying errors and giving the user a choice as
  	to what action to take.
@@ -1067,7 +1067,7 @@
 
 2001-08-16  Zbigniew Chyla  <cyba@gnome.pl>
 
-	* src/func.h (struct TokenizedHelp): Added help_is_localized field. 
+	* src/func.h (struct TokenizedHelp): Added help_is_localized field.
 
 	* src/func.c (tokenized_help_new): Initialize it here.
 
@@ -1096,14 +1096,14 @@
 2001-08-14  Ariel Rios  <ariel@linuxppc.org>
 
 	* src/main.c (main): Remove guile stuff. We no longer need
-	to take over main and all guile init functions are now handle 
+	to take over main and all guile init functions are now handle
 	by the guile plugin itself.
 
 2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* src/sheet-object-graphic.c (sheet_object_filled_user_config): Set
-	the dialogs parent so that the dialog will get placed correctly. I did 
-	it already in sheet_object_graphic_user_config but forgot to add 
+	the dialogs parent so that the dialog will get placed correctly. I did
+	it already in sheet_object_graphic_user_config but forgot to add
 	it here, too.
 
 2001-08-14  Lutz Müller <urc8@rz.uni-karlsruhe.de>
@@ -1134,8 +1134,8 @@
 	(print_sheet_objects): New. Prints all objects that overlap a given
 	range and clips to that range.
 	(print_page_cells): Call print_sheet_objects from here.
-	(print_page_object): Removed. 
-	(print_page): Check for sheet objects if no printable cells can be 
+	(print_page_object): Removed.
+	(print_page): Check for sheet objects if no printable cells can be
 	found.
 	(render_sheet_objects): Removed.
 	* src/sheet-object-bonobo.c (sheet_object_bonobo_print): Move the
@@ -1148,10 +1148,10 @@
 	* src/sheet-object-graphic.c (sheet_object_graphic_print): And here.
 	Fixed some broken logic. Printing of arrows implemented.
 	(sheet_object_filled_print): Fixed.
-	* src/sheet.c (sheet_col_get_distance_pts): Make sign double like in 
+	* src/sheet.c (sheet_col_get_distance_pts): Make sign double like in
 	sheet_row_get_distance_pts. This didn't fix my problem but it is
 	nicer this way (problem got fixed by Jody's fix below).
-	
+
 2001-08-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-object.c (cell_offset_calc_pt) : Fixcut-n-paste-o to fix
@@ -1162,7 +1162,7 @@
 	* src/sheet-object-cell-comment.c (cell_comment_print): Add a note that
 	this function is left empty intentionally
 	* src/sheet-object-graphic.c: Let the user configure the arrow shape
-	
+
 2001-08-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format-template.c (format_template_range_check) : fix typo.
@@ -1195,7 +1195,7 @@
 
 2001-08-13  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
-	* src/sheet.c (sheet_get_extent): Don't ignore the SheetObjects! They 
+	* src/sheet.c (sheet_get_extent): Don't ignore the SheetObjects! They
 	want to get printed even if all cells are empty.
 
 2001-08-12  Jody Goldberg <jgoldberg@home.com>
@@ -1218,13 +1218,13 @@
 
 2001-08-11  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
-	* src/sheet-object.c: Revert below removal of "Old crufty IO". In 
+	* src/sheet-object.c: Revert below removal of "Old crufty IO". In
 	addition, fix a warning that I introduced yesterday (missing cast).
 
 2001-08-11  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
-	* src/sheet-object-graphic.c: Use GdkColors instead of strings. 
-	Implemented printing. Objects aren't in the right place though. Still 
+	* src/sheet-object-graphic.c: Use GdkColors instead of strings.
+	Implemented printing. Objects aren't in the right place though. Still
 	needs some tuning. Configuration implemented (border width, outline
 	color, fill color).
 	* src/sheet-object-graphic.h: Be consistent, rename
@@ -1233,7 +1233,7 @@
 	* sheet-object.c: (sheet_object_read_xml): Remove "Old crufty IO"
 	(quoted from code). Get and set the direction here instead of in
 	sheet-object-graphic.
-	* src/xml-io.[c,h]: Make xml_[get,set]_value_double and 
+	* src/xml-io.[c,h]: Make xml_[get,set]_value_double and
 	xml_[get,set]_value_color public.
 
 2001-08-09  Jody Goldberg <jgoldberg@home.com>
@@ -1281,11 +1281,11 @@
 2001-08-07  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
 	* src/commands.c: (cmd_insert_object_redo): Do proper ref counting.
-	* src/item-grid.c: (cb_obj_create_button_release): Hook up 
+	* src/item-grid.c: (cb_obj_create_button_release): Hook up
 	cmd_insert_object.
 	* src/sheet-object.c: (sheet_object_remove_cb): Unref the sheet
 	object.
-	(sheet_object_set_sheet): Just return TRUE if (so->sheet == sheet) 
+	(sheet_object_set_sheet): Just return TRUE if (so->sheet == sheet)
 	instead of printing a warning. This is because when command_push_undo
 	is called, the redo function will be called although there is nothing
 	to redo at this moment. We detect this through this function here.
@@ -1300,17 +1300,17 @@
 	instead of just gtk_object_destroy which can't be undone.
 	(sheet_object_clear_sheet): If so->sheet == NULL, just return instead
 	of printing a warning.
-	
+
 2001-08-07  Lutz Müller <urc8@rz.uni-karlsruhe.de>
 
-	* src/commands.[c,h]: (cmd_move_object): New. Will also handle 
+	* src/commands.[c,h]: (cmd_move_object): New. Will also handle
 	resizing of objects
 	* src/sheet-control-gui-priv.h: Remember the initial_coords before
 	moving or resizing an object
 	* src/sheet-control-gui.c: (cb_control_point_event): When done with
 	moving/resizing, call cmd_move_object so that we can undo this action
 	later.
-	
+
 2001-08-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-autofill.c (autofill_compute_delta) : Make month/years
