@@ -110,6 +110,13 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 			   "ignore-case", is_checked (gui, "ignore_case"),
 			   "match-words", is_checked (gui, "match_words"),
 			   "preserve-case", is_checked (gui, "preserve_case"),
+			   "query", is_checked (gui, "query"),
+			   "search-strings", is_checked (gui, "search_string"),
+			   "search-other-values", is_checked (gui, "search_other"),
+			   "search-expressions", is_checked (gui, "search_expr"),
+			   "search-expression-results", FALSE,
+			   "search-comments", is_checked (gui, "search_comments"),
+			   "by-row", gnumeric_glade_group_value (gui, direction_group) == 0,
 			   NULL);
 
 	i = gnumeric_glade_group_value (gui, scope_group);
@@ -119,19 +126,8 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	sr->range_text = g_strdup (gnm_expr_entry_get_text (dd->rangetext));
 	sr->curr_sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 
-	sr->query = is_checked (gui, "query");
-
-	sr->search_strings = is_checked (gui, "search_string");
-	sr->search_other_values = is_checked (gui, "search_other");
-	sr->search_expressions = is_checked (gui, "search_expr");
-	sr->search_expression_results = FALSE;
-	sr->search_comments = is_checked (gui, "search_comments");
-
 	i = gnumeric_glade_group_value (gui, error_group);
 	sr->error_behaviour = (i == -1) ? SRE_fail : (SearchReplaceError)i;
-
-	i = gnumeric_glade_group_value (gui, direction_group);
-	sr->by_row = (i == 0);
 
 	err = gnm_search_replace_verify (sr, TRUE);
 	if (err) {

@@ -2,6 +2,7 @@
 
 	* src/search.c: Adapt to goffice changes.  (Aka make it an object
 	and cut most of it.)
+	(gnm_search_replace_class_init): Define a pile of properties.
 
 2005-03-29  Jody Goldberg <jody@gnome.org>
 

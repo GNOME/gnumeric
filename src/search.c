@@ -30,7 +30,14 @@ typedef struct {
 } GnmSearchReplaceClass;
 
 enum {
-	PROP_0
+	PROP_0,
+	PROP_SEARCH_STRINGS,
+	PROP_SEARCH_OTHER_VALUES,
+	PROP_SEARCH_EXPRESSIONS,
+	PROP_SEARCH_EXPRESSION_RESULTS,
+	PROP_SEARCH_COMMENTS,
+	PROP_BY_ROW,
+	PROP_QUERY
 };
 
 /* ------------------------------------------------------------------------- */
@@ -378,11 +385,153 @@ gnm_search_replace_finalize (GObject *obj)
 /* ------------------------------------------------------------------------- */
 
 static void
+gnm_search_replace_get_property (GObject     *object,
+				 guint        property_id,
+				 GValue      *value,
+				 GParamSpec  *pspec)
+{
+	GnmSearchReplace *sr = (GnmSearchReplace *)object;
+
+	switch (property_id) {
+	case PROP_SEARCH_STRINGS:
+		g_value_set_boolean (value, sr->search_strings);
+		break;
+	case PROP_SEARCH_OTHER_VALUES:
+		g_value_set_boolean (value, sr->search_other_values);
+		break;
+	case PROP_SEARCH_EXPRESSIONS:
+		g_value_set_boolean (value, sr->search_expressions);
+		break;
+	case PROP_SEARCH_EXPRESSION_RESULTS:
+		g_value_set_boolean (value, sr->search_expression_results);
+		break;
+	case PROP_SEARCH_COMMENTS:
+		g_value_set_boolean (value, sr->search_comments);
+		break;
+	case PROP_BY_ROW:
+		g_value_set_boolean (value, sr->by_row);
+		break;
+	case PROP_QUERY:
+		g_value_set_boolean (value, sr->query);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void
+gnm_search_replace_set_property (GObject      *object,
+				 guint         property_id,
+				 GValue const *value,
+				 GParamSpec   *pspec)
+{
+	GnmSearchReplace *sr = (GnmSearchReplace *)object;
+
+	switch (property_id) {
+	case PROP_SEARCH_STRINGS:
+		sr->search_strings = g_value_get_boolean (value);
+		break;
+	case PROP_SEARCH_OTHER_VALUES:
+		sr->search_other_values = g_value_get_boolean (value);
+		break;
+	case PROP_SEARCH_EXPRESSIONS:
+		sr->search_expressions = g_value_get_boolean (value);
+		break;
+	case PROP_SEARCH_EXPRESSION_RESULTS:
+		sr->search_expression_results = g_value_get_boolean (value);
+		break;
+	case PROP_SEARCH_COMMENTS:
+		sr->search_comments = g_value_get_boolean (value);
+		break;
+	case PROP_BY_ROW:
+		sr->by_row = g_value_get_boolean (value);
+		break;
+	case PROP_QUERY:
+		sr->query = g_value_get_boolean (value);
+		break;
+	default:
+		G_OBJECT_WARN_INVALID_PROPERTY_ID (object, property_id, pspec);
+		break;
+	}
+}
+
+/* ------------------------------------------------------------------------- */
+
+static void
 gnm_search_replace_class_init (GObjectClass *gobject_class)
 {
 	parent_class = g_type_class_peek_parent (gobject_class);
 
 	gobject_class->finalize = gnm_search_replace_finalize;
+	gobject_class->get_property = gnm_search_replace_get_property;
+	gobject_class->set_property = gnm_search_replace_set_property;
+
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SEARCH_STRINGS,
+		 g_param_spec_boolean ("search-strings",
+				       _("Search Strings"),
+				       _("Should strings be searched?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SEARCH_OTHER_VALUES,
+		 g_param_spec_boolean ("search-other-values",
+				       _("Search Other Values"),
+				       _("Should non-strings be searched?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SEARCH_EXPRESSIONS,
+		 g_param_spec_boolean ("search-expressions",
+				       _("Search Expressions"),
+				       _("Should expressions be searched?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SEARCH_EXPRESSION_RESULTS,
+		 g_param_spec_boolean ("search-expression-results",
+				       _("Search Expression Results"),
+				       _("Should the results of expressions be searched?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_SEARCH_COMMENTS,
+		 g_param_spec_boolean ("search-comments",
+				       _("Search Comments"),
+				       _("Should cell comments be searched?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_BY_ROW,
+		 g_param_spec_boolean ("by-row",
+				       _("By Row"),
+				       _("Is the search order by row?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
+	g_object_class_install_property
+		(gobject_class,
+		 PROP_QUERY,
+		 g_param_spec_boolean ("query",
+				       _("Query"),
+				       _("Should we query for each replacement?"),
+				       FALSE,
+				       GSF_PARAM_STATIC |
+				       G_PARAM_READWRITE));
 }
 
 /* ------------------------------------------------------------------------- */
