@@ -1,3 +1,8 @@
+2003-06-30  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* functions.c: Do not use preprocessor macros in 
+	  translatable text
+
 2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* functions.c: Fix criteria description
