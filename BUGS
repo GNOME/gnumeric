@@ -1,0 +1,12 @@
+A list of know issues that need to be addressed.
+Divided into, things that will prevent release,
+and longer term bugs.
+
+Release Critical
+----------------
+- Selection highlighting of spanning columns draws outside the lines.
+
+Long term breakage
+------------------
+- border style double_line does not respect the background colour of the cell
+  being painted.  And does not handle intersection.
