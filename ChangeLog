@@ -1,3 +1,8 @@
+2004-03-12  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* src/graph.c (gnm_go_data_vector_load_values): changed initial maximum
+	from G_MINDOUBLE to - G_MAXDOUBLE.
+	
 2004-03-09  Morten Welinder  <terra@gnome.org>
 
 	* src/item-bar.c (ib_draw_cell, item_bar_draw): Avoid deprecated

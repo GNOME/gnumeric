@@ -1,5 +1,8 @@
 Gnumeric 1.2.7
 
+Jean Brefort:
+	* Added bubble plots options.
+
   Emmanuel Pacaud:
  	* Fix rounding issue for markers in xy plots (partly fix 135621)
 	
