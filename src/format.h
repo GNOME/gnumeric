@@ -27,6 +27,7 @@ void           style_format_ref		(StyleFormat *sf);
 void           style_format_unref	(StyleFormat *sf);
 gboolean       style_format_is_general	(StyleFormat const *sf);
 gboolean       style_format_is_text	(StyleFormat const *sf);
+gboolean       style_format_equal       (StyleFormat const *a, StyleFormat const *b);
 
 StyleFormat   *style_format_general		(void);
 StyleFormat   *style_format_default_date	(void);

@@ -2039,6 +2039,15 @@ style_format_as_XL (StyleFormat const *fmt, gboolean localized)
 	return style_format_str_as_XL (fmt->format, localized);
 }
 
+gboolean
+style_format_equal (StyleFormat const *a, StyleFormat const *b)
+{
+	g_return_val_if_fail (a != NULL, FALSE);
+	g_return_val_if_fail (b != NULL, FALSE);
+
+	return (a == b) || strcmp (a->format, b->format) == 0;
+}
+
 /**
  * style_format_ref :
  * @sf :

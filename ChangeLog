@@ -1,3 +1,10 @@
+2003-07-10  Morten Welinder  <terra@gnome.org>
+
+	* src/workbook-view.c (wb_view_format_feedback): Take cell value's
+	format into account.
+
+	* src/format.c (style_format_equal): New function.
+
 2003-07-09  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/stf.c (stf_text_to_columns): do not pass null data to stf_dialog

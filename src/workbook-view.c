@@ -193,18 +193,30 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 		MStyle *mstyle = sheet_style_get (sv->sheet,
 			sv->edit_pos.col,
 			sv->edit_pos.row);
+		StyleFormat *sf_style = mstyle_get_format (mstyle);
+		StyleFormat *sf_cell;
+		Cell *cell;
 
-		mstyle_ref (mstyle);
-		if (wbv->current_format != NULL) {
-			mstyle_unref (wbv->current_format);
-			/* Cheap anti-flicker.
-			 * Compare pointers (content may be invalid)
-			 * No need for an expensive compare.
-			 */
+		if (style_format_is_general (sf_style) &&
+		    (cell = sheet_cell_get (sv->sheet, sv->edit_pos.col, sv->edit_pos.row)) &&
+		    cell->value && VALUE_FMT (cell->value))
+			sf_cell = VALUE_FMT (cell->value);
+		else
+			sf_cell = sf_style;
+
+		if (style_format_equal (sf_cell, sf_style)) {
 			if (mstyle == wbv->current_format)
 				return;
+			mstyle_ref (mstyle);
+		} else {
+			mstyle = mstyle_copy (mstyle);
+			mstyle_set_format (mstyle, sf_cell);
 		}
+
+		if (wbv->current_format != NULL)
+			mstyle_unref (wbv->current_format);
 		wbv->current_format = mstyle;
+
 		if (display) {
 			WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control,
 				wb_control_format_feedback (control););
