@@ -1381,11 +1381,11 @@ applix_read_impl (ApplixReadState *state)
 				return applix_parse_error (state, "Invalid view");
 
 		} else if (!a_strncmp (buffer, "Default Label Style")) {
-			if (1 != sscanf (buffer, "Default Label Style %s", default_text_format))
+			if (1 != sscanf (buffer, "Default Label Style %127s", default_text_format))
 				return applix_parse_error (state, "invalid default label style");
 
 		} else if (!a_strncmp (buffer, "Default Number Style")) {
-			if (1 != sscanf (buffer, "Default Number Style %s", default_number_format))
+			if (1 != sscanf (buffer, "Default Number Style %127s", default_number_format))
 				return applix_parse_error (state, "invalid default number style");
 
 		} else if (!a_strncmp (buffer, "Document Column Width:")) {
