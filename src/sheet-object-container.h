@@ -31,16 +31,16 @@ SheetObject *sheet_object_graphic_new        (Sheet *sheet,
 					      double x1, double y1,
 					      double x2, double y2);
 
-SheetObject *sheet_object_container_new_from_goadid
+SheetObject *sheet_object_container_new_object
                                              (Sheet *sheet,
 					      double x1, double y1,
 					      double x2, double y2,
-					      const char *goad_id);
-SheetObject *
-sheet_object_container_new_bonobo (Sheet *sheet,
-				   double x1, double y1,
-				   double x2, double y2,
-				   BonoboClientSite *client_site);
+					      const char *object_id);
+SheetObject *sheet_object_container_new_bonobo
+                                             (Sheet *sheet,
+					      double x1, double y1,
+					      double x2, double y2,
+					      BonoboClientSite *client_site);
 
 #endif /* GNUMERIC_SHEET_OBJECT_CONTAINER_H */
 

@@ -29,7 +29,7 @@ GtkType      sheet_object_item_get_type (void);
 SheetObject *sheet_object_item_new      (Sheet *sheet,
 					 double x1, double y1,
 					 double x2, double y2,
-					 const char *goad_id);
+					 const char *object_id);
 
 #endif /* GNUMERIC_SHEET_OBJECT_ITEM_H */
 

@@ -13,6 +13,9 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "xml-io.h"
+#ifdef ENABLE_BONOBO
+#include "bonobo-io.h"
+#endif
 #include "stf.h"
 #include "main.h"
 #include "plugin.h"
@@ -165,13 +168,16 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 	/* The statically linked in file formats */
 	xml_init ();
+#ifdef ENABLE_BONOBO
+	gnumeric_bonobo_io_init ();
+#endif
 	excel_init ();
 	stf_init ();
 
 	global_gnome_font_init ();
 
 	/* Glade */
-	glade_gnome_init ();
+	glade_bonobo_init ();
 	if (startup_glade_file)
 		glade_xml_new (startup_glade_file, NULL);
 

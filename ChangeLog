@@ -1,3 +1,50 @@
+2000-07-05  Michael Meeks  <michael@helixcode.com>
+
+	* src/bonobo-io.c (write_stream_to_storage): implement.
+	(write_mem_to_storage): implement.
+	(create_xml_bonobo_stream): create.
+	(xml_input_read_cb): 
+	(xml_input_close_cb): 
+	(hack_xmlSAXParseFile): copy from libxml.
+
+	* src/sheet-object.c (sheet_object_drop_file): update; this should
+	be totaly re-written.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_load): clean up.
+
+	* src/sheet-object-item.c (sheet_object_item_new): remove,
+	redundant; re-tool calls to sheet_object_container_new_object.
+
+	* src/sheet-object.c (create_object): rename the one use.
+
+	* src/sheet-object-container.c (sheet_object_container_new_from_object_id): 
+	remove activation logic.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_destroy): free
+	object_id. (sheet_object_bonobo_construct): do activation in here.
+	(sheet_object_bonobo_get_object_iid): implement.
+
+	* src/sheet-object-container.c (sheet_object_container_new_from_goadid):
+	rename to (sheet_object_container_new_object): this.
+
+	* src/xml-io.c (xml_write_sheet_object): add bonobo io.
+	(xml_read_sheet_object): add bonobo and re-scope vars.
+	(xml_parse_ctx_new_full): implement.
+
+	* src/main.c (gnumeric_main): add bonobo_io_init.
+
+	* src/xml-io.c (xml_parse_ctx_init): implement,
+	(xml_parse_ctx_shutdown): ditto.
+	(xml_workbook_write): moved
+	(gnumeric_xml_write_workbook): s/parse_xml_context_t/XmlParseContext/
+
+	* src/xml-io.c (xml_workbook_read): publicise.
+	(xml_workbook_write): ditto.
+
+2000-07-04  Michael Meeks  <michael@helixcode.com>
+
+	* src/about.c (dialog_about): sort alphabeticaly.
+
 2000-07-05  Morten Welinder  <terra@diku.dk>
 
 	* src/clipboard.c (x_selection_to_cell_region): Copy data and zero

@@ -61,7 +61,7 @@ ms_escher_blip_new (const guint8 *data, guint32 len, char const *repoid,
 	memcpy (mem, data, len);
 #endif
 
-	blip->reproid  = repoid;
+	blip->repo_id  = repoid;
 #ifdef ENABLE_BONOBO
 	blip->stream   = bonobo_stream_mem_create (data, len, TRUE, FALSE);
 #else
@@ -73,7 +73,7 @@ ms_escher_blip_new (const guint8 *data, guint32 len, char const *repoid,
 void
 ms_escher_blip_destroy (EscherBlip *blip)
 {
-	blip->reproid = NULL;
+	blip->repo_id = NULL;
 #ifdef ENABLE_BONOBO
 	if (blip->stream)
 		bonobo_object_destroy (BONOBO_OBJECT (blip->stream));

@@ -167,7 +167,7 @@ sheet_object_drop_file (Sheet *sheet, gdouble x, gdouble y, const char *fname)
 		SheetObject   *so;
 		ObjectCoords   pos;
 
-		so = SHEET_OBJECT (sheet_object_container_new_from_goadid (
+		so = SHEET_OBJECT (sheet_object_container_new_object (
 			sheet, pos.x, pos.y,
 			pos.x + 100.0, pos.y + 100.0,
 			mime_goad_id));
@@ -460,7 +460,7 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 
 	case SHEET_MODE_CREATE_CANVAS_ITEM:
 #ifdef ENABLE_BONOBO
-		o = sheet_object_item_new (
+		o = sheet_object_container_new_object (
 			sheet, x1, y1, x2, y2, sheet->mode_data);
 		g_free (sheet->mode_data);
 		sheet->mode_data = NULL;
@@ -501,7 +501,7 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 			x2 += 50.;
 		if (y1 == y2)
 			y2 += 50.;
-		o = sheet_object_container_new_from_goadid (
+		o = sheet_object_container_new_object (
 			sheet, x1, y1, x2, y1, sheet->mode_data);
 		g_free (sheet->mode_data);
 		sheet->mode_data = NULL;

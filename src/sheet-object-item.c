@@ -51,7 +51,7 @@ sheet_object_item_get_type (void)
 {
 	static GtkType type = 0;
 
-	if (!type){
+	if (!type) {
 		GtkTypeInfo info = {
 			"SheetObjectItem",
 			sizeof (SheetObjectItem),
@@ -67,34 +67,4 @@ sheet_object_item_get_type (void)
 	}
 
 	return type;
-}
-
-SheetObject *
-sheet_object_item_new (Sheet *sheet,
-		       double x1, double y1,
-		       double x2, double y2,
-		       const char *goad_id)
-{
-	BonoboObjectClient *object_server;
-	SheetObjectItem *soi;
-	
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (goad_id != NULL, NULL);
-
-#ifdef USING_OAF
-	object_server = bonobo_object_activate_with_oaf_id (goad_id, 0);
-#else
-	object_server = bonobo_object_activate_with_goad_id (NULL, goad_id, 0, NULL);
-#endif
-	if (!object_server)
-		return NULL;
-
-	soi = gtk_type_new (sheet_object_item_get_type ());
-	if (!sheet_object_bonobo_construct (
-		SHEET_OBJECT_BONOBO (soi), sheet, object_server, x1, y1, x2, y2)){
-		gtk_object_destroy (GTK_OBJECT (soi));
-		return NULL;
-	}
-	return SHEET_OBJECT (soi);
 }

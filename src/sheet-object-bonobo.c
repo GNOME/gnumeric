@@ -46,6 +46,8 @@ sheet_object_bonobo_destroy (GtkObject *object)
 	if (sob->client_site)
 		bonobo_object_destroy (BONOBO_OBJECT (sob->client_site));
 
+	g_free (sob->object_id);
+
 	sob->object_server = NULL;
 	sob->client_site   = NULL;	
 }
@@ -190,9 +192,9 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 				ret,
 				(Bonobo_Stream) bonobo_object_corba_objref (
 					BONOBO_OBJECT (stream)), "", &ev);
+			Bonobo_Unknown_unref ((Bonobo_Unknown) ret, &ev);
+			CORBA_Object_release (ret, &ev);
 		}
-		Bonobo_Unknown_unref ((Bonobo_Unknown) ret, &ev);
-		CORBA_Object_release (ret, &ev);
 	} else {
 		g_warning ("Component has data to load but no PersistStream interface");
 		CORBA_exception_free (&ev);
@@ -264,27 +266,41 @@ sheet_object_bonobo_get_type (void)
 
 SheetObjectBonobo *
 sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
-			       BonoboObjectClient *object_server,
+			       const char *object_id,
 			       double x1, double y1,
 			       double x2, double y2)
 {
 	g_return_val_if_fail (sob != NULL, NULL);
-	g_return_val_if_fail (object_server != NULL, NULL);
 	g_return_val_if_fail (sheet != NULL, NULL);
+	g_return_val_if_fail (object_id != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);
-	g_return_val_if_fail (BONOBO_IS_OBJECT_CLIENT (object_server), NULL);
 
 	sheet_object_construct  (SHEET_OBJECT (sob), sheet);
 	sheet_object_set_bounds (SHEET_OBJECT (sob), x1, y1, x2, y2);
 
-	sob->object_server = object_server;
+	sob->object_id     = g_strdup (object_id);
+	sob->object_server = bonobo_object_activate (object_id, 0);
+	if (!sob->object_server) {
+		gtk_object_destroy (GTK_OBJECT (sob));
+		return NULL;
+	}
+
 	sob->client_site   = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
 	
-	if (!bonobo_client_site_bind_embeddable (sob->client_site, sob->object_server)) {
+	if (!bonobo_client_site_bind_embeddable (sob->client_site,
+						 sob->object_server)) {
 		gtk_object_destroy (GTK_OBJECT (sob));
 		return NULL;
 	}
 
 	return sob;
+}
+
+const char *
+sheet_object_bonobo_get_object_iid (SheetObjectBonobo *sob)
+{
+	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);
+
+	return sob->object_id;
 }

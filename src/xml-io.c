@@ -20,6 +20,9 @@
 #include "border.h"
 #include "sheet-object.h"
 #include "sheet-object-graphic.h"
+#ifdef ENABLE_BONOBO
+#	include "sheet-object-bonobo.h"
+#endif
 #include "print-info.h"
 #include "xml-io.h"
 #include "rendered-value.h"
@@ -37,7 +40,7 @@
 /*
  * A parsing context.
  */
-typedef struct {
+struct _XmlParseContext {
 	xmlDocPtr doc;		/* Xml document */
 	xmlNsPtr ns;		/* Main name space */
 	xmlNodePtr parent;	/* used only for g_hash_table_foreach callbacks */
@@ -49,7 +52,46 @@ typedef struct {
 				 * When writing this is map from expr pointer -> index
 				 * when reading this is a map from index -> expr pointer
 				 */
-} parse_xml_context_t;
+	XmlSheetObjectWriteFn write_fn;
+	XmlSheetObjectReadFn  read_fn;
+	gpointer              user_data;
+};
+
+XmlParseContext *
+xml_parse_ctx_new_full (xmlDocPtr             doc,
+			xmlNsPtr              ns,
+			XmlSheetObjectReadFn  read_fn,
+			XmlSheetObjectWriteFn write_fn,
+			gpointer              user_data)
+{
+	XmlParseContext *ctxt = g_new0 (XmlParseContext, 1);
+
+	ctxt->doc       = doc;
+	ctxt->ns        = ns;
+	ctxt->expr_map  = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	ctxt->write_fn  = write_fn;
+	ctxt->read_fn   = read_fn;
+	ctxt->user_data = user_data;
+
+	return ctxt;
+}
+
+XmlParseContext *
+xml_parse_ctx_new (xmlDocPtr doc,
+		   xmlNsPtr  ns)
+{
+	return xml_parse_ctx_new_full (doc, ns, NULL, NULL, NULL);
+}
+       
+void
+xml_parse_ctx_destroy (XmlParseContext *ctxt)
+{
+	g_return_if_fail (ctxt != NULL);
+
+	g_hash_table_destroy (ctxt->expr_map);
+	g_free (ctxt);
+}
 
 /*
  * Internal stuff: xml helper functions.
@@ -412,7 +454,7 @@ xml_set_value_string (xmlNodePtr node, const char *name, const String *val)
 	xmlNodePtr child;
 
 	ret = xmlGetProp (node, name);
-	if (ret != NULL){
+	if (ret != NULL) {
 		xmlFree (ret);
 		xmlSetProp (node, name, val->str);
 		return;
@@ -596,7 +638,7 @@ xml_write_range (xmlNodePtr tree, const Range *value)
 }
 
 static void
-xml_read_selection_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
+xml_read_selection_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 {
 	Range r;
 	int row, col;
@@ -619,7 +661,7 @@ xml_read_selection_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tre
 }
 
 static void
-xml_write_selection_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
+xml_write_selection_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 {
 	GList *ptr, *copy;
 	tree = xmlNewChild (tree, ctxt->ns, "Selections", NULL);
@@ -738,7 +780,7 @@ static char *StyleSideNames[6] =
 };
 
 static xmlNodePtr
-xml_write_style_border (parse_xml_context_t *ctxt,
+xml_write_style_border (XmlParseContext *ctxt,
 			const MStyle *style)
 {
 	xmlNodePtr cur;
@@ -777,7 +819,7 @@ xml_write_style_border (parse_xml_context_t *ctxt,
  * Create a StyleBorder equivalent to the XML subtree of doc.
  */
 static void
-xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree, MStyle *mstyle)
+xml_read_style_border (XmlParseContext *ctxt, xmlNodePtr tree, MStyle *mstyle)
 {
 	xmlNodePtr side;
 	int        i;
@@ -808,7 +850,7 @@ xml_read_style_border (parse_xml_context_t *ctxt, xmlNodePtr tree, MStyle *mstyl
  * Create an XML subtree of doc equivalent to the given Style.
  */
 static xmlNodePtr
-xml_write_style (parse_xml_context_t *ctxt,
+xml_write_style (XmlParseContext *ctxt,
 		 MStyle *style)
 {
 	xmlNodePtr  cur, child;
@@ -882,7 +924,7 @@ xml_write_style (parse_xml_context_t *ctxt,
 }
 
 static xmlNodePtr
-xml_write_names (parse_xml_context_t *ctxt, GList *names)
+xml_write_names (XmlParseContext *ctxt, GList *names)
 {
 	xmlNodePtr  cur;
 	char       *tstr;
@@ -918,7 +960,7 @@ xml_write_names (parse_xml_context_t *ctxt, GList *names)
 }
 
 static void
-xml_read_names (parse_xml_context_t *ctxt, xmlNodePtr tree, Workbook *wb,
+xml_read_names (XmlParseContext *ctxt, xmlNodePtr tree, Workbook *wb,
 		Sheet *sheet)
 {
 	xmlNodePtr child;
@@ -959,7 +1001,7 @@ xml_read_names (parse_xml_context_t *ctxt, xmlNodePtr tree, Workbook *wb,
 }
 
 static xmlNodePtr
-xml_write_summary (parse_xml_context_t *ctxt, SummaryInfo *summary_info)
+xml_write_summary (XmlParseContext *ctxt, SummaryInfo *summary_info)
 {
 	GList *items, *m;
 	char *tstr;
@@ -1007,7 +1049,7 @@ xml_write_summary (parse_xml_context_t *ctxt, SummaryInfo *summary_info)
 }
 
 static void
-xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *summary_info)
+xml_read_summary (XmlParseContext *ctxt, xmlNodePtr tree, SummaryInfo *summary_info)
 {
 	xmlNodePtr child;
 
@@ -1101,7 +1143,7 @@ xml_get_print_hf (xmlNodePtr node, PrintHF *const hf)
 }
 
 static void
-xml_write_attribute (parse_xml_context_t *ctxt, xmlNodePtr attr, GtkArg *arg)
+xml_write_attribute (XmlParseContext *ctxt, xmlNodePtr attr, GtkArg *arg)
 {
 	xmlChar *tstr;
 	gchar *str;
@@ -1129,7 +1171,7 @@ xml_write_attribute (parse_xml_context_t *ctxt, xmlNodePtr attr, GtkArg *arg)
 }
 
 static xmlNodePtr
-xml_write_attributes (parse_xml_context_t *ctxt, guint n_args, GtkArg *args)
+xml_write_attributes (XmlParseContext *ctxt, guint n_args, GtkArg *args)
 {
 	xmlNodePtr cur;
 	gint i;
@@ -1169,7 +1211,7 @@ xml_free_arg_list (GList *list)
 }
 
 static void
-xml_read_attribute (parse_xml_context_t *ctxt, xmlNodePtr attr, GtkArg *arg)
+xml_read_attribute (XmlParseContext *ctxt, xmlNodePtr attr, GtkArg *arg)
 {
 	xmlNodePtr val;
 	char *value;
@@ -1199,7 +1241,7 @@ xml_read_attribute (parse_xml_context_t *ctxt, xmlNodePtr attr, GtkArg *arg)
 }
 
 static void
-xml_read_attributes (parse_xml_context_t *ctxt, xmlNodePtr tree, GList **list)
+xml_read_attributes (XmlParseContext *ctxt, xmlNodePtr tree, GList **list)
 {
 	xmlNodePtr child, subchild;
 	GtkArg *arg;
@@ -1239,7 +1281,7 @@ xml_read_attributes (parse_xml_context_t *ctxt, xmlNodePtr tree, GList **list)
 }
 
 static xmlNodePtr
-xml_write_print_info (parse_xml_context_t *ctxt, PrintInformation *pi)
+xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 {
 	xmlNodePtr cur, child;
 
@@ -1297,7 +1339,7 @@ xml_write_print_info (parse_xml_context_t *ctxt, PrintInformation *pi)
 }
 
 static void
-xml_read_print_info (parse_xml_context_t *ctxt, xmlNodePtr tree)
+xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
 	PrintInformation *pi;
@@ -1434,7 +1476,7 @@ style_font_read_from_x11 (MStyle *mstyle, const char *fontname)
  * Create a Style equivalent to the XML subtree of doc.
  */
 static MStyle *
-xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree)
+xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
 	char *prop;
@@ -1527,7 +1569,7 @@ xml_read_style (parse_xml_context_t *ctxt, xmlNodePtr tree)
  * Create an XML subtree of doc equivalent to the given StyleRegion.
  */
 static xmlNodePtr
-xml_write_style_region (parse_xml_context_t *ctxt, StyleRegion *region)
+xml_write_style_region (XmlParseContext *ctxt, StyleRegion *region)
 {
 	xmlNodePtr cur, child;
 
@@ -1547,7 +1589,7 @@ xml_write_style_region (parse_xml_context_t *ctxt, StyleRegion *region)
  * Return an mstyle and a range in the @range parameter
  */
 static MStyle*
-xml_read_style_region_ex (parse_xml_context_t *ctxt, xmlNodePtr tree, Range *range)
+xml_read_style_region_ex (XmlParseContext *ctxt, xmlNodePtr tree, Range *range)
 {
 	xmlNodePtr child;
 	MStyle    *style = NULL;
@@ -1572,7 +1614,7 @@ xml_read_style_region_ex (parse_xml_context_t *ctxt, xmlNodePtr tree, Range *ran
  * Return nothing, attach it directly to the sheet in the context
  */
 static void
-xml_read_style_region (parse_xml_context_t *ctxt, xmlNodePtr tree)
+xml_read_style_region (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	MStyle *style;
 	Range range;
@@ -1590,7 +1632,7 @@ typedef struct
 {
 	gboolean is_column;
 	xmlNodePtr container;
-	parse_xml_context_t *ctxt;
+	XmlParseContext *ctxt;
 } closure_write_colrow;
 
 static gboolean
@@ -1623,7 +1665,7 @@ xml_write_colrow_info (ColRowInfo *info, void *user_data)
  * Create a ColRowInfo equivalent to the XML subtree of doc.
  */
 static ColRowInfo *
-xml_read_colrow_info (parse_xml_context_t *ctxt, xmlNodePtr tree, ColRowInfo *ret, double *size_pts)
+xml_read_colrow_info (XmlParseContext *ctxt, xmlNodePtr tree, ColRowInfo *ret, double *size_pts)
 {
 	int col = 0;
 	int val;
@@ -1664,19 +1706,40 @@ xml_read_colrow_info (parse_xml_context_t *ctxt, xmlNodePtr tree, ColRowInfo *re
  * Create an XML subtree of doc equivalent to the given Object.
  */
 static xmlNodePtr
-xml_write_sheet_object (parse_xml_context_t *ctxt, SheetObject *object)
+xml_write_sheet_object (XmlParseContext *ctxt, SheetObject *object)
 {
 	SheetObjectGraphic *sog;
 	xmlNodePtr cur = NULL;
 
-	if (!IS_SHEET_GRAPHIC_OBJECT (object)) {
-		static gboolean warned = FALSE;
-		if (!warned) {
-			g_warning ("Discarding non-graphic embedded objects");
-			warned = TRUE;
+#ifdef ENABLE_BONOBO
+	if (IS_SHEET_OBJECT_BONOBO (object)) {
+		if (ctxt->write_fn) {
+			gboolean ok;
+
+			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Bonobo", NULL);
+			ok = ctxt->write_fn (cur, object,
+					     ctxt->user_data);
+			xml_set_gnome_canvas_points (cur, "Points",
+						     object->bbox_points);
+			if (!ok) {
+				g_warning ("Error serializing bonobo sheet object");
+				g_warning ("Since libxml fails to implement xmlRemoveNode we"
+					   " are pretty stuffed");
+			}
+		} else
+			cur = NULL;
+		
+		return cur;
+	} else
+#endif
+		if (!IS_SHEET_GRAPHIC_OBJECT (object)) {
+			static gboolean warned = FALSE;
+			if (!warned) {
+				g_warning ("Discarding non-graphic embedded objects");
+				warned = TRUE;
+			}
+			return NULL;
 		}
-		return NULL;
-	}
 
 	sog = SHEET_OBJECT_GRAPHIC (object);
 
@@ -1726,16 +1789,11 @@ xml_write_sheet_object (parse_xml_context_t *ctxt, SheetObject *object)
  * Create a Object equivalent to the XML subtree of doc.
  */
 static SheetObject *
-xml_read_sheet_object (parse_xml_context_t *ctxt, xmlNodePtr tree)
+xml_read_sheet_object (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	SheetObject *ret;
-	SheetObjectFilled *sof;
-	char *color;
-	char *fill_color;
 	int type;
 	double x1, y1, x2, y2;
-	int width = 1;
-	int pattern;
 
 	if (!strcmp (tree->name, "Rectangle")){
 		type = SHEET_OBJECT_BOX;
@@ -1745,6 +1803,20 @@ xml_read_sheet_object (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		type = SHEET_OBJECT_ARROW;
 	} else if (!strcmp (tree->name, "Line")){
 		type = SHEET_OBJECT_LINE;
+#ifdef ENABLE_BONOBO
+	} else if (!strcmp (tree->name, "Bonobo")){
+		xml_get_coordinates (tree, "Points", &x1, &y1, &x2, &y2);
+
+		if (ctxt->read_fn) {
+			ret = ctxt->read_fn (tree, ctxt->sheet, x1, y1, x2, y2,
+					     ctxt->user_data);
+			if (!ret)
+				g_warning ("Error hydrating sheet object");
+
+			return ret;
+		} else
+			return NULL;
+#endif
 	} else {
 		fprintf (stderr,
 			 "xml_read_sheet_object: invalid element type %s, 'Rectangle/Ellipse ...' expected`\n",
@@ -1752,28 +1824,42 @@ xml_read_sheet_object (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		return NULL;
 	}
 
-	color = xml_value_get (tree, "Color");
 	xml_get_coordinates (tree, "Points", &x1, &y1, &x2, &y2);
-	xml_get_value_int (tree, "Width", &width);
-	if ((type == SHEET_OBJECT_BOX) ||
-	    (type == SHEET_OBJECT_OVAL)){
-		fill_color = xml_value_get (tree, "FillColor");
-		xml_get_value_int (tree, "Pattern", &pattern);
-		ret = sheet_object_create_filled (
-			ctxt->sheet, type,
-			x1, y1, x2, y2, fill_color, color, width);
-		if (ret != NULL){
-			sof = SHEET_OBJECT_FILLED (ret);
-			sof->pattern = pattern;
+	{
+		char *color;
+		int width = 1;
+
+		color = xml_value_get (tree, "Color");
+		xml_get_value_int (tree, "Width", &width);
+
+		if ((type == SHEET_OBJECT_BOX) ||
+		    (type == SHEET_OBJECT_OVAL)) {
+			char *fill_color;
+			int pattern;
+
+			fill_color = xml_value_get (tree, "FillColor");
+			xml_get_value_int (tree, "Pattern", &pattern);
+
+			ret = sheet_object_create_filled (
+				ctxt->sheet, type,
+				x1, y1, x2, y2, fill_color, color, width);
+			if (ret) {
+				SheetObjectFilled *sof;
+
+				sof = SHEET_OBJECT_FILLED (ret);
+				sof->pattern = pattern;
+			}
+			g_free (fill_color);
+		} else {
+			ret = sheet_object_create_line (
+				ctxt->sheet, type,
+				x1, y1, x2, y2, color, width);
 		}
-		g_free (fill_color);
-	} else {
-		ret = sheet_object_create_line (
-			ctxt->sheet, type,
-			x1, y1, x2, y2, color, width);
+		g_free (color);
 	}
-	g_free (color);
-	sheet_object_realize (ret);
+	if (ret)
+		sheet_object_realize (ret);
+
 	return ret;
 }
 
@@ -1782,7 +1868,7 @@ xml_read_sheet_object (parse_xml_context_t *ctxt, xmlNodePtr tree)
  * set col and row to be the absolute coordinates
  */
 static xmlNodePtr
-xml_write_cell_and_position (parse_xml_context_t *ctxt, Cell *cell, int col, int row)
+xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row)
 {
 	xmlNodePtr cur, child = NULL;
 	char *text, *tstr;
@@ -1844,7 +1930,7 @@ xml_write_cell_and_position (parse_xml_context_t *ctxt, Cell *cell, int col, int
  * Create an XML subtree of doc equivalent to the given Cell.
  */
 static xmlNodePtr
-xml_write_cell (parse_xml_context_t *ctxt, Cell *cell)
+xml_write_cell (XmlParseContext *ctxt, Cell *cell)
 {
 	return xml_write_cell_and_position (ctxt, cell, cell->col_info->pos, cell->row_info->pos);
 }
@@ -1930,7 +2016,7 @@ xml_not_used_old_array_spec (Cell *cell, char *content)
  * Create a Cell equivalent to the XML subtree of doc.
  */
 static Cell *
-xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
+xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	Cell *ret;
 	xmlNodePtr childs;
@@ -2069,7 +2155,7 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
  *
  */
 static CellCopy *
-xml_read_cell_copy (parse_xml_context_t *ctxt, xmlNodePtr tree)
+xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	CellCopy *ret;
 	xmlNodePtr childs;
@@ -2132,7 +2218,7 @@ xml_read_cell_copy (parse_xml_context_t *ctxt, xmlNodePtr tree)
 static void
 xml_write_cell_to (gpointer key, gpointer value, gpointer data)
 {
-	parse_xml_context_t *ctxt = (parse_xml_context_t *) data;
+	XmlParseContext *ctxt = (XmlParseContext *) data;
 	xmlNodePtr cur;
 
 	cur = xml_write_cell (ctxt, (Cell *) value);
@@ -2140,7 +2226,7 @@ xml_write_cell_to (gpointer key, gpointer value, gpointer data)
 }
 
 static xmlNodePtr
-xml_write_styles (parse_xml_context_t *ctxt, GList *l)
+xml_write_styles (XmlParseContext *ctxt, GList *l)
 {
 	xmlNodePtr cur;
 
@@ -2164,7 +2250,7 @@ xml_write_styles (parse_xml_context_t *ctxt, GList *l)
 }
 
 static void
-xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree,
+xml_read_solver (Sheet *sheet, XmlParseContext *ctxt, xmlNodePtr tree,
 		 SolverParameters *param)
 {
 	SolverConstraint *c;
@@ -2226,7 +2312,7 @@ xml_read_solver (Sheet *sheet, parse_xml_context_t *ctxt, xmlNodePtr tree,
 }
 
 static xmlNodePtr
-xml_write_solver (parse_xml_context_t *ctxt, SolverParameters *param)
+xml_write_solver (XmlParseContext *ctxt, SolverParameters *param)
 {
 	xmlNodePtr       cur;
 	xmlNodePtr       constr;
@@ -2294,7 +2380,7 @@ xml_write_solver (parse_xml_context_t *ctxt, SolverParameters *param)
  * Create an XML subtree of doc equivalent to the given Sheet.
  */
 static xmlNodePtr
-xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
+xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 {
 	xmlNodePtr cur;
 	xmlNsPtr gmr;
@@ -2424,7 +2510,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 }
 
 static xmlNodePtr
-xml_write_selection_clipboard (parse_xml_context_t *ctxt, Sheet *sheet)
+xml_write_selection_clipboard (XmlParseContext *ctxt, Sheet *sheet)
 {
 	xmlNodePtr cur;
 	xmlNodePtr styles;
@@ -2498,7 +2584,7 @@ xml_write_selection_clipboard (parse_xml_context_t *ctxt, Sheet *sheet)
 }
 
 static void
-xml_read_styles (parse_xml_context_t *ctxt, xmlNodePtr tree)
+xml_read_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
 	xmlNodePtr regions;
@@ -2515,7 +2601,7 @@ xml_read_styles (parse_xml_context_t *ctxt, xmlNodePtr tree)
  * Read styles and add them to a cellregion
  */
 static void
-xml_read_styles_ex (parse_xml_context_t *ctxt, xmlNodePtr tree, CellRegion *cr)
+xml_read_styles_ex (XmlParseContext *ctxt, xmlNodePtr tree, CellRegion *cr)
 {
 	xmlNodePtr child;
 	xmlNodePtr regions;
@@ -2534,7 +2620,7 @@ xml_read_styles_ex (parse_xml_context_t *ctxt, xmlNodePtr tree, CellRegion *cr)
 }
 
 static void
-xml_read_cols_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
+xml_read_cols_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 {
 	xmlNodePtr child, cols;
 	ColRowInfo *info;
@@ -2555,7 +2641,7 @@ xml_read_cols_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
 }
 
 static void
-xml_read_rows_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
+xml_read_rows_info (XmlParseContext *ctxt, Sheet *sheet, xmlNodePtr tree)
 {
 	xmlNodePtr child, rows;
 	ColRowInfo *info;
@@ -2576,7 +2662,7 @@ xml_read_rows_info (parse_xml_context_t *ctxt, Sheet *sheet, xmlNodePtr tree)
 }
 
 static void
-xml_read_cell_styles (parse_xml_context_t *ctxt, xmlNodePtr tree)
+xml_read_cell_styles (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr styles, child;
 
@@ -2606,7 +2692,7 @@ destroy_style (gpointer key, gpointer value, gpointer data)
 }
 
 static void
-xml_dispose_read_cell_styles (parse_xml_context_t *ctxt)
+xml_dispose_read_cell_styles (XmlParseContext *ctxt)
 {
 	g_hash_table_foreach (ctxt->style_table, destroy_style, NULL);
 	g_hash_table_destroy (ctxt->style_table);
@@ -2616,7 +2702,7 @@ xml_dispose_read_cell_styles (parse_xml_context_t *ctxt)
  * Create a Sheet equivalent to the XML subtree of doc.
  */
 static Sheet *
-xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
+xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	xmlNodePtr child;
 	/* xmlNodePtr styles; */
@@ -2702,7 +2788,7 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
  * Reads the tree data into the sheet and pastes cells relative to topcol and toprow.
  */
 static CellRegion *
-xml_read_selection_clipboard (parse_xml_context_t *ctxt, xmlNodePtr tree)
+xml_read_selection_clipboard (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	CellRegion *cr;
 	xmlNodePtr child;
@@ -2769,8 +2855,8 @@ xml_read_selection_clipboard (parse_xml_context_t *ctxt, xmlNodePtr tree)
 /*
  * Create an XML subtree of doc equivalent to the given Workbook.
  */
-static xmlNodePtr
-xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
+xmlNodePtr
+xml_workbook_write (XmlParseContext *ctxt, Workbook *wb)
 {
 	xmlNodePtr cur;
 	xmlNsPtr gmr;
@@ -2855,7 +2941,7 @@ xml_workbook_write (parse_xml_context_t *ctxt, Workbook *wb)
 }
 
 static void
-xml_sheet_create (parse_xml_context_t *ctxt, xmlNodePtr tree)
+xml_sheet_create (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	char *val;
 	xmlNodePtr child;
@@ -2881,8 +2967,8 @@ xml_sheet_create (parse_xml_context_t *ctxt, xmlNodePtr tree)
 /*
  * Create a Workbook equivalent to the XML subtree of doc.
  */
-static gboolean
-xml_workbook_read (Workbook *wb, parse_xml_context_t *ctxt, xmlNodePtr tree)
+gboolean
+xml_workbook_read (Workbook *wb, XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	Sheet *sheet;
 	xmlNodePtr child, c;
@@ -3050,7 +3136,7 @@ gnumeric_xml_write_selection_clipboard (CommandContext *context, Sheet *sheet,
 					xmlChar **buffer, int *size)
 {
 	xmlDocPtr xml;
-	parse_xml_context_t ctxt;
+	XmlParseContext ctxt;
 
 	g_return_val_if_fail (sheet != NULL, -1);
 
@@ -3091,7 +3177,7 @@ gnumeric_xml_read_selection_clipboard (CommandContext *context, CellRegion **cr,
 				       xmlChar *buffer)
 {
 	xmlDocPtr res;
-	parse_xml_context_t ctxt;
+	XmlParseContext ctxt;
 
 	g_return_val_if_fail (*cr == NULL, -1);
 	g_return_val_if_fail (buffer != NULL, -1);
@@ -3133,7 +3219,7 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 {
 	xmlDocPtr res;
 	xmlNsPtr gmr;
-	parse_xml_context_t ctxt;
+	XmlParseContext *ctxt;
 
 	g_return_val_if_fail (filename != NULL, -1);
 
@@ -3165,15 +3251,14 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
 			(context, _("Is not an Workbook file"));
 		return -1;
 	}
-	ctxt.doc = res;
-	ctxt.ns = gmr;
-	ctxt.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
+	ctxt = xml_parse_ctx_new (res, gmr);
 
-	xml_workbook_read (wb, &ctxt, res->root);
+	xml_workbook_read (wb, ctxt, res->root);
 	workbook_set_saveinfo (wb, (char *) filename, FILE_FL_AUTO,
 			       gnumeric_xml_write_workbook);
 
-	g_hash_table_destroy (ctxt.expr_map);
+	xml_parse_ctx_destroy (ctxt);
+
 	xmlFreeDoc (res);
 	return 0;
 }
@@ -3183,13 +3268,12 @@ gnumeric_xml_read_workbook (CommandContext *context, Workbook *wb,
  * One build an in-memory XML tree and save it to a file.
  * returns 0 in case of success, -1 otherwise.
  */
-
 int
 gnumeric_xml_write_workbook (CommandContext *context, Workbook *wb,
 			     const char *filename)
 {
 	xmlDocPtr xml;
-	parse_xml_context_t ctxt;
+	XmlParseContext *ctxt;
 	int ret;
 
 	g_return_val_if_fail (wb != NULL, -1);
@@ -3203,13 +3287,9 @@ gnumeric_xml_write_workbook (CommandContext *context, Workbook *wb,
 		gnumeric_error_save (context, "");
 		return -1;
 	}
-	ctxt.doc = xml;
-	ctxt.ns = NULL;
-	ctxt.expr_map = g_hash_table_new (g_direct_hash, g_direct_equal);
-
-	xml->root = xml_workbook_write (&ctxt, wb);
-
-	g_hash_table_destroy (ctxt.expr_map);
+	ctxt = xml_parse_ctx_new (xml, NULL);
+	xml->root = xml_workbook_write (ctxt, wb);
+	xml_parse_ctx_destroy (ctxt);
 
 	/*
 	 * Dump it.

@@ -7,7 +7,7 @@
 /*
  * SheetObjectBonobo:
  *
- * SheetObject abstract class for embedding Bonobo components.
+ * SheetObject *abstract* class for embedding Bonobo components.
  *    The sheet-object-container implements a window-based Gnome::View embedder
  *    The sheet-object-item implements a canvas-based Gnome::Canvas
  */
@@ -17,7 +17,7 @@
 #define IS_SHEET_OBJECT_BONOBO(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_BONOBO_TYPE))
 
 typedef struct {
-	SheetObject     parent_object;
+	SheetObject         parent_object;
 
 	/*
 	 * The ClientSite for the bonobo object
@@ -25,7 +25,9 @@ typedef struct {
 	 * If this is NULL the object has not yet been
 	 * activated/bound to this site
 	 */
-	BonoboClientSite *client_site;
+	BonoboClientSite   *client_site;
+
+	char               *object_id;
 
 	/*
 	 * Points to the object server that implements this SheetObjectBonobo
@@ -40,19 +42,19 @@ typedef struct {
 /*
  * Bonobo Items.
  */
-GtkType            sheet_object_bonobo_get_type (void);
-SheetObjectBonobo *sheet_object_bonobo_construct (SheetObjectBonobo *sob, 
-						  Sheet *sheet,
-						  BonoboObjectClient *object_server,
-						  double x1, double y1,
-						  double x2, double y2);
+GtkType            sheet_object_bonobo_get_type       (void);
+SheetObjectBonobo *sheet_object_bonobo_construct      (SheetObjectBonobo *sob, 
+						       Sheet             *sheet,
+						       const char        *object_id,
+						       double x1, double y1,
+						       double x2, double y2);
 
-gboolean sheet_object_bonobo_load_from_file      (SheetObjectBonobo *sob,
-						  const char *fname);
-gboolean sheet_object_bonobo_load                (SheetObjectBonobo *sob,
-						  BonoboStream *stream);
-void     sheet_object_bonobo_query_size          (SheetObjectBonobo *sob);
-
+const char        *sheet_object_bonobo_get_object_iid (SheetObjectBonobo *sob);
+gboolean           sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob,
+						       const char *fname);
+gboolean           sheet_object_bonobo_load           (SheetObjectBonobo *sob,
+						       BonoboStream *stream);
+void               sheet_object_bonobo_query_size     (SheetObjectBonobo *sob);
 
 #endif /* GNUMERIC_SHEET_OBJECT_ITEM_H */
 

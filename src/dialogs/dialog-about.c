@@ -35,7 +35,6 @@ dialog_about (Workbook *wb)
 	
         const gchar *authors[] = {
 		N_("Miguel de Icaza, main programmer."),
-		N_("Almer. S. Tigelaar, Text import."),
 		N_("Sean Atkinson, Functions and X-Base importing."),
 		N_("Tom Dyas, Plugin support."),
 		N_("Gergõ Érdi, Gnumeric hacker."),
@@ -53,6 +52,7 @@ dialog_about (Workbook *wb)
 		N_("Rasca, HTML, troff, LaTeX exporters."),
 		N_("Vincent Renardias, original CSV support, French localisation."),
 		N_("Ariel Rios, Guile support."),
+		N_("Almer. S. Tigelaar, Text import."),
 		N_("Bruno Unna, Excel bits."),
 		N_("Daniel Veillard, XML support."),
 		N_("Vladimir Vuksan, financial functions."),

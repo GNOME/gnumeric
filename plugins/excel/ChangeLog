@@ -1,3 +1,9 @@
+2000-07-05  Michael Meeks  <michael@helixcode.com>
+
+	* ms-obj.c (ms_obj_realize): rename sheet_object_container constructor.
+
+	* s/reproid/repo_id/
+
 2000-06-27  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-formula-write.c (write_node) : Handle new ExprFunction.

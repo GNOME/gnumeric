@@ -217,6 +217,8 @@ GNUMERIC_BASE_SOURCES =				\
 	xml-io.h
 
 GNUMERIC_BONOBO_SOURCES = 			\
+	bonobo-io.c				\
+	bonobo-io.h				\
 	embeddable-grid.c			\
 	embeddable-grid.h			\
 	sheet-object-bonobo.c			\
@@ -263,6 +265,7 @@ gnumeric_bonobo_LDADD =					\
 	-lbonobo-print					\
 	../idl/libGnumeric.a				\
 	../idl/libGraph.a				\
+	-lglade-bonobo					\
 	$(EXTRA_GNOME_LIBS)				\
 	$(GNOME_XML_LIB) 				\
 	$(GUILE_LIBS)					\

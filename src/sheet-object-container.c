@@ -230,32 +230,25 @@ sheet_object_container_new_bonobo (Sheet *sheet,
 }
 
 SheetObject *
-sheet_object_container_new_from_goadid (Sheet *sheet,
-					double x1, double y1,
-					double x2, double y2,
-					const char *obj_id)
+sheet_object_container_new_object (Sheet *sheet,
+				   double x1, double y1,
+				   double x2, double y2,
+				   const char *object_id)
 {
-	BonoboObjectClient *object_server;
 	SheetObjectContainer *c;
 
 	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (obj_id != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
-	object_server = bonobo_object_activate (obj_id, 0);
-	if (!object_server)
-		return NULL;
+	g_return_val_if_fail (object_id != NULL, NULL);
 
 	c = gtk_type_new (sheet_object_container_get_type ());
 
 	if (!sheet_object_bonobo_construct (
 		SHEET_OBJECT_BONOBO (c), sheet,
-		object_server, x1, y1, x2, y2)){
+		object_id, x1, y1, x2, y2)) {
 		gtk_object_destroy (GTK_OBJECT (c));
 		return NULL;
 	}
 
 	return SHEET_OBJECT (c);
 }
-
-
