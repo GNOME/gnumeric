@@ -22,7 +22,7 @@
 			<menuitem name="FileSaveAs" verb="" _label="Save _As..."
 			_tip="Save the current file with a different name"
 			pixtype="stock" pixname="Menu_Save As"/>
-			<menuitem/>
+			<separator/>
 
 			<menuitem name="FilePrintSetup" verb=""
 			_label="Print S_etup..."
@@ -37,12 +37,14 @@
 			_tip="Print the current file" pixtype="stock"
 			pixname="Gnumeric_PrintPreview"/>
 
-			<menuitem/>
+			<separator/>
 
 			<menuitem name="FileSummary" verb="" _label="Su_mmary..."
 			_tip="Summary information"/>
 	
-			<placeholder name="FileHistory" delimit="both"/>
+			<placeholder name="FileHistory" delimit="top"/>
+
+                        <separator/>
 
 			<menuitem name="FileClose" verb="" _label="_Close"
 			_tip="Close the current file" pixtype="stock" pixname="Menu_Close"
@@ -61,7 +63,7 @@
 			<menuitem name="Redo" verb="EditRedo" _label="_Redo" _tip="Redo the undone action"
 			pixtype="stock" pixname="Menu_Redo" accel="*Control*r"/>
 
-			<menuitem/>
+			<separator/>
 	
 			<menuitem name="EditCut" verb="" _label="C_ut" _tip="Cut the selection"
 			pixtype="stock" pixname="Menu_Cut" accel="*Control*x"/>
@@ -79,7 +81,7 @@
 			_tip="Paste with optional filters and transformations"
 			pixtype="stock" pixname="Menu_Paste"/>
 
-			<menuitem/>
+			<separator/>
 	
 			<submenu name="Clear" _label="C_lear...">
 
@@ -111,7 +113,7 @@
 			_label="De_lete Sheet"
 			_tip="Irrevocably remove an entire sheet"/>
 
-			<menuitem/>
+			<separator/>
 
 			<submenu name="Select" _label="_Select...">
 
@@ -173,7 +175,7 @@
 			<menuitem name="InsertObject" verb=""
 			_label="_Object" _tip="Inserts a Bonobo object"/>
 
-			<menuitem/>
+			<separator/>
 
 			<submenu name="Names" _label="N_ames">
 
@@ -300,7 +302,7 @@
 			_label="_Plug-ins..."
 			_tip="Manage available plugin modules"/>
 
-			<menuitem/>
+			<separator/>
 
 			<menuitem name="ToolsAutoCorrect" verb=""
 			_label="Auto _Correct..."
@@ -310,7 +312,7 @@
 			_label="_Auto Save..."
 			_tip="Automatically save the current document at regular intervals"/>
 
-			<menuitem/>
+			<separator/>
 
 			<menuitem name="ToolsGoalSeek" verb=""
 			_label="_Goal Seek..."
@@ -320,7 +322,7 @@
 			_label="_Solver..."
 			_tip="Iteratively recalculate with constraints to approach a target value"/>
 
-			<menuitem/>
+			<separator/>
 
 			<menuitem name="ToolsDataAnalysis" verb=""
 			_label="_Data Analysis..."
@@ -462,7 +464,7 @@
 		 _label="Increase Precision" _tip="Increase the preceision of the selected cells"
 		 verb="FormatIncreasePrecision"/>
 		<toolitem name="DecreasePrecision" pixtype="stock" pixname="Gnumeric_FormatRemovePrecision"
-		 _label="Decrease Precision" descr="Decrease the preceision of the selected cells"
+		 _label="Decrease Precision" _tip="Decrease the preceision of the selected cells"
 		 verb="FormatDecreasePrecision"/>
 
 		<separator/>

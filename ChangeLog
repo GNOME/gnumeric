@@ -1,3 +1,17 @@
+2000-10-12  Jon K Hellan  <hellan@acm.org>
+
+	* configure.in: Require bonobo >= 0.21. We now use
+	bonobo_ui_util_encode_str - added since 0.20.
+
+	* src/gnumeric.xml: Bonobo no longer supports placeholder
+	delimit="both". Use "top" and a separator instead. Indicate
+	separators by <separator/> instead <menuitem/>. Change last
+	remaining descr to _tip.
+
+	* src/history.c (history_menu_insert_items): Bonobo changed
+	again. We fix.
+	(file_history_cmd): Use "tip" instead of "descr"
+
 2000-10-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/main.c (gnumeric_main) : manually init the corba factories after

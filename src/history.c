@@ -49,7 +49,7 @@ file_history_cmd (BonoboUIComponent *uic, Workbook *wb, const char *path)
 	Workbook *new_wb;
 
 	fullpath = g_strdup_printf ("%s/%s", "/menu/File/FileHistory", path);
-	filename = bonobo_ui_component_get_prop (uic, fullpath, "descr", NULL);
+	filename = bonobo_ui_component_get_prop (uic, fullpath, "tip", NULL);
 	g_free (fullpath);
 
 	new_wb = workbook_read (workbook_command_context_gui (wb), filename);
@@ -204,12 +204,14 @@ history_menu_insert_items (Workbook *wb, GList *name_list)
 		char *id, *str, *label, *filename;
 		
 		id = g_strdup_printf ("FileHistory%d", accel_number);
-		label = history_item_label (l->data, accel_number);
-		filename = (char *) l->data;
+		str = history_item_label (l->data, accel_number);
+		label = bonobo_ui_util_encode_str (str);
+		g_free (str);
+		filename = bonobo_ui_util_encode_str ((char *) l->data);
 		str = g_strdup_printf ("<menuitem name=\"%s\" "
 				       "verb=\"%s\" "
 				       "label=\"%s\" "
-				       "descr=\"%s\"/>\n",
+				       "tip=\"%s\"/>\n",
 				       id, id, label, filename);
 		bonobo_ui_component_set (wb->priv->uic,
 					 "/menu/File/FileHistory", str, &ev);
@@ -217,6 +219,7 @@ history_menu_insert_items (Workbook *wb, GList *name_list)
 			wb->priv->uic, id, (BonoboUIVerbFn) file_history_cmd, wb);
 		g_free (id);
 		g_free (str);
+		g_free (filename);
 		g_free (label);
 		accel_number++;
 	}
