@@ -9,10 +9,6 @@
 #include "dialog-stf.h"
 
 /*************************************************************************************************
- * MISC UTILITY FUNCTIONS
- *************************************************************************************************/
-
-/*************************************************************************************************
  * SIGNAL HANDLERS
  *************************************************************************************************/
 
@@ -40,7 +36,7 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 		char *csvcustomtext = gtk_editable_get_chars (GTK_EDITABLE (info->csv_customseparator), 0, -1);
 
 		if (strcmp (csvcustomtext, "") != 0) {
-			stf_parse_options_csv_set_customfieldseparator (parseoptions, csvcustomtext[0]);
+			stf_parse_options_csv_set_customfieldseparator (parseoptions, csvcustomtext);
 			customvalid = TRUE;
 		}
 

@@ -1,5 +1,11 @@
 2001-06-03  Almer S. Tigelaar  <almer@gnome.org>
 
+	* dialog-stf.glade: Make length of customfield
+	separator infinite.
+
+	* dialog-stf-csv-page.c (csv_page_global_change):
+	Set string customseparator instead of char.
+
 	* dialog-stf.h: Define X overflow limit.
 	
 	* dialog-stf-preview.c (stf_preview_render_row): Really

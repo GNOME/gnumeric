@@ -2,6 +2,16 @@
 
 	* src/stf.c (stf_write_workbook): Exporting wouldn't work
 	because of wrong changes to the code. Fixed.
+	(stf_parse_csv_cell): Add support for escaped newlines and
+	clean-up.
+	(stf_parse_options_csv_set_customfieldseparator): Support
+	string separator.
+	(stf_parse_options_new): Initialize customfieldseparator.
+	(stf_parse_options_free): Free custom field separator.
+	(stf_parse_csv_is_separator): Handle new string customfield separator.
+	(stf_parse_csv_cell): Idem.
+	(stf_parse_get_colcount): Idem.
+	(stf_parse_get_colwidth): Idem.
 	
 2001-06-03  Morten Welinder  <terra@diku.dk>
 

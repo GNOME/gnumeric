@@ -92,6 +92,8 @@ stf_parse_options_new (void)
 	parseoptions->indicator_2x_is_single = TRUE;
 	parseoptions->duplicates             = FALSE;
 
+	parseoptions->customfieldseparator = NULL;
+
 	return parseoptions;
 }
 
@@ -109,6 +111,9 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 {
 	g_return_if_fail (parseoptions != NULL);
 
+	if (parseoptions->customfieldseparator)
+		g_free (parseoptions->customfieldseparator);
+		
 	g_array_free (parseoptions->splitpositions, TRUE);
 
 	g_free (parseoptions);
@@ -245,11 +250,14 @@ stf_parse_options_csv_set_separators (StfParseOptions_t *parseoptions,
  * returns : nothing
  **/
 void
-stf_parse_options_csv_set_customfieldseparator (StfParseOptions_t *parseoptions, char customfieldseparator)
+stf_parse_options_csv_set_customfieldseparator (StfParseOptions_t *parseoptions, const char *customfieldseparator)
 {
 	g_return_if_fail (parseoptions != NULL);
 
-	parseoptions->customfieldseparator = customfieldseparator;
+	if (parseoptions->customfieldseparator)
+		g_free (parseoptions->customfieldseparator);
+		
+	parseoptions->customfieldseparator = g_strdup (customfieldseparator);
 }
 
 /**
@@ -403,36 +411,38 @@ trim_spaces_inplace (char *field, const StfParseOptions_t *parseoptions)
  * @parsetype : a bitwise orred field of what to see as separator and what not
  * @customfieldseparator : the custom field separator which will be examined if TEXT_SEPARATOR_CUSTOM is set
  *
- * returns : true if character is a separator, false otherwise
+ * returns : NULL if @character is not a separator, a pointer to the character
+ *           after the separator otherwise.
  **/
-static inline gboolean
-stf_parse_csv_is_separator (const char *character, StfParseType_t parsetype, char customfieldseparator)
+static inline const char *
+stf_parse_csv_is_separator (const char *character, StfParseType_t parsetype, char *customfieldseparator)
 {
-	g_return_val_if_fail (character != NULL, FALSE);
+	g_return_val_if_fail (character != NULL, NULL);
+
+	if ((parsetype & TEXT_SEPARATOR_CUSTOM)
+	    && (strncmp (character, customfieldseparator, strlen (customfieldseparator)) == 0))
+		return &character[strlen (customfieldseparator)];
 
 	/* I have done this to slightly speed up the parsing, if we
 	 * wouldn't do this, it had to go over the case statement below for
 	 * each character, which clearly slows parsing down
 	 */
 	if (isalnum ((unsigned char)*character))
-		return FALSE;
+		return NULL;
 
 	switch (*character) {
-	case ' '              : if (parsetype & TEXT_SEPARATOR_SPACE)     return TRUE; break;
-	case '\t'             : if (parsetype & TEXT_SEPARATOR_TAB)       return TRUE; break;
-	case ':'              : if (parsetype & TEXT_SEPARATOR_COLON)     return TRUE; break;
-	case ','              : if (parsetype & TEXT_SEPARATOR_COMMA)     return TRUE; break;
-	case ';'              : if (parsetype & TEXT_SEPARATOR_SEMICOLON) return TRUE; break;
-	case '|'              : if (parsetype & TEXT_SEPARATOR_PIPE)      return TRUE; break;
-	case '/'              : if (parsetype & TEXT_SEPARATOR_SLASH)     return TRUE; break;
-	case '-'              : if (parsetype & TEXT_SEPARATOR_HYPHEN)    return TRUE; break;
-	case '!'              : if (parsetype & TEXT_SEPARATOR_BANG)      return TRUE; break;
+	case ' '              : if (parsetype & TEXT_SEPARATOR_SPACE)     return &character[1]; break;
+	case '\t'             : if (parsetype & TEXT_SEPARATOR_TAB)       return &character[1]; break;
+	case ':'              : if (parsetype & TEXT_SEPARATOR_COLON)     return &character[1]; break;
+	case ','              : if (parsetype & TEXT_SEPARATOR_COMMA)     return &character[1]; break;
+	case ';'              : if (parsetype & TEXT_SEPARATOR_SEMICOLON) return &character[1]; break;
+	case '|'              : if (parsetype & TEXT_SEPARATOR_PIPE)      return &character[1]; break;
+	case '/'              : if (parsetype & TEXT_SEPARATOR_SLASH)     return &character[1]; break;
+	case '-'              : if (parsetype & TEXT_SEPARATOR_HYPHEN)    return &character[1]; break;
+	case '!'              : if (parsetype & TEXT_SEPARATOR_BANG)      return &character[1]; break;
         }
 
-	if ((parsetype & TEXT_SEPARATOR_CUSTOM) && (customfieldseparator == *character))
-		return TRUE;
-
-	return FALSE;
+	return NULL;
 }
 
 /**
@@ -447,7 +457,7 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 {
 	GString *res;
 	const char *cur;
-	gboolean isstring, sawstringterm;
+	gboolean sawstringterm;
 	int len = 0;
 
 	g_return_val_if_fail (src != NULL, NULL);
@@ -457,20 +467,14 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 
 	/* A leading quote is always a quote */
 	if (*cur == parseoptions->stringindicator) {
-
 		cur++;
-		isstring = TRUE;
 		sawstringterm = FALSE;
-	} else {
-
-		isstring = FALSE;
+	} else
 		sawstringterm = TRUE;
-        }
-
 
 	res = g_string_new ("");
 
-	while (*cur && *cur != parseoptions->terminator) {
+	while (*cur) {
 
 		if (!sawstringterm) {
 
@@ -487,17 +491,21 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 				}
 			}
 		} else {
+			const char *s;
+			
+			if (*cur == parseoptions->terminator)
+				break;
 
-			if (stf_parse_csv_is_separator (cur, parseoptions->separators, parseoptions->customfieldseparator)) {
-
+			if ((s = stf_parse_csv_is_separator (cur, parseoptions->separators, parseoptions->customfieldseparator))) {
+				const char *r;
+				
 				if (parseoptions->duplicates) {
-					const char *nextcur = cur;
-					nextcur++;
-					if (stf_parse_csv_is_separator (nextcur, parseoptions->separators, parseoptions->customfieldseparator)) {
-						cur = nextcur;
+					if ((r = stf_parse_csv_is_separator (s, parseoptions->separators, parseoptions->customfieldseparator))) {
+						cur = r;
 						continue;
 					}
 				}
+				cur = s;
 				break;
 			}
 		}
@@ -507,10 +515,6 @@ stf_parse_csv_cell (Source_t *src, StfParseOptions_t *parseoptions)
 		len++;
 		cur++;
 	}
-
-	/* Only skip over cell terminators, not line terminators or terminating nulls*/
-	if (*cur != parseoptions->terminator && *cur)
-		cur++;
 
 	src->position = cur;
 
@@ -597,7 +601,7 @@ stf_parse_fixed_cell (Source_t *src, StfParseOptions_t *parseoptions)
 	else
 		splitval = -1;
 
-	while (*cur && *cur != parseoptions->terminator  && splitval != src->linepos) {
+	while (*cur && *cur != parseoptions->terminator && splitval != src->linepos) {
 		g_string_append_c (res, *cur);
 
 		src->linepos++;
@@ -802,37 +806,33 @@ stf_parse_get_colcount (StfParseOptions_t *parseoptions, const char *data)
 		const char *iterator = data;
 		int tempcount = 0;
 
-		while (1) {
-
-			if (*iterator == parseoptions->terminator || *iterator == '\0') {
-
+		while (iterator && *iterator != '\0') {
+			const char *s;
+			
+			if (*iterator == parseoptions->terminator) {
 				if (tempcount > colcount)
 					colcount = tempcount;
-
 				tempcount = 0;
-
-				if (*iterator == '\0')
-					break;
 			}
 
-			if (stf_parse_csv_is_separator (iterator, parseoptions->separators, parseoptions->customfieldseparator)) {
-
+			if ((s = stf_parse_csv_is_separator (iterator, parseoptions->separators, parseoptions->customfieldseparator))) {
+			
 				if (parseoptions->duplicates) {
-					const char *nextiterator = iterator;
+					const char *r;
 
-					nextiterator++;
-					if (stf_parse_csv_is_separator (nextiterator, parseoptions->separators, parseoptions->customfieldseparator)) {
-
-						iterator = nextiterator;
+					if ((r = stf_parse_csv_is_separator (s, parseoptions->separators, parseoptions->customfieldseparator))) {
+						iterator = r;
 						continue;
 					}
 				}
-
+				
+				iterator = s;
 				tempcount++;
-			}
-
-			iterator++;
+			} else
+				iterator++;
 		}
+		if (tempcount > colcount)
+			colcount = tempcount;
 	} else {
 		colcount = my_garray_len (parseoptions->splitpositions) - 1;
 	}
@@ -907,42 +907,39 @@ stf_parse_get_colwidth (StfParseOptions_t *parseoptions, const char *data, int i
 		const char *iterator = data;
 		int col = 0, colwidth = 0;
 
-		while (1) {
+		while (iterator && *iterator != '\0') {
+			const char *s;
+			
+			if ((s = stf_parse_csv_is_separator (iterator, parseoptions->separators, parseoptions->customfieldseparator))) {
 
-			if (stf_parse_csv_is_separator (iterator, parseoptions->separators, parseoptions->customfieldseparator) || *iterator == parseoptions->terminator || *iterator == '\0') {
+				if (parseoptions->duplicates) {
+					const char *r;
 
-				if (*iterator != 0 && parseoptions->duplicates) {
-					const char *nextiterator = iterator;
-
-					nextiterator++;
-					if (stf_parse_csv_is_separator (nextiterator, parseoptions->separators, parseoptions->customfieldseparator)) {
-
-						iterator = nextiterator;
+					if ((r = stf_parse_csv_is_separator (s, parseoptions->separators, parseoptions->customfieldseparator))) {
+						iterator = r;
 						continue;
 					}
 				}
 
-				if (col == index) {
+				if (col == index && colwidth > width)
+					width = colwidth;
 
-					if (colwidth > width)
+				colwidth = 0;
+				iterator = s;
+				col++;
+			} else {
+				colwidth++;
+				if (*iterator == parseoptions->terminator) {
+					if (col == index && colwidth > width)
 						width = colwidth;
-				}
-
-
-				if (*iterator == parseoptions->terminator)
 					col = 0;
-				else
-					col++;
-
-				colwidth = -1;
+					colwidth = 0;
+				}
+				iterator++;
 			}
-
-			if (*iterator == '\0')
-				break;
-
-			colwidth++;
-			iterator++;
 		}
+		if (col == index && colwidth > width)
+			width = colwidth;
 	} else {
 		int colstart, colend;
 

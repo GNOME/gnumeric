@@ -40,7 +40,7 @@ typedef struct {
 
 	/* CSV related */
 	StfTextSeparator_t   separators;            /* Text separator(s) */
-	char                 customfieldseparator;  /* Custom text separator */
+	char                *customfieldseparator;  /* Custom text separator */
 	char                 stringindicator;       /* String indicator */
 	gboolean             indicator_2x_is_single;/* 2 quote chars are a single non-terminating quote */
 	gboolean             duplicates;            /* See two text separator's as one? */
@@ -74,7 +74,7 @@ void                stf_parse_options_csv_set_separators              (StfParseO
 								       gboolean semicolon, gboolean pipe,
 								       gboolean slash, gboolean hyphen,
 								       gboolean bang, gboolean custom);
-void                stf_parse_options_csv_set_customfieldseparator    (StfParseOptions_t *parseoptions, char customfieldseparator);
+void                stf_parse_options_csv_set_customfieldseparator    (StfParseOptions_t *parseoptions, const char *customfieldseparator);
 void                stf_parse_options_csv_set_stringindicator         (StfParseOptions_t *parseoptions, char stringindicator);
 void                stf_parse_options_csv_set_indicator_2x_is_single  (StfParseOptions_t *parseoptions, gboolean indic_2x);
 void                stf_parse_options_csv_set_duplicates              (StfParseOptions_t *parseoptions, gboolean duplicates);
