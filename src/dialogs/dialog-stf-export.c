@@ -162,6 +162,7 @@ cb_collect_exported_sheets (GtkTreeModel *model, GtkTreePath *path, GtkTreeIter 
 		-1);
 	if (exported)
 		stf_export_options_sheet_list_add (state->result, sheet);
+	g_object_unref (sheet);
 	return FALSE;
 }
 static void
@@ -569,6 +570,7 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 	stf_export_dialog_sheet_page_init (&state);
 	stf_export_dialog_format_page_init (&state);
 	if (state.sheets.non_empty == 0) {
+		gtk_widget_destroy (GTK_WIDGET (state.window));
 		gnumeric_notice (wbcg_toplevel (wbcg),  GTK_MESSAGE_ERROR, 
 				 _("This workbook does not contain any "
 				   "exportable content."));
@@ -589,6 +591,7 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 				     GTK_DIALOG (state.window));
 	}
 	g_object_unref (G_OBJECT (state.gui));
+	g_object_unref (state.sheets.model);
 
 	return state.result;
 }

@@ -1,3 +1,8 @@
+2005-04-04  Morten Welinder  <terra@gnome.org>
+
+	* dialog-stf-export.c (stf_export_dialog): Backport three
+	crash-causing leaks.
+
 2005-03-12  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.3
