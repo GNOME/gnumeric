@@ -114,7 +114,8 @@ static char *help_varp = {
 	   "\n"
 	   "(VARP is also known as the N-variance.)"
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
+	   "Performing this function on a string or empty cell simply does "
+	   "nothing."
 	   "\n"
 	   "@SEEALSO=STDEV,VAR,MEAN")
 };
@@ -124,7 +125,8 @@ gnumeric_varp (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
 				     range_var_pop,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS | 
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -140,7 +142,8 @@ static char *help_var = {
 	   "conditions, it is the maximum-likelihood estimator for the "
 	   "true variance.)"
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
+	   "Performing this function on a string or empty cell simply does "
+	   "nothing."
 	   "\n"
 	   "@SEEALSO=VARP,STDEV")
 };
@@ -150,7 +153,8 @@ gnumeric_var (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
 				     range_var_est,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -172,7 +176,8 @@ gnumeric_stdev (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
 				     range_stddev_est,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -184,7 +189,8 @@ static char *help_stdevp = {
 	   "STDEVP returns standard deviation of a set of numbers "
 	   "treating these numbers as members of a complete population"
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
+	   "Performing this function on a string or empty cell simply does "
+	   "nothing."
 	   "\n"
 	   "@SEEALSO=STDEV,VAR,MEAN")
 };
@@ -194,7 +200,8 @@ gnumeric_stdevp (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
 				     range_stddev_pop,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -268,7 +275,8 @@ gnumeric_rank (FunctionEvalInfo *ei, Value **argv)
 	        p.order = 0;
 	p.rank = 1;
 	ret = sheet_cell_foreach_range (
-	        eval_sheet (argv[1]->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+	        eval_sheet (argv[1]->v.cell_range.cell_a.sheet,
+			    ei->pos.sheet), TRUE,
 		argv[1]->v.cell_range.cell_a.col,
 		argv[1]->v.cell_range.cell_a.row,
 		argv[1]->v.cell_range.cell_b.col,
@@ -316,7 +324,7 @@ range_trimmean (const float_t *xs, int n, float_t *res)
 		return 1;
 
 	/* OK, so we ignore the constness here.  Tough.  */
-	qsort ((float_t *)xs, n, sizeof (xs[0]), (void *)&float_compare);
+	qsort ((float_t *) xs, n, sizeof (xs[0]), (void *) &float_compare);
 
 	for (i = tc; i < n - tc; i++)
 		sum += xs[i];
@@ -330,7 +338,8 @@ gnumeric_trimmean (FunctionEvalInfo *ei, GList *expr_node_list)
 {
 	return float_range_function (expr_node_list, ei,
 				     range_trimmean,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -352,7 +361,8 @@ gnumeric_covar (FunctionEvalInfo *ei, Value **argv)
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
 				      range_covar,
-				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				      COLLECT_IGNORE_STRINGS |
+				      COLLECT_IGNORE_BOOLS,
 				      gnumeric_err_VALUE);
 }
 
@@ -374,7 +384,8 @@ gnumeric_correl (FunctionEvalInfo *ei, Value **argv)
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
 				      range_correl_pop,
-				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				      COLLECT_IGNORE_STRINGS |
+				      COLLECT_IGNORE_BOOLS,
 				      gnumeric_err_VALUE);
 }
 
@@ -407,7 +418,8 @@ gnumeric_negbinomdist (FunctionEvalInfo *ei, Value **argv)
 	if ((x + r - 1) <= 0 || p < 0 || p > 1)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (combin (x+r-1, r-1) * pow (p, r) * pow (1-p, x));
+	return value_new_float (combin (x+r-1, r-1) *
+				pow (p, r) * pow (1-p, x));
 }
 
 static char *help_normsdist = {
@@ -418,7 +430,8 @@ static char *help_normsdist = {
           "The NORMSDIST function returns the standard normal cumulative "
 	  "distribution. @x is the value for which you want the distribution."
           "\n"
-          "Performing this function on a string or empty cell simply does nothing."
+          "Performing this function on a string or empty cell simply does "
+	  "nothing."
           "\n"
           "@SEEALSO=NOMRDIST")
 };
@@ -470,9 +483,11 @@ static char *help_lognormdist = {
 	  "the mean of the distribution, and @stdev is the standard deviation "
 	  "of the distribution. "
           "\n"
-          "Performing this function on a string or empty cell simply does nothing. "
+          "Performing this function on a string or empty cell simply does "
+	  "nothing. "
           "If @stdev = 0 LOGNORMDIST returns #DIV/0! error. "
-	  "If @x <= 0, @mean < 0 or @stdev < 0 LOGNORMDIST returns #NUM! error. "
+	  "If @x <= 0, @mean < 0 or @stdev < 0 LOGNORMDIST returns #NUM! "
+	  "error. "
           "\n"
           "@SEEALSO=NORMDIST")
 };
@@ -558,7 +573,8 @@ static char *help_mode = {
 	  "them. "
           "\n"
           "Strings and empty cells are simply ignored."
-	  "If the data set does not contain any duplicates MODE returns #N/A! error."
+	  "If the data set does not contain any duplicates MODE returns "
+          "#N/A! error."
           "\n"
           "@SEEALSO=AVERAGE,MEDIAN")
 };
@@ -640,7 +656,8 @@ static char *help_harmean = {
 	   "@DESCRIPTION="
 	   "HARMEAN returns the harmonic mean of the N data points."
 	   "\n"
-	   "Performing this function on a string or empty cell simply does nothing."
+	   "Performing this function on a string or empty cell simply does "
+	   "nothing."
 	   "\n"
 	   "@SEEALSO=GEOMEAN,MEDIAN,MEAN,MODE")
 };
@@ -651,7 +668,8 @@ gnumeric_harmean (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_harmonic_mean,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -675,7 +693,8 @@ gnumeric_geomean (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_geometric_mean,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -765,7 +784,8 @@ gnumeric_average (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_average,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -790,7 +810,8 @@ gnumeric_min (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_min,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -815,7 +836,8 @@ gnumeric_max (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_max,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -826,9 +848,9 @@ static char *help_skew = {
 	   "@DESCRIPTION="
 	   "SKEW returns an unbiased estimate for skewness of a distribution."
 	   "\n"
-	   "Note, that this is only meaningful is the underlying distribution really "
-	   "has a third moment.  The skewness of a symmetric (e.g., normal) "
-	   "distribution is zero."
+	   "Note, that this is only meaningful is the underlying "
+	   "distribution really has a third moment.  The skewness of a "
+	   "symmetric (e.g., normal) distribution is zero."
            "\n"
 	   "Strings and empty cells are simply ignored."
 	   "\n"
@@ -843,7 +865,8 @@ gnumeric_skew (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_skew_est,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_DIV0);
 }
 
@@ -867,7 +890,8 @@ gnumeric_skewp (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_skew_pop,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_DIV0);
 }
 
@@ -1417,7 +1441,8 @@ static char *help_binomdist = {
            "and @cumulative describes whether to return the sum of the"
            "binomial function from 0 to @n."
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error."
+	   "Performing this function on a string or empty cell returns an "
+	   "error."
 	   "If @n or @trials are non-integer they are truncated. "
 	   "If @n < 0 or @trials < 0 BINOMDIST returns #NUM! error. "
 	   "If @n > trials BINOMDIST returns #NUM! error. "
@@ -1540,7 +1565,8 @@ gnumeric_hypgeomdist (FunctionEvalInfo *ei, Value **argv)
 	if (x<0 || n<0 || M<0 || N<0 || x>M || n>N)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
-	return value_new_float ((combin(M, x) * combin(N-M, n-x)) / combin(N,n));
+	return value_new_float ((combin(M, x) * combin(N-M, n-x)) /
+				combin(N,n));
 }
 
 static char *help_confidence = {
@@ -1548,9 +1574,9 @@ static char *help_confidence = {
 	   "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
 
 	   "@DESCRIPTION="
-	   "The CONFIDENCE function returns the confidence interval for a mean. "
-	   "@x is the significance level, @stddev is the standard deviation, "
-	   "and @size is the size of the sample."
+	   "The CONFIDENCE function returns the confidence interval for a "
+	   "mean. @x is the significance level, @stddev is the standard "
+	   "deviation, and @size is the size of the sample."
 	   "\n"
 	   "If @size is non-integer it is truncated. "
 	   "If @size < 0 CONFIDENCE returns #NUM! error. "
@@ -1727,9 +1753,10 @@ static char *help_kurt = {
            "@DESCRIPTION="
            "KURT returns an unbiased estimate of the kurtosis of a data set."
            "\n"
-	   "Note, that this is only meaningful is the underlying distribution really "
-	   "has a fourth moment.  The kurtosis is offset by three such that a normal "
-	   "distribution will have zero kurtosis."
+	   "Note, that this is only meaningful is the underlying "
+	   "distribution really has a fourth moment.  The kurtosis is "
+	   "offset by three such that a normal distribution will have zero "
+	   "kurtosis."
            "\n"
            "Strings and empty cells are simply ignored."
            "\n"
@@ -1745,7 +1772,8 @@ gnumeric_kurt (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_kurtosis_m3_est,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -1770,7 +1798,8 @@ gnumeric_kurtp (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_kurtosis_m3_pop,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -1782,7 +1811,8 @@ static char *help_avedev = {
            "AVEDEV returns the average of the absolute deviations of a data "
 	   "set from their mean. "
            "\n"
-           "Performing this function on a string or empty cell simply does nothing."
+           "Performing this function on a string or empty cell simply does "
+	   "nothing."
            "\n"
            "@SEEALSO=STDEV")
 };
@@ -1793,7 +1823,8 @@ gnumeric_avedev (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_avedev,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -1816,7 +1847,8 @@ gnumeric_devsq (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_devsq,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -1926,7 +1958,8 @@ gnumeric_rsq (FunctionEvalInfo *ei, Value **argv)
 	return float_range_function2 (argv[0], argv[1],
 				      ei,
 				      range_rsq_pop,
-				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				      COLLECT_IGNORE_STRINGS |
+				      COLLECT_IGNORE_BOOLS,
 				      gnumeric_err_VALUE);
 }
 
@@ -1951,7 +1984,8 @@ range_excel_median (const float_t *xs, int n, float_t *res)
 {
 	if (n > 0) {
 		/* OK, so we ignore the constness here.  Tough.  */
-		qsort ((float_t *)xs, n, sizeof (xs[0]), (void *)&float_compare);
+		qsort ((float_t *) xs, n, sizeof (xs[0]),
+		       (void *) &float_compare);
 		if (n & 1)
 			*res = xs[n / 2];
 		else
@@ -1967,7 +2001,8 @@ gnumeric_median (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_excel_median,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -2009,7 +2044,8 @@ gnumeric_large (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_large,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_NUM);
 }
 
@@ -2035,12 +2071,12 @@ range_small (const float_t *xs, int n, float_t *res)
 	if (n < 2)
 		return 1;
 
-	k = (int)xs[--n] - 1;
+	k = (int) xs[--n] - 1;
 	if (k < 0 || k >= n)
 		return 1;
 
 	/* OK, so we ignore the constness here.  Tough.  */
-	qsort ((float_t *)xs, n, sizeof (xs[0]), (void *)&float_compare);
+	qsort ((float_t *) xs, n, sizeof (xs[0]), (void *) &float_compare);
 	*res = xs[k];
 	return 0;
 }
@@ -2051,7 +2087,8 @@ gnumeric_small (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_small,
-				     COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
 				     gnumeric_err_NUM);
 }
 
@@ -2237,7 +2274,8 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 
         if (known_x->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-			eval_sheet (known_x->v.cell_range.cell_a.sheet, ei->pos.sheet), TRUE,
+			eval_sheet (known_x->v.cell_range.cell_a.sheet,
+				    ei->pos.sheet), TRUE,
 			known_x->v.cell_range.cell_a.col,
 			known_x->v.cell_range.cell_a.row,
 			known_x->v.cell_range.cell_b.col,
@@ -2261,11 +2299,13 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 		}
 	} else
-		return value_new_error (&ei->pos, _("Array version not implemented!"));
+		return value_new_error (&ei->pos,
+					_("Array version not implemented!"));
 
         if (known_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
-			eval_sheet (known_y->v.cell_range.cell_a.sheet, ei->pos.sheet),TRUE,
+			eval_sheet (known_y->v.cell_range.cell_a.sheet,
+				    ei->pos.sheet),TRUE,
 			known_y->v.cell_range.cell_a.col,
 			known_y->v.cell_range.cell_a.row,
 			known_y->v.cell_range.cell_b.col,
@@ -2289,7 +2329,8 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 		        return value_new_error (&ei->pos, gnumeric_err_VALUE);
 		}
 	} else
-		return value_new_error (&ei->pos, _("Array version not implemented!"));
+		return value_new_error (&ei->pos,
+					_("Array version not implemented!"));
 
 	if (items_x.num != items_y.num) {
 		list1 = items_x.list;
@@ -2416,7 +2457,8 @@ gnumeric_ztest (FunctionEvalInfo *ei, GList *expr_node_list)
 	        return value_new_error (&ei->pos, gnumeric_err_DIV0);
 
 	return value_new_float (1 - pnorm ((p.sum/p.num - p.x) /
-						     (stdev / sqrt(p.num)), 0, 1));
+						     (stdev / sqrt(p.num)),
+					   0, 1));
 }
 
 static char *help_averagea = {
@@ -2440,7 +2482,8 @@ gnumeric_averagea (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_average,
-				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZERO_STRINGS |
+				     COLLECT_ZEROONE_BOOLS,
 				     gnumeric_err_DIV0);
 }
 
@@ -2465,7 +2508,8 @@ gnumeric_maxa (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_max,
-				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZERO_STRINGS |
+				     COLLECT_ZEROONE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -2490,7 +2534,8 @@ gnumeric_mina (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_min,
-				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZERO_STRINGS |
+				     COLLECT_ZEROONE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -2515,7 +2560,8 @@ gnumeric_vara (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_var_est,
-				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZERO_STRINGS |
+				     COLLECT_ZEROONE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -2540,7 +2586,8 @@ gnumeric_varpa (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_var_pop,
-				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZERO_STRINGS |
+				     COLLECT_ZEROONE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -2565,7 +2612,8 @@ gnumeric_stdeva (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_stddev_est,
-				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZERO_STRINGS |
+				     COLLECT_ZEROONE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -2590,7 +2638,8 @@ gnumeric_stdevpa (FunctionEvalInfo *ei, GList *expr_node_list)
 	return float_range_function (expr_node_list,
 				     ei,
 				     range_stddev_pop,
-				     COLLECT_ZERO_STRINGS | COLLECT_ZEROONE_BOOLS,
+				     COLLECT_ZERO_STRINGS |
+				     COLLECT_ZEROONE_BOOLS,
 				     gnumeric_err_VALUE);
 }
 
@@ -2702,6 +2751,61 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 	return value_new_float (pr);
 }
 
+static char *help_quartile = {
+	N_("@FUNCTION=QUARTILE\n"
+	   "@SYNTAX=QUARTILE(array,quart)\n"
+
+	   "@DESCRIPTION="
+	   "QUARTILE function returns the quartile of the given data "
+	   "points.  "
+	   "\n"
+	   "If quart is equal to:  QUARTILE returns:\n"
+	   "0                      the smallest value of @array.\n"
+	   "1                      the first quartile\n"
+	   "2                      the second quartile\n"
+	   "3                      the third quartile\n"
+	   "4                      the largest value of @array.\n"
+	   "\n"
+	   "If @array is empty, QUARTILE returns #NUM! error. "
+	   "If @quart < 0 or @quart > 4, QUARTILE returns #NUM! error. "
+	   "If @quart is not an integer, it is truncated. "
+	   "\n"
+	   "@SEEALSO=LARGE,MAX,MEDIAN,MIN,PERCENTILE,SMALL")
+};
+
+static Value *
+gnumeric_quartile (FunctionEvalInfo *ei, Value **argv)
+{
+        static const float_t q[] = { 0.00, 0.25, 0.50, 0.75, 1.00 };
+	float_t test, index;
+	float_t *data = NULL;
+	Value   *result = NULL;
+	int     quart, n, ind;
+
+	data = collect_floats_value (argv[0], &ei->pos,
+				     COLLECT_IGNORE_STRINGS |
+				     COLLECT_IGNORE_BOOLS,
+				     &n, &result);
+	if (result)
+		goto out;
+
+	quart = value_get_as_int (argv[1]);
+	qsort ((float_t *) data, n, sizeof (data[0]), (void *) &float_compare);
+
+	index = q[quart] * (n-1);
+	ind = (int) index;
+	test = index - ind;
+	if (index == n-1)
+	        result = value_new_float (data[n-1]);
+	else
+	        result = value_new_float ((1.0 - test) * data[ind] +
+					  test * data[ind+1]);
+out:
+	g_free (data);
+
+	return result;
+}
+
 static char *help_ftest = {
 	N_("@FUNCTION=FTEST\n"
 	   "@SYNTAX=FTEST(array1,array2)\n"
@@ -2733,7 +2837,9 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	    (eval_pos_init (&ep, eval_sheet (argv[0]->v.cell_range.cell_a.sheet, ei->pos.sheet),
+	    (eval_pos_init (&ep, 
+			    eval_sheet (argv[0]->v.cell_range.cell_a.sheet,
+					ei->pos.sheet),
 			    argv[0]->v.cell_range.cell_a.col,
 			    argv[0]->v.cell_range.cell_a.row),
 	     callback_function_stat,
@@ -2760,7 +2866,9 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv [])
 	expr_node_list = g_list_append(NULL, tree);
 
 	err = function_iterate_argument_values
-	        (eval_pos_init (&ep, eval_sheet (argv[1]->v.cell_range.cell_a.sheet, ei->pos.sheet),
+	        (eval_pos_init (&ep,
+				eval_sheet (argv[1]->v.cell_range.cell_a.sheet,
+					    ei->pos.sheet),
 				argv[1]->v.cell_range.cell_a.col,
 				argv[1]->v.cell_range.cell_a.row),
 		 callback_function_stat,
@@ -2876,7 +2984,10 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv [])
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
-		    (eval_pos_init (&ep, eval_sheet (argv[0]->v.cell_range.cell_a.sheet, ei->pos.sheet),
+		    (eval_pos_init (&ep,
+				    eval_sheet
+				    (argv[0]->v.cell_range.cell_a.sheet,
+				     ei->pos.sheet),
 				    argv[0]->v.cell_range.cell_a.col,
 				    argv[0]->v.cell_range.cell_a.row),
 		     callback_function_ttest,
@@ -2897,7 +3008,10 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv [])
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
-		    (eval_pos_init (&ep, eval_sheet (argv[1]->v.cell_range.cell_a.sheet, ei->pos.sheet),
+		    (eval_pos_init (&ep,
+				    eval_sheet
+				    (argv[1]->v.cell_range.cell_a.sheet,
+				     ei->pos.sheet),
 				    argv[1]->v.cell_range.cell_a.col,
 				    argv[1]->v.cell_range.cell_a.row),
 		     callback_function_ttest,
@@ -2948,7 +3062,10 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv [])
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
-		    (eval_pos_init (&ep, eval_sheet (argv[0]->v.cell_range.cell_a.sheet, ei->pos.sheet),
+		    (eval_pos_init (&ep,
+				    eval_sheet
+				    (argv[0]->v.cell_range.cell_a.sheet,
+				     ei->pos.sheet),
 				    argv[0]->v.cell_range.cell_a.col,
 				    argv[0]->v.cell_range.cell_a.row),
 		     callback_function_stat,
@@ -2976,7 +3093,10 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv [])
 		expr_node_list = g_list_append(NULL, tree);
 
 		err = function_iterate_argument_values
-		    (eval_pos_init (&ep, eval_sheet (argv[1]->v.cell_range.cell_a.sheet, ei->pos.sheet),
+		    (eval_pos_init (&ep,
+				    eval_sheet
+				    (argv[1]->v.cell_range.cell_a.sheet,
+				     ei->pos.sheet),
 				    argv[1]->v.cell_range.cell_a.col,
 				    argv[1]->v.cell_range.cell_a.row),
 		     callback_function_stat,
@@ -3303,13 +3423,15 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv [])
 	x = value_get_as_float (argv[0]);
 
 	ys = collect_floats_value (argv[1], &ei->pos,
-				   COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS,
 				   &ny, &result);
 	if (result)
 		goto out;
 
 	xs = collect_floats_value (argv[2], &ei->pos,
-				   COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				   COLLECT_IGNORE_STRINGS |
+				   COLLECT_IGNORE_BOOLS,
 				   &nx, &result);
 	if (result)
 		goto out;
@@ -3367,7 +3489,8 @@ gnumeric_intercept (FunctionEvalInfo *ei, Value **argv)
 	return float_range_function2 (argv[1], argv[0],
 				      ei,
 				      range_intercept,
-				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				      COLLECT_IGNORE_STRINGS |
+				      COLLECT_IGNORE_BOOLS,
 				      gnumeric_err_VALUE);
 }
 
@@ -3399,7 +3522,8 @@ gnumeric_slope (FunctionEvalInfo *ei, Value **argv)
 	return float_range_function2 (argv[1], argv[0],
 				      ei,
 				      range_slope,
-				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
+				      COLLECT_IGNORE_STRINGS |
+				      COLLECT_IGNORE_BOOLS,
 				      gnumeric_err_VALUE);
 }
 
@@ -3515,6 +3639,8 @@ void stat_functions_init()
 	function_add_args  (cat, "prob", "AAf|f",
 			    "x_range,prob_range,lower_limit,upper_limit",
 			    &help_prob, gnumeric_prob);
+        function_add_args  (cat, "quartile",    "Af",   "array,quart",
+			    &help_quartile, gnumeric_quartile);
 	function_add_args  (cat, "rank", "fr|f",      "",
 			    &help_rank, gnumeric_rank);
         function_add_args  (cat, "rsq",         "AA",   "array1,array2",

@@ -5,9 +5,9 @@ Jukka:
 	* Implemented MDETERM and MINVERSE matrix functions.
 	* Finished the ROMAN function completing the mathematical
           functions.
-	* Implemented FREQUENCY function.
+	* Implemented DB, DDB, FREQUENCY, QUARTILE, and XNPV functions.
 	* Started the implementation of LINEST and TREND functions.
-	* Fixed DOLLAR and PROB functions.
+	* Fixed DOLLAR, DOLLARDE, DOLLARFR, and PROB functions.
 
 Michael:
 	* Added GUI for Summary Info.

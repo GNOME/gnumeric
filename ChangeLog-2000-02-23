@@ -1,5 +1,11 @@
 1999-08-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
+	* src/fn-financial.c: DDB() implemented.
+
+	* src/fn-stat.c: QUARTILE() implemented.
+	
+1999-08-20  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
 	* po/de.po: Removed the last bogus msgid to make it compile again.
 
 	* src/sheet.c (sheet_insert_object): Added #if ENABLE_BONOBO to
