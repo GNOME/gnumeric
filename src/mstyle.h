@@ -109,7 +109,7 @@ GnmFont          *mstyle_get_font        (const GnmStyle *st,
 					    double zoom);
 void                mstyle_set_format      (GnmStyle *st, GnmFormat *);
 void                mstyle_set_format_text (GnmStyle *st, const char *format);
-GnmFormat        *mstyle_get_format      (const GnmStyle *st);
+GnmFormat          *mstyle_get_format      (const GnmStyle *st);
 void                mstyle_set_align_h     (GnmStyle *st, StyleHAlignFlags a);
 StyleHAlignFlags    mstyle_get_align_h     (const GnmStyle *st);
 void                mstyle_set_align_v     (GnmStyle *st, StyleVAlignFlags a);

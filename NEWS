@@ -15,6 +15,8 @@ Jody:
 	* Use the right font when editing.
 	http://bugzilla.gnome.org/show_bug.cgi?id=127625
 	* kludge around mystery inconsistent autfilters in xls
+	http://bugzilla.gnome.org/show_bug.cgi?id=127734
+	* Modernize the sylk importer
 
 Jukka:
 	* GLPK upgrade to version 4.2

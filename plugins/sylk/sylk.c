@@ -1,13 +1,15 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * sylk.c - file import of SYLK files
- * Copyright 1999 Jeff Garzik <jgarzik@mandrakesoft.com>
  *
- * With some code from:
- * csv-io.c: read sheets using a CSV encoding.
+ * Jody Goldberg   <jody@gnome.org>
+ * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
  *
  * Miguel de Icaza <miguel@gnu.org>
- * Jody Goldberg   <jody@gnome.org>
+ * Based on work by
+ * 	Jeff Garzik <jgarzik@mandrakesoft.com>
+ * With some code from:
+ * 	csv-io.c: read sheets using a CSV encoding.
  */
 
 #include <gnumeric-config.h>
@@ -20,12 +22,21 @@
 #include "cell.h"
 #include "sheet.h"
 #include "value.h"
+#include "expr.h"
+#include "format.h"
+#include "mstyle.h"
+#include "style-border.h"
+#include "style-color.h"
+#include "sheet-style.h"
+#include "number-match.h"
 #include "error-info.h"
 #include "plugin-util.h"
 #include "plugin.h"
 #include "module-plugin-defs.h"
 
 #include <string.h>
+#include <errno.h>
+#include <locale.h>
 #include <stdlib.h>
 #include <gsf/gsf-input-stdio.h>
 #include <gsf/gsf-input-textline.h>
@@ -38,182 +49,196 @@ void     sylk_file_open (GnmFileOpener const *fo, IOContext *io_context,
                          WorkbookView *wb_view, GsfInput *input);
 
 typedef struct {
-	long     picture_idx;
-	unsigned italic : 1;
-	unsigned bold : 1;
-	unsigned grid_top : 1;
-	unsigned grid_bottom : 1;
-	unsigned grid_left : 1;
-	unsigned grid_right : 1;
-} sylk_format_t;
-
-
-typedef struct {
+	IOContext	 *io_context;
 	GsfInputTextline *input;
 	Sheet	 	 *sheet;
+	gboolean	  finished;
 
-	/* SYLK current X/Y pointers (begin at 1) */
-	long cur_x, cur_y;
-
-	/* SYLK maximum dimensions (begin at 1) */
-	long max_x, max_y;
-
-	/* XXX doesn't really belong here at all */
-	GnmValueType val_type;
-	char *val_s;
-	long val_l;
-	double val_d;
-
-	sylk_format_t def_fmt;
-
-	unsigned got_start : 1;
-	unsigned got_end : 1;
-	unsigned show_formulas : 1;		/* sheet-wide */
-	unsigned show_commas : 1;		/* sheet-wide */
-	unsigned hide_rowcol_hdrs : 1;		/* sheet-wide */
-	unsigned hide_def_gridlines : 1;	/* sheet-wide */
+	int col, row;	/* SYLK current X/Y pointers (begin at 1) */
 
 	GIConv          converter;
+	GPtrArray	*formats;
 } SylkReadState;
 
-static size_t
-sylk_next_token_len (const char *line)
+static char *
+sylk_next_token (char *str)
 {
-	size_t len = 0;
+	while (*str)
+		if (str[0] != ';')
+			str++;
+		else if (str[1] == ';')
+			str += 2;
+		else {
+			*str = 0;
+			return str+1;
+		}
 
-	while (1) {
-		if (!*line ||
-		    (*line == ';' && *(line + 1) != ';'))
-			break;
-
-		len++;
-		line++;
-
-		g_assert (len < 10000);
-	}
-
-	return len;
+	return str;
 }
 
+static char *
+sylk_parse_string (char const *str)
+{
+	GString *accum = g_string_new (NULL);
+	gboolean ignore_trailing_quote = (*str == '\"');
+
+	if (ignore_trailing_quote)
+		str++;
+
+	while (*str) {
+		/* This is UTF-8 safe as long as ';' is ASCII.  */
+		if (ignore_trailing_quote && str[0] == '"' && str[1] == '\0')
+			break;
+		else if (str[0] != ';')
+			g_string_append_c (accum, *str++);
+		else if (str[1] == ';') {
+			g_string_append_c (accum, ';');
+			str += 2;
+		} else
+			break;
+	}
+
+	return g_string_free (accum, FALSE);
+}
+
+static gboolean
+sylk_parse_int (char const *str, int *res)
+{
+	char *end;
+	long l;
+
+	errno = 0; /* strtol sets errno, but does not clear it.  */
+	l = strtol (str, &end, 10);
+	if (str != end && errno != ERANGE) {
+		*res = l;
+		return TRUE;
+	}
+	return FALSE;
+}
+
+static GnmValue *
+sylk_parse_value (SylkReadState *state, char const *str)
+{
+	GnmValue *val = format_match_simple (str);
+	if (val != NULL)
+		return val;
+	return value_new_string_nocopy (sylk_parse_string (str));
+}
+
+static GnmExpr *
+sylk_parse_expr (SylkReadState *state, char const *str)
+{
+	g_print ("%s\n", str);
+	return NULL;
+}
 
 static void
-sylk_parse_value (SylkReadState *state, const char *str,
-		  size_t *len)
+sylk_parse_comment (SylkReadState *state, char const *str)
 {
-	const char *s;
-
-	state->val_type = VALUE_EMPTY;
-	if (state->val_s) {
-		g_free (state->val_s);
-		state->val_s = NULL;
-	}
-
-	*len = sylk_next_token_len (str);
-
-	/* error strings start with '#' */
-	if (*str == '#') {
-		/* ignore for now */
-		state->val_type = VALUE_EMPTY;
-		return;
-	}
-
-	/* remaining non-strings, floats and ints */
-	else if (*str != '"') {
-		/* floats */
-		if (strchr (str, '.')) {
-			state->val_type = VALUE_FLOAT;
-			state->val_d = g_strtod (str, NULL);
-		}
-
-		/* ints */
-		else {
-			state->val_type = VALUE_INTEGER;
-			state->val_l = strtol (str, NULL, 10);
-		}
-
-		return;
-	}
-
-	/* boolean values */
-	else if (!strcmp (str,"\"TRUE\"") ||
-		 !strcmp (str,"\"FALSE\"")) {
-		state->val_type = VALUE_BOOLEAN;
-		state->val_l = (strcmp(str,"\"TRUE\"") == 0 ? TRUE : FALSE);
-		return;
-	}
-
-	/* the remaining case: strings */
-
-	state->val_type = VALUE_STRING;
-	*len = 1;
-	str++;
-
-	/* XXX does not handle " inside of quoted string */
-	s = strchr (str, '"');
-	if (!s) {
-		state->val_s = g_strdup (str);
-		*len += strlen (str);
-	} else {
-		*len += (s - str + 1);
-		state->val_s = g_strndup (str, (*len) - 2);
-	}
 }
 
-
 static gboolean
-sylk_rtd_c_parse (SylkReadState *state, const char *str)
+sylk_rtd_c_parse (SylkReadState *state, char *str)
 {
-	size_t len;
+	GnmValue *val = NULL;
+	GnmExpr  *expr = NULL;
+	gboolean is_array = FALSE;
+	int r = -1, c = -1;
+	char *next;
 
-	len = sylk_next_token_len (str);
-	while (str && *str && len > 0) {
+	for (; *str != '\0' ; str = next) {
+		next = sylk_next_token (str);
 		switch (*str) {
-			case 'K':
-				str++;
-				sylk_parse_value (state, str, &len);
-				break;
-			case 'X':
-				state->cur_x = strtol (str + 1, NULL, 10);
-				break;
-			case 'Y':
-				state->cur_y = strtol (str + 1, NULL, 10);
-				break;
-			default:
-				/* do nothing */
-				break;
-		}
+		case 'X': sylk_parse_int (str+1, &state->col); break;
+		case 'Y': sylk_parse_int (str+1, &state->row); break;
 
-		str += (len + 1);
-		len = sylk_next_token_len (str);
+		case 'K': /* ;K value: Value of the cell. */
+			if (val != NULL) {
+				g_warning ("Multiple values");
+				value_release (val);
+				val = NULL;
+			}
+			val = sylk_parse_value (state, str+1);
+			break;
+
+		case 'E':
+			if (expr != NULL) {
+				g_warning ("Multiple expressions");
+				gnm_expr_unref (expr);
+				expr = NULL;
+			}
+			expr = sylk_parse_expr (state, str+1);
+			break;
+		case 'M' : /* ;M exp: Expression stored with UL corner of matrix (;R ;C defines
+		  the lower right corner).  If the ;M field is supported, the
+		  ;K record is ignored.  Note that no ;E field is written. */
+			if (expr != NULL) {
+				g_warning ("Multiple expressions");
+				gnm_expr_unref (expr);
+				expr = NULL;
+			}
+			expr = sylk_parse_expr (state, str+1);
+			is_array = TRUE;
+			break;
+
+		case 'I' : /* ;I: Inside a matrix or table (at row ;R, col ;C) C record for UL
+		      corner must precede this record.  Note that any ;K field is
+		      ignored if the ;I field is supported.  No ;E field is written
+		      out. */
+			is_array = TRUE;
+			break;
+		case 'C' : sylk_parse_int (str+1, &c); break;
+		case 'R' : sylk_parse_int (str+1, &r); break;
+
+		case 'A' : /* ;Aauthor:^[ :text 1) till end of line 2) excel extension */
+			sylk_parse_comment (state, str+1);
+			break;
+
+		case 'G' : /* ;G: Defines shared value (may not have an ;E for this record). */
+		case 'D' : /* ;D: Defines shared expression. */
+		case 'S' : /* ;S: Shared expression/value given at row ;R, col ;C.  C record
+		  for ;R, ;C must precede this one.  Note that no ;E or ;K
+		  fields are written here (not allowed on Excel macro sheets). */
+
+		case 'N' : /* ;N: Cell NOT protected/locked (if ;N present in ;ID record). */
+		case 'P' : /* ;P: Cell protected/locked (if ;N not present in ;ID record).
+		  Note if this occurs for any cell, we protect the entire
+		  sheet. */
+
+		case 'H' : /* ;H: Cell hidden. */
+
+		case 'T' : /* ;Tref,ref: UL corner of table (;R ;C defines the lower left
+		  corner).  Note that the defined rectangle is the INSIDE of
+		  the table only.  Formulas and input cells are above and to
+		  the left of this rectangle.  The row and column input cells
+		  are given in by the two refs (possibly only one).  Note that
+		  Excel's input refs are single cells only. */
+
+		default:
+			break;
+		}
 	}
 
-	if (state->val_type != VALUE_EMPTY) {
-		GnmCell *cell = sheet_cell_fetch (state->sheet, state->cur_x - 1,
-					       state->cur_y - 1);
-		g_assert (cell);
+	if (val != NULL || expr != NULL) {
+		GnmCell *cell = sheet_cell_fetch (state->sheet,
+			state->col - 1, state->row - 1);
 
-		if (state->val_type == VALUE_STRING)
-			cell_set_text (cell, state->val_s);
+		if (val != NULL) {
+			GnmStyle *style = sheet_style_get (state->sheet,
+				state->col - 1, state->row - 1);
+			value_set_fmt (val, mstyle_get_format (style));
+		}
 
-		else {
-			GnmValue *v;
-
-			if (state->val_type == VALUE_FLOAT)
-				v = value_new_float (state->val_d);
-			else if (state->val_type == VALUE_BOOLEAN)
-				v = value_new_bool (state->val_l);
+		if (expr != NULL) {
+			if (val != NULL)
+				cell_set_expr_and_value (cell, expr, val, TRUE);
 			else
-				v = value_new_int (state->val_l);
-
-			g_assert (v);
-			cell_set_value (cell, v);
-		}
-	}
-
-	state->val_type = VALUE_EMPTY;
-	if (state->val_s) {
-		g_free (state->val_s);
-		state->val_s = NULL;
+				cell_set_expr (cell, expr);
+			gnm_expr_unref (expr);
+		} else if (is_array)
+			cell_assign_value (cell, val);
+		else
+			cell_set_value (cell, val);
 	}
 
 	return TRUE;
@@ -221,95 +246,161 @@ sylk_rtd_c_parse (SylkReadState *state, const char *str)
 
 
 static gboolean
-sylk_rtd_f_parse (SylkReadState *state, const char *str)
+sylk_rtd_p_parse (SylkReadState *state, char *str)
 {
-	size_t len;
+	char *next, *tmp;
 
-	len = sylk_next_token_len (str);
-	while (str && *str && len > 0) {
+	for (; *str != '\0' ; str = next) {
+		next = sylk_next_token (str);
 		switch (*str) {
-			case 'E':
-				state->show_formulas = TRUE;
-				break;
-			case 'G':
-				state->hide_def_gridlines = TRUE;
-				break;
-			case 'H':
-				state->hide_rowcol_hdrs = TRUE;
-				break;
-			case 'K':
-				state->show_commas = TRUE;
-				break;
-			case 'P':
-				state->def_fmt.picture_idx = atol (str + 1);
-				break;
-			case 'S':
-				str++;
-				switch (*str) {
-					case 'I':
-						state->def_fmt.italic = TRUE;
-						break;
-					case 'D':
-						state->def_fmt.bold = TRUE;
-						break;
-					case 'T':
-						state->def_fmt.grid_top = TRUE;
-						break;
-					case 'L':
-						state->def_fmt.grid_bottom = TRUE;
-						break;
-					case 'B':
-						state->def_fmt.grid_left = TRUE;
-						break;
-					case 'R':
-						state->def_fmt.grid_right = TRUE;
-						break;
-					default:
-						g_warning ("unhandled style S%c.", *str);
-						break;
-				}
-				str--;
-				break;
-			case 'X':
-				state->cur_x = atoi (str + 1);
-				break;
-			case 'Y':
-				state->cur_y = atoi (str + 1);
-				break;
-			default:
-				g_warning ("unhandled F option %c.", *str);
-				break;
+		case 'P' : /* format */
+			tmp = sylk_parse_string (str+1);
+			g_ptr_array_add (state->formats,
+				style_format_new_XL (tmp, FALSE));
+			g_free (tmp);
+			break;
+
+		case 'E' : /* font name */
+		case 'F' : /* font name */
+			tmp = sylk_parse_string (str+1);
+			g_print ("FONT = %s\n", tmp);
+			g_free (tmp);
+			break;
+		case 'M' : /* font size */
+			break;
+
+		default :
+			break;
 		}
-
-		str += (len + 1);
-		len = sylk_next_token_len (str);
 	}
-
 	return TRUE;
 }
 
-
 static gboolean
-sylk_rtd_b_parse (SylkReadState *state, const char *str)
+sylk_rtd_o_parse (SylkReadState *state, char *str)
 {
-	size_t len;
+	char *next;
 
-	len = sylk_next_token_len (str);
-	while (str && *str && len > 0) {
+	for (; *str != '\0' ; str = next) {
+		next = sylk_next_token (str);
 		switch (*str) {
-			case 'X':
-				state->max_x = atoi (str + 1);
-				break;
-			case 'Y':
-				state->max_y = atoi (str + 1);
-				break;
-			default:
-				/* do nothing */
-				break;
-		}
+		case 'A' : /* ;A cIter numDelta: Iteration on.  The parameters are not used by
+		    plan but are for Excel. */
 
-		str += (len + 1);
-		len = sylk_next_token_len (str);
+		case 'C' : /* ;C: Completion test at current cell. */
+		case 'E' : /* ;E: Macro (executable) sheet.  Note that this should appear
+		    before the first occurance of ;G or ;F field in an NN record
+		    (otherwise not enabled in Excel).  Also before first C record
+		    which uses a macro-only function. */
+		case 'L' : /* ;L: Use A1 mode references (R1C1 always used in SYLK file expressions). */
+		case 'M' : /* ;M: Manual recalc. */
+		case 'P' : /* ;P: Sheet is protected (but no password). */
+		case 'R' : /* ;R: Precision as formated (!fPrec). */
+			break;
+
+		default :
+			break;
+		}
+	}
+	return TRUE;
+}
+
+static gboolean
+sylk_rtd_f_parse (SylkReadState *state, char *str)
+{
+	GnmStyle *style = NULL;
+	MStyleElementType border = MSTYLE_ELEMENT_UNSET;
+	char *next;
+	int tmp;
+
+	for (; *str != '\0' ; str = next) {
+		next = sylk_next_token (str);
+		switch (*str) {
+		case 'D':
+		case 'F':
+			break;
+
+		/* Globals */
+		case 'E':
+			state->sheet->display_formulas = TRUE;
+			break;
+		case 'G':
+			state->sheet->hide_grid = TRUE;
+			break;
+		case 'H':
+			state->sheet->hide_col_header = TRUE;
+			state->sheet->hide_row_header = TRUE;
+			break;
+		case 'K': /* show commas ?? */
+			break;
+
+		case 'P':
+			if (sylk_parse_int (str+1, &tmp) &&
+			    0 <= tmp && tmp < (int)state->formats->len) {
+				if (style == NULL)
+					style = mstyle_new_default ();
+				mstyle_set_format (style,
+					g_ptr_array_index (state->formats, tmp));
+			}
+			break;
+
+		case 'S':
+			switch (str[1]) {
+			case 'I':
+				if (style == NULL)
+					style = mstyle_new_default ();
+				mstyle_set_font_italic (style, TRUE);
+				break;
+
+			case 'D':
+				if (style == NULL)
+					style = mstyle_new_default ();
+				mstyle_set_font_bold (style, TRUE);
+				break;
+
+			case 'T': border = MSTYLE_BORDER_TOP; break;
+			case 'L': border = MSTYLE_BORDER_LEFT; break;
+			case 'B': border = MSTYLE_BORDER_BOTTOM; break;
+			case 'R': border = MSTYLE_BORDER_RIGHT; break;
+
+			default:
+				g_warning ("unhandled style S%c.", str[1]);
+				break;
+			}
+			break;
+
+		case 'W': {
+			int first, last, width;
+			if (3 == sscanf (str+1, "%d %d %d", &first, &last, &width)) {
+				/* width seems to be in characters */
+				if (first <= last && first < SHEET_MAX_COLS && last < SHEET_MAX_COLS)
+					while (first <= last)
+						sheet_col_set_size_pixels (state->sheet,
+							first++ - 1, width*7.45, TRUE);
+			}
+			break;
+		}
+		case 'X': sylk_parse_int (str+1, &state->col); break;
+		case 'Y': sylk_parse_int (str+1, &state->row); break;
+		default:
+			g_warning ("unhandled F option %c.", *str);
+			break;
+		}
+		if (border != MSTYLE_ELEMENT_UNSET) {
+			if (style == NULL)
+				style = mstyle_new_default ();
+			mstyle_set_border (style, border,
+				style_border_fetch (STYLE_BORDER_THIN,
+					style_color_black (),
+					style_border_get_orientation (border - MSTYLE_BORDER_TOP)));
+		}
+	}
+
+	if (style != NULL)  {
+#if 0
+		g_warning ("formatting %s", cell_coord_name (state->col-1, state->row-1));
+#endif
+		sheet_style_set_pos (state->sheet, state->col-1, state->row-1, style);
 	}
 
 	return TRUE;
@@ -317,41 +408,39 @@ sylk_rtd_b_parse (SylkReadState *state, const char *str)
 
 
 static gboolean
-sylk_rtd_e_parse (SylkReadState *state, const char *str)
+sylk_rtd_ignore (SylkReadState *state, char *str)
 {
-	state->got_end = TRUE;
 	return TRUE;
 }
-
 
 static gboolean
-sylk_rtd_id_parse (SylkReadState *state, const char *str)
+sylk_rtd_e_parse (SylkReadState *state, char *str)
 {
-	state->got_start = TRUE;
+	state->finished = TRUE;
 	return TRUE;
 }
-
 
 static gboolean
 sylk_parse_line (SylkReadState *state, char *buf)
 {
-	static const struct {
+	static struct {
 		char const *name;
-		gboolean (*handler) (SylkReadState *state, const char *str);
-	} sylk_rtd_list[] = {
-		{ "B;",  sylk_rtd_b_parse },
-		{ "C;",  sylk_rtd_c_parse },
-		{ "E;",  sylk_rtd_e_parse },
-		{ "F;",  sylk_rtd_f_parse },
-		{ "ID;", sylk_rtd_id_parse },
+		unsigned name_len;
+		gboolean (*handler) (SylkReadState *state, char *str);
+	} const sylk_rtd_list[] = {
+		{ "B;",  2, sylk_rtd_ignore }, /* we do not need it */
+		{ "C;",  2, sylk_rtd_c_parse },
+		{ "E",   1, sylk_rtd_e_parse },
+		{ "F;",  2, sylk_rtd_f_parse },
+		{ "P;",  2, sylk_rtd_p_parse },
+		{ "O;",  2, sylk_rtd_o_parse },
+		{ "ID;", 3, sylk_rtd_ignore },	 /* who cares */
 	};
 	unsigned i;
 
 	for (i = 0; i < G_N_ELEMENTS (sylk_rtd_list); i++)
-		if (strncmp (sylk_rtd_list [i].name, buf,
-			     strlen (sylk_rtd_list [i].name)) == 0) {
-			sylk_rtd_list [i].handler (state,
-				buf + strlen (sylk_rtd_list [i].name));
+		if (strncmp (sylk_rtd_list [i].name, buf, sylk_rtd_list [i].name_len) == 0) {
+			(sylk_rtd_list [i].handler) (state, buf + sylk_rtd_list [i].name_len);
 			return TRUE;
 		}
 
@@ -373,7 +462,8 @@ sylk_parse_sheet (SylkReadState *state, ErrorInfo **ret_error)
 		return;
 	}
 
-	while ((buf = gsf_input_textline_ascii_gets (state->input)) != NULL) {
+	while (!state->finished &&
+	       (buf = gsf_input_textline_ascii_gets (state->input)) != NULL) {
 		char *utf8buf;
 		g_strchomp (buf);
 
@@ -397,27 +487,43 @@ sylk_file_open (GnmFileOpener const *fo,
 {
 	SylkReadState state;
 	char const *input_name;
-	char *name, *base;
+	char *base;
+	int i;
 	Workbook *book = wb_view_workbook (wb_view);
 	ErrorInfo *sheet_error;
+	char *old_num_locale, *old_monetary_locale;
 
 	input_name = gsf_input_name (input);
 	if (input_name == NULL)
 		input_name = "";
 	base = g_path_get_basename (input_name);
-	name = g_strdup_printf (_("Imported %s"), base);
 
 	memset (&state, 0, sizeof (state));
+	state.io_context = io_context;
 	state.input = gsf_input_textline_new (input);
-	state.sheet = sheet_new (book, name);
-	state.cur_x = state.cur_y = 1;
-	state.converter	 = g_iconv_open ("UTF-8", "ISO-8859-1");
+	state.sheet = sheet_new (book, base);
+	state.col = state.row = 1;
+	state.converter = g_iconv_open ("UTF-8", "ISO-8859-1");
+	state.formats	= g_ptr_array_new ();
+	state.finished = FALSE;
 
 	workbook_sheet_attach (book, state.sheet, NULL);
-	g_free (name);
 	g_free (base);
 
+	old_num_locale = g_strdup (gnm_setlocale (LC_NUMERIC, NULL));
+	gnm_setlocale (LC_NUMERIC, "C");
+	old_monetary_locale = g_strdup (gnm_setlocale (LC_MONETARY, NULL));
+	gnm_setlocale (LC_MONETARY, "C");
+	gnm_set_untranslated_bools ();
+
 	sylk_parse_sheet (&state, &sheet_error);
+
+	/* gnm_setlocale restores bools to locale translation */
+	gnm_setlocale (LC_MONETARY, old_monetary_locale);
+	g_free (old_monetary_locale);
+	gnm_setlocale (LC_NUMERIC, old_num_locale);
+	g_free (old_num_locale);
+
 	if (sheet_error != NULL)
 		gnumeric_io_error_info_set (io_context,
 		                            error_info_new_str_with_details (
@@ -425,6 +531,10 @@ sylk_file_open (GnmFileOpener const *fo,
 		                            sheet_error));
 	g_object_unref (G_OBJECT (state.input));
 	gsf_iconv_close (state.converter);
+	for (i = state.formats->len ; i-- > 0 ; )
+		style_format_unref (g_ptr_array_index (state.formats, i));
+
+	g_ptr_array_free (state.formats, TRUE);
 }
 
 gboolean

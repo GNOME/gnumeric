@@ -804,7 +804,7 @@ find_matching_close (char const *str, char const **res)
 		} else if (*str == ')')
 			return str;
 		else if (*str == '\'' || *str == '\"') {
-			GString *dummy = g_string_new ("");
+			GString *dummy = g_string_new (NULL);
 			char const *end = gnm_strunescape (dummy, str);
 			g_string_free (dummy, TRUE);
 			if (end == NULL)
@@ -1141,8 +1141,8 @@ yylex (void)
 		/* Fall through */
 	case '\'':
 	case '"': {
-		GString *s = g_string_new ("");
-		const char *end = gnm_strunescape (s, start);
+		GString *s = g_string_new (NULL);
+		char const *end = gnm_strunescape (s, start);
 
 		if (end == NULL) {
 			size_t len = strlen (start);
@@ -1209,7 +1209,7 @@ yylex (void)
 }
 
 int
-yyerror (const char *s)
+yyerror (char const *s)
 {
 #if 0
 	printf ("Error: %s\n", s);

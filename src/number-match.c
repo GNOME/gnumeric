@@ -610,15 +610,13 @@ format_match_create (GnmFormat *fmt)
  * returns : an error if there is one, or NULL.
  */
 static GnmValue *
-value_is_error (char const * const str)
+value_is_error (char const *str)
 {
 	GnmStdError e;
 
-	for (e = (GnmStdError)0; e < GNM_ERROR_UNKNOWN; e++) {
-		const char *name = value_error_name (e, TRUE);
-		if (strncmp (str, name, strlen (name)) == 0)
+	for (e = (GnmStdError)0; e < GNM_ERROR_UNKNOWN; e++)
+		if (0 == strcmp (str, value_error_name (e, TRUE)))
 			return value_new_error_std (NULL, e);
-	}
 
 	return NULL;
 }

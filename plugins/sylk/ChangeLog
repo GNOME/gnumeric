@@ -1,3 +1,10 @@
+2003-12-17  Jody Goldberg <jody@gnome.org>
+
+	* sylk.c : Major rewrite to support escaping some formatting, and full
+	  values.  EXpressions still pending support for R1C1 style
+	  references.
+	(sylk_file_open) : move back to locale C while parsing.
+
 2003-11-26  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.2
@@ -251,7 +258,7 @@
 
 2000-12-7  Jody Goldberg <jgoldberg@home.com>
 
-        * Release 0.60
+	* Release 0.60
 
 2000-11-18  Jody Goldberg <jgoldberg@home.com>
 
@@ -259,7 +266,7 @@
 
 2000-11-13  Jody Goldberg <jgoldberg@home.com>
 
-        * Release 0.58
+	* Release 0.58
 
 2000-10-30  Jody Goldberg <jgoldberg@home.com>
 
@@ -268,19 +275,19 @@
 
 2000-10-10  Jody Goldberg <jgoldberg@home.com>
 
-        * Release 0.57
+	* Release 0.57
 
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
-        * Release 0.56
+	* Release 0.56
 
 2000-06-18  Jody Goldberg <jgoldberg@home.com>
 
-        * Release 0.55
+	* Release 0.55
 
 2000-05-20  Jody Goldberg <jgoldberg@home.com>
 
-        * Release 0.54
+	* Release 0.54
 
 2000-05-09  Jody Goldberg <jgoldberg@home.com>
 
@@ -306,7 +313,7 @@
 
 1999-11-21  Jeff Garzik  <jgarzik@mandrakesoft.com>
  
-        * sylk.c (sylk_cleanup_plugin): free pd->title
+	* sylk.c (sylk_cleanup_plugin): free pd->title
 
 1999-11-19  Jeff Garzik  <jgarzik@mandrakesoft.com>
 
