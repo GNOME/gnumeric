@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: J.H.M. Dassen (Ray) <jdassen@debian.org>
 Build-Depends: debhelper (>= 3.0), gettext, bison, flex, docbook-utils,
  gnome-doc-tools, scrollkeeper,
- libglib2.0-dev (>= 2.0.6-1), libgsf-1-dev (>= 1.5.0-0),
+ libglib2.0-dev (>= 2.0.6-1), libgsf-1-dev (>= 1.6.0-0),
  libgtk2.0-dev (>= 2.0.6-1), libxml2-dev (>= 2.4.23-2),
  libglade2-dev (>= 2.0.0-2), libgnomecanvas2-dev (>= 2.0.2-1),
  libgal2-0-dev (>= 0.0.7-1), 

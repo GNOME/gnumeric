@@ -1,8 +1,34 @@
-gnumeric (1.1.11-2) experimental; urgency=low
+gnumeric (1.1.16-0) experimental; urgency=low
 
   * UNRELEASED
 
  -- <not_a_debian_release>  Fri,  1 Nov 2002 20:51:35 +0100
+
+gnumeric (1.1.15-1) experimental; urgency=low
+
+  * New upstream development release.
+  * Updated build dependencies.
+  * gnumeric-gda is now broken: this release of gnumeric needs an unreleased 
+    and unpackaged version of libgda.
+  * [debian/gnome-gnumeric.xpm] Replaced by one that uses the menu system's
+    color map.
+  * [debian/rules] Configure --libexecdir=/usr/bin .
+  * [debian/gnumeric-doc.dirs] Removed HTML dir as the documentation is now
+    distributed in DocBook XML.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Wed,  1 Jan 2003 12:24:38 +0100
+
+gnumeric (1.1.14-1) experimental; urgency=low
+
+  * New upstream development release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 24 Dec 2002 11:20:33 +0100
+
+gnumeric (1.1.13-1) experimental; urgency=low
+
+  * New upstream development release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Fri, 15 Nov 2002 13:04:15 +0100
 
 gnumeric (1.1.12-1) experimental; urgency=low
 
