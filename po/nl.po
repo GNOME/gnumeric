@@ -1209,7 +1209,7 @@ msgstr "Invoegen %d rij voor %d"
 #: src/commands.c:953
 #, c-format
 msgid "Deleting %d columns %s:"
-msgstr "Verwijderen % kolommen %s:"
+msgstr "Verwijderen %d kolommen %s:"
 
 #: src/commands.c:958
 #, c-format
@@ -3876,7 +3876,6 @@ msgstr "_Bestands Details"
 #. * DO NOT compile this file as part of your application.
 #.
 #: po/tmp/print.glade.h:6
-#, c-format
 msgid "% of normal size"
 msgstr "% van normale grootte"
 

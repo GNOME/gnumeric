@@ -1831,27 +1831,22 @@ msgid "$"
 msgstr "$"
 
 #: po/tmp/cell-format.glade.h:7
-#, c-format
 msgid "12.5% Grey"
 msgstr "12.5% グレー"
 
 #: po/tmp/cell-format.glade.h:8
-#, c-format
 msgid "25% Grey"
 msgstr "25% グレー"
 
 #: po/tmp/cell-format.glade.h:9
-#, c-format
 msgid "50% Grey"
 msgstr "50% グレー"
 
 #: po/tmp/cell-format.glade.h:10
-#, c-format
 msgid "6.25% Grey"
 msgstr "6.25% グレー"
 
 #: po/tmp/cell-format.glade.h:11
-#, c-format
 msgid "75% Grey"
 msgstr "75% グレー"
 
@@ -3115,9 +3110,8 @@ msgid "%c"
 msgstr "%c"
 
 #: src/dialogs/dialog-plugin-manager.c:113
-#, c-format
 msgid "Modified: %s"
-msgstr "最終変更:"
+msgstr "最終変更: %s"
 
 #: src/dialogs/dialog-printer-setup.c:965
 msgid "Custom header configuration"
@@ -3851,7 +3845,6 @@ msgstr "ファイル詳細 (_F)"
 #. * DO NOT compile this file as part of your application.
 #.
 #: po/tmp/print.glade.h:6
-#, c-format
 msgid "% of normal size"
 msgstr "% 標準サイズ"
 
@@ -13716,7 +13709,7 @@ msgid "unable to open module file \"%s\": %s"
 msgstr "モジュールファイルを開けません\"%s\": %s"
 
 #: src/plugin.c:130
-#, c-format
+#, fuzzy, c-format
 msgid "Plugin \"%s\" doesn't contain init_plugin function."
 msgstr "プラグインには init_plugin 関数が含まれていません。"
 

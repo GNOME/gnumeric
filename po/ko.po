@@ -1906,27 +1906,22 @@ msgid "$"
 msgstr ""
 
 #: po/tmp/cell-format.glade.h:7
-#, c-format
 msgid "12.5% Grey"
 msgstr "12.5% 회색"
 
 #: po/tmp/cell-format.glade.h:8
-#, c-format
 msgid "25% Grey"
 msgstr "25% 회색"
 
 #: po/tmp/cell-format.glade.h:9
-#, c-format
 msgid "50% Grey"
 msgstr "50% 회색"
 
 #: po/tmp/cell-format.glade.h:10
-#, c-format
 msgid "6.25% Grey"
 msgstr "6.25% 회색"
 
 #: po/tmp/cell-format.glade.h:11
-#, fuzzy, c-format
 msgid "75% Grey"
 msgstr "75% 회색"
 

@@ -2883,6 +2883,7 @@ int histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin
 	set_cell (dao, 0, 0, _("Bin"));
 	set_cell (dao, 1, 0, _("Frequency"));
 	if (percentage)
+		/* xgettext:no-c-format */
 	        set_cell (dao, ++i, 0, _("Cumulative %"));
 
 	set_italic (dao, 0, 0, i, 0);

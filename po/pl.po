@@ -1,4 +1,6 @@
-#, fuzzy
+#
+# GNOME PL Team <translators@gnome.pl>
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
@@ -1760,27 +1762,22 @@ msgid "$"
 msgstr "$"
 
 #: po/tmp/cell-format.glade.h:1
-#, c-format
 msgid "12.5% Grey"
 msgstr "12.5% szaro¶ci"
 
 #: po/tmp/cell-format.glade.h:1
-#, c-format
 msgid "25% Grey"
 msgstr "25% szaro¶ci"
 
 #: po/tmp/cell-format.glade.h:1
-#, c-format
 msgid "50% Grey"
 msgstr "50% szaro¶ci"
 
 #: po/tmp/cell-format.glade.h:1
-#, c-format
 msgid "6.25% Grey"
 msgstr "6.25% szaro¶ci"
 
 #: po/tmp/cell-format.glade.h:1
-#, c-format
 msgid "75% Grey"
 msgstr "75% szaro¶ci"
 
@@ -3831,7 +3828,6 @@ msgstr "Wy¶wietl informacje o wtyczce"
 #. * DO NOT compile this file as part of your application.
 #.
 #: po/tmp/print.glade.h:1
-#, c-format
 msgid "% of normal size"
 msgstr "% zwyk³ego rozmiaru"
 

@@ -760,7 +760,7 @@ msgstr "Korrelationer"
 #: src/analysis-tools.c:2409 src/analysis-tools.c:2572
 #, c-format
 msgid "Column %d"
-msgstr "Kolumn %s"
+msgstr "Kolumn %d"
 
 #: src/analysis-tools.c:508 src/analysis-tools.c:509 src/analysis-tools.c:659
 #: src/analysis-tools.c:660 src/analysis-tools.c:2296
@@ -3145,7 +3145,7 @@ msgstr "Filnamn:"
 #: src/dialogs/dialog-plugin-manager.c:95
 #, c-format
 msgid "File name: %s"
-msgstr "Filnamn: %"
+msgstr "Filnamn: %s"
 
 #: src/dialogs/dialog-plugin-manager.c:100 src/dialogs/font-sel.glade.h:10
 #: src/dialogs/plugin-manager.glade.h:12
@@ -3906,7 +3906,6 @@ msgstr "_Fildetaljer"
 #. * DO NOT compile this file as part of your application.
 #.
 #: src/dialogs/print.glade.h:6
-#, c-format
 msgid "% of normal size"
 msgstr "% av normalstorlek"
 
