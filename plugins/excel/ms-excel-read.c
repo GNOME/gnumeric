@@ -1438,6 +1438,7 @@ ms_excel_get_style_from_xf (ExcelSheet *esheet, guint16 xfidx)
 	mstyle_set_align_v   (mstyle, xf->valign);
 	mstyle_set_align_h   (mstyle, xf->halign);
 	mstyle_set_wrap_text (mstyle, xf->wrap_text);
+	mstyle_set_shrink_to_fit (mstyle, xf->shrink_to_fit);
 	mstyle_set_indent    (mstyle, xf->indent);
 	/* mstyle_set_orientation (mstyle, ); */
 
@@ -1790,24 +1791,16 @@ biff_xf_data_new (BiffQuery *q, ExcelWorkbook *wb, MsBiffVersion ver)
 	}
 
 	if (ver >= MS_BIFF_V8) {
+		guint16 const data = GSF_LE_GET_GUINT16 (q->data + 8);
+
 		/* FIXME: This code seems irrelevant for merging.
 		 * The undocumented record MERGECELLS appears to be the correct source.
 		 * Nothing seems to set the merge flags.
 		 */
-		static gboolean shrink_warn = TRUE;
-
-		/* FIXME: What are the lower 8 bits Always 0?  */
-		/* We need this to be able to support travel.xls */
-		guint16 const data = GSF_LE_GET_GUINT16 (q->data + 8);
-		gboolean const shrink = (data & 0x10) ? TRUE : FALSE;
 		/* gboolean const merge = (data & 0x20) ? TRUE : FALSE; */
 
 		xf->indent = data & 0x0f;
-
-		if (shrink && shrink_warn) {
-			shrink_warn = FALSE;
-			g_warning ("EXCEL: Shrink to fit is not supported yet.");
-		}
+		xf->shrink_to_fit = (data & 0x10) ? TRUE : FALSE;
 
 		subdata = (data & 0x00C0) >> 10;
 		switch (subdata) {
@@ -2560,15 +2553,17 @@ ms_excel_parse_NAME (ExcelWorkbook *ewb, int sheet_index,
 		     char *name, guint8 const *expr_data, unsigned expr_len)
 {
 	ParsePos pp;
-	GnmExpr const *expr;
+	GnmExpr const *expr = NULL;
 	GnmNamedExpr *nexpr;
 	char const *err = NULL;
 
 	/* I think it is ok to pass sheet = NULL */
-	expr = ms_excel_parse_formula (ewb, NULL, 0, 0,
-				       expr_data, expr_len, FALSE, NULL);
+	if (expr_len != 0)
+		expr = ms_excel_parse_formula (ewb, NULL, 0, 0,
+			expr_data, expr_len, FALSE, NULL);
 	if (expr == NULL)
-		expr = gnm_expr_new_constant (value_new_error (NULL, gnumeric_err_REF));
+		expr = gnm_expr_new_constant (value_new_error (NULL,
+			gnumeric_err_REF));
 
 	parse_pos_init (&pp, ewb->gnum_wb, NULL, 0, 0);
 	if (sheet_index > 0)
@@ -2642,6 +2637,7 @@ ms_excel_read_NAME (BiffQuery *q, ExcelWorkbook *ewb)
 				expr_name_ref (nexpr);
 		}
 	} else if (NULL != (name = biff_get_text (ptr, name_len, NULL))) {
+
 		/* Versions of XL <= Excel5 had boundsheet records after the
 		 * name declarations.  Without those we do not know how many
 		 * sheets there are and can not create them effectively.

@@ -35,6 +35,7 @@ typedef struct _BiffXFData {
 	StyleHAlignFlags halign;
 	StyleVAlignFlags valign;
 	gboolean wrap_text;
+	gboolean shrink_to_fit;
 	guint8 rotation;
 	int indent;
 	StyleOrientation orientation;

@@ -1,9 +1,11 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * expr-name.c:  Workbook name table support, will deal
- *               with all the exotic special names.
+ * expr-name.c: Supported named expressions
  *
  * Author:
+ *    Jody Goldberg <jody@gnome.org>
+ *
+ * Based on work by:
  *    Michael Meeks <michael@ximian.com>
  */
 

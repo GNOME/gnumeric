@@ -431,6 +431,22 @@ expr_tree_string (char const *str)
 {
 	return gnm_expr_new_constant (value_new_string (str));
 }
+static GnmExpr const *
+expr_tree_error (ExcelSheet const *esheet, int col, int row,
+		 char const *msg, char const *str)
+{
+	if (esheet != NULL && esheet->gnum_sheet != NULL) {
+		g_warning ("%s!%s : %s",
+			   esheet->gnum_sheet->name_unquoted,
+			   cell_coord_name (col, row), msg);
+	} else if (col >= 0 && row >= 0) {
+		g_warning ("%s : %s", cell_coord_name (col, row), msg);
+	} else {
+		g_warning ("%s", msg);
+	}
+
+	return gnm_expr_new_constant (value_new_error (NULL, str));
+}
 
 /**
  *  A useful routine for extracting data from a common
@@ -538,8 +554,9 @@ parse_list_pop (GnmExprList **list)
 		return ans;
 	}
 
-	puts ("Incorrect number of parsed formula arguments");
-	return expr_tree_string ("WrongArgs");
+	return expr_tree_error (NULL, -1, -1,
+		"Incorrect number of parsed formula arguments",
+		"#WrongArgs");
 }
 
 /**
@@ -954,25 +971,29 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 			break;
 		}
 		case FORMULA_PTG_STR: {
-			char *str;
-			guint32 len;
-/*			gsf_mem_dump (mem, length);*/
+			char *str = NULL;
+			int len;
 			if (ver >= MS_BIFF_V8) {
-				str = biff_get_text (cur+2, GSF_LE_GET_GUINT16(cur), &len);
-				ptg_length = 2 + len;
+				len = GSF_LE_GET_GUINT16 (cur);
+				if (len <= len_left) {
+					str = biff_get_text (cur+2, len, &len);
+					ptg_length = 2 + len;
+				}
 #if 0
 				printf ("v8+ PTG_STR '%s'\n", str);
 #endif
 			} else {
-				str = biff_get_text (cur+1, GSF_LE_GET_GUINT8(cur), &len);
-				ptg_length = 1 + len;
-#if 0
-				printf ("<v7 PTG_STR '%s' len %d ptglen %d\n", str, len, ptg_length);
-#endif
+				len = GSF_LE_GET_GUINT8 (cur);
+				if (len <= len_left) {
+					str = biff_get_text (cur+1, len, &len);
+					ptg_length = 1 + len;
+				} 
 			}
-			if (!str) str = g_strdup("");
-			parse_list_push_raw (&stack, value_new_string (str));
-			if (str)  g_free (str);
+			if (str != NULL) {
+				parse_list_push_raw (&stack, value_new_string (str));
+				g_free (str);
+			} else
+				parse_list_push_raw (&stack, value_new_string (""));
 			break;
 		}
 
@@ -1417,24 +1438,22 @@ ms_excel_parse_formula (ExcelWorkbook const *ewb,
 	}
 
 	if (error) {
-		g_warning ("Unknown Formula/Array at %s!%s%s.",
-			(esheet != NULL && esheet->gnum_sheet != NULL) ?
-			esheet->gnum_sheet->name_unquoted : "",
-			cell_coord_name (fn_col,fn_row),
-			(shared?" (shared)":""));
-		printf ("formula data : \n");
+		printf ("formula data : %s\n", (shared?" (shared)":"(NOT shared)"));
 		gsf_mem_dump (mem, length);
 
 		parse_list_free (&stack);
-		return expr_tree_string (_(" Unknown formula"));
+		return expr_tree_error (esheet, fn_col, fn_row,
+			"Unknown Formula/Array", "#Unknown formula");
 	}
 
-	if (!stack)
-		return expr_tree_string ("Stack too short - unusual");
+	if (stack == NULL)
+		return expr_tree_error (esheet, fn_col, fn_row,
+			"Stack too short - unusual", "#ShortStack");
 	if (gnm_expr_list_length (stack) > 1) {
 		parse_list_free (&stack);
-		return expr_tree_string ("Too much data on stack - probable cause: "
-					 "fixed args function is var-arg, put '-1' in the table above");
+		return expr_tree_error (esheet, fn_col, fn_row,
+			"Too much data on stack - probable cause: fixed args function is var-arg, put '-1' in the table above",
+			"#LongStack");
 	}
 	return expr_tree_sharer_share (ewb->expr_sharer, parse_list_pop (&stack));
 }
