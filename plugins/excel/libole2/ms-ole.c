@@ -805,14 +805,13 @@ write_bb (MsOle *f)
 {
 	guint32 numbbd;
 	BLP     lp, lpblk;
+	int a = BB_BLOCK_SIZE / 4;
 
 	g_return_val_if_fail (f, 0);
 	g_return_val_if_fail (f->mem, 0);
 	g_return_val_if_fail (f->bb,  0);
 
-	numbbd  = f->bb->len/(BB_BLOCK_SIZE/4);
-	if (f->bb->len%(BB_BLOCK_SIZE/4))
-		numbbd++;
+	numbbd = (f->bb->len + a - 2) / (a - 1); /* Think really hard! */
 	SET_NUM_BBD_BLOCKS (f, numbbd);
 
 	for (lp=0;lp<numbbd;lp++) {
@@ -822,13 +821,13 @@ write_bb (MsOle *f)
 	}
 
 	lpblk = 0;
-	while (lpblk<f->bb->len) { /* Described blocks */
+	while (lpblk < f->bb->len) { /* Described blocks */
 		guint8 *mem = BB_W_PTR(f, GET_BBD_LIST(f, lpblk/(BB_BLOCK_SIZE/4)));
 		MS_OLE_SET_GUINT32 (mem + (lpblk%(BB_BLOCK_SIZE/4))*4,
 			     g_array_index (f->bb, BLP, lpblk));
 		lpblk++;
 	}
-	while (lpblk%(BB_BLOCK_SIZE/4) != 0) { /* Undescribed blocks */
+	while (lpblk % (BB_BLOCK_SIZE/4) != 0) { /* Undescribed blocks */
 		guint8 *mem;
 		g_assert (lpblk/(BB_BLOCK_SIZE/4) < numbbd);
 		mem = BB_W_PTR(f, GET_BBD_LIST(f, lpblk/(BB_BLOCK_SIZE/4)));
