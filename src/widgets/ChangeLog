@@ -1,5 +1,12 @@
 2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* widget-format-selector.h: drop F_LIST_BOX, make preview_frame 
+	  just a GtkWidget
+	* widget-format-selector.c: drop F_LIST_BOX, make preview_frame 
+	  just a GtkWidget
+
+2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* widget-locale-selector.c: minor adjustment to locale names
 	
 2003-06-21  Andreas J. Guelzow <aguelzow@taliesin.ca>

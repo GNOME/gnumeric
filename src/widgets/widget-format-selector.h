@@ -45,7 +45,7 @@ typedef enum {
 	F_SYMBOL_LABEL,	F_SYMBOL,	F_DELETE,
 	F_ENTRY,		F_LIST_SCROLL,	F_LIST,
 	F_DECIMAL_SPIN,	F_NEGATIVE_SCROLL,
-	F_NEGATIVE,         F_LIST_BOX,
+	F_NEGATIVE,
 	F_DECIMAL_LABEL,	F_CODE_LABEL,	F_SYMBOL_BOX,
 	F_DECIMAL_BOX,	F_CODE_BOX,	F_MAX_WIDGET
 } FormatWidget;
@@ -63,7 +63,7 @@ typedef struct {
 
 	struct {
 		GtkLabel	*preview;
-		GtkFrame	*preview_frame;
+		GtkWidget	*preview_frame;
 		GtkWidget	*widget[F_MAX_WIDGET];
 		GtkOptionMenu	*menu;
 		GtkSizeGroup    *size_group;

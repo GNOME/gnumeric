@@ -307,7 +307,6 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 			F_DECIMAL_LABEL,
 			F_DECIMAL_SPIN,
 			F_SEPARATOR,
-			F_LIST_BOX,
 			F_NEGATIVE_SCROLL,
 			F_NEGATIVE,
 			F_MAX_WIDGET
@@ -322,7 +321,6 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 			F_SYMBOL_BOX,
 			F_SYMBOL_LABEL,
 			F_SYMBOL,
-			F_LIST_BOX,
 			F_NEGATIVE_SCROLL,
 			F_NEGATIVE,
 			F_MAX_WIDGET
@@ -341,7 +339,6 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		/* Date */
 		{
 			F_DATE_EXPLANATION,
-			F_LIST_BOX,
 			F_LIST_SCROLL,
 			F_LIST,
 			F_MAX_WIDGET
@@ -349,7 +346,6 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		/* Time */
 		{
 			F_TIME_EXPLANATION,
-			F_LIST_BOX,
 			F_LIST_SCROLL,
 			F_LIST,
 			F_MAX_WIDGET
@@ -365,7 +361,6 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 		/* Fraction */
 		{
 			F_FRACTION_EXPLANATION,
-			F_LIST_BOX,
 			F_LIST_SCROLL,
 			F_LIST,
 			F_MAX_WIDGET
@@ -395,7 +390,6 @@ fmt_dialog_enable_widgets (NumberFormatSelector *nfs, int page)
 			F_CODE_LABEL,
 			F_ENTRY,
 			F_DELETE,
-			F_LIST_BOX,
 			F_LIST_SCROLL,
 			F_LIST,
 			F_MAX_WIDGET
@@ -649,7 +643,7 @@ nfs_init (NumberFormatSelector *nfs)
 		"format_list_scroll",	"format_list",
 		"format_number_decimals",
 		"format_negatives_scroll",
-		"format_negatives",	"format_list_box",
+		"format_negatives",
 		"format_decimal_label",	"format_code_label",
 		"format_symbol_box",	"format_decimal_box",
 		"format_code_box",
@@ -697,7 +691,7 @@ nfs_init (NumberFormatSelector *nfs)
 	nfs->format.negative_format = info.negative_fmt;
 	nfs->format.currency_index = info.currency_symbol_index;
 
-	nfs->format.preview_frame = GTK_FRAME (glade_xml_get_widget (nfs->gui, "preview_frame"));
+	nfs->format.preview_frame = glade_xml_get_widget (nfs->gui, "preview_frame");
 	nfs->format.preview = GTK_LABEL (glade_xml_get_widget (nfs->gui, "preview"));
 
 	nfs->format.menu = GTK_OPTION_MENU (glade_xml_get_widget (nfs->gui, "format_menu"));
@@ -728,7 +722,7 @@ nfs_init (NumberFormatSelector *nfs)
 				   nfs->format.widget[F_DECIMAL_LABEL]);
 
 	/* hide preview by default until a value is set */
-	gtk_widget_hide (GTK_WIDGET (nfs->format.preview_frame));
+	gtk_widget_hide (nfs->format.preview_frame);
 
 	/* setup the structure of the negative type list */
 	nfs->format.negative_types.model = gtk_list_store_new (3,
@@ -931,7 +925,7 @@ number_format_selector_set_value (NumberFormatSelector *nfs,
 	}
 	nfs->value = value_duplicate (value);
 
-	gtk_widget_show (GTK_WIDGET (nfs->format.preview_frame));
+	gtk_widget_show (nfs->format.preview_frame);
 
 	draw_format_preview (nfs, TRUE);
 }

@@ -1477,7 +1477,13 @@ cb_do_print_ok (G_GNUC_UNUSED GtkWidget *w,
 	wbcg_edit_detach_guru (state->wbcg);
 	wbcg_edit_finish (state->wbcg, TRUE, NULL);
 	fetch_settings (state);
-	print_info_save (state->pi);
+	if (gtk_toggle_button_get_active (
+		    GTK_TOGGLE_BUTTON (
+			    glade_xml_get_widget (state->gui, 
+						  "is_default_check")))) {
+		print_info_save (state->pi);
+		printf ("Saved settings\n");
+	}
 	cmd_print_setup (WORKBOOK_CONTROL (state->wbcg),
 		print_setup_get_sheet (state), state->pi);
 	gtk_widget_destroy (state->dialog);
@@ -1542,7 +1548,7 @@ do_setup_sheet_selector (PrinterSetupState *state)
 	gtk_option_menu_set_menu (GTK_OPTION_MENU (state->sheet_selector), menu);
 	gtk_option_menu_set_history (GTK_OPTION_MENU (state->sheet_selector), n_this);
 	gtk_table_attach (GTK_TABLE (table), state->sheet_selector,
-			  2, 3, 0, 1,
+			  1, 2, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
 	w = glade_xml_get_widget (state->gui, "apply-to-all");
