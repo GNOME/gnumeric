@@ -732,8 +732,8 @@ msgstr ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(serial_number,months)\n"
 "@DESCRIPTION=EDATE returnerer serienummeret for datoen som er ved det "
-"spesifiserte antall måneder før eller etter en gitt dato.  @date er "
-"serienummeret til den opprinnelige datoen og @months er  antallet måneder "
+"spesifiserte antall måneder før eller etter en gitt dato. @date er "
+"serienummeret til den opprinnelige datoen og @months er antallet måneder "
 "før (negativt tall) eller etter (positivt tall) den opprinnelige datoen \n"
 "Hvis @months ikke er et heltall, blir det kuttet. \n"
 "@SEEALSO=DATE"
@@ -1487,7 +1487,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-math.c:1404
-#, fuzzy
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -1495,11 +1494,11 @@ msgid ""
 "referenced in the argument list. \n"
 "@SEEALSO=SUM, COUNT"
 msgstr ""
-"@FUNKSJON=IDAG\n"
-"@SYNTAKS=IDAG ()\n"
-"@BESKRIVELSE=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900)\n"
-"@SEOGSÅ=IDAG, NÅ"
+"@FUNCTION=PRODUCT\n"
+"@SYNTAX=PRODUCT(verdi1, verdi2, ...)\n"
+"@DESCRIPTION=PRODUCT returnerer produktet av alle verdier og celler "
+"som er referert i argumentlisten. \n"
+"@SEEALSO=SUM, COUNT"
 
 #: src/fn-math.c:1459
 msgid ""
@@ -1511,6 +1510,13 @@ msgid ""
 "function only takes one argument.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
+"@FUNCTION=TAN\n"
+"@SYNTAX=TAN(x)\n"
+"@DESCRIPTION=TAN-funksjonen reeturnerer tangenten til @x, hvor @x er gitt "
+"i radianer.\n"
+"Bruk av denne funksjonen på en streng elle en tom celle gjør ingenting. Denne "
+"funksjonen tar kun ett argument.\n"
+"@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
 #: src/fn-math.c:1480
 msgid ""
@@ -1533,7 +1539,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-math.c:1521
-#, fuzzy
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1543,14 +1548,15 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNKSJON=IDAG\n"
-"@SYNTAKS=IDAG ()\n"
-"@BESKRIVELSE=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900)\n"
-"@SEOGSÅ=IDAG, NÅ"
+"@FUNCTION=TRUNC\n"
+"@SYNTAX=TRUNC(tall[,siffer])\n"
+"@DESCRIPTION=TRUNC-funksjonen returnerer verdien av @tall nedkortet til "
+"spesifisert antall siffer. Hvis @siffer er utelatt er @siffer forvalgt "
+"til null.\n"
+"\n"
+"@SEEALSO="
 
 #: src/fn-math.c:1578
-#, fuzzy
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -1558,14 +1564,13 @@ msgid ""
 "integer. \n"
 "@SEEALSO=ODD"
 msgstr ""
-"@FUNKSJON=IDAG\n"
-"@SYNTAKS=IDAG ()\n"
-"@BESKRIVELSE=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900)\n"
-"@SEOGSÅ=IDAG, NÅ"
+"@FUNCTION=EVEN\n"
+"@SYNTAX=EVEN(tall)\n"
+"@DESCRIPTION=EVEN-funksjonen returnerer tallet rundet opp til nærmeste like "
+"heltall. \n"
+"@SEEALSO=ODD"
 
 #: src/fn-math.c:1610
-#, fuzzy
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -1573,11 +1578,11 @@ msgid ""
 "integer. \n"
 "@SEEALSO=EVEN"
 msgstr ""
-"@FUNKSJON=IDAG\n"
-"@SYNTAKS=IDAG ()\n"
-"@BESKRIVELSE=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900)\n"
-"@SEOGSÅ=IDAG, NÅ"
+"@FUNCTION=ODD\n"
+"@SYNTAX=ODD(tall)\n"
+"@DESCRIPTION=ODD-funksjonen returnerer tallet rundet opp til nærmeste odde "
+"heltall. \n"
+"@SEEALSO=EVEN"
 
 #: src/fn-math.c:1642
 msgid ""
@@ -1599,7 +1604,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-math.c:1696
-#, fuzzy
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(num)\n"
@@ -1607,14 +1611,13 @@ msgid ""
 "number is 0, and -1 if the number is negative. \n"
 "@SEEALSO="
 msgstr ""
-"@FUNKSJON=IDAG\n"
-"@SYNTAKS=IDAG ()\n"
-"@BESKRIVELSE=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900)\n"
-"@SEOGSÅ=IDAG, NÅ"
+"@FUNCTION=SIGN\n"
+"@SYNTAX=SIGN(tall)\n"
+"@DESCRIPTION=SIGN-funksjonen returnerer 1 hvis tallet er positivt, null hvis "
+"tallet er 0, og -1 hvis tallet er negativt. \n"
+"@SEEALSO="
 
 #: src/fn-math.c:1722
-#, fuzzy
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -1622,11 +1625,11 @@ msgid ""
 "by pi. \n"
 "@SEEALSO=PI"
 msgstr ""
-"@FUNKSJON=IDAG\n"
-"@SYNTAKS=IDAG ()\n"
-"@BESKRIVELSE=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900)\n"
-"@SEOGSÅ=IDAG, NÅ"
+"@FUNCTION=SQRTPI\n"
+"@SYNTAX=SQRTPI(tall)\n"
+"@DESCRIPTION=SQRTPI-funksjonen returnerer kvadratroten av et tall ganget "
+"med pi. \n"
+"@SEEALSO=PI"
 
 #: src/fn-math.c:1747
 msgid ""
@@ -1731,9 +1734,8 @@ msgid "Array version not implemented!"
 msgstr "Array versjon ikke implementert!"
 
 #: src/fn-math.c:2123 src/fn-math.c:2220 src/fn-math.c:2317
-#, fuzzy
 msgid "#N/A!"
-msgstr "#NUM!"
+msgstr "#N/A!"
 
 #: src/fn-math.c:2149
 msgid ""
@@ -1797,7 +1799,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-misc.c:17
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(exp)\n"
@@ -1805,29 +1806,27 @@ msgid ""
 "\n"
 "@SEEALSO=ERROR"
 msgstr ""
-"@FUNKSJON=IDAG\n"
-"@SYNTAKS=IDAG ()\n"
-"@BESKRIVELSE=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900)\n"
-"@SEOGSÅ=IDAG, NÅ"
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Returnerer en SANN verdi hvis uttrykket har en feil\n"
+"\n"
+"@SEEALSO=ERROR"
 
 #: src/fn-misc.c:33 src/fn-misc.c:65
 msgid "Argument mismatch"
 msgstr "Feil med argument"
 
 #: src/fn-misc.c:49
-#, fuzzy
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(exp)\n"
 "@DESCRIPTION=FIXME\n"
 "@SEEALSO=ISERROR"
 msgstr ""
-"@FUNCTION=NAME\n"
-"@SYNTAX=(b1, b2, ...)\n"
-"@DESCRIPTION\n"
-"\n"
-"@SEEALSO="
+"@FUNCTION=ERROR.TYPE\n"
+"@SYNTAX=ERROR(exp)\n"
+"@DESCRIPTION=FIXME\n"
+"@SEEALSO=ISERROR"
 
 #: src/fn-misc.c:85
 msgid ""
@@ -1837,6 +1836,11 @@ msgid ""
 "\n"
 "@SEEALSO=ISERROR"
 msgstr ""
+"@FUNCTION=ERROR\n"
+"@SYNTAX=ERROR(tekst)\n"
+"@DESCRIPTION=Returnerer den spesifiserte feilen\n"
+"\n"
+"@SEEALSO=ISERROR"
 
 #: src/fn-sheet.c:17
 msgid ""
@@ -1937,18 +1941,16 @@ msgid ""
 msgstr ""
 
 #: src/fn-string.c:353
-#, fuzzy
 msgid ""
 "@FUNCTION=REPT\n"
 "@SYNTAX=REPT(string,num)\n"
 "@DESCRIPTION=Returns @num repetitions of @string.\n"
 "@SEEALSO=CONCATENATE"
 msgstr ""
-"@FUNKSJON=IDAG\n"
-"@SYNTAKS=IDAG ()\n"
-"@BESKRIVELSE=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900)\n"
-"@SEOGSÅ=IDAG, NÅ"
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(streng,ant)\n"
+"@DESCRIPTION=Returnerer @ant repetisjoner av @streng.\n"
+"@SEEALSO=CONCATENATE"
 
 #. start position too high or low
 #: src/fn-string.c:374 src/fn-string.c:458 src/fn-string.c:465
@@ -1983,18 +1985,16 @@ msgid ""
 msgstr ""
 
 #: src/fn-string.c:585
-#, fuzzy
 msgid ""
 "@FUNCTION=PROPER\n"
 "@SYNTAX=PROPER(string)\n"
 "@DESCRIPTION=Returns @string with initial of each word capitalised.\n"
 "@SEEALSO=LOWER, UPPER"
 msgstr ""
-"@FUNKSJON=IDAG\n"
-"@SYNTAKS=IDAG ()\n"
-"@BESKRIVELSE=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900)\n"
-"@SEOGSÅ=IDAG, NÅ"
+"@FUNCTION=PROPER\n"
+"@SYNTAX=PROPER(streng)\n"
+"@DESCRIPTION=Returnerer @streng med stor bokstav i begynnelsen av hvert ord.\n"
+"@SEEALSO=LOWER, UPPER"
 
 #: src/fn-string.c:628
 msgid ""
@@ -2005,7 +2005,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-string.c:681
-#, fuzzy
 msgid ""
 "@FUNCTION=T\n"
 "@SYNTAX=T(value)\n"
@@ -2013,11 +2012,11 @@ msgid ""
 "string.\n"
 "@SEEALSO=CELL, N, VALUE"
 msgstr ""
-"@FUNKSJON=IDAG\n"
-"@SYNTAKS=IDAG ()\n"
-"@BESKRIVELSE=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900)\n"
-"@SEOGSÅ=IDAG, NÅ"
+"@FUNCTION=T\n"
+"@SYNTAX=T(verdi)\n"
+"@DESCRIPTION=Returns @verdi hvis og bare hvis den er av tekst, ellers returnerer "
+"den en tom streng.\n"
+"@SEEALSO=CELL, N, VALUE"
 
 #: src/fn-string.c:707
 msgid ""
@@ -2028,18 +2027,16 @@ msgid ""
 msgstr ""
 
 #: src/fn-string.c:757
-#, fuzzy
 msgid ""
 "@FUNCTION=VALUE\n"
 "@SYNTAX=VALUE(text)\n"
 "@DESCRIPTION=Returns numeric value of @text.\n"
 "@SEEALSO=DOLLAR, FIXED, TEXT"
 msgstr ""
-"@FUNKSJON=IDAG\n"
-"@SYNTAKS=IDAG ()\n"
-"@BESKRIVELSE=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900)\n"
-"@SEOGSÅ=IDAG, NÅ"
+"@FUNCTION=VALUE\n"
+"@SYNTAX=VALUE(tekst)\n"
+"@DESCRIPTION=Returnerer numerisk verdi av @tekst.\n"
+"@SEEALSO=DOLLAR, FIXED, TEXT"
 
 #: src/fn-string.c:821
 msgid ""
@@ -2051,18 +2048,16 @@ msgid ""
 msgstr ""
 
 #: src/fn-string.c:895
-#, fuzzy
 msgid ""
 "@FUNCTION=DOLLAR\n"
 "@SYNTAX=DOLLAR(num,[decimals])\n"
 "@DESCRIPTION=Returns @num formatted as currency.\n"
 "@SEEALSO=FIXED, TEXT, VALUE"
 msgstr ""
-"@FUNKSJON=IDAG\n"
-"@SYNTAKS=IDAG ()\n"
-"@BESKRIVELSE=Returnerer serienummeret for dagen i dag (antallet dager som "
-"har gått siden 1. januar 1900)\n"
-"@SEOGSÅ=IDAG, NÅ"
+"@FUNCTION=DOLLAR\n"
+"@SYNTAX=DOLLAR(ant,[desimaler])\n"
+"@DESCRIPTION=Returnerer @ant formatert som valuta.\n"
+"@SEEALSO=FIXED, TEXT, VALUE"
 
 #: src/fn-string.c:944
 msgid ""
@@ -2120,13 +2115,12 @@ msgid "0.0########"
 msgstr ""
 
 #: src/format.c:1027
-#, fuzzy
 msgid "#VAL!"
 msgstr "#VERDI!"
 
 #: src/format.c:1040
 msgid "CELLRANGE"
-msgstr ""
+msgstr "CELLEOMRÅDE"
 
 #: src/format.c:1043
 msgid "ARRAY"
