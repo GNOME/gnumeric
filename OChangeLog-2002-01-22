@@ -1,3 +1,10 @@
+2001-08-22  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Fixes #59334
+
+	* src/workbook-view.c (wb_view_open_custom):
+	Try opening only regular files.
+
 2001-08-22  Almer S. Tigelaar  <almer@gnome.org>
  
 	* src/workbook-control-gui.c (wbcg_edit_error_dialog) :

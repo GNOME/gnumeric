@@ -696,7 +696,7 @@ wb_view_open_custom (WorkbookView *wbv, WorkbookControl *wbc,
 	g_return_val_if_fail (fo == NULL || IS_GNUM_FILE_OPENER (fo), FALSE);
 	g_return_val_if_fail (file_name != NULL, FALSE);
 
-	if (g_file_exists (file_name)) {
+	if (g_file_test (file_name, G_FILE_TEST_ISFILE)) {
 		IOContext *io_context = gnumeric_io_context_new (wbc);
 
 		/* Search for an applicable opener */
