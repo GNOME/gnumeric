@@ -23,7 +23,7 @@
 
 /***************************************************************************/
 
-static char *help_date = {
+static const char *help_date = {
 	N_("@FUNCTION=DATE\n"
 	   "@SYNTAX=DATE (year,month,day)\n"
 
@@ -93,7 +93,7 @@ gnumeric_date (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_unix2date = {
+static const char *help_unix2date = {
 	N_("@FUNCTION=UNIX2DATE\n"
 	   "@SYNTAX=UNIX2DATE(unixtime)\n"
 
@@ -123,7 +123,7 @@ gnumeric_unix2date (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_date2unix = {
+static const char *help_date2unix = {
 	N_("@FUNCTION=DATE2UNIX\n"
 	   "@SYNTAX=DATE2UNIX(serial)\n"
 
@@ -154,7 +154,7 @@ gnumeric_date2unix (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_datevalue = {
+static const char *help_datevalue = {
 	N_("@FUNCTION=DATEVALUE\n"
 	   "@SYNTAX=DATEVALUE(date_str)\n"
 
@@ -179,7 +179,7 @@ gnumeric_datevalue (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_datedif = {
+static const char *help_datedif = {
 	N_("@FUNCTION=DATEDIF\n"
 	   "@SYNTAX=DATEDIF(date1,date2,interval)\n"
 
@@ -346,7 +346,7 @@ gnumeric_datedif (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_edate = {
+static const char *help_edate = {
 	N_("@FUNCTION=EDATE\n"
 	   "@SYNTAX=EDATE(date,months)\n"
 
@@ -400,7 +400,7 @@ gnumeric_edate (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_today = {
+static const char *help_today = {
 	N_("@FUNCTION=TODAY\n"
 	   "@SYNTAX=TODAY()\n"
 
@@ -423,7 +423,7 @@ gnumeric_today (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_now = {
+static const char *help_now = {
 	N_("@FUNCTION=NOW\n"
 	   "@SYNTAX=NOW ()\n"
 
@@ -454,7 +454,7 @@ gnumeric_now (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_time = {
+static const char *help_time = {
 	N_("@FUNCTION=TIME\n"
 	   "@SYNTAX=TIME (hours,minutes,seconds)\n"
 
@@ -483,7 +483,7 @@ gnumeric_time (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_timevalue = {
+static const char *help_timevalue = {
 	N_("@FUNCTION=TIMEVALUE\n"
 	   "@SYNTAX=TIMEVALUE (timetext)\n"
 
@@ -512,7 +512,7 @@ gnumeric_timevalue (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_hour = {
+static const char *help_hour = {
 	N_("@FUNCTION=HOUR\n"
 	   "@SYNTAX=HOUR (serial_number)\n"
 
@@ -541,7 +541,7 @@ gnumeric_hour (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_minute = {
+static const char *help_minute = {
 	N_("@FUNCTION=MINUTE\n"
 	   "@SYNTAX=MINUTE (serial_number)\n"
 
@@ -571,7 +571,7 @@ gnumeric_minute (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_second = {
+static const char *help_second = {
 	N_("@FUNCTION=SECOND\n"
 	   "@SYNTAX=SECOND (serial_number)\n"
 
@@ -601,7 +601,7 @@ gnumeric_second (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_year = {
+static const char *help_year = {
 	N_("@FUNCTION=YEAR\n"
 	   "@SYNTAX=YEAR (serial_number)\n"
 
@@ -638,7 +638,7 @@ gnumeric_year (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_month = {
+static const char *help_month = {
 	N_("@FUNCTION=MONTH\n"
 	   "@SYNTAX=MONTH (serial_number)\n"
 
@@ -675,7 +675,7 @@ gnumeric_month (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_day = {
+static const char *help_day = {
 	N_("@FUNCTION=DAY\n"
 	   "@SYNTAX=DAY (serial_number)\n"
 
@@ -712,7 +712,7 @@ gnumeric_day (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_weekday = {
+static const char *help_weekday = {
 	N_("@FUNCTION=WEEKDAY\n"
 	   "@SYNTAX=WEEKDAY (serial_number[, method])\n"
 
@@ -765,7 +765,7 @@ gnumeric_weekday (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_days360 = {
+static const char *help_days360 = {
 	N_("@FUNCTION=DAYS360 \n"
 	   "@SYNTAX=DAYS360 (date1,date2,method)\n"
 
@@ -868,7 +868,7 @@ gnumeric_days360 (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_eomonth = {
+static const char *help_eomonth = {
 	N_("@FUNCTION=EOMONTH\n"
 	   "@SYNTAX=EOMONTH (start_date,months)\n"
 
@@ -918,7 +918,7 @@ gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_workday = {
+static const char *help_workday = {
 	N_("@FUNCTION=WORKDAY\n"
 	   "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
 
@@ -989,7 +989,7 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char * help_networkdays = {
+static const char *help_networkdays = {
 	N_("@FUNCTION=NETWORKDAYS\n"
 	   "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
 
@@ -1112,7 +1112,7 @@ gnumeric_networkdays (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_isoweeknum = {
+static const char *help_isoweeknum = {
 	N_("@FUNCTION=ISOWEEKNUM\n"
 	   "@SYNTAX=ISOWEEKNUM (date)\n"
 
@@ -1156,7 +1156,7 @@ gnumeric_isoweeknum (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_weeknum = {
+static const char *help_weeknum = {
 	N_("@FUNCTION=WEEKNUM\n"
 	   "@SYNTAX=WEEKNUM (date, method)\n"
 

@@ -114,7 +114,7 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 
 /***************************************************************************/
 
-static char *help_gcd = {
+static const char *help_gcd = {
 	N_("@FUNCTION=GCD\n"
 	   "@SYNTAX=GCD(number1,number2,...)\n"
 
@@ -166,7 +166,7 @@ gnumeric_gcd (FunctionEvalInfo *ei, ExprList *nodes)
 
 /***************************************************************************/
 
-static char *help_lcm = {
+static const char *help_lcm = {
 	N_("@FUNCTION=LCM\n"
 	   "@SYNTAX=LCM(number1,number2,...)\n"
 
@@ -223,7 +223,7 @@ gnumeric_lcm (FunctionEvalInfo *ei, ExprList *nodes)
 
 /***************************************************************************/
 
-static char *help_abs = {
+static const char *help_abs = {
 	N_("@FUNCTION=ABS\n"
 	   "@SYNTAX=ABS(b1)\n"
 
@@ -248,7 +248,7 @@ gnumeric_abs (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static char *help_acos = {
+static const char *help_acos = {
 	N_("@FUNCTION=ACOS\n"
 	   "@SYNTAX=ACOS(x)\n"
 
@@ -280,7 +280,7 @@ gnumeric_acos (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static char *help_acosh = {
+static const char *help_acosh = {
 	N_("@FUNCTION=ACOSH\n"
 	   "@SYNTAX=ACOSH(x)\n"
 
@@ -311,7 +311,7 @@ gnumeric_acosh (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static char *help_asin = {
+static const char *help_asin = {
 	N_("@FUNCTION=ASIN\n"
 	   "@SYNTAX=ASIN(x)\n"
 
@@ -342,7 +342,7 @@ gnumeric_asin (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static char *help_asinh = {
+static const char *help_asinh = {
 	N_("@FUNCTION=ASINH\n"
 	   "@SYNTAX=ASINH(x)\n"
 
@@ -366,7 +366,7 @@ gnumeric_asinh (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static char *help_atan = {
+static const char *help_atan = {
 	N_("@FUNCTION=ATAN\n"
 	   "@SYNTAX=ATAN(x)\n"
 
@@ -391,7 +391,7 @@ gnumeric_atan (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static char *help_atanh = {
+static const char *help_atanh = {
 	N_("@FUNCTION=ATANH\n"
 	   "@SYNTAX=ATANH(x)\n"
 
@@ -423,7 +423,7 @@ gnumeric_atanh (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static char *help_atan2 = {
+static const char *help_atan2 = {
 	N_("@FUNCTION=ATAN2\n"
 	   "@SYNTAX=ATAN2(b1,b2)\n"
 
@@ -451,7 +451,7 @@ gnumeric_atan2 (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static char *help_ceil = {
+static const char *help_ceil = {
 	N_("@FUNCTION=CEIL\n"
 	   "@SYNTAX=CEIL(x)\n"
 
@@ -475,7 +475,7 @@ gnumeric_ceil (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static char *help_countif = {
+static const char *help_countif = {
 	N_("@FUNCTION=COUNTIF\n"
 	   "@SYNTAX=COUNTIF(range,criteria)\n"
 
@@ -553,7 +553,7 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_sumif = {
+static const char *help_sumif = {
 	N_("@FUNCTION=SUMIF\n"
 	   "@SYNTAX=SUMIF(range,criteria[,actual_range])\n"
 
@@ -706,7 +706,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_ceiling = {
+static const char *help_ceiling = {
 	N_("@FUNCTION=CEILING\n"
 	   "@SYNTAX=CEILING(x,significance)\n"
 
@@ -747,7 +747,7 @@ gnumeric_ceiling (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_cos = {
+static const char *help_cos = {
 	N_("@FUNCTION=COS\n"
 	   "@SYNTAX=COS(x)\n"
 
@@ -771,7 +771,7 @@ gnumeric_cos (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_cosh = {
+static const char *help_cosh = {
 	N_("@FUNCTION=COSH\n"
 	   "@SYNTAX=COSH(x)\n"
 
@@ -796,7 +796,7 @@ gnumeric_cosh (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_degrees = {
+static const char *help_degrees = {
 	N_("@FUNCTION=DEGREES\n"
 	   "@SYNTAX=DEGREES(x)\n"
 
@@ -818,7 +818,7 @@ gnumeric_degrees (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_exp = {
+static const char *help_exp = {
 	N_("@FUNCTION=EXP\n"
 	   "@SYNTAX=EXP(x)\n"
 
@@ -841,7 +841,7 @@ gnumeric_exp (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_fact = {
+static const char *help_fact = {
 	N_("@FUNCTION=FACT\n"
 	   "@SYNTAX=FACT(x)\n"
 
@@ -882,7 +882,7 @@ gnumeric_fact (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_combin = {
+static const char *help_combin = {
 	N_("@FUNCTION=COMBIN\n"
 	   "@SYNTAX=COMBIN(n,k)\n"
 
@@ -916,7 +916,7 @@ gnumeric_combin (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_floor = {
+static const char *help_floor = {
 	N_("@FUNCTION=FLOOR\n"
 	   "@SYNTAX=FLOOR(x,significance)\n"
 
@@ -953,7 +953,7 @@ gnumeric_floor (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_int = {
+static const char *help_int = {
 	N_("@FUNCTION=INT\n"
 	   "@SYNTAX=INT(a)\n"
 
@@ -977,7 +977,7 @@ gnumeric_int (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_log = {
+static const char *help_log = {
 	N_("@FUNCTION=LOG\n"
 	   "@SYNTAX=LOG(x[,base])\n"
 
@@ -1017,7 +1017,7 @@ gnumeric_log (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_ln = {
+static const char *help_ln = {
 	N_("@FUNCTION=LN\n"
 	   "@SYNTAX=LN(x)\n"
 
@@ -1047,7 +1047,7 @@ gnumeric_ln (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_power = {
+static const char *help_power = {
 	N_("@FUNCTION=POWER\n"
 	   "@SYNTAX=POWER(x,y)\n"
 
@@ -1081,7 +1081,7 @@ gnumeric_power (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_log2 = {
+static const char *help_log2 = {
 	N_("@FUNCTION=LOG2\n"
 	   "@SYNTAX=LOG2(x)\n"
 
@@ -1109,7 +1109,7 @@ gnumeric_log2 (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_log10 = {
+static const char *help_log10 = {
 	N_("@FUNCTION=LOG10\n"
 	   "@SYNTAX=LOG10(x)\n"
 
@@ -1138,7 +1138,7 @@ gnumeric_log10 (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_mod = {
+static const char *help_mod = {
 	N_("@FUNCTION=MOD\n"
 	   "@SYNTAX=MOD(number,divisor)\n"
 
@@ -1186,7 +1186,7 @@ gnumeric_mod (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_radians = {
+static const char *help_radians = {
 	N_("@FUNCTION=RADIANS\n"
 	   "@SYNTAX=RADIANS(x)\n"
 
@@ -1208,7 +1208,7 @@ gnumeric_radians (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_rand = {
+static const char *help_rand = {
 	N_("@FUNCTION=RAND\n"
 	   "@SYNTAX=RAND()\n"
 
@@ -1231,7 +1231,7 @@ gnumeric_rand (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_randexp = {
+static const char *help_randexp = {
         N_("@FUNCTION=RANDEXP\n"
            "@SYNTAX=RANDEXP(b)\n"
 
@@ -1254,7 +1254,7 @@ gnumeric_randexp (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_randpoisson = {
+static const char *help_randpoisson = {
         N_("@FUNCTION=RANDPOISSON\n"
            "@SYNTAX=RANDPOISSON(lambda)\n"
 
@@ -1280,7 +1280,7 @@ gnumeric_randpoisson (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_randbinom = {
+static const char *help_randbinom = {
         N_("@FUNCTION=RANDBINOM\n"
            "@SYNTAX=RANDBINOM(p,trials)\n"
 
@@ -1310,7 +1310,7 @@ gnumeric_randbinom (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_randnegbinom = {
+static const char *help_randnegbinom = {
         N_("@FUNCTION=RANDNEGBINOM\n"
            "@SYNTAX=RANDNEGBINOM(p,failures)\n"
 
@@ -1341,7 +1341,7 @@ gnumeric_randnegbinom (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_randbernoulli = {
+static const char *help_randbernoulli = {
         N_("@FUNCTION=RANDBERNOULLI\n"
            "@SYNTAX=RANDBERNOULLI(p)\n"
 
@@ -1369,7 +1369,7 @@ gnumeric_randbernoulli (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_sin = {
+static const char *help_sin = {
 	N_("@FUNCTION=SIN\n"
 	   "@SYNTAX=SIN(x)\n"
 
@@ -1392,7 +1392,7 @@ gnumeric_sin (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_sinh = {
+static const char *help_sinh = {
 	N_("@FUNCTION=SINH\n"
 	   "@SYNTAX=SINH(x)\n"
 
@@ -1415,7 +1415,7 @@ gnumeric_sinh (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_sqrt = {
+static const char *help_sqrt = {
 	N_("@FUNCTION=SQRT\n"
 	   "@SYNTAX=SQRT(x)\n"
 
@@ -1442,7 +1442,7 @@ gnumeric_sqrt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_sum = {
+static const char *help_sum = {
 	N_("@FUNCTION=SUM\n"
 	   "@SYNTAX=SUM(value1, value2, ...)\n"
 
@@ -1472,7 +1472,7 @@ gnumeric_sum (FunctionEvalInfo *ei, ExprList *nodes)
 
 /***************************************************************************/
 
-static char *help_suma = {
+static const char *help_suma = {
 	N_("@FUNCTION=SUMA\n"
 	   "@SYNTAX=SUMA(value1, value2, ...)\n"
 
@@ -1504,7 +1504,7 @@ gnumeric_suma (FunctionEvalInfo *ei, ExprList *nodes)
 
 /***************************************************************************/
 
-static char *help_sumsq = {
+static const char *help_sumsq = {
 	N_("@FUNCTION=SUMSQ\n"
 	   "@SYNTAX=SUMSQ(value1, value2, ...)\n"
 
@@ -1535,7 +1535,7 @@ gnumeric_sumsq (FunctionEvalInfo *ei, ExprList *nodes)
 
 /***************************************************************************/
 
-static char *help_multinomial = {
+static const char *help_multinomial = {
 	N_("@FUNCTION=MULTINOMIAL\n"
 	   "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
 
@@ -1564,7 +1564,7 @@ gnumeric_multinomial (FunctionEvalInfo *ei, ExprList *nodes)
 
 /***************************************************************************/
 
-static char *help_product = {
+static const char *help_product = {
 	N_("@FUNCTION=PRODUCT\n"
 	   "@SYNTAX=PRODUCT(value1, value2, ...)\n"
 
@@ -1602,7 +1602,7 @@ gnumeric_product (FunctionEvalInfo *ei, ExprList *nodes)
 }
 
 
-static char *help_g_product = {
+static const char *help_g_product = {
 	N_("@FUNCTION=G_PRODUCT\n"
 	   "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
 
@@ -1630,7 +1630,7 @@ gnumeric_g_product (FunctionEvalInfo *ei, ExprList *nodes)
 
 /***************************************************************************/
 
-static char *help_tan = {
+static const char *help_tan = {
 	N_("@FUNCTION=TAN\n"
 	   "@SYNTAX=TAN(x)\n"
 
@@ -1653,7 +1653,7 @@ gnumeric_tan (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_tanh = {
+static const char *help_tanh = {
 	N_("@FUNCTION=TANH\n"
 	   "@SYNTAX=TANH(x)\n"
 
@@ -1676,7 +1676,7 @@ gnumeric_tanh (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_pi = {
+static const char *help_pi = {
 	N_("@FUNCTION=PI\n"
 	   "@SYNTAX=PI()\n"
 
@@ -1701,7 +1701,7 @@ gnumeric_pi (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_trunc = {
+static const char *help_trunc = {
 	N_("@FUNCTION=TRUNC\n"
 	   "@SYNTAX=TRUNC(number[,digits])\n"
 
@@ -1736,7 +1736,7 @@ gnumeric_trunc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_even = {
+static const char *help_even = {
 	N_("@FUNCTION=EVEN\n"
 	   "@SYNTAX=EVEN(number)\n"
 
@@ -1774,7 +1774,7 @@ gnumeric_even (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_odd = {
+static const char *help_odd = {
 	N_("@FUNCTION=ODD\n"
 	   "@SYNTAX=ODD(number)\n"
 
@@ -1812,7 +1812,7 @@ gnumeric_odd (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_factdouble = {
+static const char *help_factdouble = {
 	N_("@FUNCTION=FACTDOUBLE\n"
 	   "@SYNTAX=FACTDOUBLE(number)\n"
 
@@ -1850,7 +1850,7 @@ gnumeric_factdouble (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_quotient = {
+static const char *help_quotient = {
 	N_("@FUNCTION=QUOTIENT\n"
 	   "@SYNTAX=QUOTIENT(numerator,denumerator)\n"
 
@@ -1882,7 +1882,7 @@ gnumeric_quotient (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_sign = {
+static const char *help_sign = {
 	N_("@FUNCTION=SIGN\n"
 	   "@SYNTAX=SIGN(number)\n"
 
@@ -1916,7 +1916,7 @@ gnumeric_sign (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_sqrtpi = {
+static const char *help_sqrtpi = {
 	N_("@FUNCTION=SQRTPI\n"
 	   "@SYNTAX=SQRTPI(number)\n"
 
@@ -1945,7 +1945,7 @@ gnumeric_sqrtpi (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_randbetween = {
+static const char *help_randbetween = {
 	N_("@FUNCTION=RANDBETWEEN\n"
 	   "@SYNTAX=RANDBETWEEN(bottom,top)\n"
 
@@ -1979,7 +1979,7 @@ gnumeric_randbetween (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_rounddown = {
+static const char *help_rounddown = {
 	N_("@FUNCTION=ROUNDDOWN\n"
 	   "@SYNTAX=ROUNDDOWN(number[,digits])\n"
 
@@ -2023,7 +2023,7 @@ gnumeric_rounddown (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_round = {
+static const char *help_round = {
 	N_("@FUNCTION=ROUND\n"
 	   "@SYNTAX=ROUND(number[,digits])\n"
 
@@ -2064,7 +2064,7 @@ gnumeric_round (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_roundup = {
+static const char *help_roundup = {
 	N_("@FUNCTION=ROUNDUP\n"
 	   "@SYNTAX=ROUNDUP(number[,digits])\n"
 
@@ -2108,7 +2108,7 @@ gnumeric_roundup (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_mround = {
+static const char *help_mround = {
 	N_("@FUNCTION=MROUND\n"
 	   "@SYNTAX=MROUND(number,multiple)\n"
 
@@ -2158,7 +2158,7 @@ gnumeric_mround (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_roman = {
+static const char *help_roman = {
 	N_("@FUNCTION=ROMAN\n"
 	   "@SYNTAX=ROMAN(number[,type])\n"
 
@@ -2424,7 +2424,7 @@ gnumeric_roman (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_sumx2my2 = {
+static const char *help_sumx2my2 = {
 	N_("@FUNCTION=SUMX2MY2\n"
 	   "@SYNTAX=SUMX2MY2(array1,array2)\n"
 
@@ -2537,7 +2537,7 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_sumx2py2 = {
+static const char *help_sumx2py2 = {
 	N_("@FUNCTION=SUMX2PY2\n"
 	   "@SYNTAX=SUMX2PY2(array1,array2)\n"
 
@@ -2649,7 +2649,7 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 	return ret;
 }
 
-static char *help_sumxmy2 = {
+static const char *help_sumxmy2 = {
 	N_("@FUNCTION=SUMXMY2\n"
 	   "@SYNTAX=SUMXMY2(array1,array2)\n"
 
@@ -2763,7 +2763,7 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_subtotal = {
+static const char *help_subtotal = {
 	N_("@FUNCTION=SUBTOTAL\n"
 	   "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
 
@@ -2845,7 +2845,7 @@ gnumeric_subtotal (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_seriessum = {
+static const char *help_seriessum = {
 	N_("@FUNCTION=SERIESSUM\n"
 	   "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
 
@@ -2968,7 +2968,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, ExprList *nodes)
 
 /***************************************************************************/
 
-static char *help_minverse = {
+static const char *help_minverse = {
 	N_("@FUNCTION=MINVERSE\n"
 	   "@SYNTAX=MINVERSE(matrix)\n"
 
@@ -3095,7 +3095,7 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_mmult = {
+static const char *help_mmult = {
 	N_("@FUNCTION=MMULT\n"
 	   "@SYNTAX=MMULT(array1,array2)\n"
 
@@ -3171,7 +3171,7 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_mdeterm = {
+static const char *help_mdeterm = {
 	N_("@FUNCTION=MDETERM\n"
 	   "@SYNTAX=MDETERM(matrix)\n"
 
@@ -3229,7 +3229,7 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_sumproduct = {
+static const char *help_sumproduct = {
 	N_("@FUNCTION=SUMPRODUCT\n"
 	   "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
 	   "@DESCRIPTION="

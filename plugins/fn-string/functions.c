@@ -26,7 +26,7 @@
 
 /***************************************************************************/
 
-static char *help_char = {
+static const char *help_char = {
 	N_("@FUNCTION=CHAR\n"
 	   "@SYNTAX=CHAR(x)\n"
 
@@ -52,7 +52,7 @@ gnumeric_char (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_code = {
+static const char *help_code = {
 	N_("@FUNCTION=CODE\n"
 	   "@SYNTAX=CODE(char)\n"
 
@@ -74,7 +74,7 @@ gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_exact = {
+static const char *help_exact = {
 	N_("@FUNCTION=EXACT\n"
 	   "@SYNTAX=EXACT(string1, string2)\n"
 
@@ -99,7 +99,7 @@ gnumeric_exact (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_len = {
+static const char *help_len = {
 	N_("@FUNCTION=LEN\n"
 	   "@SYNTAX=LEN(string)\n"
 
@@ -121,7 +121,7 @@ gnumeric_len (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_left = {
+static const char *help_left = {
 	N_("@FUNCTION=LEFT\n"
 	   "@SYNTAX=LEFT(text[,num_chars])\n"
 
@@ -157,7 +157,7 @@ gnumeric_left (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_lower = {
+static const char *help_lower = {
 	N_("@FUNCTION=LOWER\n"
 	   "@SYNTAX=LOWER(text)\n"
 
@@ -187,7 +187,7 @@ gnumeric_lower (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_mid = {
+static const char *help_mid = {
 	N_("@FUNCTION=MID\n"
 	   "@SYNTAX=MID(string, position, length)\n"
 
@@ -232,7 +232,7 @@ gnumeric_mid (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_right = {
+static const char *help_right = {
 	N_("@FUNCTION=RIGHT\n"
 	   "@SYNTAX=RIGHT(text[,num_chars])\n"
 
@@ -271,7 +271,7 @@ gnumeric_right (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_upper = {
+static const char *help_upper = {
 	N_("@FUNCTION=UPPER\n"
 	   "@SYNTAX=UPPER(text)\n"
 
@@ -301,7 +301,7 @@ gnumeric_upper (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_concatenate = {
+static const char *help_concatenate = {
 	N_("@FUNCTION=CONCATENATE\n"
 	   "@SYNTAX=CONCATENATE(string1[,string2...])\n"
 	   "@DESCRIPTION="
@@ -343,7 +343,7 @@ gnumeric_concatenate (FunctionEvalInfo *ei, ExprList *l)
 
 /***************************************************************************/
 
-static char *help_rept = {
+static const char *help_rept = {
 	N_("@FUNCTION=REPT\n"
 	   "@SYNTAX=REPT(string,num)\n"
 	   "@DESCRIPTION="
@@ -398,7 +398,7 @@ gnumeric_rept (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_clean = {
+static const char *help_clean = {
 	N_("@FUNCTION=CLEAN\n"
 	   "@SYNTAX=CLEAN(string)\n"
 	   "@DESCRIPTION="
@@ -430,7 +430,7 @@ gnumeric_clean (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_find = {
+static const char *help_find = {
 	N_("@FUNCTION=FIND\n"
 	   "@SYNTAX=FIND(string1,string2[,start])\n"
 	   "@DESCRIPTION="
@@ -472,7 +472,7 @@ gnumeric_find (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_fixed = {
+static const char *help_fixed = {
 	N_("@FUNCTION=FIXED\n"
 	   "@SYNTAX=FIXED(num,[decimals, no_commas])\n"
 	   "@DESCRIPTION="
@@ -540,7 +540,7 @@ gnumeric_fixed (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_proper = {
+static const char *help_proper = {
 	N_("@FUNCTION=PROPER\n"
 	   "@SYNTAX=PROPER(string)\n"
 
@@ -586,7 +586,7 @@ gnumeric_proper (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_replace = {
+static const char *help_replace = {
 	N_("@FUNCTION=REPLACE\n"
 	   "@SYNTAX=REPLACE(old,start,num,new)\n"
 	   "@DESCRIPTION="
@@ -636,7 +636,7 @@ gnumeric_replace (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_t = {
+static const char *help_t = {
 	N_("@FUNCTION=T\n"
 	   "@SYNTAX=T(value)\n"
 	   "@DESCRIPTION="
@@ -662,7 +662,7 @@ gnumeric_t (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_text = {
+static const char *help_text = {
 	N_("@FUNCTION=TEXT\n"
 	   "@SYNTAX=TEXT(value,format_text)\n"
 	   "@DESCRIPTION="
@@ -710,7 +710,7 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static char *help_trim = {
+static const char *help_trim = {
 	N_("@FUNCTION=TRIM\n"
 	   "@SYNTAX=TRIM(text)\n"
 	   "@DESCRIPTION="
@@ -756,7 +756,7 @@ gnumeric_trim (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_value = {
+static const char *help_value = {
 	N_("@FUNCTION=VALUE\n"
 	   "@SYNTAX=VALUE(text)\n"
 	   "@DESCRIPTION="
@@ -799,7 +799,7 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_substitute = {
+static const char *help_substitute = {
 	N_("@FUNCTION=SUBSTITUTE\n"
 	   "@SYNTAX=SUBSTITUTE(text, old, new [,num])\n"
 	   "@DESCRIPTION="
@@ -915,7 +915,7 @@ gnumeric_substitute (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dollar = {
+static const char *help_dollar = {
 	N_("@FUNCTION=DOLLAR\n"
 	   "@SYNTAX=DOLLAR(num[,decimals])\n"
 	   "@DESCRIPTION="
@@ -984,7 +984,7 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_search = {
+static const char *help_search = {
 	N_("@FUNCTION=SEARCH\n"
 	   "@SYNTAX=SEARCH(text,within[,start_num])\n"
 	   "@DESCRIPTION="

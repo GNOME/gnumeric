@@ -17,7 +17,7 @@
 
 /***************************************************************************/
 
-static char *help_selection = {
+static const char *help_selection = {
 	N_("@FUNCTION=SELECTION\n"
 	   "@SYNTAX=SELECTION(permit_intersection)\n"
 
@@ -99,7 +99,7 @@ gnumeric_selection (FunctionEvalInfo *ei, Value *argv [])
 
 /***************************************************************************/
 
-static char *help_gnumeric_version = {
+static const char *help_gnumeric_version = {
 	N_("@FUNCTION=GNUMERIC_VERSION\n"
 	   "@SYNTAX=GNUMERIC_VERSION()\n"
 

@@ -1,5 +1,10 @@
 2002-02-20  Morten Welinder  <terra@diku.dk>
 
+	* src/func.c (fn_def_new, function_add_args, function_add_nodes):
+ 	Constify.
+
+2002-02-20  Morten Welinder  <terra@diku.dk>
+
 	* src/parser.y (yyerror): Constify.
 
 	* src/xml-io.c (xml_node_set_print_unit): Constify.

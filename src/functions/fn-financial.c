@@ -339,7 +339,7 @@ func_coup (FunctionEvalInfo *ei, Value **argv,
  *
  */
 
-static char *help_accrint = {
+static const char *help_accrint = {
 	N_("@FUNCTION=ACCRINT\n"
 	   "@SYNTAX=ACCRINT(issue,first_interest,settlement,rate,par,"
 	   "frequency[,basis])\n"
@@ -431,7 +431,7 @@ gnumeric_accrint (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_accrintm = {
+static const char *help_accrintm = {
 	N_("@FUNCTION=ACCRINTM\n"
 	   "@SYNTAX=ACCRINTM(issue,maturity,rate[,par,basis])\n"
 	   "@DESCRIPTION="
@@ -484,7 +484,7 @@ gnumeric_accrintm (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_intrate = {
+static const char *help_intrate = {
 	N_("@FUNCTION=INTRATE\n"
 	   "@SYNTAX=INTRATE(settlement,maturity,investment,redemption"
 	   "[,basis])\n"
@@ -545,7 +545,7 @@ gnumeric_intrate (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_received = {
+static const char *help_received = {
 	N_("@FUNCTION=RECEIVED\n"
 	   "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
 	   "@DESCRIPTION="
@@ -600,7 +600,7 @@ gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_pricedisc = {
+static const char *help_pricedisc = {
 	N_("@FUNCTION=PRICEDISC\n"
 	   "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption"
 	   "[,basis])\n"
@@ -652,7 +652,7 @@ gnumeric_pricedisc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_pricemat = {
+static const char *help_pricemat = {
 	N_("@FUNCTION=PRICEMAT\n"
 	   "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
 	   "@DESCRIPTION="
@@ -711,7 +711,7 @@ gnumeric_pricemat (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_disc = {
+static const char *help_disc = {
 	N_("@FUNCTION=DISC\n"
 	   "@SYNTAX=DISC(settlement,maturity,par,redemption[,basis])\n"
 	   "@DESCRIPTION="
@@ -762,7 +762,7 @@ gnumeric_disc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_effect = {
+static const char *help_effect = {
 	N_("@FUNCTION=EFFECT\n"
 	   "@SYNTAX=EFFECT(r,nper)\n"
 	   "@DESCRIPTION="
@@ -809,7 +809,7 @@ gnumeric_effect (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_nominal = {
+static const char *help_nominal = {
 	N_("@FUNCTION=NOMINAL\n"
 	   "@SYNTAX=NOMINAL(r,nper)\n"
 	   "@DESCRIPTION="
@@ -848,7 +848,7 @@ gnumeric_nominal (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_ispmt = {
+static const char *help_ispmt = {
 	N_("@FUNCTION=ISPMT\n"
 	   "@SYNTAX=ISPMT(rate,per,nper,pv)\n"
 	   "@DESCRIPTION="
@@ -882,7 +882,7 @@ gnumeric_ispmt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_db = {
+static const char *help_db = {
 	N_("@FUNCTION=DB\n"
 	   "@SYNTAX=DB(cost,salvage,life,period[,month])\n"
 	   "@DESCRIPTION="
@@ -938,7 +938,7 @@ gnumeric_db (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_ddb = {
+static const char *help_ddb = {
 	N_("@FUNCTION=DDB\n"
 	   "@SYNTAX=DDB(cost,salvage,life,period[,factor])\n"
 	   "@DESCRIPTION="
@@ -986,7 +986,7 @@ gnumeric_ddb (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_sln = {
+static const char *help_sln = {
 	N_("@FUNCTION=SLN\n"
 	   "@SYNTAX=SLN(cost,salvage_value,life)\n"
 	   "@DESCRIPTION="
@@ -1038,7 +1038,7 @@ gnumeric_sln (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_syd = {
+static const char *help_syd = {
 	N_("@FUNCTION=SYD\n"
 	   "@SYNTAX=SYD(cost,salvage_value,life,period)\n"
 	   "@DESCRIPTION="
@@ -1094,7 +1094,7 @@ gnumeric_syd (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dollarde = {
+static const char *help_dollarde = {
 	N_("@FUNCTION=DOLLARDE\n"
 	   "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
 	   "@DESCRIPTION="
@@ -1138,7 +1138,7 @@ gnumeric_dollarde (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dollarfr = {
+static const char *help_dollarfr = {
 	N_("@FUNCTION=DOLLARFR\n"
 	   "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
 	   "@DESCRIPTION="
@@ -1180,7 +1180,7 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_mirr = {
+static const char *help_mirr = {
 	N_("@FUNCTION=MIRR\n"
 	   "@SYNTAX=MIRR(values,finance_rate,reinvest_rate)\n"
 	   "@DESCRIPTION="
@@ -1240,7 +1240,7 @@ out:
 
 /***************************************************************************/
 
-static char *help_tbilleq = {
+static const char *help_tbilleq = {
 	N_("@FUNCTION=TBILLEQ\n"
 	   "@SYNTAX=TBILLEQ(settlement,maturity,discount)\n"
 	   "@DESCRIPTION="
@@ -1285,7 +1285,7 @@ gnumeric_tbilleq (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_tbillprice = {
+static const char *help_tbillprice = {
 	N_("@FUNCTION=TBILLPRICE\n"
 	   "@SYNTAX=TBILLPRICE(settlement,maturity,discount)\n"
 	   "@DESCRIPTION="
@@ -1326,7 +1326,7 @@ gnumeric_tbillprice (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_tbillyield = {
+static const char *help_tbillyield = {
 	N_("@FUNCTION=TBILLYIELD\n"
 	   "@SYNTAX=TBILLYIELD(settlement,maturity,pr)\n"
 	   "@DESCRIPTION="
@@ -1367,7 +1367,7 @@ gnumeric_tbillyield (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_rate = {
+static const char *help_rate = {
 	N_("@FUNCTION=RATE\n"
 	   "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
 	   "@DESCRIPTION="
@@ -1475,7 +1475,7 @@ gnumeric_rate (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_irr = {
+static const char *help_irr = {
 	N_("@FUNCTION=IRR\n"
 	   "@SYNTAX=IRR(values[,guess])\n"
 	   "@DESCRIPTION="
@@ -1598,7 +1598,7 @@ gnumeric_irr (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_pv = {
+static const char *help_pv = {
 	N_("@FUNCTION=PV\n"
 	   "@SYNTAX=PV(rate,nper,pmt[,fv,type])\n"
 	   "@DESCRIPTION="
@@ -1645,7 +1645,7 @@ gnumeric_pv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_npv = {
+static const char *help_npv = {
 	N_("@FUNCTION=NPV\n"
 	   "@SYNTAX=NPV(rate,v1,v2,...)\n"
 	   "@DESCRIPTION="
@@ -1699,7 +1699,7 @@ gnumeric_npv (FunctionEvalInfo *ei, ExprList *nodes)
 
 /***************************************************************************/
 
-static char *help_xnpv = {
+static const char *help_xnpv = {
 	N_("@FUNCTION=XNPV\n"
 	   "@SYNTAX=XNPV(rate,values,dates)\n"
 	   "@DESCRIPTION="
@@ -1759,7 +1759,7 @@ gnumeric_xnpv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_xirr = {
+static const char *help_xirr = {
 	N_("@FUNCTION=XIRR\n"
 	   "@SYNTAX=XIRR(values,dates[,guess])\n"
 	   "@DESCRIPTION="
@@ -1863,7 +1863,7 @@ gnumeric_xirr (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_fv = {
+static const char *help_fv = {
 	N_("@FUNCTION=FV\n"
 	   "@SYNTAX=FV(rate,term,pmt,pv,type)\n"
 	   "@DESCRIPTION="
@@ -1902,7 +1902,7 @@ gnumeric_fv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_pmt = {
+static const char *help_pmt = {
 	N_("@FUNCTION=PMT\n"
 	   "@SYNTAX=PMT(rate,nper,pv[,fv,type])\n"
 	   "@DESCRIPTION="
@@ -1940,7 +1940,7 @@ gnumeric_pmt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_ipmt = {
+static const char *help_ipmt = {
 	N_("@FUNCTION=IPMT\n"
 	   "@SYNTAX=IPMT(rate,per,nper,pv,fv,type)\n"
 	   "@DESCRIPTION="
@@ -1987,7 +1987,7 @@ gnumeric_ipmt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_ppmt = {
+static const char *help_ppmt = {
 	N_("@FUNCTION=PPMT\n"
 	   "@SYNTAX=PPMT(rate,per,nper,pv[,fv,type])\n"
 	   "@DESCRIPTION="
@@ -2036,7 +2036,7 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_nper = {
+static const char *help_nper = {
 	N_("@FUNCTION=NPER\n"
 	   "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
 	   "@DESCRIPTION="
@@ -2085,7 +2085,7 @@ gnumeric_nper (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_duration = {
+static const char *help_duration = {
 	N_("@FUNCTION=DURATION\n"
 	   "@SYNTAX=DURATION(rate,pv,fv)\n"
 	   "@DESCRIPTION="
@@ -2122,7 +2122,7 @@ gnumeric_duration (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_fvschedule = {
+static const char *help_fvschedule = {
 	N_("@FUNCTION=FVSCHEDULE\n"
 	   "@SYNTAX=FVSCHEDULE(principal,schedule)\n"
 	   "@DESCRIPTION="
@@ -2166,7 +2166,7 @@ out:
 
 /***************************************************************************/
 
-static char *help_euro = {
+static const char *help_euro = {
 	N_("@FUNCTION=EURO\n"
 	   "@SYNTAX=EURO(currency)\n"
 	   "@DESCRIPTION="
@@ -2248,7 +2248,7 @@ gnumeric_euro (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_price = {
+static const char *help_price = {
 	N_("@FUNCTION=PRICE\n"
 	   "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency"
 	   "[,basis])\n"
@@ -2338,7 +2338,7 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_yield = {
+static const char *help_yield = {
 	N_("@FUNCTION=YIELD\n"
 	   "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency"
 	   "[,basis])\n"
@@ -2428,7 +2428,7 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_yielddisc = {
+static const char *help_yielddisc = {
 	N_("@FUNCTION=YIELDDISC\n"
 	   "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
 	   "@DESCRIPTION="
@@ -2464,7 +2464,7 @@ gnumeric_yielddisc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_yieldmat = {
+static const char *help_yieldmat = {
 	N_("@FUNCTION=YIELDMAT\n"
 	   "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
 	   "@DESCRIPTION="
@@ -2501,7 +2501,7 @@ gnumeric_yieldmat (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_oddfprice = {
+static const char *help_oddfprice = {
 	N_("@FUNCTION=ODDFPRICE\n"
 	   "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,"
 	   "yld,redemption,frequency[,basis])\n"
@@ -2604,7 +2604,7 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_oddfyield = {
+static const char *help_oddfyield = {
 	N_("@FUNCTION=ODDFYIELD\n"
 	   "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,"
 	   "pr,redemption,frequency[,basis])\n"
@@ -2641,7 +2641,7 @@ gnumeric_oddfyield (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_oddlprice = {
+static const char *help_oddlprice = {
 	N_("@FUNCTION=ODDLPRICE\n"
 	   "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,"
 	   "redemption,frequency[,basis])\n"
@@ -2678,7 +2678,7 @@ gnumeric_oddlprice (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_oddlyield = {
+static const char *help_oddlyield = {
 	N_("@FUNCTION=ODDLYIELD\n"
 	   "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,"
 	   "redemption,frequency[,basis])\n"
@@ -2715,7 +2715,7 @@ gnumeric_oddlyield (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_amordegrc = {
+static const char *help_amordegrc = {
 	N_("@FUNCTION=AMORDEGRC\n"
 	   "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,"
 	   "rate[,basis])\n"
@@ -2749,7 +2749,7 @@ gnumeric_amordegrc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_amorlinc = {
+static const char *help_amorlinc = {
 	N_("@FUNCTION=AMORLINC\n"
 	   "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,"
 	   "rate[,basis])\n"
@@ -2783,7 +2783,7 @@ gnumeric_amorlinc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_coupdaybs = {
+static const char *help_coupdaybs = {
 	N_("@FUNCTION=COUPDAYBS\n"
 	   "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
 	   "@DESCRIPTION="
@@ -2825,7 +2825,7 @@ gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_coupdays = {
+static const char *help_coupdays = {
 	N_("@FUNCTION=COUPDAYS\n"
 	   "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
@@ -2868,7 +2868,7 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_coupdaysnc = {
+static const char *help_coupdaysnc = {
 	N_("@FUNCTION=COUPDAYSNC\n"
 	   "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
@@ -2910,7 +2910,7 @@ gnumeric_coupdaysnc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_coupncd = {
+static const char *help_coupncd = {
 	N_("@FUNCTION=COUPNCD\n"
 	   "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
@@ -2951,7 +2951,7 @@ gnumeric_coupncd (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_couppcd = {
+static const char *help_couppcd = {
 	N_("@FUNCTION=COUPPCD\n"
 	   "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
@@ -2992,7 +2992,7 @@ gnumeric_couppcd (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_coupnum = {
+static const char *help_coupnum = {
 	N_("@FUNCTION=COUPNUM\n"
 	   "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
@@ -3032,7 +3032,7 @@ gnumeric_coupnum (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_cumipmt = {
+static const char *help_cumipmt = {
 	N_("@FUNCTION=CUMIPMT\n"
 	   "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
 	   "@DESCRIPTION="
@@ -3052,7 +3052,7 @@ gnumeric_cumipmt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_cumprinc = {
+static const char *help_cumprinc = {
 	N_("@FUNCTION=CUMPRINC\n"
 	   "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
 	   "@DESCRIPTION="
@@ -3072,7 +3072,7 @@ gnumeric_cumprinc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_mduration = {
+static const char *help_mduration = {
 	N_("@FUNCTION=MDURATION\n"
 	   "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency"
 	   "[,basis])\n"
@@ -3093,7 +3093,7 @@ gnumeric_mduration (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_vdb = {
+static const char *help_vdb = {
 	N_("@FUNCTION=VDB\n"
 	   "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor"
 	   ",switch])\n"

@@ -500,7 +500,7 @@ filter_row:
 
 /***************************************************************************/
 
-static char *help_daverage = {
+static const char *help_daverage = {
         N_("@FUNCTION=DAVERAGE\n"
            "@SYNTAX=DAVERAGE(database,field,criteria)\n"
 
@@ -570,7 +570,7 @@ gnumeric_daverage (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dcount = {
+static const char *help_dcount = {
         N_("@FUNCTION=DCOUNT\n"
            "@SYNTAX=DCOUNT(database,field,criteria)\n"
 
@@ -632,7 +632,7 @@ gnumeric_dcount (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dcounta = {
+static const char *help_dcounta = {
         N_("@FUNCTION=DCOUNTA\n"
            "@SYNTAX=DCOUNTA(database,field,criteria)\n"
 
@@ -691,7 +691,7 @@ gnumeric_dcounta (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dget = {
+static const char *help_dget = {
         N_("@FUNCTION=DGET\n"
            "@SYNTAX=DGET(database,field,criteria)\n"
 
@@ -760,7 +760,7 @@ gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
         return value_duplicate (cell->value);
 }
 
-static char *help_dmax = {
+static const char *help_dmax = {
         N_("@FUNCTION=DMAX\n"
            "@SYNTAX=DMAX(database,field,criteria)\n"
 
@@ -832,7 +832,7 @@ gnumeric_dmax (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dmin = {
+static const char *help_dmin = {
         N_("@FUNCTION=DMIN\n"
            "@SYNTAX=DMIN(database,field,criteria)\n"
 
@@ -903,7 +903,7 @@ gnumeric_dmin (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dproduct = {
+static const char *help_dproduct = {
         N_("@FUNCTION=DPRODUCT\n"
            "@SYNTAX=DPRODUCT(database,field,criteria)\n"
 
@@ -971,7 +971,7 @@ gnumeric_dproduct (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dstdev = {
+static const char *help_dstdev = {
         N_("@FUNCTION=DSTDEV\n"
            "@SYNTAX=DSTDEV(database,field,criteria)\n"
 
@@ -1038,7 +1038,7 @@ gnumeric_dstdev (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dstdevp = {
+static const char *help_dstdevp = {
         N_("@FUNCTION=DSTDEVP\n"
            "@SYNTAX=DSTDEVP(database,field,criteria)\n"
 
@@ -1107,7 +1107,7 @@ gnumeric_dstdevp (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dsum = {
+static const char *help_dsum = {
         N_("@FUNCTION=DSUM\n"
            "@SYNTAX=DSUM(database,field,criteria)\n"
 
@@ -1175,7 +1175,7 @@ gnumeric_dsum (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dvar = {
+static const char *help_dvar = {
         N_("@FUNCTION=DVAR\n"
            "@SYNTAX=DVAR(database,field,criteria)\n"
 
@@ -1244,7 +1244,7 @@ gnumeric_dvar (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dvarp = {
+static const char *help_dvarp = {
         N_("@FUNCTION=DVARP\n"
            "@SYNTAX=DVARP(database,field,criteria)\n"
 
@@ -1314,7 +1314,7 @@ gnumeric_dvarp (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_getpivotdata = {
+static const char *help_getpivotdata = {
         N_("@FUNCTION=GETPIVOTDATA\n"
            "@SYNTAX=GETPIVOTDATA(pivot_table,field_name)\n"
 

@@ -1,3 +1,7 @@
+2002-02-20  Morten Welinder  <terra@diku.dk>
+
+	* fn-*.c: Constify all help texts.
+
 2002-02-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* fn_stat.c : change all occurrences of extra_stat.df to

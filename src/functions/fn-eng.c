@@ -87,7 +87,7 @@ val_to_base (FunctionEvalInfo *ei, Value **argv, int num_argv,
 
 /***************************************************************************/
 
-static char *help_bin2dec = {
+static const char *help_bin2dec = {
 	N_("@FUNCTION=BIN2DEC\n"
 	   "@SYNTAX=BIN2DEC(x)\n"
 
@@ -110,7 +110,7 @@ gnumeric_bin2dec (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_bin2oct = {
+static const char *help_bin2oct = {
 	N_("@FUNCTION=BIN2OCT\n"
 	   "@SYNTAX=BIN2OCT(number[,places])\n"
 
@@ -136,7 +136,7 @@ gnumeric_bin2oct (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_bin2hex = {
+static const char *help_bin2hex = {
 	N_("@FUNCTION=BIN2HEX\n"
 	   "@SYNTAX=BIN2HEX(number[,places])\n"
 
@@ -162,7 +162,7 @@ gnumeric_bin2hex (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dec2bin = {
+static const char *help_dec2bin = {
 	N_("@FUNCTION=DEC2BIN\n"
 	   "@SYNTAX=DEC2BIN(number[,places])\n"
 
@@ -188,7 +188,7 @@ gnumeric_dec2bin (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dec2oct = {
+static const char *help_dec2oct = {
 	N_("@FUNCTION=DEC2OCT\n"
 	   "@SYNTAX=DEC2OCT(number[,places])\n"
 
@@ -214,7 +214,7 @@ gnumeric_dec2oct (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_dec2hex = {
+static const char *help_dec2hex = {
 	N_("@FUNCTION=DEC2HEX\n"
 	   "@SYNTAX=DEC2HEX(number[,places])\n"
 
@@ -240,7 +240,7 @@ gnumeric_dec2hex (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_oct2dec = {
+static const char *help_oct2dec = {
 	N_("@FUNCTION=OCT2DEC\n"
 	   "@SYNTAX=OCT2DEC(x)\n"
 
@@ -263,7 +263,7 @@ gnumeric_oct2dec (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_oct2bin = {
+static const char *help_oct2bin = {
 	N_("@FUNCTION=OCT2BIN\n"
 	   "@SYNTAX=OCT2BIN(number[,places])\n"
 
@@ -289,7 +289,7 @@ gnumeric_oct2bin (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_oct2hex = {
+static const char *help_oct2hex = {
 	N_("@FUNCTION=OCT2HEX\n"
 	   "@SYNTAX=OCT2HEX(number[,places])\n"
 
@@ -315,7 +315,7 @@ gnumeric_oct2hex (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_hex2bin = {
+static const char *help_hex2bin = {
 	N_("@FUNCTION=HEX2BIN\n"
 	   "@SYNTAX=HEX2BIN(number[,places])\n"
 
@@ -341,7 +341,7 @@ gnumeric_hex2bin (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_hex2oct = {
+static const char *help_hex2oct = {
 	N_("@FUNCTION=HEX2OCT\n"
 	   "@SYNTAX=HEX2OCT(number[,places])\n"
 
@@ -367,7 +367,7 @@ gnumeric_hex2oct (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_hex2dec = {
+static const char *help_hex2dec = {
 	N_("@FUNCTION=HEX2DEC\n"
 	   "@SYNTAX=HEX2DEC(x)\n"
 
@@ -390,7 +390,7 @@ gnumeric_hex2dec (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_besseli = {
+static const char *help_besseli = {
 	N_("@FUNCTION=BESSELI\n"
 	   "@SYNTAX=BESSELI(x,y)\n"
 
@@ -428,7 +428,7 @@ gnumeric_besseli (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_besselk = {
+static const char *help_besselk = {
 	N_("@FUNCTION=BESSELK\n"
 	   "@SYNTAX=BESSELK(x,y)\n"
 
@@ -465,7 +465,7 @@ gnumeric_besselk (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_besselj = {
+static const char *help_besselj = {
 	N_("@FUNCTION=BESSELJ\n"
 	   "@SYNTAX=BESSELJ(x,y)\n"
 
@@ -501,7 +501,7 @@ gnumeric_besselj (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_bessely = {
+static const char *help_bessely = {
 	N_("@FUNCTION=BESSELY\n"
 	   "@SYNTAX=BESSELY(x,y)\n"
 
@@ -573,7 +573,7 @@ value_new_complex (const complex_t *c, char imunit)
 
 /***************************************************************************/
 
-static char *help_complex = {
+static const char *help_complex = {
 	N_("@FUNCTION=COMPLEX\n"
 	   "@SYNTAX=COMPLEX(real,im[,suffix])\n"
 
@@ -612,7 +612,7 @@ gnumeric_complex (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imaginary = {
+static const char *help_imaginary = {
 	N_("@FUNCTION=IMAGINARY\n"
 	   "@SYNTAX=IMAGINARY(inumber)\n"
 	   "@DESCRIPTION="
@@ -643,7 +643,7 @@ gnumeric_imaginary (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imreal = {
+static const char *help_imreal = {
 	N_("@FUNCTION=IMREAL\n"
 	   "@SYNTAX=IMREAL(inumber)\n"
 	   "@DESCRIPTION="
@@ -674,7 +674,7 @@ gnumeric_imreal (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imabs = {
+static const char *help_imabs = {
 	N_("@FUNCTION=IMABS\n"
 	   "@SYNTAX=IMABS(inumber)\n"
 	   "@DESCRIPTION="
@@ -705,7 +705,7 @@ gnumeric_imabs (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imconjugate = {
+static const char *help_imconjugate = {
 	N_("@FUNCTION=IMCONJUGATE\n"
 	   "@SYNTAX=IMCONJUGATE(inumber)\n"
 	   "@DESCRIPTION="
@@ -736,7 +736,7 @@ gnumeric_imconjugate (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imcos = {
+static const char *help_imcos = {
 	N_("@FUNCTION=IMCOS\n"
 	   "@SYNTAX=IMCOS(inumber)\n"
 	   "@DESCRIPTION="
@@ -764,7 +764,7 @@ gnumeric_imcos (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imtan = {
+static const char *help_imtan = {
 	N_("@FUNCTION=IMTAN\n"
 	   "@SYNTAX=IMTAN(inumber)\n"
 	   "@DESCRIPTION="
@@ -791,7 +791,7 @@ gnumeric_imtan (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imexp = {
+static const char *help_imexp = {
 	N_("@FUNCTION=IMEXP\n"
 	   "@SYNTAX=IMEXP(inumber)\n"
 	   "@DESCRIPTION="
@@ -819,7 +819,7 @@ gnumeric_imexp (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imargument = {
+static const char *help_imargument = {
 	N_("@FUNCTION=IMARGUMENT\n"
 	   "@SYNTAX=IMARGUMENT(inumber)\n"
 	   "@DESCRIPTION="
@@ -846,7 +846,7 @@ gnumeric_imargument (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imln = {
+static const char *help_imln = {
 	N_("@FUNCTION=IMLN\n"
 	   "@SYNTAX=IMLN(inumber)\n"
 	   "@DESCRIPTION="
@@ -878,7 +878,7 @@ gnumeric_imln (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imlog2 = {
+static const char *help_imlog2 = {
 	N_("@FUNCTION=IMLOG2\n"
 	   "@SYNTAX=IMLOG2(inumber)\n"
 	   "@DESCRIPTION="
@@ -908,7 +908,7 @@ gnumeric_imlog2 (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imlog10 = {
+static const char *help_imlog10 = {
 	N_("@FUNCTION=IMLOG10\n"
 	   "@SYNTAX=IMLOG10(inumber)\n"
 	   "@DESCRIPTION="
@@ -938,7 +938,7 @@ gnumeric_imlog10 (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_impower = {
+static const char *help_impower = {
 	N_("@FUNCTION=IMPOWER\n"
 	   "@SYNTAX=IMPOWER(inumber,number)\n"
 	   "@DESCRIPTION="
@@ -974,7 +974,7 @@ gnumeric_impower (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imdiv = {
+static const char *help_imdiv = {
 	N_("@FUNCTION=IMDIV\n"
 	   "@SYNTAX=IMDIV(inumber,inumber)\n"
 	   "@DESCRIPTION="
@@ -1008,7 +1008,7 @@ gnumeric_imdiv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imsin = {
+static const char *help_imsin = {
 	N_("@FUNCTION=IMSIN\n"
 	   "@SYNTAX=IMSIN(inumber)\n"
 	   "@DESCRIPTION="
@@ -1036,7 +1036,7 @@ gnumeric_imsin (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imsqrt = {
+static const char *help_imsqrt = {
 	N_("@FUNCTION=IMSQRT\n"
 	   "@SYNTAX=IMSQRT(inumber)\n"
 	   "@DESCRIPTION="
@@ -1064,7 +1064,7 @@ gnumeric_imsqrt (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_imsub = {
+static const char *help_imsub = {
 	N_("@FUNCTION=IMSUB\n"
 	   "@SYNTAX=IMSUB(inumber,inumber)\n"
 	   "@DESCRIPTION="
@@ -1095,7 +1095,7 @@ gnumeric_imsub (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_improduct = {
+static const char *help_improduct = {
 	N_("@FUNCTION=IMPRODUCT\n"
 	   "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
 	   "@DESCRIPTION="
@@ -1165,7 +1165,7 @@ gnumeric_improduct (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_imsum = {
+static const char *help_imsum = {
 	N_("@FUNCTION=IMSUM\n"
 	   "@SYNTAX=IMSUM(inumber,inumber)\n"
 	   "@DESCRIPTION="
@@ -1199,7 +1199,7 @@ gnumeric_imsum (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_convert = {
+static const char *help_convert = {
 	N_("@FUNCTION=CONVERT\n"
 	   "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
 	   "@DESCRIPTION="
@@ -1299,7 +1299,7 @@ static char *help_convert = {
 };
 
 typedef struct {
-        char *str;
+        const char *str;
 	gnum_float c;
 } eng_convert_unit_t;
 
@@ -1600,7 +1600,7 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_erf = {
+static const char *help_erf = {
 	N_("@FUNCTION=ERF\n"
 	   "@SYNTAX=ERF([lower limit,]upper_limit)\n"
 
@@ -1646,7 +1646,7 @@ gnumeric_erf (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_erfc = {
+static const char *help_erfc = {
 	N_("@FUNCTION=ERFC\n"
 	   "@SYNTAX=ERFC(x)\n"
 
@@ -1676,7 +1676,7 @@ gnumeric_erfc (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_delta = {
+static const char *help_delta = {
 	N_("@FUNCTION=DELTA\n"
 	   "@SYNTAX=DELTA(x[,y])\n"
 
@@ -1732,7 +1732,7 @@ gnumeric_delta (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_gestep = {
+static const char *help_gestep = {
 	N_("@FUNCTION=GESTEP\n"
 	   "@SYNTAX=GESTEP(x[,y])\n"
 	   "@DESCRIPTION="

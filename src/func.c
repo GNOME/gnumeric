@@ -385,7 +385,7 @@ static FunctionDefinition *
 fn_def_new (FunctionCategory *category,
 	    char const *name,
 	    char const *arg_names,
-	    char **help)
+	    char const **help)
 {
 	FunctionDefinition *fn_def;
 
@@ -410,7 +410,7 @@ function_add_args (FunctionCategory *category,
 		   char const *name,
 		   char const *args,
 		   char const *arg_names,
-		   char **help,
+		   char const **help,
 		   FunctionArgs *fn)
 {
 	static char const valid_tokens[] = "fsbraAS?|";
@@ -440,7 +440,7 @@ function_add_nodes (FunctionCategory *category,
 		    char const *name,
 		    char const *args,
 		    char const *arg_names,
-		    char **help,
+		    char const **help,
 		    FunctionNodes *fn)
 {
 	FunctionDefinition *fn_def;

@@ -155,7 +155,7 @@ make_list (make_list_t *p, EvalPos const *ep, Value *val)
 
 /***************************************************************************/
 
-static char *help_varp = {
+static const char *help_varp = {
 	N_("@FUNCTION=VARP\n"
 	   "@SYNTAX=VARP(b1, b2, ...)\n"
 
@@ -187,7 +187,7 @@ gnumeric_varp (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_var = {
+static const char *help_var = {
 	N_("@FUNCTION=VAR\n"
 	   "@SYNTAX=VAR(b1, b2, ...)\n"
 
@@ -221,7 +221,7 @@ gnumeric_var (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_stdev = {
+static const char *help_stdev = {
 	N_("@FUNCTION=STDEV\n"
 	   "@SYNTAX=STDEV(b1, b2, ...)\n"
 
@@ -251,7 +251,7 @@ gnumeric_stdev (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_stdevp = {
+static const char *help_stdevp = {
 	N_("@FUNCTION=STDEVP\n"
 	   "@SYNTAX=STDEVP(b1, b2, ...)\n"
 
@@ -281,7 +281,7 @@ gnumeric_stdevp (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_rank = {
+static const char *help_rank = {
 	N_("@FUNCTION=RANK\n"
 	   "@SYNTAX=RANK(x,ref[,order])\n"
 
@@ -373,7 +373,7 @@ gnumeric_rank (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_trimmean = {
+static const char *help_trimmean = {
 	N_("@FUNCTION=TRIMMEAN\n"
 	   "@SYNTAX=TRIMMEAN(ref,fraction)\n"
 
@@ -435,7 +435,7 @@ gnumeric_trimmean (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_covar = {
+static const char *help_covar = {
 	N_("@FUNCTION=COVAR\n"
 	   "@SYNTAX=COVAR(array1,array2)\n"
 
@@ -467,7 +467,7 @@ gnumeric_covar (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_correl = {
+static const char *help_correl = {
 	N_("@FUNCTION=CORREL\n"
 	   "@SYNTAX=CORREL(array1,array2)\n"
 
@@ -499,7 +499,7 @@ gnumeric_correl (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_negbinomdist = {
+static const char *help_negbinomdist = {
 	N_("@FUNCTION=NEGBINOMDIST\n"
 	   "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
 
@@ -538,7 +538,7 @@ gnumeric_negbinomdist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_normsdist = {
+static const char *help_normsdist = {
         N_("@FUNCTION=NORMSDIST\n"
            "@SYNTAX=NORMSDIST(x)\n"
 
@@ -565,7 +565,7 @@ gnumeric_normsdist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_normsinv = {
+static const char *help_normsinv = {
         N_("@FUNCTION=NORMSINV\n"
            "@SYNTAX=NORMSINV(p)\n"
 
@@ -598,7 +598,7 @@ gnumeric_normsinv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_lognormdist = {
+static const char *help_lognormdist = {
         N_("@FUNCTION=LOGNORMDIST\n"
            "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
 
@@ -638,7 +638,7 @@ gnumeric_lognormdist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_loginv = {
+static const char *help_loginv = {
         N_("@FUNCTION=LOGINV\n"
            "@SYNTAX=LOGINV(p,mean,stdev)\n"
 
@@ -675,7 +675,7 @@ gnumeric_loginv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_fisherinv = {
+static const char *help_fisherinv = {
         N_("@FUNCTION=FISHERINV\n"
            "@SYNTAX=FISHERINV(x)\n"
 
@@ -703,7 +703,7 @@ gnumeric_fisherinv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_mode = {
+static const char *help_mode = {
         N_("@FUNCTION=MODE\n"
            "@SYNTAX=MODE(n1, n2, ...)\n"
 
@@ -739,7 +739,7 @@ gnumeric_mode (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_harmean = {
+static const char *help_harmean = {
 	N_("@FUNCTION=HARMEAN\n"
 	   "@SYNTAX=HARMEAN(b1, b2, ...)\n"
 
@@ -771,7 +771,7 @@ gnumeric_harmean (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_geomean = {
+static const char *help_geomean = {
 	N_("@FUNCTION=GEOMEAN\n"
 	   "@SYNTAX=GEOMEAN(b1, b2, ...)\n"
 
@@ -802,7 +802,7 @@ gnumeric_geomean (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_count = {
+static const char *help_count = {
 	N_("@FUNCTION=COUNT\n"
 	   "@SYNTAX=COUNT(b1, b2, ...)\n"
 
@@ -844,7 +844,7 @@ gnumeric_count (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_counta = {
+static const char *help_counta = {
         N_("@FUNCTION=COUNTA\n"
            "@SYNTAX=COUNTA(b1, b2, ...)\n"
 
@@ -886,7 +886,7 @@ gnumeric_counta (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_average = {
+static const char *help_average = {
 	N_("@FUNCTION=AVERAGE\n"
 	   "@SYNTAX=AVERAGE(value1, value2,...)\n"
 
@@ -918,7 +918,7 @@ gnumeric_average (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_min = {
+static const char *help_min = {
 	N_("@FUNCTION=MIN\n"
 	   "@SYNTAX=MIN(b1, b2, ...)\n"
 
@@ -960,7 +960,7 @@ gnumeric_min (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_max = {
+static const char *help_max = {
 	N_("@FUNCTION=MAX\n"
 	   "@SYNTAX=MAX(b1, b2, ...)\n"
 
@@ -1002,7 +1002,7 @@ gnumeric_max (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_skew = {
+static const char *help_skew = {
 	N_("@FUNCTION=SKEW\n"
 	   "@SYNTAX=SKEW(n1, n2, ...)\n"
 
@@ -1040,7 +1040,7 @@ gnumeric_skew (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_skewp = {
+static const char *help_skewp = {
 	N_("@FUNCTION=SKEWP\n"
 	   "@SYNTAX=SKEWP(n1, n2, ...)\n"
 
@@ -1073,7 +1073,7 @@ gnumeric_skewp (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_expondist = {
+static const char *help_expondist = {
 	N_("@FUNCTION=EXPONDIST\n"
 	   "@SYNTAX=EXPONDIST(x,y,cumulative)\n"
 
@@ -1116,7 +1116,7 @@ gnumeric_expondist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_gammaln = {
+static const char *help_gammaln = {
 	N_("@FUNCTION=GAMMALN\n"
 	   "@SYNTAX=GAMMALN(x)\n"
 
@@ -1153,7 +1153,7 @@ gnumeric_gammaln (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_gammadist = {
+static const char *help_gammadist = {
 	N_("@FUNCTION=GAMMADIST\n"
 	   "@SYNTAX=GAMMADIST(x,alpha,beta,cum)\n"
 
@@ -1194,7 +1194,7 @@ gnumeric_gammadist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_gammainv = {
+static const char *help_gammainv = {
         N_("@FUNCTION=GAMMAINV\n"
            "@SYNTAX=GAMMAINV(p,alpha,beta)\n"
 
@@ -1230,7 +1230,7 @@ gnumeric_gammainv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_chidist = {
+static const char *help_chidist = {
 	N_("@FUNCTION=CHIDIST\n"
 	   "@SYNTAX=CHIDIST(x,dof)\n"
 
@@ -1266,7 +1266,7 @@ gnumeric_chidist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_chiinv = {
+static const char *help_chiinv = {
         N_("@FUNCTION=CHIINV\n"
            "@SYNTAX=CHIINV(p,dof)\n"
 
@@ -1300,7 +1300,7 @@ gnumeric_chiinv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_chitest = {
+static const char *help_chitest = {
         N_("@FUNCTION=CHITEST\n"
            "@SYNTAX=CHITEST(actual_range,theoretical_range)\n"
 
@@ -1438,7 +1438,7 @@ gnumeric_chitest (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_betadist = {
+static const char *help_betadist = {
 	N_("@FUNCTION=BETADIST\n"
 	   "@SYNTAX=BETADIST(x,alpha,beta[,a,b])\n"
 
@@ -1478,7 +1478,7 @@ gnumeric_betadist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_betainv = {
+static const char *help_betainv = {
 	N_("@FUNCTION=BETAINV\n"
 	   "@SYNTAX=BETAINV(p,alpha,beta[,a,b])\n"
 
@@ -1518,7 +1518,7 @@ gnumeric_betainv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_tdist = {
+static const char *help_tdist = {
 	N_("@FUNCTION=TDIST\n"
 	   "@SYNTAX=TDIST(x,dof,tails)\n"
 
@@ -1558,7 +1558,7 @@ gnumeric_tdist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_tinv = {
+static const char *help_tinv = {
         N_("@FUNCTION=TINV\n"
            "@SYNTAX=TINV(p,dof)\n"
 
@@ -1592,7 +1592,7 @@ gnumeric_tinv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_fdist = {
+static const char *help_fdist = {
 	N_("@FUNCTION=FDIST\n"
 	   "@SYNTAX=FDIST(x,dof1,dof2)\n"
 
@@ -1629,7 +1629,7 @@ gnumeric_fdist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_finv = {
+static const char *help_finv = {
         N_("@FUNCTION=FINV\n"
            "@SYNTAX=FINV(p,dof1,dof2)\n"
 
@@ -1665,7 +1665,7 @@ gnumeric_finv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_binomdist = {
+static const char *help_binomdist = {
 	N_("@FUNCTION=BINOMDIST\n"
 	   "@SYNTAX=BINOMDIST(n,trials,p,cumulative)\n"
 
@@ -1711,7 +1711,7 @@ gnumeric_binomdist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_critbinom = {
+static const char *help_critbinom = {
         N_("@FUNCTION=CRITBINOM\n"
            "@SYNTAX=CRITBINOM(trials,p,alpha)\n"
 
@@ -1751,7 +1751,7 @@ gnumeric_critbinom (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_permut = {
+static const char *help_permut = {
 	N_("@FUNCTION=PERMUT\n"
 	   "@SYNTAX=PERMUT(n,k)\n"
 
@@ -1786,7 +1786,7 @@ gnumeric_permut (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_hypgeomdist = {
+static const char *help_hypgeomdist = {
 	N_("@FUNCTION=HYPGEOMDIST\n"
 	   "@SYNTAX=HYPGEOMDIST(x,n,M,N)\n"
 
@@ -1826,7 +1826,7 @@ gnumeric_hypgeomdist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_confidence = {
+static const char *help_confidence = {
 	N_("@FUNCTION=CONFIDENCE\n"
 	   "@SYNTAX=CONFIDENCE(x,stddev,size)\n"
 
@@ -1867,7 +1867,7 @@ gnumeric_confidence (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_standardize = {
+static const char *help_standardize = {
 	N_("@FUNCTION=STANDARDIZE\n"
 	   "@SYNTAX=STANDARDIZE(x,mean,stdev)\n"
 
@@ -1905,7 +1905,7 @@ gnumeric_standardize (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_weibull = {
+static const char *help_weibull = {
         N_("@FUNCTION=WEIBULL\n"
            "@SYNTAX=WEIBULL(x,alpha,beta,cumulative)\n"
 
@@ -1951,7 +1951,7 @@ gnumeric_weibull (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_normdist = {
+static const char *help_normdist = {
         N_("@FUNCTION=NORMDIST\n"
            "@SYNTAX=NORMDIST(x,mean,stdev,cumulative)\n"
 
@@ -1996,7 +1996,7 @@ gnumeric_normdist (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_norminv = {
+static const char *help_norminv = {
         N_("@FUNCTION=NORMINV\n"
            "@SYNTAX=NORMINV(p,mean,stdev)\n"
 
@@ -2034,7 +2034,7 @@ gnumeric_norminv (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_kurt = {
+static const char *help_kurt = {
         N_("@FUNCTION=KURT\n"
            "@SYNTAX=KURT(n1, n2, ...)\n"
 
@@ -2074,7 +2074,7 @@ gnumeric_kurt (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_kurtp = {
+static const char *help_kurtp = {
         N_("@FUNCTION=KURTP\n"
            "@SYNTAX=KURTP(n1, n2, ...)\n"
 
@@ -2108,7 +2108,7 @@ gnumeric_kurtp (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_avedev = {
+static const char *help_avedev = {
         N_("@FUNCTION=AVEDEV\n"
            "@SYNTAX=AVEDEV(n1, n2, ...)\n"
 
@@ -2139,7 +2139,7 @@ gnumeric_avedev (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_devsq = {
+static const char *help_devsq = {
         N_("@FUNCTION=DEVSQ\n"
            "@SYNTAX=DEVSQ(n1, n2, ...)\n"
 
@@ -2172,7 +2172,7 @@ gnumeric_devsq (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_fisher = {
+static const char *help_fisher = {
         N_("@FUNCTION=FISHER\n"
            "@SYNTAX=FISHER(x)\n"
 
@@ -2207,7 +2207,7 @@ gnumeric_fisher (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_poisson = {
+static const char *help_poisson = {
 	N_("@FUNCTION=POISSON\n"
 	   "@SYNTAX=POISSON(x,mean,cumulative)\n"
 
@@ -2250,7 +2250,7 @@ gnumeric_poisson (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_pearson = {
+static const char *help_pearson = {
 	N_("@FUNCTION=PEARSON\n"
 	   "@SYNTAX=PEARSON(array1,array2)\n"
 
@@ -2275,7 +2275,7 @@ gnumeric_pearson (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_rsq = {
+static const char *help_rsq = {
 	N_("@FUNCTION=RSQ\n"
 	   "@SYNTAX=RSQ(array1,array2)\n"
 
@@ -2305,7 +2305,7 @@ gnumeric_rsq (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_median = {
+static const char *help_median = {
         N_("@FUNCTION=MEDIAN\n"
            "@SYNTAX=MEDIAN(n1, n2, ...)\n"
 
@@ -2339,7 +2339,7 @@ gnumeric_median (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_large = {
+static const char *help_large = {
 	N_("@FUNCTION=LARGE\n"
 	   "@SYNTAX=LARGE(n1, n2, ..., k)\n"
 
@@ -2386,7 +2386,7 @@ gnumeric_large (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_small = {
+static const char *help_small = {
 	N_("@FUNCTION=SMALL\n"
 	   "@SYNTAX=SMALL(n1, n2, ..., k)\n"
 
@@ -2457,7 +2457,7 @@ callback_function_list (Sheet *sheet, int col, int row,
 
 /***************************************************************************/
 
-static char *help_prob = {
+static const char *help_prob = {
 	N_("@FUNCTION=PROB\n"
 	   "@SYNTAX=PROB(x_range,prob_range,lower_limit[,upper_limit])\n"
 
@@ -2551,7 +2551,7 @@ gnumeric_prob (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_steyx = {
+static const char *help_steyx = {
 	N_("@FUNCTION=STEYX\n"
 	   "@SYNTAX=STEYX(known_y's,known_x's)\n"
 
@@ -2706,7 +2706,7 @@ gnumeric_steyx (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_ztest = {
+static const char *help_ztest = {
 	N_("@FUNCTION=ZTEST\n"
 	   "@SYNTAX=ZTEST(ref,x)\n"
 
@@ -2787,7 +2787,7 @@ gnumeric_ztest (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_averagea = {
+static const char *help_averagea = {
 	N_("@FUNCTION=AVERAGEA\n"
 	   "@SYNTAX=AVERAGEA(number1,number2,...)\n"
 
@@ -2822,7 +2822,7 @@ gnumeric_averagea (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_maxa = {
+static const char *help_maxa = {
 	N_("@FUNCTION=MAXA\n"
 	   "@SYNTAX=MAXA(number1,number2,...)\n"
 
@@ -2857,7 +2857,7 @@ gnumeric_maxa (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_mina = {
+static const char *help_mina = {
 	N_("@FUNCTION=MINA\n"
 	   "@SYNTAX=MINA(number1,number2,...)\n"
 
@@ -2892,7 +2892,7 @@ gnumeric_mina (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_vara = {
+static const char *help_vara = {
 	N_("@FUNCTION=VARA\n"
 	   "@SYNTAX=VARA(number1,number2,...)\n"
 
@@ -2927,7 +2927,7 @@ gnumeric_vara (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_varpa = {
+static const char *help_varpa = {
 	N_("@FUNCTION=VARPA\n"
 	   "@SYNTAX=VARPA(number1,number2,...)\n"
 
@@ -2962,7 +2962,7 @@ gnumeric_varpa (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_stdeva = {
+static const char *help_stdeva = {
 	N_("@FUNCTION=STDEVA\n"
 	   "@SYNTAX=STDEVA(number1,number2,...)\n"
 
@@ -2997,7 +2997,7 @@ gnumeric_stdeva (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_stdevpa = {
+static const char *help_stdevpa = {
 	N_("@FUNCTION=STDEVPA\n"
 	   "@SYNTAX=STDEVPA(number1,number2,...)\n"
 
@@ -3032,7 +3032,7 @@ gnumeric_stdevpa (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_percentrank = {
+static const char *help_percentrank = {
 	N_("@FUNCTION=PERCENTRANK\n"
 	   "@SYNTAX=PERCENTRANK(array,x[,significance])\n"
 
@@ -3142,7 +3142,7 @@ gnumeric_percentrank (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_percentile = {
+static const char *help_percentile = {
 	N_("@FUNCTION=PERCENTILE\n"
 	   "@SYNTAX=PERCENTILE(array,k)\n"
 
@@ -3191,7 +3191,7 @@ gnumeric_percentile (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_quartile = {
+static const char *help_quartile = {
 	N_("@FUNCTION=QUARTILE\n"
 	   "@SYNTAX=QUARTILE(array,quart)\n"
 
@@ -3247,7 +3247,7 @@ gnumeric_quartile (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_ftest = {
+static const char *help_ftest = {
 	N_("@FUNCTION=FTEST\n"
 	   "@SYNTAX=FTEST(array1,array2)\n"
 
@@ -3297,7 +3297,7 @@ gnumeric_ftest (FunctionEvalInfo *ei, Value *argv[])
 
 /***************************************************************************/
 
-static char *help_ttest = {
+static const char *help_ttest = {
 	N_("@FUNCTION=TTEST\n"
 	   "@SYNTAX=TTEST(array1,array2,tails,type)\n"
 
@@ -3471,7 +3471,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, Value *argv[])
 
 /***************************************************************************/
 
-static char *help_frequency = {
+static const char *help_frequency = {
 	N_("@FUNCTION=FREQUENCY\n"
 	   "@SYNTAX=FREQUENCY(data_array,bins_array)\n"
 
@@ -3546,7 +3546,7 @@ gnumeric_frequency (FunctionEvalInfo *ei, Value *argv[])
 
 /***************************************************************************/
 
-static char *help_linest = {
+static const char *help_linest = {
 	N_("@FUNCTION=LINEST\n"
 	   "@SYNTAX=LINEST(known_y's[,known_x's[,const[,stat]]])\n"
 
@@ -3817,7 +3817,7 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 
 /***************************************************************************/
 
-static char *help_trend = {
+static const char *help_trend = {
 	N_("@FUNCTION=TREND\n"
 	   "@SYNTAX=TREND(known_y's[,known_x's],new_x's])\n"
 
@@ -3929,7 +3929,7 @@ gnumeric_trend (FunctionEvalInfo *ei, Value *argv[])
 
 /***************************************************************************/
 
-static char *help_logest = {
+static const char *help_logest = {
 	N_("@FUNCTION=LOGEST\n"
 	   "@SYNTAX=LOGEST(known_y's[,known_x's,const,stat])\n"
 
@@ -4184,7 +4184,7 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 
 /***************************************************************************/
 
-static char *help_growth = {
+static const char *help_growth = {
 	N_("@FUNCTION=GROWTH\n"
 	   "@SYNTAX=GROWTH(known_y's[,known_x's,new_x's,const])\n"
 
@@ -4298,7 +4298,7 @@ gnumeric_growth (FunctionEvalInfo *ei, Value *argv[])
 
 /***************************************************************************/
 
-static char *help_forecast = {
+static const char *help_forecast = {
 	N_("@FUNCTION=FORECAST\n"
 	   "@SYNTAX=FORECAST(x,known_y's,known_x's)\n"
 
@@ -4369,7 +4369,7 @@ gnumeric_forecast (FunctionEvalInfo *ei, Value *argv[])
 
 /***************************************************************************/
 
-static char *help_intercept = {
+static const char *help_intercept = {
 	N_("@FUNCTION=INTERCEPT\n"
 	   "@SYNTAX=INTERCEPT(known_y's,known_x's)\n"
 
@@ -4418,7 +4418,7 @@ gnumeric_intercept (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_slope = {
+static const char *help_slope = {
 	N_("@FUNCTION=SLOPE\n"
 	   "@SYNTAX=SLOPE(known_y's,known_x's)\n"
 

@@ -53,6 +53,7 @@ Morten:
 	* Improve random number generation using /dev/urandom device.
 	* Fix Oleo plugin's isdigit usage.
 	* Support for --with-long-double
+	* Constify C strings.
 
 --------------------------------------------------------------------------
 Gnumeric 1.0.3

@@ -79,7 +79,7 @@ get_value_class (FunctionEvalInfo *ei, ExprTree *expr)
 
 /***************************************************************************/
 
-static char *help_cell = {
+static const char *help_cell = {
 	N_("@FUNCTION=CELL\n"
 	   "@SYNTAX=CELL(type,ref)\n"
 
@@ -106,10 +106,10 @@ static char *help_cell = {
 };
 
 typedef struct {
-	char *format;
-	char *output;
+	const char *format;
+	const char *output;
 } translate_t;
-static translate_t translate_table[] = {
+static const translate_t translate_table[] = {
 	{ "General", "G" },
 	{ "0", "F0" },
 	{ "#,##0", ",0" },
@@ -273,7 +273,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_expression = {
+static const char *help_expression = {
 	N_("@FUNCTION=EXPRESSION\n"
 	   "@SYNTAX=EXPRESSION(cell)\n"
 	   "@DESCRIPTION="
@@ -318,7 +318,7 @@ gnumeric_expression (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static char *help_countblank = {
+static const char *help_countblank = {
         N_("@FUNCTION=COUNTBLANK\n"
            "@SYNTAX=COUNTBLANK(range)\n"
 
@@ -357,7 +357,7 @@ gnumeric_countblank (FunctionEvalInfo *ei, Value **args)
 
 /***************************************************************************/
 
-static char *help_info = {
+static const char *help_info = {
 	N_("@FUNCTION=INFO\n"
 	   "@SYNTAX=INFO(type)\n"
 
@@ -448,7 +448,7 @@ gnumeric_info (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_iserror = {
+static const char *help_iserror = {
 	N_("@FUNCTION=ISERROR\n"
 	   "@SYNTAX=ISERROR(value)\n"
 
@@ -503,7 +503,7 @@ gnumeric_iserror (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_isna = {
+static const char *help_isna = {
 	N_("@FUNCTION=ISNA\n"
 	   "@SYNTAX=ISNA(value)\n"
 
@@ -538,7 +538,7 @@ gnumeric_isna (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_iserr = {
+static const char *help_iserr = {
 	N_("@FUNCTION=ISERR\n"
 	   "@SYNTAX=ISERR(value)\n"
 
@@ -569,7 +569,7 @@ gnumeric_iserr (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_error_type = {
+static const char *help_error_type = {
 	N_("@FUNCTION=ERROR.TYPE\n"
 	   "@SYNTAX=ERROR(value)\n"
 
@@ -628,7 +628,7 @@ gnumeric_error_type (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_na = {
+static const char *help_na = {
 	N_("@FUNCTION=NA\n"
 	   "@SYNTAX=NA()\n"
 
@@ -650,7 +650,7 @@ gnumeric_na (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_error = {
+static const char *help_error = {
 	N_("@FUNCTION=ERROR\n"
 	   "@SYNTAX=ERROR(text)\n"
 
@@ -671,7 +671,7 @@ gnumeric_error (FunctionEvalInfo *ei, Value *argv[])
 
 /***************************************************************************/
 
-static char *help_isblank = {
+static const char *help_isblank = {
 	N_("@FUNCTION=ISBLANK\n"
 	   "@SYNTAX=ISBLANK(value)\n"
 
@@ -720,7 +720,7 @@ gnumeric_isblank (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_iseven = {
+static const char *help_iseven = {
 	N_("@FUNCTION=ISEVEN\n"
 	   "@SYNTAX=ISEVEN(value)\n"
 
@@ -742,7 +742,7 @@ gnumeric_iseven (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_islogical = {
+static const char *help_islogical = {
 	N_("@FUNCTION=ISLOGICAL\n"
 	   "@SYNTAX=ISLOGICAL(value)\n"
 
@@ -772,7 +772,7 @@ gnumeric_islogical (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_isnontext = {
+static const char *help_isnontext = {
 	N_("@FUNCTION=ISNONTEXT\n"
 	   "@SYNTAX=ISNONTEXT(value)\n"
 
@@ -799,7 +799,7 @@ gnumeric_isnontext (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_isnumber = {
+static const char *help_isnumber = {
 	N_("@FUNCTION=ISNUMBER\n"
 	   "@SYNTAX=ISNUMBER(value)\n"
 
@@ -826,7 +826,7 @@ gnumeric_isnumber (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_isodd = {
+static const char *help_isodd = {
 	N_("@FUNCTION=ISODD\n"
 	   "@SYNTAX=ISODD(value)\n"
 
@@ -848,7 +848,7 @@ gnumeric_isodd (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_isref = {
+static const char *help_isref = {
 	N_("@FUNCTION=ISREF\n"
 	   "@SYNTAX=ISREF(value)\n"
 
@@ -880,7 +880,7 @@ gnumeric_isref (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_istext = {
+static const char *help_istext = {
 	N_("@FUNCTION=ISTEXT\n"
 	   "@SYNTAX=ISTEXT(value)\n"
 
@@ -907,7 +907,7 @@ gnumeric_istext (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_n = {
+static const char *help_n = {
 	N_("@FUNCTION=N\n"
 	   "@SYNTAX=N(value)\n"
 
@@ -946,7 +946,7 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 
 /***************************************************************************/
 
-static char *help_type = {
+static const char *help_type = {
 	N_("@FUNCTION=TYPE\n"
 	   "@SYNTAX=TYPE(value)\n"
 
@@ -973,7 +973,7 @@ gnumeric_type (FunctionEvalInfo *ei, ExprList *expr_node_list)
 
 /***************************************************************************/
 
-static char *help_getenv = {
+static const char *help_getenv = {
 	N_("@FUNCTION=GETENV\n"
 	   "@SYNTAX=GETENV(string)\n"
 
