@@ -26,6 +26,7 @@ Jody:
 
 Morten:
 	* Fix image-inside-xls problem.
+	* Improve error handling in xbase plugin.
 
 --------------------------------------------------------------------------
 Gnumeric 1.2.12

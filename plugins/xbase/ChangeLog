@@ -1,3 +1,9 @@
+2004-06-04  Morten Welinder  <terra@gnome.org>
+
+	* xbase.c (xbase_read_header): Return error in ErrorInfo way.
+	Caller changed.
+	(xbase_open): Handle errors from xbase_read_header.
+
 2004-05-05  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.2.12
