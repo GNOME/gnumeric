@@ -586,8 +586,10 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet, Range *range,
 	gnome_print_beginpage (pj->print_context, pagenotxt);
 	g_free (pagenotxt);
 
-	print_headers (pj);
-	print_footers (pj);
+	if (pj->decoration_font) {
+		print_headers (pj);
+		print_footers (pj);
+	}
 
 	/*
 	 * Print any titles that might be used
@@ -1211,8 +1213,13 @@ print_job_info_get (Sheet *sheet, PrintRange range, gboolean const preview)
 	pj->render_info->page = 1;
 
 	face = gnome_font_face_find (DEFAULT_FONT);
-	pj->decoration_font = gnome_font_face_get_font_default (face, 12.);
-	gnome_font_face_unref (face);
+	if (face) {
+		pj->decoration_font = gnome_font_face_get_font_default (face, 12.);
+		gnome_font_face_unref (face);
+	} else {
+		g_warning ("Failed to get a font for page decorations.");
+		pj->decoration_font = NULL;
+	}
 
 	return pj;
 }
@@ -1221,7 +1228,8 @@ static void
 print_job_info_destroy (PrintJobInfo *pj)
 {
 	hf_render_info_destroy (pj->render_info);
-	g_object_unref (G_OBJECT (pj->decoration_font));
+	if (pj->decoration_font)
+		g_object_unref (G_OBJECT (pj->decoration_font));
 	print_info_free (pj->pi);
 	g_free (pj);
 }

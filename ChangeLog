@@ -1,3 +1,9 @@
+2003-01-27  Morten Welinder  <terra@diku.dk>
+
+	* src/print.c (print_page, print_job_info_get,
+	print_job_info_destroy): Make robust with respect to missing
+	fonts.
+
 2003-01-25  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* configure.in: Consistently require libgsf 1.7.1. Thanks Christian
