@@ -10,6 +10,7 @@
 struct _WorkbookControlComponent {
 	WorkbookControlGUI wb_control_gui;
 	BonoboControl      *bcontrol;
+	BonoboZoomable     *zoomable;
 };
 
 typedef struct {

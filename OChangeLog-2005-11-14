@@ -1,3 +1,35 @@
+2002-05-05  Jon K Hellan  <hellan@acm.org>
+
+	* GNOME_Gnumeric.server.in.in: Add Bonobo Zoomable interface.
+
+	* src/main-component.c (control_activated_cb): Don't set
+	wbcc->bcontrol here.
+	(zoom_level_from_index, zoomable_set_zoom_level_cb,
+	zoomable_zoom_in_cb, zoomable_zoom_out_cb,
+	zoomable_zoom_to_fit_cb, zoomable_zoom_to_default_cb): New
+	functions to support zoomable interface.
+	(add_interfaces): Add zoomable interface.
+	(gnumeric_component_factory): Call wbcc_set_bcontrol.
+
+	* src/workbook-control-component.[ch]
+	wbcc_get_zoom_factor): New function. Return zoom factor of current
+	sheet.
+	(wbcc_set_zoom_factor): New function. Set zoom factor for current
+	sheet.
+	(wbcc_sheet_focus): Report zoom level.
+	(wbcc_set_bcontrol): New function. Setter for private 'bcontrol'
+	attribute.
+	(wbcc_set_zoomable): New function. Setter for private 'zoomable'
+	attribute.
+	(workbook_control_component_activate): Remove 'control' from
+	signature. Use wbcc->bcontrol instead.
+
+	* src/workbook-control-component.c (wbcc_zoom_feedback): Implement
+	method.  
+
+	* src/workbook-control-component-priv.h (struct
+	_WorkbookControlComponent): Add 'zoomable' attribute.
+
 2002-05-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* src/commands.c : add cmd_print_set_up and friends

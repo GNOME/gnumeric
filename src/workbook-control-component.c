@@ -3,6 +3,7 @@
 #include "gutils.h"
 #include "workbook-control-component-priv.h"
 #include <gal/util/e-util.h>
+#include <bonobo/bonobo-zoomable.h>
 
 #include "sheet.h"
 
@@ -78,7 +79,54 @@ static void
 wbcc_format_feedback (WorkbookControl *wbc) {}
 
 static void
-wbcc_zoom_feedback (WorkbookControl *wbc) {}
+wbcc_zoom_feedback (WorkbookControl *wbc)
+{
+	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	WorkbookControlComponent *wbcc = (WorkbookControlComponent *)wbc;
+	Sheet *sheet = wb_control_cur_sheet (wbc);
+
+	bonobo_zoomable_report_zoom_level_changed
+		(wbcc->zoomable, sheet->last_zoom_factor_used, NULL);
+
+	scg_object_update_bbox (wbcg_cur_scg (wbcg),
+				NULL, NULL);
+}
+
+double
+wbcc_get_zoom_factor (WorkbookControlComponent *wbcc)
+{
+	Sheet *sheet;
+	
+	g_return_val_if_fail (wbcc != NULL, 1.0);
+	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbcc), 1.0);
+
+	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcc));
+	return sheet->last_zoom_factor_used;
+}
+
+void
+wbcc_set_zoom_factor (WorkbookControlComponent *wbcc, double new_zoom_factor)
+{
+	WorkbookControlGUI *wbcg;
+	Sheet *sheet;
+	
+	g_return_if_fail (IS_WORKBOOK_CONTROL_COMPONENT (wbcc));
+
+	wbcg = (WorkbookControlGUI *)wbcc;
+	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
+		  new_zoom_factor);
+
+	/* FIXME: This "fixes" the following problem: When the component is
+	   zoomed inside Nautilus, the select_all_button wasn't resized.
+	   We've got to find out why these things happen and find a less
+	   disgusting fix.  */
+	gtk_idle_add ((GtkFunction) gtk_widget_queue_resize, wbcg->notebook);
+	wbcg_focus_cur_scg (wbcg);
+	
+	bonobo_zoomable_report_zoom_level_changed
+		(wbcc->zoomable, new_zoom_factor, NULL);
+}
 
 static void
 wbcc_edit_line_set (WorkbookControl *wbc, char const *text) {}
@@ -93,12 +141,15 @@ static void
 wbcc_sheet_focus (WorkbookControl *wbc, Sheet *sheet)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+	WorkbookControlComponent *wbcc = (WorkbookControlComponent *)wbc;
 	SheetControlGUI *scg;
 	int i = wbcg_sheet_to_page_index (wbcg, sheet, &scg);
 
 	/* A sheet added in another view may not yet have a view */
 	if (i >= 0) {
 		gtk_notebook_set_page (wbcg->notebook, i);
+		bonobo_zoomable_report_zoom_level_changed
+			(wbcc->zoomable, sheet->last_zoom_factor_used, NULL);
 	}
 }
 
@@ -160,6 +211,22 @@ wbcc_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
 	/* Waiting for resolution of bugs 80782/80783 */
 	bonobo_control_set_transient_for (wbcc->bcontrol, window, NULL);
 #endif
+}
+
+void
+wbcc_set_bcontrol (WorkbookControlComponent *wbcc, BonoboControl *control)
+{
+	g_return_if_fail (BONOBO_IS_CONTROL (control));
+
+	wbcc->bcontrol = control;
+}
+
+void
+wbcc_set_zoomable (WorkbookControlComponent *wbcc, BonoboZoomable *zoomable)
+{
+	g_return_if_fail (BONOBO_IS_ZOOMABLE (zoomable));
+
+	wbcc->zoomable = zoomable;
 }
 
 static WorkbookControlGUI*
@@ -228,19 +295,18 @@ static BonoboUIVerb verbs [] = {
 
 void
 workbook_control_component_activate (WorkbookControlComponent *wbcc,
-				     BonoboControl *control,
 				     Bonobo_UIContainer ui_container)
 {
 	BonoboUIComponent* uic;
 	char *dir = gnumeric_sys_data_dir (NULL);
 
-	wbcc->bcontrol = control;
-	uic = bonobo_control_get_ui_component (control);
+	uic = bonobo_control_get_ui_component (wbcc->bcontrol);
 	bonobo_ui_component_set_container (uic, ui_container, NULL);
 	bonobo_object_release_unref (ui_container, NULL);
 	
 	bonobo_ui_component_freeze (uic, NULL);
-	bonobo_ui_component_add_verb_list_with_data (uic, verbs, control);
+	bonobo_ui_component_add_verb_list_with_data (uic, verbs,
+						     wbcc->bcontrol);
 	bonobo_ui_util_set_ui
 		(uic, dir, "GNOME_Gnumeric_Component.xml", "gnumeric", NULL);
 	bonobo_ui_component_thaw (uic, NULL);
