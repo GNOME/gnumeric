@@ -1,5 +1,10 @@
 2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* schemas/gnumeric-general.schemas.in: change recalclag 
+	  description
+
+2004-10-20  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/stf-parse.c (stf_parse_options_new): initialize 
 	  col_import_array_len
 	(stf_parse_sheet): make sure we don't index beyond the end 

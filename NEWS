@@ -9,6 +9,7 @@ Andreas:
 	* Suppress warnings when filling with large series. [#153527]
 	* Improve format page in configurable text import [#154138, 
 	  #139385]
+	* Improve schema desription [#153631]
 
 Hal Ashburner:
 	* Some function documentation cleanups.
