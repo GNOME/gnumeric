@@ -70,8 +70,13 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 
 		if (i & 1) { /* odds are rows */
 			ColRowInfo const *ri = sheet_row_get_info (sheet, pos);
-			pixels[i] = ri->size_pixels;
-			pixels[i] *= nths / row_denominator;
+
+			/* warning logged elsewhere */
+			if (ri != NULL) {
+				pixels[i] = ri->size_pixels;
+				pixels[i] *= nths / row_denominator;
+			} else
+				pixels[i] = 0;
 			pixels[i] += sheet_row_get_distance_pixels (sheet, 0, pos);
 
 #ifndef NO_DEBUG_EXCEL
@@ -80,8 +85,13 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 #endif
 		} else {
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
-			pixels[i] = ci->size_pixels;
-			pixels[i] *= nths / 1024.;
+
+			/* warning logged elsewhere */
+			if (ri != NULL) {
+				pixels[i] = ci->size_pixels;
+				pixels[i] *= nths / 1024.;
+			} else
+				pixels[i] = 0;
 			pixels[i] += sheet_col_get_distance_pixels (sheet, 0, pos);
 
 #ifndef NO_DEBUG_EXCEL
@@ -101,6 +111,8 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 
 /*
  * Attempt to install an object in supplied work book.
+ *
+ * Return TRUE on failure, FALSE on success.
  */
 gboolean
 ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)

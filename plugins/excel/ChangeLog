@@ -1,3 +1,8 @@
+2000-03-13  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (object_anchor_to_position) : Be more careful handling out
+	  of bounds conditions.  Part of bug 7312.
+
 2000-03-09  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_excel_get_style_from_xf) : Tweak colour
