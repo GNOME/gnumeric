@@ -1224,6 +1224,13 @@ border_check (UniqueClosure *cl, GList *edge_list,
 		border_mask (cl, location, outer_border);
 		border_mask (cl, location, inner_border);
 		
+		/* If we have gone from nothing to something along an edge or vv. */
+		if (cl->border_valid [location] &&
+		    outer_border == style_border_none () &&
+		    inner_border == style_border_none () &&
+		    cl->borders [location] != style_border_none ())
+			border_invalidate (cl, location);
+		
 		/* Normal compare for styles */
 		mstyle_compare (cl->mstyle, inner_style);
 		mstyle_unref (inner_style);

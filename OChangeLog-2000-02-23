@@ -1,3 +1,8 @@
+1999-11-13  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/sheet-style.c (border_check): fixup for border, no border
+	interface along edge; mark ambiguous.
+
 1999-11-12  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-bar.c (item_bar_draw) : Clip the redraw region at the
