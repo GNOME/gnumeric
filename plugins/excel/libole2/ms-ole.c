@@ -514,6 +514,15 @@ dump_allocation (MsOle *f)
 }
 
 /**
+ * Dump tree.
+ **/
+ms_ole_dump_tree (MsOle *f)
+{
+	if (f->pps)
+		dump_tree (f->pps, 0);
+}
+
+/**
  * Dump some useful facts.
  **/
 void
