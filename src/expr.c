@@ -1907,8 +1907,7 @@ cellref_relocate (CellRef const * const ref,
 	if (ref->col_relative)
 	{
 		int const tmp = pos->eval_col + ref->col + col_offset;
-	    printf ("res = %d\npos->eval_col = %d\nref->col = %d\ncol_offset = %d\n",
-		tmp, pos->eval_col, ref->col, col_offset);
+
 		if (tmp < 0 || SHEET_MAX_COLS <= tmp)
 			return CELLREF_RELOCATE_ERR;
 
