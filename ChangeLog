@@ -1,3 +1,11 @@
+2000-05-07  Jon K Hellan  <hellan@acm.org>
+
+	* src/workbook.c (yield_focus): New callback: Give up focus when
+	widget is destroyed. This gets rid of a warning when import is
+	canceled.
+	(workbook_attach_sheet): Connect callback.
+	(workbook_set_focus): Do nothing if focus target argument is NULL.
+
 2000-05-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/xml-io.c (xml_workbook_write) : Bump the xml version to v3.

@@ -2108,10 +2108,16 @@ workbook_auto_expr_label_set (Workbook *wb, const char *text)
 	g_free (res);
 }
 
+/*
+ * We must not crash on focus=NULL. We're called like that as a result of
+ * gtk_window_set_focus (toplevel, NULL) if the first sheet view is destroyed
+ * just after being created. This happens e.g when we cancel a file import or
+ * the import fails.
+ */
 static void
 workbook_set_focus (GtkWindow *window, GtkWidget *focus, Workbook *wb)
 {
-	if (!window->focus_widget)
+	if (focus && !window->focus_widget)
 		workbook_focus_current_sheet (wb);
 }
 
@@ -2970,17 +2976,46 @@ workbook_sheet_count (Workbook *wb)
 	return g_hash_table_size (wb->sheets);
 }
 
+/*
+ * yield_focus
+ * @widget   widget
+ * @toplevel toplevel
+ *
+ * Give up focus if we have it. This is called when widget is destroyed. A
+ * widget which no longer exists should not have focus!
+ */
+static gboolean
+yield_focus (GtkWidget *widget, GtkWindow *toplevel)
+{
+	if (toplevel && (toplevel->focus_widget == widget))
+		gtk_window_set_focus (toplevel, NULL);
+
+	return FALSE;
+}
+
 /**
  * workbook_attach_sheet:
  * @wb: the target workbook
  * @sheet: a sheet
  *
  * Attaches the @sheet to the @wb.
+ *
+ * A callback to yield focus when the sheet view is destroyed is attached
+ * to the sheet view. This solves a problem which we encountered e.g. when
+ * a file import is canceled or fails:
+ * - First, a sheet is attached to the workbook in this routine. The sheet
+ *   view gets focus.
+ * - Then, the sheet is detached, sheet view is destroyed, but GTK
+ *   still believes that the sheet view has focus.
+ * - GTK accesses already freed memory. Due to the excellent cast checking
+ *   in GTK, we didn't get anything worse than warnings. But the bug had
+ *   to be fixed anyway.
  */
 void
 workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 {
 	GtkWidget *t, *sheet_label;
+	SheetView *sheet_view;
 
 	g_return_if_fail (wb != NULL);
 	g_return_if_fail (sheet != NULL);
@@ -2999,11 +3034,14 @@ workbook_attach_sheet (Workbook *wb, Sheet *sheet)
 	gtk_table_attach (
 		GTK_TABLE (t), GTK_WIDGET (sheet->sheet_views->data),
 		0, 3, 0, 1, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
+	sheet_view = SHEET_VIEW (sheet->sheet_views->data);
+	gtk_signal_connect (
+		GTK_OBJECT (sheet_view->sheet_view), "destroy",
+		GTK_SIGNAL_FUNC (yield_focus), (gpointer) wb->toplevel);
 
 	gtk_widget_show_all (t);
 	gtk_object_set_data (GTK_OBJECT (t), "sheet", sheet);
 
-	/* FIXME : The bonobo case does not seem to have a notebook ? */
 	g_return_if_fail (wb->notebook != NULL);
 
 	sheet_label = editable_label_new (sheet->name_unquoted);
