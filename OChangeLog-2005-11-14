@@ -1,5 +1,12 @@
 2002-03-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/gui-util.c (gnumeric_error_info_dialog_show) : remove
+	  forced placement by mouse
+	(gnumeric_set_transient) : remove unused code, set dialog
+	  placement to GTK_WIN_POS_CENTER_ON_PARENT
+
+2002-03-06  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/eval.c (link_expr_dep) : fix typo
 
 2002-03-06  Andreas J. Guelzow <aguelzow@taliesin.ca>

@@ -373,8 +373,6 @@ gnumeric_error_info_dialog_show (WorkbookControlGUI *wbcg, ErrorInfo *error)
 		GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_CLOSE);
 
-#warning FIXME : not needed when set_transient is finished
-	gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
 	gnumeric_set_transient (wbcg, GTK_WINDOW (dialog));
 
 	if (gnumeric_dialog_run (wbcg, GTK_DIALOG (dialog)) == GNUMERIC_RESPONSE_DETAILS)
@@ -396,6 +394,9 @@ void
 gnumeric_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
 {
 	GtkWindow *toplevel;
+/* FIXME:                                                                     */
+/* 	GtkWindowPosition position = gnome_preferences_get_dialog_position(); */
+	GtkWindowPosition position = GTK_WIN_POS_CENTER_ON_PARENT;
 
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	g_return_if_fail (GTK_IS_WINDOW (window));
@@ -403,35 +404,9 @@ gnumeric_set_transient (WorkbookControlGUI *wbcg, GtkWindow *window)
 	toplevel = wbcg_toplevel (wbcg);
 	gtk_window_set_transient_for (window, toplevel);
 
-#warning what replaces these ?
-#if 0
-	gtk_window_set_position(window,
-				gnome_preferences_get_dialog_position());
-	if (gnome_preferences_get_dialog_centered()) {
-
-		/* User wants us to center over toplevel */
-
-		gint x, y, w, h, dialog_x, dialog_y;
-
-		if ( ! GTK_WIDGET_VISIBLE(toplevel)) return; /* Can't get its
-								size/pos */
-
-		/* Throw out other positioning */
-		gtk_window_set_position(toplevel, GTK_WIN_POS_NONE);
-
-		gdk_window_get_origin (GTK_WIDGET(toplevel)->window, &x, &y);
-		gdk_window_get_size   (GTK_WIDGET(toplevel)->window, &w, &h);
-
-		/* The problem here is we don't know how big the dialog is.
-		   So "centered" isn't really true. We'll go with
-		   "kind of more or less on top" */
-
-		dialog_x = x + w/4;
-		dialog_y = y + h/4;
-
-		gtk_widget_set_uposition(GTK_WIDGET(window), dialog_x, dialog_y);
-	}
-#endif
+	if (position == GTK_WIN_POS_NONE)
+		position = GTK_WIN_POS_CENTER_ON_PARENT;
+	gtk_window_set_position(window, position);
 }
 
 typedef struct {
