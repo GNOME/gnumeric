@@ -1,3 +1,12 @@
+2003-12-29  Jody Goldberg <jody@gnome.org>
+
+	* * : Move everything to glib/gi18n.h in place of gnumeric-i18n.h
+	* gnumeric-i18n.h : delete
+
+	* configure.in : Looks like we're really requiring gtk/glib 2.3.1 at a
+	  minimum.  In reality it's probably closer to CVS at this point.  I'm
+	  kinda looking forward to the gtk freeze.
+
 2003-12-24  Morten Welinder  <terra@gnome.org>
 
 	* src/io-context-gtk.c (cb_realize): Remove workaround for old
