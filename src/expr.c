@@ -30,6 +30,24 @@
 #include <string.h>
 #include <libgnome/gnome-i18n.h>
 
+/*
+ * Using pools here probably does not save anything, but it's a darn
+ * good debugging tool.
+ */
+#ifndef USE_EXPR_POOLS
+#define USE_EXPR_POOLS 1
+#endif
+
+#if USE_EXPR_POOLS
+/* Memory pool for expressions.  */
+static gnm_mem_chunk *expression_pool;
+#define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
+#define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
+#else
+#define CHUNK_ALLOC(T,c) g_new (T,1)
+#define CHUNK_FREE(p,v) g_free ((v))
+#endif
+
 /***************************************************************************/
 
 GnmExpr const *
@@ -37,7 +55,7 @@ gnm_expr_new_constant (Value *v)
 {
 	GnmExprConstant *ans;
 
-	ans = g_new (GnmExprConstant, 1);
+	ans = CHUNK_ALLOC (GnmExprConstant, expression_pool);
 	if (!ans)
 		return NULL;
 	gnm_expr_constant_init (ans, v);
@@ -68,7 +86,7 @@ gnm_expr_new_funcall (FunctionDefinition *func, GnmExprList *args)
 	GnmExprFunction *ans;
 	g_return_val_if_fail (func, NULL);
 
-	ans = g_new (GnmExprFunction, 1);
+	ans = CHUNK_ALLOC (GnmExprFunction, expression_pool);
 	if (!ans)
 		return NULL;
 
@@ -86,7 +104,7 @@ gnm_expr_new_unary  (GnmExprOp op, GnmExpr const *e)
 {
 	GnmExprUnary *ans;
 
-	ans = g_new (GnmExprUnary, 1);
+	ans = CHUNK_ALLOC (GnmExprUnary, expression_pool);
 	if (!ans)
 		return NULL;
 
@@ -103,7 +121,7 @@ gnm_expr_new_binary (GnmExpr const *l, GnmExprOp op, GnmExpr const *r)
 {
 	GnmExprBinary *ans;
 
-	ans = g_new (GnmExprBinary, 1);
+	ans = CHUNK_ALLOC (GnmExprBinary, expression_pool);
 	if (!ans)
 		return NULL;
 
@@ -121,7 +139,7 @@ gnm_expr_new_name (GnmNamedExpr *name,
 {
 	GnmExprName *ans;
 
-	ans = g_new (GnmExprName, 1);
+	ans = CHUNK_ALLOC (GnmExprName, expression_pool);
 	if (!ans)
 		return NULL;
 
@@ -141,7 +159,7 @@ gnm_expr_new_cellref (CellRef const *cr)
 {
 	GnmExprCellRef *ans;
 
-	ans = g_new (GnmExprCellRef, 1);
+	ans = CHUNK_ALLOC (GnmExprCellRef, expression_pool);
 	if (!ans)
 		return NULL;
 
@@ -157,7 +175,7 @@ gnm_expr_new_array (int x, int y, int cols, int rows)
 {
 	GnmExprArray *ans;
 
-	ans = g_new (GnmExprArray, 1);
+	ans = CHUNK_ALLOC (GnmExprArray, expression_pool);
 	if (ans == NULL)
 		return NULL;
 
@@ -177,7 +195,7 @@ gnm_expr_new_set (GnmExprList *set)
 {
 	GnmExprSet *ans;
 
-	ans = g_new (GnmExprSet, 1);
+	ans = CHUNK_ALLOC (GnmExprSet, expression_pool);
 	if (!ans)
 		return NULL;
 
@@ -266,7 +284,7 @@ do_gnm_expr_unref (GnmExpr const *expr)
 		break;
 	}
 
-	g_free ((gpointer)expr);
+	CHUNK_FREE (expression_pool, (gpointer)expr);
 }
 
 /*
@@ -2106,3 +2124,25 @@ expr_tree_sharer_share (ExprTreeSharer *es, GnmExpr const *e)
 }
 
 /***************************************************************************/
+
+void
+expr_init (void)
+{
+#if USE_EXPR_POOLS
+	expression_pool =
+		gnm_mem_chunk_new ("expression pool",
+				   sizeof (GnmExpr),
+				   16 * 1024 - 128);
+#endif
+}
+
+void
+expr_shutdown (void)
+{
+#if USE_EXPR_POOLS
+	gnm_mem_chunk_destroy (expression_pool, FALSE);
+	expression_pool = NULL;
+#endif
+}
+
+/****************************************************************************/
