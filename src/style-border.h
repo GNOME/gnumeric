@@ -87,11 +87,4 @@ void style_borders_row_print (StyleBorder const * const * prev_vert,
 			      float x, float y1, float y2,
 			      Sheet const *sheet, gboolean draw_vertical);
 
-/* deprecated */
-void style_border_draw  (StyleBorder const *st, StyleBorderLocation t,
-			 GdkDrawable *drawable,
-			 int x1, int y1, int x2, int y2,
-			 StyleBorder const *extend_begin,
-			 StyleBorder const *extend_end);
-
 #endif /* GNUMERIC_STYLE_BORDER_H */

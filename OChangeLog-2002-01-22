@@ -1,5 +1,19 @@
 2001-02-14  Jody Goldberg <jgoldberg@home.com>
 
+	* src/style-border.c (style_border_draw) : delete.
+
+2001-02-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/preview-grid.c (pg_style_get_row) : new function.
+	(preview_grid_draw) : for use here. 
+
+	* src/sheet-style.c (style_row_init) : New routine spit out from.
+	* src/item-grid.c (item_grid_draw) : here.
+	* src/preview-grid.c (preview_grid_draw) : for use here.
+	(preview_grid_draw_background) : there is no selection.
+
+2001-02-14  Jody Goldberg <jgoldberg@home.com>
+
 	* s/sheet_view/scg/
 	Do some renaming before the release
 
