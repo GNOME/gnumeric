@@ -1,3 +1,7 @@
+2003-06-09  Morten Welinder  <terra@gnome.org>
+
+	* src/mathfunc.c (mathfunc_init): Turn off SIGFPE in here.
+
 2003-06-08  Jody Goldberg <jody@gnome.org>
 
 	* src/style.h : DEFAULT size in the schemas is 10, use it here too.

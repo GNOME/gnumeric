@@ -45,6 +45,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <locale.h>
+#include <signal.h>
 
 #if defined (HAVE_IEEEFP_H) || defined (HAVE_IEEE754_H)
 /* Make sure we have this symbol defined, since the existance of either
@@ -92,6 +93,9 @@ mathfunc_init (void)
 	const char *bug_url = "http://bugzilla.gnome.org/enter_bug.cgi?product=gnumeric";
 	char *old_locale;
 	double d;
+#ifdef SIGFPE
+	void (*signal_handler)(int) = (void (*)(int))signal (SIGFPE, SIG_IGN);
+#endif
 
 	gnm_pinf = HUGE_VAL;
 	if (gnm_pinf > 0 && !finitegnum (gnm_pinf))
@@ -161,6 +165,9 @@ mathfunc_init (void)
 	abort ();
 
  have_nan:
+#ifdef SIGFPE
+	signal (SIGFPE, signal_handler);
+#endif
 	return;
 }
 
