@@ -23,7 +23,6 @@
 #include "value.h"
 #include "cell.h"
 #include "workbook.h"
-#include "command-context.h"
 
 typedef struct {
 	char const *data, *cur;
@@ -876,7 +875,8 @@ g_warning("PLN : Record handling code for code %d not yet written", rcode);
 }
 
 static int
-pln_read_workbook (CommandContext *context, Workbook *book, char const *filename)
+pln_read_workbook (CommandContext *context, WorkbookView *view,
+		   char const *filename)
 {
 	int result = 0;
 	int len;
@@ -905,13 +905,13 @@ pln_read_workbook (CommandContext *context, Workbook *book, char const *filename
 		src.len   = len;
 		src.sheet = sheet_new (book, name);
 
-		workbook_attach_sheet (book, src.sheet);
+		workbook_sheet_attach (book, src.sheet, NULL);
 		g_free (name);
 
 		result = pln_parse_sheet (context, &src);
 
 		if (result != 0)
-			workbook_detach_sheet (book, src.sheet, TRUE);
+			workbook_sheet_detach (book, src.sheet, TRUE);
 		else
 			workbook_set_saveinfo (book, filename,
 					       FILE_FL_MANUAL, NULL);
