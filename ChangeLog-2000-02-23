@@ -1,3 +1,8 @@
+1999-01-10  Changwoo Ryu  <cwryu@adam.kaist.ac.kr>
+
+	* src/workbook.c (cb_sheet_check_dirty): Use g_strdup_printf
+	instead of g_strconcat.  More easy to translate the string.
+
 1999-01-10  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c (wb_input_finished): Use

@@ -286,13 +286,10 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 		NULL);
 
 	if (sheet->workbook->filename)
-		f = g_basename (sheet->workbook->filename);
+		s = g_strdup_printf (_("Workbook %s has unsaved changes, save them?"), g_basename (sheet->workbook->filename));
 	else
-		f = "";
-	
-	s = g_strconcat (_("Workbook "), f,
-			    _(" has unsaved changes, save them?"),
-			    NULL);
+		s = g_strdup (_("Workbook has unsaved changes, save them?"));
+
 	l = gtk_label_new (s);
 	gtk_widget_show (l);
 	g_free (s);
