@@ -87,7 +87,7 @@ object_anchor_to_position (double pixels[4], MSObj*obj, Sheet const * sheet,
 			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
 
 			/* warning logged elsewhere */
-			if (ri != NULL) {
+			if (ci != NULL) {
 				pixels[i] = ci->size_pixels;
 				pixels[i] *= nths / 1024.;
 			} else
