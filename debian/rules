@@ -185,13 +185,14 @@ install: build
 	dh_link usr/share/gnumeric/$(upstreamversion)/idl/GNOME_Gnumeric.idl usr/share/idl/GNOME_Gnumeric.idl
 
 	dh_link -pgnumeric-doc usr/share/pixmaps/gnome-logo-icon.png usr/share/gnome/help/gnumeric/C/stylesheet/gnome-logo-icon.png 
+
+ifeq ($(GENERATE_HTML_DOCS),1)
+	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric/C/gnumeric.html usr/share/doc/gnumeric-doc/gnumeric.html
 	# For the callout pngs
 	dh_link -pgnumeric-doc usr/share/xml/docbook/stylesheet/nwalsh/images/ usr/share/gnome/help/gnumeric/C/images
+endif
 
-	# Link to fix the Help buttons in dialogs
-	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric usr/share/gnumeric/$(upstreamversion)/gnome/help/gnumeric
-
-	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric/C/gnumeric.xml usr/share/doc/gnumeric-doc/gnumeric.xml
+#	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric/C/gnumeric.xml usr/share/doc/gnumeric-doc/gnumeric.xml
 
 	dh_link -pgnumeric-doc usr/share/gnome/help/gnumeric usr/share/gnumeric/$(upstreamversion)/doc
 
@@ -241,7 +242,12 @@ binary-arch: build install
 	dh_testdir -a
 	dh_testroot -a
 #	dh_installdebconf -a
+ifeq ($(GENERATE_HTML_DOCS),1)
 	dh_installdocs -a
+else
+	dh_installdocs -a --noscripts
+	rm -rf `pwd`/debian/gnumeric-doc/usr/share/doc-base
+endif
 	dh_installexamples -a
 	dh_installmenu -a
 #	dh_installlogrotate -a
