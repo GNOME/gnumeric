@@ -7,7 +7,7 @@
 #include "error-info.h"
 #include "gutils.h"
 
-#define PLUGIN_DEBUG
+#undef PLUGIN_DEBUG
 #undef PLUGIN_ALWAYS_LOAD
 
 typedef struct _PluginInfo PluginInfo;

@@ -271,7 +271,7 @@ print_hf_element (PrintJobInfo *pj, const char *format, HFSide side, double y)
 		return;
 	}
 
-	len = gnome_font_get_width_string (pj->decoration_font, text);
+	len = get_width_string (pj->decoration_font, text);
 
 	pm = &pj->pi->margins;
 	switch (side){
@@ -291,9 +291,7 @@ print_hf_element (PrintJobInfo *pj, const char *format, HFSide side, double y)
 		x = 0;
 	}
 	gnome_print_moveto (pj->print_context, x, y);
-	/* FIXME:
-	 * Switch this back to gnome_print_show once we use UTF-8 internally */
-	print_show_iso8859_1 (pj->print_context, text);
+	print_show (pj->print_context, text);
 	g_free (text);
 }
 

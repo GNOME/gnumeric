@@ -382,6 +382,10 @@ editable_label_set_text (EditableLabel *el, const char *text)
 
 	if (!el->text_item) {
 		GnomeCanvasGroup *root_group;
+		GtkWidget* text_color_widget;
+
+		text_color_widget = gtk_button_new();
+		gtk_widget_ensure_style(text_color_widget);
 
 		root_group = GNOME_CANVAS_GROUP (GNOME_CANVAS (el)->root);
 
@@ -391,7 +395,10 @@ editable_label_set_text (EditableLabel *el, const char *text)
 			"text",     text,
 			"x",        (double) 1,
 			"y",        (double) 1,
+			"fill_color_gdk",	
+				&text_color_widget->style->text[GTK_STATE_NORMAL],
 			NULL);
+		gtk_widget_destroy(text_color_widget);
 	} else
 		el_change_text (el, text);
 }

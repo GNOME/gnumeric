@@ -5,6 +5,7 @@
  *    Miguel de Icaza 1999 (miguel@kernel.org)
  *
  * g_unichar_to_utf8: Copyright Red Hat, Inc
+ * i18n of printing: Copyright 2001 by Vlad Harchev <hvv@hippo.ru>
  */
 #include <config.h>
 #include <gnome.h>
@@ -27,6 +28,18 @@
 #include "print-cell.h"
 #include "rendered-value.h"
 #include "portability.h"
+
+/*
+  Define this to enable i18n-wise printing and string measuring - it requires
+  mbstowcs to be available. Most probably printing work fine for ANY locale
+  (though gnome-print doesn't support CJK yet - but when it will be ready, no
+  changes will be needed in the code used when _PROPER_I18N is defined.
+  
+  If this macro is undefined, printing will work only for iso-8859-1, so please
+  try hard to avoid undefining it.
+      - Vlad Harchev <hvv@hippo.ru>
+*/
+#define _PROPER_I18N
 
 #if 0
 #define MERGE_DEBUG(range, str) do { range_dump (range, str); } while (0)
@@ -102,6 +115,7 @@ g_unichar_to_utf8 (gint c, gchar *outbuf)
   return len;
 }
 
+#ifndef _PROPER_I18N
 /*
  * print_show_iso8859_1
  *
@@ -144,6 +158,93 @@ print_show_iso8859_1 (GnomePrintContext *pc, char const *text)
 
 	return ret;
 }
+#endif
+
+int
+print_show (GnomePrintContext *pc, char const *text)
+{
+#ifdef _PROPER_I18N
+	wchar_t* wcs,wcbuf[4096];
+	char* utf8,utf8buf[4096];
+	
+	int conv_status;
+	int n = strlen(text);
+	int retval;
+
+	g_return_val_if_fail (pc && text, -1);	
+	
+	if ( n > (sizeof(wcbuf)/sizeof(wcbuf[0])))
+		wcs = g_new(wchar_t,n);
+	else
+		wcs = wcbuf;
+
+	conv_status = mbstowcs(wcs, text, n);
+
+	if (conv_status == (size_t)(-1)){
+		if (wcs != wcbuf)
+			g_free (wcs);
+		return 0;
+	};
+	if (conv_status * 6 > sizeof(utf8buf))
+		utf8 = g_new(gchar, conv_status * 6);
+	else
+		utf8 = utf8buf;
+	{
+		int i;
+		char* p = utf8;
+		for(i = 0; i < conv_status; ++i)
+			p += g_unichar_to_utf8 ( (gint) wcs[i], p);
+		if (wcs != wcbuf)
+			g_free(wcs);			
+		retval = gnome_print_show_sized (pc, utf8, p - utf8);			
+	}	
+
+	if (utf8 != utf8buf)
+		g_free(utf8);
+	return retval;		
+#else
+	return print_show_iso8859_1 (pc, text);
+#endif
+};
+
+double
+get_width_string_n (GnomeFont *font,char const* text,guint n)
+{
+#ifdef _PROPER_I18N
+	wchar_t* wcs,wcbuf[4000];
+	int conv_status,i;
+	double total = 0;	
+	
+	if ( n > (sizeof(wcbuf)/sizeof(wcbuf[0])))
+		wcs = g_new(wchar_t,n);
+	else
+		wcs = wcbuf;
+
+	conv_status = mbstowcs(wcs, text, n);
+
+	if (conv_status == (size_t)(-1)){
+		if (wcs != wcbuf)
+			g_free (wcs);
+		return 0;
+	};
+	for (i = 0; i < conv_status; ++i)
+		total += gnome_font_get_glyph_width(font, 
+				gnome_font_lookup_default(font, wcs[i]));
+
+	if (wcs != wcbuf)
+		g_free(wcs);
+	return total;
+#else
+	return gnome_font_get_width_string_n (font, text, n);
+#endif
+};
+
+
+double
+get_width_string (GnomeFont *font, char const* text)
+{
+	return get_width_string_n (font, text, strlen(text));
+};
 
 /***********************************************************/
 
@@ -159,9 +260,7 @@ print_text (GnomePrintContext *context,
 	    double const * const line_offset, int num_lines)
 {
 	gnome_print_moveto (context, x, text_base);
-	/* FIXME:
-	 * Switch this back to gnome_print_show once we use UTF-8 internally */
-	print_show_iso8859_1 (context, text);
+	print_show (context, text);
 
 	/* FIXME how to handle small fonts ?
 	 * the text_base should be at least 2 pixels above the bottom */
@@ -178,7 +277,7 @@ print_overflow (GnomePrintContext *context, GnomeFont *font,
 		double x1, double text_base, double width,
 		double const * const line_offset, int num_lines)
 {
-	double const len = gnome_font_get_width_string_n (font, "#", 1);
+	double const len = get_width_string_n (font, "#", 1);
 	int count = 0;
 
 	if (len != 0)  {
@@ -205,7 +304,7 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 
 	for (line_begin = p = text; *p; p++) {
 		double const len_current =
-			gnome_font_get_width_string_n (font, p, 1);
+			get_width_string_n (font, p, 1);
 
 		/* Wrap if there is an embeded newline, or we have overflowed */
 		if (*p == '\n' || used + len_current > width) {
@@ -412,7 +511,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 		line_offset[num_lines++] = font_ascent/-2;
 
 	/* FIXME : This will be wrong for JUSTIFIED halignments */
-	cell_width_pts = gnome_font_get_width_string (print_font, text);
+	cell_width_pts = get_width_string (print_font, text);
 
 	/* if a number overflows, do special drawing */
 	if ((cell_width_pts + indent) > width && cell_is_number (cell) &&
@@ -433,10 +532,7 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 		double x, total, len = cell_width_pts;
 
 		switch (halign) {
-		case HALIGN_FILL:
-			g_warning ("FILL!");
-			/* fall through */
-
+		case HALIGN_FILL: /* fall through */
 		case HALIGN_LEFT:
 			x = rect_x + indent;
 			break;
@@ -457,14 +553,14 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 		}
 
 		gnome_print_setfont (context, print_font);
-		total = 0;
+		total = len; /* don't include partial copies after the first */
 		do {
 			print_text (context, x, text_base, text, len,
 				    line_offset, num_lines);
 
 			x += len;
 			total += len;
-		} while (halign == HALIGN_FILL && total < ci->size_pts && len > 0);
+		} while (halign == HALIGN_FILL && total < rect_width && len > 0);
 	} else {
 		GList *lines, *l;
 		int line_count;
@@ -528,17 +624,17 @@ print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 				/* Be cheap, only calculate the width of the
 				 * string if we need to. */
 				if (num_lines > 0)
-					len = gnome_font_get_width_string (print_font, str);
+					len = get_width_string (print_font, str);
 				break;
 
 			case HALIGN_RIGHT:
-				len = gnome_font_get_width_string (print_font, str);
+				len = get_width_string (print_font, str);
 				x = rect_x + rect_width - 1 - len - indent;
 				break;
 
 			case HALIGN_CENTER:
 			case HALIGN_CENTER_ACROSS_SELECTION:
-				len = gnome_font_get_width_string (print_font, str);
+				len = get_width_string (print_font, str);
 				x = rect_x + h_center - len / 2;
 			}
 

@@ -1,3 +1,9 @@
+2001-03-12  Jody Goldberg <jgoldberg@home.com>
+	For  Vlad Harchev <hvv@hippo.ru>
+
+	* widget-editable-label.c (editable_label_set_text) :
+	  Use colours from Style.
+
 2001-03-10  Almer S. Tigelaar  <almer@gnome.org>
 
 	* gnumeric-[vh]scrollbar.c, gnumeric-[vh]scrollbar.h

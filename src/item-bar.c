@@ -126,8 +126,12 @@ item_bar_realize (GnomeCanvasItem *item)
 
 	/* Configure our gc */
 	item_bar->gc = gc = gdk_gc_new (window);
-	gnome_canvas_get_color (item->canvas, "black", &c);
-	gdk_gc_set_foreground (item_bar->gc, &c);
+	{
+		GtkWidget* w = gtk_button_new();
+		gtk_widget_ensure_style(w);
+		gdk_gc_set_foreground (item_bar->gc, &w->style->text[GTK_STATE_NORMAL]);
+		gtk_widget_destroy(w);		
+	}
 
 	item_bar->normal_cursor = gdk_cursor_new (GDK_ARROW);
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL)
