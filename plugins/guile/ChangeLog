@@ -1,3 +1,8 @@
+2002-08-04  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* plugin.c (scm_register_function):
+	Adjusted to function_add_args signature change.
+
 2002-08-04  Jon K Hellan  <hellan@acm.org>
 
 	* plugin.c (gnm_guile_catcher): Remove unused var 'len'.

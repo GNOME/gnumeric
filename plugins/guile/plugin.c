@@ -197,7 +197,7 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 	cat   = function_get_category (SCM_CHARS (scm_category));
 	fndef = function_add_args (cat, g_strdup (SCM_CHARS (scm_name)),
 				   g_strdup (SCM_CHARS (scm_args)), NULL,
-				   help, func_marshal_func);
+				   help, func_marshal_func, NULL);
 
 	function_def_set_user_data (fndef, GINT_TO_POINTER (scm_function));
 
