@@ -1,6 +1,6 @@
 ## Process this file with automake to produce Makefile.in.
 
-SUBDIRS = C de es hu ja nl no pl pt ru sk sv
+SUBDIRS = developer C de es hu ja nl no pl pt ru sk sv
 
 EXTRA_DIST = 				\
 	README				\
