@@ -1,5 +1,9 @@
 1999-08-29  Morten Welinder  <terra@diku.dk>
 
+	MW to MM: your primary mail server (mail.imaginator.com) is out;
+	your secondary server (mail.peasy.net) is no longer accepting
+	mail for imaginator.com.
+
 	* ms-ole.c (ms_ole_path_decode): Plug leak.
 
 1999-08-16  Michael Meeks  <michael@imaginator.com>
