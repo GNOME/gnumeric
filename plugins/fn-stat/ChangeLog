@@ -1,3 +1,8 @@
+2004-08-13  Jody Goldberg <jody@gnome.org>
+
+	* functions.c (callback_function_rank) : XL and OO appear to just
+	  ignore non-numeric data.
+
 2004-07-26  Morten Welinder  <terra@gnome.org>
 
 	* functions.c (gnumeric_harmean): Fix to return #NUM! on error.

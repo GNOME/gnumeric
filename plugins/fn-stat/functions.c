@@ -308,9 +308,10 @@ callback_function_rank (Sheet *sheet, int col, int row,
         case VALUE_FLOAT:
                 x = cell->value->v_float.val;
                 break;
+	case VALUE_STRING: /* XL does not appear to do implicit conversion */
 	case VALUE_EMPTY:
         default:
-                return VALUE_TERMINATE;
+                return NULL;	/* ignore them */
         }
 
 	if (p->order) {
