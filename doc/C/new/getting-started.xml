@@ -1,0 +1,229 @@
+<sect1 id="start-first">
+  <title>Starting Gnumeric the First Time</title>
+  
+  <para>
+	To start <application>Gnumeric</application> click on the 
+	<guibutton>Main Menu</guibutton> button to open the 
+	<guimenu>Main Menu</guimenu> and click on the 
+	<guimenu>Applications</guimenu> menu and finally click on the 
+	<guibutton>Gnumeric</guibutton> button.  The main window of 
+	<application>Gnumeric</application> will appear as shown 
+	in shown in <xref linkend="worksheet-all-1.png" />
+  </para>
+
+  <figure id="worksheet-all-1.png">
+    <title>An example of the entire worksheet.</title>
+    <screenshot>
+      <graphic fileref="images/worksheet-all-1" format="png"></graphic>
+    </screenshot>
+  </figure>
+
+  <para>
+	After opening up gnumeric, you're presented with a view of a
+    worksheet. This is where the majority of the work on the
+    spreadsheet is done. <citation>Miguel, Canty, Likin 1.1.1</citation>
+  </para>
+  
+  <para>
+	The worksheet view is split into several main areas. The menu
+    bar, the main tool bar, the format tool bar, the entry area, 
+	the object tool bar, the main cell area, and the
+    info area. <citation>Miguel, Canty, Likin 1.1.1</citation>
+  </para>
+
+  <figure id="worksheet-all-notes.png">
+    <title>A example of the entire worksheet with notes.</title>
+    <screenshot>
+      <graphic fileref="images/worksheet-all-notes" format="png"></graphic>
+    </screenshot>
+  </figure>
+
+</sect1>
+
+<sect1 id="files">
+	<title>Opening and Saving Files</title>
+
+  <para>
+	When you first start <application>Gnumeric</application> a new book 
+	will be opened.  To save the the book into a file for the first time 
+	click on <menuchoice><guimenu>File</guimenu><guimenuitem>Save As &hellip;
+	</guimenuitem></menuchoice>.  This brings up the file dialog where you 
+	can pick the filename and format for the book you are saving.  It is 
+	best to save the book in the <guilabel>Gnumeric XML file format</guilabel>
+	the first time.  This allows you to easily edit the file without worrying 
+	about changes in the format and look of the book.  When you have already 
+	saved the book you just need to click on the
+	<inlinemediaobject>
+	  <imagedata fileref="images/stock-save.png"/>
+		<textobject>
+		  <phrase>Save button</phrase>
+		</textobject>
+	</inlinemediaobject>
+	in the tool bar or click on <menuchoice><shortcut><keysym>C-s
+	</keysym></shortcut><guimenu>File</guimenu><guimenuitem>Save
+	</guimenuitem></menuchoice>.
+  </para>
+
+  <para>
+	Sometimes you want your book to be saved often so you do not lose any work.  
+	To save the book at intervals click on <menuchoice><guimenu>Tools</guimenu>
+	<guimenuitem>Auto Save &hellip;</guimenuitem></menuchoice>.  The <interface>
+	Auto Save</interface> dialog appears.  
+	<figure id="auto-save.png">
+	  <title>Auto Save dialog</title>
+	  <screenshot>
+		<graphic fileref="images/auto-save" format="png"></graphic>
+	  </screenshot>
+	</figure>
+	Click on the <guibutton>Automatic Save Every</guibutton> button and enter 
+	the number of minutes will pass between each save.  When the interval is 
+	shorter more of your work will be potentially saved, but 
+	<application>Gnumeric</application> might appear sluggish.  If 
+	<application>Gnumeric</application> is sluggish increase the time between 
+	saves.  The button <guibutton>Prompt Before Saving</guibutton> brings up a 
+	dialog to ask if you want to save the book.
+  </para>
+
+  <para>
+	Open an book by clicking on <menuchoice><shortcut><keysym>F3</keysym></shortcut>
+	<guimenu>File</guimenu><guimenuitem>Open</guimenuitem></menuchoice> or the 
+	<inlinemediaobject>
+	  <imagedata fileref="images/stock-open.png"/>
+		<textobject>
+		  <phrase>Open button</phrase>
+		</textobject>
+	</inlinemediaobject>	
+	in the tool bar.  The <interface>Open</interface> dialog will appear.  You can 
+	then select the spreadsheet file you wish to open.  
+	<application>Gnumeric</application> can open many different types of spreadsheet 
+	file formats.  Currently the supported formats are &file-format-open;.
+  </para>
+
+</sect1>
+
+<sect1 id="highlighting">
+  <title>Highlighting Cells</title>
+  
+  <para>
+	The main cell area contains a grid of boxes which are called 
+	<link linkend="cells">cells</link>.  When a cell is highlighted each 
+	row and column is also highlighted by changing the row and column 
+	color from a light gray to a dark gray.  Click on a cell in the main 
+	cell area to highlight a single cell.  You will notice one column and 
+	one row has turned to a darker gray and the letter and number is in 
+	bold.  Also on the far left side of the entry area the cell's designation 
+	is displayed.  The cell designation is a letter and number corresponding 
+	to the column and row respectively.
+	<figure id="cells-2.png">
+	  <title>Single Cell being Highlighted</title>
+	  <screenshot>
+		<graphic fileref="images/cells-2" format="png"></graphic>
+	  </screenshot>
+	</figure>
+  </para>
+
+  <para>
+	Sometimes you need to highlight multiple cells.  Click on the cell you 
+	want to start with and drag the mouse to highlight the desired cells.  
+	This will highlight a box of cells with the starting cell being at 
+	one of the corners of the box.
+	<figure id="selection-3.png">
+	  <title>Multiple Cells being Highlighted</title>
+	  <screenshot>
+		<graphic fileref="images/selection-3" format="png"></graphic>
+	  </screenshot>
+	</figure>
+  </para>
+
+  <para>
+	There are some special situations that arise when you highlight cells. 
+	The cells you want highlighted might be at two different places in the 
+	sheet.  Highlight the first group of cells.  Then press the
+	<keycap>Ctrl</keycap> key and highlight the second group of cells.  Both 
+	groups of cells are now highlighted.  
+	<tip>
+	  <para>
+	Make sure you hold down the 
+	<keycap>Ctrl</keycap> key while you are highlighting the second group of 
+	cells.  You cannot press the <keycap>Ctrl</keycap> key once, let go of the 
+	key and then highlight the second group of cells.  This will not work.  You 
+	need to hold down the <keycap>Ctrl</keycap> key while you are highlighting 
+	the second group of cells.  This might take some practice for you to master 
+	the skill.
+	  </para>
+	</tip>
+  </para>
+
+  <para>
+	There is an easier way to highlight multiple cells.  Instead of dragging the 
+	mouse over multiple cells to highlight the ones you want you can use the 
+	<keycap>Shift</keycap> key.  Highlight the cell at the corner of the box 
+	you want to highlight.  Press the <keycap>Shift</keycap> key while click on 
+	the cell at the opposite corner of the box you want to highlight.  A box is 
+	now highlighted.
+	<tip>
+	  <para>
+		You can highlight a portion of one row this way too.  Just 
+		highlight the starting cell in the row and press the 
+		<keycap>Shift</keycap> key while you click on the ending cell.  This 
+		makes a box with a row of one cell.  The same procedure applies to 
+		columns.
+	  </para>
+	</tip>
+  </para>
+
+</sect1>
+
+<sect1 id="enter-data">
+  <title>Entering Data</title>
+
+  <para>
+	Highlight the cell you want to enter data in.  When the desired cell 
+	is highlighted type your data.  You will notice that the data is being 
+	displayed in the entry area.  When you are done click the 
+	<inlinemediaobject>
+	  <imagedata fileref="images/worksheet-data-3.png"/>
+		<textobject>
+		  <phrase>enter button</phrase>
+		</textobject>
+	</inlinemediaobject>
+	or press the Enter key.  The data is then stored into the highlighted 
+	cell.
+  </para>
+  
+  <para>
+	If you made a mistake in the data you entered in one cell you can 
+	change it.  Highlight the desired cell.  Click on the entry area 
+	and modify the data you wanted to change.  After you are done click 
+	the <guibutton>enter</guibutton> button or press the Enter key.
+  </para>
+  
+  <para>
+	If you accidentally entered data into the wrong cell you can revert 
+	the cell to its previous data.  Click on the 
+	<inlinemediaobject>
+	  <imagedata fileref="images/worksheet-data-4.png"/>
+		<textobject>
+		  <phrase>cancel button</phrase>
+		</textobject>
+	</inlinemediaobject>
+	in the entry area.  The data you entered into the cell is erased 
+	and the cell goes back to its previous state.
+	<note>
+	  <title>Note:</title>
+	  <para>
+		If you have already clicked on the <guibutton>enter</guibutton> 
+		button or pressed the Enter key you cannot use the 
+		<guibutton>cancel</guibutton> button to undo the mistake.  Instead 
+		use the <link linkend="undo"><guibutton>undo</guibutton></link> 
+		button.
+	  </para>
+	</note>
+  </para>
+</sect1>
+
+<sect1 id="sheets">
+  <title>Sheets</title>
+
+  <para>
+	

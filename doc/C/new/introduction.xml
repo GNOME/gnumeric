@@ -1,0 +1,14 @@
+<sect1 id="intro">
+  <title>Organization</title>
+
+  <para>
+	The documentation is divided up into three parts.  The first part is 
+	a basic tutorial on <application>Gnumeric</application>.  The second 
+	part is an advanced tutorial on the data analysis tools and plugins 
+	<application>Gnumeric</application> offers.  The third part is a 
+	reference to the program, listing in detail all the options and 
+	features, and a reference to the functions 
+	<application>Gnumeric</application> provides.
+  </para>
+
+</sect1>
