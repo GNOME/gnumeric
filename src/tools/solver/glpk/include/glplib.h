@@ -1,11 +1,11 @@
 /* glplib.h */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 
 #define lib_set_ptr           glp_lib_set_ptr
 #define lib_get_ptr           glp_lib_get_ptr
-
+#define lib_get_time          glp_lib_get_time
 #define lib_init_env          glp_lib_init_env
 #define lib_env_ptr           glp_lib_env_ptr
 #define lib_free_env          glp_lib_free_env
@@ -44,10 +44,21 @@
 #define umalloc               glp_lib_umalloc
 #define ucalloc               glp_lib_ucalloc
 #define ufree                 glp_lib_ufree
-#define utime                 glp_lib_utime
+#define ufopen                glp_lib_ufopen
+#define ufclose               glp_lib_ufclose
+#define str2int               glp_lib_str2int
+#define str2dbl               glp_lib_str2dbl
+#define strspx                glp_lib_strspx
+#define strtrim               glp_lib_strtrim
+#define lib_init_rand         glp_lib_init_rand
+#define lib_next_rand         glp_lib_next_rand
+#define lib_unif_rand         glp_lib_unif_rand
 
 typedef struct LIBENV LIBENV;
 typedef struct LIBMEM LIBMEM;
+
+#define LIB_MAX_OPEN 20
+/* maximal number of simultaneously open i/o streams */
 
 struct LIBENV
 {     /* library environmental block */
@@ -62,7 +73,7 @@ struct LIBENV
       int (*fault_hook)(void *info, char *msg);
       /* user-defined fault hook routine */
       /*--------------------------------------------------------------*/
-      /* dynamic memory management */
+      /* dynamic memory registration */
       LIBMEM *mem_ptr;
       /* pointer to the linked list of allocated memory blocks */
       int mem_limit;
@@ -77,6 +88,17 @@ struct LIBENV
       /* total number of currently allocated memory blocks */
       int mem_cpeak;
       /* peak value of mem_count */
+      /*--------------------------------------------------------------*/
+      /* input/output streams registration */
+      void *file_slot[LIB_MAX_OPEN]; /* FILE *file_slot[]; */
+      /* file_slot[k], 0 <= k <= LIB_MAX_OPEN-1, is a pointer to k-th
+         i/o stream; if k-th slot is free, file_slot[k] is NULL */
+      /*--------------------------------------------------------------*/
+      /* pseudo-random number generator */
+      int rand_val[56];
+      /* pseudo-random values */
+      int *next_val;
+      /* the next pseudo-random value to be exported */
 };
 
 struct LIBMEM
@@ -93,7 +115,7 @@ struct LIBMEM
          field and actual data due to data alignment) */
 };
 
-#define LIBMEM_FLAG 0x20101960
+#define LIB_MEM_FLAG 0x20101960
 /* value used as memory block descriptor flag */
 
 void lib_set_ptr(void *ptr);
@@ -101,6 +123,9 @@ void lib_set_ptr(void *ptr);
 
 void *lib_get_ptr(void);
 /* retrieve a pointer */
+
+gnm_float lib_get_time(void);
+/* determine the current universal time */
 
 int lib_init_env(void);
 /* initialize library environment */
@@ -148,55 +173,35 @@ void *ucalloc(int nmemb, int size);
 void ufree(void *ptr);
 /* free memory block */
 
-gnm_float utime(void);
+void *ufopen(char *fname, char *mode);
+/* open file */
+
+void ufclose(void *fp);
+/* close file */
+
+#define utime lib_get_time
 /* determine the current universal time */
 
-/**********************************************************************/
+int str2int(char *str, int *val);
+/* convert character string to value of integer type */
 
-#define create_pool           glp_create_pool
-#define get_atom              glp_get_atom
-#define free_atom             glp_free_atom
-#define get_atomv             glp_get_atomv
-#define clear_pool            glp_clear_pool
-#define delete_pool           glp_delete_pool
+int str2dbl(char *str, gnm_float *val);
+/* convert character string to value of gnm_float type */
 
-typedef struct POOL POOL;
+char *strspx(char *str);
+/* remove all spaces from character string */
 
-struct POOL
-{     /* memory pool (a set of atoms) */
-      int size;
-      /* size of each atom in bytes (1 <= size <= 256); if size = 0,
-         different atoms may have different sizes */
-      void *avail;
-      /* pointer to the linked list of free atoms */
-      void *link;
-      /* pointer to the linked list of allocated blocks (it points to
-         the last recently allocated block) */
-      int used;
-      /* number of bytes used in the last allocated block */
-      void *stock;
-      /* pointer to the linked list of free blocks */
-      int count;
-      /* total number of allocated atoms */
-};
+char *strtrim(char *str);
+/* remove trailing spaces from character string */
 
-POOL *create_pool(int size);
-/* create memory pool */
+void lib_init_rand(int seed);
+/* initialize pseudo-random number generator */
 
-void *get_atom(POOL *pool);
-/* allocate atom of fixed size */
+int lib_next_rand(void);
+/* obtain pseudo-random integer on [0, 2^31-1] */
 
-void free_atom(POOL *pool, void *ptr);
-/* free an atom */
-
-void *get_atomv(POOL *pool, int size);
-/* allocate atom of variable size */
-
-void clear_pool(POOL *pool);
-/* free all atoms */
-
-void delete_pool(POOL *pool);
-/* delete memory pool */
+int lib_unif_rand(int m);
+/* obtain pseudo-random integer on [0, m-1] */
 
 #endif
 

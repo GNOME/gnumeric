@@ -1,11 +1,11 @@
-/* glpstr2.c */
+/* glpstr.c */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 ----------------------------------------------------------------------*/
 
 #include <string.h>
+#include "glplib.h"
 #include "glpstr.h"
 
 /*----------------------------------------------------------------------
@@ -32,7 +33,7 @@
 -- *Synopsis*
 --
 -- #include "glpstr.h"
--- POOL *create_str_pool(void);
+-- DMP *create_str_pool(void);
 --
 -- *Description*
 --
@@ -45,11 +46,11 @@
 -- The create_str_pool routine returns a pointer to the created memory
 -- pool. */
 
-POOL *create_str_pool(void)
-{     POOL *pool;
+DMP *create_str_pool(void)
+{     DMP *pool;
       int size1 = sizeof(STR);
       int size2 = sizeof(SQE);
-      pool = create_pool(size1 >= size2 ? size1 : size2);
+      pool = dmp_create_pool(size1 >= size2 ? size1 : size2);
       return pool;
 }
 
@@ -59,7 +60,7 @@ POOL *create_str_pool(void)
 -- *Synopsis*
 --
 -- #include "glpstr.h"
--- STR *create_str(POOL *pool);
+-- STR *create_str(DMP *pool);
 --
 -- *Description*
 --
@@ -76,9 +77,9 @@ POOL *create_str_pool(void)
 --
 -- The create_str routine returns a pointer to the created string. */
 
-STR *create_str(POOL *pool)
+STR *create_str(DMP *pool)
 {     STR *str;
-      str = get_atom(pool);
+      str = dmp_get_atom(pool);
       str->pool = pool;
       str->len = 0;
       str->head = str->tail = NULL;
@@ -142,7 +143,7 @@ STR *set_str(STR *str, char *from)
       clear_str(str);
       while (len > 0)
       {  int n = (len <= SQE_SIZE ? len : SQE_SIZE);
-         sqe = get_atom(str->pool);
+         sqe = dmp_get_atom(str->pool);
          memcpy(sqe->data, ptr, n);
          ptr += n, len -= n;
          sqe->next = NULL;
@@ -177,7 +178,7 @@ STR *clear_str(STR *str)
       while (str->head != NULL)
       {  SQE *sqe = str->head;
          str->head = sqe->next;
-         free_atom(str->pool, sqe);
+         dmp_free_atom(str->pool, sqe);
       }
       str->tail = NULL;
       return str;
@@ -244,7 +245,7 @@ int compare_str(STR *str1, STR *str2)
 
 void delete_str(STR *str)
 {     clear_str(str);
-      free_atom(str->pool, str);
+      dmp_free_atom(str->pool, str);
       return;
 }
 

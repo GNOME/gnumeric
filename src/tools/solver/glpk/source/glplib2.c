@@ -1,11 +1,11 @@
 /* glplib2.c */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -57,6 +57,7 @@
 
 int lib_init_env(void)
 {     LIBENV *env;
+      int k;
       /* retrieve a pointer to the environmental block */
       env = lib_get_ptr();
       /* check if the environment has been already initialized */
@@ -65,6 +66,8 @@ int lib_init_env(void)
       env =g_malloc (sizeof(LIBENV));
       /* check if the block has been successfully allocated */
       if (env == NULL) return 2;
+      /* store a pointer to the environmental block */
+      lib_set_ptr(env);
       /* initialize the environmental block */
       env->print_info = NULL;
       env->print_hook = NULL;
@@ -76,8 +79,11 @@ int lib_init_env(void)
       env->mem_tpeak = 0;
       env->mem_count = 0;
       env->mem_cpeak = 0;
-      /* store a pointer to the environmental block */
-      lib_set_ptr(env);
+      for (k = 0; k < LIB_MAX_OPEN; k++) env->file_slot[k] = NULL;
+      env->rand_val[0] = -1;
+      for (k = 1; k <= 55; k++) env->rand_val[k] = 0;
+      env->next_val = env->rand_val;
+      lib_init_rand(0);
       /* initialization completed */
       return 0;
 }
@@ -149,16 +155,20 @@ LIBENV *lib_env_ptr(void)
 
 int lib_free_env(void)
 {     LIBENV *env;
+      int k;
       /* retrieve a pointer to the environmental block */
       env = lib_get_ptr();
       /* check if the environment is active */
       if (env == NULL) return 1;
-      /* free memory block, which are still allocated */
+      /* free memory blocks, which are still allocated */
       while (env->mem_ptr != NULL)
-      {  LIBMEM *this = env->mem_ptr;
-         env->mem_ptr = this->next;
-        g_free (this);
+      {  LIBMEM *blk = env->mem_ptr;
+         env->mem_ptr = blk->next;
+        g_free (blk);
       }
+      /* close i/o streams, which are still open */
+      for (k = 0; k < LIB_MAX_OPEN; k++)
+         if (env->file_slot[k] != NULL) fclose(env->file_slot[k]);
       /* free memory allocated to the environmental block */
      g_free (env);
       /* reset a pointer to the environmental block */
@@ -366,7 +376,7 @@ void *umalloc(int size)
       memset(desc, '?', size);
 #endif
       desc->size = size;
-      desc->flag = LIBMEM_FLAG;
+      desc->flag = LIB_MEM_FLAG;
       desc->prev = NULL;
       desc->next = env->mem_ptr;
       if (desc->next != NULL) desc->next->prev = desc;
@@ -432,7 +442,7 @@ void ufree(void *ptr)
       if (ptr == NULL)
          fault("ufree: ptr = %p; null pointer", ptr);
       desc = (void *)((char *)ptr - size_of_desc);
-      if (desc->flag != LIBMEM_FLAG)
+      if (desc->flag != LIB_MEM_FLAG)
          fault("ufree: ptr = %p; invalid pointer", ptr);
       if (env->mem_total < desc->size || env->mem_count == 0)
          fault("ufree: ptr = %p; memory allocation error", ptr);
@@ -452,77 +462,65 @@ void ufree(void *ptr)
 }
 
 /*----------------------------------------------------------------------
--- jday - convert calendar date to Julian day.
---
--- This procedure converts a calendar date, Gregorian calendar, to the
--- corresponding Julian day number j. From the given day d, month m, and
--- year y, the Julian day number j is computed without using tables. The
--- procedure is valid for any valid Gregorian calendar date. */
-
-static int jday(int d, int m, int y)
-{     int c, ya, j;
-      if (m > 2) m -= 3; else m += 9, y--;
-      c = y / 100;
-      ya = y - 100 * c;
-      j = (146097 * c) / 4 + (1461 * ya) / 4 + (153 * m + 2) / 5 + d +
-         1721119;
-      return j;
-}
-
-/*----------------------------------------------------------------------
--- utime - determine the current universal time.
+-- ufopen - open file.
 --
 -- *Synopsis*
 --
 -- #include "glplib.h"
--- gnm_float utime(void);
+-- void *ufopen(char *fname, char *mode);
+--
+-- *Description*
+--
+-- The routine ufopen opens a file using the character string fname as
+-- the file name and the character string mode as the open mode.
 --
 -- *Returns*
 --
--- The routine utime returns the current universal time, in seconds,
--- elapsed since 12:00:00 GMT January 1, 2000. */
+-- If the file has been open successfully, the routine ufopen returns a
+-- pointer to an i/o stream associated with the file (i.e. a pointer to
+-- an object of FILE type). Otherwise the routine return NULL. */
 
-#if 1
-gnm_float utime(void)
-{     /* this is a platform independent version */
-      time_t timer;
-      struct tm *tm;
-      int j2000, j;
-      gnm_float secs;
-      timer = time(NULL);
-      tm = gmtime(&timer);
-      j2000 = 2451545 /* = jday(1, 1, 2000) */;
-      j = jday(tm->tm_mday, tm->tm_mon + 1, 1900 + tm->tm_year);
-      secs = (((gnm_float)(j - j2000) * 24.0 + (gnm_float)tm->tm_hour) * 60.0
-         + (gnm_float)tm->tm_min) * 60.0 + (gnm_float)tm->tm_sec - 43200.0;
-      return secs;
+void *ufopen(char *fname, char *mode)
+{     LIBENV *env = lib_env_ptr();
+      int k;
+      /* find free slot */
+      for (k = 0; k < LIB_MAX_OPEN; k++)
+         if (env->file_slot[k] == NULL) break;
+      if (k == LIB_MAX_OPEN)
+         fault("ufopen: too many open files");
+      /* open a file and store a pointer to the i/o stream */
+      env->file_slot[k] = fopen(fname, mode);
+      return env->file_slot[k];
 }
-#endif
 
-#if 0
-gnm_float utime(void)
-{     /* this is a version for Win32 */
-      SYSTEMTIME st;
-      FILETIME ft0, ft;
-      gnm_float secs;
-      /* ft0 = 12:00:00 GMT January 1, 2000 */
-      ft0.dwLowDateTime  = 0xBAA22000;
-      ft0.dwHighDateTime = 0x01BF544F;
-      GetSystemTime(&st);
-      SystemTimeToFileTime(&st, &ft);
-      /* ft = ft - ft0 */
-      if (ft.dwLowDateTime >= ft0.dwLowDateTime)
-      {  ft.dwLowDateTime  -= ft0.dwLowDateTime;
-         ft.dwHighDateTime -= ft0.dwHighDateTime;
-      }
-      else
-      {  ft.dwLowDateTime  += (0xFFFFFFFF - ft0.dwLowDateTime) + 1;
-         ft.dwHighDateTime -= ft0.dwHighDateTime + 1;
-      }
-      secs = (4294967296.0 * (gnm_float)(LONG)ft.dwHighDateTime +
-         (gnm_float)ft.dwLowDateTime) / 10000000.0;
-      return secs;
+/*----------------------------------------------------------------------
+-- ufclose - close file.
+--
+-- *Synopsis*
+--
+-- #include "glplib.h"
+-- void ufclose(void *fp);
+--
+-- *Description*
+--
+-- The routine ufclose closes a file associated with i/o stream, which
+-- the parameter fp points to. It is assumed that the file was open by
+-- the routine ufopen. */
+
+void ufclose(void *fp)
+{     LIBENV *env = lib_env_ptr();
+      int k;
+      /* check if the i/o stream pointer is valid */
+      if (fp == NULL)
+         fault("ufclose: fp = %p; null i/o stream", fp);
+      for (k = 0; k < LIB_MAX_OPEN; k++)
+         if (env->file_slot[k] == fp) break;
+      if (k == LIB_MAX_OPEN)
+         fault("ufclose: fp = %p; invalid i/o stream", fp);
+      /* close a file and free the corresponding slot */
+      fclose(fp);
+      env->file_slot[k] = NULL;
+      return;
 }
-#endif
 
 /* eof */

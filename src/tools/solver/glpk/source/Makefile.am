@@ -12,26 +12,32 @@ INCLUDES =						\
 noinst_LIBRARIES = libglpk.a
 
 libglpk_a_SOURCES =					\
+	glpdmp.c				\
+	glpies1.c				\
+	glpies2.c				\
+	glpies3.c				\
 	glpinv.c				\
-	glplp.c				\
-	glplpx6a.c				\
-	glpmat1.c				\
-	glpspm.c				\
-	glpbbm.c				\
-	glplpx1.c				\
-	glpspx1.c				\
-	glplpx2.c				\
-	glplpx6c.c				\
-	glpspx2.c				\
-	glplib1.c				\
-	glplpx3.c				\
+	glplib1a.c				\
+	glplib1b.c				\
 	glplib2.c				\
-	glplpx4.c				\
-	glprsm1.c				\
-	glpstr2.c				\
 	glplib3.c				\
+	glplib4.c				\
+	glplpp1.c				\
+	glplpp2.c				\
+	glplpx1.c				\
+	glplpx2.c				\
+	glplpx3.c				\
+	glplpx4.c				\
+	glplpx5.c				\
+	glplpx6a.c				\
+	glplpx6c.c				\
+	glplpx7.c				\
 	glpluf.c				\
-	glprsm2.c				
+	glpmip1.c				\
+	glpspm.c				\
+	glpspx1.c				\
+	glpspx2.c				\
+	glpstr.c				
 	
 	
 	

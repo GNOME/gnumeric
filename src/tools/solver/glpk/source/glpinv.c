@@ -1,11 +1,11 @@
 /* glpinv.c */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -77,7 +77,11 @@ INV *inv_create(int m, int max_upd)
       inv->cc_len = -1;
       inv->cc_ndx = ucalloc(1+m, sizeof(int));
       inv->cc_val = ucalloc(1+m, sizeof(gnm_float));
+#if 0
       inv->upd_tol = 1e-12;
+#else
+      inv->upd_tol = 1e-6;
+#endif
       inv->nnz_h = 0;
       return inv;
 }
@@ -650,7 +654,10 @@ int inv_update(INV *inv, int j)
       }
       /* store new pivot that corresponds to u[k2,k2] */
       vr_piv[i] = work[qq_col[k2]];
-      /* check if u[k2,k2] is closer to zero */
+#if 0
+      /* this naive check has been replaced by more appropriate check
+         (see below) */
+      /* check if u[k2,k2] is close to zero */
       if (gnumabs(vr_piv[i]) < upd_tol)
       {  /* the factorization should be considered as inaccurate (this
             mainly happens due to excessive round-off errors) */
@@ -658,6 +665,7 @@ int inv_update(INV *inv, int j)
          ret = 2;
          goto done;
       }
+#endif
       /* new elements of the i-th row of the matrix V (which correspond
          to non-diagonal elements u[k2,k2+1], ..., u[k2,m] of the matrix
          U = P*V*Q) are contained in the working array; add them to the
@@ -706,6 +714,33 @@ int inv_update(INV *inv, int j)
       memmove(&sv_val[i_ptr], &cc_val[1], cc_len * sizeof(gnm_float));
       vr_len[i] = cc_len;
       luf->nnz_v += cc_len;
+#if 1
+      /* updating is finished; check that diagonal element u[k2,k2] is
+         not very small in absolute value among other elements in k2-th
+         row and k2-th column of the matrix U = P*V*Q */
+      /* temp = max(|u[k2,*]|, |u[*,k2]|) */
+      temp = 0.0;
+      /* walk through k2-th row of U which is i-th row of V */
+      i = pp_row[k2];
+      i_beg = vr_ptr[i];
+      i_end = i_beg + vr_len[i] - 1;
+      for (i_ptr = i_beg; i_ptr <= i_end; i_ptr++)
+         if (temp < gnumabs(sv_val[i_ptr])) temp = gnumabs(sv_val[i_ptr]);
+      /* walk through k2-th column of U which is j-th column of V */
+      j = qq_col[k2];
+      j_beg = vc_ptr[j];
+      j_end = j_beg + vc_len[j] - 1;
+      for (j_ptr = j_beg; j_ptr <= j_end; j_ptr++)
+         if (temp < gnumabs(sv_val[j_ptr])) temp = gnumabs(sv_val[j_ptr]);
+      /* check that u[k2,k2] is not very small */
+      if (gnumabs(vr_piv[i]) < upd_tol * temp)
+      {  /* the factorization seems to be inaccurate and therefore must
+            be recomputed */
+         inv->valid = luf->valid = 0;
+         ret = 2;
+         goto done;
+      }
+#endif
       /* the factorization has been successfully updated */
       inv->cc_len = -1;
 done: /* return to the simplex method routine */

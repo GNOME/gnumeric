@@ -1,11 +1,11 @@
 /* glpinv.h */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -141,9 +141,16 @@ struct INV
       /*--------------------------------------------------------------*/
       /* control parameters */
       gnm_float upd_tol;
+#if 0
       /* update tolerance; if on updating the factorization absolute
          value of some diagonal element of the matrix U = P*V*Q is less
          than upd_tol, the factorization is considered as inaccurate */
+#else
+      /* update tolerance; if after the factorization has been updated
+         absolute value of some diagonal element u[k,k] of the matrix
+         U = P*V*Q is less than upd_tol * max(|u[k,*]|, |u[*,k]|), the
+         factorization is considered as inaccurate */
+#endif
       /*--------------------------------------------------------------*/
       /* some statistics */
       int nnz_h;

@@ -1,11 +1,11 @@
 /* glpspx2.c (generic simplex method routines) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #include <float.h>
 #include <math.h>
 #include <stddef.h>
+#include "glplib.h"
 #include "glpspx.h"
 
 /*----------------------------------------------------------------------
@@ -727,10 +728,12 @@ int spx_prim_chuzr(SPX *spx, gnm_float relax)
          if (temp < 0.0) temp = - temp;
          if (big < temp) big = temp;
       }
+#if 0
       /* if all elements of the q-th column of the simplex table are
          too small, tell the calling program to reinvert the basis and
          repeat the choice */
       if (big < lp->tol_piv) ret = 1;
+#endif
       /* compute the absolute tolerance eps used to check elements of
          the q-th column */
       eps = lp->tol_piv * (1.0 + big);
@@ -1005,10 +1008,12 @@ int spx_dual_chuzc(SPX *spx, gnm_float relax)
          if (temp < 0.0) temp = - temp;
          if (big < temp) big = temp;
       }
+#if 0
       /* if all elements in the p-th row of the simplex table are too
          small, tell the calling program to reinvert the basis and then
          repeat the choice */
       if (big < lp->tol_piv) ret = 1;
+#endif
       /* compute the absolute tolerance eps used to check elements of
          the p-th row */
       eps = lp->tol_piv * (1.0 + big);

@@ -1,11 +1,11 @@
 /* glplpx2.c (problem querying routines) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -27,6 +27,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <string.h>
+#include "glplib.h"
 #include "glplpx.h"
 
 /*----------------------------------------------------------------------
@@ -961,7 +962,7 @@ void lpx_get_ips_row(LPX *lp, int i, gnm_float *vx, gnm_float *dx)
             /* obtain primal and dual values */
             vx_i = lp->pv[i];
             dx_i = lp->dv[i];
-#if 0
+#if 1
             /* round them (if required) */
             if (lp->round)
             {  if (gnumabs(vx_i) <= 1e-8) vx_i = 0.0;
@@ -1009,7 +1010,7 @@ void lpx_get_ips_col(LPX *lp, int j, gnm_float *vx, gnm_float *dx)
             /* obtain primal and dual values */
             vx_j = lp->pv[j];
             dx_j = lp->dv[j];
-#if 0
+#if 1
             /* round them (if required) */
             if (lp->round)
             {  if (gnumabs(vx_j) <= 1e-8) vx_j = 0.0;

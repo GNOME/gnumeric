@@ -1,11 +1,11 @@
 /* glplpx1.c (problem creating and modifying routines) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@
 #include <ctype.h>
 #include <math.h>
 #include <string.h>
+#include "glplib.h"
 #include "glplpx.h"
 
 /*----------------------------------------------------------------------
@@ -335,8 +336,12 @@ void lpx_add_cols(LPX *lp, int ncs)
 
 int lpx_check_name(char *name)
 {     int t;
+#if 1
+      /* empty name is not allowed */
+      if (name[0] == '\0') return 1;
+#endif
       for (t = 0; name[t] != '\0'; t++)
-         if (t == 255 || !isgraph(name[t])) return 1;
+         if (t == 255 || !isgraph((unsigned char)name[t])) return 1;
       return 0;
 }
 
@@ -1335,7 +1340,7 @@ void lpx_del_items(LPX *lp)
 -- parameter lp points to, freeing all the memory allocated to it. */
 
 void lpx_delete_prob(LPX *lp)
-{     delete_pool(lp->pool);
+{     dmp_delete_pool(lp->pool);
       ufree(lp->buf);
       ufree(lp->name);
       ufree(lp->typx);

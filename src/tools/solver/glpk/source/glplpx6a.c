@@ -1,11 +1,11 @@
 /* glplpx6a.c (simplex-based solver routines) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -25,6 +25,8 @@
 
 #include <math.h>
 #include <string.h>
+#include "glplib.h"
+#include "glplpp.h"
 #include "glpspx.h"
 
 /*----------------------------------------------------------------------
@@ -76,7 +78,7 @@ int lpx_warm_up(LPX *lp)
          /* invalidate the basic solution */
          lp->p_stat = LPX_P_UNDEF;
          lp->d_stat = LPX_D_UNDEF;
-         /* build the arrays posx and tagx using the array tagx */
+         /* build the arrays posx and indx using the array tagx */
          i = j = 0;
          for (k = 1; k <= m+n; k++)
          {  if (lp->tagx[k] == LPX_BS)
@@ -410,6 +412,430 @@ done: /* deallocate the common block */
          ufree(spx->gvec);
          if (lp->price) ufree(spx->refsp);
          ufree(spx->work);
+         ufree(spx);
+      }
+      /* determine the spent amount of time */
+      spent = utime() - start;
+      /* decrease the time limit by the spent amount */
+      if (lp->tm_lim >= 0.0)
+      {  lp->tm_lim -= spent;
+         if (lp->tm_lim < 0.0) lp->tm_lim = 0.0;
+      }
+      /* return to the calling program */
+      return ret;
+}
+
+/*----------------------------------------------------------------------
+-- lpx_prim_feas - find primal feasible solution (primal simplex).
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- int lpx_prim_feas(LPX *lp);
+--
+-- *Description*
+--
+-- The routine lpx_prim_feas tries to find primal feasible solution of
+-- an LP problem using the method of implicit artificial variables that
+-- is based on the primal simplex method (see the comments below).
+--
+-- On entry to the routine the initial basis should be "warmed up".
+--
+-- *Returns*
+--
+-- The routine lpx_prim_feas returns one of the following exit codes:
+--
+-- LPX_E_OK       primal feasible solution found.
+--
+-- LPX_E_NOFEAS   the problem has no primal feasible solution.
+--
+-- LPX_E_ITLIM    iterations limit exceeded.
+--
+-- LPX_E_TMLIM    time limit exceeded.
+--
+-- LPX_E_BADB     the initial basis is not "warmed up".
+--
+-- LPX_E_INSTAB   numerical instability; the current artificial basic
+--                solution (internally constructed by the routine) got
+--                primal infeasible due to excessive round-off errors.
+--
+-- LPX_E_SING     singular basis; the current basis matrix got singular
+--                or ill-conditioned due to improper simplex iteration.
+--
+-- Note that additional exit codes may appear in the future versions of
+-- this routine. */
+
+static gnm_float orig_objval(SPX *spx)
+{     /* this auxliary routine computes value of the objective function
+         for the original LP problem */
+      LPX *lp = spx->lp;
+      gnm_float objval;
+      void *t;
+      t = lp->typx, lp->typx = spx->orig_typx, spx->orig_typx = t;
+      t = lp->lb, lp->lb = spx->orig_lb, spx->orig_lb = t;
+      t = lp->ub, lp->ub = spx->orig_ub, spx->orig_ub = t;
+      t = lp->coef, lp->coef = spx->orig_coef, spx->orig_coef = t;
+      objval = spx_eval_obj(lp);
+      t = lp->typx, lp->typx = spx->orig_typx, spx->orig_typx = t;
+      t = lp->lb, lp->lb = spx->orig_lb, spx->orig_lb = t;
+      t = lp->ub, lp->ub = spx->orig_ub, spx->orig_ub = t;
+      t = lp->coef, lp->coef = spx->orig_coef, spx->orig_coef = t;
+      return objval;
+}
+
+static gnm_float orig_infsum(SPX *spx, gnm_float tol)
+{     /* this auxiliary routine computes the sum of infeasibilities for
+         the original LP problem */
+      LPX *lp = spx->lp;
+      gnm_float infsum;
+      void *t;
+      t = lp->typx, lp->typx = spx->orig_typx, spx->orig_typx = t;
+      t = lp->lb, lp->lb = spx->orig_lb, spx->orig_lb = t;
+      t = lp->ub, lp->ub = spx->orig_ub, spx->orig_ub = t;
+      t = lp->coef, lp->coef = spx->orig_coef, spx->orig_coef = t;
+      infsum = spx_check_bbar(lp, tol);
+      t = lp->typx, lp->typx = spx->orig_typx, spx->orig_typx = t;
+      t = lp->lb, lp->lb = spx->orig_lb, spx->orig_lb = t;
+      t = lp->ub, lp->ub = spx->orig_ub, spx->orig_ub = t;
+      t = lp->coef, lp->coef = spx->orig_coef, spx->orig_coef = t;
+      return infsum;
+}
+
+static void prim_feas_dpy(SPX *spx, gnm_float sum_0)
+{     /* this auxiliary routine displays information about the current
+         basic solution */
+      LPX *lp = spx->lp;
+      int i, def = 0;
+      for (i = 1; i <= lp->m; i++)
+         if (lp->typx[lp->indx[i]] == LPX_FX) def++;
+      print(" %6d:   objval = %17.9e   infeas = %17.9e (%d)",
+         lp->it_cnt, orig_objval(spx), orig_infsum(spx, 0.0) / sum_0,
+         def);
+      return;
+}
+
+int lpx_prim_feas(LPX *lp)
+{     /* find primal feasible solution (primal simplex) */
+      SPX *spx = NULL;
+      int m = lp->m;
+      int n = lp->n;
+      int i, k, ret;
+      gnm_float sum_0;
+      gnm_float start = utime(), spent = 0.0;
+      /* the initial basis should be "warmed up" */
+      if (lp->b_stat != LPX_B_VALID ||
+          lp->p_stat == LPX_P_UNDEF || lp->d_stat == LPX_D_UNDEF)
+      {  ret = LPX_E_BADB;
+         goto done;
+      }
+      /* if the initial basic solution is primal feasible, nothing to
+         search for */
+      if (lp->p_stat == LPX_P_FEAS)
+      {  ret = LPX_E_OK;
+         goto done;
+      }
+      /* allocate the common block */
+      spx = umalloc(sizeof(SPX));
+      spx->lp = lp;
+      spx->meth = 'P';
+      spx->p = 0;
+      spx->p_tag = 0;
+      spx->q = 0;
+      spx->zeta = ucalloc(1+m, sizeof(gnm_float));
+      spx->ap = ucalloc(1+n, sizeof(gnm_float));
+      spx->aq = ucalloc(1+m, sizeof(gnm_float));
+      spx->gvec = ucalloc(1+n, sizeof(gnm_float));
+      spx->dvec = NULL;
+      spx->refsp = (lp->price ? ucalloc(1+m+n, sizeof(int)) : NULL);
+      spx->count = 0;
+      spx->work = ucalloc(1+m+n, sizeof(gnm_float));
+      spx->orig_typx = ucalloc(1+m+n, sizeof(int));
+      spx->orig_lb = ucalloc(1+m+n, sizeof(gnm_float));
+      spx->orig_ub = ucalloc(1+m+n, sizeof(gnm_float));
+      spx->orig_dir = 0;
+      spx->orig_coef = ucalloc(1+m+n, sizeof(gnm_float));
+      /* save components of the original LP problem, which are changed
+         by the routine */
+      memcpy(spx->orig_typx, lp->typx, (1+m+n) * sizeof(int));
+      memcpy(spx->orig_lb, lp->lb, (1+m+n) * sizeof(gnm_float));
+      memcpy(spx->orig_ub, lp->ub, (1+m+n) * sizeof(gnm_float));
+      spx->orig_dir = lp->dir;
+      memcpy(spx->orig_coef, lp->coef, (1+m+n) * sizeof(gnm_float));
+      /* build an artificial basic solution, which is primal feasible,
+         and also build an auxiliary objective function to minimize the
+         sum of infeasibilities (residuals) for the original problem */
+      lp->dir = LPX_MIN;
+      for (k = 0; k <= m+n; k++) lp->coef[k] = 0.0;
+      for (i = 1; i <= m; i++)
+      {  int typx_k;
+         gnm_float lb_k, ub_k, bbar_i;
+         gnm_float eps = 0.10 * lp->tol_bnd;
+         k = lp->indx[i]; /* x[k] = xB[i] */
+         typx_k = spx->orig_typx[k];
+         lb_k = spx->orig_lb[k];
+         ub_k = spx->orig_ub[k];
+         bbar_i = lp->bbar[i];
+         if (typx_k == LPX_LO || typx_k == LPX_DB || typx_k == LPX_FX)
+         {  /* in the original problem x[k] has an lower bound */
+            if (bbar_i < lb_k - eps)
+            {  /* and violates it */
+               lp->typx[k] = LPX_UP;
+               lp->lb[k] = 0.0;
+               lp->ub[k] = lb_k;
+               lp->coef[k] = -1.0; /* x[k] should be increased */
+            }
+         }
+         if (typx_k == LPX_UP || typx_k == LPX_DB || typx_k == LPX_FX)
+         {  /* in the original problem x[k] has an upper bound */
+            if (bbar_i > ub_k + eps)
+            {  /* and violates it */
+               lp->typx[k] = LPX_LO;
+               lp->lb[k] = ub_k;
+               lp->ub[k] = 0.0;
+               lp->coef[k] = +1.0; /* x[k] should be decreased */
+            }
+         }
+      }
+      /* now the initial basic solution should be primal feasible due
+         to changes of bounds of some basic variables, which turned to
+         implicit artifical variables */
+      insist(spx_check_bbar(lp, lp->tol_bnd) == 0.0);
+      /* compute the initial sum of infeasibilities for the original
+         problem */
+      sum_0 = orig_infsum(spx, 0.0);
+      /* it can't be zero, because the initial basic solution is primal
+         infeasible */
+      insist(sum_0 != 0.0);
+      /* compute simplex multipliers and reduced costs of non-basic
+         variables once again (because the objective function has been
+         changed) */
+      spx_eval_pi(lp);
+      spx_eval_cbar(lp);
+      /* initialize weights of non-basic variables */
+      if (!lp->price)
+      {  /* textbook pricing will be used */
+         int j;
+         for (j = 1; j <= n; j++) spx->gvec[j] = 1.0;
+      }
+      else
+      {  /* steepest edge pricing will be used */
+         spx_reset_refsp(spx);
+      }
+      /* display information about the initial basic solution */
+      if (lp->msg_lev >= 2 && lp->it_cnt % lp->out_frq != 0 &&
+          lp->out_dly <= spent) prim_feas_dpy(spx, sum_0);
+      /* main loop starts here */
+      for (;;)
+      {  /* determine the spent amount of time */
+         spent = utime() - start;
+         /* display information about the current basic solution */
+         if (lp->msg_lev >= 2 && lp->it_cnt % lp->out_frq == 0 &&
+             lp->out_dly <= spent) prim_feas_dpy(spx, sum_0);
+         /* we needn't to wait until all artificial variables leave the
+            basis */
+         if (orig_infsum(spx, lp->tol_bnd) == 0.0)
+         {  /* the sum of infeasibilities is zero, therefore the current
+               solution is primal feasible for the original problem */
+            ret = LPX_E_OK;
+            break;
+         }
+         /* check if the iterations limit has been exhausted */
+         if (lp->it_lim == 0)
+         {  ret = LPX_E_ITLIM;
+            break;
+         }
+         /* check if the time limit has been exhausted */
+         if (lp->tm_lim >= 0.0 && lp->tm_lim <= spent)
+         {  ret = LPX_E_TMLIM;
+            break;
+         }
+         /* choose non-basic variable xN[q] */
+         if (spx_prim_chuzc(spx, lp->tol_dj))
+         {  /* basic solution components were recomputed; check primal
+               feasibility (of the artificial solution) */
+            if (spx_check_bbar(lp, lp->tol_bnd) != 0.0)
+            {  /* the current solution became primal infeasible due to
+                  round-off errors */
+               ret = LPX_E_INSTAB;
+               break;
+            }
+         }
+         /* if no xN[q] has been chosen, the sum of infeasibilities is
+            minimal but non-zero; therefore the original problem has no
+            primal feasible solution */
+         if (spx->q == 0)
+         {  ret = LPX_E_NOFEAS;
+            break;
+         }
+         /* compute the q-th column of the current simplex table (later
+            this column will enter the basis) */
+         spx_eval_col(lp, spx->q, spx->aq, 1);
+         /* choose basic variable xB[p] */
+         if (spx_prim_chuzr(spx, lp->relax * lp->tol_bnd))
+         {  /* the basis matrix should be reinverted, because the q-th
+               column of the simplex table is unreliable */
+            insist("not implemented yet" == NULL);
+         }
+         /* the sum of infeasibilities can't be negative, therefore the
+            modified problem can't have unbounded solution */
+         insist(spx->p != 0);
+         /* update values of basic variables */
+         spx_update_bbar(spx, NULL);
+         if (spx->p > 0)
+         {  /* compute the p-th row of the inverse inv(B) */
+            spx_eval_rho(lp, spx->p, spx->zeta);
+            /* compute the p-th row of the current simplex table */
+            spx_eval_row(lp, spx->zeta, spx->ap);
+            /* update simplex multipliers */
+            spx_update_pi(spx);
+            /* update reduced costs of non-basic variables */
+            spx_update_cbar(spx, 0);
+            /* update weights of non-basic variables */
+            if (lp->price) spx_update_gvec(spx);
+         }
+         /* xB[p] is leaving the basis; if it is implicit artificial
+            variable, the corresponding residual vanishes; therefore
+            bounds of this variable should be restored to the original
+            ones */
+         if (spx->p > 0)
+         {  k = lp->indx[spx->p]; /* x[k] = xB[p] */
+            if (lp->typx[k] != spx->orig_typx[k])
+            {  /* x[k] is implicit artificial variable */
+               lp->typx[k] = spx->orig_typx[k];
+               lp->lb[k] = spx->orig_lb[k];
+               lp->ub[k] = spx->orig_ub[k];
+               insist(spx->p_tag == LPX_NL || spx->p_tag == LPX_NU);
+               spx->p_tag = (spx->p_tag == LPX_NL ? LPX_NU : LPX_NL);
+               if (lp->typx[k] == LPX_FX) spx->p_tag = LPX_NS;
+               /* nullify the objective coefficient at x[k] */
+               lp->coef[k] = 0.0;
+               /* since coef[k] has been changed, we need to compute
+                  new reduced cost of x[k], which it will have in the
+                  adjacent basis */
+               /* the formula d[j] = cN[j] - pi' * N[j] is used (note
+                  that the vector pi is not changed, because it depends
+                  on objective coefficients at basic variables, but in
+                  the adjacent basis, for which the vector pi has been
+                  just recomputed, x[k] is non-basic) */
+               if (k <= m)
+               {  /* x[k] is auxiliary variable */
+                  lp->cbar[spx->q] = - lp->pi[k];
+               }
+               else
+               {  /* x[k] is structural variable */
+                  int ptr = lp->A->ptr[k];
+                  int end = ptr + lp->A->len[k] - 1;
+                  gnm_float d = 0.0;
+                  for (ptr = ptr; ptr <= end; ptr++)
+                     d += lp->pi[lp->A->ndx[ptr]] * lp->A->val[ptr];
+                  lp->cbar[spx->q] = d;
+               }
+            }
+         }
+         /* jump to the adjacent vertex of the LP polyhedron */
+         if (spx_change_basis(spx))
+         {  /* the basis matrix should be reinverted */
+            if (spx_invert(lp))
+            {  /* numerical problems with the basis matrix */
+               ret = LPX_E_SING;
+               break;
+            }
+            /* compute the current basic solution components */
+            spx_eval_bbar(lp);
+            spx_eval_pi(lp);
+            spx_eval_cbar(lp);
+            /* check primal feasibility */
+            if (spx_check_bbar(lp, lp->tol_bnd) != 0.0)
+            {  /* the current solution became primal infeasible due to
+                  excessive round-off errors */
+               ret = LPX_E_INSTAB;
+               break;
+            }
+         }
+#if 0
+         /* check accuracy of main solution components after updating
+            (for debugging purposes only) */
+         {  gnm_float ae_bbar = spx_err_in_bbar(spx);
+            gnm_float ae_pi   = spx_err_in_pi(spx);
+            gnm_float ae_cbar = spx_err_in_cbar(spx, 0);
+            gnm_float ae_gvec = lp->price ? spx_err_in_gvec(spx) : 0.0;
+            print("bbar: %g; pi: %g; cbar: %g; gvec: %g",
+               ae_bbar, ae_pi, ae_cbar, ae_gvec);
+            if (ae_bbar > 1e-7 || ae_pi > 1e-7 || ae_cbar > 1e-7 ||
+                ae_gvec > 1e-3) fault("solution accuracy too low");
+         }
+#endif
+      }
+      /* restore components of the original problem, which were changed
+         by the routine */
+      memcpy(lp->typx, spx->orig_typx, (1+m+n) * sizeof(int));
+      memcpy(lp->lb, spx->orig_lb, (1+m+n) * sizeof(gnm_float));
+      memcpy(lp->ub, spx->orig_ub, (1+m+n) * sizeof(gnm_float));
+      lp->dir = spx->orig_dir;
+      memcpy(lp->coef, spx->orig_coef, (1+m+n) * sizeof(gnm_float));
+      /* if there are numerical problems with the basis matrix, the
+         latter must be repaired; mark the basic solution as undefined
+         and exit immediately */
+      if (ret == LPX_E_SING)
+      {  lp->p_stat = LPX_P_UNDEF;
+         lp->d_stat = LPX_D_UNDEF;
+         goto done;
+      }
+      /* compute the final basic solution components */
+      spx_eval_bbar(lp);
+      spx_eval_pi(lp);
+      spx_eval_cbar(lp);
+      if (spx_check_bbar(lp, lp->tol_bnd) == 0.0)
+         lp->p_stat = LPX_P_FEAS;
+      else
+         lp->p_stat = LPX_P_INFEAS;
+      if (spx_check_cbar(lp, lp->tol_dj) == 0.0)
+         lp->d_stat = LPX_D_FEAS;
+      else
+         lp->d_stat = LPX_D_INFEAS;
+      /* display information about the final basic solution */
+      if (lp->msg_lev >= 2 && lp->it_cnt % lp->out_frq != 0 &&
+          lp->out_dly <= spent) prim_feas_dpy(spx, sum_0);
+      /* correct the preliminary diagnosis */
+      switch (ret)
+      {  case LPX_E_OK:
+            /* assumed LPX_P_FEAS */
+            if (lp->p_stat != LPX_P_FEAS)
+               ret = LPX_E_INSTAB;
+            break;
+         case LPX_E_ITLIM:
+         case LPX_E_TMLIM:
+            /* assumed LPX_P_INFEAS */
+            if (lp->p_stat == LPX_P_FEAS)
+               ret = LPX_E_OK;
+            break;
+         case LPX_E_NOFEAS:
+            /* assumed LPX_P_INFEAS */
+            if (lp->p_stat == LPX_P_FEAS)
+               ret = LPX_E_OK;
+            else
+               lp->p_stat = LPX_P_NOFEAS;
+            break;
+         case LPX_E_INSTAB:
+            /* assumed LPX_P_INFEAS */
+            if (lp->p_stat == LPX_P_FEAS)
+               ret = LPX_E_OK;
+            break;
+         default:
+            insist(ret != ret);
+      }
+done: /* deallocate the common block */
+      if (spx != NULL)
+      {  ufree(spx->zeta);
+         ufree(spx->ap);
+         ufree(spx->aq);
+         ufree(spx->gvec);
+         if (lp->price) ufree(spx->refsp);
+         ufree(spx->work);
+         ufree(spx->orig_typx);
+         ufree(spx->orig_lb);
+         ufree(spx->orig_ub);
+         ufree(spx->orig_coef);
          ufree(spx);
       }
       /* determine the spent amount of time */
@@ -1051,7 +1477,7 @@ int lpx_dual_opt(LPX *lp)
       spx->aq = ucalloc(1+m, sizeof(gnm_float));
       spx->gvec = NULL;
       spx->dvec = ucalloc(1+m, sizeof(gnm_float));
-      spx->refsp = (lp->price ? ucalloc(1+m+n, sizeof(gnm_float)) : NULL);
+      spx->refsp = (lp->price ? ucalloc(1+m+n, sizeof(int)) : NULL);
       spx->count = 0;
       spx->work = ucalloc(1+m+n, sizeof(gnm_float));
       spx->orig_typx = NULL;
@@ -1292,7 +1718,8 @@ done: /* deallocate the common block */
 --
 -- *Returns*
 --
--- The routine lpx_simplex returns one of the following exit codes:
+-- If the LP presolver is not used, the routine lpx_simplex returns one
+-- of the following exit codes:
 --
 -- LPX_E_OK       the LP problem has been successfully solved.
 --
@@ -1310,15 +1737,50 @@ done: /* deallocate the common block */
 --
 -- LPX_E_TMLIM    time limit exceeded.
 --
--- LPX_E_SING     the basis matrix got singular or ill-conditioned due
---                to improper simplex iteration.
+-- LPX_E_SING     the basis matrix becomes singular or ill-conditioned
+--                due to improper simplex iteration.
+--
+-- If the LP presolver is used, the routine lpx_simplex returns one of
+-- the following exit codes:
+--
+-- LPX_E_OK       optimal solution of the LP problem has been found.
+--
+-- LPX_E_FAULT    the LP problem has no rows and/or columns.
+--
+-- LPX_E_NOPFS    the LP problem has no primal feasible solution.
+--
+-- LPX_E_NODFS    the LP problem has no dual feasible solution.
+--
+-- LPX_E_NOSOL    the presolver cannot recover undefined or non-optimal
+--                solution.
+--
+-- LPX_E_ITLIM    same as above.
+--
+-- LPX_E_TMLIM    same as above.
+--
+-- LPX_E_SING     same as above.
 --
 -- Note that additional exit codes may appear in the future versions of
 -- this routine. */
 
-int lpx_simplex(LPX *lp)
-{     int ret;
-#     define prefix "lpx_simplex: "
+#define prefix "lpx_simplex: "
+
+static int simplex1(LPX *lp)
+{     /* base driver that doesn't use the presolver */
+      int ret;
+      /* check that each gnm_float-bounded variable has correct lower and
+         upper bounds */
+      {  int k;
+         for (k = 1; k <= lp->m + lp->n; k++)
+         {  if (lp->typx[k] == LPX_DB && lp->lb[k] >= lp->ub[k])
+            {  if (lp->msg_lev >= 1)
+                  print(prefix "gnm_float-bounded variable %d has invalid "
+                     "bounds", k);
+               ret = LPX_E_FAULT;
+               goto done;
+            }
+         }
+      }
       /* "warm up" the initial basis */
       ret = lpx_warm_up(lp);
       switch (ret)
@@ -1357,7 +1819,20 @@ int lpx_simplex(LPX *lp)
          feasible, the dual simplex method may be used */
       if (lp->d_stat == LPX_D_FEAS && lp->dual) goto dual;
 feas: /* phase I: find a primal feasible basic solution */
+#if 1
+      ret = lpx_prim_feas(lp);
+#else
+      /* the method of one artificial variable implemented in the
+         routine lpx_prim_art has serious defect: for some instances
+         it erroneously reports that the problem has no primal feasible
+         solution; this error appears when the column of the artificial
+         variable (which enters the basis to make the current solution
+         primal feasible) has large constraint coefficients that leads
+         to small reduced costs of non-basic variables and premature
+         termination of the search, i.e. to wrong conclusion that the
+         problem has no primal feasible solution */
       ret = lpx_prim_art(lp);
+#endif
       switch (ret)
       {  case LPX_E_OK:
             goto opt;
@@ -1376,7 +1851,8 @@ feas: /* phase I: find a primal feasible basic solution */
             goto done;
          case LPX_E_INSTAB:
             if (lp->msg_lev >= 2)
-               print(prefix "numerical instability");
+               print(prefix "numerical instability (primal simplex, pha"
+                  "se I)");
             goto feas;
          case LPX_E_SING:
             if (lp->msg_lev >= 1)
@@ -1410,7 +1886,8 @@ opt:  /* phase II: find an optimal basic solution (primal simplex) */
             goto done;
          case LPX_E_INSTAB:
             if (lp->msg_lev >= 2)
-               print(prefix "numerical instability");
+               print(prefix "numerical instability (primal simplex, pha"
+                  "se II)");
             goto feas;
          case LPX_E_SING:
             if (lp->msg_lev >= 1)
@@ -1454,7 +1931,7 @@ dual: /* phase II: find an optimal basic solution (dual simplex) */
             goto done;
          case LPX_E_INSTAB:
             if (lp->msg_lev >= 2)
-               print(prefix "numerical instability");
+               print(prefix "numerical instability (dual simplex)");
             goto feas;
          case LPX_E_SING:
             if (lp->msg_lev >= 1)
@@ -1468,7 +1945,606 @@ dual: /* phase II: find an optimal basic solution (dual simplex) */
       }
 done: /* return to the calling program */
       return ret;
-#     undef prefix
+}
+
+static int simplex2(LPX *orig)
+{     /* extended driver that uses the presolver */
+      LPP *lpp;
+      LPX *prob;
+      int k, ret;
+      if (orig->msg_lev >= 3)
+      {  int m = lpx_get_num_rows(orig);
+         int n = lpx_get_num_cols(orig);
+         int nnz = lpx_get_num_nz(orig);
+         print(prefix "original LP has %d row%s, %d column%s, %d non-ze"
+            "ro%s", m, m == 1 ? "" : "s", n, n == 1 ? "" : "s",
+            nnz, nnz == 1 ? "" : "s");
+      }
+      /* the problem must have at least one row and one column */
+      if (!(orig->m > 0 && orig->n > 0))
+      {  if (orig->msg_lev >= 1)
+            print(prefix "problem has no rows/columns");
+         return LPX_E_FAULT;
+      }
+      /* check that each gnm_float-bounded variable has correct lower and
+         upper bounds */
+      for (k = 1; k <= orig->m + orig->n; k++)
+      {  if (orig->typx[k] == LPX_DB && orig->lb[k] >= orig->ub[k])
+         {  if (orig->msg_lev >= 1)
+               print(prefix "gnm_float-bounded variable %d has invalid bou"
+                  "nds", k);
+            return LPX_E_FAULT;
+         }
+      }
+      /* create LP presolver workspace */
+      lpp = lpp_create_wksp();
+      /* load the original problem into LP presolver workspace */
+      lpp_load_orig(lpp, orig);
+      /* perform LP presolve analysis */
+      ret = lpp_presolve(lpp);
+      switch (ret)
+      {  case 0:
+            /* presolving has been successfully completed */
+            break;
+         case 1:
+            /* the original problem is primal infeasible */
+            if (orig->msg_lev >= 3)
+               print("PROBLEM HAS NO PRIMAL FEASIBLE SOLUTION");
+            lpp_delete_wksp(lpp);
+            return LPX_E_NOPFS;
+         case 2:
+            /* the original problem is dual infeasible */
+            if (orig->msg_lev >= 3)
+               print("PROBLEM HAS NO DUAL FEASIBLE SOLUTION");
+            lpp_delete_wksp(lpp);
+            return LPX_E_NODFS;
+         default:
+            insist(ret != ret);
+      }
+      /* if the resultant problem is empty, it has an empty solution,
+         which is optimal */
+      if (lpp->row_ptr == NULL || lpp->col_ptr == NULL)
+      {  insist(lpp->row_ptr == NULL);
+         insist(lpp->col_ptr == NULL);
+         if (orig->msg_lev >= 3)
+         {  print("Objective value = %.10g",
+               lpp->orig_dir == LPX_MIN ? + lpp->c0 : - lpp->c0);
+            print("OPTIMAL SOLUTION FOUND BY LP PRESOLVER");
+         }
+         /* allocate recovered solution segment */
+         lpp_alloc_sol(lpp);
+         goto post;
+      }
+      /* build resultant LP problem object */
+      prob = lpp_build_prob(lpp);
+      if (orig->msg_lev >= 3)
+      {  int m = lpx_get_num_rows(prob);
+         int n = lpx_get_num_cols(prob);
+         int nnz = lpx_get_num_nz(prob);
+         print(prefix "presolved LP has %d row%s, %d column%s, %d non-z"
+            "ero%s", m, m == 1 ? "" : "s", n, n == 1 ? "" : "s",
+            nnz, nnz == 1 ? "" : "s");
+      }
+      /* inherit some control parameters from the original object */
+      prob->msg_lev = orig->msg_lev;
+      prob->scale = orig->scale;
+      prob->sc_ord = orig->sc_ord;
+      prob->sc_max = orig->sc_max;
+      prob->sc_eps = orig->sc_eps;
+      prob->dual = orig->dual;
+      prob->price = orig->price;
+      prob->relax = orig->relax;
+      prob->tol_bnd = orig->tol_bnd;
+      prob->tol_dj = orig->tol_dj;
+      prob->tol_piv = orig->tol_piv;
+      prob->round = 0;
+      prob->it_lim = orig->it_lim;
+      prob->it_cnt = orig->it_cnt;
+      prob->tm_lim = orig->tm_lim;
+      prob->out_frq = orig->out_frq;
+      prob->out_dly = orig->out_dly;
+      /* scale the resultant problem */
+      lpx_scale_prob(prob);
+      /* build advanced initial basis */
+      lpx_adv_basis(prob);
+      /* try to solve the resultant problem */
+      ret = simplex1(prob);
+      /* copy back statistics about resources spent by the solver */
+      orig->it_cnt = prob->it_cnt;
+      orig->it_lim = prob->it_lim;
+      orig->tm_lim = prob->tm_lim;
+      /* check if an optimal solution has been found */
+      if (!(ret == LPX_E_OK &&
+            prob->p_stat == LPX_P_FEAS && prob->d_stat == LPX_D_FEAS))
+      {  if (orig->msg_lev >= 3)
+            print(prefix "cannot recover undefined or non-optimal solut"
+               "ion");
+         if (ret == LPX_E_OK)
+         {  if (prob->p_stat == LPX_P_NOFEAS)
+               ret = LPX_E_NOPFS;
+            else if (prob->d_stat == LPX_D_NOFEAS)
+               ret = LPX_E_NODFS;
+         }
+         lpx_delete_prob(prob);
+         lpp_delete_wksp(lpp);
+         return ret;
+      }
+      /* allocate recovered solution segment */
+      lpp_alloc_sol(lpp);
+      /* load basic solution of the resultant problem into LP presolver
+         workspace */
+      lpp_load_sol(lpp, prob);
+      /* the resultant problem object is no longer needed */
+      lpx_delete_prob(prob);
+post: /* perform LP postsolve processing */
+      lpp_postsolve(lpp);
+      /* unload recovered basic solution and store it into the original
+         problem object */
+      lpp_unload_sol(lpp, orig);
+      /* delete LP presolver workspace */
+      lpp_delete_wksp(lpp);
+      /* the original problem has been successfully solved */
+      return LPX_E_OK;
+}
+
+#undef prefix
+
+int lpx_simplex(LPX *lp)
+{     /* driver routine to the simplex method */
+      return !lp->presol ? simplex1(lp) : simplex2(lp);
+}
+
+/*----------------------------------------------------------------------
+-- lpx_check_kkt - check Karush-Kuhn-Tucker conditions.
+--
+-- *Synopsis*
+--
+-- #include "glplpx.h"
+-- void lpx_check_kkt(LPX *lp, int scaled, LPXKKT *kkt);
+--
+-- *Description*
+--
+-- The routine lpx_check_kkt checks Karush-Kuhn-Tucker conditions for
+-- the current basic solution specified by an LP problem object, which
+-- the parameter lp points to. Both primal and dual components of the
+-- basic solution should be defined.
+--
+-- If the parameter scaled is zero, the conditions are checked for the
+-- original, unscaled LP problem. Otherwise, if the parameter scaled is
+-- non-zero, the routine checks the conditions for an internally scaled
+-- LP problem.
+--
+-- The parameter kkt is a pointer to the structure LPXKKT, to which the
+-- routine stores the results of checking (for details see below).
+--
+-- The routine performs all computations using only components of the
+-- given LP problem and the current basic solution.
+--
+-- *Background*
+--
+-- The first condition checked by the routine is:
+--
+--    xR - A * xS = 0,                                          (KKT.PE)
+--
+-- where xR is the subvector of auxiliary variables (rows), xS is the
+-- subvector of structural variables (columns), A is the constraint
+-- matrix. This condition expresses the requirement that all primal
+-- variables must satisfy to the system of equality constraints of the
+-- original LP problem. In case of exact arithmetic this condition is
+-- satisfied for any basic solution; however, if the arithmetic is
+-- inexact, it shows how accurate the primal basic solution is, that
+-- depends on accuracy of a representation of the basis matrix.
+--
+-- The second condition checked by the routines is:
+--
+--    l[k] <= x[k] <= u[k]  for all k = 1, ..., m+n,            (KKT.PB)
+--
+-- where x[k] is auxiliary or structural variable, l[k] and u[k] are,
+-- respectively, lower and upper bounds of the variable x[k] (including
+-- cases of infinite bounds). This condition expresses the requirement
+-- that all primal variables must satisfy to bound constraints of the
+-- original LP problem. Since in case of basic solution all non-basic
+-- variables are placed on their bounds, actually the condition (KKT.PB)
+-- is checked for basic variables only. If the primal basic solution
+-- has sufficient accuracy, this condition shows primal feasibility of
+-- the solution.
+--
+-- The third condition checked by the routine is:
+--
+--    grad Z = c = (A~)' * pi + d,
+--
+-- where Z is the objective function, c is the vector of objective
+-- coefficients, (A~)' is a matrix transposed to the expanded constraint
+-- matrix A~ = (I | -A), pi is a vector of Lagrange multiplers that
+-- correspond to equality constraints of the original LP problem, d is
+-- a vector of Lagrange multipliers that correspond to bound constraints
+-- for all (i.e. auxiliary and structural) variables of the original LP
+-- problem. Geometrically the third condition expresses the requirement
+-- that the gradient of the objective function must belong to the
+-- orthogonal complement of a linear subspace defined by the equality
+-- and active bound constraints, i.e. that the gradient must be a linear
+-- combination of normals to the constraint planes, where Lagrange
+-- multiplers pi and d are coefficients of that linear combination. To
+-- eliminate the vector pi the third condition can be rewritten as:
+--
+--    (  I  )      ( dR )   ( cR )
+--    (     ) pi + (    ) = (    ),
+--    ( -A' )      ( dS )   ( cS )
+--
+-- or, equivalently:
+--
+--          pi + dR = cR,
+--
+--    -A' * pi + dS = cS.
+--
+-- Substituting the vector pi from the first equation into the second
+-- one we have:
+--
+--    A' * (dR - cR) + (dS - cS) = 0,                           (KKT.DE)
+--
+-- where dR is the subvector of reduced costs of auxiliary variables
+-- (rows), dS is the subvector of reduced costs of structural variables
+-- (columns), cR and cS are, respectively, subvectors of objective
+-- coefficients at auxiliary and structural variables, A' is a matrix
+-- transposed to the constraint matrix of the original LP problem. In
+-- case of exact arithmetic this condition is satisfied for any basic
+-- solution; however, if the arithmetic is inexact, it shows how
+-- accurate the dual basic solution is, that depends on accuracy of a
+-- representation of the basis matrix.
+--
+-- The last, fourth condition checked by the routine is:
+--
+--           d[k] = 0,    if x[k] is basic or free non-basic
+--
+--      0 <= d[k] < +inf, if x[k] is non-basic on its lower
+--                        (minimization) or upper (maximization)
+--                        bound
+--                                                              (KKT.DB)
+--    -inf < d[k] <= 0,   if x[k] is non-basic on its upper
+--                        (minimization) or lower (maximization)
+--                        bound
+--
+--    -inf < d[k] < +inf, if x[k] is non-basic fixed
+--
+-- for all k = 1, ..., m+n, where d[k] is a reduced cost (i.e. Lagrange
+-- multiplier) of auxiliary or structural variable x[k]. Geometrically
+-- this condition expresses the requirement that constraints of the
+-- original problem must "hold" the point preventing its movement along
+-- the antigradient (in case of minimization) or the gradient (in case
+-- of maximization) of the objective function. Since in case of basic
+-- solution reduced costs of all basic variables are placed on their
+-- (zero) bounds, actually the condition (KKT.DB) is checked for
+-- non-basic variables only. If the dual basic solution has sufficient
+-- accuracy, this condition shows dual feasibility of the solution.
+--
+-- Should note that the complete set of Karush-Kuhn-Tucker conditions
+-- also includes the fifth, so called complementary slackness condition,
+-- which expresses the requirement that at least either a primal
+-- variable x[k] or its dual conterpart d[k] must be on its bound for
+-- all k = 1, ..., m+n. However, being always satisfied for any basic
+-- solution by definition that condition is not checked by the routine.
+--
+-- To check the first condition (KKT.PE) the routine computes a vector
+-- of residuals
+--
+--    g = xR - A * xS,
+--
+-- determines components of this vector that correspond to largest
+-- absolute and relative errors:
+--
+--    pe_ae_max = max |g[i]|,
+--
+--    pe_re_max = max |g[i]| / (1 + |xR[i]|),
+--
+-- and stores these quantities and corresponding row indices to the
+-- structure LPXKKT.
+--
+-- To check the second condition (KKT.PB) the routine computes a vector
+-- of residuals
+--
+--           ( 0,            if lb[k] <= x[k] <= ub[k]
+--           |
+--    h[k] = < x[k] - lb[k], if x[k] < lb[k]
+--           |
+--           ( x[k] - ub[k], if x[k] > ub[k]
+--
+-- for all k = 1, ..., m+n, determines components of this vector that
+-- correspond to largest absolute and relative errors:
+--
+--    pb_ae_max = max |h[k]|,
+--
+--    pb_re_max = max |h[k]| / (1 + |x[k]|),
+--
+-- and stores these quantities and corresponding variable indices to
+-- the structure LPXKKT.
+--
+-- To check the third condition (KKT.DE) the routine computes a vector
+-- of residuals
+--
+--    u = A' * (dR - cR) + (dS - cS),
+--
+-- determines components of this vector that correspond to largest
+-- absolute and relative errors:
+--
+--    de_ae_max = max |u[j]|,
+--
+--    de_re_max = max |u[j]| / (1 + |dS[j] - cS[j]|),
+--
+-- and stores these quantities and corresponding column indices to the
+-- structure LPXKKT.
+--
+-- To check the fourth condition (KKT.DB) the routine computes a vector
+-- of residuals
+--
+--           ( 0,    if d[k] has correct sign
+--    v[k] = <
+--           ( d[k], if d[k] has wrong sign
+--
+-- for all k = 1, ..., m+n, determines components of this vector that
+-- correspond to largest absolute and relative errors:
+--
+--    db_ae_max = max |v[k]|,
+--
+--    db_re_max = max |v[k]| / (1 + |d[k] - c[k]|),
+--
+-- and stores these quantities and corresponding variable indices to
+-- the structure LPXKKT. */
+
+void lpx_check_kkt(LPX *lp, int scaled, LPXKKT *kkt)
+{     int m = lp->m;
+      int n = lp->n;
+      int *typx = lp->typx;
+      gnm_float *lb = lp->lb;
+      gnm_float *ub = lp->ub;
+      gnm_float *rs = lp->rs;
+      int dir = lp->dir;
+      gnm_float *coef = lp->coef;
+      int *A_ptr = lp->A->ptr;
+      int *A_len = lp->A->len;
+      int *A_ndx = lp->A->ndx;
+      gnm_float *A_val = lp->A->val;
+      int *tagx = lp->tagx;
+      int *posx = lp->posx;
+      int *indx = lp->indx;
+      gnm_float *bbar = lp->bbar;
+      gnm_float *cbar = lp->cbar;
+      int beg, end, i, j, k, t;
+      gnm_float cR_i, cS_j, c_k, xR_i, xS_j, x_k, dR_i, dS_j, d_k;
+      gnm_float g_i, h_k, u_j, v_k, temp;
+      if (lp->p_stat == LPX_P_UNDEF)
+         fault("lpx_check_kkt: primal basic solution is undefined");
+      if (lp->d_stat == LPX_D_UNDEF)
+         fault("lpx_check_kkt: dual basic solution is undefined");
+      /*--------------------------------------------------------------*/
+      /* compute largest absolute and relative errors and corresponding
+         row indices for the condition (KKT.PE) */
+      kkt->pe_ae_max = 0.0, kkt->pe_ae_row = 0;
+      kkt->pe_re_max = 0.0, kkt->pe_re_row = 0;
+      for (i = 1; i <= m; i++)
+      {  /* determine xR[i] */
+         if (tagx[i] == LPX_BS)
+            xR_i = bbar[posx[i]];
+         else
+            xR_i = spx_eval_xn_j(lp, posx[i] - m);
+         /* g[i] := xR[i] */
+         g_i = xR_i;
+         /* g[i] := g[i] - (i-th row of A) * xS */
+         beg = A_ptr[i];
+         end = beg + A_len[i] - 1;
+         for (t = beg; t <= end; t++)
+         {  j = m + A_ndx[t]; /* a[i,j] != 0 */
+            /* determine xS[j] */
+            if (tagx[j] == LPX_BS)
+               xS_j = bbar[posx[j]];
+            else
+               xS_j = spx_eval_xn_j(lp, posx[j] - m);
+            /* g[i] := g[i] - a[i,j] * xS[j] */
+            g_i -= A_val[t] * xS_j;
+         }
+         /* unscale xR[i] and g[i] (if required) */
+         if (!scaled)
+            xR_i /= rs[i], g_i /= rs[i];
+         /* determine absolute error */
+         temp = gnumabs(g_i);
+         if (kkt->pe_ae_max < temp)
+            kkt->pe_ae_max = temp, kkt->pe_ae_row = i;
+         /* determine relative error */
+         temp /= (1.0 + gnumabs(xR_i));
+         if (kkt->pe_re_max < temp)
+            kkt->pe_re_max = temp, kkt->pe_re_row = i;
+      }
+      /* estimate the solution quality */
+      if (kkt->pe_re_max <= 1e-9)
+         kkt->pe_quality = 'H';
+      else if (kkt->pe_re_max <= 1e-6)
+         kkt->pe_quality = 'M';
+      else if (kkt->pe_re_max <= 1e-3)
+         kkt->pe_quality = 'L';
+      else
+         kkt->pe_quality = '?';
+      /*--------------------------------------------------------------*/
+      /* compute largest absolute and relative errors and corresponding
+         variable indices for the condition (KKT.PB) */
+      kkt->pb_ae_max = 0.0, kkt->pb_ae_ind = 0;
+      kkt->pb_re_max = 0.0, kkt->pb_re_ind = 0;
+      for (i = 1; i <= m; i++)
+      {  /* x[k] = xB[i] */
+         k = indx[i];
+         /* determine x[k] */
+         x_k = bbar[i];
+         /* compute h[k] */
+         h_k = 0.0;
+         switch (typx[k])
+         {  case LPX_FR:
+               break;
+            case LPX_LO:
+               if (x_k < lb[k]) h_k = x_k - lb[k];
+               break;
+            case LPX_UP:
+               if (x_k > ub[k]) h_k = x_k - ub[k];
+               break;
+            case LPX_DB:
+            case LPX_FX:
+               if (x_k < lb[k]) h_k = x_k - lb[k];
+               if (x_k > ub[k]) h_k = x_k - ub[k];
+               break;
+            default:
+               insist(typx != typx);
+         }
+         /* unscale x[k] and h[k] (if required) */
+         if (!scaled)
+         {  if (k <= m)
+               x_k /= rs[k], h_k /= rs[k];
+            else
+               x_k *= rs[k], h_k *= rs[k];
+         }
+         /* determine absolute error */
+         temp = gnumabs(h_k);
+         if (kkt->pb_ae_max < temp)
+            kkt->pb_ae_max = temp, kkt->pb_ae_ind = k;
+         /* determine relative error */
+         temp /= (1.0 + gnumabs(x_k));
+         if (kkt->pb_re_max < temp)
+            kkt->pb_re_max = temp, kkt->pb_re_ind = k;
+      }
+      /* estimate the solution quality */
+      if (kkt->pb_re_max <= 1e-9)
+         kkt->pb_quality = 'H';
+      else if (kkt->pb_re_max <= 1e-6)
+         kkt->pb_quality = 'M';
+      else if (kkt->pb_re_max <= 1e-3)
+         kkt->pb_quality = 'L';
+      else
+         kkt->pb_quality = '?';
+      /*--------------------------------------------------------------*/
+      /* compute largest absolute and relative errors and corresponding
+         column indices for the condition (KKT.DE) */
+      kkt->de_ae_max = 0.0, kkt->de_ae_col = 0;
+      kkt->de_re_max = 0.0, kkt->de_re_col = 0;
+      for (j = m+1; j <= m+n; j++)
+      {  /* determine cS[j] */
+         cS_j = coef[j];
+         /* determine dS[j] */
+         if (tagx[j] == LPX_BS)
+            dS_j = 0.0;
+         else
+            dS_j = cbar[posx[j] - m];
+         /* u[j] := dS[j] - cS[j] */
+         u_j = dS_j - cS_j;
+         /* u[j] := u[j] + (j-th column of A) * (dR - cR) */
+         beg = A_ptr[j];
+         end = beg + A_len[j] - 1;
+         for (t = beg; t <= end; t++)
+         {  i = A_ndx[t]; /* a[i,j] != 0 */
+            /* determine cR[i] */
+            cR_i = coef[i];
+            /* determine dR[i] */
+            if (tagx[i] == LPX_BS)
+               dR_i = 0.0;
+            else
+               dR_i = cbar[posx[i] - m];
+            /* u[j] := u[j] + a[i,j] * (dR[i] - cR[i]) */
+            u_j += A_val[t] * (dR_i - cR_i);
+         }
+         /* unscale cS[j], dS[j], and u[j] (if required) */
+         if (!scaled)
+            cS_j /= rs[j], dS_j /= rs[j], u_j /= rs[j];
+         /* determine absolute error */
+         temp = gnumabs(u_j);
+         if (kkt->de_ae_max < temp)
+            kkt->de_ae_max = temp, kkt->de_ae_col = j - m;
+         /* determine relative error */
+         temp /= (1.0 + gnumabs(dS_j - cS_j));
+         if (kkt->de_re_max < temp)
+            kkt->de_re_max = temp, kkt->de_re_col = j - m;
+      }
+      /* estimate the solution quality */
+      if (kkt->de_re_max <= 1e-9)
+         kkt->de_quality = 'H';
+      else if (kkt->de_re_max <= 1e-6)
+         kkt->de_quality = 'M';
+      else if (kkt->de_re_max <= 1e-3)
+         kkt->de_quality = 'L';
+      else
+         kkt->de_quality = '?';
+      /*--------------------------------------------------------------*/
+      /* compute largest absolute and relative errors and corresponding
+         variable indices for the condition (KKT.DB) */
+      kkt->db_ae_max = 0.0, kkt->db_ae_ind = 0;
+      kkt->db_re_max = 0.0, kkt->db_re_ind = 0;
+      for (j = m+1; j <= m+n; j++)
+      {  /* d[k] = xN[j] */
+         k = indx[j];
+         /* determine c[k] */
+         c_k = coef[k];
+         /* determine d[k] */
+         d_k = cbar[j-m];
+         /* compute v[k] */
+         v_k = 0.0;
+         switch (tagx[k])
+         {  case LPX_NL:
+               switch (dir)
+               {  case LPX_MIN:
+                     if (d_k < 0.0) v_k = d_k;
+                     break;
+                  case LPX_MAX:
+                     if (d_k > 0.0) v_k = d_k;
+                     break;
+                  default:
+                     insist(dir != dir);
+               }
+               break;
+            case LPX_NU:
+               switch (dir)
+               {  case LPX_MIN:
+                     if (d_k > 0.0) v_k = d_k;
+                     break;
+                  case LPX_MAX:
+                     if (d_k < 0.0) v_k = d_k;
+                     break;
+                  default:
+                     insist(dir != dir);
+               }
+               break;
+            case LPX_NF:
+               v_k = d_k;
+               break;
+            case LPX_NS:
+               break;
+            default:
+               insist(tagx != tagx);
+         }
+         /* unscale c[k], d[k], and v[k] (if required) */
+         if (!scaled)
+         {  if (k <= m)
+               c_k *= rs[k], d_k *= rs[k], v_k *= rs[k];
+            else
+               c_k /= rs[k], d_k /= rs[k], v_k /= rs[k];
+         }
+         /* determine absolute error */
+         temp = gnumabs(v_k);
+         if (kkt->db_ae_max < temp)
+            kkt->db_ae_max = temp, kkt->db_ae_ind = k;
+         /* determine relative error */
+         temp /= (1.0 + gnumabs(d_k - c_k));
+         if (kkt->db_re_max < temp)
+            kkt->db_re_max = temp, kkt->db_re_ind = k;
+      }
+      /* estimate the solution quality */
+      if (kkt->db_re_max <= 1e-9)
+         kkt->db_quality = 'H';
+      else if (kkt->db_re_max <= 1e-6)
+         kkt->db_quality = 'M';
+      else if (kkt->db_re_max <= 1e-3)
+         kkt->db_quality = 'L';
+      else
+         kkt->db_quality = '?';
+      /* complementary slackness is always satisfied by definition for
+         any basic solution, so not checked */
+      kkt->cs_ae_max = 0.0, kkt->cs_ae_ind = 0;
+      kkt->cs_re_max = 0.0, kkt->cs_re_ind = 0;
+      kkt->cs_quality = 'H';
+      return;
 }
 
 /* eof */

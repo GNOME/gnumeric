@@ -1,11 +1,11 @@
 /* glpstr.h */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -30,12 +30,8 @@
 #include "gnumeric.h"
 #include "numbers.h"
 
-#include "glplib.h"
+#include "glpdmp.h"
 
-#define str2int               glp_str2int
-#define str2dbl               glp_str2dbl
-#define strspx                glp_strspx
-#define strtrim               glp_strtrim
 #define clear_str             glp_clear_str
 #define compare_str           glp_compare_str
 #define create_str            glp_create_str
@@ -44,24 +40,12 @@
 #define get_str               glp_get_str
 #define set_str               glp_set_str
 
-extern int str2int(char *str, int *val);
-/* convert character string to value of integer type */
-
-extern int str2dbl(char *str, gnm_float *val);
-/* convert character string to value of gnm_float type */
-
-extern char *strspx(char *str);
-/* remove all spaces from character string */
-
-extern char *strtrim(char *str);
-/* remove trailing spaces from character string */
-
 typedef struct STR STR;
 typedef struct SQE SQE;
 
 struct STR
 {     /* segmented character string of arbitrary length */
-      POOL *pool;
+      DMP *pool;
       /* memory pool holding string elements */
       int len;
       /* current string length */
@@ -88,10 +72,10 @@ extern STR *clear_str(STR *str);
 extern int compare_str(STR *str1, STR *str2);
 /* compare segmented character strings */
 
-extern STR *create_str(POOL *pool);
+extern STR *create_str(DMP *pool);
 /* create segmented character string */
 
-extern POOL *create_str_pool(void);
+extern DMP *create_str_pool(void);
 /* create pool for segmented character strings */
 
 extern void delete_str(STR *str);

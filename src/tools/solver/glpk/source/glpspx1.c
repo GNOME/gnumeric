@@ -1,11 +1,11 @@
 /* glpspx1.c (basis maintenance routines) */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -24,6 +24,7 @@
 ----------------------------------------------------------------------*/
 
 #include <string.h>
+#include "glplib.h"
 #include "glpspx.h"
 
 /*----------------------------------------------------------------------
@@ -93,7 +94,11 @@ int spx_invert(LPX *lp)
       if (lp->inv != NULL && lp->inv->m != lp->m)
          inv_delete(lp->inv), lp->inv = NULL;
       /* if the invertable form does not exist, create it */
+#if 0
       if (lp->inv == NULL) lp->inv = inv_create(lp->m, 100);
+#else
+      if (lp->inv == NULL) lp->inv = inv_create(lp->m, 50);
+#endif
       /* try to factorize the basis matrix */
       for (try = 1; try <= 3; try++)
       {  if (try > 1 && lp->msg_lev >= 3)

@@ -1,13 +1,15 @@
 EXTRA_DIST =		\
-	glpbbm.h	\
+	glpdmp.h	\
+	glpies.h	\
+	glpiet.h	\
 	glpinv.h	\
+	glpios.h	\
 	glpk.h		\
 	glplib.h	\
-	glplp.h		\
+	glplpp.h	\
 	glplpx.h	\
 	glpluf.h	\
-	glpmat.h	\
-	glprsm.h	\
+	glpmip.h	\
 	glpspm.h	\
 	glpspx.h	\
 	glpstr.h 

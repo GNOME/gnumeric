@@ -1,11 +1,11 @@
 /* glpspm.h */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -83,7 +83,7 @@ struct SPM
       /*--------------------------------------------------------------*/
       /* sparse vector area (SVA) is a set of locations intended to
          store sparse vectors that represent rows and columns of the
-         matrix; each location is a gnum_floatt (ndx, val), where ndx is an
+         matrix; each location is a gnm_floatt (ndx, val), where ndx is an
          index and val is a numerical value of sparse vector element;
          in the whole each sparse vector is a set of adjacent locations
          defined by a pointer to the first element ptr[*] and number of

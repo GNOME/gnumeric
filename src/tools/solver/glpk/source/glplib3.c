@@ -1,11 +1,11 @@
 /* glplib3.c */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -23,259 +23,199 @@
 -- 02111-1307, USA.
 ----------------------------------------------------------------------*/
 
+#include <ctype.h>
+#include <float.h>
+#include <limits.h>
+#include <stdlib.h>
 #include <string.h>
 #include "glplib.h"
 
-#define POOL_SIZE 8000
-/* the size of each memory block for all pools (may be increased if
-   necessary) */
-
 /*----------------------------------------------------------------------
--- create_pool - create memory pool.
+-- str2int - convert character string to value of integer type.
 --
 -- *Synopsis*
 --
--- #include "glpset.h"
--- POOL *create_pool(int size);
+-- #include "glplib.h"
+-- int str2int(char *str, int *val);
 --
 -- *Description*
 --
--- The routine create_pool creates a memory pool that is empty (i.e.
--- that contains no atoms). If size > 0 then size of each atom is set
--- to size bytes (size should be not greater than 256). Otherwise, if
--- size = 0, different atoms may have different sizes.
+-- The routine str2int converts the character string str to a value of
+-- integer type and stores the value into location, which the parameter
+-- val points to (in the case of error content of this location is not
+-- changed).
 --
 -- *Returns*
 --
--- The routine create_pool returns a pointer to the created pool. */
+-- The routine returns one of the following error codes:
+--
+-- 0 - no error;
+-- 1 - value out of range;
+-- 2 - character string is syntactically incorrect. */
 
-POOL *create_pool(int size)
-{     POOL *pool;
-      if (!(0 <= size && size <= 256))
-         fault("create_pool: invalid atom size");
-      pool = umalloc(sizeof(POOL));
-      /* actual atom size should be not less than sizeof(void *) and
-         should be properly aligned */
-      if (size > 0)
-      {  if (size < sizeof(void *)) size = sizeof(void *);
-         size = align_datasize(size);
-      }
-      pool->size = size;
-      pool->avail = NULL;
-      pool->link = NULL;
-      pool->used = 0;
-      pool->stock = NULL;
-      pool->count = 0;
-      return pool;
-}
-
-/*----------------------------------------------------------------------
--- get_atom - allocate atom of fixed size.
---
--- *Synopsis*
---
--- #include "glpset.h"
--- void *get_atom(POOL *pool);
---
--- *Description*
---
--- The routine get_atom allocates an atom (i.e. continuous space of
--- memory) using the specified memory pool. The size of atom which
--- should be allocated is assumed to be set when the pool was created
--- by the routine create_pool.
---
--- Note that being allocated the atom initially contains arbitrary data
--- (not binary zeros).
---
--- *Returns*
---
--- The routine get_atom returns a pointer to the allocated atom. */
-
-void *get_atom(POOL *pool)
-{     void *ptr;
-      if (pool->size == 0)
-         fault("get_atom: pool cannot be used to allocate an atom of fi"
-            "xed size");
-      /* if there is a free atom, pull it from the list */
-      if (pool->avail != NULL)
-      {  ptr = pool->avail;
-         pool->avail = *(void **)ptr;
-         goto done;
-      }
-      /* free atom list is empty; if the last allocated block does not
-         exist or if it has not enough space, we need a new block */
-      if (pool->link == NULL || pool->used + pool->size > POOL_SIZE)
-      {  /* we can pull a new block from the list of free blocks, or if
-            this list is empty, we need to allocate such block */
-         if (pool->stock != NULL)
-         {  ptr = pool->stock;
-            pool->stock = *(void **)ptr;
+int str2int(char *str, int *_val)
+{     int d, k, s, val = 0;
+      /* scan optional sign */
+      if (str[0] == '+')
+         s = +1, k = 1;
+      else if (str[0] == '-')
+         s = -1, k = 1;
+      else
+         s = +1, k = 0;
+      /* check for the first digit */
+      if (!isdigit((unsigned char)str[k])) return 2;
+      /* scan digits */
+      while (isdigit((unsigned char)str[k]))
+      {  d = str[k++] - '0';
+         if (s > 0)
+         {  if (val > INT_MAX / 10) return 1;
+            val *= 10;
+            if (val > INT_MAX - d) return 1;
+            val += d;
          }
          else
-            ptr = umalloc(POOL_SIZE);
-         /* the new block becomes the last allocated block */
-         *(void **)ptr = pool->link;
-         pool->link = ptr;
-         /* now only few bytes in the new block are used to hold a
-            pointer to the previous allocated block */
-         pool->used = align_datasize(sizeof(void *));
+         {  if (val < INT_MIN / 10) return 1;
+            val *= 10;
+            if (val < INT_MIN + d) return 1;
+            val -= d;
+         }
       }
-      /* the last allocated block exists and it has enough space to
-         allocate an atom */
-      ptr = (void *)((char *)pool->link + pool->used);
-      pool->used += pool->size;
-done: pool->count++;
-#if 1
-      memset(ptr, '?', pool->size);
-#endif
-      return ptr;
+      /* check for terminator */
+      if (str[k] != '\0') return 2;
+      /* conversion is completed */
+      *_val = val;
+      return 0;
 }
 
 /*----------------------------------------------------------------------
--- get_atomv - allocate atom of variable size.
+-- str2dbl - convert character string to value of gnm_float type.
 --
 -- *Synopsis*
 --
--- #include "glpset.h"
--- void *get_atomv(POOL *pool, int size);
+-- #include "glplib.h"
+-- int str2dbl(char *str, gnm_float *val);
 --
 -- *Description*
 --
--- The routine get_atomv allocates an atom (i.e. continuous space of
--- memory) using the specified memory pool. It is assumed that the pool
--- was created by the routine create_pool with size = 0. The actual
--- size (in bytes) of atom which should be allocated is specified by
--- size (it should be positive and not greater than 256).
---
--- Note that being allocated the atom initially contains arbitrary data
--- (not binary zeros).
+-- The routine str2dbl converts the character string str to a value of
+-- gnm_float type and stores the value into location, which the parameter
+-- val points to (in the case of error content of this location is not
+-- changed).
 --
 -- *Returns*
 --
--- The routine get_atomv returns a pointer to the allocated atom. */
+-- The routine returns one of the following error codes:
+--
+-- 0 - no error;
+-- 1 - value out of range;
+-- 2 - character string is syntactically incorrect. */
 
-void *get_atomv(POOL *pool, int size)
-{     void *ptr;
-      if (pool->size != 0)
-         fault("get_atomv: pool cannot be used to allocate an atom of v"
-            "ariable size");
-      if (!(1 <= size && size <= 256))
-         fault("get_atomv: invalid atom size");
-      /* actual atom size should be not less than sizeof(void *) and
-         should be properly aligned */
-      if (size < sizeof(void *)) size = sizeof(void *);
-      size = align_datasize(size);
-      /* if the last allocated block does not exist or if it has not
-         enough space, we need a new block */
-      if (pool->link == NULL || pool->used + size > POOL_SIZE)
-      {  /* we can pull a new block from the list of free blocks, or if
-            this list is empty, we need to allocate such block */
-         if (pool->stock != NULL)
-         {  ptr = pool->stock;
-            pool->stock = *(void **)ptr;
-         }
-         else
-            ptr = umalloc(POOL_SIZE);
-         /* the new block becomes the last allocated block */
-         *(void **)ptr = pool->link;
-         pool->link = ptr;
-         /* now only few bytes in the new block are used to hold a
-            pointer to the previous allocated block */
-         pool->used = align_datasize(sizeof(void *));
+int str2dbl(char *str, gnm_float *_val)
+{     int k;
+      gnm_float val;
+      /* scan optional sign */
+      k = (str[0] == '+' || str[0] == '-' ? 1 : 0);
+      /* check for decimal point */
+      if (str[k] == '.')
+      {  k++;
+         /* a digit should follow it */
+         if (!isdigit((unsigned char)str[k])) return 2;
+         k++;
+         goto frac;
       }
-      /* the last allocated block exists and it has enough space to
-         allocate an atom */
-      ptr = (void *)((char *)pool->link + pool->used);
-      pool->used += size;
-      pool->count++;
-#if 1
-      memset(ptr, '?', size);
-#endif
-      return ptr;
+      /* integer part should start with a digit */
+      if (!isdigit((unsigned char)str[k])) return 2;
+      /* scan integer part */
+      while (isdigit((unsigned char)str[k])) k++;
+      /* check for decimal point */
+      if (str[k] == '.') k++;
+frac: /* scan optional fraction part */
+      while (isdigit((unsigned char)str[k])) k++;
+      /* check for decimal exponent */
+      if (str[k] == 'E' || str[k] == 'e')
+      {  k++;
+         /* scan optional sign */
+         if (str[k] == '+' || str[k] == '-') k++;
+         /* a digit should follow E, E+ or E- */
+         if (!isdigit((unsigned char)str[k])) return 2;
+      }
+      /* scan optional exponent part */
+      while (isdigit((unsigned char)str[k])) k++;
+      /* check for terminator */
+      if (str[k] != '\0') return 2;
+      /* perform conversion */
+      {  char *endptr;
+         val = strtod(str, &endptr);
+         if (*endptr != '\0') return 2;
+      }
+      /* check for overflow */
+      if (!(-DBL_MAX <= val && val <= +DBL_MAX)) return 1;
+      /* check for underflow */
+      if (-DBL_MIN < val && val < +DBL_MIN) val = 0.0;
+      /* conversion is completed */
+      *_val = val;
+      return 0;
 }
 
 /*----------------------------------------------------------------------
--- free_atom - free an atom.
+-- strspx - remove all spaces from character string.
 --
 -- *Synopsis*
 --
--- #include "glpset.h"
--- void free_atom(POOL *pool, void *ptr);
+-- #include "glplib.h"
+-- char *strspx(char *str);
 --
 -- *Description*
 --
--- The routine free_atom frees an atom pointed to by ptr, returning
--- this atom to the free atom list of the specified pool. Assumed that
--- the atom was allocated from the same pool by the routine get_atom,
--- otherwise the behavior is undefined. */
+-- The routine strspx removes all spaces from the character string str.
+--
+-- *Examples*
+--
+-- strspx("   Errare   humanum   est   ") => "Errarehumanumest"
+--
+-- strspx("      ")                       => ""
+--
+-- *Returns*
+--
+-- The routine returns a pointer to the character string. */
 
-void free_atom(POOL *pool, void *ptr)
-{     if (pool->size == 0)
-         fault("free_atom: pool cannot be used to free an atom");
-      if (pool->count == 0)
-         fault("free_atom: pool allocation error");
-      /* return the atom to the list of free atoms */
-      *(void **)ptr = pool->avail;
-      pool->avail = ptr;
-      pool->count--;
-      return;
+char *strspx(char *str)
+{     char *s, *t;
+      for (s = t = str; *s; s++) if (*s != ' ') *t++ = *s;
+      *t = '\0';
+      return str;
 }
 
 /*----------------------------------------------------------------------
--- clear_pool - free all atoms.
+-- strtrim - remove trailing spaces from character string.
 --
 -- *Synopsis*
 --
--- #include "glpset.h"
--- void clear_pool(POOL *pool);
+-- #include "glplib.h"
+-- char *strtrim(char *str);
 --
 -- *Description*
 --
--- The routine clear_pool frees all atoms borrowed from the specified
--- memory pool by means of the routines get_atom or get_atomv. Should
--- note that the clear_pool routine performs this operation moving all
--- allocated blocks to the list of free blocks, hence no memory will
--- be returned to the control program. */
+-- The routine strtrim removes trailing spaces from the character
+-- string str.
+--
+-- *Examples*
+--
+-- strtrim("Errare humanum est   ") => "Errare humanum est"
+--
+-- strtrim("      ")                => ""
+--
+-- *Returns*
+--
+-- The routine returns a pointer to the character string. */
 
-void clear_pool(POOL *pool)
-{     void *ptr;
-      /* all allocated blocks are moved to the list of free blocks */
-      while (pool->link != NULL)
-      {  ptr = pool->link;
-         pool->link = *(void **)ptr;
-         *(void **)ptr = pool->stock;
-         pool->stock = ptr;
+char *strtrim(char *str)
+{     char *t;
+      for (t = strrchr(str, '\0') - 1; t >= str; t--)
+      {  if (*t != ' ') break;
+         *t = '\0';
       }
-      pool->avail = NULL;
-      pool->used = 0;
-      pool->count = 0;
-      return;
-}
-
-/*----------------------------------------------------------------------
--- delete_pool - delete memory pool.
---
--- *Synopsis*
---
--- #include "glpset.h"
--- void delete_pool(POOL *pool);
---
--- *Description*
---
--- The routine delete_pool deletes the specified memory pool, returning
--- all memory allocated to the pool to the control program. */
-
-void delete_pool(POOL *pool)
-{     void *ptr;
-      clear_pool(pool);
-      /* now all blocks belong to the free block list */
-      while (pool->stock != NULL)
-      {  ptr = pool->stock;
-         pool->stock = *(void **)ptr;
-         ufree(ptr);
-      }
-      ufree(pool);
-      return;
+      return str;
 }
 
 /* eof */

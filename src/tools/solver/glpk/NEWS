@@ -1,3 +1,170 @@
+GLPK 4.2 (release date: Nov 14, 2003)
+
+        A preliminary implementation of the Integer Optimization Suite
+        (IOS) was included in the package. The Branch-and-Cut Framework
+        being completely superseded by IOS was removed from the package.
+
+        New API routine lpx_print_sens_bnds intended for bounds
+        sensitivity analysis was contributed to GLPK by Brady Hunsaker
+        <hunsaker@engr.pitt.edu>. This function is also available in
+        the solver glpsol (via command-line option --bounds).
+
+        An improved version of GLPK JNI (Java Native Interface) was
+        contributed by Chris Rosebrugh <cpr@pobox.com>.
+
+        GLPK DELI (Delphi Interface) was contributed by Ivo van Baren
+        <i.van.baren@freeler.nl>.
+
+        Several makefiles were added to allow compiling GLPK on some
+        non-GNU 32-bit platforms:
+        * Windows single-threaded static library, Visual C++ 6.0
+        * Windows multi-threaded dynamic library, Visual C++ 6.0
+        * Windows single-threaded static library, Borland C++ 5.2
+        * DOS single-threaded static library, Digital Mars C++ 7.50
+
+        And, of course, some bugs were fixed.
+
+        For more details see ChangeLog.
+
+GLPK 4.1 (release date: Aug 23, 2003)
+
+        Some improvements were made in the lp/mip solver routines and
+        several bugs were fixed in the model translator.
+
+        For more details see ChangeLog.
+
+GLPK 4.0 (release date: May 06, 2003)
+
+        Now GLPK supports the GNU MathProg modeling language, which is
+        a subset of the AMPL modeling language.
+
+        The document "GLPK: Modeling Language GNU MathProg" included in
+        the distribution is a complete description of GNU MathProg. (See
+        the files lang.latex, lang.dvi, and lang.ps in the subdirectory
+        'doc'. See also some examples in the subdirectory 'sample'.)
+
+        New version of the solver glpsol, which supports models written
+        in GNU MathProg, was implemented. (Brief instructions how to use
+        glpsol can be found in the GNU MathProg documentation.)
+
+        The GLPK/L modeling language is no more supported. The reason is
+        that GNU MathProg being much more powerful completely supersedes
+        all features of GLPK/L.
+
+GLPK 3.3 (release date: Mar 25, 2003)
+
+        LP PRESOLVER
+        ------------
+
+        Now the routine lpx_simplex (which is a driver to the simplex
+        method for solving LP) is provided with the built-in LP
+        presolver, which is a program that transforms the original LP
+        problem to an equivalent LP problem, which may be easier for
+        solving with the simplex method than the original one. Once the
+        transformed LP has been solver, the presolver transforms its
+        basic solution back to a corresponding basic solution of the
+        original problem. For details about this feature please see the
+        GLPK reference manual.
+
+        Currently the LP presolver implements the following features:
+        * removing empty rows;
+        * removing empty columns;
+        * removing free rows;
+        * removing fixed columns;
+        * removing row singletons, which have the form of equations;
+        * removing row singletons, which have the form of inequalities;
+        * removing column singletons, which are implied slack variables;
+        * fixing and removing column singletons, which are implied free
+          variables;
+        * removing forcing rows that involves fixing and removing the
+          corresponding columns;
+        * checking for primal and dual infeasibilities.
+
+        The LP presolver is also used by default in the stand-alone
+        program glpsol. In order *not* to use it, the option --nopresol
+        should be specified in the command-line.
+
+        CHANGES IN GLPK/L
+        -----------------
+
+        The syntax and semantics of the GLPK/L modeling language was
+        changed to allow declaration of "interval" sets. This means that
+        now the user can declare a set, for example, as:
+
+           set task = [8:11];
+
+        that is exactly equivalent to the following declaration:
+
+           set task = (task_8, task_9, task_10, task_11);
+
+        For details see the language description.
+
+        JAVA INTERFACE
+        --------------
+
+        Now GLPK includes the package GLPK JNI (Java Native Interface)
+        that implements Java binding for GLPK. It allows Java programs
+        to utilize GLPK in solving LP and MIP problems. For details see
+        a brief user's guide in the subdirectory contrib/java-binding.
+        This package was developed and programmed by Yuri Victorovich
+        <yuri@gjt.org>, who contributed it to GLPK.
+
+GLPK 3.2.4 (release date: Feb 18, 2003)
+
+        This is a bug-fix release. For details see ChangeLog.
+
+GLPK 3.2.3 (release date: Nov 11, 2002)
+
+        A new implementation of the api routine lpx_integer which now
+        is based on the b&b driver (which is based on the implicit
+        enumeration suite) was included in the package. This new
+        implementation has exactly the same functionality as the old
+        version, so all changes are transparent to the api user.
+
+        Four new api routines were included in the package:
+        lpx_check_kkt checks Karush-Kuhn-Tucker optmality conditions;
+        lpx_read_bas reads predifined basis in MPS format;
+        lpx_write_bas writes current basis in MPS format;
+        lpx_write_lpt writes problem data in CPLEX LP format.
+
+        Also other minor improvements were made (for details see the
+        file 'ChangeLog').
+
+GLPK 3.2.2 (release date: Oct 14, 2002)
+
+        The api routine lpx_read_lpt was included in the package. It
+        is similar to the routine lpx_read_mps and intended to read
+        LP/MIP data prepared in CPLEX LP format. Description of this
+        format is given in the GLPK reference manual, a new edition of
+        which was also included in the distribution (see the files
+        'refman.latex', 'refman.dvi', 'refman.ps' in the subdirectory 
+        'doc'). In order to use data files in CPLEX LP format with the
+        solver glpsol the option '--lpt' should be specified in the
+        command line.
+
+        Several bugs were fixed and some minor improvements were made
+        (for details see the file 'ChangeLog').
+
+GLPK 3.2.1 (release date: Aug 12, 2002)
+
+        Now GLPK includes a preliminary implementation of the
+        branch-and-cut framework, which is a set of data structures and
+        routines intended for developing branch-and-cut methods for
+        solving mixed-integer and combinatorial optimization problems.
+
+        Detailed decsription of the branch-and-cut framework is given in
+        the document "GLPK: A Preliminary Implementation of the
+        Branch-And-Cut Framework" included in the distribution (see the
+        file 'brcut.txt' in the subdirectory 'doc').
+
+        In order to illustrate how the GLPK branch-and-cut framework
+        can be used for solving a particular optimization problem there
+        is an example included in the package. This is a stand-alone
+        program, TSPSOL, which is intended for solving to optimality the
+        symmetric Traveling Salesman Problem (TSP), a classical problem
+        of the combinatorial optimization (see the file 'tspsol.c' in
+        the subdirectory 'sample').
+
 GLPK 3.2 (release date: Jul 15, 2002)
 
         New edition of the document "GLPK: Reference Manual" was

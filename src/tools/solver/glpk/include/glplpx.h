@@ -1,11 +1,11 @@
 /* glplpx.h */
 
 /*----------------------------------------------------------------------
--- Copyright (C) 2000, 2001, 2002 Andrew Makhorin <mao@mai2.rcnet.ru>,
---               Department for Applied Informatics, Moscow Aviation
---               Institute, Moscow, Russia. All rights reserved.
+-- Copyright (C) 2000, 2001, 2002, 2003 Andrew Makhorin, Department
+-- for Applied Informatics, Moscow Aviation Institute, Moscow, Russia.
+-- All rights reserved. E-mail: <mao@mai2.rcnet.ru>.
 --
--- This file is a part of GLPK (GNU Linear Programming Kit).
+-- This file is part of GLPK (GNU Linear Programming Kit).
 --
 -- GLPK is free software; you can redistribute it and/or modify it
 -- under the terms of the GNU General Public License as published by
@@ -114,11 +114,14 @@
 
 #define lpx_warm_up           glp_lpx_warm_up
 #define lpx_prim_opt          glp_lpx_prim_opt
+#define lpx_prim_feas         glp_lpx_prim_feas
 #define lpx_prim_art          glp_lpx_prim_art
 #define lpx_dual_opt          glp_lpx_dual_opt
 #define lpx_simplex           glp_lpx_simplex
+#define lpx_check_kkt         glp_lpx_check_kkt
 #define lpx_interior          glp_lpx_interior
 #define lpx_integer           glp_lpx_integer
+#define lpx_intopt            glp_lpx_intopt
 
 #define lpx_eval_tab_row      glp_lpx_eval_tab_row
 #define lpx_eval_tab_col      glp_lpx_eval_tab_col
@@ -126,13 +129,27 @@
 #define lpx_transform_col     glp_lpx_transform_col
 #define lpx_prim_ratio_test   glp_lpx_prim_ratio_test
 #define lpx_dual_ratio_test   glp_lpx_dual_ratio_test
+#define lpx_eval_activity     glp_lpx_eval_activity
+#define lpx_eval_red_cost     glp_lpx_eval_red_cost
+#define lpx_reduce_form       glp_lpx_reduce_form
+#define lpx_mixed_gomory      glp_lpx_mixed_gomory
+#define lpx_estim_obj_chg     glp_lpx_estim_obj_chg
 
-#define lpx_read_lpm          glp_lpx_read_lpm
 #define lpx_read_mps          glp_lpx_read_mps
 #define lpx_write_mps         glp_lpx_write_mps
+#define lpx_read_bas          glp_lpx_read_bas
+#define lpx_write_bas         glp_lpx_write_bas
+#define lpx_print_prob        glp_lpx_print_prob
 #define lpx_print_sol         glp_lpx_print_sol
 #define lpx_print_ips         glp_lpx_print_ips
 #define lpx_print_mip         glp_lpx_print_mip
+
+#define lpx_print_sens_bnds   glp_lpx_print_sens_bnds
+
+#define lpx_read_lpt          glp_lpx_read_lpt
+#define lpx_write_lpt         glp_lpx_write_lpt
+
+#define lpx_read_model        glp_lpx_read_model
 
 /*----------------------------------------------------------------------
 -- The structure LPX defines LP/MIP problem object, which includes the
@@ -308,7 +325,7 @@ struct LPX
       /* current number of rows (auxiliary variables) */
       int n;
       /* current number of columns (structural variables) */
-      POOL *pool;
+      DMP *pool;
       /* memory pool for segmented character strings */
       char *buf; /* char buf[255+1]; */
       /* working buffer used to return character strings */
@@ -581,6 +598,14 @@ struct LPX
       /* if this flag is set, the routine lpx_write_mps skips empty
          columns (i.e. which has no constraint coefficients); otherwise
          the routine outputs all columns */
+      int lpt_orig; /* lpx_write_lpt */
+      /* if this flag is set, the routine lpx_write_lpt uses original
+         row and column symbolic names; otherwise the routine generates
+         plain names using ordinal numbers of rows and columns */
+      int presol; /* lpx_simplex */
+      /* LP presolver option:
+         0 - do not use LP presolver
+         1 - use LP presolver */
 };
 
 /* status codes reported by the routine lpx_get_status: */
@@ -605,8 +630,10 @@ struct LPX
 #define LPX_E_INSTAB    210   /* numerical instability */
 #define LPX_E_SING      211   /* problems with basis matrix */
 #define LPX_E_NOCONV    212   /* no convergence (interior) */
+#define LPX_E_NOPFS     213   /* no primal feas. sol. (LP presolver) */
+#define LPX_E_NODFS     214   /* no dual feas. sol.   (LP presolver) */
 
-/* control parameter identifiers */
+/* control parameter identifiers: */
 #define LPX_K_MSGLEV    300   /* lp->msg_lev */
 #define LPX_K_SCALE     301   /* lp->scale */
 #define LPX_K_DUAL      302   /* lp->dual */
@@ -633,6 +660,96 @@ struct LPX
 #define LPX_K_MPSWIDE   323   /* lp->mps_wide */
 #define LPX_K_MPSFREE   324   /* lp->mps_free */
 #define LPX_K_MPSSKIP   325   /* lp->mps_skip */
+#define LPX_K_LPTORIG   326   /* lp->lpt_orig */
+#define LPX_K_PRESOL    327   /* lp->presol */
+
+typedef struct LPXKKT LPXKKT;
+
+struct LPXKKT
+{     /* this structure contains results provided by the routines that
+         checks Karush-Kuhn-Tucker conditions (for details see comments
+         to those routines) */
+      /*--------------------------------------------------------------*/
+      /* xR - A * xS = 0 (KKT.PE) */
+      gnm_float pe_ae_max;
+      /* largest absolute error */
+      int    pe_ae_row;
+      /* number of row with largest absolute error */
+      gnm_float pe_re_max;
+      /* largest relative error */
+      int    pe_re_row;
+      /* number of row with largest relative error */
+      int    pe_quality;
+      /* quality of primal solution:
+         'H' - high
+         'M' - medium
+         'L' - low
+         '?' - primal solution is wrong */
+      /*--------------------------------------------------------------*/
+      /* l[k] <= x[k] <= u[k] (KKT.PB) */
+      gnm_float pb_ae_max;
+      /* largest absolute error */
+      int    pb_ae_ind;
+      /* number of variable with largest absolute error */
+      gnm_float pb_re_max;
+      /* largest relative error */
+      int    pb_re_ind;
+      /* number of variable with largest relative error */
+      int    pb_quality;
+      /* quality of primal feasibility:
+         'H' - high
+         'M' - medium
+         'L' - low
+         '?' - primal solution is infeasible */
+      /*--------------------------------------------------------------*/
+      /* A' * (dR - cR) + (dS - cS) = 0 (KKT.DE) */
+      gnm_float de_ae_max;
+      /* largest absolute error */
+      int    de_ae_col;
+      /* number of column with largest absolute error */
+      gnm_float de_re_max;
+      /* largest relative error */
+      int    de_re_col;
+      /* number of column with largest relative error */
+      int    de_quality;
+      /* quality of dual solution:
+         'H' - high
+         'M' - medium
+         'L' - low
+         '?' - dual solution is wrong */
+      /*--------------------------------------------------------------*/
+      /* d[k] >= 0 or d[k] <= 0 (KKT.DB) */
+      gnm_float db_ae_max;
+      /* largest absolute error */
+      int    db_ae_ind;
+      /* number of variable with largest absolute error */
+      gnm_float db_re_max;
+      /* largest relative error */
+      int    db_re_ind;
+      /* number of variable with largest relative error */
+      int    db_quality;
+      /* quality of dual feasibility:
+         'H' - high
+         'M' - medium
+         'L' - low
+         '?' - dual solution is infeasible */
+      /*--------------------------------------------------------------*/
+      /* (x[k] - bound of x[k]) * d[k] = 0 (KKT.CS) */
+      gnm_float cs_ae_max;
+      /* largest absolute error */
+      int    cs_ae_ind;
+      /* number of variable with largest absolute error */
+      gnm_float cs_re_max;
+      /* largest relative error */
+      int    cs_re_ind;
+      /* number of variable with largest relative error */
+      int    cs_quality;
+      /* quality of complementary slackness:
+         'H' - high
+         'M' - medium
+         'L' - low
+         '?' - primal and dual solutions are not complementary */
+};
 
 /* problem creating and modifying routines ---------------------------*/
 
@@ -876,6 +993,9 @@ int lpx_warm_up(LPX *lp);
 int lpx_prim_opt(LPX *lp);
 /* find optimal solution (primal simplex) */
 
+int lpx_prim_feas(LPX *lp);
+/* find primal feasible solution (primal simplex) */
+
 int lpx_prim_art(LPX *lp);
 /* find primal feasible solution (primal simplex) */
 
@@ -885,10 +1005,16 @@ int lpx_dual_opt(LPX *lp);
 int lpx_simplex(LPX *lp);
 /* easy-to-use driver to the simplex method */
 
+void lpx_check_kkt(LPX *lp, int scaled, LPXKKT *kkt);
+/* check Karush-Kuhn-Tucker conditions */
+
 int lpx_interior(LPX *lp);
 /* easy-to-use driver to the interior point method */
 
 int lpx_integer(LPX *lp);
+/* easy-to-use driver to the branch-and-bound method */
+
+int lpx_intopt(LPX *mip);
 /* easy-to-use driver to the branch-and-bound method */
 
 /* simplex table routines --------------------------------------------*/
@@ -913,16 +1039,40 @@ int lpx_dual_ratio_test(LPX *lp, int len, int ndx[], gnm_float val[],
       int how, gnm_float tol);
 /* perform dual ratio test */
 
-/* additional utility routines ---------------------------------------*/
+gnm_float lpx_eval_activity(LPX *lp, int len, int ndx[], gnm_float val[]);
+/* compute activity of explicitly specified row */
 
-LPX *lpx_read_lpm(char *infile, char *outfile);
-/* read LP/MIP model written in GLPK/L */
+gnm_float lpx_eval_red_cost(LPX *lp, int len, int ndx[], gnm_float val[]);
+/* compute red. cost of explicitly specified column */
+
+int lpx_reduce_form(LPX *lp, int len, int ndx[], gnm_float val[],
+      gnm_float work[]);
+/* reduce linear form */
+
+int lpx_mixed_gomory(LPX *lp, int kind[], int len, int ndx[],
+      gnm_float val[], gnm_float work[]);
+/* generate Gomory's mixed integer cut */
+
+void lpx_estim_obj_chg(LPX *lp, int k, gnm_float dn_val, gnm_float up_val,
+      gnm_float *dn_chg, gnm_float *up_chg, int ndx[], gnm_float val[]);
+/* estimate obj. changes for down- and up-branch */
+
+/* additional utility routines ---------------------------------------*/
 
 LPX *lpx_read_mps(char *fname);
 /* read in problem data using MPS format */
 
 int lpx_write_mps(LPX *lp, char *fname);
 /* write problem data using MPS format */
+
+int lpx_read_bas(LPX *lp, char *fname);
+/* read predefined basis using MPS format */
+
+int lpx_write_bas(LPX *lp, char *fname);
+/* write current basis using MPS format */
+
+int lpx_print_prob(LPX *lp, char *fname);
+/* write problem data in plain text format */
 
 int lpx_print_sol(LPX *lp, char *fname);
 /* write LP problem solution in printable format */
@@ -932,6 +1082,18 @@ int lpx_print_ips(LPX *lp, char *fname);
 
 int lpx_print_mip(LPX *lp, char *fname);
 /* write MIP problem solution in printable format */
+
+int lpx_print_sens_bnds(LPX *lp, char *fname);
+/* write bounds sensitivity information */
+
+LPX *lpx_read_lpt(char *fname);
+/* read LP/MIP problem using CPLEX LP format */
+
+int lpx_write_lpt(LPX *lp, char *fname);
+/* write problem data using CPLEX LP format */
+
+LPX *lpx_read_model(char *model, char *data, char *output);
+/* read LP/MIP model written in GNU MathProg language */
 
 #endif
 
