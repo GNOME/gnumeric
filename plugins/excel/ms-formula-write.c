@@ -61,7 +61,7 @@ sheet_pair_add_if_unknown (GHashTable *hash, ExcelSheetPair const *pair)
 		new_pair->b = pair->b;
 		new_pair->idx_a = new_pair->idx_b = 0;
 		g_hash_table_insert (hash, new_pair, new_pair);
-		fprintf (stderr, "Adding %p:%p\n", pair->a, pair->b);
+		/* fprintf (stderr, "Adding %p:%p\n", pair->a, pair->b); */
 	}
 }
 

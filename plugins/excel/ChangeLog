@@ -1,5 +1,11 @@
 2002-11-13  Jody Goldberg <jody@gnome.org>
 
+	* ms-excel-write.c (excel_write_comments_biff7) : fix. #$^! libxml had
+	  poluted the global name space with function 'comment' which I
+	  accidentally used as a variable name without defining it.
+
+2002-11-13  Jody Goldberg <jody@gnome.org>
+
 	* ms-excel-write.c (excel_sheet_write_block) : speedup empty rows.
 	  And use the undocumented optimized form for the DBCELL (#rows == 0)
           when dealing with sparse regions.

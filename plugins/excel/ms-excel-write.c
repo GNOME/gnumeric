@@ -2326,7 +2326,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelSheet *esheet)
 		unsigned len = excel_write_string_len (in, &in_bytes);
 		char *buf;
 
-		g_return_if_fail (comment != NULL);
+		g_return_if_fail (in != NULL);
 		g_return_if_fail (pos != NULL);
 
 		ms_biff_put_var_next (bp, BIFF_NOTE);
@@ -2338,7 +2338,7 @@ excel_write_comments_biff7 (BiffPut *bp, ExcelSheet *esheet)
 repeat:
 		buf = bp->buf;
 		out_bytes = MAX_BIFF_NOTE_CHUNK; /* bp::buf is always at least this big */
-		g_iconv (bp->convert, (char **)&comment, &in_bytes, &buf, &out_bytes);
+		g_iconv (bp->convert, (char **)&in, &in_bytes, &buf, &out_bytes);
 		if (in_bytes > 0) {
 			ms_biff_put_var_write (bp, bp->buf, MAX_BIFF_NOTE_CHUNK);
 			ms_biff_put_commit (bp);
