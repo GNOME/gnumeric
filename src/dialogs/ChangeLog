@@ -1,3 +1,7 @@
+2001-10-31  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* analysis-tools.glade : Remove unused dialogs.
+
 2001-10-31  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* analysis-tools.glade, dialog-analysis-tools.c: Added `Help'
