@@ -30,12 +30,15 @@
 #include <goffice/graph/gog-legend.h>
 #include <goffice/graph/gog-label.h>
 #include <goffice/graph/gog-theme.h>
+#include <goffice/utils/go-font.h>
 
 int goffice_graph_debug_level = 0;
 
 void
 libgoffice_init (void)
 {
+	go_font_init ();
+
 	/* keep trigger happy linkers from leaving things out */
 	gog_plugin_services_init ();
 	(void) GOG_GRAPH_TYPE;
@@ -51,4 +54,6 @@ libgoffice_init (void)
 void
 libgoffice_shutdown (void)
 {
+	gog_themes_shutdown ();
+	go_font_shutdown ();
 }

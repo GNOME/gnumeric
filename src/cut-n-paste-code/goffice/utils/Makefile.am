@@ -1,13 +1,15 @@
 noinst_LTLIBRARIES = libgoffice-utils.la
 
 libgoffice_utils_la_SOURCES =	\
-	go-units.h		\
 	go-color.c		\
 	go-color.h		\
+	go-font.c		\
+	go-font.h		\
+	go-gradient.c		\
+	go-gradient.h		\
 	go-pattern.c		\
 	go-pattern.h		\
-	go-gradient.c		\
-	go-gradient.h
+	go-units.h
 
 # prune this when the code moves
 INCLUDES = -I$(top_srcdir) 					\

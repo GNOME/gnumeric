@@ -33,8 +33,12 @@
 
 typedef void (GogThemeStyleMap) (GogStyle *style, unsigned ind);
 typedef struct {
-	GogStyle *style;
-	GogThemeStyleMap	*map;
+	/* if role is non-null, it specifies the container class,
+	 * if role is null, it specifies object type */
+	char const *klass_name;
+	char const *role_id;
+	GogStyle	 *style;
+	GogThemeStyleMap *map;
 } GogThemeElement;
 struct _GogTheme {
 	GObject	base;
@@ -42,14 +46,39 @@ struct _GogTheme {
 	char 		*name;
 	char 		*load_from_file; /* optionally NULL */
 	GHashTable	*elem_hash_by_role;
+	GHashTable	*elem_hash_by_role_id;
 	GHashTable	*elem_hash_by_class;
 	GHashTable	*elem_hash_by_class_name;
+	GogStyle	*default_style;
 };
 typedef GObjectClass GogThemeClass;
 
 static GObjectClass *parent_klass;
 static GSList *themes;
 static GogTheme *default_theme = NULL;
+
+static void
+gog_theme_element_free (GogThemeElement *elem)
+{
+	g_object_unref (elem->style);
+	g_free (elem);
+}
+static guint
+gog_theme_element_hash (GogThemeElement const *elem)
+{
+	return g_str_hash (elem->role_id);
+}
+static gboolean
+gog_theme_element_eq (GogThemeElement const *a, GogThemeElement const *b)
+{
+	if (!g_str_equal (a->role_id, b->role_id))
+		return FALSE;
+	if (a->klass_name == NULL)
+		return b->klass_name == NULL;
+	if (b->klass_name == NULL)
+		return FALSE;
+	return g_str_equal (a->klass_name, b->klass_name);
+}
 
 static void
 gog_theme_finalize (GObject *obj)
@@ -60,6 +89,8 @@ gog_theme_finalize (GObject *obj)
 	g_free (theme->load_from_file); theme->load_from_file = NULL;
 	if (theme->elem_hash_by_role)
 		g_hash_table_destroy (theme->elem_hash_by_role);
+	if (theme->elem_hash_by_role_id)
+		g_hash_table_destroy (theme->elem_hash_by_role_id);
 	if (theme->elem_hash_by_class)
 		g_hash_table_destroy (theme->elem_hash_by_class);
 	if (theme->elem_hash_by_class_name)
@@ -81,12 +112,17 @@ gog_theme_class_init (GogThemeClass *klass)
 static void
 gog_theme_init (GogTheme *theme)
 {
-	theme->elem_hash_by_role =
-		g_hash_table_new (g_direct_hash, g_direct_equal);
-	theme->elem_hash_by_class =
-		g_hash_table_new (g_direct_hash, g_direct_equal);
-	theme->elem_hash_by_class_name =
-		g_hash_table_new (g_str_hash, g_str_equal);
+	theme->elem_hash_by_role = g_hash_table_new (
+		g_direct_hash, g_direct_equal);
+	theme->elem_hash_by_class = g_hash_table_new (
+		g_direct_hash, g_direct_equal);
+	theme->elem_hash_by_role_id = g_hash_table_new_full (
+		(GHashFunc) gog_theme_element_hash,
+		(GCompareFunc) gog_theme_element_eq,
+		NULL, (GDestroyNotify) gog_theme_element_free);
+	theme->elem_hash_by_class_name = g_hash_table_new_full (
+		g_str_hash, g_str_equal,
+		NULL, (GDestroyNotify) gog_theme_element_free);
 }
 
 GSF_CLASS (GogTheme, gog_theme,
@@ -109,20 +145,44 @@ gog_theme_init_style (GogTheme *theme, GogStyle *style,
 #warning TODO parse some xml
 	}
 
+	/* 1) have we seen this specific role before */
 	if (obj->role != NULL)
 		elem = g_hash_table_lookup (theme->elem_hash_by_role, obj->role);
+
+	/* 2) have we seen this specific type before */
 	if (elem == NULL) {
 		klass = G_OBJECT_GET_CLASS (obj);
 		elem = g_hash_table_lookup (theme->elem_hash_by_class, klass);
 	}
+
+	/* 3) Search by role */
+	if (elem == NULL && obj->role != NULL && obj->parent != NULL) {
+		GogThemeElement key;
+
+		/* 3.1) Search by specific role */
+		key.role_id = obj->role->id;
+		key.klass_name = G_OBJECT_TYPE_NAME (obj->parent);
+		elem = g_hash_table_lookup (theme->elem_hash_by_role_id, &key);
+
+		/* 3.2) Search by generic role */
+		if (elem == NULL) {
+			key.klass_name = NULL;
+			elem = g_hash_table_lookup (theme->elem_hash_by_role_id, &key);
+		}
+
+		if (elem != NULL)	/* if found lets cache the result */
+			g_hash_table_insert (theme->elem_hash_by_role,
+				(gpointer) obj->role, elem);
+	}
+
+	/* 4) Still not found ?  search by object type */
 	if (elem == NULL) {
-		for (; klass != NULL ; klass = g_type_class_peek_parent (klass)) {
+		do {
 			elem = g_hash_table_lookup (theme->elem_hash_by_class_name,
 				G_OBJECT_CLASS_NAME (klass));
-			if (elem != NULL)
-				break;
-		}
-		if (klass != NULL)
+		} while (elem == NULL &&
+			 (klass = g_type_class_peek_parent (klass)) != NULL);
+		if (elem != NULL)	/* if found lets cache the result */
 			g_hash_table_insert (theme->elem_hash_by_class, klass, elem);
 	}
 
@@ -167,13 +227,55 @@ gog_theme_register_file (char const *name, char const *file)
 static void
 gog_theme_add_element (GogTheme *theme, GogStyle *style,
 		       GogThemeStyleMap	*map,
-		       char const *klass_name, char const *role_name)
+		       char const *klass_name, char const *role_id)
 {
-	GogThemeElement *elem = g_new0 (GogThemeElement, 1);
+	GogThemeElement *elem;
+	
+	g_return_if_fail (theme != NULL);
+
+	elem = g_new0 (GogThemeElement, 1);
+	elem->klass_name = klass_name;
+	elem->role_id  = role_id;
 	elem->style = style;
-	elem->map = map;
-	g_hash_table_insert (theme->elem_hash_by_class_name,
-		(gpointer)klass_name, elem);
+	elem->map   = map;
+
+	/* Never put an element into both by_role_id & by_class_name */
+	if (role_id != NULL)
+		g_hash_table_insert (theme->elem_hash_by_role_id,
+			(gpointer)elem, elem);
+	else if (klass_name != NULL)
+		g_hash_table_insert (theme->elem_hash_by_class_name,
+			(gpointer)klass_name, elem);
+	else {
+		if (theme->default_style)
+			g_object_unref (theme->default_style);
+		theme->default_style = style;
+		g_free (elem);
+	}
+}
+
+GogTheme *
+gog_theme_lookup (char const *name)
+{
+	GSList *ptr;
+	GogTheme *theme;
+
+	if (name != NULL) {
+		for (ptr = themes ; ptr != NULL ; ptr = ptr->next) {
+			theme = ptr->data;
+			if (!strcmp (theme->name, name))
+				return theme;
+		}
+		g_warning ("No theme named '%s' found, using default", name);
+	}
+	return default_theme;
+}
+
+char const *
+gog_theme_get_name (GogTheme const *theme)
+{
+	g_return_val_if_fail (GOG_THEME (theme) != NULL, "");
+	return theme->name;
 }
 
 /**************************************************************************/
@@ -318,26 +420,14 @@ gog_themes_init	(void)
 		map_area_series_solid_guppi, "GogSeries", NULL);
 }
 
-GogTheme *
-gog_theme_lookup (char const *name)
+void
+gog_themes_shutdown (void)
 {
 	GSList *ptr;
-	GogTheme *theme;
-
-	if (name != NULL) {
-		for (ptr = themes ; ptr != NULL ; ptr = ptr->next) {
-			theme = ptr->data;
-			if (!strcmp (theme->name, name))
-				return theme;
-		}
-		g_warning ("No theme named '%s' found, using default", name);
-	}
-	return default_theme;
+	
+	if (default_theme != NULL)
+		g_object_unref (default_theme);
+	for (ptr = themes; ptr != NULL ; ptr = ptr->next)
+		g_object_unref (ptr->data);
 }
 
-char const *
-gog_theme_get_name (GogTheme const *theme)
-{
-	g_return_val_if_fail (GOG_THEME (theme) != NULL, "");
-	return theme->name;
-}

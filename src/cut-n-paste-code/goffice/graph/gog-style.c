@@ -725,10 +725,10 @@ gog_style_assign (GogStyle *dst, GogStyle const *src)
 		g_free (dst->fill.u.image.filename);
 	}
 
-	if (src->font.desc != NULL)
-		g_object_ref (src->font.desc);
-	if (dst->font.desc != NULL)
-		g_object_unref (dst->font.desc);
+	if (src->font.font != NULL)
+		go_font_ref (src->font.font);
+	if (dst->font.font != NULL)
+		go_font_unref (dst->font.font);
 
 	dst->outline = src->outline;
 	dst->fill    = src->fill;
@@ -762,9 +762,9 @@ gog_style_finalize (GObject *obj)
 	    style->fill.u.image.image != NULL)
 		g_object_unref (style->fill.u.image.image);
 
-	if (style->font.desc != NULL) {
-		g_object_unref (style->font.desc);
-		style->font.desc = NULL;
+	if (style->font.font != NULL) {
+		go_font_unref (style->font.font);
+		style->font.font = NULL;
 	}
 	(parent_klass->finalize) (obj);
 }
@@ -788,6 +788,7 @@ gog_style_init (GogStyle *style)
 	style->fill.is_auto = TRUE;
 	style->fill.type = GOG_FILL_STYLE_PATTERN;
 	go_pattern_set_solid (&style->fill.u.pattern.pat, 0);
+	style->font.font = go_font_new_by_index (0);
 }
 
 static gboolean
@@ -823,6 +824,16 @@ gog_style_is_different_size (GogStyle const *a, GogStyle const *b)
 	if (a == NULL || b == NULL)
 		return TRUE;
 	return a->outline.width != b->outline.width;
+}
+
+void
+gog_style_set_font (GogStyle *style, PangoFontDescription *desc)
+{
+	GOFont const *font = go_font_new_by_desc  (desc);
+	if (font != NULL) {
+		go_font_unref (style->font.font);
+		style->font.font = font;
+	}
 }
 
 /************************************************************************/

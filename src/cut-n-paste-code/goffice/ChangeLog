@@ -1,3 +1,30 @@
+2003-08-28  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_pie/gog-pie.c (gog_pie_plot_class_init) : pie
+	  series need outlines and fills.
+
+	* graph/gog-theme.c (gog_theme_element_free) : new.
+	(gog_theme_element_hash) : ditto.
+	(gog_theme_element_eq) : ditto.
+	(gog_themes_shutdown) : new to avoid leaking.
+	(gog_theme_finalize) : handle lookup by role.
+	(gog_theme_init) : ditto.
+	(gog_theme_add_element) : ditto.
+	(gog_theme_init_style) : rework to clarify precedence.
+	    1) <parent_type>::<role>
+	    2) ::<role>
+	    3) object_type
+
+	* graph/gog-style.c (gog_style_assign) : Use GOFont.
+	(gog_style_finalize) : ditto.
+	(gog_style_init) : ditto.
+	(gog_style_set_font) : new,
+
+	* goffice.c (libgoffice_init) : init fonts.
+	(libgoffice_shutdown) : shutdown fonts and themes.
+
+	* utils/go-font.c : new utility class to ref count fonts.
+
 2003-08-28  Morten Welinder  <terra@gnome.org>
 
 	* utils/go-gradient.c (go_gradient_selector): Clean a bit.

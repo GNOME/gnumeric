@@ -1,6 +1,6 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * gog-theme.h : 
+ * go-font.h : 
  *
  * Copyright (C) 2003 Jody Goldberg (jody@gnome.org)
  *
@@ -18,33 +18,35 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
  * USA
  */
-#ifndef GOG_THEME_H
-#define GOG_THEME_H
+#ifndef GO_FONT_H
+#define GO_FONT_H
 
-#include <goffice/graph/goffice-graph.h>
-#include <glib-object.h>
+#include <glib.h>
+#include <pango/pango-font.h>
 
 G_BEGIN_DECLS
 
-#define GOG_THEME_TYPE	(gog_theme_get_type ())
-#define GOG_THEME(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), GOG_THEME_TYPE, GogTheme))
-#define IS_GOG_THEME(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), GOG_THEME_TYPE))
+typedef struct {
+	PangoFontDescription *desc;
+	int	 ref_count;
+	int	 font_index; /* each renderer keeps an array for lookup */
+} GOFont;
 
-GType gog_theme_get_type (void);
+GOFont const *go_font_new_by_desc  (PangoFontDescription *desc);
+GOFont const *go_font_new_by_name  (char const *str);
+GOFont const *go_font_new_by_index (unsigned i);
+char   	     *go_font_as_str       (GOFont const *font);
+GOFont const *go_font_ref	   (GOFont const *font);
+void	      go_font_unref	   (GOFont const *font);
 
-void gog_theme_init_style (GogTheme *theme, GogStyle *style,
-			   GogObject *obj, int i);
-
-void gog_theme_register        (GogTheme *theme, gboolean is_default);
-void gog_theme_register_file   (char const *name, char const *file);
-GogTheme   *gog_theme_lookup   (char const *name);
-char const *gog_theme_get_name (GogTheme const *theme);
-
+/* cache notification */
+void go_font_cache_register   (GClosure *callback);
+void go_font_cache_unregister (GClosure *callback);
 
 /* private */
-void gog_themes_init	 (void);
-void gog_themes_shutdown (void);
+void go_font_init     (void);
+void go_font_shutdown (void);
 
 G_END_DECLS
 
-#endif /* GOG_THEME_H */
+#endif /* GO_FONT_H */
