@@ -57,6 +57,7 @@ Morten:
 	* Fix minor leak in excel loader.
 	* Improve precision of GEOMEAN and PRODUCT.
 	* Fix MOD for non-integer (or just huge) args.
+	* Fix division by zero in MROUND.
 
 Nicolas Peninguy:
 	* Use regexps to classify currency and accounting formats
