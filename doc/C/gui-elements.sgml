@@ -132,14 +132,7 @@
 	  		<para>This toolbar enables the user to draw graphic
 	  		elements on the sheet, such as text labels, big red circles
 			or thin green arrows. These can be used to bring attention 
-			to a particular part of a worksheet. <xref 
-			linkend="sample-gnumeric"> shows an arrow with a text 
-			label pointing to a particularly important number on the 
-			sheet. The use of the object toolbar and the objects it
-	  		creates is discussed in <xRef
-	  		linkend="obj-toolbar">. This is a sub-section of the
-	  		discussion in <xRef linkend="toolbars"> on Gnumeric
-	  		toolbars. </para>
+			to a particular part of a worksheet. </para>
 			</listitem>
     	  </varlistentry>
 

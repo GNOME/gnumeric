@@ -1,4 +1,4 @@
-<sect1 id="graphs">
+<sect1 id="graphing">
   <title>Graphing in Gnumeric</title>
   <para>
     <application>Gnumeric</application> has the ability to create
@@ -87,7 +87,7 @@
 	    wish the graph to be and let go.  The graph will be drawn. 
 	  </para>
 	</listitem>
-      </itemizedlist>
+      </orderedlist>
     </para>
   </sect2>
 </sect1>

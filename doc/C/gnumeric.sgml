@@ -23,6 +23,7 @@
 <!entity solver		SYSTEM "solver.sgml">
 <!entity autocorrect	SYSTEM "autocorrect.sgml">
 <!entity filter		SYSTEM "filter.sgml">
+<!entity graphs         SYSTEM "graphs.sgml">
 <!entity authors	SYSTEM "authors.sgml">
 <!entity license	SYSTEM "license.sgml">
 <!entity fdl            SYSTEM "fdl-appendix.sgml">
@@ -147,6 +148,11 @@
   <chapter id="cell-elements">
     <title>Drawing on a worksheet</title>
     <para>boxes, labels, etc eventually.</para>
+  </chapter>
+
+  <chapter id="graphs">
+    <title>Graphs</title>
+    &graphs;
   </chapter>
 
   <chapter id="authors">
