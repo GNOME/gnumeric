@@ -6,17 +6,19 @@
 
 #include <gnumeric-config.h>
 #include <Python.h>
-#include <glib/gi18n.h>
 #include <pygobject.h>
 #include <glib.h>
-#include <goffice/app/go-plugin.h>
-#include <goffice/app/error-info.h>
-#include <goffice/app/module-plugin-defs.h>
 #include "gnm-py-interpreter.h"
 #include "gnm-python.h"
 #include "py-gnumeric.h"
 
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/error-info.h>
+#include <goffice/app/module-plugin-defs.h>
 #include <goffice/utils/go-glib-extras.h>
+#include <gsf/gsf-impl-utils.h>
+
+#include <glib/gi18n.h>
 #include <unistd.h>
 
 struct _GnmPython {
@@ -103,10 +105,6 @@ gnm_python_class_init (GObjectClass *gobject_class)
 		G_TYPE_NONE,
 		1, G_TYPE_POINTER);
 }
-
-PLUGIN_CLASS (
-	GnmPython, gnm_python, gnm_python_class_init, gnm_python_init,
-	G_TYPE_OBJECT)
 
 /* ---------- */
 
@@ -206,7 +204,7 @@ gnm_python_new_interpreter (GnmPython *gpy, GOPlugin *plugin)
 	GnmPyInterpreter *interpreter;
 
 	g_return_val_if_fail (IS_GNM_PYTHON (gpy), NULL);
-	g_return_val_if_fail (IS_GNM_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (IS_GO_PLUGIN (plugin), NULL);
 
 	interpreter = gnm_py_interpreter_new (plugin);
 	GO_SLIST_PREPEND (gpy->interpreters, interpreter);
@@ -264,3 +262,13 @@ gnm_python_clear_error_if_needed (GnmPython *gpy)
 		PyErr_Clear ();
 	}
 }
+
+static GType gnm_python_type;
+void
+gnm_python_register (GOPlugin *plugin)
+{
+	GSF_DYNAMIC_CLASS (GnmPython, gnm_python,
+		gnm_python_class_init, gnm_python_init, G_TYPE_OBJECT,
+		G_TYPE_MODULE (plugin), gnm_python_type);
+}
+

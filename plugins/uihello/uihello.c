@@ -16,12 +16,25 @@
 
 GNM_PLUGIN_MODULE_HEADER;
 
+static GOPlugin *uihello_plugin;
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
+{
+	uihello_plugin = plugin;
+}
+
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
+{
+	uihello_plugin = NULL;
+}
+
 static void
 hello_message (GnmAction const *action, WorkbookControl *wbc)
 {
 	char *msg = g_strdup_printf (
 		_("This is message from the \"%s\" plugin."),
-		go_plugin_get_name (PLUGIN));
+		go_plugin_get_name (uihello_plugin));
 	go_gtk_notice_dialog (wbcg_toplevel (WORKBOOK_CONTROL_GUI (wbc)), GTK_MESSAGE_INFO, msg);
 	g_free (msg);
 }

@@ -210,16 +210,7 @@ gnm_py_interpreter_selector_class_init (GObjectClass *gobject_class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-
-	/* we registered a static class, don't unload the plugin */
-	g_type_plugin_use (G_TYPE_PLUGIN (PLUGIN));
 }
-
-GSF_CLASS (
-	GnmPyInterpreterSelector, gnm_py_interpreter_selector,
-	gnm_py_interpreter_selector_class_init,
-	gnm_py_interpreter_selector_init, GTK_TYPE_COMBO_BOX)
-
 
 GtkWidget *
 gnm_py_interpreter_selector_new (ErrorInfo **err)
@@ -262,3 +253,14 @@ gnm_py_interpreter_selector_get_current (GnmPyInterpreterSelector *sel)
 {
 	return sel->cur_interpreter;
 }
+
+static GType gnm_py_interpreter_type;
+void
+gnm_py_interpreter_selector_register (GOPlugin *plugin)
+{
+	GSF_DYNAMIC_CLASS (GnmPyInterpreterSelector, gnm_py_interpreter_selector,
+		gnm_py_interpreter_selector_class_init,
+		gnm_py_interpreter_selector_init, GTK_TYPE_COMBO_BOX,
+		G_TYPE_MODULE (plugin), gnm_py_interpreter_type);
+}
+

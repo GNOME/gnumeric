@@ -2083,7 +2083,7 @@ py_GnmPlugin_get_dir_name_method (py_GnmPlugin_object *self, PyObject *args)
 		return NULL;
 	}
 
-	return PyString_FromString (gnm_plugin_get_dir_name (self->pinfo));
+	return PyString_FromString (go_plugin_get_dir_name (self->pinfo));
 }
 
 static PyObject *
@@ -2093,7 +2093,7 @@ py_GnmPlugin_get_id_method (py_GnmPlugin_object *self, PyObject *args)
 		return NULL;
 	}
 
-	return PyString_FromString (gnm_plugin_get_id (self->pinfo));
+	return PyString_FromString (go_plugin_get_id (self->pinfo));
 }
 
 static PyObject *
@@ -2113,7 +2113,7 @@ py_GnmPlugin_get_description_method (py_GnmPlugin_object *self, PyObject *args)
 		return NULL;
 	}
 
-	return PyString_FromString (gnm_plugin_get_description (self->pinfo));
+	return PyString_FromString (go_plugin_get_description (self->pinfo));
 }
 
 static GOPlugin *

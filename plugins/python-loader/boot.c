@@ -32,9 +32,9 @@ ModulePluginUIActions const console_ui_actions[] = {
 G_MODULE_EXPORT void
 go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
-	/* when loading previously loaded plugin we must re-register
-	   all dynamic types */
-	(void) gnm_py_interpreter_get_type ();
-	(void) gnm_python_get_type ();
-	(void) gnm_python_plugin_loader_get_type ();
+	gnm_py_interpreter_register (plugin);
+	gnm_python_register (plugin);
+	gnm_py_command_line_register (plugin);
+	gnm_py_interpreter_selector_register (plugin);
+	gnm_python_loader_register (plugin);
 }

@@ -133,7 +133,7 @@ gnm_py_command_line_finalize (GObject *obj)
 {
 	GnmPyCommandLine *cline = GNM_PY_COMMAND_LINE (obj);
 
-	gnm_list_free_custom (cline->history, g_free);
+	go_list_free_custom (cline->history, g_free);
 	cline->history = NULL;
 
 	parent_class->finalize (obj);
@@ -155,17 +155,21 @@ gnm_py_command_line_class_init (GObjectClass *gobject_class)
 		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
-
-	/* we registered a static class, don't unload the plugin */
-	g_type_plugin_use (G_TYPE_PLUGIN (PLUGIN));
 }
-
-GSF_CLASS (
-	GnmPyCommandLine, gnm_py_command_line, gnm_py_command_line_class_init,
-	gnm_py_command_line_init, GTK_TYPE_ENTRY)
 
 GtkWidget *
 gnm_py_command_line_new (void)
 {
 	return g_object_new (GNM_PY_COMMAND_LINE_TYPE, NULL);
 }
+
+static GType gnm_py_command_line_type;
+void
+gnm_py_command_line_register (GOPlugin *plugin)
+{
+	GSF_DYNAMIC_CLASS (GnmPyCommandLine, gnm_py_command_line,
+		gnm_py_command_line_class_init, gnm_py_command_line_init,
+		GTK_TYPE_ENTRY,
+		G_TYPE_MODULE (plugin), gnm_py_command_line_type);
+}
+

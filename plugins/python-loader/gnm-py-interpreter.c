@@ -6,16 +6,16 @@
 
 #include <gnumeric-config.h>
 #include <Python.h>
-#include <glib/gi18n.h>
-#include <stdio.h>
-#include <glib.h>
 #include <gnumeric.h>
-#include <goffice/app/go-plugin.h>
 #include <gutils.h>
-#include <goffice/app/module-plugin-defs.h>
 #include "py-gnumeric.h"
 #include "gnm-py-interpreter.h"
 
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
+#include <gsf/gsf-impl-utils.h>
+#include <glib/gi18n.h>
+#include <stdio.h>
 
 struct _GnmPyInterpreter {
 	GObject parent_instance;
@@ -77,11 +77,6 @@ gnm_py_interpreter_class_init (GObjectClass *gobject_class)
 		G_TYPE_NONE, 0);
 }
 
-PLUGIN_CLASS (
-	GnmPyInterpreter, gnm_py_interpreter, gnm_py_interpreter_class_init,
-	gnm_py_interpreter_init, G_TYPE_OBJECT)
-
-
 static char *plugin_argv[] = {(char *) "gnumeric", NULL};
 
 GnmPyInterpreter *
@@ -90,7 +85,7 @@ gnm_py_interpreter_new (GOPlugin *plugin)
 	GnmPyInterpreter *interpreter;
 	PyThreadState *py_thread_state;
 
-	g_return_val_if_fail (plugin == NULL || IS_GNM_PLUGIN (plugin), NULL);
+	g_return_val_if_fail (plugin == NULL || IS_GO_PLUGIN (plugin), NULL);
 
 	if (plugin != NULL) {
 		py_thread_state = Py_NewInterpreter ();
@@ -283,3 +278,14 @@ gnm_py_interpreter_compare (gconstpointer a, gconstpointer b)
 				       go_plugin_get_name (int_b->plugin));
 	}
 }
+
+static GType gnm_py_interpreter_type;
+void
+gnm_py_interpreter_register (GOPlugin *plugin)
+{
+	GSF_DYNAMIC_CLASS (GnmPyInterpreter, gnm_py_interpreter,
+		gnm_py_interpreter_class_init, gnm_py_interpreter_init,
+		G_TYPE_OBJECT,
+		G_TYPE_MODULE (plugin), gnm_py_interpreter_type);
+}
+
