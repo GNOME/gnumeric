@@ -39,18 +39,18 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-GtkWidget *gog_box_plot_pref (GogBoxPlot *plot, GnmCmdContext *cc);
-
 static void
 cb_gap_changed (GtkAdjustment *adj, GObject *boxplot)
 {
 	g_object_set (boxplot, "gap_percentage", (int)adj->value, NULL);
 }
 
-GtkWidget *
-gog_box_plot_pref (GogBoxPlot *boxplot, GnmCmdContext *cc)
+static gpointer
+gog_box_plot_pref (GogObject *obj,
+		   GogDataAllocator *dalloc, GnmCmdContext *cc)
 {
 	GtkWidget  *w;
+	GogBoxPlot *boxplot = GOG_BOX_PLOT (obj);
 	char const *dir = gnm_plugin_get_dir_name (
 		plugins_get_plugin_by_id ("GOffice_plot_boxes"));
 	char	 *path = g_build_filename (dir, "gog-boxplot-prefs.glade", NULL);

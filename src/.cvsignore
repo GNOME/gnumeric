@@ -10,5 +10,6 @@ gnm-marshalers.h
 gnumeric-paths.h
 gnumeric-paths.sh
 ssconvert
+ssindex
 test-pango
 GNOME_Gnumeric-gtk.xml

@@ -1,3 +1,8 @@
+2005-01-25  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_boxes/gog-boxplot.c (gog_box_plot_pref) : fix
+	  signature.
+
 2005-01-24  Jean Brefort  <jean.brefort@normalesup.org>
 
 	* graph/goffice-graph.h: add GOG_AXIS_SET_X.
