@@ -1,3 +1,24 @@
+2002-01-07  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* anova-one.glade : add 'autofit columns' checkbox
+	* anova-two.glade : ditto
+	* correlation.glade : ditto
+	* covariance.glade : ditto
+	* descriptive-stats.glade : ditto
+	* exp-smoothing.glade : ditto
+	* fourier-analysis.glade : ditto
+	* histogram.glade : ditto
+	* mean-tests.glade : ditto
+	* moving-averages.glade : ditto
+	* random-generation.glade : ditto
+	* rank.glade : ditto
+	* regression.glade : ditto
+	* sampling.glade : ditto
+	* variance-tests.glade : ditto
+	* src/dialogs/dialog-analysis-tools.c (parse_output) : add check 
+	  for autofit_button (default to autofit=true)
+	
+
 2002-01-06  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.1

@@ -92,6 +92,7 @@ typedef struct {
         int                         start_col, cols;
         int                         start_row, rows;
         gboolean                    labels_flag;
+	gboolean                    autofit_flag;
 } data_analysis_output_t;
 
 

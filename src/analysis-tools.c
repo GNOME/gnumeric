@@ -731,6 +731,17 @@ autofit_column (data_analysis_output_t *dao, int col)
 }
 
 static void
+autofit_columns (data_analysis_output_t *dao, int from, int to)
+{
+	int i;
+
+	if (!dao->autofit_flag)
+		return;
+	for (i = from; i <= to; i++)
+		autofit_column (dao,i);
+}
+
+static void
 set_italic (data_analysis_output_t *dao, int col1, int row1,
 	    int col2, int row2)
 {
@@ -842,6 +853,7 @@ correlation_tool (WorkbookControl *wbc, Sheet *sheet,
 		}
 	}
 
+	autofit_columns (dao, 0, data->len);
 	destroy_data_set_list (data);
 	range_list_destroy (input_range);
 
@@ -933,6 +945,7 @@ covariance_tool (WorkbookControl *wbc, Sheet *sheet,
 		}
 	}
 
+	autofit_columns (dao, 0, data->len);
 	destroy_data_set_list (data);
 	range_list_destroy (input_range);
 
@@ -1051,6 +1064,7 @@ summary_statistics (WorkbookControl *wbc, GPtrArray *data,
 		/* Count */
 		set_cell_int (dao, col + 1, 13, the_col_len);
 	}
+	autofit_columns (dao, 0, data->len);
 }
 
 static void
@@ -1088,6 +1102,7 @@ confidence_level (WorkbookControl *wbc, GPtrArray *data, gnum_float c_level,
 		}
 		set_cell_na (dao, col + 1, 1);
 	}
+	autofit_columns (dao, 0, data->len);
 }
 
 
@@ -1113,6 +1128,7 @@ kth_largest (WorkbookControl *wbc, GPtrArray *data, int k,
 					      the_col->data->len, &x, the_col->data->len - k);
 		set_cell_float_na (dao, col + 1, 1, x, error == 0);
 	}
+	autofit_columns (dao, 0, data->len);
 }
 
 static void
@@ -1137,6 +1153,7 @@ kth_smallest (WorkbookControl *wbc, GPtrArray  *data, int k,
 					      the_col->data->len, &x, k - 1);
 		set_cell_float_na (dao, col + 1, 1, x, error == 0);
 	}
+	autofit_columns (dao, 0, data->len);
 }
 
 /* Descriptive Statistics
@@ -1201,10 +1218,6 @@ descriptive_stat_tool (WorkbookControl *wbc, Sheet *sheet,
 	}
         if (ds->kth_smallest)
                 kth_smallest (wbc, data, ds->k_smallest, dao);
-
-	for (col = 0; col <= data->len; col++) {
-		autofit_column (dao, col);
-	}
 
 	destroy_data_set_list (data);
 	range_list_destroy (input_range);
@@ -1298,9 +1311,10 @@ sampling_tool (WorkbookControl *wbc, Sheet *sheet,
 					set_cell_na (dao, 0, j);
 			}
 
+			autofit_columns (dao, 0, 0);
 			g_array_free (this_data, TRUE);
 			g_array_free (sample, TRUE);
-       			dao->start_col++;
+      			dao->start_col++;
 			dao->start_row--;
 			if (dao->type == RangeOutput) {
 				dao->start_col++;
@@ -1416,9 +1430,7 @@ ztest_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_italic (dao, 0, 0, 0, 10);
 	set_italic (dao, 0, 0, 2, 0);
 
-	autofit_column (dao, 0);
-	autofit_column (dao, 1);
-	autofit_column (dao, 2);
+	autofit_columns (dao, 0, 2);
 
 	value_release (input_range_1);
 	value_release (input_range_2);
@@ -1586,9 +1598,7 @@ ttest_paired_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_italic (dao, 0, 0, 0, 11);
 	set_italic (dao, 0, 0, 2, 0);
 
-	autofit_column (dao, 0);
-	autofit_column (dao, 1);
-	autofit_column (dao, 2);
+	autofit_columns (dao, 0, 2);
 
 	if (cleaned_variable_1 != variable_1->data)
 		g_array_free (cleaned_variable_1, TRUE);
@@ -1723,9 +1733,7 @@ ttest_eq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_italic (dao, 0, 0, 0, 12);
 	set_italic (dao, 0, 0, 2, 0);
 
-	autofit_column (dao, 0);
-	autofit_column (dao, 1);
-	autofit_column (dao, 2);
+	autofit_columns (dao, 0, 2);
 
 	value_release (input_range_1);
 	value_release (input_range_2);
@@ -1849,9 +1857,7 @@ ttest_neq_var_tool (WorkbookControl *wbc, Sheet *sheet,
 	set_italic (dao, 0, 0, 0, 11);
 	set_italic (dao, 0, 0, 2, 0);
 
-	autofit_column (dao, 0);
-	autofit_column (dao, 1);
-	autofit_column (dao, 2);
+	autofit_columns (dao, 0, 2);
 
 	value_release (input_range_1);
 	value_release (input_range_2);
@@ -2000,9 +2006,7 @@ ftest_tool (WorkbookControl *wbc, Sheet *sheet,
 		set_italic (dao, 0, 0, 0, 11);
 		set_italic (dao, 0, 0, 2, 0);
 		
-		autofit_column (dao, 0);
-		autofit_column (dao, 1);
-		autofit_column (dao, 2);
+		autofit_columns (dao, 0, 2);
 		
 		sheet_set_dirty (dao->sheet, TRUE);
 		sheet_update (sheet);
@@ -2208,6 +2212,7 @@ random_tool (WorkbookControl *wbc, Sheet *sheet, int vars, int count,
 		break;
 	}
 
+	autofit_columns (dao, 0, vars - 1);
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (dao->sheet);
 
@@ -2496,6 +2501,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 				res[i + 1] + t * extra_stat.se[intercept + i]);
 	}
 
+	autofit_columns (dao, 0, 6);
 	destroy_data_set (y_data);
 	destroy_data_set_list (x_data);
 	range_list_destroy (x_input_range);
@@ -2574,6 +2580,7 @@ average_tool (WorkbookControl *wbc, Sheet *sheet,
 		
 	}
 	set_italic (dao, 0, 0, data->len - 1, 0);
+	autofit_columns (dao, 0, data->len - 1);
 
 	destroy_data_set_list (data);
 	range_list_destroy (input_range);
@@ -2647,6 +2654,7 @@ exp_smoothing_tool (WorkbookControl *wbc, Sheet *sheet,
 		}
 	}
 	set_italic (dao, 0, 0, data->len - 1, 0);
+	autofit_columns (dao, 0, data->len - 1);
 
 	destroy_data_set_list (data);
 	range_list_destroy (input_range);
@@ -2752,6 +2760,8 @@ ranking_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input,
 		}
 		g_free (rank);
 	}
+
+	autofit_columns (dao, 0, data->len * 4 - 1);
 
 	destroy_data_set_list (data);
 	range_list_destroy (input_range);
@@ -2900,13 +2910,7 @@ anova_single_factor_tool (WorkbookControl *wbc, Sheet *sheet,
 
 finish_anova_single_factor_tool:
 
-	autofit_column (dao, 0);
-	autofit_column (dao, 1);
-	autofit_column (dao, 2);
-	autofit_column (dao, 3);
-	autofit_column (dao, 4);
-	autofit_column (dao, 5);
-	autofit_column (dao, 6);
+	autofit_columns (dao, 0, 6);
 
 	destroy_data_set_list (data);
 	range_list_destroy (input_range);
@@ -3087,6 +3091,8 @@ anova_two_factor_without_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *inpu
 	set_italic (dao, 1, 2, 4, 2);
 	set_italic (dao, 1, 7 + rows + cols, 6, 7 + rows + cols);
 	set_italic (dao, 0, 0, 0, 11 + rows + cols);
+
+	autofit_columns (dao, 0, 6);
 
 	range_list_destroy (col_input_range);
 	range_list_destroy (row_input_range);
@@ -3509,6 +3515,9 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Value *input,
 	set_italic (dao, 0, 2, 1 + n_c, 2);
 	set_italic (dao, 0, 0, 0, 17 + n_r * 6);
 
+	autofit_columns (dao, 0, 6);
+	autofit_columns (dao, 7, n_c);
+
  anova_two_factor_with_r_tool_end:
 
 	for (i_r = 0; i_r < row_data->len; i_r++)
@@ -3746,6 +3755,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
 			col++;
 	}
 	set_italic (dao, 0, 0,  col - 1, 1);
+	autofit_columns (dao, 0, col - 1);
 
 /* finish up */
 	destroy_data_set_list (data);

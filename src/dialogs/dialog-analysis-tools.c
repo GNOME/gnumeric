@@ -611,6 +611,7 @@ static int
 parse_output (GenericToolState *state, data_analysis_output_t *dao)
 {
         Value *output_range;
+	GtkWidget *autofitbutton;
 
 	dao->start_col = 0;
 	dao->start_row = 0;
@@ -643,6 +644,15 @@ parse_output (GenericToolState *state, data_analysis_output_t *dao)
 
 		value_release (output_range);
 		break;
+	}
+
+	autofitbutton = glade_xml_get_widget (state->gui, "autofit_button");
+	
+	if (autofitbutton != NULL) {
+		dao->autofit_flag = gtk_toggle_button_get_active (
+			GTK_TOGGLE_BUTTON (autofitbutton));
+	} else {
+		dao->autofit_flag = TRUE;
 	}
 
 	return 0;

@@ -1,3 +1,9 @@
+2002-01-07  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	* analysis-tools.h : add autofit_flag to data_analysis_output_t
+	* analysis-tools.c insert lots of calls to autofit_columns
+	(autofit_columns) : new procedure
+	
 2002-01-07  Morten Welinder  <welinder@rentec.com>
 
 	* configure.in: check for ieee754.h
