@@ -8,8 +8,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.62\n"
-"POT-Creation-Date: 2001-02-15 22:24-0500\n"
-"PO-Revision-Date: 2001-01-01 03:32+0900\n"
+"POT-Creation-Date: 2001-02-16 20:06-0500\n"
+"PO-Revision-Date: 2001-02-16 19:38-0500\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
@@ -471,9 +471,9 @@ msgid "object must be callable"
 msgstr "¥ª¥Ö¥¸¥§¥¯¥È¤Ï¸Æ½Ð¤·²ÄÇ½¤Ç¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó"
 
 #: plugins/python/python.c:909
-#, fuzzy, c-format
+#, c-format
 msgid "Unhandled Python exception: %s"
-msgstr "Python Îã³°"
+msgstr "½èÍý¤Ç¤­¤Ê¤¤PythonÎã³°: %s"
 
 #: plugins/sc/sc.c:458
 msgid "SC/xspread file import"
@@ -1131,9 +1131,9 @@ msgstr "¹Ô¤ò±£¤¹"
 
 #. FIXME: Do we want to show the destination range alwell?
 #: src/commands.c:1987
-#, fuzzy, c-format
+#, c-format
 msgid "Moving %s"
-msgstr "¥»¥ë¤ò°ÜÆ°Ãæ"
+msgstr "%s¤ò°ÜÆ°Ãæ"
 
 #. FIXME?
 #: src/commands.c:2131
@@ -1147,9 +1147,8 @@ msgid "Autofill"
 msgstr "¼«Æ°¤ÇËä¤á¤ë"
 
 #: src/commands.c:2201
-#, fuzzy
 msgid "Target region contains merged cells"
-msgstr "·ë¹ç¥»¥ë¤òÁàºî¤Ç¤­¤Þ¤»¤ó"
+msgstr "ÂÐ¾ÝÈÏ°Ï¤Ï·ë¹ç¥»¥ë¤ò´Þ¤ó¤Ç¤¤¤Þ¤¹"
 
 #. FIXME?
 #: src/commands.c:2435
@@ -2081,9 +2080,8 @@ msgid "_Hidden"
 msgstr "±£¤¹(_H)"
 
 #: src/dialogs/cell-format.glade.h:95
-#, fuzzy
 msgid "_Indent"
-msgstr "º¸¤Ë¥¤¥ó¥Ç¥ó¥È(_I)"
+msgstr "¥¤¥ó¥Ç¥ó¥È(_I)"
 
 #: src/dialogs/cell-format.glade.h:96
 msgid "_Justify"
@@ -2582,8 +2580,7 @@ msgstr "³Æ¡¹¤ÎÉ¸ËÜ¤ÏÆ±¤¸¹Ô¿ô¤Ç¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó(¡ÖÉ¸ËÜ¤´¤È¤Î¹Ô¿ô:¡×)"
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
-msgstr ""
-"ÆþÎÏÈÏ°Ï¤Ï¾¯¤Ê¤¯¤È¤â¥Ç¡¼¥¿¤È¥é¥Ù¥ë¤Î 2 ¤Ä¤ÎÎó¤ò´Þ¤Þ¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£"
+msgstr "ÆþÎÏÈÏ°Ï¤Ï¾¯¤Ê¤¯¤È¤â¥Ç¡¼¥¿¤È¥é¥Ù¥ë¤Î 2 ¤Ä¤ÎÎó¤ò´Þ¤Þ¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£"
 
 #: src/dialogs/dialog-autoformat.c:70
 msgid " "
@@ -2977,9 +2974,8 @@ msgid "Errors while deactivating plugins"
 msgstr ""
 
 #: src/dialogs/dialog-plugin-manager.c:508
-#, fuzzy
 msgid "Plugin list"
-msgstr "¥×¥é¥°¥¤¥ó(_P)..."
+msgstr "¥×¥é¥°¥¤¥ó"
 
 #: src/dialogs/dialog-plugin-manager.c:511
 msgid "Plugin details"
@@ -3023,14 +3019,14 @@ msgid ""
 "The constraints having cell ranges in LHS and RHS should have the same "
 "number of columns and rows in both sides."
 msgstr ""
-"À©Ìó¾ò·ï¤Ë»ØÄê¤µ¤ì¤¿¾ò·ï¼°¤Îº¸Â¦¤È±¦Â¦¤Ï¹Ô¿ô¤ÈÎó¿ô¤¬¤È¤â¤ËÆ±¤¸ÃÍ¤Ç¤Ê¤±¤ì¤Ð¤Ê¤"
-"ê¤Þ¤»¤ó¡£"
+"À©Ìó¾ò·ï¤Ë»ØÄê¤µ¤ì¤¿¾ò·ï¼°¤Îº¸Â¦¤È±¦Â¦¤Ï¹Ô¿ô¤ÈÎó¿ô¤¬¤È¤â¤ËÆ±¤¸ÃÍ¤Ç¤Ê¤±¤ì¤Ð¤Ê¤ê"
+"¤Þ¤»¤ó¡£"
 
 #: src/dialogs/dialog-solver.c:254 src/dialogs/dialog-solver.c:446
 msgid "The cell range in LHS or RHS should have only one column or row."
 msgstr ""
-"À©Ìó¾ò·ï¼°¤Îº¸Â¦¡¢±¦Â¦¤Ë»ØÄê¤µ¤ì¤¿¥»¥ëÈÏ°Ï¤Ï¡¢¾¯¤Ê¤¯¤È¤â°ì¤Ä¤Î¥»¥ë¤ò´Þ¤ó¤Ç¤¤¤"
-"Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£"
+"À©Ìó¾ò·ï¼°¤Îº¸Â¦¡¢±¦Â¦¤Ë»ØÄê¤µ¤ì¤¿¥»¥ëÈÏ°Ï¤Ï¡¢¾¯¤Ê¤¯¤È¤â°ì¤Ä¤Î¥»¥ë¤ò´Þ¤ó¤Ç¤¤¤Ê"
+"¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£"
 
 #: src/dialogs/dialog-solver.c:861
 msgid "You should introduce a valid cell name for 'Target cell'"
@@ -3121,9 +3117,9 @@ msgid ""
 "used for terminating a line in the text file. Wether the quote character is "
 "placed around cells depends on the value choosen for quoting."
 msgstr ""
-"½ÐÎÏ·Á¼°¤ò¥«¥¹¥¿¥Þ¥¤¥º¡£¹Ô½ªÃ¼¤Ï¥Æ¥­¥¹¥È¥Õ¥¡¥¤¥ë¤Ë¤ª¤¤¤Æ¹Ô¤ò½ª¤¨¤ë¤¿¤á¤Ë»È¤ï¤"
-"ì¤ë¥­¥ã¥é¥¯¥¿¥·¡¼¥±¥ó¥¹¤Ç¤¹¡£°úÍÑÉä¤¬ÇÛÃÖ¤µ¤ì¤ë¤«¤É¤¦¤«¤Ï\"°úÍÑÉä¤ÎÉÕ¤±Êý\"¤Î"
-"ÁªÂò¤Ë°ÍÂ¸¤·¤Þ¤¹¡£"
+"½ÐÎÏ·Á¼°¤ò¥«¥¹¥¿¥Þ¥¤¥º¡£¹Ô½ªÃ¼¤Ï¥Æ¥­¥¹¥È¥Õ¥¡¥¤¥ë¤Ë¤ª¤¤¤Æ¹Ô¤ò½ª¤¨¤ë¤¿¤á¤Ë»È¤ï¤ì"
+"¤ë¥­¥ã¥é¥¯¥¿¥·¡¼¥±¥ó¥¹¤Ç¤¹¡£°úÍÑÉä¤¬ÇÛÃÖ¤µ¤ì¤ë¤«¤É¤¦¤«¤Ï\"°úÍÑÉä¤ÎÉÕ¤±Êý\"¤ÎÁª"
+"Âò¤Ë°ÍÂ¸¤·¤Þ¤¹¡£"
 
 #: src/dialogs/dialog-stf-export.glade.h:17
 msgid "Gnumeric : Exporting structured text"
@@ -3154,8 +3150,8 @@ msgid ""
 "Please select which sheets you want to export from the current workbook. "
 "They will be exported in the same order as in the export list."
 msgstr ""
-"¸½ºß¤Î¥ï¡¼¥¯¥Ö¥Ã¥¯¤«¤é¥¨¥¯¥¹¥Ý¡¼¥È¤¹¤ë¥·¡¼¥È¤òÁªÂò¤·¤Æ²¼¤µ¤¤¡£¥·¡¼¥È¤Ï¥¨¥¯¥¹¥"
-"Ý¡¼¥È¥ê¥¹¥È¤Î¥ê¥¹¥È½ç¤Ë¥¨¥¯¥¹¥Ý¡¼¥È¤µ¤ì¤Þ¤¹¡£"
+"¸½ºß¤Î¥ï¡¼¥¯¥Ö¥Ã¥¯¤«¤é¥¨¥¯¥¹¥Ý¡¼¥È¤¹¤ë¥·¡¼¥È¤òÁªÂò¤·¤Æ²¼¤µ¤¤¡£¥·¡¼¥È¤Ï¥¨¥¯¥¹¥Ý"
+"¡¼¥È¥ê¥¹¥È¤Î¥ê¥¹¥È½ç¤Ë¥¨¥¯¥¹¥Ý¡¼¥È¤µ¤ì¤Þ¤¹¡£"
 
 #: src/dialogs/dialog-stf-export.glade.h:24
 msgid "Quote character :"
@@ -3216,11 +3212,10 @@ msgid "Data (from %s)"
 msgstr "¥Ç¡¼¥¿ (%s ¤«¤é)"
 
 #: src/dialogs/dialog-stf.glade.h:3
-#, fuzzy
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr "¼ÂºÝ¤Îºî¶È¤Ï¤³¤Î¹Ô¤«¤é³«»Ï¤µ¤ì¡¢¤½¤ì°ÊÁ°¤Î¹Ô¤ÏÌµ»ë¤µ¤ì¤Þ¤¹"
+msgstr "¼ÂºÝ¤Îºî¶È¤Ï¤³¤Î¹Ô¤«¤é³«»Ï¤µ¤ì¡¢¤½¤ì°ÊÁ°¤Î¹Ô¤ÏÌµ»ë¤µ¤ì¤Þ¤¹¡£"
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -3231,9 +3226,8 @@ msgid "Always (Both sides)"
 msgstr "¾ï¤Ë(Î¾Ã¼)"
 
 #: src/dialogs/dialog-stf.glade.h:6
-#, fuzzy
 msgid "Attempt to recognize columns in the text automatically."
-msgstr "¥Æ¥­¥¹¥È¤ÎÎó¤ò¼«Æ°Åª¤ËÇ§¼±¤·¤Æ¤ß¤ë"
+msgstr "¥Æ¥­¥¹¥È¤ÎÎó¤ò¼«Æ°Åª¤ËÇ§¼±¤·¤Æ¤ß¤Þ¤¹¡£"
 
 #: src/dialogs/dialog-stf.glade.h:7
 msgid "Auto Column _Discovery"
@@ -3248,12 +3242,11 @@ msgid "C_ustom"
 msgstr "¥«¥¹¥¿¥à(_U)"
 
 #: src/dialogs/dialog-stf.glade.h:10
-#, fuzzy
 msgid ""
 "Character interpreted as quote character. If the separation character is "
 "encountered within quotes it will be ignored."
 msgstr ""
-"°úÍÑÉä¤È¤·¤Æ°·¤ï¤ì¤ëÊ¸»ú¤Ç¤¹¡£¤â¤·¥»¥Ñ¥ì¡¼¥¿¤¬°úÍÑÉä¤Î´Ö¤Ë¤¢¤ì¤ÐÌµ»ë¤µ¤ì¤Þ¤¹"
+"°úÍÑÉä¤È¤·¤Æ°·¤ï¤ì¤ëÊ¸»ú¤Ç¤¹¡£¤â¤·¥»¥Ñ¥ì¡¼¥¿¤¬°úÍÑÉä¤Î´Ö¤Ë¤¢¤ì¤ÐÌµ»ë¤µ¤ì¤Þ¤¹¡£"
 
 #: src/dialogs/dialog-stf.glade.h:11
 msgid "Clear list of columns"
@@ -3296,17 +3289,15 @@ msgid "Data type and number of lines"
 msgstr "¥Ç¡¼¥¿·¿¤È¹Ô¿ô"
 
 #: src/dialogs/dialog-stf.glade.h:21
-#, fuzzy
 msgid "Define the width of each column manually."
 msgstr "¤½¤ì¤¾¤ì¤ÎÎó¤ÎÉý¤ò¼êÆ°¤Ç»ØÄê"
 
 #: src/dialogs/dialog-stf.glade.h:22
-#, fuzzy
 msgid ""
 "Each column in the text is separated by a 'separation' character, e.g. a "
 "semicolon."
 msgstr ""
-"¥Æ¥­¥¹¥È¤Î¤½¤ì¤¾¤ì¤ÎÎó¤Ï'Ê¬³ä'Ê¸»ú¤ÇÊ¬³ä¤µ¤ì¤Æ¤¤¤Þ¤¹¡£Îã¤¨¤Ð¥»¥ß¥³¥í¥ó¤È¤«"
+"¥Æ¥­¥¹¥È¤Î¤½¤ì¤¾¤ì¤ÎÎó¤Ï'Ê¬³ä'Ê¸»ú¤ÇÊ¬³ä¤µ¤ì¤Æ¤¤¤Þ¤¹¡£Îã¤¨¤Ð¥»¥ß¥³¥í¥ó¤Ê¤É"
 
 #: src/dialogs/dialog-stf.glade.h:23
 msgid "End"
@@ -3349,15 +3340,14 @@ msgid "H_yphen (-)"
 msgstr "¥Ï¥¤¥Õ¥ó(-) (_Y)"
 
 #: src/dialogs/dialog-stf.glade.h:33
-#, fuzzy
 msgid ""
 "Left click to create a new column, right click on a column border to delete "
 "an existing column or hold the left mouse button on a column border and drag "
 "to resize a column."
 msgstr ""
-"º¸¥¯¥ê¥Ã¥¯¤Ç¿·µ¬Îó¤òºîÀ®¤·¡¢Îó¤Î¶­³¦Àþ¾å¤Ç±¦¥¯¥ê¥Ã¥¯¤¹¤ë¤ÈÂ¸ºß¤¹¤ëÎó¤òºï½ü¤·¤"
-"Þ¤¹¡£Îó¤Î¶­³¦Àþ¾å¤Ç¥Þ¥¦¥¹¤Îº¸¥Ü¥¿¥ó¤ò²¡¤·¤¿¤Þ¤Þ¥É¥é¥Ã¥°¤¹¤ë¤ÈÎó¤Î¥µ¥¤¥º¤¬ÊÑ¹¹"
-"¤Ç¤­¤Þ¤¹"
+"º¸¥¯¥ê¥Ã¥¯¤Ç¿·µ¬Îó¤òºîÀ®¤·¡¢Îó¤Î¶­³¦Àþ¾å¤Ç±¦¥¯¥ê¥Ã¥¯¤¹¤ë¤ÈÂ¸ºß¤¹¤ëÎó¤òºï½ü¤·¤Þ"
+"¤¹¡£Îó¤Î¶­³¦Àþ¾å¤Ç¥Þ¥¦¥¹¤Îº¸¥Ü¥¿¥ó¤ò²¡¤·¤¿¤Þ¤Þ¥É¥é¥Ã¥°¤¹¤ë¤ÈÎó¤Î¥µ¥¤¥º¤¬ÊÑ¹¹¤Ç"
+"¤­¤Þ¤¹"
 
 #: src/dialogs/dialog-stf.glade.h:34
 msgid "Lines to import"
@@ -3392,9 +3382,8 @@ msgid "Per column formatting"
 msgstr "Îó¤´¤È¤Î½ñ¼°ÀßÄê"
 
 #: src/dialogs/dialog-stf.glade.h:43
-#, fuzzy
 msgid "Processing ends at this line, any subsequent lines will be ignored."
-msgstr "¤³¤Î¹Ô¤ÇÁàºî¤¬½ª¤ï¤ê¤Þ¤¹¡£°Ê²¼¤ËÂ³¤¯¹Ô¤ÏÌµ»ë¤µ¤ì¤Þ¤¹"
+msgstr "¤³¤Î¹Ô¤ÇÁàºî¤¬½ª¤ï¤ê¤Þ¤¹¡£°Ê²¼¤ËÂ³¤¯¹Ô¤ÏÌµ»ë¤µ¤ì¤Þ¤¹¡£"
 
 #: src/dialogs/dialog-stf.glade.h:44
 msgid "Remove selected column"
@@ -3409,16 +3398,15 @@ msgid "S_pace"
 msgstr "¶õÇò(_P)"
 
 #: src/dialogs/dialog-stf.glade.h:47
-#, fuzzy
 msgid "See two successive separators as one."
-msgstr "¤Õ¤¿¤Ä¤ÎÏ¢Â³¤·¤¿¥»¥Ñ¥ì¡¼¥¿¤ò¤Ò¤È¤Ä¤Ë¸«¤Ê¤¹"
+msgstr "¤Õ¤¿¤Ä¤ÎÏ¢Â³¤·¤¿¥»¥Ñ¥ì¡¼¥¿¤ò¤Ò¤È¤Ä¤Ë¸«¤Ê¤·¤Þ¤¹¡£"
 
 #: src/dialogs/dialog-stf.glade.h:48
-#, fuzzy
 msgid ""
 "See two successive text indicators as one that does not terminate the cell."
 msgstr ""
-"2¤Ä¤ÎÏ¢Â³¤·¤¿¥Æ¥­¥¹¥È¥¤¥ó¥¸¥±¡¼¥¿¤ò¥»¥ë¤Î½ªÃ¼¤ò¼¨¤µ¤Ê¤¤°ì¤Ä¤Î¤â¤Î¤È¤ß¤Ê¤¹"
+"2¤Ä¤ÎÏ¢Â³¤·¤¿¥Æ¥­¥¹¥È¥¤¥ó¥¸¥±¡¼¥¿¤ò¥»¥ë¤Î½ªÃ¼¤ò¼¨¤µ¤Ê¤¤°ì¤Ä¤Î¤â¤Î¤È¤ß¤Ê¤·¤Þ¤¹"
+"¡£"
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -3426,9 +3414,9 @@ msgid ""
 "left or in the example to select a column. You can then enter a custom "
 "format or select one from the list on the right."
 msgstr ""
-"¤½¤ì¤¾¤ì¤ÎÎó¤ËÂÐ¤¹¤ë½ñ¼°¤òÁªÂò¤·¤Æ¤¯¤À¤µ¤¤¡£Îó¤òÁªÂò¤¹¤ë¤Ë¤ÏÎó°ìÍ÷¤Îº¸Â¦¡¢¤¢¤"
-"ë¤¤¤ÏËÞÎã¤ò¥¯¥ê¥Ã¥¯¤·¤Þ¤¹¡£¤½¤·¤Æ¥«¥¹¥¿¥à½ñ¼°ÀßÄê¤«¡¢±¦Â¦¤Î½ñ¼°¤Î¥ê¥¹¥È¤«¤é°ì"
-"¤ÄÁªÂò¤·¤Æ¤¯¤À¤µ¤¤¡£"
+"¤½¤ì¤¾¤ì¤ÎÎó¤ËÂÐ¤¹¤ë½ñ¼°¤òÁªÂò¤·¤Æ¤¯¤À¤µ¤¤¡£Îó¤òÁªÂò¤¹¤ë¤Ë¤ÏÎó°ìÍ÷¤Îº¸Â¦¡¢¤¢¤ë"
+"¤¤¤ÏËÞÎã¤ò¥¯¥ê¥Ã¥¯¤·¤Þ¤¹¡£¤½¤·¤Æ¥«¥¹¥¿¥à½ñ¼°ÀßÄê¤«¡¢±¦Â¦¤Î½ñ¼°¤Î¥ê¥¹¥È¤«¤é°ì¤Ä"
+"ÁªÂò¤·¤Æ¤¯¤À¤µ¤¤¡£"
 
 #: src/dialogs/dialog-stf.glade.h:50
 msgid ""
@@ -3475,13 +3463,12 @@ msgid "Trim :"
 msgstr "¥È¥ê¥à:"
 
 #: src/dialogs/dialog-stf.glade.h:60
-#, fuzzy
 msgid ""
 "Trim leading and trailing spaces from each column, if you are unsure you "
 "should leave this at the default setting."
 msgstr ""
-"¤½¤ì¤¾¤ì¤ÎÎó¤Î»Ï¤á¤È½ª¤ï¤ê¤Î¶õÇò¤òÀÚ¤êÍî¤È¤·¤Þ¤¹¡£¤è¤¯Ê¬¤«¤é¤Ê¤¤¾ì¹ç¤Ï¥Ç¥Õ¥©¥"
-"ë¥ÈÀßÄê¤Î¤Þ¤Þ¤Ë¤·¤Æ¤ª¤¤¤Æ¤¯¤À¤µ¤¤"
+"¤½¤ì¤¾¤ì¤ÎÎó¤Î»Ï¤á¤È½ª¤ï¤ê¤Î¶õÇò¤òÀÚ¤êÍî¤È¤·¤Þ¤¹¡£¤è¤¯Ê¬¤«¤é¤Ê¤¤¾ì¹ç¤Ï¥Ç¥Õ¥©¥ë"
+"¥ÈÀßÄê¤Î¤Þ¤Þ¤Ë¤·¤Æ¤ª¤¤¤Æ¤¯¤À¤µ¤¤¡£"
 
 #: src/dialogs/dialog-stf.glade.h:62
 msgid "_Adjacent text indicators escaped"
@@ -3680,35 +3667,32 @@ msgid "Activate plugin"
 msgstr ""
 
 #: src/dialogs/plugin-manager.glade.h:4
-#, fuzzy
 msgid "Active plugins"
-msgstr "Guile¥×¥é¥°¥¤¥ó"
+msgstr "¥×¥é¥°¥¤¥ó¤òÍ­¸ú¤Ë¤¹¤ë"
 
 #: src/dialogs/plugin-manager.glade.h:5
 msgid "Available inactive plugins"
-msgstr ""
+msgstr "»ÈÍÑ²ÄÇ½¤Ê¥×¥é¥°¥¤¥ó"
 
 #: src/dialogs/plugin-manager.glade.h:6
 msgid "Deactivate all plugins"
-msgstr ""
+msgstr "¤¹¤Ù¤Æ¤Î¥×¥é¥°¥¤¥ó¤òÌµ¸ú¤Ë¤¹¤ë"
 
 #: src/dialogs/plugin-manager.glade.h:7
 msgid "Deactivate plugin"
-msgstr ""
+msgstr "¥×¥é¥°¥¤¥ó¤òÌµ¸ú¤Ë¤¹¤ë"
 
 #: src/dialogs/plugin-manager.glade.h:8
-#, fuzzy
 msgid "Description"
-msgstr "ÀâÌÀ (_D)"
+msgstr "ÀâÌÀ"
 
 #: src/dialogs/plugin-manager.glade.h:9
 msgid "Directory"
-msgstr ""
+msgstr "¥Ç¥£¥ì¥¯¥È¥ê"
 
 #: src/dialogs/plugin-manager.glade.h:10
-#, fuzzy
 msgid "Extra information"
-msgstr "Í×Ìó¾ðÊó"
+msgstr "¤½¤ÎÂ¾¤Î¾ðÊó"
 
 #: src/dialogs/plugin-manager.glade.h:11
 msgid "Gnumeric Plugin Manager"
@@ -3716,12 +3700,11 @@ msgstr "Gnumeric ¥×¥é¥°¥¤¥ó¥Þ¥Í¡¼¥¸¥ã"
 
 #: src/dialogs/plugin-manager.glade.h:12
 msgid "Id"
-msgstr ""
+msgstr "ID"
 
 #: src/dialogs/plugin-manager.glade.h:13
-#, fuzzy
 msgid "Install new plugin"
-msgstr "¥¤¥ó¥¹¥È¡¼¥ëºÑ¤ß¥×¥é¥°¥¤¥ó"
+msgstr "¿·µ¬¥×¥é¥°¥¤¥ó¤Î¥¤¥ó¥¹¥È¡¼¥ë"
 
 #: src/dialogs/plugin-manager.glade.h:14 src/solver-lp.c:907
 #: src/solver-lp.c:933 src/solver-lp.c:968 src/solver-lp.c:1065
@@ -3834,9 +3817,8 @@ msgid "Sheet"
 msgstr "¥·¡¼¥È"
 
 #: src/dialogs/print.glade.h:28
-#, fuzzy
 msgid "Styles with no content"
-msgstr "¥»¥ë¤ÎÆâÍÆ¤òÃæ±û´ó¤»¤Ë¤¹¤ë"
+msgstr "ÆâÍÆ¤Î¤Ê¤¤¥¹¥¿¥¤¥ë"
 
 #: src/dialogs/print.glade.h:29
 msgid "Titles to print"
@@ -3940,13 +3922,12 @@ msgid "_Row height (pts):"
 msgstr "¹Ô¤Î¹â¤µ(pts) (_R):"
 
 #: src/dialogs/search-replace.glade.h:1
-#, fuzzy
 msgid "Advanced"
-msgstr "¹âÅÙ..."
+msgstr "¹âÅÙ"
 
 #: src/dialogs/search-replace.glade.h:2
 msgid "Ask before each change"
-msgstr ""
+msgstr "ÊÑ¹¹¤´¤È¤ËÌä¤¤¹ç¤ï¤»¤ë"
 
 #: src/dialogs/search-replace.glade.h:3
 msgid "Attempt to preserve case of text when replacing"
@@ -3957,9 +3938,8 @@ msgid "By"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:5
-#, fuzzy
 msgid "Change cells containing"
-msgstr "À©Ìó¤òÊÑ¹¹"
+msgstr "ÊÑ¹¹¤¹¤ë¥»¥ë¤¬´Þ¤à¤Î¤Ï"
 
 #: src/dialogs/search-replace.glade.h:6 src/dialogs/summary.glade.h:3
 msgid "Comments"
@@ -3970,54 +3950,48 @@ msgid "Create =ERROR(\"...\")"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:8
-#, fuzzy
 msgid "Current sheet"
-msgstr "¸½ºß¤ÎÆüÉÕ(_D)"
+msgstr "¸½ºß¥·¡¼¥È"
 
 #: src/dialogs/search-replace.glade.h:9
 msgid "Do not consider matches in the middle of words"
-msgstr ""
+msgstr "¸ì¤ÎÃæ¤Î¥Þ¥Ã¥Á¥ó¥°¤ò¹ÍÎ¸¤·¤Ê¤¤"
 
 #: src/dialogs/search-replace.glade.h:10
 msgid "Do not perform this replacement"
-msgstr ""
+msgstr "¤³¤ÎÃÖ´¹¤ò¹Ô¤ï¤Ê¤¤"
 
 #: src/dialogs/search-replace.glade.h:11
 msgid "Don't change"
-msgstr ""
+msgstr "ÊÑ¹¹¤·¤Ê¤¤"
 
 #: src/dialogs/search-replace.glade.h:12
-#, fuzzy
 msgid "Entire workbook"
-msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯¤Î°õºþ"
+msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯Á´ÂÎ"
 
 #: src/dialogs/search-replace.glade.h:13
 msgid "Error behavior"
-msgstr ""
+msgstr "¥¨¥é¡¼¤Î¿¶¤ëÉñ¤¤"
 
 #: src/dialogs/search-replace.glade.h:14
-#, fuzzy
 msgid "Expressions"
-msgstr "¿ô¼° : "
+msgstr "¿ô¼°"
 
 #: src/dialogs/search-replace.glade.h:15
-#, fuzzy
 msgid "Fail"
-msgstr "·«¤êÊÖ¤·(_F)"
+msgstr "¼ºÇÔ"
 
 #: src/dialogs/search-replace.glade.h:16
 msgid "Fail without any changes actually being done to any cell"
-msgstr ""
+msgstr "¤É¤Î¥»¥ë¤Ë¤â¼ÂºÝ¤ËÊÑ¹¹¤·¤Ê¤¤¤Þ¤Þ¼ºÇÔ"
 
 #: src/dialogs/search-replace.glade.h:17
-#, fuzzy
 msgid "Ignore case"
-msgstr "Áý²Ã"
+msgstr "ÂçÊ¸»ú¾®Ê¸»ú¤òÌµ»ë¤¹¤ë"
 
 #: src/dialogs/search-replace.glade.h:18
-#, fuzzy
 msgid "Location"
-msgstr "Æ°ºî"
+msgstr "¾ì½ê"
 
 #: src/dialogs/search-replace.glade.h:19
 msgid "Make error expression"
@@ -4040,9 +4014,8 @@ msgid "Other values"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:25
-#, fuzzy
 msgid "Perform changes within cell comments"
-msgstr "¥»¥ë¤ÎÆâÍÆ¤òÃæ±û´ó¤»¤Ë¤¹¤ë"
+msgstr "¥»¥ë¤Î¥³¥á¥ó¥È¤ËÊÑ¹¹¤ò¼Â¹Ô¤¹¤ë"
 
 #: src/dialogs/search-replace.glade.h:26
 msgid "Perform changes within expressions"
@@ -4065,9 +4038,8 @@ msgid "Perform this replacement"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:31
-#, fuzzy
 msgid "Plain text"
-msgstr "Plan Perfect"
+msgstr "¥×¥ì¡¼¥ó¥Æ¥­¥¹¥È"
 
 #: src/dialogs/search-replace.glade.h:32
 msgid "Preserve case"
@@ -4082,53 +4054,46 @@ msgid "Query for replacement"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:36
-#, fuzzy
 msgid "Regular expression"
-msgstr "²óµ¢"
+msgstr "Àµµ¬É½¸½"
 
 #: src/dialogs/search-replace.glade.h:37
-#, fuzzy
 msgid "Replace by"
-msgstr "½¤ÀµÊ¸»ú(_P)"
+msgstr "ÃÖ´¹¸å¤ÎÊ¸»úÎó"
 
 #: src/dialogs/search-replace.glade.h:38
-#, fuzzy
 msgid "Replacing"
-msgstr "½¤ÀµÊ¸»ú(_P)"
+msgstr "ÃÖ´¹¤·¤Æ¤¤¤Þ¤¹"
 
 #: src/dialogs/search-replace.glade.h:39
-#, fuzzy
 msgid "Scope"
-msgstr "ÈÏ°Ï :"
+msgstr "ÈÏ°Ï"
 
 #: src/dialogs/search-replace.glade.h:40
-#, fuzzy
 msgid "Search"
-msgstr "3·î"
+msgstr "Ãµº÷"
 
 #: src/dialogs/search-replace.glade.h:42
 msgid "Search and replace in all cells in the workbook"
-msgstr ""
+msgstr "¥ï¡¼¥¯¥Ö¥Ã¥¯¤Î¤¹¤Ù¤Æ¤Î¥»¥ë¤ÇÃµº÷¤ÈÃÖ´¹¤ò¤¹¤ë"
 
 #: src/dialogs/search-replace.glade.h:43
 msgid "Search and replace in current sheet only"
-msgstr ""
+msgstr "¸½ºß¥·¡¼¥È¤Ç¤Î¤ßÃµº÷¤ÈÃÖ´¹¤ò¤¹¤ë"
 
 #: src/dialogs/search-replace.glade.h:44
 msgid "Search and replace in specified range only"
-msgstr ""
+msgstr "»ØÄê¤·¤¿ÈÏ°Ï¤Ç¤Î¤ßÃµº÷¤ÈÃÖ´¹¤ò¤¹¤ë"
 
 #: src/dialogs/search-replace.glade.h:45
-#, fuzzy
 msgid "Search for"
-msgstr "¥»¥Ñ¥ì¡¼¥¿"
+msgstr "Ãµº÷ for"
 
 #: src/dialogs/search-replace.glade.h:46
 msgid "Skip cells that that would result in errors"
 msgstr ""
 
 #: src/dialogs/search-replace.glade.h:47
-#, fuzzy
 msgid "Strings"
 msgstr "Ê¸»úÎó"
 
@@ -4297,9 +4262,8 @@ msgid "Company"
 msgstr "²ñ¼Ò"
 
 #: src/dialogs/summary.glade.h:5
-#, fuzzy
 msgid "Document Summary Information"
-msgstr "Ê¸½ñ¤ÎÍ×Ìó¾ðÊó\n"
+msgstr "Ê¸½ñ¤ÎÍ×Ìó¾ðÊó"
 
 #: src/dialogs/summary.glade.h:6
 msgid "Keywords"
@@ -4318,9 +4282,8 @@ msgid "Title"
 msgstr "ÂêÌ¾"
 
 #: src/dialogs/validate.glade.h:1
-#, fuzzy
 msgid "Any Value"
-msgstr "ÃÍ¤È¤·¤Æ"
+msgstr "Ç¤°Õ¤ÎÃÍ"
 
 #: src/dialogs/validate.glade.h:2
 msgid "Apply these changes to other cells with the same settings"
@@ -4331,27 +4294,24 @@ msgid "Data Validation"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:5
-#, fuzzy
 msgid "Date"
-msgstr "ÆüÉÕ(_D)"
+msgstr "ÆüÉÕ"
 
 #: src/dialogs/validate.glade.h:6
-#, fuzzy
 msgid "Decimal"
-msgstr "ÆÃÊÌ(_E)"
+msgstr "10¿Ê"
 
 #: src/dialogs/validate.glade.h:7
 msgid "Ignore blank"
-msgstr ""
+msgstr "¶õÇò¤òÌµ»ë¤¹¤ë"
 
 #: src/dialogs/validate.glade.h:8 src/functions/fn-information.c:857
 msgid "Information"
 msgstr "¾ðÊó"
 
 #: src/dialogs/validate.glade.h:9
-#, fuzzy
 msgid "Input _Message"
-msgstr "ÆþÎÏÈÏ°Ï:"
+msgstr "ÆþÎÏ¥á¥Ã¥»¡¼¥¸(_M)"
 
 #: src/dialogs/validate.glade.h:10 src/gnumeric.xml.h:112
 #: src/workbook-object-toolbar.c:144
@@ -4359,68 +4319,60 @@ msgid "List"
 msgstr "¥ê¥¹¥È"
 
 #: src/dialogs/validate.glade.h:11
-#, fuzzy
 msgid "St_yle:"
-msgstr "¥¹¥¿¥¤¥ë(_S)"
+msgstr "¥¹¥¿¥¤¥ë(_Y):"
 
 #: src/dialogs/validate.glade.h:12
 msgid "Stop"
-msgstr ""
+msgstr "Ää»ß"
 
 #: src/dialogs/validate.glade.h:13
 msgid "Text length"
-msgstr ""
+msgstr "¥Æ¥­¥¹¥ÈÄ¹¤µ"
 
 #: src/dialogs/validate.glade.h:14
-#, fuzzy
 msgid "Time"
-msgstr "»þ´Ö(_T)"
+msgstr "»þ´Ö"
 
 #: src/dialogs/validate.glade.h:15
-#, fuzzy
 msgid "Validation criteria"
-msgstr "»ØÄê¤µ¤ì¤¿¾ò·ï¤Ç¥Ç¡¼¥¿¤ò¥Õ¥£¥ë¥¿"
+msgstr ""
 
 #: src/dialogs/validate.glade.h:16
-#, fuzzy
 msgid "Warning"
-msgstr "Ê¸»úÎó"
+msgstr "·Ù¹ð"
 
 #: src/dialogs/validate.glade.h:17
 msgid "Whole numbers"
-msgstr ""
+msgstr "¤¹¤Ù¤Æ¤ÎÈÖ¹æ"
 
 #: src/dialogs/validate.glade.h:18
-#, fuzzy
 msgid "_Allow:"
-msgstr "Á´¤Æ(_A)"
+msgstr "µö²Ä(_A):"
 
 #: src/dialogs/validate.glade.h:19
-#, fuzzy
 msgid "_Clear All"
-msgstr "¾Ãµî(_C)"
+msgstr "¤¹¤Ù¤Æ¾Ãµî(_C)"
 
 #: src/dialogs/validate.glade.h:20
 msgid "_Error Alert"
-msgstr ""
+msgstr "¥¨¥é¡¼ÄÌÃÎ(_E)"
 
 #: src/dialogs/validate.glade.h:21
 msgid "_Error message:"
-msgstr ""
+msgstr "¥¨¥é¡¼¥á¥Ã¥»¡¼¥¸(_E):"
 
 #: src/dialogs/validate.glade.h:22
 msgid "_In-cell dropdown"
-msgstr ""
+msgstr "¥»¥ë¤Î¥É¥í¥Ã¥×¥À¥¦¥ó(_I)"
 
 #: src/dialogs/validate.glade.h:23
-#, fuzzy
 msgid "_Input Message"
-msgstr "ÆþÎÏÈÏ°Ï(_I):"
+msgstr "ÆþÎÏ¥á¥Ã¥»¡¼¥¸(_I)"
 
 #: src/dialogs/validate.glade.h:24
-#, fuzzy
 msgid "_Settings"
-msgstr "Ê¸»úÎó"
+msgstr "ÀßÄê(_S)"
 
 #: src/dialogs/validate.glade.h:25
 msgid "_Show error alert after invalid data is entered"
@@ -4431,60 +4383,52 @@ msgid "_Show input message when cell is selected"
 msgstr ""
 
 #: src/dialogs/validate.glade.h:27
-#, fuzzy
 msgid "_Title :"
-msgstr "ÂêÌ¾"
+msgstr "ÂêÌ¾(_T) :"
 
 #: src/dialogs/validate.glade.h:28
-#, fuzzy
 msgid "_Title:"
-msgstr "ÂêÌ¾"
+msgstr "ÂêÌ¾(_T):"
 
 #: src/dialogs/validate.glade.h:29
-#, fuzzy
 msgid "label11"
-msgstr "¥é¥Ù¥ë"
+msgstr "¥é¥Ù¥ë11"
 
 #: src/dialogs/validate.glade.h:30
-#, fuzzy
 msgid "label12"
-msgstr "¥é¥Ù¥ë"
+msgstr "¥é¥Ù¥ë12"
 
 #: src/dialogs/validate.glade.h:31
 msgid "min <= val <= max         (between)"
-msgstr ""
+msgstr "ºÇ¾®ÃÍ <= ÃÍ <= ºÇÂçÃÍ     (ÈÏ°ÏÆâ)"
 
 #: src/dialogs/validate.glade.h:32
-#, fuzzy
 msgid "val != bound                 (not equal to)"
-msgstr "                         "
+msgstr "ÃÍ != ¶­³¦ÃÍ                   (Åù¤·¤¯¤Ê¤¤)"
 
 #: src/dialogs/validate.glade.h:33
-#, fuzzy
 msgid "val >  bound                 (greater than)"
-msgstr "                         "
+msgstr "ÃÍ > ¶­³¦ÃÍ                        (Âç¤­¤¤)"
 
 #: src/dialogs/validate.glade.h:34
 msgid "val >=bound                 (greater than or equal to)"
-msgstr ""
+msgstr "ÃÍ >= ¶­³¦ÃÍ                      (Âç¤­¤¤¤Þ¤¿¤ÏÅù¤·¤¤)"
 
 #: src/dialogs/validate.glade.h:35
-#, fuzzy
 msgid "val <  bound                 (less than)"
-msgstr "                         "
+msgstr "ÃÍ < ¶­³¦ÃÍ                     (¾®¤µ¤¤)"
 
 #: src/dialogs/validate.glade.h:36
 msgid "val <= min || max <= val (not between)"
-msgstr ""
+msgstr "ÃÍ <= ºÇ¾®ÃÍ || ºÇÂçÃÍ <= ÃÍ  (ÈÏ°Ï³°)"
 
 #: src/dialogs/validate.glade.h:37
 msgid "val <=bound                 (less than or equal to)"
-msgstr ""
+msgstr "ÃÍ <=¶­³¦ÃÍ                    (¾®¤µ¤¤¤Þ¤¿¤ÏÅù¤·¤¤)"
 
 #: src/dialogs/validate.glade.h:38
-#, fuzzy
 msgid "val == bound                (equal to)"
-msgstr "                         "
+msgstr "ÃÍ == ¶­³¦ÃÍ                  (Åù¤·¤¤)"
 
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "Notebook"
@@ -4561,11 +4505,8 @@ msgid ""
 msgstr "¥Õ¥¡¥¤¥ë %s ¤ËÊÝÂ¸¤Ç¤­¤Þ¤»¤ó%%s"
 
 #: src/file.c:415
-#, fuzzy
 msgid "There are no file savers loaded"
-msgstr ""
-"¥Õ¥¡¥¤¥ëÊÝÂ¸¥â¥¸¥å¡¼¥ë¤¬ÆÉ¤ß¹þ¤Þ¤ì¤¤¤Ê¤¤¤¿¤á¡¢\n"
-"¥Õ¥¡¥¤¥ë¤òÊÝÂ¸¤¹¤ë¤³¤È¤¬¤Ç¤­¤Þ¤»¤ó"
+msgstr "¥Õ¥¡¥¤¥ëÊÝÂ¸¥â¥¸¥å¡¼¥ë¤¬ÆÉ¤ß¹þ¤Þ¤ì¤Æ¤¤¤Þ¤»¤ó"
 
 #: src/format.c:569
 msgid "black"
@@ -4600,12 +4541,12 @@ msgid "yellow"
 msgstr "²«"
 
 #. Is it a boolean?
-#: src/format.c:1650 src/number-match.c:971 src/value-sheet.c:33
+#: src/format.c:1650 src/number-match.c:979 src/value-sheet.c:33
 #: src/value.c:236 src/value.c:469
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/format.c:1650 src/number-match.c:973 src/value-sheet.c:33
+#: src/format.c:1650 src/number-match.c:981 src/value-sheet.c:33
 #: src/value.c:238 src/value.c:469
 msgid "FALSE"
 msgstr "FALSE"
@@ -5967,19 +5908,8 @@ msgstr ""
 "@FUNCTION=DAVERAGE\n"
 "@SYNTAX=DAVERAGE(database,field,criteria)\n"
 "@DESCRIPTION=DAVERAGE "
-"´Ø¿ô¤Ï¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ò¸¡º÷¤·¡¢»ØÄê¤µ¤ì¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤ÎÊ¿¶ÑÃ"
-"Í¤òÊÖ¤·¤Þ¤¹¡£\n"
-
-#: src/functions/fn-database.c:499
-msgid ""
-"\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
-"DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
-"DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
+"´Ø¿ô¤Ï¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ò¸¡º÷¤·¡¢»ØÄê¤µ¤ì¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤ÎÊ¿¶ÑÃÍ"
+"¤òÊÖ¤·¤Þ¤¹¡£\n"
 
 #: src/functions/fn-database.c:560
 msgid ""
@@ -5991,18 +5921,8 @@ msgstr ""
 "@FUNCTION=DCOUNT\n"
 "@SYNTAX=DCOUNT(database,field,criteria)\n"
 "@DESCRIPTION=DCOUNT "
-"´Ø¿ô¤Ï¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ò¸¡º÷¤·¡¢»ØÄê¤µ¤ì¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤ÎÃæ¤Ç¿"
-"ôÃÍ¤¬ÆþÎÏ¤µ¤ì¤Æ¤¤¤ë¥»¥ë¤Î¸Ä¿ô¤òÊÖ¤·¤Þ¤¹¡£\n"
-
-#: src/functions/fn-database.c:568
-msgid ""
-"\n"
-"DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
-"\n"
-"@SEEALSO=DAVERAGE"
-msgstr ""
+"´Ø¿ô¤Ï¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ò¸¡º÷¤·¡¢»ØÄê¤µ¤ì¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤ÎÃæ¤Ç¿ô"
+"ÃÍ¤¬ÆþÎÏ¤µ¤ì¤Æ¤¤¤ë¥»¥ë¤Î¸Ä¿ô¤òÊÖ¤·¤Þ¤¹¡£\n"
 
 #: src/functions/fn-database.c:621
 msgid ""
@@ -6014,18 +5934,8 @@ msgstr ""
 "@FUNCTION=DCOUNTA\n"
 "@SYNTAX=DCOUNTA(database,field,criteria)\n"
 "@DESCRIPTION=DCOUNTA "
-"´Ø¿ô¤Ï¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ò¸¡º÷¤·¡¢»ØÄê¤µ¤ì¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤ÎÃæ¤Ç¶"
-"õÇò¤Ç¤Ê¤¤¥»¥ë¤Î¸Ä¿ô¤òÊÖ¤·¤Þ¤¹¡£\n"
-
-#: src/functions/fn-database.c:629
-msgid ""
-"\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
-"DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
-"DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
-"\n"
-"@SEEALSO=DCOUNT"
-msgstr ""
+"´Ø¿ô¤Ï¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ò¸¡º÷¤·¡¢»ØÄê¤µ¤ì¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤ÎÃæ¤Ç¶õ"
+"Çò¤Ç¤Ê¤¤¥»¥ë¤Î¸Ä¿ô¤òÊÖ¤·¤Þ¤¹¡£\n"
 
 #: src/functions/fn-database.c:679
 msgid ""
@@ -6039,17 +5949,6 @@ msgstr ""
 "@DESCRIPTION=DGET "
 "´Ø¿ô¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤«¤é¡¢»ØÄê¤µ¤ì¤¿¾ò·ï¤òËþ¤¿¤¹ÃÍ¤ò1¤ÄÊÖ¤·¤Þ¤¹¡£\n"
 
-#: src/functions/fn-database.c:687
-msgid ""
-"\n"
-"DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
-"DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
-"\n"
-"If none of the items match the conditions, DGET returns #VALUE! error. If "
-"more than one items match the conditions, DGET returns #NUM! error. \n"
-"@SEEALSO=DCOUNT"
-msgstr ""
-
 #: src/functions/fn-database.c:747
 msgid ""
 "@FUNCTION=DMAX\n"
@@ -6060,18 +5959,8 @@ msgstr ""
 "@FUNCTION=DMAX\n"
 "@SYNTAX=DMAX(database,field,criteria)\n"
 "@DESCRIPTION=DMAX "
-"´Ø¿ô¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤«¤é¡¢»ØÄê¤µ¤ì¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤ÎºÇÂçÃÍ¤òÊÖ¤·¤Þ¤¹¡"
-"£\n"
-
-#: src/functions/fn-database.c:755
-msgid ""
+"´Ø¿ô¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤«¤é¡¢»ØÄê¤µ¤ì¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤ÎºÇÂçÃÍ¤òÊÖ¤·¤Þ¤¹¡£"
 "\n"
-"DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
-"DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
-"DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
-"\n"
-"@SEEALSO=DMIN"
-msgstr ""
 
 #: src/functions/fn-database.c:818
 msgid ""
@@ -6083,17 +5972,8 @@ msgstr ""
 "@FUNCTION=DMIN\n"
 "@SYNTAX=DMIN(database,field,criteria)\n"
 "@DESCRIPTION=DMIN "
-"´Ø¿ô¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤«¤é¡¢»ØÄê¤µ¤ì¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤ÎºÇ¾®ÃÍ¤òÊÖ¤·¤Þ¤¹¡"
-"£\n"
-
-#: src/functions/fn-database.c:826
-msgid ""
+"´Ø¿ô¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤«¤é¡¢»ØÄê¤µ¤ì¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤ÎºÇ¾®ÃÍ¤òÊÖ¤·¤Þ¤¹¡£"
 "\n"
-"DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
-"DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
-"\n"
-"@SEEALSO=DMAX"
-msgstr ""
 
 #: src/functions/fn-database.c:888
 msgid ""
@@ -6107,14 +5987,6 @@ msgstr ""
 "@DESCRIPTION=DPRODUCT "
 "´Ø¿ô¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤«¤é¡¢»ØÄê¤µ¤ì¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤ÎÀÑ¤òÊÖ¤·¤Þ¤¹¡£\n"
 
-#: src/functions/fn-database.c:896
-msgid ""
-"\n"
-"DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
-"\n"
-"@SEEALSO=DSUM"
-msgstr ""
-
 #: src/functions/fn-database.c:955
 msgid ""
 "@FUNCTION=DSTDEV\n"
@@ -6126,17 +5998,8 @@ msgstr ""
 "@FUNCTION=DSTDEV\n"
 "@SYNTAX=DSTDEV(database,field,criteria)\n"
 "@DESCRIPTION=DSTDEV "
-"´Ø¿ô¤Ï¡¢¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤ò¸¡º÷¤·¡¢»ØÄê¤·¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤òÉ"
-"¸ËÜ¤È¸«¤Ê¤·¤Æ¡¢Êì½¸ÃÄ¤ÎÉ¸½àÊÐº¹¤òÊÖ¤·¤Þ¤¹¡£\n"
-
-#: src/functions/fn-database.c:964
-msgid ""
-"\n"
-"DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
-"DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
-"\n"
-"@SEEALSO=DSTDEVP"
-msgstr ""
+"´Ø¿ô¤Ï¡¢¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤ò¸¡º÷¤·¡¢»ØÄê¤·¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤òÉ¸"
+"ËÜ¤È¸«¤Ê¤·¤Æ¡¢Êì½¸ÃÄ¤ÎÉ¸½àÊÐº¹¤òÊÖ¤·¤Þ¤¹¡£\n"
 
 #: src/functions/fn-database.c:1021
 msgid ""
@@ -6149,17 +6012,8 @@ msgstr ""
 "@FUNCTION=DSTDEVP\n"
 "@SYNTAX=DSTDEVP(database,field,criteria)\n"
 "@DESCRIPTION=DSTDEVP "
-"´Ø¿ô¤Ï¡¢¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤ò¸¡º÷¤·¡¢»ØÄê¤·¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤òÊ"
-"ì½¸ÃÄÁ´ÂÎ¤È¸«¤Ê¤·¤Æ¡¢Êì½¸ÃÄ¤ÎÉ¸½àÊÐº¹¤òÊÖ¤·¤Þ¤¹¡£\n"
-
-#: src/functions/fn-database.c:1030
-msgid ""
-"\n"
-"DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
-"DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
-"\n"
-"@SEEALSO=DSTDEV"
-msgstr ""
+"´Ø¿ô¤Ï¡¢¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤ò¸¡º÷¤·¡¢»ØÄê¤·¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤òÊì"
+"½¸ÃÄÁ´ÂÎ¤È¸«¤Ê¤·¤Æ¡¢Êì½¸ÃÄ¤ÎÉ¸½àÊÐº¹¤òÊÖ¤·¤Þ¤¹¡£\n"
 
 #: src/functions/fn-database.c:1089
 msgid ""
@@ -6171,17 +6025,8 @@ msgstr ""
 "@FUNCTION=DSUM\n"
 "@SYNTAX=DSUM(database,field,criteria)\n"
 "@DESCRIPTION=DSUM "
-"´Ø¿ô¤Ï¡¢¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤ò¸¡º÷¤·¡¢»ØÄê¤·¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤Î¹"
-"ç·×¤òÊÖ¤·¤Þ¤¹¡£\n"
-
-#: src/functions/fn-database.c:1097
-msgid ""
-"\n"
-"DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
-"DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
-"\n"
-"@SEEALSO=DPRODUCT"
-msgstr ""
+"´Ø¿ô¤Ï¡¢¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤ò¸¡º÷¤·¡¢»ØÄê¤·¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤Î¹ç"
+"·×¤òÊÖ¤·¤Þ¤¹¡£\n"
 
 #: src/functions/fn-database.c:1156
 msgid ""
@@ -6194,17 +6039,8 @@ msgstr ""
 "@FUNCTION=DVAR\n"
 "@SYNTAX=DVAR(database,field,criteria)\n"
 "@DESCRIPTION=DVAR "
-"´Ø¿ô¤Ï¡¢¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤ò¸¡º÷¤·¡¢»ØÄê¤·¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤òÉ"
-"¸ËÜ¤È¸«¤Ê¤·¤Æ¡¢Êì½¸ÃÄ¤ÎÊ¬»¶¤òÊÖ¤·¤Þ¤¹¡£\n"
-
-#: src/functions/fn-database.c:1165
-msgid ""
-"\n"
-"DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
-"DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
-"\n"
-"@SEEALSO=DVARP"
-msgstr ""
+"´Ø¿ô¤Ï¡¢¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤ò¸¡º÷¤·¡¢»ØÄê¤·¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤òÉ¸"
+"ËÜ¤È¸«¤Ê¤·¤Æ¡¢Êì½¸ÃÄ¤ÎÊ¬»¶¤òÊÖ¤·¤Þ¤¹¡£\n"
 
 #: src/functions/fn-database.c:1224
 msgid ""
@@ -6217,17 +6053,8 @@ msgstr ""
 "@FUNCTION=DVARP\n"
 "@SYNTAX=DVARP(database,field,criteria)\n"
 "@DESCRIPTION=DVARP "
-"´Ø¿ô¤Ï¡¢¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤ò¸¡º÷¤·¡¢»ØÄê¤·¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤òÊ"
-"ì½¸ÃÄÁ´ÂÎ¤È¸«¤Ê¤·¤Æ¡¢Êì½¸ÃÄ¤ÎÊ¬»¶¤òÊÖ¤·¤Þ¤¹¡£\n"
-
-#: src/functions/fn-database.c:1233
-msgid ""
-"\n"
-"DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
-"DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
-"\n"
-"@SEEALSO=DVAR"
-msgstr ""
+"´Ø¿ô¤Ï¡¢¥ê¥¹¥È¤Þ¤¿¤Ï¥Ç¡¼¥¿¥Ù¡¼¥¹¤ÎÎó¤ò¸¡º÷¤·¡¢»ØÄê¤·¤¿¾ò·ï¤òËþ¤¿¤¹¥ì¥³¡¼¥É¤òÊì"
+"½¸ÃÄÁ´ÂÎ¤È¸«¤Ê¤·¤Æ¡¢Êì½¸ÃÄ¤ÎÊ¬»¶¤òÊÖ¤·¤Þ¤¹¡£\n"
 
 #: src/functions/fn-database.c:1293
 msgid ""
@@ -6262,10 +6089,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (Ç¯,·î,Æü)\n"
-"@DESCRIPTION=Í¿¤¨¤é¤ì¤¿Ç¯·îÆü¤Î¤ò¡¢1900Ç¯1·î1Æü¤«¤é¤ÎÆü¿ô¤ò·×»»¤·¤Þ¤¹¡£(¤½¤ÎÆ"
-"ü¤Î¥·¥ê¥¢¥ëÈÖ¹æ)\n"
-"Æü¤Ï(¸å¤í¸þ¤­¤Ë¿ô¤¨¤ë¤¿¤á¤Ë)Éé¿ô¤«¤â¤·¤ì¤º¡¢¤³¤Î¾ì¹ç¤ÏÁ°¤Î·î¤ËÂÐ±þ¤·¤Þ¤¹¡£Ç¯¤"
-"Ï¾¯¤Ê¤¯¤È¤â1900¤Ç¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£\n"
+"@DESCRIPTION=Í¿¤¨¤é¤ì¤¿Ç¯·îÆü¤Î¤ò¡¢1900Ç¯1·î1Æü¤«¤é¤ÎÆü¿ô¤ò·×»»¤·¤Þ¤¹¡£(¤½¤ÎÆü"
+"¤Î¥·¥ê¥¢¥ëÈÖ¹æ)\n"
+"Æü¤Ï(¸å¤í¸þ¤­¤Ë¿ô¤¨¤ë¤¿¤á¤Ë)Éé¿ô¤«¤â¤·¤ì¤º¡¢¤³¤Î¾ì¹ç¤ÏÁ°¤Î·î¤ËÂÐ±þ¤·¤Þ¤¹¡£Ç¯¤Ï"
+"¾¯¤Ê¤¯¤È¤â1900¤Ç¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TODAY, NOW"
@@ -6292,8 +6119,8 @@ msgstr ""
 "@FUNCTION=DATEVALUE\n"
 "@SYNTAX=DATEVALUE(ÆüÉÕÊ¸»úÎó)\n"
 "@DESCRIPTION=DATEVALUE "
-"¤Ï@ÆüÉÕÊ¸»úÎó¤Ç»ØÄê¤µ¤ì¤¿ÆüÉÕ¤Î¥·¥ê¥¢¥ëÃÍ¤òÊÖ¤·¤Þ¤¹¡£@ÆüÉÕÊ¸»úÎó¤ÏÆüÉÕ¤òÉ½¤¹Ê"
-"¸»úÎó¤Ç¤¹¡£Îã¤¨¤Ð¡¢DATEVALUE(\"1/1/1999\")¤Ï 36160¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
+"¤Ï@ÆüÉÕÊ¸»úÎó¤Ç»ØÄê¤µ¤ì¤¿ÆüÉÕ¤Î¥·¥ê¥¢¥ëÃÍ¤òÊÖ¤·¤Þ¤¹¡£@ÆüÉÕÊ¸»úÎó¤ÏÆüÉÕ¤òÉ½¤¹Ê¸"
+"»úÎó¤Ç¤¹¡£Îã¤¨¤Ð¡¢DATEVALUE(\"1/1/1999\")¤Ï 36160¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DATE"
@@ -6321,8 +6148,8 @@ msgstr ""
 "@FUNCTION=DATEDIF\n"
 "@SYNTAX=DATEDIF(³«»ÏÆü,½ªÎ»Æü,Ã±°Ì)\n"
 "@DESCRIPTION=DATEDIF "
-"¤Ï»ØÄê¤µ¤ì¤¿2¤Ä¤ÎÆüÉÕ¤Îº¹¤òÊÖ¤·¤Þ¤¹¡£@Ã±°Ì¤Ë¤Ï¼¡¤Î¤â¤Î¤ò»ØÄê¤¹¤ë¤³¤È¤¬¤Ç¤­¤Þ¤"
-"¹:  \"y\", \"m\", \"d\", \"ym\", \"md\", \"yd\"\n"
+"¤Ï»ØÄê¤µ¤ì¤¿2¤Ä¤ÎÆüÉÕ¤Îº¹¤òÊÖ¤·¤Þ¤¹¡£@Ã±°Ì¤Ë¤Ï¼¡¤Î¤â¤Î¤ò»ØÄê¤¹¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹"
+":  \"y\", \"m\", \"d\", \"ym\", \"md\", \"yd\"\n"
 "ºÇ½é¤Î3¤Ä¤Î¥ª¥×¥·¥ç¥ó¤Ï¡¢¤½¤ì¤¾¤ìÇ¯¿ô¡¢·î¿ô¡¢Æü¿ô¤òÊÖ¤·¤Þ¤¹¡£\n"
 "\"ym\" ¤Ï2¤Ä¤ÎÆüÉÕ¤Îº¹¤ÎËþ·î¿ô¤òÊÖ¤·¤Þ¤¹¡£Ç¯¤Îº¹¤Ï¹ÍÎ¸¤·¤Þ¤»¤ó¡£\n"
 "\"md\" ¤Ï2¤Ä¤ÎÆüÉÕ¤Îº¹¤ÎËþÆü¿ô¤òÊÖ¤·¤Þ¤¹¡£·î¤Îº¹¤Ï¹ÍÎ¸¤·¤Þ¤»¤ó¡£\n"
@@ -6350,8 +6177,8 @@ msgstr ""
 "@DESCRIPTION=EDATE "
 "¤Ï@³«»ÏÆü¤«¤é¿ô¤¨¤Æ¡¢@·î¿ô¤À¤±Á°¤Þ¤¿¤Ï¸å¤ÎÆüÉÕ¤Î¥·¥ê¥¢¥ëÃÍ¤òÊÖ¤·¤Þ¤¹¡£@³«»ÏÆü"
 "¤Ïµ¯ÅÀ¤ÎÆüÉÕ¤Î¥·¥ê¥¢¥ëÃÍ¤Ç¤¹¡£@·î¤Ï@³«»ÏÆü¤òµ¯ÅÀ¤È¤·¤¿·î¿ô¤Ç¡¢Éé¤Î¿ô¤Ï@³«»ÏÆü"
-"¤è¤êÁ°¡¢Àµ¤Î¿ô¤Ï@³«»ÏÆü¤è¤ê¸å¤ò°ÕÌ£¤·¤Þ¤¹¡£@·î¤ËÀ°¿ô°Ê³°¤ÎÃÍ¤¬»ØÄê¤µ¤ì¤ë¤È¡¢À"
-"Ú¤ê¼Î¤Æ¤é¤ì¤Þ¤¹¡£\n"
+"¤è¤êÁ°¡¢Àµ¤Î¿ô¤Ï@³«»ÏÆü¤è¤ê¸å¤ò°ÕÌ£¤·¤Þ¤¹¡£@·î¤ËÀ°¿ô°Ê³°¤ÎÃÍ¤¬»ØÄê¤µ¤ì¤ë¤È¡¢ÀÚ"
+"¤ê¼Î¤Æ¤é¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DATE"
@@ -6393,8 +6220,8 @@ msgstr ""
 "@SYNTAX=NOW ()\n"
 "@DESCRIPTION=É¾²Á¤µ¤ì¤¿»þ´Ö¤Ë¤ª¤±¤ëÆüÉÕ¤È»þ´Ö¤Î¥·¥ê¥¢¥ëÃÍ¤òÊÖ¤·¤Þ¤¹¡£\n"
 "Gnumeric¤Ë¤ª¤±¤ë¥·¥ê¥¢¥ëÃÍ¤Ï¼¡¤Î¤è¤¦¤ËÉ½¸½¤µ¤ì¤Þ¤¹: "
-"À°¿ôÉô¤Ï1900Ç¯1·î1Æü¤«¤é¤ÎÆü¿ô¤Ç¤¹¡£¾®¿ôÉô¤Ï¤½¤ÎÆü¤ÎÉôÊ¬¤òÉ½¸½¤·¤Æ¤ª¤ê¡¢»þ´Ö¡"
-"¢Ê¬¡¢ÉÃ¤Ë¥Þ¥Ã¥×¤µ¤ì¤Æ¤¤¤Þ¤¹¡£\n"
+"À°¿ôÉô¤Ï1900Ç¯1·î1Æü¤«¤é¤ÎÆü¿ô¤Ç¤¹¡£¾®¿ôÉô¤Ï¤½¤ÎÆü¤ÎÉôÊ¬¤òÉ½¸½¤·¤Æ¤ª¤ê¡¢»þ´Ö¡¢"
+"Ê¬¡¢ÉÃ¤Ë¥Þ¥Ã¥×¤µ¤ì¤Æ¤¤¤Þ¤¹¡£\n"
 "Îã: .0 ¤Ï 12:00 AM ¤òÉ½¸½¤·¡¢0.5 ¤Ï 12:00 PM ¤òÉ½¸½¤·¤Þ¤¹¡£\n"
 "\n"
 "@EXAMPLES=\n"
@@ -6452,8 +6279,8 @@ msgstr ""
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤ÇÉ½¤µ¤ì¤ëÆüÉÕ¤ÎÇ¯¤òÊÖ¤·¤Þ¤¹¡£¤³¤Î»þ´Ö¤Ï 0 (12:00 "
 "A.M.)¤«¤é 23 (11:00 P.M.)¤ÎÈÏ°Ï¤ÎÀ°¿ô¤Ç¤¹¡£\n"
 "Ãí°Õ¡¢Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤¹"
+"¡£\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6476,8 +6303,8 @@ msgstr ""
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤ÇÉ½¤µ¤ì¤ëÆüÉÕ¤ÎÊ¬¤òÊÖ¤·¤Þ¤¹¡£¤³¤ÎÊ¬¤Ï 0 ¤«¤é 59 "
 "¤ÎÈÏ°Ï¤ÎÀ°¿ô¤È¤·¤ÆÊÖ¤µ¤ì¤Þ¤¹\n"
 "Ãí°Õ¡¢Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤¹"
+"¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MINUTE, NOW, TIME, SECOND"
@@ -6499,8 +6326,8 @@ msgstr ""
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤ÇÉ½¤µ¤ì¤ëÆüÉÕ¤ÎÉÃ¤òÊÖ¤·¤Þ¤¹¡£ÉÃ¤Ï 0 ¤«¤é 59 "
 "¤ÎÈÏ°Ï¤ÎÀ°¿ô¤È¤·¤ÆÊÖ¤µ¤ì¤Þ¤¹\n"
 "Ãí°Õ¡¢Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤¹"
+"¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=HOUR, MINUTE, NOW, TIME"
@@ -6520,8 +6347,8 @@ msgstr ""
 "@SYNTAX=YEAR (¥·¥ê¥¢¥ëÃÍ)\n"
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤ÇÉ½¤µ¤ì¤ëÆüÉÕ¤ÎÇ¯¤òÊÖ¤·¤Þ¤¹¡£\n"
 "Ãí°Õ¡¢Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤¹"
+"¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW"
@@ -6541,14 +6368,13 @@ msgstr ""
 "@SYNTAX=MONTH (¥·¥ê¥¢¥ëÃÍ)\n"
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤ÇÉ½¤µ¤ì¤ëÆüÉÕ¤Î·î¤òÊÖ¤·¤Þ¤¹¡£\n"
 "Ãí°Õ¡¢Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤¹"
+"¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:570
-#, fuzzy
 msgid ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (serial_number)\n"
@@ -6563,15 +6389,15 @@ msgstr ""
 "@FUNCTION=DAY\n"
 "@SYNTAX=DAY (¥·¥ê¥¢¥ëÃÍ)\n"
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤ÇÉ½¤µ¤ì¤ëÆüÉÕ¤ÎÆü¤òÊÖ¤·¤Þ¤¹¡£\n"
-"Ãí°Õ¡¢Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤"
-"¹¡£\n"
+"Ãí°Õ: Gnumeric "
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤¹"
+"¡£\n"
 "@EXAMPLES=\n"
+"DAY(\"10/24/1968\")¤Ï24¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
 "\n"
-"@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
+"@SEEALSO=MONTH, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:606
-#, fuzzy
 msgid ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (serial_number)\n"
@@ -6590,12 +6416,16 @@ msgstr ""
 "@FUNCTION=WEEKDAY\n"
 "@SYNTAX=WEEKDAY (¥·¥ê¥¢¥ëÃÍ)\n"
 "@DESCRIPTION=¥·¥ê¥¢¥ëÃÍ¤«¤éÍËÆü¤ËÊÑ´¹¤·¤Þ¤¹¡£\n"
-"Ãí°Õ: Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤"
-"¹¡£\n"
-"@EXAMPLES=\n"
 "\n"
-"@SEEALSO=MONTH, TIME, NOW, YEAR"
+"¤³¤Î´Ø¿ô¤Ï0-6¤Î¿ô»ú¤òÊÖ¤·¤Þ¤¹¡£ÅÚÍËÆü¤¬0¤ÇÆüÍËÆü¤¬1¤Ç¤¹¡£\n"
+"\n"
+"Ãí°Õ: Gnumeric "
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤¹"
+"¡£\n"
+"@EXAMPLES=\n"
+"WEEKDAY(\"10/24/1968\")¤Ï5(ÌÚÍËÆü)¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
+"\n"
+"@SEEALSO=DAY, MONTH, TIME, NOW, YEAR"
 
 #: src/functions/fn-date.c:645
 msgid ""
@@ -6618,14 +6448,14 @@ msgstr ""
 "@DESCRIPTION=1Ç¯¤ò360Æü(30Æü x "
 "12¥ö·î)¤È¤·¤Æ¡¢@ÆüÉÕ1¤È@ÆüÉÕ2¤Î´Ö¤ÎÆü¿ô¤òÊÖ¤·¤Þ¤¹¡£@Êý¼°¤¬ TRUE "
 "¤Î¾ì¹ç¡¢¥è¡¼¥í¥Ã¥ÑÊý¼°¤ò»È¤¤¤Þ¤¹¡£\n"
-"¤³¤ÎÊý¼°¤Ç¤Ï¡¢ÆüÉÕ¤Ë»ØÄê¤µ¤ì¤¿Æü¤¬¤¢¤ë·î¤Î31Æü¤Ë¤¢¤¿¤ë¾ì¹ç¡¢¤½¤Î·î¤Î30ÆüÆü¤È¤"
-"·¤Æ·×»»¤·¤Þ¤¹¡£\n"
+"¤³¤ÎÊý¼°¤Ç¤Ï¡¢ÆüÉÕ¤Ë»ØÄê¤µ¤ì¤¿Æü¤¬¤¢¤ë·î¤Î31Æü¤Ë¤¢¤¿¤ë¾ì¹ç¡¢¤½¤Î·î¤Î30ÆüÆü¤È¤·"
+"¤Æ·×»»¤·¤Þ¤¹¡£\n"
 "@Êý¼°¤¬ FALSE "
-"¤¢¤ë¤¤¤Ï¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¤Ë¤Ï¡¢ÊÆ¹ñÊý¼°¤ò»È¤¤¤Þ¤¹¡£¤³¤ÎÊý¼°¤Ï¡¢¾¯¡¹Ê£»¨¤Ê»º¶ÈÉ¸½"
-"àÊý¼°¤Ç¤¹¡£\n"
+"¤¢¤ë¤¤¤Ï¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¤Ë¤Ï¡¢ÊÆ¹ñÊý¼°¤ò»È¤¤¤Þ¤¹¡£¤³¤ÎÊý¼°¤Ï¡¢¾¯¡¹Ê£»¨¤Ê»º¶ÈÉ¸½à"
+"Êý¼°¤Ç¤¹¡£\n"
 "Ãí°Õ: Gnumeric "
-"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤"
-"¹¡£\n"
+"¤ÏÄÌ¾ï¤ÎÊ¸»úÎó¤«¤é¥·¥ê¥¢¥ëÃÍ¤Ø¤ÎÊÑ´¹¤ò¹Ô¤¦¤Î¤Ç¡¢ÆüÉÕ¤ÏÊ¸»úÎó¤È¤·¤ÆÆþÎÏ¤Ç¤­¤Þ¤¹"
+"¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=MONTH, TIME, NOW, YEAR"
@@ -6654,6 +6484,8 @@ msgstr ""
 "¤¹¡£\n"
 "@³«»ÏÆü¤¢¤ë¤¤¤Ï@·î¤ËÌµ¸ú¤ÊÃÍ¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
+"A1¤¬12/21/00¤ò´Þ¤à¤È¤­¤ËEOMONTH(A1,0)=12/31/00, EOMONTH(A1,5)=5/31/01,"
+"EOMONTH(A1,2)=2/28/01¤Ë¤Ê¤ê¤Þ¤¹\n"
 "\n"
 "@SEEALSO=MONTH"
 
@@ -6672,8 +6504,8 @@ msgstr ""
 "@FUNCTION=WORKDAY\n"
 "@SYNTAX=WORKDAY (³«»ÏÆü,Æü¿ô,º×Æü)\n"
 "@DESCRIPTION=WORKDAY "
-"´Ø¿ô¤Ï@³«»ÏÆü¤«¤éµ¯»»¤·¤Æ@Æü¿ô¸å¤ÎÆüÉÕ¤Î¥·¥ê¥¢¥ëÃÍ¤òÊÖ¤·¤Þ¤¹¡£²ÔÆ¯Æü¿ô¤Î·×»»¤"
-"«¤é½ü³°¤¹¤ë½ËÆü¤Ê¤É¤Ï@º×Æü¤Ë»ØÄê¤·¤Þ¤¹¡£\n"
+"´Ø¿ô¤Ï@³«»ÏÆü¤«¤éµ¯»»¤·¤Æ@Æü¿ô¸å¤ÎÆüÉÕ¤Î¥·¥ê¥¢¥ëÃÍ¤òÊÖ¤·¤Þ¤¹¡£²ÔÆ¯Æü¿ô¤Î·×»»¤«"
+"¤é½ü³°¤¹¤ë½ËÆü¤Ê¤É¤Ï@º×Æü¤Ë»ØÄê¤·¤Þ¤¹¡£\n"
 "@³«»ÏÆü¤¢¤ë¤¤¤Ï@Æü¿ô¤ËÌµ¸ú¤ÊÃÍ¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6704,8 +6536,8 @@ msgstr ""
 "@FUNCTION=NETWORKDAYS\n"
 "@SYNTAX=NETWORKDAYS (³«»ÏÆü,½ªÎ»Æü,º×Æü)\n"
 "@DESCRIPTION=NETWORKDAYS "
-"´Ø¿ô¤Ï@³«»ÏÆü¤È@½ªÎ»Æü¤Î´Ö¤Ë´Þ¤Þ¤ì¤ëÅÚÍËÆü¡¢ÆüÍËÆü¡¢½Ëº×Æü¤ò½ü¤¤¤¿Æü¤ÎÆü¿ô¤òÊ"
-"Ö¤·¤Þ¤¹¡£½Ëº×Æü¤ä²Æ´üµÙ²Ë¤Ê¤É¤Ï@º×Æü¤Ë»ØÄê¤·¤Þ¤¹¡£\n"
+"´Ø¿ô¤Ï@³«»ÏÆü¤È@½ªÎ»Æü¤Î´Ö¤Ë´Þ¤Þ¤ì¤ëÅÚÍËÆü¡¢ÆüÍËÆü¡¢½Ëº×Æü¤ò½ü¤¤¤¿Æü¤ÎÆü¿ô¤òÊÖ"
+"¤·¤Þ¤¹¡£½Ëº×Æü¤ä²Æ´üµÙ²Ë¤Ê¤É¤Ï@º×Æü¤Ë»ØÄê¤·¤Þ¤¹¡£\n"
 "@³«»ÏÆü¤¢¤ë¤¤¤Ï@½ªÎ»Æü¤ËÌµ¸ú¤ÊÃÍ¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
@@ -6747,8 +6579,8 @@ msgstr ""
 "@FUNCTION=BIN2DEC\n"
 "@SYNTAX=BIN2DEC(x)\n"
 "@DESCRIPTION=BIN2DEC "
-"´Ø¿ô¤Ï2¿Ê¿ô¤òÂÐ±þ¤¹¤ëÊ¸»úÎó¤¢¤ë¤¤¤Ï10¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤ÏExcel¸ß´¹¤Ç¤"
-"¹¡£\n"
+"´Ø¿ô¤Ï2¿Ê¿ô¤òÂÐ±þ¤¹¤ëÊ¸»úÎó¤¢¤ë¤¤¤Ï10¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤ÏExcel¸ß´¹¤Ç¤¹"
+"¡£\n"
 "@EXAMPLES=\n"
 "BIN2DEC(101) = 5\n"
 "\n"
@@ -6797,8 +6629,8 @@ msgstr ""
 "@FUNCTION=BIN2HEX\n"
 "@SYNTAX=BIN2HEX(¿ôÃÍ[,·å¿ô])\n"
 "@DESCRIPTION=BIN2HEX "
-"¤³¤Î´Ø¿ô¤Ï2¿Ê¿ô¤òÊ¸»úÎó¤¢¤ë¤¤¤ÏÂÐ±þ¤¹¤ë16¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£@·å¿ô¤Ï¥ª¥×¥·¥ç¥ó¤"
-"Î¥Õ¥£¡¼¥ë¥É¤Ç¡¢·å¿ô¤ò»ØÄê¤¹¤ë¤È·å¿ô¤Ë¤¢¤ï¤»¤Æ¥¼¥í¤òËä¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£\n"
+"¤³¤Î´Ø¿ô¤Ï2¿Ê¿ô¤òÊ¸»úÎó¤¢¤ë¤¤¤ÏÂÐ±þ¤¹¤ë16¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£@·å¿ô¤Ï¥ª¥×¥·¥ç¥ó¤Î"
+"¥Õ¥£¡¼¥ë¥É¤Ç¡¢·å¿ô¤ò»ØÄê¤¹¤ë¤È·å¿ô¤Ë¤¢¤ï¤»¤Æ¥¼¥í¤òËä¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£\n"
 "@·å¿ô¤¬¾®¤µ¤¹¤®¤¿¤êÉé¿ô¤Ç¤¢¤ë¤È #NUM! "
 "¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤ÏExcel¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
@@ -6823,8 +6655,8 @@ msgstr ""
 "@FUNCTION=DEC2BIN\n"
 "@SYNTAX=DEC2BIN(¿ôÃÍ[,·å¿ô])\n"
 "@DESCRIPTION=DEC2BIN "
-"´Ø¿ô¤Ï10¿Ê¿ô¤ò2¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£@·å¿ô¤Ï¥ª¥×¥·¥ç¥ó¤Î¥Õ¥£¡¼¥ë¥É¤Ç¡¢·å¿ô¤ò»ØÄê¤"
-"¹¤ë¤È·å¿ô¤Ë¤¢¤ï¤»¤ÆÀèÆ¬¤Ë¥¼¥í¤òËä¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£\n"
+"´Ø¿ô¤Ï10¿Ê¿ô¤ò2¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£@·å¿ô¤Ï¥ª¥×¥·¥ç¥ó¤Î¥Õ¥£¡¼¥ë¥É¤Ç¡¢·å¿ô¤ò»ØÄê¤¹"
+"¤ë¤È·å¿ô¤Ë¤¢¤ï¤»¤ÆÀèÆ¬¤Ë¥¼¥í¤òËä¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£\n"
 "@·å¿ô¤¬¾®¤µ¤¹¤®¤¿¤êÉé¤Ç¤¢¤ë¤È #NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
 "¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
@@ -6849,8 +6681,8 @@ msgstr ""
 "@FUNCTION=DEC2OCT\n"
 "@SYNTAX=DEC2OCT(¿ôÃÍ[,·å¿ô])\n"
 "@DESCRIPTION=DEC2OCT "
-"´Ø¿ô¤Ï10¿Ê¿ô¤«¤é8¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£@·å¿ô¤Ï¥ª¥×¥·¥ç¥ó¤Î¥Õ¥£¡¼¥ë¥É¤Ç¡¢·å¿ô¤ò»ØÄ"
-"ê¤¹¤ë¤È·å¿ô¤Ë¤¢¤ï¤»¤ÆÀèÆ¬¤Ë¥¼¥í¤òËä¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£\n"
+"´Ø¿ô¤Ï10¿Ê¿ô¤«¤é8¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£@·å¿ô¤Ï¥ª¥×¥·¥ç¥ó¤Î¥Õ¥£¡¼¥ë¥É¤Ç¡¢·å¿ô¤ò»ØÄê"
+"¤¹¤ë¤È·å¿ô¤Ë¤¢¤ï¤»¤ÆÀèÆ¬¤Ë¥¼¥í¤òËä¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£\n"
 "@·å¿ô¤¬¾®¤µ¤¹¤®¤¿¤êÉé¤Ç¤¢¤ë¤È #NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
 "¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
@@ -6946,8 +6778,8 @@ msgstr ""
 "@FUNCTION=OCT2HEX\n"
 "@SYNTAX=OCT2HEX(¿ôÃÍ[,·å¿ô])\n"
 "@DESCRIPTION=OCT2HEX "
-"´Ø¿ô¤Ï8¿Ê¿ô¤ò16¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£@·å¿ô¤Ï¥ª¥×¥·¥ç¥ó¤Î¥Õ¥£¡¼¥ë¥É¤Ç¡¢·å¿ô¤ò»ØÄê¤"
-"¹¤ë¤È·å¿ô¤Ë¤¢¤ï¤»¤ÆÀèÆ¬¤Ë¥¼¥í¤òËä¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
+"´Ø¿ô¤Ï8¿Ê¿ô¤ò16¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£@·å¿ô¤Ï¥ª¥×¥·¥ç¥ó¤Î¥Õ¥£¡¼¥ë¥É¤Ç¡¢·å¿ô¤ò»ØÄê¤¹"
+"¤ë¤È·å¿ô¤Ë¤¢¤ï¤»¤ÆÀèÆ¬¤Ë¥¼¥í¤òËä¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
 "¸ß´¹¤Ç¤¹¡£\n"
 "@·å¿ô¤¬¾®¤µ¤¹¤®¤¿¤êÉé¤Î¾ì¹ç¤À¤È #NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
@@ -6972,8 +6804,8 @@ msgstr ""
 "@FUNCTION=HEX2BIN\n"
 "@SYNTAX=HEX2BIN(¿ôÃÍ[,·å¿ô])\n"
 "@DESCRIPTION=HEX2BIN "
-"´Ø¿ô¤Ï16¿Ê¿ô¤ò2¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£@·å¿ô¤Ï¥ª¥×¥·¥ç¥ó¤Î¥Õ¥£¡¼¥ë¥É¤Ç¡¢·å¿ô¤ò»ØÄê¤"
-"¹¤ë¤È·å¿ô¤Ë¤¢¤ï¤»¤ÆÀèÆ¬¤Ë¥¼¥í¤òËä¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
+"´Ø¿ô¤Ï16¿Ê¿ô¤ò2¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£@·å¿ô¤Ï¥ª¥×¥·¥ç¥ó¤Î¥Õ¥£¡¼¥ë¥É¤Ç¡¢·å¿ô¤ò»ØÄê¤¹"
+"¤ë¤È·å¿ô¤Ë¤¢¤ï¤»¤ÆÀèÆ¬¤Ë¥¼¥í¤òËä¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
 "¸ß´¹¤Ç¤¹¡£\n"
 "@·å¿ô¤¬¾®¤µ¤¹¤®¤¿¤êÉé¤Î¾ì¹ç¤À¤È #NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
@@ -6998,8 +6830,8 @@ msgstr ""
 "@FUNCTION=HEX2OCT\n"
 "@SYNTAX=HEX2OCT(¿ôÃÍ[,·å¿ô])\n"
 "@DESCRIPTION=HEX2OCT "
-"´Ø¿ô¤Ï16¿Ê¿ô¤ò8¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£@·å¿ô¤Ï¥ª¥×¥·¥ç¥ó¤Î¥Õ¥£¡¼¥ë¥É¤Ç¡¢·å¿ô¤ò»ØÄê¤"
-"¹¤ë¤È·å¿ô¤Ë¤¢¤ï¤»¤ÆÀèÆ¬¤Ë¥¼¥í¤òËä¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
+"´Ø¿ô¤Ï16¿Ê¿ô¤ò8¿Ê¿ô¤ËÊÑ´¹¤·¤Þ¤¹¡£@·å¿ô¤Ï¥ª¥×¥·¥ç¥ó¤Î¥Õ¥£¡¼¥ë¥É¤Ç¡¢·å¿ô¤ò»ØÄê¤¹"
+"¤ë¤È·å¿ô¤Ë¤¢¤ï¤»¤ÆÀèÆ¬¤Ë¥¼¥í¤òËä¤á¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
 "¸ß´¹¤Ç¤¹¡£\n"
 "@·å¿ô¤¬¾®¤µ¤¹¤®¤¿¤êÉé¤Î¾ì¹ç¤À¤È #NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
@@ -7155,9 +6987,9 @@ msgstr ""
 "@FUNCTION=COMPLEX\n"
 "@SYNTAX=COMPLEX(¼Â¿ô,µõ¿ô[,µõ¿ôÃ±°Ì])\n"
 "@DESCRIPTION=COMPLEX ¤Ï 'x + yi' "
-"¤Î·Á¼°¤ÎÊ£ÁÇ¿ô¤òÊÖ¤·¤Þ¤¹¡£@¼Â¿ô¤Ë¤ÏÊ£ÁÇ¿ô¤Î¼Â¿ô·¸¿ô¤ò¡¢@µõ¿ô¤Ë¤Ïµõ¿ô·¸¿ô¤ò»ØÄ"
-"ê¤·¤Þ¤¹¡£@µõ¿ôÃ±°Ì¤Ë¤Ïµõ¿ô¤ÎÃ±°Ì¤È¤·¤Æ»È¤¦Ê¸»ú¤ò»ØÄê¤·¤Þ¤¹¡£¾ÊÎ¬¤·¤¿¾ì¹ç¤Ë¤Ï'"
-"i' ¤ò¥Ç¥Õ¥©¥ë¥È¤È¤·¤Æ»ÈÍÑ¤·¤Þ¤¹¡£\n"
+"¤Î·Á¼°¤ÎÊ£ÁÇ¿ô¤òÊÖ¤·¤Þ¤¹¡£@¼Â¿ô¤Ë¤ÏÊ£ÁÇ¿ô¤Î¼Â¿ô·¸¿ô¤ò¡¢@µõ¿ô¤Ë¤Ïµõ¿ô·¸¿ô¤ò»ØÄê"
+"¤·¤Þ¤¹¡£@µõ¿ôÃ±°Ì¤Ë¤Ïµõ¿ô¤ÎÃ±°Ì¤È¤·¤Æ»È¤¦Ê¸»ú¤ò»ØÄê¤·¤Þ¤¹¡£¾ÊÎ¬¤·¤¿¾ì¹ç¤Ë¤Ï'i"
+"' ¤ò¥Ç¥Õ¥©¥ë¥È¤È¤·¤Æ»ÈÍÑ¤·¤Þ¤¹¡£\n"
 "@µõ¿ôÃ±°Ì¤¬ 'i' ¤Ç¤â 'j' ¤Ç¤â¤Ê¤¤¾ì¹ç¡¢#VALUE! "
 "¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
@@ -7400,8 +7232,8 @@ msgstr ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(Ê£ÁÇ¿ô,¿ôÃÍ)\n"
 "@DESCRIPTION=IMPOWER "
-"´Ø¿ô¤ÏÊ£ÁÇ¿ô¤ÎÀ°¿ô¾è¤òÊÖ¤·¤Þ¤¹¡£@Ê£ÁÇ¿ô¤Ë¤Ï¤Ù¤­¾è¤òµá¤á¤ëÊ£ÁÇ¿ô¤ò¡¢@¿ôÃÍ¤Ë¤Ï¤"
-"Ù¤­¾è¤Î»Ø¿ô¤ò»ØÄê¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
+"´Ø¿ô¤ÏÊ£ÁÇ¿ô¤ÎÀ°¿ô¾è¤òÊÖ¤·¤Þ¤¹¡£@Ê£ÁÇ¿ô¤Ë¤Ï¤Ù¤­¾è¤òµá¤á¤ëÊ£ÁÇ¿ô¤ò¡¢@¿ôÃÍ¤Ë¤Ï¤Ù"
+"¤­¾è¤Î»Ø¿ô¤ò»ØÄê¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "IMPOWER(\"4-j\",2) = 15-8j\n"
 "\n"
@@ -7632,9 +7464,9 @@ msgstr ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(¿ôÃÍ,ÊÑ´¹Á°Ã±°Ì,ÊÑ´¹¸åÃ±°Ì)\n"
 "@DESCRIPTION=CONVERT "
-"´Ø¿ô¤Ï¤¢¤ëÃ±°Ì¤«¤éÊÌ¤ÎÃ±°Ì¤Ø¤ÎÊÑ´¹·ë²Ì¤òÊÖ¤·¤Þ¤¹¡£Îã¤¨¤Ð¡¢½Å¤µ¤ÎÃÍ¤ò¥Ý¥ó¥É¤«¤"
-"é¥°¥é¥à¤ËÊÑ´¹¤¹¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£@¿ôÃÍ¤Ë¤ÏÊÑ´¹¤·¤¿¤¤¿ôÃÍ¡¢@ÊÑ´¹Á°Ã±°Ì¤Ë¤ÏÊÑ´¹"
-"Á°¤ÎÃ±°Ì¡¢@ÊÑ´¹¸åÃ±°Ì¤Ë¤ÏÊÑ´¹¤·¤¿¤¤Ã±°Ì¤ò»ØÄê¤·¤Þ¤¹¡£\n"
+"´Ø¿ô¤Ï¤¢¤ëÃ±°Ì¤«¤éÊÌ¤ÎÃ±°Ì¤Ø¤ÎÊÑ´¹·ë²Ì¤òÊÖ¤·¤Þ¤¹¡£Îã¤¨¤Ð¡¢½Å¤µ¤ÎÃÍ¤ò¥Ý¥ó¥É¤«¤é"
+"¥°¥é¥à¤ËÊÑ´¹¤¹¤ë¤³¤È¤¬¤Ç¤­¤Þ¤¹¡£@¿ôÃÍ¤Ë¤ÏÊÑ´¹¤·¤¿¤¤¿ôÃÍ¡¢@ÊÑ´¹Á°Ã±°Ì¤Ë¤ÏÊÑ´¹Á°"
+"¤ÎÃ±°Ì¡¢@ÊÑ´¹¸åÃ±°Ì¤Ë¤ÏÊÑ´¹¤·¤¿¤¤Ã±°Ì¤ò»ØÄê¤·¤Þ¤¹¡£\n"
 "@ÊÑ´¹Á°Ã±°Ì¤ª¤è¤Ó@ÊÑ´¹Á°Ã±°Ì¤Ë»ÈÍÑ¤Ç¤­¤ëÃ±°Ì¤Ï°Ê²¼¤Î¤È¤ª¤ê¤Ç¤¹¡£\n"
 "\n"
 "½Å¤µ¤ª¤è¤Ó¼ÁÎÌ:\n"
@@ -7878,8 +7710,8 @@ msgstr ""
 "@SYNTAX=ACCRINT(È¯¹ÔÆü,ºÇ½é¤ÎÍøÊ§¤¤Æü,¼õÎÎÆü,ÍøÎ¨,³ÛÌÌ,ÉÑÅÙ[,´ð½à])\n"
 "@DESCRIPTION=ACCRINT "
 "´Ø¿ô¤ÏÄê´üÅª¤ËÍøÂ©¤¬»ÙÊ§¤ï¤ì¤ë¾Ú·ô¤ÎÌ¤¼ýÍøÂ©³Û¤òÊÖ¤·¤Þ¤¹¡£@ÍøÎ¨¤Ë¤Ï¾Ú·ô¤ÎÇ¯Íø"
-"Î¨¡¢@³ÛÌÌ¤Ë¤Ï¾Ú·ô¤Î³ÛÌÌ²Á³Ê¤ò»ØÄê¤·¤Þ¤¹¡£@´ð½à¤Ë¤ÏÆü¿ô¤Î·×»»ÊýË¡¤ò¿ôÃÍ¤Ç»ØÄê¤"
-"·¤Þ¤¹:\n"
+"Î¨¡¢@³ÛÌÌ¤Ë¤Ï¾Ú·ô¤Î³ÛÌÌ²Á³Ê¤ò»ØÄê¤·¤Þ¤¹¡£@´ð½à¤Ë¤ÏÆü¿ô¤Î·×»»ÊýË¡¤ò¿ôÃÍ¤Ç»ØÄê¤·"
+"¤Þ¤¹:\n"
 "0  30Æü/360Æü(ÊÆ¹ñÊý¼°)\n"
 "1  ¼ÂºÝ¤ÎÆü¿ô/¼ÂºÝ¤ÎÆü¿ô\n"
 "2  ¼ÂºÝ¤ÎÆü¿ô/360\n"
@@ -7926,8 +7758,8 @@ msgstr ""
 "@SYNTAX=ACCRINTM(È¯¹ÔÆü,¼õÎÎÆü,ÍøÎ¨,[³ÛÌÌ,´ð½à])\n"
 "@DESCRIPTION=ACCRINTM "
 "´Ø¿ô¤ÏËþ´üÆü¤ËÍøÂ©¤¬»ÙÊ§¤ï¤ì¤ë¾Ú·ô¤ÎÌ¤¼ýÍøÂ©³Û¤òÊÖ¤·¤Þ¤¹¡£@ÍøÎ¨¤Ë¤Ï¾Ú·ô¤ÎÇ¯Íø"
-"Î¨¡¢@³ÛÌÌ¤Ë¤Ï¾Ú·ô¤Î³ÛÌÌ²Á³Ê¤ò»ØÄê¤·¤Þ¤¹¡£@³ÛÌÌ¤ò¾ÊÎ¬¤·¤¿¾ì¹ç¤Ë¤Ï¡¢¥Ç¥Õ¥©¥ë¥È¤"
-"È¤·¤Æ$1,000¤¬Å¬ÍÑ¤µ¤ì¤Þ¤¹¡£@´ð½à¤Ë¤ÏÆü¿ô¤Î·×»»ÊýË¡¤ò¿ôÃÍ¤Ç»ØÄê¤·¤Þ¤¹:\n"
+"Î¨¡¢@³ÛÌÌ¤Ë¤Ï¾Ú·ô¤Î³ÛÌÌ²Á³Ê¤ò»ØÄê¤·¤Þ¤¹¡£@³ÛÌÌ¤ò¾ÊÎ¬¤·¤¿¾ì¹ç¤Ë¤Ï¡¢¥Ç¥Õ¥©¥ë¥È¤È"
+"¤·¤Æ$1,000¤¬Å¬ÍÑ¤µ¤ì¤Þ¤¹¡£@´ð½à¤Ë¤ÏÆü¿ô¤Î·×»»ÊýË¡¤ò¿ôÃÍ¤Ç»ØÄê¤·¤Þ¤¹:\n"
 "\n"
 "0  30Æü/360Æü(ÊÆ¹ñÊý¼°)\n"
 "1  ¼ÂºÝ¤ÎÆü¿ô/¼ÂºÝ¤ÎÆü¿ô\n"
@@ -7975,8 +7807,8 @@ msgstr ""
 "@FUNCTION=INTRATE\n"
 "@SYNTAX=INTRATE(¼õÎÎÆü,Ëþ´üÆü,Åê»ñ³Û,½þ´Ô²ÁÃÍ[,´ð½à])\n"
 "@DESCRIPTION=INTRATE "
-"¤ÏÁ´³ÛÅê»ñ¤µ¤ì¤¿¾Ú·ô¤ÎÍøÎ¨¤òÊÖ¤·¤Þ¤¹¡£@Åê»ñ³Û¤Ë¤Ï¼õÎÎÆü¤Þ¤Ç¤ÎÅê»ñ³Û¡¢@½þ´Ô²ÁÃ"
-"Í¤Ë¤Ï@Ëþ´üÆü¤Ë¼õ¤±¼è¤Ã¤¿Áí³Û¤ò»ØÄê¤·¤Þ¤¹¡£ "
+"¤ÏÁ´³ÛÅê»ñ¤µ¤ì¤¿¾Ú·ô¤ÎÍøÎ¨¤òÊÖ¤·¤Þ¤¹¡£@Åê»ñ³Û¤Ë¤Ï¼õÎÎÆü¤Þ¤Ç¤ÎÅê»ñ³Û¡¢@½þ´Ô²ÁÃÍ"
+"¤Ë¤Ï@Ëþ´üÆü¤Ë¼õ¤±¼è¤Ã¤¿Áí³Û¤ò»ØÄê¤·¤Þ¤¹¡£ "
 "@´ð½à¤Ë¤ÏÆü¿ô¤Î·×»»ÊýË¡¤ò¿ôÃÍ¤Ç»ØÄê¤·¤Þ¤¹:\n"
 "\n"
 "0  30Æü/360Æü(ÊÆ¹ñÊý¼°)\n"
@@ -8292,10 +8124,10 @@ msgstr ""
 "@FUNCTION=DB\n"
 "@SYNTAX=DB(¼èÆÀ²Á³Û,»ÄÂ¸²Á³Û,ÂÑÍÑÇ¯¿ô,´ü[,·î])\n"
 "@DESCRIPTION=DB "
-"¤ÏÄêÎ¨Ë¡¤ò»ÈÍÑ¤·¤Æ¡¢»ØÄê¤µ¤ì¤¿@´ü¤Î¸º²Á½þµÑÈñ¤ò·×»»¤·¤Þ¤¹¡£@¼èÆÀ²Á³Û¤Ï¹ØÆþ»þ¤"
-"Î²Á³Ê¡¢@»ÄÂ¸²Á³Û¤Ï@ÂÑÍÑÇ¯¿ô¤ò·Ð²á¤·¤¿»þÅÀ¤Ç¤Î²Á³Ê¡¢@´ü¤Ë¤Ï¸º²Á½þµÑ¤òµá¤á¤ë´ü¡"
-"¢@·î¤Ï»ñ»º¤ò¹ØÆþ¤·¤¿Ç¯¤Î·î¿ô¤ò»ØÄê¤·¤Þ¤¹¡£@·î¤¬¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¤Ë¤Ï¡¢12¤¬»ØÄê¤µ"
-"¤ì¤¿¤È¤ß¤Ê¤µ¤ì¤Þ¤¹¡£\n"
+"¤ÏÄêÎ¨Ë¡¤ò»ÈÍÑ¤·¤Æ¡¢»ØÄê¤µ¤ì¤¿@´ü¤Î¸º²Á½þµÑÈñ¤ò·×»»¤·¤Þ¤¹¡£@¼èÆÀ²Á³Û¤Ï¹ØÆþ»þ¤Î"
+"²Á³Ê¡¢@»ÄÂ¸²Á³Û¤Ï@ÂÑÍÑÇ¯¿ô¤ò·Ð²á¤·¤¿»þÅÀ¤Ç¤Î²Á³Ê¡¢@´ü¤Ë¤Ï¸º²Á½þµÑ¤òµá¤á¤ë´ü¡¢"
+"@·î¤Ï»ñ»º¤ò¹ØÆþ¤·¤¿Ç¯¤Î·î¿ô¤ò»ØÄê¤·¤Þ¤¹¡£@·î¤¬¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¤Ë¤Ï¡¢12¤¬»ØÄê¤µ¤ì"
+"¤¿¤È¤ß¤Ê¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DDB,SLN,SYD"
@@ -8351,10 +8183,10 @@ msgstr ""
 "@FUNCTION=SLN\n"
 "@SYNTAX=SLN(¼èÆÀ²Á³Û,»ÄÂ¸²Á³Û,ÂÑÍÑÇ¯¿ô)\n"
 "@DESCRIPTION=SLN "
-"´Ø¿ô¤ÏÄê³ÛË¡¤ò»ÈÍÑ¤·¤Æ¡¢»ñ»º¤Î1´ü¤¢¤¿¤ê¤Î¸º²Á½þµÑÈñ¤ò·×»»¤·¤Þ¤¹¡£@¼èÆÀ²Á³Û¤Ë¤"
-"Ï»ñ»º¹ØÆþ»þ¤Î²Á³Ê¡¢@»ÄÂ¸²Á³Û¤Ë¤Ï@ÂÑÍÑÇ¯¿ô·Ð²á»þ¤Î»ñ»º¤Î²Á³Ê¡¢@ÂÑÍÑÇ¯¿ô¤Ë¤Ï¤½¤"
-"Î»ñ»º¤ÎÂÑÍÑÇ¯¿ô¤òÇ¯Ã±°Ì¤Ç»ØÄê¤·¤Þ¤¹¡£¤³¤ÎÊýË¡¤Ç¤Ï¸º²Á½þµÑÈñ¤òÂÑÍÑÇ¯¿ô¤Ç¶ÑÅù¤Ë"
-"Ê¬³ä¤·¤Þ¤¹¡£\n"
+"´Ø¿ô¤ÏÄê³ÛË¡¤ò»ÈÍÑ¤·¤Æ¡¢»ñ»º¤Î1´ü¤¢¤¿¤ê¤Î¸º²Á½þµÑÈñ¤ò·×»»¤·¤Þ¤¹¡£@¼èÆÀ²Á³Û¤Ë¤Ï"
+"»ñ»º¹ØÆþ»þ¤Î²Á³Ê¡¢@»ÄÂ¸²Á³Û¤Ë¤Ï@ÂÑÍÑÇ¯¿ô·Ð²á»þ¤Î»ñ»º¤Î²Á³Ê¡¢@ÂÑÍÑÇ¯¿ô¤Ë¤Ï¤½¤Î"
+"»ñ»º¤ÎÂÑÍÑÇ¯¿ô¤òÇ¯Ã±°Ì¤Ç»ØÄê¤·¤Þ¤¹¡£¤³¤ÎÊýË¡¤Ç¤Ï¸º²Á½þµÑÈñ¤òÂÑÍÑÇ¯¿ô¤Ç¶ÑÅù¤ËÊ¬"
+"³ä¤·¤Þ¤¹¡£\n"
 "Äê³ÛË¡¤Ç»ÈÍÑ¤µ¤ì¤ë¼°\n"
 "¸º²Á½þµÑÈñ = ( @¼èÆÀ²Á³Û - @»ÄÂ¸²Á³Û ) / @ÂÑÍÑÇ¯¿ô\n"
 "@EXAMPLES=\n"
@@ -8397,8 +8229,8 @@ msgstr ""
 "@SYNTAX=SYD(¼èÆÀ²Á³Û,»ÄÂ¸²Á³Û,ÂÑÍÑÇ¯¿ô,´ü)\n"
 "@DESCRIPTION=SYD "
 "´Ø¿ô¤ÏÄê³ÛÄþ¸ºË¡¤ò»ÈÍÑ¤·¤Æ¡¢»ØÄê¤µ¤ì¤¿@´ü¤Ë¤ª¤±¤ë¸º²Á½þµÑÈñ¤òÊÖ¤·¤Þ¤¹¡£¤³¤ÎÊý"
-"Ë¡¤Ï½þµÑÎ¨¤¬¹â¤¤¤Î¤Ç¡¢ºÇ½é¤Î´ü¤Î½þµÑÈñ¤¬ºÇ¸å¤Î´ü¤Î½þµÑÈñ¤è¤ê¤«¤Ê¤êÂç¤­¤¯¤Ê¤ê¤"
-"Þ¤¹¡£\n"
+"Ë¡¤Ï½þµÑÎ¨¤¬¹â¤¤¤Î¤Ç¡¢ºÇ½é¤Î´ü¤Î½þµÑÈñ¤¬ºÇ¸å¤Î´ü¤Î½þµÑÈñ¤è¤ê¤«¤Ê¤êÂç¤­¤¯¤Ê¤ê¤Þ"
+"¤¹¡£\n"
 "¤³¤Î´Ø¿ô¤Ï°Ê²¼¤Î¼°¤ÇÉ½¤µ¤ì¤Þ¤¹¡£¸º²Á½þµÑÈñ = ( @¼èÆÀ²Á³Û - @»ÄÂ¸²Á³Û ) * "
 "(@ÂÑÍÑÇ¯¿ô - @´ü + 1) * 2 / @ÂÑÍÑÇ¯¿ô * (@ÂÑÍÑÇ¯¿ô + 1).\n"
 "\n"
@@ -8493,8 +8325,8 @@ msgstr ""
 "´Ø¿ô¤ÏÊÆ¹ñºâÌ³¾ÊÃ»´ü¾Ú·ô(TB)¤ÎºÄ·ô¤ËÁêÅö¤¹¤ëÍø²ó¤ê(BEY)¤òÊÖ¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï"
 "¼¡¤Î¼°¤ÇÉ½¤µ¤ì¤Þ¤¹¡£TBILLEQ = (365 * @³ä°úÎ¨) / (360 - @³ä°úÎ¨ * DSM) "
 "¤³¤³¤Ç¡¢ DSM ¤Ï@¼õÎÎÆü¤«¤é@Ëþ´üÆü¤Þ¤Ç¤ÎÆü¿ô\n"
-"@¼õÎÎÆü¤¬@Ëþ´üÆü¤è¤ê¸å¤ÎÆüÉÕ¡¢@¼õÎÎÆü¤È@Ëþ´üÆü¤Î´Ö¤¬1Ç¯¤òÄ¶¤¨¤ë¾ì¹ç¡¢#NUM!¥¨¥"
-"é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£@³ä°úÎ¨¤ËÉé¤Î¿ô¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
+"@¼õÎÎÆü¤¬@Ëþ´üÆü¤è¤ê¸å¤ÎÆüÉÕ¡¢@¼õÎÎÆü¤È@Ëþ´üÆü¤Î´Ö¤¬1Ç¯¤òÄ¶¤¨¤ë¾ì¹ç¡¢#NUM!¥¨¥é"
+"¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£@³ä°úÎ¨¤ËÉé¤Î¿ô¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLPRICE,TBILLYIELD"
@@ -8518,8 +8350,8 @@ msgstr ""
 "@SYNTAX=TBILLPRICE(¼õÎÎÆü,Ëþ´üÆü,³ä°úÎ¨)\n"
 "@DESCRIPTION=TBILLPRICE ´Ø¿ô¤ÏÊÆ¹ñºâÌ³¾ÊÃ»´ü¾Ú·ô(TB)¤Î³ÛÌÌ $100 "
 "¤¢¤¿¤ê¤Î²Á³Ê¤òÊÖ¤·¤Þ¤¹¡£\n"
-"@¼õÎÎÆü¤¬@Ëþ´üÆü¤è¤ê¸å¤ÎÆüÉÕ¡¢@¼õÎÎÆü¤È@Ëþ´üÆü¤Î´Ö¤¬1Ç¯¤òÄ¶¤¨¤ë¾ì¹ç¡¢#NUM!¥¨¥"
-"é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£@³ä°úÎ¨¤ËÉé¤Î¿ô¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
+"@¼õÎÎÆü¤¬@Ëþ´üÆü¤è¤ê¸å¤ÎÆüÉÕ¡¢@¼õÎÎÆü¤È@Ëþ´üÆü¤Î´Ö¤¬1Ç¯¤òÄ¶¤¨¤ë¾ì¹ç¡¢#NUM!¥¨¥é"
+"¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£@³ä°úÎ¨¤ËÉé¤Î¿ô¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLYIELD"
@@ -8541,9 +8373,9 @@ msgstr ""
 "@FUNCTION=TBILLYIELD\n"
 "@SYNTAX=TBILLYIELD(¼õÎÎÆü,Ëþ´üÆü,¸½ºß²ÁÃÍ)\n"
 "@DESCRIPTION=TBILLYIELD "
-"´Ø¿ô¤ÏÊÆ¹ñºâÌ³¾ÊÃ»´ü¾Ú·ô(TB)¤ÎÍø²ó¤ê¤òÊÖ¤·¤Þ¤¹¡£@¼õÎÎÆü¤¬@Ëþ´üÆü¤è¤ê¸å¤ÎÆüÉÕ¡"
-"¢@¼õÎÎÆü¤È@Ëþ´üÆü¤Î´Ö¤¬1Ç¯¤òÄ¶¤¨¤ë¾ì¹ç¡¢#NUM!¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£@³ä°úÎ¨¤ËÉé¤"
-"Î¿ô¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
+"´Ø¿ô¤ÏÊÆ¹ñºâÌ³¾ÊÃ»´ü¾Ú·ô(TB)¤ÎÍø²ó¤ê¤òÊÖ¤·¤Þ¤¹¡£@¼õÎÎÆü¤¬@Ëþ´üÆü¤è¤ê¸å¤ÎÆüÉÕ¡¢"
+"@¼õÎÎÆü¤È@Ëþ´üÆü¤Î´Ö¤¬1Ç¯¤òÄ¶¤¨¤ë¾ì¹ç¡¢#NUM!¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£@³ä°úÎ¨¤ËÉé¤Î"
+"¿ô¤ò»ØÄê¤¹¤ë¤È¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=TBILLEQ,TBILLPRICE"
@@ -8614,10 +8446,10 @@ msgstr ""
 "@FUNCTION=PV\n"
 "@SYNTAX=PV(ÍøÎ¨,»ÙÊ§²ó¿ô,Äê´ü»ÙÊ§³Û,¾­Íè²ÁÃÍ,»ÙÊ§´üÆü)\n"
 "@DESCRIPTION=PV "
-"¤ÏÅê»ñ¤Î¸½ºß²ÁÃÍ¤òÊÖ¤·¤Þ¤¹¡£@ÍøÎ¨¤Ë¤Ï´ü´Ö¤òÄÌ¤¸¤Æ°ìÄê¤ÎÍøÎ¨¡¢@»ÙÊ§²ó¿ô¤Ë¤Ï´ü´"
-"ÖÁ´ÂÎ¤Ç¤Î»ÙÊ§²ó¿ô¡¢@Äê´ü»ÙÊ§³Û¤Ë¤ÏËè²ó¤Î»ÙÊ§³Û¡¢@¾­Íè²ÁÃÍ¤Ë¤ÏºÇ¸å¤Ë»ÙÊ§¤Ã¤¿¸å"
-"¤Ë»Ä¤ë¸½¶â¤Î¼ý»Ù¤ò»ØÄê¤·¤Þ¤¹¡£@»ÙÊ§´üÆü¤Ë¤Ï»ÙÊ§¤¤¤¬È¯À¸¤¹¤ëÆü¤ò»ØÄê¤·¤Þ¤¹¡£@»"
-"ÙÊ§´üÆü = 0 ¤Ï»ÙÊ§¤¤¤¬´üËö¤ËÈ¯À¸¤·¤Þ¤¹¡£@»ÙÊ§´üÆü = "
+"¤ÏÅê»ñ¤Î¸½ºß²ÁÃÍ¤òÊÖ¤·¤Þ¤¹¡£@ÍøÎ¨¤Ë¤Ï´ü´Ö¤òÄÌ¤¸¤Æ°ìÄê¤ÎÍøÎ¨¡¢@»ÙÊ§²ó¿ô¤Ë¤Ï´ü´Ö"
+"Á´ÂÎ¤Ç¤Î»ÙÊ§²ó¿ô¡¢@Äê´ü»ÙÊ§³Û¤Ë¤ÏËè²ó¤Î»ÙÊ§³Û¡¢@¾­Íè²ÁÃÍ¤Ë¤ÏºÇ¸å¤Ë»ÙÊ§¤Ã¤¿¸å¤Ë"
+"»Ä¤ë¸½¶â¤Î¼ý»Ù¤ò»ØÄê¤·¤Þ¤¹¡£@»ÙÊ§´üÆü¤Ë¤Ï»ÙÊ§¤¤¤¬È¯À¸¤¹¤ëÆü¤ò»ØÄê¤·¤Þ¤¹¡£@»ÙÊ§"
+"´üÆü = 0 ¤Ï»ÙÊ§¤¤¤¬´üËö¤ËÈ¯À¸¤·¤Þ¤¹¡£@»ÙÊ§´üÆü = "
 "1¤Ï»ÙÊ§¤¤¤¬´ü¼ó¤ËÈ¯À¸¤·¤Þ¤¹¡£@EXAMPLES=\n"
 "\n"
 "@SEEALSO=FV"
@@ -8643,8 +8475,8 @@ msgstr ""
 "@SYNTAX=NPV(³ä°úÎ¨,ÃÍ1,ÃÍ2,...)\n"
 "@DESCRIPTION=NPV "
 "¤ÏÄê´üÅª¤Ê»ÙÊ§¤¤¤òÈ¼¤¦Åê»ñ¤ÎÀµÌ£¸½ºß²ÁÃÍ¤òÊÖ¤·¤Þ¤¹¡£@³ä°úÎ¨¤Ë¤ÏÅê»ñ´ü´Ö¤òÄÌ¤¸"
-"¤Æ°ìÄê¤Î³ä°úÎ¨¡¢@ÃÍ1¡¢@ÃÍ2¤Ë¤ÏÄê´üÅª¤Ê»ÙÊ§³Û¤ä¼ý±×³Û¤ò»ØÄê¤·¤Þ¤¹¡£¥­¥ã¥Ã¥·¥å¥"
-"Õ¥í¡¼¤Î¥¹¥±¥¸¥å¡¼¥ë¤¬Äê´üÅª¤Ç¤Ê¤¤¾ì¹ç¤Ë¤Ï¡¢XNPV ´Ø¿ô¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£\n"
+"¤Æ°ìÄê¤Î³ä°úÎ¨¡¢@ÃÍ1¡¢@ÃÍ2¤Ë¤ÏÄê´üÅª¤Ê»ÙÊ§³Û¤ä¼ý±×³Û¤ò»ØÄê¤·¤Þ¤¹¡£¥­¥ã¥Ã¥·¥å¥Õ"
+"¥í¡¼¤Î¥¹¥±¥¸¥å¡¼¥ë¤¬Äê´üÅª¤Ç¤Ê¤¤¾ì¹ç¤Ë¤Ï¡¢XNPV ´Ø¿ô¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£\n"
 "@EXAMPLES=\n"
 "NPV(0.17,-10000,3340,2941,2493,3233,1732,2932) = 186.30673\n"
 "\n"
@@ -8671,8 +8503,8 @@ msgstr ""
 "¤Þ¤¹¡£ºÇ½é¤Î»ÙÊ§Æü¤Ï»ÙÊ§¤¤¥¹¥±¥¸¥å¡¼¥ë¤ÎÀèÆ¬¤Ë³ºÅö¤·¤Þ¤¹¡£@³ä°úÎ¨¤Ï°ìÏ¢¤Î¥­¥ã"
 "¥Ã¥·¥å¥Õ¥í¡¼¤ËÂÐ¤¹¤ë³ä°úÎ¨¤Ç¤¹¡£@¥­¥ã¥Ã¥·¥å¥Õ¥í¡¼¤Ë¤Ï»ÙÊ§³Û¤Î¥ê¥¹¥È¤ò»ØÄê¤·¤Þ"
 "¤¹¡£\n"
-"@¥­¥ã¥Ã¥·¥å¥Õ¥í¡¼¤Ç¥ê¥¹¥È¤µ¤ì¤¿¿ô¤È@ÆüÉÕ¥ê¥¹¥È¤Ç»ØÄê¤µ¤ì¤¿ÆüÉÕ¤Î¿ô¤¬°ìÃ×¤·¤Ê¤"
-"¤¾ì¹ç¤Ë¤Ï¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
+"@¥­¥ã¥Ã¥·¥å¥Õ¥í¡¼¤Ç¥ê¥¹¥È¤µ¤ì¤¿¿ô¤È@ÆüÉÕ¥ê¥¹¥È¤Ç»ØÄê¤µ¤ì¤¿ÆüÉÕ¤Î¿ô¤¬°ìÃ×¤·¤Ê¤¤"
+"¾ì¹ç¤Ë¤Ï¡¢#NUM! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=NPV,PV"
@@ -8702,14 +8534,14 @@ msgstr ""
 "@FUNCTION=XIRR\n"
 "@SYNTAX=XIRR(ÈÏ°Ï,ÆüÉÕ[,¿äÄêÃÍ])\n"
 "@DESCRIPTION=XIRR "
-"¤ÏÄê´üÅª¤Ç¤Ï¤Ê¤¤Åê»ñ¤ËÂÐ¤¹¤ëÆâÉôÍø±×Î¨¤òÊÖ¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤ÏÀµÌ£¸½ºß²ÁÃÍ¤òÊÖ¤"
-"¹´Ø¿ô(NPV, XNPV)¤ÈÌ©ÀÜ¤Ê´Ø·¸¤¬¤¢¤ê¤Þ¤¹¡£XIRR ¤Ï¡¢XNPV´Ø¿ô¤Î·ë²Ì¤¬ "
+"¤ÏÄê´üÅª¤Ç¤Ï¤Ê¤¤Åê»ñ¤ËÂÐ¤¹¤ëÆâÉôÍø±×Î¨¤òÊÖ¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤ÏÀµÌ£¸½ºß²ÁÃÍ¤òÊÖ¤¹"
+"´Ø¿ô(NPV, XNPV)¤ÈÌ©ÀÜ¤Ê´Ø·¸¤¬¤¢¤ê¤Þ¤¹¡£XIRR ¤Ï¡¢XNPV´Ø¿ô¤Î·ë²Ì¤¬ "
 "0(¥¼¥í)¤Î¤È¤­¤Î°ìÏ¢¤Î¥­¥ã¥Ã¥·¥å¥Õ¥í¡¼¤ÎÍø±×Î¨¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
 "@ÈÏ°Ï¤Ë¤ÏÅê»ñ¤Ë¤è¤Ã¤ÆÈ¯À¸¤¹¤ë°ìÏ¢¤Î¥­¥ã¥Ã¥·¥å¥Õ¥í¡¼¤ò¡¢@ÆüÉÕ¤Ë¤Ï@ÈÏ°Ï¤ËÂÐ±þ¤¹"
-"¤ë»ÙÊ§Æü¤ò»ØÄê¤·¤Þ¤¹¡£ºÇ½é¤ÎÆü¤¬ºÇ½é¤Î»ÙÊ§Æü¤Ë³ºÅö¤·¡¢¤½¤ì°Ê³°¤ÎÆü¤Ï¤¹¤Ù¤Æ¤³¤"
-"ÎÆüÉÕ¤è¤ê¸å¤ËÈ¯À¸¤¹¤ëÆüÉÕ¤Ç¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£¥ª¥×¥·¥ç¥ó¤Î@¿äÄêÃÍ¤Ï "
-"XIRR´Ø¿ô¤¬·×»»¤Ë»ÈÍÑ¤¹¤ë½é´üÃÍ¤Ç¤¹¡£¤³¤ÎÃÍ¤ò»ØÄê¤¹¤ëÉ¬Í×¤Ï¤¢¤ê¤Þ¤»¤ó¡£¤³¤Î°ú¿"
-"ô¤ÏExcel ¤È¤Î¸ß´¹À­¤Î¤¿¤á¤ËÂ¸ºß¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
+"¤ë»ÙÊ§Æü¤ò»ØÄê¤·¤Þ¤¹¡£ºÇ½é¤ÎÆü¤¬ºÇ½é¤Î»ÙÊ§Æü¤Ë³ºÅö¤·¡¢¤½¤ì°Ê³°¤ÎÆü¤Ï¤¹¤Ù¤Æ¤³¤Î"
+"ÆüÉÕ¤è¤ê¸å¤ËÈ¯À¸¤¹¤ëÆüÉÕ¤Ç¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£¥ª¥×¥·¥ç¥ó¤Î@¿äÄêÃÍ¤Ï "
+"XIRR´Ø¿ô¤¬·×»»¤Ë»ÈÍÑ¤¹¤ë½é´üÃÍ¤Ç¤¹¡£¤³¤ÎÃÍ¤ò»ØÄê¤¹¤ëÉ¬Í×¤Ï¤¢¤ê¤Þ¤»¤ó¡£¤³¤Î°ú¿ô"
+"¤ÏExcel ¤È¤Î¸ß´¹À­¤Î¤¿¤á¤ËÂ¸ºß¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "¥»¥ë A1 ¤«¤é A5 ¤ÎÃÍ¤¬¤½¤ì¤¾¤ì -6000, 2134, 1422, 1933, 1422 ¤Ç¡¢¥»¥ë B1 "
 "¤«¤éB5 ¤ÎÃÍ¤¬¤½¤ì¤¾¤ì \"1999-01-15\", \"1999-04-04\", \"1999-05-09\", "
@@ -8734,10 +8566,10 @@ msgstr ""
 "@FUNCTION=FV\n"
 "@SYNTAX=FV(ÍøÎ¨,»ÙÊ§²ó¿ô,»ÙÊ§³Û,¸½ºß²ÁÃÍ,»ÙÊ§´üÆü)\n"
 "@DESCRIPTION=FV "
-"¤ÏÅê»ñ¤Î¾­Íè²ÁÃÍ¤ò·×»»¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤ÏÅê»ñ¤¬Äê´ü¤«¤Ä°ìÄê³Û¡¢¤Þ¤¿ÍøÎ¨¤¬°ìÄê¤"
-"Ç¤¢¤ë¤³¤È¤Ë´ð¤Å¤¤¤Æ¤¤¤Þ¤¹¡£@ÍøÎ¨¤Ë¤Ï´ü´Ö¤´¤È¤Ë°ìÄê¤ÎÍøÎ¨¤ò¡¢@»ÙÊ§²ó¿ô¤Ï°ìÇ¯´Ö"
-"¤ËÈ¯À¸¤¹¤ë»ÙÊ§²ó¿ô¡¢@»ÙÊ§³Û¤Ë¤ÏËè²ó¤Î»ÙÊ§³Û¡¢@¸½ºß²ÁÃÍ¤Ï»ÙÊ§¤¬È¯À¸¤·¤¿»þ¤Î¸½º"
-"ß²ÁÃÍ¡¢@»ÙÊ§´üÆü¤Ë¤Ï»ÙÊ§¤¤¤¬È¯À¸¤¹¤ë´üÆü¤ò»ØÄê¤·¤Þ¤¹¡£@»ÙÊ§´üÆü = 1 "
+"¤ÏÅê»ñ¤Î¾­Íè²ÁÃÍ¤ò·×»»¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤ÏÅê»ñ¤¬Äê´ü¤«¤Ä°ìÄê³Û¡¢¤Þ¤¿ÍøÎ¨¤¬°ìÄê¤Ç"
+"¤¢¤ë¤³¤È¤Ë´ð¤Å¤¤¤Æ¤¤¤Þ¤¹¡£@ÍøÎ¨¤Ë¤Ï´ü´Ö¤´¤È¤Ë°ìÄê¤ÎÍøÎ¨¤ò¡¢@»ÙÊ§²ó¿ô¤Ï°ìÇ¯´Ö¤Ë"
+"È¯À¸¤¹¤ë»ÙÊ§²ó¿ô¡¢@»ÙÊ§³Û¤Ë¤ÏËè²ó¤Î»ÙÊ§³Û¡¢@¸½ºß²ÁÃÍ¤Ï»ÙÊ§¤¬È¯À¸¤·¤¿»þ¤Î¸½ºß²Á"
+"ÃÍ¡¢@»ÙÊ§´üÆü¤Ë¤Ï»ÙÊ§¤¤¤¬È¯À¸¤¹¤ë´üÆü¤ò»ØÄê¤·¤Þ¤¹¡£@»ÙÊ§´üÆü = 1 "
 "¤Ê¤é¤Ð´ü¼ó¡¢@»ÙÊ§´üÆü = 0 ¤Ê¤é¤Ð´üËö¤ò°ÕÌ£¤·¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
@@ -8756,8 +8588,8 @@ msgstr ""
 "@FUNCTION=PMT\n"
 "@SYNTAX=PMT(ÍøÎ¨,»ÙÊ§²ó¿ô,¸½ºß²ÁÃÍ[,¾­Íè²ÁÃÍ,»ÙÊ§´üÆü])\n"
 "@DESCRIPTION=PMT "
-"¤ÏÄê³Û¤Î»ÙÊ§¤¤¤òÄê´üÅª¤Ë¹Ô¤¤¡¢ÍøÎ¨¤¬°ìÄê¤Ç¤¢¤ë¤È²¾Äê¤·¤Æ¡¢ÂßÉÕ¤ËÉ¬Í×¤ÊÄê´ü»ÙÊ"
-"§³Û¤ò»»½Ð¤·¤Þ¤¹¡£\n"
+"¤ÏÄê³Û¤Î»ÙÊ§¤¤¤òÄê´üÅª¤Ë¹Ô¤¤¡¢ÍøÎ¨¤¬°ìÄê¤Ç¤¢¤ë¤È²¾Äê¤·¤Æ¡¢ÂßÉÕ¤ËÉ¬Í×¤ÊÄê´ü»ÙÊ§"
+"³Û¤ò»»½Ð¤·¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PPMT,PV,FV"
@@ -8836,10 +8668,10 @@ msgstr ""
 "@FUNCTION=NPER\n"
 "@SYNTAX=NPER(ÍøÎ¨,Äê´ü»ÙÊ§³Û,¸½ºß²ÁÃÍ,¾­Íè²ÁÃÍ,»ÙÊ§´üÆü)\n"
 "@DESCRIPTION=NPER "
-"¤ÏÄê´üÅª¤«¤ÄÄê³Û¤Î»ÙÊ§¤¤¤ò¹Ô¤¤¡¢ÍøÎ¨¤¬°ìÄê¤Ç¤¢¤ë¤³¤È¤Ë´ð¤Å¤¤¤Æ¡¢Åê»ñ¤ËÉ¬Í×¤Ê»"
-"ÙÊ§²ó¿ô¤ò·×»»¤·¤Þ¤¹¡£@ÍøÎ¨¤Ë¤Ï°ìÄê¤ÎÍøÎ¨¤ò¡¢@Äê´ü»ÙÊ§³Û¤Ë¤ÏËè²ó¤Î»ÙÊ§³Û¡¢@¸½º"
-"ß²ÁÃÍ¤Ë¤Ï¸½ºß¤ÎÅê»ñ³Û¡¢@¾­Íè²ÁÃÍ¤Ë¤ÏÅê»ñ¤Î¾­Íè²ÁÃÍ¡¢@»ÙÊ§´üÆü¤Ë¤Ï¤¤¤Ä»ÙÊ§¤¦¤«"
-"¤ò»ØÄê¤·¤Þ¤¹¡£@»ÙÊ§´üÆü = 1 ¤Ê¤é¤Ð´ü¼ó¤Î»ÙÊ§¡¢@»ÙÊ§´üÆü = 0 "
+"¤ÏÄê´üÅª¤«¤ÄÄê³Û¤Î»ÙÊ§¤¤¤ò¹Ô¤¤¡¢ÍøÎ¨¤¬°ìÄê¤Ç¤¢¤ë¤³¤È¤Ë´ð¤Å¤¤¤Æ¡¢Åê»ñ¤ËÉ¬Í×¤Ê»Ù"
+"Ê§²ó¿ô¤ò·×»»¤·¤Þ¤¹¡£@ÍøÎ¨¤Ë¤Ï°ìÄê¤ÎÍøÎ¨¤ò¡¢@Äê´ü»ÙÊ§³Û¤Ë¤ÏËè²ó¤Î»ÙÊ§³Û¡¢@¸½ºß"
+"²ÁÃÍ¤Ë¤Ï¸½ºß¤ÎÅê»ñ³Û¡¢@¾­Íè²ÁÃÍ¤Ë¤ÏÅê»ñ¤Î¾­Íè²ÁÃÍ¡¢@»ÙÊ§´üÆü¤Ë¤Ï¤¤¤Ä»ÙÊ§¤¦¤«¤ò"
+"»ØÄê¤·¤Þ¤¹¡£@»ÙÊ§´üÆü = 1 ¤Ê¤é¤Ð´ü¼ó¤Î»ÙÊ§¡¢@»ÙÊ§´üÆü = 0 "
 "¤Ê¤é¤Ð´üËö¤Î»ÙÊ§¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "Îã¤¨¤Ð¡¢$10,000 ¤ò¶ä¹ÔÍÂ¶â¤ËÍÂ¤±¤¿¤È¤·¤Æ¡¢¤½¤Î¶âÍø¤Ï 6% "
@@ -8863,10 +8695,10 @@ msgstr ""
 "@FUNCTION=DURATION\n"
 "@SYNTAX=DURATION(ÍøÎ¨,¸½ºß²ÁÃÍ,¾­Íè²ÁÃÍ)\n"
 "@DESCRIPTION=DURATION "
-"¤ÏÅê»ñ¤¬Í×µá¤¹¤ëÃÍ¤Ë¤Ê¤ë¤Þ¤Ç¤Ë¤É¤ì¤À¤±¤Î´ü´Ö¤¬¤«¤«¤ë¤«¤ò¤«¤¨¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤"
-"Ï FV ¤ä PV "
-"¤Ë»÷¤Æ¤¤¤Þ¤¹¤¬¡¢¥­¥ã¥Ã¥·¥å¥Õ¥í¡¼¤ÎÊý¸þ¤ò»ØÄê¤¹¤ëÉ¬Í×¤¬¤Ê¤¤ÅÀ¤À¤±¤¬°ã¤¤¤Þ¤¹¡£Î"
-"ã¤¨¤Ð¡¢-100 ¤Ê¤é¤Ð½Ð»ñ¡¢+100 ¤Ê¤é¤Ð¼õÎÎ¤Ê¤É\n"
+"¤ÏÅê»ñ¤¬Í×µá¤¹¤ëÃÍ¤Ë¤Ê¤ë¤Þ¤Ç¤Ë¤É¤ì¤À¤±¤Î´ü´Ö¤¬¤«¤«¤ë¤«¤ò¤«¤¨¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï"
+" FV ¤ä PV "
+"¤Ë»÷¤Æ¤¤¤Þ¤¹¤¬¡¢¥­¥ã¥Ã¥·¥å¥Õ¥í¡¼¤ÎÊý¸þ¤ò»ØÄê¤¹¤ëÉ¬Í×¤¬¤Ê¤¤ÅÀ¤À¤±¤¬°ã¤¤¤Þ¤¹¡£Îã"
+"¤¨¤Ð¡¢-100 ¤Ê¤é¤Ð½Ð»ñ¡¢+100 ¤Ê¤é¤Ð¼õÎÎ¤Ê¤É\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=PPMT,PV,FV"
@@ -8889,8 +8721,8 @@ msgstr ""
 "@SYNTAX=FVSCHEDULE(¸µ¶â,ÍøÎ¨ÇÛÎó)\n"
 "@DESCRIPTION=FVSCHEDULE "
 "¤Ï»ØÄê¤µ¤ì¤¿¸µ¶â¤È°ìÏ¢¤Î¶âÍø¤ò´ð¤Ë¡¢¾­Íè²ÁÃÍ¤òÊÖ¤·¤Þ¤¹¡£@¸µ¶â¤Ë¤Ï¸½ºß¤Î²ÁÃÍ¤ò"
-"¡¢@ÍøÎ¨ÇÛÎó¤Ë¤Ï´ü´ÖÆâ¤ÎÊÑÆ°¶âÍø¤òÇÛÎó¤È¤·¤Æ»ØÄê¤·¤Þ¤¹¡£@ÍøÎ¨ÇÛÎó¤Ï¥»¥ëÈÏ°Ï¤Ç¤"
-"Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£\n"
+"¡¢@ÍøÎ¨ÇÛÎó¤Ë¤Ï´ü´ÖÆâ¤ÎÊÑÆ°¶âÍø¤òÇÛÎó¤È¤·¤Æ»ØÄê¤·¤Þ¤¹¡£@ÍøÎ¨ÇÛÎó¤Ï¥»¥ëÈÏ°Ï¤Ç¤Ê"
+"¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£\n"
 "@EXAMPLES=\n"
 "¥»¥ë A1, A2, ..., A5 ¤ÎÃÍ¤¬¤½¤ì¤¾¤ì 0.11, 0.13, 0.09, 0.17,0.03 "
 "¤Î¾ì¹ç¡¢¼¡¤Î¤è¤¦¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
@@ -9276,8 +9108,8 @@ msgstr ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(¼èÆÀ²Á³Û,»ÄÂ¸²Á³Û,ÂÑÍÑÇ¯¿ô,³«»Ï´ü,½ªÎ»´ü[,Î¨,ÀÚÂØ¤ÎÍ­Ìµ])\n"
 "@DESCRIPTION=VDB "
-"¤ÏÇÜÎ¨Äþ¸ºË¡¤¢¤ë¤¤¤Ï»ØÄê¤µ¤ì¤¿ÊýË¡¤ò»ÈÍÑ¤·¤Æ¡¢@³«»Ï´ü¤È@½ªÎ»´ü¤Î´Ö¤Ë¤ª¤±¤ë¸º²"
-"Á½þµÑÈñ¤òÊÖ¤·¤Þ¤¹¡£\n"
+"¤ÏÇÜÎ¨Äþ¸ºË¡¤¢¤ë¤¤¤Ï»ØÄê¤µ¤ì¤¿ÊýË¡¤ò»ÈÍÑ¤·¤Æ¡¢@³«»Ï´ü¤È@½ªÎ»´ü¤Î´Ö¤Ë¤ª¤±¤ë¸º²Á"
+"½þµÑÈñ¤òÊÖ¤·¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=DB"
@@ -9287,7 +9119,6 @@ msgid "Financial"
 msgstr "ºâÌ³"
 
 #: src/functions/fn-information.c:73
-#, fuzzy
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(ref)\n"
@@ -9298,7 +9129,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 "@FUNCTION=CELL\n"
-"@SYNTAX=CELL()\n"
+"@SYNTAX=CELL(ref)\n"
 "@DESCRIPTION=CELL ¤Ï¥»¥ë¤ÎÀ°·Á¡¢ÇÛÃÖ¤¢¤ë¤¤¤ÏÆâÍÆ¤Ë´Ø¤¹¤ë¾ðÊó¤òÊÖ¤·¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
@@ -9723,8 +9554,8 @@ msgstr ""
 "@b1 ¤«¤é @bN ¤Ï¡¢É¾²Á¤¬ TRUE ¤« FALSE "
 "¤Ë¤Ê¤ë¼°¤Ç¤¹¡£¤â¤·À°¿ô¤«¼Â¿ô¤¬Í¿¤¨¤é¤ì¤¿¾ì¹ç¡¢0 ¤¬ FALSE "
 "¤È¤ß¤Ê¤µ¤ì¡¢¤½¤ì°Ê³°¤Ï TRUE ¤È¤ß¤Ê¤µ¤ì¤Þ¤¹¡£\n"
-"¤â¤·¤³¤ÎÃÍ¤ËÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤¬´Þ¤Þ¤ì¤Æ¤¤¤ë¤È¤³¤ì¤é¤ÎÃÍ¤ÏÌµ»ë¤µ¤ì¤Þ¤¹¡£¤â¤·°"
-"ì¤Ä¤âÏÀÍýÃÍ¤¬»ØÄê¤µ¤ì¤Ê¤¤¤È¡¢#VALUE! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
+"¤â¤·¤³¤ÎÃÍ¤ËÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤¬´Þ¤Þ¤ì¤Æ¤¤¤ë¤È¤³¤ì¤é¤ÎÃÍ¤ÏÌµ»ë¤µ¤ì¤Þ¤¹¡£¤â¤·°ì"
+"¤Ä¤âÏÀÍýÃÍ¤¬»ØÄê¤µ¤ì¤Ê¤¤¤È¡¢#VALUE! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
 "¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "AND(TRUE,TRUE) ¤Ï TRUE ¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
@@ -9788,8 +9619,8 @@ msgstr ""
 "¤È¤ß¤Ê¤µ¤ì¤Þ¤¹¡£\n"
 "@b1¤«¤é@bN¤Þ¤Ç¤Ï¡¢É¾²Á¤¬TRUE¤«FALSE¤Ë¤Ê¤ë¼°¤Ç¤¹¡£¤â¤·À°¿ô¤«¼Â¿ô¤¬Í¿¤¨¤é¤ì¤¿¾ì"
 "¹ç¡¢0 ¤¬ FALSE¤È¤ß¤Ê¤µ¤ì¡¢¤½¤ì°Ê³°¤Ï TRUE ¤È¤ß¤Ê¤µ¤ì¤Þ¤¹¡£\n"
-"¤â¤·¤³¤ÎÃÍ¤ËÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤¬´Þ¤Þ¤ì¤Æ¤¤¤ë¤È¤³¤ì¤é¤ÎÃÍ¤ÏÌµ»ë¤µ¤ì¤Þ¤¹¡£¤â¤·°"
-"ì¤Ä¤âÏÀÍýÃÍ¤¬»ØÄê¤µ¤ì¤Ê¤¤¤È¡¢#VALUE! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
+"¤â¤·¤³¤ÎÃÍ¤ËÊ¸»úÎó¤ä¶õÇò¤Î¥»¥ë¤¬´Þ¤Þ¤ì¤Æ¤¤¤ë¤È¤³¤ì¤é¤ÎÃÍ¤ÏÌµ»ë¤µ¤ì¤Þ¤¹¡£¤â¤·°ì"
+"¤Ä¤âÏÀÍýÃÍ¤¬»ØÄê¤µ¤ì¤Ê¤¤¤È¡¢#VALUE! ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
 "¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "OR(TRUE,FALSE) ¤Ï TRUE ¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
@@ -9816,9 +9647,9 @@ msgstr ""
 "@DESCRIPTION=IF "
 "Ê¸¤ò»È¤¦¤È¡¢¤½¤ÎÂ¾¤ÎÃÍ¤ä¼°¤¬¾ò·ï¤òËþ¤¿¤·¤Æ¤¤¤ë¤«¤òÉ¾²Á¤Ç¤­¤Þ¤¹¡£@¾ò·ï¼°¤¬ "
 "0(¥¼¥í)°Ê³°¤ÎÃÍ¤òÊÖ¤·¤¿¾ì¹ç¡¢IF "
-"Ê¸¤ÎÊÖ¤êÃÍ¤Ï@¿¿¤Î¾ì¹ç¤Ë»ØÄê¤µ¤ì¤¿ÃÍ¤Ë¤Ê¤ê¡¢Áê¤Ç¤Ê¤¤¾ì¹ç¤Ï¡¢@µ¶¤Î¾ì¹ç¤Ë»ØÄê¤µ¤"
-"ì¤¿ÃÍ¤Ë¤Ê¤ê¤Þ¤¹¡£°ú¿ô¤¬¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¡¢@¿¿¤Î¾ì¹ç¤Ë TRUE ¤¬¡¢@µ¶¤Î¾ì¹ç¤Ë "
-"FALSE ¤¬¥Ç¥Õ¥©¥ë¥ÈÃÍ¤È¤·¤Æ»È¤ï¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
+"Ê¸¤ÎÊÖ¤êÃÍ¤Ï@¿¿¤Î¾ì¹ç¤Ë»ØÄê¤µ¤ì¤¿ÃÍ¤Ë¤Ê¤ê¡¢Áê¤Ç¤Ê¤¤¾ì¹ç¤Ï¡¢@µ¶¤Î¾ì¹ç¤Ë»ØÄê¤µ¤ì"
+"¤¿ÃÍ¤Ë¤Ê¤ê¤Þ¤¹¡£°ú¿ô¤¬¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¡¢@¿¿¤Î¾ì¹ç¤Ë TRUE ¤¬¡¢@µ¶¤Î¾ì¹ç¤Ë FALSE "
+"¤¬¥Ç¥Õ¥©¥ë¥ÈÃÍ¤È¤·¤Æ»È¤ï¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "IF(FALSE,TRUE,FALSE) = FALSE\n"
 "\n"
@@ -9920,8 +9751,8 @@ msgstr ""
 "@FUNCTION=CHOOSE\n"
 "@SYNTAX=CHOOSE(¥¤¥ó¥Ç¥Ã¥¯¥¹[,ÃÍ1][,ÃÍ2]...)\n"
 "@DESCRIPTION=CHOOSE "
-"¤Ï@¥¤¥ó¥Ç¥Ã¥¯¥¹¤Ë³ºÅö¤¹¤ëÃÍ¤ò¥ê¥¹¥È¤«¤éÁªÂò¤·¤Þ¤¹¡£@¥¤¥ó¥Ç¥Ã¥¯¥¹¤¬À°¿ô°Ê³°¤Î¿"
-"ôÃÍ¤Î¾ì¹ç¡¢¤Þ¤ë¤á¤é¤ì¤Þ¤¹¡£\n"
+"¤Ï@¥¤¥ó¥Ç¥Ã¥¯¥¹¤Ë³ºÅö¤¹¤ëÃÍ¤ò¥ê¥¹¥È¤«¤éÁªÂò¤·¤Þ¤¹¡£@¥¤¥ó¥Ç¥Ã¥¯¥¹¤¬À°¿ô°Ê³°¤Î¿ô"
+"ÃÍ¤Î¾ì¹ç¡¢¤Þ¤ë¤á¤é¤ì¤Þ¤¹¡£\n"
 "@¥¤¥ó¥Ç¥Ã¥¯¥¹¤¬ 1 "
 "¤è¤ê¾®¤µ¤¤¡¢¤¢¤ë¤¤¤Ï@ÃÍ¤Î°ú¿ô¤Î¿ô¤è¤êÂç¤­¤¤¾ì¹ç¡¢#VAL!¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
@@ -9951,13 +9782,13 @@ msgstr ""
 "@FUNCTION=VLOOKUP\n"
 "@SYNTAX=VLOOKUP(ÃÍ,ÈÏ°Ï,ÎóÈÖ¹æ[,¸¡º÷¤Î·¿])\n"
 "@DESCRIPTION=VLOOKUP "
-"´Ø¿ô¤Ï@ÈÏ°Ï¤Ë»ØÄê¤µ¤ì¤¿¹Ô¤«¤é¡¢º¸Ã¼¤ÎÎó¤ÎÃÍ¤¬@ÃÍ¤ÈÆ±¤¸¤¢¤ë¤¤¤Ï¶á»÷¤Î¤â¤Î¤òÊÖ¤"
-"·¤Þ¤¹¡£@¸¡º÷¤Î·¿¤¬ TRUE "
+"´Ø¿ô¤Ï@ÈÏ°Ï¤Ë»ØÄê¤µ¤ì¤¿¹Ô¤«¤é¡¢º¸Ã¼¤ÎÎó¤ÎÃÍ¤¬@ÃÍ¤ÈÆ±¤¸¤¢¤ë¤¤¤Ï¶á»÷¤Î¤â¤Î¤òÊÖ¤·"
+"¤Þ¤¹¡£@¸¡º÷¤Î·¿¤¬ TRUE "
 "¤Ç¤Ê¤¤¾ì¹ç¡¢´°Á´¤Ë°ìÃ×¤¹¤ëÃÍ¤À¤±¤ò¸¡º÷¤·¤Þ¤¹¡£@¸¡º÷¤Î·¿¤¬ TRUE "
-"¤Î¾ì¹ç¡¢Àµ¤·¤¤·×»»¤Î¤¿¤á¤Ëº¸Ã¼¤ÎÎó¤ÎÃÍ¤Ï¾º½ç¤ËÊÂ¤ÙÂØ¤¨¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£¤³¤"
-"Î¾ì¹ç¡¢@ÃÍ¤è¤ê¤â¾®¤µ¤Ê¿ô»ú¤ÇºÇÂç¤Î¤â¤Î¤òÊÖ¤·¤Þ¤¹¡£@ÎóÈÖ¹æ¤Ë¤Ï 1 "
-"¤ò@ÈÏ°Ï¤Îº¸Ã¼¤È¤·¤¿¤È¤­¤ÎÎóÈÖ¹æ¤ò»ØÄê¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï¸¡º÷¤µ¤ì¤¿¹Ô¤Î@ÎóÈÖ¹æ¤"
-"Ç»ØÄê¤µ¤ì¤¿Îó¤ÎÃÍ¤òÊÖ¤·¤Þ¤¹¡£\n"
+"¤Î¾ì¹ç¡¢Àµ¤·¤¤·×»»¤Î¤¿¤á¤Ëº¸Ã¼¤ÎÎó¤ÎÃÍ¤Ï¾º½ç¤ËÊÂ¤ÙÂØ¤¨¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£¤³¤Î"
+"¾ì¹ç¡¢@ÃÍ¤è¤ê¤â¾®¤µ¤Ê¿ô»ú¤ÇºÇÂç¤Î¤â¤Î¤òÊÖ¤·¤Þ¤¹¡£@ÎóÈÖ¹æ¤Ë¤Ï 1 "
+"¤ò@ÈÏ°Ï¤Îº¸Ã¼¤È¤·¤¿¤È¤­¤ÎÎóÈÖ¹æ¤ò»ØÄê¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï¸¡º÷¤µ¤ì¤¿¹Ô¤Î@ÎóÈÖ¹æ¤Ç"
+"»ØÄê¤µ¤ì¤¿Îó¤ÎÃÍ¤òÊÖ¤·¤Þ¤¹¡£\n"
 "@ÎóÈÖ¹æ¤¬ 0(¥¼¥í)¤è¤ê¾®¤µ¤¤¾ì¹ç¤Ï #NUM! "
 "¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¡¢@ÎóÈÖ¹æ¤¬@ÈÏ°ÏÆâ¤ÎÎó¿ô¤è¤êÂç¤­¤¤¾ì¹ç¤Ï #REF! "
 "¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
@@ -9983,13 +9814,13 @@ msgstr ""
 "@FUNCTION=HLOOKUP\n"
 "@SYNTAX=HLOOKUP(ÃÍ,ÈÏ°Ï,¹ÔÈÖ¹æ[,¸¡º÷¤Î·¿])\n"
 "@DESCRIPTION=HLOOKUP "
-"´Ø¿ô¤Ï@ÈÏ°Ï¤Ë»ØÄê¤µ¤ì¤¿Îó¤«¤é¡¢¾åÃ¼¤Î¹Ô¤ÎÃÍ¤¬@ÃÍ¤ÈÆ±¤¸¤¢¤ë¤¤¤Ï¶á»÷¤Î¤â¤Î¤òÊÖ¤"
-"·¤Þ¤¹¡£@¸¡º÷¤Î·¿¤¬ TRUE "
+"´Ø¿ô¤Ï@ÈÏ°Ï¤Ë»ØÄê¤µ¤ì¤¿Îó¤«¤é¡¢¾åÃ¼¤Î¹Ô¤ÎÃÍ¤¬@ÃÍ¤ÈÆ±¤¸¤¢¤ë¤¤¤Ï¶á»÷¤Î¤â¤Î¤òÊÖ¤·"
+"¤Þ¤¹¡£@¸¡º÷¤Î·¿¤¬ TRUE "
 "¤Ç¤Ê¤¤¾ì¹ç¡¢´°Á´¤Ë°ìÃ×¤¹¤ëÃÍ¤À¤±¤ò¸¡º÷¤·¤Þ¤¹¡£@¸¡º÷¤Î·¿¤¬ TRUE "
-"¤Î¾ì¹ç¡¢Àµ¤·¤¤·×»»¤Î¤¿¤á¤Ë¾åÃ¼¤Î¹Ô¤ÎÃÍ¤Ï¾º½ç¤ËÊÂ¤ÙÂØ¤¨¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£¤³¤"
-"Î¾ì¹ç¡¢@ÃÍ¤è¤ê¤â¾®¤µ¤Ê¿ô»ú¤ÇºÇÂç¤Î¤â¤Î¤òÊÖ¤·¤Þ¤¹¡£@¹ÔÈÖ¹æ¤Ë¤Ï 1 "
-"¤ò@ÈÏ°Ï¤Î¾åÃ¼¤È¤·¤¿¤È¤­¤Î¹ÔÈÖ¹æ¤ò»ØÄê¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï¸¡º÷¤µ¤ì¤¿Îó¤Î@¹ÔÈÖ¹æ¤"
-"Ç»ØÄê¤µ¤ì¤¿¹Ô¤ÎÃÍ¤òÊÖ¤·¤Þ¤¹¡£\n"
+"¤Î¾ì¹ç¡¢Àµ¤·¤¤·×»»¤Î¤¿¤á¤Ë¾åÃ¼¤Î¹Ô¤ÎÃÍ¤Ï¾º½ç¤ËÊÂ¤ÙÂØ¤¨¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£¤³¤Î"
+"¾ì¹ç¡¢@ÃÍ¤è¤ê¤â¾®¤µ¤Ê¿ô»ú¤ÇºÇÂç¤Î¤â¤Î¤òÊÖ¤·¤Þ¤¹¡£@¹ÔÈÖ¹æ¤Ë¤Ï 1 "
+"¤ò@ÈÏ°Ï¤Î¾åÃ¼¤È¤·¤¿¤È¤­¤Î¹ÔÈÖ¹æ¤ò»ØÄê¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï¸¡º÷¤µ¤ì¤¿Îó¤Î@¹ÔÈÖ¹æ¤Ç"
+"»ØÄê¤µ¤ì¤¿¹Ô¤ÎÃÍ¤òÊÖ¤·¤Þ¤¹¡£\n"
 "@¹ÔÈÖ¹æ¤¬ 0(¥¼¥í)¤è¤ê¾®¤µ¤¤¾ì¹ç¤Ï #NUM! "
 "¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¡¢@¹ÔÈÖ¹æ¤¬@ÈÏ°ÏÆâ¤Î¹Ô¿ô¤è¤êÂç¤­¤¤¾ì¹ç¤Ï #REF! "
 "¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
@@ -10015,11 +9846,11 @@ msgstr ""
 "@FUNCTION=LOOKUP\n"
 "@SYNTAX=LOOKUP(¸¡ººÃÍ,¸¡ººÈÏ°Ï,ÂÐ±þÈÏ°Ï)\n"
 "@DESCRIPTION=LOOKUP "
-"´Ø¿ô¤Ï@¸¡ººÃÍ¤Ë»ØÄê¤µ¤ì¤¿ÃÍ¤ò@¸¡ººÈÏ°Ï¤«¤é¸¡º÷¤·¡¢¤½¤Î¥¤¥ó¥Ç¥Ã¥¯¥¹¤òÆÀ¤Þ¤¹¡£¤"
-"½¤·¤Æ¡¢@ÂÐ±þÈÏ°Ï¤«¤éÀè¤ËÆÀ¤¿¥¤¥ó¥Ç¥Ã¥¯¥¹¤Ë³ºÅö¤¹¤ë¥»¥ë¤ÎÃÍ¤òÊÖ¤·¤Þ¤¹¡£@¸¡ººÈÏ"
-"°Ï¤Ë¤ÏÇÛÎó·Á¼°¤â»ÈÍÑ²ÄÇ½¤Ç¤¹¡£\n"
-"@¸¡ººÃÍ¤ËÅù¤·¤¤ÃÍ¤¬¸«¤Ä¤«¤é¤Ê¤¤¾ì¹ç¡¢@¸¡ººÃÍ¤è¤ê¾®¤µ¤¯¡¢ºÇÂç¤ÎÃÍ¤òÃµ¤·¤Þ¤¹¡£¥"
-"Ç¡¼¥¿¤Ï¾º½ç¤Ë¥½¡¼¥È¤µ¤ì¤Æ¤¤¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£\n"
+"´Ø¿ô¤Ï@¸¡ººÃÍ¤Ë»ØÄê¤µ¤ì¤¿ÃÍ¤ò@¸¡ººÈÏ°Ï¤«¤é¸¡º÷¤·¡¢¤½¤Î¥¤¥ó¥Ç¥Ã¥¯¥¹¤òÆÀ¤Þ¤¹¡£¤½"
+"¤·¤Æ¡¢@ÂÐ±þÈÏ°Ï¤«¤éÀè¤ËÆÀ¤¿¥¤¥ó¥Ç¥Ã¥¯¥¹¤Ë³ºÅö¤¹¤ë¥»¥ë¤ÎÃÍ¤òÊÖ¤·¤Þ¤¹¡£@¸¡ººÈÏ°Ï"
+"¤Ë¤ÏÇÛÎó·Á¼°¤â»ÈÍÑ²ÄÇ½¤Ç¤¹¡£\n"
+"@¸¡ººÃÍ¤ËÅù¤·¤¤ÃÍ¤¬¸«¤Ä¤«¤é¤Ê¤¤¾ì¹ç¡¢@¸¡ººÃÍ¤è¤ê¾®¤µ¤¯¡¢ºÇÂç¤ÎÃÍ¤òÃµ¤·¤Þ¤¹¡£¥Ç"
+"¡¼¥¿¤Ï¾º½ç¤Ë¥½¡¼¥È¤µ¤ì¤Æ¤¤¤Ê¤±¤ì¤Ð¤Ê¤ê¤Þ¤»¤ó¡£\n"
 "@¸¡ººÃÍ¤¬¸¡ººÈÏ°Ï¤ÎºÇ¾®ÃÍ¤è¤ê¾®¤µ¤¤¾ì¹ç¤Ï #N/A ¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "\n"
@@ -10079,8 +9910,8 @@ msgstr ""
 "@FUNCTION=INDIRECT\n"
 "@SYNTAX=INDIRECT(»²¾ÈÊ¸»úÎó,[»²¾È·Á¼°])\n"
 "@DESCRIPTION=INDIRECT "
-"´Ø¿ô¤Ï@»²¾ÈÊ¸»úÎó¤Ç»ØÄê¤µ¤ì¤¿¾ì½ê¤Î¥»¥ë¤ÎÆâÍÆ¤òÊÖ¤·¤Þ¤¹¡£@»²¾ÈÊ¸»úÎó¤Ï¥»¥ë»²¾"
-"È¤Ç¡¢A1 ¤¢¤ë¤¤¤Ï R1C1 "
+"´Ø¿ô¤Ï@»²¾ÈÊ¸»úÎó¤Ç»ØÄê¤µ¤ì¤¿¾ì½ê¤Î¥»¥ë¤ÎÆâÍÆ¤òÊÖ¤·¤Þ¤¹¡£@»²¾ÈÊ¸»úÎó¤Ï¥»¥ë»²¾È"
+"¤Ç¡¢A1 ¤¢¤ë¤¤¤Ï R1C1 "
 "¤Î¤É¤Á¤é¤«¤Î·Á¼°¤Ç¤¹¡£@»²¾È·Á¼°¤ÏÏÀÍýÃÍ¤Ç¡¢¥Ç¥Õ¥©¥ë¥È¤Ç¤Ï A1 ·Á¼°¤Ç¤¹¡£\n"
 "@»²¾ÈÊ¸»úÎó¤¬Àµ¤·¤¤¥»¥ë»²¾È¤Ç¤Ï¤Ê¤¤¾ì¹ç¡¢#REF! ¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
@@ -10154,8 +9985,8 @@ msgstr ""
 "@FUNCTION=ROW\n"
 "@SYNTAX=ROW([ÈÏ°Ï])\n"
 "@DESCRIPTION=ROW "
-"´Ø¿ô¤Ï¡¢¹ÔÈÖ¹æ¤ÎÇÛÎó¤òÊÖ¤·¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È°ú¿ô¤Ç¤Ï¡¢¤³¤Î´Ø¿ô¤ò´Þ¤ó¤Ç¤¤¤ë¥»¥ë°"
-"ÌÃÖ¤Î¹ÔÈÖ¹æ¤òÊÖ¤·¤Þ¤¹¡£\n"
+"´Ø¿ô¤Ï¡¢¹ÔÈÖ¹æ¤ÎÇÛÎó¤òÊÖ¤·¤Þ¤¹¡£¥Ç¥Õ¥©¥ë¥È°ú¿ô¤Ç¤Ï¡¢¤³¤Î´Ø¿ô¤ò´Þ¤ó¤Ç¤¤¤ë¥»¥ë°Ì"
+"ÃÖ¤Î¹ÔÈÖ¹æ¤òÊÖ¤·¤Þ¤¹¡£\n"
 "@ÈÏ°Ï¤¬ÇÛÎó¤Ç¤â¡¢¥»¥ë»²¾È¤Ç¤â¡¢¥»¥ëÈÏ°Ï¤Ç¤â¤Ê¤¤¾ì¹ç¡¢#VALUE! "
 "¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
@@ -10242,8 +10073,8 @@ msgstr ""
 "@SYNTAX=GCD(¿ôÃÍ1,¿ôÃÍ2,...)\n"
 "@DESCRIPTION=GCD ¤Ï»ØÄê¤µ¤ì¤¿¿ôÃÍ¤ÎºÇÂç¸øÌó¿ô¤òÊÖ¤·¤Þ¤¹¡£\n"
 "¿ôÃÍ¤Î¤¤¤º¤ì¤«¤¬ 0(¥¼¥í)¤è¤ê¾®¤µ¤¤¾ì¹ç¡¢#NUM! "
-"¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£¿ôÃÍ¤¬À°¿ô°Ê³°¤Î¿ôÃÍ¤Î¾ì¹ç¡¢¾®¿ôÅÀ°Ê²¼¤òÌµ»ë¤·¤Þ¤¹¡£¤³¤Î´"
-"Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
+"¥¨¥é¡¼¤¬ÊÖ¤µ¤ì¤Þ¤¹¡£¿ôÃÍ¤¬À°¿ô°Ê³°¤Î¿ôÃÍ¤Î¾ì¹ç¡¢¾®¿ôÅÀ°Ê²¼¤òÌµ»ë¤·¤Þ¤¹¡£¤³¤Î´Ø"
+"¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "GCD(470,770) = 10.\n"
 "GCD(470,770,1495) = 5.\n"
@@ -10292,8 +10123,8 @@ msgstr ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
 "@DESCRIPTION=ABS "
-"¤ÏÀäÂÐÃÍ´Ø¿ô¤ò¼Â¹Ô¤·¤Þ¤¹¡£¤³¤Î·ë²Ì¤Ï(¤â¤·¤¢¤ì¤Ð)Éé¤ÎÉä¹æ¤òÀÚ¤êÍî¤È¤·¤Þ¤¹¡£¤³¤"
-"Î´Ø¿ô¤ÏÀ°¿ô¤ª¤è¤Ó¼Â¿ô¤Ë¤Î¤ßÍ­¸ú¤Ç¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
+"¤ÏÀäÂÐÃÍ´Ø¿ô¤ò¼Â¹Ô¤·¤Þ¤¹¡£¤³¤Î·ë²Ì¤Ï(¤â¤·¤¢¤ì¤Ð)Éé¤ÎÉä¹æ¤òÀÚ¤êÍî¤È¤·¤Þ¤¹¡£¤³¤Î"
+"´Ø¿ô¤ÏÀ°¿ô¤ª¤è¤Ó¼Â¿ô¤Ë¤Î¤ßÍ­¸ú¤Ç¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "ABS(7) = 7\n"
 "ABS(-3.14) = 3.14\n"
@@ -10466,8 +10297,8 @@ msgstr ""
 "@SYNTAX=ATAN2(b1,b2)\n"
 "@DESCRIPTION=ATAN2 ´Ø¿ô¤ÏÆó¤Ä¤ÎÊÑ¿ô @b1 ¤È @b2 ¤ÎµÕÀµÀÜ¤ò·×»»¤·¤Þ¤¹¡£¤³¤ì¤Ï "
 "@b2 / @b1 "
-"¤ÎµÕÀµÀÜ¤òµá¤á¤ë¤Î¤Ë»÷¤Æ¤¤¤Þ¤¹¤¬¡¢¤³¤Î·ë²Ì¤Î¾Ý¸Â¤ò·èÄê¤¹¤ë¤¿¤á¤ËÎ¾°ú¿ô¤ÎÉä¹æ¤"
-"¬»È¤ï¤ì¤ëÅÀ¤¬°ã¤¤¤Þ¤¹¡£·ë²Ì¤Ï¥é¥¸¥¢¥ó¤ÇÊÖ¤µ¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
+"¤ÎµÕÀµÀÜ¤òµá¤á¤ë¤Î¤Ë»÷¤Æ¤¤¤Þ¤¹¤¬¡¢¤³¤Î·ë²Ì¤Î¾Ý¸Â¤ò·èÄê¤¹¤ë¤¿¤á¤ËÎ¾°ú¿ô¤ÎÉä¹æ¤¬"
+"»È¤ï¤ì¤ëÅÀ¤¬°ã¤¤¤Þ¤¹¡£·ë²Ì¤Ï¥é¥¸¥¢¥ó¤ÇÊÖ¤µ¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
 "¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "ATAN2(0.5,1.0) = 1.107149\n"
@@ -10553,8 +10384,8 @@ msgstr ""
 "@SYNTAX=SUMIF(ÈÏ°Ï,¾ò·ï[,¹ç·×ÈÏ°Ï])\n"
 "@DESCRIPTION=SUMIF "
 "´Ø¿ô¤Ï@¾ò·ï¤Ë°ìÃ×¤¹¤ë¥»¥ë¤ÎÃÍ¤ò¹ç·×¤·¤Þ¤¹¡£@¹ç·×ÈÏ°Ï¤ò¤·¤Æ¤¤¤¹¤ë¤È¡¢@¹ç·×ÈÏ°Ï"
-"¤Ë´Þ¤Þ¤ì¤ë¥»¥ë¤Î¤¦¤Á¡¢@ÈÏ°ÏÆâ¤Î@¸¡º÷¾ò·ï¤òËþ¤¿¤¹¥»¥ë¤ËÂÐ±þ¤¹¤ë¥»¥ë¤À¤±¤ò·×»»Â"
-"Ð¾Ý¤È¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
+"¤Ë´Þ¤Þ¤ì¤ë¥»¥ë¤Î¤¦¤Á¡¢@ÈÏ°ÏÆâ¤Î@¸¡º÷¾ò·ï¤òËþ¤¿¤¹¥»¥ë¤ËÂÐ±þ¤¹¤ë¥»¥ë¤À¤±¤ò·×»»ÂÐ"
+"¾Ý¤È¤·¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "¥»¥ë A1, A2, ..., A5 ¤ÎÃÍ¤¬¤½¤ì¤¾¤ì 23, 27, 28, 33, 39 "
 "¤Î¾ì¹ç¡¢°Ê²¼¤Î¤è¤¦¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
@@ -11201,8 +11032,8 @@ msgstr ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(¿ôÃÍ1, ¿ôÃÍ2, ...)\n"
 "@DESCRIPTION=MULTINOMIAL "
-"¤Ï»ØÄê¤µ¤ì¤¿¿ôÃÍ¤ÎÏÂ¤Î³¬¾è¤È¡¢»ØÄê¤µ¤ì¤¿¿ôÃÍ¤Î³¬¾è¤ÎÀÑ¤È¤ÎÈæ¤òÊÖ¤·¤Þ¤¹¡£¤³¤Î´"
-"Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
+"¤Ï»ØÄê¤µ¤ì¤¿¿ôÃÍ¤ÎÏÂ¤Î³¬¾è¤È¡¢»ØÄê¤µ¤ì¤¿¿ôÃÍ¤Î³¬¾è¤ÎÀÑ¤È¤ÎÈæ¤òÊÖ¤·¤Þ¤¹¡£¤³¤Î´Ø"
+"¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "MULTINOMIAL(2,3,4) = 1260\n"
 "\n"
@@ -11223,8 +11054,8 @@ msgstr ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(¿ôÃÍ1, ¿ôÃÍ2, ...)\n"
 "@DESCRIPTION=PRODUCT "
-"¤Ï°ú¿ô¤Ë»ØÄê¤µ¤ì¤¿¿ôÃÍ¡¢¤¢¤ë¤¤¤Ï»ØÄê¤µ¤ì¤¿¥»¥ëÈÏ°Ï¤Î¿ôÃÍ¤ÎÀÑ¤òÊÖ¤·¤Þ¤¹¡£¤³¤Î´"
-"Ø¿ô¤Ï Excel "
+"¤Ï°ú¿ô¤Ë»ØÄê¤µ¤ì¤¿¿ôÃÍ¡¢¤¢¤ë¤¤¤Ï»ØÄê¤µ¤ì¤¿¥»¥ëÈÏ°Ï¤Î¿ôÃÍ¤ÎÀÑ¤òÊÖ¤·¤Þ¤¹¡£¤³¤Î´Ø"
+"¿ô¤Ï Excel "
 "¸ß´¹¤Ç¤¹¡£¥»¥ëÈÏ°Ï¤Ë´Þ¤Þ¤ì¤ë¥»¥ë¤¬¶õÇò¥»¥ë¤Î¾ì¹ç¡¢·ë²Ì¤Ï0(¥¼¥í)¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
 "@EXAMPLES=\n"
 "PRODUCT(2,5,9) = 90\n"
@@ -11331,9 +11162,9 @@ msgstr ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(¿ôÃÍ[,·å¿ô])\n"
 "@DESCRIPTION=TRUNC "
-"´Ø¿ô¤Ï@¿ôÃÍ¤Ë»ØÄê¤µ¤ì¤¿ÃÍ¤ò@·å¿ô¤Ç»ØÄê¤µ¤ì¤¿¾®¿ôÉô¤Î·å¿ô¤Ë¤¢¤ï¤»¤ÆÀÚ¤ê¼Î¤Æ¤¿Ã"
-"Í¤òÊÖ¤·¤Þ¤¹¡£@·å¿ô¤¬¾ÊÎ¬¤µ¤ì¤ë¤È¡¢0(¥¼¥í)¤¬»ØÄê¤µ¤ì¤¿¤È¸«¤Ê¤µ¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô"
-"¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
+"´Ø¿ô¤Ï@¿ôÃÍ¤Ë»ØÄê¤µ¤ì¤¿ÃÍ¤ò@·å¿ô¤Ç»ØÄê¤µ¤ì¤¿¾®¿ôÉô¤Î·å¿ô¤Ë¤¢¤ï¤»¤ÆÀÚ¤ê¼Î¤Æ¤¿ÃÍ"
+"¤òÊÖ¤·¤Þ¤¹¡£@·å¿ô¤¬¾ÊÎ¬¤µ¤ì¤ë¤È¡¢0(¥¼¥í)¤¬»ØÄê¤µ¤ì¤¿¤È¸«¤Ê¤µ¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï"
+" Excel ¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "TRUNC(3.12) = 3\n"
 "TRUNC(4.15,1) = 4.1\n"
@@ -11520,12 +11351,12 @@ msgstr ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(¿ôÃÍ[,·å¿ô])\n"
 "@DESCRIPTION=ROUNDDOWN "
-"´Ø¿ô¤Ï¿ôÃÍ¤ò»ØÄê¤µ¤ì¤¿·å¿ô¤ÇÀÚ¤ê¼Î¤Æ¤Þ¤¹¡£@¿ôÃÍ¤ÏÀÚ¤ê¼Î¤Æ¤ÎÂÐ¾Ý¤È¤Ê¤ë¿ôÃÍ¡¢@·"
-"å¿ô¤ÏÀÚ¤ê¼Î¤Æ¤Î·å¿ô¤ò»ØÄê¤·¤Þ¤¹¡£\n"
+"´Ø¿ô¤Ï¿ôÃÍ¤ò»ØÄê¤µ¤ì¤¿·å¿ô¤ÇÀÚ¤ê¼Î¤Æ¤Þ¤¹¡£@¿ôÃÍ¤ÏÀÚ¤ê¼Î¤Æ¤ÎÂÐ¾Ý¤È¤Ê¤ë¿ôÃÍ¡¢@·å"
+"¿ô¤ÏÀÚ¤ê¼Î¤Æ¤Î·å¿ô¤ò»ØÄê¤·¤Þ¤¹¡£\n"
 "@·å¿ô¤¬Àµ¤Î¿ô¤Î¾ì¹ç¡¢@¿ôÃÍ¤Ï»ØÄê¤µ¤ì¤¿·å¿ô¤Þ¤Ç¤ËÀÚ¤ê¼Î¤Æ¤é¤ì¤Þ¤¹¡£@·å¿ô¤¬ "
 "0(¥¼¥í) "
-"¤¢¤ë¤¤¤Ï¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¡¢@¿ôÃÍ¤Ï¾®¿ôÅÀ°Ê²¼¤¬¤¹¤Ù¤ÆÀÚ¤ê¼Î¤Æ¤é¤ì¤Þ¤¹¡£@·å¿ô¤¬Éé¤"
-"Î¿ô¤Î¾ì¹ç¡¢À°¿ôÉôÊ¬¤Î»ØÄê¤µ¤ì¤¿·å¿ô¤ÇÀÚ¤ê¼Î¤Æ¤é¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
+"¤¢¤ë¤¤¤Ï¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¡¢@¿ôÃÍ¤Ï¾®¿ôÅÀ°Ê²¼¤¬¤¹¤Ù¤ÆÀÚ¤ê¼Î¤Æ¤é¤ì¤Þ¤¹¡£@·å¿ô¤¬Éé¤Î"
+"¿ô¤Î¾ì¹ç¡¢À°¿ôÉôÊ¬¤Î»ØÄê¤µ¤ì¤¿·å¿ô¤ÇÀÚ¤ê¼Î¤Æ¤é¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
 "¸ß´¹¤Ç¤¹(@¿ôÃÍ¤¬Àµ¤Î¿ô¤Î¾ì¹ç)¡£\n"
 "@EXAMPLES=\n"
 "ROUNDDOWN(5.5) = 5\n"
@@ -11557,12 +11388,12 @@ msgstr ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(¿ôÃÍ[,·å¿ô])\n"
 "@DESCRIPTION=ROUND "
-"´Ø¿ô¤Ï¿ôÃÍ¤ò»Í¼Î¸ÞÆþ¤·¤Þ¤¹¡£@¿ôÃÍ¤Ë¤Ï»Í¼Î¸ÞÆþ¤ÎÂÐ¾Ý¤È¤Ê¤ë¿ôÃÍ¤ò»ØÄê¤·¤Þ¤¹¡£@·"
-"å¿ô¤Ë¤Ï»Í¼Î¸ÞÆþ¤·¤¿·ë²Ì¤Î·å¿ô¤ò»ØÄê¤·¤Þ¤¹¡£\n"
+"´Ø¿ô¤Ï¿ôÃÍ¤ò»Í¼Î¸ÞÆþ¤·¤Þ¤¹¡£@¿ôÃÍ¤Ë¤Ï»Í¼Î¸ÞÆþ¤ÎÂÐ¾Ý¤È¤Ê¤ë¿ôÃÍ¤ò»ØÄê¤·¤Þ¤¹¡£@·å"
+"¿ô¤Ë¤Ï»Í¼Î¸ÞÆþ¤·¤¿·ë²Ì¤Î·å¿ô¤ò»ØÄê¤·¤Þ¤¹¡£\n"
 "@·å¿ô¤¬Àµ¤Î¿ô¤Î¾ì¹ç¡¢@¿ôÃÍ¤Ï¾®¿ôÅÀ°Ê²¼¤Ç»Í¼Î¸ÞÆþ¤µ¤ì¡¢¾®¿ôÅÀ°Ê²¼¤Î·å¿ô¤¬@·å¿ô"
 "¤ËÅù¤·¤¯¤Ê¤ê¤Þ¤¹¡£@·å¿ô¤¬ 0(¥¼¥í) "
-"¤¢¤ë¤¤¤Ï¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¡¢@¿ôÃÍ¤Ï¤â¤Ã¤È¤â¶á¤¤À°¿ô¤Ë»Í¼Î¸ÞÆþ¤µ¤ì¤Þ¤¹¡£@·å¿ô¤¬Éé¤"
-"Î¿ô¤Î¾ì¹ç¡¢À°¿ôÉôÊ¬¤Î»ØÄê¤µ¤ì¤¿·å¿ô¤Ç»Í¼Î¸ÞÆþ¤µ¤ì¤Þ¤¹¡£\n"
+"¤¢¤ë¤¤¤Ï¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¡¢@¿ôÃÍ¤Ï¤â¤Ã¤È¤â¶á¤¤À°¿ô¤Ë»Í¼Î¸ÞÆþ¤µ¤ì¤Þ¤¹¡£@·å¿ô¤¬Éé¤Î"
+"¿ô¤Î¾ì¹ç¡¢À°¿ôÉôÊ¬¤Î»ØÄê¤µ¤ì¤¿·å¿ô¤Ç»Í¼Î¸ÞÆþ¤µ¤ì¤Þ¤¹¡£\n"
 "¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹(@¿ôÃÍ¤¬Àµ¤Î¿ô¤Î¾ì¹ç)¡£\n"
 "@EXAMPLES=\n"
 "ROUND(5.5) = 6\n"
@@ -11593,12 +11424,12 @@ msgstr ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(¿ôÃÍ[,·å¿ô])\n"
 "@DESCRIPTION=ROUNDUP "
-"´Ø¿ô¤Ï¿ôÃÍ¤ò»ØÄê¤µ¤ì¤¿·å¿ô¤ÇÀÚ¤ê¾å¤²¤Þ¤¹¡£@¿ôÃÍ¤ÏÀÚ¤ê¾å¤²¤ÎÂÐ¾Ý¤È¤Ê¤ë¿ôÃÍ¡¢@·"
-"å¿ô¤ÏÀÚ¤ê¾å¤²¤Î·å¿ô¤ò»ØÄê¤·¤Þ¤¹¡£\n"
+"´Ø¿ô¤Ï¿ôÃÍ¤ò»ØÄê¤µ¤ì¤¿·å¿ô¤ÇÀÚ¤ê¾å¤²¤Þ¤¹¡£@¿ôÃÍ¤ÏÀÚ¤ê¾å¤²¤ÎÂÐ¾Ý¤È¤Ê¤ë¿ôÃÍ¡¢@·å"
+"¿ô¤ÏÀÚ¤ê¾å¤²¤Î·å¿ô¤ò»ØÄê¤·¤Þ¤¹¡£\n"
 "@·å¿ô¤¬Àµ¤Î¿ô¤Î¾ì¹ç¡¢@¿ôÃÍ¤Ï»ØÄê¤µ¤ì¤¿·å¿ô¤Þ¤Ç¤ËÀÚ¤ê¾å¤²¤é¤ì¤Þ¤¹¡£@·å¿ô¤¬ "
 "0(¥¼¥í) "
-"¤¢¤ë¤¤¤Ï¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¡¢@¿ôÃÍ¤Ï¾®¿ôÅÀ°Ê²¼¤¬¤¹¤Ù¤ÆÀÚ¤ê¾å¤²¤é¤ì¤Þ¤¹¡£@·å¿ô¤¬Éé¤"
-"Î¿ô¤Î¾ì¹ç¡¢À°¿ôÉôÊ¬¤Î»ØÄê¤µ¤ì¤¿·å¿ô¤ÇÀÚ¤ê¾å¤²¤é¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
+"¤¢¤ë¤¤¤Ï¾ÊÎ¬¤µ¤ì¤¿¾ì¹ç¡¢@¿ôÃÍ¤Ï¾®¿ôÅÀ°Ê²¼¤¬¤¹¤Ù¤ÆÀÚ¤ê¾å¤²¤é¤ì¤Þ¤¹¡£@·å¿ô¤¬Éé¤Î"
+"¿ô¤Î¾ì¹ç¡¢À°¿ôÉôÊ¬¤Î»ØÄê¤µ¤ì¤¿·å¿ô¤ÇÀÚ¤ê¾å¤²¤é¤ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel "
 "¸ß´¹¤Ç¤¹(@¿ôÃÍ¤¬Àµ¤Î¿ô¤Î¾ì¹ç)¡£\n"
 "@EXAMPLES=\n"
 "ROUNDUP(5.5) = 6\n"
@@ -12061,8 +11892,8 @@ msgstr ""
 "@FUNCTION=VAR\n"
 "@SYNTAX=VAR(b1, b2, ...)\n"
 "@DESCRIPTION=VAR "
-"¤Ï°ú¿ô¤òÊì½¸ÃÄ¤ÎÉ¸ËÜ¤È¸«¤Ê¤·¤ÆÊì½¸ÃÄ¤ËÂÐ¤¹¤ëÊ¬»¶¤òÊÖ¤·¤Þ¤¹¡£°ú¿ô¤òÊì½¸ÃÄÁ´ÂÎ¤"
-"È¸«¤Ê¤¹¾ì¹ç¡¢VARP ´Ø¿ô¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£\n"
+"¤Ï°ú¿ô¤òÊì½¸ÃÄ¤ÎÉ¸ËÜ¤È¸«¤Ê¤·¤ÆÊì½¸ÃÄ¤ËÂÐ¤¹¤ëÊ¬»¶¤òÊÖ¤·¤Þ¤¹¡£°ú¿ô¤òÊì½¸ÃÄÁ´ÂÎ¤È"
+"¸«¤Ê¤¹¾ì¹ç¡¢VARP ´Ø¿ô¤ò»ÈÍÑ¤·¤Æ¤¯¤À¤µ¤¤¡£\n"
 "¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "¥»¥ë A1, A2, ..., A5 ¤ÎÃÍ¤¬¤½¤ì¤¾¤ì 11.4, 17.3, 21.3, 25.9, 40.1 "
@@ -12388,8 +12219,8 @@ msgstr ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
 "@DESCRIPTION=MIN "
-"¤ÏÅÏ¤µ¤ì¤¿ÃÍ¤Î¤¦¤Á¤Ç°ìÈÖ¾®¤µ¤¤ÃÍ¤òÊÖ¤·¤Þ¤¹¡£Éé¤Î¿ô¤ÏÀµ¤Î¿ô¤è¤ê¾®¤µ¤¤¤È¸«¤Ê¤µ¤"
-"ì¤Þ¤¹¡£¤³¤Î´Ø¿ô¤ÏExcel¸ß´¹¤Ç¤¹¡£\n"
+"¤ÏÅÏ¤µ¤ì¤¿ÃÍ¤Î¤¦¤Á¤Ç°ìÈÖ¾®¤µ¤¤ÃÍ¤òÊÖ¤·¤Þ¤¹¡£Éé¤Î¿ô¤ÏÀµ¤Î¿ô¤è¤ê¾®¤µ¤¤¤È¸«¤Ê¤µ¤ì"
+"¤Þ¤¹¡£¤³¤Î´Ø¿ô¤ÏExcel¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "A1, A2, ..., A5 ¤Î¥»¥ë¤ÎÃÍ¤¬¤½¤ì¤¾¤ì 11.4, 17.3, 21.3, 25.9, "
 "40.1¤È²¾Äê¤¹¤ë¤È¡¢¼¡¤Î¤è¤¦¤Ê·ë²Ì¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
@@ -12414,8 +12245,8 @@ msgstr ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
 "@DESCRIPTION=MAX "
-"¤ÏÅÏ¤µ¤ì¤¿ÃÍ¤Î¤¦¤Á°ìÈÖÂç¤­¤¤ÃÍ¤òÊÖ¤·¤Þ¤¹¡£Éé¤Î¿ô¤ÏÀµ¤Î¿ô¤è¤ê¾®¤µ¤¤¤È¸«¤Ê¤µ¤ì¤"
-"Þ¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
+"¤ÏÅÏ¤µ¤ì¤¿ÃÍ¤Î¤¦¤Á°ìÈÖÂç¤­¤¤ÃÍ¤òÊÖ¤·¤Þ¤¹¡£Éé¤Î¿ô¤ÏÀµ¤Î¿ô¤è¤ê¾®¤µ¤¤¤È¸«¤Ê¤µ¤ì¤Þ"
+"¤¹¡£¤³¤Î´Ø¿ô¤Ï Excel ¸ß´¹¤Ç¤¹¡£\n"
 "@EXAMPLES=\n"
 "A1, A2, ..., A5 ¤Î¥»¥ë¤ÎÃÍ¤¬¤½¤ì¤¾¤ì 11.4, 17.3, 21.3, 25.9, "
 "40.1¤È²¾Äê¤¹¤ë¤È¡¢¼¡¤Î¤è¤¦¤Ê·ë²Ì¤Ë¤Ê¤ê¤Þ¤¹¡£\n"
