@@ -1,5 +1,8 @@
 2002-11-05  Morten Welinder  <terra@diku.dk>
 
+	* dialog-search.c (search_get_value): Use
+	g_value_set_static_string where possible.
+
 	* dialog-function-select.c (dialog_function_select_destroy): Plug
  	leak.
 	(cb_dialog_function_select_fun_selection_changed): Ditto.

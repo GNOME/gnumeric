@@ -13,6 +13,7 @@ Morten:
 	* Add parameter checks to RAYLEIGH, RAYLEIGHTAIL, EXPPOWDIST,
 	  LAPLACE, PARETO, LOGISTIC functions.
 	* Plug leaks in function selector dialog.
+	* Improve memory usage in search centre slighly.
 
 J.H.M. Dassen (Ray):
 	* Updates to the build system.

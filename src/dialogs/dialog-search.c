@@ -439,7 +439,9 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 
 	g_value_init (value, ll->column_headers[column]);
 
+#if 0
 	g_print ("col=%d,row=%d\n", column, row);
+#endif
 
 	switch (column) {
 	case COL_SHEET:
@@ -451,10 +453,10 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 	case COL_TYPE:
 		switch (item->locus) {
 		case SRL_commment:
-			g_value_set_string (value, _("Comment"));
+			g_value_set_static_string (value, _("Comment"));
 			return;
 		case SRL_value:
-			g_value_set_string (value, _("Result"));
+			g_value_set_static_string (value, _("Result"));
 			return;
 		case SRL_contents: {
 			Value *v = cell->value;
@@ -473,7 +475,8 @@ search_get_value (gint row, gint column, gpointer _dd, GValue *value)
 				type = _("Number");
 			else
 				type = _("Other value");
-			g_value_set_string (value, type);
+
+			g_value_set_static_string (value, type);
 			return;
 		}
 
