@@ -1,3 +1,11 @@
+2000-03-26  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/dialogs/Makefile.am (glade_msgs): Added a new missing file.
+	Guys.  If you add a .glade file, PLEASE make sure you add the
+	.glade.h file.  This is just embarassing to see all of these
+	releases done just because nobody ever cares to add the files
+	properly. 
+
 2000-03-27  Nick Lamb  <njl195@zepler.org.uk>
 
 	* configure.in: Consistency, consistency, consistency

@@ -88,6 +88,7 @@ glade_DATA = 				\
 glade_msgs = 				\
 	advanced-filter.glade.h		\
 	analysis-tools.glade.h		\
+	autocorrect-exceptions.glade.h	\
 	autocorrect.glade.h		\
 	autosave.glade.h		\
 	autosave-prompt.glade.h		\
