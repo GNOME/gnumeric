@@ -275,13 +275,13 @@ dialog_sheet_order_impl (WorkbookControlGUI *wbcg, GladeXML *gui)
 #endif
 	gtk_window_set_policy (GTK_WINDOW (sm.dialog), FALSE, TRUE, FALSE);
 
-	gtk_widget_show_all (GNOME_DIALOG (sm.dialog)->vbox);
+	gtk_widget_show_all (GTK_DIALOG (sm.dialog)->vbox);
 
-	bval = gnumeric_dialog_run (sm.wbcg, GNOME_DIALOG (sm.dialog));
+	bval = gnumeric_dialog_run (sm.wbcg, GTK_DIALOG (sm.dialog));
 
   	/* If the user canceled we have already returned */
 	if (bval != -1)
-		gnome_dialog_close (GNOME_DIALOG (sm.dialog));
+		gnome_dialog_close (GTK_DIALOG (sm.dialog));
 }
 
 /*

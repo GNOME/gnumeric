@@ -486,6 +486,16 @@ stamp.h
 
 echo "
 
+WARNING WARNING WARNING
+
+    This is the _DEVELOPMENT_ branch of gnumeric.  It is undergoing rapid change
+    and is _NOT_ suitable for packaging or production work.  Please use the
+    stable branch
+
+	cvs co -r gnome_1_4 gnumeric
+
+WARNING WARNING WARNING
+
 Configuration:
 
 	Source code location:	${srcdir}

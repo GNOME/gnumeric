@@ -8,36 +8,50 @@ This is Gnumeric, the GNOME spreadsheet.
 file COPYING.
 
    The project aims to become a drop in replacement for commercial
-spreadsheets.  Gnumeric is still a young program and it is advancing
-steadily.  If you are interested in contributing to it's development please
-send us some email, there are lots of projects available.
+spreadsheets.  Gnumeric is still a young program and it is advancing steadily.
+If you are interested in contributing to it's development please send us some
+email, there are lots of projects available.
 
 To report Gnumeric bugs, please visit bugzilla.gnome.org.
+
+WARNING WARNING WARNING
+
+    This is the _DEVELOPMENT_ branch of gnumeric.  It is undergoing rapid change
+    and is _NOT_ suitable for packaging or production work.  Please use the
+    stable branch
+
+	cvs co -r gnome_1_4 gnumeric
+
+WARNING WARNING WARNING
 
 Requirements
 ------------
 
 You need:
 
-	glib		>= 1.2.7  (glib 1.3 is not supported)
-	gtk+		>= 1.2.7  (gtk+ 1.3 is not supported)
-	gnome-libs	>= 1.0.57 (gnome-libs 2.0 is not supported)
-	xml-i18n-tools	>= 0.9	  (only required to build, not while running)
-	libglade	>= 0.16
-	gal		>= 0.16
-	gnome-print	>= 0.29
-	gnome-xml   	>= 1.8.14 (gnome-xml 2.x not supported yet)
+	glib		>= 1.3.10
+	gtk+		>= 1.3.10
+	libgnome	>= 1.105.0	??
+	libgnomeui	>= 1.106.0	??
+	libbonobo	>= 1.106.0	??
+	libbonoboui	>= 1.106.0	??
+	libgnomeprint	>= 1.106.0	??
+	libgnomeprintui	>= 1.106.0	??
+	intltools	>= 0.9
+	libglade	>= 1.99.4
+	gal-2		>= 0.0.0	(gal-2 branch of module gal)
+	gnome-xml   	>= 2.4.12
 	NOTE : gnome-xml is also known as libxml
-	libole2	    	>= 0.2.4
+	libole2	    	>= 1.3.0
 	NOTE : libole2 is also known as libgnomeole2
 
 Optionally:
-	bonobo		>= 1.0.9
-	NOTE : With bonobo you will need gnome-libs  >= 1.2.7
-	gb		== 0.0.17  (Gnome Basic for macros)
 	gda		>= 0.2.92  (GDA plugin, for accessing databases)
-	guile		>= 1.5     ("Soon" to be releated Guile version)
-	guppi		>= 0.40.0  (corresponds to 0.72)
+
+Currently Disabled
+	gb		== 0.0.17
+	guile		>= 1.5
+	guppi		>= 0.40.3
 	evolution	>= beta3
 
 Notes regarding plugins

@@ -19,6 +19,9 @@ Pending Patches
 Long term breakage
 ------------------
 
+- gnumeric_editable_enters the arguments are backwards.  This is being called
+  on the editable, not the dialog.
+
 - Auto-format (the "style on a range" kind) assumes a certain data layout,
   such as a final "Total" row.  I would like an extension that would allow
   me to ignore the final line of the template.  This could probably be
