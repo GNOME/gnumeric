@@ -237,12 +237,14 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
 	if ((pt->paste_flags & PASTE_OBJECTS) ||
 	    G_OBJECT_TYPE (src) == CELL_COMMENT_TYPE) {
 		SheetObject *dst = sheet_object_dup (src);
-		SheetObjectAnchor tmp;
-		sheet_object_anchor_cpy (&tmp, sheet_object_get_anchor (src));
-		range_translate (&tmp.cell_bound, left, top);
-		sheet_object_set_anchor (dst, &tmp);
-		sheet_object_set_sheet (dst, pt->sheet);
-		g_object_unref (dst);
+		if (dst != NULL) {
+			SheetObjectAnchor tmp;
+			sheet_object_anchor_cpy (&tmp, sheet_object_get_anchor (src));
+			range_translate (&tmp.cell_bound, left, top);
+			sheet_object_set_anchor (dst, &tmp);
+			sheet_object_set_sheet (dst, pt->sheet);
+			g_object_unref (dst);
+		}
 	}
 }
 
@@ -509,11 +511,13 @@ static void
 cb_dup_objects (SheetObject const *src, GnmCellRegion *cr)
 {
 	SheetObject *dst = sheet_object_dup (src);
-	SheetObjectAnchor tmp;
-	sheet_object_anchor_cpy (&tmp, sheet_object_get_anchor (src));
-	range_translate (&tmp.cell_bound, - cr->base.col, - cr->base.row);
-	sheet_object_set_anchor (dst, &tmp);
-	cr->objects = g_slist_prepend (cr->objects, dst);
+	if (dst != NULL) {
+		SheetObjectAnchor tmp;
+		sheet_object_anchor_cpy (&tmp, sheet_object_get_anchor (src));
+		range_translate (&tmp.cell_bound, - cr->base.col, - cr->base.row);
+		sheet_object_set_anchor (dst, &tmp);
+		cr->objects = g_slist_prepend (cr->objects, dst);
+	}
 }
 
 /**

@@ -19,6 +19,11 @@ Jody:
 	* Install the man pages
 	* Backport some framework for RTL
 	* image import from xl95 [#157997]
+	* Double click on an object brings up prop page
+	* Fix warnings when selecting a widget
+	* Hide value for slider objects
+	* Don't crash when attempting to copy an un-copiable object [#162888]
+	* Fix crash deleting a shared view [#163452]
 	* Fix sax export of outlines
 
 Morten:

@@ -1644,6 +1644,8 @@ scg_cursor_visible (SheetControlGUI *scg, gboolean is_visible)
 static gboolean
 scg_mode_clear (SheetControlGUI *scg)
 {
+	WorkbookControl *wbc;
+
 	g_return_val_if_fail (IS_SHEET_CONTROL_GUI (scg), FALSE);
 
 	if (scg->new_object != NULL) {
@@ -1651,7 +1653,9 @@ scg_mode_clear (SheetControlGUI *scg)
 		scg->new_object = NULL;
 	}
 	scg_object_unselect (scg, NULL);
-	wb_control_update_action_sensitivity (sc_wbc (SHEET_CONTROL (scg)));
+	wbc = sc_wbc (SHEET_CONTROL (scg));
+	if (wbc != NULL) /* during destruction */
+		wb_control_update_action_sensitivity (wbc);
 
 	return TRUE;
 }

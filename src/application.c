@@ -295,12 +295,14 @@ gnm_app_clipboard_cut_copy_obj (WorkbookControl *wbc, gboolean is_cut,
 		app->clipboard_copied_contents = cellregion_new	(sv_sheet (sv));
 		for (ptr = objects ; ptr != NULL ; ptr = ptr->next) {
 			so = sheet_object_dup (ptr->data);
-			r = (GnmRange *) sheet_object_get_range	(so);
-			range_translate (r,
-				-MIN (r->start.col, r->end.col),
-				-MIN (r->start.row, r->end.row));
-			app->clipboard_copied_contents->objects = g_slist_prepend (
-				app->clipboard_copied_contents->objects, so);
+			if (so != NULL) {
+				r = (GnmRange *) sheet_object_get_range	(so);
+				range_translate (r,
+					-MIN (r->start.col, r->end.col),
+					-MIN (r->start.row, r->end.row));
+				app->clipboard_copied_contents->objects = g_slist_prepend (
+					app->clipboard_copied_contents->objects, so);
+			}
 		}
 
 		if (is_cut) {

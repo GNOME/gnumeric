@@ -744,12 +744,14 @@ gnm_pane_object_start_resize (GnmPane *pane, GdkEventButton *event,
 
 		for (ptr = objs ; ptr != NULL ; ptr = ptr->next) {
 			SheetObject *dup_obj = sheet_object_dup (ptr->data);
-			sheet_object_set_sheet (dup_obj, sc_sheet (SHEET_CONTROL (scg)));
-			scg_object_select (scg, dup_obj);
-			g_object_unref (dup_obj);
-			scg_object_unselect (scg, ptr->data);
-			if (so == ptr->data)
-				so = dup_obj;
+			if (dup_obj != NULL) {
+				sheet_object_set_sheet (dup_obj, sc_sheet (SHEET_CONTROL (scg)));
+				scg_object_select (scg, dup_obj);
+				g_object_unref (dup_obj);
+				scg_object_unselect (scg, ptr->data);
+				if (so == ptr->data)
+					so = dup_obj;
+			}
 		}
 		g_slist_free (objs);
 	}

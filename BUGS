@@ -826,15 +826,16 @@ Short Term Goals
 
 33) Win32
     33.1) Make gnumeric build with only gtk and available libraries	(DONE)
-    33.2) Drawing past row 1800 or so
-    33.3) Shift-keyup from B1300 does not redraw properly
+    33.2) Drawing past row 1800 or so (gtk bug)
+    33.3) Shift-keyup from B1300 does not redraw properly (gtk bug)
     33.4) License in installer should be GPL, not LGPL			(DONE)
     33.5) no menu entry for Gnumeric					(DONE)
     33.6) broken header in 1st page of installer			(DONE)
     33.7) no charts (although about box does work)			(DONE)
     33.8) prefs dialog is useless in non-gnome build
     33.9) printing is zoomed in non-gnome build				(DONE)
-    33.10) Cursor shape changes oddly
+    33.10) Cursor shape changes oddly (gtk bug)				(DONE)
+    33.11) can not copy-n-paste (gtk bug)				(DONE)
 
 Misc stuff that should be fixed
 -------------------------------
