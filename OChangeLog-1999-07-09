@@ -1,3 +1,16 @@
+1998-09-25 Adrian Likins <adrian@gimp.org>
+
+	* docs/dndselection.sgml, selection.sml: more docs, some
+        on creating selections, and some on moving/copying cells
+	* docs/dndselection-*.jpg, selection-*.jpg: jpegs to 
+        accompany the docs.
+
+1998-09-24 Adrian Likins <adrian@gimp.org>
+
+       * docs/gnumeric.sgml, autofill.sgml: Some docs on the autofill 
+        stuff.
+       * docs/autofill-[1..10].jpg: jpegs accompaning the autofill docs
+
 1998-09-24  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet): Do not
