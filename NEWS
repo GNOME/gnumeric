@@ -28,6 +28,7 @@ Jody:
 	* Improve key handling when there are gurus.
  	* Crash importing 3d references to external workbooks.
 	* move libole2 req into excel plugin, and make it optional.
+	* guruify autoformat dialog, and update autoformat code.
 
 Joshua R. Odom:
 	* Reorganize the custom pixmaps.
