@@ -4221,7 +4221,6 @@ excel_sheet_new (ExcelWriteState *ewb, Sheet *sheet,
 		esheet->blips = g_slist_prepend (esheet->blips, bi);
 	}
 	esheet->blips = g_slist_reverse (esheet->blips);
-	g_slist_free (objs);
 	esheet->num_objs += esheet->num_blips;
 
 	/* Text boxes */
