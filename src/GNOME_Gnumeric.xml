@@ -775,17 +775,19 @@
 	    _label="Frame"
 	    _tip="Create a frame" verb="CreateFrame"/>
 
-	<toolitem name="Frame"
+	<!-- Not useful until we have scripts
+	<toolitem name="Button"
 	    pixtype="stock" pixname="Gnumeric_Button"
 	    _label="Button"
 	    _tip="Create a button" verb="CreateButton"/>
+	-->
 
-	<toolitem name="Frame"
+	<toolitem name="Checkbox"
 	    pixtype="stock" pixname="Gnumeric_Checkbutton"
 	    _label="Checkbox"
 	    _tip="Create a checkbox" verb="CreateCheckbox"/>
 
-	<toolitem name="Frame"
+	<toolitem name="Radiobutton"
 	    pixtype="stock" pixname="Gnumeric_Radiobutton"
 	    _label="Radio Button"
 	    _tip="Create a radio button" verb="CreateRadiobutton"/>

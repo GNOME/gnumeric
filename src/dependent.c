@@ -95,13 +95,13 @@ dependent_type_register (DependentClass const *klass)
 /**
  * dependent_set_expr :
  * @dep : The dependent we are interested in.
- * @expr : new expression.
+ * @new_expr : new expression.
  *
  * When the expression associated with a dependent needs to change
  * this routine dispatches to the virtual handler.
  */
 void
-dependent_set_expr (Dependent *dep, ExprTree *expr)
+dependent_set_expr (Dependent *dep, ExprTree *new_expr)
 {
 	int const t = dependent_type (dep);
 
@@ -110,12 +110,41 @@ dependent_set_expr (Dependent *dep, ExprTree *expr)
 		 * Explicitly do not check for array subdivision, we may be
 		 * replacing the corner of an array.
 		 */
-		cell_set_expr_unsafe (DEP_TO_CELL (dep), expr, NULL);
+		cell_set_expr_unsafe (DEP_TO_CELL (dep), new_expr, NULL);
 	} else {
 		DependentClass *klass = g_ptr_array_index (dep_classes, t);
 
 		g_return_if_fail (klass);
-		(*klass->set_expr) (dep, expr);
+		if (klass->set_expr != NULL)
+			(*klass->set_expr) (dep, new_expr);
+#if 0
+		{
+			ParsePos pos;
+			char *str;
+
+			parse_pos_init_dep (&pos, dep);
+			dependent_debug_name (dep, stdout);
+
+			str = expr_tree_as_string (new_expr, &pos);
+			printf(" new = %s\n", str);
+			g_free (str);
+
+			str = expr_tree_as_string (dep->expression, &pos);
+			printf("\told = %s\n", str);
+			g_free (str);
+		}
+#endif
+
+		if (new_expr != NULL)
+			expr_tree_ref (new_expr);
+		if (dep->flags & DEPENDENT_IN_EXPR_LIST)
+			dependent_unlink (dep, NULL);
+		if (dep->expression != NULL)
+			expr_tree_unref (dep->expression);
+
+		dep->expression = new_expr;
+		if (new_expr != NULL)
+			dependent_changed (dep, TRUE);
 	}
 }
 

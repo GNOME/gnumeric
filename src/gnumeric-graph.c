@@ -382,46 +382,12 @@ gnm_graph_get_config_control (GnmGraph *graph, char const *which_control)
 }
 
 static void
-gnm_graph_vector_set_expr (Dependent *dep, ExprTree *expr)
-{
-	d({
-		ParsePos pos; char * new_str;
-
-		parse_pos_init (&pos, NULL, dep->sheet, 0, 0);
-		new_str = expr_tree_as_string (expr, &pos);
-		printf("new = %s\n", new_str);
-		g_free (new_str);
-		new_str = expr_tree_as_string (dep->expression, &pos);
-		printf("old = %s\n", new_str);
-		g_free (new_str);
-	});
-
-	expr_tree_ref (expr);
-	dependent_unlink (dep, NULL);
-	expr_tree_unref (dep->expression);
-	dep->expression = expr;
-	dependent_changed (dep, TRUE);
-}
-
-static void
 gnm_graph_vector_debug_name (Dependent const *dep, FILE *out)
 {
 	fprintf (out, "GnmGraphVector%p", dep);
 }
 
-static guint
-gnm_graph_vector_get_dep_type (void)
-{
-	static guint32 type = 0;
-	if (type == 0) {
-		static DependentClass klass;
-		klass.eval = &gnm_graph_vector_eval;
-		klass.set_expr = &gnm_graph_vector_set_expr;
-		klass.debug_name = &gnm_graph_vector_debug_name;
-		type = dependent_type_register (&klass);
-	}
-	return type;
-}
+static DEPENDENT_MAKE_TYPE (gnm_graph_vector, NULL)
 
 static Value *
 cb_check_range_for_pure_string (EvalPos const *ep, Value const *v, void *user)

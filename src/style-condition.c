@@ -53,35 +53,16 @@ style_condition_dep_eval (Dependent *dep)
 }
 
 static void
-style_condition_dep_set_expr (Dependent *dep, ExprTree *expr)
+style_condition_dep_set_expr (Dependent *dep, ExprTree *new_expr)
 {
-	StyleCondition *sc;
+	StyleCondition *sc = DEP_TO_STYLE_CONDITION (dep);
 	
-	g_return_if_fail (dep != NULL);
-	sc = DEP_TO_STYLE_CONDITION (dep);
-	
-	/*
-	 * Make sure no invalid 'cached' value
+	/* Make sure no invalid 'cached' value
 	 * of the previous expression remains
 	 */
 	if (sc->val) {
 		value_release (sc->val);
 		sc->val = NULL;
-	}
-
-	/* Always reference before unref */
-	if (expr)
-		expr_tree_ref (expr);
-		
-	if (dep->expression) {
-		dependent_unlink (dep, NULL);
-		expr_tree_unref (dep->expression);
-		dep->expression = NULL;
-	}
-
-	if (expr) {
-		dep->expression = expr;
-		dependent_changed (dep, TRUE);
 	}
 }
 
@@ -93,19 +74,7 @@ style_condition_dep_debug_name (Dependent const *dep, FILE *out)
 	fprintf (out, "StyleCondition Dep %p", dep);
 }
 
-static guint
-style_condition_get_dep_type (void)
-{
-	static guint32 type = 0;
-	if (type == 0) {
-		static DependentClass klass;
-		klass.eval = &style_condition_dep_eval;
-		klass.set_expr = &style_condition_dep_set_expr;
-		klass.debug_name = &style_condition_dep_debug_name;
-		type = dependent_type_register (&klass);
-	}
-	return type;
-}
+static DEPENDENT_MAKE_TYPE (style_condition_dep, &style_condition_dep_set_expr)
 
 /*********************************************************************************/
 
@@ -124,7 +93,7 @@ style_condition_new (Sheet *sheet, StyleConditionOp op, ExprTree *expr)
 	sc->ref_count = 1;	
 	sc->op        = op;
 	sc->dep.sheet = sheet;
-	sc->dep.flags = style_condition_get_dep_type ();
+	sc->dep.flags = style_condition_dep_get_dep_type ();
 	dependent_set_expr (&sc->dep, expr);
 
 	sc->val  = NULL;

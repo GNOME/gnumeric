@@ -1,5 +1,8 @@
 Gnumeric 0.72
 
+Almer:
+	* More work on validation.
+
 Jukka:
 	* Improved COUPDAYS().
 

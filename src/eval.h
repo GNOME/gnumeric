@@ -16,7 +16,7 @@ struct _Dependent
 
 typedef struct {
 	void (*eval) (Dependent *dep);
-	void (*set_expr) (Dependent *dep, ExprTree *expr);
+	void (*set_expr) (Dependent *dep, ExprTree *new_expr);
 	void (*debug_name) (Dependent const *dep, FILE *out);
 } DependentClass;
 
@@ -56,7 +56,7 @@ guint32 dependent_type_register  (DependentClass const *klass);
 void dependent_types_init	 (void);
 void dependent_types_shutdown	 (void);
 
-void	 dependent_set_expr	   (Dependent *dependent, ExprTree *expr);
+void	 dependent_set_expr	   (Dependent *dependent, ExprTree *new_expr);
 void	 dependent_link		   (Dependent *dep, CellPos const *pos);
 void	 dependent_unlink	   (Dependent *dep, CellPos const *pos);
 void	 dependent_unlink_sheet	   (Sheet *sheet);
@@ -93,5 +93,20 @@ void dependent_debug_name	 (Dependent const *dep, FILE *out);
 	}							\
   } while (0)
 
+
+#define DEPENDENT_MAKE_TYPE(t, set_expr_handler)		\
+guint								\
+t ## _get_dep_type (void)					\
+{								\
+	static guint32 type = 0;				\
+	if (type == 0) {					\
+		static DependentClass klass;			\
+		klass.eval	 = &t ## _eval;			\
+		klass.set_expr	 = set_expr_handler;		\
+		klass.debug_name = &t ## _debug_name;		\
+		type = dependent_type_register (&klass);	\
+	}							\
+	return type;						\
+}
 
 #endif /* GNUMERIC_EVAL_H */

@@ -143,9 +143,12 @@ static GnomeUIInfo workbook_object_toolbar [] = {
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Frame"), N_("Creates a frame"),
 		&cmd_create_frame, "Gnumeric_Frame"),
+#if 0
+	/* not useful until we have scripts */
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Button"), N_("Creates a button"),
 		&cmd_create_button, "Gnumeric_Button"),
+#endif
 	GNOMEUIINFO_ITEM_STOCK (
 		N_("Checkbox"), N_("Creates a checkbox"),
 		&cmd_create_checkbox, "Gnumeric_Checkbutton"),

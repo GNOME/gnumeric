@@ -21,11 +21,6 @@
  * USA
  */
 #include <config.h>
-#include <glib.h>
-#include <libgnome/gnome-defs.h>
-#include <libgnome/gnome-i18n.h>
-#include <gdk/gdkkeysyms.h>
-#include <math.h>
 #include "gnumeric.h"
 #include "gui-util.h"
 #include "eval.h"
@@ -42,7 +37,12 @@
 #include "sheet.h"
 #include "gnumeric-expr-entry.h"
 #include "dialogs.h"
+#include "widgets/gnumeric-combo-text.h"
 
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
+#include <gdk/gdkkeysyms.h>
+#include <math.h>
 #include <gal/util/e-util.h>
 
 #define SHEET_OBJECT_CONFIG_KEY "sheet-object-config-dialog"
@@ -535,35 +535,12 @@ checkbox_eval (Dependent *dep)
 }
 
 static void
-checkbox_set_expr (Dependent *dep, ExprTree *expr)
-{
-	if (expr != NULL)
-		expr_tree_ref (expr);
-	dependent_unlink (dep, NULL);
-	expr_tree_unref (dep->expression);
-	dep->expression = expr;
-	dependent_changed (dep, expr != NULL);
-}
-
-static void
 checkbox_debug_name (Dependent const *dep, FILE *out)
 {
 	fprintf (out, "Checkbox%p", dep);
 }
 
-static guint
-checkbox_get_dep_type (void)
-{
-	static guint32 type = 0;
-	if (type == 0) {
-		static DependentClass klass;
-		klass.eval = &checkbox_eval;
-		klass.set_expr = &checkbox_set_expr;
-		klass.debug_name = &checkbox_debug_name;
-		type = dependent_type_register (&klass);
-	}
-	return type;
-}
+static DEPENDENT_MAKE_TYPE (checkbox, NULL)
 
 static void
 sheet_widget_checkbox_construct_with_range (SheetObjectWidget *sow,
@@ -605,16 +582,13 @@ sheet_widget_checkbox_destroy (GtkObject *obj)
 
 	g_return_if_fail (swc != NULL);
 
-	g_free (swc->label);
-	swc->label = NULL;
-
-	if (swc->dep.flags & DEPENDENT_IN_EXPR_LIST)
-		dependent_unlink (&swc->dep, NULL);
-	
-	if (swc->dep.expression != NULL) {
-		expr_tree_unref (swc->dep.expression);
-		swc->dep.expression = NULL;
+	if (swc->label != NULL) {
+		g_free (swc->label);
+		swc->label = NULL;
 	}
+
+	dependent_set_expr (&swc->dep, NULL);
+
 	(*sheet_object_widget_class->destroy)(obj);
 }
 
@@ -765,9 +739,9 @@ cb_checkbox_config_clicked (GnomeDialog *dialog, gint button_number,
 
 			/* FIXME : Should we be more verbose about errors */
 			if (expr != NULL && expr->any.oper == OPER_VAR)
-				checkbox_set_expr (&state->swc->dep, expr);
+				dependent_set_expr (&state->swc->dep, expr);
 		} else
-			checkbox_set_expr (&state->swc->dep, NULL);
+			dependent_set_expr (&state->swc->dep, NULL);
 	}
 	wbcg_edit_finish (state->wbcg, FALSE);
 }
@@ -1039,28 +1013,100 @@ SOW_MAKE_TYPE(list, List,
 static GtkType sheet_widget_combo_get_type (void);
 #define SHEET_WIDGET_COMBO_TYPE     (sheet_widget_combo_get_type ())
 #define SHEET_WIDGET_COMBO(obj)     (GTK_CHECK_CAST((obj), SHEET_WIDGET_COMBO_TYPE, SheetWidgetCombo))
+#define DEP_TO_COMBO_INPUT(d_ptr)	(SheetWidgetCombo *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetCombo, input_dep))
+#define DEP_TO_COMBO_OUTPUT(d_ptr)	(SheetWidgetCombo *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetCombo, output_dep))
+
 typedef struct {
 	SheetObjectWidget	sow;
+	gboolean being_updated;
+
+	Dependent input_dep;
+	Dependent output_dep;
 } SheetWidgetCombo;
 typedef struct {
 	SheetObjectWidgetClass	sow;
 } SheetWidgetComboClass;
 
+/*-----------*/
+static void
+combo_input_eval (Dependent *dep)
+{
+	Value *v;
+	EvalPos pos;
+	gboolean err, result;
+
+	pos.sheet = dep->sheet;
+	pos.eval.row = pos.eval.col = 0;
+	v = eval_expr (&pos, dep->expression, EVAL_STRICT);
+	if (!err) {
+		SheetWidgetCombo *swc = DEP_TO_COMBO_INPUT (dep);
+	}
+}
+
+static void
+combo_input_debug_name (Dependent const *dep, FILE *out)
+{
+	fprintf (out, "ComboInput%p", dep);
+}
+
+static DEPENDENT_MAKE_TYPE (combo_input, NULL)
+
+/*-----------*/
+static void
+combo_output_eval (Dependent *dep)
+{
+	Value *v;
+	EvalPos pos;
+	gboolean err, result;
+
+	pos.sheet = dep->sheet;
+	pos.eval.row = pos.eval.col = 0;
+	v = eval_expr (&pos, dep->expression, EVAL_STRICT);
+	if (!err) {
+		SheetWidgetCombo *swc = DEP_TO_COMBO_OUTPUT (dep);
+	}
+}
+
+static void
+combo_output_debug_name (Dependent const *dep, FILE *out)
+{
+	fprintf (out, "ComboOutput%p", dep);
+}
+
+static DEPENDENT_MAKE_TYPE (combo_output, NULL)
+
+/*-----------*/
+
 static void
 sheet_widget_combo_construct (SheetObjectWidget *sow, Sheet *sheet)
 {
+	static int counter = 0;
+	SheetWidgetCombo *swc = SHEET_WIDGET_COMBO (sow);
+
+	swc->being_updated = FALSE;
+
+	swc->input_dep.sheet = sheet;
+	swc->input_dep.flags = combo_input_get_dep_type ();
+	swc->input_dep.expression = NULL;
+
+	swc->output_dep.sheet = sheet;
+	swc->output_dep.flags = combo_output_get_dep_type ();
+	swc->output_dep.expression = NULL;
 }
 
 static void
 sheet_widget_combo_destroy (GtkObject *obj)
 {
+	SheetWidgetCombo *swc = SHEET_WIDGET_COMBO (obj);
+	dependent_set_expr (&swc->input_dep, NULL);
+	dependent_set_expr (&swc->output_dep, NULL);
 	(*sheet_object_widget_class->destroy)(obj);
 }
 
 static GtkWidget *
 sheet_widget_combo_create_widget (SheetObjectWidget *sow, SheetControlGUI *sview)
 {
-	return gtk_combo_new ();
+	return gnm_combo_text_new (NULL);
 }
 
 SOW_MAKE_TYPE(combo, Combo,

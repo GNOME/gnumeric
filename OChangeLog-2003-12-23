@@ -1,5 +1,20 @@
 2001-10-09  Jody Goldberg <jgoldberg@home.com>
 
+	* GNOME_Gnumeric.oaf.in : Disable embeddable grid, it is broken.
+
+2001-10-09  Jody Goldberg <jgoldberg@home.com>
+
+	* src/eval.c (dependent_set_expr) : Make a default handler to merge
+	  all the different states that have croppedup into one place.
+	* src/gnumeric-graph.c (gnm_graph_vector_set_expr) : Use the default.
+	* src/sheet-object-widget.c (checkbox_set_expr) : ditto.
+	* src/style-condition.c (style_condition_dep_set_expr) : The default
+	  handles most of the work.
+
+	* src/style-condition.c : Use DEPENDENT_MAKE_TYPE.
+
+2001-10-09  Jody Goldberg <jgoldberg@home.com>
+
 	* src/gnumeric-graph.c (gnm_graph_add_vector) : Allow empties to
 	  remaing empty.
 	(gnm_graph_vector_eval) : ditto.

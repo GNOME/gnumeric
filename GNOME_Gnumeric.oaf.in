@@ -25,6 +25,7 @@
 	 value="Workbook component"/>
     </oaf_server>
 
+<!-- disable until it does something other than crash.
     <oaf_server iid="OAFIID:GNOME_Gnumeric_GridFactory"
 		type="exe"
 		location="gnumeric-bonobo">
@@ -49,4 +50,5 @@
 	<oaf_attribute name="description" type="string"
 	 value="Embeddable Grid Component"/>
     </oaf_server>
+-->
 </oaf_info>
