@@ -1,4 +1,9 @@
-2004-10-25  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+2004-10-26  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* graph/plugins/plot_barcol/gog-line.c (gog_line_view_render): fix
+	marker for missing data.
+
+2004-10-26  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=152585
 	* grah/gog-axis.c (gog_axis_update): allways emit changed signal for
