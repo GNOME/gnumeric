@@ -54,7 +54,7 @@ make_format_chooser (GList *list, GtkOptionMenu *omenu)
 		GtkWidget *item;
 		const gchar *descr;
 
-		if IS_GNUM_FILE_OPENER (l->data)
+		if (IS_GNUM_FILE_OPENER (l->data))
 			descr = gnum_file_opener_get_description (
 						GNUM_FILE_OPENER (l->data));
 		else
@@ -104,6 +104,10 @@ gui_file_import (WorkbookControlGUI *wbcg)
 	gtk_file_selection_hide_fileop_buttons (fsel);
 	gtk_box_pack_start (GTK_BOX (fsel->action_area), format_chooser,
 	                    FALSE, TRUE, 0);
+
+	/* Set default importer */
+	fo = get_default_file_importer ();
+	gtk_option_menu_set_history (omenu, g_list_index (importers, fo));
 
 	/* Show file selector */
 	if (!gnumeric_dialog_file_selection (wbcg, fsel)) {

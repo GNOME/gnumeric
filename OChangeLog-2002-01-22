@@ -1,3 +1,27 @@
+2001-08-07  Zbigniew Chyla  <cyba@gnome.pl>
+
+	Fixes #58648
+	Added support for default importers (with specified priority)
+
+	* file.[ch]
+	(register_file_opener_as_importer_as_default,
+	get_default_file_importer): New functions, added support for default
+	importers (with specified priority).
+
+	* gui-file.c (gui_file_import): Open the dialog with default importer
+	selected.
+
+	* plugin-service.h (struct _PluginServiceFileOpener):
+	Added default_importer_priority field.
+
+	* plugin-service.c (plugin_service_file_opener_read): If importer is
+	enabled, read default_importer_priority attribute.
+	(plugin_service_file_opener_initialize): Register as default importer if
+	default_importer_priority is specified.
+
+	* src/stf.c (stf_init): Register "Gnumeric_stf:stf_druid" as default
+	file importer with priority 50.
+
 2001-08-07  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-cursor.c (item_cursor_draw) : When centering the cursor

@@ -34,6 +34,7 @@ struct _PluginServiceFileOpener {
 	gboolean has_probe;
 	gboolean can_open;
 	gboolean can_import;
+	gint   default_importer_priority;
 	gchar *description;
 	GList *file_patterns;      /* list of InputFilePattern */
 	InputFileSaveInfo *save_info;

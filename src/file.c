@@ -552,10 +552,15 @@ typedef struct {
 	GnumFileSaver *saver;
 } DefaultFileSaver;
 
+typedef struct {
+	gint priority;
+	GnumFileOpener *opener;
+} DefaultFileImporter;
+
 static GHashTable *file_opener_id_hash = NULL,
                   *file_saver_id_hash = NULL;
 static GList *file_opener_list = NULL, *file_opener_priority_list = NULL;
-static GList *file_importer_list = NULL;
+static GList *file_importer_list = NULL, *default_file_importer_list = NULL;
 static GList *file_saver_list = NULL, *default_file_saver_list = NULL;
 
 static gint
@@ -609,6 +614,14 @@ register_file_opener (GnumFileOpener *fo, gint priority)
 	}
 }
 
+static gint
+default_file_importer_cmp_priority (gconstpointer a, gconstpointer b)
+{
+	const DefaultFileImporter *dfi_a = a, *dfi_b = b;
+
+	return dfi_b->priority - dfi_a->priority;
+}
+
 /**
  * register_file_opener_as_importer:
  * @fo          : GnumFileOpener object
@@ -641,6 +654,42 @@ register_file_opener_as_importer (GnumFileOpener *fo)
 		}
 		g_hash_table_insert (file_opener_id_hash, (gpointer) id, fo);
 	}
+}
+
+/**
+ * register_file_opener_as_importer_as_default:
+ * @fo          : GnumFileOpener object
+ * @priority    : Opener's priority (as an importer)
+ *
+ * Adds @fo opener to the list of available file importers.
+ * The opener is * also marked as default importer with given priority.
+ * When Gnumeric needs default file importer, it chooses the one with the
+ * highest priority. Recommended range for @priority is [0, 100].
+ * The opener will not be tried when reading files using Gnumeric i/o
+ * routines (unless you call register_file_opener on it), but it will be
+ * available for the user when importing the file and selecting file opener
+ * manually (in that case the default importer will be selected by default).
+ * Reference count for the opener is incremented inside the function, but
+ * you don't have to (and shouldn't) call gtk_object_unref on it if it's
+ * floating object (for example, when you pass object newly created with
+ * gnum_file_opener_new and not referenced anywhere).
+ */
+void
+register_file_opener_as_importer_as_default (GnumFileOpener *fo, gint priority)
+{
+	DefaultFileImporter	*dfi;
+
+	g_return_if_fail (IS_GNUM_FILE_OPENER (fo));
+	g_return_if_fail (priority >=0 && priority <= 100);
+
+	register_file_opener_as_importer (fo);
+
+	dfi = g_new (DefaultFileImporter, 1);
+	dfi->priority = priority;
+	dfi->opener = fo;
+	default_file_importer_list = g_list_insert_sorted (
+	                             default_file_importer_list, dfi,
+	                             default_file_importer_cmp_priority);
 }
 
 /**
@@ -712,7 +761,35 @@ unregister_file_opener_as_importer (GnumFileOpener *fo)
 		}
 	}
 
+	for (l = default_file_importer_list; l != NULL; l = l->next) {
+		if (((DefaultFileImporter *) l->data)->opener == fo) {
+			default_file_importer_list = g_list_remove_link (default_file_importer_list, l);
+			g_list_free_1 (l);
+			g_free (l->data);
+			break;
+		}
+	}
+
 	gtk_object_unref (GTK_OBJECT (fo));
+}
+
+/**
+ * get_default_file_importer:
+ *
+ * Returns file opener registered as default importer with the highest
+ * priority. Reference count for the saver is NOT incremented.
+ *
+ * Return value: GnumFileOpener object or NULL if default importer is not
+ *               available.
+ */
+GnumFileOpener *
+get_default_file_importer (void)
+{
+	if (default_file_importer_list == NULL) {
+		return NULL;
+	}
+
+	return ((DefaultFileImporter *) default_file_importer_list->data)->opener;
 }
 
 static gint

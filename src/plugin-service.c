@@ -451,6 +451,10 @@ plugin_service_file_opener_read (xmlNode *tree, ErrorInfo **ret_error)
 		service_file_opener->has_probe = has_probe;
 		service_file_opener->can_open = can_open;
 		service_file_opener->can_import = can_import;
+		if (can_import) {
+			service_file_opener->default_importer_priority =
+			e_xml_get_integer_prop_by_name_with_default (tree, "default_importer_priority", -1);
+		}
 		service_file_opener->description = description;
 		service_file_opener->file_patterns = file_patterns;
 		service_file_opener->save_info = save_info;
@@ -504,7 +508,12 @@ plugin_service_file_opener_initialize (PluginService *service, ErrorInfo **ret_e
 		                      service_file_opener->priority);
 	}
 	if (service_file_opener->can_import) {
-		register_file_opener_as_importer (service_file_opener->opener);
+		if (service_file_opener->default_importer_priority < 0) {
+			register_file_opener_as_importer (service_file_opener->opener);
+		} else {
+			register_file_opener_as_importer_as_default (service_file_opener->opener,
+			                                             service_file_opener->default_importer_priority);
+		}
 	}
 }
 
