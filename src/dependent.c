@@ -312,7 +312,7 @@ dependency_remove_cell (gpointer key, gpointer value, gpointer the_cell)
 }
 
 /*
- * Remove the Cell from the DependecyRange hash tables
+ * Remove the Cell from the DependencyRange hash tables
  */
 void
 cell_drop_dependencies (Cell *cell)
