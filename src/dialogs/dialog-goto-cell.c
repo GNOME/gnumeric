@@ -93,13 +93,6 @@ dialog_goto_close_destroy (GtkObject *w, GotoState  *state)
 	return FALSE;
 }
 
-static void
-cb_dialog_goto_nav_clicked (GtkWidget *button, GotoState *state)
-{
-	g_warning ("The Navigator is not yet implemented.");
-	return;
-}
-
 /**
  * cb_dialog_goto_close_clicked:
  * @button:
@@ -314,33 +307,6 @@ dialog_goto_init (GotoState *state)
 	g_signal_connect (G_OBJECT (state->go_button),
 		"clicked",
 		G_CALLBACK (cb_dialog_goto_go_clicked), state);
-
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "go_top")),
-		"clicked",
-		G_CALLBACK (cb_dialog_goto_nav_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "go_up")),
-		"clicked",
-		G_CALLBACK (cb_dialog_goto_nav_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "go_start")),
-		"clicked",
-		G_CALLBACK (cb_dialog_goto_nav_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "go_left")),
-		"clicked",
-		G_CALLBACK (cb_dialog_goto_nav_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "go_right")),
-		"clicked",
-		G_CALLBACK (cb_dialog_goto_nav_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "go_end")),
-		"clicked",
-		G_CALLBACK (cb_dialog_goto_nav_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "go_down")),
-		"clicked",
-		G_CALLBACK (cb_dialog_goto_nav_clicked), state);
-	g_signal_connect (G_OBJECT (glade_xml_get_widget (state->gui, "go_bottom")),
-		"clicked",
-		G_CALLBACK (cb_dialog_goto_nav_clicked), state);
-
-	
 
 	gnumeric_init_help_button (
 		glade_xml_get_widget (state->gui, "help_button"),

@@ -1,3 +1,8 @@
+2002-03-18  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/dialogs/goto.glade : removed navigator part
+	* dialog-goto-cell.c : 	removed navigator
+
 2002-03-18  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.glade : Added a button for quadratic programming.
