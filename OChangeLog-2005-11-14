@@ -1,7 +1,24 @@
 2003-07-01  Jody Goldberg <jody@gnome.org>
 
+	* src/Makefile.am : Be even more delicate about changeing built
+	  sources.  Be very anal about not including generated files in the
+	  release.
+	* src/gnumeric-paths.sh.in : No need to handle paths here.  Do it in
+	  the make file.
+
+2003-07-01  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=115929
+	For gjc@inescporto.pt (Gustavo Carneiro)
+	* autogen.sh : Use gnome-common's libtool version test rather than the
+	  antiquated version in here that did not handle libtool-1.5
+
+2003-07-01  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=116447
 	* src/formats.c (style_format_account) : fix typo.
+
+	* src/GNOME_Gnumeric.xml : Add FileSend
 
 2003-06-30  Jody Goldberg <jody@gnome.org>
 

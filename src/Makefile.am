@@ -360,11 +360,16 @@ gnm-marshalers.c : gnm-marshalers.list $(GLIB_GENMARSHAL)
 	rm -f $@.tmp
 
 gnumeric-paths.h: gnumeric-paths.sh
-	sh $<
+	@sh $< > $@.tmp ;					\
+	if cmp -s $@.tmp $@; then				\
+	    rm $@.tmp;						\
+	else							\
+	    mv $@.tmp $@ ; echo updated gnumeric-paths.h ;	\
+	fi
 
 # do not include the paths in the tarball
 dist-hook :
-	-rm -f $(distdir)/gnumeric-paths.h
+	-rm -f $(distdir)/gnumeric-paths.h $(distdir)/gnumeric-paths.sh
 
 # include conditional files to ensure everything gets distributed no matter
 # what the build

@@ -16,8 +16,7 @@ gnumeric_libdir="@gnumeric_libdir@"
 gnumeric_icondir="@gnumeric_icondir@"
 gnumeric_localedir="@gnumeric_localedir@"
 
-outfile="`dirname $0`/gnumeric-paths.h"
-cat >$outfile <<EOF
+cat <<EOF
 /* This file has been automatically generated.  Do not edit. */
 
 #ifndef GNUMERIC_PATHS_H
