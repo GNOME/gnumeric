@@ -25,8 +25,8 @@ BuildRequires:	libglade2-devel		>= 2.3.6
 BuildRequires:	libgnomecanvas-devel	>= 1.113.0
 BuildRequires:	libgnome-devel		>= 2.0.0
 BuildRequires:	libgnomeui-devel	>= 2.0.0
-BuildRequires:	libgnomeprint24-devel	>= 2.5.2
-BuildRequires:	libgnomeprintui24	>= 2.5.2
+BuildRequires:	libgnomeprint22-devel	>= 2.5.2
+BuildRequires:	libgnomeprintui22	>= 2.5.2
 # What about libart requirement?
 %if %{?_with_bonobo:1}%{!?_with_bonobo:0}
 BuildRequires: libbonobo-devel		>= 2.0.0
@@ -115,6 +115,11 @@ scrollkeeper-update
 #%{_datadir}/gnumeric/%{version}/idl/*.idl
 
 %changelog
+* Sun Oct 10 2004 Jody Goldberg <jody@gnome.org>
+- Lets stick with fedora core package names as the defacto standard until
+  something better presents itself.  There are still no guarantees that this
+  works.
+
 * Fri Sep 12 2003 Jody Goldberg <jody@gnome.org>
 - install the plugin schema too.
 
