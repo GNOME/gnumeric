@@ -1356,7 +1356,7 @@ applix_read (IOContext *context, WorkbookView *wb_view,
 
 	for (i = state.attrs->len; --i >= 0 ; )
 		mstyle_unref (g_ptr_array_index(state.attrs, i));
-	g_ptr_array_free (state.colours, TRUE);
+	g_ptr_array_free (state.attrs, TRUE);
 
 	for (i = state.font_names->len; --i >= 0 ; )
 		g_free (g_ptr_array_index(state.font_names, i));
