@@ -1,6 +1,6 @@
-CFLAGS += -g -Wall 	\
-	-Wshadow             -Wpointer-arith  	\
-	-Wmissing-prototypes -Wmissing-declarations 
+# CFLAGS += -g -Wall 	\
+# 	-Wshadow             -Wpointer-arith  	\
+# 	-Wmissing-prototypes -Wmissing-declarations 
 
 bin_PROGRAMS = gnumeric
 
@@ -109,7 +109,7 @@ gnumeric_SOURCES =			\
 	main.c				\
 	$(GNUMERIC_BASE_SOURCES)
 
-
+gnumeric_LDFLAGS = -export-dynamic
 gnumeric_LDADD = 			\
 	$(GNOME_LIBDIR) 		\
 	$(GNOMEUI_LIBS)			\

@@ -1,16 +1,30 @@
+1998-09-27  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* configure.in (GNOME_COMPILE_WARNINGS): New check.
+	(PYTHON_EXEC_PREFIX): Figure out `exec_prefix'
+	where python was installed.
+	(PYTHON_LIB_LOC): Use $PYTHON_EXEC_PREFIX instead of
+	$PYTHON_PREFIX. 
+
+	* src/Makefile.am (CFLAGS): Comment out.
+	* plugins/sample/Makefile.am (CFLAGS): Likewise.
+
+	* plugins/python/Makefile.am (CFLAGS): Comment out.
+	(libpython_la_LDFLAGS): Move $(PYTHON_LIB_LOC) here.
+
 1998-09-27 Adrian Likins <adrian@gimp.org>
 
-        * doc/gnumeric,editing,formulas, autofill.sgml: More
-          approriate tags for the images and examples. Restructed
-          to be a bit more logical.
+	* doc/{gnumeric, editing, formulas, autofill.sgml}: More
+	approriate tags for the images and examples. Restructed to be a
+	bit more logical.
 
 1998-09-26  Adrian Likins <adrian@gimp.org>
  
-        * doc/*.jpg:
-          doc/images/*.jpg: moved images to an images subdir
+	* doc/*.jpg:
+	* doc/images/*.jpg: moved images to an images subdir
 
-        * doc/gnumeric.sgml, editing.sgml, autofill.sgml: cleaned
-          up the markup some   
+	* doc/gnumeric.sgml, editing.sgml, autofill.sgml: cleaned
+	up the markup some   
 
 1998-09-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
@@ -32,13 +46,11 @@
 
 1998-09-25 Adrian Likins <adrian@gimp.org>
 
-	*doc/cell_refer.sgml
-         doc/gnumeric.sgml
-         doc/editing.sgml: Change the structure of the outline
-         of the docs to make a bit mroe sense. Added some more
-         docs too.
+	* doc/cell_refer.sgml, doc/gnumeric.sgml, doc/editing.sgml: 
+	Change the structure of the outline of the docs to make a bit 
+	more sense. Added some more docs too.
 
-        *doc/cell-*.jpg, doc/selection[8,9,10].jpg: more jpgs
+	* doc/cell-*.jpg, doc/selection[8,9,10].jpg: more jpgs
 
 1998-09-25  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
@@ -84,9 +96,9 @@
 
 1998-09-24 Adrian Likins <adrian@gimp.org>
 
-       * doc/gnumeric.sgml, autofill.sgml: Some docs on the autofill 
+	* doc/gnumeric.sgml, autofill.sgml: Some docs on the autofill 
         stuff.
-       * doc/autofill-[1..10].jpg: jpegs accompaning the autofill docs
+	* doc/autofill-[1..10].jpg: jpegs accompaning the autofill docs
 
 1998-09-24  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
@@ -1235,7 +1247,7 @@ Thu Aug 13 00:02:23 EDT 1998  Daniel Veillard <Daniel.Veillard@w3.org>
 	* src/func.c (gnumeric_sum): 
 	Implement SUM function.
 	
-1998-08-05    <miguel@nuclecu.unam.mx>
+1998-08-05  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/expr.c (eval_funcall): No need for the the extra argc
 	parameter on the functions with strong prototypes. 

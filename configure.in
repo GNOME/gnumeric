@@ -14,6 +14,7 @@ AC_ARG_PROGRAM
 AM_PROG_LIBTOOL
 
 ## this should come after `AC_PROG_CC'
+GNOME_COMPILE_WARNINGS
 GNOME_X_CHECKS
 GNOME_XML_CHECK
 
@@ -43,12 +44,13 @@ dnl
 AC_CHECK_PROG(python_val, python, true, false)
 if $python_val; then
 	PYTHON_PREFIX=`python -c 'import sys ; print sys.prefix'`
+	PYTHON_EXEC_PREFIX=`python -c 'import sys ; print sys.exec_prefix'`
 	changequote(<<, >>)dnl
 	PYTHON_VERSION=`python -c 'import sys ; print sys.version[0:3]'`
 	changequote([, ])dnl
 	if test -f $PYTHON_PREFIX/include/python$PYTHON_VERSION/Python.h; then
 		PYTHON_LIBS="python$PYTHON_VERSION"
-		PYTHON_LIB_LOC="-L$PYTHON_PREFIX/lib/python$PYTHON_VERSION/config"
+		PYTHON_LIB_LOC="-L$PYTHON_EXEC_PREFIX/lib/python$PYTHON_VERSION/config"
 		PYTHON_CFLAGS="-I$PYTHON_PREFIX/include/python$PYTHON_VERSION"
 		AC_SUBST(PYTHON_LIBS)
 		AC_SUBST(PYTHON_LIB_LOC)

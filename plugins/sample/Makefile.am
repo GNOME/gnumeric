@@ -10,9 +10,9 @@ GNUMERIC_SRC_DIR = $(srcdir)/../../src
 #
 plugindir = $(libdir)/gnumeric/plugins
 
-CFLAGS += -g -Wall 	\
-	-Wshadow             -Wpointer-arith  	\
-	-Wmissing-prototypes -Wmissing-declarations 
+# CFLAGS += -g -Wall 	\
+# 	-Wshadow             -Wpointer-arith  	\
+# 	-Wmissing-prototypes -Wmissing-declarations 
 
 plugin_LTLIBRARIES = libsample.la
 
