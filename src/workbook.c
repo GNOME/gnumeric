@@ -632,7 +632,9 @@ print_cmd (GtkWidget *widget, Workbook *wb)
 	printer = gnome_printer_dialog_new_modal ();
 	if (printer){
 		pc = gnome_print_context_new (printer);
-		print_cell_range (pc, sheet, 0, 0, 10, 20, 10.0, 200.0);
+#define MARGIN_X 1
+#define MARGIN_Y 1
+		print_cell_range (pc, sheet, 0, 0, 10, 20, MARGIN_X + 0.0, 792.0 - MARGIN_Y);
 		gnome_print_context_close_file (pc);
 		
 		gtk_object_unref (GTK_OBJECT (printer));

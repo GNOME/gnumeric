@@ -15,15 +15,20 @@
 
 #include <gnome-print.h>
 
+#define CELL_DIM(cell,p) (cell->p->units + cell->p->margin_a + cell->p->margin_b)
+#define CELL_HEIGHT(cell) CELL_DIM(cell,row)
+#define CELL_WIDTH(cell)  CELL_DIM(cell,col)
+
 static void
 print_cell_border (GnomePrintContext *context, Cell *cell, double x, double y)
 {
-	x -= 2;
-	y--;
+	gdouble cell_width = CELL_WIDTH (cell);
+	gdouble cell_height = CELL_HEIGHT (cell);
+	
 	gnome_print_moveto (context, x, y);
-	gnome_print_lineto (context, x, y + cell->row->units);
-	gnome_print_lineto (context, x + cell->col->units,  cell->row->units + y);
-	gnome_print_lineto (context, x + cell->col->units, y);
+	gnome_print_lineto (context, x, y - cell_height);
+	gnome_print_lineto (context, x + cell_width,  y - cell_height);
+	gnome_print_lineto (context, x + cell_width, y);
 	gnome_print_lineto (context, x, y);
 	gnome_print_stroke (context);
 }
@@ -112,7 +117,7 @@ print_cell_text (GnomePrintContext *context, Cell *cell, double base_x, double b
 		gnome_print_setfont (context, print_font);
 		total = 0;
 		do {
-			gnome_print_moveto (context, base_x + x, base_y + cell->row->units);
+			gnome_print_moveto (context, base_x + x, base_y - cell->row->units);
 			gnome_print_show (context, cell->text->str);
 			gnome_print_stroke (context);
 			
@@ -128,7 +133,10 @@ print_cell (GnomePrintContext *context, Cell *cell, double x, double y)
 	g_assert (cell != NULL);
 
 	print_cell_border (context, cell, x, y);
-	print_cell_text (context, cell, x, y);
+
+	print_cell_text (context, cell,
+			 x + cell->col->margin_a,
+			 y + cell->row->margin_b);
 }
 
 void
@@ -163,9 +171,9 @@ print_cell_range (GnomePrintContext *context,
 			} else
 				ci = sheet_col_get_info (sheet, col);
 			
-			x += ci->units;
+			x += ci->units + ci->margin_a + ci->margin_b;
 		}
-		y += ri->units;
+		y -= ri->units + ci->margin_a + ci->margin_b;
 	}
 }
 
