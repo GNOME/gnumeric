@@ -1,5 +1,11 @@
 2004-05-26  Jean Brefort  <jean.brefort@ac-dijon.fr>
 
+	* cell-format.glade: changed gnm_combo_text_glade_new to
+	go_combo_text_glade_new.
+	* format-selector.glade: ditto.
+
+2004-05-26  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
 	* dialog-cell-format.c: (fmt_dialog_init_font_page): replaced
 	GnmComboText by GoComboText.
 	* dialog-hyperlink.c: (dhl_init): removed old commented code.
