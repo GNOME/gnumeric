@@ -2864,8 +2864,8 @@ chart_write_axis (XLChartWriteState *s, GogAxis const *axis,
 		GSF_LE_SET_GUINT16 (data+2, 1); /* frequency_of_label */
 		GSF_LE_SET_GUINT16 (data+4, 1); /* frequency_of_tick */
 		g_object_get (G_OBJECT (axis), "invert-axis", &inverted, NULL);
-		flags = centered ? 1 : 0; /* 0 == cross in middle of cat or between cats
-					     1 == enum cross point from max not min */
+		flags = centered ? 1 : 0; /* bit 0 == cross in middle of cat or between cats
+					     bit 1 == enum cross point from max not min */
 		if (inverted)
 			flags |= 0x4; /* cats in reverse order */
 		GSF_LE_SET_GUINT16 (data+6, flags);
@@ -3287,11 +3287,12 @@ ms_excel_chart_write (ExcelWriteState *ewb, SheetObject *so)
 		for (i = GOG_AXIS_X; i < GOG_AXIS_TYPES; i++)
 			axis_set->axis[i] = gog_plot_get_axis (plots->data, i);
 
-		if (0 == strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogBarColPlot"))
+		if (0 == strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogBarColPlot")) {
 			g_object_get (G_OBJECT (plots->data),
 				      "horizontal", &axis_set->transpose,
 				      NULL);
-		else if (0 == strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogAreaPlot"))
+			axis_set->center_ticks = TRUE;
+		} else if (0 == strcmp (G_OBJECT_TYPE_NAME (plots->data), "GogAreaPlot"))
 			axis_set->center_ticks = TRUE;
 		ptr = g_slist_find_custom (sets, axis_set,
 			(GCompareFunc) cb_axis_set_cmp);
