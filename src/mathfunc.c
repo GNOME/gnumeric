@@ -4574,6 +4574,26 @@ random_rayleigh (gnum_float sigma)
 	return sigma * sqrtgnum (-2.0 * loggnum (u));
 }
 
+/*
+ * Generate a Rayleigh tail distributed number.  From the GNU Scientific library
+ * 1.1.1.  The Rayleigh tail distribution has the form
+ *   p(x) dx = (x / sigma^2) exp((a^2 - x^2)/(2 sigma^2)) dx
+ *
+ *   for x = a ... +infty
+ *
+ * Copyright (C) 1996, 1997, 1998, 1999, 2000 James Theiler, Brian Gough.
+ */
+gnum_float
+random_rayleigh_tail (gnum_float a, gnum_float sigma)
+{
+        gnum_float u;
+
+	do {
+	        u = random_01 ();
+	} while (u == 0.0);
+
+	return sqrtgnum (a * a - 2.0 * sigma * sigma * loggnum (u));
+}
 
 /* The Gamma distribution of order a>0 is defined by:
  *

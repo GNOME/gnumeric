@@ -1,5 +1,9 @@
 2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* src/mathfunc.[ch] (random_rayleigh_tail): Added.
+
+2002-07-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
 	* src/mathfunc.[ch] (random_exppow_pdf, random_exppow,
 	random_gaussian, random_gaussian_pdf, random_laplace_pdf): Added.
 
