@@ -1323,7 +1323,7 @@ SUMPRODUCT(A1:A5,B1:B5) equals 3370.
 
 @FUNCTION=INT
 @SYNTAX=INT(a)
-@DESCRIPTION=INT function rounds @a now to the nearest integer where `nearest' implies being closer to zero. INT is equivalent to FLOOR(a) for @a >= 0, and CEIL(a) for @a < 0. This function is Excel compatible. 
+@DESCRIPTION=The INT function returns the largest integer that is not bigger than its argument. This function is Excel compatible. 
 @EXAMPLES=
 INT(7.2) equals 7.
 INT(-5.5) equals -6.

@@ -4196,7 +4196,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>INT function rounds @a now to the nearest integer where `nearest' implies being closer to zero. INT is equivalent to FLOOR(a) for @a &gt;= 0, and CEIL(a) for @a &lt; 0. This function is Excel compatible.</para>
+        <para>The INT function returns the largest integer that is not bigger than its argument. This function is Excel compatible.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>

@@ -1,3 +1,7 @@
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.60
+
 2000-12-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/ranges.c (parse_range) : support singletons.

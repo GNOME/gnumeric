@@ -1,3 +1,7 @@
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.60
+
 2000-12-09  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_sheet_obj_create) : changes to sheet object

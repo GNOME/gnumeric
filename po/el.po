@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.49\n"
-"POT-Creation-Date: 2000-12-07 20:18-0500\n"
+"POT-Creation-Date: 2000-12-17 20:35-0500\n"
 "PO-Revision-Date: 2000-03-28 16:26-0500\n"
 "Last-Translator: Spiros Papadimitriou <spapadim+@cs.cmu.edu>\n"
 "Language-Team: Greek <nls@tux.hellug.gr>\n"
@@ -80,7 +80,7 @@ msgstr "Μορφη αρχείου Excel(R) 95"
 msgid "#UNKNOWN!"
 msgstr "#ΑΓΝΩΣΤΟ!"
 
-#: plugins/excel/ms-excel-read.c:600 plugins/lotus-123/lotus.c:196
+#: plugins/excel/ms-excel-read.c:600 plugins/lotus-123/lotus.c:194
 #: plugins/oleo/oleo.c:44 src/workbook.c:561
 #, c-format
 msgid "Sheet%d"
@@ -245,16 +245,16 @@ msgstr ""
 msgid "Import/Export of HTML, TeX, DVI, roff and pdf"
 msgstr ""
 
-#: plugins/lotus-123/boot.c:90
+#: plugins/lotus-123/boot.c:108
 #, fuzzy
 msgid "Lotus file format (*.wk1)"
 msgstr "Μορφή αρχείου LaTeX (*.tex)"
 
-#: plugins/lotus-123/boot.c:94
+#: plugins/lotus-123/boot.c:112
 msgid "Lotus 123"
 msgstr ""
 
-#: plugins/lotus-123/boot.c:95
+#: plugins/lotus-123/boot.c:113
 #, fuzzy
 msgid "Imports Lotus 123 files"
 msgstr "Εισαγωγή αρχείου"
@@ -647,99 +647,99 @@ msgid "Sean Atkinson, functions and X-Base importing."
 msgstr "Sean Atkinson, συναρτήσεις και εισαγωγή από X-Base."
 
 #: src/about.c:40
+msgid "Kenneth Christiansen, i18n, misc stuff."
+msgstr ""
+
+#: src/about.c:41
 #, fuzzy
 msgid "Tom Dyas, plugin support."
 msgstr "Tom Dyas, υποστήριξη αρθρωμάτων."
 
-#: src/about.c:41
+#: src/about.c:42
 msgid "Gergυ Ιrdi, Gnumeric hacker."
 msgstr "Gergυ Ιrdi, Gnumeric hacker."
 
-#: src/about.c:42
+#: src/about.c:43
 msgid "Jody Goldberg, Gnumeric hacker."
 msgstr "Jody Goldberg, Gnumeric hacker."
 
-#: src/about.c:43
+#: src/about.c:44
+#, fuzzy
+msgid "Jon K. Hellan, Gnumeric hacker."
+msgstr "Jon K Hellan, Excel hacker."
+
+#: src/about.c:45
 msgid "Ross Ihaka, special functions."
 msgstr "Ross Ihaka, ειδικές συναρτήσεις."
 
-#: src/about.c:44
+#: src/about.c:46
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
 msgstr "Jukka-Pekka Iivonen, πλήθος συναρτήσεων και εργαλείων."
 
-#: src/about.c:45
+#: src/about.c:47
 msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr "Jakub Jelinek, Gnumeric hacker."
 
-#: src/about.c:46
-#, fuzzy
-msgid "Jon K Hellan, Gnumeric hacker."
-msgstr "Jon K Hellan, Excel hacker."
-
-#: src/about.c:47
+#: src/about.c:48
 #, fuzzy
 msgid "Chris Lahey, number format engine."
 msgstr "Chris Lahey, μηχανή μορφοποίησης αριθμών."
 
-#: src/about.c:48
+#: src/about.c:49
 #, fuzzy
 msgid "Adrian Likins, documentation, debugging."
 msgstr "Adrian Likins, τεκμηρίωση, αποσφαλμάτωση."
 
-#: src/about.c:49
+#: src/about.c:50
 #, fuzzy
 msgid "Takashi Matsuda, original text plugin."
 msgstr "Takashi Matsuda, άρθρωμα απλού κειμένου."
-
-#: src/about.c:50
-#, fuzzy
-msgid "Federico Mena, canvas support."
-msgstr "Federico Mena, υποστήριξη καμβά."
 
 #: src/about.c:51
 msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr "Michael Meeks, εισαγωγή από Excel και OLE2."
 
 #: src/about.c:52
+#, fuzzy
+msgid "Federico Mena, canvas support."
+msgstr "Federico Mena, υποστήριξη καμβά."
+
+#: src/about.c:53
 msgid "Mark Probst, Guile support."
 msgstr "Mark Probst, υποστήριξη Guile."
 
-#: src/about.c:53
+#: src/about.c:54
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr "Rasca, HTML, troff, εξαγωγείς LaTeX."
 
-#: src/about.c:54
+#: src/about.c:55
 #, fuzzy
 msgid "Vincent Renardias, original CSV support, French localization."
 msgstr "Vincent Renardias, υποστήριξη CSV, γαλλική μετάφραση."
 
-#: src/about.c:55
+#: src/about.c:56
 msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, υποστήριξη Guile."
 
-#: src/about.c:56
-msgid "Almer. S. Tigelaar, text import."
+#: src/about.c:57
+msgid "Almer S. Tigelaar, text import."
 msgstr ""
 
-#: src/about.c:57
+#: src/about.c:58
 msgid "Bruno Unna, Excel bits."
 msgstr "Bruno Unna, διάφορα για Excel."
 
-#: src/about.c:58
+#: src/about.c:59
 msgid "Daniel Veillard, XML support."
 msgstr "Daniel Veillard, υποστήριξη XML."
 
-#: src/about.c:59
+#: src/about.c:60
 msgid "Vladimir Vuksan, financial functions."
 msgstr "Vladimir Vuksan, οικονομικές συναρτήσεις."
 
-#: src/about.c:60
+#: src/about.c:61
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr "Morten Welinder, Gnumeric hacker."
-
-#: src/about.c:61
-msgid "Kenneth Christiansen, i18n, misc stuff."
-msgstr ""
 
 #: src/about.c:81 src/functions/fn-sheet.c:136
 msgid "Gnumeric"
@@ -843,7 +843,7 @@ msgstr "Ελάχιστο"
 msgid "Maximum"
 msgstr "Μέγιστο"
 
-#: po/tmp/gnumeric.xml.h:179 src/analysis-tools.c:750
+#: po/tmp/gnumeric.xml.h:180 src/analysis-tools.c:750
 #: src/analysis-tools.c:2335 src/analysis-tools.c:2501
 #: src/analysis-tools.c:2748 src/workbook-control-gui.c:2082
 #: src/workbook-control-gui.c:2801 src/workbook-view.c:487
@@ -1145,7 +1145,7 @@ msgstr "Εκτύπωση"
 msgid "Rank"
 msgstr "Διάστημα"
 
-#: po/tmp/gnumeric.xml.h:139 src/analysis-tools.c:2213
+#: po/tmp/gnumeric.xml.h:140 src/analysis-tools.c:2213
 #: src/analysis-tools.c:2239 src/workbook-format-toolbar.c:417
 msgid "Percent"
 msgstr "Ποσοστό"
@@ -1259,7 +1259,7 @@ msgstr ""
 msgid "Error '%s' opening workbook stream"
 msgstr ""
 
-#: src/bonobo-io.c:470 src/xml-io-autoft.c:452 src/xml-io.c:3326
+#: src/bonobo-io.c:470 src/xml-io-autoft.c:429 src/xml-io.c:3126
 msgid "Invalid xml file. Tree is empty ?"
 msgstr "¶κυρο αρχείο XML. Κενό δέντρο;"
 
@@ -1323,7 +1323,7 @@ msgstr ""
 msgid "Unable to paste into selection"
 msgstr "Απεικόνιση αρχείου στη μνήμη (mmap) αδύνατη"
 
-#: po/tmp/gnumeric.xml.h:134 src/cmd-edit.c:356
+#: po/tmp/gnumeric.xml.h:135 src/cmd-edit.c:356
 #: src/workbook-control-gui.c:2062
 msgid "Paste"
 msgstr "Επικόλληση"
@@ -1391,7 +1391,7 @@ msgstr "Διαγραφή"
 
 #. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1113 src/sheet.c:2355
+#: src/commands.c:1113 src/sheet.c:2412
 msgid "Clear"
 msgstr "Διαγραφή"
 
@@ -1810,7 +1810,7 @@ msgstr "Διάστημα Εισόδου:"
 msgid "_Chart Output"
 msgstr "Τύπος επικόλλησης"
 
-#: po/tmp/analysis-tools.glade.h:36 po/tmp/gnumeric.xml.h:198
+#: po/tmp/analysis-tools.glade.h:36 po/tmp/gnumeric.xml.h:199
 #: src/workbook-control-gui.c:1856
 msgid "_Columns"
 msgstr "Σ_τήλες"
@@ -1864,7 +1864,7 @@ msgstr "Διάστημα Εξόδου:"
 msgid "_Pareto (Sorted)"
 msgstr ""
 
-#: po/tmp/analysis-tools.glade.h:47 po/tmp/gnumeric.xml.h:225
+#: po/tmp/analysis-tools.glade.h:47 po/tmp/gnumeric.xml.h:226
 #: src/workbook-control-gui.c:1853
 msgid "_Rows"
 msgstr "Σει_ρές"
@@ -1897,7 +1897,7 @@ msgid "Do _not correct:"
 msgstr "Όχι διόρθωση των:"
 
 #: po/tmp/autocorrect-exceptions.glade.h:8 po/tmp/dialog-stf.glade.h:66
-#: po/tmp/solver.glade.h:18
+#: po/tmp/names.glade.h:10 po/tmp/solver.glade.h:18
 msgid "_Add"
 msgstr "_Νέο"
 
@@ -2207,7 +2207,7 @@ msgstr "Διπλή"
 msgid "Effects"
 msgstr "Εφφέ"
 
-#: po/tmp/cell-format.glade.h:32 po/tmp/gnumeric.xml.h:75
+#: po/tmp/cell-format.glade.h:32 po/tmp/gnumeric.xml.h:76
 #: src/workbook-format-toolbar.c:691
 msgid "Font"
 msgstr "Γραμματοσειρά"
@@ -2253,7 +2253,7 @@ msgstr "Σ_τοίχιση"
 msgid "Large Circles"
 msgstr ""
 
-#: po/tmp/cell-format.glade.h:42 po/tmp/gnumeric.xml.h:114
+#: po/tmp/cell-format.glade.h:42 po/tmp/gnumeric.xml.h:115
 #: src/workbook-format-toolbar.c:544
 msgid "Left"
 msgstr "Αριστερά"
@@ -2262,7 +2262,7 @@ msgstr "Αριστερά"
 msgid "Left _Indent"
 msgstr ""
 
-#: po/tmp/cell-format.glade.h:44 po/tmp/gnumeric.xml.h:116
+#: po/tmp/cell-format.glade.h:44 po/tmp/gnumeric.xml.h:117
 #: src/workbook-object-toolbar.c:150
 msgid "Line"
 msgstr "Γραμμή"
@@ -2325,7 +2325,7 @@ msgstr "Ανάποδη Διαγώνιος"
 msgid "Reverse Diagonal Stripe"
 msgstr "Ανάποδες Διαγώνιες Ρίγες"
 
-#: po/tmp/cell-format.glade.h:59 po/tmp/gnumeric.xml.h:153
+#: po/tmp/cell-format.glade.h:59 po/tmp/gnumeric.xml.h:154
 #: src/workbook-format-toolbar.c:546
 msgid "Right"
 msgstr "Δεξιά"
@@ -2549,8 +2549,7 @@ msgstr "Μια επικεφαλίδα"
 #. * Translatable strings file generated by extract-ui.
 #. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/cell-sort.glade.h:7 po/tmp/names.glade.h:6
-#: po/tmp/plugin-manager.glade.h:6
+#: po/tmp/cell-sort.glade.h:7 po/tmp/plugin-manager.glade.h:6
 msgid "Add"
 msgstr "Νέο"
 
@@ -2622,8 +2621,8 @@ msgstr "Πλάτος _στηλών:"
 #. * Translatable strings file generated by extract-ui.
 #. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/delete-cells.glade.h:6 po/tmp/names.glade.h:8
-#: po/tmp/sheet-order.glade.h:7 src/sheet-object.c:65
+#: po/tmp/delete-cells.glade.h:6 po/tmp/sheet-order.glade.h:7
+#: src/sheet-object.c:72
 msgid "Delete"
 msgstr "Διαγραφή"
 
@@ -3098,16 +3097,22 @@ msgstr "μετά κατά"
 msgid "sort"
 msgstr "ταξινόμηση"
 
-#: src/dialogs/dialog-define-names.c:59 src/dialogs/dialog-define-names.c:63
+#: src/dialogs/dialog-define-names.c:141 src/dialogs/dialog-define-names.c:143
+#: src/dialogs/dialog-define-names.c:389
 #, fuzzy
 msgid "Workbook"
 msgstr "Νέο Βιβλίο"
 
-#: src/dialogs/dialog-define-names.c:200
+#: src/dialogs/dialog-define-names.c:473
 msgid "You cannot redefine a builtin name."
 msgstr ""
 
-#: src/dialogs/dialog-delete-cells.c:85
+#: src/dialogs/dialog-define-names.c:644
+#, fuzzy
+msgid "Could not create the Name Guru."
+msgstr "¶κυρο όρισμα"
+
+#: src/dialogs/dialog-delete-cells.c:83
 msgid "delete cells"
 msgstr "διαγραφή κελίων"
 
@@ -4011,14 +4016,35 @@ msgstr "Μετατόπιση κελιών _κάτω"
 msgid "_Shift cells right"
 msgstr "Μετατόπι_ση κελίων δεξιά"
 
-#: po/tmp/names.glade.h:7
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/names.glade.h:6
 msgid "Define Name"
 msgstr "Ορισμός Ονόματος"
 
-#: po/tmp/names.glade.h:9
+#: po/tmp/names.glade.h:7
+msgid "Expression : "
+msgstr ""
+
+#: po/tmp/names.glade.h:8
 #, fuzzy
-msgid "Name Guru"
+msgid "Name : "
 msgstr "Ανώνυμο"
+
+#: po/tmp/names.glade.h:9
+msgid "Scope :"
+msgstr ""
+
+#: po/tmp/names.glade.h:11 po/tmp/solver.glade.h:21
+msgid "_Delete"
+msgstr "_Διαγραφή"
+
+#: po/tmp/names.glade.h:12
+#, fuzzy
+msgid "_Update"
+msgstr "ημ/νία"
 
 #: po/tmp/plugin-manager.glade.h:7
 msgid "Gnumeric Plugin Manager"
@@ -4056,7 +4082,7 @@ msgstr "% του κανονικού μεγέθους"
 msgid "Center on page"
 msgstr "Κεντράρισμα στη σελίδα"
 
-#: po/tmp/gnumeric.xml.h:36 po/tmp/print.glade.h:8
+#: po/tmp/gnumeric.xml.h:37 po/tmp/print.glade.h:8
 #: src/workbook-control-gui.c:1722
 msgid "Co_mments"
 msgstr "Σχό_λια"
@@ -4118,7 +4144,7 @@ msgstr "Μέγ. _χαρτιού:"
 msgid "Por_trait"
 msgstr "Πορ_τραίτου"
 
-#: po/tmp/gnumeric.xml.h:140 po/tmp/print.glade.h:24
+#: po/tmp/gnumeric.xml.h:141 po/tmp/print.glade.h:24
 #: src/workbook-control-gui.c:2047
 msgid "Print"
 msgstr "Εκτύπωση"
@@ -4127,7 +4153,7 @@ msgstr "Εκτύπωση"
 msgid "Print _area:"
 msgstr "Περιο_χή εκτύπωσης:"
 
-#: po/tmp/gnumeric.xml.h:144 po/tmp/print.glade.h:26 src/print.c:1189
+#: po/tmp/gnumeric.xml.h:145 po/tmp/print.glade.h:26 src/print.c:1189
 #: src/workbook-control-gui.c:1696 src/workbook-control-gui.c:2050
 msgid "Print preview"
 msgstr "Προεπισκόπιση εκτύπωσης"
@@ -4381,10 +4407,6 @@ msgstr "_Απάντηση"
 msgid "_Change"
 msgstr "_Αλλαγή"
 
-#: po/tmp/solver.glade.h:21
-msgid "_Delete"
-msgstr "_Διαγραφή"
-
 #: po/tmp/solver.glade.h:22
 msgid "_Keep Solver Solution"
 msgstr "_Διατήρηση Λύσης"
@@ -4512,11 +4534,11 @@ msgstr "ήδη ορισμένο"
 msgid "circular reference"
 msgstr "κυκλική αναφορά"
 
-#: src/expr-name.c:314
+#: src/expr-name.c:322
 msgid "Builtin"
 msgstr "Ενσωματωμένη"
 
-#: src/expr-name.c:365 src/expr-name.c:376
+#: src/expr-name.c:432 src/expr-name.c:443
 msgid "Error: no sheet"
 msgstr "Σφάλμα: ανύπαρκτο φύλλο"
 
@@ -4614,55 +4636,55 @@ msgstr "Αποθήκευση φύλλων ως"
 msgid "Load file"
 msgstr "Ανάγνωση αρχείου"
 
-#: src/format.c:556
+#: src/format.c:568
 msgid "black"
 msgstr "μαύρο"
 
-#: src/format.c:557
+#: src/format.c:569
 msgid "blue"
 msgstr "μπλέ"
 
-#: src/format.c:558
+#: src/format.c:570
 msgid "cyan"
 msgstr "κυανό"
 
-#: src/format.c:559
+#: src/format.c:571
 msgid "green"
 msgstr "πράσινο"
 
-#: src/format.c:560
+#: src/format.c:572
 msgid "magenta"
 msgstr "μώβ"
 
-#: src/format.c:561
+#: src/format.c:573
 msgid "red"
 msgstr "κόκκινο"
 
-#: src/format.c:562
+#: src/format.c:574
 msgid "white"
 msgstr "λευκό"
 
-#: src/format.c:563
+#: src/format.c:575
 msgid "yellow"
 msgstr "κίτρινο"
 
 #. Is it a boolean?
-#: src/format.c:1631 src/number-match.c:970 src/value-sheet.c:33
+#: src/format.c:1644 src/number-match.c:970 src/value-sheet.c:33
 #: src/value.c:235 src/value.c:468
 msgid "TRUE"
 msgstr "ΑΛΗΘΕΣ"
 
-#: src/format.c:1631 src/number-match.c:972 src/value-sheet.c:33
+#: src/format.c:1644 src/number-match.c:972 src/value-sheet.c:33
 #: src/value.c:237 src/value.c:468
 msgid "FALSE"
 msgstr "ΨΕΥΔΕΣ"
 
 #. Array of arrays ??
-#: src/format.c:1644
+#: src/format.c:1657
 msgid "ARRAY"
 msgstr "ΠΙΝΑΚΑΣ"
 
-#: src/format.c:1710 src/format.c:1799 src/format.c:1808 src/format.c:1877
+#: src/format.c:1723 src/format.c:1812 src/format.c:1821 src/format.c:1890
 msgid "General"
 msgstr "Γενικό"
 
@@ -4679,1320 +4701,1320 @@ msgstr "Γενικό"
 #. * for each currency.  They MUST start with '[$'
 #. * The second column has the long names of the currencies.
 #.
-#: src/formats.c:225
+#: src/formats.c:253
 msgid "[$ADP]"
 msgstr ""
 
-#: src/formats.c:225
+#: src/formats.c:253
 msgid "Andorran peseta"
 msgstr "Πεσέτα Ανδόρας"
 
-#: src/formats.c:226
+#: src/formats.c:254
 msgid "[$AED]"
 msgstr ""
 
-#: src/formats.c:226
+#: src/formats.c:254
 msgid "UAE dirham"
 msgstr "Dirham Ην. Αραβ. Εμιράτων"
 
-#: src/formats.c:227
+#: src/formats.c:255
 msgid "[$AFA]"
 msgstr ""
 
-#: src/formats.c:227
+#: src/formats.c:255
 msgid "Afghanistan afghani"
 msgstr ""
 
-#: src/formats.c:228
+#: src/formats.c:256
 msgid "[$ALL]"
 msgstr ""
 
-#: src/formats.c:228
+#: src/formats.c:256
 msgid "Albanian lek"
 msgstr "Λέκ Αλβανίας"
 
-#: src/formats.c:229
+#: src/formats.c:257
 msgid "[$ANG]"
 msgstr ""
 
-#: src/formats.c:229
+#: src/formats.c:257
 msgid "Netherlands Antillian guilder"
 msgstr "Ολλανδικές στερλίνες Αντίλλων"
 
-#: src/formats.c:230
+#: src/formats.c:258
 msgid "[$AON]"
 msgstr ""
 
-#: src/formats.c:230
+#: src/formats.c:258
 msgid "Angolan new kwanza"
 msgstr ""
 
-#: src/formats.c:231
+#: src/formats.c:259
 msgid "[$ARA]"
 msgstr ""
 
-#: src/formats.c:231
+#: src/formats.c:259
 msgid "Argentine austral"
 msgstr ""
 
-#: src/formats.c:232
+#: src/formats.c:260
 msgid "[$ATS]"
 msgstr ""
 
-#: src/formats.c:232
+#: src/formats.c:260
 msgid "Austrian schilling"
 msgstr "Σελλήνι Αυστρίας"
 
-#: src/formats.c:233
+#: src/formats.c:261
 msgid "[$AUD]"
 msgstr ""
 
-#: src/formats.c:233
+#: src/formats.c:261
 msgid "Australian dollar"
 msgstr "Δολλάριο Αυστραλίας"
 
-#: src/formats.c:234
+#: src/formats.c:262
 msgid "[$AWG]"
 msgstr ""
 
-#: src/formats.c:234
+#: src/formats.c:262
 msgid "Aruban guilder"
 msgstr "Στερλίνες Αρούμπας"
 
-#: src/formats.c:235
+#: src/formats.c:263
 msgid "[$BBD]"
 msgstr ""
 
-#: src/formats.c:235
+#: src/formats.c:263
 msgid "Barbados dollar"
 msgstr "Δολλάριο Μπαρμπέιντος"
 
-#: src/formats.c:236
+#: src/formats.c:264
 msgid "[$BDT]"
 msgstr ""
 
-#: src/formats.c:236
+#: src/formats.c:264
 msgid "Bangladeshi taka"
 msgstr ""
 
-#: src/formats.c:237
+#: src/formats.c:265
 msgid "[$BEF]"
 msgstr ""
 
-#: src/formats.c:237
+#: src/formats.c:265
 msgid "Belgian franc"
 msgstr "Βελγικό φράγκο"
 
-#: src/formats.c:238
+#: src/formats.c:266
 msgid "[$BGL]"
 msgstr ""
 
-#: src/formats.c:238
+#: src/formats.c:266
 msgid "Bulgarian lev"
 msgstr "Λέβ Βουλγαρίας"
 
-#: src/formats.c:239
+#: src/formats.c:267
 msgid "[$BHD]"
 msgstr ""
 
-#: src/formats.c:239
+#: src/formats.c:267
 msgid "Bahraini dinar"
 msgstr "Δηνάριο Μπαχρέιν"
 
-#: src/formats.c:240
+#: src/formats.c:268
 msgid "[$BIF]"
 msgstr ""
 
-#: src/formats.c:240
+#: src/formats.c:268
 msgid "Burundi franc"
 msgstr "Φράγκο Μπουρούντι"
 
-#: src/formats.c:241
+#: src/formats.c:269
 msgid "[$BMD]"
 msgstr ""
 
-#: src/formats.c:241
+#: src/formats.c:269
 msgid "Bermudian dollar"
 msgstr "Δολλάριο Βερμούδων"
 
-#: src/formats.c:242
+#: src/formats.c:270
 msgid "[$BND]"
 msgstr ""
 
-#: src/formats.c:242
+#: src/formats.c:270
 msgid "Brunei dollar"
 msgstr ""
 
-#: src/formats.c:243
+#: src/formats.c:271
 msgid "[$BOB]"
 msgstr ""
 
-#: src/formats.c:243
+#: src/formats.c:271
 msgid "Bolivian boliviano"
 msgstr ""
 
-#: src/formats.c:244
+#: src/formats.c:272
 msgid "[$BRE]"
 msgstr ""
 
-#: src/formats.c:244
+#: src/formats.c:272
 msgid "Brazilian cruzeiro"
 msgstr ""
 
-#: src/formats.c:245
+#: src/formats.c:273
 msgid "[$BSD]"
 msgstr ""
 
-#: src/formats.c:245
+#: src/formats.c:273
 msgid "Bahamian dollar"
 msgstr "Δολλάριο Μπαχαμών"
 
-#: src/formats.c:246
+#: src/formats.c:274
 msgid "[$BTN]"
 msgstr ""
 
-#: src/formats.c:246
+#: src/formats.c:274
 msgid "Bhutan ngultrum"
 msgstr ""
 
-#: src/formats.c:247
+#: src/formats.c:275
 msgid "[$BWP]"
 msgstr ""
 
-#: src/formats.c:247
+#: src/formats.c:275
 msgid "Botswanian pula"
 msgstr ""
 
-#: src/formats.c:248
+#: src/formats.c:276
 msgid "[$BYB]"
 msgstr ""
 
-#: src/formats.c:248
+#: src/formats.c:276
 #, fuzzy
 msgid "Belarussian ruble"
 msgstr "Λέβ Βουλγαρίας"
 
-#: src/formats.c:249
+#: src/formats.c:277
 msgid "[$BZD]"
 msgstr ""
 
-#: src/formats.c:249
+#: src/formats.c:277
 msgid "Belize dollar"
 msgstr "Δολλάριο Μπελίζ"
 
-#: src/formats.c:250
+#: src/formats.c:278
 msgid "[$CAD]"
 msgstr ""
 
-#: src/formats.c:250
+#: src/formats.c:278
 msgid "Canadian dollar"
 msgstr "Καναδικό δολλάριο"
 
-#: src/formats.c:251
+#: src/formats.c:279
 msgid "[$CHF]"
 msgstr ""
 
-#: src/formats.c:251
+#: src/formats.c:279
 msgid "Swiss franc"
 msgstr "Ελβετικό φράγκο"
 
-#: src/formats.c:252
+#: src/formats.c:280
 msgid "[$CLP]"
 msgstr ""
 
-#: src/formats.c:252
+#: src/formats.c:280
 msgid "Chilean peso"
 msgstr "Πέσος Χιλής"
 
-#: src/formats.c:253
+#: src/formats.c:281
 msgid "[$CNY]"
 msgstr ""
 
-#: src/formats.c:253
+#: src/formats.c:281
 msgid "Chinese yuan renminbi"
 msgstr ""
 
-#: src/formats.c:254
+#: src/formats.c:282
 msgid "[$COP]"
 msgstr ""
 
-#: src/formats.c:254
+#: src/formats.c:282
 msgid "Colombian peso"
 msgstr "Πέσος Κολομβίας"
 
-#: src/formats.c:255
+#: src/formats.c:283
 msgid "[$CRC]"
 msgstr ""
 
-#: src/formats.c:255
+#: src/formats.c:283
 msgid "Costa Rican colon"
 msgstr ""
 
-#: src/formats.c:256
+#: src/formats.c:284
 msgid "[$CSK]"
 msgstr ""
 
-#: src/formats.c:256
+#: src/formats.c:284
 msgid "Czech Koruna"
 msgstr ""
 
-#: src/formats.c:257
+#: src/formats.c:285
 msgid "[$CUP]"
 msgstr ""
 
-#: src/formats.c:257
+#: src/formats.c:285
 msgid "Cuban peso"
 msgstr "Πέσος Κούβας"
 
-#: src/formats.c:258
+#: src/formats.c:286
 msgid "[$CVE]"
 msgstr ""
 
-#: src/formats.c:258
+#: src/formats.c:286
 msgid "Cape Verde escudo"
 msgstr ""
 
-#: src/formats.c:259
+#: src/formats.c:287
 msgid "[$CYP]"
 msgstr ""
 
-#: src/formats.c:259
+#: src/formats.c:287
 msgid "Cyprus pound"
 msgstr "Λίρα Κύπρου"
 
-#: src/formats.c:260
+#: src/formats.c:288
 msgid "[$DEM]"
 msgstr ""
 
-#: src/formats.c:260
+#: src/formats.c:288
 msgid "Deutsche mark"
 msgstr "Γερμανικό μάρκο"
 
-#: src/formats.c:261
+#: src/formats.c:289
 msgid "[$DJF]"
 msgstr ""
 
-#: src/formats.c:261
+#: src/formats.c:289
 msgid "Djibouti franc"
 msgstr "Φράγκο Τζιμπούτι"
 
-#: src/formats.c:262
+#: src/formats.c:290
 msgid "[$DKK]"
 msgstr ""
 
-#: src/formats.c:262
+#: src/formats.c:290
 msgid "Danish krone"
 msgstr ""
 
-#: src/formats.c:263
+#: src/formats.c:291
 msgid "[$DOP]"
 msgstr ""
 
-#: src/formats.c:263
+#: src/formats.c:291
 msgid "Dominican peso"
 msgstr "Πέσος Δομηνίκου"
 
-#: src/formats.c:264
+#: src/formats.c:292
 msgid "[$DZD]"
 msgstr ""
 
-#: src/formats.c:264
+#: src/formats.c:292
 msgid "Algerian dinar"
 msgstr "Δηνάριο Αλγερίας"
 
-#: src/formats.c:265
+#: src/formats.c:293
 msgid "[$ECS]"
 msgstr ""
 
-#: src/formats.c:265
+#: src/formats.c:293
 msgid "Ecuador sucre"
 msgstr ""
 
-#: src/formats.c:266
+#: src/formats.c:294
 msgid "[$EGP]"
 msgstr ""
 
-#: src/formats.c:266
+#: src/formats.c:294
 msgid "Egyptian pound"
 msgstr "Λίρα Αιγύπτου"
 
-#: src/formats.c:267
+#: src/formats.c:295
 msgid "[$ESP]"
 msgstr ""
 
-#: src/formats.c:267
+#: src/formats.c:295
 msgid "Spanish peseta"
 msgstr "Ισπανική πεσέτα"
 
-#: src/formats.c:268
+#: src/formats.c:296
 msgid "[$ETB]"
 msgstr ""
 
-#: src/formats.c:268
+#: src/formats.c:296
 msgid "Ethiopian birr"
 msgstr ""
 
-#: src/formats.c:269
+#: src/formats.c:297
 msgid "[$EUR]"
 msgstr ""
 
-#: src/formats.c:269
+#: src/formats.c:297
 msgid "Euro"
 msgstr ""
 
-#: src/formats.c:270
+#: src/formats.c:298
 msgid "[$FIM]"
 msgstr ""
 
-#: src/formats.c:270
+#: src/formats.c:298
 msgid "Finnish markka"
 msgstr "Μάρκο Φιλανδίας"
 
-#: src/formats.c:271
+#: src/formats.c:299
 msgid "[$FJD]"
 msgstr ""
 
-#: src/formats.c:271
+#: src/formats.c:299
 msgid "Fiji dollar"
 msgstr "Δολλάριο Φίτζι"
 
-#: src/formats.c:272
+#: src/formats.c:300
 msgid "[$FKP]"
 msgstr ""
 
-#: src/formats.c:272
+#: src/formats.c:300
 msgid "Falkland Islands pound"
 msgstr "Λίρα Νήσων Φώκλαντ"
 
-#: src/formats.c:273
+#: src/formats.c:301
 msgid "[$FRF]"
 msgstr ""
 
-#: src/formats.c:273
+#: src/formats.c:301
 msgid "French franc"
 msgstr "Γαλλικό φράγκο"
 
-#: src/formats.c:274
+#: src/formats.c:302
 msgid "[$GBP]"
 msgstr ""
 
-#: src/formats.c:274
+#: src/formats.c:302
 msgid "UK pound sterling"
 msgstr "Στερλίνες Ην. Βασιλείου"
 
-#: src/formats.c:275
+#: src/formats.c:303
 msgid "[$GHC]"
 msgstr ""
 
-#: src/formats.c:275
+#: src/formats.c:303
 msgid "Ghanaian cedi"
 msgstr ""
 
-#: src/formats.c:276
+#: src/formats.c:304
 msgid "[$GIP]"
 msgstr ""
 
-#: src/formats.c:276
+#: src/formats.c:304
 msgid "Gibraltar pound"
 msgstr "Λίρες Γιβραλτάρ"
 
-#: src/formats.c:277
+#: src/formats.c:305
 msgid "[$GMD]"
 msgstr ""
 
-#: src/formats.c:277
+#: src/formats.c:305
 msgid "Gambian dalasi"
 msgstr ""
 
-#: src/formats.c:278
+#: src/formats.c:306
 msgid "[$GNF]"
 msgstr ""
 
-#: src/formats.c:278
+#: src/formats.c:306
 msgid "Guinea franc"
 msgstr "Φράγκο Γουινέας"
 
-#: src/formats.c:279
+#: src/formats.c:307
 msgid "[$GRD]"
 msgstr ""
 
-#: src/formats.c:279
+#: src/formats.c:307
 msgid "Greek drachma"
 msgstr "Ελληνικές δραχμές"
 
-#: src/formats.c:280
+#: src/formats.c:308
 msgid "[$GTQ]"
 msgstr ""
 
-#: src/formats.c:280
+#: src/formats.c:308
 msgid "Guatemalan quetzal"
 msgstr ""
 
-#: src/formats.c:281
+#: src/formats.c:309
 msgid "[$GWP]"
 msgstr ""
 
-#: src/formats.c:281
+#: src/formats.c:309
 msgid "Guinea-Bissau peso"
 msgstr ""
 
-#: src/formats.c:282
+#: src/formats.c:310
 msgid "[$GYD]"
 msgstr ""
 
-#: src/formats.c:282
+#: src/formats.c:310
 msgid "Guyanan dollar"
 msgstr "Δολλάριο Γουιάνας"
 
-#: src/formats.c:283
+#: src/formats.c:311
 msgid "[$HKD]"
 msgstr ""
 
-#: src/formats.c:283
+#: src/formats.c:311
 msgid "Hong Kong dollar"
 msgstr "Δολλάριο Χόνγκ Κόνγκ"
 
-#: src/formats.c:284
+#: src/formats.c:312
 msgid "[$HNL]"
 msgstr ""
 
-#: src/formats.c:284
+#: src/formats.c:312
 msgid "Honduran lempira"
 msgstr ""
 
-#: src/formats.c:285
+#: src/formats.c:313
 msgid "[$HRK]"
 msgstr ""
 
-#: src/formats.c:285
+#: src/formats.c:313
 msgid "Croatian kuna"
 msgstr ""
 
-#: src/formats.c:286
+#: src/formats.c:314
 msgid "[$HTG]"
 msgstr ""
 
-#: src/formats.c:286
+#: src/formats.c:314
 msgid "Haitian gourde"
 msgstr ""
 
-#: src/formats.c:287
+#: src/formats.c:315
 msgid "[$HUF]"
 msgstr ""
 
-#: src/formats.c:287
+#: src/formats.c:315
 msgid "Hungarian forint"
 msgstr ""
 
-#: src/formats.c:288
+#: src/formats.c:316
 msgid "[$IDR]"
 msgstr ""
 
-#: src/formats.c:288
+#: src/formats.c:316
 msgid "Indonesian rupiah"
 msgstr ""
 
-#: src/formats.c:289
+#: src/formats.c:317
 msgid "[$IEP]"
 msgstr ""
 
-#: src/formats.c:289
+#: src/formats.c:317
 msgid "Irish punt"
 msgstr ""
 
-#: src/formats.c:290
+#: src/formats.c:318
 msgid "[$IEX]"
 msgstr ""
 
-#: src/formats.c:290
+#: src/formats.c:318
 msgid "Irish pence ***"
 msgstr ""
 
-#: src/formats.c:291
+#: src/formats.c:319
 msgid "[$ILS]"
 msgstr ""
 
-#: src/formats.c:291
+#: src/formats.c:319
 msgid "Israeli shekel"
 msgstr ""
 
-#: src/formats.c:292
+#: src/formats.c:320
 msgid "[$INR]"
 msgstr ""
 
-#: src/formats.c:292
+#: src/formats.c:320
 msgid "Indian rupee"
 msgstr "Ινδικά ρούπια"
 
-#: src/formats.c:293
+#: src/formats.c:321
 msgid "[$IQD]"
 msgstr ""
 
-#: src/formats.c:293
+#: src/formats.c:321
 msgid "Iraqi dinar"
 msgstr "Δηνάριο Ιράκ"
 
-#: src/formats.c:294
+#: src/formats.c:322
 msgid "[$IRR]"
 msgstr ""
 
-#: src/formats.c:294
+#: src/formats.c:322
 msgid "Iranian rial"
 msgstr ""
 
-#: src/formats.c:295
+#: src/formats.c:323
 msgid "[$ISK]"
 msgstr ""
 
-#: src/formats.c:295
+#: src/formats.c:323
 msgid "Iceland krona"
 msgstr ""
 
-#: src/formats.c:296
+#: src/formats.c:324
 msgid "[$ITL]"
 msgstr ""
 
-#: src/formats.c:296
+#: src/formats.c:324
 msgid "Italian lira"
 msgstr "Ιταλική λίρα"
 
-#: src/formats.c:297
+#: src/formats.c:325
 msgid "[$JMD]"
 msgstr ""
 
-#: src/formats.c:297
+#: src/formats.c:325
 msgid "Jamaican dollar"
 msgstr "Δολλάριο Τζαμάικα"
 
-#: src/formats.c:298
+#: src/formats.c:326
 msgid "[$JOD]"
 msgstr ""
 
-#: src/formats.c:298
+#: src/formats.c:326
 msgid "Jordanian dinar"
 msgstr "Δηνάριο Ιορδανίας"
 
-#: src/formats.c:299
+#: src/formats.c:327
 msgid "[$JPY]"
 msgstr ""
 
-#: src/formats.c:299
+#: src/formats.c:327
 msgid "Japanese yen"
 msgstr "Ιαπωνικό γιεν"
 
-#: src/formats.c:300
+#: src/formats.c:328
 msgid "[$KES]"
 msgstr ""
 
-#: src/formats.c:300
+#: src/formats.c:328
 msgid "Kenyan shilling"
 msgstr "Σελίνι Κένυας"
 
-#: src/formats.c:301
+#: src/formats.c:329
 msgid "[$KHR]"
 msgstr ""
 
-#: src/formats.c:301
+#: src/formats.c:329
 msgid "Kampuchean riel"
 msgstr ""
 
-#: src/formats.c:302
+#: src/formats.c:330
 msgid "[$KMF]"
 msgstr ""
 
-#: src/formats.c:302
+#: src/formats.c:330
 msgid "Comoros franc"
 msgstr ""
 
-#: src/formats.c:303
+#: src/formats.c:331
 msgid "[$KPW]"
 msgstr ""
 
-#: src/formats.c:303
+#: src/formats.c:331
 msgid "North Korean won"
 msgstr ""
 
-#: src/formats.c:304
+#: src/formats.c:332
 msgid "[$KRW]"
 msgstr ""
 
-#: src/formats.c:304
+#: src/formats.c:332
 msgid "Republic of Korea won"
 msgstr ""
 
-#: src/formats.c:305
+#: src/formats.c:333
 msgid "[$KWD]"
 msgstr ""
 
-#: src/formats.c:305
+#: src/formats.c:333
 msgid "Kuwaiti dinar"
 msgstr "Δηνάριο Κουβέιτ"
 
-#: src/formats.c:306
+#: src/formats.c:334
 msgid "[$KYD]"
 msgstr ""
 
-#: src/formats.c:306
+#: src/formats.c:334
 msgid "Cayman Islands dollar"
 msgstr "Δολλάριο Νήσων Κέυμαν"
 
-#: src/formats.c:307
+#: src/formats.c:335
 msgid "[$LAK]"
 msgstr ""
 
-#: src/formats.c:307
+#: src/formats.c:335
 msgid "Lao kip"
 msgstr ""
 
-#: src/formats.c:308
+#: src/formats.c:336
 msgid "[$LBP]"
 msgstr ""
 
-#: src/formats.c:308
+#: src/formats.c:336
 msgid "Lebanese pound"
 msgstr "Λίρα Λιβάνου"
 
-#: src/formats.c:309
+#: src/formats.c:337
 msgid "[$LKR]"
 msgstr ""
 
-#: src/formats.c:309
+#: src/formats.c:337
 msgid "Sri Lanka rupee"
 msgstr ""
 
-#: src/formats.c:310
+#: src/formats.c:338
 msgid "[$LRD]"
 msgstr ""
 
-#: src/formats.c:310
+#: src/formats.c:338
 msgid "Liberian dollar"
 msgstr "Δολλάριο Λιβερίας"
 
-#: src/formats.c:311
+#: src/formats.c:339
 msgid "[$LSL]"
 msgstr ""
 
-#: src/formats.c:311
+#: src/formats.c:339
 msgid "Lesotho loti"
 msgstr ""
 
-#: src/formats.c:312
+#: src/formats.c:340
 msgid "[$LUF]"
 msgstr ""
 
-#: src/formats.c:312
+#: src/formats.c:340
 msgid "Luxembourg franc"
 msgstr "Φράγκο Λουξεμβούργου"
 
-#: src/formats.c:313
+#: src/formats.c:341
 msgid "[$LYD]"
 msgstr ""
 
-#: src/formats.c:313
+#: src/formats.c:341
 msgid "Libyan dinar"
 msgstr "Δηνάριο Λιβύης"
 
-#: src/formats.c:314
+#: src/formats.c:342
 msgid "[$MAD]"
 msgstr ""
 
-#: src/formats.c:314
+#: src/formats.c:342
 msgid "Moroccan dirham"
 msgstr ""
 
-#: src/formats.c:315
+#: src/formats.c:343
 msgid "[$MDL]"
 msgstr ""
 
-#: src/formats.c:315
+#: src/formats.c:343
 msgid "Moldovan leu"
 msgstr ""
 
-#: src/formats.c:316
+#: src/formats.c:344
 msgid "[$MGF]"
 msgstr ""
 
-#: src/formats.c:316
+#: src/formats.c:344
 msgid "Malagasy franc"
 msgstr ""
 
-#: src/formats.c:317
+#: src/formats.c:345
 msgid "[$MLF]"
 msgstr ""
 
-#: src/formats.c:317
+#: src/formats.c:345
 msgid "Mali franc"
 msgstr ""
 
-#: src/formats.c:318
+#: src/formats.c:346
 msgid "[$MMK]"
 msgstr ""
 
-#: src/formats.c:318
+#: src/formats.c:346
 msgid "Myanmar kyat"
 msgstr ""
 
-#: src/formats.c:319
+#: src/formats.c:347
 msgid "[$MNT]"
 msgstr ""
 
-#: src/formats.c:319
+#: src/formats.c:347
 msgid "Mongolian tugrik"
 msgstr ""
 
-#: src/formats.c:320
+#: src/formats.c:348
 msgid "[$MOP]"
 msgstr ""
 
-#: src/formats.c:320
+#: src/formats.c:348
 msgid "Macau pataca"
 msgstr ""
 
-#: src/formats.c:321
+#: src/formats.c:349
 msgid "[$MRO]"
 msgstr ""
 
-#: src/formats.c:321
+#: src/formats.c:349
 msgid "Mauritanian ouguiya"
 msgstr ""
 
-#: src/formats.c:322
+#: src/formats.c:350
 msgid "[$MTL]"
 msgstr ""
 
-#: src/formats.c:322
+#: src/formats.c:350
 msgid "Maltese lira"
 msgstr "Λίρα Μάλτας"
 
-#: src/formats.c:323
+#: src/formats.c:351
 msgid "[$MUR]"
 msgstr ""
 
-#: src/formats.c:323
+#: src/formats.c:351
 msgid "Mauritius rupee"
 msgstr ""
 
-#: src/formats.c:324
+#: src/formats.c:352
 msgid "[$MVR]"
 msgstr ""
 
-#: src/formats.c:324
+#: src/formats.c:352
 msgid "Maldive rupee"
 msgstr ""
 
-#: src/formats.c:325
+#: src/formats.c:353
 msgid "[$MWK]"
 msgstr ""
 
-#: src/formats.c:325
+#: src/formats.c:353
 msgid "Malawi kwacha"
 msgstr ""
 
-#: src/formats.c:326
+#: src/formats.c:354
 msgid "[$MXP]"
 msgstr ""
 
-#: src/formats.c:326
+#: src/formats.c:354
 msgid "Mexican peso"
 msgstr "Πέσος Μεξικού"
 
-#: src/formats.c:327
+#: src/formats.c:355
 msgid "[$MYR]"
 msgstr ""
 
-#: src/formats.c:327
+#: src/formats.c:355
 msgid "Malaysian ringgit"
 msgstr ""
 
-#: src/formats.c:328
+#: src/formats.c:356
 msgid "[$MZM]"
 msgstr ""
 
-#: src/formats.c:328
+#: src/formats.c:356
 msgid "Mozambique metical"
 msgstr ""
 
-#: src/formats.c:329
+#: src/formats.c:357
 msgid "[$NGN]"
 msgstr ""
 
-#: src/formats.c:329
+#: src/formats.c:357
 msgid "Nigerian naira"
 msgstr ""
 
-#: src/formats.c:330
+#: src/formats.c:358
 msgid "[$NIO]"
 msgstr ""
 
-#: src/formats.c:330
+#: src/formats.c:358
 msgid "Nicaraguan cordoba oro"
 msgstr ""
 
-#: src/formats.c:331
+#: src/formats.c:359
 msgid "[$NLG]"
 msgstr ""
 
-#: src/formats.c:331
+#: src/formats.c:359
 msgid "Netherlands guilder"
 msgstr ""
 
-#: src/formats.c:332
+#: src/formats.c:360
 msgid "[$NOK]"
 msgstr ""
 
-#: src/formats.c:332
+#: src/formats.c:360
 msgid "Norwegian krone"
 msgstr ""
 
-#: src/formats.c:333
+#: src/formats.c:361
 msgid "[$NPR]"
 msgstr ""
 
-#: src/formats.c:333
+#: src/formats.c:361
 msgid "Nepalese rupee"
 msgstr ""
 
-#: src/formats.c:334
+#: src/formats.c:362
 msgid "[$NZD]"
 msgstr ""
 
-#: src/formats.c:334
+#: src/formats.c:362
 msgid "New Zealand dollar"
 msgstr "Δολλάριο Νέας Ζηλανδίας"
 
-#: src/formats.c:335
+#: src/formats.c:363
 msgid "[$OMR]"
 msgstr ""
 
-#: src/formats.c:335
+#: src/formats.c:363
 msgid "Rial Omani"
 msgstr ""
 
-#: src/formats.c:336
+#: src/formats.c:364
 msgid "[$PAB]"
 msgstr ""
 
-#: src/formats.c:336
+#: src/formats.c:364
 msgid "Panamanian balboa"
 msgstr ""
 
-#: src/formats.c:337
+#: src/formats.c:365
 msgid "[$PEI]"
 msgstr ""
 
-#: src/formats.c:337
+#: src/formats.c:365
 msgid "Peruvian inti"
 msgstr ""
 
-#: src/formats.c:338
+#: src/formats.c:366
 msgid "[$PGK]"
 msgstr ""
 
-#: src/formats.c:338
+#: src/formats.c:366
 msgid "Papua New Guinea kina"
 msgstr ""
 
-#: src/formats.c:339
+#: src/formats.c:367
 msgid "[$PHP]"
 msgstr ""
 
-#: src/formats.c:339
+#: src/formats.c:367
 msgid "Philippino peso"
 msgstr "Πέσος Φιλιππίνων"
 
-#: src/formats.c:340
+#: src/formats.c:368
 msgid "[$PKR]"
 msgstr ""
 
-#: src/formats.c:340
+#: src/formats.c:368
 msgid "Pakistan rupee"
 msgstr ""
 
-#: src/formats.c:341
+#: src/formats.c:369
 msgid "[$PLZ]"
 msgstr ""
 
-#: src/formats.c:341
+#: src/formats.c:369
 msgid "Polish zloty"
 msgstr ""
 
-#: src/formats.c:342
+#: src/formats.c:370
 msgid "[$PTE]"
 msgstr ""
 
-#: src/formats.c:342
+#: src/formats.c:370
 msgid "Portuguese escudo"
 msgstr "Εσκούδο Πορτογαλίας"
 
-#: src/formats.c:343
+#: src/formats.c:371
 msgid "[$PYG]"
 msgstr ""
 
-#: src/formats.c:343
+#: src/formats.c:371
 msgid "Paraguay guarani"
 msgstr ""
 
-#: src/formats.c:344
+#: src/formats.c:372
 msgid "[$QAR]"
 msgstr ""
 
-#: src/formats.c:344
+#: src/formats.c:372
 msgid "Qatari rial"
 msgstr ""
 
-#: src/formats.c:345
+#: src/formats.c:373
 msgid "[$ROL]"
 msgstr ""
 
-#: src/formats.c:345
+#: src/formats.c:373
 msgid "Romanian leu"
 msgstr ""
 
-#: src/formats.c:346
+#: src/formats.c:374
 msgid "[$RWF]"
 msgstr ""
 
-#: src/formats.c:346
+#: src/formats.c:374
 msgid "Rwanda franc"
 msgstr "Φράγκο Ρουάντας"
 
-#: src/formats.c:347
+#: src/formats.c:375
 msgid "[$SAR]"
 msgstr ""
 
-#: src/formats.c:347
+#: src/formats.c:375
 msgid "Saudi Arabian riyal"
 msgstr ""
 
-#: src/formats.c:348
+#: src/formats.c:376
 msgid "[$SBD]"
 msgstr ""
 
-#: src/formats.c:348
+#: src/formats.c:376
 msgid "Solomon Islands dollar"
 msgstr "Δολλάριο Νήσων Σολομώντα"
 
-#: src/formats.c:349
+#: src/formats.c:377
 msgid "[$SCR]"
 msgstr ""
 
-#: src/formats.c:349
+#: src/formats.c:377
 msgid "Seychelles rupee"
 msgstr ""
 
-#: src/formats.c:350
+#: src/formats.c:378
 msgid "[$SDP]"
 msgstr ""
 
-#: src/formats.c:350
+#: src/formats.c:378
 msgid "Sudanese pound"
 msgstr "Λίρα Σουδάν"
 
-#: src/formats.c:351
+#: src/formats.c:379
 msgid "[$SEK]"
 msgstr ""
 
-#: src/formats.c:351
+#: src/formats.c:379
 msgid "Swedish krona"
 msgstr ""
 
-#: src/formats.c:352
+#: src/formats.c:380
 msgid "[$SGD]"
 msgstr ""
 
-#: src/formats.c:352
+#: src/formats.c:380
 msgid "Singapore dollar"
 msgstr "Δολλάριο Σιγκαπούρης"
 
-#: src/formats.c:353
+#: src/formats.c:381
 msgid "[$SHP]"
 msgstr ""
 
-#: src/formats.c:353
+#: src/formats.c:381
 msgid "St.Helena pound"
 msgstr ""
 
-#: src/formats.c:354
+#: src/formats.c:382
 msgid "[$SIT]"
 msgstr ""
 
-#: src/formats.c:354
+#: src/formats.c:382
 msgid "Slovenia tolar"
 msgstr ""
 
-#: src/formats.c:355
+#: src/formats.c:383
 msgid "[$SLL]"
 msgstr ""
 
-#: src/formats.c:355
+#: src/formats.c:383
 msgid "Sierra Leone leone"
 msgstr ""
 
-#: src/formats.c:356
+#: src/formats.c:384
 msgid "[$SOS]"
 msgstr ""
 
-#: src/formats.c:356
+#: src/formats.c:384
 msgid "Somali shilling"
 msgstr "Σελίνι Σομαλίας"
 
-#: src/formats.c:357
+#: src/formats.c:385
 msgid "[$SRG]"
 msgstr ""
 
-#: src/formats.c:357
+#: src/formats.c:385
 msgid "Suriname guilder"
 msgstr ""
 
-#: src/formats.c:358
+#: src/formats.c:386
 msgid "[$STD]"
 msgstr ""
 
-#: src/formats.c:358
+#: src/formats.c:386
 msgid "Sao Tome and Principe dobra"
 msgstr ""
 
-#: src/formats.c:359
+#: src/formats.c:387
 msgid "[$SUR]"
 msgstr ""
 
-#: src/formats.c:359
+#: src/formats.c:387
 msgid "USSR rouble"
 msgstr "Ρούβλια ΕΣΣΔ"
 
-#: src/formats.c:360
+#: src/formats.c:388
 msgid "[$SVC]"
 msgstr ""
 
-#: src/formats.c:360
+#: src/formats.c:388
 msgid "El Salvador colon"
 msgstr ""
 
-#: src/formats.c:361
+#: src/formats.c:389
 msgid "[$SYP]"
 msgstr ""
 
-#: src/formats.c:361
+#: src/formats.c:389
 msgid "Syrian pound"
 msgstr "Λίρα Συρίας"
 
-#: src/formats.c:362
+#: src/formats.c:390
 msgid "[$SZL]"
 msgstr ""
 
-#: src/formats.c:362
+#: src/formats.c:390
 msgid "Swaziland lilangeni"
 msgstr ""
 
-#: src/formats.c:363
+#: src/formats.c:391
 msgid "[$THB]"
 msgstr ""
 
-#: src/formats.c:363
+#: src/formats.c:391
 msgid "Thai baht"
 msgstr ""
 
-#: src/formats.c:364
+#: src/formats.c:392
 msgid "[$TND]"
 msgstr ""
 
-#: src/formats.c:364
+#: src/formats.c:392
 msgid "Tunisian dinar"
 msgstr "Δηνάριο Τυνησίας"
 
-#: src/formats.c:365
+#: src/formats.c:393
 msgid "[$TOP]"
 msgstr ""
 
-#: src/formats.c:365
+#: src/formats.c:393
 msgid "Tongan pa'anga"
 msgstr ""
 
-#: src/formats.c:366
+#: src/formats.c:394
 msgid "[$TPE]"
 msgstr ""
 
-#: src/formats.c:366
+#: src/formats.c:394
 msgid "East Timor escudo"
 msgstr "Εσκούδο Αν. Τιμόρ"
 
-#: src/formats.c:367
+#: src/formats.c:395
 msgid "[$TRL]"
 msgstr ""
 
-#: src/formats.c:367
+#: src/formats.c:395
 msgid "Turkish lira"
 msgstr "Λίρες Τουρκίας"
 
-#: src/formats.c:368
+#: src/formats.c:396
 msgid "[$TTD]"
 msgstr ""
 
-#: src/formats.c:368
+#: src/formats.c:396
 msgid "Trinidad and Tobago dollar"
 msgstr "Δολλάριο Τρινιδάδ και Τομπάγκο"
 
-#: src/formats.c:369
+#: src/formats.c:397
 msgid "[$TWD]"
 msgstr ""
 
-#: src/formats.c:369
+#: src/formats.c:397
 msgid "New Taiwan dollar"
 msgstr "Νέο δολλάριο Ταϊβάν"
 
-#: src/formats.c:370
+#: src/formats.c:398
 msgid "[$TZS]"
 msgstr ""
 
-#: src/formats.c:370
+#: src/formats.c:398
 msgid "Tanzanian shilling"
 msgstr "Σελίνι Τανζανίας"
 
-#: src/formats.c:371
+#: src/formats.c:399
 msgid "[$UAH]"
 msgstr ""
 
-#: src/formats.c:371
+#: src/formats.c:399
 msgid "Ukrainian hryvnia"
 msgstr ""
 
-#: src/formats.c:372
+#: src/formats.c:400
 msgid "[$UGX]"
 msgstr ""
 
-#: src/formats.c:372
+#: src/formats.c:400
 msgid "Ugandan shilling"
 msgstr "Σελίνι Ουγκάντας"
 
-#: src/formats.c:373
+#: src/formats.c:401
 msgid "[$USD]"
 msgstr ""
 
-#: src/formats.c:373
+#: src/formats.c:401
 msgid "US dollar"
 msgstr "Δολλάριο ΗΠΑ"
 
-#: src/formats.c:374
+#: src/formats.c:402
 msgid "[$UYP]"
 msgstr ""
 
-#: src/formats.c:374
+#: src/formats.c:402
 msgid "Uruguayan peso"
 msgstr "Πέσος Ουρουγουάης"
 
-#: src/formats.c:375
+#: src/formats.c:403
 msgid "[$VEB]"
 msgstr ""
 
-#: src/formats.c:375
+#: src/formats.c:403
 msgid "Venezuelan bolivar"
 msgstr ""
 
-#: src/formats.c:376
+#: src/formats.c:404
 msgid "[$VND]"
 msgstr ""
 
-#: src/formats.c:376
+#: src/formats.c:404
 msgid "Vietnamese dong"
 msgstr ""
 
-#: src/formats.c:377
+#: src/formats.c:405
 msgid "[$VUV]"
 msgstr ""
 
-#: src/formats.c:377
+#: src/formats.c:405
 msgid "Vanuatu vatu"
 msgstr ""
 
-#: src/formats.c:378
+#: src/formats.c:406
 msgid "[$WST]"
 msgstr ""
 
-#: src/formats.c:378
+#: src/formats.c:406
 msgid "Samoan tala"
 msgstr ""
 
-#: src/formats.c:379
+#: src/formats.c:407
 msgid "[$XCD]"
 msgstr ""
 
-#: src/formats.c:379
+#: src/formats.c:407
 msgid "East Caribbean dollar"
 msgstr "Δολλάριο Αν. Καραϊβικής"
 
-#: src/formats.c:380
+#: src/formats.c:408
 msgid "[$XEU]"
 msgstr ""
 
-#: src/formats.c:380
+#: src/formats.c:408
 msgid "European currency unit"
 msgstr "Ευρώ"
 
-#: src/formats.c:381
+#: src/formats.c:409
 msgid "[$YDD]"
 msgstr ""
 
-#: src/formats.c:381
+#: src/formats.c:409
 msgid "Democratic Yemeni dinar"
 msgstr "Δηνάριο Δημοκρατικής Υεμένης"
 
-#: src/formats.c:382
+#: src/formats.c:410
 msgid "[$YER]"
 msgstr ""
 
-#: src/formats.c:382
+#: src/formats.c:410
 msgid "Yemeni rial"
 msgstr ""
 
-#: src/formats.c:383
+#: src/formats.c:411
 msgid "[$YUN]"
 msgstr ""
 
-#: src/formats.c:383
+#: src/formats.c:411
 msgid "New Yugoslavia dinar"
 msgstr "Νέο δηνάριο Γιουγκοσλαβίας"
 
-#: src/formats.c:384
+#: src/formats.c:412
 msgid "[$ZAL]"
 msgstr ""
 
-#: src/formats.c:384
+#: src/formats.c:412
 msgid "South African rand funds code"
 msgstr ""
 
-#: src/formats.c:385
+#: src/formats.c:413
 msgid "[$ZAR]"
 msgstr ""
 
-#: src/formats.c:385
+#: src/formats.c:413
 msgid "South African rand"
 msgstr ""
 
-#: src/formats.c:386
+#: src/formats.c:414
 msgid "[$ZMK]"
 msgstr ""
 
-#: src/formats.c:386
+#: src/formats.c:414
 msgid "Zambian kwacha"
 msgstr ""
 
-#: src/formats.c:387
+#: src/formats.c:415
 msgid "[$ZRZ]"
 msgstr ""
 
-#: src/formats.c:387
+#: src/formats.c:415
 msgid "Zaire Zaire"
 msgstr ""
 
-#: src/formats.c:388
+#: src/formats.c:416
 msgid "[$ZWD]"
 msgstr ""
 
-#: src/formats.c:388
+#: src/formats.c:416
 msgid "Zimbabwe dollar"
 msgstr "Δολλάριο Ζιμπάμπουε"
 
-#: src/formats.c:520
+#: src/formats.c:548
 msgid "[Red]"
 msgstr "[Κόκκινο]"
 
@@ -10272,12 +10294,12 @@ msgstr ""
 "@ΔΕΙΤΕ=CEIL, ABS, INT"
 
 #: src/functions/fn-math.c:956
+#, fuzzy
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT function rounds @a now to the nearest integer where "
-"`nearest' implies being closer to zero. INT is equivalent to FLOOR(a) for @a "
-">= 0, and CEIL(a) for @a < 0. This function is Excel compatible. \n"
+"@DESCRIPTION=The INT function returns the largest integer that is not bigger "
+"than its argument. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "INT(7.2) equals 7.\n"
 "INT(-5.5) equals -6.\n"
@@ -10295,7 +10317,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=FLOOR, CEIL, ABS"
 
-#: src/functions/fn-math.c:982
+#: src/functions/fn-math.c:980
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -10319,7 +10341,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=LN, LOG2, LOG10"
 
-#: src/functions/fn-math.c:1021
+#: src/functions/fn-math.c:1019
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -10339,7 +10361,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=EXP, LOG2, LOG10"
 
-#: src/functions/fn-math.c:1051
+#: src/functions/fn-math.c:1049
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -10361,7 +10383,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=EXP"
 
-#: src/functions/fn-math.c:1085
+#: src/functions/fn-math.c:1083
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -10381,7 +10403,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=EXP, LOG10, LOG"
 
-#: src/functions/fn-math.c:1113
+#: src/functions/fn-math.c:1111
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -10401,7 +10423,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=EXP, LOG2, LOG"
 
-#: src/functions/fn-math.c:1142
+#: src/functions/fn-math.c:1140
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -10425,7 +10447,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=INT,FLOOR,CEIL"
 
-#: src/functions/fn-math.c:1190
+#: src/functions/fn-math.c:1188
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -10445,7 +10467,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=PI,DEGREES"
 
-#: src/functions/fn-math.c:1212
+#: src/functions/fn-math.c:1210
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -10466,7 +10488,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=RANDBETWEEN"
 
-#: src/functions/fn-math.c:1235
+#: src/functions/fn-math.c:1233
 msgid ""
 "@FUNCTION=RandExp\n"
 "@SYNTAX=RandExp(b)\n"
@@ -10484,7 +10506,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1258
+#: src/functions/fn-math.c:1256
 msgid ""
 "@FUNCTION=RandPoisson\n"
 "@SYNTAX=RandPoisson(lambda)\n"
@@ -10502,7 +10524,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1284
+#: src/functions/fn-math.c:1282
 msgid ""
 "@FUNCTION=RandBinom\n"
 "@SYNTAX=RandBinom(p,trials)\n"
@@ -10524,7 +10546,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1314
+#: src/functions/fn-math.c:1312
 #, fuzzy
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
@@ -10549,7 +10571,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1345
+#: src/functions/fn-math.c:1343
 msgid ""
 "@FUNCTION=RandBernoulli\n"
 "@SYNTAX=RandBernoulli(p)\n"
@@ -10570,7 +10592,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=RAND,RANDBETWEEN"
 
-#: src/functions/fn-math.c:1373
+#: src/functions/fn-math.c:1371
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -10590,7 +10612,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/functions/fn-math.c:1396
+#: src/functions/fn-math.c:1394
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -10612,7 +10634,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/functions/fn-math.c:1419
+#: src/functions/fn-math.c:1417
 #, fuzzy
 msgid ""
 "@FUNCTION=SQRT\n"
@@ -10635,7 +10657,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=POW"
 
-#: src/functions/fn-math.c:1447
+#: src/functions/fn-math.c:1445
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -10659,7 +10681,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=AVERAGE, COUNT"
 
-#: src/functions/fn-math.c:1477
+#: src/functions/fn-math.c:1475
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -10689,7 +10711,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=AVERAGE, SUM, COUNT"
 
-#: src/functions/fn-math.c:1509
+#: src/functions/fn-math.c:1507
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -10714,7 +10736,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUM, COUNT"
 
-#: src/functions/fn-math.c:1540
+#: src/functions/fn-math.c:1538
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -10735,7 +10757,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUM"
 
-#: src/functions/fn-math.c:1600
+#: src/functions/fn-math.c:1598
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -10757,7 +10779,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUM, COUNT, G_PRODUCT"
 
-#: src/functions/fn-math.c:1638
+#: src/functions/fn-math.c:1636
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -10779,7 +10801,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUM, COUNT"
 
-#: src/functions/fn-math.c:1666
+#: src/functions/fn-math.c:1664
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -10799,7 +10821,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:1689
+#: src/functions/fn-math.c:1687
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -10821,7 +10843,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/functions/fn-math.c:1712
+#: src/functions/fn-math.c:1710
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -10842,7 +10864,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SQRTPI"
 
-#: src/functions/fn-math.c:1736
+#: src/functions/fn-math.c:1734
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -10866,7 +10888,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=INT"
 
-#: src/functions/fn-math.c:1775
+#: src/functions/fn-math.c:1773
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -10886,7 +10908,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=ODD"
 
-#: src/functions/fn-math.c:1813
+#: src/functions/fn-math.c:1811
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -10906,7 +10928,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=EVEN"
 
-#: src/functions/fn-math.c:1851
+#: src/functions/fn-math.c:1849
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -10920,7 +10942,7 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr ""
 
-#: src/functions/fn-math.c:1889
+#: src/functions/fn-math.c:1887
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -10941,7 +10963,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=MOD"
 
-#: src/functions/fn-math.c:1920
+#: src/functions/fn-math.c:1918
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -10967,7 +10989,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ="
 
-#: src/functions/fn-math.c:1954
+#: src/functions/fn-math.c:1952
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -10987,7 +11009,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=PI"
 
-#: src/functions/fn-math.c:1983
+#: src/functions/fn-math.c:1981
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -11013,7 +11035,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=RAND"
 
-#: src/functions/fn-math.c:2017
+#: src/functions/fn-math.c:2015
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -11050,7 +11072,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2064
+#: src/functions/fn-math.c:2062
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -11087,7 +11109,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=ROUNDDOWN,ROUNDUP"
 
-#: src/functions/fn-math.c:2105
+#: src/functions/fn-math.c:2106
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -11124,7 +11146,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=ROUND,ROUNDDOWN"
 
-#: src/functions/fn-math.c:2152
+#: src/functions/fn-math.c:2153
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -11153,7 +11175,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=ROUNDDOWN,ROUND,ROUNDUP"
 
-#: src/functions/fn-math.c:2202
+#: src/functions/fn-math.c:2203
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -11194,7 +11216,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ="
 
-#: src/functions/fn-math.c:2471
+#: src/functions/fn-math.c:2472
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -11230,14 +11252,14 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUMSQ,SUMX2PY2"
 
-#: src/functions/fn-math.c:2527 src/functions/fn-math.c:2546
-#: src/functions/fn-math.c:2640 src/functions/fn-math.c:2660
-#: src/functions/fn-math.c:2752 src/functions/fn-math.c:2772
+#: src/functions/fn-math.c:2528 src/functions/fn-math.c:2547
+#: src/functions/fn-math.c:2641 src/functions/fn-math.c:2661
+#: src/functions/fn-math.c:2753 src/functions/fn-math.c:2773
 #: src/functions/fn-stat.c:2711 src/functions/fn-stat.c:2741
 msgid "Array version not implemented!"
 msgstr "Η περίπτωση για πίνακες δεν είναι υλοποιημένη!"
 
-#: src/functions/fn-math.c:2584
+#: src/functions/fn-math.c:2585
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -11273,7 +11295,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUMSQ,SUMX2MY2"
 
-#: src/functions/fn-math.c:2696
+#: src/functions/fn-math.c:2697
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -11309,7 +11331,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUMSQ,SUMX2MY2,SUMX2PY2"
 
-#: src/functions/fn-math.c:2810
+#: src/functions/fn-math.c:2811
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -11368,7 +11390,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=COUNT,SUM"
 
-#: src/functions/fn-math.c:2903
+#: src/functions/fn-math.c:2904
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -11398,7 +11420,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=COUNT,SUM"
 
-#: src/functions/fn-math.c:3026
+#: src/functions/fn-math.c:3027
 #, fuzzy
 msgid ""
 "@FUNCTION=MINVERSE\n"
@@ -11422,11 +11444,11 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=MMULT, MDETERM"
 
-#: src/functions/fn-math.c:3074
+#: src/functions/fn-math.c:3075
 msgid "#3D MULT?"
 msgstr "#3D ΠΟΛ/ΜΟΣ?"
 
-#: src/functions/fn-math.c:3153
+#: src/functions/fn-math.c:3154
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -11446,7 +11468,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=TRANSPOSE,MINVERSE"
 
-#: src/functions/fn-math.c:3229
+#: src/functions/fn-math.c:3230
 #, fuzzy
 msgid ""
 "@FUNCTION=MDETERM\n"
@@ -11475,7 +11497,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=MMULT, MINVERSE"
 
-#: src/functions/fn-math.c:3287
+#: src/functions/fn-math.c:3288
 #, fuzzy
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
@@ -11508,7 +11530,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=SUM,PRODUCT"
 
-#: src/functions/fn-math.c:3402
+#: src/functions/fn-math.c:3403
 msgid "Maths / Trig."
 msgstr "Μαθηματικές / Τριγ."
 
@@ -13541,7 +13563,7 @@ msgstr ""
 "\n"
 "@ΔΕΙΤΕ=FIND"
 
-#: src/gnumeric-util.c:639
+#: src/gnumeric-util.c:640
 #, fuzzy, c-format
 msgid "Unable to open file '%s'"
 msgstr "άνοιγμα αρχείου αρθρώματος αδύνατο: "
@@ -13572,7 +13594,7 @@ msgstr "Ύψος: %.2f (%d pixel)"
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "Πλάτος: %.2f (%d pixel)"
 
-#: src/item-cursor.c:794
+#: src/item-cursor.c:808
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
@@ -13582,125 +13604,125 @@ msgstr ""
 "των κελιών σε αυτό το διάστημα.  Θέλετε να αντικαταστήσετε τα\n"
 "περιεχόμενα σε αυτή την περιοχή;"
 
-#: src/item-cursor.c:896
+#: src/item-cursor.c:910
 #, fuzzy
 msgid "_Move"
 msgstr "Μετακίνηση"
 
-#: po/tmp/gnumeric.xml.h:200 src/item-cursor.c:899
-#: src/sheet-control-gui.c:1127
+#: po/tmp/gnumeric.xml.h:201 src/item-cursor.c:913
+#: src/sheet-control-gui.c:1095
 msgid "_Copy"
 msgstr "Α_ντιγραφή"
 
-#: src/item-cursor.c:902
+#: src/item-cursor.c:916
 #, fuzzy
 msgid "Copy _Formats"
 msgstr "Αντιγραφή μορφοποίησης"
 
-#: src/item-cursor.c:904
+#: src/item-cursor.c:918
 #, fuzzy
 msgid "Copy _Values"
 msgstr "Αντιγραφή τιμών"
 
-#: src/item-cursor.c:909
+#: src/item-cursor.c:923
 #, fuzzy
 msgid "Shift _Down and Copy"
 msgstr "Μετατόπιση κελιών κάτω και αντιγραφή"
 
-#: src/item-cursor.c:911
+#: src/item-cursor.c:925
 #, fuzzy
 msgid "Shift _Right and Copy"
 msgstr "Μετατόπιση κελιών δεξιά και αντιγραφή"
 
-#: src/item-cursor.c:913
+#: src/item-cursor.c:927
 #, fuzzy
 msgid "Shift Dow_n and Move"
 msgstr "Μετατόπιση κελιών κάτω και μετακίνηση"
 
-#: src/item-cursor.c:915
+#: src/item-cursor.c:929
 #, fuzzy
 msgid "Shift Righ_t and Move"
 msgstr "Μετατόπιση κελιών δεξιά και μετακίνηση"
 
-#: src/item-cursor.c:920
+#: src/item-cursor.c:934
 #, fuzzy
 msgid "C_ancel"
 msgstr "Συμμεταβολή"
 
-#: src/main.c:82
+#: src/main.c:83
 msgid "Display Gnumeric's version"
 msgstr ""
 
-#: src/main.c:84
+#: src/main.c:85
 msgid "Set the root library directory"
 msgstr ""
 
-#: src/main.c:86
+#: src/main.c:87
 msgid "Adjust the root data directory"
 msgstr ""
 
-#: src/main.c:89
+#: src/main.c:90
 msgid "Dumps the function definitions"
 msgstr "Απαρίθμηση ορισμών συναρτήσεων"
 
-#: src/main.c:89
+#: src/main.c:90
 msgid "FILE"
 msgstr "ΑΡΧΕΙΟ"
 
-#: src/main.c:92
+#: src/main.c:93
 msgid "Enables some debugging functions"
 msgstr "Ενεργοποίηση μερικών συναρτήσεων αποσφαλμάτωσης"
 
-#: src/main.c:92 src/main.c:95 src/main.c:97 src/main.c:99 src/main.c:107
-#: src/main.c:111 src/main.c:115 src/main.c:119 src/main.c:123 src/main.c:127
+#: src/main.c:93 src/main.c:96 src/main.c:98 src/main.c:100 src/main.c:108
+#: src/main.c:112 src/main.c:116 src/main.c:120 src/main.c:124 src/main.c:128
 msgid "LEVEL"
 msgstr "ΕΠΙΠΕΔΟ"
 
-#: src/main.c:95
+#: src/main.c:96
 msgid "Enables some style related debugging functions"
 msgstr "Ενεργοποίηση μερικών συναρτήσεων αποσφαλμάτωσης στύλ"
 
-#: src/main.c:97
+#: src/main.c:98
 msgid "Enables some dependency related debugging functions"
 msgstr "Ενεργοποίηση μερικών συναρτήσεων αποσφαλμάτωσης εξαρτήσεων"
 
-#: src/main.c:99
+#: src/main.c:100
 #, fuzzy
 msgid "Enables some print debugging behaviour"
 msgstr "Ενεργοποίηση μερικών συναρτήσεων αποσφαλμάτωσης"
 
-#: src/main.c:102
+#: src/main.c:103
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "¶μεση έξοδος μετά την ανάγνωση επιλεγμένων βιβλίων (χρήσιμο για δοκιμή)."
 
-#: src/main.c:106 src/main.c:126
+#: src/main.c:107 src/main.c:127
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr "Ενεργοποίηση μηνυμάτων αποσφ. κατά την ανάγνωση βιβλίων Excel"
 
-#: src/main.c:110
+#: src/main.c:111
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr "Ενεργοποίηση μηνυμάτων αποσφ. κατά την ανάγνωση συναρτήσεων Excel"
 
-#: src/main.c:114
+#: src/main.c:115
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
 "Ενεργοποίηση μηνυμάτων αποσφ. κατά την ανάγνωση χρωμάτων & μοτίβων Excel"
 
-#: src/main.c:118
+#: src/main.c:119
 #, fuzzy
 msgid "Enables debugging mesgs while reading excel objects"
 msgstr "Ενεργοποίηση μηνυμάτων αποσφ. κατά την ανάγνωση γραφημάτων Excel"
 
-#: src/main.c:122
+#: src/main.c:123
 msgid "Enables debugging mesgs while reading excel charts"
 msgstr "Ενεργοποίηση μηνυμάτων αποσφ. κατά την ανάγνωση γραφημάτων Excel"
 
-#: src/main.c:130
+#: src/main.c:131
 msgid "Enables extra consistancy checking while reading ole files"
 msgstr "Ενεργοποίηση επιπλέον ελέγχων συνέπειας κατά την ανάγνωση αρχείων OLE"
 
-#: src/main.c:158
+#: src/main.c:159
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -13708,12 +13730,12 @@ msgid ""
 "libdir := '%s'\n"
 msgstr ""
 
-#: src/main.c:207
+#: src/main.c:209
 #, fuzzy
 msgid "Could not initialize Workbook factory"
 msgstr "Αρχικοποίηση εργοστασίου βιβλίων Gnumeric ανεπιτυχής"
 
-#: src/main.c:211
+#: src/main.c:213
 #, fuzzy
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Αρχικοποίηση εργοστασίου βιβλίων Gnumeric ανεπιτυχής"
@@ -13751,7 +13773,7 @@ msgstr "#Δ/Ε!"
 msgid "#RECALC!"
 msgstr "#ΑΝΑΦΟΡΑ!"
 
-#: src/parse-util.c:519
+#: src/parse-util.c:518
 msgid "ERROR"
 msgstr "ΣΦΑΛΜΑ"
 
@@ -13903,33 +13925,33 @@ msgid "cannot be performed with multiple selections"
 msgstr "' δε μπορεί να εφαρμοστεί σε πολλαπλές επιλογές"
 
 #. FIXME FIXME : disable copying part of an array
-#: src/selection.c:580
+#: src/selection.c:601
 msgid "copy"
 msgstr "αντιγραφή"
 
-#: src/selection.c:610
+#: src/selection.c:631
 msgid "cut"
 msgstr "κοπή"
 
-#: src/sheet-control-gui.c:483
+#: src/sheet-control-gui.c:462
 #, c-format
 msgid "Row: %d"
 msgstr "Σειρά: %d"
 
-#: src/sheet-control-gui.c:494
+#: src/sheet-control-gui.c:473
 #, c-format
 msgid "Column: %s"
 msgstr "Στήλη: %s"
 
-#: po/tmp/gnumeric.xml.h:53 src/sheet-control-gui.c:1125
+#: po/tmp/gnumeric.xml.h:54 src/sheet-control-gui.c:1093
 msgid "Cu_t"
 msgstr "_Κοπή"
 
-#: po/tmp/gnumeric.xml.h:219 src/sheet-control-gui.c:1129
+#: po/tmp/gnumeric.xml.h:220 src/sheet-control-gui.c:1097
 msgid "_Paste"
 msgstr "Επικό_λληση"
 
-#: src/sheet-control-gui.c:1131
+#: src/sheet-control-gui.c:1099
 msgid "Paste _Special"
 msgstr "Ει_δική Επικόλληση"
 
@@ -13940,66 +13962,66 @@ msgstr "Ει_δική Επικόλληση"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1143
+#: src/sheet-control-gui.c:1111
 msgid "_Insert..."
 msgstr "_Παρεμβολή..."
 
-#: po/tmp/gnumeric.xml.h:204 src/sheet-control-gui.c:1145
+#: po/tmp/gnumeric.xml.h:205 src/sheet-control-gui.c:1113
 #: src/workbook-control-gui.c:1779
 msgid "_Delete..."
 msgstr "_Διαγραφή..."
 
-#: src/sheet-control-gui.c:1147
+#: src/sheet-control-gui.c:1115
 #, fuzzy
 msgid "_Insert Column(s)"
 msgstr "Παρεμβολή στη_λών"
 
-#: src/sheet-control-gui.c:1149
+#: src/sheet-control-gui.c:1117
 #, fuzzy
 msgid "_Delete Column(s)"
 msgstr "Διαγραφή στη_λών"
 
-#: src/sheet-control-gui.c:1151
+#: src/sheet-control-gui.c:1119
 #, fuzzy
 msgid "_Insert Row(s)"
 msgstr "Παρεμβολή σειρών"
 
-#: src/sheet-control-gui.c:1153
+#: src/sheet-control-gui.c:1121
 #, fuzzy
 msgid "_Delete Row(s)"
 msgstr "Διαγραφή _σειρών"
 
-#: src/sheet-control-gui.c:1156
+#: src/sheet-control-gui.c:1124
 msgid "Clear Co_ntents"
 msgstr "Διαγραφή Περιε_χομένων"
 
-#: src/sheet-control-gui.c:1162
+#: src/sheet-control-gui.c:1130
 msgid "_Format Cells..."
 msgstr "Μορ_φοποίηση Κελιών..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1166
+#: src/sheet-control-gui.c:1134
 msgid "Column _Width..."
 msgstr "Π_λάτος Στήλης..."
 
-#: po/tmp/gnumeric.xml.h:213 src/sheet-control-gui.c:1168
-#: src/sheet-control-gui.c:1176 src/workbook-control-gui.c:1883
+#: po/tmp/gnumeric.xml.h:214 src/sheet-control-gui.c:1136
+#: src/sheet-control-gui.c:1144 src/workbook-control-gui.c:1883
 #: src/workbook-control-gui.c:1902
 msgid "_Hide"
 msgstr "Απόκρυ_ψη"
 
-#: po/tmp/gnumeric.xml.h:234 src/sheet-control-gui.c:1170
-#: src/sheet-control-gui.c:1178 src/workbook-control-gui.c:1886
+#: po/tmp/gnumeric.xml.h:235 src/sheet-control-gui.c:1138
+#: src/sheet-control-gui.c:1146 src/workbook-control-gui.c:1886
 #: src/workbook-control-gui.c:1905
 msgid "_Unhide"
 msgstr "Εμ_φάνιση"
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1174
+#: src/sheet-control-gui.c:1142
 msgid "_Row Height..."
 msgstr "Ύψος Σει_ράς..."
 
-#: src/sheet-object-container.c:218
+#: src/sheet-object-container.c:216
 #, fuzzy, c-format
 msgid "can't create object for '%s'"
 msgstr "Δημιουργία αρχείου %s αδύνατη\n"
@@ -14009,40 +14031,40 @@ msgstr "Δημιουργία αρχείου %s αδύνατη\n"
 msgid "Button"
 msgstr "Κουμπί"
 
-#: src/sheet-object-widget.c:494
+#: src/sheet-object-widget.c:493
 msgid "Checkbox Configure"
 msgstr ""
 
-#: src/sheet-object.c:73
+#: src/sheet-object.c:80
 msgid "Configure"
 msgstr ""
 
-#: src/sheet.c:2757 src/sheet.c:2767
+#: src/sheet.c:2822 src/sheet.c:2832
 #, fuzzy
 msgid "Insert Columns"
 msgstr "Παρεμβολή στη_λών"
 
-#: src/sheet.c:2838
+#: src/sheet.c:2903
 #, fuzzy
 msgid "Delete Columns"
 msgstr "Διαγραφή στη_λών"
 
-#: src/sheet.c:2908 src/sheet.c:2918
+#: src/sheet.c:2973 src/sheet.c:2983
 #, fuzzy
 msgid "Insert Rows"
 msgstr "Παρεμβολή σειρών"
 
-#: src/sheet.c:2989
+#: src/sheet.c:3054
 #, fuzzy
 msgid "Delete Rows"
 msgstr "Διαγραφή _σειρών"
 
-#: src/sheet.c:3866
+#: src/sheet.c:3856
 #, fuzzy
 msgid "Merge"
 msgstr "Μέσος όρος"
 
-#: src/sheet.c:3873
+#: src/sheet.c:3863
 msgid "There is already a merged region that intersects"
 msgstr ""
 
@@ -14203,7 +14225,7 @@ msgid ""
 "Most likely your locale settings are wrong."
 msgstr ""
 
-#: src/stf.c:184
+#: src/stf.c:204
 msgid "Parse error while trying to parse data into sheet"
 msgstr ""
 
@@ -14284,11 +14306,11 @@ msgstr "Έντονο πλάγιο"
 msgid "Italic"
 msgstr "Πλάγιο"
 
-#: src/workbook-cmd-format.c:99
+#: src/workbook-cmd-format.c:100
 msgid "You entered an invalid column width value.  It must be bigger than 0"
 msgstr "Δώσατε άκυρο πλάτος στήλης.  Πρέπει να είναι μεγαλύτερο από 0"
 
-#: src/workbook-cmd-format.c:170
+#: src/workbook-cmd-format.c:160
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr "Δώσατε άκυρο ύψος σειράς.  Πρέπει να είναι μεγαλύτερο από 0"
 
@@ -14297,7 +14319,7 @@ msgstr "Δώσατε άκυρο ύψος σειράς.  Πρέπει να είναι μεγαλύτερο από 0"
 msgid "Select font"
 msgstr "Διαγραφή _σειρών"
 
-#: po/tmp/gnumeric.xml.h:77 src/workbook-format-toolbar.c:369
+#: po/tmp/gnumeric.xml.h:78 src/workbook-format-toolbar.c:369
 #: src/workbook-format-toolbar.c:778
 msgid "Font selector"
 msgstr "Επιλογή Γραμματοσειράς"
@@ -14310,7 +14332,7 @@ msgstr "Επιλογή έντονης γραμματοσειράς"
 msgid "Makes the font italic"
 msgstr "Επιλογή πλάγιας γραμματοσειράς"
 
-#: po/tmp/gnumeric.xml.h:186 src/workbook-format-toolbar.c:386
+#: po/tmp/gnumeric.xml.h:187 src/workbook-format-toolbar.c:386
 msgid "Underline"
 msgstr "Υπογραμμισμένο"
 
@@ -14436,17 +14458,17 @@ msgstr "Πλαίσια"
 msgid "Clear Background"
 msgstr "Φόντος"
 
-#: po/tmp/gnumeric.xml.h:78 src/workbook-format-toolbar.c:768
+#: po/tmp/gnumeric.xml.h:79 src/workbook-format-toolbar.c:768
 #: src/workbook-format-toolbar.c:789
 msgid "Foreground"
 msgstr "Φόντος"
 
-#: po/tmp/gnumeric.xml.h:76 src/workbook-format-toolbar.c:780
+#: po/tmp/gnumeric.xml.h:77 src/workbook-format-toolbar.c:780
 #, fuzzy
 msgid "Font Size"
 msgstr "Γραμματοσειρά"
 
-#: po/tmp/gnumeric.xml.h:113 src/workbook-object-toolbar.c:129
+#: po/tmp/gnumeric.xml.h:114 src/workbook-object-toolbar.c:129
 #, fuzzy
 msgid "Label"
 msgstr "Ετικέτες"
@@ -14456,7 +14478,7 @@ msgstr "Ετικέτες"
 msgid "Creates a label"
 msgstr "Δημιουργία γραμμής"
 
-#: po/tmp/gnumeric.xml.h:82 src/workbook-object-toolbar.c:132
+#: po/tmp/gnumeric.xml.h:83 src/workbook-object-toolbar.c:132
 #, fuzzy
 msgid "Frame"
 msgstr "Ανώνυμο"
@@ -14470,7 +14492,7 @@ msgstr "Δημιουργία γραφικού"
 msgid "Creates a button"
 msgstr "Δημιουργία κουμπιού"
 
-#: po/tmp/gnumeric.xml.h:29 src/workbook-object-toolbar.c:138
+#: po/tmp/gnumeric.xml.h:30 src/workbook-object-toolbar.c:138
 msgid "Checkbox"
 msgstr ""
 
@@ -14488,7 +14510,7 @@ msgstr "Κουμπί"
 msgid "Creates a radio button"
 msgstr "Δημιουργία κουμπιού"
 
-#: po/tmp/gnumeric.xml.h:117 src/workbook-object-toolbar.c:144
+#: po/tmp/gnumeric.xml.h:118 src/workbook-object-toolbar.c:144
 #, fuzzy
 msgid "List"
 msgstr "Τελευταία"
@@ -14520,7 +14542,7 @@ msgstr "Βέλος"
 msgid "Creates an arrow object"
 msgstr "Δημιουργία βέλους"
 
-#: po/tmp/gnumeric.xml.h:150 src/workbook-object-toolbar.c:156
+#: po/tmp/gnumeric.xml.h:151 src/workbook-object-toolbar.c:156
 msgid "Rectangle"
 msgstr "Ορθογώνιο"
 
@@ -14621,11 +14643,11 @@ msgstr "Παρεμβολή στηλών"
 msgid "Select an object to add"
 msgstr "Επιλέξτε αντικείμενο"
 
-#: po/tmp/gnumeric.xml.h:216 src/workbook-control-gui.c:1682
+#: po/tmp/gnumeric.xml.h:217 src/workbook-control-gui.c:1682
 msgid "_New"
 msgstr "_Νέο"
 
-#: po/tmp/gnumeric.xml.h:49 src/workbook-control-gui.c:1682
+#: po/tmp/gnumeric.xml.h:50 src/workbook-control-gui.c:1682
 msgid "Create a new spreadsheet"
 msgstr "Δημιουργία νέου φύλλου"
 
@@ -14633,7 +14655,7 @@ msgstr "Δημιουργία νέου φύλλου"
 msgid "_Import..."
 msgstr "_Εισαγωγή..."
 
-#: po/tmp/gnumeric.xml.h:92 src/workbook-control-gui.c:1686
+#: po/tmp/gnumeric.xml.h:93 src/workbook-control-gui.c:1686
 msgid "Imports a file"
 msgstr "Εισαγωγή αρχείου"
 
@@ -14641,81 +14663,81 @@ msgstr "Εισαγωγή αρχείου"
 msgid "Print pre_view"
 msgstr "Προεπι_σκόπιση εκτύπωσης"
 
-#: po/tmp/gnumeric.xml.h:178 src/workbook-control-gui.c:1702
+#: po/tmp/gnumeric.xml.h:179 src/workbook-control-gui.c:1702
 msgid "Su_mmary..."
 msgstr "Περί_ληψη..."
 
-#: po/tmp/gnumeric.xml.h:181 src/workbook-control-gui.c:1703
+#: po/tmp/gnumeric.xml.h:182 src/workbook-control-gui.c:1703
 msgid "Summary information"
 msgstr "Περιληπτικές πληροφορίες"
 
-#: po/tmp/gnumeric.xml.h:191 src/workbook-control-gui.c:1716
+#: po/tmp/gnumeric.xml.h:192 src/workbook-control-gui.c:1716
 msgid "_All"
 msgstr "_Όλα"
 
-#: po/tmp/gnumeric.xml.h:33 src/workbook-control-gui.c:1717
+#: po/tmp/gnumeric.xml.h:34 src/workbook-control-gui.c:1717
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:208 src/workbook-control-gui.c:1719
+#: po/tmp/gnumeric.xml.h:209 src/workbook-control-gui.c:1719
 msgid "_Formats"
 msgstr "Μορ_φοποίηση"
 
-#: po/tmp/gnumeric.xml.h:32 src/workbook-control-gui.c:1720
+#: po/tmp/gnumeric.xml.h:33 src/workbook-control-gui.c:1720
 msgid "Clear the selected cells' formats"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:30 src/workbook-control-gui.c:1723
+#: po/tmp/gnumeric.xml.h:31 src/workbook-control-gui.c:1723
 msgid "Clear the selected cells' comments"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:199 src/workbook-control-gui.c:1725
+#: po/tmp/gnumeric.xml.h:200 src/workbook-control-gui.c:1725
 msgid "_Content"
 msgstr "Περιε_χόμενα"
 
-#: po/tmp/gnumeric.xml.h:31 src/workbook-control-gui.c:1726
+#: po/tmp/gnumeric.xml.h:32 src/workbook-control-gui.c:1726
 msgid "Clear the selected cells' contents"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:162 src/workbook-control-gui.c:1734
+#: po/tmp/gnumeric.xml.h:163 src/workbook-control-gui.c:1734
 #, fuzzy
 msgid "Select _All"
 msgstr "Ε_πιλογή Όλων"
 
-#: po/tmp/gnumeric.xml.h:166 src/workbook-control-gui.c:1735
+#: po/tmp/gnumeric.xml.h:167 src/workbook-control-gui.c:1735
 msgid "Select all cells in the spreadsheet"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:165 src/workbook-control-gui.c:1739
+#: po/tmp/gnumeric.xml.h:166 src/workbook-control-gui.c:1739
 #, fuzzy
 msgid "Select _Row"
 msgstr "Διαγραφή _σειρών"
 
-#: po/tmp/gnumeric.xml.h:170 src/workbook-control-gui.c:1740
+#: po/tmp/gnumeric.xml.h:171 src/workbook-control-gui.c:1740
 #, fuzzy
 msgid "Select an entire row"
 msgstr "Επιλέξτε αντικείμενο"
 
-#: po/tmp/gnumeric.xml.h:163 src/workbook-control-gui.c:1744
+#: po/tmp/gnumeric.xml.h:164 src/workbook-control-gui.c:1744
 #, fuzzy
 msgid "Select _Column"
 msgstr "Διαγραφή στη_λών"
 
-#: po/tmp/gnumeric.xml.h:169 src/workbook-control-gui.c:1745
+#: po/tmp/gnumeric.xml.h:170 src/workbook-control-gui.c:1745
 #, fuzzy
 msgid "Select an entire column"
 msgstr "Επιλέξτε αντικείμενο"
 
-#: po/tmp/gnumeric.xml.h:161 src/workbook-control-gui.c:1749
+#: po/tmp/gnumeric.xml.h:162 src/workbook-control-gui.c:1749
 #, fuzzy
 msgid "Select Arra_y"
 msgstr "Ε_πιλογή Όλων"
 
-#: po/tmp/gnumeric.xml.h:168 src/workbook-control-gui.c:1750
+#: po/tmp/gnumeric.xml.h:169 src/workbook-control-gui.c:1750
 msgid "Select an array of cells"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:164 src/workbook-control-gui.c:1754
+#: po/tmp/gnumeric.xml.h:165 src/workbook-control-gui.c:1754
 msgid "Select _Depends"
 msgstr ""
 
@@ -14728,7 +14750,7 @@ msgstr ""
 msgid "P_aste special..."
 msgstr "Ειδική επικόλληση"
 
-#: po/tmp/gnumeric.xml.h:138 src/workbook-control-gui.c:1772
+#: po/tmp/gnumeric.xml.h:139 src/workbook-control-gui.c:1772
 msgid "Paste with optional filters and transformations"
 msgstr ""
 
@@ -14740,80 +14762,80 @@ msgstr "Κα_θαρισμός"
 msgid "Remove selected cells, shifting other into their place"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:58 src/workbook-control-gui.c:1782
+#: po/tmp/gnumeric.xml.h:59 src/workbook-control-gui.c:1782
 msgid "De_lete Sheet"
 msgstr "Δια_γραφή Φύλλου"
 
-#: po/tmp/gnumeric.xml.h:108 src/workbook-control-gui.c:1783
+#: po/tmp/gnumeric.xml.h:109 src/workbook-control-gui.c:1783
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:226 src/workbook-control-gui.c:1788
+#: po/tmp/gnumeric.xml.h:227 src/workbook-control-gui.c:1788
 #, fuzzy
 msgid "_Select..."
 msgstr "_Διαγραφή..."
 
 #. Default <Ctrl-G> to be goto
-#: po/tmp/gnumeric.xml.h:210 src/workbook-control-gui.c:1791
+#: po/tmp/gnumeric.xml.h:211 src/workbook-control-gui.c:1791
 msgid "_Goto cell..."
 msgstr "Επίσκε_ψη κελιού..."
 
-#: po/tmp/gnumeric.xml.h:112 src/workbook-control-gui.c:1792
+#: po/tmp/gnumeric.xml.h:113 src/workbook-control-gui.c:1792
 msgid "Jump to a specified cell"
 msgstr "Μετακίνηση στο καθορισμένο κελί"
 
 #. Default <F9> to recalculate
-#: po/tmp/gnumeric.xml.h:222 src/workbook-control-gui.c:1797
+#: po/tmp/gnumeric.xml.h:223 src/workbook-control-gui.c:1797
 msgid "_Recalculate"
 msgstr "Επαν_υπολογισμός"
 
-#: po/tmp/gnumeric.xml.h:149 src/workbook-control-gui.c:1798
+#: po/tmp/gnumeric.xml.h:150 src/workbook-control-gui.c:1798
 msgid "Recalculate the spreadsheet"
 msgstr "Επανυπολογισμός του φύλλου"
 
-#: po/tmp/gnumeric.xml.h:238 src/workbook-control-gui.c:1808
+#: po/tmp/gnumeric.xml.h:239 src/workbook-control-gui.c:1808
 msgid "_Zoom..."
 msgstr "Κ_λίμακα..."
 
-#: po/tmp/gnumeric.xml.h:189 src/workbook-control-gui.c:1809
+#: po/tmp/gnumeric.xml.h:190 src/workbook-control-gui.c:1809
 msgid "Zoom the spreadsheet in or out"
 msgstr "Μέγενθυση ή σμίκρυνση του φύλλου"
 
-#: po/tmp/gnumeric.xml.h:128 src/workbook-control-gui.c:1811
+#: po/tmp/gnumeric.xml.h:129 src/workbook-control-gui.c:1811
 #, fuzzy
 msgid "New _Shared"
 msgstr "Νέο Φύλλο"
 
-#: po/tmp/gnumeric.xml.h:48 src/workbook-control-gui.c:1812
+#: po/tmp/gnumeric.xml.h:49 src/workbook-control-gui.c:1812
 #, fuzzy
 msgid "Create a new shared view of the workbook"
 msgstr "Δημιουργία νέου βιβλίου"
 
-#: po/tmp/gnumeric.xml.h:129 src/workbook-control-gui.c:1814
+#: po/tmp/gnumeric.xml.h:130 src/workbook-control-gui.c:1814
 #, fuzzy
 msgid "New _Unshared"
 msgstr "Νέο Φύλλο"
 
-#: po/tmp/gnumeric.xml.h:50 src/workbook-control-gui.c:1815
+#: po/tmp/gnumeric.xml.h:51 src/workbook-control-gui.c:1815
 #, fuzzy
 msgid "Create a new unshared view of the workbook"
 msgstr "Δημιουργία νέου βιβλίου"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: po/tmp/gnumeric.xml.h:54 src/workbook-control-gui.c:1824
+#: po/tmp/gnumeric.xml.h:55 src/workbook-control-gui.c:1824
 msgid "Current _date"
 msgstr "Τρέχουσα ημ/_νία"
 
-#: po/tmp/gnumeric.xml.h:104 src/workbook-control-gui.c:1825
+#: po/tmp/gnumeric.xml.h:105 src/workbook-control-gui.c:1825
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Εισαγωγή τρέχουσας ημ/νίας στα επιλεγμένα κελιά"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: po/tmp/gnumeric.xml.h:55 src/workbook-control-gui.c:1830
+#: po/tmp/gnumeric.xml.h:56 src/workbook-control-gui.c:1830
 msgid "Current _time"
 msgstr "Τρέχουσα ώ_ρα"
 
-#: po/tmp/gnumeric.xml.h:105 src/workbook-control-gui.c:1831
+#: po/tmp/gnumeric.xml.h:106 src/workbook-control-gui.c:1831
 msgid "Insert the current time into the selected cell(s)"
 msgstr "Εισαγωγή τρέχουσας ώρας στα επιλεγμένα κελιά"
 
@@ -14822,7 +14844,7 @@ msgstr "Εισαγωγή τρέχουσας ώρας στα επιλεγμένα κελιά"
 msgid "_Define..."
 msgstr "_Διαγραφή..."
 
-#: po/tmp/gnumeric.xml.h:67 src/workbook-control-gui.c:1839
+#: po/tmp/gnumeric.xml.h:68 src/workbook-control-gui.c:1839
 msgid "Edit sheet and workbook names"
 msgstr ""
 
@@ -14836,20 +14858,20 @@ msgstr "_Αυτόματη Αποθήκευση..."
 msgid "Use the current selection to create names"
 msgstr "Κοπή επιλογής στο τεμάχιο"
 
-#: po/tmp/gnumeric.xml.h:227 src/workbook-control-gui.c:1850
+#: po/tmp/gnumeric.xml.h:228 src/workbook-control-gui.c:1850
 #: src/workbook-control-gui.c:1958
 msgid "_Sheet"
 msgstr "_Φύλλο"
 
-#: po/tmp/gnumeric.xml.h:98 src/workbook-control-gui.c:1851
+#: po/tmp/gnumeric.xml.h:99 src/workbook-control-gui.c:1851
 msgid "Insert a new spreadsheet"
 msgstr "Προσθήκη νέου φύλλου"
 
-#: po/tmp/gnumeric.xml.h:103 src/workbook-control-gui.c:1854
+#: po/tmp/gnumeric.xml.h:104 src/workbook-control-gui.c:1854
 msgid "Insert new rows"
 msgstr "Παρεμβολή νέων στηλών"
 
-#: po/tmp/gnumeric.xml.h:102 src/workbook-control-gui.c:1857
+#: po/tmp/gnumeric.xml.h:103 src/workbook-control-gui.c:1857
 msgid "Insert new columns"
 msgstr "Παρεμβολή νέων στηλών"
 
@@ -14857,11 +14879,11 @@ msgstr "Παρεμβολή νέων στηλών"
 msgid "C_ells..."
 msgstr "Κ_ελία..."
 
-#: po/tmp/gnumeric.xml.h:101 src/workbook-control-gui.c:1860
+#: po/tmp/gnumeric.xml.h:102 src/workbook-control-gui.c:1860
 msgid "Insert new cells"
 msgstr "Παρεμβολή νέων κελίων"
 
-#: po/tmp/gnumeric.xml.h:215 src/workbook-control-gui.c:1865
+#: po/tmp/gnumeric.xml.h:216 src/workbook-control-gui.c:1865
 #, fuzzy
 msgid "_Name"
 msgstr "Ανώνυμο"
@@ -14871,34 +14893,34 @@ msgstr "Ανώνυμο"
 msgid "_Add\\modify comment..."
 msgstr "Π_ροσθήκη/τροποιποίηση σχολίου..."
 
-#: po/tmp/gnumeric.xml.h:69 src/workbook-control-gui.c:1868
+#: po/tmp/gnumeric.xml.h:70 src/workbook-control-gui.c:1868
 msgid "Edit the selected cell's comment"
 msgstr "Διόρθωση σχολίων των επιλεγμένων κελίων"
 
-#: po/tmp/gnumeric.xml.h:155 src/workbook-control-gui.c:1871
+#: po/tmp/gnumeric.xml.h:156 src/workbook-control-gui.c:1871
 msgid "S_pecial"
 msgstr "Ει_δικό"
 
-#: po/tmp/gnumeric.xml.h:193 src/workbook-control-gui.c:1877
+#: po/tmp/gnumeric.xml.h:194 src/workbook-control-gui.c:1877
 #: src/workbook-control-gui.c:1896
 msgid "_Auto fit selection"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:236 src/workbook-control-gui.c:1880
+#: po/tmp/gnumeric.xml.h:237 src/workbook-control-gui.c:1880
 #, fuzzy
 msgid "_Width..."
 msgstr "Π_λάτος"
 
-#: po/tmp/gnumeric.xml.h:231 src/workbook-control-gui.c:1889
+#: po/tmp/gnumeric.xml.h:232 src/workbook-control-gui.c:1889
 msgid "_Standard Width"
 msgstr "Κα_νονικό Πλάτος"
 
-#: po/tmp/gnumeric.xml.h:211 src/workbook-control-gui.c:1899
+#: po/tmp/gnumeric.xml.h:212 src/workbook-control-gui.c:1899
 #, fuzzy
 msgid "_Height..."
 msgstr "Ύψος Σει_ράς..."
 
-#: po/tmp/gnumeric.xml.h:230 src/workbook-control-gui.c:1908
+#: po/tmp/gnumeric.xml.h:231 src/workbook-control-gui.c:1908
 msgid "_Standard Height"
 msgstr "Κα_νονικό Ύψος"
 
@@ -14906,19 +14928,19 @@ msgstr "Κα_νονικό Ύψος"
 msgid "_Change name"
 msgstr "Α_λλαγή ονόματος"
 
-#: po/tmp/gnumeric.xml.h:148 src/workbook-control-gui.c:1918
+#: po/tmp/gnumeric.xml.h:149 src/workbook-control-gui.c:1918
 msgid "Re-_Order Sheets"
 msgstr "Επανα_δίαταξη Φύλλων"
 
-#: po/tmp/gnumeric.xml.h:61 src/workbook-control-gui.c:1922
+#: po/tmp/gnumeric.xml.h:62 src/workbook-control-gui.c:1922
 msgid "Display _Formulas"
 msgstr "Εμφάνιση Ε_ξισώσεων"
 
-#: po/tmp/gnumeric.xml.h:88 src/workbook-control-gui.c:1927
+#: po/tmp/gnumeric.xml.h:89 src/workbook-control-gui.c:1927
 msgid "Hide _Zeros"
 msgstr "Απόκρυψη Μη_δενικών"
 
-#: po/tmp/gnumeric.xml.h:86 src/workbook-control-gui.c:1932
+#: po/tmp/gnumeric.xml.h:87 src/workbook-control-gui.c:1932
 msgid "Hide _Gridlines"
 msgstr "Απόκρυψη Π_λέγματος"
 
@@ -14931,11 +14953,11 @@ msgid "Hide _Row Header"
 msgstr "Απόκρυψη Επικεφαλίδας Σει_ρών"
 
 #. Default <Ctrl-1> invoke the format dialog
-#: po/tmp/gnumeric.xml.h:196 src/workbook-control-gui.c:1952
+#: po/tmp/gnumeric.xml.h:197 src/workbook-control-gui.c:1952
 msgid "_Cells..."
 msgstr "_Κελιά..."
 
-#: po/tmp/gnumeric.xml.h:124 src/workbook-control-gui.c:1953
+#: po/tmp/gnumeric.xml.h:125 src/workbook-control-gui.c:1953
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
@@ -14943,29 +14965,29 @@ msgstr ""
 msgid "C_olumn"
 msgstr "Στή_λη"
 
-#: po/tmp/gnumeric.xml.h:224 src/workbook-control-gui.c:1957
+#: po/tmp/gnumeric.xml.h:225 src/workbook-control-gui.c:1957
 msgid "_Row"
 msgstr "Σει_ρά"
 
-#: po/tmp/gnumeric.xml.h:194 src/workbook-control-gui.c:1960
+#: po/tmp/gnumeric.xml.h:195 src/workbook-control-gui.c:1960
 #, fuzzy
 msgid "_Autoformat..."
 msgstr "_Αυτόματα"
 
-#: po/tmp/gnumeric.xml.h:79 src/workbook-control-gui.c:1961
+#: po/tmp/gnumeric.xml.h:80 src/workbook-control-gui.c:1961
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:237 src/workbook-control-gui.c:1964
+#: po/tmp/gnumeric.xml.h:238 src/workbook-control-gui.c:1964
 #, fuzzy
 msgid "_Workbook..."
 msgstr "_Βιβλίο"
 
-#: po/tmp/gnumeric.xml.h:125 src/workbook-control-gui.c:1965
+#: po/tmp/gnumeric.xml.h:126 src/workbook-control-gui.c:1965
 msgid "Modify the workbook attributes"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:220 src/workbook-control-gui.c:1972
+#: po/tmp/gnumeric.xml.h:221 src/workbook-control-gui.c:1972
 msgid "_Plug-ins..."
 msgstr "Α_ρθρώματα..."
 
@@ -14981,7 +15003,7 @@ msgstr "Αυτόματη _Διόρθωση..."
 msgid "Automatically perform simple spell checking"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:192 src/workbook-control-gui.c:1981
+#: po/tmp/gnumeric.xml.h:193 src/workbook-control-gui.c:1981
 msgid "_Auto Save..."
 msgstr "_Αυτόματη Αποθήκευση..."
 
@@ -14989,23 +15011,23 @@ msgstr "_Αυτόματη Αποθήκευση..."
 msgid "Automatically save the current document at regular intervals"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:209 src/workbook-control-gui.c:1987
+#: po/tmp/gnumeric.xml.h:210 src/workbook-control-gui.c:1987
 msgid "_Goal Seek..."
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:110 src/workbook-control-gui.c:1988
+#: po/tmp/gnumeric.xml.h:111 src/workbook-control-gui.c:1988
 msgid "Iteratively recalculate to find a target value"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:228 src/workbook-control-gui.c:1990
+#: po/tmp/gnumeric.xml.h:229 src/workbook-control-gui.c:1990
 msgid "_Solver..."
 msgstr "Επί_λυση..."
 
-#: po/tmp/gnumeric.xml.h:111 src/workbook-control-gui.c:1991
+#: po/tmp/gnumeric.xml.h:112 src/workbook-control-gui.c:1991
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:202 src/workbook-control-gui.c:1996
+#: po/tmp/gnumeric.xml.h:203 src/workbook-control-gui.c:1996
 msgid "_Data Analysis..."
 msgstr "Ανάλυση _Δεδομένων..."
 
@@ -15014,40 +15036,40 @@ msgstr "Ανάλυση _Δεδομένων..."
 msgid "Statistical methods."
 msgstr "Στατιστικές"
 
-#: po/tmp/gnumeric.xml.h:229 src/workbook-control-gui.c:2005
+#: po/tmp/gnumeric.xml.h:230 src/workbook-control-gui.c:2005
 msgid "_Sort..."
 msgstr "Τα_ξινόμιση..."
 
-#: po/tmp/gnumeric.xml.h:174 src/workbook-control-gui.c:2006
+#: po/tmp/gnumeric.xml.h:175 src/workbook-control-gui.c:2006
 msgid "Sort the selected cells"
 msgstr "Ταξινόμιση των επιλεγμένων κελιών"
 
-#: po/tmp/gnumeric.xml.h:207 src/workbook-control-gui.c:2008
+#: po/tmp/gnumeric.xml.h:208 src/workbook-control-gui.c:2008
 msgid "_Filter..."
 msgstr "_Φίλτρο..."
 
-#: po/tmp/gnumeric.xml.h:74 src/workbook-control-gui.c:2009
+#: po/tmp/gnumeric.xml.h:75 src/workbook-control-gui.c:2009
 #, fuzzy
 msgid "Filter data with given criteria"
 msgstr "Φιλτράρισμα ημ/νίας με δεδομένα κριτήρια"
 
-#: po/tmp/gnumeric.xml.h:214 src/workbook-control-gui.c:2025
+#: po/tmp/gnumeric.xml.h:215 src/workbook-control-gui.c:2025
 msgid "_Insert"
 msgstr "Εισα_γωγή"
 
-#: po/tmp/gnumeric.xml.h:73 src/workbook-control-gui.c:2026
+#: po/tmp/gnumeric.xml.h:74 src/workbook-control-gui.c:2026
 msgid "F_ormat"
 msgstr "Μορφ_οποίηηση"
 
-#: po/tmp/gnumeric.xml.h:232 src/workbook-control-gui.c:2027
+#: po/tmp/gnumeric.xml.h:233 src/workbook-control-gui.c:2027
 msgid "_Tools"
 msgstr "Ερ_γαλεία"
 
-#: po/tmp/gnumeric.xml.h:201 src/workbook-control-gui.c:2028
+#: po/tmp/gnumeric.xml.h:202 src/workbook-control-gui.c:2028
 msgid "_Data"
 msgstr "_Δεδομένα"
 
-#: po/tmp/gnumeric.xml.h:127 src/workbook-control-gui.c:2035
+#: po/tmp/gnumeric.xml.h:128 src/workbook-control-gui.c:2035
 msgid "New"
 msgstr "Νέο"
 
@@ -15055,7 +15077,7 @@ msgstr "Νέο"
 msgid "Creates a new workbook"
 msgstr "Δημιουργία νέου βιβλίου"
 
-#: po/tmp/gnumeric.xml.h:130 src/workbook-control-gui.c:2038
+#: po/tmp/gnumeric.xml.h:131 src/workbook-control-gui.c:2038
 msgid "Open"
 msgstr "¶νοιγμα"
 
@@ -15063,7 +15085,7 @@ msgstr "¶νοιγμα"
 msgid "Opens an existing workbook"
 msgstr "¶νοιγμα υπάρχοντος βιβλίου"
 
-#: po/tmp/gnumeric.xml.h:156 src/workbook-control-gui.c:2041
+#: po/tmp/gnumeric.xml.h:157 src/workbook-control-gui.c:2041
 msgid "Save"
 msgstr "Αποθήκευση"
 
@@ -15075,7 +15097,7 @@ msgstr "Αποθήκευση βιβλίου"
 msgid "Prints the workbook"
 msgstr "Εκτύπωση βιβλίου"
 
-#: po/tmp/gnumeric.xml.h:56 src/workbook-control-gui.c:2056
+#: po/tmp/gnumeric.xml.h:57 src/workbook-control-gui.c:2056
 msgid "Cut"
 msgstr "Κοπή"
 
@@ -15083,7 +15105,7 @@ msgstr "Κοπή"
 msgid "Cuts the selection to the clipboard"
 msgstr "Κοπή επιλογής στο τεμάχιο"
 
-#: po/tmp/gnumeric.xml.h:38 src/workbook-control-gui.c:2059
+#: po/tmp/gnumeric.xml.h:39 src/workbook-control-gui.c:2059
 msgid "Copy"
 msgstr "Αντιγραφή"
 
@@ -15118,7 +15140,7 @@ msgstr "Ενέργεια"
 msgid "Edit a function in the current cell."
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:172 src/workbook-control-gui.c:2089
+#: po/tmp/gnumeric.xml.h:173 src/workbook-control-gui.c:2089
 msgid "Sort Ascending"
 msgstr "Αύξουσα Ταξινόμιση"
 
@@ -15130,7 +15152,7 @@ msgstr ""
 "Ταξινόμιση της επιλεγμένης περιοχής κατά αύξουσα σειρά, βάσει της πρώτης "
 "στήλης της επιλογής."
 
-#: po/tmp/gnumeric.xml.h:173 src/workbook-control-gui.c:2092
+#: po/tmp/gnumeric.xml.h:174 src/workbook-control-gui.c:2092
 msgid "Sort Descending"
 msgstr "Φθίνουσα Ταξινόμιση"
 
@@ -15164,33 +15186,33 @@ msgstr "Φύλλο 1"
 msgid "must have at least 1 letter"
 msgstr ""
 
-#: src/workbook.c:1178
-#, fuzzy
-msgid "Duplicate Sheet name"
-msgstr "Δια_γραφή Φύλλου"
+#: src/workbook.c:1184
+#, c-format
+msgid "There is already a sheet named '%s'"
+msgstr ""
 
-#: src/xml-io.c:3283
+#: src/xml-io.c:3083
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr "¶κυρα δεδομένα XML στο τεμάχιο. Κενό δέντρο;"
 
-#: src/xml-io.c:3335
+#: src/xml-io.c:3135
 #, fuzzy
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Δεν είναι αρχείο βιβλίου"
 
-#: src/xml-io.c:3394
+#: src/xml-io.c:3194
 msgid "Gnumeric XML file format"
 msgstr "Μορφή αρχείου XML Gnumeric"
 
-#: src/xml-io-autoft.c:446
+#: src/xml-io-autoft.c:423
 msgid "Error while trying to load autoformat template"
 msgstr ""
 
-#: src/xml-io-autoft.c:463
+#: src/xml-io-autoft.c:440
 msgid "Is not an autoformat template file"
 msgstr ""
 
-#: src/xml-io-autoft.c:473
+#: src/xml-io-autoft.c:450
 msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 
@@ -15237,381 +15259,386 @@ msgstr "Κεντρικό τμήμα:"
 
 #: po/tmp/gnumeric.xml.h:23
 #, fuzzy
+msgid "Centers across the selected cells"
+msgstr "Κεντρικό τμήμα:"
+
+#: po/tmp/gnumeric.xml.h:24
+#, fuzzy
 msgid "Centers the text in each selection"
 msgstr "Εισάγετε περιγραφή μορφοποίησης κάθε τμήματος:"
 
-#: po/tmp/gnumeric.xml.h:24
+#: po/tmp/gnumeric.xml.h:25
 #, fuzzy
 msgid "Change height of the selected rows"
 msgstr "Ρύθμιση ύψους της σειράς %d"
 
-#: po/tmp/gnumeric.xml.h:25
+#: po/tmp/gnumeric.xml.h:26
 msgid "Change the default column width"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:26
+#: po/tmp/gnumeric.xml.h:27
 msgid "Change the default row height"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:27
+#: po/tmp/gnumeric.xml.h:28
 msgid "Change the order the sheets are displayed"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:28
+#: po/tmp/gnumeric.xml.h:29
 #, fuzzy
 msgid "Change width of the selected columns"
 msgstr "Ρύθμιση πλάτους της στήλης %s"
 
-#: po/tmp/gnumeric.xml.h:34
+#: po/tmp/gnumeric.xml.h:35
 #, fuzzy
 msgid "Close"
 msgstr "Πλήθος"
 
-#: po/tmp/gnumeric.xml.h:35
+#: po/tmp/gnumeric.xml.h:36
 msgid "Close the current file"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:37
+#: po/tmp/gnumeric.xml.h:38
 #, fuzzy
 msgid "Combo Box"
 msgstr "Χρώμα"
 
-#: po/tmp/gnumeric.xml.h:39
+#: po/tmp/gnumeric.xml.h:40
 #, fuzzy
 msgid "Copy the current selection to the clipboard"
 msgstr "Αντιγραφή επιλογής στο τεμάχιο"
 
-#: po/tmp/gnumeric.xml.h:40
+#: po/tmp/gnumeric.xml.h:41
 #, fuzzy
 msgid "Copy the selection"
 msgstr "Α_ντιγραφή σε νέα θέση"
 
-#: po/tmp/gnumeric.xml.h:41
+#: po/tmp/gnumeric.xml.h:42
 #, fuzzy
 msgid "Create a button"
 msgstr "Δημιουργία κουμπιού"
 
-#: po/tmp/gnumeric.xml.h:42
+#: po/tmp/gnumeric.xml.h:43
 #, fuzzy
 msgid "Create a checkbox"
 msgstr "Δημιουργία κουμπιού"
 
-#: po/tmp/gnumeric.xml.h:43
+#: po/tmp/gnumeric.xml.h:44
 #, fuzzy
 msgid "Create a combo box"
 msgstr "Δημιουργία κουμπιού"
 
-#: po/tmp/gnumeric.xml.h:44
+#: po/tmp/gnumeric.xml.h:45
 #, fuzzy
 msgid "Create a frame"
 msgstr "Δημιουργία γραφικού"
 
-#: po/tmp/gnumeric.xml.h:45
+#: po/tmp/gnumeric.xml.h:46
 #, fuzzy
 msgid "Create a label"
 msgstr "Δημιουργία γραμμής"
 
-#: po/tmp/gnumeric.xml.h:46
+#: po/tmp/gnumeric.xml.h:47
 #, fuzzy
 msgid "Create a line"
 msgstr "Δημιουργία γραμμής"
 
-#: po/tmp/gnumeric.xml.h:47
+#: po/tmp/gnumeric.xml.h:48
 #, fuzzy
 msgid "Create a list"
 msgstr "Δημιουργία γραμμής"
 
-#: po/tmp/gnumeric.xml.h:51
+#: po/tmp/gnumeric.xml.h:52
 #, fuzzy
 msgid "Create a new workbook"
 msgstr "Δημιουργία νέου βιβλίου"
 
-#: po/tmp/gnumeric.xml.h:52
+#: po/tmp/gnumeric.xml.h:53
 #, fuzzy
 msgid "Create a radio button"
 msgstr "Δημιουργία κουμπιού"
 
-#: po/tmp/gnumeric.xml.h:57
+#: po/tmp/gnumeric.xml.h:58
 #, fuzzy
 msgid "Cut the selection"
 msgstr "επιλογή"
 
-#: po/tmp/gnumeric.xml.h:59
+#: po/tmp/gnumeric.xml.h:60
 #, fuzzy
 msgid "Decrease Precision"
 msgstr "Δεκέμβριος"
 
-#: po/tmp/gnumeric.xml.h:60
+#: po/tmp/gnumeric.xml.h:61
 #, fuzzy
 msgid "Decrease the preceision of the selected cells"
 msgstr "Εισαγωγή τρέχουσας ημ/νίας στα επιλεγμένα κελιά"
 
-#: po/tmp/gnumeric.xml.h:62
+#: po/tmp/gnumeric.xml.h:63
 msgid "Display the value of a formula or the formula itself"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:63
+#: po/tmp/gnumeric.xml.h:64
 #, fuzzy
 msgid "Draw a rectangle"
 msgstr "Δημιουργία ορθογωνίου"
 
-#: po/tmp/gnumeric.xml.h:64
+#: po/tmp/gnumeric.xml.h:65
 msgid "Draw an oval"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:65
+#: po/tmp/gnumeric.xml.h:66
 #, fuzzy
 msgid "E_xit"
 msgstr "Κείμε_νο"
 
-#: po/tmp/gnumeric.xml.h:66
+#: po/tmp/gnumeric.xml.h:67
 msgid "Edit a formula in the current cell"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:68
+#: po/tmp/gnumeric.xml.h:69
 msgid "Edit the name of the current sheet"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:70
+#: po/tmp/gnumeric.xml.h:71
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:71
+#: po/tmp/gnumeric.xml.h:72
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:72
+#: po/tmp/gnumeric.xml.h:73
 msgid "Exit the program"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:80
+#: po/tmp/gnumeric.xml.h:81
 #, fuzzy
 msgid "Format the selected cells as money"
 msgstr "Ταξινόμιση των επιλεγμένων κελιών"
 
-#: po/tmp/gnumeric.xml.h:81
+#: po/tmp/gnumeric.xml.h:82
 #, fuzzy
 msgid "Format the selected cells as percentages"
 msgstr "Μορφοποίηση ποσοστού στα επιλεγμένα κελιά"
 
-#: po/tmp/gnumeric.xml.h:83
+#: po/tmp/gnumeric.xml.h:84
 #, fuzzy
 msgid "Function Guru"
 msgstr "Ενέργεια"
 
-#: po/tmp/gnumeric.xml.h:84
+#: po/tmp/gnumeric.xml.h:85
 #, fuzzy
 msgid "Graph Guru"
 msgstr "Εξισώσεις"
 
-#: po/tmp/gnumeric.xml.h:85
+#: po/tmp/gnumeric.xml.h:86
 #, fuzzy
 msgid "Hide _Column Headers"
 msgstr "Απόκρυψη Επικεφαλίδας Στη_λών"
 
-#: po/tmp/gnumeric.xml.h:87
+#: po/tmp/gnumeric.xml.h:88
 #, fuzzy
 msgid "Hide _Row Headers"
 msgstr "Απόκρυψη Επικεφαλίδας Σει_ρών"
 
-#: po/tmp/gnumeric.xml.h:89
+#: po/tmp/gnumeric.xml.h:90
 #, fuzzy
 msgid "Hide the selected columns"
 msgstr "Ταξινόμιση των επιλεγμένων κελιών"
 
-#: po/tmp/gnumeric.xml.h:90
+#: po/tmp/gnumeric.xml.h:91
 #, fuzzy
 msgid "Hide the selected rows"
 msgstr "Ταξινόμιση των επιλεγμένων κελιών"
 
-#: po/tmp/gnumeric.xml.h:91
+#: po/tmp/gnumeric.xml.h:92
 #, fuzzy
 msgid "Import..."
 msgstr "_Εισαγωγή..."
 
-#: po/tmp/gnumeric.xml.h:93
+#: po/tmp/gnumeric.xml.h:94
 #, fuzzy
 msgid "Includes a thousands seperator in the selected cells"
 msgstr "Εισαγωγή τρέχουσας ημ/νίας στα επιλεγμένα κελιά"
 
-#: po/tmp/gnumeric.xml.h:94
+#: po/tmp/gnumeric.xml.h:95
 msgid "Increase Precision"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:95
+#: po/tmp/gnumeric.xml.h:96
 #, fuzzy
 msgid "Increase the preceision of the selected cells"
 msgstr "Εισαγωγή τρέχουσας ημ/νίας στα επιλεγμένα κελιά"
 
-#: po/tmp/gnumeric.xml.h:96
+#: po/tmp/gnumeric.xml.h:97
 #, fuzzy
 msgid "Insert Component"
 msgstr "Παρεμβολή στη_λών"
 
-#: po/tmp/gnumeric.xml.h:97
+#: po/tmp/gnumeric.xml.h:98
 msgid "Insert Shaped Component"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:99
+#: po/tmp/gnumeric.xml.h:100
 #, fuzzy
 msgid "Insert a shaped component into the spreadsheet"
 msgstr "Εισαγωγή αντικειμένου στο φύλλο"
 
-#: po/tmp/gnumeric.xml.h:100
+#: po/tmp/gnumeric.xml.h:101
 #, fuzzy
 msgid "Insert an object into the spreadsheet"
 msgstr "Εισαγωγή αντικειμένου στο φύλλο"
 
-#: po/tmp/gnumeric.xml.h:106
+#: po/tmp/gnumeric.xml.h:107
 msgid "Inserts a Bonobo object"
 msgstr "Εισαγωγή αντικειμένου Bonobo"
 
-#: po/tmp/gnumeric.xml.h:107
+#: po/tmp/gnumeric.xml.h:108
 msgid "Invoke the graph guru to create a graph"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:109
+#: po/tmp/gnumeric.xml.h:110
 #, fuzzy
 msgid "Italicize"
 msgstr "Πλάγιο"
 
-#: po/tmp/gnumeric.xml.h:115
+#: po/tmp/gnumeric.xml.h:116
 #, fuzzy
 msgid "Left justifies the contents of each cell"
 msgstr "Αριστερή στοίχιση περιεχομένων του κελιού"
 
-#: po/tmp/gnumeric.xml.h:118
+#: po/tmp/gnumeric.xml.h:119
 msgid "Make any hidden columns in the selection visible"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:119
+#: po/tmp/gnumeric.xml.h:120
 #, fuzzy
 msgid "Make any hidden rows in the selection visible"
 msgstr "Δεν μπορώ να προσθέσω περισσότερα από το μήκος της επιλογής."
 
-#: po/tmp/gnumeric.xml.h:120
+#: po/tmp/gnumeric.xml.h:121
 #, fuzzy
 msgid "Make font bold"
 msgstr "Επιλογή πλάγιας γραμματοσειράς"
 
-#: po/tmp/gnumeric.xml.h:121
+#: po/tmp/gnumeric.xml.h:122
 #, fuzzy
 msgid "Makes font italic"
 msgstr "Επιλογή πλάγιας γραμματοσειράς"
 
-#: po/tmp/gnumeric.xml.h:122
+#: po/tmp/gnumeric.xml.h:123
 msgid "Manage available plugin modules"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:123
+#: po/tmp/gnumeric.xml.h:124
 #, fuzzy
 msgid "Mark the current selection for movement"
 msgstr "Κοπή επιλογής στο τεμάχιο"
 
-#: po/tmp/gnumeric.xml.h:126
+#: po/tmp/gnumeric.xml.h:127
 #, fuzzy
 msgid "Money"
 msgstr "Δευτέρα"
 
-#: po/tmp/gnumeric.xml.h:131
+#: po/tmp/gnumeric.xml.h:132
 #, fuzzy
 msgid "Open a spreadsheet"
 msgstr "Δημιουργία νέου φύλλου"
 
-#: po/tmp/gnumeric.xml.h:132
+#: po/tmp/gnumeric.xml.h:133
 #, fuzzy
 msgid "Open an existing workbook"
 msgstr "¶νοιγμα υπάρχοντος βιβλίου"
 
-#: po/tmp/gnumeric.xml.h:133
+#: po/tmp/gnumeric.xml.h:134
 msgid "Oval"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:135
+#: po/tmp/gnumeric.xml.h:136
 #, fuzzy
 msgid "Paste _Special..."
 msgstr "Ει_δική Επικόλληση"
 
-#: po/tmp/gnumeric.xml.h:136
+#: po/tmp/gnumeric.xml.h:137
 #, fuzzy
 msgid "Paste the clipboard"
 msgstr "Επικόλληση τεμαχίου"
 
-#: po/tmp/gnumeric.xml.h:137
+#: po/tmp/gnumeric.xml.h:138
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:141
+#: po/tmp/gnumeric.xml.h:142
 #, fuzzy
 msgid "Print Pre_view"
 msgstr "Προεπι_σκόπιση εκτύπωσης"
 
-#: po/tmp/gnumeric.xml.h:142
+#: po/tmp/gnumeric.xml.h:143
 #, fuzzy
 msgid "Print Preview"
 msgstr "Προεπισκόπιση εκτύπωσης"
 
-#: po/tmp/gnumeric.xml.h:143
+#: po/tmp/gnumeric.xml.h:144
 #, fuzzy
 msgid "Print S_etup"
 msgstr "Ρυθμίσεις εκτύπωσης"
 
-#: po/tmp/gnumeric.xml.h:145
+#: po/tmp/gnumeric.xml.h:146
 msgid "Print the current file"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:146
+#: po/tmp/gnumeric.xml.h:147
 #, fuzzy
 msgid "Print the workbook"
 msgstr "Εκτύπωση βιβλίου"
 
-#: po/tmp/gnumeric.xml.h:147
+#: po/tmp/gnumeric.xml.h:148
 #, fuzzy
 msgid "Radio Button"
 msgstr "Κουμπί"
 
-#: po/tmp/gnumeric.xml.h:151
+#: po/tmp/gnumeric.xml.h:152
 #, fuzzy
 msgid "Redo the undone action"
 msgstr "Γεννήτρια Τυχαίων Αριθμών"
 
-#: po/tmp/gnumeric.xml.h:152
+#: po/tmp/gnumeric.xml.h:153
 msgid "Remove selected cells, shifting others into their place"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:154
+#: po/tmp/gnumeric.xml.h:155
 #, fuzzy
 msgid "Right justifies the contents of each cell"
 msgstr "Δεξία στοίχιση περιεχομένων του κελιού"
 
-#: po/tmp/gnumeric.xml.h:157
+#: po/tmp/gnumeric.xml.h:158
 #, fuzzy
 msgid "Save As"
 msgstr "Αποθήκευση"
 
-#: po/tmp/gnumeric.xml.h:158
+#: po/tmp/gnumeric.xml.h:159
 msgid "Save the current file"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:159
+#: po/tmp/gnumeric.xml.h:160
 #, fuzzy
 msgid "Save the current file with a different name"
 msgstr "Κοπή επιλογής στο τεμάχιο"
 
-#: po/tmp/gnumeric.xml.h:160
+#: po/tmp/gnumeric.xml.h:161
 #, fuzzy
 msgid "Save the current workbook"
 msgstr "Αποθήκευση βιβλίου"
 
-#: po/tmp/gnumeric.xml.h:167
+#: po/tmp/gnumeric.xml.h:168
 msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:171
+#: po/tmp/gnumeric.xml.h:172
 msgid "Setup the page settings for your current printer"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:175
+#: po/tmp/gnumeric.xml.h:176
 #, fuzzy
 msgid ""
 "Sort the selected region in ascending order based on the first column "
@@ -15620,7 +15647,7 @@ msgstr ""
 "Ταξινόμιση της επιλεγμένης περιοχής κατά αύξουσα σειρά, βάσει της πρώτης "
 "στήλης της επιλογής."
 
-#: po/tmp/gnumeric.xml.h:176
+#: po/tmp/gnumeric.xml.h:177
 #, fuzzy
 msgid ""
 "Sort the selected region in descending order based on the first column "
@@ -15629,104 +15656,112 @@ msgstr ""
 "Ταξινόμιση της επιλεγμένης περιοχής κατά φθίνουσα σειρά, βάσει της πρώτης "
 "στήλης της επιλογής."
 
-#: po/tmp/gnumeric.xml.h:177
+#: po/tmp/gnumeric.xml.h:178
 #, fuzzy
 msgid "Statistical methods"
 msgstr "Στατιστικές"
 
-#: po/tmp/gnumeric.xml.h:180
+#: po/tmp/gnumeric.xml.h:181
 msgid "Sum into the current cell"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:182
+#: po/tmp/gnumeric.xml.h:183
 msgid "Toggle whether or not to display column headers"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:183
+#: po/tmp/gnumeric.xml.h:184
 msgid "Toggle whether or not to display gridlines"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:184
+#: po/tmp/gnumeric.xml.h:185
 msgid "Toggle whether or not to display row headers"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:185
+#: po/tmp/gnumeric.xml.h:186
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:187
+#: po/tmp/gnumeric.xml.h:188
 #, fuzzy
 msgid "Underlines the text"
 msgstr "Υπογράμμιση γραμματοσειράς"
 
-#: po/tmp/gnumeric.xml.h:188
+#: po/tmp/gnumeric.xml.h:189
 #, fuzzy
 msgid "Undo the last action"
 msgstr "¶γνωστος τελεστής"
 
-#: po/tmp/gnumeric.xml.h:190
+#: po/tmp/gnumeric.xml.h:191
 #, fuzzy
 msgid "_Add / modify comment..."
 msgstr "Π_ροσθήκη/τροποιποίηση σχολίου..."
 
-#: po/tmp/gnumeric.xml.h:195
+#: po/tmp/gnumeric.xml.h:196
 #, fuzzy
 msgid "_Cells"
 msgstr "Κελί"
 
-#: po/tmp/gnumeric.xml.h:197
+#: po/tmp/gnumeric.xml.h:198
 #, fuzzy
 msgid "_Change Name"
 msgstr "Α_λλαγή ονόματος"
 
-#: po/tmp/gnumeric.xml.h:203
+#: po/tmp/gnumeric.xml.h:204
 #, fuzzy
 msgid "_Define"
 msgstr "Ορισμός Ονόματος"
 
-#: po/tmp/gnumeric.xml.h:205
+#: po/tmp/gnumeric.xml.h:206
 #, fuzzy
 msgid "_Edit"
 msgstr "_Φίλτρο..."
 
-#: po/tmp/gnumeric.xml.h:206
+#: po/tmp/gnumeric.xml.h:207
 #, fuzzy
 msgid "_File"
 msgstr "_Γέμισμα"
 
-#: po/tmp/gnumeric.xml.h:212
+#: po/tmp/gnumeric.xml.h:213
 #, fuzzy
 msgid "_Help"
 msgstr "Απόκρυ_ψη"
 
-#: po/tmp/gnumeric.xml.h:217
+#: po/tmp/gnumeric.xml.h:218
 #, fuzzy
 msgid "_Object"
 msgstr "Αντικείμεν_ο..."
 
-#: po/tmp/gnumeric.xml.h:218
+#: po/tmp/gnumeric.xml.h:219
 #, fuzzy
 msgid "_Open"
 msgstr "¶νοιγμα"
 
-#: po/tmp/gnumeric.xml.h:221
+#: po/tmp/gnumeric.xml.h:222
 msgid "_Print"
 msgstr "Εκτύ_πωση"
 
-#: po/tmp/gnumeric.xml.h:223
+#: po/tmp/gnumeric.xml.h:224
 #, fuzzy
 msgid "_Redo"
 msgstr "[Κόκκινο]"
 
-#: po/tmp/gnumeric.xml.h:233
+#: po/tmp/gnumeric.xml.h:234
 #, fuzzy
 msgid "_Undo"
 msgstr "Τυχαία"
 
-#: po/tmp/gnumeric.xml.h:235
+#: po/tmp/gnumeric.xml.h:236
 #, fuzzy
 msgid "_View"
 msgstr "Εμ_φάνιση"
+
+#, fuzzy
+#~ msgid "Name Guru"
+#~ msgstr "Ανώνυμο"
+
+#, fuzzy
+#~ msgid "Duplicate Sheet name"
+#~ msgstr "Δια_γραφή Φύλλου"
 
 #, fuzzy
 #~ msgid "Database Access"

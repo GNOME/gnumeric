@@ -1,3 +1,7 @@
+2000-12-17 Jody Goldberg <jgoldberg@home.com>
+
+	* Release 0.60
+
 2000-12-09  Chema Celorio  <chema@celorio.com>
 
 	* dialog-define-names.c: add NameGuruScope enums

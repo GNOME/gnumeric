@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2000-12-07 20:18-0500\n"
+"POT-Creation-Date: 2000-12-17 20:35-0500\n"
 "PO-Revision-Date: 1999-06-01 11:20+0100\n"
 "Last-Translator: Vladimir Vuksan <vuksan@veus.hr>\n"
 "Language-Team: Croatian <hr@li.org>\n"
@@ -75,7 +75,7 @@ msgstr "Excel(R) 95 format"
 msgid "#UNKNOWN!"
 msgstr "#NEPOZNATO!"
 
-#: plugins/excel/ms-excel-read.c:600 plugins/lotus-123/lotus.c:196
+#: plugins/excel/ms-excel-read.c:600 plugins/lotus-123/lotus.c:194
 #: plugins/oleo/oleo.c:44 src/workbook.c:561
 #, c-format
 msgid "Sheet%d"
@@ -237,16 +237,16 @@ msgstr ""
 msgid "Import/Export of HTML, TeX, DVI, roff and pdf"
 msgstr ""
 
-#: plugins/lotus-123/boot.c:90
+#: plugins/lotus-123/boot.c:108
 #, fuzzy
 msgid "Lotus file format (*.wk1)"
 msgstr "Format datoteke:"
 
-#: plugins/lotus-123/boot.c:94
+#: plugins/lotus-123/boot.c:112
 msgid "Lotus 123"
 msgstr ""
 
-#: plugins/lotus-123/boot.c:95
+#: plugins/lotus-123/boot.c:113
 #, fuzzy
 msgid "Imports Lotus 123 files"
 msgstr "Uvezi datoteku"
@@ -548,50 +548,50 @@ msgid "Sean Atkinson, functions and X-Base importing."
 msgstr "Sean Atkinson, Excel funkcije"
 
 #: src/about.c:40
+msgid "Kenneth Christiansen, i18n, misc stuff."
+msgstr ""
+
+#: src/about.c:41
 #, fuzzy
 msgid "Tom Dyas, plugin support."
 msgstr "Tom Dyas, podr¹ka za Dodatke."
 
-#: src/about.c:41
+#: src/about.c:42
 msgid "Gergõ Érdi, Gnumeric hacker."
 msgstr ""
 
-#: src/about.c:42
+#: src/about.c:43
 msgid "Jody Goldberg, Gnumeric hacker."
 msgstr ""
 
-#: src/about.c:43
+#: src/about.c:44
+msgid "Jon K. Hellan, Gnumeric hacker."
+msgstr ""
+
+#: src/about.c:45
 msgid "Ross Ihaka, special functions."
 msgstr ""
 
-#: src/about.c:44
+#: src/about.c:46
 #, fuzzy
 msgid "Jukka-Pekka Iivonen, numerous functions and tools."
 msgstr "Jukka-Pekka Iivonen, brojne funkcije"
 
-#: src/about.c:45
+#: src/about.c:47
 msgid "Jakub Jelinek, Gnumeric hacker."
 msgstr ""
 
-#: src/about.c:46
-msgid "Jon K Hellan, Gnumeric hacker."
-msgstr ""
-
-#: src/about.c:47
+#: src/about.c:48
 msgid "Chris Lahey, number format engine."
 msgstr ""
 
-#: src/about.c:48
+#: src/about.c:49
 #, fuzzy
 msgid "Adrian Likins, documentation, debugging."
 msgstr "Adrian Likins, dokumentacija, debugging"
 
-#: src/about.c:49
-msgid "Takashi Matsuda, original text plugin."
-msgstr ""
-
 #: src/about.c:50
-msgid "Federico Mena, canvas support."
+msgid "Takashi Matsuda, original text plugin."
 msgstr ""
 
 #: src/about.c:51
@@ -599,45 +599,45 @@ msgid "Michael Meeks, Excel and OLE2 importing."
 msgstr ""
 
 #: src/about.c:52
+msgid "Federico Mena, canvas support."
+msgstr ""
+
+#: src/about.c:53
 #, fuzzy
 msgid "Mark Probst, Guile support."
 msgstr "Mark Probst, podr¹ka za Guile."
 
-#: src/about.c:53
+#: src/about.c:54
 msgid "Rasca, HTML, troff, LaTeX exporters."
 msgstr ""
 
-#: src/about.c:54
+#: src/about.c:55
 #, fuzzy
 msgid "Vincent Renardias, original CSV support, French localization."
 msgstr "Vincent Renardias, inicijalna podr¹ka za CSV, francuska lokalizacija."
 
-#: src/about.c:55
+#: src/about.c:56
 msgid "Ariel Rios, Guile support."
 msgstr "Ariel Rios, podr¹ka za Guile."
 
-#: src/about.c:56
-msgid "Almer. S. Tigelaar, text import."
+#: src/about.c:57
+msgid "Almer S. Tigelaar, text import."
 msgstr ""
 
-#: src/about.c:57
+#: src/about.c:58
 msgid "Bruno Unna, Excel bits."
 msgstr "Bruno Unna, dijelovi Excel koda."
 
-#: src/about.c:58
+#: src/about.c:59
 msgid "Daniel Veillard, XML support."
 msgstr "Daniel Veillard, podr¹ka za XML."
 
-#: src/about.c:59
+#: src/about.c:60
 msgid "Vladimir Vuksan, financial functions."
 msgstr "Vladimir Vuksan, financijske funkcije."
 
-#: src/about.c:60
-msgid "Morten Welinder, Gnumeric hacker."
-msgstr ""
-
 #: src/about.c:61
-msgid "Kenneth Christiansen, i18n, misc stuff."
+msgid "Morten Welinder, Gnumeric hacker."
 msgstr ""
 
 #: src/about.c:81 src/functions/fn-sheet.c:136
@@ -742,7 +742,7 @@ msgstr "Min"
 msgid "Maximum"
 msgstr "Max"
 
-#: po/tmp/gnumeric.xml.h:179 src/analysis-tools.c:750
+#: po/tmp/gnumeric.xml.h:180 src/analysis-tools.c:750
 #: src/analysis-tools.c:2335 src/analysis-tools.c:2501
 #: src/analysis-tools.c:2748 src/workbook-control-gui.c:2082
 #: src/workbook-control-gui.c:2801 src/workbook-view.c:487
@@ -1033,7 +1033,7 @@ msgstr "Postotak"
 msgid "Rank"
 msgstr "Èetverokut"
 
-#: po/tmp/gnumeric.xml.h:139 src/analysis-tools.c:2213
+#: po/tmp/gnumeric.xml.h:140 src/analysis-tools.c:2213
 #: src/analysis-tools.c:2239 src/workbook-format-toolbar.c:417
 msgid "Percent"
 msgstr "Postotak"
@@ -1143,7 +1143,7 @@ msgstr ""
 msgid "Error '%s' opening workbook stream"
 msgstr ""
 
-#: src/bonobo-io.c:470 src/xml-io-autoft.c:452 src/xml-io.c:3326
+#: src/bonobo-io.c:470 src/xml-io-autoft.c:429 src/xml-io.c:3126
 msgid "Invalid xml file. Tree is empty ?"
 msgstr ""
 
@@ -1194,7 +1194,7 @@ msgstr ""
 msgid "Unable to paste into selection"
 msgstr "Ne mogu stvoriti datoteku %s\n"
 
-#: po/tmp/gnumeric.xml.h:134 src/cmd-edit.c:356
+#: po/tmp/gnumeric.xml.h:135 src/cmd-edit.c:356
 #: src/workbook-control-gui.c:2062
 msgid "Paste"
 msgstr "Umetni"
@@ -1262,7 +1262,7 @@ msgstr "O_bri¹i"
 
 #. FIXME?
 #. TODO : Something more descriptive ? maybe the range name
-#: src/commands.c:1113 src/sheet.c:2355
+#: src/commands.c:1113 src/sheet.c:2412
 #, fuzzy
 msgid "Clear"
 msgstr "O_bri¹i"
@@ -1687,7 +1687,7 @@ msgstr "Datum"
 msgid "_Chart Output"
 msgstr "Tip grafikona"
 
-#: po/tmp/analysis-tools.glade.h:36 po/tmp/gnumeric.xml.h:198
+#: po/tmp/analysis-tools.glade.h:36 po/tmp/gnumeric.xml.h:199
 #: src/workbook-control-gui.c:1856
 #, fuzzy
 msgid "_Columns"
@@ -1734,7 +1734,7 @@ msgstr ""
 msgid "_Pareto (Sorted)"
 msgstr ""
 
-#: po/tmp/analysis-tools.glade.h:47 po/tmp/gnumeric.xml.h:225
+#: po/tmp/analysis-tools.glade.h:47 po/tmp/gnumeric.xml.h:226
 #: src/workbook-control-gui.c:1853
 msgid "_Rows"
 msgstr "_Redove"
@@ -1765,7 +1765,7 @@ msgid "Do _not correct:"
 msgstr ""
 
 #: po/tmp/autocorrect-exceptions.glade.h:8 po/tmp/dialog-stf.glade.h:66
-#: po/tmp/solver.glade.h:18
+#: po/tmp/names.glade.h:10 po/tmp/solver.glade.h:18
 #, fuzzy
 msgid "_Add"
 msgstr "Dodaj"
@@ -2090,7 +2090,7 @@ msgstr "plava"
 msgid "Effects"
 msgstr ""
 
-#: po/tmp/cell-format.glade.h:32 po/tmp/gnumeric.xml.h:75
+#: po/tmp/cell-format.glade.h:32 po/tmp/gnumeric.xml.h:76
 #: src/workbook-format-toolbar.c:691
 #, fuzzy
 msgid "Font"
@@ -2139,7 +2139,7 @@ msgstr "Poravnaj"
 msgid "Large Circles"
 msgstr ""
 
-#: po/tmp/cell-format.glade.h:42 po/tmp/gnumeric.xml.h:114
+#: po/tmp/cell-format.glade.h:42 po/tmp/gnumeric.xml.h:115
 #: src/workbook-format-toolbar.c:544
 msgid "Left"
 msgstr "Lijevo"
@@ -2148,7 +2148,7 @@ msgstr "Lijevo"
 msgid "Left _Indent"
 msgstr ""
 
-#: po/tmp/cell-format.glade.h:44 po/tmp/gnumeric.xml.h:116
+#: po/tmp/cell-format.glade.h:44 po/tmp/gnumeric.xml.h:117
 #: src/workbook-object-toolbar.c:150
 msgid "Line"
 msgstr "Linija"
@@ -2212,7 +2212,7 @@ msgstr ""
 msgid "Reverse Diagonal Stripe"
 msgstr ""
 
-#: po/tmp/cell-format.glade.h:59 po/tmp/gnumeric.xml.h:153
+#: po/tmp/cell-format.glade.h:59 po/tmp/gnumeric.xml.h:154
 #: src/workbook-format-toolbar.c:546
 msgid "Right"
 msgstr "Desno"
@@ -2462,8 +2462,7 @@ msgstr "Zaglavlje"
 #. * Translatable strings file generated by extract-ui.
 #. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/cell-sort.glade.h:7 po/tmp/names.glade.h:6
-#: po/tmp/plugin-manager.glade.h:6
+#: po/tmp/cell-sort.glade.h:7 po/tmp/plugin-manager.glade.h:6
 msgid "Add"
 msgstr "Dodaj"
 
@@ -2534,8 +2533,8 @@ msgstr "©_irina stupca:"
 #. * Translatable strings file generated by extract-ui.
 #. * DO NOT compile this file as part of your application.
 #.
-#: po/tmp/delete-cells.glade.h:6 po/tmp/names.glade.h:8
-#: po/tmp/sheet-order.glade.h:7 src/sheet-object.c:65
+#: po/tmp/delete-cells.glade.h:6 po/tmp/sheet-order.glade.h:7
+#: src/sheet-object.c:72
 msgid "Delete"
 msgstr "Obri¹i"
 
@@ -2989,16 +2988,21 @@ msgstr ""
 msgid "sort"
 msgstr "sortiraj"
 
-#: src/dialogs/dialog-define-names.c:59 src/dialogs/dialog-define-names.c:63
+#: src/dialogs/dialog-define-names.c:141 src/dialogs/dialog-define-names.c:143
+#: src/dialogs/dialog-define-names.c:389
 #, fuzzy
 msgid "Workbook"
 msgstr "Nova bilje¾nica"
 
-#: src/dialogs/dialog-define-names.c:200
+#: src/dialogs/dialog-define-names.c:473
 msgid "You cannot redefine a builtin name."
 msgstr ""
 
-#: src/dialogs/dialog-delete-cells.c:85
+#: src/dialogs/dialog-define-names.c:644
+msgid "Could not create the Name Guru."
+msgstr ""
+
+#: src/dialogs/dialog-delete-cells.c:83
 msgid "delete cells"
 msgstr "obri¹i æelije"
 
@@ -3890,14 +3894,35 @@ msgstr "Premjesti æelije do_lje"
 msgid "_Shift cells right"
 msgstr "Premjesti æelije _desno"
 
-#: po/tmp/names.glade.h:7
+#.
+#. * Translatable strings file generated by extract-ui.
+#. * DO NOT compile this file as part of your application.
+#.
+#: po/tmp/names.glade.h:6
 msgid "Define Name"
 msgstr "Definiraj imena"
 
-#: po/tmp/names.glade.h:9
+#: po/tmp/names.glade.h:7
+msgid "Expression : "
+msgstr ""
+
+#: po/tmp/names.glade.h:8
 #, fuzzy
-msgid "Name Guru"
-msgstr "Ime"
+msgid "Name : "
+msgstr "_Ime:"
+
+#: po/tmp/names.glade.h:9
+msgid "Scope :"
+msgstr ""
+
+#: po/tmp/names.glade.h:11 po/tmp/solver.glade.h:21
+msgid "_Delete"
+msgstr "_Obri¹i"
+
+#: po/tmp/names.glade.h:12
+#, fuzzy
+msgid "_Update"
+msgstr "datum"
 
 #: po/tmp/plugin-manager.glade.h:7
 #, fuzzy
@@ -3937,7 +3962,7 @@ msgstr ""
 msgid "Center on page"
 msgstr "Centrirano"
 
-#: po/tmp/gnumeric.xml.h:36 po/tmp/print.glade.h:8
+#: po/tmp/gnumeric.xml.h:37 po/tmp/print.glade.h:8
 #: src/workbook-control-gui.c:1722
 msgid "Co_mments"
 msgstr "_Komentare"
@@ -3999,7 +4024,7 @@ msgstr "Velièina _papira:"
 msgid "Por_trait"
 msgstr "U_spravno"
 
-#: po/tmp/gnumeric.xml.h:140 po/tmp/print.glade.h:24
+#: po/tmp/gnumeric.xml.h:141 po/tmp/print.glade.h:24
 #: src/workbook-control-gui.c:2047
 msgid "Print"
 msgstr "Ipsis"
@@ -4009,7 +4034,7 @@ msgstr "Ipsis"
 msgid "Print _area:"
 msgstr "Postotak"
 
-#: po/tmp/gnumeric.xml.h:144 po/tmp/print.glade.h:26 src/print.c:1189
+#: po/tmp/gnumeric.xml.h:145 po/tmp/print.glade.h:26 src/print.c:1189
 #: src/workbook-control-gui.c:1696 src/workbook-control-gui.c:2050
 msgid "Print preview"
 msgstr ""
@@ -4272,10 +4297,6 @@ msgstr "_Odgovor"
 msgid "_Change"
 msgstr "_Promijeni"
 
-#: po/tmp/solver.glade.h:21
-msgid "_Delete"
-msgstr "_Obri¹i"
-
 #: po/tmp/solver.glade.h:22
 msgid "_Keep Solver Solution"
 msgstr ""
@@ -4399,11 +4420,11 @@ msgstr "Imena u bilje¾nici:"
 msgid "circular reference"
 msgstr ""
 
-#: src/expr-name.c:314
+#: src/expr-name.c:322
 msgid "Builtin"
 msgstr "Ugraðeno"
 
-#: src/expr-name.c:365 src/expr-name.c:376
+#: src/expr-name.c:432 src/expr-name.c:443
 msgid "Error: no sheet"
 msgstr ""
 
@@ -4504,55 +4525,55 @@ msgstr "Spremi bilje¾nicu pod drugim imenom"
 msgid "Load file"
 msgstr "Uèitaj datoteku"
 
-#: src/format.c:556
+#: src/format.c:568
 msgid "black"
 msgstr "crna"
 
-#: src/format.c:557
+#: src/format.c:569
 msgid "blue"
 msgstr "plava"
 
-#: src/format.c:558
+#: src/format.c:570
 msgid "cyan"
 msgstr "svijetlo plava"
 
-#: src/format.c:559
+#: src/format.c:571
 msgid "green"
 msgstr "zelena"
 
-#: src/format.c:560
+#: src/format.c:572
 msgid "magenta"
 msgstr "ljubièasta"
 
-#: src/format.c:561
+#: src/format.c:573
 msgid "red"
 msgstr "crvena"
 
-#: src/format.c:562
+#: src/format.c:574
 msgid "white"
 msgstr "bijela"
 
-#: src/format.c:563
+#: src/format.c:575
 msgid "yellow"
 msgstr "¾uta"
 
 #. Is it a boolean?
-#: src/format.c:1631 src/number-match.c:970 src/value-sheet.c:33
+#: src/format.c:1644 src/number-match.c:970 src/value-sheet.c:33
 #: src/value.c:235 src/value.c:468
 msgid "TRUE"
 msgstr "ISTINA"
 
-#: src/format.c:1631 src/number-match.c:972 src/value-sheet.c:33
+#: src/format.c:1644 src/number-match.c:972 src/value-sheet.c:33
 #: src/value.c:237 src/value.c:468
 msgid "FALSE"
 msgstr "NEISTINA"
 
 #. Array of arrays ??
-#: src/format.c:1644
+#: src/format.c:1657
 msgid "ARRAY"
 msgstr ""
 
-#: src/format.c:1710 src/format.c:1799 src/format.c:1808 src/format.c:1877
+#: src/format.c:1723 src/format.c:1812 src/format.c:1821 src/format.c:1890
 msgid "General"
 msgstr "Opæenito"
 
@@ -4569,1321 +4590,1321 @@ msgstr "Opæenito"
 #. * for each currency.  They MUST start with '[$'
 #. * The second column has the long names of the currencies.
 #.
-#: src/formats.c:225
+#: src/formats.c:253
 msgid "[$ADP]"
 msgstr "[$ADP]"
 
-#: src/formats.c:225
+#: src/formats.c:253
 msgid "Andorran peseta"
 msgstr ""
 
-#: src/formats.c:226
+#: src/formats.c:254
 msgid "[$AED]"
 msgstr "[$AED]"
 
-#: src/formats.c:226
+#: src/formats.c:254
 msgid "UAE dirham"
 msgstr ""
 
-#: src/formats.c:227
+#: src/formats.c:255
 msgid "[$AFA]"
 msgstr ""
 
-#: src/formats.c:227
+#: src/formats.c:255
 msgid "Afghanistan afghani"
 msgstr ""
 
-#: src/formats.c:228
+#: src/formats.c:256
 msgid "[$ALL]"
 msgstr ""
 
-#: src/formats.c:228
+#: src/formats.c:256
 msgid "Albanian lek"
 msgstr ""
 
-#: src/formats.c:229
+#: src/formats.c:257
 msgid "[$ANG]"
 msgstr ""
 
-#: src/formats.c:229
+#: src/formats.c:257
 msgid "Netherlands Antillian guilder"
 msgstr ""
 
-#: src/formats.c:230
+#: src/formats.c:258
 msgid "[$AON]"
 msgstr ""
 
-#: src/formats.c:230
+#: src/formats.c:258
 msgid "Angolan new kwanza"
 msgstr ""
 
-#: src/formats.c:231
+#: src/formats.c:259
 msgid "[$ARA]"
 msgstr ""
 
-#: src/formats.c:231
+#: src/formats.c:259
 msgid "Argentine austral"
 msgstr ""
 
-#: src/formats.c:232
+#: src/formats.c:260
 msgid "[$ATS]"
 msgstr ""
 
-#: src/formats.c:232
+#: src/formats.c:260
 msgid "Austrian schilling"
 msgstr ""
 
-#: src/formats.c:233
+#: src/formats.c:261
 msgid "[$AUD]"
 msgstr ""
 
-#: src/formats.c:233
+#: src/formats.c:261
 msgid "Australian dollar"
 msgstr ""
 
-#: src/formats.c:234
+#: src/formats.c:262
 msgid "[$AWG]"
 msgstr ""
 
-#: src/formats.c:234
+#: src/formats.c:262
 msgid "Aruban guilder"
 msgstr ""
 
-#: src/formats.c:235
+#: src/formats.c:263
 msgid "[$BBD]"
 msgstr ""
 
-#: src/formats.c:235
+#: src/formats.c:263
 msgid "Barbados dollar"
 msgstr ""
 
-#: src/formats.c:236
+#: src/formats.c:264
 msgid "[$BDT]"
 msgstr ""
 
-#: src/formats.c:236
+#: src/formats.c:264
 msgid "Bangladeshi taka"
 msgstr ""
 
-#: src/formats.c:237
+#: src/formats.c:265
 msgid "[$BEF]"
 msgstr ""
 
-#: src/formats.c:237
+#: src/formats.c:265
 msgid "Belgian franc"
 msgstr ""
 
-#: src/formats.c:238
+#: src/formats.c:266
 msgid "[$BGL]"
 msgstr ""
 
-#: src/formats.c:238
+#: src/formats.c:266
 msgid "Bulgarian lev"
 msgstr ""
 
-#: src/formats.c:239
+#: src/formats.c:267
 msgid "[$BHD]"
 msgstr ""
 
-#: src/formats.c:239
+#: src/formats.c:267
 msgid "Bahraini dinar"
 msgstr ""
 
-#: src/formats.c:240
+#: src/formats.c:268
 msgid "[$BIF]"
 msgstr ""
 
-#: src/formats.c:240
+#: src/formats.c:268
 msgid "Burundi franc"
 msgstr ""
 
-#: src/formats.c:241
+#: src/formats.c:269
 msgid "[$BMD]"
 msgstr ""
 
-#: src/formats.c:241
+#: src/formats.c:269
 msgid "Bermudian dollar"
 msgstr ""
 
-#: src/formats.c:242
+#: src/formats.c:270
 msgid "[$BND]"
 msgstr ""
 
-#: src/formats.c:242
+#: src/formats.c:270
 msgid "Brunei dollar"
 msgstr ""
 
-#: src/formats.c:243
+#: src/formats.c:271
 msgid "[$BOB]"
 msgstr ""
 
-#: src/formats.c:243
+#: src/formats.c:271
 msgid "Bolivian boliviano"
 msgstr ""
 
-#: src/formats.c:244
+#: src/formats.c:272
 msgid "[$BRE]"
 msgstr ""
 
-#: src/formats.c:244
+#: src/formats.c:272
 msgid "Brazilian cruzeiro"
 msgstr ""
 
-#: src/formats.c:245
+#: src/formats.c:273
 msgid "[$BSD]"
 msgstr ""
 
-#: src/formats.c:245
+#: src/formats.c:273
 msgid "Bahamian dollar"
 msgstr ""
 
-#: src/formats.c:246
+#: src/formats.c:274
 msgid "[$BTN]"
 msgstr ""
 
-#: src/formats.c:246
+#: src/formats.c:274
 msgid "Bhutan ngultrum"
 msgstr ""
 
-#: src/formats.c:247
+#: src/formats.c:275
 msgid "[$BWP]"
 msgstr ""
 
-#: src/formats.c:247
+#: src/formats.c:275
 msgid "Botswanian pula"
 msgstr ""
 
-#: src/formats.c:248
+#: src/formats.c:276
 msgid "[$BYB]"
 msgstr ""
 
-#: src/formats.c:248
+#: src/formats.c:276
 msgid "Belarussian ruble"
 msgstr ""
 
-#: src/formats.c:249
+#: src/formats.c:277
 msgid "[$BZD]"
 msgstr ""
 
-#: src/formats.c:249
+#: src/formats.c:277
 msgid "Belize dollar"
 msgstr ""
 
-#: src/formats.c:250
+#: src/formats.c:278
 msgid "[$CAD]"
 msgstr ""
 
-#: src/formats.c:250
+#: src/formats.c:278
 msgid "Canadian dollar"
 msgstr ""
 
-#: src/formats.c:251
+#: src/formats.c:279
 msgid "[$CHF]"
 msgstr ""
 
-#: src/formats.c:251
+#: src/formats.c:279
 msgid "Swiss franc"
 msgstr ""
 
-#: src/formats.c:252
+#: src/formats.c:280
 msgid "[$CLP]"
 msgstr ""
 
-#: src/formats.c:252
+#: src/formats.c:280
 msgid "Chilean peso"
 msgstr ""
 
-#: src/formats.c:253
+#: src/formats.c:281
 msgid "[$CNY]"
 msgstr ""
 
-#: src/formats.c:253
+#: src/formats.c:281
 msgid "Chinese yuan renminbi"
 msgstr ""
 
-#: src/formats.c:254
+#: src/formats.c:282
 msgid "[$COP]"
 msgstr ""
 
-#: src/formats.c:254
+#: src/formats.c:282
 msgid "Colombian peso"
 msgstr ""
 
-#: src/formats.c:255
+#: src/formats.c:283
 msgid "[$CRC]"
 msgstr ""
 
-#: src/formats.c:255
+#: src/formats.c:283
 msgid "Costa Rican colon"
 msgstr ""
 
-#: src/formats.c:256
+#: src/formats.c:284
 msgid "[$CSK]"
 msgstr ""
 
-#: src/formats.c:256
+#: src/formats.c:284
 msgid "Czech Koruna"
 msgstr ""
 
-#: src/formats.c:257
+#: src/formats.c:285
 msgid "[$CUP]"
 msgstr ""
 
-#: src/formats.c:257
+#: src/formats.c:285
 #, fuzzy
 msgid "Cuban peso"
 msgstr "Ne mogu otvoriti"
 
-#: src/formats.c:258
+#: src/formats.c:286
 msgid "[$CVE]"
 msgstr ""
 
-#: src/formats.c:258
+#: src/formats.c:286
 msgid "Cape Verde escudo"
 msgstr ""
 
-#: src/formats.c:259
+#: src/formats.c:287
 msgid "[$CYP]"
 msgstr ""
 
-#: src/formats.c:259
+#: src/formats.c:287
 msgid "Cyprus pound"
 msgstr ""
 
-#: src/formats.c:260
+#: src/formats.c:288
 msgid "[$DEM]"
 msgstr ""
 
-#: src/formats.c:260
+#: src/formats.c:288
 msgid "Deutsche mark"
 msgstr ""
 
-#: src/formats.c:261
+#: src/formats.c:289
 msgid "[$DJF]"
 msgstr ""
 
-#: src/formats.c:261
+#: src/formats.c:289
 msgid "Djibouti franc"
 msgstr ""
 
-#: src/formats.c:262
+#: src/formats.c:290
 msgid "[$DKK]"
 msgstr ""
 
-#: src/formats.c:262
+#: src/formats.c:290
 msgid "Danish krone"
 msgstr ""
 
-#: src/formats.c:263
+#: src/formats.c:291
 msgid "[$DOP]"
 msgstr ""
 
-#: src/formats.c:263
+#: src/formats.c:291
 msgid "Dominican peso"
 msgstr ""
 
-#: src/formats.c:264
+#: src/formats.c:292
 msgid "[$DZD]"
 msgstr ""
 
-#: src/formats.c:264
+#: src/formats.c:292
 msgid "Algerian dinar"
 msgstr ""
 
-#: src/formats.c:265
+#: src/formats.c:293
 msgid "[$ECS]"
 msgstr ""
 
-#: src/formats.c:265
+#: src/formats.c:293
 msgid "Ecuador sucre"
 msgstr ""
 
-#: src/formats.c:266
+#: src/formats.c:294
 msgid "[$EGP]"
 msgstr ""
 
-#: src/formats.c:266
+#: src/formats.c:294
 msgid "Egyptian pound"
 msgstr ""
 
-#: src/formats.c:267
+#: src/formats.c:295
 msgid "[$ESP]"
 msgstr ""
 
-#: src/formats.c:267
+#: src/formats.c:295
 msgid "Spanish peseta"
 msgstr ""
 
-#: src/formats.c:268
+#: src/formats.c:296
 msgid "[$ETB]"
 msgstr ""
 
-#: src/formats.c:268
+#: src/formats.c:296
 msgid "Ethiopian birr"
 msgstr ""
 
-#: src/formats.c:269
+#: src/formats.c:297
 msgid "[$EUR]"
 msgstr ""
 
-#: src/formats.c:269
+#: src/formats.c:297
 msgid "Euro"
 msgstr ""
 
-#: src/formats.c:270
+#: src/formats.c:298
 msgid "[$FIM]"
 msgstr ""
 
-#: src/formats.c:270
+#: src/formats.c:298
 msgid "Finnish markka"
 msgstr ""
 
-#: src/formats.c:271
+#: src/formats.c:299
 msgid "[$FJD]"
 msgstr ""
 
-#: src/formats.c:271
+#: src/formats.c:299
 msgid "Fiji dollar"
 msgstr ""
 
-#: src/formats.c:272
+#: src/formats.c:300
 msgid "[$FKP]"
 msgstr ""
 
-#: src/formats.c:272
+#: src/formats.c:300
 msgid "Falkland Islands pound"
 msgstr ""
 
-#: src/formats.c:273
+#: src/formats.c:301
 msgid "[$FRF]"
 msgstr ""
 
-#: src/formats.c:273
+#: src/formats.c:301
 msgid "French franc"
 msgstr ""
 
-#: src/formats.c:274
+#: src/formats.c:302
 msgid "[$GBP]"
 msgstr ""
 
-#: src/formats.c:274
+#: src/formats.c:302
 msgid "UK pound sterling"
 msgstr ""
 
-#: src/formats.c:275
+#: src/formats.c:303
 msgid "[$GHC]"
 msgstr ""
 
-#: src/formats.c:275
+#: src/formats.c:303
 msgid "Ghanaian cedi"
 msgstr ""
 
-#: src/formats.c:276
+#: src/formats.c:304
 msgid "[$GIP]"
 msgstr ""
 
-#: src/formats.c:276
+#: src/formats.c:304
 msgid "Gibraltar pound"
 msgstr ""
 
-#: src/formats.c:277
+#: src/formats.c:305
 msgid "[$GMD]"
 msgstr ""
 
-#: src/formats.c:277
+#: src/formats.c:305
 msgid "Gambian dalasi"
 msgstr ""
 
-#: src/formats.c:278
+#: src/formats.c:306
 msgid "[$GNF]"
 msgstr ""
 
-#: src/formats.c:278
+#: src/formats.c:306
 msgid "Guinea franc"
 msgstr ""
 
-#: src/formats.c:279
+#: src/formats.c:307
 msgid "[$GRD]"
 msgstr ""
 
-#: src/formats.c:279
+#: src/formats.c:307
 msgid "Greek drachma"
 msgstr ""
 
-#: src/formats.c:280
+#: src/formats.c:308
 msgid "[$GTQ]"
 msgstr ""
 
-#: src/formats.c:280
+#: src/formats.c:308
 msgid "Guatemalan quetzal"
 msgstr ""
 
-#: src/formats.c:281
+#: src/formats.c:309
 msgid "[$GWP]"
 msgstr ""
 
-#: src/formats.c:281
+#: src/formats.c:309
 msgid "Guinea-Bissau peso"
 msgstr ""
 
-#: src/formats.c:282
+#: src/formats.c:310
 msgid "[$GYD]"
 msgstr ""
 
-#: src/formats.c:282
+#: src/formats.c:310
 msgid "Guyanan dollar"
 msgstr ""
 
-#: src/formats.c:283
+#: src/formats.c:311
 msgid "[$HKD]"
 msgstr ""
 
-#: src/formats.c:283
+#: src/formats.c:311
 msgid "Hong Kong dollar"
 msgstr ""
 
-#: src/formats.c:284
+#: src/formats.c:312
 msgid "[$HNL]"
 msgstr ""
 
-#: src/formats.c:284
+#: src/formats.c:312
 msgid "Honduran lempira"
 msgstr ""
 
-#: src/formats.c:285
+#: src/formats.c:313
 msgid "[$HRK]"
 msgstr "[$HRK]"
 
-#: src/formats.c:285
+#: src/formats.c:313
 msgid "Croatian kuna"
 msgstr "Hrvatska kuna"
 
-#: src/formats.c:286
+#: src/formats.c:314
 msgid "[$HTG]"
 msgstr ""
 
-#: src/formats.c:286
+#: src/formats.c:314
 msgid "Haitian gourde"
 msgstr ""
 
-#: src/formats.c:287
+#: src/formats.c:315
 msgid "[$HUF]"
 msgstr ""
 
-#: src/formats.c:287
+#: src/formats.c:315
 msgid "Hungarian forint"
 msgstr ""
 
-#: src/formats.c:288
+#: src/formats.c:316
 msgid "[$IDR]"
 msgstr ""
 
-#: src/formats.c:288
+#: src/formats.c:316
 msgid "Indonesian rupiah"
 msgstr ""
 
-#: src/formats.c:289
+#: src/formats.c:317
 msgid "[$IEP]"
 msgstr ""
 
-#: src/formats.c:289
+#: src/formats.c:317
 msgid "Irish punt"
 msgstr ""
 
-#: src/formats.c:290
+#: src/formats.c:318
 msgid "[$IEX]"
 msgstr ""
 
-#: src/formats.c:290
+#: src/formats.c:318
 msgid "Irish pence ***"
 msgstr ""
 
-#: src/formats.c:291
+#: src/formats.c:319
 msgid "[$ILS]"
 msgstr ""
 
-#: src/formats.c:291
+#: src/formats.c:319
 msgid "Israeli shekel"
 msgstr ""
 
-#: src/formats.c:292
+#: src/formats.c:320
 msgid "[$INR]"
 msgstr ""
 
-#: src/formats.c:292
+#: src/formats.c:320
 msgid "Indian rupee"
 msgstr ""
 
-#: src/formats.c:293
+#: src/formats.c:321
 msgid "[$IQD]"
 msgstr ""
 
-#: src/formats.c:293
+#: src/formats.c:321
 msgid "Iraqi dinar"
 msgstr ""
 
-#: src/formats.c:294
+#: src/formats.c:322
 msgid "[$IRR]"
 msgstr ""
 
-#: src/formats.c:294
+#: src/formats.c:322
 msgid "Iranian rial"
 msgstr ""
 
-#: src/formats.c:295
+#: src/formats.c:323
 msgid "[$ISK]"
 msgstr ""
 
-#: src/formats.c:295
+#: src/formats.c:323
 msgid "Iceland krona"
 msgstr ""
 
-#: src/formats.c:296
+#: src/formats.c:324
 msgid "[$ITL]"
 msgstr ""
 
-#: src/formats.c:296
+#: src/formats.c:324
 msgid "Italian lira"
 msgstr ""
 
-#: src/formats.c:297
+#: src/formats.c:325
 msgid "[$JMD]"
 msgstr ""
 
-#: src/formats.c:297
+#: src/formats.c:325
 msgid "Jamaican dollar"
 msgstr ""
 
-#: src/formats.c:298
+#: src/formats.c:326
 msgid "[$JOD]"
 msgstr ""
 
-#: src/formats.c:298
+#: src/formats.c:326
 msgid "Jordanian dinar"
 msgstr ""
 
-#: src/formats.c:299
+#: src/formats.c:327
 msgid "[$JPY]"
 msgstr ""
 
-#: src/formats.c:299
+#: src/formats.c:327
 msgid "Japanese yen"
 msgstr ""
 
-#: src/formats.c:300
+#: src/formats.c:328
 msgid "[$KES]"
 msgstr ""
 
-#: src/formats.c:300
+#: src/formats.c:328
 msgid "Kenyan shilling"
 msgstr ""
 
-#: src/formats.c:301
+#: src/formats.c:329
 msgid "[$KHR]"
 msgstr ""
 
-#: src/formats.c:301
+#: src/formats.c:329
 msgid "Kampuchean riel"
 msgstr ""
 
-#: src/formats.c:302
+#: src/formats.c:330
 msgid "[$KMF]"
 msgstr ""
 
-#: src/formats.c:302
+#: src/formats.c:330
 msgid "Comoros franc"
 msgstr ""
 
-#: src/formats.c:303
+#: src/formats.c:331
 msgid "[$KPW]"
 msgstr ""
 
-#: src/formats.c:303
+#: src/formats.c:331
 msgid "North Korean won"
 msgstr ""
 
-#: src/formats.c:304
+#: src/formats.c:332
 msgid "[$KRW]"
 msgstr ""
 
-#: src/formats.c:304
+#: src/formats.c:332
 msgid "Republic of Korea won"
 msgstr ""
 
-#: src/formats.c:305
+#: src/formats.c:333
 msgid "[$KWD]"
 msgstr ""
 
-#: src/formats.c:305
+#: src/formats.c:333
 msgid "Kuwaiti dinar"
 msgstr ""
 
-#: src/formats.c:306
+#: src/formats.c:334
 msgid "[$KYD]"
 msgstr ""
 
-#: src/formats.c:306
+#: src/formats.c:334
 msgid "Cayman Islands dollar"
 msgstr ""
 
-#: src/formats.c:307
+#: src/formats.c:335
 msgid "[$LAK]"
 msgstr ""
 
-#: src/formats.c:307
+#: src/formats.c:335
 msgid "Lao kip"
 msgstr ""
 
-#: src/formats.c:308
+#: src/formats.c:336
 msgid "[$LBP]"
 msgstr ""
 
-#: src/formats.c:308
+#: src/formats.c:336
 msgid "Lebanese pound"
 msgstr ""
 
-#: src/formats.c:309
+#: src/formats.c:337
 msgid "[$LKR]"
 msgstr ""
 
-#: src/formats.c:309
+#: src/formats.c:337
 msgid "Sri Lanka rupee"
 msgstr ""
 
-#: src/formats.c:310
+#: src/formats.c:338
 msgid "[$LRD]"
 msgstr ""
 
-#: src/formats.c:310
+#: src/formats.c:338
 msgid "Liberian dollar"
 msgstr ""
 
-#: src/formats.c:311
+#: src/formats.c:339
 msgid "[$LSL]"
 msgstr ""
 
-#: src/formats.c:311
+#: src/formats.c:339
 msgid "Lesotho loti"
 msgstr ""
 
-#: src/formats.c:312
+#: src/formats.c:340
 msgid "[$LUF]"
 msgstr ""
 
-#: src/formats.c:312
+#: src/formats.c:340
 msgid "Luxembourg franc"
 msgstr ""
 
-#: src/formats.c:313
+#: src/formats.c:341
 msgid "[$LYD]"
 msgstr ""
 
-#: src/formats.c:313
+#: src/formats.c:341
 msgid "Libyan dinar"
 msgstr ""
 
-#: src/formats.c:314
+#: src/formats.c:342
 msgid "[$MAD]"
 msgstr ""
 
-#: src/formats.c:314
+#: src/formats.c:342
 msgid "Moroccan dirham"
 msgstr ""
 
-#: src/formats.c:315
+#: src/formats.c:343
 msgid "[$MDL]"
 msgstr ""
 
-#: src/formats.c:315
+#: src/formats.c:343
 msgid "Moldovan leu"
 msgstr ""
 
-#: src/formats.c:316
+#: src/formats.c:344
 msgid "[$MGF]"
 msgstr ""
 
-#: src/formats.c:316
+#: src/formats.c:344
 msgid "Malagasy franc"
 msgstr ""
 
-#: src/formats.c:317
+#: src/formats.c:345
 msgid "[$MLF]"
 msgstr ""
 
-#: src/formats.c:317
+#: src/formats.c:345
 msgid "Mali franc"
 msgstr ""
 
-#: src/formats.c:318
+#: src/formats.c:346
 msgid "[$MMK]"
 msgstr ""
 
-#: src/formats.c:318
+#: src/formats.c:346
 msgid "Myanmar kyat"
 msgstr ""
 
-#: src/formats.c:319
+#: src/formats.c:347
 msgid "[$MNT]"
 msgstr ""
 
-#: src/formats.c:319
+#: src/formats.c:347
 msgid "Mongolian tugrik"
 msgstr ""
 
-#: src/formats.c:320
+#: src/formats.c:348
 msgid "[$MOP]"
 msgstr ""
 
-#: src/formats.c:320
+#: src/formats.c:348
 msgid "Macau pataca"
 msgstr ""
 
-#: src/formats.c:321
+#: src/formats.c:349
 msgid "[$MRO]"
 msgstr ""
 
-#: src/formats.c:321
+#: src/formats.c:349
 msgid "Mauritanian ouguiya"
 msgstr ""
 
-#: src/formats.c:322
+#: src/formats.c:350
 msgid "[$MTL]"
 msgstr ""
 
-#: src/formats.c:322
+#: src/formats.c:350
 msgid "Maltese lira"
 msgstr ""
 
-#: src/formats.c:323
+#: src/formats.c:351
 msgid "[$MUR]"
 msgstr ""
 
-#: src/formats.c:323
+#: src/formats.c:351
 msgid "Mauritius rupee"
 msgstr ""
 
-#: src/formats.c:324
+#: src/formats.c:352
 msgid "[$MVR]"
 msgstr ""
 
-#: src/formats.c:324
+#: src/formats.c:352
 msgid "Maldive rupee"
 msgstr ""
 
-#: src/formats.c:325
+#: src/formats.c:353
 msgid "[$MWK]"
 msgstr ""
 
-#: src/formats.c:325
+#: src/formats.c:353
 msgid "Malawi kwacha"
 msgstr ""
 
-#: src/formats.c:326
+#: src/formats.c:354
 msgid "[$MXP]"
 msgstr ""
 
-#: src/formats.c:326
+#: src/formats.c:354
 msgid "Mexican peso"
 msgstr ""
 
-#: src/formats.c:327
+#: src/formats.c:355
 msgid "[$MYR]"
 msgstr ""
 
-#: src/formats.c:327
+#: src/formats.c:355
 msgid "Malaysian ringgit"
 msgstr ""
 
-#: src/formats.c:328
+#: src/formats.c:356
 msgid "[$MZM]"
 msgstr ""
 
-#: src/formats.c:328
+#: src/formats.c:356
 msgid "Mozambique metical"
 msgstr ""
 
-#: src/formats.c:329
+#: src/formats.c:357
 msgid "[$NGN]"
 msgstr ""
 
-#: src/formats.c:329
+#: src/formats.c:357
 msgid "Nigerian naira"
 msgstr ""
 
-#: src/formats.c:330
+#: src/formats.c:358
 msgid "[$NIO]"
 msgstr ""
 
-#: src/formats.c:330
+#: src/formats.c:358
 msgid "Nicaraguan cordoba oro"
 msgstr ""
 
-#: src/formats.c:331
+#: src/formats.c:359
 msgid "[$NLG]"
 msgstr ""
 
-#: src/formats.c:331
+#: src/formats.c:359
 msgid "Netherlands guilder"
 msgstr ""
 
-#: src/formats.c:332
+#: src/formats.c:360
 msgid "[$NOK]"
 msgstr ""
 
-#: src/formats.c:332
+#: src/formats.c:360
 msgid "Norwegian krone"
 msgstr ""
 
-#: src/formats.c:333
+#: src/formats.c:361
 msgid "[$NPR]"
 msgstr ""
 
-#: src/formats.c:333
+#: src/formats.c:361
 msgid "Nepalese rupee"
 msgstr ""
 
-#: src/formats.c:334
+#: src/formats.c:362
 msgid "[$NZD]"
 msgstr ""
 
-#: src/formats.c:334
+#: src/formats.c:362
 msgid "New Zealand dollar"
 msgstr ""
 
-#: src/formats.c:335
+#: src/formats.c:363
 msgid "[$OMR]"
 msgstr ""
 
-#: src/formats.c:335
+#: src/formats.c:363
 msgid "Rial Omani"
 msgstr ""
 
-#: src/formats.c:336
+#: src/formats.c:364
 msgid "[$PAB]"
 msgstr ""
 
-#: src/formats.c:336
+#: src/formats.c:364
 msgid "Panamanian balboa"
 msgstr ""
 
-#: src/formats.c:337
+#: src/formats.c:365
 msgid "[$PEI]"
 msgstr ""
 
-#: src/formats.c:337
+#: src/formats.c:365
 msgid "Peruvian inti"
 msgstr ""
 
-#: src/formats.c:338
+#: src/formats.c:366
 msgid "[$PGK]"
 msgstr ""
 
-#: src/formats.c:338
+#: src/formats.c:366
 msgid "Papua New Guinea kina"
 msgstr ""
 
-#: src/formats.c:339
+#: src/formats.c:367
 msgid "[$PHP]"
 msgstr ""
 
-#: src/formats.c:339
+#: src/formats.c:367
 msgid "Philippino peso"
 msgstr ""
 
-#: src/formats.c:340
+#: src/formats.c:368
 msgid "[$PKR]"
 msgstr ""
 
-#: src/formats.c:340
+#: src/formats.c:368
 msgid "Pakistan rupee"
 msgstr ""
 
-#: src/formats.c:341
+#: src/formats.c:369
 msgid "[$PLZ]"
 msgstr ""
 
-#: src/formats.c:341
+#: src/formats.c:369
 msgid "Polish zloty"
 msgstr ""
 
-#: src/formats.c:342
+#: src/formats.c:370
 msgid "[$PTE]"
 msgstr ""
 
-#: src/formats.c:342
+#: src/formats.c:370
 msgid "Portuguese escudo"
 msgstr ""
 
-#: src/formats.c:343
+#: src/formats.c:371
 msgid "[$PYG]"
 msgstr ""
 
-#: src/formats.c:343
+#: src/formats.c:371
 msgid "Paraguay guarani"
 msgstr ""
 
-#: src/formats.c:344
+#: src/formats.c:372
 msgid "[$QAR]"
 msgstr ""
 
-#: src/formats.c:344
+#: src/formats.c:372
 msgid "Qatari rial"
 msgstr ""
 
-#: src/formats.c:345
+#: src/formats.c:373
 msgid "[$ROL]"
 msgstr ""
 
-#: src/formats.c:345
+#: src/formats.c:373
 msgid "Romanian leu"
 msgstr ""
 
-#: src/formats.c:346
+#: src/formats.c:374
 msgid "[$RWF]"
 msgstr ""
 
-#: src/formats.c:346
+#: src/formats.c:374
 msgid "Rwanda franc"
 msgstr ""
 
-#: src/formats.c:347
+#: src/formats.c:375
 msgid "[$SAR]"
 msgstr ""
 
-#: src/formats.c:347
+#: src/formats.c:375
 msgid "Saudi Arabian riyal"
 msgstr ""
 
-#: src/formats.c:348
+#: src/formats.c:376
 msgid "[$SBD]"
 msgstr ""
 
-#: src/formats.c:348
+#: src/formats.c:376
 msgid "Solomon Islands dollar"
 msgstr ""
 
-#: src/formats.c:349
+#: src/formats.c:377
 msgid "[$SCR]"
 msgstr ""
 
-#: src/formats.c:349
+#: src/formats.c:377
 #, fuzzy
 msgid "Seychelles rupee"
 msgstr "Premjesti æelije gore"
 
-#: src/formats.c:350
+#: src/formats.c:378
 msgid "[$SDP]"
 msgstr ""
 
-#: src/formats.c:350
+#: src/formats.c:378
 msgid "Sudanese pound"
 msgstr ""
 
-#: src/formats.c:351
+#: src/formats.c:379
 msgid "[$SEK]"
 msgstr ""
 
-#: src/formats.c:351
+#: src/formats.c:379
 msgid "Swedish krona"
 msgstr ""
 
-#: src/formats.c:352
+#: src/formats.c:380
 msgid "[$SGD]"
 msgstr ""
 
-#: src/formats.c:352
+#: src/formats.c:380
 msgid "Singapore dollar"
 msgstr ""
 
-#: src/formats.c:353
+#: src/formats.c:381
 msgid "[$SHP]"
 msgstr ""
 
-#: src/formats.c:353
+#: src/formats.c:381
 msgid "St.Helena pound"
 msgstr ""
 
-#: src/formats.c:354
+#: src/formats.c:382
 msgid "[$SIT]"
 msgstr ""
 
-#: src/formats.c:354
+#: src/formats.c:382
 msgid "Slovenia tolar"
 msgstr ""
 
-#: src/formats.c:355
+#: src/formats.c:383
 msgid "[$SLL]"
 msgstr ""
 
-#: src/formats.c:355
+#: src/formats.c:383
 msgid "Sierra Leone leone"
 msgstr ""
 
-#: src/formats.c:356
+#: src/formats.c:384
 msgid "[$SOS]"
 msgstr ""
 
-#: src/formats.c:356
+#: src/formats.c:384
 msgid "Somali shilling"
 msgstr ""
 
-#: src/formats.c:357
+#: src/formats.c:385
 msgid "[$SRG]"
 msgstr ""
 
-#: src/formats.c:357
+#: src/formats.c:385
 msgid "Suriname guilder"
 msgstr ""
 
-#: src/formats.c:358
+#: src/formats.c:386
 msgid "[$STD]"
 msgstr ""
 
-#: src/formats.c:358
+#: src/formats.c:386
 msgid "Sao Tome and Principe dobra"
 msgstr ""
 
-#: src/formats.c:359
+#: src/formats.c:387
 msgid "[$SUR]"
 msgstr ""
 
-#: src/formats.c:359
+#: src/formats.c:387
 msgid "USSR rouble"
 msgstr ""
 
-#: src/formats.c:360
+#: src/formats.c:388
 msgid "[$SVC]"
 msgstr ""
 
-#: src/formats.c:360
+#: src/formats.c:388
 msgid "El Salvador colon"
 msgstr ""
 
-#: src/formats.c:361
+#: src/formats.c:389
 msgid "[$SYP]"
 msgstr ""
 
-#: src/formats.c:361
+#: src/formats.c:389
 msgid "Syrian pound"
 msgstr ""
 
-#: src/formats.c:362
+#: src/formats.c:390
 msgid "[$SZL]"
 msgstr ""
 
-#: src/formats.c:362
+#: src/formats.c:390
 msgid "Swaziland lilangeni"
 msgstr ""
 
-#: src/formats.c:363
+#: src/formats.c:391
 msgid "[$THB]"
 msgstr ""
 
-#: src/formats.c:363
+#: src/formats.c:391
 msgid "Thai baht"
 msgstr ""
 
-#: src/formats.c:364
+#: src/formats.c:392
 msgid "[$TND]"
 msgstr ""
 
-#: src/formats.c:364
+#: src/formats.c:392
 msgid "Tunisian dinar"
 msgstr ""
 
-#: src/formats.c:365
+#: src/formats.c:393
 msgid "[$TOP]"
 msgstr ""
 
-#: src/formats.c:365
+#: src/formats.c:393
 msgid "Tongan pa'anga"
 msgstr ""
 
-#: src/formats.c:366
+#: src/formats.c:394
 msgid "[$TPE]"
 msgstr ""
 
-#: src/formats.c:366
+#: src/formats.c:394
 msgid "East Timor escudo"
 msgstr ""
 
-#: src/formats.c:367
+#: src/formats.c:395
 msgid "[$TRL]"
 msgstr ""
 
-#: src/formats.c:367
+#: src/formats.c:395
 msgid "Turkish lira"
 msgstr ""
 
-#: src/formats.c:368
+#: src/formats.c:396
 msgid "[$TTD]"
 msgstr ""
 
-#: src/formats.c:368
+#: src/formats.c:396
 msgid "Trinidad and Tobago dollar"
 msgstr ""
 
-#: src/formats.c:369
+#: src/formats.c:397
 msgid "[$TWD]"
 msgstr ""
 
-#: src/formats.c:369
+#: src/formats.c:397
 msgid "New Taiwan dollar"
 msgstr ""
 
-#: src/formats.c:370
+#: src/formats.c:398
 msgid "[$TZS]"
 msgstr ""
 
-#: src/formats.c:370
+#: src/formats.c:398
 msgid "Tanzanian shilling"
 msgstr ""
 
-#: src/formats.c:371
+#: src/formats.c:399
 msgid "[$UAH]"
 msgstr ""
 
-#: src/formats.c:371
+#: src/formats.c:399
 msgid "Ukrainian hryvnia"
 msgstr ""
 
-#: src/formats.c:372
+#: src/formats.c:400
 msgid "[$UGX]"
 msgstr ""
 
-#: src/formats.c:372
+#: src/formats.c:400
 msgid "Ugandan shilling"
 msgstr ""
 
-#: src/formats.c:373
+#: src/formats.c:401
 msgid "[$USD]"
 msgstr ""
 
-#: src/formats.c:373
+#: src/formats.c:401
 msgid "US dollar"
 msgstr ""
 
-#: src/formats.c:374
+#: src/formats.c:402
 msgid "[$UYP]"
 msgstr ""
 
-#: src/formats.c:374
+#: src/formats.c:402
 msgid "Uruguayan peso"
 msgstr ""
 
-#: src/formats.c:375
+#: src/formats.c:403
 msgid "[$VEB]"
 msgstr ""
 
-#: src/formats.c:375
+#: src/formats.c:403
 msgid "Venezuelan bolivar"
 msgstr ""
 
-#: src/formats.c:376
+#: src/formats.c:404
 msgid "[$VND]"
 msgstr ""
 
-#: src/formats.c:376
+#: src/formats.c:404
 msgid "Vietnamese dong"
 msgstr ""
 
-#: src/formats.c:377
+#: src/formats.c:405
 msgid "[$VUV]"
 msgstr ""
 
-#: src/formats.c:377
+#: src/formats.c:405
 msgid "Vanuatu vatu"
 msgstr ""
 
-#: src/formats.c:378
+#: src/formats.c:406
 msgid "[$WST]"
 msgstr ""
 
-#: src/formats.c:378
+#: src/formats.c:406
 msgid "Samoan tala"
 msgstr ""
 
-#: src/formats.c:379
+#: src/formats.c:407
 msgid "[$XCD]"
 msgstr ""
 
-#: src/formats.c:379
+#: src/formats.c:407
 msgid "East Caribbean dollar"
 msgstr ""
 
-#: src/formats.c:380
+#: src/formats.c:408
 msgid "[$XEU]"
 msgstr ""
 
-#: src/formats.c:380
+#: src/formats.c:408
 msgid "European currency unit"
 msgstr ""
 
-#: src/formats.c:381
+#: src/formats.c:409
 msgid "[$YDD]"
 msgstr ""
 
-#: src/formats.c:381
+#: src/formats.c:409
 msgid "Democratic Yemeni dinar"
 msgstr ""
 
-#: src/formats.c:382
+#: src/formats.c:410
 msgid "[$YER]"
 msgstr ""
 
-#: src/formats.c:382
+#: src/formats.c:410
 msgid "Yemeni rial"
 msgstr ""
 
-#: src/formats.c:383
+#: src/formats.c:411
 msgid "[$YUN]"
 msgstr ""
 
-#: src/formats.c:383
+#: src/formats.c:411
 msgid "New Yugoslavia dinar"
 msgstr ""
 
-#: src/formats.c:384
+#: src/formats.c:412
 msgid "[$ZAL]"
 msgstr ""
 
-#: src/formats.c:384
+#: src/formats.c:412
 msgid "South African rand funds code"
 msgstr ""
 
-#: src/formats.c:385
+#: src/formats.c:413
 msgid "[$ZAR]"
 msgstr ""
 
-#: src/formats.c:385
+#: src/formats.c:413
 msgid "South African rand"
 msgstr ""
 
-#: src/formats.c:386
+#: src/formats.c:414
 msgid "[$ZMK]"
 msgstr ""
 
-#: src/formats.c:386
+#: src/formats.c:414
 msgid "Zambian kwacha"
 msgstr ""
 
-#: src/formats.c:387
+#: src/formats.c:415
 msgid "[$ZRZ]"
 msgstr ""
 
-#: src/formats.c:387
+#: src/formats.c:415
 msgid "Zaire Zaire"
 msgstr ""
 
-#: src/formats.c:388
+#: src/formats.c:416
 msgid "[$ZWD]"
 msgstr ""
 
-#: src/formats.c:388
+#: src/formats.c:416
 msgid "Zimbabwe dollar"
 msgstr ""
 
-#: src/formats.c:520
+#: src/formats.c:548
 msgid "[Red]"
 msgstr ""
 
@@ -8809,9 +8830,8 @@ msgstr ""
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(a)\n"
-"@DESCRIPTION=INT function rounds @a now to the nearest integer where "
-"`nearest' implies being closer to zero. INT is equivalent to FLOOR(a) for @a "
-">= 0, and CEIL(a) for @a < 0. This function is Excel compatible. \n"
+"@DESCRIPTION=The INT function returns the largest integer that is not bigger "
+"than its argument. This function is Excel compatible. \n"
 "@EXAMPLES=\n"
 "INT(7.2) equals 7.\n"
 "INT(-5.5) equals -6.\n"
@@ -8819,7 +8839,7 @@ msgid ""
 "@SEEALSO=FLOOR, CEIL, ABS"
 msgstr ""
 
-#: src/functions/fn-math.c:982
+#: src/functions/fn-math.c:980
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x[,base])\n"
@@ -8833,7 +8853,7 @@ msgid ""
 "@SEEALSO=LN, LOG2, LOG10"
 msgstr ""
 
-#: src/functions/fn-math.c:1021
+#: src/functions/fn-math.c:1019
 msgid ""
 "@FUNCTION=LN\n"
 "@SYNTAX=LN(x)\n"
@@ -8845,7 +8865,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG10"
 msgstr ""
 
-#: src/functions/fn-math.c:1051
+#: src/functions/fn-math.c:1049
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -8858,7 +8878,7 @@ msgid ""
 "@SEEALSO=EXP"
 msgstr ""
 
-#: src/functions/fn-math.c:1085
+#: src/functions/fn-math.c:1083
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -8870,7 +8890,7 @@ msgid ""
 "@SEEALSO=EXP, LOG10, LOG"
 msgstr ""
 
-#: src/functions/fn-math.c:1113
+#: src/functions/fn-math.c:1111
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -8882,7 +8902,7 @@ msgid ""
 "@SEEALSO=EXP, LOG2, LOG"
 msgstr ""
 
-#: src/functions/fn-math.c:1142
+#: src/functions/fn-math.c:1140
 msgid ""
 "@FUNCTION=MOD\n"
 "@SYNTAX=MOD(number,divisor)\n"
@@ -8896,7 +8916,7 @@ msgid ""
 "@SEEALSO=INT,FLOOR,CEIL"
 msgstr ""
 
-#: src/functions/fn-math.c:1190
+#: src/functions/fn-math.c:1188
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -8908,7 +8928,7 @@ msgid ""
 "@SEEALSO=PI,DEGREES"
 msgstr ""
 
-#: src/functions/fn-math.c:1212
+#: src/functions/fn-math.c:1210
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -8920,7 +8940,7 @@ msgid ""
 "@SEEALSO=RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1235
+#: src/functions/fn-math.c:1233
 msgid ""
 "@FUNCTION=RandExp\n"
 "@SYNTAX=RandExp(b)\n"
@@ -8931,7 +8951,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1258
+#: src/functions/fn-math.c:1256
 msgid ""
 "@FUNCTION=RandPoisson\n"
 "@SYNTAX=RandPoisson(lambda)\n"
@@ -8942,7 +8962,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1284
+#: src/functions/fn-math.c:1282
 msgid ""
 "@FUNCTION=RandBinom\n"
 "@SYNTAX=RandBinom(p,trials)\n"
@@ -8955,7 +8975,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1314
+#: src/functions/fn-math.c:1312
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -8969,7 +8989,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1345
+#: src/functions/fn-math.c:1343
 msgid ""
 "@FUNCTION=RandBernoulli\n"
 "@SYNTAX=RandBernoulli(p)\n"
@@ -8981,7 +9001,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1373
+#: src/functions/fn-math.c:1371
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -8993,7 +9013,7 @@ msgid ""
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 msgstr ""
 
-#: src/functions/fn-math.c:1396
+#: src/functions/fn-math.c:1394
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -9006,7 +9026,7 @@ msgid ""
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 msgstr ""
 
-#: src/functions/fn-math.c:1419
+#: src/functions/fn-math.c:1417
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -9019,7 +9039,7 @@ msgid ""
 "@SEEALSO=POWER"
 msgstr ""
 
-#: src/functions/fn-math.c:1447
+#: src/functions/fn-math.c:1445
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -9033,7 +9053,7 @@ msgid ""
 "@SEEALSO=AVERAGE, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1477
+#: src/functions/fn-math.c:1475
 msgid ""
 "@FUNCTION=SUMA\n"
 "@SYNTAX=SUMA(value1, value2, ...)\n"
@@ -9050,7 +9070,7 @@ msgid ""
 "@SEEALSO=AVERAGE, SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1509
+#: src/functions/fn-math.c:1507
 msgid ""
 "@FUNCTION=SUMSQ\n"
 "@SYNTAX=SUMSQ(value1, value2, ...)\n"
@@ -9064,7 +9084,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1540
+#: src/functions/fn-math.c:1538
 msgid ""
 "@FUNCTION=MULTINOMIAL\n"
 "@SYNTAX=MULTINOMIAL(value1, value2, ...)\n"
@@ -9076,7 +9096,7 @@ msgid ""
 "@SEEALSO=SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:1600
+#: src/functions/fn-math.c:1598
 msgid ""
 "@FUNCTION=PRODUCT\n"
 "@SYNTAX=PRODUCT(value1, value2, ...)\n"
@@ -9089,7 +9109,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT, G_PRODUCT"
 msgstr ""
 
-#: src/functions/fn-math.c:1638
+#: src/functions/fn-math.c:1636
 msgid ""
 "@FUNCTION=G_PRODUCT\n"
 "@SYNTAX=G_PRODUCT(value1, value2, ...)\n"
@@ -9102,7 +9122,7 @@ msgid ""
 "@SEEALSO=SUM, COUNT"
 msgstr ""
 
-#: src/functions/fn-math.c:1666
+#: src/functions/fn-math.c:1664
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -9114,7 +9134,7 @@ msgid ""
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:1689
+#: src/functions/fn-math.c:1687
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -9127,7 +9147,7 @@ msgid ""
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 msgstr ""
 
-#: src/functions/fn-math.c:1712
+#: src/functions/fn-math.c:1710
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -9140,7 +9160,7 @@ msgid ""
 "@SEEALSO=SQRTPI"
 msgstr ""
 
-#: src/functions/fn-math.c:1736
+#: src/functions/fn-math.c:1734
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -9154,7 +9174,7 @@ msgid ""
 "@SEEALSO=INT"
 msgstr ""
 
-#: src/functions/fn-math.c:1775
+#: src/functions/fn-math.c:1773
 msgid ""
 "@FUNCTION=EVEN\n"
 "@SYNTAX=EVEN(number)\n"
@@ -9166,7 +9186,7 @@ msgid ""
 "@SEEALSO=ODD"
 msgstr ""
 
-#: src/functions/fn-math.c:1813
+#: src/functions/fn-math.c:1811
 msgid ""
 "@FUNCTION=ODD\n"
 "@SYNTAX=ODD(number)\n"
@@ -9178,7 +9198,7 @@ msgid ""
 "@SEEALSO=EVEN"
 msgstr ""
 
-#: src/functions/fn-math.c:1851
+#: src/functions/fn-math.c:1849
 msgid ""
 "@FUNCTION=FACTDOUBLE\n"
 "@SYNTAX=FACTDOUBLE(number)\n"
@@ -9192,7 +9212,7 @@ msgid ""
 "@SEEALSO=FACT"
 msgstr ""
 
-#: src/functions/fn-math.c:1889
+#: src/functions/fn-math.c:1887
 msgid ""
 "@FUNCTION=QUOTIENT\n"
 "@SYNTAX=QUOTIENT(num,den)\n"
@@ -9205,7 +9225,7 @@ msgid ""
 "@SEEALSO=MOD"
 msgstr ""
 
-#: src/functions/fn-math.c:1920
+#: src/functions/fn-math.c:1918
 msgid ""
 "@FUNCTION=SIGN\n"
 "@SYNTAX=SIGN(number)\n"
@@ -9220,7 +9240,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:1954
+#: src/functions/fn-math.c:1952
 msgid ""
 "@FUNCTION=SQRTPI\n"
 "@SYNTAX=SQRTPI(number)\n"
@@ -9232,7 +9252,7 @@ msgid ""
 "@SEEALSO=PI"
 msgstr ""
 
-#: src/functions/fn-math.c:1983
+#: src/functions/fn-math.c:1981
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -9247,7 +9267,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: src/functions/fn-math.c:2017
+#: src/functions/fn-math.c:2015
 msgid ""
 "@FUNCTION=ROUNDDOWN\n"
 "@SYNTAX=ROUNDDOWN(number[,digits])\n"
@@ -9267,7 +9287,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2064
+#: src/functions/fn-math.c:2062
 msgid ""
 "@FUNCTION=ROUND\n"
 "@SYNTAX=ROUND(number[,digits])\n"
@@ -9287,7 +9307,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2105
+#: src/functions/fn-math.c:2106
 msgid ""
 "@FUNCTION=ROUNDUP\n"
 "@SYNTAX=ROUNDUP(number[,digits])\n"
@@ -9307,7 +9327,7 @@ msgid ""
 "@SEEALSO=ROUND,ROUNDDOWN"
 msgstr ""
 
-#: src/functions/fn-math.c:2152
+#: src/functions/fn-math.c:2153
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -9323,7 +9343,7 @@ msgid ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 msgstr ""
 
-#: src/functions/fn-math.c:2202
+#: src/functions/fn-math.c:2203
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -9345,7 +9365,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: src/functions/fn-math.c:2471
+#: src/functions/fn-math.c:2472
 msgid ""
 "@FUNCTION=SUMX2MY2\n"
 "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -9365,14 +9385,14 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2527 src/functions/fn-math.c:2546
-#: src/functions/fn-math.c:2640 src/functions/fn-math.c:2660
-#: src/functions/fn-math.c:2752 src/functions/fn-math.c:2772
+#: src/functions/fn-math.c:2528 src/functions/fn-math.c:2547
+#: src/functions/fn-math.c:2641 src/functions/fn-math.c:2661
+#: src/functions/fn-math.c:2753 src/functions/fn-math.c:2773
 #: src/functions/fn-stat.c:2711 src/functions/fn-stat.c:2741
 msgid "Array version not implemented!"
 msgstr ""
 
-#: src/functions/fn-math.c:2584
+#: src/functions/fn-math.c:2585
 msgid ""
 "@FUNCTION=SUMX2PY2\n"
 "@SYNTAX=SUMX2PY2(array1,array2)\n"
@@ -9392,7 +9412,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2696
+#: src/functions/fn-math.c:2697
 msgid ""
 "@FUNCTION=SUMXMY2\n"
 "@SYNTAX=SUMXMY2(array1,array2)\n"
@@ -9412,7 +9432,7 @@ msgid ""
 "@SEEALSO=SUMSQ,SUMX2MY2,SUMX2PY2"
 msgstr ""
 
-#: src/functions/fn-math.c:2810
+#: src/functions/fn-math.c:2811
 msgid ""
 "@FUNCTION=SUBTOTAL\n"
 "@SYNTAX=SUMIF(function_nbr,ref1,ref2,...)\n"
@@ -9443,7 +9463,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:2903
+#: src/functions/fn-math.c:2904
 msgid ""
 "@FUNCTION=SERIESSUM\n"
 "@SYNTAX=SERIESSUM(x,n,m,coefficients)\n"
@@ -9460,7 +9480,7 @@ msgid ""
 "@SEEALSO=COUNT,SUM"
 msgstr ""
 
-#: src/functions/fn-math.c:3026
+#: src/functions/fn-math.c:3027
 msgid ""
 "@FUNCTION=MINVERSE\n"
 "@SYNTAX=MINVERSE(matrix)\n"
@@ -9474,11 +9494,11 @@ msgid ""
 "@SEEALSO=MMULT, MDETERM"
 msgstr ""
 
-#: src/functions/fn-math.c:3074
+#: src/functions/fn-math.c:3075
 msgid "#3D MULT?"
 msgstr ""
 
-#: src/functions/fn-math.c:3153
+#: src/functions/fn-math.c:3154
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -9490,7 +9510,7 @@ msgid ""
 "@SEEALSO=TRANSPOSE,MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:3229
+#: src/functions/fn-math.c:3230
 msgid ""
 "@FUNCTION=MDETERM\n"
 "@SYNTAX=MDETERM(matrix)\n"
@@ -9506,7 +9526,7 @@ msgid ""
 "@SEEALSO=MMULT, MINVERSE"
 msgstr ""
 
-#: src/functions/fn-math.c:3287
+#: src/functions/fn-math.c:3288
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -9524,7 +9544,7 @@ msgid ""
 "@SEEALSO=SUM,PRODUCT"
 msgstr ""
 
-#: src/functions/fn-math.c:3402
+#: src/functions/fn-math.c:3403
 msgid "Maths / Trig."
 msgstr ""
 
@@ -11171,7 +11191,7 @@ msgid ""
 "@SEEALSO=FIND"
 msgstr ""
 
-#: src/gnumeric-util.c:639
+#: src/gnumeric-util.c:640
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr ""
@@ -11201,124 +11221,124 @@ msgstr "_Visina"
 msgid "Width: %.2f pts (%d pixels)"
 msgstr "_Visina"
 
-#: src/item-cursor.c:794
+#: src/item-cursor.c:808
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:896
+#: src/item-cursor.c:910
 #, fuzzy
 msgid "_Move"
 msgstr "Premjesti"
 
-#: po/tmp/gnumeric.xml.h:200 src/item-cursor.c:899
-#: src/sheet-control-gui.c:1127
+#: po/tmp/gnumeric.xml.h:201 src/item-cursor.c:913
+#: src/sheet-control-gui.c:1095
 msgid "_Copy"
 msgstr "_Kopiraj"
 
-#: src/item-cursor.c:902
+#: src/item-cursor.c:916
 #, fuzzy
 msgid "Copy _Formats"
 msgstr "Kopiraj formate"
 
-#: src/item-cursor.c:904
+#: src/item-cursor.c:918
 #, fuzzy
 msgid "Copy _Values"
 msgstr "Kopiraj vrijednosti"
 
-#: src/item-cursor.c:909
+#: src/item-cursor.c:923
 msgid "Shift _Down and Copy"
 msgstr ""
 
-#: src/item-cursor.c:911
+#: src/item-cursor.c:925
 msgid "Shift _Right and Copy"
 msgstr ""
 
-#: src/item-cursor.c:913
+#: src/item-cursor.c:927
 msgid "Shift Dow_n and Move"
 msgstr ""
 
-#: src/item-cursor.c:915
+#: src/item-cursor.c:929
 msgid "Shift Righ_t and Move"
 msgstr ""
 
-#: src/item-cursor.c:920
+#: src/item-cursor.c:934
 #, fuzzy
 msgid "C_ancel"
 msgstr "Odustani"
 
-#: src/main.c:82
+#: src/main.c:83
 msgid "Display Gnumeric's version"
 msgstr ""
 
-#: src/main.c:84
+#: src/main.c:85
 msgid "Set the root library directory"
 msgstr ""
 
-#: src/main.c:86
+#: src/main.c:87
 msgid "Adjust the root data directory"
 msgstr ""
 
-#: src/main.c:89
+#: src/main.c:90
 msgid "Dumps the function definitions"
 msgstr ""
 
-#: src/main.c:89
+#: src/main.c:90
 msgid "FILE"
 msgstr "DATOTEKA"
 
-#: src/main.c:92
+#: src/main.c:93
 msgid "Enables some debugging functions"
 msgstr ""
 
-#: src/main.c:92 src/main.c:95 src/main.c:97 src/main.c:99 src/main.c:107
-#: src/main.c:111 src/main.c:115 src/main.c:119 src/main.c:123 src/main.c:127
+#: src/main.c:93 src/main.c:96 src/main.c:98 src/main.c:100 src/main.c:108
+#: src/main.c:112 src/main.c:116 src/main.c:120 src/main.c:124 src/main.c:128
 msgid "LEVEL"
 msgstr ""
 
-#: src/main.c:95
+#: src/main.c:96
 msgid "Enables some style related debugging functions"
 msgstr ""
 
-#: src/main.c:97
+#: src/main.c:98
 msgid "Enables some dependency related debugging functions"
 msgstr ""
 
-#: src/main.c:99
+#: src/main.c:100
 msgid "Enables some print debugging behaviour"
 msgstr ""
 
-#: src/main.c:102
+#: src/main.c:103
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 
-#: src/main.c:106 src/main.c:126
+#: src/main.c:107 src/main.c:127
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr ""
 
-#: src/main.c:110
+#: src/main.c:111
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr ""
 
-#: src/main.c:114
+#: src/main.c:115
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
 
-#: src/main.c:118
+#: src/main.c:119
 msgid "Enables debugging mesgs while reading excel objects"
 msgstr ""
 
-#: src/main.c:122
+#: src/main.c:123
 msgid "Enables debugging mesgs while reading excel charts"
 msgstr ""
 
-#: src/main.c:130
+#: src/main.c:131
 msgid "Enables extra consistancy checking while reading ole files"
 msgstr ""
 
-#: src/main.c:158
+#: src/main.c:159
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -11326,11 +11346,11 @@ msgid ""
 "libdir := '%s'\n"
 msgstr ""
 
-#: src/main.c:207
+#: src/main.c:209
 msgid "Could not initialize Workbook factory"
 msgstr ""
 
-#: src/main.c:211
+#: src/main.c:213
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr ""
 
@@ -11366,7 +11386,7 @@ msgstr ""
 msgid "#RECALC!"
 msgstr ""
 
-#: src/parse-util.c:519
+#: src/parse-util.c:518
 msgid "ERROR"
 msgstr "GRE©KA"
 
@@ -11513,33 +11533,33 @@ msgid "cannot be performed with multiple selections"
 msgstr ""
 
 #. FIXME FIXME : disable copying part of an array
-#: src/selection.c:580
+#: src/selection.c:601
 msgid "copy"
 msgstr "kopiraj"
 
-#: src/selection.c:610
+#: src/selection.c:631
 msgid "cut"
 msgstr "izre¾i"
 
-#: src/sheet-control-gui.c:483
+#: src/sheet-control-gui.c:462
 #, c-format
 msgid "Row: %d"
 msgstr "Red: %d"
 
-#: src/sheet-control-gui.c:494
+#: src/sheet-control-gui.c:473
 #, c-format
 msgid "Column: %s"
 msgstr "Stupac: %s"
 
-#: po/tmp/gnumeric.xml.h:53 src/sheet-control-gui.c:1125
+#: po/tmp/gnumeric.xml.h:54 src/sheet-control-gui.c:1093
 msgid "Cu_t"
 msgstr "Iz_re¾i"
 
-#: po/tmp/gnumeric.xml.h:219 src/sheet-control-gui.c:1129
+#: po/tmp/gnumeric.xml.h:220 src/sheet-control-gui.c:1097
 msgid "_Paste"
 msgstr "_Umetni"
 
-#: src/sheet-control-gui.c:1131
+#: src/sheet-control-gui.c:1099
 msgid "Paste _Special"
 msgstr "Umetni na _poseban naèin"
 
@@ -11550,67 +11570,67 @@ msgstr "Umetni na _poseban naèin"
 #. * This is hard for now because there is no memory management for the label
 #. * strings, and the logic that knows the count is elsewhere
 #.
-#: src/sheet-control-gui.c:1143
+#: src/sheet-control-gui.c:1111
 msgid "_Insert..."
 msgstr "_Umetni..."
 
-#: po/tmp/gnumeric.xml.h:204 src/sheet-control-gui.c:1145
+#: po/tmp/gnumeric.xml.h:205 src/sheet-control-gui.c:1113
 #: src/workbook-control-gui.c:1779
 msgid "_Delete..."
 msgstr "_Obri¹i..."
 
-#: src/sheet-control-gui.c:1147
+#: src/sheet-control-gui.c:1115
 #, fuzzy
 msgid "_Insert Column(s)"
 msgstr "Umetni _stupac(ce)"
 
-#: src/sheet-control-gui.c:1149
+#: src/sheet-control-gui.c:1117
 #, fuzzy
 msgid "_Delete Column(s)"
 msgstr "Obri¹i _stupac(ce)"
 
-#: src/sheet-control-gui.c:1151
+#: src/sheet-control-gui.c:1119
 #, fuzzy
 msgid "_Insert Row(s)"
 msgstr "Umetni redove"
 
-#: src/sheet-control-gui.c:1153
+#: src/sheet-control-gui.c:1121
 #, fuzzy
 msgid "_Delete Row(s)"
 msgstr "Obri¹i _red(ove)"
 
-#: src/sheet-control-gui.c:1156
+#: src/sheet-control-gui.c:1124
 msgid "Clear Co_ntents"
 msgstr "Obri¹i sa_dr¾aj"
 
-#: src/sheet-control-gui.c:1162
+#: src/sheet-control-gui.c:1130
 msgid "_Format Cells..."
 msgstr "_Formatiraj æelije..."
 
 #. Column specific (Note some labels duplicate row labels)
-#: src/sheet-control-gui.c:1166
+#: src/sheet-control-gui.c:1134
 msgid "Column _Width..."
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:213 src/sheet-control-gui.c:1168
-#: src/sheet-control-gui.c:1176 src/workbook-control-gui.c:1883
+#: po/tmp/gnumeric.xml.h:214 src/sheet-control-gui.c:1136
+#: src/sheet-control-gui.c:1144 src/workbook-control-gui.c:1883
 #: src/workbook-control-gui.c:1902
 msgid "_Hide"
 msgstr "_Sakrij"
 
-#: po/tmp/gnumeric.xml.h:234 src/sheet-control-gui.c:1170
-#: src/sheet-control-gui.c:1178 src/workbook-control-gui.c:1886
+#: po/tmp/gnumeric.xml.h:235 src/sheet-control-gui.c:1138
+#: src/sheet-control-gui.c:1146 src/workbook-control-gui.c:1886
 #: src/workbook-control-gui.c:1905
 msgid "_Unhide"
 msgstr "_Otkrij"
 
 #. Row specific (Note some labels duplicate col labels)
-#: src/sheet-control-gui.c:1174
+#: src/sheet-control-gui.c:1142
 #, fuzzy
 msgid "_Row Height..."
 msgstr "Desno"
 
-#: src/sheet-object-container.c:218
+#: src/sheet-object-container.c:216
 #, fuzzy, c-format
 msgid "can't create object for '%s'"
 msgstr "Ne mogu stvoriti datoteku %s\n"
@@ -11620,39 +11640,39 @@ msgstr "Ne mogu stvoriti datoteku %s\n"
 msgid "Button"
 msgstr "Gumb"
 
-#: src/sheet-object-widget.c:494
+#: src/sheet-object-widget.c:493
 msgid "Checkbox Configure"
 msgstr ""
 
-#: src/sheet-object.c:73
+#: src/sheet-object.c:80
 msgid "Configure"
 msgstr ""
 
-#: src/sheet.c:2757 src/sheet.c:2767
+#: src/sheet.c:2822 src/sheet.c:2832
 #, fuzzy
 msgid "Insert Columns"
 msgstr "Umetni _stupac(ce)"
 
-#: src/sheet.c:2838
+#: src/sheet.c:2903
 #, fuzzy
 msgid "Delete Columns"
 msgstr "Obri¹i _stupac(ce)"
 
-#: src/sheet.c:2908 src/sheet.c:2918
+#: src/sheet.c:2973 src/sheet.c:2983
 #, fuzzy
 msgid "Insert Rows"
 msgstr "Umetni redove"
 
-#: src/sheet.c:2989
+#: src/sheet.c:3054
 #, fuzzy
 msgid "Delete Rows"
 msgstr "Obri¹i _red(ove)"
 
-#: src/sheet.c:3866
+#: src/sheet.c:3856
 msgid "Merge"
 msgstr ""
 
-#: src/sheet.c:3873
+#: src/sheet.c:3863
 msgid "There is already a merged region that intersects"
 msgstr ""
 
@@ -11804,7 +11824,7 @@ msgid ""
 "Most likely your locale settings are wrong."
 msgstr ""
 
-#: src/stf.c:184
+#: src/stf.c:204
 msgid "Parse error while trying to parse data into sheet"
 msgstr ""
 
@@ -11872,11 +11892,11 @@ msgstr ""
 msgid "Italic"
 msgstr "Nako¹eno"
 
-#: src/workbook-cmd-format.c:99
+#: src/workbook-cmd-format.c:100
 msgid "You entered an invalid column width value.  It must be bigger than 0"
 msgstr ""
 
-#: src/workbook-cmd-format.c:170
+#: src/workbook-cmd-format.c:160
 msgid "You entered an invalid row height value.  It must be bigger than 0"
 msgstr ""
 
@@ -11885,7 +11905,7 @@ msgstr ""
 msgid "Select font"
 msgstr "Obri¹i _red(ove)"
 
-#: po/tmp/gnumeric.xml.h:77 src/workbook-format-toolbar.c:369
+#: po/tmp/gnumeric.xml.h:78 src/workbook-format-toolbar.c:369
 #: src/workbook-format-toolbar.c:778
 msgid "Font selector"
 msgstr "Izbornik pisama"
@@ -11898,7 +11918,7 @@ msgstr "Namje¹ta zadebljano pismo"
 msgid "Makes the font italic"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:186 src/workbook-format-toolbar.c:386
+#: po/tmp/gnumeric.xml.h:187 src/workbook-format-toolbar.c:386
 msgid "Underline"
 msgstr "Podvuci"
 
@@ -12025,16 +12045,16 @@ msgstr "Rubovi"
 msgid "Clear Background"
 msgstr "Ukloni pozadinu"
 
-#: po/tmp/gnumeric.xml.h:78 src/workbook-format-toolbar.c:768
+#: po/tmp/gnumeric.xml.h:79 src/workbook-format-toolbar.c:768
 #: src/workbook-format-toolbar.c:789
 msgid "Foreground"
 msgstr "Prvi plan"
 
-#: po/tmp/gnumeric.xml.h:76 src/workbook-format-toolbar.c:780
+#: po/tmp/gnumeric.xml.h:77 src/workbook-format-toolbar.c:780
 msgid "Font Size"
 msgstr "Velièina pisma"
 
-#: po/tmp/gnumeric.xml.h:113 src/workbook-object-toolbar.c:129
+#: po/tmp/gnumeric.xml.h:114 src/workbook-object-toolbar.c:129
 #, fuzzy
 msgid "Label"
 msgstr "oznaka2"
@@ -12044,7 +12064,7 @@ msgstr "oznaka2"
 msgid "Creates a label"
 msgstr "Stvara gumb"
 
-#: po/tmp/gnumeric.xml.h:82 src/workbook-object-toolbar.c:132
+#: po/tmp/gnumeric.xml.h:83 src/workbook-object-toolbar.c:132
 #, fuzzy
 msgid "Frame"
 msgstr "Ime"
@@ -12058,7 +12078,7 @@ msgstr "Stvara grafiku"
 msgid "Creates a button"
 msgstr "Stvara gumb"
 
-#: po/tmp/gnumeric.xml.h:29 src/workbook-object-toolbar.c:138
+#: po/tmp/gnumeric.xml.h:30 src/workbook-object-toolbar.c:138
 msgid "Checkbox"
 msgstr ""
 
@@ -12077,7 +12097,7 @@ msgstr "Gumb"
 msgid "Creates a radio button"
 msgstr "Stvara gumb"
 
-#: po/tmp/gnumeric.xml.h:117 src/workbook-object-toolbar.c:144
+#: po/tmp/gnumeric.xml.h:118 src/workbook-object-toolbar.c:144
 #, fuzzy
 msgid "List"
 msgstr "Linije"
@@ -12109,7 +12129,7 @@ msgstr "Strelica"
 msgid "Creates an arrow object"
 msgstr "Stvara strelicu"
 
-#: po/tmp/gnumeric.xml.h:150 src/workbook-object-toolbar.c:156
+#: po/tmp/gnumeric.xml.h:151 src/workbook-object-toolbar.c:156
 msgid "Rectangle"
 msgstr "Èetverokut"
 
@@ -12206,11 +12226,11 @@ msgstr "Umetni stupce"
 msgid "Select an object to add"
 msgstr "Izaberite kakav objekt ¾elite dodati"
 
-#: po/tmp/gnumeric.xml.h:216 src/workbook-control-gui.c:1682
+#: po/tmp/gnumeric.xml.h:217 src/workbook-control-gui.c:1682
 msgid "_New"
 msgstr "_Nova"
 
-#: po/tmp/gnumeric.xml.h:49 src/workbook-control-gui.c:1682
+#: po/tmp/gnumeric.xml.h:50 src/workbook-control-gui.c:1682
 msgid "Create a new spreadsheet"
 msgstr "Stvori novu tablicu"
 
@@ -12218,7 +12238,7 @@ msgstr "Stvori novu tablicu"
 msgid "_Import..."
 msgstr "_Uvezi..."
 
-#: po/tmp/gnumeric.xml.h:92 src/workbook-control-gui.c:1686
+#: po/tmp/gnumeric.xml.h:93 src/workbook-control-gui.c:1686
 msgid "Imports a file"
 msgstr "Uvezi datoteku"
 
@@ -12226,81 +12246,81 @@ msgstr "Uvezi datoteku"
 msgid "Print pre_view"
 msgstr "Pregled _prije ispisa"
 
-#: po/tmp/gnumeric.xml.h:178 src/workbook-control-gui.c:1702
+#: po/tmp/gnumeric.xml.h:179 src/workbook-control-gui.c:1702
 msgid "Su_mmary..."
 msgstr "_Sa¾etak..."
 
-#: po/tmp/gnumeric.xml.h:181 src/workbook-control-gui.c:1703
+#: po/tmp/gnumeric.xml.h:182 src/workbook-control-gui.c:1703
 msgid "Summary information"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:191 src/workbook-control-gui.c:1716
+#: po/tmp/gnumeric.xml.h:192 src/workbook-control-gui.c:1716
 msgid "_All"
 msgstr "_Sve"
 
-#: po/tmp/gnumeric.xml.h:33 src/workbook-control-gui.c:1717
+#: po/tmp/gnumeric.xml.h:34 src/workbook-control-gui.c:1717
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr "Obri¹i formate, komentare i sadr¾aj izabranih æelija"
 
-#: po/tmp/gnumeric.xml.h:208 src/workbook-control-gui.c:1719
+#: po/tmp/gnumeric.xml.h:209 src/workbook-control-gui.c:1719
 msgid "_Formats"
 msgstr "_Formate"
 
-#: po/tmp/gnumeric.xml.h:32 src/workbook-control-gui.c:1720
+#: po/tmp/gnumeric.xml.h:33 src/workbook-control-gui.c:1720
 msgid "Clear the selected cells' formats"
 msgstr "Obri¹i formate izabranih æelija"
 
-#: po/tmp/gnumeric.xml.h:30 src/workbook-control-gui.c:1723
+#: po/tmp/gnumeric.xml.h:31 src/workbook-control-gui.c:1723
 msgid "Clear the selected cells' comments"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:199 src/workbook-control-gui.c:1725
+#: po/tmp/gnumeric.xml.h:200 src/workbook-control-gui.c:1725
 msgid "_Content"
 msgstr "_Sadr¾aj"
 
-#: po/tmp/gnumeric.xml.h:31 src/workbook-control-gui.c:1726
+#: po/tmp/gnumeric.xml.h:32 src/workbook-control-gui.c:1726
 msgid "Clear the selected cells' contents"
 msgstr "Obri¹i komentare izabranih æelija"
 
-#: po/tmp/gnumeric.xml.h:162 src/workbook-control-gui.c:1734
+#: po/tmp/gnumeric.xml.h:163 src/workbook-control-gui.c:1734
 #, fuzzy
 msgid "Select _All"
 msgstr "_Izaberi sve"
 
-#: po/tmp/gnumeric.xml.h:166 src/workbook-control-gui.c:1735
+#: po/tmp/gnumeric.xml.h:167 src/workbook-control-gui.c:1735
 msgid "Select all cells in the spreadsheet"
 msgstr "Izaberi sve æelije u proraèunskoj tablici"
 
-#: po/tmp/gnumeric.xml.h:165 src/workbook-control-gui.c:1739
+#: po/tmp/gnumeric.xml.h:166 src/workbook-control-gui.c:1739
 #, fuzzy
 msgid "Select _Row"
 msgstr "Obri¹i _red(ove)"
 
-#: po/tmp/gnumeric.xml.h:170 src/workbook-control-gui.c:1740
+#: po/tmp/gnumeric.xml.h:171 src/workbook-control-gui.c:1740
 #, fuzzy
 msgid "Select an entire row"
 msgstr "Izaberite kakav objekt ¾elite dodati"
 
-#: po/tmp/gnumeric.xml.h:163 src/workbook-control-gui.c:1744
+#: po/tmp/gnumeric.xml.h:164 src/workbook-control-gui.c:1744
 #, fuzzy
 msgid "Select _Column"
 msgstr "Obri¹i _stupac(ce)"
 
-#: po/tmp/gnumeric.xml.h:169 src/workbook-control-gui.c:1745
+#: po/tmp/gnumeric.xml.h:170 src/workbook-control-gui.c:1745
 #, fuzzy
 msgid "Select an entire column"
 msgstr "Izaberite kakav objekt ¾elite dodati"
 
-#: po/tmp/gnumeric.xml.h:161 src/workbook-control-gui.c:1749
+#: po/tmp/gnumeric.xml.h:162 src/workbook-control-gui.c:1749
 #, fuzzy
 msgid "Select Arra_y"
 msgstr "_Izaberi sve"
 
-#: po/tmp/gnumeric.xml.h:168 src/workbook-control-gui.c:1750
+#: po/tmp/gnumeric.xml.h:169 src/workbook-control-gui.c:1750
 msgid "Select an array of cells"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:164 src/workbook-control-gui.c:1754
+#: po/tmp/gnumeric.xml.h:165 src/workbook-control-gui.c:1754
 msgid "Select _Depends"
 msgstr ""
 
@@ -12312,7 +12332,7 @@ msgstr ""
 msgid "P_aste special..."
 msgstr "_Nalijepi na poseban naèin"
 
-#: po/tmp/gnumeric.xml.h:138 src/workbook-control-gui.c:1772
+#: po/tmp/gnumeric.xml.h:139 src/workbook-control-gui.c:1772
 msgid "Paste with optional filters and transformations"
 msgstr ""
 
@@ -12324,81 +12344,81 @@ msgstr "O_bri¹i"
 msgid "Remove selected cells, shifting other into their place"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:58 src/workbook-control-gui.c:1782
+#: po/tmp/gnumeric.xml.h:59 src/workbook-control-gui.c:1782
 msgid "De_lete Sheet"
 msgstr "O_bri¹i list"
 
-#: po/tmp/gnumeric.xml.h:108 src/workbook-control-gui.c:1783
+#: po/tmp/gnumeric.xml.h:109 src/workbook-control-gui.c:1783
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:226 src/workbook-control-gui.c:1788
+#: po/tmp/gnumeric.xml.h:227 src/workbook-control-gui.c:1788
 #, fuzzy
 msgid "_Select..."
 msgstr "_Obri¹i..."
 
 #. Default <Ctrl-G> to be goto
-#: po/tmp/gnumeric.xml.h:210 src/workbook-control-gui.c:1791
+#: po/tmp/gnumeric.xml.h:211 src/workbook-control-gui.c:1791
 msgid "_Goto cell..."
 msgstr "_Idi u æeliju.."
 
-#: po/tmp/gnumeric.xml.h:112 src/workbook-control-gui.c:1792
+#: po/tmp/gnumeric.xml.h:113 src/workbook-control-gui.c:1792
 msgid "Jump to a specified cell"
 msgstr "Skoèi do izabrane æelije"
 
 #. Default <F9> to recalculate
-#: po/tmp/gnumeric.xml.h:222 src/workbook-control-gui.c:1797
+#: po/tmp/gnumeric.xml.h:223 src/workbook-control-gui.c:1797
 msgid "_Recalculate"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:149 src/workbook-control-gui.c:1798
+#: po/tmp/gnumeric.xml.h:150 src/workbook-control-gui.c:1798
 msgid "Recalculate the spreadsheet"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:238 src/workbook-control-gui.c:1808
+#: po/tmp/gnumeric.xml.h:239 src/workbook-control-gui.c:1808
 msgid "_Zoom..."
 msgstr "_Uveæaj/Umanji..."
 
-#: po/tmp/gnumeric.xml.h:189 src/workbook-control-gui.c:1809
+#: po/tmp/gnumeric.xml.h:190 src/workbook-control-gui.c:1809
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:128 src/workbook-control-gui.c:1811
+#: po/tmp/gnumeric.xml.h:129 src/workbook-control-gui.c:1811
 #, fuzzy
 msgid "New _Shared"
 msgstr "Novi list"
 
-#: po/tmp/gnumeric.xml.h:48 src/workbook-control-gui.c:1812
+#: po/tmp/gnumeric.xml.h:49 src/workbook-control-gui.c:1812
 #, fuzzy
 msgid "Create a new shared view of the workbook"
 msgstr "Stvara novu bilje¾nicu"
 
-#: po/tmp/gnumeric.xml.h:129 src/workbook-control-gui.c:1814
+#: po/tmp/gnumeric.xml.h:130 src/workbook-control-gui.c:1814
 #, fuzzy
 msgid "New _Unshared"
 msgstr "_List"
 
-#: po/tmp/gnumeric.xml.h:50 src/workbook-control-gui.c:1815
+#: po/tmp/gnumeric.xml.h:51 src/workbook-control-gui.c:1815
 #, fuzzy
 msgid "Create a new unshared view of the workbook"
 msgstr "Stvara novu bilje¾nicu"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: po/tmp/gnumeric.xml.h:54 src/workbook-control-gui.c:1824
+#: po/tmp/gnumeric.xml.h:55 src/workbook-control-gui.c:1824
 msgid "Current _date"
 msgstr "Trenutni _datum"
 
-#: po/tmp/gnumeric.xml.h:104 src/workbook-control-gui.c:1825
+#: po/tmp/gnumeric.xml.h:105 src/workbook-control-gui.c:1825
 #, fuzzy
 msgid "Insert the current date into the selected cell(s)"
 msgstr "Promijeni format izabranih æelija"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: po/tmp/gnumeric.xml.h:55 src/workbook-control-gui.c:1830
+#: po/tmp/gnumeric.xml.h:56 src/workbook-control-gui.c:1830
 msgid "Current _time"
 msgstr "Trenutno _vrijeme"
 
-#: po/tmp/gnumeric.xml.h:105 src/workbook-control-gui.c:1831
+#: po/tmp/gnumeric.xml.h:106 src/workbook-control-gui.c:1831
 msgid "Insert the current time into the selected cell(s)"
 msgstr ""
 
@@ -12407,7 +12427,7 @@ msgstr ""
 msgid "_Define..."
 msgstr "_Obri¹i..."
 
-#: po/tmp/gnumeric.xml.h:67 src/workbook-control-gui.c:1839
+#: po/tmp/gnumeric.xml.h:68 src/workbook-control-gui.c:1839
 msgid "Edit sheet and workbook names"
 msgstr ""
 
@@ -12421,20 +12441,20 @@ msgstr "_Automatsko spremanje.."
 msgid "Use the current selection to create names"
 msgstr "Promijeni format izabranih æelija"
 
-#: po/tmp/gnumeric.xml.h:227 src/workbook-control-gui.c:1850
+#: po/tmp/gnumeric.xml.h:228 src/workbook-control-gui.c:1850
 #: src/workbook-control-gui.c:1958
 msgid "_Sheet"
 msgstr "_List"
 
-#: po/tmp/gnumeric.xml.h:98 src/workbook-control-gui.c:1851
+#: po/tmp/gnumeric.xml.h:99 src/workbook-control-gui.c:1851
 msgid "Insert a new spreadsheet"
 msgstr "Umetni novu proraèunsku tablicu"
 
-#: po/tmp/gnumeric.xml.h:103 src/workbook-control-gui.c:1854
+#: po/tmp/gnumeric.xml.h:104 src/workbook-control-gui.c:1854
 msgid "Insert new rows"
 msgstr "Umetni nove redove"
 
-#: po/tmp/gnumeric.xml.h:102 src/workbook-control-gui.c:1857
+#: po/tmp/gnumeric.xml.h:103 src/workbook-control-gui.c:1857
 msgid "Insert new columns"
 msgstr "Umetni nove stupce"
 
@@ -12442,11 +12462,11 @@ msgstr "Umetni nove stupce"
 msgid "C_ells..."
 msgstr "Æ_elije..."
 
-#: po/tmp/gnumeric.xml.h:101 src/workbook-control-gui.c:1860
+#: po/tmp/gnumeric.xml.h:102 src/workbook-control-gui.c:1860
 msgid "Insert new cells"
 msgstr "Umetni nove æelije"
 
-#: po/tmp/gnumeric.xml.h:215 src/workbook-control-gui.c:1865
+#: po/tmp/gnumeric.xml.h:216 src/workbook-control-gui.c:1865
 #, fuzzy
 msgid "_Name"
 msgstr "Ime"
@@ -12456,35 +12476,35 @@ msgstr "Ime"
 msgid "_Add\\modify comment..."
 msgstr "_Dodaj/promijeni komentar..."
 
-#: po/tmp/gnumeric.xml.h:69 src/workbook-control-gui.c:1868
+#: po/tmp/gnumeric.xml.h:70 src/workbook-control-gui.c:1868
 msgid "Edit the selected cell's comment"
 msgstr "Promijeni komentar u izabranoj æeliji"
 
-#: po/tmp/gnumeric.xml.h:155 src/workbook-control-gui.c:1871
+#: po/tmp/gnumeric.xml.h:156 src/workbook-control-gui.c:1871
 msgid "S_pecial"
 msgstr "_Posebno"
 
-#: po/tmp/gnumeric.xml.h:193 src/workbook-control-gui.c:1877
+#: po/tmp/gnumeric.xml.h:194 src/workbook-control-gui.c:1877
 #: src/workbook-control-gui.c:1896
 #, fuzzy
 msgid "_Auto fit selection"
 msgstr "Lijevo poravnano"
 
-#: po/tmp/gnumeric.xml.h:236 src/workbook-control-gui.c:1880
+#: po/tmp/gnumeric.xml.h:237 src/workbook-control-gui.c:1880
 #, fuzzy
 msgid "_Width..."
 msgstr "©_irina"
 
-#: po/tmp/gnumeric.xml.h:231 src/workbook-control-gui.c:1889
+#: po/tmp/gnumeric.xml.h:232 src/workbook-control-gui.c:1889
 msgid "_Standard Width"
 msgstr "_Standardna ¹irina"
 
-#: po/tmp/gnumeric.xml.h:211 src/workbook-control-gui.c:1899
+#: po/tmp/gnumeric.xml.h:212 src/workbook-control-gui.c:1899
 #, fuzzy
 msgid "_Height..."
 msgstr "Desno"
 
-#: po/tmp/gnumeric.xml.h:230 src/workbook-control-gui.c:1908
+#: po/tmp/gnumeric.xml.h:231 src/workbook-control-gui.c:1908
 msgid "_Standard Height"
 msgstr "S_tandardna visina"
 
@@ -12492,20 +12512,20 @@ msgstr "S_tandardna visina"
 msgid "_Change name"
 msgstr "Promijeni _ime"
 
-#: po/tmp/gnumeric.xml.h:148 src/workbook-control-gui.c:1918
+#: po/tmp/gnumeric.xml.h:149 src/workbook-control-gui.c:1918
 #, fuzzy
 msgid "Re-_Order Sheets"
 msgstr "Format datoteke:"
 
-#: po/tmp/gnumeric.xml.h:61 src/workbook-control-gui.c:1922
+#: po/tmp/gnumeric.xml.h:62 src/workbook-control-gui.c:1922
 msgid "Display _Formulas"
 msgstr "Prika¾i _formule"
 
-#: po/tmp/gnumeric.xml.h:88 src/workbook-control-gui.c:1927
+#: po/tmp/gnumeric.xml.h:89 src/workbook-control-gui.c:1927
 msgid "Hide _Zeros"
 msgstr "Sakrij _nule"
 
-#: po/tmp/gnumeric.xml.h:86 src/workbook-control-gui.c:1932
+#: po/tmp/gnumeric.xml.h:87 src/workbook-control-gui.c:1932
 msgid "Hide _Gridlines"
 msgstr "Sakrij _re¹etku"
 
@@ -12518,11 +12538,11 @@ msgid "Hide _Row Header"
 msgstr "Sakrij za_glavalje redova"
 
 #. Default <Ctrl-1> invoke the format dialog
-#: po/tmp/gnumeric.xml.h:196 src/workbook-control-gui.c:1952
+#: po/tmp/gnumeric.xml.h:197 src/workbook-control-gui.c:1952
 msgid "_Cells..."
 msgstr "Æe_lije..."
 
-#: po/tmp/gnumeric.xml.h:124 src/workbook-control-gui.c:1953
+#: po/tmp/gnumeric.xml.h:125 src/workbook-control-gui.c:1953
 msgid "Modify the formatting of the selected cells"
 msgstr "Promijeni format izabranih æelija"
 
@@ -12530,28 +12550,28 @@ msgstr "Promijeni format izabranih æelija"
 msgid "C_olumn"
 msgstr "S_tupac"
 
-#: po/tmp/gnumeric.xml.h:224 src/workbook-control-gui.c:1957
+#: po/tmp/gnumeric.xml.h:225 src/workbook-control-gui.c:1957
 msgid "_Row"
 msgstr "_Red"
 
-#: po/tmp/gnumeric.xml.h:194 src/workbook-control-gui.c:1960
+#: po/tmp/gnumeric.xml.h:195 src/workbook-control-gui.c:1960
 #, fuzzy
 msgid "_Autoformat..."
 msgstr "_Automatsko spremanje.."
 
-#: po/tmp/gnumeric.xml.h:79 src/workbook-control-gui.c:1961
+#: po/tmp/gnumeric.xml.h:80 src/workbook-control-gui.c:1961
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:237 src/workbook-control-gui.c:1964
+#: po/tmp/gnumeric.xml.h:238 src/workbook-control-gui.c:1964
 msgid "_Workbook..."
 msgstr "_Bilje¾nica..."
 
-#: po/tmp/gnumeric.xml.h:125 src/workbook-control-gui.c:1965
+#: po/tmp/gnumeric.xml.h:126 src/workbook-control-gui.c:1965
 msgid "Modify the workbook attributes"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:220 src/workbook-control-gui.c:1972
+#: po/tmp/gnumeric.xml.h:221 src/workbook-control-gui.c:1972
 msgid "_Plug-ins..."
 msgstr "_Dodaci..."
 
@@ -12567,7 +12587,7 @@ msgstr ""
 msgid "Automatically perform simple spell checking"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:192 src/workbook-control-gui.c:1981
+#: po/tmp/gnumeric.xml.h:193 src/workbook-control-gui.c:1981
 msgid "_Auto Save..."
 msgstr "_Automatsko spremanje.."
 
@@ -12575,23 +12595,23 @@ msgstr "_Automatsko spremanje.."
 msgid "Automatically save the current document at regular intervals"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:209 src/workbook-control-gui.c:1987
+#: po/tmp/gnumeric.xml.h:210 src/workbook-control-gui.c:1987
 msgid "_Goal Seek..."
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:110 src/workbook-control-gui.c:1988
+#: po/tmp/gnumeric.xml.h:111 src/workbook-control-gui.c:1988
 msgid "Iteratively recalculate to find a target value"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:228 src/workbook-control-gui.c:1990
+#: po/tmp/gnumeric.xml.h:229 src/workbook-control-gui.c:1990
 msgid "_Solver..."
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:111 src/workbook-control-gui.c:1991
+#: po/tmp/gnumeric.xml.h:112 src/workbook-control-gui.c:1991
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:202 src/workbook-control-gui.c:1996
+#: po/tmp/gnumeric.xml.h:203 src/workbook-control-gui.c:1996
 msgid "_Data Analysis..."
 msgstr ""
 
@@ -12599,39 +12619,39 @@ msgstr ""
 msgid "Statistical methods."
 msgstr "Statistièki metodi."
 
-#: po/tmp/gnumeric.xml.h:229 src/workbook-control-gui.c:2005
+#: po/tmp/gnumeric.xml.h:230 src/workbook-control-gui.c:2005
 msgid "_Sort..."
 msgstr "_Sortiranje..."
 
-#: po/tmp/gnumeric.xml.h:174 src/workbook-control-gui.c:2006
+#: po/tmp/gnumeric.xml.h:175 src/workbook-control-gui.c:2006
 msgid "Sort the selected cells"
 msgstr "Sortiraj izabrane æelije"
 
-#: po/tmp/gnumeric.xml.h:207 src/workbook-control-gui.c:2008
+#: po/tmp/gnumeric.xml.h:208 src/workbook-control-gui.c:2008
 msgid "_Filter..."
 msgstr "_Filter..."
 
-#: po/tmp/gnumeric.xml.h:74 src/workbook-control-gui.c:2009
+#: po/tmp/gnumeric.xml.h:75 src/workbook-control-gui.c:2009
 msgid "Filter data with given criteria"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:214 src/workbook-control-gui.c:2025
+#: po/tmp/gnumeric.xml.h:215 src/workbook-control-gui.c:2025
 msgid "_Insert"
 msgstr "_Umetni"
 
-#: po/tmp/gnumeric.xml.h:73 src/workbook-control-gui.c:2026
+#: po/tmp/gnumeric.xml.h:74 src/workbook-control-gui.c:2026
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: po/tmp/gnumeric.xml.h:232 src/workbook-control-gui.c:2027
+#: po/tmp/gnumeric.xml.h:233 src/workbook-control-gui.c:2027
 msgid "_Tools"
 msgstr "_Alati"
 
-#: po/tmp/gnumeric.xml.h:201 src/workbook-control-gui.c:2028
+#: po/tmp/gnumeric.xml.h:202 src/workbook-control-gui.c:2028
 msgid "_Data"
 msgstr "_Podaci"
 
-#: po/tmp/gnumeric.xml.h:127 src/workbook-control-gui.c:2035
+#: po/tmp/gnumeric.xml.h:128 src/workbook-control-gui.c:2035
 msgid "New"
 msgstr "Nova bilje¾nica"
 
@@ -12639,7 +12659,7 @@ msgstr "Nova bilje¾nica"
 msgid "Creates a new workbook"
 msgstr "Stvara novu bilje¾nicu"
 
-#: po/tmp/gnumeric.xml.h:130 src/workbook-control-gui.c:2038
+#: po/tmp/gnumeric.xml.h:131 src/workbook-control-gui.c:2038
 msgid "Open"
 msgstr "Otvori"
 
@@ -12647,7 +12667,7 @@ msgstr "Otvori"
 msgid "Opens an existing workbook"
 msgstr "Otvora postojeæu bilje¾nicu"
 
-#: po/tmp/gnumeric.xml.h:156 src/workbook-control-gui.c:2041
+#: po/tmp/gnumeric.xml.h:157 src/workbook-control-gui.c:2041
 msgid "Save"
 msgstr "Spremi"
 
@@ -12659,7 +12679,7 @@ msgstr "Sprema bilje¾nicu"
 msgid "Prints the workbook"
 msgstr "Ispisuje bilje¾nicu"
 
-#: po/tmp/gnumeric.xml.h:56 src/workbook-control-gui.c:2056
+#: po/tmp/gnumeric.xml.h:57 src/workbook-control-gui.c:2056
 msgid "Cut"
 msgstr "Izre¾i"
 
@@ -12667,7 +12687,7 @@ msgstr "Izre¾i"
 msgid "Cuts the selection to the clipboard"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:38 src/workbook-control-gui.c:2059
+#: po/tmp/gnumeric.xml.h:39 src/workbook-control-gui.c:2059
 msgid "Copy"
 msgstr "Kopiraj"
 
@@ -12699,7 +12719,7 @@ msgstr "Funkcija"
 msgid "Edit a function in the current cell."
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:172 src/workbook-control-gui.c:2089
+#: po/tmp/gnumeric.xml.h:173 src/workbook-control-gui.c:2089
 msgid "Sort Ascending"
 msgstr "Sortiraj uzlazno"
 
@@ -12709,7 +12729,7 @@ msgid ""
 "selected."
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:173 src/workbook-control-gui.c:2092
+#: po/tmp/gnumeric.xml.h:174 src/workbook-control-gui.c:2092
 msgid "Sort Descending"
 msgstr "Sortiraj silazno"
 
@@ -12740,32 +12760,32 @@ msgstr "Ime lista"
 msgid "must have at least 1 letter"
 msgstr "ime mora sadr¾avati barem jedno slovo"
 
-#: src/workbook.c:1178
-#, fuzzy
-msgid "Duplicate Sheet name"
-msgstr "Format datoteke:"
+#: src/workbook.c:1184
+#, c-format
+msgid "There is already a sheet named '%s'"
+msgstr ""
 
-#: src/xml-io.c:3283
+#: src/xml-io.c:3083
 msgid "Invalid xml clipboard data. Tree is empty ?"
 msgstr ""
 
-#: src/xml-io.c:3335
+#: src/xml-io.c:3135
 msgid "Is not an Gnumeric Workbook file"
 msgstr ""
 
-#: src/xml-io.c:3394
+#: src/xml-io.c:3194
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML format"
 
-#: src/xml-io-autoft.c:446
+#: src/xml-io-autoft.c:423
 msgid "Error while trying to load autoformat template"
 msgstr ""
 
-#: src/xml-io-autoft.c:463
+#: src/xml-io-autoft.c:440
 msgid "Is not an autoformat template file"
 msgstr ""
 
-#: src/xml-io-autoft.c:473
+#: src/xml-io-autoft.c:450
 msgid "Error while trying to build tree from autoformat template file"
 msgstr ""
 
@@ -12809,491 +12829,504 @@ msgstr "Centrirano"
 
 #: po/tmp/gnumeric.xml.h:23
 #, fuzzy
-msgid "Centers the text in each selection"
+msgid "Centers across the selected cells"
 msgstr "Centrirano"
 
 #: po/tmp/gnumeric.xml.h:24
+#, fuzzy
+msgid "Centers the text in each selection"
+msgstr "Centrirano"
+
+#: po/tmp/gnumeric.xml.h:25
 msgid "Change height of the selected rows"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:25
+#: po/tmp/gnumeric.xml.h:26
 msgid "Change the default column width"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:26
+#: po/tmp/gnumeric.xml.h:27
 msgid "Change the default row height"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:27
+#: po/tmp/gnumeric.xml.h:28
 msgid "Change the order the sheets are displayed"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:28
+#: po/tmp/gnumeric.xml.h:29
 #, fuzzy
 msgid "Change width of the selected columns"
 msgstr "Obri¹i stupac(ce)"
 
-#: po/tmp/gnumeric.xml.h:34
+#: po/tmp/gnumeric.xml.h:35
 #, fuzzy
 msgid "Close"
 msgstr "Zatvori"
 
-#: po/tmp/gnumeric.xml.h:35
+#: po/tmp/gnumeric.xml.h:36
 #, fuzzy
 msgid "Close the current file"
 msgstr "Zbroj u trenutnoj æeliji."
 
-#: po/tmp/gnumeric.xml.h:37
+#: po/tmp/gnumeric.xml.h:38
 #, fuzzy
 msgid "Combo Box"
 msgstr "Zatvori"
 
-#: po/tmp/gnumeric.xml.h:39
+#: po/tmp/gnumeric.xml.h:40
 #, fuzzy
 msgid "Copy the current selection to the clipboard"
 msgstr "Promijeni format izabranih æelija"
 
-#: po/tmp/gnumeric.xml.h:40
+#: po/tmp/gnumeric.xml.h:41
 #, fuzzy
 msgid "Copy the selection"
 msgstr "Lijevo poravnano"
 
-#: po/tmp/gnumeric.xml.h:41
+#: po/tmp/gnumeric.xml.h:42
 #, fuzzy
 msgid "Create a button"
 msgstr "Stvara gumb"
 
-#: po/tmp/gnumeric.xml.h:42
+#: po/tmp/gnumeric.xml.h:43
 #, fuzzy
 msgid "Create a checkbox"
 msgstr "Stvara novi list"
 
-#: po/tmp/gnumeric.xml.h:43
+#: po/tmp/gnumeric.xml.h:44
 #, fuzzy
 msgid "Create a combo box"
 msgstr "Stvara novi list"
 
-#: po/tmp/gnumeric.xml.h:44
+#: po/tmp/gnumeric.xml.h:45
 #, fuzzy
 msgid "Create a frame"
 msgstr "Stvara grafiku"
 
-#: po/tmp/gnumeric.xml.h:45
+#: po/tmp/gnumeric.xml.h:46
 #, fuzzy
 msgid "Create a label"
 msgstr "Stvara gumb"
 
-#: po/tmp/gnumeric.xml.h:46
+#: po/tmp/gnumeric.xml.h:47
 #, fuzzy
 msgid "Create a line"
 msgstr "Stvara gumb"
 
-#: po/tmp/gnumeric.xml.h:47
+#: po/tmp/gnumeric.xml.h:48
 #, fuzzy
 msgid "Create a list"
 msgstr "Stvara gumb"
 
-#: po/tmp/gnumeric.xml.h:51
+#: po/tmp/gnumeric.xml.h:52
 #, fuzzy
 msgid "Create a new workbook"
 msgstr "Stvara novu bilje¾nicu"
 
-#: po/tmp/gnumeric.xml.h:52
+#: po/tmp/gnumeric.xml.h:53
 #, fuzzy
 msgid "Create a radio button"
 msgstr "Stvara gumb"
 
-#: po/tmp/gnumeric.xml.h:57
+#: po/tmp/gnumeric.xml.h:58
 #, fuzzy
 msgid "Cut the selection"
 msgstr "Lijevo poravnano"
 
-#: po/tmp/gnumeric.xml.h:59
+#: po/tmp/gnumeric.xml.h:60
 #, fuzzy
 msgid "Decrease Precision"
 msgstr "Smanji"
 
-#: po/tmp/gnumeric.xml.h:60
+#: po/tmp/gnumeric.xml.h:61
 #, fuzzy
 msgid "Decrease the preceision of the selected cells"
 msgstr "Promijeni format izabranih æelija"
 
-#: po/tmp/gnumeric.xml.h:62
+#: po/tmp/gnumeric.xml.h:63
 msgid "Display the value of a formula or the formula itself"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:63
+#: po/tmp/gnumeric.xml.h:64
 #, fuzzy
 msgid "Draw a rectangle"
 msgstr "Datum"
 
-#: po/tmp/gnumeric.xml.h:64
+#: po/tmp/gnumeric.xml.h:65
 msgid "Draw an oval"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:65
+#: po/tmp/gnumeric.xml.h:66
 #, fuzzy
 msgid "E_xit"
 msgstr "Tekst"
 
-#: po/tmp/gnumeric.xml.h:66
+#: po/tmp/gnumeric.xml.h:67
 #, fuzzy
 msgid "Edit a formula in the current cell"
 msgstr "Zbroj u trenutnoj æeliji."
 
-#: po/tmp/gnumeric.xml.h:68
+#: po/tmp/gnumeric.xml.h:69
 msgid "Edit the name of the current sheet"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:70
+#: po/tmp/gnumeric.xml.h:71
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:71
+#: po/tmp/gnumeric.xml.h:72
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:72
+#: po/tmp/gnumeric.xml.h:73
 msgid "Exit the program"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:80
+#: po/tmp/gnumeric.xml.h:81
 #, fuzzy
 msgid "Format the selected cells as money"
 msgstr "Sortiraj izabrane æelije"
 
-#: po/tmp/gnumeric.xml.h:81
+#: po/tmp/gnumeric.xml.h:82
 #, fuzzy
 msgid "Format the selected cells as percentages"
 msgstr "Promijeni format izabranih æelija"
 
-#: po/tmp/gnumeric.xml.h:83
+#: po/tmp/gnumeric.xml.h:84
 #, fuzzy
 msgid "Function Guru"
 msgstr "Funkcija"
 
-#: po/tmp/gnumeric.xml.h:84
+#: po/tmp/gnumeric.xml.h:85
 #, fuzzy
 msgid "Graph Guru"
 msgstr "Formula"
 
-#: po/tmp/gnumeric.xml.h:85
+#: po/tmp/gnumeric.xml.h:86
 #, fuzzy
 msgid "Hide _Column Headers"
 msgstr "Sakrij _zaglavlje stupca"
 
-#: po/tmp/gnumeric.xml.h:87
+#: po/tmp/gnumeric.xml.h:88
 #, fuzzy
 msgid "Hide _Row Headers"
 msgstr "Sakrij za_glavalje redova"
 
-#: po/tmp/gnumeric.xml.h:89
+#: po/tmp/gnumeric.xml.h:90
 #, fuzzy
 msgid "Hide the selected columns"
 msgstr "Sortiraj izabrane æelije"
 
-#: po/tmp/gnumeric.xml.h:90
+#: po/tmp/gnumeric.xml.h:91
 #, fuzzy
 msgid "Hide the selected rows"
 msgstr "Sortiraj izabrane æelije"
 
-#: po/tmp/gnumeric.xml.h:91
+#: po/tmp/gnumeric.xml.h:92
 #, fuzzy
 msgid "Import..."
 msgstr "_Uvezi..."
 
-#: po/tmp/gnumeric.xml.h:93
+#: po/tmp/gnumeric.xml.h:94
 #, fuzzy
 msgid "Includes a thousands seperator in the selected cells"
 msgstr "Promijeni format izabranih æelija"
 
-#: po/tmp/gnumeric.xml.h:94
+#: po/tmp/gnumeric.xml.h:95
 #, fuzzy
 msgid "Increase Precision"
 msgstr "Uveæaj"
 
-#: po/tmp/gnumeric.xml.h:95
+#: po/tmp/gnumeric.xml.h:96
 #, fuzzy
 msgid "Increase the preceision of the selected cells"
 msgstr "Promijeni format izabranih æelija"
 
-#: po/tmp/gnumeric.xml.h:96
+#: po/tmp/gnumeric.xml.h:97
 #, fuzzy
 msgid "Insert Component"
 msgstr "Umetni _stupac(ce)"
 
-#: po/tmp/gnumeric.xml.h:97
+#: po/tmp/gnumeric.xml.h:98
 #, fuzzy
 msgid "Insert Shaped Component"
 msgstr "Umeæe Bonobo objekt"
 
-#: po/tmp/gnumeric.xml.h:99
+#: po/tmp/gnumeric.xml.h:100
 #, fuzzy
 msgid "Insert a shaped component into the spreadsheet"
 msgstr "Stvara grafiku u tablici"
 
-#: po/tmp/gnumeric.xml.h:100
+#: po/tmp/gnumeric.xml.h:101
 #, fuzzy
 msgid "Insert an object into the spreadsheet"
 msgstr "Stvara grafiku u tablici"
 
-#: po/tmp/gnumeric.xml.h:106
+#: po/tmp/gnumeric.xml.h:107
 msgid "Inserts a Bonobo object"
 msgstr "Umeæe Bonobo objekt"
 
-#: po/tmp/gnumeric.xml.h:107
+#: po/tmp/gnumeric.xml.h:108
 msgid "Invoke the graph guru to create a graph"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:109
+#: po/tmp/gnumeric.xml.h:110
 #, fuzzy
 msgid "Italicize"
 msgstr "Nako¹eno"
 
-#: po/tmp/gnumeric.xml.h:115
+#: po/tmp/gnumeric.xml.h:116
 #, fuzzy
 msgid "Left justifies the contents of each cell"
 msgstr "Ravna sadr¾aj æelije na lijevo"
 
-#: po/tmp/gnumeric.xml.h:118
+#: po/tmp/gnumeric.xml.h:119
 msgid "Make any hidden columns in the selection visible"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:119
+#: po/tmp/gnumeric.xml.h:120
 msgid "Make any hidden rows in the selection visible"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:120
+#: po/tmp/gnumeric.xml.h:121
 msgid "Make font bold"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:121
+#: po/tmp/gnumeric.xml.h:122
 msgid "Makes font italic"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:122
+#: po/tmp/gnumeric.xml.h:123
 msgid "Manage available plugin modules"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:123
+#: po/tmp/gnumeric.xml.h:124
 #, fuzzy
 msgid "Mark the current selection for movement"
 msgstr "Promijeni format izabranih æelija"
 
-#: po/tmp/gnumeric.xml.h:126
+#: po/tmp/gnumeric.xml.h:127
 #, fuzzy
 msgid "Money"
 msgstr "Ponedjeljak"
 
-#: po/tmp/gnumeric.xml.h:131
+#: po/tmp/gnumeric.xml.h:132
 #, fuzzy
 msgid "Open a spreadsheet"
 msgstr "Stvori novu tablicu"
 
-#: po/tmp/gnumeric.xml.h:132
+#: po/tmp/gnumeric.xml.h:133
 #, fuzzy
 msgid "Open an existing workbook"
 msgstr "Otvora postojeæu bilje¾nicu"
 
-#: po/tmp/gnumeric.xml.h:133
+#: po/tmp/gnumeric.xml.h:134
 msgid "Oval"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:135
+#: po/tmp/gnumeric.xml.h:136
 #, fuzzy
 msgid "Paste _Special..."
 msgstr "Umetni na _poseban naèin"
 
-#: po/tmp/gnumeric.xml.h:136
+#: po/tmp/gnumeric.xml.h:137
 #, fuzzy
 msgid "Paste the clipboard"
 msgstr "Nalijepi na poseban naèin"
 
-#: po/tmp/gnumeric.xml.h:137
+#: po/tmp/gnumeric.xml.h:138
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:141
+#: po/tmp/gnumeric.xml.h:142
 #, fuzzy
 msgid "Print Pre_view"
 msgstr "Pregled _prije ispisa"
 
-#: po/tmp/gnumeric.xml.h:142
+#: po/tmp/gnumeric.xml.h:143
 #, fuzzy
 msgid "Print Preview"
 msgstr "Pregled _prije ispisa"
 
-#: po/tmp/gnumeric.xml.h:143
+#: po/tmp/gnumeric.xml.h:144
 #, fuzzy
 msgid "Print S_etup"
 msgstr "Postavke ispisa"
 
-#: po/tmp/gnumeric.xml.h:145
+#: po/tmp/gnumeric.xml.h:146
 #, fuzzy
 msgid "Print the current file"
 msgstr "Zbroj u trenutnoj æeliji."
 
-#: po/tmp/gnumeric.xml.h:146
+#: po/tmp/gnumeric.xml.h:147
 #, fuzzy
 msgid "Print the workbook"
 msgstr "Ispisuje bilje¾nicu"
 
-#: po/tmp/gnumeric.xml.h:147
+#: po/tmp/gnumeric.xml.h:148
 #, fuzzy
 msgid "Radio Button"
 msgstr "Gumb"
 
-#: po/tmp/gnumeric.xml.h:151
+#: po/tmp/gnumeric.xml.h:152
 msgid "Redo the undone action"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:152
+#: po/tmp/gnumeric.xml.h:153
 msgid "Remove selected cells, shifting others into their place"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:154
+#: po/tmp/gnumeric.xml.h:155
 #, fuzzy
 msgid "Right justifies the contents of each cell"
 msgstr "Ravna sadr¾aj æelije na lijevo"
 
-#: po/tmp/gnumeric.xml.h:157
+#: po/tmp/gnumeric.xml.h:158
 #, fuzzy
 msgid "Save As"
 msgstr "Spremi"
 
-#: po/tmp/gnumeric.xml.h:158
+#: po/tmp/gnumeric.xml.h:159
 #, fuzzy
 msgid "Save the current file"
 msgstr "Zbroj u trenutnoj æeliji."
 
-#: po/tmp/gnumeric.xml.h:159
+#: po/tmp/gnumeric.xml.h:160
 #, fuzzy
 msgid "Save the current file with a different name"
 msgstr "Promijeni format izabranih æelija"
 
-#: po/tmp/gnumeric.xml.h:160
+#: po/tmp/gnumeric.xml.h:161
 #, fuzzy
 msgid "Save the current workbook"
 msgstr "Sprema bilje¾nicu"
 
-#: po/tmp/gnumeric.xml.h:167
+#: po/tmp/gnumeric.xml.h:168
 msgid "Select all the cells that depend on the current edit cell"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:171
+#: po/tmp/gnumeric.xml.h:172
 msgid "Setup the page settings for your current printer"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:175
+#: po/tmp/gnumeric.xml.h:176
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:176
+#: po/tmp/gnumeric.xml.h:177
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:177
+#: po/tmp/gnumeric.xml.h:178
 #, fuzzy
 msgid "Statistical methods"
 msgstr "Statistièki metodi."
 
-#: po/tmp/gnumeric.xml.h:180
+#: po/tmp/gnumeric.xml.h:181
 #, fuzzy
 msgid "Sum into the current cell"
 msgstr "Zbroj u trenutnoj æeliji."
 
-#: po/tmp/gnumeric.xml.h:182
+#: po/tmp/gnumeric.xml.h:183
 msgid "Toggle whether or not to display column headers"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:183
+#: po/tmp/gnumeric.xml.h:184
 msgid "Toggle whether or not to display gridlines"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:184
+#: po/tmp/gnumeric.xml.h:185
 msgid "Toggle whether or not to display row headers"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:185
+#: po/tmp/gnumeric.xml.h:186
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:187
+#: po/tmp/gnumeric.xml.h:188
 #, fuzzy
 msgid "Underlines the text"
 msgstr "Podvlaèi pismo"
 
-#: po/tmp/gnumeric.xml.h:188
+#: po/tmp/gnumeric.xml.h:189
 msgid "Undo the last action"
 msgstr ""
 
-#: po/tmp/gnumeric.xml.h:190
+#: po/tmp/gnumeric.xml.h:191
 #, fuzzy
 msgid "_Add / modify comment..."
 msgstr "_Dodaj/promijeni komentar..."
 
-#: po/tmp/gnumeric.xml.h:195
+#: po/tmp/gnumeric.xml.h:196
 #, fuzzy
 msgid "_Cells"
 msgstr "Æe_lije..."
 
-#: po/tmp/gnumeric.xml.h:197
+#: po/tmp/gnumeric.xml.h:198
 #, fuzzy
 msgid "_Change Name"
 msgstr "Promijeni _ime"
 
-#: po/tmp/gnumeric.xml.h:203
+#: po/tmp/gnumeric.xml.h:204
 #, fuzzy
 msgid "_Define"
 msgstr "Definiraj imena"
 
-#: po/tmp/gnumeric.xml.h:205
+#: po/tmp/gnumeric.xml.h:206
 #, fuzzy
 msgid "_Edit"
 msgstr "_Filter..."
 
-#: po/tmp/gnumeric.xml.h:206
+#: po/tmp/gnumeric.xml.h:207
 #, fuzzy
 msgid "_File"
 msgstr "Popuni"
 
-#: po/tmp/gnumeric.xml.h:212
+#: po/tmp/gnumeric.xml.h:213
 #, fuzzy
 msgid "_Help"
 msgstr "_Sakrij"
 
-#: po/tmp/gnumeric.xml.h:217
+#: po/tmp/gnumeric.xml.h:218
 #, fuzzy
 msgid "_Object"
 msgstr "_Objekt..."
 
-#: po/tmp/gnumeric.xml.h:218
+#: po/tmp/gnumeric.xml.h:219
 #, fuzzy
 msgid "_Open"
 msgstr "Otvori"
 
-#: po/tmp/gnumeric.xml.h:221
+#: po/tmp/gnumeric.xml.h:222
 msgid "_Print"
 msgstr "_Ispis"
 
-#: po/tmp/gnumeric.xml.h:223
+#: po/tmp/gnumeric.xml.h:224
 #, fuzzy
 msgid "_Redo"
 msgstr "Ponovi"
 
-#: po/tmp/gnumeric.xml.h:233
+#: po/tmp/gnumeric.xml.h:234
 #, fuzzy
 msgid "_Undo"
 msgstr "Vrati"
 
-#: po/tmp/gnumeric.xml.h:235
+#: po/tmp/gnumeric.xml.h:236
 #, fuzzy
 msgid "_View"
 msgstr " Nova"
+
+#, fuzzy
+#~ msgid "Name Guru"
+#~ msgstr "Ime"
+
+#, fuzzy
+#~ msgid "Duplicate Sheet name"
+#~ msgstr "Format datoteke:"
 
 #, fuzzy
 #~ msgid "Database Access"
