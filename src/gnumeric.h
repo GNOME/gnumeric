@@ -17,6 +17,7 @@ typedef struct _Sheet		Sheet;
 typedef struct _SheetObject	SheetObject;
 typedef struct _Dependent	Dependent;
 typedef struct _Cell		Cell;
+typedef struct _CellComment	CellComment;
 
 typedef union _Value		Value;
 typedef struct _ValueBool	ValueBool;

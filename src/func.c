@@ -819,7 +819,7 @@ tokenized_help_new (FunctionDefinition const *fndef)
 		int seek_att = 1;
 		int last_newline = 1;
 
-		tok->help_copy = g_strdup (fndef->help [0]);
+		tok->help_copy = g_strdup (_(fndef->help [0]));
 		tok->sections = g_ptr_array_new ();
 		ptr = tok->help_copy;
 

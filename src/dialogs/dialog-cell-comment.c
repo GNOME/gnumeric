@@ -12,17 +12,21 @@
 #include "dialogs.h"
 #include "sheet.h"
 #include "cell.h"
-#include "cell-comment.h"
+#include "sheet-object-cell-comment.h"
 
 void
-dialog_cell_comment (WorkbookControlGUI *wbcg, Cell *cell)
+dialog_cell_comment (WorkbookControlGUI *wbcg, Sheet *sheet, CellPos const *pos)
 {
-	GtkWidget *dialog;
-	GtkWidget *text;
+	GtkWidget   *dialog;
+	GtkWidget   *textbox;
+	GList	    *comments;
+	CellComment *comment = NULL;
+	Range	     r;
 	int v;
 
 	g_return_if_fail (wbcg != NULL);
-	g_return_if_fail (cell != NULL);
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (pos != NULL);
 
 	dialog = gnome_dialog_new (
 		_("Cell comment"),
@@ -32,36 +36,44 @@ dialog_cell_comment (WorkbookControlGUI *wbcg, Cell *cell)
 
 	gnome_dialog_set_default (GNOME_DIALOG(dialog), GNOME_OK);
 
-	text = gtk_text_new (NULL, NULL);
-	gtk_text_set_word_wrap (GTK_TEXT (text), TRUE);
-	gtk_text_set_editable (GTK_TEXT (text), TRUE);
+	textbox = gtk_text_new (NULL, NULL);
+	gtk_text_set_word_wrap (GTK_TEXT (textbox), TRUE);
+	gtk_text_set_editable (GTK_TEXT (textbox), TRUE);
 
-	if (cell->comment){
-		char *comment = cell->comment->comment->str;
+	r.start = r.end = *pos;
+	comments = sheet_get_objects (sheet, &r, CELL_COMMENT_TYPE);
+	if (comments) {
 		gint pos = 0;
+		char const *text;
 
+		comment = CELL_COMMENT (comments->data);
+		if (comment == NULL)
+			g_warning ("Invalid comment");
+		if (comments->next != NULL)
+			g_warning ("More than one comment associated with a cell ?");
+
+		text = cell_comment_text_get (comments->data);
 		gtk_editable_insert_text (
-			GTK_EDITABLE (text), comment, strlen (comment), &pos);
+			GTK_EDITABLE (textbox), text, strlen (text), &pos);
 	}
 
-	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), text, TRUE, TRUE, 0);
-	gtk_widget_show (text);
-	gtk_widget_grab_focus (text);
+	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG (dialog)->vbox), textbox, TRUE, TRUE, 0);
+	gtk_widget_show (textbox);
+	gtk_widget_grab_focus (textbox);
 
 	v = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
 	if (v == -1)
 		return;
 
-	if (v == 0){
-		char *comment;
+	if (v == 0) {
+		char *text = gtk_editable_get_chars (GTK_EDITABLE (textbox), 0, -1);
 
-		comment = gtk_editable_get_chars (GTK_EDITABLE (text), 0, -1);
-
-		if (comment){
-			cell_set_comment (cell, comment);
-			g_free (comment);
-			sheet_set_dirty (cell->base.sheet, TRUE);
-		}
+		if (comment)
+			cell_comment_text_set (comment, text);
+		else
+			cell_set_comment (sheet, pos, NULL, text);
+		g_free (text);
+		sheet_set_dirty (sheet, TRUE);
 	}
 
 	gtk_object_destroy (GTK_OBJECT (dialog));

@@ -14,7 +14,6 @@
 #include "format.h"
 #include "gutils.h"
 #include "color.h"
-#include "sheet-object.h"
 #include "io-context.h"
 #include "xbase.h"
 

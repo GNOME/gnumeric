@@ -46,8 +46,9 @@ typedef void (*SelectionApplyFunc) (Sheet *sheet, Range const *, gpointer closur
 void selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 		      gboolean allow_intersection,
 		      void *closure);
-GSList  *selection_get_ranges (Sheet * sheet, gboolean const allow_intersection);
-gboolean selection_check_for_array (Sheet const * sheet, GSList const *selection);
+gboolean selection_check_for_array (Sheet const *sheet, GSList const *selection);
+GSList  *selection_get_ranges      (Sheet const *sheet,
+				    gboolean allow_intersection);
 
 /* export the selection */
 char       *selection_to_string    (Sheet *sheet,

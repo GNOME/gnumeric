@@ -9,7 +9,6 @@
 #include "gnumeric.h"
 #include "cell.h"
 #include "cellspan.h"
-#include "cell-comment.h"
 #include "expr.h"
 #include "eval.h"
 #include "value.h"
@@ -122,11 +121,6 @@ cell_copy (Cell const *cell)
 	if (cell->format)
 		style_format_ref (cell->format);
 
-	if (cell->comment) {
-		new_cell->comment = NULL;
-		cell_set_comment (new_cell, cell->comment->comment->str);
-	}
-
 	return new_cell;
 }
 
@@ -143,7 +137,6 @@ cell_destroy (Cell *cell)
 
 	cell_dirty (cell);
 	cell_cleanout (cell);
-	cell_comment_destroy (cell);
 	g_free (cell);
 }
 
@@ -273,9 +266,7 @@ cell_relocate (Cell *cell, ExprRewriteInfo *rwinfo)
 		dependent_changed (CELL_TO_DEP (cell), &cell->pos, TRUE);
 	}
 
-	/* 3. Move any auxiliary canvas items */
-	if (cell->comment)
-		cell_comment_reposition (cell);
+#warning move objects
 }
 
 /****************************************************************************/

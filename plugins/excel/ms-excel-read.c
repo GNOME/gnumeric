@@ -25,7 +25,7 @@
 #include "format.h"
 #include "eval.h"
 #include "gutils.h"
-#include "cell-comment.h"
+#include "sheet-object-cell-comment.h"
 #include "application.h"
 #include "io-context.h"
 #include "workbook-view.h"
@@ -2241,9 +2241,9 @@ ms_excel_sheet_shared_formula (ExcelSheet *sheet, int const col, int const row)
  * preceding.
   */
 static gboolean
-ms_sheet_obj_anchor_to_pos (double pixels[4], guint8 const *raw_anchor,
-			    Sheet const * sheet, MsBiffVersion const ver)
-
+ms_sheet_obj_anchor_to_pos (Sheet const * sheet, MsBiffVersion const ver,
+			    guint8 const *raw_anchor,
+			    Range *range, float offset[4])
 {
 	float const row_denominator = (ver >= MS_BIFF_V8) ? 256. : 1024.;
 	int	i;
@@ -2254,11 +2254,13 @@ ms_sheet_obj_anchor_to_pos (double pixels[4], guint8 const *raw_anchor,
 #endif
 
 	/* Ignore the first 2 bytes.  What are they ? */
+	/* Dec/1/2000 JEG : I have not researched it, but this may have some
+	 * flags indicating whether or not the object is acnhored to the cell
+	 */
 	raw_anchor += 2;
 
 	/* Words 0, 4, 8, 12 : The row/col of the corners */
 	/* Words 2, 6, 10, 14 : distance from cell edge */
-
 	for (i = 0; i < 4; i++, raw_anchor += 4) {
 		int const pos  = MS_OLE_GET_GUINT16 (raw_anchor);
 		int const nths = MS_OLE_GET_GUINT16 (raw_anchor + 2);
@@ -2276,44 +2278,19 @@ ms_sheet_obj_anchor_to_pos (double pixels[4], guint8 const *raw_anchor,
 #endif
 
 		if (i & 1) { /* odds are rows */
-			ColRowInfo const *ri = sheet_row_get_info (sheet, pos);
-
-			/* warning logged elsewhere */
-			if (ri == NULL)
-				return TRUE;
-
-			pixels[i] = ri->size_pixels;
-			pixels[i] *= nths / row_denominator;
-			pixels[i] += sheet_row_get_distance_pixels (sheet, 0, pos);
-
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_object_debug > 0)
-				printf ("%d + %d\n", pos+1, nths);
-#endif
+			offset [i] = nths / row_denominator;
+			if (i == 1)
+				range->start.row = pos;
+			else
+				range->end.row = pos;
 		} else {
-			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
-
-			/* warning logged elsewhere */
-			if (ci == NULL)
-				return TRUE;
-
-			pixels[i] = ci->size_pixels;
-			pixels[i] *= nths / 1024.;
-			pixels[i] += sheet_col_get_distance_pixels (sheet, 0, pos);
-
-#ifndef NO_DEBUG_EXCEL
-			if (ms_excel_object_debug > 0)
-				printf ("%s + %d\n", col_name(pos), nths);
-#endif
+			offset [i] = nths / 1024.;
+			if (i == 0)
+				range->start.col = pos;
+			else
+				range->end.col = pos;
 		}
 	}
-
-#ifndef NO_DEBUG_EXCEL
-	if (ms_excel_object_debug > 0)
-		printf ("Anchor position in pixels"
-			" left = %g, top = %g, right = %g, bottom = %g;\n",
-			pixels[0], pixels[1], pixels[2], pixels[3]);
-#endif
 
 	return FALSE;
 }
@@ -2321,9 +2298,9 @@ ms_sheet_obj_anchor_to_pos (double pixels[4], guint8 const *raw_anchor,
 static gboolean
 ms_sheet_obj_realize (MSContainer *container, MSObj *obj)
 {
-	double   position[4];
+	float offsets[4];
+	Range range;
 	ExcelSheet *sheet;
-	SheetObject *so = NULL;
 
 	if (obj == NULL)
 		return TRUE;
@@ -2333,79 +2310,85 @@ ms_sheet_obj_realize (MSContainer *container, MSObj *obj)
 
 	sheet = (ExcelSheet *)container;
 
-	if (ms_sheet_obj_anchor_to_pos (position, obj->raw_anchor,
-					sheet->gnum_sheet,
-					container->ver))
+	if (ms_sheet_obj_anchor_to_pos (sheet->gnum_sheet, container->ver,
+					obj->raw_anchor, &range, offsets))
 		return TRUE;
 
-	/* Handle Comments */
-	if (container->ver >= MS_BIFF_V8 && obj->excel_type == 0x19) {
-	}
-
-	switch (obj->gnumeric_type) {
-	case SHEET_OBJECT_BUTTON :
-		so = sheet_widget_button_new (sheet->gnum_sheet);
-		break;
-
-	case SHEET_OBJECT_CHECKBOX :
-		so = sheet_widget_checkbox_new (sheet->gnum_sheet);
-		break;
-
-	case SHEET_OBJECT_BOX :
-		so = sheet_object_create_filled (sheet->gnum_sheet,
-						 SHEET_OBJECT_BOX,
-						 "white", "black", 1);
-		break;
-
-	case SHEET_OBJECT_GRAPHIC : /* If this was a picture */
-	{
-		int blip_id;
-		GPtrArray const * blips = container->blips;
-		MSEscherBlip *blip = NULL;
-#ifdef ENABLE_BONOBO
-		SheetObject  *so;
-#endif
-
-		blip_id = obj->v.picture.blip_id;
-
-		g_return_val_if_fail (blip_id >= 0, FALSE);
-		g_return_val_if_fail (blips != NULL, FALSE);
-		g_return_val_if_fail (blip_id < blips->len, FALSE);
-
-		blip = g_ptr_array_index (blips, blip_id);
-
-		g_return_val_if_fail (blip != NULL, FALSE);
-
-#ifdef ENABLE_BONOBO
-		g_return_val_if_fail (blip->stream != NULL, FALSE);
-		g_return_val_if_fail (blip->repo_id != NULL, FALSE);
-		so = sheet_object_container_new_object (sheet->gnum_sheet,
-							blip->repo_id);
-		if (!sheet_object_bonobo_load (SHEET_OBJECT_BONOBO (so), blip->stream))
-			g_warning ("Failed to load '%s' from stream",
-				   blip->repo_id);
-#endif
-	}
-	break;
-
-	default :
-	break;
-	};
-
-	if (so != NULL) {
-		sheet_object_set_bounds (so, position[0], position[1],
-					 position[2], position[3]);
-		sheet_object_realize (so);
+	if (obj->gnum_obj != NULL) {
+		SheetObjectAnchor anchor_types [4] = {
+			SO_ANCHOR_PTS_FROM_COLROW_START,
+			SO_ANCHOR_PTS_FROM_COLROW_START,
+			SO_ANCHOR_PTS_FROM_COLROW_START,
+			SO_ANCHOR_PTS_FROM_COLROW_START
+		};
+		sheet_object_range_set (SHEET_OBJECT (obj->gnum_obj), &range,
+					offsets, anchor_types);
 	}
 
 	return FALSE;
+}
+
+static GtkObject *
+ms_sheet_obj_create (MSContainer *container, MSObj *obj)
+{
+	SheetObject *so = NULL;
+	Sheet  *sheet;
+
+	if (obj == NULL)
+		return NULL;
+
+	g_return_val_if_fail (container != NULL, NULL);
+
+	sheet = ((ExcelSheet *)container)->gnum_sheet;
+
+	switch (obj->excel_type) {
+	case 0x01 : so = sheet_object_line_new (sheet, FALSE); break; /* Line */
+	case 0x02 : so = sheet_object_box_new (sheet, FALSE);  break; /* Box */
+	case 0x03 : so = sheet_object_box_new (sheet, TRUE);   break; /* Oval */
+	case 0x05 : so = sheet_object_box_new (sheet, FALSE);  break; /* Chart */
+	case 0x06 : so = sheet_widget_label_new (sheet);    break; /* TextBox */
+	case 0x07 : so = sheet_widget_button_new (sheet);   break; /* Button */
+	case 0x08 :
+		    /* Picture */
+#ifdef ENABLE_BONOBO
+		    so = sheet_object_container_new_object (sheet, NULL);
+#else
+		    so = NULL;
+		    {
+			    static gboolean needs_warn = TRUE;
+			    if (needs_warn) {
+				    needs_warn = FALSE;
+				    g_warning ("Images are not supported in non-bonobo version");
+			    }
+		    }
+#endif
+		    break;
+	case 0x0B : so = sheet_widget_checkbox_new (sheet); break; /* CheckBox*/
+	case 0x0E : so = sheet_widget_label_new (sheet);    break; /* Label */
+	case 0x12 : so = sheet_widget_list_new (sheet);     break; /* List */
+	case 0x14 : so = sheet_widget_combo_new (sheet);    break; /* Combo */
+
+	case 0x19 : /* Comment */
+		/* TODO : we'll need a special widget for this */
+		return NULL;
+
+	default :
+		printf ("EXCEL : unhandled excel object of type %s (0x%x) id = %d\n",
+			obj->excel_type_name, obj->excel_type, obj->id);
+		g_free(obj);
+		printf ("}; /* OBJ error 2 */\n");
+		return NULL;
+	}
+
+	return GTK_OBJECT (so);
 }
 
 static ExcelSheet *
 ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 {
 	static MSContainerClass const vtbl = {
-	    &ms_sheet_obj_realize
+	    &ms_sheet_obj_realize,
+	    &ms_sheet_obj_create
 	};
 
 	ExcelSheet *ans = (ExcelSheet *) g_malloc (sizeof (ExcelSheet));
@@ -2426,8 +2409,6 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 	ans->style_optimize.end.row   = 0;
 	ans->base_char_width          = -1;
 	ans->base_char_width_default  = -1;
-	ans->comment_prev_col	      = -1;
-	ans->comment_prev_row	      = -1;
 
 	return ans;
 }
@@ -2458,66 +2439,60 @@ ms_excel_sheet_insert_blank (ExcelSheet *sheet, int xfidx,
 }
 
 static void
-ms_excel_sheet_set_comment (ExcelSheet *sheet, int col, int row, const char *text)
-{
-	if (text) {
-		Cell *cell = sheet_cell_fetch (sheet->gnum_sheet, col, row);
-		cell_set_comment (cell, text);
-	}
-}
-
-/* FIXME : ick, need a somewhat less ugly way to handle this */
-static void
 ms_excel_read_comment (BiffQuery *q, ExcelSheet *sheet)
 {
-	guint16 row = EX_GETROW(q);
-	guint16 col = EX_GETCOL(q);
+	CellPos	pos;
+
+	pos.row = EX_GETROW(q);
+	pos.col = EX_GETCOL(q);
 
 	if (sheet->container.ver >= MS_BIFF_V8) {
-		guint16 options = MS_OLE_GET_GUINT16(q->data+4);
-		guint16 obj_id  = MS_OLE_GET_GUINT16(q->data+6);
-		guint16 author_len = MS_OLE_GET_GUINT16(q->data+8);
-		char *author=biff_get_text(author_len%2?q->data+11:q->data+10,
-					   author_len, NULL);
-		int hidden;
+		guint16  options = MS_OLE_GET_GUINT16(q->data+4);
+		gboolean hidden = (options&0x2)==0;
+		guint16  obj_id  = MS_OLE_GET_GUINT16(q->data+6);
+		guint16  author_len = MS_OLE_GET_GUINT16(q->data+8);
+		char *author;
+
 		if (options&0xffd)
 			printf ("FIXME: Error in options\n");
-		hidden = (options&0x2)==0;
+
+		author = biff_get_text (author_len%2 ? q->data+11:q->data+10,
+					author_len, NULL);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 1) {
-			printf ("Comment at %d,%d id %d options"
+			printf ("Comment at %s%d id %d options"
 				" 0x%x hidden %d by '%s'\n",
-				col, row, obj_id, options,
-				hidden, author);
+				col_name (pos.col), pos.row+1,
+				obj_id, options, hidden, author);
 		}
 #endif
 	} else {
-		guint16 author_len = MS_OLE_GET_GUINT16(q->data+4);
-		char *text=biff_get_text(q->data+6, author_len, NULL);
-#ifndef NO_DEBUG_EXCEL
-		if (ms_excel_read_debug > 1) {
-			printf ("Comment at %d,%d '%s'\n",
-				col, row, text);
-		}
-#endif
+		guint len = MS_OLE_GET_GUINT16 (q->data+4);
+		GString *comment = g_string_sized_new (len);
 
-		if (row != 0xffff || col != 0) {
-			ms_excel_sheet_set_comment (sheet, col, row, text);
-			sheet->comment_prev_col = col;
-			sheet->comment_prev_row = row;
-		} else if (text) {
-			Cell *cell = sheet_cell_fetch (sheet->gnum_sheet,
-						       sheet->comment_prev_col,
-						       sheet->comment_prev_row);
-			if (cell->comment && cell->comment->comment &&
-			    cell->comment->comment->str) {
-				char *txt = g_strconcat (cell->comment->comment->str, text, NULL);
-				cell_set_comment (cell, txt);
-				g_free (txt);
+		for (; len > 2048 ; len -= 2048) {
+			guint16 opcode;
+
+			g_string_append (comment, biff_get_text (q->data+6, 2048, NULL));
+
+			if (!ms_biff_query_peek_next (q, &opcode) ||
+			    opcode != BIFF_NOTE || !ms_biff_query_next (q) ||
+			    EX_GETROW (q) != 0xffff || EX_GETCOL (q) != 0) {
+				g_warning ("Invalid Comment record");
+				g_string_free (comment, TRUE);
+				return;
 			}
 		}
+		g_string_append (comment, biff_get_text (q->data+6, len, NULL));
 
-		g_free (text);
+#ifndef NO_DEBUG_EXCEL
+		if (ms_excel_read_debug > 2)
+			printf ("Comment in %s%d : '%s'\n",
+				col_name (pos.col), pos.row+1, comment->str);
+#endif
+
+		cell_set_comment (sheet->gnum_sheet, &pos, NULL, comment->str);
+		g_string_free (comment, FALSE);
 	}
 }
 
@@ -3541,6 +3516,13 @@ ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
 			col_name(last_col), last_row+1);
 }
 
+static MSContainer *
+sheet_container (ExcelSheet *sheet)
+{
+	ms_container_set_blips (&sheet->container, sheet->wb->container.blips);
+	return &sheet->container;
+}
+
 static gboolean
 ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 		     ExcelSheet *sheet)
@@ -3577,7 +3559,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 			 * at the NEXT record.
 			 */
 			if (q->opcode == BIFF_CHART_units)
-				ms_excel_chart (q, &sheet->container, sheet->container.ver);
+				ms_excel_chart (q, sheet_container (sheet), sheet->container.ver);
 			else
 				puts ("EXCEL : How are we seeing chart records in a sheet ?");
 			continue;
@@ -3589,7 +3571,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 			return TRUE;
 
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			ms_read_OBJ (q, &sheet->container);
+			ms_read_OBJ (q, sheet_container (sheet));
 			break;
 
 		case BIFF_SELECTION:
@@ -3599,7 +3581,7 @@ ms_excel_read_sheet (BiffQuery *q, ExcelWorkbook *wb, WorkbookView *wb_view,
 		case BIFF_MS_O_DRAWING:
 		case BIFF_MS_O_DRAWING_GROUP:
 		case BIFF_MS_O_DRAWING_SELECTION:
-			ms_escher_parse (q, &sheet->container);
+			ms_escher_parse (q, sheet_container (sheet));
 			break;
 
 		case BIFF_NOTE: /* See: S59DAB.HTM */
@@ -4067,7 +4049,7 @@ ms_excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 					ms_excel_sheet_set_version (sheet, ver->version);
 					if (ms_excel_read_sheet (q, wb, wb_view, sheet)) {
-						ms_container_realize_objs (&sheet->container);
+						ms_container_realize_objs (sheet_container (sheet));
 
 #if 0
 						/* DO NOT DO THIS.

@@ -35,8 +35,8 @@
 #include "position.h"
 #include "color.h"
 #include "cell.h"
-#include "cell-comment.h"
 #include "sheet-object.h"
+#include "sheet-object-cell-comment.h"
 #include "style.h"
 #include "format.h"
 #include "main.h"
@@ -2459,20 +2459,26 @@ static void
 write_biff7_comments (BiffPut *bp, ExcelSheet *sheet)
 {
 	guint8 data[6];
-	GList *l;
-	Sheet *gnum_sheet = sheet->gnum_sheet;
+	GList *l, *comments;
 	MsBiffVersion ver = sheet->wb->ver;
 
-	 for (l = gnum_sheet->comment_list; l; l = l->next) {
-		Cell *cell = l->data;
-		char *comment = cell_get_comment (cell);
-		guint16 row = cell->pos.row;
-		guint16 col = cell->pos.col;
-		guint16 len = strlen (comment);
+	comments = sheet_get_objects (sheet->gnum_sheet, NULL,
+				      CELL_COMMENT_TYPE);
 
+	for (l = comments; l; l = l->next) {
+		CellComment *cc = l->data;
+		char *comment = (char *)cell_comment_text_get (cc);
+		Range const *pos = sheet_object_range_get (SHEET_OBJECT (cc));
+
+		guint16 len;
+
+		g_return_if_fail (comment != NULL);
+		g_return_if_fail (pos != NULL);
+
+		len = strlen (comment);
 		ms_biff_put_var_next (bp, BIFF_NOTE);
-		MS_OLE_SET_GUINT16 (data + 0, row);
-		MS_OLE_SET_GUINT16 (data + 2, col);
+		MS_OLE_SET_GUINT16 (data + 0, pos->start.row);
+		MS_OLE_SET_GUINT16 (data + 2, pos->start.col);
 		MS_OLE_SET_GUINT16 (data + 4, len);
 		ms_biff_put_var_write (bp, data, 6);
 
@@ -2489,11 +2495,11 @@ repeat:
 			comment += MAX_BIFF_NOTE_CHUNK;
 			len -= MAX_BIFF_NOTE_CHUNK;
 
-	        	ms_biff_put_var_next (bp, BIFF_NOTE);
-		        MS_OLE_SET_GUINT16 (data + 0, 0xffff);
-	        	MS_OLE_SET_GUINT16 (data + 2, 0);
-		        MS_OLE_SET_GUINT16 (data + 4, MIN (MAX_BIFF_NOTE_CHUNK, len));
-		        ms_biff_put_var_write (bp, data, 6);
+			ms_biff_put_var_next (bp, BIFF_NOTE);
+			MS_OLE_SET_GUINT16 (data + 0, 0xffff);
+			MS_OLE_SET_GUINT16 (data + 2, 0);
+			MS_OLE_SET_GUINT16 (data + 4, MIN (MAX_BIFF_NOTE_CHUNK, len));
+			ms_biff_put_var_write (bp, data, 6);
 
 			goto repeat;
 		} else {
@@ -2501,6 +2507,7 @@ repeat:
 			ms_biff_put_commit (bp);
 		}
 	}
+	g_list_free (comments);
 }
 
 /**

@@ -23,6 +23,7 @@
 #include <math.h>
 #include "gnumeric.h"
 #include "workbook.h"
+#include "sheet.h"
 #include "workbook-private.h"
 #include "gnumeric-util.h"
 #include "sheet-object-bonobo.h"
@@ -86,7 +87,7 @@ get_file_name (void)
 }
 
 /**
- * sheet_object_bonobo_load_from_file:
+ * sheet_object_bonobo_load_file:
  * @sob: A SheetBonoboObject
  * @fname: File from which the state is loaded for @sob
  *
@@ -95,7 +96,7 @@ get_file_name (void)
  * Returns TRUE on success, FALSE on failure.
  */
 gboolean
-sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
+sheet_object_bonobo_load_file (SheetObjectBonobo *sob, const char *fname)
 {
 	CORBA_Environment ev;
 	Bonobo_PersistFile pf;
@@ -167,13 +168,13 @@ sheet_object_bonobo_load_from_file (SheetObjectBonobo *sob, const char *fname)
 }
 
 /**
- * sheet_object_bonobo_load:
+ * sheet_object_bonobo_load_stream:
  * @sob: SheetObject Bonobo component
  * @stream: Stream used to load the state of the @sob component
  */
 gboolean
-sheet_object_bonobo_load (SheetObjectBonobo *sob,
-			  BonoboStream      *stream)
+sheet_object_bonobo_load_stream (SheetObjectBonobo *sob,
+				 BonoboStream      *stream)
 {
 	CORBA_Environment   ev;
 	Bonobo_PersistStream ret;
@@ -206,15 +207,15 @@ sheet_object_bonobo_load (SheetObjectBonobo *sob,
 	}
 	CORBA_exception_free (&ev);
 
-	sheet_object_realize (SHEET_OBJECT (sob));
 	return TRUE;
 }
 
 static void
-sheet_object_bonobo_print (SheetObject *so, SheetObjectPrintInfo *pi)
+sheet_object_bonobo_print (SheetObject const *so,
+			   SheetObjectPrintInfo const *pi)
 {
-	SheetObjectBonobo  *sob = SHEET_OBJECT_BONOBO (so);
-	BonoboPrintClient  *bpc;
+	SheetObjectBonobo const *sob = SHEET_OBJECT_BONOBO (so);
+	BonoboPrintClient *bpc;
 
 	bpc = bonobo_print_client_get (sob->object_server);
 	if (!bpc) {
@@ -231,7 +232,7 @@ sheet_object_bonobo_print (SheetObject *so, SheetObjectPrintInfo *pi)
 static void
 open_cb (GtkMenuItem *item, SheetObjectBonobo *sheet_object)
 {
-	sheet_object_bonobo_load_from_file (sheet_object, NULL);
+	sheet_object_bonobo_load_file (sheet_object, NULL);
 }
 
 static void
@@ -292,36 +293,52 @@ SheetObjectBonobo *
 sheet_object_bonobo_construct (SheetObjectBonobo *sob, Sheet *sheet,
 			       const char *object_id)
 {
-	g_return_val_if_fail (sob != NULL, NULL);
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (object_id != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);
 
-	sheet_object_construct  (SHEET_OBJECT (sob), sheet);
+	sheet_object_construct  (SHEET_OBJECT (sob), sheet, -1, -1);
 
-	sob->object_id     = g_strdup (object_id);
-	sob->object_server = bonobo_object_activate (object_id, 0);
-	if (!sob->object_server) {
-		gtk_object_destroy (GTK_OBJECT (sob));
-		return NULL;
-	}
-
-	sob->client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
-
-	if (!bonobo_client_site_bind_embeddable (sob->client_site,
-						 sob->object_server)) {
-		gtk_object_destroy (GTK_OBJECT (sob));
-		return NULL;
-	}
+	if (object_id == NULL) {
+		sob->object_id     = NULL;
+		sob->object_server = NULL;
+		sob->client_site   = NULL;
+	} else
+		sheet_object_bonobo_set_object_iid (sob, object_id);
 
 	return sob;
 }
 
 const char *
-sheet_object_bonobo_get_object_iid (SheetObjectBonobo *sob)
+sheet_object_bonobo_get_object_iid (SheetObjectBonobo const *sob)
 {
 	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), NULL);
 
 	return sob->object_id;
+}
+
+gboolean
+sheet_object_bonobo_set_object_iid (SheetObjectBonobo *sob, char const *object_id)
+{
+	Sheet *sheet;
+
+	g_return_val_if_fail (IS_SHEET_OBJECT_BONOBO (sob), FALSE);
+	g_return_val_if_fail (sob->object_id == NULL, FALSE);
+	g_return_val_if_fail (object_id != NULL, FALSE);
+
+	sheet = SHEET_OBJECT (sob)->sheet;
+	sob->object_id     = g_strdup (object_id);
+	sob->object_server = bonobo_object_activate (object_id, 0);
+	if (!sob->object_server) {
+		gtk_object_destroy (GTK_OBJECT (sob));
+		return FALSE;
+	}
+
+	sob->client_site = bonobo_client_site_new (sheet->workbook->priv->bonobo_container);
+	if (!bonobo_client_site_bind_embeddable (sob->client_site,
+						 sob->object_server)) {
+		gtk_object_destroy (GTK_OBJECT (sob));
+		return FALSE;
+	}
+
+	return TRUE;
 }

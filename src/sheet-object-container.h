@@ -37,5 +37,3 @@ SheetObject *sheet_object_container_new_bonobo (Sheet *sheet,
 						BonoboClientSite *client_site);
 
 #endif /* GNUMERIC_SHEET_OBJECT_CONTAINER_H */
-
-

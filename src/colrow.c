@@ -313,11 +313,11 @@ col_row_restore_sizes (Sheet *sheet, gboolean const is_cols,
 	sheet->priv->recompute_visibility = TRUE;
 	if (is_cols) {
 		sheet->priv->recompute_spans = TRUE;
-		if (sheet->priv->reposition_col_comment > first)
-			sheet->priv->reposition_col_comment = first;
+		if (sheet->priv->reposition_objects.col > first)
+			sheet->priv->reposition_objects.col = first;
 	} else {
-		if (sheet->priv->reposition_row_comment > first)
-			sheet->priv->reposition_row_comment = first;
+		if (sheet->priv->reposition_objects.row > first)
+			sheet->priv->reposition_objects.row = first;
 	}
 
 	g_free (sizes);

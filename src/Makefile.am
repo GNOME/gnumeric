@@ -54,8 +54,6 @@ GNUMERIC_BASE_SOURCES =				\
 	cell.c					\
 	cell-draw.c				\
 	cell-draw.h				\
-	cell-comment.c				\
-	cell-comment.h				\
 	cellspan.c				\
 	cellspan.h				\
 	clipboard.c				\
@@ -184,10 +182,13 @@ GNUMERIC_BASE_SOURCES =				\
 	sheet-autofill.h			\
 	sheet-object.c				\
 	sheet-object.h				\
-	sheet-object-widget.c			\
-	sheet-object-widget.h			\
+	sheet-object-impl.h			\
+	sheet-object-cell-comment.c		\
+	sheet-object-cell-comment.h		\
 	sheet-object-graphic.c			\
 	sheet-object-graphic.h			\
+	sheet-object-widget.c			\
+	sheet-object-widget.h			\
 	sheet-style.c				\
 	sheet-control-gui.c			\
 	sheet-control-gui.h			\

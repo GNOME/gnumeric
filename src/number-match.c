@@ -20,6 +20,7 @@
 #include <sys/types.h>
 #include <regex.h>
 #include <errno.h>
+#include <locale.h>
 #include "number-match.h"
 #include "formats.h"
 #include "dates.h"
@@ -738,7 +739,7 @@ compute_value (const char *s, const regmatch_t *mp,
 				number = 0.;
 				do {
 				    number *= 1000.;
-				    number += strtod (ptr, &ptr);
+				    number += strtol (ptr, &ptr, 10);
 				} while (*(ptr++) == thousands_sep);
 				is_number = TRUE;
 			}

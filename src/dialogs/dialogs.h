@@ -31,7 +31,8 @@ void   	 dialog_zoom            (WorkbookControlGUI *wbcg, Sheet *sheet);
 char   	*dialog_query_load_file (WorkbookControlGUI *wbcg);
 void   	 dialog_about           (WorkbookControlGUI *wbcg);
 void   	 dialog_define_names    (WorkbookControlGUI *wbcg);
-void   	 dialog_cell_comment    (WorkbookControlGUI *wbcg, Cell *cell);
+void   	 dialog_cell_comment    (WorkbookControlGUI *wbcg,
+				 Sheet *sheet, CellPos const *pos);
 void   	 dialog_cell_sort       (WorkbookControlGUI *wbcg, Sheet *sheet);
 void   	 dialog_workbook_attr   (WorkbookControlGUI *wbcg);
 void   	 dialog_goal_seek       (WorkbookControlGUI *wbcg, Sheet *sheet);

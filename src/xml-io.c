@@ -19,6 +19,7 @@
 #include "border.h"
 #include "sheet-object.h"
 #include "sheet-object-graphic.h"
+#include "sheet-object-cell-comment.h"
 #ifdef ENABLE_BONOBO
 #	include "sheet-object-bonobo.h"
 #endif
@@ -29,7 +30,6 @@
 #include "expr.h"
 #include "expr-name.h"
 #include "cell.h"
-#include "cell-comment.h"
 #include "io-context.h"
 #include "command-context.h"
 #include "workbook-control.h"
@@ -337,91 +337,6 @@ xml_get_coordinates (xmlNodePtr node, const char *name,
 		return 1;
 
 	return 0;
-}
-
-#if 0
-/*
- * Get a GnomeCanvasPoints for a node, carried as the content of a child.
- */
-static GnomeCanvasPoints *
-xml_get_gnome_canvas_points (xmlNodePtr node, const char *name)
-{
-	char *val;
-	GnomeCanvasPoints *ret = NULL;
-	int res;
-	const char *ptr;
-	int index = 0, i;
-	float coord[20];	/* TODO: must be dynamic !!!! */
-
-	val = xml_value_get (node, name);
-	if (val == NULL) return NULL;
-	ptr = val;
-	do {
-		while ((*ptr) && (*ptr != '('))
-			ptr++;
-		if (*ptr == 0)
-			break;
-		THIS_DOES_NOT_LOOK_RIGHT = 1;
-		res = sscanf (ptr, "(%lf %lf)", &coord[index], &coord[index + 1]);
-		if (res != 2)
-			break;
-		index += 2;
-		ptr++;
-	} while (res > 0);
-	g_free (val);
-
-	if (index >= 2)
-		ret = gnome_canvas_points_new (index / 2);
-	if (ret == NULL)
-		return NULL;
-	for (i = 0; i < index; i++)
-		ret->coords[i] = coord[i];
-	return ret;
-}
-#endif
-
-/*
- * Set a string value for a node either carried as an attibute or as
- * the content of a child.
- */
-static void
-xml_set_gnome_canvas_points (xmlNodePtr node, const char *name,
-			     const GnomeCanvasPoints *val)
-{
-	xmlNodePtr child;
-	char *str, *base;
-	char *tstr;
-	int i;
-	int width1 = 30 + DBL_DIG;
-
-	if (val == NULL)
-		return;
-	if (val->num_points < 0 || val->num_points > (INT_MAX - 1) / width1)
-		return;
-	base = str = g_malloc (val->num_points * width1 + 1);
-	if (str == NULL)
-		return;
-	for (i = 0; i < val->num_points; i++){
-		sprintf (str, "(%f %f)", val->coords[2 * i],
-			 val->coords[2 * i + 1]);
-		str += strlen (str);
-	}
-	*str = 0;
-
-	child = node->childs;
-	while (child != NULL){
-		if (!strcmp (child->name, name)){
-			xmlNodeSetContent (child, base);
-			g_free (base);
-			return;
-		}
-		child = child->next;
-	}
-
-	tstr = xmlEncodeEntitiesReentrant (node->doc, base);
-	xmlNewChild (node, NULL, name, tstr);
-	if (tstr) xmlFree (tstr);
-	g_free (base);
 }
 
 /*
@@ -1762,15 +1677,10 @@ xml_write_colrow_info (ColRowInfo *info, void *user_data)
 	return FALSE;
 }
 
-/*
- * Create an XML subtree of doc equivalent to the given Object.
- */
+#if 0
 static xmlNodePtr
 xml_write_sheet_object (XmlParseContext *ctxt, SheetObject *object)
 {
-	SheetObjectGraphic *sog;
-	xmlNodePtr cur = NULL;
-
 #ifdef ENABLE_BONOBO
 	if (IS_SHEET_OBJECT_BONOBO (object)) {
 		if (ctxt->write_fn) {
@@ -1846,6 +1756,7 @@ xml_write_sheet_object (XmlParseContext *ctxt, SheetObject *object)
 
 	return cur;
 }
+#endif
 
 /*
  * Create a Object equivalent to the XML subtree of doc.
@@ -1854,34 +1765,23 @@ static SheetObject *
 xml_read_sheet_object (XmlParseContext *ctxt, xmlNodePtr tree)
 {
 	SheetObject *ret;
-	int type;
 	double x1, y1, x2, y2;
 
 	if (!strcmp (tree->name, "Rectangle")){
-		type = SHEET_OBJECT_BOX;
+		ret = sheet_object_box_new (ctxt->sheet, FALSE);
 	} else if (!strcmp (tree->name, "Ellipse")){
-		type = SHEET_OBJECT_OVAL;
+		ret = sheet_object_box_new (ctxt->sheet, TRUE);
 	} else if (!strcmp (tree->name, "Arrow")){
-		type = SHEET_OBJECT_ARROW;
+		ret = sheet_object_line_new (ctxt->sheet, TRUE);
 	} else if (!strcmp (tree->name, "Line")){
-		type = SHEET_OBJECT_LINE;
+		ret = sheet_object_line_new (ctxt->sheet, FALSE);
 #ifdef ENABLE_BONOBO
 	} else if (!strcmp (tree->name, "Bonobo")){
-		xml_get_coordinates (tree, "Points", &x1, &y1, &x2, &y2);
-
-		if (ctxt->read_fn) {
-			ret = ctxt->read_fn (
-				tree, ctxt->sheet, x1, y1, x2, y2,
-				ctxt->user_data);
-
-			if (!ret)
-				g_warning ("Error hydrating sheet object");
-
-			return ret;
-		} else {
+		if (ctxt->read_fn == NULL) {
 			g_warning ("Internal error, no read fn");
 			return NULL;
 		}
+		ret = ctxt->read_fn (tree, ctxt->sheet, ctxt->user_data);
 #endif
 	} else {
 		fprintf (stderr,
@@ -1891,41 +1791,7 @@ xml_read_sheet_object (XmlParseContext *ctxt, xmlNodePtr tree)
 	}
 
 	xml_get_coordinates (tree, "Points", &x1, &y1, &x2, &y2);
-	{
-		char *color;
-		int width = 1;
-
-		color = xml_value_get (tree, "Color");
-		xml_get_value_int (tree, "Width", &width);
-
-		if ((type == SHEET_OBJECT_BOX) ||
-		    (type == SHEET_OBJECT_OVAL)) {
-			char *fill_color;
-			int pattern;
-
-			fill_color = xml_value_get (tree, "FillColor");
-			xml_get_value_int (tree, "Pattern", &pattern);
-
-			ret = sheet_object_create_filled (
-				ctxt->sheet, type,
-				fill_color, color, width);
-			if (ret) {
-				SheetObjectFilled *sof;
-
-				sof = SHEET_OBJECT_FILLED (ret);
-				sof->pattern = pattern;
-			}
-			g_free (fill_color);
-		} else {
-			ret = sheet_object_create_line (
-				ctxt->sheet, type,
-				color, width);
-		}
-		sheet_object_set_bounds (ret, x1, y1, x2, y2);
-		g_free (color);
-	}
-	if (ret)
-		sheet_object_realize (ret);
+	sheet_object_set_bounds (ret, x1, y1, x2, y2);
 
 	return ret;
 }
@@ -1947,14 +1813,6 @@ xml_write_cell_and_position (XmlParseContext *ctxt, Cell *cell, int col, int row
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Cell", NULL);
 	xml_set_value_int (cur, "Col", col);
 	xml_set_value_int (cur, "Row", row);
-
- 	text = cell_get_comment(cell);
- 	if (text) {
-		tstr = xmlEncodeEntitiesReentrant (ctxt->doc, text);
-		xmlNewChild(cur, ctxt->ns, "Comment",  tstr);
-		if (tstr) xmlFree (tstr);
-		g_free(text);
- 	}
 
 	/* Only the top left corner of an array needs to be saved (>= 0.53) */
 	if (NULL != (ar = cell_is_array (cell)) && (ar->y != 0 || ar->x != 0))
@@ -2116,7 +1974,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 	int  style_idx;
 	gboolean style_read = FALSE;
 	gboolean is_post_52_array = FALSE;
-	gboolean is_new_cell;
+	gboolean is_new_cell = TRUE;
 	gboolean is_value = FALSE;
 	ValueType value_type = VALUE_EMPTY; /* Make compiler shut up */
 	StyleFormat *value_fmt = NULL;
@@ -2133,7 +1991,6 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 	ret = sheet_cell_get (ctxt->sheet, col, row);
 	if ((is_new_cell = (ret == NULL)))
 		ret = sheet_cell_new (ctxt->sheet, col, row);
-
 	if (ret == NULL)
 		return NULL;
 
@@ -2211,7 +2068,8 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		} else if (!strcmp (child->name, "Comment")) {
 			comment = xmlNodeGetContent (child);
  			if (comment) {
- 				cell_set_comment (ret, comment);
+ 				cell_set_comment (ret->base.sheet,
+					&ret->pos, NULL, comment);
  				xmlFree (comment);
 			}
  		}
@@ -2288,8 +2146,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree)
 	}
 
 	ret           = g_new (CellCopy, 1);
-	ret->type     = CELL_COPY_TYPE_TEXT_AND_COMMENT;
-	ret->comment  = NULL;
+	ret->type     = CELL_COPY_TYPE_TEXT;
 	ret->u.text   = NULL;
 
 	xml_get_value_int (tree, "Col", &ret->col_offset);
@@ -2300,6 +2157,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree)
 
 		if (!strcmp (child->name, "Content"))
 			ret->u.text = xmlNodeGetContent (child);
+#if 0
 		if (!strcmp (child->name, "Comment")) {
 			ret->comment = xmlNodeGetContent (child);
 
@@ -2313,6 +2171,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree)
 				ret->comment = temp;
 			}
  		}
+#endif
 		child = child->next;
 	}
 	if (ret->u.text == NULL)
@@ -2623,15 +2482,14 @@ xml_sheet_write (XmlParseContext *ctxt, Sheet *sheet)
 	/* Save the current selection */
 	xml_write_selection_info (ctxt, sheet, cur);
 
-	/*
-	 * Objects
-	 */
+	/* Objects */
 	if (sheet->sheet_objects != NULL) {
 		xmlNodePtr objects = xmlNewChild (cur, ctxt->ns,
 						  "Objects", NULL);
 		GList *l = sheet->sheet_objects;
 		while (l) {
-			child = xml_write_sheet_object (ctxt, l->data);
+			child = sheet_object_write_xml (l->data, ctxt->doc,
+					ctxt->ns, ctxt->write_fn);
 			if (child)
 				xmlAddChild (objects, child);
 			l = l->next;

@@ -66,12 +66,12 @@ void		 wb_view_auto_expr	  (WorkbookView *wbv,
 
 #define WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control, code)			\
 do {										\
-	int j;									\
-	GPtrArray *wb_controls = wbv->wb_controls;				\
+	int jNd;								\
+	GPtrArray *wb_controls = (wbv)->wb_controls;				\
 	if (wb_controls != NULL) /* Reverse is important during destruction */	\
-		for (j = wb_controls->len; j-- > 0 ;) {				\
+		for (jNd = wb_controls->len; jNd-- > 0 ;) {			\
 			WorkbookControl *control =				\
-				g_ptr_array_index (wb_controls, j);		\
+				g_ptr_array_index (wb_controls, jNd);		\
 			code							\
 		}								\
 } while (0)

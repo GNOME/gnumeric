@@ -1,6 +1,6 @@
 /*
  * sheet-object-container.c:
- *   SheetObject for containers (Bonobo, Graphics)
+ *   SheetObject for containers (Bonobo, Graphs)
  *
  * Author:
  *   Miguel de Icaza (miguel@kernel.org)
@@ -14,6 +14,7 @@
 #include "gnumeric.h"
 #include "workbook-control-gui-priv.h"
 #include "gnumeric-util.h"
+#include "gnumeric-type-util.h"
 #include "sheet-control-gui.h"
 #include "sheet-object-container.h"
 #include "sheet-object-widget.h"
@@ -26,55 +27,32 @@
 
 static SheetObject *sheet_object_container_parent_class;
 
-static GnomeCanvasItem *
-make_container_item (SheetObject *so, SheetControlGUI *sheet_view, GtkWidget *w)
-{
-	GnomeCanvasItem *item;
-	double x1, y1, x2, y2;
-
-	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
-	item = gnome_canvas_item_new (
-		sheet_view->object_group,
-		gnome_canvas_widget_get_type (),
-		"widget", w,
-		"x",      x1,
-		"y",      y1,
-		"width",  x2 - x1 + 1,
-		"height", y2 - y1 + 1,
-		"size_pixels", FALSE,
-		NULL);
-	sheet_object_widget_handle (so, w, item);
-	gtk_widget_show (w);
-
-	return item;
-}
-
 static gint
-user_activation_request_cb (BonoboViewFrame *view_frame, SheetObject *so)
+user_activation_request_cb (BonoboViewFrame *view_frame, GtkObject *so_view)
 {
-	Sheet *sheet = so->sheet;
+	SheetControlGUI *scg = sheet_object_view_control (so_view);
+	SheetObject *so = sheet_object_view_obj (so_view);
 
-	printf ("user activation request\n");
-	if (sheet->active_object_frame){
-		bonobo_view_frame_view_deactivate (sheet->active_object_frame);
-		if (sheet->active_object_frame != NULL)
-                        bonobo_view_frame_set_covered (sheet->active_object_frame, TRUE);
-		sheet->active_object_frame = NULL;
+	if (scg->active_object_frame){
+		bonobo_view_frame_view_deactivate (scg->active_object_frame);
+		if (scg->active_object_frame != NULL)
+                        bonobo_view_frame_set_covered (scg->active_object_frame, TRUE);
+		scg->active_object_frame = NULL;
 	}
 
 	bonobo_view_frame_view_activate (view_frame);
-	sheet_mode_edit_object (so);
+	scg_mode_edit_object (scg, so);
 
 	return FALSE;
 }
 
 static gint
-view_activated_cb (BonoboViewFrame *view_frame, gboolean activated, SheetObject *so)
+view_activated_cb (BonoboViewFrame *view_frame, gboolean activated, GtkObject *so_view)
 {
-	Sheet *sheet = so->sheet;
+	SheetControlGUI *scg = sheet_object_view_control (so_view);
 
         if (activated) {
-                if (sheet->active_object_frame != NULL) {
+                if (scg->active_object_frame != NULL) {
                         g_warning ("View requested to be activated but there is already "
                                    "an active View!\n");
                         return FALSE;
@@ -85,7 +63,7 @@ view_activated_cb (BonoboViewFrame *view_frame, gboolean activated, SheetObject 
                  * events, and set it as the active View.
                  */
                 bonobo_view_frame_set_covered (view_frame, FALSE);
-                sheet->active_object_frame = view_frame;
+                scg->active_object_frame = view_frame;
         } else {
                 /*
                  * If the View is asking to be deactivated, always
@@ -98,8 +76,8 @@ view_activated_cb (BonoboViewFrame *view_frame, gboolean activated, SheetObject 
                  */
                 bonobo_view_frame_set_covered (view_frame, TRUE);
 
-                if (view_frame == sheet->active_object_frame)
-			sheet->active_object_frame = NULL;
+                if (view_frame == scg->active_object_frame)
+			scg->active_object_frame = NULL;
 	}
 	return FALSE;
 }
@@ -118,12 +96,13 @@ sheet_object_container_destroy (GtkObject *object)
 	(*GTK_OBJECT_CLASS(sheet_object_container_parent_class)->destroy) (object);
 }
 
-static GnomeCanvasItem *
+static GtkObject *
 sheet_object_container_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 {
 	SheetObjectContainer *soc;
 	BonoboViewFrame *view_frame;
-	GtkWidget *view_widget;
+	GtkWidget	*view_widget;
+	GnomeCanvasItem *view_item;
 
 	soc = SHEET_OBJECT_CONTAINER (so);
 
@@ -136,13 +115,22 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 		return NULL;
 	}
 
-	gtk_signal_connect (GTK_OBJECT (view_frame), "user_activate",
-			    GTK_SIGNAL_FUNC (user_activation_request_cb), so);
-	gtk_signal_connect (GTK_OBJECT (view_frame), "activated",
-			    GTK_SIGNAL_FUNC (view_activated_cb), so);
-
 	view_widget = bonobo_view_frame_get_wrapper (view_frame);
-	return make_container_item (so, sheet_view, view_widget);
+	view_item = gnome_canvas_item_new (
+		sheet_view->object_group,
+		gnome_canvas_widget_get_type (),
+		"widget", view_widget,
+		"size_pixels", FALSE,
+		NULL);
+	gtk_signal_connect (GTK_OBJECT (view_frame), "user_activate",
+			    GTK_SIGNAL_FUNC (user_activation_request_cb), view_item);
+	gtk_signal_connect (GTK_OBJECT (view_frame), "activated",
+			    GTK_SIGNAL_FUNC (view_activated_cb), view_item);
+
+	scg_object_widget_register (so, view_widget, view_item);
+	gtk_widget_show (view_widget);
+
+	return GTK_OBJECT (view_item);
 }
 
 /*
@@ -150,24 +138,18 @@ sheet_object_container_new_view (SheetObject *so, SheetControlGUI *sheet_view)
  * destroying/updating/creating the views
  */
 static void
-sheet_object_container_update_bounds (SheetObject *so)
+sheet_object_container_update_bounds (SheetObject *so, GtkObject *view,
+				      SheetControlGUI *scg)
 {
-	GList *l;
-	double x1, y1, x2, y2;
+	double coords [4];
 
-	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
-
-	for (l = so->realized_list; l; l = l->next){
-		GnomeCanvasItem *item = l->data;
-
-		gnome_canvas_item_set (
-			item,
-			"x",      x1,
-			"y",      y1,
-			"width",  x2 - x1 + 1,
-			"height", y2 - y1 + 1,
-			NULL);
-	}
+	/* NOTE : far point is EXCLUDED so we add 1 */
+	scg_object_view_position (scg, so, coords);
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (view),
+		"x", coords [0], "y", coords [1],
+		"width",  coords [2] - coords [0] + 1.,
+		"height", coords [3] - coords [1] + 1.,
+		NULL);
 }
 
 static void
@@ -183,40 +165,14 @@ sheet_object_container_class_init (GtkObjectClass *object_class)
 	sheet_object_class->update_bounds = sheet_object_container_update_bounds;
 }
 
-GtkType
-sheet_object_container_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type){
-		GtkTypeInfo info = {
-			"SheetObjectContainer",
-			sizeof (SheetObjectContainer),
-			sizeof (SheetObjectContainerClass),
-			(GtkClassInitFunc) sheet_object_container_class_init,
-			(GtkObjectInitFunc) NULL,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (sheet_object_bonobo_get_type (), &info);
-	}
-
-	return type;
-}
-
 SheetObject *
 sheet_object_container_new_bonobo (Sheet *sheet, BonoboClientSite *client_site)
 {
 	SheetObjectContainer *c;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-
 	c = gtk_type_new (sheet_object_container_get_type ());
 
-	sheet_object_construct (SHEET_OBJECT (c), sheet);
+	sheet_object_construct (SHEET_OBJECT (c), sheet, -1, -1);
 
 	SHEET_OBJECT_BONOBO (c)->object_server =
 		bonobo_client_site_get_embeddable (client_site);
@@ -226,17 +182,9 @@ sheet_object_container_new_bonobo (Sheet *sheet, BonoboClientSite *client_site)
 }
 
 SheetObject *
-sheet_object_container_new_object (Sheet *sheet,
-				   const char *object_id)
+sheet_object_container_new_object (Sheet *sheet, const char *object_id)
 {
-	SheetObjectContainer *c;
-
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (IS_SHEET (sheet), NULL);
-	g_return_val_if_fail (object_id != NULL, NULL);
-
-	c = gtk_type_new (sheet_object_container_get_type ());
-
+	SheetObjectContainer *c = gtk_type_new (SHEET_OBJECT_CONTAINER_TYPE);
 	if (!sheet_object_bonobo_construct (
 		SHEET_OBJECT_BONOBO (c), sheet, object_id)) {
 		gtk_object_destroy (GTK_OBJECT (c));
@@ -269,11 +217,8 @@ sheet_object_container_new_file (Sheet *sheet, const char *fname)
 		if (so == NULL) {
 			msg = g_strdup_printf (_("can't create object for '%s'"), iid);
 			gnome_dialog_run_and_close (GNOME_DIALOG (gnome_error_dialog (msg)));
-		} else {
-			if (sheet_object_bonobo_load_from_file (SHEET_OBJECT_BONOBO (so), fname))
-				sheet_object_realize (SHEET_OBJECT (so));
-		}
-
+		} else
+			sheet_object_bonobo_load_file (SHEET_OBJECT_BONOBO (so), fname);
 	}
 
 	g_free (iid);
@@ -281,3 +226,7 @@ sheet_object_container_new_file (Sheet *sheet, const char *fname)
 
 	return so;
 }
+
+GNUMERIC_MAKE_TYPE (sheet_object_container, "SheetObjectItem", SheetObjectContainer,
+		    sheet_object_container_class_init, NULL,
+		    sheet_object_bonobo_get_type ())

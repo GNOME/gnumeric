@@ -25,6 +25,7 @@
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
+#include "sheet.h"
 #include "file.h"
 #include "xml-io.h"
 #include "bonobo-io.h"
@@ -170,10 +171,6 @@ read_stream_from_storage (Bonobo_Unknown       object,
 static SheetObject *
 gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 			  Sheet       *sheet,
-			  double       x1,
-			  double       y1,
-			  double       x2,
-			  double       y2,
 			  gpointer     user_data)
 {
 	CORBA_Environment    ev;
@@ -185,6 +182,7 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 	g_return_val_if_fail (tree != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (user_data != NULL, FALSE);
+
 	storage = bonobo_object_corba_objref (user_data);
 	g_return_val_if_fail (storage != CORBA_OBJECT_NIL, FALSE);
 
@@ -225,10 +223,6 @@ gnumeric_bonobo_obj_read (xmlNodePtr   tree,
 	 * xml_set_value_string (cur, "Storage", ###);
 	 */
 	CORBA_exception_free (&ev);
-
-	sheet_object_set_bounds (SHEET_OBJECT (sob), x1, y1, x2, y2);
-
-	sheet_object_realize (SHEET_OBJECT (sob));
 
 	return SHEET_OBJECT (sob);
 }

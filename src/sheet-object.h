@@ -1,38 +1,13 @@
 #ifndef GNUMERIC_SHEET_OBJECT_H
 #define GNUMERIC_SHEET_OBJECT_H
 
+#include "gnumeric.h"
+#include "gui-gnumeric.h"	/* TODO : work to remove this when sheet MVC is done */
+#include "xml-io.h"
+
 #ifdef ENABLE_BONOBO
 #       include <bonobo/bonobo-print-client.h>
 #endif
-
-#include "sheet.h"
-#include "gui-gnumeric.h"
-
-/*
- * SheetObject
- *
- * General purpose Sheet graphic object
- */
-#define SHEET_OBJECT_TYPE     (sheet_object_get_type ())
-#define SHEET_OBJECT(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_TYPE, SheetObject))
-#define SHEET_OBJECT_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_TYPE, SheetObjectClass))
-#define IS_SHEET_OBJECT(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_TYPE))
-
-typedef enum {
-	SHEET_OBJECT_ACTION_STATIC,
-	SHEET_OBJECT_ACTION_CAN_PRESS
-} SheetObjectAction;
-
-struct _SheetObject {
-	GtkObject          parent_object;
-	SheetObjectAction  type;
-	Sheet             *sheet;
-	GList             *realized_list;
-	gboolean           dragging;
-
-	/* Private data */
-	GnomeCanvasPoints *bbox_points; /* use _get / _set_bounds */
-};
 
 typedef struct {
 	SheetObject     *so;
@@ -46,59 +21,47 @@ typedef struct {
 	double           scale_y;
 } SheetObjectPrintInfo;
 
-typedef struct {
-	GtkObjectClass parent_class;
-
-	/* Virtual methods */
-	GnomeCanvasItem *(*new_view) (SheetObject *sheet_object,
-				      SheetControlGUI   *s_view);
-	void        (*populate_menu) (SheetObject *sheet_object,
-				      GnomeCanvasItem *obj_view,
-				      GtkMenu     *menu);
-	void	      (*user_config) (SheetObject *sheet_object,
-				      SheetControlGUI   *s_view);
-	void        (*update_bounds) (SheetObject *sheet_object);
-	void                (*print) (SheetObject *so, SheetObjectPrintInfo *pi);
-	void           (*set_active) (SheetObject *so, gboolean val);
-} SheetObjectClass;
-
-#define	SHEET_OBJ_VIEW_SHEET_CONTROL_GUI_KEY	"SheetControlGUI"
-#define	SHEET_OBJ_VIEW_OBJECT_KEY	"SheetObject"
-
-GtkType sheet_object_get_type      (void);
-void    sheet_object_construct     (SheetObject *sheet_object, Sheet *sheet);
-int     sheet_object_canvas_event  (GnomeCanvasItem *item, GdkEvent *event,
-				    SheetObject *so);
-void    sheet_object_print         (SheetObject *so, SheetObjectPrintInfo *pi);
-GnomeCanvasItem *sheet_object_new_view (SheetObject *so,
-					SheetControlGUI *sheet_view);
-
-/* b = bottom, t = top, l = left, r = right */
-void    sheet_object_get_bounds (SheetObject *sheet_object, double *tlx, double *tly,
-				 double *brx, double *bry);
-void    sheet_object_set_bounds (SheetObject *sheet_object, double tlx, double tly,
-				 double brx, double bry);
-
-/*
- * FIXME : Totally broken.
- */
 typedef enum {
-	SHEET_OBJECT_LINE,
-	SHEET_OBJECT_BOX,
-	SHEET_OBJECT_OVAL,
-	SHEET_OBJECT_ARROW,
-	SHEET_OBJECT_GRAPHIC,
-	SHEET_OBJECT_BUTTON,
-	SHEET_OBJECT_CHECKBOX
-} SheetObjectType;
+	SO_ANCHOR_UNKNOWN			= 0x00,
+	SO_ANCHOR_PERCENTAGE_FROM_COLROW_START	= 0x10,
+	SO_ANCHOR_PERCENTAGE_FROM_COLROW_END	= 0x11,
+	SO_ANCHOR_PTS_FROM_COLROW_START		= 0x20,
+	SO_ANCHOR_PTS_FROM_COLROW_END		= 0x21,
+	SO_ANCHOR_PTS_FROM_LEFT_ANCHOR		= 0x30,
+	SO_ANCHOR_PTS_FROM_TOP_ANCHOR		= 0x31,
+} SheetObjectAnchor;
 
-/*
- * This routine creates the SheetObject in the SheetControlGUIs's Canvases.
- */
-void             sheet_object_realize        (SheetObject *object);
-void             sheet_object_unrealize      (SheetObject *object);
+#define SHEET_OBJECT_TYPE     (sheet_object_get_type ())
+#define SHEET_OBJECT(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_TYPE, SheetObject))
+#define IS_SHEET_OBJECT(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_TYPE))
+GtkType      sheet_object_get_type   (void);
 
-int 		 sheet_object_begin_creation (GnumericSheet *gsheet,
-					      GdkEventButton *event);
+void         sheet_object_construct  (SheetObject *sheet_object, Sheet *sheet,
+				      int default_width, int default_height);
+gboolean     sheet_object_read_xml   (CommandContext *,
+				      SheetObject *so, xmlNodePtr tree);
+xmlNodePtr   sheet_object_write_xml  (SheetObject const *so,
+				      xmlDocPtr doc, xmlNsPtr ns,
+				      XmlSheetObjectWriteFn write_fn);
+void         sheet_object_print      (SheetObject const *so,
+				      SheetObjectPrintInfo const *pi);
+
+void	     sheet_object_realize	  (SheetObject *object);
+void         sheet_object_reposition	  (SheetObject *so, CellPos const *pos);
+void	     sheet_object_position_pixels (SheetObject const *so, int *pos);
+void	     sheet_object_position_pts    (SheetObject const *so, double *pos);
+Range const *sheet_object_range_get	  (SheetObject const *so);
+void         sheet_object_range_set	  (SheetObject *so, Range const *r,
+					   float const *offsets,
+					   SheetObjectAnchor const *type);
+
+void		 sheet_object_new_view	   (SheetObject *so, SheetControlGUI *);
+GtkObject	*sheet_object_get_view	   (SheetObject *so, SheetControlGUI *);
+SheetObject     *sheet_object_view_obj     (GtkObject *view);
+SheetControlGUI *sheet_object_view_control (GtkObject *view);
+
+/* DEPRECATED NON FUNCTIONAL */
+void    sheet_object_set_bounds (SheetObject *sheet_object,
+				 double l, double t, double r, double y);
 
 #endif /* GNUMERIC_SHEET_OBJECT_H */

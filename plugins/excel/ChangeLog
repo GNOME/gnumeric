@@ -1,3 +1,29 @@
+2000-12-01  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (ms_read_OBJ) : simplify.
+
+	* ms-excel-write.c (write_biff7_comments) : slight reorg to handle to
+	  style cell comments.
+
+	* ms-excel-read.c (ms_excel_read_comment) : revamp for new cell
+	  comment technique.
+
+	* ms-excel-read.c (ms_sheet_obj_anchor_to_pos) : Update to the new
+	  sheetObject anchor scheme.  The sheet does NOT yet support this form
+	  of anchor.  We'll need to add it in the next couple of days.
+	(ms_sheet_obj_create) : create the sheet objects directly.
+
+	* ms-escher.c (ms_escher_read_ClientData) : set the picture here
+	  directly.
+
+2000-12-01  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-container.c (ms_container_get_blip) : new function.
+	(ms_container_init) : Add ability to share blip lists between
+	  containers.  We need to figure out the semantics of this.
+	(ms_container_finalize) : Ditto.
+	(ms_container_set_blips) : Ditto.
+
 2000-11-19  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.c (write_externsheets): Make EXTERNCOUNT be the

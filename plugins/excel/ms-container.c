@@ -16,10 +16,10 @@
 #include "ms-obj.h"
 
 void
-ms_container_init (MSContainer *container,
-		   MSContainerClass const *vtbl)
+ms_container_init (MSContainer *container, MSContainerClass const *vtbl)
 {
 	container->vtbl = vtbl;
+	container->free_blips = TRUE;
 	container->blips = NULL;
 	container->obj_queue  = NULL;
 }
@@ -31,7 +31,7 @@ ms_container_finalize (MSContainer *container)
 
 	g_return_if_fail (container != NULL);
 
-	if (container->blips != NULL) {
+	if (container->free_blips && container->blips != NULL) {
 		for (i = container->blips->len; i-- > 0 ; )
 			ms_escher_blip_destroy (g_ptr_array_index (container->blips, i));
 
@@ -54,6 +54,27 @@ ms_container_add_blip (MSContainer *container, MSEscherBlip *blip)
 	if (container->blips == NULL)
 		container->blips = g_ptr_array_new ();
 	g_ptr_array_add (container->blips, blip);
+}
+
+MSEscherBlip const *
+ms_container_get_blip (MSContainer *container, int blip_id)
+{
+	g_return_val_if_fail (container != NULL, NULL);
+	g_return_val_if_fail (container->blips != NULL, NULL);
+	g_return_val_if_fail (blip_id >= 0, NULL);
+	g_return_val_if_fail (blip_id < container->blips->len, NULL);
+
+	return g_ptr_array_index (container->blips, blip_id);
+}
+
+void
+ms_container_set_blips (MSContainer *container, GPtrArray *blips)
+{
+	g_return_if_fail (container != NULL);
+	g_return_if_fail (container->blips == NULL || container->blips == blips);
+
+	container->blips = blips;
+	container->free_blips = FALSE;
 }
 
 void

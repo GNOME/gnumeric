@@ -33,13 +33,9 @@ struct _MSObj
 	int id;
 
 	/* Type specific parameters */
-	SheetObjectType	gnumeric_type;
-	unsigned	excel_type;
-	union {
-		struct {
-			int blip_id;
-		} picture;
-	} v;
+	GtkObject	*gnum_obj;
+	unsigned	 excel_type;
+	char const	*excel_type_name;
 };
 
 MSObj *ms_read_OBJ    (BiffQuery *q, MSContainer *container);

@@ -25,6 +25,7 @@
 #include "gnumeric.h"
 #include "gnumeric-util.h"
 #include "sheet-object.h"
+#include "sheet-object-impl.h"
 #include "selection.h"
 #include "workbook.h"
 #include "dialogs.h"
@@ -642,22 +643,19 @@ render_sheet_objects (Sheet *sheet, PrintJobInfo *pj)
 	pj->sheet_objects = NULL;
 	for (l = sheet->sheet_objects; l; l = l->next) {
 		SheetObjectPrintInfo *pi;
-		double tlx, tly, brx, bry;
+		double coords [4];
 
 		pi = g_new0 (SheetObjectPrintInfo, 1);
 
 		pi->so = l->data;
-		pi->scale_x = sheet->last_zoom_factor_used *
-			application_display_dpi_get (TRUE) / 72.0;
-		pi->scale_y = sheet->last_zoom_factor_used *
-			application_display_dpi_get (FALSE) / 72.0;
+		pi->scale_x = pi->scale_y = 1.;
 
-		sheet_object_get_bounds (pi->so, &tlx, &tly, &brx, &bry);
-		pi->x_pos_pts = tlx / pi->scale_x;
-		pi->y_pos_pts = tly / pi->scale_y;
+		sheet_object_position_pts (pi->so, coords);
+		pi->x_pos_pts = coords [0];
+		pi->y_pos_pts = coords [1];
 
-		pi->pd = bonobo_print_data_new ((brx - tlx) / pi->scale_x,
-						(bry - tly) / pi->scale_y);
+		pi->pd = bonobo_print_data_new ((coords [2] - coords [0]),
+						(coords [3] - coords [1]));
 		sheet_object_print (pi->so, pi);
 
 		pj->sheet_objects = g_list_prepend (pj->sheet_objects, pi);

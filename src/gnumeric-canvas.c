@@ -784,18 +784,18 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 static gint
 gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 {
-	Sheet *sheet = gsheet->scg->sheet;
+	SheetControlGUI *scg = gsheet->scg;
 
 	switch (event->keyval) {
 	case GDK_Escape:
-		sheet_mode_edit	(sheet);
+		scg_mode_edit (scg);
 		application_clipboard_unant ();
 		break;
 
 	case GDK_BackSpace: /* Ick! */
 	case GDK_KP_Delete:
 	case GDK_Delete:
-		gtk_object_destroy (GTK_OBJECT (sheet->current_object));
+		gtk_object_destroy (GTK_OBJECT (scg->current_object));
 		break;
 
 	default:
@@ -808,10 +808,9 @@ static gint
 gnumeric_sheet_key_press (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
-	Sheet *sheet = gsheet->scg->sheet;
+	SheetControlGUI *scg = gsheet->scg;
 
-	if (sheet->current_object != NULL ||
-	    sheet->new_object != NULL)
+	if (scg->current_object != NULL || scg->new_object != NULL)
 		return gnumeric_sheet_key_mode_object (gsheet, event);
 	return gnumeric_sheet_key_mode_sheet (gsheet, event);
 }
@@ -820,7 +819,8 @@ static gint
 gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
-	Sheet *sheet = gsheet->scg->sheet;
+	SheetControlGUI *scg = gsheet->scg;
+	Sheet *sheet = scg->sheet;
 
 	/*
 	 * The status_region normally displays the current edit_pos
@@ -829,7 +829,7 @@ gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 	 * is released, or the mouse button is release we need to reset
 	 * to displaying the edit pos.
 	 */
-	if (sheet->current_object == NULL &&
+	if (scg->current_object == NULL &&
 	    (event->keyval == GDK_Shift_L || event->keyval == GDK_Shift_R))
 		wb_control_selection_descr_set (
 			WORKBOOK_CONTROL (gsheet->scg->wbcg),
@@ -917,7 +917,7 @@ gnumeric_sheet_filenames_dropped (GtkWidget        *widget,
 			SheetObject *so = sheet_object_container_new_file (
 				gsheet->scg->sheet, tmp_list->data);
 			if (so != NULL)
-				sheet_mode_create_object (so);
+				scg_mode_create_object (gsheet->scg, so);
 #endif
 		}
 	}

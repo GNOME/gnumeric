@@ -129,17 +129,17 @@ void workbook_detach_view (WorkbookView *wbv);
 
 #define WORKBOOK_FOREACH_VIEW(wb, view, code)					\
 do {										\
-	int i;									\
-	GPtrArray *wb_views = wb->wb_views;					\
+	int InD;								\
+	GPtrArray *wb_views = (wb)->wb_views;					\
 	if (wb_views != NULL) /* Reverse is important during destruction */	\
-		for (i = wb_views->len; i-- > 0; ) {				\
-			WorkbookView *view = g_ptr_array_index (wb_views, i);	\
+		for (InD = wb_views->len; InD-- > 0; ) {			\
+			WorkbookView *view = g_ptr_array_index (wb_views, InD);	\
 			code							\
 		}								\
 } while (0)
 
 #define WORKBOOK_FOREACH_CONTROL(wb, view, control, code)		\
-	WORKBOOK_FOREACH_VIEW(wb, view, 				\
+	WORKBOOK_FOREACH_VIEW((wb), view, 				\
 		WORKBOOK_VIEW_FOREACH_CONTROL(view, control, code);)
 
 #endif

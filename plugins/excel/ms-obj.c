@@ -14,6 +14,8 @@
 #include "ms-chart.h"
 #include "ms-escher.h"
 #include "parse-util.h"
+#include "sheet-object-widget.h"
+#include "sheet-object-graphic.h"
 
 int ms_excel_object_debug;
 
@@ -410,9 +412,8 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 	};
 
 	gboolean errors;
-	SheetObjectType type;
-	gchar const * type_name = NULL;
-	MSObj * obj = g_new(MSObj, 1);
+	MSObj *obj = g_new(MSObj, 1);
+
 	obj->excel_type = (unsigned)-1; /* Set to undefined */
 	obj->id = -1;
 	obj->anchor_set = FALSE;
@@ -434,67 +435,20 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 		return NULL;
 	}
 
+	obj->excel_type_name = NULL;
 	if (obj->excel_type < sizeof(object_type_names)/sizeof(char*))
-		type_name = object_type_names[obj->excel_type];
-	if (type_name == NULL)
-		type_name = "Unknown";
+		obj->excel_type_name = object_type_names[obj->excel_type];
+	if (obj->excel_type_name == NULL)
+		obj->excel_type_name = "Unknown";
 
-	switch (obj->excel_type) {
-	case 0x05 : /* Chart */
-		type = SHEET_OBJECT_BOX;
-		/* There should be a BOF next */
+	obj->gnum_obj = (*container->vtbl->create_obj) (container, obj);
+	/* Chart, There should be a BOF next */
+	if (obj->excel_type == 0x5)
 		ms_excel_read_chart (q, container);
-		break;
-
-	case 0x01 : /* Line */
-		type = SHEET_OBJECT_LINE;
-		break;
-
-	case 0x02 : /* Rectangle */
-		type = SHEET_OBJECT_BOX;
-		break;
-
-	case 0x03 : /* Oval */
-		type = SHEET_OBJECT_OVAL;
-		break;
-
-	case 0x06 : /* TextBox */
-		type = SHEET_OBJECT_BOX;
-		break;
-
-	case 0x07 : /* Button */
-		type = SHEET_OBJECT_BUTTON;
-		break;
-
-	case 0x08 : /* Picture */
-		type = SHEET_OBJECT_GRAPHIC;
-		break;
-
-	case 0x0B : /* CheckBox */
-		type = SHEET_OBJECT_CHECKBOX;
-		break;
-
-	case 0x0E : /* Label */
-		type = SHEET_OBJECT_BUTTON;
-		break;
-
-	case 0x19 : /* Comment */
-		type = -1; /* FIXME : Invalid */
-		break;
-
-	default :
-		printf ("EXCEL : unhandled excel object of type %s (0x%x) id = %d\n",
-			type_name, obj->excel_type, obj->id);
-		g_free(obj);
-		printf ("}; /* OBJ error 2 */\n");
-		return NULL;
-	}
-
-	obj->gnumeric_type = type;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0) {
-		printf ("Object (%d) is a '%s'\n", obj->id, type_name);
+		printf ("Object (%d) is a '%s'\n", obj->id, obj->excel_type_name);
 		printf ("}; /* OBJ end */\n");
 	}
 #endif

@@ -2,6 +2,7 @@ Gnumeric 0.60
 
 Jody:
 	* Initial work on supporting merged cells.
+	* Improve sheet object and cell comment infrastructure.
 
 Jon Kåre:
 	* Improve XL export of non-builtin functions.

@@ -31,15 +31,12 @@
 #include "commands.h"
 #include "cellspan.h"
 #include "dependent.h"
-#include "cell-comment.h"
 #include "sheet-private.h"
 #include "expr-name.h"
 #include "rendered-value.h"
 #include "sheet-object.h"
-
-#ifdef ENABLE_BONOBO
-#    include <libgnorba/gnorba.h>
-#endif
+#include "sheet-object-impl.h"
+#include "sheet-object-cell-comment.h"
 
 #define GNUMERIC_SHEET_CONTROL_GUI(p) GNUMERIC_SHEET (SHEET_CONTROL_GUI(p)->canvas)
 
@@ -49,39 +46,24 @@ static void sheet_redraw_partial_row (Sheet const *sheet, int const row,
 void
 sheet_adjust_preferences (Sheet const *sheet)
 {
-	GList *l;
-
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetControlGUI *sheet_view = l->data;
-
-		sheet_view_adjust_preferences (sheet_view);
-	}
+	SHEET_FOREACH_CONTROL (sheet, control,
+		sheet_view_adjust_preferences (control););
 }
 
 void
 sheet_redraw_all (Sheet const *sheet)
 {
-	GList *l;
-
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetControlGUI *sheet_view = l->data;
-
-		sheet_view_redraw_all (sheet_view);
-	}
+	SHEET_FOREACH_CONTROL (sheet, control,
+		sheet_view_redraw_all (control););
 }
 
 void
 sheet_redraw_headers (Sheet const *sheet,
-		      gboolean const col, gboolean const row,
-		      Range const * r /* optional == NULL */)
+		      gboolean col, gboolean row,
+		      Range const *r /* optional == NULL */)
 {
-	GList *l;
-
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetControlGUI *sheet_view = l->data;
-
-		sheet_view_redraw_headers (sheet_view, col, row, r);
-	}
+	SHEET_FOREACH_CONTROL (sheet, control,
+		sheet_view_redraw_headers (control, col, row, r););
 }
 
 static guint
@@ -128,7 +110,7 @@ sheet_new_sheet_view (Sheet *sheet)
 		MIN (base_row, move_row),
 		MAX (base_col, move_col),
 		MAX (base_row, move_row));
-	sheet->sheet_views = g_list_prepend (sheet->sheet_views, sheet_view);
+	sheet->s_controls = g_list_prepend (sheet->s_controls, sheet_view);
 
 	return SHEET_CONTROL_GUI (sheet_view);
 }
@@ -139,7 +121,7 @@ sheet_detach_sheet_view (SheetControlGUI *sheet_view)
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (sheet_view));
 	g_return_if_fail (IS_SHEET (sheet_view->sheet));
 
-	sheet_view->sheet->sheet_views = g_list_remove (sheet_view->sheet->sheet_views, sheet_view);
+	sheet_view->sheet->s_controls = g_list_remove (sheet_view->sheet->s_controls, sheet_view);
 	sheet_view->sheet = NULL;
 }
 
@@ -180,8 +162,8 @@ sheet_new (Workbook *wb, const char *name)
 	sheet->priv->selection_content_changed = FALSE;
 	sheet->priv->recompute_visibility = FALSE;
 	sheet->priv->recompute_spans = FALSE;
-	sheet->priv->reposition_row_comment = SHEET_MAX_ROWS;
-	sheet->priv->reposition_col_comment = SHEET_MAX_COLS;
+	sheet->priv->reposition_objects.row = SHEET_MAX_ROWS;
+	sheet->priv->reposition_objects.col = SHEET_MAX_COLS;
 
 	sheet->signature = SHEET_SIGNATURE;
 	sheet->workbook = wb;
@@ -190,9 +172,6 @@ sheet_new (Workbook *wb, const char *name)
 	sheet_create_styles (sheet);
 
 	sheet->sheet_objects = NULL;
-	sheet->new_object = NULL;
-	sheet->current_object = NULL;
-	sheet->active_object_frame = NULL;
 
 	sheet->last_zoom_factor_used = 1.0;
 	sheet->cols.max_used = -1;
@@ -449,9 +428,8 @@ sheet_update_zoom_controls (Sheet *sheet)
  * @respan : recalculate the spans.
  */
 void
-sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean respan)
+sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean update)
 {
-	GList *l, *cl;
 	struct resize_colrow closure;
 	double factor;
 
@@ -481,17 +459,8 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean respan)
 	col_row_foreach (&sheet->rows, 0, SHEET_MAX_ROWS-1,
 			 &cb_colrow_compute_pixels_from_pts, &closure);
 
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetControlGUI *sheet_view = l->data;
-
-		sheet_view_set_zoom_factor (sheet_view, factor);
-	}
-
-	for (cl = sheet->comment_list; cl; cl = cl->next){
-		Cell *cell = cl->data;
-
-		cell_comment_reposition (cell);
-	}
+	SHEET_FOREACH_CONTROL (sheet, control,
+		sheet_view_set_zoom_factor (control, factor););
 
 	/*
 	 * The font size does not scale linearly with the zoom factor
@@ -499,8 +468,12 @@ sheet_set_zoom_factor (Sheet *sheet, double f, gboolean force, gboolean respan)
 	 * We also need to render any cells which have not yet been
 	 * rendered.
 	 */
-	if (respan) {
-		sheet_calc_spans (sheet, SPANCALC_RESIZE|SPANCALC_RENDER);
+	if (update) {
+		sheet->priv->recompute_spans = TRUE;
+		sheet->priv->reposition_objects.col =
+			sheet->priv->reposition_objects.row = 0;
+		sheet_update_only_grid (sheet);
+
 		if (sheet->workbook)
 			sheet_update_zoom_controls (sheet);
 	}
@@ -607,19 +580,14 @@ sheet_row_get_info (Sheet const *sheet, int const row)
 }
 
 static void
-sheet_reposition_comments (Sheet const * const sheet,
-			   int const start_col, int const start_row)
+sheet_reposition_objects (Sheet const *sheet, CellPos const *pos)
 {
-	GList *l;
+	GList *ptr;
 
-	/* Move any cell comments */
-	for (l = sheet->comment_list; l; l = l->next){
-		Cell *cell = l->data;
+	g_return_if_fail (IS_SHEET (sheet));
 
-		if (cell->pos.col >= start_col ||
-		    cell->pos.row >= start_row)
-			cell_comment_reposition (cell);
-	}
+	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next )
+		sheet_object_reposition (SHEET_OBJECT (ptr->data), pos);
 }
 
 /**
@@ -753,13 +721,11 @@ sheet_update_only_grid (Sheet const *sheet)
 				   SPANCALC_NO_DRAW : SPANCALC_SIMPLE));
 	}
 
-	if (p->reposition_row_comment < SHEET_MAX_ROWS ||
-	    p->reposition_col_comment < SHEET_MAX_COLS) {
-		sheet_reposition_comments (sheet,
-					   p->reposition_row_comment,
-					   p->reposition_col_comment);
-		p->reposition_row_comment = SHEET_MAX_ROWS;
-		p->reposition_col_comment = SHEET_MAX_COLS;
+	if (p->reposition_objects.row < SHEET_MAX_ROWS ||
+	    p->reposition_objects.col < SHEET_MAX_COLS) {
+		sheet_reposition_objects (sheet, &p->reposition_objects);
+		p->reposition_objects.row = SHEET_MAX_ROWS;
+		p->reposition_objects.col = SHEET_MAX_COLS;
 	}
 
 	if (p->recompute_visibility) {
@@ -778,12 +744,8 @@ sheet_update_only_grid (Sheet const *sheet)
 	}
 
 	if (p->resize_scrollbar) {
-		GList *l;
-
-		for (l = sheet->sheet_views; l; l = l->next){
-			SheetControlGUI *sheet_view = l->data;
-			sheet_view_scrollbar_config (sheet_view);
-		}
+		SHEET_FOREACH_CONTROL (sheet, control,
+			sheet_view_scrollbar_config (control););
 		p->resize_scrollbar = FALSE;
 	}
 }
@@ -858,7 +820,7 @@ sheet_compute_visible_ranges (Sheet const *sheet)
 {
 	GList *l;
 
-	for (l = sheet->sheet_views; l; l = l->next){
+	for (l = sheet->s_controls; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 
 		gnumeric_sheet_compute_visible_ranges (gsheet, TRUE);
@@ -1313,7 +1275,6 @@ sheet_redraw_cell_region (Sheet const *sheet,
 			  int start_col, int start_row,
 			  int end_col,   int end_row)
 {
-	GList *l;
 	int row, min_col = start_col, max_col = end_col;
 
 	g_return_if_fail (IS_SHEET (sheet));
@@ -1354,15 +1315,9 @@ sheet_redraw_cell_region (Sheet const *sheet,
 	}
 
 	/* FIXME : expand the rectangle to contain any merged regions */
-
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetControlGUI *sheet_view = l->data;
-
-		sheet_view_redraw_cell_region (
-			sheet_view,
-			min_col, start_row,
-			max_col, end_row);
-	}
+	SHEET_FOREACH_CONTROL (sheet, control,
+		sheet_view_redraw_cell_region ( control,
+			min_col, start_row, max_col, end_row););
 }
 
 void
@@ -1380,10 +1335,9 @@ static void
 sheet_redraw_partial_row (Sheet const *sheet, int const row,
 			  int const start_col, int const end_col)
 {
-	GList *l;
-	for (l = sheet->sheet_views; l; l = l->next)
-		sheet_view_redraw_cell_region (l->data,
-					       start_col, row, end_col, row);
+	SHEET_FOREACH_CONTROL (sheet, control,
+		sheet_view_redraw_cell_region (control,
+			start_col, row, end_col, row););
 }
 
 void
@@ -1397,13 +1351,10 @@ sheet_redraw_cell (Cell const *cell)
 
 	merged = sheet_region_is_merge_cell (cell->base.sheet, &cell->pos);
 	if (merged != NULL) {
-		GList *l;
-		for (l = cell->base.sheet->sheet_views; l; l = l->next)
-			sheet_view_redraw_cell_region (l->data,
-						       merged->start.col,
-						       merged->start.row,
-						       merged->end.col,
-						       merged->end.row);
+		SHEET_FOREACH_CONTROL (cell->base.sheet, control,
+			sheet_view_redraw_cell_region (control,
+				merged->start.col, merged->start.row,
+				merged->end.col, merged->end.row););
 	}
 
 	start_col = end_col = cell->pos.col;
@@ -1958,7 +1909,6 @@ sheet_cell_insert (Sheet *sheet, Cell *cell, int col, int row, gboolean recalc_s
 
 	sheet_cell_add_to_hash (sheet, cell);
 	cell_add_dependencies (cell);
-	cell_realize (cell);
 
 	if (recalc_span && !cell_needs_recalc (cell))
 		sheet_cell_calc_span (cell, SPANCALC_RESIZE | SPANCALC_RENDER);
@@ -2015,8 +1965,7 @@ sheet_cell_remove_simple (Sheet *sheet, Cell *cell)
 		dependent_queue_recalc_list (deps, TRUE);
 
 	sheet_cell_remove_from_hash (sheet, cell);
-
-	cell_unrealize (cell);
+#warning Remove objects
 }
 
 /**
@@ -2039,32 +1988,6 @@ sheet_cell_remove (Sheet *sheet, Cell *cell, gboolean redraw)
 
 	sheet_cell_remove_simple (sheet, cell);
 	cell_destroy (cell);
-}
-
-void
-sheet_cell_comment_link (Cell *cell)
-{
-	Sheet *sheet;
-
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->base.sheet != NULL);
-
-	sheet = cell->base.sheet;
-
-	sheet->comment_list = g_list_prepend (sheet->comment_list, cell);
-}
-
-void
-sheet_cell_comment_unlink (Cell *cell)
-{
-	Sheet *sheet;
-
-	g_return_if_fail (cell != NULL);
-	g_return_if_fail (cell->base.sheet != NULL);
-	g_return_if_fail (cell->comment != NULL);
-
-	sheet = cell->base.sheet;
-	sheet->comment_list = g_list_remove (sheet->comment_list, cell);
 }
 
 /*
@@ -2244,8 +2167,6 @@ sheet_destroy_contents (Sheet *sheet)
 void
 sheet_destroy (Sheet *sheet)
 {
-	GList *l;
-
 	g_return_if_fail (IS_SHEET (sheet));
 
 	if (sheet->print_info) {
@@ -2273,16 +2194,10 @@ sheet_destroy (Sheet *sheet)
 	g_free (sheet->name_unquoted);
 	g_free (sheet->solver_parameters.input_entry_str);
 
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetControlGUI *sheet_view = l->data;
-
-		gtk_object_unref (GTK_OBJECT (sheet_view));
-	}
-	g_list_free (sheet->sheet_views);
-	sheet->sheet_views = NULL;
-
-	g_list_free (sheet->comment_list);
-	sheet->comment_list = NULL;
+	SHEET_FOREACH_CONTROL (sheet, control,
+		gtk_object_unref (GTK_OBJECT (control)););
+	g_list_free (sheet->s_controls);
+	sheet->s_controls = NULL;
 
 	sheet_deps_destroy (sheet);
 	expr_name_invalidate_refs_sheet (sheet);
@@ -2324,28 +2239,10 @@ cb_empty_cell (Sheet *sheet, int col, int row, Cell *cell, gpointer flag)
 	/* TODO : here and other places flag a need to update the
 	 * row/col maxima.
 	 */
-	if (row >= sheet->rows.max_used || col >= sheet->cols.max_used)
+	if (row >= sheet->rows.max_used || col >= sheet->cols.max_used) { }
 #endif
 
-	/* If there is a comment keep the cell */
-	if (cell_has_comment(cell) && GPOINTER_TO_INT(flag))
-		cell_set_value (cell, value_new_empty (), NULL);
-	else
-		sheet_cell_remove (sheet, cell, FALSE /* no redraw */);
-	return NULL;
-}
-
-static Value *
-cb_clear_cell_comments (Sheet *sheet, int col, int row, Cell *cell,
-			void *user_data)
-{
-	cell_comment_destroy (cell);
-	/* If the value is empty remove the cell.  It was only here to
-	 * place hold for the cell
-	 */
-	if (!cell_has_expr(cell) && cell_is_blank (cell))
-		sheet_cell_remove (sheet, cell, FALSE /* no redraw */);
-
+	sheet_cell_remove (sheet, cell, FALSE /* no redraw */);
 	return NULL;
 }
 
@@ -2473,11 +2370,14 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 		rows_height_update (sheet, &r);
 	}
 
-	if (clear_flags & CLEAR_COMMENTS)
-		sheet_cell_foreach_range (sheet, TRUE,
-					  start_col, start_row,
-					  end_col,   end_row,
-					  cb_clear_cell_comments, NULL);
+	if (clear_flags & CLEAR_COMMENTS) {
+		GList *comments, *ptr;
+		
+		comments = sheet_get_objects (sheet, &r, CELL_COMMENT_TYPE);
+		for (ptr = comments ; ptr != NULL ;ptr = ptr->next)
+			gtk_object_destroy (GTK_OBJECT (ptr->data));
+		g_list_free (comments);
+	}
 
 	min_col = start_col;
 	max_col = end_col;
@@ -2514,7 +2414,7 @@ sheet_make_cell_visible (Sheet *sheet, int col, int row)
 
 	g_return_if_fail (IS_SHEET (sheet));
 
-	for (l = sheet->sheet_views; l; l = l->next){
+	for (l = sheet->s_controls; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 
 		gnumeric_sheet_make_cell_visible (gsheet, col, row, FALSE);
@@ -2585,7 +2485,7 @@ sheet_cursor_set (Sheet *sheet,
 	sheet->cursor.move_corner.col = move_col;
 	sheet->cursor.move_corner.row = move_row;
 
-	for (l = sheet->sheet_views; l; l = l->next){
+	for (l = sheet->s_controls; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 
 		gnumeric_sheet_set_cursor_bounds ( gsheet,
@@ -2599,40 +2499,10 @@ sheet_cursor_set (Sheet *sheet,
 void
 sheet_update_cursor_pos (Sheet const *sheet)
 {
-	GList *l;
-
 	g_return_if_fail (IS_SHEET (sheet));
 
-	for (l = sheet->sheet_views; l; l = l->next) {
-		SheetControlGUI *sheet_view = l->data;
-		sheet_view_update_cursor_pos (sheet_view);
-	}
-}
-
-void
-sheet_hide_cursor (Sheet *sheet)
-{
-	GList *l;
-
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetControlGUI *sheet_view = l->data;
-
-		sheet_view_hide_cursor (sheet_view);
-	}
-	sheet_selection_redraw (sheet);
-}
-
-void
-sheet_show_cursor (Sheet *sheet)
-{
-	GList *l;
-
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetControlGUI *sheet_view = l->data;
-
-		sheet_view_show_cursor (sheet_view);
-	}
-	sheet_selection_redraw (sheet);
+	SHEET_FOREACH_CONTROL (sheet, control,
+		sheet_view_update_cursor_pos (control););
 }
 
 /**
@@ -2853,6 +2723,7 @@ colrow_move (Sheet *sheet,
 			cell->pos.row = new_pos;
 
 		sheet_cell_add_to_hash (sheet, cell);
+/* FIXME : move objects tied to this cell */
 		cell_relocate (cell, NULL);
 		cell_content_changed (cell);
 	}
@@ -2928,8 +2799,8 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
-	if (sheet->priv->reposition_col_comment > col)
-		sheet->priv->reposition_col_comment = col;
+	if (sheet->priv->reposition_objects.col > col)
+		sheet->priv->reposition_objects.col = col;
 
 	return FALSE;
 }
@@ -3000,8 +2871,8 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
-	if (sheet->priv->reposition_col_comment > col)
-		sheet->priv->reposition_col_comment = col;
+	if (sheet->priv->reposition_objects.col > col)
+		sheet->priv->reposition_objects.col = col;
 
 	return FALSE;
 }
@@ -3077,8 +2948,8 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
-	if (sheet->priv->reposition_row_comment > row)
-		sheet->priv->reposition_row_comment = row;
+	if (sheet->priv->reposition_objects.row > row)
+		sheet->priv->reposition_objects.row = row;
 
 	return FALSE;
 }
@@ -3149,8 +3020,8 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
-	if (sheet->priv->reposition_row_comment > row)
-		sheet->priv->reposition_row_comment = row;
+	if (sheet->priv->reposition_objects.row > row)
+		sheet->priv->reposition_objects.row = row;
 
 	return FALSE;
 }
@@ -3263,7 +3134,7 @@ sheet_move_range (WorkbookControl *wbc,
 		    (cell->pos.row + rinfo->row_offset) >= SHEET_MAX_ROWS) {
 			if (cell_has_expr (cell))
 				dependent_unlink (CELL_TO_DEP (cell), &cell->pos);
-			cell_unrealize (cell);
+#warning Remove objects
 			cell_destroy (cell);
 			continue;
 		}
@@ -3282,7 +3153,7 @@ sheet_move_range (WorkbookControl *wbc,
 		if (inter_sheet_expr)
 			dependent_link (CELL_TO_DEP (cell), &cell->pos);
 
-		/* Move comments */
+/* FIXME : move objects tied to this cell */
 		cell_relocate (cell, NULL);
 		cell_content_changed (cell);
 	}
@@ -3416,8 +3287,8 @@ sheet_col_set_size_pts (Sheet *sheet, int col, double width_pts,
 
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
-	if (sheet->priv->reposition_col_comment > col)
-		sheet->priv->reposition_col_comment = col;
+	if (sheet->priv->reposition_objects.col > col)
+		sheet->priv->reposition_objects.col = col;
 }
 
 void
@@ -3439,8 +3310,8 @@ sheet_col_set_size_pixels (Sheet *sheet, int col, int width_pixels,
 
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
-	if (sheet->priv->reposition_col_comment > col)
-		sheet->priv->reposition_col_comment = col;
+	if (sheet->priv->reposition_objects.col > col)
+		sheet->priv->reposition_objects.col = col;
 }
 
 /**
@@ -3477,7 +3348,7 @@ sheet_col_set_default_size_pts (Sheet *sheet, double width_pts)
 	sheet_col_row_default_init (sheet, width_pts, 2, 2, TRUE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
-	sheet->priv->reposition_col_comment = 0;
+	sheet->priv->reposition_objects.col = 0;
 }
 void
 sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
@@ -3485,7 +3356,7 @@ sheet_col_set_default_size_pixels (Sheet *sheet, int width_pixels)
 	sheet_col_row_default_init (sheet, width_pixels, 2, 2, TRUE, FALSE);
 	sheet->priv->recompute_visibility = TRUE;
 	sheet->priv->recompute_spans = TRUE;
-	sheet->priv->reposition_col_comment = 0;
+	sheet->priv->reposition_objects.col = 0;
 }
 
 /**************************************************************************/
@@ -3624,8 +3495,8 @@ sheet_row_set_size_pts (Sheet *sheet, int row, double height_pts,
 	colrow_compute_pixels_from_pts (sheet, ri, FALSE);
 
 	sheet->priv->recompute_visibility = TRUE;
-	if (sheet->priv->reposition_row_comment > row)
-		sheet->priv->reposition_row_comment = row;
+	if (sheet->priv->reposition_objects.row > row)
+		sheet->priv->reposition_objects.row = row;
 }
 
 /**
@@ -3661,8 +3532,8 @@ sheet_row_set_size_pixels (Sheet *sheet, int row, int height_pixels,
 	colrow_compute_pts_from_pixels (sheet, ri, FALSE);
 
 	sheet->priv->recompute_visibility = TRUE;
-	if (sheet->priv->reposition_row_comment > row)
-		sheet->priv->reposition_row_comment = row;
+	if (sheet->priv->reposition_objects.row > row)
+		sheet->priv->reposition_objects.row = row;
 }
 
 /**
@@ -3698,14 +3569,14 @@ sheet_row_set_default_size_pts (Sheet *sheet, double height_pts)
 {
 	sheet_col_row_default_init (sheet, height_pts, 1, 0, FALSE, TRUE);
 	sheet->priv->recompute_visibility = TRUE;
-	sheet->priv->reposition_row_comment = 0;
+	sheet->priv->reposition_objects.row = 0;
 }
 void
 sheet_row_set_default_size_pixels (Sheet *sheet, int height_pixels)
 {
 	sheet_col_row_default_init (sheet, height_pixels, 1, 0, FALSE, FALSE);
 	sheet->priv->recompute_visibility = TRUE;
-	sheet->priv->reposition_row_comment = 0;
+	sheet->priv->reposition_objects.row = 0;
 }
 
 /****************************************************************************/
@@ -3715,7 +3586,7 @@ sheet_create_edit_cursor (Sheet *sheet)
 {
 	GList *l;
 
-	for (l = sheet->sheet_views; l; l = l->next){
+	for (l = sheet->s_controls; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 		gnumeric_sheet_create_editing_cursor (gsheet);
 	}
@@ -3724,7 +3595,7 @@ void
 sheet_stop_editing (Sheet *sheet)
 {
 	GList *l;
-	for (l = sheet->sheet_views; l; l = l->next){
+	for (l = sheet->s_controls; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 
 		gnumeric_sheet_stop_editing (gsheet);
@@ -3735,7 +3606,7 @@ void
 sheet_destroy_cell_select_cursor (Sheet *sheet, gboolean clear_string)
 {
 	GList *l;
-	for (l = sheet->sheet_views; l; l = l->next){
+	for (l = sheet->s_controls; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_CONTROL_GUI (l->data);
 
 		gnumeric_sheet_stop_cell_selection (gsheet, clear_string);
@@ -4086,4 +3957,34 @@ sheet_region_is_merge_cell (Sheet const *sheet, CellPos const *pos)
 	g_return_val_if_fail (pos != NULL, NULL);
 
 	return g_hash_table_lookup (sheet->hash_merged, pos);
+}
+
+/**
+ * sheet_get_objects :
+ *
+ * @sheet : the sheet.
+ * @r     : an optional range to look in
+ * @t     : The type of object to lookup
+ *
+ * Returns a list of which the caller must free (just the list not the content).
+ * Containing all objects of exactly the specified type (inheritence does not count).
+ */
+GList *
+sheet_get_objects (Sheet const *sheet, Range const *r, GtkType t)
+{
+	GList *res = NULL;
+	GList *ptr;
+	
+	g_return_val_if_fail (IS_SHEET (sheet), NULL);
+
+	for (ptr = sheet->sheet_objects; ptr != NULL ; ptr = ptr->next ){ 
+		GtkObject *obj = GTK_OBJECT (ptr->data);
+
+		if (obj->klass->type == t) {
+			SheetObject *so = SHEET_OBJECT (obj);
+			if (r == NULL || range_overlap (r, &so->cell_bound))
+				res = g_list_prepend (res, so);
+		}
+	}
+	return res;
 }

@@ -2,6 +2,7 @@
 #define GNUMERIC_SHEET_H
 
 #include <glib.h>
+#include <gtk/gtktypeutils.h>
 #include "gnumeric.h"
 #include "colrow.h"
 #include "solver.h"
@@ -26,7 +27,7 @@ struct _Sheet {
 	int         signature;
 
 	Workbook    *workbook;
-	GList       *sheet_views;
+	GList       *s_controls;
 
 	char        *name_quoted;
 	char        *name_unquoted;
@@ -52,19 +53,12 @@ struct _Sheet {
 	 */
 	GList       *selections;
 
-	/* The list of cells that have a comment */
-	GList       *comment_list;
-
 	/* User defined names */
 	GList      *names;
 
 	double      last_zoom_factor_used;
 
-	/* Objects */
 	GList       *sheet_objects;	/* List of objects in this sheet */
-	SheetObject *new_object;	/* A newly created object that has yet to be realized */
-	SheetObject *current_object;
-	void        *active_object_frame;
 
 	gboolean    pristine;
 	gboolean    modified;
@@ -90,46 +84,42 @@ struct _Sheet {
 #define SHEET_SIGNATURE 0x12349876
 #define IS_SHEET(x) (((x) != NULL) && ((x)->signature == SHEET_SIGNATURE))
 
-Sheet      *sheet_new                  	 (Workbook *wb, const char *name);
-Sheet      *sheet_duplicate		 (Sheet const *source_sheet);
-void        sheet_destroy              	 (Sheet *sheet);
-void        sheet_destroy_contents       (Sheet *sheet);
-void        sheet_rename                 (Sheet *sheet, const char *new_name);
+Sheet      *sheet_new			(Workbook *wb, const char *name);
+Sheet      *sheet_duplicate		(Sheet const *source_sheet);
+void        sheet_destroy		(Sheet *sheet);
+void        sheet_destroy_contents	(Sheet *sheet);
+void        sheet_rename		(Sheet *sheet, const char *new_name);
 
-void        sheet_set_zoom_factor      	 (Sheet *sheet, double factor,
-					  gboolean force, gboolean respan);
-void        sheet_cursor_set             (Sheet *sheet,
-					  int edit_col, int edit_row,
-					  int base_col, int base_row,
-					  int move_col, int move_row);
-void	    sheet_update_cursor_pos	 (Sheet const *sheet);
-void        sheet_set_edit_pos           (Sheet *sheet, int col, int row);
-void        sheet_make_cell_visible      (Sheet *sheet, int col, int row);
+void        sheet_set_zoom_factor	(Sheet *sheet, double factor,
+					 gboolean force, gboolean respan);
+void        sheet_cursor_set		(Sheet *sheet,
+					 int edit_col, int edit_row,
+					 int base_col, int base_row,
+					 int move_col, int move_row);
+void	    sheet_update_cursor_pos	(Sheet const *sheet);
+void        sheet_set_edit_pos		(Sheet *sheet, int col, int row);
+void        sheet_make_cell_visible	(Sheet *sheet, int col, int row);
 
 /* Object Management */
-void        sheet_mode_edit		 (Sheet *sheet);
-void        sheet_mode_edit_object	 (SheetObject *so);
-void        sheet_mode_create_object	 (SheetObject *so);
+GList      *sheet_get_objects		(Sheet const *sheet,
+					 Range const *r, GtkType t);
 
 /* Cell management */
-Cell       *sheet_cell_get               (Sheet const *sheet, int col, int row);
-Cell       *sheet_cell_fetch             (Sheet *sheet, int col, int row);
-Cell       *sheet_cell_new               (Sheet *sheet, int col, int row);
-void        sheet_cell_insert            (Sheet *sheet, Cell *cell,
-				          int col, int row, gboolean recalc_span);
-void        sheet_cell_remove            (Sheet *sheet, Cell *cell, gboolean redraw);
-void	    sheet_cell_remove_simple	 (Sheet *sheet, Cell *cell);
+Cell       *sheet_cell_get		(Sheet const *sheet, int col, int row);
+Cell       *sheet_cell_fetch		(Sheet *sheet, int col, int row);
+Cell       *sheet_cell_new		(Sheet *sheet, int col, int row);
+void        sheet_cell_insert		(Sheet *sheet, Cell *cell,
+					 int col, int row, gboolean recalc_span);
+void        sheet_cell_remove		(Sheet *sheet, Cell *cell, gboolean redraw);
+void	    sheet_cell_remove_simple	(Sheet *sheet, Cell *cell);
 
 /* Iteration utilities */
 /* See also : workbook_foreach_cell_in_range */
-Value      *sheet_cell_foreach_range     (Sheet *sheet, int only_existing,
-				          int start_col, int start_row,
-				          int end_col, int end_row,
-					  ForeachCellCB callback,
-				          void *closure);
-
-void        sheet_cell_comment_link      (Cell *cell);
-void        sheet_cell_comment_unlink    (Cell *cell);
+Value      *sheet_cell_foreach_range	(Sheet *sheet, int only_existing,
+					 int start_col, int start_row,
+					 int end_col, int end_row,
+					 ForeachCellCB callback,
+					 void *closure);
 
 void        sheet_recompute_spans_for_col     (Sheet *sheet, int col);
 
@@ -251,8 +241,8 @@ void        sheet_redraw_cell_region      (Sheet const *sheet,
 				           int start_col, int start_row,
 				           int end_col,   int end_row);
 void	    sheet_redraw_headers          (Sheet const *sheet,
-					   gboolean const col, gboolean const row,
-					   Range const * r /* optional == NULL */);
+					   gboolean col, gboolean row,
+					   Range const* r /* optional == NULL */);
 
 void	    sheet_flag_status_update_cell (Cell const *cell);
 void	    sheet_flag_status_update_range(Sheet const *sheet, Range const *range);
@@ -275,8 +265,6 @@ char       *sheet_name_quote              (const char *unquoted_name);
 Sheet      *sheet_lookup_by_name          (Workbook *wb, const char *name);
 
 /* Utilities for various flavours of cursor */
-void        sheet_show_cursor                (Sheet *sheet);
-void        sheet_hide_cursor                (Sheet *sheet);
 void        sheet_create_edit_cursor         (Sheet *sheet);
 void        sheet_stop_editing               (Sheet *sheet);
 void        sheet_destroy_cell_select_cursor (Sheet *sheet, gboolean clear_string);
@@ -336,5 +324,14 @@ gboolean     sheet_region_unmerge	(CommandContext *cc,
 					 Sheet *sheet, Range const *r);
 GSList      *sheet_region_get_merged	(Sheet *sheet, Range const *r);
 Range const *sheet_region_is_merge_cell (Sheet const *sheet, CellPos const *pos);
+
+#define SHEET_FOREACH_CONTROL(sheet, control, code)			\
+do {									\
+	GList *PtR;							\
+	for (PtR = (sheet)->s_controls; PtR != NULL ; PtR = PtR->next) {\
+		SheetControlGUI *control = PtR->data;			\
+		code							\
+	}								\
+} while (0)
 
 #endif /* GNUMERIC_SHEET_H */

@@ -55,24 +55,22 @@ ms_escher_blip_new (const guint8 *data, guint32 len, char const *repoid,
 		    MSContainer *container)
 {
 	MSEscherBlip *blip = g_new (MSEscherBlip, 1);
+
 #ifndef ENABLE_BONOBO
 	guint8 *mem      = g_malloc (len);
 	memcpy (mem, data, len);
-#endif
-
-	blip->repo_id  = repoid;
-#ifdef ENABLE_BONOBO
-	blip->stream   = bonobo_stream_mem_create (data, len, TRUE, FALSE);
-#else
 	blip->raw_data = mem;
+#else
+	blip->stream   = bonobo_stream_mem_create (data, len, TRUE, FALSE);
 #endif
+	blip->obj_id  = repoid;
 	ms_container_add_blip (container, blip);
 }
 
 void
 ms_escher_blip_destroy (MSEscherBlip *blip)
 {
-	blip->repo_id = NULL;
+	blip->obj_id = NULL;
 #ifdef ENABLE_BONOBO
 	if (blip->stream)
 		bonobo_object_unref (BONOBO_OBJECT (blip->stream));
@@ -1758,13 +1756,25 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 	memcpy (obj->raw_anchor, h->raw_anchor, MS_ANCHOR_SIZE);
 	obj->anchor_set = TRUE;
 
-	switch (obj->gnumeric_type) {
-	case SHEET_OBJECT_GRAPHIC : /* If this was a picture */
-		obj->v.picture.blip_id = h->blip_id;
-		break;
-	default:
-		break;
-	};
+	/* FIXME : I do not like having this here.
+	 * If we ever want to split the escher handling out this is too
+	 * gnumeric specific
+	 */
+#ifdef ENABLE_BONOBO
+	if (h->blip_id >= 0) {
+		SheetObjectBonobo *sob = SHEET_OBJECT_BONOBO (obj->gnum_obj);
+		MSEscherBlip const *blip = ms_container_get_blip (
+			state->container, h->blip_id);
+
+		g_return_val_if_fail (blip != NULL, FALSE);
+		g_return_val_if_fail (sob != NULL, FALSE);
+
+		if (!sheet_object_bonobo_set_object_iid (sob, blip->obj_id) ||
+		    !sheet_object_bonobo_load_stream (sob, blip->stream))
+			g_warning ("Failed to load '%s' from stream",
+				   blip->obj_id);
+	}
+#endif
 
 	return FALSE;
 }

@@ -73,7 +73,6 @@ selection_first_range (Sheet const *sheet, gboolean const permit_complex)
 	SheetSelection *ss;
 	GList *l;
 
-	g_return_val_if_fail (sheet != NULL, 0);
 	g_return_val_if_fail (IS_SHEET (sheet), 0);
 
 	l = g_list_first (sheet->selections);
@@ -99,7 +98,6 @@ gboolean
 selection_is_simple (WorkbookControl *wbc, Sheet const *sheet,
 		     char const *command_name)
 {
-	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	if (g_list_length (sheet->selections) == 1)
@@ -129,7 +127,6 @@ sheet_selection_add_range (Sheet *sheet,
 {
 	SheetSelection *ss;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* Create and prepend new selection */
@@ -174,7 +171,6 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 {
 	char const *sel_descr;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* If nothing was going to change dont redraw */
@@ -241,7 +237,6 @@ sheet_is_all_selected (Sheet const * const sheet)
 	SheetSelection *ss;
 	GList *l;
 
-	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	for (l = sheet->selections; l != NULL; l = l->next){
@@ -261,9 +256,6 @@ sheet_is_cell_selected (Sheet const * const sheet, int col, int row)
 {
 	GList *list;
 
-	if (sheet->current_object != NULL || sheet->new_object != NULL)
-		return FALSE;
-
 	for (list = sheet->selections; list; list = list->next){
 		SheetSelection const *ss = list->data;
 
@@ -281,16 +273,12 @@ sheet_selection_redraw (Sheet const *sheet)
 	for (sel = sheet->selections; sel; sel = sel->next){
 		SheetSelection const *ss = sel->data;
 		Range const *r = &ss->user;
-		GList *view;
 
-		for (view = sheet->sheet_views; view; view = view->next){
-			SheetControlGUI *sheet_view = view->data;
-
-			sheet_view_redraw_cell_region (sheet_view,
+		SHEET_FOREACH_CONTROL (sheet, control,
+			sheet_view_redraw_cell_region (control,
 				r->start.col, r->start.row,
 				r->end.col, r->end.row);
-		}
-		sheet_redraw_headers (sheet, TRUE, TRUE, &ss->user);
+			sheet_view_redraw_headers (control, TRUE, TRUE, r););
 	}
 }
 
@@ -339,7 +327,6 @@ sheet_selection_set (Sheet *sheet,
 	SheetSelection *ss;
 	Range old_sel, new_sel;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (sheet->selections != NULL);
 
@@ -528,7 +515,6 @@ sheet_selection_reset_only (Sheet *sheet)
 {
 	GList *list, *tmp;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* Empty the sheets selection */
@@ -567,7 +553,6 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 	GList   *selections;
 	char    *result;
 
-	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (sheet->selections, NULL);
 
@@ -599,38 +584,26 @@ sheet_selection_to_string (Sheet *sheet, gboolean include_sheet_name_prefix)
 void
 sheet_selection_ant (Sheet *sheet)
 {
-	GList *l;
-
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetControlGUI *sheet_view = l->data;
-
-		sheet_view_selection_ant (sheet_view);
-	}
+	SHEET_FOREACH_CONTROL (sheet, control,
+		sheet_view_selection_ant (control););
 }
 
 void
 sheet_selection_unant (Sheet *sheet)
 {
-	GList *l;
-
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
-	for (l = sheet->sheet_views; l; l = l->next){
-		SheetControlGUI *sheet_view = l->data;
-
-		sheet_view_selection_unant (sheet_view);
-	}
+	SHEET_FOREACH_CONTROL (sheet, control,
+		sheet_view_selection_unant (control););
 }
 
 gboolean
 sheet_selection_copy (WorkbookControl *wbc, Sheet *sheet)
 {
 	SheetSelection *ss;
-	g_return_val_if_fail (sheet != NULL, FALSE);
+
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
 
@@ -663,7 +636,6 @@ sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
 	 *        We only store the src, paste does the move.
 	 */
 
-	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 	g_return_val_if_fail (sheet->selections, FALSE);
 
@@ -687,7 +659,7 @@ sheet_selection_cut (WorkbookControl *wbc, Sheet *sheet)
  * @allow_intersection : Divide the selection into nonoverlapping subranges.
  */
 GSList *
-selection_get_ranges (Sheet *sheet, gboolean const allow_intersection)
+selection_get_ranges (Sheet const *sheet, gboolean const allow_intersection)
 {
 	GList  *l;
 	GSList *proposed = NULL;
@@ -1010,7 +982,6 @@ selection_apply (Sheet *sheet, SelectionApplyFunc const func,
 	GList *l;
 	GSList *proposed = NULL;
 
-	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 
 	if (allow_intersection) {
@@ -1114,13 +1085,16 @@ selection_contains_colrow (Sheet *sheet, int colrow, gboolean is_col)
 	return FALSE;
 }
 
-/*
+/**
  * selection_foreach_range :
  * @sheet : The whose selection is being iterated.
  * @from_start : Iterate from start to end or end to start.
  * @range_cb : A function to call for each sheet.
  * @user_data :
  *
+ * Iterate through the ranges in a selection.
+ * NOTE : The function assumes that the callback routine does NOT change the
+ * selection list.  This can be changed in the future if it is a requirement.
  */
 gboolean
 selection_foreach_range (Sheet *sheet, gboolean from_start,
@@ -1131,7 +1105,6 @@ selection_foreach_range (Sheet *sheet, gboolean from_start,
 {
 	GList *l;
 
-	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	if (from_start)
@@ -1297,12 +1270,9 @@ sheet_col_selection_type (Sheet const *sheet, int col)
 	GList *l;
 	int ret = COL_ROW_NO_SELECTION;
 
-	g_return_val_if_fail (sheet != NULL, COL_ROW_NO_SELECTION);
 	g_return_val_if_fail (IS_SHEET (sheet), COL_ROW_NO_SELECTION);
 
-	if (sheet->selections == NULL ||
-	    sheet->new_object != NULL ||
-	    sheet->current_object != NULL)
+	if (sheet->selections == NULL)
 		return COL_ROW_NO_SELECTION;
 
 	for (l = sheet->selections; l != NULL; l = l->next){
@@ -1329,15 +1299,12 @@ sheet_row_selection_type (Sheet const *sheet, int row)
 	GList *l;
 	int ret = COL_ROW_NO_SELECTION;
 
-	g_return_val_if_fail (sheet != NULL, COL_ROW_NO_SELECTION);
 	g_return_val_if_fail (IS_SHEET (sheet), COL_ROW_NO_SELECTION);
 
-	if (sheet->selections == NULL ||
-	    sheet->new_object != NULL ||
-	    sheet->current_object != NULL)
+	if (sheet->selections == NULL)
 		return COL_ROW_NO_SELECTION;
 
-	for (l = sheet->selections; l != NULL; l = l->next){
+	for (l = sheet->selections; l != NULL; l = l->next) {
 		ss = l->data;
 
 		if (ss->user.start.row > row ||
@@ -1367,7 +1334,6 @@ sheet_selection_full_cols (Sheet const *sheet, int col)
 	GList *l;
 	gboolean found = FALSE;
 
-	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	for (l = sheet->selections; l != NULL; l = l->next){
@@ -1394,7 +1360,6 @@ sheet_selection_full_rows (Sheet const *sheet, int row)
 	GList *l;
 	gboolean found = FALSE;
 
-	g_return_val_if_fail (sheet != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
 	for (l = sheet->selections; l != NULL; l = l->next){

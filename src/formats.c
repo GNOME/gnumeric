@@ -159,22 +159,22 @@ currency_date_format_init (void)
 	char const *curr = format_get_currency ();
 
 	cell_format_currency [0] =
-		g_strdup_printf ("%s#,##0", curr);
+		g_strdup_printf ("\"%s\"#,##0", curr);
 	cell_format_currency [1] =
-		g_strdup_printf ("%s#,##0_);(%s#,##0)", curr, curr);
+		g_strdup_printf ("\"%s\"#,##0_);(%s#,##0)", curr, curr);
 	cell_format_currency [2] =
-		g_strdup_printf ("%s#,##0_);[Red](%s#,##0)", curr, curr);
+		g_strdup_printf ("\"%s\"#,##0_);[Red](%s#,##0)", curr, curr);
 	cell_format_currency [3] =
-		g_strdup_printf ("%s#,##0.00", curr);
+		g_strdup_printf ("\"%s\"#,##0.00", curr);
 	cell_format_currency [4] =
-		g_strdup_printf ("%s#,##0.00_);(%s#,##0.00)", curr, curr);
+		g_strdup_printf ("\"%s\"#,##0.00_);(%s#,##0.00)", curr, curr);
 	cell_format_currency [5] =
-		g_strdup_printf ("%s#,##0.00_);[Red](%s#,##0.00)", curr, curr);
+		g_strdup_printf ("\"%s\"#,##0.00_);[Red](%s#,##0.00)", curr, curr);
 
 	cell_format_account [0] =
-		g_strdup_printf ("_(%s* #,##0_);_(%s* (#,##0);_(%s* \"-\"_);_(@_)", curr, curr, curr);
+		g_strdup_printf ("_(\"%s\"* #,##0_);_(\"%s\"* (#,##0);_(\"%s\"* \"-\"_);_(@_)", curr, curr, curr);
 	cell_format_account [2] =
-		g_strdup_printf ("_(%s* #,##0.00_);_(%s* (#,##0.00);_(%s* \"-\"??_);_(@_)", curr, curr, curr);
+		g_strdup_printf ("_(\"%s\"* #,##0.00_);_(\"%s\"* (#,##0.00);_(\"%s\"* \"-\"??_);_(@_)", curr, curr, curr);
 
 	if (!format_month_before_day ()) {
 		cell_format_date [0]  = "d/m/yy";

@@ -21,7 +21,6 @@
 #include "workbook-control.h"
 #include "workbook.h"
 #include "ranges.h"
-#include "cell-comment.h"
 #include "commands.h"
 
 #include "xml-io.h"
@@ -146,7 +145,6 @@ paste_cell_with_operation (Sheet *dest_sheet,
 	new_cell->pos.row = target_row;
 
 	/* FIXME : This does not handle arrays, linked cells, ranges, etc. */
-
 	if ((paste_flags & PASTE_CONTENT) &&
 	    ((c_copy->u.cell != NULL && cell_has_expr (c_copy->u.cell)) ||
 	           (old_cell != NULL && cell_has_expr (old_cell)))) {
@@ -237,9 +235,6 @@ paste_cell (Sheet *dest_sheet,
 
 		if (c_copy->u.text)
 			cell_set_text (new_cell, c_copy->u.text);
-
-		if (c_copy->type == CELL_COPY_TYPE_TEXT_AND_COMMENT && c_copy->comment)
-			cell_set_comment (new_cell, c_copy->comment);
 	}
 }
 
@@ -423,7 +418,6 @@ clipboard_prepend_cell (Sheet *sheet, int col, int row, Cell *cell, void *user_d
 
 	copy = g_new (CellCopy, 1);
 	copy->type       = CELL_COPY_TYPE_CELL;
-	copy->comment    = NULL;
 	copy->u.cell     = cell_copy (cell);
 	copy->u.cell->pos.col = copy->col_offset = col - c->base_col;
 	copy->u.cell->pos.row = copy->row_offset = row - c->base_row;
@@ -518,15 +512,8 @@ clipboard_release (CellRegion *content)
 			this_cell->u.cell->row_info = NULL;
 			this_cell->u.cell->col_info = NULL;
 			cell_destroy (this_cell->u.cell);
-		} else {
-
-			if (this_cell->type == CELL_COPY_TYPE_TEXT_AND_COMMENT)
-				if (this_cell->comment != NULL)
-					g_free (this_cell->comment);
-
-			if (this_cell->u.text)
-				g_free (this_cell->u.text);
-		}
+		} else if (this_cell->u.text)
+			g_free (this_cell->u.text);
 
 		g_free (this_cell);
 	}

@@ -1,3 +1,91 @@
+2000-12-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object.c (sheet_object_position_pts) : new function.
+	(sheet_object_position_pixels) : new function.
+
+2000-11-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/xml-io.c : Begin moving the sheet object xml io into virtuals.
+
+2000-11-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet.c : Add SHEET_FOREACH_CONTROL to help abstract the
+	  implementation of controls and simplify changes later.
+	(sheet_set_zoom_factor) : reposition objects not just comments.
+	(sheet_get_objects) : New function.
+
+2000-11-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-object.c : Move most (not yet all) of the GUI aspects into
+	  the sheet control.  Revamp the semantics of the sheet-object
+	  virtuals.
+	new_view : now handles the sizing and realizing of objects.
+	Add support for persistance here.
+	Delete get/set bound.
+
+	* src/sheet-object-container.c : convert to new object management design
+	* src/sheet-object-graphic.c : Ditto.
+	* src/sheet-object-item.c : Ditto.
+	* src/sheet-object-widget.c : Ditto.
+
+	* src/sheet-object-bonobo.c (sheet_object_bonobo_construct) :
+	  sheet_object_construct now takes a default size.
+
+2000-11-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c : Move cell comment and sheet object
+	  placement routines here.  Rather than scattering them in non-gui
+	  modules.
+
+2000-11-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print.c (print_object_view_position) : Convert object position
+	  to points.
+
+	* src/selection.c (sheet_selection_redraw) : simplify.
+
+2000-11-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_object) : SheetObject
+	  editing is now specific to the SheetControl.
+	(gnumeric_sheet_key_press) : Ditto.
+	(gnumeric_sheet_key_release) : Ditto.
+
+	* src/selection.c (sheet_is_cell_selected) : Ditto.
+	(sheet_col_selection_type) : Ditto.
+	(sheet_row_selection_type) : Ditto.
+
+	* src/item-bar.c (item_bar_draw) : Ditto.
+
+	* src/item-grid.c (item_grid_draw_background) : Ditto.
+	(item_grid_button_1) : Ditto.
+	(item_grid_event) : Ditto.
+	(cb_obj_create_motion) : Move the object creation GUI here.
+	(cb_obj_create_button_release) : and add partial support for
+	  autoscroll.
+	(sheet_object_begin_creation) : Ditto.
+
+2000-11-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell.c (cell_copy) : Comments are no longer associated directly
+	  with cells.
+	* src/clipboard.c (paste_cell) : Ditto.
+	(clipboard_release) : Ditto.
+
+	* src/bonobo-io.c (gnumeric_bonobo_obj_read) : No need to set bounds
+	  or realize the object here.  That is handed at a higher level.
+
+2000-11-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/number-match.c (compute_value) : Use strtol to simplify things.
+
+	* src/func.c (tokenized_help_new) : translate the help text.
+
+2000-11-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/formats.c (currency_date_format_init) : quote the currency
+	  names.
+
 2000-11-30  Almer S. Tigelaar  <almer1@dds.nl>
 
 	* src/preview-grid-controller.c (preview_grid_controller_new) :
@@ -7,7 +95,6 @@
 
 	* src/xml-io.c (xml_sheet_write): Initialise closure's rle_count
  	member.
-
 	(natural_order_cmp): Fix major brown-bag in ordering.
 
 2000-11-27  Morten Welinder  <terra@diku.dk>

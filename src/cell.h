@@ -14,8 +14,6 @@ typedef enum {
     CELL_IN_SHEET_LIST	   = 0x20000
 } CellFlags;
 
-typedef struct _CellComment CellComment;
-
 /* Definition of a Gnumeric Cell */
 #define DEP_TO_CELL(dep)	((Cell *)(dep))
 #define CELL_TO_DEP(cell)	((Dependent *)(cell))
@@ -36,8 +34,6 @@ struct _Cell {
 	 *              text for editing.
 	 */
 	StyleFormat *format;
-
-	CellComment *comment;
 };
 
 /**
@@ -56,14 +52,14 @@ void        cell_content_changed         (Cell *cell);
 #define	    cell_expr_is_linked(cell)	((cell)->base.flags & DEPENDENT_IN_EXPR_LIST)
 #define	    cell_has_expr(cell)		((cell)->base.flags & CELL_HAS_EXPRESSION)
 #define	    cell_is_linked(cell)	((cell)->base.flags & CELL_IN_SHEET_LIST)
-#define	    cell_has_comment(cell)	((cell)->comment != NULL)
-gboolean    cell_is_blank		(Cell const * cell);
-Value *     cell_is_error               (Cell const * cell);
-gboolean    cell_is_number  		(Cell const * cell);
-gboolean    cell_is_zero		(Cell const * cell);
-gboolean    cell_is_partial_array       (Cell const * cell);
-ExprArray const * cell_is_array         (Cell const * cell);
-StyleHAlignFlags  cell_default_halign   (Cell const *v, MStyle const *mstyle);
+CellComment*	 cell_has_comment	(Cell const *cell);
+gboolean	 cell_is_blank		(Cell const *cell);
+Value *		 cell_is_error		(Cell const *cell);
+gboolean	 cell_is_number		(Cell const *cell);
+gboolean	 cell_is_zero		(Cell const *cell);
+gboolean	 cell_is_partial_array	(Cell const *cell);
+ExprArray const *cell_is_array		(Cell const *cell);
+StyleHAlignFlags cell_default_halign	(Cell const *v, MStyle const *mstyle);
 
 /**
  * Utilities to assign the contents of a cell

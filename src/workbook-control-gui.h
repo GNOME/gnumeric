@@ -18,6 +18,7 @@ void		 workbook_control_gui_init      (WorkbookControlGUI *wbcg,
 
 GtkWindow *wb_control_gui_toplevel        (WorkbookControlGUI *wbcg);
 Sheet *    wb_control_gui_focus_cur_sheet (WorkbookControlGUI *wbcg);
+SheetControlGUI *wb_control_gui_cur_sheet (WorkbookControlGUI *wbcg);
 
 void       wb_control_gui_autosave_cancel (WorkbookControlGUI *wbcg);
 void       wb_control_gui_autosave_set    (WorkbookControlGUI *wbcg,

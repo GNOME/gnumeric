@@ -9,29 +9,32 @@
 #include <gdk/gdkkeysyms.h>
 #include "gnumeric.h"
 #include "gnumeric-util.h"
+#include "gnumeric-type-util.h"
 #include "sheet-control-gui.h"
 #include "dialogs.h"
 #include "sheet-object-item.h"
 
 static SheetObject *sheet_object_item_parent_class;
 
-static GnomeCanvasItem *
-sheet_object_item_new_view (SheetObject *so, SheetControlGUI *sheet_view)
+static GtkObject *
+sheet_object_item_new_view (SheetObject *so, SheetControlGUI *s_control)
 {
-	GnomeCanvasItem *item = NULL;
+	GnomeCanvasItem *so_view = NULL;
 
 	/*
 	 * Create item/view-frame
 	 */
-	item = bonobo_client_site_new_item (
+	so_view = bonobo_client_site_new_item (
 		SHEET_OBJECT_BONOBO (so)->client_site,
-		sheet_view->object_group);
+		s_control->object_group);
 
-	return item;
+	scg_object_register (so, so_view);
+	return GTK_OBJECT (so_view);
 }
 
 static void
-sheet_object_item_update_bounds (SheetObject *sheet_object)
+sheet_object_item_update_bounds (SheetObject *so, GtkObject *obj_view,
+				 SheetControlGUI *s_control)
 {
 }
 
@@ -47,25 +50,6 @@ sheet_object_item_class_init (GtkObjectClass *object_class)
 	sheet_object_class->update_bounds = sheet_object_item_update_bounds;
 }
 
-GtkType
-sheet_object_item_get_type (void)
-{
-	static GtkType type = 0;
-
-	if (!type) {
-		GtkTypeInfo info = {
-			"SheetObjectItem",
-			sizeof (SheetObjectItem),
-			sizeof (SheetObjectItemClass),
-			(GtkClassInitFunc) sheet_object_item_class_init,
-			(GtkObjectInitFunc) NULL,
-			NULL, /* reserved 1 */
-			NULL, /* reserved 2 */
-			(GtkClassInitFunc) NULL
-		};
-
-		type = gtk_type_unique (sheet_object_bonobo_get_type (), &info);
-	}
-
-	return type;
-}
+GNUMERIC_MAKE_TYPE (sheet_object_item, "SheetObjectItem", SheetObjectItem,
+		    sheet_object_item_class_init, NULL,
+		    sheet_object_bonobo_get_type ())

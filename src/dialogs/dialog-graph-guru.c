@@ -31,6 +31,7 @@
 #include "workbook-private.h" /* FIXME Ick */
 #include "sheet-object.h"
 #include "sheet-object-container.h"
+#include "sheet-control-gui.h"
 #include "selection.h"
 #include "ranges.h"
 #include "value.h"
@@ -78,6 +79,7 @@ typedef struct
 
 	/* external state */
 	WorkbookControlGUI *wbcg;
+	SheetControlGUI	   *scg;
 	Workbook *wb;
 	Sheet	 *sheet;
 } GraphGuruState;
@@ -236,7 +238,7 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 		if (bonobo_client_site_bind_embeddable (client_site, state->manager_client)) {
 			SheetObject *so = sheet_object_container_new_bonobo (
 				state->sheet, client_site);
-			sheet_mode_create_object (so);
+			scg_mode_create_object (state->scg, so);
 		}
 
 		/* Add a reference to the vector so that they continue to exist
@@ -507,6 +509,7 @@ dialog_graph_guru (WorkbookControlGUI *wbcg)
 
 	state = g_new0(GraphGuruState, 1);
 	state->wbcg	= wbcg;
+	state->scg	= wb_control_gui_cur_sheet (wbcg);
 	state->wb	= wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 	state->sheet	= wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	state->valid	= FALSE;

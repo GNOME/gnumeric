@@ -31,6 +31,7 @@
 #include "dependent.h"
 #include "sheet-control-gui.h"
 #include "sheet-object-widget.h"
+#include "sheet-object-impl.h"
 #include "expr.h"
 #include "value.h"
 #include "selection.h"
@@ -93,33 +94,24 @@ sheet_object_widget_set_active (SheetObject *so, gboolean val)
 	}
 }
 
-static GnomeCanvasItem *
+static GtkObject *
 sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *sheet_view)
 {
-	GnomeCanvasItem *item;
-	GtkWidget *view_widget;
-	double x1, x2, y1, y2;
+	GnomeCanvasItem *view_item;
+	GtkWidget *view_widget =
+		SOW_CLASS(so)->create_widget (SHEET_OBJECT_WIDGET (so),
+					      sheet_view);
 
-	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
-
-	view_widget = SOW_CLASS(so)->create_widget (SHEET_OBJECT_WIDGET (so),
-						    sheet_view);
-
-	item = gnome_canvas_item_new (
+	view_item = gnome_canvas_item_new (
 		sheet_view->object_group,
 		gnome_canvas_widget_get_type (),
 		"widget", view_widget,
-		"x",      x1,
-		"y",      y1,
-		"width",  x2 - x1 + 1.,
-		"height", y2 - y1 + 1.,
 		"size_pixels", FALSE,
 		NULL);
-
-	sheet_object_widget_handle (so, view_widget, item);
+	scg_object_widget_register (so, view_widget, view_item);
 	gtk_widget_show_all (view_widget);
 
-	return item;
+	return GTK_OBJECT (view_item);
 }
 
 /*
@@ -127,24 +119,18 @@ sheet_object_widget_new_view (SheetObject *so, SheetControlGUI *sheet_view)
  * destroying/updating/creating the views
  */
 static void
-sheet_object_widget_update_bounds (SheetObject *so)
+sheet_object_widget_update_bounds (SheetObject *so, GtkObject *view,
+				   SheetControlGUI *scg)
 {
-	GList  *l;
-	double x1, y1, x2, y2;
+	double coords [4];
 
-	sheet_object_get_bounds (so, &x1, &y1, &x2, &y2);
-
-	for (l = so->realized_list; l; l = l->next){
-		GnomeCanvasItem *item = l->data;
-
-		gnome_canvas_item_set (
-			item,
-			"x",      x1,
-			"y",      y1,
-			"width",  x2 - x1 + 1.,
-			"height", y2 - y1 + 1.,
-			NULL);
-	}
+	/* NOTE : far point is EXCLUDED so we add 1 */
+	scg_object_view_position (scg, so, coords);
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (view),
+		"x", coords [0], "y", coords [1],
+		"width",  coords [2] - coords [0] + 1.,
+		"height", coords [3] - coords [1] + 1.,
+		NULL);
 }
 
 static void
@@ -171,53 +157,14 @@ sheet_object_widget_construct (SheetObjectWidget *sow, Sheet *sheet)
 
 	so = SHEET_OBJECT (sow);
 
-	sheet_object_construct  (so, sheet);
+	sheet_object_construct (so, sheet, 40, 40);
 	so->type = SHEET_OBJECT_ACTION_CAN_PRESS;
-	sheet_object_set_bounds (so, 0, 0, 30, 30);
 }
 
 static GNUMERIC_MAKE_TYPE (sheet_object_widget,
 			   "SheetObjectWidget", SheetObjectWidget,
 			   &sheet_object_widget_class_init, NULL,
 			   sheet_object_get_type ())
-
-/**
- * sheet_object_widget_event:
- * @widget: The widget it happens on
- * @event:  The event.
- * @item:   The canvas item.
- *
- *  This handles an event on the object stored in the "sheet_object" data on
- *  the canvas item, it passes the event if button 3 is pressed to the standard
- *  sheet-object handler otherwise it passes it on.
- *
- * Return value: event handled
- */
-static int
-sheet_object_widget_event (GtkWidget *widget, GdkEvent *event,
-			   GnomeCanvasItem *item)
-{
-	if (event->type == GDK_BUTTON_PRESS && event->button.button == 3) {
-		SheetObject *so =
-			gtk_object_get_data (GTK_OBJECT (item), "sheet_object");
-
-		g_return_val_if_fail (so != NULL, FALSE);
-
-		return sheet_object_canvas_event (item, event, so);
-	}
-
-	return FALSE;
-}
-
-void
-sheet_object_widget_handle (SheetObject *so, GtkWidget *widget,
-			    GnomeCanvasItem *item)
-{
-	gtk_object_set_data (GTK_OBJECT (item), "sheet_object", so);
-	gtk_signal_connect  (GTK_OBJECT (widget), "event",
-			     GTK_SIGNAL_FUNC (sheet_object_widget_event),
-			     item);
-}
 
 /****************************************************************************/
 static GtkType sheet_widget_label_get_type (void);

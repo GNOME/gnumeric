@@ -15,7 +15,8 @@
 #include "workbook-control-gui-priv.h"
 #include "sheet-control-gui.h"
 #include "sheet.h"
-#include "sheet-object.h"
+#include "sheet-object-impl.h"
+#include "gnumeric-type-util.h"
 #include "cell.h"
 #include "cell-draw.h"
 #include "cellspan.h"
@@ -27,7 +28,7 @@
 #include "color.h"
 #include "pattern.h"
 #include <gal/widgets/e-cursors.h>
-#include "gnumeric-type-util.h"
+#include <math.h>
 
 #undef PAINT_DEBUG
 #if 0
@@ -266,19 +267,22 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 
 static MStyle *
 item_grid_draw_background (GdkDrawable *drawable, ItemGrid *item_grid,
-			   ColRowInfo const * const ci, ColRowInfo const * const ri,
+			   ColRowInfo const *ci, ColRowInfo const *ri,
 			   /* Pass the row, col because the ColRowInfos may be the default. */
 			   int col, int row, int x, int y,
 			   gboolean const extended_left)
 {
-	Sheet  *sheet  = item_grid->scg->sheet;
+	SheetControlGUI *scg  = item_grid->scg;
+	Sheet  *sheet  = scg->sheet;
 	MStyle *mstyle = sheet_style_compute (sheet, col, row);
 	GdkGC  * const gc     = item_grid->empty_gc;
 	int const w    = ci->size_pixels;
 	int const h    = ri->size_pixels;
 
-	gboolean const is_selected = !(sheet->cursor.edit_pos.col == col && sheet->cursor.edit_pos.row == row) &&
-	    sheet_is_cell_selected (sheet, col, row);
+	gboolean const is_selected =
+		scg->current_object == NULL && scg->new_object == NULL &&
+		!(sheet->cursor.edit_pos.col == col && sheet->cursor.edit_pos.row == row) &&
+		sheet_is_cell_selected (sheet, col, row);
 
 	if (gnumeric_background_set_gc (mstyle, gc, item_grid->canvas_item.canvas, is_selected))
 		/* Fill the entire cell including the right & left grid line */
@@ -540,10 +544,177 @@ item_grid_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 	return 0.0;
 }
 
+/***********************************************************************/
+
+typedef struct {
+	SheetControlGUI *scg;
+	double x, y;
+	gboolean has_been_sized;
+	GnomeCanvasItem *item;
+} SheetObjectCreationData;
+
+/*
+ * cb_obj_create_motion:
+ * @gsheet :
+ * @event :
+ * @closure :
+ *
+ * Rubber band a rectangle to show where the object is going to go,
+ * and support autoscroll.
+ *
+ * TODO : Finish autoscroll
+ */
+static gboolean
+cb_obj_create_motion (GnumericSheet *gsheet, GdkEventMotion *event,
+		      SheetObjectCreationData *closure)
+{
+	double tmp_x, tmp_y;
+	double x1, x2, y1, y2;
+
+	g_return_val_if_fail (gsheet != NULL, TRUE);
+
+	gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
+				      event->x, event->y,
+				      &tmp_x, &tmp_y);
+
+	if (tmp_x < closure->x) {
+		x1 = tmp_x;
+		x2 = closure->x;
+	} else {
+		x2 = tmp_x;
+		x1 = closure->x;
+	}
+	if (tmp_y < closure->y) {
+		y1 = tmp_y;
+		y2 = closure->y;
+	} else {
+		y2 = tmp_y;
+		y1 = closure->y;
+	}
+
+	if (!closure->has_been_sized) {
+		closure->has_been_sized =
+		    (fabs (tmp_x - closure->x) > 5.) ||
+		    (fabs (tmp_y - closure->y) > 5.);
+	}
+
+	gnome_canvas_item_set (closure->item,
+			       "x1", x1, "y1", y1,
+			       "x2", x2, "y2", y2,
+			       NULL);
+
+	return TRUE;
+}
+
+/**
+ * cb_obj_create_button_release :
+ *
+ * Invoked as the last step in object creation.
+ */
+static gboolean
+cb_obj_create_button_release (GnumericSheet *gsheet, GdkEventButton *event,
+			      SheetObjectCreationData *closure)
+{
+	double pts [4];
+	SheetObject *so;
+	SheetControlGUI *scg;
+
+	g_return_val_if_fail (gsheet != NULL, 1);
+	g_return_val_if_fail (closure != NULL, -1);
+	g_return_val_if_fail (closure->scg != NULL, -1);
+	g_return_val_if_fail (closure->scg->new_object != NULL, -1);
+
+	scg = closure->scg;
+	so = scg->new_object;
+	sheet_set_dirty (scg->sheet, TRUE);
+
+	/* If there has been some motion use the press and release coords */
+	if (closure->has_been_sized) {
+		pts [0] = closure->x;
+		pts [1] = closure->y;
+		gnome_canvas_window_to_world (GNOME_CANVAS (gsheet),
+					      event->x, event->y,
+					      pts + 2, pts + 3);
+	} else {
+	/* Otherwise translate default size to use release point as top left */
+		scg_object_view_position (scg, so, pts);
+		pts [2] -= pts [0]; pts [2] += (pts [0] = closure->x);
+		pts [3] -= pts [1]; pts [3] += (pts [1] = closure->y);
+	}
+
+	scg_object_calc_position (scg, so, pts);
+	sheet_object_realize (so);
+
+	gtk_signal_disconnect_by_func (
+		GTK_OBJECT (gsheet),
+		GTK_SIGNAL_FUNC (cb_obj_create_motion), closure);
+	gtk_signal_disconnect_by_func (
+		GTK_OBJECT (gsheet),
+		GTK_SIGNAL_FUNC (cb_obj_create_button_release), closure);
+
+	gtk_object_destroy (GTK_OBJECT (closure->item));
+	g_free (closure);
+
+	/* move object from creation to edit mode */
+	scg->new_object = NULL;
+	scg_mode_edit_object (scg, so);
+
+	return TRUE;
+}
+
+/*
+ * sheet_object_begin_creation :
+ *
+ * Starts the process of creating a SheetObject.  Handles the initial
+ * button press on the GnumericSheet.
+ *
+ * TODO : when we being supporting panes this will need to move into the
+ * sheet-control-gui layer.
+ */
+static gboolean
+sheet_object_begin_creation (GnumericSheet *gsheet, GdkEventButton *event)
+{
+	SheetControlGUI *scg;
+	SheetObject *so;
+	SheetObjectCreationData *closure;
+
+	g_return_val_if_fail (gsheet != NULL, TRUE);
+	g_return_val_if_fail (gsheet->scg != NULL, TRUE);
+
+	scg = gsheet->scg;
+
+	g_return_val_if_fail (scg != NULL, TRUE);
+	g_return_val_if_fail (scg->current_object == NULL, TRUE);
+	g_return_val_if_fail (scg->new_object != NULL, TRUE);
+
+	so = scg->new_object;
+
+	closure = g_new (SheetObjectCreationData, 1);
+	closure->scg = scg;
+	closure->has_been_sized = FALSE;
+	closure->x = event->x;
+	closure->y = event->y;
+
+	closure->item = gnome_canvas_item_new (
+		gsheet->scg->object_group,
+		gnome_canvas_rect_get_type (),
+		"outline_color", "black",
+		"width_units",   2.0,
+		NULL);
+
+	gtk_signal_connect (GTK_OBJECT (gsheet), "button_release_event",
+			    GTK_SIGNAL_FUNC (cb_obj_create_button_release), closure);
+	gtk_signal_connect (GTK_OBJECT (gsheet), "motion_notify_event",
+			    GTK_SIGNAL_FUNC (cb_obj_create_motion), closure);
+
+	return TRUE;
+}
+
+
 /***************************************************************************/
 
 static int
-item_grid_button_1 (Sheet *sheet, GdkEventButton *event,
+item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 		    ItemGrid *item_grid, int col, int row, int x, int y)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
@@ -557,15 +728,15 @@ item_grid_button_1 (Sheet *sheet, GdkEventButton *event,
 		return 1;
 
 	/* A new object is ready to be realized and inserted */
-	if (sheet->new_object != NULL)
+	if (scg->new_object != NULL)
 		return sheet_object_begin_creation (gsheet, event);
 
 	/* If we are not configuring an object then clicking on the sheet
 	 * ends the edit.
 	 */
-	if (sheet->current_object != NULL) {
-		if (!workbook_edit_has_guru (gsheet->scg->wbcg))
-			sheet_mode_edit	(sheet);
+	if (scg->current_object != NULL) {
+		if (!workbook_edit_has_guru (scg->wbcg))
+			scg_mode_edit (scg);
 	} else
 		wb_control_gui_focus_cur_sheet (gsheet->scg->wbcg);
 
@@ -599,17 +770,17 @@ item_grid_button_1 (Sheet *sheet, GdkEventButton *event,
 	workbook_finish_editing (gsheet->scg->wbcg, TRUE);
 
 	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
-		sheet_selection_reset_only (sheet);
+		sheet_selection_reset_only (scg->sheet);
 
 	item_grid->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
 
-	if ((event->state & GDK_SHIFT_MASK) && sheet->selections)
-		sheet_selection_extend_to (sheet, col, row);
+	if ((event->state & GDK_SHIFT_MASK) && scg->sheet->selections)
+		sheet_selection_extend_to (scg->sheet, col, row);
 	else {
-		sheet_selection_add (sheet, col, row);
-		sheet_make_cell_visible (sheet, col, row);
+		sheet_selection_add (scg->sheet, col, row);
+		sheet_make_cell_visible (scg->sheet, col, row);
 	}
-	sheet_update (sheet);
+	sheet_update (scg->sheet);
 
 	gnome_canvas_item_grab (item,
 				GDK_POINTER_MOTION_MASK |
@@ -661,17 +832,16 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	GnomeCanvas *canvas = item->canvas;
 	ItemGrid *item_grid = ITEM_GRID (item);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
-	Sheet *sheet = item_grid->scg->sheet;
-	int col, row, x, y, left, top;
-	int width, height;
+	SheetControlGUI *scg = item_grid->scg;
+	int col, row, x, y, left, top, width, height;
 
 	switch (event->type){
 	case GDK_ENTER_NOTIFY: {
 		int cursor;
 
-		if (sheet->new_object != NULL)
+		if (scg->new_object != NULL)
 			cursor = E_CURSOR_THIN_CROSS;
-		else if (sheet->current_object != NULL)
+		else if (scg->current_object != NULL)
 			cursor = E_CURSOR_ARROW;
 		else
 			cursor = E_CURSOR_FAT_CROSS;
@@ -686,14 +856,15 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			sheet_view_stop_sliding (item_grid->scg);
 
 			if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
-				sheet_make_cell_visible (sheet, sheet->cursor.edit_pos.col,
-							 sheet->cursor.edit_pos.row);
+				sheet_make_cell_visible (scg->sheet,
+							 scg->sheet->cursor.edit_pos.col,
+							 scg->sheet->cursor.edit_pos.row);
 
 			/* FIXME : when selection moves into the view we will need to do
 			 * this for all the sibling controls */
 			wb_control_selection_descr_set (
-				WORKBOOK_CONTROL (gsheet->scg->wbcg),
-				cell_pos_name (&sheet->cursor.edit_pos));
+				WORKBOOK_CONTROL (scg->wbcg),
+				cell_pos_name (&scg->sheet->cursor.edit_pos));
 
 			item_grid->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);
@@ -777,7 +948,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		if (event->motion.y < 0)
 			event->motion.y = 0;
 
-		sheet_selection_extend_to (sheet, col, row);
+		sheet_selection_extend_to (scg->sheet, col, row);
 		return TRUE;
 
 	case GDK_BUTTON_PRESS:
@@ -793,12 +964,12 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 
 		switch (event->button.button){
 		case 1:
-			return item_grid_button_1 (sheet, &event->button,
+			return item_grid_button_1 (scg, &event->button,
 						   item_grid, col, row, x, y);
 
 		case 2:
 			g_warning ("This is here just for demo purposes");
-			drag_start (GTK_WIDGET (item->canvas), event, sheet);
+			drag_start (GTK_WIDGET (item->canvas), event, scg->sheet);
 			return TRUE;
 
 		case 3:

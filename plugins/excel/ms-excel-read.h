@@ -23,7 +23,6 @@ typedef struct _ExcelSheet
 	Range  style_optimize;
 	double base_char_width;
 	double base_char_width_default;
-	guint comment_prev_col, comment_prev_row;
 } ExcelSheet;
 
 typedef struct _BiffBoundsheetData

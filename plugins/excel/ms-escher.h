@@ -19,7 +19,7 @@
 
 struct _MSEscherBlip
 {
-	char const   *repo_id;
+	char const   *obj_id;
 #ifdef ENABLE_BONOBO
 	BonoboStream *stream;
 #else

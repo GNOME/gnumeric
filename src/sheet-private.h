@@ -18,8 +18,7 @@ struct _SheetPrivate {
 	gboolean	 recompute_visibility;
 	gboolean	 recompute_spans;
 	gboolean	 resize_scrollbar;
-	int		 reposition_row_comment;
-	int		 reposition_col_comment;
+	CellPos		 reposition_objects;
 };
 
 #endif /* GNUMERIC_SHEET_PRIVATE_H */

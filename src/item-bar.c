@@ -218,12 +218,14 @@ bar_draw_cell (ItemBar const * const item_bar,
 static void
 item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int width, int height)
 {
-	ItemBar const * const item_bar = ITEM_BAR (item);
-	Sheet   const * const sheet = item_bar->scg->sheet;
-	GnumericSheet const * const gsheet = GNUMERIC_SHEET (item_bar->scg->canvas);
+	ItemBar const         *item_bar = ITEM_BAR (item);
+	SheetControlGUI const *scg = item_bar->scg;
+	Sheet const           *sheet = scg->sheet;
+	GnumericSheet const   *gsheet = GNUMERIC_SHEET (scg->canvas);
 	GtkWidget *canvas = GTK_WIDGET (GNOME_CANVAS_ITEM (item)->canvas);
 	int pixels;
 	GdkRectangle rect;
+	gboolean has_object = scg->new_object != NULL || scg->current_object != NULL;
 
 	if (item_bar->orientation == GTK_ORIENTATION_VERTICAL) {
 		/* Include a 1 pixel buffer.
@@ -266,7 +268,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 					rect.y = total - pixels;
 					rect.height = pixels;
 					bar_draw_cell (item_bar, drawable,
-						       sheet_row_selection_type (sheet, element),
+						       has_object ? COL_ROW_NO_SELECTION
+						       : sheet_row_selection_type (sheet, element),
 						       str, &rect);
 				}
 			}
@@ -304,7 +307,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 					rect.x = total - pixels;
 					rect.width = pixels;
 					bar_draw_cell (item_bar, drawable,
-						       sheet_col_selection_type (sheet, element),
+						       has_object ? COL_ROW_NO_SELECTION
+						       : sheet_col_selection_type (sheet, element),
 						       col_name (element), &rect);
 				}
 			}

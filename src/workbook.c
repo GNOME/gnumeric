@@ -1,8 +1,9 @@
 /*
- * workbook.c:  Workbook management (toplevel windows)
+ * workbook.c: workbook model and manipulation utilities
  *
- * Author:
+ * Authors:
  *    Miguel de Icaza (miguel@gnu.org).
+ *    Jody Goldberg (jgoldberg@home.com)
  *
  * (C) 1998, 1999, 2000 Miguel de Icaza
  * (C) 2000 Helix Code, Inc.
@@ -16,6 +17,7 @@
 #include "command-context.h"
 #include "application.h"
 #include "sheet.h"
+#include "sheet-control-gui.h" /* ICK : remove when mode_edit is virtualized */
 #include "dependent.h"
 #include "expr.h"
 #include "expr-name.h"
@@ -615,8 +617,6 @@ gboolean
 workbook_set_saveinfo (Workbook *wb, const char *name,
 		       FileFormatLevel level, FileFormatSave save_fn)
 {
-	char *base_name;
-
 	g_return_val_if_fail (wb != NULL, FALSE);
 	g_return_val_if_fail (name != NULL, FALSE);
 	g_return_val_if_fail (level > FILE_FL_NONE && level <= FILE_FL_AUTO,
@@ -982,7 +982,9 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 			      == sheet, FALSE);
 
 	/* Finish any object editing */
-	sheet_mode_edit (sheet);
+	/* FIXME : when we virtualize SheetControl this will be the first candidate */
+	SHEET_FOREACH_CONTROL (sheet, control,
+		scg_mode_edit (control););
 
 	sheet_index = workbook_sheet_index_get (wb, sheet);
 
@@ -1194,4 +1196,3 @@ workbook_sheet_rename (WorkbookControl *wbc,
 
 	return FALSE;
 }
-

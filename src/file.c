@@ -12,6 +12,7 @@
 #include "dialogs.h"
 #include "xml-io.h"
 #include "file.h"
+#include "sheet.h"
 #include "application.h"
 #include "io-context-priv.h"
 #include "command-context.h"

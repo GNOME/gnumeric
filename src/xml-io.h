@@ -9,8 +9,7 @@
 #ifndef GNUMERIC_XML_IO_H
 #define GNUMERIC_XML_IO_H
 
-#include "sheet.h"
-#include "sheet-object.h"
+#include "gnumeric.h"
 #include "gnome-xml/tree.h"
 #include "gnome-xml/xmlmemory.h"
 
@@ -30,10 +29,6 @@ typedef gboolean     (*XmlSheetObjectWriteFn) (xmlNodePtr   cur,
 					       gpointer     user_data);
 typedef SheetObject *(*XmlSheetObjectReadFn)  (xmlNodePtr   tree,
 					       Sheet       *sheet,
-					       double       x1,
-					       double       y1,
-					       double       x2,
-					       double       y2,
 					       gpointer     user_data);
 
 int        gnumeric_xml_read_workbook   (IOContext *context,
