@@ -140,12 +140,12 @@
     <title>Auto Correct Tool</title>
     &autocorrect;
   </chapter>
-
+<!-- disabled for now.
   <chapter id="tutorials">
     <title>Tutorials</title>
     <para>Nothing yet, will be some walkthroughs eventually.</para>
   </chapter>
-
+-->
   <chapter id="cell-elements">
     <title>Drawing on a worksheet</title>
     <para>boxes, labels, etc eventually.</para>

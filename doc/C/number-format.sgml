@@ -396,8 +396,10 @@ as needed. There are several justification options. See
   </para>
 
   <para> <xref linkend="formula-example-1"> is an example of some of 
-      the many variations of formatting one can apply to a number with 
-      the preset formats. </para>
+  the many variations of formatting one can apply to a number with 
+  the preset formats.  The currency and its placement is locale
+  specific
+  </para>
   
   <example id="formula-example-1">
     <title>Some examples of number formatting</title>
@@ -430,50 +432,66 @@ as needed. There are several justification options. See
    information.</para>
 
    <para>In <xref linkend="number-format-date-time-examples">  'd' is a day,
-  'm' is a month, 'y' is a year, 'h' is an hour, and 's' is a second.</para>
-
+  'm' is a month, 'y' is a year, 'h' is an hour, and 's' is a second.  The default set
+  of formats is locale specific.  <application>Gnumeric</application> attempts
+  to guess whether the locale puts months before days or vice versa.
+  </para>
 
    <example id="number-format-date-time-examples">
 <title>Date and Time Formatting.</title>
 <programlisting>
 
-    Date
-        Format                     Sample
-   Serial number		36068.7	
-   m/d/yyyy	        	10/1/1998	
-   d-mmm-yy		        1-Oct-98	
-   d-mmm-yyyy		        1-Oct-1998	
-   d-mmm		        1-Oct	
-   d-mm		                1-10	
-   mmm/d		        Oct/1	
-   mm/d		                10/1	
-   mm/dd/yy		        10/01/98	
-   mm/dd/yyyy		        10/01/1998	
-   mmm/dd/yy		        Oct/01/98	
-   mmm/dd/yyyy		        Oct/01/1998	
-   mmm/ddd/yy		        Oct/Thu/98	
-   mmm/ddd/yyyy		        10/01/1998	
-   mm/ddd/yy		        10/Thu/98	
-   mm/ddd/yyyy		        10/Thu/1998	
-   mmm-yy		        Oct-98	
-   mmm-yyyy		        Oct-1998	
-   m/d/yy h:mm		        10/1/98 16:48	
-   m/d/yyyy h:mm                10/1/1998 16:48	
+Time
+    Format				Sample
 
+    General				36068.755
+    m/d/yy		d/m/yy		9/30/98 	(30/9/98)
+    m/d/yyyy		d/m/yyyy	9/30/1998 	(30/9/1998)
+    d-mmm-yy		mmm-d-yy	30-Sep-98	(Sep-30-98)
+    d-mmm-yyyy		mmm-d-yyyy	30-Sep-1998	(Sep-30-9198)
+    d-mmm		mmm-d		30-Sep		(Sep-30)
+    d-mm		mm-d		30-09		(09-30)
+    mmm/d		d/mmm		Sep/30		(30/Sep)
+    mm/d		d/mm		09/30		(30/09)
+    mm/dd/yy		dd/mm/yy	09/30/98	(30/09/98)
+    mm/dd/yyyy		dd/mm/yyyy	09/30/1998	(30/09/1998)
+    mmm/dd/yy		dd/mmm/yy	Sep/30/98	(30/Sep/98)
+    mmm/dd/yyyy		dd/mmm/yyyy	Sep/30/1998	(30/Sep/1998)
+    mmm/ddd/yy		ddd/mmm/yy	Sep/Wed/98	(Wed/Sep/98)
+    mmm/ddd/yyyy	ddd/mmm/yyyy	Sep/Wed/1998	(Wed/Sep/1998)
+    mm/ddd/yy		ddd/mm/yy	09/Wed/98	(Wed/09/98)
+    mm/ddd/yyyy		ddd/mm/yyyy	09/Wed/1998	(Wed/09/1998)
+    mmm-yy				Sep-98
+    mmm-yyyy				Sep-1998
+    mmmm-yy				September-98
+    mmmm-yyyy				September-1998
+    d/m/yy h:mm		m/d/yy h:mm	9/30/98 18:07	(30/9/98 187:07)
+    d/m/yyyy h:mm	m/d/yyyy h:mm	9/30/1998 18:07	(30/9/1998 187:07)
+    yyyy/mm/d				1998/09/30
+    yyyy/mmm/d				1998/Sep/30
+    yyyy/mm/dd				1998/09/30
+    yyyy/mmm/dd				1998/Sep/30
+    yyyy-mm-d				1998-09-30
+    yyyy-mmm-d				1998-Sep-30
+    yyyy-mm-dd				1998-09-30
+    yyyy-mmm-dd				1998-Sep-30
+    yy
+    yyyy
 
 Time
+    Format				Sample
 
-      Format                     Sample
-  Serial number		       36068.7	
-  h:mm:ss AM/PM		       4:51 PM	
-  h:mm:ss AM/PM		       4:51:18 PM	
-  h:mm		               16:51	
-  h:mm:ss		       16:51:18	
-  m/d/yy h:mm		       10/1/98 16:51	
-  mm:ss		               10:18	
-  mm:ss.0		       10:1836068.7	
-  [h]:mm:ss		       :10:18	
-
+    General				36068.755
+    h:mm AM/PM				6:07 PM
+    h:mm:ss AM/PM			6:07:12 PM
+    h:mm				18:07
+    h:mm:ss				18:07:12
+    m/d/yy h:mm		(d/m/yy h:mm)	9/30/98 18:07	(30/9/98 18:07)
+    mm:ss				07:12
+    [h]:mm:ss				865650:07:12
+    [h]:mm				865650:07
+    [mm]:ss				51939007:12
+    [ss]				3116340432
 
 </programlisting>
 </example>

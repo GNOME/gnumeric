@@ -3,12 +3,14 @@
     
     <para>The toolbars contain many icons representative of some the more common
       operations a user may need to use. It is intended to provide fast access to these
-      tools.</para>
+      tools. Almost all of these functions is also available through the menu
+	  system.
+	  </para>
    
 	<para>Gnumeric has three toolbars, the standard toolbar, the format toolbar
-and the object toolbar. These toolbars are essentialy groups of icons
-(pictures) which represent some of the more common tasks that users need. The
-three toolbars are shown in <xRef linkend="toolbars.png"></para
+	and the object toolbar. The three toolbars are shown in 
+	<xRef linkend="toolbars.png">
+	</para>
 
     <figure id="toolbars.png">
      <title>The Three Gnumeric Toolbars.</title>
@@ -18,16 +20,39 @@ three toolbars are shown in <xRef linkend="toolbars.png"></para
      </screenshot>
     </figure>
  	<para> These toolbars will be discussed separately in the subsequent
-sections of the Manual. User intreaction with each toolbar happens in
-essentially the same way. Similarly, the toobars can be configured in the same
-way. The next section explains the standard behaviour of Gnumeric toolbars.</para>
+	sections of the Manual. User intreaction with each toolbar happens in
+	essentially the same way. Similarly, the toobars can be configured in the same
+	way. The next section explains the standard behaviour of Gnumeric toolbars.</para>
 
 
 
 	<sect2 id="toolbar-use">
 		<title>General Toolbar Behaviour</title>
 
-		<para></para>
+		<para>In the same way that menus can be moved around, as was explained 
+		<xref linkend="menu-bars">, toolbars can be moved around the Gnumeric
+		window by dragging the little tag on the leftmost portion of the
+		toolbar. 
+		</para>
+		<para>
+		If the Gnumeric window is too small to fit all of the toolbar buttons,
+		gnumeric may display a little right pointing black arrow to indicate
+		that there are more options. If the user clicks on this arrow, a window
+		will open with the remaining buttons.
+		</para>
+		<para>
+		Certain toolbar options, such as the zoom box, are combinations of a
+		button or text entry area and a downward pointing arrow. If the user
+		clicks on the arrow, a list of avaliable options appears. It is also
+		posible to "tear off" these options into a separate window in the same
+		way as was explained for menus in <xref linkend="Menus-General">.
+		</para>
+		<para>
+		The toolbars can be configured by a context-menu which opens when the
+		user clicks with a particular mouse button on an empty part of the
+		toolbars or on the toolbar handle. This menu is explained in 
+		<xref linkend="menu-context-toolbars">.
+		</para>
 
 	</sect2>
 </sect1>
@@ -122,7 +147,9 @@ system.</para>
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Copy the cells in the current selection to the cut buffer and delete them.</para>
+	  <para>Copy the cells in the current selection to the clipboard buffer and mark them to 
+	  be deleted from the current position. The cells will only be removed if
+	  they are pasted into a new position.</para>
 	</listitem>
       </varlistentry>
 
@@ -134,7 +161,7 @@ system.</para>
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Copy the cells in the current selection to the cut buffer.</para>
+	  <para>Copy the cells in the current selection to the clipboard buffer.</para>
 	</listitem>
       </varlistentry>
 
@@ -146,7 +173,7 @@ system.</para>
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Paste the contents of the cut buffer into the active cell.</para>
+	  <para>Paste the contents of the clipboard buffer into the active cell.</para>
 	</listitem>
       </varlistentry>
 
@@ -181,18 +208,24 @@ system.</para>
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Sums the selected region in the selected cell.</para>
+	  <para>Starts a simple sum formula in the selected cell with Gnumeric
+	  simply waiting for a selection to be made to complete the sum. The user
+	  selects the destination cell, pushes this button, enters the range to be
+	  summed and pushes the confirm button (green arrow) in the data entry area
+	  or types the return key.
+	  </para>
 	</listitem>
       </varlistentry>
 
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-fx.png"></inlinegraphic>
-	   Sum into the current cell 
+	   The function guru
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Sums the selected region in the selected cell.</para>
+	  <para>This button will start a formula in the current cell using the
+	  function guru.</para>
 	</listitem>
       </varlistentry>
 
@@ -235,12 +268,15 @@ system.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-insert-object.png"></inlinegraphic>
-	    Sort Descending
-	  </guiicon>
+	    Insert Object
+		</guiicon>
 	</term>
 	<listitem>
-	  <para>Sorts the selected region in descending order based on the 
-          first column selected.</para>
+	  <para>This button will insert a component object into the current
+	  worksheet. Components are the way that the GNOME project has chosen to
+	  enable certain programs to use others within themselves. Gnumeric is able
+	  to use the Guppi plotting program and the Dia diagramming program in this
+	  way.</para>
 	</listitem>
       </varlistentry>
 
@@ -248,24 +284,26 @@ system.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-insert-component.png"></inlinegraphic>
-	   Sort Ascending 
+	   Insert Shaped Component
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Sorts the selected region in ascending order based on the 
-          first column selected.</para>
+	  <para>This button allows user to insert a component into Gnumeric that is
+	  not a simple rectangle but may have an arbitrary shape. This
+	  functionality is currently not used but provided for future needs.</para>
 	</listitem>
       </varlistentry>
 
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-zoom.png"></inlinegraphic>
-	    Sort Descending
-	  </guiicon>
+	    Zoom
+		</guiicon>
 	</term>
 	<listitem>
-	  <para>Sorts the selected region in descending order based on the 
-          first column selected.</para>
+	  <para>The zoom button allows the users to tradeoff the extent of the
+	  worksheet which is visible against the size of the visible text and cells.
+	  </para>
 	</listitem>
       </varlistentry>
 

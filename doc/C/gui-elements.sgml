@@ -132,7 +132,9 @@
 	  		<para>This toolbar enables the user to draw graphic
 	  		elements on the sheet, such as text labels, big red circles
 			or thin green arrows. These can be used to bring attention 
-			to a particular part of a worksheet. </para>
+			to a particular part of a worksheet. The object toolbar is 
+			explained in <xref linkend="obj-toolbar"> in the <xref
+			linkend="toolbars"> portion of the manual.</para>
 			</listitem>
     	  </varlistentry>
 

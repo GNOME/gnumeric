@@ -20,7 +20,7 @@
 	pointer when one of the mouse buttons, usually the rightmost, is
 	clicked. This menu is called a context menu because the entries in
 	the menu are different depending on the location of the mouse
-	pointer. The <guilabel>context</guilabel> menu is discussed in <xref
+	pointer. The <guilabel>context</guilabel> menus are discussed in <xref
 	linkend="context-menu">.</para>
 
 	<para>Both the main menus, on the menu bar, and context menus may have
@@ -28,17 +28,22 @@
 	access the sub-menus, the user must move the pointer down to the sub-menu
 	entry and carefully across to the position of the little arrow. After an
 	instant the sub-menu will open up and the user must carefully move the
-	pointer directly across into the sub-menu. Occaisonally, when there is not
+	pointer directly across into the sub-menu. Occasionally, when there is not
 	enough room to the right of the currently open menu, sub-menus may open to
 	the left. Navigating sub-menus can be difficult since the menu will close
 	if the mouse pointer moves into any other menu entry.</para>
+
+	<para>
+	Menu entries which are followed by an ellipsis (three dots) indicate that
+	this entry will open a dialog window which will ask the user for more choices.
+	</para>
 	
 <sect2 id="menu-bars">
     <title>The Menu bar.</title>    
 
     <para>The default location of the menu bar is at the top of the
     application window.  The menus provide quick and organized access to all
-    major commands such as opening files, saving files, printing and quiting
+    major commands such as opening files, saving files, printing and quitting
     the application. </para>
   <figure id="menubar.png">
     <title>The Gnumeric menubar.</title>
@@ -79,7 +84,12 @@
 	the menu in the menu bar. Once clicked, the menu will stay open. If
 	the mouse pointer is dragged over the name of another menu on the
 	menubar, the first menu will close and the new menu open up. This is
-	a useful way to look in each menu to hunt for a commands. The open
+	a useful way to look in each menu to hunt for a commands. Menus can 
+	also be opened through the keyboard. One of the letters in each menu 
+	is underlined. Typing the "Alt" key at the same time as the underlined 
+	letter key will open the menu. This is also true of sub-menus. Once the
+	menus are open, the arrow keys can be used to move between menus or 
+	select an entry in a particular menu. An open
 	menu can be closed with a click over any other area of the
 	application or of the desktop. The menus can also be closed by
 	typing the escape key, <keysym>Esc</keysym>.</para>
@@ -108,6 +118,19 @@
 	user closes this window will depend on the configuration of the desktop the
 	user has chosen.</para>
   </sect3>
+
+	<sect3>
+		<title>Keyboard shortcuts.</title>
+		<para> Many menu entries are followed by a series of keynames. These keys
+		can be used to perform the menu action without having to open the menu.
+		These are often combinations of keys involving the control key which is
+		labled as "Ctl", the shift key which is labeled "Shift" and the function
+		keys which are labeled with an "F" and then a number. For example, to
+		quickly cut a selection (accessible through the <guimenu>Edit</guimenu>
+		menu), the user can make a selection and then type the
+		control key and the "x" key at the same time. 
+		</para>
+	</sect3>
 	
 </sect2>
 
@@ -161,14 +184,14 @@
      	   <listitem>
      	    <para>
      	     <guimenuitem>Open...</guimenuitem> --- The 
-				<guimenuitem>Open</guimenuitem> menuitem opens the file chooser
+				<guimenuitem>Open</guimenuitem> menu item opens the file chooser
 				dialog to allow the user to pick an existing workbook for 
 				Gnumeric to open. Only two file types can be opened with this 
-				option. The <guimenuitem>Open</guimenuitem> menuitem can open 
+				option. The <guimenuitem>Open</guimenuitem> menu item can open 
 				Gnumeric's default XML 
 			based file format which uses the extension ".gnumeric" and can 
 			open Microsoft Excel's file format which uses the ".xls" extension. 
-			The <guimenuitem>Open</guimenuitem> menuitem creates a new window 
+			The <guimenuitem>Open</guimenuitem> menu item creates a new window 
 			containing the selected file.  A more extensive dicsussion is
 			presented in <xref linkend="opening">.
       	   </para>
@@ -176,9 +199,9 @@
      	   <listitem>
      		    <para>
       		    <guimenuitem>Import...</guimenuitem> --- The 
-					<guimenuitem>Import...</guimenuitem> menuitem opens a file
+					<guimenuitem>Import...</guimenuitem> menu item opens a file
 					chooser dialog similar to the one opened by the 
-					<guimenuitem>Open</guimenuitem> menuitem. The
+					<guimenuitem>Open</guimenuitem> menu item. The
 					<guilabel>Import...</guilabel> dialog has a file type
 					selector in which the user can pick supported file
 					formats. For more information on file import, including the
@@ -190,21 +213,21 @@
       		 <listitem>
    		      <para>
           <guimenuitem>Save</guimenuitem> --- The
-		     <guimenuitem>Save</guimenuitem> menuitem saves the current
+		     <guimenuitem>Save</guimenuitem> menu item saves the current
          	 worksheet. If the file has been named and saved before, this will
          	 silently save the file to the current filename. If it has not been
           	saved before, this will act as if the 
-		  	<guimenuitem>Save As...</guimenuitem> menuitem had been called and
+		  	<guimenuitem>Save As...</guimenuitem> menu item had been called and
 		 	 prompt the user for a filename.
          </para>
         </listitem>
         <listitem>
          <para>
           <guimenuitem>Save As...</guimenuitem> --- The
-		    <guimenuitem>Save As...</guimenuitem> menuitem allows users to save 
+		    <guimenuitem>Save As...</guimenuitem> menu item allows users to save 
 			a file which has not yet been named to a named file. This is always 
 			used when a user saves a file which Gnumeric has named by default. 
-			This menuitem can also be used to save a newly created file or to 
+			This menu item can also be used to save a newly created file or to 
 			save an existing file to a new and different name. For an
 			explanation of the file formats which gnumeric supports see 
 			<xref linkend="saving">.
@@ -232,7 +255,7 @@
  	       <listitem>
 	         <para>
  	         <guimenuitem>Print Setup...</guimenuitem> --- The
-			 	<guimenuitem>Print Setup...</guimenuitem> menuitem call the 
+			 	<guimenuitem>Print Setup...</guimenuitem> menu item call the 
 				<guilabel>Print Setup</guilabel> dialog. This dialog allows the
 				user to set various priting options such as paper type, margin
 				sizes and running header and footer formats. This dialog is 
@@ -242,7 +265,7 @@
   	      <listitem>
    	      <para>
    	       <guimenuitem>Print...</guimenuitem> --- The
-		   	<guimenuitem>Print...</guimenuitem> menuitem allows a user to print
+		   	<guimenuitem>Print...</guimenuitem> menu item allows a user to print
 			one or all of the worksheets in a workbook. Gnumeric can send files
 			directly to a printer or can print to postscript or portable
 			docuement format files. The <guilabel>Print</guilabel>dialog is
@@ -252,7 +275,7 @@
         <listitem>
          <para>
           <guimenuitem>Print Preview...</guimenuitem> --- The
-		  	<guimenuitem>Print Preview...</guimenuitem> menuitem calls a dialog
+		  	<guimenuitem>Print Preview...</guimenuitem> menu item calls a dialog
 			which presents the current workbook as it would be printed with the
 			current <guilabel>Print Setup</guilabel> settings. The dialog also
 			permits the user to print. This dialog is explained in 
@@ -330,7 +353,7 @@
       	    <listitem>
      	      <para>
      	       <guimenuitem>Close</guimenuitem> --- The
-			       <guimenuitem>close</guimenuitem> menuitem allows the user to
+			       <guimenuitem>close</guimenuitem> menu item allows the user to
 				   close the current workbook. If this is the only workbook
 				   which this instance of Gnumeric has open, the close
 				   operation will also quit Gnumeric. If other workbooks are
@@ -343,7 +366,7 @@
       	    <listitem>
      	      <para>
      	       <guimenuitem>Exit</guimenuitem> --- The
-			       <guimenuitem>Exit</guimenuitem> menuitem will close all the
+			       <guimenuitem>Exit</guimenuitem> menu item will close all the
 				   workbooks currently being used by Gnumeric and quit the
 				   program. Gnumeric will prompt the user asking if he wants to
 				   save any workbooks which has changes which have not been
@@ -421,7 +444,7 @@
     	  	    <listitem>
      		      <para>
      	    	   <guimenuitem>Undo</guimenuitem> --- The
-			    	   <guimenuitem>Undo</guimenuitem> menuitem is used to
+			    	   <guimenuitem>Undo</guimenuitem> menu item is used to
 					   remove
 					   the last few edits from a workbook. The edits must be
 					   undone in order. This menu item removes only the last edit
@@ -437,9 +460,9 @@
       		    <listitem>
      	    	  <para>
     	 	       <guimenuitem>Redo</guimenuitem> --- The
-				       <guimenuitem>Redo</guimenuitem> menuitem is used after
+				       <guimenuitem>Redo</guimenuitem> menu item is used after
 					   an undo operation to restore the change that was undone.
-					   The menuitem only restores the last undone operation. Users
+					   The menu item only restores the last undone operation. Users
 					   can also resotre edit using a button on the standard toolbar
 					   and through the associated menu. The menu allows several 
 					   operations to be redone at once. It is explained in <xref
@@ -483,8 +506,8 @@
 			<listitem>
 				<para>
 				<guimenuitem>Cut</guimenuitem> --- The <guimenuitem>Cut</guimenuitem>
-				menuitem is used to remove a selection from the selected area
-				of a currently open workbook. When the menuitem is chosen, the
+				menu item is used to remove a selection from the selected area
+				of a currently open workbook. When the menu item is chosen, the
 				selected area will be outlined with a moving dotted line. This
 				is the area which will be moved. The selection will only be
 				removed after it is moved to the new location. Until then cut
@@ -495,7 +518,7 @@
 			<listitem>
 				<para>
 				<guimenuitem>Copy</guimenuitem> --- The 
-				  <guimenuitem>Copy</guimenuitem> menuitem allows a user to
+				  <guimenuitem>Copy</guimenuitem> menu item allows a user to
 				duplicate a selection. The original data remains where it was
 				and the Gnumeric clipboard (and the X clipboard) has a copy 
 				which can be inserted elsewhere.
@@ -505,7 +528,7 @@
 			<listitem>
 				<para>
 				<guimenuitem>Paste</guimenuitem> --- The 
-				  <guimenuitem>Paste</guimenuitem> menuitem is used to paste
+				  <guimenuitem>Paste</guimenuitem> menu item is used to paste
 				the contents of a selection which has been cut or copied. If
 				the selection was cut, it is pasted into the new location
 				unchanged. Cell references will not change in that they will
@@ -518,10 +541,10 @@
 				<guimenuitem>Paste Special...</guimenuitem> --- The 
 				  <guimenuitem>Paste Special...</guimenuitem> is used to paste
 				a selection while altering certain characteristics. The 
-				<guimenuitem>Paste Special...</guimenuitem> menuitem opens a
+				<guimenuitem>Paste Special...</guimenuitem> menu item opens a
 				dialog with three categories. The defaults make 
 				<guimenuitem>Paste Special...</guimenuitem> act as if it were the 
-				<guimenuitem>Paste</guimenuitem> menuitem. 
+				<guimenuitem>Paste</guimenuitem> menu item. 
 				</para>
 				<para>The first set of
 				choices allow the user to control the data pasted.The user can chose
@@ -576,7 +599,7 @@
       	    	<listitem>
      	      	<para>
      	       	<guimenuitem>Clear</guimenuitem> --- The
-			       <guimenuitem>clear</guimenuitem> menuitem merely opens a
+			       <guimenuitem>clear</guimenuitem> menu item merely opens a
 				   sub-menu with four choices. The user can choose to clear all
 				   the elements of the cells in a selection: the formats, the
 				   comments, the contents. Alternatively, the user can choose
@@ -595,7 +618,7 @@
       	    	<listitem>
      	      	<para>
      	       	<guimenuitem>Delete</guimenuitem> --- The
-			       <guimenuitem>delete</guimenuitem> menuitem may open a dialog
+			       <guimenuitem>delete</guimenuitem> menu item may open a dialog
 				 giving the user a choice of options. Any of the options
 				 will completely delete the selected cells. Depending on the
 				 selection, Gnumeric will fill in the space the cells
@@ -611,7 +634,7 @@
 				 </para>
 				 <para>
 				 With blocks of cells, the <guimenuitem>delete</guimenuitem> 
-				 menuitem will open a dialog asking the user how to fill in the
+				 menu item will open a dialog asking the user how to fill in the
 				 deleted cells. Blocks of cells will either be filled in by the
 				 columns of cells below the block selection or by the rows on 
 				 the right of the block. For example, if the user chose the
@@ -641,7 +664,7 @@
       	    	<listitem>
      	      	<para>
      	       	<guimenuitem>Sheet</guimenuitem> --- The
-			       <guimenuitem>Sheet</guimenuitem> menuitem opens up a
+			       <guimenuitem>Sheet</guimenuitem> menu item opens up a
 				   submenu which allows users to perform operations on the
 				   worksheet. Note that this is the same set of choices as are
 				   available from the context menu which appears by clicking
@@ -659,7 +682,7 @@
       	    	<listitem>
      	      	<para>
      	       	<guimenuitem>Select</guimenuitem> --- The
-			       <guimenuitem>Select</guimenuitem> menuitem allows the user
+			       <guimenuitem>Select</guimenuitem> menu item allows the user
 				 to select various portions of the worksheet. The
 				 <guimenuitem>Select All</guimenuitem> provides a quick way to
 				 select the entire worksheet. The <guimenuitem>Select
@@ -668,10 +691,10 @@
 				 spanned by the current selection.
 				 </para>
 				 <para>
-				 The <guimenuitem>Select Array</guimenuitem> menuitem allows a
+				 The <guimenuitem>Select Array</guimenuitem> menu item allows a
 				 user to select all the cells which are part of the same array
 				 as the current cell. The <guimenuitem>Select Depends</guimenuitem> 
-				 menuitem selects all the cells which are formulas which at
+				 menu item selects all the cells which are formulas which at
 				 least partially need the data in the current cell. 
 				 </para>
      	   		</listitem>
@@ -679,9 +702,9 @@
       	    	<listitem>
      	      	<para>
      	       	<guimenuitem>Fill</guimenuitem> --- The
-			       <guimenuitem>Fill</guimenuitem> menuitem opens a submenu
+			       <guimenuitem>Fill</guimenuitem> menu item opens a submenu
 				 with only one choice currently. The 
-				 <guimenuitem>Autoill</guimenuitem> menuitem will fill an
+				 <guimenuitem>Autoill</guimenuitem> menu item will fill an
 				 entire selection with any formula which is in the top left
 				 cell of the selection. 
 				 </para>
@@ -690,7 +713,7 @@
       	    	<listitem>
      	      	<para>
      	       	<guimenuitem>Search...</guimenuitem> --- The
-			       <guimenuitem>Search...</guimenuitem> menuitem opens a dialog
+			       <guimenuitem>Search...</guimenuitem> menu item opens a dialog
 				 to search for cells with particular content. The dialog has
 				 three tabs. In the first the user can enter the information
 				 the user wants to find and some constraints on the search. The
@@ -704,7 +727,7 @@
       	    	<listitem>
      	      	<para>
      	       	<guimenuitem>Search and Replace...</guimenuitem> --- The
-			       <guimenuitem>Search and Replace...</guimenuitem> menuitem
+			       <guimenuitem>Search and Replace...</guimenuitem> menu item
 				 will launch a dialog to find cells with particular
 				 characteristics and replace them all with a common content.
 				 This dialog is similar to the <guilabel>Search</guilabel>
@@ -726,7 +749,7 @@
       	    	<listitem>
      	      		<para>
      	       		<guimenuitem>Recalculate</guimenuitem> --- The
-			       	  <guimenuitem>Recalculate</guimenuitem> menuitem forces
+			       	  <guimenuitem>Recalculate</guimenuitem> menu item forces
 					the workbook to recalculate its results. This is useful
 					if a formula in the current worksheet depends on a cell in
 					a different workbook. Gnumeric will not necessarily know
@@ -775,7 +798,7 @@
 				<itemizedlist>
 					<listitem>
 						<para><guimenuitem>New Shared</guimenuitem> --- The
-							<guimenuitem>New Shared</guimenuitem> menuitem opens up a new
+							<guimenuitem>New Shared</guimenuitem> menu item opens up a new
 						window with the current workbook visilble and where both windows 
 						are open to the same
 						section of the workbook. If the user starts editing a different
@@ -788,7 +811,7 @@
 					<listitem>
 						<para>
 						<guimenuitem>New Unshared</guimenuitem> --- The
-							<guimenuitem>New Unshared</guimenuitem> menuitem opens up a new
+							<guimenuitem>New Unshared</guimenuitem> menu item opens up a new
 							window with the current workbook visible. Both view are then
 							independent. When a change is made in either view, the other will
 							move to show the area of the edit. 
@@ -815,7 +838,7 @@
 				<itemizedlist>
 					<listitem>
 						<para><guimenuitem>Zoom...</guimenuitem> --- The
-							<guimenuitem>Zoom</guimenuitem> menuitem opens a dialog which
+							<guimenuitem>Zoom</guimenuitem> menu item opens a dialog which
 						allows the user to set the magnification of any of the worksheets
 						in the current workbook. 
 						</para>
@@ -824,12 +847,12 @@
 					<listitem>
 						<para>
 						<guimenuitem>Freeze Panes</guimenuitem> --- The
-						<guimenuitem>Freeze Panes</guimenuitem> menuitem is used to freeze
+						<guimenuitem>Freeze Panes</guimenuitem> menu item is used to freeze
 						the top-most and leftmost visible portion of the worksheet. This is
 						useful to be able to line up portions of the worksheet which are
 						not usually together. For instance, if a user had a very large table
 						with the titles of each oolumn of data on row 12, the user could
-						select row 13 and select this menuitem.  If the user scrolled 
+						select row 13 and select this menu item.  If the user scrolled 
 						through each data row, the data would line up underneath each header.
 						</para>
 						<para>Gnumeric freezes the portion of the worksheet which is currently
@@ -912,7 +935,7 @@
 				<itemizedlist>
 					<listitem>
 						<para><guimenuitem>Sheet</guimenuitem> --- The
-							<guimenuitem>Sheet</guimenuitem> menuitem allows the user to
+							<guimenuitem>Sheet</guimenuitem> menu item allows the user to
 							inset a worksheet immediately following the current sheet.
 						</para>
 					</listitem>
@@ -920,7 +943,7 @@
 					<listitem>
 						<para>
 						<guimenuitem>Rows</guimenuitem> --- The
-							<guimenuitem>Rows</guimenuitem> menuitem will insert rows 
+							<guimenuitem>Rows</guimenuitem> menu item will insert rows 
 							above the current selection. The number of rows inserted will
 							be equal to the number of rows spanned by the current selection.
 						</para>
@@ -929,7 +952,7 @@
 					<listitem>
 						<para>
 						<guimenuitem>Columns</guimenuitem> --- The
-							<guimenuitem>Columns</guimenuitem> menuitem will insert columns
+							<guimenuitem>Columns</guimenuitem> menu item will insert columns
 							to the left of the current selection. The number of columns
 							inserted will equal the number of columns spanned by the current
 							selection.
@@ -939,7 +962,7 @@
 					<listitem>
 						<para>
 						<guimenuitem>Cells...</guimenuitem> --- The
-							<guimenuitem>Cells...</guimenuitem> menuitem opens a dialog
+							<guimenuitem>Cells...</guimenuitem> menu item opens a dialog
 							asking the user how the sheet should be altered when new cells are
 							inserted. The dialog lists four choices. The user can choose one
 							of these by clicking the mouse pointer on one of the four dots.
@@ -962,8 +985,8 @@
 					<listitem>
 						<para>
 						<guimenuitem>Graph...</guimenuitem> --- The
-							<guimenuitem>Graph...</guimenuitem> menuitem will allow a user to
-							insert a graphic plot of data. This menuitem will launch the
+							<guimenuitem>Graph...</guimenuitem> menu item will allow a user to
+							insert a graphic plot of data. This menu item will launch the
 							graph druid. Graphing in Gnumeric is explained in 
 							<xref linkend="graphs">.
 						</para>
@@ -972,7 +995,7 @@
 					<listitem>
 						<para>
 						<guimenuitem>Object...</guimenuitem> --- The
-							<guimenuitem>Object...</guimenuitem> menuitem launches a dialog
+							<guimenuitem>Object...</guimenuitem> menu item launches a dialog
 							with the objects which Gnumeric is currently able to embed in a
 							worksheet. The user simply picks one of the objects in the list,
 							and then inserts the object into the worksheet. These objects are
@@ -984,7 +1007,7 @@
 					<listitem>
 						<para>
 						<guimenuitem>Shaped Object...</guimenuitem> --- The
-							<guimenuitem>Shaped Object...</guimenuitem> menuitem allows user
+							<guimenuitem>Shaped Object...</guimenuitem> menu item allows user
 							to insert more complicated objects into a worksheet. This is
 							currently not used but will provide more extended functionality
 							for the future.
@@ -1006,7 +1029,7 @@
 				<itemizedlist>
 					<listitem>
 						<para><guimenuitem>Name</guimenuitem> --- The
-							<guimenuitem>Name</guimenuitem> menuitem opens a sub-menu with
+							<guimenuitem>Name</guimenuitem> menu item opens a sub-menu with
 							the single entry <guilabel>Define</guilabel>. This will open a 
 							dialog to allow the user
 							to define a named expression. The expersion can be as simple as
@@ -1019,7 +1042,7 @@
 
 					<listitem>
 						<para><guimenuitem>Add/Modify comment...</guimenuitem> --- This
-						menuitem opens a dialog to allow the user to enter a comment to the
+						menu item opens a dialog to allow the user to enter a comment to the
 						currently selected cell. A red triangle will appear in the top
 						right corner of the cell to show that the cell has a comment.
 						</para>
@@ -1028,7 +1051,7 @@
 					<listitem>
 						<para>
 						<guimenuitem>Special</guimenuitem> --- The
-							<guimenuitem>Special</guimenuitem> menuitem opens a sub-menu
+							<guimenuitem>Special</guimenuitem> menu item opens a sub-menu
 						which allows the user to
 						insert either the current date or the current time into the
 						selected cell.
@@ -1081,7 +1104,7 @@
           <listitem>
            <para>
             <guimenuitem>Cells...</guimenuitem> --- The 
-						  <guimenuitem>Cells...</guimenuitem> menuitem opens the cell format
+						  <guimenuitem>Cells...</guimenuitem> menu item opens the cell format
             dialog. This dialog is used to set cell data types and formats. It
 						is explained in <xref linkend="cell-formatting">.
 						</para>
@@ -1090,14 +1113,14 @@
         <listitem>
          <para>
           <guimenuitem>Column</guimenuitem> --- The 
-					  <guimenuitem>Column</guimenuitem> menuitem opens a sub-menu with
+					  <guimenuitem>Column</guimenuitem> menu item opens a sub-menu with
 						choices to allows the user to modify the view of the selected
 						columns.
 						<itemizedlist>
  		             <listitem>
  		               <para>
  		               <guimenuitem>Width...</guimenuitem> --- The 
-									   <guimenuitem>Width...</guimenuitem> menuitem opens a dialog
+									   <guimenuitem>Width...</guimenuitem> menu item opens a dialog
 									 to enable the user to adjust the size of the columns which 
 									 hold the current selection. The
 									 dialog has a single entry box in which the user can change
@@ -1107,7 +1130,7 @@
  		             <listitem>
 					 <para>
   		              <guimenuitem>Auto Fit Selection</guimenuitem> --- This
-										menuitem makes Gnumeric automatically choose the optimal 
+										menu item makes Gnumeric automatically choose the optimal 
 										column size to display all of the text in the current
 										selection.
 										</para>
@@ -1115,7 +1138,7 @@
     	          <listitem>
                        <para>
       	          <guimenuitem>Hide</guimenuitem> --- The 
-									  <guimenuitem>Hide</guimenuitem> menuitem will hide the
+									  <guimenuitem>Hide</guimenuitem> menu item will hide the
 										columns containing the current selection. Gnumeric still
 										holds these columns in memory and will save them to a file
 										but will not display those columns. The only
@@ -1125,17 +1148,17 @@
 	 		     </listitem>
     	          <listitem>
      	           <para>
-     	           <guimenuitem>Unhide</guimenuitem> --- This menuitem wiil
+     	           <guimenuitem>Unhide</guimenuitem> --- This menu item wiil
 								 show columns which are hidden if the selection spans the two
 								 columns on either side of the selection. If columns D, E, and
 								 F have been hidden, the selection must span at least across
-								 columns C and G for this menuitem to unhide columns D, E, and
+								 columns C and G for this menu item to unhide columns D, E, and
 								 F. 
 								 </para>
 	  		   	 </listitem>
       	     	   <listitem>
              		  <para>
-              		  <guimenuitem>Standard Width</guimenuitem> --- This menuitem
+              		  <guimenuitem>Standard Width</guimenuitem> --- This menu item
 										allows the user to resize the columns which hold the
 										selection to the standard size. At 100 percent zoom this is
 										48 points or 64 pixels.
@@ -1149,18 +1172,18 @@
         <listitem>
          <para>
            <guimenuitem>Row</guimenuitem> --- The <guimenuitem>Row</guimenuitem>
-					 menuitem provides the same functions as the <guimenuitem>Column</guimenuitem>
-					 menuitem but operates on rows.
+					 menu item provides the same functions as the <guimenuitem>Column</guimenuitem>
+					 menu item but operates on rows.
 					 <itemizedlist>
               <listitem>
                 <para>
-                <guimenuitem>Height...</guimenuitem> --- This menuitem opens a
+                <guimenuitem>Height...</guimenuitem> --- This menu item opens a
 								dialog which allows the user to type in a row height in pixels.
 								</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Auto Fit Selection</guimenuitem> --- This menuitem
+                <guimenuitem>Auto Fit Selection</guimenuitem> --- This menu item
 								changes the rows which hold the selection to the optimal height
 								to hold the text in the selection. 
 								</para>
@@ -1168,21 +1191,21 @@
               <listitem>
                 <para>
                 <guimenuitem>Hide</guimenuitem> --- The 
-								  <guimenuitem>Hide</guimenuitem> menuitem will hide the rows
+								  <guimenuitem>Hide</guimenuitem> menu item will hide the rows
 									in the selection. The workbook still contains the data in the
 									hidden rows but those rows are not shown. 
 									</para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Unhide</guimenuitem> --- This menuitem will make
+                <guimenuitem>Unhide</guimenuitem> --- This menu item will make
 								hidden rows visible. The selection must span the rows which are
-								hidden for this menuitem to unhide the hidden rows.
+								hidden for this menu item to unhide the hidden rows.
 	        </para>
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Standard Height</guimenuitem> --- This menuitem 
+                <guimenuitem>Standard Height</guimenuitem> --- This menu item 
                 resizes the rows back to the default height of 12.75 points or
 								17 pixels (at 100 percent zoom).
 	        </para>
@@ -1195,7 +1218,7 @@
         <listitem>
          <para>
           <guimenuitem>Sheet</guimenuitem> --- The <guimenuitem>Sheet</guimenuitem>
-					menuitem opens a sub-menu with operations to change properties of the
+					menu item opens a sub-menu with operations to change properties of the
 					worksheet.
 					<itemizedlist>
               <listitem>
@@ -1218,9 +1241,9 @@
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Display Formulas</guimenuitem> --- This menuitem
+                <guimenuitem>Display Formulas</guimenuitem> --- This menu item
 								acts as a toogle. By default it is unset and formulas results
-								are displayed. If this menuitem is clicked, it will display a
+								are displayed. If this menu item is clicked, it will display a
 								little check mark on the left. The worksheet will show the
 								actual fomuals for all cells with formulas instead of showing
 								the calculated result. This is useful for quickly assessing
@@ -1229,8 +1252,8 @@
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Hide Zeros</guimenuitem> --- This menuitem acts as
-								a toggle. Click on this menuitem will cause a check mark to
+                <guimenuitem>Hide Zeros</guimenuitem> --- This menu item acts as
+								a toggle. Click on this menu item will cause a check mark to
 								appear on the left. The sheet will then display all the cells
 								which display zeros as empty cells. This is useful in sheets
 								with many zero results, to quickly find cells with data.
@@ -1238,9 +1261,9 @@
 	      </listitem>
               <listitem>
                 <para>
-                <guimenuitem>Hide Gridlines</guimenuitem> --- This menuitem
-								acts as a toggle. If this menuitem is clicked, Gnumeric will
-								display a check mark to the left of the menuitem. The lines
+                <guimenuitem>Hide Gridlines</guimenuitem> --- This menu item
+								acts as a toggle. If this menu item is clicked, Gnumeric will
+								display a check mark to the left of the menu item. The lines
 								which separate all the cells will then be hidden and Gnumeric
 								will appear to be a blank background. This is useful to make
 								certain data look pretty on screen.
@@ -1249,7 +1272,7 @@
               <listitem>
                 <para>
                 <guimenuitem>Hide Column Headers</guimenuitem> --- This
-								menuitem acts as a toggle. If this menuitem is clicked,
+								menu item acts as a toggle. If this menu item is clicked,
 								Gnumeric display a check mark on the left of the menu item.
 								Gnumeric will also hide the boxes with the alphabetical names
 								of the columns.
@@ -1258,7 +1281,7 @@
               <listitem>
                 <para>
                 <guimenuitem>Hide Row Header</guimenuitem> --- This
-								menuitem acts as a toggle. If this menuitem is clicked,
+								menu item acts as a toggle. If this menu item is clicked,
 								Gnumeric display a check mark on the left of the menu item.
 								Gnumeric will also hide the boxes with the numeric names
 								of the rows.
@@ -1269,7 +1292,7 @@
         </listitem>
         <listitem>
          <para>
-          <guimenuitem>Autoformat...</guimenuitem> This menuitem opens the
+          <guimenuitem>Autoformat...</guimenuitem> This menu item opens the
 					autoformat dialog to give user access to a list of format templates.
 					Format templates are useful for users who are often
 					filling out tables in a particular format. The user picks an area of
@@ -1295,7 +1318,7 @@
         </listitem>
          <listitem>
          <para>
-          <guimenuitem>Workbook...</guimenuitem> This menuitem opens a dialog
+          <guimenuitem>Workbook...</guimenuitem> This menu item opens a dialog
 					which allows users to configure the current workbook. The dialog
 					currently has four choices. Text autocomplete can be unset which
 					means that Gnumeric will not compare text as it entered against text
@@ -1360,8 +1383,36 @@
 	<listitem>
 	  <para>These two tools allow the user to make Gnumeric
 	  automatically correct typing or automatically save workbooks at
-	  periodic intervals. These two tools are explained below.</para>
-	</listitem>
+	  periodic intervals.</para>
+				<itemizedlist>
+					<listitem>
+						<para><guimenuitem>Auto Correct...</guimenuitem> --- The
+							<guimenuitem>Auto Correct...</guimenuitem> menu item opens a
+							dialog which allows the user to configure the way in which
+							gnumeric automatically corrects text which is being entered. The
+							dialog presents the user with three tabs. Each of these tabs allows
+							the user to correct one type of common spelling mistake, while
+							allowing the user to add exceptions to the rules. Gnumeric can
+							automatically caplitalize the names of week days. Gnumeric can
+							automatically change an entry which starts with two capital
+							letters to only start with one and Gnumeric can change a sentence
+							entry to start with a capital letter.
+						</para>
+					</listitem>
+
+					<listitem>
+						<para>
+						<guimenuitem>Auto Save</guimenuitem> --- The
+							<guimenuitem>Auto Save</guimenuitem> menu item opens a dialog
+						which allows the user to have Gnumeric automatically save the
+						current workbook after a fixed interval of time. The user can also
+						have Gnumeric ask for confirmation before saving so that the user
+						always reamains aware of the state the workbook was in when it was
+						saved.
+						</para>
+					</listitem>
+				</itemizedlist>
+				</listitem>
       </varlistentry>
 
 
@@ -1376,6 +1427,25 @@
 	  and other mathematical problems. These two dialogs enable access
 	  to these tools. A full discussion of these tools is presented in
 	  <xRef linkend="solver-chapter"> </para>
+				<itemizedlist>
+					<listitem>
+						<para><guimenuitem>Goal Seek</guimenuitem> --- The
+							<guimenuitem>Goal Seek</guimenuitem> menu item opens a dialog
+							through which the user can configure Gnumeric to iteratively
+							search for a numeric value which solves a formula. This dialog is
+							explained in <xref linkend="goal-seek">.
+						</para>
+					</listitem>
+
+					<listitem>
+						<para>
+						<guimenuitem>Solver</guimenuitem> --- The
+							<guimenuitem>Solver</guimenuitem> menu item opens a dialog through
+							which the user can configure Gnumeric to solve linear systems of
+							equations. This is explained in <xref linkend="solver-chapter">.
+						</para>
+					</listitem>
+				</itemizedlist>
 	</listitem>
       </varlistentry>
 
@@ -1395,63 +1465,6 @@
 
 
 </variablelist>
-
- 
-
-	<!-- the Tools menu list -->
-
-     <variablelist> 
-      <varlistentry>
-       <term><guimenu>Tools</guimenu></term>
-       <listitem>
-       <para>
-        This menu contains:
-         <itemizedlist>
-          <listitem>
-           <para>
-            <guimenuitem>Plug-ins</guimenuitem>
-            &mdash;Displays a list of the plugins currently installed.
-           </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Auto Correct</guimenuitem>
-          &mdash;Allows the user to configure various auto-correcting functions 
-          used when entering data.
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>AutoSave</guimenuitem> &mdash;Allows the user to
-          automatically save after a specified number of minutes
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Goal Seek</guimenuitem>
-          &mdash;FIXME
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Solver</guimenuitem> &mdash;Brings up the Solver
-          Dialog, which can be used to solve linear equations.  This is
-          detailed in <xref linkend="solver">
-         </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Data Analysis</guimenuitem>
-          &mdash;Allows various forms of data analysis to be used on a set of data.
-          This is detailed in <xref linkend="analysis-tools">
-         </para>
-        </listitem>
-       </itemizedlist>
-      </para>
-     </listitem>
-    </varlistentry>
-    </variablelist>
-
 
 </sect1>
 
@@ -1485,7 +1498,65 @@
 	</term>
 	<listitem>
 	  <para>These menu items allow the user to re-organize data fields.</para>
+				<itemizedlist>
+					<listitem>
+						<para><guimenuitem>Sort...</guimenuitem> --- The
+							<guimenuitem>Sort...</guimenuitem> menu item opens a dialog which
+						allows users to sort a selection according to defined criteria. By
+						default Gnumeric sorts rows depending on the contents of the cells
+						in a particular column of each row. The sort criteria can be
+						extended to calculate on the basis of the cells in several columns. 
+						Gnumeric can sort a
+						selection using any number of rules. Rules can be added using the 
+						<guilabel>Add</guilabel> button. Rules with no column entered will
+						be ignored or the user can remove these rules with the 
+						<guilabel>Remove</guilabel> button. 
+						</para>
+						<para> For each rule, the
+						dialog has an entry box in which the column to be sorted must be
+						entered. The dropdown box (the little down pointing arrow) will
+						show a list of appropriate columns.
+						The user can determine a sort order for the selection. The
+						"Advanced" button allows the user to further characterize the sort
+						criteria.
+						</para>
+						<para>
+						If the first row of the selection is a header, Gnumeric can be told
+						not to shuffle this row during the sort. Gnumeric can also sort
+						columns based on the contents of cells in specified rows, instead 
+						of shuffling rows on the basis of columns, if the user toggles the 
+						<guilabel>Sort</guilabel> to act right-left instead of top-down.
+						</para>
+					</listitem>
 
+					<listitem>
+						<para>
+						<guimenuitem>Filter</guimenuitem> --- The
+							<guimenuitem>Filter</guimenuitem> menu item opens a sub-menu which
+							currently only has the "Advanced Filter" entry. Filters are
+							explained in <xref linkend="filters">.
+						</para>
+					</listitem>
+
+					<listitem>
+						<para>
+						<guimenuitem>Validate...</guimenuitem> --- The
+							<guimenuitem>Validate...</guimenuitem> menu item opens the cell
+							format dialog to the validation tab. Validation is a means of
+							constraining the contents of a cell either to have a certain
+							value or to fall within a certain range.
+						</para>
+					</listitem>
+
+					<listitem>
+						<para>
+						<guimenuitem>Consolidate...</guimenuitem> --- The
+							<guimenuitem>Consolidate...</guimenuitem> menu item opens a dialog
+							box through which a user can create derived information based on
+							data in other worksheets. 
+						</para>
+					</listitem>
+				</itemizedlist>
 
 
 	</listitem>
@@ -1501,43 +1572,11 @@
 	  <para>The sub-menu options of the <guimenu>Group and
 	  Outline</guimenu> menu are useful for creating data hiearchies
 	  within a worksheet.</para>
-
-
-
 	</listitem>
       </varlistentry>
 
 </variablelist>
 
-
-
-	<!-- The data menu list -->
-
-    <variablelist> 
-      <varlistentry>
-       <term><guimenu>Data</guimenu></term>
-       <listitem>
-       <para>
-        This menu contains:
-         <itemizedlist>
-          <listitem>
-           <para>
-            <guimenuitem>Sort</guimenuitem>
-            &mdash;Sorts a selection of cells into ascending or descending order, 
-            based on the first column selected.
-           </para>
-        </listitem>
-        <listitem>
-         <para>
-          <guimenuitem>Filter</guimenuitem>
-          &mdash;FIXME
-         </para>
-        </listitem>
-       </itemizedlist>
-      </para>
-     </listitem>
-    </varlistentry>
-    </variablelist>
 
 </sect1>
 
@@ -1648,9 +1687,15 @@
 		    </screenshot>
 	    </figure>
 	<para>The grid context menu merely provides an extra way to access Gnumeric
-	commands. The first commands are  </para>
-
-
+	commands. The <guimenuitem>Cut</guimenuitem>, <guimenuitem>Copy</guimenuitem>, 
+	<guimenuitem>Paste</guimenuitem>, <guimenuitem>Paste Special...</guimenuitem>,
+	<guimenuitem>Delete...</guimenuitem>, and <guimenuitem>Clear Contents...</guimenuitem> 
+	commands are taken from the Edit menu and are explained in <xref linkend="Edit-Menu">.
+	The <guimenuitem>Insert...</guimenuitem> menu item is explained in the section
+	on the <guimenu>Insert</guimenu> menu in <xref linkend="Insert-Menu">. The 
+	<guimenuitem>Format Cells...</guimenuitem> is explained in the manual section
+	on the <guimenu>Format</guimenu> menu in <xref linkend="Format-Menu">.
+	</para>
 </sect2>
 
 
@@ -1663,7 +1708,13 @@
 		      <graphic fileref="figures/menu-context-col-row-header.png"></graphic>
 		    </screenshot>
 	    </figure>
-	<para>The context menu which ....</para>
+	<para>The context menu which relates to column or row headers is similar to
+	the context menu for the grid area. Both insert and delte operations are
+	modified to operate explicitly on rows or on columns. An option is added
+	which changes the height of rows or the width of columns. This context menu
+	also provides a way to hide rows or columns and a way to reveal missing
+	columns or rows.
+	</para>
 
 
 </sect2>
@@ -1678,9 +1729,11 @@
 		      <graphic fileref="figures/menu-context-tabs.png"></graphic>
 		    </screenshot>
 	    </figure>
-	<para>The help menu connects users to this manual, to the list of functions
-	available for use in gnumeric and to the list of people who created this
-	wonderful application.</para>
+	<para>The context menu for tabs provides the same functions as are provided 
+	in the <guimenuitem>Sheet</guimenuitem> menu item in the
+	<guimenu>Edit</guimenu> menu. These options are explained at the bottom of 
+	<xref linkend="Edit-Menu">.
+	</para>
 
 
 </sect2>
@@ -1695,9 +1748,14 @@
 		      <graphic fileref="figures/menu-context-object.png"></graphic>
 		    </screenshot>
 	    </figure>
-	<para>The help menu connects users to this manual, to the list of functions
-	available for use in gnumeric and to the list of people who created this
-	wonderful application.</para>
+	<para>Since this menu gives access to functionality which is not part of
+	Gnumeric, the menu entries will be different for each kind of object. This
+	menu is accessible when first selecting on the embedded object or if the user
+	clicks on the very border of the inserted object. All objects will provide a
+	method to delete the object which will remove the object. Note that this
+	operation will mostly not register into Gnumeric's history and therefore
+	cannot easily be reversed.
+	</para>
 
 
 </sect2>
@@ -1713,7 +1771,14 @@
 		      <graphic fileref="figures/menu-context-toolbars.png"></graphic>
 		    </screenshot>
 	    </figure>
-	<para>T</para>
+	<para>The context menu for toolbars allows the user to configure toolbars.
+	Each toolbar entry can have text associated with it or simply be an icon. The
+	text only does not currently work in Gnumeric. The tooltips which are
+	displayed by default can be turned off for this toolbar. The toolbar itself
+	can be removed to save space. Finally the customize dialog can be launched
+	which allows the user to configure these options for all the toolbars at
+	once.
+	</para>
 
 
 </sect2>
