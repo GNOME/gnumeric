@@ -502,7 +502,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 				if (sheet->show_grid) {
 					int offset = 0;
 					/* Do not over write background patterns */
-					if (col > 0 && sr.top [col-1] == NULL)
+					if (col > start_col && sr.top [col - 1] == NULL)
 						offset = 1;
 					gdk_draw_line (drawable, grid_gc, x + offset, y,
 						       x + ci->size_pixels - offset, y);
@@ -516,7 +516,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int draw_x, int dr
 				if (sheet->show_grid) {
 					int offset = 0;
 					/* Do not over write background patterns */
-					if (top == NULL || (col > 0 && sr.top [col-1] == NULL))
+					if (top == NULL || (col > start_col && sr.top [col - 1] == NULL))
 						offset = 1;
 					gdk_draw_line (drawable, grid_gc,
 						       x, y + offset,

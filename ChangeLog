@@ -1,3 +1,7 @@
+2001-01-16  Morten Welinder  <terra@diku.dk>
+
+	* src/item-grid.c (item_grid_draw): UMR fixes from jody.
+
 2001-01-16  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-style.c (sheet_style_get_uniform) : don't leak border ref.
