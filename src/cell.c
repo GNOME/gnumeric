@@ -713,7 +713,13 @@ cell_copy (Cell *cell)
 	string_ref      (new_cell->text);
 	
 	new_cell->style = style_duplicate (new_cell->style);
-	new_cell->value = value_duplicate (new_cell->value);
+
+	/*
+	 * The cell->value can be NULL if the cell contains
+	 * an error
+	 */
+	if (new_cell->value)
+		new_cell->value = value_duplicate (new_cell->value);
 
 	new_cell->comment = NULL;
 	if (cell->comment)

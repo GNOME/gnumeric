@@ -448,6 +448,16 @@ eval_cell_value (Sheet *sheet, Value *value)
 	return res;
 }
 
+static void
+free_values (Value **values, int top)
+{
+	int i;
+	
+	for (i = 0; i < top; i++)
+		value_release (values [i]);
+	g_free (values);
+}
+
 static Value *
 eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **error_string)
 {
@@ -472,7 +482,7 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 		Value **values;
 		int fn_argc;
 		char *arg_type = fd->args;
-		
+
 		fn_argc = strlen (fd->args);
 		
 		if (fn_argc != argc){
@@ -488,6 +498,23 @@ eval_funcall (Sheet *sheet, ExprTree *tree, int eval_col, int eval_row, char **e
 			v = eval_expr (sheet, t, eval_col, eval_row, error_string);
 			if (v == NULL)
 				goto free_list;
+
+			switch (*arg_type){
+			case 'f':
+				if (v->type == VALUE_INTEGER ||
+				    v->type == VALUE_FLOAT)
+					break;
+				
+				free_values (values, arg);
+				*error_string = _("Type mismatch");
+				return NULL;
+			case 's':
+				if (v->type != VALUE_STRING){
+					free_values (values, arg);
+					*error_string = _("Type mismatch");
+					return NULL;
+				}
+			}
 			
 			values [arg] = v;
 		}
@@ -748,17 +775,18 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 	case OPER_EXP:
 		a = eval_expr (sheet, tree->u.binary.value_a,
 			       eval_col, eval_row, error_string);
+
+		if (!a)
+			return NULL;
+		
 		b = eval_expr (sheet, tree->u.binary.value_b,
 			       eval_col, eval_row, error_string);
 
-		if (!(a && b)){
-			if (a)
-				value_release (a);
-			if (b)
-				value_release (b);
+		if (!b){
+			value_release (a);
 			return NULL;
 		}
-		
+
 		if (!VALUE_IS_NUMBER (a) || !VALUE_IS_NUMBER (b)){
 			value_release (a);
 			value_release (b);
@@ -907,6 +935,10 @@ eval_expr (void *asheet, ExprTree *tree, int eval_col, int eval_row, char **erro
 
 			if (cell->value)
 				return eval_cell_value (sheet, cell->value);
+			else {
+				*error_string = cell->text->str;
+				return NULL;
+			}
 		}
 		res = g_new (Value, 1);
 			

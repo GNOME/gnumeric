@@ -66,7 +66,7 @@ dist-hook:
 	-cp images/*.gif images/*.jpg $(distdir)/images
 
 install-data-local: gnumeric.html
-	$(srcdir)/../mkinstalldirs $(gnumeric_helpdir)/images
+	$(topsrcdir)/mkinstalldirs $(gnumeric_helpdir)/images
 	-for file in $(srcdir)/gnumeric/*.html $(srcdir)/gnumeric/*.css; do \
 	basefile=`basename $$file`; \
 	$(INSTALL_DATA) $(srcdir)/$$file $(gnumeric_helpdir)/$$basefile; \

@@ -61,7 +61,8 @@ paste_cell (Sheet *dest_sheet, Cell *new_cell, int target_col, int target_row, i
 			cell_make_value (new_cell);
 	}
 
-	cell_render_value (new_cell);
+	if (new_cell->value)
+		cell_render_value (new_cell);
 	
 	sheet_redraw_cell_region (dest_sheet,
 				  target_col, target_row,

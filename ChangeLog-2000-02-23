@@ -1,5 +1,26 @@
 1999-02-19  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/clipboard.c (paste_cell): Do not render the value if the
+	result is an error.
+
+	* src/cell.c (cell_copy): Do not copy the value of a cell when the
+	value is NULL (due to the cell having an error).
+
+	* src/expr.c (eval_expr): Evaluate binary operations in parts to
+	keep the correct error message on an operation if possible.
+	(eval_expr): Propagate errors.
+
+	* src/item-edit.c (item_edit_draw): Sync the before-cursor and
+	after-cursor Y-display text cordinate.
+
+	* src/expr.c (eval_funcall): Add type checking for the simple
+	functions. 
+
+	* doc/C/Makefile.am (install-data-local): use topsrcdir here (fix
+	from Ian Campbell <ijc25@cam.ac.uk>
+
+	* src/fn-math.c (gnumeric_not): Implement NOT.
+
 	* src/number-match.c (format_create_regexp): Allow upper case
 	format codes.
 

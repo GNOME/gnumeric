@@ -137,7 +137,7 @@ static char *help_and = {
 	   "ignored.  If no logical values are provided, then the error '#VALUE!' "
 	   "is returned. "
 	   "\n"
-	   "@SEEALSO=OR")
+	   "@SEEALSO=OR, NOT")
 };
 
 static int
@@ -854,6 +854,27 @@ gnumeric_max (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 	return 	closure.result;
 }
 
+static char *help_not = {
+	N_("@FUNCTION=NOT\n"
+	   "@SYNTAX=NOT(number)\n"
+
+	   "@DESCRIPTION="
+	   "Implements the logical NOT function: the result is TRUE if the "
+	   "number is zero;  othewise the result is FALSE.\n\n"
+
+	   "@SEEALSO=AND, OR")
+};
+
+static Value *
+gnumeric_not (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	int b;
+	
+	b = value_get_as_int (argv [0]);
+	
+	return value_int (!b);
+}
+
 static char *help_or = {
 	N_("@FUNCTION=OR\n"
 	   "@SYNTAX=OR(b1, b2, ...)\n"
@@ -868,7 +889,7 @@ static char *help_or = {
 	   "ignored.  If no logical values are provided, then the error '#VALUE!'"
 	   "is returned.\n"
 
-	   "@SEEALSO=AND")
+	   "@SEEALSO=AND, NOT")
 };
 
 static int
@@ -1194,6 +1215,7 @@ FunctionDefinition math_functions [] = {
 	{ "log10",   "f",    "number",    &help_log10,   NULL, gnumeric_log10 },
 	{ "min",     0,      "",          &help_min,     gnumeric_min, NULL },
 	{ "max",     0,      "",          &help_max,     gnumeric_max, NULL },
+	{ "not",     "f",    "number",    &help_not,     NULL, gnumeric_not },
 	{ "or",      0,      "",          &help_or,      gnumeric_or, NULL },
 	{ "radians", "f",    "number",    &help_radians, NULL, gnumeric_radians },
 	{ "sin",     "f",    "number",    &help_sin,     NULL, gnumeric_sin },
