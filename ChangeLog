@@ -1,3 +1,8 @@
+2002-06-01  Jody Goldberg <jody@gnome.org>
+
+ 	http://bugzilla.gnome.org/show_bug.cgi?id=83823
+	* gnumeric.desktop.in : Patch in preparation for gnome2
+
 2002-05-23  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* src/analysis-tools.c: fix warning regarding qsort comparison

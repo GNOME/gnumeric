@@ -1,7 +1,8 @@
 [Desktop Entry]
-_Name=Gnumeric
+_Name=Gnumeric Spreadsheet
 _Comment=The GNOME Spreadsheet
-Exec=gnumeric
+Exec=gnumeric %F
 Icon=gnome-gnumeric.png
 Terminal=0
 Type=Application
+Categories=Application;Office;Spreadsheet;
