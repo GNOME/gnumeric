@@ -224,6 +224,9 @@ linear_solve (gnum_float **A, gnum_float *b, int n, gnum_float *res)
 				printf ("this_norm=%" GNUM_FORMAT_g "\n",
 					this_norm);
 #endif
+				if (!finitegnum (this_norm))
+					break;
+
 				if (loop != 0) {
 					if (this_norm >= last_norm)
 						break;
