@@ -438,7 +438,7 @@ ExcelFuncDesc const excel_func_desc [] = {
 /* 357 */ { "VIEW.GET",		-1, -1, XL_XLM },
 
 /* Added in Biff8 */
-/* 358 */ { "GETPIVOTDATA",	 2, 30, XL_VARARG, 2, 'V', "RV" },
+/* 358 */ { "GETPIVOTDATA",	 2,  2, XL_FIXED, 2, 'V', "RV" },
 /* 359 */ { "HYPERLINK",	 1,  2, XL_VARARG, 2, 'V', "VV" },	/* cell_contents is optional */
 
 /* 360 */ { "PHONETIC",		 1,  1, XL_FIXED,  1, 'V', "V" },
