@@ -169,6 +169,25 @@ do_clipboard_paste_cell_region (CellRegion *region, Sheet *dest_sheet,
 		workbook_recalc (dest_sheet->workbook);
 }
 
+static GList *
+new_node (GList *list, char *data, char *p, int col, int row)
+{
+	CellCopy *c_copy;
+	char *text;
+
+	text = g_malloc (p-data+1);
+	text = strncpy (text, data, p-data);
+	text [p-data] = 0;
+	
+	c_copy = g_new (CellCopy, 1);
+	c_copy->type = CELL_COPY_TYPE_TEXT;
+	c_copy->col_offset = col;
+	c_copy->row_offset = row;
+	c_copy->u.text = text;
+	
+	return g_list_prepend (list, c_copy);
+}
+
 /*
  * Creates a CellRegion based on the X selection
  *
@@ -179,47 +198,38 @@ static CellRegion *
 x_selection_to_cell_region (char *data, int len)
 {
 	CellRegion *cr;
-	int cols = 0, cur_col = 0;
+	int cols = 1, cur_col = 0;
 	int rows = 0;
 	GList *list = NULL;
 	char *p = data;
 
-	for (;len; len--, p++){
+	for (;len >= 0; len--, p++){
 		if (*p == '\t' || *p == ';' || *p == ',' || *p == '\n'){
-			CellCopy *c_copy;
-			char *text;
-
-			if (p != data){
-				text = g_malloc (p-data);
-				text = strncpy (text, data, p-data-1);
-				text [p-data-1] = 0;
-				
-				c_copy = g_new (CellCopy, 1);
-				c_copy->type = CELL_COPY_TYPE_TEXT;
-				c_copy->col_offset = cur_col;
-				c_copy->row_offset = rows;
-				c_copy->u.text = text;
-				
-				list = g_list_prepend (list, c_copy);
-			}
+			if (p != data)
+				list = new_node (list, data, p, cur_col, rows);
 			
-			if (*p == '\n')
+			if (*p == '\n'){
 				rows++;
-			else {
+				cur_col = 0;
+			} else {
 				if (cur_col > cols)
 					cols = cur_col;
 				cur_col++;
 			}
 
-			data = p;
+			data = p+1;
 		}
 	}
+
+	/* Handle the remainings */
+	if (p != data)
+		list = new_node (list, data, p, cur_col, rows);
 
 	/* Return the CellRegion */
 	cr = g_new (CellRegion, 1);	
 	cr->list = list;
-	cr->cols = cols;
-	cr->rows = rows;
+	cr->cols = cols ? cols : 1;
+	cr->rows = rows + 1;
 
 	return cr;
 }
@@ -239,13 +249,15 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, gpointer data)
 	CellRegion *content;
 	int        paste_height, paste_width;
 	int        end_col, end_row;
-	
+
 	ss = pc->dest_sheet->selections->data;
 	
 	/* Did X provide any selection? */
-	if (sel->length < 0)
+	if (sel->length < 0){
 		content = pc->region;
-	else
+		if (!content)
+			return;
+	} else
 		content = x_selection_to_cell_region (sel->data, sel->length);
 
 	/* Compute the bigger bounding box (selection u clipboard-region) */
@@ -278,7 +290,7 @@ x_selection_received (GtkWidget *widget, GtkSelectionData *sel, gpointer data)
 	sheet_selection_extend_to (pc->dest_sheet, end_col, end_row);
 
 	/* Release the resources we used */
-	if (sel->length < 0)
+	if (sel->length >= 0)
 		clipboard_release (content);
 
 	/* Remove our used resources */
@@ -425,7 +437,6 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 {
 	clipboard_paste_closure_t *data;
 	
-	g_return_if_fail (region != NULL);
 	g_return_if_fail (dest_sheet != NULL);
 	g_return_if_fail (IS_SHEET (dest_sheet));
 
@@ -463,12 +474,13 @@ clipboard_paste_region (CellRegion *region, Sheet *dest_sheet,
 		sel.length = -1;
 		x_selection_received (dest_sheet->workbook->toplevel, &sel,
 				      dest_sheet->workbook);
+		return;
 	}
 
 	/* Now, trigger a grab of the X selection */
 	gtk_selection_convert (
 		dest_sheet->workbook->toplevel, GDK_SELECTION_PRIMARY,
-		GDK_SELECTION_TYPE_STRING, time);
+		GDK_TARGET_STRING, time);
 }
 
 /*

@@ -2206,11 +2206,9 @@ sheet_selection_paste (Sheet *sheet, int dest_col, int dest_row, int paste_flags
 
 	content = sheet->workbook->clipboard_contents;
 	
-	if (!content)
-		return;
-
-	if (!sheet_verify_selection_simple (sheet, _("Paste")))
-		return;
+	if (content)
+		if (!sheet_verify_selection_simple (sheet, _("Paste")))
+			return;
 
 	clipboard_paste_region (content, sheet, dest_col, dest_row, paste_flags, time);
 }
