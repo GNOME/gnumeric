@@ -343,8 +343,9 @@ gnumeric_concatenate (FunctionEvalInfo *ei, GnmExprList *l)
 
 	s = g_string_new ("");
 	while (l != NULL &&
-	       (v = gnm_expr_eval (l->data, ei->pos, GNM_EXPR_EVAL_STRICT)) != NULL) {
-		if (VALUE_IS_EMPTY_OR_ERROR (v))
+	       (v = gnm_expr_eval (l->data, ei->pos,
+				   GNM_EXPR_EVAL_STRICT | GNM_EXPR_EVAL_PERMIT_EMPTY)) != NULL) {
+		if (v->type == VALUE_ERROR)
 			goto error;
 		g_string_append (s, value_peek_string (v));
 		value_release (v);
