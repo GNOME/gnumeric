@@ -103,7 +103,9 @@ void                mstyle_set_font_size   (MStyle *st, double size);
 double              mstyle_get_font_size   (const MStyle *st);
 
 /* this font must be unrefd after use */
-StyleFont          *mstyle_get_font        (const MStyle *st, double zoom);
+StyleFont          *mstyle_get_font        (const MStyle *st,
+					    PangoContext *context,
+					    double zoom);
 void                mstyle_set_format      (MStyle *st, StyleFormat *);
 void                mstyle_set_format_text (MStyle *st, const char *format);
 StyleFormat        *mstyle_get_format      (const MStyle *st);
@@ -139,7 +141,9 @@ GnmInputMsg   	   *mstyle_get_input_msg	(const MStyle *st);
 
 gboolean            mstyle_visible_in_blank (const MStyle *st);
 
-PangoAttrList      *mstyle_get_pango_attrs (const MStyle *st, double zoom);
+PangoAttrList      *mstyle_get_pango_attrs (const MStyle *st,
+					    PangoContext *context,
+					    double zoom);
 
 char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a sieve */
 void        mstyle_dump        (const MStyle *st);

@@ -105,7 +105,8 @@ calc_font_width (StyleFont const *font, char const *teststr)
 
 
 StyleFont *
-style_font_new_simple (char const *font_name, double size_pts, double scale,
+style_font_new_simple (PangoContext *context,
+		       char const *font_name, double size_pts, double scale,
 		       gboolean bold, gboolean italic)
 {
 	StyleFont *font;
@@ -144,31 +145,31 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		/* One reference for the cache, one for the caller. */
 		font->ref_count = 2;
 
-		font->pango.context = gdk_pango_context_get ();
-		pango_context_set_language (font->pango.context, gtk_get_default_language ());
-
-		desc = pango_context_get_font_description (font->pango.context);
+		g_object_ref (context);
+		font->pango.context = context;
+		desc = pango_context_get_font_description (context);
 		pango_font_description_set_family (desc, font_name);
 		pango_font_description_set_weight (desc,
 			bold ? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL);
 		pango_font_description_set_style (desc,
 			italic ? PANGO_STYLE_ITALIC : PANGO_STYLE_NORMAL);
+		/* FIXME: set scale separately?  */
 		pango_font_description_set_size (desc,
-			size_pts*scale * PANGO_SCALE);
+						 size_pts * scale *
+						 PANGO_SCALE);
 
-		font->pango.font = pango_context_load_font (font->pango.context,
-							    desc);
+		font->pango.font = pango_context_load_font (context, desc);
 		if (font->pango.font == NULL) {
 			/* if we fail, try to be smart and map to something similar */
 			char const *sub = get_substitute_font (font_name);
 			if (sub != NULL) {
 				pango_font_description_set_family (desc, font_name);
-				font->pango.font = pango_context_load_font (font->pango.context,
+				font->pango.font = pango_context_load_font (context,
 									    desc);
 			}
 
 			if (font->pango.font == NULL) {
-				g_object_unref (G_OBJECT (font->pango.context));
+				g_object_unref (context);
 				font->pango.context = NULL;
 				font->pango.font_descr = NULL;
 				g_hash_table_insert (style_font_negative_hash,
@@ -179,10 +180,7 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 
 		font->pango.font_descr = pango_font_describe (font->pango.font);
 
-		gdk_pango_context_set_colormap (font->pango.context,
-						gtk_widget_get_default_colormap ());
-
-		font->pango.layout  = pango_layout_new (font->pango.context);
+		font->pango.layout  = pango_layout_new (context);
 		pango_layout_set_font_description (font->pango.layout,
 						   font->pango.font_descr);
 
@@ -226,7 +224,8 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 }
 
 StyleFont *
-style_font_new (char const *font_name, double size_pts, double scale,
+style_font_new (PangoContext *context,
+		char const *font_name, double size_pts, double scale,
 		gboolean bold, gboolean italic)
 {
 	StyleFont *font;
@@ -234,23 +233,28 @@ style_font_new (char const *font_name, double size_pts, double scale,
 	g_return_val_if_fail (font_name != NULL, NULL);
 	g_return_val_if_fail (size_pts > 0, NULL);
 
-	font = style_font_new_simple (font_name, size_pts, scale, bold, italic);
+	font = style_font_new_simple (context, font_name, size_pts,
+				      scale, bold, italic);
 	if (font) return font;
 
 	font_name = gnumeric_default_font_name;
-	font = style_font_new_simple (font_name, size_pts, scale, bold, italic);
+	font = style_font_new_simple (context, font_name, size_pts,
+				      scale, bold, italic);
 	if (font) return font;
 
 	size_pts = gnumeric_default_font_size;
-	font = style_font_new_simple (font_name, size_pts, scale, bold, italic);
+	font = style_font_new_simple (context, font_name, size_pts,
+				      scale, bold, italic);
 	if (font) return font;
 
 	bold = FALSE;
-	font = style_font_new_simple (font_name, size_pts, scale, bold, italic);
+	font = style_font_new_simple (context, font_name, size_pts,
+				      scale, bold, italic);
 	if (font) return font;
 
 	italic = FALSE;
-	font = style_font_new_simple (font_name, size_pts, scale, bold, italic);
+	font = style_font_new_simple (context, font_name, size_pts,
+				      scale, bold, italic);
 	if (font) return font;
 
 	/*
@@ -365,6 +369,8 @@ static void
 font_init (void)
 {
 	GConfClient *client = application_get_gconf_client ();
+	GdkScreen *screen;
+	PangoContext *context;
 
 	gnumeric_default_font_name =
 		gconf_client_get_string (client,
@@ -376,20 +382,30 @@ font_init (void)
 					NULL);
 	gnumeric_default_font = NULL;
 
+	screen = gdk_screen_get_default ();
+	context = gdk_pango_context_get_for_screen (screen);
+	pango_context_set_language (context, gtk_get_default_language ());
+	gdk_pango_context_set_colormap (context,
+					gdk_screen_get_default_colormap (screen));
+
 	if (gnumeric_default_font_name && gnumeric_default_font_size >= 1)
 		gnumeric_default_font =
-			style_font_new_simple (gnumeric_default_font_name,
+			style_font_new_simple (context,
+					       gnumeric_default_font_name,
 					       gnumeric_default_font_size,
 					       1., FALSE, FALSE);
 	if (!gnumeric_default_font) {
 		g_warning ("Configured default font not available, trying fallback...");
 		gnumeric_default_font =
-			style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE,
+			style_font_new_simple (context,
+					       DEFAULT_FONT, DEFAULT_SIZE,
 					       1., FALSE, FALSE);
 		g_free (gnumeric_default_font_name);
 		gnumeric_default_font_name = g_strdup (DEFAULT_FONT);
 		gnumeric_default_font_size = DEFAULT_SIZE;
 	}
+
+	g_object_unref (context);
 
 	if (!gnumeric_default_font)
 		exit (1);

@@ -539,7 +539,8 @@ item_edit_set_property (GObject *gobject, guint param_id,
 	if (ie->style_font == NULL) {
 		ie->style = mstyle_copy (sheet_style_get (sv->sheet,
 			ie->pos.col, ie->pos.row));
-		ie->style_font = scg_get_style_font (sv->sheet, ie->style);
+		ie->style_font = scg_get_style_font
+			(sv->sheet->context, sv->sheet, ie->style);
 
 		if (mstyle_get_align_h (ie->style) == HALIGN_GENERAL)
 			mstyle_set_align_h (ie->style, HALIGN_LEFT);

@@ -90,6 +90,8 @@ GnmCanvas	   *scg_pane		(SheetControlGUI *scg, int pane);
 WorkbookControlGUI *scg_get_wbcg	(SheetControlGUI const *scg);
 
 /* FIXME : Move this around to a more reasonable location */
-StyleFont * scg_get_style_font (Sheet const *sheet, MStyle const *style);
+StyleFont * scg_get_style_font (PangoContext *context,
+				Sheet const *sheet,
+				MStyle const *style);
 
 #endif /* GNUMERIC_SHEET_CONTROL_GUI_H */

@@ -1,5 +1,16 @@
 2003-06-02  Morten Welinder  <terra@gnome.org>
 
+	* src/style.c (style_font_new_simple): Take a pango context
+	argument also instead of producing a bogus one.
+	(style_font_new): Ditto.  Improve fall-back scheme.
+	(font_init): For now, create the default font on the default
+	screen.  The need for the default is almost gone.
+
+	* src/mstyle.c (mstyle_get_font, mstyle_get_pango_attrs): Take a
+	pango context also to produce fonts.
+	* src/rendered-value.c (calc_indent, rendered_value_render): Ditto.
+	* src/sheet-control-gui.c (scg_get_style_font): Ditto.
+
 	* src/print.c (sheet_print): Display preview on the right display.
 
 	* src/gui-util.c (gnm_link_button_and_entry): New function.

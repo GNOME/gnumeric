@@ -109,6 +109,7 @@ item_bar_calc_size (ItemBar *ib)
 	SheetControlGUI	* const scg = ib->gcanvas->simple.scg;
 	Sheet const *sheet = ((SheetControl *) scg)->sheet;
 	double const zoom_factor = sheet->last_zoom_factor_used;
+	PangoContext *context;
 	PangoFontDescription *desc = wbcg_get_font_desc (scg->wbcg);
 	StyleFont *normal_font;
 	StyleFont *bold_font;
@@ -118,10 +119,14 @@ item_bar_calc_size (ItemBar *ib)
 	size      = pango_font_description_get_size (desc) / PANGO_SCALE;
 	font_name = pango_font_description_get_family (desc);
 
+	context = gtk_widget_get_pango_context
+		(GTK_WIDGET (ib->gcanvas));
 	/* ref before unref */
-	normal_font = style_font_new_simple (font_name, size,
-					    zoom_factor, FALSE, FALSE);
-	bold_font = style_font_new_simple (font_name, size,
+	normal_font = style_font_new_simple (context,
+					     font_name, size,
+					     zoom_factor, FALSE, FALSE);
+	bold_font = style_font_new_simple (context,
+					   font_name, size,
 					   zoom_factor, TRUE, FALSE);
 
 	/* Now that we have the new fonts unref the old ones */

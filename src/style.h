@@ -63,10 +63,12 @@ struct _StyleFont {
 void           style_init  	      (void);
 void	       style_shutdown         (void);
 
-StyleFont     *style_font_new         (const char *font_name,
+StyleFont     *style_font_new         (PangoContext *context,
+				       const char *font_name,
 				       double size_pts, double scale,
 				       gboolean bold, gboolean italic);
-StyleFont     *style_font_new_simple  (const char *font_name,
+StyleFont     *style_font_new_simple  (PangoContext *context,
+				       const char *font_name,
 				       double size_pts, double scale,
 				       gboolean bold, gboolean italic);
 int  style_font_get_height   (StyleFont const *sf);

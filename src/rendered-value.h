@@ -28,7 +28,7 @@ struct _RenderedValue {
 
 void
 rendered_value_render (GString *str,
-		       Cell *cell, MStyle const *mstyle,
+		       Cell *cell, PangoContext *context, MStyle const *mstyle,
 		       gboolean *dynamic_width, gboolean *display_formula,
 		       StyleColor **color);
 

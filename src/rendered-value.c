@@ -63,14 +63,14 @@ static gnm_mem_chunk *rendered_value_pool;
 #endif
 
 static guint16
-calc_indent (const MStyle *mstyle, Sheet *sheet)
+calc_indent (PangoContext *context, const MStyle *mstyle, Sheet *sheet)
 {
 	int indent = 0;
 	if (mstyle_is_element_set (mstyle, MSTYLE_INDENT)) {
 		indent = mstyle_get_indent (mstyle);
 		if (indent) {
 			StyleFont *style_font =
-				scg_get_style_font (sheet, mstyle);
+				scg_get_style_font (context, sheet, mstyle);
 			indent *= style_font->approx_width.pixels.digit;
 			style_font_unref (style_font);
 		}
@@ -80,7 +80,7 @@ calc_indent (const MStyle *mstyle, Sheet *sheet)
 
 void
 rendered_value_render (GString *str,
-		       Cell *cell, MStyle const *mstyle,
+		       Cell *cell, PangoContext *context, MStyle const *mstyle,
 		       gboolean *dynamic_width, gboolean *display_formula,
 		       StyleColor **color)
 {
@@ -110,7 +110,7 @@ rendered_value_render (GString *str,
 			    (VALUE_FMT (cell->value) == NULL ||
 			     style_format_is_general (VALUE_FMT (cell->value)))) {
 				StyleFont *style_font =
-					scg_get_style_font (sheet, mstyle);
+					scg_get_style_font (context, sheet, mstyle);
 				double wdigit = style_font->approx_width.pts.digit;
 
 				if (wdigit > 0.0) {
@@ -200,7 +200,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 	else
 		str = g_string_sized_new (100);
 
-	rendered_value_render (str, cell, mstyle,
+	rendered_value_render (str, cell, context, mstyle,
 			       &dynamic_width, &display_formula, &color);
 
 	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
@@ -217,8 +217,10 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 	res->layout = layout = pango_layout_new (context);
 	pango_layout_set_text (layout, str->str, str->len);
 
+	/* FIXME: this should be per view.  */
 	zoom = sheet ? sheet->last_zoom_factor_used : 1;
-	attrs = mstyle_get_pango_attrs (mstyle, zoom);
+
+	attrs = mstyle_get_pango_attrs (mstyle, context, zoom);
 #ifdef BUG_105322
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
 	fore = color ? color : mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
@@ -243,7 +245,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 
 	switch (res->effective_halign) {
 	case HALIGN_LEFT:
-		res->indent_left = calc_indent (mstyle, sheet);
+		res->indent_left = calc_indent (context, mstyle, sheet);
 		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
 		break;
 
@@ -266,7 +268,7 @@ rendered_value_new (Cell *cell, MStyle const *mstyle,
 		break;
 
 	case HALIGN_RIGHT:
-		res->indent_right = calc_indent (mstyle, sheet);
+		res->indent_right = calc_indent (context, mstyle, sheet);
 		pango_layout_set_alignment (layout, PANGO_ALIGN_RIGHT);
 		break;
 

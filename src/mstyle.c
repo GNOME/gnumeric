@@ -1198,7 +1198,7 @@ mstyle_get_pattern (const MStyle *style)
 }
 
 StyleFont *
-mstyle_get_font (const MStyle *style, double zoom)
+mstyle_get_font (const MStyle *style, PangoContext *context, double zoom)
 {
 	g_return_val_if_fail (style != NULL, NULL);
 
@@ -1230,7 +1230,8 @@ mstyle_get_font (const MStyle *style, double zoom)
 			size = DEFAULT_SIZE;
 
 		((MStyle *)style)->font =
-			style_font_new (name, size, zoom, bold, italic);
+			style_font_new (context, name, size,
+					zoom, bold, italic);
 		((MStyle *)style)->font_zoom = zoom;
 	}
 
@@ -1612,7 +1613,9 @@ mstyle_visible_in_blank (const MStyle *st)
 }
 
 PangoAttrList *
-mstyle_get_pango_attrs (const MStyle *mstyle, double zoom)
+mstyle_get_pango_attrs (const MStyle *mstyle,
+			PangoContext *context,
+			double zoom)
 {
 	PangoAttribute *attr;
 	PangoAttrList *res;
@@ -1668,7 +1671,7 @@ mstyle_get_pango_attrs (const MStyle *mstyle, double zoom)
 
 	/* Handle font.  */
 	{
-		StyleFont *font = mstyle_get_font (mstyle, zoom);
+		StyleFont *font = mstyle_get_font (mstyle, context, zoom);
 		attr = pango_attr_font_desc_new (font->pango.font_descr);
 		attr->start_index = 0;
 		attr->end_index = -1;

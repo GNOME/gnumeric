@@ -198,13 +198,13 @@ static void
 print_cell (Cell const *cell, MStyle const *mstyle, GnomePrintContext *context,
 	    double x1, double y1, double width, double height, double h_center)
 {
-	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
+	Sheet const * const sheet = cell->base.sheet;
+	StyleFont *style_font = mstyle_get_font (mstyle, sheet->context, 1.0);
 	GnomeFont *print_font = style_font->gnome_print_font;
 	double const font_descent = gnome_font_get_descender (print_font);
 	double const font_ascent = gnome_font_get_ascender (print_font);
 	double rect_x, rect_width, rect_y, rect_height;
 
-	Sheet const * const sheet = cell->base.sheet;
 	ColRowInfo const * const ci = cell->col_info; /* DEPRECATED */
 	ColRowInfo const * const ri = cell->row_info; /* DEPRECATED */
 	double text_base;
