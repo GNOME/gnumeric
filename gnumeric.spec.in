@@ -19,6 +19,7 @@ Requires: gnome-libs >= 1.0.57
 Requires: gnome-print >= 0.20
 Requires: libglade >= 0.13
 Requires: libxml >= 1.8.5
+Requires: libole2 >= 0.1.4
 
 %description
 GNOME (GNU Network Object Model Environment) is a user-friendly set of
@@ -95,6 +96,9 @@ fi
 %doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
 
 %changelog
+* Sat Jun 21 2000 Jody Goldberg <jgolbderg@home.com>
+- Add libole2
+
 * Sat May 20 2000 Jody Goldberg <jgolbderg@home.com>
 - Updated version requirements for gnome-print, and libglade.
 
