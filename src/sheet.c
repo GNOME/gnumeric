@@ -1014,7 +1014,7 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row)
 	 * font.  When we run this test things then resize 1 pixel smaller for
 	 * no apparent reason.
 	 */
-	if (ri->size_pixels = (max+1))
+	if (ri->size_pixels == (max+1))
 		return 0;
 	return max;
 }
