@@ -1,3 +1,7 @@
+2000-05-28  Karl Eichwalder  <ke@suse.de>
+
+	* de.po: Update.
+
 2000-05-25  Valek Filippov  <frob@df.ru>
 
 	* ru.po: updated russian translation.
@@ -13,7 +17,7 @@
 	
 2000-05-23  Kenneth Christiansen  <kenneth@gnu.org>
 
-        * da.po: update
+	* da.po: update
 
 2000-05-23  Karl Eichwalder  <ke@suse.de>
 
@@ -33,7 +37,7 @@
 	
 2000-05-20  Jody Goldberg <jgoldberg@home.com>
 
-        * Release 0.54
+	* Release 0.54
 
 2000-05-21  Valek Filippov  <frob@df.ru>
 
@@ -65,14 +69,13 @@
 	
 2000-05-15  Kenneth Christiansen  <kenneth@gnome.org>
 
-        * update.sh: New version - new --missing tag
-          try --help for info
-          
-        * POTFILES.in: Added new files
+	* update.sh: New version - new --missing tag try --help for info
 
-        * gnumeric.pot: New from new POTFILES.in sources
+	* POTFILES.in: Added new files
 
-        * da.po: updated / merged with new potfile
+	* gnumeric.pot: New from new POTFILES.in sources
+
+	* da.po: updated / merged with new potfile
 
 2000-05-15  Jesus Bravo Alvarez  <jba@pobox.com>
 
