@@ -44,6 +44,7 @@ Jon Kåre:
 	* More correct import of "automatic" colors from Excel.
 	* Export "automatic" colors to Excel.
 	* Simplify and fix bugs in Excel color import and export.
+	* Support cropping in Excel image import.
 
 Joshua R. Odom:
 	* Reorganize the custom pixmaps.
