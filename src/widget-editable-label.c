@@ -114,6 +114,11 @@ el_edit_sync (El *el)
 	
 }
 
+static gint
+dumpit (GtkWidget *w, GdkEventButton *ev)
+{
+}
+
 static void
 el_start_editing (El *el, const char *text)
 {
@@ -137,6 +142,8 @@ el_start_editing (El *el, const char *text)
 	gtk_widget_set_uposition (toplevel, 20000, 20000);
 	gtk_widget_show_all (toplevel);
 
+	gtk_grab_add (GTK_WIDGET (el));
+	
 /*	gtk_editable_select_region (GTK_EDITABLE (el->entry, 0, -1)); */
 
 	/*
@@ -166,6 +173,7 @@ el_stop_editing (El *el)
 		el->background = NULL;
 	}
 
+	gtk_grab_remove (GTK_WIDGET (el));
 	GTK_WIDGET_UNSET_FLAGS (GTK_WIDGET (el), GTK_CAN_FOCUS);
 }
 
@@ -219,7 +227,7 @@ el_size_request (GtkWidget *widget, GtkRequisition *requisition)
 	/* The widget is realized, and we have a text item inside */
 	font = widget->style->font;
 	text = GNOME_CANVAS_TEXT (el->text_item)->text;
-	
+
 	requisition->width = gdk_string_measure (font, text) + MARGIN * 2;
 	requisition->height = font->ascent + font->descent + MARGIN * 2;
 }
@@ -234,6 +242,11 @@ el_button_press_event (GtkWidget *widget, GdkEventButton *button)
 	
 	if (!el->text)
 		return FALSE;
+
+	if (el->entry && button->window != widget->window){
+		el_stop_editing (el);
+		return FALSE;
+	}
 	
 	if (button->type == GDK_2BUTTON_PRESS){
 		char *text = GNOME_CANVAS_TEXT (el->text_item)->text;
