@@ -13,10 +13,11 @@
       <listitem>
 	<para>
 	  <guilabel>Stability</guilabel> &mdash;
-	  <application>Gnumeric</application> has undergone significant amounts
-	  of testing with a diverse group of users.  There is also a large set of
-	  test workbooks to validate the quality of the importers.  This
-	  release can be considered safe for use in a production environment.
+	  <application>Gnumeric</application> has undergone
+	  significant amounts of testing with a diverse group of
+	  users.  There is also a large set of test workbooks to
+	  validate the quality of the importers.  This release can be
+	  considered safe for use in a production environment.
 	</para>
       </listitem>
 
@@ -37,7 +38,7 @@
 
       <listitem>
 	<para>
-	  <guilabel>Minimal the cost of transition</guilabel> &mdash;
+	  <guilabel>Minimal cost of transition</guilabel> &mdash;
 	  Learning new and unfamiliar interfaces is an expensive and frustrating
 	  process.  <application>Gnumeric</application> attempts to offer
 	  optional extensions and enough compatibility that a user's
@@ -63,7 +64,7 @@
 
       <listitem>
 	<para>
-	  <guilabel>Internationalisation</guilabel> &mdash;
+	  <guilabel>Internationalization</guilabel> &mdash;
 	  <application>Gnumeric</application> has been translated into 29
 	  languages, and is being used by people around the globe in their
 	  native locales.
@@ -73,10 +74,11 @@
       <listitem>
       <para>
 	<guilabel>Openness and Scalability</guilabel> &mdash;
-	Gnumeric is <ulink type="http" url="http://www.gnu.org/philosophy/free-sw.html">free software</ulink> 
-	released under the
+	Gnumeric is <ulink type="http"
+	url="http://www.gnu.org/philosophy/free-sw.html">free
+	software</ulink>  	released under the
 	<ulink type="http" url="http://www.gnu.org/copyleft/gpl.html">GNU
-	GPL</ulink>.  It's core architecture has also seen alot of design work
+	GPL</ulink>.  It's core architecture has also seen a lot of design work
 	to ensure that it can comfortably scale to moderately large loads (1M
 	cells) while remaining usable on older hardware.  The availability of
 	clean reasonably documented source makes it simple to do things like
@@ -102,15 +104,17 @@
 
   <!-- This section can simply link to the mini-tutorial once that is written.-->
   <sect2 id="Preface-starting">
-    <title>Getting started using Gnumeric.</title>
+    <title>Getting Started Using Gnumeric.</title>
     <para>
-      The best way to learn how to use Gnumeric is to begin exploring the
-      program yourself. Enter some data into cells by clicking on the cell,
-      typing a number and hitting return. Gnumeric supports different kinds of
-      data such as numbers, dates, currency and text by formating each kind of
-      data differently and by calculating results appropriate to each data
-      type. To learn more look at the manual section on data entry
-      <xref linkend="editing">.
+      The best way to learn how to use
+      <application>Gnumeric</application> is to begin exploring the
+      program yourself. Enter some data into cells by clicking on the
+      cell, typing a number and hitting
+      return. <application>Gnumeric</application>  supports
+      different kinds of data such as numbers, dates, currency and
+      text by formating each kind of data differently and by
+      calculating results appropriate to each data type. To learn more
+      look at <xref linkend="editing">.
     </para>
 
     <para>
@@ -119,22 +123,23 @@
       2 and hitting return. The number you see should be the number in the
       second cell minus two. Try changing the number in the second cell and
       watch <application>Gnumeric</application> automatically re-calculate the
-      result. For more powerful functions see the section on formulas <xref
+      result. For more powerful functions see <xref
       linkend="formulas"> later in this manual.
     </para>
 
     <para>
-      You can format the data, by changing the text colour, adding borders and
+      You can format the data, by changing the text color, adding borders and
       changing the placement. Explore the bottom toolbar and the menu that
       opens when you click on a cell with the rightmost mouse button. Look at 
       <xref linkend="formatting"> later in this manual. </para>
     <para>
-      If you would like to learn more about Gnumeric, read this manual, visit the
+      If you would like to learn more about
+      <application>Gnumeric</application>, read this manual, visit the 
       <ulink type="http" url="http://www.gnumeric.org">home page</ulink>,
-      ask friends who use spreadsheets or read a book on how to use MS Excel (tm),
-      There are 
+      ask friends who use spreadsheets or read a book on how to use MS
+      Excel (tm). 
       If you have questions you can also send them to the
-      <ulink type="http" url="http://www.gnome.org/mailing-lists/archives/gnumeric-list">Gnumeric mailing list</ulink>
+      <ulink type="http" url="http://www.gnome.org/mailing-lists/archives/gnumeric-list">Gnumeric mailing list</ulink>.
     </para>
   </sect2>
 </sect1>

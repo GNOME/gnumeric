@@ -1,3 +1,12 @@
+2002-01-04  Alexander Kirillov  <kirillov@math.sunysb.edu>
+
+	* preface.sgml, gui-elemnts.sgml, toolbars.sgml, menus.sgml: minor
+	clean-up: 
+	corrected some typos, used correct sgml tags (e.g.,
+	<keycap>Ctrl</keycap> instead of "Ctl", or
+	<application>Gnumeric</application> instead of Gnumeric), fixed
+	capitalization and periods  in titles.  
+
 2002-01-02  Alexander Kirillov  <kirillov@math.sunysb.edu>
 
 	* gnumeric-C.omf: added OMF file. Still missing emails of the

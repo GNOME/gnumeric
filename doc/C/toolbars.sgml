@@ -7,35 +7,35 @@
 	  system.
 	  </para>
    
-	<para>Gnumeric has three toolbars, the standard toolbar, the format toolbar
+	<para><application>Gnumeric</application> has three toolbars, the standard toolbar, the format toolbar
 	and the object toolbar. The three toolbars are shown in 
-	<xRef linkend="toolbars.png">
+	<xRef linkend="toolbars.png">.
 	</para>
 
     <figure id="toolbars.png">
-     <title>The Three Gnumeric Toolbars.</title>
+     <title>The Three Gnumeric Toolbars</title>
      <screenshot>
       <graphic fileref="figures/toolbars.png" format="png" srccredit="The GNOME project">
       </graphic>
      </screenshot>
     </figure>
  	<para> These toolbars will be discussed separately in the subsequent
-	sections of the Manual. User intreaction with each toolbar happens in
+	sections of this manual. User interaction with each toolbar happens in
 	essentially the same way. Similarly, the toobars can be configured in the same
-	way. The next section explains the standard behaviour of Gnumeric toolbars.</para>
+	way. The next section explains the standard behavior of <application>Gnumeric</application> toolbars.</para>
 
 
 
 	<sect2 id="toolbar-use">
-		<title>General Toolbar Behaviour</title>
+		<title>General Toolbar Behavior</title>
 
 		<para>In the same way that menus can be moved around, as was explained 
-		<xref linkend="menu-bars">, toolbars can be moved around the Gnumeric
+		<xref linkend="menu-bars">, toolbars can be moved around the <application>Gnumeric</application>
 		window by dragging the little tag on the leftmost portion of the
 		toolbar. 
 		</para>
 		<para>
-		If the Gnumeric window is too small to fit all of the toolbar buttons,
+		If the <application>Gnumeric</application> window is too small to fit all of the toolbar buttons,
 		gnumeric may display a little right pointing black arrow to indicate
 		that there are more options. If the user clicks on this arrow, a window
 		will open with the remaining buttons.
@@ -64,7 +64,7 @@
 
 <!-- ************************* THE STANDARD TOOLBAR ************** -->
 <sect1 id="std-toolbar">
-	<title>The Standard Toolbar.</title>
+	<title>The Standard Toolbar</title>
 
 	<para>The standard toolbar is shown in <xRef linkend="toolbar-standard.png">.</para>
 
@@ -92,7 +92,7 @@ system.</para>
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Create a New file</para>
+	  <para>Create a new file.</para>
 	</listitem>
       </varlistentry>
       
@@ -125,7 +125,7 @@ system.</para>
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Prints the current worksheet to a file or a printer.</para>
+	  <para>Print the current worksheet to a file or a printer.</para>
 	</listitem>
       </varlistentry>
      
@@ -136,7 +136,7 @@ system.</para>
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Displays a print preview of the current worksheet.</para>
+	  <para>Display a print preview of the current worksheet.</para>
 	</listitem>
       </varlistentry>
      
@@ -208,11 +208,11 @@ system.</para>
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Starts a simple sum formula in the selected cell with Gnumeric
+	  <para>Starts a simple sum formula in the selected cell with <application>Gnumeric</application>
 	  simply waiting for a selection to be made to complete the sum. The user
 	  selects the destination cell, pushes this button, enters the range to be
 	  summed and pushes the confirm button (green arrow) in the data entry area
-	  or types the return key.
+	  or types the <keycap>Return</keycap> key.
 	  </para>
 	</listitem>
       </varlistentry>
@@ -272,11 +272,13 @@ system.</para>
 		</guiicon>
 	</term>
 	<listitem>
-	  <para>This button will insert a component object into the current
-	  worksheet. Components are the way that the GNOME project has chosen to
-	  enable certain programs to use others within themselves. Gnumeric is able
-	  to use the Guppi plotting program and the Dia diagramming program in this
-	  way.</para>
+	  <para>This button will insert a component object into the
+	  current worksheet. Components are the way that the GNOME
+	  project has chosen to enable certain programs to use others
+	  within themselves. <application>Gnumeric</application> is
+	  able to use the <application>Guppi</application> plotting
+	  program and the <application>Dia</application> diagramming
+	  program in this way.</para>
 	</listitem>
       </varlistentry>
 
@@ -288,7 +290,7 @@ system.</para>
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>This button allows user to insert a component into Gnumeric that is
+	  <para>This button allows user to insert a component into <application>Gnumeric</application> that is
 	  not a simple rectangle but may have an arbitrary shape. This
 	  functionality is currently not used but provided for future needs.</para>
 	</listitem>
@@ -317,7 +319,7 @@ system.</para>
 
 <!-- ************************* THE FORMAT TOOLBAR ************** -->
 <sect1 id="fmt-toolbar">
-	<title>The Format Toolbar.</title>
+	<title>The Format Toolbar</title>
 
 	<para> The <interface>Format Toolbar</interface> ...</para>
 
@@ -329,7 +331,7 @@ system.</para>
      </screenshot>
     </figure>
 
- 	<para> The <interface>Format Toolbar</interface> .</para>
+ 	<para> The <interface>Format Toolbar</interface>. </para>
 
 
 
@@ -457,7 +459,7 @@ of the entry box and selecting the perferred size.</para>
       <varlistentry>
 	<term>
 	  <guiicon><inlinegraphic fileref="figures/button-merge.png"></inlinegraphic>
-	    Left justify..
+	    Left justify.
 	  </guiicon>
 	</term>
 	<listitem>
@@ -509,7 +511,7 @@ of the entry box and selecting the perferred size.</para>
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>Sets the format of the selected cells to be a thousands separator.</para>
+	  <para>Sets the format of the selected cells to use  thousands separator.</para>
 	</listitem>
       </varlistentry>
       
@@ -568,8 +570,8 @@ of the entry box and selecting the perferred size.</para>
 	  </guiicon>
 	</term>
 	<listitem>
-	  <para>This button and drop down menu can be used to set the borders of
-all the cells in the selection.</para>
+	  <para>This button and drop down menu can be used to set the
+borders of all the cells in the selection.</para>
 	</listitem>
       </varlistentry>
 
@@ -615,7 +617,7 @@ colour.</para>
 
 <!-- ************************* THE OBJECT TOOLBAR ************** -->
 <sect1 id="obj-toolbar">
-	<title>The Object Toolbar.</title>
+	<title>The Object Toolbar</title>
 
 
 	<figure id="toolbar-object.png">
@@ -625,7 +627,7 @@ colour.</para>
       </graphic>
      </screenshot>
     </figure>
- 	<para> The <interface>Object Toolbar</interface> .</para>
+ 	<para> The <interface>Object Toolbar</interface>. </para>
 
 
 

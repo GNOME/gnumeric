@@ -1,26 +1,33 @@
 <sect1 id="gui-start">
-	<title>Overview.</title>
+	<title>Overview</title>
 
-	<para>This part of the Gnumeric manual explains the pieces of the
-	software that users can manipulate. The menus, the toolbars and the
-	cell grid area comprise what is called the graphical user interface
-	of an application because it is an interface --- a way to
-	interact with Gnumeric --- which is made of graphical elements
-	--- pictures --- designed to be used by human users.</para>
+	<para>This part of the <application>Gnumeric</application>
+	manual explains the pieces of the software that users can
+	manipulate. The menus, the toolbars and the cell grid area
+	comprise what is called the graphical user interface of an
+	application because it is an interface --- a way to interact
+	with Gnumeric --- which is made of graphical elements ---
+	pictures --- designed to be used by human users.</para>
 
-	<para>Gnumeric opens by default with a view of an empty workbook
-	which is called "Book 1" and with a single worksheet called "Sheet
-	1" as can be seen in <xref linkend="gnumeric-labelled.png">. The
-	outermost portion of the window is not actually part of gnumeric and
-	may look different on different machines. Gnumeric attempts to place
-	its name and the name of the workbook on this outer portion.</para>
+	<para><application>Gnumeric</application> opens by default
+	with a view of an empty workbook which is called "Book 1" and
+	with a single worksheet called "Sheet 1" as can be seen in
+	<xref linkend="gnumeric-labelled.png">. The outermost portion
+	of the window is not actually part of
+	<application>Gnumeric</application> and may look different on
+	different machines. <application>Gnumeric</application>
+	attempts to place its name and the name of the workbook on
+	this outer portion.</para>
 
-	<para>The majority of spreadsheet work is done while interacting
-	with this view of Gnumeric. All of the functions which Gnumeric
-	provides can be accessed quickly from here. The graphic elements of
-	Gnumeric are made of several independent pieces.  <xRef
-	linkend="gnumeric-labelled.png"> shows a newly opened, empty
-	Gnumeric with the principle elements labelled.</para>
+	<para>The majority of spreadsheet work is done while
+	interacting with this view of
+	<application>Gnumeric</application>. All of the functions
+	which <application>Gnumeric</application> provides can be
+	accessed quickly from here. The graphic elements of
+	<application>Gnumeric</application> are made of several
+	independent pieces.  <xRef linkend="gnumeric-labelled.png">
+	shows a newly opened, empty Gnumeric with the principle
+	elements labelled.</para>
 		<figure id="gnumeric-labelled.png">
  		   <title>The Gnumeric worksheet elements.</title>
  		   <screenshot>
@@ -43,10 +50,11 @@
 	  			</guiicon>
 			</term>
 			<listitem>
-	  		<para>The menubar provides access to the core functions of
-	  		gnome. Almost everything that can be done in
-	  		gnumeric can be done through the menus. The menus
-	  		and menubar are discussed in <xRef
+	  		<para>The menubar provides access to the core
+	  		functions of gnome. Almost everything that can
+	  		be done in <application>Gnumeric</application>
+	  		can be done through the menus. The menus and
+	  		menubar are discussed in <xRef
 	  		linkend="menus">. </para>
 			</listitem>
     	  </varlistentry>
@@ -112,10 +120,11 @@
 	  			</guiicon>
 			</term>
 			<listitem>
-	  		<para>This area is used by gnumeric to give feedback
-	  		on the status of certain operations. This
-	  		information is explained in <xRef
-	  		linkend="info-area">. </para>
+	  		<para>This area is used by
+	  		<application>Gnumeric</application> to give
+	  		feedback on the status of certain
+	  		operations. This information is explained in
+	  		<xRef linkend="info-area">. </para>
 			</listitem>
     	  </varlistentry>
 
@@ -159,7 +168,7 @@
 
 	<para>The next chapters will explain each of these elements. <xref
 	linkend="menus"> will explain the menus, <xref linkend="toolbars"> 
-	will explaine the toolbars and <xref linkend="other-elements"> 
+	will explain the toolbars and <xref linkend="other-elements"> 
 	will explain the remaining elements.</para>
 
         <!-- A few of these functions are complicated (and powerful) so
