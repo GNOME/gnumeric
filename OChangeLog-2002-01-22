@@ -1,3 +1,28 @@
+2000-05-30  Jon K Hellan  <hellan@acm.org>
+
+	* src/dialogs/dialog-printer-setup.c (enum MarginOrientation): Add
+	MARGIN_NONE for use with set_horizontal/vertical_bounds.
+	(spin_button_set_bound): New function. Allow the value in spin
+	button to increase by at most space_to_grow.
+	(get_printable_width): New function. Return page width minus
+	margins in specified unit.
+	(get_printable_height): New function. Return page height minus
+	margins, header and footer in specified unit.
+	(set_horizontal_bounds): New function. Set the upper bounds for
+	left and right margins.
+	(set_vertical_bounds): New function. Set the upper bounds for
+	top/bottom margins, headers and footers.
+	(draw_margin): Add default branch to silence warning - MARGIN_NONE
+	now exists.
+	(canvas_update): Update bounds for margins when paper size has
+	changed.
+	(spin_button_adapt_to_unit): New function. Select suitable
+	increments and number of digits for the unit.
+	(do_convert): Call function above.
+	(unit_changed): Update bounds for margins when a margin has
+	changed.
+	(unit_editor_configure): Call spin_button_adapt_to_unit.
+
 2000-05-29  Jody Goldberg <jgoldberg@home.com>
 
 	* src/commands.c (cmd_ins_del_row_col_undo) : Bounds are inclusive.

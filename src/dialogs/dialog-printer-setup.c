@@ -27,6 +27,8 @@
 #define MARGIN_COLOR_DEFAULT "gray"
 #define MARGIN_COLOR_ACTIVE "black"
 
+#define EPSILON 1e-5		/* Same as in gtkspinbutton.c */
+
 typedef struct {
 	/* The Canvas object */
 	GtkWidget        *canvas;
@@ -40,6 +42,7 @@ typedef struct {
 } PreviewInfo;
 
 typedef enum {
+	MARGIN_NONE,
 	MARGIN_LEFT,
 	MARGIN_RIGHT,
 	MARGIN_TOP,
@@ -104,6 +107,168 @@ unit_into_to_points (UnitInfo *ui)
 	return unit_convert (ui->value, ui->unit, UNIT_POINTS);
 }
 #endif
+
+/*
+ * spin_button_set_bound
+ * @spin           spinbutton
+ * @space_to_grow  how much higher value may go
+ * @space_unit     unit space_to_grow_is measured in
+ * @spin_unit      unit spinbutton uses
+ *
+ * Allow the value in spin button to increase by at most space_to_grow.
+ * If space_to_grow is negative, e.g. after paper size change,
+ * spin_button_set_bound adjusts the margin and returns a less
+ *  negative space_to_grow.
+ */
+static double
+spin_button_set_bound (GtkSpinButton *spin, double space_to_grow,
+		       UnitName space_unit, UnitName spin_unit)
+{
+	GtkAdjustment *adjustment;
+
+	g_return_val_if_fail (GTK_IS_SPIN_BUTTON (spin), 1); /* Arbitrary */
+	adjustment = gtk_spin_button_get_adjustment (spin);
+	g_return_val_if_fail (GTK_IS_ADJUSTMENT (adjustment), 1); /* Ditto */
+
+	space_to_grow = unit_convert (space_to_grow, space_unit, spin_unit);
+	
+	if (space_to_grow + EPSILON < 0) {
+		double shrink = MIN (-space_to_grow, adjustment->value);
+
+		space_to_grow += shrink;
+		adjustment->upper = adjustment->value - shrink;
+		gtk_adjustment_changed (adjustment);
+		adjustment->value = adjustment->upper;
+		gtk_adjustment_value_changed (adjustment);
+	} else {
+		adjustment->upper = adjustment->value + space_to_grow;
+		gtk_adjustment_changed (adjustment);
+	}
+	
+	return unit_convert (space_to_grow, spin_unit, space_unit);
+}
+
+/*
+ * get_printable_width
+ * @dpi  print info
+ * @unit unit
+ *
+ * Return page width minus margins in specified unit.
+ */
+static double
+get_printable_width (dialog_print_info_t *dpi, UnitName unit)
+{
+	return unit_convert (gnome_paper_pswidth (dpi->paper),
+			     UNIT_POINTS, unit)
+		- unit_convert (dpi->margins.left.value,
+				dpi->margins.left.unit, unit)
+		- unit_convert (dpi->margins.right.value,
+				dpi->margins.right.unit, unit);
+}
+
+/*
+ * get_printable_height
+ * @dpi  print info
+ * @unit unit
+ *
+ * Return page height minus margins, header and footer in specified unit.
+ *
+ * FIXME: This uses our traditional semantics for headers and footers, which
+ * is to measure the header from the bottom of the top margin. Excel uses a
+ * different convention, so the Excel import code must be updated. Unless we
+ * chicken out and go with Excel's broken convention: Both top margin and
+ * header are measured from the top of the page.
+ */
+static double
+get_printable_height (dialog_print_info_t *dpi, UnitName unit)
+{
+	return unit_convert (gnome_paper_psheight (dpi->paper),
+			     UNIT_POINTS, unit)
+		- unit_convert (dpi->margins.top.value,
+				dpi->margins.top.unit, unit)
+		- unit_convert (dpi->margins.bottom.value,
+				dpi->margins.bottom.unit, unit)
+		- unit_convert (dpi->margins.header.value,
+				dpi->margins.header.unit, unit)
+		- unit_convert (dpi->margins.footer.value,
+				dpi->margins.footer.unit, unit);
+}
+
+/*
+ * set_horizontal_bounds
+ * @dpi           print info
+ * @margin_fixed  margin to remain unchanged
+ * @unit          unit
+ *
+ * Set the upper bounds for left and right margins.
+ * If margin_fixed is one of those margins, it kept unchanged. This is to
+ * avoid the possibility of an endless loop.
+ */
+static void set_horizontal_bounds (dialog_print_info_t *dpi,
+				   MarginOrientation margin_fixed,
+				   UnitName unit)
+{
+	double printable_width = get_printable_width (dpi, unit);
+
+	if (margin_fixed != MARGIN_LEFT)
+		printable_width
+			= spin_button_set_bound (dpi->margins.left.spin,
+						 printable_width,
+						 unit,
+						 dpi->margins.left.unit);
+	
+	if (margin_fixed != MARGIN_RIGHT)
+		printable_width
+			= spin_button_set_bound (dpi->margins.right.spin,
+						 printable_width,
+						 unit,
+						 dpi->margins.right.unit);
+}
+
+/*
+ * set_vertical_bounds
+ * @dpi           print info
+ * @margin_fixed  margin to remain unchanged
+ * @unit          unit
+ *
+ * Set the upper bounds for top/bottom margins, headers and footers.
+ * If margin_fixed is one of those margins, it kept unchanged. This is to
+ * avoid the possibility of an endless loop.
+ */
+static void set_vertical_bounds (dialog_print_info_t *dpi, 
+				 MarginOrientation margin_fixed,
+				 UnitName unit)
+{
+	double printable_height = get_printable_height (dpi, unit);
+
+	if (margin_fixed != MARGIN_TOP)
+		printable_height
+			= spin_button_set_bound (dpi->margins.top.spin,
+						 printable_height,
+						 unit,
+						 dpi->margins.top.unit);
+	
+	if (margin_fixed != MARGIN_BOTTOM)
+		printable_height
+			= spin_button_set_bound (dpi->margins.bottom.spin,
+						 printable_height,
+						 unit,
+						 dpi->margins.bottom.unit);
+	
+	if (margin_fixed != MARGIN_HEADER)	
+		printable_height
+			= spin_button_set_bound (dpi->margins.header.spin,
+						 printable_height,
+						 unit,
+						 dpi->margins.header.unit);
+	
+	if (margin_fixed != MARGIN_FOOTER)
+		printable_height
+			= spin_button_set_bound (dpi->margins.footer.spin,
+						 printable_height,
+						 unit,
+						 dpi->margins.footer.unit);
+}
 
 static void
 preview_page_destroy (dialog_print_info_t *dpi)
@@ -216,11 +381,12 @@ draw_margin (UnitInfo *uinfo,
 		       + uinfo->pi->scale * val);
 		y1 = y2;
 		break;
+	default:
+		return;
 	}
 
 	move_line (uinfo->line, x1, y1, x2, y2);
 }
-	     
 
 static void
 create_margin (dialog_print_info_t *dpi,
@@ -326,7 +492,60 @@ canvas_update (dialog_print_info_t *dpi)
 		preview_page_destroy (dpi);
 		dpi->current_paper = dpi->paper;
 		preview_page_create (dpi);
+		/* FIXME: Introduce dpi->displayed_unit? */
+		set_horizontal_bounds (dpi, MARGIN_NONE,
+				       dpi->margins.top.unit);
+		set_vertical_bounds (dpi, MARGIN_NONE,
+				     dpi->margins.top.unit);
 	}
+}
+
+/*
+ * spin_button_adapt_to_unit
+ * @spin      spinbutton
+ * @new_unit  new unit
+ *
+ * Select suitable increments and number of digits for the unit.
+ *
+ * The increments are not scaled linearly. We assume that if you are using a
+ * fine grained unit - pts or mm - you want to fine tune the margin. For cm
+ * and in, a useful coarse increment is used, which is a round number in that
+ * unit.
+ *
+ * NOTE: According to docs, we should be using gtk_spin_button_configure
+ * here. But as of gtk+ 1.2.7, climb_rate has no effect for that call.
+ */
+static void
+spin_button_adapt_to_unit (GtkSpinButton *spin, UnitName new_unit)
+{
+	GtkAdjustment *adjustment;
+	gfloat step_increment;
+	guint digits;
+
+	g_return_if_fail (GTK_IS_SPIN_BUTTON (spin));
+	adjustment = gtk_spin_button_get_adjustment (spin);
+	g_return_if_fail (GTK_IS_ADJUSTMENT (adjustment));
+
+	switch (new_unit) {
+	case UNIT_POINTS:
+		/* Fallthrough */
+	case UNIT_MILLIMETER:
+		step_increment = 1.0;
+		digits = 1;
+		break;
+	case UNIT_CENTIMETER:
+		step_increment = 0.5;
+		digits = 2;
+		break;
+	case UNIT_INCH:
+		step_increment = 0.25;
+		digits = 2;
+		break;
+	}
+	adjustment->step_increment = step_increment;
+	adjustment->page_increment = step_increment * 10;
+	gtk_adjustment_changed (adjustment);
+	gtk_spin_button_set_digits (spin, digits);
 }
 
 static void
@@ -334,7 +553,8 @@ do_convert (UnitInfo *target, UnitName new_unit)
 {
 	if (target->unit == new_unit)
 		return;
-
+	
+	spin_button_adapt_to_unit (target->spin, new_unit);
 	target->value = unit_convert (target->value, target->unit, new_unit);
 	target->unit = new_unit;
 
@@ -378,7 +598,6 @@ listeners_convert (GtkWidget *item, void (*convert) (UnitInfo *))
 		(convert) ((UnitInfo *) l->data);
 }
 
-
 static void
 add_unit (GtkWidget *menu, int i, dialog_print_info_t *dpi,
 	  void (*convert)(UnitInfo *))
@@ -401,7 +620,20 @@ static void
 unit_changed (GtkSpinButton *spin_button, UnitInfo_cbdata *data)
 {
 	data->target->value = data->target->adj->value;
-
+	
+	switch (data->target->orientation) {
+	case MARGIN_LEFT:
+	case MARGIN_RIGHT:
+		set_horizontal_bounds (data->dpi,
+				       data->target->orientation,
+				       data->target->unit);
+		break;
+	default:
+		set_vertical_bounds (data->dpi,
+				     data->target->orientation,
+				     data->target->unit);
+	}
+	
 	/* Adjust the display to the current values */
 	draw_margin (data->target, data->dpi);
 }
@@ -446,6 +678,7 @@ unit_editor_configure (UnitInfo *target, dialog_print_info_t *dpi,
 	gnome_dialog_editable_enters (GNOME_DIALOG (dpi->dialog),
 				      GTK_EDITABLE (spin));
 	gtk_widget_set_usize (GTK_WIDGET (target->spin), 60, 0);
+	spin_button_adapt_to_unit (target->spin, unit);
 
 	cbdata = g_new (UnitInfo_cbdata, 1);
 	cbdata->dpi = dpi;
