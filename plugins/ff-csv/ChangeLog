@@ -1,5 +1,8 @@
 1999-07-02  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* csv-io.c (init_plugin): Do not use for now.  it has a memory
+	problem somewhere.
+
 	* libcsv.c: Rewrote to use Alan's library.
 
 1999-06-25  Morten Welinder  <terra@diku.dk>

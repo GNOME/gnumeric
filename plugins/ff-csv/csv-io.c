@@ -24,6 +24,7 @@ load_table_into_sheet (struct csv_table *table, Sheet *sheet)
 		Cell *cell;
 		int col;
 
+		printf ("Row: %d has %d cols\n", row, CSV_WIDTH (table, row));
 		for (col = 0; col < CSV_WIDTH (table, row); col++){
 			cell = sheet_cell_new (sheet, col, row);
 			cell_set_text_simple (cell, CSV_ITEM (table, row, col));
@@ -100,7 +101,7 @@ csv_cleanup_plugin (PluginData *pd)
 int
 init_plugin (PluginData * pd)
 {
-	file_format_register_open (1, _("Comma Separated Value (CSV) import"), csv_probe, csv_read_workbook);
+/*	file_format_register_open (1, _("Comma Separated Value (CSV) import"), csv_probe, csv_read_workbook); */
 	pd->can_unload = csv_can_unload;
 	pd->cleanup_plugin = csv_cleanup_plugin;
 	pd->title = g_strdup (_("Comma Separated Value (CSV) module"));

@@ -221,7 +221,7 @@ void csv_destroy_table(struct csv_table *table)
 			if(r->data[j])
 				free(r->data[j]);
 	}
-	free(table->row);
+	free (table->row);
 }
 
 #ifdef TEST
