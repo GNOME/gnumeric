@@ -2556,8 +2556,8 @@ ms_excel_read_colinfo (BiffQuery *q, ExcelSheet *sheet)
 	if (lastcol >= SHEET_MAX_COLS)
 		lastcol = SHEET_MAX_COLS-1;
 	for (lp = firstcol; lp <= lastcol; ++lp)
-		sheet_col_set_width_units
-			(sheet->gnum_sheet, lp, col_width);
+		sheet_col_set_width_units (sheet->gnum_sheet,
+					   lp, col_width, TRUE);
 }
 
 /**
