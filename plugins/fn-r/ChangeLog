@@ -1,3 +1,7 @@
+2005-03-18  Jon K Hellan  <hellan@acm.org>
+
+	* Makefile.am: Add.
+
 2005-03-18  Morten Welinder  <terra@gnome.org>
 
 	* generate: Script to generate most of this.
