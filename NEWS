@@ -18,6 +18,9 @@ Jody:
 	* Don't prompt for sheet delete if it is pristine.
 	* autofill includes autoformats for expressions.
 
+Morten:
+	* Fix DATE.
+
 --------------------------------------------------------------------------
 Gnumeric 0.99.0
 
