@@ -19,10 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkCombo in GnomeEntry"
-#undef GNOME_DISABLE_DEPRECATED
-#warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeEntry"
 
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -46,9 +42,9 @@
 
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-lazy-list.h>
-#include <libgnomeui/gnome-entry.h>
 #include <glade/glade.h>
 #include <gtk/gtknotebook.h>
+#include <gtk/gtkbox.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtkscrolledwindow.h>
@@ -71,7 +67,7 @@ typedef struct {
 	GladeXML *gui;
 	GtkDialog *dialog;
 	GnmExprEntry *rangetext;
-	GnomeEntry *gentry;
+	GtkEntry *gentry;
 	GtkWidget *prev_button, *next_button;
 	GtkNotebook *notebook;
 	int notebook_matches_page;
@@ -282,8 +278,7 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	sr = search_replace_new ();
 
-	sr->search_text = g_strdup (gtk_entry_get_text (GTK_ENTRY
-							(gnome_entry_gtk_entry (dd->gentry))));
+	sr->search_text = g_strdup (gtk_entry_get_text (dd->gentry));
 	sr->replace_text = NULL;
 
 	i = gnumeric_glade_group_value (gui, search_type_group);
@@ -357,8 +352,10 @@ search_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 	gtk_notebook_set_current_page (dd->notebook, dd->notebook_matches_page);
 	gtk_widget_grab_focus (GTK_WIDGET (dd->matches_table));
 
+#if 0
 	/* Save the contents of the search in the gnome-entry. */
 	gnome_entry_append_history (dd->gentry, TRUE, sr->search_text);
+#endif
 
 	search_replace_free (sr);
 }
@@ -488,14 +485,13 @@ dialog_search (WorkbookControlGUI *wbcg)
 		g_free (selection_text);
 	}
 
-	dd->gentry = GNOME_ENTRY (gnome_entry_new ("search_entry"));
+	dd->gentry = GTK_ENTRY (gtk_entry_new ());
 	gtk_table_attach (table, GTK_WIDGET (dd->gentry),
 			  1, 2, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	gtk_widget_grab_focus (gnome_entry_gtk_entry (dd->gentry));
-	gnumeric_editable_enters
-		(GTK_WINDOW (dialog), gnome_entry_gtk_entry (dd->gentry));
+	gtk_widget_grab_focus (GTK_WIDGET (dd->gentry));
+	gnumeric_editable_enters (GTK_WINDOW (dialog), GTK_WIDGET (dd->gentry));
 
 	dd->matches_model = GTK_TREE_MODEL
 		(gnumeric_lazy_list_new (search_get_value,

@@ -19,10 +19,6 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-#undef GTK_DISABLE_DEPRECATED
-#warning "This file uses GTK_DISABLE_DEPRECATED for GtkCombo in GnomeEntry"
-#undef GNOME_DISABLE_DEPRECATED
-#warning "This file uses GNOME_DISABLE_DEPRECATED for GnomeEntry"
 
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
@@ -36,7 +32,6 @@
 #include <workbook-edit.h>
 #include <selection.h>
 
-#include <libgnomeui/gnome-entry.h>
 #include <glade/glade.h>
 #include <gtk/gtktogglebutton.h>
 #include <gtk/gtktable.h>
@@ -49,8 +44,8 @@ typedef struct {
 	WorkbookControlGUI *wbcg;
 	GladeXML *gui;
 	GtkDialog *dialog;
-	GnomeEntry *search_text;
-	GnomeEntry *replace_text;
+	GtkEntry *search_text;
+	GtkEntry *replace_text;
 	GnmExprEntry *rangetext;
 	SearchDialogCallback cb;
 } DialogState;
@@ -110,14 +105,14 @@ ok_clicked (G_GNUC_UNUSED GtkWidget *widget, DialogState *dd)
 
 	sr = search_replace_new ();
 
-	sr->search_text = g_strdup (gtk_entry_get_text
-				    (GTK_ENTRY (gnome_entry_gtk_entry (dd->search_text))));
-	sr->replace_text = g_strdup (gtk_entry_get_text
-				     (GTK_ENTRY (gnome_entry_gtk_entry (dd->replace_text))));
+	sr->search_text = g_strdup (gtk_entry_get_text (dd->search_text));
+	sr->replace_text = g_strdup (gtk_entry_get_text (dd->replace_text));
 
+#if 0
 	/* Save the contents of both gnome-entry's. */
 	gnome_entry_append_history (dd->search_text, TRUE, sr->search_text);
 	gnome_entry_append_history (dd->replace_text, TRUE, sr->replace_text);
+#endif
 
 	i = gnumeric_glade_group_value (gui, search_type_group);
 	sr->is_regexp = (i == 1);
@@ -243,21 +238,21 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 	dd->dialog = dialog;
 
 	table = GTK_TABLE (glade_xml_get_widget (gui, "search_table"));
-	dd->search_text = GNOME_ENTRY (gnome_entry_new ("search_entry"));
+	dd->search_text = GTK_ENTRY (gtk_entry_new ());
 	gtk_table_attach (table, GTK_WIDGET (dd->search_text),
 			  1, 4, 0, 1,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	gnumeric_editable_enters
-		(GTK_WINDOW (dialog), gnome_entry_gtk_entry (dd->search_text));
+	gnumeric_editable_enters (GTK_WINDOW (dialog),
+				  GTK_WIDGET (dd->search_text));
 
-	dd->replace_text = GNOME_ENTRY (gnome_entry_new ("replace_entry"));
+	dd->replace_text = GTK_ENTRY (gtk_entry_new ());
 	gtk_table_attach (table, GTK_WIDGET (dd->replace_text),
 			  1, 4, 1, 2,
 			  GTK_EXPAND | GTK_FILL, 0,
 			  0, 0);
-	gnumeric_editable_enters
-		(GTK_WINDOW (dialog), gnome_entry_gtk_entry (dd->replace_text));
+	gnumeric_editable_enters (GTK_WINDOW (dialog),
+				  GTK_WIDGET (dd->replace_text));
 
 	table = GTK_TABLE (glade_xml_get_widget (gui, "scope_table"));
 	dd->rangetext = gnm_expr_entry_new (wbcg, TRUE);
@@ -291,7 +286,7 @@ dialog_search_replace (WorkbookControlGUI *wbcg,
 		GNUMERIC_HELP_LINK_SEARCH_REPLACE);
 
 	gtk_widget_show_all (dialog->vbox);
-	gtk_widget_grab_focus (gnome_entry_gtk_entry (dd->search_text));
+	gtk_widget_grab_focus (GTK_WIDGET (dd->search_text));
 
 	wbcg_edit_attach_guru (wbcg, GTK_WIDGET (dialog));
 	non_modal_dialog (wbcg, dialog, SEARCH_REPLACE_KEY);
