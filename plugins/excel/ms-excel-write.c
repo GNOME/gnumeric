@@ -216,7 +216,7 @@ static void
 write_magic_interface (BIFF_PUT *bp, eBiff_version ver)
 {
 	guint8 *data;
-	if (ver >= eBiffV8) {
+	if (ver >= eBiffV7) {
 		ms_biff_put_len_next (bp, BIFF_INTERFACEHDR, 0);
 		ms_biff_put_commit (bp);
 		data = ms_biff_put_len_next (bp, BIFF_MMS, 2);
@@ -238,7 +238,7 @@ write_constants (BIFF_PUT *bp, eBiff_version ver)
 
 	/* See: S59E1A.HTM */
 	ms_biff_put_var_next (bp, BIFF_WRITEACCESS);
-	biff_put_text (bp, "the free software foundation ", ver, TRUE);
+	biff_put_text (bp, "the free software foundation   ", ver, TRUE);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D66.HTM */
@@ -249,9 +249,57 @@ write_constants (BIFF_PUT *bp, eBiff_version ver)
 	/* See: S59D8A.HTM */
 	if (ver >= eBiffV7) {
 		data = ms_biff_put_len_next (bp, BIFF_FNGROUPCOUNT, 2);
-		BIFF_SET_GUINT16 (data, 0xe0);
+		BIFF_SET_GUINT16 (data, 0x0e);
 		ms_biff_put_commit (bp);
 	}
+}
+
+static void
+write_bits (BIFF_PUT *bp, eBiff_version ver)
+{
+	guint8 *data;
+
+	/* See: S59E19.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_WINDOWPROTECT, 2);
+	BIFF_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
+
+	/* See: S59DD1.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_PROTECT, 2);
+	BIFF_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
+
+	/* See: S59DCC.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_PASSWORD, 2);
+	BIFF_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
+
+	/* Window1 ! */
+
+	/* See: S59DCA.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_PANE, 2);
+	BIFF_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D95.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_HIDEOBJ, 2);
+	BIFF_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D54.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_1904, 2);
+	BIFF_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
+
+	/* See: S59DCE.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_PRECISION, 2);
+	BIFF_SET_GUINT16 (data, 0x0001);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D5E.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_BOOKBOOL, 2);
+	BIFF_SET_GUINT16 (data, 0x0);
+	ms_biff_put_commit (bp);
 }
 
 /**
@@ -430,7 +478,7 @@ write_xf_record (BIFF_PUT *bp, Style *style, eBiff_version ver)
 	for (lp=0;lp<250;lp++)
 		data[lp] = 0;
 
-	if (ver >= eBiffV8)
+	if (ver >= eBiffV7)
 		ms_biff_put_var_next (bp, BIFF_XF);
 	else
 		ms_biff_put_var_next (bp, BIFF_XF_OLD);
@@ -581,6 +629,64 @@ write_cell (gpointer key, Cell *cell, CellArgs *a)
 }
 
 static void
+write_sheet_bools (BIFF_PUT *bp, eBiff_version ver)
+{
+	guint8 *data;
+
+	/* See: S59D63.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_CALCMODE, 2);
+	BIFF_SET_GUINT16 (data, 0x0001);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D62.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_CALCCOUNT, 2);
+	BIFF_SET_GUINT16 (data, 0x0064);
+	ms_biff_put_commit (bp);
+
+	/* See: S59DD7.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_REFMODE, 2);
+	BIFF_SET_GUINT16 (data, 0x0001);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D9C.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_ITERATION, 2);
+	BIFF_SET_GUINT16 (data, 0x0000);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D75.HTM, FIXME: find what number this really is! */
+	data = ms_biff_put_len_next (bp, BIFF_DELTA, 8);
+	BIFF_SET_GUINT32 (data,   0xd2f1a9fc);
+	BIFF_SET_GUINT32 (data+4, 0x3f50624d);
+	ms_biff_put_commit (bp);
+
+	/* See: S59DDD.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_SAVERECALC, 2);
+	BIFF_SET_GUINT16 (data, 0x0001);
+	ms_biff_put_commit (bp);
+
+	/* See: S59DD0.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_PRINTHEADERS, 2);
+	BIFF_SET_GUINT16 (data, 0x0000);
+	ms_biff_put_commit (bp);
+
+	/* See: S59DCF.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_PRINTGRIDLINES, 2);
+	BIFF_SET_GUINT16 (data, 0x0001);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D91.HTM */
+	data = ms_biff_put_len_next (bp, BIFF_GRIDSET, 2);
+	BIFF_SET_GUINT16 (data, 0x0000);
+	ms_biff_put_commit (bp);
+
+	/* See: S59D92.HTM ( Gutters ) */
+	data = ms_biff_put_len_next (bp, BIFF_GUTS, 8);
+	BIFF_SET_GUINT32 (data,   0x0);
+	BIFF_SET_GUINT32 (data+4, 0x0);
+	ms_biff_put_commit (bp);
+}
+
+static void
 write_sheet (BIFF_PUT *bp, SHEET *sheet)
 {
 	CellArgs args;
@@ -590,6 +696,8 @@ write_sheet (BIFF_PUT *bp, SHEET *sheet)
 	args.bp          = bp;
 
 	biff_bof_write (bp, sheet->wb->ver, eBiffTWorksheet);
+
+	write_sheet_bools (bp, sheet->wb->ver);
 
 /* FIXME: INDEX, UG! see S59D99.HTM */
 /* Finding cell records in Biff files see: S59E28.HTM */
@@ -671,6 +779,7 @@ write_workbook (BIFF_PUT *bp, Workbook *gwb, eBiff_version ver)
 	write_magic_interface (bp, ver);
 	write_constants       (bp, ver);
 	write_externsheets    (bp, wb);
+	write_bits            (bp, ver);
 
 	wb->fonts = write_fonts (bp, wb);
 	write_xf (bp, wb);

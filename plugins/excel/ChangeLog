@@ -2,6 +2,11 @@
 
 	* ms-excel-write.c (biff_bof_write): Fixed _major_
 	bug in BOF writing.
+	(write_xf_record): Version fix.
+	(write_bits): Lots of silly little records.
+	(write_workbook): Write bits.
+	(write_sheet_bools): Added lots of flags.
+	(write_sheet): Added sheet_bools.
 
 	* boot.c (excel_init): Changed 98->97 in text.
 
