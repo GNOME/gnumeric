@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-10 00:27-0400\n"
-"PO-Revision-Date: 2003-08-30 18:15+0200\n"
+"POT-Creation-Date: 2003-09-08 20:33+0200\n"
+"PO-Revision-Date: 2003-09-09 23:05+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1000,7 +1000,6 @@ msgstr ""
 
 #: plugins/derivatives/plugin.xml.in.h:1
 #: plugins/fn-financial/plugin.xml.in.h:1
-#: plugins/sample_datasource/plugin.xml.in.h:2
 msgid "Finance"
 msgstr "Finance"
 
@@ -8246,7 +8245,7 @@ msgstr "%s verze %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:208
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -16874,14 +16873,6 @@ msgstr "Databázové funkce pro získávání dat z databází."
 msgid "Could not run GNOME database configuration tool"
 msgstr "Nemohu spsutit nástroj GNOME pro nastavení databáze"
 
-#: plugins/gnome-db/plugin.xml.in.h:1
-msgid "Database UI services plugin"
-msgstr ""
-
-#: plugins/gnome-db/plugin.xml.in.h:2
-msgid "GNOME-DB"
-msgstr ""
-
 #: plugins/gnome-db/ui.xml.h:1
 msgid "Data Sources..."
 msgstr "Zdroje dat..."
@@ -17457,27 +17448,6 @@ msgstr "Ukázkový zásuvný modul Python poskytující některé (zbytečné) f
 msgid "Default interpreter"
 msgstr "Výchozí interpretr"
 
-#: plugins/python-loader/gnm-python.c:130
-#: plugins/python-loader/gnm-python.c:152
-#, fuzzy, c-format
-msgid "Could not import %s."
-msgstr "Nelze načíst soubor: %s"
-
-#: plugins/python-loader/gnm-python.c:137
-#, fuzzy, c-format
-msgid "Could not find %s."
-msgstr "Nelze načíst soubor: %s"
-
-#: plugins/python-loader/gnm-python.c:145
-#, c-format
-msgid "Could not initialize Python bindings for Gtk+, etc: %s"
-msgstr ""
-
-#: plugins/python-loader/gnm-python.c:159
-#, fuzzy, c-format
-msgid "Could not find %s"
-msgstr "Nelze načíst soubor: %s"
-
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
 msgstr "Načítač zásuvného modulu Python"
@@ -17627,15 +17597,6 @@ msgid ""
 msgstr ""
 "Nelze nalézt kanál PerfectOffice_MAIN. Je to opravdu soubor Quattro Pro?"
 
-#: plugins/sample_datasource/plugin.xml.in.h:1
-msgid "A proof of concept external data source"
-msgstr ""
-
-#: plugins/sample_datasource/plugin.xml.in.h:3
-#, fuzzy
-msgid "Sample DataSource"
-msgstr "Zdroje dat..."
-
 #: plugins/sample_datasource/sample_datasource.c:264
 #, no-c-format
 msgid ""
@@ -17716,14 +17677,6 @@ msgstr "Chyba při čtení listu."
 #: plugins/uihello/hello.xml.h:1
 msgid "Hello World"
 msgstr "Nazdar světe"
-
-#: plugins/uihello/plugin.xml.in.h:1
-msgid "Hello World plugin using ui service"
-msgstr ""
-
-#: plugins/uihello/plugin.xml.in.h:2
-msgid "UI Hello"
-msgstr ""
 
 #: plugins/uihello/uihello.c:24
 #, c-format
@@ -18918,7 +18871,7 @@ msgid "Jump to a specified cell"
 msgstr "Přejde na zadanou buňku"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:243
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Titulek"
@@ -20393,89 +20346,54 @@ msgstr "Tabeluji závislosti"
 msgid "Reconfigure Graph"
 msgstr "Přenastavit graf"
 
-#: src/consolidate.c:773
-#, fuzzy, c-format
-msgid "Consolidating to (%s)"
-msgstr "Konsoliduje se do %s!%s"
-
-#: src/consolidate.c:812 src/consolidate.c:815
-#, fuzzy
-msgid "Data Consolidation"
-msgstr "Konsolidace dat"
-
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
-#, fuzzy
-msgid "_Cross"
-msgstr "_Zavřít"
-
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
-#, fuzzy
-msgid "_High"
-msgstr "Výška"
-
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
-#, fuzzy
-msgid "_Invert"
-msgstr "Vlož_it"
-
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
-msgid "_Low"
-msgstr "Řá_dek"
-
-#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#, fuzzy
-msgid "_Map:"
-msgstr "_Mezera:"
-
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
 msgid "M_ax"
 msgstr "M_ax"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
 msgid "Ma_jor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:192
 msgid "Mi_nor Ticks"
 msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:215
 msgid "Bounds"
 msgstr "Hranice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:219
 msgid "Details"
 msgstr "Podrobnosti"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
 msgid "Legend"
 msgstr "Legenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Titulek"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
 msgid "X-Axis"
 msgstr "Osa X"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
 msgid "Y-Axis"
 msgstr "Osa Y"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
 msgid "Z-Axis"
 msgstr "Osa Z"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
 msgid "Plot"
 msgstr "Graf"
 
@@ -20601,7 +20519,7 @@ msgstr "Typ grafu"
 msgid "Chart Theme"
 msgstr "Téma grafu"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
 msgid "Series"
 msgstr "Řady"
 
@@ -20662,9 +20580,8 @@ msgid "Pattern"
 msgstr "Vzorek"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-#, fuzzy
 msgid "Si_ze:"
-msgstr "Velikost:"
+msgstr "_Velikost:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
 msgid "T_ype:"
@@ -20683,7 +20600,6 @@ msgid "_End:"
 msgstr "_Konec:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
-#, fuzzy
 msgid "_Fill color:"
 msgstr "_Barva vyplnění:"
 
@@ -20696,7 +20612,6 @@ msgid "_Foreground:"
 msgstr "_Popředí:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
-#, fuzzy
 msgid "_Outline color:"
 msgstr "Barva _okraje:"
 
@@ -20709,9 +20624,8 @@ msgid "_Select..."
 msgstr "_Vybrat..."
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-#, fuzzy
 msgid "_Shape:"
-msgstr "Roz_sah:"
+msgstr "_Tvar:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
 msgid "_Size:"
@@ -20774,18 +20688,6 @@ msgstr "Výchozí"
 msgid "Guppi"
 msgstr "Guppi"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:264
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
-#: src/dialogs/consolidate.glade.h:12
-msgid "Labels"
-msgstr "Titulky"
-
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-1.5d.c:266
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
-#: src/dialogs/consolidate.glade.h:27
-msgid "Values"
-msgstr "Hodnoty"
-
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie-prefs.glade.h:2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade.h:2
@@ -20813,27 +20715,10 @@ msgstr "_Překrytí:"
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
+#.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:95
 msgid "PlotBarCol"
 msgstr "SloupecSloucovéhoGrafu"
-
-#. xgettext : the base for how to name bar/col plot objects
-#. * eg The 2nd line plot in a chart will be called
-#. * 	PlotLine2
-#.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
-#, fuzzy
-msgid "PlotLine"
-msgstr "KoláčovýGraf"
-
-#. xgettext : the base for how to name bar/col plot objects
-#. * eg The 2nd line plot in a chart will be called
-#. * 	PlotArea2
-#.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
-#, fuzzy
-msgid "PlotArea"
-msgstr "KoláčovýGraf"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -21085,6 +20970,16 @@ msgstr "stupňů"
 msgid "PlotPie"
 msgstr "KoláčovýGraf"
 
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:190
+#: src/dialogs/consolidate.glade.h:12
+msgid "Labels"
+msgstr "Titulky"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:192
+#: src/dialogs/consolidate.glade.h:27
+msgid "Values"
+msgstr "Hodnoty"
+
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c:263
 msgid "PlotRing"
 msgstr "PlotRing"
@@ -21187,21 +21082,17 @@ msgstr "Engine kreslení koláčů"
 msgid "Ring plotting engine"
 msgstr "Engine kreslení prstenců"
 
-#. xgettext : the base for how to name scatter plot objects
-#. * eg The 2nd plot in a chart will be called
-#. * 	PlotXY2
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
-#, fuzzy
-msgid "PlotXY"
-msgstr "Graf"
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:55
+msgid "XYPlot"
+msgstr "XYGraf"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:127
 msgid "X"
-msgstr ""
+msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:129
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
 #, fuzzy
@@ -21211,50 +21102,49 @@ msgstr "Dvojité"
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
 msgid ""
 "Interpolate between multi-dimensional points,with markers at each point."
-msgstr ""
+msgstr "Interpolovat mezi vícerozměrnými body s označeními v každém bodě."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:3
 msgid "Interpolate between multi-dimensional points."
-msgstr ""
+msgstr "Interpolovat mezi vícerozměrnými body."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:4
-#, fuzzy
 msgid "Interpolated points"
-msgstr "Iterace"
+msgstr "Interpolované body"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:5
 msgid ""
 "Linearly interpolate between multi-dimensional points,with markers at each "
 "point."
-msgstr ""
+msgstr "Lineárně interpolovat mezi vícerozměrnými body s označeními v každém bodě."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:6
 msgid "Linearly interpolate between multi-dimensional points."
-msgstr ""
+msgstr "Lineárně interpolovat mezi vícerozměrnými body."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "Linearly interpolated points"
-msgstr ""
+msgstr "Lineárně interpolované body"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "Marked interpolated points"
-msgstr ""
+msgstr "Označené interpolované body"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "Marked linearly interpolated points"
-msgstr ""
+msgstr "Označené lineárně interpolované body"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
 msgid "Plot X, Y and bubble size."
-msgstr ""
+msgstr "Kreslit X, Y a velikost bubliny."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:11
 msgid "Plot one series per axis."
-msgstr ""
+msgstr "Kreslit jednu sérii pro každou osu."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
 msgid "XY"
-msgstr ""
+msgstr "XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D Scatter charts"
@@ -21270,73 +21160,64 @@ msgid "Stock Scatter plot types"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:4
-#, fuzzy
 msgid "XY Charts"
-msgstr "Koláčové grafy"
+msgstr "XY grafy"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:222
-#, fuzzy
 msgid "none"
-msgstr "Nic"
+msgstr "nic"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:223
 msgid "square"
-msgstr ""
+msgstr "čtverec"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:224
-#, fuzzy
 msgid "diamond"
-msgstr "Medián"
+msgstr "kosočtverec"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:225
 msgid "triangle down"
-msgstr ""
+msgstr "trojúhelník dolů"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:226
-#, fuzzy
 msgid "triangle up"
-msgstr "oblast"
+msgstr "trojúhelník nahoru"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:227
-#, fuzzy
 msgid "triangle right"
-msgstr "Přehled vp_ravo"
+msgstr "trojúhelník doprav"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:228
 msgid "triangle left"
-msgstr ""
+msgstr "trojúhelník doleva"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:229
-#, fuzzy
 msgid "circle"
-msgstr "soubor"
+msgstr "kruh"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:231
-#, fuzzy
 msgid "cross"
-msgstr "Strmost"
+msgstr "křížek"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:232
-#, fuzzy
 msgid "asterisk"
-msgstr "Vložit odkaz"
+msgstr "hvězdička"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:233
-#, fuzzy
 msgid "bar"
-msgstr "Bře"
+msgstr "sloupec"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:234
 msgid "half bar"
-msgstr ""
+msgstr "poloviční sloupec"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:235
 msgid "butterfly"
-msgstr ""
+msgstr "motýl"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:236
 msgid "hourglass"
-msgstr ""
+msgstr "přesýpací hodiny"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:192
 #: src/dialogs/cell-format.glade.h:71
@@ -21873,7 +21754,7 @@ msgstr "První písmeno"
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/autocorrect.glade.h:9 src/dialogs/dialog-autoformat.c:659
-#: src/format.c:2123 src/format.c:2252 src/format.c:2258 src/format.c:2334
+#: src/format.c:2117 src/format.c:2246 src/format.c:2252 src/format.c:2328
 #: src/plugin-service.c:199 src/widgets/widget-format-selector.c:68
 msgid "General"
 msgstr "Všeobecné"
@@ -23498,13 +23379,13 @@ msgid "Directory"
 msgstr "Adresář"
 
 #. Is it a boolean?
-#: src/dialogs/dialog-preferences.c:411 src/format.c:1971
+#: src/dialogs/dialog-preferences.c:411 src/format.c:1968
 #: src/number-match.c:1094 src/value-sheet.c:33 src/value.c:404
 #: src/value.c:818
 msgid "TRUE"
 msgstr "TRUE"
 
-#: src/dialogs/dialog-preferences.c:412 src/format.c:1971
+#: src/dialogs/dialog-preferences.c:412 src/format.c:1968
 #: src/number-match.c:1096 src/value-sheet.c:33 src/value.c:405
 #: src/value.c:818
 msgid "FALSE"
@@ -26510,7 +26391,7 @@ msgid "Yellow"
 msgstr "Žlutá"
 
 #. Array of arrays ??
-#: src/format.c:2014
+#: src/format.c:2011
 msgid "ARRAY"
 msgstr "POLE"
 
@@ -28269,19 +28150,6 @@ msgstr "nelze vytvořit objekt pro '%s'"
 #, c-format
 msgid "Could not load file: %s"
 msgstr "Nelze načíst soubor: %s"
-
-#: src/sheet-object-graph.c:158
-msgid "Save graph as image"
-msgstr ""
-
-#: src/sheet-object-graph.c:196
-msgid "Sorry, gnumeric can only save graphs as png images"
-msgstr ""
-
-#: src/sheet-object-graph.c:214
-#, fuzzy
-msgid "_Save as image"
-msgstr "Vybrat obrázek"
 
 #: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
 msgid "Transparent"
@@ -31217,6 +31085,9 @@ msgstr "Souborový formát Gnumeric XML"
 
 #~ msgid "_Style:"
 #~ msgstr "_Styl:"
+
+#~ msgid "Consolidating to %s!%s"
+#~ msgstr "Konsoliduje se do %s!%s"
 
 #~ msgid "Fill _Color:"
 #~ msgstr "_Barva vyplnění:"
