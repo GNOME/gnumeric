@@ -3698,6 +3698,9 @@ workbook_delete_sheet (Sheet *sheet)
 	command_list_release (wb->redo_commands);
 	wb->undo_commands = NULL;
 	wb->redo_commands = NULL;
+	workbook_view_clear_undo (wb);
+	workbook_view_clear_redo (wb);
+	workbook_view_set_undo_redo_state (wb, NULL, NULL);
 
 	sheet_deps_destroy (sheet);
 

@@ -148,26 +148,26 @@ sort_compare_sets (SortData *data, int indexa, int indexb)
 		int offset = data->clauses[clause].offset;
 
 		if (data->top) {
-			ca = sheet_cell_get (data->sheet, 
+			ca = sheet_cell_get (data->sheet,
 					     data->range->start.col + offset,
 					     data->range->start.row + indexa);
-			cb = sheet_cell_get (data->sheet, 
+			cb = sheet_cell_get (data->sheet,
 					     data->range->start.col + offset,
 					     data->range->start.row + indexb);
 		} else {
-			ca = sheet_cell_get (data->sheet, 
+			ca = sheet_cell_get (data->sheet,
 					     data->range->start.col + indexa,
 					     data->range->start.row + offset);
-			cb = sheet_cell_get (data->sheet, 
+			cb = sheet_cell_get (data->sheet,
 					     data->range->start.col + indexb,
 					     data->range->start.row + offset);
 		}
-		
+
 		result = sort_compare_cells (ca, cb, &(data->clauses[clause]));
 		if (result) {
 			return result;
 		}
-		clause++;	
+		clause++;
 	}
 
 	return 0;
@@ -175,57 +175,57 @@ sort_compare_sets (SortData *data, int indexa, int indexb)
 
 static void
 sort_swap (int *perm, int indexa, int indexb)
-{	
+{
 	int tmp = perm[indexa];
-	
+
 	perm[indexa] = perm[indexb];
 	perm[indexb] = tmp;
 }
 
 static void
-sort_qsort (SortData *data, int *perm, int l, int r) 
+sort_qsort (SortData *data, int *perm, int l, int r)
 {
 	int pivot, i, j;
-	
+
 	if (l < r) {
 		i = l;
 		j = r + 1;
 		pivot = l;
-		
+
 		while (i < j) {
 			i++;
-			
-			while (i <= r) {	
-			       if (sort_compare_sets (data, perm[i], 
+
+			while (i <= r) {
+			       if (sort_compare_sets (data, perm[i],
 						      perm[pivot]) == -1) {
 				       i++;
 			       } else {
 				       break;
-			       }	
+			       }
 			}
 
 			j--;
 
 			while (j >= l) {
-				if (sort_compare_sets (data, perm[j], 
+				if (sort_compare_sets (data, perm[j],
 						       perm[pivot]) == 1) {
 					j--;
 				} else {
 					break;
 				}
 			}
-			
+
 			if (i <= r) {
 				sort_swap (perm, i, j);
-				
+
 			}
 		}
 		if (i <= r) {
 			sort_swap (perm, i, j);
 		}
-		
+
 		sort_swap (perm, l, j);
-		
+
 		sort_qsort (data, perm, l, j-1);
 		sort_qsort (data, perm, j+1, r);
 	}
@@ -239,8 +239,8 @@ sort_permute_find (int num, int *perm, int length)
 	for (i=0; i < length; i++) {
 		if (perm[i] == num) {
 			return i;
-		}	
-	}	
+		}
+	}
 
 	return -1;
 }
@@ -259,7 +259,7 @@ sort_permute_is_set (int num, guint8 *array)
 	if (array[num/8] & (1 << (num % 8))) {
 			return TRUE;
 	}
-	
+
 	return FALSE;
 }
 
@@ -267,23 +267,23 @@ static int
 sort_permute_next (guint8 *array, int *perm, int length)
 {
 	int i = 0;
-	
+
 	while (i < length) {
 		if (perm[i] != i) {
 			if (!sort_permute_is_set (i, array)) {
 				return i;
 			}
-		}		
+		}
 		i++;
 	}
 
-	return -1;	
+	return -1;
 }
 
 static void
 sort_permute_range (SortData *data, Range *range, int adj)
 {
-	if (data->top) { 
+	if (data->top) {
 		range->start.row = data->range->start.row + adj;
 		range->start.col = data->range->start.col;
 		range->end.row = range->start.row;
@@ -303,7 +303,7 @@ sort_permute (CommandContext *context, SortData *data, int *perm)
 	CellRegion *rcopy, *rpaste;
 	PasteTarget pt;
 	Range range;
-	int next, length;		
+	int next, length;
 
 	if (data->top) {
 		length = data->range->end.row - data->range->start.row + 1;
@@ -313,14 +313,14 @@ sort_permute (CommandContext *context, SortData *data, int *perm)
 
 	array = (guint8 *) g_malloc0 (length / 8 + 1);
 	next = sort_permute_next (array, perm, length);
-	
+
 	if (next == -1) {
 		return;
 	}
-	
+
 	sort_permute_range (data, &range, perm[next]);
 	rpaste = clipboard_copy_range (data->sheet, &range);
-	
+
 	while (next != -1) {
 		sort_permute_range (data, &range, next);
 		rcopy = clipboard_copy_range (data->sheet, &range);
@@ -336,8 +336,10 @@ sort_permute (CommandContext *context, SortData *data, int *perm)
 		rcopy = NULL;
 
 		sort_permute_set (next, array);
-		
-		next = sort_permute_find (next, perm, length);	
+
+		next = sort_permute_find (next, perm, length);
+		if (next < 0)
+			break;
 		if (sort_permute_is_set (next, array)) {
 			next = sort_permute_next (array, perm, length);
 			sort_permute_range (data, &range, perm[next]);
@@ -347,6 +349,7 @@ sort_permute (CommandContext *context, SortData *data, int *perm)
 		}
 	}
 	clipboard_release (rpaste);
+	g_free (array);
 }
 
 void
@@ -366,7 +369,7 @@ sort_contents (CommandContext *context, SortData *data)
 	} else {
 		length = data->range->end.col - data->range->start.col + 1;
 	}
-	
+
 	perm = g_new (int, length);
 	for (i = 0; i < length; i++) {
 		perm[i] = i;
@@ -374,13 +377,6 @@ sort_contents (CommandContext *context, SortData *data)
 
 	sort_qsort (data, perm, 0, length - 1);
 	sort_permute (context, data, perm);
-	
+
 	return perm;
 }
-
-
-
-
-
-
-
