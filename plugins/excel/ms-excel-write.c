@@ -2124,7 +2124,7 @@ write_names (BiffPut *bp, ExcelWorkbook *wb)
 		guint8 data[20];
 		guint32 len, name_len, i;
 
-		ExprName    *expr_name = names->data;
+		NamedExpression    *expr_name = names->data;
 		char *text;
 		g_return_if_fail (expr_name != NULL);
 

@@ -130,7 +130,7 @@ execSQL (void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **
 		g_print("parameter_node %d: oper = %d\n", parm_idx, node->oper);
 
 		if (node->oper == OPER_CONSTANT) {
-			if (node->u.constant->type != VALUE_STRING) {
+			if (node->constant.value->type != VALUE_STRING) {
 				g_free(user);
 				g_free(password);
 				g_free(db_name);
@@ -138,7 +138,7 @@ execSQL (void* sheet, GList* expr_node_list, int eval_col, int eval_row, char **
 				*error_string = "Statement is no string\n";
 				return NULL;
 			}
-			g_string_append(stmt, node->u.constant->v.str->str);
+			g_string_append(stmt, node->constant.value->v.str->str);
 		}
 		if (node->oper == OPER_VAR) {
 			GDA_Value* gda_value;

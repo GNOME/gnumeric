@@ -169,92 +169,92 @@ scm_to_value (SCM scm)
 static SCM
 expr_to_scm (ExprTree *expr, CellRef cell_ref)
 {
-	switch (expr->oper)
+	switch (expr->any.oper)
 	{
 		case OPER_EQUAL :
 			return SCM_LIST3(scm_symbolfrom0str("="),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+					 expr_to_scm(expr->binary.value_a, cell_ref),
+					 expr_to_scm(expr->binary.value_b, cell_ref));
 
 		case OPER_GT :
 			return SCM_LIST3(scm_symbolfrom0str(">"),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+					 expr_to_scm(expr->binary.value_a, cell_ref),
+					 expr_to_scm(expr->binary.value_b, cell_ref));
 
 		case OPER_LT :
 			return SCM_LIST3(scm_symbolfrom0str("<"),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+					 expr_to_scm(expr->binary.value_a, cell_ref),
+					 expr_to_scm(expr->binary.value_b, cell_ref));
 
 		case OPER_GTE :
 			return SCM_LIST3(scm_symbolfrom0str(">="),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+					 expr_to_scm(expr->binary.value_a, cell_ref),
+					 expr_to_scm(expr->binary.value_b, cell_ref));
 
 		case OPER_LTE :
 			return SCM_LIST3(scm_symbolfrom0str("<="),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+					 expr_to_scm(expr->binary.value_a, cell_ref),
+					 expr_to_scm(expr->binary.value_b, cell_ref));
 
 		case OPER_NOT_EQUAL :
 			return SCM_LIST3(scm_symbolfrom0str("<>"),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+					 expr_to_scm(expr->binary.value_a, cell_ref),
+					 expr_to_scm(expr->binary.value_b, cell_ref));
 
 		case OPER_ADD :
 			return SCM_LIST3(scm_symbolfrom0str("+"),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+					 expr_to_scm(expr->binary.value_a, cell_ref),
+					 expr_to_scm(expr->binary.value_b, cell_ref));
 
 		case OPER_SUB :
 			return SCM_LIST3(scm_symbolfrom0str("-"),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+					 expr_to_scm(expr->binary.value_a, cell_ref),
+					 expr_to_scm(expr->binary.value_b, cell_ref));
 
 		case OPER_UNARY_PLUS :
 			return SCM_LIST2(scm_symbolfrom0str("+"),
-					 expr_to_scm(expr->u.value, cell_ref));
+					 expr_to_scm(expr->unary.value, cell_ref));
 
 		case OPER_UNARY_NEG :
 			return SCM_LIST2(scm_symbolfrom0str("neg"),
-					 expr_to_scm(expr->u.value, cell_ref));
+					 expr_to_scm(expr->unary.value, cell_ref));
 
 		case OPER_MULT :
 			return SCM_LIST3(scm_symbolfrom0str("*"),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+					 expr_to_scm(expr->binary.value_a, cell_ref),
+					 expr_to_scm(expr->binary.value_b, cell_ref));
 
 		case OPER_DIV :
 			return SCM_LIST3(scm_symbolfrom0str("/"),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+					 expr_to_scm(expr->binary.value_a, cell_ref),
+					 expr_to_scm(expr->binary.value_b, cell_ref));
 
 		case OPER_PERCENT :
-			return SCM_LIST3(scm_symbolfrom0str("modulo"),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+			return SCM_LIST3(scm_symbolfrom0str("/"),
+					 expr_to_scm(expr->unary.value, cell_ref),
+					 gh_double2scm(100.));
 
 		case OPER_EXP :
 			return SCM_LIST3(scm_symbolfrom0str("expt"),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+					 expr_to_scm(expr->binary.value_a, cell_ref),
+					 expr_to_scm(expr->binary.value_b, cell_ref));
 
 		case OPER_CONCAT :
 			return SCM_LIST3(scm_symbolfrom0str("string-append"),
-					 expr_to_scm(expr->u.binary.value_a, cell_ref),
-					 expr_to_scm(expr->u.binary.value_b, cell_ref));
+					 expr_to_scm(expr->binary.value_a, cell_ref),
+					 expr_to_scm(expr->binary.value_b, cell_ref));
 
 		case OPER_FUNCALL :
 			return SCM_LIST3(scm_symbolfrom0str("funcall"),
-					 scm_makfrom0str(expr->u.function.symbol->str),
-					 list_to_scm(expr->u.function.arg_list, cell_ref));
+					 scm_makfrom0str(expr->func.symbol->str),
+					 list_to_scm(expr->func.arg_list, cell_ref));
 
 		case OPER_CONSTANT :
-			return value_to_scm(expr->u.constant, cell_ref);
+			return value_to_scm(expr->constant.value, cell_ref);
 
 		case OPER_VAR :
 			return scm_cons(scm_symbolfrom0str("var"),
-					cell_ref_to_scm(expr->u.ref, cell_ref));
+					cell_ref_to_scm(expr->var.ref, cell_ref));
 
 	        case OPER_NAME :
 

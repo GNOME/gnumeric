@@ -157,24 +157,24 @@ ms_formula_build_pre_data (ExcelSheet *sheet, ExprTree *tree)
 	g_return_if_fail (tree != NULL);
 	g_return_if_fail (sheet != NULL);
 
-	switch (tree->oper) {
+	switch (tree->any.oper) {
 
 	case OPER_ANY_BINARY:
-		ms_formula_build_pre_data (sheet, tree->u.binary.value_a);
-		ms_formula_build_pre_data (sheet, tree->u.binary.value_b);
+		ms_formula_build_pre_data (sheet, tree->binary.value_a);
+		ms_formula_build_pre_data (sheet, tree->binary.value_b);
 		break;
 
 	case OPER_ANY_UNARY:
-		ms_formula_build_pre_data (sheet, tree->u.value);
+		ms_formula_build_pre_data (sheet, tree->unary.value);
 		break;
 
 	case OPER_FUNCALL:
 	{
 		GList  *l;
 		FormulaCacheEntry *fce;
-		const gchar *name = tree->u.function.symbol->str;
+		const gchar *name = tree->func.symbol->str;
 
-		for (l = tree->u.function.arg_list; l;
+		for (l = tree->func.arg_list; l;
 		     l = g_list_next (l))
 			ms_formula_build_pre_data (sheet, l->data);
 
@@ -455,7 +455,7 @@ write_ref (PolishData *pd, const CellRef *ref)
 static void
 write_funcall (PolishData *pd, FormulaCacheEntry *fce, ExprTree *tree)
 {
-	GList   *args     = tree->u.function.arg_list;
+	GList   *args     = tree->func.arg_list;
 	gint     num_args = 0;
 	gboolean prompt   = 0;
 	gboolean cmdequiv = 0;
@@ -513,65 +513,65 @@ write_node (PolishData *pd, ExprTree *tree)
 	g_return_if_fail (pd);
 	g_return_if_fail (tree);
 
-	switch (tree->oper) {
+	switch (tree->any.oper) {
 	case OPER_EQUAL:
-		write_node  (pd, tree->u.binary.value_a);
-		write_node  (pd, tree->u.binary.value_b);
+		write_node  (pd, tree->binary.value_a);
+		write_node  (pd, tree->binary.value_b);
 		push_guint8 (pd, FORMULA_PTG_EQUAL);
 		break;
 	case OPER_GT:
-		write_node  (pd, tree->u.binary.value_a);
-		write_node  (pd, tree->u.binary.value_b);
+		write_node  (pd, tree->binary.value_a);
+		write_node  (pd, tree->binary.value_b);
 		push_guint8 (pd, FORMULA_PTG_GT);
 		break;
 	case OPER_LT:
-		write_node  (pd, tree->u.binary.value_a);
-		write_node  (pd, tree->u.binary.value_b);
+		write_node  (pd, tree->binary.value_a);
+		write_node  (pd, tree->binary.value_b);
 		push_guint8 (pd, FORMULA_PTG_LT);
 		break;
 	case OPER_GTE:
-		write_node  (pd, tree->u.binary.value_a);
-		write_node  (pd, tree->u.binary.value_b);
+		write_node  (pd, tree->binary.value_a);
+		write_node  (pd, tree->binary.value_b);
 		push_guint8 (pd, FORMULA_PTG_GTE);
 		break;
 	case OPER_LTE:
-		write_node  (pd, tree->u.binary.value_a);
-		write_node  (pd, tree->u.binary.value_b);
+		write_node  (pd, tree->binary.value_a);
+		write_node  (pd, tree->binary.value_b);
 		push_guint8 (pd, FORMULA_PTG_LTE);
 		break;
 	case OPER_NOT_EQUAL:
-		write_node  (pd, tree->u.binary.value_a);
-		write_node  (pd, tree->u.binary.value_b);
+		write_node  (pd, tree->binary.value_a);
+		write_node  (pd, tree->binary.value_b);
 		push_guint8 (pd, FORMULA_PTG_NOT_EQUAL);
 		break;
 	case OPER_ADD:
-		write_node  (pd, tree->u.binary.value_a);
-		write_node  (pd, tree->u.binary.value_b);
+		write_node  (pd, tree->binary.value_a);
+		write_node  (pd, tree->binary.value_b);
 		push_guint8 (pd, FORMULA_PTG_ADD);
 		break;
 	case OPER_SUB:
-		write_node  (pd, tree->u.binary.value_a);
-		write_node  (pd, tree->u.binary.value_b);
+		write_node  (pd, tree->binary.value_a);
+		write_node  (pd, tree->binary.value_b);
 		push_guint8 (pd, FORMULA_PTG_SUB);
 		break;
 	case OPER_MULT:
-		write_node  (pd, tree->u.binary.value_a);
-		write_node  (pd, tree->u.binary.value_b);
+		write_node  (pd, tree->binary.value_a);
+		write_node  (pd, tree->binary.value_b);
 		push_guint8 (pd, FORMULA_PTG_MULT);
 		break;
 	case OPER_DIV:
-		write_node  (pd, tree->u.binary.value_a);
-		write_node  (pd, tree->u.binary.value_b);
+		write_node  (pd, tree->binary.value_a);
+		write_node  (pd, tree->binary.value_b);
 		push_guint8 (pd, FORMULA_PTG_DIV);
 		break;
 	case OPER_EXP:
-		write_node  (pd, tree->u.binary.value_a);
-		write_node  (pd, tree->u.binary.value_b);
+		write_node  (pd, tree->binary.value_a);
+		write_node  (pd, tree->binary.value_b);
 		push_guint8 (pd, FORMULA_PTG_EXP);
 		break;
 	case OPER_CONCAT:
-		write_node  (pd, tree->u.binary.value_a);
-		write_node  (pd, tree->u.binary.value_b);
+		write_node  (pd, tree->binary.value_a);
+		write_node  (pd, tree->binary.value_b);
 		push_guint8 (pd, FORMULA_PTG_CONCAT);
 		break;
 	case OPER_FUNCALL:
@@ -579,11 +579,11 @@ write_node (PolishData *pd, ExprTree *tree)
 		FormulaCacheEntry *fce;
 
 		fce = get_formula_index (pd->sheet,
-					 tree->u.function.symbol->str);
+					 tree->func.symbol->str);
 		if (fce)
 			write_funcall (pd, fce, tree);
 		else {
-			gchar *name = tree->u.function.symbol->str;
+			gchar *name = tree->func.symbol->str;
 			gchar *err = g_strdup_printf ("Untranslatable '%s'", name);
 #if FORMULA_DEBUG > 0
 			printf ("Untranslatable function '%s'\n", name);
@@ -595,7 +595,7 @@ write_node (PolishData *pd, ExprTree *tree)
 	}
         case OPER_CONSTANT:
 	{
-		Value *v = tree->u.constant;
+		Value *v = tree->constant.value;
 		switch (v->type) {
 
 		case VALUE_INTEGER:
@@ -691,22 +691,22 @@ write_node (PolishData *pd, ExprTree *tree)
 		break;
 	}
 	case OPER_UNARY_PLUS:
-		write_node  (pd, tree->u.value);
+		write_node  (pd, tree->unary.value);
 		push_guint8 (pd, FORMULA_PTG_U_PLUS);
 		break;
 
 	case OPER_UNARY_NEG:
-		write_node  (pd, tree->u.value);
+		write_node  (pd, tree->unary.value);
 		push_guint8 (pd, FORMULA_PTG_U_MINUS);
 		break;
 
 	case OPER_PERCENT:
-		write_node  (pd, tree->u.value);
+		write_node  (pd, tree->unary.value);
 		push_guint8 (pd, FORMULA_PTG_PERCENT);
 		break;
 
 	case OPER_VAR:
-		write_ref (pd, &tree->u.ref);
+		write_ref (pd, &tree->var.ref);
 		break;
 
 	case OPER_NAME:
@@ -716,7 +716,7 @@ write_node (PolishData *pd, ExprTree *tree)
 	    for (idx = 0; idx <14; idx++) data[idx] = 0;
 
 	    for (idx = 0; idx < pd->sheet->wb->names->len; idx++) {
-	      if (!strcmp(tree->u.name->name->str,
+	      if (!strcmp(tree->name.name->name->str,
 			  g_ptr_array_index (pd->sheet->wb->names, idx))) {
 
 		MS_OLE_SET_GUINT8  (data + 0, FORMULA_PTG_NAME);
@@ -732,10 +732,10 @@ write_node (PolishData *pd, ExprTree *tree)
 	default:
 	{
 		gchar *err = g_strdup_printf ("Unknown Operator %d",
-					      tree->oper);
+					      tree->any.oper);
 		write_string (pd, err);
 		g_free (err);
-		printf ("Unhandled node type %d\n", tree->oper);
+		printf ("Unhandled node type %d\n", tree->any.oper);
 #if FORMULA_DEBUG > 0
 #endif
 		break;

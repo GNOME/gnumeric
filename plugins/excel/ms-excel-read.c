@@ -610,7 +610,7 @@ typedef struct {
 	gboolean    inserted;
 	enum { BNDStore, BNDName } type;
 	union {
-		ExprName *name;
+		NamedExpression *name;
 		struct {
 			guint8   *data;
 			guint16   len;
