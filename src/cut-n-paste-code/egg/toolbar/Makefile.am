@@ -1,4 +1,3 @@
-
 INCLUDES = \
   $(GNUMERIC_CFLAGS) -I$(top_srcdir)/src \
   -DEGG_COMPILATION \
@@ -18,3 +17,6 @@ noinst_HEADERS = \
   eggtoolbar.h \
   eggtoolbutton.h \
   eggtoolitem.h	
+
+
+

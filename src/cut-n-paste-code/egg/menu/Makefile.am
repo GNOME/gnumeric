@@ -30,4 +30,3 @@ noinst_HEADERS = \
   egg-accel-dialog.h
 
 
-
