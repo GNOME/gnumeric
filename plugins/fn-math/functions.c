@@ -2518,11 +2518,15 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 			callback_function_sumxy,
 			&items_x);
 
-		if (ret != NULL)
-		        return value_new_error (ei->pos, gnumeric_err_VALUE);
-	} else
-		return value_new_error (ei->pos,
-					_("Array version not implemented!"));
+		if (ret != NULL) {
+		        ret = value_new_error (ei->pos, gnumeric_err_VALUE);
+			goto out;
+		}
+	} else {
+		ret = value_new_error (ei->pos,
+				       _("Array version not implemented!"));
+		goto out;
+	}
 
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
@@ -2533,14 +2537,20 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 			values_y->v_range.cell.b.row,
 			callback_function_sumxy,
 			&items_y);
-		if (ret != NULL)
-		        return value_new_error (ei->pos, gnumeric_err_VALUE);
-	} else
-		return value_new_error (ei->pos,
-					_("Array version not implemented!"));
+		if (ret != NULL) {
+		        ret = value_new_error (ei->pos, gnumeric_err_VALUE);
+			goto out;
+		}
+	} else {
+		ret = value_new_error (ei->pos,
+				       _("Array version not implemented!"));
+		goto out;
+	}
 
-	if (items_x.num != items_y.num)
-		return value_new_error (ei->pos, gnumeric_err_NA);
+	if (items_x.num != items_y.num) {
+		ret = value_new_error (ei->pos, gnumeric_err_NA);
+		goto out;
+	}
 
 	list1 = items_x.list;
 	list2 = items_y.list;
@@ -2550,17 +2560,22 @@ gnumeric_sumx2my2 (FunctionEvalInfo *ei, Value **argv)
 
 		x = *((float_t *) list1->data);
 		y = *((float_t *) list2->data);
-		sum += x*x - y*y;
-		g_free(list1->data);
-		g_free(list2->data);
+		sum += x * x - y * y;
 		list1 = list1->next;
 		list2 = list2->next;
 	}
+	ret = value_new_float (sum);
 
-	g_slist_free(items_x.list);
-	g_slist_free(items_y.list);
+ out:
+	for (list1 = items_x.list; list1; list1 = list1->next)
+		g_free (list1->data);
+	g_slist_free (items_x.list);
 
-	return value_new_float (sum);
+	for (list2 = items_y.list; list2; list2 = list2->next)
+		g_free (list2->data);
+	g_slist_free (items_y.list);
+
+	return ret;
 }
 
 /***************************************************************************/
@@ -2616,11 +2631,15 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 			values_x->v_range.cell.b.row,
 			callback_function_sumxy,
 			&items_x);
-		if (ret != NULL)
-		        return value_new_error (ei->pos, gnumeric_err_VALUE);
-	} else
-		return value_new_error (ei->pos,
-					_("Array version not implemented!"));
+		if (ret != NULL) {
+		        ret = value_new_error (ei->pos, gnumeric_err_VALUE);
+			goto out;
+		}
+	} else {
+		ret = value_new_error (ei->pos,
+				       _("Array version not implemented!"));
+		goto out;
+	}
 
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
@@ -2632,34 +2651,45 @@ gnumeric_sumx2py2 (FunctionEvalInfo *ei, Value **argv)
 			values_y->v_range.cell.b.row,
 			callback_function_sumxy,
 			&items_y);
-		if (ret != NULL)
-		        return value_new_error (ei->pos, gnumeric_err_VALUE);
-	} else
-		return value_new_error (ei->pos,
-					_("Array version not implemented!"));
+		if (ret != NULL) {
+			ret = value_new_error (ei->pos, gnumeric_err_VALUE);
+			goto out;
+		}
+	} else {
+		ret = value_new_error (ei->pos,
+				       _("Array version not implemented!"));
+		goto out;
+	}
 
-	if (items_x.num != items_y.num)
-		return value_new_error (ei->pos, gnumeric_err_NA);
+	if (items_x.num != items_y.num) {
+		ret = value_new_error (ei->pos, gnumeric_err_NA);
+		goto out;
+	}
 
 	list1 = items_x.list;
 	list2 = items_y.list;
 	sum = 0;
 	while (list1 != NULL) {
-	        float_t  x, y;
+	        float_t x, y;
 
 		x = *((float_t *) list1->data);
 		y = *((float_t *) list2->data);
-		sum += x*x + y*y;
-		g_free(list1->data);
-		g_free(list2->data);
+		sum += x * x + y * y;
 		list1 = list1->next;
 		list2 = list2->next;
 	}
+	ret = value_new_float (sum);
 
-	g_slist_free(items_x.list);
-	g_slist_free(items_y.list);
+ out:
+	for (list1 = items_x.list; list1; list1 = list1->next)
+		g_free (list1->data);
+	g_slist_free (items_x.list);
 
-	return value_new_float (sum);
+	for (list2 = items_y.list; list2; list2 = list2->next)
+		g_free (list2->data);
+	g_slist_free (items_y.list);
+
+	return ret;
 }
 
 static char *help_sumxmy2 = {
@@ -2713,11 +2743,15 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 			values_x->v_range.cell.b.row,
 			callback_function_sumxy,
 			&items_x);
-		if (ret != NULL)
-		        return value_new_error (ei->pos, gnumeric_err_VALUE);
-	} else
-		return value_new_error (ei->pos,
-					_("Array version not implemented!"));
+		if (ret != NULL) {
+		        ret = value_new_error (ei->pos, gnumeric_err_VALUE);
+			goto out;
+		}
+	} else {
+		ret = value_new_error (ei->pos,
+				       _("Array version not implemented!"));
+		goto out;
+	}
 
         if (values_y->type == VALUE_CELLRANGE) {
 		ret = sheet_cell_foreach_range (
@@ -2729,34 +2763,45 @@ gnumeric_sumxmy2 (FunctionEvalInfo *ei, Value **argv)
 			values_y->v_range.cell.b.row,
 			callback_function_sumxy,
 			&items_y);
-		if (ret != NULL)
-		        return value_new_error (ei->pos, gnumeric_err_VALUE);
-	} else
-		return value_new_error (ei->pos,
-					_("Array version not implemented!"));
+		if (ret != NULL) {
+		        ret = value_new_error (ei->pos, gnumeric_err_VALUE);
+			goto out;
+		}
+	} else {
+		ret = value_new_error (ei->pos,
+				       _("Array version not implemented!"));
+		goto out;
+	}
 
-	if (items_x.num != items_y.num)
-	        return value_new_error (ei->pos, gnumeric_err_NA);
+	if (items_x.num != items_y.num) {
+	        ret = value_new_error (ei->pos, gnumeric_err_NA);
+		goto out;
+	}
 
 	list1 = items_x.list;
 	list2 = items_y.list;
 	sum = 0;
 	while (list1 != NULL) {
-	        float_t  x, y;
+	        float_t x, y;
 
 		x = *((float_t *) list1->data);
 		y = *((float_t *) list2->data);
-		sum += (x-y) * (x-y);
-		g_free(list1->data);
-		g_free(list2->data);
+		sum += (x - y) * (x - y);
 		list1 = list1->next;
 		list2 = list2->next;
 	}
+	ret = value_new_float (sum);
 
-	g_slist_free(items_x.list);
-	g_slist_free(items_y.list);
+ out:
+	for (list1 = items_x.list; list1; list1 = list1->next)
+		g_free (list1->data);
+	g_slist_free (items_x.list);
 
-	return value_new_float (sum);
+	for (list2 = items_y.list; list2; list2 = list2->next)
+		g_free (list2->data);
+	g_slist_free (items_y.list);
+
+	return ret;
 }
 
 /***************************************************************************/

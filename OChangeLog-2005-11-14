@@ -1,3 +1,9 @@
+2000-11-22  Morten Welinder  <terra@diku.dk>
+
+	* src/functions/fn-math.c (gnumeric_sumx2py2): Plug leaks.
+	(gnumeric_sumxmy2): Plug leaks.
+	(gnumeric_sumx2my2): Plug leaks.
+
 2000-11-22  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/dialogs/dialog-plugin-manager.c (refresh_right_frame):
