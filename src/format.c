@@ -1393,7 +1393,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 	switch (value->type){
 	case VALUE_FLOAT:
 		if (finite (value->v_float.val)) {
-			if (is_general){
+			if (is_general) {
 				/* FIXME FIXME FIXME : This is pathetic
 				 * rendering for General should be done
 				 * with knowledge of the cell width to

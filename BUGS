@@ -70,9 +70,11 @@ Dialogs
       requested letter.
 - Formula Guru
     : Sizing sucks
-    : Editing existing functions
+    : Roll/Unroll is not shrinking suddenly.
     : Editing nested funtions
-    : Roll/Unroll should keep the dialog under the mouse.
+    : Switching between multiple function at the same level.
+    : Better communication and handling of parse errors.
+    : Does not exit when escape is hit.
 
 Function Breakage
 -----------------

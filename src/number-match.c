@@ -27,6 +27,7 @@
 #include "gutils.h"
 #include "datetime.h"
 #include "style.h"
+#include "format.h"
 
 /*
  * Takes a list of strings (optionally include an * at the beginning
@@ -93,6 +94,9 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 	GByteArray *match_types;
 	char *str;
 	int hour_seen = FALSE;
+
+	char *thousands_sep = format_get_thousand ();
+	char *decimal = format_get_decimal ();
 
 	g_return_val_if_fail (format != NULL, NULL);
 
@@ -166,7 +170,11 @@ format_create_regexp (const unsigned char *format, GByteArray **dest)
 				format++;
 
 			format--;
-			g_string_append (regexp, _("(([-+]?[0-9,]+)?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"));
+			g_string_append (regexp, "(([-+]?[0-9\\");
+			g_string_append_c (regexp, *thousands_sep);
+			g_string_append (regexp, "]+)?(\\");
+			g_string_append_c (regexp, *decimal);
+			g_string_append (regexp, "?[0-9]*)?([Ee][-+][0-9]+)?)");
 			append_type (MATCH_NUMBER);
 			break;
 
@@ -562,6 +570,9 @@ compute_value (const char *s, const regmatch_t *mp,
 	int month, day, year, year_short;
 	int hours, minutes, seconds;
 
+	char *thousands_sep = format_get_thousand ();
+	char *decimal = format_get_decimal ();
+
 	month = day = year = year_short = -1;
 	hours = minutes = seconds = -1;
 
@@ -609,16 +620,13 @@ compute_value (const char *s, const regmatch_t *mp,
 				number = 0;
 				do
 				{
-				    /*
-				     * FIXME FIXME FIXME
-				     * 1) Need to use locale specific ','
-				     *    but that is broken elsewhere already.
-				     * 2) How to format 10,00.3 ??
-				     *    I assume ',' means thousans_sep.
-				     */
-				    number *= 1000.;
-				    number += g_strtod (ptr, &ptr);
-				} while (*(ptr++) == ',');
+					/*
+					 * FIXME FIXME FIXME
+					 * How to format 10,00.3 ??
+					 */
+					number *= 1000.;
+					number += strtod (ptr, &ptr);
+				} while (*(ptr++) == *thousands_sep);
 
 				idx += 3;
 				is_number = TRUE;
@@ -831,7 +839,7 @@ format_match (const char *text, StyleFormat **format)
 	/* Is it a double */
 	{
 		char *end;
-		double d = g_strtod (text, &end);
+		double d = strtod (text, &end);
 		/* Allow and ignore spaces at the end . */
 		while (*end == ' ')
 			end++;

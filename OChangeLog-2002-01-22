@@ -1,5 +1,10 @@
 2000-06-15  Jody Goldberg <jgoldberg@home.com>
 
+	* src/number-match.c (format_create_regexp) : Build the regexp
+	  ourselves.  The poor translators had no idea what the hell that was
+	  supposed to do.  The regexp is still way way to general.
+	(compute_value) : Use the locale.
+
 	* src/expr.c (expr_tree_as_string) : Renamed from expr_decode_tree.
 	(expr_tree_get_func_def) : new function.
 	(expr_tree_first_func) : New function.
