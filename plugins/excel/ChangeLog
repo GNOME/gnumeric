@@ -1,3 +1,20 @@
+1999-07-26  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_workbook): Comment out
+	dependencies freeze/thaw.
+
+	* ms-excel-write.c (write_cell): Update to new PP code.
+
+	* ms-excel-read.c (find_workbook): Remove ms_ole_directory_new.
+	(biff_name_data_get_name): Update to new PP code.
+
+	* ole.c (get_file_handle, list_files): ditto.
+
+1999-07-25  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_workbook): Add freeze / thaw
+	dependencies.
+
 1999-07-22  Michael Meeks  <michael@edenproject.org>
 
 	* ole.c: Major summary hack, cleaned old cruft & made beautiful.

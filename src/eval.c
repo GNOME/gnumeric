@@ -461,6 +461,9 @@ cell_queue_recalc (Cell *cell)
 
 	g_return_if_fail (cell != NULL);
 
+	if (dependencies_deep_frozen > 0)
+		return ;
+
 	if (cell->flags & CELL_QUEUED_FOR_RECALC)
 		return;
 

@@ -1,3 +1,21 @@
+1999-07-26  Michael Meeks  <michael@edenproject.org>
+
+	* src/xml-io.c (xml_read_cell): Commented out freeze/thaw deps.
+
+	* src/cell.c (cell_deep_freeze_dependencies): Added warning not to
+	use: strangely it doesn't work... investigate later.
+
+1999-07-25  Michael Meeks  <michael@edenproject.org>
+
+	* src/xml-io.c (xml_read_cell): Add freeze/thaw dependencies,
+	and fix exit condition to restore state to correct coolness.
+
+	* src/cell.h: Added prototypes.
+
+	* src/cell.c (cell_content_changed, cell_formula_changed): 
+	(cell_deep_thaw_dependencies, cell_deep_freeze_dependencies): 
+	Added optimisation for load/save stuff.
+
 1999-07-25  Michael Meeks  <michael@edenproject.org>
 
 	* src/xml-io.c (xml_read_summary): Fix some massive cock-ups, how

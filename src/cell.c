@@ -18,8 +18,9 @@
 #include "gnumeric-util.h"
 #include <ctype.h>
 
-static int         redraws_frozen      = 0;
-static int         redraws_deep_frozen = 0;
+static int         redraws_frozen           = 0;
+static int         redraws_deep_frozen      = 0;
+       int         dependencies_deep_frozen = 0;
 static GHashTable *cell_hash_queue;
 
 void
@@ -28,6 +29,10 @@ cell_formula_changed (Cell *cell)
 	g_return_if_fail (cell != NULL);
 
 	sheet_cell_formula_link (cell);
+
+	if (dependencies_deep_frozen > 0)
+		return ;
+
 	cell_queue_recalc (cell);
 }
 
@@ -703,6 +708,9 @@ cell_content_changed (Cell *cell)
 {
 	GList   *deps;
 
+	if (dependencies_deep_frozen > 0)
+		return ;
+
 	g_return_if_fail (cell != NULL);
 
 	/* Queue all of the dependencies for this cell */
@@ -978,6 +986,21 @@ cell_deep_thaw_redraws (void)
 {
 	redraws_deep_frozen--;
 	if (redraws_frozen < 0)
+		g_warning ("unbalanced deep freeze/thaw\n");
+}
+
+void
+cell_deep_freeze_dependencies (void)
+{
+	g_warning ("Don't use this function it is subtly broken");
+	dependencies_deep_frozen++;
+}
+
+void
+cell_deep_thaw_dependencies (void)
+{
+	dependencies_deep_frozen--;
+	if (dependencies_deep_frozen < 0)
 		g_warning ("unbalanced deep freeze/thaw\n");
 }
 

@@ -20,23 +20,6 @@
 
 #define OLE_DEBUG 0
 
-/* These take a _guint8_ pointer */
-#define GET_GUINT8(p)  (*((const guint8 *)(p)+0))
-#define GET_GUINT16(p) (*((const guint8 *)(p)+0)+(*((const guint8 *)(p)+1)<<8))
-#define GET_GUINT32(p) (*((const guint8 *)(p)+0)+ \
-		    (*((const guint8 *)(p)+1)<<8)+ \
-		    (*((const guint8 *)(p)+2)<<16)+ \
-		    (*((const guint8 *)(p)+3)<<24))
-
-#define SET_GUINT8(p,n)  (*((guint8 *)(p)+0)=n)
-#define SET_GUINT16(p,n) ((*((guint8 *)(p)+0)=((n)&0xff)), \
-                          (*((guint8 *)(p)+1)=((n)>>8)&0xff))
-#define SET_GUINT32(p,n) ((*((guint8 *)(p)+0)=((n))&0xff), \
-                          (*((guint8 *)(p)+1)=((n)>>8)&0xff), \
-                          (*((guint8 *)(p)+2)=((n)>>16)&0xff), \
-                          (*((guint8 *)(p)+3)=((n)>>24)&0xff))
-
-
 #define SPECIAL_BLOCK  0xfffffffd
 #define END_OF_CHAIN   0xfffffffe
 #define UNUSED_BLOCK   0xffffffff
@@ -209,39 +192,39 @@ get_block_ptr (MsOle *f, BLP b, gboolean forwrite)
    Effectively inside these blocks is a FAT of chains of other BBs, so the theoretical max
    size = 128 BB Fat blocks, thus = 128*512*512/4 blocks ~= 8.4MBytes */
 /* The number of Big Block Descriptor (fat) Blocks */
-#define GET_NUM_BBD_BLOCKS(f)   (GET_GUINT32((f)->mem + 0x2c))
-#define SET_NUM_BBD_BLOCKS(f,n) (SET_GUINT32((f)->mem + 0x2c, (n)))
+#define GET_NUM_BBD_BLOCKS(f)   (MS_OLE_GET_GUINT32((f)->mem + 0x2c))
+#define SET_NUM_BBD_BLOCKS(f,n) (MS_OLE_SET_GUINT32((f)->mem + 0x2c, (n)))
 /* The block locations of the Big Block Descriptor Blocks */
-#define GET_BBD_LIST(f,i)           (GET_GUINT32((f)->mem + 0x4c + (i)*4))
-#define SET_BBD_LIST(f,i,n)         (SET_GUINT32((f)->mem + 0x4c + (i)*4, (n)))
+#define GET_BBD_LIST(f,i)           (MS_OLE_GET_GUINT32((f)->mem + 0x4c + (i)*4))
+#define SET_BBD_LIST(f,i,n)         (MS_OLE_SET_GUINT32((f)->mem + 0x4c + (i)*4, (n)))
 #define NEXT_BB(f,n)                (g_array_index ((f)->bb, BLP, n))
 #define NEXT_SB(f,n)                (g_array_index ((f)->sb, BLP, n))
 /* Get the start block of the root directory ( PPS ) chain */
-#define GET_ROOT_STARTBLOCK(f)   (GET_GUINT32((f)->mem + 0x30))
-#define SET_ROOT_STARTBLOCK(f,i) (SET_GUINT32((f)->mem + 0x30, i))
+#define GET_ROOT_STARTBLOCK(f)   (MS_OLE_GET_GUINT32((f)->mem + 0x30))
+#define SET_ROOT_STARTBLOCK(f,i) (MS_OLE_SET_GUINT32((f)->mem + 0x30, i))
 /* Get the start block of the SBD chain */
-#define GET_SBD_STARTBLOCK(f)    (GET_GUINT32((f)->mem + 0x3c))
-#define SET_SBD_STARTBLOCK(f,i)  (SET_GUINT32((f)->mem + 0x3c, i))
+#define GET_SBD_STARTBLOCK(f)    (MS_OLE_GET_GUINT32((f)->mem + 0x3c))
+#define SET_SBD_STARTBLOCK(f,i)  (MS_OLE_SET_GUINT32((f)->mem + 0x3c, i))
 
 
 /* NB it is misleading to assume that Microsofts linked lists link correctly.
    It is not the case that pps_next(f, pps_prev(f, n)) = n ! For the final list
    item there are no valid links. Cretins. */
-#define PPS_GET_NAME_LEN(p)   (GET_GUINT16(p + 0x40))
-#define PPS_SET_NAME_LEN(p,i) (SET_GUINT16(p + 0x40, (i)))
-#define PPS_GET_PREV(p)   ((PPS_IDX) GET_GUINT32(p + 0x44))
-#define PPS_GET_NEXT(p)   ((PPS_IDX) GET_GUINT32(p + 0x48))
-#define PPS_GET_DIR(p)    ((PPS_IDX) GET_GUINT32(p + 0x4c))
-#define PPS_SET_PREV(p,i) ((PPS_IDX) SET_GUINT32(p + 0x44, i))
-#define PPS_SET_NEXT(p,i) ((PPS_IDX) SET_GUINT32(p + 0x48, i))
-#define PPS_SET_DIR(p,i)  ((PPS_IDX) SET_GUINT32(p + 0x4c, i))
+#define PPS_GET_NAME_LEN(p)   (MS_OLE_GET_GUINT16(p + 0x40))
+#define PPS_SET_NAME_LEN(p,i) (MS_OLE_SET_GUINT16(p + 0x40, (i)))
+#define PPS_GET_PREV(p)   ((PPS_IDX) MS_OLE_GET_GUINT32(p + 0x44))
+#define PPS_GET_NEXT(p)   ((PPS_IDX) MS_OLE_GET_GUINT32(p + 0x48))
+#define PPS_GET_DIR(p)    ((PPS_IDX) MS_OLE_GET_GUINT32(p + 0x4c))
+#define PPS_SET_PREV(p,i) ((PPS_IDX) MS_OLE_SET_GUINT32(p + 0x44, i))
+#define PPS_SET_NEXT(p,i) ((PPS_IDX) MS_OLE_SET_GUINT32(p + 0x48, i))
+#define PPS_SET_DIR(p,i)  ((PPS_IDX) MS_OLE_SET_GUINT32(p + 0x4c, i))
 /* These get other interesting stuff from the PPS record */
-#define PPS_GET_STARTBLOCK(p)      ( GET_GUINT32(p + 0x74))
-#define PPS_GET_SIZE(p)            ( GET_GUINT32(p + 0x78))
-#define PPS_GET_TYPE(p) ((PPSType)( GET_GUINT8(p + 0x42)))
-#define PPS_SET_STARTBLOCK(p,i)    ( SET_GUINT32(p + 0x74, i))
-#define PPS_SET_SIZE(p,i)          ( SET_GUINT32(p + 0x78, i))
-#define PPS_SET_TYPE(p,i)          ( SET_GUINT8 (p + 0x42, i))
+#define PPS_GET_STARTBLOCK(p)      ( MS_OLE_GET_GUINT32(p + 0x74))
+#define PPS_GET_SIZE(p)            ( MS_OLE_GET_GUINT32(p + 0x78))
+#define PPS_GET_TYPE(p) ((PPSType)( MS_OLE_GET_GUINT8(p + 0x42)))
+#define PPS_SET_STARTBLOCK(p,i)    ( MS_OLE_SET_GUINT32(p + 0x74, i))
+#define PPS_SET_SIZE(p,i)          ( MS_OLE_SET_GUINT32(p + 0x78, i))
+#define PPS_SET_TYPE(p,i)          ( MS_OLE_SET_GUINT8 (p + 0x42, i))
 
 /* FIXME: This needs proper unicode support ! current support is a guess */
 /* Length is in bytes == 1/2 the final text length */
@@ -266,13 +249,13 @@ pps_get_text (guint8 *ptr, int length)
 	
 	ans = (char *)g_malloc (sizeof(char) * length + 1);
 	
-	c = GET_GUINT16(ptr);
+	c = MS_OLE_GET_GUINT16(ptr);
 	if (c<0x30) /* Magic unicode number I made up */
 		inb = ptr + 2;
 	else
 		inb = ptr;
 	for (lp=0;lp<length;lp++) {
-		c = GET_GUINT16(inb);
+		c = MS_OLE_GET_GUINT16(inb);
 		ans[lp] = (char)c;
 		inb+=2;
 	}
@@ -391,7 +374,7 @@ static BLP
 get_next_block (MsOle *f, BLP blk)
 {
 	BLP bbd     = GET_BBD_LIST (f, blk/(BB_BLOCK_SIZE/4));
-	return        GET_GUINT32 (BB_R_PTR(f,bbd) + 4*(blk%(BB_BLOCK_SIZE/4)));
+	return        MS_OLE_GET_GUINT32 (BB_R_PTR(f,bbd) + 4*(blk%(BB_BLOCK_SIZE/4)));
 }
 
 static int
@@ -542,7 +525,7 @@ write_bb (MsOle *f)
 	lpblk = 0;
 	while (lpblk<f->bb->len) { /* Described blocks */
 		guint8 *mem = BB_W_PTR(f, GET_BBD_LIST(f, lpblk/(BB_BLOCK_SIZE/4)));
-		SET_GUINT32 (mem + (lpblk%(BB_BLOCK_SIZE/4))*4,
+		MS_OLE_SET_GUINT32 (mem + (lpblk%(BB_BLOCK_SIZE/4))*4,
 			     g_array_index (f->bb, BLP, lpblk));
 		lpblk++;
 	}
@@ -550,7 +533,7 @@ write_bb (MsOle *f)
 		guint8 *mem;
 		g_assert (lpblk/(BB_BLOCK_SIZE/4) < numbbd);
 		mem = BB_W_PTR(f, GET_BBD_LIST(f, lpblk/(BB_BLOCK_SIZE/4)));
-		SET_GUINT32 (mem + (lpblk%(BB_BLOCK_SIZE/4))*4,
+		MS_OLE_SET_GUINT32 (mem + (lpblk%(BB_BLOCK_SIZE/4))*4,
 			     UNUSED_BLOCK);
 		lpblk++;
 	}
@@ -760,13 +743,13 @@ pps_encode_tree_initial (MsOle *f, GList *list, PPS_IDX *p)
 
 	/* Blank stuff I don't understand */
 	for (lp=0;lp<PPS_BLOCK_SIZE;lp++)
-		SET_GUINT8(mem+lp, 0);
+		MS_OLE_SET_GUINT8(mem+lp, 0);
 	if (pps->name) {
 		max = strlen (pps->name);
 		if (max >= (PPS_BLOCK_SIZE/4))
 			max = (PPS_BLOCK_SIZE/4);
 		for (lp=0;lp<max;lp++)
-			SET_GUINT16(mem + lp*2, pps->name[lp]);
+			MS_OLE_SET_GUINT16(mem + lp*2, pps->name[lp]);
 	} else {
 		printf ("No name %d\n", *p);
 		max = -1;
@@ -775,17 +758,17 @@ pps_encode_tree_initial (MsOle *f, GList *list, PPS_IDX *p)
 	
 	/* Magic numbers */
 	if (pps->idx == PPS_ROOT_INDEX) { /* Only Root */
-		SET_GUINT32  (mem + 0x50, 0x00020900);
-		SET_GUINT32  (mem + 0x58, 0x000000c0);
-		SET_GUINT32  (mem + 0x5c, 0x46000000);
-		SET_GUINT8   (mem + 0x43, 0x01); /* or zero ? */
+		MS_OLE_SET_GUINT32  (mem + 0x50, 0x00020900);
+		MS_OLE_SET_GUINT32  (mem + 0x58, 0x000000c0);
+		MS_OLE_SET_GUINT32  (mem + 0x5c, 0x46000000);
+		MS_OLE_SET_GUINT8   (mem + 0x43, 0x01); /* or zero ? */
 	} else if (pps->size >= BB_THRESHOLD) {
-		SET_GUINT32  (mem + 0x50, 0x00020900);
-		SET_GUINT8   (mem + 0x43, 0x01);
+		MS_OLE_SET_GUINT32  (mem + 0x50, 0x00020900);
+		MS_OLE_SET_GUINT8   (mem + 0x43, 0x01);
 	} else {
-		SET_GUINT32  (mem + 0x64, 0x09299c3c);
-		SET_GUINT32  (mem + 0x6c, 0x09299c3c);
-		SET_GUINT8   (mem + 0x43, 0x00);
+		MS_OLE_SET_GUINT32  (mem + 0x64, 0x09299c3c);
+		MS_OLE_SET_GUINT32  (mem + 0x6c, 0x09299c3c);
+		MS_OLE_SET_GUINT8   (mem + 0x43, 0x00);
 	}
 
 	PPS_SET_TYPE (mem, pps->type);
@@ -985,7 +968,7 @@ read_sb (MsOle *f)
 			return 0;
 		}
 		for (lp=0;lp<BB_BLOCK_SIZE/4;lp++) {
-			BLP p = GET_GUINT32 (BB_R_PTR(f, ptr) + lp*4);
+			BLP p = MS_OLE_GET_GUINT32 (BB_R_PTR(f, ptr) + lp*4);
 			g_array_append_val (f->sb, p);
 			
 			if (p != UNUSED_BLOCK)
@@ -1059,7 +1042,7 @@ write_sb (MsOle *f)
 				set = g_array_index (f->sb, BLP, lp);
 			else
 				set = UNUSED_BLOCK;
-			SET_GUINT32 (mem + (lp%(BB_BLOCK_SIZE/4))*4, set);
+			MS_OLE_SET_GUINT32 (mem + (lp%(BB_BLOCK_SIZE/4))*4, set);
 		}
 	} else {
 #if OLE_DEBUG > 0
@@ -1135,6 +1118,15 @@ new_null_msole ()
 	return f;
 }
 
+/**
+ * ms_ole_open:
+ * @name: name of OLE2 file to open
+ * 
+ * Opens a pre-existing OLE2 file, use ms_ole_create ()
+ * to create a new file
+ * 
+ * Return value: a handle to the file or NULL on failure.
+ **/
 MsOle *
 ms_ole_open (const char *name)
 {
@@ -1183,12 +1175,12 @@ ms_ole_open (const char *name)
 	}
 #endif
 
-	if (GET_GUINT32(f->mem    ) != 0xe011cfd0 ||
-	    GET_GUINT32(f->mem + 4) != 0xe11ab1a1)
+	if (MS_OLE_GET_GUINT32(f->mem    ) != 0xe011cfd0 ||
+	    MS_OLE_GET_GUINT32(f->mem + 4) != 0xe11ab1a1)
 	{
 #if OLE_DEBUG > 0
 		printf ("Failed OLE2 magic number %x %x\n",
-			GET_GUINT32(f->mem), GET_GUINT32(f->mem+4));
+			MS_OLE_GET_GUINT32(f->mem), MS_OLE_GET_GUINT32(f->mem+4));
 #endif
 		ms_ole_destroy (f);
 		return 0;
@@ -1211,6 +1203,14 @@ ms_ole_open (const char *name)
 	return f;
 }
 
+/**
+ * ms_ole_create:
+ * @name: filename of new OLE file
+ * 
+ * Creates an OLE2 file: @name
+ *
+ * Return value: pointer to new file or NULL on failure.
+ **/
 MsOle *
 ms_ole_create (const char *name)
 {
@@ -1256,18 +1256,18 @@ ms_ole_create (const char *name)
 #endif
 	/* The header block */
 	for (lp=0;lp<BB_BLOCK_SIZE/4;lp++)
-		SET_GUINT32(f->mem + lp*4, (lp<(0x52/4))?0:UNUSED_BLOCK);
+		MS_OLE_SET_GUINT32(f->mem + lp*4, (lp<(0x52/4))?0:UNUSED_BLOCK);
 
-	SET_GUINT32(f->mem, 0xe011cfd0); /* Magic number */
-	SET_GUINT32(f->mem + 4, 0xe11ab1a1);
+	MS_OLE_SET_GUINT32(f->mem, 0xe011cfd0); /* Magic number */
+	MS_OLE_SET_GUINT32(f->mem + 4, 0xe11ab1a1);
 
 	/* More magic numbers */
-	SET_GUINT32(f->mem + 0x18, 0x0003003e);
-	SET_GUINT32(f->mem + 0x1c, 0x0009fffe);
-	SET_GUINT32(f->mem + 0x20, 0x6); 
-	SET_GUINT32(f->mem + 0x38, 0x00001000); 
-/*	SET_GUINT32(f->mem + 0x40, 0x1);  */
-	SET_GUINT32(f->mem + 0x44, 0xfffffffe); 
+	MS_OLE_SET_GUINT32(f->mem + 0x18, 0x0003003e);
+	MS_OLE_SET_GUINT32(f->mem + 0x1c, 0x0009fffe);
+	MS_OLE_SET_GUINT32(f->mem + 0x20, 0x6); 
+	MS_OLE_SET_GUINT32(f->mem + 0x38, 0x00001000); 
+/*	MS_OLE_SET_GUINT32(f->mem + 0x40, 0x1);  */
+	MS_OLE_SET_GUINT32(f->mem + 0x44, 0xfffffffe); 
 
 	SET_NUM_BBD_BLOCKS  (f, 0);
 	SET_ROOT_STARTBLOCK (f, END_OF_CHAIN);
@@ -1312,9 +1312,11 @@ destroy_pps (GList *l)
 	g_list_free (l);
 }
 
-
 /**
- * This closes the file and truncates any free blocks
+ * ms_ole_destroy:
+ * @f: OLE file handle
+ * 
+ * Closes @f and truncates any free blocks.
  **/
 void
 ms_ole_destroy (MsOle *f)
@@ -1425,11 +1427,11 @@ tell_pos (MsOleStream *s)
 	return s->position;
 }
 
-/**
+/*
  * Free the allocation chains, and free up the blocks.
  * "It was for freedom that Christ has set us free."
  *   Galatians 5:11
- **/
+ */
 static void
 free_allocation (MsOle *f, guint32 startblock, gboolean is_big_block_stream)
 {
@@ -1888,6 +1890,16 @@ ms_ole_write_sb (MsOleStream *s, guint8 *ptr, guint32 length)
 	return;
 }
 
+/**
+ * ms_ole_stream_open:
+ * @d: directory entry handle
+ * @mode: mode of opening stream
+ * 
+ * Opens the stream with directory handle @d
+ * mode is 'r' for read only or 'w' for write only
+ * 
+ * Return value: handle to an stream.
+ **/
 MsOleStream *
 ms_ole_stream_open (MsOleDirectory *d, char mode)
 {
@@ -2025,6 +2037,20 @@ ms_ole_stream_open (MsOleDirectory *d, char mode)
 	return s;
 }
 
+/**
+ * ms_ole_stream_open_name:
+ * @d: parent directory
+ * @name: name of file in @d
+ * @mode: mode of opening stream
+ * 
+ * Opens the stream with name @name in directory @d
+ * mode is 'r' for read only or 'w' for write only.
+ * The most common usage of this is:
+ * s = ms_ole_stream_open_name (ms_ole_get_root (f),
+ *                              "MyStreamName", 'r');
+ * 
+ * Return value: handle to opened stream.
+ **/
 MsOleStream *
 ms_ole_stream_open_name (MsOleDirectory *d, char *name, char mode)
 {
@@ -2058,6 +2084,14 @@ ms_ole_stream_open_name (MsOleDirectory *d, char *name, char mode)
 	return NULL;
 }
 
+/**
+ * ms_ole_stream_copy:
+ * @s: stream to be copied
+ * 
+ * Duplicates stream handle @s
+ * 
+ * Return value: copy of @s
+ **/
 MsOleStream *
 ms_ole_stream_copy (MsOleStream *s)
 {
@@ -2066,6 +2100,13 @@ ms_ole_stream_copy (MsOleStream *s)
 	return ans;
 }
 
+/**
+ * ms_ole_stream_close:
+ * @s: stream handle
+ * 
+ * Closes stream @s and de-allocates resources.
+ * 
+ **/
 void
 ms_ole_stream_close (MsOleStream *s)
 {
@@ -2104,30 +2145,38 @@ pps_to_dir (MsOle *f, GList *l, MsOleDirectory *d)
 	return dir;
 }
 
+/**
+ * ms_ole_get_root:
+ * @f: ole file
+ * 
+ * Returns the root directory handle for ole file @f
+ * 
+ * Return value: root directory handle. 
+ **/
 MsOleDirectory *
 ms_ole_get_root (MsOle *f)
 {
 	return pps_to_dir (f, f->pps, NULL);
 }
 
-/* You probably arn't too interested in the root directory anyway
-   but this is first */
-MsOleDirectory *
-ms_ole_directory_new (MsOle *f)
-{
-	MsOleDirectory *d = ms_ole_get_root (f);
-	ms_ole_directory_enter (d);
-	return d;
-}
-
 /**
- * This navigates by offsets from the primary_entry
+ * ms_ole_directory_next:
+ * @d: current stream / storage pointer.
+ * 
+ * Finds the next entry in the parent directory ( storage )
+ * and moves @d to point to it
+ * 
+ * Return value: FALSE if at the end of the parent directory
+ * TRUE if a new valid stream/storage is found.
  **/
-int
+/*
+ * This navigates by offsets from the primary_entry
+ */
+gboolean
 ms_ole_directory_next (MsOleDirectory *d)
 {
 	if (!d || !d->file || !d->pps)
-		return 0;
+		return FALSE;
 
 	if (d->first) /* Hack for now */
 		d->first = 0;
@@ -2142,9 +2191,17 @@ ms_ole_directory_next (MsOleDirectory *d)
 #if OLE_DEBUG > 0
 	printf ("Forward next '%s' %d %d\n", d->name, d->type, d->length);
 #endif
-	return 1;
+	return TRUE;
 }
 
+/**
+ * ms_ole_directory_copy:
+ * @d: directory pointer
+ * 
+ * Duplicate @d
+ * 
+ * Return value: copy of @d
+ **/
 MsOleDirectory *
 ms_ole_directory_copy (const MsOleDirectory *d)
 {
@@ -2153,6 +2210,14 @@ ms_ole_directory_copy (const MsOleDirectory *d)
 	return pps_to_dir (d->file, d->pps, NULL);
 }
 
+/**
+ * ms_ole_directory_enter:
+ * @d: the current directory.
+ * 
+ * If @d points to a sub-directory ( storage ) then
+ * this moves @d to point to the first sub entry in
+ * that directory.
+ **/
 void
 ms_ole_directory_enter (MsOleDirectory *d)
 {
@@ -2179,6 +2244,12 @@ ms_ole_directory_enter (MsOleDirectory *d)
 	return;
 }
 
+/**
+ * ms_ole_directory_unlink:
+ * @d: directory pointer.
+ * 
+ * Removes a directory.
+ **/
 void
 ms_ole_directory_unlink (MsOleDirectory *d)
 {
@@ -2204,8 +2275,15 @@ ms_ole_directory_unlink (MsOleDirectory *d)
 }
 
 /**
- * This is passed the handle of a directory in which to create the
- * new stream / directory.
+ * ms_ole_directory_create:
+ * @d: parent directory
+ * @name: name of new item
+ * @type: type of new item
+ * 
+ * This creates a stream/storage inside the directory pointed to by @d
+ * with name @name and its type is defined by @type
+ *
+ * Return value: pointer to newly created item or NULL on failure
  **/
 MsOleDirectory *
 ms_ole_directory_create (MsOleDirectory *d, char *name, PPSType type)
@@ -2243,6 +2321,13 @@ ms_ole_directory_create (MsOleDirectory *d, char *name, PPSType type)
 	return pps_to_dir (d->file, g_list_find (dp->children, p), 0);
 }
 
+/**
+ * ms_ole_directory_destroy:
+ * @d: directory to remove.
+ * 
+ * Destroys the directory pointed to by @d
+ * NB. don't use this pointer afterwards.
+ **/
 void
 ms_ole_directory_destroy (MsOleDirectory *d)
 {

@@ -99,7 +99,7 @@ struct _MsOleDirectory
 };
 
 extern MsOleDirectory *ms_ole_directory_new     (MsOle *) ;
-extern int             ms_ole_directory_next    (MsOleDirectory *) ;
+extern gboolean        ms_ole_directory_next    (MsOleDirectory *) ;
 extern void            ms_ole_directory_enter   (MsOleDirectory *) ;
 /* Pointer to the directory in which to create a new stream / storage object */
 extern MsOleDirectory *ms_ole_directory_create  (MsOleDirectory *d,

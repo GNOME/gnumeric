@@ -635,10 +635,10 @@ biff_name_data_get_name (ExcelSheet *sheet, int idx)
 						bnd->name);
 #ifndef NO_DEBUG_EXCEL
 				else if (ms_excel_read_debug > 1) {
-					EvalPosition ep;
+					ParsePosition ep;
 					printf ("Parsed name : '%s' = '%s'\n", bnd->name,
-						tree?expr_decode_tree (tree, eval_pos_init (
-							&ep, sheet->gnum_sheet, 0, 0)):"error");
+						tree?expr_decode_tree (tree, parse_pos_init (
+							&ep, sheet->wb->gnum_wb, 0, 0)):"error");
 				}
 #endif
 			}
@@ -2478,7 +2478,9 @@ static MsOleStream *
 find_workbook (MsOle *ptr)
 {
 	/* Find the right Stream ... John 4:13-14 */
-	MsOleDirectory *d = ms_ole_directory_new (ptr);
+	MsOleDirectory *d = ms_ole_get_root (ptr);
+
+	ms_ole_directory_enter (d);
 
 	/*
 	 * The thing to seek; first the kingdom of God, then this:
@@ -2577,6 +2579,7 @@ ms_excel_read_workbook (MsOle *file)
 	int current_sheet = 0;
 
 	cell_deep_freeze_redraws ();
+/*	cell_deep_freeze_dependencies (); */
 
 	/* Find that book file */
 	stream = find_workbook (file);
@@ -2975,6 +2978,7 @@ ms_excel_read_workbook (MsOle *file)
 #endif
 
 	cell_deep_thaw_redraws ();
+/*	cell_deep_thaw_dependencies (); */
 
 	if (wb) {
 		Workbook *ans = wb->gnum_wb;

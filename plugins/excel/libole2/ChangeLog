@@ -1,5 +1,11 @@
-1999-07-22  Michael Meeks  <michael@edenproject.org>
+1999-07-26  Michael Meeks  <michael@edenproject.org>
 
+	* ms-ole.c: Removed all references to GET/SET_GUINT(8,16,32):
+	replaced with MS_OLE_~.
+	(ms_ole_directory_new): Removed; old and redundant.
+	(ms_ole_directory_next): Updated return type to gboolean.
+
+1999-07-22  Michael Meeks  <michael@edenproject.org>
 
 	* ms-ole.c (ms_ole_stream_open): Cope with dodgy files by truncating
 	them ( best we can do ).

@@ -913,10 +913,11 @@ write_cell (BiffPut *bp, ExcelSheet *sheet, Cell *cell)
 
 #if EXCEL_DEBUG > 2
 	{
-		EvalPosition tmp;
+		ParsePosition tmp;
 		printf ("Cell at %s '%s' = '%s'\n", cell_name (col, row),
 			cell->parsed_node?expr_decode_tree (cell->parsed_node,
-							    eval_pos_init (&tmp, sheet->gnum_sheet, col, row)):"none",
+							    parse_pos_init (&tmp, sheet->wb->gnum_wb,
+									    col, row)):"none",
 			cell->value?value_get_as_string (cell->value):"empty");
 	}
 #endif

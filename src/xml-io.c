@@ -1264,12 +1264,16 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	xml_get_value_int (tree, "Row", &row);
 
 	cell_deep_freeze_redraws ();
+/*	cell_deep_freeze_dependencies (); */
 
 	ret = sheet_cell_get (ctxt->sheet, col, row);
 	if (ret == NULL)
 		ret = sheet_cell_new (ctxt->sheet, col, row);
-	if (ret == NULL)
+	if (ret == NULL) {
+		cell_deep_thaw_redraws ();
+/*		cell_deep_thaw_dependencies (); */
 		return NULL;
+	}
 
 	/*
 	 * New file format includes an index pointer to the Style
@@ -1280,7 +1284,7 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		
 		style_read = TRUE;
 		s = g_hash_table_lookup (ctxt->style_table, GINT_TO_POINTER (style_idx));
-		if (s){
+		if (s) {
 			Style *copy;
 
 			/*
@@ -1348,6 +1352,7 @@ xml_read_cell (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		cell_set_text_simple (ret, "");
 
 	cell_deep_thaw_redraws ();
+/*	cell_deep_thaw_dependencies (); */
 
 	return ret;
 }

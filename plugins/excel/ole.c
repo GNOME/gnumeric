@@ -116,7 +116,9 @@ get_file_handle (MsOle *ole, char *name)
 	MsOleDirectory *dir;
 	if (!name)
 		return NULL;
-	dir = ms_ole_directory_new (ole);
+	dir = ms_ole_get_root (ole);
+	ms_ole_directory_enter (dir);
+
 	while (ms_ole_directory_next(dir)) {
 		if (!dir->name) {
 			printf ("Odd: NULL dirctory name\n");
@@ -134,7 +136,9 @@ get_file_handle (MsOle *ole, char *name)
 static void
 list_files (MsOle *ole)
 {
-	MsOleDirectory *dir = ms_ole_directory_new (ole);
+	MsOleDirectory *dir = ms_ole_get_root (ole);
+	ms_ole_directory_enter (dir);
+
 	g_assert (dir);
 	while (ms_ole_directory_next(dir)) {
 		printf ("'%25s' : type %d, length %d bytes\n", dir->name, dir->type, dir->length);

@@ -6,24 +6,17 @@ Michael
 			* Deeper DBCELL records
 			* Truncated Index records
 			* Intelligent blank cell removal on insertion.
-		* Fix balls-up in ms_excel_externname Re: 'unicode' !
 	* New style support so we can do
 		* Colours
 		* Fonts etc.
-	* Deep freeze workbook re-calcs / dependencies, and implement in
-	load/save + workbook_do_destroy.
-	* Hack up GDOUBLE_FROM_IEE, and send it to gtk-devel-list@redhat.com
+	* Cell borders...
 	* Sort out biff padding =>
 	* Sort out better versioning scheme & helper macros.
 	* Rationalise Missing Argument stuff ... a new value ?
 	* Remove silly name record in writing ( after debugging is done )
 	* Split panes.
-	* write xml-io support for names.
 	* Use same XML as Office 2000 for elegance (?)
 	* Investigate VB streams, and their lengths.
-	* glib
-		* g_get_double ( instead of biff_getdouble )
-		* g_str_case_hash ( case insensitive g_str_hash )
 	* Styles - special 'merge' only for visible parts of blank cells...
 
 Jody
