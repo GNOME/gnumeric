@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric.gnumeric-1-2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-07-28 03:56+0200\n"
+"POT-Creation-Date: 2004-07-29 11:58+0200\n"
 "PO-Revision-Date: 2004-06-29 13:01+0200\n"
 "Last-Translator: Laurent Dhima <laurenti@alblinux.net>\n"
 "Language-Team: Albanian <gnome-albanian-perkthyesit@lists.sourceforge.net>\n"
@@ -11429,7 +11429,6 @@ msgstr "Me të trasha"
 msgid "Borders"
 msgstr ""
 
-#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:19 src/sheet-object-widget.c:439
 #: src/workbook-object-toolbar.c:155
 msgid "Button"
@@ -12063,10 +12062,11 @@ msgstr ""
 msgid "P_aste Special..."
 msgstr ""
 
+#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:168 src/GNOME_Gnumeric_Component.xml.h:4
 #: src/workbook-control-gui.c:3354
 msgid "Page Set_up..."
-msgstr ""
+msgstr "Rreg_ullimi i Faqes..."
 
 #: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3960
 msgid "Parse the text in the selection into data"
@@ -12428,7 +12428,6 @@ msgstr ""
 msgid "Uncollapse an outline group"
 msgstr ""
 
-#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:256 src/workbook-format-toolbar.c:429
 msgid "Underline"
 msgstr "Nënvizuar"
@@ -12504,7 +12503,6 @@ msgstr ""
 msgid "_Cells..."
 msgstr ""
 
-#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:274
 msgid "_Close"
 msgstr "_Mbyll"
@@ -12662,7 +12660,6 @@ msgstr ""
 msgid "_Moving Average..."
 msgstr ""
 
-#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3624
 msgid "_Name"
 msgstr "_Emri"
@@ -12723,7 +12720,6 @@ msgstr "_Përsërit"
 msgid "_Regression..."
 msgstr ""
 
-#. GRUT modified this item
 #: src/GNOME_Gnumeric.xml.h:324 src/dialogs/autocorrect.glade.h:13
 #: src/dialogs/pivottable.glade.h:12 src/workbook-control-gui.c:3476
 msgid "_Remove"
@@ -13038,7 +13034,6 @@ msgstr ""
 msgid "Deleting row %s"
 msgstr ""
 
-#. GRUT modified this item
 #. Check for locked cells
 #: src/commands.c:1504 src/commands.c:1508 src/sheet.c:2815
 msgid "Clear"
@@ -13654,9 +13649,10 @@ msgstr ""
 msgid "_Top"
 msgstr "_Në fillim"
 
+#. GRUT modified this item
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:107
 msgid "_Text:"
-msgstr ""
+msgstr "_Teksti:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-label.c:113
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:196
@@ -13705,7 +13701,6 @@ msgstr ""
 msgid "Brightness"
 msgstr ""
 
-#. GRUT modified this item
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
 msgid "C_olor:"
 msgstr "Ngjyr_a:"
@@ -15816,9 +15811,10 @@ msgstr ""
 msgid "Morten Welinder, Gnumeric hacker."
 msgstr ""
 
+#. GRUT modified this item
 #: src/dialogs/dialog-about.c:113 src/func-builtin.c:156
 msgid "Gnumeric"
-msgstr ""
+msgstr "Gnumeric"
 
 #: src/dialogs/dialog-about.c:116
 msgid "A production ready spreadsheet"
@@ -16924,7 +16920,6 @@ msgstr ""
 msgid "Comment"
 msgstr "Komenti"
 
-#. GRUT modified this item
 #: src/dialogs/dialog-search.c:131 src/tools/solver/reports-write.c:408
 #: src/tools/solver/reports-write.c:413
 msgid "Result"
@@ -17685,7 +17680,6 @@ msgstr ""
 msgid "Sheets"
 msgstr ""
 
-#. GRUT modified this item
 #: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:4246
 msgid "Zoom"
 msgstr "Shkalla e zmadhimit"
@@ -17885,7 +17879,6 @@ msgstr ""
 msgid "Specify an XL-style format directly"
 msgstr ""
 
-#. GRUT modified this item
 #: src/dialogs/format-selector.glade.h:18
 msgid "_Format:"
 msgstr "_Formati:"
@@ -18618,7 +18611,6 @@ msgstr ""
 msgid "<span weight=\"bold\">Search Text Type</span>"
 msgstr ""
 
-#. GRUT modified this item
 #: src/dialogs/search-replace.glade.h:5 src/dialogs/search.glade.h:1
 msgid "Advanced"
 msgstr "Të detajuara"
@@ -18683,7 +18675,6 @@ msgstr ""
 msgid "Re_gular expression"
 msgstr ""
 
-#. GRUT modified this item
 #: src/dialogs/search-replace.glade.h:22
 msgid "Scope"
 msgstr "Qëllimi"
@@ -19233,7 +19224,6 @@ msgstr ""
 msgid "Com_pany:"
 msgstr ""
 
-#. GRUT modified this item
 #: src/dialogs/summary.glade.h:5
 msgid "File:"
 msgstr "File:"
@@ -19323,7 +19313,6 @@ msgstr "Vendodhja"
 msgid "New view will be opened on specified screen"
 msgstr ""
 
-#. GRUT modified this item
 #: src/dialogs/view.glade.h:6
 msgid "Sharing"
 msgstr "Duke ndarë"
@@ -21003,7 +20992,6 @@ msgstr ""
 msgid "Path "
 msgstr ""
 
-#. GRUT modified this item
 #: src/print-info.c:568
 msgid "tab"
 msgstr "tab"
@@ -21020,7 +21008,6 @@ msgstr ""
 msgid "file"
 msgstr ""
 
-#. GRUT modified this item
 #: src/print-info.c:574
 msgid "path"
 msgstr "pozicioni"
@@ -21988,7 +21975,6 @@ msgstr ""
 msgid "Limits Report"
 msgstr ""
 
-#. GRUT modified this item
 #.
 #. * Fill in the labels.
 #.
@@ -22439,7 +22425,6 @@ msgstr "e verdhë"
 msgid "green"
 msgstr "jeshile"
 
-#. GRUT modified this item
 #: src/widgets/color-palette.c:561 src/widgets/color-palette.c:591
 msgid "cyan"
 msgstr "lejla"
@@ -22969,7 +22954,6 @@ msgstr ""
 msgid "Eastern Europe"
 msgstr ""
 
-#. GRUT modified this item
 #: src/widgets/widget-locale-selector.c:71
 msgid "North America"
 msgstr "Amerika e Veriut"
