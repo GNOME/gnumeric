@@ -50,6 +50,10 @@ gnm_file_opener_finalize (GObject *obj)
 	fo = GNM_FILE_OPENER (obj);
 	g_free (fo->id);
 	g_free (fo->description);
+	g_slist_foreach (fo->suffixes, (GFunc)g_free, NULL);
+	g_slist_free (fo->suffixes);
+	g_slist_foreach (fo->mimes, (GFunc)g_free, NULL);
+	g_slist_free (fo->mimes);
 
 	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
 }
@@ -118,6 +122,8 @@ GSF_CLASS (GnmFileOpener, gnm_file_opener,
 void
 gnm_file_opener_setup (GnmFileOpener *fo, gchar const *id,
                         gchar const *description,
+			GSList *suffixes,
+			GSList *mimes,
 		        gboolean encoding_dependent,
                         GnmFileOpenerProbeFunc probe_func,
                         GnmFileOpenerOpenFunc open_func)
@@ -126,6 +132,9 @@ gnm_file_opener_setup (GnmFileOpener *fo, gchar const *id,
 
 	fo->id = g_strdup (id);
 	fo->description = g_strdup (description);
+	fo->suffixes = suffixes;
+	fo->mimes = mimes;
+
 	fo->encoding_dependent = encoding_dependent;
 	fo->probe_func = probe_func;
 	fo->open_func = open_func;
@@ -146,13 +155,15 @@ gnm_file_opener_setup (GnmFileOpener *fo, gchar const *id,
 GnmFileOpener *
 gnm_file_opener_new (gchar const *id,
                       gchar const *description,
+		      GSList *suffixes,
+		      GSList *mimes,
                       GnmFileOpenerProbeFunc probe_func,
                       GnmFileOpenerOpenFunc open_func)
 {
 	GnmFileOpener *fo;
 
 	fo = GNM_FILE_OPENER (g_object_new (TYPE_GNM_FILE_OPENER, NULL));
-	gnm_file_opener_setup (fo, id, description, FALSE,
+	gnm_file_opener_setup (fo, id, description, suffixes, mimes, FALSE,
 			       probe_func, open_func);
 
 	return fo;
@@ -174,13 +185,15 @@ gnm_file_opener_new (gchar const *id,
 GnmFileOpener *
 gnm_file_opener_new_with_enc (gchar const *id,
 		     gchar const *description,
+		     GSList *suffixes,
+		     GSList *mimes,
 		     GnmFileOpenerProbeFunc probe_func,
 		     GnmFileOpenerOpenFuncWithEnc open_func)
 {
         GnmFileOpener *fo;
 
         fo = GNM_FILE_OPENER (g_object_new (TYPE_GNM_FILE_OPENER, NULL));
-        gnm_file_opener_setup (fo, id, description, TRUE,
+        gnm_file_opener_setup (fo, id, description, suffixes, mimes, TRUE,
                                probe_func, (GnmFileOpenerOpenFunc)open_func);
         return fo;
 }
@@ -220,6 +233,18 @@ gnm_file_opener_can_probe (GnmFileOpener const *fo, FileProbeLevel pl)
 	return GNM_FILE_OPENER_METHOD (fo, can_probe) (fo, pl);
 }
 
+GSList const *
+gnm_file_opener_get_suffixes (GnmFileOpener const *fo)
+{
+	g_return_val_if_fail (IS_GNM_FILE_OPENER (fo), NULL);
+	return fo->suffixes;
+}
+GSList const *
+gnm_file_opener_get_mimes (GnmFileOpener const *fo)
+{
+	g_return_val_if_fail (IS_GNM_FILE_OPENER (fo), NULL);
+	return fo->mimes;
+}
 
 
 /**

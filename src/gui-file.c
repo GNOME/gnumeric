@@ -246,28 +246,17 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 		filter = gtk_file_filter_new ();
 		gtk_file_filter_set_name (filter, _("Spreadsheets"));
 		for (l = openers->next; l; l = l->next) {
-			GnmFileOpener *o = l->data;
-			/* FIXME: add all known extensions.  */
-		}
-#warning "FIXME: make extension discovery above work and delete these"
-		/* Use _SAVERS'_ extension for lack of better.  */
-		for (l = get_file_savers ()->next; l; l = l->next) {
-			GnmFileSaver *fs = l->data;
-			const char *ext = gnm_file_saver_get_extension (fs);
-			const char *mime = gnm_file_saver_get_mime_type (fs);
-
-			if (mime)
-				gtk_file_filter_add_mime_type (filter, mime);
-
-			if (ext) {
-				char *pattern = g_strconcat ("*.", ext, NULL);
+			GnmFileOpener const *o = l->data;
+			GSList const *ptr;
+			for (ptr = gnm_file_opener_get_suffixes	(o); ptr != NULL ; ptr = ptr->next) {
+				char *pattern = g_strconcat ("*.", ptr->data, NULL);
 				gtk_file_filter_add_pattern (filter, pattern);
 				g_free (pattern);
 			}
+			for (ptr = gnm_file_opener_get_mimes	(o); ptr != NULL ; ptr = ptr->next)
+				gtk_file_filter_add_mime_type (filter, ptr->data);
+
 		}
-		/* FIXME: delete these also when we can ask the openers.  */
-		gtk_file_filter_add_pattern (filter, "*.csv");
-		gtk_file_filter_add_pattern (filter, "*.tsv");
 
 		gtk_file_chooser_add_filter (fsel, filter);
 		/* Make this filter the default */

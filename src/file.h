@@ -76,10 +76,14 @@ GType gnm_file_opener_get_type (void);
 
 GnmFileOpener *gnm_file_opener_new (char const *id,
 				    char const *description,
+				    GSList *suffixes,
+				    GSList *mimes,
 				    GnmFileOpenerProbeFunc probe_func,
 				    GnmFileOpenerOpenFunc open_func);
 GnmFileOpener *gnm_file_opener_new_with_enc (char const *id,
 					     char const *description,
+					     GSList *suffixes,
+					     GSList *mimes,
 					     GnmFileOpenerProbeFunc probe_func,
 					     GnmFileOpenerOpenFuncWithEnc open_func);
 
@@ -95,6 +99,8 @@ char const *gnm_file_opener_get_description	  (GnmFileOpener const *fo);
 gboolean    gnm_file_opener_is_encoding_dependent (GnmFileOpener const *fo);
 gboolean    gnm_file_opener_can_probe		  (GnmFileOpener const *fo,
 						   FileProbeLevel pl);
+GSList const *gnm_file_opener_get_suffixes	  (GnmFileOpener const *fo);
+GSList const *gnm_file_opener_get_mimes	  	  (GnmFileOpener const *fo);
 
 /*
  * GnmFileSaver

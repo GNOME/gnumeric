@@ -312,7 +312,8 @@ struct _PluginServiceFileOpener {
 	gint priority;
 	gboolean has_probe;
 	gchar *description;
-	GSList *suffixes;      /* list of char * */
+	GSList *suffixes;	/* list of char * */
+	GSList *mimes;		/* list of char * */
 
 	GnmFileOpener *opener;
 	PluginServiceFileOpenerCallbacks cbs;
@@ -327,6 +328,7 @@ plugin_service_file_opener_init (GObject *obj)
 	GNM_PLUGIN_SERVICE (obj)->cbs_ptr = &service_file_opener->cbs;
 	service_file_opener->description = NULL;
 	service_file_opener->suffixes = NULL;
+	service_file_opener->mimes = NULL;
 	service_file_opener->opener = NULL;
 	service_file_opener->cbs.plugin_func_file_probe = NULL;
 	service_file_opener->cbs.plugin_func_file_open = NULL;
@@ -342,6 +344,8 @@ plugin_service_file_opener_finalize (GObject *obj)
 	service_file_opener->description = NULL;
 	gnm_slist_free_custom (service_file_opener->suffixes, g_free);
 	service_file_opener->suffixes = NULL;
+	gnm_slist_free_custom (service_file_opener->mimes, g_free);
+	service_file_opener->mimes = NULL;
 	if (service_file_opener->opener != NULL) {
 		g_object_unref (service_file_opener->opener);
 		service_file_opener->opener = NULL;
@@ -386,24 +390,34 @@ plugin_service_file_opener_read_xml (GnmPluginService *service, xmlNode *tree, E
 		description = NULL;
 	}
 	if (description != NULL) {
-		GSList *suffixes = NULL;
-		xmlNode *file_patterns_node, *node;
+		GSList *suffixes = NULL, *mimes = NULL;
+		char *tmp;
+		xmlNode *list, *node;
 		PluginServiceFileOpener *service_file_opener = GNM_PLUGIN_SERVICE_FILE_OPENER (service);
 
-		file_patterns_node = e_xml_get_child_by_name (tree, (xmlChar *)"suffixes");
-		if (file_patterns_node != NULL) {
-			char *suffix;
-			for (node = file_patterns_node->xmlChildrenNode; node != NULL; node = node->next)
+		list = e_xml_get_child_by_name (tree, (xmlChar *)"suffixes");
+		if (list != NULL) {
+			for (node = list->xmlChildrenNode; node != NULL; node = node->next)
 				if (strcmp (node->name, "suffix") == 0 &&
-				    (suffix = xmlNodeGetContent (node)) != NULL)
-					GNM_SLIST_PREPEND (suffixes, suffix);
+				    (tmp = xmlNodeGetContent (node)) != NULL)
+					GNM_SLIST_PREPEND (suffixes, tmp);
 		}
 		GNM_SLIST_REVERSE (suffixes);
+
+		list = e_xml_get_child_by_name (tree, (xmlChar *)"mime-types");
+		if (list != NULL) {
+			for (node = list->xmlChildrenNode; node != NULL; node = node->next)
+				if (strcmp (node->name, "mime-type") == 0 &&
+				    (tmp = xmlNodeGetContent (node)) != NULL)
+					GNM_SLIST_PREPEND (mimes, tmp);
+		}
+		GNM_SLIST_REVERSE (mimes);
 
 		service_file_opener->priority = priority;
 		service_file_opener->has_probe = has_probe;
 		service_file_opener->description = description;
-		service_file_opener->suffixes = suffixes;
+		service_file_opener->suffixes	= suffixes;
+		service_file_opener->mimes	= mimes;
 	} else {
 		*ret_error = error_info_new_str (_("File opener has no description"));
 	}
@@ -578,6 +592,15 @@ GSF_CLASS (GnmPluginFileOpener, gnm_plugin_file_opener,
 	   gnm_plugin_file_opener_class_init, gnm_plugin_file_opener_init,
 	   TYPE_GNM_FILE_OPENER)
 
+static GSList *
+gnm_str_slist_dup (GSList *l)
+{
+	GSList *res = NULL;
+	for ( ; l != NULL ; l = l->next)
+		res = g_slist_prepend (res, g_strdup (l->data));
+	return g_slist_reverse (res);
+}
+
 static GnmPluginFileOpener *
 gnm_plugin_file_opener_new (GnmPluginService *service)
 {
@@ -589,8 +612,10 @@ gnm_plugin_file_opener_new (GnmPluginService *service)
 		gnm_plugin_get_id (service->plugin), ":", service->id, NULL);
 	fo = GNM_PLUGIN_FILE_OPENER (g_object_new (TYPE_GNM_PLUGIN_FILE_OPENER, NULL));
 	gnm_file_opener_setup (GNM_FILE_OPENER (fo), opener_id,
-	                        service_file_opener->description,
-	                        FALSE, NULL, NULL);
+		service_file_opener->description,
+		gnm_str_slist_dup (service_file_opener->suffixes),
+		gnm_str_slist_dup (service_file_opener->mimes),
+		FALSE, NULL, NULL);
 	fo->service = service;
 	g_free (opener_id);
 

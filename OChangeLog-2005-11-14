@@ -1,5 +1,25 @@
 2004-11-15  Jody Goldberg <jody@gnome.org>
 
+	* src/stf.c (stf_init) : register some suffixes and mime types
+	* src/xml-io.c (xml_init) : ditto.
+
+	* src/plugin-service.c (plugin_service_file_opener_read_xml) : parse
+	  mime types too.
+
+	* src/gui-file.c (gui_file_open) : Use the new lists of suffixes and
+	  mime types from the openers rather than kluding something from
+	  savers.
+
+	* src/file.c (gnm_file_opener_setup) : store a list of suffixes and
+	  mime types.
+	(gnm_file_opener_finalize) : free the new lists.
+	(gnm_file_opener_new) : take suffixes and mime types as arguments
+	(gnm_file_opener_new_with_enc) : take suffixes and mime types as arguments
+	(gnm_file_opener_get_suffixes) : new.
+	(gnm_file_opener_get_mimes) : new.
+
+2004-11-15  Jody Goldberg <jody@gnome.org>
+
 	* src/sheet-object-widget.c : Add text and markup properties to
 	  checkbox/toggle button
 

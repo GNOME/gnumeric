@@ -29,15 +29,20 @@ struct _GnmFileOpenerClass {
 struct _GnmFileOpener {
 	GObject parent;
 
-	gchar                  *id;
-	gchar                  *description;
-	gboolean               encoding_dependent;
+	gchar	*id;
+	gchar	*description;
+	GSList	*suffixes;
+	GSList	*mimes;
+	gboolean encoding_dependent;
+
 	GnmFileOpenerProbeFunc probe_func;
 	GnmFileOpenerOpenFunc  open_func;
 };
 
 void gnm_file_opener_setup (GnmFileOpener *fo, const gchar *id,
 			    const gchar *description,
+			    GSList *suffixes,
+			    GSList *mimes,
 			    gboolean encoding_dependent,
 			    GnmFileOpenerProbeFunc probe_func,
 			    GnmFileOpenerOpenFunc open_func);

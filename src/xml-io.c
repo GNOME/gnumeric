@@ -4315,6 +4315,8 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 void
 xml_init (void)
 {
+	GSList *suffixes = gnm_slist_create (g_strdup ("gnumeric"), g_strdup ("xml"), NULL);
+	GSList *mimes = gnm_slist_create (g_strdup ("application/x-gnumeric"), NULL);
 	xml_sax_prober.comment    = NULL;
 	xml_sax_prober.warning    = NULL;
 	xml_sax_prober.error      = (errorSAXFunc) xml_probe_problem;
@@ -4323,6 +4325,7 @@ xml_init (void)
 	gnm_file_opener_register (gnm_file_opener_new (
 		"Gnumeric_XmlIO:gnum_xml",
 		_("Gnumeric XML (*.gnumeric)"),
+		suffixes, mimes,
 		xml_probe, gnumeric_xml_read_workbook), 50);
 	gnm_file_saver_register_as_default (gnm_file_saver_new (
 		"Gnumeric_XmlIO:gnum_xml", "gnumeric",

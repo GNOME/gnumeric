@@ -10,6 +10,9 @@ Andreas:
 	* When undoing the deletion of sheet objects also recreate the
 	  original ordering of objects. [#151609]
 
+Jody :
+	* Pull the file open filters from the openers
+
 Harald Ashburner:
 	* Update derivatives.gnumeric
 
