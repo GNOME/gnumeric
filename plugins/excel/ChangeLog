@@ -1,3 +1,8 @@
+1999-10-26  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-formula-read.c (FormulaFuncData) : Fix typo for
+	SERIESNUM -> SERIESSUM.
+
 1999-10-26  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* ms-formula-read.c (formula_func_data): Fixed the number of

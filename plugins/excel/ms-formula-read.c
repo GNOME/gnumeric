@@ -160,7 +160,7 @@ FormulaFuncData formula_func_data[FORMULA_FUNC_DATA_LEN] =
 /* 89 */	{ "CALLER", -2 },
 /* 90 */	{ "DEREF", -2 },
 /* 91 */	{ "WINDOWS", -2 },
-/* 92 */	{ "SERIESNUM", 4 }, /* Renamed from SERIES */
+/* 92 */	{ "SERIESSUM", 4 }, /* Renamed from SERIES */
 /* 93 */	{ "DOCUMENTS", -2 },
 /* 94 */	{ "ACTIVECELL", -2 },
 /* 95 */	{ "SELECTION", -2 },
