@@ -3,8 +3,8 @@
 gnumeric.desktop.in
 plugins/applix/applix-read.c
 plugins/applix/plugin.xml.in
-plugins/derivatives/plugin.xml.in
 plugins/derivatives/options.c
+plugins/derivatives/plugin.xml.in
 plugins/dif/dif.c
 plugins/dif/plugin.xml.in
 plugins/excel/boot.c
@@ -19,6 +19,7 @@ plugins/gda/plugin.xml.in
 plugins/gnome-glossary/plugin.xml.in
 plugins/guile/plugin.c
 plugins/guile/plugin.xml.in
+plugins/guile/smob-value.c
 plugins/html/plugin.xml.in
 plugins/html/roff.c
 plugins/lotus-123/lotus.c
@@ -54,6 +55,7 @@ src/bonobo-io.c
 src/cell.c
 src/clipboard.c
 src/cmd-edit.c
+src/command-context-stderr.c
 src/commands.c
 src/corba-args.c
 src/dates.c

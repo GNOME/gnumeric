@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-05-08 09:34+0200\n"
-"PO-Revision-Date: 2002-05-08 09:36+0200\n"
+"POT-Creation-Date: 2002-05-29 00:20+0200\n"
+"PO-Revision-Date: 2002-05-29 00:21+0200\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -61,18 +61,6 @@ msgstr "Applix (*.as)"
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
 msgstr "Importerar kalkylblad från version 4.[234]"
-
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3123
-msgid "Financial"
-msgstr "Finansiella"
-
-#: plugins/derivatives/plugin.xml.in.h:2
-msgid "Financial Derivatives"
-msgstr "Finansiella derivat"
-
-#: plugins/derivatives/plugin.xml.in.h:3
-msgid "Functions related to financial derivatives"
-msgstr "Funktioner relaterade till finansiella derivat"
 
 # FIXME: Någon som förstår detta?
 #: plugins/derivatives/options.c:289
@@ -446,7 +434,19 @@ msgstr ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
 "opt_bs_gamma"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4531
+#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3123
+msgid "Financial"
+msgstr "Finansiella"
+
+#: plugins/derivatives/plugin.xml.in.h:2
+msgid "Financial Derivatives"
+msgstr "Finansiella derivat"
+
+#: plugins/derivatives/plugin.xml.in.h:3
+msgid "Functions related to financial derivatives"
+msgstr "Funktioner relaterade till finansiella derivat"
+
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "Läser fil..."
@@ -569,25 +569,25 @@ msgstr "Diagram%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4526
+#: plugins/excel/ms-excel-read.c:4531
 msgid "No book or workbook streams found."
 msgstr "Kunde inte hitta ström med bok eller arbetsbok."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4690
+#: plugins/excel/ms-excel-read.c:4695
 msgid "Password protected workbooks are not supported yet."
 msgstr "Lösenordsskyddade arbetsböcker stöds ännu inte."
 
-#: plugins/excel/ms-excel-read.c:4803
+#: plugins/excel/ms-excel-read.c:4808
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Kunde inte hitta en giltig MS Excel-arbetsbok"
 
-#: plugins/excel/ms-excel-write.c:3574
+#: plugins/excel/ms-excel-write.c:3579
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "För många rader för detta format (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3800
+#: plugins/excel/ms-excel-write.c:3805
 msgid "Can't open stream for writing\n"
 msgstr "Kan inte öppna ström för skrivning\n"
 
@@ -705,6 +705,22 @@ msgstr "Guile-insticksmodul"
 msgid "This plugin enables Guile(scheme) support in Gnumeric"
 msgstr "Denna insticksmodul aktiverar stöd för Guile (scheme) i Gnumeric"
 
+#: plugins/guile/smob-value.c:102
+msgid "Unable to convert value from Guile"
+msgstr "Kan inte konvertera värde från Guile"
+
+#: plugins/guile/smob-value.c:163
+msgid "Not a Guile boolean"
+msgstr "Inte ett booleskt Guile-värde"
+
+#: plugins/guile/smob-value.c:181
+msgid "Not a Guile number"
+msgstr "Inte ett Guile-tal"
+
+#: plugins/guile/smob-value.c:199
+msgid "Not a Guile string"
+msgstr "Inte en Guile-sträng"
+
 #: plugins/html/plugin.xml.in.h:1
 msgid "DVI TeX (via groff)"
 msgstr "DVI TeX (via groff)"
@@ -797,7 +813,7 @@ msgstr "Bivillkor:"
 
 #. Print constraint titles.
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
-#: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
+#: src/format-template.c:511 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
 #: src/workbook-control.c:234
 msgid "Name"
@@ -3178,6 +3194,15 @@ msgstr "Skifta kolumner %s"
 msgid "Shift column %s"
 msgstr "Skifta kolumner %s"
 
+#: src/command-context-stderr.c:99 src/workbook-control-gui.c:1188
+#, c-format
+msgid "Would split array %s"
+msgstr "Skulle delat vektorn %s"
+
+#: src/command-context-stderr.c:102 src/workbook-control-gui.c:1190
+msgid "Would split an array"
+msgstr "Skulle delat en vektor"
+
 #: src/commands.c:640 src/commands.c:748
 msgid "Set Text"
 msgstr "Ställ in text"
@@ -4439,8 +4464,7 @@ msgid "_Wrap text"
 msgstr "_Radbryt text"
 
 #: src/dialogs/cell-format.glade.h:129
-#, fuzzy
-msgid "min &lt;= val &lt;= max         (between)"
+msgid "min <= val <= max         (between)"
 msgstr "min <= värde <= max       (mellan)"
 
 #: src/dialogs/cell-format.glade.h:130
@@ -4448,33 +4472,28 @@ msgid "val != bound                  (not equal to)"
 msgstr "värde != gräns                (inte lika med)"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
-msgid "val &gt;  bound                  (greater than)"
-msgstr "värde >  gräns                (större än)"
+msgid "val <  bound                  (less than)"
+msgstr "värde <  gräns                (mindre än)"
 
 #: src/dialogs/cell-format.glade.h:132
-#, fuzzy
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "värde >=gräns                (större än eller lika med)"
-
-#: src/dialogs/cell-format.glade.h:133
-#, fuzzy
-msgid "val &lt;  bound                  (less than)"
-msgstr "värde >  gräns                (mindre än)"
-
-#: src/dialogs/cell-format.glade.h:134
-#, fuzzy
-msgid "val &lt;= min || max &lt;= val (not between)"
+msgid "val <= min || max <= val (not between)"
 msgstr "värde <= min || max <= värde (inte mellan)"
 
-#: src/dialogs/cell-format.glade.h:135
-#, fuzzy
-msgid "val &lt;=bound                  (less than or equal to)"
+#: src/dialogs/cell-format.glade.h:133
+msgid "val <=bound                  (less than or equal to)"
 msgstr "värde <=gräns                (mindre än eller lika med)"
 
-#: src/dialogs/cell-format.glade.h:136
+#: src/dialogs/cell-format.glade.h:134
 msgid "val == bound                 (equal to)"
 msgstr "värde == gräns               (lika med)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val >  bound                  (greater than)"
+msgstr "värde >  gräns                (större än)"
+
+#: src/dialogs/cell-format.glade.h:136
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "värde >=gräns                (större än eller lika med)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5724,15 +5743,15 @@ msgstr "Kommentar"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Är du säker på att du vill ta bort bladet med namn `%s'?"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5779,25 +5798,25 @@ msgstr "Är du säker på att du vill avbryta?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "&lt;- Remove"
-msgstr "&lt;- Ta bort"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "&lt;- Remove all"
-msgstr "&lt;- Ta bort alla"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "\""
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "<- Remove"
+msgstr "<- Ta bort"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+msgid "<- Remove all"
+msgstr "<- Ta bort alla"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add -&gt;"
-msgstr "Lägg till -&gt;"
+msgid "Add ->"
+msgstr "Lägg till ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all -&gt;"
-msgstr "Lägg till alla -&gt;"
+msgid "Add all ->"
+msgstr "Lägg till alla ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -7291,14 +7310,6 @@ msgstr "Ange nytt namn för _bladet:"
 msgid "Rename sheet"
 msgstr "Byt namn på blad"
 
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr ""
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr ""
-
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
 msgstr "Antag _linjär modell"
@@ -7514,15 +7525,15 @@ msgstr "Inbyggd"
 msgid "Error: no sheet"
 msgstr "Fel: inget blad"
 
-#: src/expr.c:557
+#: src/expr.c:558
 msgid "Internal type error"
 msgstr "Internt typfel"
 
-#: src/expr.c:736
+#: src/expr.c:737
 msgid "Unknown operator"
 msgstr "Okänd operator"
 
-#: src/expr.c:965
+#: src/expr.c:966
 msgid "Unknown evaluation error"
 msgstr "Okänt evalueringsfel"
 
@@ -7567,18 +7578,18 @@ msgstr ""
 "Du kan stänga av denna säkerhetsdetalj genom att redigera respektive plugin."
 "xml-fil."
 
-#: src/format-template.c:874
+#: src/format-template.c:875
 #, c-format
 msgid ""
 "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr "Målområdet är för litet. Det måste vara minst %d rader och %d kolumner"
 
-#: src/format-template.c:877
+#: src/format-template.c:878
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr "Målområdet är för litet. Det måste vara minst %d kolumner brett"
 
-#: src/format-template.c:880
+#: src/format-template.c:881
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Målområdet är för litet. Det måste vara minst %d rader högt"
@@ -18746,9 +18757,8 @@ msgstr ""
 "@SEEALSO=LEFT, RIGHT"
 
 #: src/functions/fn-string.c:227 src/functions/fn-string.c:632
-#, fuzzy
 msgid "Arguments out of range"
-msgstr "Talet är utanför intervallet"
+msgstr "Argument är utanför intervallet"
 
 #: src/functions/fn-string.c:244
 msgid ""
@@ -20325,42 +20335,42 @@ msgstr "Din \"fontmap2\"-fil har inte en giltig post för Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Din \"fontmap2\"-fil kunde inte hittas på den förväntade platsen."
 
-#: src/validation.c:138
+#: src/validation.c:140
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Cell %s får inte vara tom"
 
-#: src/validation.c:155
+#: src/validation.c:157
 #, c-format
 msgid "'%s' is an error"
 msgstr "\"%s\" är ett fel"
 
-#: src/validation.c:165
+#: src/validation.c:167
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "\"%s\" är inte ett giltigt datum"
 
-#: src/validation.c:167
+#: src/validation.c:169
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "\"%s\" är inte en giltig tid"
 
-#: src/validation.c:169
+#: src/validation.c:171
 #, c-format
 msgid "'%s' is not a number"
 msgstr "\"%s\" är inte ett tal"
 
-#: src/validation.c:182
-#, fuzzy, c-format
+#: src/validation.c:184
+#, c-format
 msgid "'%s' is not an integer"
-msgstr "\"%f\" är inte ett heltal"
+msgstr "\"%s\" är inte ett heltal"
 
-#: src/validation.c:275
+#: src/validation.c:277
 #, c-format
 msgid "%s is not true."
 msgstr "%s är inte sann."
 
-#: src/validation.c:288
+#: src/validation.c:290
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -20368,7 +20378,7 @@ msgstr ""
 "Det värdet är ogiltigt.\n"
 "Begränsningar har placerats på innehållet i denna cell."
 
-#: src/validation.c:295
+#: src/validation.c:297
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: validering"
 
@@ -20450,15 +20460,6 @@ msgstr "Ångra"
 #: src/workbook-control-gui.c:3417 src/workbook-control-gui.c:3436
 msgid "Redo"
 msgstr "Gör om"
-
-#: src/workbook-control-gui.c:1188
-#, c-format
-msgid "Would split array %s"
-msgstr "Skulle delat vektorn %s"
-
-#: src/workbook-control-gui.c:1190
-msgid "Would split an array"
-msgstr "Skulle delat en vektor"
 
 #: src/workbook-control-gui.c:1251
 #, c-format
@@ -20984,6 +20985,18 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
 
+#~ msgid "&lt;- Remove"
+#~ msgstr "&lt;- Ta bort"
+
+#~ msgid "&lt;- Remove all"
+#~ msgstr "&lt;- Ta bort alla"
+
+#~ msgid "Add -&gt;"
+#~ msgstr "Lägg till -&gt;"
+
+#~ msgid "Add all -&gt;"
+#~ msgstr "Lägg till alla -&gt;"
+
 #~ msgid "First argument to SCM must be a Guile expression"
 #~ msgstr "Första argumentet till SCM måste vara ett Guile-uttryck"
 
@@ -20992,18 +21005,6 @@ msgstr "Gnumeric XML-filformat"
 
 #~ msgid "Could not evaluate argument"
 #~ msgstr "Kunde inte evaluera argument"
-
-#~ msgid "<- Remove"
-#~ msgstr "<- Ta bort"
-
-#~ msgid "<- Remove all"
-#~ msgstr "<- Ta bort alla"
-
-#~ msgid "Add ->"
-#~ msgstr "Lägg till ->"
-
-#~ msgid "Add all ->"
-#~ msgstr "Lägg till alla ->"
 
 #~ msgid ""
 #~ "Thank you for using Gnumeric!\n"
