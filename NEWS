@@ -22,6 +22,7 @@ Jody:
 Morten:
 	* Back-port DATE2UNIX fix.
 	* Back-port abs/fabs fix.
+	* Back-port regression cleanup.
 
 Gregory Margo:
 	* Improve resize behavior for formula guru.

@@ -1,11 +1,17 @@
+2002-02-19  Morten Welinder  <terra@diku.dk>
+
+	* src/regression.c (general_linear_regression): back-port cleanup
+	from unstable branch.
+
 2002-02-19  Jody Goldberg <jody@gnome.org>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=69362
 	* src/auto-correct.c (autocorrect_tool) : only upper case things if
 	  they are at the start of a word.
 
 2002-02-19  Jody Goldberg <jody@gnome.org>
-	From C. Scott Ananian <cananian@lesser-magoo.lcs.mit.edu>
 
+	From C. Scott Ananian <cananian@lesser-magoo.lcs.mit.edu>
 	* src/xml-io.c (xml_read_attributes) : fix import of WorkbookView
 	  attributes.
 
@@ -24,7 +30,7 @@
 	http://bugzilla.gnome.org/show_bug.cgi?id=69328
 	* src/expr-name.c (expr_name_remove) : If nothing is using the name
 	  then the unlink unrefs it and it was deleted before we could clear
-	  it.  Add a ref wrapper to ensurethat we can clear things.
+	  it.  Add a ref wrapper to ensure that we can clear things.
 
 2002-02-10  Jody Goldberg <jody@gnome.org>
 
