@@ -65,7 +65,7 @@ void       gnumeric_sheet_get_cell_bounds        (GnumericSheet *gsheet,
 						  int col, int row,
 						  int *x, int *y, int *w, int *h);
 void       gnumeric_sheet_create_editing_cursor  (GnumericSheet *gsheet);
-void       gnumeric_sheet_destroy_editing_cursor (GnumericSheet *gsheet);
+void       gnumeric_sheet_stop_editing           (GnumericSheet *gsheet);
 
 /* Managing the selection of cell ranges when editing a formula */
 
@@ -79,7 +79,6 @@ void       gnumeric_sheet_selection_cursor_base  (GnumericSheet *gsheet,
 						  int col, int row);
 void       gnumeric_sheet_selection_extend       (GnumericSheet *gsheet,
 						  int col, int row);
-void       gnumeric_sheet_stop_editing           (GnumericSheet *sheet);
 
 typedef struct {
 	GnomeCanvasClass parent_class;

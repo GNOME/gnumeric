@@ -16,205 +16,17 @@
 #include "application.h"
 #include "value.h"
 #include "ranges.h"
+#include "sheet.h"
+#include "workbook.h"
 #include "gnumeric-util.h"
 
-#define CURSOR_LEN 4
 static GnomeCanvasItem *item_edit_parent_class;
 
 /* The arguments we take */
 enum {
 	ARG_0,
-	ARG_SHEET,		/* The Sheet * argument */
 	ARG_ITEM_GRID,		/* The ItemGrid * argument */
-	ARG_GTK_ENTRY,		/* The GtkEntry * argument */
-	ARG_COL,		/* The column where this should edit */
-	ARG_ROW,		/* The row where this should edit */
 };
-
-/*
- * Returns the cordinates for the editor bounding box
- */
-static void
-item_edit_get_pixel_coords (ItemEdit *item_edit, int *x, int *y, int *w, int *h)
-{
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_edit);
-	GnumericSheet   *gsheet = GNUMERIC_SHEET (item->canvas);
-	Sheet *sheet = item_edit->sheet;
-
-	*x = gsheet->col_offset.first +
-	    sheet_col_get_distance_pixels (sheet, gsheet->col.first, item_edit->col);
-	*y = gsheet->row_offset.first +
-	    sheet_row_get_distance_pixels (sheet, gsheet->row.first, item_edit->row);
-
-	*w = sheet_col_get_distance_pixels (sheet, item_edit->col,
-				     item_edit->col + item_edit->col_span);
-	*h = sheet_row_get_distance_pixels (sheet, item_edit->row,
-				     item_edit->row + item_edit->row_span);
-}
-
-static void
-item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
-		int x, int y, int width, int height)
-{
-	GtkWidget *canvas = GTK_WIDGET (item->canvas);
-	ItemEdit *item_edit = ITEM_EDIT (item);
-	StyleFont *style_font;
-	GdkFont  *font;
-	ColRowInfo *ci;
-	int xd, yd, wd, hd, dx, dy;
-	char *text;
-	int  cursor_pos, text_len, first_part_len, total_len;
-	double const res = MIN(application_display_dpi_get (FALSE),
-			       application_display_dpi_get (TRUE)) / 72.;
-
-	style_font = mstyle_get_font (item_edit->mstyle,
-				      item_edit->sheet->last_zoom_factor_used * res);
-
-	font = style_font_gdk_font (style_font);
-	
-	text = gtk_entry_get_text (GTK_ENTRY (item_edit->editor));
-	text_len = strlen (text);
-	cursor_pos = GTK_EDITABLE (item_edit->editor)->current_pos;
-
-	total_len = gdk_text_width (font, text, text_len);
-
-	ci = sheet_col_get_info (item_edit->sheet, item_edit->col);
-	total_len += ci->margin_a + ci->margin_b + CURSOR_LEN;
-	
-	/* Adjust the col_span if necesary */
-	do {
-		item_edit_get_pixel_coords (item_edit, &xd, &yd, &wd, &hd);
-		
-		/* FIXME : This is a temporary fix.
-		 * We need a multi line editor for this case and others.
-		 */
-		if (item_edit->col + item_edit->col_span >= SHEET_MAX_COLS)
-			break;
-		if (total_len >= wd)
-			item_edit->col_span++;
-	} while (total_len >= wd);
-
-	dx = xd - x;
-	dy = yd - y;
-
-	/* Do the drawing */
-	gdk_draw_rectangle (drawable, canvas->style->white_gc, TRUE,
-			    dx + 1, dy + 1, wd - 1, hd - 1);
-
-	/* The margin, plus the pixel consumed by the border */
-	dx += ci->margin_a + 1;
-
-	first_part_len = gdk_text_width (font, text, cursor_pos);
-
-	/*
-	 * FIXME:
-	 * The -1 from "font->descent - 1" should actually be
-	 * cell->row->margin_b
-	 */
-
-	gdk_draw_text (drawable, font, canvas->style->black_gc,
-		       dx, dy + hd - font->descent, text, cursor_pos);
-	gdk_draw_line (drawable, canvas->style->black_gc,
-		       first_part_len + dx,
-		       dy + hd - font->descent,
-		       first_part_len + dx,
-		       dy + hd - (font->ascent + font->descent));
-	gdk_draw_text (drawable, font, canvas->style->black_gc,
-		       dx + first_part_len,
-		       dy + hd - font->descent,
-		       text + cursor_pos, text_len - cursor_pos);
-	style_font_unref (style_font);
-}
-
-static double
-item_edit_point (GnomeCanvasItem *item, double c_x, double c_y, int cx, int cy,
-		   GnomeCanvasItem **actual_item)
-{
-	int x, y, w, h;
-	
-	item_edit_get_pixel_coords (ITEM_EDIT (item), &x, &y, &w, &h);
-
-	*actual_item = NULL;
-	if ((cx < x) || (cy < y) || (cx > x+w) || (cy > y+w))
-		return 10000.0;
-	
-	*actual_item = item;
-	return 0.0;
-}
-
-static void
-item_edit_translate (GnomeCanvasItem *item, double dx, double dy)
-{
-	printf ("item_cursor_translate %g, %g\n", dx, dy);
-}
-
-static int
-item_edit_event (GnomeCanvasItem *item, GdkEvent *event)
-{
-	return 0;
-}
-
-static void
-item_edit_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
-{
-	ItemEdit *item_edit = ITEM_EDIT (item);
-	int x, y, w, h;
-
-	if (GNOME_CANVAS_ITEM_CLASS (item_edit_parent_class)->update)
-		(*GNOME_CANVAS_ITEM_CLASS(item_edit_parent_class)->update)(item, affine, clip_path, flags);
-	
-	item_edit_get_pixel_coords (item_edit, &x, &y, &w, &h);
-	item->x1 = x;
-	item->y1 = y;
-	item->x2 = x + w;
-	item->y2 = y + h;
-
-	gnome_canvas_group_child_bounds (
-		GNOME_CANVAS_GROUP (item->parent), item);
-
-	if (item_edit->mstyle)
-		mstyle_unref (item_edit->mstyle);
-	item_edit->mstyle = sheet_style_compute (item_edit->sheet,
-						 item_edit->col, item_edit->row);
-}
-
-/*
- * Instance initialization
- */
-static void
-item_edit_init (ItemEdit *item_edit)
-{
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_edit);
-
-	item->x1 = 0;
-	item->y1 = 0;
-	item->x2 = 1;
-	item->y2 = 1;
-
-	item_edit->col_span = 1;
-	item_edit->row_span = 1;
-
-	/*
-	 * Set invalid values so that we know when we have
-	 * been fully initialized
-	 */
-	item_edit->sheet = 0;
-	item_edit->col = -1;
-	item_edit->row = -1;
-
-	item_edit->mstyle = NULL;
-}
-
-static void
-queue_sync (ItemEdit *item_edit)
-{
-	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_edit)->canvas;
-	int x, y, w, h;
-
-	item_edit_get_pixel_coords (item_edit, &x, &y, &w, &h);
-	
-	gnome_canvas_request_redraw (canvas, x, y, x+w, y+h);
-}
 
 static void
 scan_at (const char *text, int *scan)
@@ -225,7 +37,7 @@ scan_at (const char *text, int *scan)
 
 		if (!(c == ':' || c == '$' || isalnum ((unsigned char)*p)))
 			break;
-		
+
 		(*scan)--;
 	}
 }
@@ -237,7 +49,7 @@ setup_range_from_value (Range *range, Value *v)
 		value_release (v);
 		return FALSE;
 	}
-	
+
 	range->start.col = v->v.cell_range.cell_a.col;
 	range->start.row = v->v.cell_range.cell_a.row;
 	range->end.col   = v->v.cell_range.cell_b.col;
@@ -253,23 +65,23 @@ setup_range_from_value (Range *range, Value *v)
  * nor will it detect whether something is part of an expression or a
  * string .
  *
- * It also flops completely to understand 
+ * It also flops completely to understand
  */
 static gboolean
-point_is_inside_range (ItemEdit *item_edit, GtkEntry *entry, Range *range)
+point_is_inside_range (ItemEdit *item_edit, Range *range)
 {
 	int text_len, cursor_pos, scan;
 	Value *v;
 	char *text;
-	
-	text = gtk_entry_get_text (GTK_ENTRY (item_edit->editor));
+
+	text = gtk_entry_get_text (GTK_ENTRY (item_edit->entry));
 
 	if (!gnumeric_char_start_expr_p (text [0]))
 		return FALSE;
 
 	text++;
 	text_len = strlen (text);
-	cursor_pos = GTK_EDITABLE (item_edit->editor)->current_pos;
+	cursor_pos = GTK_EDITABLE (item_edit->entry)->current_pos;
 	if (cursor_pos == 0)
 		return FALSE;
 	cursor_pos--;
@@ -322,11 +134,11 @@ entry_destroy_feedback_range (ItemEdit *item_edit)
 }
 
 static void
-scan_for_range (ItemEdit *item_edit, GtkEntry *entry)
+scan_for_range (ItemEdit *item_edit)
 {
 	Range range;
-	
-	if (point_is_inside_range (item_edit, entry, &range)){
+
+	if (point_is_inside_range (item_edit, &range)){
 		if (!item_edit->feedback_disabled)
 			entry_create_feedback_range (item_edit, &range);
 	} else
@@ -334,43 +146,287 @@ scan_for_range (ItemEdit *item_edit, GtkEntry *entry)
 }
 
 static void
+item_edit_draw_text (GdkDrawable *drawable, GdkFont *font, GdkGC *gc,
+		     gint x, gint y, const gchar *text, gint text_length,
+		     int const cursor_pos)
+{
+	/* If this segment contains the cursor draw it */
+	if (0 <= cursor_pos && cursor_pos <= text_length) {
+		if (cursor_pos > 0) {
+			gdk_draw_text (drawable, font, gc, x, y, text, cursor_pos);
+			x += gdk_text_width (font, text, cursor_pos);
+			text += cursor_pos;
+			text_length -= cursor_pos;
+		}
+		gdk_draw_line (drawable, gc,
+			       x, y-font->ascent,
+			       x, y+font->descent);
+	}
+
+	if (text_length > 0)
+		gdk_draw_text (drawable, font, gc, x, y, text, text_length);
+}
+
+static void
+item_edit_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
+		int x, int y, int width, int height)
+{
+	GtkWidget *canvas   = GTK_WIDGET (item->canvas);
+	ItemEdit *item_edit = ITEM_EDIT (item);
+	ColRowInfo const * const ci =
+		sheet_col_get_info (item_edit->sheet, item_edit->col);
+	int const left_pos = ((int)item->x1) + 1 + ci->margin_a - x;
+	int top_pos = ((int)item->y1) + 1 - y;
+	int text_offset = 0;
+	int cursor_pos = item_edit->cursor_visible
+		? GTK_EDITABLE (item_edit->entry)->current_pos : -1;
+	GSList *ptr;
+
+	char const * const text = gtk_entry_get_text (GTK_ENTRY (item_edit->entry));
+
+	/* no drawing until the font is set */
+	if (item_edit->font == NULL)
+		return;
+	top_pos += item_edit->font->ascent;
+
+	/* Draw the background (recall that gd_draw_rectangle excludes far coords) */
+	gdk_draw_rectangle (drawable, canvas->style->white_gc, TRUE,
+			    ((int)item->x1)-x, ((int)item->y1)-y,
+			    (int)(item->x2-item->x1),
+			    (int)(item->y2-item->y1));
+
+	for (ptr = item_edit->text_offsets ; ptr != NULL ; ptr = ptr->next) {
+		int const text_end = GPOINTER_TO_INT(ptr->data);
+		item_edit_draw_text (drawable, item_edit->font, canvas->style->black_gc,
+				     left_pos, top_pos, text+text_offset, text_end-text_offset,
+				     cursor_pos-text_offset);
+		text_offset = text_end;
+		top_pos += item_edit->font_height;
+	}
+
+	/* draw the remainder */
+	item_edit_draw_text (drawable, item_edit->font, canvas->style->black_gc,
+			     left_pos, top_pos, text+text_offset,
+			     strlen (text+text_offset),
+			     cursor_pos-text_offset);
+}
+
+static double
+item_edit_point (GnomeCanvasItem *item, double c_x, double c_y, int cx, int cy,
+		 GnomeCanvasItem **actual_item)
+{
+	*actual_item = NULL;
+	if ((cx < item->x1) || (cy < item->y1) || (cx >= item->x2) || (cy >= item->y2))
+		return 10000.0;
+
+	*actual_item = item;
+	return 0.0;
+}
+
+static void
+item_edit_translate (GnomeCanvasItem *item, double dx, double dy)
+{
+	g_warning ("item_cursor_translate %g, %g\n", dx, dy);
+}
+
+static int
+item_edit_event (GnomeCanvasItem *item, GdkEvent *event)
+{
+	/* FIXME : Should we handle mouse events here ? */
+	return 0;
+}
+
+static void
+recalc_spans (GnomeCanvasItem *item)
+{
+	ItemEdit *item_edit = ITEM_EDIT (item);
+	Sheet    *sheet     = item_edit->sheet;
+	GdkFont  *font      = item_edit->font;
+	char const * const start = gtk_entry_get_text (GTK_ENTRY (item_edit->entry));
+	char const * text = start;
+
+	GSList	*text_offsets = NULL;
+
+	/* Adjust the spans */
+	GnumericSheet *gsheet = GNUMERIC_SHEET (item->canvas);
+	int cur_line = 1;
+	int cur_col = item_edit->col, max_col = cur_col;
+	ColRowInfo const * cri =
+		sheet_col_get_info (item_edit->sheet, cur_col);
+
+	/* Start after the grid line and the left margin */
+	int left_in_col = cri->size_pixels - cri->margin_a - 1;
+	int ignore_rows = 0;
+
+	/* the entire string */
+	while (*text) {
+		int pos_size = gdk_text_width (font, text++, 1);
+
+		/* Be wary of large fonts and small columns */
+		while (left_in_col < pos_size) {
+			do {
+				++cur_col;
+				if (cur_col > gsheet->col.last_full || cur_col >= SHEET_MAX_COLS) {
+					int offset = text - start - 1;
+					if (offset < 0)
+						offset = 0;
+
+					cur_line++;
+					cur_col = item_edit->col;
+					text_offsets = g_slist_prepend (text_offsets,
+									GINT_TO_POINTER(offset));
+					if (item->y1 + cur_line * item_edit->font_height >
+					    gsheet->row_offset.last_visible)
+						ignore_rows++;
+				} else if (max_col < cur_col)
+					max_col = cur_col;
+
+				cri = sheet_col_get_info (item_edit->sheet, cur_col);
+				g_return_if_fail (cri != NULL);
+
+				/* Be careful not to allow for the potential
+				 * of an infinite loop if we somehow start on an
+				 * invisible column
+				 */
+			} while (!cri->visible && cur_col != item_edit->col);
+
+			if (cur_col == item_edit->col)
+				left_in_col = cri->size_pixels - cri->margin_a - 1;
+			else
+				left_in_col += cri->size_pixels;
+		}
+		left_in_col -= pos_size;
+	}
+	item_edit->col_span = 1 + max_col - item_edit->col;
+	item_edit->lines = cur_line;
+
+	if (item_edit->text_offsets != NULL)
+		g_slist_free (item_edit->text_offsets);
+	item_edit->text_offsets = g_slist_reverse (text_offsets);
+
+	cri = sheet_row_get_info (item_edit->sheet, item_edit->row);
+
+	/* The lower right is based on the span size excluding the grid lines
+	 * Recall that the bound excludes the far point
+	 */
+	item->x2 = 1 + item->x1 - 2 +
+		sheet_col_get_distance_pixels (sheet, item_edit->col,
+					       item_edit->col + item_edit->col_span);
+	item->y2 = 1 + item->y1 +
+		MAX (item_edit->lines * item_edit->font_height, cri->size_pixels - 2);
+
+	gnome_canvas_group_child_bounds (GNOME_CANVAS_GROUP (item->parent), item);
+
+	scan_for_range (item_edit);
+}
+
+static void
+item_edit_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int flags)
+{
+	ItemEdit *item_edit = ITEM_EDIT (item);
+
+	if (GNOME_CANVAS_ITEM_CLASS (item_edit_parent_class)->update)
+		(*GNOME_CANVAS_ITEM_CLASS(item_edit_parent_class)->update)(item, affine, clip_path, flags);
+
+	/* do not calculate spans until after row/col has been set */
+	if (item_edit->font != NULL) {
+		/* Redraw before and after in case the span changes */
+		gnome_canvas_request_redraw (GNOME_CANVAS_ITEM (item_edit)->canvas,
+					     item->x1, item->y1, item->x2, item->y2);
+		recalc_spans (item);
+		/* Redraw before and after in case the span changes */
+		gnome_canvas_request_redraw (GNOME_CANVAS_ITEM (item_edit)->canvas,
+					     item->x1, item->y1, item->x2, item->y2);
+	}
+}
+
+static int
+cb_item_edit_cursor_blink (ItemEdit *item_edit)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_edit);
+
+	item_edit->cursor_visible = !item_edit->cursor_visible;
+	/* Request redraw directly.  Should I be using notify ? */
+	gnome_canvas_request_redraw (GNOME_CANVAS_ITEM (item_edit)->canvas,
+				     item->x1, item->y1, item->x2, item->y2);
+	return TRUE;
+}
+
+static void
+item_edit_cursor_blink_stop (ItemEdit *item_edit)
+{
+	if (item_edit->blink_timer == -1)
+		return;
+
+	gtk_timeout_remove (item_edit->blink_timer);
+	item_edit->blink_timer = -1;
+}
+
+static void
+item_edit_cursor_blink_start (ItemEdit *item_edit)
+{
+	item_edit->blink_timer = gtk_timeout_add (
+		500, (GtkFunction)(cb_item_edit_cursor_blink),
+		item_edit);
+}
+
+/*
+ * Instance initialization
+ */
+static void
+item_edit_init (ItemEdit *item_edit)
+{
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_edit);
+
+	item->x1 = 0;
+	item->y1 = 0;
+	item->x2 = 1;
+	item->y2 = 1;
+
+	item_edit->col_span = 1;
+	item_edit->lines = 1;
+	item_edit->sheet = NULL;
+	item_edit->col = -1;
+	item_edit->row = -1;
+	item_edit->font = NULL;
+	item_edit->font_height = 1;
+	item_edit->cursor_visible = TRUE;
+	item_edit->feedback_disabled = FALSE;
+}
+
+static void
 entry_changed (GtkEntry *entry, void *data)
 {
-	ItemEdit *item_edit = ITEM_EDIT (data);
-	
-	queue_sync (item_edit);
-	scan_for_range (item_edit, entry);
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (data);
+	gnome_canvas_item_request_update (item);
 }
 
 static void
 item_edit_destroy (GtkObject *o)
 {
 	ItemEdit *item_edit = ITEM_EDIT (o);
-	int x, y, w, h;
 
+	if (item_edit->text_offsets != NULL)
+		g_slist_free (item_edit->text_offsets);
+
+	item_edit_cursor_blink_stop (item_edit);
 	entry_destroy_feedback_range (item_edit);
-	
-	/* Repaint the area where we had edited */
-	mstyle_unref (item_edit->mstyle);
-	item_edit_get_pixel_coords (item_edit, &x, &y, &w, &h);
-	gnome_canvas_request_redraw (GNOME_CANVAS_ITEM (item_edit)->canvas, x, y, x+w, y+h);
-	
-	gtk_signal_disconnect (GTK_OBJECT (item_edit->editor), item_edit->signal);
-	gtk_signal_disconnect (GTK_OBJECT (item_edit->editor), item_edit->signal2);
-	
+
+	gtk_signal_disconnect (GTK_OBJECT (item_edit->entry), item_edit->signal);
+	gtk_signal_disconnect (GTK_OBJECT (item_edit->entry), item_edit->signal2);
+
 	if (GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_edit_parent_class)->destroy)(o);
 }
 
 static int
-entry_event (GtkEntry *entry, GdkEvent *event, ItemEdit *item_edit)
+entry_event (GtkEntry *entry, GdkEvent *event, GnomeCanvasItem *item)
 {
 	switch (event->type) {
 	case GDK_KEY_PRESS:
 	case GDK_KEY_RELEASE:
 	case GDK_BUTTON_PRESS:
-		queue_sync (item_edit);
-		scan_for_range (item_edit, entry);
+		gnome_canvas_item_request_update (item);
 
 	default:
 		break;
@@ -379,47 +435,53 @@ entry_event (GtkEntry *entry, GdkEvent *event, ItemEdit *item_edit)
 }
 
 static void
-item_edit_set_editor (ItemEdit *item_edit, void *data)
-{
-	item_edit->editor = GTK_WIDGET (data);
-	item_edit->signal = gtk_signal_connect (
-		GTK_OBJECT (item_edit->editor), "changed",
-		GTK_SIGNAL_FUNC (entry_changed), item_edit);
-	item_edit->signal2 = gtk_signal_connect_after (
-		GTK_OBJECT (item_edit->editor), "event",
-		GTK_SIGNAL_FUNC (entry_event), item_edit);
-}
-		      
-static void
 item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
-	GnomeCanvasItem *item;
-	ItemEdit *item_edit;
+	GnomeCanvasItem *item      = GNOME_CANVAS_ITEM (o);
+	ItemEdit        *item_edit = ITEM_EDIT (o);
+	GnumericSheet   *gsheet    = GNUMERIC_SHEET (item->canvas);
+	Sheet		*sheet;
 
-	item = GNOME_CANVAS_ITEM (o);
-	item_edit = ITEM_EDIT (o);
+	/* We can only set the item_grid once */
+	g_return_if_fail (arg_id == ARG_ITEM_GRID);
+	g_return_if_fail (item_edit->item_grid == NULL);
 
-	switch (arg_id){
-	case ARG_SHEET:
-		item_edit->sheet = (Sheet *) GTK_VALUE_POINTER (*arg);
-		break;
-	case ARG_ITEM_GRID:
-		item_edit->item_grid = GTK_VALUE_POINTER (*arg);
-		break;
-	case ARG_GTK_ENTRY:
-		item_edit_set_editor (item_edit, GTK_VALUE_POINTER (*arg));
-		break;
-	case ARG_COL:
-		item_edit->col = GTK_VALUE_INT (*arg);
-		break;
-	case ARG_ROW:
-		item_edit->row = GTK_VALUE_INT (*arg);
-		break;
+	item_edit->item_grid = GTK_VALUE_POINTER (*arg);
+	sheet = item_edit->sheet = item_edit->item_grid->sheet_view->sheet;
+	item_edit->col = sheet->cursor.edit_pos.col;
+	item_edit->row = sheet->cursor.edit_pos.row;
+	item_edit->entry = sheet->workbook->ea_input;
+	item_edit->signal = gtk_signal_connect (
+		GTK_OBJECT (item_edit->entry), "changed",
+		GTK_SIGNAL_FUNC (entry_changed), item_edit);
+	item_edit->signal2 = gtk_signal_connect_after (
+		GTK_OBJECT (item_edit->entry), "event",
+		GTK_SIGNAL_FUNC (entry_event), item_edit);
+
+	/* set the font and the upper left corner if this is the first pass */
+	if (item_edit->font == NULL) {
+		MStyle *mstyle = sheet_style_compute (sheet,
+						      item_edit->col, item_edit->row);
+		StyleFont *sf = sheet_view_get_style_font (item_edit->sheet, mstyle);
+
+		item_edit->font = style_font_gdk_font (sf);
+		item_edit->font_height = style_font_get_height (sf);
+		style_font_unref (sf);
+		mstyle_unref (mstyle);
+
+		/* move inwards 1 pixel for the grid line */
+		item->x1 = 1 + gsheet->col_offset.first +
+			sheet_col_get_distance_pixels (sheet, gsheet->col.first, item_edit->col);
+		item->y1 = 1 + gsheet->row_offset.first +
+			sheet_row_get_distance_pixels (sheet, gsheet->row.first, item_edit->row);
+
+		item->x2 = item->x1 + 1;
+		item->y2 = item->y2 + 1;
 	}
 
-	/* Once all of our parameters have been set, do the reconfiguration */
-	if (item_edit->sheet && item_edit->col != -1 && item_edit->row != -1)
-		item_edit_update (item, NULL, NULL, 0);
+	item_edit_cursor_blink_start (item_edit);
+
+	gnome_canvas_item_request_update (item);
 }
 
 /*
@@ -432,29 +494,21 @@ item_edit_class_init (ItemEditClass *item_edit_class)
 	GnomeCanvasItemClass *item_class;
 
 	item_edit_parent_class = gtk_type_class (gnome_canvas_item_get_type ());
-	
+
 	object_class = (GtkObjectClass *) item_edit_class;
 	item_class = (GnomeCanvasItemClass *) item_edit_class;
 
-	gtk_object_add_arg_type ("ItemEdit::Sheet", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_SHEET);
 	gtk_object_add_arg_type ("ItemEdit::Grid", GTK_TYPE_POINTER,
 				 GTK_ARG_WRITABLE, ARG_ITEM_GRID);
-	gtk_object_add_arg_type ("ItemEdit::GtkEntry", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_GTK_ENTRY);
-	gtk_object_add_arg_type ("ItemEdit::Col", GTK_TYPE_INT,
-				 GTK_ARG_WRITABLE, ARG_COL);
-	gtk_object_add_arg_type ("ItemEdit::Row", GTK_TYPE_INT,
-				 GTK_ARG_WRITABLE, ARG_ROW);
-	
+
 	object_class->set_arg = item_edit_set_arg;
 	object_class->destroy = item_edit_destroy;
-	
+
 	/* GnomeCanvasItem method overrides */
 	item_class->update      = item_edit_update;
 	item_class->draw        = item_edit_draw;
 	item_class->point       = item_edit_point;
-	item_class->translate   = item_edit_translate;
+	item_class->translate   = item_edit_translate; /* deprecated in canvas */
 	item_class->event       = item_edit_event;
 }
 

@@ -17,6 +17,7 @@
 #include "selection.h"
 #include "workbook-cmd-format.h"
 #include "application.h"
+#include "style.h"
 
 /* Marshal forward declarations */
 static void   item_bar_marshal      (GtkObject *,

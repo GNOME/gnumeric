@@ -348,47 +348,15 @@ gnumeric_sheet_create_editing_cursor (GnumericSheet *gsheet)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 	GnomeCanvasItem *item;
-	Sheet *sheet;
-	int col, row;
 
-	sheet = gsheet->sheet_view->sheet;
-	col = sheet->cursor.edit_pos.col;
-	row = sheet->cursor.edit_pos.row;
+	g_return_if_fail (gsheet->item_editor == NULL);
 
 	item = gnome_canvas_item_new (GNOME_CANVAS_GROUP (canvas->root),
 				      item_edit_get_type (),
-				      "ItemEdit::Sheet",    sheet,
 				      "ItemEdit::Grid",     gsheet->item_grid,
-				      "ItemEdit::Col",      col,
-				      "ItemEdit::Row",      row,
-				      "ItemEdit::GtkEntry", sheet->workbook->ea_input,
 				      NULL);
 
 	gsheet->item_editor = ITEM_EDIT (item);
-}
-
-static void
-destroy_item_editor (GnumericSheet *gsheet)
-{
-	g_return_if_fail (gsheet->item_editor);
-
-	gtk_object_destroy (GTK_OBJECT (gsheet->item_editor));
-
-	gsheet->item_editor = NULL;
-}
-
-void
-gnumeric_sheet_destroy_editing_cursor (GnumericSheet *gsheet)
-{
-	g_return_if_fail (gsheet != NULL);
-	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
-
-	gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
-
-	if (!gsheet->item_editor)
-		return;
-
-	destroy_item_editor (gsheet);
 }
 
 void
@@ -397,10 +365,12 @@ gnumeric_sheet_stop_editing (GnumericSheet *gsheet)
 	g_return_if_fail (gsheet != NULL);
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
-	if (!gsheet->item_editor)
-		return;
+	gnumeric_sheet_stop_cell_selection (gsheet, FALSE);
 
-	destroy_item_editor (gsheet);
+	if (gsheet->item_editor != NULL) {
+		gtk_object_destroy (GTK_OBJECT (gsheet->item_editor));
+		gsheet->item_editor = NULL;
+	}
 }
 
 /*

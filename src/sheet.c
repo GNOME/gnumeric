@@ -275,6 +275,13 @@ colrow_compute_pts_from_pixels (Sheet *sheet, ColRowInfo *info, gboolean const h
 	info->size_pts = info->size_pixels / scale;
 }
 
+static void
+cb_cell_recalc_dimension (gpointer key, gpointer value, gpointer data)
+{
+	Cell *cell = (Cell *) value;
+	cell_calc_dimensions (cell, FALSE);
+}
+
 void
 sheet_set_zoom_factor (Sheet *sheet, double const f)
 {
@@ -312,10 +319,11 @@ sheet_set_zoom_factor (Sheet *sheet, double const f)
 	}
 
 	/*
-	 * FIXME: this slugs zoom performance and should not
-	 * be neccessary if we get rendering right IMHO.
+	 * The font size does not scale linearly with the zoom factor
+	 * we will need to recalculate the pixel sizes of all cells.
 	 */
-	sheet_cells_update (sheet, sheet_get_full_range (), FALSE);
+	g_hash_table_foreach (sheet->cell_hash,
+			      cb_cell_recalc_dimension, NULL);
 }
 
 ColRowInfo *
@@ -1514,7 +1522,7 @@ sheet_cell_add (Sheet *sheet, Cell *cell, int col, int row)
 	cell->row   = sheet_row_fetch (sheet, row);
 
 	cell_realize (cell);
-	cell_calc_dimensions  (cell);
+	cell_calc_dimensions  (cell, TRUE);
 
 	sheet_cell_add_to_hash (sheet, cell);
 
@@ -3528,13 +3536,13 @@ sheet_create_edit_cursor (Sheet *sheet)
 	}
 }
 void
-sheet_destroy_edit_cursor (Sheet *sheet)
+sheet_stop_editing (Sheet *sheet)
 {
 	GList *l;
 	for (l = sheet->sheet_views; l; l = l->next){
 		GnumericSheet *gsheet = GNUMERIC_SHEET_VIEW (l->data);
 
-		gnumeric_sheet_destroy_editing_cursor (gsheet);
+		gnumeric_sheet_stop_editing (gsheet);
 	}
 }
 

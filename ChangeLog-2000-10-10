@@ -1,3 +1,45 @@
+2000-03-31  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c : Switch over to useing GNOMEUIINFO_ITEM_ where
+	  possible.
+	(cb_editline_focus_in) : Do not start editing if we are already
+	  editing.
+
+	* src/utils.c (parse_cell_name) : constness.
+
+	* src/style.c (style_font_gdk_font) : constness.
+	(style_font_gdk_font) : ditto.
+	(style_font_gnome_font) : ditto.
+	(style_font_get_height) : ditto.
+
+	* src/sheet.c (sheet_set_zoom_factor) : redimension all cells, rather
+	  than the sparse sheet region.  Do not auto-resize.
+	(sheet_cell_add) :  Adjust to new calling convention for
+	  cell_calc_dimensions.
+	(sheet_stop_editing) : Rename from sheet_destroy_edit_cursor.
+
+	* src/sheet-view.c (sheet_view_get_style_font) : constness.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_create_editing_cursor) :
+	  No need to set all those arguments.
+	(destroy_item_editor) : Merge into gnumeric_sheet_stop_editing.
+	(gnumeric_sheet_stop_editing) : Renamed from
+	  gnumeric_sheet_destroy_editing_cursor.
+
+	* src/cell.[ch] (cell_set_rendered_text) : Adjust to new calling
+	  convention for cell_calc_dimensions.
+	(cell_calc_dimensions) : Adjust calling convetion to make auto
+	  resizing optional.
+	(calc_text_dimensions) : Adjust calling convention to directly set size.
+
+	* src/sheet-style.c (re_dimension_cells_cb) :  Adjust to new calling
+	  convention for cell_calc_dimensions.
+
+	* src/item-edit.c : Major rework to behave better at margins, 
+	  correctly handle cells whose display contents span differently than
+	  their displayed values, multi-line display mechanics, and a blinking
+	  cursor :-)
+
 2000-03-31  JP Rosevear  <jpr@arcavia.com>
 
 	* src/xml-io.c (xml_read_attribute): Allow per type reading of
@@ -46,7 +88,6 @@
 	* gnumeric.spec.in (Requires): Updated the requirements for
 	Gnumeric here.
 
->>>>>>> 1.123
 2000-03-26  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/dialogs/Makefile.am (glade_msgs): Added a new missing file.
@@ -141,7 +182,6 @@
 
 	* src/dialogs/workbook-attr.glade: Deflickerize + set initial focus.
 
->>>>>>> 1.117
 2000-03-25  Jody Goldberg <jgoldberg@home.com>
 
 	* src/print.c (print_page) : Call setup_rotation unconditionally it

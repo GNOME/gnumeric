@@ -149,9 +149,9 @@ col_from_name (const char *cell_str)
 gboolean
 parse_cell_name (const char *cell_str, int *col, int *row, gboolean strict, int *chars_read)
 {
+	char const * const original = cell_str;
 	unsigned char c;
 	gboolean found_digits = FALSE;
-	char *original = cell_str;
 	
 	if (*cell_str == '$')
 		cell_str++;

@@ -333,7 +333,7 @@ void        sheet_set_mode_type           (Sheet *sheet, SheetModeType type);
 void        sheet_show_cursor                (Sheet *sheet);
 void        sheet_hide_cursor                (Sheet *sheet);
 void        sheet_create_edit_cursor         (Sheet *sheet);
-void        sheet_destroy_edit_cursor        (Sheet *sheet);
+void        sheet_stop_editing               (Sheet *sheet);
 void        sheet_destroy_cell_select_cursor (Sheet *sheet);
 
 char        *cellref_name                 (CellRef *cell_ref,

@@ -97,9 +97,9 @@ StyleFont     *style_font_new_from    (StyleFont *sf, double scale);
 StyleFont     *style_font_new_simple  (const char *font_name,
 				       double size, double scale,
 				       gboolean bold, gboolean italic);
-GdkFont       *style_font_gdk_font    (StyleFont *sf);
-GnomeFont     *style_font_gnome_font  (StyleFont *sf);
-int            style_font_get_height  (StyleFont *sf);
+GdkFont       *style_font_gdk_font    (StyleFont const * const sf);
+GnomeFont     *style_font_gnome_font  (StyleFont const * const sf);
+int            style_font_get_height  (StyleFont const * const sf);
 void           style_font_ref         (StyleFont *sf);
 void           style_font_unref       (StyleFont *sf);
 

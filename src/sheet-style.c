@@ -765,7 +765,7 @@ re_dimension_cells_cb (Sheet *sheet, int col, int row, Cell *cell,
 	if (GPOINTER_TO_INT (re_render))
 		cell_render_value (cell);
 
-	cell_calc_dimensions (cell);
+	cell_calc_dimensions (cell, TRUE);
 
 	return NULL;
 }

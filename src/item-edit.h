@@ -1,8 +1,7 @@
 #ifndef GNUMERIC_ITEM_EDIT_H
 #define GNUMERIC_ITEM_EDIT_H
 
-#include "sheet.h"
-#include "style.h"
+#include "gnumeric.h"
 #include "item-grid.h"
 
 #define ITEM_EDIT(obj)          (GTK_CHECK_CAST((obj), item_edit_get_type (), ItemEdit))
@@ -12,8 +11,8 @@
 typedef struct {
 	GnomeCanvasItem canvas_item;
 
-	/* The editor which status we reflect on the spreadsheet */
-	GtkWidget  *editor;
+	/* The entry whose status we reflect on the spreadsheet */
+	GtkWidget  *entry;
 	guint      signal;	/* the signal we connect */
 	guint      signal2;	/* the other signal we connect */
 
@@ -21,10 +20,13 @@ typedef struct {
 	Sheet      *sheet;
 
 	/* Where are we */
-	int        col, row, col_span, row_span;
-	int        pixel_span;
+	int         col, row, col_span, lines, ignore_lines;
+	GSList	   *text_offsets;
 
-	MStyle    *mstyle;
+	GdkFont  *font;
+	int	  font_height;
+	gboolean  cursor_visible;
+	int       blink_timer;
 
 	/*
 	 * When editing, if the cursor is inside a cell name, or a

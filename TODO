@@ -66,6 +66,8 @@ Gnumeric Spread Sheet task list
 
 * Cell dimension computation is broken on font change for multi-lines.
 
+* when copying and entire row or col we should also copy the row/col size.
+
 * Number formatting
 
    The formatting code should take the current GtkFont for the cell

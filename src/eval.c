@@ -275,7 +275,7 @@ cell_eval_content (Cell *cell)
 	cell->value = v;
 	cell_render_value (cell);
 
-	cell_calc_dimensions (cell);
+	cell_calc_dimensions (cell, TRUE);
 
 	sheet_redraw_cell_region (cell->sheet,
 				  cell->col->pos, cell->row->pos,

@@ -22,6 +22,7 @@
 #include "cellspan.h"
 #include "gnumeric-util.h"
 
+/* FIXME : Move this into workbook */
 static int         redraws_frozen           = 0;
 static int         redraws_deep_frozen      = 0;
 static GHashTable *cell_hash_queue;
@@ -357,7 +358,7 @@ cell_set_rendered_text (Cell *cell, const char *rendered_text)
 	if (oldtext)
 		string_unref (oldtext);
 
-	cell_calc_dimensions (cell);
+	cell_calc_dimensions (cell, TRUE);
 }
 
 char *
@@ -1249,8 +1250,6 @@ cell_calculate_span (Cell const * const cell,
  * @cell:      The cell we are working on.
  * @style:     the style formatting constraints (font, alignments)
  * @text:      the string contents.
- * @h:         return value: the height used
- * @w:         return value: the width used.
  *
  * Computes the width and height used by the cell based on alignments
  * constraints in the style using the font specified on the style.
@@ -1259,22 +1258,21 @@ cell_calculate_span (Cell const * const cell,
  * The line splitting code is VERY similar to cell-draw.c:cell_split_text
  * please keep it that way.
  */
-static void
-calc_text_dimensions (Cell *cell, MStyle *mstyle,
-		      const char *text, int *h, int *w)
+void
+calc_text_dimensions (Cell *cell,
+		      MStyle const * const mstyle,
+		      char const * const text)
 {
-	gboolean const is_number = cell_is_number (cell);
+	StyleFont * const style_font =
+	    sheet_view_get_style_font (cell->sheet, mstyle);
+	GdkFont * const gdk_font = style_font_gdk_font (style_font);
+	int const font_height    = style_font_get_height (style_font);
+	int const text_width     = gdk_string_measure (gdk_font, text);
 	int const cell_w = COL_INTERNAL_WIDTH (cell->col);
-	StyleFont *style_font = sheet_view_get_style_font (cell->sheet, mstyle);
-	GdkFont *gdk_font = style_font->dfont->gdk_font;
-	int text_width, font_height;
 
-	text_width = gdk_string_measure (gdk_font, text);
-	font_height = style_font_get_height (style_font);
-
-	if (text_width < cell_w || is_number){
-		*w = text_width;
-		*h = font_height;
+	if (text_width < cell_w || cell_is_number (cell)) {
+		cell->width_pixel  = text_width;
+		cell->height_pixel = font_height;
 	} else if (mstyle_get_align_h (mstyle) == HALIGN_JUSTIFY ||
 		   mstyle_get_align_v (mstyle) == VALIGN_JUSTIFY ||
 		   mstyle_get_fit_in_cell (mstyle)) {
@@ -1283,9 +1281,9 @@ calc_text_dimensions (Cell *cell, MStyle *mstyle,
 		char const *last_whitespace = NULL;
 		gboolean prev_was_space = FALSE;
 		int used = 0, used_last_space = 0;
+		int h = 0;
 
-		*w = cell_w;
-		*h = 0;
+		cell->width_pixel  = cell_w;
 
 		for (line_begin = p = text; *p; p++){
 			int const len_current = gdk_text_width (gdk_font, p, 1);
@@ -1312,7 +1310,7 @@ calc_text_dimensions (Cell *cell, MStyle *mstyle,
 					used = len_current;
 				}
 
-				*h += font_height;
+				h += font_height;
 				first_whitespace = last_whitespace = NULL;
 				prev_was_space = FALSE;
 				continue;
@@ -1331,10 +1329,12 @@ calc_text_dimensions (Cell *cell, MStyle *mstyle,
 
 		/* Catch the final bit that did not wrap */
 		if (*line_begin)
-			*h += font_height;
+			h += font_height;
+
+		cell->height_pixel = h;
 	} else {
-		*w = text_width;
-		*h = font_height;
+		cell->width_pixel  = text_width;
+		cell->height_pixel = font_height;
 	}
 	style_font_unref (style_font);
 }
@@ -1342,11 +1342,12 @@ calc_text_dimensions (Cell *cell, MStyle *mstyle,
 /*
  * cell_calc_dimensions
  * @cell:  The cell
+ * @auto_resize_height : If true the reow height should be resized if needed.
  *
  * This routine updates the dimensions of the the rendered text of a cell
  */
 void
-cell_calc_dimensions (Cell *cell)
+cell_calc_dimensions (Cell *cell, gboolean const auto_resize_height)
 {
 	int  left, right;
 
@@ -1359,17 +1360,16 @@ cell_calc_dimensions (Cell *cell)
 		MStyle *mstyle = sheet_style_compute (cell->sheet,
 						      cell->col->pos,
 						      cell->row->pos);
-		int h, w;
 
-		calc_text_dimensions (cell, mstyle, rendered_text, &h, &w);
+		calc_text_dimensions (cell, mstyle, rendered_text);
 
-		cell->width_pixel  = w;
-		cell->height_pixel = h;
-
-		if (!cell->row->hard_size) {
+		if (auto_resize_height && !cell->row->hard_size) {
 			/* Text measurements do not include margins or grid line */
-			int const height_pixels =
-			    h + cell->row->margin_a + cell->row->margin_b + 1;
+			/* FIXME : This never shrinks things.  Switch to an async approach
+			 * that will flag the need to update here, and will autofit later
+			 */
+			int const height_pixels = cell->height_pixel +
+			    cell->row->margin_a + cell->row->margin_b + 1;
 			if (height_pixels > cell->row->size_pixels)
 				sheet_row_set_size_pixels (cell->sheet, cell->row->pos,
 							   height_pixels, FALSE);

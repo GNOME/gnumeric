@@ -657,7 +657,8 @@ quit_cmd (void)
 static gboolean
 cb_editline_focus_in (GtkWidget *w, GdkEventFocus *event, Workbook *wb)
 {
-	workbook_start_editing_at_cursor (wb, FALSE, TRUE);
+	if (!wb->editing)
+		workbook_start_editing_at_cursor (wb, FALSE, TRUE);
 	return TRUE;
 }
 
@@ -926,23 +927,6 @@ cb_sheet_pref_hide_row_header (GtkWidget *widget, Workbook *wb)
 	sheet_adjust_preferences (sheet);
 }
 
-/***********************************************************************/
-/* Workbook level preferences */
-
-static void
-cb_wb_pref_hide_hscroll (GtkWidget *widget, Workbook *wb)
-{
-	wb->show_horizontal_scrollbar = ! wb->show_horizontal_scrollbar;
-	workbook_view_pref_visibility (wb);
-}
-
-static void
-cb_wb_pref_hide_vscroll (GtkWidget *widget, Workbook *wb)
-{
-	wb->show_vertical_scrollbar = ! wb->show_vertical_scrollbar;
-	workbook_view_pref_visibility (wb);
-}
-
 static void
 format_cells_cmd (GtkWidget *widget, Workbook *wb)
 {
@@ -1111,7 +1095,7 @@ insert_object_cmd (GtkWidget *widget, Workbook *wb)
 
 static GnomeUIInfo workbook_menu_file [] = {
         GNOMEUIINFO_MENU_NEW_ITEM(N_("_New"), N_("Create a new spreadsheet"),
-				  new_cmd, NULL),
+				  &new_cmd, NULL),
 
 	GNOMEUIINFO_MENU_OPEN_ITEM(file_open_cmd, NULL),
 	GNOMEUIINFO_ITEM_STOCK (N_("_Import..."), N_("Imports a file"),
@@ -1188,14 +1172,17 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
+	/* Default <Ctrl-A> to be select all */
 	{ GNOME_APP_UI_ITEM, N_("_Select All"),
 	  N_("Select all cells in the spreadsheet"), select_all_cmd, NULL,
 	  NULL, 0, 0, 'a', GDK_CONTROL_MASK },
 
+	/* Default <Ctrl-I> to be goto */
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),
 	  N_("Jump to a specified cell"), goto_cell_cmd, NULL, NULL,
 	  0, 0, 'i', GDK_CONTROL_MASK },
 
+	/* Default <F9> to recalculate */
 	{ GNOME_APP_UI_ITEM, N_("_Recalculate"),
 	  N_("Recalculate the spreadsheet"), recalc_cmd, NULL, NULL,
 	  0, 0, GDK_F9, 0 },
@@ -1214,10 +1201,13 @@ static GnomeUIInfo workbook_menu_view [] = {
 /* Insert menu */
 
 static GnomeUIInfo workbook_menu_insert_special [] = {
+	/* Default <Ctrl-;> (control semi-colon) to insert the current date */
 	{ GNOME_APP_UI_ITEM, N_("Current _date"),
 	  N_("Insert the current date into the selected cell(s)"),
 	  insert_current_date_cmd,
 	  NULL, NULL, 0, 0, ';', GDK_CONTROL_MASK },
+
+	/* Default <Ctrl-:> (control colon) to insert the current time */
 	{ GNOME_APP_UI_ITEM, N_("Current _time"),
 	  N_("Insert the current time into the selected cell(s)"),
 	  insert_current_time_cmd,
@@ -1226,28 +1216,36 @@ static GnomeUIInfo workbook_menu_insert_special [] = {
 };
 
 static GnomeUIInfo workbook_menu_insert [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Sheet"), N_("Insert a new spreadsheet"),
-	  insert_sheet_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Rows"), N_("Insert new rows"),
-	  insert_rows_cmd  },
-	{ GNOME_APP_UI_ITEM, N_("_Columns"), N_("Insert new columns"),
-	  insert_cols_cmd  },
-	{ GNOME_APP_UI_ITEM, N_("C_ells..."), N_("Insert new cells"),
-	  insert_cells_cmd },
+	GNOMEUIINFO_ITEM_NONE(N_("_Sheet"),
+		N_("Insert a new spreadsheet"),
+		&insert_sheet_cmd),
+	GNOMEUIINFO_ITEM_NONE(N_("_Rows"),
+		N_("Insert new rows"),
+		&insert_rows_cmd),
+	GNOMEUIINFO_ITEM_NONE(N_("_Columns"),
+		N_("Insert new columns"),
+		&insert_cols_cmd),
+	GNOMEUIINFO_ITEM_NONE(N_("C_ells..."),
+		N_("Insert new cells"),
+		&insert_cells_cmd),
 
 #ifdef ENABLE_BONOBO
 	GNOMEUIINFO_ITEM_NONE(N_("_Object..."),
-			      N_("Inserts a Bonobo object"),
-			      insert_object_cmd),
+		N_("Inserts a Bonobo object"),
+		insert_object_cmd),
 #endif
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("Define _Name"), NULL, define_cell_cmd },
+	GNOMEUIINFO_ITEM_NONE(N_("Define _Name"), NULL,
+		&define_cell_cmd),
 
-	{ GNOME_APP_UI_ITEM, N_("_Add/modify comment..."),
-	  N_("Edit the selected cell's comment"), workbook_edit_comment },
-	{ GNOME_APP_UI_SUBTREE, N_("S_pecial"), NULL, workbook_menu_insert_special },
+	GNOMEUIINFO_ITEM_NONE(N_("_Add/modify comment..."),
+		N_("Edit the selected cell's comment"),
+		&workbook_edit_comment),
+
+	GNOMEUIINFO_SUBTREE(N_("S_pecial"),
+		workbook_menu_insert_special),
 
 	GNOMEUIINFO_END
 };
@@ -1255,91 +1253,128 @@ static GnomeUIInfo workbook_menu_insert [] = {
 /* Format menu */
 
 static GnomeUIInfo workbook_menu_format_column [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Auto fit selection"),
-	  NULL, workbook_cmd_format_column_auto_fit },
-	{ GNOME_APP_UI_ITEM, N_("_Width"),
-	  NULL, workbook_cmd_format_column_width },
-	{ GNOME_APP_UI_ITEM, N_("_Hide"),
-	  NULL, workbook_cmd_format_column_hide },
-	{ GNOME_APP_UI_ITEM, N_("_Unhide"),
-	  NULL, workbook_cmd_format_column_unhide },
-	{ GNOME_APP_UI_ITEM, N_("_Standard Width"),
-	  NULL, workbook_cmd_format_column_std_width },
+	GNOMEUIINFO_ITEM_NONE(N_("_Auto fit selection"),
+		NULL,
+		&workbook_cmd_format_column_auto_fit),
+	GNOMEUIINFO_ITEM_NONE(N_("_Width"),
+		NULL,
+		&workbook_cmd_format_column_width),
+	GNOMEUIINFO_ITEM_NONE(N_("_Hide"),
+		NULL,
+		&workbook_cmd_format_column_hide),
+	GNOMEUIINFO_ITEM_NONE(N_("_Unhide"),
+		NULL,
+		&workbook_cmd_format_column_unhide),
+	GNOMEUIINFO_ITEM_NONE(N_("_Standard Width"),
+		NULL,
+		&workbook_cmd_format_column_std_width),
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_format_row [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Auto fit selection"),
-	  NULL,  workbook_cmd_format_row_auto_fit },
-	{ GNOME_APP_UI_ITEM, N_("_Height"),
-	  NULL, workbook_cmd_format_row_height },
-	{ GNOME_APP_UI_ITEM, N_("_Hide"),
-	  NULL, workbook_cmd_format_row_hide },
-	{ GNOME_APP_UI_ITEM, N_("_Unhide"),
-	  NULL, workbook_cmd_format_row_unhide },
-	{ GNOME_APP_UI_ITEM, N_("_Standard Height"),
-	  NULL, workbook_cmd_format_row_std_height },
+	GNOMEUIINFO_ITEM_NONE(N_("_Auto fit selection"),
+		NULL, 
+		&workbook_cmd_format_row_auto_fit),
+	GNOMEUIINFO_ITEM_NONE(N_("_Height"),
+		NULL,
+		&workbook_cmd_format_row_height),
+	GNOMEUIINFO_ITEM_NONE(N_("_Hide"),
+		NULL,
+		&workbook_cmd_format_row_hide),
+	GNOMEUIINFO_ITEM_NONE(N_("_Unhide"),
+		NULL,
+		&workbook_cmd_format_row_unhide),
+	GNOMEUIINFO_ITEM_NONE(N_("_Standard Height"),
+		NULL,
+		&workbook_cmd_format_row_std_height),
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_format_sheet [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Change name"),   NULL,
-	  workbook_cmd_format_sheet_change_name },
-	{ GNOME_APP_UI_ITEM, N_("Re-_Order Sheets"), NULL,
-	  sheet_order_cmd },
+	GNOMEUIINFO_ITEM_NONE(N_("_Change name"),
+		NULL,
+		&workbook_cmd_format_sheet_change_name),
+	GNOMEUIINFO_ITEM_NONE(N_("Re-_Order Sheets"),
+		NULL,
+		&sheet_order_cmd),
 
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Display _Formulas"),
-	    NULL, &cb_sheet_pref_display_formulas },
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide _Zeros"),
-	    NULL, &cb_sheet_pref_hide_zeros },
+	GNOMEUIINFO_TOGGLEITEM(N_("Display _Formulas"),
+		NULL,
+		&cb_sheet_pref_display_formulas, NULL),
+	GNOMEUIINFO_TOGGLEITEM(N_("Hide _Zeros"),
+		NULL,
+		&cb_sheet_pref_hide_zeros, NULL),
 
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide _Gridlines"),
-	    NULL, &cb_sheet_pref_hide_grid_lines },
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide _Column Header"),
-	    NULL, &cb_sheet_pref_hide_col_header },
-	{ GNOME_APP_UI_TOGGLEITEM, N_("Hide _Row Header"),
-	    NULL, &cb_sheet_pref_hide_row_header },
+	GNOMEUIINFO_TOGGLEITEM(N_("Hide _Gridlines"),
+		NULL,
+		&cb_sheet_pref_hide_grid_lines, NULL),
+	GNOMEUIINFO_TOGGLEITEM(N_("Hide _Column Header"),
+		NULL,
+		&cb_sheet_pref_hide_col_header, NULL),
+	GNOMEUIINFO_TOGGLEITEM(N_("Hide _Row Header"),
+		NULL,
+		&cb_sheet_pref_hide_row_header, NULL),
 	GNOMEUIINFO_END
 };
 
 static GnomeUIInfo workbook_menu_format [] = {
+	/* Default <Ctrl-1> invoke the format dialog */
 	{ GNOME_APP_UI_ITEM, N_("_Cells..."),
 	  N_("Modify the formatting of the selected cells"),
 	  format_cells_cmd, NULL, NULL, 0, 0, GDK_1, GDK_CONTROL_MASK },
+
 	{ GNOME_APP_UI_SUBTREE, N_("C_olumn"), NULL, workbook_menu_format_column },
 	{ GNOME_APP_UI_SUBTREE, N_("_Row"),    NULL, workbook_menu_format_row },
 	{ GNOME_APP_UI_SUBTREE, N_("_Sheet"),  NULL, workbook_menu_format_sheet },
-	{ GNOME_APP_UI_ITEM, N_("_Workbook..."),
-	  N_("Modify the workbook attributes"),
-	  workbook_attr_cmd, NULL, NULL, 0, 0, 0, 0 },
+
+	GNOMEUIINFO_ITEM_NONE(N_("_Workbook..."),
+		N_("Modify the workbook attributes"),
+		&workbook_attr_cmd),
 	GNOMEUIINFO_END
 };
 
 /* Tools menu */
 static GnomeUIInfo workbook_menu_tools [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Plug-ins..."), N_("Gnumeric plugins"),
-	  plugins_cmd },
+	GNOMEUIINFO_ITEM_NONE(N_("_Plug-ins..."),
+		N_("Manage available plugin modules."),
+		&plugins_cmd),
 
 	GNOMEUIINFO_SEPARATOR,
 
-	{ GNOME_APP_UI_ITEM, N_("Auto _Correct..."), N_("Auto Correct"),
-	  autocorrect_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Auto Save..."), N_("Auto Save"),
-	  autosave_cmd },
+	GNOMEUIINFO_ITEM_NONE(N_("Auto _Correct..."),
+		N_("Automaticly perform simple spell checking"),
+		&autocorrect_cmd),
+	GNOMEUIINFO_ITEM_NONE(N_("_Auto Save..."),
+		N_("Automaticly save the current document at regular intervals"),
+		&autosave_cmd),
+
 	GNOMEUIINFO_SEPARATOR,
-	{ GNOME_APP_UI_ITEM, N_("_Goal Seek..."), NULL, goal_seek_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Solver..."),    NULL, solver_cmd },
+
+	GNOMEUIINFO_ITEM_NONE(N_("_Goal Seek..."),
+		N_("Iteratively recalculate to find a target value"),
+		&goal_seek_cmd),
+	GNOMEUIINFO_ITEM_NONE(N_("_Solver..."),
+		N_("Iteratively recalculate with constraints to approach a target value"),
+		&solver_cmd),
+
 	GNOMEUIINFO_SEPARATOR,
-	{ GNOME_APP_UI_ITEM, N_("_Data Analysis..."), NULL, data_analysis_cmd },
+
+	GNOMEUIINFO_ITEM_NONE(N_("_Data Analysis..."),
+		N_("Statistical methods."),
+		&data_analysis_cmd),
+
 	GNOMEUIINFO_END
 };
 
 /* Data menu */
 static GnomeUIInfo workbook_menu_data [] = {
-	{ GNOME_APP_UI_ITEM, N_("_Sort..."),
-	  N_("Sort the selected cells"), sort_cells_cmd },
-	{ GNOME_APP_UI_ITEM, N_("_Filter..."),
-	  N_("Filter date with given criterias"), advanced_filter_cmd },
+	GNOMEUIINFO_ITEM_NONE(N_("_Sort..."),
+		N_("Sort the selected cells"),
+		&sort_cells_cmd),
+	GNOMEUIINFO_ITEM_NONE(N_("_Filter..."),
+		N_("Filter date with given criterias"),
+		&advanced_filter_cmd),
+
 	GNOMEUIINFO_END
 };
 
@@ -3501,7 +3536,7 @@ workbook_finish_editing (Workbook *wb, gboolean const accept)
 			      SHEET_VIEW (sheet->sheet_views->data)->sheet_view);
 
 	/* Only the edit sheet has an edit cursor */
-	sheet_destroy_edit_cursor (sheet);
+	sheet_stop_editing (sheet);
 
 	if (accept)
 		workbook_recalc (wb);

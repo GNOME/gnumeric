@@ -914,7 +914,7 @@ sheet_view_adjust_preferences (SheetView *sheet_view)
 }
 
 StyleFont *
-sheet_view_get_style_font (const Sheet *sheet, MStyle *mstyle)
+sheet_view_get_style_font (const Sheet *sheet, MStyle const * const mstyle)
 {
 	/* Scale the font size by the average scaling factor for the
 	 * display.  72dpi is base size

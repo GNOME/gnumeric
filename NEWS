@@ -3,6 +3,12 @@ Gnumeric 0.52
 Jon:
 	* Tearoff combo boxes
 
+Jody:
+	* Bugs fixes.
+	* Rework canvas editor to behave nicely at boundaries and
+	  span correctly.
+
+--------------------------------------------------------------------------
 Gnumeric 0.49
 
 Jukka:

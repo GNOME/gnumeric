@@ -208,7 +208,7 @@ style_font_new_from (StyleFont *sf, double scale)
 }
 
 GdkFont *
-style_font_gdk_font (StyleFont *sf)
+style_font_gdk_font (StyleFont const * const sf)
 {
 	g_return_val_if_fail (sf != NULL, NULL);
 
@@ -216,7 +216,7 @@ style_font_gdk_font (StyleFont *sf)
 }
 
 GnomeFont *
-style_font_gnome_font (StyleFont *sf)
+style_font_gnome_font (StyleFont const * const sf)
 {
 	g_return_val_if_fail (sf != NULL, NULL);
 
@@ -224,7 +224,7 @@ style_font_gnome_font (StyleFont *sf)
 }
 
 int
-style_font_get_height (StyleFont *sf)
+style_font_get_height (StyleFont const * const sf)
 {
 	g_return_val_if_fail (sf != NULL, 0);
 

@@ -117,7 +117,7 @@ char       *cell_get_content             (Cell *cell);
 char       *cell_get_value_as_text       (Cell *cell);
 void        cell_make_value              (Cell *cell);
 void        cell_render_value            (Cell *cell);
-void        cell_calc_dimensions         (Cell *cell);
+void        cell_calc_dimensions         (Cell *cell, gboolean const auto_resize_height);
 Cell       *cell_copy                    (const Cell *cell);
 void        cell_destroy                 (Cell *cell);
 void        cell_queue_redraw            (Cell *cell);

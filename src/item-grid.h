@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_ITEM_GRID_H
 #define GNUMERIC_ITEM_GRID_H
 
-#include "sheet.h"
+#include "gnumeric.h"
 #include "sheet-view.h"
 
 #define ITEM_GRID(obj)          (GTK_CHECK_CAST((obj), item_grid_get_type (), ItemGrid))
