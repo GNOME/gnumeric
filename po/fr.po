@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-03-14 18:17-0600\n"
+"POT-Creation-Date: 1999-03-22 21:57+0100\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@ldsol.com>\n"
 "Language-Team: Vincent Renardias <vincent@ldsol.com>\n"
@@ -16,61 +16,6 @@ msgstr ""
 #: plugins/excel/boot.c:67
 msgid "Microsoft(R) Excel file format"
 msgstr "format de fichier Microsoft(R) Excel"
-
-#: plugins/guile/plugin.c:220
-msgid "Argument must be a Guile expression"
-msgstr ""
-
-#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1174
-#: src/fn-sheet.c:38 src/fn-sheet.c:83
-msgid "Invalid number of arguments"
-msgstr "Nombre d'arguments invalides"
-
-#: plugins/guile/plugin.c:248 plugins/guile/plugin.c:254
-msgid "First argument to SCM must be a Guile expression"
-msgstr ""
-
-#: plugins/guile/plugin.c:260
-msgid "Undefined scheme function"
-msgstr ""
-
-#: plugins/guile/plugin.c:278
-msgid "Could not evaluate argument"
-msgstr ""
-
-#: plugins/guile/plugin.c:386
-#, fuzzy
-msgid "Unable to lookup Guile function."
-msgstr "impossible d'ouvrir le fichier module: "
-
-#: plugins/guile/plugin.c:454
-#, fuzzy
-msgid "Guile Plugin"
-msgstr "plugins Gnumeric"
-
-#: plugins/python/python.c:99
-msgid "Unable to lookup Python code object."
-msgstr ""
-
-#: plugins/python/python.c:115
-msgid "Python exception."
-msgstr ""
-
-#: plugins/python/python.c:137
-msgid "object must be callable"
-msgstr ""
-
-#: plugins/python/python.c:143
-msgid "could not alloc FuncDef"
-msgstr ""
-
-#: plugins/python/python.c:177
-msgid "Gnumeric/Python module initialized\n"
-msgstr ""
-
-#: plugins/python/python.c:190
-msgid "Python Plugin"
-msgstr ""
 
 #: plugins/stat/stat.c:12
 msgid ""
@@ -346,6 +291,10 @@ msgstr "Novembre"
 #: src/dates.c:66
 msgid "December"
 msgstr "Décembre"
+
+#: src/dialog-cell-comment.c:24
+msgid "Cell comment"
+msgstr "Commentaire de cellule"
 
 #: src/dialog-cell-format.c:66
 msgid "Numbers"
@@ -654,24 +603,35 @@ msgstr "Erreur de syntaxe"
 msgid "Missing quote"
 msgstr "guillemet manquante"
 
-#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:991
-#: src/fn-misc.c:35
+#: src/expr.c:484 src/fn-math.c:1217 src/fn-sheet.c:38 src/fn-sheet.c:83
+#: src/fn-string.c:112 src/fn-string.c:343 src/fn-string.c:461
+#: src/fn-string.c:510 src/fn-string.c:824 src/fn-string.c:836
+#: src/fn-string.c:851
+msgid "Invalid number of arguments"
+msgstr "Nombre d'arguments invalides"
+
+#: src/expr.c:504 src/expr.c:509 src/expr.c:788 src/expr.c:986
+#: src/fn-misc.c:35 src/fn-string.c:54 src/fn-string.c:76 src/fn-string.c:98
+#: src/fn-string.c:122 src/fn-string.c:193 src/fn-string.c:230
+#: src/fn-string.c:312 src/fn-string.c:391 src/fn-string.c:521
+#: src/fn-string.c:532 src/fn-string.c:628 src/fn-string.c:669
+#: src/fn-string.c:724 src/fn-string.c:763
 msgid "Type mismatch"
 msgstr "Les types ne correspondent pas"
 
-#: src/expr.c:734
+#: src/expr.c:729
 msgid "Type error"
 msgstr "Erreur de type"
 
-#: src/expr.c:846 src/expr.c:883
+#: src/expr.c:841 src/expr.c:878
 msgid "Division by zero"
 msgstr "Division par zéro"
 
-#: src/expr.c:971
+#: src/expr.c:966
 msgid "Reference to newborn cell"
 msgstr ""
 
-#: src/expr.c:1006
+#: src/expr.c:1001
 msgid "Unknown evaluation error"
 msgstr "Erreur d'évaluation inconnue"
 
@@ -871,7 +831,7 @@ msgstr ""
 "donc vous pouvez entrer votre date sous forme de chaine\n"
 "@SEEALSO=YEAR, DAY, NOW, TIME"
 
-#: src/fn-math.c:27
+#: src/fn-math.c:28
 msgid ""
 "@FUNCTION=NAME\n"
 "@SYNTAX=(b1, b2, ...)\n"
@@ -885,7 +845,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/fn-math.c:48
+#: src/fn-math.c:49
 msgid ""
 "@FUNCTION=ABS\n"
 "@SYNTAX=ABS(b1)\n"
@@ -904,7 +864,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=CEIL, FLOOR"
 
-#: src/fn-math.c:67
+#: src/fn-math.c:68
 msgid ""
 "@FUNCTION=ACOS\n"
 "@SYNTAX=ACOS(x)\n"
@@ -926,11 +886,11 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:89
+#: src/fn-math.c:90
 msgid "acos - domain error"
 msgstr "acos - erreur de domaine"
 
-#: src/fn-math.c:96
+#: src/fn-math.c:97
 msgid ""
 "@FUNCTION=ACOSH\n"
 "@SYNTAX=ACOSH(x)\n"
@@ -951,12 +911,11 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=ACOS, DEGREES, RADIANS"
 
-#: src/fn-math.c:118
+#: src/fn-math.c:119
 msgid "acosh - domain error"
 msgstr "acosh - erreur de domaine"
 
-#: src/fn-math.c:125
-#, fuzzy
+#: src/fn-math.c:126
 msgid ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -978,13 +937,13 @@ msgstr ""
 "Si les valeurs contiennent des chaines ou des cellules vides, celles-ci sont "
 "ignorées.Si aucune valeur logique n'est fournie, alors l'erreur '#VALEUR!' "
 "est retournée. \n"
-"@SEEALSO=OR"
+"@SEEALSO=OR, NOT"
 
-#: src/fn-math.c:189 src/fn-math.c:912
+#: src/fn-math.c:190 src/fn-math.c:955
 msgid "#VALUE"
 msgstr "#VALEUR"
 
-#: src/fn-math.c:196
+#: src/fn-math.c:197
 msgid ""
 "@FUNCTION=ASIN\n"
 "@SYNTAX=ASIN(x)\n"
@@ -1004,11 +963,11 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=COS, SIN, ASINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:217
+#: src/fn-math.c:218
 msgid "asin - domain error"
 msgstr "asin - erreur de domaine"
 
-#: src/fn-math.c:224
+#: src/fn-math.c:225
 msgid ""
 "@FUNCTION=ASINH\n"
 "@SYNTAX=ASINH(x)\n"
@@ -1026,7 +985,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=ASIN, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:245
+#: src/fn-math.c:246
 msgid ""
 "@FUNCTION=ATAN\n"
 "@SYNTAX=ATAN(x)\n"
@@ -1044,7 +1003,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=TAN, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:268
+#: src/fn-math.c:269
 msgid ""
 "@FUNCTION=ATANH\n"
 "@SYNTAX=ATANH(x)\n"
@@ -1066,11 +1025,11 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=ATAN, TAN, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:291
+#: src/fn-math.c:292
 msgid "atanh: domain error"
 msgstr "atanh: erreur de domaine"
 
-#: src/fn-math.c:298
+#: src/fn-math.c:299
 msgid ""
 "@FUNCTION=ATAN2\n"
 "@SYNTAX=ATAN2(b1,b2)\n"
@@ -1091,7 +1050,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=ATAN, ATANH, COS, SIN, DEGREES, RADIANS"
 
-#: src/fn-math.c:322
+#: src/fn-math.c:323
 msgid ""
 "@FUNCTION=AVERAGE\n"
 "@SYNTAX=AVERAGE(value1, value2,...)\n"
@@ -1107,7 +1066,7 @@ msgstr ""
 "nombre de paramétres.\n"
 "@SEEALSO=SUM, COUNT"
 
-#: src/fn-math.c:367
+#: src/fn-math.c:368
 msgid ""
 "@FUNCTION=CEIL\n"
 "@SYNTAX=CEIL(x)\n"
@@ -1123,7 +1082,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=ABS, FLOOR, INT"
 
-#: src/fn-math.c:386
+#: src/fn-math.c:387
 msgid ""
 "@FUNCTION=COS\n"
 "@SYNTAX=COS(x)\n"
@@ -1141,7 +1100,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=COSH, SIN, SINH, TAN, TANH, DEGREES, RADIANS"
 
-#: src/fn-math.c:406
+#: src/fn-math.c:407
 msgid ""
 "@FUNCTION=COSH\n"
 "@SYNTAX=COSH(x)\n"
@@ -1160,7 +1119,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=COS, SIN, SINH, TAN, TANH, RADIANS, DEGREES, EXP"
 
-#: src/fn-math.c:447
+#: src/fn-math.c:448
 msgid ""
 "@FUNCTION=COUNT\n"
 "@SYNTAX=COUNT(b1, b2, ...)\n"
@@ -1175,7 +1134,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=AVERAGE"
 
-#: src/fn-math.c:475
+#: src/fn-math.c:476
 msgid ""
 "@FUNCTION=DEGREES\n"
 "@SYNTAX=DEGREES(x)\n"
@@ -1190,7 +1149,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=RADIANS, PI"
 
-#: src/fn-math.c:496
+#: src/fn-math.c:497
 msgid ""
 "@FUNCTION=EXP\n"
 "@SYNTAX=EXP(x)\n"
@@ -1207,7 +1166,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=LOG, LOG2, LOG10"
 
-#: src/fn-math.c:523
+#: src/fn-math.c:524
 msgid ""
 "@FUNCTION=FACT\n"
 "@SYNTAX=FACT(x)\n"
@@ -1224,7 +1183,25 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: src/fn-math.c:570
+#: src/fn-math.c:571
+msgid ""
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=Computes the number of combinations.\n"
+"Performing this function on a non-integer or a negative number returns an "
+"error. Also if n is less than k returns an error.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=COMBIN\n"
+"@SYNTAX=COMBIN(n,k)\n"
+"@DESCRIPTION=Calcul du nombre de combinaisons.\n"
+"Cette fonction retourne une erreur lorsqu'elle est utilisée sur un nombre non-entier "
+"ou négatif. De même si n est inférieur à k.\n"
+"\n"
+"@SEEALSO="
+
+#: src/fn-math.c:613
 msgid ""
 "@FUNCTION=FLOOR\n"
 "@SYNTAX=FLOOR(x)\n"
@@ -1240,7 +1217,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=CEIL, ABS, INT"
 
-#: src/fn-math.c:589
+#: src/fn-math.c:632
 msgid ""
 "@FUNCTION=INT\n"
 "@SYNTAX=INT(b1, b2, ...)\n"
@@ -1259,7 +1236,7 @@ msgstr ""
 "une cellule vide.\n"
 "@SEEALSO=FLOOR, CEIL, ABS"
 
-#: src/fn-math.c:615
+#: src/fn-math.c:658
 msgid ""
 "@FUNCTION=LOG\n"
 "@SYNTAX=LOG(x)\n"
@@ -1274,12 +1251,11 @@ msgstr ""
 "ou une cellule vide.\n"
 "@SEEALSO=EXP, LOG2, LOG10"
 
-#: src/fn-math.c:633
+#: src/fn-math.c:676
 msgid "log: domain error"
 msgstr "log: erreur de domaine"
 
-#: src/fn-math.c:640
-#, fuzzy
+#: src/fn-math.c:683
 msgid ""
 "@FUNCTION=POWER\n"
 "@SYNTAX=POWER(x,y)\n"
@@ -1287,15 +1263,13 @@ msgid ""
 "Performing this function on a string or empty cell returns an error. \n"
 "@SEEALSO=EXP"
 msgstr ""
-"@FUNCTION=FACT\n"
-"@SYNTAX=FACT(x)\n"
-"@DESCRIPTION=Calcule la factorielle de x, ie x!\n"
-"Cette fonction retourne une erreur lorsqu'elle est utilisée sur une chaine "
-"ou une cellule vide.\n"
-"\n"
-"@SEEALSO="
+"@FUNCTION=POWER\n"
+"@SYNTAX=POWER(x,y)\n"
+"@DESCRIPTION=Retourne la valeur de x élevé à la puissance y\n"
+"Cette fonction retourne une erreur lorsqu'elle est utilisée sur une chaîne ou une cellule vide. \n"
+"@SEEALSO=EXP"
 
-#: src/fn-math.c:659
+#: src/fn-math.c:702
 msgid ""
 "@FUNCTION=LOG2\n"
 "@SYNTAX=LOG2(x)\n"
@@ -1310,11 +1284,11 @@ msgstr ""
 "ou une cellule vide.\n"
 "@SEEALSO=EXP, LOG10, LOG"
 
-#: src/fn-math.c:677
+#: src/fn-math.c:720
 msgid "log2: domain error"
 msgstr "log2: erreur de domaine"
 
-#: src/fn-math.c:684
+#: src/fn-math.c:727
 msgid ""
 "@FUNCTION=LOG10\n"
 "@SYNTAX=LOG10(x)\n"
@@ -1328,11 +1302,11 @@ msgstr ""
 "Cette fonction retourne une erreur lorsqu'elle est utilisée sur une chaine "
 "ou @SEEALSO=EXP, LOG2, LOG"
 
-#: src/fn-math.c:703
+#: src/fn-math.c:746
 msgid "log10: domain error"
 msgstr "log10: erreur de domaine"
 
-#: src/fn-math.c:710
+#: src/fn-math.c:753
 msgid ""
 "@FUNCTION=MIN\n"
 "@SYNTAX=MIN(b1, b2, ...)\n"
@@ -1351,7 +1325,7 @@ msgstr ""
 "caractères ou des cellules vides.\n"
 "@SEEALSO=MAX,ABS"
 
-#: src/fn-math.c:724
+#: src/fn-math.c:767
 msgid ""
 "@FUNCTION=MAX\n"
 "@SYNTAX=MAX(b1, b2, ...)\n"
@@ -1370,7 +1344,7 @@ msgstr ""
 "caractères ou des cellules vides.\n"
 "@SEEALSO=MIN,ABS"
 
-#: src/fn-math.c:829
+#: src/fn-math.c:872
 msgid ""
 "@FUNCTION=NOT\n"
 "@SYNTAX=NOT(number)\n"
@@ -1380,8 +1354,7 @@ msgid ""
 "@SEEALSO=AND, OR"
 msgstr ""
 
-#: src/fn-math.c:850
-#, fuzzy
+#: src/fn-math.c:893
 msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -1403,9 +1376,9 @@ msgstr ""
 "Si les valeurs contiennent des chaines ou des cellules vides, celles-ci sont "
 "ignorées.Si aucune valeur logique n'est fournie, alors l'erreur '#VALEUR!' "
 "est retournée. \n"
-"@SEEALSO=AND"
+"@SEEALSO=AND, NOT"
 
-#: src/fn-math.c:919
+#: src/fn-math.c:962
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1420,7 +1393,7 @@ msgstr ""
 "cellule vide.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:940
+#: src/fn-math.c:983
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1438,7 +1411,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:960
+#: src/fn-math.c:1003
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1457,8 +1430,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:981
-#, fuzzy
+#: src/fn-math.c:1024
 msgid ""
 "@FUNCTION=SQRT\n"
 "@SYNTAX=SQRT(x)\n"
@@ -1466,18 +1438,17 @@ msgid ""
 "If x is negative returns #NUM!.This function only takes one argument.\n"
 "@SEEALSO=POW"
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=La fonction PI retourne la valeur de Pi telle qu'elle est "
-"définie par M_PI.\n"
-"Cette fonction ne prend aucun argument.\n"
-"@SEEALSO="
+"@FUNCTION=SQRT\n"
+"@SYNTAX=SQRT(x)\n"
+"@DESCRIPTION=La fonction SQRT retourne la racine carré de x\n"
+"Si x est négatif, #NUM! est retourné. Cette fonction ne prends qu'un seul argument.\n"
+"@SEEALSO=POW"
 
-#: src/fn-math.c:998
+#: src/fn-math.c:1041
 msgid "#NUM!"
-msgstr ""
+msgstr "#NUM!"
 
-#: src/fn-math.c:1005
+#: src/fn-math.c:1048
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1491,7 +1462,7 @@ msgstr ""
 "la liste des arguments. \n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1095
+#: src/fn-math.c:1138
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1509,7 +1480,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1115
+#: src/fn-math.c:1158
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1527,7 +1498,7 @@ msgstr ""
 "une cellule vide et elle n'utilise qu'un seul paramétre.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1135
+#: src/fn-math.c:1178
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1542,7 +1513,7 @@ msgstr ""
 "Cette fonction ne prend aucun argument.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1154
+#: src/fn-math.c:1197
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1573,7 +1544,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-misc.c:57
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(exp)\n"
@@ -1581,13 +1551,13 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=LOWER\n"
-"@SYNTAX=LOWER(texte)\n"
-"@DESCRIPTION=Retourne une version en minuscules du texte @texte\n"
-"@SEEALSO=UPPER"
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Retourne une valeur VRAI si l'expression a une erreur\n"
+"\n"
+"@SEEALSO="
 
 #: src/fn-misc.c:73
-#, fuzzy
 msgid "Argument mismatch"
 msgstr "Les types ne correspondent pas"
 
@@ -1604,10 +1574,10 @@ msgstr ""
 "@FUNCTION=IF\n"
 "@SYNTAX=IF(condition,si-vrai,si-faux)\n"
 "@DESCRIPTION=Utilisez cette déclaration pour évaluer "
-"conditionellementd'autres expressions. IF évalue la condition; si elle "
-"retourne une valeurnon-nulle, le résultat de l'expression sera celui de "
-"l'expression si-vrai, sinon le résultat de l'expression sera celui de "
-"l'expression si-faux\n"
+"conditionellement d'autres expressions. IF évalue @condition; si elle "
+"retourne une valeur non-nulle, le résultat de l'expression sera celui de "
+"l'expression @si-vrai, sinon le résultat de l'expression sera celui de "
+"l'expression @si-faux\n"
 "@SEEALSO="
 
 #: src/fn-sheet.c:64
@@ -1626,7 +1596,7 @@ msgstr ""
 "calcul d'une valeur à la volée\n"
 "@SEEALSO="
 
-#: src/fn-string.c:17
+#: src/fn-string.c:18
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
@@ -1638,7 +1608,7 @@ msgstr ""
 "@DESCRIPTION=Retourne le caractère ASCII représenté par le nombre x.\n"
 "@SEEALSO=CODE"
 
-#: src/fn-string.c:39
+#: src/fn-string.c:40
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -1650,21 +1620,21 @@ msgstr ""
 "@DESCRIPTION=Retourne le code ASCII pour le caractère car.\n"
 "@SEEALSO=CHAR"
 
-#: src/fn-string.c:61
+#: src/fn-string.c:62
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
 "@DESCRIPTION=Returns true if string1 is exactly equal to string2 (this "
 "routine is case sensitive).\n"
-"@SEEALSO="
+"@SEEALSO=LEN"
 msgstr ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(chaîne1, chaîne2)\n"
 "@DESCRIPTION=Retourne VRAI si chaîne 1 est exactement égale à chaîne2 (cette "
 "fonction est sensible à la case).\n"
-"@SEEALSO="
+"@SEEALSO=LEN"
 
-#: src/fn-string.c:83
+#: src/fn-string.c:84
 msgid ""
 "@FUNCTION=LEN\n"
 "@SYNTAX=LEN(string)\n"
@@ -1676,7 +1646,7 @@ msgstr ""
 "@DESCRIPTION=Retourne la longueur en caractères de la chaîne.\n"
 "@SEEALSO=CHAR, CODE"
 
-#: src/fn-string.c:140
+#: src/fn-string.c:141
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -1690,7 +1660,7 @@ msgstr ""
 "caractères les plus à gauche de la chaine de texte.\n"
 "@SEEALSO=MID, RIGHT"
 
-#: src/fn-string.c:176
+#: src/fn-string.c:177
 msgid ""
 "@FUNCTION=LOWER\n"
 "@SYNTAX=LOWER(text)\n"
@@ -1702,12 +1672,12 @@ msgstr ""
 "@DESCRIPTION=Retourne une version en minuscules du texte @texte\n"
 "@SEEALSO=UPPER"
 
-#: src/fn-string.c:209
+#: src/fn-string.c:210
 msgid ""
 "@FUNCTION=MID\n"
 "@SYNTAX=MID(string, position, length)\n"
 "@DESCRIPTION=Returns a substring from @string starting at @position for "
-"@lenght characters.\n"
+"@length characters.\n"
 "@SEEALSO=LEFT, RIGHT"
 msgstr ""
 "@FUNCTION=MID\n"
@@ -1716,7 +1686,11 @@ msgstr ""
 "@longueur caractères.\n"
 "@SEEALSO=LEFT, RIGHT"
 
-#: src/fn-string.c:257
+#: src/fn-string.c:238 src/fn-string.c:676
+msgid "Invalid arguments"
+msgstr "Arguments invalides"
+
+#: src/fn-string.c:256
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -1730,7 +1704,7 @@ msgstr ""
 "caractères les plus à droite de la chaine de texte.\n"
 "@SEEALSO=MID, LEFT"
 
-#: src/fn-string.c:297
+#: src/fn-string.c:296
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -1741,6 +1715,147 @@ msgstr ""
 "@SYNTAX=UPPER(texte)\n"
 "@DESCRIPTION=Retourne une version en majuscules du texte @texte\n"
 "@SEEALSO=LOWER"
+
+#: src/fn-string.c:330
+msgid ""
+"@FUNCTION=CONCATENATE\n"
+"@SYNTAX=CONCATENATE(string1[,string2...])\n"
+"@DESCRIPTION=Returns up appended strings\n"
+"@SEEALSO=LEFT, MID, RIGHT"
+msgstr ""
+"@FUNCTION=CONCATENATE\n"
+"@SYNTAX=CONCATENATE(chaîne1[,chaîne2...])\n"
+"@DESCRIPTION=Retourne la concaténation des chaînes\n"
+"@SEEALSO=LEFT, MID, RIGHT"
+
+#: src/fn-string.c:376
+msgid ""
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(string,num)\n"
+"@DESCRIPTION=Returns @num repetitions of @string\n"
+"@SEEALSO=CONCATENATE"
+msgstr ""
+"@FUNCTION=REPT\n"
+"@SYNTAX=REPT(chaîne,nombre)\n"
+"@DESCRIPTION=Retourne @nombre répétitions de @chaîne\n"
+"@SEEALSO=CONCATENATE"
+
+#. start position too high or low
+#: src/fn-string.c:394 src/fn-string.c:471 src/fn-string.c:478
+#: src/fn-string.c:829 src/fn-string.c:843 src/fn-string.c:860
+#: src/fn-string.c:875
+msgid "Invalid argument"
+msgstr "Argument invalide"
+
+#: src/fn-string.c:446
+msgid ""
+"@FUNCTION=FIND\n"
+"@SYNTAX=FIND(string1,string2[,start])\n"
+"@DESCRIPTION=Returns position of @string1 in @string2 (case-sesitive), "
+"searching only from character @start onwards (assumed 1 if omitted)\n"
+"@SEEALSO=EXACT, LEN, MID, SEARCH"
+msgstr ""
+"@FUNCTION=FIND\n"
+"@SYNTAX=FIND(chaîne1,chaîne2[,début])\n"
+"@DESCRIPTION=Returns position of @string1 in @string2 (case-sesitive), "
+"searching only from character @start onwards (assumed 1 if omitted)\n"
+"@SEEALSO=EXACT, LEN, MID, SEARCH"
+
+#: src/fn-string.c:491
+msgid ""
+"@FUNCTION=FIXED\n"
+"@SYNTAX=FIXED(num, decimals, no_commas)\n"
+"@DESCRIPTION=Returns @num as a formatted string with @decimals numbers after "
+"the decimal point, omitting commas if requested by @no_commas\n"
+"@SEEALSO="
+msgstr ""
+
+#. else buffer under-run
+#: src/fn-string.c:538
+msgid "Invalid argument"
+msgstr "Argument invalide"
+
+#: src/fn-string.c:613
+msgid ""
+"@FUNCTION=PROPER\n"
+"@SYNTAX=PROPER(string)\n"
+"@DESCRIPTION=Returns @string with initial of each word capitalised\n"
+"@SEEALSO=LOWER, UPPER"
+msgstr ""
+"@FUNCTION=PROPER\n"
+"@SYNTAX=PROPER(chaîne)\n"
+"@DESCRIPTION=Retourne @chaîne avec la première lettre de chaque mot en majuscule\n"
+"@SEEALSO=LOWER, UPPER"
+
+#: src/fn-string.c:652
+msgid ""
+"@FUNCTION=REPLACE\n"
+"@SYNTAX=REPLACE(old,start,num,new)\n"
+"@DESCRIPTION=Returns @old with @new replacing @num characters from @start\n"
+"@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
+msgstr ""
+"@FUNCTION=REPLACE\n"
+"@SYNTAX=REPLACE(ancien,début,nombre,nouveau)\n"
+"@DESCRIPTION=Returns @old with @new replacing @num characters from @start\n"
+"@SEEALSO=MID, SEARCH, SUBSTITUTE, TRIM"
+
+#: src/fn-string.c:693
+msgid ""
+"@FUNCTION=T\n"
+"@SYNTAX=T(value)\n"
+"@DESCRIPTION=Returns @value if and only if it is text, otherwise a blank "
+"string\n"
+"@SEEALSO=CELL, N, VALUE"
+msgstr ""
+"@FUNCTION=T\n"
+"@SYNTAX=T(valeur)\n"
+"@DESCRIPTION=Retourne @valeur si et seulement s'il s'agit de texte, sinon retourne une chaîne vide\n"
+"@SEEALSO=CELL, N, VALUE"
+
+#: src/fn-string.c:710
+msgid ""
+"@FUNCTION=TRIM\n"
+"@SYNTAX=TRIM(text)\n"
+"@DESCRIPTION=Returns @text with only single spaces between words\n"
+"@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
+msgstr ""
+"@FUNCTION=TRIM\n"
+"@SYNTAX=TRIM(texte)\n"
+"@DESCRIPTION=Retourne @texte avec un seul espace entre chaque mot\n"
+"@SEEALSO=CLEAN, MID, REPLACE, SUBSTITUTE"
+
+#: src/fn-string.c:751
+msgid ""
+"@FUNCTION=VALUE\n"
+"@SYNTAX=VALUE(text)\n"
+"@DESCRIPTION=Returns numeric value of @text\n"
+"@SEEALSO=DOLLAR, FIXED, TEXT"
+msgstr ""
+"@FUNCTION=VALUE\n"
+"@SYNTAX=VALUE(texte)\n"
+"@DESCRIPTION=Retourne la valeur numérique de @texte\n"
+"@SEEALSO=DOLLAR, FIXED, TEXT"
+
+#: src/fn-string.c:807
+msgid ""
+"@FUNCTION=SUBSTITUTE\n"
+"@SYNTAX=SUBSTITUTE(text, old, new [,num]\n"
+"@DESCRIPTION=Replaces @old with @new in @text.  Substitutions are only "
+"applied to instance @num of @old in @text, otherwise every one is changed.\n"
+"@SEEALSO=REPLACE, TRIM"
+msgstr ""
+
+#: src/fn-string.c:928
+msgid ""
+"@FUNCTION=DOLLAR\n"
+"@SYNTAX=DOLLAR(num,decimals)\n"
+"@DESCRIPTION=Returns @num formatted as currency \n"
+"@SEEALSO=FIXED, TEXT, VALUE"
+msgstr ""
+"@FUNCTION=DOLLAR\n"
+"@SYNTAX=DOLLAR(nombre,décimales)\n"
+"@DESCRIPTION=Retourne @nombre formaté comme une devise \n"
+"@SEEALSO=FIXED, TEXT, VALUE"
 
 #: src/format.c:403
 msgid "black"
@@ -2311,8 +2426,8 @@ msgid "Insert new columns"
 msgstr "Insérer nouvelles colonnes"
 
 #: src/workbook.c:763
-msgid "_Add/Modify comment"
-msgstr "_Ajouter/Modifier commentaire"
+msgid "_Add/modify comment"
+msgstr "_Ajouter/modifier commentaire"
 
 #: src/workbook.c:764
 msgid "Edit the selected cell's comment"
@@ -2363,8 +2478,8 @@ msgid "New"
 msgstr "Nouveau"
 
 #: src/workbook.c:824
-msgid "Create a new sheet"
-msgstr "Créer une nouvelle feuille"
+msgid "Creates a new sheet"
+msgstr "Créé une nouvelle feuille"
 
 #: src/workbook.c:827
 msgid "Open"
@@ -2399,8 +2514,8 @@ msgid "Left align"
 msgstr "Aligner à gauche"
 
 #: src/workbook.c:848
-msgid "Sets the cell alignment to the left"
-msgstr "Aligner le contenu des cellules à gauche"
+msgid "Left justifies the cell contents"
+msgstr "Aligner à gauche le contenu des cellules"
 
 #: src/workbook.c:851
 msgid "Centers the cell contents"
@@ -2411,7 +2526,7 @@ msgid "Right align"
 msgstr "Aligner à droite"
 
 #: src/workbook.c:854
-msgid "Sets the cell alignment to the right"
+msgid "Right justifies the cell contents"
 msgstr "Aligner à droite le contenu des cellules"
 
 #: src/workbook.c:859
@@ -2419,7 +2534,8 @@ msgid "Bold"
 msgstr "Gras"
 
 #: src/workbook.c:859
-msgid "Sets the bold attribute on the cell"
+#, fuzzy
+msgid "Sets the bold font"
 msgstr "Active l'attribut \"gras\" sur la cellule"
 
 #: src/workbook.c:862
@@ -2427,8 +2543,8 @@ msgid "Italic"
 msgstr "Italique"
 
 #: src/workbook.c:862
-msgid "Sets the italic attribute on the cell"
-msgstr "Active l'attribut \"italique\" sur la cellule"
+msgid "Makes the font italic"
+msgstr ""
 
 #: src/workbook.c:868
 msgid "Line"
@@ -2536,24 +2652,3 @@ msgstr "SansNom"
 msgid "Gnumeric XML file format"
 msgstr "format de fichier Gnumeric XML"
 
-#~ msgid ""
-#~ "@FUNCTION=BIN2DEC\n"
-#~ "@SYNTAX=BIN2DEC(x)\n"
-#~ "@DESCRIPTION=The BIN2DEC function converts a binary number in string or "
-#~ "number to its decimal equivalent.\n"
-#~ "Performing this function on a string or empty cell simply does nothing.\n"
-#~ "@SEEALSO=DEC2BIN"
-#~ msgstr ""
-#~ "@FUNCTION=BIN2DEC\n"
-#~ "@SYNTAX=BIN2DEC(x)\n"
-#~ "@DESCRIPTION=La fonction BIN2DEC converti un nombre binaire exprimé sous "
-#~ "forme de chaine  ou de nombre en sont équivalent en base décimale.\n"
-#~ "Cette fonction n'a aucun effet lorsqu'elle est utilisée sur une chaine ou "
-#~ "une cellule vide.\n"
-#~ "@SEEALSO=DEC2BIN"
-
-#~ msgid "Cell comment"
-#~ msgstr "Commentaire de cellule"
-
-#~ msgid "Notice"
-#~ msgstr "Message"
