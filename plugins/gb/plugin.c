@@ -173,10 +173,10 @@ register_vb_function (Workbook         *opt_workbook,
 
 static gboolean
 read_gb (gpointer            *jody_broke_the_context,
-	 Workbook            *wb,
-	 GBLexerStream       *proj_stream,
-	 GBRunStreamProvider *provider,
-	 gpointer             provider_data)
+         Workbook            *wb,
+         GBLexerStream       *proj_stream,
+         GBRunStreamProvider *provider,
+         gpointer             provider_data)
 {
 	GBWorkbookData   *wd;
 	GBProject        *gb_proj;
@@ -378,7 +378,7 @@ plugin_init_general (ErrorInfo **err)
 
 /*	plugin_data_set_user_data (pd, gb_pd);*/
 
-	ms_excel_read_gb = read_ole2_gb;
+	ms_excel_read_gb = (MsExcelReadGbFn) read_ole2_gb;
 
 	proj_name = g_strdup_printf ("%s/gnumeric.gbp", g_get_home_dir ());
 	if (g_file_exists (proj_name)) {

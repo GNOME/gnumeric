@@ -3,6 +3,9 @@
 <plugin id="Gnumeric_gb">
 	<information name="Gnome Basic"
 	 description="Enables Gnome Basic support"/>
+	<dependencies>
+		<dep_plugin id="Gnumeric_Excel"/>
+	</dependencies>
 	<loader type="g_module">
 		<attribute name="module_file" value="gnum_gb.so"/>
 	</loader>
