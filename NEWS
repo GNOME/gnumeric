@@ -18,6 +18,7 @@ Jody:
 
 Jon Kåre:
 	* New architecture for selecting cell ranges into dialogs.
+	* Fix dialog placement.
 
 Morten:
 	* Make search-and-destroy work better on comments.
