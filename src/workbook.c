@@ -286,7 +286,9 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 		NULL);
 
 	if (sheet->workbook->filename)
-		s = g_strdup_printf (_("Workbook %s has unsaved changes, save them?"), g_basename (sheet->workbook->filename));
+		s = g_strdup_printf (
+			_("Workbook %s has unsaved changes, save them?"),
+			g_basename (sheet->workbook->filename));
 	else
 		s = g_strdup (_("Workbook has unsaved changes, save them?"));
 

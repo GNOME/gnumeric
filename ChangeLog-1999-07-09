@@ -125,7 +125,6 @@
 	* src/workbook.c (open_cmd): If the file-open dialog was
 	cancelled, it will return NULL.  Take this into account.
 
->>>>>>> 1.256
 1999-01-08  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/workbook.c (workbook_setup_status_area): We do not use the

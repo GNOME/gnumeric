@@ -173,26 +173,24 @@ style_font_unref (StyleFont *sf)
 }
 
 StyleBorder *
-style_border_new (StyleBorderType border_type[4],
-		  StyleColor *border_color[4])
+style_border_new (StyleBorderType  border_type  [4],
+		  StyleColor      *border_color [4])
 
 {
 	StyleBorder key, *border;
 	int lp ;
 
  	memcpy (&key.type, border_type, sizeof(key.type)) ;
- 	for (lp=0;lp<4;lp++)
- 	{
-		if (border_color[lp])
-			key.color[lp] = border_color[lp] ;
+ 	for (lp = 0; lp < 4; lp++){
+		if (border_color [lp])
+			key.color [lp] = border_color [lp] ;
 		else
- 			key.color[lp] = NULL ;
+ 			key.color [lp] = NULL ;
  	}
 	
 	border = (StyleBorder *) g_hash_table_lookup (style_border_hash,
 						      &key);
-	if (!border)
-	{
+	if (!border){
 		border = g_new0 (StyleBorder, 1);
 		*border = key;
 		g_hash_table_insert (style_border_hash, border, border);
@@ -228,8 +226,9 @@ style_border_unref (StyleBorder *sb)
 StyleBorder *
 style_border_new_plain (void)
 {
- 	StyleBorderType style[4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE } ;
- 	StyleColor *color[4] = { NULL, NULL, NULL, NULL } ;
+ 	StyleBorderType style [4] = { BORDER_NONE, BORDER_NONE, BORDER_NONE, BORDER_NONE } ;
+ 	StyleColor *color [4] = { NULL, NULL, NULL, NULL } ;
+
 	return style_border_new (style, color) ;
 }
 
@@ -411,12 +410,12 @@ border_equal (gconstpointer v, gconstpointer v2)
 	StyleBorder *k2 = (StyleBorder *) v2;
 	int lp ;
 
- 	for (lp=0;lp<4;lp++)
+ 	for (lp = 0; lp < 4; lp++)
  	{
- 		if (k1->type[lp] != k2->type[lp])
+ 		if (k1->type [lp] != k2->type [lp])
  			return 0 ;
- 		if (k1->type[lp] != BORDER_NONE &&
- 		    k1->color[lp] != k2->color[lp])
+ 		if (k1->type [lp] != BORDER_NONE &&
+		    k1->color [lp] != k2->color [lp])
 			return 0;
 	}
 	
@@ -428,8 +427,8 @@ border_hash (gconstpointer v)
 {
 	StyleBorder *k = (StyleBorder *) v;
 
- 	return (k->type[STYLE_LEFT] << 12) | (k->type[STYLE_RIGHT] << 8) |
-	       (k->type[STYLE_TOP] << 4) | (k->type[STYLE_BOTTOM]) ;
+ 	return (k->type [STYLE_LEFT] << 12) | (k->type [STYLE_RIGHT] << 8) |
+	       (k->type [STYLE_TOP] << 4)   | (k->type [STYLE_BOTTOM]) ;
 
 }
 

@@ -116,8 +116,9 @@ void        cell_set_foreground          (Cell *cell, gushort red,
 void        cell_set_background          (Cell *cell, gushort red,
 					  gushort green, gushort blue);
 void        cell_set_pattern             (Cell *cell, int pattern);
-void        cell_set_border              (Cell *cell, StyleBorderType border_type[4],
-					  StyleColor *border_color[4]);
+void        cell_set_border              (Cell *cell,
+					  StyleBorderType border_type [4],
+					  StyleColor *border_color [4]);
 void        cell_set_alignment           (Cell *cell, int halign, int valign,
 					  int orientation, int auto_return);
 void        cell_set_halign              (Cell *cell, StyleHAlignFlags halign);
