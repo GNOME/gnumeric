@@ -547,8 +547,8 @@ gee_prepare_range (GnmExprEntry const *gee, GnmRangeRef *dst)
 		if (merge != NULL &&
 		    merge->end.col == MAX (dst->a.col, dst->b.col) &&
 		    merge->end.row == MAX (dst->a.row, dst->b.row)) {
-			dst->a.col = dst->b.col;
-			dst->a.row = dst->b.row;
+			dst->b.col = dst->a.col;
+			dst->b.row = dst->a.row;
 		}
 	}
 

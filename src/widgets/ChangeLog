@@ -1,3 +1,9 @@
+2003-11-22  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=127415
+	* gnumeric-expr-entry.c (gee_prepare_range): a merge is represented
+	  by its top left corner,not its bottom right.
+
 2003-11-17  Jody Goldberg <jody@gnome.org>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=127205

@@ -13,6 +13,8 @@ Andreas:
 	* Upon deleting of cells try to guess whether to move cells up 
           or to the left.
 	* Use the number of copies info read from an XL file
+	http://bugzilla.gnome.org/show_bug.cgi?id=127415
+	* Fix expr entry interaction with merged cells
 
 Emmanuel Pacaud:
 	* Add clipping for plot areas.
