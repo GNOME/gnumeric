@@ -1,3 +1,8 @@
+2001-03-06  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* py-gnumeric.[ch], python-loader.c:
+	Replaced #include "Python.h" with #include <Python.h>.
+
 2001-03-06  Jon K Hellan  <hellan@acm.org>
 
 	* py-gnumeric.c, py-gnumeric.h, python-loader.c: Fix include path
