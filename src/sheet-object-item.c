@@ -81,8 +81,12 @@ sheet_object_item_new (Sheet *sheet,
 	g_return_val_if_fail (sheet != NULL, NULL);
 	g_return_val_if_fail (IS_SHEET (sheet), NULL);
 	g_return_val_if_fail (goad_id != NULL, NULL);
-	
+
+#ifdef USING_OAF
+	object_server = bonobo_object_activate_with_oaf_id (goad_id, 0);
+#else
 	object_server = bonobo_object_activate_with_goad_id (NULL, goad_id, 0, NULL);
+#endif
 	if (!object_server)
 		return NULL;
 

@@ -1,3 +1,8 @@
+2000-06-22  Miguel de Icaza  <miguel@helixcode.com>
+
+	* src/sheet-object-item.c (sheet_object_item_new): Add OAF support
+	here. 
+
 2000-06-27  JP Rosevear  <jpr@arcavia.com>
 
 	* src/functions/fn-lookup.c (find_index_bisection): Undo

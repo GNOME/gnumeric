@@ -269,24 +269,9 @@ Office 2000 and 'explorer' compatibility.
 
 * Graphics component
 
-  * Scatter plots are not being scaled to the dimensions of the allocated
-    size for the graph inside the layout.
-
-  * Stacked, and Stacked 100% are not working for line plots.
-
-  * Need to support labels for categories (series)
-
   * Need to support list of series plotted (little box on the right)
 
   * Need to support all kinds of captions
-
-  * Need to support axis drawing with all their features
-
-  * Need to support pie-charts
-
-  * Need to add 3D support
-
-  * Need to add editing-facilities to each data plot type.
 
   * Need to provide menu/toolbar merging facilities with the graph component with 
     Gnumeric
@@ -294,8 +279,6 @@ Office 2000 and 'explorer' compatibility.
   * Add printing support (not fun)
 
 * Graph Druid
-
-  * Need to high-light current graph type on the first page
 
   * Need to finish the druid: manual data entry, better druiding,
 
