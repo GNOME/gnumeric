@@ -15,6 +15,7 @@
 
 #include <string.h>
 #include <gal/widgets/e-colors.h>
+#include <glade/glade.h>
 
 #ifdef ENABLE_BONOBO
 #	include <bonobo.h>
@@ -404,6 +405,21 @@ gtk_radio_group_get_selected (GSList *radio_group)
 
 	return 0;
 }
+
+
+int
+gnumeric_glade_group_value (GladeXML *gui, const char *group[])
+{
+	int i;
+	for (i = 0; group[i]; i++) {
+		GtkWidget *w = glade_xml_get_widget (gui, group[i]);
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
+			return i;
+	}
+	return -1;
+}
+
+
 
 static char *
 font_change_component_1 (const char *fontname, int idx,

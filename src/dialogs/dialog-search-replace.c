@@ -42,19 +42,6 @@ static const char *scope_group[] = {
 	0
 };
 
-
-static int
-get_group_value (GladeXML *gui, const char *group[])
-{
-	int i;
-	for (i = 0; group[i]; i++) {
-		GtkWidget *w = glade_xml_get_widget (gui, group[i]);
-		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w)))
-			return i;
-	}
-	return -1;
-}
-
 static gboolean
 is_checked (GladeXML *gui, const char *name)
 {
@@ -85,10 +72,10 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	sr->search_text = get_text (gui, "searchtext");
 	sr->replace_text = get_text (gui, "replacetext");
 
-	i = get_group_value (gui, search_type_group);
+	i = gnumeric_glade_group_value (gui, search_type_group);
 	sr->is_regexp = (i == 1);
 
-	i = get_group_value (gui, scope_group);
+	i = gnumeric_glade_group_value (gui, scope_group);
 	sr->scope = (i == -1) ? SRS_sheet : (SearchReplaceScope)i;
 	sr->range_text = get_text (gui, "rangetext");
 
@@ -102,7 +89,7 @@ ok_clicked (GtkWidget *widget, DialogState *dd)
 	sr->replace_expressions = is_checked (gui, "replace_expr");
 	sr->replace_comments = is_checked (gui, "replace_comments");
 
-	i = get_group_value (gui, error_group);
+	i = gnumeric_glade_group_value (gui, error_group);
 	sr->error_behaviour = (i == -1) ? SRE_fail : (SearchReplaceError)i;
 
 	err = search_replace_verify (sr);

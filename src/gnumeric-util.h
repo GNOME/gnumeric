@@ -34,6 +34,8 @@ int        run_popup_menu  (GdkEvent *event, int button, char **strings);
 
 /* Utility routine as Gtk does not have any decent routine to do this */
 int        gtk_radio_group_get_selected (GSList *radio_group);
+/* Utility routine as libglade does not have any decent routine to do this */
+int        gnumeric_glade_group_value (GladeXML *gui, const char *group[]);
 
 char      *x11_font_get_bold_name       (const char *fontname, int units);
 char      *x11_font_get_italic_name     (const char *fontname, int units);

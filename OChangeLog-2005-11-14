@@ -1,3 +1,8 @@
+2001-03-23  Morten Welinder  <terra@diku.dk>
+
+	* src/gnumeric-util.c (gnumeric_glade_group_value): Function moved
+ 	from dialog-search-replace.c.
+
 2001-03-21  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/gutils.h (g_vector_free_custom macro): Fixed stupid bug.
