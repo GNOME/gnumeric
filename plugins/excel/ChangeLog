@@ -1,3 +1,7 @@
+2004-10-11  Morten Welinder  <terra@gnome.org>
+
+	* ms-excel-read.c (ms_sheet_realize_obj): Plug leak.
+
 2004-10-10  Jody Goldberg <jody@gnome.org>
 
 	* ms-obj.c (ms_obj_map_forms_obj) : move here and pull in the linked

@@ -480,6 +480,9 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		/* replace blips we don't know how to handle with rectangles */
 		if (so == NULL)
 			so = g_object_new (GNM_SO_FILLED_TYPE, NULL);  /* placeholder */
+
+#warning "Why do we create these here only to get rid of them?"
+		g_object_unref (so);
 		break;
 	}
 
