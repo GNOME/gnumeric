@@ -26,11 +26,13 @@
 #include "style-condition.h"
 #include "validation.h"
 #include "value.h"
+#include "gui-util.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <string.h>
 #include <locale.h>
 
+#if 0
 static char *
 validation_generate_msg (StyleCondition *sc)
 {
@@ -39,9 +41,10 @@ validation_generate_msg (StyleCondition *sc)
 	char *t;
 
 	g_return_val_if_fail (sc != NULL, NULL);
-	
-	s = g_string_new (_("The value you enter :\n"));
 
+	s = g_string_new (_("The value you entered :\n"));
+
+	/* FIXME : this should only complain about the contraints that fail, */
 	/*
 	 * FIXME: Some things need to be done here once we implement
 	 * the other validation types.
@@ -66,7 +69,7 @@ validation_generate_msg (StyleCondition *sc)
 	 * on the validation action to be taken.
 	 * For "STOP" : "Must be"
 	 * For "WARNING" : "Should be"
-	 * For "INFORMATION" : "Had best be" ?
+	 * For "INFORMATION" : "Are generally" ?
 	 */
 	for (sci = sc; sci != NULL; sci = sci->next) {
 		switch (sci->type) {
@@ -91,7 +94,7 @@ validation_generate_msg (StyleCondition *sc)
 
 			if (!sci->u.expr.val)
 				g_warning ("Error determining expression value");
-			
+
 			g_string_sprintfa (s, t, value_peek_string (sci->u.expr.val));
 			break;
 		case SCT_CONSTRAINT :
@@ -106,7 +109,7 @@ validation_generate_msg (StyleCondition *sc)
 			default :
 				t = _("<unknown>");
 			}
-			
+
 			g_string_append (s, t);
 			break;
 		case SCT_FLAGS :
@@ -120,70 +123,45 @@ validation_generate_msg (StyleCondition *sc)
 	g_string_free (s, FALSE);
 	return t;
 }
+#endif
 
-gboolean
-validation_get_accept (GtkWindow *parent, Validation const *v)
+/**
+ * validation_get_accept :
+ * 	 1 : ignore invalid and accept result
+ * 	 0 : discard invalid and finish editing
+ *	-1 : continue editing
+ */
+int
+validation_get_accept (Validation const *v, char const *title, char const *msg,
+		       WorkbookControlGUI *wbcg)
 {
-	GnomeDialog *dialog;
-	const char  *title    = v->title ? v->title->str : NULL;
-	const char  *msg      = v->msg ? v->msg->str : NULL;
-	char        *msg_auto = NULL;
-	int          ret;
-	gboolean     result = FALSE;
+	int res0, res1, button;
 
-	if (!msg || strlen (msg) == 0)
-		msg_auto = validation_generate_msg (v->sc);
-	
+	GtkWidget  *dialog;
+
 	switch (v->vs) {
-	case VALIDATION_STYLE_NONE :
-		result = TRUE;
-		break;
 	case VALIDATION_STYLE_STOP :
-		dialog = GNOME_DIALOG (
-			gnome_message_box_new (
-				msg_auto ? msg_auto : msg, GNOME_MESSAGE_BOX_ERROR,
-				_("Ok"), NULL));
-		gnome_dialog_set_parent (dialog, parent);
-		if (title)
-			gtk_window_set_title (GTK_WINDOW (dialog), title);
-		gnome_dialog_run (dialog);
-		result = FALSE;
+		res0 = -1; res1 = 0;
+		dialog = gnome_message_box_new ( msg, GNOME_MESSAGE_BOX_ERROR,
+			_("Re-Edit"), _("Discard"), NULL);
 		break;
 	case VALIDATION_STYLE_WARNING :
-		dialog = GNOME_DIALOG (
-			gnome_message_box_new (
-				msg_auto ? msg_auto : msg , GNOME_MESSAGE_BOX_WARNING,
-				_("Accept"), _("Discard"), NULL));
-		/* FIXME: This doesn't seem to have any effect */
-		gnome_dialog_set_default (dialog, 0);
-		gnome_dialog_set_parent (dialog, parent);
-		if (title)
-			gtk_window_set_title (GTK_WINDOW (dialog), title);
-		ret = gnome_dialog_run (dialog);
-		
-		if (ret == 0)
-			result = TRUE;
-		else 
-			result = FALSE;
+		res0 = 1; res1 = 0;
+		dialog = gnome_message_box_new (msg , GNOME_MESSAGE_BOX_WARNING,
+			_("Accept"), _("Discard"), NULL);
 		break;
 	case VALIDATION_STYLE_INFO :
-		dialog = GNOME_DIALOG (
-			gnome_message_box_new (
-				msg_auto ? msg_auto : msg, GNOME_MESSAGE_BOX_INFO,
-				_("Ok"), NULL));
-		gnome_dialog_set_parent (dialog, parent);
-		if (title)
-			gtk_window_set_title (GTK_WINDOW (dialog), title);
-		gnome_dialog_run (dialog);
-		result = TRUE;
+		res0 = res1 = 1;
+		dialog = gnome_message_box_new (msg, GNOME_MESSAGE_BOX_INFO,
+			_("Ok"), NULL);
 		break;
-	default :
-		g_warning ("Unknown validation handler");
-		result = FALSE;
+	default : g_return_val_if_fail (FALSE, 1);
 	}
-	
-	if (msg_auto)
-		g_free (msg_auto);
-	
-	return result;
+
+	if (title)
+		gtk_window_set_title (GTK_WINDOW (dialog), title);
+	gnome_dialog_set_default (GNOME_DIALOG (dialog), 0);
+	button = gnumeric_dialog_run (wbcg, GNOME_DIALOG (dialog));
+
+	return (button != 1) ? res0 : res1;
 }

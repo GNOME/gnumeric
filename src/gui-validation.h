@@ -1,9 +1,10 @@
 #ifndef GNUMERIC_GUI_VALIDATION_H
 #define GNUMERIC_GUI_VALIDATION_H
 
-#include "workbook-control-gui.h"
-#include "mstyle.h"
+#include "gui-gnumeric.h"
 
-gboolean  validation_get_accept           (GtkWindow *parent, Validation const *v);
+int validation_get_accept (Validation const *v,
+			   char const *title, char const *msg,
+			   WorkbookControlGUI *wbcg);
 
 #endif /* GNUMERIC_GUI_VALIDATION_H */

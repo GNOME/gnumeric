@@ -232,12 +232,8 @@ style_condition_expr_eval (StyleConditionExpr *sce, Value *val, StyleFormat *for
 {
 	ValueCompare vc;
 			
-	/*
-	 * Apparantly no eval has been done yet, so
-	 * we'll have to force it.
-	 */
 	if (sce->val == NULL) {
-		g_return_val_if_fail (dependent_needs_recalc (&sce->dep), FALSE);
+		sce->dep.flags |= DEPENDENT_NEEDS_RECALC;
 		dependent_eval (&sce->dep);
 		g_return_val_if_fail (sce->val != NULL, FALSE);
 	}

@@ -31,6 +31,7 @@
 #include "workbook-edit.h"
 #include "workbook.h"
 #include "sheet.h"
+#include "sheet-merge.h"
 #include "sheet-private.h"
 #include "sheet-control-gui-priv.h"
 #include "gnumeric-canvas.h"
@@ -1907,6 +1908,7 @@ cb_view_freeze_panes (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 	SheetControlGUI *scg = wb_control_gui_cur_sheet (wbcg);
 
+	scg_mode_edit (SHEET_CONTROL (scg));
 	if (scg->active_panes == 1) {
 		CellPos frozen_tl, unfrozen_tl;
 		GnumericCanvas const *gcanvas = scg_pane (scg, 0);

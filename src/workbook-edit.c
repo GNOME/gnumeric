@@ -112,7 +112,7 @@ wbcg_edit_error_dialog (WorkbookControlGUI *wbcg, char *str)
 {
 	GnomeDialog *dialog;
 	int ret;
-	
+
 	dialog = GNOME_DIALOG (
 		gnome_message_box_new (
 		str, GNOME_MESSAGE_BOX_ERROR,
@@ -128,47 +128,51 @@ wbcg_edit_error_dialog (WorkbookControlGUI *wbcg, char *str)
 /**
  * wbcg_edit_validate:
  *
- * Either pass @tree or @val.
+ * Either pass @expr or @val.
  * The parameters will be validated against the
  * validation set in the MStyle if applicable.
  *
- * Return value: TRUE if the validation checks out ok, FALSE otherwise.
+ * Return value:
+ * 	 1 : things validate
+ * 	 0 : things do not validate and should be discarded
+ *	-1 : things do not validate and editing should continue
  **/
-static gboolean
+static int
 wbcg_edit_validate (WorkbookControlGUI *wbcg, MStyle const *mstyle,
-		    ExprTree const *tree, Value *val)
+		    ExprTree const *expr, Value *val)
 {
-	Validation *v;
-	StyleCondition *sc;
-	Sheet *sheet;
-	gboolean result = TRUE;
-	
-	v = mstyle_get_validation (mstyle);
-	g_return_val_if_fail (mstyle_is_element_set (mstyle, MSTYLE_VALIDATION), TRUE);
-	
-	sc = v->sc;
-	sheet = wbcg->editing_sheet;
+	Validation *v = mstyle_get_validation (mstyle);
+	int result = 1;
 
-	if (sc) {
-		Value *valt;
-		Cell  *cell = sheet_cell_get (sheet, sheet->edit_pos.col, sheet->edit_pos.row);
-		
-		if (!val) {
+	g_return_val_if_fail (v != NULL, 1);
+
+	if (v->sc != NULL) {
+		Value *tmp;
+		Sheet *sheet = wbcg->editing_sheet;
+		Cell  *cell = sheet_cell_get (sheet,
+			sheet->edit_pos.col, sheet->edit_pos.row);
+
+		if (expr != NULL) {
 			EvalPos ep;
-			valt = expr_eval (tree, eval_pos_init (&ep, sheet, &sheet->edit_pos), 0);
+			tmp = expr_eval (expr, eval_pos_init_cell (&ep, cell),
+					 EVAL_STRICT);
 		} else
-			valt = val;
+			tmp = val;
 
-		g_return_val_if_fail (valt != NULL, FALSE);
+		if (!style_condition_eval (v->sc, tmp, cell ? cell->format : NULL) &&
+		    v->vs != VALIDATION_STYLE_NONE) {
+			char const *title = (v->title && v->title->str[0]) ? v->title->str
+				: _("Gnumeric : Validation");
+			char const *msg   = (v->msg && v->msg->str[0]) ? v->msg->str
+				: _("That value is invalid.\n"
+				    "Restrictions have been placed on this cell's content.");
+			result = validation_get_accept (v, title, msg, wbcg);
+		}
 
-		result = style_condition_eval (sc, valt, cell ? cell->format : NULL);
-		if (!val)
-			value_release (valt);
-
-		if (!result)
-			result = validation_get_accept (wbcg->toplevel, v);
+		if (tmp != val)
+			value_release (tmp);
 	}
-	
+
 	return result;
 }
 
@@ -262,7 +266,14 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		}
 
 		if (mstyle_is_element_set (mstyle, MSTYLE_VALIDATION))
-			is_valid = wbcg_edit_validate (wbcg, mstyle, expr, value);
+			switch (wbcg_edit_validate (wbcg, mstyle, expr, value)) {
+			case 1 : is_valid = TRUE; break;
+			case 0 : is_valid = FALSE; break;
+			case -1 : gtk_window_set_focus (GTK_WINDOW (wbcg->toplevel),
+							GTK_WIDGET (wbcg_get_entry (wbcg)));
+				  return FALSE;
+			};
+
 		if (value != NULL)
 			value_release (value);
 		if (expr != NULL)
@@ -492,7 +503,7 @@ void
 wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
-	
+
 	g_return_if_fail (guru != NULL);
 	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
 	g_return_if_fail (wbcg->edit_line.guru == NULL);
@@ -501,7 +512,7 @@ wbcg_edit_attach_guru (WorkbookControlGUI *wbcg, GtkWidget *guru)
 	 * this protects against two anted regions showing up
 	 */
 	application_clipboard_unant ();
-	
+
 	wbcg->edit_line.guru = guru;
 	gtk_entry_set_editable (GTK_ENTRY (wbcg->edit_line.entry), FALSE);
 	workbook_edit_set_sensitive (wbcg, FALSE, FALSE);

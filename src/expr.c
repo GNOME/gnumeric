@@ -1693,6 +1693,76 @@ cellref_boundingbox (CellRef const *cr, Range *bound)
 	}
 }
 
+static GSList *
+g_slist_insert_unique (GSList *list, gpointer data)
+{
+	if (data != NULL && g_slist_find (list, data) == NULL)
+		return g_slist_prepend (list, data);
+	return list;
+}
+
+static GSList *
+do_referenced_sheets (ExprTree const *expr, GSList *sheets)
+{
+	switch (expr->any.oper) {
+	case OPER_ANY_BINARY:
+		return do_referenced_sheets (
+			expr->binary.value_b,
+			do_referenced_sheets (
+				expr->binary.value_b,
+				sheets));
+
+	case OPER_ANY_UNARY:
+		return do_referenced_sheets (expr->unary.value, sheets);
+
+	case OPER_FUNCALL: {
+		ExprList *l;
+		for (l = expr->func.arg_list; l; l = l->next)
+			sheets = do_referenced_sheets (l->data, sheets);
+		return sheets;
+	}
+
+	case OPER_NAME:
+		return sheets;
+
+	case OPER_VAR:
+		return g_slist_insert_unique (sheets, expr->var.ref.sheet);
+
+	case OPER_CONSTANT: {
+		Value const *v = expr->constant.value;
+		if (v->type != VALUE_CELLRANGE)
+			return sheets;
+		return g_slist_insert_unique (
+				g_slist_insert_unique (sheets,
+						       v->v_range.cell.a.sheet),
+				v->v_range.cell.b.sheet);
+	}
+
+	case OPER_ARRAY:
+		g_warning ("An array in a NAME ?");
+		break;
+
+	default :
+		break;
+	}
+	return sheets;
+}
+
+/**
+ * expr_tree_referenced_sheets :
+ * @expr :
+ * @sheets : usually NULL.
+ *
+ * Generates a list of the sheets referenced by the supplied expression.
+ * Caller must free the list.
+ */
+GSList *
+expr_tree_referenced_sheets (ExprTree const *expr)
+{
+	g_return_val_if_fail (expr != NULL, NULL);
+	return do_referenced_sheets (expr, NULL);
+}
+
 /**
  * expr_tree_boundingbox :
  *

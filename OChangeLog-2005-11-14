@@ -1,4 +1,21 @@
+2001-12-24  Jody Goldberg <jody@gnome.org>
+
+	* src/style-condition.c (style_condition_expr_eval) : mark as needing
+	  a recalc, don't just assert it.
+
+	* src/workbook-edit.c (wbcg_edit_validate) : handle accept/reject/reedit
+	  Generate the title and msg here.  The goal is to move the gui
+	  specific aspects out of here.
+	(wbcg_edit_finish) : ditto.
+
+	* src/gui-validation.c (validation_generate_msg) : disable for now.
+	  It is a nice idea, but the implementation is in the wrong place
+	  and blows goats.
+
 2001-12-23  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_view_freeze_panes) : changing the
+	  pane freeze state stops object editing.
 
 	* src/sheet-autofill.c (sheet_autofill_dir) : add some very special
 	  purpose code to clip the bounds of autofilled arrays that are being

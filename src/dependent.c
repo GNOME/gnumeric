@@ -1085,6 +1085,11 @@ do_deps_destroy (Sheet *sheet, ExprRewriteInfo const *rwinfo)
 		deps->single_hash = NULL;
 	}
 
+	if (deps->names) {
+		g_hash_table_destroy (deps->names);
+		deps->names = NULL;
+	}
+
 	g_free (deps);
 }
 
@@ -1203,6 +1208,8 @@ dependency_data_new (void)
 				    (SHEET_MAX_ROWS-1)/BUCKET_SIZE + 1);
 	deps->single_hash = g_hash_table_new (depsingle_hash,
 					      depsingle_equal);
+	deps->names       = g_hash_table_new (g_direct_hash,
+					      g_direct_equal);
 
 	return deps;
 }

@@ -26,10 +26,11 @@ Jody:
 	* Partial fix for del col/row undo with dependent objects.
 	* Support some additional forms of #!REF in XL import.
 	* Fix importing of graphs with embedded graphs.
-	* Improve autofill handling of merges.
+	* Improve autofill handling of merges & arrays.
 	* Support pasting transposed merges.
 	* Ensure that cell sizes never violate absolute minima.
 	* Fix format leak (thanks Morten)
+	* Fix data validation.
 
 Morten:
 	* Fix DATE.
