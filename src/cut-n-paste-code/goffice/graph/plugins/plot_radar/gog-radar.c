@@ -337,10 +337,15 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 	for (ptr = model->base.series; ptr != NULL; ptr = ptr->next) {
 
 		GogRadarSeries *series = GOG_RADAR_SERIES (ptr->data);
-		GogStyle *style = GOG_STYLED_OBJECT (series)->style;
+		GogStyle *style;
 		gboolean closed_shape;
 		unsigned count;
 		double   *vals;
+
+		if (!gog_series_is_valid (GOG_SERIES (series))) 
+			continue;
+
+		style = GOG_STYLED_OBJECT (series)->style;
 
 		gog_renderer_push_style (view->renderer, style);
 

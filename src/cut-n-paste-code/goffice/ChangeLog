@@ -1,3 +1,9 @@
+2004-09-20  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=153146
+	* graph/plugins/plot_radar/gog-radar.c (gog_radar_view_render): Check
+	if series is valid before trying to render it.
+
 2004-09-19  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=152615
