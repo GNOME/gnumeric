@@ -24256,7 +24256,9 @@ msgstr "区域(_A)"
 msgid ""
 "   \n"
 "   <span weight=\"bold\">Rounds</span>"
-msgstr "\n<span weight=\"bold\">轮数</span>"
+msgstr ""
+"   \n"
+"   <span weight=\"bold\">轮数</span>"
 
 #: src/dialogs/simulation.glade.h:3
 msgid "   <span weight=\"bold\">Limits</span>"

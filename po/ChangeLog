@@ -1,3 +1,7 @@
+2004-11-12  Jon K Hellan  <hellan@acm.org>
+
+	* zh_CN.po: Unbreak build
+
 2004-11-28  Francisco Javier F. Serrador  <serrador@cvs.gnome.org>
 
 	* es.po: Updated Spanish translation.
