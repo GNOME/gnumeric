@@ -1455,3 +1455,24 @@ sheet_selection_get_unique_style (Sheet *sheet, MStyleBorder **borders)
  
 	return cl.mstyle;
 }
+
+/**
+ * sheet_style_get_extent:
+ * @r: input / output range
+ * @sheet: for this sheet.
+ * 
+ *   This enlarges r by a union with each non infinite style
+ * range.
+ **/
+void
+sheet_style_get_extent (Range *r, Sheet const *sheet)
+{
+	GList   *l;
+
+	for (l = STYLE_LIST (sheet); l; l = g_list_next (l)) {
+		Range *sr = (Range *)l->data;
+
+		if (!range_is_infinite (sr))
+			*r = range_union (r, sr);
+	}
+}

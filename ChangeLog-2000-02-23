@@ -1,3 +1,15 @@
+1999-12-18  Michael Meeks  <mmeeks@gnu.org>
+
+	* src/corba-sheet.c (command_context_corba): clean.
+
+	* src/sheet-style.c (sheet_style_get_extent): implement.
+
+	* src/sheet.c (sheet_get_extent): Add union with style extent,
+	fix silly typo.
+
+	* src/ranges.c (range_is_infinite): Add new function.
+	(range_union): implement.
+
 1999-12-18  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-financial.c (gnumeric_yieldmat,

@@ -606,12 +606,14 @@ sheet_get_extent (Sheet const *sheet)
 
 	if (r.start.col >= SHEET_MAX_COLS - 2)
 		r.start.col = 0;
-	if (r.start.col >= SHEET_MAX_ROWS - 2)
+	if (r.start.row >= SHEET_MAX_ROWS - 2)
 		r.start.row = 0;
 	if (r.end.col < 0)
 		r.end.col = 0;
 	if (r.end.row < 0)
 		r.end.row = 0;
+
+	sheet_style_get_extent (&r, sheet);
 
 	return r;
 }

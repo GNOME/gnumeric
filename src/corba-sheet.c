@@ -48,8 +48,8 @@ out_of_range (CORBA_Environment *ev)
 	CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Sheet_OutOfRange, NULL);
 }
 
-struct _CmdContext *
-command_context_corba ()
+CmdContext *
+command_context_corba (void)
 {
 	/* FIXME FIXME FIXME : corba context */
 	return NULL;

@@ -293,6 +293,7 @@ void           sheet_styles_dump                (Sheet *sheet);
 void           sheet_cells_update               (Sheet *sheet, Range r,
 						 gboolean render_text);
 Range          sheet_get_full_range             (void);
+void           sheet_style_get_extent           (Range *r, Sheet const *sheet);
 Range          sheet_get_extent                 (Sheet const *sheet);
 
 gboolean       sheet_check_for_partial_array (Sheet *sheet,

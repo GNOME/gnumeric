@@ -754,10 +754,74 @@ range_intersection (Range const *a, Range const *b)
 	return ans;
 }
 
+/**
+ * range_union:
+ * @a: range a
+ * @b: range b
+ * 
+ * This computes the union; on a Venn
+ * diagram this would be A U B
+ * NB. totally commutative. Also, this may
+ * include cells not in either range since
+ * it must return a Range.
+ * 
+ * Return value: the union
+ **/
+Range
+range_union (Range const *a, Range const *b)
+{
+	Range ans;
+
+	if (a->start.col < b->start.col)
+		ans.start.col = a->start.col;
+	else
+		ans.start.col = b->start.col;
+
+	if (a->end.col > b->end.col)
+		ans.end.col   = a->end.col;
+	else
+		ans.end.col   = b->end.col;
+
+	if (a->start.row < b->start.row)
+		ans.start.row = a->start.row;
+	else
+		ans.start.row = b->start.row;
+
+	if (a->end.row > b->end.row)
+		ans.end.row   = a->end.row;
+	else
+		ans.end.row   = b->end.row;
+
+	return ans;
+}
+
 gboolean
 range_is_singleton (Range const *r)
 {
 	return r->start.col == r->end.col && r->start.row == r->end.row;
+}
+
+/**
+ * range_is_infinite:
+ * @r: the range.
+ * 
+ *  This determines whether @r completely spans a sheet
+ * in either dimension ( semi-infinite )
+ * 
+ * Return value: TRUE if it is infinite else FALSE
+ **/
+gboolean
+range_is_infinite (Range const *r)
+{
+	if (r->start.col == 0 &&
+	    r->end.col   >= SHEET_MAX_COLS - 1)
+		return TRUE;
+
+	if (r->start.row == 0 &&
+	    r->end.row   >= SHEET_MAX_ROWS - 1)
+		return TRUE;
+	
+	return FALSE;
 }
 
 static void
