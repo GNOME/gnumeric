@@ -179,6 +179,13 @@ graph_view_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int
 	GraphView *graph_view = GRAPH_VIEW (item);
 	Graph *graph = graph_view->graph;
 
+	gdk_draw_rectangle (
+		drawable, graph_view->outline_gc, FALSE,
+		graph_view->bbox.x0 - x,
+		graph_view->bbox.y0 - y,
+		graph_view->bbox.x1 - graph_view->bbox.x0,
+		graph_view->bbox.y1 - graph_view->bbox.y0);
+	
 	switch (graph->chart_type){
 	case GNOME_Graph_CHART_TYPE_CLUSTERED:
 	case GNOME_Graph_CHART_TYPE_STACKED:

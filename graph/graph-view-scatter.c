@@ -86,14 +86,6 @@ graph_view_scatter_plot (GraphView *graph_view, GdkDrawable *drawable,
 
 	setup_view_ctx (&ctx, graph_view, drawable, graph_view->fill_gc, x, y, width, height);
 	
-	ctx.dim = MIN (ctx.xl, ctx.yl) / 40;
-
-	if (ctx.dim > 8)
-		ctx.dim = 8;
-
-	if (ctx.dim < 2)
-		ctx.dim = 2;
-	
 	/*
 	 * FIXME:
 	 *

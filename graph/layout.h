@@ -17,10 +17,23 @@ typedef struct _Layout Layout;
 #define IS_LAYOUT(o)       (GTK_CHECK_TYPE ((o), LAYOUT_TYPE))
 #define IS_LAYOUT_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), LAYOUT_TYPE))
 
+typedef struct {
+	/*
+	 * Factor: 0..1 that determines the size of the object
+	 */
+	double x_size, y_size;
+
+	/*
+	 * Factor: 0..1 that determines the location of the object
+	 */
+	double x_pos, y_pos;
+} ObjDim;
+
 struct _Layout {
 	BonoboEmbeddable parent;
 
-	Graph  *graph;
+	ObjDim           graph_dim;
+	Graph           *graph;
 
 	/*
 	 * Number of series we hold
@@ -41,6 +54,8 @@ void         layout_bind_view     (Layout *layout, void *layout_view);
 void         layout_get_n_series  (Layout *layout);
 GraphVector *layout_get_series    (Layout *layout, int n);
 
+void         layout_dim_bbox      (ArtIRect *bbox, int x, int y,
+				   int width, int height, ObjDim *dim);
 
 END_GNOME_DECLS
 

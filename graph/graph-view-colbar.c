@@ -27,14 +27,6 @@ column_draw (ViewDrawCtx *ctx, int item,
 {
 	int height, width, px, py;
 	
-	/*
-	 * Adjust for pixmap offset
-	 */
-	x1 -= ctx->x;
-	x2 -= ctx->x;
-	y1 -= ctx->y;
-	y2 -= ctx->y;
-
 	if (ctx->graph->direction == GNOME_Graph_DIR_BAR){
 		py = MIN (x1, x2);
 		height = fabs (x2-x1);
@@ -52,13 +44,18 @@ column_draw (ViewDrawCtx *ctx, int item,
 		width = x2 - x1;
 	}
 
+	px -= ctx->x;
+	py -= ctx->y;
+	
 	gdk_draw_rectangle (
 		ctx->drawable, ctx->graph_view->fill_gc, TRUE,
-		px, py, width, height);
+		px + ctx->graph_view->bbox.x0, py + ctx->graph_view->bbox.y0,
+		width, height);
 	
 	gdk_draw_rectangle (
 		ctx->drawable, ctx->graph_view->outline_gc, FALSE,
-		px, py, width, height);
+		px + ctx->graph_view->bbox.x0, py + ctx->graph_view->bbox.y0,
+		width, height);
 }
 
 static void
@@ -206,16 +203,80 @@ graph_view_colbar_draw_nth (ViewDrawCtx *ctx, int item)
 		break;
 
 	default:
-		g_error ("This mode does not support Column/Bar plotting");
+		g_error ("Unsupported chart_type for this mode");
 	}
 }
 
 static void
-graph_view_draw_area (ViewDrawCtx *ctx, int first, int last)
+la_draw (ViewDrawCtx *ctx, int item, gboolean draw_area, Symbol sym,
+	 double x1,  double x2,
+	 double ya1, double yb1,
+	 double ya2, double yb2)
 {
-#if 0
+	ArtIRect *bbox = &ctx->graph_view->bbox;
 	
-#endif
+	x1  += bbox->x0 - ctx->x;
+	x2  += bbox->x0 - ctx->x;
+	yb1 += bbox->y0 - ctx->y;
+	ya1 += bbox->y0 - ctx->y;
+	ya2 += bbox->y0 - ctx->y;
+	yb2 += bbox->y0 - ctx->y;
+	
+	if (draw_area){
+	} 
+
+	gdk_draw_line (ctx->drawable, ctx->graph_view->outline_gc, x1, yb1, x2, yb2);
+	symbol_draw (ctx, sym, x1, yb1);
+}
+
+static void
+graph_view_line_draw_nth_clustered (ViewDrawCtx *ctx, int item, gboolean draw_area)
+{
+	const int n_series = ctx->graph->layout->n_series;
+	const int item_base = item * ctx->units_per_slot + ctx->margin;
+	const int col_width = (ctx->units_per_slot - (ctx->margin * 2)) / n_series;
+	int i;
+
+	for (i = 0; i < n_series; i++){
+		GraphVector *vector = ctx->graph->layout->vectors [i];
+		Symbol sym;
+		
+		printf ("Plotting item=%d, x=%d\n", item, i);
+		setup_gc (ctx, i, item);
+
+		sym = symbol_setup (ctx, i);
+
+		la_draw (
+			ctx, item, draw_area, sym,
+			item * ctx->units_per_slot + ctx->margin,
+			(item+1) * ctx->units_per_slot + ctx->margin,
+			colbar_map_point (ctx, 0.0),
+			colbar_map_point (ctx, graph_vector_get_double (vector, item)),
+			colbar_map_point (ctx, 0.0),
+			colbar_map_point (ctx, graph_vector_get_double (vector, item + 1)));
+	}
+	
+}
+
+static void
+graph_view_draw_area (ViewDrawCtx *ctx, int item, gboolean draw_area)
+{
+	switch (ctx->graph->chart_type){
+	case GNOME_Graph_CHART_TYPE_CLUSTERED:
+		graph_view_line_draw_nth_clustered (ctx, item, draw_area);
+		break;
+
+	case GNOME_Graph_CHART_TYPE_STACKED:
+/*		graph_view_line_draw_nth_stacked (ctx, item, draw_area); */
+		break;
+
+	case GNOME_Graph_CHART_TYPE_STACKED_FULL:
+/*		graph_view_line_draw_nth_stacked_full (ctx, item, draw_area); */
+		break;
+
+	default:
+		g_error ("This mode does not support Column/Bar plotting");
+	}
 }
 
 void
@@ -225,12 +286,12 @@ graph_view_colbar_draw (GraphView *graph_view, GdkDrawable *drawable, int x, int
 	int first, last, i;
 	gboolean is_bar;
 	
-	printf ("Divisions: %d\n", graph_view->graph->divisions);
+	printf ("Divisions: %d %d %d\n", graph_view->graph->divisions, x, y);
 	if (graph_view->graph->divisions == 0)
 		return;
 
-	setup_view_ctx (&ctx, graph_view, drawable, NULL, x, y, width, height);
-
+	setup_view_ctx (&ctx, graph_view, drawable, graph_view->fill_gc, x, y, width, height);
+	
 	is_bar = ctx.graph->direction == GNOME_Graph_DIR_BAR;
 
 	if (ctx.graph->plot_mode != GNOME_Graph_PLOT_COLBAR)
@@ -238,13 +299,14 @@ graph_view_colbar_draw (GraphView *graph_view, GdkDrawable *drawable, int x, int
 
 	if (is_bar){
 		ctx.units_per_slot = ctx.yl / ctx.graph->divisions;
-		first = y / ctx.units_per_slot;
-		last = (y + width) / ctx.units_per_slot;
+		/* first = y / ctx.units_per_slot;          */
+		/* last = (y + width) / ctx.units_per_slot; */
 		ctx.scale = ctx.xl / ctx.graph->y_size;
 	} else {
 		ctx.units_per_slot = ctx.xl / ctx.graph->divisions;
-		first = x / ctx.units_per_slot;
-		last = (x + width) / ctx.units_per_slot;
+
+		/* first = x / ctx.units_per_slot;          */
+		/* last = (x + width) / ctx.units_per_slot; */
 		ctx.scale = ctx.yl / ctx.graph->y_size;
 	}
 	
@@ -254,6 +316,9 @@ graph_view_colbar_draw (GraphView *graph_view, GdkDrawable *drawable, int x, int
 	ctx.margin = ctx.units_per_slot / 20;
 	ctx.inter_item_margin = 0;
 
+	first = 0;
+	last = ctx.graph->divisions - 1;
+	
 	switch (ctx.graph->plot_mode){
 	case GNOME_Graph_PLOT_COLBAR:
 		for (i = first; i <= last; i++)
@@ -261,9 +326,17 @@ graph_view_colbar_draw (GraphView *graph_view, GdkDrawable *drawable, int x, int
 		break;
 
 	case GNOME_Graph_PLOT_AREA:
-	case GNOME_Graph_PLOT_LINES:
-		graph_view_draw_area (&ctx, first, last);
+	case GNOME_Graph_PLOT_LINES: {
+		gboolean draw_area;
+		
+		draw_area = ctx.graph->plot_mode == GNOME_Graph_PLOT_AREA;
+		
+		for (i = first; i <= last; i++)
+			graph_view_draw_area (&ctx, i, draw_area);
 		break;
 	} 
+	
+	} /* switch */
 }
+
 

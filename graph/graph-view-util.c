@@ -122,6 +122,16 @@ setup_view_ctx (ViewDrawCtx *ctx, GraphView *gv, GdkDrawable *d, GdkGC *gc,
 	ctx->graph = gv->graph;
 	ctx->yl = gv->bbox.y1 - gv->bbox.y0;
 	ctx->xl = gv->bbox.x1 - gv->bbox.x0;
+
+	ctx->dim = MIN (ctx->xl, ctx->yl) / 40;
+
+	if (ctx->dim > 8)
+		ctx->dim = 8;
+
+	if (ctx->dim < 2)
+		ctx->dim = 2;
+	
 }
+
 
 	

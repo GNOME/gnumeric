@@ -60,8 +60,8 @@ void   setup_view_ctx (ViewDrawCtx *ctx, GraphView *gv, GdkDrawable *d, GdkGC *g
  *
  * y axis also gets flipped.
  */
-#define CANVAS_MAP_X(ctx,xv) ((xv) - ctx->x)
-#define CANVAS_MAP_Y(ctx,yv) ((ctx->yl - yv) - ctx->y)
+#define CANVAS_MAP_X(ctx,xv) ((xv) - ctx->x + ctx->graph_view->bbox.x0)
+#define CANVAS_MAP_Y(ctx,yv) ((ctx->yl - yv) - ctx->y + ctx->graph_view->bbox.y0)
 
 #define ADJUST_Y(ctx,y) (y - ctx->graph->low)
 

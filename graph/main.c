@@ -8,6 +8,7 @@
  */
 #include <config.h>
 #include <bonobo.h>
+#include <libgnorba/gnorba.h>
 #include "Graph.h"
 #include "layout.h"
 

@@ -27,6 +27,7 @@ static void
 layout_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation, LayoutView *layout_view)
 {
 	ArtIRect bbox;
+	Layout *layout = layout_view->layout;
 
 	bbox.x0 = allocation->x;
 	bbox.y0 = allocation->y;
@@ -34,6 +35,13 @@ layout_view_size_allocate (GtkWidget *widget, GtkAllocation *allocation, LayoutV
 	bbox.y1 = bbox.y0 + allocation->height;
 
 	printf ("BBox=%d, %d, %d, %d\n", bbox.x0, bbox.y0, bbox.x1, bbox.y1);
+
+	layout_dim_bbox (&bbox,
+			 allocation->x, allocation->y, allocation->width, allocation->height,
+			 &layout->graph_dim);
+
+	printf ("BBox=%d, %d, %d, %d\n", bbox.x0, bbox.y0, bbox.x1, bbox.y1);
+	
 	graph_view_set_bbox (layout_view->graph_view, &bbox);
 	gnome_canvas_set_scroll_region (
 		GNOME_CANVAS (layout_view->canvas),
@@ -47,7 +55,8 @@ layout_view_new (Layout *layout)
 	Bonobo_View corba_layout_view;
 	
 	layout_view = gtk_type_new (LAYOUT_VIEW_TYPE);
-
+	layout_view->layout = layout;
+	
 	corba_layout_view = bonobo_view_corba_object_create (BONOBO_OBJECT (layout_view));
 	if (corba_layout_view == CORBA_OBJECT_NIL){
 		gtk_object_destroy (GTK_OBJECT (corba_layout_view));

@@ -13,6 +13,9 @@
 #include "layout.h"
 #include "layout-view.h"
 
+ static ObjDim default_graph_dim = { 0.7, 0.7, 0.15, 0.15 };
+/* static ObjDim default_graph_dim = { 1.0, 1.0, 0, 0 }; */
+
 static BonoboEmbeddableClass *layout_parent_class;
 
 /* The entry point vectors for the server we provide */
@@ -158,8 +161,10 @@ layout_new (void)
 	bonobo_embeddable_construct (BONOBO_EMBEDDABLE (layout),
 				    (Bonobo_Embeddable) corba_layout,
 				    layout_view_factory, NULL);
+
 	layout->graph = graph_new (layout);
-	
+	layout->graph_dim = default_graph_dim;
+		
 	return layout;
 }
 
@@ -194,3 +199,14 @@ layout_get_graph (Layout *layout)
 
 	return layout->graph;
 }
+
+void
+layout_dim_bbox (ArtIRect *bbox, int x, int y, int width, int height, ObjDim *dim)
+{
+	bbox->x0 = x + (width * dim->x_pos);
+	bbox->y0 = y + (height * dim->y_pos);
+	bbox->x1 = bbox->x0 + (width * dim->x_size);
+	bbox->y1 = bbox->y0 + (height * dim->y_size);
+}
+
+		
