@@ -1282,7 +1282,7 @@ cb_rotate_canvas_realize (GnomeCanvas *canvas, FormatState *state)
 	pango_ft2_render_layout (&ft_bitmap, layout, 0, 0);
 
 	pixbuf = gdk_pixbuf_new (GDK_COLORSPACE_RGB, TRUE, 8,
-				     ft_bitmap.width, ft_bitmap.rows);
+				 ft_bitmap.width, ft_bitmap.rows);
 	for (by = 0; by < ft_bitmap.rows; by++) {
 	        pd = gdk_pixbuf_get_pixels (pixbuf)
 			+ by * gdk_pixbuf_get_rowstride (pixbuf);

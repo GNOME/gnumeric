@@ -1,3 +1,8 @@
+2003-05-31  Jody Goldberg <jody@gnome.org>
+
+	* solver/solver.c (solver_lp_copy) : quick ugly patch.  Copying string
+	  pointers is a bad idea.
+
 2003-05-11  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.17
