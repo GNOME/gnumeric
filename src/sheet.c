@@ -785,6 +785,7 @@ sheet_update (Sheet const *sheet)
 		});
 	}
 
+	/* FIXME : decide whether to do this here or in workbook view */
 	if (p->edit_pos.location_changed) {
 		char const *new_pos = cell_pos_name (&sheet->cursor.edit_pos);
 

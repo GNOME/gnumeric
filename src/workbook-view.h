@@ -25,6 +25,9 @@ struct _WorkbookView {
 	char	  *auto_expr_desc;
 	char	  *auto_expr_value_as_string;
 
+	/* selection */
+	char	  *selection_description;
+
 	/* Format for feedback */
 	MStyle    *current_format;
 };
@@ -60,6 +63,8 @@ void		 wb_view_preferred_size	  (WorkbookView *wbv,
 					   int w_pixels, int h_pixels);
 void		 wb_view_prefs_update	  (WorkbookView *wbv);
 void		 wb_view_format_feedback  (WorkbookView *wbv, gboolean display);
+void		 wb_view_selection_desc   (WorkbookView *wbv, gboolean use_pos,
+					   WorkbookControl *optional_wbc);
 void		 wb_view_edit_line_set	  (WorkbookView *wbv,
 					   WorkbookControl *optional_wbc);
 void		 wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display);

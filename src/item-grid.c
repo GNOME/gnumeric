@@ -11,6 +11,7 @@
 #include "item-grid.h"
 #include "gnumeric-sheet.h"
 #include "workbook-edit.h"
+#include "workbook-view.h"
 #include "workbook-control.h"
 #include "workbook-control-gui-priv.h"
 #include "sheet-control-gui.h"
@@ -874,11 +875,8 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 							 scg->sheet->cursor.edit_pos.col,
 							 scg->sheet->cursor.edit_pos.row);
 
-			/* FIXME : when selection moves into the view we will need to do
-			 * this for all the sibling controls */
-			wb_control_selection_descr_set (
-				WORKBOOK_CONTROL (scg->wbcg),
-				cell_pos_name (&scg->sheet->cursor.edit_pos));
+			wb_view_selection_desc (wb_control_view (
+				WORKBOOK_CONTROL (scg->wbcg)), TRUE, NULL);
 
 			item_grid->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);

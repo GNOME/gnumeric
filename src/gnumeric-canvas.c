@@ -820,7 +820,6 @@ gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 {
 	GnumericSheet *gsheet = GNUMERIC_SHEET (widget);
 	SheetControlGUI *scg = gsheet->scg;
-	Sheet *sheet = scg->sheet;
 
 	/*
 	 * The status_region normally displays the current edit_pos
@@ -831,9 +830,8 @@ gnumeric_sheet_key_release (GtkWidget *widget, GdkEventKey *event)
 	 */
 	if (scg->current_object == NULL &&
 	    (event->keyval == GDK_Shift_L || event->keyval == GDK_Shift_R))
-		wb_control_selection_descr_set (
-			WORKBOOK_CONTROL (gsheet->scg->wbcg),
-			cell_pos_name (&sheet->cursor.edit_pos));
+		wb_view_selection_desc (wb_control_view (
+			WORKBOOK_CONTROL (gsheet->scg->wbcg)), TRUE, NULL);
 
 	return FALSE;
 }

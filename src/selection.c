@@ -49,20 +49,6 @@ segments_intersect (int const s_a, int const e_a,
 	return (e_a <= e_b) ? 2 : 1;
 }
 
-static const char *
-sheet_get_selection_name (Sheet const *sheet)
-{
-	SheetSelection const *ss = sheet->selections->data;
-	static char buffer [10 + 2 * 4 * sizeof (int)];
-
-	if (range_is_singleton (&ss->user))
-		return cell_pos_name (&ss->user.start);
-	snprintf (buffer, sizeof (buffer), _("%dLx%dC"),
-		  ss->user.end.row - ss->user.start.row + 1,
-		  ss->user.end.col - ss->user.start.col + 1);
-	return buffer;
-}
-
 /**
  * Return 1st range.
  * Return NULL if there is more than 1 and @permit_complex is FALSE
@@ -169,8 +155,6 @@ sheet_selection_add (Sheet *sheet, int col, int row)
 void
 sheet_selection_extend_to (Sheet *sheet, int col, int row)
 {
-	char const *sel_descr;
-
 	g_return_if_fail (IS_SHEET (sheet));
 
 	/* If nothing was going to change dont redraw */
@@ -191,13 +175,10 @@ sheet_selection_extend_to (Sheet *sheet, int col, int row)
 	 * but this is somewhat lower level that I want to do this.
 	 */
 	sheet_update (sheet);
-	sel_descr = sheet_get_selection_name (sheet);
 	WORKBOOK_FOREACH_VIEW (sheet->workbook, view,
 	{
-		if (wb_view_cur_sheet (view) == sheet) {
-			WORKBOOK_VIEW_FOREACH_CONTROL(view, control,
-				wb_control_selection_descr_set (control, sel_descr););
-		}
+		if (wb_view_cur_sheet (view) == sheet)
+			wb_view_selection_desc (view, FALSE, NULL);
 	});
 }
 

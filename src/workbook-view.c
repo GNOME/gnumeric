@@ -89,7 +89,9 @@ wb_view_sheet_focus (WorkbookView *wbv, Sheet *sheet)
 			wb_control_sheet_focus (control, sheet););
 
 		wbv->current_sheet = sheet;
+		wb_view_selection_desc (wbv, TRUE, NULL);
 		wb_view_edit_line_set (wbv, NULL);
+		wb_view_format_feedback (wbv, TRUE);
 		wb_view_auto_expr_recalc (wbv, TRUE);
 	}
 }
@@ -185,6 +187,32 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 			WORKBOOK_VIEW_FOREACH_CONTROL(wbv, control,
 				wb_control_format_feedback (control););
 		}
+	}
+}
+
+void
+wb_view_selection_desc (WorkbookView *wbv, gboolean use_pos,
+			WorkbookControl *optional_wbc)
+{
+	Sheet *sheet;
+
+	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
+
+	sheet = wbv->current_sheet;
+	if (sheet != NULL) {
+		char buffer [10 + 2 * 4 * sizeof (int)];
+		char const *sel_descr = buffer;
+		SheetSelection const *ss = sheet->selections->data;
+
+		if (use_pos)
+			sel_descr = cell_pos_name (&ss->user.start);
+		else
+			snprintf (buffer, sizeof (buffer), _("%dLx%dC"),
+				  ss->user.end.row - ss->user.start.row + 1,
+				  ss->user.end.col - ss->user.start.col + 1);
+
+		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, control,
+			wb_control_selection_descr_set (control, sel_descr););
 	}
 }
 
@@ -452,6 +480,14 @@ workbook_view_init (WorkbookView *wbv, Workbook *opt_wb)
 	wbv->show_vertical_scrollbar = TRUE;
 	wbv->show_notebook_tabs = TRUE;
 
+	/* Set the default operation to be performed over selections */
+	wbv->auto_expr      = NULL;
+	wbv->auto_expr_desc = NULL;
+	wbv->auto_expr_value_as_string = NULL;
+	wb_view_auto_expr (wbv, _("Sum"), "sum(selection(0))");
+
+	wbv->current_format = NULL;
+
 	/* Guess at the current sheet */
 	wbv->current_sheet = NULL;
 	if (opt_wb != NULL) {
@@ -461,15 +497,6 @@ workbook_view_init (WorkbookView *wbv, Workbook *opt_wb)
 			g_list_free (sheets);
 		}
 	}
-
-	/* Set the default operation to be performed over selections */
-	wbv->auto_expr      = NULL;
-	wbv->auto_expr_desc = NULL;
-	wbv->auto_expr_value_as_string = NULL;
-	wb_view_auto_expr (wbv, _("Sum"), "sum(selection(0))");
-
-	wbv->current_format = NULL;
-	wb_view_format_feedback (wbv, FALSE);
 }
 
 static void

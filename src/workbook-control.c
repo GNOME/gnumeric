@@ -115,7 +115,10 @@ wb_control_sheet_add (WorkbookControl *wbc, Sheet *new_sheet)
 
 		/* If this is the current sheet init the display */
 		if (new_sheet == wb_control_cur_sheet (wbc)) {
+			WorkbookView *wbv = wb_control_view (wbc);
 			wb_control_sheet_focus (wbc, new_sheet);
+			wb_view_selection_desc (wbv, TRUE, wbc);
+			wb_view_edit_line_set (wbv, wbc);
 			wb_control_auto_expr_value (wbc);
 			wb_control_format_feedback (wbc);
 		}

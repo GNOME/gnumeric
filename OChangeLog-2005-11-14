@@ -1,3 +1,21 @@
+2000-12-04  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-view.c (wb_view_sheet_focus) : Init the selection
+	  descriptor and format format.
+	(wb_view_selection_desc) : new function.
+	(workbook_view_init) : Init the expression and format before setting
+	  the current sheet.  Setting the sheet will update the content.
+
+	* src/workbook-control.c (wb_control_sheet_add) : Init the format,
+	  edit line, and selection descriptor.
+
+	* src/selection.c (sheet_get_selection_name) : Delete.
+	(sheet_selection_extend_to) : Use wb_view_selection_desc.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_release) : Use
+	  wb_view_selection_desc.
+	* src/item-grid.c (item_grid_event) : Ditto.
+
 2000-12-05  Michael Meeks  <michael@helixcode.com>
 
 	* src/main.c (gnumeric_main): do the bonobo activate before we
