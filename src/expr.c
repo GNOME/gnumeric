@@ -143,7 +143,7 @@ value_get_as_string (const Value *value)
 		return g_strdup_printf ("%d", value->v.v_int);
 
 	case VALUE_FLOAT:
-		return g_strdup_printf ("%g", value->v.v_float);
+		return g_strdup_printf ("%.*g", DBL_DIG, value->v.v_float);
 
 	case VALUE_ARRAY: {
 		GString *str = g_string_new ("{");

@@ -1,5 +1,10 @@
 1999-05-27  Morten Welinder  <terra@diku.dk>
 
+	* src/expr.c (value_get_as_string): Improve precision -- this
+ 	impacts the results of saves.
+
+1999-05-27  Morten Welinder  <terra@diku.dk>
+
 	* src/fn-stat.c (callback_function_mode): Ignore strings as
  	advertised.
 	(callback_function_stat_inv_sum): Ditto.
