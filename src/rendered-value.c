@@ -264,7 +264,7 @@ rendered_value_calc_size_ext (Cell const *cell, MStyle *mstyle)
 char *
 rendered_value_get_text (RenderedValue const *rv)
 {
-	g_return_val_if_fail (rv->rendered_text != NULL, g_strdup ("ERROR"));
+	g_return_val_if_fail (rv != NULL && rv->rendered_text != NULL, g_strdup ("ERROR"));
 	return g_strdup (rv->rendered_text->str);
 }
 
@@ -282,6 +282,10 @@ char *
 cell_get_rendered_text (Cell const *cell)
 {
 	g_return_val_if_fail (cell != NULL, g_strdup("ERROR"));
+
+	/* If this fails it is likely that you need to do a sheet_update */
+	g_return_val_if_fail (cell->rendered_value != NULL, g_strdup("ERROR"));
+
 	return rendered_value_get_text (cell->rendered_value);
 }
 

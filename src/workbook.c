@@ -677,6 +677,7 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 {
 	GSList *dependents, *l;
 	GSList *undo_info = NULL;
+	int i;
 
 	if (info->col_offset == 0 && info->row_offset == 0 &&
 	    info->origin_sheet == info->target_sheet)
@@ -727,6 +728,11 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 	}
 
 	g_slist_free (dependents);
+
+	/* flag all sheets to update status line given than we may have moved things */
+	for (i = wb->sheets->len; i-- > 0 ;)
+		sheet_flag_status_update_range (
+			g_ptr_array_index (wb->sheets, i), NULL);
 
 	return undo_info;
 }

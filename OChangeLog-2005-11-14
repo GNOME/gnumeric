@@ -1,3 +1,15 @@
+2001-06-03  Jody Goldberg <jgoldberg@home.com>
+	From Juan Pablo Mendoza <pablo_juan@yahoo.com>
+
+	* rendered-value.c (rendered_value_get_text): Add a check for
+	  rendered value != NULL.
+	(cell_get_rendered_text): Add check for redered value == NULL
+
+2001-06-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_expr_relocate) : flag all sheets as needing
+	  status updates.
+
 2001-06-03  Zbigniew Chyla  <cyba@gnome.pl>
 
 	Updating i/o progress while saving Gnumeric XML file.
