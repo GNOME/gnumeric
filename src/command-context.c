@@ -20,7 +20,7 @@ static GError *
 format_message (GQuark id, char const *message)
 {
 	char const *msg = message ? message : "";
-	return g_error_new (id, 0, msg);
+	return g_error_new (id, 0, "%s", msg);
 }
 
 void
