@@ -273,7 +273,7 @@ cb_pm_button_directory_add_clicked (G_GNUC_UNUSED GtkButton *button,
 
 	fsel = GTK_FILE_CHOOSER
 		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
-			       "action", GTK_FILE_CHOOSER_ACTION_OPEN,
+			       "action", GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
 			       "title", _("Select Directory"),
 			       /* We need to force local-only as plugins
 				  won't work over the network.  */
@@ -284,12 +284,6 @@ cb_pm_button_directory_add_clicked (G_GNUC_UNUSED GtkButton *button,
 				GTK_STOCK_ADD, GTK_RESPONSE_OK,
 				NULL);
 	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
-
-	/* We'll pass on this one for now -- it looks utterly different. */
-	/* gtk_file_chooser_set_folder_mode (fsel, TRUE); */
-
-	/* Show no files.  */
-	gtk_file_chooser_set_filter (fsel, gtk_file_filter_new ());
 
 	if (gnumeric_dialog_file_selection (pm_gui->wbcg, GTK_WIDGET (fsel))) {
 		char *path = gtk_file_chooser_get_filename (fsel);
