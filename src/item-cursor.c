@@ -607,6 +607,7 @@ item_cursor_do_drop (ItemCursor *item_cursor, GdkEventButton *event)
 		action = ACTION_MOVE_CELLS;
 
 	item_cursor_do_action (item_cursor, action, event->time);
+	sheet_selection_unant (item_cursor->sheet);
 }
 
 static void

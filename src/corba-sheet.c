@@ -265,6 +265,7 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 	
 	cell = sheet_cell_fetch (sheet, col, row);
 
+	v = CORBA_Value_to_value (sheet, value);
 	switch (value->_d){
 	case GNOME_Gnumeric_VALUE_EMPTY:
 		v = value_new_empty ();

@@ -238,11 +238,11 @@ module GNOME {
 		// Interfaces for accessing value sets from linear arrays.
 		// Mainly used for graphics.
 		//
-		interface DataNotify {
+		interface VectorNotify {
 			void changed (in short pos);
 		};
 
-		interface Data {
+		interface Vector : GNOME::Unknown {
 			exception OutOfRange {};
 
 			/** 
@@ -251,7 +251,7 @@ module GNOME {
 			 *
 			 * Returns the Value at index position pos
 			 */
-			Value get (in short pos) raises (OutOfRange);
+			VecValue get (in short pos) raises (OutOfRange);
 
 			/**
 			 * set:
@@ -260,9 +260,9 @@ module GNOME {
 			 *
 			 * Sets the value at index position @pos to @val
 			 */
-			void  set (in short pos, in Value val);
+			void set (in short pos, in VecValue val);
 
-			void set_notify (in DataNotify dn);
+			void set_notify (in VectorNotify vector_notify);
 
 			/**
 			 * count:
@@ -271,7 +271,6 @@ module GNOME {
 			 */
 			short count ();
 		};
-
 	};
 };
 

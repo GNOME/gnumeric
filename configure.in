@@ -205,6 +205,7 @@ src/Makefile
 src/dialogs/Makefile
 src/widgets/Makefile
 src/functions/Makefile
+graph/Makefile
 wizards/Makefile
 wizards/graphics/Makefile
 doc/Makefile

@@ -14,6 +14,8 @@ BEGIN_GNOME_DECLS
 #define IS_GRAPH(o)       (GTK_CHECK_TYPE ((o), GRAPH_TYPE))
 #define IS_GRAPH_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GRAPH_TYPE))
 
+typedef struct _GraphView GraphView;
+
 typedef struct {
 	GnomeObject base;
 
@@ -33,13 +35,25 @@ typedef struct {
 
 	int      frozen;
 	gboolean need_update;
+
+	/*
+	 * Number of series we hold
+	 */
+	int      n_series;
+	Series   *series;
 } Graph;
 
 typedef struct {
 	GnomeObjectClass parent_class;
 } GraphClass;
 
-GtkType     graph_get_type (void);
+GtkType     graph_get_type      (void);
+Graph      *graph_new           (void);
+
+void        graph_bind_view     (Graph *graph, GraphView *graph_view);
+
+void        graph_get_n_series  (Graph *graph);
+Series     *graph_get_series    (Graph *graph, int n);
 
 END_GNOME_DECLS
 

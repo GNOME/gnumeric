@@ -36,3 +36,9 @@ data_source_set_value (DataSource *data_source, const char *spec, int pos, Value
 {
 	return (*dsc->set_value)(data_source, spec, pos, value);
 }
+
+int
+data_source_len (DataSource *data_source, const char *spec)
+{
+	return (*dsc->len) (data_source, spec);
+}

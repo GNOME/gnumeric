@@ -55,10 +55,22 @@ impl_graph_set_chart_type (PortableServer_Servant servant, GNOME_Graph_ChartType
 {
 	Graph *graph = graph_from_servant (servant);
 
-	if (graph->chart_type != value){
-		graph->chart_type = value;
-		graph_update (graph);
+	if (graph->chart_type == value)
+		return;
+	
+	graph->chart_type = value;
+	switch (value){
+	case GNOME_Graph_CHART_TYPE_CLUSTERED:
+		break;
+		
+	case GNOME_Graph_CHART_TYPE_STACKED:
+		graph_compute_series_sum_max (graph);
+		
+	case GNOME_Graph_CHART_TYPE_STACKED_FULL:
+		
 	}
+	
+	graph_update (graph);
 }
 
 GNOME_Graph_PlotMode
@@ -320,4 +332,16 @@ graph_get_type (void)
 	}
 
 	return type;
+}
+
+void
+graph_bind_view (Graph *graph, GraphView *graph_view)
+{
+	g_return_if_fail (graph != NULL);
+	g_return_if_fail (IS_GRAPH (graph));
+	g_return_if_fail (graph_view != NULL);
+	g_return_if_fail (IS_GRAPH_VIEW (graph_view));
+
+	graph_view_set_graph (graph_view, graph);
+	graph->views = g_slist_prepend (graph->views, graph_view);
 }

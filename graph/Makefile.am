@@ -21,6 +21,8 @@ graph_SOURCES =			\
 	data-source.h		\
 	series.c		\
 	series.h		\
+	vector.c		\
+	vector.h		\
 	$(GRAPH_CORBA_GENERATED)
 
 BUILT_SOURCES = $(GRAPH_CORBA_GENERATED)

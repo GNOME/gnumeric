@@ -669,20 +669,20 @@ font_init (void)
 	gnumeric_default_font = style_font_new_simple (DEFAULT_FONT, DEFAULT_SIZE, 1.0, FALSE, FALSE);
 
 	if (!gnumeric_default_font) {
-		fprintf (stderr,
-			 "Gnumeric failed to find a suitable default font.\n"
-			 "\n"
-			 "Please verify your gnome-print installation and that your fontmap file\n"
-			 "(typically located in /usr/local/share/fonts/fontmap) is not empty or\n"
-			 "near empty.\n"
-			 "\n"
-			 "If you still have no luck, please file a proper bug report (see\n"
-			 "http://bugs.gnome.org) including the following extra items:\n"
-			 "\n"
-			 "1. Values of LC_ALL and LANG environment variables.\n"
-			 "2. Your fontmap file, see above.\n"
-			 "\n"
-			 "Thanks -- the Gnumeric Team\n");
+		gnumeric_notice (NULL, GNOME_MESSAGE_BOX_ERROR, 
+			 _("Gnumeric failed to find a suitable default font.\n"
+			   "\n"
+			   "Please verify your gnome-print installation and that your fontmap file\n"
+			   "(typically located in /usr/local/share/fonts/fontmap) is not empty or\n"
+			   "near empty.\n"
+			   "\n"
+			   "If you still have no luck, please file a proper bug report (see\n"
+			   "http://bugs.gnome.org) including the following extra items:\n"
+			   "\n"
+			   "1. Values of LC_ALL and LANG environment variables.\n"
+			   "2. Your fontmap file, see above.\n"
+			   "\n"
+			   "Thanks -- the Gnumeric Team\n"));
 		exit (1);
 	}
 

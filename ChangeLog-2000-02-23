@@ -1,3 +1,12 @@
+1999-10-12  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/style.c (font_init): Use a dialog box rather than a printf.
+
+1999-10-08  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/item-cursor.c (item_cursor_do_drop): We do not want anting
+	here either.
+
 1999-10-11  Michael Meeks  <mmeeks@gnu.org>
 
 	* gnumeric.desktop: remove, its auto-generated.

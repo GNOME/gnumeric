@@ -13,6 +13,7 @@ typedef struct {
 	
 	Value    *(*get_value)(DataSource *source, const char *spec, int pos);
 	gboolean  (*set_value)(DataSource *source, const char *spec, int pos, Value *value);
+	int       (*len)      (DataSource *source, const char *spec);
 } DataSourceClass;
 
 typedef enum {

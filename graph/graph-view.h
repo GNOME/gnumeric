@@ -10,15 +10,41 @@
 #define IS_GRAPH_VIEW(o)       (GTK_CHECK_TYPE ((o), GRAPH_VIEW_TYPE))
 #define IS_GRAPH_VIEW_CLASS(k) (GTK_CHECK_CLASS_TYPE ((k), GRAPH_VIEW_TYPE))
 
-typedef struct {
+#define DIRTY_BBOX  1
+#define DIRTY_TYPE  2
+#define DIRTY_SHAPE 4
+
+struct _GraphView {
 	GnomeCanvasItem base;
-} GraphView;
+
+	/*
+	 * Display control
+	 */
+	Int       dirty_flags;
+	int       frozen;
+
+	/*
+	 * Bounding box for the graph
+	 */
+	ArtIRect  bbox;
+
+	/*
+	 * Affine transform that applies to graph now
+	 */
+	double    affine [6];
+	
+	/*
+	 * The Graphic repository
+	 */
+	Graph    *graph;
+};
 
 typedef struct {
 	GnomeCanvasItemClass parent_class;
 } GraphViewClass;
 
-GtkType graph_view_get_type (void);
-void    graph_view_update   (GraphView *graph_view);
+GtkType graph_view_get_type  (void);
+void    graph_view_update    (GraphView *graph_view, int dirty_flags);
+void    graph_view_set_graph (GraphView *graph_view, Graph *graph);
 
 #endif /* GRAPH_GRAPH_VIEW_H_ */
