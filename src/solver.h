@@ -38,7 +38,7 @@ typedef gpointer SolverProgram;
  * Solver's API for LP solving algorithms
  */
 typedef SolverProgram
-        (solver_lp_init_fn)             (int n_vars, int n_constraints);
+        (solver_lp_init_fn)             (const SolverParameters *param);
 typedef void
         (solver_lp_remove_fn)           (SolverProgram p);
 typedef void
@@ -69,6 +69,8 @@ typedef gboolean
 					 const gboolean *b_value,
 					 const gnum_float *f_value,
 					 const int *i_value);
+typedef void
+        (solver_lp_print_fn)            (SolverProgram p);
 
 
 typedef struct {
@@ -86,6 +88,7 @@ typedef struct {
         solver_lp_get_obj_fn_var_fn   *get_obj_fn_var_fn;
         solver_lp_get_shadow_prize_fn *get_shadow_prize_fn;
         solver_lp_set_option_fn       *set_option_fn;
+        solver_lp_print_fn            *print_fn;
 } SolverLPAlgorithm;
 
 struct _SolverOptions {

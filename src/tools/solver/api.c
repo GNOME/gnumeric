@@ -43,6 +43,7 @@
 #include <libgnome/gnome-i18n.h>
 
 #include "lp_solve/lpkit.h"
+#include "api.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -55,8 +56,7 @@
  * various options, and fetching the results for reporting.
  *
  *
- * typedef SolverProgram (solver_lp_init_fn)             (int n_vars,
- *					                  int n_constraints);
+ * typedef SolverProgram (solver_lp_init_fn)             (const SolverParameters *param);
  *   Initializes the program.
  *
  * typedef void          (solver_lp_remove_fn)           (SolverProgram p);
@@ -118,6 +118,10 @@
  *   Sets an option for the solver algorithm.  `option' specifieces which option is
  *   to be set and `b_value', `f_value', and/or `i_value' passes the option value(s).
  *   Each one of those can point to NULL.
+ *
+ * typedef void          (solver_lp_printf_fn)           (SolverProgram p);
+ *   Prints the program into the stdout.  Useful for debugging.
+ *
 */
 
 /* ------------------------------------------------------------------------- */
@@ -131,103 +135,127 @@
  * Homepage:   
  */
 
+typedef struct {
+        lprec    *p;
+        gboolean assume_non_negative;
+} lp_solve_t;
+
 SolverProgram
-w_lp_solve_init (int n_vars, int n_constraints)
+w_lp_solve_init (const SolverParameters *param)
 {
-        return lp_solve_make_lp (n_constraints, n_vars);
+        int        i;
+	lp_solve_t *lp;
+
+	lp                      = g_new (lp_solve_t, 1);
+	lp->p                   = lp_solve_make_lp (param->n_constraints,
+						    param->n_variables);
+	lp->assume_non_negative = param->options.assume_non_negative;
+
+	return lp;
 }
 
 void
-w_lp_solve_delete_lp (SolverProgram lp)
+w_lp_solve_delete_lp (SolverProgram program)
 {
-        lp_solve_delete_lp (lp);
+	lp_solve_t *lp = (lp_solve_t *) program;
+
+        lp_solve_delete_lp (lp->p);
 }
 
 void
-w_lp_solve_set_maxim (SolverProgram lp)
+w_lp_solve_set_maxim (SolverProgram program)
 {
-        lp_solve_set_maxim (lp);
+	lp_solve_t *lp = (lp_solve_t *) program;
+
+        lp_solve_set_maxim (lp->p);
 }
 
 void
-w_lp_solve_set_minim (SolverProgram lp)
+w_lp_solve_set_minim (SolverProgram program)
 {
-        lp_solve_set_minim (lp);
+	lp_solve_t *lp = (lp_solve_t *) program;
+
+        lp_solve_set_minim (lp->p);
 }
 
 void
-w_lp_solve_set_obj_fn (SolverProgram lp, int col, gnum_float value)
+w_lp_solve_set_obj_fn (SolverProgram program, int col, gnum_float value)
 {
-        lp_solve_set_mat (lp, 0, col + 1, value);
+	lp_solve_t *lp = (lp_solve_t *) program;
+
+        lp_solve_set_mat (lp->p, 0, col + 1, value);
 }
 
 void
-w_lp_solve_set_constr_mat (SolverProgram lp, int col, int row, gnum_float value)
+w_lp_solve_set_constr_mat (SolverProgram program, int col, int row,
+			   gnum_float value)
 {
-        lp_solve_set_mat (lp, row + 1, col + 1, value);
+	lp_solve_t *lp = (lp_solve_t *) program;
+
+        lp_solve_set_mat (lp->p, row + 1, col + 1, value);
 }
 
 void
-w_lp_solve_set_constr (SolverProgram lp, int row, SolverConstraintType type,
-		       gnum_float rhs)
+w_lp_solve_set_constr (SolverProgram program, int row,
+		       SolverConstraintType type, gnum_float rhs)
 {
-        lp_solve_set_constr_type (lp, row + 1, type);
-        lp_solve_set_rh (lp, row + 1, rhs);
+	lp_solve_t *lp = (lp_solve_t *) program;
+
+        lp_solve_set_constr_type (lp->p, row + 1, type);
+        lp_solve_set_rh (lp->p, row + 1, rhs);
 }
 
 void
-w_lp_solve_set_int (SolverProgram lp, int col, gboolean must_be_int)
+w_lp_solve_set_int (SolverProgram program, int col, gboolean must_be_int)
 {
-	lp_solve_set_int (lp, col + 1, must_be_int);
+	lp_solve_t *lp = (lp_solve_t *) program;
+
+	lp_solve_set_int (lp->p, col + 1, must_be_int);
 }
 
 SolverStatus
-w_lp_solve_solve (SolverProgram lp)
+w_lp_solve_solve (SolverProgram program)
 {
-        return lp_solve_solve (lp);
+	lp_solve_t *lp = (lp_solve_t *) program;
+
+        return lp_solve_solve (lp->p);
 }
 
 gnum_float
-w_lp_solve_get_solution (SolverProgram lp, int column)
+w_lp_solve_get_solution (SolverProgram program, int column)
 {
-        lprec *p = (lprec *) lp;
+	lp_solve_t *lp = (lp_solve_t *) program;
 
-        return p->best_solution [p->rows + column];
+        return lp->p->best_solution [lp->p->rows + column];
 }
 
 gnum_float
-w_lp_solve_get_value_of_obj_fn (SolverProgram lp)
+w_lp_solve_get_value_of_obj_fn (SolverProgram program)
 {
-        lprec *p = (lprec *) lp;
+	lp_solve_t *lp = (lp_solve_t *) program;
 
-        return p->best_solution [0];
+        return lp->p->best_solution [0];
 }
 
 gnum_float
-w_lp_solve_get_dual (SolverProgram lp, int row)
+w_lp_solve_get_dual (SolverProgram program, int row)
 {
-        lprec *p = (lprec *) lp;
+	lp_solve_t *lp = (lp_solve_t *) program;
 
-        return p->duals [row + 1];
+        return lp->p->duals [row + 1];
 }
 
 gboolean
-w_lp_solve_set_option (SolverProgram lp, SolverOptionType option,
+w_lp_solve_set_option (SolverProgram program, SolverOptionType option,
 		       const gboolean *b_value,
 		       const gnum_float *f_value, const int *i_value)
 {
-	lprec *p = (lprec *) lp;
-        int   i;
+	lp_solve_t *lp = (lp_solve_t *) program;
 
         switch (option) {
-	case SolverOptAssumeNonNegative:
-	        if (! *b_value)
-		        for (i = 0; i < p->columns; i++)
-			        lp_solve_set_lowbo (p, i + 1, -p->infinite);
-	        return FALSE;
 	case SolverOptAutomaticScaling:
 	        if (*b_value)
-		        lp_solve_auto_scale (p);
+		        lp_solve_auto_scale (lp->p);
 	        return FALSE;
 	case SolverOptMaxIter:
 printf("FIXME: Max iter=%d\n", *i_value);
@@ -238,6 +266,14 @@ printf("FIXME: Max time (sec.)=%d\n", *i_value);
 	default:
 	        return TRUE;
 	}
+}
+
+void
+w_lp_solve_print_lp (SolverProgram program)
+{
+	lp_solve_t *lp = (lp_solve_t *) program;
+
+	lp_solve_print_lp (lp->p);
 }
 
 
@@ -261,29 +297,33 @@ printf("FIXME: Max time (sec.)=%d\n", *i_value);
 typedef struct {
         LPI         *p;
         struct spx2 *param;
+        gboolean    assume_non_negative;
 } glpk_simplex2_t;
 
 SolverProgram
-w_glpk_init (int n_vars, int n_constraints)
+w_glpk_init (const SolverParameters *param)
 {
         glpk_simplex2_t *lp;
 	int             i;
 	GString         *str;
 
-	lp        = g_new (glpk_simplex2_t, 1);
-	lp->p     = glp_create_prob (NULL);
-	lp->param = g_new (struct spx2, 1);
+	lp                      = g_new (glpk_simplex2_t, 1);
+	lp->p                   = glp_create_prob (NULL);
+	lp->param               = g_new (struct spx2, 1);
+	lp->assume_non_negative = param->options.assume_non_negative;
 
 	glp_init_spx2 (lp->param);
 
-	for (i = 0; i < n_vars; i++) {
+	for (i = 0; i < param->n_variables; i++) {
 	        str = g_string_new ("");
 		g_string_sprintfa (str, "X%d", i);
 		glp_new_col (lp->p, str->str);
 		g_string_free (str, FALSE);
+		if (lp->assume_non_negative)
+		        glp_set_col_bnds (lp->p, i + 1, 'L', 0, 0);
 	}
 
-	for (i = 0; i < n_constraints; i++) {
+	for (i = 0; i < param->n_constraints; i++) {
 	        str = g_string_new ("");
 		g_string_sprintfa (str, "C%d", i);
 		glp_new_row (lp->p, str->str);
@@ -414,9 +454,6 @@ w_glpk_set_option (SolverProgram program, SolverOptionType option,
         glpk_simplex2_t *lp = (glpk_simplex2_t *) program;
 
         switch (option) {
-	case SolverOptAssumeNonNegative:
-printf("FIXME: assume_non_negative=%d\n", *b_value);
-	        return FALSE;
 	case SolverOptAutomaticScaling:
 	        lp->param->scale = *b_value;
 	        return FALSE;
@@ -429,6 +466,11 @@ printf("FIXME: Max time (sec.)=%d\n", *i_value);
 	default:
 	        return TRUE;
 	}
+}
+
+void
+w_glpk_print_lp (SolverProgram program)
+{
 }
 
 #endif
@@ -457,7 +499,8 @@ SolverLPAlgorithm lp_algorithm [] = {
 		(solver_lp_get_obj_fn_value_fn*) w_lp_solve_get_value_of_obj_fn,
 		(solver_lp_get_obj_fn_var_fn*)   w_lp_solve_get_solution,
 		(solver_lp_get_shadow_prize_fn*) w_lp_solve_get_dual,
-		(solver_lp_set_option_fn*)       w_lp_solve_set_option
+		(solver_lp_set_option_fn*)       w_lp_solve_set_option,
+		(solver_lp_print_fn*)            w_lp_solve_print_lp
 	},
 
 #if __HAVE_GLPK__
@@ -475,7 +518,8 @@ SolverLPAlgorithm lp_algorithm [] = {
 		(solver_lp_get_obj_fn_value_fn*) w_glpk_get_value_of_obj_fn,
 		(solver_lp_get_obj_fn_var_fn*)   w_glpk_get_solution,
 		(solver_lp_get_shadow_prize_fn*) w_glpk_get_dual,
-		(solver_lp_set_option_fn*)       w_glpk_set_option
+		(solver_lp_set_option_fn*)       w_glpk_set_option,
+		(solver_lp_print_fn*)            w_glpk_print_lp
 	},
 #endif
 

@@ -53,7 +53,11 @@ solver_param_new (void)
 
 	res->options.assume_linear_model = TRUE;
 	res->options.assume_non_negative = TRUE;
+#if __HAVE_GLPK__
+	res->options.algorithm           = GLPKSimplex;
+#else
 	res->options.algorithm           = LPSolve;
+#endif
 	res->input_entry_str             = g_strdup ("");
 	res->problem_type                = SolverMaximize;
 	res->constraints                 = NULL;
@@ -287,7 +291,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 
 	/* Initialize the SolverProgram structure. */
 	alg = &lp_algorithm[param->options.algorithm];
-	program = alg->init_fn (param->n_variables, param->n_constraints);
+	program = alg->init_fn (param);
 
 	/* Set up the objective function coefficients. */
 	target = get_solver_target_cell (sheet);
@@ -375,9 +379,6 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 	}
 
 	/* Set options. */
-	if (alg->set_option_fn (program, SolverOptAssumeNonNegative,
-				&(param->options.assume_non_negative), NULL, NULL))
-	        return NULL;
 	if (alg->set_option_fn (program, SolverOptAutomaticScaling,
 				&(param->options.automatic_scaling), NULL, NULL))
 	        return NULL;
@@ -388,9 +389,7 @@ lp_solver_init (Sheet *sheet, const SolverParameters *param, SolverResults *res,
 				&(param->options.max_time_sec)))
 	        return NULL;
 
-#if 0
-	lp_solve_print_lp (program);
-#endif
+	alg->print_fn (program);
 
 	return program;
 }

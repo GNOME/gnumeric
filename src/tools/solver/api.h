@@ -30,4 +30,6 @@
 
 extern SolverLPAlgorithm lp_algorithm [];
 
+#define __HAVE_GLPK__ 0
+
 #endif

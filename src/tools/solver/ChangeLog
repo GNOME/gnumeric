@@ -1,3 +1,7 @@
+2002-03-17  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c, api.c: Api changes.  Added print LP function for debugging.
+
 2002-03-16  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* solver.c (solver): Fix crash with INT constraints.
