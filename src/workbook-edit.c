@@ -148,9 +148,10 @@ entry_changed (GtkEntry *entry, void *data)
 		wb->priv->auto_max_size = text_len;
 
 	/*
-	 * Turn off auto-completion if the user has edited
+	 * Turn off auto-completion if the user has edited or the text
+	 * does not begin with an alphabetic character.
 	 */
-	if (text_len < wb->priv->auto_max_size)
+	if (text_len < wb->priv->auto_max_size || !isalpha(*text))
 		wb->priv->auto_completing = FALSE;
 
 	if (application_use_auto_complete_get () && wb->priv->auto_completing)
