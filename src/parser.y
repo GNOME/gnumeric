@@ -209,7 +209,6 @@ typedef struct {
 	gboolean unknown_names_are_strings;
 	GnmRangeRefParse ref_parser;
 
-	/* The suggested format to use for this expression */
 	GnmExprList *result;
 
 	ParseError *error;
