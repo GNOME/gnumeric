@@ -703,7 +703,60 @@ coupdaysnc(GDate *settlement, GDate *maturity, int freq, int basis)
 
         switch (basis) {
 	case 0: /* US 30/360 */
-	        return -1; /* FIXME */
+	        if (freq == 1) {
+		        if (sd == 31)
+			        if (md == 31 || (md == 30))
+				        sd = 30;
+
+			if (md == 29 && mm == 2) {
+			        if (sd == 28 && sm == 2) {
+				        if (g_date_is_leap_year (sy))
+					        return 2;
+					else
+					        return 360;
+				} else if (sd == 29 && sm == 2)
+				        return 360;
+				else
+				        md = 30;
+			} else if (md == 31)
+			        md = 30;
+			else if (md == 28 && mm == 2) {
+			        if (sm > 2) {
+				        if (!g_date_is_leap_year (sy+1) ||
+					    !g_date_is_leap_year (my))
+					        md = 30;
+				} else if (sd == 28 && sm == 2) {
+				        if (g_date_is_leap_year (sy))
+					        if (g_date_is_leap_year (my))
+						        return 362;
+						else
+						        md = 30;
+					else if (g_date_is_leap_year (sy+1) &&
+						 g_date_is_leap_year (my))
+					        return 358;
+					else
+					        return 360;
+				} else if (sd == 29 && sm == 2) {
+				        if (g_date_is_leap_year (my))
+					        return 361;
+					else
+					        return 360;
+				} else if (!g_date_is_leap_year (sy) ||
+					   !g_date_is_leap_year (my))
+				        md = 30;
+			}
+
+			months = mm - sm;
+			days = months*30 + md - sd;
+			if (days > 0)
+			        return days;
+			else
+			        return 360 + days;
+		} else if (freq == 2) {
+		        return -1; /* FIXME: the frequency 2 */
+		} else {
+		        return -1; /* FIXME: the frequency 4 */
+		}
 	case 1: /* Actual days/actual days */
 	case 2: /* Actual days/360 */
 	case 3: /* Actual days/365 */
@@ -737,7 +790,8 @@ coupdaysnc(GDate *settlement, GDate *maturity, int freq, int basis)
 				        md = 28;
 			} else if (md == 31)
 			        md = 30;
-			else if (md == 28 && mm == 2 && !g_date_is_leap_year (my)) {
+			else if (md == 28 && mm == 2
+				 && !g_date_is_leap_year (my)) {
 			        if (sm > 2) {
 				        if (g_date_is_leap_year (sy+1))
 					        md = 29;

@@ -1,3 +1,8 @@
+2001-11-19  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* fn-financial.c (coupdaysnc): Implemented the frequency 1 for
+	basis 0 (US 30/360).
+
 2001-11-18  Valek Filippov  <frob@df.ru>
 
 	* fn-date.c,fn-database.c,fn-eng.c,fn-informational.c,
