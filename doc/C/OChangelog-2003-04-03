@@ -1,3 +1,7 @@
+2003-04-16  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* scenarios.xml: Docs for the scenario tool.
+
 2003-04-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* fill-series.xml: Docs for the fill series tool.

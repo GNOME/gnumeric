@@ -1,0 +1,72 @@
+<sect1 id="scenarios">
+  <title>Scenarios</title>
+
+ <para>A scenario is a set of values for specified cells that Gnumeric
+  saves and can later substitute automatically in the worksheet.  Use
+  scenarios to compare outcomes of a worksheet model using different
+  inputs for the model.  You can, for instance, add a scenario for the
+  worst case, an average case and the record sales figures and then
+  switch between the scenarios to perform what-if analyses.</para>
+
+  <sect2 id="scenario-add">
+    <title>Adding New Scenarios</title>
+
+    <para>In order to add new scenarios, select tools menu and click
+     `Scenarios->Add...'.  A dialog for adding new scenarios should
+     now appear on the screen.  Each scenario on a worksheet should
+     have a unique name that is given on the first entry box.</para>
+
+    <para>Changing cells determine the cells whose values are to be
+     stored.  The values are read directly from the worksheet so if
+     you want to store values other than the current values on the
+     worksheet then press the close button, make your changes into the
+     sheet and re-enter the scenario tool.  If changing cells contain
+     formulas, only the current value of a formula is stored (not the
+     formula itself).  Thus, when the scenario is later shown the
+     formula is replaced with the stored value.  Also note that all
+     changing cell references should refer to the current
+     worksheet.</para>
+
+    <para>You can also store a comment about the scenario.  When
+     everything is ready press the ok button to add the new
+     scenario.</para>
+  </sect2>
+
+  <sect2 id="scenario-view">
+    <title>Doing What-If Analyses Using Scenarios</title>
+
+    <para>In order to perform what-if analyses with scenarios, select
+     tools menu and click `Scenarios->View...'.  To compare all
+     scenarios at once, you can create a scenario summary report by
+     pressing `Summary Report' button.  The summary report is written
+     into a new worksheet.</para>
+
+    <para>To view a scenario, select the scenario you want to show
+     from the scenario list according to its name, and then press
+     `Show' button.  Gnumeric then updates the changing cells of the
+     scenario with the stored values and you can see the effects on
+     your worksheet.  Switching between scenarios is easy; just select
+     the one you want to see and press `Show'.</para>
+
+    <para>In order to delete a scenario, select it from the list of
+     scenarios and press `Delete' button.  If you accidentially
+     deleted a scenario you can press cancel button to recover the
+     changes.</para>
+  </sect2>
+</sect1>
+
+  <!-- Keep this comment at the end of the file
+  Local variables:
+  mode: sgml
+  sgml-omittag:t
+  sgml-shorttag:t
+  sgml-minimize-attributes:nil
+  sgml-always-quote-attributes:t
+  sgml-indent-step:2
+  sgml-indent-data:t
+  sgml-parent-document:nil
+  sgml-exposed-tags:nil
+  sgml-local-catalogs:nil
+  sgml-local-ecat-files:nil
+  End:
+  -->             

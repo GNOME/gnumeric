@@ -29,6 +29,7 @@ entities = 					\
 	number-format.xml			\
 	preface.xml				\
 	printing.xml				\
+	scenarios.xml				\
 	selections.xml				\
 	shuffling.xml				\
 	simulation.xml				\
