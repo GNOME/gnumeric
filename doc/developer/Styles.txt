@@ -27,12 +27,12 @@ mstyle.h: MStyleElement.
 
 	   MStyleElement e;
 	   e.type = MSTYLE_FONT_NAME;
-	   e.u.font.name = g_strdup ("My font name");
+	   e.u.font.name = string_get ("My font name");
 	   mstyle_add (style, e);
 
-		So, a new style element is created, and ( this being a nasty
+		So, a new style element is created, and ( this being a pointer
 	case ) it is neccessary to duplicate the pointer you pass. NB. this
-	also applies to things such as StyleColors, these need to be
+	also applies to things such as StyleColors, these need to be re -
 	referenced if you plan to put _the same_ style color pointer into
 	lots of different style elements ( this would be an odd thing to do )
 
