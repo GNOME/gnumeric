@@ -889,9 +889,9 @@ cb_font_preview_color (GtkObject *obj, guint r, guint g, guint b, guint a,
 {
 	GtkStyle *style;
 	GdkColor col;
-	col.red   = r;
-	col.green = g;
-	col.blue  = b;
+	state->font.color.r = col.red   = r;
+	state->font.color.g = col.green = g;
+	state->font.color.b = col.blue  = b;
 
 	style = gtk_style_copy (state->font.selector->font_preview->style);
 	style->fg[GTK_STATE_NORMAL] = col;
@@ -901,6 +901,8 @@ cb_font_preview_color (GtkObject *obj, guint r, guint g, guint b, guint a,
 	gtk_widget_set_style (state->font.selector->font_preview, style);
 	gtk_style_unref (style);
 
+	mstyle_set_color (state->result, MSTYLE_COLOR_FORE,
+			  picker_style_color (&state->font.color));
 	fmt_dialog_changed (state);
 }
 
@@ -1705,7 +1707,18 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
  * 	- border to
  * 	- border from
  *
- * Formats : regexps to recognize parameterized formats (ie percent 4 decimals)
- *           Generate formats from the dialogs.
- * Double lines for borders
+ * Formats 
+ * 	- regexps to recognize parameterized formats (ie percent 4 decimals)
+ *      - Generate formats from the dialogs.
+ *      - Add the preview for the 1st upper-left cell.
+ *
+ * Borders
+ * 	- Double lines for borders
+ * 	- Add the 'text' elements in the preview
+ *
+ * How to show ambiguities when applying to a range ?
+ *
+ * Wishlist
+ * 	- Some undo capabilities in the dialog.
+ * 	- How to distinguish between auto & custom colors.
  */

@@ -11,7 +11,7 @@ Jukka:
 
 Jody:
 	* Complete transition of cut/paste to cell movement code.
-	* 1st pass at borders.
+	* 1st pass at borders & patterns (only in empty cells for now)
 	* Improve edit popup.
 	* Rework cell format dialog.
 	* Some support for inter book references.
