@@ -8,17 +8,16 @@
  */
 
 #include <config.h>
-#include <glib.h>
-#include "numbers.h"
-#include "parse-util.h"
 #include "func.h"
+#include "parse-util.h"
 #include "eval.h"
 #include "cell.h"
 #include "str.h"
 #include "sheet.h"
 
-/* Useful routines for multiple functions */
+#include <string.h>
 
+/* Useful routines for multiple functions */
 static gboolean
 find_type_valid (const Value *find)
 {

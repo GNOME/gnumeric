@@ -7,9 +7,13 @@
  *    Zbigniew Chyla (cyba@gnome.pl)
  */
 #include <config.h>
+#include "gutils.h"
+#include "sheet.h"
+#include "ranges.h"
+
+#include <gnome.h> /* for config */
 #include <stdlib.h>
 #include <stdio.h>
-#include <glib.h>
 #include <string.h>
 #include <ctype.h>
 #include <sys/types.h>
@@ -17,13 +21,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include <gnome.h>
 #include <gal/util/e-util.h>
-#include "numbers.h"
-#include "gutils.h"
-#include "gnumeric.h"
-#include "sheet.h"
-#include "ranges.h"
 
 /* ------------------------------------------------------------------------- */
 

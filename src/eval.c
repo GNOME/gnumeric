@@ -23,10 +23,9 @@
  * USA
  */
 #include <config.h>
-#include "gnumeric.h"
+#include "eval.h"
 #include "parse-util.h"
 #include "ranges.h"
-#include "eval.h"
 #include "value.h"
 #include "main.h"
 #include "workbook-control.h"
@@ -1115,7 +1114,7 @@ workbook_deps_destroy (Workbook *wb)
 void
 workbook_queue_all_recalc (Workbook *wb)
 {
-#warning what about dependents in other workbooks
+	/* FIXME : warning what about dependents in other workbooks */
 	dependent_queue_recalc_list (wb->dependents, FALSE);
 }
 

@@ -7,17 +7,18 @@
  *  Morten Welinder <terra@diku.dk>
  */
 #include <config.h>
-#include <math.h>
+#include "func.h"
+#include "func-util.h"
+#include "parse-util.h"
 #include "mathfunc.h"
 #include "regression.h"
-#include "numbers.h"
-#include "parse-util.h"
-#include "func-util.h"
-#include "func.h"
 #include "sheet.h"
 #include "cell.h"
 #include "collect.h"
 #include "auto-format.h"
+
+#include <math.h>
+#include <stdlib.h>
 
 static guint
 float_hash (const gnum_float *d)

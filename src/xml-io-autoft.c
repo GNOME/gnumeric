@@ -20,21 +20,20 @@
  */
 
 #include <config.h>
-#include <gnome.h>
-#include <gal/util/e-xml-utils.h>
-#include "gnumeric.h"
+#include "xml-io-autoft.h"
 #include "command-context.h"
 #include "workbook-control.h"
 #include "str.h"
 #include "xml-io.h"
-#include "xml-io-autoft.h"
 #include "format-template.h"
 #include "gutils.h"
 #include "mstyle.h"
 
+#include <gnome.h>
 #include <gnome-xml/parser.h>
 #include <gnome-xml/parserInternals.h>
 #include <gnome-xml/xmlmemory.h>
+#include <gal/util/e-xml-utils.h>
 
 #define CATEGORY_FILE_NAME    ".category"
 

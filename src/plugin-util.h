@@ -1,10 +1,10 @@
 #ifndef GNUMERIC_PLUGIN_UTIL_H
 #define GNUMERIC_PLUGIN_UTIL_H
 
-#include <stdio.h>
-#include <glib.h>
 #include "gnumeric.h"
 #include "error-info.h"
+
+#include <stdio.h>
 
 FILE *gnumeric_fopen (IOContext *wbc, const gchar *path, const gchar *mode);
 gint  gnumeric_open  (IOContext *wbc, const gchar *pathname, gint flags);

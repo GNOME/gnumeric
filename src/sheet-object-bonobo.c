@@ -17,10 +17,6 @@
  *    to keep track of the view frames.
  */
 #include <config.h>
-#include <gnome.h>
-#include <libgnorba/gnorba.h>
-#include <gdk/gdkkeysyms.h>
-#include <math.h>
 #include "gnumeric.h"
 #include "workbook.h"
 #include "sheet.h"
@@ -29,6 +25,9 @@
 #include "gnumeric-type-util.h"
 #include "sheet-object-bonobo.h"
 
+#include <math.h>
+#include <gnome.h>
+#include <gdk/gdkkeysyms.h>
 #include <bonobo/bonobo-item-container.h>
 #include <bonobo/bonobo-view-frame.h>
 #include <bonobo/bonobo-client-site.h>

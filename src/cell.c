@@ -7,7 +7,6 @@
  *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  */
 #include "config.h"
-#include "gnumeric.h"
 #include "cell.h"
 #include "workbook.h"
 #include "sheet.h"

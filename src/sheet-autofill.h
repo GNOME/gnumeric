@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_SHEET_AUTOFILL_H
 #define GNUMERIC_SHEET_AUTOFILL_H
 
-#include "sheet.h"
+#include "gnumeric.h"
 
 typedef int (*AutofillFunction)     (Sheet *sheet,
 				     int base_col, int base_row,

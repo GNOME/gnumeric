@@ -1,10 +1,12 @@
 #ifndef GNUMERIC_FUNC_H
 #define GNUMERIC_FUNC_H
 
-#include <gnome.h>
 #include "gnumeric.h"
 #include "value.h"
 #include "expr.h"
+
+#include <libgnome/gnome-defs.h>
+#include <libgnome/gnome-i18n.h>
 
 /* Setup of the symbol table */
 void functions_init     (void);

@@ -6,14 +6,9 @@
  *    Zbigniew Chyla (cyba@gnome.pl)
  */
 #include <config.h>
-#include <errno.h>
-#include <sys/stat.h>
-#include <gnome.h>
-#include <glade/glade.h>
-#include "gnumeric.h"
+#include "gui-file.h"
 #include "gnumeric-util.h"
 #include "dialogs.h"
-#include "gui-file.h"
 #include "sheet.h"
 #include "application.h"
 #include "io-context.h"
@@ -21,6 +16,11 @@
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
 #include "workbook.h"
+
+#include <errno.h>
+#include <sys/stat.h>
+#include <gnome.h>
+#include <glade/glade.h>
 
 static gint
 file_opener_description_cmp (gconstpointer a, gconstpointer b)

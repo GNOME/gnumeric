@@ -7,18 +7,18 @@
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
-#include <ctype.h>
-#include <math.h>
-#include <limits.h>
-#include "gnumeric.h"
-#include "parse-util.h"
 #include "func.h"
+#include "parse-util.h"
 #include "cell.h"
 #include "format.h"
 #include "str.h"
 #include "sheet.h"
-#include "position.h"
 #include "number-match.h"
+
+#include <ctype.h>
+#include <math.h>
+#include <limits.h>
+#include <string.h>
 
 /***************************************************************************/
 
@@ -1037,13 +1037,13 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 		barfed = 1;
 	}
 	if (argv[1] != NULL) {
-	        x = 0.5;
+		x = 0.5;
 		n = value_get_as_int (argv[1]);
 		for (i = 0; i < n; i++)
-		        x /= 10;
+			x /= 10;
 		ag[0] = value_new_float (value_get_as_float (argv[0]) + x);
 	} else
-	        ag[0] = value_duplicate (argv[0]);
+		ag[0] = value_duplicate (argv[0]);
 
 	ag[1] = argv[1];
 	ag[2] = NULL;
@@ -1117,12 +1117,12 @@ wildcards_and_question_marks (const gchar *find_str, int *qmarks, int *wildcard)
 
 	*wildcard = 0;
 	for (pos = 0; find_str[pos]; pos++)
-	        if (find_str[pos] == '?')
-		        ++skip;
-	        else if (find_str[pos] == '*')
-		        *wildcard = 1;
-	        else
-		        break;
+		if (find_str[pos] == '?')
+			++skip;
+		else if (find_str[pos] == '*')
+			*wildcard = 1;
+		else
+			break;
 	*qmarks = skip;
 
 	return pos;
@@ -1149,11 +1149,11 @@ parse_search_string (const gchar *find_str)
 	find_str += pos;
 
 	while (*find_str) {
-	        if (*find_str == '~') {
-		        buf[i++] = *(++find_str);
+		if (*find_str == '~') {
+			buf[i++] = *(++find_str);
 			find_str++;
 		} else if (*find_str == '?' || *find_str == '*') {
-		        buf[i] = '\0';
+			buf[i] = '\0';
 			search_cond = g_new (string_search_t, 1);
 			search_cond->str = g_strdup (buf);
 			search_cond->min_skip = qmarks;
@@ -1164,7 +1164,7 @@ parse_search_string (const gchar *find_str)
 							    &wildcard);
 			find_str += pos;
 		} else
-		        buf[i++] = *find_str++;
+			buf[i++] = *find_str++;
 	}
 	buf[i] = '\0';
 	search_cond = g_new (string_search_t, 1);
@@ -1192,7 +1192,7 @@ match_string (const gchar *str, string_search_t *cond, gchar **match_start,
 		return 0;
 
 	if (*cond->str == '\0') {
-	         *match_start = (char *)str;
+		 *match_start = (char *)str;
 		 *match_end = (char *)str + 1;
 		 return 1;
 	}
@@ -1221,8 +1221,8 @@ free_all_after_search (GSList *conditions, gchar *text, gchar *within)
 
 	current = conditions;
 	while (current != NULL) {
-	        current_cond = current->data;
-	        g_free (current_cond->str);
+		current_cond = current->data;
+		g_free (current_cond->str);
 		g_free (current_cond);
 		current = current->next;
 	}
@@ -1241,9 +1241,9 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 	gchar           *p_start, *p_end;
 
 	if (argv[2] == NULL)
-	        start_num = 0;
+		start_num = 0;
 	else
-	        start_num = value_get_as_int (argv[2]) - 1;
+		start_num = value_get_as_int (argv[2]) - 1;
 
 	text = value_get_as_string (argv[0]);
 	within = value_get_as_string (argv[1]);
@@ -1253,14 +1253,14 @@ gnumeric_search (FunctionEvalInfo *ei, Value **argv)
 	within_len = strlen (within);
 
 	if (within_len <= start_num) {
-	        g_free (text);
+		g_free (text);
 		g_free (within);
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
 
 	conditions = parse_search_string (text);
 	if (conditions == NULL) {
-	        g_free (text);
+		g_free (text);
 		g_free (within);
 		return value_new_error (ei->pos, gnumeric_err_VALUE);
 	}
@@ -1272,7 +1272,7 @@ match_again:
 	current_cond = current->data;
 	ret = match_string (match_str, current_cond, &p_start, &p_end);
 	if (ret) {
-	        current = current->next;
+		current = current->next;
 		if (current == NULL) {
 			free_all_after_search (conditions, text, within);
 			return value_new_int (p_start - within + 1);
@@ -1281,7 +1281,7 @@ match_again:
 		match_str = p_start;
 		match_str_next = p_end;
 		while (match_string (p_end, current_cond, &p_start, &p_end)) {
-		        current = current->next;
+			current = current->next;
 			if (current == NULL) {
 				free_all_after_search (conditions,
 						       text, within);
@@ -1330,7 +1330,7 @@ string_functions_init (void)
 			    &help_lower,      gnumeric_lower);
 	function_add_args  (cat, "proper",     "s",    "text",
 			    &help_proper,     gnumeric_proper);
-        function_add_args  (cat, "mid",        "sff",  "text,pos,num",
+	function_add_args  (cat, "mid",        "sff",  "text,pos,num",
 			    &help_mid,        gnumeric_mid);
 	function_add_args  (cat, "replace",    "sffs", "old,start,num,new",
 			    &help_replace,    gnumeric_replace);

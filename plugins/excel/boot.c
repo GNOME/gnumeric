@@ -151,9 +151,9 @@ excel_save (IOContext *context, WorkbookView *wb_view, const char *filename,
 		
 		if (disable_safety == NULL) {
 			gnumeric_io_error_save (context,
-							    _("Saving over old Excel files disabled for safety.\n\n"
-								 "(You can turn this safety feature off by setting the\n"
-								 "enviromental variable GNUMERIC_ENABLE_XL_OVERWRITE.)"));
+						_("Saving over old Excel files disabled for safety.\n\n"
+						  "(You can turn this safety feature off by setting the\n"
+						  "enviromental variable GNUMERIC_ENABLE_XL_OVERWRITE.)"));
 			return;
 		}
 	}

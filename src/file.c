@@ -9,6 +9,7 @@
 #include <string.h>
 #include <libgnome/libgnome.h>
 #include <gal/util/e-util.h>
+#include "file.h"
 #include "io-context.h"
 #include "command-context.h"
 #include "gnumeric.h"
@@ -18,7 +19,6 @@
 #include "workbook-view.h"
 #include "workbook.h"
 #include "gutils.h"
-#include "file.h"
 #include "file-priv.h"
 
 /*

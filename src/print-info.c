@@ -7,13 +7,15 @@
  *
  */
 #include <config.h>
-#include "gnumeric.h"
-#include "ranges.h"
 #include "print-info.h"
+#include "ranges.h"
 #include "format.h"
 #include "func.h"
 #include "datetime.h"
 #include "sheet.h"
+
+#include <gnome.h>
+#include <string.h>
 
 static PrintHF predefined_formats [] = {
 	{ "",                 "",                             "" },

@@ -10,9 +10,8 @@
 #include <locale.h>
 #include <string.h>
 #include <ctype.h>
-#include "gnumeric.h"
-#include "gnumeric-util.h"
 #include "clipboard.h"
+#include "gnumeric-util.h"
 #include "sheet.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"

@@ -21,19 +21,7 @@
  */
 
 #include <config.h>
-#include <stdio.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <ctype.h>
-#include <string.h>
-#include <errno.h>
-#include <gnome.h>
-#include <glade/glade.h>
-#include <sys/types.h>
-
+#include "stf.h"
 #include "gnumeric.h"
 #include "plugin-util.h"
 #include "file.h"
@@ -47,10 +35,21 @@
 #include "workbook-control.h"
 #include "workbook-view.h"
 #include "workbook.h"
-
-#include "stf.h"
 #include "dialog-stf.h"
 #include "dialog-stf-export.h"
+
+#include <stdio.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/mman.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <string.h>
+#include <errno.h>
+#include <gnome.h>
+#include <glade/glade.h>
+#include <sys/types.h>
 
 /**
  * stf_open_and_read

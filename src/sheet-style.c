@@ -1238,8 +1238,8 @@ cb_filter_style (MStyle *style,
 		 int corner_col, int corner_row, int width, int height,
 		 Range const *apply_to, gpointer user)
 {
-	MStyle *style = user;
-	mstyle_compare (style, style);
+	MStyle *accumulator = user;
+	mstyle_compare (accumulator, style);
 }
 
 static void
@@ -1686,6 +1686,7 @@ cb_hash_to_list (gpointer key, gpointer	value, gpointer	user_data)
  * @range :
  *
  * Get a list of rectangles and their associated styles
+ * Caller is responsible for freeing.
  */
 StyleList *
 sheet_style_get_list (Sheet const *sheet, Range const *r)

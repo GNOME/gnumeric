@@ -1,6 +1,4 @@
 #include <config.h>
-#include <stdio.h>
-
 #include "gnumeric.h"
 #include "sheet.h"
 #include "sheet-style.h"
@@ -9,6 +7,8 @@
 #include "test.h"
 #include "value.h"
 #include "cell.h"
+
+#include <stdio.h>
 
 #define SCREEN_WIDTH  40
 #define SCREEN_HEIGHT 30

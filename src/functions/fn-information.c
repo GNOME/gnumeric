@@ -8,9 +8,8 @@
  *  Almer S. Tigelaar (almer@gnome.org)
  */
 #include <config.h>
-#include "gnumeric.h"
-#include "parse-util.h"
 #include "func.h"
+#include "parse-util.h"
 #include "cell.h"
 #include "str.h"
 #include "sheet.h"
@@ -20,6 +19,7 @@
 #include "style.h"
 #include "sheet-style.h"
 #include "number-match.h"
+
 #include <sys/utsname.h>
 #include <math.h>
 

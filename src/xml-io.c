@@ -7,10 +7,7 @@
  *   Jody Goldberg <jgoldberg@home.com>
  */
 #include <config.h>
-#include "gnumeric.h"
-#include "gnome-xml/parser.h"
-#include "gnome-xml/parserInternals.h"
-#include "gnome-xml/xmlmemory.h"
+#include "xml-io.h"
 #include "style-color.h"
 #include "style-border.h"
 #include "style.h"
@@ -19,7 +16,6 @@
 #include "sheet-object.h"
 #include "sheet-object-cell-comment.h"
 #include "print-info.h"
-#include "xml-io.h"
 #include "file.h"
 #include "expr.h"
 #include "expr-name.h"
@@ -39,6 +35,9 @@
 #include "str.h"
 #include "plugin-util.h"
 
+#include <gnome-xml/parser.h>
+#include <gnome-xml/parserInternals.h>
+#include <gnome-xml/xmlmemory.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>

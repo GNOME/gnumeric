@@ -9,7 +9,6 @@
  */
 
 #include <config.h>
-#include "gnumeric.h"
 #include "value.h"
 #include "parse-util.h"
 #include "style.h"

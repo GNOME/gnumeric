@@ -5,23 +5,22 @@
  *
  * Authors:
  * 	Jody Goldberg <jgoldberg@home.com>
- *  Zbigniew Chyla <cyba@gnome.pl>
+ *	Zbigniew Chyla <cyba@gnome.pl>
  *
- * (C) 2000 Jody Goldberg
+ * (C) 2000, 2001 Jody Goldberg
  */
 #include <config.h>
+#include "io-context.h"
+#include "io-context-priv.h"
+#include "sheet.h"
+#include "workbook.h"
+#include "command-context.h"
+#include "gnumeric-util.h"
+
 #include <limits.h>
 #include <sys/time.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include "gnumeric.h"
-#include "sheet.h"
-#include "sheet-style.h"
-#include "workbook.h"
-#include "command-context.h"
-#include "gnumeric-util.h"
-#include "io-context.h"
-#include "io-context-priv.h"
 
 #define PROGRESS_UPDATE_STEP        0.01
 #define PROGRESS_UPDATE_PERIOD_SEC  0.20
@@ -416,12 +415,8 @@ workbook_io_progress_set (IOContext *io_context, Workbook *wb,
 	for (l = sheets; l != NULL; l = l->next) {
 		Sheet *sheet = l->data;
 
-		if ((elements & WB_PROGRESS_CELLS) != 0) {
+		if ((elements & WB_PROGRESS_CELLS) != 0)
 			n += g_hash_table_size (sheet->cell_hash);
-		}
-		if ((elements & WB_PROGRESS_STYLES) != 0) {
-			n += g_list_length (sheet_style_get_list (sheet, NULL));
-		}
 	}
 	g_list_free (sheets);
 

@@ -7,12 +7,10 @@
  */
 
 #include <config.h>
-#include "gnumeric.h"
+#include "func.h"
 #include "parse-util.h"
 #include "cell.h"
-#include "func.h"
 #include "auto-format.h"
-
 
 /***************************************************************************/
 

@@ -9,7 +9,6 @@
 #include <gnome.h>
 #include <math.h>
 #include <string.h>
-#include "gnumeric.h"
 #include "expr.h"
 #include "expr-name.h"
 #include "eval.h"

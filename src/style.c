@@ -6,9 +6,6 @@
  *  (C) 1998, 1999, 2000 Miguel de Icaza
  */
 #include <config.h>
-#include <gnome.h>
-#include <string.h>
-#include "gnumeric.h"
 #include "style.h"
 #include "format.h"
 #include "style-color.h"
@@ -18,6 +15,8 @@
 #include "cell.h"
 #include "value.h"
 
+#include <gnome.h>
+#include <string.h>
 #include <gal/widgets/e-colors.h>
 
 #undef DEBUG_REF_COUNT

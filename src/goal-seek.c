@@ -12,12 +12,12 @@
 #endif
 
 #include <config.h>
-#include <gnome.h>
-#include <stdlib.h>
-#include <math.h>
 #include "goal-seek.h"
 #include "gnumeric.h"
 #include "mathfunc.h"
+
+#include <stdlib.h>
+#include <math.h>
 
 /*
  * This value should be comfortably within the relative precision of a gnum_float.

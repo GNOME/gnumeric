@@ -625,9 +625,8 @@ print_page (PrintJobInfo const *pj, Sheet const *sheet,
 		GList *l;
 
 		for (l = pj->sheet_objects; l; l = l->next)
-			print_page_object (sheet, l->data,
-					   start_col, start_row,
-					   x, y, pj);
+			print_page_object (pj, sheet, start_col, start_row,
+					   x, y, l->data);
 	}
 #endif
 
@@ -849,13 +848,13 @@ print_range_right_then_down (PrintJobInfo const *pj, Sheet const *sheet,
  * Return value: the number of pages printed.
  */
 static int
-print_sheet_range (PrintJobInfo const *pj, Sheet const *sheet,
+print_sheet_range (PrintJobInfo *pj, Sheet const *sheet,
 		   Range const *r, gboolean output)
 {
 	int pages;
 
 #ifdef ENABLE_BONOBO
-	render_sheet_objects (sheet, pj);
+	render_sheet_objects (pj, sheet);
 #endif
 
  	if (pj->pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT)

@@ -6,17 +6,18 @@
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
-#include <math.h>
-#include "gnumeric.h"
-#include "parse-util.h"
-#include "func-util.h"
 #include "func.h"
+#include "func-util.h"
+#include "parse-util.h"
 #include "cell.h"
 #include "sheet.h"
 #include "str.h"
 #include "mathfunc.h"
 #include "collect.h"
 #include "auto-format.h"
+
+#include <math.h>
+#include <string.h>
 
 typedef struct {
         GSList *list;

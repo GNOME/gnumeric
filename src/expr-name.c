@@ -9,11 +9,10 @@
 #include <config.h>
 #include <gnome.h>
 #include <gdk/gdkkeysyms.h>
-#include "gnumeric.h"
+#include "expr-name.h"
 #include "eval.h"
 #include "value.h"
 #include "workbook.h"
-#include "expr-name.h"
 #include "expr.h"
 #include "str.h"
 #include "sheet.h"

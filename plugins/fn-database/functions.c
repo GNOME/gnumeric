@@ -5,15 +5,16 @@
  *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  */
 #include <config.h>
-#include <math.h>
-#include <glib.h>
-#include "parse-util.h"
-#include "func-util.h"
 #include "func.h"
+#include "func-util.h"
+#include "parse-util.h"
 #include "str.h"
 #include "cell.h"
 #include "sheet.h"
 #include "number-match.h"
+
+#include <math.h>
+#include <string.h>
 
 /* Type definitions */
 

@@ -10,9 +10,8 @@
 #include <config.h>
 #include <gnome.h>
 #include <math.h>
-#include "gnumeric.h"
-#include "parse-util.h"
 #include "func.h"
+#include "parse-util.h"
 #include "eval.h"
 #include "cell.h"
 #include "str.h"

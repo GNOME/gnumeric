@@ -13,12 +13,11 @@
  * are computed on a per-group basis.
  */
 #include <config.h>
-
-#include "gnumeric.h"
+#include "sheet-autofill.h"
+#include "sheet.h"
 #include "cell.h"
 #include "value.h"
 #include "workbook.h"
-#include "sheet-autofill.h"
 #include "sheet-style.h"
 #include "dates.h"
 #include "expr.h"

@@ -6,16 +6,18 @@
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 #include <config.h>
-#include <gnome.h>
+#include "func.h"
+#include "parse-util.h"
+#include "complex.h"
+#include "str.h"
+#include "mathfunc.h"
+
 #include <ctype.h>
 #include <math.h>
 #include <limits.h>
-#include "complex.h"
-#include "gnumeric.h"
-#include "parse-util.h"
-#include "func.h"
-#include "str.h"
-#include "mathfunc.h"
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #if 0
 /* help template */

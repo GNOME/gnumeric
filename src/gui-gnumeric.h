@@ -9,7 +9,7 @@ typedef struct _ItemGrid		ItemGrid;
 typedef struct _ItemBar			ItemBar;
 typedef struct _ItemEdit		ItemEdit;
 typedef struct _GnumericSheet		GnumericSheet;
-typedef struct _SheetControlGUI		SheetControlGUI; /*FIXME : finish the split and make this a control-gui */
+typedef struct _SheetControlGUI		SheetControlGUI;
 typedef struct _WorkbookControlGUI	WorkbookControlGUI;
 
 #endif /* GUI_GNUMERIC_H */

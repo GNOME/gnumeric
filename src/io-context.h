@@ -16,8 +16,7 @@ typedef struct _IOContextClass IOContextClass;
 
 typedef enum {
 	WB_PROGRESS_CELLS  = 1,
-	WB_PROGRESS_STYLES = 2,
-	WB_PROGRESS_ALL    = (WB_PROGRESS_CELLS | WB_PROGRESS_STYLES)
+	WB_PROGRESS_ALL    = (WB_PROGRESS_CELLS)
 } WbProgressElements;
 
 GtkType   io_context_get_type (void);
