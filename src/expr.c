@@ -989,7 +989,7 @@ gnm_expr_eval (GnmExpr const *expr, EvalPos const *pos,
 				if (found) {
 					Cell * cell = sheet_cell_get (pos->sheet, c, r);
 					if (cell == NULL)
-						return NULL;
+						return handle_empty (NULL, flags);
 
 					cell_eval (cell);
 

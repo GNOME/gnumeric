@@ -1,3 +1,8 @@
+2002-09-23  Jody Goldberg <jody@gnome.org>
+
+	* src/expr.c (gnm_expr_eval) : handle empties when implicit
+	  intersection is valid but accesses an empty cell.
+
 2002-09-23  Lutz Müller <lutz@users.sourceforge.net>
 
 	* src/workbook-control-gui.c: Implement reordering of sheets via
