@@ -1,3 +1,5 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
  * sheet-object.c: Implements the sheet object manipulation for Gnumeric
  *
@@ -22,6 +24,7 @@
 
 #include "sheet-object-graphic.h"
 #include "sheet-object-cell-comment.h"
+#include "sheet-object-widget.h"
 #ifdef ENABLE_BONOBO
 #include "sheet-object-bonobo.h"
 #endif
@@ -388,7 +391,7 @@ sheet_object_read_xml (XmlParseContext const *ctxt, xmlNodePtr tree)
 		gtk_object_destroy (GTK_OBJECT (so));
 		return NULL;
 	}
-		
+
 	tmp = xmlGetProp (tree, "ObjectBound");
 	if (tmp != NULL) {
 		Range r;
@@ -437,7 +440,7 @@ sheet_object_write_xml (SheetObject const *so, XmlParseContext const *ctxt)
 
 	if (tree == NULL)
 		return NULL;
-
+ 
 	if (SO_CLASS (so)->write_xml (so, ctxt, tree)) {
 		xmlUnlinkNode (tree);
 		xmlFreeNode (tree);
@@ -711,4 +714,77 @@ sheet_object_register (void)
 #ifdef ENABLE_BONOBO
 	SHEET_OBJECT_BONOBO_TYPE;
 #endif
+	sheet_object_widget_register ();
 }
+
+
+/**
+ * sheet_object_clone:
+ * @so: The Sheet Object to clone
+ * @sheet: The sheet that we should attach the sheet object to
+ * 
+ * Clones a sheet object and attaches it to @sheet
+ * 
+ * Return Value: 
+ **/
+static SheetObject *
+sheet_object_clone (SheetObject const *so, Sheet *sheet)
+{
+	SheetObject *new_so = NULL;
+	gint i;
+
+	if (!SO_CLASS (so)->clone) {
+		static gboolean warned = FALSE;
+		if (!warned) {
+			g_warning ("Some objects are lacking a clone method and will not"
+				   "be duplicated.");
+			warned = TRUE;
+		}
+		return NULL;
+	}
+		
+	new_so = SO_CLASS (so)->clone (so, sheet);
+
+	new_so->type = so->type;
+	new_so->cell_bound = so->cell_bound;
+
+	for (i = 0; i < 4; i++)
+		new_so->offset [i] = so->offset [i];
+
+	for (i = 0; i < 4; i++)
+		new_so->anchor_type [i] = so->anchor_type [i];
+	
+	sheet_object_set_sheet (new_so, sheet);
+		
+	return new_so;
+}
+
+
+/**
+ * sheet_object_clone_sheet:
+ * @src: The source sheet to read the objects from
+ * @dst: The destination sheet to attach the objects to
+ * 
+ * Clones the objects of the src sheet and attaches them into the dst sheet
+ **/
+void
+sheet_object_clone_sheet (const Sheet *src, Sheet *dst)
+{
+	SheetObject *so;
+	SheetObject *new_so;
+	GList *list;
+	GList *new_list = NULL;
+
+	g_return_if_fail (dst->sheet_objects == NULL);
+	
+	list = src->sheet_objects;
+	for (; list != NULL; list = list->next) {
+		so = (SheetObject *) list->data;
+		new_so = sheet_object_clone (so, dst);
+		if (new_so != NULL)
+			new_list = g_list_prepend (new_list, new_so);
+	}
+
+	dst->sheet_objects = g_list_reverse (new_list);
+}
+

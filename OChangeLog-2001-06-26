@@ -1,3 +1,29 @@
+2001-04-27  Chema Celorio  <chema@celorio.com>
+
+	* src/sheet-object.h: add the header for clone_sheet
+
+	* src/sheet-object.c (sheet_object_clone): implement
+	(sheet_object_clone_sheet): implemnt.
+
+	* src/sheet-object-widget.c (SOW_MAKE_TYPE): add read_xml, write_xml
+	and clone methods to macro
+	(sheet_object_widget_clone): implement.
+	Implement for X in label, frame, button, checkbox
+	(sheet_widget_x_construct_with_label): 
+	(sheet_widget_x_destroy): 
+	(sheet_widget_x_clone): 
+	(sheet_widget_x_write_xml): 
+	(sheet_widget_x_read_xml):
+	
+	(sheet_object_widget_register): implement
+
+	* src/sheet-object-impl.h: add the clone method
+
+	* src/sheet-object-graphic.c (sheet_object_graphic_clone): implement.
+	(sheet_object_filled_clone): implement.
+
+	* src/sheet-object-cell-comment.c (cell_comment_clone): implement
+
 2001-04-26  Jon K Hellan  <hellan@acm.org>
 
 	* src/item-grid.c (item_grid_button_1): Invoke

@@ -1,3 +1,4 @@
+/* -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef GNUMERIC_SHEET_OBJECT_H
 #define GNUMERIC_SHEET_OBJECT_H
 
@@ -46,6 +47,7 @@ xmlNodePtr   sheet_object_write_xml   (SheetObject const *so,
 				       XmlParseContext const *ctxt);
 void         sheet_object_print       (SheetObject const *so,
 				       SheetObjectPrintInfo const *pi);
+void         sheet_object_clone_sheet (Sheet const *src, Sheet *dst);
 
 void	     sheet_object_realize	  (SheetObject *object);
 void         sheet_object_position	  (SheetObject *so, CellPos const *pos);

@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * sheet-object-cell-comment.c: A SheetObject to support cell comments.
@@ -205,6 +205,20 @@ cell_comment_print (SheetObject const *so, SheetObjectPrintInfo const *pi)
 {
 }
 
+static SheetObject *
+cell_comment_clone (SheetObject const *so, Sheet *sheet)
+{
+	CellComment *comment = CELL_COMMENT (so);
+	CellComment *new_comment;
+
+	new_comment = gtk_type_new (CELL_COMMENT_TYPE);
+
+	new_comment->author = comment->author ? g_strdup (comment->author) : NULL;
+	new_comment->text   = comment->text   ? g_strdup (comment->text) : NULL;
+	
+	return SHEET_OBJECT (new_comment);
+}
+
 static void
 cell_comment_class_init (GtkObjectClass *object_class)
 {
@@ -221,6 +235,7 @@ cell_comment_class_init (GtkObjectClass *object_class)
 	sheet_object_class->read_xml      = &cell_comment_read_xml;
 	sheet_object_class->write_xml     = &cell_comment_write_xml;
 	sheet_object_class->print         = &cell_comment_print;
+	sheet_object_class->clone         = &cell_comment_clone;
 }
 
 GNUMERIC_MAKE_TYPE (cell_comment,

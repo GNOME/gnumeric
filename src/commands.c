@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * commands.c: Handlers to undo & redo commands
@@ -2925,6 +2925,7 @@ cmd_merge_cells (WorkbookControl *wbc, Sheet *sheet, GList const *selection)
 	return command_push_undo (wbc, obj);
 }
 
+/******************************************************************/
 
 #define CMD_SEARCH_REPLACE_TYPE		(cmd_search_replace_get_type())
 #define CMD_SEARCH_REPLACE(o)		(GTK_CHECK_CAST ((o), CMD_SEARCH_REPLACE_TYPE, CmdSearchReplace))

@@ -6,7 +6,7 @@ Almer:
 
 Chema:
 	* GNUMERIC_ENABLE_XL_OVERWRITE
-
+	* Implemented clone, write and load for some sheet objects
 Jody:
 	* Outline mode
 	* Restore horizontal FILL alignment.

@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * Sheet.c:  Implements the sheet management and per-sheet storage
@@ -3920,12 +3920,6 @@ sheet_clone_names (Sheet const *src, Sheet *dst)
 }
 
 static void
-sheet_clone_objects (Sheet const *src, Sheet *dst)
-{
-	/* TODO: Clone objects */
-}
-
-static void
 cb_sheet_cell_copy (gpointer unused, gpointer key, gpointer new_sheet_param)
 {
 	Cell const *cell = key;
@@ -3994,8 +3988,9 @@ sheet_duplicate	(Sheet const *src)
 	sheet_clone_colrow_info    (src, dst);
 	sheet_clone_selection      (src, dst);
 	sheet_clone_names          (src, dst);
-	sheet_clone_objects        (src, dst);
 	sheet_clone_cells          (src, dst);
+
+	sheet_object_clone_sheet   (src, dst);
 
 	/* Copy the solver */
 	solver_lp_copy (&src->solver_parameters, dst);

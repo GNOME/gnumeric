@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 #ifndef GNUMERIC_SHEET_OBJECT_PRIV_H
 #define GNUMERIC_SHEET_OBJECT_PRIV_H
 
@@ -28,7 +29,7 @@ typedef struct {
 	gboolean   (*assign_to_sheet) (SheetObject	*sheet_object,
 				       Sheet		*sheet);
 
-	GtkObject *	 (*new_view) (SheetObject	*sheet_object,
+	GtkObject *      (*new_view) (SheetObject	*sheet_object,
 				      SheetControlGUI	*s_control);
 	void        (*populate_menu) (SheetObject	*sheet_object,
 				      GnomeCanvasItem	*obj_view,
@@ -40,7 +41,7 @@ typedef struct {
 				      SheetControlGUI	*s_control);
 	void           (*set_active) (SheetObject	*so,
 				      gboolean		val);
-	gboolean	(*read_xml)  (SheetObject	*so,
+	gboolean	 (*read_xml) (SheetObject	*so,
 				      XmlParseContext const *ctxt,
 				      xmlNodePtr	tree);
 	gboolean	(*write_xml) (SheetObject const *so,
@@ -48,6 +49,9 @@ typedef struct {
 				      xmlNodePtr	tree);
 	void                (*print) (SheetObject const *so,
 				      SheetObjectPrintInfo const *pi);
+	SheetObject *       (*clone) (SheetObject const *so,
+				      Sheet *sheet);
+						
 	double	default_width_pts, default_height_pts;
 } SheetObjectClass;
 

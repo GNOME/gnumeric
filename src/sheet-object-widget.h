@@ -3,6 +3,8 @@
 
 #include "sheet-object.h"
 
+void sheet_object_widget_register (void);
+
 void sheet_object_widget_handle (SheetObject *so, GtkWidget *widget,
 				 GnomeCanvasItem *item);
 

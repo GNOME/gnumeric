@@ -1,4 +1,4 @@
-/* vim: set sw=8: */
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 
 /*
  * sheet-object-graphic.c: Implements the drawing object manipulation for Gnumeric
@@ -174,6 +174,21 @@ sheet_object_graphic_write_xml (SheetObject const *so,
 	return FALSE;
 }
 
+static SheetObject *
+sheet_object_graphic_clone (SheetObject const *so, Sheet *sheet)
+{
+	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (so);
+	SheetObjectGraphic *new_sog;
+
+	new_sog = SHEET_OBJECT_GRAPHIC (gtk_type_new (GTK_OBJECT_TYPE (sog)));
+
+	new_sog->type  = sog->type;
+	new_sog->width = sog->width;
+	new_sog->color = sog->color ? string_ref (sog->color) : NULL;
+
+	return SHEET_OBJECT (new_sog);
+}
+
 static void
 sheet_object_graphic_print (SheetObject const *so, SheetObjectPrintInfo const *pi)
 {
@@ -225,7 +240,9 @@ sheet_object_graphic_class_init (GtkObjectClass *object_class)
 	sheet_object_class->update_bounds = sheet_object_graphic_update_bounds;
 	sheet_object_class->new_view	  = sheet_object_graphic_new_view;
 	sheet_object_class->read_xml	  = sheet_object_graphic_read_xml;
+	sheet_object_class->write_xml	  = sheet_object_graphic_write_xml;
 	sheet_object_class->print         = sheet_object_graphic_print;
+	sheet_object_class->clone         = sheet_object_graphic_clone;
 }
 
 static void
@@ -393,6 +410,22 @@ sheet_object_filled_write_xml (SheetObject const *so,
 	return sheet_object_graphic_write_xml (so, ctxt, tree);
 }
 
+static SheetObject *
+sheet_object_filled_clone (SheetObject const *so, Sheet *sheet)
+{
+	SheetObjectFilled *sof = SHEET_OBJECT_FILLED (so);
+	SheetObjectFilled *new_sof;
+	SheetObject *new_so;
+
+	new_so = sheet_object_graphic_clone (so, sheet);
+	new_sof = SHEET_OBJECT_FILLED (new_so);
+
+	new_sof->pattern    = sof->pattern;
+	new_sof->fill_color = sof->fill_color ? string_ref (sof->fill_color) : NULL;
+
+	return SHEET_OBJECT (new_sof);
+}
+
 static void
 sheet_object_filled_class_init (GtkObjectClass *object_class)
 {
@@ -404,6 +437,7 @@ sheet_object_filled_class_init (GtkObjectClass *object_class)
 	sheet_object_class->update_bounds = sheet_object_filled_update_bounds;
 	sheet_object_class->read_xml	  = sheet_object_filled_read_xml;
 	sheet_object_class->write_xml	  = sheet_object_filled_write_xml;
+	sheet_object_class->clone         = sheet_object_filled_clone;
 }
 
 static void

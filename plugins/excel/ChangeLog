@@ -1,3 +1,8 @@
+2001-04-27  Chema Celorio  <chema@celorio.com>
+
+	* boot.c (excel_save): add a message explaining that you could set an env variable to
+	enable XL overwrite. This is not the optimal solution tho.
+
 2001-04-26  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-write.c (write_colinfos) : Rework to simplify and use
