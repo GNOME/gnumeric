@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.45\n"
-"POT-Creation-Date: 2000-04-25 18:54+0300\n"
+"POT-Creation-Date: 2000-04-28 11:40+0300\n"
 "PO-Revision-Date: 1999-12-08 14:44+0200\n"
 "Last-Translator: Yuri Syrota <rasta@renome.rovno.ua>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
@@ -76,9 +76,7 @@ msgstr ""
 msgid ""
 "Invalid CSV file has more than the maximum\n"
 "number of %s %d"
-msgstr ""
-"Нев╕рний CSV-файл, м╕стить б╕льше максимально╖"
-"к╕лькост╕ %s %d"
+msgstr "Нев╕рний CSV-файл, м╕стить б╕льше максимально╖к╕лькост╕ %s %d"
 
 #: plugins/ff-csv/csv-io.c:120
 msgid "rows"
@@ -153,19 +151,19 @@ msgstr "Формат файлу Lotus (*.wk1)"
 msgid "GNU Oleo (*.oleo) file format"
 msgstr "Формат файлу GNU Oleo (*.oleo)"
 
-#: plugins/python/python.c:44
+#: plugins/python/python.c:45
 msgid "Python exception"
 msgstr "Виключення Python"
 
-#: plugins/python/python.c:568
+#: plugins/python/python.c:569
 msgid "Unknown Python type"
 msgstr "Нев╕домий тип Python"
 
-#: plugins/python/python.c:607
+#: plugins/python/python.c:608
 msgid "Unable to lookup Python code object."
 msgstr "Hеможливо знайти об'╓кт коду Python"
 
-#: plugins/python/python.c:812
+#: plugins/python/python.c:813
 msgid "object must be callable"
 msgstr "об'╓кт мусить викликатися"
 
@@ -212,6 +210,52 @@ msgstr ""
 #: plugins/xbase/boot.c:205
 msgid "Xbase (*.dbf) file format"
 msgstr "Формат файлу Xbase (*.bdf)"
+
+#: plugins/numtheory/numtheory.c:140
+msgid ""
+"@FUNCTION=NT_PHI\n"
+"@SYNTAX=NT_PHI(n)\n"
+"@DESCRIPTION=The NT_PHI function calculates the number of integers less than "
+"or equal to @n that are relatively prime to @n.\n"
+"This function only takes one argument.\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, NT_ITHPRIME, NT_SIGMA"
+msgstr ""
+
+#: plugins/numtheory/numtheory.c:168
+msgid ""
+"@FUNCTION=NT_D\n"
+"@SYNTAX=NT_D(n)\n"
+"@DESCRIPTION=The NT_D function calculates the number of divisors of @n.\n"
+"This function only takes one argument.\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_ITHPRIME, NT_PHI, NT_SIGMA"
+msgstr ""
+
+#: plugins/numtheory/numtheory.c:195
+msgid ""
+"@FUNCTION=NT_SIGMA\n"
+"@SYNTAX=NT_SIGMA(n)\n"
+"@DESCRIPTION=The NT_SIGMA function calculates the sum of the divisors of "
+"@n.\n"
+"This function only takes one argument.\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, NT_ITHPRIME, NT_PHI"
+msgstr ""
+
+#: plugins/numtheory/numtheory.c:221
+msgid ""
+"@FUNCTION=NT_ITHPRIME\n"
+"@SYNTAX=NT_ITHPRIME(i)\n"
+"@DESCRIPTION=The NT_ITHPRIME function returns the @ith prime.\n"
+"This function only takes one argument.\n"
+"@EXAMPLES=\n"
+"@SEEALSO=NT_D, NT_SIGMA"
+msgstr ""
+
+#: plugins/numtheory/numtheory.c:297
+msgid "Number Theory"
+msgstr "Теор╕я чисел"
 
 #: src/about.c:25
 msgid "Miguel de Icaza, main programmer."
@@ -326,8 +370,9 @@ msgstr "Стор╕нка супроводу Gnumeric"
 msgid "Typing \"%s%s\" in %s"
 msgstr "Наб╕р \"%s%s\" в %s"
 
-#: src/commands.c:579
 # c-format
+#: src/commands.c:579
+#, c-format
 msgid "Typing \"%s%s\""
 msgstr "Наб╕р \"%s%s\""
 
@@ -828,10 +873,10 @@ msgstr "Кореляц╕я"
 
 #: src/dialogs/analysis-tools.glade.h:84 src/dialogs/analysis-tools.glade.h:95
 #: src/dialogs/analysis-tools.glade.h:106
-#: src/dialogs/dialog-analysis-tools.c:808
-#: src/dialogs/dialog-analysis-tools.c:922
-#: src/dialogs/dialog-analysis-tools.c:1021
-#: src/dialogs/dialog-analysis-tools.c:2007
+#: src/dialogs/dialog-analysis-tools.c:802
+#: src/dialogs/dialog-analysis-tools.c:916
+#: src/dialogs/dialog-analysis-tools.c:1015
+#: src/dialogs/dialog-analysis-tools.c:1986
 msgid "Input:"
 msgstr "Вв╕д:"
 
@@ -1217,22 +1262,22 @@ msgstr ""
 "Подв╕йне\n"
 
 #: src/dialogs/cell-format.glade.h:63 src/dialogs/cell-format.glade.h:74
-#: src/dialogs/cell-format.glade.h:81 src/dialogs/dialog-cell-format.c:1195
-#: src/dialogs/dialog-cell-format.c:1257 src/dialogs/dialog-paste-special.c:28
+#: src/dialogs/cell-format.glade.h:81 src/dialogs/dialog-cell-format.c:1193
+#: src/dialogs/dialog-cell-format.c:1255 src/dialogs/dialog-paste-special.c:28
 msgid "None"
 msgstr "Нема╓"
 
 #: src/dialogs/cell-format.glade.h:64
+msgid "Stri_kethrough"
+msgstr "Перекреслення"
+
+#: src/dialogs/cell-format.glade.h:65
 msgid "Sup_erscript"
 msgstr "Верхн╕й ╕ндекс"
 
-#: src/dialogs/cell-format.glade.h:65
+#: src/dialogs/cell-format.glade.h:66
 msgid "Su_bscript"
 msgstr "Нижн╕й ╕ндекс"
-
-#: src/dialogs/cell-format.glade.h:66
-msgid "Stri_kethrough"
-msgstr "Перекреслення"
 
 #: src/dialogs/cell-format.glade.h:67 src/workbook-format-toolbar.c:551
 msgid "Font"
@@ -1536,7 +1581,7 @@ msgid "Delete _column(s)"
 msgstr "Стерти стовпчики"
 
 #: src/dialogs/dialog-analysis-tools.c:89
-#: src/dialogs/dialog-analysis-tools.c:915
+#: src/dialogs/dialog-analysis-tools.c:909
 msgid "Descriptive Statistics"
 msgstr "Описова статистика"
 
@@ -1544,12 +1589,12 @@ msgstr "Описова статистика"
 #. value in the checkbox instead of this
 #. global, but I don't know GTK very well
 #: src/dialogs/dialog-analysis-tools.c:99
-#: src/dialogs/dialog-analysis-tools.c:2004
+#: src/dialogs/dialog-analysis-tools.c:1983
 msgid "Regression"
 msgstr "Регрес╕я"
 
 #: src/dialogs/dialog-analysis-tools.c:101
-#: src/dialogs/dialog-analysis-tools.c:801
+#: src/dialogs/dialog-analysis-tools.c:795
 msgid "Sampling"
 msgstr ""
 
@@ -1566,7 +1611,7 @@ msgid "t-Test: Two-Sample Assuming Unequal Variances"
 msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:109
-#: src/dialogs/dialog-analysis-tools.c:1014
+#: src/dialogs/dialog-analysis-tools.c:1008
 msgid "z-Test: Two Sample for Means"
 msgstr ""
 
@@ -1687,7 +1732,7 @@ msgid "Random"
 msgstr "Випадково"
 
 #: src/dialogs/dialog-analysis-tools.c:491
-#: src/dialogs/dialog-analysis-tools.c:648
+#: src/dialogs/dialog-analysis-tools.c:645
 msgid "You should introduce a valid cell range in 'Input Range:'"
 msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок у \"Д╕апазон вводу:\""
 
@@ -1704,90 +1749,90 @@ msgstr "Нова книга"
 msgid "Output Range:"
 msgstr "Д╕апазон виводу:"
 
-#: src/dialogs/dialog-analysis-tools.c:659
-#: src/dialogs/dialog-analysis-tools.c:762
-#: src/dialogs/dialog-analysis-tools.c:1224
-#: src/dialogs/dialog-analysis-tools.c:1360
-#: src/dialogs/dialog-analysis-tools.c:1497
-#: src/dialogs/dialog-analysis-tools.c:1626
-#: src/dialogs/dialog-analysis-tools.c:1955
-#: src/dialogs/dialog-analysis-tools.c:2206
-#: src/dialogs/dialog-analysis-tools.c:2315
-#: src/dialogs/dialog-analysis-tools.c:2427
-#: src/dialogs/dialog-analysis-tools.c:2540
+#: src/dialogs/dialog-analysis-tools.c:656
+#: src/dialogs/dialog-analysis-tools.c:756
+#: src/dialogs/dialog-analysis-tools.c:1215
+#: src/dialogs/dialog-analysis-tools.c:1348
+#: src/dialogs/dialog-analysis-tools.c:1482
+#: src/dialogs/dialog-analysis-tools.c:1608
+#: src/dialogs/dialog-analysis-tools.c:1934
+#: src/dialogs/dialog-analysis-tools.c:2182
+#: src/dialogs/dialog-analysis-tools.c:2288
+#: src/dialogs/dialog-analysis-tools.c:2397
+#: src/dialogs/dialog-analysis-tools.c:2507
 msgid "You should introduce a valid cell range in 'Output Range:'"
 msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок в \"Д╕апазон виводу:\""
 
-#: src/dialogs/dialog-analysis-tools.c:751
-#: src/dialogs/dialog-analysis-tools.c:873
-#: src/dialogs/dialog-analysis-tools.c:966
-#: src/dialogs/dialog-analysis-tools.c:2195
-#: src/dialogs/dialog-analysis-tools.c:2304
-#: src/dialogs/dialog-analysis-tools.c:2416
-#: src/dialogs/dialog-analysis-tools.c:2529
+#: src/dialogs/dialog-analysis-tools.c:745
+#: src/dialogs/dialog-analysis-tools.c:867
+#: src/dialogs/dialog-analysis-tools.c:960
+#: src/dialogs/dialog-analysis-tools.c:2171
+#: src/dialogs/dialog-analysis-tools.c:2277
+#: src/dialogs/dialog-analysis-tools.c:2386
+#: src/dialogs/dialog-analysis-tools.c:2496
 msgid "You should introduce a valid cell range in 'Range:'"
 msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок в \"Д╕апазон:\""
 
-#: src/dialogs/dialog-analysis-tools.c:811
-#: src/dialogs/dialog-analysis-tools.c:925
+#: src/dialogs/dialog-analysis-tools.c:805
+#: src/dialogs/dialog-analysis-tools.c:919
 msgid "Input Range:"
 msgstr "Вх╕дний д╕апазон:"
 
-#: src/dialogs/dialog-analysis-tools.c:813
+#: src/dialogs/dialog-analysis-tools.c:807
 msgid "Sampling Method:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:825
+#: src/dialogs/dialog-analysis-tools.c:819
 msgid "Period:"
 msgstr "Пер╕од:"
 
-#: src/dialogs/dialog-analysis-tools.c:828
+#: src/dialogs/dialog-analysis-tools.c:822
 msgid "Number of Samples:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1024
+#: src/dialogs/dialog-analysis-tools.c:1018
 msgid "Variable 1 Range:"
 msgstr "Д╕апазон зм╕нно╖ 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1027
+#: src/dialogs/dialog-analysis-tools.c:1021
 msgid "Variable 2 Range:"
 msgstr "Д╕апазон зм╕нно╖ 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1030
+#: src/dialogs/dialog-analysis-tools.c:1024
 msgid "Hypothesized Mean Difference:"
 msgstr "Г╕потетична р╕зниця середн╕х:"
 
-#: src/dialogs/dialog-analysis-tools.c:1033
+#: src/dialogs/dialog-analysis-tools.c:1027
 msgid "Variable 1 Variance (known):"
 msgstr "Дисперс╕я зм╕нно╖ 1 (в╕дома):"
 
-#: src/dialogs/dialog-analysis-tools.c:1036
+#: src/dialogs/dialog-analysis-tools.c:1030
 msgid "Variable 2 Variance (known):"
 msgstr "Дисперс╕я зм╕нно╖ 2 (в╕дома):"
 
-#: src/dialogs/dialog-analysis-tools.c:1039
+#: src/dialogs/dialog-analysis-tools.c:1033
 msgid "Alpha:"
 msgstr "Альфа:"
 
-#: src/dialogs/dialog-analysis-tools.c:1071
-#: src/dialogs/dialog-analysis-tools.c:1198
-#: src/dialogs/dialog-analysis-tools.c:1334
-#: src/dialogs/dialog-analysis-tools.c:1471
-#: src/dialogs/dialog-analysis-tools.c:1603
-#: src/dialogs/dialog-analysis-tools.c:2053
+#: src/dialogs/dialog-analysis-tools.c:1065
+#: src/dialogs/dialog-analysis-tools.c:1189
+#: src/dialogs/dialog-analysis-tools.c:1322
+#: src/dialogs/dialog-analysis-tools.c:1456
+#: src/dialogs/dialog-analysis-tools.c:1585
+#: src/dialogs/dialog-analysis-tools.c:2032
 msgid "You should introduce a valid cell range in 'Variable 1:'"
 msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок в \"Зм╕нна 1:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1082
-#: src/dialogs/dialog-analysis-tools.c:1209
-#: src/dialogs/dialog-analysis-tools.c:1345
-#: src/dialogs/dialog-analysis-tools.c:1482
-#: src/dialogs/dialog-analysis-tools.c:1614
-#: src/dialogs/dialog-analysis-tools.c:2061
+#: src/dialogs/dialog-analysis-tools.c:1076
+#: src/dialogs/dialog-analysis-tools.c:1200
+#: src/dialogs/dialog-analysis-tools.c:1333
+#: src/dialogs/dialog-analysis-tools.c:1467
+#: src/dialogs/dialog-analysis-tools.c:1596
+#: src/dialogs/dialog-analysis-tools.c:2040
 msgid "You should introduce a valid cell range in 'Variable 2:'"
 msgstr "Необх╕дно ввести в╕рний д╕апазон ком╕рок в \"Зм╕нна 2:\""
 
-#: src/dialogs/dialog-analysis-tools.c:1936
+#: src/dialogs/dialog-analysis-tools.c:1915
 msgid ""
 "You should introduce a valid cell range in 'Value and probability input "
 "Range:'"
@@ -1795,106 +1840,106 @@ msgstr ""
 "Необх╕дно ввести в╕рний д╕апазон ком╕рок для \"Вх╕дний д╕апазон значень та "
 "в╕рог╕дностей\""
 
-#: src/dialogs/dialog-analysis-tools.c:2013
+#: src/dialogs/dialog-analysis-tools.c:1992
 msgid "Input Y Range:"
 msgstr "Вх╕дний д╕апазон Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:2016
+#: src/dialogs/dialog-analysis-tools.c:1995
 msgid "Input X Range:"
 msgstr "Вх╕дний д╕апазон X:"
 
-#: src/dialogs/dialog-analysis-tools.c:2019
+#: src/dialogs/dialog-analysis-tools.c:1998
 msgid "Confidence Level:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2085
+#: src/dialogs/dialog-analysis-tools.c:2064
 msgid ""
 "There are too few data points to conduct this regression.\n"
 "There must be at least as many data points as free variables."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2091
+#: src/dialogs/dialog-analysis-tools.c:2070
 msgid ""
 "Two or more of the independent variables are linearly dependent,\n"
 "and the regression cannot be calculated. Remove one of these\n"
 "variables and try the regression again."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2098
+#: src/dialogs/dialog-analysis-tools.c:2077
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 
-#: src/dialogs/dialog-cell-comment.c:26
+#: src/dialogs/dialog-cell-comment.c:27
 msgid "Cell comment"
 msgstr "Коментар ком╕рки"
 
-#: src/dialogs/dialog-cell-format.c:403
+#: src/dialogs/dialog-cell-format.c:401
 msgid ";[Red]"
 msgstr ";[Red]"
 
-#: src/dialogs/dialog-cell-format.c:405
+#: src/dialogs/dialog-cell-format.c:403
 msgid "_);("
 msgstr "_);("
 
-#: src/dialogs/dialog-cell-format.c:407
+#: src/dialogs/dialog-cell-format.c:405
 msgid "_);[Red]("
 msgstr "_);[Red]("
 
 #. There must be a better way than this
-#: src/dialogs/dialog-cell-format.c:1191 src/dialogs/dialog-cell-format.c:1258
+#: src/dialogs/dialog-cell-format.c:1189 src/dialogs/dialog-cell-format.c:1256
 msgid "Single"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:1193 src/dialogs/dialog-cell-format.c:1259
+#: src/dialogs/dialog-cell-format.c:1191 src/dialogs/dialog-cell-format.c:1257
 msgid "Double"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2053
+#: src/dialogs/dialog-cell-format.c:2051
 msgid "Format Cells"
 msgstr "Формат ком╕рки"
 
-#: src/dialogs/dialog-cell-sort.c:235
+#: src/dialogs/dialog-cell-sort.c:236
 msgid "Ascending"
 msgstr "Зростаючий"
 
-#: src/dialogs/dialog-cell-sort.c:238
+#: src/dialogs/dialog-cell-sort.c:239
 msgid "Descending"
 msgstr "Спадаючий"
 
-#: src/dialogs/dialog-cell-sort.c:249
+#: src/dialogs/dialog-cell-sort.c:250
 msgid "Advanced..."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:339
+#: src/dialogs/dialog-cell-sort.c:340
 msgid "Column must be within range"
 msgstr "Стовпчик мусить бути у д╕апазон╕"
 
-#: src/dialogs/dialog-cell-sort.c:339
+#: src/dialogs/dialog-cell-sort.c:340
 msgid "Row must be within range"
 msgstr "Рядок мусить бути у д╕апазон╕"
 
-#: src/dialogs/dialog-cell-sort.c:346
+#: src/dialogs/dialog-cell-sort.c:347
 msgid "First column must be valid"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:347
+#: src/dialogs/dialog-cell-sort.c:348
 msgid "First row must be valid"
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:378
+#: src/dialogs/dialog-cell-sort.c:379
 msgid "At least one clause is required."
 msgstr "Необх╕дний хоча б один пункт."
 
-#: src/dialogs/dialog-cell-sort.c:387
+#: src/dialogs/dialog-cell-sort.c:388
 msgid "Can't add more than the selection length."
 msgstr ""
 
-#: src/dialogs/dialog-cell-sort.c:390
+#: src/dialogs/dialog-cell-sort.c:391
 msgid "Maximum number of clauses has been reached."
 msgstr "Було досягнуто максимально╖ к╕лькост╕ пункт╕в."
 
-#: src/dialogs/dialog-cell-sort.c:515 src/workbook.c:1017
+#: src/dialogs/dialog-cell-sort.c:516 src/workbook.c:1017
 msgid "sort"
 msgstr "упорядкувати"
 
@@ -2100,15 +2145,15 @@ msgstr "Модиф╕ковано:"
 msgid "Modified: %s"
 msgstr "Модиф╕ковано: %s"
 
-#: src/dialogs/dialog-printer-setup.c:503
+#: src/dialogs/dialog-printer-setup.c:505
 msgid "Custom header configuration"
 msgstr "Власна конф╕гурац╕я заголовку"
 
-#: src/dialogs/dialog-printer-setup.c:515
+#: src/dialogs/dialog-printer-setup.c:517
 msgid "Custom footer configuration"
 msgstr "Власна конф╕гурац╕я зноски"
 
-#: src/dialogs/dialog-printer-setup.c:731
+#: src/dialogs/dialog-printer-setup.c:733
 msgid "Print setup"
 msgstr "Установка прантера"
 
@@ -2144,21 +2189,21 @@ msgstr "="
 msgid "Int"
 msgstr "Ц╕ле"
 
-#: src/dialogs/dialog-solver.c:253 src/dialogs/dialog-solver.c:436
+#: src/dialogs/dialog-solver.c:250 src/dialogs/dialog-solver.c:432
 msgid ""
 "The constraints having cell ranges in LHS and RHS should have the same "
 "number of columns and rows in both sides."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:263 src/dialogs/dialog-solver.c:446
+#: src/dialogs/dialog-solver.c:260 src/dialogs/dialog-solver.c:442
 msgid "The cell range in LHS or RHS should have only one column or row."
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:852
+#: src/dialogs/dialog-solver.c:848
 msgid "You should introduce a valid cell name for 'Target cell'"
 msgstr ""
 
-#: src/dialogs/dialog-solver.c:875
+#: src/dialogs/dialog-solver.c:871
 msgid "You should introduce a valid cell names in 'By changing cells'"
 msgstr ""
 
@@ -2805,7 +2850,7 @@ msgstr "Помилка внутр╕шнього типу"
 msgid "Unknown operator"
 msgstr "Нев╕домий оператор"
 
-#: src/expr.c:1105
+#: src/expr.c:1106
 msgid "Unknown evaluation error"
 msgstr "Нев╕дома помилка у вираз╕"
 
@@ -2817,7 +2862,7 @@ msgstr ""
 "Неможливо зчитати файл %s\n"
 "%%s"
 
-#: src/file.c:359
+#: src/file.c:357
 msgid ""
 "Could not import file %s\n"
 "%%s"
@@ -2825,11 +2870,11 @@ msgstr ""
 "Неможливо ╕мпортувати файл %s\n"
 "%%s"
 
-#: src/file.c:464
+#: src/file.c:462
 msgid "File format:"
 msgstr "Формат файлу:"
 
-#: src/file.c:540
+#: src/file.c:538
 #, c-format
 msgid ""
 "Workbook %s already exists.\n"
@@ -2838,7 +2883,7 @@ msgstr ""
 "Книга %s вже ╕сну╓.\n"
 "Ви хочете переписати ╖╖?"
 
-#: src/file.c:581
+#: src/file.c:579
 #, c-format
 msgid ""
 "%s\n"
@@ -2847,7 +2892,7 @@ msgstr ""
 "%s\n"
 "╓ назвою каталогу"
 
-#: src/file.c:590
+#: src/file.c:588
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -2856,7 +2901,7 @@ msgstr ""
 "Ви не ма╓те прав для збереження в\n"
 "%s"
 
-#: src/file.c:614
+#: src/file.c:612
 msgid ""
 "Please enter a file name,\n"
 "not a directory"
@@ -2864,13 +2909,13 @@ msgstr ""
 "Введ╕ть назву файлу,\n"
 "а не каталогу"
 
-#: src/file.c:621
+#: src/file.c:619
 msgid ""
 "Sorry, there are no file savers loaded,\n"
 "I cannot save"
 msgstr ""
 
-#: src/file.c:637 src/file.c:720
+#: src/file.c:635 src/file.c:718
 msgid ""
 "Could not save to file %s\n"
 "%%s"
@@ -2878,11 +2923,11 @@ msgstr ""
 "Неможливо зберегти у файл╕ %s\n"
 "%%s"
 
-#: src/file.c:665
+#: src/file.c:663
 msgid "Save workbook as"
 msgstr "Зберегти книгу як"
 
-#: src/file.c:743
+#: src/file.c:741
 msgid "Load file"
 msgstr "Завантажити файл"
 
@@ -2926,11 +2971,11 @@ msgstr "жовтий"
 msgid "0.0########"
 msgstr "0.0########"
 
-#: src/format.c:1408 src/value-sheet.c:33 src/value.c:404
+#: src/format.c:1408 src/value-sheet.c:33 src/value.c:401
 msgid "TRUE"
 msgstr "╤СТИНА"
 
-#: src/format.c:1408 src/value-sheet.c:33 src/value.c:404
+#: src/format.c:1408 src/value-sheet.c:33 src/value.c:401
 msgid "FALSE"
 msgstr "ХИБН╤СТЬ"
 
@@ -3384,1098 +3429,1130 @@ msgstr "[$BWP]"
 
 #: src/formats.c:186
 msgid "Botswanian pula"
-msgstr ""
+msgstr "Ботсванська пула"
 
 #: src/formats.c:187
+msgid "[$BYB]"
+msgstr "[$BYB]"
+
+#: src/formats.c:187
+msgid "Belarussian ruble"
+msgstr ""
+
+#: src/formats.c:188
 msgid "[$BZD]"
 msgstr "[$BZD]"
 
-#: src/formats.c:187
+#: src/formats.c:188
 msgid "Belize dollar"
 msgstr ""
 
-#: src/formats.c:188
+#: src/formats.c:189
 msgid "[$CAD]"
 msgstr "[$CAD]"
 
-#: src/formats.c:188
+#: src/formats.c:189
 msgid "Canadian dollar"
 msgstr "Канадський долар"
 
-#: src/formats.c:189
+#: src/formats.c:190
 msgid "[$CHF]"
 msgstr "[$CHF]"
 
-#: src/formats.c:189
+#: src/formats.c:190
 msgid "Swiss franc"
 msgstr ""
 
-#: src/formats.c:190
+#: src/formats.c:191
 msgid "[$CLP]"
 msgstr "[$CLP]"
 
-#: src/formats.c:190
+#: src/formats.c:191
 msgid "Chilean peso"
 msgstr ""
 
-#: src/formats.c:191
+#: src/formats.c:192
 msgid "[$CNY]"
 msgstr "[$CNY]"
 
-#: src/formats.c:191
+#: src/formats.c:192
 msgid "Chinese yuan renminbi"
 msgstr ""
 
-#: src/formats.c:192
+#: src/formats.c:193
 msgid "[$COP]"
 msgstr "[$COP]"
 
-#: src/formats.c:192
+#: src/formats.c:193
 msgid "Colombian peso"
 msgstr ""
 
-#: src/formats.c:193
+#: src/formats.c:194
 msgid "[$CRC]"
 msgstr "[$CRC]"
 
-#: src/formats.c:193
+#: src/formats.c:194
 msgid "Costa Rican colon"
 msgstr ""
 
-#: src/formats.c:194
+#: src/formats.c:195
 msgid "[$CSK]"
 msgstr "[$CSK]"
 
-#: src/formats.c:194
+#: src/formats.c:195
 msgid "Czech Koruna"
 msgstr "Чешська крона"
 
-#: src/formats.c:195
+#: src/formats.c:196
 msgid "[$CUP]"
 msgstr "[$CUP]"
 
-#: src/formats.c:195
+#: src/formats.c:196
 msgid "Cuban peso"
 msgstr ""
 
-#: src/formats.c:196
+#: src/formats.c:197
 msgid "[$CVE]"
 msgstr "[$CVE]"
 
-#: src/formats.c:196
+#: src/formats.c:197
 msgid "Cape Verde escudo"
 msgstr ""
 
-#: src/formats.c:197
+#: src/formats.c:198
 msgid "[$CYP]"
 msgstr "[$CYP]"
 
-#: src/formats.c:197
+#: src/formats.c:198
 msgid "Cyprus pound"
 msgstr ""
 
-#: src/formats.c:198
+#: src/formats.c:199
 msgid "[$DEM]"
 msgstr "[$DEM]"
 
-#: src/formats.c:198
+#: src/formats.c:199
 msgid "Deutsche mark"
 msgstr "Н╕мецька марка"
 
-#: src/formats.c:199
+#: src/formats.c:200
 msgid "[$DJF]"
 msgstr "[$DJF]"
 
-#: src/formats.c:199
+#: src/formats.c:200
 msgid "Djibouti franc"
 msgstr ""
 
-#: src/formats.c:200
+#: src/formats.c:201
 msgid "[$DKK]"
 msgstr "[$DKK]"
 
-#: src/formats.c:200
+#: src/formats.c:201
 msgid "Danish krone"
 msgstr ""
 
-#: src/formats.c:201
+#: src/formats.c:202
 msgid "[$DOP]"
 msgstr "[$DOP]"
 
-#: src/formats.c:201
+#: src/formats.c:202
 msgid "Dominican peso"
 msgstr ""
 
-#: src/formats.c:202
+#: src/formats.c:203
 msgid "[$DZD]"
 msgstr "[$DZD]"
 
-#: src/formats.c:202
+#: src/formats.c:203
 msgid "Algerian dinar"
 msgstr ""
 
-#: src/formats.c:203
+#: src/formats.c:204
 msgid "[$ECS]"
 msgstr "[$ECS]"
 
-#: src/formats.c:203
+#: src/formats.c:204
 msgid "Ecuador sucre"
 msgstr ""
 
-#: src/formats.c:204
+#: src/formats.c:205
 msgid "[$EGP]"
 msgstr "[$EGP]"
 
-#: src/formats.c:204
+#: src/formats.c:205
 msgid "Egyptian pound"
 msgstr ""
 
-#: src/formats.c:205
+#: src/formats.c:206
 msgid "[$ESP]"
 msgstr "[$ESP]"
 
-#: src/formats.c:205
+#: src/formats.c:206
 msgid "Spanish peseta"
 msgstr ""
 
-#: src/formats.c:206
+#: src/formats.c:207
 msgid "[$ETB]"
 msgstr "[$ETB]"
 
-#: src/formats.c:206
+#: src/formats.c:207
 msgid "Ethiopian birr"
 msgstr ""
 
-#: src/formats.c:207
+#: src/formats.c:208
 msgid "[$EUR]"
 msgstr "[$EUR]"
 
-#: src/formats.c:207
+#: src/formats.c:208
 msgid "Euro"
 msgstr "╢вро"
 
-#: src/formats.c:208
+#: src/formats.c:209
 msgid "[$FIM]"
 msgstr "[$FIM]"
 
-#: src/formats.c:208
+#: src/formats.c:209
 msgid "Finnish markka"
 msgstr "Ф╕нська марка"
 
-#: src/formats.c:209
+#: src/formats.c:210
 msgid "[$FJD]"
 msgstr "[$FJD]"
 
-#: src/formats.c:209
+#: src/formats.c:210
 msgid "Fiji dollar"
 msgstr ""
 
-#: src/formats.c:210
+#: src/formats.c:211
 msgid "[$FKP]"
 msgstr "[$FKP]"
 
-#: src/formats.c:210
+#: src/formats.c:211
 msgid "Falkland Islands pound"
 msgstr ""
 
-#: src/formats.c:211
+#: src/formats.c:212
 msgid "[$FRF]"
 msgstr "[$FRF]"
 
-#: src/formats.c:211
+#: src/formats.c:212
 msgid "French franc"
 msgstr "Французький франк"
 
-#: src/formats.c:212
+#: src/formats.c:213
 msgid "[$GBP]"
 msgstr "[$GBP]"
 
-#: src/formats.c:212
+#: src/formats.c:213
 msgid "UK pound sterling"
 msgstr ""
 
-#: src/formats.c:213
+#: src/formats.c:214
 msgid "[$GHC]"
 msgstr "[$GHC]"
 
-#: src/formats.c:213
+#: src/formats.c:214
 msgid "Ghanaian cedi"
 msgstr ""
 
-#: src/formats.c:214
+#: src/formats.c:215
 msgid "[$GIP]"
 msgstr "[$GIP]"
 
-#: src/formats.c:214
+#: src/formats.c:215
 msgid "Gibraltar pound"
 msgstr ""
 
-#: src/formats.c:215
+#: src/formats.c:216
 msgid "[$GMD]"
 msgstr "[$GMD]"
 
-#: src/formats.c:215
+#: src/formats.c:216
 msgid "Gambian dalasi"
 msgstr ""
 
-#: src/formats.c:216
+#: src/formats.c:217
 msgid "[$GNF]"
 msgstr "[$GNF]"
 
-#: src/formats.c:216
+#: src/formats.c:217
 msgid "Guinea franc"
 msgstr ""
 
-#: src/formats.c:217
+#: src/formats.c:218
 msgid "[$GRD]"
 msgstr "[$GRD]"
 
-#: src/formats.c:217
+#: src/formats.c:218
 msgid "Greek drachma"
 msgstr ""
 
-#: src/formats.c:218
+#: src/formats.c:219
 msgid "[$GTQ]"
 msgstr "[$GTQ]"
 
-#: src/formats.c:218
+#: src/formats.c:219
 msgid "Guatemalan quetzal"
 msgstr ""
 
-#: src/formats.c:219
+#: src/formats.c:220
 msgid "[$GWP]"
 msgstr "[$GWP]"
 
-#: src/formats.c:219
+#: src/formats.c:220
 msgid "Guinea-Bissau peso"
 msgstr ""
 
-#: src/formats.c:220
+#: src/formats.c:221
 msgid "[$GYD]"
 msgstr "[$GYD]"
 
-#: src/formats.c:220
+#: src/formats.c:221
 msgid "Guyanan dollar"
 msgstr ""
 
-#: src/formats.c:221
+#: src/formats.c:222
 msgid "[$HKD]"
 msgstr "[$HKD]"
 
-#: src/formats.c:221
+#: src/formats.c:222
 msgid "Hong Kong dollar"
 msgstr ""
 
-#: src/formats.c:222
+#: src/formats.c:223
 msgid "[$HNL]"
 msgstr "[$HNL]"
 
-#: src/formats.c:222
+#: src/formats.c:223
 msgid "Honduran lempira"
 msgstr ""
 
-#: src/formats.c:223
+#: src/formats.c:224
+msgid "[$HRK]"
+msgstr "[$HRK]"
+
+#: src/formats.c:224
+msgid "Croatian kuna"
+msgstr "Хорватська куна"
+
+#: src/formats.c:225
 msgid "[$HTG]"
 msgstr "[$HTG]"
 
-#: src/formats.c:223
+#: src/formats.c:225
 msgid "Haitian gourde"
 msgstr ""
 
-#: src/formats.c:224
+#: src/formats.c:226
 msgid "[$HUF]"
 msgstr "[$HUF]"
 
-#: src/formats.c:224
+#: src/formats.c:226
 msgid "Hungarian forint"
 msgstr ""
 
-#: src/formats.c:225
+#: src/formats.c:227
 msgid "[$IDR]"
 msgstr "[$IDR]"
 
-#: src/formats.c:225
+#: src/formats.c:227
 msgid "Indonesian rupiah"
 msgstr "╤ндонез╕йська руп╕я"
 
-#: src/formats.c:226
+#: src/formats.c:228
 msgid "[$IEP]"
 msgstr "[$IEP]"
 
-#: src/formats.c:226
+#: src/formats.c:228
 msgid "Irish punt"
 msgstr ""
 
-#: src/formats.c:227
+#: src/formats.c:229
 msgid "[$IEX]"
 msgstr "[$IEX]"
 
-#: src/formats.c:227
+#: src/formats.c:229
 msgid "Irish pence ***"
 msgstr ""
 
-#: src/formats.c:228
+#: src/formats.c:230
 msgid "[$ILS]"
 msgstr "[$ILS]"
 
-#: src/formats.c:228
+#: src/formats.c:230
 msgid "Israeli shekel"
 msgstr "╤зра╕льський шекель"
 
-#: src/formats.c:229
+#: src/formats.c:231
 msgid "[$INR]"
 msgstr "[$INR]"
 
-#: src/formats.c:229
+#: src/formats.c:231
 msgid "Indian rupee"
 msgstr "╤нд╕йська руп╕я"
 
-#: src/formats.c:230
+#: src/formats.c:232
 msgid "[$IQD]"
 msgstr "[$IQD]"
 
-#: src/formats.c:230
+#: src/formats.c:232
 msgid "Iraqi dinar"
 msgstr ""
 
-#: src/formats.c:231
+#: src/formats.c:233
 msgid "[$IRR]"
 msgstr "[$IRR]"
 
-#: src/formats.c:231
+#: src/formats.c:233
 msgid "Iranian rial"
 msgstr ""
 
-#: src/formats.c:232
+#: src/formats.c:234
 msgid "[$ISK]"
 msgstr "[$ISK]"
 
-#: src/formats.c:232
+#: src/formats.c:234
 msgid "Iceland krona"
 msgstr "╤сландська крона"
 
-#: src/formats.c:233
+#: src/formats.c:235
 msgid "[$ITL]"
 msgstr "[$ITL]"
 
-#: src/formats.c:233
+#: src/formats.c:235
 msgid "Italian lira"
 msgstr "╤тал╕йська л╕ра"
 
-#: src/formats.c:234
+#: src/formats.c:236
 msgid "[$JMD]"
 msgstr "[$JMD]"
 
-#: src/formats.c:234
+#: src/formats.c:236
 msgid "Jamaican dollar"
 msgstr "Ямайський долар"
 
-#: src/formats.c:235
+#: src/formats.c:237
 msgid "[$JOD]"
 msgstr "[$JOD]"
 
-#: src/formats.c:235
+#: src/formats.c:237
 msgid "Jordanian dinar"
 msgstr ""
 
-#: src/formats.c:236
+#: src/formats.c:238
 msgid "[$JPY]"
 msgstr "[$JPY]"
 
-#: src/formats.c:236
+#: src/formats.c:238
 msgid "Japanese yen"
 msgstr "Японська ╓на"
 
-#: src/formats.c:237
+#: src/formats.c:239
 msgid "[$KES]"
 msgstr "[$KES]"
 
-#: src/formats.c:237
+#: src/formats.c:239
 msgid "Kenyan shilling"
 msgstr "Кен╕йський шил╕нг"
 
-#: src/formats.c:238
+#: src/formats.c:240
 msgid "[$KHR]"
 msgstr "[$KHR]"
 
-#: src/formats.c:238
+#: src/formats.c:240
 msgid "Kampuchean riel"
 msgstr ""
 
-#: src/formats.c:239
+#: src/formats.c:241
 msgid "[$KMF]"
 msgstr "[$KMF]"
 
-#: src/formats.c:239
+#: src/formats.c:241
 msgid "Comoros franc"
 msgstr ""
 
-#: src/formats.c:240
+#: src/formats.c:242
 msgid "[$KPW]"
 msgstr "[$KPW]"
 
-#: src/formats.c:240
+#: src/formats.c:242
 msgid "North Korean won"
 msgstr ""
 
-#: src/formats.c:241
+#: src/formats.c:243
 msgid "[$KRW]"
 msgstr "[$KRW]"
 
-#: src/formats.c:241
+#: src/formats.c:243
 msgid "Republic of Korea won"
 msgstr ""
 
-#: src/formats.c:242
+#: src/formats.c:244
 msgid "[$KWD]"
 msgstr "[$KWD]"
 
-#: src/formats.c:242
+#: src/formats.c:244
 msgid "Kuwaiti dinar"
 msgstr ""
 
-#: src/formats.c:243
+#: src/formats.c:245
 msgid "[$KYD]"
 msgstr "[$KYD]"
 
-#: src/formats.c:243
+#: src/formats.c:245
 msgid "Cayman Islands dollar"
 msgstr ""
 
-#: src/formats.c:244
+#: src/formats.c:246
 msgid "[$LAK]"
 msgstr "[$LAK]"
 
-#: src/formats.c:244
+#: src/formats.c:246
 msgid "Lao kip"
 msgstr ""
 
-#: src/formats.c:245
+#: src/formats.c:247
 msgid "[$LBP]"
 msgstr "[$LBP]"
 
-#: src/formats.c:245
+#: src/formats.c:247
 msgid "Lebanese pound"
 msgstr ""
 
-#: src/formats.c:246
+#: src/formats.c:248
 msgid "[$LKR]"
 msgstr "[$LKR]"
 
-#: src/formats.c:246
+#: src/formats.c:248
 msgid "Sri Lanka rupee"
 msgstr ""
 
-#: src/formats.c:247
+#: src/formats.c:249
 msgid "[$LRD]"
 msgstr "[$LRD]"
 
-#: src/formats.c:247
+#: src/formats.c:249
 msgid "Liberian dollar"
 msgstr "Л╕бер╕йський долар"
 
-#: src/formats.c:248
+#: src/formats.c:250
 msgid "[$LSL]"
 msgstr "[$LSL]"
 
-#: src/formats.c:248
+#: src/formats.c:250
 msgid "Lesotho loti"
 msgstr ""
 
-#: src/formats.c:249
+#: src/formats.c:251
 msgid "[$LUF]"
 msgstr "[$LUF]"
 
-#: src/formats.c:249
+#: src/formats.c:251
 msgid "Luxembourg franc"
 msgstr "Луксембургський франк"
 
-#: src/formats.c:250
+#: src/formats.c:252
 msgid "[$LYD]"
 msgstr "[$LYD]"
 
-#: src/formats.c:250
+#: src/formats.c:252
 msgid "Libyan dinar"
 msgstr ""
 
-#: src/formats.c:251
+#: src/formats.c:253
 msgid "[$MAD]"
 msgstr "[$MAD]"
 
-#: src/formats.c:251
+#: src/formats.c:253
 msgid "Moroccan dirham"
 msgstr ""
 
-#: src/formats.c:252
+#: src/formats.c:254
+msgid "[$MDL]"
+msgstr "[$MDL]"
+
+#: src/formats.c:254
+msgid "Moldovan leu"
+msgstr "Молдовський лей"
+
+#: src/formats.c:255
 msgid "[$MGF]"
 msgstr "[$MGF]"
 
-#: src/formats.c:252
+#: src/formats.c:255
 msgid "Malagasy franc"
 msgstr ""
 
-#: src/formats.c:253
+#: src/formats.c:256
 msgid "[$MLF]"
 msgstr "[$MLF]"
 
-#: src/formats.c:253
+#: src/formats.c:256
 msgid "Mali franc"
-msgstr ""
+msgstr "Мал╕йський франк"
 
-#: src/formats.c:254
+#: src/formats.c:257
 msgid "[$MMK]"
 msgstr "[$MMK]"
 
-#: src/formats.c:254
+#: src/formats.c:257
 msgid "Myanmar kyat"
 msgstr ""
 
-#: src/formats.c:255
+#: src/formats.c:258
 msgid "[$MNT]"
 msgstr "[$MNT]"
 
-#: src/formats.c:255
+#: src/formats.c:258
 msgid "Mongolian tugrik"
 msgstr ""
 
-#: src/formats.c:256
+#: src/formats.c:259
 msgid "[$MOP]"
 msgstr "[$MOP]"
 
-#: src/formats.c:256
+#: src/formats.c:259
 msgid "Macau pataca"
 msgstr ""
 
-#: src/formats.c:257
+#: src/formats.c:260
 msgid "[$MRO]"
 msgstr "[$MRO]"
 
-#: src/formats.c:257
+#: src/formats.c:260
 msgid "Mauritanian ouguiya"
 msgstr ""
 
-#: src/formats.c:258
+#: src/formats.c:261
 msgid "[$MTL]"
 msgstr "[$MTL]"
 
-#: src/formats.c:258
+#: src/formats.c:261
 msgid "Maltese lira"
-msgstr ""
+msgstr "Мальт╕йська л╕ра"
 
-#: src/formats.c:259
+#: src/formats.c:262
 msgid "[$MUR]"
 msgstr "[$MUR]"
 
-#: src/formats.c:259
+#: src/formats.c:262
 msgid "Mauritius rupee"
 msgstr ""
 
-#: src/formats.c:260
+#: src/formats.c:263
 msgid "[$MVR]"
 msgstr "[$MVR]"
 
-#: src/formats.c:260
+#: src/formats.c:263
 msgid "Maldive rupee"
 msgstr "Мальдивська руп╕я"
 
-#: src/formats.c:261
+#: src/formats.c:264
 msgid "[$MWK]"
 msgstr "[$MWK]"
 
-#: src/formats.c:261
+#: src/formats.c:264
 msgid "Malawi kwacha"
 msgstr ""
 
-#: src/formats.c:262
+#: src/formats.c:265
 msgid "[$MXP]"
 msgstr "[$MXP]"
 
-#: src/formats.c:262
+#: src/formats.c:265
 msgid "Mexican peso"
 msgstr ""
 
-#: src/formats.c:263
+#: src/formats.c:266
 msgid "[$MYR]"
 msgstr "[$MYR]"
 
-#: src/formats.c:263
+#: src/formats.c:266
 msgid "Malaysian ringgit"
 msgstr ""
 
-#: src/formats.c:264
+#: src/formats.c:267
 msgid "[$MZM]"
 msgstr "[$MZM]"
 
-#: src/formats.c:264
+#: src/formats.c:267
 msgid "Mozambique metical"
 msgstr ""
 
-#: src/formats.c:265
+#: src/formats.c:268
 msgid "[$NGN]"
 msgstr "[$NGN]"
 
-#: src/formats.c:265
+#: src/formats.c:268
 msgid "Nigerian naira"
 msgstr ""
 
-#: src/formats.c:266
+#: src/formats.c:269
 msgid "[$NIO]"
 msgstr "[$NIO]"
 
-#: src/formats.c:266
+#: src/formats.c:269
 msgid "Nicaraguan cordoba oro"
 msgstr ""
 
-#: src/formats.c:267
+#: src/formats.c:270
 msgid "[$NLG]"
 msgstr "[$NLG]"
 
-#: src/formats.c:267
+#: src/formats.c:270
 msgid "Netherlands guilder"
 msgstr "Голандський гульден"
 
-#: src/formats.c:268
+#: src/formats.c:271
 msgid "[$NOK]"
 msgstr "[$NOK]"
 
-#: src/formats.c:268
+#: src/formats.c:271
 msgid "Norwegian krone"
 msgstr "Норвежська крона"
 
-#: src/formats.c:269
+#: src/formats.c:272
 msgid "[$NPR]"
 msgstr "[$NPR]"
 
-#: src/formats.c:269
+#: src/formats.c:272
 msgid "Nepalese rupee"
 msgstr "Непальстка руп╕я"
 
-#: src/formats.c:270
+#: src/formats.c:273
 msgid "[$NZD]"
 msgstr "[$NZD]"
 
-#: src/formats.c:270
+#: src/formats.c:273
 msgid "New Zealand dollar"
 msgstr "Новозеландський долар"
 
-#: src/formats.c:271
+#: src/formats.c:274
 msgid "[$OMR]"
 msgstr "[$OMR]"
 
-#: src/formats.c:271
+#: src/formats.c:274
 msgid "Rial Omani"
 msgstr ""
 
-#: src/formats.c:272
+#: src/formats.c:275
 msgid "[$PAB]"
 msgstr "[$PAB]"
 
-#: src/formats.c:272
+#: src/formats.c:275
 msgid "Panamanian balboa"
 msgstr ""
 
-#: src/formats.c:273
+#: src/formats.c:276
 msgid "[$PEI]"
 msgstr "[$PEI]"
 
-#: src/formats.c:273
+#: src/formats.c:276
 msgid "Peruvian inti"
 msgstr ""
 
-#: src/formats.c:274
+#: src/formats.c:277
 msgid "[$PGK]"
 msgstr "[$PGK]"
 
-#: src/formats.c:274
+#: src/formats.c:277
 msgid "Papua New Guinea kina"
 msgstr ""
 
-#: src/formats.c:275
+#: src/formats.c:278
 msgid "[$PHP]"
 msgstr "[$PHP]"
 
-#: src/formats.c:275
+#: src/formats.c:278
 msgid "Philippino peso"
 msgstr ""
 
-#: src/formats.c:276
+#: src/formats.c:279
 msgid "[$PKR]"
 msgstr "[$PKR]"
 
-#: src/formats.c:276
+#: src/formats.c:279
 msgid "Pakistan rupee"
 msgstr "Пик╕станська руп╕я"
 
-#: src/formats.c:277
+#: src/formats.c:280
 msgid "[$PLZ]"
 msgstr "[$PLZ]"
 
-#: src/formats.c:277
+#: src/formats.c:280
 msgid "Polish zloty"
 msgstr "Польська злота"
 
-#: src/formats.c:278
+#: src/formats.c:281
 msgid "[$PTE]"
 msgstr "[$PTE]"
 
-#: src/formats.c:278
+#: src/formats.c:281
 msgid "Portuguese escudo"
 msgstr ""
 
-#: src/formats.c:279
+#: src/formats.c:282
 msgid "[$PYG]"
 msgstr "[$PYG]"
 
-#: src/formats.c:279
+#: src/formats.c:282
 msgid "Paraguay guarani"
 msgstr ""
 
-#: src/formats.c:280
+#: src/formats.c:283
 msgid "[$QAR]"
 msgstr "[$QAR]"
 
-#: src/formats.c:280
+#: src/formats.c:283
 msgid "Qatari rial"
 msgstr ""
 
-#: src/formats.c:281
+#: src/formats.c:284
 msgid "[$ROL]"
 msgstr "[$ROL]"
 
-#: src/formats.c:281
+#: src/formats.c:284
 msgid "Romanian leu"
 msgstr ""
 
-#: src/formats.c:282
+#: src/formats.c:285
 msgid "[$RWF]"
 msgstr "[$RWF]"
 
-#: src/formats.c:282
+#: src/formats.c:285
 msgid "Rwanda franc"
 msgstr "Руанд╕йський франк"
 
-#: src/formats.c:283
+#: src/formats.c:286
 msgid "[$SAR]"
 msgstr "[$SAR]"
 
-#: src/formats.c:283
+#: src/formats.c:286
 msgid "Saudi Arabian riyal"
 msgstr ""
 
-#: src/formats.c:284
+#: src/formats.c:287
 msgid "[$SBD]"
 msgstr "[$SBD]"
 
-#: src/formats.c:284
+#: src/formats.c:287
 msgid "Solomon Islands dollar"
 msgstr "Долар Соломонових Остров╕в"
 
-#: src/formats.c:285
+#: src/formats.c:288
 msgid "[$SCR]"
 msgstr "[$SCR]"
 
-#: src/formats.c:285
+#: src/formats.c:288
 msgid "Seychelles rupee"
 msgstr "Сейшельська руп╕я"
 
-#: src/formats.c:286
+#: src/formats.c:289
 msgid "[$SDP]"
 msgstr "[$SDP]"
 
-#: src/formats.c:286
+#: src/formats.c:289
 msgid "Sudanese pound"
 msgstr ""
 
-#: src/formats.c:287
+#: src/formats.c:290
 msgid "[$SEK]"
 msgstr "[$SEK]"
 
-#: src/formats.c:287
+#: src/formats.c:290
 msgid "Swedish krona"
 msgstr "Шведська крона"
 
-#: src/formats.c:288
+#: src/formats.c:291
 msgid "[$SGD]"
 msgstr "[$SGD]"
 
-#: src/formats.c:288
+#: src/formats.c:291
 msgid "Singapore dollar"
 msgstr ""
 
-#: src/formats.c:289
+#: src/formats.c:292
 msgid "[$SHP]"
 msgstr "[$SHP]"
 
-#: src/formats.c:289
+#: src/formats.c:292
 msgid "St.Helena pound"
 msgstr ""
 
-#: src/formats.c:290
+#: src/formats.c:293
 msgid "[$SLL]"
 msgstr "[$SLL]"
 
-#: src/formats.c:290
+#: src/formats.c:293
 msgid "Sierra Leone leone"
 msgstr ""
 
-#: src/formats.c:291
+#: src/formats.c:294
 msgid "[$SOS]"
 msgstr "[$SOS]"
 
-#: src/formats.c:291
+#: src/formats.c:294
 msgid "Somali shilling"
 msgstr ""
 
-#: src/formats.c:292
+#: src/formats.c:295
 msgid "[$SRG]"
 msgstr "[$SRG]"
 
-#: src/formats.c:292
+#: src/formats.c:295
 msgid "Suriname guilder"
 msgstr ""
 
-#: src/formats.c:293
+#: src/formats.c:296
 msgid "[$STD]"
 msgstr "[$STD]"
 
-#: src/formats.c:293
+#: src/formats.c:296
 msgid "Sao Tome and Principe dobra"
 msgstr ""
 
-#: src/formats.c:294
+#: src/formats.c:297
 msgid "[$SUR]"
 msgstr "[$SUR]"
 
-#: src/formats.c:294
+#: src/formats.c:297
 msgid "USSR rouble"
 msgstr ""
 
-#: src/formats.c:295
+#: src/formats.c:298
 msgid "[$SVC]"
 msgstr "[$SVC]"
 
-#: src/formats.c:295
+#: src/formats.c:298
 msgid "El Salvador colon"
 msgstr ""
 
-#: src/formats.c:296
+#: src/formats.c:299
 msgid "[$SYP]"
 msgstr "[$SYP]"
 
-#: src/formats.c:296
+#: src/formats.c:299
 msgid "Syrian pound"
 msgstr ""
 
-#: src/formats.c:297
+#: src/formats.c:300
 msgid "[$SZL]"
 msgstr "[$SZL]"
 
-#: src/formats.c:297
+#: src/formats.c:300
 msgid "Swaziland lilangeni"
 msgstr ""
 
-#: src/formats.c:298
+#: src/formats.c:301
 msgid "[$THB]"
 msgstr "[$THB]"
 
-#: src/formats.c:298
+#: src/formats.c:301
 msgid "Thai baht"
 msgstr ""
 
-#: src/formats.c:299
+#: src/formats.c:302
 msgid "[$TND]"
 msgstr "[$TND]"
 
-#: src/formats.c:299
+#: src/formats.c:302
 msgid "Tunisian dinar"
 msgstr ""
 
-#: src/formats.c:300
+#: src/formats.c:303
 msgid "[$TOP]"
 msgstr "[$TOP]"
 
-#: src/formats.c:300
+#: src/formats.c:303
 msgid "Tongan pa'anga"
 msgstr ""
 
-#: src/formats.c:301
+#: src/formats.c:304
 msgid "[$TPE]"
 msgstr "[$TPE]"
 
-#: src/formats.c:301
+#: src/formats.c:304
 msgid "East Timor escudo"
 msgstr ""
 
-#: src/formats.c:302
+#: src/formats.c:305
 msgid "[$TRL]"
 msgstr "[$TRL]"
 
-#: src/formats.c:302
+#: src/formats.c:305
 msgid "Turkish lira"
 msgstr "Турецька л╕ра"
 
-#: src/formats.c:303
+#: src/formats.c:306
 msgid "[$TTD]"
 msgstr "[$TTD]"
 
-#: src/formats.c:303
+#: src/formats.c:306
 msgid "Trinidad and Tobago dollar"
 msgstr ""
 
-#: src/formats.c:304
+#: src/formats.c:307
 msgid "[$TWD]"
 msgstr "[$TWD]"
 
-#: src/formats.c:304
+#: src/formats.c:307
 msgid "New Taiwan dollar"
 msgstr "Новий тайванський долар"
 
-#: src/formats.c:305
+#: src/formats.c:308
 msgid "[$TZS]"
 msgstr "[$TZS]"
 
-#: src/formats.c:305
+#: src/formats.c:308
 msgid "Tanzanian shilling"
-msgstr ""
+msgstr "Танзанський шил╕нг"
 
-#: src/formats.c:306
+#: src/formats.c:309
+msgid "[$UAH]"
+msgstr "[$UAH]"
+
+#: src/formats.c:309
+msgid "Ukrainian hryvnia"
+msgstr "Укра╖нська гривня"
+
+#: src/formats.c:310
 msgid "[$UGX]"
 msgstr "[$UGX]"
 
-#: src/formats.c:306
+#: src/formats.c:310
 msgid "Ugandan shilling"
-msgstr ""
+msgstr "Уганд╕йський шил╕нг"
 
-#: src/formats.c:307
+#: src/formats.c:311
 msgid "[$USD]"
 msgstr "[$USD]"
 
-#: src/formats.c:307
+#: src/formats.c:311
 msgid "US dollar"
 msgstr "Американський долар"
 
-#: src/formats.c:308
+#: src/formats.c:312
 msgid "[$UYP]"
 msgstr "[$UYP]"
 
-#: src/formats.c:308
+#: src/formats.c:312
 msgid "Uruguayan peso"
 msgstr "Уругвайський песо"
 
-#: src/formats.c:309
+#: src/formats.c:313
 msgid "[$VEB]"
 msgstr "[$VEB]"
 
-#: src/formats.c:309
+#: src/formats.c:313
 msgid "Venezuelan bolivar"
 msgstr ""
 
-#: src/formats.c:310
+#: src/formats.c:314
 msgid "[$VND]"
 msgstr "[$VND]"
 
-#: src/formats.c:310
+#: src/formats.c:314
 msgid "Vietnamese dong"
 msgstr ""
 
-#: src/formats.c:311
+#: src/formats.c:315
 msgid "[$VUV]"
 msgstr "[$VUV]"
 
-#: src/formats.c:311
+#: src/formats.c:315
 msgid "Vanuatu vatu"
 msgstr ""
 
-#: src/formats.c:312
+#: src/formats.c:316
 msgid "[$WST]"
 msgstr "[$WST]"
 
-#: src/formats.c:312
+#: src/formats.c:316
 msgid "Samoan tala"
 msgstr ""
 
-#: src/formats.c:313
+#: src/formats.c:317
 msgid "[$XCD]"
 msgstr "[$XCD]"
 
-#: src/formats.c:313
+#: src/formats.c:317
 msgid "East Caribbean dollar"
 msgstr "П╕вденнокарибський долар"
 
-#: src/formats.c:314
+#: src/formats.c:318
 msgid "[$XEU]"
 msgstr "[$XEU]"
 
-#: src/formats.c:314
+#: src/formats.c:318
 msgid "European currency unit"
 msgstr ""
 
-#: src/formats.c:315
+#: src/formats.c:319
 msgid "[$YDD]"
 msgstr "[$YDD]"
 
-#: src/formats.c:315
+#: src/formats.c:319
 msgid "Democratic Yemeni dinar"
 msgstr ""
 
-#: src/formats.c:316
+#: src/formats.c:320
 msgid "[$YER]"
 msgstr "[$YER]"
 
-#: src/formats.c:316
+#: src/formats.c:320
 msgid "Yemeni rial"
 msgstr ""
 
-#: src/formats.c:317
+#: src/formats.c:321
 msgid "[$YUN]"
 msgstr "[$YUN]"
 
-#: src/formats.c:317
+#: src/formats.c:321
 msgid "New Yugoslavia dinar"
 msgstr ""
 
-#: src/formats.c:318
+#: src/formats.c:322
 msgid "[$ZAL]"
 msgstr "[$ZAL]"
 
-#: src/formats.c:318
+#: src/formats.c:322
 msgid "South African rand funds code"
 msgstr ""
 
-#: src/formats.c:319
+#: src/formats.c:323
 msgid "[$ZAR]"
 msgstr "[$ZAR]"
 
-#: src/formats.c:319
+#: src/formats.c:323
 msgid "South African rand"
 msgstr ""
 
-#: src/formats.c:320
+#: src/formats.c:324
 msgid "[$ZMK]"
 msgstr "[$ZMK]"
 
-#: src/formats.c:320
+#: src/formats.c:324
 msgid "Zambian kwacha"
 msgstr "Замб╕йська квача"
 
-#: src/formats.c:321
+#: src/formats.c:325
 msgid "[$ZRZ]"
 msgstr "[$ZRZ]"
 
-#: src/formats.c:321
+#: src/formats.c:325
 msgid "Zaire Zaire"
 msgstr "За╕рський за╕р"
 
-#: src/formats.c:322
+#: src/formats.c:326
 msgid "[$ZWD]"
 msgstr "[$ZWD]"
 
-#: src/formats.c:322
+#: src/formats.c:326
 msgid "Zimbabwe dollar"
 msgstr ""
 
 #. TODO : Do we handle 'Red' being translated ??
-#: src/formats.c:445
+#: src/formats.c:449
 msgid "[Red]"
 msgstr "[Red]"
 
@@ -6475,7 +6552,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:2266
-#, fuzzy
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis])\n"
@@ -6484,12 +6560,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIME\n"
-"@SYNTAX=TIME (години,хвилини,секунди)\n"
-"@DESCRIPTION=Поверта╓ др╕б, що м╕стить час дня.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=HOUR"
 
 #: src/functions/fn-financial.c:2284
 msgid ""
@@ -6503,7 +6573,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-financial.c:2303
-#, fuzzy
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -6513,12 +6582,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=TIMEVALUE\n"
-"@SYNTAX=TIMEVALUE (timetext)\n"
-"@DESCRIPTION=Поверта╓ др╕б, що представля╓ час дня, як число м╕ж 0 та 1.\n"
-"@EXAMPLES=\n"
-"\n"
-"@SEEALSO=HOUR"
 
 #: src/functions/fn-financial.c:2322
 msgid ""
@@ -9828,7 +9891,6 @@ msgid "Invalid argument"
 msgstr "Нев╕рний аргумент"
 
 #: src/functions/fn-string.c:415
-#, fuzzy
 msgid ""
 "@FUNCTION=CLEAN\n"
 "@SYNTAX=CLEAN(string)\n"
@@ -9838,13 +9900,6 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=LEN\n"
-"@SYNTAX=LEN(рядок)\n"
-"@DESCRIPTION=LEN поверта╓ довжину рядка @рядок в символах.\n"
-"@EXAMPLES=\n"
-"len(\"Helsinki\") р╕вне 8.\n"
-"\n"
-"@SEEALSO=CHAR, CODE"
 
 #: src/functions/fn-string.c:454
 msgid ""
@@ -10029,19 +10084,24 @@ msgid ""
 "@SEEALSO=FIND"
 msgstr ""
 
-#: src/gnumeric-util.c:23
+#: src/gnumeric-util.c:24
 msgid "You cannot change part of an array."
 msgstr "Ви не можете зм╕нити частину масиву."
 
+#: src/gnumeric-util.c:517
+#, c-format
+msgid "Unable to open file '%s'"
+msgstr "Не вдалось в╕дкрити файл \"%s\""
+
 #: src/item-bar.c:480
-#, fuzzy, c-format
+#, c-format
 msgid "Height: %.2f (%d pixels)"
-msgstr "Висота: %.2f"
+msgstr "Висота: %.2f (п╕ксел╕в: %d)"
 
 #: src/item-bar.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "Width: %.2f (%d pixels)"
-msgstr "Ширина: %.2f"
+msgstr "Ширина: %.2f (п╕ксел╕в: %d)"
 
 #: src/item-cursor.c:662
 msgid ""
@@ -10085,114 +10145,133 @@ msgstr "Зсунути ком╕рки донизу та перенести"
 msgid "Shift cells right and move"
 msgstr "Зсунути ком╕рки праворуч та перенести"
 
-#: src/item-grid.c:591
+#: src/item-grid.c:590
 msgid "Cu_t"
 msgstr "Вир╕зати"
 
-#: src/item-grid.c:593
+#: src/item-grid.c:592
 msgid "_Copy"
 msgstr "Скоп╕ювати"
 
-#: src/item-grid.c:595
+#: src/item-grid.c:594
 msgid "_Paste"
 msgstr "Вставити"
 
-#: src/item-grid.c:597
+#: src/item-grid.c:596
 msgid "Paste _Special"
 msgstr "Спец╕альна вставка"
 
-#: src/item-grid.c:602
+#: src/item-grid.c:601
 msgid "_Insert..."
 msgstr "Вставити..."
 
-#: src/item-grid.c:604 src/workbook.c:1152
+#: src/item-grid.c:603 src/workbook.c:1152
 msgid "_Delete..."
 msgstr "Видалити..."
 
-#: src/item-grid.c:606
+#: src/item-grid.c:605
 msgid "Clear Co_ntents"
 msgstr "Очистити вм╕ст"
 
-#: src/item-grid.c:611
+#: src/item-grid.c:610
 msgid "_Format Cells..."
 msgstr "Формат ком╕рок..."
 
 #. Column specific functions
-#: src/item-grid.c:615
+#: src/item-grid.c:614
 msgid "Column _Width..."
 msgstr "Ширина стовпчика..."
 
-#: src/item-grid.c:617 src/item-grid.c:625 src/workbook.c:1248
+#: src/item-grid.c:616 src/item-grid.c:624 src/workbook.c:1248
 #: src/workbook.c:1267
 msgid "_Hide"
 msgstr "Прибрати"
 
-#: src/item-grid.c:619 src/item-grid.c:627 src/workbook.c:1251
+#: src/item-grid.c:618 src/item-grid.c:626 src/workbook.c:1251
 #: src/workbook.c:1270
 msgid "_Unhide"
 msgstr "Показати"
 
 #. Row specific functions (Note some of the labels are duplicated
-#: src/item-grid.c:623
+#: src/item-grid.c:622
 msgid "_Row Height..."
 msgstr "Висота рядка..."
 
-#: src/main.c:61
+#: src/main.c:64
+msgid "Display Gnumeric's version"
+msgstr "Показати верс╕ю Gnumeric"
+
+#: src/main.c:66
+msgid "Set the root library directory"
+msgstr ""
+
+#: src/main.c:68
+msgid "Adjust the root data directory"
+msgstr ""
+
+#: src/main.c:71
 msgid "Dumps the function definitions"
 msgstr "Видати визначення функц╕й"
 
-#: src/main.c:61
+#: src/main.c:71
 msgid "FILE"
 msgstr "ФАЙЛ"
 
-#: src/main.c:64
+#: src/main.c:74
 msgid "Enables some debugging functions"
 msgstr "Дозволити деяк╕ налагоджувальн╕ функц╕╖"
 
-#: src/main.c:64 src/main.c:67 src/main.c:69 src/main.c:77 src/main.c:81
-#: src/main.c:85 src/main.c:89 src/main.c:93 src/main.c:97
+#: src/main.c:74 src/main.c:77 src/main.c:79 src/main.c:87 src/main.c:91
+#: src/main.c:95 src/main.c:99 src/main.c:103 src/main.c:107
 msgid "LEVEL"
 msgstr "Р╤ВЕНЬ"
 
-#: src/main.c:67
+#: src/main.c:77
 msgid "Enables some style related debugging functions"
 msgstr "Дозволити деяк╕ налагоджувальн╕ функц╕╖ стосовно стил╕в"
 
-#: src/main.c:69
+#: src/main.c:79
 msgid "Enables some dependency related debugging functions"
 msgstr "Дозволити деяк╕ налагоджувальн╕ функц╕╖ стосовно залежностей"
 
-#: src/main.c:72
+#: src/main.c:82
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Завершити негайно п╕сля завантаження вибрано╖ книги (корисно для тестування)."
 
-#: src/main.c:76 src/main.c:96
+#: src/main.c:86 src/main.c:106
 msgid "Enables debugging mesgs while reading excel workbooks"
 msgstr ""
 "Дозволити налагоджувальн╕ пов╕домлення при зчитуванн╕ робочо╖ книги Excel"
 
-#: src/main.c:80
+#: src/main.c:90
 msgid "Enables debugging mesgs while reading excel functions"
 msgstr "Дозволити налагоджувальн╕ пов╕домлення при зчитуванн╕ функц╕й Excel"
 
-#: src/main.c:84
+#: src/main.c:94
 msgid "Enables debugging mesgs while reading excel colours & patterns"
 msgstr ""
 "Дозволити налагоджувальн╕ пов╕домлення при зчитуванн╕ кольор╕в та шаблон╕в "
 "Excel"
 
-#: src/main.c:88
-#, fuzzy
+#: src/main.c:98
 msgid "Enables debugging mesgs while reading excel objects"
-msgstr "Дозволити налагоджувальн╕ пов╕домлення при зчитуванн╕ д╕аграм Excel"
+msgstr "Дозволя╓ налагоджувальн╕ пов╕домлення при зчитуванн╕ об'╓кт╕в Excel"
 
-#: src/main.c:92
+#: src/main.c:102
 msgid "Enables debugging mesgs while reading excel charts"
-msgstr "Дозволити налагоджувальн╕ пов╕домлення при зчитуванн╕ д╕аграм Excel"
+msgstr "Дозволя╓ налагоджувальн╕ пов╕домлення при зчитуванн╕ д╕аграм Excel"
 
-#: src/main.c:100
+#: src/main.c:110
 msgid "Enables extra consistancy checking while reading ole files"
+msgstr ""
+
+#: src/main.c:136
+#, c-format
+msgid ""
+"gnumeric version %s\n"
+"datadir := %s\n"
+"libdir := %s\n"
 msgstr ""
 
 #: src/number-match.c:167
@@ -10310,23 +10389,20 @@ msgstr "час"
 
 #. Note: we cannot have spaces in page numbers.
 #: src/print.c:365
-#, fuzzy
 msgid "&[PAGE]"
-msgstr "Стор╕нка &[PAGE]"
+msgstr "&[PAGE]"
 
 #: src/print.c:792 src/workbook.c:1818
 msgid "Selection must be a single range"
 msgstr ""
 
 #: src/print.c:902
-#, fuzzy
 msgid "Print Sheets"
-msgstr "Установка прантера"
+msgstr ""
 
 #: src/print.c:909
-#, fuzzy
 msgid "Active sheet"
-msgstr "активний аркуш"
+msgstr "Активний аркуш"
 
 #: src/print.c:984 src/workbook.c:1101 src/workbook.c:1422
 msgid "Print preview"
@@ -10436,27 +10512,25 @@ msgid "#N/A"
 msgstr "#N/A"
 
 #: src/value-sheet.c:411
-#, fuzzy
 msgid "#RECALC!"
-msgstr "#REF!"
+msgstr "#RECALC!"
 
-#: src/value.c:566
+#: src/value.c:563
 msgid "Terminate"
 msgstr "Зупинити"
 
 #. "Custom" color - we'll pop up a GnomeColorPicker
 #: src/widgets/widget-color-combo.c:331
-#, fuzzy
 msgid "Custom Color:"
-msgstr "Налагодити зноску"
+msgstr ""
 
 #: src/widgets/widget-color-combo.c:337
 msgid "Choose Custom Color"
-msgstr ""
+msgstr "Виб╕р дов╕льного кольору"
 
 #: src/widgets/widget-color-combo.c:455
 msgid "light brown"
-msgstr ""
+msgstr "св╕тло-коричневий"
 
 #: src/widgets/widget-color-combo.c:456
 msgid "brown gold"
@@ -10464,21 +10538,19 @@ msgstr ""
 
 #: src/widgets/widget-color-combo.c:457
 msgid "dark green #2"
-msgstr ""
+msgstr "темно-зелений #2"
 
 #: src/widgets/widget-color-combo.c:458
-#, fuzzy
 msgid "navy"
-msgstr "Нед╕ля"
+msgstr ""
 
 #: src/widgets/widget-color-combo.c:459 src/widgets/widget-color-combo.c:515
-#, fuzzy
 msgid "dark blue"
-msgstr "син╕й"
+msgstr "темно-син╕й"
 
 #: src/widgets/widget-color-combo.c:460
 msgid "purple #2"
-msgstr ""
+msgstr "ф╕олетовий #2"
 
 #: src/widgets/widget-color-combo.c:461
 msgid "very dark gray"
@@ -10486,26 +10558,23 @@ msgstr ""
 
 #: src/widgets/widget-color-combo.c:464 src/widgets/widget-color-combo.c:520
 msgid "dark red"
-msgstr ""
+msgstr "темно червоний"
 
 #: src/widgets/widget-color-combo.c:465
 msgid "red-orange"
 msgstr ""
 
 #: src/widgets/widget-color-combo.c:466
-#, fuzzy
 msgid "gold"
-msgstr "Товстий"
+msgstr "золотистий"
 
 #: src/widgets/widget-color-combo.c:467
-#, fuzzy
 msgid "dark green"
-msgstr "зелений"
+msgstr "темно-зелений"
 
 #: src/widgets/widget-color-combo.c:468 src/widgets/widget-color-combo.c:521
-#, fuzzy
 msgid "dull blue"
-msgstr "син╕й"
+msgstr ""
 
 #: src/widgets/widget-color-combo.c:470
 msgid "dull purple"
@@ -10513,22 +10582,19 @@ msgstr ""
 
 #: src/widgets/widget-color-combo.c:471
 msgid "dark grey"
-msgstr ""
+msgstr "темно-с╕рий"
 
 #: src/widgets/widget-color-combo.c:475
-#, fuzzy
 msgid "orange"
-msgstr "Д╕апазон"
+msgstr ""
 
 #: src/widgets/widget-color-combo.c:476
-#, fuzzy
 msgid "lime"
-msgstr "час"
+msgstr "лимонний"
 
 #: src/widgets/widget-color-combo.c:477
-#, fuzzy
 msgid "dull green"
-msgstr "зелений"
+msgstr ""
 
 #: src/widgets/widget-color-combo.c:478
 msgid "dull blue #2"
@@ -10540,12 +10606,11 @@ msgstr ""
 
 #: src/widgets/widget-color-combo.c:480 src/widgets/widget-color-combo.c:519
 msgid "purple"
-msgstr ""
+msgstr "ф╕олетовий"
 
 #: src/widgets/widget-color-combo.c:481
-#, fuzzy
 msgid "gray"
-msgstr "Масив"
+msgstr "с╕рий"
 
 #: src/widgets/widget-color-combo.c:485
 msgid "bright orange"
@@ -10561,40 +10626,35 @@ msgstr ""
 
 #: src/widgets/widget-color-combo.c:491
 msgid "light grey"
-msgstr ""
+msgstr "св╕тло-с╕рий"
 
 #: src/widgets/widget-color-combo.c:494 src/widgets/widget-color-combo.c:511
-#, fuzzy
 msgid "pink"
-msgstr "пункти"
+msgstr ""
 
 #: src/widgets/widget-color-combo.c:495
-#, fuzzy
 msgid "light orange"
-msgstr "Вир╕вн╕ти праворуч"
+msgstr ""
 
 #: src/widgets/widget-color-combo.c:496 src/widgets/widget-color-combo.c:508
-#, fuzzy
 msgid "light yellow"
-msgstr "жовтий"
+msgstr "св╕тло-жовтий"
 
 #: src/widgets/widget-color-combo.c:497
-#, fuzzy
 msgid "light green"
-msgstr "Вир╕вн╕ти праворуч"
+msgstr "св╕тло-зелений"
 
 #: src/widgets/widget-color-combo.c:498
-#, fuzzy
 msgid "light cyan"
-msgstr "Вир╕вн╕ти праворуч"
+msgstr ""
 
 #: src/widgets/widget-color-combo.c:499 src/widgets/widget-color-combo.c:509
 msgid "light blue"
-msgstr ""
+msgstr "голубий"
 
 #: src/widgets/widget-color-combo.c:500 src/widgets/widget-color-combo.c:513
 msgid "light purple"
-msgstr ""
+msgstr "св╕тло-ф╕олетовий"
 
 #: src/widgets/widget-color-combo.c:506
 msgid "purplish blue"
@@ -10602,12 +10662,11 @@ msgstr ""
 
 #: src/widgets/widget-color-combo.c:510
 msgid "dark purple"
-msgstr ""
+msgstr "темно-ф╕олетовий"
 
 #: src/widgets/widget-color-combo.c:512
-#, fuzzy
 msgid "sky blue"
-msgstr "син╕й"
+msgstr "блакитний"
 
 #. Placeholder: font selector
 #. Placeholder: size selector
@@ -10641,14 +10700,12 @@ msgid "Makes the font italic"
 msgstr "Робит шрифт курсивним"
 
 #: src/workbook-format-toolbar.c:299
-#, fuzzy
 msgid "Underline"
-msgstr "П╕дкреслення:"
+msgstr "П╕дкреслення"
 
 #: src/workbook-format-toolbar.c:299
-#, fuzzy
 msgid "Underlines the font"
-msgstr "П╕дкреслення:"
+msgstr "П╕дкреслений шрифт"
 
 #: src/workbook-format-toolbar.c:304
 msgid "Left align"
@@ -10715,14 +10772,12 @@ msgid "Decreases the number of decimal numbers displayed"
 msgstr "Зменшу╓ к╕льк╕сть десяткових знак╕в, що показуються"
 
 #: src/workbook-format-toolbar.c:419
-#, fuzzy
 msgid "Clear Borders"
-msgstr "Очистити вм╕ст"
+msgstr ""
 
 #: src/workbook-format-toolbar.c:422
-#, fuzzy
 msgid "All Borders"
-msgstr "Тло"
+msgstr ""
 
 #: src/workbook-format-toolbar.c:423
 msgid "Outside Borders"
@@ -10733,19 +10788,16 @@ msgid "Thick Outside Borders"
 msgstr ""
 
 #: src/workbook-format-toolbar.c:427
-#, fuzzy
 msgid "Double Bottom"
-msgstr "Вниз"
+msgstr ""
 
 #: src/workbook-format-toolbar.c:428
-#, fuzzy
 msgid "Thick Bottom"
-msgstr "Вниз"
+msgstr ""
 
 #: src/workbook-format-toolbar.c:430
-#, fuzzy
 msgid "Top and Bottom"
-msgstr "Вниз"
+msgstr ""
 
 #: src/workbook-format-toolbar.c:431
 msgid "Top and Double Bottom"
@@ -10764,22 +10816,19 @@ msgid "Size"
 msgstr "Розм╕р"
 
 #: src/workbook-format-toolbar.c:596
-#, fuzzy
 msgid "Font Size"
-msgstr "Шрифт"
+msgstr "Розм╕р шрифту"
 
 #: src/workbook-format-toolbar.c:612 src/workbook-format-toolbar.c:615
-#, fuzzy
 msgid "Borders"
-msgstr "Тло"
+msgstr ""
 
 #.
 #. * Create the background colour combo box.
 #.
 #: src/workbook-format-toolbar.c:620
-#, fuzzy
 msgid "Clear Background"
-msgstr "Тло"
+msgstr "Очистити тло"
 
 #: src/workbook-format-toolbar.c:646 src/workbook-format-toolbar.c:649
 msgid "Foreground"
@@ -10867,13 +10916,12 @@ msgid "Clear the selected cells' contents"
 msgstr "Очистити вм╕ст ком╕рки"
 
 #: src/workbook.c:1146
-#, fuzzy
 msgid "P_aste special..."
-msgstr "Спец╕альна вставка"
+msgstr "Спец╕альна вставка..."
 
 #: src/workbook.c:1147
 msgid "Paste with optional filters and transformations"
-msgstr ""
+msgstr "Вставка з необов'язковими ф╕льтрами та перетворенями"
 
 #: src/workbook.c:1150
 msgid "C_lear"
@@ -10881,7 +10929,7 @@ msgstr "Очистити"
 
 #: src/workbook.c:1153
 msgid "Remove selected cells, shifting other into their place"
-msgstr ""
+msgstr "Видаля╓ вибран╕ ком╕рки, пересува╓ ╕нш╕ на ╖хн╕ м╕сця"
 
 #: src/workbook.c:1155
 msgid "De_lete Sheet"
@@ -10977,9 +11025,8 @@ msgid "Inserts a Bonobo object"
 msgstr "Вставити об'╓кт Bonobo"
 
 #: src/workbook.c:1226
-#, fuzzy
 msgid "Define _Name"
-msgstr "Визначити назви"
+msgstr "Визначити назву"
 
 #: src/workbook.c:1229
 msgid "_Add/modify comment..."
@@ -11002,49 +11049,44 @@ msgid "_Width"
 msgstr "_Ширина"
 
 #: src/workbook.c:1254
-#, fuzzy
 msgid "_Standard Width"
-msgstr "Стандартне в╕дхилення ="
+msgstr "Стандартна ширина"
 
 #: src/workbook.c:1264
 msgid "_Height"
 msgstr "_Висота"
 
 #: src/workbook.c:1273
-#, fuzzy
 msgid "_Standard Height"
-msgstr "Стандартне в╕дхилення ="
+msgstr "Стандартна висота"
 
 #: src/workbook.c:1280
 msgid "_Change name"
-msgstr ""
+msgstr "Зм╕нити назву"
 
 #: src/workbook.c:1283
-#, fuzzy
 msgid "Re-_Order Sheets"
-msgstr "Видалити аркуш"
+msgstr "Перевпорядкувати аркуш╕"
 
 #: src/workbook.c:1288
-#, fuzzy
 msgid "Display _Formulas"
-msgstr "Перемикнути формули"
+msgstr "Показати формули"
 
 #: src/workbook.c:1294
 msgid "Hide _Zeros"
-msgstr ""
+msgstr "Прибрати нул╕"
 
 #: src/workbook.c:1300
-#, fuzzy
 msgid "Hide _Gridlines"
-msgstr "Л╕н╕╖ с╕тки"
+msgstr "Прибрати л╕н╕╖ с╕тки"
 
 #: src/workbook.c:1306
 msgid "Hide _Column Header"
-msgstr ""
+msgstr "Прибрати заголовок стовпчика"
 
 #: src/workbook.c:1312
 msgid "Hide _Row Header"
-msgstr ""
+msgstr "Прибрати заголовок рядка"
 
 #. Default <Ctrl-1> invoke the format dialog
 #: src/workbook.c:1322
@@ -11064,16 +11106,14 @@ msgid "_Row"
 msgstr "Рядок"
 
 #: src/workbook.c:1330
-#, fuzzy
 msgid "_Workbook..."
-msgstr "Нова книга"
+msgstr "Книга"
 
 #: src/workbook.c:1331
 msgid "Modify the workbook attributes"
-msgstr ""
+msgstr "Модиф╕кувати атрибути книги"
 
 #: src/workbook.c:1338
-#, fuzzy
 msgid "_Plug-ins..."
 msgstr "Доповнення..."
 
@@ -11095,7 +11135,7 @@ msgstr "Автозбереження..."
 
 #: src/workbook.c:1348
 msgid "Automaticly save the current document at regular intervals"
-msgstr ""
+msgstr "Автоматичне регулярне збереження документу"
 
 #: src/workbook.c:1353
 msgid "_Goal Seek..."
@@ -11118,9 +11158,8 @@ msgid "_Data Analysis..."
 msgstr "Анал╕з даних"
 
 #: src/workbook.c:1363
-#, fuzzy
 msgid "Statistical methods."
-msgstr "Статистика"
+msgstr "Статистичн╕ методи."
 
 #: src/workbook.c:1371
 msgid "_Sort..."
@@ -11128,16 +11167,15 @@ msgstr "_Сортувати..."
 
 #: src/workbook.c:1372
 msgid "Sort the selected cells"
-msgstr "Упорядкувати вибран╕ ком╕рки"
+msgstr "В╕дсортувати вибран╕ ком╕рки"
 
 #: src/workbook.c:1374
-#, fuzzy
 msgid "_Filter..."
-msgstr "Видалити..."
+msgstr "Ф╕льтр..."
 
 #: src/workbook.c:1375
 msgid "Filter date with given criterias"
-msgstr ""
+msgstr "Ф╕льтр даних за вказаними критер╕ями"
 
 #: src/workbook.c:1393
 msgid "_Insert"
@@ -11160,9 +11198,8 @@ msgid "New"
 msgstr "Новий"
 
 #: src/workbook.c:1407
-#, fuzzy
 msgid "Creates a new workbook"
-msgstr "Назви в книз╕:"
+msgstr "Створю╓ нову книгу"
 
 #: src/workbook.c:1410
 msgid "Open"
@@ -11205,53 +11242,44 @@ msgid "Pastes the clipboard"
 msgstr "Вставля╓ буфер обм╕ну"
 
 #: src/workbook.c:1440
-#, fuzzy
 msgid "Undo"
-msgstr "Випадково"
+msgstr "В╕дм╕нити"
 
 #: src/workbook.c:1440
-#, fuzzy
 msgid "Undo the operation"
-msgstr "Нев╕домий оператор"
+msgstr "В╕дм╕нити останню операц╕ю"
 
 #: src/workbook.c:1443
-#, fuzzy
 msgid "Redo"
-msgstr "[Red]"
+msgstr "В╕дновити"
 
 #: src/workbook.c:1443
-#, fuzzy
 msgid "Redo the operation"
-msgstr "Генерац╕я випадкових чисел"
+msgstr "В╕дновити в╕дм╕нену операц╕ю"
 
 #: src/workbook.c:1450
-#, fuzzy
 msgid "Creates a graphic"
-msgstr "Створю╓ контрольний блок"
+msgstr "Створю╓ граф╕ку"
 
 #: src/workbook.c:1450
 msgid "Invokes the graphic wizard to create a graphic"
 msgstr ""
 
 #: src/workbook.c:1453
-#, fuzzy
 msgid "Insert Object"
-msgstr "Вставити стовпчики"
+msgstr "Вставити об'╓кт"
 
 #: src/workbook.c:1453
-#, fuzzy
 msgid "Inserts an object in the spreadsheet"
-msgstr "Вставити нову таблицю"
+msgstr "Вставля╓ об'╓кт у таблицю"
 
 #: src/workbook.c:1456
-#, fuzzy
 msgid "Insert shaped object"
-msgstr "Вставити об'╓кт Bonobo"
+msgstr ""
 
 #: src/workbook.c:1456
-#, fuzzy
 msgid "Inserts a shaped object in the spreadsheet"
-msgstr "Створю╓ граф╕ку в таблиц╕"
+msgstr ""
 
 #: src/workbook.c:1461
 msgid "Creates a button"
@@ -11302,26 +11330,28 @@ msgid "Sum into the current cell."
 msgstr ""
 
 #: src/workbook.c:1490
-#, fuzzy
 msgid "Sort Ascending"
-msgstr "Зростаючий"
+msgstr "Зростаюче сортування"
 
 #: src/workbook.c:1490
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
 msgstr ""
+"В╕дсортувати вибраний д╕апазон у зростаючому порядку значень першого "
+"рядка вибору."
 
 #: src/workbook.c:1493
-#, fuzzy
 msgid "Sort Descending"
-msgstr "Спадаючий"
+msgstr "Спадаюче сортування"
 
 #: src/workbook.c:1493
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
 msgstr ""
+"В╕дсортувати вибраний д╕апазон у спадаючому порядку значень першого "
+"рядка вибору."
 
 #: src/workbook.c:1778
 msgid "You should introduce a valid cell name"
@@ -11348,44 +11378,44 @@ msgstr "К╕льк╕сть"
 msgid "Book%d.gnumeric"
 msgstr "Книга%d.gnumeric"
 
-#: src/workbook.c:2776
+#: src/workbook.c:2775
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Ви впевнен╕, що хочете вилучити аркуш з назваою \"%s\"?"
 
-#: src/workbook.c:2836
+#: src/workbook.c:2835
 msgid "Add another sheet"
 msgstr "Додати ╕нший аркуш"
 
-#: src/workbook.c:2837
+#: src/workbook.c:2836
 msgid "Remove this sheet"
 msgstr "Видалити цей аркуш"
 
-#: src/workbook.c:2838
+#: src/workbook.c:2837
 msgid "Rename this sheet"
 msgstr "Перейменувати цей аркуш"
 
-#: src/workbook.c:2839
+#: src/workbook.c:2838
 msgid "Re-order sheets"
-msgstr ""
+msgstr "Перевпорядкувати аркуш╕"
 
-#: src/workbook.c:3077
+#: src/workbook.c:3076
 #, c-format
 msgid "%s%d"
 msgstr "%s%d"
 
-#: src/workbook.c:3114
+#: src/workbook.c:3113
 #, c-format
 msgid "Sheet%d"
 msgstr "Аркуш%d"
 
 #: src/xml-io.c:3070
 msgid "Invalid xml clipboard data. Tree is empty ?"
-msgstr ""
+msgstr "Нев╕рн╕ дан╕ XML в буфер╕ обм╕ну. Дерево порожн╓?"
 
 #: src/xml-io.c:3108
 msgid "Invalid xml file. Tree is empty ?"
-msgstr ""
+msgstr "Нев╕рний XML-файл. Дерево порожн╓?"
 
 #: src/xml-io.c:3120
 msgid "Is not an Workbook file"
