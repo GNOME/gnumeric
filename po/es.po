@@ -1025,7 +1025,7 @@ msgstr "La función de inicialización de la extensión falló"
 
 #: src/plugin.c:68
 msgid "Plugin is still in use.\n"
-msgstr "La extensión todavía está en uso"
+msgstr "La extensión todavía está en uso\n"
 
 #: src/plugin-manager.c:92 src/plugin-manager.c:93
 msgid "Name"
