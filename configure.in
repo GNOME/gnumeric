@@ -76,7 +76,7 @@ dnl
 dnl Check doc/translating.sgml for a description of how to translate
 dnl and why we have so many translations.
 dnl
-ALL_LINGUAS="ca cs da de en_AU en_CA en_GB el es es_DO es_GT es_HN es_MX es_PA es_PE es_SV et fi fr ga gl hr hu it ja ko nl no pl pt pt_BR ru sk sv tr uk zh_CN.GB2312 zh_TW.Big5"
+ALL_LINGUAS="ca cs da de en_AU en_CA en_GB el es es_DO es_GT es_HN es_MX es_PA es_PE es_SV et fi fr ga gl hr hu it nl no pl pt pt_BR ru sk sv tr uk"
 AM_GNOME_GETTEXT
 # AM_GNOME_GETTEXT above substs $DATADIRNAME
 # this is the directory where the *.{mo,gmo} files are installed
@@ -119,7 +119,7 @@ AC_SUBST(GNOMEGNORBA_LIBS)
 dnl ******************************
 dnl gnome-xml checking
 dnl ******************************
-AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.12 <= version < 2.0.0 )
+AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.12 <= version < 2.0.0  )
 xml_ok=no
 if xml-config --libs > /dev/null 2>&1; then 
     verstxt=`xml-config --version`
@@ -448,7 +448,7 @@ unset libglade_ok
 dnl ******************************
 dnl Gnome App Lib checking
 dnl ******************************
-AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.8)
+AC_MSG_CHECKING(for Gnome App libraries (GAL) >= 0.8				)
 gal_ok=no
 if gnome-config --libs gal > /dev/null 2>&1; then 
     verstxt=`gnome-config --modversion gal`
