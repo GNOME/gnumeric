@@ -36,16 +36,16 @@ typedef struct {
 	double 		 dash[6];
 } GOLineDashDesc;
 
-static GOLineDashDesc line_dash_desc =		{2,	{ 18, 6 } };
-static GOLineDashDesc line_dot_desc = 		{2,	{ 3, 3 } };
-static GOLineDashDesc line_dash_dot_desc =	{4, 	{ 9, 3, 6, 3 } };
-static GOLineDashDesc line_dash_dot_dot_desc =  {6, 	{ 9, 3, 3, 3, 3, 3 } };	
+static const GOLineDashDesc line_dash_desc =		{2,	{ 18, 6 } };
+static const GOLineDashDesc line_dot_desc = 		{2,	{ 3, 3 } };
+static const GOLineDashDesc line_dash_dot_desc =	{4, 	{ 9, 3, 6, 3 } };
+static const GOLineDashDesc line_dash_dot_dot_desc =  {6, 	{ 9, 3, 3, 3, 3, 3 } };	
 
 struct {
-	GOLineDashType	 type;
-	char const	*label;
-	char const	*name;
-	GOLineDashDesc	*dash_desc;
+	GOLineDashType type;
+	char const *label;
+	char const *name;
+	const GOLineDashDesc *dash_desc;
 } line_dashes[GO_LINE_MAX] = 
 {
 	{ GO_LINE_NONE,		N_("None"), 		"none",		NULL },
@@ -99,7 +99,7 @@ go_line_get_vpath_dash (GOLineDashType type, double scale)
 {
 	int i;
 	ArtVpathDash *dash = NULL;
-	GOLineDashDesc *dash_desc;
+	const GOLineDashDesc *dash_desc;
 
 	if (type < 0 || type >= G_N_ELEMENTS (line_dashes))
 		return NULL;
