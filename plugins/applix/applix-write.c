@@ -51,7 +51,7 @@
 typedef struct {
 	GsfOutput     *sink;
 	ErrorInfo     *parse_error;
-	WorkbookView  *wb_view;
+	WorkbookView const *wb_view;
 	Workbook      *wb;
 } ApplixWriteState;
 

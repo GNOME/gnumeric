@@ -33,7 +33,7 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 void dif_file_open (GnumFileOpener const *fo, IOContext *io_context,
                     WorkbookView *wbv, GsfInput *input);
 void dif_file_save (GnumFileSaver const *fs, IOContext *io_context,
-                    WorkbookView *wbv, GsfOutput *output);
+                    WorkbookView const *wbv, GsfOutput *output);
 
 typedef struct {
 	IOContext *io_context;
