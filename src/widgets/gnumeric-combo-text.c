@@ -202,6 +202,20 @@ cb_scroll_size_request (GtkWidget *widget, GtkRequisition *requisition,
 }
 
 static void
+cb_screen_changed (GnmComboText *ct, GdkScreen *previous_screen)
+{
+	GtkWidget *w = GTK_WIDGET (ct);
+	GdkScreen *screen = gtk_widget_has_screen (w)
+		? gtk_widget_get_screen (w)
+		: NULL;
+
+	if (screen) {
+		GtkWidget *toplevel = gtk_widget_get_toplevel (ct->scroll);
+		gtk_window_set_screen (GTK_WINDOW (toplevel), screen);
+	}	
+}
+
+static void
 gnm_combo_text_init (GnmComboText *ct)
 {
 	ct->cached_entry	= NULL;
@@ -247,6 +261,10 @@ gnm_combo_text_init (GnmComboText *ct)
 	g_signal_connect (G_OBJECT (ct),
 		"pop_down_done",
 		G_CALLBACK (cb_pop_down), NULL);
+
+	g_signal_connect (G_OBJECT (ct),
+			  "screen-changed", G_CALLBACK (cb_screen_changed),
+			  NULL);
 }
 
 static void
@@ -258,6 +276,8 @@ gnm_combo_text_destroy (GtkObject *object)
 	if (ct->list != NULL) {
 		g_signal_handlers_disconnect_by_func (G_OBJECT (ct),
 			G_CALLBACK (cb_pop_down), NULL);
+		g_signal_handlers_disconnect_by_func (G_OBJECT (ct),
+			G_CALLBACK (cb_screen_changed), NULL);
 		g_signal_handlers_disconnect_by_func (GTK_OBJECT (ct->list),
 			G_CALLBACK (cb_list_unselect), ct);
 		ct->list = NULL;
