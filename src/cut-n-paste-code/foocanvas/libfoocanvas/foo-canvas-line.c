@@ -309,7 +309,7 @@ foo_canvas_line_destroy (GtkObject *object)
 	line->last_coords = NULL;
 
 	if (line->stipple)
-		gdk_bitmap_unref (line->stipple);
+		gdk_drawable_unref (line->stipple);
 	line->stipple = NULL;
 
 	if (GTK_OBJECT_CLASS (parent_class)->destroy)
@@ -619,11 +619,11 @@ static void
 set_stipple (FooCanvasLine *line, GdkBitmap *stipple, int reconfigure)
 {
 	if (line->stipple && !reconfigure)
-		gdk_bitmap_unref (line->stipple);
+		gdk_drawable_unref (line->stipple);
 
 	line->stipple = stipple;
 	if (stipple && !reconfigure)
-		gdk_bitmap_ref (stipple);
+		gdk_drawable_ref (stipple);
 
 	if (line->gc) {
 		if (stipple) {
@@ -996,7 +996,7 @@ foo_canvas_line_unrealize (FooCanvasItem *item)
 
 	line = FOO_CANVAS_LINE (item);
 
-	gdk_gc_unref (line->gc);
+	g_object_unref (line->gc);
 	line->gc = NULL;
 
 	if (parent_class->unrealize)

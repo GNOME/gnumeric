@@ -590,7 +590,7 @@ foo_canvas_text_destroy (GtkObject *object)
 	text->attr_list = NULL;
 
 	if (text->stipple)
-		gdk_bitmap_unref (text->stipple);
+		gdk_drawable_unref (text->stipple);
 	text->stipple = NULL;
 
 	g_free (text->priv);
@@ -705,11 +705,11 @@ static void
 set_stipple (FooCanvasText *text, GdkBitmap *stipple, int reconfigure)
 {
 	if (text->stipple && !reconfigure)
-		gdk_bitmap_unref (text->stipple);
+		gdk_drawable_unref (text->stipple);
 
 	text->stipple = stipple;
 	if (stipple && !reconfigure)
-		gdk_bitmap_ref (stipple);
+		gdk_drawable_ref (stipple);
 
 	if (text->gc) {
 		if (stipple) {
@@ -1403,7 +1403,7 @@ foo_canvas_text_unrealize (FooCanvasItem *item)
 
 	text = FOO_CANVAS_TEXT (item);
 
-	gdk_gc_unref (text->gc);
+	g_object_unref (text->gc);
 	text->gc = NULL;
 
 	if (parent_class->unrealize)

@@ -354,7 +354,7 @@ foo_canvas_pixbuf_set_property (GObject            *object,
 				g_return_if_fail
 				    (gdk_pixbuf_get_bits_per_sample (pixbuf) == 8);
 
-				gdk_pixbuf_ref (pixbuf);
+				g_object_ref (pixbuf);
 			}
 
 			if (priv->pixbuf)
