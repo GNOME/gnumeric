@@ -138,7 +138,7 @@ sheet_rename (Sheet *sheet, const char *new_name)
 }
 
 Sheet *
-sheet_new (Workbook *wb, char *name)
+sheet_new (Workbook *wb, const char *name)
 {
 	GtkWidget *sheet_view;
 	Sheet *sheet;

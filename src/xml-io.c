@@ -14,6 +14,7 @@
 #include "gnome-xml/parser.h"
 #include "color.h"
 #include "sheet-object.h"
+#include "sheet-object-graphic.h"
 #include "xml-io.h"
 #include "file.h"
 
@@ -1102,30 +1103,34 @@ readXmlColRowInfo (parseXmlContextPtr ctxt,
 static xmlNodePtr
 writeXmlObject (parseXmlContextPtr ctxt, SheetObject *object)
 {
+	SheetObjectGraphic *sog = SHEET_OBJECT_GRAPHIC (object);
 	xmlNodePtr cur = NULL;
 
-	switch (object->type){
+	switch (sog->type){
 	case SHEET_OBJECT_RECTANGLE:{
-			SheetFilledObject *fo = (SheetFilledObject *) object;
+			SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
 
 			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Rectangle", NULL);
-			if (fo->fill_color != NULL)
-				xmlSetStringValue (cur, "FillColor", fo->fill_color);
-			xmlSetIntValue (cur, "Pattern", fo->pattern);
+			if (sof->fill_color != NULL)
+				xmlSetStringValue (cur, "FillColor", sof->fill_color);
+			xmlSetIntValue (cur, "Pattern", sof->pattern);
 			break;
 		}
+
 	case SHEET_OBJECT_ELLIPSE:{
-			SheetFilledObject *fo = (SheetFilledObject *) object;
+			SheetObjectFilled *sof = SHEET_OBJECT_FILLED (object);
 
 			cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Ellipse", NULL);
-			if (fo->fill_color != NULL)
-				xmlSetStringValue (cur, "FillColor", fo->fill_color);
-			xmlSetIntValue (cur, "Pattern", fo->pattern);
+			if (sof->fill_color != NULL)
+				xmlSetStringValue (cur, "FillColor", sof->fill_color);
+			xmlSetIntValue (cur, "Pattern", sof->pattern);
 			break;
 		}
+
 	case SHEET_OBJECT_ARROW:
 		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Arrow", NULL);
 		break;
+
 	case SHEET_OBJECT_LINE:
 		cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Line", NULL);
 		break;
@@ -1134,8 +1139,9 @@ writeXmlObject (parseXmlContextPtr ctxt, SheetObject *object)
 		return NULL;
 	
 	xmlSetGnomeCanvasPoints (cur, "Points", object->points);
-	xmlSetIntValue (cur, "Width", object->width);
-	xmlSetStringValue (cur, "Color", object->color);
+	xmlSetIntValue (cur, "Width", sog->width);
+	xmlSetStringValue (cur, "Color", sog->color);
+
 	return cur;
 }
 
@@ -1146,7 +1152,7 @@ static SheetObject *
 readXmlObject (parseXmlContextPtr ctxt, xmlNodePtr tree)
 {
 	SheetObject *ret;
-	SheetFilledObject *fo;
+	SheetObjectFilled *sof;
 	char *color;
 	char *fill_color;
 	int type;
@@ -1179,8 +1185,8 @@ readXmlObject (parseXmlContextPtr ctxt, xmlNodePtr tree)
 		ret = sheet_object_create_filled (ctxt->sheet, type,
 			       x1, y1, x2, y2, fill_color, color, width);
 		if (ret != NULL){
-			fo = (SheetFilledObject *) ret;
-			fo->pattern = pattern;
+			sof = SHEET_OBJECT_FILLED (ret);
+			sof->pattern = pattern;
 		}
 	} else {
 		ret = sheet_object_create_line (ctxt->sheet, type,

@@ -117,7 +117,13 @@ AM_CONDITIONAL(WITH_PYTHON, $python_val)
 dnl ******************************
 dnl Check for Bonobo
 dnl ******************************
-AM_PATH_BONOBO(0.1.0, [AC_DEFINE(ENABLE_BONOBO)])
+AM_PATH_BONOBO(0.1.0, [
+	AC_DEFINE(ENABLE_BONOBO)
+	have_bonobo=true
+],[
+	have_bonobo=false
+])
+AM_CONDITIONAL(BONOBO, $have_bonobo)
 
 AC_OUTPUT([
 gnumeric.spec

@@ -1,47 +1,46 @@
 #ifndef GNUMERIC_SHEET_OBJECT_H
 #define GNUMERIC_SHEET_OBJECT_H
 
+/*
+ * SheetObject
+ *
+ * General purpose Sheet graphic object
+ */
+#define SHEET_OBJECT_TYPE     (sheet_object_get_type ())
+#define SHEET_OBJECT(obj)     (GTK_CHECK_CAST((obj), SHEET_OBJECT_TYPE, SheetObject))
+#define SHEET_OBJECT_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), SHEET_OBJECT_TYPE, SheetObjectClass))
+#define IS_SHEET_OBJECT(o)    (GTK_CHECK_TYPE((o), SHEET_OBJECT_TYPE))
+
+typedef struct {
+	GtkObject  parent_object;
+	Sheet     *sheet;
+	GList     *realized_list;
+	int        dragging;
+
+	/* Bounding box */
+	GnomeCanvasPoints *points;
+} SheetObject;
+
+typedef struct {
+	GtkObjectClass parent_class;
+
+	/* Virtual methods */
+	GnomeCanvasItem *(*realize) (SheetObject *sheet_object, SheetView *sheet_view);
+	void             (*update)  (SheetObject *sheet_object, gdouble x, gdouble y);
+} SheetObjectClass;
+
+GtkType sheet_object_get_type  (void);
+void    sheet_object_construct (SheetObject *sheet_object, Sheet *sheet);
+
+/*
+ * Sheet modes
+ */
 typedef enum {
 	SHEET_OBJECT_LINE,
 	SHEET_OBJECT_RECTANGLE,
 	SHEET_OBJECT_ELLIPSE,
 	SHEET_OBJECT_ARROW,
 } SheetObjectType;
-
-typedef struct {
-	int               signature;
-	Sheet             *sheet;
-	GList             *realized_list;
-	SheetObjectType   type;
-	int               dragging;
-
-	String            *color;
-	int               width;
-	GnomeCanvasPoints *points;
-} SheetObject;
-
-typedef struct {
-	SheetObject sheet_object;
-
-	String      *fill_color;
-	int         pattern;
-} SheetFilledObject;
-
-#define SHEET_OBJECT_SIGNATURE (('S' << 24) | ('O' << 16) | ('b' << 8) | 'e')
-#define IS_SHEET_OBJECT(x) (x->signature == SHEET_OBJECT_SIGNATURE)
-
-SheetObject *sheet_object_create_line        (Sheet *sheet,   int is_arrow,
-					      double x1,      double y1,
-					      double x2,      double y2,
-					      char    *color, int width);
-
-SheetObject *sheet_object_create_filled      (Sheet *sheet, int type,
-					      double x1, double y1,
-					      double x2, double y2,
-					      char *fill_color, char *outline_color,
-					      int w);
-
-void             sheet_object_destroy        (SheetObject *object);
 
 /*
  * This routine creates the SheetObject in the SheetViews's Canvases.
@@ -58,6 +57,17 @@ void             sheet_object_make_current   (Sheet *sheet,
 /* Registers the object in the Sheet, otherwise we cant keep track of it */
 void             sheet_object_register       (Sheet *sheet,
 					      SheetObject *object);
+
+SheetObject *sheet_object_create_line        (Sheet *sheet,   int is_arrow,
+					      double x1,      double y1,
+					      double x2,      double y2,
+					      char    *color, int width);
+
+SheetObject *sheet_object_create_filled      (Sheet *sheet, int type,
+					      double x1, double y1,
+					      double x2, double y2,
+					      char *fill_color, char *outline_color,
+					      int w);
 
 #endif /* GNUMERIC_SHEET_OBJECT_H */
 

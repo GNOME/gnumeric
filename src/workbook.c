@@ -408,7 +408,8 @@ cut_cmd (GtkWidget *widget, Workbook *wb)
 		sheet_selection_cut (sheet);
 	else {
 		if (sheet->current_object){
-			sheet_object_destroy (sheet->current_object);
+			gtk_object_unref (GTK_OBJECT (sheet->current_object));
+			sheet->current_object = NULL;
 			sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 		} else
 			printf ("no object selected\n");
@@ -1821,7 +1822,7 @@ workbook_detach_sheet (Workbook *wb, Sheet *sheet)
  * was not found.
  */
 Sheet *
-workbook_sheet_lookup (Workbook *wb, char *sheet_name)
+workbook_sheet_lookup (Workbook *wb, const char *sheet_name)
 {
 	Sheet *sheet;
 	

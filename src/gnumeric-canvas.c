@@ -801,7 +801,7 @@ gnumeric_sheet_key_mode_object (GnumericSheet *gsheet, GdkEventKey *event)
 
 	case GDK_BackSpace:
 	case GDK_Delete:
-		sheet_object_destroy (sheet->current_object);
+		gtk_object_destroy (GTK_OBJECT (sheet->current_object));
 		sheet_set_mode_type (sheet, SHEET_MODE_SHEET);
 		break;
 

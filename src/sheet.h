@@ -169,7 +169,7 @@ typedef  void (*sheet_col_row_callback)(Sheet *sheet, ColRowInfo *ci,
 typedef  int (*sheet_cell_foreach_callback)(Sheet *sheet, int col, int row,
 					    Cell *cell, void *user_data);
 
-Sheet      *sheet_new                  	 (Workbook *wb, char *name);
+Sheet      *sheet_new                  	 (Workbook *wb, const char *name);
 void        sheet_rename                 (Sheet *sheet, const char *new_name);
 void        sheet_destroy              	 (Sheet *sheet);
 void        sheet_foreach_col          	 (Sheet *sheet,
@@ -402,7 +402,7 @@ void        workbook_auto_expr_label_set (Workbook *wb, char *text);
 void        workbook_next_generation     (Workbook *wb);
 void        workbook_set_region_status   (Workbook *wb, char *str);
 int         workbook_parse_and_jump      (Workbook *wb, char *text);
-Sheet      *workbook_sheet_lookup        (Workbook *wb, char *sheet_name);
+Sheet      *workbook_sheet_lookup        (Workbook *wb, const char *sheet_name);
 void        workbook_mark_clean          (Workbook *wb);
 gboolean    workbook_rename_sheet        (Workbook *wb,
 					  const char *old_name,

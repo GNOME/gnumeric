@@ -2,7 +2,11 @@
 # 	-Wshadow             -Wpointer-arith  	\
 # 	-Wmissing-prototypes -Wmissing-declarations 
 
-bin_PROGRAMS = gnumeric gnumeric-corba
+if BONOBO
+bin_PROGRAMS = gnumeric-bonobo
+else
+bin_PROGRAMS = gnumeric-corba gnumeric
+endif
 
 #noinst_PROGRAMS = number-match
 
@@ -97,6 +101,8 @@ GNUMERIC_BASE_SOURCES =			\
 	sheet-autofill.h		\
 	sheet-object.c			\
 	sheet-object.h			\
+	sheet-object-graphic.c		\
+	sheet-object-graphic.h		\
 	sheet-view.c			\
 	sheet-view.h			\
 	solver-lp.c                     \
@@ -140,7 +146,6 @@ gnumeric_corba_SOURCES = 		\
 	$(GNUMERIC_BASE_SOURCES)
 
 gnumeric_LDFLAGS = -export-dynamic
-gnumeric_corba_LDFLAGS = $(gnumeric_LDFLAGS)
 
 gnumeric_LDADD = 			\
 	../plugins/excel/libexcel.a	\
@@ -150,7 +155,16 @@ gnumeric_LDADD = 			\
 	$(GUILE_LIBS)			\
 	$(INTLLIBS)
 
-gnumeric_corba_LDADD = $(gnumeric_LDADD) $(GNOMEGNORBA_LIBS) $(BONOBO_LIBS)
+gnumeric_corba_LDADD = 			\
+	$(gnumeric_LDADD) 		\
+	$(GNOMEGNORBA_LIBS)
+
+gnumeric_bonobo_LDADD =			\
+	../plugins/excel/libexcel.a	\
+	$(BONOBO_LIBS)			\
+	$(GNOME_XML_LIB) 		\
+	$(GUILE_LIBS)			\
+	$(INTLLIBS)
 
 
 wc:
