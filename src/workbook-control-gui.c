@@ -611,7 +611,7 @@ wbcg_sheet_rename (WorkbookControl *wbc, Sheet *sheet)
 
 	g_return_if_fail (i >= 0);
 
-	label = gtk_notebook_get_tab_label (wbcg->notebook, GTK_WIDGET (scg));
+	label = gtk_notebook_get_tab_label (wbcg->notebook, GTK_WIDGET (scg->table));
 	editable_label_set_text (EDITABLE_LABEL (label), sheet->name_unquoted);
 }
 

@@ -1,3 +1,8 @@
+2001-05-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control-gui.c (wbcg_sheet_rename) : Use the table not
+	  the container.
+
 2001-05-27  Zbigniew Chyla  <cybs@gnome.pl>
 
 	* src/plugin-service.c (parse_format_level_str): Fixed typo.
