@@ -1,3 +1,10 @@
+2004-09-30  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* files-textopen.xml, files-saving.xml, graphics-plots.xml,
+	files-formats.xml, data-entry-external.xml, gui-menus.xml,
+	files-opening.xml, graphics-drawings.xml: Fixed dangling links, typos,
+	tags.
+
 2004-09-29  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* Makefile.am: Set "figdir" so the figures get installed.
