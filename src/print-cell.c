@@ -111,29 +111,35 @@ cell_split_text (GnomeFont *font, char const *text, int const width)
 }
 
 /*
- * base_[xy] : Coordinates of the lower left corner of the cell.
+ * base_[xy] : Coordinates of the upper left corner of the cell.
  *             INCLUSIVE of the near grid line
  *
- *      /------\
+ *      /--- (x1, y1)
+ *      v
+ *      g------\
  *      |      |
- *      B------/
- *      ^
- *      \--- (x1, y1)
+ *      \------/
  */
 static void
 print_cell_text (GnomePrintContext *context,
 		 Cell *cell, MStyle *mstyle,
 		 double x1, double y1)
 {
+	StyleUnderlineType const uline = mstyle_get_font_uline (mstyle);
 	StyleFont *style_font = mstyle_get_font (mstyle, 1.0);
-	StyleColor *fore;
 	GnomeFont *print_font = style_font->font;
 	double const font_descent = gnome_font_get_descender (print_font);
-	double text_width, width;
-	double font_height, height;
-	gboolean is_single_line;
+	double const font_ascent = gnome_font_get_ascender (print_font);
+	double text_width;
+	double clip_x, clip_width, clip_y, clip_height;
+	StyleColor *fore;
+
 	int start_col, end_col;
+	double width, height;
+	int text_base;
+	double font_height;
 	int halign;
+	gboolean is_single_line;
 	char const *text;
 	CellSpanInfo const * spaninfo;
 
@@ -173,21 +179,22 @@ print_cell_text (GnomePrintContext *context,
 		 * add top margin
 		 * add font ascent
 		 */
-		y1 -= font_height + cell->row->margin_a;
+		text_base = y1 - font_ascent - cell->row->margin_a;
 		break;
 		
 	case VALIGN_CENTER:
-		y1 -= font_height + cell->row->margin_a +
+		text_base = y1 - font_ascent - cell->row->margin_a -
 		    (height - font_height) / 2;
 		break;
 		
 	case VALIGN_BOTTOM:
 		/*
-		 * y1-row->size_pts == bottom grid line.
+		 * y1+row->size_pts == bottom grid line.
 		 * subtract bottom margin
 		 * subtract font descent
+		 * subtract bottom grid
 		 */
-		y1 -= cell->row->size_pts - font_descent - cell->row->margin_b;
+		text_base = y1 - cell->row->size_pts + font_descent + cell->row->margin_b + 1;
 		break;
 	}
 	
@@ -198,24 +205,12 @@ print_cell_text (GnomePrintContext *context,
 			  mstyle_get_align_v (mstyle) != VALIGN_JUSTIFY &&
 			  !mstyle_get_fit_in_cell (mstyle));
 
-	{
-		static int warn_shown;
-
-		if (!warn_shown) {
-			g_warning ("Set clipping");
-			warn_shown = 1;
-		}
-	}
-
-#if 0
-	Enable this when clipping is ready.
-
 	/* This rectangle has the whole area used by this cell
 	 * including the surrounding grid lines */
-	rect.x = x1;
-	rect.y = y1;
-	rect.width  = cell->col->size_pts + 1;
-	rect.height = cell->row->size_pts + 1;
+	clip_x = x1;
+	clip_y = y1;
+	clip_width  = cell->col->size_pts + 1;
+	clip_height = cell->row->size_pts + 1;
 
 	/*
 	 * x1, y1 are relative to this cell origin, but the cell might be using
@@ -226,25 +221,33 @@ print_cell_text (GnomePrintContext *context,
 		int const offset =
 		    sheet_col_get_distance_pts (cell->sheet,
 						start_col, cell->col->pos);
-		rect.x     -= offset;
-		rect.width += offset;
+		clip_x     -= offset;
+		clip_width += offset;
 	}
 	if (end_col != cell->col->pos) {
 		int const offset =
 		    sheet_col_get_distance_pts (cell->sheet,
 						cell->col->pos+1, end_col+1);
-		rect.width += offset;
+		clip_width += offset;
 	}
 
 	/* Do not allow text to impinge upon the grid lines or margins
 	 * FIXME : Should use margins from start_col and end_col
+	 *
+	 * NOTE : postscript clip paths exclude the border, gdk includes it.
 	 */
-	rect.x += 1 + cell->col->margin_a;
-	rect.y += 1 + cell->row->margin_a;
-	rect.width -= 2 + cell->col->margin_a + cell->col->margin_b;
-	rect.height -= 2 + cell->row->margin_a + cell->row->margin_b;
-	gdk_gc_set_clip_rectangle (gc, &rect);
-#endif
+	clip_x += cell->col->margin_a;
+	clip_y -= cell->row->margin_a;
+	clip_width -= cell->col->margin_a + cell->col->margin_b;
+	clip_height -= cell->row->margin_a + cell->row->margin_b;
+	gnome_print_gsave (context);
+	gnome_print_newpath (context);
+	gnome_print_moveto (context, clip_x, clip_y);
+	gnome_print_lineto (context, clip_x + clip_width, clip_y);
+	gnome_print_lineto (context, clip_x + clip_width, clip_y - clip_height);
+	gnome_print_lineto (context, clip_x, clip_y - clip_height);
+	gnome_print_closepath (context);
+	gnome_print_clip (context);
 
 	/* Set the font colour */
 	if (cell->render_color)
@@ -259,6 +262,7 @@ print_cell_text (GnomePrintContext *context,
 	if (text_width > width && cell_is_number (cell)) {
 		print_overflow (context, cell);
 		style_font_unref (style_font);
+		gnome_print_grestore (context);
 		return;
 	}
 
@@ -292,10 +296,10 @@ print_cell_text (GnomePrintContext *context,
 
 		gnome_print_setfont (context, print_font);
 		total = 0;
+		x = x1;
 		do {
-			gnome_print_moveto (context, x1, y1);
+			gnome_print_moveto (context, x, text_base);
 			gnome_print_show (context, text);
-			gnome_print_stroke (context);
 
 			x += len;
 			total += len;
@@ -377,9 +381,8 @@ print_cell_text (GnomePrintContext *context,
 			}
 
 			gnome_print_moveto (context, x1 + x_offset,
-					    y1 + y_offset);
+					    text_base + y_offset);
 			gnome_print_show (context, str);
-			gnome_print_stroke (context);
 
 			y_offset -= inter_space;
 			g_free (l->data);
@@ -387,12 +390,16 @@ print_cell_text (GnomePrintContext *context,
 		g_list_free (lines);
 	}
 	style_font_unref (style_font);
+	gnome_print_grestore (context);
 }
 
 static void
 print_rectangle (GnomePrintContext *context,
 		 double x, double y, double w, double h)
 {
+	/* Mirror gdk which excludes the far point */
+	w -= 1.;
+	h -= 1.;
 	gnome_print_moveto (context, x, y);
 	gnome_print_lineto (context, x+w, y);
 	gnome_print_lineto (context, x+w, y-h);
@@ -618,7 +625,7 @@ print_cell_grid (GnomePrintContext *context,
 	x = base_x;
 	print_vline (context, x, base_y, base_y - height);
 	for (col = start_col; col <= end_col; col++) {
-		ColRowInfo *ci = sheet_col_get_info (sheet, col);
+		ColRowInfo const *ci = sheet_col_get_info (sheet, col);
 		if (ci && ci->visible) {
 			x += ci->size_pts;
 			print_vline (context, x, base_y, base_y - height);
@@ -628,7 +635,7 @@ print_cell_grid (GnomePrintContext *context,
 	y = base_y;
 	print_hline (context, base_x, base_x + width, y);
 	for (row = start_row; row <= end_row; row++){
-		ColRowInfo *ri = sheet_row_get_info (sheet, row);
+		ColRowInfo const *ri = sheet_row_get_info (sheet, row);
 		if (ri && ri->visible) {
 			y -= ri->size_pts;
 			print_hline (context, base_x, base_x + width, y);

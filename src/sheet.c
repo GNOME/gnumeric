@@ -528,6 +528,8 @@ sheet_get_extent_cb (gpointer key, gpointer value, gpointer data)
 	
 	if (cell && !cell_is_blank (cell)) {
 		Range *range = (Range *)data;
+		CellSpanInfo const *span = NULL;
+		int tmp;
 
 		if (cell->row->pos < range->start.row)
 			range->start.row = cell->row->pos;
@@ -535,11 +537,14 @@ sheet_get_extent_cb (gpointer key, gpointer value, gpointer data)
 		if (cell->row->pos > range->end.row)
 			range->end.row = cell->row->pos;
 
-		if (cell->col->pos < range->start.col)
-			range->start.col = cell->col->pos;
+		span = row_span_get (cell->row, cell->row->pos);
+		tmp = (span != NULL) ? span->left : cell->col->pos;
+		if (tmp < range->start.col)
+			range->start.col = tmp;
 
-		if (cell->col->pos > range->end.col)
-			range->end.col = cell->col->pos;
+		tmp = (span != NULL) ? span->right : cell->col->pos;
+		if (tmp > range->end.col)
+			range->end.col = tmp;
 	}
 }
 
@@ -580,8 +585,6 @@ sheet_get_extent (Sheet const *sheet)
 	/*
 	 *  Print can't handle stuff outside these walls.
 	 */
-	if (r.end.col > sheet->cols.max_used)
-		r.end.col = sheet->cols.max_used;
 	if (r.end.col < 0)
 		r.end.col = 0;
 	if (r.start.col > r.end.col)
@@ -589,8 +592,6 @@ sheet_get_extent (Sheet const *sheet)
 	if (r.start.col < 0)
 		r.start.col = 0;
 
-	if (r.end.row > sheet->rows.max_used)
-		r.end.row = sheet->rows.max_used;
 	if (r.end.row < 0)
 		r.end.row = 0;
 	if (r.start.row > r.end.row)

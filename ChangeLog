@@ -1,3 +1,13 @@
+2000-02-29  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print-cell.c (print_cell_text) : Correct the docs,
+	  and add clipping code.  The resulting postscript looks reasonable
+	  now.  Unfortunately preview sucks.
+
+	* src/sheet.c (sheet_get_extent_cb) : Teach about spans.
+	(sheet_get_extent) : max_used is NOT a viable bound.  It limits the
+	  cells with contents, but does not reflect spanning cells.
+
 2000-02-29  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/cell.c (cell_content_changed): Notify the sheet that the
