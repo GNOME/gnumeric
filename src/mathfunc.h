@@ -117,6 +117,8 @@ double random_normal      (void);
 
 /* ------------------------------------------------------------------------- */
 
+/* Misc. */
 float_t     gpow10                 (int n);
+int         gcd                    (int a, int b);
 
 #endif

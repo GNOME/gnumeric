@@ -27,6 +27,7 @@
 <widget>
   <class>GnomeDialog</class>
   <name>SolverOptions</name>
+  <visible>False</visible>
   <title>Solver Options</title>
   <type>GTK_WINDOW_TOPLEVEL</type>
   <position>GTK_WIN_POS_NONE</position>

@@ -1,3 +1,15 @@
+2000-01-31  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/dialogs/dialog-solver.c, src/dialogs/solver.glade,
+ 	src/dialogs/Makefile.am: Gladefied the Solver tool.  Implemented
+ 	`Change' (constraint) button.
+
+	* src/functions/fn-math.c: Added RandExp(), RandPoisson(),
+ 	RandBinom(), RandNegBinom(), and RandBernoulli() functions.
+
+	* src/functions/fn-math.c, src/mathfunc.[ch]: Moved gcd to
+ 	mathfunc.c.
+
 2000-01-31  Jody Goldberg <jgoldberg@home.com>
 
 	* src/worksheet.h : Move more of the pure view elements into

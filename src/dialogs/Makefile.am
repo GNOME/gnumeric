@@ -60,6 +60,7 @@ glade_DATA = 				\
 	print.glade 			\
 	row-height.glade		\
 	sheet-rename.glade		\
+	solver.glade			\
 	solver-options.glade		\
 	summary.glade			\
 	dialog-zoom.glade		\

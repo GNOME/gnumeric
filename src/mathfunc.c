@@ -4010,3 +4010,22 @@ gpow10 (int n)
 	}
 	return res;
 }
+
+
+/*
+ * Euclid's Algorithm.	Assumes non-negative numbers.
+ */
+int
+gcd (int a, int b)
+{
+	while (b != 0) {
+		int r;
+
+		r = a - (a / b) * b;	/* r = remainder from
+					 * dividing a by b	*/
+		a = b;
+		b = r;
+	}
+	return a;
+}
+

@@ -77,8 +77,7 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 		n = 1;
 		while (current != NULL) {
 		        c = (SolverConstraint *) current->data;
-			lhs = sheet_cell_fetch(sheet, c->lhs->col->pos,
-					       c->lhs->row->pos);
+			lhs = sheet_cell_fetch(sheet, c->lhs_col, c->lhs_row);
 			cell_eval_content(lhs);
 			table[i + n**table_cols] =
 			        -value_get_as_float(lhs->value);
@@ -93,8 +92,7 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 		n = 1;
 		while (current != NULL) {
 		        c = (SolverConstraint *) current->data;
-			lhs = sheet_cell_fetch(sheet, c->lhs->col->pos,
-					       c->lhs->row->pos);
+			lhs = sheet_cell_fetch(sheet, c->lhs_col, c->lhs_row);
 			cell_eval_content(lhs);
 			table[i + n * *table_cols] +=
 			        value_get_as_float(lhs->value);
@@ -116,8 +114,7 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 	while (constraints != NULL) {
 	        c = (SolverConstraint *) constraints->data;
 	        table[i * *table_cols] = i-1 + n_vars;
-		rhs = sheet_cell_fetch(sheet, c->rhs->col->pos,
-				       c->rhs->row->pos);
+		rhs = sheet_cell_fetch(sheet, c->rhs_col, c->rhs_row);
 		table[1 + i * *table_cols] = value_get_as_float(rhs->value);
 		if (strcmp(c->type, "<=") == 0) {
 		        table[1 + n_vars + n + i* *table_cols] = 1;
@@ -127,8 +124,8 @@ simplex_step_one(Sheet *sheet, int target_col, int target_row,
 			++n;
 		}
 	        printf ("%-30s (col=%d, row=%d  %s  col=%d, row=%d\n",
-		       c->str, c->lhs->col->pos, c->lhs->row->pos,
-		       c->type, c->rhs->col->pos, c->rhs->row->pos);
+		       c->str, c->lhs_col, c->lhs_row,
+		       c->type, c->rhs_col, c->rhs_row);
 		constraints = constraints->next;
 		i++;
 	}
@@ -288,8 +285,7 @@ int solver_simplex (Workbook *wb, Sheet *sheet)
 	while (constraints != NULL) {
 	        SolverConstraint *c = (SolverConstraint *) constraints->data;
 
-		cell = sheet_cell_fetch(sheet, c->lhs->col->pos,
-					c->lhs->row->pos);
+		cell = sheet_cell_fetch(sheet, c->lhs_col, c->lhs_row);
 		cell_eval_content(cell);
 		constraints = constraints->next;
 	}

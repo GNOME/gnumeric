@@ -13,6 +13,8 @@ Jukka:
 	  - Exponential
 	* Minor improvements for the AutoSave tool.
 	* GUI improvements for the Data Analysis tool.
+	* Added RandExp(), RandPoisson(), RandBinom(), RandNegBinom(),
+	  and RandBernoulli() functions.
 
 Jody:
 	* Row/Col header redraw improvements.

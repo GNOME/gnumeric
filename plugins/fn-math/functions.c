@@ -14,22 +14,6 @@
 #include "collect.h"
 #include "auto-format.h"
 
-static int
-gcd (int a, int b)
-{
-	/* Euclid's Algorithm.	Assumes non-negative numbers.  */
-
-	while (b != 0) {
-		int r;
-
-		r = a - (a / b) * b;	/* r = remainder from
-					 * dividing a by b	*/
-		a = b;
-		b = r;
-	}
-	return a;
-}
-
 
 typedef struct {
         GSList *list;
@@ -1274,6 +1258,144 @@ static Value *
 gnumeric_rand (FunctionEvalInfo *ei, Value **argv)
 {
 	return value_new_float (random_01 ());
+}
+
+/***************************************************************************/
+
+static char *help_randexp = {
+        N_("@FUNCTION=RandExp\n"
+           "@SYNTAX=RandExp(b)\n"
+
+           "@DESCRIPTION="
+           "RandExp returns a exponentially distributed random number. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RandExp(0.5).\n"
+           "\n"
+           "@SEEALSO=RAND,RANDBETWEEN")
+};
+
+static Value *
+gnumeric_randexp (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t x = value_get_as_float (argv[0]);
+
+        return value_new_float (random_exponential (x));
+}
+
+/***************************************************************************/
+
+static char *help_randpoisson = {
+        N_("@FUNCTION=RandPoisson\n"
+           "@SYNTAX=RandPoisson(lambda)\n"
+
+           "@DESCRIPTION="
+           "RandPoisson returns a poisson distributed random number. "
+           "\n"
+           "@EXAMPLES=\n"
+           "RandPoisson(3).\n"
+           "\n"
+           "@SEEALSO=RAND,RANDBETWEEN")
+};
+
+static Value *
+gnumeric_randpoisson (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t x = value_get_as_float (argv[0]);
+
+	if (x < 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_poisson (x));
+}
+
+/***************************************************************************/
+
+static char *help_randbinom = {
+        N_("@FUNCTION=RandBinom\n"
+           "@SYNTAX=RandBinom(p,trials)\n"
+
+           "@DESCRIPTION="
+           "RandBinom returns a binomialy distributed random number. "
+           "\n"
+           "If @p < 0 or @p > 1 RandBinom returns #NUM! error. "
+           "If @trials < 0 RandBinom returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "RandBinom(0.5,2).\n"
+           "\n"
+           "@SEEALSO=RAND,RANDBETWEEN")
+};
+
+static Value *
+gnumeric_randbinom (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t p = value_get_as_float (argv[0]);
+	int     trials = value_get_as_int (argv[1]);
+
+	if (p < 0 || p > 1 || trials < 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_binomial (p, trials));
+}
+
+/***************************************************************************/
+
+static char *help_randnegbinom = {
+        N_("@FUNCTION=RandNegBinom\n"
+           "@SYNTAX=RandNegBinom(p,failures)\n"
+
+           "@DESCRIPTION="
+           "RandNegBinom returns a negitive binomialy distributed random "
+           "number. "
+           "\n"
+           "If @p < 0 or @p > 1 RandNegBinom returns #NUM! error. "
+           "If @failures RandNegBinom returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "RandNegBinom(0.5,2).\n"
+           "\n"
+           "@SEEALSO=RAND,RANDBETWEEN")
+};
+
+static Value *
+gnumeric_randnegbinom (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t p = value_get_as_float (argv[0]);
+	int     failures = value_get_as_int (argv[1]);
+
+	if (p < 0 || p > 1 || failures < 0)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_negbinom (p, failures));
+}
+
+/***************************************************************************/
+
+static char *help_randbernoulli = {
+        N_("@FUNCTION=RandBernoulli\n"
+           "@SYNTAX=RandBernoulli(p)\n"
+
+           "@DESCRIPTION="
+           "RandBernoulli returns a Bernoulli distributed random number. "
+           "\n"
+           "If @p < 0 or @p > 1 RandBernoulli returns #NUM! error. "
+	   "\n"
+           "@EXAMPLES=\n"
+           "RandBernoulli(0.5).\n"
+           "\n"
+           "@SEEALSO=RAND,RANDBETWEEN")
+};
+
+static Value *
+gnumeric_randbernoulli (FunctionEvalInfo *ei, Value **argv)
+{
+	float_t p = value_get_as_float (argv[0]);
+
+	if (p < 0 || p > 1)
+		return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        return value_new_float (random_bernoulli (p));
 }
 
 /***************************************************************************/
@@ -3465,9 +3587,24 @@ math_functions_init (void)
 			    gnumeric_radians);
 	function_add_args  (cat, "rand",    "",
 			    "",          &help_rand,     gnumeric_rand);
-	function_add_args  (cat, "randbetween", "ff",
-			    "bottom,top", 
-			    &help_randbetween, gnumeric_randbetween);
+        function_add_args  (cat, "randbernoulli", "f",
+                            "p",          
+                            &help_randbernoulli, gnumeric_randbernoulli);
+        function_add_args  (cat, "randbetween", "ff",
+                            "bottom,top", 
+                            &help_randbetween, gnumeric_randbetween);
+        function_add_args  (cat, "randbinom", "ff",
+                            "p,trials",          
+                            &help_randbinom, gnumeric_randbinom);
+        function_add_args  (cat, "randexp", "f",
+                            "b",
+                            &help_randexp,  gnumeric_randexp);
+        function_add_args  (cat, "randnegbinom", "ff",
+                            "p,failures",          
+                            &help_randnegbinom, gnumeric_randnegbinom);
+        function_add_args  (cat, "randpoisson", "f",
+                            "lambda",          
+                            &help_randpoisson, gnumeric_randpoisson);
 	function_add_args  (cat, "roman",      "f|f",
 			    "number[,type]",
 			    &help_roman,       gnumeric_roman);
