@@ -20,8 +20,9 @@ Michael:
 	* More intelligent workbook sizing.
 	* Fixed sheet tab focus / editing.
 	* Per sheet page setup / preview.
-	* Excel print setups importing.
-	* XML load / save some print setups.
+	* Print setups XML I/O & Excel importing
+	* Functions MATCH & INDEX started.
+	* Array input parser.
 
 Miguel:
 	* Implemented Print Preview

@@ -885,6 +885,46 @@ xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *summa
 	}
 }
 
+static void
+xml_set_print_hf (xmlNodePtr node, const char *name,
+		  const PrintHF * const hf)
+{
+	xmlNodePtr  child;
+
+	if (hf == NULL || name == NULL)
+		return;
+
+	child = xmlNewChild (node, NULL, name, NULL);
+	xml_set_value (child, "Left",
+		       xmlEncodeEntities (node->doc, hf->left_format));
+	xml_set_value (child, "Middle",
+		       xmlEncodeEntities (node->doc, hf->middle_format));
+	xml_set_value (child, "Right",
+		       xmlEncodeEntities (node->doc, hf->right_format));
+}
+
+static void
+xml_get_print_hf (xmlNodePtr node, PrintHF * const hf)
+{
+	char *txt;
+	
+	g_return_if_fail (hf != NULL);
+	g_return_if_fail (node != NULL);
+	g_return_if_fail (node->childs != NULL);
+
+	txt = xml_value_get (node, "Left");
+	if (txt)
+		hf->left_format = g_strdup (txt);
+
+	txt = xml_value_get (node, "Middle");
+	if (txt)
+		hf->middle_format = g_strdup (txt);
+
+	txt = xml_value_get (node, "Right");
+	if (txt)
+		hf->right_format = g_strdup (txt);
+}
+
 static xmlNodePtr
 xml_write_print_info (parse_xml_context_t *ctxt, PrintInformation *pi)
 {
@@ -922,6 +962,22 @@ xml_write_print_info (parse_xml_context_t *ctxt, PrintInformation *pi)
 	xml_set_value_int  (child, "value",    pi->print_titles);
 	xmlAddChild (cur, child);
 
+	if (pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT)
+		child = xmlNewDocNode (ctxt->doc, ctxt->ns, "order", "d_then_r");
+	else
+		child = xmlNewDocNode (ctxt->doc, ctxt->ns, "order", "r_then_d");
+	
+	if (pi->orientation == PRINT_ORIENT_VERTICAL)
+		child = xmlNewDocNode (ctxt->doc, ctxt->ns, "orientation", "portrait");
+	else
+		child = xmlNewDocNode (ctxt->doc, ctxt->ns, "orientation", "landscape");
+	
+	xml_set_print_hf (cur, "Header", pi->header);
+	xml_set_print_hf (cur, "Footer", pi->footer);
+
+	xmlNewDocNode (ctxt->doc, ctxt->ns, "paper",
+		       gnome_paper_name (pi->paper));
+	
 	return cur;
 }
 
@@ -978,6 +1034,28 @@ xml_read_print_info (parse_xml_context_t *ctxt, xmlNodePtr tree)
 		xml_get_value_int  (child, "value",  &b);
 		pi->print_titles          = (b == 1);
 	}
+	
+	if ((child = xml_search_child (tree, "order"))) {
+		if (!strcmp (xmlNodeGetContent(child), "d_then_r"))
+			pi->print_order = PRINT_ORDER_DOWN_THEN_RIGHT;
+		else
+			pi->print_order = PRINT_ORDER_RIGHT_THEN_DOWN;
+	}
+
+	if ((child = xml_search_child (tree, "orientation"))) {
+		if (!strcmp (xmlNodeGetContent(child), "portrait"))
+			pi->orientation = PRINT_ORIENT_VERTICAL;
+		else
+			pi->orientation = PRINT_ORIENT_HORIZONTAL;
+	}
+	
+	if ((child = xml_search_child (tree, "Header")))
+		xml_get_print_hf (child, pi->header);
+	if ((child = xml_search_child (tree, "Footer")))
+		xml_get_print_hf (child, pi->header);
+
+	if ((child = xml_search_child (tree, "paper")))
+		pi->paper = gnome_paper_with_name (xmlNodeGetContent (child));
 }
 
 static const char *

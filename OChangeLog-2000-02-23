@@ -1,3 +1,23 @@
+1999-09-13  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/parser.y (forget_array): Created. exp: added array_row, array_exp,
+	array_cols: created. (build_array): Implemented. (v_forget): added.
+
+	* src/value.c (value_release): Update Array to only free if != NULL.
+
+	* src/functions/fn-lookup.c (lookup_functions_init): add index.
+	(gnumeric_index): Ghastly placeholder; we need more core functionality.
+	(gnumeric_lookup): remove redundant value_duplicate fixing leak.
+	(gnumeric_match): Implement as far as it goes.
+
+	* src/workbook.c (workbook_delete_event): Nail fatal bug in #define for bonobo.
+
+	* src/dialogs/dialog-printer-setup.c (dialog_print_info_new): Moved things into
+	constructor and out of (dialog_printer_setup).
+	(unit_changed): actually update the margin UnitInfo's value...
+
+	* src/xml-io.c (xml_read_print_info, xml_write_print_info, xml_get_print_hf),
+	(xml_set_print_hf): Header / footer, paper size writing.
 1999-09-13  Karl Eichwalder  <ke@suse.de>
 
 	* src/dialogs/hf-config.glade: Add missing `:'.  Is this the right

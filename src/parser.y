@@ -25,9 +25,11 @@ static void  register_symbol (Symbol *sym);
 static void  alloc_clean     (void);
 static void  alloc_glist     (GList *l); 
 static void  forget_glist    (GList *list);
+static void  forget_array    (GList *array);
 static void  forget_tree     (ExprTree *tree);
 static void  alloc_list_free (void); 
 static Value*v_new (void);
+static void  v_forget (Value *v);
 	
 #define ERROR -1
  
@@ -110,6 +112,55 @@ build_array_formula (ExprTree * func,
 	return res;
 }
 
+static ExprTree *
+build_array (GList *cols)
+{
+	Value *array;
+	GList *row;
+	int x, mx, y;
+
+	if (!cols) {
+		parser_error = PARSE_ERR_SYNTAX;
+		return NULL;
+	}
+
+	mx  = 0;
+	row = cols->data;
+	while (row) {
+		mx++;
+		row = g_list_next (row);
+	}
+
+	array = value_new_array_empty (mx, g_list_length (cols));
+
+	y = 0;
+	while (cols) {
+		row = cols->data;
+		x = 0;
+		while (row && x < mx) {
+			ExprTree *expr = row->data;
+			Value    *v = expr->u.constant;
+
+			g_assert (expr->oper == OPER_CONSTANT);
+
+			value_array_set (array, x, y, v);
+			v_forget (v);
+
+			x++;
+			row = g_list_next (row);
+		}
+		if (x < mx || row) {
+			parser_error = PARSE_ERR_SYNTAX;
+			value_release (array);
+			return NULL;
+		}
+		y++;
+		cols = g_list_next (cols);
+	}
+
+	return expr_tree_new_constant (array);
+}
+
 %}
 
 %union {
@@ -118,8 +169,8 @@ build_array_formula (ExprTree * func,
 	GList    *list;
 	Sheet    *sheetref;
 }
-%type  <tree>     exp
-%type  <list>     arg_list
+%type  <tree>     exp array_exp
+%type  <list>     arg_list array_row, array_cols
 %token <tree>     NUMBER STRING FUNCALL CONSTANT CELLREF GTE LTE NE
 %token <sheetref> SHEETREF
 %token            SEPARATOR
@@ -170,10 +221,15 @@ exp:	  NUMBER 	{ $$ = $1 }
 		$$ = $2;
 	}
 
+        | '{' array_cols '}' {
+		$$ = build_array ($2);
+		forget_array ($2);
+	}
+
         | cellref ':' cellref {
 		$$ = p_new (ExprTree);
-		$$->ref_count = 1;
-		$$->oper = OPER_CONSTANT;
+		$$->ref_count  = 1;
+		$$->oper       = OPER_CONSTANT;
 		$$->u.constant = v_new ();
 		$$->u.constant->type = VALUE_CELLRANGE;
 		$$->u.constant->v.cell_range.cell_a = $1->u.ref;
@@ -208,6 +264,34 @@ arg_list: exp {
 		forget_glist ($3);
 		$$ = g_list_prepend ($3, $1);
 		alloc_glist ($$);
+	}
+        | { $$ = NULL; }
+	;
+
+array_exp:	  NUMBER 	{ $$ = $1 }
+		| STRING        { $$ = $1 }
+	;
+
+array_row: array_exp {
+		$$ = g_list_prepend (NULL, $1);
+		alloc_glist ($$);
+        }
+	| array_exp SEPARATOR array_row {
+		forget_glist ($3);
+		$$ = g_list_prepend ($3, $1);
+		alloc_glist  ($$);
+	}
+        | { $$ = NULL; }
+	;
+
+array_cols: array_row {
+		$$ = g_list_prepend (NULL, $1);
+		alloc_glist ($$);
+        }
+        | array_row ';' array_cols {
+		forget_glist ($3);
+		$$ = g_list_prepend ($3, $1);
+		alloc_glist  ($$);
 	}
         | { $$ = NULL; }
 	;
@@ -426,7 +510,7 @@ int yylex (void)
 		}
 
 		/* Ok, we have skipped over a number, now load its value */
-		if (is_float){
+		if (is_float) {
 			v->type = VALUE_FLOAT;
 			float_get_from_range (p, tmp, &v->v.v_float);
 		} else {
@@ -574,7 +658,7 @@ alloc_clean (void)
 {
 	GList *l = alloc_list;
 	
-	for (; l; l = l->next){
+	for (; l; l = l->next) {
 		AllocRec *rec = l->data;
 
 		switch (rec->type){
@@ -628,10 +712,10 @@ forget (AllocType type, void *data)
 {
 	GList *l;
 
-	for (l = alloc_list; l; l = l->next){
+	for (l = alloc_list; l; l = l->next) {
 		AllocRec *a_info = (AllocRec *) l->data;
 
-		if (a_info->type == type && a_info->data == data){
+		if (a_info->type == type && a_info->data == data) {
 			alloc_list = g_list_remove_link (alloc_list, l);
 			g_list_free_1 (l);
 			g_free (a_info);
@@ -647,10 +731,28 @@ forget_glist (GList *list)
 }
 
 static void
+v_forget (Value *v)
+{
+	forget (ALLOC_VALUE, v);
+}
+
+static void
 forget_tree (ExprTree *tree)
 {
 	expr_tree_unref (tree);
 	forget (ALLOC_BUFFER, tree);
+}
+
+static void
+forget_array (GList *array)
+{
+	GList *l = array;
+
+	while (l) {
+		forget_glist (l->data);
+		l = g_list_next (l);
+	}
+	forget_glist (array);
 }
 
 ParseErr

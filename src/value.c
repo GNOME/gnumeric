@@ -156,12 +156,14 @@ value_release (Value *value)
 		mpf_clear (value->v.v_float);
 		break;
 
-	case VALUE_ARRAY:{
+	case VALUE_ARRAY: {
 		guint x, y;
 
 		for (x = 0; x < value->v.array.x; x++){
-			for (y = 0; y < value->v.array.y; y++)
-				value_release (value->v.array.vals [x][y]);
+			for (y = 0; y < value->v.array.y; y++) {
+				if (value->v.array.vals [x][y])
+					value_release (value->v.array.vals [x][y]);
+			}
 			g_free (value->v.array.vals [x]);
 		}
 

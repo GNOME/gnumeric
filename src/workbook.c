@@ -395,14 +395,14 @@ static int
 workbook_delete_event (GtkWidget *widget, GdkEvent *event, Workbook *wb)
 {
 	if (workbook_can_close (wb)){
-#ifdef BONOBO_ENABLED
+#ifdef ENABLE_BONOBO
 		if (wb->bonobo_regions) {
 			gtk_widget_hide (GTK_WIDGET (wb->toplevel));
 			return FALSE;
 		}
 		gnome_object_unref (GNOME_OBJECT (wb));
 #else
-		gtk_object_unref (GTK_OBJECT (wb));
+		gtk_object_unref   (GTK_OBJECT   (wb));
 #endif
 		return FALSE;
 	} else

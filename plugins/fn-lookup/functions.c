@@ -500,8 +500,8 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 				return value_duplicate
 				  (value_duplicate(value_area_fetch_x_y
 						   (&ei->pos, dest,
-						    next_largest_x+x_offset,
-						    next_largest_y+y_offset)));
+						    next_largest_x + x_offset,
+						    next_largest_y + y_offset)));
 			if (compare < 0) {
 				next_largest = v;
 				next_largest_x = lpx;
@@ -522,6 +522,113 @@ gnumeric_lookup (FunctionEvalInfo *ei, Value **args)
 					(&ei->pos, dest,
 					 next_largest_x+x_offset,
 					 next_largest_y+y_offset));
+	}
+}
+
+static char *help_match = {
+	N_("@FUNCTION=MATCH\n"
+	   "@SYNTAX=MATCH(seek,vector1[,type])\n"
+
+	   "@DESCRIPTION="
+	   "The MATCH function finds the row index of 'value' in @vector1 "
+	   "and returns it."
+	   "If the area is longer than it is wide then the sense of the "
+	   "search is rotated. Alternatively a single array can be used."
+	   "if type = 1,  finds largest value <= seek,"
+	   "if type = 0,  finds first value == seek,"
+	   "if type = -1, finds smallest value >= seek,"
+	   "\n"
+	   "If LOOKUP can't find @value it uses the next largest value less "
+	   "than value. "
+	   "The data must be sorted. "
+	   "\n"
+	   "If @value is smaller than the first value it returns #N/A"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=LOOKUP")
+};
+
+/*
+ * Not very convinced this is accurate.
+ */
+static Value *
+gnumeric_match (FunctionEvalInfo *ei, Value **args)
+{
+	int height, width;
+	const Value *next_largest = NULL;
+	int next_largest_x = 0;
+	int next_largest_y = 0;
+	int type;
+	
+	height  = value_area_get_height (&ei->pos, args[1]);
+	width   = value_area_get_width  (&ei->pos, args[1]);
+
+	if (args[2])
+		type = value_get_as_int (args[2]);
+	else
+		type = 1;
+
+	if ((args[1]->type == VALUE_ARRAY)) {
+		if (args[2])
+			return value_new_error (&ei->pos, _("Type Mismatch"));
+
+	} else if (args[1]->type == VALUE_CELLRANGE) {
+		if (!args[2])
+			return value_new_error (&ei->pos, _("Invalid number of arguments"));
+
+	} else
+		return value_new_error (&ei->pos, _("Type Mismatch"));
+	
+	{
+		int    x_offset=0, y_offset=0, lpx, lpy, maxx, maxy;
+		int    tmp, compare, touched;
+
+		if (args[1]->type == VALUE_ARRAY) {
+			if (width > height)
+				y_offset = 1;
+			else
+				x_offset = 1;
+		}
+		maxy  = value_area_get_height (&ei->pos, args[1]);
+		maxx  = value_area_get_width  (&ei->pos, args[1]);
+
+		if ((tmp = value_area_get_height (&ei->pos, args[1])) < maxy)
+			maxy = tmp;
+		if ((tmp = value_area_get_width (&ei->pos, args[1])) < maxx)
+			maxx = tmp;
+
+		touched = 0;
+		for (lpx = 0, lpy = 0;lpx < maxx && lpy < maxy;) {
+			const Value *v = value_area_fetch_x_y (&ei->pos, args[1], lpx, lpy);
+			compare = lookup_similar (v, args[0], next_largest, 1);
+			if (compare == 1) {
+				if (width > height)
+					return value_new_int (lpx + 1);
+				else
+					return value_new_int (lpy + 1);
+			}
+			if (compare < 0) {
+				next_largest = v;
+				next_largest_x = lpx;
+				next_largest_y = lpy;
+			} else 
+				break;
+
+			if (width > height)
+				lpx++;
+			else
+				lpy++;
+		}
+
+		if (!next_largest && type != -1)
+			return value_new_error (&ei->pos, gnumeric_err_NA);
+
+		if (width > height)
+			return value_new_int (lpx + 1);
+		else
+			return value_new_int (lpy + 1);
+
 	}
 }
 
@@ -584,6 +691,60 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 		return value_new_int (0);
 	else
 		return value_duplicate (cell->value);
+}
+
+
+/*
+ * FIXME: The concept of multiple range references needs core support.
+ *        hence this whole implementation is a cop-out really.
+ */
+static char *help_index = {
+	N_("@FUNCTION=INDEX\n"
+	   "@SYNTAX=INDEX(reference, [row, col, area])\n"
+
+	   "@DESCRIPTION="
+	   "The INDEX function returns a reference to the cell at a offset "
+	   "into the reference specified by row, col."
+	   "\n"
+	   "If things go wrong returns #REF! "
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "\n"
+	   "@SEEALSO=")
+};
+
+static Value *
+gnumeric_index (FunctionEvalInfo *ei, Value **args) 
+{
+	Value *area = args[0];
+	int    col_off = 0, row_off = 0;
+	
+	if (args[3] &&
+	    value_get_as_int (args[3]) != 1) {
+		g_warning ("Multiple range references unimplemented");
+		return value_new_error (&ei->pos, gnumeric_err_REF);
+	}
+
+	if (args[1])
+		row_off = value_get_as_int (args[1]) - 1;
+
+	if (args[2])
+		col_off = value_get_as_int (args[2]) - 1;
+
+	if (args[0]->type != VALUE_ARRAY) {
+		g_warning ("Non array indexes unimplemented");
+		return value_new_error (&ei->pos, gnumeric_err_VALUE);
+	}
+
+	if (col_off < 0 ||
+	    col_off >= value_area_get_width (&ei->pos, area))
+		return value_new_error (&ei->pos, gnumeric_err_NUM);
+
+	if (row_off < 0 ||
+	    row_off >= value_area_get_height (&ei->pos, area))
+		return value_new_error (&ei->pos, gnumeric_err_REF);
+
+	return value_duplicate (value_area_fetch_x_y (&ei->pos, area, col_off, row_off));
 }
 
 /***************************************************************************/
@@ -888,9 +1049,9 @@ void lookup_functions_init()
 			    "row_num,col_num,abs_num,a1,text",
 			    &help_address,  gnumeric_address);
         function_add_nodes (cat, "choose",     0,     "index,value...",
-			    &help_choose,  gnumeric_choose);
+			    &help_choose,   gnumeric_choose);
 	function_add_nodes (cat, "column",    "?",    "ref",
-			    &help_column,  gnumeric_column);
+			    &help_column,   gnumeric_column);
 	function_add_args  (cat, "columns",   "A",    "ref",
 			    &help_columns, gnumeric_columns);
 	function_add_args  (cat, "hlookup",
@@ -901,13 +1062,16 @@ void lookup_functions_init()
 			    &help_hyperlink, gnumeric_hyperlink);
 	function_add_args  (cat, "indirect",  "s|b","ref_string,format",
 			    &help_indirect, gnumeric_indirect);
+	function_add_args  (cat, "index",     "A|fff","reference,row,col,area",
+			    &help_index,    gnumeric_index);
 	function_add_args  (cat, "lookup",    "?A|r", "val,range,range",
-			    &help_lookup,  gnumeric_lookup);
-	function_add_args  (cat, "offset",
-			    "rff|ff","ref,row,col,hight,width",
-			    &help_offset,  gnumeric_offset);
+			    &help_lookup,   gnumeric_lookup);
+	function_add_args  (cat, "match",     "?A|f", "val,range,approx",
+			    &help_match,    gnumeric_match);
+	function_add_args  (cat, "offset",    "rff|ff","ref,row,col,hight,width",
+			    &help_offset,   gnumeric_offset);
 	function_add_nodes (cat, "row",       "?",    "ref",
-			    &help_row,     gnumeric_row);
+			    &help_row,      gnumeric_row);
 	function_add_args  (cat, "rows",      "A",    "ref",
 			    &help_rows,    gnumeric_rows);
 	function_add_args  (cat, "transpose","A",

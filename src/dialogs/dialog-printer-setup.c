@@ -99,7 +99,7 @@ load_image (const char *name)
 static void
 preview_page_destroy (dialog_print_info_t *dpi)
 {
-	if (dpi->preview.group){
+	if (dpi->preview.group) {
 		gtk_object_destroy (GTK_OBJECT (dpi->preview.group));
 
 		dpi->preview.group = NULL;
@@ -148,7 +148,7 @@ preview_page_create (dialog_print_info_t *dpi)
 	double width, height;
 	PreviewInfo *pi = &dpi->preview;
 
-	width = gnome_paper_pswidth (dpi->paper);
+	width  = gnome_paper_pswidth  (dpi->paper);
 	height = gnome_paper_psheight (dpi->paper);
 
 	if (width < height)
@@ -156,7 +156,7 @@ preview_page_create (dialog_print_info_t *dpi)
 	else
 		pi->scale = PAGE_X / width;
 
-	pi->offset_x = (PREVIEW_X - (width * pi->scale)) / 2;
+	pi->offset_x = (PREVIEW_X - (width  * pi->scale)) / 2;
 	pi->offset_y = (PREVIEW_Y - (height * pi->scale)) / 2;
 /*	pi->offset_x = pi->offset_y = 0; */
 	x1 = pi->offset_x + 0 * pi->scale;
@@ -206,7 +206,6 @@ canvas_update (dialog_print_info_t *dpi)
 		dpi->current_paper = dpi->paper;
 		preview_page_create (dpi);
 	}
-
 }
 
 static void
@@ -262,7 +261,7 @@ add_unit (GtkWidget *menu, int i, void (*convert)(GtkWidget *, UnitInfo *), void
 static void
 unit_changed (GtkSpinButton *spin_button, UnitInfo *target)
 {
-	
+	target->value = target->adj->value;
 }
 
 static GtkWidget *
@@ -796,6 +795,12 @@ dialog_print_info_new (Sheet *sheet)
 	dpi->sheet = sheet;
 	dpi->gui   = gui;
 	dpi->pi    = sheet->print_info;
+
+	do_setup_main_dialog (dpi);
+	do_setup_margin (dpi);
+	do_setup_hf (dpi);
+	do_setup_page_info (dpi);
+	do_setup_page (dpi);
 	
 	return dpi;
 }
@@ -852,10 +857,10 @@ do_fetch_margins (dialog_print_info_t *dpi)
 	PrintMargins *m = &dpi->pi->margins;
 	GtkToggleButton *t;
 	
-	m->top = unit_info_to_print_unit (&dpi->margins.top);
+	m->top    = unit_info_to_print_unit (&dpi->margins.top);
 	m->bottom = unit_info_to_print_unit (&dpi->margins.bottom);
-	m->left = unit_info_to_print_unit (&dpi->margins.left);
-	m->right = unit_info_to_print_unit (&dpi->margins.right);
+	m->left   = unit_info_to_print_unit (&dpi->margins.left);
+	m->right  = unit_info_to_print_unit (&dpi->margins.right);
 	m->header = unit_info_to_print_unit (&dpi->margins.header);
 	m->footer = unit_info_to_print_unit (&dpi->margins.footer);
 
@@ -940,15 +945,9 @@ dialog_printer_setup (Sheet *sheet)
 	if (!dpi)
 		return;
 
-	do_setup_main_dialog (dpi);
-	do_setup_margin (dpi);
-	do_setup_hf (dpi);
-	do_setup_page_info (dpi);
-	do_setup_page (dpi);
-
 	v = gnome_dialog_run (GNOME_DIALOG (dpi->dialog));
 
-	if (v == 0){
+	if (v == 0) {
 		fetch_settings (dpi);
 		print_info_save (dpi->pi);
 	}
@@ -958,8 +957,3 @@ dialog_printer_setup (Sheet *sheet)
 	
 	dialog_print_info_destroy (dpi);
 }
-
-
-
-
-
