@@ -1,3 +1,9 @@
+2003-10-18  Jody Goldberg <jody@gnome.org>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=124244	[unable to open group]
+	* ms-excel-read.c (excel_read_COLINFO) : set collapsed even if level == 0
+	(excel_read_ROW) : ditto.
+
 2003-10-13  Jody Goldberg <jody@gnome.org>
 
 	* ms-biff.c (ms_biff_query_next) : fail if we run out of data part way

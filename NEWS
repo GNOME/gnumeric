@@ -12,6 +12,9 @@ Jody:
 	* Fix crash when importing truncated xls files
 	* Update axis labels when bac/col/line/area labels are set/cleared
 	* Complain loudly when people run without installing the schema
+	* Improve padding of chart elements
+	http://bugzilla.gnome.org/show_bug.cgi?id=124244
+	* Fix xls import of collapsed cols/rows at level 0
 
 Morten:
 	* Fix crash with STF import and gazillions of columns.

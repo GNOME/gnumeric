@@ -10,8 +10,6 @@ Release Critical
 
     http://bugzilla.gnome.org/show_bug.cgi?id=124271	[crash on undo free ?]
     http://bugzilla.gnome.org/show_bug.cgi?id=124315	[line plot ignores axis]
-    http://bugzilla.gnome.org/show_bug.cgi?id=124318	[line plot should center ticks]
-    http://bugzilla.gnome.org/show_bug.cgi?id=124244	[unable to open group]
     - Verify histogram tool.  Feels fubar.
     : text in boxes for text-xls/pivot.xls is white ??
     : guia.xls complains of problems importing autofilter
