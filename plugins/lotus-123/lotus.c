@@ -3,7 +3,7 @@
  *
  * Author:
  *    See: README
- *    Michael Meeks <michael@imagiantor.com>
+ *    Michael Meeks <mmeeks@gnu.org>
  **/
 #include <stdio.h>
 #include <unistd.h>

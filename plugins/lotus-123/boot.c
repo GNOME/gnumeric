@@ -3,7 +3,7 @@
  *
  * Author:
  *    See: README
- *    Michael Meeks <michael@imagiantor.com>
+ *    Michael Meeks <mmeeks@gnu.org>
  **/
 #include <stdio.h>
 #include <unistd.h>
@@ -26,10 +26,10 @@
 #include "plugin.h"
 
 static char *
-filename_ext(const char *filename)
+filename_ext (const char *filename)
 {
 	char *p = strrchr (filename, '.');
-	if (p==NULL)
+	if (p == NULL)
 		return NULL;
 	return ++p;
 }

@@ -2,7 +2,6 @@
  * boot.c: Oleo support for Gnumeric
  *
  * Author:
- *    See: README
  *    Robert Brady <rwb197@ecs.soton.ac.uk>
  *
  * (this file adapted from lotus-123/boot.c)

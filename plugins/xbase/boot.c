@@ -61,7 +61,7 @@ static char *
 filename_ext (const char *filename)
 {
 	char *p = strrchr (filename, '.');
-	if (p==NULL)
+	if (p == NULL)
 		return NULL;
 	return ++p;
 }

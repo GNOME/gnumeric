@@ -138,7 +138,7 @@ bonobo=
 bonobo_msg=no
 have_bonobo=false
 AC_ARG_WITH(bonobo,
-	[--{with,without}-bonobo    Compile with Bonobo support or without it],
+	[--{with,without}-bonobo   Compile with Bonobo support or without it],
 	if test x$withval = xno; then
 		try_bonobo=false
 	fi
@@ -185,7 +185,7 @@ gb=
 gb_msg=no
 have_gb=false
 AC_ARG_WITH(gb,
-	[--{with,without}-gb    Compile with Gb support or without it],
+	[--{with,without}-gb       Compile with Gb support or without it],
 	if test x$withval = xno; then
 		try_gb=false
 	fi

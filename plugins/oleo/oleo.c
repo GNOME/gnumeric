@@ -1,7 +1,8 @@
 /*
  * GNU Oleo input filter for Gnumeric
  *
- * Robert Brady <rwb197@ecs.soton.ac.uk>
+ * Author:
+ *    Robert Brady <rwb197@ecs.soton.ac.uk>
  * 
  * partially based on the Lotus-123 code,
  * partially based on actual Oleo code.
@@ -44,8 +45,8 @@ attach_sheet (Workbook *wb, int idx)
 	return sheet;
 }
 
-#define OLEO_TO_GNUMERIC(a) ((a)-1)
-#define GNUMERIC_TO_OLEO(a) ((a)+1)
+#define OLEO_TO_GNUMERIC(a) ((a) - 1)
+#define GNUMERIC_TO_OLEO(a) ((a) + 1)
 
 static Cell *
 oleo_insert_value (Sheet *sheet, guint32 col, guint32 row, Value *val)
