@@ -1,3 +1,8 @@
+2001-10-08    J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* src/workbook-control-gui.c (cb_edit_fill_autofill) : 
+	  Don't use C++/C99 `//' comment.
+
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/gnumeric-graph.c (gnm_graph_vector_seq_scalar) : Fix row vectors.

@@ -707,7 +707,9 @@ static void
 tool_help_cb(GtkWidget *button, GenericToolState *state)
 {
 	if (state->helpfile != NULL) {
-		GnomeHelpMenuEntry help_ref = { "gnumeric", state->helpfile};
+		GnomeHelpMenuEntry help_ref;
+		help_ref.name = "gnumeric";
+		help_ref.path = state->helpfile;
 		gnome_help_display (NULL, &help_ref);		
 	}
 	return;

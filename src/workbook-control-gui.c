@@ -1871,7 +1871,7 @@ cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
 		/* This could be more efficient, but it is not important */
 		if (range_trim (sheet, &template, TRUE) ||
 		    range_trim (sheet, &template, FALSE))
-			return; // Region totally empty
+			return; /* Region totally empty */
 
 		/* Make it autofill in only one direction */
  		if ((sel->end.col - template.end.col) >= (sel->end.row - template.end.row))

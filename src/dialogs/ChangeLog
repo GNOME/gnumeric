@@ -1,3 +1,9 @@
+2001-10-08  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* dialog-analysis-tools.c (tool_help_cb) : seperated help_ref
+	declaration and initialisation to fix "initializer element is not
+	computable at load time" error.
+
 2001-10-10  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* dialog-search-replace.c (dialog_search): Made search dialog a bit
