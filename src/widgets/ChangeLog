@@ -2,7 +2,8 @@
 
 	* gtk-combo-box.h (gtk_combo_box_set_title): Declare
 
-	* gtk-combo-box.c (struct _GtkComboBoxPrivate): New/renamed
+	* gtk-combo-box.c: Implement tearoff combo boxes.
+	(struct _GtkComboBoxPrivate): New/renamed
 	members: toplevel, tearoff_window: Popup's toplevel when
 	torn_off/not torn off. torn_off: Tearoff status flag. Names are
 	the same as in gtk/gtkmenu.c. tearable: The tearoff
