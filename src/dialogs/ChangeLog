@@ -1,5 +1,10 @@
 2001-05-04  Jon K Hellan  <hellan@acm.org>
- 
+
+	* dialog-stf-export.glade: Set invisible to avoid flicker when
+	popping up.
+
+2001-05-04  Jon K Hellan  <hellan@acm.org>
+
  	* dialog-printer-setup.c (struct PrinterSetupState) : Add
  	ExprEntry widgets.
  	(do_setup_page_info): Add ExprEntry widgets on the fly.
