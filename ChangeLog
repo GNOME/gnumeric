@@ -1,5 +1,11 @@
 2005-01-14  Jody Goldberg <jody@gnome.org>
 
+	http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=290388
+	* src/sheet-object-cell-comment.c (comment_get_points) : This will
+	  need work for RTL, but we do need to compensate for the zoom.
+
+2005-01-14  Jody Goldberg <jody@gnome.org>
+
 	* src/gnumeric-pane.c (cb_control_point_event) : fix double click
 	  handling to not start a drag when the editor is gone
 
