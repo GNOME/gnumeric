@@ -1,4 +1,4 @@
-#include <factory.idl>
+#include <gnome-factory.idl>
 #include <Table.idl>
 
 module GNOME {
@@ -15,7 +15,7 @@ module GNOME {
 		
 	};
 
-	interface GnumericFactory : Factory {
+	interface GnumericFactory : GenericFactory {
 		
 	};
 };
