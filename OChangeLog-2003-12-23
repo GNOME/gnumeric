@@ -1,3 +1,8 @@
+2002-12-28  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* configure.in: require libgda >= 0.10, needed for the read-only
+	connections.
+
 2002-12-28  Jody Goldberg <jody@gnome.org>
 
 	* src/format.c (style_format_delocalize) : tweak.

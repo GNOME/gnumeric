@@ -178,7 +178,7 @@ AC_ARG_WITH(gda,
 	fi
 )
 if test "$try_gda" = "true"; then
-	PKG_CHECK_MODULES(GDA, [libgda >= 0.9 ],
+	PKG_CHECK_MODULES(GDA, [libgda >= 0.10 ],
 		[gda_msg=yes],
 		[gda_msg="NO.  libdga problem"])
 fi
