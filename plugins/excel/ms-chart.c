@@ -1989,11 +1989,12 @@ ms_excel_chart (BiffQuery *q, ExcelWorkbook *wb, BIFF_BOF_DATA *bof)
 				ms_excel_biff_dimensions (q, wb);
 				break;
 
+			case BIFF_NUMBER:	/* Should figure out what these are associated with */
 			case BIFF_HEADER :	/* Skip for Now */
 			case BIFF_FOOTER :	/* Skip for Now */
 			case BIFF_HCENTER :	/* Skip for Now */
 			case BIFF_VCENTER :	/* Skip for Now */
-			case BIFF_SCL :
+			case BIFF_SCL :		/* Are charts scaled seperately from the sheet ? */
 			case BIFF_SETUP :
 				if (ms_excel_chart_debug > 0)
 					printf ("Handled biff %x in chart;\n",

@@ -1,5 +1,8 @@
 2000-01-17  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-chart.c (ms_excel_chart) : Apparently BIFF_NUMBER records show up
+	  in charts.
+
 	* ms-excel-read.c (ms_excel_read_workbook) : Improve sizing of
 	  window, Use the support for some of the new preferences
 	  hiding scrollbars, and notebooktabs.

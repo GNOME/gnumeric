@@ -24,4 +24,6 @@ void workbook_view_set_size (Workbook const * const wb,
 void workbook_view_set_title (Workbook const * const wb,
 			      char const * const title);
 
+void workbook_view_pref_visibility (Workbook const * const wb);
+
 #endif /* GNUMERIC_WORKBOOK_VIEW_H */

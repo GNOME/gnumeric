@@ -885,31 +885,24 @@ cb_sheet_pref_hide_row_header (GtkWidget *widget, Workbook *wb)
 /* Workbook level preferences */
 
 static void
-cb_update_sheet_view_prefs (gpointer key, gpointer value, gpointer user_data)
-{
-	Sheet *sheet = value;
-	sheet_adjust_preferences (sheet);
-}
-
-static void
 cb_wb_pref_hide_hscroll (GtkWidget *widget, Workbook *wb)
 {
 	wb->show_horizontal_scrollbar = ! wb->show_horizontal_scrollbar;
-	g_hash_table_foreach (wb->sheets, &cb_update_sheet_view_prefs, NULL);
+	workbook_view_pref_visibility (wb);
 }
 
 static void
 cb_wb_pref_hide_vscroll (GtkWidget *widget, Workbook *wb)
 {
 	wb->show_vertical_scrollbar = ! wb->show_vertical_scrollbar;
-	g_hash_table_foreach (wb->sheets, &cb_update_sheet_view_prefs, NULL);
+	workbook_view_pref_visibility (wb);
 }
 
 static void
 cb_wb_pref_hide_tabs (GtkWidget *widget, Workbook *wb)
 {
-	gtk_notebook_set_show_tabs (GTK_NOTEBOOK (wb->notebook),
-				    wb->show_notebook_tabs = ! wb->show_notebook_tabs);
+	wb->show_notebook_tabs = ! wb->show_notebook_tabs;
+	workbook_view_pref_visibility (wb);
 }
 
 /***********************************************************************/
