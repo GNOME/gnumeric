@@ -563,8 +563,7 @@ gnumeric_negbinomdist (FunctionEvalInfo *ei, Value **argv)
 	if ((x + r - 1) <= 0 || p < 0 || p > 1)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float (combin (x + r - 1, r - 1) *
-				powgnum (p, r) * powgnum (1 - p, x));
+	return value_new_float (dnbinom (x, r, p, FALSE));
 }
 
 /***************************************************************************/
@@ -1849,8 +1848,7 @@ gnumeric_hypgeomdist (FunctionEvalInfo *ei, Value **argv)
 	if (x < 0 || n < 0 || M < 0 || N < 0 || x > M || n > N)
 		return value_new_error (ei->pos, gnumeric_err_NUM);
 
-	return value_new_float ((combin (M, x) * combin (N - M, n - x)) /
-				combin (N, n));
+	return value_new_float (dhyper (x, M, N - M, n, FALSE));
 }
 
 /***************************************************************************/

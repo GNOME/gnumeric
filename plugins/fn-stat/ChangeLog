@@ -1,3 +1,9 @@
+2002-06-21  Morten Welinder  <terra@diku.dk>
+
+	* functions.c (gnumeric_negbinomdist): Use R's distribution
+	function for better precision.
+	(gnumeric_hypgeomdist): Ditto.
+
 2002-06-19  Morten Welinder  <terra@diku.dk>
 
 	* functions.c (gnumeric_weibull): Adjust to changes in pweibull.

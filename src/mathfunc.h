@@ -97,6 +97,12 @@ gnum_float dbinom (gnum_float x, gnum_float n, gnum_float p, gboolean give_log);
 gnum_float pbinom (gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail, gboolean log_p);
 gnum_float qbinom (gnum_float x, gnum_float n, gnum_float p, gboolean lower_tail, gboolean log_p);
 
+/* Negative binomial distribution.  */
+gnum_float dnbinom (gnum_float x, gnum_float n, gnum_float p, gboolean give_log);
+
+/* Hyper-geometrical distribution.  */
+gnum_float dhyper (gnum_float x, gnum_float r, gnum_float b, gnum_float n, gboolean give_log);
+
 /* Random number generation. */
 gnum_float random_01          (void);
 gnum_float random_poisson     (gnum_float lambda);

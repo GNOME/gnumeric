@@ -2845,6 +2845,131 @@ gnum_float qbinom(gnum_float p, gnum_float n, gnum_float pr, gboolean lower_tail
 }
 
 /* ------------------------------------------------------------------------ */
+/* Imported src/nmath/dnbinom.c from R.  */
+/*
+ *  AUTHOR
+ *    Catherine Loader, catherine@research.bell-labs.com.
+ *    October 23, 2000 and Feb, 2001.
+ *
+ *  Merge in to R:
+ *	Copyright (C) 2000--2001, The R Core Development Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *
+ * DESCRIPTION
+ *
+ *   Computes the negative binomial distribution. For integer n,
+ *   this is probability of x failures before the nth success in a
+ *   sequence of Bernoulli trials. We do not enforce integer n, since
+ *   the distribution is well defined for non-integers,
+ *   and this can be useful for e.g. overdispersed discrete survival times.
+ */
+
+
+gnum_float dnbinom(gnum_float x, gnum_float n, gnum_float p, gboolean give_log)
+{
+    gnum_float prob;
+
+#ifdef IEEE_754
+    if (isnangnum(x) || isnangnum(n) || isnangnum(p))
+        return x + n + p;
+#endif
+
+    if (p < 0 || p > 1 || n <= 0) ML_ERR_return_NAN;
+    R_D_nonint_check(x);
+    if (x < 0 || !finitegnum(x)) return R_D__0;
+    x = R_D_forceint(x);
+
+    prob = dbinom_raw(n, x+n, p, 1-p, give_log);
+    p = ((gnum_float)n)/(n+x);
+    return((give_log) ? loggnum(p) + prob : p * prob);
+}
+
+/* ------------------------------------------------------------------------ */
+/* Imported src/nmath/dhyper.c from R.  */
+/*
+ *  AUTHOR
+ *    Catherine Loader, catherine@research.bell-labs.com.
+ *    October 23, 2000.
+ *
+ *  Merge in to R:
+ *	Copyright (C) 2000, 2001 The R Core Development Team
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+ *
+ *
+ * DESCRIPTION
+ *
+ *    Given a sequence of r successes and b failures, we sample n (\le b+r)
+ *    items without replacement. The hypergeometric probability is the
+ *    probability of x successes:
+ *
+ *                   dbinom(x,r,p) * dbinom(n-x,b,p)
+ *      p(x;r,b,n) = ---------------------------------
+ *                             dbinom(n,r+b,p)
+ *
+ *    for any p. For numerical stability, we take p=n/(r+b); with this choice,
+ *    the denominator is not exponentially small.
+ */
+
+
+gnum_float dhyper(gnum_float x, gnum_float r, gnum_float b, gnum_float n, gboolean give_log)
+{
+    gnum_float p, q, p1, p2, p3;
+
+#ifdef IEEE_754
+    if (isnangnum(x) || isnangnum(r) || isnangnum(b) || isnangnum(n))
+        return x + r + b + n;
+#endif
+
+    if (R_D_notnnegint(r) || R_D_notnnegint(b) || R_D_notnnegint(n) || n > r+b)
+	ML_ERR_return_NAN;
+
+    if (R_D_notnnegint(x)) return(R_D__0);
+    x = R_D_forceint(x);
+    r = R_D_forceint(r);
+    b = R_D_forceint(b);
+    n = R_D_forceint(n);
+
+    if (n < x || r < x || n - x > b) return(R_D__0);
+    if (n == 0) return((x == 0) ? R_D__1 : R_D__0);
+
+    p = ((gnum_float)n)/((gnum_float)(r+b));
+    q = ((gnum_float)(r+b-n))/((gnum_float)(r+b));
+
+    p1 = dbinom_raw(x,  r, p,q,give_log);
+    p2 = dbinom_raw(n-x,b, p,q,give_log);
+    p3 = dbinom_raw(n,r+b, p,q,give_log);
+
+    return( (give_log) ? p1 + p2 - p3 : p1*p2/p3 );
+}
+
+/* ------------------------------------------------------------------------ */
 /* Imported src/nmath/dexp.c from R.  */
 /*
  *  Mathlib : A C Library of Special Functions
@@ -3100,6 +3225,7 @@ gnum_float bessel_i(gnum_float x, gnum_float alpha, gnum_float expo)
 {
     long nb, ncalc, ize;
     gnum_float *bi;
+    char *vmax;
 
 #ifdef IEEE_754
     /* NaNs propagated correctly */
@@ -3572,6 +3698,7 @@ gnum_float bessel_k(gnum_float x, gnum_float alpha, gnum_float expo)
 {
     long nb, ncalc, ize;
     gnum_float *bk;
+    char *vmax;
 
 #ifdef IEEE_754
     /* NaNs propagated correctly */

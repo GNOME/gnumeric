@@ -29,6 +29,7 @@ Jukka:
 Morten:
 	* Improve the Applix importer.
 	* Update mathfunc.c to R 1.5.1.
+	* Improve precision of HYPGEOMDIST and NEGBINOMDIST.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.4
