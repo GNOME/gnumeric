@@ -9,6 +9,7 @@
 #include <gnumeric-config.h>
 #include "gnumeric.h"
 #include "regression.h"
+#include "rangefunc.h"
 
 #include <math.h>
 #include <string.h>
@@ -228,32 +229,30 @@ general_linear_regression (gnum_float **xss, int xdim,
 		int err2;
 		gnum_float *residuals = g_new (gnum_float, n);
 		gnum_float **LU;
-		gnum_float ss_total = 0;
+		gnum_float ss_total;
 		int *P;
 		gnum_float *e, *inv;
+		gnum_float ybar;
+		int err;
 
-		extra_stat->ybar = 0;
-		for (i = 0; i < n; i++)
-			extra_stat->ybar += ys[i];
-		extra_stat->ybar /= n;
-		extra_stat->se_y = 0;
-		for (i = 0; i < n; i++)
-			extra_stat->se_y += (ys[i] - extra_stat->ybar)
-			  * (ys[i] - extra_stat->ybar);
-			/* Not actually SE till later to avoid rounding error
-			   when finding R^2 */
+		/* This should not fail since n >= 1.  */
+		err = range_average (ys, n, &ybar);
+		g_assert (err == 0);
+		extra_stat->ybar = ybar;
+
+		/* FIXME: we ought to have a devsq variant that does not
+		   recompute the mean.  */
+		err = range_devsq (ys, n, &ss_total);
+		g_assert (err == 0);
 
 		extra_stat->xbar = g_new (gnum_float, n);
-
 		for (i = 0; i < xdim; i++) {
-			extra_stat->xbar[i] = 0;
 			if (xss[i]) {
-				for (j = 0; j < n; j++)
-					extra_stat->xbar[i] += xss[i][j];
+				int err = range_average (xss[i], n, &extra_stat->xbar[i]);
+				g_assert (err == 0);
 			} else {
-				extra_stat->xbar[i] = n; /* so mean is 1 */
+				extra_stat->xbar[i] = 1;
 			}
-			extra_stat->xbar[i] /= n;
 		}
 
 		for (i = 0; i < n; i++) {
@@ -266,12 +265,13 @@ general_linear_regression (gnum_float **xss, int xdim,
 			}
 			residuals[i] = ys[i] - residuals[i];
 		}
-		extra_stat->ss_resid = 0;
-		for (i = 0; i < n; i++) extra_stat->ss_resid += residuals[i] * residuals[i];
+
+		err = range_sumsq (residuals, n, &extra_stat->ss_resid);
+		g_assert (err == 0);
 
 		/* FIXME: we want to guard against division by zero.  */
-		extra_stat->sqr_r = 1 - (extra_stat->ss_resid / extra_stat->se_y);
-		extra_stat->adj_sqr_r = 1 - (extra_stat->ss_resid / (n - xdim)) / (extra_stat->se_y / (n - 1));
+		extra_stat->sqr_r = 1 - (extra_stat->ss_resid / ss_total);
+		extra_stat->adj_sqr_r = 1 - extra_stat->ss_resid * (n - 1) / ((n - xdim) * ss_total);
 		extra_stat->var = (extra_stat->ss_resid / (n - xdim));
 
 		ALLOC_MATRIX (LU, xdim, xdim);
@@ -300,7 +300,7 @@ general_linear_regression (gnum_float **xss, int xdim,
 		FREE_MATRIX (LU, xdim, xdim);
 		g_free (P);
 
-		extra_stat->t  = g_new (gnum_float, xdim);
+		extra_stat->t = g_new (gnum_float, xdim);
 
 		for (i = 0; i < xdim; i++)
 			extra_stat->t[i] = res[i] / extra_stat->se[i];
@@ -308,12 +308,9 @@ general_linear_regression (gnum_float **xss, int xdim,
 		extra_stat->F = (extra_stat->sqr_r / (xdim - affine)) /
 			((1 - extra_stat->sqr_r) / (n - xdim));
 
-		extra_stat->df = n-xdim;
-		for (i = 0; i < n; i++)
-			ss_total += (ys[i] - extra_stat->ybar) *
-				    (ys[i] - extra_stat->ybar);
+		extra_stat->df = n - xdim;
 		extra_stat->ss_reg = ss_total - extra_stat->ss_resid;
-		extra_stat->se_y = sqrt (extra_stat->se_y / n); /* Now it is SE */
+		extra_stat->se_y = sqrt (ss_total / n);
 		g_free (residuals);
 	}
 
