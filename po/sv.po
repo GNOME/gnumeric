@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-05 01:55-0400\n"
-"PO-Revision-Date: 2004-10-04 20:45+0900\n"
+"POT-Creation-Date: 2004-10-08 11:41+0900\n"
+"PO-Revision-Date: 2004-10-08 11:45+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -362,7 +362,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:528
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_RHO\n"
 "@SYNTAX=OPT_BS_RHO(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -391,26 +391,24 @@ msgstr ""
 "@DESCRIPTION=OPT_BS_RHO använder Black-Scholes modell för att beräkna \"rho"
 "\" på en europeisk option med @fjäril slagen vid @slag på en tillgång med "
 "avistan @avista.\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "\n"
 "(rho för en option är förändringstakten på dess pris med avseende på den "
 "riskfria räntesatsen.)\n"
-"\n"
 "@tid är tiden till mognad av optionen i år.\n"
-"@ränta är den riskfria räntan.\n"
-"@flyktighet är den årliga flyktigheten, i procent, av tillgången för "
-"perioden fram till förfallodatumet.\n"
+"@ränta är den riskfria räntan till förfallodatumet, i procent.\n"
 "@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
 "aktier är det den årliga utdelningen.\n"
-"\n"
 "* Det returnerade värdet uttrycks som förändringen av optionsvärdet per 100% "
 "förändring i ränta.\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_THETA, OPT_BS_VEGA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:592
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BS_CARRYCOST\n"
 "@SYNTAX=OPT_BS_CARRYCOST(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -444,27 +442,28 @@ msgstr ""
 "@DESCRIPTION=OPT_BS_CARRYCOST använder Black-Scholes modell för att beräkna "
 "\"elasticiteten\" på en europeisk option slagen vid @slag på en tillgång med "
 "avistan @avista.\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "\n"
 "(Elasticiteten för en option är förändringstakten på dess pris med avseende "
 "på cost_of_carry.)\n"
 "\n"
-"@tid är tiden till mognad av optionen i år.\n"
-"@ränta är den riskfria räntan.\n"
 "@flyktighet är den årliga flyktigheten, i procent, av tillgången för "
 "perioden fram till förfallodatumet.\n"
+"@ränta är den riskfria räntan till förfallodatumet, i procent.\n"
 "@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
 "aktier är det den årliga utdelningen.\n"
 "\n"
 "* Det returnerade värdet uttrycks som förändringen av optionsvärdet per 100% "
 "volatilitet.\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 # FIXME: Någon som förstår detta?
 #: plugins/derivatives/options.c:662
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_GARMAN_KOHLHAGEN\n"
 "@SYNTAX=OPT_GARMAN_KOHLHAGEN(call_put_flag,spot,strike,time,domestic_rate,"
@@ -494,8 +493,8 @@ msgstr ""
 "utländsk_ränta;flyktighet[;cost_of_carry])\n"
 "@DESCRIPTION=OPT_GARMAN_KOHLHAGEN beräknar det teoretiska priset på en "
 "europeisk valutaoption slagen vid @slag på en tillgång med avistan @avista.\n"
-"\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@flyktighet är den årliga flyktigheten, i procent, av tillgången för "
 "perioden fram till förfallodatumet.\n"
 "@tid är antalet dagar till förfallodatumet.\n"
@@ -505,9 +504,9 @@ msgstr ""
 "i procent.\n"
 "@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
 "aktier är det den årliga utdelningen.\n"
-"\n"
 "* Det returnerade värdet uttrycks som förändringen av optionsvärdet per 100% "
 "volatilitet.\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -562,7 +561,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:793
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_JUMP_DIFF\n"
 "@SYNTAX=OPT_JUMP_DIFF(call_put_flag,spot,strike,time,rate,volatility,lambda,"
@@ -587,13 +586,13 @@ msgstr ""
 "@SYNTAX=OPT_JUMP_DIFF(fjäril;avista;slag;tid;ränta;flyktighet;lambda;gamma)\n"
 "@DESCRIPTION=OPT_JUMP_DIFF modellerar det teoretiska priset på en option "
 "enligt hopp-diffusionsprocessen (Merton).\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@avista är avistapriset för den underliggande\n"
 "@slag är slagpriset på optionen\n"
 "@tid är tiden till mognad uttryckt i år\n"
 "@ränta är den årliga räntan\n"
-"@flyktighet är den årliga flyktigheten, i procent, av tillgången för "
-"perioden fram till förfallodatumet.\n"
+"@flyktighet är den årliga flyktigheten av den underliggande tillgången\n"
 "@lambda är antalet \"hopp\" per år\n"
 "@gamma är andelen av volatiliteten som förklaras av \"hoppen\"\n"
 "\n"
@@ -602,7 +601,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:887
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_MILTERSEN_SCHWARTZ\n"
 "@SYNTAX=OPT_MILTERSEN_SCHWARTZ(call_put_flag,p_t,f_t,x,t1,t2,v_s,v_e,v_f,"
@@ -637,7 +636,8 @@ msgstr ""
 "rho_sf;rho_ef;kappa_e;kappa_f)\n"
 "@DESCRIPTION=OPT_MILTERSEN_SCHWARTZ modellerar det teoretiska priset på en "
 "option enligt Miltersen & Schwartz.\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@p_t är en nollkupongare med lösen vid optionsmognad \n"
 "@f_t är framtidspriset \n"
 "@x är slagpriset \n"
@@ -656,7 +656,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:997
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_RGW\n"
 "@SYNTAX=OPT_RGW(call_put_flag,spot,strike,t1,t2,rate,d,volatility)\n"
@@ -681,7 +681,8 @@ msgstr ""
 "@DESCRIPTION=OPT_RGW modellerar det teoretiska priset på en option enligt "
 "Roll Geske Whaley approximationen där t1 är tiden till utdelning och t2 är "
 "tiden till förfallodatum.\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@avista är avistapriset för den underliggande tillgången\n"
 "@slag är slagpriset på optionen\n"
 "@t1 är tiden till utdelningen\n"
@@ -695,7 +696,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1051
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BAW_AMER\n"
 "@SYNTAX=OPT_BAW_AMER(call_put_flag,spot,strike,time,rate,cost_of_carry,"
@@ -720,7 +721,8 @@ msgstr ""
 "@SYNTAX=OPT_BAW_AMER(fjäril;avista;slag;tid;ränta;cost_of_carry;flyktighet)\n"
 "@DESCRIPTION=OPT_BAW_AMER modellerar det teoretiska priset på en option "
 "enligt Barone Adesie & Whaley-approximationen.\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@avista är avistapriset för den underliggande tillgången\n"
 "@slag är slagpriset på optionen\n"
 "@tid är tiden till förfallodatumet\n"
@@ -735,7 +737,7 @@ msgstr ""
 
 # FIXME: Någon som förstår detta?
 #: plugins/derivatives/options.c:1234
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BJERSTENS\n"
 "@SYNTAX=OPT_BJERSTENS(call_put_flag,spot,strike,time,rate,volatility[,"
@@ -761,7 +763,8 @@ msgstr ""
 "cost_of_carry])\n"
 "@DESCRIPTION=OPT_BJERSTENS modellerar det teoretiska priset på amerikanska "
 "optioner enligt Bjerksund & Stenslands approximationsteknik.\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@avista är avistapriset för den underliggande tillgången\n"
 "@slag är slagpriset på optionen\n"
 "@tid är tiden till förfallodatumet i dagar\n"
@@ -775,7 +778,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1318
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXEC\n"
 "@SYNTAX=OPT_EXEC(call_put_flag,spot,strike,time,rate,volatility,"
@@ -803,7 +806,8 @@ msgstr ""
 "lambda)\n"
 "@DESCRIPTION=OPT_EXEC modellerar det teoretiska priset på ledningsoptioner "
 "givet lambda (hoppränta för ledningen).\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "Man kan förvänta sig att detta alltid är en köpoption \n"
 "@avista är avistapriset för den underliggande tillgången\n"
 "@slag är slagpriset på optionen\n"
@@ -814,12 +818,13 @@ msgstr ""
 "aktier är det den årliga utdelningen.\n"
 "@lambda är hoppet för ledningen. Modellen antar att ledningen släpper sina "
 "optioner om dom lämnar företaget.\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1366
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
 "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
@@ -845,7 +850,8 @@ msgstr ""
 "cost_of_carry)\n"
 "@DESCRIPTION=OPT_FORWARD_START modellerar det teoretiska priset på "
 "framåtvisande startoptioner.\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@avista är avistapriset för den underliggande tillgången\n"
 "@alfa är andelen som sätter slagpriset för tid @tid1\n"
 "@tid1 är tiden tills optionen börjar \n"
@@ -859,7 +865,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1429
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
@@ -891,7 +897,8 @@ msgstr ""
 "tidsbytesoptioner (Pechtl 1995).\n"
 "Ägaren får @a * @dt för varje period @dt som tillgångens pris var högre än "
 "slagpriset (för köp) eller under (för sälj) \n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@avista är avistapriset för den underliggande tillgången\n"
 "@slag är slagpriset på optionen\n"
 "@a är den erhållna mängden för varje period enligt ovan\n"
@@ -907,7 +914,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1486
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
@@ -932,7 +939,8 @@ msgstr ""
 "flyktighet)\n"
 "@DESCRIPTION=OPT_SIMPLE_CHOOSER modellerar det teoretiska priset på enkla "
 "valoptioner.\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@avista är avistapriset för den underliggande tillgången\n"
 "@slag är slagpriset på optionen\n"
 "@tid1 är tiden tills ägaren väljer en köp- eller säljoption i år\n"
@@ -945,7 +953,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1547
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,"
@@ -974,7 +982,8 @@ msgstr ""
 "tid_sälj;ränta;cost_of_carry;flyktighet)\n"
 "@DESCRIPTION=OPT_COMPLEX_CHOOSER modellerar det teoretiska priset på "
 "komplexa valoptioner.\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@avista är avistapriset för den underliggande tillgången\n"
 "@slag_köp är slagpriset på optionen\n"
 "@slag_sälj är slagpriset på optionen\n"
@@ -1039,7 +1048,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1747
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
@@ -1072,7 +1081,8 @@ msgstr ""
 "utökningsbara utgivaroptioner. Detta är optioner som kan lösas in vid en "
 "tidigare tidpunkt @tid1 eller utöka inlösentiden till @tid2 om optionen inte "
 "är värd någonting vid @tid1 \n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@avista är avistapriset för den underliggande tillgången\n"
 "@slag1 är slagpriset på optionen\n"
 "@slag2 är slagpriset då optionen slås igen om det inte finns pengar kvar vid "
@@ -1091,7 +1101,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1809
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
 "@SYNTAX=OPT_2_ASSSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
@@ -1126,7 +1136,8 @@ msgstr ""
 "annars 0.\n"
 " Utbetalninen för sälj är max (@slag2 - @avista2; 0) om @avista1 < @slag1, "
 "annars 0.\n"
-" @fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+" @fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@avista1 och @avista2 är avistapriserna för de underliggande tillgångarna.\n"
 "@slag1 och @slag2 är slagpriserna på optionen.\n"
 "@tid är tiden till förfallodatumet i år.\n"
@@ -1140,7 +1151,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1862
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EURO_EXCHANGE\n"
 "@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1165,7 +1176,7 @@ msgstr ""
 "@SYNTAX=OPT_EURO_EXCHANGE(avista1;avista2;kvant1;kvant2;tid;ränta;"
 "cost_of_carry1;cost_of_carry2;flyktighet1;flyktighet2;rho)\n"
 "@DESCRIPTION=OPT_EURO_EXCHANGE modellerar det teoretiska priset på en "
-"europeisk option att växla en tillgång med kvantitet @kvant2 och avista "
+"Europeisk option att växla en tillgång med kvantitet @kvant2 och avista "
 "@avista2 för en annan, med kvantitet @kvant1 och avista @avista1 \n"
 "@tid är tiden till förfallodatumet i år.\n"
 "@ränta är den riskfria årliga räntan.\n"
@@ -1177,7 +1188,8 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "\n"
-"@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
+"@SEEALSO=OPT_AMER_EXCHANGE, OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, "
+"OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1905
 #, no-c-format
@@ -1222,7 +1234,7 @@ msgstr ""
 
 # FIXME: Någon som förstår detta?
 #: plugins/derivatives/options.c:1949
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
 "@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, "
@@ -1249,6 +1261,8 @@ msgstr ""
 "@DESCRIPTION=OPT_SPREAD_APPROX modellerar det teoretiska priset på "
 "teoretiska priset på en europeisk option på spridningen mellan två "
 "framtidskontrakt.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@frampris1 och @frampris2 är priserna på framtidskontrakten.\n"
 "@slag är slagpriset på optionen\n"
 "@tid är tiden till förfallodatumet i dagar\n"
@@ -1262,7 +1276,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2002
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
 "@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,"
@@ -1280,7 +1294,7 @@ msgid ""
 "@time is the initial maturity of the option in years.\n"
 "@rate is the risk annualised free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yeild.\n"
+"stocks, this would be the dividend yield.\n"
 "@volatility is the annualised volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1294,7 +1308,8 @@ msgstr ""
 "option där optionens ägare kan nyttja den vid förfallodatumet till det mest "
 "fördelaktiga priset på den underliggande tillgången som boserverats under "
 "optionens livstid.\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@avista är avistapriset för den underliggande tillgången.\n"
 "@avista_min är det lägsta avistapriset för den underliggande tillgången som "
 "hittills observerats.\n"
@@ -1312,7 +1327,7 @@ msgstr ""
 
 # "en option" saknades i orginaltexten
 #: plugins/derivatives/options.c:2067
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
 "@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_max,spot_min,strike,time,"
@@ -1330,7 +1345,7 @@ msgid ""
 "@time is the initial maturity of the option in years.\n"
 "@rate is the risk annualised free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yeild.\n"
+"stocks, this would be the dividend yield.\n"
 "@volatility is the annualised volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1344,7 +1359,8 @@ msgstr ""
 "option där optionens ägare kan nyttja den vid förfallodatumet till det mest "
 "fördelaktiga priset på den underliggande tillgången som boserverats under "
 "optionens livstid.\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@avista är avistapriset för den underliggande tillgången.\n"
 "@avista_min är det lägsta avistapriset för den underliggande tillgången som "
 "hittills observerats.\n"
@@ -1362,19 +1378,19 @@ msgstr ""
 
 # FIXME: Någon som förstår detta?
 #: plugins/derivatives/options.c:2147
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
 "@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, "
 "strike, time, rate, volatility, cost_of_carry)\n"
 "@DESCRIPTION=OPT_ models the theoretical price of either an American or "
 "European style option using a binomial tree \n"
-"@amer_euro_flag is either \"a\" or \"e\" to indicate weather the option "
+"@amer_euro_flag is either \"a\" or \"e\" to indicate whether the option "
 "being valued is an American or European style option respectively\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
 "@num_time_steps is the number of time steps used in the valuation, a greater "
-"number of time steps yeilds greater accuracy however is slower to calculate\n"
+"number of time steps yields greater accuracy however is slower to calculate\n"
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck \n"
 "@time is the initial maturity of the option in years.\n"
@@ -1392,7 +1408,8 @@ msgstr ""
 "amerikansk eller europeisk option med hjälp av ett binomialträd.\n"
 "@amer_euro_flag är antingen \"a\" eller \"e\" för att indikera om optionen "
 "är amerikansk eller europeisk.\n"
-"@fjäril är c eller p beroende på om optionen är köp- eller säljoption.\n"
+"@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
+"säljoption.\n"
 "@tidssteg är antalet steg i värderingen; ett större antal leder till bättre "
 "noggrannhet, men tar längre tid att beräkna.\n"
 "@avista är avistapriset för den underliggande tillgången\n"
@@ -1402,7 +1419,6 @@ msgstr ""
 "@flyktighet är den årliga flyktigheten av tillgången\n"
 "@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
 "aktier är det den årliga utdelningen.\n"
-"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
@@ -1782,9 +1798,8 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
-#, fuzzy
-msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
-msgstr "MS Excel (tm) 97/2000/XP och 5.0/95"
+msgid "MS Excel (tm) 97/2000/XP & 5.0/95"
+msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel (tm) SpreadsheetML"
@@ -5633,7 +5648,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELK"
 
-#: plugins/fn-eng/functions.c:569
+#: plugins/fn-eng/functions.c:573
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -5854,7 +5869,7 @@ msgstr ""
 "CONVERT(7,9;\"cal\";\"J\") är lika med 33,07567.\n"
 "@SEEALSO="
 
-#: plugins/fn-eng/functions.c:984
+#: plugins/fn-eng/functions.c:988
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -5904,7 +5919,7 @@ msgstr ""
 "medelvärdet.\n"
 "@SEEALSO=ERFC"
 
-#: plugins/fn-eng/functions.c:1031
+#: plugins/fn-eng/functions.c:1035
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -5939,7 +5954,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERF"
 
-#: plugins/fn-eng/functions.c:1061
+#: plugins/fn-eng/functions.c:1065
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -5969,11 +5984,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: plugins/fn-eng/functions.c:1105 plugins/fn-eng/functions.c:1159
+#: plugins/fn-eng/functions.c:1109 plugins/fn-eng/functions.c:1163
 msgid "Impossible"
 msgstr "Omöjligt"
 
-#: plugins/fn-eng/functions.c:1116
+#: plugins/fn-eng/functions.c:1120
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -6000,7 +6015,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DELTA"
 
-#: plugins/fn-eng/functions.c:1170
+#: plugins/fn-eng/functions.c:1174
 msgid ""
 "@FUNCTION=INVSUMINV\n"
 "@SYNTAX=INVSUMINV(x1,x2,...)\n"
@@ -6433,7 +6448,7 @@ msgid ""
 "@settlement is the settlement date of the security.\n"
 "\n"
 "@maturity is the maturity date of the security.  @par is the price per $100 "
-"face value of the security.  @redemption is the redeption value per $100 "
+"face value of the security.  @redemption is the redemption value per $100 "
 "face value of the security.\n"
 "\n"
 "@basis is the type of day counting system you want to use:\n"
@@ -6458,12 +6473,12 @@ msgstr ""
 "@FUNCTION=DISC\n"
 "@SYNTAX=DISC(avräkning;mognad;par;utlösande[;bas])\n"
 "@DESCRIPTION=DISC beräknar och returnerar reduceringshastigheten för en "
-"säkerhet.\n"
+"säkerhet.@avräkning är avräkningsdatumet för säkerheten.\n"
 "\n"
-"@avräkning är avräkningsdatumet för säkerheten. @mognad är mognadsdatumet "
-"för säkerheten. @par är priset per $100 av säkerheten. @reducering. "
-"@utlösande är utlösandevärdet per $100 av värdet på säkerheten. @bas är den "
-"typ av dagsräkningssystem som du vill använda:\n"
+"@mognad är mognadsdatumet för säkerheten. @par är priset per $100 av "
+"säkerheten. @utlösande är utlösandevärdet per $100 av värdet på säkerheten.\n"
+"\n"
+"@bas är den typ av dagsräkningssystem som du vill använda:\n"
 "\n"
 "0  Amerikanskt 30/360\n"
 "1  verkliga dagar/verkliga dagar\n"
@@ -9927,7 +9942,7 @@ msgid ""
 "is pointed out by @row and @col, which count the rows and columns in the "
 "array.\n"
 "\n"
-"* If @row and @col are omited the are assumed to be 1.\n"
+"* If @row and @col are omitted the are assumed to be 1.\n"
 "* If the reference falls outside the range of the @array, INDEX returns a "
 "#REF! error.\n"
 "\n"
@@ -9948,6 +9963,7 @@ msgstr ""
 "\n"
 "@EXAMPLES=Antag att cellerna A1; A2; ...; A5 innehåller talen 11,4; 17,3; "
 "21,3; 25,9 och 40,1. Då är INDEX(A1:A5;4;1;1) lika med 25,9\n"
+"\n"
 "@SEEALSO="
 
 #: plugins/fn-lookup/functions.c:902
@@ -16763,7 +16779,7 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "UNICHAR(65) equals A.\n"
-"UNICHAR(960) equals a small greek pi.\n"
+"UNICHAR(960) equals a small Greek pi.\n"
 "\n"
 "@SEEALSO=CHAR,UNICODE,CODE"
 msgstr ""
@@ -17650,9 +17666,8 @@ msgid "Unable to parse the html."
 msgstr "Kan inte tolka html-koden."
 
 #: plugins/html/plugin.xml.in.h:1
-#, fuzzy
-msgid "HTML &amp; TeX"
-msgstr "HTML och TeX"
+msgid "HTML & TeX"
+msgstr "HTML & TeX"
 
 #: plugins/html/plugin.xml.in.h:2
 msgid "HTML (*.html) fragment"
@@ -19379,7 +19394,7 @@ msgstr ""
 msgid "result passes the sheet boundary"
 msgstr "resultatet går utanför bladets kant"
 
-#: src/cmd-edit.c:319
+#: src/cmd-edit.c:335
 #, c-format
 msgid ""
 "destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n"
@@ -19390,30 +19405,30 @@ msgstr ""
 "\n"
 "Försök välja en enstaka cell eller en yta med samma form och storlek."
 
-#: src/cmd-edit.c:325
+#: src/cmd-edit.c:341
 msgid "Unable to paste into selection"
 msgstr "Kan inte klistra in i markeringen"
 
-#: src/cmd-edit.c:362
+#: src/cmd-edit.c:378
 msgid "Paste"
 msgstr "Klistra in"
 
-#: src/cmd-edit.c:406
+#: src/cmd-edit.c:422
 #, c-format
 msgid "Shift rows %s"
 msgstr "Skifta rader %s"
 
-#: src/cmd-edit.c:407
+#: src/cmd-edit.c:423
 #, c-format
 msgid "Shift row %s"
 msgstr "Skifta rad %s"
 
-#: src/cmd-edit.c:444
+#: src/cmd-edit.c:460
 #, c-format
 msgid "Shift columns %s"
 msgstr "Skifta kolumner %s"
 
-#: src/cmd-edit.c:445
+#: src/cmd-edit.c:461
 #, c-format
 msgid "Shift column %s"
 msgstr "Skifta kolumn %s"
@@ -21063,16 +21078,15 @@ msgstr "Multidimensionella punkter, med cirkel i varje punkt."
 msgid "Plot X, Y and bubble size."
 msgstr "Plotta X, Y och bubbelstorlek."
 
-#. really 3_1
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "XY Lines"
 msgstr "XY-linjer"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "XY Points"
 msgstr "XY-punkter"
 
@@ -21919,22 +21933,24 @@ msgid "_Or"
 msgstr "_Eller"
 
 #: src/dialogs/autofilter-top10.glade.h:2
-#, fuzzy
 msgid ""
 "Items\n"
 "Percentage"
-msgstr "Procent"
+msgstr ""
+"Enheter\n"
+"Procent"
 
 #: src/dialogs/autofilter-top10.glade.h:4
 msgid "Show:"
 msgstr "Visa:"
 
 #: src/dialogs/autofilter-top10.glade.h:5
-#, fuzzy
 msgid ""
 "Top\n"
 "Bottom"
-msgstr "_Uppifrån-ner"
+msgstr ""
+"Överst\n"
+"Underst"
 
 #: src/dialogs/autoformat.glade.h:2
 msgid "A short description of the template"
@@ -22021,7 +22037,6 @@ msgid "_Right"
 msgstr "_Höger"
 
 #: src/dialogs/autoformat.glade.h:23
-#, fuzzy
 msgid "_Settings"
 msgstr "In_ställningar"
 
@@ -32634,15 +32649,15 @@ msgstr "Avsluta inte"
 msgid "Don't close"
 msgstr "Stäng inte"
 
-#: src/workbook-control-gui.c:2213 src/workbook-control-gui.c:2228
+#: src/workbook-control-gui.c:2233 src/workbook-control-gui.c:2248
 msgid "_Re-Edit"
 msgstr "Redigera _om"
 
-#: src/workbook-control-gui.c:2214 src/workbook-control-gui.c:2219
+#: src/workbook-control-gui.c:2234 src/workbook-control-gui.c:2239
 msgid "_Discard"
 msgstr "_Förkasta"
 
-#: src/workbook-control-gui.c:2218 src/workbook-control-gui.c:2229
+#: src/workbook-control-gui.c:2238 src/workbook-control-gui.c:2249
 msgid "_Accept"
 msgstr "_Acceptera"
 
