@@ -1,38 +1,189 @@
 <sect1 id="authors-intro">
   <title>Authors</title>
+  <table frame='none'>
+    <title><application>Gnumeric</application> was written by</title>
+    <tgroup cols='3' align='left' colsep='0' rowsep='0'>
+      <tbody>
+      <row>
+	<entry>Miguel de Icaza</entry>
+	<entry>Creator</entry><entry>
+	<email>miguel@ximian.com</email></entry>
+      </row>
+      <row>
+	<entry>Jody Goldberg</entry>
+	<entry>Maintainer</entry><entry>
+	<email>jody@gnome.org</email></entry>
+      </row>
+      <row>
+	<entry>Morten Welinder</entry>
+	<entry>Core development, Purification</entry>
+      </row>
+      <row>
+	<entry>Jon K. Hellan</entry>
+	<entry>Core Development, GUI</entry>
+      </row>
+      <row>
+	<entry>Jukka-Pekka Iivonen</entry>
+	<entry>Core Development, Functions and Tools</entry>
+      </row>
+      <row>
+	<entry>Michael Meeks</entry>
+	<entry>Core Development, Excel</entry>
+      </row>
+      <row>
+	<entry>Almer S. Tigelaar</entry>
+	<entry>Core Development, STF, Autoformat</entry>
+      </row>
+
+      <row>
+	<entry>Sean Atkinson</entry>
+	<entry>Functions and X-Base importing</entry>
+      </row>
+      <row>
+	<entry>Kenneth Christiansen</entry>
+	<entry>i18n, misc stuff</entry>
+      </row>
+      <row>
+	<entry>Zbigniew Chyla</entry>
+	<entry>Plugin system, i18n, python</entry>
+      </row>
+      <row>
+	<entry>Tom Dyas</entry>
+	<entry>Plugin system</entry>
+      </row>
+      <row>
+	<entry>ERDI Gergo</entry>
+	<entry>Misc widgets</entry>
+      </row>
+      <row>
+	<entry>Andreas J. Guelzow</entry>
+	<entry>Statistics, HTML, Latex exports</entry>
+      </row>
+      <row>
+	<entry>Ross Ihaka</entry>
+	<entry>Special functions</entry>
+      </row>
+      <row>
+	<entry>Lutz Muller</entry>
+	<entry>SheetObject improvement</entry>
+      </row>
+      <row>
+	<entry>Yukihiro Nakai</entry>
+	<entry>Input method and multi-byte character support</entry>
+      </row>
+      <row>
+	<entry>Federico M. Quintero</entry>
+	<entry>Canvas support</entry>
+      </row>
+      <row>
+	<entry>JP Rosevear</entry>
+	<entry>Sorting, and INDEX</entry>
+      </row>
+      <row>
+	<entry>Ariel Rios</entry>
+	<entry>Guile support</entry>
+      </row>
+      <row>
+	<entry>Mark Probst</entry>
+	<entry>Guile support</entry>
+      </row>
+      <row>
+	<entry>Frank Chiulli</entry>
+	<entry>OLE support</entry>
+      </row>
+      <row>
+	<entry>Arturo Tena</entry>
+	<entry>OLE support</entry>
+      </row>
+      <row>
+	<entry>Grandma Chema Celorio</entry>
+	<entry>QA and sheet copy.</entry>
+      </row>
+      <row>
+	<entry>Juan Pablo</entry>
+	<entry>QA</entry>
+      </row>
+      <row>
+	<entry>Kevin Breit</entry>
+	<entry>Documentation</entry>
+      </row>
+      <row>
+	<entry>Thomas Canty</entry>
+	<entry>Documentation</entry>
+      </row>
+      <row>
+	<entry>Adrian Custer</entry>
+	<entry>QA, Documentation</entry>
+      </row>
+      <row>
+	<entry>Adrian Likins</entry>
+	<entry>QA, Documentation</entry>
+      </row>
+      <row>
+	<entry>Wayne Schuller</entry>
+	<entry>Documentation, printer headers</entry>
+      </row>
+      <row>
+	<entry>Aaron Weber</entry>
+	<entry>Documentation</entry>
+      </row>
+      <row>
+	<entry>J.H.M. (Ray) Dassen</entry>
+	<entry>Debian packaging</entry>
+      </row>
+      <row>
+	<entry>John Gotts</entry>
+	<entry>RPM packaging</entry>
+      </row>
+
+      <row>
+	<entry>Takashi Matsuda</entry>
+	<entry>Original text plugin</entry>
+      </row>
+      <row>
+	<entry>Vincent Renardias</entry>
+	<entry>Original CSV support</entry>
+      </row>
+      <row>
+	<entry>Alan Cox</entry>
+	<entry>2nd csv plugin</entry>
+      </row>
+      <row>
+	<entry>Bruno Unna</entry>
+	<entry>Original fmt dialog</entry>
+      </row>
+      <row>
+	<entry>Daniel Veillard</entry>
+	<entry>Original DOM support</entry>
+      </row>
+      <row>
+	<entry>Vladimir Vuksan</entry>
+	<entry>Original financial functions</entry>
+      </row>
+      <row>
+	<entry>Jakub Jelinek</entry>
+	<entry>Early canvas work</entry>
+      </row>
+      <row>
+	<entry>Chris Lahey</entry>
+	<entry>Original number format engine</entry>
+      </row>
+      <row>
+	<entry>Rasca</entry>
+	<entry>Original HTML, Troff, LaTeX exporters</entry>
+      </row>
+      </tbody>
+    </tgroup>
+  </table>
+
   <para>
-   <application>Gnumeric</application> was written by 
-        Miguel de Icaza <email>miguel@kernel.org</email>,
-        Daniel Veillard <email>Daniel.Veillard@w3c.org</email>,
-        Tom Dyas <email>tdyas@romulus.rutgers.edu</email>,
-        Chris Lahey,
-        Michael Meeks <email>mmeeks@gnu.org</email>,
-        Vladimir Vuksan <email>vuksan@veus.hr</email>,
-        Takashii Matsuda <email>matsu@arch.comp.kyutech.ac.jp</email>,
-        Jukka-Pekka Iivonen <email>jiivonen@hutcs.cs.hut.fi</email>,
-        Alan Cox <email>alan@redhat.com</email>,
-        Vincent Renardias <email>vincent@ldsol.com</email>,
-        Jody Goldberg <email>jgoldberg@home.com</email>,
-        Morten Welinder <email>terra@diku.dk</email>. 
   To find more information about
-   <application>Gnumeric</application>, please visit the <ulink
-   url="http://www.gnome.org/gnumeric" type="http">Gnumeric Web
-   page</ulink>.  
+   <application>Gnumeric</application>, please visit the
+   <ulink url="http://www.gnumeric.org" type="http">Gnumeric Web page</ulink>.
   </para>
 
   <para>
-   This manual was written by 
-         Thomas Canty (<email>tommydal@ihug.com.au</email>), 
-         Miguel de Icaza (<email>miguel@gnu.org</email>), 
-         Adrian Likins (<email>adrian@gimp.org</email>), 
-         Jukka-Pekka Iivonen (<email>jiivonen@hutcs.cs.hut.fi</email>), 
-         Andreas J. Guelzow (<email>aguelzow@taliesin.ca</email>), 
-   and
-         Adrian Custer. 
-  </para>
-
-  <para>
-    If you have some comments or suggestions regarding this
+   If you have some comments or suggestions regarding this
    application or documentation, need help, or want to report a bug,
    plese contact us!  Instructions for doing so are given in <ulink
    type="help" url="ghelp:gnome-feedback"><citetitle>Reporting GNOME
@@ -41,16 +192,11 @@
    <application>Nautilus</application> file manager.
   </para>
 
-
-
-  <!-- For translations: uncomment this:
-
+<!-- For translations: uncomment this:
   <para>
    Latin translation was done by ME
    (<email>MYNAME@MYADDRESS</email>). Please send all  comments  and
    suggestions regarding this translation to SOMEWHERE.
   </para>
-
-  -->
-
- </sect1>
+-->
+</sect1>
