@@ -18,6 +18,9 @@
 #include "plugin.h"
 #include "pixmaps.h"
 
+#include "io/excel/ms-ole.h"
+#include "io/excel/ms-excel.h"
+
 /* The locations within the main table in the workbook */
 #define WB_EA_LINE   0
 #define WB_EA_SHEETS 1
@@ -45,9 +48,16 @@ open_cmd (void)
 	char *fname = dialog_query_load_file ();
 	Workbook *wb;
 	
-	if (!fname)
-		return;
-	wb = gnumericReadXmlWorkbook (fname);
+	{ // Interogate filetype
+	  MS_OLE_FILE *f = new_ms_ole_file(fname) ;
+	  if (f)
+	    {
+	      wb = ms_excelReadWorkbook(f) ;
+	      free (f) ;
+	    }
+	  else
+	    wb = gnumericReadXmlWorkbook (fname);
+	}
 	if (wb)
 		gtk_widget_show (wb->toplevel);
 }
