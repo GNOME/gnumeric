@@ -2,6 +2,8 @@ Gnumeric 1.3.93
 
 Andreas:
 	* Keep the recently used function list uptodate. [#156732]
+	* Fix default font selection in preference dialog. [#157238]
+	* Fix preference dialog window fraction selection. [#157239]
 
 --------------------------------------------------------------------------
 

@@ -76,6 +76,8 @@ typedef struct {
 	Workbook	*wb;
 } PrefState;
 
+typedef void (* double_conf_setter_t) (gnm_float value);
+
 static void
 dialog_pref_add_item (PrefState *state, char const *page_name, char const *icon_name, 
 		      int page, char const* parent_path)
@@ -237,10 +239,13 @@ int_pref_create_widget (char const *key, GtkWidget *table, gint row,
 /*************************************************************************/
 
 static void
-double_pref_widget_to_conf (GtkSpinButton *button, char const *key)
+double_pref_widget_to_conf (GtkSpinButton *button, double_conf_setter_t setter)
 {
-	go_conf_set_double (key, gtk_spin_button_get_value (button));
+	g_return_if_fail (setter != NULL);
+
+	setter (gtk_spin_button_get_value (button));
 }
+
 static void
 double_pref_conf_to_widget (char const *key, GtkSpinButton *button)
 {
@@ -252,7 +257,7 @@ double_pref_conf_to_widget (char const *key, GtkSpinButton *button)
 static void
 double_pref_create_widget (char const *key, GtkWidget *table, gint row,
 			   gnm_float val, gnm_float from, gnm_float to, gnm_float step,
-			   gint digits)
+			   gint digits, double_conf_setter_t setter)
 {
 	char *desc = go_conf_get_short_desc (key);
 	GtkWidget *item = gtk_label_new (desc ? desc : "schema missing");
@@ -266,8 +271,9 @@ double_pref_create_widget (char const *key, GtkWidget *table, gint row,
 				     1, digits);
 	double_pref_conf_to_widget (key, GTK_SPIN_BUTTON (item));
 	g_signal_connect (G_OBJECT (item),
-		"value-changed",
-		G_CALLBACK (double_pref_widget_to_conf), (gpointer)key);
+			  "value-changed",
+			  G_CALLBACK (double_pref_widget_to_conf), 
+			  (gpointer) setter);
 	gtk_table_attach (GTK_TABLE (table), item,
 		1, 2, row, row + 1,
 		GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_SHRINK, 5, 5);
@@ -534,16 +540,16 @@ cb_pref_font_has_changed (G_GNUC_UNUSED FontSelector *fs,
 			  GnmStyle *mstyle, PrefState *state)
 {
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_SIZE))
-		go_conf_set_double (GNM_CONF_FONT_SIZE,
-			mstyle_get_font_size (mstyle));
+		gnm_gconf_set_default_font_size 
+			(mstyle_get_font_size (mstyle));
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_NAME))
-		go_conf_set_string (GNM_CONF_FONT_NAME,
+		gnm_gconf_set_default_font_name (
 			mstyle_get_font_name (mstyle));
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_BOLD))
-		go_conf_set_bool (GNM_CONF_FONT_BOLD,
+		gnm_gconf_set_default_font_bold (
 			mstyle_get_font_bold (mstyle));
 	if (mstyle_is_element_set (mstyle, MSTYLE_FONT_ITALIC))
-		go_conf_set_bool (GNM_CONF_FONT_ITALIC,
+		gnm_gconf_set_default_font_italic (
 			mstyle_get_font_italic (mstyle));
 	return TRUE;
 }
@@ -741,11 +747,11 @@ pref_window_page_initializer (PrefState *state,
 	bool_pref_create_widget (GNM_CONF_GUI_ED_TRANSITION_KEYS,
 		page, row++);
 	double_pref_create_widget (GNM_CONF_GUI_WINDOW_Y,
-		page, row++, 0.75, 0.25, 1, 0.05, 2);
+		page, row++, 0.75, 0.25, 1, 0.05, 2, gnm_gconf_set_gui_window_y);
 	double_pref_create_widget (GNM_CONF_GUI_WINDOW_X,
-		page, row++, 0.75, 0.25, 1, 0.05, 2);
+		page, row++, 0.75, 0.25, 1, 0.05, 2, gnm_gconf_set_gui_window_x);
 	double_pref_create_widget (GNM_CONF_GUI_ZOOM,
-		page, row++, 1.00, 0.10, 5.00, 0.05, 2);
+		page, row++, 1.00, 0.10, 5.00, 0.05, 2, gnm_gconf_set_gui_zoom);
 	int_pref_create_widget (GNM_CONF_WORKBOOK_NSHEETS,
 		page, row++, 1, 1, 64, 1);
 	bool_pref_create_widget (GNM_CONF_GUI_ED_LIVESCROLLING,

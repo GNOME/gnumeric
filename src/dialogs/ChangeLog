@@ -1,3 +1,14 @@
+2004-11-04  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=157238
+	http://bugzilla.gnome.org/show_bug.cgi?id=157239
+	* dialog-preferences.c (double_pref_widget_to_conf): use
+	  a specific configuration setting function
+	(double_pref_create_widget): ditto
+	(cb_pref_font_has_changed): do not write directly to gconf
+	(pref_window_page_initializer): specify configuration 
+	  setting functions
+
 2004-11-02  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-stf-export.c (cb_selection_changed): disable

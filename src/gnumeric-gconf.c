@@ -907,3 +907,56 @@ gnm_gconf_set_print_header_formats (GSList *left, GSList *middle,
 	gnm_slist_free_custom (right, g_free);
 }
 
+void     
+gnm_gconf_set_gui_window_x (gnm_float val)
+{
+	prefs.horizontal_window_fraction = val;
+	go_conf_set_double (GNM_CONF_GUI_WINDOW_X, val);
+}
+
+void     
+gnm_gconf_set_gui_window_y (gnm_float val)
+{
+	prefs.vertical_window_fraction = val;
+	go_conf_set_double (GNM_CONF_GUI_WINDOW_Y, val);
+}
+
+void     
+gnm_gconf_set_gui_zoom (gnm_float val)
+{
+	prefs.zoom = val;
+	go_conf_set_double (GNM_CONF_GUI_WINDOW_Y, val);
+}
+
+void     
+gnm_gconf_set_default_font_size (gnm_float val)
+{
+	prefs.default_font.size = val;
+	go_conf_set_double (GNM_CONF_FONT_SIZE, val);
+}
+
+void     
+gnm_gconf_set_default_font_name (char const *str)
+{
+	g_return_if_fail (str != NULL);
+
+	if (prefs.default_font.name != NULL)
+		g_free (prefs.default_font.name);
+	prefs.default_font.name = g_strdup (str);
+	go_conf_set_string (GNM_CONF_FONT_NAME, str);
+}
+
+void     
+gnm_gconf_set_default_font_bold (gboolean val)
+{
+	prefs.default_font.is_bold = val;
+	go_conf_set_bool (GNM_CONF_FONT_BOLD, val);
+}
+
+void     
+gnm_gconf_set_default_font_italic (gboolean val)
+{
+	prefs.default_font.is_italic = val;
+	go_conf_set_bool (GNM_CONF_FONT_ITALIC, val);
+}
+

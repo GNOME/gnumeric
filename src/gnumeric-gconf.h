@@ -134,6 +134,17 @@ void     gnm_gconf_set_print_tb_margins (PrintMargins const *pm);
 void     gnm_gconf_set_print_header_formats (GSList *left, GSList *middle, 
 					     GSList *right);
 
+/* gui */
+void     gnm_gconf_set_gui_window_x (gnm_float val);
+void     gnm_gconf_set_gui_window_y (gnm_float val);
+void     gnm_gconf_set_gui_zoom (gnm_float val);
+
+/* default font */
+void     gnm_gconf_set_default_font_size (gnm_float val);
+void     gnm_gconf_set_default_font_name (char const *str);
+void     gnm_gconf_set_default_font_bold (gboolean val);
+void     gnm_gconf_set_default_font_italic (gboolean val);
+
 /**************************************************************/
 
 char	*go_conf_get_short_desc     (char const *key);
