@@ -10,7 +10,6 @@ Release Critical
 Pending Patches
 ---------------
 
-    missing accels http://bugzilla.gnome.org/show_bug.cgi?id=68246
     Yukihiro's IM support
     libole2 + vfs support.
 
@@ -156,6 +155,11 @@ Long term breakage
     : Other anchor types for sheet objects
     : Add keyboard controls for the control points
     : display a view per Pane not per scg
+    : Add object control for resize to disable invalid sizes.
+    : do not show the middle size boxes when the space between corners is too
+      small.
+    : An optional stippled trim would be a nice addition for components to
+      indicate that you can click there for a menu.
 
 Dialogs
 -------
@@ -166,7 +170,6 @@ Dialogs
     : Editing nested functions.  How best to express this.
     : Switching between multiple function at the same level.
     : Don't ask to fill arguments for functions without arguments.
-    : Selecting a function with more than one optional arg shows only the first.
 - Import Dialog
     : Rewrite main page preview (see Bug #66393)
 
@@ -191,8 +194,6 @@ Printing
 Widget polishing
 ----------------
 - extensions to the notebook to enable dragging a tab to reorder and copy
-- Add an optional flag to GnumericExprEntry which forces single-cell-only
-  selection.
 
 Plugins
 -------
