@@ -337,10 +337,10 @@ sheet_range_calc_spans (Sheet *sheet, Range r, SpanCalcFlags flags)
 				  r.end.col, r.end.row);
 
 	sheet_foreach_cell_in_range (sheet, TRUE,
-				  r.start.col, r.start.row,
-				  r.end.col, r.end.row,
-				  cb_recalc_span1,
-				  GINT_TO_POINTER (flags));
+				     r.start.col, r.start.row,
+				     r.end.col, r.end.row,
+				     cb_recalc_span1,
+				     GINT_TO_POINTER (flags));
 
 	/* Redraw the new region in case the span changes */
 	sheet_redraw_cell_region (sheet,
@@ -357,6 +357,7 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 	gboolean render = (flags & SPANCALC_RE_RENDER);
 	gboolean const resize = (flags & SPANCALC_RESIZE);
 	gboolean existing = FALSE;
+	Range const *merged;
 
 	g_return_if_fail (cell != NULL);
 
@@ -368,11 +369,6 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 		cell_render_value ((Cell *)cell, TRUE);
 	else if (resize)
 		rendered_value_calc_size (cell);
-
-	if (sheet_merge_is_corner (cell->base.sheet, &cell->pos)) {
-		sheet_redraw_cell (cell);
-		return;
-	}
 
 	/* Is there an existing span ? clear it BEFORE calculating new one */
 	span = row_span_get (cell->row_info, cell->pos.col);
@@ -401,25 +397,38 @@ sheet_cell_calc_span (Cell const *cell, SpanCalcFlags flags)
 	} else
 		min_col = max_col = cell->pos.col;
 
-	/* Calculate the span of the cell */
-	cell_calc_span (cell, &left, &right);
-	if (min_col > left)
-		min_col = left;
-	if (max_col < right)
-		max_col = right;
+	merged = sheet_merge_is_corner (cell->base.sheet, &cell->pos);
+	if (NULL != merged) {
+		if (existing) {
+			if (min_col > merged->start.col)
+				min_col = merged->start.col;
+			if (max_col < merged->end.col)
+				max_col = merged->end.col;
+		} else {
+			sheet_redraw_cell (cell);
+			return;
+		}
+	} else {
+		/* Calculate the span of the cell */
+		cell_calc_span (cell, &left, &right);
+		if (min_col > left)
+			min_col = left;
+		if (max_col < right)
+			max_col = right;
 
-	/* This cell already had an existing span */
-	if (existing) {
-		/* If it changed, remove the old one */
-		if (left != span->left || right != span->right)
-			cell_unregister_span (cell);
-		else
-			/* unchaged, short curcuit adding the span again */
-			left = right;
+		/* This cell already had an existing span */
+		if (existing) {
+			/* If it changed, remove the old one */
+			if (left != span->left || right != span->right)
+				cell_unregister_span (cell);
+			else
+				/* unchaged, short curcuit adding the span again */
+				left = right;
+		}
+
+		if (left != right)
+			cell_register_span (cell, left, right);
 	}
-
-	if (left != right)
-		cell_register_span (cell, left, right);
 
 	sheet_redraw_partial_row (cell->base.sheet, cell->pos.row,
 				  min_col, max_col);
@@ -1514,6 +1523,7 @@ sheet_redraw_cell (Cell const *cell)
 			scg_redraw_cell_region (control,
 				merged->start.col, merged->start.row,
 				merged->end.col, merged->end.row););
+		return;
 	}
 
 	start_col = end_col = cell->pos.col;
@@ -2872,12 +2882,13 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 					  &cb_empty_cell,
 					  GINT_TO_POINTER (!(clear_flags & CLEAR_COMMENTS)));
 
-		sheet_regen_adjacent_spans (sheet,
-					    start_col, start_row,
-					    end_col, end_row,
-					    &min_col, &max_col);
-
-		sheet_flag_status_update_range (sheet, &r);
+		if (!(clear_flags & CLEAR_NORESPAN)) {
+			sheet_regen_adjacent_spans (sheet,
+						    start_col, start_row,
+						    end_col, end_row,
+						    &min_col, &max_col);
+			sheet_flag_status_update_range (sheet, &r);
+		}
 	}
 
 	/* Always redraw */
@@ -2920,6 +2931,7 @@ sheet_set_edit_pos (Sheet *sheet, int col, int row)
 		else
 			sheet_redraw_cell_region (sheet, old.col, old.row,
 						  old.col, old.row);
+
 		sheet->edit_pos_real.col = col;
 		sheet->edit_pos_real.row = row;
 

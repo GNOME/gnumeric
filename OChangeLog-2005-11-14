@@ -1,4 +1,15 @@
-2001-05-12  Jody Goldberg <jgoldberg@home.com>
+2001-05-13  Jody Goldberg <jgoldberg@home.com>
+
+	* src/clipboard.c (clipboard_paste_region) : Use the new CLEAR_NORESPAN
+	  flag.  It is premature to respan the content of surrounding cells.
+	  That should only happen AFTER the new content goes in.
+
+	* src/sheet.c (sheet_cell_calc_span) : check for spans into this cell
+	  even if this cell is a merged cell.
+	(sheet_clear_region) : Make the respan conditional on a new flag.
+
+	* src/workbook-control-gui.c (cb_change_zoom) : Always update the zoom
+	  combo in case the entry does not match what was used.
 
 	* src/commands.c (cmd_clear_selection) : only print warning once.
 	(cmd_clear_undo) : There is no undo for pasting comments.

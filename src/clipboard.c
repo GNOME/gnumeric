@@ -262,9 +262,6 @@ clipboard_paste_region (WorkbookControl *wbc,
 
 	/* Ensure that only 1 type is selected */
 	has_content = pt->paste_flags & (PASTE_CONTENT|PASTE_AS_VALUES|PASTE_LINK);
-	g_return_val_if_fail (has_content == PASTE_CONTENT ||
-			      has_content == PASTE_AS_VALUES ||
-			      has_content == PASTE_LINK, TRUE);
 
 	if (pt->paste_flags & PASTE_TRANSPOSE) {
 		int tmp = src_cols;
@@ -308,14 +305,14 @@ clipboard_paste_region (WorkbookControl *wbc,
 	    (pt->range.start.row + dst_rows) > SHEET_MAX_ROWS) {
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
 					_("Unable to paste"),
-				      _("result passes the sheet boundary"));
+					_("result passes the sheet boundary"));
 		return TRUE;
 	}
 
 	tmp = 0;
 	/* clear the region where we will paste */
 	if (has_content) {
-		tmp = CLEAR_VALUES;
+		tmp = CLEAR_VALUES | CLEAR_NORESPAN;
 		if (!(pt->paste_flags & PASTE_IGNORE_COMMENTS))
 			tmp |= CLEAR_COMMENTS;
 	}
@@ -411,10 +408,10 @@ clipboard_paste_region (WorkbookControl *wbc,
 					rinfo->pos.eval.row = target_row;
 				}
 
-				if (pt->paste_flags & PASTE_LINK) {
+				if (pt->paste_flags & PASTE_LINK)
 					paste_link (content, c_copy, pt->sheet,
 						    target_col, target_row);
-				} else
+				else
 					paste_cell (pt->sheet, target_col, target_row,
 						    &rwinfo, c_copy, pt->paste_flags);
 			}
@@ -422,10 +419,18 @@ clipboard_paste_region (WorkbookControl *wbc,
 
         if (has_content) {
 		GList *deps = sheet_region_get_deps (pt->sheet, &pt->range);
+		Range const *r = &pt->range;
+		int min_col, max_col;
+
 		if (deps)
 			dependent_queue_recalc_list (deps, TRUE);
+		sheet_regen_adjacent_spans (pt->sheet,
+			r->start.col,  r->start.row, r->end.col, r->end.row,
+			&min_col, &max_col);
 		sheet_range_calc_spans (pt->sheet, pt->range, SPANCALC_RENDER);
 		sheet_flag_status_update_range (pt->sheet, &pt->range);
+		sheet_redraw_cell_region (pt->sheet,
+			min_col, r->start.row, max_col, r->end.row);
 	} else
 		sheet_flag_format_update_range (pt->sheet, &pt->range);
 

@@ -650,10 +650,13 @@ cb_change_zoom (GtkWidget *caller, WorkbookControlGUI *wbcg)
 
 	/* The GSList of sheet passed to cmd_zoom will be freed by cmd_zoom */
 	factor = atoi (gtk_entry_get_text (GTK_ENTRY (caller)));
-	cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet), (double) factor / 100);
+	cmd_zoom (WORKBOOK_CONTROL (wbcg), g_slist_append (NULL, sheet),
+		  (double) factor / 100);
 
-	/* Restore the focus to the sheet */
 	wb_control_gui_focus_cur_sheet (wbcg);
+
+	/* Always update the zoom combo so that things display consistently */
+	zoom_changed (wbcg, sheet);
 }
 
 static void

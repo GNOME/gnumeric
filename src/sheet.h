@@ -292,10 +292,11 @@ gboolean  sheet_delete_rows (WorkbookControl *context, Sheet *sheet,
 
 typedef enum
 {
-	CLEAR_VALUES   = 0x1,
-	CLEAR_FORMATS  = 0x2,
-	CLEAR_COMMENTS = 0x4,
+	CLEAR_VALUES	   = 0x1,
+	CLEAR_FORMATS	   = 0x2,
+	CLEAR_COMMENTS	   = 0x4,
 	CLEAR_NOCHECKARRAY = 0x8,
+	CLEAR_NORESPAN	   = 0x10,
 } SheetClearFlags;
 
 void  sheet_clear_region (WorkbookControl *context,
