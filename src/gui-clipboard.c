@@ -384,7 +384,7 @@ x_clipboard_bind_workbook (WorkbookControlGUI *wbcg)
 	/*
 	 * Our specific Gnumeric XML clipboard interchange type
 	 */
-	targets.target = GNUMERIC_ATOM_NAME;
+	targets.target = (char *)GNUMERIC_ATOM_NAME;
 
 	/* This is not useful, but we have to set it to something: */
 	targets.flags  = GTK_TARGET_SAME_WIDGET;

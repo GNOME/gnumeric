@@ -68,12 +68,12 @@ int immediate_exit_flag = 0;
 int print_debugging = 0;
 gboolean initial_workbook_open_complete = FALSE;
 
-static char *dump_file_name = NULL;
-static const char **startup_files = NULL;
-static int gnumeric_show_version = FALSE;
-char *gnumeric_lib_dir = GNUMERIC_LIBDIR;
-char *gnumeric_data_dir = GNUMERIC_DATADIR;
-char *x_geometry;
+static	int gnumeric_show_version = FALSE;
+static	char *dump_file_name = NULL;
+static	char const **startup_files = NULL;
+	char const *gnumeric_lib_dir = GNUMERIC_LIBDIR;
+	char const *gnumeric_data_dir = GNUMERIC_DATADIR;
+	char *x_geometry;
 
 const struct poptOption
 gnumeric_popt_options[] = {

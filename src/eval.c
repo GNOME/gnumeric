@@ -760,7 +760,7 @@ handle_tree_deps (Dependent *dep, CellPos const *pos,
 			expr_name_add_dep (tree->name.name, dep);
 		else
 			expr_name_remove_dep (tree->name.name, dep);
-		if (!tree->name.name->builtin)
+		if (!tree->name.name->builtin && tree->name.name->active)
 			handle_tree_deps (dep, pos, tree->name.name->t.expr_tree, operation);
 		return;
 

@@ -2424,7 +2424,7 @@ cb_autosum (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (strncmp (txt, "=sum(", 5)) {
 		wbcg_edit_start (wbcg, TRUE, TRUE);
 		gtk_entry_set_text (entry, "=sum()");
-		gtk_entry_set_position (entry, 5);
+		gtk_editable_set_position (GTK_EDITABLE (entry), 5);
 	} else {
 		wbcg_edit_start (wbcg, FALSE, TRUE);
 
@@ -2432,7 +2432,7 @@ cb_autosum (GtkWidget *widget, WorkbookControlGUI *wbcg)
 		 * FIXME : This is crap!
 		 * When the function druid is more complete use that.
 		 */
-		gtk_entry_set_position (entry, entry->text_length-1);
+		gtk_editable_set_position (GTK_EDITABLE (entry), entry->text_length-1);
 	}
 }
 
@@ -3458,14 +3458,15 @@ cb_autofunction (GtkWidget *widget, WorkbookControlGUI *wbcg)
 	if (strncmp (txt, "=", 1)) {
 		wbcg_edit_start (wbcg, TRUE, TRUE);
 		gtk_entry_set_text (entry, "=");
-		gtk_entry_set_position (entry, 1);
+		gtk_editable_set_position (GTK_EDITABLE (entry), 1);
 	} else {
 		wbcg_edit_start (wbcg, FALSE, TRUE);
 
 		/* FIXME : This is crap!
 		 * When the function druid is more complete use that.
 		 */
-		gtk_entry_set_position (entry, entry->text_length-1);
+		gtk_editable_set_position (GTK_EDITABLE (entry),
+			entry->text_length-1);
 	}
 }
 

@@ -205,7 +205,8 @@ scg_setup_group_buttons (SheetControlGUI *scg, unsigned max_outline,
 		style = gtk_style_new ();
 		if (style->font_desc)
 			pango_font_description_free (style->font_desc);
-		style->font_desc = pango_font_description_copy (sf->pango.desc);
+		style->font_desc = pango_font_description_copy (
+			pango_context_get_font_description (sf->pango.context));
 	}
 
 	/* size all of the button so things work after a zoom */

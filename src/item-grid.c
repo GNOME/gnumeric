@@ -889,7 +889,7 @@ drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
         GtkTargetList *list;
         GdkDragContext *context;
 	static GtkTargetEntry drag_types [] = {
-		{ "bonobo/moniker", 0, 1 },
+		{ (char *)"bonobo/moniker", 0, 1 },
 	};
 
         list = gtk_target_list_new (drag_types, 1);

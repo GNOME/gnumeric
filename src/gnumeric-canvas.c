@@ -699,7 +699,7 @@ GnumericCanvas *
 gnumeric_canvas_new (SheetControlGUI *scg, GnumericPane *pane)
 {
 	static GtkTargetEntry const drag_types[] = {
-		{ "text/uri-list", 0, 0 },
+		{ (char *)"text/uri-list", 0, 0 },
 	};
 	static gint const n_drag_types = sizeof (drag_types) / sizeof (drag_types [0]);
 
