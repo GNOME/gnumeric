@@ -827,17 +827,40 @@ ig_obj_create_begin (ItemGrid *ig, GdkEventButton *event)
 
 /***************************************************************************/
 
+static void
+drag_start (GtkWidget *widget, GdkEventButton *event, Sheet *sheet)
+{
+        GtkTargetList *list;
+        GdkDragContext *context;
+	static GtkTargetEntry drag_types [] = {
+		{ (char *)"bonobo/moniker", 0, 1 },
+	};
+
+        list = gtk_target_list_new (drag_types, 1);
+
+        context = gtk_drag_begin (widget, list,
+		(GDK_ACTION_COPY | GDK_ACTION_MOVE | GDK_ACTION_LINK | GDK_ACTION_ASK),
+		event->button, (GdkEvent *)event);
+        gtk_drag_set_icon_default (context);
+
+	gtk_target_list_unref (list);
+}
+
 static int
-item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
-		    ItemGrid *ig, int x, int y)
+item_grid_button_press (ItemGrid *ig, GdkEventButton *event)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ig);
 	GnomeCanvas    *canvas = item->canvas;
 	GnumericCanvas *gcanvas = GNUMERIC_CANVAS (canvas);
+	SheetControlGUI *scg = ig->scg;
 	SheetControl *sc = (SheetControl *) scg;
 	Sheet *sheet = sc->sheet;
 	CellPos	pos;
+	int x, y;
 
+	gnm_canvas_slide_stop (gcanvas);
+
+	gnome_canvas_w2c (canvas, event->x, event->y, &x, &y);
 	pos.col = gnm_canvas_find_col (gcanvas, x, NULL);
 	pos.row = gnm_canvas_find_row (gcanvas, y, NULL);
 
@@ -863,7 +886,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	/* If we were already selecting a range of cells for a formula,
 	 * reset the location to a new place, or extend the selection.
 	 */
-	if (scg->rangesel.active) {
+	if (event->button == 1 && scg->rangesel.active) {
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		if (event->state & GDK_SHIFT_MASK)
 			scg_rangesel_extend_to (scg, pos.col, pos.row);
@@ -879,7 +902,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	/* If the user is editing a formula (wbcg_rangesel_possible) then we
 	 * enable the dynamic cell selection mode.
 	 */
-	if (wbcg_rangesel_possible (scg->wbcg)) {
+	if (event->button == 1 && wbcg_rangesel_possible (scg->wbcg)) {
 		scg_rangesel_start (scg, pos.col, pos.row, pos.col, pos.row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnm_canvas_slide_init (gcanvas);
@@ -902,41 +925,33 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 		sv_selection_reset (sc->view);
 
-	ig->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
-
-	if ((event->state & GDK_SHIFT_MASK) && sc->view->selections != NULL)
-		sv_selection_extend_to (sc->view, pos.col, pos.row);
-	else {
+	if (event->button != 1 || !(event->state & GDK_SHIFT_MASK) ||
+	    sc->view->selections == NULL) {
 		sv_selection_add_pos (sc->view, pos.col, pos.row);
 		sv_make_cell_visible (sc->view, pos.col, pos.row, FALSE);
-	}
+	} else if (event->button != 2)
+		sv_selection_extend_to (sc->view, pos.col, pos.row);
 	sheet_update (sheet);
 
-	gnm_canvas_slide_init (gcanvas);
-	gnm_simple_canvas_grab (item,
-		GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
-		NULL, event->time);
-	return 1;
-}
+      	switch (event->button) {
+	case 1: ig->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
+		gnm_canvas_slide_init (gcanvas);
+		gnm_simple_canvas_grab (item,
+			GDK_POINTER_MOTION_MASK | GDK_BUTTON_RELEASE_MASK,
+			NULL, event->time);
+		break;
 
-static void
-drag_start (GtkWidget *widget, GdkEvent *event, Sheet *sheet)
-{
-        GtkTargetList *list;
-        GdkDragContext *context;
-	static GtkTargetEntry drag_types [] = {
-		{ (char *)"bonobo/moniker", 0, 1 },
-	};
+      	/* This is here just for demo purposes */
+      	case 2: drag_start (GTK_WIDGET (item->canvas), event, sheet);
+		break;
 
-        list = gtk_target_list_new (drag_types, 1);
+      	case 3: scg_context_menu (ig->scg, event, FALSE, FALSE);
+		break;
+	default :
+		break;
+	}
 
-        context = gtk_drag_begin (widget, list,
-                                  (GDK_ACTION_COPY | GDK_ACTION_MOVE
-                                   | GDK_ACTION_LINK | GDK_ACTION_ASK),
-                                  event->button.button, event);
-        gtk_drag_set_icon_default (context);
-
-	gtk_target_list_unref (list);
+	return TRUE;
 }
 
 /*
@@ -1046,7 +1061,6 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	SheetControlGUI *scg = ig->scg;
 	SheetControl *sc = (SheetControl *) scg;
 	Sheet *sheet = sc->sheet;
-	int x, y;
 
 	switch (event->type){
 	case GDK_ENTER_NOTIFY:
@@ -1153,29 +1167,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_BUTTON_PRESS:
-		gnm_canvas_slide_stop (gcanvas);
-
-		gnome_canvas_w2c (canvas, event->button.x, event->button.y,
-				  &x, &y);
-		if (event->button.button == 1)
-			return item_grid_button_1 (scg, &event->button,
-						   ig, x, y);
-
-		/* While a guru is up ignore clicks */
-		if (wbcg_edit_has_guru (scg->wbcg))
-			return TRUE;
-
-		switch (event->button.button) {
-		/* This is here just for demo purposes */
-		case 2: drag_start (GTK_WIDGET (item->canvas), event, sheet);
-			return TRUE;
-
-		case 3: scg_context_menu (ig->scg, &event->button, FALSE, FALSE);
-			return TRUE;
-
-		default :
-			return FALSE;
-		}
+		return item_grid_button_press (ig, &event->button);
 
 	default:
 		return FALSE;
