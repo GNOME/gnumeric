@@ -1,3 +1,9 @@
+2004-10-02  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=154664
+	* graph/gog-guru.glade: set width and height request for sample area
+	and object list.
+
 2004-10-09  Jean Brefort <jean.brefort@normalesup.org>
 
 	* graph/go-data.c: (go_data_matrix_emit_changed),
