@@ -1,3 +1,13 @@
+2003-01-02  Jody Goldberg <jody@gnome.org>
+
+	* src/xml-io.c (xml_workbook_write) : export quick hack for 1904 date
+	  convention.  The positioning is silly.
+	(xml_workbook_read) : read it back.
+
+2003-01-01  Jody Goldberg <jody@gnome.org>
+
+	* gnumeric.desktop.in : Add StartupNotify=true
+
 2003-01-02  Morten Welinder  <terra@diku.dk>
 
 	* src/regression.c (matrix_invert): New function.

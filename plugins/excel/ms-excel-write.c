@@ -3975,10 +3975,12 @@ write_workbook (ExcelWriteState *ewb)
 	GSF_LE_SET_GUINT16 (data, 0x0);
 	ms_biff_put_commit (bp);
 
-	/* See: S59D54.HTM */
-	data = ms_biff_put_len_next (bp, BIFF_1904, 2);
-	GSF_LE_SET_GUINT16 (data, 0x0);
-	ms_biff_put_commit (bp);
+	{
+		GnmDateConventions const *conv = workbook_date_conv (ewb->gnum_wb);
+		data = ms_biff_put_len_next (bp, BIFF_1904, 2);
+		GSF_LE_SET_GUINT16 (data, conv->use_1904 ? 1 : 0);
+		ms_biff_put_commit (bp);
+	}
 
 	/* See: S59DCE.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_PRECISION, 2);

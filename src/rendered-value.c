@@ -40,6 +40,7 @@
 #include "sheet-control-gui.h"
 #include "application.h"
 #include "str.h"
+#include "workbook.h"
 
 #include <math.h>
 
@@ -133,7 +134,8 @@ rendered_value_new (Cell *cell, MStyle const *mstyle, gboolean dynamic_width)
 			}
 		} else
 			dynamic_width = FALSE;
-		str = format_value (format, cell->value, &color, col_width);
+		str = format_value (format, cell->value, &color, col_width,
+				    workbook_date_conv (cell->base.sheet->workbook));
 	} else {
 		g_warning ("No format: serious error");
 		str = g_strdup ("Error");
@@ -378,14 +380,16 @@ cell_get_entered_text (Cell const *cell)
 			char const *tmp = cell->value->v_str.val->str;
 			if (NULL == gnm_expr_char_start_p (tmp)) {
 				Value *val = format_match_number (tmp,
-					cell_get_format	(cell));
+					cell_get_format	(cell),
+					workbook_date_conv (cell->base.sheet->workbook));
 				if (val == NULL)
 					return g_strdup (tmp);
 				value_release (val);
 			}
 			return g_strconcat ("\'", tmp, NULL);
 		}
-		return format_value (NULL, cell->value, NULL, -1);
+		return format_value (NULL, cell->value, NULL, -1,
+			workbook_date_conv (cell->base.sheet->workbook));
 	}
 
 	g_warning ("A cell with no expression, and no value ??");

@@ -633,7 +633,7 @@ stf_dialog_fixed_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->fixed_scroll  = GTK_VSCROLLBAR  (glade_xml_get_widget (gui, "fixed_scroll"));
 
 	/* Set properties */
-	info->fixed_run_renderdata    = stf_preview_new (info->fixed_canvas, FALSE);
+	info->fixed_run_renderdata    = stf_preview_new (info->fixed_canvas, FALSE, NULL);
 	info->fixed_run_parseoptions  = stf_parse_options_new ();
 	info->fixed_run_manual        = FALSE;
 	info->fixed_run_index         = -1;

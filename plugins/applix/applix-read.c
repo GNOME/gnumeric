@@ -849,7 +849,7 @@ applix_parse_cellref (ApplixReadState *state, unsigned char *buffer,
 
 	/* Get cell addr */
 	if (*sheet) {
-		buffer = cellpos_parse (buffer, pos, FALSE);
+		buffer = (unsigned char *)cellpos_parse (buffer, pos, FALSE);
 		if (buffer)
 			return buffer;
 	}
@@ -1036,8 +1036,8 @@ applix_read_cells (ApplixReadState *state)
 				return -1;
 
 			if (!val_is_string)
-				/* Does it match any formats */
-				val = format_match (ptr, NULL);
+				/* Does it match any formats (use default date convention) */
+				val = format_match (ptr, NULL, NULL);
 
 			if (val == NULL)
 				/* TODO : Could this happen ? */
@@ -1137,9 +1137,9 @@ applix_read_cells (ApplixReadState *state)
 #if 0
 			printf ("\"%s\" %d\n", ptr, val_is_string);
 #endif
-			/* Does it match any formats */
+			/* Does it match any formats (use default date convention) */
 			if (!val_is_string)
-				val = format_match (ptr, NULL);
+				val = format_match (ptr, NULL, NULL);
 			if (val == NULL)
 				val = value_new_string (ptr);
 

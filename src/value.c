@@ -20,6 +20,7 @@
 #include "position.h"
 #include "mathfunc.h"
 #include "gutils.h"
+#include "workbook.h"
 
 #include <stdlib.h>
 #include <errno.h>
@@ -990,7 +991,8 @@ value_coerce_to_number (Value *v, gboolean *valid, EvalPos const *ep)
 
 	*valid = FALSE;
 	if (v->type == VALUE_STRING) {
-		Value *tmp = format_match_number (value_peek_string (v), NULL);
+		Value *tmp = format_match_number (value_peek_string (v), NULL,
+			workbook_date_conv (ep->sheet->workbook));
 		value_release (v);
 		if (tmp == NULL)
 			return value_new_error_VALUE (ep);
@@ -1462,7 +1464,7 @@ free_criterias (GSList *criterias)
 
 void
 parse_criteria (char const *criteria, criteria_test_fun_t *fun,
-		Value **test_value)
+		Value **test_value, GnmDateConventions const *date_conv)
 {
 	int len;
 
@@ -1489,7 +1491,7 @@ parse_criteria (char const *criteria, criteria_test_fun_t *fun,
 		len = 0;
 	}
 
-	*test_value = format_match (criteria + len, NULL);
+	*test_value = format_match (criteria + len, NULL, date_conv);
 	if (*test_value == NULL)
 		*test_value = value_new_string (criteria + len);
 }
@@ -1505,6 +1507,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 	Cell 		    *cell;
 	func_criteria_t     *cond;
 	gchar               *cell_str;
+	GnmDateConventions const *date_conv = workbook_date_conv (sheet->workbook);
 
         int i, j;
 
@@ -1528,7 +1531,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 			} else {
 				/* Other conditions (in string format) */
 				cell_str = cell_get_rendered_text (cell);
-				parse_criteria (cell_str, &cond->fun, &cond->x);
+				parse_criteria (cell_str, &cond->fun, &cond->x, date_conv);
 				g_free (cell_str);
 			}
 

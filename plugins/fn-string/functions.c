@@ -32,6 +32,7 @@
 #include <format.h>
 #include <str.h>
 #include <sheet.h>
+#include <workbook.h>
 #include <value.h>
 #include <expr.h>
 #include <number-match.h>
@@ -193,7 +194,7 @@ gnumeric_unicode (FunctionEvalInfo *ei, Value **argv)
 	char const *s = value_peek_string (argv[0]);
 
 	if (*s == 0)
-		value_new_error_VALUE (ei->pos);
+		return value_new_error_VALUE (ei->pos);
 	else
 		return value_new_int (g_utf8_get_char (s));
 }
@@ -793,9 +794,11 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 	Value       *res, *tmp = NULL;
 	Value const *arg  = args[0];
 	gboolean    ok = FALSE;
+	GnmDateConventions const *conv =
+		workbook_date_conv (ei->pos->sheet->workbook);
 
 	if (arg->type == VALUE_STRING) {
-		Value *match = format_match (value_peek_string (arg), NULL);
+		Value *match = format_match (value_peek_string (arg), NULL, conv);
 		ok = (match != NULL);
 		if (ok)
 			tmp = match;
@@ -805,7 +808,7 @@ gnumeric_text (FunctionEvalInfo *ei, Value **args)
 	if (ok) {
 		char *str = format_value (format,
 					  (tmp != NULL) ? tmp : arg,
-					  NULL, -1);
+					  NULL, -1, conv);
 		res = value_new_string_nocopy (str);
 	} else
 		res = value_new_error (ei->pos, _("Type mismatch"));
@@ -902,7 +905,8 @@ gnumeric_value (FunctionEvalInfo *ei, Value **argv)
 		for (p = arg; *p && g_unichar_isspace (g_utf8_get_char (p));
 		     p = g_utf8_next_char (p))
 			;
-		v = format_match_number (p, NULL);
+		v = format_match_number (p, NULL,
+			workbook_date_conv (ei->pos->sheet->workbook));
 
 		if (v != NULL)
 			return v;
@@ -1038,7 +1042,8 @@ gnumeric_dollar (FunctionEvalInfo *ei, Value **argv)
 	p10 = gpow10 (decimals);
 	number = gnumeric_fake_round (number * p10) / p10;
 	v = value_new_float (number);
-	s = format_value (sf, v, NULL, -1);
+	s = format_value (sf, v, NULL, -1,
+		workbook_date_conv (ei->pos->sheet->workbook));
 	value_release (v);
 
 	style_format_unref (sf);

@@ -1,3 +1,8 @@
+2003-01-02  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_1904) : Enable 1904 support.
+	* ms-excel-write.c (write_workbook) : Set 1904 flag as necessary.
+
 2002-12-31  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.15

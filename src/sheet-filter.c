@@ -22,6 +22,7 @@
 #include <gnumeric-config.h>
 #include "sheet-filter.h"
 
+#include "workbook.h"
 #include "sheet.h"
 #include "cell.h"
 #include "expr.h"
@@ -350,7 +351,8 @@ collect_unique_elements (GnmFilterField *field,
 	    field->cond->op[1] == GNM_FILTER_UNUSED) {
 		check = field->cond->value[0];
 		if (check->type == VALUE_STRING)
-			check_num = format_match_number (check->v_str.val->str, NULL);
+			check_num = format_match_number (check->v_str.val->str, NULL,
+				workbook_date_conv (field->filter->sheet->workbook));
 	}
 
 	model = gtk_list_store_new (3, G_TYPE_STRING, G_TYPE_POINTER, G_TYPE_INT);
@@ -602,32 +604,36 @@ typedef struct  {
 	GnmFilterCondition const *cond;
 	Value		 *val[2];
 	gnumeric_regex_t  regexp[2];
+	GnmDateConventions const *date_conv;
 } FilterExpr;
 
 static void
-filter_expr_init (FilterExpr *data, unsigned i, GnmFilterCondition const *cond)
+filter_expr_init (FilterExpr *fexpr, unsigned i,
+		  GnmFilterCondition const *cond,
+		  GnmFilter const *filter)
 {
 	Value *tmp = cond->value[i];
 	if (VALUE_IS_STRING (tmp)) {
 		GnmFilterOp op = cond->op[i];
 		char const *str = value_peek_string (tmp);
-		data->val[i] = format_match_number (str, NULL);
-		if (data->val[i] != NULL)
+		fexpr->val[i] = format_match_number (str, NULL, fexpr->date_conv);
+		if (fexpr->val[i] != NULL)
 			return;
 		if ((op == GNM_FILTER_OP_EQUAL || op == GNM_FILTER_OP_NOT_EQUAL) &&
-		    gnumeric_regcomp_XL (data->regexp + i,  str, REG_ICASE) == REG_OK)
+		    gnumeric_regcomp_XL (fexpr->regexp + i,  str, REG_ICASE) == REG_OK)
 			return;
 	}
-	data->val[i] = value_duplicate (tmp);
+	fexpr->val[i] = value_duplicate (tmp);
+	fexpr->date_conv = workbook_date_conv (filter->sheet->workbook);
 }
 
 static void
-filter_expr_release (FilterExpr *data, unsigned i)
+filter_expr_release (FilterExpr *fexpr, unsigned i)
 {
-	if (data->val[i] != NULL)
-		value_release (data->val[i]);
+	if (fexpr->val[i] != NULL)
+		value_release (fexpr->val[i]);
 	else
-		gnumeric_regfree (data->regexp + i);
+		gnumeric_regfree (fexpr->regexp + i);
 }
 
 static gboolean
@@ -666,18 +672,18 @@ filter_expr_eval (GnmFilterOp op, Value const *src, gnumeric_regex_t const *rege
 
 static Value *
 cb_filter_expr (Sheet *sheet, int col, int row, Cell *cell,
-		FilterExpr const *data)
+		FilterExpr const *fexpr)
 {
 	if (cell != NULL) {
-		gboolean res = filter_expr_eval (data->cond->op[0],
-			data->val[0], data->regexp + 0, cell->value);
-		if (data->cond->op[1] != GNM_FILTER_UNUSED) {
-			if (data->cond->is_and && !res)
+		gboolean res = filter_expr_eval (fexpr->cond->op[0],
+			fexpr->val[0], fexpr->regexp + 0, cell->value);
+		if (fexpr->cond->op[1] != GNM_FILTER_UNUSED) {
+			if (fexpr->cond->is_and && !res)
 				goto nope;
-			if (res && !data->cond->is_and)
+			if (res && !fexpr->cond->is_and)
 				return NULL;
-			res = filter_expr_eval (data->cond->op[1],
-				data->val[1], data->regexp + 1, cell->value);
+			res = filter_expr_eval (fexpr->cond->op[1],
+				fexpr->val[1], fexpr->regexp + 1, cell->value);
 		} 
 		if (res)
 			return NULL;
@@ -719,7 +725,7 @@ typedef struct {
 
 static Value *
 cb_filter_find_items (Sheet *sheet, int col, int row, Cell *cell,
-		       FilterItems *data)
+		      FilterItems *data)
 {
 	Value const *v = cell->value;
 	if (data->elements >= data->count) {
@@ -822,9 +828,9 @@ filter_field_apply (GnmFilterField *field)
 	if (0x10 >= (field->cond->op[0] & GNM_FILTER_OP_TYPE_MASK)) {
 		FilterExpr data;
 		data.cond = field->cond;
-		filter_expr_init (&data, 0, field->cond);
+		filter_expr_init (&data, 0, field->cond, filter);
 		if (field->cond->op[1] != GNM_FILTER_UNUSED)
-			filter_expr_init (&data, 1, field->cond);
+			filter_expr_init (&data, 1, field->cond, field->filter);
 
 		sheet_foreach_cell_in_range (filter->sheet,
 			CELL_ITER_IGNORE_HIDDEN,

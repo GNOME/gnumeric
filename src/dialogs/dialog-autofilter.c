@@ -103,8 +103,10 @@ map_op (AutoFilterState *state, GnmFilterOp *op,
 		return NULL;
 	};
 
-	if (v == NULL)
-		v = format_match (txt, NULL);
+	if (v == NULL) {
+		Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (state->wbcg));
+		v = format_match (txt, NULL, workbook_date_conv (wb));
+	}
 	if (v == NULL)
 		v = value_new_string (txt);
 

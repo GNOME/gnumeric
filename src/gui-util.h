@@ -109,6 +109,8 @@ void  gnumeric_textview_set_text (GtkTextView *text_view, char const *txt);
 
 void focus_on_entry (GtkEntry *entry);
 
+/* WARNING : These do not handle dates correctly
+ * We should be passing in a DateConvention */
 #define entry_to_float(entry, the_float, update)	\
 	entry_to_float_with_format (entry, the_float, update, NULL)
 gboolean entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float, gboolean update,

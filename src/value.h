@@ -196,7 +196,8 @@ typedef struct {
 } func_criteria_t;
 void parse_criteria                 (char const *criteria,
 				     criteria_test_fun_t *fun,
-				     Value **test_value);
+				     Value **test_value,
+				     GnmDateConventions const *date_conv);
 GSList *parse_criteria_range        (Sheet *sheet, int b_col, int b_row,
 				     int e_col, int e_row,
 				     int   *field_ind);

@@ -28,6 +28,7 @@
 
 #include <cell.h>
 #include <sheet.h>
+#include <workbook.h>
 #include <mathfunc.h>
 #include <rangefunc.h>
 #include <collect.h>
@@ -550,7 +551,8 @@ gnumeric_countif (FunctionEvalInfo *ei, Value **argv)
 		items.test_value = argv[1];
 	} else {
 	        parse_criteria (value_peek_string (argv[1]),
-				&items.fun, &items.test_value);
+				&items.fun, &items.test_value,
+				workbook_date_conv (ei->pos->sheet->workbook));
 		tmpval = items.test_value;
 	}
 
@@ -672,7 +674,8 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 		items.test_value = argv[1];
 	} else {
 	        parse_criteria (value_peek_string (argv[1]),
-				&items.fun, &items.test_value);
+				&items.fun, &items.test_value,
+				workbook_date_conv (ei->pos->sheet->workbook));
 		tmpval = items.test_value;
 	}
 

@@ -1242,7 +1242,8 @@ sheet_range_set_text (ParsePos const *pos, Range const *r, char const *str)
 
 	parse_text_value_or_expr (pos, str,
 		&closure.val, &closure.expr,
-		NULL /* TODO : Use edit_pos format ?? */);
+		NULL /* TODO : Use edit_pos format ?? */,
+		workbook_date_conv (pos->sheet->workbook));
 
 	if (NULL != closure.expr)
 		gnm_expr_get_boundingbox (closure.expr,
@@ -1313,7 +1314,9 @@ sheet_cell_set_text (Cell *cell, char const *text)
 	g_return_if_fail (!cell_is_partial_array (cell));
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pp, cell),
-		text, &val, &expr, mstyle_get_format (cell_get_mstyle (cell)));
+		text, &val, &expr,
+		mstyle_get_format (cell_get_mstyle (cell)),
+		workbook_date_conv (cell->base.sheet->workbook));
 
 	/* Queue a redraw before incase the span changes */
 	sheet_redraw_cell (cell);

@@ -524,7 +524,8 @@ draw_format_preview (FormatState *state, gboolean regen_format)
 	    VALUE_FMT (state->value) != NULL)
 		sf = VALUE_FMT (state->value);
 
-	preview = format_value (sf, state->value, NULL, -1);
+	preview = format_value (sf, state->value, NULL, -1,
+			workbook_date_conv (state->sheet->workbook));
 	if (strlen (preview) > FORMAT_PREVIEW_MAX)
 		strcpy (&preview[FORMAT_PREVIEW_MAX - 5], " ...");
 

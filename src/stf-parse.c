@@ -28,6 +28,7 @@
 #include "gnumeric.h"
 #include "stf-parse.h"
 
+#include "workbook.h"
 #include "clipboard.h"
 #include "sheet-style.h"
 #include "value.h"
@@ -1184,11 +1185,13 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet
 	GList *res, *l, *mres, *m;
 	char  *text;
 	int col, row;
+	GnmDateConventions const *date_conv;
 
 	g_return_val_if_fail (parseoptions != NULL, FALSE);
 	g_return_val_if_fail (data != NULL, FALSE);
 	g_return_val_if_fail (IS_SHEET (sheet), FALSE);
 
+	date_conv = workbook_date_conv (sheet->workbook);
 	res = stf_parse_general (parseoptions, data);
 	for (row = start_row, l = res; l != NULL; l = l->next, row++) {
 		mres = l->data;
@@ -1199,7 +1202,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions, char const *data, Sheet *sheet
 		for (col = start_col, m = mres; m != NULL; m = m->next, col++) {
 			text = m->data;
 			if (text) {
-				v = format_match (text, fmt);
+				v = format_match (text, fmt, date_conv);
 				if (v == NULL)
 					v = value_new_string_nocopy (text);
 				else

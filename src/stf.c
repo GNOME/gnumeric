@@ -241,7 +241,8 @@ cb_get_content (Sheet *sheet, int col, int row,
 			parse_pos_init_cell (&pp, cell),
 			gnm_expr_conventions_default);
 	} else if (VALUE_FMT (cell->value) != NULL)
-		tmp = format_value (NULL, cell->value, NULL, -1);
+		tmp = format_value (NULL, cell->value, NULL, -1,
+				    workbook_date_conv (sheet->workbook));
 	else
 		tmp = value_get_as_string (cell->value);
 

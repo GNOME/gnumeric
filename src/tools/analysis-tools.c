@@ -3759,7 +3759,8 @@ destroy_items (gpointer data, G_GNUC_UNUSED gpointer user_data) {
 
 static gboolean
 analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
-				  analysis_tools_data_histogram_t *info, GPtrArray **bin_data)
+				    analysis_tools_data_histogram_t *info,
+				    GPtrArray **bin_data)
 {
 
 	GPtrArray *data = NULL;
@@ -3856,7 +3857,8 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		a_bin->counts = g_array_new (FALSE, TRUE, sizeof (gnm_float));
 		a_bin->counts = g_array_set_size (a_bin->counts, data->len);
 		val = value_new_float(info->min);
-		text = format_value (NULL, val, NULL, 10);
+		text = format_value (NULL, val, NULL, 10,
+			workbook_date_conv (dao->sheet->workbook));
 		if (text) {
 			a_bin->label = g_strdup_printf (_("<%s"), text);
 			a_bin->destroy_label = TRUE;
@@ -3885,7 +3887,8 @@ analysis_tool_histogram_engine_run (data_analysis_output_t *dao,
 		Value       *val;
 
 		val = value_new_float(info->max);
-		text = format_value (NULL, val, NULL, 10);
+		text = format_value (NULL, val, NULL, 10,
+			workbook_date_conv (dao->sheet->workbook));
 		if (text) {
 			a_bin->label = g_strdup_printf (_(">%s"), text);
 			a_bin->destroy_label = TRUE;

@@ -864,7 +864,8 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 		case 'b':
 		case 'f':
 			if (tmp->type == VALUE_STRING) {
-				tmp = format_match_number (value_peek_string (tmp), NULL);
+				tmp = format_match_number (value_peek_string (tmp), NULL,
+					workbook_date_conv (ei->pos->sheet->workbook));
 				if (tmp == NULL) {
 					free_values (args, i + 1);
 					return value_new_error_VALUE (ei->pos);
@@ -934,7 +935,8 @@ function_call_with_list (FunctionEvalInfo *ei, GnmExprList *l,
 					arg_type = fn_def->fn.args.arg_types[iter_item[i]];
 					if  (arg_type == 'b' || arg_type == 'f') {
 						if (elem->type == VALUE_STRING) {
-							tmp = format_match_number (value_peek_string (elem), NULL);
+							tmp = format_match_number (value_peek_string (elem), NULL,
+								workbook_date_conv (ei->pos->sheet->workbook));
 							if (tmp != NULL) {
 								args [iter_item[i]] = iter_args [i] = tmp;
 								continue;

@@ -97,7 +97,7 @@ typedef enum {
 
 typedef struct {
 	int    count;
-	const char *const *items;
+	char const *const *items;
 } AutoFillList;
 
 typedef struct _FillItem {
@@ -131,6 +131,7 @@ typedef struct _FillItem {
 	} delta;
 
 	struct _FillItem *group_last;
+	GnmDateConventions const *date_conv;
 } FillItem;
 
 static GList *autofill_lists;
@@ -139,7 +140,7 @@ static void
 autofill_register_list (char const *const *list)
 {
 	AutoFillList *afl;
-	const char *const *p = list;
+	char const *const *p = list;
 
 	while (*p)
 		p++;
@@ -183,10 +184,10 @@ matches_list (char const *s, int *n, int *is_i18n)
 }
 
 static gboolean
-string_has_number (const String *str, int *num, int *bytepos, int *byteendpos)
+string_has_number (String const *str, int *num, int *bytepos, int *byteendpos)
 {
-	const char *s = str->str;
-	const char *end, *p;
+	char const *s = str->str;
+	char const *end, *p;
 	gboolean neg, hassign;
 	unsigned long val;
 	long sval;
@@ -204,7 +205,7 @@ string_has_number (const String *str, int *num, int *bytepos, int *byteendpos)
 
 		p = s + strlen (s);
 		while (p > s) {
-			const char *p1 = g_utf8_prev_char (p);
+			char const *p1 = g_utf8_prev_char (p);
 			gunichar c = g_utf8_get_char (p1);
 			if (!g_unichar_isdigit (c))
 				break;
@@ -273,6 +274,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 
 	fi = g_new (FillItem, 1);
 	fi->type = FILL_EMPTY;
+	fi->date_conv = workbook_date_conv (sheet->workbook);
 	mstyle_ref ((fi->style = sheet_style_get (sheet, col, row)));
 	merged = sheet_merge_is_corner (sheet, &pos);
 	if (merged != NULL) {
@@ -381,8 +383,8 @@ autofill_compute_delta (GList *list_last, gboolean singleton_increment)
 
 		lfi = list_last->prev->data;
 
-		datetime_value_to_g (&prev, lfi->v.value);
-		datetime_value_to_g (&cur, fi->v.value);
+		datetime_value_to_g (&prev, lfi->v.value, fi->date_conv);
+		datetime_value_to_g (&cur, fi->v.value, fi->date_conv);
 		if (g_date_valid (&prev) && g_date_valid (&cur)) {
 			int a = g_date_get_year (&prev);
 			int b = g_date_get_year (&cur);
@@ -594,8 +596,8 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		FillItem *delta = fi->group_last;
 		int i = delta->v.numstr.num + idx * delta->delta.d_int;
 		int prefixlen = delta->v.numstr.pos;
-		const char *prefix = delta->v.numstr.str->str;
-		const char *postfix = delta->v.numstr.str->str +
+		char const *prefix = delta->v.numstr.str->str;
+		char const *postfix = delta->v.numstr.str->str +
 			delta->v.numstr.endpos;
 
 		char *v = g_strdup_printf ("%-.*s%d%s",
@@ -613,10 +615,10 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		Value *v;
 
 		if (delta->delta_is_float) {
-			const gnm_float d = value_get_as_float (delta->v.value);
+			gnm_float d = value_get_as_float (delta->v.value);
 			v = value_new_float (d + idx * delta->delta.d_float);
 		} else {
-			int const i = value_get_as_int (delta->v.value);
+			int i = value_get_as_int (delta->v.value);
 			v = value_new_int (i + idx * delta->delta.d_int);
 		}
 		value_set_fmt (v, fi->fmt);
@@ -630,9 +632,9 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 		FillItem *delta = fi->group_last;
 		int d = idx * delta->delta.d_int;
 		GDate date;
-		gnm_float res = datetime_value_to_serial_raw (delta->v.value);
+		gnm_float res = datetime_value_to_serial_raw (delta->v.value, fi->date_conv);
 
-		datetime_value_to_g (&date, delta->v.value);
+		datetime_value_to_g (&date, delta->v.value, fi->date_conv);
 		if (fi->type == FILL_MONTHS) {
 			if (d > 0)
 				g_date_add_months (&date, d);
@@ -644,7 +646,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 			else
 				g_date_subtract_years (&date, -d);
 		}
-		d = datetime_g_to_serial (&date);
+		d = datetime_g_to_serial (&date, fi->date_conv);
 
 		res -= gnumeric_fake_floor (res);
 		v = (res < 1e-6) ? value_new_int (d)
@@ -656,7 +658,7 @@ autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 
 	case FILL_STRING_LIST: {
 		FillItem *delta = fi->group_last;
-		const char *text;
+		char const *text;
 		int n;
 
 		n = delta->v.list.num + idx * delta->delta.d_int;

@@ -461,13 +461,13 @@ stf_preview_format_line (RenderData_t *renderdata, GList *data, int colcount)
 		sf = g_ptr_array_index (renderdata->colformats, col);
 
 		/* Formatting */
-		if (NULL == (value = format_match (iterator->data, sf)))
+		if (NULL == (value = format_match (iterator->data, sf, renderdata->date_conv)))
 			value = value_new_string (iterator->data);
 
 		/* if the format is general honour the parse format */
 		if (style_format_is_general (sf))
 			sf = NULL;
-		celltext = format_value (sf, value, NULL, -1);
+		celltext = format_value (sf, value, NULL, -1, renderdata->date_conv);
 
 		value_release (value);
 
@@ -612,7 +612,8 @@ stf_preview_render (RenderData_t *renderdata, GList *list, int rowcount, int col
  * returns : a new renderdata struct
  **/
 RenderData_t*
-stf_preview_new (GnomeCanvas *canvas, gboolean formatted)
+stf_preview_new (GnomeCanvas *canvas, gboolean formatted,
+		 GnmDateConventions const *date_conv)
 {
 	RenderData_t* renderdata;
 
@@ -634,6 +635,7 @@ stf_preview_new (GnomeCanvas *canvas, gboolean formatted)
 	renderdata->charheight = style_font_get_height (gnumeric_default_font);
  
 	renderdata->activecolumn = -1;
+	renderdata->date_conv	 = date_conv;
 
 	return renderdata;
 }

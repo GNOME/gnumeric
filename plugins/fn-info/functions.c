@@ -1733,7 +1733,8 @@ gnumeric_n (FunctionEvalInfo *ei, Value **argv)
 		return value_new_error_NUM (ei->pos);
 
 	str = value_peek_string (argv[0]);
-	v = format_match_number (str, NULL);
+	v = format_match_number (str, NULL,
+		workbook_date_conv (ei->pos->sheet->workbook));
 	if (v != NULL)
 		return v;
 	return value_new_float (0);

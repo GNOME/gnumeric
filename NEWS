@@ -1,5 +1,8 @@
 Gnumeric 1.1.16
 
+Jody:
+	* Support Mac Office style 1904 date convention.
+
 Morten:
 	* Fix MDETERM.
 	* Lower number of matrix LU-decomposition routines from three to

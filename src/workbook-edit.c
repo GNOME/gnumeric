@@ -107,7 +107,8 @@ wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept)
 		char const *expr_txt = NULL;
 
 		/* BE CAREFUL the standard fmts must not NOT include '@' */
-		Value *value = format_match (txt, mstyle_get_format (mstyle));
+		Value *value = format_match (txt, mstyle_get_format (mstyle),
+					     workbook_date_conv (sheet->workbook));
 		if (value != NULL)
 			value_release (value);
 		else

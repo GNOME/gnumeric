@@ -103,6 +103,7 @@ typedef struct _GlobalRange	        GlobalRange;
 typedef struct _RangeRef	        RangeRef;
 
 typedef struct _GnmExprConventions      GnmExprConventions;
+typedef struct _GnmDateConventions      GnmDateConventions;
 
 typedef struct _MStyle		        MStyle;
 

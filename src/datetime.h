@@ -5,6 +5,11 @@
 #include "numbers.h"
 #include <time.h>
 
+struct _GnmDateConventions {
+	gboolean use_1904;	/* Use MacOffice 1904 based date convention,
+				 * Rather than the Win32 style 1900 */
+};
+
 /*
  * Naming conventions:
  *
@@ -23,16 +28,16 @@
 #define WEEKNUM_METHOD_ISO    150
 
 /* These do not round and produces fractional values, i.e., includes time.  */
-gnm_float datetime_value_to_serial_raw (Value const *v);
-gnm_float datetime_timet_to_serial_raw (time_t t);
+gnm_float datetime_value_to_serial_raw (Value const *v, GnmDateConventions const *conv);
+gnm_float datetime_timet_to_serial_raw (time_t t,	GnmDateConventions const *conv);
 
 /* These are date-only, no time.  */
-int      datetime_value_to_serial	(Value const *v);
-int      datetime_timet_to_serial	(time_t t);
-gboolean datetime_value_to_g		(GDate *res, Value const *v);
-int      datetime_g_to_serial		(GDate const *date);
-void     datetime_serial_to_g		(GDate *res, int serial);
-time_t   datetime_serial_to_timet	(int serial);
+int      datetime_value_to_serial	(Value const *v, GnmDateConventions const *conv);
+int      datetime_timet_to_serial	(time_t t,		GnmDateConventions const *conv);
+gboolean datetime_value_to_g		(GDate *res, Value const *v, GnmDateConventions const *conv);
+int      datetime_g_to_serial		(GDate const *date,	 GnmDateConventions const *conv);
+void     datetime_serial_to_g		(GDate *res, int serial, GnmDateConventions const *conv);
+time_t   datetime_serial_to_timet	(int serial,		 GnmDateConventions const *conv);
 int      datetime_serial_raw_to_serial	(gnm_float raw);
 
 /* These are time-only assuming a 24h day.  It probably loses completely on */
@@ -70,10 +75,22 @@ typedef enum { /* see doc/fn-financial-basis.txt for details */
 void   adjust_dates_basis (GDate const *from, GDate const *to, int basis);
 gint32 days_between_basis (GDate const *from, GDate const *to, int basis);
 
-void      coup_cd    (GDate *res,
-		      GDate const *settle, GDate const *mat, int freq, gboolean eom, gboolean next);
-gnm_float coupdays   (GDate const *settle, GDate const *mat, int freq, basis_t basis, gboolean eom);
-gnm_float coupdaybs  (GDate const *settle, GDate const *mat, int freq, basis_t basis, gboolean eom);
-gnm_float coupdaysnc (GDate const *settle, GDate const *mat, int freq, basis_t basis, gboolean eom);
+typedef struct {
+	int	 freq;
+	basis_t  basis;
+	gboolean eom;
+	GnmDateConventions const *date_conv;
+} GnmCouponConvention;
+
+void	  coup_cd    (GDate *res, GDate const *settle, GDate const *mat,
+		      int freq, gboolean eom, gboolean next);
+gnm_float coupdays   (GDate const *settle, GDate const *mat,
+		      GnmCouponConvention const *conv);
+gnm_float coupdaybs  (GDate const *settle, GDate const *mat,
+		      GnmCouponConvention const *conv);
+gnm_float coupdaysnc (GDate const *settle, GDate const *mat,
+		      GnmCouponConvention const *conv);
+
+int gnm_date_convention_base (GnmDateConventions const *conv);
 
 #endif /* GNUMERIC_DATETIME_H */

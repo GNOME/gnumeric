@@ -938,8 +938,7 @@ static void
 excel_read_1904 (BiffQuery *q, ExcelWorkbook *ewb)
 {
 	if (GSF_LE_GET_GUINT16 (q->data) == 1)
-		gnm_io_warning_unsupported_feature (ewb->context, 
-			_("Workbook uses unsupported 1904 Date System, Dates will be incorrect"));
+		workbook_set_1904 (ewb->gnum_wb, TRUE);
 }
 
 static void

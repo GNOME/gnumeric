@@ -30,6 +30,7 @@
 #include "validation.h"
 #include "expr.h"
 #include "mstyle.h"
+#include "workbook.h"
 #include "sheet.h"
 #include "cell.h"
 #include "value.h"
@@ -160,8 +161,9 @@ validation_eval (WorkbookControl *wbc, MStyle const *mstyle,
 						       value_peek_string (val));
 				break;
 			} else if (val->type == VALUE_STRING) {
-				const char *s = value_peek_string (val);
-				res = format_match_number (s, NULL);
+				char const *s = value_peek_string (val);
+				res = format_match_number (s, NULL,
+					workbook_date_conv (sheet->workbook));
 				if (res == NULL) {
 					char const *fmt;
 					/* FIXME what else is needed */

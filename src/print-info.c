@@ -462,7 +462,7 @@ render_value_with_format (GString *target, char const *number_format, HFRenderIn
 	/* TODO : Check this assumption.  Is it a localized format ?? */
 	format = style_format_new_XL (number_format, FALSE);
 
-	text = format_value (format, info->date_time, NULL, -1);
+	text = format_value (format, info->date_time, NULL, -1, NULL);
 
 	/* Just in case someone tries to format it as text */
 	g_return_if_fail (text != NULL);
@@ -598,7 +598,8 @@ hf_render_info_new (void)
 	HFRenderInfo *hfi;
 
 	hfi = g_new0 (HFRenderInfo, 1);
-	hfi->date_time = value_new_float (datetime_timet_to_serial_raw (time (NULL)));
+	hfi->date_time = value_new_float (
+		datetime_timet_to_serial_raw (time (NULL), NULL));
 
 	return hfi;
 }

@@ -24,6 +24,7 @@
 #include "dialog-stf.h"
 #include <format.h>
 #include <formats.h>
+#include <workbook.h>
 #include <gui-util.h>
 
 /*************************************************************************************************
@@ -383,7 +384,8 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->format_scroll = GTK_VSCROLLBAR (glade_xml_get_widget (gui, "format_scroll"));
 
 	/* Set properties */
-	info->format_run_renderdata    = stf_preview_new (info->format_canvas, TRUE);
+	info->format_run_renderdata    = stf_preview_new (info->format_canvas, TRUE,
+		workbook_date_conv (wb_control_workbook (WORKBOOK_CONTROL (pagedata->wbcg))));
 	info->format_run_list          = NULL;
 	info->format_run_index         = -1;
 	info->format_run_manual_change = FALSE;

@@ -113,7 +113,8 @@ xbase_field_as_value (gchar *content, XBfield *field, XBfile *file)
 		int year, month, day;
 		if (sscanf (s, "%4d%2d%2d", &year, &month, &day) == 3) {
 			GDate *date = g_date_new_dmy (day, month, year);
-			val = value_new_int (datetime_g_to_serial (date));
+			/* Use default date convention */
+			val = value_new_int (datetime_g_to_serial (date, NULL));
 			g_date_free (date);
 		} else
 			val = value_new_string (s);

@@ -222,6 +222,18 @@ oo_attr_enum (OOParseState *state, xmlChar const * const *attrs,
 /****************************************************************************/
 
 static void
+oo_date_convention (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
+{
+	/* <table:null-date table:date-value="1904-01-01"/> */
+	OOParseState *state = (OOParseState *)gsf_state;
+	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
+		if (!strcmp (attrs[0], "table:date-value")) {
+			if (!strncmp (attrs[1], "1904", 4))
+				workbook_set_1904 (state->pos.wb, TRUE);
+		}
+}
+
+static void
 oo_table_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 {
 	/* <table:table table:name="Result" table:style-name="ta1"> */
@@ -403,7 +415,8 @@ oo_cell_start (GsfXmlSAXState *gsf_state, xmlChar const **attrs)
 				GDate date;
 				g_date_set_dmy (&date, d, m, y);
 				if (g_date_valid (&date))
-					val = value_new_int (datetime_g_to_serial (&date));
+					val = value_new_int (datetime_g_to_serial (&date,
+										   workbook_date_conv (state->pos.wb)));
 			}
 		} else if (!strcmp (attrs[0], "table:string-value"))
 			val = value_new_string (attrs[1]);
@@ -768,6 +781,8 @@ GSF_XML_SAX_NODE (START, OFFICE, "office:document-content", FALSE, NULL, NULL, 0
 
   GSF_XML_SAX_NODE (OFFICE, OFFICE_BODY, "office:body", FALSE, NULL, NULL, 0),
     GSF_XML_SAX_NODE (OFFICE_BODY, TABLE_CALC_SETTINGS, "table:calculation-settings", FALSE, NULL, NULL, 0),
+      GSF_XML_SAX_NODE (TABLE_CALC_SETTINGS, DATE_CONVENTION, "table:null-date", FALSE, oo_date_convention, NULL, 0),
+
     GSF_XML_SAX_NODE (OFFICE_BODY, TABLE, "table:table", FALSE, &oo_table_start, NULL, 0),
       GSF_XML_SAX_NODE (TABLE, TABLE_COL, "table:table-column", FALSE, &oo_col_start, NULL, 0),
       GSF_XML_SAX_NODE (TABLE, TABLE_ROW, "table:table-row", FALSE, &oo_row_start, NULL, 0),

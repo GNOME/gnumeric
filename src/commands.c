@@ -3542,7 +3542,8 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 
 		parse_pos_init_evalpos (&pp, ep);
 		parse_text_value_or_expr (&pp, cell_res.new_text, &val, &expr,
-			mstyle_get_format (cell_get_mstyle (cell_res.cell)));
+			mstyle_get_format (cell_get_mstyle (cell_res.cell)),
+			workbook_date_conv (cell_res.cell->base.sheet->workbook));
 
 		/*
 		 * FIXME: this is a hack, but parse_text_value_or_expr

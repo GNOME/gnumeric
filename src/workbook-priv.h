@@ -3,6 +3,7 @@
 
 #include "workbook.h"
 #include "summary.h"
+#include "datetime.h"
 #include "file.h"
 #include <glib-object.h>
 
@@ -37,7 +38,7 @@ struct _Workbook {
 		double   tolerance;
 	} iteration;
 	gboolean recalc_auto;
-	gboolean use_1904;	/* Use MacOffice 1904 based date convention */
+	GnmDateConventions date_conv;
 
 	gboolean during_destruction;
 	gboolean being_reordered;

@@ -806,13 +806,14 @@ do_render_number (gnm_float number, format_info_t *info, GString *result)
  * > If no one noticed anything wrong, it must be that no one did it that way.
  */
 static struct tm *
-split_time (gnm_float number)
+split_time (gnm_float number, GnmDateConventions const *date_conv)
 {
 	static struct tm tm;
 	guint secs;
 	GDate date;
 
-	datetime_serial_to_g (&date, datetime_serial_raw_to_serial (number));
+	datetime_serial_to_g (&date,
+		datetime_serial_raw_to_serial (number), date_conv);
 	g_date_to_struct_tm (&date, &tm);
 
 	secs = datetime_serial_raw_to_seconds (number);
@@ -1067,7 +1068,8 @@ format_add_decimal (StyleFormat const *fmt)
 /*********************************************************************/
 
 static gchar *
-format_number (gnm_float number, int col_width, StyleFormatEntry const *entry)
+format_number (gnm_float number, int col_width, StyleFormatEntry const *entry,
+	       GnmDateConventions const *date_conv)
 {
 	GString *result = g_string_new ("");
 	guchar const *format = (guchar *)(entry->format);
@@ -1323,7 +1325,7 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry)
 			int n;
 
 			if (!time_split)
-				time_split = split_time (signed_number);
+				time_split = split_time (signed_number, date_conv);
 
 			/* FIXME : Yuck
 			 * This is a problem waiting to happen.
@@ -1349,14 +1351,14 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry)
 		case 'D':
 		case 'd':
 			if (!time_split)
-				time_split = split_time (signed_number);
+				time_split = split_time (signed_number, date_conv);
 			format += append_day (result, format, time_split) - 1;
 			break;
 
 		case 'Y':
 		case 'y':
 			if (!time_split)
-				time_split = split_time (signed_number);
+				time_split = split_time (signed_number, date_conv);
 			format += append_year (result, format, time_split) - 1;
 			break;
 
@@ -1365,7 +1367,7 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry)
 			int n;
 
 			if (!time_split)
-				time_split = split_time (signed_number);
+				time_split = split_time (signed_number, date_conv);
 
 			for (n = 1; format[1] == 's' || format[1] == 'S'; format++)
 				n++;
@@ -1385,7 +1387,7 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry)
 			int n;
 
 			if (!time_split)
-				time_split = split_time (signed_number);
+				time_split = split_time (signed_number, date_conv);
 
 			for (n = 1; format[1] == 'h' || format[1] == 'H'; format++)
 				n++;
@@ -1411,7 +1413,7 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry)
 		case 'A':
 		case 'a':
 			if (!time_split)
-				time_split = split_time (signed_number);
+				time_split = split_time (signed_number, date_conv);
 			if (time_split->tm_hour < 12){
 				g_string_append_c (result, *format);
 				format++;
@@ -1430,7 +1432,7 @@ format_number (gnm_float number, int col_width, StyleFormatEntry const *entry)
 
 		case 'P': case 'p':
 			if (!time_split)
-				time_split = split_time (signed_number);
+				time_split = split_time (signed_number, date_conv);
 			if (time_split->tm_hour >= 12){
 				g_string_append_c (result, *format);
 				if (*(format + 1) == 'm' || *(format + 1) == 'M'){
@@ -1601,7 +1603,7 @@ fmt_general_int (int val, int col_width)
  */
 gchar *
 format_value (StyleFormat const *format, Value const *value, StyleColor **color,
-	      double col_width)
+	      double col_width, GnmDateConventions const *date_conv)
 {
 	char *v = NULL;
 	StyleFormatEntry const *entry = NULL; /* default to General */
@@ -1664,7 +1666,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 
 		if (entry == NULL)
 			return fmt_general_int (val, col_width);
-		v = format_number (val, (int)col_width, entry);
+		v = format_number (val, (int)col_width, entry, date_conv);
 		break;
 	}
 	case VALUE_FLOAT: {
@@ -1681,7 +1683,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 				return fmt_general_int ((int)val, col_width);
 			return fmt_general_float (val, col_width);
 		}
-		v = format_number (val, (int)col_width, entry);
+		v = format_number (val, (int)col_width, entry, date_conv);
 		break;
 	}
 	case VALUE_ERROR:

@@ -123,7 +123,8 @@ do_tabulation (Workbook *wb,
 		sheets = g_new (Sheet *, counts[dim]);
 		for (i = 0; i < counts[dim]; i++) {
 			Value *v = value_new_float (val);
-			char *base_name = format_value (sf, v, NULL, -1);
+			char *base_name = format_value (sf, v, NULL, -1,
+						workbook_date_conv (wb));
 			char *unique_name =
 				workbook_sheet_get_free_name (wb,
 							      base_name,

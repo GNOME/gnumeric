@@ -30,6 +30,7 @@
 #include "dialogs.h"
 #include "mstyle.h"
 #include "value.h"
+#include "workbook.h"
 #include "number-match.h"
 #include "widgets/widget-font-selector.h"
 #include "widgets/gnumeric-cell-renderer-text.h"
@@ -41,26 +42,23 @@
 #include <glade/glade.h>
 #include <gtk/gtk.h>
 
-
-
-
 typedef struct {
-	GladeXML  *gui;
-	GtkWidget *dialog;
-	GtkWidget *notebook;
-	GtkTextView *description;
-	GSList    *pages;
-	GConfClient *gconf;
+	GladeXML	*gui;
+	GtkWidget	*dialog;
+	GtkWidget	*notebook;
+	GtkTextView	*description;
+	GSList		*pages;
+	GConfClient	*gconf;
+	Workbook	*wb;
 } PrefState;
-
 
 typedef struct {
 	char const *page_name;
 	char const *icon_name;
 	GtkWidget * (*page_initializer) (PrefState *state, gpointer data,
-					  GtkNotebook *notebook, gint page_num);
-	void (*page_open) (PrefState *state, gpointer data,
-					  GtkNotebook *notebook, gint page_num);
+					 GtkNotebook *notebook, gint page_num);
+	void	    (*page_open)	(PrefState *state, gpointer data,
+					 GtkNotebook *notebook, gint page_num);
 	gpointer data;
 } page_info_t;
 
@@ -408,10 +406,10 @@ cb_pref_tree_changed_notification (GConfClient *gconf,
 }
 
 static void
-cb_value_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
-	gchar               *path_string,
-	gchar               *new_text,
-        GtkTreeStore        *model)
+cb_value_edited (GtkCellRendererText *cell,
+		 gchar		*path_string,
+		 gchar		*new_text,
+		 PrefState	*state)
 {
 	GtkTreeIter iter;
 	GtkTreePath *path;
@@ -423,13 +421,12 @@ cb_value_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	Value       *value;
 	GConfClient *client = application_get_gconf_client ();
 	GConfSchema *the_schema;
-	gboolean    err;
-
+	gboolean     err;
+	GtkTreeModel *model = g_object_get_data (G_OBJECT (cell), "model");
 	path = gtk_tree_path_new_from_string (path_string);
 
-	gtk_tree_model_get_iter (GTK_TREE_MODEL (model), &iter, path);
-
-	gtk_tree_model_get (GTK_TREE_MODEL (model), &iter,
+	gtk_tree_model_get_iter (model, &iter, path);
+	gtk_tree_model_get (model, &iter,
 			    PREF_PATH, &key,
 			    PREF_SCHEMA, &schema,
 			    -1);
@@ -439,7 +436,8 @@ cb_value_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 		gconf_client_set_string (client, key, new_text, NULL);
 		break;
 	case GCONF_VALUE_FLOAT:
-		value = format_match_number (new_text, NULL);
+		value = format_match_number (new_text, NULL,
+				workbook_date_conv (state->wb));
 		if (value != NULL) {
 			the_float =  value_get_as_float (value);
 			gconf_client_set_float (client, key, the_float, NULL);
@@ -448,7 +446,8 @@ cb_value_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 			value_release (value);
 		break;
 	case GCONF_VALUE_INT:
-		value = format_match_number (new_text, NULL);
+		value = format_match_number (new_text, NULL,
+				workbook_date_conv (state->wb));
 		if (value != NULL) {
 			the_int =  value_get_as_int (value);
 			gconf_client_set_int (client, key, the_int, NULL);
@@ -457,7 +456,8 @@ cb_value_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 			value_release (value);
 		break;
 	case GCONF_VALUE_BOOL:
-		value = format_match_number (new_text, NULL);
+		value = format_match_number (new_text, NULL,
+				workbook_date_conv (state->wb));
 		if (value != NULL) {
 			err = FALSE;
 			the_bool =  value_get_as_bool (value, &err);
@@ -477,9 +477,10 @@ cb_value_edited (G_GNUC_UNUSED GtkCellRendererText *cell,
 	gconf_schema_free (the_schema);
 }
 
-static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data,
-					  G_GNUC_UNUSED GtkNotebook *notebook,
-					  gint page_num)
+static GtkWidget *
+pref_tree_initializer (PrefState *state, gpointer data,
+		       G_GNUC_UNUSED GtkNotebook *notebook,
+		       gint page_num)
 {
 	pref_tree_data_t  *this_pref_tree_data = data;
 	GtkTreeViewColumn *column;
@@ -501,7 +502,7 @@ static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data,
 				    G_TYPE_STRING,
 				    G_TYPE_BOOLEAN);
 	view = GTK_TREE_VIEW (gtk_tree_view_new_with_model
-					   (GTK_TREE_MODEL (model)));
+			      (GTK_TREE_MODEL (model)));
 	selection = gtk_tree_view_get_selection (view);
 	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
 	column = gtk_tree_view_column_new_with_attributes (_("Description"),
@@ -519,14 +520,17 @@ static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data,
 							   NULL);
 	gtk_tree_view_column_set_sort_column_id (column, PREF_VALUE);
 	gtk_tree_view_append_column (view, column);
-	g_signal_connect (G_OBJECT (renderer), "edited",
-			  G_CALLBACK (cb_value_edited), model);
+	g_signal_connect (G_OBJECT (renderer),
+		"edited",
+		G_CALLBACK (cb_value_edited), state);
+	g_object_set_data (G_OBJECT (renderer), "model", model);
 
 	gtk_tree_view_set_headers_visible (view, TRUE);
 	gtk_container_add (GTK_CONTAINER (page), GTK_WIDGET (view));
 
-	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (view)), "changed",
-			  G_CALLBACK (cb_pref_tree_selection_changed), state);
+	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (view)),
+		"changed",
+		G_CALLBACK (cb_pref_tree_selection_changed), state);
 
 	for (i = 0; this_pref_tree_data[i].path; i++) {
 		pref_tree_data_t *this_pref = &this_pref_tree_data[i];
@@ -548,10 +552,8 @@ static  GtkWidget *pref_tree_initializer (PrefState *state, gpointer data,
 			 model, NULL, NULL);
 
 		g_signal_connect (G_OBJECT (page),
-				  "destroy",
-				  G_CALLBACK (cb_pref_notification_destroy),
-				  GINT_TO_POINTER (notification));
-
+			"destroy",
+			G_CALLBACK (cb_pref_notification_destroy), GINT_TO_POINTER (notification));
 	}
 
 	object_data_path = g_strdup_printf (OBJECT_DATA_PATH_MODEL, page_num);
@@ -629,11 +631,11 @@ cb_pref_font_has_changed (G_GNUC_UNUSED FontSelector *fs,
 	return TRUE;
 }
 
-static
-GtkWidget *pref_font_initializer (PrefState *state,
-				  G_GNUC_UNUSED gpointer data,
-				  G_GNUC_UNUSED GtkNotebook *notebook,
-				  G_GNUC_UNUSED gint page_num)
+static GtkWidget *
+pref_font_initializer (PrefState *state,
+		       G_GNUC_UNUSED gpointer data,
+		       G_GNUC_UNUSED GtkNotebook *notebook,
+		       G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = font_selector_new ();
 	guint notification;
@@ -762,11 +764,11 @@ cb_pref_undo_maxnum_changed (GtkSpinButton *button, PrefState *state)
 				       NULL);
 }
 
-static
-GtkWidget *pref_undo_page_initializer (PrefState *state,
-				       G_GNUC_UNUSED gpointer data,
-				       G_GNUC_UNUSED GtkNotebook *notebook,
-				       G_GNUC_UNUSED gint page_num)
+static GtkWidget *
+pref_undo_page_initializer (PrefState *state,
+			    G_GNUC_UNUSED gpointer data,
+			    G_GNUC_UNUSED GtkNotebook *notebook,
+			    G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = gtk_table_new (4, 2, FALSE);
 	gint row = 0;
@@ -913,11 +915,11 @@ cb_pref_sort_initial_clauses_changed (GtkSpinButton *button, PrefState *state)
 			      NULL);
 }
 
-static
-GtkWidget *pref_sort_page_initializer (PrefState *state,
-				       G_GNUC_UNUSED gpointer data,
-				       G_GNUC_UNUSED GtkNotebook *notebook,
-				       G_GNUC_UNUSED gint page_num)
+static GtkWidget *
+pref_sort_page_initializer (PrefState *state,
+			    G_GNUC_UNUSED gpointer data,
+			    G_GNUC_UNUSED GtkNotebook *notebook,
+			    G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = gtk_table_new (3, 2, FALSE);
 	gint row = 0;
@@ -1086,11 +1088,11 @@ cb_pref_window_live_scrolling_toggled (GtkToggleButton *button, PrefState *state
 }
 
 
-static
-GtkWidget *pref_window_page_initializer (PrefState *state,
-					 G_GNUC_UNUSED gpointer data,
-					 G_GNUC_UNUSED GtkNotebook *notebook,
-					 G_GNUC_UNUSED gint page_num)
+static GtkWidget *
+pref_window_page_initializer (PrefState *state,
+			      G_GNUC_UNUSED gpointer data,
+			      G_GNUC_UNUSED GtkNotebook *notebook,
+			      G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = gtk_table_new (4, 2, FALSE);
 	gint row = 0;
@@ -1245,11 +1247,11 @@ cb_pref_file_single_sheet_warn_toggled (GtkToggleButton *button, PrefState *stat
 				       NULL);
 }
 
-static
-GtkWidget *pref_file_page_initializer (PrefState *state,
-				       G_GNUC_UNUSED gpointer data,
-				       G_GNUC_UNUSED GtkNotebook *notebook,
-				       G_GNUC_UNUSED gint page_num)
+static GtkWidget *
+pref_file_page_initializer (PrefState *state,
+			    G_GNUC_UNUSED gpointer data,
+			    G_GNUC_UNUSED GtkNotebook *notebook,
+			    G_GNUC_UNUSED gint page_num)
 {
 	GtkWidget *page = gtk_table_new (2, 2, FALSE);
 	gint row = 0;
@@ -1289,20 +1291,18 @@ GtkWidget *pref_file_page_initializer (PrefState *state,
 }
 
 
-
-
 /*******************************************************************************************/
 /*               General Preference Dialog Routines                                        */
 /*******************************************************************************************/
 
 static page_info_t page_info[] = {
-	{NULL, GTK_STOCK_ITALIC, pref_font_initializer, pref_font_page_open, NULL},
-	{NULL, "Gnumeric_ObjectCombo", pref_window_page_initializer, pref_window_page_open, NULL},
-	{NULL, GTK_STOCK_FLOPPY, pref_file_page_initializer, pref_file_page_open, NULL},
-	{NULL, GTK_STOCK_UNDO, pref_undo_page_initializer, pref_undo_page_open, NULL},
+	{NULL, GTK_STOCK_ITALIC,	 pref_font_initializer, pref_font_page_open, NULL},
+	{NULL, "Gnumeric_ObjectCombo",	 pref_window_page_initializer, pref_window_page_open, NULL},
+	{NULL, GTK_STOCK_FLOPPY,	 pref_file_page_initializer, pref_file_page_open, NULL},
+	{NULL, GTK_STOCK_UNDO,		 pref_undo_page_initializer, pref_undo_page_open, NULL},
 	{NULL, GTK_STOCK_SORT_ASCENDING, pref_sort_page_initializer, pref_sort_page_open, NULL},
-	{NULL, GTK_STOCK_PREFERENCES, pref_tree_initializer, pref_tree_page_open, pref_tree_data},
-	{NULL, GTK_STOCK_DIALOG_ERROR, pref_tree_initializer, pref_tree_page_open, pref_tree_data_danger},
+	{NULL, GTK_STOCK_PREFERENCES,    pref_tree_initializer, pref_tree_page_open, pref_tree_data},
+	{NULL, GTK_STOCK_DIALOG_ERROR,   pref_tree_initializer, pref_tree_page_open, pref_tree_data_danger},
 	{NULL, NULL, NULL, NULL, NULL},
 };
 
@@ -1376,6 +1376,7 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 	state->pages      = NULL;
 	state->gconf      = application_get_gconf_client ();
 	state->description = GTK_TEXT_VIEW (glade_xml_get_widget (gui, "description"));
+	state->wb	  = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 
 	g_signal_connect (G_OBJECT (glade_xml_get_widget (gui, "close_button")),
 		"clicked",

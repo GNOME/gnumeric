@@ -2968,7 +2968,8 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 
 			parse_text_value_or_expr (&pp,
 						  CXML2C (content),
-						  &val, &expr, value_fmt);
+						  &val, &expr, value_fmt,
+						  workbook_date_conv (ctxt->wb));
 
 			if (val != NULL) {	/* String was a value */
 				value_release (cell->value);
@@ -3259,6 +3260,12 @@ xml_workbook_write (XmlParseContext *ctxt)
 	if (child)
 		xmlAddChild (cur, child);
 
+	{
+		GnmDateConventions const *conv = workbook_date_conv (wb);
+		if (conv->use_1904)
+			xmlNewChild (cur, ctxt->ns, CC2XML ("DateConvention"), "1904");
+	}
+
 	/* The sheet name index is required for the xml_sax
 	 * importer to work correctly. We don't use it for
 	 * the dom loader! These must be written BEFORE
@@ -3411,13 +3418,20 @@ xml_workbook_read (IOContext *context,
 	if (child)
 		xml_read_summary (ctxt, child, workbook_metadata (wb));
 
+	child = e_xml_get_child_by_name (tree, CC2XML ("DateConvention"));
+	if (child != NULL) {
+		int convention;
+		if (xml_node_get_int (child, NULL, &convention) && convention == 1904)
+			workbook_set_1904 (ctxt->wb, TRUE);
+	}
+
 	child = e_xml_get_child_by_name (tree, CC2XML ("Geometry"));
 	if (child) {
 		int width, height;
 
-		xml_node_get_int (child, "Width", &width);
-		xml_node_get_int (child, "Height", &height);
-		wb_view_preferred_size	  (ctxt->wb_view, width, height);
+		if (xml_node_get_int (child, "Width", &width) &&
+		    xml_node_get_int (child, "Height", &height))
+			wb_view_preferred_size	  (ctxt->wb_view, width, height);
 	}
 
 /*	child = xml_search_child (tree, "Style");

@@ -271,7 +271,7 @@ stf_dialog_csv_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	info->csv_scroll = GTK_VSCROLLBAR (glade_xml_get_widget (gui, "csv_scroll"));
 
 	/* Set properties */
-	info->csv_run_renderdata    = stf_preview_new (info->csv_canvas, FALSE);
+	info->csv_run_renderdata    = stf_preview_new (info->csv_canvas, FALSE, NULL);
 	info->csv_run_parseoptions  = stf_parse_options_new ();
 	info->csv_run_displayrows   = stf_preview_get_displayed_rowcount (info->csv_run_renderdata);
 

@@ -218,7 +218,8 @@ cell_set_text (Cell *cell, char const *text)
 	g_return_if_fail (!cell_is_partial_array (cell));
 
 	parse_text_value_or_expr (parse_pos_init_cell (&pos, cell),
-		text, &val, &expr, mstyle_get_format (cell_get_mstyle (cell)));
+		text, &val, &expr, mstyle_get_format (cell_get_mstyle (cell)),
+		workbook_date_conv (cell->base.sheet->workbook));
 
 	if (val != NULL) {	/* String was a value */
 		cell_cleanout (cell);

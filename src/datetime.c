@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * datetime.c: Date and time routines grabbed from elsewhere.
  *
@@ -23,6 +24,8 @@
 
 /* One less that the Julian day number of 19000101.  */
 static int date_origin = 0;
+/* Julian day number of 19040101.  */
+static int date_origin_1904 = 0;
 
 /*
  * The serial number of 19000228.  Excel allocates a serial number for
@@ -36,19 +39,25 @@ date_init (void)
 	/* Day 1 means 1st of January of 1900 */
 	GDate* date = g_date_new_dmy (1, 1, 1900);
 	date_origin = g_date_get_julian (date) - 1;
+
+	/* Day 0 means 1st of January of 1900 */
+	g_date_set_dmy (date, 1, 1, 1904);
+	date_origin_1904 = g_date_get_julian (date);
 	g_date_free (date);
 }
 
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_g_to_serial (GDate const *date)
+datetime_g_to_serial (GDate const *date, GnmDateConventions const *conv)
 {
 	int day;
 
 	if (!date_origin)
 		date_init ();
 
+	if (conv && conv->use_1904)
+		return g_date_get_julian (date) - date_origin_1904;
 	day = g_date_get_julian (date) - date_origin;
 	return day + (day > date_serial_19000228);
 }
@@ -56,13 +65,15 @@ datetime_g_to_serial (GDate const *date)
 /* ------------------------------------------------------------------------- */
 
 void
-datetime_serial_to_g (GDate *res, int serial)
+datetime_serial_to_g (GDate *res, int serial, GnmDateConventions const *conv)
 {
 	if (!date_origin)
 		date_init ();
 
 	g_date_clear (res, 1);
-	if (serial > date_serial_19000228) {
+	if (conv && conv->use_1904)
+		g_date_set_julian (res, serial + date_origin_1904);
+	else if (serial > date_serial_19000228) {
 		if (serial == date_serial_19000228 + 1)
 			g_warning ("Request for date 19000229.");
 		g_date_set_julian (res, serial + date_origin - 1);
@@ -73,7 +84,7 @@ datetime_serial_to_g (GDate *res, int serial)
 /* ------------------------------------------------------------------------- */
 
 gnm_float
-datetime_value_to_serial_raw (Value const *v)
+datetime_value_to_serial_raw (Value const *v, GnmDateConventions const *conv)
 {
 	gnm_float serial;
 
@@ -81,7 +92,7 @@ datetime_value_to_serial_raw (Value const *v)
 		serial = value_get_as_float (v);
 	else {
 		char const *str = value_peek_string (v);
-		Value *conversion = format_match (str, NULL);
+		Value *conversion = format_match (str, NULL, conv);
 
 		if (conversion) {
 			if (VALUE_IS_NUMBER (conversion))
@@ -98,7 +109,7 @@ datetime_value_to_serial_raw (Value const *v)
 /* ------------------------------------------------------------------------- */
 
 gnm_float
-datetime_timet_to_serial_raw (time_t t)
+datetime_timet_to_serial_raw (time_t t, GnmDateConventions const *conv)
 {
 	struct tm *tm = localtime (&t);
 	int secs;
@@ -107,7 +118,8 @@ datetime_timet_to_serial_raw (time_t t)
         g_date_clear (&date, 1);
 	g_date_set_time (&date, t);
 	secs = tm->tm_hour * 3600 + tm->tm_min * 60 + tm->tm_sec;
-	return datetime_g_to_serial (&date) + secs / (gnm_float)SECS_PER_DAY;
+	return datetime_g_to_serial (&date, conv) +
+		secs / (gnm_float)SECS_PER_DAY;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -121,28 +133,29 @@ datetime_serial_raw_to_serial (gnm_float raw)
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_value_to_serial (Value const *v)
+datetime_value_to_serial (Value const *v, GnmDateConventions const *conv)
 {
-	return datetime_serial_raw_to_serial (datetime_value_to_serial_raw (v));
+	return datetime_serial_raw_to_serial (
+		datetime_value_to_serial_raw (v, conv));
 }
 
 /* ------------------------------------------------------------------------- */
 
 int
-datetime_timet_to_serial (time_t t)
+datetime_timet_to_serial (time_t t, GnmDateConventions const *conv)
 {
-	return datetime_serial_raw_to_serial (datetime_timet_to_serial_raw (t));
+	return datetime_serial_raw_to_serial (datetime_timet_to_serial_raw (t, conv));
 }
 
 /* ------------------------------------------------------------------------- */
 
 time_t
-datetime_serial_to_timet (int serial)
+datetime_serial_to_timet (int serial, GnmDateConventions const *conv)
 {
 	GDate gd;
 	struct tm tm;
 
-	datetime_serial_to_g (&gd, serial);
+	datetime_serial_to_g (&gd, serial, conv);
 	g_date_to_struct_tm (&gd, &tm);
 
 	return mktime (&tm);
@@ -151,12 +164,12 @@ datetime_serial_to_timet (int serial)
 /* ------------------------------------------------------------------------- */
 
 gboolean
-datetime_value_to_g (GDate *res, Value const *v)
+datetime_value_to_g (GDate *res, Value const *v, GnmDateConventions const *conv)
 {
-	int serial = datetime_value_to_serial (v);
+	int serial = datetime_value_to_serial (v, conv);
 	if (serial == 0)
 		return FALSE;
-	datetime_serial_to_g (res, serial);
+	datetime_serial_to_g (res, serial, conv);
 	return TRUE;
 }
 
@@ -176,7 +189,9 @@ datetime_serial_raw_to_seconds (gnm_float raw)
 int
 datetime_value_to_seconds (Value const *v)
 {
-	return datetime_serial_raw_to_seconds (datetime_value_to_serial_raw (v));
+	/* we just want the seconds, actual date does not matter. So we can ignore
+	 * the date convention (1900 vs 1904) */
+	return datetime_serial_raw_to_seconds (datetime_value_to_serial_raw (v, NULL));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -184,7 +199,9 @@ datetime_value_to_seconds (Value const *v)
 int
 datetime_timet_to_seconds (time_t t)
 {
-	return datetime_serial_raw_to_seconds (datetime_timet_to_serial_raw (t));
+	/* we just want the seconds, actual date does not matter. So we can ignore
+	 * the date convention (1900 vs 1904) */
+	return datetime_serial_raw_to_seconds (datetime_timet_to_serial_raw (t, NULL));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -435,8 +452,8 @@ days_between_basis (GDate const *from, GDate const *to, int basis)
  * this function does not depend on the basis of counting!
  */
 void
-coup_cd (GDate *result,
-	 GDate const *settlement, GDate const *maturity, int freq, gboolean eom, gboolean next)
+coup_cd (GDate *result, GDate const *settlement, GDate const *maturity,
+	 int freq, gboolean eom, gboolean next)
 {
         int        months, periods;
 	gboolean   is_eom_special;
@@ -484,22 +501,22 @@ coup_cd (GDate *result,
  */
 gnm_float
 coupdays (GDate const *settlement, GDate const *maturity,
-	  int freq, basis_t basis, gboolean eom)
+	  GnmCouponConvention const *conv)
 {
 	GDate prev, next;
 
-        switch (basis) {
+        switch (conv->basis) {
 	case BASIS_MSRB_30_360:
 	case BASIS_ACT_360:
         case BASIS_30E_360:
         case BASIS_30Ep_360:
-		return 360 / freq;
+		return 360 / conv->freq;
 	case BASIS_ACT_365:
-		return 365.0 / freq;
+		return 365.0 / conv->freq;
 	case BASIS_ACT_ACT:
 	default:
-		coup_cd (&next, settlement, maturity, freq, eom, TRUE);
-		coup_cd (&prev, settlement, maturity, freq, eom, FALSE);
+		coup_cd (&next, settlement, maturity, conv->freq, conv->eom, TRUE);
+		coup_cd (&prev, settlement, maturity, conv->freq, conv->eom, FALSE);
 		return days_between_basis (&prev, &next, BASIS_ACT_ACT);
         }
 }
@@ -513,11 +530,11 @@ coupdays (GDate const *settlement, GDate const *maturity,
  */
 gnm_float
 coupdaybs (GDate const *settlement, GDate const *maturity,
-	   int freq, basis_t basis, gboolean eom)
+	   GnmCouponConvention const *conv)
 {
 	GDate prev_coupon;
-	coup_cd (&prev_coupon, settlement, maturity, freq, eom, FALSE);
-	return days_between_basis (&prev_coupon, settlement, basis);
+	coup_cd (&prev_coupon, settlement, maturity, conv->freq, conv->eom, FALSE);
+	return days_between_basis (&prev_coupon, settlement, conv->basis);
 }
 
 /**
@@ -532,9 +549,17 @@ coupdaybs (GDate const *settlement, GDate const *maturity,
  * coupon date.
  **/
 gnm_float
-coupdaysnc (GDate const *settlement, GDate const *maturity, int freq, basis_t basis, gboolean eom)
+coupdaysnc (GDate const *settlement, GDate const *maturity,
+	    GnmCouponConvention const *conv)
 {
 	GDate next_coupon;
-	coup_cd (&next_coupon, settlement, maturity, freq, eom, TRUE);
-	return days_between_basis (settlement, &next_coupon, basis);
+	coup_cd (&next_coupon, settlement, maturity, conv->freq, conv->eom, TRUE);
+	return days_between_basis (settlement, &next_coupon, conv->basis);
+}
+
+int
+gnm_date_convention_base (GnmDateConventions const *conv)
+{
+	g_return_val_if_fail (conv != NULL, 1900);
+	return conv->use_1904 ? 1904 : 1900;
 }

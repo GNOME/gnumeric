@@ -15,6 +15,8 @@
 #include "expr.h"
 #include "expr-impl.h"
 #include "datetime.h"
+#include "workbook.h"
+#include "sheet.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -24,6 +26,7 @@ typedef struct {
 	guint         count;
 	CollectFlags  flags;
 	GSList       *info;
+	GnmDateConventions const *date_conv;
 } collect_floats_t;
 
 static Value *
@@ -72,7 +75,7 @@ callback_function_collect (EvalPos const *ep, Value *value, void *closure)
 
 	case VALUE_STRING:
 	        if (cl->flags & COLLECT_DATES) {
-		        x = datetime_value_to_serial (value);
+		        x = datetime_value_to_serial (value, cl->date_conv);
 			if (x == 0)
 			        return value_new_error_VALUE (ep);
 		} else if (cl->flags & COLLECT_IGNORE_STRINGS)
@@ -159,6 +162,7 @@ collect_floats (GnmExprList *exprlist, EvalPos const *ep, CollectFlags flags,
 	cl.count = 0;
 	cl.flags = flags;
 	cl.info = NULL;
+	cl.date_conv = workbook_date_conv (ep->sheet->workbook);
 
 	err = function_iterate_argument_values (ep, &callback_function_collect,
 		&cl, exprlist, TRUE, iter_flags);

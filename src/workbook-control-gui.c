@@ -2354,8 +2354,11 @@ static void
 cb_insert_current_date (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
-		Value *v = value_new_int (datetime_timet_to_serial (time (NULL)));
-		char *txt = format_value (style_format_default_date (), v, NULL, -1);
+		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		Value *v = value_new_int (datetime_timet_to_serial (time (NULL),
+								    workbook_date_conv (wb)));
+		char *txt = format_value (style_format_default_date (), v, NULL, -1,
+				workbook_date_conv (wb));
 		value_release (v);
 		wbcg_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
 		g_free (txt);
@@ -2366,8 +2369,10 @@ static void
 cb_insert_current_time (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
 	if (wbcg_edit_start (wbcg, FALSE, FALSE)) {
+		Workbook const *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
 		Value *v = value_new_float (datetime_timet_to_seconds (time (NULL)) / (24.0 * 60 * 60));
-		char *txt = format_value (style_format_default_time (), v, NULL, -1);
+		char *txt = format_value (style_format_default_time (), v, NULL, -1,
+				workbook_date_conv (wb));
 		value_release (v);
 		wbcg_edit_line_set (WORKBOOK_CONTROL (wbcg), txt);
 		g_free (txt);

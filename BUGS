@@ -130,6 +130,7 @@ Functions
     YIELDDISC	(test fails by alot)
     Convert the code from sc to use our more accurate date routines
     WORKDAY	Add holiday support
+    YEARFRAC	Implement
 
 UTF-8:
     - Window titles.

@@ -30,7 +30,6 @@
 #include "str.h"
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <errno.h>
 #include <locale.h>
@@ -734,7 +733,7 @@ extract_text (char const *str, const regmatch_t *mp)
  */
 static Value *
 compute_value (char const *s, const regmatch_t *mp,
-	       GByteArray *array)
+	       GByteArray *array, GnmDateConventions const *date_conv)
 {
 	int const len = array->len;
 	gnm_float number = 0.0;
@@ -1011,7 +1010,7 @@ compute_value (char const *s, const regmatch_t *mp,
 			return NULL;
 
 		date = g_date_new_dmy (day, month, year);
-		number = datetime_g_to_serial (date);
+		number = datetime_g_to_serial (date, date_conv);
 		g_date_free (date);
 	}
 
@@ -1117,16 +1116,16 @@ format_match_simple (char const *text)
 /**
  * format_match :
  *
- * @text : The text to parse
+ * @text    : The text to parse
  * @cur_fmt : The current format for the value (potentially NULL)
+ * @date_conv: optional date convention
  *
- * Attempts to parse the supplied string to see if it matches a known value format.
- * If @format is supplied it will get a copy of the matching format with no
- * additional references.   The caller is responsible for releasing the
- * resulting value.  @matching_format does NOT have a reference added.
- */
+ * Attempts to parse the supplied string to see if it matches a known value
+ * format.  The caller is responsible for releasing the resulting value.
+ **/
 Value *
-format_match (char const *text, StyleFormat *cur_fmt)
+format_match (char const *text, StyleFormat *cur_fmt,
+	      GnmDateConventions const *date_conv)
 {
 	Value  *v;
 	GSList *l;
@@ -1144,7 +1143,8 @@ format_match (char const *text, StyleFormat *cur_fmt)
 			return value_new_string (text);
 		if (cur_fmt->regexp_str != NULL &&
 		    regexec (&cur_fmt->regexp, text, NM, mp, 0) != REG_NOMATCH &&
-		    NULL != (v = compute_value (text, mp, cur_fmt->match_tags))) {
+		    NULL != (v = compute_value (text, mp, cur_fmt->match_tags, 
+						date_conv))) {
 #ifdef DEBUG_NUMBER_MATCH
 		{
 			int i;
@@ -1196,7 +1196,7 @@ format_match (char const *text, StyleFormat *cur_fmt)
 		}
 #endif
 
-		v = compute_value (text, mp, fmt->match_tags);
+		v = compute_value (text, mp, fmt->match_tags, date_conv);
 
 #ifdef DEBUG_NUMBER_MATCH
 		if (v) {
@@ -1217,9 +1217,9 @@ format_match (char const *text, StyleFormat *cur_fmt)
 /**
  * format_match_number :
  *
- * @text : The text to parse
+ * @text    : The text to parse
  * @cur_fmt : The current format for the value (potentially NULL)
- * @format : An optional place to store the target format
+ * @date_conv: optional date convention
  *
  * Attempts to parse the supplied string to see if it matches a known value format.
  * Will eventually use the current cell format in preference to canned formats.
@@ -1228,9 +1228,10 @@ format_match (char const *text, StyleFormat *cur_fmt)
  * resulting value.  Will ONLY return numbers.
  */
 Value *
-format_match_number (char const *s, StyleFormat *current_format)
+format_match_number (char const *text, StyleFormat *cur_fmt,
+		     GnmDateConventions const *date_conv)
 {
-	Value *res = format_match (s, current_format);
+	Value *res = format_match (text, cur_fmt, date_conv);
 
 	if (res != NULL) {
 		if (VALUE_IS_NUMBER (res))

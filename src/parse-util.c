@@ -580,7 +580,8 @@ gnm_expr_char_start_p (char const * c)
  * @text: The text to be parsed.
  * @val : Returns a Value * if the text was a value, otherwise NULL.
  * @expr: Returns an GnmExpr * if the text was an expression, otherwise NULL.
- * @current_format : Optional, current number format.
+ * @cur_fmt : Optional, current number format.
+ * @date_conv : Optional, date parse conventions
  *
  * If there is a parse failure for an expression an error Value with the syntax
  * error is returned.
@@ -588,14 +589,15 @@ gnm_expr_char_start_p (char const * c)
 void
 parse_text_value_or_expr (ParsePos const *pos, char const *text,
 			  Value **val, GnmExpr const **expr,
-			  StyleFormat *current_format /* can be NULL */)
+			  StyleFormat *cur_fmt,
+			  GnmDateConventions const *date_conv)
 {
 	char const *expr_start;
 
 	*expr = NULL;
 
 	/* Does it match any formats?  */
-	*val = format_match (text, current_format);
+	*val = format_match (text, cur_fmt, date_conv);
 	if (*val != NULL)
 		return;
 
