@@ -1,3 +1,7 @@
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
 2002-08-06  Morten Welinder  <terra@diku.dk>
 
 	* *.c: use gsf_le_get_double and gsf_le_set_double (etc).

@@ -1,5 +1,9 @@
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.1.7
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
 	* ms-obj.c (ms_object_attr_new_array) : new.
 	(ms_object_attr_get_expr) : ditto.
 	(ms_object_attr_destroy) : support arrays.

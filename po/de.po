@@ -44,11 +44,10 @@
 #     to correct existing translations...
 #     -ke-
 #
-#: plugins/fn-random/functions.c:1127
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric HEAD\n"
-"POT-Creation-Date: 2002-08-10 16:44+0200\n"
+"POT-Creation-Date: 2002-08-12 16:31-0400\n"
 "PO-Revision-Date: 2002-08-10 16:41+0100\n"
 "Last-Translator: Christian Neumair <christian-neumair@web.de>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
@@ -372,8 +371,8 @@ msgstr "Finanzfunktionen"
 msgid "Functions related to financial derivatives"
 msgstr "Funktionen aus dem Finanzbereich"
 
-#: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4754
-#: plugins/mps/mps.c:639 src/xml-io.c:3346
+#: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4761
+#: plugins/mps/mps.c:639 src/xml-io.c:3351
 msgid "Reading file..."
 msgstr "Datei wird gelesen..."
 
@@ -464,47 +463,47 @@ msgstr "»%s« konnte nicht geöffnet werden: %s"
 msgid "Saving file..."
 msgstr "Datei wird gespeichert..."
 
-#: plugins/excel/ms-excel-read.c:907
+#: plugins/excel/ms-excel-read.c:912
 msgid "#UNKNOWN!"
 msgstr "#UNBEKANNT!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1041 plugins/oleo/oleo.c:362
+#: plugins/excel/ms-excel-read.c:1046 plugins/oleo/oleo.c:362
 #: plugins/psiconv/psiconv-read.c:500 src/dialogs/dialog-sheet-order.c:416
 #: src/dialogs/dialog-sheet-order.c:420
 #, c-format
 msgid "Sheet%d"
 msgstr "Blatt%d"
 
-#: plugins/excel/ms-excel-read.c:1044
+#: plugins/excel/ms-excel-read.c:1049
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1047
+#: plugins/excel/ms-excel-read.c:1052
 #, c-format
 msgid "Chart%d"
 msgstr "Diagramm%d"
 
-#: plugins/excel/ms-excel-read.c:1050
+#: plugins/excel/ms-excel-read.c:1055
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4635
+#: plugins/excel/ms-excel-read.c:4642
 msgid "external references"
 msgstr "externe Bezüge"
 
-#: plugins/excel/ms-excel-read.c:4913
+#: plugins/excel/ms-excel-read.c:4920
 msgid "This file is encrypted"
 msgstr "Diese Datei ist verschlüsselt"
 
-#: plugins/excel/ms-excel-read.c:4915
+#: plugins/excel/ms-excel-read.c:4922
 msgid "Invalid password"
 msgstr "Ungültiges Passwort"
 
-#: plugins/excel/ms-excel-read.c:5039
+#: plugins/excel/ms-excel-read.c:5046
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es konnte kein gültiges MS-Excel-Arbeitsbuch aufgefunden werden."
 
@@ -517,13 +516,9 @@ msgstr "Zu viele Zeilen für dieses Format. (%d > %d)"
 msgid "Couldn't open stream for writing\n"
 msgstr "Datenstrom konnte nicht zum Schreiben geöffnet werden.\n"
 
-#: plugins/excel/ms-formula-read.c:594
+#: plugins/excel/ms-formula-read.c:611
 msgid "Broken function"
 msgstr "Fehlerhafte Funktion"
-
-#: plugins/excel/ms-formula-read.c:1429
-msgid " Unknown formula"
-msgstr " Unbekannte Formel"
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
@@ -11324,7 +11319,7 @@ msgstr "Fehler beim Öffnen der xbase-Datei."
 
 #: plugins/xbase/boot.c:170 src/dialogs/dialog-goto-cell.c:280
 #: src/dialogs/print.glade.h:20 src/workbook.c:946 src/workbook.c:1216
-#: src/xml-io.c:3092
+#: src/xml-io.c:3097
 msgid "Sheet"
 msgstr "Blatt"
 
@@ -11352,7 +11347,7 @@ msgstr "EXPERIMENTELLES SAX-basiertes XML"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Die nächste Generation des SAX-basierten E/A-Subsystems"
 
-#: plugins/xml_sax/xml-sax-read.c:2115
+#: plugins/xml_sax/xml-sax-read.c:2117
 msgid "XML document not well formed!"
 msgstr "Das XML-Dokument ist nicht wohlgeformt (\"well formed\")!"
 
@@ -17500,10 +17495,6 @@ msgstr "Wertebereich"
 msgid "_Regular expression"
 msgstr "Regulärer Ausdruck"
 
-#: src/dialogs/sheet-order.glade.h:1
-msgid "Manage Sheets..."
-msgstr "Blätter verwalten"
-
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Configure Arrow/Line"
 msgstr "Pfeil oder Linie konfigurieren"
@@ -17780,19 +17771,19 @@ msgstr "_Horizontaler Rollbalken"
 msgid "_Vertical Scrollbar"
 msgstr "_Vertikaler Rollbalken"
 
-#: src/expr-name.c:276
+#: src/expr-name.c:278
 msgid "already defined in sheet"
 msgstr "schon im Blatt definiert"
 
-#: src/expr-name.c:280
+#: src/expr-name.c:282
 msgid "already defined in workbook"
 msgstr "schon im Arbeitsbuch definiert"
 
-#: src/expr-name.c:284
+#: src/expr-name.c:286
 msgid "already globally defined "
 msgstr "schon im Allgemeinen definiert"
 
-#: src/expr-name.c:292
+#: src/expr-name.c:294
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr "'%s' hat zirkulärer Verweis"
@@ -17800,11 +17791,11 @@ msgstr "'%s' hat zirkulärer Verweis"
 # Checkit
 # or leave it untranslated: Builtin
 # 2001-02-10 01:51:26 CET -ke-
-#: src/expr-name.c:446
+#: src/expr-name.c:457
 msgid "Builtin"
 msgstr "Eingebaut"
 
-#: src/expr-name.c:568 src/expr-name.c:580
+#: src/expr-name.c:579 src/expr-name.c:591
 msgid "Error: no sheet"
 msgstr "Fehler: kein Blatt"
 
@@ -18570,7 +18561,7 @@ msgstr "Surinamesischer Gulden"
 
 #: src/formats.c:393
 #, fuzzy
-msgid "So Tome and Principe, Dobras"
+msgid "Sao Tome and Principe, Dobras"
 msgstr "Sao Tome and Principe Dobra"
 
 #: src/formats.c:394
@@ -18674,7 +18665,7 @@ msgid "Samoa, Tala"
 msgstr "Saoanischer Tala"
 
 #: src/formats.c:416
-msgid "Communaut Financire Africaine BEAC, Francs"
+msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr ""
 
 #: src/formats.c:417
@@ -18695,7 +18686,7 @@ msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgstr ""
 
 #: src/formats.c:421
-msgid "Communaut Financire Africaine BCEAO, Francs"
+msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr ""
 
 #: src/formats.c:422
@@ -18703,7 +18694,7 @@ msgid "Palladium Ounces"
 msgstr "Palladium Unze"
 
 #: src/formats.c:423
-msgid "Comptoirs Franais du Pacifique Francs"
+msgid "Comptoirs Francais du Pacifique Francs"
 msgstr ""
 
 #: src/formats.c:424
@@ -21421,25 +21412,31 @@ msgstr "Es gibt bereits ein Blatt mit dem Namen"
 msgid "You may not use this name twice"
 msgstr "Sie dürfen diesen Namen nicht zweimal verwenden"
 
-#: src/xml-io.c:2805
+#: src/xml-io.c:2810
 msgid "Unparsable xml in clipboard"
 msgstr "Nicht parsebares XML in der Zwischenablage"
 
-#: src/xml-io.c:2812
+#: src/xml-io.c:2817
 msgid "Clipboard is in unknown format"
 msgstr "Zwischenablage hat ein unbekanntes Format"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3219
+#: src/xml-io.c:3224
 msgid "Processing file..."
 msgstr "Datei wird eingelesen..."
 
-#: src/xml-io.c:3385
+#: src/xml-io.c:3390
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Ist keine gnumeric-Arbeitsbuch-Datei"
 
-#: src/xml-io.c:3445
+#: src/xml-io.c:3450
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric-XML-Dateiformat"
+
+#~ msgid "Manage Sheets..."
+#~ msgstr "Blätter verwalten"
+
+#~ msgid " Unknown formula"
+#~ msgstr " Unbekannte Formel"

@@ -57,6 +57,9 @@ Morten:
 	* More utf8 work.
 	* Make search utf8 safe (assuming utf8-ready regexp routines).
 
+J.H.M. Dassen (Ray):
+	* Update desktop to reflect wider mime support.
+
 Zbigniew:
 	* Work on the plugins.
 

@@ -529,7 +529,7 @@ sheet_style_update_grid_color (Sheet const *sheet)
 {
 	StyleColor *default_auto = style_color_auto_pattern ();
 	StyleColor *sheet_auto = sheet_style_get_auto_pattern_color (sheet);
-	StyleColor *grid_color = style_color_grid ()
+	StyleColor *grid_color = style_color_grid ();
 	StyleColor *new_color;
 
 	new_color = (style_color_equal (default_auto, sheet_auto)
@@ -540,7 +540,7 @@ sheet_style_update_grid_color (Sheet const *sheet)
 		style_color_ref (new_color); /* none_set eats the ref */
 		style_border_none_set_color (new_color);
 	}
-	style_color_unref (grid_auto);
+	style_color_unref (grid_color);
 	style_color_unref (sheet_auto);
 	style_color_unref (default_auto);
 }

@@ -1,3 +1,7 @@
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.7
+
 2002-08-10  Jukka Pekka <jiivonen@hutcs.cs.hut.fi>
 
 	* functions.c: Implemented EUROCONVERT(). Rounding is not yet

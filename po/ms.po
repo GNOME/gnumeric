@@ -2,11 +2,10 @@
 # Jika takut risiko, Jangan bicara tentang Perjuangan
 # Hasbullah Bin Pit (sebol) <sebol@ikhlas.com>, 2001
 #
-#: plugins/fn-random/functions.c:916
 msgid ""
 msgstr ""
 "Project-Id-Version: Galeon -r galeon-1-0\n"
-"POT-Creation-Date: 2002-07-31 02:35+0800\n"
+"POT-Creation-Date: 2002-08-12 16:31-0400\n"
 "PO-Revision-Date: 2002-01-26 03:32+0800\n"
 "Last-Translator: Hasbullah Bin Pit <sebol@ikhlas.com>\n"
 "Language-Team: Projek Gabai <gabai-penyumbang@lists.sourceforge.org>\n"
@@ -331,8 +330,8 @@ msgstr "Terbitan Kewangan"
 msgid "Functions related to financial derivatives"
 msgstr "Fungsi berkait dengan terbitan kewangan"
 
-#: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4707
-#: plugins/mps/mps.c:639 src/xml-io.c:3342
+#: plugins/dif/dif.c:59 plugins/excel/ms-excel-read.c:4761
+#: plugins/mps/mps.c:639 src/xml-io.c:3351
 msgid "Reading file..."
 msgstr "Membaca fail..."
 
@@ -422,67 +421,63 @@ msgstr "Tak dapat buka"
 msgid "Saving file..."
 msgstr "Menyimpan fail..."
 
-#: plugins/excel/ms-excel-read.c:902
+#: plugins/excel/ms-excel-read.c:912
 msgid "#UNKNOWN!"
 msgstr "#ENTAH!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1036 plugins/lotus-123/lotus.c:205
-#: plugins/oleo/oleo.c:362 plugins/psiconv/psiconv-read.c:500
-#: src/dialogs/dialog-sheet-order.c:416 src/dialogs/dialog-sheet-order.c:420
+#: plugins/excel/ms-excel-read.c:1046 plugins/oleo/oleo.c:362
+#: plugins/psiconv/psiconv-read.c:500 src/dialogs/dialog-sheet-order.c:416
+#: src/dialogs/dialog-sheet-order.c:420
 #, c-format
 msgid "Sheet%d"
 msgstr "Helaian%d"
 
-#: plugins/excel/ms-excel-read.c:1039
+#: plugins/excel/ms-excel-read.c:1049
 #, c-format
 msgid "Macro%d"
 msgstr "Makro%d"
 
-#: plugins/excel/ms-excel-read.c:1042
+#: plugins/excel/ms-excel-read.c:1052
 #, c-format
 msgid "Chart%d"
 msgstr "Carta%d"
 
-#: plugins/excel/ms-excel-read.c:1045
+#: plugins/excel/ms-excel-read.c:1055
 #, c-format
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4590
+#: plugins/excel/ms-excel-read.c:4642
 msgid "external references"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:4865
+#: plugins/excel/ms-excel-read.c:4920
 msgid "This file is encrypted"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:4867
+#: plugins/excel/ms-excel-read.c:4922
 msgid "Invalid password"
 msgstr ""
 
-#: plugins/excel/ms-excel-read.c:4989
+#: plugins/excel/ms-excel-read.c:5046
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Tak dapat menjumpai bukukerja MS Excel yang sah"
 
-#: plugins/excel/ms-excel-write.c:3593
+#: plugins/excel/ms-excel-write.c:3324
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Terlalu banyak baris bagi format ini (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3812
+#: plugins/excel/ms-excel-write.c:3582
 #, fuzzy
 msgid "Couldn't open stream for writing\n"
 msgstr "Tak dapat membuka aliran untuk ditulis\n"
 
-#: plugins/excel/ms-formula-read.c:603
+#: plugins/excel/ms-formula-read.c:611
 msgid "Broken function"
 msgstr "Fungsi rosak"
-
-#: plugins/excel/ms-formula-read.c:1434
-msgid " Unknown formula"
-msgstr "Formula tidak diketahui"
 
 #: plugins/excel/plugin.xml.in.h:1
 msgid "Imports/Exports MS Excel (tm) files"
@@ -501,7 +496,8 @@ msgid "MS Excel (tm) 95 file format"
 msgstr "Format fail MS Excel (tm) 95"
 
 #: plugins/excel/plugin.xml.in.h:5
-msgid "MS Excel (tm) 97 file format"
+#, fuzzy
+msgid "MS Excel (tm) 97/2000/XP file format"
 msgstr "Format fail MS Excel (tm) 97"
 
 #: plugins/fn-complex/functions.c:83
@@ -1846,7 +1842,7 @@ msgstr ""
 
 #. Path of the current directory or folder.
 #: plugins/fn-date/functions.c:986 plugins/fn-eng/functions.c:101
-#: plugins/fn-info/functions.c:1462 plugins/fn-info/functions.c:1478
+#: plugins/fn-info/functions.c:1315 plugins/fn-info/functions.c:1331
 msgid "Unimplemented"
 msgstr ""
 
@@ -3221,6 +3217,7 @@ msgid ""
 "    BEF\t(Belgium)\n"
 "    DEM\t(Germany)\n"
 "    ESP\t(Spain)\n"
+"    EUR\t(Euro)\n"
 "    FIM\t(Finland)\n"
 "    FRF\t(France)\n"
 "    GRD\t(Greek)\n"
@@ -3238,7 +3235,38 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:2432
+#: plugins/fn-financial/functions.c:2449
+msgid ""
+"@FUNCTION=EUROCONVERT\n"
+"@SYNTAX=EUROCONVERT(n,source,target)\n"
+"@DESCRIPTION=EUROCONVERT converts the currency value @n of @source currency "
+"to a target currency @target. Both currencies are given as three-letter "
+"strings using the ISO code system names.  The following currencies are "
+"available:\n"
+"\n"
+"    ATS\t(Austria)\n"
+"    BEF\t(Belgium)\n"
+"    DEM\t(Germany)\n"
+"    ESP\t(Spain)\n"
+"    EUR\t(Euro)\n"
+"    FIM\t(Finland)\n"
+"    FRF\t(France)\n"
+"    GRD\t(Greek)\n"
+"    IEP\t(Ireland)\n"
+"    ITL\t(Italy)\n"
+"    LUF\t(Luxemburg)\n"
+"    NLG\t(Netherlands)\n"
+"    PTE\t(Portugal)\n"
+"\n"
+"* If the given @source or @target is other than one of the above, "
+"EUROCONVERT returns #VALUE! error.\n"
+"\n"
+"@EXAMPLES=\n"
+"EUROCONVERT(2.1,\"DEM\",\"EUR\") returns 1.07.\n"
+"@SEEALSO=EURO"
+msgstr ""
+
+#: plugins/fn-financial/functions.c:2498
 msgid ""
 "@FUNCTION=PRICE\n"
 "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency[,basis])\n"
@@ -3264,7 +3292,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:2508
+#: plugins/fn-financial/functions.c:2574
 msgid ""
 "@FUNCTION=YIELD\n"
 "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency[,basis])\n"
@@ -3290,7 +3318,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:2643
+#: plugins/fn-financial/functions.c:2709
 msgid ""
 "@FUNCTION=YIELDDISC\n"
 "@SYNTAX=YIELDDISC(settlement,maturity,pr,redemption[,basis])\n"
@@ -3317,7 +3345,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:2702
+#: plugins/fn-financial/functions.c:2768
 msgid ""
 "@FUNCTION=YIELDMAT\n"
 "@SYNTAX=YIELDMAT(settlement,maturity,issue,rate,pr[,basis])\n"
@@ -3345,7 +3373,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:2765
+#: plugins/fn-financial/functions.c:2831
 msgid ""
 "@FUNCTION=ODDFPRICE\n"
 "@SYNTAX=ODDFPRICE(settlement,maturity,issue,first_coupon,rate,yld,redemption,"
@@ -3374,7 +3402,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:2871
+#: plugins/fn-financial/functions.c:2937
 msgid ""
 "@FUNCTION=ODDFYIELD\n"
 "@SYNTAX=ODDFYIELD(settlement,maturity,issue,first_coupon,rate,pr,redemption,"
@@ -3402,7 +3430,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:2909
+#: plugins/fn-financial/functions.c:2975
 msgid ""
 "@FUNCTION=ODDLPRICE\n"
 "@SYNTAX=ODDLPRICE(settlement,maturity,last_interest,rate,yld,redemption,"
@@ -3430,7 +3458,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:2976
+#: plugins/fn-financial/functions.c:3042
 msgid ""
 "@FUNCTION=ODDLYIELD\n"
 "@SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,"
@@ -3458,7 +3486,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:3043
+#: plugins/fn-financial/functions.c:3109
 msgid ""
 "@FUNCTION=AMORDEGRC\n"
 "@SYNTAX=AMORDEGRC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -3484,7 +3512,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:3105
+#: plugins/fn-financial/functions.c:3171
 msgid ""
 "@FUNCTION=AMORLINC\n"
 "@SYNTAX=AMORLINC(cost,purchase_date,first_period,salvage,period,rate[,"
@@ -3510,7 +3538,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:3166
+#: plugins/fn-financial/functions.c:3232
 msgid ""
 "@FUNCTION=COUPDAYBS\n"
 "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
@@ -3545,7 +3573,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:3211
+#: plugins/fn-financial/functions.c:3277
 msgid ""
 "@FUNCTION=COUPDAYS\n"
 "@SYNTAX=COUPDAYS(settlement,maturity,frequency[,basis,eom])\n"
@@ -3581,7 +3609,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:3257
+#: plugins/fn-financial/functions.c:3323
 msgid ""
 "@FUNCTION=COUPDAYSNC\n"
 "@SYNTAX=COUPDAYSNC(settlement,maturity,frequency[,basis,eom])\n"
@@ -3616,7 +3644,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:3302
+#: plugins/fn-financial/functions.c:3368
 msgid ""
 "@FUNCTION=COUPNCD\n"
 "@SYNTAX=COUPNCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -3650,7 +3678,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:3346
+#: plugins/fn-financial/functions.c:3412
 msgid ""
 "@FUNCTION=COUPPCD\n"
 "@SYNTAX=COUPPCD(settlement,maturity,frequency[,basis,eom])\n"
@@ -3684,7 +3712,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:3391
+#: plugins/fn-financial/functions.c:3457
 msgid ""
 "@FUNCTION=COUPNUM\n"
 "@SYNTAX=COUPNUM(settlement,maturity,frequency[,basis,eom])\n"
@@ -3716,7 +3744,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:3432
+#: plugins/fn-financial/functions.c:3498
 msgid ""
 "@FUNCTION=CUMIPMT\n"
 "@SYNTAX=CUMIPMT(rate,nper,pv,start_period,end_period,type)\n"
@@ -3736,7 +3764,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:3482
+#: plugins/fn-financial/functions.c:3548
 msgid ""
 "@FUNCTION=CUMPRINC\n"
 "@SYNTAX=CUMPRINC(rate,nper,pv,start_period,end_period,type)\n"
@@ -3756,7 +3784,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:3532
+#: plugins/fn-financial/functions.c:3598
 msgid ""
 "@FUNCTION=MDURATION\n"
 "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
@@ -3783,7 +3811,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-financial/functions.c:3596
+#: plugins/fn-financial/functions.c:3662
 msgid ""
 "@FUNCTION=VDB\n"
 "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
@@ -3811,7 +3839,7 @@ msgstr "Terbitan Kewangan"
 msgid "Interest rate calculations"
 msgstr ""
 
-#: plugins/fn-info/functions.c:107
+#: plugins/fn-info/functions.c:114
 msgid ""
 "@FUNCTION=CELL\n"
 "@SYNTAX=CELL(type,ref)\n"
@@ -3837,11 +3865,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:297 plugins/fn-info/functions.c:1515
-msgid "Unknown info_type"
-msgstr ""
-
-#: plugins/fn-info/functions.c:1345
+#: plugins/fn-info/functions.c:1198
 msgid ""
 "@FUNCTION=EXPRESSION\n"
 "@SYNTAX=EXPRESSION(cell)\n"
@@ -3854,7 +3878,7 @@ msgid ""
 "@SEEALSO=TEXT"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1390
+#: plugins/fn-info/functions.c:1243
 msgid ""
 "@FUNCTION=COUNTBLANK\n"
 "@SYNTAX=COUNTBLANK(range)\n"
@@ -3868,7 +3892,7 @@ msgid ""
 "@SEEALSO=COUNT"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1430
+#: plugins/fn-info/functions.c:1283
 msgid ""
 "@FUNCTION=INFO\n"
 "@SYNTAX=INFO(type)\n"
@@ -3895,28 +3919,32 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1485
+#: plugins/fn-info/functions.c:1338
 msgid "Unknown version"
 msgstr "Versi tidak diketahui"
 
-#: plugins/fn-info/functions.c:1487
+#: plugins/fn-info/functions.c:1340
 #, c-format
 msgid "%s version %s"
 msgstr "%s versi %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
-#: plugins/fn-info/functions.c:1496 src/dialogs/dialog-cell-format.c:2654
-#: src/dialogs/dialog-cell-format.c:2659 src/dialogs/dialog-cell-format.c:2669
+#: plugins/fn-info/functions.c:1349 src/dialogs/dialog-cell-format.c:2653
+#: src/dialogs/dialog-cell-format.c:2658 src/dialogs/dialog-cell-format.c:2668
 #: src/workbook-format-toolbar.c:837
 msgid "Automatic"
 msgstr "Automatik"
 
-#: plugins/fn-info/functions.c:1505
+#: plugins/fn-info/functions.c:1358
 #, fuzzy
 msgid "Unknown system"
 msgstr "Entah"
 
-#: plugins/fn-info/functions.c:1521
+#: plugins/fn-info/functions.c:1368
+msgid "Unknown info_type"
+msgstr ""
+
+#: plugins/fn-info/functions.c:1374
 msgid ""
 "@FUNCTION=ISERROR\n"
 "@SYNTAX=ISERROR(value)\n"
@@ -3930,12 +3958,12 @@ msgid ""
 "@SEEALSO=ERROR"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1545
+#: plugins/fn-info/functions.c:1398
 #, fuzzy
 msgid "Argument mismatch"
 msgstr "Versi tidak padan"
 
-#: plugins/fn-info/functions.c:1577
+#: plugins/fn-info/functions.c:1430
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA(value)\n"
@@ -3949,7 +3977,7 @@ msgid ""
 "@SEEALSO=NA"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1612
+#: plugins/fn-info/functions.c:1465
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR(value)\n"
@@ -3963,7 +3991,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1643
+#: plugins/fn-info/functions.c:1496
 msgid ""
 "@FUNCTION=ERROR.TYPE\n"
 "@SYNTAX=ERROR(value)\n"
@@ -3985,7 +4013,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1702
+#: plugins/fn-info/functions.c:1555
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -3999,7 +4027,7 @@ msgid ""
 "@SEEALSO=ISNA"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1724
+#: plugins/fn-info/functions.c:1577
 msgid ""
 "@FUNCTION=ERROR\n"
 "@SYNTAX=ERROR(text)\n"
@@ -4011,7 +4039,7 @@ msgid ""
 "@SEEALSO=ISERROR"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1745
+#: plugins/fn-info/functions.c:1598
 msgid ""
 "@FUNCTION=ISBLANK\n"
 "@SYNTAX=ISBLANK(value)\n"
@@ -4025,15 +4053,15 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1765 plugins/fn-info/functions.c:1837
-#: plugins/fn-info/functions.c:1865 plugins/fn-info/functions.c:1892
-#: plugins/fn-info/functions.c:1943 plugins/fn-info/functions.c:1973
-#: plugins/fn-info/functions.c:2040 plugins/fn-logical/functions.c:281
-#: src/func.c:891
+#: plugins/fn-info/functions.c:1618 plugins/fn-info/functions.c:1690
+#: plugins/fn-info/functions.c:1718 plugins/fn-info/functions.c:1745
+#: plugins/fn-info/functions.c:1796 plugins/fn-info/functions.c:1826
+#: plugins/fn-info/functions.c:1893 plugins/fn-logical/functions.c:281
+#: src/func.c:902
 msgid "Invalid number of arguments"
 msgstr "Nombor tidak sah bagi hujah"
 
-#: plugins/fn-info/functions.c:1795
+#: plugins/fn-info/functions.c:1648
 msgid ""
 "@FUNCTION=ISEVEN\n"
 "@SYNTAX=ISEVEN(value)\n"
@@ -4047,7 +4075,7 @@ msgid ""
 "@SEEALSO=ISODD"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1817
+#: plugins/fn-info/functions.c:1670
 msgid ""
 "@FUNCTION=ISLOGICAL\n"
 "@SYNTAX=ISLOGICAL(value)\n"
@@ -4061,7 +4089,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1847
+#: plugins/fn-info/functions.c:1700
 msgid ""
 "@FUNCTION=ISNONTEXT\n"
 "@SYNTAX=ISNONTEXT(value)\n"
@@ -4075,7 +4103,7 @@ msgid ""
 "@SEEALSO=ISTEXT"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1874
+#: plugins/fn-info/functions.c:1727
 msgid ""
 "@FUNCTION=ISNUMBER\n"
 "@SYNTAX=ISNUMBER(value)\n"
@@ -4089,7 +4117,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1901
+#: plugins/fn-info/functions.c:1754
 msgid ""
 "@FUNCTION=ISODD\n"
 "@SYNTAX=ISODD(value)\n"
@@ -4103,7 +4131,7 @@ msgid ""
 "@SEEALSO=ISEVEN"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1923
+#: plugins/fn-info/functions.c:1776
 msgid ""
 "@FUNCTION=ISREF\n"
 "@SYNTAX=ISREF(value)\n"
@@ -4117,7 +4145,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:1955
+#: plugins/fn-info/functions.c:1808
 msgid ""
 "@FUNCTION=ISTEXT\n"
 "@SYNTAX=ISTEXT(value)\n"
@@ -4131,7 +4159,7 @@ msgid ""
 "@SEEALSO=ISNONTEXT"
 msgstr ""
 
-#: plugins/fn-info/functions.c:1982
+#: plugins/fn-info/functions.c:1835
 msgid ""
 "@FUNCTION=N\n"
 "@SYNTAX=N(value)\n"
@@ -4146,7 +4174,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:2021
+#: plugins/fn-info/functions.c:1874
 msgid ""
 "@FUNCTION=TYPE\n"
 "@SYNTAX=TYPE(value)\n"
@@ -4161,7 +4189,7 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:2048
+#: plugins/fn-info/functions.c:1901
 msgid ""
 "@FUNCTION=GETENV\n"
 "@SYNTAX=GETENV(string)\n"
@@ -4174,16 +4202,16 @@ msgid ""
 "@SEEALSO="
 msgstr ""
 
-#: plugins/fn-info/functions.c:2076
+#: plugins/fn-info/functions.c:1929
 msgid "info_type, cell"
 msgstr ""
 
-#: plugins/fn-info/functions.c:2078
+#: plugins/fn-info/functions.c:1931
 #, fuzzy
 msgid "range"
 msgstr "Julat"
 
-#: plugins/fn-info/functions.c:2080 plugins/fn-string/functions.c:1242
+#: plugins/fn-info/functions.c:1933 plugins/fn-string/functions.c:1242
 #: plugins/fn-string/functions.c:1244 plugins/fn-string/functions.c:1258
 #: plugins/fn-string/functions.c:1260 plugins/fn-string/functions.c:1262
 #: plugins/fn-string/functions.c:1280 plugins/fn-string/functions.c:1282
@@ -4192,28 +4220,28 @@ msgstr "Julat"
 msgid "text"
 msgstr "Teks alt"
 
-#: plugins/fn-info/functions.c:2082 plugins/fn-info/functions.c:2088
-#: plugins/fn-info/functions.c:2090 plugins/fn-info/functions.c:2092
-#: plugins/fn-info/functions.c:2094 plugins/fn-info/functions.c:2096
-#: plugins/fn-info/functions.c:2098 plugins/fn-info/functions.c:2100
-#: plugins/fn-info/functions.c:2102 plugins/fn-info/functions.c:2104
-#: plugins/fn-info/functions.c:2106 plugins/fn-info/functions.c:2108
-#: plugins/fn-info/functions.c:2110 plugins/fn-info/functions.c:2114
+#: plugins/fn-info/functions.c:1935 plugins/fn-info/functions.c:1941
+#: plugins/fn-info/functions.c:1943 plugins/fn-info/functions.c:1945
+#: plugins/fn-info/functions.c:1947 plugins/fn-info/functions.c:1949
+#: plugins/fn-info/functions.c:1951 plugins/fn-info/functions.c:1953
+#: plugins/fn-info/functions.c:1955 plugins/fn-info/functions.c:1957
+#: plugins/fn-info/functions.c:1959 plugins/fn-info/functions.c:1961
+#: plugins/fn-info/functions.c:1963 plugins/fn-info/functions.c:1967
 #: plugins/fn-string/functions.c:1276
 #, fuzzy
 msgid "value"
 msgstr "Nilai"
 
-#: plugins/fn-info/functions.c:2084
+#: plugins/fn-info/functions.c:1937
 #, fuzzy
 msgid "cell"
 msgstr "Sel"
 
-#: plugins/fn-info/functions.c:2086
+#: plugins/fn-info/functions.c:1939
 msgid "info_type"
 msgstr ""
 
-#: plugins/fn-info/functions.c:2116
+#: plugins/fn-info/functions.c:1969
 #, fuzzy
 msgid "string"
 msgstr "Rentetan"
@@ -5886,7 +5914,7 @@ msgstr ""
 msgid "Maths / Trig."
 msgstr ""
 
-#: plugins/fn-random/functions.c:45
+#: plugins/fn-random/functions.c:50
 msgid ""
 "@FUNCTION=RAND\n"
 "@SYNTAX=RAND()\n"
@@ -5900,7 +5928,7 @@ msgid ""
 "@SEEALSO=RANDBETWEEN"
 msgstr ""
 
-#: plugins/fn-random/functions.c:68
+#: plugins/fn-random/functions.c:73
 msgid ""
 "@FUNCTION=RANDUNIFORM\n"
 "@SYNTAX=RANDUNIFORM(a,b)\n"
@@ -5919,7 +5947,28 @@ msgid ""
 "@SEEALSO=RANDBETWEEN,RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:100
+#: plugins/fn-random/functions.c:105
+msgid ""
+"@FUNCTION=RANDDISCRETE\n"
+"@SYNTAX=RANDDISCRETE(val_range[,prob_range])\n"
+"@DESCRIPTION=RANDDISCRETE returns one of the values in the @val_range. The "
+"probablilites for each value are given in the @prob_range.\n"
+"\n"
+"* If @prob_range is omitted, the uniform discrete distribution is assumed.\n"
+"* If the sum of all values in @prob_range is other than one, RANDDISCRETE "
+"returns #NUM! error.\n"
+"* If @val_range and @prob_range are not the same size, RANDDISCRETE returns "
+"#NUM! error.\n"
+"* If @val_range or @prob_range is not a range, RANDDISCRETE returns #VALUE! "
+"error.\n"
+"\n"
+"@EXAMPLES=\n"
+"RANDDISCRETE(A1:A6) returns one of the values in the range A1:A6.\n"
+"\n"
+"@SEEALSO=RANDBETWEEN,RAND"
+msgstr ""
+
+#: plugins/fn-random/functions.c:235
 msgid ""
 "@FUNCTION=RANDEXP\n"
 "@SYNTAX=RANDEXP(b)\n"
@@ -5931,7 +5980,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: plugins/fn-random/functions.c:123
+#: plugins/fn-random/functions.c:258
 msgid ""
 "@FUNCTION=RANDPOISSON\n"
 "@SYNTAX=RANDPOISSON(lambda)\n"
@@ -5945,7 +5994,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: plugins/fn-random/functions.c:151
+#: plugins/fn-random/functions.c:286
 msgid ""
 "@FUNCTION=RANDBINOM\n"
 "@SYNTAX=RANDBINOM(p,trials)\n"
@@ -5959,7 +6008,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: plugins/fn-random/functions.c:181
+#: plugins/fn-random/functions.c:316
 msgid ""
 "@FUNCTION=RANDBETWEEN\n"
 "@SYNTAX=RANDBETWEEN(bottom,top)\n"
@@ -5976,7 +6025,7 @@ msgid ""
 "@SEEALSO=RAND,RANDUNIFORM"
 msgstr ""
 
-#: plugins/fn-random/functions.c:216
+#: plugins/fn-random/functions.c:351
 msgid ""
 "@FUNCTION=RANDNEGBINOM\n"
 "@SYNTAX=RANDNEGBINOM(p,failures)\n"
@@ -5992,7 +6041,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: plugins/fn-random/functions.c:247
+#: plugins/fn-random/functions.c:382
 msgid ""
 "@FUNCTION=RANDBERNOULLI\n"
 "@SYNTAX=RANDBERNOULLI(p)\n"
@@ -6006,7 +6055,7 @@ msgid ""
 "@SEEALSO=RAND,RANDBETWEEN"
 msgstr ""
 
-#: plugins/fn-random/functions.c:275
+#: plugins/fn-random/functions.c:410
 msgid ""
 "@FUNCTION=RANDGAUSSIAN\n"
 "@SYNTAX=RANDGAUSSIAN(mean,stdev)\n"
@@ -6020,7 +6069,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:304
+#: plugins/fn-random/functions.c:439
 msgid ""
 "@FUNCTION=RANDCAUCHY\n"
 "@SYNTAX=RANDCAUCHY(a)\n"
@@ -6036,7 +6085,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:334
+#: plugins/fn-random/functions.c:469
 msgid ""
 "@FUNCTION=RANDLOGNORM\n"
 "@SYNTAX=RANDLOGNORM(zeta,sigma)\n"
@@ -6048,7 +6097,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:358
+#: plugins/fn-random/functions.c:493
 msgid ""
 "@FUNCTION=RANDWEIBULL\n"
 "@SYNTAX=RANDWEIBULL(a,b)\n"
@@ -6060,7 +6109,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:382
+#: plugins/fn-random/functions.c:517
 msgid ""
 "@FUNCTION=RANDLAPLACE\n"
 "@SYNTAX=RANDLAPLACE(a)\n"
@@ -6074,7 +6123,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:407
+#: plugins/fn-random/functions.c:542
 msgid ""
 "@FUNCTION=RANDRAYLEIGH\n"
 "@SYNTAX=RANDRAYLEIGH(sigma)\n"
@@ -6086,7 +6135,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:430
+#: plugins/fn-random/functions.c:565
 msgid ""
 "@FUNCTION=RANDRAYLEIGHTAIL\n"
 "@SYNTAX=RANDRAYLEIGHTAIL(a,sigma)\n"
@@ -6104,7 +6153,7 @@ msgid ""
 "@SEEALSO=RAND,RANDRAYLEIGH"
 msgstr ""
 
-#: plugins/fn-random/functions.c:458
+#: plugins/fn-random/functions.c:593
 msgid ""
 "@FUNCTION=RANDGAMMA\n"
 "@SYNTAX=RANDGAMMA(a,b)\n"
@@ -6118,7 +6167,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:487
+#: plugins/fn-random/functions.c:622
 msgid ""
 "@FUNCTION=RANDPARETO\n"
 "@SYNTAX=RANDPARETO(a,b)\n"
@@ -6130,7 +6179,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:511
+#: plugins/fn-random/functions.c:646
 msgid ""
 "@FUNCTION=RANDFDIST\n"
 "@SYNTAX=RANDFDIST(nu1,nu2)\n"
@@ -6142,7 +6191,7 @@ msgid ""
 "@SEEALSO=RAND,RANDGAMMA"
 msgstr ""
 
-#: plugins/fn-random/functions.c:535
+#: plugins/fn-random/functions.c:670
 msgid ""
 "@FUNCTION=RANDBETA\n"
 "@SYNTAX=RANDBETA(a,b)\n"
@@ -6154,7 +6203,7 @@ msgid ""
 "@SEEALSO=RAND,RANDGAMMA"
 msgstr ""
 
-#: plugins/fn-random/functions.c:559
+#: plugins/fn-random/functions.c:694
 msgid ""
 "@FUNCTION=RANDLOGISTIC\n"
 "@SYNTAX=RANDLOGISTIC(a)\n"
@@ -6170,7 +6219,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:585
+#: plugins/fn-random/functions.c:720
 msgid ""
 "@FUNCTION=RANDGEOM\n"
 "@SYNTAX=RANDGEOM(p)\n"
@@ -6187,7 +6236,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:616
+#: plugins/fn-random/functions.c:751
 msgid ""
 "@FUNCTION=RANDHYPERG\n"
 "@SYNTAX=RANDHYPERG(n1,n2,t)\n"
@@ -6205,7 +6254,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:646
+#: plugins/fn-random/functions.c:781
 msgid ""
 "@FUNCTION=RANDLOG\n"
 "@SYNTAX=RANDLOG(p)\n"
@@ -6219,7 +6268,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:674
+#: plugins/fn-random/functions.c:809
 msgid ""
 "@FUNCTION=RANDCHISQ\n"
 "@SYNTAX=RANDCHISQ(nu)\n"
@@ -6231,7 +6280,7 @@ msgid ""
 "@SEEALSO=RAND,RANDGAMMA"
 msgstr ""
 
-#: plugins/fn-random/functions.c:697
+#: plugins/fn-random/functions.c:832
 msgid ""
 "@FUNCTION=RANDTDIST\n"
 "@SYNTAX=RANDTDIST(nu)\n"
@@ -6243,7 +6292,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:720
+#: plugins/fn-random/functions.c:855
 msgid ""
 "@FUNCTION=RANDGUMBEL\n"
 "@SYNTAX=RANDGUMBEL(a,b[,type])\n"
@@ -6260,7 +6309,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:756
+#: plugins/fn-random/functions.c:891
 msgid ""
 "@FUNCTION=RANDLEVY\n"
 "@SYNTAX=RANDLEVY(c,alpha[,beta])\n"
@@ -6279,7 +6328,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:791
+#: plugins/fn-random/functions.c:926
 msgid ""
 "@FUNCTION=RANDEXPPOW\n"
 "@SYNTAX=RANDEXPPOW(a,b)\n"
@@ -6298,7 +6347,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:822
+#: plugins/fn-random/functions.c:957
 msgid ""
 "@FUNCTION=RANDLANDAU\n"
 "@SYNTAX=RANDLANDAU()\n"
@@ -6319,7 +6368,7 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:850
+#: plugins/fn-random/functions.c:985
 msgid ""
 "@FUNCTION=RANDGAUSSIANTAIL\n"
 "@SYNTAX=RANDGAUSSIANTAIL(a,sigma)\n"
@@ -6343,79 +6392,119 @@ msgid ""
 "@SEEALSO=RAND"
 msgstr ""
 
-#: plugins/fn-random/functions.c:888 plugins/fn-random/functions.c:910
-#: plugins/fn-random/functions.c:922 plugins/fn-stat/functions.c:5273
+#: plugins/fn-random/functions.c:1021
+msgid ""
+"@FUNCTION=SIMTABLE\n"
+"@SYNTAX=SIMTABLE(d1, d2, ..., dN)\n"
+"@DESCRIPTION=SIMTABLE returns one of the values in the given argument list "
+"depending on the round number of the simulation tool. When the simulation "
+"tool is not activated, SIMTABLE returns @d1.\n"
+"\n"
+"With the simulation tool and the SIMTABLE function you can test given "
+"decision variables. Each SIMTABLE function contains the possible values of a "
+"simulation variable. In most of valid simulation models you should have the "
+"same number of values @dN for all decision variables.  If the simulation is "
+"run more rounds than there are values defined, SIMTABLE returns #N/A! error "
+"(e.g. if A1 contains `=SIMTABLE(1)' and A2 `=SIMTABLE(1,2)', A1 yields #N/A! "
+"error on the second round).\n"
+"\n"
+"The successive use of the simulation tool also requires that you give to the "
+"tool at least one input variable having RAND() or any other "
+"RAND<distribution name>() function in it. On each round, the simulation tool "
+"iterates given number of times all the input variables to revalue them. On "
+"each iteration, the values of the of the output variables are stored, and "
+"when the round is completed, descriptive statistical information is created "
+"according to the values.\n"
+"\n"
+"@EXAMPLES=\n"
+"SIMTABLE(TRUE,FALSE) returns TRUE on the first simulation round and FALSE on "
+"the second round.\n"
+"SIMTABLE(223,225,227,229) returns 227 on the simulation round #3.\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+
+#: plugins/fn-random/functions.c:1097 plugins/fn-random/functions.c:1121
+#: plugins/fn-random/functions.c:1133 plugins/fn-stat/functions.c:5273
 msgid "p"
 msgstr ""
 
-#: plugins/fn-random/functions.c:890 plugins/fn-random/functions.c:902
-#: plugins/fn-random/functions.c:906 plugins/fn-random/functions.c:932
-#: plugins/fn-random/functions.c:942 plugins/fn-random/functions.c:944
+#: plugins/fn-random/functions.c:1099 plugins/fn-random/functions.c:1113
+#: plugins/fn-random/functions.c:1117 plugins/fn-random/functions.c:1143
+#: plugins/fn-random/functions.c:1153 plugins/fn-random/functions.c:1155
 #, fuzzy
 msgid "a,b"
 msgstr "tab"
 
-#: plugins/fn-random/functions.c:892
+#: plugins/fn-random/functions.c:1101
 #, fuzzy
 msgid "bottom,top"
 msgstr "Bawah"
 
-#: plugins/fn-random/functions.c:894
+#: plugins/fn-random/functions.c:1103
 #, fuzzy
 msgid "p,trials"
 msgstr "April"
 
-#: plugins/fn-random/functions.c:896 plugins/fn-random/functions.c:918
-#: plugins/fn-random/functions.c:924
+#: plugins/fn-random/functions.c:1105 plugins/fn-random/functions.c:1129
+#: plugins/fn-random/functions.c:1135
 msgid "a"
 msgstr ""
 
-#: plugins/fn-random/functions.c:898 plugins/fn-random/functions.c:940
+#: plugins/fn-random/functions.c:1107 plugins/fn-random/functions.c:1151
 msgid "nu"
 msgstr ""
 
-#: plugins/fn-random/functions.c:900
+#: plugins/fn-random/functions.c:1109
+msgid "value_range,prob_range"
+msgstr ""
+
+#: plugins/fn-random/functions.c:1111
 msgid "b"
 msgstr ""
 
-#: plugins/fn-random/functions.c:904
+#: plugins/fn-random/functions.c:1115
 msgid "nu1,nu2"
 msgstr ""
 
-#: plugins/fn-random/functions.c:908 plugins/fn-random/functions.c:938
+#: plugins/fn-random/functions.c:1119 plugins/fn-random/functions.c:1149
 msgid "a,sigma"
 msgstr ""
 
-#: plugins/fn-random/functions.c:912
+#: plugins/fn-random/functions.c:1123
 msgid "a,b[,type]"
 msgstr ""
 
-#: plugins/fn-random/functions.c:914
+#: plugins/fn-random/functions.c:1125
 msgid "n1,n2,t"
 msgstr ""
 
-#: plugins/fn-random/functions.c:920
+#: plugins/fn-random/functions.c:1131
 msgid "c,alpha[,beta]"
 msgstr ""
 
-#: plugins/fn-random/functions.c:926
+#: plugins/fn-random/functions.c:1137
 msgid "zeta,sigma"
 msgstr ""
 
-#: plugins/fn-random/functions.c:928
+#: plugins/fn-random/functions.c:1139
 msgid "p,failures"
 msgstr ""
 
-#: plugins/fn-random/functions.c:930
+#: plugins/fn-random/functions.c:1141
 msgid "mean,stdev"
 msgstr ""
 
-#: plugins/fn-random/functions.c:934
+#: plugins/fn-random/functions.c:1145
 msgid "lambda"
 msgstr ""
 
-#: plugins/fn-random/functions.c:936
+#: plugins/fn-random/functions.c:1147
 msgid "sigma"
+msgstr ""
+
+#: plugins/fn-random/functions.c:1157
+msgid "d1[,d2,...,dN]"
 msgstr ""
 
 #: plugins/fn-random/plugin.xml.in.h:1
@@ -8761,7 +8850,7 @@ msgid "Functions for manipulating strings"
 msgstr ""
 
 #: plugins/fn-string/plugin.xml.in.h:2 src/dialogs/dialog-search.c:140
-#: src/func.c:643
+#: src/func.c:654
 msgid "String"
 msgstr "Rentetan"
 
@@ -8770,16 +8859,16 @@ msgstr "Rentetan"
 msgid "String Functions"
 msgstr "Fungsi Python"
 
-#: plugins/gb/plugin.c:138
+#: plugins/gb/plugin.c:132
 msgid "Unknown GB error"
 msgstr "Rakat GB tidak diketahui"
 
-#: plugins/gb/plugin.c:373
+#: plugins/gb/plugin.c:367
 #, c-format
 msgid "Error initializing gb '%s'"
 msgstr "Ralat menginitialisasikan gb '%s'"
 
-#: plugins/gb/plugin.c:388
+#: plugins/gb/plugin.c:382
 #, c-format
 msgid "Error in project '%s'"
 msgstr "Ralat pada projek '%s'"
@@ -8931,7 +9020,7 @@ msgstr "TROFF (*.me)"
 msgid "Error executing groff."
 msgstr "Ralat melaksanakan groff."
 
-#: plugins/lotus-123/lotus.c:340
+#: plugins/lotus-123/lotus.c:342
 msgid "Error while reading lotus workbook."
 msgstr "Ralat bila membaca bukukerja lotus."
 
@@ -8972,21 +9061,18 @@ msgstr "Pengekangan:"
 
 #: plugins/mps/mps.c:251 src/dialogs/dialog-formula-guru.c:808
 #: src/dialogs/dialog-function-select.c:419
-#: src/dialogs/dialog-function-select.c:441
-#: src/dialogs/dialog-plugin-manager.c:710
-#: src/dialogs/plugin-manager.glade.h:8 src/format-template.c:404
-#: src/tools/solver/reports-write.c:164 src/tools/solver/reports-write.c:186
-#: src/tools/solver/reports-write.c:213 src/tools/solver/reports-write.c:320
-#: src/tools/solver/reports-write.c:366 src/tools/solver/reports-write.c:478
-#: src/tools/solver/reports-write.c:485 src/tools/solver/reports-write.c:755
-#: src/workbook-control.c:245
+#: src/dialogs/dialog-function-select.c:441 src/format-template.c:404
+#: src/tools/solver/reports-write.c:123 src/tools/solver/reports-write.c:145
+#: src/tools/solver/reports-write.c:172 src/tools/solver/reports-write.c:279
+#: src/tools/solver/reports-write.c:325 src/tools/solver/reports-write.c:437
+#: src/tools/solver/reports-write.c:444 src/tools/solver/reports-write.c:714
+#: src/workbook-control.c:242
 msgid "Name"
 msgstr "Nama"
 
-#: plugins/mps/mps.c:278 src/dialogs/dialog-plugin-manager.c:715
-#: src/dialogs/dialog-preferences.c:510 src/tools/solver/reports-write.c:321
-#: src/tools/solver/reports-write.c:367 src/tools/solver/reports-write.c:479
-#: src/tools/solver/reports-write.c:486
+#: plugins/mps/mps.c:278 src/dialogs/dialog-preferences.c:510
+#: src/tools/solver/reports-write.c:280 src/tools/solver/reports-write.c:326
+#: src/tools/solver/reports-write.c:438 src/tools/solver/reports-write.c:445
 msgid "Value"
 msgstr "Nilai"
 
@@ -8994,7 +9080,7 @@ msgstr "Nilai"
 #. * Fill in the labels of `General Info' section.
 #.
 #: plugins/mps/mps.c:279 src/dialogs/dialog-formula-guru.c:812
-#: src/tools/solver/reports-write.c:602
+#: src/tools/solver/reports-write.c:561
 msgid "Type"
 msgstr "Jenis"
 
@@ -9002,12 +9088,12 @@ msgstr "Jenis"
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:281 src/tools/solver/reports-write.c:217
+#: plugins/mps/mps.c:281 src/tools/solver/reports-write.c:176
 msgid "Slack"
 msgstr ""
 
-#: plugins/mps/mps.c:282 src/tools/solver/reports-write.c:216
-#: src/tools/solver/reports-write.c:603
+#: plugins/mps/mps.c:282 src/tools/solver/reports-write.c:175
+#: src/tools/solver/reports-write.c:562
 msgid "Status"
 msgstr "Status"
 
@@ -9219,22 +9305,21 @@ msgstr ""
 msgid "Perl"
 msgstr "Perl"
 
-#: plugins/plan-perfect/pln.c:716
+#: plugins/plan-perfect/pln.c:722
 msgid "PLN : Spreadsheet is password encrypted"
 msgstr ""
 
-#: plugins/plan-perfect/pln.c:775
+#: plugins/plan-perfect/pln.c:787
 #, c-format
-msgid ""
-"Invalid PLN file has more than the maximum\n"
-"number of %s %d"
+msgid "Ignoring data that claims to be in row %u which is > max row %u"
 msgstr ""
 
-#: plugins/plan-perfect/pln.c:777
-msgid "rows"
-msgstr "Baris"
+#: plugins/plan-perfect/pln.c:791
+#, c-format
+msgid "Ignoring data that claims to be in column %u which is > max column %u"
+msgstr ""
 
-#: plugins/plan-perfect/pln.c:853
+#: plugins/plan-perfect/pln.c:863
 msgid "PLN : Not a PlanPerfect File"
 msgstr ""
 
@@ -9316,53 +9401,44 @@ msgstr ""
 msgid "Unsupported Python type: %s"
 msgstr "Jenis Python tidak disokong: %s"
 
-#: plugins/python-loader/python-loader.c:135
+#: plugins/python-loader/python-loader.c:122
 msgid "Python module name not given."
 msgstr "Nama modul Python tidak diberi."
 
-#: plugins/python-loader/python-loader.c:179
+#: plugins/python-loader/python-loader.c:163
 #, c-format
 msgid "Module \"%s\" doesn't exist."
 msgstr "Modul \"%s\" tidak wujud."
 
-#: plugins/python-loader/python-loader.c:205
+#: plugins/python-loader/python-loader.c:189
 #, c-format
 msgid "Execution of module \"%s\" failed."
 msgstr "Perlaksanaan modul  \"%s\" gagal."
 
-#: plugins/python-loader/python-loader.c:237 src/plugin-loader-module.c:193
-msgid "Loader"
-msgstr "Pemuat"
-
-#: plugins/python-loader/python-loader.c:240
-msgid "Python module name"
-msgstr "Nama modul Python"
-
-#: plugins/python-loader/python-loader.c:370
+#: plugins/python-loader/python-loader.c:320
 msgid "Some name"
 msgstr "setengah nama"
 
-#: plugins/python-loader/python-loader.c:438
-#: plugins/python-loader/python-loader.c:523
-#: plugins/python-loader/python-loader.c:735
+#: plugins/python-loader/python-loader.c:377
+#: plugins/python-loader/python-loader.c:452
+#: plugins/python-loader/python-loader.c:664
 #, c-format
 msgid "Python file \"%s\" has invalid format."
 msgstr ""
 
-#: plugins/python-loader/python-loader.c:443
-#: plugins/python-loader/python-loader.c:449
-#: plugins/python-loader/python-loader.c:528 src/plugin-loader-module.c:442
-#: src/plugin-loader-module.c:448 src/plugin-loader-module.c:513
+#: plugins/python-loader/python-loader.c:381
+#: plugins/python-loader/python-loader.c:457 src/plugin-loader-module.c:355
+#: src/plugin-loader-module.c:416
 #, c-format
 msgid "File doesn't contain \"%s\" function."
 msgstr "Fail tidak mengandungi fungsi \"%s\". "
 
-#: plugins/python-loader/python-loader.c:740
+#: plugins/python-loader/python-loader.c:669
 #, c-format
 msgid "File doesn't contain \"%s\" dictionary."
 msgstr "Fail tidak mengandungi kamus \"%s\"."
 
-#: plugins/python-loader/python-loader.c:745
+#: plugins/python-loader/python-loader.c:674
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
 msgstr "Objek \"%s\" bukanlah satu kamus"
@@ -9387,11 +9463,11 @@ msgstr "Jenis Python tidak diketahui"
 msgid "Unable to lookup Python code object."
 msgstr "Tak dapat menjumpai objek kod Python."
 
-#: plugins/python/python.c:835
+#: plugins/python/python.c:845
 msgid "object must be callable"
 msgstr "objek mesti boleh dipanggil"
 
-#: plugins/python/python.c:963
+#: plugins/python/python.c:961
 #, c-format
 msgid "Unhandled Python exception: %s"
 msgstr "Pengecualian Python tak dapat dikendali: %s"
@@ -9475,8 +9551,8 @@ msgid "Error while opening xbase file."
 msgstr "Ralat bila membuka fail xbase."
 
 #: plugins/xbase/boot.c:170 src/dialogs/dialog-goto-cell.c:280
-#: src/dialogs/print.glade.h:20 src/workbook.c:946 src/workbook.c:1197
-#: src/xml-io.c:3088
+#: src/dialogs/print.glade.h:20 src/workbook.c:946 src/workbook.c:1216
+#: src/xml-io.c:3097
 msgid "Sheet"
 msgstr "Helaian"
 
@@ -9504,7 +9580,7 @@ msgstr ""
 msgid "The next generation sax based xml I/O subsystem"
 msgstr ""
 
-#: plugins/xml_sax/xml-sax-read.c:2112
+#: plugins/xml_sax/xml-sax-read.c:2117
 #, fuzzy
 msgid "XML document not well formed!"
 msgstr "a dokumen dimuatkan"
@@ -9513,11 +9589,11 @@ msgstr "a dokumen dimuatkan"
 msgid "About this application"
 msgstr "Perihal aplikasi ini"
 
-#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3361
+#: src/GNOME_Gnumeric.xml.h:2 src/workbook-control-gui.c:3391
 msgid "Add an outline group"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3394
+#: src/GNOME_Gnumeric.xml.h:3 src/workbook-control-gui.c:3424
 msgid "Advanced _Filter..."
 msgstr "_Tapisan Lanjutan..."
 
@@ -9533,28 +9609,28 @@ msgstr "Jajar kandungan ke kiri dan naikkan inden"
 msgid "Arrow"
 msgstr "Panah"
 
-#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3329
+#: src/GNOME_Gnumeric.xml.h:7 src/workbook-control-gui.c:3353
 msgid "Auto _Correct..."
 msgstr "Auto Pem_betul..."
 
-#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2945
+#: src/GNOME_Gnumeric.xml.h:8 src/workbook-control-gui.c:2969
 msgid "Auto_fill"
 msgstr "Auto_isi"
 
-#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2946
+#: src/GNOME_Gnumeric.xml.h:9 src/workbook-control-gui.c:2970
 msgid "Automatically fill the current selection"
 msgstr "Automatik isi pilihan semasa"
 
-#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3330
+#: src/GNOME_Gnumeric.xml.h:10 src/workbook-control-gui.c:3354
 msgid "Automatically perform simple spell checking"
 msgstr "Automatik lakukan penyemakan ejaan mudah"
 
-#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3333
+#: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:3357
 msgid "Automatically save the current document at regular intervals"
 msgstr "Automatik simpan dokumen semasa pada selangmasa biasa"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:14
-#: src/dialogs/dialog-cell-format.c:2664 src/workbook-format-toolbar.c:818
+#: src/dialogs/dialog-cell-format.c:2663 src/workbook-format-toolbar.c:818
 #: src/workbook-format-toolbar.c:876
 msgid "Background"
 msgstr "LatarBelakang"
@@ -9574,15 +9650,15 @@ msgstr "Sempadan"
 msgid "Button"
 msgstr "Butang"
 
-#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:3092
+#: src/GNOME_Gnumeric.xml.h:16 src/workbook-control-gui.c:3116
 msgid "C_ells..."
 msgstr "S_el..."
 
-#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:3002
+#: src/GNOME_Gnumeric.xml.h:17 src/workbook-control-gui.c:3026
 msgid "C_lear"
 msgstr "Te_rangkan"
 
-#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:3213
+#: src/GNOME_Gnumeric.xml.h:18 src/workbook-control-gui.c:3237
 msgid "C_olumn"
 msgstr "K_olum"
 
@@ -9602,739 +9678,741 @@ msgstr "Tengah merentas sel yang dipilih"
 msgid "Centers the text in each selection"
 msgstr "Tengahkan teks pada setiap pilihan"
 
-#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2886
+#: src/GNOME_Gnumeric.xml.h:23 src/workbook-control-gui.c:2910
 msgid "Change Gnumeric Preferences"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3147
+#: src/GNOME_Gnumeric.xml.h:24 src/workbook-control-gui.c:3171
 msgid "Change height of the selected rows"
 msgstr "Tukar tinggi baris dipilih"
 
-#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3140
+#: src/GNOME_Gnumeric.xml.h:25 src/workbook-control-gui.c:3164
 msgid "Change the default column width"
 msgstr "Tukar lebar kolum default"
 
-#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3159
+#: src/GNOME_Gnumeric.xml.h:26 src/workbook-control-gui.c:3183
 msgid "Change the default row height"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:27
-#, fuzzy
-msgid "Change the order the sheets are displayed"
-msgstr "Kawal samada pemaparan imej"
-
-#: src/GNOME_Gnumeric.xml.h:28 src/workbook-control-gui.c:3128
+#: src/GNOME_Gnumeric.xml.h:27 src/workbook-control-gui.c:3152
 msgid "Change width of the selected columns"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:29 src/workbook-object-toolbar.c:145
+#: src/GNOME_Gnumeric.xml.h:28 src/workbook-object-toolbar.c:145
 msgid "Checkbox"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2906
+#: src/GNOME_Gnumeric.xml.h:29 src/workbook-control-gui.c:2930
 msgid "Clear the selected cells' comments"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2909
+#: src/GNOME_Gnumeric.xml.h:30 src/workbook-control-gui.c:2933
 msgid "Clear the selected cells' contents"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2903
+#: src/GNOME_Gnumeric.xml.h:31 src/workbook-control-gui.c:2927
 msgid "Clear the selected cells' formats"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:33 src/workbook-control-gui.c:2900
+#: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2924
 msgid "Clear the selected cells' formats, comments, and contents"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:34
+#: src/GNOME_Gnumeric.xml.h:33
 #, fuzzy
 msgid "Close the current file"
 msgstr "Cetak fail semasa"
 
-#: src/GNOME_Gnumeric.xml.h:35 src/dialogs/print.glade.h:6
-#: src/workbook-control-gui.c:2905
+#: src/GNOME_Gnumeric.xml.h:34 src/dialogs/print.glade.h:6
+#: src/workbook-control-gui.c:2929
 #, fuzzy
 msgid "Co_mments"
 msgstr "Kandungan"
 
-#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3288
+#: src/GNOME_Gnumeric.xml.h:35 src/workbook-control-gui.c:3312
 #, fuzzy
 msgid "Co_variance"
 msgstr "Pen_ampilan"
 
-#: src/GNOME_Gnumeric.xml.h:37 src/workbook-control-gui.c:3355
+#: src/GNOME_Gnumeric.xml.h:36 src/workbook-control-gui.c:3385
 #, fuzzy
 msgid "Collapse an outline group"
 msgstr "_Kuncupkan semua kategori"
 
-#: src/GNOME_Gnumeric.xml.h:38
+#: src/GNOME_Gnumeric.xml.h:37
 msgid "Combo Box"
 msgstr "Kekotak Combo"
 
-#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3260
+#: src/GNOME_Gnumeric.xml.h:38 src/workbook-control-gui.c:3284
 msgid "Comparing two population means for two paired samples.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3264
+#: src/GNOME_Gnumeric.xml.h:39 src/workbook-control-gui.c:3288
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with equal "
 "var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3269
+#: src/GNOME_Gnumeric.xml.h:40 src/workbook-control-gui.c:3293
 msgid ""
 "Comparing two population means for two unpaired samples from pop. with "
 "unequal var.: t-test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3274
+#: src/GNOME_Gnumeric.xml.h:41 src/workbook-control-gui.c:3298
 msgid ""
 "Comparing two population means from pop. with known variances or using a "
 "large sample: z- test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:43 src/workbook-control-gui.c:3316
+#: src/GNOME_Gnumeric.xml.h:42 src/workbook-control-gui.c:3340
 msgid "Comparing two population variances"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:44
+#: src/GNOME_Gnumeric.xml.h:43
 #, fuzzy
 msgid "Configure toolbars"
 msgstr "Sembunyi toolbar"
 
-#: src/GNOME_Gnumeric.xml.h:45 src/workbook-control-gui.c:3412
+#: src/GNOME_Gnumeric.xml.h:44 src/workbook-control-gui.c:3442
 msgid "Consolidate regions using a function"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:46 src/sheet-view.c:311
-#: src/workbook-control-gui.c:3466
+#: src/GNOME_Gnumeric.xml.h:45 src/sheet-view.c:305
+#: src/workbook-control-gui.c:3496
 msgid "Copy"
 msgstr "Salin"
 
-#: src/GNOME_Gnumeric.xml.h:47
+#: src/GNOME_Gnumeric.xml.h:46
 #, fuzzy
 msgid "Copy the current selection to the clipboard"
 msgstr "Simpan sessi semasa ke satu fail"
 
-#: src/GNOME_Gnumeric.xml.h:48
+#: src/GNOME_Gnumeric.xml.h:47
 msgid "Copy the selection"
 msgstr "Salin Pilihan"
 
-#: src/GNOME_Gnumeric.xml.h:49 src/dialogs/covariance.glade.h:3
+#: src/GNOME_Gnumeric.xml.h:48 src/dialogs/covariance.glade.h:3
 #: src/tools/analysis-tools.c:888 src/tools/analysis-tools.c:891
-#: src/workbook-control-gui.c:3289
+#: src/workbook-control-gui.c:3313
 msgid "Covariance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:50
+#: src/GNOME_Gnumeric.xml.h:49
 msgid "Create a button"
 msgstr "Cipta butang"
 
-#: src/GNOME_Gnumeric.xml.h:51
+#: src/GNOME_Gnumeric.xml.h:50
 #, fuzzy
 msgid "Create a checkbox"
 msgstr "Cipta tab baru"
 
-#: src/GNOME_Gnumeric.xml.h:52
+#: src/GNOME_Gnumeric.xml.h:51
 msgid "Create a combo box"
 msgstr "Cipta kekotak combo"
 
-#: src/GNOME_Gnumeric.xml.h:53
+#: src/GNOME_Gnumeric.xml.h:52
 msgid "Create a frame"
 msgstr "Cipta bingkai"
 
-#: src/GNOME_Gnumeric.xml.h:54
+#: src/GNOME_Gnumeric.xml.h:53
 #, fuzzy
 msgid "Create a label"
 msgstr "Cipta tab baru"
 
-#: src/GNOME_Gnumeric.xml.h:55
+#: src/GNOME_Gnumeric.xml.h:54
 #, fuzzy
 msgid "Create a line"
 msgstr "Cipta tab baru"
 
-#: src/GNOME_Gnumeric.xml.h:56
+#: src/GNOME_Gnumeric.xml.h:55
 msgid "Create a list"
 msgstr "Cipta senarai"
 
-#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:3044
+#: src/GNOME_Gnumeric.xml.h:56 src/workbook-control-gui.c:3068
 #, fuzzy
 msgid "Create a new shared view of the workbook"
 msgstr "Cipta pemisah baru"
 
-#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:2863
+#: src/GNOME_Gnumeric.xml.h:57 src/workbook-control-gui.c:2887
 #, fuzzy
 msgid "Create a new spreadsheet"
 msgstr "Cipta pemisah baru"
 
-#: src/GNOME_Gnumeric.xml.h:59 src/workbook-control-gui.c:3047
+#: src/GNOME_Gnumeric.xml.h:58 src/workbook-control-gui.c:3071
 msgid "Create a new unshared view of the workbook"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:60
+#: src/GNOME_Gnumeric.xml.h:59
 #, fuzzy
 msgid "Create a new workbook"
 msgstr "Cipta TandaBuku baru"
 
-#: src/GNOME_Gnumeric.xml.h:61
+#: src/GNOME_Gnumeric.xml.h:60
 #, fuzzy
 msgid "Create a radio button"
 msgstr "Cipta pemisah baru"
 
-#: src/GNOME_Gnumeric.xml.h:62
+#: src/GNOME_Gnumeric.xml.h:61
 #, fuzzy
 msgid "Create a scrollbar"
 msgstr "Cipta pemisah baru"
 
-#: src/GNOME_Gnumeric.xml.h:63
+#: src/GNOME_Gnumeric.xml.h:62
 #, fuzzy
 msgid "Create an arrow"
 msgstr "Cipta tab baru"
 
-#: src/GNOME_Gnumeric.xml.h:64 src/sheet-control-gui.c:1395
+#: src/GNOME_Gnumeric.xml.h:63 src/sheet-control-gui.c:1395
 msgid "Cu_t"
 msgstr "Po_tong"
 
 #. Default <Ctrl-;> (control semi-colon) to insert the current date
-#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:3065
+#: src/GNOME_Gnumeric.xml.h:64 src/workbook-control-gui.c:3089
 #, fuzzy
 msgid "Current _date"
 msgstr "Kawalan Semasa"
 
 #. Default <Ctrl-:> (control colon) to insert the current time
-#: src/GNOME_Gnumeric.xml.h:66 src/workbook-control-gui.c:3071
+#: src/GNOME_Gnumeric.xml.h:65 src/workbook-control-gui.c:3095
 #, fuzzy
 msgid "Current _time"
 msgstr "Kawalan Semasa"
 
-#: src/GNOME_Gnumeric.xml.h:67 src/sheet-view.c:336 src/sheet-view.c:339
-#: src/workbook-control-gui.c:3463
+#: src/GNOME_Gnumeric.xml.h:66 src/sheet-view.c:330 src/sheet-view.c:333
+#: src/workbook-control-gui.c:3493
 msgid "Cut"
 msgstr "Potong"
 
-#: src/GNOME_Gnumeric.xml.h:68
+#: src/GNOME_Gnumeric.xml.h:67
 msgid "Cut the selection"
 msgstr "Potong pilihan"
 
-#: src/GNOME_Gnumeric.xml.h:69 src/workbook-format-toolbar.c:392
+#: src/GNOME_Gnumeric.xml.h:68 src/workbook-format-toolbar.c:392
 #: src/workbook-format-toolbar.c:472
 msgid "Decrease Indent"
 msgstr "Kurangkan Inden"
 
-#: src/GNOME_Gnumeric.xml.h:70
+#: src/GNOME_Gnumeric.xml.h:69
 msgid "Decrease Precision"
 msgstr "Kurangkan Ketepatan"
 
-#: src/GNOME_Gnumeric.xml.h:71 src/workbook-format-toolbar.c:466
+#: src/GNOME_Gnumeric.xml.h:70 src/workbook-format-toolbar.c:466
 msgid "Decreases the number of decimals displayed"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3174
+#: src/GNOME_Gnumeric.xml.h:71 src/workbook-control-gui.c:3198
 msgid "Display _Formulas"
 msgstr "Papar _Formula"
 
-#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:3370
+#: src/GNOME_Gnumeric.xml.h:72 src/workbook-control-gui.c:3400
 msgid "Display _Outlines"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:3175
+#: src/GNOME_Gnumeric.xml.h:73 src/workbook-control-gui.c:3199
 msgid "Display the value of a formula or the formula itself"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:75
+#: src/GNOME_Gnumeric.xml.h:74
 msgid "Draw a rectangle"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:76
+#: src/GNOME_Gnumeric.xml.h:75
 #, fuzzy
 msgid "Draw an ellipse"
 msgstr "Pengendali heret"
 
-#: src/GNOME_Gnumeric.xml.h:77
+#: src/GNOME_Gnumeric.xml.h:76
 msgid "E_xit"
 msgstr "Ke_luar"
 
-#: src/GNOME_Gnumeric.xml.h:78
+#: src/GNOME_Gnumeric.xml.h:77
 #, fuzzy
 msgid "Edit a formula in the current cell"
 msgstr "Keluar perisian, simpan sessi semasa"
 
-#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:2882
+#: src/GNOME_Gnumeric.xml.h:78 src/workbook-control-gui.c:2906
 msgid "Edit descriptive information"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3080
+#: src/GNOME_Gnumeric.xml.h:79 src/workbook-control-gui.c:3104
 msgid "Edit sheet and workbook names"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3221
+#: src/GNOME_Gnumeric.xml.h:80 src/workbook-control-gui.c:3245
 msgid "Edit the Gnumeric Preferences"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:82 src/workbook-control-gui.c:3118
+#: src/GNOME_Gnumeric.xml.h:81 src/workbook-control-gui.c:3142
 msgid "Edit the selected cell's comment"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:83 src/workbook-object-toolbar.c:169
+#: src/GNOME_Gnumeric.xml.h:82 src/workbook-object-toolbar.c:169
 msgid "Ellipse"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:84 src/workbook-control-gui.c:3131
+#: src/GNOME_Gnumeric.xml.h:83 src/workbook-control-gui.c:3155
 msgid "Ensure columns are just wide enough to display content"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:85 src/workbook-control-gui.c:3150
+#: src/GNOME_Gnumeric.xml.h:84 src/workbook-control-gui.c:3174
 msgid "Ensure rows are just tall enough to display content"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:86
+#: src/GNOME_Gnumeric.xml.h:85
 msgid "Exit the program"
 msgstr "Keluar Perisian"
 
-#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3247
+#: src/GNOME_Gnumeric.xml.h:86 src/workbook-control-gui.c:3271
 msgid "Exponential smoothing"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3295
+#: src/GNOME_Gnumeric.xml.h:87 src/workbook-control-gui.c:3319
 #, fuzzy
 msgid "F_orecasting"
 msgstr "L_okasi"
 
-#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3433
+#: src/GNOME_Gnumeric.xml.h:88 src/workbook-control-gui.c:3463
 msgid "F_ormat"
 msgstr "F_ormat"
 
-#: src/GNOME_Gnumeric.xml.h:90 src/workbook-control-gui.c:3395
+#: src/GNOME_Gnumeric.xml.h:89 src/workbook-control-gui.c:3425
 msgid "Filter data with given criteria"
 msgstr ""
 
 # src/prefs.c:618
 # ui/galeon.glade.h:140
-#: src/GNOME_Gnumeric.xml.h:91 src/dialogs/cell-format.glade.h:36
+#: src/GNOME_Gnumeric.xml.h:90 src/dialogs/cell-format.glade.h:36
 #: src/workbook-format-toolbar.c:762
 msgid "Font"
 msgstr "Font"
 
-#: src/GNOME_Gnumeric.xml.h:92 src/workbook-format-toolbar.c:870
+#: src/GNOME_Gnumeric.xml.h:91 src/workbook-format-toolbar.c:870
 msgid "Font Size"
 msgstr "Saiz Font"
 
-#: src/GNOME_Gnumeric.xml.h:93 src/workbook-format-toolbar.c:403
+#: src/GNOME_Gnumeric.xml.h:92 src/workbook-format-toolbar.c:403
 #: src/workbook-format-toolbar.c:868
 #, fuzzy
 msgid "Font selector"
 msgstr "Salin Pilihan"
 
-#: src/GNOME_Gnumeric.xml.h:94 src/dialogs/dialog-cell-format.c:2659
+#: src/GNOME_Gnumeric.xml.h:93 src/dialogs/dialog-cell-format.c:2658
 #: src/workbook-format-toolbar.c:843 src/workbook-format-toolbar.c:879
 msgid "Foreground"
 msgstr "Latar Depan"
 
-#: src/GNOME_Gnumeric.xml.h:95 src/workbook-control-gui.c:3225
+#: src/GNOME_Gnumeric.xml.h:94 src/workbook-control-gui.c:3249
 msgid "Format a region of cells according to a pre-defined template"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:96 src/dialogs/fourier-analysis.glade.h:3
-#: src/workbook-control-gui.c:3298
+#: src/GNOME_Gnumeric.xml.h:95 src/dialogs/fourier-analysis.glade.h:3
+#: src/workbook-control-gui.c:3322
 msgid "Fourier Analysis"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:97 src/sheet-object-widget.c:284
+#: src/GNOME_Gnumeric.xml.h:96 src/sheet-object-widget.c:284
 #: src/workbook-object-toolbar.c:133
 msgid "Frame"
 msgstr "Bingkai"
 
-#: src/GNOME_Gnumeric.xml.h:98
+#: src/GNOME_Gnumeric.xml.h:97
 msgid "Function Guru"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:99 src/workbook-control-gui.c:2955
+#: src/GNOME_Gnumeric.xml.h:98 src/workbook-control-gui.c:2979
 msgid "Generate random numbers of a selection of distributions"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:100 src/dialogs/graph-guru.glade.h:2
+#: src/GNOME_Gnumeric.xml.h:99 src/dialogs/graph-guru.glade.h:2
 msgid "Graph Guru"
 msgstr ""
 
 # ui/galeon.glade.h:268
-#: src/GNOME_Gnumeric.xml.h:101 src/workbook-control-gui.c:3146
+#: src/GNOME_Gnumeric.xml.h:100 src/workbook-control-gui.c:3170
 #, fuzzy
 msgid "H_eight..."
 msgstr "Tinggi"
 
-#: src/GNOME_Gnumeric.xml.h:102
+#: src/GNOME_Gnumeric.xml.h:101
 msgid "Hide _Column Headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:103 src/workbook-control-gui.c:3186
+#: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:3210
 msgid "Hide _Gridlines"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:104
+#: src/GNOME_Gnumeric.xml.h:103
 msgid "Hide _Row Headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3180
+#: src/GNOME_Gnumeric.xml.h:104 src/workbook-control-gui.c:3204
 msgid "Hide _Zeros"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3134
+#: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3158
 #, fuzzy
 msgid "Hide the selected columns"
 msgstr "Potong pilihan"
 
-#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:3153
+#: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3177
 #, fuzzy
 msgid "Hide the selected rows"
 msgstr "Potong pilihan"
 
-#: src/GNOME_Gnumeric.xml.h:108 src/workbook-control-gui.c:2867
+#: src/GNOME_Gnumeric.xml.h:107 src/workbook-control-gui.c:2891
 #, fuzzy
 msgid "Imports a file"
 msgstr "Buka fail"
 
-#: src/GNOME_Gnumeric.xml.h:109 src/workbook-format-toolbar.c:371
+#: src/GNOME_Gnumeric.xml.h:108 src/workbook-format-toolbar.c:371
 #: src/workbook-format-toolbar.c:475
 msgid "Increase Indent"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:110
+#: src/GNOME_Gnumeric.xml.h:109
 msgid "Increase Precision"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:111 src/workbook-format-toolbar.c:463
+#: src/GNOME_Gnumeric.xml.h:110 src/workbook-format-toolbar.c:463
 msgid "Increases the number of decimals displayed"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:112
+#: src/GNOME_Gnumeric.xml.h:111
 #, fuzzy
 msgid "Insert Component"
 msgstr "Setup Selesai"
 
-#: src/GNOME_Gnumeric.xml.h:113
+#: src/GNOME_Gnumeric.xml.h:112
 msgid "Insert Shaped Component"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:3112
+#: src/GNOME_Gnumeric.xml.h:113 src/workbook-control-gui.c:3136
 #, fuzzy
 msgid "Insert a function into the selected cell"
 msgstr "Pilih semua teks pada laman semasa"
 
-#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:591
-#: src/workbook-control-gui.c:2967
+#: src/GNOME_Gnumeric.xml.h:114 src/workbook-control-gui.c:605
+#: src/workbook-control-gui.c:2991
 #, fuzzy
 msgid "Insert a new sheet"
 msgstr "Cipta pemisah baru"
 
-#: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:3102
+#: src/GNOME_Gnumeric.xml.h:115 src/workbook-control-gui.c:3126
 #, fuzzy
 msgid "Insert a new spreadsheet"
 msgstr "Cipta pemisah baru"
 
-#: src/GNOME_Gnumeric.xml.h:117
+#: src/GNOME_Gnumeric.xml.h:116
 msgid "Insert a shaped component into the spreadsheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:118
+#: src/GNOME_Gnumeric.xml.h:117
 #, fuzzy
 msgid "Insert an image"
 msgstr "Tak selamat"
 
-#: src/GNOME_Gnumeric.xml.h:119
+#: src/GNOME_Gnumeric.xml.h:118
 msgid "Insert an object into the spreadsheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3093
+#: src/GNOME_Gnumeric.xml.h:119 src/workbook-control-gui.c:3117
 msgid "Insert new cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:121 src/workbook-control-gui.c:3096
+#: src/GNOME_Gnumeric.xml.h:120 src/workbook-control-gui.c:3120
 msgid "Insert new columns"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:3099
+#: src/GNOME_Gnumeric.xml.h:121 src/workbook-control-gui.c:3123
 #, fuzzy
 msgid "Insert new rows"
 msgstr "Buka pelayar baru"
 
-#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:3066
+#: src/GNOME_Gnumeric.xml.h:122 src/workbook-control-gui.c:3090
 msgid "Insert the current date into the selected cell(s)"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:124 src/workbook-control-gui.c:3072
+#: src/GNOME_Gnumeric.xml.h:123 src/workbook-control-gui.c:3096
 msgid "Insert the current time into the selected cell(s)"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:125
+#: src/GNOME_Gnumeric.xml.h:124
 msgid "Inserts a Bonobo object"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:126
+#: src/GNOME_Gnumeric.xml.h:125
 msgid "Inserts a Shaped Bonobo object"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:127
+#: src/GNOME_Gnumeric.xml.h:126
 msgid "Invoke the graph guru to create a graph"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:128 src/workbook-control-gui.c:2979
+#: src/GNOME_Gnumeric.xml.h:127 src/workbook-control-gui.c:3003
 msgid "Irrevocably remove an entire sheet"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:129
+#: src/GNOME_Gnumeric.xml.h:128
 msgid "Italicize"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3339
+#: src/GNOME_Gnumeric.xml.h:129 src/workbook-control-gui.c:3363
 msgid "Iteratively recalculate to find a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3343
+#: src/GNOME_Gnumeric.xml.h:130 src/workbook-control-gui.c:3367
 msgid "Iteratively recalculate with constraints to approach a target value"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:132 src/workbook-control-gui.c:3028
+#: src/GNOME_Gnumeric.xml.h:131 src/workbook-control-gui.c:3052
 #, fuzzy
 msgid "Jump to a specified cell"
 msgstr "Pergi ke lokasi tertentu"
 
-#: src/GNOME_Gnumeric.xml.h:133 src/sheet-object-widget.c:191
+#: src/GNOME_Gnumeric.xml.h:132 src/sheet-object-widget.c:191
 #: src/workbook-object-toolbar.c:130
 msgid "Label"
 msgstr "Label"
 
 # ui/galeon.glade.h:200
-#: src/GNOME_Gnumeric.xml.h:134 src/dialogs/cell-format.glade.h:52
+#: src/GNOME_Gnumeric.xml.h:133 src/dialogs/cell-format.glade.h:52
 #: src/workbook-format-toolbar.c:622
 msgid "Left"
 msgstr "Kiri"
 
-#: src/GNOME_Gnumeric.xml.h:135
+#: src/GNOME_Gnumeric.xml.h:134
 msgid "Left justifies the contents of each cell"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:136 src/dialogs/cell-format.glade.h:53
+#: src/GNOME_Gnumeric.xml.h:135 src/dialogs/cell-format.glade.h:53
 #: src/workbook-object-toolbar.c:160
 msgid "Line"
 msgstr "Garisan"
 
-#: src/GNOME_Gnumeric.xml.h:137 src/workbook-object-toolbar.c:154
+#: src/GNOME_Gnumeric.xml.h:136 src/workbook-object-toolbar.c:154
 msgid "List"
 msgstr "Senarai"
 
-#: src/GNOME_Gnumeric.xml.h:138
+#: src/GNOME_Gnumeric.xml.h:137
 msgid "Lock or unlock the top left cols/rows"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:2963
+#: src/GNOME_Gnumeric.xml.h:138 src/workbook-control-gui.c:2987
 #, fuzzy
 msgid "Make a copy of the current sheet"
 msgstr "Papar kandungan terkini laman semasa"
 
-#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:2952
+#: src/GNOME_Gnumeric.xml.h:139 src/workbook-control-gui.c:2976
 msgid "Make a table of a cell's value as a function of other cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:3137
+#: src/GNOME_Gnumeric.xml.h:140 src/workbook-control-gui.c:3161
 msgid "Make any hidden columns in the selection visible"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:142 src/workbook-control-gui.c:3156
+#: src/GNOME_Gnumeric.xml.h:141 src/workbook-control-gui.c:3180
 msgid "Make any hidden rows in the selection visible"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:143
+#: src/GNOME_Gnumeric.xml.h:142
 msgid "Make font bold"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:144
+#: src/GNOME_Gnumeric.xml.h:143
 msgid "Make font italic"
 msgstr "Jadikan font italik"
 
-#: src/GNOME_Gnumeric.xml.h:145
+#: src/GNOME_Gnumeric.xml.h:144
 msgid "Manage available plugin modules"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:146 src/workbook-control-gui.c:2975
-#: src/workbook-control-gui.c:3169
+#: src/GNOME_Gnumeric.xml.h:145 src/workbook-control-gui.c:2999
+#: src/workbook-control-gui.c:3193
 #, fuzzy
 msgid "Manage the sheets in this workbook"
 msgstr "Tiada helaian pada bukukerja."
 
-#: src/GNOME_Gnumeric.xml.h:147
+#: src/GNOME_Gnumeric.xml.h:146
 #, fuzzy
 msgid "Mark the current selection for movement"
 msgstr "Simpan sessi semasa ke satu fail"
 
-#: src/GNOME_Gnumeric.xml.h:148 src/sheet-merge.c:74
+#: src/GNOME_Gnumeric.xml.h:147 src/sheet-merge.c:74
 #: src/workbook-format-toolbar.c:445
 msgid "Merge"
 msgstr "Gabung"
 
-#: src/GNOME_Gnumeric.xml.h:149 src/workbook-format-toolbar.c:445
+#: src/GNOME_Gnumeric.xml.h:148 src/workbook-format-toolbar.c:445
 msgid "Merge a range of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:150 src/workbook-control-gui.c:3210
+#: src/GNOME_Gnumeric.xml.h:149 src/dialogs/merge.glade.h:2
+#: src/workbook-control-gui.c:2972
+#, fuzzy
+msgid "Merge..."
+msgstr "Gabung"
+
+#: src/GNOME_Gnumeric.xml.h:150
+msgid ""
+"Merges columnar data into a sheet creating duplicate sheets for each row"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:3234
 msgid "Modify the formatting of the selected cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:151 src/workbook-control-gui.c:3218
+#: src/GNOME_Gnumeric.xml.h:152 src/workbook-control-gui.c:3242
 msgid "Modify the workbook attributes"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:152
+#: src/GNOME_Gnumeric.xml.h:153
 #, fuzzy
 msgid "Money"
 msgstr "Selesai"
 
-#: src/GNOME_Gnumeric.xml.h:153 src/workbook-control-gui.c:3251
+#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3275
 msgid "Moving average"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:154 src/workbook-control-gui.c:3442
+#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3472
 msgid "New"
 msgstr "Yang Baru"
 
-#: src/GNOME_Gnumeric.xml.h:155 src/workbook-control-gui.c:3043
+#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3067
 #, fuzzy
 msgid "New _Shared"
 msgstr "Bar Baru"
 
-#: src/GNOME_Gnumeric.xml.h:156 src/workbook-control-gui.c:3046
+#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3070
 #, fuzzy
 msgid "New _Unshared"
 msgstr "Bar Baru"
 
-#: src/GNOME_Gnumeric.xml.h:157 src/workbook-control-gui.c:3235
+#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3259
 msgid "One Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:158 src/workbook-control-gui.c:3445
+#: src/GNOME_Gnumeric.xml.h:159 src/workbook-control-gui.c:3475
 msgid "Open"
 msgstr "Buka"
 
-#: src/GNOME_Gnumeric.xml.h:159
+#: src/GNOME_Gnumeric.xml.h:160
 #, fuzzy
 msgid "Open a spreadsheet"
 msgstr "Buka sebagai aplet panel"
 
-#: src/GNOME_Gnumeric.xml.h:160
+#: src/GNOME_Gnumeric.xml.h:161
 msgid "Open an existing workbook"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:161 src/workbook-control-gui.c:3376
+#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3406
 msgid "Outlines _Below"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:162 src/workbook-control-gui.c:3382
+#: src/GNOME_Gnumeric.xml.h:163 src/workbook-control-gui.c:3412
 msgid "Outlines _Right"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:163
+#: src/GNOME_Gnumeric.xml.h:164
 msgid "P_aste Special..."
 msgstr "Tepek I_stimewa"
 
-#: src/GNOME_Gnumeric.xml.h:164 src/workbook-control-gui.c:2881
+#: src/GNOME_Gnumeric.xml.h:165 src/workbook-control-gui.c:2905
 #, fuzzy
 msgid "P_roperties..."
 msgstr "Ciri-ciri"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/cmd-edit.c:343
-#: src/workbook-control-gui.c:3469
+#: src/GNOME_Gnumeric.xml.h:166 src/cmd-edit.c:343
+#: src/workbook-control-gui.c:3499
 msgid "Paste"
 msgstr "Tepek"
 
-#: src/GNOME_Gnumeric.xml.h:166
+#: src/GNOME_Gnumeric.xml.h:167
 msgid "Paste the clipboard"
 msgstr "Tepek clipboard"
 
-#: src/GNOME_Gnumeric.xml.h:167
+#: src/GNOME_Gnumeric.xml.h:168
 msgid "Paste the contents of the clipboard or cut buffer"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:168 src/workbook-control-gui.c:2997
+#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3021
 msgid "Paste with optional filters and transformations"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:169 src/workbook-control-gui.c:3286
+#: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:3310
 #, fuzzy
 msgid "Pearson Correlation"
 msgstr "Kaitan _songsang"
 
-#: src/GNOME_Gnumeric.xml.h:170 src/workbook-format-toolbar.c:457
+#: src/GNOME_Gnumeric.xml.h:171 src/workbook-format-toolbar.c:457
 msgid "Percent"
 msgstr "Peratus"
 
-#: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:3310
+#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:3334
 msgid "Periodic and random samples"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:172 src/workbook-control-gui.c:2885
+#: src/GNOME_Gnumeric.xml.h:173 src/workbook-control-gui.c:2909
 #, fuzzy
 msgid "Preferen_ces..."
 msgstr "Ciri-ciri"
 
-#: src/GNOME_Gnumeric.xml.h:173 src/dialogs/print.glade.h:13
-#: src/workbook-control-gui.c:3454
+#: src/GNOME_Gnumeric.xml.h:174 src/dialogs/print.glade.h:13
+#: src/workbook-control-gui.c:3484
 msgid "Print"
 msgstr "Cetak"
 
-#: src/GNOME_Gnumeric.xml.h:174 src/GNOME_Gnumeric_Component.xml.h:5
-#: src/workbook-control-gui.c:2876
+#: src/GNOME_Gnumeric.xml.h:175 src/GNOME_Gnumeric_Component.xml.h:5
+#: src/workbook-control-gui.c:2900
 msgid "Print Pre_view..."
 msgstr "Pra_lihat Cetakan"
 
-#: src/GNOME_Gnumeric.xml.h:175 src/workbook-control-gui.c:2876
-#: src/workbook-control-gui.c:3457
+#: src/GNOME_Gnumeric.xml.h:176 src/workbook-control-gui.c:2900
+#: src/workbook-control-gui.c:3487
 msgid "Print Preview"
 msgstr "Pralihat Cetakan"
 
-#: src/GNOME_Gnumeric.xml.h:176 src/GNOME_Gnumeric_Component.xml.h:6
+#: src/GNOME_Gnumeric.xml.h:177 src/GNOME_Gnumeric_Component.xml.h:6
 msgid "Print S_etup..."
 msgstr "T_etapan cetak"
 
-#: src/GNOME_Gnumeric.xml.h:177 src/GNOME_Gnumeric_Component.xml.h:7
-#: src/dialogs/print.glade.h:15 src/print.c:1220
+#: src/GNOME_Gnumeric.xml.h:178 src/GNOME_Gnumeric_Component.xml.h:7
+#: src/dialogs/print.glade.h:15 src/print.c:1218
 msgid "Print preview"
 msgstr "Pralihat cetakan"
 
-#: src/GNOME_Gnumeric.xml.h:178 src/GNOME_Gnumeric_Component.xml.h:8
+#: src/GNOME_Gnumeric.xml.h:179 src/GNOME_Gnumeric_Component.xml.h:8
 msgid "Print the current file"
 msgstr "Cetak fail semasa"
 
-#: src/GNOME_Gnumeric.xml.h:179
+#: src/GNOME_Gnumeric.xml.h:180
 msgid "Print the workbook"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:180
+#: src/GNOME_Gnumeric.xml.h:181
 msgid "Radio Button"
 msgstr "Butang Radio"
 
-#: src/GNOME_Gnumeric.xml.h:181
+#: src/GNOME_Gnumeric.xml.h:182
 msgid "Ranks and _Percentiles"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:182 src/workbook-control-gui.c:3304
+#: src/GNOME_Gnumeric.xml.h:183 src/workbook-control-gui.c:3328
 msgid "Ranks, placements and percentiles"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:183
-msgid "Re-_Order Sheets..."
-msgstr ""
-
-#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2970
-#: src/workbook-control-gui.c:3165
+#: src/GNOME_Gnumeric.xml.h:184 src/workbook-control-gui.c:2994
+#: src/workbook-control-gui.c:3189
 msgid "Re_name..."
 msgstr "Tukar_nama..."
 
-#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:3032
+#: src/GNOME_Gnumeric.xml.h:185 src/workbook-control-gui.c:3056
 #, fuzzy
 msgid "Recalculate"
 msgstr "Nilaikan"
 
-#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:3033
+#: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:3057
 msgid "Recalculate the spreadsheet"
 msgstr ""
 
@@ -10347,11 +10425,11 @@ msgstr "Segi empat"
 msgid "Redo the undone action"
 msgstr "Salin Pilihan"
 
-#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3307
+#: src/GNOME_Gnumeric.xml.h:189 src/workbook-control-gui.c:3331
 msgid "Regression Analysis"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3364
+#: src/GNOME_Gnumeric.xml.h:190 src/workbook-control-gui.c:3394
 msgid "Remove an outline group"
 msgstr ""
 
@@ -10359,8 +10437,8 @@ msgstr ""
 msgid "Remove selected cells, shifting others into their place"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:2971
-#: src/workbook-control-gui.c:3166
+#: src/GNOME_Gnumeric.xml.h:192 src/workbook-control-gui.c:2995
+#: src/workbook-control-gui.c:3190
 #, fuzzy
 msgid "Rename the current sheet"
 msgstr "Ulangmuat laman semasa"
@@ -10375,16 +10453,16 @@ msgstr "Kanan"
 msgid "Right justifies the contents of each cell"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3009
+#: src/GNOME_Gnumeric.xml.h:195 src/workbook-control-gui.c:3033
 #, fuzzy
 msgid "S_heet"
 msgstr "St_ylesheet"
 
-#: src/GNOME_Gnumeric.xml.h:196 src/workbook-control-gui.c:3121
+#: src/GNOME_Gnumeric.xml.h:196 src/workbook-control-gui.c:3145
 msgid "S_pecial"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3448
+#: src/GNOME_Gnumeric.xml.h:197 src/workbook-control-gui.c:3478
 msgid "Save"
 msgstr "Simpan"
 
@@ -10410,49 +10488,49 @@ msgstr "Simpan laman semasa"
 msgid "Scrollbar"
 msgstr "Skrol mengikut"
 
-#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:3021
+#: src/GNOME_Gnumeric.xml.h:203 src/workbook-control-gui.c:3045
 msgid "Search and Replace..."
 msgstr "Cari dan Ganti..."
 
 #: src/GNOME_Gnumeric.xml.h:204 src/GNOME_Gnumeric_Component.xml.h:10
-#: src/workbook-control-gui.c:3016
+#: src/workbook-control-gui.c:3040
 #, fuzzy
 msgid "Search for some text"
 msgstr "Cari rentetan"
 
-#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:3022
+#: src/GNOME_Gnumeric.xml.h:205 src/workbook-control-gui.c:3046
 msgid "Search for some text and replace it with something else"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3015
+#: src/GNOME_Gnumeric.xml.h:206 src/workbook-control-gui.c:3039
 msgid "Search..."
 msgstr "Cari..."
 
-#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2932
+#: src/GNOME_Gnumeric.xml.h:207 src/workbook-control-gui.c:2956
 #, fuzzy
 msgid "Select Arra_y"
 msgstr "Pilih Semua"
 
-#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2917
+#: src/GNOME_Gnumeric.xml.h:208 src/workbook-control-gui.c:2941
 #, fuzzy
 msgid "Select _All"
 msgstr "Pilih Semua"
 
-#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2922
+#: src/GNOME_Gnumeric.xml.h:209 src/workbook-control-gui.c:2946
 #, fuzzy
 msgid "Select _Column"
 msgstr "Pilih Semua"
 
-#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2937
+#: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2961
 msgid "Select _Depends"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2927
+#: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2951
 #, fuzzy
 msgid "Select _Row"
 msgstr "Pilih Semua"
 
-#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2918
+#: src/GNOME_Gnumeric.xml.h:212 src/workbook-control-gui.c:2942
 #, fuzzy
 msgid "Select all cells in the spreadsheet"
 msgstr "Pilih semua teks pada laman semasa"
@@ -10462,15 +10540,15 @@ msgstr "Pilih semua teks pada laman semasa"
 msgid "Select all the cells that depend on the current edit cell"
 msgstr "Pilih semua teks pada laman semasa"
 
-#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:2933
+#: src/GNOME_Gnumeric.xml.h:214 src/workbook-control-gui.c:2957
 msgid "Select an array of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2923
+#: src/GNOME_Gnumeric.xml.h:215 src/workbook-control-gui.c:2947
 msgid "Select an entire column"
 msgstr "Pilih seluruh kolum"
 
-#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2928
+#: src/GNOME_Gnumeric.xml.h:216 src/workbook-control-gui.c:2952
 msgid "Select an entire row"
 msgstr "Pilih seluruh baris"
 
@@ -10491,522 +10569,541 @@ msgstr ""
 msgid "Setup the page settings for your current printer"
 msgstr "Nyatakan tetapan stylesheet untuk laman ini"
 
-#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3496
+#: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3422
+msgid "Show all filtered and hidden rows"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3526
 msgid "Sort Ascending"
 msgstr "Isih Menaik"
 
-#: src/GNOME_Gnumeric.xml.h:222 src/workbook-control-gui.c:3499
+#: src/GNOME_Gnumeric.xml.h:223 src/workbook-control-gui.c:3529
 msgid "Sort Descending"
 msgstr "Isih Menurun"
 
-#: src/GNOME_Gnumeric.xml.h:223
+#: src/GNOME_Gnumeric.xml.h:224
 #, fuzzy
 msgid "Sorts the selected cells"
 msgstr "Potong pilihan"
 
-#: src/GNOME_Gnumeric.xml.h:224
+#: src/GNOME_Gnumeric.xml.h:225
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:225
+#: src/GNOME_Gnumeric.xml.h:226
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:226 src/workbook-format-toolbar.c:448
+#: src/GNOME_Gnumeric.xml.h:227 src/workbook-format-toolbar.c:448
 #, fuzzy
 msgid "Split"
 msgstr "Tapak"
 
-#: src/GNOME_Gnumeric.xml.h:227 src/workbook-format-toolbar.c:448
+#: src/GNOME_Gnumeric.xml.h:228 src/workbook-format-toolbar.c:448
 msgid "Split merged ranges of cells"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:228 src/workbook-control-gui.c:3348
+#: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:3377
 msgid "Statistical Anal_ysis"
 msgstr "Anal_isis Stastikal"
 
-#: src/GNOME_Gnumeric.xml.h:229 src/dialogs/consolidate.glade.h:19
-#: src/workbook-control-gui.c:3489 src/workbook-control-gui.c:4151
-#: src/workbook-view.c:500
+#: src/GNOME_Gnumeric.xml.h:230 src/dialogs/consolidate.glade.h:19
+#: src/workbook-control-gui.c:3519 src/workbook-control-gui.c:4184
+#: src/workbook-view.c:504
 msgid "Sum"
 msgstr "Jumlahkan"
 
-#: src/GNOME_Gnumeric.xml.h:230
+#: src/GNOME_Gnumeric.xml.h:231
 #, fuzzy
 msgid "Sum into the current cell"
 msgstr "Cetak laman semasa"
 
-#: src/GNOME_Gnumeric.xml.h:231 src/workbook-format-toolbar.c:460
+#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3371
+msgid ""
+"Test decision alternatives by using monte carlo simulation to find out "
+"probable outputs and risks related to them"
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:233 src/workbook-format-toolbar.c:460
 #, fuzzy
 msgid "Thousand separator"
 msgstr "Pemisah _baru"
 
-#: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3193
+#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3217
 msgid "Toggle whether or not to display column headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:233 src/workbook-control-gui.c:3187
+#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3211
 msgid "Toggle whether or not to display gridlines"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:234 src/workbook-control-gui.c:3371
+#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3401
 msgid "Toggle whether or not to display outline groups"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:235 src/workbook-control-gui.c:3199
+#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3223
 msgid "Toggle whether or not to display row headers"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:236 src/workbook-control-gui.c:3181
+#: src/GNOME_Gnumeric.xml.h:238 src/workbook-control-gui.c:3205
 msgid "Toggle whether or not to display zeros as blanks"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:237 src/workbook-control-gui.c:3383
+#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3413
 msgid "Toggle whether to display column outlines on the left or right"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:238 src/workbook-control-gui.c:3377
+#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3407
 msgid "Toggle whether to display row outlines on top or bottom"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:239 src/workbook-control-gui.c:3238
+#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3262
 msgid "Two Factor Analysis of Variance"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:240 src/workbook-control-gui.c:3313
+#: src/GNOME_Gnumeric.xml.h:242 src/workbook-control-gui.c:3337
 msgid "Two _Means"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:241 src/workbook-control-gui.c:3358
+#: src/GNOME_Gnumeric.xml.h:243 src/workbook-control-gui.c:3388
 msgid "Uncollapse an outline group"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:242 src/workbook-format-toolbar.c:420
+#: src/GNOME_Gnumeric.xml.h:244 src/workbook-format-toolbar.c:420
 msgid "Underline"
 msgstr "Garisbawah"
 
-#: src/GNOME_Gnumeric.xml.h:243
+#: src/GNOME_Gnumeric.xml.h:245
 msgid "Underlines the text"
 msgstr "GarisBawah teks"
 
-#: src/GNOME_Gnumeric.xml.h:244
+#: src/GNOME_Gnumeric.xml.h:246
 msgid "Undo the last action"
 msgstr "Nyahcara aksi terkhir"
 
-#: src/GNOME_Gnumeric.xml.h:245 src/workbook-control-gui.c:3263
+#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3287
 msgid "Unpaired Samples, _Equal Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:246 src/workbook-control-gui.c:3268
+#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3292
 msgid "Unpaired Samples, _Unequal Var.: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:247 src/workbook-control-gui.c:3409
+#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3439
 msgid "Validate input with preset criteria"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:248 src/workbook-control-gui.c:3301
+#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:3325
 msgid "Various frequency tables"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:249 src/workbook-control-gui.c:3292
+#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3316
 msgid "Various summary statistics"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:250 src/workbook-control-gui.c:3053
+#: src/GNOME_Gnumeric.xml.h:252 src/workbook-control-gui.c:3077
 msgid "Zoom the spreadsheet in or out"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:251 src/workbook-control-gui.c:3283
+#: src/GNOME_Gnumeric.xml.h:253 src/workbook-control-gui.c:3307
 msgid "_ANOVA"
 msgstr "_ANOVA"
 
-#: src/GNOME_Gnumeric.xml.h:252
+#: src/GNOME_Gnumeric.xml.h:254
 msgid "_About..."
 msgstr "Perih_al..."
 
-#: src/GNOME_Gnumeric.xml.h:253 src/sheet-control-gui.c:1428
-#: src/workbook-control-gui.c:3117
+#: src/GNOME_Gnumeric.xml.h:255 src/sheet-control-gui.c:1428
+#: src/workbook-control-gui.c:3141
 msgid "_Add / Modify comment..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:254 src/workbook-control-gui.c:2899
+#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:2923
 msgid "_All"
 msgstr "Semu_a"
 
-#: src/GNOME_Gnumeric.xml.h:255 src/workbook-control-gui.c:3332
+#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3356
 #, fuzzy
 msgid "_Auto Save..."
 msgstr "_Auto ulangmuat..."
 
-#: src/GNOME_Gnumeric.xml.h:256 src/workbook-control-gui.c:3130
-#: src/workbook-control-gui.c:3149
+#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3154
+#: src/workbook-control-gui.c:3173
 #, fuzzy
 msgid "_Auto fit selection"
 msgstr "Potong pilihan"
 
-#: src/GNOME_Gnumeric.xml.h:257 src/workbook-control-gui.c:3224
+#: src/GNOME_Gnumeric.xml.h:259 src/workbook-control-gui.c:3248
 #, fuzzy
 msgid "_Autoformat..."
 msgstr "_Auto ulangmuat..."
 
 #. Default <Ctrl-1> invoke the format dialog
-#: src/GNOME_Gnumeric.xml.h:258 src/workbook-control-gui.c:3209
+#: src/GNOME_Gnumeric.xml.h:260 src/workbook-control-gui.c:3233
 #, fuzzy
 msgid "_Cells..."
 msgstr "Terperinci..."
 
-#: src/GNOME_Gnumeric.xml.h:259
+#: src/GNOME_Gnumeric.xml.h:261
 msgid "_Close"
 msgstr "_Tutup"
 
-#: src/GNOME_Gnumeric.xml.h:260 src/dialogs/anova-one.glade.h:13
+#: src/GNOME_Gnumeric.xml.h:262 src/dialogs/anova-one.glade.h:13
 #: src/dialogs/colrow.glade.h:2 src/dialogs/correlation.glade.h:11
 #: src/dialogs/covariance.glade.h:11 src/dialogs/descriptive-stats.glade.h:19
 #: src/dialogs/exp-smoothing.glade.h:11
 #: src/dialogs/fourier-analysis.glade.h:11 src/dialogs/histogram.glade.h:24
 #: src/dialogs/moving-averages.glade.h:12 src/dialogs/rank.glade.h:13
 #: src/dialogs/regression.glade.h:13 src/dialogs/sampling.glade.h:16
-#: src/workbook-control-gui.c:3095
+#: src/workbook-control-gui.c:3119
 msgid "_Columns"
 msgstr "_Kolum"
 
-#: src/GNOME_Gnumeric.xml.h:261 src/workbook-control-gui.c:3411
+#: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3441
 #, fuzzy
 msgid "_Consolidate..."
 msgstr "Konsol _Java..."
 
-#: src/GNOME_Gnumeric.xml.h:262
+#: src/GNOME_Gnumeric.xml.h:264
 #, fuzzy
 msgid "_Content"
 msgstr "Kandungan"
 
-#: src/GNOME_Gnumeric.xml.h:263 src/item-cursor.c:1011
+#: src/GNOME_Gnumeric.xml.h:265 src/item-cursor.c:1012
 #: src/sheet-control-gui.c:1397
 msgid "_Copy"
 msgstr "_Salin"
 
-#: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3285
+#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:3309
 #, fuzzy
 msgid "_Correlation"
 msgstr "_Kaitan"
 
-#: src/GNOME_Gnumeric.xml.h:265 src/workbook-control-gui.c:3435
+#: src/GNOME_Gnumeric.xml.h:267 src/workbook-control-gui.c:3465
 msgid "_Data"
 msgstr "_Data"
 
-#: src/GNOME_Gnumeric.xml.h:266 src/workbook-control-gui.c:3079
+#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3103
 #, fuzzy
 msgid "_Define..."
 msgstr "_Cari..."
 
-#: src/GNOME_Gnumeric.xml.h:267 src/sheet-control-gui.c:1415
-#: src/workbook-control-gui.c:3004
+#: src/GNOME_Gnumeric.xml.h:269 src/sheet-control-gui.c:1415
+#: src/workbook-control-gui.c:3028
 msgid "_Delete..."
 msgstr "Pa_dam..."
 
-#: src/GNOME_Gnumeric.xml.h:268 src/workbook-control-gui.c:3291
+#: src/GNOME_Gnumeric.xml.h:270 src/workbook-control-gui.c:3315
 msgid "_Descriptive Statistics"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:269 src/workbook-control-gui.c:2962
+#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:2986
 #, fuzzy
 msgid "_Duplicate"
 msgstr "Laman Bertindan"
 
-#: src/GNOME_Gnumeric.xml.h:270 src/GNOME_Gnumeric_Component.xml.h:15
+#: src/GNOME_Gnumeric.xml.h:272 src/GNOME_Gnumeric_Component.xml.h:15
 msgid "_Edit"
 msgstr "_Edit"
 
-#: src/GNOME_Gnumeric.xml.h:271 src/workbook-control-gui.c:3246
+#: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:3270
 msgid "_Exponential Smoothing"
 msgstr ""
 
 # ui/galeon.glade.h:134
-#: src/GNOME_Gnumeric.xml.h:272 src/GNOME_Gnumeric_Component.xml.h:16
+#: src/GNOME_Gnumeric.xml.h:274 src/GNOME_Gnumeric_Component.xml.h:16
 msgid "_File"
 msgstr "_Fail"
 
 # ui/galeon.glade.h:134
-#: src/GNOME_Gnumeric.xml.h:273 src/dialogs/cell-format.glade.h:107
-#: src/workbook-control-gui.c:3013
+#: src/GNOME_Gnumeric.xml.h:275 src/dialogs/cell-format.glade.h:107
+#: src/workbook-control-gui.c:3037
 msgid "_Fill"
 msgstr "_Isi"
 
 # ui/galeon.glade.h:134
-#: src/GNOME_Gnumeric.xml.h:274 src/workbook-control-gui.c:3407
+#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3437
 msgid "_Filter"
 msgstr "_Tapis"
 
-#: src/GNOME_Gnumeric.xml.h:275 src/workbook-control-gui.c:2902
+#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:2926
 #, fuzzy
 msgid "_Formats"
 msgstr "_Borang"
 
-#: src/GNOME_Gnumeric.xml.h:276 src/workbook-control-gui.c:3297
+#: src/GNOME_Gnumeric.xml.h:278 src/workbook-control-gui.c:3321
 msgid "_Fourier Analysis"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:277 src/workbook-control-gui.c:1084
-#: src/workbook-control-gui.c:3055
+#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:1101
+#: src/workbook-control-gui.c:3079
 msgid "_Freeze Panes"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:278 src/workbook-control-gui.c:3111
+#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3135
 #, fuzzy
 msgid "_Function..."
 msgstr "Fungsi"
 
-#: src/GNOME_Gnumeric.xml.h:279 src/workbook-control-gui.c:3220
+#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3244
 #, fuzzy
 msgid "_Gnumeric..."
 msgstr "Gnumeric"
 
-#: src/GNOME_Gnumeric.xml.h:280 src/workbook-control-gui.c:3338
+#: src/GNOME_Gnumeric.xml.h:282 src/workbook-control-gui.c:3362
 msgid "_Goal Seek..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:281 src/workbook-control-gui.c:3027
+#: src/GNOME_Gnumeric.xml.h:283 src/workbook-control-gui.c:3051
 msgid "_Goto cell..."
 msgstr "Per_gi ke sel..."
 
-#: src/GNOME_Gnumeric.xml.h:282
+#: src/GNOME_Gnumeric.xml.h:284
 msgid "_Graph..."
 msgstr "_Graf..."
 
-#: src/GNOME_Gnumeric.xml.h:283
+#: src/GNOME_Gnumeric.xml.h:285
 #, fuzzy
 msgid "_Group"
 msgstr "Per_gi ke"
 
-#: src/GNOME_Gnumeric.xml.h:284 src/workbook-control-gui.c:3417
+#: src/GNOME_Gnumeric.xml.h:286 src/workbook-control-gui.c:3447
 msgid "_Group and Outline"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:285 src/GNOME_Gnumeric_Component.xml.h:17
+#: src/GNOME_Gnumeric.xml.h:287 src/GNOME_Gnumeric_Component.xml.h:17
 msgid "_Help"
 msgstr "_Bantuan"
 
 # ui/galeon.glade.h:134
-#: src/GNOME_Gnumeric.xml.h:286 src/sheet-control-gui.c:1440
-#: src/sheet-control-gui.c:1448 src/workbook-control-gui.c:3133
-#: src/workbook-control-gui.c:3152
+#: src/GNOME_Gnumeric.xml.h:288 src/sheet-control-gui.c:1440
+#: src/sheet-control-gui.c:1448 src/workbook-control-gui.c:3157
+#: src/workbook-control-gui.c:3176
 #, fuzzy
 msgid "_Hide"
 msgstr "_Fail"
 
-#: src/GNOME_Gnumeric.xml.h:287 src/workbook-control-gui.c:3354
+#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3384
 #, fuzzy
 msgid "_Hide Detail"
 msgstr "Terperinci"
 
-#: src/GNOME_Gnumeric.xml.h:288 src/workbook-control-gui.c:3300
+#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:3324
 #, fuzzy
 msgid "_Histogram"
 msgstr "Sejarah"
 
-#: src/GNOME_Gnumeric.xml.h:289 src/workbook-control-gui.c:3107
+#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:3131
 #, fuzzy
 msgid "_Image..."
 msgstr "_Cetak..."
 
-#: src/GNOME_Gnumeric.xml.h:290 src/workbook-control-gui.c:2867
+#: src/GNOME_Gnumeric.xml.h:292 src/workbook-control-gui.c:2891
 msgid "_Import..."
 msgstr "_Import..."
 
-#: src/GNOME_Gnumeric.xml.h:291 src/workbook-control-gui.c:2966
-#: src/workbook-control-gui.c:3432
+#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:2990
+#: src/workbook-control-gui.c:3462
 msgid "_Insert"
 msgstr "Sel_it"
 
-#: src/GNOME_Gnumeric.xml.h:292
+#: src/GNOME_Gnumeric.xml.h:294
 #, fuzzy
 msgid "_Insert new"
 msgstr "Tak selamat"
 
-#: src/GNOME_Gnumeric.xml.h:293 src/workbook-control-gui.c:3273
+#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3297
 msgid "_Known Variances or Large Sample: Z-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:294 src/workbook-control-gui.c:2974
-#: src/workbook-control-gui.c:3168
+#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:2998
+#: src/workbook-control-gui.c:3192
 msgid "_Manage Sheets..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:295 src/workbook-control-gui.c:3250
+#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:3274
 msgid "_Moving Average"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:296 src/workbook-control-gui.c:3115
+#: src/GNOME_Gnumeric.xml.h:298 src/workbook-control-gui.c:3139
 msgid "_Name"
 msgstr "_Nama"
 
-#: src/GNOME_Gnumeric.xml.h:297 src/workbook-control-gui.c:2863
+#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:2887
 msgid "_New"
 msgstr "_Baru"
 
-#: src/GNOME_Gnumeric.xml.h:298
+#: src/GNOME_Gnumeric.xml.h:300
 #, fuzzy
 msgid "_Object..."
 msgstr "_Buka..."
 
-#: src/GNOME_Gnumeric.xml.h:299 src/workbook-control-gui.c:3234
+#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3258
 msgid "_One Factor"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:300
+#: src/GNOME_Gnumeric.xml.h:302
 msgid "_Open..."
 msgstr "_Buka..."
 
-#: src/GNOME_Gnumeric.xml.h:301 src/workbook-control-gui.c:3259
+#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3283
 msgid "_Paired Samples: T-Test"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:302 src/sheet-control-gui.c:1399
+#: src/GNOME_Gnumeric.xml.h:304 src/sheet-control-gui.c:1399
 msgid "_Paste"
 msgstr "Te_pek"
 
-#: src/GNOME_Gnumeric.xml.h:303 src/workbook-control-gui.c:3323
+#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:3347
 #, fuzzy
 msgid "_Plug-ins..."
 msgstr "_Cetak..."
 
-#: src/GNOME_Gnumeric.xml.h:304 src/GNOME_Gnumeric_Component.xml.h:19
+#: src/GNOME_Gnumeric.xml.h:306 src/GNOME_Gnumeric_Component.xml.h:19
 msgid "_Print..."
 msgstr "_Cetak..."
 
-#: src/GNOME_Gnumeric.xml.h:305 src/workbook-control-gui.c:2954
+#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:2978
 msgid "_Random Generator..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:306 src/workbook-control-gui.c:1106
+#: src/GNOME_Gnumeric.xml.h:308 src/workbook-control-gui.c:1123
 msgid "_Redo"
 msgstr "_Ulangcara"
 
-#: src/GNOME_Gnumeric.xml.h:307 src/workbook-control-gui.c:3306
+#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3330
 #, fuzzy
 msgid "_Regression"
 msgstr "Ikon Refresh"
 
-#: src/GNOME_Gnumeric.xml.h:308 src/dialogs/autocorrect.glade.h:12
-#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:2978
+#: src/GNOME_Gnumeric.xml.h:310 src/dialogs/autocorrect.glade.h:12
+#: src/dialogs/dialog-stf.glade.h:66 src/workbook-control-gui.c:3002
 msgid "_Remove"
 msgstr "_Buang"
 
-#: src/GNOME_Gnumeric.xml.h:309 src/workbook-control-gui.c:3214
+#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3370
+msgid "_Risk Simulation..."
+msgstr ""
+
+#: src/GNOME_Gnumeric.xml.h:312 src/workbook-control-gui.c:3238
 msgid "_Row"
 msgstr "Ba_ris"
 
-#: src/GNOME_Gnumeric.xml.h:310 src/dialogs/anova-one.glade.h:18
+#: src/GNOME_Gnumeric.xml.h:313 src/dialogs/anova-one.glade.h:18
 #: src/dialogs/colrow.glade.h:3 src/dialogs/correlation.glade.h:16
 #: src/dialogs/covariance.glade.h:16 src/dialogs/descriptive-stats.glade.h:24
 #: src/dialogs/exp-smoothing.glade.h:17
 #: src/dialogs/fourier-analysis.glade.h:16
 #: src/dialogs/moving-averages.glade.h:17 src/dialogs/rank.glade.h:18
 #: src/dialogs/regression.glade.h:18 src/dialogs/sampling.glade.h:23
-#: src/workbook-control-gui.c:3098
+#: src/workbook-control-gui.c:3122
 msgid "_Rows"
 msgstr "Ba_ris"
 
-#: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3309
+#: src/GNOME_Gnumeric.xml.h:314 src/workbook-control-gui.c:3333
 msgid "_Sampling"
 msgstr "Peng_sampelan"
 
-#: src/GNOME_Gnumeric.xml.h:312
+#: src/GNOME_Gnumeric.xml.h:315
 msgid "_Save"
 msgstr "_Simpan"
 
-#: src/GNOME_Gnumeric.xml.h:313 src/workbook-control-gui.c:3011
+#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3035
 msgid "_Select"
 msgstr "_Pilih"
 
-#: src/GNOME_Gnumeric.xml.h:314
+#: src/GNOME_Gnumeric.xml.h:317
 msgid "_Shaped Object"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:315 src/workbook-control-gui.c:3101
-#: src/workbook-control-gui.c:3215
+#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3125
+#: src/workbook-control-gui.c:3239
 msgid "_Sheet"
 msgstr "_Helaian"
 
-#: src/GNOME_Gnumeric.xml.h:316 src/workbook-control-gui.c:3357
+#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3421
+#, fuzzy
+msgid "_Show All"
+msgstr "_Papar Terperinci"
+
+#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3387
 msgid "_Show Detail"
 msgstr "_Papar Terperinci"
 
-#: src/GNOME_Gnumeric.xml.h:317 src/workbook-control-gui.c:3342
+#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:3366
 #, fuzzy
 msgid "_Solver..."
 msgstr "Simpan Sebagai..."
 
-#: src/GNOME_Gnumeric.xml.h:318 src/workbook-control-gui.c:3404
+#: src/GNOME_Gnumeric.xml.h:322 src/workbook-control-gui.c:3434
 msgid "_Sort..."
 msgstr "I_sih..."
 
-#: src/GNOME_Gnumeric.xml.h:319 src/workbook-control-gui.c:3158
+#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3182
 #, fuzzy
 msgid "_Standard Height"
 msgstr "_Tinggi"
 
-#: src/GNOME_Gnumeric.xml.h:320 src/workbook-control-gui.c:3139
+#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3163
 msgid "_Standard Width"
 msgstr "_Lebar Piawai"
 
-#: src/GNOME_Gnumeric.xml.h:321 src/workbook-control-gui.c:2951
+#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:2975
 msgid "_Tabulate Dependency..."
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:322
+#: src/GNOME_Gnumeric.xml.h:326
 msgid "_Toolbars..."
 msgstr "_Toolbar..."
 
-#: src/GNOME_Gnumeric.xml.h:323 src/workbook-control-gui.c:3434
+#: src/GNOME_Gnumeric.xml.h:327 src/workbook-control-gui.c:3464
 msgid "_Tools"
 msgstr "_Radas"
 
-#: src/GNOME_Gnumeric.xml.h:324 src/workbook-control-gui.c:3237
+#: src/GNOME_Gnumeric.xml.h:328 src/workbook-control-gui.c:3261
 msgid "_Two Factor"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:325 src/workbook-control-gui.c:3315
+#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3339
 msgid "_Two Variances: FTest"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:326 src/workbook-control-gui.c:1105
+#: src/GNOME_Gnumeric.xml.h:330 src/workbook-control-gui.c:1122
 msgid "_Undo"
 msgstr "_Nyahcara"
 
-#: src/GNOME_Gnumeric.xml.h:327
+#: src/GNOME_Gnumeric.xml.h:331
 msgid "_Ungroup"
 msgstr ""
 
-#: src/GNOME_Gnumeric.xml.h:328 src/sheet-control-gui.c:1442
-#: src/sheet-control-gui.c:1450 src/workbook-control-gui.c:3136
-#: src/workbook-control-gui.c:3155
+#: src/GNOME_Gnumeric.xml.h:332 src/sheet-control-gui.c:1442
+#: src/sheet-control-gui.c:1450 src/workbook-control-gui.c:3160
+#: src/workbook-control-gui.c:3179
 msgid "_Unhide"
 msgstr "_Nyahsorok"
 
-#: src/GNOME_Gnumeric.xml.h:329 src/workbook-control-gui.c:3408
+#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3438
 msgid "_Validate..."
 msgstr "_Tentusah..."
 
 # ui/galeon.glade.h:134
-#: src/GNOME_Gnumeric.xml.h:330
+#: src/GNOME_Gnumeric.xml.h:334
 msgid "_View"
 msgstr "_Lihat"
 
-#: src/GNOME_Gnumeric.xml.h:331 src/workbook-control-gui.c:3127
+#: src/GNOME_Gnumeric.xml.h:335 src/workbook-control-gui.c:3151
 msgid "_Width..."
 msgstr "_Lebar..."
 
-#: src/GNOME_Gnumeric.xml.h:332 src/workbook-control-gui.c:3217
+#: src/GNOME_Gnumeric.xml.h:336 src/workbook-control-gui.c:3241
 msgid "_Workbook..."
 msgstr "_Bukukerja..."
 
-#: src/GNOME_Gnumeric.xml.h:333 src/workbook-control-gui.c:3052
+#: src/GNOME_Gnumeric.xml.h:337 src/workbook-control-gui.c:3076
 msgid "_Zoom..."
 msgstr "_Zoom..."
 
@@ -11054,7 +11151,7 @@ msgstr "_Salin"
 msgid "_Paste Cells"
 msgstr "Format Sel"
 
-#: src/bonobo-io.c:89 src/workbook-view.c:657
+#: src/bonobo-io.c:89 src/workbook-view.c:661
 msgid "Unsupported file format."
 msgstr "Format fail tidak disokong."
 
@@ -11136,12 +11233,12 @@ msgstr ""
 msgid "Shift column %s"
 msgstr ""
 
-#: src/command-context-stderr.c:99 src/workbook-control-gui.c:1285
+#: src/command-context-stderr.c:100 src/workbook-control-gui.c:1302
 #, c-format
 msgid "Would split array %s"
 msgstr ""
 
-#: src/command-context-stderr.c:102 src/workbook-control-gui.c:1287
+#: src/command-context-stderr.c:103 src/workbook-control-gui.c:1304
 msgid "Would split an array"
 msgstr ""
 
@@ -11408,7 +11505,7 @@ msgid "Pasting into %s"
 msgstr ""
 
 #. Check arrays or merged regions in src or target regions
-#: src/commands.c:2852 src/commands.c:2853 src/workbook-control-gui.c:2018
+#: src/commands.c:2852 src/commands.c:2853 src/workbook-control-gui.c:2035
 msgid "Autofill"
 msgstr "Auto-isi"
 
@@ -11890,8 +11987,8 @@ msgstr "Kawasan %i"
 #: src/dialogs/anova-one.glade.h:14 src/dialogs/anova-two.glade.h:13
 #: src/dialogs/correlation.glade.h:12 src/dialogs/covariance.glade.h:12
 #: src/dialogs/descriptive-stats.glade.h:20
-#: src/dialogs/dialog-analysis-tools.c:324
-#: src/dialogs/dialog-analysis-tools.c:2529
+#: src/dialogs/dialog-analysis-tools.c:334
+#: src/dialogs/dialog-analysis-tools.c:2565
 #: src/dialogs/exp-smoothing.glade.h:13
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:13 src/dialogs/rank.glade.h:14
@@ -12177,7 +12274,7 @@ msgstr ""
 msgid "Background Color:"
 msgstr "Tetapkan warna latar"
 
-#: src/dialogs/cell-format.glade.h:16 src/dialogs/dialog-cell-format.c:2654
+#: src/dialogs/cell-format.glade.h:16 src/dialogs/dialog-cell-format.c:2653
 msgid "Border"
 msgstr "Sempadan"
 
@@ -12214,7 +12311,7 @@ msgstr "Warna"
 msgid "Control"
 msgstr "Kira"
 
-#: src/dialogs/cell-format.glade.h:24 src/dialogs/dialog-cell-format.c:2172
+#: src/dialogs/cell-format.glade.h:24 src/dialogs/dialog-cell-format.c:2174
 msgid "Criteria"
 msgstr "Kriteria"
 
@@ -12273,7 +12370,7 @@ msgstr ""
 msgid "Foreground Solid"
 msgstr "Latar Depan"
 
-#: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:2590
+#: src/dialogs/cell-format.glade.h:38 src/dialogs/dialog-cell-format.c:2592
 msgid "Format Cells"
 msgstr "Format Sel"
 
@@ -12348,9 +12445,9 @@ msgstr "Gabung"
 msgid "Negative number:"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:57 src/dialogs/dialog-cell-format.c:1325
-#: src/dialogs/dialog-cell-format.c:1380 src/dialogs/dialog-cell-format.c:1386
-#: src/dialogs/dialog-paste-special.c:48 src/tools/solver/reports-write.c:814
+#: src/dialogs/cell-format.glade.h:57 src/dialogs/dialog-cell-format.c:1327
+#: src/dialogs/dialog-cell-format.c:1382 src/dialogs/dialog-cell-format.c:1388
+#: src/dialogs/dialog-paste-special.c:48 src/tools/solver/reports-write.c:773
 msgid "None"
 msgstr "Tiada"
 
@@ -12359,7 +12456,7 @@ msgid "None          (silently accept invalid input)"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:59 src/dialogs/dialog-search.c:144
-#: src/func.c:641
+#: src/func.c:652
 msgid "Number"
 msgstr "Nombor"
 
@@ -12378,7 +12475,7 @@ msgstr "Opsyen"
 msgid "Outline"
 msgstr ""
 
-#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:2669
+#: src/dialogs/cell-format.glade.h:63 src/dialogs/dialog-cell-format.c:2668
 msgid "Pattern"
 msgstr "Corak"
 
@@ -12676,7 +12773,7 @@ msgstr ""
 
 # ui/galeon.glade.h:247
 #: src/dialogs/cell-sort.glade.h:2 src/dialogs/print.glade.h:10
-#: src/tools/solver/reports-write.c:847
+#: src/tools/solver/reports-write.c:806
 #, fuzzy
 msgid "Options"
 msgstr "Opsyen"
@@ -12686,7 +12783,7 @@ msgstr "Opsyen"
 msgid "Selection has"
 msgstr "Pilih font"
 
-#: src/dialogs/cell-sort.glade.h:4 src/workbook-control-gui.c:2739
+#: src/dialogs/cell-sort.glade.h:4 src/workbook-control-gui.c:2763
 msgid "Sort"
 msgstr "Isih"
 
@@ -12741,7 +12838,7 @@ msgstr ""
 msgid "Add the entered area to the list of source areas"
 msgstr ""
 
-#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:4154
+#: src/dialogs/consolidate.glade.h:2 src/workbook-control-gui.c:4187
 msgid "Average"
 msgstr ""
 
@@ -12754,7 +12851,7 @@ msgstr "Salin alamat emel"
 msgid "Clear the list of source areas"
 msgstr ""
 
-#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:4155
+#: src/dialogs/consolidate.glade.h:5 src/workbook-control-gui.c:4188
 msgid "Count"
 msgstr "Kira"
 
@@ -12792,11 +12889,11 @@ msgstr "Selit baris"
 msgid "Labels"
 msgstr "Label"
 
-#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:4153
+#: src/dialogs/consolidate.glade.h:13 src/workbook-control-gui.c:4186
 msgid "Max"
 msgstr "Max"
 
-#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:4152
+#: src/dialogs/consolidate.glade.h:14 src/workbook-control-gui.c:4185
 #, fuzzy
 msgid "Min"
 msgstr "Man"
@@ -13119,10 +13216,10 @@ msgid "No matching records were found."
 msgstr "Ralat: tiada set rekod dikembalikan"
 
 #: src/dialogs/dialog-advanced-filter.c:158
-#: src/dialogs/dialog-analysis-tools.c:578
-#: src/dialogs/dialog-analysis-tools.c:694
-#: src/dialogs/dialog-analysis-tools.c:1941
-#: src/dialogs/dialog-analysis-tools.c:2802
+#: src/dialogs/dialog-analysis-tools.c:595
+#: src/dialogs/dialog-analysis-tools.c:711
+#: src/dialogs/dialog-analysis-tools.c:1972
+#: src/dialogs/dialog-analysis-tools.c:2854
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr ""
@@ -13137,168 +13234,169 @@ msgstr "Julat _Input"
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: src/dialogs/dialog-analysis-tools.c:564
-#: src/dialogs/dialog-analysis-tools.c:680
+#: src/dialogs/dialog-analysis-tools.c:581
+#: src/dialogs/dialog-analysis-tools.c:697
 msgid "The selected input rows must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:569
-#: src/dialogs/dialog-analysis-tools.c:685
+#: src/dialogs/dialog-analysis-tools.c:586
+#: src/dialogs/dialog-analysis-tools.c:702
 msgid "The selected input columns must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:690
+#: src/dialogs/dialog-analysis-tools.c:591
+#: src/dialogs/dialog-analysis-tools.c:707
 msgid "The selected input areas must have equal size!"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:620
+#: src/dialogs/dialog-analysis-tools.c:637
 #, fuzzy
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: src/dialogs/dialog-analysis-tools.c:736
+#: src/dialogs/dialog-analysis-tools.c:753
 #, fuzzy
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: src/dialogs/dialog-analysis-tools.c:823
-msgid "Could not create the Rank and  Percentile Tools dialog."
-msgstr ""
+#: src/dialogs/dialog-analysis-tools.c:841
+#, fuzzy
+msgid "Could not create the Rank and Percentile Tools dialog."
+msgstr "Tidak dapat cipta fail sementara"
 
-#: src/dialogs/dialog-analysis-tools.c:909
+#: src/dialogs/dialog-analysis-tools.c:930
 #, fuzzy
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: src/dialogs/dialog-analysis-tools.c:1067
+#: src/dialogs/dialog-analysis-tools.c:1090
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1203
+#: src/dialogs/dialog-analysis-tools.c:1231
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1212
+#: src/dialogs/dialog-analysis-tools.c:1240
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1433
+#: src/dialogs/dialog-analysis-tools.c:1463
 msgid "Var_iable 1 Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1434
+#: src/dialogs/dialog-analysis-tools.c:1464
 msgid "_Variable 2 Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1435
+#: src/dialogs/dialog-analysis-tools.c:1465
 #, fuzzy
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: src/dialogs/dialog-analysis-tools.c:1630
+#: src/dialogs/dialog-analysis-tools.c:1660
 msgid "Var_iable 1 Range"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1630
+#: src/dialogs/dialog-analysis-tools.c:1660
 msgid "_Variable 2 Range"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1631
+#: src/dialogs/dialog-analysis-tools.c:1661
 #, fuzzy
 msgid "Could not create the FTest Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: src/dialogs/dialog-analysis-tools.c:1829
+#: src/dialogs/dialog-analysis-tools.c:1860
 #, fuzzy
 msgid "Could not create the Sampling Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: src/dialogs/dialog-analysis-tools.c:1936 src/tools/analysis-tools.c:2153
+#: src/dialogs/dialog-analysis-tools.c:1967 src/tools/analysis-tools.c:2153
 #: src/tools/analysis-tools.c:2231
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2038 src/dialogs/regression.glade.h:19
+#: src/dialogs/dialog-analysis-tools.c:2069 src/dialogs/regression.glade.h:19
 msgid "_X Variables:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2038 src/dialogs/regression.glade.h:20
+#: src/dialogs/dialog-analysis-tools.c:2069 src/dialogs/regression.glade.h:20
 msgid "_Y Variable:"
 msgstr "Pembolehubah _Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:2039
+#: src/dialogs/dialog-analysis-tools.c:2070
 msgid "Could not create the Regression Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2173
+#: src/dialogs/dialog-analysis-tools.c:2205
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2310
+#: src/dialogs/dialog-analysis-tools.c:2344
 #, fuzzy
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: src/dialogs/dialog-analysis-tools.c:2529 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2565 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2530
+#: src/dialogs/dialog-analysis-tools.c:2566
 #, fuzzy
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: src/dialogs/dialog-analysis-tools.c:2699
+#: src/dialogs/dialog-analysis-tools.c:2741
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2770
+#: src/dialogs/dialog-analysis-tools.c:2820
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2773
+#: src/dialogs/dialog-analysis-tools.c:2823
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2779
+#: src/dialogs/dialog-analysis-tools.c:2829
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2782
+#: src/dialogs/dialog-analysis-tools.c:2832
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2788
+#: src/dialogs/dialog-analysis-tools.c:2838
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2791
+#: src/dialogs/dialog-analysis-tools.c:2841
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2797
+#: src/dialogs/dialog-analysis-tools.c:2848
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2891
+#: src/dialogs/dialog-analysis-tools.c:2952
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-autocorrect.c:329
+#: src/dialogs/dialog-autocorrect.c:330
 #, fuzzy
 msgid "Could not create the AutoCorrect dialog."
 msgstr "Tidak dapat cipta fail sementara"
@@ -13409,7 +13507,7 @@ msgstr ""
 #. This is a name of the "General" autoformat template category.
 #. Please use the same translation as in General.category XML file
 #: src/dialogs/dialog-autoformat.c:665 src/format.c:1657 src/format.c:1749
-#: src/format.c:1758 src/format.c:1827
+#: src/format.c:1758 src/format.c:1827 src/plugin-service.c:230
 msgid "General"
 msgstr "Umum"
 
@@ -13423,51 +13521,51 @@ msgstr ""
 msgid "Could not create the autosave dialog."
 msgstr "Tidak dapat cipta fail sementara"
 
-#: src/dialogs/dialog-cell-format.c:454
+#: src/dialogs/dialog-cell-format.c:456
 msgid ";[Red]"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:456
+#: src/dialogs/dialog-cell-format.c:458
 msgid "_);("
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:458
+#: src/dialogs/dialog-cell-format.c:460
 msgid "_);[Red]("
 msgstr ""
 
 #. There must be a better way than this
-#: src/dialogs/dialog-cell-format.c:1321 src/dialogs/dialog-cell-format.c:1381
-#: src/dialogs/dialog-cell-format.c:1387
+#: src/dialogs/dialog-cell-format.c:1323 src/dialogs/dialog-cell-format.c:1383
+#: src/dialogs/dialog-cell-format.c:1389
 msgid "Single"
 msgstr "Tunggal"
 
-#: src/dialogs/dialog-cell-format.c:1323 src/dialogs/dialog-cell-format.c:1382
-#: src/dialogs/dialog-cell-format.c:1388
+#: src/dialogs/dialog-cell-format.c:1325 src/dialogs/dialog-cell-format.c:1384
+#: src/dialogs/dialog-cell-format.c:1390
 #, fuzzy
 msgid "Double"
 msgstr "Selesai"
 
-#: src/dialogs/dialog-cell-format.c:2171
+#: src/dialogs/dialog-cell-format.c:2173
 msgid "Source"
 msgstr "Sumber"
 
-#: src/dialogs/dialog-cell-format.c:2184 src/dialogs/dialog-cell-format.c:2191
+#: src/dialogs/dialog-cell-format.c:2186 src/dialogs/dialog-cell-format.c:2193
 msgid "Min :"
 msgstr "Min :"
 
-#: src/dialogs/dialog-cell-format.c:2185 src/dialogs/dialog-cell-format.c:2194
+#: src/dialogs/dialog-cell-format.c:2187 src/dialogs/dialog-cell-format.c:2196
 msgid "Max :"
 msgstr "Max:"
 
-#: src/dialogs/dialog-cell-format.c:2188
+#: src/dialogs/dialog-cell-format.c:2190
 msgid "Value :"
 msgstr "Nilai:"
 
-#: src/dialogs/dialog-cell-format.c:2400
+#: src/dialogs/dialog-cell-format.c:2402
 msgid "The validation criteria are unusable. Disable validation?"
 msgstr ""
 
-#: src/dialogs/dialog-cell-format.c:2664 src/workbook-format-toolbar.c:810
+#: src/dialogs/dialog-cell-format.c:2663 src/workbook-format-toolbar.c:810
 #, fuzzy
 msgid "Clear Background"
 msgstr "Latar _Belakang"
@@ -13521,7 +13619,7 @@ msgstr ""
 msgid "You cannot redefine a builtin name."
 msgstr ""
 
-#: src/dialogs/dialog-define-names.c:594
+#: src/dialogs/dialog-define-names.c:595
 #, fuzzy
 msgid "Could not create the Name Guru."
 msgstr "Tidak dapat cipta fail sementara"
@@ -13599,10 +13697,10 @@ msgstr "_Bukukerja..."
 #. * Fill in the labels of `Target Cell' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:286 src/dialogs/tabulate.glade.h:1
-#: src/tools/solver/reports-write.c:163 src/tools/solver/reports-write.c:185
-#: src/tools/solver/reports-write.c:212 src/tools/solver/reports-write.c:319
-#: src/tools/solver/reports-write.c:365 src/tools/solver/reports-write.c:477
-#: src/tools/solver/reports-write.c:484
+#: src/tools/solver/reports-write.c:122 src/tools/solver/reports-write.c:144
+#: src/tools/solver/reports-write.c:171 src/tools/solver/reports-write.c:278
+#: src/tools/solver/reports-write.c:324 src/tools/solver/reports-write.c:436
+#: src/tools/solver/reports-write.c:443
 msgid "Cell"
 msgstr "Sel"
 
@@ -13742,83 +13840,79 @@ msgstr ""
 msgid "Skip Blanks"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:96
-msgid "in memory"
-msgstr ""
-
-#: src/dialogs/dialog-plugin-manager.c:97
-msgid "deactivating"
-msgstr ""
-
-#: src/dialogs/dialog-plugin-manager.c:98
-msgid "in memory, deactivating"
-msgstr ""
-
-#: src/dialogs/dialog-plugin-manager.c:99
-msgid "inactive"
-msgstr ""
-
-#: src/dialogs/dialog-plugin-manager.c:100
+#: src/dialogs/dialog-plugin-manager.c:325
 #, fuzzy
-msgid "active"
-msgstr "masa"
+msgid "Plugin dependencies"
+msgstr "_Cetak..."
 
-#: src/dialogs/dialog-plugin-manager.c:144
-#, c-format
-msgid ""
-"This plugin depends on loader of type \"%s\".\n"
-"Do you want to activate appropriate plugin together with this one?\n"
-"(otherwise, plugin won't be loaded)"
-msgstr ""
+#: src/dialogs/dialog-plugin-manager.c:333
+#, fuzzy
+msgid "Unknown plugin"
+msgstr "Fungsi tidak diketahui"
 
-#: src/dialogs/dialog-plugin-manager.c:155
-msgid "Error while activating plugin loader"
-msgstr ""
+#: src/dialogs/dialog-plugin-manager.c:347
+#, fuzzy
+msgid "Plugin services"
+msgstr "_Cetak..."
 
-#: src/dialogs/dialog-plugin-manager.c:169
-#, c-format
-msgid "Loader for selected plugin (type: \"%s\") is not available."
-msgstr ""
-
-#: src/dialogs/dialog-plugin-manager.c:182
-msgid "Error while activating plugin"
-msgstr ""
-
-#: src/dialogs/dialog-plugin-manager.c:209
-msgid "Error while deactivating plugin"
-msgstr ""
-
-#: src/dialogs/dialog-plugin-manager.c:220
-msgid "Plugin is still in use."
-msgstr ""
-
-#: src/dialogs/dialog-plugin-manager.c:226
-msgid ""
-"Plugin cannot be deactivated because it's still in use.\n"
-"Do you want to mark it for deactivation such that it will be inactive after "
-"restarting Gnumeric?"
-msgstr ""
-
-#: src/dialogs/dialog-plugin-manager.c:248
+#: src/dialogs/dialog-plugin-manager.c:406
 msgid "Errors while activating plugins"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:266
+#: src/dialogs/dialog-plugin-manager.c:421
 msgid "Errors while deactivating plugins"
 msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:683
-#, fuzzy
-msgid "State"
-msgstr "Status"
+#: src/dialogs/dialog-plugin-manager.c:569
+msgid ""
+"The following extra plugins must be activated in order to activate this "
+"one:\n"
+"\n"
+msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:688
-#, fuzzy
-msgid "Plugins"
-msgstr "_Cetak..."
+#: src/dialogs/dialog-plugin-manager.c:575
+#, c-format
+msgid "Unknown plugin with id=\"%s\"\n"
+msgstr ""
 
-#: src/dialogs/dialog-plugin-manager.c:731
-#: src/dialogs/plugin-manager.glade.h:5
+#: src/dialogs/dialog-plugin-manager.c:582
+msgid ""
+"\n"
+"Do you want to activate this plugin together with its dependencies?"
+msgstr ""
+
+#: src/dialogs/dialog-plugin-manager.c:601
+#, fuzzy, c-format
+msgid "Error while deactivating plugin \"%s\"."
+msgstr "Ralat bila membaca fail psiconv."
+
+#: src/dialogs/dialog-plugin-manager.c:605
+#, fuzzy, c-format
+msgid "Error while activating plugin \"%s\"."
+msgstr "Ralat berlaku ketika menyimpan fail ."
+
+#: src/dialogs/dialog-plugin-manager.c:658
+#, fuzzy
+msgid "Active"
+msgstr "masa"
+
+#: src/dialogs/dialog-plugin-manager.c:663
+#, fuzzy
+msgid "Plugin name"
+msgstr "nama"
+
+# ui/galeon.glade.h:247
+#: src/dialogs/dialog-plugin-manager.c:682
+#: src/dialogs/dialog-preferences.c:502
+#, fuzzy
+msgid "Description"
+msgstr "Opsyen"
+
+#: src/dialogs/dialog-plugin-manager.c:686
+msgid "ID"
+msgstr ""
+
+#: src/dialogs/dialog-plugin-manager.c:706
 msgid "Directory"
 msgstr ""
 
@@ -13835,12 +13929,6 @@ msgstr ""
 #, fuzzy
 msgid "FALSE"
 msgstr "FILE"
-
-# ui/galeon.glade.h:247
-#: src/dialogs/dialog-preferences.c:502 src/dialogs/plugin-manager.glade.h:4
-#, fuzzy
-msgid "Description"
-msgstr "Opsyen"
 
 #: src/dialogs/dialog-preferences.c:657
 msgid "The items on this page customize the behaviour of the undo/redo system."
@@ -13912,7 +14000,7 @@ msgid "_Standard Deviation:"
 msgstr ""
 
 #: src/dialogs/dialog-random-generator.c:111
-#: src/tools/solver/reports-write.c:808
+#: src/tools/solver/reports-write.c:767
 msgid "Discrete"
 msgstr ""
 
@@ -14814,8 +14902,8 @@ msgstr ""
 msgid "Sheets"
 msgstr "Stylesheet"
 
-#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3666
-#: src/workbook-control-gui.c:3706
+#: src/dialogs/dialog-zoom.glade.h:7 src/workbook-control-gui.c:3698
+#: src/workbook-control-gui.c:3738
 #, fuzzy
 msgid "Zoom"
 msgstr "_Zoom"
@@ -15180,11 +15268,6 @@ msgstr ""
 msgid "Merge Range:"
 msgstr "Kriteria"
 
-#: src/dialogs/merge.glade.h:2 src/workbook-control-gui.c:2948
-#, fuzzy
-msgid "Merge..."
-msgstr "Gabung"
-
 #: src/dialogs/moving-averages.glade.h:1
 #, fuzzy
 msgid "3"
@@ -15235,7 +15318,7 @@ msgid "_Update"
 msgstr "tarikh"
 
 #: src/dialogs/plugin-manager.glade.h:1
-msgid "A_ctivate plugin"
+msgid "*"
 msgstr ""
 
 #: src/dialogs/plugin-manager.glade.h:2
@@ -15243,47 +15326,47 @@ msgid "Activate _new plugins by default"
 msgstr ""
 
 #: src/dialogs/plugin-manager.glade.h:3
-msgid "Deac_tivate plugin"
+#, fuzzy
+msgid "D_eactivate all"
+msgstr "Nilai Objektif"
+
+#: src/dialogs/plugin-manager.glade.h:4
+msgid "Do _not activate this plugin next time I start Gnumeric"
+msgstr ""
+
+#: src/dialogs/plugin-manager.glade.h:5
+msgid "Plugin Manager"
 msgstr ""
 
 #: src/dialogs/plugin-manager.glade.h:6
 #, fuzzy
-msgid "Extra information"
-msgstr "Maklumat"
-
-#: src/dialogs/plugin-manager.glade.h:7
-msgid "Id"
-msgstr ""
-
-#: src/dialogs/plugin-manager.glade.h:9
-msgid "Plugin Manager"
-msgstr ""
-
-#: src/dialogs/plugin-manager.glade.h:10
-#, fuzzy
 msgid "Plugin _list"
 msgstr "_Cetak..."
 
-#: src/dialogs/plugin-manager.glade.h:11
-msgid "_Activate all plugins"
+#: src/dialogs/plugin-manager.glade.h:7
+#, fuzzy
+msgid "Plugin directory:"
+msgstr "_Cetak..."
+
+#: src/dialogs/plugin-manager.glade.h:8
+msgid ""
+"The plugin cannot be deactivated now because it is in use. However, if you "
+"use the check button below, the plugin won't be activated after restarting "
+"Gnumeric (unless needed by another plugin)."
 msgstr ""
 
-#: src/dialogs/plugin-manager.glade.h:12
-msgid "_Deactivate all plugins"
+#: src/dialogs/plugin-manager.glade.h:9
+msgid "_Activate all"
 msgstr ""
 
-#: src/dialogs/plugin-manager.glade.h:13
+#: src/dialogs/plugin-manager.glade.h:10
 msgid "_Directories"
 msgstr ""
 
-#: src/dialogs/plugin-manager.glade.h:14
+#: src/dialogs/plugin-manager.glade.h:11
 #, fuzzy
 msgid "_Plugin details"
 msgstr "_Cetak..."
-
-#: src/dialogs/plugin-manager.glade.h:15
-msgid "_Scan plugin directories"
-msgstr ""
 
 #: src/dialogs/preferences.glade.h:1
 #, fuzzy
@@ -15842,10 +15925,6 @@ msgstr "Julat"
 msgid "_Regular expression"
 msgstr "Ikon Refresh"
 
-#: src/dialogs/sheet-order.glade.h:1
-msgid "Manage Sheets..."
-msgstr ""
-
 #: src/dialogs/so-arrow.glade.h:1
 msgid "Configure Arrow/Line"
 msgstr ""
@@ -15893,9 +15972,9 @@ msgstr ""
 
 # src/prefs.c:618
 # ui/galeon.glade.h:140
-#: src/dialogs/solver.glade.h:9 src/tools/solver/reports-write.c:282
-#: src/tools/solver/reports-write.c:443 src/tools/solver/reports-write.c:656
-#: src/tools/solver/reports-write.c:687
+#: src/dialogs/solver.glade.h:9 src/tools/solver/reports-write.c:241
+#: src/tools/solver/reports-write.c:402 src/tools/solver/reports-write.c:615
+#: src/tools/solver/reports-write.c:646
 #, fuzzy
 msgid "Constraints"
 msgstr "mengandungi"
@@ -15917,8 +15996,8 @@ msgstr ""
 msgid "Max _Time (sec.)"
 msgstr ""
 
-#: src/dialogs/solver.glade.h:15 src/tools/solver/reports-write.c:795
-#: src/tools/solver/reports-write.c:803
+#: src/dialogs/solver.glade.h:15 src/tools/solver/reports-write.c:754
+#: src/tools/solver/reports-write.c:762
 msgid "Model Assumptions:"
 msgstr ""
 
@@ -15953,7 +16032,11 @@ msgstr ""
 msgid "Solve"
 msgstr "Simpan Sebagai..."
 
-#: src/dialogs/solver.glade.h:22
+#. Fill in the header titles.
+#: src/dialogs/solver.glade.h:22 src/tools/solver/reports-write.c:237
+#: src/tools/solver/reports-write.c:398 src/tools/solver/reports-write.c:528
+#: src/tools/solver/reports-write.c:798 src/tools/solver/reports-write.c:961
+#: src/tools/solver/reports-write.c:1012
 #, fuzzy
 msgid "Solver"
 msgstr "Simpan Sebagai..."
@@ -16153,29 +16236,29 @@ msgstr "Cipta pemisah baru"
 msgid "_Vertical Scrollbar"
 msgstr "Cipta pemisah baru"
 
-#: src/expr-name.c:270
+#: src/expr-name.c:278
 msgid "already defined in sheet"
 msgstr ""
 
-#: src/expr-name.c:274
+#: src/expr-name.c:282
 msgid "already defined in workbook"
 msgstr ""
 
-#: src/expr-name.c:278
+#: src/expr-name.c:286
 msgid "already globally defined "
 msgstr ""
 
-#: src/expr-name.c:286
+#: src/expr-name.c:294
 #, c-format
 msgid "'%s' has a circular reference"
 msgstr ""
 
-#: src/expr-name.c:448
+#: src/expr-name.c:457
 #, fuzzy
 msgid "Builtin"
 msgstr "Menapis"
 
-#: src/expr-name.c:553 src/expr-name.c:565
+#: src/expr-name.c:579 src/expr-name.c:591
 msgid "Error: no sheet"
 msgstr ""
 
@@ -16312,1354 +16395,719 @@ msgstr ""
 #. * for each currency.  They MUST start with '[$'
 #. * The second column has the long names of the currencies.
 #.
-#: src/formats.c:257
-msgid "[$ADP]"
-msgstr ""
-
-#: src/formats.c:257
-msgid "Andorran peseta"
-msgstr ""
-
+#. 2002/08/04 Updated to match iso 4217
 #: src/formats.c:258
-msgid "[$AED]"
-msgstr ""
-
-#: src/formats.c:258
-msgid "UAE dirham"
+msgid "United Arab Emirates, Dirhams"
 msgstr ""
 
 #: src/formats.c:259
-msgid "[$AFA]"
-msgstr ""
-
-#: src/formats.c:259
-msgid "Afghanistan afghani"
-msgstr ""
-
-#: src/formats.c:260
-msgid "[$ALL]"
+msgid "Afghanistan, Afghanis"
 msgstr ""
 
 #: src/formats.c:260
 #, fuzzy
-msgid "Albanian lek"
+msgid "Albania, Leke"
 msgstr "Albanian (sq)"
 
 #: src/formats.c:261
-msgid "[$ANG]"
-msgstr ""
-
-#: src/formats.c:261
-msgid "Netherlands Antillian guilder"
+msgid "Armenia, Drams"
 msgstr ""
 
 #: src/formats.c:262
-msgid "[$AON]"
-msgstr ""
-
-#: src/formats.c:262
-msgid "Angolan new kwanza"
+msgid "Netherlands Antilles, Guilders"
 msgstr ""
 
 #: src/formats.c:263
-msgid "[$ARA]"
-msgstr ""
-
-#: src/formats.c:263
-msgid "Argentine peso"
+msgid "Angola, Kwanza"
 msgstr ""
 
 #: src/formats.c:264
-msgid "[$ATS]"
-msgstr ""
-
-#: src/formats.c:264
-msgid "Austrian schilling"
+msgid "Argentina, Pesos"
 msgstr ""
 
 #: src/formats.c:265
-msgid "[$AUD]"
-msgstr ""
-
-#: src/formats.c:265
-msgid "Australian dollar"
+msgid "Australia, Dollars"
 msgstr ""
 
 #: src/formats.c:266
-msgid "[$AWG]"
-msgstr ""
-
-#: src/formats.c:266
-msgid "Aruban guilder"
+msgid "Aruba, Guilders"
 msgstr ""
 
 #: src/formats.c:267
-msgid "[$BBD]"
-msgstr ""
-
-#: src/formats.c:267
-msgid "Barbados dollar"
+msgid "Azerbaijan, Manats"
 msgstr ""
 
 #: src/formats.c:268
-msgid "[$BDT]"
-msgstr ""
-
-#: src/formats.c:268
-msgid "Bangladeshi taka"
+msgid "Bosnia and Herzegovina, Convertible Marka"
 msgstr ""
 
 #: src/formats.c:269
-msgid "[$BEF]"
-msgstr ""
-
-#: src/formats.c:269
-msgid "Belgian franc"
+msgid "Barbados, Dollars"
 msgstr ""
 
 #: src/formats.c:270
-msgid "[$BGL]"
+msgid "Bangladesh, Taka"
 msgstr ""
 
-#: src/formats.c:270
+#: src/formats.c:271
 #, fuzzy
-msgid "Bulgarian lev"
+msgid "Bulgaria, Leva"
 msgstr "Bulgarian (bg)"
 
-#: src/formats.c:271
-msgid "[$BHD]"
-msgstr ""
-
-#: src/formats.c:271
-msgid "Bahraini dinar"
-msgstr ""
-
 #: src/formats.c:272
-msgid "[$BIF]"
-msgstr ""
-
-#: src/formats.c:272
-msgid "Burundi franc"
+msgid "Bahrain, Dinars"
 msgstr ""
 
 #: src/formats.c:273
-msgid "[$BMD]"
-msgstr ""
-
-#: src/formats.c:273
-msgid "Bermudian dollar"
+msgid "Burundi, Francs"
 msgstr ""
 
 #: src/formats.c:274
-msgid "[$BND]"
-msgstr ""
-
-#: src/formats.c:274
-msgid "Brunei dollar"
+msgid "Bermuda, Dollars"
 msgstr ""
 
 #: src/formats.c:275
-msgid "[$BOB]"
-msgstr ""
-
-#: src/formats.c:275
-msgid "Bolivian boliviano"
+msgid "Brunei Darussalam, Dollars"
 msgstr ""
 
 #: src/formats.c:276
-msgid "[$BRE]"
-msgstr ""
-
-#: src/formats.c:276
-msgid "Brazilian real"
+msgid "Bolivia, Bolivianos"
 msgstr ""
 
 #: src/formats.c:277
-msgid "[$BSD]"
-msgstr ""
-
-#: src/formats.c:277
-msgid "Bahamian dollar"
+msgid "Brazil, Brazil Real"
 msgstr ""
 
 #: src/formats.c:278
-msgid "[$BTN]"
-msgstr ""
-
-#: src/formats.c:278
-msgid "Bhutan ngultrum"
+msgid "Bahamas, Dollars"
 msgstr ""
 
 #: src/formats.c:279
-msgid "[$BWP]"
-msgstr ""
-
-#: src/formats.c:279
-msgid "Botswanian pula"
+msgid "Bhutan, Ngultrum"
 msgstr ""
 
 #: src/formats.c:280
-msgid "[$BYB]"
+msgid "Botswana, Pulas"
 msgstr ""
 
-#: src/formats.c:280
+#: src/formats.c:281
 #, fuzzy
-msgid "Belarussian ruble"
+msgid "Belarus, Rubles"
 msgstr "Byelorussian (be)"
 
-#: src/formats.c:281
-msgid "[$BZD]"
-msgstr ""
-
-#: src/formats.c:281
-msgid "Belize dollar"
-msgstr ""
-
 #: src/formats.c:282
-msgid "[$CAD]"
-msgstr ""
-
-#: src/formats.c:282
-msgid "Canadian dollar"
+msgid "Belize, Dollars"
 msgstr ""
 
 #: src/formats.c:283
-msgid "[$CHF]"
-msgstr ""
-
-#: src/formats.c:283
-msgid "Swiss franc"
+msgid "Canada, Dollars"
 msgstr ""
 
 #: src/formats.c:284
-msgid "[$CLP]"
+msgid "Congo/Kinshasa, Congolese Francs"
 msgstr ""
 
-#: src/formats.c:284
+#: src/formats.c:285
+msgid "Switzerland, Francs"
+msgstr ""
+
+#: src/formats.c:286
 #, fuzzy
-msgid "Chilean peso"
+msgid "Chile, Pesos"
 msgstr "Cina"
 
-#: src/formats.c:285
-msgid "[$CNY]"
-msgstr ""
-
-#: src/formats.c:285
-msgid "Chinese yuan renminbi"
-msgstr ""
-
-#: src/formats.c:286
-msgid "[$COP]"
-msgstr ""
-
-#: src/formats.c:286
-msgid "Colombian peso"
-msgstr ""
-
 #: src/formats.c:287
-msgid "[$CRC]"
-msgstr ""
-
-#: src/formats.c:287
-msgid "Costa Rican colon"
+msgid "China, Yuan Renminbi"
 msgstr ""
 
 #: src/formats.c:288
-msgid "[$CSK]"
-msgstr ""
-
-#: src/formats.c:288
-msgid "Czech Koruna"
+msgid "Colombia, Pesos"
 msgstr ""
 
 #: src/formats.c:289
-msgid "[$CUP]"
-msgstr ""
-
-#: src/formats.c:289
-msgid "Cuban peso"
+msgid "Costa Rica, Colones"
 msgstr ""
 
 #: src/formats.c:290
-msgid "[$CVE]"
-msgstr ""
-
-#: src/formats.c:290
-msgid "Cape Verde escudo"
+msgid "Cuba, Pesos"
 msgstr ""
 
 #: src/formats.c:291
-msgid "[$CYP]"
-msgstr ""
-
-#: src/formats.c:291
-msgid "Cyprus pound"
+msgid "Cape Verde, Escudos"
 msgstr ""
 
 #: src/formats.c:292
-msgid "[$DEM]"
-msgstr ""
-
-#: src/formats.c:292
-#, fuzzy
-msgid "Deutsche mark"
-msgstr "Lerai tab"
-
-#: src/formats.c:293
-msgid "[$DJF]"
+msgid "Cyprus, Pounds"
 msgstr ""
 
 #: src/formats.c:293
-msgid "Djibouti franc"
+msgid "Czech Republic, Koruny"
 msgstr ""
 
 #: src/formats.c:294
-msgid "[$DKK]"
-msgstr ""
-
-#: src/formats.c:294
-#, fuzzy
-msgid "Danish krone"
-msgstr "Danish (da)"
-
-#: src/formats.c:295
-msgid "[$DOP]"
+msgid "Djibouti, Francs"
 msgstr ""
 
 #: src/formats.c:295
-msgid "Dominican peso"
+msgid "Denmark, Kroner"
 msgstr ""
 
 #: src/formats.c:296
-msgid "[$DZD]"
-msgstr ""
-
-#: src/formats.c:296
-msgid "Algerian dinar"
+msgid "Dominican Republic, Pesos"
 msgstr ""
 
 #: src/formats.c:297
-msgid "[$ECS]"
-msgstr ""
-
-#: src/formats.c:297
-msgid "Ecuador sucre"
+msgid "Algeria, Algeria Dinars"
 msgstr ""
 
 #: src/formats.c:298
-msgid "[$EGP]"
-msgstr ""
-
-#: src/formats.c:298
-msgid "Egyptian pound"
+msgid "Estonia, Krooni"
 msgstr ""
 
 #: src/formats.c:299
-msgid "[$ESP]"
-msgstr ""
-
-#: src/formats.c:299
-#, fuzzy
-msgid "Spanish peseta"
-msgstr "Spanish (es)"
-
-#: src/formats.c:300
-msgid "[$ETB]"
+msgid "Egypt, Pounds"
 msgstr ""
 
 #: src/formats.c:300
-msgid "Ethiopian birr"
+msgid "Eritrea, Nakfa"
 msgstr ""
 
 #: src/formats.c:301
-msgid "[$EUR]"
+msgid "Ethiopia, Birr"
 msgstr ""
 
-#: src/formats.c:301
-msgid "Euro"
-msgstr "Euro"
-
 #: src/formats.c:302
-msgid "[$FIM]"
-msgstr ""
-
-# ui/galeon.glade.h:138
-#: src/formats.c:302
-#, fuzzy
-msgid "Finnish markka"
-msgstr "Finnish (fi)"
-
-#: src/formats.c:303
-msgid "[$FJD]"
+msgid "Euro Member Countries, Euro"
 msgstr ""
 
 #: src/formats.c:303
-msgid "Fiji dollar"
+msgid "Fiji, Dollars"
 msgstr ""
 
 #: src/formats.c:304
-msgid "[$FKP]"
-msgstr ""
-
-#: src/formats.c:304
-msgid "Falkland Islands pound"
+msgid "Falkland Islands (Malvinas), Pounds"
 msgstr ""
 
 #: src/formats.c:305
-msgid "[$FRF]"
-msgstr ""
-
-#: src/formats.c:305
-#, fuzzy
-msgid "French franc"
-msgstr "French (fr)"
-
-#: src/formats.c:306
-msgid "[$GBP]"
+msgid "United Kingdom, Pounds"
 msgstr ""
 
 #: src/formats.c:306
-msgid "UK pound sterling"
+msgid "Georgia, Lari"
 msgstr ""
 
 #: src/formats.c:307
-msgid "[$GHC]"
-msgstr ""
-
-#: src/formats.c:307
-msgid "Ghanaian cedi"
+msgid "Guernsey, Pounds"
 msgstr ""
 
 #: src/formats.c:308
-msgid "[$GIP]"
-msgstr ""
-
-#: src/formats.c:308
-msgid "Gibraltar pound"
+msgid "Ghana, Cedis"
 msgstr ""
 
 #: src/formats.c:309
-msgid "[$GMD]"
-msgstr ""
-
-#: src/formats.c:309
-msgid "Gambian dalasi"
+msgid "Gibraltar, Pounds"
 msgstr ""
 
 #: src/formats.c:310
-msgid "[$GNF]"
-msgstr ""
-
-#: src/formats.c:310
-msgid "Guinea franc"
+msgid "Gambia, Dalasi"
 msgstr ""
 
 #: src/formats.c:311
-msgid "[$GRD]"
-msgstr ""
-
-#: src/formats.c:311
-msgid "Greek drachma"
+msgid "Guinea, Francs"
 msgstr ""
 
 #: src/formats.c:312
-msgid "[$GTQ]"
-msgstr ""
-
-#: src/formats.c:312
-msgid "Guatemalan quetzal"
+msgid "Guatemala, Quetzales"
 msgstr ""
 
 #: src/formats.c:313
-msgid "[$GWP]"
-msgstr ""
-
-#: src/formats.c:313
-msgid "Guinea-Bissau peso"
+msgid "Guyana, Dollars"
 msgstr ""
 
 #: src/formats.c:314
-msgid "[$GYD]"
-msgstr ""
-
-#: src/formats.c:314
-msgid "Guyanan dollar"
+msgid "Hong Kong, Dollars"
 msgstr ""
 
 #: src/formats.c:315
-msgid "[$HKD]"
-msgstr ""
-
-#: src/formats.c:315
-msgid "Hong Kong dollar"
+msgid "Honduras, Lempiras"
 msgstr ""
 
 #: src/formats.c:316
-msgid "[$HNL]"
-msgstr ""
-
-#: src/formats.c:316
-msgid "Honduran lempira"
-msgstr ""
-
-#: src/formats.c:317
-msgid "[$HRK]"
-msgstr ""
-
-#: src/formats.c:317
 #, fuzzy
-msgid "Croatian kuna"
+msgid "Croatia, Kuna"
 msgstr "Croatian (hr)"
 
-#: src/formats.c:318
-msgid "[$HTG]"
+#: src/formats.c:317
+msgid "Haiti, Gourdes"
 msgstr ""
 
 #: src/formats.c:318
-msgid "Haitian gourde"
-msgstr ""
-
-#: src/formats.c:319
-msgid "[$HUF]"
-msgstr ""
-
-#: src/formats.c:319
 #, fuzzy
-msgid "Hungarian forint"
+msgid "Hungary, Forint"
 msgstr "Hungarian (hu)"
 
-#: src/formats.c:320
-msgid "[$IDR]"
-msgstr ""
-
-#: src/formats.c:320
-msgid "Indonesian rupiah"
+#: src/formats.c:319
+#, fuzzy
+msgid "Indonesia, Rupiahs"
 msgstr "Rupiah Indonesia"
 
-#: src/formats.c:321
-msgid "[$IEP]"
+#: src/formats.c:320
+msgid "Israel, New Shekels"
 msgstr ""
 
 #: src/formats.c:321
+msgid "Isle of Man, Pounds"
+msgstr ""
+
+#: src/formats.c:322
 #, fuzzy
-msgid "Irish punt"
-msgstr "adalah bukan"
-
-#: src/formats.c:322
-msgid "[$IEX]"
-msgstr ""
-
-#: src/formats.c:322
-msgid "Irish pence ***"
-msgstr ""
-
-#: src/formats.c:323
-msgid "[$ILS]"
-msgstr ""
-
-#: src/formats.c:323
-msgid "Israeli shekel"
-msgstr ""
-
-#: src/formats.c:324
-msgid "[$INR]"
-msgstr ""
-
-#: src/formats.c:324
-msgid "Indian rupee"
+msgid "India, Rupees"
 msgstr "Rupee India"
 
-#: src/formats.c:325
-msgid "[$IQD]"
+#: src/formats.c:323
+msgid "Iraq, Dinars"
 msgstr ""
 
+#: src/formats.c:324
+#, fuzzy
+msgid "Iran, Rials"
+msgstr "Cipta senarai"
+
 #: src/formats.c:325
-msgid "Iraqi dinar"
+msgid "Iceland, Kronur"
 msgstr ""
 
 #: src/formats.c:326
-msgid "[$IRR]"
-msgstr ""
-
-#: src/formats.c:326
-msgid "Iranian rial"
+msgid "Jersey, Pounds"
 msgstr ""
 
 #: src/formats.c:327
-msgid "[$ISK]"
-msgstr ""
-
-#: src/formats.c:327
-msgid "Iceland krona"
+msgid "Jamaica, Dollars"
 msgstr ""
 
 #: src/formats.c:328
-msgid "[$ITL]"
-msgstr ""
-
-#: src/formats.c:328
-msgid "Italian lira"
-msgstr "Lira Itali"
-
-#: src/formats.c:329
-msgid "[$JMD]"
+msgid "Jordan, Dinars"
 msgstr ""
 
 #: src/formats.c:329
-msgid "Jamaican dollar"
-msgstr ""
-
-#: src/formats.c:330
-msgid "[$JOD]"
-msgstr ""
-
-#: src/formats.c:330
-msgid "Jordanian dinar"
-msgstr ""
-
-#: src/formats.c:331
-msgid "[$JPY]"
-msgstr ""
-
-#: src/formats.c:331
-msgid "Japanese yen"
+#, fuzzy
+msgid "Japan, Yen"
 msgstr "Yen Jepun"
 
-#: src/formats.c:332
-msgid "[$KES]"
+#: src/formats.c:330
+msgid "Kenya, Shillings"
+msgstr ""
+
+#: src/formats.c:331
+msgid "Kyrgyzstan, Soms"
 msgstr ""
 
 #: src/formats.c:332
-msgid "Kenyan shilling"
+msgid "Cambodia, Riels"
 msgstr ""
 
 #: src/formats.c:333
-msgid "[$KHR]"
-msgstr ""
-
-#: src/formats.c:333
-msgid "Kampuchean riel"
+msgid "Comoros, Francs"
 msgstr ""
 
 #: src/formats.c:334
-msgid "[$KMF]"
-msgstr ""
-
-#: src/formats.c:334
-msgid "Comoros franc"
+msgid "Korea (North), Won"
 msgstr ""
 
 #: src/formats.c:335
-msgid "[$KPW]"
-msgstr ""
-
-#: src/formats.c:335
-msgid "North Korean won"
+msgid "Korea (South), Won"
 msgstr ""
 
 #: src/formats.c:336
-msgid "[$KRW]"
-msgstr ""
-
-#: src/formats.c:336
-msgid "Republic of Korea won"
+msgid "Kuwait, Dinars"
 msgstr ""
 
 #: src/formats.c:337
-msgid "[$KWD]"
-msgstr ""
-
-#: src/formats.c:337
-msgid "Kuwaiti dinar"
+msgid "Cayman Islands, Dollars"
 msgstr ""
 
 #: src/formats.c:338
-msgid "[$KYD]"
-msgstr ""
-
-#: src/formats.c:338
-msgid "Cayman Islands dollar"
+msgid "Kazakstan, Tenge"
 msgstr ""
 
 #: src/formats.c:339
-msgid "[$LAK]"
-msgstr ""
-
-#: src/formats.c:339
-msgid "Lao kip"
+msgid "Laos, Kips"
 msgstr ""
 
 #: src/formats.c:340
-msgid "[$LBP]"
-msgstr ""
-
-#: src/formats.c:340
-msgid "Lebanese pound"
+msgid "Lebanon, Pounds"
 msgstr ""
 
 #: src/formats.c:341
-msgid "[$LKR]"
-msgstr ""
-
-#: src/formats.c:341
-msgid "Sri Lanka rupee"
+msgid "Sri Lanka, Rupees"
 msgstr ""
 
 #: src/formats.c:342
-msgid "[$LRD]"
-msgstr ""
-
-#: src/formats.c:342
-msgid "Liberian dollar"
+msgid "Liberia, Dollars"
 msgstr ""
 
 #: src/formats.c:343
-msgid "[$LSL]"
-msgstr ""
-
-#: src/formats.c:343
-msgid "Lesotho loti"
+msgid "Lesotho, Maloti"
 msgstr ""
 
 #: src/formats.c:344
-msgid "[$LUF]"
-msgstr ""
-
-#: src/formats.c:344
-msgid "Luxembourg franc"
+msgid "Lithuania, Litai"
 msgstr ""
 
 #: src/formats.c:345
-msgid "[$LYD]"
-msgstr ""
-
-#: src/formats.c:345
-msgid "Libyan dinar"
+msgid "Latvia, Lati"
 msgstr ""
 
 #: src/formats.c:346
-msgid "[$MAD]"
-msgstr ""
-
-#: src/formats.c:346
-msgid "Moroccan dirham"
+msgid "Libya, Dinars"
 msgstr ""
 
 #: src/formats.c:347
-msgid "[$MDL]"
-msgstr ""
-
-#: src/formats.c:347
-msgid "Moldovan leu"
+msgid "Morocco, Dirhams"
 msgstr ""
 
 #: src/formats.c:348
-msgid "[$MGF]"
-msgstr ""
-
-#: src/formats.c:348
-msgid "Malagasy franc"
+msgid "Moldova, Lei"
 msgstr ""
 
 #: src/formats.c:349
-msgid "[$MLF]"
-msgstr ""
-
-#: src/formats.c:349
-msgid "Mali franc"
+msgid "Madagascar, Malagasy Francs"
 msgstr ""
 
 #: src/formats.c:350
-msgid "[$MMK]"
-msgstr ""
-
-#: src/formats.c:350
-msgid "Myanmar kyat"
+msgid "Macedonia, Denars"
 msgstr ""
 
 #: src/formats.c:351
-msgid "[$MNT]"
-msgstr ""
-
-#: src/formats.c:351
-msgid "Mongolian tugrik"
+msgid "Myanmar (Burma), Kyats"
 msgstr ""
 
 #: src/formats.c:352
-msgid "[$MOP]"
-msgstr ""
-
-#: src/formats.c:352
-msgid "Macau pataca"
+msgid "Mongolia, Tugriks"
 msgstr ""
 
 #: src/formats.c:353
-msgid "[$MRO]"
-msgstr ""
-
-#: src/formats.c:353
-msgid "Mauritanian ouguiya"
+msgid "Macau, Patacas"
 msgstr ""
 
 #: src/formats.c:354
-msgid "[$MTL]"
-msgstr ""
-
-#: src/formats.c:354
-msgid "Maltese lira"
+msgid "Mauritania, Ouguiyas"
 msgstr ""
 
 #: src/formats.c:355
-msgid "[$MUR]"
+msgid "Malta, Liri"
 msgstr ""
 
-#: src/formats.c:355
+#: src/formats.c:356
 #, fuzzy
-msgid "Mauritius rupee"
+msgid "Mauritius, Rupees"
 msgstr "Tema Nautilus"
 
-#: src/formats.c:356
-msgid "[$MVR]"
-msgstr ""
-
-#: src/formats.c:356
-msgid "Maldive rupee"
-msgstr ""
-
 #: src/formats.c:357
-msgid "[$MWK]"
-msgstr ""
-
-#: src/formats.c:357
-msgid "Malawi kwacha"
+msgid "Maldives (Maldive Islands), Rufiyaa"
 msgstr ""
 
 #: src/formats.c:358
-msgid "[$MXP]"
-msgstr ""
-
-#: src/formats.c:358
-msgid "Mexican peso"
+msgid "Malawi, Kwachas"
 msgstr ""
 
 #: src/formats.c:359
-msgid "[$MYR]"
-msgstr ""
-
-#: src/formats.c:359
-msgid "Malaysian ringgit"
+msgid "Mexico, Pesos"
 msgstr ""
 
 #: src/formats.c:360
-msgid "[$MZM]"
-msgstr ""
-
-#: src/formats.c:360
-msgid "Mozambique metical"
+msgid "Malaysia, Ringgits"
 msgstr ""
 
 #: src/formats.c:361
-msgid "[$NGN]"
-msgstr ""
-
-#: src/formats.c:361
-msgid "Nigerian naira"
+msgid "Mozambique, Meticais"
 msgstr ""
 
 #: src/formats.c:362
-msgid "[$NIO]"
-msgstr ""
-
-#: src/formats.c:362
-msgid "Nicaraguan cordoba oro"
+msgid "Namibia, Dollars"
 msgstr ""
 
 #: src/formats.c:363
-msgid "[$NLG]"
-msgstr ""
-
-#: src/formats.c:363
-msgid "Netherlands guilder"
+msgid "Nigeria, Nairas"
 msgstr ""
 
 #: src/formats.c:364
-msgid "[$NOK]"
+msgid "Nicaragua, Gold Cordobas"
 msgstr ""
 
-#: src/formats.c:364
+#: src/formats.c:365
 #, fuzzy
-msgid "Norwegian krone"
+msgid "Norway, Krone"
 msgstr "Norwegian (no)"
 
-#: src/formats.c:365
-msgid "[$NPR]"
-msgstr ""
-
-#: src/formats.c:365
-msgid "Nepalese rupee"
-msgstr ""
-
 #: src/formats.c:366
-msgid "[$NZD]"
-msgstr ""
-
-#: src/formats.c:366
-msgid "New Zealand dollar"
+msgid "Nepal, Nepal Rupees"
 msgstr ""
 
 #: src/formats.c:367
-msgid "[$OMR]"
-msgstr ""
-
-#: src/formats.c:367
-msgid "Rial Omani"
+msgid "New Zealand, Dollars"
 msgstr ""
 
 #: src/formats.c:368
-msgid "[$PAB]"
-msgstr ""
-
-#: src/formats.c:368
-msgid "Panamanian balboa"
+msgid "Oman, Rials"
 msgstr ""
 
 #: src/formats.c:369
-msgid "[$PEI]"
-msgstr ""
-
-#: src/formats.c:369
-msgid "Peruvian inti"
+msgid "Panama, Balboa"
 msgstr ""
 
 #: src/formats.c:370
-msgid "[$PGK]"
-msgstr ""
-
-#: src/formats.c:370
-msgid "Papua New Guinea kina"
+msgid "Peru, Nuevos Soles"
 msgstr ""
 
 #: src/formats.c:371
-msgid "[$PHP]"
-msgstr ""
-
-#: src/formats.c:371
-msgid "Philippino peso"
+msgid "Papua New Guinea, Kina"
 msgstr ""
 
 #: src/formats.c:372
-msgid "[$PKR]"
-msgstr ""
-
-#: src/formats.c:372
-msgid "Pakistan rupee"
+msgid "Philippines, Pesos"
 msgstr ""
 
 #: src/formats.c:373
-msgid "[$PLZ]"
-msgstr ""
-
-#: src/formats.c:373
-#, fuzzy
-msgid "Polish zloty"
-msgstr "Polish (pl)"
-
-#: src/formats.c:374
-msgid "[$PTE]"
+msgid "Pakistan, Rupees"
 msgstr ""
 
 #: src/formats.c:374
+msgid "Poland, Zlotych"
+msgstr ""
+
+#: src/formats.c:375
+msgid "Paraguay, Guarani"
+msgstr ""
+
+#: src/formats.c:376
 #, fuzzy
-msgid "Portuguese escudo"
-msgstr "Portugis (pt)"
-
-#: src/formats.c:375
-msgid "[$PYG]"
-msgstr ""
-
-#: src/formats.c:375
-msgid "Paraguay guarani"
-msgstr ""
-
-#: src/formats.c:376
-msgid "[$QAR]"
-msgstr ""
-
-#: src/formats.c:376
-msgid "Qatari rial"
-msgstr ""
-
-#: src/formats.c:377
-msgid "[$ROL]"
-msgstr ""
+msgid "Qatar, Rials"
+msgstr "April"
 
 # ui/galeon.glade.h:272
 #: src/formats.c:377
 #, fuzzy
-msgid "Romanian leu"
+msgid "Romania, Lei"
 msgstr "Romanian (ro)"
 
 #: src/formats.c:378
-msgid "[$RUR]"
-msgstr ""
-
-#: src/formats.c:378
 #, fuzzy
-msgid "Russian ruble"
+msgid "Russia, Rubles"
 msgstr "Russian (ru)"
 
 #: src/formats.c:379
-msgid "[$RWF]"
-msgstr ""
-
-#: src/formats.c:379
-msgid "Rwanda franc"
+msgid "Rwanda, Rwanda Francs"
 msgstr ""
 
 #: src/formats.c:380
-msgid "[$SAR]"
-msgstr ""
-
-#: src/formats.c:380
-msgid "Saudi Arabian riyal"
+msgid "Saudi Arabia, Riyals"
 msgstr ""
 
 #: src/formats.c:381
-msgid "[$SBD]"
-msgstr ""
-
-#: src/formats.c:381
-msgid "Solomon Islands dollar"
+msgid "Solomon Islands, Dollars"
 msgstr ""
 
 #: src/formats.c:382
-msgid "[$SCR]"
-msgstr ""
-
-#: src/formats.c:382
-msgid "Seychelles rupee"
+msgid "Seychelles, Rupees"
 msgstr ""
 
 #: src/formats.c:383
-msgid "[$SDP]"
-msgstr ""
-
-#: src/formats.c:383
-msgid "Sudanese pound"
+msgid "Sudan, Dinars"
 msgstr ""
 
 #: src/formats.c:384
-msgid "[$SEK]"
-msgstr ""
-
-#: src/formats.c:384
-#, fuzzy
-msgid "Swedish krona"
-msgstr "Swedish (sv)"
-
-#: src/formats.c:385
-msgid "[$SGD]"
+msgid "Sweden, Kronor"
 msgstr ""
 
 #: src/formats.c:385
-msgid "Singapore dollar"
-msgstr ""
-
-#: src/formats.c:386
-msgid "[$SHP]"
+msgid "Singapore, Dollars"
 msgstr ""
 
 #: src/formats.c:386
 #, fuzzy
-msgid "St.Helena pound"
+msgid "Saint Helena, Pounds"
 msgstr "Tapaklaman tidak dijumpai"
 
 #: src/formats.c:387
-msgid "[$SIT]"
-msgstr ""
-
-#: src/formats.c:387
 #, fuzzy
-msgid "Slovenia tolar"
+msgid "Slovenia, Tolars"
 msgstr "Slovenian (sl)"
 
 #: src/formats.c:388
-msgid "[$SLL]"
-msgstr ""
-
-#: src/formats.c:388
-msgid "Sierra Leone leone"
-msgstr ""
-
-#: src/formats.c:389
-msgid "[$SOS]"
-msgstr ""
-
-#: src/formats.c:389
-msgid "Somali shilling"
-msgstr ""
-
-#: src/formats.c:390
-msgid "[$SRG]"
-msgstr ""
-
-#: src/formats.c:390
-msgid "Suriname guilder"
-msgstr ""
-
-#: src/formats.c:391
-msgid "[$STD]"
-msgstr ""
-
-#: src/formats.c:391
-msgid "Sao Tome and Principe dobra"
-msgstr ""
-
-#: src/formats.c:392
-msgid "[$SUR]"
-msgstr ""
-
-#: src/formats.c:392
-msgid "USSR rouble"
-msgstr ""
-
-#: src/formats.c:393
-msgid "[$SVC]"
-msgstr ""
-
-#: src/formats.c:393
-msgid "El Salvador colon"
-msgstr ""
-
-#: src/formats.c:394
-msgid "[$SYP]"
-msgstr ""
-
-#: src/formats.c:394
-msgid "Syrian pound"
-msgstr ""
-
-#: src/formats.c:395
-msgid "[$SZL]"
-msgstr ""
-
-#: src/formats.c:395
-msgid "Swaziland lilangeni"
-msgstr ""
-
-#: src/formats.c:396
-msgid "[$THB]"
-msgstr ""
-
-#: src/formats.c:396
 #, fuzzy
-msgid "Thai baht"
+msgid "Slovakia, Koruny"
+msgstr "Slovenian (sl)"
+
+#: src/formats.c:389
+msgid "Sierra Leone, Leones"
+msgstr ""
+
+#: src/formats.c:390
+msgid "Somalia, Shillings"
+msgstr ""
+
+#: src/formats.c:391
+msgid "Seborga, Luigini"
+msgstr ""
+
+#: src/formats.c:392
+msgid "Suriname, Guilders"
+msgstr ""
+
+#: src/formats.c:393
+msgid "Sao Tome and Principe, Dobras"
+msgstr ""
+
+#: src/formats.c:394
+msgid "El Salvador, Colones"
+msgstr ""
+
+#: src/formats.c:395
+msgid "Syria, Pounds"
+msgstr ""
+
+#: src/formats.c:396
+msgid "Swaziland, Emalangeni"
+msgstr ""
+
+#: src/formats.c:397
+#, fuzzy
+msgid "Thailand, Baht"
 msgstr "Thai"
 
-#: src/formats.c:397
-msgid "[$TND]"
-msgstr ""
-
-#: src/formats.c:397
-msgid "Tunisian dinar"
-msgstr ""
-
 #: src/formats.c:398
-msgid "[$TOP]"
-msgstr ""
-
-#: src/formats.c:398
-msgid "Tongan pa'anga"
+msgid "Tajikistan, Rubles"
 msgstr ""
 
 #: src/formats.c:399
-msgid "[$TPE]"
-msgstr ""
-
-#: src/formats.c:399
-msgid "East Timor escudo"
+msgid "Turkmenistan, Manats"
 msgstr ""
 
 #: src/formats.c:400
-msgid "[$TRL]"
+msgid "Tunisia, Dinars"
 msgstr ""
 
-#: src/formats.c:400
+#: src/formats.c:401
+msgid "Tonga, Pa'anga"
+msgstr ""
+
+#: src/formats.c:402
 #, fuzzy
-msgid "Turkish lira"
+msgid "Turkey, Liras"
 msgstr "Turkish (tr)"
 
-#: src/formats.c:401
-msgid "[$TTD]"
-msgstr ""
-
-#: src/formats.c:401
-msgid "Trinidad and Tobago dollar"
-msgstr ""
-
-#: src/formats.c:402
-msgid "[$TWD]"
-msgstr ""
-
-#: src/formats.c:402
-msgid "New Taiwan dollar"
-msgstr ""
-
 #: src/formats.c:403
-msgid "[$TZS]"
-msgstr ""
-
-#: src/formats.c:403
-msgid "Tanzanian shilling"
+msgid "Trinidad and Tobago, Dollars"
 msgstr ""
 
 #: src/formats.c:404
-msgid "[$UAH]"
+msgid "Tuvalu, Tuvalu Dollars"
 msgstr ""
 
-#: src/formats.c:404
+#: src/formats.c:405
+msgid "Taiwan, New Dollars"
+msgstr ""
+
+#: src/formats.c:406
+msgid "Tanzania, Shillings"
+msgstr ""
+
+#: src/formats.c:407
 #, fuzzy
-msgid "Ukrainian hryvnia"
+msgid "Ukraine, Hryvnia"
 msgstr "Ukrainian"
 
-#: src/formats.c:405
-msgid "[$UGX]"
-msgstr ""
-
-#: src/formats.c:405
-msgid "Ugandan shilling"
-msgstr ""
-
-#: src/formats.c:406
-msgid "[$USD]"
-msgstr ""
-
-#: src/formats.c:406
-msgid "US dollar"
-msgstr ""
-
-#: src/formats.c:407
-msgid "[$UYP]"
-msgstr ""
-
-#: src/formats.c:407
-msgid "Uruguayan peso"
-msgstr ""
-
 #: src/formats.c:408
-msgid "[$VEB]"
-msgstr ""
-
-#: src/formats.c:408
-msgid "Venezuelan bolivar"
+msgid "Uganda, Shillings"
 msgstr ""
 
 #: src/formats.c:409
-msgid "[$VND]"
+msgid "United States of America, Dollars"
 msgstr ""
 
-#: src/formats.c:409
+#: src/formats.c:410
+msgid "Uruguay, Pesos"
+msgstr ""
+
+#: src/formats.c:411
+msgid "Uzbekistan, Sums"
+msgstr ""
+
+#: src/formats.c:412
+msgid "Venezuela, Bolivares"
+msgstr ""
+
+#: src/formats.c:413
 #, fuzzy
-msgid "Vietnamese dong"
+msgid "Viet Nam, Dong"
 msgstr "Vietnam"
 
-#: src/formats.c:410
-msgid "[$VUV]"
-msgstr ""
-
-#: src/formats.c:410
-msgid "Vanuatu vatu"
-msgstr ""
-
-#: src/formats.c:411
-msgid "[$WST]"
-msgstr ""
-
-#: src/formats.c:411
-msgid "Samoan tala"
-msgstr ""
-
-#: src/formats.c:412
-msgid "[$XCD]"
-msgstr ""
-
-#: src/formats.c:412
-msgid "East Caribbean dollar"
-msgstr ""
-
-#: src/formats.c:413
-msgid "[$XEU]"
-msgstr ""
-
-#: src/formats.c:413
-msgid "European currency unit"
-msgstr ""
-
 #: src/formats.c:414
-msgid "[$YDD]"
-msgstr ""
-
-#: src/formats.c:414
-msgid "Democratic Yemeni dinar"
+msgid "Vanuatu, Vatu"
 msgstr ""
 
 #: src/formats.c:415
-msgid "[$YER]"
-msgstr ""
-
-#: src/formats.c:415
-msgid "Yemeni rial"
+msgid "Samoa, Tala"
 msgstr ""
 
 #: src/formats.c:416
-msgid "[$YUN]"
-msgstr ""
-
-#: src/formats.c:416
-msgid "New Yugoslavia dinar"
+msgid "Communaute Financiere Africaine BEAC, Francs"
 msgstr ""
 
 #: src/formats.c:417
-msgid "[$ZAL]"
-msgstr ""
-
-#: src/formats.c:417
-msgid "South African rand funds code"
+msgid "Silver, Ounces"
 msgstr ""
 
 #: src/formats.c:418
-msgid "[$ZAR]"
-msgstr ""
-
-#: src/formats.c:418
-msgid "South African rand"
+msgid "Gold, Ounces"
 msgstr ""
 
 #: src/formats.c:419
-msgid "[$ZMK]"
-msgstr ""
-
-#: src/formats.c:419
-msgid "Zambian kwacha"
+msgid "East Caribbean Dollars"
 msgstr ""
 
 #: src/formats.c:420
-msgid "[$ZRZ]"
-msgstr ""
-
-#: src/formats.c:420
-msgid "Zaire Zaire"
+msgid "International Monetary Fund (IMF) Special Drawing Rights"
 msgstr ""
 
 #: src/formats.c:421
-msgid "[$ZWD]"
+msgid "Communaute Financiere Africaine BCEAO, Francs"
 msgstr ""
 
-#: src/formats.c:421
-msgid "Zimbabwe dollar"
+#: src/formats.c:422
+msgid "Palladium Ounces"
 msgstr ""
 
-#: src/formats.c:553
+#: src/formats.c:423
+msgid "Comptoirs Francais du Pacifique Francs"
+msgstr ""
+
+#: src/formats.c:424
+msgid "Platinum, Ounces"
+msgstr ""
+
+#: src/formats.c:425
+msgid "Yemen, Rials"
+msgstr ""
+
+#: src/formats.c:426
+msgid "Yugoslavia, New Dinars"
+msgstr ""
+
+#: src/formats.c:427
+msgid "South Africa, Rand"
+msgstr ""
+
+#: src/formats.c:428
+msgid "Zambia, Kwacha"
+msgstr ""
+
+#: src/formats.c:429
+msgid "Zimbabwe, Zimbabwe Dollars"
+msgstr ""
+
+#: src/formats.c:562
 msgid "[Red]"
 msgstr ""
 
@@ -17715,37 +17163,37 @@ msgstr "Gagal membuka fail: %s"
 msgid "Function implementation not available."
 msgstr ""
 
-#: src/func.c:480
+#: src/func.c:491
 msgid "Unknown Function"
 msgstr "Fungsi tidak diketahui"
 
-#: src/func.c:645
+#: src/func.c:656
 msgid "Boolean"
 msgstr "Boolean"
 
-#: src/func.c:647
+#: src/func.c:658
 #, fuzzy
 msgid "Cell Range"
 msgstr "Nilai Sel"
 
-#: src/func.c:649
+#: src/func.c:660
 msgid "Array"
 msgstr ""
 
-#: src/func.c:651
+#: src/func.c:662
 #, fuzzy
 msgid "Area"
 msgstr "Kawasan %i"
 
-#: src/func.c:653
+#: src/func.c:664
 msgid "Scalar"
 msgstr ""
 
-#: src/func.c:655
+#: src/func.c:666
 msgid "Any"
 msgstr ""
 
-#: src/func.c:938
+#: src/func.c:949
 msgid "Function does not exist"
 msgstr "Fungsi tidak wujud"
 
@@ -17848,7 +17296,7 @@ msgstr ""
 msgid "Save workbook as"
 msgstr "Simpan bukukerja sebagai"
 
-#: src/gui-file.c:343 src/workbook-control-gui.c:2696
+#: src/gui-file.c:343 src/workbook-control-gui.c:2720
 msgid "Load file"
 msgstr "Muat fail"
 
@@ -17866,19 +17314,19 @@ msgstr "Banyak ralat"
 msgid "Unable to open file '%s'"
 msgstr "Tak dapat membuka fail '%s'"
 
-#: src/gutils.c:537
+#: src/gutils.c:429
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "modfgnum."
 msgstr ""
 
-#: src/gutils.c:631
+#: src/gutils.c:523
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "frexpgnum."
 msgstr ""
 
-#: src/gutils.c:684
+#: src/gutils.c:576
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
@@ -17918,44 +17366,44 @@ msgstr ""
 msgid "Height: %.2f pts (%d pixels)"
 msgstr ""
 
-#: src/item-cursor.c:908
+#: src/item-cursor.c:909
 msgid ""
 "The cells dragged will overwrite the contents of the\n"
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
 
-#: src/item-cursor.c:1008
+#: src/item-cursor.c:1009
 msgid "_Move"
 msgstr "_Pindah"
 
-#: src/item-cursor.c:1014
+#: src/item-cursor.c:1015
 #, fuzzy
 msgid "Copy _Formats"
 msgstr "_Borang"
 
-#: src/item-cursor.c:1016
+#: src/item-cursor.c:1017
 #, fuzzy
 msgid "Copy _Values"
 msgstr "Salin alamat emel"
 
-#: src/item-cursor.c:1021
+#: src/item-cursor.c:1022
 msgid "Shift _Down and Copy"
 msgstr ""
 
-#: src/item-cursor.c:1023
+#: src/item-cursor.c:1024
 msgid "Shift _Right and Copy"
 msgstr ""
 
-#: src/item-cursor.c:1025
+#: src/item-cursor.c:1026
 msgid "Shift Dow_n and Move"
 msgstr ""
 
-#: src/item-cursor.c:1027
+#: src/item-cursor.c:1028
 msgid "Shift Righ_t and Move"
 msgstr ""
 
-#: src/item-cursor.c:1032
+#: src/item-cursor.c:1033
 msgid "C_ancel"
 msgstr "B_atal"
 
@@ -18129,135 +17577,170 @@ msgstr ""
 msgid "Unexpected token %c"
 msgstr "Token tanpa diduga %c"
 
-#: src/plugin-loader-module.c:84
+#: src/plugin-loader-module.c:71
 msgid "Module file name not given."
 msgstr ""
 
-#: src/plugin-loader-module.c:125
+#: src/plugin-loader-module.c:108
 #, fuzzy, c-format
 msgid "Unable to open module file \"%s\"."
 msgstr "Tak boleh menyimpan fail tandabuku"
 
-#: src/plugin-loader-module.c:130 src/plugin-loader-module.c:336
-#: src/plugin-loader-module.c:437 src/plugin-loader-module.c:508
-#: src/plugin-loader-module.c:601
+#: src/plugin-loader-module.c:113 src/plugin-loader-module.c:267
+#: src/plugin-loader-module.c:352 src/plugin-loader-module.c:411
+#: src/plugin-loader-module.c:502 src/plugin-loader-module.c:648
 #, c-format
 msgid "Module file \"%s\" has invalid format."
 msgstr ""
 
-#: src/plugin-loader-module.c:135
+#: src/plugin-loader-module.c:118
 msgid "File doesn't contain (\"plugin_file_struct\" symbol)."
 msgstr ""
 
-#: src/plugin-loader-module.c:139
+#: src/plugin-loader-module.c:122
 msgid "File has a bad magic number."
 msgstr ""
 
-#: src/plugin-loader-module.c:143
+#: src/plugin-loader-module.c:126
 #, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
 msgstr ""
 
-#: src/plugin-loader-module.c:152
+#: src/plugin-loader-module.c:135
 msgid "Dynamic module loading is not supported in this system."
 msgstr ""
 
-#: src/plugin-loader-module.c:171
+#: src/plugin-loader-module.c:150
 #, fuzzy, c-format
 msgid "Unable to close module file \"%s\"."
 msgstr "Tak boleh menyimpan fail tandabuku"
 
-#: src/plugin-loader-module.c:196
-msgid "Module file name"
-msgstr "Nama fail modul"
-
-#: src/plugin-loader-module.c:341
+#: src/plugin-loader-module.c:272
 msgid "File doesn't contain \"plugin_init_general\" function."
 msgstr ""
 
-#: src/plugin-loader-module.c:346
+#: src/plugin-loader-module.c:277
 msgid "File doesn't contain \"plugin_cleanup_general\" function."
 msgstr ""
 
-#: src/plugin-loader-module.c:351
-msgid "File doesn't contain \"plugin_can_deactivate_general\" function."
-msgstr ""
-
-#: src/plugin-loader-module.c:606
+#: src/plugin-loader-module.c:507 src/plugin-loader-module.c:651
 #, fuzzy, c-format
 msgid "File doesn't contain \"%s\" array."
 msgstr "tidak mengandungi"
 
-#: src/plugin-loader-module.c:693
+#: src/plugin-loader-module.c:588
 #, c-format
 msgid "Module doesn't contain \"%s\" function."
 msgstr ""
 
-#: src/plugin-loader.c:217
-msgid "Error while loading plugin dependencies."
-msgstr ""
+#: src/plugin-loader-module.c:621
+#, fuzzy, c-format
+msgid "Unknown verb: %s"
+msgstr "Versi tidak diketahui"
 
-#: src/plugin-loader.c:288 src/plugin-loader.c:339
+#: src/plugin-loader.c:260 src/plugin-loader.c:300
 msgid "Service not supported by loader."
 msgstr ""
 
-#: src/plugin-loader.c:292
-msgid "Error while loading plugin."
-msgstr ""
-
-#: src/plugin-service.c:131
-msgid "Initializing function inside plugin returned error."
-msgstr ""
-
-#: src/plugin-service.c:136 src/plugin-service.c:1086
+#: src/plugin-service.c:194 src/plugin-service.c:1227
 msgid "Error while loading plugin service."
 msgstr ""
 
-#: src/plugin-service.c:170
+#: src/plugin-service.c:202
+msgid "Initializing function inside plugin returned error."
+msgstr ""
+
+#: src/plugin-service.c:220
 msgid "Cleanup function inside plugin returned error."
 msgstr ""
 
-#: src/plugin-service.c:311
+#: src/plugin-service.c:446
+msgid "File opener has no description"
+msgstr ""
+
+#: src/plugin-service.c:493
+#, c-format
+msgid "File opener - %s"
+msgstr ""
+
+#: src/plugin-service.c:637
 msgid "Error while reading file."
 msgstr "Ralat berlaku bila membaca fail."
 
-#: src/plugin-service.c:486
-msgid "File opener has no id"
+#: src/plugin-service.c:778
+msgid "File saver has no description"
 msgstr ""
 
-#: src/plugin-service.c:489
+#: src/plugin-service.c:824
 #, c-format
-msgid "File opener with id=\"%s\" has no description"
+msgid "File saver - %s"
 msgstr ""
 
-#: src/plugin-service.c:619
+#: src/plugin-service.c:886
 msgid "Error while saving file."
 msgstr "Ralat berlaku ketika menyimpan fail ."
 
-#: src/plugin-service.c:718
-msgid "File saver has no id"
-msgstr ""
-
-#: src/plugin-service.c:721
-#, c-format
-msgid "File saver with id=\"%s\" has no description"
-msgstr ""
-
-#: src/plugin-service.c:873
-msgid "Missing function group id."
-msgstr ""
-
-#: src/plugin-service.c:878 src/plugin-service.c:883
+#: src/plugin-service.c:1039
 msgid "Missing function category name."
 msgstr ""
 
-#: src/plugin-service.c:1049
-msgid "Missing loader id."
+#: src/plugin-service.c:1043
+msgid "Function group is empty."
 msgstr ""
 
-#: src/plugin-service.c:1209
+#: src/plugin-service.c:1165
 #, c-format
-msgid "Error while reading service of type \"%s\"."
+msgid "%d function in category \"%s\""
+msgstr ""
+
+#: src/plugin-service.c:1166
+#, c-format
+msgid "Group of %d functions in category \"%s\""
+msgstr ""
+
+#: src/plugin-service.c:1262
+#, fuzzy
+msgid "Plugin loader"
+msgstr "Pemuat plugin Python"
+
+#: src/plugin-service.c:1337
+#, fuzzy
+msgid "Missing file name."
+msgstr "Kehilangan fail %s"
+
+#: src/plugin-service.c:1403
+#, c-format
+msgid "Cannot read UI description from XML file %s."
+msgstr ""
+
+#: src/plugin-service.c:1436
+#, c-format
+msgid "User interface with %d action"
+msgstr ""
+
+#: src/plugin-service.c:1437
+#, c-format
+msgid "User interface with %d actions"
+msgstr ""
+
+#: src/plugin-service.c:1525
+msgid "No \"type\" attribute on \"service\" element."
+msgstr ""
+
+#: src/plugin-service.c:1534
+#, c-format
+msgid "Unknown service type: %s."
+msgstr ""
+
+#: src/plugin-service.c:1547
+#, fuzzy
+msgid "Error reading service information."
+msgstr "Ralat membaca helaian."
+
+#: src/plugin-service.c:1618
+msgid ""
+"We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
+"loading failed."
 msgstr ""
 
 #: src/plugin-util.c:128
@@ -18294,134 +17777,155 @@ msgstr "Tak boleh menyimpan fail tandabuku"
 msgid "Cannot get file size."
 msgstr ""
 
-#: src/plugin.c:242
+#: src/plugin.c:326
 #, c-format
-msgid "File contain plugin info with invalid id (%s), expected %s."
+msgid "File contains plugin info with invalid id (%s), expected %s."
 msgstr ""
 
-#: src/plugin.c:246
+#: src/plugin.c:330
 msgid "Couldn't read plugin info from file."
 msgstr ""
 
-#: src/plugin.c:296 src/plugin.c:373
+#: src/plugin.c:439
 msgid "Unknown name"
 msgstr "nama tidak diketahui"
 
-#: src/plugin.c:523
-#, c-format
-msgid "Error while preparing loader \"%s\"."
-msgstr ""
-
-#: src/plugin.c:533
+#: src/plugin.c:535
 #, c-format
 msgid "Unsupported loader type \"%s\"."
 msgstr ""
 
-#: src/plugin.c:626
+#: src/plugin.c:543
+#, c-format
+msgid "Error while preparing loader \"%s\"."
+msgstr ""
+
+#: src/plugin.c:617
 #, c-format
 msgid "Error while reading service #%d info."
 msgstr ""
 
-#: src/plugin.c:678
-msgid "Unspecified loader type."
-msgstr ""
-
-#: src/plugin.c:727
+#: src/plugin.c:697
 #, c-format
 msgid "Can't read plugin info file (\"%s\")."
 msgstr ""
 
-#: src/plugin.c:731
+#: src/plugin.c:701
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
 msgstr ""
 
-#: src/plugin.c:814
+#: src/plugin.c:798
 msgid "Plugin has no id."
 msgstr ""
 
-#: src/plugin.c:823
+#: src/plugin.c:806
+#, c-format
+msgid "Plugin id contains invalid characters (%s)."
+msgstr ""
+
+#: src/plugin.c:810
 msgid "Unknown plugin name."
 msgstr ""
 
-#: src/plugin.c:828
+#: src/plugin.c:814
 #, c-format
-msgid "Errors while reading loader info for plugin with id=\"%s\"."
+msgid "No loader defined or loader id invalid for plugin with id=\"%s\"."
 msgstr ""
 
-#: src/plugin.c:833
-#, c-format
-msgid "No loader defined for plugin with id=\"%s\"."
-msgstr ""
-
-#: src/plugin.c:841
+#: src/plugin.c:819
 #, c-format
 msgid "Errors while reading services for plugin with id=\"%s\"."
 msgstr ""
 
-#: src/plugin.c:846
+#: src/plugin.c:824
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
 msgstr ""
 
-#: src/plugin.c:996
+#: src/plugin.c:877
 #, c-format
 msgid "Error initializing plugin loader (\"%s\")."
 msgstr ""
 
-#: src/plugin.c:1037
-#, c-format
-msgid "We depend on plugin with id=\"%s\" which couldn't be activated."
+#: src/plugin.c:908 src/plugin.c:1061
+msgid "Detected cyclic plugin dependencies."
 msgstr ""
 
-#: src/plugin.c:1044 src/plugin.c:1232
+#: src/plugin.c:932
 #, c-format
-msgid "We depend on plugin with id=\"%s\" which is not available."
+msgid "Couldn't activate plugin with id=\"%s\"."
 msgstr ""
 
-#: src/plugin.c:1057
+#: src/plugin.c:938 src/plugin.c:1107
+#, c-format
+msgid "Couldn't find plugin with id=\"%s\"."
+msgstr ""
+
+#: src/plugin.c:945
+#, fuzzy
+msgid "Error while activating plugin dependencies."
+msgstr "Ralat bila menghantar fail psiconv."
+
+#: src/plugin.c:959
 #, c-format
 msgid "Error while activating plugin service #%d."
 msgstr ""
 
-#: src/plugin.c:1097
+#: src/plugin.c:1012
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr ""
 
-#: src/plugin.c:1168 src/plugin.c:1218
+#: src/plugin.c:1073 src/plugin.c:1094
 msgid "Cannot load plugin loader."
 msgstr ""
 
-#: src/plugin.c:1225
+#: src/plugin.c:1101
 #, c-format
-msgid "We depend on plugin with id=\"%s\" which couldn't be loaded."
+msgid "Couldn't load plugin with id=\"%s\"."
 msgstr ""
 
-#: src/plugin.c:1308
+#: src/plugin.c:1114
+msgid "Error while loading plugin dependencies."
+msgstr ""
+
+#: src/plugin.c:1291
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr ""
 
-#: src/plugin.c:1464
+#: src/plugin.c:1439
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
 msgstr ""
 
-#: src/plugin.c:1503
+#: src/plugin.c:1474
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr ""
 
-#: src/plugin.c:1798
+#: src/plugin.c:1578 src/plugin.c:1709
 msgid "Errors while reading info about available plugins."
 msgstr ""
 
-#: src/plugin.c:1804
+#: src/plugin.c:1602
+msgid "Errors while deactivating plugins that are no longer on disk."
+msgstr ""
+
+#: src/plugin.c:1623
+#, c-format
+msgid ""
+"The following plugins are no longer on disk but are still active:\n"
+"%s.\n"
+"You should restart Gnumeric now."
+msgstr ""
+
+#: src/plugin.c:1734
 msgid "Errors while activating plugins."
 msgstr ""
 
-#: src/plugin.c:1810
+#: src/plugin.c:1741
 msgid "Errors while initializing plugin system."
 msgstr ""
 
@@ -18506,59 +18010,59 @@ msgid "time"
 msgstr "masa"
 
 #. Note: we cannot have spaces in page numbers.
-#: src/print.c:583
+#: src/print.c:581
 msgid "&[PAGE]"
 msgstr ""
 
-#: src/print.c:978
+#: src/print.c:976
 msgid "Print Region"
 msgstr ""
 
-#: src/print.c:1136
+#: src/print.c:1134
 msgid "Print Sheets"
 msgstr ""
 
-#: src/print.c:1144
+#: src/print.c:1142
 #, fuzzy
 msgid "Act_ive sheet"
 msgstr "St_ylesheet"
 
-#: src/print.c:1144
+#: src/print.c:1142
 #, fuzzy
 msgid "S_heets"
 msgstr "Stylesheet"
 
-#: src/print.c:1229
+#: src/print.c:1227
 #, fuzzy
 msgid "Printing failed"
 msgstr "Pilih satu fail imej"
 
-#: src/search.c:135
+#: src/search.c:136
 msgid "Search string must not be empty."
 msgstr ""
 
-#: src/search.c:138
+#: src/search.c:139
 msgid "Replacement string must be set."
 msgstr ""
 
-#: src/search.c:144
+#: src/search.c:145
 #, fuzzy
 msgid "You must specify a range to search."
 msgstr "Anda mesti nyatakan Laman Mula di dialog Keutamaan!"
 
-#: src/search.c:148
+#: src/search.c:149
 msgid "The search range is invalid."
 msgstr ""
 
-#: src/search.c:154
+#: src/search.c:155
 msgid "Invalid search pattern."
 msgstr ""
 
-#: src/search.c:169 src/search.c:173
+#: src/search.c:170 src/search.c:174
 msgid "Invalid $-specification in replacement."
 msgstr ""
 
-#: src/search.c:178
+#: src/search.c:179
 msgid "Invalid trailing backslash in replacement."
 msgstr ""
 
@@ -18678,16 +18182,16 @@ msgstr ""
 msgid "Too many columns in data to parse: %d"
 msgstr ""
 
-#: src/stf.c:88
+#: src/stf.c:85
 #, fuzzy
 msgid "Error while trying to read file"
 msgstr "Ralat berlaku bila membaca fail."
 
-#: src/stf.c:100
+#: src/stf.c:94
 msgid "Error while trying to pre-convert file"
 msgstr ""
 
-#: src/stf.c:106
+#: src/stf.c:100
 #, c-format
 msgid ""
 "This file does not seem to be a valid text file.\n"
@@ -18695,23 +18199,23 @@ msgid ""
 "Most likely your locale settings are wrong."
 msgstr ""
 
-#: src/stf.c:191 src/stf.c:278
+#: src/stf.c:179 src/stf.c:259
 msgid "Parse error while trying to parse data into sheet"
 msgstr ""
 
-#: src/stf.c:368
+#: src/stf.c:345
 msgid "Error while trying to write csv file"
 msgstr ""
 
-#: src/stf.c:384
+#: src/stf.c:361
 msgid "Text import (auto-detect CSV or tab-delimited)"
 msgstr ""
 
-#: src/stf.c:388
+#: src/stf.c:365
 msgid "Text import (configurable)"
 msgstr ""
 
-#: src/stf.c:392
+#: src/stf.c:369
 msgid "Text export (configurable)"
 msgstr ""
 
@@ -19112,7 +18616,7 @@ msgstr "Kumulatif %"
 msgid "Histogram (%s)"
 msgstr "Histogram"
 
-#: src/tools/analysis-tools.c:4163 src/tools/solver/reports-write.c:731
+#: src/tools/analysis-tools.c:4163 src/tools/solver/reports-write.c:690
 msgid "Real"
 msgstr "Nyata"
 
@@ -19129,15 +18633,28 @@ msgstr ""
 msgid "Fourier Series"
 msgstr ""
 
-#: src/tools/dao.c:121
+#: src/tools/dao.c:125
 #, fuzzy
 msgid "New Sheet"
 msgstr "Helaian"
 
-#: src/tools/dao.c:124
+#: src/tools/dao.c:128
 #, fuzzy
 msgid "New Workbook"
 msgstr "_Bukukerja..."
+
+#: src/tools/dao.c:741
+#, fuzzy
+msgid "Gnumeric "
+msgstr "Gnumeric"
+
+#: src/tools/dao.c:746
+msgid "Worksheet:"
+msgstr ""
+
+#: src/tools/dao.c:753
+msgid "Report Created: "
+msgstr ""
 
 #: src/tools/random-generator.c:109
 msgid ""
@@ -19164,247 +18681,221 @@ msgstr ""
 msgid "Random Numbers (%s)"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:108
-#, fuzzy
-msgid "Gnumeric Solver"
-msgstr "Gnumeric"
-
-#: src/tools/solver/reports-write.c:114
-msgid "Worksheet:"
-msgstr ""
-
-#: src/tools/solver/reports-write.c:121
-msgid "Report Created: "
-msgstr ""
-
-#. Fill in the header titles.
-#: src/tools/solver/reports-write.c:150 src/tools/solver/reports-write.c:278
+#: src/tools/solver/reports-write.c:109 src/tools/solver/reports-write.c:237
 msgid "Answer Report"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:165 src/tools/solver/reports-write.c:187
+#: src/tools/solver/reports-write.c:124 src/tools/solver/reports-write.c:146
 msgid "Original Value"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:166 src/tools/solver/reports-write.c:188
+#: src/tools/solver/reports-write.c:125 src/tools/solver/reports-write.c:147
 msgid "Final Value"
 msgstr "Nilai Mutakhir"
 
-#: src/tools/solver/reports-write.c:214
+#: src/tools/solver/reports-write.c:173
 msgid "Cell Value"
 msgstr "Nilai Sel"
 
-#: src/tools/solver/reports-write.c:215
+#: src/tools/solver/reports-write.c:174
 msgid "Formula"
 msgstr "Formula"
 
 #. Set `Status' column
 #. FIXME
-#: src/tools/solver/reports-write.c:238 src/tools/solver/reports-write.c:244
+#: src/tools/solver/reports-write.c:197 src/tools/solver/reports-write.c:203
 #, fuzzy
 msgid "Binding"
 msgstr "Cari di laman"
 
-#: src/tools/solver/reports-write.c:246
+#: src/tools/solver/reports-write.c:205
 msgid "Not Binding"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:263 src/tools/solver/reports-write.c:982
+#: src/tools/solver/reports-write.c:222 src/tools/solver/reports-write.c:941
 msgid "Assume that all variables are integer."
 msgstr ""
 
-#: src/tools/solver/reports-write.c:273
+#: src/tools/solver/reports-write.c:232
 msgid "Target Cell (Maximize)"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:275
+#: src/tools/solver/reports-write.c:234
 msgid "Target Cell (Minimize)"
 msgstr ""
 
 #. Fill in other titles.
-#: src/tools/solver/reports-write.c:281 src/tools/solver/reports-write.c:442
+#: src/tools/solver/reports-write.c:240 src/tools/solver/reports-write.c:401
 msgid "Adjustable Cells"
 msgstr ""
 
-#.
-#. * Fill in the titles.
-#.
-#. Fill in the header titles.
-#: src/tools/solver/reports-write.c:299 src/tools/solver/reports-write.c:439
+#: src/tools/solver/reports-write.c:258 src/tools/solver/reports-write.c:398
 msgid "Sensitivity Report"
 msgstr ""
 
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
-#: src/tools/solver/reports-write.c:313 src/tools/solver/reports-write.c:359
+#: src/tools/solver/reports-write.c:272 src/tools/solver/reports-write.c:318
 #, fuzzy
 msgid "Final"
 msgstr "Fail"
 
-#: src/tools/solver/reports-write.c:314
+#: src/tools/solver/reports-write.c:273
 #, fuzzy
 msgid "Reduced"
 msgstr "Diterima"
 
-#: src/tools/solver/reports-write.c:315
+#: src/tools/solver/reports-write.c:274
 msgid "Objective"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:316 src/tools/solver/reports-write.c:317
-#: src/tools/solver/reports-write.c:362 src/tools/solver/reports-write.c:363
+#: src/tools/solver/reports-write.c:275 src/tools/solver/reports-write.c:276
+#: src/tools/solver/reports-write.c:321 src/tools/solver/reports-write.c:322
 #, fuzzy
 msgid "Allowable"
 msgstr "Dizinkan"
 
-#: src/tools/solver/reports-write.c:322
+#: src/tools/solver/reports-write.c:281
 msgid "Cost"
 msgstr "Kos"
 
-#: src/tools/solver/reports-write.c:323
+#: src/tools/solver/reports-write.c:282
 msgid "Coefficient"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:324 src/tools/solver/reports-write.c:370
+#: src/tools/solver/reports-write.c:283 src/tools/solver/reports-write.c:329
 msgid "Increase"
 msgstr "Naikkan"
 
-#: src/tools/solver/reports-write.c:325 src/tools/solver/reports-write.c:371
+#: src/tools/solver/reports-write.c:284 src/tools/solver/reports-write.c:330
 msgid "Decrease"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:360
+#: src/tools/solver/reports-write.c:319
 msgid "Shadow"
 msgstr "Bayang"
 
 # src/prefs.c:618
 # ui/galeon.glade.h:140
-#: src/tools/solver/reports-write.c:361
+#: src/tools/solver/reports-write.c:320
 #, fuzzy
 msgid "Constraint"
 msgstr "mengandungi"
 
-#: src/tools/solver/reports-write.c:368
+#: src/tools/solver/reports-write.c:327
 msgid "Price"
 msgstr "Harga"
 
-#: src/tools/solver/reports-write.c:369
+#: src/tools/solver/reports-write.c:328
 msgid "R.H. Side"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:406 src/tools/solver/reports-write.c:414
+#: src/tools/solver/reports-write.c:365 src/tools/solver/reports-write.c:373
 msgid "Infinity"
 msgstr ""
 
-#.
-#. * Fill in the titles.
-#.
-#. Fill in the header titles.
-#: src/tools/solver/reports-write.c:460 src/tools/solver/reports-write.c:569
+#: src/tools/solver/reports-write.c:419 src/tools/solver/reports-write.c:528
 msgid "Limits Report"
 msgstr ""
 
 #.
 #. * Fill in the labels.
 #.
-#: src/tools/solver/reports-write.c:476 src/tools/solver/reports-write.c:489
-#: src/tools/solver/reports-write.c:494
+#: src/tools/solver/reports-write.c:435 src/tools/solver/reports-write.c:448
+#: src/tools/solver/reports-write.c:453
 #, fuzzy
 msgid "Target"
 msgstr "Terlalu Besar"
 
-#: src/tools/solver/reports-write.c:483
+#: src/tools/solver/reports-write.c:442
 msgid "Adjustable"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:488
+#: src/tools/solver/reports-write.c:447
 #, fuzzy
 msgid "Lower"
 msgstr "Pemuat"
 
-#: src/tools/solver/reports-write.c:490 src/tools/solver/reports-write.c:495
+#: src/tools/solver/reports-write.c:449 src/tools/solver/reports-write.c:454
 #, fuzzy
 msgid "Limit"
 msgstr "Senarai"
 
-#: src/tools/solver/reports-write.c:491 src/tools/solver/reports-write.c:496
+#: src/tools/solver/reports-write.c:450 src/tools/solver/reports-write.c:455
 #, fuzzy
 msgid "Result"
 msgstr "Barat"
 
-#: src/tools/solver/reports-write.c:493
+#: src/tools/solver/reports-write.c:452
 msgid "Upper"
 msgstr ""
 
-#.
-#. * Fill in the titles.
-#.
-#. Fill in the header titles.
-#: src/tools/solver/reports-write.c:589 src/tools/solver/reports-write.c:839
+#: src/tools/solver/reports-write.c:548 src/tools/solver/reports-write.c:798
 msgid "Performance Report"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:604
+#: src/tools/solver/reports-write.c:563
 msgid "Nbr of Iterations"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:610
+#: src/tools/solver/reports-write.c:569
 #, fuzzy
 msgid "Minimization"
 msgstr "Maklumat"
 
-#: src/tools/solver/reports-write.c:613
+#: src/tools/solver/reports-write.c:572
 msgid "Maximization"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:616
+#: src/tools/solver/reports-write.c:575
 #, fuzzy
 msgid "Target value search"
 msgstr "Nilai semasa"
 
-#: src/tools/solver/reports-write.c:623
+#: src/tools/solver/reports-write.c:582
 msgid "Optimal solution found"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:626
+#: src/tools/solver/reports-write.c:585
 msgid "Unbounded problem"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:629
+#: src/tools/solver/reports-write.c:588
 msgid "Infeasible problem"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:633
+#: src/tools/solver/reports-write.c:592
 msgid "Maximum number of iterations exceeded: optimization interupted"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:638
+#: src/tools/solver/reports-write.c:597
 msgid "Maximum time exceeded: optimization interupted"
 msgstr ""
 
 #.
 #. * Fill in the labels of `Problem Size' section.
 #.
-#: src/tools/solver/reports-write.c:655
+#: src/tools/solver/reports-write.c:614
 #, fuzzy
 msgid "Variables"
 msgstr "Pembolehubah Y"
 
 # src/prefs.c:618
 # ui/galeon.glade.h:140
-#: src/tools/solver/reports-write.c:657
+#: src/tools/solver/reports-write.c:616
 #, fuzzy
 msgid "Int Constraints"
 msgstr "mengandungi"
 
 # src/prefs.c:618
 # ui/galeon.glade.h:140
-#: src/tools/solver/reports-write.c:658
+#: src/tools/solver/reports-write.c:617
 #, fuzzy
 msgid "Bool Constraints"
 msgstr "mengandungi"
 
-#: src/tools/solver/reports-write.c:659 src/tools/solver/reports-write.c:690
+#: src/tools/solver/reports-write.c:618 src/tools/solver/reports-write.c:649
 #, fuzzy
 msgid "Number of"
 msgstr "Nombor"
@@ -19412,165 +18903,161 @@ msgstr "Nombor"
 #.
 #. * Fill in the labels of `Data Sparsity' section.
 #.
-#: src/tools/solver/reports-write.c:684
+#: src/tools/solver/reports-write.c:643
 #, fuzzy
 msgid "Matrix"
 msgstr "Max"
 
-#: src/tools/solver/reports-write.c:685
+#: src/tools/solver/reports-write.c:644
 #, fuzzy
 msgid "Elements"
 msgstr "komen"
 
-#: src/tools/solver/reports-write.c:686 src/tools/solver/reports-write.c:688
+#: src/tools/solver/reports-write.c:645 src/tools/solver/reports-write.c:647
 msgid "Non-zeros in"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:689
+#: src/tools/solver/reports-write.c:648
 msgid "Obj. fn"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:691
+#: src/tools/solver/reports-write.c:650
 msgid "Ratio"
 msgstr ""
 
 #.
 #. * Fill in the labels of `Computing Time' section.
 #.
-#: src/tools/solver/reports-write.c:729
+#: src/tools/solver/reports-write.c:688
 #, fuzzy
 msgid "User"
 msgstr "Tak selamat"
 
-#: src/tools/solver/reports-write.c:730
+#: src/tools/solver/reports-write.c:689
 msgid "System"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:732
+#: src/tools/solver/reports-write.c:691
 msgid "Time (sec.)"
 msgstr ""
 
 #.
 #. * Fill in the labels of `System Information' section.
 #.
-#: src/tools/solver/reports-write.c:752
+#: src/tools/solver/reports-write.c:711
 msgid "CPU Model"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:753
+#: src/tools/solver/reports-write.c:712
 msgid "CPU MHz"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:754
+#: src/tools/solver/reports-write.c:713
 msgid "OS"
 msgstr ""
 
 #. Set the `CPU Model'.
-#: src/tools/solver/reports-write.c:767 src/tools/solver/reports-write.c:770
-#: src/tools/solver/reports-write.c:775
+#: src/tools/solver/reports-write.c:726 src/tools/solver/reports-write.c:729
+#: src/tools/solver/reports-write.c:734
 #, fuzzy
 msgid "Unknown"
 msgstr "nama tidak diketahui"
 
-#: src/tools/solver/reports-write.c:780
+#: src/tools/solver/reports-write.c:739
 #, c-format
 msgid "%s (%s)"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:794
+#: src/tools/solver/reports-write.c:753
 msgid "Algorithm:"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:796
+#: src/tools/solver/reports-write.c:755
 #, fuzzy
 msgid "Autoscaling:"
 msgstr "Mengautoisi %s"
 
-#: src/tools/solver/reports-write.c:797
+#: src/tools/solver/reports-write.c:756
 msgid "Max Iterations:"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:798
+#: src/tools/solver/reports-write.c:757
 #, fuzzy
 msgid "Max Time:"
 msgstr "Max:"
 
 #. Set the options.
-#: src/tools/solver/reports-write.c:802
+#: src/tools/solver/reports-write.c:761
 msgid "LP Solve 3.2"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:811
+#: src/tools/solver/reports-write.c:770
 msgid "Non-Negative"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:818
+#: src/tools/solver/reports-write.c:777
 msgid "Yes"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:820
+#: src/tools/solver/reports-write.c:779
 #, fuzzy
 msgid "No"
 msgstr "Tiada"
 
 #. Fill in other titles.
-#: src/tools/solver/reports-write.c:842
+#: src/tools/solver/reports-write.c:801
 #, fuzzy
 msgid "General Information"
 msgstr "Maklumat"
 
-#: src/tools/solver/reports-write.c:843
+#: src/tools/solver/reports-write.c:802
 msgid "Problem Size"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:844
+#: src/tools/solver/reports-write.c:803
 msgid "Data Sparsity"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:845
+#: src/tools/solver/reports-write.c:804
 msgid "Computing Time"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:846
+#: src/tools/solver/reports-write.c:805
 #, fuzzy
 msgid "System Information"
 msgstr "Maklumat"
 
-#: src/tools/solver/reports-write.c:862 src/tools/solver/reports-write.c:1002
+#: src/tools/solver/reports-write.c:821 src/tools/solver/reports-write.c:961
 #, fuzzy
 msgid "Program Report"
 msgstr "Nama Perisian"
 
-#: src/tools/solver/reports-write.c:991
+#: src/tools/solver/reports-write.c:950
 msgid "Assume that all variables take only positive values."
 msgstr ""
 
-#: src/tools/solver/reports-write.c:1007
+#: src/tools/solver/reports-write.c:966
 msgid "Minimize"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:1010
+#: src/tools/solver/reports-write.c:969
 msgid "Maximize"
 msgstr ""
 
-#: src/tools/solver/reports-write.c:1013
+#: src/tools/solver/reports-write.c:972
 msgid "Equal to"
 msgstr ""
 
 #. Print `Subject to' title.
-#: src/tools/solver/reports-write.c:1019
+#: src/tools/solver/reports-write.c:978
 msgid "Subject to"
 msgstr ""
 
-#.
-#. * Fill in the titles.
-#.
-#. Fill in the header titles.
-#: src/tools/solver/reports-write.c:1040 src/tools/solver/reports-write.c:1053
+#: src/tools/solver/reports-write.c:999 src/tools/solver/reports-write.c:1012
 msgid "Dual Program Report"
 msgstr ""
 
-#: src/tools/solver/reports.c:365
+#: src/tools/solver/reports.c:329
 msgid ""
 "Model is too large for program report generation. Program report was not "
 "created."
@@ -19640,7 +19127,7 @@ msgstr ""
 msgid "Gnumeric: Validation"
 msgstr "Hamparan Gnumeric"
 
-#: src/widgets/gnumeric-expr-entry.c:1115
+#: src/widgets/gnumeric-expr-entry.c:1125
 msgid "Expecting a single range"
 msgstr ""
 
@@ -19662,90 +19149,90 @@ msgstr "_Alamat"
 msgid "Remove borders"
 msgstr "_Buang folder tandabuku"
 
-#: src/workbook-control-gui.c:330
+#: src/workbook-control-gui.c:344
 msgid " : Gnumeric"
 msgstr ""
 
-#: src/workbook-control-gui.c:542
+#: src/workbook-control-gui.c:556
 #, c-format
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr ""
 
-#: src/workbook-control-gui.c:589
+#: src/workbook-control-gui.c:603
 msgid "Manage sheets..."
 msgstr ""
 
-#: src/workbook-control-gui.c:590
+#: src/workbook-control-gui.c:604
 #, fuzzy
 msgid "Duplicate this sheet"
 msgstr "Laman Bertindan"
 
-#: src/workbook-control-gui.c:592
+#: src/workbook-control-gui.c:606
 #, fuzzy
 msgid "Rename this sheet"
 msgstr "Buang sessi ini"
 
-#: src/workbook-control-gui.c:593
+#: src/workbook-control-gui.c:607
 msgid "Remove this sheet"
 msgstr "Buang helaian ini"
 
-#: src/workbook-control-gui.c:928 src/workbook-control-gui.c:986
+#: src/workbook-control-gui.c:942 src/workbook-control-gui.c:1000
 msgid "Nothing"
 msgstr "Tiada"
 
-#: src/workbook-control-gui.c:1084
+#: src/workbook-control-gui.c:1101
 msgid "Un_freeze Panes"
 msgstr ""
 
-#: src/workbook-control-gui.c:1102 src/workbook-control-gui.c:3476
-#: src/workbook-control-gui.c:3678 src/workbook-control-gui.c:3700
+#: src/workbook-control-gui.c:1119 src/workbook-control-gui.c:3506
+#: src/workbook-control-gui.c:3710 src/workbook-control-gui.c:3732
 msgid "Undo"
 msgstr "Nyahcara"
 
-#: src/workbook-control-gui.c:1103 src/workbook-control-gui.c:3479
-#: src/workbook-control-gui.c:3685 src/workbook-control-gui.c:3703
+#: src/workbook-control-gui.c:1120 src/workbook-control-gui.c:3509
+#: src/workbook-control-gui.c:3717 src/workbook-control-gui.c:3735
 msgid "Redo"
 msgstr "Ulangcara"
 
-#: src/workbook-control-gui.c:1206
+#: src/workbook-control-gui.c:1223
 msgid "Password :"
 msgstr ""
 
-#: src/workbook-control-gui.c:1356
+#: src/workbook-control-gui.c:1373
 #, c-format
 msgid "Workbook '%s' has unsaved changes :"
 msgstr ""
 
-#: src/workbook-control-gui.c:1359
+#: src/workbook-control-gui.c:1376
 msgid "Workbook has unsaved changes :"
 msgstr ""
 
-#: src/workbook-control-gui.c:1370 src/workbook-control-gui.c:1378
+#: src/workbook-control-gui.c:1387 src/workbook-control-gui.c:1395
 msgid "Don't Quit"
 msgstr ""
 
-#: src/workbook-control-gui.c:1371
+#: src/workbook-control-gui.c:1388
 #, fuzzy
 msgid "Discard All"
 msgstr "_Dimatikan"
 
-#: src/workbook-control-gui.c:1372 src/workbook-control-gui.c:1379
-#: src/workbook-control-gui.c:1385 src/workbook-control-gui.c:4757
-#: src/workbook-control-gui.c:4762
+#: src/workbook-control-gui.c:1389 src/workbook-control-gui.c:1396
+#: src/workbook-control-gui.c:1402 src/workbook-control-gui.c:4842
+#: src/workbook-control-gui.c:4847
 #, fuzzy
 msgid "Discard"
 msgstr "_Dimatikan"
 
-#: src/workbook-control-gui.c:1373
+#: src/workbook-control-gui.c:1390
 #, fuzzy
 msgid "Save All"
 msgstr "Simpan"
 
-#: src/workbook-control-gui.c:1384
+#: src/workbook-control-gui.c:1401
 msgid "Don't Close"
 msgstr ""
 
-#: src/workbook-control-gui.c:1930
+#: src/workbook-control-gui.c:1947
 #, c-format
 msgid ""
 "In cell %s, the current contents\n"
@@ -19757,7 +19244,7 @@ msgid ""
 "The replace has been aborted and nothing has been changed."
 msgstr ""
 
-#: src/workbook-control-gui.c:1967
+#: src/workbook-control-gui.c:1984
 #, c-format
 msgid "Comment in cell %s!%s"
 msgstr "KOmen pada sel %s!%s"
@@ -19766,7 +19253,7 @@ msgstr "KOmen pada sel %s!%s"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:2188
+#: src/workbook-control-gui.c:2205
 msgid "Insert rows"
 msgstr "Selit baris"
 
@@ -19774,216 +19261,207 @@ msgstr "Selit baris"
 #. * selected region, (use selection_apply).  Arrays and Merged regions
 #. * are permitted.
 #.
-#: src/workbook-control-gui.c:2207
+#: src/workbook-control-gui.c:2224
 msgid "Insert columns"
 msgstr ""
 
-#: src/workbook-control-gui.c:2559 src/workbook-control-gui.c:2577
+#: src/workbook-control-gui.c:2583 src/workbook-control-gui.c:2601
 #, fuzzy
 msgid "Show Detail"
 msgstr "_Papar Terperinci"
 
-#: src/workbook-control-gui.c:2559 src/workbook-control-gui.c:2577
+#: src/workbook-control-gui.c:2583 src/workbook-control-gui.c:2601
 #, fuzzy
 msgid "Hide Detail"
 msgstr "Terperinci"
 
-#: src/workbook-control-gui.c:2565
+#: src/workbook-control-gui.c:2589
 msgid "can only be performed on an existing group"
 msgstr ""
 
-#: src/workbook-control-gui.c:2622
+#: src/workbook-control-gui.c:2646
 msgid "Group"
 msgstr ""
 
-#: src/workbook-control-gui.c:2622
+#: src/workbook-control-gui.c:2646
 msgid "Ungroup"
 msgstr ""
 
-#: src/workbook-control-gui.c:2804
+#: src/workbook-control-gui.c:2828
 #, fuzzy
 msgid "Select an object to add"
 msgstr "Pilih fail untuk ditambah"
 
-#: src/workbook-control-gui.c:2815
+#: src/workbook-control-gui.c:2839
 #, c-format
 msgid "Unable to create object of type '%s'"
 msgstr "Gagal mencipta objek jenis '%s'"
 
-#: src/workbook-control-gui.c:2908
+#: src/workbook-control-gui.c:2932
 #, fuzzy
 msgid "_Contents"
 msgstr "Kandungan"
 
-#: src/workbook-control-gui.c:2938
+#: src/workbook-control-gui.c:2962
 #, fuzzy
 msgid "Select all the cells that depend on the current edit cell."
 msgstr "Pilih semua teks pada laman semasa"
 
-#: src/workbook-control-gui.c:2949
+#: src/workbook-control-gui.c:2973
 msgid ""
 "Merges columnar data into a sheet creating duplicate sheets for each row."
 msgstr ""
 
-#: src/workbook-control-gui.c:2996
+#: src/workbook-control-gui.c:3020
 msgid "P_aste special..."
 msgstr "Tepek i_stimewa"
 
-#: src/workbook-control-gui.c:3005
+#: src/workbook-control-gui.c:3029
 msgid "Remove selected cells, shifting other into their place"
 msgstr ""
 
-#: src/workbook-control-gui.c:3056
+#: src/workbook-control-gui.c:3080
 msgid "Freeze the top left of the sheet"
 msgstr ""
 
-#: src/workbook-control-gui.c:3084
+#: src/workbook-control-gui.c:3108
 msgid "_Auto generate names..."
 msgstr ""
 
-#: src/workbook-control-gui.c:3085
+#: src/workbook-control-gui.c:3109
 #, fuzzy
 msgid "Use the current selection to create names"
 msgstr "Simpan sessi semasa ke satu fail"
 
-#: src/workbook-control-gui.c:3108
+#: src/workbook-control-gui.c:3132
 #, fuzzy
 msgid "Insert an image..."
 msgstr "_Cetak..."
 
-#: src/workbook-control-gui.c:3192
+#: src/workbook-control-gui.c:3216
 msgid "Hide _Column Header"
 msgstr ""
 
-#: src/workbook-control-gui.c:3198
+#: src/workbook-control-gui.c:3222
 msgid "Hide _Row Header"
 msgstr ""
 
-#: src/workbook-control-gui.c:3303
+#: src/workbook-control-gui.c:3327
 msgid "Ranks And _Percentiles"
 msgstr ""
 
-#: src/workbook-control-gui.c:3324
+#: src/workbook-control-gui.c:3348
 msgid "Manage available plugin modules."
 msgstr ""
 
-#: src/workbook-control-gui.c:3360
+#: src/workbook-control-gui.c:3390
 #, fuzzy
 msgid "_Group..."
 msgstr "Perih_al..."
 
-#: src/workbook-control-gui.c:3363
+#: src/workbook-control-gui.c:3393
 #, fuzzy
 msgid "_Ungroup..."
 msgstr "Perih_al..."
 
-#: src/workbook-control-gui.c:3391
-#, fuzzy
-msgid "_Show All"
-msgstr "_Papar Terperinci"
-
-#: src/workbook-control-gui.c:3392
-msgid "Show all filtered and hidden rows"
-msgstr ""
-
-#: src/workbook-control-gui.c:3405
+#: src/workbook-control-gui.c:3435
 #, fuzzy
 msgid "Sorts the selected region."
 msgstr "Potong pilihan"
 
-#: src/workbook-control-gui.c:3442
+#: src/workbook-control-gui.c:3472
 #, fuzzy
 msgid "Creates a new workbook"
 msgstr "Cipta TandaBuku baru"
 
-#: src/workbook-control-gui.c:3445
+#: src/workbook-control-gui.c:3475
 msgid "Opens an existing workbook"
 msgstr ""
 
-#: src/workbook-control-gui.c:3448
+#: src/workbook-control-gui.c:3478
 msgid "Saves the workbook"
 msgstr "Simpan bukukerja"
 
-#: src/workbook-control-gui.c:3454
+#: src/workbook-control-gui.c:3484
 msgid "Prints the workbook"
 msgstr ""
 
-#: src/workbook-control-gui.c:3463
+#: src/workbook-control-gui.c:3493
 #, fuzzy
 msgid "Cuts the selection to the clipboard"
 msgstr "Potong pilihan"
 
-#: src/workbook-control-gui.c:3466
+#: src/workbook-control-gui.c:3496
 msgid "Copies the selection to the clipboard"
 msgstr "Salin pilihan ke papanklip"
 
-#: src/workbook-control-gui.c:3469
+#: src/workbook-control-gui.c:3499
 msgid "Pastes the clipboard"
 msgstr "Tepek papanklip"
 
-#: src/workbook-control-gui.c:3476
+#: src/workbook-control-gui.c:3506
 msgid "Undo the operation"
 msgstr "Nyahcara operasi"
 
-#: src/workbook-control-gui.c:3479
+#: src/workbook-control-gui.c:3509
 msgid "Redo the operation"
 msgstr "Ulangcara operasi"
 
-#: src/workbook-control-gui.c:3489
+#: src/workbook-control-gui.c:3519
 #, fuzzy
 msgid "Sum into the current cell."
 msgstr "Cetak laman semasa"
 
-#: src/workbook-control-gui.c:3492
+#: src/workbook-control-gui.c:3522
 msgid "Function"
 msgstr "Fungsi"
 
-#: src/workbook-control-gui.c:3492
+#: src/workbook-control-gui.c:3522
 #, fuzzy
 msgid "Edit a function in the current cell."
 msgstr "Pilih semua teks pada laman semasa"
 
-#: src/workbook-control-gui.c:3496
+#: src/workbook-control-gui.c:3526
 msgid ""
 "Sorts the selected region in ascending order based on the first column "
 "selected."
 msgstr ""
 
-#: src/workbook-control-gui.c:3499
+#: src/workbook-control-gui.c:3529
 msgid ""
 "Sorts the selected region in descending order based on the first column "
 "selected."
 msgstr ""
 
-#: src/workbook-control-gui.c:4518
+#: src/workbook-control-gui.c:4586
 #, c-format
 msgid "File \"%s\" has unknown format."
 msgstr ""
 
-#: src/workbook-control-gui.c:4550
+#: src/workbook-control-gui.c:4618
 msgid "Send"
 msgstr "Kirim"
 
-#: src/workbook-control-gui.c:4550
+#: src/workbook-control-gui.c:4618
 #, fuzzy
 msgid "Send the current file in email"
 msgstr "Kirim laman semasa dengan emel"
 
-#: src/workbook-control-gui.c:4756
+#: src/workbook-control-gui.c:4841
 #, fuzzy
 msgid "Re-Edit"
 msgstr "Edit"
 
-#: src/workbook-control-gui.c:4761
+#: src/workbook-control-gui.c:4846
 msgid "Accept"
 msgstr "Terima"
 
-#: src/workbook-control.c:229
+#: src/workbook-control.c:226
 #, fuzzy
 msgid "Define Name"
 msgstr "Nama _Cecikut"
 
-#: src/workbook-control.c:252
+#: src/workbook-control.c:249
 msgid "Address"
 msgstr "Alamat"
 
@@ -20207,19 +19685,15 @@ msgstr "Cipta objek elips"
 msgid "%dR x %dC"
 msgstr "%dR x %dC"
 
-#: src/workbook-view.c:385
+#: src/workbook-view.c:389
 msgid "Internal ERROR"
 msgstr "RALAT dalaman"
 
-#: src/workbook-view.c:588
+#: src/workbook-view.c:596
 msgid "Default file saver is not available."
 msgstr "Penyimpan fail default tidak ada."
 
-#: src/workbook-view.c:649
-msgid "No sheets in workbook."
-msgstr "Tiada helaian pada bukukerja."
-
-#: src/workbook-view.c:703
+#: src/workbook-view.c:705
 #, c-format
 msgid "An unexplained error happened while opening '%s'"
 msgstr ""
@@ -20229,41 +19703,122 @@ msgstr ""
 msgid "Book%d.%s"
 msgstr "Buku%d.%s"
 
-#: src/workbook.c:1120
+#: src/workbook.c:1139
 #, fuzzy
 msgid "Sheet name must have at least 1 letter"
 msgstr "mesti sekurang-kurangnya 1 huruf"
 
-#: src/workbook.c:1134
+#: src/workbook.c:1153
 msgid "There is already a sheet named"
 msgstr "Terdapat helaian bernama"
 
-#: src/workbook.c:1144
+#: src/workbook.c:1163
 msgid "You may not use this name twice"
 msgstr ""
 
-#: src/xml-io.c:2801
+#: src/xml-io.c:2810
 msgid "Unparsable xml in clipboard"
 msgstr "Xml tak boleh dihantar pada papanklip"
 
-#: src/xml-io.c:2808
+#: src/xml-io.c:2817
 msgid "Clipboard is in unknown format"
 msgstr "Format Papanklip tidak diketahui"
 
 #.
 #. * Pass 2: read the contents
 #.
-#: src/xml-io.c:3215
+#: src/xml-io.c:3224
 msgid "Processing file..."
 msgstr "Memproses fail..."
 
-#: src/xml-io.c:3381
+#: src/xml-io.c:3390
 msgid "Is not an Gnumeric Workbook file"
 msgstr "Adalah bukan fail Bukukerja Gnumeric"
 
-#: src/xml-io.c:3441
+#: src/xml-io.c:3450
 msgid "Gnumeric XML file format"
 msgstr "Format fail XML Gnumeric"
+
+#~ msgid " Unknown formula"
+#~ msgstr "Formula tidak diketahui"
+
+#~ msgid "rows"
+#~ msgstr "Baris"
+
+#~ msgid "Loader"
+#~ msgstr "Pemuat"
+
+#~ msgid "Python module name"
+#~ msgstr "Nama modul Python"
+
+#, fuzzy
+#~ msgid "Change the order the sheets are displayed"
+#~ msgstr "Kawal samada pemaparan imej"
+
+#, fuzzy
+#~ msgid "State"
+#~ msgstr "Status"
+
+#, fuzzy
+#~ msgid "Plugins"
+#~ msgstr "_Cetak..."
+
+#, fuzzy
+#~ msgid "Extra information"
+#~ msgstr "Maklumat"
+
+#, fuzzy
+#~ msgid "Deutsche mark"
+#~ msgstr "Lerai tab"
+
+#, fuzzy
+#~ msgid "Danish krone"
+#~ msgstr "Danish (da)"
+
+#, fuzzy
+#~ msgid "Spanish peseta"
+#~ msgstr "Spanish (es)"
+
+#~ msgid "Euro"
+#~ msgstr "Euro"
+
+# ui/galeon.glade.h:138
+#, fuzzy
+#~ msgid "Finnish markka"
+#~ msgstr "Finnish (fi)"
+
+#, fuzzy
+#~ msgid "French franc"
+#~ msgstr "French (fr)"
+
+#, fuzzy
+#~ msgid "Irish punt"
+#~ msgstr "adalah bukan"
+
+#~ msgid "Italian lira"
+#~ msgstr "Lira Itali"
+
+#, fuzzy
+#~ msgid "Polish zloty"
+#~ msgstr "Polish (pl)"
+
+#, fuzzy
+#~ msgid "Portuguese escudo"
+#~ msgstr "Portugis (pt)"
+
+#, fuzzy
+#~ msgid "Swedish krona"
+#~ msgstr "Swedish (sv)"
+
+#~ msgid "Module file name"
+#~ msgstr "Nama fail modul"
+
+#, fuzzy
+#~ msgid "Gnumeric Solver"
+#~ msgstr "Gnumeric"
+
+#~ msgid "No sheets in workbook."
+#~ msgstr "Tiada helaian pada bukukerja."
 
 #~ msgid ""
 #~ "This file is not an 'OLE' file.  It may be too old for Gnumeric to read.\n"
@@ -20290,9 +19845,6 @@ msgstr "Format fail XML Gnumeric"
 
 #~ msgid "Unable to mmap the file"
 #~ msgstr "Tak boleh mmap fail fail"
-
-#~ msgid "Error reading sheet."
-#~ msgstr "Ralat membaca helaian."
 
 #~ msgid "Error while opening sylk file."
 #~ msgstr "Ralat bila membuka fail sylk."

@@ -1,5 +1,9 @@
 2002-08-12  Jody Goldberg <jody@gnome.org>
 
+	* Release 1.1.7
+
+2002-08-12  Jody Goldberg <jody@gnome.org>
+
 	* src/formats.c : remove the 8 bit characters until the gettext
 	  infrasructure accepts them as utf8 without warning.
 

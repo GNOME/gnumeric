@@ -418,7 +418,7 @@ CurrencySymbol const currency_symbols[] =
 	{ "[$XAU]",	N_("Gold, Ounces") },
 	{ "[$XCD]",	N_("East Caribbean Dollars") },
 	{ "[$XDR]",	N_("International Monetary Fund (IMF) Special Drawing Rights") },
-	{ "[$XOF]",	N_("Communaute Financière Africaine BCEAO, Francs") },
+	{ "[$XOF]",	N_("Communaute Financiere Africaine BCEAO, Francs") },
 	{ "[$XPD]",	N_("Palladium Ounces") },
 	{ "[$XPF]",	N_("Comptoirs Francais du Pacifique Francs") },
 	{ "[$XPT]",	N_("Platinum, Ounces") },
