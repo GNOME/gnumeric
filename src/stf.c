@@ -173,18 +173,6 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 		GSList *iterator;
 		int col, rowcount;
 
-		if (!stf_parse_sheet (dialogresult->parseoptions, dialogresult->newstart, sheet)) {
-
-			workbook_sheet_detach (book, sheet);
-			/*
-			 * Note this buffer was allocated with malloc, not g_malloc
-			 */
-			free (data);
-			gnumeric_error_read (COMMAND_CONTEXT (context),
-					     _("Parse error while trying to parse data into sheet"));
-			return -1;
-		}
-
 		iterator = dialogresult->formats;
 		col = 0;
 		rowcount = stf_parse_get_rowcount (dialogresult->parseoptions, dialogresult->newstart);
@@ -203,6 +191,18 @@ stf_read_workbook (IOContext *context, WorkbookView *wbv, char const *filename)
 			iterator = g_slist_next (iterator);
 
 			col++;
+		}
+		
+		if (!stf_parse_sheet (dialogresult->parseoptions, dialogresult->newstart, sheet)) {
+
+			workbook_sheet_detach (book, sheet);
+			/*
+			 * Note this buffer was allocated with malloc, not g_malloc
+			 */
+			free (data);
+			gnumeric_error_read (COMMAND_CONTEXT (context),
+					     _("Parse error while trying to parse data into sheet"));
+			return -1;
 		}
 
 		range = sheet_get_extent (sheet);

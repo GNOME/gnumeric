@@ -1,3 +1,13 @@
+2000-12-17  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/dialogs/dialog-stf-preview.c (stf_preview_format_line) :
+	Pass desired format to format_match to preserve certain formatting
+	information which would previously have been lost.
+
+	* src/stf.c (stf_read_workbook) : First apply the styles to
+	the sheet and then fill the contents of the cells instead of
+	vice versa.
+
 2000-12-17  Morten Welinder  <terra@diku.dk>
 
 	* src/about.c (dialog_about): Made a little more consistent in

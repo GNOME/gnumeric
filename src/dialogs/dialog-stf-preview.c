@@ -487,12 +487,12 @@ stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
 			iterator = g_slist_next (iterator);
 			continue;
 		}
-
-		/* Formatting */
-		if (NULL == (value = format_match (iterator->data, NULL, NULL)))
-			value = value_new_string (iterator->data);
-
+		
 		sf = g_ptr_array_index (renderdata->colformats, col);
+		
+		/* Formatting */
+		if (NULL == (value = format_match (iterator->data, sf, NULL)))
+			value = value_new_string (iterator->data);
 
 		celltext = format_value (sf, value, &color, -1);
 
