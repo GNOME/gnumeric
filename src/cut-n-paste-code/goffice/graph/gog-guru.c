@@ -343,13 +343,15 @@ cb_sample_pressed (GraphGuruTypeSelector *typesel)
 	if (typesel->current_family_item == NULL)
 		return;
 
+	foo_canvas_set_pixels_per_unit (FOO_CANVAS (typesel->canvas), .5); /* 50% zoom */
 	if (typesel->sample_graph_item == NULL) {
 		GtkAllocation *size = &GTK_WIDGET (typesel->canvas)->allocation;
 		typesel->sample_graph_item = foo_canvas_item_new (typesel->graph_group,
 			GOG_CONTROL_FOOCANVAS_TYPE,
 			"model", typesel->state->graph,
 			NULL);
-		cb_typesel_sample_plot_resize (NULL, size, typesel);
+		cb_typesel_sample_plot_resize (FOO_CANVAS (typesel->canvas),
+					       size, typesel);
 
 		g_return_if_fail (typesel->sample_graph_item != NULL);
 	}
@@ -365,12 +367,10 @@ cb_sample_released (GraphGuruTypeSelector *typesel)
 	if (typesel->current_family_item == NULL)
 		return;
 
+	foo_canvas_set_pixels_per_unit (FOO_CANVAS (typesel->canvas), 1.);
 	foo_canvas_item_hide (FOO_CANVAS_ITEM (typesel->graph_group));
 	foo_canvas_item_show (FOO_CANVAS_ITEM (typesel->current_family_item));
 	foo_canvas_item_show (FOO_CANVAS_ITEM (typesel->selector));
-	foo_canvas_set_scroll_region (FOO_CANVAS (typesel->canvas), 0, 0,
-		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
-		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
 }
 
 typedef struct {
@@ -1085,7 +1085,6 @@ graph_guru_type_selector_new (GraphGuruState *s)
 
 	/* Setup an canvas to display the sample image & the sample plot. */
 	typesel->canvas = foo_canvas_new ();
-	foo_canvas_set_pixels_per_unit (FOO_CANVAS (typesel->canvas), .5); /* 50% zoom */
 	g_signal_connect (G_OBJECT (typesel->canvas),
 		"realize",
 		G_CALLBACK (cb_canvas_realized), typesel);
@@ -1100,13 +1099,10 @@ graph_guru_type_selector_new (GraphGuruState *s)
 		"size_allocate",
 		G_CALLBACK (cb_typesel_sample_plot_resize), typesel);
 
-	/*guppi_plot_canvas_set_insensitive (GUPPI_PLOT_CANVAS (typesel->canvas)); */
 	gtk_widget_set_size_request (typesel->canvas,
 		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
 		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
-	foo_canvas_set_scroll_region (FOO_CANVAS (typesel->canvas), 0, 0,
-		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
-		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
+	foo_canvas_scroll_to (FOO_CANVAS (typesel->canvas), 0, 0);
 
 	g_signal_connect_after (G_OBJECT (typesel->canvas),
 		"key_press_event",

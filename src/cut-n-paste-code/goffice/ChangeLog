@@ -1,3 +1,9 @@
+2003-06-06  Jody Goldberg <jody@gnome.org>
+
+	* graph/gog-guru.c (cb_sample_pressed) : set the zoom here.
+	(cb_sample_released) : and unset it here so that the icons don't get
+	  shrunk.
+
 2003-06-04  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* graph/gog-style.h: Fixed include of command-context.h to make it work
