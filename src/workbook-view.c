@@ -386,6 +386,7 @@ workbook_view_init (WorkbookView *wbv, Workbook *opt_wb)
 	wb_view_auto_expr (wbv, _("Sum"), "sum(selection(0))");
 
 	wbv->current_format = NULL;
+	wb_view_format_feedback (wbv, FALSE);
 }
 
 static void

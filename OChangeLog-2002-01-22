@@ -1,5 +1,8 @@
 2000-11-27  Jody Goldberg <jgoldberg@home.com>
 
+	* src/workbook-view.c (workbook_view_init) : Init the format feedback.
+	  But don't bother displaying.  We don't have any controls yet.
+
 	* configure.in (have_gda) : init to false.
 
 2000-11-27  Michael Meeks  <michael@helixcode.com>
