@@ -1,14 +1,24 @@
-gnumeric (1.4.0-2) UNRELEASED; urgency=low
+gnumeric (1.4.1-1) unstable; urgency=medium
 
-  * [debian/gnumeric-doc.doc-base] Removed as the documentation is now in
-    DocBook XML only, and doc-base doesn't know how to deal with XML formats.
+  * New upstream bugfix release.
+
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Tue, 14 Dec 2004 06:29:55 +0100
+
+gnumeric (1.4.0-2) unstable; urgency=medium
+
+  * [debian/gnumeric-doc.doc-base] Removed. The documentation is now included
+    in DocBook XML format only, and doc-base doesn't handle XML docs.
     (Closes: #283700)
+  * [plugins/xml_sax/xml-sax-write.c,plugins/xml_sax/ChangeLog,NEWS] Patch
+    from CVS to fix exporting using the sax exporter of sheets with
+    validation. (Closes: #283999)
   * [debian/rules] Build the Paradox plugin.
-  * [debian/control] Added (versioned) build dependency on pxlib-dev for the
-    Paradox plugin.
+  * [debian/control] Added build dependency on pxlib-dev for the
+    Paradox plugin; versioned this build dependency as pxlib 0.4.2-1 was
+    broken (see #283067).
   * [debian/gnumeric-plugins-extra.install] Include the Paradox plugin.
 
- -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Thu,  2 Dec 2004 22:32:00 +0100
+ -- J.H.M. Dassen (Ray) <jdassen@debian.org>  Sat,  4 Dec 2004 13:40:33 +0100
 
 gnumeric (1.4.0-1) unstable; urgency=medium
 
