@@ -2,8 +2,8 @@ Gnumeric 1.1.3
 
 Andreas:
 	* Port print-setup dialog
-	* Fix print dialog (printing is still broken)
-	* Make 2-factor ANOVA undoable
+	* Fix print dialog
+	* Make 2-factor ANOVA and Correlation Tools undoable
 
 Jody:
 	* Add password dialog to support encrypted input.

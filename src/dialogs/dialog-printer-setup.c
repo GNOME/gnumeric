@@ -1104,7 +1104,8 @@ static gboolean
 hf_changed (GtkWidget *dummy,  GladeXML *gui)
 {
 	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "apply_button"), TRUE);
-	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), TRUE);	
+	gtk_widget_set_sensitive (glade_xml_get_widget (gui, "ok_button"), TRUE);
+	return FALSE;
 }
 
 /*

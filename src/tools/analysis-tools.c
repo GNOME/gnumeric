@@ -637,6 +637,16 @@ write_data (WorkbookControl *wbc, data_analysis_output_t *dao, GArray *data)
 				     (ForeachCellCB)&WriteData_ForeachCellCB, data);
 }
 
+static gboolean 
+analysis_tool_generic_clean (data_analysis_output_t *dao, gpointer specs)
+{
+	analysis_tools_data_generic_t *info = specs;
+
+	range_list_destroy (info->input);
+	info->input = NULL;
+	return FALSE;
+}
+
 
 
 /************* Correlation Tool *******************************************
@@ -648,14 +658,11 @@ write_data (WorkbookControl *wbc, data_analysis_output_t *dao, GArray *data)
  *
  **/
 
-int
-correlation_tool (WorkbookControl *wbc, Sheet *sheet,
-		  GSList *input, group_by_t group_by,
-		  data_analysis_output_t *dao)
+static gboolean
+analysis_tool_correlation_engine_run (data_analysis_output_t *dao, 
+				      analysis_tools_data_generic_t *info)
 {
-	GSList *input_range;
 	GPtrArray *data = NULL;
-
 	guint col, row;
 	int error;
 	gnum_float x;
@@ -663,20 +670,11 @@ correlation_tool (WorkbookControl *wbc, Sheet *sheet,
 	GArray *clean_col_data, *clean_row_data;
 	GSList *missing;
 
-	input_range = input;
-	prepare_input_range (&input_range, group_by);
-	if (!check_input_range_list_homogeneity (input_range)) {
-		range_list_destroy (input_range);
-		return group_by + 1;
-	}
-	data = new_data_set_list (input_range, group_by,
-				  FALSE, dao->labels_flag, sheet);
-	dao_prepare_output (wbc, dao, _("Correlations"));
+	data = new_data_set_list (info->input, info->group_by,
+				  FALSE, info->labels, dao->sheet);
 
-	if (dao->type == RangeOutput) {
-		dao_set_cell_printf (dao, 0, 0,  _("Correlations"));
-		dao_set_italic (dao, 0, 0, 0, 0);
-	}
+	dao_set_cell_printf (dao, 0, 0,  _("Correlations"));
+	dao_set_italic (dao, 0, 0, 0, 0);
 
 	for (row = 0; row < data->len; row++) {
 		row_data = g_ptr_array_index (data, row);
@@ -718,15 +716,45 @@ correlation_tool (WorkbookControl *wbc, Sheet *sheet,
 		}
 	}
 
-	dao_autofit_columns (dao);
 	destroy_data_set_list (data);
-	range_list_destroy (input_range);
-
-	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (dao->sheet);
 
 	return 0;
 }
+
+gboolean 
+analysis_tool_correlation_engine (data_analysis_output_t *dao, gpointer specs, 
+				   analysis_tool_engine_t selector, gpointer result)
+{
+	analysis_tools_data_generic_t *info = specs;
+
+	switch (selector) {
+	case TOOL_ENGINE_UPDATE_DESCRIPTOR:
+		return (dao_command_descriptor (dao, _("Correlation (%s)"), result) 
+			== NULL);
+	case TOOL_ENGINE_UPDATE_DAO: 
+		prepare_input_range (&info->input, info->group_by);
+		if (!check_input_range_list_homogeneity (info->input)) {
+			info->err = info->group_by + 1;
+			return TRUE;
+		}
+		dao_adjust (dao, 1 + g_slist_length (info->input), 
+			    1 + g_slist_length (info->input));
+		return FALSE;
+	case TOOL_ENGINE_CLEAN_UP:
+		return analysis_tool_generic_clean (dao, specs);
+	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
+		dao_prepare_output (NULL, dao, _("Correlation"));
+		return FALSE;
+	case TOOL_ENGINE_FORMAT_OUTPUT_RANGE:
+		return dao_format_output (dao, _("Correlation"));
+	case TOOL_ENGINE_PERFORM_CALC:
+	default:
+		return analysis_tool_correlation_engine_run (dao, specs);
+	}
+	return TRUE;  /* We shouldn't get here */
+}
+
+
 
 
 /************* Covariance Tool ********************************************
@@ -2813,16 +2841,6 @@ finish_anova_single_factor_tool:
 }
 
 
-static gboolean 
-analysis_tool_anova_single_engine_clean (data_analysis_output_t *dao, gpointer specs)
-{
-	analysis_tools_data_anova_single_t *info = specs;
-
-	range_list_destroy (info->input);
-	info->input = NULL;
-	return FALSE;
-}
-
 
 gboolean 
 analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs, 
@@ -2839,7 +2857,7 @@ analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs,
 		dao_adjust (dao, 7, 11 + g_slist_length (info->input));
 		return FALSE;
 	case TOOL_ENGINE_CLEAN_UP:
-		return analysis_tool_anova_single_engine_clean (dao, specs);
+		return analysis_tool_generic_clean (dao, specs);
 	case TOOL_ENGINE_PREPARE_OUTPUT_RANGE:
 		dao_prepare_output (NULL, dao, _("Anova"));
 		return FALSE;

@@ -11,7 +11,7 @@ Release Critical
 - We need to somehow add --export-dynamic to the gnumeric link line, or else
   plugins won't load on Solaris/gcc.
 - Why doesn't float_range_function2 use its "flags" argument?
-- Printing fxes.
+- Printing fixes.
 - 3D reference fixes on sheet deletion
 - iconv utf8 password -> usc4 before hashing
 
@@ -52,7 +52,7 @@ Long term breakage
     - Duplicate sheet.
     - Remove sheet. This raises some serious design issues.
     - Freeze panes.
-    - Analysis tools (except single factor ANOVA).
+    - Analysis tools (except ANOVA & Correlation).
     - Goal seek.
     - Tabulate.
 

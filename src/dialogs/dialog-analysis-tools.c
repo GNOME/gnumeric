@@ -494,6 +494,10 @@ tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
 	input_2_ready = ((state->input_entry_2 == NULL) || (input_range_2 != NULL));
 	output_ready =  ((i != 2) || (output_range != NULL));
 
+	gtk_widget_set_sensitive (state->clear_outputrange_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_format_button, (i == 2));
+	gtk_widget_set_sensitive (state->retain_comments_button, (i == 2));
+
         if (input_range != NULL) range_list_destroy (input_range);
         if (input_range_2 != NULL) value_release (input_range_2);
         if (output_range != NULL) value_release (output_range);
@@ -523,44 +527,56 @@ tool_update_sensitivity_cb (GtkWidget *dummy, GenericToolState *state)
 static void
 corr_tool_ok_clicked_cb (GtkWidget *button, GenericToolState *state)
 {
-	data_analysis_output_t  dao;
+	data_analysis_output_t  *dao;
+	analysis_tools_data_generic_t  *data;
+
         char   *text;
 	GtkWidget *w;
-	GSList *input;
-	gint err;
 
-	input = gnm_expr_entry_parse_as_list (
+	data = g_new0 (analysis_tools_data_generic_t, 1);
+	dao  = g_new0 (data_analysis_output_t  , 1);
+
+	data->input = gnm_expr_entry_parse_as_list (
 		GNUMERIC_EXPR_ENTRY (state->input_entry), state->sheet);
+	data->group_by = gnumeric_glade_group_value (state->gui, grouped_by_group);
 
-        parse_output (state, &dao);
+        parse_output (state, dao);
 
 	w = glade_xml_get_widget (state->gui, "labels_button");
-        dao.labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
+        data->labels = dao->labels_flag = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (w));
 
-	err = correlation_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, input,
-				gnumeric_glade_group_value (state->gui, grouped_by_group),
-				&dao);
-	switch (err) {
-	case 0: gtk_widget_destroy (state->dialog);
-		break;
-	case 1:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
-				_("The selected input rows must have equal size!"));
-		break;
-	case 2:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
-				_("The selected input columns must have equal size!"));
-		break;
-	case 3:
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry),
-				_("The selected input areas must have equal size!"));
-		break;
-	default:
-		text = g_strdup_printf (_("An unexpected error has occurred: %d."), err);
-		error_in_entry ((GenericToolState *) state, GTK_WIDGET (state->input_entry), text);
-		g_free (text);
-		break;
-	}
+	if (cmd_analysis_tool (WORKBOOK_CONTROL (state->wbcg), state->sheet, 
+			       dao, data, analysis_tool_correlation_engine)) {
+
+		switch (data->err) {
+		case 1:
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry),
+					_("The selected input rows must have equal size!"));
+			break;
+		case 2:
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry),
+					_("The selected input columns must have equal size!"));
+			break;
+		case 3:
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry),
+					_("The selected input areas must have equal size!"));
+			break;
+		default:
+			text = g_strdup_printf (
+				_("An unexpected error has occurred: %d."), data->err);
+			error_in_entry ((GenericToolState *) state, 
+					GTK_WIDGET (state->input_entry), text);
+			g_free (text);
+			break;
+		}
+		range_list_destroy (data->input);
+		g_free (dao);
+		g_free (data);
+	} else 
+		gtk_widget_destroy (state->dialog);
 	return;
 }
 
@@ -3842,7 +3858,7 @@ anova_two_factor_tool_ok_clicked_cb (GtkWidget *button, AnovaTwoFactorToolState 
 			break;
 		default:
 			text = g_strdup_printf (
-				_("An unexpected error has occurred: %d."), err);
+				_("An unexpected error has occurred: %d."), data->err);
 			error_in_entry ((GenericToolState *) state, 
 					GTK_WIDGET (state->input_entry), text);
 			g_free (text);

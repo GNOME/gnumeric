@@ -1,5 +1,9 @@
 2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/tools/analysis-tools.c : make Correlation Tool undoable
+
+2002-03-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/tools/analysis-tools.c : make 2-factor ANOVA's undoable
 
 2002-03-25  Jody Goldberg <jody@gnome.org>

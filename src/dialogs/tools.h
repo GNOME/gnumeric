@@ -78,9 +78,6 @@ void error_in_entry (GenericToolState *state, GtkWidget *entry, const char *err_
 
 /* Section 2: not undoable tools */
 
-int correlation_tool      (WorkbookControl *context, Sheet *current_sheet,
-			   GSList *input, group_by_t group_by,
-			   data_analysis_output_t *dao);
 int covariance_tool       (WorkbookControl *context, Sheet *current_sheet,
 			   GSList *input, group_by_t group_by,
 			   data_analysis_output_t *dao);
@@ -154,25 +151,46 @@ typedef enum {
 	analysis_tools_replication_invalid
 } analysis_tools_error_code_t;
 
+
+#define ANALYSIS_TOOLS_DATA_GENERIC 	analysis_tools_error_code_t err;\
+	                                WorkbookControlGUI *wbcg;       \
+	                                GSList     *input;              \
+	                                group_by_t group_by;            \
+                                        gboolean   labels	
+
+
+
 typedef struct {
-	GSList     *input;
-	group_by_t group_by;
+	ANALYSIS_TOOLS_DATA_GENERIC;
+} analysis_tools_data_generic_t;
+
+/**************** Correlation Tool ***************/
+
+gboolean analysis_tool_correlation_engine  (data_analysis_output_t *dao, gpointer specs, 
+					    analysis_tool_engine_t selector, gpointer result);
+
+
+/************** Single Factor ANOVA  *************/
+
+typedef struct {
+	ANALYSIS_TOOLS_DATA_GENERIC;
 	gnum_float alpha;
-        gboolean   labels;	
 } analysis_tools_data_anova_single_t;
 
 gboolean analysis_tool_anova_single_engine (data_analysis_output_t *dao, gpointer specs, 
 					   analysis_tool_engine_t selector, gpointer result);
 
+/****************  2-Factor ANOVA  ***************/
+
 typedef struct {
 	analysis_tools_error_code_t err;
 	WorkbookControlGUI *wbcg;
 	Value     *input;
+	group_by_t group_by;
+	gboolean   labels;
 	GSList    *row_input_range;
 	GSList    *col_input_range;
-	group_by_t group_by;
 	gnum_float alpha;
-        gboolean   labels;	
 	gint       replication;
 	gint       rows;
 	guint       n_c;
