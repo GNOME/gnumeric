@@ -2,6 +2,11 @@
 
 	* ru.po: updated russian translation.
 
+2000-10-30  Szabolcs Ban  <shooby@gnome.hu>
+
+	* hu.po: Updated some Hungarian translations, 
+          thanks to Andras Timar <timar_a@freemail.hu>
+
 2000-10-30  Kenneth Christiansen  <kenneth@gnu.org>
 
         * POTFILES.in: s/xml.h/xml and s/glade.h/glade/
