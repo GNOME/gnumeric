@@ -1,5 +1,8 @@
 1999-11-10  Jody Goldberg <jgoldberg@home.com>
 
+	* src/dialogs/dialog-cell-format.c (draw_format_preview) : Init
+	  variable.
+
 	* src/cell-draw.c (cell_draw) : Correct problem with spanning columns.
 
 	* src/pattern.c (gnumeric_background_set_gc) : Always set the GC
@@ -248,7 +251,6 @@
 	(cb_fmt_dialog_dialog_apply) : Call sheet_selection_height_update if
 	  the font changed.
 
->>>>>>> 1.968
 1999-11-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-view.c (sheet_view_set_zoom_factor) : Smaill patch from

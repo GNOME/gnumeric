@@ -360,7 +360,7 @@ draw_format_preview (FormatState *state)
 	GString		*new_format = g_string_new ("");
 	gchar		*preview;
 	StyleColor	*preview_color;
-	StyleFormat	*sf;
+	StyleFormat	*sf = NULL;
 
 	/* Update the format based on the current selections and page */
 	switch (page)
