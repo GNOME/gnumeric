@@ -1,3 +1,18 @@
+2001-12-22  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_edit_fill_autofill) : range_trim does
+	  not handle merges,  once we've trimmed things down we need to expand
+	  back out to include merges in the src region.
+
+	* src/sheet-autofill.c (autofill_cell) : 1st half of a patch to handle
+	  non-integer copies of arrays.
+	(sheet_autofill_dir) : ditto.
+
+	* src/item-cursor.c (item_cursor_setup_auto_fill) : restrict autofills
+	  to contain an integer number of copies if the src region contains
+	  merges.
+	(cb_autofill_scroll) : ditto.
+
 2001-12-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 	
 	http://bugzilla.gnome.org/show_bug.cgi?id=67298

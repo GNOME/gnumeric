@@ -19,6 +19,7 @@
 #include "clipboard.h"
 #include "selection.h"
 #include "sheet.h"
+#include "sheet-merge.h"
 #include "value.h"
 #include "workbook.h"
 #include "workbook-edit.h"
@@ -60,18 +61,18 @@ struct _ItemCursor {
 	 *     width and heigth of the selection when the autofill
 	 *     started.
 	 */
-	CellPos	 base;
-	int      base_x, base_y;
-	int      base_cols, base_rows;
+	int   base_x, base_y;
+	Range autofill_src;
+	int   autofill_hsize, autofill_vsize;
 
 	/* Cached values of the last bounding box information used */
 	int      cached_x, cached_y, cached_w, cached_h;
 	int	 drag_button;
 
-	gboolean visible:1;
-	gboolean use_color:1;
-	gboolean auto_fill_handle_at_top:1;
-	gboolean auto_fill_handle_at_left:1;
+	gboolean visible		  :1;
+	gboolean use_color		  :1;
+	gboolean auto_fill_handle_at_top  :1;
+	gboolean auto_fill_handle_at_left :1;
 
 	GdkPixmap *stipple;
 	GdkColor  color;
@@ -559,13 +560,30 @@ item_cursor_point (GnomeCanvasItem *item, double x, double y, int cx, int cy,
 static void
 item_cursor_setup_auto_fill (ItemCursor *ic, ItemCursor const *parent, int x, int y)
 {
+	Sheet const *sheet = sc_sheet (SHEET_CONTROL (parent->scg));
+	GSList *merges;
+
 	ic->base_x = x;
 	ic->base_y = y;
 
-	ic->base_cols = parent->pos.end.col - parent->pos.start.col;
-	ic->base_rows = parent->pos.end.row - parent->pos.start.row;
-	ic->base.col = parent->pos.start.col;
-	ic->base.row = parent->pos.start.row;
+	ic->autofill_src = parent->pos;
+
+	/* If there are arrays or merges in the region ensure that we
+	 * need to ensure that an integer multiple of the original size
+	 * is filled.   We could be fancy about this an allow filling as long
+	 * as the merges would not be split, bu that is more work than it is
+	 * worth right now (FIXME this is a nice project).
+	 *
+	 * We do not have to be too careful, the sheet guarantees that the
+	 * cursor does not split merges, all we need is existence.
+	 */
+	merges = sheet_merge_get_overlap (sheet, &ic->autofill_src);
+	if (merges != NULL) {
+		g_slist_free (merges);
+		ic->autofill_hsize = range_width (&ic->autofill_src);
+		ic->autofill_vsize = range_height (&ic->autofill_src);
+	} else
+		ic->autofill_hsize = ic->autofill_vsize = 1;
 }
 
 static inline gboolean
@@ -1246,35 +1264,39 @@ static gboolean
 cb_autofill_scroll (GnumericCanvas *gcanvas, int col, int row, gpointer user_data)
 {
 	ItemCursor *ic = user_data;
-	CellPos corner = ic->base;
-	int bottom = corner.row + ic->base_rows;
-	int right  = corner.col + ic->base_cols;
+	Range r = ic->autofill_src;
 
 	/* compass offsets are distances (in cells) from the edges of the
 	 * selected area to the mouse cursor
 	 */
-	int north_offset = corner.row - row;
-	int south_offset = row - bottom;
-	int west_offset  = corner.col - col;
-	int east_offset  = col - right;
+	int north_offset = r.start.row - row;
+	int south_offset = row - r.end.row;
+	int west_offset  = r.start.col - col;
+	int east_offset  = col - r.end.col;
 
 	/* Autofill by row or by col, NOT both. */
 	if ( MAX (north_offset, south_offset) > MAX (west_offset, east_offset) ) {
-		if (north_offset > south_offset)
-			corner.row = row;
+		if (row < r.start.row)
+			r.start.row -= ic->autofill_vsize * (int)(north_offset / ic->autofill_vsize);
 		else
-			bottom = row;
-		col = corner.col;
+			r.end.row   += ic->autofill_vsize * (int)(south_offset / ic->autofill_vsize);
+		if (col < r.start.col)
+			col = r.start.col;
+		else if (col > r.end.col)
+			col = r.end.col;
 	} else {
-		if (west_offset > east_offset)
-			corner.col = col;
+		if (col < r.start.col)
+			r.start.col -= ic->autofill_hsize * (int)(west_offset / ic->autofill_hsize);
 		else
-			right = col;
-		row = corner.row;
+			r.end.col   += ic->autofill_hsize * (int)(east_offset / ic->autofill_hsize);
+		if (row < r.start.row)
+			row = r.start.row;
+		else if (row > r.end.row)
+			row = r.end.row;
 	}
 
 	item_cursor_set_bounds_visibly (ic, col, row,
-		&corner, right, bottom);
+		&r.start, r.end.col, r.end.row);
 
 	return FALSE;
 }
@@ -1297,13 +1319,14 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnm_simple_canvas_ungrab (item, event->button.time);
 		gdk_flush ();
 
-		inverse_autofill = (ic->pos.start.col < ic->base.col ||
-				    ic->pos.start.row < ic->base.row);
+		inverse_autofill = (ic->pos.start.col < ic->autofill_src.start.col ||
+				    ic->pos.start.row < ic->autofill_src.start.row);
 
 		cmd_autofill (sc->wbc, sc->sheet,
 			      event->button.state & GDK_CONTROL_MASK,
 			      ic->pos.start.col, ic->pos.start.row,
-	  		      ic->base_cols+1, ic->base_rows+1,
+			      range_width (&ic->autofill_src),
+			      range_height (&ic->autofill_src),
 			      ic->pos.end.col, ic->pos.end.row,
 			      inverse_autofill);
 

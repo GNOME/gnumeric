@@ -591,7 +591,7 @@ autofill_destroy_fill_items (GList *all_items)
 }
 
 static void
-autofill_cell (Cell *cell, int idx, FillItem *fi)
+autofill_cell (FillItem *fi, Cell *cell, int idx, int limit_x, int limit_y)
 {
 	/* FILL_DAYS is a place holder used to test for day/month/year fills.
 	 * The last item in the minor list is the delta.  It is the only one
@@ -714,15 +714,15 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 	}
 
 	case FILL_EXPR: {
-		ExprTree * func;
 		ExprRewriteInfo   rwinfo;
 		ExprRelocateInfo *rinfo;
+		ExprTree	 *func;
 
 		rinfo = &rwinfo.u.relocate;
 
 		/* FIXME : Find out how to handle this */
 		rwinfo.type = EXPR_REWRITE_RELOCATE;
-		rinfo->target_sheet = rinfo->origin_sheet = 0;
+		rinfo->target_sheet = rinfo->origin_sheet = NULL;
 		rinfo->col_offset = rinfo->row_offset = 0;
 		rinfo->origin.start = rinfo->origin.end = cell->pos;
 		eval_pos_init_cell (&rinfo->pos, cell);
@@ -750,23 +750,16 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 		    int col_inc,      int row_inc)
 {
 	GList *all_items, *major, *minor;
-	int col = base_col;
-	int row = base_row;
-	int count, sub_index, loops, group_count;
-	int count_max;
+	int col, row, count, sub_index, loops, group_count, count_max;
 
-	/* Create the fill items */
 	all_items = autofill_create_fill_items (sheet, singleton_increment,
 		base_col, base_row, region_size, col_inc, row_inc);
 
-	col = base_col + region_size * col_inc;
-	row = base_row + region_size * row_inc;
-
-	/* Do the autofill */
 	major = all_items;
 	minor = NULL;
 	loops = sub_index = group_count = 0;
-
+	col = base_col + region_size * col_inc;
+	row = base_row + region_size * row_inc;
 	count_max = (start_pos < end_pos)
 		? end_pos - start_pos - region_size 
 		: start_pos - end_pos - region_size;
@@ -774,7 +767,7 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 		FillItem *fi;
 		Cell *cell;
 
-		if ((minor && minor->next == NULL) || minor == NULL) {
+		if ((minor != NULL && minor->next == NULL) || minor == NULL) {
 			if (major == NULL) {
 				major = all_items;
 				loops++;
@@ -789,19 +782,49 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 		}
 		fi = minor->data;
 
-		mstyle_ref (fi->style);
-		sheet_style_set_pos (sheet, col, row, fi->style);
-
 		cell = sheet_cell_get (sheet, col, row);
-		if (fi->type == FILL_EMPTY) {
-			if (cell)
-				sheet_cell_remove (sheet, cell, TRUE);
-		} else {
-			if (!cell)
+		if (fi->type != FILL_EMPTY) {
+			int limit_x = SHEET_MAX_COLS, limit_y = SHEET_MAX_ROWS;
+
+			if (cell == NULL)
 				cell = sheet_cell_new (sheet, col, row);
-			autofill_cell (cell,
-				       loops * group_count + sub_index, fi);
-		}
+
+			/* Arrays are special.
+			 * It would be nice to resize the existing array rather than
+			 * shifting a new one, but we can look into that later.
+			 * For now while using inverse autofill we make sure
+			 * that if we're pasting an array we always include the
+			 * corner.  autofill_cell handles the dimension clipping.
+			 */
+			if (fi->type == FILL_EXPR &&
+			    fi->v.expr->any.oper == OPER_ARRAY) {
+				ExprArray const *array = &fi->v.expr->array;
+				int n = 0, remain = count_max - count - 1;
+				if (col_inc < 0)
+					n = array->x - remain;
+				else if (row_inc < 0)
+					n = array->y - remain;
+
+				while (n-- > 0) {
+					minor = minor->next;
+					g_return_if_fail (minor != NULL);
+				}
+				fi = minor->data;
+
+				if (col_inc != 0)
+					limit_x = remain;
+				else
+					limit_y = remain;
+			}
+
+			autofill_cell (fi, cell,
+				loops * group_count + sub_index,
+				limit_x, limit_y);
+		} else if (cell != NULL)
+			sheet_cell_remove (sheet, cell, TRUE);
+
+		mstyle_ref (fi->style); /* style_set steals ref */
+		sheet_style_set_pos (sheet, col, row, fi->style);
 
 		if (fi->merged_size.col != 1 || fi->merged_size.row != 1) {
 			Range tmp;

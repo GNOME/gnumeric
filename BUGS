@@ -8,19 +8,8 @@ Release Critical
 ----------------
 
 - name refering to deleted sheet
-
-  > 0. Start gnumeric.
-  > 1. Select b4:c5.
-  > 2. =2 ctrl-shift-enter
-  > 3. Drag-fill one row down.
-  > ==> b6:c6 now contains half an array, :-)
-  * this is sort of ok, for forward autofill (although the array size needs to
-    be adjsuted).  However it is completely broken for inverse autofill.
-    XL always creates a new array.  I think it would be useful to resize an
-    existing array if possible, but that will take some thought.
-- autofill with merges and partial regions can overflow the target with the
-  final merge.
-- Various pasting & merging bugs.
+- Autofilling a non-integer number of copies of arrays needs to clip
+  the size of the array at the bounds.
 
 Pending Patches
 ---------------

@@ -1834,26 +1834,46 @@ cb_edit_fill_autofill (GtkWidget *unused, WorkbookControlGUI *wbcg)
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
 	Sheet *sheet = wb_control_cur_sheet (wbc);
 
-	Range const *sel = selection_first_range (sheet, wbc, _("Autofill"));
-	if (sel) {
-		Range template = *sel;
+	Range const *total = selection_first_range (sheet, wbc, _("Autofill"));
+	if (total) {
+		Range src = *total;
+		gboolean do_loop;
+		GSList *merges, *ptr;
 
 		/* This could be more efficient, but it is not important */
-		if (range_trim (sheet, &template, TRUE) ||
-		    range_trim (sheet, &template, FALSE))
+		if (range_trim (sheet, &src, TRUE) ||
+		    range_trim (sheet, &src, FALSE))
 			return; /* Region totally empty */
 
+		/* trim is a bit overzealous, it forgets about merges */
+		do {
+			do_loop = FALSE;
+			merges = sheet_merge_get_overlap (sheet, &src);
+			for (ptr = merges ; ptr != NULL ; ptr = ptr->next) {
+				Range const *r = ptr->data;
+				if (src.end.col < r->end.col) {
+					src.end.col = r->end.col;
+					do_loop = TRUE;
+				}
+				if (src.end.row < r->end.row) {
+					src.end.row = r->end.row;
+					do_loop = TRUE;
+				}
+			}
+		} while (do_loop);
+
 		/* Make it autofill in only one direction */
- 		if ((sel->end.col - template.end.col) >= (sel->end.row - template.end.row))
- 			template.end.row = sel->end.row;
+ 		if ((total->end.col - src.end.col) >=
+		    (total->end.row - src.end.row))
+ 			src.end.row = total->end.row;
  		else
- 			template.end.col = sel->end.col;
+ 			src.end.col = total->end.col;
 
  		cmd_autofill (wbc, sheet, FALSE,
-			      sel->start.col, sel->start.row,
-			      template.end.col - sel->start.col + 1,
-			      template.end.row - sel->start.row + 1,
-			      sel->end.col, sel->end.row,
+			      total->start.col, total->start.row,
+			      src.end.col - total->start.col + 1,
+			      src.end.row - total->start.row + 1,
+			      total->end.col, total->end.row,
 			      FALSE);
  	}
 }
