@@ -35,7 +35,7 @@
 #include "ranges.h"
 #include "expr-name.h"
 #include "command-context.h"
-
+#include <goffice/utils/go-file.h>
 #include <gsf/gsf-impl-utils.h>
 
 #define WBC_CLASS(o) WORKBOOK_CONTROL_CLASS (G_OBJECT_GET_CLASS (o))
@@ -80,12 +80,14 @@ wb_control_update_title (WorkbookControl *wbc)
 
 	if (wbc_class != NULL && wbc_class->set_title != NULL) {
 		Workbook const *wb = wb_control_workbook (wbc);
-		if (workbook_is_dirty (wb)) {
-			char *tmp = g_strconcat ("*", wb->basename, NULL);
-			wbc_class->set_title (wbc, tmp);
-			g_free (tmp);
-		} else
-			wbc_class->set_title (wbc, wb->basename);
+		char *basename = go_basename_from_uri (wb->uri);
+		char *title = g_strconcat
+			(workbook_is_dirty (wb) ? "*" : "",
+			 basename ? basename : wb->uri,
+			 NULL);
+		wbc_class->set_title (wbc, title);
+		g_free (title);
+		g_free (basename);
 	}
 }
 

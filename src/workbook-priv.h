@@ -20,7 +20,7 @@ struct _Workbook {
 	gboolean modified;
 	gboolean is_placeholder;
 
-	gchar		*uri, *basename;
+	gchar		*uri;
 	FileFormatLevel  file_format_level;
 	GOFileSaver	*file_saver;
 

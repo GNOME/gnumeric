@@ -1026,16 +1026,18 @@ regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
 
 	k = 1;
 	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, {
+		char *basename;
 		if (i >= 10)
 			return i;
-		if (IS_WORKBOOK_CONTROL_GUI (wbc)) {
+		if (IS_WORKBOOK_CONTROL_GUI (wbc) &&
+			(basename = go_basename_from_uri (wb->uri)) != NULL) {
 			GString *label = g_string_new (NULL);
 			char *name;
 			const char *s;
 			GtkActionEntry entry;
 
 			g_string_append_printf (label, "_%d ", i);
-			s = wb->basename;
+			s = basename;
 			while (*s) {
 				if (*s == '_')
 					g_string_append_c (label, '_');
@@ -1060,6 +1062,7 @@ regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
 
 			g_string_free (label, TRUE);
 			g_free (name);
+			g_free (basename);
 			i++;
 		}});
 	return i;

@@ -178,8 +178,6 @@ workbook_finalize (GObject *wb_object)
 	       g_free (wb->uri);
 	       wb->uri = NULL;
 	}
-	g_free (wb->basename);
-	wb->basename = NULL;
 
 	/* this has no business being here */
 #ifdef WITH_GTK
@@ -334,7 +332,7 @@ workbook_init (GObject *object)
 	wb->summary_info = summary_info_new ();
 	summary_info_default (wb->summary_info);
 	wb->summary_info->modified = FALSE;
-	wb->uri = wb->basename = NULL;
+	wb->uri = NULL;
 
 	/* Nothing to undo or redo */
 	wb->undo_commands = wb->redo_commands = NULL;
@@ -537,8 +535,6 @@ workbook_set_uri (Workbook *wb, char const *uri)
 
 	g_free (wb->uri);
 	wb->uri = g_strdup (uri);
-	g_free (wb->basename);
-	wb->basename = go_basename_from_uri (uri);
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
 		wb_control_update_title (control););
 
@@ -552,12 +548,6 @@ workbook_get_uri (Workbook const *wb)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 	return wb->uri;
-}
-const gchar *
-workbook_get_basename (Workbook const *wb)
-{
-	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
-	return wb->basename;
 }
 
 void

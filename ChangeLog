@@ -1,5 +1,15 @@
 2005-03-16  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-control.c (wb_control_update_title): Handle NULL
+	basename.
+
+	* src/wbc-gtk.c (regenerate_window_menu): Ignore workbooks where
+	we don't get a valid basename.
+
+	* src/workbook-priv.h (struct Workbook): Remove .basename.
+
+	* src/workbook.c (workbook_get_basename): Delete, it's unused.
+
 	* src/parse-util.c (row_parse): Fix parsing problem.  [#170465]
 
 2005-03-13  Jody Goldberg <jody@gnome.org>
