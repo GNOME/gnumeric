@@ -1168,10 +1168,24 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 		char const *opname = operations[op].name;
 		int prec = operations[op].prec;
 		gboolean need_par = (prec <= paren_level);
+		size_t prelen = target->len;
 
 		if (need_par) g_string_append_c (target, '(');
 		do_expr_as_string (target, expr->binary.value_a, pp,
 				   prec - operations[op].assoc_left, conv);
+
+		/*
+		 * Avoid getting "-2^2".  We want to make sure files do not contain
+		 * that construct as we might later change precedence.
+		 *
+		 * Always produce either "-(2^2)" or "(-2)^2".
+		 */
+		if (op == GNM_EXPR_OP_EXP &&
+		    (target->str[prelen] == '-' || target->str[prelen] == '+')) {
+			g_string_insert_c (target, prelen, '(');
+			g_string_append_c (target, ')');
+		}
+
 		g_string_append (target, opname);
 		do_expr_as_string (target, expr->binary.value_b, pp,
 				   prec - operations[op].assoc_right, conv);
@@ -1229,18 +1243,12 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 		value_get_as_gstring (target, v, conv);
 
 		/* If the number has a sign, pretend that it is the result of
-		 * OPER_UNARY_{NEG,PLUS}.  It is not clear how we would
-		 * currently get negative numbers here, but some loader might
-		 * do it.
+		 * OPER_UNARY_{NEG,PLUS}.
 		 */
 		if ((target->str[prelen] == '-' || target->str[prelen] == '+') &&
 		    operations[GNM_EXPR_OP_UNARY_NEG].prec <= paren_level) {
-			/* Add ")" and make room for "(".  */
-			g_string_append (target, ")X");
-			g_memmove (target->str + prelen,
-				   target->str + prelen + 1,
-				   target->len - prelen - 1);
-			target->str[prelen] = '(';
+			g_string_insert_c (target, prelen, '(');
+			g_string_append_c (target, ')');
 		}
 		return;
 	}

@@ -55,6 +55,7 @@ Morten:
 	* Make locale handling UTF-8 safe.
 	* Unify our three regexp quoting functions into just one (correct)
 	  function.
+	* Make pretty-printing clarify trees like "-2^2" into "(-2)^2".
 
 --------------------------------------------------------------------------
 

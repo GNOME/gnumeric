@@ -1,3 +1,9 @@
+2003-06-25  Morten Welinder  <terra@gnome.org>
+
+	* src/expr.c (do_expr_as_string): Make this produce "(-2)^2", not
+	"-2^2", to cut down on surprises.  Fix old bug in other
+	()-insertion.
+
 2003-06-25  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
 	* src/func-builtin.c: change category name to match previous change 
