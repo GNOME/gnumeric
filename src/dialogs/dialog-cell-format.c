@@ -569,7 +569,7 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 }
 
 static void
-color_pick_change_notify (GnomeColorPicker *cp, gint r, gint g, gint b, gint a, GnomePropertyBox *pbox)
+color_pick_change_notify (GnomeColorPicker *cp, guint r, guint g, guint b, guint a, GnomePropertyBox *pbox)
 {
 	gnome_property_box_changed (pbox);
 }
