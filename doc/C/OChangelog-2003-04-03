@@ -1,3 +1,9 @@
+2002-11-01  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* Makefile.am: added keybinding-appendix.xml .
+	* keybinding-appendix.xml: changed id to "keybindings" as "keybinding"
+	  was already used by gnumeric.xml .
+
 2002-11-01  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.11

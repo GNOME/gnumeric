@@ -32,7 +32,8 @@ entities = 					\
 	simulation.xml				\
 	solver.xml				\
 	toolbars.xml				\
-	worksheet.xml
+	worksheet.xml				\
+	keybinding-appendix.xml
 #	introduction.xml			\
 #	functions.xml	# added in gnumeric-doc.make
 
