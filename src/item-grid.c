@@ -806,7 +806,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	 * enable the dynamic cell selection mode.
 	 */
 	if (wbcg_rangesel_possible (scg->wbcg)) {
-		scg_rangesel_start (scg, col, row);
+		scg_rangesel_start (scg, col, row, col, row);
 		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		gnm_canvas_slide_init (gcanvas);
 		gnome_canvas_item_grab (item,

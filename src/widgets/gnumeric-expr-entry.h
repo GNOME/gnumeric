@@ -36,19 +36,19 @@ void gnumeric_expr_entry_set_scg	(GnumericExprEntry *expr_entry,
 					 SheetControlGUI *scg);
 void gnumeric_expr_entry_get_rangesel	(GnumericExprEntry *expr_entry,
 					 Range *r, Sheet **sheet);
-void gnumeric_expr_entry_rangesel_stopped (GnumericExprEntry *expr_entry,
-					   gboolean clear_string);
+void gnumeric_expr_entry_rangesel_start (GnumericExprEntry *expr_entry);
+void gnumeric_expr_entry_rangesel_stop  (GnumericExprEntry *expr_entry,
+					 gboolean clear_string);
+gboolean gnumeric_expr_entry_set_range	(GnumericExprEntry *expr_entry,
+					 Sheet *sheet, Range const *r);
 
 void	 gnumeric_expr_entry_clear 		     (GnumericExprEntry *gee);
 void	 gnumeric_expr_entry_set_rangesel_from_dep   (GnumericExprEntry *gee,
 						      Dependent const *dep);
-gboolean gnumeric_expr_entry_set_rangesel_from_range (GnumericExprEntry *expr_entry,
-						      Range const *r, Sheet *sheet, int pos);
 
 
 /* Convenience functions */
 void gnumeric_expr_entry_set_absolute (GnumericExprEntry *expr_entry);
-void gnumeric_expr_entry_toggle_absolute (GnumericExprEntry *expr_entry);
 
 /* Is a range selection meaningful here? */
 gboolean  gnumeric_expr_entry_rangesel_meaningful (GnumericExprEntry *expr_entry);

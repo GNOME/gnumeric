@@ -277,9 +277,10 @@ gnm_canvas_key_mode_sheet (GnumericCanvas *gcanvas, GdkEventKey *event)
 		break;
 		
 	case GDK_F4:
-		if (gcanvas->pane->cursor.rangesel)
-			wbcg_edit_toggle_absolute (wbcg);
-		break;
+		if (wbcg->editing)
+			return gtk_widget_event (GTK_WIDGET (wbcg_get_entry_logical (wbcg)),
+						 (GdkEvent *) event);
+		return TRUE;
 
 	case GDK_F2:
 		wbcg_edit_start (wbcg, FALSE, FALSE);

@@ -44,12 +44,14 @@ int  scg_colrow_distance_get	(SheetControlGUI const *scg,
 void scg_edit_start		(SheetControlGUI *scg);
 void scg_edit_stop		(SheetControlGUI *scg);
 
-void scg_rangesel_start		(SheetControlGUI *scg, int col, int row);
-void scg_rangesel_stop		(SheetControlGUI *scg, gboolean clear_str);
-void scg_rangesel_extend_to	(SheetControlGUI *scg, int col, int row);
+void scg_rangesel_start		(SheetControlGUI *scg,
+				 int base_col, int base_row,
+				 int move_col, int move_row);
 void scg_rangesel_bound		(SheetControlGUI *scg,
 				 int base_col, int base_row,
 				 int move_col, int move_row);
+void scg_rangesel_stop		(SheetControlGUI *scg, gboolean clear_str);
+void scg_rangesel_extend_to	(SheetControlGUI *scg, int col, int row);
 void scg_rangesel_move		(SheetControlGUI *scg, int dir,
 				 gboolean jump_to_bound, gboolean horiz);
 void scg_rangesel_extend	(SheetControlGUI *scg, int n,

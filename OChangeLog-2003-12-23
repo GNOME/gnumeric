@@ -1,3 +1,35 @@
+2001-11-05  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c (scg_select_all) : rangesel_bound will call
+	  start if necessary.
+	(scg_colrow_select) : ditto.
+	(scg_rangesel_changed) : improve comments,
+	(scg_rangesel_start) : take a range, and call
+	  gnumeric_expr_entry_rangesel_start.
+	(scg_rangesel_extend_to) : call start if necessary.
+	(scg_rangesel_bound) : ditto.
+
+	* src/parse-util.c (cellref_a1_get) : return a point to 1 past the
+	  last character, or NULL instead of boolean.
+	(cellref_r1c1_get) : ditto.
+	(cellref_get) : ditto.
+
+	* src/parser.y (parse_ref_or_string) : adjust to changes in cellref_get.
+	* src/xml-io.c (xml_read_names) : ditto.
+
+	* Makefile.am : Add BEVERAGES file.
+
+	* src/item-grid.c (item_grid_button_1) : scg_rangesel_start now
+	  supports selecting a range.
+
+	* src/gnumeric-pane.c (gnm_pane_rangesel_start) : just take a range,
+	  it is simplier.
+
+	* src/workbook-edit.c (wbcg_edit_toggle_absolute) : delete.
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_sheet) : just forward the
+	  F4 to the expr-entry it knows what to do.
+
 2001-11-05  Morten Welinder  <terra@diku.dk>
 
 	* src/func.c (tokenized_help_new): Fix ABW.  Jody: Hot Chocolate.

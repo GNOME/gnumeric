@@ -670,8 +670,10 @@ parse_ref_or_string (char const *string)
 {
 	CellRef   ref;
 	Value *v = NULL;
+	char const * res;
 
-	if (cellref_get (&ref, string, &state->pos->eval)) {
+	res = cellref_get (&ref, string, &state->pos->eval);
+	if (res != NULL && *res == '\0') {
 		yylval.tree = register_expr_allocation (expr_tree_new_var (&ref));
 		return CELLREF;
 	}

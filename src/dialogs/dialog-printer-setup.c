@@ -1430,21 +1430,17 @@ do_setup_page_info (PrinterSetupState *state)
 							  "comments-combo"));
 	gnumeric_combo_enters (GTK_WINDOW (state->dialog), comments_combo);
 
-	if (state->pi->repeat_top.use) {
-		gnumeric_expr_entry_set_rangesel_from_range (
+	if (state->pi->repeat_top.use)
+		gnumeric_expr_entry_set_range (
 			state->top_entry,
-			&state->pi->repeat_top.range,
 			wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
-			0);
-	}
+			&state->pi->repeat_top.range);
 
-	if (state->pi->repeat_left.use) {
-		gnumeric_expr_entry_set_rangesel_from_range (
+	if (state->pi->repeat_left.use)
+		gnumeric_expr_entry_set_range (
 			state->left_entry,
-			&state->pi->repeat_left.range,
 			wb_control_cur_sheet (WORKBOOK_CONTROL (state->wbcg)),
-			0);
-	}
+			&state->pi->repeat_left.range);
 }
 
 /**

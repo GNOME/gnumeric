@@ -264,13 +264,12 @@ gnm_pane_rangesel_bound_set (GnumericPane *pane, Range const *r)
 	return item_cursor_bound_set (pane->cursor.rangesel, r);
 }
 void
-gnm_pane_rangesel_start (GnumericPane *pane, int col, int row)
+gnm_pane_rangesel_start (GnumericPane *pane, Range const *r)
 {
 	GnomeCanvas *canvas = GNOME_CANVAS (pane->gcanvas);
 	GnomeCanvasItem *tmp;
 	GnomeCanvasGroup *group = GNOME_CANVAS_GROUP (canvas->root);
 	SheetControl *sc = (SheetControl *) pane->gcanvas->scg;
-	Range r;
 
 	g_return_if_fail (pane->cursor.rangesel == NULL);
 
@@ -285,8 +284,7 @@ gnm_pane_rangesel_start (GnumericPane *pane, int col, int row)
 		"SheetControlGUI", pane->gcanvas->scg,
 		"Style", ITEM_CURSOR_ANTED, NULL);
 	pane->cursor.rangesel = ITEM_CURSOR (tmp);
-	item_cursor_bound_set (pane->cursor.rangesel,
-		range_init (&r, col, row, col, row));
+	item_cursor_bound_set (pane->cursor.rangesel, r);
 
 	/* If we are selecting a range on a different sheet this may be NULL */
 	if (pane->editor)

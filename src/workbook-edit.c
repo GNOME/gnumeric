@@ -534,16 +534,6 @@ wbcg_edit_entry_redirect_p (WorkbookControlGUI const *wbcg)
 	return (wbcg->edit_line.temp_entry != NULL);
 }
 
-/* FIXME: Probably get rid of this altogether */
-void
-wbcg_edit_toggle_absolute (WorkbookControlGUI *wbcg)
-{
-	g_return_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg));
-
-	gnumeric_expr_entry_toggle_absolute (
-		GNUMERIC_EXPR_ENTRY (wbcg_get_entry_logical (wbcg)));
-}
-
 gboolean
 wbcg_editing_expr (WorkbookControlGUI const *wbcg)
 {

@@ -46,7 +46,7 @@ void gnm_pane_colrow_resize_move	(GnumericPane *pane,
 void gnm_pane_reposition_cursors		(GnumericPane *pane);
 gboolean gnm_pane_cursor_bound_set	 	(GnumericPane *pane, Range const *r);
 gboolean gnm_pane_rangesel_bound_set		(GnumericPane *pane, Range const *r);
-void gnm_pane_rangesel_start			(GnumericPane *pane, int col, int row);
+void gnm_pane_rangesel_start			(GnumericPane *pane, Range const *r);
 void gnm_pane_rangesel_stop			(GnumericPane *pane);
 gboolean gnm_pane_special_cursor_bound_set	(GnumericPane *pane, Range const *r);
 void gnm_pane_special_cursor_start 		(GnumericPane *pane, int style, int button);

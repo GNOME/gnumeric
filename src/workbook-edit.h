@@ -11,7 +11,6 @@ gboolean wbcg_edit_finish (WorkbookControlGUI *wbcg, gboolean accept);
 void     wbcg_edit_start  (WorkbookControlGUI *wbcg,
 			   gboolean blankp, gboolean cursorp);
 
-void	    wbcg_edit_toggle_absolute	(WorkbookControlGUI *wbcg);
 void	    wbcg_edit_attach_guru	(WorkbookControlGUI *wbcg, GtkWidget *guru);
 void	    wbcg_edit_detach_guru	(WorkbookControlGUI *wbcg);
 gboolean    wbcg_edit_has_guru		(WorkbookControlGUI const *wbcg);

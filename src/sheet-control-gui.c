@@ -412,10 +412,8 @@ scg_select_all (SheetControlGUI *scg)
 	gboolean const rangesel = wbcg_rangesel_possible (scg->wbcg);
 
 	if (rangesel) {
-		if (!scg->rangesel.active)
-			scg_rangesel_start (scg, 0, 0);
-		scg_rangesel_bound (
-			scg, 0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
+		scg_rangesel_bound (scg,
+			0, 0, SHEET_MAX_COLS-1, SHEET_MAX_ROWS-1);
 	} else if (!wbcg_edit_has_guru (scg->wbcg)) {
 		scg_mode_edit (SHEET_CONTROL (sc));
 		wbcg_edit_finish (scg->wbcg, FALSE);
@@ -437,9 +435,6 @@ scg_colrow_select (SheetControlGUI *scg, gboolean is_cols,
 	if (!rangesel)
 		if (!wbcg_edit_finish (scg->wbcg, TRUE))
 			return;
-
-	if (rangesel && !scg->rangesel.active)
-		scg_rangesel_start (scg, index, index);
 
 	if (modifiers & GDK_SHIFT_MASK) {
 		if (rangesel) {
@@ -2406,35 +2401,40 @@ scg_rangesel_changed (SheetControlGUI *scg,
 		r->start.row =  move_row;
 	}
 
-	/* FIXME : check the semantics of the range change
-	 * these may be in the wrong order.
-	 * We'll also need to name selections containing merged cells
-	 * properly.
-	 */
 	sheet = ((SheetControl *) scg)->sheet;
 	expr_entry = wbcg_get_entry_logical (scg->wbcg);
+
 	gnumeric_expr_entry_freeze (expr_entry);
-	ic_changed = gnumeric_expr_entry_set_rangesel_from_range (
-		expr_entry, r, sheet, scg->rangesel.cursor_pos);
+	/* The order here is tricky.
+	 * 1) Assign the range to the expr entry.
+	 */
+	ic_changed = gnumeric_expr_entry_set_range (
+		expr_entry, sheet, r);
+
+	/* 2) if the expr entry changed the region get the new region */
 	if (ic_changed)
 		gnumeric_expr_entry_get_rangesel (expr_entry, r, NULL);
 
+	/* 3) now double check that all merged regions are fully contained */
 	last_r = *r;
 	sheet_merge_find_container (sheet, r);
-	if (!range_equal (&last_r, r)) {
-		(void) gnumeric_expr_entry_set_rangesel_from_range (
-			expr_entry, r, sheet, scg->rangesel.cursor_pos);
-		/* This can't grow the range further */
-	}
+	if (!range_equal (&last_r, r))
+		(void) gnumeric_expr_entry_set_range (
+			expr_entry, sheet, r);
+
 	gnumeric_expr_entry_thaw (expr_entry);
+
 	for (i = scg->active_panes ; i-- > 0 ; )
 		gnm_pane_rangesel_bound_set (scg->pane + i, r);
 }
 
 void
-scg_rangesel_start (SheetControlGUI *scg, int col, int row)
+scg_rangesel_start (SheetControlGUI *scg,
+		    int base_col, int base_row,
+		    int move_col, int move_row)
 {
 	int i;
+	Range r;
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
@@ -2446,12 +2446,13 @@ scg_rangesel_start (SheetControlGUI *scg, int col, int row)
 
 	scg->wbcg->rangesel = scg;
 	scg->rangesel.active = TRUE;
-	scg->rangesel.cursor_pos =
-		GTK_EDITABLE (wbcg_get_entry_logical (scg->wbcg))->current_pos;
 
+	gnumeric_expr_entry_rangesel_start (wbcg_get_entry_logical (scg->wbcg));
+
+	range_init (&r, base_col, base_row, move_col, move_row);
 	for (i = scg->active_panes ; i-- > 0 ;)
-		gnm_pane_rangesel_start (scg->pane + i, col, row);
-	scg_rangesel_changed (scg, col, row, col, row);
+		gnm_pane_rangesel_start (scg->pane + i, &r);
+	scg_rangesel_changed (scg, base_col, base_row, move_col, move_row);
 }
 
 void
@@ -2471,7 +2472,7 @@ scg_rangesel_stop (SheetControlGUI *scg, gboolean clear_string)
 	for (i = scg->active_panes ; i-- > 0 ; )
 		gnm_pane_rangesel_stop (scg->pane + i);
 
-	gnumeric_expr_entry_rangesel_stopped (
+	gnumeric_expr_entry_rangesel_stop (
 		GNUMERIC_EXPR_ENTRY (wbcg_get_entry_logical (scg->wbcg)),
 		clear_string);
 }
@@ -2547,8 +2548,6 @@ scg_rangesel_extend_to (SheetControlGUI *scg, int col, int row)
 {
 	int base_col, base_row;
 
-	g_return_if_fail (scg->rangesel.active);
-
 	if (col < 0) {
 		base_col = 0;
 		col = SHEET_MAX_COLS - 1;
@@ -2560,7 +2559,10 @@ scg_rangesel_extend_to (SheetControlGUI *scg, int col, int row)
 	} else
 		base_row = scg->rangesel.base_corner.row;
 
-	scg_rangesel_changed (scg, base_col, base_row, col, row);
+	if (scg->rangesel.active)
+		scg_rangesel_changed (scg, base_col, base_row, col, row);
+	else
+		scg_rangesel_start (scg, base_col, base_row, col, row);
 }
 
 void
@@ -2568,8 +2570,10 @@ scg_rangesel_bound (SheetControlGUI *scg,
 		    int base_col, int base_row,
 		    int move_col, int move_row)
 {
-	g_return_if_fail (scg->rangesel.active);
-	scg_rangesel_changed (scg, base_col, base_row, move_col, move_row);
+	if (scg->rangesel.active)
+		scg_rangesel_changed (scg, base_col, base_row, move_col, move_row);
+	else
+		scg_rangesel_start (scg, base_col, base_row, move_col, move_row);
 }
 
 void
@@ -2581,6 +2585,7 @@ scg_rangesel_move (SheetControlGUI *scg, int n, gboolean jump_to_bound,
 
 	if (!scg->rangesel.active)
 		scg_rangesel_start (scg,
+			sheet->edit_pos_real.col, sheet->edit_pos_real.row,
 			sheet->edit_pos_real.col, sheet->edit_pos_real.row);
 
 	tmp = scg->rangesel.base_corner;

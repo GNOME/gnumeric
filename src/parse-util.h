@@ -10,11 +10,11 @@ char const  *rows_name                (int start_row, int end_col);
 
 char        *cellref_name            (CellRef const *cell_ref,
 				      ParsePos const *pp, gboolean no_sheetname);
-gboolean     cellref_get             (CellRef *out, char const *in,
+char const  *cellref_get             (CellRef *out, char const *in,
 				      CellPos const *pos);
-gboolean     cellref_a1_get          (CellRef *out, char const *in,
+char const  *cellref_a1_get          (CellRef *out, char const *in,
 				      CellPos const *pos);
-gboolean     cellref_r1c1_get        (CellRef *out, char const *in,
+char const  *cellref_r1c1_get        (CellRef *out, char const *in,
 				      CellPos const *pos);
 
 char const *cell_coord_name	     (int col, int row);

@@ -99,14 +99,14 @@ cellref_name (CellRef const *cell_ref, ParsePos const *pp, gboolean no_sheetname
 		return g_strdup (buffer);
 }
 
-gboolean
+char const *
 cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 {
 	int col = 0;
 	int row = 0;
 
-	g_return_val_if_fail (in != NULL, FALSE);
-	g_return_val_if_fail (out != NULL, FALSE);
+	g_return_val_if_fail (in != NULL, NULL);
+	g_return_val_if_fail (out != NULL, NULL);
 
 	/* Try to parse a column */
 	if (*in == '$'){
@@ -116,7 +116,7 @@ cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 		out->col_relative = TRUE;
 
 	if (!(toupper (*in) >= 'A' && toupper (*in) <= 'Z'))
-		return FALSE;
+		return NULL;
 
 	col = toupper (*in++) - 'A';
 
@@ -131,18 +131,15 @@ cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 		out->row_relative = TRUE;
 
 	if (!(*in >= '1' && *in <= '9'))
-		return FALSE;
+		return NULL;
 
 	while (isdigit ((unsigned char)*in)){
 		row = row * 10 + *in - '0';
 		in++;
 	}
 	if (row > SHEET_MAX_ROWS)
-		return FALSE;
+		return NULL;
 	row--;
-
-	if (*in) /* We havn't hit the end yet */
-		return FALSE;
 
 	/* Setup the cell reference information */
 	if (out->row_relative)
@@ -157,7 +154,7 @@ cellref_a1_get (CellRef *out, char const *in, CellPos const *pos)
 
 	out->sheet = NULL;
 
-	return TRUE;
+	return in;
 }
 
 static gboolean
@@ -197,11 +194,11 @@ r1c1_get_item (int *num, unsigned char *rel, char const * *in)
 	return TRUE;
 }
 
-gboolean
+char const *
 cellref_r1c1_get (CellRef *out, char const *in, CellPos const *pos)
 {
-	g_return_val_if_fail (in != NULL, FALSE);
-	g_return_val_if_fail (out != NULL, FALSE);
+	g_return_val_if_fail (in != NULL, NULL);
+	g_return_val_if_fail (out != NULL, NULL);
 
 	out->row_relative = FALSE;
 	out->col_relative = FALSE;
@@ -212,26 +209,26 @@ cellref_r1c1_get (CellRef *out, char const *in, CellPos const *pos)
 	if (*in == 'R') {
 		in++;
 		if (!r1c1_get_item (&out->row, &out->row_relative, &in))
-			return FALSE;
+			return NULL;
 	} else
-		return FALSE;
+		return NULL;
 
 	if (*in == 'C') {
 		in++;
 		if (!r1c1_get_item (&out->col, &out->col_relative, &in))
-			return FALSE;
+			return NULL;
 	} else
-		return FALSE;
+		return NULL;
 
 	out->col--;
 	out->row--;
-	return TRUE;
+	return in;
 }
 
 /**
  * cellref_get:
  * @out: destination CellRef
- * @in: reference description text, no leading or trailing
+ * @in: reference description text, no leading
  *      whitespace allowed.
  *
  * Converts the char * representation of a Cell reference into
@@ -239,11 +236,13 @@ cellref_r1c1_get (CellRef *out, char const *in, CellPos const *pos)
  *
  * Return value: TRUE if no format errors found.
  **/
-gboolean
+char const *
 cellref_get (CellRef *out, char const *in, CellPos const *pos)
 {
-	return  cellref_a1_get (out, in, pos) ||
-		cellref_r1c1_get (out, in, pos);
+	char const *res = cellref_a1_get (out, in, pos);
+	if (res != NULL)
+		return res;
+	return cellref_r1c1_get (out, in, pos);
 }
 
 /****************************************************************************/

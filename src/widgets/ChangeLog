@@ -1,3 +1,13 @@
+2001-11-05  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumeric-expr-entry.c (make_rangesel_text) : don't use the flags,
+	  store the ab/srel info in the selector.
+	(update_rangesel_text) : use the pos from the entry.
+	(gnumeric_expr_entry_rangesel_start) : new routine to find the start
+	  of a range.  Still needs work to support intra-{sheet,book}
+	  references.
+	(gnumeric_expr_entry_key_press_event) : move F4 handling here.
+
 2001-11-05  Jody Goldberg <jgoldberg@home,com>
 
 	* Release 0.75

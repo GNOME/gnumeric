@@ -1563,7 +1563,9 @@ xml_sax_finish_parse_wb_names_name (XMLSaxParseState *state)
 		parse_pos_init (&pos, NULL, state->sheet, 0, 0);
 		if (state->name.position) {
 			CellRef tmp;
-			if (cellref_a1_get (&tmp, state->name.position, &pos.eval)) {
+			char const *res;
+			res = cellref_a1_get (&tmp, state->name.position, &pos.eval);
+			if (res != NULL && *res == '\0') {
 				pos.eval.col = tmp.col;
 				pos.eval.row = tmp.row;
 			}
@@ -1606,7 +1608,8 @@ xml_sax_finish_parse_sheet_names_name (XMLSaxParseState *state)
 	parse_pos_init (&pos, NULL, state->sheet, 0, 0);
 	if (state->name.position) {
 		CellRef tmp;
-		if (cellref_a1_get (&tmp, state->name.position, &pos.eval)) {
+		char const *res = cellref_a1_get (&tmp, state->name.position, &pos.eval);
+		if (res != NULL && *res == '\0') {
 			pos.eval.col = tmp.col;
 			pos.eval.row = tmp.row;
 		}
