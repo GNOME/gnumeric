@@ -301,7 +301,7 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 	gtk_box_pack_start (GTK_BOX (GNOME_DIALOG(d)->vbox), l, TRUE, TRUE, 0);
 
 	gtk_window_set_position (GTK_WINDOW (d), GTK_WIN_POS_MOUSE);
-	button = gnome_dialog_run (GNOME_DIALOG (d));
+	button = gnome_dialog_run_and_close (GNOME_DIALOG (d));
 
 	switch (button){
 		/* YES */
@@ -322,8 +322,6 @@ cb_sheet_check_dirty (gpointer key, gpointer value, gpointer user_data)
 		break;
 
 	} 
-
-	gtk_widget_destroy (d);
 }
 
 static int
