@@ -43,14 +43,14 @@
         text.  <application>Gnumeric</application> can open files from
         several well known proprietary and free spreadsheets including
         MS Excel (tm), Lotus 1-2-3 (tm), Applix (tm), OpenOffice.org,
-        Psion, Sylk, XBase Oleo, and
+        Psion, Sylk, XBase, Oleo, PlanPerfect, Quattro Pro and
         HTML. <application>Gnumeric</application> can save files to
         several versions of the MS Excel (tm) file format and can save
         tables into LaTeX <markup>\longtable</markup>, HTML, and roff
         files. <application>Gnumeric</application> also benefits from
         a highly configurable text importer and exporter which ensures
         that data can be transfered smoothly. New formats can easily
-        be added in a modular fashion via a plug-in.
+        be added in plug-ins.
       </para>
     </listitem>
 

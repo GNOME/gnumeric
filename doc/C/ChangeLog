@@ -1,3 +1,9 @@
+2003-11-02  Jody Goldberg <jody@gnome.org>
+
+	* welcome.xml : minor edits.
+
+	* Makefile.am (include) : Actually install the man pages.
+
 2003-11-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
 
 	* figures/Makefile.am (EXTRA_DIST): Sorted in sort(1) order; added
