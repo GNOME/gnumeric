@@ -1,6 +1,7 @@
 # translation of es.po to 
 # translation of es.po to
 # translation of es.po to
+# translation of es.po to
 # traducción de es.po al Spanish
 # translation of es.po to Spanish
 # translation of gnumeric.HEAD.po to Spanish
@@ -19,8 +20,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-13 20:50+0100\n"
-"PO-Revision-Date: 2004-11-13 21:53+0100\n"
+"POT-Creation-Date: 2004-11-18 17:26+0100\n"
+"PO-Revision-Date: 2004-11-18 17:44+0100\n"
 "Last-Translator: \n"
 "Language-Team:  <es@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -119,9 +120,8 @@ msgstr ""
 "@SYNTAX=CUM_BIV_NORM_DIST(a,b,ro)\n"
 "@DESCRIPTION=CUM_BIV_NORM_DIST calcula la distribución acumulada bivariada "
 "normal con los parámetros a, b y ro.\n"
-"El valor devuelto es la probabilidad de "
-"que dos variables aleatorias con correlación @ro sean respectivamente cada "
-"una menor que @a y @b\n"
+"El valor devuelto es la probabilidad de que dos variables aleatorias con "
+"correlación @ro sean respectivamente cada una menor que @a y @b\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
@@ -1582,8 +1582,8 @@ msgid ""
 "call_put_flag,spot,spot_min,spot_max,strike,time,rate,cost_of_carry,"
 "volatility"
 msgstr ""
-"marca_call_put, spot, spot_min, spot_max, strike, tiempo, tasa, coste_de_ejecución,"
-"volatilidad"
+"marca_call_put, spot, spot_min, spot_max, strike, tiempo, tasa, "
+"coste_de_ejecución,volatilidad"
 
 #: plugins/derivatives/options.c:2312
 msgid ""
@@ -1607,7 +1607,7 @@ msgstr "Derivadas financieras"
 msgid "Functions related to financial derivatives"
 msgstr "Funciones relacionadas con derivados de finanzas"
 
-#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5743
+#: plugins/dif/dif.c:66 plugins/excel/ms-excel-read.c:5831
 #: plugins/mps/mps.c:547 src/xml-io.c:4199
 msgid "Reading file..."
 msgstr "Leyendo archivo..."
@@ -1695,51 +1695,51 @@ msgstr "Preparando para guardar..."
 msgid "Saving file..."
 msgstr "Guardando archivo..."
 
-#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:270
+#: plugins/excel/excel-xml-read.c:85 plugins/xml_sax/xml-sax-read.c:276
 #, c-format
 msgid "Unexpected attribute %s::%s == '%s'."
 msgstr "Atributo inesperado %s::%s == «%s»."
 
 #: plugins/excel/excel-xml-read.c:198
 #: plugins/openoffice/openoffice-read.c:1479
-#: plugins/xml_sax/xml-sax-read.c:1653
+#: plugins/xml_sax/xml-sax-read.c:1767
 msgid "XML document not well formed!"
 msgstr "El documento XML no se encuentra bien definido"
 
-#: plugins/excel/ms-excel-read.c:1069 src/value.c:60
+#: plugins/excel/ms-excel-read.c:1070 src/value.c:60
 msgid "#UNKNOWN!"
 msgstr "#DESCONOCIDO!"
 
 #. We can't use workbook_sheet_get_free_name since that would give us the same
 #. name for multiple adds
-#: plugins/excel/ms-excel-read.c:1151 plugins/excel/ms-excel-read.c:1163
+#: plugins/excel/ms-excel-read.c:1152 plugins/excel/ms-excel-read.c:1164
 #: plugins/oleo/oleo.c:343 plugins/psiconv/psiconv-read.c:510
 #: src/dialogs/dialog-sheet-order.c:432 src/dialogs/dialog-sheet-order.c:436
 #, c-format
 msgid "Sheet%d"
 msgstr "Hoja%d"
 
-#: plugins/excel/ms-excel-read.c:1167
+#: plugins/excel/ms-excel-read.c:1168
 #, c-format
 msgid "Macro%d"
 msgstr "Macro%d"
 
-#: plugins/excel/ms-excel-read.c:1171
+#: plugins/excel/ms-excel-read.c:1172
 #, c-format
 msgid "Chart%d"
 msgstr "Diagrama-%d"
 
-#: plugins/excel/ms-excel-read.c:1174
+#: plugins/excel/ms-excel-read.c:1175
 #, c-format
 msgid "Module%d"
 msgstr "Módulo %d"
 
-#: plugins/excel/ms-excel-read.c:2963
+#: plugins/excel/ms-excel-read.c:2964
 #, c-format
 msgid "Failure parsing name '%s'"
 msgstr "Ha ocurrido un error al analizar el nombre «%s»"
 
-#: plugins/excel/ms-excel-read.c:3059
+#: plugins/excel/ms-excel-read.c:3060
 #, c-format
 msgid ""
 "DDE links are not supported.\n"
@@ -1748,7 +1748,7 @@ msgstr ""
 "Los enlaces DDE no están soportados.\n"
 "El nombre «%s» se perderá.\n"
 
-#: plugins/excel/ms-excel-read.c:3065
+#: plugins/excel/ms-excel-read.c:3066
 #, c-format
 msgid ""
 "OLE links are not supported.\n"
@@ -1757,15 +1757,15 @@ msgstr ""
 "Los enlaces OLE no están soportados.\n"
 "El nombre «%s» se perderá.\n"
 
-#: plugins/excel/ms-excel-read.c:5088
+#: plugins/excel/ms-excel-read.c:5176
 msgid "external references"
 msgstr "referencias externas"
 
-#: plugins/excel/ms-excel-read.c:5111
+#: plugins/excel/ms-excel-read.c:5199
 msgid "No password supplied"
 msgstr "No se suministró contraseña"
 
-#: plugins/excel/ms-excel-read.c:5969
+#: plugins/excel/ms-excel-read.c:6057
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Es imposible ubicar un libro de cuentas MS Excel válido."
 
@@ -6236,6 +6236,14 @@ msgid ""
 "\n"
 "@SEEALSO=OFFCAP, OFFTRAF, PROBBLOCK"
 msgstr ""
+"@FUNCTION=DIMCIRC\n"
+"@SYNTAX=DIMCIRC(tráfico,gos)\n"
+"@DESCRIPTION=DIMCIRC devuelve un número de circuitos requeridos desde un número de cargas de @tráfico con grado de servcio @gos.\n"
+"\n"
+"@EXAMPLES=\n"
+"DIMCIRC(24,1%) devuelve 35.\n"
+"\n"
+"@SEEALSO=OFFCAP, OFFTRAF, PROBBLOCK"
 
 #: plugins/fn-erlang/functions.c:259
 msgid ""
@@ -6249,6 +6257,14 @@ msgid ""
 "\n"
 "@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK"
 msgstr ""
+"@FUNCTION=OFFCAP\n"
+"@SYNTAX=OFFCAP(circuitos,gos)\n"
+"@DESCRIPTION=OFFCAP devuelve un número de tráfico de capacidad dada por un número de @circuitos con @gos de grados de servicio.\n"
+"\n"
+"@EXAMPLES=\n"
+"OFFCAP(30,1%) devuelve 20.337.\n"
+"\n"
+"@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK"
 
 #: plugins/fn-erlang/functions.c:323 plugins/fn-erlang/functions.c:328
 msgid "traffic,circuits"
@@ -10576,7 +10592,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=HYPOT\n"
 "@SYNTAX=HYPOT(número1, número2,...)\n"
-"@DESCRIPTION=Devuelve la raíz cuadrada de la suma de los cuadrados de los argumentos.\n"
+"@DESCRIPTION=Devuelve la raíz cuadrada de la suma de los cuadrados de los "
+"argumentos.\n"
 "\n"
 "@EXAMPLES=\n"
 "HYPOT(3,4) es igual a 5.\n"
@@ -13611,7 +13628,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARP\n"
 "@SYNTAX=VARP(b1, b2, ...)\n"
-"@DESCRIPTION=VARP calcula la varianza de un conjunto de números, cada número es el miembro de una población.\n"
+"@DESCRIPTION=VARP calcula la varianza de un conjunto de números, cada número "
+"es el miembro de una población.\n"
 "VARP también se conoce como N-varianza.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -13679,11 +13697,12 @@ msgstr ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
 "@DESCRIPTION=STDEV estima la desviación estándar  de la muestra dada. Para "
-"obtener la desviación de población estándar de una población completa use STDEVP.\n"
+"obtener la desviación de población estándar de una población completa use "
+"STDEVP.\n"
 "\n"
-"STDEV también se conoce como la desviación estándar-N-1.\n. "
-"En condiciones razonables, es el estimador de bondad máximo "
-" de la verdadera desviación estándar de la población.\n"
+"STDEV también se conoce como la desviación estándar-N-1.\n"
+". En condiciones razonables, es el estimador de bondad máximo  de la "
+"verdadera desviación estándar de la población.\n"
 "\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
@@ -13714,8 +13733,7 @@ msgstr ""
 "@FUNCTION=STDEVP\n"
 "@SYNTAX=STDEVP(b1, b2, ...)\n"
 "@DESCRIPTION=STDEVP devuelve la desviación estándar de la población dada.\n"
-"Esto se conoce también como la desviación N-Standar."
-"\n"
+"Esto se conoce también como la desviación N-Standar.\n"
 "* Esta función es compatible con Excel.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -14695,7 +14713,6 @@ msgstr ""
 "@SEEALSO=BETADIST"
 
 #: plugins/fn-stat/functions.c:1552
-#, fuzzy
 msgid ""
 "@FUNCTION=TDIST\n"
 "@SYNTAX=TDIST(x,dof,tails)\n"
@@ -15802,7 +15819,6 @@ msgstr ""
 "@SEEALSO=MIN,MAXA"
 
 #: plugins/fn-stat/functions.c:3187
-#, fuzzy
 msgid ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(number1,number2,...)\n"
@@ -15827,8 +15843,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARA\n"
 "@SYNTAX=VARA(número1,número2,...)\n"
-"@DESCRIPTION=VARA devuelve la varianza basada en una muestra.  También se "
-"incluyen en el cálculo números, texto y valores lógicos. Si la celda "
+"@DESCRIPTION=VARA devuelve la varianza basada en una muestra. "
+"Para obtener la varianza verdadera de una población completa use VARPA.\n"
+"VARA también se conoce como la N-1 varianza. "
+"Bajo condiciones razonables, es el estimador de semajanza máxima para la varianza verdadera."
+"También se incluyen en el cálculo números, texto y valores lógicos. Si la celda "
 "contiene texto o el argumento se evalúa a FALSO, se cuenta como valor cero "
 "(0).  Si el argumento se evalúa a VERDADERO, se cuenta como uno (1).  Note "
 "que las celdas vacías no se cuentan.\n"
@@ -15843,7 +15862,6 @@ msgstr ""
 "@SEEALSO=VAR,VARPA"
 
 #: plugins/fn-stat/functions.c:3229
-#, fuzzy
 msgid ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(number1,number2,...)\n"
@@ -15865,7 +15883,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=VARPA\n"
 "@SYNTAX=VARPA(número1,número2,...)\n"
-"@DESCRIPTION=VARPA devuelve la varianza basada en la población entera.  "
+"@DESCRIPTION=VARPA devuelve la varianza basada en la población entera. "
+"VARPA también se conoce como la N-varianza.\n "
 "También se incluyen en el cálculo números, texto y valores lógicos. Si la "
 "celda contiene texto o el argumento se evalúa a FALSO, se cuenta como valor "
 "cero (0).  Si el argumento se evalúa a VERDADERO, se cuenta como uno (1).  "
@@ -15881,7 +15900,6 @@ msgstr ""
 "@SEEALSO=VARP,VARP"
 
 #: plugins/fn-stat/functions.c:3266
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(number1,number2,...)\n"
@@ -15908,7 +15926,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEVA\n"
 "@SYNTAX=STDEVA(número1,número2,...)\n"
-"@DESCRIPTION=STDEVA devuelve la desviación estándar basada en una muestra.  "
+"@DESCRIPTION=STDEVA devuelve la desviación estándar basada en una muestra. "
+"Para obtener la desviación de población estándar de una población complete use STDEVPA.\n"
+"STDEVA también se conoce como la N-1 desviación estándar.\n"
 "También se incluyen en el cálculo números, texto y valores lógicos. Si la "
 "celda contiene texto o el argumento se evalúa a FALSO, se cuenta como valor "
 "cero (0).  Si el argumento se evalúa a VERDADERO, se cuenta como uno (1).  "
@@ -15924,7 +15944,6 @@ msgstr ""
 "@SEEALSO=STDEV,STDEVPA"
 
 #: plugins/fn-stat/functions.c:3309
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(number1,number2,...)\n"
@@ -15947,8 +15966,9 @@ msgid ""
 msgstr ""
 "@FUNCTION=STDEVPA\n"
 "@SYNTAX=STDEVPA(número1,número2,...)\n"
-"@DESCRIPTION=STDEVPA devuelve la desviación estándar basada en una la "
-"población entera.  También se incluyen en el cálculo números, texto y "
+"@DESCRIPTION=STDEVPA devuelve la desviación estándar basada en la "
+"población entera.  Esto también se conoce como la desviación N-estándar\n"
+"También se incluyen en el cálculo números, texto y "
 "valores lógicos. Si la celda contiene texto o el argumento se evalúa a "
 "FALSO, se cuenta como valor cero (0).  Si el argumento se evalúa a "
 "VERDADERO, se cuenta como uno (1).  Note que las celdas vacías no se "
@@ -18098,8 +18118,8 @@ msgstr "Función objetivo:"
 msgid "Constraints:"
 msgstr "Restricciones:"
 
-#: plugins/mps/mps.c:245 src/commands.c:6112
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1057
+#: plugins/mps/mps.c:245 src/commands.c:6144
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1058
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:379
 #: src/dialogs/dialog-define-names.c:496 src/dialogs/dialog-formula-guru.c:800
 #: src/dialogs/dialog-function-select.c:443
@@ -18305,9 +18325,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=PFACTOR\n"
 "@SYNTAX=PFACTOR(n)\n"
-"@DESCRIPTION=La función PFACTOR devuelve el factor primo más pequeño de su argumento.\n"
+"@DESCRIPTION=La función PFACTOR devuelve el factor primo más pequeño de su "
+"argumento.\n"
 "\n"
-"El  argumento debe ser al menos 2 o de lo contrario se devuelve un error de #VALOR!\n"
+"El  argumento debe ser al menos 2 o de lo contrario se devuelve un error de "
+"#VALOR!\n"
 "\n"
 "@SEEALSO=ITHPRIME"
 
@@ -18572,8 +18594,8 @@ msgstr "Funciones Perl"
 #: plugins/perl-func/plugin.xml.in.h:3
 msgid "Sample Perl plugin providing some (useless) functions."
 msgstr ""
-"Complemento de muestra de Perl que proporciona algunas funciones (inútiles) de "
-"ejemplo."
+"Complemento de muestra de Perl que proporciona algunas funciones (inútiles) "
+"de ejemplo."
 
 #: plugins/perl-loader/perl-loader.c:109
 msgid "Module name not given."
@@ -18931,7 +18953,7 @@ msgstr "Este es un mensaje del complemento «%s»"
 msgid "Error while opening xbase file."
 msgstr "Error al abrir archivo xbase."
 
-#: plugins/xbase/boot.c:175 src/commands.c:4906
+#: plugins/xbase/boot.c:175 src/commands.c:4938
 #: src/dialogs/dialog-goto-cell.c:289 src/dialogs/dialog-search.c:409
 #: src/dialogs/dialog-stf-export.c:444 src/dialogs/print.glade.h:21
 #: src/print-info.c:391 src/workbook.c:1091 src/xml-io.c:3789
@@ -18973,7 +18995,7 @@ msgstr "SAX basado en Gnumeric (*.gnumeric) (EXPERIMENTAL)"
 msgid "EXPERIMENTAL SAX based XML"
 msgstr "SAX basado en XML (EXPERIMENTAL)"
 
-#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4325
+#: plugins/xml_sax/plugin.xml.in.h:3 src/xml-io.c:4327
 msgid "Gnumeric XML (*.gnumeric)"
 msgstr "Gnumeric XML  (*.gnumeric)"
 
@@ -18981,14 +19003,19 @@ msgstr "Gnumeric XML  (*.gnumeric)"
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "La próxima generación del subsistema de E/S de XML basada en SAX"
 
-#: plugins/xml_sax/xml-sax-read.c:302
+#: plugins/xml_sax/xml-sax-read.c:308
 #, c-format
 msgid "Multiple version specifications.  Assuming %d"
 msgstr "Especificaciones correspondientes a múltiples versiones. Se asume %d"
 
-#: plugins/xml_sax/xml-sax-read.c:473
+#: plugins/xml_sax/xml-sax-read.c:479
 msgid "File has inconsistent SheetNameIndex element."
 msgstr "El archivo tiene un elemento SheetNameIndex inconsistente"
+
+#: plugins/xml_sax/xml-sax-read.c:1318 src/xml-io.c:2770
+#, c-format
+msgid "Unsupported object type '%s'"
+msgstr "Tipo de objeto no soportado «%s»."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:1
 msgid ""
@@ -19528,7 +19555,7 @@ msgid ""
 "more changes appear during that period, they are also processed at that "
 "time. If `lag' is negative, then recalculation happens only after a quiet "
 "period of |lag| milleseconds."
-msgstr ""
+msgstr "Si ' retardo' es 0, gnumeric recalcula todas las expresiones automáticas inmediatamente después de cada cambio. Los valores distintos de cero de 'retardo' permiten a gnumeric acumular más cambios antes de cada recálculo. Si el 'retardo' es positivo, entonces siempre que aparezca un cambio, gnumeric espera un 'retardo' en milisegundos y después recalcula; si aparecen más cambios durante ese periodo, se procesan también en ese tiempo. Si 'retardo' es negativo, entonces el recálculo ocurre sólo después de un periodo de inactividad de |retardo| milisegundos."
 
 #: schemas/gnumeric-general.schemas.in.h:14
 #: src/dialogs/dialog-preferences.c:612
@@ -20242,123 +20269,123 @@ msgstr "Definir alto por omisión de filas a %.2fpts"
 msgid "Zoom %s to %.0f%%"
 msgstr "Acercar %s a %.0f%%"
 
-#: src/commands.c:4420
+#: src/commands.c:4452
 msgid "Delete Object"
 msgstr "Borrar objeto"
 
-#: src/commands.c:4581
+#: src/commands.c:4613
 msgid "Format Object"
 msgstr "Formatear objeto"
 
-#: src/commands.c:5180
+#: src/commands.c:5212
 msgid "Reordering Sheets"
 msgstr "Reordenar hojas"
 
-#: src/commands.c:5183
+#: src/commands.c:5215
 msgid "Renaming Sheets"
 msgstr "Renombrar hojas"
 
-#: src/commands.c:5186
+#: src/commands.c:5218
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Agregando %i hojas"
 
-#: src/commands.c:5190
+#: src/commands.c:5222
 msgid "Changing Tab Colors"
 msgstr "Cambiar colores de solapa"
 
-#: src/commands.c:5193
+#: src/commands.c:5225
 msgid "Changing Sheet Protection"
 msgstr "Cambiando la protección de la hoja"
 
-#: src/commands.c:5196
+#: src/commands.c:5228
 msgid "Delete sheets"
 msgstr "Borrar hojas"
 
-#: src/commands.c:5199
+#: src/commands.c:5231
 msgid "Delete a sheet"
 msgstr "Borra una hoja"
 
-#: src/commands.c:5202
+#: src/commands.c:5234
 msgid "Changing Sheet Visibility"
 msgstr "Cambiando la visibilidad de la hoja"
 
-#: src/commands.c:5205
+#: src/commands.c:5237
 msgid "Reorganizing Sheets"
 msgstr "Reorganizar hojas"
 
-#: src/commands.c:5356
+#: src/commands.c:5388
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Limpiando comentario de %s"
 
-#: src/commands.c:5357
+#: src/commands.c:5389
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Estableciendo comentario de %s"
 
-#: src/commands.c:5737
+#: src/commands.c:5769
 #, c-format
 msgid "Merging data into %s"
 msgstr "Mezclar datos en %s"
 
-#: src/commands.c:5839
+#: src/commands.c:5871
 msgid "Changing summary info"
 msgstr "Cambiar información de resumen"
 
-#: src/commands.c:5928
+#: src/commands.c:5960
 msgid "Pull Object to the Front"
 msgstr "Tirar del objeto hasta el frente"
 
-#: src/commands.c:5931
+#: src/commands.c:5963
 msgid "Pull Object Forward"
 msgstr "Tirar del objeto hacia adelante"
 
-#: src/commands.c:5934
+#: src/commands.c:5966
 msgid "Push Object Backward"
 msgstr "Empujar el objeto atrás"
 
-#: src/commands.c:5937
+#: src/commands.c:5969
 msgid "Push Object to the Back"
 msgstr "Empuja el objeto a atrás"
 
-#: src/commands.c:6052
+#: src/commands.c:6084
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Configuración de página para %s"
 
-#: src/commands.c:6054
+#: src/commands.c:6086
 msgid "Page Setup For All Sheets"
 msgstr "Configurar impresión para todas las hojas"
 
-#: src/commands.c:6169
+#: src/commands.c:6201
 msgid "has a circular reference"
 msgstr "tiene una referencia circular"
 
-#: src/commands.c:6192
+#: src/commands.c:6224
 #, c-format
 msgid "Define Name %s"
 msgstr "Definir nombre %s"
 
-#: src/commands.c:6195
+#: src/commands.c:6227
 #, c-format
 msgid "Update Name %s"
 msgstr "Actualizar nombre %s"
 
-#: src/commands.c:6259
+#: src/commands.c:6291
 msgid "Add scenario"
 msgstr "Añadir escenario"
 
-#: src/commands.c:6334
+#: src/commands.c:6366
 msgid "Scenario Show"
 msgstr "Mostrar escenario"
 
-#: src/commands.c:6398
+#: src/commands.c:6430
 msgid "Shuffle Data"
 msgstr "Datos de muestreo"
 
 #. FIXME?
-#: src/commands.c:6508
+#: src/commands.c:6540
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Texto (%s) a columnas (%s)"
@@ -20368,28 +20395,28 @@ msgstr "Texto (%s) a columnas (%s)"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/commands.c:6652 src/dialogs/solver.glade.h:17
+#: src/commands.c:6684 src/dialogs/solver.glade.h:17
 #: src/tools/solver/reports-write.c:193 src/tools/solver/reports-write.c:354
 #: src/tools/solver/reports-write.c:484 src/tools/solver/reports-write.c:743
 #: src/tools/solver/reports-write.c:907 src/tools/solver/reports-write.c:958
 msgid "Solver"
 msgstr "Solver"
 
-#: src/commands.c:6736
+#: src/commands.c:6768
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Buscar objetivo (%s)"
 
-#: src/commands.c:6881
+#: src/commands.c:6913
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicando %s"
 
-#: src/commands.c:6960
+#: src/commands.c:6992
 msgid "Tabulating Dependencies"
 msgstr "Tabulando dependencias"
 
-#: src/commands.c:7035
+#: src/commands.c:7067
 msgid "Reconfigure Graph"
 msgstr "Reconfigurar la gráfica"
 
@@ -20683,19 +20710,25 @@ msgstr "Gráfico"
 msgid "Chart"
 msgstr "Diagrama"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1083
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1084
 msgid "Step 1 of 2: Select Chart Type"
 msgstr "Paso 1 de 2: Seleccione el tipo de diagrama"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1091
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1092
 msgid "Step 2 of 2: Customize Chart"
 msgstr "Paso 2 de 2: Personalice su diagrama"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1096
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1097
 msgid "Customize Chart"
 msgstr "Personalizar diagrama"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1210
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1173
+#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
+#: src/wbcg-actions.c:1600
+msgid "_Insert"
+msgstr "_Insertar"
+
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1231
 msgid "_Plot Type"
 msgstr "Tipo de _gráfico"
 
@@ -20764,7 +20797,7 @@ msgstr "Configuración"
 msgid "Point"
 msgstr "Punto"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:359
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:159 src/gui-file.c:348
 #, c-format
 msgid "%d x %d"
 msgstr "%d x %d"
@@ -21525,11 +21558,11 @@ msgstr "GráficoBurbuja"
 msgid "Bubble"
 msgstr "Burbuja"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1019
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
 msgid "Y Error bars"
 msgstr "Barras de error de Y"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1021
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:1023
 msgid "X Error bars"
 msgstr "Barras de error de X"
 
@@ -22217,7 +22250,7 @@ msgstr "Sólo registros _únicos"
 
 #: src/dialogs/anova-one.glade.h:1
 msgid "ANOVA - Single Factor"
-msgstr "ANOVA - Un factor"
+msgstr "Análisis de varianza - Un factor"
 
 #: src/dialogs/anova-one.glade.h:2 src/dialogs/correlation.glade.h:2
 #: src/dialogs/covariance.glade.h:2 src/dialogs/descriptive-stats.glade.h:6
@@ -22293,7 +22326,7 @@ msgid "_Rows"
 msgstr "_Filas"
 
 #: src/dialogs/anova-two.glade.h:1 src/dialogs/autocorrect.glade.h:1
-#: src/dialogs/autofilter-expression.glade.h:27
+#: src/dialogs/autofilter-expression.glade.h:14
 #: src/dialogs/autoformat.glade.h:1 src/dialogs/autosave.glade.h:1
 #: src/dialogs/cell-format.glade.h:2 src/dialogs/descriptive-stats.glade.h:2
 #: src/dialogs/dialog-stf-export.glade.h:5 src/dialogs/dialog-stf.glade.h:3
@@ -22319,7 +22352,7 @@ msgstr "1"
 
 #: src/dialogs/anova-two.glade.h:3
 msgid "ANOVA - Two-Factor"
-msgstr "ANOVA - Dos factores"
+msgstr "Análisis de varianza - Dos factores"
 
 #: src/dialogs/anova-two.glade.h:5 src/dialogs/histogram.glade.h:7
 msgid "Input _range:"
@@ -22423,50 +22456,20 @@ msgstr ""
 "contiene\n"
 "no contiene"
 
-#: src/dialogs/autofilter-expression.glade.h:14
-msgid ""
-"\n"
-"equals\n"
-"does not equal\n"
-"is greater than\n"
-"is greater than or equal to\n"
-"is_less_than\n"
-"is less than or equal to\n"
-"begins with\n"
-"does not begin with\n"
-"ends with\n"
-"does not end with\n"
-"contains\n"
-"does not contain"
-msgstr ""
-"\n"
-"igual\n"
-"distinto\n"
-"es mayor que\n"
-"es mayor o igual que\n"
-"es _menor que\n"
-"es menor o igual que\n"
-"empieza por\n"
-"no empieza por\n"
-"termina por\n"
-"no termina por\n"
-"contiene\n"
-"no contiene"
-
-#: src/dialogs/autofilter-expression.glade.h:28
+#: src/dialogs/autofilter-expression.glade.h:15
 #: src/dialogs/autofilter-top10.glade.h:1
 msgid "Gnumeric : AutoFilter"
 msgstr "Gnumeric : Autofiltro"
 
-#: src/dialogs/autofilter-expression.glade.h:29
+#: src/dialogs/autofilter-expression.glade.h:16
 msgid "Show rows where:"
 msgstr "Mostrar filas donde:"
 
-#: src/dialogs/autofilter-expression.glade.h:30
+#: src/dialogs/autofilter-expression.glade.h:17
 msgid "_And"
 msgstr "_Y"
 
-#: src/dialogs/autofilter-expression.glade.h:31
+#: src/dialogs/autofilter-expression.glade.h:18
 msgid "_Or"
 msgstr "_O"
 
@@ -23697,7 +23700,7 @@ msgstr "El valor alfa debería ser un número entre 0 y 1."
 
 #: src/dialogs/dialog-analysis-tools.c:2745
 msgid "Could not create the ANOVA (single factor) tool dialog."
-msgstr "No se puede crear el diálogo para la herramienta ANOVA (un factor)."
+msgstr "No se puede crear el diálogo para la herramienta de análisis de varianza (un factor)."
 
 #: src/dialogs/dialog-analysis-tools.c:2825
 msgid ""
@@ -23751,9 +23754,9 @@ msgstr "El número de filas por muestra debe ser un entero positivo."
 
 #: src/dialogs/dialog-analysis-tools.c:2969
 msgid "Could not create the ANOVA (two factor) tool dialog."
-msgstr "No se puede crear el diálogo para la herramienta ANOVA (dos factores)."
+msgstr "No se puede crear el diálogo para la herramienta análisis de varianza (dos factores)."
 
-#: src/dialogs/dialog-autocorrect.c:329
+#: src/dialogs/dialog-autocorrect.c:332
 msgid "Could not create the AutoCorrect dialog."
 msgstr "No se puede crear el diálogo para la herramienta de Corrección automática."
 
@@ -24407,17 +24410,21 @@ msgstr "Los elementos de esta página se refieren a guardar y abrir archivos."
 
 #: src/dialogs/dialog-preferences.c:646
 msgid "The items on this page are related to the screen layout and resolution."
-msgstr "Los elementos de esta página se refieren a la distribución en la pantalla y la resolución."
+msgstr ""
+"Los elementos de esta página se refieren a la distribución en la pantalla y "
+"la resolución."
 
 #: src/dialogs/dialog-preferences.c:682
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
 "tools."
-msgstr "Los elementos de esta página y sus subpáginas se refieren a varias herramientas de gnumeric."
+msgstr ""
+"Los elementos de esta página y sus subpáginas se refieren a varias "
+"herramientas de gnumeric."
 
 #: src/dialogs/dialog-preferences.c:724
-msgid "The items on this page arerelated to copy. cut and paste."
-msgstr "Los elementos de esta página se refieren a guardar y abrir archivos."
+msgid "The items on this page are related to copy, cut and paste."
+msgstr "Los elementos de esta página se refieren a copiar, cortar y pegar."
 
 #: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
@@ -25030,7 +25037,9 @@ msgstr "Elija el formato de exportación:"
 
 #: src/dialogs/dialog-stf-export.glade.h:11
 msgid "Choose sheets to export and determine export ordering of the sheets:"
-msgstr "Elija las hojas para exportar y determine el orden de exportación de las hojas:"
+msgstr ""
+"Elija las hojas para exportar y determine el orden de exportación de las "
+"hojas:"
 
 #: src/dialogs/dialog-stf-export.glade.h:12
 msgid "Deselect all sheets for export."
@@ -25044,19 +25053,19 @@ msgstr "Exportar como texto"
 msgid ""
 "Lower the selected sheet in the list of to be exported sheets to be exported "
 "later."
-msgstr ""
+msgstr "Bajar la hoja seleccionada en la lista de hojas que se van a exportar para que se exporten más tarde."
 
 #: src/dialogs/dialog-stf-export.glade.h:15
 msgid ""
 "Move the selected sheet to the end of the list of to be exported exported "
 "sheets to be exported last."
-msgstr ""
+msgstr "Mover la hoja seleccionada al final de la lista de las hojas que van a ser exportadas para que sean exportadas las últimas."
 
 #: src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Move the selected sheet to the top of the list of to be exported sheets to "
 "be exported first."
-msgstr ""
+msgstr "Mover la hoja seleccionada al principio de la lista de las hojas que van a  exportarse para que se exporten primero."
 
 #: src/dialogs/dialog-stf-export.glade.h:17
 msgid "Qu_oting:"
@@ -25070,7 +25079,7 @@ msgstr "_Carácter de cita:"
 msgid ""
 "Raise the selected sheet in the list of to be exported sheets to be exported "
 "earlier."
-msgstr ""
+msgstr "Subir la hoja seleccionada en la lista de hojas a ser exportadas para que se exporten más pronto."
 
 #: src/dialogs/dialog-stf-export.glade.h:20
 msgid "Select N_one"
@@ -25795,11 +25804,6 @@ msgstr "Selector de funciones"
 #: src/dialogs/function-select.glade.h:5
 msgid "Select a function to insert:"
 msgstr "Seleccione una función a insertar:"
-
-#: src/dialogs/function-select.glade.h:6 src/wbcg-actions.c:1442
-#: src/wbcg-actions.c:1600
-msgid "_Insert"
-msgstr "_Insertar"
 
 #: src/dialogs/goalseek.glade.h:1
 msgid "(Ma_ximum):"
@@ -27255,13 +27259,13 @@ msgstr "«%s» ya se encuentra definido en el libro de cuentas"
 msgid "Invalid template file: %s"
 msgstr "Archivo de plantilla inválido: %s"
 
-#: src/file.c:497
+#: src/file.c:522
 msgid "Saving over old files of this type is disabled for safety."
 msgstr ""
 "Por seguridad, se ha deshabilitado la opción de guardar sobre un archivo "
 "antiguo de este tipo."
 
-#: src/file.c:499
+#: src/file.c:524
 msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Puede desactivar esta característica en forma segura, editando el archivo "
@@ -28200,23 +28204,23 @@ msgstr "Automáticamente detectado"
 msgid "Load file"
 msgstr "Cargar un archivo"
 
-#: src/gui-file.c:224 src/gui-file.c:666
+#: src/gui-file.c:224 src/gui-file.c:655
 msgid "Select a file"
 msgstr "Seleccione un archivo"
 
-#: src/gui-file.c:242 src/gui-file.c:468 src/gui-file.c:680
+#: src/gui-file.c:242 src/gui-file.c:457 src/gui-file.c:669
 msgid "All Files"
 msgstr "Todos los archivos"
 
-#: src/gui-file.c:247 src/gui-file.c:685
+#: src/gui-file.c:247 src/gui-file.c:674
 msgid "Spreadsheets"
 msgstr "Hojas de cálculo"
 
-#: src/gui-file.c:284 src/gui-file.c:535 src/gui-file.c:709
+#: src/gui-file.c:273 src/gui-file.c:524 src/gui-file.c:698
 msgid "File _type:"
 msgstr "_Tipo de archivo:"
 
-#: src/gui-file.c:400
+#: src/gui-file.c:389
 #, c-format
 msgid ""
 "%s\n"
@@ -28225,7 +28229,7 @@ msgstr ""
 "%s\n"
 "es un nombre de directorio"
 
-#: src/gui-file.c:406
+#: src/gui-file.c:395
 #, c-format
 msgid ""
 "You do not have permission to save to\n"
@@ -28234,7 +28238,7 @@ msgstr ""
 "No tiene permisos para guardar a\n"
 "%s"
 
-#: src/gui-file.c:415
+#: src/gui-file.c:404
 #, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
@@ -28245,15 +28249,15 @@ msgstr ""
 "\n"
 "¿Desea sobreescribirlo?"
 
-#: src/gui-file.c:473
+#: src/gui-file.c:462
 msgid "Images"
 msgstr "Imágenes"
 
-#: src/gui-file.c:513
+#: src/gui-file.c:502
 msgid "Save as"
 msgstr "Guardar como"
 
-#: src/gui-file.c:562 src/gui-file.c:758
+#: src/gui-file.c:551 src/gui-file.c:747
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyway?"
@@ -28261,11 +28265,11 @@ msgstr ""
 "La extensión de archivo dada no coincide con el tipo de archivo elegido. "
 "¿Quiere usar este nombre de todas formas?"
 
-#: src/gui-file.c:589
+#: src/gui-file.c:578
 msgid "Select an Image"
 msgstr "Seleccione una imagen"
 
-#: src/gui-file.c:608
+#: src/gui-file.c:597
 msgid ""
 "Selected file format doesn't support saving multiple sheets in one file.\n"
 "If you want to save all sheets, save them in separate files or select "
@@ -28846,7 +28850,7 @@ msgstr "El archivo no contiene el array «%s»."
 msgid "Module doesn't contain \"%s\" function."
 msgstr "El módulo no contiene la función «%s»."
 
-#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1141
+#: src/plugin-service.c:159 src/plugin-service.c:249 src/plugin-service.c:1166
 msgid "Error while loading plugin service."
 msgstr "Ha ocurrido un error al cargar el servicio de complementos."
 
@@ -28862,97 +28866,97 @@ msgstr "La función de limpieza interna del complemento ha devuelto un error."
 msgid "Clipboard"
 msgstr "Portapapeles"
 
-#: src/plugin-service.c:408
+#: src/plugin-service.c:422
 msgid "File opener has no description"
 msgstr "El abridor de archivos no tiene descripción"
 
-#: src/plugin-service.c:440
+#: src/plugin-service.c:454
 #, c-format
 msgid "File opener - %s"
 msgstr "Abridor de archivos - %s"
 
-#: src/plugin-service.c:559
+#: src/plugin-service.c:573
 msgid "Error while reading file."
 msgstr "Error al leer archivo."
 
-#: src/plugin-service.c:714
+#: src/plugin-service.c:739
 msgid "File saver has no description"
 msgstr "El guardador de archivos no tiene descripción"
 
-#: src/plugin-service.c:760
+#: src/plugin-service.c:785
 #, c-format
 msgid "File saver - %s"
 msgstr "Guardador de archivos %s"
 
-#: src/plugin-service.c:822
+#: src/plugin-service.c:847
 msgid "Error while saving file."
 msgstr "Error al guardar archivo."
 
-#: src/plugin-service.c:975
+#: src/plugin-service.c:1000
 msgid "Missing function category name."
 msgstr "Falta el nombre de la categoría de la función."
 
-#: src/plugin-service.c:979
+#: src/plugin-service.c:1004
 msgid "Function group is empty."
 msgstr "La función de agrupamiento está vacía."
 
-#: src/plugin-service.c:1009
+#: src/plugin-service.c:1034
 msgid "No func_desc_load method.\n"
 msgstr "Sin método func_desc_load.\n"
 
-#: src/plugin-service.c:1079
+#: src/plugin-service.c:1104
 #, c-format
 msgid "%d function in category \"%s\""
 msgstr "%d función en la categoría «%s»"
 
-#: src/plugin-service.c:1080
+#: src/plugin-service.c:1105
 #, c-format
 msgid "Group of %d functions in category \"%s\""
 msgstr "Grupo de %d funciones en la categoría «%s»"
 
-#: src/plugin-service.c:1176
+#: src/plugin-service.c:1201
 msgid "Plugin loader"
 msgstr "Cargador de complementos"
 
-#: src/plugin-service.c:1273
+#: src/plugin-service.c:1298
 msgid "Missing file name."
 msgstr "Falta el nombre de archivo."
 
-#: src/plugin-service.c:1322
+#: src/plugin-service.c:1347
 #, c-format
 msgid "Cannot read UI description from XML file %s."
 msgstr ""
 "No se puede leer la descripción de la interfaz de usuario desde el archivo "
 "XML %s."
 
-#: src/plugin-service.c:1356
+#: src/plugin-service.c:1381
 #, c-format
 msgid "User interface with %d action"
 msgstr "Interfaz de usuario con %d acción"
 
-#: src/plugin-service.c:1357
+#: src/plugin-service.c:1382
 #, c-format
 msgid "User interface with %d actions"
 msgstr "Interfaz de usuario con %d acciones"
 
-#: src/plugin-service.c:1385
+#: src/plugin-service.c:1410
 msgid "GObject loader"
 msgstr "Cargador GObject"
 
-#: src/plugin-service.c:1492
+#: src/plugin-service.c:1517
 msgid "No \"type\" attribute on \"service\" element."
 msgstr "No hay atributo «tipo» en el elemento «servicio»."
 
-#: src/plugin-service.c:1498
+#: src/plugin-service.c:1523
 #, c-format
 msgid "Unknown service type: %s."
 msgstr "El tipo de servicio es desconocido: «%s»."
 
-#: src/plugin-service.c:1514
+#: src/plugin-service.c:1539
 msgid "Error reading service information."
 msgstr "Ha ocurrido un error al leer la información del servicio."
 
-#: src/plugin-service.c:1576
+#: src/plugin-service.c:1601
 msgid ""
 "We must load service before activating it (PLUGIN_ALWAYS_LOAD is set) but "
 "loading failed."
@@ -28987,15 +28991,15 @@ msgstr "Vista previa de impresión"
 msgid "Printing failed"
 msgstr "Falló la impresión"
 
-#: src/print.c:1443
+#: src/print.c:1444
 msgid "Print Sheets"
 msgstr "Imprimir hojas"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "Act_ive sheet"
 msgstr "Hoja _activa"
 
-#: src/print.c:1452
+#: src/print.c:1453
 msgid "S_heets"
 msgstr "_Hojas"
 
@@ -29325,12 +29329,12 @@ msgid "Button"
 msgstr "Botón"
 
 # FIXME: como traducir "checkbox" ?
-#: src/sheet-object-widget.c:1304
+#: src/sheet-object-widget.c:1352
 #, c-format
 msgid "CheckBox %d"
 msgstr "Casilla de verificación %d"
 
-#: src/sheet-object-widget.c:1750 src/wbcg-actions.c:1950
+#: src/sheet-object-widget.c:1807 src/wbcg-actions.c:1950
 msgid "RadioButton"
 msgstr "RadioButton"
 
@@ -29463,7 +29467,9 @@ msgstr "Ese archivo no está en la codificación dada."
 msgid ""
 "Some columns of data were dropped since they exceeded the available sheet "
 "size."
-msgstr "Algunas columnas de datos se descartaron debido a que escedían el tamaño disponible de la hoja."
+msgstr ""
+"Algunas columnas de datos se descartaron debido a que escedían el tamaño "
+"disponible de la hoja."
 
 #: src/stf.c:393
 msgid "Parse error while trying to parse data into sheet"
@@ -29477,19 +29483,19 @@ msgstr "Error al intentar exportar el archivo como texto"
 msgid "Error while trying to write CSV file"
 msgstr "Error al intentar escribir el archivo CSV"
 
-#: src/stf.c:490
+#: src/stf.c:504
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Valores separados por comas o tabuladores (CSV/TSV)"
 
-#: src/stf.c:494
+#: src/stf.c:509
 msgid "Text import (configurable)"
 msgstr "Importar texto (configurable)"
 
-#: src/stf.c:499
+#: src/stf.c:515
 msgid "Text export (configurable)"
 msgstr "Exportar texto (configurable)"
 
-#: src/stf.c:503
+#: src/stf.c:519
 msgid "Comma separated values (CSV)"
 msgstr "Valores separados por comas (CSV)"
 
@@ -29730,7 +29736,7 @@ msgid ""
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
 msgstr ""
 "/SALIDA RESUMEN//Estadísticas de regresión/R múltiple/Cuadrado R/Cuadrado R "
-"ajustado/Error estándar/Observaciones//ANOVA//Regresión/Residual/Total///"
+"ajustado/Error estándar/Observaciones//Análisis de varianza//Regresión/Residual/Total///"
 "Interceptar"
 
 #: src/tools/analysis-tools.c:3445
@@ -29813,7 +29819,7 @@ msgstr "/Grupos/Cuenta/Suma/Promediación/Varianza"
 
 #: src/tools/analysis-tools.c:4103
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
-msgstr "/ANOVA/Origen de variación/Entre grupos/Dentro de grupos/Total"
+msgstr "/Análisis de varianza/Origen de variación/Entre grupos/Dentro de grupos/Total"
 
 #: src/tools/analysis-tools.c:4109 src/tools/analysis-tools.c:4560
 #: src/tools/analysis-tools.c:4734
@@ -29823,7 +29829,7 @@ msgstr "/Suma de cuadrados/Cuadrado medio/Valor P/F crítico"
 #: src/tools/analysis-tools.c:4361
 #, c-format
 msgid "Single Factor ANOVA (%s)"
-msgstr "Factor simple ANOVA (%s)"
+msgstr "Factor simple Análisis de varianza (%s)"
 
 #: src/tools/analysis-tools.c:4372 src/tools/analysis-tools.c:5041
 msgid "Anova"
@@ -29831,7 +29837,7 @@ msgstr "Anova"
 
 #: src/tools/analysis-tools.c:4375
 msgid "Single Factor ANOVA"
-msgstr "Factor simple ANOVA"
+msgstr "Factor simple Análisis de varianza"
 
 #: src/tools/analysis-tools.c:4482
 msgid "The input range contains non-numeric data."
@@ -29847,7 +29853,7 @@ msgstr "/RESUMEN/Cuenta/Suma/Promediación/Varianza"
 
 #: src/tools/analysis-tools.c:4554
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
-msgstr "/ANOVA/Origen de variación/Filas/Columnas/Error/Total"
+msgstr "/Análisis de varianza/Origen de variación/Filas/Columnas/Error/Total"
 
 #: src/tools/analysis-tools.c:4700
 msgid "One of the factor combinations does not contain any observations!"
@@ -29864,21 +29870,21 @@ msgstr "/Cuenta/Suma/Promediación/Varianza"
 
 #: src/tools/analysis-tools.c:4726
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
-msgstr "/ANOVA/Origen de variación/Filas/Columnas/Interacción/Total"
+msgstr "/Análisis de varianza/Origen de variación/Filas/Columnas/Interacción/Total"
 
 #: src/tools/analysis-tools.c:5025
 #, c-format
 msgid "Two Factor ANOVA (%s), no replication"
-msgstr "ANOVA de dos factores (%s), sin replicación"
+msgstr "Análisis de varianza de dos factores (%s), sin replicación"
 
 #: src/tools/analysis-tools.c:5026
 #, c-format
 msgid "Two Factor ANOVA (%s),  with replication"
-msgstr "ANOVA de dos factores (%s),  con replicación"
+msgstr "Análisis de varianza de dos factores (%s),  con replicación"
 
 #: src/tools/analysis-tools.c:5044
 msgid "Two Factor ANOVA"
-msgstr "ANOVA de dos factores"
+msgstr "Análisis de varianza de dos factores"
 
 #: src/tools/analysis-tools.c:5225
 #, c-format
@@ -30459,19 +30465,21 @@ msgstr "Los modelo EqualTo no se soportan aún. Use Min o Max"
 msgid ""
 "Failure setting automatic scaling with this solver, try a different "
 "algorithm."
-msgstr ""
+msgstr "Fallo al establecer la escala automática con este resolvedor, intente un algoritmo diferente."
 
 #: src/tools/solver/solver.c:484
 msgid ""
 "Failure setting the maximum number of iterations with this solver, try a "
 "different algorithm."
-msgstr "Fallo al establecer el número máximo de iteraciones con este resolvedor, intente un algoritmo diferente."
+msgstr ""
+"Fallo al establecer el número máximo de iteraciones con este resolvedor, "
+"intente un algoritmo diferente."
 
 #: src/tools/solver/solver.c:490
 msgid ""
 "Failure setting setting the maximum solving time with this solver, try a "
 "different algorithm."
-msgstr ""
+msgstr "Fallo al establecer el tiempo máximo de resolución  con este resolvedor, intente un algoritmo diferente."
 
 #: src/tools/solver/solver.c:536
 msgid ""
@@ -30785,7 +30793,7 @@ msgstr "Anál_isis estadístico"
 
 #: src/wbcg-actions.c:1452
 msgid "_ANOVA"
-msgstr "_ANOVA"
+msgstr "_Análisis de varianza"
 
 #: src/wbcg-actions.c:1453
 msgid "F_orecast"
@@ -33507,11 +33515,6 @@ msgstr "Formato de archivo no soportado."
 msgid "An unexplained error happened while opening %s"
 msgstr "Ocurrió un error no explicado mientras se abría %s"
 
-#: src/xml-io.c:2770
-#, c-format
-msgid "Unsupported object type '%s'"
-msgstr "Tipo de objeto no soportado «%s»."
-
 #: src/xml-io.c:3473
 msgid "Unparsable xml in clipboard"
 msgstr "No se puede procesar el texto XML del portapapeles"
@@ -33535,7 +33538,7 @@ msgstr "El archivo no es un Libro de Cuentas Gnumeric"
 msgid "Failure saving file"
 msgstr "Ha ocurrido un error al guardar el archivo"
 
-#: src/xml-io.c:4329
+#: src/xml-io.c:4332
 msgid "Gnumeric XML (*.gnumeric) original slow exporter"
 msgstr "Exportador lento original de gnumeric XML (*.gnumeric)"
 
