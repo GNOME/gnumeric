@@ -1,3 +1,8 @@
+2004-11-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.c (gnm_gconf_set_default_font_name): avoid 
+	  warning
+
 2004-11-02  Stepan Kasal  <kasal@ucw.cz>
 
 	* src/ssconvert.c (main): Don't call gsf_init(); gnm_common_init

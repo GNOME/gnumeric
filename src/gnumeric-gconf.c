@@ -940,8 +940,10 @@ gnm_gconf_set_default_font_name (char const *str)
 {
 	g_return_if_fail (str != NULL);
 
+	/* the const_casts are ok, the const in the header is just to keep
+	 * people for doing stupid things */
 	if (prefs.default_font.name != NULL)
-		g_free (prefs.default_font.name);
+		g_free ((char *) prefs.default_font.name);
 	prefs.default_font.name = g_strdup (str);
 	go_conf_set_string (GNM_CONF_FONT_NAME, str);
 }
