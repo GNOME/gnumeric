@@ -1,3 +1,7 @@
+2002-03-14  Jody Goldberg <jody@gnome.org>
+
+	* ms-obj.c (ms_obj_read_pre_biff8_obj) : There has not been an error.
+
 2002-03-09  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.5
