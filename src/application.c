@@ -101,6 +101,7 @@ typedef struct
 	GList           *history_list;
 
 	gboolean         edit_auto_complete;
+	gboolean         live_scrolling;
 	int         	 auto_expr_recalc_lag;
 } GnumericApplication;
 
@@ -233,7 +234,8 @@ application_init (void)
 	gnome_config_pop_prefix ();
 
 	gnome_config_push_prefix ("Gnumeric/Editing/");
-	app.edit_auto_complete = gnome_config_get_bool ("AutoComplete=true");
+	app.edit_auto_complete	= gnome_config_get_bool ("AutoComplete=true");
+	app.live_scrolling	= gnome_config_get_bool ("LiveScrolling=true");
 
 	/* If positive auto expressions are recalculated within <lag>
 	 * millesecond after a change.
@@ -663,20 +665,6 @@ application_history_write_config (void)
 	app.history_list = NULL;
 }
 
-gboolean
-application_use_auto_complete_get (void)
-{
-	return app.edit_auto_complete;
-}
-
-int
-application_auto_expr_recalc_lag (void)
-{
-	return app.auto_expr_recalc_lag;
-}
-
-void
-application_use_auto_complete_set (gboolean use_auto_complete)
-{
-	app.edit_auto_complete = use_auto_complete;
-}
+gboolean application_use_auto_complete	  (void) { return app.edit_auto_complete; }
+gboolean application_live_scrolling	  (void) { return app.live_scrolling; }
+int	 application_auto_expr_recalc_lag (void) { return app.auto_expr_recalc_lag; }

@@ -1,5 +1,10 @@
 2001-05-14  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet-control-gui.c (vertical_scroll_offset_changed) : reinstate
+	  this and optionally support delayed scrolling.
+	(horizontal_scroll_offset_changed) : ditto.
+	(scg_construct) : reinstate.
+
 	* src/expr.c (cellref_boundingbox) : new function.
 	(expr_tree_boundingbox) : implement.
 

@@ -268,7 +268,7 @@ entry_changed (GtkEntry *entry, void *data)
 	    !isalpha((unsigned char)*text))
 		wbcg->auto_completing = FALSE;
 
-	if (application_use_auto_complete_get () && wbcg->auto_completing)
+	if (application_use_auto_complete () && wbcg->auto_completing)
 		complete_start (wbcg->auto_complete, text);
 }
 
@@ -347,7 +347,7 @@ workbook_start_editing_at_cursor (WorkbookControlGUI *wbcg,
 	sheet_redraw_cell_region (sheet, col, row, col, row);
 
 	/* Activate auto-completion if this is not an expression */
-	if (application_use_auto_complete_get () &&
+	if (application_use_auto_complete () &&
 	    (text == NULL || isalpha((unsigned char)*text))) {
 		wbcg->auto_complete = complete_sheet_new (
 			sheet, col, row,

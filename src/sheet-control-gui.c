@@ -480,19 +480,39 @@ button_select_all (GtkWidget *the_button, SheetControlGUI *scg)
 }
 
 static void
-vertical_value_changed (GtkAdjustment *adj, SheetControlGUI *scg)
+vertical_scroll_offset_changed (GtkAdjustment *adj, int top, int is_hint,
+				SheetControlGUI *scg)
 {
 	GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
 
-	gnumeric_sheet_set_top_row (gsheet, adj->value);
+	if (application_live_scrolling ())
+		gnumeric_sheet_set_top_row (gsheet, top);
+	else if (is_hint) {
+		char *buffer = g_strdup_printf (_("Row: %d"), top + 1);
+		wb_control_gui_set_status_text (scg->wbcg, buffer);
+		g_free (buffer);
+	} else {
+		wb_control_gui_set_status_text (scg->wbcg, "");
+		gnumeric_sheet_set_top_row (gsheet, top);
+	}
 }
 
 static void
-horizontal_value_changed (GtkAdjustment *adj, SheetControlGUI *scg)
+horizontal_scroll_offset_changed (GtkAdjustment *adj, int left, int is_hint,
+				  SheetControlGUI *scg)
 {
 	GnumericSheet  *gsheet = GNUMERIC_SHEET (scg->canvas);
 
-	gnumeric_sheet_set_left_col (gsheet, adj->value);
+	if (application_live_scrolling ())
+		gnumeric_sheet_set_left_col (gsheet, left);
+	else if (is_hint) {
+		char *buffer = g_strdup_printf (_("Column: %s"), col_name (left));
+		wb_control_gui_set_status_text (scg->wbcg, buffer);
+		g_free (buffer);
+	} else {
+		wb_control_gui_set_status_text (scg->wbcg, "");
+		gnumeric_sheet_set_left_col (gsheet, left);
+	}
 }
 
 static void
@@ -561,13 +581,13 @@ scg_construct (SheetControlGUI *scg)
 	/* Scroll bars and their adjustments */
 	scg->va = gtk_adjustment_new (0., 0., sheet->rows.max_used, 1., 1., 1.);
 	scg->ha = gtk_adjustment_new (0., 0., sheet->cols.max_used, 1., 1., 1.);
-	scg->hs = gtk_hscrollbar_new (GTK_ADJUSTMENT (scg->ha));
-	scg->vs = gtk_vscrollbar_new (GTK_ADJUSTMENT (scg->va));
-	gtk_signal_connect (GTK_OBJECT (scg->ha), "value_changed",
-			    GTK_SIGNAL_FUNC (horizontal_value_changed),
+	scg->vs = gnumeric_vscrollbar_new (GTK_ADJUSTMENT (scg->va));
+	scg->hs = gnumeric_hscrollbar_new (GTK_ADJUSTMENT (scg->ha));
+	gtk_signal_connect (GTK_OBJECT (scg->vs), "offset_changed",
+			    GTK_SIGNAL_FUNC (vertical_scroll_offset_changed),
 			    scg);
-	gtk_signal_connect (GTK_OBJECT (scg->va), "value_changed",
-			    GTK_SIGNAL_FUNC (vertical_value_changed),
+	gtk_signal_connect (GTK_OBJECT (scg->hs), "offset_changed",
+			    GTK_SIGNAL_FUNC (horizontal_scroll_offset_changed),
 			    scg);
 
 	gtk_table_attach (outer_table, GTK_WIDGET (table),	0, 1, 0, 1,

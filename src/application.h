@@ -38,9 +38,8 @@ double	     application_display_dpi_get (gboolean horizontal);
 void 	     application_display_dpi_set (gboolean horizontal, double);
 double	     application_dpi_to_pixels (void);
 
-gboolean     application_use_auto_complete_get (void);
-void         application_use_auto_complete_set (gboolean use_auto_complete);
-
-int	     application_auto_expr_recalc_lag  (void);
+gboolean     application_use_auto_complete    (void);
+gboolean     application_live_scrolling	      (void);
+int	     application_auto_expr_recalc_lag (void);
 
 #endif /* GNUMERIC_APPLICATION_H */
