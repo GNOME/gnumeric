@@ -635,6 +635,8 @@ static const char *help_convert = {
 	   "\t'gal'  \t\tGallon\n"
 	   "\t'l'    \t\tLiter\n\n"
 	   "For metric units any of the following prefixes can be used:\n"
+	   "\t'Y'  \tyotta \t1E+24\n"
+	   "\t'Z'  \tzetta \t1E+21\n"
 	   "\t'E'  \texa   \t1E+18\n"
 	   "\t'P'  \tpeta  \t1E+15\n"
 	   "\t'T'  \ttera  \t\t1E+12\n"
@@ -651,6 +653,8 @@ static const char *help_convert = {
 	   "\t'p'  \tpico  \t1E-12\n"
 	   "\t'f'  \tfemto \t1E-15\n"
 	   "\t'a'  \tatto  \t\t1E-18\n"
+	   "\t'z'  \tzepto \t\t1E-21\n"
+	   "\t'y'  \tyocto \t\t1E-24\n"
 	   "\n"
 	   "* If @from_unit and @to_unit are different types, CONVERT returns "
 	   "#NUM! error.\n"
@@ -701,6 +705,8 @@ get_constant_of_unit(const eng_convert_unit_t units[],
 
 	return 0;
 }
+
+/* See also http://physics.nist.gov/cuu/Units/prefixes.html */
 
 static Value *
 convert (const eng_convert_unit_t units[],
@@ -789,6 +795,8 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	#define one_tsp_to_l    0.004929994
 
 	/* Prefixes */
+	#define yotta  GNUM_const (1e+24)
+	#define zetta  GNUM_const (1e+21)
 	#define exa    GNUM_const (1e+18)
 	#define peta   GNUM_const (1e+15)
 	#define tera   GNUM_const (1e+12)
@@ -805,6 +813,8 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	#define pico   GNUM_const (1e-12)
 	#define femto  GNUM_const (1e-15)
 	#define atto   GNUM_const (1e-18)
+	#define zepto  GNUM_const (1e-21)
+	#define yocto  GNUM_const (1e-24)
 
 	static const eng_convert_unit_t weight_units[] = {
 	        { "g",    1.0 },
@@ -888,6 +898,8 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	};
 
 	static const eng_convert_unit_t prefixes[] = {
+	        { "Y", yotta },
+	        { "Z", zetta },
 	        { "E", exa },
 	        { "P", peta },
 	        { "T", tera },
@@ -904,6 +916,8 @@ gnumeric_convert (FunctionEvalInfo *ei, Value **argv)
 	        { "p", pico },
 	        { "f", femto },
 	        { "a", atto },
+	        { "z", zepto },
+	        { "y", yocto },
 		{ NULL,0.0 }
 	};
 

@@ -2,7 +2,7 @@
 
 	* functions.c (gnumeric_convert): Improve precision and derive
 	some factors from others.
-	* functions.c (gnumeric_convert): It's "deka", not "dekao".
+	(gnumeric_convert): It's "deka", not "dekao".  Add more prefixes.
 
 2002-10-14  Morten Welinder  <terra@diku.dk>
 
