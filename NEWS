@@ -18,6 +18,9 @@ Jody:
 	* Rework sheetname quoting (Good idea Andreas)
 	* Support multiple expressions in the parser and clean up
 	  expression lists.
+	* Memory error when parsing names.
+	* Fix xml storage of parse position for names.
+	* sync print code with draw code for merges.
 
 --------------------------------------------------------------------------
 Gnumeric 0.76
