@@ -516,7 +516,7 @@ add_worksheet(Workbook *wb, psiconv_sheet_worksheet psi_worksheet,int nr,
 	/* Default layout */
 	default_style = mstyle_new_default();
 	if (!default_style) {
-		sheet_destroy(sheet);
+		g_object_unref (sheet);
 		return;
 	}
 	set_layout(default_style,psi_worksheet->default_layout);

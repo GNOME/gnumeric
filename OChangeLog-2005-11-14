@@ -1,5 +1,12 @@
 2005-03-14  Morten Welinder  <terra@gnome.org>
 
+	* src/sheet.c (sheet_finalize): New function, split out from
+	sheet_destroy.
+	(sheet_destroy): Just unref objects we hold refs for, i.e., no
+	longer finalize.  All callers changed to unref sheet also.
+	(gnm_sheet_class_init): Install sheet_finalize.  Define
+	detached_from_workbook signal.
+
 	* src/workbook-control-gui.c (wbcg_validation_msg): Fix arg order
 	of go_gtk_dialog_run call.
 

@@ -14,9 +14,7 @@ typedef enum {
 } GnmSheetType;
 
 struct _Sheet {
-	GObject	base; /* not really used yet */
-
-	int         signature;
+	GObject	base;
 
 	int         index_in_wb;
 	Workbook    *workbook;
@@ -82,8 +80,11 @@ struct _Sheet {
 	PangoContext *context;
 };
 
-#define SHEET_SIGNATURE 0x12349876
-#define IS_SHEET(x) (((x) != NULL) && ((x)->signature == SHEET_SIGNATURE))
+#define GNM_SHEET_TYPE	(gnm_sheet_get_type ())
+#define SHEET(obj)     (G_TYPE_CHECK_INSTANCE_CAST ((obj), GNM_SHEET_TYPE, Sheet))
+#define IS_SHEET(o)    (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_SHEET_TYPE))
+#define GNM_SHEET_CLASS(k) (G_TYPE_CHECK_CLASS_CAST ((k), GNM_SHEET_TYPE, GnmSheetClass))
+GType     gnm_sheet_get_type	 (void);
 
 Sheet    *sheet_new		 (Workbook *wb, char const *name);
 Sheet    *sheet_new_with_type	 (Workbook *wb, char const *name,

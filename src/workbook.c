@@ -1070,8 +1070,11 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet, gboolean recalc)
 	workbook_sheet_index_update (wb, sheet_index);
 	sheet->index_in_wb = -1;
 	g_hash_table_remove (wb->sheet_hash_private, sheet->name_case_insensitive);
-	sheet_destroy (sheet);
 	post_sheet_index_change (wb);
+
+	g_signal_emit_by_name (G_OBJECT (sheet), "detached_from_workbook", wb);
+	sheet_destroy (sheet);
+	g_object_unref (sheet);
 
 	if (recalc && still_visible_sheets)
 		workbook_recalc_all (wb);

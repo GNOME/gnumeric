@@ -283,7 +283,7 @@ gplp_func_file_open (GOFileOpener const *fo,
 	} else {
 		gnumeric_io_error_string (io_context, py_exc_to_string ());
 		gnm_python_clear_error_if_needed (SERVICE_GET_LOADER (service)->py_object);
-		sheet_destroy (sheet);
+		g_object_unref (sheet);
 	}
 }
 
@@ -846,4 +846,3 @@ gnm_python_loader_register (GOPlugin *plugin)
 		GSF_INTERFACE_FULL (gnm_python_loader_type, go_plugin_loader_init, GO_PLUGIN_LOADER_TYPE),
 		G_TYPE_MODULE (plugin), gnm_python_loader_type);
 }
-

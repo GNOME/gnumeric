@@ -66,8 +66,23 @@
 #include <stdlib.h>
 #include <string.h>
 
-/* quick and simple */
-typedef GObjectClass SheetClass;
+enum {
+	DETACHED_FROM_WORKBOOK,
+	LAST_SIGNAL
+};
+
+static guint signals [LAST_SIGNAL] = { 0 };
+
+typedef struct {
+	GObjectClass parent;
+
+	void (*detached_from_workbook) (Sheet *, Workbook *wb);
+} GnmSheetClass;
+typedef Sheet GnmSheet;
+
+static void sheet_finalize (GObject *obj);
+
+static GObjectClass *parent_class;
 
 static void
 gnm_sheet_set_property (GObject *obj, guint param_id,
@@ -96,16 +111,29 @@ gnm_sheet_init (Sheet *sheet)
 static void
 gnm_sheet_class_init (GObjectClass *gobject_class)
 {
+	parent_class = g_type_class_peek_parent (gobject_class);
+
 	gobject_class->set_property	= gnm_sheet_set_property;
 	gobject_class->get_property	= gnm_sheet_get_property;
+	gobject_class->finalize         = sheet_finalize;
 #if 0
         g_object_class_install_property (gobject_class, GNM_SHEET_PROP_LTR,
 		g_param_spec_boolean ("text-is-ltr", "text-is-ltr",
 			"Text goes from right to left",
 			TRUE, G_PARAM_READWRITE ));
 #endif
+	signals[DETACHED_FROM_WORKBOOK] = g_signal_new
+		("detached_from_workbook",
+		 GNM_SHEET_TYPE,
+		 G_SIGNAL_RUN_LAST,
+		 G_STRUCT_OFFSET (GnmSheetClass, detached_from_workbook),
+		 NULL, NULL,
+		 g_cclosure_marshal_VOID__OBJECT,
+		 G_TYPE_NONE, 1, WORKBOOK_TYPE);
+
 }
-static GSF_CLASS (Sheet, gnm_sheet,
+
+GSF_CLASS (GnmSheet, gnm_sheet,
 	   gnm_sheet_class_init, gnm_sheet_init, G_TYPE_OBJECT)
 
 void
@@ -208,7 +236,6 @@ sheet_new_with_type (Workbook *wb, char const *name, GnmSheetType type)
 
 	range_init_full_sheet (&sheet->priv->unhidden_region);
 
-	sheet->signature = SHEET_SIGNATURE;
 	sheet->index_in_wb = -1;
 	sheet->workbook = wb;
 	sheet->name_unquoted = g_strdup (name);
@@ -2768,7 +2795,8 @@ sheet_destroy_contents (Sheet *sheet)
  * sheet_destroy:
  * @sheet: the sheet to destroy
  *
- * Destroys a Sheet.
+ * Destroys a Sheet.  You will still need to unref after calling this
+ * function.
  *
  * Please note that you need to detach this sheet before
  * calling this routine or you will get a warning.
@@ -2807,6 +2835,28 @@ sheet_destroy (Sheet *sheet)
 			g_warning ("There is a problem with sheet objects");
 	}
 
+	if (sheet->tab_color != NULL) {
+		style_color_unref (sheet->tab_color);
+		sheet->tab_color = NULL;
+	}
+
+	if (sheet->tab_text_color != NULL) {
+		style_color_unref (sheet->tab_text_color);
+		sheet->tab_text_color = NULL;
+	}
+
+	/* Clear the cliboard to avoid dangling references to the deleted sheet */
+	if (sheet == gnm_app_clipboard_sheet_get ())
+		gnm_app_clipboard_clear (TRUE);
+}
+
+static void
+sheet_finalize (GObject *obj)
+{
+	Sheet *sheet = SHEET (obj);
+
+	sheet_destroy (sheet);
+
 	solver_param_destroy (sheet->solver_parameters);
 	scenario_free_all (sheet->scenarios);
 
@@ -2820,19 +2870,10 @@ sheet_destroy (Sheet *sheet)
 		g_warning ("Merged hash should be NULL");
 	}
 
-	/* Clear the cliboard to avoid dangling references to the deleted sheet */
-	if (sheet == gnm_app_clipboard_sheet_get ())
-		gnm_app_clipboard_clear (TRUE);
-
 	sheet_style_shutdown (sheet);
 
-	if (sheet->tab_color != NULL)
-		style_color_unref (sheet->tab_color);
-	if (sheet->tab_text_color != NULL)
-		style_color_unref (sheet->tab_text_color);
 	if (sheet->context)
 		g_object_unref (G_OBJECT (sheet->context));
-	sheet->signature = 0;
 
 	(void) g_idle_remove_by_data (sheet);
 
@@ -2841,7 +2882,8 @@ sheet_destroy (Sheet *sheet)
 	g_free (sheet->name_unquoted_collate_key);
 	g_free (sheet->name_case_insensitive);
 	g_free (sheet->priv);
-	g_object_unref (sheet);
+	
+	G_OBJECT_CLASS (parent_class)->finalize (obj);
 }
 
 /*****************************************************************************/
