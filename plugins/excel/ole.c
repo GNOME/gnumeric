@@ -14,7 +14,6 @@
 
 #include "ms-ole.h"
 #include "ms-ole-summary.h"
-#include "ms-biff.h"
 
 #define BIFF_TYPES_FILE    "biff-types.h"
 
@@ -235,6 +234,64 @@ do_dump (MsOle *ole)
 	else
 		printf ("Failed read\n");
 	ms_ole_stream_close (&stream);
+}
+
+/* 
+ * This is a massively cut down version ...
+ */
+typedef struct {
+	guint16  opcode;
+	guint32  length;        /* NB. can be extended by a continue opcode */
+	guint8  *data;
+	guint32  streamPos;
+	MsOleStream *pos;
+} BiffQuery;
+
+static BiffQuery *
+ms_biff_query_new (MsOleStream *ptr)
+{
+	BiffQuery *bq   ;
+	if (!ptr)
+		return 0;
+	bq = g_new0 (BiffQuery, 1);
+	bq->opcode = 0;
+	bq->length = 0;
+	bq->pos    = ptr;
+	return bq;
+}
+
+static int
+ms_biff_query_next (BiffQuery *bq)
+{
+	guint8  tmp[4];
+	int ans=1;
+
+	if (!bq || bq->pos->position >= bq->pos->size)
+		return 0;
+	if (bq->data)
+		g_free (bq->data);
+
+	bq->streamPos = bq->pos->position;
+	if (!bq->pos->read_copy (bq->pos, tmp, 4))
+		return 0;
+	bq->opcode = MS_OLE_GET_GUINT16 (tmp);
+	bq->length = MS_OLE_GET_GUINT16 (tmp+2);
+
+	if (bq->length > 0) {
+		bq->data = g_new0 (guint8, bq->length);
+		if (!bq->pos->read_copy(bq->pos, bq->data, bq->length)) {
+			ans = 0;
+			g_free (bq->data);
+			bq->length = 0;
+		}
+	}
+
+	if (!bq->length) {
+		bq->data = NULL;
+		return 1;
+	}
+
+	return (ans);
 }
 
 static void
