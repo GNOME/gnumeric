@@ -1505,7 +1505,7 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 
 		{ N_("Clear Co_ntents"),NULL,
 		    0, 0, CONTEXT_CLEAR_CONTENT },
-		{ N_("_Add / Modify comment..."),"Gnumeric_CommentEdit",
+		{ N_("Edit Co_mment..."),"Gnumeric_CommentEdit",
 		    0, 0, CONTEXT_COMMENT_EDIT },
 
 		/* TODO : Add the comment modification elements */

@@ -206,6 +206,11 @@
 		_label="_Delete..."
 		_tip="Remove selected cells, shifting others into their place"/>
 
+	    <menuitem name="InsertComment" verb=""
+		pixtype="stock" pixname="Gnumeric_CommentEdit"
+		_label="Co_mment..."
+		_tip="Edit the selected cell's comment"/>
+
 	    <separator/>
 
 	    <submenu name="EditSheet" _label="S_heet">
@@ -376,11 +381,6 @@
 		    _tip="Edit sheet and workbook names"
 		    accel="*Control*F3"/>
 	    </submenu>
-
-	    <menuitem name="InsertComment" verb=""
-		pixtype="stock" pixname="Gnumeric_CommentEdit"
-		_label="_Add / Modify comment..."
-		_tip="Edit the selected cell's comment"/>
 
 	    <menuitem name="InsertHyperlink" verb=""
 		pixtype="stock" pixname="Gnumeric_Link_Add"

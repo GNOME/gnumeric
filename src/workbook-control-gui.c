@@ -3518,6 +3518,11 @@ static GnomeUIInfo workbook_menu_edit [] = {
 	GNOMEUIINFO_ITEM_NONE (N_("_Delete..."),
 		N_("Remove selected cells, shifting other into their place"),
 		cb_edit_delete),
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Co_mment..."),
+		N_("Edit the selected cell's comment"),
+		cb_insert_comment, "Gnumeric_CommentEdit"),
+
 	GNOMEUIINFO_SEPARATOR,
 
 	GNOMEUIINFO_SUBTREE(N_("S_heet"), workbook_menu_edit_sheet),
@@ -3626,10 +3631,6 @@ static GnomeUIInfo workbook_menu_insert [] = {
 		cb_formula_guru, "Gnumeric_FormulaGuru"),
 
 	GNOMEUIINFO_SUBTREE(N_("_Name"), workbook_menu_names),
-
-	GNOMEUIINFO_ITEM_STOCK (N_("_Add / Modify comment..."),
-		N_("Edit the selected cell's comment"),
-		cb_insert_comment, "Gnumeric_CommentEdit"),
 
 	{ GNOME_APP_UI_ITEM, N_("Hyper_link..."),
 	  N_("Insert a Hyperlink"),
