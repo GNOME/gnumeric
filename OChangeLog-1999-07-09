@@ -1,3 +1,27 @@
+1999-05-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/utils.c (parse_cell_name): Return false if the cell name is
+	outside the boundaries of the spreadsheet.
+
+	* src/corba-sheet.c (Sheet_range_set_text): Implement.
+	(Sheet_range_set_formula): Implement.
+	(Sheet_range_set_format): Implement.
+
+	* src/ranges.c (range_parse, range_list_parse, range_list_destroy,
+	range_list_foreach_full, range_list_foreach_all,
+	range_list_foreach, range_set_style): New functions.  Used by the
+	corba-sheet code.
+
+	* src/corba-sheet.c (Sheet_range_get_values): Implement
+	vector-based result return.
+
+	* src/xml-io.c (xmlSetGnomeCanvasPoints): use g_malloc instead of alloc.
+
+	* src/dialog-solver.c (constr_add_click): Use g_malloc instead of
+	alloc.  Use g_new instead of malloc.
+
+	* src/utils.c (parse_cell_name_list): Add parameter checking.  Use Migueestyle.
+
 1999-05-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/corba-workbook.c (Workbook_corba_class_init): Make it work

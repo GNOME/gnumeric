@@ -268,7 +268,7 @@ xmlSetGnomeCanvasPoints (xmlNodePtr node, const char *name,
 		return;
 	if ((val->num_points < 0) || (val->num_points > 5000))
 		return;
-	base = str = malloc (val->num_points * 30 * sizeof (char));
+	base = str = g_malloc (val->num_points * 30 * sizeof (char));
 	if (str == NULL)
 		return;
 	for (i = 0; i < val->num_points; i++){
@@ -286,7 +286,7 @@ xmlSetGnomeCanvasPoints (xmlNodePtr node, const char *name,
 		child = child->next;
 	}
 	xmlNewChild (node, NULL, name, xmlEncodeEntities(node->doc, base));
-	free (base);
+	g_free (base);
 }
 
 
@@ -770,18 +770,16 @@ writeXmlStyleBorder (parseXmlContextPtr ctxt, StyleBorder *border)
 	for (lp = 3; lp >= 0; lp--)
 		if (border->type [lp] != BORDER_NONE)
 			break;
-	if (lp<0)
+	if (lp < 0)
 		return NULL;
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "StyleBorder", NULL);
 	
-	for (lp=0;lp<4;lp++)
- 	{
- 		if (border->type[lp] != BORDER_NONE)
- 		{
- 			side = xmlNewChild (cur, ctxt->ns, StyleSideNames[lp],
- 					    BorderTypes[border->type[lp]]);
- 			xmlSetColorValue (side, "Color", border->color[lp]);
+	for (lp = 0; lp < 4; lp++){
+ 		if (border->type[lp] != BORDER_NONE){
+ 			side = xmlNewChild (cur, ctxt->ns, StyleSideNames [lp],
+ 					    BorderTypes [border->type [lp]]);
+ 			xmlSetColorValue (side, "Color", border->color [lp]);
  		}
 	}
 	return cur;

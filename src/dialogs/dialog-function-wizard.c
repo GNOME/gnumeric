@@ -87,8 +87,10 @@ arg_data_list_new (State *state)
 	type = state->fd->args;
 	if (!type){
 		int lp;
-		for (lp=0;lp<INPUTS_FOR_MULTI_ARG;lp++){
+		
+		for (lp = 0; lp < INPUTS_FOR_MULTI_ARG; lp++){
 			ARG_DATA *ad;
+
 			ad = g_new (ARG_DATA, 1);
 			ad->arg_name = g_strdup ("Value");
 			ad->wb = state->wb;
@@ -109,15 +111,16 @@ arg_data_list_new (State *state)
 
 	ptr = copy_args;
 	while (*ptr){
-		if (*ptr=='(' && !start)
+		if (*ptr == '(' && !start)
 			start = ptr+1;
-		if (*ptr=='[' || *ptr==']'){
+		if (*ptr == '[' || *ptr == ']'){
 			*ptr = '\0';
-			if (start == ptr) start++;
+			if (start == ptr)
+				start++;
 			ptr++;
 			continue;
 		}
-		if (*ptr==',' || *ptr==')'){
+		if (*ptr == ',' || *ptr == ')'){
 			if (*type=='|'){
 				type++;
 				optional = 1;
@@ -148,11 +151,15 @@ arg_data_list_destroy (State *state)
 	int lp;
 	GPtrArray *pa;
 
-	if (!state) return;
+	if (!state)
+		return;
 	pa = state->args;
-	if (!pa) return;
-	for (lp=0;lp<pa->len;lp++){
+	if (!pa)
+		return;
+
+	for (lp = 0; lp < pa->len; lp++){
 		ARG_DATA *ad;
+
 		ad = g_ptr_array_index (pa, 0);
 		g_free (ad->arg_name);
 		g_free (ad);
@@ -168,9 +175,12 @@ function_input (GtkWidget *widget, ARG_DATA *ad)
 	gchar *txt;
 	int pos;
 
-	if (!fd) return;
+	if (!fd)
+		return;
 	txt = dialog_function_wizard (ad->wb, fd);
-       	if (!txt || !ad->wb || !ad->wb->ea_input) return;
+
+       	if (!txt || !ad->wb || !ad->wb->ea_input)
+		return;
 	
 	pos = gtk_editable_get_position (GTK_EDITABLE(entry));
 
@@ -256,10 +266,11 @@ function_wizard_create (State *state)
 	g_return_if_fail (state->args);
 	vbox = gtk_vbox_new (0, 2);
 
-	for (lp=0;lp<state->args->len;lp++){
-		GtkWidget *widg;
-		widg = function_type_input (g_ptr_array_index (state->args, lp));
-		gtk_box_pack_start (state->dialog_box, widg,
+	for (lp = 0; lp < state->args->len; lp++){
+		GtkWidget *widget;
+
+		widget = function_type_input (g_ptr_array_index (state->args, lp));
+		gtk_box_pack_start (state->dialog_box, widget,
 				    FALSE, FALSE, 0);
 	}
 
@@ -284,10 +295,12 @@ get_text_value (State *state)
 	g_return_val_if_fail (state->args, NULL);
 
 	txt = g_strconcat (state->fd->name, "(", NULL);
-	for (lp=0;lp<state->args->len;lp++){
+
+	for (lp = 0; lp < state->args->len; lp++){
 		int comma;
 		ARG_DATA *ad = g_ptr_array_index (state->args, lp);
 		gchar *val = gtk_entry_get_text (ad->entry);
+
 		if (!ad->optional || strlen(val)){
 			txt2 = txt;
 			txt = g_strconcat (txt2, lp?",":"", val, NULL);

@@ -112,6 +112,8 @@ GNUMERIC_BASE_SOURCES =				\
 	plugin.c				\
 	plugin.h				\
 	plugin-manager.c			\
+	ranges.c				\
+	ranges.h				\
 	render-ascii.c				\
 	render-ascii.h				\
 	sheet.c					\

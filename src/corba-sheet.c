@@ -13,6 +13,7 @@
 #include "Gnumeric.h"
 #include "corba.h"
 #include "utils.h"
+#include "ranges.h"
 
 #define verify(cond)          if (!(cond)){ out_of_range (ev); return; }
 #define verify_val(cond,val)  if (!(cond)){ out_of_range (ev); return (val); }
@@ -24,6 +25,12 @@
 	verify_col(c1); verify_col(c2); verify_row(r1); verify_row(r2); \
 	verify(c1 <= c2);\
 	verify (r1 <= r2);
+
+#define verify_range(sheet,range,l) \
+        if (!corba_range_parse (sheet,range,l)) { out_of_range (ev); return; }
+
+#define verify_range_val(sheet,range,l,val) \
+        if (!corba_range_parse (sheet,range,l)) { out_of_range (ev); return (val); }
 
 static POA_GNOME_Gnumeric_Sheet__vepv gnome_gnumeric_sheet_vepv;
 static POA_GNOME_Gnumeric_Sheet__epv gnome_gnumeric_sheet_epv;
@@ -37,6 +44,28 @@ static void
 out_of_range (CORBA_Environment *ev)
 {
 	CORBA_exception_set (ev, CORBA_USER_EXCEPTION, ex_GNOME_Gnumeric_Sheet_OutOfRange, NULL);
+}
+
+/*
+ * Parses a list of ranges, returns a GList containing pointers to
+ * Value structures.  Sets the return_list pointer to point to a
+ * a listof those values.
+ *
+ * Returns TRUE on successfully parsing the string, FALSE otherwise
+ */
+static gboolean
+corba_range_parse (Sheet *sheet, const char *range_spec, GSList **return_list)
+{
+	GSList *list;
+	
+	list = range_list_parse (sheet, range_spec);
+	if (list){
+		*return_list = list;
+		return TRUE;
+	} else {
+		*return_list = NULL;
+		return FALSE;
+	}
 }
 
 static inline Sheet *
@@ -263,6 +292,7 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 	}
 		
 	case GNOME_Gnumeric_VALUE_ARRAY:
+		v = NULL;
 		g_error ("FIXME: Implement me");
 		break;
 
@@ -274,20 +304,14 @@ Sheet_cell_set_value (PortableServer_Servant servant,
 	cell_set_value (cell, v);
 }
 
-static GNOME_Gnumeric_Value *
-Sheet_cell_get_value (PortableServer_Servant servant,
-		      const CORBA_long col, const CORBA_long row,
-		      CORBA_Environment * ev)
+static void
+fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, CORBA_long row)
 {
-	Sheet *sheet = sheet_from_servant (servant);
-	GNOME_Gnumeric_Value *value;
 	Cell *cell;
-	
-	verify_col_val (col, NULL);
-	verify_row_val (row, NULL);
 
-	value = GNOME_Gnumeric_Value__alloc ();
-	
+	g_assert (value != NULL);
+	g_assert (sheet != NULL);
+
 	cell = sheet_cell_get (sheet, col, row);
 	if (cell && cell->value){
 		switch (cell->value->type){
@@ -328,6 +352,22 @@ Sheet_cell_get_value (PortableServer_Servant servant,
 		value->_u.v_int = 0;
 	}
 
+}
+
+static GNOME_Gnumeric_Value *
+Sheet_cell_get_value (PortableServer_Servant servant,
+		      const CORBA_long col, const CORBA_long row,
+		      CORBA_Environment * ev)
+{
+	Sheet *sheet = sheet_from_servant (servant);
+	GNOME_Gnumeric_Value *value;
+	
+	verify_col_val (col, NULL);
+	verify_row_val (row, NULL);
+
+	value = GNOME_Gnumeric_Value__alloc ();
+
+	fill_corba_value (value, sheet, col, row);
 	return value;
 }
 
@@ -804,6 +844,146 @@ Sheet_shift_cols (PortableServer_Servant servant,
 	sheet_shift_cols (sheet, col, start_row, end_row, count);
 }
 
+static GNOME_Gnumeric_Sheet_ValueVector *
+Sheet_range_get_values (PortableServer_Servant servant, const CORBA_char *range, CORBA_Environment *ev)
+{
+	GNOME_Gnumeric_Sheet_ValueVector *vector;
+	Sheet *sheet = sheet_from_servant (servant);
+	GSList *ranges, *l;
+	int size, i;
+	
+	verify_range_val (sheet, range, &ranges, NULL);
+
+	/*
+	 * Find out how big is the array we need to return
+	 */
+	size = 0;
+	for (l = ranges; l; l = l->next){
+		Value *value = l->data;
+		CellRef a, b;
+		int cols, rows;
+		
+		g_assert (value->type == VALUE_CELLRANGE);
+
+		a = value->v.cell_range.cell_a;
+		b = value->v.cell_range.cell_b;
+
+		cols = abs (b.col - a.col) + 1;
+		rows = abs (b.row - a.row) + 1;
+
+		size += cols * rows;
+	}
+
+	vector = GNOME_Gnumeric_Sheet_ValueVector__alloc ();
+	vector->_buffer = CORBA_sequence_GNOME_Gnumeric_Value_allocbuf (size);
+
+	/* No memory, return an empty vector */
+	if (vector->_buffer == NULL){
+		vector->_length = 0;
+		vector->_maximum = 0;
+
+		return vector;
+}
+
+	/*
+	 * Fill in the vector
+	 */
+	for (i = 0, l = ranges; l; l = l->next, i++){
+		Value *value = l->data;
+		CellRef a, b;
+		int col, row;
+		
+		a = value->v.cell_range.cell_a;
+		b = value->v.cell_range.cell_b;
+
+		for (col = a.col; col <= b.col; col++)
+			for (row = a.row; row < b.row; row++)
+				fill_corba_value (&vector->_buffer [i], sheet, col, row);
+	}
+
+	range_list_destroy (ranges);
+	return vector;
+}
+
+static void
+cb_range_set_text (Cell *cell, void *data)
+{
+	cell_set_text (cell, data);
+}
+
+static void
+Sheet_range_set_text (PortableServer_Servant servant,
+		      const CORBA_char *range,
+		      const CORBA_char *text,
+		      CORBA_Environment * ev)
+{
+	Sheet *sheet = sheet_from_servant (servant);
+	GSList *ranges, *l;
+
+	verify_range (sheet, range, &ranges);
+
+	range_list_foreach_all (ranges, cb_range_set_text, text);
+	
+	range_list_destroy (ranges);
+}
+
+static void
+cb_range_set_formula (Cell *cell, void *data)
+{
+	cell_set_formula (cell, data);
+}
+
+static void
+Sheet_range_set_formula (PortableServer_Servant servant,
+			 const CORBA_char *range,
+			 const CORBA_char *formula,
+			 CORBA_Environment * ev)
+{
+	Sheet *sheet = sheet_from_servant (servant);
+	GSList *ranges, *l;
+
+	verify_range (sheet, range, &ranges);
+
+	range_list_foreach_all (ranges, cb_range_set_formula, formula);
+	
+	range_list_destroy (ranges);
+}
+
+static void
+cb_range_set_format (Cell *cell, void *data)
+{
+	cell_set_format (cell, data);
+}
+
+static void
+Sheet_range_set_format (PortableServer_Servant servant,
+			const CORBA_char *range,
+			const CORBA_char *format,
+			CORBA_Environment * ev)
+{
+	Sheet *sheet = sheet_from_servant (servant);
+	GSList *ranges, *l;
+	Style *style;
+
+	verify_range (sheet, range, &ranges);
+
+	cell_freeze_redraws ();
+
+	/*
+	 * Create a style for the region
+	 */
+	style = style_new_empty ();
+	style->valid_flags = STYLE_FORMAT;
+	style->format = style_format_new (format);
+
+	/* Apply the style */
+	range_set_style (ranges, style);
+	range_list_foreach (ranges, cb_range_set_format, format);
+
+	cell_thaw_redraws ();
+	
+	range_list_destroy (ranges);
+}
 
 static void
 Sheet_corba_class_init (void)
@@ -832,6 +1012,10 @@ Sheet_corba_class_init (void)
 	gnome_gnumeric_sheet_epv.clear_region_content = Sheet_clear_region_content;
 	gnome_gnumeric_sheet_epv.clear_region_comments = Sheet_clear_region_comments;
 	gnome_gnumeric_sheet_epv.clear_region_formats = Sheet_clear_region_formats;
+
+	/*
+	 * Cell based routines
+	 */
 	gnome_gnumeric_sheet_epv.cell_set_value = Sheet_cell_set_value;
 	gnome_gnumeric_sheet_epv.cell_get_value = Sheet_cell_get_value;
 	gnome_gnumeric_sheet_epv.cell_set_text = Sheet_cell_set_text;
@@ -850,7 +1034,14 @@ Sheet_corba_class_init (void)
 	gnome_gnumeric_sheet_epv.cell_set_alignment = Sheet_cell_set_alignment;
 	gnome_gnumeric_sheet_epv.cell_get_alignment = Sheet_cell_get_alignment;
 
-	
+	/*
+	 * Region based routines
+	 */
+	gnome_gnumeric_sheet_epv.range_get_values = Sheet_range_get_values;
+	gnome_gnumeric_sheet_epv.range_set_text = Sheet_range_set_text;
+	gnome_gnumeric_sheet_epv.range_set_formula = Sheet_range_set_formula;
+	gnome_gnumeric_sheet_epv.range_set_format = Sheet_range_set_format;
+
 	gnome_gnumeric_sheet_epv.set_dirty = Sheet_set_dirty;
 }
 

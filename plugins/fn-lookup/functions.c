@@ -33,25 +33,30 @@ gnumeric_choose (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row
 	int     index;
 	int     argc;
 	Value  *v;
-	GList  *l=expr_node_list;
+	GList  *l = expr_node_list;
 
-	argc =  g_list_length(l);
-	if (argc<1 || !l->data) {
+	argc =  g_list_length (l);
+
+	if (argc < 1 || !l->data){
 		*error_string = _("#ARG!");
 		return NULL;
 	}
+
 	v = eval_expr (sheet, l->data, eval_col, eval_row, error_string);
-	if (!v) return NULL;
-	if (v->type != VALUE_INTEGER &&
-	    v->type != VALUE_FLOAT) {
+	if (!v)
+		return NULL;
+
+	if ((v->type != VALUE_INTEGER) && (v->type != VALUE_FLOAT)){
 		*error_string = _("#VALUE!");
 		value_release (v);
 		return NULL;
 	}
+
 	index = value_get_as_int(v);
 	value_release (v);
 	l = g_list_next (l);
-	while (l) {
+
+	while (l){
 		index--;
 		if (!index)
 			return eval_expr (sheet, l->data, eval_col, eval_row, error_string);
@@ -89,56 +94,58 @@ lookup_similar (const Value *data, const Value *templ, const Value *next_largest
 	switch (templ->type){
 	case VALUE_INTEGER:
 	case VALUE_FLOAT:
-		{
-			float_t a, b;
-			a = value_get_as_float (data);
-			b = value_get_as_float (templ);
-			
-/*			printf ("Num: %f %f %f\n", a, b, next_largest?value_get_as_float (next_largest):9999.0) ; */
-			if (a == b)
-				return 1;
-			
-			else if (approx && a < b){
-				if (!next_largest)
-					return -1;
-				else if (value_get_as_float (next_largest) <= a)
-					return -1;
-			}
-			return 0;
-			break;
+	{
+		float_t a, b;
+		
+		a = value_get_as_float (data);
+		b = value_get_as_float (templ);
+		
+		if (a == b)
+			return 1;
+		
+		else if (approx && a < b){
+			if (!next_largest)
+				return -1;
+			else if (value_get_as_float (next_largest) <= a)
+				return -1;
 		}
+		return 0;
+		break;
+	}
 	case VALUE_STRING:
 	default:
-		{
-			char *a, *b;
-			a = value_get_as_string (data);
-			b = value_get_as_string (templ);
-			if (approx){
-				ans = strcasecmp (a,b);
-				if (approx && ans < 0){
-					if (next_largest){
-						char *c = value_get_as_string (next_largest);
-						int cmp = strcasecmp (a,c);
-						g_free (c);
-						if (cmp >= 0) {
-							g_free (a);
-							g_free (b);
-							return -1;
-						}
-					} else {
+	{
+		char *a, *b;
+
+		a = value_get_as_string (data);
+		b = value_get_as_string (templ);
+
+		if (approx){
+			ans = strcasecmp (a,b);
+			if (approx && ans < 0){
+				if (next_largest){
+					char *c = value_get_as_string (next_largest);
+					int cmp = strcasecmp (a,c);
+					g_free (c);
+					if (cmp >= 0) {
 						g_free (a);
 						g_free (b);
 						return -1;
 					}
+				} else {
+					g_free (a);
+					g_free (b);
+					return -1;
 				}
 			}
-			else
-				ans = strcmp (a, b);
-			g_free (a);
-			g_free (b);
-			return (ans == 0);
-			break;
 		}
+		else
+			ans = strcmp (a, b);
+		g_free (a);
+		g_free (b);
+		return (ans == 0);
+		break;
+	}
 	}
 	return 0;
 }
@@ -182,7 +189,6 @@ gnumeric_vlookup (struct FunctionDefinition *i, Value *argv [], char **error_str
 		g_return_val_if_fail (v != NULL, NULL);
 
 		compare = lookup_similar (v, argv[0], next_largest, approx);
-/*		printf ("Compare '%s' with '%s' : %d (%d)\n", value_get_as_string (cell->value), value_get_as_string (argv[0]), compare, approx); */
 
 		if (compare == 1){
 			const Value *v;
@@ -265,7 +271,6 @@ gnumeric_hlookup (struct FunctionDefinition *i, Value *argv [], char **error_str
 		g_return_val_if_fail (v != NULL, NULL);
 
 		compare = lookup_similar (v, argv[0], next_largest, approx);
-/*		printf ("Compare '%s' with '%s' : %d (%d)\n", value_get_as_string (cell->value), value_get_as_string (argv[0]), compare, approx); */
 
 		if (compare == 1){
 			const Value *v;
@@ -475,23 +480,28 @@ gnumeric_offset (struct FunctionDefinition *i, Value *argv [], char **error_stri
 	CellRef b;
 	int tw, th;
 
-	g_return_val_if_fail (argv[0]->type == VALUE_CELLRANGE, NULL);
-	memcpy (&a, &argv[0]->v.cell_range.cell_a, sizeof(CellRef));
-	a.row+=value_get_as_int(argv[1]);
-	a.col+=value_get_as_int(argv[2]);
+	g_return_val_if_fail (argv [0]->type == VALUE_CELLRANGE, NULL);
+
+	memcpy (&a, &argv[0]->v.cell_range.cell_a, sizeof (CellRef));
+
+	a.row += value_get_as_int (argv[1]);
+	a.col += value_get_as_int (argv[2]);
+
 	memcpy (&b, &a, sizeof(CellRef));
-	tw = value_get_as_int(argv[3]);
-	th = value_get_as_int(argv[4]);
+
+	tw = value_get_as_int (argv[3]);
+	th = value_get_as_int (argv[4]);
+
 	if (tw < 0 || th < 0) {
 		*error_string = _("#VALUE!");
 		return NULL;
-	} else if (a.row<0 || a.col < 0) {
+	} else if (a.row < 0 || a.col < 0) {
 		*error_string = _("#REF!");
 		return NULL;
 	}
 
-	b.row+=tw;
-	b.col+=th;
+	b.row += tw;
+	b.col += th;
 	return value_new_cellrange (&a, &b);
 }
 
@@ -526,6 +536,7 @@ gnumeric_row (Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, c
 		*error_string = _("Arrays not yet supported");
 		value_release (v);
 		return NULL;
+
 	case VALUE_ARRAY:
 		*error_string = _("Unimplemented");
 		value_release (v);

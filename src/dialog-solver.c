@@ -274,7 +274,7 @@ add_dialog:
 		type_str);
 	strcat(constraint_buf, cell_name(rhs_col, rhs_row));
 	gtk_clist_append (constraint_dialog->clist, constraint_str);
-	constraint = (SolverConstraint *) malloc (sizeof(SolverConstraint));
+	constraint = g_new (SolverConstraint, 1);
 	constraint->lhs = sheet_cell_get (constraint_dialog->sheet,
 					  lhs_col, lhs_row);
 	if (constraint->lhs == NULL) {
@@ -289,9 +289,9 @@ add_dialog:
 						  rhs_col, rhs_row);
 		cell_set_text (constraint->rhs, "");
 	}
-	constraint->type = (char *) malloc (strlen(type_str) + 1);
+	constraint->type = g_malloc (strlen (type_str) + 1);
 	strcpy (constraint->type, type_str);
-	constraint->str = (char *) malloc (strlen(constraint_buf)+1);
+	constraint->str = g_malloc (strlen (constraint_buf)+1);
 	strcpy (constraint->str, constraint_buf);
 	constraint_dialog->constraints = 
 	        g_slist_append(constraint_dialog->constraints,

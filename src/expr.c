@@ -150,9 +150,10 @@ value_get_as_string (const Value *value)
 		guint lpx, lpy;
 		char *ans;
 
-		for (lpy=0;lpy<value->v.array.y;lpy++) {
-			for (lpx=0;lpx<value->v.array.x;lpx++) {
-				const Value *v = value->v.array.vals[lpx][lpy];
+		for (lpy = 0; lpy < value->v.array.y; lpy++){
+			for (lpx = 0; lpx < value->v.array.x; lpx++){
+				const Value *v = value->v.array.vals [lpx][lpy];
+
 				g_return_val_if_fail (v->type == VALUE_STRING ||
 						      v->type == VALUE_FLOAT ||
 						      v->type == VALUE_INTEGER,
@@ -206,9 +207,9 @@ value_release (Value *value)
 	case VALUE_ARRAY:{
 		guint lpx, lpy;
 
-		for (lpx = 0; lpx < value->v.array.x; lpx++) {
+		for (lpx = 0; lpx < value->v.array.x; lpx++){
 			for (lpy = 0; lpy < value->v.array.y; lpy++)
-				value_release (value->v.array.vals[lpx][lpy]);
+				value_release (value->v.array.vals [lpx][lpy]);
 			g_free (value->v.array.vals [lpx]);
 		}
 

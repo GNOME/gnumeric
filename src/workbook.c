@@ -1230,30 +1230,35 @@ deps_output (GtkWidget *widget, Workbook *wb)
 	Cell *cell;
 	GList *list;
 
-	if (!sheet_selection_first_range(sheet, &dummy, &dummy,
-					 &col, &row,
-					 &dummy, &dummy)) {
-		gnumeric_notice(wb, GNOME_MESSAGE_BOX_ERROR,
-				_("Selection must be a single range"));
+	if (!sheet_selection_first_range (
+		sheet, &dummy, &dummy, &col, &row, &dummy, &dummy)){
+		gnumeric_notice (
+			wb, GNOME_MESSAGE_BOX_ERROR,
+			_("Selection must be a single range"));
 		return;
 	}
-	printf ("The cells that depend on %s\n",
-		cell_name (col, row));
-	if (!(cell = sheet_cell_get (sheet, col, row))) {
+	printf ("The cells that depend on %s\n", cell_name (col, row));
+
+	if (!(cell = sheet_cell_get (sheet, col, row))){
 		printf ("must contain some data\n");
 		return;
 	}
+
 	list = cell_get_dependencies (sheet, col, row);
 	if (!list)
 		printf ("No dependencies\n");
-	while (list) {
+
+	while (list){
 		Cell *cell = list->data;
+
 		list = g_list_next (list);
-		if (!cell) continue;
+		if (!cell)
+			continue;
+
 		if (sheet != cell->sheet && cell->sheet)
 			printf ("%s", cell->sheet->name);
-		printf ("%s\n", cell_name (cell->col->pos,
-					   cell->row->pos));
+		
+		printf ("%s\n", cell_name (cell->col->pos, cell->row->pos));
 	}
 }
 
@@ -1303,7 +1308,7 @@ workbook_setup_edit_area (Workbook *wb)
 	}
 	
 	/* Dependency Debugger, currently only enabled if you run with --debug=10 */
-	if (gnumeric_debugging>9){
+	if (gnumeric_debugging > 9){
 		deps_button = gtk_button_new ();
 		pix = gnome_stock_pixmap_widget_new (wb->toplevel, GNOME_STOCK_PIXMAP_BOOK_RED);
 		gtk_container_add (GTK_CONTAINER (deps_button), pix);
