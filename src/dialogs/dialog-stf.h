@@ -90,29 +90,28 @@ typedef enum {
  * contains pointers to nearly all members in the druid
  */
 typedef struct {
-	DruidPosition_t position;                                        /* Current position */
+	DruidPosition_t       position;                                    /* Current position */
 
-	WorkbookControlGUI	*wbcg;
-	GtkWindow      *window;                                            /* The main window */
-	GnomeDruid     *druid;                                             /* The gnome druid */
-	GnomeDruidPage *main_page, *csv_page, *fixed_page, *format_page;   /* Rest of the pages */
+	WorkbookControlGUI    *wbcg;
+	GtkWindow             *window;                                           /* The main window */
+	GnomeDruid            *druid;                                            /* The gnome druid */
+	GnomeDruidPage        *main_page, *csv_page, *fixed_page, *format_page;  /* Rest of the pages */
 
-	const char   *filename;     /* File we are reading from */
-	const char   *data;         /* Pointer to beginning of data */
-	const char   *cur;          /* Pointer pointing to position in data to start parsing */
-	int           lines;        /* Number of lines @data consists of */
-	int           importlines;  /* Number of lines to import */
+	const char            *filename;     /* File we are reading from */
+	const char            *data;         /* Pointer to beginning of data */
+	const char            *cur;          /* Pointer pointing to position in data to start parsing */
+	int                   lines;        /* Number of lines @data consists of */
+	int                   importlines;  /* Number of lines to import */
 
+	MainInfo_t            main;
+	CsvInfo_t             csv;
+	FixedInfo_t           fixed;
+	FormatInfo_t          format;
 
-	MainInfo_t   *main_info;
-	CsvInfo_t    *csv_info;
-	FixedInfo_t  *fixed_info;
-	FormatInfo_t *format_info;
+	gboolean              canceled;   /* Indicates whether the user pressed cancel button */
+	StfParseType_t        parsetype;  /* Indicates the parse type the user choose */
 
-	gboolean       canceled;   /* Indicates whether the user pressed cancel button */
-	StfParseType_t parsetype;  /* Indicates the parse type the user choose */
-
-	StfTrimType_t  trim;       /* Do we want to trim and if so -> how? */
+	StfTrimType_t         trim;       /* Do we want to trim and if so -> how? */
 } DruidPageData_t;
 
 typedef struct {

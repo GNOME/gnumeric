@@ -37,23 +37,22 @@
 /**                                                                                         * main_page_trim_toggled:                                                                  * @button: the toggle button the event handler is attached to                              * @data: mother struct                                                                     *                                                                                          **/
 static void
 format_page_trim_menu_deactivate (G_GNUC_UNUSED GtkMenu *menu,
-                                DruidPageData_t *data)
+				  DruidPageData_t *data)
 {
-     FormatInfo_t *info = data->format_info;
-     int trimtype = gtk_option_menu_get_history (info->format_trim);
+	int trimtype = gtk_option_menu_get_history (data->format.format_trim);
 
-     switch (trimtype) {
-     case -1:
-     case 0 : data->trim = (TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
-	  break;
-     case 1 : data->trim = TRIM_TYPE_NEVER;
-	  break;
-     case 2 : data->trim = TRIM_TYPE_LEFT;
-	  break;
-     case 3 : data->trim = TRIM_TYPE_RIGHT;
-	  break;
-     default : g_warning ("Unknown trim type selected (%d)", trimtype);
-     }
+	switch (trimtype) {
+	case -1:
+	case 0 : data->trim = (TRIM_TYPE_LEFT | TRIM_TYPE_RIGHT);
+		break;
+	case 1 : data->trim = TRIM_TYPE_NEVER;
+		break;
+	case 2 : data->trim = TRIM_TYPE_LEFT;
+		break;
+	case 3 : data->trim = TRIM_TYPE_RIGHT;
+		break;
+	default : g_warning ("Unknown trim type selected (%d)", trimtype);
+	}
 }
 
 
@@ -61,9 +60,10 @@ static void
 cb_col_clicked (GtkTreeViewColumn *column, gpointer _i)
 {
 	int i = GPOINTER_TO_INT (_i);
-	FormatInfo_t *info = g_object_get_data (G_OBJECT (column), "format-info");
+	DruidPageData_t *pagedata =
+		g_object_get_data (G_OBJECT (column), "pagedata");
 
-	gtk_clist_select_row (info->format_collist, i, 0);
+	gtk_clist_select_row (pagedata->format.format_collist, i, 0);
 
 	/* FIXME: warp focus away from the header.  */
 }
@@ -81,19 +81,18 @@ cb_col_clicked (GtkTreeViewColumn *column, gpointer _i)
 static void
 format_page_update_preview (DruidPageData_t *pagedata)
 {
-	FormatInfo_t *info = pagedata->format_info;
-	RenderData_t *renderdata = info->format_run_renderdata;
+	RenderData_t *renderdata = pagedata->format.format_run_renderdata;
 	GPtrArray *lines;
 	unsigned int ui;
 	int i;
 
 	stf_preview_colformats_clear (renderdata);
-	for (ui = 0; ui < info->format_run_list->len; ui++) {
-		StyleFormat *sf = g_ptr_array_index (info->format_run_list, ui);
+	for (ui = 0; ui < pagedata->format.format_run_list->len; ui++) {
+		StyleFormat *sf = g_ptr_array_index (pagedata->format.format_run_list, ui);
 		stf_preview_colformats_add (renderdata, sf);
 	}
 
-	lines = stf_parse_general (info->format_run_parseoptions, pagedata->cur);
+	lines = stf_parse_general (pagedata->format.format_run_parseoptions, pagedata->cur);
 
 	stf_preview_render (renderdata, lines);
 
@@ -101,7 +100,7 @@ format_page_update_preview (DruidPageData_t *pagedata)
 		GtkTreeViewColumn *column =
 			stf_preview_get_column (renderdata, i);
 
-		g_object_set_data (G_OBJECT (column), "format-info", info);
+		g_object_set_data (G_OBJECT (column), "pagedata", pagedata);
 		g_object_set (G_OBJECT (column), "clickable", TRUE, NULL);
 		g_signal_connect (G_OBJECT (column),
 				  "clicked",
@@ -123,7 +122,7 @@ format_page_update_preview (DruidPageData_t *pagedata)
  * @event : some info on the button the user clicked (unused)
  * @data : Dialog "mother" record
  *
- * this will simply set the gtkentry info->format_format's text to the (char*) format associated
+ * this will simply set the gtkentry data->format.format_format's text to the (char*) format associated
  * with @row (@row is actually the column in the @data->src->sheet *confusing*)
  *
  * returns : nothing
@@ -134,23 +133,22 @@ format_page_collist_select_row (G_GNUC_UNUSED GtkCList *clist,
 				G_GNUC_UNUSED GdkEventButton *event,
 				DruidPageData_t *data)
 {
-	FormatInfo_t *info = data->format_info;
-	StyleFormat const *colformat = g_ptr_array_index (info->format_run_list, row);
+	StyleFormat const *colformat = g_ptr_array_index (data->format.format_run_list, row);
 	char *fmt;
 
 	if (!colformat)
 		return;
 
-	gnumeric_clist_moveto (info->format_collist, row);
+	gnumeric_clist_moveto (data->format.format_collist, row);
 
-	if (info->format_run_manual_change) {
-		info->format_run_manual_change = FALSE;
+	if (data->format.format_run_manual_change) {
+		data->format.format_run_manual_change = FALSE;
 		return;
 	}
 
-	info->format_run_index = row;
+	data->format.format_run_index = row;
 	fmt = style_format_as_XL (colformat, TRUE);
-	gtk_entry_set_text (info->format_format, fmt);
+	gtk_entry_set_text (data->format.format_format, fmt);
 	g_free (fmt);
 }
 
@@ -162,7 +160,7 @@ format_page_collist_select_row (G_GNUC_UNUSED GtkCList *clist,
  * @event : some info on the button the user clicked (unused)
  * @data : Dialog "mother" record
  *
- * If the user selects a different format from @clist, the caption of info->format_format will
+ * If the user selects a different format from @clist, the caption of data->format.format_format will
  * change to the entry in the @clist the user selected
  *
  * returns : nothing
@@ -172,12 +170,11 @@ format_page_sublist_select_row (GtkCList *clist, int row, int column,
 				G_GNUC_UNUSED GdkEventButton *event,
 				DruidPageData_t *data)
 {
-	FormatInfo_t *info = data->format_info;
 	char *t[1];
 
 	/* User did not select, it was done in the code with gtk_clist_select_row */
-	if (info->format_run_manual_change) {
-		info->format_run_manual_change = FALSE;
+	if (data->format.format_run_manual_change) {
+		data->format.format_run_manual_change = FALSE;
 		return;
 	}
 
@@ -187,10 +184,10 @@ format_page_sublist_select_row (GtkCList *clist, int row, int column,
 
 	gtk_clist_get_text (clist, row, column, t);
 
-	info->format_run_sublist_select = FALSE;
+	data->format.format_run_sublist_select = FALSE;
 	if (strcmp (t[0], _("Custom")) != 0)
-		gtk_entry_set_text (info->format_format, t[0]);
-	info->format_run_sublist_select = TRUE;
+		gtk_entry_set_text (data->format.format_format, t[0]);
+	data->format.format_run_sublist_select = TRUE;
 }
 
 /**
@@ -206,39 +203,37 @@ format_page_sublist_select_row (GtkCList *clist, int row, int column,
 static void
 format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 {
-	FormatInfo_t *info = data->format_info;
-
-	if (info->format_run_index >= 0) {
+	if (data->format.format_run_index >= 0) {
 		int i, found;
 		char *t[1];
 		char *new_fmt = gtk_editable_get_chars (GTK_EDITABLE (entry), 0, -1);
 		StyleFormat *sf;
 
-		sf = g_ptr_array_index (info->format_run_list, info->format_run_index);
+		sf = g_ptr_array_index (data->format.format_run_list, data->format.format_run_index);
 		style_format_unref (sf);
 
-		g_ptr_array_index (info->format_run_list, info->format_run_index) =
+		g_ptr_array_index (data->format.format_run_list, data->format.format_run_index) =
 			style_format_new_XL (new_fmt, TRUE);
 
-		gtk_clist_set_text (info->format_collist, info->format_run_index, 1, new_fmt);
+		gtk_clist_set_text (data->format.format_collist, data->format.format_run_index, 1, new_fmt);
 
-		gtk_clist_set_column_width (info->format_collist,
+		gtk_clist_set_column_width (data->format.format_collist,
 					    1,
-					    gtk_clist_optimal_column_width (info->format_collist, 1));
+					    gtk_clist_optimal_column_width (data->format.format_collist, 1));
 
-		if (info->format_run_sublist_select) {
+		if (data->format.format_run_sublist_select) {
 			found = 0;
-			for (i = 0; i < GTK_CLIST (info->format_sublist)->rows; i++) {
-				gtk_clist_get_text (info->format_sublist, i, 0, t);
+			for (i = 0; i < GTK_CLIST (data->format.format_sublist)->rows; i++) {
+				gtk_clist_get_text (data->format.format_sublist, i, 0, t);
 				if (strcmp (t[0], new_fmt)==0) {
 					found = i;
 					break;
 				}
 			}
 
-			info->format_run_manual_change = TRUE;
-			gtk_clist_select_row (info->format_sublist, found, 0);
-			gnumeric_clist_moveto (info->format_sublist, found);
+			data->format.format_run_manual_change = TRUE;
+			gtk_clist_select_row (data->format.format_sublist, found, 0);
+			gnumeric_clist_moveto (data->format.format_sublist, found);
 		}
 
 		g_free (new_fmt);
@@ -267,43 +262,42 @@ stf_dialog_format_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 				G_GNUC_UNUSED GnomeDruid *druid,
 				DruidPageData_t *data)
 {
-	FormatInfo_t *info = data->format_info;
 	int i;
 
 	format_page_update_preview (data);
 
 	/* If necessary add new items (non-visual) */
-	while ((int)info->format_run_list->len < info->format_run_renderdata->colcount) {
-		g_ptr_array_add (info->format_run_list,
+	while ((int)data->format.format_run_list->len < data->format.format_run_renderdata->colcount) {
+		g_ptr_array_add (data->format.format_run_list,
 				 style_format_new_XL (cell_formats[0][0], FALSE));
 	}
 
 	/* Add new items visual */
-	gtk_clist_clear (info->format_collist);
-	for (i = 0; i < info->format_run_renderdata->colcount; i++) {
-		StyleFormat *sf = g_ptr_array_index (info->format_run_list, i);
+	gtk_clist_clear (data->format.format_collist);
+	for (i = 0; i < data->format.format_run_renderdata->colcount; i++) {
+		StyleFormat *sf = g_ptr_array_index (data->format.format_run_list, i);
 		char *t[2];
 
 		t[0] = g_strdup_printf (_(COLUMN_CAPTION), i + 1);
 		t[1] = style_format_as_XL (sf, TRUE);
-		gtk_clist_append (info->format_collist, t);
+		gtk_clist_append (data->format.format_collist, t);
 		g_free (t[1]);
 		g_free (t[0]);
 	}
-	gtk_clist_columns_autosize (info->format_collist);
+	gtk_clist_columns_autosize (data->format.format_collist);
 
-	info->format_run_manual_change = TRUE;
-	gtk_clist_select_row (info->format_collist, 0, 0);
-	gnumeric_clist_moveto (info->format_collist, 0);
+	data->format.format_run_manual_change = TRUE;
+	gtk_clist_select_row (data->format.format_collist, 0, 0);
+	gnumeric_clist_moveto (data->format.format_collist, 0);
 
-	info->format_run_index = 0;
+	data->format.format_run_index = 0;
 
 	{
-		StyleFormat const *sf = g_ptr_array_index (info->format_run_list, 0);
+		StyleFormat const *sf = g_ptr_array_index (data->format.format_run_list, 0);
 		char *fmt;
 
 		fmt = style_format_as_XL (sf, TRUE);
-		gtk_entry_set_text (info->format_format, fmt);
+		gtk_entry_set_text (data->format.format_format, fmt);
 		g_free (fmt);
 	}
 }
@@ -321,9 +315,7 @@ stf_dialog_format_page_prepare (G_GNUC_UNUSED GnomeDruidPage *page,
 void
 stf_dialog_format_page_cleanup (DruidPageData_t *pagedata)
 {
-	FormatInfo_t *info = pagedata->format_info;
-
-	stf_preview_free (info->format_run_renderdata);
+	stf_preview_free (pagedata->format.format_run_renderdata);
 }
 
 /**
@@ -339,7 +331,6 @@ stf_dialog_format_page_cleanup (DruidPageData_t *pagedata)
 void
 stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 {
-	FormatInfo_t *info;
 	char const * const * const * mainiterator = cell_formats;
 	char const * const * subiterator;
 	char *temp[1];
@@ -348,58 +339,55 @@ stf_dialog_format_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 
 	g_return_if_fail (gui != NULL);
 	g_return_if_fail (pagedata != NULL);
-	g_return_if_fail (pagedata->format_info != NULL);
-
-	info = pagedata->format_info;
 
         /* Create/get object and fill information struct */
-	info->format_collist       = GTK_CLIST (glade_xml_get_widget (gui, "format_collist"));
-	info->format_sublist       = GTK_CLIST (glade_xml_get_widget (gui, "format_sublist"));
-	info->format_sublistholder = GTK_SCROLLED_WINDOW (glade_xml_get_widget (gui, "format_sublistholder"));
-	info->format_format        = GTK_ENTRY (glade_xml_get_widget (gui, "format_format"));
+	pagedata->format.format_collist       = GTK_CLIST (glade_xml_get_widget (gui, "format_collist"));
+	pagedata->format.format_sublist       = GTK_CLIST (glade_xml_get_widget (gui, "format_sublist"));
+	pagedata->format.format_sublistholder = GTK_SCROLLED_WINDOW (glade_xml_get_widget (gui, "format_sublistholder"));
+	pagedata->format.format_format        = GTK_ENTRY (glade_xml_get_widget (gui, "format_format"));
 
-	info->format_data_container = glade_xml_get_widget (gui, "format_data_container");
-	info->format_trim   = GTK_OPTION_MENU  (glade_xml_get_widget (gui, "format_trim"));
+	pagedata->format.format_data_container = glade_xml_get_widget (gui, "format_data_container");
+	pagedata->format.format_trim   = GTK_OPTION_MENU  (glade_xml_get_widget (gui, "format_trim"));
 	
 	/* Set properties */
-	info->format_run_renderdata    = stf_preview_new (info->format_data_container,
-		workbook_date_conv (wb_control_workbook (WORKBOOK_CONTROL (pagedata->wbcg))));
-	info->format_run_list          = g_ptr_array_new ();
-	info->format_run_index         = -1;
-	info->format_run_manual_change = FALSE;
-	info->format_run_sublist_select = TRUE;
-	info->format_run_parseoptions  = NULL; /*  stf_parse_options_new (); */
+	pagedata->format.format_run_renderdata    = stf_preview_new (pagedata->format.format_data_container,
+							  workbook_date_conv (wb_control_workbook (WORKBOOK_CONTROL (pagedata->wbcg))));
+	pagedata->format.format_run_list          = g_ptr_array_new ();
+	pagedata->format.format_run_index         = -1;
+	pagedata->format.format_run_manual_change = FALSE;
+	pagedata->format.format_run_sublist_select = TRUE;
+	pagedata->format.format_run_parseoptions  = NULL; /*  stf_parse_options_new (); */
 
-        gtk_clist_column_titles_passive (info->format_sublist);
+        gtk_clist_column_titles_passive (pagedata->format.format_sublist);
 
 	rownumber = 0;
 	temp[0] = _("Custom");
-	gtk_clist_append (info->format_sublist, temp);
+	gtk_clist_append (pagedata->format.format_sublist, temp);
 	while (*mainiterator) {
 		subiterator = *mainiterator;
 		while (*subiterator) {
 			temp[0] = (char*) *subiterator;
-			gtk_clist_append (info->format_sublist, temp);
+			gtk_clist_append (pagedata->format.format_sublist, temp);
 			subiterator++;
 			rownumber++;
 		}
 		mainiterator++;
 	}
 
-	gtk_clist_set_column_justification (info->format_collist, 0, GTK_JUSTIFY_RIGHT);
+	gtk_clist_set_column_justification (pagedata->format.format_collist, 0, GTK_JUSTIFY_RIGHT);
 
 	/* Connect signals */
-	g_signal_connect (G_OBJECT (info->format_format),
-		"changed",
-		G_CALLBACK (format_page_format_changed), pagedata);
-	g_signal_connect (G_OBJECT (info->format_collist),
-		"select_row",
-		G_CALLBACK (format_page_collist_select_row), pagedata);
-	g_signal_connect (G_OBJECT (info->format_sublist),
-		"select_row",
-		G_CALLBACK (format_page_sublist_select_row), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->format.format_format),
+			  "changed",
+			  G_CALLBACK (format_page_format_changed), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->format.format_collist),
+			  "select_row",
+			  G_CALLBACK (format_page_collist_select_row), pagedata);
+	g_signal_connect (G_OBJECT (pagedata->format.format_sublist),
+			  "select_row",
+			  G_CALLBACK (format_page_sublist_select_row), pagedata);
 
-	menu = (GtkMenu *) gtk_option_menu_get_menu (info->format_trim);
+	menu = (GtkMenu *) gtk_option_menu_get_menu (pagedata->format.format_trim);
         g_signal_connect (G_OBJECT (menu),
 			  "deactivate",
 			  G_CALLBACK (format_page_trim_menu_deactivate), pagedata);

@@ -60,29 +60,28 @@ main_page_set_spin_button_adjustment (GtkSpinButton* spinbutton, int min, int ma
 static void
 main_page_import_range_changed (DruidPageData_t *data)
 {
-	MainInfo_t *info = data->main_info;
 	int startrow, stoprow;
 	char *linescaption;
 
-	startrow = gtk_spin_button_get_value_as_int (info->main_startrow);
-	stoprow  = gtk_spin_button_get_value_as_int (info->main_stoprow);
+	startrow = gtk_spin_button_get_value_as_int (data->main.main_startrow);
+	stoprow  = gtk_spin_button_get_value_as_int (data->main.main_stoprow);
 
 	if (stoprow > data->lines) {
 	     stoprow = data->lines;
-	     gtk_spin_button_set_value (info->main_stoprow, stoprow);
+	     gtk_spin_button_set_value (data->main.main_stoprow, stoprow);
 	}
 
 	if (startrow > stoprow) {
 	     startrow = stoprow;
-	     gtk_spin_button_set_value (info->main_startrow, startrow);
+	     gtk_spin_button_set_value (data->main.main_startrow, startrow);
 	}
 
-	main_page_set_spin_button_adjustment (info->main_startrow, 1, stoprow);
-	main_page_set_spin_button_adjustment (info->main_stoprow, startrow, data->lines);
+	main_page_set_spin_button_adjustment (data->main.main_startrow, 1, stoprow);
+	main_page_set_spin_button_adjustment (data->main.main_stoprow, startrow, data->lines);
 
 	data->importlines = (stoprow - startrow) + 1;
 	linescaption = g_strdup_printf (_("%d of %d lines to import"), data->importlines, data->lines);
-	gtk_label_set_text (info->main_lines, linescaption);
+	gtk_label_set_text (data->main.main_lines, linescaption);
 	g_free (linescaption);
 }
 
@@ -137,12 +136,11 @@ static void
 main_page_stringindicator_change (G_GNUC_UNUSED GtkWidget *widget,
 			DruidPageData_t *data)
 {
-	MainInfo_t *info = data->main_info;
-	StfParseOptions_t *parseoptions = data->csv_info->csv_run_parseoptions;
+	StfParseOptions_t *parseoptions = data->csv.csv_run_parseoptions;
 	char *textfieldtext;
 	gunichar str_ind;
 
-	textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (info->main_textfield), 0, -1);
+	textfieldtext = gtk_editable_get_chars (GTK_EDITABLE (data->main.main_textfield), 0, -1);
 	str_ind = g_utf8_get_char (textfieldtext);
 	if (str_ind != '\0')
 	     stf_parse_options_csv_set_stringindicator (parseoptions,
@@ -150,7 +148,7 @@ main_page_stringindicator_change (G_GNUC_UNUSED GtkWidget *widget,
 	g_free (textfieldtext);
 
 	stf_parse_options_csv_set_indicator_2x_is_single  (parseoptions,
-							   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (info->main_2x_indicator)));
+							   gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.main_2x_indicator)));
 
 	data->lines    = stf_parse_get_rowcount (parseoptions, data->data);
 	main_page_stoprow_changed (NULL, data);
@@ -161,24 +159,24 @@ main_page_source_format_toggled (G_GNUC_UNUSED GtkWidget *widget,
 				 DruidPageData_t *data)
 {
      if (gtk_toggle_button_get_active
-	 (GTK_TOGGLE_BUTTON (data->main_info->main_separated))) {
+	 (GTK_TOGGLE_BUTTON (data->main.main_separated))) {
 	  gtk_widget_set_sensitive
-	       (GTK_WIDGET (data->main_info->main_2x_indicator), TRUE);
+	       (GTK_WIDGET (data->main.main_2x_indicator), TRUE);
 	  gtk_widget_set_sensitive
-	       (GTK_WIDGET (data->main_info->main_textindicator), TRUE);
+	       (GTK_WIDGET (data->main.main_textindicator), TRUE);
 	  gtk_widget_set_sensitive
-	       (GTK_WIDGET (data->main_info->main_textfield), TRUE);
+	       (GTK_WIDGET (data->main.main_textfield), TRUE);
 	  data->lines = stf_parse_get_rowcount
-	       (data->csv_info->csv_run_parseoptions, data->data);
+	       (data->csv.csv_run_parseoptions, data->data);
      } else {
 	  gtk_widget_set_sensitive
-	       (GTK_WIDGET (data->main_info->main_2x_indicator), FALSE);
+	       (GTK_WIDGET (data->main.main_2x_indicator), FALSE);
 	  gtk_widget_set_sensitive
-	       (GTK_WIDGET (data->main_info->main_textindicator), FALSE);
+	       (GTK_WIDGET (data->main.main_textindicator), FALSE);
 	  gtk_widget_set_sensitive
-	       (GTK_WIDGET (data->main_info->main_textfield), FALSE);
+	       (GTK_WIDGET (data->main.main_textfield), FALSE);
 	  data->lines = stf_parse_get_rowcount
-	       (data->fixed_info->fixed_run_parseoptions, data->data);
+	       (data->fixed.fixed_run_parseoptions, data->data);
      }
      main_page_stoprow_changed (NULL, data);
 }
@@ -192,9 +190,7 @@ main_page_source_format_toggled (G_GNUC_UNUSED GtkWidget *widget,
 void
 stf_dialog_main_page_cleanup (DruidPageData_t *pagedata)
 {
-	MainInfo_t *info = pagedata->main_info;
-
-	stf_preview_free (info->main_run_renderdata);
+	stf_preview_free (pagedata->main.main_run_renderdata);
 }
 
 /**
@@ -210,23 +206,22 @@ stf_dialog_main_page_cleanup (DruidPageData_t *pagedata)
 void
 stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 {
-	MainInfo_t *info = pagedata->main_info;
 	RenderData_t *renderdata;
 	GPtrArray *lines;
 	GtkTreeViewColumn *column;
 	GtkCellRenderer *cell;
 
-	info->main_separated = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "main_separated"));
-	info->main_fixed     = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "main_fixed"));
-	info->main_startrow  = GTK_SPIN_BUTTON  (glade_xml_get_widget (gui, "main_startrow"));
-	info->main_stoprow   = GTK_SPIN_BUTTON  (glade_xml_get_widget (gui, "main_stoprow"));
-	info->main_lines     = GTK_LABEL        (glade_xml_get_widget (gui, "main_lines"));
-	info->main_data_container =              glade_xml_get_widget (gui, "main_data_container");
-	info->main_2x_indicator  = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "main_2x_indicator"));
-	info->main_textindicator = GTK_COMBO    (glade_xml_get_widget (gui, "main_textindicator"));
-	info->main_textfield     = GTK_ENTRY    (glade_xml_get_widget (gui, "main_textfield"));
+	pagedata->main.main_separated = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "main_separated"));
+	pagedata->main.main_fixed     = GTK_RADIO_BUTTON (glade_xml_get_widget (gui, "main_fixed"));
+	pagedata->main.main_startrow  = GTK_SPIN_BUTTON  (glade_xml_get_widget (gui, "main_startrow"));
+	pagedata->main.main_stoprow   = GTK_SPIN_BUTTON  (glade_xml_get_widget (gui, "main_stoprow"));
+	pagedata->main.main_lines     = GTK_LABEL        (glade_xml_get_widget (gui, "main_lines"));
+	pagedata->main.main_data_container =              glade_xml_get_widget (gui, "main_data_container");
+	pagedata->main.main_2x_indicator  = GTK_CHECK_BUTTON (glade_xml_get_widget (gui, "main_2x_indicator"));
+	pagedata->main.main_textindicator = GTK_COMBO    (glade_xml_get_widget (gui, "main_textindicator"));
+	pagedata->main.main_textfield     = GTK_ENTRY    (glade_xml_get_widget (gui, "main_textfield"));
 
-	renderdata = info->main_run_renderdata = stf_preview_new (info->main_data_container,
+	renderdata = pagedata->main.main_run_renderdata = stf_preview_new (pagedata->main.main_data_container,
 		workbook_date_conv (wb_control_workbook (WORKBOOK_CONTROL (pagedata->wbcg))));
 
 	lines = stf_parse_lines (pagedata->data, TRUE);
@@ -250,9 +245,9 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 		      NULL);
 
 	/* Set properties */
-	main_page_set_spin_button_adjustment (info->main_startrow, 1, pagedata->lines);
-	main_page_set_spin_button_adjustment (info->main_stoprow, 1, pagedata->lines);
-	gtk_spin_button_set_value (info->main_stoprow, pagedata->lines);
+	main_page_set_spin_button_adjustment (pagedata->main.main_startrow, 1, pagedata->lines);
+	main_page_set_spin_button_adjustment (pagedata->main.main_stoprow, 1, pagedata->lines);
+	gtk_spin_button_set_value (pagedata->main.main_stoprow, pagedata->lines);
 
 	{
 		GtkFrame *main_frame = GTK_FRAME (glade_xml_get_widget (gui, "main_frame"));
@@ -264,21 +259,21 @@ stf_dialog_main_page_init (GladeXML *gui, DruidPageData_t *pagedata)
 	}
 
 	/* Connect signals */
-	g_signal_connect (G_OBJECT (info->main_startrow),
+	g_signal_connect (G_OBJECT (pagedata->main.main_startrow),
 		"changed",
 		G_CALLBACK (main_page_startrow_changed), pagedata);
-	g_signal_connect (G_OBJECT (info->main_stoprow),
+	g_signal_connect (G_OBJECT (pagedata->main.main_stoprow),
 		"changed",
 		G_CALLBACK (main_page_stoprow_changed), pagedata);
-	g_signal_connect (G_OBJECT (info->main_2x_indicator),
+	g_signal_connect (G_OBJECT (pagedata->main.main_2x_indicator),
 		"toggled",
 		G_CALLBACK (main_page_stringindicator_change), pagedata);
-	g_signal_connect (G_OBJECT (info->main_textfield),
+	g_signal_connect (G_OBJECT (pagedata->main.main_textfield),
 		"changed",
 		G_CALLBACK (main_page_stringindicator_change), pagedata);
-	g_signal_connect (G_OBJECT (info->main_separated),
+	g_signal_connect (G_OBJECT (pagedata->main.main_separated),
 		"toggled",
 		G_CALLBACK (main_page_source_format_toggled), pagedata);
 
-	main_page_startrow_changed (info->main_startrow, pagedata);
+	main_page_startrow_changed (pagedata->main.main_startrow, pagedata);
 }

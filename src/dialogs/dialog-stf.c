@@ -90,19 +90,19 @@ stf_dialog_set_initial_keyboard_focus (DruidPageData_t *pagedata)
 	switch (pagedata->position) {
 	case DPG_MAIN   :
 		focus_widget =
-			GTK_WIDGET (pagedata->main_info->main_separated);
+			GTK_WIDGET (pagedata->main.main_separated);
 		break;
 	case DPG_CSV    :
 		focus_widget =
-			GTK_WIDGET (pagedata->csv_info->csv_space);
+			GTK_WIDGET (pagedata->csv.csv_space);
 		break;
 	case DPG_FIXED  :
 		focus_widget = GTK_WIDGET
-			(&pagedata->fixed_info->fixed_colend->entry);
+			(&pagedata->fixed.fixed_colend->entry);
 		break; /* ?? */
 	case DPG_FORMAT :
 		focus_widget =
-			GTK_WIDGET (pagedata->format_info->format_format);
+			GTK_WIDGET (pagedata->format.format_format);
 		break;
 	default :
 		g_warning ("Unknown druid position");
@@ -132,7 +132,7 @@ stf_dialog_druid_page_next (G_GNUC_UNUSED GnomeDruidPage *page,
 
 	switch (data->position) {
 	case DPG_MAIN   : {
-		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main_info->main_separated))) {
+		if (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (data->main.main_separated))) {
 			newpos = DPG_CSV;
 			data->parsetype = PARSE_TYPE_CSV;
 		}
@@ -144,8 +144,8 @@ stf_dialog_druid_page_next (G_GNUC_UNUSED GnomeDruidPage *page,
 	case DPG_CSV    : {
 		newpos = DPG_FORMAT;
 
-		data->format_info->format_run_parseoptions = data->csv_info->csv_run_parseoptions;
-		data->format_info->format_run_source_hash  = data->csv_info->csv_run_renderdata;
+		data->format.format_run_parseoptions = data->csv.csv_run_parseoptions;
+		data->format.format_run_source_hash  = data->csv.csv_run_renderdata;
 	} break;
         case DPG_FIXED  : {
 		newpos = DPG_FORMAT;
@@ -155,9 +155,9 @@ stf_dialog_druid_page_next (G_GNUC_UNUSED GnomeDruidPage *page,
 		 * the fixed width page of the druid because of
 		 * columns getting mangled
 		 */
-		stf_parse_options_set_trim_spaces (data->fixed_info->fixed_run_parseoptions, data->trim);
-		data->format_info->format_run_parseoptions = data->fixed_info->fixed_run_parseoptions;
-		data->format_info->format_run_source_hash  = data->fixed_info->fixed_run_renderdata;
+		stf_parse_options_set_trim_spaces (data->fixed.fixed_run_parseoptions, data->trim);
+		data->format.format_run_parseoptions = data->fixed.fixed_run_parseoptions;
+		data->format.format_run_source_hash  = data->fixed.fixed_run_renderdata;
 	} break;
 	default :
 		g_warning ("Page Cycle Error : Unknown page %d", data->position);
@@ -421,22 +421,22 @@ stf_dialog_editables_enter (DruidPageData_t *pagedata)
 {
 	gnumeric_editable_enters
 		(pagedata->window,
-		 GTK_WIDGET (&pagedata->main_info->main_startrow->entry));
+		 GTK_WIDGET (&pagedata->main.main_startrow->entry));
 	gnumeric_editable_enters
 		(pagedata->window,
-		 GTK_WIDGET (&pagedata->main_info->main_stoprow->entry));
+		 GTK_WIDGET (&pagedata->main.main_stoprow->entry));
 	gnumeric_editable_enters
 		(pagedata->window,
-		 GTK_WIDGET (pagedata->csv_info->csv_customseparator));
+		 GTK_WIDGET (pagedata->csv.csv_customseparator));
 	gnumeric_combo_enters
 		(pagedata->window,
-		pagedata->main_info->main_textindicator);
+		pagedata->main.main_textindicator);
 	gnumeric_editable_enters
 		(pagedata->window,
-		 GTK_WIDGET (&pagedata->fixed_info->fixed_colend->entry));
+		 GTK_WIDGET (&pagedata->fixed.fixed_colend->entry));
 	gnumeric_editable_enters
 		(pagedata->window,
-		 GTK_WIDGET (pagedata->format_info->format_format));
+		 GTK_WIDGET (pagedata->format.format_format));
 }
 
 /**
@@ -456,10 +456,6 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	GladeXML *gui;
 	DialogStfResult_t *dialogresult;
 	DruidPageData_t pagedata;
-	MainInfo_t main_info;
-	CsvInfo_t csv_info;
-	FixedInfo_t fixed_info;
-	FormatInfo_t format_info;
 	StfParseOptions_t *parseoptions;
 
 	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
@@ -478,11 +474,6 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 	parseoptions      = stf_parse_options_new ();
 	pagedata.lines    = stf_parse_get_rowcount (parseoptions, data);
 	stf_parse_options_free (parseoptions);
-
-	pagedata.main_info   = &main_info;
-	pagedata.csv_info    = &csv_info;
-	pagedata.fixed_info  = &fixed_info;
-	pagedata.format_info = &format_info;
 
 	stf_dialog_main_page_init   (gui, &pagedata);
 	stf_dialog_csv_page_init    (gui, &pagedata);
@@ -511,14 +502,14 @@ stf_dialog (WorkbookControlGUI *wbcg, const char *filename, const char *data)
 		dialogresult->newstart = pagedata.cur;
 		dialogresult->lines = pagedata.importlines;
 		if (pagedata.parsetype == PARSE_TYPE_CSV) {
-			dialogresult->parseoptions = csv_info.csv_run_parseoptions;
-			csv_info.csv_run_parseoptions = NULL;
+			dialogresult->parseoptions = pagedata.csv.csv_run_parseoptions;
+			pagedata.csv.csv_run_parseoptions = NULL;
 		} else {
-			dialogresult->parseoptions = fixed_info.fixed_run_parseoptions;
-			fixed_info.fixed_run_parseoptions= NULL;
+			dialogresult->parseoptions = pagedata.fixed.fixed_run_parseoptions;
+			pagedata.fixed.fixed_run_parseoptions= NULL;
 		}
 
-		dialogresult->formats = format_info.format_run_list;
+		dialogresult->formats = pagedata.format.format_run_list;
 	}
 
 	/* Quick Note, if the parseoptions members of either the csv page or
