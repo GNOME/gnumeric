@@ -126,7 +126,7 @@ new_data_set (Value *range, gboolean ignore_non_num, gboolean read_label,
 	result = workbook_foreach_cell_in_range (pos, range, FALSE,
 						 cb_store_data, the_set);
 
- if (result != NULL) value_release (result);
+	if (result != NULL) value_release (result);
 	the_set->missing = g_slist_reverse (the_set->missing);
 	if (the_set->label == NULL)
 		the_set->label = g_strdup_printf (format,i);
@@ -196,6 +196,9 @@ new_data_set_list (GSList *ranges, group_by_t group_by,
 		break;
 	case GROUPED_BY_COL:
 		specs.format = _("Column %i");
+		break;
+	case GROUPED_BY_BIN:
+		specs.format = _("Bin %i");
 		break;
 	case GROUPED_BY_AREA:
 	default:
@@ -510,6 +513,19 @@ float_compare (const gnum_float *a, const gnum_float *b)
                 return 0;
         else
                 return 1;
+}
+
+static gnum_float *
+range_sort (const gnum_float *xs, int n)
+{
+	if (n <= 0)
+		return NULL;
+	else {
+		gnum_float *ys = g_new (gnum_float, n);
+		memcpy (ys, xs, n * sizeof (gnum_float));
+		qsort (ys, n, sizeof (ys[0]), (int (*) (const void *, const void *))&float_compare);
+		return ys;
+	}
 }
 
 void
@@ -3459,87 +3475,208 @@ anova_two_factor_with_r_tool (WorkbookControl *wbc, Sheet *sheet, Range *range,
  *
  **/
 
+typedef struct {
+	gnum_float limit;
+	GArray     *counts;
+	char       *label;
+	gboolean   last;
+} bin_t;
+
+static gint
+bin_compare (const bin_t *set_a, const bin_t *set_b)
+{
+	gnum_float a,b;
+
+	a = set_a->limit;
+	b = set_b->limit;
+
+        if (a < b)
+                return -1;
+        else if (a == b)
+                return 0;
+        else
+                return 1;
+}
+
+static gint
+bin_pareto_at_i (const bin_t *set_a, const bin_t *set_b, guint index)
+{
+	gnum_float a,b;
+
+	if (set_a->counts->len <= index)
+		return 0;
+
+	a = g_array_index (set_a->counts, gnum_float, index);
+	b = g_array_index (set_b->counts, gnum_float, index);
+
+        if (a > b)
+                return -1;
+        else if (a == b)
+                return bin_pareto_at_i (set_a, set_b, index + 1);
+        else
+                return 1;
+}
+
+static gint
+bin_pareto (const bin_t *set_a, const bin_t *set_b)
+{
+	return bin_pareto_at_i (set_a, set_b, 0);
+}
+
+static void 
+destroy_items (gpointer data, gpointer user_data) {
+	g_free(data);
+}
+
 int
-histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin_range,
-		gboolean labels, gboolean sorted, gboolean percentage,
+histogram_tool (WorkbookControl *wbc, Sheet *sheet, GSList *input, Value *bin,
+		group_by_t group_by,
+		gboolean bin_labels, gboolean pareto, gboolean cumulative,
 		gboolean chart, data_analysis_output_t *dao)
 {
-        old_data_set_t bin_set, set;
-	GSList     *list;
-	int        i, j, cols, rows, cum_sum;
-	gnum_float *intval;
-	int        *count;
+	GSList *input_range;
+	GPtrArray *data = NULL;
+	GSList *bin_range;
+	GPtrArray *bin_data = NULL;
+	GSList *bin_list = NULL;
+	bin_t  *a_bin;
+	guint  i, j, row, col;
+	GSList * this;
+	gnum_float *this_value;
 
-	cols = bin_range->end.col - bin_range->start.col + 1;
-	rows = bin_range->end.row - bin_range->start.row + 1;
-
-	if (get_data (sheet, range, &set, TRUE)) {
-	        free_data_set (&set);
-	        return 1;
+/* read bin data */
+	bin_range = g_slist_prepend (NULL, bin);
+	prepare_input_range (&bin_range, GROUPED_BY_ROW);
+	bin_data = new_data_set_list (bin_range, GROUPED_BY_BIN,
+				  TRUE, bin_labels, sheet);
+	for (i = 0; i < bin_data->len; i++) {
+		if (((data_set_t *)g_ptr_array_index (bin_data,i))->data->len != 1) {
+			range_list_destroy (input);
+			destroy_data_set_list (bin_data);
+			range_list_destroy (bin_range);
+			/* inconsistent bins */
+			return 2;
+		}
 	}
 
-	if (get_data (sheet, bin_range, &bin_set, TRUE)) {
-	        free_data_set (&set);
-	        free_data_set (&bin_set);
-	        return 2;
+/* read input data */
+	input_range = input;
+	prepare_input_range (&input_range, group_by);
+	data = new_data_set_list (input_range, group_by,
+				  TRUE, dao->labels_flag, sheet);
+
+/* set up counter structure */
+	for (i=0; i < bin_data->len; i++) {
+		a_bin = g_new(bin_t,1);
+		a_bin->limit = g_array_index (
+			((data_set_t *)g_ptr_array_index (bin_data,i))->data, 
+			gnum_float, 0);
+		a_bin->counts = g_array_new (FALSE, TRUE, sizeof(gnum_float));
+		a_bin->counts = g_array_set_size (a_bin->counts, data->len);
+		a_bin->label = ((data_set_t *)g_ptr_array_index (bin_data,i))->label;
+		a_bin->last = FALSE;
+		bin_list = g_slist_prepend (bin_list, a_bin);
+	}
+	bin_list = g_slist_sort (bin_list,
+				  (GCompareFunc) bin_compare);
+	a_bin = g_new(bin_t,1);
+	a_bin->limit = 0.0;
+	a_bin->counts = g_array_new (FALSE, TRUE, sizeof(gnum_float));
+	a_bin->counts = g_array_set_size (a_bin->counts, data->len);
+	a_bin->label = _("More");
+	a_bin->last = TRUE;
+	bin_list = g_slist_append (bin_list, a_bin);
+
+/* count data */
+	for (i = 0; i < data->len; i++) {
+		GArray * the_data;
+		gnum_float *the_sorted_data;
+
+		the_data = ((data_set_t *)(g_ptr_array_index (data,i)))->data;
+		the_sorted_data =  range_sort ((gnum_float *)(the_data->data), the_data->len);
+		
+		this = bin_list;
+		this_value = the_sorted_data;
+
+		for (j = 0; j < the_data->len;) {
+			if ((*this_value <= ((bin_t *)this->data)->limit) ||
+			    (this->next == NULL)){
+				(g_array_index(((bin_t *)this->data)->counts, gnum_float, i))++;
+				j++;
+				this_value++;
+			} else {
+				this = this->next;
+			}
+		}
+		g_free(the_sorted_data);
 	}
 
-	bin_set.array = g_slist_sort (bin_set.array,
-				      (GCompareFunc) float_compare);
+/* sort if pareto */
+	if (pareto && (data->len > 0))
+		bin_list = g_slist_sort (bin_list,
+					 (GCompareFunc) bin_pareto);
 
 	prepare_output (wbc, dao, _("Histogram"));
 
-	i = 1;
-	set_cell (dao, 0, 0, _("Bin"));
-	set_cell (dao, 1, 0, _("Frequency"));
-	if (percentage)
-		/* xgettext:no-c-format */
-	        set_cell (dao, ++i, 0, _("Cumulative %"));
-
-	set_italic (dao, 0, 0, i, 0);
-
-	count = g_new (int, bin_set.n + 1);
-	intval = g_new (gnum_float, bin_set.n);
-
-	list = bin_set.array;
-	for (i = 0; i < bin_set.n; i++) {
-	        gnum_float x = *((gnum_float *) list->data);
-	        set_cell_float (dao, 0, i + 1, x);
-		intval[i] = x;
-		count[i] = 0;
-		list = list->next;
+/* print labels */
+	row = dao->labels_flag ? 1 : 0;
+	if (!bin_labels) 
+		set_cell (dao, 0, row, _("Bin"));
+	
+	this = bin_list;
+	while (this != NULL) {
+	       row++;
+		if (bin_labels || ((bin_t *)this->data)->last) {
+			set_cell (dao, 0, row, ((bin_t *)this->data)->label);
+		} else {
+			set_cell_float (dao, 0, row, ((bin_t *)this->data)->limit);
+		}
+		this = this->next;
 	}
-	set_cell (dao, 0, i + 1, "More");
-	count[i] = 0;
+	set_italic (dao, 0, 0, 0, row);
 
-	list = set.array;
-	for (i = 0; i < set.n; i++) {
-	        gnum_float x = *((gnum_float *) list->data);
-		/* FIXME: Slow!, O(n^2) */
-		for (j = 0; j < bin_set.n; j++)
-		        if (x <= intval[j]) {
-			        count[j]++;
-				goto next;
-			}
-		count[j]++;
-	next:
-		list = list->next;
+	col = 1;
+	for (i = 0; i < data->len; i++) {
+		row = 0;
+		if (dao->labels_flag) {
+			set_cell (dao, col, row, 
+				  ((data_set_t *)g_ptr_array_index (data,i))->label);
+			row++;
+		}
+		set_cell (dao, col, row, _("Frequency"));
+		if (cumulative)
+			/* xgettext:no-c-format */
+			set_cell (dao, col+1, row, _("Cumulative %"));
+/* print data */
+		this = bin_list;
+		while (this != NULL) {
+			gnum_float x;
+
+			x = g_array_index (((bin_t *)this->data)->counts, gnum_float, i);
+			row ++;
+			set_cell_float (dao, col, row,  x);
+			x = x/(((data_set_t *)(g_ptr_array_index (data,i)))->data->len);
+			if (cumulative)
+				set_cell_float (dao, col + 1, row, x);
+			this = this->next;
+		}
+		col++;
+		if (cumulative)
+			col++;
 	}
+	set_italic (dao, 0, 0,  col - 1, 1);
 
-	cum_sum = 0;
-	for (i = 0; i <= bin_set.n; i++) {
-	        set_cell_int (dao, 1, i + 1, count[i]);
-		cum_sum += count[i];
-		if (percentage)
-		        set_cell_float (dao, 2, i + 1,
-					(gnum_float) cum_sum / set.n);
-	}
-
-	free_data_set (&set);
-	free_data_set (&bin_set);
+/* finish up */
+	destroy_data_set_list (data);
+	range_list_destroy (input_range);
+	destroy_data_set_list (bin_data);
+	range_list_destroy (bin_range);
+	g_slist_foreach (bin_list, destroy_items, NULL);
+	g_slist_free(bin_list);
+	
 
 	sheet_set_dirty (dao->sheet, TRUE);
-	sheet_update (sheet);
+	sheet_update (dao->sheet);
 
 	if (chart)
 		g_warning ("TODO : tie this into the graph generator");

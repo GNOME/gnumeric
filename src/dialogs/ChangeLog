@@ -1,3 +1,13 @@
+2001-11-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-analysis-tools.c (tool_update_sensitivity_multiple_areas_cb)
+	  allow seconf input field
+	(histogram_tool_ok_clicked_cb) : allow labels and grouping for seceral 
+	  variables
+	(dialog_histogram_tool_init) : ditto
+	* histogram.glade : ditto
+	* tools.h : modify arguments of histogram_tool
+
 2001-11-13  Jody Goldberg <jgoldberg@home.com>
 
 	* dialog-cell-format.c (validation_entry_to_expr) : Use

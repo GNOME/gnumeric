@@ -1,3 +1,10 @@
+2001-11-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/analysis-tools.c (new_data_set_list) : add `Bin'
+	(histogram_tool) improve to ignore non-numerical entries and to support
+	  labels, pareto, multiple variables and input from several sheets 
+	* src/analysis-tools.h : add GROUPED_BY_BIN
+
 2001-11-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_{insert,delete}_{cols,rows}) : Move the styles

@@ -7,7 +7,8 @@
 typedef enum {
 	GROUPED_BY_ROW = 0,
 	GROUPED_BY_COL = 1,
-	GROUPED_BY_AREA = 2
+	GROUPED_BY_AREA = 2,
+	GROUPED_BY_BIN = 3
 } group_by_t;
 
 
