@@ -26,6 +26,10 @@ Jody:
 	* Scroll wheel zoom
 	* Horizontal scroll wheels
 
+Jon Kåre:
+	* Fix encoding of author field in summary.
+	http://bugzilla.gnome.org/show_bug.cgi?id=129702
+
 Jukka:
 	* GLPK upgrade to version 4.2
 
