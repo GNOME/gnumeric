@@ -1,3 +1,9 @@
+2001-07-05  Rodrigo Moya <rodrigo@gnome-db.org>
+
+	* configure.in: use libgda >= 0.2.11 for the GDA plugin
+
+	* README: added comments about libgda version requirements
+
 2001-07-05  Morten Welinder  <terra@diku.dk>
 
 	* configure.in (finite): Also check in -lm.
