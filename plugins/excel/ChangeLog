@@ -1,5 +1,18 @@
 2001-04-26  Jody Goldberg <jgoldberg@home.com>
 
+	* ms-excel-write.c (write_colinfos) : Rework to simplify and use
+	  colrow_equal.
+	(write_colinfo) : extract the info from the ColRowInfo directly and
+	  fill in the visibility, outline, and collapse states.
+	(write_rowinfo) : export visibility, collapse and outline.
+	(write_guts) : new function.
+	(new_sheet) : Include blank cols/rows with outline properties in
+	  extent calculation.
+
+	* ms-excel-write.h (Excel{Col,Row}) : Delete unnecessary structures.
+
+2001-04-26  Jody Goldberg <jgoldberg@home.com>
+
 	* ms-excel-write.c (write_mergecells) : new routine to save merged
 	  regions.
 	(write_sheet_tail) : called from here.
@@ -1088,7 +1101,7 @@
 	  handling think margins.
 
 	* ms-excel-write.c (write_rowinfo) : Use the size_pts member directly.
-	(write_colinfos) :
+	(write_colinfos) : ditto.
 
 	* ms-obj.c (object_anchor_to_position) : Adjust to name and semantic
 	  changes of size_pixels.  Denominate things in pixels.

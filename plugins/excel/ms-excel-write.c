@@ -2763,6 +2763,34 @@ write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row,
 }
 
 /**
+ * write_guts
+ * @bp    :  BIFF buffer
+ * @sheet : sheet
+ *
+ * Write information about outline mode gutters.
+ * See: S59D92.HTM
+ */
+static void
+write_guts (BiffPut *bp, ExcelSheet *sheet)
+{
+	guint8 *data = ms_biff_put_len_next (bp, BIFF_GUTS, 8);
+	int row_level = MIN (sheet->gnum_sheet->rows.max_outline_level, 0x7);
+	int col_level = MIN (sheet->gnum_sheet->cols.max_outline_level, 0x7);
+	int row_size = 0, col_size = 0;
+
+	/* This seems to be what the default is */
+	if (row_level > 0)
+		row_size = 5 + 12 * row_level;
+	if (col_level > 0)
+		col_size = 5 + 12 * col_level;
+	MS_OLE_SET_GUINT16 (data+0, row_size);
+	MS_OLE_SET_GUINT16 (data+2, col_size);
+	MS_OLE_SET_GUINT16 (data+4, row_level);
+	MS_OLE_SET_GUINT16 (data+6, col_level);
+	ms_biff_put_commit (bp);
+}
+
+/**
  * write_default_row_height
  * @bp  BIFF buffer
  * @sheet sheet
@@ -2933,33 +2961,49 @@ write_default_col_width (BiffPut *bp, ExcelSheet *sheet)
 
 /**
  * write_colinfo
- * @bp   BIFF buffer
- * @col  column
+ * @bp:   BIFF buffer
+ * @col:  column
  *
  * Write column info for a run of identical columns
  */
 static void
-write_colinfo (BiffPut *bp, ExcelCol *col)
+write_colinfo (BiffPut *bp, ExcelSheet *sheet,
+	       ColRowInfo const *ci, int last_index)
 {
 	guint8 *data;
 	double  width_chars
-		= col->width / get_base_char_width (col->sheet, FALSE);
+		= ci->size_pts / get_base_char_width (sheet, FALSE);
 	guint16 width = (guint16) (width_chars * 256.);
+
+	/* FIXME: Find default style for column. Does it have to be common to
+	 * all cells, or can a cell override? Do all cells have to be blank.
+	 * This will be simpler when we add default col & row styles to the
+	 * quad tree semantics.
+	 */
+	guint16 xf_index = 0xf;
+	guint16 options = 0;
+
+	if (!ci->visible)
+		options = 1;
+	options |= (MIN (ci->outline_level, 0x7) << 8);
+	if (ci->is_collapsed)
+		options |= 0x1000;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 1) {
 		printf ("Column Formatting from col %d to %d of width "
-			"%f characters\n", col->first, col->last, width/256.0);
+			"%f characters\n", ci->pos, last_index, width/256.0);
 	}
 #endif
 
+	/* NOTE : Docs lie.  length is 12 not 11 */
 	data = ms_biff_put_len_next (bp, BIFF_COLINFO, 12);
-	MS_OLE_SET_GUINT16 (data +  0, col->first); /* 1st  col formatted */
-	MS_OLE_SET_GUINT16 (data +  2, col->last);  /* last col formatted */
-	MS_OLE_SET_GUINT16 (data +  4, width);      /* width */
-	MS_OLE_SET_GUINT16 (data +  6, col->xf);    /* XF index */
-	MS_OLE_SET_GUINT16 (data +  8, 0x00);       /* options */
-	MS_OLE_SET_GUINT16 (data + 10, 0x00);       /* magic */
+	MS_OLE_SET_GUINT16 (data +  0, ci->pos);	/* 1st  col formatted */
+	MS_OLE_SET_GUINT16 (data +  2, last_index);	/* last col formatted */
+	MS_OLE_SET_GUINT16 (data +  4, width);		/* width */
+	MS_OLE_SET_GUINT16 (data +  6, xf_index);	/* XF index */
+	MS_OLE_SET_GUINT16 (data +  8, options);	/* options */
+	MS_OLE_SET_GUINT16 (data + 10, 0);		/* reserved = 0 */
 	ms_biff_put_commit (bp);
 }
 
@@ -2974,33 +3018,21 @@ write_colinfo (BiffPut *bp, ExcelCol *col)
 static void
 write_colinfos (BiffPut *bp, ExcelSheet *sheet)
 {
-	ExcelCol col;
+	ColRowInfo const *first = NULL;
 	int i;
-	double width;
-
-	col.first = 0;
-	col.width = 0.0;
-	col.sheet = sheet;
-
-	/* FIXME: Find default style for column. Does it have to be common to
-	 * all cells, or can a cell override? Do all cells have to be
-	 * blank. */
-	col.xf    = 0x0f;
 
 	for (i = 0; i < sheet->maxx; i++) {
-		ColRowInfo const *ci = sheet_col_get_info (sheet->gnum_sheet, i);
-		width = ci->size_pts;
-		if (width != col.width) {
-			if (i > 0) {
-				col.last = i - 1;
-				write_colinfo (bp, &col);
-			}
-			col.width = width;
-			col.first = i;
+		ColRowInfo const *ci = sheet_col_get (sheet->gnum_sheet, i);
+
+		if (first == NULL)
+			first = ci;
+		else if (!colrow_equal (first, ci)) {
+			write_colinfo (bp, sheet, first, i-1);
+			first = ci;
 		}
 	}
-	col.last = sheet->maxx - 1;
-	write_colinfo (bp, &col);
+	if (first != NULL)
+		write_colinfo (bp, sheet, first, i-1);
 }
 
 static void
@@ -3062,12 +3094,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	MS_OLE_SET_GUINT16 (data, 0x0001);
 	ms_biff_put_commit (bp);
 
-	/* See: S59D92.HTM ( Gutters ) */
-	data = ms_biff_put_len_next (bp, BIFF_GUTS, 8);
-	MS_OLE_SET_GUINT32 (data,   0x0);
-	MS_OLE_SET_GUINT32 (data+4, 0x0);
-	ms_biff_put_commit (bp);
-
+	write_guts (bp, sheet);
 	write_default_row_height (bp, sheet); /* Default row height */
 	write_wsbool (bp, sheet);
 
@@ -3222,25 +3249,33 @@ write_index (MsOleStream *s, ExcelSheet *sheet, MsOlePos pos)
 
 /* See: S59DDB.HTM */
 static MsOlePos
-write_rowinfo (BiffPut *bp, ExcelSheet *sheet, guint32 row, guint32 width)
+write_rowinfo (BiffPut *bp, ExcelSheet *sheet, guint32 row, guint32 last_col)
 {
 	guint8 *data;
 	MsOlePos pos;
-
 	ColRowInfo const *ri = sheet_row_get_info (sheet->gnum_sheet, row);
-	double points = width = ri->size_pts;
 
 	/* We don't worry about standard height. I haven't seen it
 	 * indicated in any actual sheet. */
-	guint16 height = (guint16) (20. * points);
-	/* FIXME: Set option bit 7 if row has default style */
-	guint16 options = 0x0100; /* Magic */
+	guint16 height = (guint16) (20. * ri->size_pts);
+	guint16 options = 0x100; /* undocumented magic */
+
 	/* FIXME: Find default style for row. Does it have to be common to
 	 * all cells, or can a cell override? Do all cells have to be
 	 * blank. */
 	guint16 row_xf     = 0x000f; /* Magic */
 	/* FIXME: set bit 12 of row_xf if thick border on top, bit 13 if thick
 	 * border on bottom. */
+
+	options |= (MIN (ri->outline_level, 0x7));
+	if (ri->is_collapsed)
+		options |= 0x10;
+	if (!ri->visible)
+		options |= 0x20;
+	if (!ri->visible)
+		options |= 0x20;
+	if (ri->hard_size)
+		options |= 0x40;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_write_debug > 1)
@@ -3251,7 +3286,7 @@ write_rowinfo (BiffPut *bp, ExcelSheet *sheet, guint32 row, guint32 width)
 	pos = bp->streamPos;
 	MS_OLE_SET_GUINT16 (data +  0, row);     /* Row number */
 	MS_OLE_SET_GUINT16 (data +  2, 0);       /* first def. col */
-	MS_OLE_SET_GUINT16 (data +  4, width);   /* last  def. col */
+	MS_OLE_SET_GUINT16 (data +  4, last_col);   /* last  def. col */
 	MS_OLE_SET_GUINT16 (data +  6, height);	 /* height */
 	MS_OLE_SET_GUINT16 (data +  8, 0x00);    /* undocumented */
 	MS_OLE_SET_GUINT16 (data + 10, 0x00);    /* reserved */
@@ -3435,13 +3470,14 @@ new_sheet (ExcelWorkbook *wb, Sheet *value)
 	g_return_val_if_fail (value, NULL);
 	g_return_val_if_fail (wb, NULL);
 
+	extent = sheet_get_extent (value);
+	sheet_style_get_extent (value, &extent);
+
 	sheet->gnum_sheet = value;
 	sheet->streamPos  = 0x0deadbee;
 	sheet->wb         = wb;
-	extent            = sheet_get_extent (sheet->gnum_sheet);
-	sheet_style_get_extent (sheet->gnum_sheet, &extent);
-	sheet->maxx       = extent.end.col + 1;
-	sheet->maxy       = extent.end.row + 1;
+	sheet->maxx       = 1 + MAX (value->cols.max_used, extent.end.col);
+	sheet->maxy       = 1 + MAX (value->rows.max_used, extent.end.row);
 	sheet->dbcells    = g_array_new (FALSE, FALSE, sizeof (MsOlePos));
 	sheet->base_char_width = 0;
 
