@@ -75,9 +75,9 @@ struct _ItemGrid {
 static void
 item_grid_destroy (GtkObject *object)
 {
-	ItemGrid *grid;
+	ItemGrid *ig;
 
-	grid = ITEM_GRID (object);
+	ig = ITEM_GRID (object);
 
 	if (GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_grid_parent_class)->destroy)(object);
@@ -88,12 +88,12 @@ item_grid_realize (GnomeCanvasItem *item)
 {
 	GdkWindow *window;
 	GtkStyle  *style;
-	ItemGrid  *item_grid;
+	ItemGrid  *ig;
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->realize)(item);
 
-	item_grid = ITEM_GRID (item);
+	ig = ITEM_GRID (item);
 	window = GTK_WIDGET (item->canvas)->window;
 
 	/* Set the default background color of the canvas itself to white.
@@ -105,25 +105,25 @@ item_grid_realize (GnomeCanvasItem *item)
 	gtk_style_unref (style);
 
 	/* Configure the default grid gc */
-	item_grid->gc.fill = gdk_gc_new (window);
-	item_grid->gc.cell = gdk_gc_new (window);
-	item_grid->gc.empty = gdk_gc_new (window);
+	ig->gc.fill = gdk_gc_new (window);
+	ig->gc.cell = gdk_gc_new (window);
+	ig->gc.empty = gdk_gc_new (window);
 
-	gdk_gc_set_foreground (item_grid->gc.fill, &gs_white);
-	gdk_gc_set_background (item_grid->gc.fill, &gs_light_gray);
+	gdk_gc_set_foreground (ig->gc.fill, &gs_white);
+	gdk_gc_set_background (ig->gc.fill, &gs_light_gray);
 }
 
 static void
 item_grid_unrealize (GnomeCanvasItem *item)
 {
-	ItemGrid *item_grid = ITEM_GRID (item);
+	ItemGrid *ig = ITEM_GRID (item);
 
-	gdk_gc_unref (item_grid->gc.fill);
-	gdk_gc_unref (item_grid->gc.cell);
-	gdk_gc_unref (item_grid->gc.empty);
-	item_grid->gc.fill = 0;
-	item_grid->gc.cell = 0;
-	item_grid->gc.empty = 0;
+	gdk_gc_unref (ig->gc.fill);
+	gdk_gc_unref (ig->gc.cell);
+	gdk_gc_unref (ig->gc.empty);
+	ig->gc.fill = 0;
+	ig->gc.cell = 0;
+	ig->gc.empty = 0;
 
 	if (GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)
 		(*GNOME_CANVAS_ITEM_CLASS (item_grid_parent_class)->unrealize)(item);
@@ -151,13 +151,13 @@ item_grid_update (GnomeCanvasItem *item, double *affine, ArtSVP *clip_path, int 
  * segments that are selected.
  */
 static void
-item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
+item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *ig,
 			     int start_x, int start_y,
 			     Range const *view, Range const *range)
 {
 	int l, r, t, b, last;
-	GdkGC *gc = grid->gc.empty;
-	Sheet const *sheet   = grid->scg->sheet;
+	GdkGC *gc = ig->gc.empty;
+	Sheet const *sheet   = ig->scg->sheet;
 	Cell  const *cell    = sheet_cell_get (sheet, range->start.col, range->start.row);
 
 	/* load style from corner which may not be visible */
@@ -168,22 +168,22 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 
 	l = r = start_x;
 	if (view->start.col < range->start.col)
-		l += scg_colrow_distance_get (grid->scg, TRUE,
+		l += scg_colrow_distance_get (ig->scg, TRUE,
 			view->start.col, range->start.col);
 	if (range->end.col <= (last = view->end.col))
 		last = range->end.col;
-	r += scg_colrow_distance_get (grid->scg, TRUE, view->start.col, last+1);
+	r += scg_colrow_distance_get (ig->scg, TRUE, view->start.col, last+1);
 
 	t = b = start_y;
 	if (view->start.row < range->start.row)
-		t += scg_colrow_distance_get (grid->scg, FALSE,
+		t += scg_colrow_distance_get (ig->scg, FALSE,
 			view->start.row, range->start.row);
 	if (range->end.row <= (last = view->end.row))
 		last = range->end.row;
-	b += scg_colrow_distance_get (grid->scg, FALSE, view->start.row, last+1);
+	b += scg_colrow_distance_get (ig->scg, FALSE, view->start.row, last+1);
 
 	/* Check for background THEN selection */
-	if (gnumeric_background_set_gc (mstyle, gc, grid->canvas_item.canvas, is_selected) ||
+	if (gnumeric_background_set_gc (mstyle, gc, ig->canvas_item.canvas, is_selected) ||
 	    is_selected)
 		/* Remember X excludes the far pixels */
 		gdk_draw_rectangle (drawable, gc, TRUE, l, t, r-l+1, b-t+1);
@@ -193,20 +193,20 @@ item_grid_draw_merged_range (GdkDrawable *drawable, ItemGrid *grid,
 		ColRowInfo const * const ci = cell->col_info;
 
 		if (range->start.col < view->start.col)
-			l -= scg_colrow_distance_get (grid->scg, TRUE,
+			l -= scg_colrow_distance_get (ig->scg, TRUE,
 				range->start.col, view->start.col);
 		if (view->end.col < range->end.col)
-			r += scg_colrow_distance_get (grid->scg, TRUE,
+			r += scg_colrow_distance_get (ig->scg, TRUE,
 				view->end.col+1, range->end.col+1);
 		if (range->start.row < view->start.row)
-			t -= scg_colrow_distance_get (grid->scg, FALSE,
+			t -= scg_colrow_distance_get (ig->scg, FALSE,
 				range->start.row, view->start.row);
 		if (view->end.row < range->end.row)
-			b += scg_colrow_distance_get (grid->scg, FALSE,
+			b += scg_colrow_distance_get (ig->scg, FALSE,
 				view->end.row+1, range->end.row+1);
 
 		/* FIXME : get the margins from the far col/row too */
-		cell_draw (cell, mstyle, grid->gc.cell, drawable,
+		cell_draw (cell, mstyle, ig->gc.cell, drawable,
 			   l, t,
 			   r - l - (ci->margin_b + ci->margin_a + 1),
 			   b - t - (ri->margin_b + ri->margin_a + 1), -1);
@@ -248,7 +248,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 	Sheet const *sheet = gsheet->scg->sheet;
 	Cell const * const edit_cell = gsheet->scg->wbcg->editing_cell;
-	ItemGrid *item_grid = ITEM_GRID (item);
+	ItemGrid *ig = ITEM_GRID (item);
 	ColRowInfo const *ri = NULL, *next_ri = NULL;
 
 	/* To ensure that far and near borders get drawn we pretend to draw +-2
@@ -292,7 +292,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 	}
 
 	/* Fill entire region with default background (even past far edge) */
-	gdk_draw_rectangle (drawable, item_grid->gc.fill, TRUE,
+	gdk_draw_rectangle (drawable, ig->gc.fill, TRUE,
 			    draw_x, draw_y, width, height);
 
 	/* Get ordered list of merged regions */
@@ -371,7 +371,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				MERGE_DEBUG (r, " : unused -> active\n");
 
 				if (ci->visible)
-					item_grid_draw_merged_range (drawable, item_grid,
+					item_grid_draw_merged_range (drawable, ig,
 								     diff_x, y, &view, r);
 			} else {
 				lag = &(ptr->next);
@@ -437,7 +437,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 			}
 
 			style = sr.styles [col];
-			item_grid_draw_background (drawable, item_grid,
+			item_grid_draw_background (drawable, ig,
 						   style, col, row, x, y,
 						   ci->size_pixels,
 						   ri->size_pixels);
@@ -459,7 +459,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				Cell const *cell = sheet_cell_get (sheet, col, row);
 				if (!cell_is_blank (cell) && cell != edit_cell)
 					cell_draw (cell, style,
-						   item_grid->gc.cell, drawable,
+						   ig->gc.cell, drawable,
 						   x, y, -1, -1, -1);
 
 			/* Only draw spaning cells after all the backgrounds
@@ -505,7 +505,7 @@ item_grid_draw (GnomeCanvasItem *item, GdkDrawable *drawable,
 				}
 
 				cell_draw (cell, style,
-					   item_grid->gc.cell, drawable,
+					   ig->gc.cell, drawable,
 					   real_x, y, tmp_width, -1, center_offset);
 			} else if (col != span->left)
 				sr.vertical [col] = NULL;
@@ -717,9 +717,9 @@ sheet_object_begin_creation (GnumericSheet *gsheet, GdkEventButton *event)
 
 static int
 item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
-		    ItemGrid *item_grid, int col, int row, int x, int y)
+		    ItemGrid *ig, int col, int row, int x, int y)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ig);
 	GnomeCanvas   *canvas = item->canvas;
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
 
@@ -747,7 +747,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	 * reset the location to a new place, or extend the selection.
 	 */
 	if (gsheet->selecting_cell) {
-		item_grid->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
+		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		if (event->state & GDK_SHIFT_MASK)
 			gnumeric_sheet_rangesel_cursor_extend (gsheet, col, row);
 		else
@@ -761,7 +761,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	 */
 	if (gnumeric_sheet_can_select_expr_range (gsheet)){
 		gnumeric_sheet_start_cell_selection (gsheet, col, row);
-		item_grid->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
+		ig->selecting = ITEM_GRID_SELECTING_FORMULA_RANGE;
 		return 1;
 	}
 
@@ -778,7 +778,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))
 		sheet_selection_reset (scg->sheet);
 
-	item_grid->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
+	ig->selecting = ITEM_GRID_SELECTING_CELL_RANGE;
 
 	if ((event->state & GDK_SHIFT_MASK) && scg->sheet->selections)
 		sheet_selection_extend_to (scg->sheet, col, row);
@@ -836,9 +836,9 @@ static gint
 item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 {
 	GnomeCanvas *canvas = item->canvas;
-	ItemGrid *item_grid = ITEM_GRID (item);
+	ItemGrid *ig = ITEM_GRID (item);
 	GnumericSheet *gsheet = GNUMERIC_SHEET (canvas);
-	SheetControlGUI *scg = item_grid->scg;
+	SheetControlGUI *scg = ig->scg;
 	int col, row, x, y, left, top, width, height;
 
 	switch (event->type){
@@ -859,9 +859,9 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 	case GDK_BUTTON_RELEASE:
 		switch (event->button.button) {
 		case 1 :
-			scg_stop_sliding (item_grid->scg);
+			scg_stop_sliding (ig->scg);
 
-			if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
+			if (ig->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				sheet_make_cell_visible (scg->sheet,
 							 scg->sheet->edit_pos.col,
 							 scg->sheet->edit_pos.row);
@@ -869,7 +869,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			wb_view_selection_desc (wb_control_view (
 				WORKBOOK_CONTROL (scg->wbcg)), TRUE, NULL);
 
-			item_grid->selecting = ITEM_GRID_NO_SELECTION;
+			ig->selecting = ITEM_GRID_NO_SELECTION;
 			gnome_canvas_item_ungrab (item, event->button.time);
 			return 1;
 
@@ -892,7 +892,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			int dx = 0, dy = 0;
 			SheetControlGUISlideHandler slide_handler = NULL;
 
-			if (item_grid->selecting == ITEM_GRID_NO_SELECTION)
+			if (ig->selecting == ITEM_GRID_NO_SELECTION)
 				return 1;
 
 			if (x < left)
@@ -905,24 +905,24 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			else if (y >= top + height)
 				dy = y - height - top;
 
-			if (item_grid->selecting == ITEM_GRID_SELECTING_CELL_RANGE)
+			if (ig->selecting == ITEM_GRID_SELECTING_CELL_RANGE)
 				slide_handler = &cb_extend_cell_range;
-			else if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
+			else if (ig->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE)
 				slide_handler = &cb_extend_expr_range;
 
-			if (scg_start_sliding (item_grid->scg,
+			if (scg_start_sliding (ig->scg,
 						      slide_handler, NULL,
 						      col, row, dx, dy))
 
 				return TRUE;
 		}
 
-		scg_stop_sliding (item_grid->scg);
+		scg_stop_sliding (ig->scg);
 
-		if (item_grid->selecting == ITEM_GRID_NO_SELECTION)
+		if (ig->selecting == ITEM_GRID_NO_SELECTION)
 			return 1;
 
-		if (item_grid->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE){
+		if (ig->selecting == ITEM_GRID_SELECTING_FORMULA_RANGE){
 			gnumeric_sheet_rangesel_cursor_extend (gsheet, col, row);
 			return 1;
 		}
@@ -936,7 +936,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		return TRUE;
 
 	case GDK_BUTTON_PRESS:
-		scg_stop_sliding (item_grid->scg);
+		scg_stop_sliding (ig->scg);
 
 		gnome_canvas_w2c (canvas, event->button.x, event->button.y, &x, &y);
 		col = gnumeric_sheet_find_col (gsheet, x, NULL);
@@ -949,7 +949,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 		switch (event->button.button){
 		case 1:
 			return item_grid_button_1 (scg, &event->button,
-						   item_grid, col, row, x, y);
+						   ig, col, row, x, y);
 
 		case 2:
 			g_warning ("This is here just for demo purposes");
@@ -957,7 +957,7 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
 			return TRUE;
 
 		case 3:
-			scg_context_menu (item_grid->scg,
+			scg_context_menu (ig->scg,
 					  &event->button, FALSE, FALSE);
 			return TRUE;
 
@@ -976,30 +976,30 @@ item_grid_event (GnomeCanvasItem *item, GdkEvent *event)
  * Instance initialization
  */
 static void
-item_grid_init (ItemGrid *item_grid)
+item_grid_init (ItemGrid *ig)
 {
-	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (item_grid);
+	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (ig);
 
 	item->x1 = 0;
 	item->y1 = 0;
 	item->x2 = 0;
 	item->y2 = 0;
 
-	item_grid->selecting = ITEM_GRID_NO_SELECTION;
+	ig->selecting = ITEM_GRID_NO_SELECTION;
 }
 
 static void
 item_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 {
 	GnomeCanvasItem *item;
-	ItemGrid *item_grid;
+	ItemGrid *ig;
 
 	item = GNOME_CANVAS_ITEM (o);
-	item_grid = ITEM_GRID (o);
+	ig = ITEM_GRID (o);
 
 	switch (arg_id){
 	case ARG_SHEET_CONTROL_GUI:
-		item_grid->scg = GTK_VALUE_POINTER (*arg);
+		ig->scg = GTK_VALUE_POINTER (*arg);
 		break;
 	}
 }

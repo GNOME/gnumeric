@@ -1,3 +1,9 @@
+2001-04-15  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/item-grid.c : Within all functions
+	where the ItemGrid is a variable, s/item_grid/ig,
+	s/grid/ig.
+
 2001-04-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/item-grid.c (item_grid_draw) : Hide merged cells.
