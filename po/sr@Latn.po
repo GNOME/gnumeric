@@ -9,8 +9,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.1.90\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-14 05:49+0200\n"
-"PO-Revision-Date: 2003-09-14 06:19+0200\n"
+"POT-Creation-Date: 2003-09-14 18:02+0200\n"
+"PO-Revision-Date: 2003-09-14 18:01+0200\n"
 "Last-Translator: Slobodan Sredojević <ssl@uns.ns.ac.yu>\n"
 "Language-Team: Serbian (sr) <serbiangnome-lista@nongnu.org>\n"
 "MIME-Version: 1.0\n"
@@ -2831,7 +2831,7 @@ msgstr "datum1,datum2,interval"
 #: plugins/fn-date/functions.c:1281 plugins/fn-date/functions.c:1285
 #: plugins/fn-date/functions.c:1293 plugins/fn-date/functions.c:1297
 #: plugins/fn-date/functions.c:1310 plugins/fn-date/functions.c:1314
-#: src/print-info.c:568
+#: src/print-info.c:578
 msgid "date"
 msgstr "datum"
 
@@ -2848,7 +2848,7 @@ msgid "start_date,months"
 msgstr "početni_datum,meseci"
 
 #: plugins/fn-date/functions.c:1245 plugins/fn-date/functions.c:1249
-#: plugins/fn-date/functions.c:1265 src/print-info.c:569
+#: plugins/fn-date/functions.c:1265 src/print-info.c:579
 msgid "time"
 msgstr "vreme"
 
@@ -4896,7 +4896,7 @@ msgstr "%s verzija %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:462
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:474
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -12020,7 +12020,7 @@ msgid "Jump to a specified cell"
 msgstr "Skoči do određenog polja"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:506
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:518
 #: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Oznaka"
@@ -13551,28 +13551,28 @@ msgstr "Sp_olja"
 msgid "_Show Labels"
 msgstr "P_rikaži oznake"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:408
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:420
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "_Minimalno"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:409
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:421
 msgid "M_ax"
 msgstr "M_aksimalno"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:410
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:422
 msgid "Ma_jor Ticks"
 msgstr "Gla_vne crtice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:411
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:423
 msgid "Mi_nor Ticks"
 msgstr "Sp_oredne crtice"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:469
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:481
 msgid "Bounds"
 msgstr "Ograničenja"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:473
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:485
 msgid "Details"
 msgstr "Detalji"
 
@@ -21169,27 +21169,27 @@ msgstr "&[DATUM]"
 msgid "File Name"
 msgstr "Ime datoteke"
 
-#: src/print-info.c:557
-msgid "Path & File Name"
-msgstr "Putanja i ime datoteke"
+#: src/print-info.c:567
+msgid "Path "
+msgstr "Putanja "
 
-#: src/print-info.c:565
+#: src/print-info.c:575
 msgid "tab"
 msgstr "tabulator"
 
-#: src/print-info.c:566
+#: src/print-info.c:576
 msgid "page"
 msgstr "stranica"
 
-#: src/print-info.c:567
+#: src/print-info.c:577
 msgid "pages"
 msgstr "stranice"
 
-#: src/print-info.c:570
+#: src/print-info.c:580
 msgid "file"
 msgstr "datoteka"
 
-#: src/print-info.c:571
+#: src/print-info.c:581
 msgid "path"
 msgstr "putanja"
 
@@ -22713,7 +22713,7 @@ msgstr "tamnoljubičasta"
 msgid "sky blue"
 msgstr "neboplava"
 
-#: src/widgets/gnumeric-expr-entry.c:1253
+#: src/widgets/gnumeric-expr-entry.c:1254
 msgid "Expecting a single range"
 msgstr "Očekujem jedan opseg"
 
@@ -24304,6 +24304,9 @@ msgstr "Greška pri snimanju datoteke"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Gnumerik XML format datoteke"
+
+#~ msgid "Path & File Name"
+#~ msgstr "Putanja i ime datoteke"
 
 #~ msgid "Sheet 1"
 #~ msgstr "Tabela 1"
