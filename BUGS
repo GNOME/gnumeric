@@ -8,9 +8,10 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-- smarter support for unicode characters that do not convert to the
-  current encoding during XL import.	(Vlad is looking at this)
-  Apply Vlads patch for 0.66
+    - Revert recent xml-io DOM saving progress patch.
+
+Pending Patches
+---------------
 
 Long term breakage
 ------------------
