@@ -1,3 +1,13 @@
+1999-10-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-database.c: Fixed the criteria argument
+ 	handling.  Each column defines conditions in boolean AND relation
+ 	and each row in criteria matches in boolean OR relation with the
+ 	given database.  Fixed the non-numeric return values of DGET.
+  	Documentation improvements.
+	
+	* src/func.h (func_criteria_t): Added column field.
+
 1999-10-24  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/cellspan.c (cell_register_span): Create the span if required.

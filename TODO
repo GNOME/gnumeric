@@ -42,8 +42,7 @@ Gnumeric Spread Sheet task list
 
 * Implement Even More Functions
 
-    * AREAS, INDEX, MATCH, GETPIVOTDATA, GROWTH, and LOGEST
-    * Finish LINEST and TREND
+    * AREAS and GETPIVOTDATA
     * AMORDEGRC, AMORLINC, COUPDAYBS, COUPDAYS, COUPDAYSNC, COUPNCD,
       COUPNUM, COUPPCD, CUMIPMT, CUMPRINC, IRR, MDURATION, MIRR,
       ODDFPRICE, ODDFYIELD, ODDLPRICE, ODDLYIELD, PRICE, VDB, XIRR,
@@ -51,7 +50,7 @@ Gnumeric Spread Sheet task list
 
 * Fix the Following Functions
 
-    * DAVERAGE, DGET, PERCENTRANK, and VLOOKUP
+    * GROWTH, INDEX, LINEST, LOGEST, MATCH, TREND, and VLOOKUP
 
 * Printing
   * Save print information in workbook

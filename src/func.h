@@ -151,7 +151,8 @@ typedef int (*criteria_test_fun_t) (Value *x, Value *y);
 
 typedef struct {
         criteria_test_fun_t fun;
-        Value                *x;
+        Value               *x;
+        int                 column;
 } func_criteria_t;
 
 int  criteria_test_equal            (Value *x, Value *y);

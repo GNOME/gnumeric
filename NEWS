@@ -1,3 +1,12 @@
+Gnumeric 0.42
+
+Jukka:
+	* Fixed the handling of the database function criterias
+	* Fixed the non-numeric return values of DGET
+	* Documentation of the db functions improved
+
+--------------------------------------------------------------------------
+
 Gnumeric 0.39
 
 Miguel:

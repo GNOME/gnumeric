@@ -14,7 +14,7 @@
 /* Type definitions */
 
 typedef struct {
-        int    column;
+        int    row;
         GSList *conditions;
 } database_criteria_t;
 
@@ -175,39 +175,33 @@ free_criterias(GSList *criterias)
 }
 
 void
-parse_criteria(const char *criteria, criteria_test_fun_t *fun, Value **test_value)
+parse_criteria(const char *criteria, criteria_test_fun_t *fun,
+	       Value **test_value)
 {
 	char    *p;
 	float_t tmp;
 	int     len;
 
         if (strncmp(criteria, "<=", 2) == 0) {
-	        *fun = (criteria_test_fun_t) 
-		  criteria_test_less_or_equal;
+	        *fun = (criteria_test_fun_t) criteria_test_less_or_equal;
 		len=2;
 	} else if (strncmp(criteria, ">=", 2) == 0) {
-	        *fun = (criteria_test_fun_t)
-		  criteria_test_greater_or_equal;
+	        *fun = (criteria_test_fun_t) criteria_test_greater_or_equal;
 		len=2;
 	} else if (strncmp(criteria, "<>", 2) == 0) {
-	        *fun = (criteria_test_fun_t)
-		  criteria_test_unequal;
+	        *fun = (criteria_test_fun_t) criteria_test_unequal;
 		len=2;
 	} else if (*criteria == '<') {
-	        *fun = (criteria_test_fun_t)
-		  criteria_test_less;
+	        *fun = (criteria_test_fun_t) criteria_test_less;
 		len=1;
 	} else if (*criteria == '=') {
-	        *fun = (criteria_test_fun_t)
-		  criteria_test_equal;
+	        *fun = (criteria_test_fun_t) criteria_test_equal;
 		len=1;
 	} else if (*criteria == '>') {
-	        *fun = (criteria_test_fun_t)
-		  criteria_test_greater;
+	        *fun = (criteria_test_fun_t) criteria_test_greater;
 		len=1;
 	} else {
-	        *fun = (criteria_test_fun_t)
-		  criteria_test_equal;
+	        *fun = (criteria_test_fun_t) criteria_test_equal;
 		len=0;
 	}
 	
@@ -223,16 +217,21 @@ parse_criteria(const char *criteria, criteria_test_fun_t *fun, Value **test_valu
 /* Parses the criteria cell range.
  */
 static GSList *
-parse_database_criteria (const EvalPosition *ep, Value *database, Value *criteria)
+parse_database_criteria (const EvalPosition *ep, Value *database,
+			 Value *criteria)
 {
 	Sheet               *sheet;
 	database_criteria_t *new_criteria;
 	GSList              *criterias;
 	GSList              *conditions;
 	Cell                *cell;
+
         int   i, j;
 	int   b_col, b_row, e_col, e_row;
-	int   field_ind;
+	int   *field_ind;
+
+	func_criteria_t *cond;
+	gchar           *cell_str;
 
 	sheet = eval_sheet (database->v.cell_range.cell_a.sheet, ep->sheet);
 	b_col = criteria->v.cell_range.cell_a.col;
@@ -243,51 +242,64 @@ parse_database_criteria (const EvalPosition *ep, Value *database, Value *criteri
 	conditions = NULL;
 	criterias = NULL;
 
+	field_ind = g_new(int, (e_col-b_col+1));
+
+	/* Find the index numbers for the columns of criterias */
 	for (i=b_col; i<=e_col; i++) {
 	        cell = sheet_cell_get(sheet, i, b_row);
 		if (cell == NULL || cell->value == NULL)
 		        continue;
-	        field_ind = find_column_of_field (ep, database, cell->value);
-		if (field_ind == -1) {
-		        free_criterias(criterias);
-		        return NULL;
+		field_ind[i-b_col] =
+		        find_column_of_field (ep, database, cell->value);
+		if (field_ind[i-b_col] == -1) {
+		        g_free(field_ind);
+			return NULL;
 		}
-		new_criteria = g_new(database_criteria_t, 1);
-		new_criteria->column = field_ind;
+	}
+
+	for (i=b_row+1; i<=e_row; i++) {
+	        new_criteria = g_new(database_criteria_t, 1);
 		conditions = NULL;
 
-	        for (j=b_row+1; j<=e_row; j++) {
-		        func_criteria_t *cond;
-			gchar       *cell_str;
-
-			cell = sheet_cell_get(sheet, i, j);
+		for (j=b_col; j<=e_col; j++) {
+		        cell = sheet_cell_get(sheet, j, i);
 			if (cell == NULL || cell->value == NULL)
-			       continue;
+			        continue;
+
 			cond = g_new(func_criteria_t, 1);
+
+			/* Equality condition (in number format) */
 			if (VALUE_IS_NUMBER(cell->value)) {
-			       cond->x = value_duplicate (cell->value);
-			       cond->fun =
-				 (criteria_test_fun_t) criteria_test_equal;
-			       conditions = g_slist_append(conditions, cond);
-			       continue;
+			        cond->x = value_duplicate (cell->value);
+				cond->fun =
+				  (criteria_test_fun_t) criteria_test_equal;
+				cond->column = field_ind[j-b_col];
+				conditions = g_slist_append(conditions, cond);
+				continue;
 			}
+
+			/* Other conditions (in string format) */
 			cell_str = cell_get_text(cell);
 			parse_criteria(cell_str, &cond->fun, &cond->x);
+			cond->column = field_ind[j-b_col];
 			g_free (cell_str);
-
+	    
 			conditions = g_slist_append(conditions, cond);
 		}
+
 		new_criteria->conditions = conditions;
 		criterias = g_slist_append(criterias, new_criteria);
 	}
 
+	g_free(field_ind);
 	return criterias;
 }
 
 /* Finds the cells from the given column that match the criteria.
  */
 static GSList *
-find_cells_that_match (const EvalPosition *ep, Value *database, int field, GSList *criterias)
+find_cells_that_match (const EvalPosition *ep, Value *database,
+		       int field, GSList *criterias)
 {
         Sheet  *sheet;
 	GSList *current, *conditions, *cells;
@@ -304,37 +316,81 @@ find_cells_that_match (const EvalPosition *ep, Value *database, int field, GSLis
 	       if (cell == NULL || cell->value == NULL)
 		       continue;
 	       current = criterias;
-	       add_flag = 0;
+	       add_flag = 1;
 	       for (current = criterias; current != NULL;
 		    current=current->next) {
 		       database_criteria_t *current_criteria;
 
+		       add_flag = 1;
 		       current_criteria = current->data;
-		       test_cell = sheet_cell_get(sheet, 
-						  current_criteria->column,
-						  row);
-		       if (test_cell == NULL || test_cell->value == NULL)
-			       continue;
 		       conditions = current_criteria->conditions;
-		       add_flag = 0;
+
 		       while (conditions != NULL) {
 			       func_criteria_t *cond = conditions->data;
 
-			       if (cond->fun (test_cell->value, cond->x)) {
-				       add_flag = 1;
+			       test_cell =
+				 sheet_cell_get(sheet, cond->column, row);
+			       if (test_cell == NULL ||
+				   test_cell->value == NULL)
+				       continue;
+
+			       if (! cond->fun (test_cell->value, cond->x)) {
+				       add_flag = 0;
 				       break;
 			       }
 			       conditions = conditions->next;
 		       }
-		       if (add_flag == 0)
+
+		       if (add_flag)
 			       break;
 	       }
-	       if (add_flag) {
+	       if (add_flag)
 		       cells = g_slist_append(cells, cell);
-	       }
 	}
+
 	return cells;
 }
+
+#define DB_ARGUMENT_HELP \
+	   "@database is a range of cells in which rows of related " \
+	   "information are records and columns of data are fields. " \
+	   "The first row of a database contains labels for each column. " \
+	   "\n" \
+	   "@field specifies which column is used in the function.  If " \
+	   "@field is an integer, i.e. 2, the second column is used. Field " \
+	   "can also be the label of a column.  For example, ``Age'' refers " \
+	   "to the column with the label ``Age'' in @database range. " \
+	   "\n" \
+	   "@criteria is the range of cells which contains the specified " \
+	   "conditions.  The first row of a @criteria should contain the " \
+	   "labels of the fields for which the criterias are for.  Cells " \
+	   "below the labels specify conditions, for example, ``>3'' or " \
+	   "``<9''.  Equality condition can be given simply by specifing a " \
+	   "value, e.g. ``3'' or ``John''.  Each row in @criteria specifies " \
+	   "a separate condition, i.e. if a row in @database matches with " \
+	   "one of the rows in @criteria then that row is counted in " \
+	   "(technically speaking boolean OR between the rows in " \
+	   "@criteria).  If @criteria specifies more than one columns then " \
+	   "each of the conditions in these columns should be true that " \
+	   "the row in @database matches (again technically speaking " \
+	   "boolean AND between the columns in each row in @criteria). " \
+           "\n" \
+	   "@EXAMPLES=\n" \
+	   "Let us assume that the range A1:C7 contain the following " \
+	   "values:\n" \
+	   "Name    Age     Salary\n" \
+	   "John    34      54342\n" \
+	   "Bill    35      22343\n" \
+	   "Clark   29      34323\n" \
+	   "Bob     43      47242\n" \
+	   "Susan   37      42932\n" \
+	   "Jill    45      45324\n" \
+	   "\n" \
+	   "In addition, the cells A9:B11 contain the following values:\n" \
+	   "Age     Salary\n" \
+	   "<30\n" \
+	   ">40     >46000\n"
+
 
 /***************************************************************************/
 
@@ -346,20 +402,12 @@ static char *help_daverage = {
            "DAVERAGE function returns the average of the values in a list "
 	   "or database that match conditions specified. "
 	   "\n"
-	   "@database is a range of cells in which rows of related "
-	   "information are records and columns of data are fields. "
-	   "The first row of a database contains labels for each column. "
+	   DB_ARGUMENT_HELP
 	   "\n"
-	   "@field specifies which column is used in the function. If @field "
-	   "is an integer, i.e. 2, the second column is used. Field can "
-	   "also be the label of a column. "
-	   "\n"
-	   "@criteria is the range of cells which contains the specified "
-	   "conditions. The first row of a @criteria should contain the labels "
-	   "of the fields for which the criterias are for. Cells below the "
-	   "label specify coditions, for example, ``>3'' or ``<9''. "
-           "\n"
-	   "@EXAMPLES=\n"
+           "DAVERAGE(A1:C7, \"Salary\", A9:A11) equals 42296.3333.\n"
+	   "DAVERAGE(A1:C7, \"Age\", A9:A11) equals 39.\n"
+           "DAVERAGE(A1:C7, \"Salary\", A9:B11) equals 40782.5.\n"
+	   "DAVERAGE(A1:C7, \"Age\", A9:B11) equals 36.\n"
 	   "\n"
            "@SEEALSO=DCOUNT")
 };
@@ -417,20 +465,11 @@ static char *help_dcount = {
            "DCOUNT function counts the cells that contain numbers in a "
 	   "database that match conditions specified. "
 	   "\n"
-	   "@database is a range of cells in which rows of related "
-	   "information are records and columns of data are fields. "
-	   "The first row of a database contains labels for each column. "
+	   DB_ARGUMENT_HELP
 	   "\n"
-	   "@field specifies which column is used in the function. If @field "
-	   "is an integer, i.e. 2, the second column is used. Field can "
-	   "also be the label of a column. "
-	   "\n"
-	   "@criteria is the range of cells which contains the specified "
-	   "conditions. The first row of a @criteria should contain the labels "
-	   "of the fields for which the criterias are for. Cells below the "
-	   "label specify coditions, for example, ``>3'' or ``<9''. "
-           "\n"
-	   "@EXAMPLES=\n"
+           "DCOUNT(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+           "DCOUNT(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+           "DCOUNT(A1:C7, \"Name\", A9:B11) equals 0.\n"
 	   "\n"
            "@SEEALSO=DAVERAGE")
 };
@@ -484,20 +523,11 @@ static char *help_dcounta = {
            "DCOUNTA function counts the cells that contain data in a "
 	   "database that match conditions specified. "
 	   "\n"
-	   "@database is a range of cells in which rows of related "
-	   "information are records and columns of data are fields. "
-	   "The first row of a database contains labels for each column. "
+	   DB_ARGUMENT_HELP
 	   "\n"
-	   "@field specifies which column is used in the function. If @field "
-	   "is an integer, i.e. 2, the second column is used. Field can "
-	   "also be the label of a column. "
-	   "\n"
-	   "@criteria is the range of cells which contains the specified "
-	   "conditions. The first row of a @criteria should contain the labels "
-	   "of the fields for which the criterias are for. Cells below the "
-	   "label specify coditions, for example, ``>3'' or ``<9''. "
-           "\n"
-	   "@EXAMPLES=\n"
+           "DCOUNTA(A1:C7, \"Salary\", A9:A11) equals 3.\n"
+           "DCOUNTA(A1:C7, \"Salary\", A9:B11) equals 2.\n"
+           "DCOUNTA(A1:C7, \"Name\", A9:B11) equals 2.\n"
 	   "\n"
            "@SEEALSO=DCOUNT")
 };
@@ -548,25 +578,15 @@ static char *help_dget = {
            "DGET function returns a single value from a column that "
 	   "match conditions specified. "
 	   "\n"
-	   "@database is a range of cells in which rows of related "
-	   "information are records and columns of data are fields. "
-	   "The first row of a database contains labels for each column. "
+	   DB_ARGUMENT_HELP
 	   "\n"
-	   "@field specifies which column is used in the function. If @field "
-	   "is an integer, i.e. 2, the second column is used. Field can "
-	   "also be the label of a column. "
-	   "\n"
-	   "@criteria is the range of cells which contains the specified "
-	   "conditions. The first row of a @criteria should contain the labels "
-	   "of the fields for which the criterias are for. Cells below the "
-	   "label specify coditions, for example, ``>3'' or ``<9''. "
+           "DGET(A1:C7, \"Salary\", A9:A10) equals 34323.\n"
+           "DGET(A1:C7, \"Name\", A9:A10) equals \"Clark\".\n"
            "\n"
 	   "If none of the items match the conditions, DGET returns #VALUE! "
 	   "error. "
 	   "If more than one items match the conditions, DGET returns #NUM! "
 	   "error. "
-	   "\n"
-	   "@EXAMPLES=\n"
 	   "\n"
            "@SEEALSO=DCOUNT")
 };
@@ -614,7 +634,7 @@ gnumeric_dget (FunctionEvalInfo *ei, Value **argv)
 	if (count > 1)
 		return value_new_error (&ei->pos, gnumeric_err_NUM);
 
-        return value_new_float (value_get_as_float (cell->value));
+        return value_duplicate (cell->value);
 }
 
 static char *help_dmax = {
@@ -625,20 +645,11 @@ static char *help_dmax = {
            "DMAX function returns the largest number in a column that "
 	   "match conditions specified. "
 	   "\n"
-	   "@database is a range of cells in which rows of related "
-	   "information are records and columns of data are fields. "
-	   "The first row of a database contains labels for each column. "
+	   DB_ARGUMENT_HELP
 	   "\n"
-	   "@field specifies which column is used in the function. If @field "
-	   "is an integer, i.e. 2, the second column is used. Field can "
-	   "also be the label of a column. "
-	   "\n"
-	   "@criteria is the range of cells which contains the specified "
-	   "conditions. The first row of a @criteria should contain the labels "
-	   "of the fields for which the criterias are for. Cells below the "
-	   "label specify coditions, for example, ``>3'' or ``<9''. "
-           "\n"
-	   "@EXAMPLES=\n"
+           "DMAX(A1:C7, \"Salary\", A9:A11) equals 47242.\n"
+           "DMAX(A1:C7, \"Age\", A9:A11) equals 45.\n"
+           "DMAX(A1:C7, \"Age\", A9:B11) equals 43.\n"
 	   "\n"
            "@SEEALSO=DMIN")
 };
@@ -702,20 +713,10 @@ static char *help_dmin = {
            "DMIN function returns the smallest number in a column that "
 	   "match conditions specified. "
 	   "\n"
-	   "@database is a range of cells in which rows of related "
-	   "information are records and columns of data are fields. "
-	   "The first row of a database contains labels for each column. "
+	   DB_ARGUMENT_HELP
 	   "\n"
-	   "@field specifies which column is used in the function. If @field "
-	   "is an integer, i.e. 2, the second column is used. Field can "
-	   "also be the label of a column. "
-	   "\n"
-	   "@criteria is the range of cells which contains the specified "
-	   "conditions. The first row of a @criteria should contain the labels "
-	   "of the fields for which the criterias are for. Cells below the "
-	   "label specify coditions, for example, ``>3'' or ``<9''. "
-           "\n"
-	   "@EXAMPLES=\n"
+           "DMIN(A1:C7, \"Salary\", A9:B11) equals 34323.\n"
+           "DMIN(A1:C7, \"Age\", A9:B11) equals 29.\n"
 	   "\n"
            "@SEEALSO=DMAX")
 };
@@ -779,20 +780,9 @@ static char *help_dproduct = {
            "DPRODUCT function returns the product of numbers in a column "
 	   "that match conditions specified. "
 	   "\n"
-	   "@database is a range of cells in which rows of related "
-	   "information are records and columns of data are fields. "
-	   "The first row of a database contains labels for each column. "
+	   DB_ARGUMENT_HELP
 	   "\n"
-	   "@field specifies which column is used in the function. If @field "
-	   "is an integer, i.e. 2, the second column is used. Field can "
-	   "also be the label of a column. "
-	   "\n"
-	   "@criteria is the range of cells which contains the specified "
-	   "conditions. The first row of a @criteria should contain the labels "
-	   "of the fields for which the criterias are for. Cells below the "
-	   "label specify coditions, for example, ``>3'' or ``<9''. "
-           "\n"
-	   "@EXAMPLES=\n"
+           "DPRODUCT(A1:C7, \"Age\", A9:B11) equals 1247.\n"
 	   "\n"
            "@SEEALSO=DSUM")
 };
@@ -856,20 +846,10 @@ static char *help_dstdev = {
 	   "of a population based on a sample. The populations consists of "
 	   "numbers that match conditions specified. "
 	   "\n"
-	   "@database is a range of cells in which rows of related "
-	   "information are records and columns of data are fields. "
-	   "The first row of a database contains labels for each column. "
+	   DB_ARGUMENT_HELP
 	   "\n"
-	   "@field specifies which column is used in the function. If @field "
-	   "is an integer, i.e. 2, the second column is used. Field can "
-	   "also be the label of a column. "
-	   "\n"
-	   "@criteria is the range of cells which contains the specified "
-	   "conditions. The first row of a @criteria should contain the labels "
-	   "of the fields for which the criterias are for. Cells below the "
-	   "label specify coditions, for example, ``>3'' or ``<9''. "
-           "\n"
-	   "@EXAMPLES=\n"
+           "DSTDEV(A1:C7, \"Age\", A9:B11) equals 9.89949.\n"
+           "DSTDEV(A1:C7, \"Salary\", A9:B11) equals 9135.112506.\n"
 	   "\n"
            "@SEEALSO=DSTDEVP")
 };
@@ -929,20 +909,10 @@ static char *help_dstdevp = {
 	   "based on the entire populations. The populations consists of "
 	   "numbers that match conditions specified. "
 	   "\n"
-	   "@database is a range of cells in which rows of related "
-	   "information are records and columns of data are fields. "
-	   "The first row of a database contains labels for each column. "
+	   DB_ARGUMENT_HELP
 	   "\n"
-	   "@field specifies which column is used in the function. If @field "
-	   "is an integer, i.e. 2, the second column is used. Field can "
-	   "also be the label of a column. "
-	   "\n"
-	   "@criteria is the range of cells which contains the specified "
-	   "conditions. The first row of a @criteria should contain the labels "
-	   "of the fields for which the criterias are for. Cells below the "
-	   "label specify coditions, for example, ``>3'' or ``<9''. "
-           "\n"
-	   "@EXAMPLES=\n"
+           "DSTDEVP(A1:C7, \"Age\", A9:B11) equals 7.\n"
+           "DSTDEVP(A1:C7, \"Salary\", A9:B11) equals 6459.5.\n"
 	   "\n"
            "@SEEALSO=DSTDEV")
 };
@@ -1003,20 +973,10 @@ static char *help_dsum = {
            "DSUM function returns the sum of numbers in a column "
 	   "that match conditions specified. "
 	   "\n"
-	   "@database is a range of cells in which rows of related "
-	   "information are records and columns of data are fields. "
-	   "The first row of a database contains labels for each column. "
+	   DB_ARGUMENT_HELP
 	   "\n"
-	   "@field specifies which column is used in the function. If @field "
-	   "is an integer, i.e. 2, the second column is used. Field can "
-	   "also be the label of a column. "
-	   "\n"
-	   "@criteria is the range of cells which contains the specified "
-	   "conditions. The first row of a @criteria should contain the labels "
-	   "of the fields for which the criterias are for. Cells below the "
-	   "label specify coditions, for example, ``>3'' or ``<9''. "
-           "\n"
-	   "@EXAMPLES=\n"
+           "DSUM(A1:C7, \"Age\", A9:B11) equals 72.\n"
+           "DSUM(A1:C7, \"Salary\", A9:B11) equals 81565.\n"
 	   "\n"
            "@SEEALSO=DPRODUCT")
 };
@@ -1078,20 +1038,10 @@ static char *help_dvar = {
 	   "based on a sample. The populations consists of numbers "
 	   "that match conditions specified. "
 	   "\n"
-	   "@database is a range of cells in which rows of related "
-	   "information are records and columns of data are fields. "
-	   "The first row of a database contains labels for each column. "
+	   DB_ARGUMENT_HELP
 	   "\n"
-	   "@field specifies which column is used in the function. If @field "
-	   "is an integer, i.e. 2, the second column is used. Field can "
-	   "also be the label of a column. "
-	   "\n"
-	   "@criteria is the range of cells which contains the specified "
-	   "conditions. The first row of a @criteria should contain the labels "
-	   "of the fields for which the criterias are for. Cells below the "
-	   "label specify coditions, for example, ``>3'' or ``<9''. "
-           "\n"
-	   "@EXAMPLES=\n"
+           "DVAR(A1:C7, \"Age\", A9:B11) equals 98.\n"
+           "DVAR(A1:C7, \"Salary\", A9:B11) equals 83450280.5.\n"
 	   "\n"
            "@SEEALSO=DVARP")
 };
@@ -1153,20 +1103,10 @@ static char *help_dvarp = {
 	   "on the entire populations. The populations consists of numbers "
 	   "that match conditions specified. "
 	   "\n"
-	   "@database is a range of cells in which rows of related "
-	   "information are records and columns of data are fields. "
-	   "The first row of a database contains labels for each column. "
+	   DB_ARGUMENT_HELP
 	   "\n"
-	   "@field specifies which column is used in the function. If @field "
-	   "is an integer, i.e. 2, the second column is used. Field can "
-	   "also be the label of a column. "
-	   "\n"
-	   "@criteria is the range of cells which contains the specified "
-	   "conditions. The first row of a @criteria should contain the labels "
-	   "of the fields for which the criterias are for. Cells below the "
-	   "label specify coditions, for example, ``>3'' or ``<9''. "
-           "\n"
-	   "@EXAMPLES=\n"
+           "DVARP(A1:C7, \"Age\", A9:B11) equals 49.\n"
+           "DVARP(A1:C7, \"Salary\", A9:B11) equals 41725140.25.\n"
 	   "\n"
            "@SEEALSO=DVAR")
 };
