@@ -119,33 +119,25 @@ AC_SUBST(GNOMEGNORBA_LIBS)
 dnl ******************************
 dnl gnome-xml checking
 dnl ******************************
-AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.12 <= version < 2.0.0	)
-xml_ok=no
+AC_MSG_CHECKING(for libxml (aka gnome-xml) libraries 1.8.14 <= version < 2.0.0	)
 if xml-config --libs > /dev/null 2>&1; then 
     verstxt=`xml-config --version`
     vers=`echo "$verstxt" | sed -e "s/libxml //" | \
 	awk -F. '{ printf "%d", ($1 * 1000 + $2) * 1000 + $3;}'`
-    if test "$vers" -ge 1008012; then
+    if test "$vers" -ge 1008014; then
 	if test "$vers" -lt 2000000; then
 	    AC_MSG_RESULT($marker_ok found $verstxt)
-	    xml_ok=yes
 	else
 	    AC_MSG_RESULT($marker_fail found unsupported $verstxt)
 	    AC_MSG_ERROR(This version of Gnumeric does not support libxml (aka gnome-xml) 2.x.x yet.)
 	fi
     else
         AC_MSG_RESULT($marker_fail found only $verstxt)
+	AC_MSG_ERROR(You need at least libxml (aka gnome-xml) 1.8.14)
     fi
 else
     AC_MSG_RESULT($marker_fail not found)
 fi
-if test "$xml_ok" = no; then
-    AC_MSG_ERROR(You need at least libxml (aka gnome-xml) 1.8.12 for this version of Gnumeric.
-
-libxml version 2.x.x is not compatible with libxml version 1.x.x.
-Version 2.x.x is not yet supported.)
-fi
-unset xml_ok
 
 dnl **************************************************
 dnl * Check for Perl
@@ -597,13 +589,14 @@ AM_CONDITIONAL(WITH_PLAN_PERFECT, false)
 AC_OUTPUT([
 gnumeric.spec
 Makefile
+libgnumeric/Makefile
+libgnumeric/portability.h
 icons/Makefile
 idl/Makefile
 src/Makefile
 src/dialogs/Makefile
 src/widgets/Makefile
 src/functions/Makefile
-src/portability.h
 doc/Makefile
 doc/C/Makefile
 plugins/Makefile

@@ -263,7 +263,6 @@ gnumeric_LDADD =				\
 	$(EXTRA_GNOME_LIBS)			\
 	$(GNOME_XML_LIB) 			\
 	$(GUILE_LIBS)				\
-	$(PSPELL_LIBS)				\
 	$(INTLLIBS)
 else
 gnumeric_SOURCES =				\
@@ -285,6 +284,11 @@ gnumeric_libs =					\
 	widgets/libwidgets.a			\
 	functions/libfunctions.a
 
+# include conditional files to ensure everything gets distributed no matter
+# what the build
+EXTRA_DIST = portability.h.in GNOME_Gnumeric.xml \
+	    normal-args.c corba-args.c		 \
+	    $(GNUMERIC_BONOBO_SOURCES)
 dist-hook:
 	-mkdir $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
@@ -296,8 +300,6 @@ dist-hook:
 #	$(GNOMEUI_LIBS)			\
 #	$(GNOME_XML_LIB) 		\
 #	$(INTLLIBS)
-
-EXTRA_DIST = portability.h.in GNOME_Gnumeric.xml
 
 # Bonobo requires things to be in a subdir of this form
 uidir=$(gnumeric_datadir)/gnome/ui

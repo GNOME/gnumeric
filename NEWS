@@ -1,3 +1,15 @@
+Gnumeric 0.67
+
+Jody :
+	* Restore missing files.
+
+John Gotts :
+	* Update spec file.
+
+Zbigniew:
+	* Fix libml1 bug exposed by progress monitor.
+
+--------------------------------------------------------------------------
 Gnumeric 0.66 
 
 Almer:

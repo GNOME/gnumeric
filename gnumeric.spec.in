@@ -18,7 +18,7 @@ Requires: gtk+ >= 1.2.7
 Requires: gnome-libs >= 1.0.57
 Requires: gnome-print >= 0.25
 Requires: libglade >= 0.16
-Requires: libxml >= 1.8.12
+Requires: libxml >= 1.8.14
 Requires: libole2 >= 0.2.3
 Requires: gal >= 0.8
 # The help menu commands require whatever package contains the gnome-help
@@ -125,6 +125,9 @@ fi
 ##%{prefix}/lib/gnumeric/%{version}-bonobo/plugins/*/*.la
 
 %changelog
+* Thu Jun 28 2001 Jody Goldberg <jgoldberg@home.com>
+- bump libxml1 req.
+
 * Wed Jun 27 2001 John Gotts <jgotts@linuxsavvy.com>
 - Added the python stuff back; it reappeared in 0.66.
 - We're now Bonobo by default!

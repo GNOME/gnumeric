@@ -1,3 +1,12 @@
+2001-06-28  Jody Goldberg <jgoldberg@home.com>
+
+	* configure.in : bump libxml1 req to 1.8.14 to fix i18n xml import
+	  broken with the switch to the progress monitor.
+	* gnumeric.spec.in : ditto.
+
+	* src/Makefile.am : Restore files that were not distributed due the
+	  differences in bonobo build.
+
 2001-06-27  John Gotts <jgotts@linuxsavvy.com>
 
 	* gnumeric.spec.in : resynch with 0.66.
