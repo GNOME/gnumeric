@@ -589,26 +589,14 @@ delete_sheet_if_possible (GtkWidget *ignored, SheetControlGUI *scg)
 {
 	SheetControl *sc = (SheetControl *) scg;
 	Workbook *wb = wb_control_workbook (sc->wbc);
-	char *message;
 
 	/* If this is the last sheet left, ignore the request */
-	if (workbook_sheet_count (wb) == 1)
-		return;
-
-	message = g_strdup_printf (
-		_("Are you sure you want to remove the sheet called `%s'?"),
-		sc->sheet->name_unquoted);
-
-	if (sc->sheet->pristine ||
-	    gnumeric_dialog_question_yes_no (scg->wbcg, message, 
-					     GTK_RESPONSE_YES)) {
+	if (workbook_sheet_count (wb) != 1)
 		cmd_reorganize_sheets 
 			(WORKBOOK_CONTROL (scg->wbcg), NULL, NULL, NULL, 
 			 g_slist_prepend 
 			 (NULL, GINT_TO_POINTER (sc->sheet->index_in_wb)),
 			 NULL, NULL, NULL, NULL, NULL);
-	}
-	g_free (message);
 }
 
 static void

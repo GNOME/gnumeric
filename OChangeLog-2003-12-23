@@ -1,5 +1,14 @@
 2003-08-01  Andreas J. Guelzow  <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_reorganize_sheets_delete_recreate_sheet):
+	  paste content back
+	(cmd_reorganize_sheets_delete_get_this_sheet_info): get content
+	(cmd_reorganize_sheets_delete_free): free content
+	* src/workbook-control-gui.c (delete_sheet_if_possible):
+	  Do not ask for confirmation.
+
+2003-08-01  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=118830
 	* src/sheet.c (sheet_dup): convert to zoom factor 1 before 
 	  duplicating

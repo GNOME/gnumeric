@@ -30,6 +30,7 @@ Andreas:
 	* Make Tools->GoalSeek undoable
 	* Make Duplicate Sheet undoable
 	* Reduce the occasions when the undo chain is being flushed
+	* Make Edit->Sheet->Remove partly undoable
 
 Ben Liblit:
 	* Another attempt at configure time path generation.

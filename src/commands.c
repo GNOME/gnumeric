@@ -4384,6 +4384,7 @@ GNUMERIC_MAKE_COMMAND (CmdReorganizeSheets, cmd_reorganize_sheets);
 typedef struct {
 	char *name;
 	guint pos;
+	CellRegion *content;
 } cmd_reorganize_sheets_delete_t;
 
 static cmd_reorganize_sheets_delete_t *
@@ -4391,6 +4392,7 @@ cmd_reorganize_sheets_delete_get_this_sheet_info (Workbook *wb, guint pos)
 {
 	cmd_reorganize_sheets_delete_t *data;
 	Sheet *sheet;
+	Range r;
 
 	g_return_val_if_fail (wb != NULL, NULL);
 	g_return_val_if_fail (pos < (guint)workbook_sheet_count (wb), NULL);
@@ -4399,9 +4401,8 @@ cmd_reorganize_sheets_delete_get_this_sheet_info (Workbook *wb, guint pos)
 	sheet = workbook_sheet_by_index (wb, pos);
 	data->name = g_strdup (sheet->name_unquoted);
 	data->pos = pos;
+	data->content = clipboard_copy_range (sheet, range_init_full_sheet (&r));
 	
-	g_warning ("deleting a sheet is not really undoable yet!");
-
 	return data;
 }
 
@@ -4468,13 +4469,11 @@ cmd_reorganize_sheets_delete_get_all_sheets_info (GnumericCommand *cmd,
 }
 
 static void
-cmd_reorganize_sheets_delete_recreate_sheet (Workbook *wb, 
+cmd_reorganize_sheets_delete_recreate_sheet (WorkbookControl *wbc, Workbook *wb, 
 			    cmd_reorganize_sheets_delete_t *sheet)
 {
 	Sheet *a_new_sheet;
 	guint pos = sheet->pos;
-
-	g_warning ("We cannot recreate the sheet content or format yet.");
 
 	a_new_sheet = sheet_new (wb, sheet->name);
 	if (pos != 0)
@@ -4488,12 +4487,21 @@ cmd_reorganize_sheets_delete_recreate_sheet (Workbook *wb,
 				       workbook_sheet_by_index (wb, 0));
 		workbook_sheet_move (a_new_sheet, -1);
 	}
+	if (sheet->content) {
+		PasteTarget pt;
+		Range r;
+		
+		clipboard_paste_region (sheet->content,
+				paste_target_init (&pt, a_new_sheet, range_init_full_sheet(&r), 
+						   PASTE_ALL_TYPES), COMMAND_CONTEXT (wbc));
+	}
 }
 
 static void
 cmd_reorganize_sheets_delete_free (cmd_reorganize_sheets_delete_t *sheet)
 {
 	g_return_if_fail (sheet != NULL);
+	cellregion_free (sheet->content);
 	g_free (sheet->name);
 	g_free (sheet);
 }
@@ -4558,7 +4566,7 @@ cmd_reorganize_sheets_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	for (list = me->deleted_sheets_data; list != NULL; list = list->next)
 	{
 		cmd_reorganize_sheets_delete_recreate_sheet 
-			(me->wb, 
+			(wbc, me->wb, 
 			 (cmd_reorganize_sheets_delete_t *)list->data);
 	}
 

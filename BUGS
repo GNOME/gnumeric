@@ -427,7 +427,9 @@ Misc stuff that should be fixed
 
 - Missing undo/redo for
     - Freeze panes (tricky this is a view attribute)
-    - Remove sheet. 
+    - Remove sheet. (Done except that the formats are slightly messed up
+                     and sheet objects are lost. Neither are references 
+                     linked back.)
     - Tabulate.
     - `Add Scenario' Portion of Solver
     - Sheet object configuration changes.
