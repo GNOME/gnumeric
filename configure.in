@@ -15,12 +15,17 @@ AM_PROG_LIBTOOL
 ## this should come after `AC_PROG_CC'
 GNOME_X_CHECKS
 
-ALL_LINGUAS="ko"
+ALL_LINGUAS="fr ko"
 AM_GNU_GETTEXT
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
 AC_SUBST(LDFLAGS)
+
+dnl ## internationalization support
+ALL_LINGUAS="fr"
+AM_GNU_GETTEXT
+AC_LINK_FILES($nls_cv_header_libgt, $nls_cv_header_intl)
 
 AC_OUTPUT([
 Makefile
