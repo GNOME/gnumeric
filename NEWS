@@ -11,6 +11,8 @@ Andreas:
 	* Fixed COUPNCD.
 	* Complete implementation of COUPDAYSCD
 	* Implement COUPPCD.
+	* Implement COUPDAYBS.
+	* Implement COUPDAYS.
 
 Jody:
 	* Generate spans after importing a lotus 123 file.

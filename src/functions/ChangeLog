@@ -1,3 +1,16 @@
+2002-01-14  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* fn-financial.c (coupdays) : rewrite  and move to datetime.c
+	(coupdaybs) : rewrite and move to datetime.c
+	(days_between_dep_basis) : fix small error and move to datetime.c
+	(adjust_dates_basis) : move to datetime.c
+	(coupncd) : move to datetime.c
+	(couppcd) : move to datetime.c
+	(gnumeric_coupdaybs) : add optional OEM argument
+	(gnumeric_coupdays) : add optional OEM argument
+	(finance_functions_init) : add optional OEM arguments to 
+	  gnumeric_coupdaybs and gnumeric_coupdays
+
 2002-01-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* fn-financial.c (coupncd, couppcd) : replace with coup_cd
@@ -15,7 +28,7 @@
 	(gnumeric_coupncd) : add optional OEM argument
 	(finance_functions_init) : ditto
 	(tbilleq, tbillprice, tbillyield) : Should be 365 not 356 (fix by
-	  Neil Booth
+	  Neil Booth)
 
 2002-01-10  Jon K Hellan  <hellan@acm.org>
 

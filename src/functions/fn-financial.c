@@ -24,15 +24,6 @@
 #include <limits.h>
 #include <string.h>
 
-typedef enum {
-	BASIS_30Ep360 = 0, /* first date untouched, second date 31->30 */
-	BASIS_ACTACT  = 1, 
-	BASIS_ACT360  = 2,
-	BASIS_ACT365  = 3,
-	BASIS_30E360  = 4, /* 31->30 for both dates */
-	BASIS_30_360  = 5  /* 31->30 for first date, 31->30 if first date is >= 30 */
-} basis_t;
-
 
 /***************************************************************************
  *
@@ -267,406 +258,6 @@ days_in_month (GDateYear year, GDateMonth month)
 
 /***************************************************************************/
 
-/*
- * Returns the number of days in the coupon period of the settlement date.
- * Currently, returns negative numbers if the branch is not implemented.
- */
-static gnum_float
-coupdays (GDate *settlement, GDate *maturity, int freq, int basis)
-{
-        GDateYear  sy, my;
-	GDateMonth sm, mm;
-	GDateDay   sd, md;
-
-        switch (basis) {
-        case 0:
-        case 2:
-        case 4:
-                if (freq == 1)
-                        return 360.0;
-                else if (freq == 2)
-                        return 180.0;
-                else
-                        return 90.0;
-                break;
-        case 3:
-                return 365.0 / freq;
-        case 1:
-		sy = g_date_year  (settlement);
-		my = g_date_year  (maturity);
-		sm = g_date_month (settlement);
-		mm = g_date_month (maturity);
-		sd = g_date_day   (settlement);
-		md = g_date_day   (maturity);
-
-	        if (freq == 1) {
-		        if (g_date_is_leap_year (sy)) {
-			        if (sm <= 2) {
-				        if (mm <= 2) {
-						if (sm < mm ||
-						    (sm == mm && sd < md))
-						        return 365.0;
-						else
-						        return 366.0;
-					}
-					return 366.0;
-				}
-				if (mm <= 2) {
-				        if (mm == 2 && md >= 28)
-				                return 365.0;
-					else
-					        return 366.0;
-				}
-				if (sm < mm || (sm == mm && sd < md))
-				        return 366.0;
-				else
-				        return 365.0;
-			} else if (g_date_is_leap_year (sy - 1)) {
-			        if (sm <= 2)
-				        if (mm <= 2)
-				                if (sm < mm ||
-						    (sm == mm && sd < md))
-						        return 366.0;
-					        else
-					                return 365.0;
-					else
-					        return 365.0;
-				else
-				        return 365.0;
-			} else if (g_date_is_leap_year (sy + 1)) {
-			        if (sm <= 2)
-			                return 365.0;
-				if (mm <= 2)
-				        return 365.0;
-				if (sm < mm || (sm == mm && sd < md))
-					return 365.0;
-				else
-				        return 366.0;
-			} else
-			        return 365.0;
-		} else if (freq == 2) {
-		  switch (mm) {
-		  case 1:
-		          if (sm >= 8 || (sm == 7 && sd >= md)
-			      || (sm == 1 && sd < md))
-			          return 184.0;
-			  else if (g_date_is_leap_year (sy))
-			          return 182.0;
-			  else
-			          return 181.0;
-		  case 2:
-		          if (sm >= 9 || (sm == 8 && sd >= md) || sm == 1
-			      || (sm == 2 && sd < md))
-			          if (md < 28)
-				          return 184.0;
-				  else if (sm >= 9)
-				          if (g_date_is_leap_year (sy + 1))
-					          return 182.0 + 2*(md == 28);
-					  else
-				                  return 181.0;
-				  else if (sm <= 2)
-				          if (g_date_is_leap_year (sy) )
-					          if (md == 28)
-						          return 184.0;
-						  else if (g_date_is_leap_year
-							   (md))
-						          return 184.0;
-						  else
-						          return 182.0;
-					  else
-				                  return 181.0;
-				  else if (sm <= 7)
-				          if (md == 28)
-					          if (g_date_is_leap_year (sy))
-						          return 182.0;
-						  else
-						          return 181.0;
-					  else
-				                  if (g_date_is_leap_year (sy)
-						      ||
-						      g_date_is_leap_year (sy + 1))
-						          return 182.0;
-						  else
-						          return 181.0;
-				  else if (md == 28) /* sm == 8 */
-				          if (sm < 28)
-					          if (g_date_is_leap_year (sy))
-						          return 182.0;
-						  else
-						          return 181.0;
-					  else
-				                  return 184.0;
-				  else
-				          if (g_date_is_leap_year (sy) ||
-					      g_date_is_leap_year (sy + 1))
-					          return 182.0;
-					  else
-				                  return 181.0;
-			  else if (g_date_is_leap_year (sy))
-			          return 182.0;
-			  else
-			          return 181.0;
-		  case 3:
-		          if ((sm >= 4 && sm <= 8) || (sm == 9 && sd < md)
-			      || (sm == 3 && sd >= md))
-			          return 183.0 + (md < 30);
-			  else if (sm <= 3)
-			          if (g_date_is_leap_year (sy))
-				          return 182.0;
-				  else
-				          return 181.0;
-			  else
-			          if (g_date_is_leap_year (sy + 1))
-				          return 182.0;
-				  else
-				          return 181.0;
-		  case 4:
-		          if ((sm >= 5 && sm <= 9) || (sm == 10 && sd < md)
-			      || (sm == 4 && sd >= md))
-			          return 183.0;
-			  else if (sm <= 4)
-			          if (g_date_is_leap_year (sy))
-				          return 183.0 - (md == 30);
-				  else
-				          return 182.0 - (md == 30);
-			  else if (g_date_is_leap_year (sy + 1))
-			          return 183.0 - (md == 30);
-			  else
-			          return 182.0 - (md == 30);
-		  case 5:
-		          if ((sm >= 6 && sm <= 10) || (sm == 11 && sd < md)
-			      || (sm == 5 && sd >= md))
-			          return 183.0 + (md < 30);
-			  else
-			          if (sm <= 5)
-				          if (g_date_is_leap_year (sy))
-					          return 182.0;
-					  else
-				                  return 181.0;
-				  else
-				          if (g_date_is_leap_year (sy + 1))
-					          return 182.0;
-					  else
-				                  return 181.0;
-		  case 6:
-		          if ((sm >= 7 && sm <= 11) || (sm == 12 && sd < md)
-			      || (sm == 6 && sd >= md))
-			          return 183.0;
-			  else
-			          if (sm <= 6)
-				          if (g_date_is_leap_year (sy))
-					          return 183.0 - (md == 30);
-					  else
-				                  return 182.0 - (md == 30);
-				  else
-				          if (g_date_is_leap_year (sy + 1))
-					          return 183.0 - (md == 30);
-					  else
-				                  return 182.0 - (md == 30);
-		  case 7:
-		          if ((sm >= 8 && sm <= 12) || (sm == 7 && sd >= md)
-			      || (sm == 1 && sd < md))
-			          return 184.0;
-			  else
-			          if (g_date_is_leap_year (sy))
-				          return 182.0;
-				  else
-				          return 181.0;
-		  case 8:
-		          if (sm == 1 || sm >= 9 || (sm == 2 && sd < md)
-			      || (sm == 8 && sd >= md))
-			          if (md < 28)
-				          return 184.0;
-				  else if (sm <= 2)
-				          if (g_date_is_leap_year (sy))
-					          return 184.0 -
-						    2*(sm == 2 && sy == my);
-					  else
-				                  return 181.0;
-				  else
-				          if (g_date_is_leap_year (sy + 1))
-					          if (md == 28 ||
-						      !g_date_is_leap_year (my))
-						          return 184.0;
-						  else
-						          return 182.0;
-					  else
-				                  return 181.0;
-			  else
-			          if (g_date_is_leap_year (sy)
-				      || (md >= 29 &&
-					  ((g_date_is_leap_year (sy + 1)
-					    && g_date_is_leap_year (my)
-					    && sy + 1 == my)
-					   || my == sy)))
-				          return 182.0;
-				  else
-				          return 181.0;
-		  case 9:
-		          if ((sm >= 4 && sm <= 8) || (sm == 9 && sd < md)
-			      || (sm == 3 && sd >= md))
-			          return 183.0 + (md < 30);
-			  else
-			          if (sm <= 3)
-				          if (g_date_is_leap_year (sy))
-					          return 182.0;
-					  else
-				                  return 181.0;
-				  else
-				          if (g_date_is_leap_year (sy + 1))
-					          return 182.0;
-					  else
-				                  return 181.0;
-		  case 10:
-		          if ((sm >= 5 && sm <= 9) || (sm == 10 && sd < md)
-			      || (sm == 4 && sd >= md))
-			          return 183.0;
-			  else
-			          if (sm <= 4)
-				          if (g_date_is_leap_year (sy))
-					          return 183.0 - (md >= 30);
-					  else
-				                  return 182.0 - (md >= 30);
-				  else
-				          if (g_date_is_leap_year (sy + 1))
-					          return 183.0 - (md >= 30);
-					  else
-				                  return 182.0 - (md >= 30);
-		  case 11:
-		          if ((sm >= 6 && sm <= 10) || (sm == 11 && sd < md)
-			      || (sm == 5 && sd >= md))
-			          return 183.0 + (md < 30);
-			  else
-			          if (sm <= 5)
-				          if (g_date_is_leap_year (sy))
-					          return 182.0;
-					  else
-				                  return 181.0;
-				  else
-				          if (g_date_is_leap_year (sy + 1))
-					          return 182.0;
-					  else
-				                  return 181.0;
-		  case 12:
-		          if ((sm >= 7 && sm <= 11) || (sm == 12 && sd < md)
-			      || (sm == 6 && sd >= md))
-			          return 183.0;
-			  else
-			          if (sm <= 6)
-				          if (g_date_is_leap_year (sy))
-					          return 183.0 - (md >= 30);
-					  else
-				                  return 182.0 - (md >= 30);
-				  else
-				          if (g_date_is_leap_year (sy + 1))
-					          return 183.0 - (md >= 30);
-					  else
-				                  return 182.0 - (md >= 30);
-		  default:
-		          return -1.0;  /* Should never occur */
-		  }
-		} else {
-		        /* Frequency 4 */
-
-		        return -1.0;
-		}
-        default:
-                return -1.0;
-        }
-}
-
-/*
- * Returns the number of days from the beginning of the coupon period to
- * the settlement date.  Currently, returns negative numbers if the branch
- * is not implemented.
- */
-static int
-coupdaybs (GDate *settlement, GDate *maturity, int freq, int basis)
-{
-        int        d, months, days;
-	GDateYear  sy, my;
-	GDateMonth sm, mm;
-	GDateDay   sd, md;
-
-	sy = g_date_year  (settlement);
-	my = g_date_year  (maturity);
-	sm = g_date_month (settlement);
-	mm = g_date_month (maturity);
-	sd = g_date_day   (settlement);
-	md = g_date_day   (maturity);
-
-	months = mm - sm;
-
-        switch (basis) {
-	case 0: /* US 30/360 */
-	        if (freq == 1) {
-	                if (sd == 31)
-			        if (md == 31 || (md == 30))
-				        sd = 30;
-
-			if (md == 31 || (md == 29 && mm == 2)
-			    || (md == 28 && mm == 2))
-			        md = 30;
-
-			days = md - sd;
-			d = 360 - months*30 - days;
-
-			if (d >= 360) {
-			        if (days == 0 && months == 0)
-				        d = 0;
-				else if (d % 360 == 0)
-				        d = 360;
-				else
-				        d %= 360;
-			}
-		} else if (freq == 2) {
-		        d = -1;  /* FIXME */
-		} else {
-		        d = -1;  /* FIXME */
-		}
-
-		return d;
-	case 1:
-	case 2:
-	case 3:
-	        return -1;
-	case 4: /* European 30/360 */
-	        if (freq == 1) {
-		        if (sd == 31)
-			        sd = 30;
-
-			if (md == 29 && mm == 2 && g_date_is_leap_year (my))
-			        md = 28;
-			else if (md == 31)
-			        md = 30;
-			else if (md == 28 && mm == 2
-				 &&   g_date_is_leap_year (sy)
-				 && ! g_date_is_leap_year (my))
-			        md = 29;
-
-			days = md - sd;
-			d = 360 - months*30 - days;
-
-			if (d >= 360) {
-			        if (days == 0 && months == 0)
-				        d = 0;
-				else if (d % 360 == 0)
-				        d = 360;
-				else
-				        d %= 360;
-			}
-
-		} else if (freq == 2) {
-		        d = -1;  /* FIXME */
-		} else {
-		        d = -1;  /* FIXME */
-		}
-		return d;
-	default:
-	        return -1;
-	}
-}
-
 /* Returns the numbers of coupons to be paid between the settlement
  * and maturity dates, rounded up.
  */
@@ -710,191 +301,7 @@ coupnum (GDate *settlement, GDate *maturity, int freq, int basis)
 		        - (months < -9) - (months == -9 && days <= 0);
 }
 
-/*
- * adjust_dates_basis
- *
- * @from      : GDate *
- * @to        : GDate * 
- * @basis     : int
- *	   "0  US 30/360\n"
- *         "1  actual days/actual days\n"
- *         "2  actual days/360\n"
- *         "3  actual days/365\n"
- *         "4  European 30/360\n"
- *
- * returns    : nothing. As side effects possibly adjusts from and to date
- *
- *
- */
 
-static void
-adjust_dates_basis (GDate *from, GDate *to, int basis)
-{
-	switch (basis) {
-	case BASIS_30Ep360:
-		if (g_date_day(to) == 31)
-			g_date_set_day (to, 30);
-		break;
-	case BASIS_30_360:
-		if (g_date_day(from) >= 30) {
-			g_date_set_day (from, 30);
-			if (g_date_day(to) == 31)
-				g_date_set_day (to, 30);
-		}
-		break;
-	case BASIS_30E360:
-		if (g_date_day(from) == 31)
-			g_date_set_day (from, 30);
-		if (g_date_day(to) == 31)
-			g_date_set_day (to, 30);
-		break;
-	default:
-		break;
-	}
-	return;
-}
-
-/*
- * days_between_dep_basis
- *
- * @from      : GDate *
- * @to        : GDate * 
- * @basis     : int
- *	   "0  US 30/360\n"
- *         "1  actual days/actual days\n"
- *         "2  actual days/360\n"
- *         "3  actual days/365\n"
- *         "4  European 30/360\n"
- *
- * returns    : Number of days strictly between from and to +1
- *
- * Note: from and to may be adjusted due to the base.
- */
-
-static gint32
-days_between_dep_basis (GDate *from, GDate *to, int basis)
-{
-	GDate      from_date;
-	gint32     days;
-	gint       years;
-
-	switch (g_date_compare (from, to)) {
-	case 1:
-		return (- days_between_dep_basis (to, from, basis));
-		break;
-	case 0:
-		return 0;
-		break;
-	default:
-		break;
-	} 
-
-	if (basis == 1) 
-		return (g_date_julian (to) - g_date_julian (from));
-
-	adjust_dates_basis (from, to, basis);
-
-	g_date_clear (&from_date, 1);
-	g_date_set_julian (&from_date, g_date_julian (from));
-	years = g_date_year(to) - g_date_year(from);
-	g_date_add_years (&from_date, years);
-
-	if (g_date_compare (&from_date, to) >= 0) {
-		years -= 1;
-		g_date_set_julian (&from_date, g_date_julian (from));
-		years = g_date_year(to) - g_date_year(from);
-		g_date_add_years (&from_date, years);
-	}
-
-	switch (basis) {
-	case BASIS_ACT365:
-		days = years * 365;
-		break;
-	default:
-		days = years * 360;
-		break;
-	}
-
-	switch (basis) {
-	case BASIS_ACT360:
-	case BASIS_ACT365:
-		return days + g_date_julian (to) - g_date_julian (&from_date);
-		break;
-	default:
-		return (days + 30 * (g_date_month(to) - g_date_month(&from_date))
-			+ g_date_day(to) - g_date_day(&from_date));
-		break;
-	}
-}
-
-/*
- * coup_cd
- *
- * @settlement: GDate *
- * @maturity  : GDate *  must follow settlement strictly
- * @freq      : int      divides 12 evenly
- * @oem       : gboolean whether to do special end of month 
- *                       handling
- * @next      : gboolean whether next or previous date
- *
- * returns    : GDate *  next  or previous coupon date
- *
- * this function does not depend on the basis of counting!
- */
-
-static GDate *
-coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean oem, gboolean next)
-{
-        int        months, periods;
-	GDate      *result;
-	gboolean   is_oem_special;
-
-	is_oem_special = oem && g_date_is_last_of_month (maturity);
-
-	months = 12 / freq;
-	periods = (g_date_year(maturity) - g_date_year(settlement));
-	if (periods > 0)
-		periods = (periods - 1) * freq;
-
-	result = g_date_new();
-
-	do {
-		g_date_set_julian (result, g_date_julian (maturity));
-		periods++;
-		g_date_subtract_months (result, periods * months);
-		if (is_oem_special) 
-			while (!g_date_is_last_of_month (result))
-				g_date_add_days (result, 1);
-	} while (g_date_compare (settlement, result) < 0 );
-
-	if (next) {
-		g_date_set_julian (result, g_date_julian (maturity));
-		periods--;
-		g_date_subtract_months (result, periods * months);
-		if (is_oem_special) 
-			while (!g_date_is_last_of_month (result))
-				g_date_add_days (result, 1);
-	}
-
-	return result;
-}
-
-/*
- * Returns the number of days from the settlement date to the next
- * coupon date.
- */
-
-static int
-coupdaysnc (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem)
-{
-	GDate      *next_coupon;
-	int        days;
-
-	next_coupon = coup_cd (settlement, maturity, freq, oem, TRUE);
-	days = days_between_dep_basis (settlement, next_coupon, basis);
-	g_date_free (next_coupon);
-	return days;
-}
 
 /***************************************************************************
  *
@@ -2873,9 +2280,9 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	a = coupdaybs (settlement, maturity, freq, basis);
+	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
 	d = coupdaysnc (settlement, maturity, freq, basis, TRUE);
-	e = coupdays (settlement, maturity, freq, basis);
+	e = coupdays (settlement, maturity, freq, basis, TRUE);
 	n = coupnum (settlement, maturity, freq, basis);
 
 	sum = 0.0;
@@ -2961,9 +2368,9 @@ gnumeric_yield (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	a = coupdaybs (settlement, maturity, freq, basis);
+	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
 	d = coupdaysnc (settlement, maturity, freq, basis, TRUE);
-	e = coupdays (settlement, maturity, freq, basis);
+	e = coupdays (settlement, maturity, freq, basis, TRUE);
 	n = coupnum (settlement, maturity, freq, basis);
 
 	if (n <= 1.0) {
@@ -3132,10 +2539,10 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-	a = coupdaybs (settlement, maturity, freq, basis);
+	a = coupdaybs (settlement, maturity, freq, basis, TRUE);
 	ds = -1; /* FIXME */
 	df = -1; /* FIXME */
-	e = coupdays (settlement, maturity, freq, basis);
+	e = coupdays (settlement, maturity, freq, basis, TRUE);
 	n = coupnum (settlement, maturity, freq, basis);
 
 	/*
@@ -3376,15 +2783,16 @@ gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
         GDate *settlement;
         GDate *maturity;
         int freq, basis;
-        int days;
 	Value *result;
+	gboolean oem, err = FALSE;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+	oem        = argv[4] ? value_get_as_bool (argv[4], &err) : 0;
 
-	if (!maturity || !settlement) {
+	if (!maturity || !settlement || err) {
 		result = value_new_error (ei->pos, gnumeric_err_VALUE);
 		goto out;
 	}
@@ -3395,12 +2803,7 @@ gnumeric_coupdaybs (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-        days = coupdaybs (settlement, maturity, freq, basis);
-
-        if (days < 0)
-	        result = value_new_error (ei->pos, "#UNIMPLEMENTED!");
-	else
-		result = value_new_int (days);
+	result = value_new_float (coupdaybs (settlement, maturity, freq, basis, oem));
 
  out:
 	g_date_free (settlement);
@@ -3445,15 +2848,16 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
         GDate *settlement;
         GDate *maturity;
         int freq, basis;
-        gnum_float days;
 	Value *result;
+	gboolean oem, err = FALSE;
 
         settlement = datetime_value_to_g (argv[0]);
         maturity   = datetime_value_to_g (argv[1]);
         freq       = value_get_as_int (argv[2]);
 	basis      = argv[3] ? value_get_as_int (argv[3]) : 0;
+	oem        = argv[4] ? value_get_as_bool (argv[4], &err) : 0;
 
-	if (!maturity || !settlement) {
+	if (!maturity || !settlement || err) {
 		result = value_new_error (ei->pos, gnumeric_err_VALUE);
 		goto out;
 	}
@@ -3464,14 +2868,7 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
 		goto out;
 	}
 
-        days = coupdays (settlement, maturity, freq, basis);
-
-        if (days < 0) {
-	        result = value_new_error (ei->pos, "#UNIMPLEMENTED!");
-		goto out;
-	}
-
-        result = value_new_float (days);
+        result = value_new_int (coupdays (settlement, maturity, freq, basis, oem));
 
  out:
 	g_date_free (settlement);
@@ -3860,12 +3257,12 @@ finance_functions_init (void)
 				  &help_amorlinc, gnumeric_amorlinc);
 	auto_format_function_result (def, AF_MONETARY);
 
-	def = function_add_args	 (cat, "coupdaybs", "fff|f",
-				  "settlement,maturity,frequency[,basis]",
+	def = function_add_args	 (cat, "coupdaybs", "fff|fb",
+				  "settlement,maturity,frequency[,basis,oem]",
 				  &help_coupdaybs, gnumeric_coupdaybs);
 
-	def = function_add_args	 (cat, "coupdays", "fff|f",
-				  "settlement,maturity,frequency[,basis]",
+	def = function_add_args	 (cat, "coupdays", "fff|fb",
+				  "settlement,maturity,frequency[,basis,oem]",
 				  &help_coupdays, gnumeric_coupdays);
 
 	def = function_add_args	 (cat, "coupdaysnc", "fff|fb",

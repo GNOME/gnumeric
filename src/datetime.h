@@ -57,4 +57,26 @@ int datetime_g_years_between (GDate *date1, GDate *date2);
 /* week number according to the given method. */
 int datetime_weeknum (GDate *date, int method);
 
+typedef enum {
+	BASIS_30Ep360 = 0, /* first date untouched, second date 31->30 */
+	BASIS_ACTACT  = 1, 
+	BASIS_ACT360  = 2,
+	BASIS_ACT365  = 3,
+	BASIS_30E360  = 4, /* 31->30 for both dates */
+	BASIS_30_360  = 5  /* 31->30 for first date, 31->30 if first date is >= 30 */
+} basis_t;
+
+void adjust_dates_basis (GDate *from, GDate *to, int basis);
+
+gint32 days_between_dep_basis (GDate *from, GDate *to, int basis);
+
+GDate * coup_cd (GDate *settlement, GDate *maturity, int freq, gboolean oem, gboolean next);
+
+int coupdays (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem);
+
+int coupdaybs (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem);
+
+int coupdaysnc (GDate *settlement, GDate *maturity, int freq, int basis, gboolean oem);
+
+
 #endif
