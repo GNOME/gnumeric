@@ -387,6 +387,7 @@ x_selection_handler (GtkWidget *widget, GtkSelectionData *selection_data, guint 
 	gtk_selection_data_set (
 		selection_data, GDK_SELECTION_TYPE_STRING, 8,
 		rendered_selection, strlen (rendered_selection));
+	g_free (rendered_selection);
 }
 
 /**
