@@ -2,6 +2,7 @@
  * gtk-combo-text: A combo box for selecting from a list.
  */
 #include <config.h>
+#include <ctype.h>
 #include "gtk-combo-text.h"
 #include <gtk/gtksignal.h>
 #include <gtk/gtkentry.h>
@@ -15,6 +16,8 @@ static gboolean cb_pop_down (GtkWidget *w, GtkWidget *pop_down,
 
 static void list_unselect_cb (GtkWidget *list, GtkWidget *child,
 			      gpointer data);
+
+static void update_list_selection (GtkComboText *ct, const gchar *text);
 
 static void
 gtk_combo_text_destroy (GtkObject *object)
@@ -68,6 +71,87 @@ gtk_combo_text_get_type (void)
 	return type;
 }
 
+static gint
+strcase_equal (gconstpointer v, gconstpointer v2)
+{
+	return g_strcasecmp ((const gchar*) v, (const gchar*)v2) == 0;
+}
+
+
+/*
+ * a char* hash function from ASU
+ *
+ * This is cut/paste from gutils.c
+ * We've got to do this, because this widget will soon move out of the
+ * Gnumeric source and into a separate library.
+ */
+static guint
+strcase_hash (gconstpointer v)
+{
+	const unsigned char *s = (const unsigned char *)v;
+	const unsigned char *p;
+	guint h = 0, g;
+
+	for(p = s; *p != '\0'; p += 1) {
+		h = ( h << 4 ) + tolower (*p);
+		if ( ( g = h & 0xf0000000 ) ) {
+			h = h ^ (g >> 24);
+			h = h ^ g;
+		}
+	}
+
+	return h /* % M */;
+}
+
+/**
+ * gtk_combo_text_set_case_sensitive
+ * @combo_text  ComboText widget
+ * @val         make case sensitive if TRUE
+ *
+ * Specifies whether the text entered into the GtkEntry field and the text
+ * in the list items is case sensitive. Because the values are stored in a
+ * hash, it is not legal to change case sensitivity when the list contains
+ * elements. The function returns -1 if request could not be honored. On
+ * success, it returns 0.
+ **/
+gint
+gtk_combo_text_set_case_sensitive (GtkComboText *combo, gboolean val)
+{
+	if (combo->elements
+	    && g_hash_table_size (combo->elements) > 0
+	    && val != combo->case_sensitive)
+		return -1;
+	else {
+		combo->case_sensitive = val;
+		if (val != combo->case_sensitive) {
+			GHashFunc hashfunc;
+			GCompareFunc comparefunc;
+
+			g_hash_table_destroy (combo->elements);
+			if (combo->case_sensitive) {
+				hashfunc = g_str_hash;
+				comparefunc = g_str_equal;
+			} else {
+				hashfunc = strcase_hash;
+				comparefunc = strcase_equal;
+			}
+			combo->elements = g_hash_table_new (hashfunc,
+							    comparefunc);
+		}
+		return 0;
+	}
+}
+
+static void
+entry_activate_cb (GtkWidget *entry, gpointer data)
+{
+	GtkComboText *combo = GTK_COMBO_TEXT (data);
+
+	update_list_selection (combo,
+			       gtk_entry_get_text (GTK_ENTRY (combo->entry)));
+}
+
+
 static void
 list_select_cb (GtkWidget *list, GtkWidget *child, gpointer data)
 {
@@ -82,7 +166,13 @@ list_select_cb (GtkWidget *list, GtkWidget *child, gpointer data)
 		combo->cached_entry = NULL;
 
 	gtk_entry_set_text (entry, value);
+	gtk_signal_handler_block_by_func (GTK_OBJECT (entry), 
+					  GTK_SIGNAL_FUNC (entry_activate_cb),
+					  (gpointer) combo);
 	gtk_signal_emit_by_name (GTK_OBJECT (entry), "activate");
+	gtk_signal_handler_unblock_by_func (GTK_OBJECT (entry), 
+					  GTK_SIGNAL_FUNC (entry_activate_cb),
+					  (gpointer) combo);
 
 	gtk_combo_box_popup_hide (GTK_COMBO_BOX (data));
 }
@@ -108,13 +198,11 @@ gtk_combo_text_select_item (GtkComboText *ct, int elem)
 	gtk_list_select_item (GTK_LIST(ct->list), elem);
 }
 
-void
-gtk_combo_text_set_text (GtkComboText *ct, const gchar *text)
+static void
+update_list_selection (GtkComboText *ct, const gchar *text)
 {
 	gpointer candidate;
 	GtkWidget *child;
-	
-	gtk_entry_set_text (GTK_ENTRY (ct->entry), text);
 
 	gtk_signal_handler_block_by_func (GTK_OBJECT (ct->list), 
 					  GTK_SIGNAL_FUNC (list_select_cb),
@@ -136,6 +224,13 @@ gtk_combo_text_set_text (GtkComboText *ct, const gchar *text)
 	gtk_signal_handler_unblock_by_func (GTK_OBJECT (ct->list), 
 					    GTK_SIGNAL_FUNC (list_unselect_cb),
 					    (gpointer) ct);
+}
+
+void
+gtk_combo_text_set_text (GtkComboText *ct, const gchar *text)
+{
+	gtk_entry_set_text (GTK_ENTRY (ct->entry), text);
+	update_list_selection (ct, text);
 }
 
 /*
@@ -253,8 +348,9 @@ gtk_combo_text_construct (GtkComboText *ct, gboolean const is_scrolled)
 {
 	GtkWidget *entry, *list, *scroll, *display_widget;
 
-	ct->elements = g_hash_table_new (&g_str_hash,
-					 &g_str_equal);
+	ct->case_sensitive = FALSE;
+	ct->elements = g_hash_table_new (&strcase_hash,
+					 &strcase_equal);
 
 	/* Probably irrelevant, but lets be careful */
 	ct->cache_mouse_state = GTK_STATE_NORMAL;
@@ -282,6 +378,9 @@ gtk_combo_text_construct (GtkComboText *ct, gboolean const is_scrolled)
 	} else
 		display_widget = list;
 
+	gtk_signal_connect (GTK_OBJECT (entry), "activate",
+			    GTK_SIGNAL_FUNC (entry_activate_cb),
+			    (gpointer) ct);
 	gtk_signal_connect (GTK_OBJECT (list), "select-child",
 			    GTK_SIGNAL_FUNC (list_select_cb),
 			    (gpointer) ct);

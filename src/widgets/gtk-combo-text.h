@@ -19,6 +19,7 @@ struct _GtkComboText {
 	GtkWidget *scrolled_window;
 	GtkStateType cache_mouse_state;
 	GtkWidget *cached_entry;
+	gboolean case_sensitive;
 	GHashTable*elements;
 };
 
@@ -30,6 +31,8 @@ struct _GtkComboTextClass {
 GtkType    gtk_combo_text_get_type  (void);
 GtkWidget *gtk_combo_text_new(gboolean const is_scrolled);
 
+gint       gtk_combo_text_set_case_sensitive (GtkComboText *combo_text,
+					      gboolean val);
 void       gtk_combo_text_select_item (GtkComboText *combo_text,
 				       int elem);
 void       gtk_combo_text_set_text (GtkComboText *combo_text,

@@ -1,3 +1,26 @@
+2000-06-13  Jon K Hellan  <hellan@acm.org>
+
+	* gtk-combo-text.c (strcase_hash, strcase_equal): New case
+	insensitive hash and compare functions. We already have these in
+	gutils.c, but this widget can't import gutils.h.
+	(gtk_combo_text_set_case_sensitive): New public function:
+	Specifies whether the text entered into the GtkEntry field and the
+	text in the list items is case sensitive.
+	(entry_activate_cb): New static function. Select corresponding
+	list item when user enters a choice in entry field.
+	(list_select_cb): Block entry_activate_cb when emitting "activate"
+	on entry. Otherwise, endless loop would result.
+	(update_list_selection): New function. Guts of
+	gtk_combo_text_set_text moved here, since it is also used by
+	entry_activate_cb. 
+	(gtk_combo_text_set_text): See previous entry.
+	(gtk_combo_text_construct): Construct widget as case insensitive,
+	which is also the default for GtkCombo. Connect entry_activate_cb.
+
+	* gtk-combo-text.h (gtk_combo_text_set_case_sensitive): Declare
+	new function.
+	(struct _GtkComboText): Add 'case_sensitive' member.
+
 2000-06-11  Jon K Hellan  <hellan@acm.org>
 
 	* gnumeric-dashed-canvas-line.c (hypothenuse): New static helper
