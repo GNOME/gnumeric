@@ -1,3 +1,11 @@
+2000-11-27  Michael Meeks  <michael@helixcode.com>
+
+	* src/embeddable-grid.c (EmbeddableGridFactory_init): upd.
+
+	* Makefile.am (oaf_DATA): upd to GNOME_Gnumeric.oafinfo
+
+	* GNOME_Gnumeric.oafinfo: upd.
+
 2000-11-24  Jon K Hellan  <hellan@acm.org>
 
 	* src/file.c (do_save_as): Remember name with extension, so
