@@ -440,10 +440,10 @@ static GnomeUIInfo workbook_format_toolbar [] = {
 		N_("Thousand separator"), N_("Sets the format of the selected cells to include a thousands separator"),
 		workbook_cmd_format_add_thousands, "Gnumeric_FormatThousandSeperator"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Add decimals"), N_("Increases the number of decimal numbers displayed"),
+		N_("Add decimals"), N_("Increases the number of decimals displayed"),
 		workbook_cmd_format_add_decimals, "Gnumeric_FormatAddPrecision"),
 	GNOMEUIINFO_ITEM_STOCK (
-		N_("Remove decimals"), N_("Decreases the number of decimal numbers displayed"),
+		N_("Remove decimals"), N_("Decreases the number of decimals displayed"),
 		workbook_cmd_format_remove_decimals, "Gnumeric_FormatRemovePrecision"),
 
 	GNOMEUIINFO_END
@@ -479,7 +479,7 @@ fore_color_changed (ColorCombo *combo, GdkColor *c, WorkbookControlGUI *wbcg)
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE,
 			  (c != NULL)
 			  ? style_color_new (c->red, c->green, c->blue)
-			  : style_color_black() /* FIXME: add auto colours ? */);
+			  : style_color_black () /* FIXME: add auto colours ? */);
 
 	cmd_format (wbc, sheet, mstyle, NULL);
 }
