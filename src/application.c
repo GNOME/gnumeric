@@ -448,7 +448,7 @@ application_workbook_get_by_index (int i)
 	return close.wb;
 }
 
-inline double
+double
 application_display_dpi_get (gboolean horizontal)
 {
 	return horizontal ? app.horizontal_dpi : app.vertical_dpi;

@@ -261,7 +261,7 @@ SOW_MAKE_TYPE(button, Button, NULL)
 static GtkType sheet_widget_checkbox_get_type (void);
 #define SHEET_WIDGET_CHECKBOX_TYPE     (sheet_widget_checkbox_get_type ())
 #define SHEET_WIDGET_CHECKBOX(obj)     (GTK_CHECK_CAST((obj), SHEET_WIDGET_CHECKBOX_TYPE, SheetWidgetCheckbox))
-#define DEP_TO_CHECKBOX(d_ptr)	(SheetWidgetCheckbox *)(((void *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetCheckbox, dep))
+#define DEP_TO_CHECKBOX(d_ptr)	(SheetWidgetCheckbox *)(((char *)d_ptr) - GTK_STRUCT_OFFSET(SheetWidgetCheckbox, dep))
 
 typedef struct {
 	SheetObjectWidget	sow;

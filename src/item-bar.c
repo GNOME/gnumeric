@@ -24,7 +24,7 @@
 enum {
 	LAST_SIGNAL
 };
-static guint item_bar_signals [LAST_SIGNAL] = { 0 };
+static guint item_bar_signals [LAST_SIGNAL + 1] = { 0 };
 
 static GnomeCanvasItem *item_bar_parent_class;
 

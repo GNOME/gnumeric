@@ -1,3 +1,15 @@
+2001-03-29  Morten Welinder  <terra@diku.dk>
+
+	Responding to lots of bug reports from drk@sgi.com:
+
+	* src/application.c (application_display_dpi_get): Don't
+ 	explicitly inline.  (The compiler hopefully will by itself.)
+
+	* src/sheet-object-widget.c (DEP_TO_CHECKBOX): Avoid pointer
+ 	arithmetic on void pointers.
+
+	* src/item-bar.c: Don't use zero-sized array.
+
 2001-03-29  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* src/plugin-service.c (plugin_service_file_opener_probe_func):
