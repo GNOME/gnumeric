@@ -1,5 +1,13 @@
 2000-10-31  Jody Goldberg <jgoldberg@home.com>
 
+	* src/value.c (value_new_from_string) : Reset errno on over/underflow.
+	* src/number-match.c (format_match_simple) : Ditto.
+
+	* src/parser.y (yylex) : reset errno in the event of over/underflow.
+	  test for 'e' as an indicator of flaoting point numbers.
+
+2000-10-31  Jody Goldberg <jgoldberg@home.com>
+
 	* src/application.c (application_init) : Register a shrunken version
 	  of the print preview.
 

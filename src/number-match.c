@@ -954,12 +954,15 @@ format_match_simple (const char *text)
 	/* Is it an integer */
 	{
 		long l = strtol (text, &end, 10);
-		if (text != end && errno != ERANGE) {
-			/* ignore spaces at the end . */
-			while (*end == ' ')
-				end++;
-			if (text != end && *end == '\0' && l == (int)l)
-				return value_new_int ((int)l);
+		if (text != end) {
+			if (errno != ERANGE) {
+				/* ignore spaces at the end . */
+				while (*end == ' ')
+					end++;
+				if (text != end && *end == '\0' && l == (int)l)
+					return value_new_int ((int)l);
+			} else
+				errno = 0;
 		}
 	}
 
@@ -967,12 +970,15 @@ format_match_simple (const char *text)
 	{
 		char *end;
 		double d = strtod (text, &end);
-		if (text != end && errno != ERANGE) {
-			/* Allow and ignore spaces at the end . */
-			while (*end == ' ')
-				end++;
-			if (text != end && *end == '\0' && d == (float_t)d)
-				return value_new_float ((float_t)d);
+		if (text != end) {
+			if (errno != ERANGE) {
+				/* Allow and ignore spaces at the end . */
+				while (*end == ' ')
+					end++;
+				if (text != end && *end == '\0' && d == (float_t)d)
+					return value_new_float ((float_t)d);
+			} else
+				errno = 0;
 		}
 	}
 

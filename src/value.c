@@ -242,8 +242,12 @@ value_new_from_string (ValueType t, const char *str)
 	{
 		char *end;
 		long l = strtol (str, &end, 10);
-		if (*end == '\0' && errno != ERANGE)
-			return value_new_int ((int)l);
+		if (*end == '\0') {
+			if (errno != ERANGE)
+				return value_new_int ((int)l);
+			else
+				errno = 0;
+		}
 		return NULL;
 	}
 
@@ -251,8 +255,12 @@ value_new_from_string (ValueType t, const char *str)
 	{
 		char *end;
 		double d = strtod (str, &end);
-		if (*end == '\0' && errno != ERANGE)
-			return value_new_float ((float_t)d);
+		if (*end == '\0') {
+			if (errno != ERANGE)
+				return value_new_float ((float_t)d);
+			else
+				errno = 0;
+		}
 		return NULL;
 	}
 

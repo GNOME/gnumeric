@@ -636,27 +636,33 @@ yylex (void)
 	if (is_number) {
 		Value *v = NULL;
 
-		if (c == parser_decimal_point) {
+		if (c == parser_decimal_point || tolower (c) == 'e') {
 			/* This is float */
 			char *end;
 			double d = strtod (start, &end);
-			if (start != end && errno != ERANGE) {
-				v = value_new_float ((float_t)d);
-				parser_expr = end;
+			if (start != end) {
+				if (errno != ERANGE) {
+					v = value_new_float ((float_t)d);
+					parser_expr = end;
+				} else
+					errno = 0;
 			}
 		} else {
 			/* This could be a row range ref or an integer */
 			char *end;
 			long l = strtol (start, &end, 10);
-			if (start != end && errno != ERANGE) {
-				/* Check for a Row range ref (3:4 == A3:IV4) */
-				if (*end == ':' && l < SHEET_MAX_COLS) {
-				    /* TODO : adjust parser to allow returning
-				     * a range, not just a cellref
-				     */
-				}
-				v = value_new_int (l);
-				parser_expr = end;
+			if (start != end) {
+				if (errno != ERANGE) {
+					/* Check for a Row range ref (3:4 == A3:IV4) */
+					if (*end == ':' && l < SHEET_MAX_COLS) {
+					    /* TODO : adjust parser to allow returning
+					     * a range, not just a cellref
+					     */
+					}
+					v = value_new_int (l);
+					parser_expr = end;
+				} else
+					errno = 0;
 			}
 		}
 
