@@ -25,10 +25,10 @@
 #include "style.h"
 #include "main.h"
 
+#include "excel.h"
 #include "ms-ole.h"
 #include "ms-biff.h"
 #include "ms-formula.h"
-#include "excel.h"
 #include "ms-excel.h"
 #include "ms-obj.h"
 #include "ms-escher.h"

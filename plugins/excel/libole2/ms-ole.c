@@ -1340,7 +1340,7 @@ ms_ole_stream_close (MS_OLE_STREAM *s)
 }
 
 MS_OLE_DIRECTORY *
-ms_ole_directory_get_root (MS_OLE *f)
+ms_ole_get_root (MS_OLE *f)
 {
 	MS_OLE_DIRECTORY *d = g_new0 (MS_OLE_DIRECTORY, 1);
 	d->file          = f;
@@ -1355,7 +1355,7 @@ ms_ole_directory_get_root (MS_OLE *f)
 MS_OLE_DIRECTORY *
 ms_ole_directory_new (MS_OLE *f)
 {
-	MS_OLE_DIRECTORY *d = ms_ole_directory_get_root (f);
+	MS_OLE_DIRECTORY *d = ms_ole_get_root (f);
 	ms_ole_directory_enter (d);
 	return d;
 }

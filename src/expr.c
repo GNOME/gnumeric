@@ -15,6 +15,8 @@
 #include "func.h"
 #include "utils.h"
 
+Value *value_zero = NULL;
+
 ExprTree *
 expr_parse_string (const char *expr, Sheet *sheet, int col, int row,
 		   const char **desired_format, char **error_msg)
@@ -492,9 +494,14 @@ value_area_get_width (Value *v)
 
 	if (v->type == VALUE_ARRAY)
 		return v->v.array.x;
-	else
-		return v->v.cell_range.cell_b.col -
-		       v->v.cell_range.cell_a.col + 1;
+	else {
+		guint ans = v->v.cell_range.cell_b.col -
+			    v->v.cell_range.cell_a.col + 1;
+		if (v->v.cell_range.cell_a.sheet && 
+		    v->v.cell_range.cell_a.sheet->max_col_used < ans)
+			ans = v->v.cell_range.cell_a.sheet->max_col_used+1;
+		return ans;
+	}
 }
 
 guint
@@ -506,9 +513,14 @@ value_area_get_height (Value *v)
 
 	if (v->type == VALUE_ARRAY)
 		return v->v.array.y;
-	else
-		return v->v.cell_range.cell_b.row -
-		       v->v.cell_range.cell_a.row + 1;
+	else {
+		guint ans = v->v.cell_range.cell_b.row -
+		            v->v.cell_range.cell_a.row + 1;
+		if (v->v.cell_range.cell_a.sheet && 
+		    v->v.cell_range.cell_a.sheet->max_row_used < ans)
+			ans = v->v.cell_range.cell_a.sheet->max_row_used+1;
+		return ans;
+	}
 }
 
 const Value *
@@ -530,18 +542,17 @@ value_area_get_at_x_y (Value *v, guint x, guint y)
 
 		a = &v->v.cell_range.cell_a;
 		b = &v->v.cell_range.cell_b;
-		g_return_val_if_fail (!a->col_relative,
-				     value_new_int (0));
-		g_return_val_if_fail (!b->col_relative,
-				      value_new_int (0));
-		g_return_val_if_fail (!a->row_relative,
-				     value_new_int (0));
-		g_return_val_if_fail (!b->row_relative,
-				     value_new_int (0));
-		g_return_val_if_fail (a->col<=b->col,
-				     value_new_int (0));
-		g_return_val_if_fail (a->row<=b->row,
-				     value_new_int (0));
+		g_return_val_if_fail (!a->col_relative, value_zero);
+		g_return_val_if_fail (!b->col_relative, value_zero);
+		g_return_val_if_fail (!a->row_relative, value_zero);
+		g_return_val_if_fail (!b->row_relative, value_zero);
+		g_return_val_if_fail (a->col<=b->col, value_zero);
+		g_return_val_if_fail (a->row<=b->row, value_zero);
+
+		/* Speedup */
+		if (a->sheet->max_col_used < a->col+x ||
+		    a->sheet->max_row_used < a->row+y)
+			return value_zero;
 
 		cell = sheet_cell_get (a->sheet, a->col+x, a->row+y);
 
@@ -549,8 +560,7 @@ value_area_get_at_x_y (Value *v, guint x, guint y)
 			return cell->value;
 	}
 	
-	g_warning ("Leaked on array\n");
-	return value_new_int (0);
+	return value_zero;
 }
 
 static void

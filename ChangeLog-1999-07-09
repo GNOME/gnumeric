@@ -1,3 +1,15 @@
+1999-05-14  Michael Meeks  <michael@imaginator.com>
+
+	* src/expr.c (value_area_get_width, value_area_get_height): 
+	Clip to sheet bounds if CELLRANGE: Massive speedup on some
+	lookups.
+
+	* src/expr.h: Added value_zero
+
+	* src/func.c (constants_init): Added a 'value_zero' constant
+	to kill leak in out-of-range / NULL cell cases in value_get_at_x_y
+	
+
 1999-05-14  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-math.c: Added LCM().

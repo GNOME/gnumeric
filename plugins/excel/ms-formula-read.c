@@ -14,8 +14,9 @@
 
 #include "utils.h"
 
+#include "excel.h"
+#include "ms-biff.h"
 #include "ms-excel.h"
-#include "ms-excel-biff.h"
 #include "ms-formula.h"
 
 #define FORMULA_DEBUG 0
@@ -602,9 +603,41 @@ parse_list_free (PARSE_LIST **list)
 static void
 make_inter_sheet_ref (MS_EXCEL_WORKBOOK *wb, guint16 extn_idx, CellRef *a, CellRef *b)
 {
+	g_return_if_fail (wb);
+	g_return_if_fail (a);
+
 	a->sheet = biff_get_externsheet_name (wb, extn_idx, 1) ;
 	if (b)
 		b->sheet = biff_get_externsheet_name (wb, extn_idx, 0) ;
+}
+
+static void
+make_inter_sheet_ref_v7 (MS_EXCEL_WORKBOOK *wb, guint16 extn_idx,
+			 guint16 first, guint16 second, CellRef *a, CellRef *b)
+{
+	MS_EXCEL_SHEET *sheet;
+
+	g_return_if_fail (wb);
+	g_return_if_fail (a);
+
+	if ((gint16)extn_idx>0) {
+		printf ("FIXME: BIFF 7 ExternSheet 3D ref\n");
+		return;
+	}
+
+	g_return_if_fail (wb->excel_sheets);
+	g_return_if_fail (first<wb->excel_sheets->len);
+	
+	sheet = g_ptr_array_index (wb->excel_sheets, first);
+	g_return_if_fail (sheet);
+	a->sheet = sheet->gnum_sheet;
+
+	if (b) {
+		g_return_if_fail (second < wb->excel_sheets->len);
+		sheet = g_ptr_array_index (wb->excel_sheets, second);
+		g_return_if_fail (sheet);
+		b->sheet = sheet->gnum_sheet;
+	}
 }
 
 static gboolean
@@ -753,17 +786,21 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				make_inter_sheet_ref (sheet->wb, extn_idx, ref, 0) ;
 				parse_list_push (&stack, expr_tree_cellref (ref));
 				ptg_length = 6 ;
-			}
-			else
-			{
-				printf ("FIXME: Biff V7 3D refs are ugly !\n") ;
-				error = 1 ;
-				ref = 0 ;
-				ptg_length = 16 ;
+			} else {
+				guint16 extn_idx, first_idx, second_idx;
+
+				ref = getRefV7 (sheet, BIFF_GETBYTE(cur+16), BIFF_GETWORD(cur+14),
+						fn_col, fn_row, 0) ;
+				extn_idx   = BIFF_GETWORD(cur);
+				first_idx  = BIFF_GETWORD(cur + 10);
+				second_idx = BIFF_GETWORD(cur + 12);
+				make_inter_sheet_ref_v7 (sheet->wb, extn_idx, first_idx, second_idx, ref, 0) ;
+				parse_list_push (&stack, expr_tree_cellref (ref));
+				ptg_length = 17 ;
 			}
 			if (ref) g_free (ref) ;
+			break ;
 		}
-		break ;
 		case FORMULA_PTG_AREA_3D: /* see S59E2B.HTM */
 		{
 			CellRef *first=0, *last=0 ;
@@ -780,11 +817,19 @@ ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 				make_inter_sheet_ref (sheet->wb, extn_idx, first, last) ;
 				parse_list_push_raw (&stack, value_new_cellrange (first, last));
 				ptg_length = 10 ;
-			}
-			else
-			{
-				printf ("FIXME: Biff V7 3D refs are ugly !\n") ;
-				error = 1 ;
+			} else {
+				guint16 extn_idx, first_idx, second_idx;
+
+				first = getRefV7 (sheet, BIFF_GETBYTE(cur+18), BIFF_GETWORD(cur+14),
+						  fn_col, fn_row, 0) ;
+				last  = getRefV7 (sheet, BIFF_GETBYTE(cur+19), BIFF_GETWORD(cur+16),
+						  fn_col, fn_row, 0) ;
+				extn_idx   = BIFF_GETWORD(cur);
+				first_idx  = BIFF_GETWORD(cur + 10);
+				second_idx = BIFF_GETWORD(cur + 12);
+				make_inter_sheet_ref_v7 (sheet->wb, extn_idx, first_idx,
+							 second_idx, first, last) ;
+				parse_list_push_raw (&stack, value_new_cellrange (first, last));
 				ptg_length = 20 ;
 			}
 			if (first) g_free (first) ;

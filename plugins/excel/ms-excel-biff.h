@@ -14,12 +14,7 @@
 #define EX_GETXF(p)       (BIFF_GETWORD(p->data + 4))
 #define EX_GETSTRLEN(p)   (BIFF_GETWORD(p->data + 6))
 
-
 /* Version info types as found in various Biff records */
-typedef enum _eBiff_version { eBiffV2=2, eBiffV3=3,
-			      eBiffV4=4, eBiffV5=5,
-			      eBiffV7=7,
-			      eBiffV8=8, eBiffVUnknown=0} eBiff_version ;
 typedef enum _eBiff_filetype { eBiffTWorkbook=0, eBiffTVBModule=1, eBiffTWorksheet=2,
 			       eBiffTChart=3, eBiffTMacrosheet=4, eBiffTWorkspace=5,
 			       eBiffTUnknown=6 } eBiff_filetype ;
@@ -53,8 +48,8 @@ typedef struct _BIFF_BOF_DATA
   eBiff_filetype type ;
 } BIFF_BOF_DATA ;
 
-extern BIFF_BOF_DATA *new_ms_biff_bof_data (BIFF_QUERY *pos) ;
-extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
+extern BIFF_BOF_DATA *new_ms_biff_bof_data  (BIFF_QUERY *pos) ;
+extern void           free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 
 #include "biff-types.h"
 

@@ -1,3 +1,8 @@
+1999-05-14  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.h: Updated types to forward references.
+	Changed ms_ole_directory_get_root to ms_ole_get_root.
+
 1999-05-13  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c (ms_ole_new, ms_ole_create, ms_ole_deanalyse): 

@@ -21,6 +21,14 @@ typedef guint64 DLONG;
                         (*((const BYTE *)(p)+3)<<24))
 #define BIFF_GETDLONG(p) (BIFF_GETLONG(p) | (((DLONG)BIFF_GETLONG((const BYTE *)(p)+4))<<32))
 
+#define BIFF_SET_GUINT8(p,n)  (*((guint8 *)(p)+0)=n)
+#define BIFF_SET_GUINT16(p,n) ((*((guint8 *)(p)+0)=((n)&0xff)), \
+                               (*((guint8 *)(p)+1)=((n)>>8)&0xff))
+#define BIFF_SET_GUINT32(p,n) ((*((guint8 *)(p)+0)=((n))&0xff), \
+                               (*((guint8 *)(p)+1)=((n)>>8)&0xff), \
+                               (*((guint8 *)(p)+2)=((n)>>16)&0xff), \
+                               (*((guint8 *)(p)+3)=((n)>>24)&0xff))
+
 double biff_getdouble(guint8 *p);
 	
 #if G_BYTE_ORDER == G_LITTLE_ENDIAN
@@ -78,6 +86,7 @@ typedef struct _BIFF_PUT
 	guint32 streamPos;
 	guint16 num_merges;
 	gint16  padding;
+	int     data_malloced;
 	int     len_fixed;
 	MS_OLE_STREAM *pos;
 } BIFF_PUT;

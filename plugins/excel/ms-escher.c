@@ -28,6 +28,7 @@
 #include "sheet-object.h"
 #include "style.h"
 
+#include "excel.h"
 #include "ms-ole.h"
 #include "ms-biff.h"
 #include "ms-formula.h"

@@ -442,7 +442,7 @@ really_put (MS_OLE *ole, char *from, char *to)
 	}
 
 	if (!(dir = get_file_handle (ole, to)))
-		dir = ms_ole_directory_create (ms_ole_directory_get_root(ole),
+		dir = ms_ole_directory_create (ms_ole_get_root(ole),
 					       to, MS_OLE_PPS_STREAM);
 		
 	if (dir)

@@ -1,3 +1,21 @@
+1999-05-14  Michael Meeks  <michael@imaginator.com>
+
+	* ms-formula.c (ms_excel_parse_formula): Implemented V7. 3D refs
+	and 3D Area references.
+	(make_inter_sheet_ref_v7): Created to deal with V7 references.
+
+	* ole.c (really_put): Changed to ms_ole_get_root.
+
+	* ms-excel-biff.h: moved biff_version to 'excel.h'.
+
+	* *.c: Re-ordered includes.
+
+	* ms-excel-write.c (ms_excel_write_workbook): Fleshed out.
+
+	* ms-biff.c (biff_put*): Fleshed out.
+
+	* ms-biff.h (BIFF_SET_GUINT*): Added BIFF setting macros.
+
 1999-05-13  Michael Meeks  <michael@imaginator.com>
 
 	* ms-formula.c (ms_excel_parse_formula): Updated Array support.

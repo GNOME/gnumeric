@@ -179,6 +179,7 @@ Value      *eval_expr            (Sheet *sheet, ExprTree *tree,
 				  int  col, int row,
 				  char **error_string);
 
+extern Value *value_zero;
 Value       *value_new_float       (float_t f);
 Value       *value_new_int         (int i);
 Value       *value_new_string      (const char *str);

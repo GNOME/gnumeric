@@ -298,4 +298,8 @@ constants_init (void)
 	symbol_install (global_symbol_table, "FALSE", SYMBOL_VALUE, false);
 	symbol_install (global_symbol_table, "TRUE", SYMBOL_VALUE, true);
 	symbol_install (global_symbol_table, "GNUMERIC_VERSION", SYMBOL_VALUE, version);
+
+	/* Global helper value for arrays */
+	value_zero = value_new_float (0);
 }
+

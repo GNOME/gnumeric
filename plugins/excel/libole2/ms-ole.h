@@ -12,7 +12,14 @@
 typedef guint32 BBPtr ;
 typedef guint32 SBPtr ;
 
-typedef struct _MS_OLE_HEADER
+/* Forward declarations of types */
+typedef struct _MS_OLE           MS_OLE;
+typedef struct _MS_OLE_HEADER    MS_OLE_HEADER;
+typedef struct _MS_OLE_STREAM    MS_OLE_STREAM;
+typedef struct _MS_OLE_DIRECTORY MS_OLE_DIRECTORY;
+
+
+struct _MS_OLE_HEADER
 {
 	/* sbd = Small Block Depot ( made up of BB's BTW ) */
 	BBPtr   sbd_startblock ;
@@ -23,7 +30,7 @@ typedef struct _MS_OLE_HEADER
 
 	BBPtr   root_startblock ;
 	GArray  *root_list;
-} MS_OLE_HEADER ;
+};
 
 typedef guint32 PPS_IDX ;
 typedef enum _PPS_TYPE { MS_OLE_PPS_STORAGE = 1,
@@ -33,7 +40,7 @@ typedef enum _PPS_TYPE { MS_OLE_PPS_STORAGE = 1,
 /**
  * Structure describing an OLE file
  **/
-typedef struct _MS_OLE
+struct _MS_OLE
 {
 	guint8  *mem ;
 	guint32 length ;
@@ -44,15 +51,17 @@ typedef struct _MS_OLE
 	char mode;
 	MS_OLE_HEADER header ; /* For speed cut down dereferences */
 	int file_descriptor ;
-} MS_OLE ;
+};
 
 /* Create new OLE file */
-extern MS_OLE *ms_ole_create  (const char *name) ;
+extern MS_OLE           *ms_ole_create  (const char *name) ;
 /* Open existing OLE file */
-extern MS_OLE *ms_ole_new     (const char *name) ;
-extern void    ms_ole_destroy (MS_OLE *ptr) ;
+extern MS_OLE           *ms_ole_new     (const char *name) ;
+/* Get a root directory handle */
+extern MS_OLE_DIRECTORY *ms_ole_get_root (MS_OLE *);
+extern void              ms_ole_destroy (MS_OLE *ptr) ;
 
-typedef struct _MS_OLE_DIRECTORY
+struct _MS_OLE_DIRECTORY
 {
 	char      *name ;
 	PPS_TYPE  type ;
@@ -63,20 +72,21 @@ typedef struct _MS_OLE_DIRECTORY
 
 	/* Private */
 	MS_OLE *file ;
-} MS_OLE_DIRECTORY ;
+};
 
 extern MS_OLE_DIRECTORY *ms_ole_directory_new (MS_OLE *) ;
 extern int  ms_ole_directory_next (MS_OLE_DIRECTORY *) ;
 extern void ms_ole_directory_enter (MS_OLE_DIRECTORY *) ;
 /* Pointer to the directory in which to create a new stream / storage object */
-extern MS_OLE_DIRECTORY *ms_ole_directory_create (MS_OLE_DIRECTORY *d, char *name, PPS_TYPE type) ;
-extern MS_OLE_DIRECTORY *ms_ole_directory_get_root (MS_OLE *);
+extern MS_OLE_DIRECTORY *ms_ole_directory_create (MS_OLE_DIRECTORY *d,
+						  char *name,
+						  PPS_TYPE type) ;
 extern void ms_ole_directory_unlink (MS_OLE_DIRECTORY *) ;
 extern void ms_ole_directory_destroy (MS_OLE_DIRECTORY *) ;
 
 typedef enum { MS_OLE_SEEK_SET, MS_OLE_SEEK_CUR } ms_ole_seek_t;
 
-typedef struct _MS_OLE_STREAM
+struct _MS_OLE_STREAM
 {
 	GArray *blocks;    /* A list of the blocks in the file if NULL: no file */
 #ifdef G_HAVE_GINT64
@@ -114,7 +124,7 @@ typedef struct _MS_OLE_STREAM
 	 **/
 	MS_OLE *file ;
 	PPS_IDX pps ;  
-} MS_OLE_STREAM ;
+};
 
 /* Mode = 'r' or 'w' */
 extern MS_OLE_STREAM *ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode) ;

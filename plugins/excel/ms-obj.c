@@ -25,7 +25,7 @@
 #include "sheet-object.h"
 #include "style.h"
 
-#include "ms-ole.h"
+#include "excel.h"
 #include "ms-biff.h"
 #include "ms-excel.h"
 #include "ms-excel-biff.h"
