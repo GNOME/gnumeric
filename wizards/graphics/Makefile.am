@@ -13,7 +13,9 @@ gladedir   = $(datadir)/gnumeric/glade
 
 glade_DATA = graphics.glade
 
+if BONOBO
 noinst_LIBRARIES = libwizard_graphics.a
+endif
 
 libwizard_graphics_a_SOURCES =		\
 	main.c				\

@@ -7,9 +7,11 @@ INCLUDES = 						\
 	-I$(top_srcdir)					\
 	$(EXTRA_GNOME_CFLAGS)
 
+if BONOBO
 bin_PROGRAMS = graph 
 
 noinst_PROGRAMS = sample
+endif
 
 graph_SOURCES =			\
 	graph.c			\

@@ -256,7 +256,7 @@ wc_bonobo:
 	wc -l $(gnumeric_SOURCES) $(GNUMERIC_BONOBO_SOURCES)
 
 dist-hook:
-	mkdir $(distdir)/pixmaps
+	-mkdir $(distdir)/pixmaps
 	cp $(srcdir)/pixmaps/*.xpm $(distdir)/pixmaps
 
 #number_match_SOURCES = number-match.c  formats.c dates.c number-match-test.c
