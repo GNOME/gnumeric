@@ -475,8 +475,14 @@ workbook_view_new (Workbook *wb)
 {
 	WorkbookView *wbv = g_object_new (WORKBOOK_VIEW_TYPE, NULL);
 	char const *base_name;
+	int i;
 
-	workbook_attach_view ((wb != NULL) ? wb : workbook_new (), wbv);
+	if (wb == NULL)
+		wb = workbook_new ();
+
+	g_return_val_if_fail (wb != NULL, NULL);
+
+	workbook_attach_view (wb, wbv);
 
 	wbv->show_horizontal_scrollbar = TRUE;
 	wbv->show_vertical_scrollbar = TRUE;
@@ -495,13 +501,9 @@ workbook_view_new (Workbook *wb)
 	/* Guess at the current sheet */
 	wbv->current_sheet = NULL;
 	wbv->current_sheet_view = NULL;
-	if (wb != NULL) {
-		GList *sheets = workbook_sheets (wb);
-		if (sheets != NULL) {
-			wb_view_sheet_focus (wbv, sheets->data);
-			g_list_free (sheets);
-		}
-	}
+
+	for (i = 0 ; i < workbook_sheet_count (wb); i++)
+		wb_view_sheet_add (wbv, workbook_sheet_by_index (wb, i));
 
 	/* Set the titles of the newly connected view's controls */
 	base_name = g_basename (wbv->wb->filename);

@@ -1,5 +1,8 @@
 2002-06-21  Jody Goldberg <jody@gnome.org>
 
+	* src/workbook-view.c (workbook_view_new) : add views of all existing
+	  sheets.
+
 	* src/workbook-control-component.c (wbcc_sheet_focus) : move to new
 	signature.
 
