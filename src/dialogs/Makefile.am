@@ -4,7 +4,7 @@
 
 if WITH_BONOBO
 gnumeric_version="$(VERSION)-bonobo"
-libdialogs_a_SOURCES =	$(base_files) dialog-graph-guru.c
+libdialogs_a_SOURCES =	$(base_files)
 else
 gnumeric_version="$(VERSION)"
 libdialogs_a_SOURCES =	$(base_files)
@@ -40,6 +40,7 @@ base_files =					\
 	dialog-formula-guru.c			\
 	dialog-goal-seek.c			\
 	dialog-goto-cell.c			\
+	dialog-graph-guru.c			\
 	dialog-insert-cells.c			\
 	dialog-define-names.c			\
 	dialog-delete-cells.c			\

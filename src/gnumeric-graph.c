@@ -46,8 +46,6 @@
 #include "sheet-control-gui.h"
 #include "parse-util.h"
 
-#include <idl/GNOME_Gnumeric_Graph.h>
-#include <bonobo.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gal/util/e-xml-utils.h>
 #include <libxml/parser.h>
@@ -67,8 +65,10 @@
 struct _GnmGraph {
 	SheetObjectContainer	parent;
 
+#if 0
 	Bonobo_Unknown           manager_client;
 	MANAGER	 		 manager;
+#endif
 
 	GPtrArray		*vectors;
 	xmlDoc			*xml_doc;
@@ -92,6 +92,7 @@ struct _GnmGraphVector {
 	gboolean	 is_header : 1;
 	GnmGraphVector  *header;
 
+#if 0
 	CORBA_Object    corba_obj;	/* local CORBA object */
 	union {
 		POA_GNOME_Gnumeric_Scalar_Vector	scalar;
@@ -105,6 +106,7 @@ struct _GnmGraphVector {
 		GNOME_Gnumeric_String_Vector		string;
 		CORBA_Object				any;
 	} subscriber;
+#endif
 };
 
 typedef struct {
@@ -123,6 +125,7 @@ char const *const gnm_graph_vector_type_name [] =
 
 /***************************************************************************/
 
+#if 0
 static void
 impl_vector_selection_selected (PortableServer_Servant servant,
 				const GNOME_Gnumeric_SeqPair *ranges,
@@ -216,11 +219,11 @@ gnm_graph_vector_seq_string (GnmGraphVector *vector)
 
 	return values;
 }
+#endif
 
 static void
 gnm_graph_vector_eval (Dependent *dep)
 {
-	CORBA_Environment ev;
 	GnmGraphVector *vector;
 	EvalPos ep;
 	GnmExprEvalFlags flags = GNM_EXPR_EVAL_PERMIT_NON_SCALAR;
@@ -236,6 +239,8 @@ gnm_graph_vector_eval (Dependent *dep)
 	vector->value = gnm_expr_eval (vector->dep.expression,
 		eval_pos_init_dep (&ep, &vector->dep), flags);
 
+#if 0
+	CORBA_Environment ev;
 	CORBA_exception_init (&ev);
 	switch (vector->type) {
 	case GNM_VECTOR_SCALAR :
@@ -265,8 +270,10 @@ gnm_graph_vector_eval (Dependent *dep)
 			   bonobo_exception_get_text (&ev), vector);
 	}
 	CORBA_exception_free (&ev);
+#endif
 }
 
+#if 0
 static void
 impl_scalar_vector_value (PortableServer_Servant servant,
 			  GNOME_Gnumeric_Scalar_Seq **values,
@@ -321,6 +328,7 @@ impl_string_vector_changed (PortableServer_Servant servant,
 
 	g_warning ("Gnumeric : string vector changed remotely (%p)", vector);
 }
+#endif
 
 Dependent const *
 gnm_graph_vector_get_dependent (GnmGraphVector const *vec)
@@ -333,6 +341,7 @@ gnm_graph_vector_get_dependent (GnmGraphVector const *vec)
 /******************************************************************************/
 
 static GObjectClass *gnm_graph_vector_parent_class = NULL;
+#if 0
 static POA_GNOME_Gnumeric_VectorSelection__vepv	vector_selection_vepv;
 static POA_GNOME_Gnumeric_Scalar_Vector__vepv	scalar_vector_vepv;
 static POA_GNOME_Gnumeric_String_Vector__vepv	string_vector_vepv;
@@ -361,6 +370,7 @@ gnm_graph_get_config_control (GnmGraph *graph, char const *which_control)
 
 	return control;
 }
+#endif
 
 static void
 gnm_graph_vector_debug_name (Dependent const *dep, FILE *out)
@@ -378,6 +388,7 @@ cb_check_range_for_pure_string (EvalPos const *ep, Value const *v, void *user)
 	return NULL;
 }
 
+#if 0
 static gboolean
 gnm_graph_vector_corba_init (GnmGraphVector *vector)
 {
@@ -471,6 +482,7 @@ gnm_graph_vector_corba_finalize (GnmGraphVector *vector)
 	}
 	CORBA_exception_free (&ev);
 }
+#endif
 
 static void
 gnm_graph_vector_finalize (GObject *obj)
@@ -485,7 +497,7 @@ gnm_graph_vector_finalize (GObject *obj)
 		vector->dep.expression = NULL;
 	}
 
-	gnm_graph_vector_corba_finalize (vector);
+	/* gnm_graph_vector_corba_finalize (vector); */
 
 	if (vector->value != NULL) {
 		value_release (vector->value);
@@ -503,6 +515,7 @@ gnm_graph_vector_finalize (GObject *obj)
 		gnm_graph_vector_parent_class->finalize (obj);
 }
 
+#if 0
 static void
 gnm_graph_vector_corba_class_init (void)
 {
@@ -528,6 +541,8 @@ gnm_graph_vector_corba_class_init (void)
 	string_vector_vepv.GNOME_Gnumeric_VectorSelection_epv =
 		&selection_epv;
 }
+#endif
+
 static void
 gnm_graph_vector_class_init (GObjectClass *object_class)
 {
@@ -535,7 +550,7 @@ gnm_graph_vector_class_init (GObjectClass *object_class)
 
 	object_class->finalize = &gnm_graph_vector_finalize;
 
-	gnm_graph_vector_corba_class_init ();
+	/* gnm_graph_vector_corba_class_init (); */
 }
 
 static void
@@ -543,8 +558,10 @@ gnm_graph_vector_init (GObject *obj)
 {
 	GnmGraphVector *vector = GNUMERIC_GRAPH_VECTOR (obj);
 
+#if 0
 	vector->subscriber.any	= CORBA_OBJECT_NIL;
 	vector->corba_obj	= CORBA_OBJECT_NIL;
+#endif
 	vector->graph		= NULL; /* don't attach until we subscribe */
 	vector->activated	= FALSE;
 	vector->initialized	= FALSE;
@@ -577,6 +594,7 @@ gnm_graph_clear_vectors_internal (GnmGraph *graph, gboolean unsubscribe)
 	}
 	g_ptr_array_set_size (graph->vectors, 0);
 	if (unsubscribe) {
+#if 0
 		CORBA_Environment ev;
 
 		if (graph->manager == CORBA_OBJECT_NIL)
@@ -589,16 +607,18 @@ gnm_graph_clear_vectors_internal (GnmGraph *graph, gboolean unsubscribe)
 				   bonobo_exception_get_text (&ev), graph);
 		}
 		CORBA_exception_free (&ev);
+#endif
 	}
 }
 
 static gboolean
 gnm_graph_subscribe_vector (GnmGraph *graph, GnmGraphVector *vector)
 {
-	CORBA_Environment ev;
-	int id;
-	gboolean ok;
+	gboolean ok = FALSE;
 
+#if 0
+	int id;
+	CORBA_Environment ev;
 	CORBA_exception_init (&ev);
 
 	if (graph->manager == CORBA_OBJECT_NIL)
@@ -621,6 +641,7 @@ gnm_graph_subscribe_vector (GnmGraph *graph, GnmGraphVector *vector)
 	}
 
 	CORBA_exception_free (&ev);
+#endif
 
 	return ok;
 }
@@ -705,7 +726,7 @@ gnm_graph_add_vector (GnmGraph *graph, GnmExpr const *expr,
 	vector->is_column = (vector->value != NULL &&
 			     value_area_get_width (&ep, vector->value) == 1);
 	vector->type = type;
-	if (!gnm_graph_vector_corba_init (vector) ||
+	if ( /* !gnm_graph_vector_corba_init (vector) || */
 	    !gnm_graph_subscribe_vector (graph, vector)) {
 		gtk_object_unref (GTK_OBJECT (vector));
 		vector = NULL;
@@ -792,6 +813,7 @@ gnm_graph_clear_vectors (GnmGraph *graph)
 void
 gnm_graph_arrange_vectors (GnmGraph *graph)
 {
+#if 0
 	CORBA_Environment  ev;
 	GNOME_Gnumeric_VectorIDs *data, *headers;
 	unsigned i, len = 0;
@@ -836,6 +858,7 @@ gnm_graph_arrange_vectors (GnmGraph *graph)
 	CORBA_exception_free (&ev);
 	CORBA_free (headers);
 	CORBA_free (data);
+#endif
 }
 
 void
@@ -911,6 +934,7 @@ gnm_graph_clear_xml (GnmGraph *graph)
 xmlDoc *
 gnm_graph_get_spec (GnmGraph *graph, gboolean force_update)
 {
+#if 0
 	CORBA_Environment  ev;
 	GNOME_Gnumeric_Buffer *spec;
 
@@ -948,6 +972,7 @@ gnm_graph_get_spec (GnmGraph *graph, gboolean force_update)
 			   bonobo_exception_get_text (&ev), graph);
 	}
 	CORBA_exception_free (&ev);
+#endif
 
 	return graph->xml_doc;
 }
@@ -964,6 +989,7 @@ gnm_graph_get_spec (GnmGraph *graph, gboolean force_update)
 void
 gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 {
+#if 0
 	CORBA_Environment  ev;
 	GNOME_Gnumeric_Buffer *partial;
 	xmlChar *mem;
@@ -992,6 +1018,7 @@ gnm_graph_import_specification (GnmGraph *graph, xmlDocPtr spec)
 	CORBA_free (partial);
 	xmlFree (mem);
 	CORBA_exception_free (&ev);
+#endif
 }
 
 GnmGraphVector *
@@ -1011,8 +1038,10 @@ gnm_graph_init (GObject *obj)
 
 	graph->xml_doc = NULL;
 	graph->vectors = NULL;
+#if 0
 	graph->manager = CORBA_OBJECT_NIL;
 	graph->manager_client = CORBA_OBJECT_NIL;
+#endif
 	graph->vectors = g_ptr_array_new ();
 }
 
@@ -1023,11 +1052,13 @@ gnm_graph_finalize (GObject *obj)
 
 	d(printf ("gnumeric : graph finalize %p\n", obj));
 
+#if 0
 	if (graph->manager_client != CORBA_OBJECT_NIL) {
 		bonobo_object_release_unref (graph->manager_client, NULL);
 		graph->manager_client = CORBA_OBJECT_NIL;
 		graph->manager = CORBA_OBJECT_NIL;
 	}
+#endif
 	if (graph->vectors != NULL) {
 		/* no need to unsubscribe, the whole graph is going away */
 		gnm_graph_clear_vectors_internal (graph, FALSE);

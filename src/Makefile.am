@@ -103,6 +103,8 @@ GNUMERIC_BASE =					\
 	gnumeric-gconf.c			\
 	gnumeric-gconf.h			\
 	gnumeric-gconf-priv.h			\
+	gnumeric-graph.c			\
+	gnumeric-graph.h			\
 	gnumeric-pane.c				\
 	gnumeric-pane.h				\
 	gnumeric-i18n.c				\
@@ -276,8 +278,6 @@ GNUMERIC_CORBA = 				\
 GNUMERIC_BONOBO = 				\
 	bonobo-io.c				\
 	bonobo-io.h				\
-	gnumeric-graph.c			\
-	gnumeric-graph.h			\
 	sheet-object-bonobo.c			\
 	sheet-object-bonobo.h			\
 	sheet-object-container.c		\
