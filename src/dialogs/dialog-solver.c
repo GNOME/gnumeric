@@ -750,8 +750,6 @@ cb_dialog_solve_clicked (GtkWidget *button, SolverState *state)
 		return;
 	}
 
-	state->sheet->solver_parameters->options.max_time_sec =
-
 	answer = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (
 	        glade_xml_get_widget (state->gui, "answer")));
 	state->sheet->solver_parameters->options.answer_report = answer;
