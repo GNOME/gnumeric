@@ -990,11 +990,11 @@ msgstr ">="
 
 #: src/dialog-solver.c:22
 msgid "int"
-msgstr "int""
+msgstr "int"
 
 #: src/dialog-solver.c:23
 msgid "bool"
-msgstr "bool""
+msgstr "bool"
 
 #: src/dialog-solver.c:41 src/workbook.c:1594
 msgid "Max"
@@ -2621,7 +2621,7 @@ msgstr "Versión desconocida"
 #: src/fn-information.c:286
 #, c-format
 msgid "%s version %s"
-msgstr "%s versión %s""
+msgstr "%s versión %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: src/fn-information.c:295
