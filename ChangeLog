@@ -1,3 +1,31 @@
+2000-09-10  Almer S. Tigelaar  <almer1@dds.nl>
+
+	* src/dialogs/dialog-stf.h: Limit the number of lines 
+	displayed in the preview. This is a temporary solution for
+	bug #23426.
+	
+	* src/dialogs/dialog-stf-csv-page.c:
+	(stf_dialog_csv_page_prepare): Ditto.
+
+	* src/dialogs/dialog-stf-fixed-page.c:
+	(stf_dialog_fixed_page_prepare): Ditto.
+	
+	* src/dialogs/dialog-stf-format-page.c:
+	(stf_dialog_format_page_prepare): Ditto.
+	(format_page_format_changed): Kill memory
+	leak.
+
+	* src/stf-parse.c:
+	(stf_parse_csv_line): Change to still return
+	something if the maximum number of columns is
+	exceeded.
+	(stf_parse_fixed_line): Ditto.
+
+	* src/dialogs/dialog-stf-preview.c:
+	(stf_preview_render): Adjust to only render SHEET_MAX_COLS
+	columns.
+	(stf_preview_get_table_pixel_width): Ditto.
+
 2000-09-09  Michael Meeks  <michael@helixcode.com>
 
 	* src/gnumeric.xml: add magic placeholder to help section.

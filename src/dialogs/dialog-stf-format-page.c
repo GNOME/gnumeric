@@ -213,6 +213,8 @@ format_page_format_changed (GtkEntry *entry, DruidPageData_t *data)
 		listitem->data = style_format_new_XL (new_fmt, TRUE);
 
 		gtk_clist_set_text (info->format_collist, info->format_run_index, 1, new_fmt);
+		
+		g_free (new_fmt);
 
 		gtk_clist_set_column_width (info->format_collist,
 					    1,
@@ -287,7 +289,10 @@ stf_dialog_format_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPa
 
 	gtk_clist_columns_autosize (info->format_collist);
 
-	GTK_RANGE (info->format_scroll)->adjustment->upper = data->lines + 1;
+	if (data->lines > LINE_DISPLAY_LIMIT)
+		GTK_RANGE (info->format_scroll)->adjustment->upper = LINE_DISPLAY_LIMIT;
+	else
+		GTK_RANGE (info->format_scroll)->adjustment->upper = data->lines + 1;
 
 	stf_preview_colwidths_clear (info->format_run_renderdata);
 	for (i = 0; i < data->colcount + 1; i++) {

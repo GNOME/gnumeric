@@ -844,7 +844,7 @@ stf_parse_csv_line (Source_t *src, StfParseOptions_t *parseoptions)
 
 		if (++col >= SHEET_MAX_COLS) {
 			g_warning (WARN_TOO_MANY_COLS, col);
-			return NULL;
+			return list;
 		}
 	}
 
@@ -938,7 +938,7 @@ stf_parse_fixed_line (Source_t *src, StfParseOptions_t *parseoptions)
 
 		if (++col >= SHEET_MAX_COLS) {
 			g_warning (WARN_TOO_MANY_COLS, col);
-			return NULL;
+			return list;
 		}
 
 		src->splitpos++;

@@ -191,7 +191,10 @@ stf_preview_get_table_pixel_width (RenderData_t *renderdata)
 	int i, tablewidth = 0;
 
 	for (i = 0; i < renderdata->colwidths->len; i++) {
-	
+
+		if (i > SHEET_MAX_COLS)
+			break;
+			
 		tablewidth += g_array_index (renderdata->colwidths, int, i);
 	}
 
@@ -604,6 +607,13 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 
 	if (rowcount < 1) 
 		return;
+
+	/*
+	 * Don't display more then the maximum amount of columns
+	 * in a sheet
+	 */
+	if (colcount > SHEET_MAX_COLS)
+		colcount = SHEET_MAX_COLS;
 				
 	renderdata->group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (renderdata->canvas)),
 							   gnome_canvas_group_get_type(),
@@ -626,7 +636,7 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 
 	ypos = stf_preview_render_row (renderdata, ypos, captions, colcount);
 	
-	/* Render line by line */		   
+	/* Render line by line */
 	iterator = list;
  	while (iterator) {
 	

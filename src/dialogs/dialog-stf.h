@@ -17,6 +17,8 @@
 
 #include "dialog-stf-preview.h"
 
+#define LINE_DISPLAY_LIMIT 512
+
 /* Define for text offsets used on the main page of the druid */
 #define TEXT_OFFSET 10.0
 

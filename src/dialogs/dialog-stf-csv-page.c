@@ -87,7 +87,7 @@ csv_page_global_change (GtkWidget *widget, DruidPageData_t *data)
 	stf_cache_options_set_range (info->csv_run_cacheoptions,
 				     info->csv_run_renderdata->startrow - 1,
 				     (info->csv_run_renderdata->startrow - 1) + info->csv_run_displayrows);
-				     				     
+
 	list = stf_parse_general_cached (parseoptions,
 					 info->csv_run_cacheoptions);
 			   
@@ -178,9 +178,20 @@ stf_dialog_csv_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPageD
 	stf_cache_options_invalidate (info->csv_run_cacheoptions);
 
 	pagedata->colcount = stf_parse_get_colcount (info->csv_run_parseoptions, pagedata->cur);
-		
-	GTK_RANGE (info->csv_scroll)->adjustment->upper = stf_parse_get_rowcount (info->csv_run_parseoptions, pagedata->cur) + 1;
 
+	/*
+	 * This piece of code is here to limit the number of rows we display
+	 * when previewing
+	 */
+	{
+		int rowcount = stf_parse_get_rowcount (info->csv_run_parseoptions, pagedata->cur) + 1;
+		
+		if (rowcount > LINE_DISPLAY_LIMIT)
+			GTK_RANGE (info->csv_scroll)->adjustment->upper = LINE_DISPLAY_LIMIT;
+		else
+			GTK_RANGE (info->csv_scroll)->adjustment->upper = rowcount;
+	}
+	
 	gtk_adjustment_changed (GTK_RANGE (info->csv_scroll)->adjustment);
 	stf_preview_set_startrow (info->csv_run_renderdata, GTK_RANGE (info->csv_scroll)->adjustment->value);
 

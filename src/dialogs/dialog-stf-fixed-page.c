@@ -551,8 +551,20 @@ stf_dialog_fixed_page_prepare (GnomeDruidPage *page, GnomeDruid *druid, DruidPag
 	stf_cache_options_invalidate (info->fixed_run_cacheoptions);
 
 	pagedata->colcount = stf_parse_get_colcount (info->fixed_run_parseoptions, pagedata->cur);
+
+	/*
+	 * This piece of code is here to limit the number of rows we display
+	 * when previewing
+	 */
+	{
+		int rowcount = stf_parse_get_rowcount (info->fixed_run_parseoptions, pagedata->cur) + 1;
 		
-	GTK_RANGE (info->fixed_scroll)->adjustment->upper = stf_parse_get_rowcount (info->fixed_run_parseoptions, pagedata->cur) + 1;
+		if (rowcount > LINE_DISPLAY_LIMIT)
+			GTK_RANGE (info->fixed_scroll)->adjustment->upper = LINE_DISPLAY_LIMIT;
+		else
+			GTK_RANGE (info->fixed_scroll)->adjustment->upper = rowcount;
+	}
+		
 	gtk_adjustment_changed (GTK_RANGE (info->fixed_scroll)->adjustment);
 	stf_preview_set_startrow (info->fixed_run_renderdata, GTK_RANGE (info->fixed_scroll)->adjustment->value);
 
