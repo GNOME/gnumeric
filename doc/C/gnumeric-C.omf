@@ -1,0 +1,61 @@
+<?xml version="1.0" standalone="no"?>
+<omf>
+  <resource>
+    <title>
+     Gnumeric's user manual
+    </title>
+    <creator>
+
+     <person>
+      <firstName>Adrian</firstName>
+      <lastName>Custer</lastName>
+      <email></email>
+     </person>
+
+     <person>
+      <firstName>Kevin</firstName>
+      <lastName>Breit</lastName>
+      <email></email>
+     </person>
+
+     <person>
+      <firstName>Andreas</firstName>
+      <lastName>Guelzow</lastName>
+      <email></email>
+     </person>
+
+
+     <person>
+      <firstName>Aaron</firstName>
+      <lastName>Weber</lastName>
+      <email></email>
+     </person>
+
+     <person>
+      <firstName>Thomas</firstName>
+      <lastName>Canty</lastName>
+      <email></email>
+     </person>
+
+     <person>
+      <firstName>Adrian</firstName>
+      <lastName>Likins</lastName>
+      <email></email>
+     </person>
+    </creator>
+
+
+    <subject>
+      <category>Applications|Office</category>
+    </subject>
+    <description>
+      This is the user's manual for Gnumeric spreadsheet program.
+    </description>
+    <type>
+     manual
+    </type>
+    <format mime="text/sgml"/>
+    <identifier url="gnumeric.sgml"/>
+    <language code="C"/>
+  </resource>
+</omf>
