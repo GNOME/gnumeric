@@ -1,3 +1,7 @@
+1998-08-17  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/main.c (main): Include i18n setup as per namsh's suggetion. 
+
 1998-08-15  Chris Lahey  <clahey@umich.edu>
 
 	* src/format.c: Merged format_text and format_date into

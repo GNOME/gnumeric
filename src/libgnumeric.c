@@ -6,6 +6,9 @@
 int
 main (int argc, char *argv [])
 {
+	bindtextdomain (PACKAGE, GNOMELOCALEDIR);
+	textdomain (PACKAGE);
+	
 	gnome_init ("Gnumeric", NULL, argc, argv, 0, NULL);
 
 	string_init ();
