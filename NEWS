@@ -26,6 +26,7 @@ Morten:
 	* Make stf export cell separation UTF-8 safe.
 	* Improve generation of NaN, -Inf, and +Inf.
 	* Fix 112330.
+	* Handle character set aliases, more or less.
 
 --------------------------------------------------------------------------
 
