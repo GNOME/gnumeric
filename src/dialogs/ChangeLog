@@ -1,3 +1,10 @@
+2003-04-21  Jody Goldberg <jody@gnome.org>
+
+	* dialog-hyperlink.c (dialog_hyperlink) : doh.
+	* dialog-pivottable.c (dialog_pivottable) : doh doh.
+	* dialog-summary.c (dialog_summary_update) : doh doh doh.
+	* dialog-zoom.c (dialog_zoom) : doh doh doh doh.
+
 2003-04-21  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-solver.c (dialog_init): Killed a run time warning.

@@ -85,7 +85,7 @@ dialog_pivottable (WorkbookControlGUI *wbcg)
 
 	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
 		"pivottable.glade", NULL, NULL);
-	if (state->gui == NULL)
+	if (gui == NULL)
 		return;
 
 	state = g_new (PivotTableGuru, 1);

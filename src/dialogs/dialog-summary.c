@@ -221,7 +221,7 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 	if (gui == NULL)
 		return;
 
-	dialog = glade_xml_get_widget (state->gui, "SummaryInformation");
+	dialog = glade_xml_get_widget (gui, "SummaryInformation");
 	g_return_if_fail (dialog != NULL);
 
 	state = g_new (SummaryState, 1);

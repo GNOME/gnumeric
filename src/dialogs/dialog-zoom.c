@@ -149,7 +149,7 @@ dialog_zoom (WorkbookControlGUI *wbcg, Sheet *sheet)
 		return;
 	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
 		"dialog-zoom.glade", NULL, NULL);
-	if (state->gui == NULL)
+	if (gui == NULL)
 		return;
 
 	state = g_new (ZoomState, 1);

@@ -422,7 +422,7 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 
 	gui = gnm_glade_xml_new (COMMAND_CONTEXT (wbcg),
 		"hyperlink.glade", NULL, NULL);
-        if (state->gui == NULL)
+        if (gui == NULL)
                 return;
 
 	/* make sure that all hlink types are registered */
