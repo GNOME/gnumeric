@@ -1,6 +1,6 @@
 # List of source files containing translatable strings.
 # Please keep this file sorted alphabetically.
-GNOME_Gnumeric.server.in
+GNOME_Gnumeric.server.in.in
 gnumeric.desktop.in
 plugins/applix/applix-read.c
 plugins/applix/plugin.xml.in
