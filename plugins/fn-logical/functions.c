@@ -31,7 +31,7 @@ static char *help_and = {
 
 	   "If the values contain strings or empty cells those values are "
 	   "ignored. "
-	   "If no logical values are provided, then the error '#VALUE!' "
+	   "If no logical values are provided, then the error #VALUE! "
 	   "is returned. "
 	   "This function is Excel compatible. "
 	   "\n"
@@ -117,7 +117,7 @@ static char *help_or = {
 	   "zero is considered FALSE and anything else is TRUE.\n"
 	   "If the values contain strings or empty cells those values are "
 	   "ignored.  If no logical values are provided, then the error "
-	   "'#VALUE!' is returned. "
+	   "#VALUE! is returned. "
 	   "This function is Excel compatible. "
 	   "\n"
 	   "@EXAMPLES=\n"
