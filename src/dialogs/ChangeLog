@@ -1,3 +1,8 @@
+2003-07-23  Morten Welinder  <terra@gnome.org>
+
+	* dialog-zoom.c (cb_zoom_ok_clicked): Stop silly
+	double->float->double conversions.
+
 2003-07-23  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-zoom.c (cb_zoom_ok_clicked): use gtk_tree_iter_free

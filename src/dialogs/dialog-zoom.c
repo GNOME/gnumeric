@@ -144,7 +144,7 @@ cb_zoom_ok_clicked (G_GNUC_UNUSED GtkWidget *button, ZoomState *state)
 
 	if (sheets) {
 		WorkbookControl *wbc = WORKBOOK_CONTROL (state->wbcg);
-		float const new_zoom =  gtk_spin_button_get_value (state->zoom) / 100;
+		double new_zoom = gtk_spin_button_get_value (state->zoom) / 100;
 		sheets = g_slist_reverse (sheets);
 		cmd_zoom (wbc, sheets, new_zoom);
 	}
