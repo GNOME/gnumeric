@@ -563,7 +563,7 @@ auto_complete_matches (WorkbookControlGUI *wbcg)
 			perform_test = TRUE;
 
 		if (perform_test)
-			if (cursor_pos != (int)strlen (text))
+			if (cursor_pos != (int)g_utf8_strlen (text, -1))
 				wbcg->auto_completing = FALSE;
 
 		if (event)

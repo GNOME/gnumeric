@@ -580,10 +580,18 @@ cb_control_point_event (FooCanvasItem *ctrl_pt, GdkEvent *event,
 		gpointer p = gtk_object_get_data (GTK_OBJECT (ctrl_pt),
 						  "cursor");
 		e_cursor_set_widget (ctrl_pt->canvas, GPOINTER_TO_UINT (p));
+		if (pane->control_points [8] != ctrl_pt)
+			foo_canvas_item_set (ctrl_pt,
+				"fill_color",    "green",
+				NULL);
 		break;
 	}
 	case GDK_LEAVE_NOTIFY:
 		scg_set_display_cursor (scg);
+		if (pane->control_points [8] != ctrl_pt)
+			foo_canvas_item_set (ctrl_pt,
+				"fill_color",    "white",
+				NULL);
 		break;
 
 	case GDK_BUTTON_RELEASE:

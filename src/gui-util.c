@@ -972,9 +972,13 @@ gnumeric_create_popup_menu (GnumericPopupMenuElement const *elements,
 StyleColor *
 color_combo_get_style_color (GtkWidget *color_combo)
 {
+	StyleColor *sc = NULL;
 	GdkColor *gdk = color_combo_get_color (COLOR_COMBO (color_combo), NULL);
-	return (gdk == NULL) ? NULL
-		    : style_color_new (gdk->red, gdk->green, gdk->blue);
+	if (gdk != NULL) {
+		    sc = style_color_new (gdk->red, gdk->green, gdk->blue);
+		    gdk_color_free (gdk);
+	}
+	return sc;
 }
 
 GtkWidget *

@@ -55,6 +55,7 @@ libgnome-2.0	>= 1.105.0
 libgnomeui-2.0	>= 1.106.0
 libgnomeprint-2.2 >= 2.2.0
 libgnomeprintui-2.2 >= 2.2.0
+libart-2.0 >= 2.3.11
 "
 dnl **************
 dnl Bonobo support
@@ -709,8 +710,11 @@ src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile
 src/cut-n-paste-code/goffice/Makefile
 src/cut-n-paste-code/goffice/utils/Makefile
 src/cut-n-paste-code/goffice/graph/Makefile
+src/cut-n-paste-code/goffice/graph/tests/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/Makefile
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/Makefile
+src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/Makefile
+src/cut-n-paste-code/goffice/graph/plugins/plot_xy/Makefile
 doc/Makefile
 doc/C/Makefile
 doc/C/figures/Makefile

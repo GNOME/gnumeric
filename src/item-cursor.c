@@ -100,24 +100,6 @@ cb_item_cursor_animation (ItemCursor *ic)
 }
 
 static void
-item_cursor_stop_animation (ItemCursor *ic)
-{
-	if (ic->animation_timer == -1)
-		return;
-
-	gtk_timeout_remove (ic->animation_timer);
-	ic->animation_timer = -1;
-}
-
-static void
-item_cursor_start_animation (ItemCursor *ic)
-{
-	ic->animation_timer = gtk_timeout_add (
-		150, (GtkFunction)(cb_item_cursor_animation),
-		ic);
-}
-
-static void
 item_cursor_destroy (GtkObject *object)
 {
 	ItemCursor *ic;
@@ -129,7 +111,6 @@ item_cursor_destroy (GtkObject *object)
 		ic->tip = NULL;
 	}
 
-	item_cursor_stop_animation (ic);
 	if (GTK_OBJECT_CLASS (item_cursor_parent_class)->destroy)
 		(*GTK_OBJECT_CLASS (item_cursor_parent_class)->destroy)(object);
 }
@@ -148,8 +129,12 @@ item_cursor_realize (FooCanvasItem *item)
 
 	ic->gc = gdk_gc_new (window);
 
-	if (ic->style == ITEM_CURSOR_ANTED)
-		item_cursor_start_animation (ic);
+	if (ic->style == ITEM_CURSOR_ANTED) {
+		g_return_if_fail (ic->animation_timer == -1);
+		ic->animation_timer = g_timeout_add (
+			150, (GSourceFunc)cb_item_cursor_animation,
+			ic);
+	}
 
 	/*
 	 * Create the stipple pattern for the drag and the autofill cursors
@@ -177,6 +162,11 @@ item_cursor_unrealize (FooCanvasItem *item)
 	if (ic->stipple) {
 		gdk_pixmap_unref (ic->stipple);
 		ic->stipple = NULL;
+	}
+
+	if (ic->animation_timer != -1) {
+		g_source_remove (ic->animation_timer);
+		ic->animation_timer = -1;
 	}
 
 	if (FOO_CANVAS_ITEM_CLASS (item_cursor_parent_class)->unrealize)

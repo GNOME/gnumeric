@@ -18,11 +18,15 @@ Jody:
 	* Fix internal hashing bug with styles containing auto colors
 	* Improve update semantics of ExprEntry in preparation for graphs
 	* Make sheet_get_extent span when needed.
+	* Fix old bug exposed by alex's fix to mapping in foocanvas.
 
 Jukka:
 	* Added shuffling tool.
 	* Added `Edit'->`Fill'->`Series...' filling tool like in XL.
 	* Added scenario tools.
+
+Martin Hoffmann:
+	* Fix autocompletion in the face of multi-byte characters.
 
 Morten:
 	* Make RenderedValue use a PangoLayout for storing the contents

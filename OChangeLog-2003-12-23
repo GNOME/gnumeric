@@ -1,3 +1,29 @@
+2003-05-06  Jody Goldberg <jody@gnome.org>
+
+	* src/item-cursor.c (item_cursor_realize) : Use g_timeout_add
+	  directly.
+	(item_cursor_unrealize) : shutdown the animation here, not at
+	  destruction.
+
+2003-05-03  Jody Goldberg <jody@gnome.org>
+
+	For Martin Hoffmann <nvnc-relay@gmx.net>
+	* src/workbook-edit.c (auto_complete_matches) : fix autocompletion in
+	  the face of multi byte characters.
+
+2003-05-03  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c (color_combo_get_style_color) : fix leak.
+
+2003-05-02  Jody Goldberg <jody@gnome.org>
+
+	* configure.in  : Tack on libart for the graphing.
+
+2003-05-01  Jody Goldberg <jody@gnome.org>
+
+	* src/gnumeric-pane.c (cb_control_point_event) : make things a bit
+	  prettier.
+
 2003-05-06  Andreas Guelzow <aguelzow@taliesin.ca>
 
 	http://bugzilla.gnome.org/show_bug.cgi?id=80806
@@ -147,6 +173,11 @@
 2003-05-01  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet-object.c (sheet_object_default_size) : simplify.
+	(sheet_object_update_bounds) : call position_changed to let the model
+	  know the size/position have changed not just the views.
+
+
+	* src/sheet-object-graph.c (sheet_object_graph_position_changed) :
 
 2003-05-01  Morten Welinder  <terra@gnome.org>
 
