@@ -11,12 +11,12 @@ msgstr ""
 "Project-Id-Version: gnumeric 1.1.20\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2003-07-17 17:46-0400\n"
-"PO-Revision-Date: 2003-07-11 00:05+0900\n"
+"PO-Revision-Date: 2003-07-25 18:30+0900\n"
 "Last-Translator: Yukihiro Nakai <nakai@gnome.gr.jp>\n"
 "Language-Team: Japanese <gnome-translation@gnome.gr.jp>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -16929,9 +16929,8 @@ msgid "Font selector"
 msgstr "フォントを変更します"
 
 #: src/GNOME_Gnumeric.xml.h:97 src/workbook-format-toolbar.c:882
-#, fuzzy
 msgid "Font size"
-msgstr "フォントのサイズを変更します"
+msgstr "フォントサイズ"
 
 #: src/GNOME_Gnumeric.xml.h:98 src/dialogs/dialog-cell-format.c:2269
 #: src/workbook-format-toolbar.c:855 src/workbook-format-toolbar.c:891
@@ -16967,9 +16966,8 @@ msgid "Generate random numbers of a selection of distributions"
 msgstr "ディストリビューションの選択範囲の乱数を生成します"
 
 #: src/GNOME_Gnumeric.xml.h:105 src/workbook-control-gui.c:3914
-#, fuzzy
 msgid "Get _External Data"
-msgstr "内部エラーです"
+msgstr "外部データの取得"
 
 #: src/GNOME_Gnumeric.xml.h:106 src/workbook-control-gui.c:3595
 msgid "H_eight..."
@@ -17124,7 +17122,6 @@ msgid "Launch the Chart Guru"
 msgstr "グラフ Guru"
 
 #: src/GNOME_Gnumeric.xml.h:142 src/workbook-format-toolbar.c:437
-#, fuzzy
 msgid "Left Align"
 msgstr "左寄せ"
 
@@ -17242,12 +17239,11 @@ msgstr "貼付け"
 
 #: src/GNOME_Gnumeric.xml.h:169
 msgid "Paste the clipboard"
-msgstr "クリップボードから貼付けます"
+msgstr "クリップボードの貼り付け"
 
 #: src/GNOME_Gnumeric.xml.h:170 src/workbook-control-gui.c:3968
-#, fuzzy
 msgid "Paste the contents of the clipboard"
-msgstr "クリップボードの内容やカットバッファを貼り付けます"
+msgstr "クリップボードの内容を貼り付けます"
 
 #: src/GNOME_Gnumeric.xml.h:171 src/workbook-control-gui.c:3438
 msgid "Paste with optional filters and transformations"
@@ -17302,18 +17298,16 @@ msgid "Proper_ties..."
 msgstr "プロパティ(_T)..."
 
 #: src/GNOME_Gnumeric.xml.h:183
-#, fuzzy
 msgid "Quit the application"
-msgstr "このアプリケーションについて"
+msgstr "アプリケーションの終了"
 
 #: src/GNOME_Gnumeric.xml.h:184
 msgid "Radio Button"
 msgstr "ラジオボタン"
 
 #: src/GNOME_Gnumeric.xml.h:185
-#, fuzzy
 msgid "Ranks and _Percentiles..."
-msgstr "階数と百分位数(_P)"
+msgstr "階数と百分位数(_P)..."
 
 #: src/GNOME_Gnumeric.xml.h:186 src/workbook-control-gui.c:3764
 msgid "Ranks, placements and percentiles"
@@ -17321,9 +17315,8 @@ msgstr "階数と百分位数"
 
 #: src/GNOME_Gnumeric.xml.h:187 src/workbook-control-gui.c:3419
 #: src/workbook-control-gui.c:3617
-#, fuzzy
 msgid "Re_name"
-msgstr "名前変更(_N)..."
+msgstr "名前変更(_N)"
 
 #: src/GNOME_Gnumeric.xml.h:188 src/workbook-control-gui.c:3482
 msgid "Recalculate"
@@ -17359,7 +17352,6 @@ msgid "Rename the current sheet"
 msgstr "編集中のシート名を変更します"
 
 #: src/GNOME_Gnumeric.xml.h:196 src/workbook-format-toolbar.c:445
-#, fuzzy
 msgid "Right Align"
 msgstr "右寄せ"
 
@@ -17458,14 +17450,12 @@ msgid "Select an entire row"
 msgstr "行全体を選択します"
 
 #: src/GNOME_Gnumeric.xml.h:220 src/workbook-control-gui.c:3310
-#, fuzzy
 msgid "Sen_d To..."
-msgstr "ジャンプ..."
+msgstr "送信(_D)..."
 
 #: src/GNOME_Gnumeric.xml.h:221 src/workbook-control-gui.c:3311
-#, fuzzy
 msgid "Send the current file via email"
-msgstr "編集中のファイルを E-メールで送信します"
+msgstr "編集中のファイルをE-メールで送信します"
 
 #: src/GNOME_Gnumeric.xml.h:222 src/workbook-format-toolbar.c:468
 #, fuzzy
@@ -17489,12 +17479,11 @@ msgstr "利用するプリンタにあわせて編集中のページを設定し
 
 #: src/GNOME_Gnumeric.xml.h:226 src/workbook-control-gui.c:3876
 msgid "Show all filtered and hidden rows"
-msgstr ""
+msgstr "フィルタされて隠されている行をすべて表示します"
 
 #: src/GNOME_Gnumeric.xml.h:227 src/workbook-control-gui.c:3808
-#, fuzzy
 msgid "Si_mulation..."
-msgstr "限度のレポート"
+msgstr "シミュレーション(_M)..."
 
 #: src/GNOME_Gnumeric.xml.h:229 src/workbook-control-gui.c:4002
 msgid "Sort Descending"
@@ -17506,18 +17495,16 @@ msgid "Sort the selected region"
 msgstr "選択された範囲の並べ替え"
 
 #: src/GNOME_Gnumeric.xml.h:231 src/workbook-control-gui.c:4000
-#, fuzzy
 msgid ""
 "Sort the selected region in ascending order based on the first column "
 "selected"
-msgstr "指定した最初の列にもとづいて、選択した範囲を昇順に並べ替えます"
+msgstr "選択した最初の列にもとづいて、選択した範囲を昇順に並べ替えます"
 
 #: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:4003
-#, fuzzy
 msgid ""
 "Sort the selected region in descending order based on the first column "
 "selected"
-msgstr "指定した最初の列にもとづいて、選択した範囲を降順に並べ替えます"
+msgstr "選択した最初の列にもとづいて、選択した範囲を降順に並べ替えます"
 
 #: src/GNOME_Gnumeric.xml.h:233 src/workbook-format-toolbar.c:456
 msgid "Split"
@@ -17647,9 +17634,8 @@ msgid "_All"
 msgstr "全て(_A)"
 
 #: src/GNOME_Gnumeric.xml.h:263 src/workbook-control-gui.c:3407
-#, fuzzy
 msgid "_Append"
-msgstr "追加(_A)"
+msgstr "後ろに追加(_A)"
 
 #: src/GNOME_Gnumeric.xml.h:264 src/workbook-control-gui.c:3792
 msgid "_Auto Save..."
@@ -17698,9 +17684,8 @@ msgid "_Copy"
 msgstr "コピー(_C)"
 
 #: src/GNOME_Gnumeric.xml.h:273 src/workbook-control-gui.c:3745
-#, fuzzy
 msgid "_Correlation..."
-msgstr "相関(_C)"
+msgstr "相関(_C)..."
 
 #: src/GNOME_Gnumeric.xml.h:274 src/dialogs/pivottable.glade.h:8
 #: src/workbook-control-gui.c:3934
@@ -18812,7 +18797,7 @@ msgstr "スタイル(_S)"
 #: src/dialogs/variance-tests.glade.h:1 src/dialogs/view.glade.h:1
 #: src/dialogs/workbook-attr.glade.h:1
 msgid "*"
-msgstr ""
+msgstr "*"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:3
 #: src/dialogs/so-fill.glade.h:1
@@ -19886,7 +19871,7 @@ msgstr "セルの注釈"
 
 #: src/dialogs/cell-format.glade.h:1
 msgid "    "
-msgstr ""
+msgstr "    "
 
 #: src/dialogs/cell-format.glade.h:4
 #, no-c-format
@@ -19968,9 +19953,8 @@ msgid "<span weight=\"bold\">Criteria</span>"
 msgstr ""
 
 #: src/dialogs/cell-format.glade.h:24
-#, fuzzy
 msgid "A_ngle:"
-msgstr "責任者(_M):"
+msgstr "角度(_N):"
 
 #: src/dialogs/cell-format.glade.h:25
 #, fuzzy
@@ -19987,9 +19971,8 @@ msgid "Allo_w:"
 msgstr "許可(_A):"
 
 #: src/dialogs/cell-format.glade.h:28
-#, fuzzy
 msgid "Any Value     (no validation)"
-msgstr "何か値                     (検証なし)"
+msgstr "任意の値          (検証なし)"
 
 #: src/dialogs/cell-format.glade.h:30 src/dialogs/dialog-cell-format.c:2264
 msgid "Border"
@@ -20000,19 +19983,16 @@ msgid "Bricks"
 msgstr "レンガ"
 
 #: src/dialogs/cell-format.glade.h:33
-#, fuzzy
 msgid "Ce_nter"
-msgstr "中央"
+msgstr "中央(_N)"
 
 #: src/dialogs/cell-format.glade.h:34
-#, fuzzy
 msgid "Cen_ter"
-msgstr "中央"
+msgstr "中央(_T)"
 
 #: src/dialogs/cell-format.glade.h:35
-#, fuzzy
 msgid "Center across _selection"
-msgstr "中央揃え"
+msgstr "選択範囲をまたがる中央(_S)"
 
 #: src/dialogs/cell-format.glade.h:36 src/dialogs/so-arrow.glade.h:5
 msgid "Color:"
@@ -20053,32 +20033,28 @@ msgid "Format Cells"
 msgstr "セルの書式設定"
 
 #: src/dialogs/cell-format.glade.h:46
-#, fuzzy
 msgid "Hi_de"
-msgstr "隠す(_H)"
+msgstr "隠す(_D)"
 
 #: src/dialogs/cell-format.glade.h:47
 msgid "Horizontal Stripe"
 msgstr "横縞"
 
 #: src/dialogs/cell-format.glade.h:48
-#, fuzzy
 msgid "I_n-cell dropdown"
-msgstr "In-セルのドロップダウン(_C)"
+msgstr "In-セルのドロップダウン(_N)"
 
 #: src/dialogs/cell-format.glade.h:49
-#, fuzzy
 msgid "Ignore _blank cells"
-msgstr "空白のセルを無視する(_I)"
+msgstr "空白のセルを無視する(_B)"
 
 #: src/dialogs/cell-format.glade.h:50
 msgid "In a list"
 msgstr "リストの中"
 
 #: src/dialogs/cell-format.glade.h:51
-#, fuzzy
 msgid "Information (allow invalid input)"
-msgstr "情報 (不正な入力は許可されます)"
+msgstr "情報 (不正な入力も許可されます)"
 
 #: src/dialogs/cell-format.glade.h:52
 msgid "Input Message"
@@ -20153,18 +20129,16 @@ msgid "Small Circles"
 msgstr "小円"
 
 #: src/dialogs/cell-format.glade.h:72
-#, fuzzy
 msgid "Stop            (never allow invalid input)"
-msgstr "停止           (不正な入力は許可しない)"
+msgstr "停止           (不正な入力は許可しません)"
 
 #: src/dialogs/cell-format.glade.h:73
 msgid "Stri_kethrough"
 msgstr "取消線(_K)"
 
 #: src/dialogs/cell-format.glade.h:74
-#, fuzzy
 msgid "Style:"
-msgstr "スタイル(_S)"
+msgstr "スタイル:"
 
 #: src/dialogs/cell-format.glade.h:75
 msgid "Su_bscript"
@@ -20175,9 +20149,8 @@ msgid "Sup_erscript"
 msgstr "上付き(_E)"
 
 #: src/dialogs/cell-format.glade.h:77
-#, fuzzy
 msgid "T_op"
-msgstr "上"
+msgstr "上(_O)"
 
 #: src/dialogs/cell-format.glade.h:78
 msgid "Text length"
@@ -20220,14 +20193,12 @@ msgid "Time"
 msgstr "時間"
 
 #: src/dialogs/cell-format.glade.h:88
-#, fuzzy
 msgid "Titl_e:"
-msgstr "題名:"
+msgstr "題名(_E):"
 
 #: src/dialogs/cell-format.glade.h:90
-#, fuzzy
 msgid "Underline:"
-msgstr "下線(_U)"
+msgstr "下線:"
 
 #: src/dialogs/cell-format.glade.h:91
 msgid "Validation"
@@ -20238,7 +20209,6 @@ msgid "Vertical Stripe"
 msgstr "縦縞"
 
 #: src/dialogs/cell-format.glade.h:93
-#, fuzzy
 msgid "Warning     (accept/discard invalid input)"
 msgstr "警告      (不正な入力を受け入れる/無視する)"
 
@@ -20251,27 +20221,24 @@ msgid "_General"
 msgstr "汎用(_G)"
 
 #: src/dialogs/cell-format.glade.h:98
-#, fuzzy
 msgid "_Indent:"
-msgstr "インデント(_I)"
+msgstr "インデント(_I):"
 
 #: src/dialogs/cell-format.glade.h:99
 msgid "_Justify"
 msgstr "両端揃え(_J)"
 
 #: src/dialogs/cell-format.glade.h:101
-#, fuzzy
 msgid "_Lock"
-msgstr "セルをロックする(_L)"
+msgstr "ロック(_L)"
 
 #: src/dialogs/cell-format.glade.h:102
 msgid "_Message:"
 msgstr "メッセージ(_M):"
 
 #: src/dialogs/cell-format.glade.h:103
-#, fuzzy
 msgid "_Protect worksheet"
-msgstr "編集中のシート(_C)"
+msgstr "ワークシートの保護(_P)"
 
 #: src/dialogs/cell-format.glade.h:105
 msgid "_Show input message when cell is selected"
@@ -20323,25 +20290,23 @@ msgstr "値 &gt;= 境界値                      (大きいまたは等しい)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "<span weight=\"bold\">Sort Options</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ソートオプション</span>"
 
 #: src/dialogs/cell-sort.glade.h:2
 msgid "<span weight=\"bold\">Sort Specification</span>"
-msgstr ""
+msgstr "<span weight=\"bold\">ソート指定</span>"
 
 #: src/dialogs/cell-sort.glade.h:3
-#, fuzzy
 msgid "Direction:"
-msgstr "ディレクトリ"
+msgstr "方向"
 
 #: src/dialogs/cell-sort.glade.h:4
-#, fuzzy
 msgid "Range:"
-msgstr "範囲(_R)"
+msgstr "範囲:"
 
 #: src/dialogs/cell-sort.glade.h:5
 msgid "Sort range has a _header"
-msgstr ""
+msgstr "ソート範囲にヘッダがあります(_H)"
 
 #: src/dialogs/cell-sort.glade.h:6
 msgid "Sort..."
@@ -20365,26 +20330,24 @@ msgid "Column Width"
 msgstr "列の幅"
 
 #: src/dialogs/col-width.glade.h:2
-#, fuzzy
 msgid "_Column width (pt.):"
-msgstr "列の幅(pts)(_C):"
+msgstr "列の幅(pt.)(_C):"
 
 #: src/dialogs/col-width.glade.h:3 src/dialogs/row-height.glade.h:3
 msgid "_Use Default"
 msgstr "デフォルトにする(_U)"
 
 #: src/dialogs/colrow.glade.h:1
-#, fuzzy
 msgid "Group/Ungroup"
-msgstr "グループ化解除"
+msgstr "グループ化/解除"
 
 #: src/dialogs/consolidate.glade.h:1
 msgid "AVERAGE"
-msgstr ""
+msgstr "平均"
 
 #: src/dialogs/consolidate.glade.h:2
 msgid "COUNT"
-msgstr ""
+msgstr "カウント"
 
 #: src/dialogs/consolidate.glade.h:3
 msgid "C_opy labels"
@@ -20416,11 +20379,11 @@ msgstr "最上行の中(_T)"
 
 #: src/dialogs/consolidate.glade.h:11
 msgid "MAX"
-msgstr ""
+msgstr "最大"
 
 #: src/dialogs/consolidate.glade.h:12
 msgid "MIN"
-msgstr ""
+msgstr "最小"
 
 #: src/dialogs/consolidate.glade.h:13
 msgid "PRODUCT"
@@ -20435,9 +20398,8 @@ msgid "STDEVP"
 msgstr ""
 
 #: src/dialogs/consolidate.glade.h:16
-#, fuzzy
 msgid "SUM"
-msgstr "SUMMARY"
+msgstr "合計"
 
 #: src/dialogs/consolidate.glade.h:17
 msgid "The function to use when consolidating"
@@ -20480,9 +20442,8 @@ msgid "_Put:"
 msgstr "付ける(_P):"
 
 #: src/dialogs/consolidate.glade.h:26
-#, fuzzy
 msgid "_Source areas:"
-msgstr "ソース領域"
+msgstr "ソース領域(S_):"
 
 #: src/dialogs/correlation.glade.h:3 src/tools/analysis-tools.c:784
 #: src/tools/analysis-tools.c:787
@@ -20514,7 +20475,6 @@ msgid "Shift cells _up"
 msgstr "セルを上に移動(_U)"
 
 #: src/dialogs/descriptive-stats.glade.h:1
-#, fuzzy
 msgid "(1 - alpha) = "
 msgstr "(1 - α) = "
 
@@ -20606,16 +20566,14 @@ msgstr "John Gott, RPM パッケージ作成担当。"
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:64
-#, fuzzy
 msgid "Andreas J. Gülzow, Gnumeric hacker."
-msgstr "Andreas J. Guelzow, Gnumeric ハッカー。"
+msgstr "Andreas J. Güelzow, Gnumeric ハッカー。"
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:67
-#, fuzzy
 msgid "Jon Kåre Hellan, Gnumeric hacker."
-msgstr "Jon K Hellan, Gnumeric ハッカー。"
+msgstr "Jon Kåre Hellan, Gnumeric ハッカー。"
 
 #: src/dialogs/dialog-about.c:68
 msgid "Ross Ihaka, special functions."
@@ -20768,18 +20726,16 @@ msgid "Could not create the Covariance Tool dialog."
 msgstr "共分散ツールダイアログを作成できませんでした。"
 
 #: src/dialogs/dialog-analysis-tools.c:822
-#, fuzzy
 msgid "Could not create the Rank and Percentile Tools dialog."
-msgstr "ランクと百分率ツールダイアログが作成できませんでした。"
+msgstr "ランクと百分率ツールダイアログを作成できませんでした。"
 
 #: src/dialogs/dialog-analysis-tools.c:912
-#, fuzzy
 msgid "Could not create the Fourier Analysis Tool dialog."
-msgstr "フーリエ分析ツールダイアログが作成できませんでした。"
+msgstr "フーリエ分析ツールダイアログを作成できませんでした。"
 
 #: src/dialogs/dialog-analysis-tools.c:1074
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr "記述統計ツールダイアログが作成できませんでした。"
+msgstr "記述統計ツールダイアログを作成できませんでした。"
 
 #: src/dialogs/dialog-analysis-tools.c:1216
 msgid ""
@@ -20921,9 +20877,8 @@ msgid "Feb"
 msgstr "2月"
 
 #: src/dialogs/dialog-autoformat.c:70
-#, fuzzy
 msgid "Mar"
-msgstr "*3"
+msgstr "3月"
 
 #: src/dialogs/dialog-autoformat.c:70 src/dialogs/dialog-autoformat.c:74
 #: src/tools/analysis-tools.c:3359 src/tools/analysis-tools.c:3369
@@ -27563,7 +27518,7 @@ msgstr "非負を仮定する(_N)"
 
 #: src/tools/solver/reports-write.c:726
 msgid "Yes"
-msgstr ""
+msgstr "はい"
 
 #: src/tools/solver/reports-write.c:728
 #, fuzzy
@@ -28031,127 +27986,127 @@ msgstr "その他"
 
 #: src/widgets/widget-charmap-selector.c:113
 msgid "Arabic (IBM-864)"
-msgstr ""
+msgstr "アラビア語 (IBM-864)"
 
 #: src/widgets/widget-charmap-selector.c:114
 msgid "Arabic (IBM-864-I)"
-msgstr ""
+msgstr "アラビア語 (IBM-864-I)"
 
 #: src/widgets/widget-charmap-selector.c:115
 msgid "Arabic (ISO-8859-6)"
-msgstr ""
+msgstr "アラビア語 (ISO-8859-6)"
 
 #: src/widgets/widget-charmap-selector.c:116
 msgid "Arabic (ISO-8859-6-E)"
-msgstr ""
+msgstr "アラビア語 (ISO-8859-6-E)"
 
 #: src/widgets/widget-charmap-selector.c:118
 msgid "Arabic (ISO-8859-6-I)"
-msgstr ""
+msgstr "アラビア語 (ISO-8859-6-I)"
 
 #: src/widgets/widget-charmap-selector.c:119
 msgid "Arabic (MacArabic)"
-msgstr ""
+msgstr "アラビア語 (MacArabic)"
 
 #: src/widgets/widget-charmap-selector.c:120
 msgid "Arabic (Windows-1256)"
-msgstr ""
+msgstr "アラビア語 (Windows-1256)"
 
 #: src/widgets/widget-charmap-selector.c:121
 msgid "Armenian (ARMSCII-8)"
-msgstr ""
+msgstr "アルメニア語 (ARMSCII-8)"
 
 #: src/widgets/widget-charmap-selector.c:122
 msgid "Baltic (ISO-8859-13)"
-msgstr ""
+msgstr "バルト語 (ISO-8859-13)"
 
 #: src/widgets/widget-charmap-selector.c:123
 msgid "Baltic (ISO-8859-4)"
-msgstr ""
+msgstr "バルト語 (ISO-8859-4)"
 
 #: src/widgets/widget-charmap-selector.c:124
 msgid "Baltic (Windows-1257)"
-msgstr ""
+msgstr "バルト語 (Windows-1257)"
 
 #: src/widgets/widget-charmap-selector.c:125
 msgid "Celtic (ISO-8859-14)"
-msgstr ""
+msgstr "ケルト語 (ISO-8859-14)"
 
 #: src/widgets/widget-charmap-selector.c:126
 msgid "Central European (IBM-852)"
-msgstr ""
+msgstr "中欧 (IBM-852)"
 
 #: src/widgets/widget-charmap-selector.c:127
 msgid "Central European (ISO-8859-2)"
-msgstr ""
+msgstr "中欧 (ISO-8859-2)"
 
 #: src/widgets/widget-charmap-selector.c:128
 msgid "Central European (MacCE)"
-msgstr ""
+msgstr "中欧 (MacCE)"
 
 #: src/widgets/widget-charmap-selector.c:129
 msgid "Central European (Windows-1250)"
-msgstr ""
+msgstr "中欧 (Windwos-1250)"
 
 #: src/widgets/widget-charmap-selector.c:130
 msgid "Chinese Simplified (GB18030)"
-msgstr ""
+msgstr "簡体字中国語 (GB18030)"
 
 #: src/widgets/widget-charmap-selector.c:131
 msgid "Chinese Simplified (GB2312)"
-msgstr ""
+msgstr "簡体字中国語 (GB2312)"
 
 #: src/widgets/widget-charmap-selector.c:132
 msgid "Chinese Simplified (GBK)"
-msgstr ""
+msgstr "簡体字中国語 (GBK)"
 
 #: src/widgets/widget-charmap-selector.c:133
 msgid "Chinese Simplified (HZ)"
-msgstr ""
+msgstr "簡体字中国語 (HZ)"
 
 #: src/widgets/widget-charmap-selector.c:134
 msgid "Chinese Simplified (Windows-936)"
-msgstr ""
+msgstr "簡体字中国語 (Windows-936)"
 
 #: src/widgets/widget-charmap-selector.c:135
 msgid "Chinese Traditional (Big5)"
-msgstr ""
+msgstr "繁体字中国語 (Big5)"
 
 #: src/widgets/widget-charmap-selector.c:136
 msgid "Chinese Traditional (Big5-HKSCS)"
-msgstr ""
+msgstr "繁体字中国語 (Big5-HKSCS)"
 
 #: src/widgets/widget-charmap-selector.c:137
 msgid "Chinese Traditional (EUC-TW)"
-msgstr ""
+msgstr "繁体字中国語 (EUC-TW)"
 
 #: src/widgets/widget-charmap-selector.c:138
 msgid "Croatian (MacCroatian)"
-msgstr ""
+msgstr "クロアチア語 (MacCroatian)"
 
 #: src/widgets/widget-charmap-selector.c:139
 msgid "Cyrillic (IBM-855)"
-msgstr ""
+msgstr "キリル文字 (IBM-855)"
 
 #: src/widgets/widget-charmap-selector.c:140
 msgid "Cyrillic (ISO-8859-5)"
-msgstr ""
+msgstr "キリル文字 (ISO-8859-5)"
 
 #: src/widgets/widget-charmap-selector.c:141
 msgid "Cyrillic (ISO-IR-111)"
-msgstr ""
+msgstr "キリル文字 (ISO-IR-111)"
 
 #: src/widgets/widget-charmap-selector.c:142
 msgid "Cyrillic (KOI8-R)"
-msgstr ""
+msgstr "キリル文字 (KOI8-R)"
 
 #: src/widgets/widget-charmap-selector.c:143
 msgid "Cyrillic (MacCyrillic)"
-msgstr ""
+msgstr "キリル文字 (MacCyrillic)"
 
 #: src/widgets/widget-charmap-selector.c:144
 msgid "Cyrillic (Windows-1251)"
-msgstr ""
+msgstr "キリル文字 (Windows-1251)"
 
 #: src/widgets/widget-charmap-selector.c:145
 msgid "Russian (CP-866)"
@@ -28171,206 +28126,203 @@ msgstr ""
 
 #: src/widgets/widget-charmap-selector.c:149
 msgid "Farsi (MacFarsi)"
-msgstr ""
+msgstr "ペルシア語 (MacFarsi)"
 
 #: src/widgets/widget-charmap-selector.c:150
 msgid "Georgian (GEOSTD8)"
-msgstr ""
+msgstr "グルジア語 (GEOSTD8)"
 
 #: src/widgets/widget-charmap-selector.c:151
 msgid "Greek (ISO-8859-7)"
-msgstr ""
+msgstr "ギリシア語 (ISO-8859-7)"
 
 #: src/widgets/widget-charmap-selector.c:152
 msgid "Greek (MacGreek)"
-msgstr ""
+msgstr "ギリシア語 (MacGreek)"
 
 #: src/widgets/widget-charmap-selector.c:153
 msgid "Greek (Windows-1253)"
-msgstr ""
+msgstr "ギリシア語 (Windows-1253)"
 
 #: src/widgets/widget-charmap-selector.c:154
 msgid "Gujarati (MacGujarati)"
-msgstr ""
+msgstr "グジャラート語 (MacGujarati)"
 
 #: src/widgets/widget-charmap-selector.c:155
 msgid "Gurmukhi (MacGurmukhi)"
-msgstr ""
+msgstr "グルムキー文字 (MacGurmukhi)"
 
 #: src/widgets/widget-charmap-selector.c:156
 msgid "Hebrew (IBM-862)"
-msgstr ""
+msgstr "ヘブライ語 (IBM-862)"
 
 #: src/widgets/widget-charmap-selector.c:157
 msgid "Hebrew (ISO-8859-8-E)"
-msgstr ""
+msgstr "ヘブライ語 (ISO-8859-8-E)"
 
 #: src/widgets/widget-charmap-selector.c:158
 msgid "Hebrew (ISO-8859-8-I)"
-msgstr ""
+msgstr "ヘブライ語 (ISO-8859-8-I)"
 
 #: src/widgets/widget-charmap-selector.c:159
 msgid "Hebrew (MacHebrew)"
-msgstr ""
+msgstr "ヘブライ語 (MacDevanagari)"
 
 #: src/widgets/widget-charmap-selector.c:160
 msgid "Hebrew (Windows-1255)"
-msgstr ""
+msgstr "ヘブライ語 (Windows-1255)"
 
 #: src/widgets/widget-charmap-selector.c:161
 msgid "Hindi (MacDevanagari)"
-msgstr ""
+msgstr "ヒンディー語 (MacDevanagari)"
 
 #: src/widgets/widget-charmap-selector.c:162
 msgid "Icelandic (MacIcelandic)"
-msgstr ""
+msgstr "アイスランド語 (MacIcelandic)"
 
 #: src/widgets/widget-charmap-selector.c:163
 msgid "Japanese (EUC-JP)"
-msgstr ""
+msgstr "日本語 (EUC-JP)"
 
 #: src/widgets/widget-charmap-selector.c:164
 msgid "Japanese (ISO-2022-JP)"
-msgstr ""
+msgstr "日本語 (ISO-2022-JP)"
 
 #: src/widgets/widget-charmap-selector.c:165
 msgid "Japanese (Shift_JIS)"
-msgstr ""
+msgstr "日本語 (シフトJIS)"
 
 #: src/widgets/widget-charmap-selector.c:166
 msgid "Korean (EUC-KR)"
-msgstr ""
+msgstr "韓国語 (EUC-KR)"
 
 #: src/widgets/widget-charmap-selector.c:167
 msgid "Korean (ISO-2022-KR)"
-msgstr ""
+msgstr "韓国語 (ISO-2022-KR)"
 
 #: src/widgets/widget-charmap-selector.c:168
 msgid "Korean (JOHAB)"
-msgstr ""
+msgstr "韓国語 (JOHAB)"
 
 #: src/widgets/widget-charmap-selector.c:169
 msgid "Korean (UHC)"
-msgstr ""
+msgstr "韓国語 (UHC)"
 
 #: src/widgets/widget-charmap-selector.c:170
 msgid "Nordic (ISO-8859-10)"
-msgstr ""
+msgstr "北欧 (ISO-8859-10)"
 
 #: src/widgets/widget-charmap-selector.c:171
 msgid "Romanian (MacRomanian)"
-msgstr ""
+msgstr "ルーマニア語 (MacRomanian)"
 
 #: src/widgets/widget-charmap-selector.c:172
 msgid "Romanian (ISO-8859-16)"
-msgstr ""
+msgstr "ルーマニア語 (ISO-8859-16)"
 
 #: src/widgets/widget-charmap-selector.c:173
 msgid "South European (ISO-8859-3)"
-msgstr ""
+msgstr "南欧 (ISO-8859-3)"
 
 #: src/widgets/widget-charmap-selector.c:174
 msgid "Thai (TIS-620)"
-msgstr ""
+msgstr "タイ語 (TIS-620)"
 
 #: src/widgets/widget-charmap-selector.c:175
 msgid "Turkish (IBM-857)"
-msgstr ""
+msgstr "トルコ語 (IBM-857)"
 
 #: src/widgets/widget-charmap-selector.c:176
 msgid "Turkish (ISO-8859-9)"
-msgstr ""
+msgstr "トルコ語 (ISO-8859-9)"
 
 #: src/widgets/widget-charmap-selector.c:177
 msgid "Turkish (MacTurkish)"
-msgstr ""
+msgstr "トルコ語 (MacTurkish)"
 
 #: src/widgets/widget-charmap-selector.c:178
 msgid "Turkish (Windows-1254)"
-msgstr ""
+msgstr "トルコ語 (Windows-1254)"
 
 #: src/widgets/widget-charmap-selector.c:179
 msgid "Unicode (UTF-7)"
-msgstr ""
+msgstr "ユニコード (UTF-7)"
 
 #: src/widgets/widget-charmap-selector.c:180
 msgid "Unicode (UTF-8)"
-msgstr ""
+msgstr "ユニコード (UTF-8)"
 
 #: src/widgets/widget-charmap-selector.c:181
 msgid "Unicode (UTF-16BE)"
-msgstr ""
+msgstr "ユニコード (UTF-16BE)"
 
 #: src/widgets/widget-charmap-selector.c:182
 msgid "Unicode (UTF-16LE)"
-msgstr ""
+msgstr "ユニコード (UTF-16LE)"
 
 #: src/widgets/widget-charmap-selector.c:183
 msgid "Unicode (UTF-32BE)"
-msgstr ""
+msgstr "ユニコード (UTF-32BE)"
 
 #: src/widgets/widget-charmap-selector.c:184
 msgid "Unicode (UTF-32LE)"
-msgstr ""
+msgstr "ユニコード (UTF-32LE)"
 
 #: src/widgets/widget-charmap-selector.c:185
-#, fuzzy
 msgid "User Defined"
-msgstr "下線"
+msgstr "ユーザ定義"
 
 #: src/widgets/widget-charmap-selector.c:186
 msgid "Vietnamese (TCVN)"
-msgstr ""
+msgstr "ベトナム語 (TCVN)"
 
 #: src/widgets/widget-charmap-selector.c:187
 msgid "Vietnamese (VISCII)"
-msgstr ""
+msgstr "ベトナム語 (VISCII)"
 
 #: src/widgets/widget-charmap-selector.c:188
 msgid "Vietnamese (VPS)"
-msgstr ""
+msgstr "ベトナム語 (VPS)"
 
 #: src/widgets/widget-charmap-selector.c:189
 msgid "Vietnamese (Windows-1258)"
-msgstr ""
+msgstr "ベトナム語 (Windows-1258)"
 
 #: src/widgets/widget-charmap-selector.c:190
 msgid "Visual Hebrew (ISO-8859-8)"
-msgstr ""
+msgstr "ヘブライ語 (ISO-8859-8)"
 
 #: src/widgets/widget-charmap-selector.c:191
 msgid "Western (IBM-850)"
-msgstr ""
+msgstr "西欧 (IBM-850)"
 
 #: src/widgets/widget-charmap-selector.c:192
 msgid "Western (ISO-8859-1)"
-msgstr ""
+msgstr "西欧 (ISO-8859-1)"
 
 #: src/widgets/widget-charmap-selector.c:193
 msgid "Western (ISO-8859-15)"
-msgstr ""
+msgstr "西欧 (ISO-8859-15)"
 
 #: src/widgets/widget-charmap-selector.c:194
 msgid "Western (MacRoman)"
-msgstr ""
+msgstr "西欧 (MacRoman)"
 
 #: src/widgets/widget-charmap-selector.c:195
 msgid "Western (Windows-1252)"
-msgstr ""
+msgstr "西欧 (Windows-1252)"
 
 #: src/widgets/widget-charmap-selector.c:413
-#, fuzzy
 msgid "Locale: "
-msgstr "論理"
+msgstr "ロケール: "
 
 #: src/widgets/widget-charmap-selector.c:452
-#, fuzzy
 msgid "Conversion Direction"
-msgstr "ピアソン相関"
+msgstr "変換方向"
 
 #: src/widgets/widget-charmap-selector.c:453
 msgid "This value determines which iconv test to perform."
-msgstr ""
+msgstr "この値は実行するiconvテストを決定します。"
 
 #: src/widgets/widget-font-selector.c:151
 msgid "Bold italic"
@@ -28401,9 +28353,8 @@ msgid "Negative Number Format"
 msgstr "負の数のフォーマット"
 
 #: src/widgets/widget-format-selector.c:955
-#, fuzzy
 msgid "Number Formats"
-msgstr "表示形式(_N)"
+msgstr "数字フォーマット"
 
 #: src/widgets/widget-locale-selector.c:64
 msgid "Western Europe"
@@ -28482,7 +28433,6 @@ msgid "Jordan (ar_JO)"
 msgstr "ヨルダン (ar_JO)"
 
 #: src/widgets/widget-locale-selector.c:112
-#, fuzzy
 msgid "Kuwait (ar_KW)"
 msgstr "クウェート (ar_KW)"
 
@@ -28735,7 +28685,6 @@ msgid "Estonia (et_EE)"
 msgstr "エストニア (et_EE)"
 
 #: src/widgets/widget-locale-selector.c:175
-#, fuzzy
 msgid "Spain/Basque (eu_ES)"
 msgstr "スペイン/バスク語 (eu_ES)"
 
@@ -28857,7 +28806,7 @@ msgstr "ラトビア (lv_LV)"
 
 #: src/widgets/widget-locale-selector.c:205
 msgid "New Zealand/Maori (mi_NZ)"
-msgstr "ニュージーランド/マオリ (mi_NZ)"
+msgstr "ニュージーランド/マオリ語 (mi_NZ)"
 
 #: src/widgets/widget-locale-selector.c:206
 msgid "Macedonia (mk_MK)"
@@ -28889,7 +28838,7 @@ msgstr "ノルウェー/ニーノシュク語 (nn_NO)"
 
 #: src/widgets/widget-locale-selector.c:213
 msgid "Norway/Bokmal (no_NO)"
-msgstr "ノルウェー/ボクモール (no_NO)"
+msgstr "ノルウェー/ボクモール語 (no_NO)"
 
 #: src/widgets/widget-locale-selector.c:214
 msgid "France/Occitan (oc_FR)"
@@ -28953,7 +28902,7 @@ msgstr "インド/タミル語 (ta_IN)"
 
 #: src/widgets/widget-locale-selector.c:229
 msgid "India/Telugu (te_IN)"
-msgstr "インド/テルグ (te_IN)"
+msgstr "インド/テルグ語 (te_IN)"
 
 #: src/widgets/widget-locale-selector.c:230
 msgid "Tajikistan (tg_TJ)"
@@ -29049,23 +28998,20 @@ msgid "Manage sheets..."
 msgstr "シートの管理..."
 
 #: src/workbook-control-gui.c:645
-#, fuzzy
 msgid "Append"
-msgstr "送信"
+msgstr "後ろに追加"
 
 #: src/workbook-control-gui.c:646
-#, fuzzy
 msgid "Duplicate"
-msgstr "複製(_D)"
+msgstr "複製"
 
 #: src/workbook-control-gui.c:647
 msgid "Remove"
 msgstr "削除"
 
 #: src/workbook-control-gui.c:648
-#, fuzzy
 msgid "Rename"
-msgstr "名前変更(_N)..."
+msgstr "名前変更"
 
 #.
 #. * xgettext:
@@ -29113,15 +29059,15 @@ msgstr "もう一度"
 #: src/workbook-control-gui.c:1744
 #, c-format
 msgid "Save changes to workbook '%s' before closing?"
-msgstr ""
+msgstr "閉じる前にワークブック'%s'への変更を保存しますか?"
 
 #: src/workbook-control-gui.c:1748
 msgid "Save changes to workbook before closing?"
-msgstr ""
+msgstr "閉じる前にワークブックの変更を保存しますか?"
 
 #: src/workbook-control-gui.c:1754
 msgid "If you close without saving, changes will be discarded."
-msgstr ""
+msgstr "保存しないで閉じると、変更はすべて破棄されます。"
 
 #: src/workbook-control-gui.c:1760
 msgid "Discard all"
@@ -29180,7 +29126,6 @@ msgid "Insert columns"
 msgstr "行の挿入"
 
 #: src/workbook-control-gui.c:2899
-#, fuzzy
 msgid "Add Filter"
 msgstr "フィルタの追加"
 
@@ -29230,9 +29175,8 @@ msgid "P_aste special..."
 msgstr "特殊貼り付け(_A)..."
 
 #: src/workbook-control-gui.c:3494
-#, fuzzy
 msgid "Create a new view of the workbook"
-msgstr "ワークブックの新規シェアードビューを作成します"
+msgstr "ワークブックの新規ビューを作成します"
 
 #: src/workbook-control-gui.c:3528
 msgid "_Auto generate names..."
@@ -29457,14 +29401,13 @@ msgid "Internal ERROR"
 msgstr "内部エラーです"
 
 #: src/workbook-view.c:568
-#, fuzzy, c-format
 msgid "Can't open '%s' for writing: %s"
-msgstr "開けません"
+msgstr "'%s'を書き込み用に開けません: %s"
 
 #: src/workbook-view.c:592
 #, c-format
 msgid "An unexplained error happened while saving %s"
-msgstr ""
+msgstr "%sの保存で説明できないエラーが発生しました"
 
 #.
 #. * This should be quite rare.  To provoke, use
@@ -29480,9 +29423,8 @@ msgid "Default file saver is not available."
 msgstr "デフォルトのファイルセーバーは無効です。"
 
 #: src/workbook-view.c:759
-#, fuzzy
 msgid "Failed to create temporary file for sending."
-msgstr "テンポラリファイルが作成できません。"
+msgstr "送信のためのテンポラリファイルが作成できません。"
 
 #: src/workbook-view.c:893
 msgid "Unsupported file format."
@@ -29491,7 +29433,7 @@ msgstr "未サポートのファイル書式です。"
 #: src/workbook-view.c:951
 #, c-format
 msgid "An unexplained error happened while opening %s"
-msgstr ""
+msgstr "%sを開いているときに説明できないエラーが発生しました"
 
 #: src/workbook.c:401
 #, c-format
@@ -29526,14 +29468,12 @@ msgid "Processing file..."
 msgstr "ファイルの解析中..."
 
 #: src/xml-io.c:3881
-#, fuzzy
 msgid "The file is not a Gnumeric Workbook file"
 msgstr "Gnumericワークブックファイルではありません"
 
 #: src/xml-io.c:3918
-#, fuzzy
 msgid "Failure saving file"
-msgstr "ファイルセーバーに ID がありません。"
+msgstr "ファイルの保存に失敗"
 
 #: src/xml-io.c:3951
 msgid "Gnumeric XML file format"
