@@ -163,7 +163,7 @@ initgnumeric(void)
 {
   PyImport_AddModule("gnumeric");
   Py_InitModule("gnumeric", gnumeric_funcs);
-  g_print("gnumeric module initialized\n");
+  g_print("Gnumeric/Python module initialized\n");
 }  
 
 static int
@@ -193,22 +193,17 @@ init_plugin(PluginData * pd)
   /* plugin stuff */
 
   /* run the magic python file */
-  /* XXX should run single Python file in system directory. This file would
-   * then contain policy for the loading the remainder of the Python
-   * scripts.
-   */
 
   {
-    char *homedir = getenv("HOME");
-    char *fname;
+    char *name;
     FILE *fp;
-
-    g_warning ("FIXME: This should load a system installed file");
-    fname = g_copy_strings(homedir ? homedir : "", "/.gnumeric/main.py", NULL);
-    fp = fopen(fname, "r");
-    PyRun_SimpleFile(fp, fname);
-    /* XXX Detect Python exception and popup window with info */
-    g_free(fname);
+    
+    name = gnome_unconditional_datadir_file ("gnumeric/python/gnumeric_startup.py");
+    fp = fopen (name, "r");
+    if (fp){
+	    PyRun_SimpleFile(fp, name);
+    }
+    g_free(name);
   }
 
   return 0;

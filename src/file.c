@@ -44,10 +44,7 @@ workbook_save_as (Workbook *wb)
 		char *name = gtk_file_selection_get_filename (fsel);
 
 		if (name [strlen (name)-1] != '/'){
-			if (wb->filename)
-				g_free (wb->filename);
-			
-			wb->filename = g_strdup (name);
+			workbook_set_filename (wb, name);
 				
 			gnumericWriteXmlWorkbook (wb, wb->filename);
 		}

@@ -15,3 +15,7 @@ PKG_NAME="Gnumeric"
 }
 
 . $srcdir/macros/autogen.sh
+
+mv libtool xlibtool
+sed 's/^archive_cmds="\(.*\)"$/archive_cmds="\1 \\$deplibs"/' <  xlibtool > libtool
+chmod +x libtool

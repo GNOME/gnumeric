@@ -25,4 +25,11 @@ INCLUDES = 						\
 	$(PYTHON_CFLAGS)				\
 	$(GNOME_INCLUDEDIR)
 
-libpython_la_LIBADD = -l$(PYTHON_LIBS)
+libpython_la_LIBADD = -l$(PYTHON_LIBS) $(PYTHON_LIB_LOC)
+
+Pythonscriptsdir = $(datadir)/gnumeric/python
+
+Pythonscripts_DATA = gnumeric_startup.py
+
+EXTRA_DIST = gnumeric_startup.py
+

@@ -903,6 +903,8 @@ workbook_new (void)
 
 	wb->max_iterations = 1;
 
+	workbook_set_title (wb, _("Untitled.gnumeric"));
+	
 	workbook_setup_status_area (wb);
 	workbook_setup_edit_area (wb);
 	workbook_setup_sheets (wb);
@@ -1054,3 +1056,30 @@ workbook_feedback_set (Workbook *workbook, WorkbookFeedbackType type, void *data
 	}
 }
 
+void
+workbook_set_title (Workbook *wb, char *title)
+{
+	char *title;
+	
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (title != NULL);
+
+	title = g_copy_strings ("Gnumeric: ", title, NULL);
+	
+ 	gtk_window_set_title (GTK_WINDOW (wb->toplevel), title);
+	g_free (title);
+}
+
+void
+workbook_set_filename (Workbook *wb, char *name)
+{
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (name != NULL);
+
+	if (wb->filename)
+		g_free (wb->filename);
+	
+	wb->filename = g_strdup (name);
+
+	workbook_set_title (wb, g_basename (name));
+}

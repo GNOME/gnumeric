@@ -628,7 +628,7 @@ Workbook *gnumericReadXmlWorkbook(const char *filename) {
     ctxt.nameTable = g_hash_table_new(g_str_hash, g_str_equal);
     ctxt.fontIdx = 1;
     wb = readXmlWorkbook(&ctxt, res->root);
-    wb->filename = g_strdup (filename);
+    workbook_set_filename (wb, filename);
     workbook_recalc(wb);
     g_hash_table_foreach(ctxt.nameTable, nameFree, NULL);
     g_hash_table_destroy(ctxt.nameTable);

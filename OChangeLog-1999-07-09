@@ -1,5 +1,15 @@
 1998-09-26  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* plugins/python/python.c (init_plugin): Use the system
+	installation directory to load the python scripts.
+
+	* autogen.sh: Hack to make libtool add library dependcy
+	information (it modifies the libtool file after it has been
+	created). 
+	
+	* src/workbook.c (workbook_set_filename): New routine to set the
+	filename being edited of the workbook.
+
 	* src/sheet-object.c (create_object): Swap arguments to the
 	ellipse object to guarrantee we pass valid information.
 

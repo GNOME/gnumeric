@@ -313,6 +313,9 @@ Workbook   *workbook_new                 (void);
 void        workbook_destroy             (Workbook *wb);
 Workbook   *workbook_new_with_sheets     (int sheet_count);
 
+void        workbook_set_filename        (Workbook *, char *);
+void        workbook_set_title           (Workbook *, char *);
+
 void        workbook_save_as             (Workbook *);
 void        workbook_save                (Workbook *);
 void        workbook_attach_sheet        (Workbook *, Sheet *);

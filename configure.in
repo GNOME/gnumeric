@@ -47,9 +47,11 @@ if $python_val; then
 	PYTHON_VERSION=`python -c 'import sys ; print sys.version[0:3]'`
 	changequote([, ])dnl
 	if test -f $PYTHON_PREFIX/include/python$PYTHON_VERSION/Python.h; then
-		PYTHON_LIBS="python$PYTHON_VERSION -L$PYTHON_PREFIX/lib/python$PYTHON_VERSION/config"
+		PYTHON_LIBS="python$PYTHON_VERSION"
+		PYTHON_LIB_LOC="-L$PYTHON_PREFIX/lib/python$PYTHON_VERSION/config"
 		PYTHON_CFLAGS="-I$PYTHON_PREFIX/include/python$PYTHON_VERSION"
 		AC_SUBST(PYTHON_LIBS)
+		AC_SUBST(PYTHON_LIB_LOC)
 		AC_SUBST(PYTHON_CFLAGS)
 	else
 		python_val=false
