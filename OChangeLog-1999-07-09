@@ -1,3 +1,9 @@
+1999-05-16  Raja R Harinath  <harinath@cs.umn.edu>
+
+	* src/Gnumeric.idl: Revert the following checkin:
+	1999-05-13  Kjartan Maraas  <kmaraas@online.no>.
+	`gnome-object.idl' is part of `bonobo'.
+
 1999-05-16  Morten Welinder  <terra@diku.dk>
 
 	* src/expr.c (do_expr_tree_relocate): Change to use lazy copying
