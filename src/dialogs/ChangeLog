@@ -1,5 +1,9 @@
 2003-05-08   Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/dialogs/dialog-stf-csv-page.c: add forgotten #include
+
+2003-05-08   Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	http://bugzilla.gnome.org/show_bug.cgi?id=78355
 	* src/dialogs/dialog-stf-csv-page.c (stf_dialog_csv_page_prepare):
 	  set the default separator
