@@ -37,6 +37,7 @@
 #include <format.h>
 #include <workbook.h>
 #include <sheet.h>
+#include <tools/goal-seek.h>
 
 #include <math.h>
 #include <string.h>
@@ -49,10 +50,13 @@
 #define ERLANG_LIMIT	100000
 #define MOVING_FACTOR	5E-4
 
+/*
+ * comp_gos == 1 - gos
+ */
 static gnm_float
-guess_carried_traffic (gnm_float traffic, gnm_float gos)
+guess_carried_traffic (gnm_float traffic, gnm_float comp_gos)
 {
-	return traffic * (1.0 - gos);
+	return traffic * comp_gos;
 }
 
 static gnm_float
@@ -60,7 +64,7 @@ calculate_loggos (gnm_float traffic, gnm_float circuits)
 {
 	double f;
 
-	if (traffic < 0 || circuits < traffic)
+	if (traffic < 0 || circuits < 1)
 		return gnm_nan;
 	if (traffic == 0)
 		return gnm_ninf;
@@ -76,28 +80,42 @@ calculate_loggos (gnm_float traffic, gnm_float circuits)
 		circuits * (loggnum (traffic / (circuits + 1)));
 #endif
 
+	/* FIXME: our pgamma implementation goes bad at alpha==100000
+	 * (exact).  The log-result jumps 70000!
+	 */
 	return f - pgamma (traffic, circuits + 1, 1, FALSE, TRUE);
 }
 
 static gnm_float
-calculate_gos (gnm_float traffic, gnm_float circuits)
+calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 {
 	gnm_float gos;
 
 	/* extra guards wont hurt, right? */
-	if (circuits < 1 || traffic < 0 || circuits < traffic)
+	if (circuits < 1 || traffic < 0)
 		return -1;
 
 	if (traffic == 0)
-		return 0;
-
-	if (circuits < 25) {
+		gos = comp ? 1 : 0;
+	else if (circuits < 100) {
 		gnm_float cir_iter = 1;
 		gos = 1;
 		for (cir_iter = 1; cir_iter <= circuits; cir_iter++)
 			gos = (traffic * gos) / (cir_iter + (traffic * gos));
+		if (comp) gos = 1 - gos;
+	} else if (circuits / traffic < 0.9) {
+		gnm_float sum = 0, term = 1, n = circuits;
+		while (n > 1) {
+			term *= n / traffic;
+			if (term < GNUM_EPSILON * sum)
+				break;
+			sum += term;
+			n--;
+		}
+		gos = comp ? sum / (1 + sum) : 1 / (1 + sum);
 	} else {
-		gos = expgnum (calculate_loggos (traffic, circuits));
+		gnm_float loggos = calculate_loggos (traffic, circuits);
+		gos = comp ? -expm1gnum (loggos) : expgnum (loggos);
 	}
 
 	return gos;
@@ -117,7 +135,7 @@ static char const *help_probblock = {
 	   "* @traffic cannot exceed @circuits\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "PROBBLOCK(24, 30) returns 0.4012.\n"
+	   "PROBBLOCK(24,30) returns 0.4012.\n"
 	   "\n"
 	   "@SEEALSO=OFFTRAF, DIMCIRC, OFFCAP")
 };
@@ -127,11 +145,12 @@ gnumeric_probblock (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float traffic  = value_get_as_float (argv[0]);
 	gnm_float circuits = value_get_as_float (argv[1]);
+	gnm_float gos = calculate_gos (traffic, circuits, FALSE);
 
-	if (circuits < 1 || traffic < 0 || circuits < traffic)
+	if (gos >= 0)
+		return value_new_float (gos);
+	else
 		return value_new_error_VALUE (ei->pos);
-
-	return value_new_float (calculate_gos (traffic, circuits));
 }
 
 static char const *help_offtraf = {
@@ -146,56 +165,58 @@ static char const *help_offtraf = {
 	   "* @traffic cannot exceed @circuits\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "OFFTRAF(24, 30) returns 25.526.\n"
+	   "OFFTRAF(24,30) returns 25.527.\n"
 	   "\n"
 	   "@SEEALSO=PROBBLOCK, DIMCIRC, OFFCAP")
 };
 
+typedef struct {
+	gnm_float traffic, circuits;
+} gnumeric_offtraf_t;
+
+static GoalSeekStatus
+gnumeric_offtraf_f (gnm_float off_traffic, gnm_float *y, void *user_data)
+{
+	gnumeric_offtraf_t *pudata = user_data;
+	gnm_float comp_gos = calculate_gos (off_traffic, pudata->circuits, TRUE);
+	if (comp_gos < 0)
+		return GOAL_SEEK_ERROR;
+	*y = guess_carried_traffic (off_traffic, comp_gos) - pudata->traffic;
+	return GOAL_SEEK_OK;
+}
+
 static GnmValue *
 gnumeric_offtraf (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	int i;
-	gnm_float guessed_offtraf, guessed_cartraf;
-	gnm_float offtraf_lower, offtraf_upper;
-	gnm_float cartraf_diff;
-
-	gnm_float traffic  = value_get_as_float (argv[0]);
+	gnm_float traffic = value_get_as_float (argv[0]);
 	gnm_float circuits = value_get_as_float (argv[1]);
+	gnm_float traffic0;
+	GoalSeekData data;
+	GoalSeekStatus status;
+	gnumeric_offtraf_t udata;
 
-	if (circuits < 1 || traffic < 0 || circuits < traffic)
+	if (circuits < 1 || traffic < 0)
 		return value_new_error_VALUE (ei->pos);
 
-	for (offtraf_upper = offtraf_lower = traffic;
-		offtraf_upper < ERLANG_LIMIT /* MAX TRAF */ &&
-		guess_carried_traffic(
-			offtraf_upper, 
-			calculate_gos (offtraf_upper, circuits)
-			) < traffic;) {
-		offtraf_lower  = offtraf_upper;
-		offtraf_upper *= 2.0;
+	goal_seek_initialize (&data);
+	data.xmin = traffic;
+	data.xmax = circuits;
+	udata.circuits = circuits;
+	udata.traffic = traffic;
+	traffic0 = (data.xmin + data.xmax) / 2;
+	/* Newton search from guess.  */
+	status = goal_seek_newton (&gnumeric_offtraf_f, NULL,
+				   &data, &udata, traffic0);
+	if (status != GOAL_SEEK_OK) {
+		(void)goal_seek_point (&gnumeric_offtraf_f, &data, &udata, traffic);
+		(void)goal_seek_point (&gnumeric_offtraf_f, &data, &udata, circuits);
+		status = goal_seek_bisection (&gnumeric_offtraf_f, &data, &udata);
 	}
 
-	/* who is the poor boy that will design more than ERLANG_LIMIT? 
-	 * I sure am hoping it will never happened. */
-	if (offtraf_upper > ERLANG_LIMIT) return value_new_float (-1);
-
-	for (i=0; i<500 /* MAX LOOP */; i++) {
-		guessed_offtraf = (offtraf_upper + offtraf_lower)/2.0;
-		guessed_cartraf = guess_carried_traffic(
-					guessed_offtraf, 
-					calculate_gos (guessed_offtraf, 
-							circuits));
-		cartraf_diff = guessed_cartraf - traffic;
-		if (cartraf_diff > MOVING_FACTOR) 
-			offtraf_upper = guessed_offtraf;
-		else if (cartraf_diff < -(MOVING_FACTOR))
-			offtraf_lower = guessed_offtraf;
-		else
-			return value_new_float (guessed_offtraf);
-	}
-
-	/* should not be reached */
-	return value_new_float (-1);
+	if (status == GOAL_SEEK_OK)
+		return value_new_float (data.root);
+	else
+		return value_new_error_VALUE (ei->pos);
 }
 
 static char const *help_dimcirc = {
@@ -207,7 +228,7 @@ static char const *help_dimcirc = {
 	   "a number of @traffic loads with @gos grade of service.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "DIMCIRC(24, 1%) returns 35.\n"
+	   "DIMCIRC(24,1%) returns 35.\n"
 	   "\n"
 	   "@SEEALSO=OFFCAP, OFFTRAF, PROBBLOCK")
 };
@@ -215,25 +236,29 @@ static char const *help_dimcirc = {
 static GnmValue *
 gnumeric_dimcirc (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	gnm_float circuits = 1.0;
-	gnm_float gos      = 1.0;
        	gnm_float traffic  = value_get_as_float (argv[0]);
 	gnm_float des_gos  = value_get_as_float (argv[1]);
+	gnm_float low, high;
 
-	/* What about <0 ? */
-	if (des_gos > 1)
+	if (des_gos > 1 || des_gos <= 0)
 		return value_new_error_VALUE (ei->pos);
 
-	/* insanity should not pass thru */
-	if (traffic > ERLANG_LIMIT)
-		return value_new_float (-1);
-
-	while (gos > des_gos) {
-		circuits++;
-		gos = (traffic * gos) / (circuits + (traffic * gos));
+	low = high = 1;
+	while (calculate_gos (traffic, high, FALSE) > des_gos) {
+		low = high;
+		high += high;
 	}
 
-	return value_new_float (circuits);
+	while (high - low > 1.5) {
+		gnm_float mid = floorgnum ((high + low) / 2 + 0.1);
+		gnm_float gos = calculate_gos (traffic, mid, FALSE);
+		if (gos > des_gos)
+			low = mid;
+		else
+			high = mid;
+	}
+
+	return value_new_float (high);
 }
 
 static char const *help_offcap = {
@@ -245,7 +270,7 @@ static char const *help_offcap = {
 	   "a number of @circuits with @gos grade of service.\n"
 	   "\n"
 	   "@EXAMPLES=\n"
-	   "OFFCAP(30, 1%) returns 20.337.\n"
+	   "OFFCAP(30,1%) returns 20.337.\n"
 	   "\n"
 	   "@SEEALSO=DIMCIRC, OFFTRAF, PROBBLOCK")
 };
@@ -274,7 +299,7 @@ gnumeric_offcap(FunctionEvalInfo *ei, GnmValue **argv)
 
 	while (inc_fac > MOVING_FACTOR) {
 		traffic += inc_fac;
-		if (calculate_gos (traffic, circuits) > des_gos)
+		if (calculate_gos (traffic, circuits, FALSE) > des_gos)
 			traffic = oldtraf;
 		inc_fac /= 2;
 		oldtraf  = traffic;
