@@ -170,7 +170,7 @@ GetRmz ( gnum_float fZins, gnum_float fZzr, gnum_float fBw, gnum_float fZw,
         if ( fZins == 0.0 )
                 fRmz = ( fBw + fZw ) / fZzr;
         else {
-                gnum_float fTerm = pow ( 1.0 + fZins, fZzr );
+                gnum_float fTerm = powgnum ( 1.0 + fZins, fZzr );
                 if ( nF > 0 )
                         fRmz = ( fZw * fZins / ( fTerm - 1.0 ) + fBw * fZins /
 				 ( 1.0 - 1.0 / fTerm ) ) / ( 1.0 + fZins );
@@ -191,7 +191,7 @@ GetZw ( gnum_float fZins, gnum_float fZzr, gnum_float fRmz, gnum_float fBw,
         if ( fZins == 0.0 )
                 fZw = fBw + fRmz * fZzr;
         else {
-                gnum_float fTerm = pow ( 1.0 + fZins, fZzr );
+                gnum_float fTerm = powgnum ( 1.0 + fZins, fZzr );
                 if ( nF > 0 )
                         fZw = fBw * fTerm + fRmz * ( 1.0 + fZins ) *
 				( fTerm - 1.0 ) / fZins;
@@ -217,14 +217,14 @@ Duration (GDate *nSettle, GDate *nMat, gnum_float fCoup, gnum_float fYield,
         fYield += 1.0;
 
         for ( t = 1.0 ; t < fNumOfCoups ; t++ )
-                fDur += t * ( fCoup ) / pow ( fYield, t );
+                fDur += t * ( fCoup ) / powgnum ( fYield, t );
 
-        fDur += fNumOfCoups * ( fCoup + f100 ) / pow ( fYield, fNumOfCoups );
+        fDur += fNumOfCoups * ( fCoup + f100 ) / powgnum ( fYield, fNumOfCoups );
 
         for ( t = 1.0 ; t < fNumOfCoups ; t++ )
-                p += fCoup / pow ( fYield, t );
+                p += fCoup / powgnum ( fYield, t );
 
-        p += ( fCoup + f100 ) / pow ( fYield, fNumOfCoups );
+        p += ( fCoup + f100 ) / powgnum ( fYield, fNumOfCoups );
 
         fDur /= p;
         fDur /= (gnum_float) nFreq;
@@ -316,7 +316,7 @@ Value *    get_yielddisc (GDate *nSettle, GDate *nMat, gnum_float fPrice,
 	/* FIXME: I think this is bogus stuff. */
 
 	fRet /= GetYearFrac ( nSettle, nMat, nBase );
-	fRet /= 0.99795;  /* don't know what this constant means in original */
+	fRet /= GNUM_const(0.99795);  /* don't know what this constant means in original */
 
 	return value_new_float ( fRet );
 }
