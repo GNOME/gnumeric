@@ -99,6 +99,11 @@ Architecture Changes
     6.1) transaction file				{Jody}
     6.2) Restore Row heights in CmdFormat::undo
 7) Drag and Drop					{Jon Kare}
+    7.1) Common code framework for dnd and X/W32 clipboard
+    7.2) Find a better place than SheetControlGUI for dnd code
+    7.3) More formats, at least html and text
+    7.4) Advertise SVG for graphs, as the preferred format
+    7.5) Autoscroll for sheet object movement
 8) Rich Text
     8.1) font actions valid while editing			(DONE)
     8.2) accumulate markup from toolbar while editing		(DONE)
