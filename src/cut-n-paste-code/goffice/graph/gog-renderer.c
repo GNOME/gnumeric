@@ -258,6 +258,16 @@ gog_renderer_draw_text (GogRenderer *rend, char const *text,
 	g_return_if_fail (rend->cur_style != NULL);
 	g_return_if_fail (text != NULL);
 
+	if (*text == '\0') {
+		if (result != NULL) {
+			result->x = pos->x;
+			result->y = pos->y;
+			result->w = 0.;
+			result->h = 0.;
+		}
+		return;
+	}
+
 	(klass->draw_text) (rend, text, pos, anchor, result);
 }
 
@@ -292,6 +302,12 @@ gog_renderer_measure_text (GogRenderer *rend,
 	g_return_if_fail (klass != NULL);
 	g_return_if_fail (rend->cur_style != NULL);
 	g_return_if_fail (text != NULL);
+
+	if (*text == '\0') {
+		/* Make sure invisible things don't skew size */
+		size->w = size->h = 0;
+		return;
+	}
 
 	(klass->measure_text) (rend, text, size);
 

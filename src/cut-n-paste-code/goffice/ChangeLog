@@ -1,5 +1,11 @@
 2003-09-15  Jody Goldberg <jody@gnome.org>
 
+	* graph/gog-renderer.c (gog_renderer_measure_text) : pango does not
+	  like measuring ""
+	(gog_renderer_draw_text) : ditto.
+
+2003-09-15  Jody Goldberg <jody@gnome.org>
+
 	* graph/gog-axis.c (gog_axis_view_render) : clipping the label text in
 	  the iterating dimension is a bad idea, we want to clip whole labels,
 	  not the individual lines.

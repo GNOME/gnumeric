@@ -293,6 +293,7 @@ init_xl_font_widths (void)
 	     */
 	    {  83,  92, "Times New Roman" },
 	    {  91,  97, "Times New Roman MT Extra Bold" },
+	    {  83,  92, "Tms Rmn" },
 	    {  90,  96, "Trebuchet MS" },
 	    { 109, 117, "Verdana" },
 	    { 171, 182, "Webdings" },

@@ -48,7 +48,9 @@ get_substitute_font (gchar const *fontname)
 
 	static char const *map[][2] = {
 		{ "Times New Roman", "Times"},
-		{ "Arial",           "Helvetica"},
+		{ "Tms Rmn",	     "Times"},
+		{ "Arial",           "Sans"},
+		{ "Helvetica",       "Sans"},
 		{ "Courier New",     "Courier"},
 		{ "£Í£Ó £Ð¥´¥·¥Ã¥¯", "Kochi Gothic"},
 		{ "£Í£Ó ¥´¥·¥Ã¥¯",   "Kochi Gothic"},
@@ -60,7 +62,7 @@ get_substitute_font (gchar const *fontname)
 		{ NULL }
 	};
 	for (i = 0; map[i][0]; i++)
-		if (strcmp (map[i][0], fontname) == 0)
+		if (g_ascii_strcasecmp (map[i][0], fontname) == 0)
 			return map[i][1];
 
 	return NULL;
