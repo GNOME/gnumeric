@@ -23,13 +23,6 @@
 
 #define MOUSE_SENSITIVITY 5
 
-/* Struct for holding a hash, multiple previews can share the same hash this way */
-typedef struct {
-	GHashTable *hashtable;            /* hashtable */
-	
-	int refcount;                     /* reference count */
-} HashHolder_t;
-
 typedef struct {
 	GnomeCanvas      *canvas;         /* Gnomecanvas to render on */
 	gboolean          formatted;      /* True if you want the RENDERED values to be displayed */
@@ -37,8 +30,8 @@ typedef struct {
 
 	GnomeCanvasGroup *group;          /* Group used to hold items put on the canvas in 1 render cycle */
 	GnomeCanvasGroup *gridgroup;      /* Used to hold the grid */
-	
-	HashHolder_t     *hashholder;     /* Used to hold the current source hash */
+
+	GHashTable       *hashtable;      /* Hashtable that holds gslists */
 
 	GArray           *colwidths;      /* An array containing the column widths */
 	GArray           *temp;           /* temporary array holder */
@@ -63,8 +56,6 @@ void               stf_preview_free                      (RenderData_t *data);
 void               stf_preview_set_startrow              (RenderData_t *data, int startrow);
 void               stf_preview_set_activecolumn          (RenderData_t *data, int column);
 
-void               stf_preview_share_hash                (RenderData_t *item1, RenderData_t *item2);
-
 void               stf_preview_colwidths_clear           (RenderData_t *renderdata);
 void               stf_preview_colwidths_add             (RenderData_t *renderdata, int width);
 
@@ -78,6 +69,3 @@ int                stf_preview_get_column_border_at_x    (RenderData_t *renderda
 int                stf_preview_get_char_at_x             (RenderData_t *renderdata, double x);
 
 #endif /* GNUMERIC_DIALOG_STF_PREVIEW_H */
-
-
-

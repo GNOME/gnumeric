@@ -3,13 +3,63 @@
  *                        render sheet previews on the gnomecanvas and offers
  *                        functions for making this preview more interactive.
  *
+ * Almer. S. Tigelaar <almer1@dds.nl>
+ *
  * NOTES :
  * 1) This is rather sucky, it works, reasonably fast, but it's not ideal.
  * 2) There is a distinct difference between a formatted and non-formatted preview
  *    non-formatted previews are somewhat faster.
  *
- * Almer. S. Tigelaar <almer1@dds.nl>
+ * MEMORY MANAGEMENT NOTES AND "HOW IT WORKS" :
+ * In fact the preview does its work trough the stf_preview_render call
+ * this takes a GSList as argument which on its turns also contains GSLists
+ * which hold strings, so :
  *
+ * GSList (Main)
+ *  |
+ *  |--- GSList (Sub) --> Contains strings as GSList->Data
+ *  |
+ *  |--- GSList (Sub) --> Contains strings as GSList->Data
+ *
+ * What it comes down to is that the stf_preview_render call actually
+ * merges this which an internal hash. The previewing system is thus
+ * responsible for freeing all the lists _and_ the strings. Ofcourse
+ * it does not have to do this immediately (and in fact it does not)
+ * It first puts the Sublists in a hash and 'overwrites' them when
+ * newer 'version' of these sublists come available.
+ *
+ * This sounds complex, but is really simple in essence, to illustrate
+ * see the diagram below. It tries to tell what happens to each item in
+ * GSList (Sub)
+ * (Note that the NULL item has a special meaning, it means that
+ *  the line has been parsed before and we just have to use
+ *  the existing value in the hash)
+ *
+ *     |-----< GSList (Sub) Item
+ *     |
+ * Is this item's data NULL?
+ *     |
+ *     |--------------------------------------
+ *     |                                     |
+ *    Nope                                  Yes
+ *     |                                     |
+ *     |                                Look up the existing list of strings
+ *     |                                in the hash and use it for display
+ *     |
+ * Is this item already in hash?
+ *     |
+ *     |--------------------------------------
+ *     |                                     |
+ *    Yes                                   Nope
+ *     |                                     |
+ * Replace our hashed list of string    Insert the new list of strings
+ * with this new one and use the        into the hash and use it for
+ * new one for display                  display
+ * (Free both the old list and it's
+ *  strings!)
+ *
+ * Lists from the stf_parse_cached routines are _exacly_ in this format
+ * look in the stf-parse.[ch] for more details on this.
  */ 
 
 #include "format.h"
@@ -329,7 +379,7 @@ stf_preview_free_row (GSList *row)
 	GSList *iterator = row;
 
 	while (iterator) {
-
+		
 		g_free ( (char *) iterator->data);
 		iterator = g_slist_next (iterator);
 	}
@@ -472,47 +522,56 @@ stf_preview_format_line (RenderData_t *renderdata, GSList *data, int colcount)
 static GSList *
 stf_preview_merge_with_hash (RenderData_t *renderdata, GSList *list, int colcount)
 {
-	GSList *iterator = list;
 	GSList *result = NULL;
-	GSList *resultend = NULL;
+	GSList *result_end = NULL;
+	GSList *iterator = list;
 	int i = 0;
 	
- 	while (iterator) {
+	while (iterator) {
 		GSList *data;
-		int absoluterow = renderdata->startrow + i - 1;
+		int row = renderdata->startrow + i;
 
 		if (iterator->data == NULL) {
-			
-			data = g_hash_table_lookup (renderdata->hashholder->hashtable, &absoluterow);
-		} else {
-			int *rowptr = g_new (int, 1);
-			int *origkey = NULL;
-			GSList *origval = NULL;
-				
-			*rowptr = absoluterow;
-			
-			if (g_hash_table_lookup_extended (renderdata->hashholder->hashtable, rowptr, (gpointer) origkey, (gpointer) origval)) {
-				
-				g_free (origkey);
-				stf_preview_free_row (origval);
+
+			data = g_hash_table_lookup (renderdata->hashtable, &row);
+
+			/*
+			 * This should _never_ happen, there's something seriously
+			 * wrong if it does
+			 */
+			if (data == NULL) { 
+				g_warning ("Error in STF, hashtable is probably corrupted or the cache list and hashtable are out of sync");
 			}
 			
-			g_hash_table_insert (renderdata->hashholder->hashtable, rowptr, iterator->data);
-			data = iterator->data;
+		} else {
+			int *key;
+			GSList *orig_data;
 
+			if (g_hash_table_lookup_extended (renderdata->hashtable, &row, (gpointer*) &key, (gpointer*) &orig_data)) {
+
+				stf_preview_free_row (orig_data);
+			} else {
+
+				key = g_new (int, 1);
+				*key = row;
+			}
+
+			data = iterator->data;
+			
+			g_hash_table_insert (renderdata->hashtable, key, data);
+			
 			/* Reformat the line */
 			if (renderdata->formatted && data != NULL)
 				stf_preview_format_line (renderdata, data, colcount);
-
 		}
-
+		
 		if (result != NULL) {
 		
-			resultend = g_slist_append (resultend, data)->next;
+			result_end = g_slist_append (result_end, data)->next;
 		} else {
 			
 			result = g_slist_append (result, data);
-			resultend = result;
+			result_end = result;
 		}
 		
 		iterator = g_slist_next (iterator);
@@ -520,7 +579,7 @@ stf_preview_merge_with_hash (RenderData_t *renderdata, GSList *list, int colcoun
 	}
 
 	g_slist_free (list);
-	
+
 	return result;
 }
 
@@ -563,7 +622,7 @@ stf_preview_render (RenderData_t *renderdata, GSList *list, int rowcount, int co
 		
 	list = stf_preview_merge_with_hash (renderdata, list, colcount);
 
-	if (renderdata->formatted)
+	if (renderdata->formatted) 
 		stf_preview_format_recalc_colwidths (renderdata, list, colcount);
 		
 	/* Generate column captions and prepend them */
@@ -649,10 +708,7 @@ stf_preview_new (GnomeCanvas *canvas, gboolean formatted)
 	renderdata->temp         = NULL;
 	renderdata->group        = NULL;
 	renderdata->gridgroup    = NULL;
-	renderdata->hashholder   = g_new (HashHolder_t, 1);
-	
-	renderdata->hashholder->hashtable = g_hash_table_new (g_int_hash, g_int_equal);
-	renderdata->hashholder->refcount  = 1;
+	renderdata->hashtable    = g_hash_table_new (g_int_hash, g_int_equal);
 
 	renderdata->font       = gdk_font_load ("fixed");
 	renderdata->charwidth  = gdk_string_width (renderdata->font, "W");
@@ -707,14 +763,10 @@ stf_preview_free (RenderData_t *renderdata)
 	g_array_free (renderdata->actualwidths, TRUE);
 	g_ptr_array_free (renderdata->colformats, TRUE);
 	
-	if (--renderdata->hashholder->refcount == 0) {
-		g_hash_table_foreach_remove (renderdata->hashholder->hashtable,
-					     stf_preview_hash_item_remove,
-					     NULL);
-		g_hash_table_destroy (renderdata->hashholder->hashtable);
-
-		g_free (renderdata->hashholder);
-	}
+	g_hash_table_foreach_remove (renderdata->hashtable,
+				     stf_preview_hash_item_remove,
+				     NULL);
+	g_hash_table_destroy (renderdata->hashtable);
 
 	gdk_font_unref (renderdata->font);
 	
@@ -757,40 +809,6 @@ stf_preview_set_activecolumn (RenderData_t *renderdata, int column)
 
 	renderdata->activecolumn = column;
 }
-
-/**
- * stf_preview_share_hash
- * @src : renderdata containing source hash
- * @dest : renderdata which will share it's hash with @src
- *
- * This routine will make @src and @dest share the same hash, note that
- * @dest's hash will be de-referenced and destroyed if necessary
- *
- * returns : nothing
- **/
-void
-stf_preview_share_hash (RenderData_t *src, RenderData_t *dest)
-{
-	g_return_if_fail (src != NULL);
-	g_return_if_fail (dest != NULL);
-
-	if (src->hashholder == dest->hashholder)
-		return;
-
-	if (--dest->hashholder->refcount == 0) {
-	
-		g_hash_table_foreach_remove (dest->hashholder->hashtable,
-					     stf_preview_hash_item_remove,
-					     NULL);
-		g_hash_table_destroy (dest->hashholder->hashtable);
-
-		g_free (dest->hashholder);
-	}
-
-	dest->hashholder = src->hashholder;
-	src->hashholder->refcount++;
-}
-
 
 /**
  * stf_preview_colwidths_clear

@@ -1,3 +1,21 @@
+2000-04-18  Almer. S. Tigelaar.  <almer1@dds.nl>
+
+	* src/dialogs/dialog-stf-format-page.c
+	(stf_dialog_format_page_init) : Created an stf options struct 
+	which was never freed or used
+
+	* src/dialogs/dialog-stf-preview.c
+	(stf_preview_merge_with_hash) : Somehow there was a *gigantic* leak
+	in this routine. I simply rewrote it from scratsch because I didn't
+	see the error. This seemed to help, because the leak is gone. :-)
+
+	* src/dialogs/dialog-stf-preview.[ch]
+	Added some 'how it works' comments on top. Should make it clear
+	who is responsible of freeing memory and when.
+	(stf_preview_share_hash) : Removed.
+	I removed the hash sharing, it is obsolete and just wasted space as
+	hashes are no longer shared between druid pages anyway.
+
 2000-04-18  Cody Russell  <car0969@gamma2.uta.edu>
 	* src/workbook-format-toolbar.c, src/workbook.c: Make the toolbars
 	honor the user's control-center settings regarding GnomeDock
