@@ -16479,22 +16479,20 @@ msgid "No stream named styles.xml found."
 msgstr "styles.xmlという名前のストリームが見つかりませんでした。"
 
 #: plugins/openoffice/openoffice-write.c:122
-#, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as OpenOffice .sxc. It only supports %"
 "d rows, and sheet '%s' has %d"
 msgstr ""
-"MS Excel(tm)型式で保存すると失われるデータがあります。Excel型式は%d行までサ"
-"ポートしていますが、このワークブックには%d行あります"
+"OpenOffice .sxc型式で保存すると失われるデータがあります。sxc型式は%d行までサ"
+"ポートしていますが、シート '%s' には%d行あります"
 
 #: plugins/openoffice/openoffice-write.c:129
-#, fuzzy, c-format
 msgid ""
 "Some content will be lost when saving as OpenOffice .sxc. It only supports %"
 "d columns, and sheet '%s' has %d"
 msgstr ""
-"MS Excel(tm)型式で保存すると失われるデータがあります。Excel型式は%d行までサ"
-"ポートしていますが、このワークブックには%d行あります"
+"OpenOffice .sxc型式で保存すると失われるデータがあります。sxc型式は%d"
+"列までサポートしていますが、シート '%s' には%d列あります"
 
 #: plugins/openoffice/plugin.xml.in.h:1
 msgid "Open/Star Calc (*.sxc)"
