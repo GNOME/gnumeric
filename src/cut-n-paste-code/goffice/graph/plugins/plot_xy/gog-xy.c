@@ -358,11 +358,9 @@ static void
 gog_bubble_plot_class_init (GogPlotClass *plot_klass)
 {
 	GogObjectClass *gog_klass = (GogObjectClass *) plot_klass;
-
-	bubble_parent_klass = g_type_class_peek_parent (plot_klass);
-
 	Gog2DPlotClass *gog_2d_plot_klass = (Gog2DPlotClass*) plot_klass;
 
+	bubble_parent_klass = g_type_class_peek_parent (plot_klass);
 	gog_2d_plot_klass->adjust_bounds = gog_bubble_plot_adjust_bounds;
 	gog_klass->type_name	= gog_bubble_plot_type_name;
 
