@@ -351,9 +351,9 @@ workbook_delete_event (GtkWidget *widget, GdkEvent *event, Workbook *wb)
 {
 	if (workbook_can_close (wb)){
 		workbook_destroy (wb);
-		return TRUE;
-	} else
 		return FALSE;
+	} else
+		return TRUE;
 }
 
 static void
