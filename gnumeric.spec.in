@@ -17,7 +17,7 @@ Docdir: 	%{prefix}/doc
 
 Requires: gtk+ >= 1.2.7
 Requires: gnome-libs >= 1.0.57
-Requires: gnome-print >= 0.16
+Requires: gnome-print >= 0.17
 Requires: libglade >= 0.11
 Requires: libxml >= 1.8.5
 

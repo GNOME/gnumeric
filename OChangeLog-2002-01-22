@@ -1,3 +1,11 @@
+2000-04-09  Morten Welinder  <terra@diku.dk>
+
+	* configure.in (gnome-print): Need 0.17.
+
+	* src/print.c (print_page): Put page numbers into (post script)
+ 	file.
+	(print_page): Move setup_rotation into page loop.
+
 2000-04-11  Michael Meeks  <michael@helixcode.com>
 
 	* src/parser.y: correct include.
@@ -5,7 +13,7 @@
 	* src/cell.c (cell_set_rendered_text): move up to before its first use.
 
 2000-04-09 Dom Lachowicz <dominicl@seas.upenn.edu>
- 
+
  	* src/sheet.h: Rename member "private" -> "priv" in case anyone in the
  	future writes a plugin / module written in C++
  

@@ -350,8 +350,6 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 
 	print_height = sheet_row_get_distance_pts (sheet, start_row, end_row+1);
 
-	setup_rotation (pj);
-	
 	if (pj->pi->center_vertically){
 		if (pj->pi->print_titles)
 			print_height += sheet->rows.default_style.size_pts;
@@ -375,6 +373,16 @@ print_page (Sheet *sheet, int start_col, int start_row, int end_col, int end_row
 		double x = base_x;
 		double y = base_y;
 
+		{
+			char *text;
+			text = hf_format_render (_("&[PAGE]"),
+						 pj->render_info, HF_RENDER_PRINT);
+			if (!text) text = g_strdup_printf ("%d", pj->render_info->page);
+			gnome_print_beginpage (pj->print_context, text);
+			g_free (text);
+		}
+
+		setup_rotation (pj);	
 		print_headers (pj);
 		print_footers (pj);
 		
