@@ -1477,7 +1477,6 @@ msgid ""
 msgstr ""
 
 #: src/fn-date.c:206
-#, fuzzy
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -2740,28 +2739,6 @@ msgid ""
 "Performing this function on a string or empty cell simply does nothing.\n"
 "@SEEALSO=CEIL, FLOOR"
 msgstr ""
-
-#: src/fn-math.c:267
-#, fuzzy
-msgid ""
-"@FUNCTION=ACOS\n"
-"@SYNTAX=ACOS(x)\n"
-"@DESCRIPTION=The ACOS function calculates the arc cosine of @x; that  is the "
-"value whose cosine is @x.  If @x  falls  outside  the  range -1 to 1, ACOS "
-"fails and returns the error 'acos - domain error'.  The value it returns is "
-"in radians. \n"
-"Performing this function on a string or empty cell simply does nothing. This "
-"function only takes one argument.\n"
-"@SEEALSO=COS, SIN, DEGREES, RADIANS"
-msgstr ""
-"@FUNCTION=ACOSH\n"
-"@SYNTAX=ACOSH(x)\n"
-"@DESCRIPTION=La función ACOSH calcula el coseno hiperbólico inverso de x; o "
-"sea el valor cuyo coseno hiperbólico es x. Si x es inferior a 1.0, ACOSH "
-"devuelve el error 'acosh - error de dominio'.\n"
-"Aplicar este función sobre una cadena de texto o una celda vacia no hace "
-"nada. La función admite un solo argumento.\n"
-"@SEEALSO=ACOS, DEGREES, RADIANS "
 
 #: src/fn-math.c:289
 msgid "acos - domain error"
@@ -4859,18 +4836,16 @@ msgid "#,##0_);(#,##0)"
 msgstr "#,##0_);(#,##0)"
 
 #: src/formats.c:22
-#, fuzzy
 msgid "#,##0_);[Red](#,##0)"
-msgstr "#,##0_);[red](#,##0)"
+msgstr "#,##0_);[Red](#,##0)"
 
 #: src/formats.c:23
 msgid "#,##0.00_);(#,##0.00)"
 msgstr "#,##0.00_);(#,##0.00)"
 
 #: src/formats.c:24
-#, fuzzy
 msgid "#,##0.00_);[Red](#,##0.00)"
-msgstr "#,##0.00_);[red](#,##0.00)"
+msgstr "#,##0.00_);[Red](#,##0.00)"
 
 #: src/formats.c:25
 msgid "0.0"
@@ -4973,23 +4948,20 @@ msgid "m/d/yyyy h:mm"
 msgstr "d/m/yyyy h:mm"
 
 #: src/formats.c:58
-#, fuzzy
 msgid "yyyy/mm/d"
-msgstr "d/mm"
+msgstr "d/mm/yyyy"
 
 #: src/formats.c:59
-#, fuzzy
 msgid "yyyy/mmm/d"
-msgstr "d/mmm"
+msgstr "d/mmm/yyyy"
 
 #: src/formats.c:60
 msgid "yyyy/mm/dd"
 msgstr ""
 
 #: src/formats.c:61
-#, fuzzy
 msgid "yyyy/mmm/dd"
-msgstr "d/mmm"
+msgstr "dd/mmm/yyyy"
 
 #: src/formats.c:62
 msgid "yyyy-mm-d"
@@ -5066,18 +5038,16 @@ msgid "$#,##0_);($#,##0)"
 msgstr "$#,##0_);($#,##0)"
 
 #: src/formats.c:106
-#, fuzzy
 msgid "$#,##0_);[Red]($#,##0)"
-msgstr "$#,##0_);[red]($#,##0)"
+msgstr "$#,##0_);[Red]($#,##0)"
 
 #: src/formats.c:107
 msgid "$#,##0.00_);($#,##0.00)"
 msgstr "$#,##0.00_);($#,##0.00)"
 
 #: src/formats.c:108
-#, fuzzy
 msgid "$#,##0.00_);[Red]($#,##0.00)"
-msgstr "$#,##0.00_);[red]($#,##0.00)"
+msgstr "$#,##0.00_);[Red]($#,##0.00)"
 
 #: src/func.c:424
 msgid "Function does not exist"
@@ -5363,9 +5333,8 @@ msgid "points"
 msgstr ""
 
 #: src/print-info.c:419
-#, fuzzy
 msgid "mm"
-msgstr "d-mm"
+msgstr "mm"
 
 #: src/print-info.c:419
 msgid "millimeter"

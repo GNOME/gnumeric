@@ -37,26 +37,23 @@ msgstr "Formato de archivo Excel® 95"
 
 #: plugins/excel/ms-excel-read.c:264
 msgid "#UNKNOWN!"
-msgstr ""
+msgstr "#DESCONOCIDO!"
 
 #: plugins/excel/ms-formula-read.c:645
-#, fuzzy
 msgid "Unknown Function"
-msgstr "Error al evaluar"
+msgstr "Función desconocida"
 
 #: plugins/excel/ms-formula-read.c:690
 msgid "Broken function"
 msgstr ""
 
 #: plugins/excel/ms-formula-read.c:1385
-#, fuzzy
 msgid " Unknown formula"
-msgstr "Operador desconocido"
+msgstr "Fórmula desconocido"
 
 #: plugins/ff-csv/csv-io.c:52
-#, fuzzy, c-format
 msgid "Imported %s"
-msgstr "_Importar"
+msgstr "Importado %s"
 
 #: plugins/ff-csv/csv-io.c:82
 msgid "Comma Separated Value (CSV) import"
@@ -127,9 +124,8 @@ msgid "DVI TeX file format (via groff)"
 msgstr ""
 
 #: plugins/html/boot.c:82
-#, fuzzy
 msgid "TROFF file format (*.me)"
-msgstr "Formato de archivo:"
+msgstr "Formato archivor TROFF (*.me)"
 
 #: plugins/html/boot.c:84
 msgid "PDF file format (via groff/gs)"
@@ -181,9 +177,8 @@ msgid "Python Plugin"
 msgstr "Extensión Python"
 
 #: plugins/sample/plugin-sample.c:49
-#, fuzzy
 msgid "Sample Plugin"
-msgstr "Extensión Guile"
+msgstr "Extensión de ejemplo"
 
 #: plugins/stat/stat.c:27
 msgid "OLD Statistics Plugin, not required anymore"
@@ -197,23 +192,20 @@ msgid ""
 msgstr ""
 
 #: plugins/text/text-io.c:337
-#, fuzzy
 msgid "NoName"
-msgstr "Nombre"
+msgstr "SinNombre"
 
 #: plugins/text/text-io.c:428
-#, fuzzy
 msgid "Simple Text Format"
-msgstr "Formato de archivo:"
+msgstr "Formato texto simple"
 
 #: plugins/text/text-io.c:458
 msgid "TXT (simple text import/export plugin)"
 msgstr ""
 
 #: plugins/xbase/boot.c:207
-#, fuzzy
 msgid "Xbase (*.dbf) file format"
-msgstr "Formato de archivo Excel® 97"
+msgstr "Formato de archivo Xbase (*.bdf)"
 
 #: plugins/xbase/boot.c:214
 msgid "XBase file import/export plugin"
@@ -474,24 +466,23 @@ msgstr "Diciembre"
 
 #: src/dialog-analysis-tools.c:106
 msgid "Discrete"
-msgstr ""
+msgstr "Discreto"
 
 #: src/dialog-analysis-tools.c:107 src/widget-font-selector.c:117
-#, fuzzy
 msgid "Normal"
-msgstr "Formatos"
+msgstr "Normal"
 
 #: src/dialog-analysis-tools.c:108
 msgid "Bernoulli"
-msgstr ""
+msgstr "Bernouilli"
 
 #: src/dialog-analysis-tools.c:109
 msgid "Uniform"
-msgstr ""
+msgstr "Uniforme"
 
 #: src/dialog-analysis-tools.c:150
 msgid "Summary Statistics"
-msgstr ""
+msgstr "Resúmen estadísticas"
 
 #: src/dialog-analysis-tools.c:152
 msgid "Confidence Level for Mean"
@@ -507,7 +498,7 @@ msgstr ""
 
 #: src/dialog-analysis-tools.c:155 src/dialog-analysis-tools.c:157
 msgid "1"
-msgstr ""
+msgstr "1"
 
 #: src/dialog-analysis-tools.c:156
 msgid "Kth Smallest:"
@@ -515,48 +506,43 @@ msgstr ""
 
 #: src/dialog-analysis-tools.c:162
 msgid "Labels in First Row"
-msgstr ""
+msgstr "Etiquetas en el primer renglón"
 
 #: src/dialog-analysis-tools.c:168
-#, fuzzy
 msgid "Labels"
-msgstr "etiqueta2"
+msgstr "Etiquetas"
 
 #: src/dialog-analysis-tools.c:174
 msgid "Standard Errors"
 msgstr ""
 
 #: src/dialog-analysis-tools.c:201
-#, fuzzy
 msgid "Columns"
-msgstr "C_olumnas"
+msgstr "Columnas"
 
 #: src/dialog-analysis-tools.c:202
-#, fuzzy
 msgid "Rows"
-msgstr "_Renglones"
+msgstr "Renglones"
 
 #: src/dialog-analysis-tools.c:207
 msgid "Periodic"
-msgstr ""
+msgstr "Periódico"
 
 #: src/dialog-analysis-tools.c:208
 msgid "Random"
-msgstr ""
+msgstr "Al azar"
 
 #: src/dialog-analysis-tools.c:237 src/dialog-analysis-tools.c:2010
 msgid "OK"
-msgstr ""
+msgstr "Aceptar"
 
 #: src/dialog-analysis-tools.c:2009
-#, fuzzy
 msgid "Data Analysis"
-msgstr "Análisis de _Datos..."
+msgstr "Análisis de Datos"
 
 #: src/dialog-cell-comment.c:25
-#, fuzzy
 msgid "Cell comment"
-msgstr "Comentarios"
+msgstr "Comentario de la celda"
 
 #: src/dialog-cell-format.c:68
 msgid "Numbers"
@@ -707,18 +693,16 @@ msgid "Coloring"
 msgstr "Coloreado"
 
 #: src/dialog-cell-sort.c:40
-#, fuzzy
 msgid "Column:"
-msgstr "C_olumnas"
+msgstr "Columna:"
 
 #: src/dialog-cell-sort.c:55
 msgid "Asc"
 msgstr ""
 
 #: src/dialog-cell-sort.c:58
-#, fuzzy
 msgid "Desc"
-msgstr "*Dic"
+msgstr "Desc"
 
 #: src/dialog-cell-sort.c:271
 msgid "more clauses than rows ?"
@@ -737,31 +721,28 @@ msgid "Selection must be a single range"
 msgstr "La selección tiene que ser un rango simple"
 
 #: src/dialog-cell-sort.c:320
-#, fuzzy
 msgid "Selection must be a finite range"
-msgstr "La selección tiene que ser un rango simple"
+msgstr "La selección tiene que ser finita"
 
 #: src/dialog-cell-sort.c:332
-#, fuzzy
 msgid "Sort Cells"
-msgstr "insertar celdas"
+msgstr "Ordenar celdas"
 
 #: src/dialog-cell-sort.c:347
 msgid "then by"
-msgstr ""
+msgstr "luego por"
 
 #: src/dialog-cell-sort.c:347
 msgid "sort by"
-msgstr ""
+msgstr "ordenar por"
 
 #: src/dialog-cell-sort.c:385
-#, fuzzy
 msgid "Column must be within range"
-msgstr "Columna fuera de rango"
+msgstr "La columna tiene que estar en un rango"
 
 #: src/dialog-cell-sort.c:391
 msgid "First column must be valid"
-msgstr ""
+msgstr "La primera columna tiene que ser válida"
 
 #: src/dialog-delete-cells.c:25
 msgid "delete cells"
@@ -792,9 +773,8 @@ msgid "Delete column(s)"
 msgstr "Borrar la(s) columna(s)"
 
 #: src/dialog-function-select.c:188
-#, fuzzy
 msgid "Formula Selection"
-msgstr "Fracción"
+msgstr "Selección de fórmulas"
 
 #: src/dialog-function-wizard.c:206 src/fn-string.c:1183
 msgid "String"
@@ -805,32 +785,28 @@ msgid "Boolean"
 msgstr ""
 
 #: src/dialog-function-wizard.c:215
-#, fuzzy
 msgid "Range"
-msgstr "Rectángulo"
+msgstr "Rango"
 
 #: src/dialog-function-wizard.c:218
-#, fuzzy
 msgid "Array"
-msgstr "Flecha"
+msgstr "Vector"
 
 #: src/dialog-function-wizard.c:221
 msgid "Range/Array"
-msgstr ""
+msgstr "Rango/Vector"
 
 #: src/dialog-function-wizard.c:224
 msgid "Any"
-msgstr ""
+msgstr "Cualquiera"
 
 #: src/dialog-function-wizard.c:227
-#, fuzzy
 msgid "Unknown"
-msgstr "Operador desconocido"
+msgstr "Desconocido"
 
 #: src/dialog-function-wizard.c:334
-#, fuzzy
 msgid "Formula Wizard"
-msgstr "Fórmulas"
+msgstr "Asistente de fórmulas"
 
 #: src/dialog-goal-seek.c:191
 #, c-format
@@ -853,28 +829,24 @@ msgid "Solution:       %12.2f"
 msgstr ""
 
 #: src/dialog-goal-seek.c:204
-#, fuzzy
 msgid "Goal Seek Report"
-msgstr "_Objetivo..."
+msgstr "Reporte de alcance de objetivo"
 
 #: src/dialog-goal-seek.c:266
-#, fuzzy
 msgid "Goal Seek..."
-msgstr "_Objetivo..."
+msgstr "Alcanzar objetivo..."
 
 #: src/dialog-goal-seek.c:280
-#, fuzzy
 msgid "Set cell:"
-msgstr "borrar celdas"
+msgstr "Definir celda:"
 
 #: src/dialog-goal-seek.c:281
-#, fuzzy
 msgid "To value:"
-msgstr "Copiar valores"
+msgstr "Al valor:"
 
 #: src/dialog-goal-seek.c:282
 msgid "By changing cell:"
-msgstr ""
+msgstr "Cambiando de celda:"
 
 #: src/dialog-goal-seek.c:283
 msgid "To a value of at least [optional]:"
@@ -885,26 +857,24 @@ msgid "But no bigger than [optional]:"
 msgstr ""
 
 #: src/dialog-goal-seek.c:343
-#, fuzzy
 msgid "You should introduce a valid cell name in 'Set cell'"
-msgstr "Debe de introducir un nombre válido de celda"
+msgstr "Debe de introducir un nombre válido de celda en 'Definir celda'"
 
 #: src/dialog-goal-seek.c:351
 msgid "The cell named in 'Set cell' must contain a formula"
-msgstr ""
+msgstr "La celda dada en 'Definir celda' tiene que contener una fórmula"
 
 #: src/dialog-goal-seek.c:364
-#, fuzzy
 msgid "You should introduce a valid cell name in 'By changing cell'"
-msgstr "Debe de introducir un nombre válido de celda"
+msgstr "Debe de introducir un nombre válido de celda en 'Cambiando de celda'"
 
 #: src/dialog-goal-seek.c:373
 msgid "The cell named in 'By changing cell' must not contain a formula"
-msgstr ""
+msgstr "La celda dada en 'Cambiando de celda' tiene que contener una fórmula"
 
 #: src/dialog-goal-seek.c:420
 msgid "Goal seek did not find a solution!"
-msgstr ""
+msgstr "¡No se pudo encontrar una solución para alcanzar el objetivo!"
 
 #: src/dialog-goto-cell.c:42
 msgid "Cell"
@@ -995,41 +965,38 @@ msgid "Transpose"
 msgstr "Transposar"
 
 #: src/dialog-printer-setup.c:461
-#, fuzzy
 msgid "Custom header configuration"
-msgstr "Configuración del fondo"
+msgstr "Configuración de cabezal personalizado"
 
 #: src/dialog-printer-setup.c:472
-#, fuzzy
 msgid "Custom footer configuration"
-msgstr "Personalizar el pié de página"
+msgstr "Configuración de pié de página personalizado"
 
 #: src/dialog-printer-setup.c:670
-#, fuzzy
 msgid "Print setup"
-msgstr "Imprimir"
+msgstr "Configuración de la impresión"
 
 #: src/dialog-solver.c:19
 msgid "<="
-msgstr ""
+msgstr "<="
 
 #: src/dialog-solver.c:20
 msgid "="
-msgstr ""
+msgstr "="
 
 #: src/dialog-solver.c:21
 msgid ">="
-msgstr ""
+msgstr ">="
 
 #: src/dialog-solver.c:22
 #, fuzzy
 msgid "int"
-msgstr "Imprimir"
+msgstr ""
 
 #: src/dialog-solver.c:23
 #, fuzzy
 msgid "bool"
-msgstr "_Herramientas"
+msgstr ""
 
 #: src/dialog-solver.c:41 src/workbook.c:1594
 msgid "Max"
@@ -1040,9 +1007,8 @@ msgid "Min"
 msgstr "Mínimo"
 
 #: src/dialog-solver.c:47
-#, fuzzy
 msgid "Tangent"
-msgstr "magenta"
+msgstr "Tangente"
 
 #: src/dialog-solver.c:48
 msgid "Quadratic"
@@ -1053,14 +1019,12 @@ msgid "Forward"
 msgstr ""
 
 #: src/dialog-solver.c:54
-#, fuzzy
 msgid "Central"
-msgstr "Centro"
+msgstr "Central"
 
 #: src/dialog-solver.c:59
-#, fuzzy
 msgid "Newton"
-msgstr "Nuevo"
+msgstr "Newton"
 
 #: src/dialog-solver.c:60
 msgid "Conjugate"
@@ -1083,43 +1047,36 @@ msgid "Show Iteration Results"
 msgstr ""
 
 #: src/dialog-solver.c:143
-#, fuzzy
 msgid "Gnumeric Solver Options"
-msgstr "Módulos de Gnumeric"
+msgstr "Opciones del resolvedor de Gnumeric"
 
 #: src/dialog-solver.c:211
 msgid "Add Constraint"
 msgstr ""
 
 #: src/dialog-solver.c:214
-#, fuzzy
 msgid "Add"
-msgstr "Añadir "
+msgstr "Añadir"
 
 #: src/dialog-solver.c:354
-#, fuzzy
 msgid "Gnumeric Solver Parameters"
-msgstr "Página de entrada de Gnumeric"
+msgstr "Parámetros del resolvedor de Gnumeric"
 
 #: src/dialog-solver.c:355
-#, fuzzy
 msgid "Solve"
-msgstr "Mover"
+msgstr "Resolver"
 
 #: src/dialog-solver.c:357
-#, fuzzy
 msgid "Options..."
-msgstr "Opciones"
+msgstr "Opciones..."
 
 #: src/dialog-solver.c:486
-#, fuzzy
 msgid "You should introduce a valid cell name for 'Target cell'"
-msgstr "Debe de introducir un nombre válido de celda"
+msgstr "Debe de introducir un nombre válido de celda para 'Celda destino'"
 
 #: src/dialog-solver.c:507
-#, fuzzy
 msgid "You should introduce a valid cell names in 'By changing cells'"
-msgstr "Debe de introducir un nombre válido de celda"
+msgstr "Debe de introducir un nombre válido de celda en 'Cambiando de celda'"
 
 #: src/dialog-zoom.c:47 src/dialog-zoom.c:50
 msgid "Zoom"
@@ -1153,13 +1110,12 @@ msgid "already defined"
 msgstr ""
 
 #: src/expr-name.c:134
-#, fuzzy
 msgid "no workbook"
-msgstr "Guardar la hoja de trabajo como"
+msgstr "ninguna hoja de trabajo"
 
 #: src/expr-name.c:139
 msgid "circular reference"
-msgstr ""
+msgstr "referencia circular"
 
 #: src/expr-name.c:248
 msgid "Builtin"
@@ -1463,12 +1419,10 @@ msgid ""
 msgstr ""
 
 #: src/fn-database.c:1177
-#, fuzzy
 msgid "Database"
-msgstr "Fecha"
+msgstr "Base de datos"
 
 #: src/fn-date.c:66
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -1483,8 +1437,8 @@ msgstr ""
 "@DESCRIPTION=Calcula la cantidad de días desde el 1º de enero de 1900 (es "
 "decir el número de serie de la fecha), para el año, més, y día "
 "especificados.\n"
-"El día puede ser negativo (para contar hacia atrás) y es relativo al mes "
-"anterior. El año tiene que ser superior a 1900.\n"
+"El @día puede ser negativo (para contar hacia atrás) y es relativo al @mes "
+"anterior. El @año tiene que ser superior a 1900.\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/fn-date.c:98
@@ -1511,7 +1465,6 @@ msgstr ""
 "@SEEALSO=DATE"
 
 #: src/fn-date.c:138
-#, fuzzy
 msgid ""
 "@FUNCTION=EDATE\n"
 "@SYNTAX=EDATE(date,months)\n"
@@ -1532,7 +1485,6 @@ msgstr ""
 "@SEEALSO=DATE"
 
 #: src/fn-date.c:182
-#, fuzzy
 msgid ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
@@ -1543,11 +1495,10 @@ msgstr ""
 "@FUNCTION=TODAY\n"
 "@SYNTAX=TODAY ()\n"
 "@DESCRIPTION=Devuelve el número de serie de la fecha de hoy (la cantidad de "
-"días transcurridos desde el 1º de enero de 1900)\n"
+"días transcurridos desde el 1º de enero de 1900).\n"
 "@SEEALSO=TODAY, NOW"
 
 #: src/fn-date.c:206
-#, fuzzy
 msgid ""
 "@FUNCTION=NOW\n"
 "@SYNTAX=NOW ()\n"
@@ -1600,7 +1551,6 @@ msgstr ""
 "@SEEALSO=HOUR"
 
 #: src/fn-date.c:291
-#, fuzzy
 msgid ""
 "@FUNCTION=HOUR\n"
 "@SYNTAX=HOUR (serial_number)\n"
@@ -4056,7 +4006,6 @@ msgstr ""
 "@SEEALSO=ROUNDDOWN"
 
 #: src/fn-math.c:1740
-#, fuzzy
 msgid ""
 "@FUNCTION=MROUND\n"
 "@SYNTAX=MROUND(number,multiple)\n"
@@ -4076,7 +4025,6 @@ msgstr ""
 "@SEEALSO=ROUNDDOWN,ROUND,ROUNDUP"
 
 #: src/fn-math.c:1784
-#, fuzzy
 msgid ""
 "@FUNCTION=ROMAN\n"
 "@SYNTAX=ROMAN(number[,type])\n"
@@ -4093,10 +4041,12 @@ msgstr ""
 "@SYNTAX=ROMAN(número[,tipo])\n"
 "@DESCRIPTION=La función ROMAN devuelve un número en números árabes pasado en "
 "argumento, en su representación en números romanos, bajo la forma de una "
-"cadena de texto. @número es el número que desea convertir y @tipe es el tipo "
+"cadena de texto. @número es el número que desea convertir y @tipo es el tipo "
 "de números romanos que desea usar. \n"
-"Si @tipe es 0 o se omite, ROMAN devuelve números romanos clásicos. Los tipos "
-"1,2,3, y 4 aún no están implementados. Si @número es negativo o superior a "
+"Si @tipo es 0 o se omite, ROMAN devuelve números romanos clásicos. El tipo "
+"1 es más conciso que el tipo clásico, el tipo 2 es más conciso que el tipo "
+"1, y el tipo 3 más conciso que el tipo 2. El tipo 4 es un tipo simplificado.\n"
+"Si @número es negativo o superior a "
 "3999, ROMAN devuelve el error #VALUE! .\n"
 "@SEEALSO="
 
@@ -4236,7 +4186,6 @@ msgstr ""
 "@SEEALSO=COUNT,SUM"
 
 #: src/fn-math.c:2502
-#, fuzzy
 msgid ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matrix)\n"
@@ -4246,7 +4195,7 @@ msgstr ""
 "@FUNCTION=TRANSPOSE\n"
 "@SYNTAX=TRANSPOSE(matríz)\n"
 "@DESCRIPTION=La función TRANSPOSE devuelve la matríz transpuesta de la "
-"matríz pasada en argument.\n"
+"@matríz pasada en argument.\n"
 "@SEEALSO=MMULT"
 
 #: src/fn-math.c:2545
@@ -4266,7 +4215,6 @@ msgid "#3D MULT?"
 msgstr "#MULT 3D?"
 
 #: src/fn-math.c:2726
-#, fuzzy
 msgid ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(array1,array2)\n"
@@ -4278,8 +4226,8 @@ msgstr ""
 "@FUNCTION=MMULT\n"
 "@SYNTAX=MMULT(vector1,vector2)\n"
 "@DESCRIPTION=La función MMULT devuelve la matríz producto de dos vectores. "
-"El resultado es una matríz con la misma cantidad de líneas que vector1 y la "
-"misma cantidad de colúmnas que vector2.\n"
+"El resultado es una matríz con la misma cantidad de líneas que @vector1 y la "
+"misma cantidad de colúmnas que @vector2.\n"
 "@SEEALSO=TRANSPOSE,MINVERSE"
 
 #: src/fn-math.c:2788
@@ -4344,7 +4292,6 @@ msgstr ""
 "@SEEALSO=ERROR"
 
 #: src/fn-misc.c:65
-#, fuzzy
 msgid ""
 "@FUNCTION=ISNA\n"
 "@SYNTAX=ISNA()\n"
@@ -4357,7 +4304,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-misc.c:95
-#, fuzzy
 msgid ""
 "@FUNCTION=ISERR\n"
 "@SYNTAX=ISERR()\n"
@@ -4385,7 +4331,6 @@ msgstr ""
 "@SEEALSO=ISERROR"
 
 #: src/fn-misc.c:169
-#, fuzzy
 msgid ""
 "@FUNCTION=NA\n"
 "@SYNTAX=NA()\n"
@@ -4423,7 +4368,6 @@ msgid "Miscellaneous"
 msgstr "Misceláneas"
 
 #: src/fn-sheet.c:15
-#, fuzzy
 msgid ""
 "@FUNCTION=SELECTION\n"
 "@SYNTAX=SELECTION(x)\n"
@@ -5530,24 +5474,22 @@ msgid ""
 msgstr ""
 
 #: src/fn-stat.c:3375
-#, fuzzy
 msgid ""
 "@FUNCTION=SLOPE\n"
 "@SYNTAX=SLOPE(known_y's,known_x's)\n"
 "@DESCRIPTION=SLOPE returns the slope of the linear regression line.\n"
 "@SEEALSO=STDEV,STDEVPA"
 msgstr ""
-"@FUNCTION=LEN\n"
-"@SYNTAX=LEN(string)\n"
-"@DESCRIPTION=Devuelve el largo en carácteres de la cadena @string.\n"
-"@SEEALSO=CHAR, CODE"
+"@FUNCTION=SLOPE\n"
+"@SYNTAX=SLOPE(y_conocidos,x_conocidos)\n"
+"@DESCRIPTION=Devuelve la inclinación de la línea de regresión linear.\n"
+"@SEEALSO=STDEV,STDEVPA"
 
 #: src/fn-stat.c:3409
 msgid "Statistics"
-msgstr ""
+msgstr "Estadísticas"
 
 #: src/fn-string.c:19
-#, fuzzy
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
@@ -5556,11 +5498,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
-"@DESCRIPTION=Devuelve el carácter ASCII representado por el número x.\n"
+"@DESCRIPTION=Devuelve el carácter ASCII representado por el número @x.\n"
 "@SEEALSO=CODE"
 
 #: src/fn-string.c:41
-#, fuzzy
 msgid ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
@@ -5569,11 +5510,10 @@ msgid ""
 msgstr ""
 "@FUNCTION=CODE\n"
 "@SYNTAX=CODE(char)\n"
-"@DESCRIPTION=Devuelve el valor ASCII del carácter 'char'.\n"
+"@DESCRIPTION=Devuelve el valor ASCII del carácter @char.\n"
 "@SEEALSO=CHAR"
 
 #: src/fn-string.c:64
-#, fuzzy
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -5582,8 +5522,8 @@ msgid ""
 "@SEEALSO=LEN"
 msgstr ""
 "@FUNCTION=EXACT\n"
-"@SYNTAX=EXACT(string1, string2)\n"
-"@DESCRIPTION=Devuelve VERDAD si string1 es exactamente identico a string2 "
+"@SYNTAX=EXACT(cadena1, cadena2)\n"
+"@DESCRIPTION=Devuelve VERDAD si @cadena1 es exactamente identico a @cadena2 "
 "(esta rutina es sensible a la diferencia mayúsculas/minúsculas).\n"
 "@SEEALSO=LEN"
 
@@ -5600,7 +5540,6 @@ msgstr ""
 "@SEEALSO=CHAR, CODE"
 
 #: src/fn-string.c:106
-#, fuzzy
 msgid ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(text[,num_chars])\n"
@@ -5610,8 +5549,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=LEFT\n"
 "@SYNTAX=LEFT(texto[,num_chars])\n"
-"@DESCRIPTION=Devuelve los num_chars carácteres a la izquierda del texto o el "
-"primer carácter a la izquierda si num_chars no se especifica\n"
+"@DESCRIPTION=Devuelve los @num_chars carácteres a la izquierda del texto o el "
+"primer carácter a la izquierda si @num_chars no se especifica\n"
 "@SEEALSO=MID, RIGHT"
 
 #: src/fn-string.c:139
@@ -5645,7 +5584,6 @@ msgid "Invalid arguments"
 msgstr "Argumentos inválidos"
 
 #: src/fn-string.c:211
-#, fuzzy
 msgid ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(text[,num_chars])\n"
@@ -5655,12 +5593,11 @@ msgid ""
 msgstr ""
 "@FUNCTION=RIGHT\n"
 "@SYNTAX=RIGHT(texto[,num_chars])\n"
-"@DESCRIPTION=Devuelve los num_chars carácteres a la derecha del texto o el "
-"primer carácter a la derecha si num_chars no se especifica\n"
+"@DESCRIPTION=Devuelve los @num_chars carácteres a la derecha del texto o el "
+"primer carácter a la derecha si @num_chars no se especifica\n"
 "@SEEALSO=MID, LEFT"
 
 #: src/fn-string.c:248
-#, fuzzy
 msgid ""
 "@FUNCTION=UPPER\n"
 "@SYNTAX=UPPER(text)\n"
@@ -6002,18 +5939,16 @@ msgid "#,##0_);(#,##0)"
 msgstr "#.##0_);(#.##0)"
 
 #: src/formats.c:22
-#, fuzzy
 msgid "#,##0_);[Red](#,##0)"
-msgstr "#.##0_);[red](#.##0)"
+msgstr "#.##0_);[Red](#.##0)"
 
 #: src/formats.c:23
 msgid "#,##0.00_);(#,##0.00)"
 msgstr "#.##0,00_);(#.##0,00)"
 
 #: src/formats.c:24
-#, fuzzy
 msgid "#,##0.00_);[Red](#,##0.00)"
-msgstr "#.##0,00_);[red](#.##0,00)"
+msgstr "#.##0,00_);[Red](#.##0,00)"
 
 #: src/formats.c:25
 msgid "0.0"
@@ -6206,18 +6141,16 @@ msgid "$#,##0_);($#,##0)"
 msgstr "$#.##0_);($#.##0)"
 
 #: src/formats.c:106
-#, fuzzy
 msgid "$#,##0_);[Red]($#,##0)"
-msgstr "$#.##0_);[red]($#.##0)"
+msgstr "$#.##0_);[Red]($#.##0)"
 
 #: src/formats.c:107
 msgid "$#,##0.00_);($#,##0.00)"
 msgstr "$#.##0,00_);($#.##0,00)"
 
 #: src/formats.c:108
-#, fuzzy
 msgid "$#,##0.00_);[Red]($#,##0.00)"
-msgstr "$#.##0,00_);[red]($#.##0,00)"
+msgstr "$#.##0,00_);[Red]($#.##0,00)"
 
 #: src/func.c:424
 msgid "Function does not exist"
