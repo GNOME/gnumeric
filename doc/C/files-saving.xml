@@ -680,6 +680,8 @@
 	            display all the files regardless of their
 	            extension, except possibly for the hidden files.
 		    <!-- TODO and defined in the mime type system. -->
+		  </para>
+		</warning>
 	      </para>
 	    </listitem>
           </varlistentry>
