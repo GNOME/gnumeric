@@ -56,7 +56,6 @@ static SheetControlClass *scg_parent_class;
 static void scg_ant                    (SheetControl *sc);
 static void scg_unant                  (SheetControl *sc);
 
-/* FIXME : Audit all of the uses of this */
 GnumericSheet *
 scg_pane (SheetControlGUI *scg, int p)
 {
@@ -789,14 +788,16 @@ gnumeric_sheet_make_cell_visible (GnumericSheet *gsheet, int col, int row,
  * @scg  : The gui control
  * @col  :
  * @row  :
- * @force_scroll  force a scroll
+ * @force_scroll : Completely recalibrate the offsets to the new position
+ * @couple_panes : Scroll scroll dynamic panes back to bounds if target
+ *                 is in frozen segment.
  *
  * Ensure that cell (col, row) is visible.
  * Sheet is scrolled if cell is outside viewport.
  */
 void
 scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
-		       gboolean force_scroll)
+		       gboolean force_scroll, gboolean couple_panes)
 {
 	Sheet const *sheet;
 	CellPos const *tl, *br;
@@ -807,7 +808,7 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 
 	if (scg->active_panes == 1) {
 		gnumeric_sheet_make_cell_visible (scg_pane (scg, 0),
-						  col, row, force_scroll);
+			col, row, force_scroll);
 		return;
 	}
 
@@ -820,9 +821,24 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 			gnumeric_sheet_make_cell_visible (scg->pane[1].gsheet,
 				col, row, force_scroll);
 			gnumeric_sheet_set_top_left (scg->pane[0].gsheet,
-				     scg->pane[0].gsheet->col.first,
+				     couple_panes
+				     ? br->col + 1
+				     : scg->pane[0].gsheet->col.first,
 				     scg->pane[1].gsheet->row.first,
 				     force_scroll);
+		} else if (couple_panes) { /* pane 2 */
+			/* FIXME : We may need to change the way this routine
+			 * is used to fix this.  Because we only know what the
+			 * target cell is we can not absolutely differentiate
+			 * between col & row scrolling.  For now use the
+			 * heuristic that if the col was visible this is a
+			 * vertical jump.
+			 */
+			if (scg->pane[2].gsheet->col.first <= col &&
+			    scg->pane[2].gsheet->col.last_visible >= col) {
+				scg_set_top_row (scg, row);
+			} else
+				scg_set_left_col (scg, col);
 		}
 	} else if (row <= br->row) {	/* pane 3 */
 		if (row < tl->row)
@@ -831,7 +847,9 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 			col, row, force_scroll);
 		gnumeric_sheet_set_top_left (scg->pane[0].gsheet,
 			scg->pane[3].gsheet->col.first,
-			scg->pane[0].gsheet->row.first,
+			couple_panes
+			? br->row + 1
+			: scg->pane[0].gsheet->row.first,
 			force_scroll);
 	} else {			 /* pane 0 */
 		gnumeric_sheet_make_cell_visible (scg->pane[0].gsheet,
@@ -847,9 +865,10 @@ scg_make_cell_visible (SheetControlGUI *scg, int col, int row,
 
 static void
 scg_make_cell_visible_virt (SheetControl *sc, int col, int row,
-			    gboolean force_scroll)
+			    gboolean force_scroll, gboolean couple_panes)
 {
-	scg_make_cell_visible ((SheetControlGUI *)sc, col, row, force_scroll);
+	scg_make_cell_visible ((SheetControlGUI *)sc, col, row,
+			       force_scroll, couple_panes);
 }
 
 /*************************************************************************/
@@ -2272,7 +2291,6 @@ scg_create_editor (SheetControlGUI *scg)
 
 	g_return_if_fail (IS_SHEET_CONTROL_GUI (scg));
 
-	/* FIXME : do we need to be smarter ? */
 	for (i = scg->active_panes ; i-- > 0 ; )
 		gnumeric_sheet_create_editor (scg->pane[i].gsheet);
 }
@@ -2492,7 +2510,7 @@ scg_rangesel_move (SheetControlGUI *scg, int n, gboolean jump_to_bound,
 			sheet, tmp.col, tmp.row, tmp.col, n, jump_to_bound);
 
 	scg_rangesel_changed (scg, tmp.col, tmp.row, tmp.col, tmp.row);
-	scg_make_cell_visible (scg, tmp.col, tmp.row, FALSE);
+	scg_make_cell_visible (scg, tmp.col, tmp.row, FALSE, TRUE);
 }
 
 void
@@ -2519,7 +2537,7 @@ scg_rangesel_extend (SheetControlGUI *scg, int n,
 
 		scg_make_cell_visible (scg, 
 			scg->rangesel.move_corner.col,
-			scg->rangesel.move_corner.row, FALSE);
+			scg->rangesel.move_corner.row, FALSE, TRUE);
 	} else
 		scg_rangesel_move (scg, n, jump_to_bound, horiz);
 }

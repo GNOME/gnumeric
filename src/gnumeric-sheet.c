@@ -326,7 +326,7 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 		/* Re-center the view on the active cell */
 		if (!wbcg->editing && (event->state & GDK_CONTROL_MASK) != 0) {
 			scg_make_cell_visible (gsheet->scg, sheet->edit_pos.col,
-					       sheet->edit_pos.row, TRUE);
+					       sheet->edit_pos.row, FALSE, TRUE);
 			break;
 		}
 
@@ -853,17 +853,31 @@ gnumeric_sheet_find_row (GnumericSheet *gsheet, int y, int *row_origin)
 void
 gnumeric_sheet_create_editor (GnumericSheet *gsheet)
 {
-	GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
-	GnomeCanvasItem *item;
+	CellPos *edit_pos;
 
+	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	g_return_if_fail (gsheet->item_editor == NULL);
 
-	item = gnome_canvas_item_new (GNOME_CANVAS_GROUP (canvas->root),
-				      item_edit_get_type (),
-				      "ItemEdit::SheetControlGUI",     gsheet->scg,
-				      NULL);
+	/* TODO : this could be slicker.
+	 * Rather than doing a visibility check here.
+	 * we could make item-edit smarter, and have it bound check on the
+	 * entire region rather than only its canvas.
+	 */
+	edit_pos = &(((SheetControl *) gsheet->scg)->sheet->edit_pos);
+	if (edit_pos->col >= gsheet->col.first &&
+	    edit_pos->col <= gsheet->col.last_visible &&
+	    edit_pos->row >= gsheet->row.first &&
+	    edit_pos->row <= gsheet->row.last_visible) {
+		GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
+		GnomeCanvasItem *item;
 
-	gsheet->item_editor = ITEM_EDIT (item);
+		item = gnome_canvas_item_new (GNOME_CANVAS_GROUP (canvas->root),
+			item_edit_get_type (),
+			"ItemEdit::SheetControlGUI",     gsheet->scg,
+			NULL);
+
+		gsheet->item_editor = ITEM_EDIT (item);
+	}
 }
 
 void
@@ -1196,7 +1210,7 @@ gsheet_sliding_callback (gpointer data)
 			/* Be careful if sheet is narrow, don't
 			 * autoscroll past edge
 			 */
-			if (col <= gsheet2->col.last_visible) {
+			if (gsheet2 != NULL && col <= gsheet2->col.last_visible) {
 				if (col < gsheet2->col.first)
 					col = gsheet2->col.first;
 				gsheet->sliding_adjacent_h = TRUE;
@@ -1214,6 +1228,8 @@ gsheet_sliding_callback (gpointer data)
 		}
 	} 
 
+	printf ("%d, %d, %s  \n", gsheet->sliding_dy,
+		pane_index, gsheet->sliding_adjacent_v ? "adjacent" : "not");
 	if (gsheet->sliding_dy > 0) {
 		GnumericSheet *target_gsheet = gsheet;
 
@@ -1251,10 +1267,11 @@ gsheet_sliding_callback (gpointer data)
 			/* Be careful if sheet is narrow, don't
 			 * autoscroll past edge
 			 */
-			if (row <= gsheet2->row.last_visible) {
+			if (gsheet2 != NULL && row <= gsheet2->row.last_visible) {
 				if (row < gsheet2->row.first)
 					row = gsheet2->row.first;
 				gsheet->sliding_adjacent_v = TRUE;
+				printf ("row = %d\n", row);
 			} else
 				slide_y = TRUE;
 		}
@@ -1281,7 +1298,7 @@ gsheet_sliding_callback (gpointer data)
 
 	if (gsheet->slide_handler == NULL ||
 	    (*gsheet->slide_handler) (gsheet, col, row, gsheet->slide_data))
-		scg_make_cell_visible (gsheet->scg, col, row, FALSE);
+		scg_make_cell_visible (gsheet->scg, col, row, FALSE, TRUE);
 
 	if (slide_x || slide_y) {
 		if (gsheet->sliding == -1)

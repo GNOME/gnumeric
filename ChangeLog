@@ -1,5 +1,13 @@
 2001-07-13  Jody Goldberg <jgoldberg@home.com>
 
+	* src/item-cursor.c (item_cursor_set_bounds_visibly) : no need to make
+	  anything visible here.  We already did that in the autoscroller.
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_key_mode_sheet) : no need to
+	  force a scroll.
+
+2001-07-13  Jody Goldberg <jgoldberg@home.com>
+
 	* src/item-cursor.c (item_cursor_in_drag_handle) : bounding coords
 	  mark the outside of the drag box, center things before checking.
 	(item_cursor_selection_event) : be smarter about handling double

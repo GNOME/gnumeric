@@ -40,7 +40,7 @@ void sc_mode_edit		(SheetControl *sc);
 
 void sc_compute_visible_region (SheetControl *sc, gboolean full_recompute);
 void sc_make_cell_visible      (SheetControl *sc, int col, int row,
-				gboolean force_scroll);
+				gboolean force_scroll, gboolean couple_panes);
 void sc_cursor_bound	       (SheetControl *sc, Range const *r);
 void sc_set_panes	       (SheetControl *sc);
 

@@ -1042,7 +1042,6 @@ item_cursor_set_bounds_visibly (ItemCursor *item_cursor,
 	 * of clipping the cursor to the currently visible region is getting in the way.
 	 * We are forced to make the region visible before we move the cursor.
 	 */
-	scg_make_cell_visible (gsheet->scg, col, row, FALSE);
 	range_init (&r, corner->col, corner->row, end_col, end_row);
 	if (item_cursor_set_bounds (item_cursor, &r))
 		gnome_canvas_update_now (GNOME_CANVAS (gsheet));

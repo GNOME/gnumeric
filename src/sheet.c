@@ -816,8 +816,8 @@ sheet_update_only_grid (Sheet const *sheet)
 	if (p->reposition_objects.row < SHEET_MAX_ROWS ||
 	    p->reposition_objects.col < SHEET_MAX_COLS) {
 		if (sheet_is_frozen (sheet)) {
-			if (p->reposition_objects.col < sheet->frozen.bottom_right.col ||
-			    p->reposition_objects.row < sheet->frozen.bottom_right.row) {
+			if (p->reposition_objects.col <= sheet->frozen.bottom_right.col ||
+			    p->reposition_objects.row <= sheet->frozen.bottom_right.row) {
 				SHEET_FOREACH_CONTROL(sheet, control,
 						      sc_resize (control, FALSE););
 			}
@@ -3097,7 +3097,7 @@ sheet_make_cell_visible (Sheet *sheet, int col, int row)
 {
 	g_return_if_fail (IS_SHEET (sheet));
 	SHEET_FOREACH_CONTROL(sheet, control,
-		sc_make_cell_visible (control, col, row, FALSE););
+		sc_make_cell_visible (control, col, row, FALSE, FALSE););
 }
 
 void
