@@ -212,7 +212,7 @@ gnumeric_varp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_DIV0);
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -246,7 +246,7 @@ gnumeric_var (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_DIV0);
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -276,7 +276,7 @@ gnumeric_stdev (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_DIV0);
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -306,7 +306,7 @@ gnumeric_stdevp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_DIV0);
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -460,7 +460,7 @@ gnumeric_trimmean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -492,7 +492,7 @@ gnumeric_covar (FunctionEvalInfo *ei, Value **argv)
 				      range_covar,
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
-				      gnumeric_err_VALUE);
+				      GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -524,7 +524,7 @@ gnumeric_correl (FunctionEvalInfo *ei, Value **argv)
 				      range_correl_pop,
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
-				      gnumeric_err_VALUE);
+				      GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -763,7 +763,7 @@ gnumeric_mode (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_NA);
+				     GNM_ERROR_NA);
 }
 
 /***************************************************************************/
@@ -795,7 +795,7 @@ gnumeric_harmean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -826,7 +826,7 @@ gnumeric_geomean (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -943,7 +943,7 @@ gnumeric_average (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_DIV0);
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -985,7 +985,7 @@ gnumeric_min (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -1027,7 +1027,7 @@ gnumeric_max (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -1065,7 +1065,7 @@ gnumeric_skew (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_DIV0);
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -1098,7 +1098,7 @@ gnumeric_skewp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_DIV0);
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -2319,7 +2319,7 @@ gnumeric_kurt (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_DIV0);
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -2352,7 +2352,7 @@ gnumeric_kurtp (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_DIV0);
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -2383,7 +2383,7 @@ gnumeric_avedev (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_NUM);
+				     GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -2416,7 +2416,7 @@ gnumeric_devsq (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -2549,7 +2549,7 @@ gnumeric_rsq (FunctionEvalInfo *ei, Value **argv)
 				      range_rsq_pop,
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
-				      gnumeric_err_VALUE);
+				      GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -2583,7 +2583,7 @@ gnumeric_median (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_NUM);
+				     GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -2630,7 +2630,7 @@ gnumeric_large (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_NUM);
+				     GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -2677,7 +2677,7 @@ gnumeric_small (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_NUM);
+				     GNM_ERROR_NUM);
 }
 
 typedef struct {
@@ -3065,7 +3065,7 @@ gnumeric_averagea (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_DIV0);
+				     GNM_ERROR_DIV0);
 }
 
 /***************************************************************************/
@@ -3101,7 +3101,7 @@ gnumeric_maxa (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -3137,7 +3137,7 @@ gnumeric_mina (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -3173,7 +3173,7 @@ gnumeric_vara (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -3209,7 +3209,7 @@ gnumeric_varpa (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -3245,7 +3245,7 @@ gnumeric_stdeva (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -3281,7 +3281,7 @@ gnumeric_stdevpa (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -5034,7 +5034,7 @@ gnumeric_intercept (FunctionEvalInfo *ei, Value **argv)
 				      range_intercept,
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
-				      gnumeric_err_VALUE);
+				      GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -5078,7 +5078,7 @@ gnumeric_slope (FunctionEvalInfo *ei, Value **argv)
 				      range_slope,
 				      COLLECT_IGNORE_STRINGS |
 				      COLLECT_IGNORE_BOOLS,
-				      gnumeric_err_VALUE);
+				      GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -5124,7 +5124,7 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 	Value *val;
 	int   fun_nbr;
 	float_range_function_t func;
-	char const *err = gnumeric_err_DIV0;
+	GnmStdError err = GNM_ERROR_DIV0;
 
 	if (expr_node_list == NULL)
 		return value_new_error_NUM (ei->pos);
@@ -5158,15 +5158,15 @@ gnumeric_subtotal (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 		return val;
 
 	case  1: func = range_average;		break;
-	case  4: err = gnumeric_err_VALUE;
+	case  4: err = GNM_ERROR_VALUE;
 		 func = range_max0;		break;
-	case  5: err = gnumeric_err_VALUE;
+	case  5: err = GNM_ERROR_VALUE;
 		 func = range_min0;		break;
-	case  6: err = gnumeric_err_VALUE;
+	case  6: err = GNM_ERROR_VALUE;
 		 func = range_product;		break;
 	case  7: func = range_stddev_est;	break;
 	case  8: func = range_stddev_pop;	break;
-	case  9: err = gnumeric_err_VALUE;
+	case  9: err = GNM_ERROR_VALUE;
 		 func = range_sum;		break;
 	case 10: func = range_var_est;		break;
 	case 11: func = range_var_pop;		break;
@@ -5261,7 +5261,7 @@ gnumeric_cronbach (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 		short_list = gnm_expr_list_prepend (NULL, list->data);
 		fl_val = float_range_function (short_list, ei,
 					       range_var_pop, 0,
-					       gnumeric_err_VALUE);
+					       GNM_ERROR_VALUE);
 		gnm_expr_list_free (short_list);
 		if (!VALUE_IS_NUMBER (fl_val))
 			return fl_val;
@@ -5295,7 +5295,7 @@ gnumeric_cronbach (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 			fl_val = float_range_function2 (values[i], values[j],
 							ei,
 							range_covar, 0,
-							gnumeric_err_VALUE);
+							GNM_ERROR_VALUE);
 			if (!VALUE_IS_NUMBER (fl_val)) {
 				free_values (values, k);
 				return fl_val;

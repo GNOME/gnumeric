@@ -1589,7 +1589,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 		gnm_float val = value->v_float.val;
 
 		if (!finitegnum (val))
-			return g_strdup (gnumeric_err_VALUE);
+			return g_strdup (value_error_name (GNM_ERROR_VALUE, TRUE));
 
 		if (need_abs)
 			val = gnumabs (val);
@@ -1607,7 +1607,7 @@ format_value (StyleFormat const *format, Value const *value, StyleColor **color,
 	case VALUE_STRING:
 		return g_strdup (value->v_str.val->str);
 	case VALUE_CELLRANGE:
-		return g_strdup (gnumeric_err_VALUE);
+		return g_strdup (value_error_name (GNM_ERROR_VALUE, TRUE));
 	case VALUE_ARRAY: /* Array of arrays ?? */
 		return g_strdup (_("ARRAY"));
 

@@ -94,24 +94,13 @@ typedef enum {
 	TYPE_MISMATCH
 } ValueCompare;
 
-typedef enum {
-	GNM_ERROR_NULL,
-	GNM_ERROR_DIV0,
-	GNM_ERROR_VALUE,
-	GNM_ERROR_REF,
-	GNM_ERROR_NAME,
-	GNM_ERROR_NUM,
-	GNM_ERROR_NA,
-	GNM_ERROR_RECALC,
-	GNM_ERROR_UNKNOWN
-} GnmStdError;
-
 Value       *value_new_empty            (void);
 Value       *value_new_bool             (gboolean b);
 Value       *value_new_int              (int i);
 Value       *value_new_float            (gnm_float f);
 Value       *value_new_error            (EvalPos const *pos, char const *mesg);
 Value       *value_new_error_str        (EvalPos const *pos, String *mesg);
+Value       *value_new_error_std        (EvalPos const *pos, GnmStdError err);
 Value       *value_new_error_NULL       (EvalPos const *pos);
 Value       *value_new_error_DIV0       (EvalPos const *pos);
 Value       *value_new_error_VALUE      (EvalPos const *pos);
@@ -156,6 +145,8 @@ Value	   *value_coerce_to_number    (Value *v, gboolean *valid,
 				       EvalPos const *ep);
 
 Value       *value_error_set_pos      (ValueErr *err, EvalPos const *pos);
+GnmStdError value_error_classify      (const Value *v);
+const char *value_error_name          (GnmStdError err, gboolean translated);
 
 /* Area functions ( works on VALUE_RANGE or VALUE_ARRAY */
 /* The EvalPos provides a Sheet context; this allows
@@ -215,17 +206,6 @@ GSList *find_rows_that_match        (Sheet *sheet, int first_col,
 				     GSList *criterias, gboolean unique_only);
 GSList *parse_database_criteria     (const EvalPos *ep, Value *database, Value *criteria);
 int find_column_of_field (const EvalPos *ep, Value *database, Value *field);
-
-
-/* Some utility constants to make sure we all spell correctly */
-extern char const *gnumeric_err_NULL;
-extern char const *gnumeric_err_DIV0;
-extern char const *gnumeric_err_VALUE;
-extern char const *gnumeric_err_REF;
-extern char const *gnumeric_err_NAME;
-extern char const *gnumeric_err_NUM;
-extern char const *gnumeric_err_NA;
-extern char const *gnumeric_err_RECALC;
 
 void value_init (void);
 void value_shutdown (void);

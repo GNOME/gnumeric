@@ -52,6 +52,18 @@ typedef struct _ValueStr		ValueStr;
 typedef struct _ValueRange		ValueRange;
 typedef struct _ValueArray		ValueArray;
 
+typedef enum {
+	GNM_ERROR_NULL,
+	GNM_ERROR_DIV0,
+	GNM_ERROR_VALUE,
+	GNM_ERROR_REF,
+	GNM_ERROR_NAME,
+	GNM_ERROR_NUM,
+	GNM_ERROR_NA,
+	GNM_ERROR_RECALC,
+	GNM_ERROR_UNKNOWN
+} GnmStdError;
+
 typedef struct _RenderedValue		RenderedValue;
 
 typedef GSList 				GnmExprList;

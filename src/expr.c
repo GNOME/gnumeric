@@ -2111,15 +2111,16 @@ gnm_expr_is_rangeref (GnmExpr const *expr)
 }
 
 gboolean
-gnm_expr_is_err (GnmExpr const *expr, char const *msg)
+gnm_expr_is_err (GnmExpr const *expr, GnmStdError err)
 {
+	GnmStdError err2;
 	g_return_val_if_fail (expr != NULL, FALSE);
-	g_return_val_if_fail (msg != NULL, FALSE);
 
-	return (expr->any.oper == GNM_EXPR_OP_CONSTANT &&
-		expr->constant.value != NULL &&
-		expr->constant.value->type == VALUE_ERROR &&
-		!strcmp (expr->constant.value->v_err.mesg->str, msg));
+	if (expr->any.oper != GNM_EXPR_OP_CONSTANT)
+		return FALSE;
+
+	err2 = value_error_classify (expr->constant.value);
+	return err == err2;
 }
 
 void

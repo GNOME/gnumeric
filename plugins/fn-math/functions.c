@@ -182,7 +182,7 @@ gnumeric_gcd (FunctionEvalInfo *ei, GnmExprList *nodes)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_NUM);
+				     GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -238,7 +238,7 @@ gnumeric_lcm (FunctionEvalInfo *ei, GnmExprList *nodes)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_NUM);
+				     GNM_ERROR_NUM);
 
 }
 
@@ -1385,7 +1385,7 @@ gnumeric_suma (FunctionEvalInfo *ei, GnmExprList *nodes)
 				     COLLECT_ZERO_STRINGS |
 				     COLLECT_ZEROONE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -1416,7 +1416,7 @@ gnumeric_sumsq (FunctionEvalInfo *ei, GnmExprList *nodes)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -1445,7 +1445,7 @@ gnumeric_multinomial (FunctionEvalInfo *ei, GnmExprList *nodes)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_NUM);
+				     GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -1473,7 +1473,7 @@ gnumeric_g_product (FunctionEvalInfo *ei, GnmExprList *nodes)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -2681,7 +2681,7 @@ gnumeric_seriessum (FunctionEvalInfo *ei, GnmExprList *nodes)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_NUM);
+				     GNM_ERROR_NUM);
 }
 
 /***************************************************************************/
@@ -2722,7 +2722,7 @@ callback_function_mmult_validate (Sheet *sheet, int col, int row,
 static int
 validate_range_numeric_matrix (const EvalPos *ep, Value * matrix,
 			       int *rows, int *cols,
-			       char const **error_string)
+			       GnmStdError *err)
 {
 	Value *res;
 	int cell_count = 0;
@@ -2736,7 +2736,7 @@ validate_range_numeric_matrix (const EvalPos *ep, Value * matrix,
 
 	if (matrix->v_range.cell.a.sheet !=
 	    matrix->v_range.cell.b.sheet) {
-		*error_string = _("#3D MULT?");
+		*err = GNM_ERROR_UNKNOWN;  /*XXXX_("#3D MULT?"); */
 		return TRUE;
 	}
 
@@ -2752,7 +2752,7 @@ validate_range_numeric_matrix (const EvalPos *ep, Value * matrix,
 
 	if (res != NULL || cell_count != (*rows * *cols)) {
 		/* As specified in the Excel Docs */
-		*error_string = gnumeric_err_VALUE;
+		*err = GNM_ERROR_VALUE;
 		return TRUE;
 	}
 
@@ -2769,12 +2769,10 @@ gnumeric_minverse (FunctionEvalInfo *ei, Value **argv)
         Value   *res;
         Value   *values = argv[0];
 	gnm_float *matrix, *inverse;
+	GnmStdError err;
 
-	char const *error_string = NULL;
-
-	if (validate_range_numeric_matrix (ep, values, &rows, &cols,
-					   &error_string)) {
-		return value_new_error (ei->pos, error_string);
+	if (validate_range_numeric_matrix (ep, values, &rows, &cols, &err)) {
+		return value_new_error_std (ei->pos, err);
 	}
 
 	/* Guarantee shape and non-zero size */
@@ -2841,13 +2839,13 @@ gnumeric_mmult (FunctionEvalInfo *ei, Value **argv)
         Value *values_a = argv[0];
         Value *values_b = argv[1];
 	gnm_float *A, *B, *product;
-	char const *error_string = NULL;
+	GnmStdError err;
 
 	if (validate_range_numeric_matrix (ep, values_a, &rows_a, &cols_a,
-					   &error_string) ||
+					   &err) ||
 	    validate_range_numeric_matrix (ep, values_b, &rows_b, &cols_b,
-					   &error_string)) {
-		return value_new_error (ei->pos, error_string);
+					   &err)) {
+		return value_new_error_std (ei->pos, err);
 	}
 
 	/* Guarantee shape and non-zero size */
@@ -2921,12 +2919,11 @@ gnumeric_mdeterm (FunctionEvalInfo *ei, Value **argv)
         gnm_float res;
         Value   *values = argv[0];
 	gnm_float *matrix;
-
-	char const *error_string = NULL;
+	GnmStdError err;
 
 	if (validate_range_numeric_matrix (ep, values, &rows, &cols,
-					   &error_string)) {
-		return value_new_error (ei->pos, error_string);
+					   &err)) {
+		return value_new_error_std (ei->pos, err);
 	}
 
 	/* Guarantee shape and non-zero size */

@@ -128,6 +128,16 @@ value_new_error_str (EvalPos const *ep, String *mesg)
 }
 
 Value *
+value_new_error_std (EvalPos const *pos, GnmStdError err)
+{
+	size_t i = (size_t)err;
+	g_return_val_if_fail (i < G_N_ELEMENTS (standard_errors), NULL);
+
+	return value_new_error_str (pos, standard_errors[i].locale_name_str);
+}
+
+
+Value *
 value_new_error_NULL (EvalPos const *pos)
 {
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_NULL].locale_name_str);
@@ -175,6 +185,17 @@ value_new_error_RECALC (EvalPos const *pos)
 	return value_new_error_str (pos, standard_errors[GNM_ERROR_RECALC].locale_name_str);
 }
 
+const char *
+value_error_name (GnmStdError err, gboolean translated)
+{
+	size_t i = (size_t)err;
+	g_return_val_if_fail (i < G_N_ELEMENTS (standard_errors), NULL);
+
+	if (translated)
+		return standard_errors[i].locale_name;
+	else
+		return standard_errors[i].C_name;
+}
 
 /**
  * value_error_set_pos :
@@ -192,6 +213,24 @@ value_error_set_pos (ValueErr *err, EvalPos const *pos)
     err->src = *pos;
     return (Value *)err;
 }
+
+GnmStdError
+value_error_classify (const Value *v)
+{
+	size_t i;
+
+	g_return_val_if_fail (v != NULL, GNM_ERROR_UNKNOWN);
+
+	if (v->type != VALUE_ERROR)
+		return GNM_ERROR_UNKNOWN;
+
+	for (i = 0; i < G_N_ELEMENTS (standard_errors); i++)
+		if (standard_errors[i].locale_name_str == v->v_err.mesg)
+			return (GnmStdError)i;
+
+	return GNM_ERROR_UNKNOWN;
+}
+
 
 static gnm_mem_chunk *value_string_pool;
 

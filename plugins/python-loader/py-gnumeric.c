@@ -2022,6 +2022,18 @@ static PyMethodDef GnumericMethods[] = {
 	{ NULL, NULL },
 };
 
+static void
+init_err (PyObject *module_dict, const char *name, GnmStdError e)
+{
+	Value *v = value_new_error_std (NULL, e);
+
+	PyDict_SetItemString
+		(module_dict, (char *)name,
+		 PyString_FromString (v->v_err.mesg->str));
+
+	value_release (v);
+}
+
 
 void
 py_initgnumeric (GnmPyInterpreter *interpreter)
@@ -2041,30 +2053,15 @@ py_initgnumeric (GnmPyInterpreter *interpreter)
 		(module_dict, (char *) "GnumericError",
 		 PyErr_NewException ((char *) "Gnumeric.GnumericError",
 				     NULL, NULL));
-	(void) PyDict_SetItemString
-		(module_dict, (char *) "GnumericErrorNULL",
-		 PyString_FromString (gnumeric_err_NULL));
-	(void) PyDict_SetItemString
-		(module_dict, (char *) "GnumericErrorDIV0",
-		 PyString_FromString (gnumeric_err_DIV0));
-	(void) PyDict_SetItemString (module_dict,
-				     (char *) "GnumericErrorVALUE",
-	                             PyString_FromString (gnumeric_err_VALUE));
-	(void) PyDict_SetItemString
-		(module_dict, (char *) "GnumericErrorREF",
-		 PyString_FromString (gnumeric_err_REF));
-	(void) PyDict_SetItemString
-		(module_dict, (char *) "GnumericErrorNAME",
-		 PyString_FromString (gnumeric_err_NAME));
-	(void) PyDict_SetItemString
-		(module_dict, (char *) "GnumericErrorNUM",
-		 PyString_FromString (gnumeric_err_NUM));
-	(void) PyDict_SetItemString
-		(module_dict, (char *) "GnumericErrorNA",
-		 PyString_FromString (gnumeric_err_NA));
-	(void) PyDict_SetItemString
-		(module_dict, (char *) "GnumericErrorRECALC",
-		 PyString_FromString (gnumeric_err_RECALC));
+
+	init_err (module_dict, "GnumericErrorNULL", GNM_ERROR_NULL);
+	init_err (module_dict, "GnumericErrorDIV0", GNM_ERROR_DIV0);
+	init_err (module_dict, "GnumericErrorVALUEL", GNM_ERROR_VALUE);
+	init_err (module_dict, "GnumericErrorREF", GNM_ERROR_REF);
+	init_err (module_dict, "GnumericErrorNAME", GNM_ERROR_NAME);
+	init_err (module_dict, "GnumericErrorNUM", GNM_ERROR_NUM);
+	init_err (module_dict, "GnumericErrorNA", GNM_ERROR_NA);
+	init_err (module_dict, "GnumericErrorRECALC", GNM_ERROR_RECALC);
 
 	(void) PyDict_SetItemString
 		(module_dict, (char *) "functions",

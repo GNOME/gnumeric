@@ -351,7 +351,7 @@ name_guru_add (NameGuruState *state)
 	/* don't allow user to define a nexpr that looks like a placeholder
 	 * because it will be would disappear from the lists.
 	 */
-	if (gnm_expr_is_err (expr, gnumeric_err_NAME)) {
+	if (gnm_expr_is_err (expr, GNM_ERROR_NAME)) {
 		gnumeric_notice (state->wbcg, GTK_MESSAGE_ERROR,
 			_("Why would you want to define a name to be #NAME?"));
 		gtk_widget_grab_focus (GTK_WIDGET (state->expr_entry));

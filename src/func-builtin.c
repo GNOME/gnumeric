@@ -55,7 +55,7 @@ gnumeric_sum (FunctionEvalInfo *ei, GnmExprList *nodes)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/
@@ -94,7 +94,7 @@ gnumeric_product (FunctionEvalInfo *ei, GnmExprList *nodes)
 				     COLLECT_IGNORE_STRINGS |
 				     COLLECT_IGNORE_BOOLS |
 				     COLLECT_IGNORE_BLANKS,
-				     gnumeric_err_VALUE);
+				     GNM_ERROR_VALUE);
 }
 
 /***************************************************************************/

@@ -227,7 +227,7 @@ Value *
 float_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 		      float_range_function_t func,
 		      CollectFlags flags,
-		      char const *func_error)
+		      GnmStdError func_error)
 {
 	Value *error = NULL;
 	gnm_float *vals, res;
@@ -241,7 +241,7 @@ float_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 	g_free (vals);
 
 	if (err)
-		return value_new_error (ei->pos, func_error);
+		return value_new_error_std (ei->pos, func_error);
 	else
 		return value_new_float (res);
 }
@@ -352,7 +352,7 @@ Value *
 float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 		       float_range_function2_t func,
 		       CollectFlags flags,
-		       char const *func_error)
+		       GnmStdError func_error)
 {
 	gnm_float *vals0, *vals1;
 	int n0, n1;
@@ -378,7 +378,7 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 	}
 
 	if (n0 != n1 || n0 == 0)
-		res = value_new_error (ei->pos, func_error);
+		res = value_new_error_std (ei->pos, func_error);
 	else {
 		gnm_float fres;
 
@@ -407,7 +407,7 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 
 
 		if (func (vals0, vals1, n0, &fres))
-			res = value_new_error (ei->pos, func_error);
+			res = value_new_error_std (ei->pos, func_error);
 		else
 			res = value_new_float (fres);
 	}
@@ -509,7 +509,7 @@ Value *
 string_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 		       string_range_function_t func,
 		       CollectFlags flags,
-		       char const *func_error)
+		       GnmStdError func_error)
 {
 	Value *error = NULL;
 	GSList *vals;
@@ -527,7 +527,7 @@ string_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 	if (err) {
 		if (res)
 			g_free (res);
-		return value_new_error (ei->pos, func_error);
+		return value_new_error_std (ei->pos, func_error);
 	} else {
 		return value_new_string_nocopy (res);
 	}

@@ -591,7 +591,7 @@ gboolean
 expr_name_is_placeholder (GnmNamedExpr const *nexpr)
 {
 	g_return_val_if_fail (nexpr != NULL, FALSE);
-	return gnm_expr_is_err (nexpr->expr_tree, gnumeric_err_NAME);
+	return gnm_expr_is_err (nexpr->expr_tree, GNM_ERROR_NAME);
 }
 
 int

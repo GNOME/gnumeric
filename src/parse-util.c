@@ -978,8 +978,8 @@ def_expr_name_handler (GString *target,
 	const GnmNamedExpr *thename = name->name;
 
 	if (!thename->active) {
-		/* FIXME!  Always saved translated. */
-		g_string_append (target, gnumeric_err_REF);
+		g_string_append (target,
+				 value_error_name (GNM_ERROR_REF, conv->output_translated));
 		return;
 	}
 

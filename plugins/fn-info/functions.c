@@ -287,7 +287,7 @@ gnumeric_cell (FunctionEvalInfo *ei, Value **argv)
      * no need for them but included to make 123 conversion easier
     Case "datatype", "formulatype", "type"
         t = Left(prop, 1)
-        
+
             rv = IIf( t = "f" And rng.HasFormula, "f", "" )
 
             If rng.formula = "" Then
@@ -368,18 +368,18 @@ Function ExtCell( _
         ExtCell = CVErr(xlErrRef)
         Exit Function
     End If
-    
+
     prop = LCase(prop)
 
     m = rng.rows.Count
     n = rng.Columns.Count
     rv = rng.Value
-    
+
     Set ws = rng.Worksheet
     Set wb = ws.Parent
-    
+
     Select Case prop
-    
+
     Case "across"  /* from later 123 versions - limited usefulness! */
         If rar Then
             For i = 1 To m
@@ -396,7 +396,7 @@ Function ExtCell( _
               xlHAlignCenterAcrossSelection _
             )
         End If
-    
+
     Case "backgroundcolor"  /* from later 123 versions - USEFUL! */
         If rar Then
             For i = 1 To m
@@ -407,7 +407,7 @@ Function ExtCell( _
         Else
             rv = rng.Interior.ColorIndex
         End If
-    
+
     Case "bold"  /* from later 123 versions - USEFUL! */
         If rar Then
             For i = 1 To m
@@ -418,8 +418,8 @@ Function ExtCell( _
         Else
             rv = CLng(rng.Font.Bold)
         End If
-        
-    
+
+
     Case "bottomborder"  /* from later 123 versions - USEFUL! */
     /* Note: many possible return values! wrap inside SIGN to test T/F */
         If rar Then
@@ -433,7 +433,7 @@ Function ExtCell( _
         Else
             rv = rng.Borders(xlEdgeBottom).LineStyle - xlLineStyleNone
         End If
-    
+
     Case "bottombordercolor"  /* from later 123 versions - USEFUL! */
         If rar Then
             For i = 1 To m
@@ -1016,7 +1016,7 @@ Function ExtCell( _
 
     Case "usedrange"  /* NOTE: returns Range addresses! */
         t = ws.UsedRange.Address  /* invariant */
-        
+
         If rar Then
             For i = 1 To m
                 For j = 1 To n
@@ -1128,7 +1128,7 @@ Function ExtCell( _
 
     Case Else  /* invalid property/characteristic */
         t = CVErr(xlErrValue)  /* invariant */
-        
+
         If rar Then
             For i = 1 To m
                 For j = 1 To n
@@ -1366,8 +1366,7 @@ static const char *help_isna = {
 static Value *
 gnumeric_isna (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_bool (argv[0]->type == VALUE_ERROR &&
-			       !strcmp (gnumeric_err_NA, argv[0]->v_err.mesg->str));
+	return value_new_bool (value_error_classify (argv[0]) == GNM_ERROR_NA);
 }
 
 /***************************************************************************/
@@ -1390,7 +1389,7 @@ static Value *
 gnumeric_iserr (FunctionEvalInfo *ei, Value **argv)
 {
 	return value_new_bool (argv[0]->type == VALUE_ERROR &&
-			       strcmp (gnumeric_err_NA, argv[0]->v_err.mesg->str));
+			       value_error_classify (argv[0]) != GNM_ERROR_NA);
 }
 
 /***************************************************************************/
@@ -1419,30 +1418,17 @@ static const char *help_error_type = {
 static Value *
 gnumeric_error_type (FunctionEvalInfo *ei, Value **argv)
 {
-	int retval = -1;
-	char const * mesg;
-	if (argv[0]->type != VALUE_ERROR)
+	switch (value_error_classify (argv[0])) {
+	case GNM_ERROR_NULL: return value_new_int (1);
+	case GNM_ERROR_DIV0: return value_new_int (2);
+	case GNM_ERROR_VALUE: return value_new_int (3);
+	case GNM_ERROR_REF: return value_new_int (4);
+	case GNM_ERROR_NAME: return value_new_int (5);
+	case GNM_ERROR_NUM: return value_new_int (6);
+	case GNM_ERROR_NA: return value_new_int (7);
+	default:
 		return value_new_error_NA (ei->pos);
-
-	mesg = argv[0]->v_err.mesg->str;
-	if (!strcmp (gnumeric_err_NULL, mesg))
-		retval = 1;
-	else if (!strcmp (gnumeric_err_DIV0, mesg))
-		retval = 2;
-	else if (!strcmp (gnumeric_err_VALUE, mesg))
-		retval = 3;
-	else if (!strcmp (gnumeric_err_REF, mesg))
-		retval = 4;
-	else if (!strcmp (gnumeric_err_NAME, mesg))
-		retval = 5;
-	else if (!strcmp (gnumeric_err_NUM, mesg))
-		retval = 6;
-	else if (!strcmp (gnumeric_err_NA, mesg))
-		retval = 7;
-	else
-		return value_new_error_NA (ei->pos);
-
-	return value_new_int (retval);
+	}
 }
 
 /***************************************************************************/

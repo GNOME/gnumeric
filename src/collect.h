@@ -34,15 +34,15 @@ gnm_float *collect_floats_value (const Value *val, const EvalPos *ep,
 Value *float_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 			     float_range_function_t func,
 			     CollectFlags flags,
-			     char const *func_error);
+			     GnmStdError func_error);
 
 Value *float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 			      float_range_function2_t func,
 			      CollectFlags flags,
-			      char const *func_error);
+			      GnmStdError func_error);
 Value *string_range_function (GnmExprList *exprlist, FunctionEvalInfo *ei,
 			      string_range_function_t func,
 			      CollectFlags flags,
-			      char const *func_error);
+			      GnmStdError func_error);
 
 #endif
