@@ -1,4 +1,4 @@
-Tue Jun 15 18:12:19 1999  Morten Welinder  <welinder@rentec.com>
+1999-06-15  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (biff_font_data_get_style_font): Supply correct
  	size when initialising.
@@ -10,7 +10,7 @@ Tue Jun 15 18:12:19 1999  Morten Welinder  <welinder@rentec.com>
 	* ms-formula-read.c (formula_func_data): Repopulate using xlcall.h and
 	reading the docs for each function to deduce the number of args.
 	
-Mon Jun 14 22:34:10 1999  Morten Welinder  <welinder@rentec.com>
+1999-06-14  Morten Welinder  <terra@diku.dk>
 
 	* ms-excel-read.c (biff_nasty_font_check_function): Load fontset,
  	not font.
