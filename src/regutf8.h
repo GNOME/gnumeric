@@ -4,6 +4,26 @@
 #include <sys/types.h>
 #include <regex.h>
 
+// ----------------------------------------------------------------------------
+
+#ifndef REG_EPAREN
+#define REG_EPAREN REG_BADPAT
+#endif
+
+#ifndef REG_EBRACE
+#define REG_EBRACE REG_BADPAT
+#endif
+
+#ifndef REG_EESCAPE
+#define REG_EESCAPE REG_BADPAT
+#endif
+
+#ifndef REG_OK
+#define REG_OK REG_NOERROR
+#endif
+
+// ----------------------------------------------------------------------------
+
 #ifdef HAVE_UTF8_REGEXP
 
 /* We have a usable library.  Use it.  */
