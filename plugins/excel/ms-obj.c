@@ -48,34 +48,34 @@ extern int ms_excel_read_debug;
  * fraction of cell dimension.
  *
  * NOTE: According to docs, position within cell is expressed as
- * 1/1024 of cell dimension. However, this can't be true vertically,
- * at least not for Excel 97. We use 256, which seems correct. Either
- * the docs are wrong all the time, or it is a version issue.
+ * 1/1024 of cell dimension. However, this doesn't seem to be true
+ * vertically, for Excel 97. We use 256 for >= XL97 and 1024 for
+ * preceding.
   */
 static void
-object_anchor_to_position (double points[4], MSObj*obj, Sheet const * sheet)
+object_anchor_to_position (double points[4], MSObj*obj, Sheet const * sheet,
+			   eBiff_version const ver)
 {
-	/*
-	 */
+	float const row_denominator = (ver >= eBiffV8) ? 256. : 1024.;
 
 	int	i;
 
 	for (i = 0; i < 4; i++) {
-		int pos   = obj->anchor[i].pos;
-		int nths  = obj->anchor[i].nths;
+		int const pos   = obj->anchor[i].pos;
+		int const nths  = obj->anchor[i].nths;
 
 		if (i & 1) { /* odds are rows */
-			points[i] = sheet_row_get_unit_distance (sheet, pos,
-								 pos + 1);
-			points[i] *= nths / 256.;
-			points[i] += sheet_row_get_unit_distance (sheet, 0, 
-								 pos);
+			ColRowInfo const *ri = sheet_row_get_info (sheet, pos);
+			points[i] = (int)ri->units;
+			points[i] *= nths / row_denominator;
+			points[i] += ri->margin_a_pt +
+			    sheet_row_get_unit_distance (sheet, 0, pos);
 		} else {
-			points[i] = sheet_col_get_unit_distance (sheet, pos,
-								 pos + 1);
+			ColRowInfo const *ci = sheet_col_get_info (sheet, pos);
+			points[i] = (int)ci->units;
 			points[i] *= nths / 1024.;
-			points[i] += sheet_col_get_unit_distance (sheet, 0, 
-								 pos);
+			points[i] += ci->margin_a_pt +
+			    sheet_col_get_unit_distance (sheet, 0, pos);
 		}
 	}
 
@@ -100,7 +100,8 @@ ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 	if (obj == NULL)
 		return TRUE;
 
-	object_anchor_to_position (position, obj, sheet->gnum_sheet);
+	object_anchor_to_position (position, obj, sheet->gnum_sheet,
+				   wb->ver);
 
 	switch (obj->gnumeric_type) {
 	case SHEET_OBJECT_BUTTON :
