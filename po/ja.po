@@ -15156,7 +15156,7 @@ msgstr "名前(_N)"
 
 #: src/gnumeric.xml.h:202 src/workbook-control-gui.c:2060
 msgid "_Add / Modify comment..."
-msgstr "追加(_A)/コメントの修正..."
+msgstr "コメントの追加/修正(_A)..."
 
 #: src/gnumeric.xml.h:67 src/workbook-control-gui.c:2061
 msgid "Edit the selected cell's comment"
