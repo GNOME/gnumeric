@@ -30,7 +30,7 @@ John Gotts:
 	* Make bonobo optional in the sample rpm specfile.
 
 Jukka:
-	* Improved COUPDAYS().
+	* Improved COUPDAYS() and COUPDAYBS().
 
 Morten:
 	* New Search Control Center.

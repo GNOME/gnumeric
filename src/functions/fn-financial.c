@@ -307,42 +307,30 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 
         switch (basis) {
 	case 0: /* US 30/360 */
-	        days = md - sd;
-
-	        if (! g_date_is_leap_year (sy) &&
-		    g_date_is_leap_year (my) &&
-		    mm == 2 && md == 29)
-		        --days;
-		else if (g_date_is_leap_year (sy) &&
-			 !g_date_is_leap_year (my) &&
-			 mm == 2 && md == 28) {
-		        if (sd == 29 && sm == 2)
-			        return 0;
-			else
-			        days += 2;
-		}
-
-		d = 360 - months*30 - days;
-
 	        if (freq == 1) {
+	                if (sd == 31)
+			        if (md == 31 || (md == 30))
+				        sd = 30;
+
+			if (md == 31 || (md == 29 && mm == 2)
+			    || (md == 28 && mm == 2))
+			        md = 30;
+
+			days = md - sd;
+			d = 360 - months*30 - days;
+
 			if (d >= 360) {
 			        if (days == 0 && months == 0)
 				        d = 0;
-			        else if (d % 360 == 0)
+				else if (d % 360 == 0)
 				        d = 360;
 				else
 				        d %= 360;
 			}
 		} else if (freq == 2) {
-			if ((d % 180) == 0 && days)
-			        d = 180;
-			else
-			        d %= 180;
+		        d = -1;  /* FIXME */
 		} else {
-			if ((d % 90) == 0 && days)
-			        d = 90;
-			else
-			        d %= 90;
+		        d = -1;  /* FIXME */
 		}
 
 		return d;
@@ -351,34 +339,36 @@ coupdaybs(GDate *settlement, GDate *maturity, int freq, int basis)
 	case 3:
 	        return -1;
 	case 4: /* European 30/360 */
-	        if (!g_date_is_leap_year (sy) &&
-		    g_date_is_leap_year (my) &&
-		    mm == 2 && md == 29)
-		        return 0;
-
-	        if (sd == 31)
-		        sd = 30;
-		if (md == 31)
-		        md = 30;
-
-		days = md - sd;
-		d = 360 - months*30 - days;
-
 	        if (freq == 1) {
-		        if ((d % 360) == 0 && days)
-			        d = 360;
-			else
-			        d %= 360;
+		        if (sd == 31)
+			        sd = 30;
+
+			if (md == 29 && mm == 2 && g_date_is_leap_year (my))
+			        md = 28;
+			else if (md == 31)
+			        md = 30;
+			else if (md == 28 && mm == 2 
+				 &&   g_date_is_leap_year (sy)
+				 && ! g_date_is_leap_year (my))
+			        md = 29;
+
+			days = md - sd;
+			d = 360 - months*30 - days;
+
+			if (d >= 360) {
+			        if (days == 0 && months == 0)
+				        d = 0;
+				else if (d % 360 == 0)
+				        d = 360;
+				else
+				        d %= 360;
+			}
+
 		} else if (freq == 2) {
-		        if ((d % 180) == 0 && days)
-			        d = 180;
-			else
-			        d %= 180;
-		} else
-		        if ((d % 90) == 0 && days)
-			        d = 90;
-			else
-			        d %= 90;
+		        d = -1;  /* FIXME */
+		} else {
+		        d = -1;  /* FIXME */
+		}
 		return d;
 	default:
 	        return -1;
