@@ -61,14 +61,14 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 	canvas = GNOME_CANVAS (gsheet);
 
-	if ((end_col < gsheet->top_col) ||
+	if ((end_col < gsheet->left_col) ||
 	    (end_row < gsheet->top_row) ||
 	    (start_col > gsheet->last_visible_col) ||
 	    (start_row > gsheet->last_visible_row))
 		return;
 	
 	/* The region on which we care to redraw */
-	first_col = MAX (gsheet->top_col, start_col);
+	first_col = MAX (gsheet->left_col, start_col);
 	first_row = MAX (gsheet->top_row, start_row);
 	last_col =  MIN (gsheet->last_visible_col, end_col);
 	last_row =  MIN (gsheet->last_visible_row, end_row);
@@ -95,10 +95,10 @@ sheet_view_redraw_cell_region (SheetView *sheet_view, int start_col, int start_r
 		}
 
 	/* Only draw those regions that are visible */
-	min_col = MAX (MIN (first_col, min_col), gsheet->top_col);
+	min_col = MAX (MIN (first_col, min_col), gsheet->left_col);
 	max_col = MIN (MAX (last_col, max_col), gsheet->last_visible_col);
 
-	x = sheet_col_get_distance (sheet, gsheet->top_col, min_col);
+	x = sheet_col_get_distance (sheet, gsheet->left_col, min_col);
 	y = sheet_row_get_distance (sheet, gsheet->top_row, first_row);
 	w = sheet_col_get_distance (sheet, min_col, max_col+1);
 	h = sheet_row_get_distance (sheet, first_row, last_row+1);
@@ -227,7 +227,7 @@ sheet_view_scrollbar_config (SheetView const *sheet_view)
 	ha->upper = MAX (MAX (last_col,
 			      sheet_view->sheet->cols.max_used),
 			 sheet->cursor_col);
-	ha->page_size = last_col - gsheet->top_col;
+	ha->page_size = last_col - gsheet->left_col;
 	ha->step_increment = ha->page_increment =
 	    ha->page_size / 2;
 
