@@ -326,9 +326,9 @@ cb_dialog_ok_clicked (GtkWidget *button, SortFlowState *state)
 	data->sheet = state->sel->v_range.cell.a.sheet;
 	data->range = g_new (Range, 1);
 	data->range = range_init (data->range, state->sel->v_range.cell.a.col 
-				  + (state->header && !state->is_cols) ? 1 : 0, 
+				  + ((state->header && !state->is_cols) ? 1 : 0), 
 				  state->sel->v_range.cell.a.row
-				  + (state->header && state->is_cols) ? 1 : 0,
+				  + ((state->header && state->is_cols) ? 1 : 0),
 				  state->sel->v_range.cell.b.col, 
 				  state->sel->v_range.cell.b.row);
 	data->num_clause = state->sort_items;
