@@ -295,7 +295,7 @@ gnumeric_plugin_loader_python_func_file_probe (
 	g_return_val_if_fail (input != NULL, FALSE);
 
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
-	SWITCH_TO_PLUGIN (loader->plugin);
+	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	input_wrapper = pygobject_new (G_OBJECT (input));
 	if (input_wrapper == NULL) {
 		g_warning (convert_python_exception_to_string ());

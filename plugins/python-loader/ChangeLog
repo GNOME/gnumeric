@@ -1,3 +1,8 @@
+2002-08-04  Jon K Hellan  <hellan@acm.org>
+
+	* python-loader.c (gnumeric_plugin_loader_python_func_file_open):
+	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service)).
+
 2002-07-27  Zbigniew Chyla  <cyba@gnome.pl>
 
 	* python-loader.c (initialize_python_if_needed,
