@@ -5547,6 +5547,7 @@
 	<can_focus>True</can_focus>
 	<label>_Chart Output</label>
 	<active>False</active>
+	<sensitive>False</sensitive>
 	<draw_indicator>True</draw_indicator>
 	<child>
 	  <left_attach>0</left_attach>

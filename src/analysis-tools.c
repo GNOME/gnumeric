@@ -69,8 +69,12 @@ set_cell_value (data_analysis_output_t *dao, int col, int row, Value *v)
 {
         Cell *cell;
 
-	/* Check that the output is in the given range */
-	if (dao->type == RangeOutput && (col >= dao->cols || row >= dao->rows))
+	/* Check that the output is in the given range,but allow singletons
+	 * to expand
+	 */
+	if (dao->type == RangeOutput &&
+	    (dao->cols > 1 || dao->rows > 1) &&
+	    (col >= dao->cols || row >= dao->rows))
 	        return;
 
 	cell = sheet_cell_fetch (dao->sheet, dao->start_col + col,
@@ -85,7 +89,7 @@ set_cell (data_analysis_output_t *dao, int col, int row, const char *text)
 {
 	if (text == NULL) {
 		/* FIXME: should we erase instead?  */
-		set_cell_value (dao, col, row, value_new_string (""));
+		set_cell_value (dao, col, row, value_new_empty ());
 	} else {
 		set_cell_value (dao, col, row, value_new_string (text));
 	}
@@ -3098,5 +3102,7 @@ histogram_tool (WorkbookControl *wbc, Sheet *sheet, Range *range, Range *bin_ran
 	sheet_set_dirty (dao->sheet, TRUE);
 	sheet_update (sheet);
 
+	if (chart)
+		g_warning ("TODO : tie this into the graph generator");
 	return 0;
 }

@@ -1,5 +1,11 @@
 2001-10-04  Jody Goldberg <jgoldberg@home.com>
 
+	* src/analysis-tools.c (set_cell) : Use value_new_empty in place of an
+	  empty string.
+	(set_cell_value) : don't clip singletons.
+
+2001-10-04  Jody Goldberg <jgoldberg@home.com>
+
 	* src/number-match.c (format_create_regexp) : handle embedded strings
 	  properly.
 

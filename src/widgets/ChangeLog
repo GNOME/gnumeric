@@ -1,5 +1,9 @@
 2001-10-04  Jody Goldberg <jgoldberg@home.com>
 
+	* gnumeric-combo-text.c : fix a compiler warning.
+
+2001-10-04  Jody Goldberg <jgoldberg@home.com>
+
 	* gnumeric-combo-text.c : Add some signals to clarify the useful
 	  events.  Remove the useless hash.  Search the displayed list
 	  directly.  Add some control on where to start searching the list.
