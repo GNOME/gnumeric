@@ -6,7 +6,7 @@
  * Author:
  *  Miguel de Icaza (miguel@gnu.org)
  *  Michael Meeks   (mmeeks@gnu.org)
- *  Morten Welinder (terra@diku.dk)
+ *  Morten Welinder (terra@gnome.org)
  *  Jody Goldberg   (jody@gnome.org)
  */
 #include <gnumeric-config.h>

@@ -3,7 +3,7 @@
  *
  * Author:
  *   Jon Kåre Hellan <hellan@acm.org>
- *   Morten Welinder <terra@diku.dk>
+ *   Morten Welinder <terra@gnome.org>
  *
  * Copyright (C) 2002, Jon Kåre Hellan
  */

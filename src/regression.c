@@ -2,7 +2,7 @@
  * regression.c:  Statistical regression functions.
  *
  * Authors:
- *   Morten Welinder <terra@diku.dk>
+ *   Morten Welinder <terra@gnome.org>
  *   Andrew Chatham <andrew.chatham@duke.edu>
  *   Daniel Carrera <dcarrera@math.toronto.edu>
  */

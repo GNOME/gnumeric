@@ -6,7 +6,7 @@
  *   Michael Meeks <mmeeks@gnu.org>
  *   Almer S. Tigelaar <almer@gnome.org>
  *   Jody Goldberg <jody@gnome.org>
- *   Morten Welinder <terra@diku.dk>
+ *   Morten Welinder <terra@gnome.org>
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"

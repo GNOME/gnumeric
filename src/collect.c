@@ -2,7 +2,7 @@
  * collect.c: Helpers to collect ranges of data.
  *
  * Authors:
- *   Morten Welinder <terra@diku.dk>
+ *   Morten Welinder <terra@gnome.org>
  *   Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 

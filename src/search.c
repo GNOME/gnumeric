@@ -2,7 +2,7 @@
  * search.c:  Search-and-replace for Gnumeric.
  *
  * Author:
- *   Morten Welinder (terra@diku.dk)
+ *   Morten Welinder (terra@gnome.org)
  */
 
 #include <gnumeric-config.h>

@@ -21,7 +21,7 @@
 #  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 #
 #  Authors: Darin Adler <darin@eazel.com>
-#           Morten Welinder <terra@diku.dk>
+#           Morten Welinder <terra@gnome.org>
 #
 
 # check-config-h.pl: Search for .c files where someone forgot to

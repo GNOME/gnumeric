@@ -6,7 +6,7 @@
  * dialogs/dialog-autoformat.c instead.
  *
  * Authors:
- *   Morten Welinder <terra@diku.dk>
+ *   Morten Welinder <terra@gnome.org>
  */
 
 #include <gnumeric-config.h>

@@ -5,7 +5,7 @@
  * Author:
  *    Miguel de Icaza 1998, 1999 (miguel@kernel.org)
  *    Jody Goldberg 2000-2002    (jody@gnome.org)
- *    Morten Welinder 2003       (terra@diku.dk)
+ *    Morten Welinder 2003       (terra@gnome.org)
  */
 #include <gnumeric-config.h>
 #include "gnumeric.h"

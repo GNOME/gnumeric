@@ -4,7 +4,7 @@
  *
  * Authors:
  *   Miguel de Icaza (miguel@gnu.org)
- *   Morten Welinder <terra@diku.dk>
+ *   Morten Welinder <terra@gnome.org>
  *   Jukka-Pekka Iivonen <iivonen@iki.fi>
  *   Andreas J. Guelzow <aguelzow@taliesin.ca>
  */

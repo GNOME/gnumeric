@@ -2,7 +2,7 @@
  * rangefunc.c: Functions on ranges (data sets).
  *
  * Authors:
- *   Morten Welinder <terra@diku.dk>
+ *   Morten Welinder <terra@gnome.org>
  *   Andreas J. Guelzow  <aguelzow@taliesin.ca>
  */
 

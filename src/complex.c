@@ -2,7 +2,7 @@
  * complex.c:  A quick library for complex math.
  *
  * Author:
- *  Morten Welinder <terra@diku.dk>
+ *  Morten Welinder <terra@gnome.org>
  *  Jukka-Pekka Iivonen <iivonen@iki.fi>
  */
 

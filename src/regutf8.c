@@ -2,7 +2,7 @@
  * regutf8.c:  UTF-8 regexp routines.
  *
  * Author:
- *   Morten Welinder (terra@diku.dk)
+ *   Morten Welinder (terra@gnome.org)
  */
 
 #include <gnumeric-config.h>
