@@ -1,3 +1,8 @@
+2002-04-01  Morten Welinder  <terra@diku.dk>
+
+	* fn-stat.c (gnumeric_linest, gnumeric_logest): Use value_release,
+	not g_free.
+
 2002-03-25  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.2

@@ -19,6 +19,7 @@ Jukka:
 
 Morten:
 	* More and better chunk allocation.
+	* Fixed memory corruption in LINEST and LOGEST.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.2

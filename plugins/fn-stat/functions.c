@@ -3686,18 +3686,18 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 						       COLLECT_IGNORE_BOOLS,
 						       &nx, &result);
 			if (result){
-				g_free (copy);
-				dim = i - firstcol; /*How many got allocated before failure*/
+				value_release (copy);
+				dim = i - firstcol; /* How many got allocated before failure*/
 				goto out;
 			}
 			if (nx != ny){
-				g_free (copy);
+				value_release (copy);
 				dim = i - firstcol + 1;
 				result = value_new_error (ei->pos, gnumeric_err_NUM);
 				goto out;
 			}
 		}
-		g_free (copy);
+		value_release (copy);
 	}
 	else if (ytype == SINGLE_ROW){
 		int firstrow, lastrow;
@@ -3723,18 +3723,18 @@ gnumeric_linest (FunctionEvalInfo *ei, Value *argv[])
 						       COLLECT_IGNORE_BOOLS,
 						       &nx, &result);
 			if (result){
-				g_free (copy);
+				value_release (copy);
 				dim = i - firstrow; /*How many got allocated before failure*/
 				goto out;
 			}
 			if (nx != ny){
-					g_free (copy);
+					value_release (copy);
 					dim = i - firstrow + 1;
 					result = value_new_error (ei->pos, gnumeric_err_NUM);
 					goto out;
 			}
 		}
-		g_free (copy);
+		value_release (copy);
 	}
 	else { /*Y is none of the above */
 		xarg = 1;
@@ -4055,18 +4055,18 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 						       COLLECT_IGNORE_BOOLS,
 						       &nx, &result);
 			if (result){
-				g_free (copy);
+				value_release (copy);
 				dim = i - firstcol; /*How many got allocated before failure*/
 				goto out;
 			}
 			if (nx != ny){
-				g_free (copy);
+				value_release (copy);
 				dim = i - firstcol + 1;
 				result = value_new_error (ei->pos, gnumeric_err_NUM);
 				goto out;
 			}
 		}
-		g_free (copy);
+		value_release (copy);
 	}
 	else if (ytype == SINGLE_ROW){
 		int firstrow, lastrow;
@@ -4092,18 +4092,18 @@ gnumeric_logest (FunctionEvalInfo *ei, Value *argv[])
 						       COLLECT_IGNORE_BOOLS,
 						       &nx, &result);
 			if (result){
-				g_free (copy);
+				value_release (copy);
 				dim = i - firstrow; /*How many got allocated before failure*/
 				goto out;
 			}
 			if (nx != ny){
-					g_free (copy);
+					value_release (copy);
 					dim = i - firstrow + 1;
 					result = value_new_error (ei->pos, gnumeric_err_NUM);
 					goto out;
 			}
 		}
-		g_free (copy);
+		value_release (copy);
 	}
 	else { /*Y is none of the above */
 		xarg = 1;
