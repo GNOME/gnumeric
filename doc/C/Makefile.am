@@ -286,7 +286,6 @@ sgml_ents = 					\
 	printing.sgml				\
 	selections.sgml				\
 	solver.sgml				\
-	text-entry.sgml				\
 	worksheet.sgml
 
 include $(top_srcdir)/doc/sgmldocs.make
