@@ -17,8 +17,6 @@ Pending Patches
 Long term breakage
 ------------------
 
-- Why are there 3-4 places in xml-io.c that initialise a XmlParseContext?
-
 - can_try_save_to uses access().  That's bogus in a number of ways: (a) it
   checks the wrong permissions in the set[gu]id case.  (b) It reports the
   wrong result if the path is not readable.  The Right Way to do this, is
