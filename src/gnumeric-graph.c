@@ -609,6 +609,7 @@ int
 gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 		      GnmGraphVectorType type, Sheet *sheet)
 {
+	static CellPos const dummy = {0,0};
 	GnmGraphVector *vector;
 	EvalPos ep;
 	int i;
@@ -643,7 +644,7 @@ gnm_graph_add_vector (GnmGraph *graph, ExprTree *expr,
 	vector->dep.expression = expr;
 	vector->is_header = FALSE;
 	vector->header = NULL;
-	dependent_link (&vector->dep, NULL);
+	dependent_link (&vector->dep, &dummy);
 
 	if (type == GNM_VECTOR_STRING || type == GNM_VECTOR_AUTO)
 		flags |= EVAL_PERMIT_EMPTY;

@@ -1268,9 +1268,9 @@ sheet_row_size_fit_pixels (Sheet *sheet, int row)
 		return 0;
 
 	sheet_foreach_cell_in_range (sheet, TRUE,
-				  0, row,
-				  SHEET_MAX_COLS-1, row,
-				  (ForeachCellCB)&cb_max_cell_height, &max);
+		0, row,
+		SHEET_MAX_COLS-1, row,
+		(ForeachCellCB)&cb_max_cell_height, &max);
 
 	/* Reset to the default width if the column was empty */
 	if (max <= 0)

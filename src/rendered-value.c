@@ -31,6 +31,7 @@
 #include "style-color.h"
 #include "sheet.h"
 #include "sheet-merge.h"
+#include "sheet-style.h"
 #include "format.h"
 #include "value.h"
 #include "parse-util.h"
@@ -338,10 +339,22 @@ cell_get_entered_text (Cell const *cell)
 int
 cell_rendered_height (Cell const *cell)
 {
-	if (!cell || !cell->rendered_value)
+	if (cell == NULL)
 		return 0;
-	else
-		return cell->rendered_value->height_pixel;
+
+	/* If we are not rendered and are an expressions just use the font height */
+	if (cell->rendered_value == NULL) {
+		if (cell_has_expr (cell)) {
+			MStyle const *style = sheet_style_get (cell->base.sheet,
+				cell->pos.col, cell->pos.row);
+			StyleFont *style_font = scg_get_style_font (cell->base.sheet, style);
+			int res = style_font_get_height (style_font);
+			style_font_unref (style_font);
+			return res;
+		}
+		return 0;
+	}
+	return cell->rendered_value->height_pixel;
 }
 int
 cell_rendered_width (Cell const *cell)

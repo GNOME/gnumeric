@@ -1,5 +1,11 @@
 2001-12-25  Jody Goldberg <jody@gnome.org>
 
+	* src/gnumeric-graph.c (gnm_graph_add_vector) : some added protection
+	  just in case.
+
+	* src/rendered-value.c (cell_rendered_height) : we can be smarter
+	  about unrendered expressions.
+
 	* src/eval.c (invalidate_refs) : it is ok to not rewrite the
 	  expression here.
 	(cb_name_invalidate_sheet) : new.

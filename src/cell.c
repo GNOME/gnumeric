@@ -686,7 +686,6 @@ cell_render_value (Cell *cell, gboolean dynamic_width)
 	rendered_value_calc_size_ext (cell, mstyle);
 }
 
-
 MStyle *
 cell_get_mstyle (Cell const *cell)
 {
