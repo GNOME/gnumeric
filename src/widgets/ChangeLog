@@ -1,5 +1,14 @@
 2002-04-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* gnumeric-expr-entry.c (gnm_expr_entry_rangesel_start) : set
+	  rangesel::is_valid even for empty text
+	(gee_init) : initialize rangesel::scg
+	(cb_gee_button_press_event) : new
+	(cb_gee_key_press_event) : move some code into cb_entry_changed
+	(cb_entry_changed) : also handle key press induced changes
+
+2002-04-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* gnumeric-expr-entry.c : add rangesel::is_valid
 	(gee_init) : initialize rangesel::is_valid
 	(gee_rangesel_reset) : set rangesel::is_valid

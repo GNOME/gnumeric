@@ -209,6 +209,7 @@ gee_init (GnumericExprEntry *entry)
 	entry->editing_canceled = FALSE;
 	entry->is_cell_renderer = FALSE;
 	entry->rangesel.is_valid = FALSE;
+	entry->scg = NULL;
 }
 
 static void
@@ -371,6 +372,7 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 	rs->abs_col = (gee->flags & GNUM_EE_ABS_COL) != 0;
 	rs->abs_row = (gee->flags & GNUM_EE_ABS_ROW) != 0;
 	rs->sheet = gee->target_sheet;
+	rs->is_valid = FALSE;
 	if (text == NULL)
 		return;
 	last = strlen (text);
@@ -403,8 +405,6 @@ gnm_expr_entry_rangesel_start (GnumericExprEntry *gee)
 		}
 		return;
 	}
-
-	rs->is_valid = FALSE;
 
 	if (single) {
 		rs->text_start = 0;
@@ -525,6 +525,21 @@ gee_destroy (GtkObject *object)
 }
 
 static gboolean
+cb_gee_button_press_event (GtkEntry *entry, GdkEventButton *event, GnumericExprEntry *gee)
+{
+	g_return_val_if_fail (IS_GNUMERIC_EXPR_ENTRY (gee), FALSE);
+
+	if (gee->scg) {
+		scg_rangesel_stop (gee->scg, FALSE);
+		gnm_expr_entry_rangesel_start (gee);
+		g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
+	}
+	
+	return FALSE;
+}
+
+
+static gboolean
 cb_gee_key_press_event (GtkEntry *entry,
 		     GdkEventKey *event,
 		     GnumericExprEntry *gee)
@@ -623,18 +638,9 @@ cb_gee_key_press_event (GtkEntry *entry,
 			wbcg_edit_finish (wbcg, FALSE);
 			return TRUE;
 		}
-
-	case GDK_Shift_L:
-	case GDK_Shift_R:
-	case GDK_Alt_L:
-	case GDK_Alt_R:
-		return FALSE;
 	default:
 		break;
 	}
-
-	if (!gee->is_cell_renderer && !gnm_expr_entry_can_rangesel (gee))
-		scg_rangesel_stop (gee->scg, FALSE);
 
 	return FALSE;
 }
@@ -708,6 +714,9 @@ gee_get_property (GObject      *object,
 static void
 cb_entry_changed (GtkEntry *ignored, GnumericExprEntry *gee)
 {
+	if (!gee->is_cell_renderer && !gnm_expr_entry_can_rangesel (gee))
+		scg_rangesel_stop (gee->scg, FALSE);
+
 	g_signal_emit (G_OBJECT (gee), signals [CHANGED], 0);
 }
 
@@ -735,7 +744,9 @@ gnumeric_expr_entry_new (WorkbookControlGUI *wbcg, gboolean with_icon)
 	g_signal_connect (G_OBJECT (gee->entry),
 			  "key_press_event",
 			  G_CALLBACK (cb_gee_key_press_event), gee);
-
+	g_signal_connect (G_OBJECT (gee->entry),
+			  "button_press_event",
+			  G_CALLBACK (cb_gee_button_press_event), gee);
 	g_signal_connect (G_OBJECT (gee->entry),
 		"notify::cursor-position",
 		G_CALLBACK (gee_notify_cursor_position), gee);

@@ -420,7 +420,7 @@ item_edit_init (ItemEdit *item_edit)
  * We use this to sync up the GtkEntry with our display on the screen.
  */
 static void
-entry_changed (GtkEntry *entry, void *data)
+entry_changed (GnumericExprEntry *ignore, void *data)
 {
 	GnomeCanvasItem *item = GNOME_CANVAS_ITEM (data);
 	ItemEdit *item_edit = ITEM_EDIT (item);
@@ -445,7 +445,9 @@ item_edit_destroy (GtkObject *o)
 	entry_destroy_feedback_range (item_edit);
 
 	if (item_edit->signal_changed != 0) {
-		g_signal_handler_disconnect (GTK_OBJECT (entry), item_edit->signal_changed);
+		g_signal_handler_disconnect 
+			(G_OBJECT (gtk_widget_get_parent (GTK_WIDGET (entry))), 
+			 item_edit->signal_changed);
 		g_signal_handler_disconnect (GTK_OBJECT (entry), item_edit->signal_key_press);
 		g_signal_handler_disconnect (GTK_OBJECT (entry), item_edit->signal_button_press);
 		item_edit->signal_changed = 0;
@@ -458,14 +460,14 @@ item_edit_destroy (GtkObject *o)
 static int
 entry_event (GtkEntry *entry, GdkEvent *event, GnomeCanvasItem *item)
 {
-	entry_changed (entry, item);
+	entry_changed (NULL, item);
 	return TRUE;
 }
 
 static int
 entry_cursor_event (GtkEntry *entry, GParamSpec *pspec, GnomeCanvasItem *item)
 {
-	entry_changed (entry, item);
+	entry_changed (NULL, item);
 	return TRUE;
 }
 
@@ -488,7 +490,8 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	item_edit->pos = sheet->edit_pos;
 
 	entry = item_edit->entry;
-	item_edit->signal_changed = g_signal_connect (G_OBJECT (entry),
+	item_edit->signal_changed = g_signal_connect (G_OBJECT (gtk_widget_get_parent (
+									GTK_WIDGET (entry))),
 		"changed",
 		G_CALLBACK (entry_changed), item_edit);
 	item_edit->signal_key_press = g_signal_connect_after (G_OBJECT (entry),

@@ -1,5 +1,10 @@
 2002-04-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/item-edit.c : link to the expr-entry changed signal rather than its
+	  gtkentry changed signal.
+
+2002-04-05  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/item-edit.c (point_is_inside_range) : rather than parsing
 	  using parse_surrounding_ranges, ask the expression entry
 	  widget for the already parsed info.
