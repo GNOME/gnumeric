@@ -8,6 +8,9 @@ Gnumeric Spread Sheet task list
    workbooks and active servers, instead of the current approach we
    use to have this management in the workbook.c file
 
+   The bold and italic buttons need to be updated after a load to
+   reflect the cell with the cursor.
+
 * Component
 
    Make sheet_selection_changed_hook execute a list of hooks 

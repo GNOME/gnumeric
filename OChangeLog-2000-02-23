@@ -1,3 +1,20 @@
+1999-08-15  Morten Welinder  <terra@diku.dk>
+
+	* src/fn-stat.c (gnumeric_frequency): Fix leak (bin_array).  Fix
+ 	leak (data_cl.entries).  Fix leak (bin_cl.entries).  Fix leak
+ 	(floats for data).  Fix leak (floats for bins).  Fix leak (count).
+	(gnumeric_linest): Simplify.
+	(gnumeric_intercept): Simplify.
+	(gnumeric_slope): Simplify.
+	(gnumeric_forecast): Simplify.
+
+	* src/collect.c (collect_floats_value): Make non-static.
+	(float_range_function2): Plug leak.
+
+	* src/Makefile.am (GNUMERIC_BASE_SOURCES): Add regressions.[ch].
+
+	* src/style.c (style_font_unref): Fix obsolete warning.
+
 1999-08-12  Kjartan Maraas  <kmaraas@online.no>
 
 	* src/fn-math.c: Typo fixes.

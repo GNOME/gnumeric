@@ -126,9 +126,9 @@ collect_floats (GList *exprlist, const EvalPosition *ep, CollectFlags flags,
 /* Like collect_floats, but takes a value instead of an expression list.
    Presumably most useful when the value is an array.  */
 
-static float_t *
-collect_floats_value (Value *val, const EvalPosition *ep, CollectFlags flags,
-		      int *n, Value **error)
+float_t *
+collect_floats_value (const Value *val, const EvalPosition *ep,
+		      CollectFlags flags, int *n, Value **error)
 {
 	GList *exprlist;
 	ExprTree *expr_val;
@@ -186,9 +186,16 @@ float_range_function2 (Value *val0, Value *val1, FunctionEvalInfo *ei,
 	vals0 = collect_floats_value (val0, &ei->pos,
 				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
 				      &n0, &error);
+	if (error)
+		return error;
+
 	vals1 = collect_floats_value (val1, &ei->pos,
 				      COLLECT_IGNORE_STRINGS | COLLECT_IGNORE_BOOLS,
 				      &n1, &error);
+	if (error) {
+		g_free (vals0);
+		return error;
+	}
 
 	if (n0 != n1 || n0 == 0)
 		res = value_new_error (&ei->pos, func_error);

@@ -143,6 +143,8 @@ GNUMERIC_BASE_SOURCES =				\
 	print-info.h				\
 	ranges.c				\
 	ranges.h				\
+	regression.c				\
+	regression.h				\
 	render-ascii.c				\
 	render-ascii.h				\
 	sheet.c					\

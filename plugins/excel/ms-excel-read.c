@@ -3062,8 +3062,8 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 /*	cell_deep_thaw_dependencies (); */
 
 	if (wb) {
-		ms_excel_workbook_destroy (wb);
 		workbook_recalc (wb->gnum_wb);
+		ms_excel_workbook_destroy (wb);
 		return TRUE;
 	}
 	return FALSE;

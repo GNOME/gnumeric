@@ -201,7 +201,7 @@ el_destroy (GtkObject *object)
 	el_stop_editing (el);
 	if (el->text)
 		g_free (el->text);
-	
+
 	((GtkObjectClass *)el_parent_class)->destroy (object);
 }
 
@@ -289,7 +289,7 @@ static void
 el_realize(GtkWidget *widget)
 {
   if (GTK_WIDGET_CLASS (el_parent_class)->realize)
-    (*GTK_WIDGET_CLASS (el_parent_class)->realize)(widget);
+	  (*GTK_WIDGET_CLASS (el_parent_class)->realize)(widget);
 
   gnome_canvas_item_set(GNOME_CANVAS_ITEM (EL (widget)->text_item),
                         "font_gdk",
