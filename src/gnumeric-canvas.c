@@ -344,6 +344,7 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *ev)
 	gboolean const control = 0 != (ev->state & GDK_CONTROL_MASK);
 	gboolean const alt = 0 != (ev->state & GDK_MOD1_MASK);
 	gboolean const symmetric = control && alt;
+	double delta = 1.0 / FOO_CANVAS (gcanvas)->pixels_per_unit;
 
 	switch (ev->keyval) {
 	case GDK_Escape:
@@ -393,16 +394,16 @@ gnm_canvas_key_mode_object (GnmCanvas *gcanvas, GdkEventKey *ev)
 		break;
 
 	case GDK_KP_Left: case GDK_Left:
- 		scg_objects_nudge (scg, gcanvas, (alt ? 4 : (control ? 3 : 8)), -1.0 , 0, symmetric, shift);
+ 		scg_objects_nudge (scg, gcanvas, (alt ? 4 : (control ? 3 : 8)), -delta , 0, symmetric, shift);
 		return TRUE;
 	case GDK_KP_Right: case GDK_Right:
- 		scg_objects_nudge (scg, gcanvas, (alt ? 4 : (control ? 3 : 8)), 1.0, 0, symmetric, shift);
+ 		scg_objects_nudge (scg, gcanvas, (alt ? 4 : (control ? 3 : 8)), delta, 0, symmetric, shift);
 		return TRUE;
 	case GDK_KP_Up: case GDK_Up:
- 		scg_objects_nudge (scg, gcanvas, (alt ? 6 : (control ? 1 : 8)), 0, -1.0, symmetric, shift);
+ 		scg_objects_nudge (scg, gcanvas, (alt ? 6 : (control ? 1 : 8)), 0, -delta, symmetric, shift);
 		return TRUE;
 	case GDK_KP_Down: case GDK_Down:
-		scg_objects_nudge (scg, gcanvas, (alt ? 6 : (control ? 1 : 8)), 0, 1.0, symmetric, shift);
+		scg_objects_nudge (scg, gcanvas, (alt ? 6 : (control ? 1 : 8)), 0, delta, symmetric, shift);
 		return TRUE;
 
 	default:

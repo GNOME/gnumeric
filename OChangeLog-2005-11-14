@@ -1,3 +1,9 @@
+2005-01-27  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
+
+	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object): delta is 
+	1.0 / FooCanvas::pixels_per_unit for correct behaviour when zoom is !=
+	100 %
+
 2005-01-26  Emmanuel Pacaud <emmanuel.pacaud@univ-poitiers.fr>
 
 	* src/gnumeric-canvas.c (gnm_canvas_key_mode_object): don't invert
