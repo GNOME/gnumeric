@@ -1,3 +1,14 @@
+2002-06-10  Jon K Hellan  <hellan@acm.org>
+
+	* src/file.c: Fix up includes to make the bonobo version build.
+
+	* src/plugin-service.c: Ditto.
+
+	* src/gui-file.c (ask_for_file_saver, gui_file_save_to_stream):
+	Disable for now to make the bonobo version build.
+
+	* src/workbook-control-gui.c (cb_file_send): Ditto.
+
 2002-06-07  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-view.c (wb_view_open) : convert to libgsf.

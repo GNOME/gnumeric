@@ -347,6 +347,7 @@ gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 }
 
 #ifdef WITH_BONOBO
+#ifdef GNOME2_CONVERSION_COMPLETE
 static GnumFileSaver *
 ask_for_file_saver (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 {
@@ -433,5 +434,6 @@ gui_file_save_to_stream (BonoboStream *stream, WorkbookControlGUI *wbcg,
 	gnum_file_saver_save_to_stream (fs, io_context, wb_view, stream, ev);
 	gtk_object_destroy (GTK_OBJECT (io_context));
 }
+#endif
 #endif
 

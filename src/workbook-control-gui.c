@@ -1494,6 +1494,7 @@ cb_file_save_as (GtkWidget *widget, WorkbookControlGUI *wbcg)
 }
 
 #ifdef WITH_BONOBO
+#ifdef GNOME2_CONVERSION_COMPLETE
 #ifdef ENABLE_EVOLUTION
 static void
 cb_file_send (GtkWidget *widget, WorkbookControlGUI *wbcg)
@@ -1585,6 +1586,7 @@ cb_file_send (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 	CORBA_exception_free (&ev);
 }
+#endif
 #endif
 #endif
 

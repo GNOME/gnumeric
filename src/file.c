@@ -10,6 +10,13 @@
 #include "gnumeric.h"
 #include "file.h"
 
+#ifdef WITH_BONOBO
+#include <bonobo.h>
+#include <bonobo/bonobo-stream.h>
+#include <libgnome/gnome-util.h>
+/* #include <sys/types.h> */
+#include <sys/stat.h>
+#endif
 #include "file-priv.h"
 #include "io-context.h"
 #include "command-context.h"

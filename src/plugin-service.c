@@ -15,6 +15,9 @@
 #include "io-context.h"
 #include "error-info.h"
 #include "file.h"
+#ifdef WITH_BONOBO
+#include <bonobo/bonobo-stream.h>
+#endif
 #include "file-priv.h"
 #include "plugin.h"
 
