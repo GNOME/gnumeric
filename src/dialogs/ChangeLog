@@ -1,3 +1,9 @@
+2003-04-08  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
+
+	* scenario-manager.glade: Glade interface for a scenario manager.
+	scenario-add.glade: Glade interface for a scenario add tool.
+	The rest is coming later (almost complete..).
+
 2003-04-03  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
 	* dialog-fill-series.c, fill-series.glade, dialogs.h: UI for a new

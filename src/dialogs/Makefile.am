@@ -129,6 +129,8 @@ glade_DATA = 				\
 	regression.glade		\
 	row-height.glade		\
 	sampling.glade			\
+	scenario-add.glade		\
+	scenario-manager.glade		\
 	search.glade			\
 	search-replace.glade		\
 	sheet-order.glade		\
