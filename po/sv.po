@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-05-27 11:04+0200\n"
-"PO-Revision-Date: 2003-05-27 11:05+0200\n"
+"POT-Creation-Date: 2003-05-28 16:12+0200\n"
+"PO-Revision-Date: 2003-05-28 16:16+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16776,7 +16776,7 @@ msgstr "Bivillkor:"
 
 #: plugins/mps/mps.c:247 src/commands.c:5424
 #: src/cut-n-paste-code/egg/menu/egg-action.c:120
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:958
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:959
 #: src/cut-n-paste-code/goffice/graph/gog-series.c:110
 #: src/dialogs/dialog-define-names.c:502 src/dialogs/dialog-formula-guru.c:811
 #: src/dialogs/dialog-function-select.c:418
@@ -19290,7 +19290,7 @@ msgstr "Skriv _ut..."
 
 #: src/GNOME_Gnumeric.xml.h:310
 msgid "_Quit"
-msgstr "_Asvluta"
+msgstr "_Avsluta"
 
 #: src/GNOME_Gnumeric.xml.h:311 src/workbook-control-gui.c:3306
 msgid "_Random Generator..."
@@ -20217,25 +20217,25 @@ msgstr "Bredd"
 msgid "Chart"
 msgstr "Diagram"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:984
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:985
 msgid "Step 1 of 2: Select graph type"
 msgstr "Steg 1 av 2: Välj typ av graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:992
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:993
 msgid "Step 2 of 2: Configure Graph"
 msgstr "Steg 2 av 2: Anpassa graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:997
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:998
 msgid "Configure Graph"
 msgstr "Konfigurera graf"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1070
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1071
 #: src/cut-n-paste-code/goffice/graph/gog-plot-engine.c:241
 msgid "Plot Type"
 msgstr "Plottyp"
 
 #. Set up sample button
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1163
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1164
 msgid ""
 "Show\n"
 "Sample"
@@ -20243,13 +20243,13 @@ msgstr ""
 "Visa\n"
 "exempel"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1172
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1173
 #: src/dialogs/dialog-plugin-manager.c:696
 #: src/dialogs/dialog-preferences.c:509 src/dialogs/function-select.glade.h:2
 msgid "Description"
 msgstr "Beskrivning"
 
-#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1179
+#: src/cut-n-paste-code/goffice/graph/gog-guru.c:1180
 msgid "Basic Types"
 msgstr "Grundläggande typer"
 
@@ -26604,11 +26604,11 @@ msgstr "Spara arbetsbok som"
 msgid "Which file format would you like?"
 msgstr "Vilket filformat önskar du?"
 
-#: src/gui-util.c:270
+#: src/gui-util.c:271
 msgid "Multiple errors\n"
 msgstr "Flera fel\n"
 
-#: src/gui-util.c:828
+#: src/gui-util.c:829
 #, c-format
 msgid "Unable to open file '%s'"
 msgstr "Kan inte öppna filen \"%s\""
@@ -26717,66 +26717,66 @@ msgstr "Skifta celler åt h_öger och flytta"
 msgid "C_ancel"
 msgstr "_Avbryt"
 
-#: src/main-application.c:52
+#: src/main-application.c:53
 msgid "Display Gnumeric's version"
 msgstr "Visa Gnumerics versionsnummer"
 
-#: src/main-application.c:54
+#: src/main-application.c:55
 msgid "Set the root library directory"
 msgstr "Ställ in rotbibliotekskatalogen"
 
-#: src/main-application.c:56
+#: src/main-application.c:57
 msgid "Adjust the root data directory"
 msgstr "Justera rotdatakatalogen"
 
-#: src/main-application.c:59 src/main-application.c:61
+#: src/main-application.c:60 src/main-application.c:62
 msgid "Dumps the function definitions"
 msgstr "Dumpa funktionsdefinitionerna"
 
-#: src/main-application.c:59 src/main-application.c:61
+#: src/main-application.c:60 src/main-application.c:62
 msgid "FILE"
 msgstr "FIL"
 
-#: src/main-application.c:64
+#: src/main-application.c:65
 msgid "Enables some debugging functions"
 msgstr "Aktiverar felsökningsfunktioner"
 
-#: src/main-application.c:64 src/main-application.c:67
-#: src/main-application.c:69 src/main-application.c:71
+#: src/main-application.c:65 src/main-application.c:68
+#: src/main-application.c:70 src/main-application.c:72
 msgid "LEVEL"
 msgstr "NIVÅ"
 
-#: src/main-application.c:67
+#: src/main-application.c:68
 msgid "Enables some dependency related debugging functions"
 msgstr "Aktiverar beroenderelaterade felsökningsfunktioner"
 
-#: src/main-application.c:69
+#: src/main-application.c:70
 msgid "Enables some debugging functions for expression sharing"
 msgstr "Aktiverar en del felsökningsfunktioner för uttrycksdelning"
 
-#: src/main-application.c:71
+#: src/main-application.c:72
 msgid "Enables some print debugging behavior"
 msgstr "Aktiverar felsökningsfunktioner för utskrift"
 
-#: src/main-application.c:74
+#: src/main-application.c:75
 msgid "Specify the size and location of the initial window"
 msgstr "Ange storleken på och platsen för det första fönstret"
 
-#: src/main-application.c:74
+#: src/main-application.c:75
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "BREDDxHÖJD+XAVST+YAVST"
 
-#: src/main-application.c:78
+#: src/main-application.c:79
 msgid "Don't show splash screen"
 msgstr "Visa inte startbild"
 
-#: src/main-application.c:81
+#: src/main-application.c:82
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Avsluta omedelbart efter öppning av de valda böckerna (användbart för "
 "testning)."
 
-#: src/main-application.c:111
+#: src/main-application.c:112
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -26800,7 +26800,7 @@ msgstr ""
 "\n"
 "-- Gnumeric-teamet."
 
-#: src/main-application.c:141
+#: src/main-application.c:142
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
