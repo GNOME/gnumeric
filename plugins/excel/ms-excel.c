@@ -1336,7 +1336,7 @@ ms_excel_workbook_detach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
 	GList *list = wb->excel_sheets ;
 
 	if (ans->gnum_sheet) {
-		if (!workbook_detach_sheet (wb->gnum_wb, ans->gnum_sheet))
+		if (!workbook_detach_sheet (wb->gnum_wb, ans->gnum_sheet, FALSE))
 			return FALSE;
 	}
 	
@@ -1345,7 +1345,7 @@ ms_excel_workbook_detach (MS_EXCEL_WORKBOOK * wb, MS_EXCEL_SHEET * ans)
 		{
 			wb->excel_sheets = g_list_remove(wb->excel_sheets, list->data);
 			g_assert (g_list_find(wb->excel_sheets, list->data) == NULL) ;
-			return ;
+			return FALSE;
 		}
 		else
 			list = list->next ;

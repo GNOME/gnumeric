@@ -936,7 +936,7 @@ callback_function_sumsq (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_sumsq (void *sheet, GList *expr_node_list, int eval_col,
+gnumeric_sumsq (Sheet *sheet, GList *expr_node_list, int eval_col,
 		int eval_row, char **error_string)
 {
         math_sumsq_t p;
@@ -988,7 +988,7 @@ callback_function_multinomial (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_multinomial (void *sheet, GList *expr_node_list, int eval_col,
+gnumeric_multinomial (Sheet *sheet, GList *expr_node_list, int eval_col,
 		      int eval_row, char **error_string)
 {
         math_multinomial_t p;
@@ -1049,7 +1049,7 @@ callback_function_product (Sheet *sheet, Value *value,
 }
 
 static Value *
-gnumeric_product (void *sheet, GList *expr_node_list, int eval_col,
+gnumeric_product (Sheet *sheet, GList *expr_node_list, int eval_col,
 		  int eval_row, char **error_string)
 {
         math_product_t p;

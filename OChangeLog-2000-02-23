@@ -1,5 +1,8 @@
 1999-04-29  Morten Welinder  <terra@diku.dk>
 
+	* src/fn-math.c (gnumeric_multinomial, gnumeric_product,
+ 	gnumeric_sumsq): Fix type.
+
 	* src/expr.h (OPER_ANY_BINARY, OPER_ANY_UNARY): new convenience
  	macros.
 	(struct _Sheet): declare forward reference so we can use the right
@@ -400,7 +403,7 @@ Sun Apr 18 17:59:09 EDT 1999 Gregory McLean <gregm@comstar.net>
 	* src/xml-io.c (xmlGetCoordinates): Include fix from Richard Hult:
 	Seemed to be a cut and paste error.
 
-	* src/cell.c (cell_destroy): From Morten Wellinder: destroy the
+	* src/cell.c (cell_destroy): From Morten Welinder: destroy the
 	cell->value only if it does exist.
 
 	* src/file.c (dialog_query_load_file): Set the accepted value to
@@ -474,7 +477,7 @@ Sun Apr 18 17:59:09 EDT 1999 Gregory McLean <gregm@comstar.net>
 
 	* src/fn-math.c (gnumeric_rand): Added RAND function.
 
-1999-04-05  Morten Wellinder <terra@diku.dk>
+1999-04-05  Morten Welinder <terra@diku.dk>
 
 	* src/cell.c (cell_set_rendered_text): Fix for circular
 	references.  
@@ -544,7 +547,7 @@ Sun Apr 18 17:59:09 EDT 1999 Gregory McLean <gregm@comstar.net>
 
 	* src/workbook.c (sheet_action_delete_sheet): Fix docs.
 
-1999-03-31  Morten Wellinder <terra@diku.dk>
+1999-03-31  Morten Welinder <terra@diku.dk>
 
 	* src/fn-stat.c (phi): new internal function.
 	(gnumeric_normdist): Implemented using phi instead of the built-in
@@ -574,7 +577,7 @@ Sun Apr 18 17:59:09 EDT 1999 Gregory McLean <gregm@comstar.net>
 	* src/fn-math.c (gnumeric_ceiling): Use ceil, not ceilf.  I can
 	not find documentation on this on my system
 
-1998-11-12  Morten Wellinder <terra@diku.dk>
+1998-11-12  Morten Welinder <terra@diku.dk>
 	
 	* src/fn-stat.c (gnumeric_variance): More precise method of
 	computing the variance.
@@ -762,7 +765,7 @@ Tue Mar 23 14:00:37 CET 1999 Daniel Veillard <Daniel.Veillard@w3.org>
 1999-03-16  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 	
 	* src/workbook.c: Change from active voice to passive voice in the
-	help messages for "New".  Thanks to Morden for pointing this out. 2
+	help messages for "New".  Thanks to Morten for pointing this out. 2
 
 1999-03-14  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
@@ -1977,7 +1980,7 @@ Tue Mar 23 14:00:37 CET 1999 Daniel Veillard <Daniel.Veillard@w3.org>
 	Routines used for strings hash tables that are not case
 	sensitive. 
 
-1998-11-12  Morten Wellinder <terra@diku.dk>
+1998-11-12  Morten Welinder <terra@diku.dk>
 
 	* test-parser.c: Fix to compile with the new API
 
