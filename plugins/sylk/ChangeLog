@@ -1,5 +1,6 @@
 1999-11-16  Jeff Garzik  <jgarzik@mandrakesoft.com>
 
-	* Makefile.am, sylk.c: new SYLK file import plug-in.
+	* Makefile.am, sylk.c, sylk-format.txt:
+	new SYLK file import plug-in.
 	Ultra simple, supports only cell values currently.
 
