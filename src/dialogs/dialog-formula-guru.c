@@ -451,7 +451,7 @@ formula_guru_arg_new (char * const name,
 	gtk_table_attach (GTK_TABLE (state->arg_table),
 			  as->name_label,
 			  0, 1, row, row+1,
-			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
+			  0, 0, 0, 0);
 
 	as->entry = GNUMERIC_EXPR_ENTRY (gnumeric_expr_entry_new (state->wbcg));
 	gnumeric_expr_entry_set_flags (
@@ -470,7 +470,7 @@ formula_guru_arg_new (char * const name,
 	gtk_table_attach (GTK_TABLE (state->arg_table),
 			  as->type_label,
 			  2, 3, row, row+1,
-			  GTK_EXPAND|GTK_FILL, 0, 0, 0);
+			  0, 0, 0, 0);
 	g_free (label);
 
 	/* FIXME : Do I really need focus-in ?  is there something less draconian */

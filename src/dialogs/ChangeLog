@@ -1,3 +1,8 @@
+2002-02-19  Jody Goldberg <jody@gnome.org>
+
+	* dialog-formula-guru.c (formula_guru_arg_new) : handle resize more
+	  elegantly, only the entry needs to expand, not the labels.
+
 2002-01-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.0.4

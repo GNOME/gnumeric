@@ -20,6 +20,9 @@ Morten:
 	* Back-port DATE2UNIX fix.
 	* Back-port abs/fabs fix.
 
+Gregory Margo:
+	* Improve resize behavior for formula guru.
+
 Peter Moulder:
 	http://bugzilla.gnome.org/show_bug.cgi?id=71902
 	* Problem with dif exporter.
