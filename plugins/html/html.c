@@ -45,7 +45,6 @@
 #include <rendered-value.h>
 #include "mstyle.h"
 #include <errno.h>
-#include <ctype.h>
 #include <string.h>
 
 

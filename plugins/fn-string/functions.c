@@ -39,7 +39,6 @@
 #include <rangefunc-strings.h>
 #include <collect.h>
 
-#include <ctype.h>
 #include <math.h>
 #include <limits.h>
 #include <string.h>

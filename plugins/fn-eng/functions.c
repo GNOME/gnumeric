@@ -32,7 +32,6 @@
 #include <value.h>
 #include <mathfunc.h>
 
-#include <ctype.h>
 #include <math.h>
 #include <limits.h>
 #include <string.h>
