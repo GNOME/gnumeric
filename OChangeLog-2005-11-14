@@ -1,5 +1,8 @@
 2002-11-15  Jon K Hellan  <hellan@acm.org>
 
+	* src/io-context-gtk.c (icg_init_gui): Make it dialog-like. More
+	like a splash screen, but still possible to move it out of the way.
+
 	(gnumeric_io_context_gtk_new): Declare void.
 
 2002-11-15  Jon K Hellan  <hellan@acm.org>

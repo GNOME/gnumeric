@@ -176,6 +176,9 @@ icg_init_gui (IOContextGtk *icg)
 			   GTK_WIDGET (vbox));
 	g_signal_connect (G_OBJECT (icg->window), "destroy",
 			  G_CALLBACK (cb_icg_window_destroyed), icg);
+	gtk_window_set_type_hint (icg->window,
+				  GDK_WINDOW_TYPE_HINT_DIALOG);
+	gtk_window_set_position (icg->window, GTK_WIN_POS_CENTER_ON_PARENT);
 	icg->timer  = g_timer_new ();
 	g_timer_start (icg->timer);
 }
