@@ -1,5 +1,8 @@
 2003-04-18  Jukka Pekka  <jiivonen@hutcs.cs.hut.fi>
 
+	* scenarios.c (scenario_move_range): Implemented.
+	(move_range): Implemented the simplest case.
+	
 	* scenarios.c (scenario_summary_res_cells): Result cells output added.
 
 	* dao.c (dao_set_align): Wrote.

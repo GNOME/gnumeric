@@ -479,6 +479,31 @@ scenario_delete_rows (GList *list, int row, int count)
 	}
 }
 
+static void
+move_range (scenario_t *s, const Range *origin, int col_offset, int row_offset)
+{
+	/* FIXME when multiple ranges are supported. */
+	if (range_equal (&s->range, origin)) {
+		s->range.start.col += col_offset;
+		s->range.start.row += row_offset;
+		s->range.end.col   += col_offset;
+		s->range.end.row   += row_offset;
+		g_free (s->cell_sel_str);
+
+		s->cell_sel_str = g_strdup (range_name (&s->range));
+	}
+}
+
+void
+scenario_move_range (GList *list, const Range *origin, int col_offset,
+		     int row_offset)
+{
+	while (list != NULL) {
+		move_range (list->data, origin, col_offset, row_offset);
+		list = list->next;
+	}
+}
+
 /* Scenario Manager: Ok/Cancel buttons************************************/
 
 /* Ok button pressed. */

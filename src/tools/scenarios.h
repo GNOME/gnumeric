@@ -29,6 +29,8 @@ void        scenario_insert_rows  (GList *list, int row, int count);
 void        scenario_insert_cols  (GList *list, int row, int count);
 void        scenario_delete_rows  (GList *list, int row, int count);
 void        scenario_delete_cols  (GList *list, int row, int count);
+void        scenario_move_range   (GList *list, const Range *origin,
+				   int col_offset, int row_offset);
 
 void        scenario_manager_ok   (Sheet *sheet, scenario_t *old_values);
 scenario_t *scenario_show         (WorkbookControl        *wbc,
