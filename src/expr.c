@@ -1458,12 +1458,14 @@ cellrange_relocate (const Value *v,
 		 * This is correct for insert/delete row/col but not when dealing
 		 * with cut & paste.
 		 */
-		if (rinfo->row_offset == 0)
+		if (rinfo->row_offset == 0 &&
+		    rinfo->origin.start.col == 0 && rinfo->origin.end.col >= SHEET_MAX_COLS-1)
 			needs_reloc = 2;
 		break;
 	case CELLREF_RELOCATE_ROW :
 		/* FIXME : */
-		if (rinfo->col_offset == 0)
+		if (rinfo->col_offset == 0 &&
+		    rinfo->origin.start.row == 0 && rinfo->origin.end.row >= SHEET_MAX_ROWS-1)
 			needs_reloc = 2;
 		break;
 	case CELLREF_RELOCATE_BOTH :
@@ -1476,13 +1478,14 @@ cellrange_relocate (const Value *v,
 		return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
 	case CELLREF_RELOCATE_COL :
 		/* FIXME : */
-		if (rinfo->row_offset == 0) {
+		if (rinfo->row_offset == 0 &&
+		    rinfo->origin.start.col == 0 && rinfo->origin.end.col >= SHEET_MAX_COLS-1)
 			needs_reloc = 2;
-		}
 		break;
 	case CELLREF_RELOCATE_ROW :
 		/* FIXME : */
-		if (rinfo->col_offset == 0)
+		if (rinfo->col_offset == 0 &&
+		    rinfo->origin.start.row == 0 && rinfo->origin.end.row >= SHEET_MAX_ROWS-1)
 			needs_reloc = 2;
 		break;
 	case CELLREF_RELOCATE_BOTH :

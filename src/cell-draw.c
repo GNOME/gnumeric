@@ -186,18 +186,37 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 	if (height < 0)
 		height = ri->size_pixels - (ri->margin_b + ri->margin_a + 1);
 
-	style_font = sheet_view_get_style_font (sheet, mstyle);
-
-	font = style_font_gdk_font (style_font);
-	font_height = style_font_get_height (style_font);
-	valign = mstyle_get_align_v (mstyle);
-
 	/* This rectangle has the whole area used by this cell
 	 * excluding the surrounding grid lines and margins */
 	rect.x = x1 + 1 + ci->margin_a;
 	rect.y = y1 + 1 + ri->margin_a;
 	rect.width = width;
 	rect.height = height;
+
+	if (spaninfo != NULL && sheet != NULL) {
+		/* x1, y1 are relative to this cell origin, but the cell
+		 * might be using columns to the left (if it is set to right
+		 * justify or center justify) compute the pixel difference
+		 *
+		 * NOTE : If sheet is null than center across selection will not
+		 * work currently this is only applicable to the preview-grid
+		 * (preview-grid.c)
+		 */
+		if (spaninfo->left != cell->pos.col) {
+			int offset = sheet_col_get_distance_pixels (sheet,
+				spaninfo->left, cell->pos.col);
+			rect.x     -= offset;
+			rect.width += offset;
+		}
+		if (spaninfo->right != cell->pos.col)
+			rect.width += sheet_col_get_distance_pixels (sheet,
+				cell->pos.col+1, spaninfo->right+1);
+	}
+
+	style_font = sheet_view_get_style_font (sheet, mstyle);
+	font = style_font_gdk_font (style_font);
+	font_height = style_font_get_height (style_font);
+	valign = mstyle_get_align_v (mstyle);
 
 	switch (valign) {
 	default:
@@ -225,26 +244,6 @@ cell_draw (Cell const *cell, MStyle *mstyle, CellSpanInfo const * const spaninfo
 		 */
 		text_base = rect.y + height - font->descent;
 		break;
-	}
-
-	if (spaninfo != NULL && sheet != NULL) {
-		/* x1, y1 are relative to this cell origin, but the cell
-		 * might be using columns to the left (if it is set to right
-		 * justify or center justify) compute the pixel difference
-		 *
-		 * NOTE : If sheet is null than center across selection will not
-		 * work currently this is only applicable to the preview-grid
-		 * (preview-grid.c)
-		 */
-		if (spaninfo->left != cell->pos.col) {
-			int offset = sheet_col_get_distance_pixels (sheet,
-				spaninfo->left, cell->pos.col);
-			rect.x     -= offset;
-			rect.width += offset;
-		}
-		if (spaninfo->right != cell->pos.col)
-			rect.width += sheet_col_get_distance_pixels (sheet,
-				cell->pos.col+1, spaninfo->right+1);
 	}
 
 	/* Do not allow text to impinge upon the grid lines or margins

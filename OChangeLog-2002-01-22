@@ -1,3 +1,19 @@
+2000-11-24  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print-cell.c (print_cell) : bubble the sizing code further up.
+	  src/cell-draw.c (cell_draw) : ditto.  Move towards a better api that
+	  will pass in the bounding box rather than all the parameters needed
+	  to generate it in different circumstances.
+
+2000-11-23  Jody Goldberg <jgoldberg@home.com>
+
+	* src/print-cell.c (print_cell) : until printing of the grid is synced
+	  with drawing a grid, disable the tests for width, height.
+
+	* src/expr.c (cellrange_relocate) : Use simple heuristic to help
+	  diffentiate the 'expected' behavior of  moving expressions with
+	  range references that are partially contained.
+
 2000-11-22  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-math.c (gnumeric_sumx2py2): Plug leaks.
