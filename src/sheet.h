@@ -227,7 +227,7 @@ gboolean sheet_range_contains_region (Sheet const *sheet, Range const *r,
 				      WorkbookControl *wbc, char const *cmd);
 
 /* Redraw */
-void        sheet_redraw_all              (Sheet const *sheet);
+void        sheet_redraw_all              (Sheet const *sheet, gboolean header);
 void        sheet_redraw_cell             (Cell const *cell);
 void        sheet_redraw_range            (Sheet const *sheet, Range const *r);
 void        sheet_redraw_region      	  (Sheet const *sheet,

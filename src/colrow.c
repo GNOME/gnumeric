@@ -692,8 +692,7 @@ colrow_set_visibility_list (Sheet *sheet, gboolean const is_cols,
 				&min_col, &max_col);
 		}
 
-	sheet_redraw_all (sheet);
-	sheet_redraw_headers (sheet, TRUE, TRUE, NULL);
+	sheet_redraw_all (sheet, TRUE);
 }
 
 /**

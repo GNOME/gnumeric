@@ -956,6 +956,51 @@ wbcg_menu_state_update (WorkbookControl *wbc, Sheet const *sheet, int flags)
 }
 
 static void
+wbcg_menu_state_sensitivity (WorkbookControl *wbc, gboolean sensitive)
+{
+ 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
+#ifdef ENABLE_BONOBO
+	CORBA_Environment ev;
+#endif
+
+	/* Don't disable/enable again (prevent toolbar flickering) */
+	if (wbcg->toolbar_is_sensitive != sensitive)
+		wbcg->toolbar_is_sensitive = sensitive;
+	else
+		return;
+
+#ifdef ENABLE_BONOBO
+	CORBA_exception_init (&ev);
+	bonobo_ui_component_set_prop (wbcg->uic, "/commands/MenuBar",
+				      "sensitive", sensitive ? "1" : "0", &ev);
+	bonobo_ui_component_set_prop (wbcg->uic, "/commands/StandardToolbar",
+				      "sensitive", sensitive ? "1" : "0", &ev);
+	bonobo_ui_component_set_prop (wbcg->uic, "/commands/FormatToolbar",
+				      "sensitive", sensitive ? "1" : "0", &ev);
+	bonobo_ui_component_set_prop (wbcg->uic, "/commands/ObjectToolbar",
+				      "sensitive", sensitive ? "1" : "0", &ev);
+	CORBA_exception_free (&ev);
+	/* TODO : Ugly hack to work around strange bonobo semantics for
+	 * sensitivity of containers.  Bonono likes to recursively set the state
+	 * rather than just setting the container.
+	 */
+	if (sensitive) {
+		Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
+		if (wb->undo_commands == NULL)
+			gtk_widget_set_sensitive (wbcg->undo_combo, FALSE);
+		if (wb->redo_commands == NULL)
+			gtk_widget_set_sensitive (wbcg->redo_combo, FALSE);
+	}
+#else
+	gtk_widget_set_sensitive (GNOME_APP (wbcg->toplevel)->menubar, sensitive);
+	gtk_widget_set_sensitive (wbcg->standard_toolbar, sensitive);
+	gtk_widget_set_sensitive (wbcg->format_toolbar, sensitive);
+	gtk_widget_set_sensitive (wbcg->object_toolbar, sensitive);
+#endif
+
+}
+
+static void
 wbcg_undo_redo_labels (WorkbookControl *wbc, char const *undo, char const *redo)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)wbc;
@@ -3830,6 +3875,7 @@ workbook_control_gui_ctor_class (GtkObjectClass *object_class)
 
 	wbc_class->menu_state.update      = wbcg_menu_state_update;
 	wbc_class->menu_state.sheet_prefs = wbcg_menu_state_sheet_prefs;
+	wbc_class->menu_state.sensitivity = wbcg_menu_state_sensitivity;
 }
 
 E_MAKE_TYPE(workbook_control_gui, "WorkbookControlGUI", WorkbookControlGUI,

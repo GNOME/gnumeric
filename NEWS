@@ -19,6 +19,7 @@ Jody:
 	* Parse using the assigned fmt before checking the builtins.
 	* Add simple bucketing of range dependencies.
 	* Add minor formating extension.
+	* Some simple recalc tuning speeds things up by a factor of 2.
 	* Cleanup the DOM based xml import/export utilities.
 	* Remove irritating frame around bonobo objects.
 	* Improve sheet object menus.

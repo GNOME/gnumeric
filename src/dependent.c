@@ -35,7 +35,7 @@
 #include "cell.h"
 #include "sheet.h"
 
-#define BUCKET_SIZE	256
+#define BUCKET_SIZE	128
 
 #define UNLINK_DEP(dep)							\
   do {									\
@@ -1106,6 +1106,7 @@ workbook_recalc (Workbook *wb)
 	g_return_if_fail (IS_WORKBOOK (wb));
 
 	WORKBOOK_FOREACH_DEPENDENT (wb, dep, dependent_eval (dep););
+	WORKBOOK_FOREACH_SHEET (wb, sheet, sheet_redraw_all (sheet, FALSE););
 }
 
 /**

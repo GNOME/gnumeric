@@ -46,6 +46,7 @@ typedef struct {
 	struct {
 		void (*update)      (WorkbookControl *wbc, Sheet const *sheet, int flags);
 		void (*sheet_prefs) (WorkbookControl *wbc, Sheet const *sheet);
+		void (*sensitivity) (WorkbookControl *wbc, gboolean sensitive);
 	} menu_state;
 
 	gboolean (*claim_selection)      (WorkbookControl *wbc);

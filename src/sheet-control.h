@@ -22,7 +22,7 @@ void		 sc_sheet_set	(SheetControl *sc, Sheet *sheet);
  */
 void sc_resize			(SheetControl *sc, gboolean force_scroll);
 void sc_set_zoom_factor		(SheetControl *sc);
-void sc_redraw_all		(SheetControl *sc);
+void sc_redraw_all		(SheetControl *sc, gboolean headers);
 void sc_redraw_region		(SheetControl *sc,
 				 int start_col, int start_row,
 				 int end_col, int end_row);

@@ -253,7 +253,13 @@ iterate :
 		if (cell->value != NULL)
 			value_release (cell->value);
 		cell->value = v;
-		cell_render_value (cell, TRUE);
+
+		/* Optimization : only render if it had already been rendered.
+		 * If it had not been rendered yet, then we're probably not
+		 * looking at this sheet.
+		 */
+		if (cell->rendered_value != NULL)
+			cell_render_value (cell, TRUE);
 	}
 
 	if (iterating == cell)
@@ -263,7 +269,6 @@ iterate :
 	printf ("} (%d)\n", iterating == NULL);
 #endif
 	cell->base.flags &= ~DEPENDENT_BEING_CALCULATED;
-	sheet_redraw_cell (cell);
 	return iterating == NULL;
 }
 
@@ -800,8 +805,6 @@ cellpos_cmp (CellPos const * a, CellPos const * b)
 {
 	return (a->row == b->row && a->col == b->col);
 }
-
-
 
 CellComment *
 cell_has_comment_pos (const Sheet *sheet, const CellPos *pos)

@@ -96,10 +96,10 @@ sheet_ant (Sheet *sheet, GList *ranges)
 }
 
 void
-sheet_redraw_all (Sheet const *sheet)
+sheet_redraw_all (Sheet const *sheet, gboolean headers)
 {
 	SHEET_FOREACH_CONTROL (sheet, control,
-		sc_redraw_all (control););
+		sc_redraw_all (control, headers););
 }
 
 void
@@ -852,7 +852,7 @@ sheet_update_only_grid (Sheet const *sheet)
 		p->resize_scrollbar = FALSE; /* compute_visible_region does this */
 		SHEET_FOREACH_CONTROL(sheet, control,
 			sc_compute_visible_region (control, TRUE););
-		sheet_redraw_all (sheet);
+		sheet_redraw_all (sheet, TRUE);
 	}
 
 	if (p->resize_scrollbar) {
@@ -4181,7 +4181,7 @@ sheet_adjust_preferences (Sheet const *sheet, gboolean redraw, gboolean resize)
 		if (resize)
 			sc_resize (control, FALSE);
 		if (redraw)
-			sc_redraw_all (control);
+			sc_redraw_all (control, TRUE);
 	});
 }
 
@@ -4441,7 +4441,7 @@ sheet_duplicate	(Sheet const *src)
 	sheet_set_zoom_factor (dst, src->last_zoom_factor_used, TRUE, TRUE);
 
 	sheet_set_dirty (dst, TRUE);
-	sheet_redraw_all (dst);
+	sheet_redraw_all (dst, TRUE);
 
 	return dst;
 }

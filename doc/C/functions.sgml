@@ -391,7 +391,7 @@
       <refsect1>
         <title>Description</title>
         <para>ACCRINT calculates the accrued interest for a security that pays periodic interest.  The @rate is the annual rate of the security and @par is the par value of the security. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @issue date or @settlement date is not valid, ACCRINT returns #NUM! error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If @basis &amp;lt; 0 or @basis &amp;gt; 4, ACCRINT returns #NUM! error. If @issue date is after @settlement date or they are the same, ACCRINT returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @issue date or @settlement date is not valid, ACCRINT returns #NUM! error. If @rate or @par is zero or negative, ACCRINT returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, ACCRINT returns #NUM! error. If @issue date is after @settlement date or they are the same, ACCRINT returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -419,7 +419,7 @@
       <refsect1>
         <title>Description</title>
         <para>ACCRINTM calculates and returns the accrued interest for a security from @issue to @maturity date.  @rate is the annual rate of the security and @par is the par value of the security. If you omit @par, ACCRINTM applies $1,000 instead.  @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @issue date or @maturity date is not valid, ACCRINTM returns #NUM! error. If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If @basis &amp;lt; 0 or @basis &amp;gt; 4, ACCRINTM returns #NUM! error. If @issue date is after @maturity date or they are the same, ACCRINTM returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @issue date or @maturity date is not valid, ACCRINTM returns #NUM! error. If @rate or @par is zero or negative, ACCRINTM returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, ACCRINTM returns #NUM! error. If @issue date is after @maturity date or they are the same, ACCRINTM returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -594,7 +594,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>AND(TRUE,TRUE) equals TRUE.</para>        <para>AND(TRUE,FALSE) equals FALSE.</para>        <para></para>        <para>Let us assume that A1 holds number five and A2 number one.  Then</para>        <para>AND(A1&amp;gt;3,A2&amp;lt;2) equals TRUE.</para>        <para></para>
+        <para>AND(TRUE,TRUE) equals TRUE.</para>        <para>AND(TRUE,FALSE) equals FALSE.</para>        <para></para>        <para>Let us assume that A1 holds number five and A2 number one.  Then</para>        <para>AND(A1&gt;3,A2&lt;2) equals TRUE.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-OR">OR</link>,
@@ -867,7 +867,7 @@
       <refsect1>
         <title>Description</title>
         <para>BESSELI function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.</para>
-        <para>If @x or @y are not numeric a #VALUE! error is returned. If @y &amp;lt; 0 a #NUM! error is returned. This function is Excel compatible.</para>
+        <para>If @x or @y are not numeric a #VALUE! error is returned. If @y &lt; 0 a #NUM! error is returned. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -897,7 +897,7 @@
       <refsect1>
         <title>Description</title>
         <para>BESSELJ function returns the bessel function with @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.</para>
-        <para>If @x or @y are not numeric a #VALUE! error is returned.  If @y &amp;lt; 0 a #NUM! error is returned. This function is Excel compatible.</para>
+        <para>If @x or @y are not numeric a #VALUE! error is returned.  If @y &lt; 0 a #NUM! error is returned. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -927,7 +927,7 @@
       <refsect1>
         <title>Description</title>
         <para>BESSELK function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.</para>
-        <para>If x or n are not numeric a #VALUE! error is returned. If y &amp;lt; 0 a #NUM! error is returned. This function is Excel compatible.</para>
+        <para>If x or n are not numeric a #VALUE! error is returned. If y &lt; 0 a #NUM! error is returned. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -957,7 +957,7 @@
       <refsect1>
         <title>Description</title>
         <para>BESSELY function returns the Neumann, Weber or Bessel function. @x is where the function is evaluated. @y is the order of the bessel function, if non-integer it is truncated.</para>
-        <para>If x or n are not numeric a #VALUE! error is returned. If n &amp;lt; 0 a #NUM! error is returned. This function is Excel compatible.</para>
+        <para>If x or n are not numeric a #VALUE! error is returned. If n &lt; 0 a #NUM! error is returned. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -987,7 +987,7 @@
       <refsect1>
         <title>Description</title>
         <para>BETADIST function returns the cumulative beta distribution. @a is the optional lower bound of @x and @b is the optional upper bound of @x.  If @a is not given, BETADIST uses 0.  If @b is not given, BETADIST uses 1.</para>
-        <para>If @x &amp;lt; @a or @x &amp;gt; @b BETADIST returns #NUM! error. If @alpha &amp;lt;= 0 or @beta &amp;lt;= 0, BETADIST returns #NUM! error. If @a &amp;gt;= @b BETADIST returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @x &lt; @a or @x &gt; @b BETADIST returns #NUM! error. If @alpha &lt;= 0 or @beta &lt;= 0, BETADIST returns #NUM! error. If @a &gt;= @b BETADIST returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1015,7 +1015,7 @@
       <refsect1>
         <title>Description</title>
         <para>BETAINV function returns the inverse of cumulative beta distribution.  @a is the optional lower bound of @x and @b is the optinal upper bound of @x.  If @a is not given, BETAINV uses 0.  If @b is not given, BETAINV uses 1.</para>
-        <para>If @p &amp;lt; 0 or @p &amp;gt; 1 BETAINV returns #NUM! error. If @alpha &amp;lt;= 0 or @beta &amp;lt;= 0, BETAINV returns #NUM! error. If @a &amp;gt;= @b BETAINV returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @p &lt; 0 or @p &gt; 1 BETAINV returns #NUM! error. If @alpha &lt;= 0 or @beta &lt;= 0, BETAINV returns #NUM! error. If @a &gt;= @b BETAINV returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1133,7 +1133,7 @@
       <refsect1>
         <title>Description</title>
         <para>BINOMDIST function returns the binomial distribution. @n is the number of successes, @trials is the total number of independent trials, @p is the probability of success in trials, and @cumulative describes whether to return the sum of thebinomial function from 0 to @n.</para>
-        <para>If @n or @trials are non-integer they are truncated. If @n &amp;lt; 0 or @trials &amp;lt; 0 BINOMDIST returns #NUM! error. If @n &amp;gt; trials BINOMDIST returns #NUM! error. If @p &amp;lt; 0 or @p &amp;gt; 1 BINOMDIST returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @n or @trials are non-integer they are truncated. If @n &lt; 0 or @trials &lt; 0 BINOMDIST returns #NUM! error. If @n &gt; trials BINOMDIST returns #NUM! error. If @p &lt; 0 or @p &gt; 1 BINOMDIST returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1274,7 +1274,7 @@
       <refsect1>
         <title>Description</title>
         <para>CHIDIST function returns the one-tailed probability of the chi-squared distribution. @dof is the number of degrees of freedom.</para>
-        <para>If @dof is non-integer it is truncated. If @dof &amp;lt; 1 CHIDIST returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @dof is non-integer it is truncated. If @dof &lt; 1 CHIDIST returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1303,7 +1303,7 @@
       <refsect1>
         <title>Description</title>
         <para>CHIINV function returns the inverse of the one-tailed probability of the chi-squared distribution.</para>
-        <para>If @p &amp;lt; 0 or @p &amp;gt; 1 or @dof &amp;lt; 1 CHIINV returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @p &lt; 0 or @p &gt; 1 or @dof &lt; 1 CHIINV returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1361,7 +1361,7 @@
       <refsect1>
         <title>Description</title>
         <para>CHOOSE returns the value of index @index. @index is rounded to an integer if it is not.</para>
-        <para>If @index &amp;lt; 1 or @index &amp;gt; number of values: returns #VAL!.</para>
+        <para>If @index &lt; 1 or @index &gt; number of values: returns #VAL!.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1588,7 +1588,7 @@
       <refsect1>
         <title>Description</title>
         <para>CONFIDENCE function returns the confidence interval for a mean. @x is the significance level, @stddev is the population standard deviation, and @size is the size of the sample.</para>
-        <para>If @size is non-integer it is truncated. If @size &amp;lt; 0 CONFIDENCE returns #NUM! error. If @size is 0 CONFIDENCE returns #DIV/0! error. This function is Excel compatible.</para>
+        <para>If @size is non-integer it is truncated. If @size &lt; 0 CONFIDENCE returns #NUM! error. If @size is 0 CONFIDENCE returns #DIV/0! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -1835,7 +1835,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39.  Then</para>        <para>COUNTIF(A1:A5,"&amp;lt;=28") equals 3.</para>        <para>COUNTIF(A1:A5,"&amp;lt;28") equals 2.</para>        <para>COUNTIF(A1:A5,"28") equals 1.</para>        <para>COUNTIF(A1:A5,"&amp;gt;28") equals 2.</para>        <para></para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39.  Then</para>        <para>COUNTIF(A1:A5,"&lt;=28") equals 3.</para>        <para>COUNTIF(A1:A5,"&lt;28") equals 2.</para>        <para>COUNTIF(A1:A5,"28") equals 1.</para>        <para>COUNTIF(A1:A5,"&gt;28") equals 2.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-COUNT">COUNT</link>,
@@ -2052,7 +2052,7 @@
       <refsect1>
         <title>Description</title>
         <para>CRITBINOM function returns the smallest value for which thecumulative is greater than or equal to a given value. @n is the number of trials, @p is the probability of success in trials, and @alpha is the criterion value.</para>
-        <para>If @trials is a non-integer it is truncated. If @trials &amp;lt; 0 CRITBINOM returns #NUM! error. If @p &amp;lt; 0 or @p &amp;gt; 1 CRITBINOM returns #NUM! error. If @alpha &amp;lt; 0 or @alpha &amp;gt; 1 CRITBINOM returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @trials is a non-integer it is truncated. If @trials &lt; 0 CRITBINOM returns #NUM! error. If @p &lt; 0 or @p &gt; 1 CRITBINOM returns #NUM! error. If @alpha &lt; 0 or @alpha &gt; 1 CRITBINOM returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -2219,11 +2219,11 @@
       <refsect1>
         <title>Description</title>
         <para>DAVERAGE function returns the average of the values in a list or database that match conditions specified.</para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&amp;gt;3'' or ``&amp;lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&amp;lt;30</para>        <para>&amp;gt;40     &amp;gt;46000</para>        <para></para>        <para>DAVERAGE(A1:C7, "Salary", A9:A11) equals 42296.3333.</para>        <para>DAVERAGE(A1:C7, "Age", A9:A11) equals 39.</para>        <para>DAVERAGE(A1:C7, "Salary", A9:B11) equals 40782.5.</para>        <para>DAVERAGE(A1:C7, "Age", A9:B11) equals 36.</para>        <para></para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>DAVERAGE(A1:C7, "Salary", A9:A11) equals 42296.3333.</para>        <para>DAVERAGE(A1:C7, "Age", A9:A11) equals 39.</para>        <para>DAVERAGE(A1:C7, "Salary", A9:B11) equals 40782.5.</para>        <para>DAVERAGE(A1:C7, "Age", A9:B11) equals 36.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DCOUNT">DCOUNT</link>.
@@ -2339,11 +2339,11 @@
       <refsect1>
         <title>Description</title>
         <para>DCOUNT function counts the cells that contain numbers in a database that match conditions specified.</para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&amp;gt;3'' or ``&amp;lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&amp;lt;30</para>        <para>&amp;gt;40     &amp;gt;46000</para>        <para></para>        <para>DCOUNT(A1:C7, "Salary", A9:A11) equals 3.</para>        <para>DCOUNT(A1:C7, "Salary", A9:B11) equals 2.</para>        <para>DCOUNT(A1:C7, "Name", A9:B11) equals 0.</para>        <para></para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>DCOUNT(A1:C7, "Salary", A9:A11) equals 3.</para>        <para>DCOUNT(A1:C7, "Salary", A9:B11) equals 2.</para>        <para>DCOUNT(A1:C7, "Name", A9:B11) equals 0.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DAVERAGE">DAVERAGE</link>.
@@ -2367,11 +2367,11 @@
       <refsect1>
         <title>Description</title>
         <para>DCOUNTA function counts the cells that contain data in a database that match conditions specified.</para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&amp;gt;3'' or ``&amp;lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&amp;lt;30</para>        <para>&amp;gt;40     &amp;gt;46000</para>        <para></para>        <para>DCOUNTA(A1:C7, "Salary", A9:A11) equals 3.</para>        <para>DCOUNTA(A1:C7, "Salary", A9:B11) equals 2.</para>        <para>DCOUNTA(A1:C7, "Name", A9:B11) equals 2.</para>        <para></para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>DCOUNTA(A1:C7, "Salary", A9:A11) equals 3.</para>        <para>DCOUNTA(A1:C7, "Salary", A9:B11) equals 2.</para>        <para>DCOUNTA(A1:C7, "Name", A9:B11) equals 2.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DCOUNT">DCOUNT</link>.
@@ -2600,11 +2600,11 @@
       <refsect1>
         <title>Description</title>
         <para>DGET function returns a single value from a column that match conditions specified.</para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&amp;gt;3'' or ``&amp;lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&amp;lt;30</para>        <para>&amp;gt;40     &amp;gt;46000</para>        <para></para>        <para>DGET(A1:C7, "Salary", A9:A10) equals 34323.</para>        <para>DGET(A1:C7, "Name", A9:A10) equals "Clark".</para>        <para></para>        <para>If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error.</para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>DGET(A1:C7, "Salary", A9:A10) equals 34323.</para>        <para>DGET(A1:C7, "Name", A9:A10) equals "Clark".</para>        <para></para>        <para>If none of the items match the conditions, DGET returns #VALUE! error. If more than one items match the conditions, DGET returns #NUM! error.</para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DCOUNT">DCOUNT</link>.
@@ -2628,7 +2628,7 @@
       <refsect1>
         <title>Description</title>
         <para>DISC calculates and returns the discount rate for a sequrity. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, DISC returns #NUM! error. If @basis &amp;lt; 0 or @basis &amp;gt; 4, DISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, DISC returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, DISC returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, DISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, DISC returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -2655,11 +2655,11 @@
       <refsect1>
         <title>Description</title>
         <para>DMAX function returns the largest number in a column that match conditions specified.</para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&amp;gt;3'' or ``&amp;lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&amp;lt;30</para>        <para>&amp;gt;40     &amp;gt;46000</para>        <para></para>        <para>DMAX(A1:C7, "Salary", A9:A11) equals 47242.</para>        <para>DMAX(A1:C7, "Age", A9:A11) equals 45.</para>        <para>DMAX(A1:C7, "Age", A9:B11) equals 43.</para>        <para></para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>DMAX(A1:C7, "Salary", A9:A11) equals 47242.</para>        <para>DMAX(A1:C7, "Age", A9:A11) equals 45.</para>        <para>DMAX(A1:C7, "Age", A9:B11) equals 43.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DMIN">DMIN</link>.
@@ -2683,11 +2683,11 @@
       <refsect1>
         <title>Description</title>
         <para>DMIN function returns the smallest number in a column that match conditions specified.</para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&amp;gt;3'' or ``&amp;lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&amp;lt;30</para>        <para>&amp;gt;40     &amp;gt;46000</para>        <para></para>        <para>DMIN(A1:C7, "Salary", A9:B11) equals 34323.</para>        <para>DMIN(A1:C7, "Age", A9:B11) equals 29.</para>        <para></para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>DMIN(A1:C7, "Salary", A9:B11) equals 34323.</para>        <para>DMIN(A1:C7, "Age", A9:B11) equals 29.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DMAX">DMAX</link>.
@@ -2741,7 +2741,7 @@
       <refsect1>
         <title>Description</title>
         <para>DOLLARDE converts a dollar price expressed as a fraction into a dollar price expressed as a decimal number.</para>
-        <para>If @fraction is non-integer it is truncated. If @fraction &amp;lt;= 0, DOLLARDE returns #NUM! error.</para>
+        <para>If @fraction is non-integer it is truncated. If @fraction &lt;= 0, DOLLARDE returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -2769,7 +2769,7 @@
       <refsect1>
         <title>Description</title>
         <para>DOLLARFR converts a decimal dollar price into a dollar price expressed as a fraction.</para>
-        <para>If @fraction is non-integer it is truncated. If @fraction &amp;lt;= 0, DOLLARFR returns #NUM! error.</para>
+        <para>If @fraction is non-integer it is truncated. If @fraction &lt;= 0, DOLLARFR returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -2797,11 +2797,11 @@
       <refsect1>
         <title>Description</title>
         <para>DPRODUCT function returns the product of numbers in a column that match conditions specified.</para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&amp;gt;3'' or ``&amp;lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&amp;lt;30</para>        <para>&amp;gt;40     &amp;gt;46000</para>        <para></para>        <para>DPRODUCT(A1:C7, "Age", A9:B11) equals 1247.</para>        <para></para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>DPRODUCT(A1:C7, "Age", A9:B11) equals 1247.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DSUM">DSUM</link>.
@@ -2825,11 +2825,11 @@
       <refsect1>
         <title>Description</title>
         <para>DSTDEV function returns the estimate of the standard deviation of a population based on a sample. The populations consists of numbers that match conditions specified.</para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&amp;gt;3'' or ``&amp;lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&amp;lt;30</para>        <para>&amp;gt;40     &amp;gt;46000</para>        <para></para>        <para>DSTDEV(A1:C7, "Age", A9:B11) equals 9.89949.</para>        <para>DSTDEV(A1:C7, "Salary", A9:B11) equals 9135.112506.</para>        <para></para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>DSTDEV(A1:C7, "Age", A9:B11) equals 9.89949.</para>        <para>DSTDEV(A1:C7, "Salary", A9:B11) equals 9135.112506.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DSTDEVP">DSTDEVP</link>.
@@ -2853,11 +2853,11 @@
       <refsect1>
         <title>Description</title>
         <para>DSTDEVP function returns the standard deviation of a population based on the entire populations. The populations consists of numbers that match conditions specified.</para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&amp;gt;3'' or ``&amp;lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&amp;lt;30</para>        <para>&amp;gt;40     &amp;gt;46000</para>        <para></para>        <para>DSTDEVP(A1:C7, "Age", A9:B11) equals 7.</para>        <para>DSTDEVP(A1:C7, "Salary", A9:B11) equals 6459.5.</para>        <para></para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>DSTDEVP(A1:C7, "Age", A9:B11) equals 7.</para>        <para>DSTDEVP(A1:C7, "Salary", A9:B11) equals 6459.5.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DSTDEV">DSTDEV</link>.
@@ -2881,11 +2881,11 @@
       <refsect1>
         <title>Description</title>
         <para>DSUM function returns the sum of numbers in a column that match conditions specified.</para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&amp;gt;3'' or ``&amp;lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&amp;lt;30</para>        <para>&amp;gt;40     &amp;gt;46000</para>        <para></para>        <para>DSUM(A1:C7, "Age", A9:B11) equals 72.</para>        <para>DSUM(A1:C7, "Salary", A9:B11) equals 81565.</para>        <para></para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>DSUM(A1:C7, "Age", A9:B11) equals 72.</para>        <para>DSUM(A1:C7, "Salary", A9:B11) equals 81565.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DPRODUCT">DPRODUCT</link>.
@@ -2939,11 +2939,11 @@
       <refsect1>
         <title>Description</title>
         <para>DVAR function returns the estimate of variance of a population based on a sample. The populations consists of numbers that match conditions specified.</para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&amp;gt;3'' or ``&amp;lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&amp;lt;30</para>        <para>&amp;gt;40     &amp;gt;46000</para>        <para></para>        <para>DVAR(A1:C7, "Age", A9:B11) equals 98.</para>        <para>DVAR(A1:C7, "Salary", A9:B11) equals 83450280.5.</para>        <para></para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>DVAR(A1:C7, "Age", A9:B11) equals 98.</para>        <para>DVAR(A1:C7, "Salary", A9:B11) equals 83450280.5.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DVARP">DVARP</link>.
@@ -2967,11 +2967,11 @@
       <refsect1>
         <title>Description</title>
         <para>DVARP function returns the variance of a population based on the entire populations. The populations consists of numbers that match conditions specified.</para>
-        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&amp;gt;3'' or ``&amp;lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
+        <para>@database is a range of cells in which rows of related information are records and columns of data are fields. The first row of a database contains labels for each column.</para>        <para>@field specifies which column is used in the function.  If @field is an integer, i.e. 2, the second column is used. Field can also be the label of a column.  For example, ``Age'' refers to the column with the label ``Age'' in @database range.</para>        <para>@criteria is the range of cells which contains the specified conditions.  The first row of a @criteria should contain the labels of the fields for which the criterias are for.  Cells below the labels specify conditions, for example, ``&gt;3'' or ``&lt;9''.  Equality condition can be given simply by specifing a value, e.g. ``3'' or ``John''.  Each row in @criteria specifies a separate condition, i.e. if a row in @database matches with one of the rows in @criteria then that row is counted in (technically speaking boolean OR between the rows in @criteria).  If @criteria specifies more than one columns then each of the conditions in these columns should be true that the row in @database matches (again technically speaking boolean AND between the columns in each row in @criteria).</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&amp;lt;30</para>        <para>&amp;gt;40     &amp;gt;46000</para>        <para></para>        <para>DVARP(A1:C7, "Age", A9:B11) equals 49.</para>        <para>DVARP(A1:C7, "Salary", A9:B11) equals 41725140.25.</para>        <para></para>
+        <para>Let us assume that the range A1:C7 contain the following values:</para>        <para>Name    Age     Salary</para>        <para>John    34      54342</para>        <para>Bill    35      22343</para>        <para>Clark   29      34323</para>        <para>Bob     43      47242</para>        <para>Susan   37      42932</para>        <para>Jill    45      45324</para>        <para></para>        <para>In addition, the cells A9:B11 contain the following values:</para>        <para>Age     Salary</para>        <para>&lt;30</para>        <para>&gt;40     &gt;46000</para>        <para></para>        <para>DVARP(A1:C7, "Age", A9:B11) equals 49.</para>        <para>DVARP(A1:C7, "Salary", A9:B11) equals 41725140.25.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-DVAR">DVAR</link>.
@@ -3305,7 +3305,7 @@
       <refsect1>
         <title>Description</title>
         <para>EXPONDIST function returns the exponential distribution. If the @cumulative boolean is false it will return: @y * exp (-@y*@x), otherwise it will return 1 - exp (-@y*@x).</para>
-        <para>If @x &amp;lt; 0 or @y &amp;lt;= 0 this will return an error.  This function is Excel compatible.</para>
+        <para>If @x &lt; 0 or @y &lt;= 0 this will return an error.  This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -3444,7 +3444,7 @@
       <refsect1>
         <title>Description</title>
         <para>FDIST function returns the F probability distribution. @dof1 is the numerator degrees of freedom and @dof2 is the denominator degrees of freedom.</para>
-        <para>If @x &amp;lt; 0 FDIST returns #NUM! error. If @dof1 &amp;lt; 1 or @dof2 &amp;lt; 1, FDIST returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @x &lt; 0 FDIST returns #NUM! error. If @dof1 &lt; 1 or @dof2 &lt; 1, FDIST returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -3503,7 +3503,7 @@
       <refsect1>
         <title>Description</title>
         <para>FINV function returns the inverse of the F probability distribution.</para>
-        <para>If @p &amp;lt; 0 or @p &amp;gt; 1 FINV returns #NUM! error. If @dof1 &amp;lt; 1 or @dof2 &amp;lt; 1 FINV returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @p &lt; 0 or @p &gt; 1 FINV returns #NUM! error. If @dof1 &lt; 1 or @dof2 &lt; 1 FINV returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -3531,7 +3531,7 @@
       <refsect1>
         <title>Description</title>
         <para>FISHER function returns the Fisher transformation at @x.</para>
-        <para>If @x is not-number FISHER returns #VALUE! error. If @x &amp;lt;= -1 or @x &amp;gt;= 1 FISHER returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @x is not-number FISHER returns #VALUE! error. If @x &lt;= -1 or @x &gt;= 1 FISHER returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -3817,7 +3817,7 @@
       <refsect1>
         <title>Description</title>
         <para>GAMMADIST function returns the gamma distribution. If @cum is TRUE, GAMMADIST returns the incomplete gamma function, otherwise it returns the probability mass function.</para>
-        <para>If @x &amp;lt; 0 GAMMADIST returns #NUM! error. If @alpha &amp;lt;= 0 or @beta &amp;lt;= 0, GAMMADIST returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @x &lt; 0 GAMMADIST returns #NUM! error. If @alpha &lt;= 0 or @beta &lt;= 0, GAMMADIST returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -3845,7 +3845,7 @@
       <refsect1>
         <title>Description</title>
         <para>GAMMAINV function returns the inverse of the cumulative gamma distribution.</para>
-        <para>If @p &amp;lt; 0 or @p &amp;gt; 1 GAMMAINV returns #NUM! error. If @alpha &amp;lt;= 0 or @beta &amp;lt;= 0 GAMMAINV returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @p &lt; 0 or @p &gt; 1 GAMMAINV returns #NUM! error. If @alpha &lt;= 0 or @beta &lt;= 0 GAMMAINV returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -3873,7 +3873,7 @@
       <refsect1>
         <title>Description</title>
         <para>GAMMALN function returns the natural logarithm of the gamma function.</para>
-        <para>If @x is non-number then GAMMALN returns #VALUE! error. If @x &amp;lt;= 0 then GAMMALN returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @x is non-number then GAMMALN returns #VALUE! error. If @x &lt;= 0 then GAMMALN returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -3960,7 +3960,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>GESTEP function test for if @x is &amp;gt;= @y, returning 1 if it is so, and 0 otherwise @y is optional, and defaults to 0.</para>
+        <para>GESTEP function test for if @x is &gt;= @y, returning 1 if it is so, and 0 otherwise @y is optional, and defaults to 0.</para>
         <para>If either argument is non-numeric returns a #VALUE! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -4191,7 +4191,7 @@
       <refsect1>
         <title>Description</title>
         <para>HLOOKUP function finds the col in range that has a first row cell similar to value.  If @approximate is not true it finds the col with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the col with value less than @value it returns the value in the col found at a 1 based offset in @row rows into the @range.</para>
-        <para>Returns #NUM! if @row &amp;lt; 0. Returns #REF! if @row falls outside @range.</para>
+        <para>Returns #NUM! if @row &lt; 0. Returns #REF! if @row falls outside @range.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -4277,7 +4277,7 @@
       <refsect1>
         <title>Description</title>
         <para>HYPGEOMDIST function returns the hypergeometric distribution. @x is the number of successes in the sample, @n is the number of trials, @M is the number of successes overall, and @N is thepopulation size.</para>
-        <para>If @x,@n,@M or @N is a non-integer it is truncated. If @x,@n,@M or @N &amp;lt; 0 HYPGEOMDIST returns #NUM! error. If @x &amp;gt; @M or @n &amp;gt; @N HYPGEOMDIST returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @x,@n,@M or @N is a non-integer it is truncated. If @x,@n,@M or @N &lt; 0 HYPGEOMDIST returns #NUM! error. If @x &gt; @M or @n &gt; @N HYPGEOMDIST returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -4985,7 +4985,7 @@
       <refsect1>
         <title>Description</title>
         <para>INTRATE calculates and returns the interest rate of a fully vested security. @investment is the prize of the security paid at @settlement date and @redemption is the amount to be received at @maturity date.  @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, INTRATE returns #NUM! error. If @basis &amp;lt; 0 or @basis &amp;gt; 4, INTRATE returns #NUM! error. If @settlement date is after @maturity date or they are the same, INTRATE returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, INTRATE returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, INTRATE returns #NUM! error. If @settlement date is after @maturity date or they are the same, INTRATE returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5321,7 +5321,7 @@
       <refsect1>
         <title>Description</title>
         <para>ISPMT function returns the interest paid on a given period.</para>
-        <para>If @per &amp;lt; 1 or @per &amp;gt; @nper, ISPMT returns #NUM! error.</para>
+        <para>If @per &lt; 1 or @per &gt; @nper, ISPMT returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5466,7 +5466,7 @@
       <refsect1>
         <title>Description</title>
         <para>LARGE returns the k-th largest value in a data set.</para>
-        <para>If data set is empty LARGE returns #NUM! error. If @k &amp;lt;= 0 or @k is greater than the number of data items given LARGE returns #NUM! error. This function is Excel compatible.</para>
+        <para>If data set is empty LARGE returns #NUM! error. If @k &lt;= 0 or @k is greater than the number of data items given LARGE returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5611,7 +5611,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>LN returns the natural logarithm of @x. If @x &amp;lt;= 0, LN returns #NUM! error. This function is Excel compatible.</para>
+        <para>LN returns the natural logarithm of @x. If @x &lt;= 0, LN returns #NUM! error. This function is Excel compatible.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -5671,7 +5671,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>LOG10 computes the base-10 logarithm of @x. If @x &amp;lt;= 0, LOG10 returns #NUM! error. This function is Excel compatible.</para>
+        <para>LOG10 computes the base-10 logarithm of @x. If @x &lt;= 0, LOG10 returns #NUM! error. This function is Excel compatible.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -5701,7 +5701,7 @@
     </refsynopsisdiv>
       <refsect1>
         <title>Description</title>
-        <para>LOG2 computes the base-2 logarithm of @x. If @x &amp;lt;= 0, LOG2 returns #NUM! error.</para>
+        <para>LOG2 computes the base-2 logarithm of @x. If @x &lt;= 0, LOG2 returns #NUM! error.</para>
 
     </refsect1>      <refsect1>
         <title>Examples</title>
@@ -5762,7 +5762,7 @@
       <refsect1>
         <title>Description</title>
         <para>LOGINV function returns the inverse of the lognormal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stdev is the standard deviation of the distribution.</para>
-        <para>If @p &amp;lt; 0 or @p &amp;gt; 1 or @stdev &amp;lt;= 0 LOGINV returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @p &lt; 0 or @p &gt; 1 or @stdev &lt;= 0 LOGINV returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5794,7 +5794,7 @@
       <refsect1>
         <title>Description</title>
         <para>LOGNORMDIST function returns the lognormal distribution. @x is the value for which you want the distribution, @mean is the mean of the distribution, and @stdev is the standard deviation of the distribution. This function is Excel compatible.</para>
-        <para>If @stdev = 0 LOGNORMDIST returns #DIV/0! error. If @x &amp;lt;= 0, @mean &amp;lt; 0 or @stdev &amp;lt; 0 LOGNORMDIST returns #NUM! error.</para>
+        <para>If @stdev = 0 LOGNORMDIST returns #DIV/0! error. If @x &lt;= 0, @mean &lt; 0 or @stdev &lt; 0 LOGNORMDIST returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -5879,7 +5879,7 @@
       <refsect1>
         <title>Description</title>
         <para>The MATCH function finds the row index of @seek in @vector and returns it. If the area is longer than it is wide then the sense of the search is rotated. Alternatively a single array can be used.</para>
-        <para>The @type parameter, which defaults to +1, controls the search:</para>        <para>If @type = 1,  finds largest value &amp;lt;= @seek.</para>        <para>If @type = 0,  finds first value == @seek.</para>        <para>If @type = -1, finds smallest value &amp;gt;= @seek.</para>        <para></para>        <para>For type 0, the data can be in any order.  For types -1 and +1, the data must be sorted.  (And in this case, MATCH uses a binary search to locate the index.)</para>        <para>If @seek could not be found, #N/A is returned.</para>
+        <para>The @type parameter, which defaults to +1, controls the search:</para>        <para>If @type = 1,  finds largest value &lt;= @seek.</para>        <para>If @type = 0,  finds first value == @seek.</para>        <para>If @type = -1, finds smallest value &gt;= @seek.</para>        <para></para>        <para>For type 0, the data can be in any order.  For types -1 and +1, the data must be sorted.  (And in this case, MATCH uses a binary search to locate the index.)</para>        <para>If @seek could not be found, #N/A is returned.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -6460,7 +6460,7 @@
       <refsect1>
         <title>Description</title>
         <para>NEGBINOMDIST function returns the negative binomial distribution. @f is the number of failures, @t is the threshold number of successes, and @p is the probability of a success.</para>
-        <para>If @f or @t is a non-integer it is truncated. If (@f + @t -1) &amp;lt;= 0 NEGBINOMDIST returns #NUM! error. If @p &amp;lt; 0 or @p &amp;gt; 1 NEGBINOMDIST returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @f or @t is a non-integer it is truncated. If (@f + @t -1) &lt;= 0 NEGBINOMDIST returns #NUM! error. If @p &lt; 0 or @p &gt; 1 NEGBINOMDIST returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -6576,7 +6576,7 @@
       <refsect1>
         <title>Description</title>
         <para>NORMINV function returns the inverse of the normal cumulative distribution. @p is the given probability corresponding to the normal distribution, @mean is the arithmetic mean of the distribution, and @stdev is the standard deviation of the distribution.</para>
-        <para>If @p &amp;lt; 0 or @p &amp;gt; 1 or @stdev &amp;lt;= 0 NORMINV returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @p &lt; 0 or @p &gt; 1 or @stdev &lt;= 0 NORMINV returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -6636,7 +6636,7 @@
       <refsect1>
         <title>Description</title>
         <para>NORMSINV function returns the inverse of the standard normal cumulative distribution. @p is the given probability corresponding to the normal distribution. This function is Excel compatible.</para>
-        <para>If @p &amp;lt; 0 or @p &amp;gt; 1 NORMSINV returns #NUM! error.</para>
+        <para>If @p &lt; 0 or @p &gt; 1 NORMSINV returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7045,7 +7045,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>OR(TRUE,FALSE) equals TRUE.</para>        <para>OR(3&amp;gt;4,4&amp;lt;3) equals FALSE.</para>        <para></para>
+        <para>OR(TRUE,FALSE) equals TRUE.</para>        <para>OR(3&gt;4,4&lt;3) equals FALSE.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-AND">AND</link>,
@@ -7102,7 +7102,7 @@
       <refsect1>
         <title>Description</title>
         <para>PERCENTILE function returns the 100*@k-th percentile of the given data points (that is, a number x such that a fraction @k of the data points are less than x).</para>
-        <para>If @array is empty, PERCENTILE returns #NUM! error. If @k &amp;lt; 0 or @k &amp;gt; 1, PERCENTILE returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @array is empty, PERCENTILE returns #NUM! error. If @k &lt; 0 or @k &gt; 1, PERCENTILE returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7164,7 +7164,7 @@
       <refsect1>
         <title>Description</title>
         <para>PERMUT function returns the number of permutations. @n is the number of objects, @k is the number of objects in each permutation.</para>
-        <para>If @n = 0 PERMUT returns #NUM! error. If @n &amp;lt; @k PERMUT returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @n = 0 PERMUT returns #NUM! error. If @n &lt; @k PERMUT returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7250,7 +7250,7 @@
       <refsect1>
         <title>Description</title>
         <para>POISSON function returns the Poisson distribution. @x is the number of events, @mean is the expected numeric value @cumulative describes whether to return the sum of the poisson function from 0 to @x.</para>
-        <para>If @x is a non-integer it is truncated. If @x &amp;lt;= 0 POISSON returns #NUM! error. If @mean &amp;lt;= 0 POISSON returns the #NUM! error. This function is Excel compatible.</para>
+        <para>If @x is a non-integer it is truncated. If @x &lt;= 0 POISSON returns #NUM! error. If @mean &lt;= 0 POISSON returns the #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7364,7 +7364,7 @@
       <refsect1>
         <title>Description</title>
         <para>PRICEDISC calculates and returns the price per $100 face value of a security bond.  The security does not pay interest at maturity.  @discount is the rate for which the security is discounted.  @redemption is the amount to be received on @maturity date.  @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, PRICEDISC returns #NUM! error. If @basis &amp;lt; 0 or @basis &amp;gt; 4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEDISC returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, PRICEDISC returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, PRICEDISC returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEDISC returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7392,7 +7392,7 @@
       <refsect1>
         <title>Description</title>
         <para>PRICEMAT calculates and returns the price per $100 face value of a security.  The security pays interest at maturity. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, PRICEMAT returns #NUM! error. If @basis &amp;lt; 0 or @basis &amp;gt; 4, PRICEMAT returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEMAT returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, PRICEMAT returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, PRICEMAT returns #NUM! error. If @settlement date is after @maturity date or they are the same, PRICEMAT returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7420,7 +7420,7 @@
       <refsect1>
         <title>Description</title>
         <para>PROB function returns the probability that values in a range or an array are between two limits. If @upper_limit is not given, PROB returns the probability that values in @x_range are equal to @lower_limit.</para>
-        <para>If the sum of the probabilities in @prob_range is not equal to 1 PROB returns #NUM! error. If any value in @prob_range is &amp;lt;=0 or &amp;gt; 1, PROB returns #NUM! error. If @x_range and @prob_range contain a different number of data entries, PROB returns #N/A! error. This function is Excel compatible.</para>
+        <para>If the sum of the probabilities in @prob_range is not equal to 1 PROB returns #NUM! error. If any value in @prob_range is &lt;=0 or &gt; 1, PROB returns #NUM! error. If @x_range and @prob_range contain a different number of data entries, PROB returns #N/A! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7532,7 +7532,7 @@
       <refsect1>
         <title>Description</title>
         <para>QUARTILE function returns the quartile of the given data points.</para>
-        <para>If @quart is equal to: QUARTILE returns:</para>        <para>0                      the smallest value of @array.</para>        <para>1                      the first quartile</para>        <para>2                      the second quartile</para>        <para>3                      the third quartile</para>        <para>4                      the largest value of @array.</para>        <para></para>        <para>If @array is empty, QUARTILE returns #NUM! error. If @quart &amp;lt; 0 or @quart &amp;gt; 4, QUARTILE returns #NUM! error. If @quart is not an integer, it is truncated. This function is Excel compatible.</para>
+        <para>If @quart is equal to: QUARTILE returns:</para>        <para>0                      the smallest value of @array.</para>        <para>1                      the first quartile</para>        <para>2                      the second quartile</para>        <para>3                      the third quartile</para>        <para>4                      the largest value of @array.</para>        <para></para>        <para>If @array is empty, QUARTILE returns #NUM! error. If @quart &lt; 0 or @quart &gt; 4, QUARTILE returns #NUM! error. If @quart is not an integer, it is truncated. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7650,7 +7650,7 @@
       <refsect1>
         <title>Description</title>
         <para>RandBernoulli returns a Bernoulli distributed random number.</para>
-        <para>If @p &amp;lt; 0 or @p &amp;gt; 1 RandBernoulli returns #NUM! error.</para>
+        <para>If @p &lt; 0 or @p &gt; 1 RandBernoulli returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7679,7 +7679,7 @@
       <refsect1>
         <title>Description</title>
         <para>RANDBETWEEN function returns a random integer number between @bottom and @top.</para>
-        <para>If @bottom or @top is non-integer, they are truncated. If @bottom &amp;gt; @top, RANDBETWEEN returns #NUM! error.</para>        <para>This function is Excel compatible.</para>
+        <para>If @bottom or @top is non-integer, they are truncated. If @bottom &gt; @top, RANDBETWEEN returns #NUM! error.</para>        <para>This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7707,7 +7707,7 @@
       <refsect1>
         <title>Description</title>
         <para>RandBinom returns a binomialy distributed random number.</para>
-        <para>If @p &amp;lt; 0 or @p &amp;gt; 1 RandBinom returns #NUM! error. If @trials &amp;lt; 0 RandBinom returns #NUM! error.</para>
+        <para>If @p &lt; 0 or @p &gt; 1 RandBinom returns #NUM! error. If @trials &lt; 0 RandBinom returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7765,7 +7765,7 @@
       <refsect1>
         <title>Description</title>
         <para>RANDNEGBINOM returns a negitive binomialy distributed random number.</para>
-        <para>If @p &amp;lt; 0 or @p &amp;gt; 1, RANDNEGBINOM returns #NUM! error. If @failures RANDNEGBINOM returns #NUM! error.</para>
+        <para>If @p &lt; 0 or @p &gt; 1, RANDNEGBINOM returns #NUM! error. If @failures RANDNEGBINOM returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -7880,7 +7880,7 @@
       <refsect1>
         <title>Description</title>
         <para>RECEIVED calculates and returns the amount to be received at @maturity date for a security bond. @basis is the type of day counting system you want to use:</para>
-        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, RECEIVED returns #NUM! error. If @basis &amp;lt; 0 or @basis &amp;gt; 4, RECEIVED returns #NUM! error. If @settlement date is after @maturity date or they are the same, RECEIVED returns #NUM! error.</para>
+        <para></para>        <para>0  US 30/360</para>        <para>1  actual days/actual days</para>        <para>2  actual days/360</para>        <para>3  actual days/365</para>        <para>4  European 30/360</para>        <para></para>        <para>If @basis is omitted, US 30/360 is applied. If @settlement date or @maturity date is not valid, RECEIVED returns #NUM! error. If @basis &lt; 0 or @basis &gt; 4, RECEIVED returns #NUM! error. If @settlement date is after @maturity date or they are the same, RECEIVED returns #NUM! error.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -8536,7 +8536,7 @@
       <refsect1>
         <title>Description</title>
         <para>SMALL returns the k-th smallest value in a data set.</para>
-        <para>If data set is empty SMALL returns #NUM! error. If @k &amp;lt;= 0 or @k is greater than the number of data items given SMALL returns #NUM! error. This function is Excel compatible.</para>
+        <para>If data set is empty SMALL returns #NUM! error. If @k &lt;= 0 or @k is greater than the number of data items given SMALL returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -8923,7 +8923,7 @@
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
-        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39.  Then</para>        <para>SUMIF(A1:A5,"&amp;lt;=28") equals 78.</para>        <para>SUMIF(A1:A5,"&amp;lt;28") equals 50.</para>        <para>In addition, if the cells B1, B2, ..., B5 hold numbers 5, 3, 2, 6, and 7 then:</para>        <para>SUMIF(A1:A5,"&amp;lt;=27",B1:B5) equals 8.</para>        <para></para>
+        <para>Let us assume that the cells A1, A2, ..., A5 contain numbers 23, 27, 28, 33, and 39.  Then</para>        <para>SUMIF(A1:A5,"&lt;=28") equals 78.</para>        <para>SUMIF(A1:A5,"&lt;28") equals 50.</para>        <para>In addition, if the cells B1, B2, ..., B5 hold numbers 5, 3, 2, 6, and 7 then:</para>        <para>SUMIF(A1:A5,"&lt;=27",B1:B5) equals 8.</para>        <para></para>
     </refsect1>
     <refsect1><title>See also</title>
       <para>        <link linkend="gnumeric-COUNTIF">COUNTIF</link>,
@@ -9307,7 +9307,7 @@
       <refsect1>
         <title>Description</title>
         <para>TDIST function returns the Student's t-distribution. @dof is the degree of freedom and @tails is 1 or 2 depending on whether you want one-tailed or two-tailed distribution.</para>
-        <para>If @dof &amp;lt; 1 TDIST returns #NUM! error. If @tails is neither 1 or 2 TDIST returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @dof &lt; 1 TDIST returns #NUM! error. If @tails is neither 1 or 2 TDIST returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -9420,7 +9420,7 @@
       <refsect1>
         <title>Description</title>
         <para>TINV function returns the inverse of the two-tailed Student's t-distribution.</para>
-        <para>If @p &amp;lt; 0 or @p &amp;gt; 1 or @dof &amp;lt; 1 TINV returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @p &lt; 0 or @p &gt; 1 or @dof &lt; 1 TINV returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -9914,7 +9914,7 @@
       <refsect1>
         <title>Description</title>
         <para>VLOOKUP function finds the row in range that has a first column similar to value.  If @approximate is not true it finds the row with an exact equivilance.  If @approximate is true, then the values must be sorted in order of ascending value for correct function; in this case it finds the row with value less than @value.  It returns the value in the row found at a 1 based offset in @column columns into the @range.</para>
-        <para>Returns #NUM! if @column &amp;lt; 0. Returns #REF! if @column falls outside @range.</para>
+        <para>Returns #NUM! if @column &lt; 0. Returns #REF! if @column falls outside @range.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>
@@ -9974,7 +9974,7 @@
       <refsect1>
         <title>Description</title>
         <para>WEIBULL function returns the Weibull distribution. If the @cumulative boolean is true it will return: 1 - exp (-(@x/@beta)^@alpha), otherwise it will return (@alpha/@beta^@alpha) * @x^(@alpha-1) * exp(-(@x/@beta^@alpha)).</para>
-        <para>If @x &amp;lt; 0 WEIBULL returns #NUM! error. If @alpha &amp;lt;= 0 or @beta &amp;lt;= 0 WEIBULL returns #NUM! error. This function is Excel compatible.</para>
+        <para>If @x &lt; 0 WEIBULL returns #NUM! error. If @alpha &lt;= 0 or @beta &lt;= 0 WEIBULL returns #NUM! error. This function is Excel compatible.</para>
     </refsect1>      <refsect1>
         <title>Examples</title>
         <para></para>

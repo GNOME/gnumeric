@@ -58,50 +58,6 @@ wbcg_auto_complete_destroy (WorkbookControlGUI *wbcg)
 }
 
 static void
-workbook_edit_toolbars_set_sensitive (WorkbookControlGUI *wbcg, gboolean sensitive)
-{
-#ifdef ENABLE_BONOBO
-	CORBA_Environment ev;
-#endif
-
-	/* Don't disable/enable again (prevent toolbar flickering) */
-	if (wbcg->toolbar_is_sensitive != sensitive)
-		wbcg->toolbar_is_sensitive = sensitive;
-	else
-		return;
-
-#ifdef ENABLE_BONOBO
-	CORBA_exception_init (&ev);
-	bonobo_ui_component_set_prop (wbcg->uic, "/commands/MenuBar",
-				      "sensitive", sensitive ? "1" : "0", &ev);
-	bonobo_ui_component_set_prop (wbcg->uic, "/commands/StandardToolbar",
-				      "sensitive", sensitive ? "1" : "0", &ev);
-	bonobo_ui_component_set_prop (wbcg->uic, "/commands/FormatToolbar",
-				      "sensitive", sensitive ? "1" : "0", &ev);
-	bonobo_ui_component_set_prop (wbcg->uic, "/commands/ObjectToolbar",
-				      "sensitive", sensitive ? "1" : "0", &ev);
-	CORBA_exception_free (&ev);
-	/* TODO : Ugly hack to work around strange bonobo semantics for
-	 * sensitivity of containers.  Bonono likes to recursively set the state
-	 * rather than just setting the container.
-	 */
-	if (sensitive) {
-		Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (wbcg));
-		if (wb->undo_commands == NULL)
-			gtk_widget_set_sensitive (wbcg->undo_combo, FALSE);
-		if (wb->redo_commands == NULL)
-			gtk_widget_set_sensitive (wbcg->redo_combo, FALSE);
-	}
-#else
-	gtk_widget_set_sensitive (GNOME_APP (wbcg->toplevel)->menubar, sensitive);
-	gtk_widget_set_sensitive (wbcg->standard_toolbar, sensitive);
-	gtk_widget_set_sensitive (wbcg->format_toolbar, sensitive);
-	gtk_widget_set_sensitive (wbcg->object_toolbar, sensitive);
-#endif
-
-}
-
-static void
 toolbar_timer_clear (WorkbookControlGUI *wbcg)
 {
 	/* Remove previous ui timer */
@@ -118,7 +74,7 @@ cb_thaw_ui_toolbar (gpointer *data)
 
 	g_return_val_if_fail (IS_WORKBOOK_CONTROL_GUI (wbcg), FALSE);
 
-	workbook_edit_toolbars_set_sensitive (wbcg, TRUE);
+	wb_control_menu_state_sensitivity (WORKBOOK_CONTROL (wbcg), TRUE);
 	toolbar_timer_clear (wbcg);
 
 	return TRUE;
@@ -143,7 +99,7 @@ workbook_edit_set_sensitive (WorkbookControlGUI *wbcg, gboolean flag1, gboolean 
 					 (GtkFunction) cb_thaw_ui_toolbar,
 					 wbcg);
 	} else
-		workbook_edit_toolbars_set_sensitive (wbcg, flag2);
+		wb_control_menu_state_sensitivity (WORKBOOK_CONTROL (wbcg), flag2);
 }
 
 static gboolean

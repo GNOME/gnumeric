@@ -1,3 +1,31 @@
+2001-09-18  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-control-gui.c (scg_redraw_all) : make headers optional.
+	* src/sheet-control.c (sc_redraw_all) : make headers optional.
+	* src/sheet.c (sheet_redraw_all) : make headers optional.
+
+	* src/colrow.c (colrow_set_visibility_list) : redraw_all does headers.
+
+	* src/cell.c (cell_eval_content) : don't redraw here, and only render
+	  if we were already rendered.  This will avoid rendering sheets no
+	  one is looking at.
+
+	* src/eval.c (workbook_recalc) : after a recalc redraw all, but not
+	  headers.
+
+2001-09-17  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-control.c (wb_control_menu_state_sensitivity) : new
+	  virtual.
+
+	* src/workbook-control-gui.c (wbcg_menu_state_sensitivity) : renamed
+	  and moved from.
+	* src/workbook-edit.c (workbook_edit_toolbars_set_sensitive). here.
+
+	* src/workbook-view.c (wb_view_open_custom) : Use
+	  wb_control_menu_state_sensitivity to enable/disable
+	  the menus and toolbars of the manging contol.
+
 2001-09-17  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet.c (sheet_cell_new) : add some protection.

@@ -73,7 +73,7 @@ scg_get_wbcg (SheetControlGUI const *scg)
 }
 
 static void
-scg_redraw_all (SheetControl *sc)
+scg_redraw_all (SheetControl *sc, gboolean headers)
 {
 	int i;
 	SheetControlGUI *scg = (SheetControlGUI *)sc;
@@ -85,14 +85,16 @@ scg_redraw_all (SheetControl *sc)
 		gnome_canvas_request_redraw (
 			GNOME_CANVAS (pane->gcanvas),
 			0, 0, INT_MAX, INT_MAX);
-		if (NULL != pane->col.canvas)
-			gnome_canvas_request_redraw (
-				pane->col.canvas,
-				0, 0, INT_MAX, INT_MAX);
-		if (NULL != pane->row.canvas)
-			gnome_canvas_request_redraw (
-				pane->row.canvas,
-				0, 0, INT_MAX, INT_MAX);
+		if (headers) {
+			if (NULL != pane->col.canvas)
+				gnome_canvas_request_redraw (
+					pane->col.canvas,
+					0, 0, INT_MAX, INT_MAX);
+			if (NULL != pane->row.canvas)
+				gnome_canvas_request_redraw (
+					pane->row.canvas,
+					0, 0, INT_MAX, INT_MAX);
+		}
 	}
 }
 
@@ -110,7 +112,6 @@ scg_redraw_region (SheetControl *sc,
 			start_col, start_row, end_col, end_row);
 	}
 }
-
 
 /* A rough guess of the trade off point between of redrawing all
  * and calculating the redraw size
@@ -146,9 +147,8 @@ scg_redraw_headers (SheetControl *sc,
 				}
 			}
 			/* Request excludes the far coordinate.  Add 1 to include them */
-			gnome_canvas_request_redraw (
-						     GNOME_CANVAS (pane->col.canvas),
-						     left, 0, right+1, INT_MAX);
+			gnome_canvas_request_redraw (GNOME_CANVAS (pane->col.canvas),
+				left, 0, right+1, INT_MAX);
 		}
 
 		if (row && pane->row.canvas != NULL) {
@@ -166,7 +166,7 @@ scg_redraw_headers (SheetControl *sc,
 			}
 			/* Request excludes the far coordinate.  Add 1 to include them */
 			gnome_canvas_request_redraw (GNOME_CANVAS (pane->row.canvas),
-						     0, top, INT_MAX, bottom+1);
+				0, top, INT_MAX, bottom+1);
 		}
 	}
 }
