@@ -25,6 +25,11 @@ typedef struct {
 	/* Styles */
 	Style      style;
 	GHashTable *sheets;	/* keeps a list of the Sheets on this workbook */
+
+	/* A list with all of the formulas */
+	GList      *formula_cell_list;
+
+	int        max_iterations;
 } Workbook;
 
 typedef struct {
@@ -62,6 +67,9 @@ typedef struct {
 	
 	int        max_col_used;
 	int        max_row_used;
+
+	/* The list of formulas */
+	GList      *formula_cell_list;
 } Sheet;
 
 #define SHEET_SIGNATURE 0x12349876

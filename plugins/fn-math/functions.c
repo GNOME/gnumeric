@@ -459,6 +459,96 @@ gnumeric_log10 (Value *argv [], char **error_string)
 	return v;
 }
 
+enum {
+	OP_MIN,
+	OP_MAX
+};
+
+typedef struct {
+	int   operation;
+	int   found;
+	Value *result;
+} min_max_closure_t;
+
+static int
+callback_function_min_max (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+	min_max_closure_t *mm = closure;
+	
+	switch (value->type){
+	case VALUE_INTEGER:
+		if (mm->found){
+			if (mm->operation == OP_MIN){
+				if (value->v.v_int < mm->result->v.v_float)
+					mm->result->v.v_float = value->v.v_int;
+			} else {
+				if (value->v.v_int > mm->result->v.v_float)
+					mm->result->v.v_float = value->v.v_int;
+			}
+		} else {
+			mm->found = 1;
+			mm->result->v.v_float = value->v.v_int;
+		}
+		break;
+
+	case VALUE_FLOAT:
+		if (mm->found){
+			if (mm->operation == OP_MIN){
+				if (value->v.v_float < mm->result->v.v_float)
+					mm->result->v.v_float = value->v.v_float;
+			} else {
+				if (value->v.v_float > mm->result->v.v_float)
+					mm->result->v.v_float = value->v.v_float;
+			}
+		} else {
+			mm->found = 1;
+			mm->result->v.v_float = value->v.v_float;
+		}
+
+	default:
+		/* ignore strings */
+	}
+	
+	return TRUE;
+}
+
+static Value *
+gnumeric_min (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	min_max_closure_t closure;
+	Sheet *sheet = (Sheet *) tsheet;
+
+	closure.operation = OP_MIN;
+	closure.found  = 0;
+	closure.result = g_new (Value, 1);
+	closure.result->type = VALUE_FLOAT;
+	closure.result->v.v_float = 0;
+
+	function_iterate_argument_values (sheet, callback_function_min_max,
+					  &closure, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	return 	closure.result;
+}
+
+static Value *
+gnumeric_max (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	min_max_closure_t closure;
+	Sheet *sheet = (Sheet *) tsheet;
+
+	closure.operation = OP_MAX;
+	closure.found  = 0;
+	closure.result = g_new (Value, 1);
+	closure.result->type = VALUE_FLOAT;
+	closure.result->v.v_float = 0;
+
+	function_iterate_argument_values (sheet, callback_function_min_max,
+					  &closure, expr_node_list,
+					  eval_col, eval_row, error_string);
+	return 	closure.result;
+}
+
 static char *help_or = {
 	N_("<function>OR</function>"
 	   "<syntax>OR(b1, b2, ...)</syntax>"
@@ -664,6 +754,8 @@ FunctionDefinition math_functions [] = {
 	{ "log",     "f",    "number",    NULL, NULL, gnumeric_log },
 	{ "log2",    "f",    "number",    NULL, NULL, gnumeric_log2 },
 	{ "log10",   "f",    "number",    NULL, NULL, gnumeric_log10 },
+	{ "min",     0,      "",          NULL, gnumeric_min, NULL },
+	{ "max",     0,      "",          NULL, gnumeric_max, NULL },
 	{ "or",      0,      "",          &help_or, gnumeric_or, NULL },
 	{ "radians", "f",    "number",    NULL, NULL, gnumeric_radians },
 	{ "sin",     "f",    "number",    NULL, NULL, gnumeric_sin },

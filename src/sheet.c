@@ -1328,6 +1328,17 @@ sheet_cell_new (Sheet *sheet, int col, int row)
 	return cell;
 }
 
+static void
+cell_formula_link (Sheet *sheet, Cell *cell)
+{
+	sheet->formula_cell_list = g_list_insert (sheet->formula_cell_list, cell);
+}
+
+static void
+cell_formula_unlink (Sheet *sheet, Cell *cell)
+{
+	sheet->formula_cell_list = g_list_remove (sheet->formula_cell_list, cell);
+}
 
 void
 cell_set_formula (Sheet *sheet, Cell *cell, char *text)
@@ -1350,6 +1361,7 @@ cell_set_formula (Sheet *sheet, Cell *cell, char *text)
 		return;
 	}
 
+	cell_formula_link (sheet, cell);
 	sheet_compute_cell (sheet, cell);
 }
 
@@ -1427,5 +1439,4 @@ cell_set_text (Sheet *sheet, Cell *cell, char *text)
 		gdk_text_width (font, rendered_text, strlen (rendered_text));
 	cell->height = font->ascent + font->descent;
 }
-
 

@@ -1,3 +1,15 @@
+1998-08-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/eval.c (add_tree_deps, cell_add_dependencies,
+	add_value_deps, dependency_hash_init, dependency_hash,
+	dependency_equal): New functions to maintain the
+	DependencyRanges. 
+
+	* src/fn-math.c 
+	(gnumeric_max): Implemented function MAX.
+	(gnumeric_min): Implemented function MIN.
+	
+
 1998-08-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/expr.c (eval_expr): Implemented exponentiation.

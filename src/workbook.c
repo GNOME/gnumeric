@@ -235,6 +235,8 @@ workbook_new (void)
 	wb->sheets    = g_hash_table_new (g_str_hash, g_str_equal);
 	wb->table     = gtk_table_new (0, 0, 0);
 
+	wb->max_iterations = 1;
+	
 	workbook_setup_status_area (wb);
 	workbook_setup_edit_area (wb);
 	workbook_setup_sheets (wb);
@@ -242,7 +244,7 @@ workbook_new (void)
 	gnome_app_create_menus (GNOME_APP (wb->toplevel), workbook_menu);
 
 	/* Set the default operation to be performed over selections */
-	workbook_set_auto_expr (wb, "SUM(SELECTION())");
+	workbook_set_auto_expr (wb, "MIN(SELECTION())");
 
 	gtk_widget_show_all (wb->table);
 	return wb;
@@ -341,5 +343,10 @@ workbook_new_with_sheets (int sheet_count)
  */
 void
 workbook_realized (Workbook *workbook, GdkWindow *window)
+{
+}
+
+void
+workbook_recalc_all (Workbook *workbook)
 {
 }
