@@ -49,7 +49,7 @@ typedef enum {
 #define dependent_needs_recalc(dep)	((dep)->flags & DEPENDENT_NEEDS_RECALC)
 #define dependent_is_linked(dep)	((dep)->flags & DEPENDENT_IS_LINKED)
 
-struct _DependencyContainer {
+struct _GnmDepContainer {
 	Dependent *dependent_list;
 
 	/* Large ranges hashed on 'range' to accelerate duplicate culling. This
@@ -95,10 +95,8 @@ void sheet_deps_destroy		 (Sheet *sheet);
 void workbook_deps_destroy	 (Workbook *wb);
 void workbook_queue_all_recalc	 (Workbook *wb);
 
-DependencyContainer *dependency_data_new (void);
-
-void sheet_dump_dependencies	 (Sheet const *sheet);
-void dependent_debug_name	 (Dependent const *dep, FILE *out);
+GnmDepContainer *gnm_dep_container_new  (void);
+void		 gnm_dep_container_dump	(GnmDepContainer const *deps);
 
 #define DEPENDENT_CONTAINER_FOREACH_DEPENDENT(dc, dep, code)	\
   do {								\
@@ -125,5 +123,7 @@ t ## _get_dep_type (void)					\
 	}							\
 	return type;						\
 }
+
+void dependent_debug_name (Dependent const *dep, FILE *out);
 
 #endif /* GNUMERIC_EVAL_H */

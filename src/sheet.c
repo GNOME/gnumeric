@@ -237,7 +237,7 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->hash_merged = g_hash_table_new ((GHashFunc)&cellpos_hash,
 					       (GCompareFunc)&cellpos_cmp);
 
-	sheet->deps	 = dependency_data_new ();
+	sheet->deps	 = gnm_dep_container_new ();
 	sheet->cell_hash = g_hash_table_new ((GHashFunc)&cellpos_hash,
 					     (GCompareFunc)&cellpos_cmp);
 

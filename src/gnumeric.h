@@ -87,7 +87,7 @@ typedef struct _FunctionDefinition      FunctionDefinition;
 typedef struct _PrintInformation        PrintInformation;
 typedef struct _String	 	        String;
 
-typedef struct _DependencyContainer     DependencyContainer;
+typedef struct _GnmDepContainer		GnmDepContainer;
 
 typedef struct _StyleFormat	        StyleFormat;
 typedef struct _StyleFont	        StyleFont;

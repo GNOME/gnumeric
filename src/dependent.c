@@ -537,7 +537,7 @@ link_single_dep (Dependent *dep, CellPos const *pos, CellRef const *ref)
 {
 	DependencySingle lookup;
 	DependencySingle *single;
-	DependencyContainer *deps;
+	GnmDepContainer *deps;
 	DependentFlags flag = DEPENDENT_NO_FLAG;
  
 	if (ref->sheet != NULL) {
@@ -567,7 +567,7 @@ unlink_single_dep (Dependent *dep, CellPos const *pos, CellRef const *a)
 {
 	DependencySingle lookup;
 	DependencySingle *single;
-	DependencyContainer *deps = eval_sheet (a->sheet, dep->sheet)->deps;
+	GnmDepContainer *deps = eval_sheet (a->sheet, dep->sheet)->deps;
 
 	if (!deps)
 		return;
@@ -584,7 +584,7 @@ unlink_single_dep (Dependent *dep, CellPos const *pos, CellRef const *a)
 }
 
 static void
-link_range_dep (DependencyContainer *deps, Dependent *dep,
+link_range_dep (GnmDepContainer *deps, Dependent *dep,
 		DependencyRange const *r)
 {
 	int i = r->range.start.row / BUCKET_SIZE;
@@ -617,7 +617,7 @@ link_range_dep (DependencyContainer *deps, Dependent *dep,
 }
 
 static void
-unlink_range_dep (DependencyContainer *deps, Dependent *dep,
+unlink_range_dep (GnmDepContainer *deps, Dependent *dep,
 		  DependencyRange const *r)
 {
 	int i = r->range.start.row / BUCKET_SIZE;
@@ -1200,7 +1200,7 @@ cell_foreach_single_dep (Sheet const *sheet, int col, int row,
 			 DepFunc func, gpointer user)
 {
 	DependencySingle lookup, *single;
-	DependencyContainer *deps = sheet->deps;
+	GnmDepContainer *deps = sheet->deps;
 
 	lookup.pos.col = col;
 	lookup.pos.row = row;
@@ -1616,7 +1616,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 {
 	static CellPos const dummy = { 0, 0 };
 	DependentFlags filter = DEPENDENT_LINK_FLAGS; /* unlink everything */
-	DependencyContainer *deps;
+	GnmDepContainer *deps;
 
 	g_return_if_fail (IS_SHEET (sheet));
 
@@ -1753,10 +1753,10 @@ workbook_recalc_all (Workbook *wb)
 		sheet_update (wb_view_cur_sheet (view)););
 }
 
-DependencyContainer *
-dependency_data_new (void)
+GnmDepContainer *
+gnm_dep_container_new (void)
 {
-	DependencyContainer *deps = g_new (DependencyContainer, 1);
+	GnmDepContainer *deps = g_new (GnmDepContainer, 1);
 
 	deps->dependent_list = NULL;
 
@@ -1813,45 +1813,34 @@ dump_single_dep (gpointer key, gpointer value, gpointer closure)
 }
 
 /**
- * sheet_dump_dependencies :
- * @sheet :
+ * gnm_dep_container_dump :
+ * @deps :
  *
  * A useful utility for checking the state of the dependency data structures.
  */
 void
-sheet_dump_dependencies (Sheet const *sheet)
+gnm_dep_container_dump (GnmDepContainer const *deps)
 {
-	DependencyContainer *deps;
+	int i;
 
-	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (deps != NULL);
 
-	deps = sheet->deps;
-
-	if (deps) {
-		int i;
-		printf ("For %s:%s\n",
-			sheet->workbook->filename
-			?  sheet->workbook->filename
-			: "(no name)",
-			sheet->name_unquoted);
-
-		for (i = (SHEET_MAX_ROWS-1)/BUCKET_SIZE; i >= 0 ; i--) {
-			GHashTable *hash = sheet->deps->range_hash[i];
-			if (hash != NULL && g_hash_table_size (hash) > 0) {
-				printf ("Bucket %d (%d-%d): Range hash size %d: range over which cells in list depend\n",
-					i, i * BUCKET_SIZE, (i + 1) * BUCKET_SIZE - 1,
-					g_hash_table_size (hash));
-				g_hash_table_foreach (hash,
-						      dump_range_dep, NULL);
-			}
+	for (i = (SHEET_MAX_ROWS-1)/BUCKET_SIZE; i >= 0 ; i--) {
+		GHashTable *hash = deps->range_hash[i];
+		if (hash != NULL && g_hash_table_size (hash) > 0) {
+			printf ("Bucket %d (%d-%d): Range hash size %d: range over which cells in list depend\n",
+				i, i * BUCKET_SIZE, (i + 1) * BUCKET_SIZE - 1,
+				g_hash_table_size (hash));
+			g_hash_table_foreach (hash,
+					      dump_range_dep, NULL);
 		}
+	}
 
-		if (g_hash_table_size (deps->single_hash) > 0) {
-			printf ("Single hash size %d: cell on which list of cells depend\n",
-				g_hash_table_size (deps->single_hash));
-			g_hash_table_foreach (deps->single_hash,
-					      dump_single_dep, NULL);
-		}
+	if (g_hash_table_size (deps->single_hash) > 0) {
+		printf ("Single hash size %d: cell on which list of cells depend\n",
+			g_hash_table_size (deps->single_hash));
+		g_hash_table_foreach (deps->single_hash,
+				      dump_single_dep, NULL);
 	}
 }
 

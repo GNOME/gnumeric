@@ -3,6 +3,7 @@
 	* Massive rename
 	ExprTree -> GnmExpr
 	eval.[ch] -> dependent.[ch]
+	DependentContainer -> GnmDepContainer
 
 	* src/print-info.c (load_formats) : suppress some warnings.
 

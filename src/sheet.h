@@ -71,7 +71,7 @@ struct _Sheet {
 
         SolverParameters *solver_parameters;
 
-	DependencyContainer *deps;
+	GnmDepContainer *deps;
 
 	GSList		 *list_merged;
 	GHashTable	 *hash_merged;

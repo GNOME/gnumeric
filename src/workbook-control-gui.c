@@ -1858,7 +1858,6 @@ cb_edit_goto (GtkWidget *unused, WorkbookControlGUI *wbcg)
 static void
 cb_edit_recalc (GtkWidget *widget, WorkbookControlGUI *wbcg)
 {
-	/* sheet_dump_dependencies (wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg))); */
 	workbook_recalc_all (wb_control_workbook (WORKBOOK_CONTROL (wbcg)));
 }
 
@@ -3454,7 +3453,7 @@ cb_workbook_debug_info (GtkWidget *widget, WorkbookControlGUI *wbcg)
 
 	if (dependency_debugging > 0) {
 		printf ("Dependencies\n");
-		sheet_dump_dependencies (sheet);
+		gnm_dep_container_dump (sheet->deps);
 	}
 
 	if (expression_sharing_debugging > 0) {

@@ -152,7 +152,7 @@ workbook_finalize (GObject *wb_object)
 		 * be ok for debug code.
 		 */
 		if (gnumeric_debugging > 0)
-			sheet_dump_dependencies (sheet);
+			gnm_dep_container_dump (sheet->deps);
 	}
 
 #ifdef BIT_ROT
