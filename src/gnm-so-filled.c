@@ -131,7 +131,7 @@ enum {
 };
 
 static GogStyle *
-sof_default_style ()
+sof_default_style (void)
 {
 	GogStyle *res = gog_style_new ();
 	res->interesting_fields = GOG_STYLE_OUTLINE | GOG_STYLE_FILL;
