@@ -1,3 +1,7 @@
+2003-09-08  Jan Morén  <jan.moren@lucs.lu.se>
+
+	* sv.po: Updated Swedish translation.
+
 2003-09-07  Jody Goldberg <jody@gnome.org>
 
 	* POTFILES.in : Add missing util classes from the charting engine
