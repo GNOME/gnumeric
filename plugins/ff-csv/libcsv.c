@@ -21,6 +21,7 @@
 
 #include <stdio.h>
 #include <string.h> 
+#include <stdlib.h> 
 #include "libcsv.h"
 
 static char linebuf[16384];		/* Hack for now */
@@ -136,7 +137,8 @@ static int smash_fields(char *ptr, char **array, int len)
 }
 
 
-char * read_line(FILE *f)
+static char *
+read_line(FILE *f)
 {
 	int n;
 	if(fgets(linebuf, sizeof(linebuf),f)==NULL)

@@ -31,7 +31,8 @@
 #     define XB_GETDOUBLE(p)   (xb_getdouble(p))
 #     define XB_SETDOUBLE(p,q) (xb_setdouble(p,q))
 
-double xb_getdouble (guint8 *p)
+static double
+xb_getdouble (const guint8 *p)
 {
     double d;
     int i;
@@ -44,7 +45,8 @@ double xb_getdouble (guint8 *p)
     return d;
 }
 
-void xb_setdouble (guint8 *p, double d)
+static void
+xb_setdouble (guint8 *p, double d)
 {
     int i;
     guint8 *t = (guint8 *)&d;

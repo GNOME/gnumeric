@@ -5,8 +5,8 @@
 #     define LOTUS_GETDOUBLE(p)   (lotus_getdouble(p))
 #     define LOTUS_SETDOUBLE(p,q) (lotus_setdouble(p,q))
 
-extern double lotus_get_double (guint8 *p);
-extern void   lotus_set_double (guint8 *p, double d);
+double lotus_getdouble (const guint8 *p);
+void   lotus_setdouble (guint8 *p, double d);
 #endif
 
 Workbook     *lotus_read     (const char *filename);

@@ -1,3 +1,10 @@
+1999-07-31  Morten Welinder  <terra@diku.dk>
+
+	* lotus.c (lotus_getdouble): Constify.
+
+	* lotus.h (lotus_getdouble): Fix prototype.
+	(lotus_setdouble): Ditto.
+
 1999-07-21  Michael Meeks  <michael@edenproject.org>
 
 	* boot.c (lotus_load): Stupid bugs.

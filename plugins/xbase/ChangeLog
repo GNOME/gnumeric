@@ -1,3 +1,12 @@
+1999-07-31  Morten Welinder  <terra@diku.dk>
+
+	* xbase.c (field_types): Move from xbase.h.
+	(field_type_descriptions): Ditto.
+	(xbase_close): Kill warning.
+
+	* boot.c (xb_getdouble): Make static and constify.
+	(xb_setdouble): Make static.
+
 1999-07-21  Michael Meeks  <michael@edenproject.org>
 
 	* boot.c: Removed include boot.h

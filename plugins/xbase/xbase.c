@@ -21,6 +21,16 @@
 
 #define XBASE_DEBUG 0
 
+
+static const char *field_types = "CNLDMF?BGPYTI";
+
+static const char *field_type_descriptions[] = { /* FIXME: fix array size from field_types*/
+  "Character", "Number", "Logical", "Date", "Memo", "Floating point",
+  "Character name variable", "Binary", "General", "Picture", "Currency",
+  "DateTime", "Integer"
+};
+
+
 /**
  * Newly allocated pointer to record, initialised as first in database.
 */
@@ -228,7 +238,6 @@ xbase_open (const char *filename)
 void
 xbase_close (XBfile *x)
 {
-	guint i=0;
 	printf("Closing Xbase file\n");
 	fclose (x->f);
 	g_free (x->format);

@@ -54,6 +54,7 @@ get_value_class (FunctionEvalInfo *ei, ExprTree *expr)
 			res = VALUE_CLASS_BOGUS;
 			break;
 		}
+		value_release (value);
 	} else
 		res = VALUE_CLASS_ERROR;
 

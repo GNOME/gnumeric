@@ -53,7 +53,11 @@ gnumeric_iserror (FunctionEvalInfo *eval_info, GList *expr_node_list)
 	if (err != NULL)
 		return err;
 
-	return value_new_bool (res != NULL);
+	if (res) {
+		value_release (res);
+		return value_new_bool (TRUE);
+	} else
+		return value_new_bool (FALSE);
 }
 
 
@@ -75,13 +79,15 @@ static Value *
 gnumeric_isna (FunctionEvalInfo *eval_info, GList *expr_node_list)
 {
 	Value * res, *err = NULL;
+	gboolean b;
+
 	res = gnumeric_check_for_err (eval_info, expr_node_list, &err);
 	if (err != NULL)
 		return err;
 
-	return value_new_bool (res != NULL &&
-			       strcmp (gnumeric_err_NA,
-				       res->v.error.mesg->str) == 0);
+	b = (res && !strcmp (gnumeric_err_NA, res->v.error.mesg->str));
+	if (res) value_release (res);
+	return value_new_bool (b);
 }
 
 
@@ -99,13 +105,15 @@ static Value *
 gnumeric_iserr (FunctionEvalInfo *eval_info, GList *expr_node_list)
 {
 	Value * res, *err = NULL;
+	gboolean b;
+
 	res = gnumeric_check_for_err (eval_info, expr_node_list, &err);
 	if (err != NULL)
 		return err;
 
-	return value_new_bool (res != NULL &&
-			       strcmp (gnumeric_err_NA,
-				       res->v.error.mesg->str) != 0);
+	b = (res && strcmp (gnumeric_err_NA, res->v.error.mesg->str));
+	if (res) value_release (res);
+	return value_new_bool (b);
 }
 
 
@@ -147,9 +155,12 @@ gnumeric_error_type (FunctionEvalInfo *eval_info, GList *expr_node_list)
 		retval = 6;
 	else if (!strcmp (gnumeric_err_NA, mesg))
 		retval = 7;
-	else
+	else {
+		value_release (res);
 		return value_new_error (&eval_info->pos, gnumeric_err_NA);
+	}
 
+	value_release (res);
 	return value_new_int (retval);
 }
 

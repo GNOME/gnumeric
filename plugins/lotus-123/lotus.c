@@ -34,7 +34,7 @@
 /* These really should be in glib */
 
 double
-lotus_getdouble (guint8 *p)
+lotus_getdouble (const guint8 *p)
 {
 	double d;
 	int i;

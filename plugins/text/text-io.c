@@ -152,6 +152,7 @@ writeTextWorkbook (TextData *data, Workbook *wb)
 	g_hash_table_foreach (wb->sheets, writeTextSheetTo, data);
 }
 
+#if 0
 static gint
 change_sheet_name (Sheet* sheet, char *string, int start, int end)
 {
@@ -173,6 +174,8 @@ change_sheet_name (Sheet* sheet, char *string, int start, int end)
 
 	return 0;
 }
+#endif
+
 
 static gint
 insert_cell (Sheet* sheet, char *string, int start, int end, int col, int row)

@@ -1,10 +1,3 @@
-static const char *field_types = "CNLDMF?BGPYTI";
-static const char *field_type_descriptions[] = { /* FIXME: fix array size from field_types*/
-  "Character", "Number", "Logical", "Date", "Memo", "Floating point",
-  "Character name variable", "Binary", "General", "Picture", "Currency",
-  "DateTime", "Integer"
-};
-
 typedef struct { /* field format */
 	guint8 name[11]; /* name, including terminating '\0' */
 	guint8 type; /* type (single ASCII char) */
@@ -34,8 +27,3 @@ guint8   *record_get_field (const XBrecord *record, guint num);
 
 XBfile *xbase_open (const char *filename);
 void    xbase_close (XBfile *file);
-
-static gboolean xbase_read_header (XBfile *file);
-static XBfield *xbase_read_field (XBfile *file);
-
-

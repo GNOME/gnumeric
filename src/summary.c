@@ -96,6 +96,7 @@ summary_item_free (SummaryItem *sit)
 		g_warning ("unknown / unimplemented summary type");
 		break;
 	}
+	g_free (sit->name);
 	g_free (sit);
 }
 
@@ -210,6 +211,7 @@ summary_info_free (SummaryInfo *sin)
 			      NULL);
 	g_hash_table_destroy (sin->names);
 	sin->names = NULL;
+	g_free (sin);
 }
 
 static void

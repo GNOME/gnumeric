@@ -1,3 +1,9 @@
+1999-07-31  Morten Welinder  <terra@diku.dk>
+
+	* ms-excel-read.c (ms_excel_read_formula): Kill warning that is no
+ 	longer valid.
+	(ms_excel_read_error): Fix leak that I introduced.
+
 1999-07-31  Michael Meeks  <michael@edenproject.org>
 
 	* ms-excel-read.c (biff_get_text): Hacked to deal with continues

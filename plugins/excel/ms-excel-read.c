@@ -1606,11 +1606,10 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		val = value_new_string ("MISSING Value");
 	}
 	if (cell->value != NULL) {
-		static gboolean already_warned = FALSE;
-		if (!already_warned) {
-			g_warning ("EXCEL : How does cell already have value?\n");
-			already_warned = TRUE;
-		}
+#if 0
+		/* We always give cells values nowadays.  */
+		g_warning ("EXCEL : How does cell already have value?\n");
+#endif
 		value_release (cell->value);
 	}
 
@@ -1669,6 +1668,8 @@ ms_excel_read_error (BiffQuery *q, ExcelSheet *sheet)
 
 	sheet->blank = FALSE;
 	cell_set_formula_tree_simple (cell, e);
+	if (cell->value)
+		value_release (cell->value);
 	cell->value = v;
 	expr_tree_unref (e);
 	ms_excel_set_cell_xf (sheet, cell, xf_index);

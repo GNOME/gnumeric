@@ -1,3 +1,15 @@
+1999-07-31  Morten Welinder  <terra@diku.dk>
+
+	* src/summary.c (summary_info_free): Fix leak.
+	(summary_item_free): Fix leak.
+
+	* src/fn-misc.c (gnumeric_iserror): Fix leak.
+	(gnumeric_error_type): Fix leaks.
+	(gnumeric_isna): Fix leak.
+	(gnumeric_iserr): Fix leak.
+
+	* src/fn-information.c (get_value_class): Fix leak.
+
 1999-07-31  Michael Meeks  <michael@edenproject.org>
 
 	* src/fn-information.c (gnumeric_isref): Implemented.
