@@ -46,8 +46,8 @@ typedef struct _ColorCombo {
 	 * Canvas where we display
 	 */
 	GtkWidget       *preview_button;
-	GnomeCanvas     *preview_canvas;
-	GnomeCanvasItem *preview_color_item;
+	FooCanvas     *preview_canvas;
+	FooCanvasItem *preview_color_item;
 	ColorPalette    *palette;
 
 	GdkColor  default_color_save;

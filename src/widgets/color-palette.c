@@ -31,8 +31,8 @@
 
 #include <gnumeric-config.h>
 #include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libfoocanvas/foo-canvas.h>
+#include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <gdk/gdkcolor.h>
 #include <gnumeric-i18n.h>
 #include <gnm-marshalers.h>
@@ -80,7 +80,7 @@ color_palette_destroy (GtkObject *object)
 
 	color_palette_set_group (P, NULL);
 
-	memset (P->items, 0, P->total * sizeof (GnomeCanvasItem *));
+	memset (P->items, 0, P->total * sizeof (FooCanvasItem *));
 
 	if (klass->destroy)
                 klass->destroy (object);
@@ -149,8 +149,8 @@ static void
 color_palette_change_custom_color (ColorPalette *P, GdkColor const * const new)
 {
 	int index;
-	GnomeCanvasItem *item;
-	GnomeCanvasItem *next_item;
+	FooCanvasItem *item;
+	FooCanvasItem *next_item;
 
 	g_return_if_fail (P != NULL);
 	g_return_if_fail (new != NULL);
@@ -170,7 +170,7 @@ color_palette_change_custom_color (ColorPalette *P, GdkColor const * const new)
 			"fill_color_gdk",	&color,
 			"outline_color_gdk",	&outline,
 			NULL);
-		gnome_canvas_item_set (item,
+		foo_canvas_item_set (item,
 			"fill_color_gdk",	color,
 			"outline_color_gdk",	outline,
 			NULL);
@@ -178,7 +178,7 @@ color_palette_change_custom_color (ColorPalette *P, GdkColor const * const new)
 		gdk_color_free (outline);
 	}
 	item = P->items[index];
-	gnome_canvas_item_set (item,
+	foo_canvas_item_set (item,
 			       "fill_color_gdk", new,
 			       "outline_color_gdk", new,
 			       NULL);
@@ -221,7 +221,7 @@ static void
 color_clicked (GtkWidget *button, ColorPalette *P)
 {
 	int              index;
-	GnomeCanvasItem *item;
+	FooCanvasItem *item;
 	GdkColor        *gdk_color;
 
 	index = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (button), "gal"));
@@ -283,26 +283,26 @@ color_in_palette (ColorNamePair *set, GdkColor *color)
  *
  * Utility function
  */
-static GnomeCanvasItem *
+static FooCanvasItem *
 color_palette_button_new(ColorPalette *P, GtkTable* table,
 			 GtkTooltips *tool_tip, ColorNamePair* color_name,
 			 gint col, gint row, int data)
 {
         GtkWidget *button;
 	GtkWidget *canvas;
-	GnomeCanvasItem *item;
+	FooCanvasItem *item;
 
 	button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (button), GTK_RELIEF_NONE);
 
-	canvas = gnome_canvas_new ();
+	canvas = foo_canvas_new ();
 
 	gtk_widget_set_size_request (canvas, COLOR_PREVIEW_WIDTH, COLOR_PREVIEW_HEIGHT);
 	gtk_container_add (GTK_CONTAINER (button), canvas);
 
-	item  = gnome_canvas_item_new (GNOME_CANVAS_GROUP (gnome_canvas_root
-							   (GNOME_CANVAS (canvas))),
-				       gnome_canvas_rect_get_type (),
+	item  = foo_canvas_item_new (FOO_CANVAS_GROUP (foo_canvas_root
+							   (FOO_CANVAS (canvas))),
+				       foo_canvas_rect_get_type (),
 				       "x1", 0.0,
 				       "y1", 0.0,
 				       "x2", (double) COLOR_PREVIEW_WIDTH,
@@ -502,7 +502,7 @@ color_palette_construct (ColorPalette *P,
 	g_return_if_fail (P != NULL);
 	g_return_if_fail (IS_COLOR_PALETTE (P));
 
-	P->items = g_malloc (sizeof (GnomeCanvasItem *) * ncols * nrows);
+	P->items = g_malloc (sizeof (FooCanvasItem *) * ncols * nrows);
 
 	/*
 	 * Our table selector

@@ -520,14 +520,19 @@ char *
 workbook_get_filename_utf8 (Workbook *wb, gboolean basename)
 {
 	const char *filename = workbook_get_filename (wb);
+	char *result;
 
 	if (filename == NULL)
 		return NULL;
 
-	if (basename)
-		filename = g_path_get_basename (filename);
+	if (basename) {
+		char *tmp = g_path_get_basename (filename);
+		result = g_filename_to_utf8 (tmp, -1, NULL, NULL, NULL);
+		g_free (tmp);
+	} else
+		result = g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
 
-	return g_filename_to_utf8 (filename, -1, NULL, NULL, NULL);
+	return result;
 }
 
 void

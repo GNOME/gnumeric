@@ -169,6 +169,14 @@ foreach my $file (@files) {
 		if /cc->default_color\s*=\s*default_color;/;
 	}
 
+	if ($file =~ /^(color-palette|widget-color-combo)\.[ch]$/) {
+	    s/GnomeCanvas/FooCanvas/g;
+	    s/gnome_canvas/foo_canvas/g;
+	    s/GNOME_CANVAS/FOO_CANVAS/g;
+	    s/GNOME_TYPE_CANVAS_PIXBUF/FOO_TYPE_CANVAS_PIXBUF/;
+	    s|libgnomecanvas/gnome-|libfoocanvas/foo-|;
+	}
+
 	s/\s+$//;
 
 	print DST "$_\n";

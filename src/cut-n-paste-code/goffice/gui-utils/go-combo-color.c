@@ -33,9 +33,9 @@
 #include <gnumeric-config.h>
 
 #include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas.h>
-#include <libgnomecanvas/gnome-canvas-pixbuf.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libfoocanvas/foo-canvas.h>
+#include <libfoocanvas/foo-canvas-pixbuf.h>
+#include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <gnm-marshalers.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gui-util.h>
@@ -66,7 +66,7 @@ color_combo_set_color_internal (ColorCombo *cc, GdkColor *color)
 	/* If the new and the default are NULL draw an outline */
 	outline_color = (new_color) ? new_color : &gs_dark_gray;
 
-	gnome_canvas_item_set (cc->preview_color_item,
+	foo_canvas_item_set (cc->preview_color_item,
 			       "fill_color_gdk", new_color,
 			       "outline_color_gdk", outline_color,
 			       NULL);
@@ -198,13 +198,13 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 	cc->preview_button = gtk_button_new ();
 	gtk_button_set_relief (GTK_BUTTON (cc->preview_button), GTK_RELIEF_NONE);
 
-	cc->preview_canvas = GNOME_CANVAS (gnome_canvas_new ());
+	cc->preview_canvas = FOO_CANVAS (foo_canvas_new ());
 
-	gnome_canvas_set_scroll_region (cc->preview_canvas, 0, 0, 24, 24);
+	foo_canvas_set_scroll_region (cc->preview_canvas, 0, 0, 24, 24);
 	if (icon) {
-		gnome_canvas_item_new (
-			GNOME_CANVAS_GROUP (gnome_canvas_root (cc->preview_canvas)),
-			GNOME_TYPE_CANVAS_PIXBUF,
+		foo_canvas_item_new (
+			FOO_CANVAS_GROUP (foo_canvas_root (cc->preview_canvas)),
+			FOO_TYPE_CANVAS_PIXBUF,
 			"pixbuf", icon,
 			"x",      0.0,
 			"y",      0.0,
@@ -212,9 +212,9 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 			NULL);
 		g_object_unref (icon);
 
-		cc->preview_color_item = gnome_canvas_item_new (
-			GNOME_CANVAS_GROUP (gnome_canvas_root (cc->preview_canvas)),
-			gnome_canvas_rect_get_type (),
+		cc->preview_color_item = foo_canvas_item_new (
+			FOO_CANVAS_GROUP (foo_canvas_root (cc->preview_canvas)),
+			foo_canvas_rect_get_type (),
 			"x1",         3.0,
 			"y1",         19.0,
 			"x2",         20.0,
@@ -223,9 +223,9 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 			"width_pixels", 1,
 			NULL);
 	} else
-		cc->preview_color_item = gnome_canvas_item_new (
-			GNOME_CANVAS_GROUP (gnome_canvas_root (cc->preview_canvas)),
-			gnome_canvas_rect_get_type (),
+		cc->preview_color_item = foo_canvas_item_new (
+			FOO_CANVAS_GROUP (foo_canvas_root (cc->preview_canvas)),
+			foo_canvas_rect_get_type (),
 			"x1",         2.0,
 			"y1",         1.0,
 			"x2",         21.0,

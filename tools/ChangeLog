@@ -1,5 +1,9 @@
 2003-06-10  Morten Welinder  <terra@gnome.org>
 
+	* import-gal: Switch to foocanvas.
+
+2003-06-10  Morten Welinder  <terra@gnome.org>
+
 	* import-gal: Make default_color argument of color_combo_new const
 	and drop requirement that it stay around.
 	Make color combo multihead safe.

@@ -573,18 +573,12 @@ foo_canvas_re_set_property (GObject              *object,
 static void
 get_color_value (FooCanvasRE *re, gulong pixel, GValue *value)
 {
-	GdkColor *color;
-	GdkColormap *colormap;
-	FooCanvasItem *item;
+	GdkColor color;
+	FooCanvasItem *item = (FooCanvasItem *) re;
+	GdkColormap *colormap = gtk_widget_get_colormap (GTK_WIDGET (item->canvas));
 
-	item = (FooCanvasItem *) re;
-
-	color = g_new (GdkColor, 1);
-	color->pixel = pixel;
-
-	colormap = gtk_widget_get_colormap (GTK_WIDGET (item->canvas));
-	gdk_rgb_find_color (colormap, color);
-	g_value_set_boxed (value,  color);
+	gdk_colormap_query_color (colormap, pixel, &color);
+	g_value_set_boxed (value, &color);
 }
 
 static void
@@ -648,6 +642,16 @@ foo_canvas_re_get_property (GObject              *object,
 }
 
 static void
+set_colors_and_stipples (FooCanvasRE *re)
+{
+	set_gc_foreground (re->fill_gc, re->fill_pixel);
+	set_gc_foreground (re->outline_gc, re->outline_pixel);
+	set_stipple (re->fill_gc, &re->fill_stipple, re->fill_stipple, TRUE);
+	set_stipple (re->outline_gc, &re->outline_stipple, re->outline_stipple, TRUE);
+	set_outline_gc_width (re);
+}
+
+static void
 foo_canvas_re_update_shared (FooCanvasItem *item, double i2w_dx, double i2w_dy, int flags)
 {
 	FooCanvasRE *re;
@@ -660,11 +664,7 @@ foo_canvas_re_update_shared (FooCanvasItem *item, double i2w_dx, double i2w_dy, 
 	if (re_parent_class->update)
 		(* re_parent_class->update) (item, i2w_dx, i2w_dy, flags);
 
-	set_gc_foreground (re->fill_gc, re->fill_pixel);
-	set_gc_foreground (re->outline_gc, re->outline_pixel);
-	set_stipple (re->fill_gc, &re->fill_stipple, re->fill_stipple, TRUE);
-	set_stipple (re->outline_gc, &re->outline_stipple, re->outline_stipple, TRUE);
-	set_outline_gc_width (re);
+	set_colors_and_stipples (re);
 
 #ifdef OLD_XFORM
 	recalc_bounds (re);
@@ -685,7 +685,10 @@ foo_canvas_re_realize (FooCanvasItem *item)
 		(* re_parent_class->realize) (item);
 
 	re->fill_gc = gdk_gc_new (item->canvas->layout.bin_window);
+	re->fill_pixel = foo_canvas_get_color_pixel (item->canvas, re->fill_color);
 	re->outline_gc = gdk_gc_new (item->canvas->layout.bin_window);
+	re->outline_pixel = foo_canvas_get_color_pixel (item->canvas, re->outline_color);
+	set_colors_and_stipples (re);
 
 #ifdef OLD_XFORM
 	(* FOO_CANVAS_ITEM_CLASS (item->object.klass)->update) (item, NULL, NULL, 0);
@@ -1404,7 +1407,7 @@ foo_canvas_ellipse_update (FooCanvasItem *item, double i2w_dx, double i2w_dy, gi
 	double x0, y0, x1, y1;
 
 #ifdef VERBOSE
-	g_print ("foo_canvas_rect_update item %x\n", item);
+	g_print ("foo_canvas_sllipse_update item %x\n", item);
 #endif
 
 	foo_canvas_re_update_shared (item, i2w_dx, i2w_dy, flags);

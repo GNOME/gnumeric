@@ -33,7 +33,7 @@
 #define GNUMERIC_COLOR_PALETTE_H
 
 #include <gtk/gtk.h>
-#include <libgnomecanvas/gnome-canvas.h>
+#include <libfoocanvas/foo-canvas.h>
 #include <libgnomeui/gnome-color-picker.h>
 #include <widgets/color-group.h>
 
@@ -48,7 +48,7 @@ typedef struct _ColorPalette {
 	/*
 	 * Array of colors
 	 */
-	GnomeCanvasItem **items;
+	FooCanvasItem **items;
 	/* The (potentially NULL) default color */
         GdkColor *default_color;
 
