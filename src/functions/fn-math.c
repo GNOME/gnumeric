@@ -75,7 +75,6 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 {
         math_criteria_t *mm = user_data;
 	Value           *v;
-	gpointer        n;
 
 	mm->total_num++;
 	if (cell == NULL || cell->value == NULL)
@@ -101,10 +100,8 @@ callback_function_criteria (Sheet *sheet, int col, int row,
 
 	if (mm->fun(v, mm->test_value)) {
 	        if (mm->actual_range) {
-			n = g_new (int, 1);
-			*((int *) n) = mm->total_num;
-		        mm->list = g_slist_append (mm->list, n);
-			/* FIXME: is this right?  -- MW.  */
+		        mm->list = g_slist_append (mm->list,
+				GINT_TO_POINTER (mm->total_num));
 			value_release(v);
 		} else
 		        mm->list = g_slist_append (mm->list, v);
@@ -580,46 +577,34 @@ callback_function_sumif (Sheet *sheet, int col, int row,
 			 Cell *cell, void *user_data)
 {
         math_criteria_t *mm = user_data;
-	float_t         v;
-	int             num;
+	float_t         v = 0.;
 
-	mm->total_num++;
-	if (cell == NULL || cell->value == NULL)
-	        return NULL;
-
-        switch (cell->value->type) {
-	case VALUE_INTEGER:
-	        v = cell->value->v_int.val;
-		break;
-	case VALUE_FLOAT:
-	        v = cell->value->v_float.val;
-		break;
-	case VALUE_STRING:
-	        v = 0;
-		break;
-
-	case VALUE_BOOLEAN:
-	        v = cell->value->v_bool.val ? 1 : 0;
-		break;
-
-	case VALUE_ERROR:
-		return value_terminate();
-
-	case VALUE_EMPTY:
-	default:
-	        return NULL;
-	}
-
+	/* If we have finished the list there is no need to bother */
 	if (mm->current == NULL)
 	        return NULL;
 
-	num = *((int*) mm->current->data);
+	/* We have not reached the next selected element yet.
+	 * This implies that summing a range containing an error
+	 * where the criteria does not select the error is OK.
+	 */
+	if (++(mm->total_num) != GPOINTER_TO_INT (mm->current->data))
+		return NULL;
 
-	if (mm->total_num == num) {
-	        mm->sum += v;
-		g_free(mm->current->data);
-		mm->current=mm->current->next;
-	}
+	if (cell != NULL && cell->value != NULL)
+		switch (cell->value->type) {
+		case VALUE_BOOLEAN:	v = cell->value->v_bool.val ? 1 : 0; break;
+		case VALUE_INTEGER:	v = cell->value->v_int.val; break;
+		case VALUE_FLOAT:	v = cell->value->v_float.val; break;
+
+		case VALUE_STRING:
+		case VALUE_EMPTY:
+			break;
+
+		default:
+			return value_terminate();
+		}
+	mm->sum += v;
+	mm->current = mm->current->next;
 
 	return NULL;
 }
@@ -640,10 +625,13 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 	items.total_num = 0;
 	items.list = NULL;
 
-	if ((!VALUE_IS_NUMBER(argv[1]) && argv[1]->type != VALUE_STRING)
-	    || (range->type != VALUE_CELLRANGE))
+	if (range->type != VALUE_CELLRANGE ||
+	    !(VALUE_IS_NUMBER (argv[1]) || argv[1]->type == VALUE_STRING))
 	        return value_new_error (ei->pos, gnumeric_err_VALUE);
 
+	/* If the criteria is a number test for equality else the parser
+	 * will evaluate the condition as a string
+	 */
 	if (VALUE_IS_NUMBER(argv[1])) {
 	        items.fun = (criteria_test_fun_t) criteria_test_equal;
 		items.test_value = argv[1];
@@ -653,10 +641,7 @@ gnumeric_sumif (FunctionEvalInfo *ei, Value **argv)
 		tmpval = items.test_value;
 	}
 
-	if (actual_range != NULL)
-	        items.actual_range = TRUE;
-	else
-	        items.actual_range = FALSE;
+	items.actual_range = (actual_range != NULL);
 
 	ret = sheet_cell_foreach_range (
 		eval_sheet (range->v_range.cell.a.sheet, ei->pos->sheet),
