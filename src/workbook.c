@@ -2109,6 +2109,8 @@ gboolean
 workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
 {
 	Sheet *sheet;
+	GtkNotebook *notebook;
+	int sheets, i;
 
 	g_return_val_if_fail (wb != NULL, FALSE);
 	g_return_val_if_fail (old_name != NULL, FALSE);
@@ -2127,6 +2129,25 @@ workbook_rename_sheet (Workbook *wb, const char *old_name, const char *new_name)
 	g_hash_table_insert (wb->sheets, sheet->name, sheet);
 
 	sheet_set_dirty (sheet, TRUE);
+
+	/* Update the notebook label */
+	notebook = GTK_NOTEBOOK (wb->notebook);
+	sheets = workbook_sheet_count (wb);
+
+	for (i = 0; i < sheets; i++) {
+		Sheet *this_sheet;
+		GtkWidget *w;
+
+		w = gtk_notebook_get_nth_page (notebook, i);
+
+		this_sheet = gtk_object_get_data (GTK_OBJECT (w), "sheet");
+
+		if (this_sheet == sheet) {
+			gtk_notebook_set_tab_label_text 
+				(notebook, w, new_name);
+		}
+	}
+
 	return TRUE;
 }
 
