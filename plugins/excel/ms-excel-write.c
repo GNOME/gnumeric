@@ -1670,9 +1670,17 @@ border_type_to_excel (StyleBorderType btype, eBiff_version ver)
  * We can see from the table that bg(internal) is 0 only if fg(internal) 
  * is also 0 .
  *
- * The closest write side analogue is to flip if fg(internal) != 0.
- * But we have to do something special for bg(internal) == 0.  In this
- * situation, I have seen Excel flip colors, but use 8 rather than 0
+ * For export, the following two cases are obvious
+ *  bg(internal)  fg(internal)     bg(file)  fg(file)
+ *     == 0           == 0            0         0
+ *     != 0           != 0        fg(internal)  bg(internal)
+ * This one looks like we can choose, but testing with Excel showed that we
+ * do have to reverse colors:
+ *  bg(internal)  fg(internal)
+ *     != 0           == 0        
+ *
+ * Finally,  we have to do something special for bg(internal) == 0. In
+ * this situation, I have seen Excel flip colors, but use 8 rather than 0
  * for black, i.e. fg(file) = 8, bg(file) = fg(internal). This is what
  * we'll do, although I don't know if Excel always does.
  *
@@ -1687,8 +1695,9 @@ fixup_fill_colors (BiffXFData *xfd)
 {
 	guint8 c;
 
-	if (xfd->fill_pattern_idx == 1 
-	    && xfd->pat_foregnd_col != PALETTE_BLACK) {
+	if ((xfd->fill_pattern_idx == 1)
+	    && ((xfd->pat_foregnd_col != PALETTE_BLACK)
+		|| (xfd->pat_backgnd_col != PALETTE_BLACK))) {
 		c = xfd->pat_backgnd_col;
 		if (c == PALETTE_BLACK)
 			c = PALETTE_ALSO_BLACK;

@@ -1,3 +1,7 @@
+1999-12-21  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-write.c (fixup_fill_colors): Fix minor bug.
+
 1999-12-17  Jon K Hellan  <hellan@acm.org>
 
 	* ms-excel-write.h (struct _ExcelCol ): define it
