@@ -129,7 +129,9 @@ PM/pm/p/p     "AM", "am", "M" or "a" for the hours between midnight
 
 ** Style
 
-  The complete cell style dialog box needs  to be implemented
+  The cell style dialog box needs to not use the GnomeProperty box,
+  since it does not allow per-page apply functions.
+
   
   Alignment:
     Horizontal:
