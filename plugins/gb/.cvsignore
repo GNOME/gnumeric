@@ -1,6 +1,6 @@
 Makefile.in
 Makefile
-libgnum_gb.la
-plugin.lo
+*.la
+*.lo
 .deps
 .libs
