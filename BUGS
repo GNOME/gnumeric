@@ -8,7 +8,15 @@ release, and longer term bugs.
 Release Critical
 ----------------
 
-Verify histogram tool.  Feels fubar.
+    http://bugzilla.gnome.org/show_bug.cgi?id=123567
+    http://bugzilla.gnome.org/show_bug.cgi?id=123342	: gda borkage
+    http://bugzilla.gnome.org/show_bug.cgi?id=123325
+    http://bugzilla.gnome.org/show_bug.cgi?id=121240
+    http://bugzilla.gnome.org/show_bug.cgi?id=122085
+    - static float and string GODataScalar support
+    - xls import for chart text
+    - xls import for user supplied axis bounds
+    - Verify histogram tool.  Feels fubar.
 
 -------------------------------------------------------------------------------
 Pending Patches

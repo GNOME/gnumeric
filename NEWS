@@ -33,6 +33,7 @@ Jody:
 	* Be anal about exporting unicode chars > 0xfeff to xls
 	* Fix import typo that broke xls import of local hyperlinks
 	* Draw marker and lines for legend elements that support them
+	* Memory error when adding a series to a bar/col/line/area plot
 
 John Gill:
 	* Heuristics to improve finger feel of autofilter range selection
