@@ -1,3 +1,7 @@
+2001-05-29  Zbigniew Chyla  <cyba@gnome.pl>
+
+	* xml-sax-read.c (xml_sax_file_probe): Added FileProbeLevel argument.
+
 2001-05-26  Jody Goldberg <jgoldberg@home.com>
 
 	* xml-sax-read.c (xml_sax_file_open) : If successful queue everything

@@ -56,7 +56,8 @@
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
-gboolean xml_sax_file_probe (GnumFileOpener const *fo, const gchar *file_name);
+gboolean xml_sax_file_probe (GnumFileOpener const *fo, const gchar *file_name,
+                             FileProbeLevel pl);
 void     xml_sax_file_open (GnumFileOpener const *fo, IOContext *io_context,
 			    WorkbookView *wb_view, char const *filename);
 
@@ -1412,7 +1413,7 @@ xml_sax_unknown_state (XMLSaxParseState *state, CHAR const *name)
  * We parse and do some limited validation of the XML file, if this
  * passes, then we return TRUE
 gboolean
-xml_sax_file_probe (GnumFileOpener const *fo, const gchar *file_name)
+xml_sax_file_probe (GnumFileOpener const *fo, const gchar *file_name, FileProbeLevel pl)
 {
 	return TRUE;
 }
