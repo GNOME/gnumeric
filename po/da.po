@@ -27,9 +27,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.40\n"
-"POT-Creation-Date: 2001-04-15 11:17+0200\n"
-"PO-Revision-Date: 2001-04-21 11:17+02:00\n"
-"Last-Translator: Keld Simonsen <keld@dkuug.dk>\n"
+"POT-Creation-Date: 2001-04-22 17:34+0200\n"
+"PO-Revision-Date: 2001-04-22 17:34+02:00\n"
+"Last-Translator: Ole Laursen <olau@hardworking.dk>\n"
 "Language-Team: Danish <dansk@klid.dk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
@@ -4573,42 +4573,34 @@ msgid "_Title :"
 msgstr "_Titel:"
 
 #: src/dialogs/validate.glade.h:32
-msgid "label11"
-msgstr "Etiket11"
-
-#: src/dialogs/validate.glade.h:33
-msgid "label12"
-msgstr "Etiket12"
-
-#: src/dialogs/validate.glade.h:34
 msgid "min <= val <= max         (between)"
 msgstr "min <= værdi <= maks      (mellem)"
 
-#: src/dialogs/validate.glade.h:35
+#: src/dialogs/validate.glade.h:33
 msgid "val != bound                 (not equal to)"
 msgstr "værdi != grænse           (forskellige fra)"
 
-#: src/dialogs/validate.glade.h:36
+#: src/dialogs/validate.glade.h:34
 msgid "val >  bound                 (greater than)"
 msgstr "værdi > grænse            (større end)"
 
-#: src/dialogs/validate.glade.h:37
+#: src/dialogs/validate.glade.h:35
 msgid "val >=bound                 (greater than or equal to)"
 msgstr "værdi >= grænse           (større end eller lig med)"
 
-#: src/dialogs/validate.glade.h:38
+#: src/dialogs/validate.glade.h:36
 msgid "val <  bound                 (less than)"
 msgstr "værdi < grænse            (mindre end)"
 
-#: src/dialogs/validate.glade.h:39
+#: src/dialogs/validate.glade.h:37
 msgid "val <= min || max <= val (not between)"
 msgstr "værdi <= min || maks <= værdi (ikke mellem)"
 
-#: src/dialogs/validate.glade.h:40
+#: src/dialogs/validate.glade.h:38
 msgid "val <=bound                 (less than or equal to)"
 msgstr "værdi <= grænse           (mindre end eller lig med)"
 
-#: src/dialogs/validate.glade.h:41
+#: src/dialogs/validate.glade.h:39
 msgid "val == bound                (equal to)"
 msgstr "værdi == grænse           (lig med)"
 
@@ -16801,31 +16793,33 @@ msgstr "_Dataanalyse..."
 # alle andre tips er uden punktum
 #: src/workbook-control-gui.c:2341
 msgid "Statistical methods."
-msgstr "Statistiske metoder."
+msgstr "Statistiske metoder"
 
 #: src/workbook-control-gui.c:2348
 msgid "_Hide Detail"
 msgstr "_Skjul detaljer"
 
+# RETMIG: tjek omrids
 #: src/workbook-control-gui.c:2349
 msgid "Collapse an outline group"
-msgstr "Sammenfold en outline gruppe"
+msgstr "Sammenfold en omridsgruppe"
 
 #: src/workbook-control-gui.c:2351
 msgid "_Show Detail"
-msgstr "_Vis Detaljer"
+msgstr "_Vis detaljer"
 
 #: src/workbook-control-gui.c:2352
 msgid "Uncollapse an outline group"
-msgstr "Udvid en outline gruppe"
+msgstr "Udfold en omridsgruppe"
 
+# udsagnsord
 #: src/workbook-control-gui.c:2354
 msgid "_Group..."
 msgstr "_Gruppér..."
 
 #: src/workbook-control-gui.c:2355
 msgid "Add an outline group"
-msgstr "Tilføj en outline gruppe"
+msgstr "Tilføj en omridsgruppe"
 
 #: src/workbook-control-gui.c:2357
 msgid "_Ungroup..."
@@ -16833,36 +16827,31 @@ msgstr "_Afgruppér..."
 
 #: src/workbook-control-gui.c:2358
 msgid "Remove an outline group"
-msgstr "Fjern en outline gruppe"
+msgstr "Fjern en omridsgruppe"
 
 #: src/workbook-control-gui.c:2364
-#, fuzzy
 msgid "Display _Outlines"
-msgstr "Vis _formler"
+msgstr "Vis _omridsgrupper"
 
 #: src/workbook-control-gui.c:2365
-#, fuzzy
 msgid "Toggle whether or not to display outline groups"
-msgstr "Slå visning af gitterlinjer til/fra"
+msgstr "Slå visning af omridsgrupper til/fra"
 
 #: src/workbook-control-gui.c:2370
 msgid "Oulines _Below"
-msgstr ""
+msgstr "Omrids _under"
 
 #: src/workbook-control-gui.c:2371
-#, fuzzy
 msgid "Toggle whether to display row outlines on top or bottom"
-msgstr "Slå visning af gitterlinjer til/fra"
+msgstr "Skift mellem at vise rækkeomrids ved toppen eller ved bunden"
 
 #: src/workbook-control-gui.c:2376
-#, fuzzy
 msgid "Oulines _Right"
-msgstr "_Højre"
+msgstr "Omrids til _højre"
 
 #: src/workbook-control-gui.c:2377
-#, fuzzy
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr "Slå visning af kolonneoverskrifter til/fra"
+msgstr "Skift mellem at vise rækkeomrids til højre eller til venstre"
 
 #: src/workbook-control-gui.c:2386
 msgid "_Sort"
@@ -16884,14 +16873,14 @@ msgstr "Filtrér data efter givne kriterier"
 msgid "_Validate..."
 msgstr "_Gyldighedskontrol..."
 
-# RETMIG: indtastning i stedet for dataene
+# RETMIG: måske indtastning i stedet for dataene
 #: src/workbook-control-gui.c:2394
 msgid "Validate input with preset criteria"
 msgstr "Kontrollér gyldighed af dataene efter forudangivne kriterier"
 
 #: src/workbook-control-gui.c:2400
 msgid "_Group and Outline"
-msgstr "_Gruppér og outline"
+msgstr "_Grupper og omrids"
 
 #: src/gnumeric.xml.h:71 src/workbook-control-gui.c:2416
 msgid "F_ormat"
