@@ -76,6 +76,8 @@
     <menu name="View" action="MenuView">
       <menuitem action="ViewNew"/>
       <menuitem action="ViewFreezeThawPanes"/>
+      <menu name="Windows" action="MenuViewWindows">
+      </menu>
       <separator/>
       <menu name="Toolbars" action="MenuViewToolbars">
       </menu>

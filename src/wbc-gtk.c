@@ -24,7 +24,7 @@
 #include "wbc-gtk.h"
 #include "workbook-control-gui-priv.h"
 #include "workbook-view.h"
-#include "workbook.h"
+#include "workbook-priv.h"
 #include "gui-util.h"
 #include "gui-file.h"
 #include "sheet.h"
@@ -70,11 +70,7 @@ struct _WBCgtk {
 	struct {
 		GtkActionGroup   *actions;
 		guint		  merge_id;
-	} file_history;
-	struct {
-		GtkActionGroup   *actions;
-		guint		  merge_id;
-	} toolbar;
+	} file_history, toolbar, windows;
 
 	GOActionComboStack	*undo_action, *redo_action;
 	GOActionComboColor	*fore_color, *back_color;
@@ -974,6 +970,82 @@ check_underlines (GtkWidget *w, const char *path)
 
 #endif
 
+/****************************************************************************/
+/* window list menu */
+
+static void
+cb_window_menu_activate (GObject *action, WorkbookControlGUI *wbcg)
+{
+	gtk_window_present (wbcg_toplevel (wbcg));
+}
+
+static unsigned
+regenerate_window_menu (WBCgtk *gtk, Workbook *wb, unsigned i)
+{
+	GtkActionEntry entry;
+	unsigned k, count = 0;
+	char *name, *label;
+
+	/* how many controls are there */
+	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, if (IS_WORKBOOK_CONTROL_GUI (wbc)) count++;);
+
+	k = 1;
+	WORKBOOK_FOREACH_CONTROL (wb, wbv, wbc, {
+		if (i >= 10)
+			return i;
+		if (IS_WORKBOOK_CONTROL_GUI (wbc)) {
+			name = g_strdup_printf ("WindowListEntry%d", i);
+			entry.name = name;
+			entry.stock_id = NULL;
+			if (count > 1)
+				label = g_strdup_printf ("_%d %s:%d", i++, wb->basename, k++);
+			else
+				label = g_strdup_printf ("_%d %s", i++, wb->basename);
+			entry.label = label;
+
+			entry.accelerator = NULL;
+			entry.tooltip = NULL;
+			entry.callback = G_CALLBACK (cb_window_menu_activate);
+			gtk_action_group_add_actions (gtk->windows.actions,
+				&entry, 1, wbc);
+			g_free (label);
+			g_free (name);
+		}});
+	return i;
+}
+
+static void
+cb_regenerate_window_menu (WBCgtk *gtk)
+{
+	Workbook *wb = wb_control_workbook (WORKBOOK_CONTROL (gtk));
+	GList const *ptr;
+	unsigned i;
+
+	if (gtk->windows.merge_id != 0)
+		gtk_ui_manager_remove_ui (gtk->ui, gtk->windows.merge_id);
+	gtk->windows.merge_id = gtk_ui_manager_new_merge_id (gtk->ui);
+
+	if (gtk->windows.actions != NULL)
+		g_object_unref (gtk->windows.actions);
+	gtk->windows.actions = gtk_action_group_new ("WindowList");
+
+	gtk_ui_manager_insert_action_group (gtk->ui, gtk->windows.actions, 0);
+
+	/* create the actions */
+	i = regenerate_window_menu (gtk, wb, 1); /* current wb first */
+	for (ptr = gnm_app_workbook_list (); ptr != NULL ; ptr = ptr->next)
+		if (ptr->data != wb)
+			i = regenerate_window_menu (gtk, ptr->data, i);
+
+	/* merge them in */
+	while (i-- > 1) {
+		char *name = g_strdup_printf ("WindowListEntry%d", i);
+		gtk_ui_manager_add_ui (gtk->ui, gtk->windows.merge_id,
+			"/menubar/View/Windows", 
+			name, name, GTK_UI_MANAGER_AUTO, TRUE);
+		g_free (name);
+	}
+}
 
 /****************************************************************************/
 /* Toolbar menu */
@@ -1217,6 +1289,12 @@ wbc_gtk_init (GObject *obj)
 	gtk->toolbar.merge_id = gtk_ui_manager_new_merge_id (gtk->ui);
 	gtk->toolbar.actions = gtk_action_group_new ("Toolbars");
 	gtk_ui_manager_insert_action_group (gtk->ui, gtk->toolbar.actions, 0);
+
+	gtk->windows.actions = NULL;
+	gtk->windows.merge_id = 0;
+	g_signal_connect_object (gnm_app_get_app (),
+		"window-list-changed",
+		G_CALLBACK (cb_regenerate_window_menu), gtk, G_CONNECT_SWAPPED);
 
 	gtk_ui_manager_ensure_update (gtk->ui);
 	gtk_widget_show_all (gtk->everything);

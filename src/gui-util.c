@@ -87,9 +87,9 @@ gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref, GtkMessageType typ
 	*ref = dialog = gtk_message_dialog_new (parent, GTK_DIALOG_DESTROY_WITH_PARENT, type,
 					 GTK_BUTTONS_OK, str);
 
-	g_signal_connect_object (GTK_OBJECT (dialog), "response",
-				   GTK_SIGNAL_FUNC (gtk_widget_destroy),
-				   GTK_OBJECT (dialog), 0);
+	g_signal_connect_object (G_OBJECT (dialog),
+		"response",
+		G_CALLBACK (gtk_widget_destroy), G_OBJECT (dialog), 0);
 	g_signal_connect (G_OBJECT (dialog),
 		"destroy",
 		G_CALLBACK (gtk_widget_destroyed), ref);
@@ -309,9 +309,8 @@ cb_parent_mapped (GtkWidget *parent, GtkWindow *window)
 {
 	if (GTK_WIDGET_MAPPED (window)) {
 		gtk_window_present (window);
-		g_signal_handlers_disconnect_by_func (GTK_OBJECT (parent),
-			GTK_SIGNAL_FUNC (cb_parent_mapped),
-			window);
+		g_signal_handlers_disconnect_by_func (G_OBJECT (parent),
+			G_CALLBACK (cb_parent_mapped), window);
 	}
 }
 

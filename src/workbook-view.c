@@ -420,6 +420,17 @@ wb_view_auto_expr_recalc (WorkbookView *wbv, gboolean display)
 	wb_view_auto_expr_value_display (wbv);
 }
 
+/* perform whatever initialization of a control that is necessary when it
+ * finally gets assigned to a view with a workbook */
+static void
+wb_view_init_control (WorkbookControl *wbc)
+{
+	WorkbookView *wbv = wbc->wb_view;
+	char *name = go_basename_from_uri (workbook_get_uri (wbv->wb));
+	wb_control_title_set (wbc, name);
+	g_free (name);
+}
+
 void
 wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 {
@@ -432,12 +443,8 @@ wb_view_attach_control (WorkbookView *wbv, WorkbookControl *wbc)
 	g_ptr_array_add (wbv->wb_controls, wbc);
 	wbc->wb_view = wbv;
 
-	if (wbv->wb != NULL) {
-		/* Set the title of the newly connected control */
-		char *name = go_basename_from_uri (workbook_get_uri (wbv->wb));
-		wb_control_title_set (wbc, name);
-		g_free (name);
-	}
+	if (wbv->wb != NULL)
+		wb_view_init_control (wbc);
 }
 
 void
@@ -542,13 +549,8 @@ workbook_view_new (Workbook *wb)
 	for (i = 0 ; i < workbook_sheet_count (wb); i++)
 		wb_view_sheet_add (wbv, workbook_sheet_by_index (wb, i));
 
-	/* Set the titles of the newly connected view's controls */
-	{
-		char *name = go_basename_from_uri (workbook_get_uri (wbv->wb));
-		WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
-					       wb_control_title_set (wbc, name););
-		g_free (name);
-	}
+	WORKBOOK_VIEW_FOREACH_CONTROL (wbv, wbc,
+		wb_view_init_control (wbc););
 
 	return wbv;
 }

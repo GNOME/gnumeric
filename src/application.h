@@ -6,7 +6,6 @@
 #include <gdk-pixbuf/gdk-pixbuf.h>
 
 #define GNM_APP_TYPE	(gnm_app_get_type ())
-typedef struct _GnmApp GnmApp;
 typedef gboolean (*GnmWbIterFunc) (Workbook *, gpointer data);
 
 GType	     gnm_app_get_type (void);
@@ -51,5 +50,8 @@ Sheet		*gnm_app_clipboard_sheet_get	  (void);
 SheetView	*gnm_app_clipboard_sheet_view_get (void);
 GnmCellRegion	*gnm_app_clipboard_contents_get	  (void);
 GnmRange const	*gnm_app_clipboard_area_get	  (void);
+
+/* internal implementation util */
+void		 gnm_app_flag_windows_changed	  (void);
 
 #endif /* GNUMERIC_APPLICATION_H */

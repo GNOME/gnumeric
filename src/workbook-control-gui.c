@@ -690,7 +690,7 @@ cb_sheet_label_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 
 static void
 cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
-	WorkbookControlGUI *wbcg)
+			   WorkbookControlGUI *wbcg)
 {
 	GtkWidget *arrow, *image;
 	GdkPixbuf *pixbuf;

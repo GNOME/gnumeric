@@ -161,6 +161,8 @@ workbook_finalize (GObject *wb_object)
 	       g_free (wb->uri);
 	       wb->uri = NULL;
 	}
+	g_free (wb->basename);
+	wb->basename = NULL;
 
 #warning this has no business being here
 	if (initial_workbook_open_complete && gnm_app_workbook_list () == NULL)
@@ -302,6 +304,7 @@ workbook_init (GObject *object)
 	wb->summary_info = summary_info_new ();
 	summary_info_default (wb->summary_info);
 	wb->summary_info->modified = FALSE;
+	wb->uri = wb->basename = NULL;
 
 	/* Nothing to undo or redo */
 	wb->undo_commands = wb->redo_commands = NULL;
@@ -493,8 +496,6 @@ workbook_new_with_sheets (int sheet_count)
 gboolean
 workbook_set_uri (Workbook *wb, char const *uri)
 {
-	char *base_name;
-
 	g_return_val_if_fail (wb != NULL, FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
 
@@ -503,22 +504,26 @@ workbook_set_uri (Workbook *wb, char const *uri)
 
 	g_free (wb->uri);
 	wb->uri = g_strdup (uri);
-
-	base_name = go_basename_from_uri (uri);
+	g_free (wb->basename);
+	wb->basename = go_basename_from_uri (uri);
 	WORKBOOK_FOREACH_CONTROL (wb, view, control,
-		wb_control_title_set (control, base_name););
-	g_free (base_name);
+		wb_control_title_set (control, wb->basename););
 
 	g_signal_emit (G_OBJECT (wb), signals [FILENAME_CHANGED], 0);
 	return TRUE;
 }
 
 const gchar *
-workbook_get_uri (Workbook *wb)
+workbook_get_uri (Workbook const *wb)
 {
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
-
 	return wb->uri;
+}
+const gchar *
+workbook_get_basename (Workbook const *wb)
+{
+	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	return wb->basename;
 }
 
 void

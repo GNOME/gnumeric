@@ -80,13 +80,13 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	PX_set_targetencoding(pxdoc, "UTF-8");
 
 	wb = wb_view_workbook (wb_view);
-	name = workbook_sheet_get_free_name (wb, _("Sheet"), FALSE, TRUE);
+	name = workbook_sheet_get_free_name (wb, pxh->px_tablename, FALSE, TRUE);
 	sheet = sheet_new (wb, name);
 	g_free (name);
 	workbook_sheet_attach (wb, sheet, NULL);
 
 	pxf = pxh->px_fields;
-	for (i = 0 ; i < pxh->px_numfields; i++) {
+	for (i = 0 ; i < (guint) pxh->px_numfields; i++) {
 		char str[30];
 		cell = sheet_cell_fetch (sheet, i, 0);
 		snprintf (str, 30, "%s,%d,%d", pxf->px_fname, pxf->px_ftype, pxf->px_flen);
@@ -108,19 +108,19 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 		return;
 	}
 	row = 1;
-	for(j=0; j<pxh->px_numrecords; j++) {
+	for(j = 0; j < (guint)pxh->px_numrecords; j++) {
 		pxdatablockinfo_t pxdbinfo;
 		int isdeleted = 0;
 		if(NULL != PX_get_record2(pxdoc, j, data, &isdeleted, &pxdbinfo)) {
 			offset = 0;
 			pxf = pxh->px_fields;
-			for (i = 0; i < pxh->px_numfields ; i++) {
+			for (i = 0; i < (guint) pxh->px_numfields ; i++) {
 				cell = sheet_cell_fetch (sheet, i, row);
 				val = NULL;
 				switch(pxf->px_ftype) {
 					case pxfAlpha: {
 						char *value;
-						if(PX_get_data_alpha(pxdoc, &data[offset], pxf->px_flen, &value)) {
+						if(0 < PX_get_data_alpha(pxdoc, &data[offset], pxf->px_flen, &value)) {
 							val = value_new_string_nocopy (value);
 //							value_set_fmt (val, field->fmt);
 						}
@@ -128,7 +128,7 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 					}
 					case pxfShort: {
 						short int value;
-						if(PX_get_data_short(pxdoc, &data[offset], pxf->px_flen, &value)) {
+						if(0 < PX_get_data_short(pxdoc, &data[offset], pxf->px_flen, &value)) {
 							val = value_new_int (value);
 						}
 						break;
@@ -137,7 +137,7 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 					case pxfTimestamp:
 					case pxfLong: {
 						long value;
-						if(PX_get_data_long(pxdoc, &data[offset], pxf->px_flen, &value)) {
+						if(0 < PX_get_data_long(pxdoc, &data[offset], pxf->px_flen, &value)) {
 							val = value_new_int (value);
 						}
 						break;
@@ -145,14 +145,14 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 					case pxfCurrency:
 					case pxfNumber: {
 						double value;
-						if(PX_get_data_double(pxdoc, &data[offset], pxf->px_flen, &value)) {
+						if(0 < PX_get_data_double(pxdoc, &data[offset], pxf->px_flen, &value)) {
 							val = value_new_float (value);
 						}
 						break;
 					}
 					case  pxfLogical: {
 						char value;
-						if(PX_get_data_byte(pxdoc, &data[offset], pxf->px_flen, &value)) {
+						if(0 < PX_get_data_byte(pxdoc, &data[offset], pxf->px_flen, &value)) {
 							val = value_new_bool (value ? TRUE : FALSE);
 						}
 						break;
@@ -160,7 +160,7 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 					case pxfDate: {
 						long value;
 						int year, month, day;
-						if(PX_get_data_long(pxdoc, &data[offset], pxf->px_flen, &value)) {
+						if(0 < PX_get_data_long(pxdoc, &data[offset], pxf->px_flen, &value)) {
 							PX_SdnToGregorian(value+1721425, &year, &month, &day);
 							GDate *date = g_date_new_dmy (day, month, year);
 							val = value_new_int (datetime_g_to_serial (date, NULL));
@@ -168,9 +168,16 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 						}
 						break;
 					}
+					case pxfBCD: {
+						char *value;
+						if(0 < PX_get_data_bcd(pxdoc, &data[offset], pxf->px_fdc, &value)) {
+							val = value_new_string_nocopy (value);
+						}
+						break;
+					}
 					default: {
 						val = value_new_string_nocopy (
-							g_strdup_printf ("Field type %d is not unsupported", pxf->px_ftype));
+							g_strdup_printf (_("Field type %d is not unsupported."), pxf->px_ftype));
 					}
 				}
 				if(val)
@@ -181,19 +188,19 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 			if(pxh->px_filetype == pxfFileTypPrimIndex) {
 				short int value;
 				cell = sheet_cell_fetch (sheet, i++, row);
-				if(PX_get_data_short(pxdoc, &data[offset], 2, &value)) {
+				if(0 < PX_get_data_short(pxdoc, &data[offset], 2, &value)) {
 					val = value_new_int (value);
 					cell_set_value (cell, val);
 				}
 				offset += 2;
 				cell = sheet_cell_fetch (sheet, i++, row);
-				if(PX_get_data_short(pxdoc, &data[offset], 2, &value)) {
+				if(0 < PX_get_data_short(pxdoc, &data[offset], 2, &value)) {
 					val = value_new_int (value);
 					cell_set_value (cell, val);
 				}
 				offset += 2;
 				cell = sheet_cell_fetch (sheet, i++, row);
-				if(PX_get_data_short(pxdoc, &data[offset], 2, &value)) {
+				if(0 < PX_get_data_short(pxdoc, &data[offset], 2, &value)) {
 					val = value_new_int (value);
 					cell_set_value (cell, val);
 				}

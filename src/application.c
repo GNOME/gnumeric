@@ -41,6 +41,7 @@ enum {
 enum {
 	WORKBOOK_ADDED,
 	WORKBOOK_REMOVED,
+	WINDOW_LIST_CHANGED,
 	CLIPBOARD_MODIFIED,
 	LAST_SIGNAL
 };
@@ -69,9 +70,10 @@ struct _GnmApp {
 typedef struct {
 	GObjectClass     parent;
 
-	void (*workbook_added)     (GnmApp *gnm_app, Workbook *wb);
-	void (*workbook_removed)   (GnmApp *gnm_app, Workbook *wb);
-	void (*clipboard_modified) (GnmApp *gnm_app);
+	void (*workbook_added)      (GnmApp *gnm_app, Workbook *wb);
+	void (*workbook_removed)    (GnmApp *gnm_app, Workbook *wb);
+	void (*window_list_changed) (GnmApp *gnm_app);
+	void (*clipboard_modified)  (GnmApp *gnm_app);
 
 } GnmAppClass;
 
@@ -126,6 +128,10 @@ gnm_app_workbook_list_add (Workbook *wb)
 	g_return_if_fail (app != NULL);
 
 	app->workbook_list = g_list_prepend (app->workbook_list, wb);
+	g_signal_connect (G_OBJECT (wb),
+		"filename_changed",
+		G_CALLBACK (gnm_app_flag_windows_changed), NULL);
+	gnm_app_flag_windows_changed ();
 	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_ADDED], 0, wb);
 }
 
@@ -142,6 +148,9 @@ gnm_app_workbook_list_remove (Workbook *wb)
 	g_return_if_fail (app != NULL);
 
 	app->workbook_list = g_list_remove (app->workbook_list, wb);
+	g_signal_handlers_disconnect_by_func (G_OBJECT (wb),
+		G_CALLBACK (gnm_app_flag_windows_changed), NULL);
+	gnm_app_flag_windows_changed ();
 	g_signal_emit (G_OBJECT (app), signals [WORKBOOK_REMOVED], 0, wb);
 }
 
@@ -759,6 +768,14 @@ gnm_app_class_init (GObjectClass *gobject_klass)
 		g_cclosure_marshal_VOID__POINTER,
 		G_TYPE_NONE,
 		1, G_TYPE_POINTER);
+	signals [WINDOW_LIST_CHANGED] = g_signal_new ("window-list-changed",
+		GNM_APP_TYPE,
+		G_SIGNAL_RUN_LAST,
+		G_STRUCT_OFFSET (GnmAppClass, window_list_changed),
+		(GSignalAccumulator) NULL, NULL,
+		g_cclosure_marshal_VOID__VOID,
+		G_TYPE_NONE,
+		0);
 	signals [CLIPBOARD_MODIFIED] = g_signal_new ("clipboard_modified",
 		GNM_APP_TYPE,
 		G_SIGNAL_RUN_LAST,
@@ -792,3 +809,25 @@ gnm_app_init (GObject *obj)
 GSF_CLASS (GnmApp, gnm_app,
 	   gnm_app_class_init, gnm_app_init,
 	   G_TYPE_OBJECT);
+ 
+static gint windows_update_timer = -1;
+static gboolean
+cb_flag_windows_changed ()
+{
+	g_signal_emit (G_OBJECT (app), signals [WINDOW_LIST_CHANGED], 0);
+	windows_update_timer = -1;
+	return FALSE;
+}
+
+/**
+ * gnm_app_flag_windows_changed :
+ *
+ * An internal utility routine to flag a regeneration of the window lists
+ **/
+void
+gnm_app_flag_windows_changed (void)
+{
+	if (windows_update_timer < 0)
+		windows_update_timer = g_timeout_add (100,
+			(GSourceFunc)cb_flag_windows_changed, NULL);
+}

@@ -42,11 +42,10 @@
 #define WBC_VIRTUAL_FULL(func, handle, arglist, call)		\
 void wb_control_ ## func arglist				\
 {								\
-	WorkbookControlClass *wbc_class;			\
+	WorkbookControlClass *wbc_class = WBC_CLASS (wbc);	\
 								\
-	g_return_if_fail (IS_WORKBOOK_CONTROL (wbc));		\
+	g_return_if_fail (wbc_class != NULL);			\
 								\
-	wbc_class = WBC_CLASS (wbc);				\
 	if (wbc_class != NULL && wbc_class->handle != NULL)	\
 		wbc_class->handle call;				\
 }
@@ -56,18 +55,35 @@ WorkbookControl *
 wb_control_wrapper_new (WorkbookControl *wbc, WorkbookView *wbv, Workbook *wb,
 			void *extra)
 {
-	WorkbookControlClass *wbc_class;
+	WorkbookControlClass *wbc_class = WBC_CLASS (wbc);
 
-	g_return_val_if_fail (IS_WORKBOOK_CONTROL (wbc), NULL);
+	g_return_val_if_fail (wbc_class != NULL, NULL);
 
-	wbc_class = WBC_CLASS (wbc);
 	if (wbc_class != NULL && wbc_class->control_new != NULL)
 		return wbc_class->control_new (wbc, wbv, wb, extra);
 	return NULL;
 }
 
-WBC_VIRTUAL (title_set,
-	(WorkbookControl *wbc, char const * title), (wbc, title))
+/**
+ * wb_control_title_set :
+ * @wbc : #WorkbookControl
+ * @title :
+ *
+ * Set the controls title to @title.  Additionally notify the application that
+ * the list of windows should be updated.
+ **/
+void
+wb_control_title_set (WorkbookControl *wbc, char const * title)
+{
+	WorkbookControlClass *wbc_class = WBC_CLASS (wbc);
+
+	g_return_if_fail (wbc_class != NULL);
+
+	if (wbc_class != NULL && wbc_class->title_set != NULL)
+		wbc_class->title_set (wbc, title);
+	gnm_app_flag_windows_changed ();
+}
+
 WBC_VIRTUAL (prefs_update,
 	(WorkbookControl *wbc), (wbc))
 WBC_VIRTUAL (style_feedback,

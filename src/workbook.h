@@ -62,8 +62,9 @@ unsigned    workbook_find_command	(Workbook *wb,
 
 
 /* IO Routines */
-gboolean       workbook_set_uri	(Workbook *wb, char const *uri);
-char const    *workbook_get_uri	(Workbook *wb);
+gboolean       workbook_set_uri		(Workbook *wb, char const *uri);
+char const    *workbook_get_uri		(Workbook const *wb);
+char const    *workbook_get_basename	(Workbook const *wb);
 
 gboolean       workbook_set_saveinfo	(Workbook *wb,
 					 FileFormatLevel, GnmFileSaver *);

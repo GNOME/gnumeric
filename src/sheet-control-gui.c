@@ -2037,7 +2037,7 @@ scg_comment_select (SheetControlGUI *scg, GnmComment *cc)
 
 	scg->comment.selected = cc;
 	scg->comment.timer = g_timeout_add (1000,
-		(GtkFunction)cb_cell_comment_timer, scg);
+		(GSourceFunc)cb_cell_comment_timer, scg);
 }
 
 /**

@@ -1320,6 +1320,7 @@ static /* const 142334 */ GtkActionEntry permanent_actions[] = {
 	        { "MenuEditSelect",	NULL, N_("_Select") },
 	        { "MenuEditFill",	NULL, N_("_Fill") },
 	{ "MenuView",		NULL, N_("_View") },
+		{ "MenuViewWindows",		NULL, N_("_Windows") },
 		{ "MenuViewToolbars",		NULL, N_("_Toolbars") },
 	{ "MenuInsert",		NULL, N_("_Insert") },
 		{ "MenuInsertNames",		NULL, N_("_Names") },

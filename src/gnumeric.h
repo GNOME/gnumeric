@@ -17,11 +17,7 @@
  * Note: more than 364238 columns will introduce a column named TRUE.
  */
 
-typedef struct _GnmCmdContext		GnmCmdContext;
-
-typedef struct _IOContext		IOContext;
-typedef struct _XmlParseContext		XmlParseContext;
-
+typedef struct _GnmApp			GnmApp;
 typedef struct _Workbook		Workbook;
 typedef struct _WorkbookView		WorkbookView;
 typedef struct _WorkbookControl		WorkbookControl;
@@ -153,8 +149,11 @@ typedef enum {
 typedef struct _GnmMemChunk		GnmMemChunk;
 typedef struct _GnmString 	        GnmString;
 
+typedef struct _GnmCmdContext		GnmCmdContext;
+typedef struct _IOContext		IOContext;
 typedef struct _GnmFileSaver 		GnmFileSaver;
 typedef struct _GnmFileOpener		GnmFileOpener;
+typedef struct _XmlParseContext		XmlParseContext;
 
 typedef struct _GnmPlugin		GnmPlugin;
 typedef struct _GnmPluginService	GnmPluginService;

@@ -1,3 +1,14 @@
+2004-07-27  Jody Goldberg <jody@gnome.org>
+
+	* src/wbc-gtk.c (cb_regenerate_window_menu) : new.
+
+2004-07-26  Jody Goldberg <jody@gnome.org>
+
+	* configure.in :  bump pxlib req to 0.3.0 per Uwe's request
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=148412
+	* src/workbook-control-gui-priv.h : typo in the new combos
+
 2004-07-26  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet.c (sheet_colrow_group_ungroup): Don't use ?: result
