@@ -1,3 +1,7 @@
+2002-07-16  Christian Rose  <menthos@menthos.com>
+
+	* POTFILES.in: Removed missing file.
+
 2002-07-10  Jody Goldberg <jody@gnome.org>
 
 	* POTFILES.in : add complex and random function plugins.

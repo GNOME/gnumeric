@@ -68,7 +68,6 @@ plugins/python-loader/py-gnumeric.c
 plugins/python-loader/python-loader.c
 plugins/python/plugin.xml.in
 plugins/python/python.c
-plugins/qpro/qpro.c
 plugins/qpro/plugin.xml.in
 plugins/sample_datasource/sample_datasource.c
 plugins/sc/plugin.xml.in
