@@ -1,5 +1,8 @@
 Gnumeric 1.0.11
 
+Andreas:
+        * Fix 78356.
+
 Andrew Moise:
 	* Fixed string termination issue in detection of structured text
 	  files.

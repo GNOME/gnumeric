@@ -467,6 +467,6 @@ stf_init (void)
 	register_file_saver (gnum_file_saver_new (
 		"Gnumeric_stf:stf", "csv",
 		_("Text export (configurable)"),
-		FILE_FL_MANUAL, stf_write_workbook));
+		FILE_FL_WRITE_ONLY, stf_write_workbook));
 }
 

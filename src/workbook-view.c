@@ -613,8 +613,9 @@ wb_view_save_as (WorkbookView *wbv, GnumFileSaver *fs, gchar const *file_name,
 	io_context = gnumeric_io_context_new (context);
 	gnum_file_saver_save (fs, io_context, wbv, file_name);
 	if (!gnumeric_io_error_occurred (io_context)) {
-		workbook_set_saveinfo (wb, file_name, gnum_file_saver_get_format_level (fs), fs);
-		workbook_set_dirty (wb, FALSE);
+		if (workbook_set_saveinfo (wb, file_name, 
+			gnum_file_saver_get_format_level (fs), fs))
+				workbook_set_dirty (wb, FALSE);
 		success = TRUE;
 	} else {
 		gnumeric_io_error_display (io_context);
