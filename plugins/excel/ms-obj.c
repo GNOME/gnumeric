@@ -43,6 +43,8 @@ ms_obj_realize (MSObj *obj, ExcelWorkbook *wb, ExcelSheet *sheet)
 	int   *anchor = NULL, i;
 	float   zoom;
 
+	g_return_val_if_fail (sheet != NULL, TRUE);
+
 	if (obj == NULL)
 		return TRUE;
 
@@ -125,6 +127,8 @@ void
 ms_excel_sheet_realize_objs (ExcelSheet *sheet)
 {
 	GList *l;
+
+	g_return_if_fail (sheet != NULL);
 
 	for (l = sheet->obj_queue; l; l = g_list_next (l))
 		ms_obj_realize (l->data, sheet->wb, sheet);

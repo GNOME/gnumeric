@@ -8,8 +8,10 @@
 	  widths.
 
 	* ms-obj.c (ms_obj_realize) : Create a visual placeholder for charts.
+	  Check for NULL sheet.
 
-	* ms-escher.c (ms_escher_read_ClientData) : Only set the blip type
+	* ms-escher.c : Lots more OPT record types.
+	(ms_escher_read_ClientData) : Only set the blip type
 	  if we are a picture.
 
 1999-09-21  Michael Meeks  <michael@nuclecu.unam.mx>
