@@ -227,8 +227,7 @@ GNUMERIC_BONOBO_SOURCES = 			\
 	sheet-object-container.c		\
 	sheet-object-container.h		\
 	sheet-object-item.c			\
-	sheet-object-item.h			\
-	graph-series.c
+	sheet-object-item.h
 
 gnumeric_SOURCES =					\
 	main.c						\
