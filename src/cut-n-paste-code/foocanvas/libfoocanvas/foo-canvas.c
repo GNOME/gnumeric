@@ -1477,7 +1477,7 @@ foo_canvas_group_draw (FooCanvasItem *item, GdkDrawable *drawable,
 {
 	FooCanvasGroup *group;
 	GList *list;
-	FooCanvasItem *child = 0;
+	FooCanvasItem *child = NULL;
 
 	group = FOO_CANVAS_GROUP (item);
 
@@ -2896,7 +2896,7 @@ foo_canvas_expose (GtkWidget *widget, GdkEventExpose *event)
 	/* Chain up to get exposes on child widgets */
 	GTK_WIDGET_CLASS (canvas_parent_class)->expose_event (widget, event);
 
-	return TRUE;
+	return FALSE;
 }
 
 static void
@@ -2973,7 +2973,13 @@ static void
 add_idle (FooCanvas *canvas)
 {
 	if (!canvas->idle_id) {
-		canvas->idle_id = g_idle_add (idle_handler, canvas);
+		/* We let the update idle handler have higher priority
+		 * than the redraw idle handler so the canvas state
+		 * will be updated during the expose event.  canvas in
+		 * expose_event.
+		 */
+		canvas->idle_id = g_idle_add_full (GDK_PRIORITY_REDRAW - 20,
+						   idle_handler, canvas, NULL);
 	}
 }
 
