@@ -27,12 +27,12 @@ static GtkWidget *number_format_list;
 
 static GtkWidget *font_widget;
 
-/* There point to the radio groups in the format/alignment page */
+/* These point to the radio groups in the format/alignment page */
 static GSList *hradio_list;
 static GSList *vradio_list;
 static GtkWidget *auto_return;
 
-/* These points to the radio buttons of the coloring page */
+/* These point to the radio buttons of the coloring page */
 static GSList *foreground_radio_list;
 static GSList *background_radio_list;
 
@@ -43,7 +43,7 @@ static GtkWidget *background_cs;
 static Cell *first_cell;
 
 static void
-prop_modified (GtkWidget *widge, GnomePropertyBox *box)
+prop_modified (GtkWidget *widget, GnomePropertyBox *box)
 {
 	gnome_property_box_changed (box);
 }
@@ -725,7 +725,7 @@ static struct {
 	{ N_("Alignment"), create_align_page,          apply_align_format    },
 	{ N_("Font"),      create_font_page,           apply_font_format     },
 /*	{ N_("Coloring"),  create_coloring_page,       apply_coloring_format }, */
-	{ NULL, NULL }
+	{ NULL, NULL, NULL }
 };
 
 static void
