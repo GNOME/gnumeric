@@ -19,6 +19,11 @@
 #include "selection.h"
 #include "commands.h"
 
+#include "style-border.h"
+#include "style-color.h"
+#include "sheet-style.h"
+#include "mstyle.h"
+
 #include <gbrun/libgbrun.h>
 #include <gb/gb-constants.h>
 #include "../excel/excel.h"

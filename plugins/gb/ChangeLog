@@ -1,3 +1,8 @@
+2001-01-05  Michael Meeks  <michael@helixcode.com>
+
+	* excel-gb-interior.c (excel_gb_interior_set_arg):
+	include new style headers.
+
 2000-12-20  Morten Welinder  <terra@diku.dk>
 
 	* *.c: Include <config.h>.
