@@ -60,7 +60,7 @@ Morten:
 	  function.
 	* Make pretty-printing clarify trees like "-2^2" into "(-2)^2".
 	* Fix cell entry display for strings with initial quote.
-	* Improve YIELDDISC a lot.
+	* Fix YIELDDISC and ODDFPRICE.
 
 --------------------------------------------------------------------------
 

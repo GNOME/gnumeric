@@ -2740,24 +2740,105 @@ static char const *help_oddfprice = {
 	   "@SEEALSO=")
 };
 
+static gnm_float
+date_ratio (const GDate *d1, const GDate *d2, const GDate *d3,
+	    const GnmCouponConvention *conv)
+{
+	GDate next_coupon, prev_coupon;
+	gnm_float res;
+
+	coup_cd (&next_coupon, d1, d3, conv->freq, conv->eom, TRUE);
+	coup_cd (&prev_coupon, d1, d3, conv->freq, conv->eom, FALSE);
+
+	if (g_date_compare (&next_coupon, d2) >= 0)
+		return days_between_basis (d1, d2, conv->basis) /
+			coupdays (&prev_coupon, &next_coupon, conv);
+
+	res = days_between_basis (d1, &next_coupon, conv->basis) /
+		coupdays (&prev_coupon, &next_coupon, conv);
+	while (1) {
+		prev_coupon = next_coupon;
+		g_date_add_months (&next_coupon, 12 / conv->freq);
+		if (g_date_compare (&next_coupon, d2) >= 0) {
+			res += days_between_basis (&prev_coupon, d2, conv->basis) /
+				coupdays (&prev_coupon, &next_coupon, conv);
+			return res;
+		}
+		res += 1;
+	}
+}
+
+static gnm_float
+calc_oddfprice (const GDate *settlement, const GDate *maturity,
+		const GDate *issue, const GDate *first_coupon,
+		gnm_float rate, gnm_float yield, gnm_float redemption,
+		const GnmCouponConvention *conv)
+
+{
+	gnm_float a = days_between_basis (issue, settlement, conv->basis);
+	gnm_float ds = days_between_basis (settlement, first_coupon, conv->basis);
+	gnm_float df = days_between_basis (issue, first_coupon, conv->basis);
+	gnm_float e = coupdays (settlement, maturity, conv);
+	int n = (int)coupnum (settlement, maturity, conv);
+	gnm_float scale = 100.0 * rate / conv->freq;
+	gnm_float f = 1.0 + yield / conv->freq;
+	gnm_float sum, term1, term2;
+
+	if (ds > e) {
+		/* Odd-long corrections.  */
+		switch (conv->basis) {
+		case BASIS_MSRB_30_360:
+		case BASIS_30E_360: {
+			int cdays = days_between_basis (first_coupon, maturity, conv->basis);
+			n = 1 + (int)ceilgnum (cdays / e);
+			break;
+		}
+
+		default: {
+			GDate d = *first_coupon;
+
+			for (n = 0; 1; n++) {
+				GDate prev_date = d;
+				g_date_add_months (&d, 12 / conv->freq);
+				if (g_date_compare (&d, maturity) >= 0) {
+					n += (int)ceilgnum (days_between_basis (&prev_date, maturity, conv->basis) /
+							    coupdays (&prev_date, &d, conv))
+						+ 1;
+					break;
+				}
+			}
+			a = e * date_ratio (issue, settlement, first_coupon, conv);
+			ds = e * date_ratio (settlement, first_coupon, first_coupon, conv);
+			df = e * date_ratio (issue, first_coupon, first_coupon, conv);
+		}
+		}
+	}
+
+	term1 = redemption / powgnum (f, n - 1.0 + ds / e);
+	term2 = (df / e) / powgnum (f, ds / e);
+	sum = powgnum (f, -ds / e) *
+		(powgnum (f, -n) - 1 / f) / (1 / f - 1);
+
+	return term1 + scale * (term2 + sum - a / e);
+}
+
+
+
 static Value *
 gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
 {
         GDate     settlement, maturity, issue, first_coupon;
-        gnm_float a, ds, df, e, n;
-	gnm_float term1, term2, last_term, sum;
 	gnm_float rate, yield, redemption;
-	gint      k;
 	GnmCouponConvention conv;
-
-	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 
 	rate       = value_get_as_float (argv[4]);
 	yield      = value_get_as_float (argv[5]);
 	redemption = value_get_as_float (argv[6]);
+
         conv.eom   = TRUE;
         conv.freq  = value_get_as_int (argv[7]);
         conv.basis = argv[8] ? value_get_as_int (argv[8]) : 0;
+	conv.date_conv = workbook_date_conv (ei->pos->sheet->workbook);
 
 	if (!datetime_value_to_g (&settlement, argv[0], conv.date_conv) ||
 	    !datetime_value_to_g (&maturity, argv[1], conv.date_conv) ||
@@ -2775,27 +2856,10 @@ gnumeric_oddfprice (FunctionEvalInfo *ei, Value **argv)
         if (rate < 0.0 || yield < 0.0 || redemption <= 0.0)
                 return value_new_error_NUM (ei->pos);
 
-	a = coupdaybs (&settlement, &maturity, &conv);
-	ds = -1; /* FIXME */
-	df = -1; /* FIXME */
-	e = coupdays (&settlement, &maturity, &conv);
-	n = coupnum (&settlement, &maturity, &conv);
-
-	/*
-	 * FIXME: Check if odd long first coupon and implement the branch
-	 */
-
-	/* Odd short first coupon */
-	term1 = redemption / powgnum (1.0 + yield / conv.freq, n - 1.0 + ds / e);
-	term2 = (100.0 * rate / conv.freq * df / e) / powgnum (1.0 + yield / conv.freq,
-							  ds / e);;
-	last_term = 100.0 * rate / conv.freq * a / e;
-	sum = 0;
-	for (k = 1; k < n; k++)
-	        sum += (100.0 * rate / conv.freq) / powgnum (1 + yield / conv.freq,
-							k + ds / e);
-
-	return value_new_float (term1 + term2 + sum - last_term);
+	return value_new_float
+		(calc_oddfprice
+		 (&settlement, &maturity, &issue, &first_coupon,
+		  rate, yield, redemption, &conv));
 }
 
 /***************************************************************************/

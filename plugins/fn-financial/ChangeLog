@@ -1,5 +1,9 @@
 2003-06-27  Morten Welinder  <terra@gnome.org>
 
+	* functions.c (calc_oddfprice): New function, extracted from
+	gnumeric_oddfprice and fixed.
+	(gnumeric_oddfprice): Use calc_oddfprice.
+
 	* sc-fin.c (get_yielddisc): Beat some sense into this.
 
 2003-06-23  Andreas J. Guelzow <aguelzow@taliesin.ca>

@@ -7,7 +7,7 @@
 2003-06-27  Morten Welinder  <terra@gnome.org>
 
 	* src/rendered-value.c (cell_get_entered_text): Always quote
-	strings values starting with a quote.
+	string values starting with a quote.
 
 2003-06-26  Jody Goldberg <jody@gnome.org>
 
