@@ -135,6 +135,9 @@ src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-pie.c
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/gog-ring-prefs.glade
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plot-types.xml.in
 src/cut-n-paste-code/goffice/graph/plugins/plot_pie/plugin.xml.in
+src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c
+src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in
+src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in
 src/dates.c
 src/dependent.c
 src/dialogs/advanced-filter.glade

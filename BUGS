@@ -187,16 +187,16 @@ Pending Patches
 	1.22.1) Set up cardinality framework.			(DONE)
 	1.22.2) Get things to update when chart changes		(DONE)
 	1.22.2) smarter layout
-    1.23) Layout engine
+    1.23) Layout engine						(DONE)
 	1.23.1) In ChartView::size_allocate use the positions	(DONE)
 	1.23.2) For compass placement use the alignment flags	(DONE)
 	1.23.3) support NW, NE, SW, SE				(DONE)
 	1.23.4) Move ChartView::size_allocate -> GogView	(DONE)
-	1.24.5) Have Graph, Chart, Legend and Axis use it
-	1.23.6) Add some notion of padding
+	1.24.5) Have Graph, Chart, Legend and Axis use it	(DONE)
+	1.23.6) Add some notion of padding			(DONE)
 	1.23.7) remove request_valid				(DONE)
-	1.23.8) pass in available space
-    1.24) Sizing units
+	1.23.8) pass in available space				(DONE)
+    1.24) Sizing units						(DONE)
 	1.24.1) Have the legend use pts to size swatches	(DONE)
 	1.24.2) Test renderers mapping between pts & pixels	(DONE)
     1.25) Printing

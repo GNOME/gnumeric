@@ -15,11 +15,21 @@
 #include <libgnome/gnome-program.h>
 #include <libgnomeui/gnome-ui-init.h>
 
+static GnomeProgram *program;
+
+void
+gnumeric_arg_shutdown ()
+{
+	g_object_unref (program);
+	program = NULL;
+}
+
 poptContext
 gnumeric_arg_parse (int argc, char *argv [])
 {
 	poptContext ctx = NULL;
-	GnomeProgram *program = gnome_program_init (PACKAGE, VERSION,
+
+	program = gnome_program_init (PACKAGE, VERSION,
 		LIBGNOMEUI_MODULE, argc, argv,
 		GNOME_PARAM_APP_PREFIX,		GNUMERIC_PREFIX,
 		GNOME_PARAM_APP_SYSCONFDIR,	GNUMERIC_SYSCONFDIR,

@@ -233,6 +233,7 @@ main (int argc, char *argv [])
 		gtk_main ();
 	}
 
+	gnumeric_arg_shutdown ();
 	gnm_shutdown ();
 
 #ifdef WITH_BONOBO

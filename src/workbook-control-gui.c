@@ -5504,14 +5504,29 @@ cb_graph_dim_editor_update (G_GNUC_UNUSED GnmExprEntry *gee,
 	/* If we are setting something */
 	if (!gnm_expr_entry_is_blank (editor->entry)) {
 		ParsePos pos;
-		GnmExpr const *expr = gnm_expr_entry_parse (editor->entry,
+		ParseError  perr;
+		GnmExpr const *expr;
+
+		parse_error_init (&perr);
+		expr = gnm_expr_entry_parse (editor->entry,
 			parse_pos_init_sheet (&pos, sheet),
-			NULL, TRUE, GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
+			&perr, TRUE, GNM_EXPR_PARSE_UNKNOWN_NAMES_ARE_STRINGS);
 
 		/* TODO : add some error dialogs split out
-		 * the code in workbok_edit.  */
-		if (expr == NULL)
-			return;
+		 * the code in workbok_edit to add parens.  */
+		if (expr == NULL) {
+			if (editor->prefers_scalar)
+				expr = gnm_expr_new_constant (value_new_string (
+					gnm_expr_entry_get_text	(editor->entry)));
+			else {
+				g_return_if_fail (perr.err != NULL);
+
+				wb_control_validation_msg (WORKBOOK_CONTROL (scg_get_wbcg (scg)),
+					VALIDATION_STYLE_PARSE_ERROR, NULL, perr.err->message);
+				parse_error_free (&perr);
+				return;
+			}
+		}
 
 		data = (editor->prefers_scalar)
 			? gnm_go_data_scalar_new_expr (sheet, expr)

@@ -1,3 +1,9 @@
+2003-09-01  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_graph_dim_editor_update) : If the
+	  parse fails, popup an error for vectors, and fall back to a string
+	  for scalars.
+
 2003-09-01  Metin Amiroff  <metin@karegen.com>
 
 	configure.in: Added "az" in ALL_LINGUAS.
