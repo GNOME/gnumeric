@@ -4872,7 +4872,7 @@ random_gumbel1 (gnum_float a, gnum_float b)
 	        x = random_01 ();
 	} while (x == 0.0);
 
-	return (log (b) - log (-log (x))) / a;
+	return (loggnum (b) - loggnum (-loggnum (x))) / a;
 }
 
 /*
@@ -4889,7 +4889,7 @@ random_gumbel2 (gnum_float a, gnum_float b)
 	        x = random_01 ();
 	} while (x == 0.0);
 
-	return pow (-b / log (x), 1 / a);
+	return powgnum (-b / loggnum (x), 1 / a);
 }
 
 /*
@@ -4922,10 +4922,10 @@ random_levy (gnum_float c, gnum_float alpha)
 	        u = random_01 ();
 	} while (u == 0.0);
 
-	u = M_PI * (u - 0.5);
+	u = M_PIgnum * (u - 0.5);
 
 	if (alpha == 1) {             /* cauchy case */
-	        t = tan (u);
+	        t = tangnum (u);
 		return c * t;
 	}
 
@@ -4934,14 +4934,14 @@ random_levy (gnum_float c, gnum_float alpha)
 	} while (v == 0);
 
 	if (alpha == 2) {            /* gaussian case */
-	        t = 2 * sin (u) * sqrt(v);
+	        t = 2 * singnum (u) * sqrtgnum (v);
 		return c * t;
 	}
 
 	/* general case */
 
-	t = sin (alpha * u) / pow (cos (u), 1 / alpha);
-	s = pow (cos ((1 - alpha) * u) / v, (1 - alpha) / alpha);
+	t = singnum (alpha * u) / powgnum (cosgnum (u), 1 / alpha);
+	s = powgnum (cosgnum ((1 - alpha) * u) / v, (1 - alpha) / alpha);
 
 	return c * t * s;
 }
@@ -4981,25 +4981,25 @@ random_levy_skew (gnum_float c, gnum_float alpha, gnum_float beta)
 	        V = random_01 ();
 	} while (V == 0.0);
 
-	V = M_PI * (V - 0.5);
+	V = M_PIgnum * (V - 0.5);
 
 	do {
 	        W = random_exponential (1.0);
 	} while (W == 0);
 
 	if (alpha == 1) {
-	        X = ((M_PI_2 + beta * V) * tan (V) -
-		     beta * log (M_PI_2 * W * cos (V) /
-				 (M_PI_2 + beta * V))) / M_PI_2;
-		return c * (X + beta * log (c) / M_PI_2);
+	        X = ((M_PI_2gnum + beta * V) * tangnum (V) -
+		     beta * loggnum (M_PI_2gnum * W * cosgnum (V) /
+				     (M_PI_2gnum + beta * V))) / M_PI_2gnum;
+		return c * (X + beta * loggnum (c) / M_PI_2gnum);
 	} else {
-	        gnum_float t = beta * tan (M_PI_2 * alpha);
-		gnum_float B = atan (t) / alpha;
-		gnum_float S = pow (1 + t * t, 1/(2 * alpha));
+	        gnum_float t = beta * tangnum (M_PI_2gnum * alpha);
+		gnum_float B = atangnum (t) / alpha;
+		gnum_float S = powgnum (1 + t * t, 1 / (2 * alpha));
 
-		X = S * sin (alpha * (V + B)) / pow (cos (V), 1 / alpha)
-		        * pow (cos (V - alpha * (V + B)) / W,
-			       (1 - alpha) / alpha);
+		X = S * singnum (alpha * (V + B)) / powgnum (cosgnum (V), 1 / alpha)
+		        * powgnum (cosgnum (V - alpha * (V + B)) / W,
+				   (1 - alpha) / alpha);
 		return c * X;
 	}
 }
