@@ -85,8 +85,12 @@ gnumeric_bonobo_read_from_stream (BonoboPersistStream       *ps,
 		workbook_enable_recursive_dirty (wb, old);
 		if (gnumeric_io_error_occurred (ioc))
 			workbook_unref (wb);		
-	} else
+	} else {
+#warning "These two are doubtful."
+		wb_view = NULL;
+		wb = NULL;
 		gnumeric_io_error_read (ioc, _("Unsupported file format."));
+	}
 	if (gnumeric_io_error_occurred (ioc)) {
 		gnumeric_io_error_display (ioc);
 		/* This may be a bad exception to throw, but they're all bad */

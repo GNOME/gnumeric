@@ -1,3 +1,8 @@
+2002-09-16  Morten Welinder  <terra@diku.dk>
+
+	* src/bonobo-io.c (gnumeric_bonobo_read_from_stream): "Fix"
+	warnings.
+
 2002-09-16  Christian Neumair  <chris@gnome-de.org>
 
 	* src/dialogs/*.glade: Made most dialogs HIG compliant.
