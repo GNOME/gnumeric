@@ -14,13 +14,12 @@ msgstr ""
 "Project-Id-Version: gnumeric.HEAD.pt_BR\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2005-02-08 00:53-0500\n"
-"PO-Revision-Date: 2005-02-03 23:43-0200\n"
+"PO-Revision-Date: 2005-02-08 14:36-0200\n"
 "Last-Translator: Afonso Celso Medina <medina@maua.br>\n"
-"Language-Team: Português/Brasil <gnome-l10n-br@listas.cipsga.org.br>\n"
+"Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.9.1\n"
+"Content-Transfer-Encoding: 8bit"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -21358,15 +21357,13 @@ msgstr "Gráficos de Linha, Área, Barra e Coluna"
 #. * eg The 2nd box-plot in a chart will be called
 #. * 	BoxPlot2
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:104
-#, fuzzy
 msgid "Box-Plot"
-msgstr "Plot"
+msgstr "Box-Plot"
 
 # plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1177
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/gog-boxplot.c:341
-#, fuzzy
 msgid "Invalid data."
-msgstr "Padrão de busca inválido."
+msgstr "Dado inválido."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:1
 msgid ""
@@ -21374,31 +21371,29 @@ msgid ""
 "minimum, first quartile, median, third quartile, and maximum, not the raw "
 "data."
 msgstr ""
+"Box-Plot. Você dever prover cinco valores para a ferramenta de plotagem, na "
+"seguinte ordem: mínimo, primeiro quartil, mediana, terceiro quartil e máximo - "
+"não o conjunto completo de dados."
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:2
-#, fuzzy
 msgid "BoxPlot"
-msgstr "Plot"
+msgstr "BoxPlot"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plot-types.xml.in.h:3
-#, fuzzy
 msgid "BoxPlots"
-msgstr "Plot"
+msgstr "BoxPlots"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:1
-#, fuzzy
 msgid "Box-Plots"
-msgstr "Plot"
+msgstr "Box-Plots"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:2
-#, fuzzy
 msgid "Box-plot plotting engine"
-msgstr "Ferramenta de plotagem de Bar/Col"
+msgstr "Ferramenta de plotagem de Box-Plot"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:3
-#, fuzzy
 msgid "Charting : Box-Plots"
-msgstr "Gráficos: plotagens Radiais"
+msgstr "Gráficos: Box-Plots"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_boxes/plugin.xml.in.h:4
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_surface/plugin.xml.in.h:2
@@ -33934,3 +33929,4 @@ msgstr "Modelo de lista lilás"
 #: templates/autoformat/autoformat.List.simple.xml.in.h:1
 msgid "A simple list template"
 msgstr "Um modelo de lista simples"
+
