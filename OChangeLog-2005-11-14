@@ -1,3 +1,9 @@
+2004-04-07  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: substitute WARN_CFLAGS as
+	src/cut-n-paste-code/foocanvas/libfoocanvas/Makefile references it
+	directly.
+
 2004-04-05  Morten Welinder  <terra@gnome.org>
 
 	* src/wbc-gtk.c (cb_add_menus_toolbars): Identify toolbars.

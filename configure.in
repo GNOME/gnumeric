@@ -165,6 +165,7 @@ if test "$GCC" = "yes" -a "x$set_more_warnings" != "xno"; then
 	done
 	unset option
 fi
+AC_SUBST(WARN_CFLAGS)
 
 dnl ****************************
 dnl GDA Plugin
