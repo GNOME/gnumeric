@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.4\n"
 "Report-Msgid-Bugs-To: Duarte Loreto <happyguy_pt@hotmail.com>\n"
-"POT-Creation-Date: 2003-09-09 01:56+0100\n"
-"PO-Revision-Date: 2003-09-09 01:59+0000\n"
+"POT-Creation-Date: 2003-09-09 15:33+0100\n"
+"PO-Revision-Date: 2003-09-09 15:35+0000\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: Portuguese <gnome_pt@yahoogroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -8478,7 +8478,7 @@ msgstr "%s versão %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:208
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:211
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -19269,7 +19269,7 @@ msgid "Jump to a specified cell"
 msgstr "Ir para uma célula específica"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:243
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
 #: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Etiqueta"
@@ -20780,54 +20780,54 @@ msgstr "_Baixa"
 msgid "_Map:"
 msgstr "_Mapa:"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:193
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "M_in"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:193
 msgid "M_ax"
 msgstr "Má_x"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:191
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:194
 msgid "Ma_jor Ticks"
 msgstr "_Escala Principal"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:192
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:195
 msgid "Mi_nor Ticks"
 msgstr "Escala Secu_ndária"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:215
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:218
 msgid "Bounds"
 msgstr "Limites"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:219
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:222
 msgid "Details"
 msgstr "Detalhes"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:168
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
 msgid "Legend"
 msgstr "Legenda"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:171
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Título"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:174
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
 msgid "X-Axis"
 msgstr "Eixo-X"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
 msgid "Y-Axis"
 msgstr "Eixo-Y"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
 msgid "Z-Axis"
 msgstr "Eixo-Z"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
 msgid "Plot"
 msgstr "Gráfico"
 
@@ -20953,7 +20953,7 @@ msgstr "Tipo Gráfico Pontos"
 msgid "Chart Theme"
 msgstr "Tema Gráfico"
 
-#: src/cut-n-paste-code/goffice/graph/gog-plot.c:164
+#: src/cut-n-paste-code/goffice/graph/gog-plot.c:166
 msgid "Series"
 msgstr "Séries"
 
@@ -21161,7 +21161,6 @@ msgstr "S_obreposição:"
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
-#.
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:95
 msgid "PlotBarCol"
 msgstr "ColBarPontos"
@@ -21178,7 +21177,7 @@ msgstr "Linha de Pontos"
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:113
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
 msgid "PlotArea"
 msgstr "Área de Pontos"
 
@@ -21534,15 +21533,18 @@ msgstr "Motor desenho queijos"
 msgid "Ring plotting engine"
 msgstr "Motor desenho círculos"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:55
-msgid "XYPlot"
-msgstr "PontosXY"
+#. xgettext : the base for how to name scatter plot objects
+#. * eg The 2nd plot in a chart will be called
+#. * 	PlotXY2
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:58
+msgid "PlotXY"
+msgstr "GráficoXY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:127
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:130
 msgid "X"
 msgstr "X"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:129
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:132
 msgid "Y"
 msgstr "Y"
 
@@ -31590,6 +31592,9 @@ msgstr "Falha ao gravar ficheiro"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Formato de ficheiro XML Gnumeric"
+
+#~ msgid "XYPlot"
+#~ msgstr "PontosXY"
 
 #~ msgid "S_ize:"
 #~ msgstr "_Tamanho:"
