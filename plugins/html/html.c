@@ -44,6 +44,7 @@
 #include "style-border.h"
 #include <rendered-value.h>
 #include "mstyle.h"
+#include "hlink.h"
 
 #include <gsf/gsf-output.h>
 #include <string.h>
@@ -90,6 +91,16 @@ html_print_encoded (GsfOutput *output, char const *str)
 				break;
 			case '\"':
 				gsf_output_puts (output, "&quot;");
+				break;
+			case '\n':
+				gsf_output_puts (output, "<br>\n");
+				break;
+			case '\r':
+				gsf_output_puts (output, "<br>\r");
+				if( *(str+1) == '\n' ) {
+					gsf_output_puts (output, "\n");
+					str++;
+				}
 				break;
 			default:
 				c = g_utf8_get_char (str);
@@ -148,6 +159,12 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, htm
 	guint b = 0;
 	char *rendered_string;
 	gboolean hidden = mstyle_get_content_hidden (mstyle);
+	GnmHLink* hlink = mstyle_get_hlink (mstyle);
+	const guchar* hlink_target = NULL;
+
+	if (hlink) {
+		hlink_target = gnm_hlink_get_target (hlink);
+	}
 
 	if (version == HTML32 && hidden)
 		gsf_output_puts (output, "<!-- 'HIDDEN DATA' -->");
@@ -160,6 +177,9 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, htm
 			if (font_is_monospaced (mstyle))
 				gsf_output_puts (output, "<tt>");
 		}
+
+		if (hlink_target)
+			gsf_output_printf (output, "<a href=\"%s\">", hlink_target);
 
 		if (cell != NULL) {
 			if (mstyle != NULL && version != HTML40) {
@@ -175,6 +195,8 @@ html_write_cell_content (GsfOutput *output, GnmCell *cell, GnmStyle *mstyle, htm
 
 		if (r > 0 || g > 0 || b > 0)
 			gsf_output_puts (output, "</font>");
+		if (hlink_target)
+			gsf_output_puts (output, "</a>");
 		if (mstyle != NULL) {
 			if (font_is_monospaced (mstyle))
 				gsf_output_puts (output, "</tt>");

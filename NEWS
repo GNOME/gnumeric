@@ -18,6 +18,9 @@ Morten:
 	* Fix IMCONJUGATE and IMABS for reals.  [#148323, backported]
 	* New function INVSUMINV.
 
+Yukihiro Nakai:
+	* Export links when saving as html.
+
 Uwe Steinmann:
 	* Paradox DB import.
 
