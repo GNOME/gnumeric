@@ -264,7 +264,12 @@ stf_export_cell (StfExportOptions_t *export_options, GnmCell *cell)
 		gboolean quoting = FALSE;
 		char *text;
 		const char *s;
-		
+		GString *res = g_string_new (NULL);
+		gsize bytes_read;
+		gsize bytes_written;
+		GError * error = NULL;
+		char * encoded_text = NULL;
+
 		if (export_options->preserve_format) 
 			text = cell_get_rendered_text (cell);
 		else
@@ -273,12 +278,6 @@ stf_export_cell (StfExportOptions_t *export_options, GnmCell *cell)
 				: g_strdup ("");
 		
 		s = text;
-		GString *res = g_string_new (NULL);
-
-		gsize bytes_read;
-		gsize bytes_written;
-		GError * error = NULL;
-		char * encoded_text = NULL;
 
 		if (export_options->quoting_mode == QUOTING_MODE_AUTO) {
 			if (g_utf8_strchr (s, -1, export_options->cell_separator) ||
