@@ -115,6 +115,8 @@ AC_OUTPUT([
 Makefile
 src/Makefile
 doc/Makefile
+doc/C/Makefile
+doc/es/Makefile
 plugins/Makefile
 plugins/sample/Makefile
 plugins/excel/Makefile
