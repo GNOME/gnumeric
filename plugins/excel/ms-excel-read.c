@@ -1960,8 +1960,8 @@ ms_excel_formula_shared (BiffQuery *q, ExcelSheet *sheet, Cell *cell)
 		 *     flag the formula as shared until later.
 		 *  Use the location of the cell we are reading as the key.
 		 */
-		sf->key.col = cell->col_info->pos; /* array_col_first; */
-		sf->key.row = cell->row_info->pos; /* array_row_first; */
+		sf->key.col = cell->pos.col; /* array_col_first; */
+		sf->key.row = cell->pos.row; /* array_row_first; */
 		sf->is_array = is_array;
 		if (data_len > 0) {
 			sf->data = g_new (guint8, data_len);
@@ -2171,8 +2171,8 @@ ms_excel_read_formula (BiffQuery *q, ExcelSheet *sheet)
 		 */
 		if (expr == NULL && !array_elem) {
 			g_warning ("EXCEL : How does cell %s%d have an array expression ?",
-				   col_name (cell->col_info->pos),
-				   cell->row_info->pos);
+				   col_name (cell->pos.col),
+				   cell->pos.row);
 			cell_set_value (cell, val, NULL);
 		} else
 			cell_assign_value (cell, val, NULL);
@@ -3496,6 +3496,38 @@ ms_excel_read_mergecells (BiffQuery *q, ExcelSheet *sheet)
 		}
 	}
 #endif
+}
+
+static void
+ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
+{
+	guint32 first_row;
+	guint32 last_row;
+	guint16 first_col;
+	guint16 last_col;
+
+	/* What the heck was a 0x00 ? */
+	if (q->opcode != 0x200)
+		return;
+
+	if (wb->container.ver >= MS_BIFF_V8)
+	{
+		first_row = MS_OLE_GET_GUINT32 (q->data);
+		last_row  = MS_OLE_GET_GUINT32 (q->data+4);
+		first_col = MS_OLE_GET_GUINT16 (q->data+8);
+		last_col  = MS_OLE_GET_GUINT16 (q->data+10);
+	} else
+	{
+		first_row = MS_OLE_GET_GUINT16 (q->data);
+		last_row  = MS_OLE_GET_GUINT16 (q->data+2);
+		first_col = MS_OLE_GET_GUINT16 (q->data+4);
+		last_col  = MS_OLE_GET_GUINT16 (q->data+6);
+	}
+
+	if (ms_excel_chart_debug > 0)
+		printf ("Dimension = %s%d:%s%d\n",
+			col_name(first_col), first_row+1,
+			col_name(last_col), last_row+1);
 }
 
 static gboolean

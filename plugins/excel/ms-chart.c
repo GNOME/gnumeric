@@ -2012,38 +2012,6 @@ BC(register_handler)(ExcelChartHandler const *const handle)
 }
 
 void
-ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb)
-{
-	guint32 first_row;
-	guint32 last_row;
-	guint16 first_col;
-	guint16 last_col;
-
-	/* What the heck was a 0x00 ? */
-	if (q->opcode != 0x200)
-		return;
-
-	if (wb->container.ver >= MS_BIFF_V8)
-	{
-		first_row = MS_OLE_GET_GUINT32 (q->data);
-		last_row  = MS_OLE_GET_GUINT32 (q->data+4);
-		first_col = MS_OLE_GET_GUINT16 (q->data+8);
-		last_col  = MS_OLE_GET_GUINT16 (q->data+10);
-	} else
-	{
-		first_row = MS_OLE_GET_GUINT16 (q->data);
-		last_row  = MS_OLE_GET_GUINT16 (q->data+2);
-		first_col = MS_OLE_GET_GUINT16 (q->data+4);
-		last_col  = MS_OLE_GET_GUINT16 (q->data+6);
-	}
-
-	if (ms_excel_chart_debug > 0)
-		printf ("Dimension = %s%d:%s%d\n",
-			col_name(first_col), first_row+1,
-			col_name(last_col), last_row+1);
-}
-
-void
 ms_excel_chart (BiffQuery *q, MSContainer *container, MsBiffBofData *bof)
 {
 	int const num_handler = sizeof(chart_biff_handler) /

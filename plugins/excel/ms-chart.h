@@ -20,6 +20,4 @@ extern void ms_excel_chart (BiffQuery *q, MSContainer *container,
 /* A wrapper which reads and checks the BOF record then calls ms_excel_chart */
 extern void ms_excel_read_chart (BiffQuery *q, MSContainer *container);
 
-extern void ms_excel_biff_dimensions (BiffQuery *q, ExcelWorkbook *wb);
-
 #endif /* GNUMERIC_MS_CHART_H */
