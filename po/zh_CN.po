@@ -21770,14 +21770,6 @@ msgstr "模拟"
 msgid "Iterations"
 msgstr "迭代"
 
-#: src/dialogs/dialog-simulation.c:158
-msgid "# Input variables"
-msgstr ""
-
-#: src/dialogs/dialog-simulation.c:159
-msgid "# Output variables"
-msgstr ""
-
 #: src/dialogs/dialog-simulation.c:159
 msgid "Runtime"
 msgstr "运行时间"
@@ -27021,26 +27013,12 @@ msgstr "插件管理"
 
 #. Titles.
 #: src/tools/scenarios.c:698
-#, fuzzy
 msgid "Current Values"
-msgstr "当前值："
+msgstr "当前值"
 
 #: src/tools/scenarios.c:699
-#, fuzzy
 msgid "Changing Cells:"
 msgstr "更改单元格："
-
-#: src/tools/simulation.c:101
-msgid ""
-"Input variable did not yield to a numeric value. Check the model (maybe your "
-"last round # is too high)."
-msgstr ""
-
-#: src/tools/simulation.c:126
-msgid ""
-"Output variable did not yield to a numeric value. Check the output variables "
-"in your model (maybe your last round # is too high)."
-msgstr ""
 
 #: src/tools/simulation.c:242
 msgid "Simulation Report"
@@ -27057,7 +27035,7 @@ msgstr "平均(_M)"
 
 #: src/tools/simulation.c:259
 msgid "Std. Dev."
-msgstr ""
+msgstr "标准偏差"
 
 #: src/tools/simulation.c:260
 msgid "Variance"
