@@ -159,8 +159,15 @@ biff_get_text (BYTE *pos, guint32 length, guint32* byte_length)
 
 	for (lp = 0; lp < length; lp++)
 	{
-		ans [lp] = (char) *ptr ;
-		ptr += high_byte ? 2 : 1;
+		guint16 c;
+		if (high_byte) {
+			c = BIFF_GETWORD(ptr);
+			ptr+=2;
+		} else {
+			c = BIFF_GETBYTE(ptr);
+			ptr+=1;
+		}
+		ans[lp] = (char)c;
 	}
 	ans[lp] = 0;
 	return ans;
@@ -177,7 +184,7 @@ biff_get_global_string(MS_EXCEL_SHEET *sheet, int number)
 	return wb->global_strings[number] ;
 }
 
-char *
+const char *
 biff_get_error_text (guint8 err)
 {
 	char *buf ;
@@ -378,12 +385,12 @@ biff_boundsheet_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY * q, eBiff_version v
 		break;
 	}
 	if (ver == eBiffV8) {
-		int strlen = BIFF_GETWORD (q->data + 6);
-		ans->name = biff_get_text (q->data + 8, strlen, NULL);
+		int slen = BIFF_GETWORD (q->data + 6);
+		ans->name = biff_get_text (q->data + 8, slen, NULL);
 	} else {
-		int strlen = BIFF_GETBYTE (q->data + 6);
+		int slen = BIFF_GETBYTE (q->data + 6);
 
-		ans->name = biff_get_text (q->data + 7, strlen, NULL);
+		ans->name = biff_get_text (q->data + 7, slen, NULL);
 	}
 
 	/*
@@ -551,9 +558,9 @@ static gboolean
 biff_font_data_destroy (gpointer key, BIFF_FONT_DATA *fd, gpointer userdata)
 {
 	g_free (fd->fontname) ;
-	g_free (fd) ;
 	if (fd->style_font)
 		style_font_unref (fd->style_font) ;
+	g_free (fd) ;
 	return 1 ;
 }
 
@@ -1403,21 +1410,29 @@ biff_get_rk (guint8 *ptr)
 	LONG number;
 	LONG tmp[2];
 	double answer;
+	int li, hi;
 	enum eType {
-		eIEEE = 0, eIEEEx10 = 1, eInt = 2, eIntx100 = 3
+		eIEEE = 0, eIEEEx100 = 1, eInt = 2, eIntx100 = 3
 	} type;
 	
 	number = BIFF_GETLONG (ptr);
 	type = (number & 0x3);
+#if G_BYTE_ORDER != G_LITTLE_ENDIAN
+	li=1;
+	hi=0;
+#else
+	li=0; /* Intel */
+	hi=1;
+#endif
 	switch (type){
 	case eIEEE:
-		tmp[0] = 0;
-		tmp[1] = number & 0xfffffffc;
+		tmp[li] = 0;
+		tmp[hi] = *((LONG *)(ptr)) & 0xfffffffc;
 		answer = BIFF_GETDOUBLE (((BYTE *) tmp));
 		break;
-	case eIEEEx10:
-		tmp[0] = 0;
-		tmp[1] = number & 0xfffffffc;
+	case eIEEEx100:
+		tmp[li] = 0;
+		tmp[hi] = *((LONG *)(ptr)) & 0xfffffffc;
 		answer = BIFF_GETDOUBLE (((BYTE *) tmp));
 		answer /= 100.0;
 		break;
@@ -1539,8 +1554,8 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		}
 	case BIFF_COLINFO: /* FIXME: See: S59D67.HTM */
 	{
-		int firstcol, lastcol, width, lp ;
-		guint16 cols_xf, options ;
+		int firstcol, lastcol, lp ;
+		guint16 cols_xf, options, width ;
 		int hidden, collapsed, outlining ;
 		firstcol = BIFF_GETWORD(q->data) ;
 		lastcol  = BIFF_GETWORD(q->data+2) ;
@@ -1557,12 +1572,12 @@ ms_excel_read_cell (BIFF_QUERY * q, MS_EXCEL_SHEET * sheet)
 		if (EXCEL_DEBUG>0)
 			printf ("Column Formatting from col %d to %d of width %f characters\n",
 				firstcol, lastcol, width/256.0) ;
-		if ((int)width/256.0 == 0) {
+		if (width>>8 == 0) {
 			printf ("FIXME: Hidden columns need implementing\n") ;
 			width=40.0 ;
 		}
 		for (lp=firstcol;lp<=lastcol;lp++)
-			sheet_col_set_width (sheet->gnum_sheet, lp, (int)width/25) ;
+			sheet_col_set_width (sheet->gnum_sheet, lp, width/25) ;
 		break ;
 	}
 	case BIFF_RK: /* See: S59DDA.HTM */

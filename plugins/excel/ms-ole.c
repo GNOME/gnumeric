@@ -22,20 +22,20 @@
 #define OLE_DEBUG 0
 
 /* These take a _guint8_ pointer */
-#define GET_GUINT8(p)  (*(p+0))
-#define GET_GUINT16(p) (*(p+0)+(*(p+1)<<8))
-#define GET_GUINT32(p) (*(p+0)+ \
-		    (*(p+1)<<8)+ \
-		    (*(p+2)<<16)+ \
-		    (*(p+3)<<24))
+#define GET_GUINT8(p)  (*((const guint8 *)(p)+0))
+#define GET_GUINT16(p) (*((const guint8 *)(p)+0)+(*((const guint8 *)(p)+1)<<8))
+#define GET_GUINT32(p) (*((const guint8 *)(p)+0)+ \
+		    (*((const guint8 *)(p)+1)<<8)+ \
+		    (*((const guint8 *)(p)+2)<<16)+ \
+		    (*((const guint8 *)(p)+3)<<24))
 
-#define SET_GUINT8(p,n)  (*(p+0)=n)
-#define SET_GUINT16(p,n) ((*(p+0)=((n)&0xff)), \
-                          (*(p+1)=((n)>>8)&0xff))
-#define SET_GUINT32(p,n) ((*(p+0)=((n))&0xff), \
-                          (*(p+1)=((n)>>8)&0xff), \
-                          (*(p+2)=((n)>>16)&0xff), \
-                          (*(p+3)=((n)>>24)&0xff))
+#define SET_GUINT8(p,n)  (*((guint8 *)(p)+0)=n)
+#define SET_GUINT16(p,n) ((*((guint8 *)(p)+0)=((n)&0xff)), \
+                          (*((guint8 *)(p)+1)=((n)>>8)&0xff))
+#define SET_GUINT32(p,n) ((*((guint8 *)(p)+0)=((n))&0xff), \
+                          (*((guint8 *)(p)+1)=((n)>>8)&0xff), \
+                          (*((guint8 *)(p)+2)=((n)>>16)&0xff), \
+                          (*((guint8 *)(p)+3)=((n)>>24)&0xff))
 
 
 #define SPECIAL_BLOCK  0xfffffffd

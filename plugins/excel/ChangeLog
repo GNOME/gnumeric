@@ -1,5 +1,22 @@
 1999-04-14  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
 
+	* ms-excel.c (biff_get_text): Remove platform dependance.
+	(biff_get_error_text): Changed type.
+	(biff_boundsheet_data_new): s/int strlen/int slen/
+	(biff_font_data_destroy): Free after last use.
+	(biff_get_rk): Changed IEEEx10 to IEEEx100
+	(ms_excel_read_cell): COL_INFO: Fixed width cast.
+	Thanks to great bug reports by Morton Welinder.
+
+	* ms-excel.h: Add const to biff_error_get_text.
+
+	* ms-ole.c (SET_GUINT8): Fix GET_<TYPE> macros.
+
+	* ms-biff.h (BIFF_GETWORD): Patch from Morten Welinder to
+	improve GET<TYPE> macros.
+
+1999-04-14  Michael Meeks  <michael@mejm2.dow.cam.ac.uk>
+
 	* ole.c (dump_escher): Fatal Escher cockup removed, makes
 	the problem look more complex and realistic.
 	Indenting added.

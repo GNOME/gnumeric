@@ -13,14 +13,13 @@ typedef guint16 WORD ;
 typedef guint32 LONG ;
 typedef guint64 DLONG ;
 
-/* EXTREMELY IMPORTANT TO PASS A BYTE PTR ! */
-#define BIFF_GETBYTE(p) (*(p+0))
-#define BIFF_GETWORD(p) (*(p+0)+(*(p+1)<<8))
-#define BIFF_GETLONG(p) (*(p+0)+ \
-		        (*(p+1)<<8)+ \
-		        (*(p+2)<<16)+ \
-		        (*(p+3)<<24))
-#define BIFF_GETDLONG(p) (DLONG)(BIFF_GETLONG(p)+(((DLONG)BIFF_GETLONG(p+4))<<32))
+#define BIFF_GETBYTE(p) (*((const BYTE *)(p)+0))
+#define BIFF_GETWORD(p) (*((const BYTE *)(p)+0) | (*((const BYTE *)(p)+1)<<8))
+#define BIFF_GETLONG(p) (*((const BYTE *)(p)+0) | \
+                        (*((const BYTE *)(p)+1)<<8) | \
+                        (*((const BYTE *)(p)+2)<<16) | \
+                        (*((const BYTE *)(p)+3)<<24))
+#define BIFF_GETDLONG(p) (BIFF_GETLONG(p) | (((DLONG)BIFF_GETLONG((const BYTE *)(p)+4))<<32))
 
 double biff_getdouble(guint8 *p);
 	
