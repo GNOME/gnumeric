@@ -1141,8 +1141,10 @@ static GnomeUIInfo workbook_menu_format [] = {
 static GnomeUIInfo workbook_menu_tools [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Sort..."),
 	  N_("Sort the selected cells"), sort_cells_cmd },
+	GNOMEUIINFO_SEPARATOR,
 	{ GNOME_APP_UI_ITEM, N_("_Goal Seek..."), NULL, goal_seek_cmd },
 	{ GNOME_APP_UI_ITEM, N_("_Solver..."),    NULL, solver_cmd },
+	GNOMEUIINFO_SEPARATOR,
 	{ GNOME_APP_UI_ITEM, N_("_Data Analysis..."), NULL, data_analysis_cmd },
 	GNOMEUIINFO_END
 };

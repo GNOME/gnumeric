@@ -114,10 +114,11 @@ add_check_buttons (GtkWidget *box, const char *ops[])
 }
 
 typedef struct {
-        GSList   *constraints;
-        GtkCList *clist;
-        Sheet    *sheet;
-        Workbook *wb;
+        GtkWidget *dialog;
+        GSList    *constraints;
+        GtkCList  *clist;
+        Sheet     *sheet;
+        Workbook  *wb;
 } constraint_dialog_t;
 
 
@@ -225,6 +226,7 @@ constr_add_click (gpointer data)
 	int                 lhs_col, lhs_row;
 	char                *type_str;
 
+	gtk_widget_hide (constraint_dialog->dialog);
 	if (!dialog) {
 	        GtkWidget *box;
 
@@ -269,6 +271,7 @@ add_dialog:
 	
 	if (selection == 1) {
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		gtk_widget_show (constraint_dialog->dialog);
 		return;
 	}
 	
@@ -301,8 +304,10 @@ add_dialog:
 	        goto add_dialog;
 
 	gnome_dialog_close (GNOME_DIALOG (dialog));
+	gtk_widget_show (constraint_dialog->dialog);
 }
 
+static gint selected_row = -1;
 
 /* 'Constraint Change' button clicked */
 static void
@@ -316,9 +321,29 @@ constr_change_click (gpointer data)
 static void
 constr_delete_click (gpointer data)
 {
-        printf("Delete: Not implemented yet.\n");
+        constraint_dialog_t *constraint_dialog = (constraint_dialog_t *) data;
+	gpointer            p;
+
+	if (selected_row >= 0) {
+	        p = gtk_clist_get_row_data (constraint_dialog->clist,
+					    selected_row);
+		constraint_dialog->constraints = 
+		        g_slist_remove (constraint_dialog->constraints, p);
+
+	        gtk_clist_remove (constraint_dialog->clist, selected_row);
+	}
 }
 
+
+static void
+constraint_select_click (GtkWidget      *clist,
+			 gint           row,
+			 gint           column,
+			 GdkEventButton *event,
+			 gpointer       data)
+{
+        selected_row = row;
+}
 
 void
 dialog_solver (Workbook *wb, Sheet *sheet)
@@ -404,12 +429,17 @@ dialog_solver (Workbook *wb, Sheet *sheet)
 		gtk_clist_column_titles_passive (GTK_CLIST (constraint_list));
 		gtk_clist_column_titles_show (GTK_CLIST (constraint_list));
 		gtk_clist_clear (GTK_CLIST (constraint_list));
+		gtk_signal_connect(GTK_OBJECT(constraint_list),
+				   "select_row",
+				   GTK_SIGNAL_FUNC(constraint_select_click),
+				   GTK_OBJECT (&constraint_dialog));
 
 		/* Constraint buttons */
 		constr_add_button = gtk_button_new_with_label (_("Add"));
 		constr_change_button = gtk_button_new_with_label (_("Change"));
 		constr_delete_button = gtk_button_new_with_label (_("Delete"));
 		constr_button_box = gtk_vbox_new (FALSE, 0);
+		constraint_dialog.dialog = dialog;
 		constraint_dialog.constraints = NULL;
 		constraint_dialog.clist = GTK_CLIST (constraint_list);
 		constraint_dialog.sheet = sheet;

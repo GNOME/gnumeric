@@ -1,3 +1,14 @@
+2000-01-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/workbook.c (workbook_menu_tools): UIINFO separators added to
+ 	Tools menu.
+
+	* src/dialogs/dialog-solver.c (constr_add_click): Made the solver
+	dialog to disapear when adding constraints.
+
+	* src/dialogs/dialog-solver.c (constr_delete_click): Implemented
+ 	the delete button of constraints.
+
 2000-01-11  Jody Goldberg <jgoldberg@home.com>
 
 	* src/workbook.c (workbook_detach_sheet) : Even books with only 1
