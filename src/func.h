@@ -1,6 +1,9 @@
 #ifndef GNUMERIC_FUNC_H
 #define GNUMERIC_FUNC_H
 
+#include "expr.h"
+#include "sheet.h"
+
 extern FunctionDefinition math_functions [];
 extern FunctionDefinition sheet_functions [];
 extern FunctionDefinition misc_functions [];
@@ -100,4 +103,3 @@ Value *gnumeric_sum         (Sheet *sheet, GList *expr_node_list,
 int solver_simplex(Workbook *wb, Sheet *sheet);
 
 #endif /* GNUMERIC_FUNC_H */
-

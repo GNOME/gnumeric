@@ -1,11 +1,19 @@
 #ifndef GNUMERIC_SHEET_H
 #define GNUMERIC_SHEET_H
 
+typedef struct _Workbook Workbook;
+typedef struct _Sheet Sheet;
+
 #ifdef ENABLE_BONOBO
 #    include <bonobo/gnome-container.h>
 #endif
 
 #include "solver.h"
+#include "style.h"
+#include "expr.h"
+#include "str.h"
+#include "symbol.h"
+#include "cell.h"
 
 #define SHEET_MAX_ROWS (16 * 1024)
 #define SHEET_MAX_COLS 256
@@ -24,7 +32,7 @@ typedef struct {
 	Style  *style;
 } StyleRegion;
 
-typedef struct {
+struct _Workbook {
 	char       *filename;
 
         GtkWidget  *toplevel; 
@@ -81,7 +89,7 @@ typedef struct {
 	GnomeContainer *gnome_container;
 	
 #endif
-} Workbook;
+};
 
 typedef struct {
 	int        base_col, base_row;
@@ -106,7 +114,7 @@ typedef enum {
 	SHEET_MODE_OBJECT_SELECTED,
 } SheetModeType;
 
-typedef struct _Sheet {
+struct _Sheet {
 	int         signature;
 	
 	Workbook    *workbook;
@@ -159,7 +167,7 @@ typedef struct _Sheet {
 
         /* Solver parameters */
         SolverParameters solver_parameters;
-} Sheet;
+};
 
 #define SHEET_SIGNATURE 0x12349876
 #define IS_SHEET(x) (((Sheet *) x)->signature == SHEET_SIGNATURE)

@@ -12,7 +12,7 @@
 #include "gnumeric-util.h"
 #include "dialogs.h"
 #include "func.h"
-
+#include "utils.h"
 
 /* Different constraint types */
 static const char *constraint_strs[] = {

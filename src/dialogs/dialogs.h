@@ -1,6 +1,9 @@
 #ifndef GNUMERIC_DIALOGS_H
 #define GNUMERIC_DIALOGS_H
 
+#include "sheet.h"
+#include "cell.h"
+
 void  dialog_goto_cell       (Workbook *wb);
 void  dialog_cell_format     (Workbook *wb, Sheet *sheet);
 int   dialog_paste_special   (Workbook *wb);

@@ -15,6 +15,7 @@
 #include "eval.h"
 #include "number-match.h"
 #include "format.h"
+#include "clipboard.h"
 #ifdef ENABLE_BONOBO
 #    include <libgnorba/gnorba.h>
 #endif

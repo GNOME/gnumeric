@@ -1,4 +1,3 @@
-
 #ifndef GNUMERIC_STYLE_H
 #define GNUMERIC_STYLE_H
 

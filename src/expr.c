@@ -13,6 +13,7 @@
 #include "eval.h"
 #include "format.h"
 #include "func.h"
+#include "utils.h"
 
 ExprTree *
 expr_parse_string (const char *expr, Sheet *sheet, int col, int row,

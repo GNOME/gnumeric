@@ -1,6 +1,8 @@
 #ifndef GNUMERIC_FILE_H
 #define GNUMERIC_FILE_H
 
+#include "sheet.h"
+
 typedef gboolean  (*FileFormatProbe)(const char *filename);
 typedef Workbook *(*FileFormatOpen) (const char *filename);
 typedef int       (*FileFormatSave) (Workbook *wb, const char *filename);

@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include "gnumeric.h"
 #include "dump.h"
+#include "symbol.h"
+#include "func.h"
 
 static FILE *output_file;
 

@@ -34,6 +34,7 @@
 #include "gnumeric.h"
 #include "format.h"
 #include "dates.h"
+#include "utils.h"
 
 /* Points to the locale information for number display */
 static struct lconv *lc;

@@ -1,6 +1,9 @@
 #ifndef GNUMERIC_EVAL_H
 #define GNUMERIC_EVAL_H
 
+#include "sheet.h"
+#include "cell.h"
+
 /*
  * A DependencyRange defines a range of cells whose values
  * are used by another Cell in the spreadsheet.

@@ -5,6 +5,7 @@
 #include "item-cursor.h"
 #include "item-bar.h"
 #include "item-edit.h"
+#include "sheet.h"
 
 #define GNUMERIC_TYPE_SHEET     (gnumeric_sheet_get_type ())
 #define GNUMERIC_SHEET(obj)     (GTK_CHECK_CAST((obj), GNUMERIC_TYPE_SHEET, GnumericSheet))
@@ -93,6 +94,5 @@ void       gnumeric_sheet_stop_editing           (GnumericSheet *sheet);
 typedef struct {
 	GnomeCanvasClass parent_class;
 } GnumericSheetClass;
+
 #endif /* GNUMERIC_GNUMERIC_SHEET_H */
-
-

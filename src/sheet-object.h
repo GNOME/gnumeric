@@ -1,6 +1,10 @@
 #ifndef GNUMERIC_SHEET_OBJECT_H
 #define GNUMERIC_SHEET_OBJECT_H
 
+#include "sheet.h"
+#include "sheet-view.h"
+#include "sheet-object.h"
+
 /*
  * SheetObject
  *
@@ -73,4 +77,3 @@ SheetObject     *sheet_object_create_filled  (Sheet *sheet, int type,
 					      int w);
 
 #endif /* GNUMERIC_SHEET_OBJECT_H */
-

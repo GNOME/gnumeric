@@ -15,6 +15,7 @@
 #include "dialogs.h"
 #include "cursors.h"
 #include "gnumeric-util.h"
+#include "clipboard.h"
 
 static GnomeCanvasItem *item_grid_parent_class;
 

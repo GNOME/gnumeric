@@ -1,6 +1,7 @@
 #ifndef GNUMERIC_SHEET_VIEW_H
 #define GNUMERIC_SHEET_VIEW_H
 
+#include "sheet.h"
 #include <gtk/gtktable.h>
 
 #define SHEET_VIEW_TYPE        (sheet_view_get_type ())

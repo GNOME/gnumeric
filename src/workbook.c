@@ -19,6 +19,8 @@
 #include "xml-io.h"
 #include "plugin.h"
 #include "pixmaps.h"
+#include "clipboard.h"
+#include "utils.h"
 #include "widget-editable-label.h"
 
 /* The locations within the main table in the workbook */

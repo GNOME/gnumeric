@@ -15,6 +15,7 @@
 #include "sheet-object.h"
 #include "color.h"
 #include "cursors.h"
+#include "utils.h"
 
 #define CURSOR_COL(gsheet) gsheet->sheet_view->sheet->cursor_col
 #define CURSOR_ROW(gsheet) gsheet->sheet_view->sheet->cursor_row

@@ -1,8 +1,15 @@
 #ifndef GNUMERIC_EXPR_H
 #define GNUMERIC_EXPR_H
 
-/* Forward reference.  We should probably just include sheet.h to get this.  */
-struct _Sheet;
+/* Forward references for structures.  */
+typedef struct _Value Value;
+typedef struct _ExprTree ExprTree;
+typedef struct _CellRef CellRef;
+
+#include "sheet.h"
+#include "symbol.h"
+#include "numbers.h"
+#include "str.h"
 
 typedef enum {
 	OPER_EQUAL,		/* Compare value equal */
@@ -41,15 +48,15 @@ typedef enum {
 	VALUE_ARRAY,
 } ValueType;
 
-typedef struct {
-	struct _Sheet *sheet;
+struct _CellRef {
+	Sheet *sheet;
 	int   col, row;
 
 	unsigned int col_relative:1;
 	unsigned int row_relative:1;
-} CellRef;
+};
 
-typedef struct _Value {
+struct _Value {
 	ValueType type;
 	union {
 		CellRef cell;
@@ -60,19 +67,19 @@ typedef struct _Value {
 
 		struct {
 			int x, y ;
-			struct _Value **vals;   /* Array [x][y] */
+			Value **vals;   /* Array [x][y] */
 		} array ;
 		String *str;
 		Symbol *sym;
 		float_t v_float;	/* floating point */
 		int_t   v_int;
 	} v;
-} Value;
+};
 
 #define VALUE_IS_NUMBER(x) (((x)->type == VALUE_INTEGER) || \
 			    ((x)->type == VALUE_FLOAT))
 
-struct ExprTree {
+struct _ExprTree {
 	Operation oper;
 
 	int       ref_count;
@@ -85,17 +92,15 @@ struct ExprTree {
 		} function;
 		
 		struct {
-			struct ExprTree *value_a;
-			struct ExprTree *value_b;
+			ExprTree *value_a;
+			ExprTree *value_b;
 		} binary;
 
-		struct ExprTree *value;
+		ExprTree *value;
 
 		CellRef ref;
 	} u;
 };
-
-typedef struct ExprTree ExprTree;
 
 typedef enum {
 	PARSE_OK,
@@ -135,7 +140,7 @@ struct FunctionDefinition {
 	char  *args;
 	char  *named_arguments;
 	char  **help;
-	Value *(*expr_fn)(struct _Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string);
+	Value *(*expr_fn)(Sheet *sheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string);
 	
 	Value *(*fn)(struct FunctionDefinition *func_def, Value *argv [], char **error_string);
 };
@@ -146,30 +151,30 @@ void        cell_get_abs_col_row (const CellRef *cell_ref,
 				  int eval_col, int eval_row,
 				  int *col, int *row);
 
-ExprTree   *expr_parse_string    (const char *expr, struct _Sheet *sheet, int col, int row,
+ExprTree   *expr_parse_string    (const char *expr, Sheet *sheet, int col, int row,
 				  const char **desired_format, char **error_msg);
 /* In parser.y  */
-ParseErr    gnumeric_expr_parser (const char *expr, struct _Sheet *sheet,
+ParseErr    gnumeric_expr_parser (const char *expr, Sheet *sheet,
 				  int col, int row, const char **desired_format,
 				  ExprTree **tree);
 
 ExprTree   *expr_tree_duplicate  (ExprTree *expr);
 ExprTree   *expr_tree_relocate   (ExprTree *expr, int col_diff, int row_diff);
-char       *expr_decode_tree     (ExprTree *tree, struct _Sheet *sheet,
+char       *expr_decode_tree     (ExprTree *tree, Sheet *sheet,
 				  int col, int row);
 
 void        expr_tree_ref        (ExprTree *tree);
 void        expr_tree_unref      (ExprTree *tree);
 
-ExprTree   *expr_tree_invalidate_references (ExprTree *src, struct _Sheet *sheet,
+ExprTree   *expr_tree_invalidate_references (ExprTree *src, Sheet *sheet,
 					     int src_col, int src_row, int col, int row,
 					     int colcount, int rowcount);
 
-ExprTree   *expr_tree_fixup_references (ExprTree *src, struct _Sheet *sheet,
+ExprTree   *expr_tree_fixup_references (ExprTree *src, Sheet *sheet,
 					int src_col, int src_row, int col, int row,
 					int coldelta, int rowdelta);
 
-Value      *eval_expr            (struct _Sheet *sheet, ExprTree *tree,
+Value      *eval_expr            (Sheet *sheet, ExprTree *tree,
 				  int  col, int row,
 				  char **error_string);
 

@@ -1,12 +1,19 @@
 #ifndef GNUMERIC_SOLVER_H
 #define GNUMERIC_SOLVER_H
 
+/* Forward references for structures.  */
+typedef struct _SolverOptions SolverOptions;
+typedef struct _SolverConstraint SolverConstraint;
+typedef struct _SolverParameters SolverParameters;
+
+#include "cell.h"
+#include "numbers.h"
+
 typedef enum {
         SolverMinimize, SolverMaximize, SolverEqualTo
 } SolverProblemType;
 
-
-typedef struct {
+struct _SolverOptions {
         int                max_time_sec;
         int                iterations;
         float_t            precision;
@@ -17,22 +24,21 @@ typedef struct {
         gboolean           assume_non_negative;
         gboolean           automatic_scaling;
         gboolean           show_iteration_results;
-} SolverOptions;
+};
 
-typedef struct {
+struct _SolverConstraint {
         Cell               *lhs;       /* left hand side */
         Cell               *rhs;       /* right hand side */
         gchar              *type;      /* <=, =, >=, int, bool */
         char               *str;       /* the same in string form */
-} SolverConstraint;
+};
 
-typedef struct {
+struct _SolverParameters {
         SolverProblemType  problem_type;
         Cell               *target_cell;
         CellList           *input_cells;
         GSList             *constraints;
         SolverOptions      options;
-} SolverParameters;
-
+};
 
 #endif

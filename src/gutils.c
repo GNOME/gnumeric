@@ -203,7 +203,7 @@ january_1900()
 
 	if (!julian) {
 		GDate* date = g_date_new_dmy (1, 1, 1900);
-		/* Day 1 means 1st of jannuary of 1900 */
+		/* Day 1 means 1st of January of 1900 */
 		julian = g_date_julian (date) - 1;
 		g_date_free (date);
 	}
@@ -227,10 +227,9 @@ g_date_new_serial (guint32 serial)
  * exist, they are created.  If the input string is not valid
  * error_flag is set.
  */
-GSList  *parse_cell_name_list  (void *vsheet, 
+GSList  *parse_cell_name_list  (Sheet *sheet, 
 				const char *cell_name_str, int *error_flag)
 {
-        Sheet    *sheet = (Sheet *) vsheet;
         char     *buf = (char *) malloc(strlen(cell_name_str)+1);
 	GSList   *cells = NULL;
 	Cell     *cell;

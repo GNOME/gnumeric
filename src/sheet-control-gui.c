@@ -14,6 +14,7 @@
 #include "gnumeric.h"
 #include "gnumeric-sheet.h"
 #include "item-cursor.h"
+#include "utils.h"
 
 static GtkTableClass *sheet_view_parent_class;
 

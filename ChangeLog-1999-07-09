@@ -1,5 +1,11 @@
 1999-04-30  Morten Welinder  <terra@diku.dk>
 
+	* src/*.h: Properly forward-declare structures.  Include
+ 	dependencies.  Change the occasional "void *" to its right
+	type.
+
+	* src/*.[cy]: Include more dependencies.
+
 	* src/sheet.c (sheet_delete_row): Remove from workbook hash also.
 
 1999-04-29  Morten Welinder  <terra@diku.dk>

@@ -13,6 +13,7 @@
 #include "format.h"
 #include "color.h"
 #include "cursors.h"
+#include "utils.h"
 
 static int         redraws_frozen = 0;
 static GHashTable *cell_hash_queue;
@@ -1408,11 +1409,10 @@ str_trim_spaces (char *s)
  * Returns the number of columns used for the draw
  */
 int 
-cell_draw (Cell *cell, void *sv, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
+cell_draw (Cell *cell, SheetView *sheet_view, GdkGC *gc, GdkDrawable *drawable, int x1, int y1)
 {
 	Style        *style = cell->style;
 	GdkFont      *font = style->font->font;
-	SheetView    *sheet_view = sv;
 	GdkGC        *white_gc = GTK_WIDGET (sheet_view->sheet_view)->style->white_gc;
 	GdkRectangle rect;
 	

@@ -1,13 +1,15 @@
 #ifndef GNUMERIC_UTILS_H
 #define GNUMERIC_UTILS_H
 
+#include "sheet.h"
+
 /* Gets an integer in the buffer in start to end */
 void      int_get_from_range     (const char *start, const char *end, int_t *t);
 void      float_get_from_range   (const char *start, const char *end, float_t *t);
 
 const char*cell_name             (int col, int row);
 int       parse_cell_name        (const char *cell_str, int *col, int *row);
-GSList    *parse_cell_name_list  (void *sheet, const char *cell_name_str,
+GSList    *parse_cell_name_list  (Sheet *sheet, const char *cell_name_str,
 				  int *eflag);
 const char*col_name              (int col);
 int       col_from_name          (const char *cell_str);

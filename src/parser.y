@@ -13,6 +13,10 @@
 #include <gnome.h>
 #include "gnumeric.h"
 #include "number-match.h"
+#include "symbol.h"
+#include "expr.h"
+#include "sheet.h"
+#include "utils.h"
 	
 /* Allocation with disposal-on-error */ 
 static void *alloc_buffer    (int size);

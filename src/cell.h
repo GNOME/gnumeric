@@ -1,10 +1,22 @@
 #ifndef GNUMERIC_CELL_H
 #define GNUMERIC_CELL_H
 
+/* Forward references for structures.  */
+typedef struct _Cell Cell;
+typedef struct _CellRegion CellRegion;
+typedef GList CellList;
+typedef struct _ColRowInfo ColRowInfo;
+
+#include "style.h"
+#include "sheet.h"
+#include "sheet-view.h"
+#include "str.h"
+#include "expr.h"
+
 typedef unsigned char  ColType;
 typedef unsigned short RowType;
 
-typedef struct {
+struct _ColRowInfo {
 	int        pos;			/* the column or row number */
 
 	/* The height */
@@ -15,7 +27,7 @@ typedef struct {
 
 	unsigned   int hard_size:1;     /* has the user explicitly set the dimensions? */
 	void       *data;
-} ColRowInfo;
+};
 
 #define COL_INTERNAL_WIDTH(col) ((col)->pixels - ((col)->margin_b + (col)->margin_a))
 #define ROW_INTERNAL_HEIGHT(row) ((row)->pixels - ((row)->margin_b + (row)->margin_a))
@@ -51,8 +63,8 @@ typedef struct {
  *
  * Definition of a Gnumeric Cell
  */
-typedef struct {
-	void        *sheet;
+struct _Cell {
+	Sheet       *sheet;
 	ColRowInfo  *col;
 	ColRowInfo  *row;
 
@@ -74,9 +86,7 @@ typedef struct {
 	CellComment *comment;
 	int         flags;
 	char        generation;
-} Cell;
-
-typedef GList CellList;
+};
 
 /* #define CELL_TEXT_GET(cell)      ((cell)->text ? cell->text->str : cell->entered_text->str) */
 #define CELL_IS_FORMAT_SET(cell) ((cell)->flags & CELL_FORMAT_SET)
@@ -97,10 +107,10 @@ typedef struct {
 
 typedef GList CellCopyList;
 
-typedef struct {
+struct _CellRegion {
 	int          cols, rows;
 	CellCopyList *list;
-} CellRegion;
+};
 
 char       *value_format                 (Value *value, StyleFormat *format, char **color);
 
@@ -148,7 +158,7 @@ void        cell_formula_changed         (Cell *cell);
 void        cell_queue_redraw            (Cell *cell);
 int         cell_get_horizontal_align    (const Cell *cell);
 
-int         cell_draw                    (Cell *cell, void *sheet_view,
+int         cell_draw                    (Cell *cell, SheetView *sheet_view,
 					  GdkGC *gc, GdkDrawable *drawable,
 					  int x, int y);
 
@@ -177,4 +187,3 @@ void        row_init_span                (ColRowInfo *ri);
 void        row_destroy_span             (ColRowInfo *ri);
 
 #endif /* GNUMERIC_CELL_H */
-
