@@ -1,3 +1,8 @@
+2000-01-12  Jody Goldberg <jgoldberg@home.com>
+
+	* gnumeric.spec.in : Add a depend on libgtk+ >= 1.2.2 because 1.2.1
+	  did not have gtk_object_get.
+
 2000-01-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/workbook.c (workbook_menu_tools): UIINFO separators added to

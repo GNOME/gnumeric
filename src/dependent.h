@@ -5,7 +5,7 @@
 #include "cell.h"
 
 DependencyData *dependency_data_new     (void);
-void            dependency_data_destroy (DependencyData *deps, Sheet *sheet);
+void            dependency_data_destroy (Sheet *sheet);
 
 void            sheet_dump_dependencies (const Sheet *sheet);
 

@@ -176,7 +176,7 @@ invalidate_refs (DependencyRange *deprange, Sheet *invalid_sheet)
 }
 
 void
-dependency_data_destroy (DependencyData *deps, Sheet *sheet)
+dependency_data_destroy (Sheet *sheet)
 {
 	DependencyData *deps;
 	

@@ -14,6 +14,7 @@ Url:		http://www.gnome.org/gnumeric
 BuildRoot:	/var/tmp/gnumeric-%{PACKAGE_VERSION}-root
 Docdir: 	%{prefix}/doc
 
+Requires: gtk+ >= 1.2.2
 Requires: gnome-libs >= 1.0.0
 Requires: gnome-print >= 0.8
 Requires: libglade >= 0.11
@@ -115,6 +116,9 @@ make prefix=$RPM_BUILD_ROOT%{prefix} sysconfdir=$RPM_BUILD_ROOT/etc install
 %doc HACKING AUTHORS ChangeLog NEWS README COPYING TODO
 
 %changelog
+* Mon Jan 12 2000 Jody Goldberg <jgolbderg@home.com>
+- Add depend on gtk+ >= 1.2.2 so that we can get gtk_object_get.
+
 * Mon Jan 03 2000 Gregory McLean <gregm@comstar.net>
 - Updated to 0.47
 

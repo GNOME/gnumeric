@@ -111,6 +111,9 @@ Gnumeric Spread Sheet task list
    "auto-grow-up-to-this-point" feature.  Beyond that size, it would
    truncate as it does now.
 
+** Parser
+   * Support parsing of interbook references
+
 ** Display
 
    Provide a CanvasAA version of Gnumeric.  
@@ -182,19 +185,24 @@ Gnumeric Spread Sheet task list
 
 * File Load/Save
 
-  Support for popular formats.  
-
+  * Support for popular formats.  
     I have the specs for the XS3 format.  SC should be
     trivial to support as well (from the guile sources)
 
-  Add "hints" to the file save routine based on the registered
-  formats.
+  * Add "hints" to the file save routine based on the registered
+    formats.
+
+  * Supply default extension to use with a write operation
+  * Improve error handling and display in file_read routines.
+  * Add ability to send warnings, and progress while loading.
 
 * Display Engine
 
 * Unicode support throughout
 
 * Workbooks:
+    * Consider addition of a cursor warping operation to jump between
+      open workbooks.
 
 ** Notebook:
 
@@ -204,7 +212,7 @@ Gnumeric Spread Sheet task list
      insert				(DONE)
      delete				(DONE)
      rename				(DONE)
-     reorder/copy
+     reorder/copy		*(TODO)
 
  - Decrease flicker when paging between sheets.
  - Enable capability to select multiple sheets.
@@ -307,6 +315,7 @@ Office 2000 and 'explorer' compatibility.
 * Excel Import
   * Localise sheet/workbook Name import,
   * Import names even if they arn't referenced.
+  * Figure out the scaling and remove the hack to zoom.
 
 * Html export
   * Export style information for blank cells.
