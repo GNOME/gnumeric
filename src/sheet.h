@@ -209,14 +209,14 @@ void     sheet_colrow_gutter 	     (Sheet *sheet,
 
 gboolean sheet_range_splits_array    (Sheet const *sheet,
 				      GnmRange const *r, GnmRange const *ignore,
-				      GnmCmdContext *cc, char const *cmd);
+				      GOCmdContext *cc, char const *cmd);
 gboolean sheet_range_splits_region   (Sheet const *sheet,
 				      GnmRange const *r, GnmRange const *ignore,
-				      GnmCmdContext *cc, char const *cmd);
+				      GOCmdContext *cc, char const *cmd);
 gboolean sheet_ranges_split_region   (Sheet const *sheet, GSList const *ranges,
-				      GnmCmdContext *cc, char const *cmd);
+				      GOCmdContext *cc, char const *cmd);
 gboolean sheet_range_contains_region (Sheet const *sheet, GnmRange const *r,
-				      GnmCmdContext *cc, char const *cmd);
+				      GOCmdContext *cc, char const *cmd);
 void	 sheet_range_bounding_box    (Sheet const *sheet, GnmRange *r);
 
 /* Redraw */
@@ -273,18 +273,18 @@ struct _GnmRelocUndo {
 
 gboolean  sheet_insert_cols (Sheet *sheet,
 			     int col, int count, ColRowStateList *states,
-			     GnmRelocUndo *reloc_storage, GnmCmdContext *cc);
+			     GnmRelocUndo *reloc_storage, GOCmdContext *cc);
 gboolean  sheet_delete_cols (Sheet *sheet,
 			     int col, int count, ColRowStateList *states,
-			     GnmRelocUndo *reloc_storage, GnmCmdContext *cc);
+			     GnmRelocUndo *reloc_storage, GOCmdContext *cc);
 gboolean  sheet_insert_rows (Sheet *sheet,
 			     int row, int count, ColRowStateList *states,
-			     GnmRelocUndo *reloc_storage, GnmCmdContext *cc);
+			     GnmRelocUndo *reloc_storage, GOCmdContext *cc);
 gboolean  sheet_delete_rows (Sheet *sheet,
 			     int row, int count, ColRowStateList *states,
-			     GnmRelocUndo *reloc_storage, GnmCmdContext *cc);
+			     GnmRelocUndo *reloc_storage, GOCmdContext *cc);
 void      sheet_move_range   (GnmExprRelocateInfo const *rinfo,
-			      GnmRelocUndo *reloc_storage, GnmCmdContext *cc);
+			      GnmRelocUndo *reloc_storage, GOCmdContext *cc);
 
 
 typedef enum {
@@ -301,7 +301,7 @@ typedef enum {
 void  sheet_clear_region (Sheet *sheet,
 			  int start_col, int start_row,
 			  int end_col, int end_row,
-			  int clear_flags, GnmCmdContext *cc);
+			  int clear_flags, GOCmdContext *cc);
 
 void	sheet_attach_view (Sheet *sheet, SheetView *sv);
 void    sheet_detach_view (SheetView *sv);

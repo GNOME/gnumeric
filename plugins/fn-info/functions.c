@@ -40,7 +40,7 @@
 #include <ranges.h>
 #include <sheet.h>
 #include <workbook.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <style.h>
 #include <value.h>
 #include <expr.h>
@@ -55,9 +55,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -124,7 +123,7 @@ static const translate_t translate_table[] = {
 };
 
 static GnmValue *
-translate_cell_format (GnmFormat const *format)
+translate_cell_format (GOFormat const *format)
 {
 	int i;
 	char *fmt;
@@ -163,7 +162,7 @@ static FormatCharacteristics
 retrieve_format_info (Sheet *sheet, int col, int row)
 {
 	GnmStyle *mstyle = sheet_style_get (sheet, col, row);
-	GnmFormat *format = mstyle_get_format (mstyle);
+	GOFormat *format = mstyle_get_format (mstyle);
 	return format->family_info;
 }
 

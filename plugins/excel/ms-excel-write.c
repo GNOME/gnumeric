@@ -30,7 +30,7 @@
 #include "ms-chart.h"
 #include "formula-types.h"
 
-#include <format.h>
+#include <src/gnm-format.h>
 #include <position.h>
 #include <style-color.h>
 #include <cell.h>
@@ -46,7 +46,6 @@
 #include <validation.h>
 #include <input-msg.h>
 #include <sheet-style.h>
-#include <format.h>
 #include <libgnumeric.h>
 #include <value.h>
 #include <parse-util.h>
@@ -58,7 +57,6 @@
 #include <expr.h>
 #include <expr-impl.h>
 #include <expr-name.h>
-#include <gutils.h>
 #include <str.h>
 #include <mathfunc.h>
 #include <goffice/graph/goffice-graph.h>
@@ -69,6 +67,7 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
 #include <goffice/utils/go-units.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-output.h>
 #include <gsf/gsf-outfile.h>
@@ -116,7 +115,7 @@ struct _BlipType {
 static guint
 gnm_color_to_bgr (GnmColor const *c)
 {
-	return ((c->color.blue & 0xff00) << 8) + (c->color.green & 0xff00) + (c->color.red >> 8);
+	return ((c->gdk_color.blue & 0xff00) << 8) + (c->gdk_color.green & 0xff00) + (c->gdk_color.red >> 8);
 
 }
 static guint
@@ -339,7 +338,7 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 {
 	PrintInformation const *pi = NULL;
 	double header, footer, dummy;
-	guint8 * data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
+	guint8 *data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
 	guint16 options = 0;
 
 	if (esheet != NULL)
@@ -367,8 +366,8 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 	GSF_LE_SET_GUINT16 (data +  0, 0);	/* _invalid_ paper size */
 	GSF_LE_SET_GUINT16 (data +  2, 100);	/* scaling factor */
 	GSF_LE_SET_GUINT16 (data +  4, 0);	/* start at page 0 */
-	GSF_LE_SET_GUINT16 (data +  6, 1);	/* fit 1 page wide */
-	GSF_LE_SET_GUINT16 (data +  8, 1);	/* fit 1 page high */
+	GSF_LE_SET_GUINT16 (data +  6, pi ? pi->scaling.dim.cols : 1);
+	GSF_LE_SET_GUINT16 (data +  8, pi ? pi->scaling.dim.rows : 1);
 	GSF_LE_SET_GUINT32 (data + 10, options);
 	GSF_LE_SET_GUINT32 (data + 12, 0);	/* _invalid_ x resolution */
 	GSF_LE_SET_GUINT32 (data + 14, 0);	/* _invalid_ y resolution */
@@ -1548,7 +1547,7 @@ excel_write_FONTs (BiffPut *bp, ExcelWriteState *ewb)
  * format is added. Free resources when it was already there.
  **/
 static void
-after_put_format (GnmFormat *format, gboolean was_added, gint index,
+after_put_format (GOFormat *format, gboolean was_added, gint index,
 		  char const *tmpl)
 {
 	if (was_added) {
@@ -1590,21 +1589,21 @@ formats_free (ExcelWriteState *ewb)
 	}
 }
 
-static GnmFormat const *
+static GOFormat const *
 formats_get_format (ExcelWriteState *ewb, gint idx)
 {
 	return two_way_table_idx_to_key (ewb->formats.two_way_table, idx);
 }
 
 static gint
-formats_get_index (ExcelWriteState *ewb, GnmFormat const *format)
+formats_get_index (ExcelWriteState *ewb, GOFormat const *format)
 {
 	return two_way_table_key_to_idx (ewb->formats.two_way_table, format);
 }
 static void
 put_format (GnmStyle *mstyle, gconstpointer dummy, ExcelWriteState *ewb)
 {
-	GnmFormat *fmt = mstyle_get_format (mstyle);
+	GOFormat *fmt = mstyle_get_format (mstyle);
 	style_format_ref (fmt);
 	two_way_table_put (ewb->formats.two_way_table,
 			   (gpointer)fmt, TRUE,
@@ -1616,7 +1615,7 @@ static void
 excel_write_FORMAT (ExcelWriteState *ewb, int fidx)
 {
 	guint8 data[64];
-	GnmFormat const *sf = formats_get_format (ewb, fidx);
+	GOFormat const *sf = formats_get_format (ewb, fidx);
 
 	char *format = style_format_as_XL (sf, FALSE);
 
@@ -1749,7 +1748,7 @@ cb_cell_pre_pass (gpointer ignored, GnmCell const *cell, ExcelWriteState *ewb)
 {
 	int index;
 	GnmStyle  *style;
-	GnmFormat *fmt;
+	GOFormat *fmt;
 	GnmString *str;
 
 	if (cell_has_expr (cell) || cell->value == NULL)
@@ -3620,7 +3619,9 @@ excel_write_WSBOOL (BiffPut *bp, ExcelWriteSheet *esheet)
 	/* 0x0020 automatic styles are not applied to an outline */
 	if (esheet->gnum_sheet->outline_symbols_below)	flags |= 0x040;
 	if (esheet->gnum_sheet->outline_symbols_right)	flags |= 0x080;
-	/* 0x0100 the Fit option is on (Page Setup dialog box, Page tab) */
+	if (esheet->gnum_sheet->print_info &&
+	    esheet->gnum_sheet->print_info->scaling.type == SIZE_FIT)
+		flags |= 0x100;
 	if (esheet->gnum_sheet->display_outlines)	flags |= 0x400;
 
 	ms_biff_put_2byte (bp, BIFF_WSBOOL, flags);
@@ -3716,7 +3717,7 @@ excel_write_SCL (BiffPut *bp, double zoom, gboolean force)
 	double whole, fractional = modf (zoom, &whole);
 	int num, denom;
 
-	stern_brocot (fractional, 1000, &num, &denom);
+	go_stern_brocot (fractional, 1000, &num, &denom);
 	num += whole * denom;
 	d (2, fprintf (stderr, "Zoom %g == %d/%d\n", zoom, num, denom););
 
@@ -4969,7 +4970,7 @@ excel_write_v7 (ExcelWriteState *ewb, GsfOutfile *outfile)
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
 	} else
-		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (ewb->io_context),
+		go_cmd_context_error_export (GO_CMD_CONTEXT (ewb->io_context),
 			_("Couldn't open stream 'Book' for writing\n"));
 }
 
@@ -4989,7 +4990,7 @@ excel_write_v8 (ExcelWriteState *ewb, GsfOutfile *outfile)
 		ms_biff_put_destroy (ewb->bp);
 		ewb->bp = NULL;
 	} else
-		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (ewb->io_context),
+		go_cmd_context_error_export (GO_CMD_CONTEXT (ewb->io_context),
 			_("Couldn't open stream 'Workbook' for writing\n"));
 }
 
@@ -5038,7 +5039,7 @@ extract_gog_object_style (ExcelWriteState *ewb, GogObject *obj)
 		char *fmt_str;
 		g_object_get (G_OBJECT (obj), "assigned-format-string-XL", &fmt_str, NULL);
 		if (fmt_str != NULL) {
-			GnmFormat *fmt = style_format_new_XL (fmt_str, FALSE);
+			GOFormat *fmt = style_format_new_XL (fmt_str, FALSE);
 			if (!style_format_is_general (fmt))
 				two_way_table_put (ewb->formats.two_way_table,
 						   (gpointer)fmt, TRUE,

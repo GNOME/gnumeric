@@ -25,9 +25,8 @@
 #include <gnumeric.h>
 #include "xml-io-version.h"
 #include "io-context.h"
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "sheet-view.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
@@ -36,7 +35,7 @@
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"
-#include "format.h"
+#include <src/gnm-format.h>
 #include "cell.h"
 #include "position.h"
 #include "expr.h"
@@ -48,7 +47,7 @@
 #include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "error-info.h"
+#include <goffice/app/error-info.h>
 #include "sheet-object-impl.h"
 #include "sheet-object-cell-comment.h"
 #include "gnm-so-line.h"
@@ -245,7 +244,7 @@ typedef struct {
 	GnmCellPos cell;
 	int expr_id, array_rows, array_cols;
 	int value_type;
-	GnmFormat *value_fmt;
+	GOFormat *value_fmt;
 
 	int display_formulas;
 	int hide_zero;
@@ -272,7 +271,7 @@ unknown_attr (XMLSaxParseState *state,
 {
 	g_return_if_fail (attrs != NULL);
 
-	if (state->version == GNUM_XML_LATEST)
+	if (state->version == GNM_XML_LATEST)
 		gnm_io_warning (state->context,
 			_("Unexpected attribute %s::%s == '%s'."),
 			name, attrs[0], attrs[1]);
@@ -289,22 +288,22 @@ xml_sax_wb (GsfXMLIn *gsf_state, xmlChar const **attrs)
 				char const * const id;
 				GnumericXMLVersion const version;
 			} const GnumericVersions [] = {
-				{ "http://www.gnumeric.org/v10.dtd", GNUM_XML_V10 },	/* 1.0.3 */
-				{ "http://www.gnumeric.org/v9.dtd", GNUM_XML_V9 },	/* 0.73 */
-				{ "http://www.gnumeric.org/v8.dtd", GNUM_XML_V8 },	/* 0.71 */
-				{ "http://www.gnome.org/gnumeric/v7", GNUM_XML_V7 },	/* 0.66 */
-				{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },	/* 0.62 */
-				{ "http://www.gnome.org/gnumeric/v5", GNUM_XML_V5 },
-				{ "http://www.gnome.org/gnumeric/v4", GNUM_XML_V4 },
-				{ "http://www.gnome.org/gnumeric/v3", GNUM_XML_V3 },
-				{ "http://www.gnome.org/gnumeric/v2", GNUM_XML_V2 },
-				{ "http://www.gnome.org/gnumeric/", GNUM_XML_V1 },
+				{ "http://www.gnumeric.org/v10.dtd", GNM_XML_V10 },	/* 1.0.3 */
+				{ "http://www.gnumeric.org/v9.dtd", GNM_XML_V9 },	/* 0.73 */
+				{ "http://www.gnumeric.org/v8.dtd", GNM_XML_V8 },	/* 0.71 */
+				{ "http://www.gnome.org/gnumeric/v7", GNM_XML_V7 },	/* 0.66 */
+				{ "http://www.gnome.org/gnumeric/v6", GNM_XML_V6 },	/* 0.62 */
+				{ "http://www.gnome.org/gnumeric/v5", GNM_XML_V5 },
+				{ "http://www.gnome.org/gnumeric/v4", GNM_XML_V4 },
+				{ "http://www.gnome.org/gnumeric/v3", GNM_XML_V3 },
+				{ "http://www.gnome.org/gnumeric/v2", GNM_XML_V2 },
+				{ "http://www.gnome.org/gnumeric/", GNM_XML_V1 },
 				{ NULL }
 			};
 			int i;
 			for (i = 0 ; GnumericVersions [i].id != NULL ; ++i )
 				if (strcmp (attrs[1], GnumericVersions [i].id) == 0) {
-					if (state->version != GNUM_XML_UNKNOWN)
+					if (state->version != GNM_XML_UNKNOWN)
 						gnm_io_warning (state->context,
 							_("Multiple version specifications.  Assuming %d"),
 							state->version);
@@ -472,9 +471,9 @@ xml_sax_sheet_name (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	g_return_if_fail (state->sheet == NULL);
 
 	/* * FIXME: Pull this out at some point, so we don't
-	 * have to support < GNUM_XML_V7 anymore
+	 * have to support < GNM_XML_V7 anymore
 	 */
-	if (state->version >= GNUM_XML_V7) {
+	if (state->version >= GNM_XML_V7) {
 		state->sheet = workbook_sheet_by_name (state->wb, content);
 
 		if (!state->sheet)
@@ -781,8 +780,8 @@ xml_sax_style_region_start (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	g_return_if_fail (state->style_range_init == FALSE);
 	g_return_if_fail (state->style == NULL);
 
-	state->style = (state->version >= GNUM_XML_V6 ||
-			state->version <= GNUM_XML_V2)
+	state->style = (state->version >= GNM_XML_V6 ||
+			state->version <= GNM_XML_V2)
 		? mstyle_new_default ()
 		: mstyle_new ();
 	state->style_range_init =
@@ -1063,7 +1062,7 @@ xml_sax_cell (GsfXMLIn *gsf_state, xmlChar const **attrs)
 	int row = -1, col = -1;
 	int rows = -1, cols = -1;
 	int value_type = -1;
-	GnmFormat *value_fmt = NULL;
+	GOFormat *value_fmt = NULL;
 	int expr_id = -1;
 
 	g_return_if_fail (state->cell.row == -1);
@@ -1190,7 +1189,7 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 	int const array_rows = state->array_rows;
 	int const expr_id = state->expr_id;
 	int const value_type = state->value_type;
-	GnmFormat *value_fmt = state->value_fmt;
+	GOFormat *value_fmt = state->value_fmt;
 	gpointer const id = GINT_TO_POINTER (expr_id);
 	gpointer expr = NULL;
 
@@ -1224,7 +1223,7 @@ xml_sax_cell_content (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 			xml_cell_set_array_expr (cell, content+1,
 						 array_cols, array_rows);
-		} else if (state->version >= GNUM_XML_V3 ||
+		} else if (state->version >= GNM_XML_V3 ||
 			   xml_not_used_old_array_spec (cell, content)) {
 			if (value_type > 0) {
 				GnmValue *v = value_new_from_string (value_type, content, value_fmt, FALSE);
@@ -1276,7 +1275,7 @@ xml_sax_merge (GsfXMLIn *gsf_state, G_GNUC_UNUSED GsfXMLBlob *blob)
 
 	if (parse_range (state->base.content->str, &r))
 		sheet_merge_add (state->sheet, &r, FALSE,
-			GNM_CMD_CONTEXT (state->context));
+			GO_CMD_CONTEXT (state->context));
 }
 
 static void
@@ -1741,7 +1740,7 @@ xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	state.wb_view = wb_view;
 	state.wb = wb_view_workbook (wb_view);
 	state.sheet = NULL;
-	state.version = GNUM_XML_UNKNOWN;
+	state.version = GNM_XML_UNKNOWN;
 	state.attribute.name = state.attribute.value = NULL;
 	state.name.name = state.name.value = state.name.position = NULL;
 	state.style_range_init = FALSE;
@@ -1785,16 +1784,16 @@ xml_sax_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	g_hash_table_destroy (state.expr_map);
 }
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	doc = gsf_xml_in_doc_new (gnumeric_1_0_dtd, content_ns);
 #if 0 /* requires gsf 1.11.0 */
 	gsf_xml_in_doc_set_unknown_handler (doc, &xml_sax_unknown);
 #endif
 }
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 	gsf_xml_in_doc_free (doc);
 }

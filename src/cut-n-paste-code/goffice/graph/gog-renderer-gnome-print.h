@@ -22,7 +22,6 @@
 #define GOG_RENDERER_GNOME_PRINT_H
 
 #include <goffice/graph/goffice-graph.h>
-#include <glib-object.h>
 #include <libgnomeprint/gnome-print.h>
 
 G_BEGIN_DECLS

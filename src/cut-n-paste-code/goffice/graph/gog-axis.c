@@ -35,20 +35,19 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/format.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/gui-utils/go-format-sel.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
-#include <src/gui-util.h>
-#include <src/format.h>
-#include <src/widgets/widget-format-selector.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkmisc.h>
-#include <glade/glade-xml.h>
 
 #include <string.h>
 
@@ -1379,7 +1378,7 @@ cb_axis_fmt_assignment_toggled (GtkToggleButton *toggle_button, GtkNotebook *not
 #endif
 
 static gpointer
-gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
+gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GOCmdContext *cc)
 {
 	static guint axis_pref_page = 0;
 	static char const *toggle_props[] = {
@@ -1401,7 +1400,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 	if (axis->type == GOG_AXIS_CIRCULAR)
 		return NULL;
 
-	gui = gnm_glade_xml_new (cc, "gog-axis-prefs.glade", "axis_pref_box", NULL);
+	gui = go_libglade_new ("gog-axis-prefs.glade", "axis_pref_box", NULL, cc);
 	if (gui == NULL)
 		return NULL;
 	notebook = gtk_notebook_new ();
@@ -1486,12 +1485,12 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 		gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), GTK_WIDGET (table),
 			gtk_label_new (_("Bounds")));
 
-		w = number_format_selector_new ();
+		w = go_format_sel_new ();
 		if (axis->assigned_format != NULL && !style_format_is_general (axis->assigned_format))
-			number_format_selector_set_style_format (NUMBER_FORMAT_SELECTOR (w),
+			go_format_sel_set_style_format (GO_FORMAT_SEL (w),
 				axis->assigned_format);
 		else if (axis->format != NULL)
-			number_format_selector_set_style_format (NUMBER_FORMAT_SELECTOR (w),
+			go_format_sel_set_style_format (GO_FORMAT_SEL (w),
 				axis->format);
 
 #if 0
@@ -1511,8 +1510,7 @@ gog_axis_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
 
 		gtk_widget_show (w);
 		g_signal_connect (G_OBJECT (w),
-			"number_format_changed",
-			G_CALLBACK (cb_axis_fmt_changed), axis);
+			"format_changed", G_CALLBACK (cb_axis_fmt_changed), axis);
 	}
 
 	g_object_set_data_full (G_OBJECT (notebook), "gui", gui,

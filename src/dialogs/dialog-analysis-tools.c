@@ -35,7 +35,7 @@
 #include <workbook-view.h>
 #include <gui-util.h>
 #include <parse-util.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <tool-dialogs.h>
 #include <dao-gui-utils.h>
 #include <sheet.h>
@@ -49,6 +49,7 @@
 
 #include <widgets/gnm-dao.h>
 #include <widgets/gnumeric-expr-entry.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <glade/glade.h>
 #include <string.h>
@@ -340,7 +341,7 @@ dialog_tool_init (GenericToolState *state,
 	state->help_link      = help_file;
 	state->state_destroy = NULL;
 
-	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (state->wbcg),
+	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (state->wbcg),
 		gui_name, NULL, NULL);
         if (state->gui == NULL)
 		goto dialog_tool_init_error;

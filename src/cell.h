@@ -3,7 +3,6 @@
 
 #include "gnumeric.h"
 #include "dependent.h"
-#include <pango/pango.h>
 
 typedef enum {
 	/* MUST BE > 0xFFF,FFFF to avoid conflict with GnmDependent */
@@ -83,14 +82,14 @@ void cell_convert_expr_to_value	(GnmCell *cell);
  * Manipulate GnmCell attributes
  */
 GnmStyle *cell_get_mstyle		(GnmCell const *cell);
-GnmFormat *cell_get_format	(GnmCell const *cell);
+GOFormat *cell_get_format	(GnmCell const *cell);
 void	cell_set_format		(GnmCell *cell, char const *format);
 
 void	cell_render_value	(GnmCell *cell, gboolean allow_variable_width);
 int	cell_rendered_height	(GnmCell const * cell);
 int	cell_rendered_width	(GnmCell const * cell);	/* excludes offset */
 int	cell_rendered_offset	(GnmCell const * cell);
-PangoColor const* cell_get_render_color	(GnmCell const * cell);
+GOColor cell_get_render_color	(GnmCell const * cell);
 char *	cell_get_entered_text	(GnmCell const * cell);
 char *  cell_get_rendered_text  (GnmCell *cell);
 

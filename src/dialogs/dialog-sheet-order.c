@@ -43,6 +43,8 @@
 #include <widgets/gnumeric-cell-renderer-toggle.h>
 #include <goffice/gui-utils/go-combo-box.h>
 #include <goffice/gui-utils/go-combo-color.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+
 
 #include <glade/glade.h>
 #include <gtk/gtktreeview.h>
@@ -327,9 +329,9 @@ populate_sheet_list (SheetManager *state)
 		GdkColor *text_color = NULL;
 
 		if (sheet->tab_color)
-			color = &sheet->tab_color->color;
+			color = &sheet->tab_color->gdk_color;
 		if (sheet->tab_text_color)
-			text_color = &sheet->tab_text_color->color;
+			text_color = &sheet->tab_text_color->gdk_color;
 
 		gtk_list_store_append (state->model, &iter);
 		gtk_list_store_set (state->model, &iter,
@@ -645,11 +647,11 @@ cb_ok_clicked (G_GNUC_UNUSED GtkWidget *ignore, SheetManager *state)
 			back_changed = (this_sheet == NULL) ||
 				!sheet_order_gdk_color_equal (back,
 					      this_sheet->tab_color ?
-					      &this_sheet->tab_color->color : NULL);
+					      &this_sheet->tab_color->gdk_color : NULL);
 			fore_changed = (this_sheet == NULL) ||
 				!sheet_order_gdk_color_equal (fore,
 					      this_sheet->tab_text_color ?
-					      &this_sheet->tab_text_color->color : NULL);
+					      &this_sheet->tab_text_color->gdk_color : NULL);
 			if (fore_changed || back_changed) {
 				color_changed = g_slist_prepend (color_changed, 
 					 GINT_TO_POINTER (this_sheet_idx));
@@ -996,7 +998,7 @@ dialog_sheet_order (WorkbookControlGUI *wbcg)
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"sheet-order.glade", NULL, NULL);
         if (gui == NULL)
                 return;

@@ -14,7 +14,7 @@
 #include "value.h"
 #include "expr.h"
 #include "expr-impl.h"
-#include "datetime.h"
+#include "gnm-datetime.h"
 #include "workbook.h"
 #include "sheet.h"
 
@@ -26,7 +26,7 @@ typedef struct {
 	guint         count;
 	CollectFlags  flags;
 	GSList       *info;
-	GnmDateConventions const *date_conv;
+	GODateConventions const *date_conv;
 } collect_floats_t;
 
 static GnmValue *

@@ -39,8 +39,7 @@
 #include "sheet-merge.h"
 #include "value.h"
 #include "font.h"
-#include "plugin-util.h"
-#include "error-info.h"
+#include <goffice/app/error-info.h>
 #include "style-border.h"
 #include <rendered-value.h>
 #include "mstyle.h"
@@ -114,7 +113,7 @@ html_print_encoded (GsfOutput *output, char const *str)
 	}
 }
 
-/*
+/**
  * html_get_color:
  *
  * @mstyle: the cellstyle
@@ -124,31 +123,27 @@ html_print_encoded (GsfOutput *output, char const *str)
  * @b:      blue component
  *
  * Determine rgb components
- *
- */
+ **/
 static void
 html_get_text_color (GnmCell *cell, GnmStyle *mstyle, guint *r, guint *g, guint *b)
 {
-	PangoColor const *fore = cell_get_render_color (cell);
+	GOColor fore = cell_get_render_color (cell);
 
-	if (fore == NULL)
+	if (fore == 0)
 		*r = *g = *b = 0;
 	else {
-		*r = fore->red >> 8;
-		*g = fore->green >> 8;
-		*b = fore->blue >> 8;
+		*r = UINT_RGBA_R (fore);
+		*g = UINT_RGBA_G (fore);
+		*b = UINT_RGBA_B (fore);
 	}
 }
 static void
 html_get_color (GnmStyle *mstyle, MStyleElementType t, guint *r, guint *g, guint *b)
 {
-	GnmColor *color;
-
-	color = mstyle_get_color (mstyle, t);
-
-	*r = color->color.red >> 8;
-	*g = color->color.green >> 8;
-	*b = color->color.blue >> 8;
+	GnmColor *color = mstyle_get_color (mstyle, t);
+	*r = color->gdk_color.red >> 8;
+	*g = color->gdk_color.green >> 8;
+	*b = color->gdk_color.blue >> 8;
 }
 
 static void
@@ -260,9 +255,9 @@ html_get_border_style (GnmBorder *border)
 
 	if (border->color) {
 		guint r, g, b;
-		r = border->color->color.red >> 8;
-		g = border->color->color.green >> 8;
-		b = border->color->color.blue >> 8;
+		r = border->color->gdk_color.red >> 8;
+		g = border->color->gdk_color.green >> 8;
+		b = border->color->gdk_color.blue >> 8;
 		g_string_append_printf (text, " #%02X%02X%02X", r, g, b);
 	}
 

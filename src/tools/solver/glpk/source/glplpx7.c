@@ -1298,7 +1298,7 @@ int lpx_mixed_gomory(LPX *lp, int kind[], int len, int ndx[],
          variable y in the current basic solution; if f0 is close to
          zero or to one, i.e. if y is near to a closest integer point,
          the corresponding cutting plane may be unreliable */
-      f0 = beta - floorgnum(beta);
+      f0 = beta - gnm_floor(beta);
       if (!(0.00001 <= f0 && f0 <= 0.99999)) return -2;
       for (j = 1; j <= n; j++)
       {  alfa_j = alfa[j];
@@ -1310,7 +1310,7 @@ int lpx_mixed_gomory(LPX *lp, int kind[], int len, int ndx[],
          insist(1 <= k && k <= m+n);
          if (k > m && kind[k-m])
          {  /* xN[j] is integer */
-            fj = alfa_j - floorgnum(alfa_j);
+            fj = alfa_j - gnm_floor(alfa_j);
             if (fj <= f0)
                a[j] = fj;
             else

@@ -27,7 +27,7 @@
 #include "workbook.h"
 #include "workbook-cmd-format.h"
 #include "commands.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "cmd-edit.h"
 #include "clipboard.h"
 #include <gsf/gsf-impl-utils.h>

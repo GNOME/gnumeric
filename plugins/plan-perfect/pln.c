@@ -9,9 +9,8 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
-#include <plugin.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 #include <io-context.h>
 #include <sheet.h>
 #include <ranges.h>
@@ -24,7 +23,8 @@
 #include <sheet-style.h>
 #include <style.h>
 #include <mstyle.h>
-#include <gutils.h>
+#include <goffice/utils/go-glib-extras.h>
+#include <goffice/app/error-info.h>
 
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-input.h>
@@ -269,7 +269,7 @@ pln_get_number (guint8 const * ch)
 	}
 	if (exp & 128)
 		dvalue = -dvalue;
-	dvalue = ldexpgnum (dvalue, ((exp & 127) - 64) * 4);
+	dvalue = gnm_ldexp (dvalue, ((exp & 127) - 64) * 4);
 
 	return dvalue;
 }

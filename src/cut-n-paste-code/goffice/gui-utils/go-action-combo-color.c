@@ -23,9 +23,7 @@
 #include "go-combo-color.h"
 #include "go-combo-box.h"
 #include "go-color-palette.h"
-
-#include <src/gui-util.h>
-#include <application.h>
+#include "go-gui-utils.h"
 
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>
@@ -148,7 +146,7 @@ go_action_combo_color_create_tool_item (GtkAction *a)
 	go_combo_box_set_title (GO_COMBO_BOX (tool->combo), title);
 	g_free (title);
 
-	gnm_widget_disable_focus (GTK_WIDGET (tool->combo));
+	go_widget_disable_focus (GTK_WIDGET (tool->combo));
 	gtk_container_add (GTK_CONTAINER (tool), GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool->combo));
 	gtk_widget_show (GTK_WIDGET (tool));

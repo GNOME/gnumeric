@@ -29,7 +29,7 @@
 #include "solver.h"
 #include "scenarios.h"
 #include "print-info.h"
-#include "file.h"
+#include <goffice/app/file.h>
 #include "expr.h"
 #include "expr-impl.h"
 #include "expr-name.h"
@@ -45,16 +45,16 @@
 #include "workbook-priv.h" /* Workbook::names */
 #include "selection.h"
 #include "clipboard.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "ranges.h"
-#include "file.h"
 #include "str.h"
 #include "hlink.h"
 #include "gutils.h"
-#include "plugin-util.h"
 #include "gnumeric-gconf.h"
 
 #include <goffice/utils/go-locale.h>
+#include <goffice/utils/go-libxml-extras.h>
+#include <goffice/app/error-info.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-input-gzip.h>
@@ -117,7 +117,7 @@ xml_parse_ctx_new (xmlDocPtr     doc,
 	 * Old versions fail reading things from the future.
 	 * Freeze the exported version at V9 for now.
 	 */
-	ctxt->version      = GNUM_XML_V9;
+	ctxt->version      = GNM_XML_V9;
 	ctxt->doc          = doc;
 	ctxt->ns           = ns;
 	ctxt->expr_map     = g_hash_table_new (g_direct_hash, g_direct_equal);
@@ -141,89 +141,6 @@ xml_parse_ctx_destroy (XmlParseContext *ctxt)
 	g_free (ctxt);
 }
 
-/*************************************************************************/
-
-xmlNode *
-e_xml_get_child_by_name (xmlNode const *parent, char const *child_name)
-{
-	xmlNode *child;
-
-	g_return_val_if_fail (parent != NULL, NULL);
-	g_return_val_if_fail (child_name != NULL, NULL);
-
-	for (child = parent->xmlChildrenNode; child != NULL; child = child->next) {
-		if (xmlStrcmp (child->name, child_name) == 0) {
-			return child;
-		}
-	}
-	return NULL;
-}
-
-xmlNode *
-e_xml_get_child_by_name_no_lang (xmlNode const *parent, char const *name)
-{
-	xmlNodePtr node;
-
-	g_return_val_if_fail (parent != NULL, NULL);
-	g_return_val_if_fail (name != NULL, NULL);
-
-	for (node = parent->xmlChildrenNode; node != NULL; node = node->next) {
-		xmlChar *lang;
-
-		if (node->name == NULL || strcmp (node->name, name) != 0) {
-			continue;
-		}
-		lang = xmlGetProp (node, "xml:lang");
-		if (lang == NULL) {
-			return node;
-		}
-		xmlFree (lang);
-	}
-
-	return NULL;
-}
-
-
-xmlNode *
-e_xml_get_child_by_name_by_lang (const xmlNode *parent, const gchar *name)
-{
-	xmlNodePtr   best_node = NULL, node;
-	gint         best_lang_score = INT_MAX;
-	GList const *lang_list = go_locale_languages ();
-
-	g_return_val_if_fail (parent != NULL, NULL);
-	g_return_val_if_fail (name != NULL, NULL);
-
-	for (node = parent->xmlChildrenNode; node != NULL; node = node->next) {
-		xmlChar *lang;
-
-		if (node->name == NULL || strcmp (node->name, name) != 0)
-			continue;
-
-		lang = xmlGetProp (node, "xml:lang");
-		if (lang != NULL) {
-			const GList *l;
-			gint i;
-
-			for (l = lang_list, i = 0;
-			     l != NULL && i < best_lang_score;
-			     l = l->next, i++) {
-				if (strcmp ((gchar *) l->data, lang) == 0) {
-					best_node = node;
-					best_lang_score = i;
-				}
-			}
-		} else if (best_node == NULL)
-			best_node = node;
-
-		xmlFree (lang);
-		if (best_lang_score == 0) 
-			return best_node;
-	}
-
-	return best_node;
-}
-
 /* ------------------------------------------------------------------------- */
 
 void
@@ -238,7 +155,7 @@ gnm_xml_out_add_color (GsfXMLOut *o, char const *id, GnmColor const *c)
 {
 	g_return_if_fail (c != NULL);
 	gsf_xml_out_add_color (o, id,
-		c->color.red, c->color.green, c->color.blue);
+		c->gdk_color.red, c->gdk_color.green, c->gdk_color.blue);
 }
 
 void
@@ -249,110 +166,6 @@ gnm_xml_out_add_cellpos (GsfXMLOut *o, char const *id, GnmCellPos const *p)
 }
 
 /*****************************************************************************/
-/* Get an xmlChar * value for a node carried as an attibute
- * result must be xmlFree
- */
-xmlChar *
-xml_node_get_cstr (xmlNodePtr node, char const *name)
-{
-	if (name != NULL)
-		return xmlGetProp (node, CC2XML (name));
-	/* in libxml1 <foo/> would return NULL
-	 * in libxml2 <foo/> would return ""
-	 */
-	if (node->xmlChildrenNode != NULL)
-		return xmlNodeGetContent (node);
-	return NULL;
-}
-void
-xml_node_set_cstr (xmlNodePtr node, char const *name, char const *val)
-{
-	if (name)
-		xmlSetProp (node, CC2XML (name), CC2XML (val));
-	else
-		xmlNodeSetContent (node, CC2XML (val));
-}
-
-gboolean
-xml_node_get_bool (xmlNodePtr node, char const *name, gboolean *val)
-{
-	xmlChar *buf = xml_node_get_cstr (node, name);
-	if (buf == NULL)
-		return FALSE;
-
-	*val = (!strcmp (buf, "1")
-		|| 0 == g_ascii_strcasecmp (buf, "true"));
-	g_free (buf);
-	return TRUE;
-}
-
-void
-xml_node_set_bool (xmlNodePtr node, char const *name, gboolean val)
-{
-	xml_node_set_cstr (node, name, val ? "true" : "false");
-}
-
-gboolean
-xml_node_get_int (xmlNodePtr node, char const *name, int *val)
-{
-	xmlChar *buf;
-	char *end;
-
-	buf = xml_node_get_cstr (node, name);
-	if (buf == NULL)
-		return FALSE;
-
-	errno = 0; /* strto(ld) sets errno, but does not clear it.  */
-	*val = strtol (CXML2C (buf), &end, 10);
-	xmlFree (buf);
-
-	/* FIXME: it is, strictly speaking, not valid to use buf here.  */
-	return (CXML2C (buf) != end) && (errno != ERANGE);
-}
-
-void
-xml_node_set_int (xmlNodePtr node, char const *name, int val)
-{
-	char str[4 * sizeof (int)];
-	sprintf (str, "%d", val);
-	xml_node_set_cstr (node, name, str);
-}
-
-gboolean
-xml_node_get_double (xmlNodePtr node, char const *name, double *val)
-{
-	xmlChar *buf;
-	char *end;
-
-	buf = xml_node_get_cstr (node, name);
-	if (buf == NULL)
-		return FALSE;
-
-	errno = 0; /* strto(ld) sets errno, but does not clear it.  */
-	*val = strtod (CXML2C (buf), &end);
-	xmlFree (buf);
-
-	/* FIXME: it is, strictly speaking, now valid to use buf here.  */
-	return (CXML2C (buf) != end) && (errno != ERANGE);
-}
-
-void
-xml_node_set_double (xmlNodePtr node, char const *name, double val,
-		     int precision)
-{
-	char str[101 + DBL_DIG];
-
-	if (precision < 0 || precision > DBL_DIG)
-		precision = DBL_DIG;
-
-	if (fabs (val) < 1e9 && fabs (val) > 1e-5)
-		snprintf (str, 100 + DBL_DIG, "%.*g", precision, val);
-	else
-		snprintf (str, 100 + DBL_DIG, "%f", val);
-
-	xml_node_set_cstr (node, name, str);
-}
-
 /*
  * Reads a value which is stored using a format '%d:%s' where %d is the
  * GnmValueType and %s is the string containing the value.
@@ -406,43 +219,12 @@ xml_node_get_color (xmlNodePtr node, char const *name)
 	return res;
 }
 
-gboolean
-xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *res)
-{
-	xmlChar *color;
-	int r, g, b;
-
-	color = xmlGetProp (node, CC2XML (name));
-	if (color == NULL)
-		return FALSE;
-	if (sscanf (CXML2C (color), "%X:%X:%X", &r, &g, &b) == 3) {
-		r >>= 8;
-		g >>= 8;
-		b >>= 8;
-		*res = RGBA_TO_UINT (r,g,b,0xff);
-		xmlFree (color);
-		return TRUE;
-	}
-	xmlFree (color);
-	return FALSE;
-}
-
-void
-xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor val)
-{
-	char str[4 * sizeof (val)];
-	GdkColor tmp;
-	go_color_to_gdk (val, &tmp);
-	sprintf (str, "%X:%X:%X", tmp.red, tmp.green, tmp.blue);
-	xml_node_set_cstr (node, name, str);
-}
-
 void
 xml_node_set_color (xmlNodePtr node, char const *name, GnmColor const *val)
 {
-	char str[4 * sizeof (val->color)];
-	sprintf (str, "%X:%X:%X", val->color.red, val->color.green,
-		 val->color.blue);
+	char str[4 * sizeof (val->gdk_color)];
+	sprintf (str, "%X:%X:%X",
+		 val->gdk_color.red, val->gdk_color.green, val->gdk_color.blue);
 	xml_node_set_cstr (node, name, str);
 }
 
@@ -1309,7 +1091,7 @@ xml_read_print_repeat_range (XmlParseContext *ctxt, xmlNodePtr tree,
 	g_return_if_fail (range != NULL);
 
 	range->use = FALSE;
-	if (ctxt->version > GNUM_XML_V4 &&
+	if (ctxt->version > GNM_XML_V4 &&
 	    (child = e_xml_get_child_by_name (tree, CC2XML (name)))) {
 		xmlChar *s = xml_node_get_cstr (child, "value");
 
@@ -1492,8 +1274,8 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 	GnmColor *c;
 	GnmStyle     *mstyle;
 
-	mstyle = (ctxt->version >= GNUM_XML_V6 ||
-		  ctxt->version <= GNUM_XML_V2)
+	mstyle = (ctxt->version >= GNM_XML_V6 ||
+		  ctxt->version <= GNM_XML_V2)
 		? mstyle_new_default ()
 		: mstyle_new ();
 
@@ -1506,7 +1288,7 @@ xml_read_style (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (xml_node_get_int (tree, "HAlign", &val))
 		mstyle_set_align_h (mstyle, val);
 
-	if (ctxt->version >= GNUM_XML_V6) {
+	if (ctxt->version >= GNM_XML_V6) {
 		if (xml_node_get_int (tree, "WrapText", &val))
 			mstyle_set_wrap_text (mstyle, val);
 		if (xml_node_get_int (tree, "ShrinkToFit", &val))
@@ -1722,7 +1504,7 @@ xml_read_style_region (XmlParseContext *ctxt, xmlNodePtr tree)
 	style = xml_read_style_region_ex (ctxt, tree, &range);
 
 	if (style != NULL) {
-		if (ctxt->version >= GNUM_XML_V6)
+		if (ctxt->version >= GNM_XML_V6)
 			sheet_style_set_range (ctxt->sheet, &range, style);
 		else
 			sheet_style_apply_range (ctxt->sheet, &range, style);
@@ -1964,7 +1746,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 	gboolean is_new_cell = TRUE;
 	gboolean is_value = FALSE;
 	GnmValueType value_type = VALUE_EMPTY; /* Make compiler shut up */
-	GnmFormat *value_fmt = NULL;
+	GOFormat *value_fmt = NULL;
 
 	if (strcmp (tree->name, "Cell")) {
 		fprintf (stderr,
@@ -1981,7 +1763,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 	if (cell == NULL)
 		return NULL;
 
-	if (ctxt->version < GNUM_XML_V3) {
+	if (ctxt->version < GNM_XML_V3) {
 		/*
 		 * This style code is a gross anachronism that slugs performance
 		 * in the common case this data won't exist. In the long term all
@@ -2007,7 +1789,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 			shared_expr_index = -1;
 
 		/* Is this a post 0.57 formatted value */
-		if (ctxt->version >= GNUM_XML_V4) {
+		if (ctxt->version >= GNM_XML_V4) {
 			int tmp;
 			is_post_52_array =
 				xml_node_get_int (tree, "Rows", &array_rows) &&
@@ -2027,7 +1809,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 		}
 	}
 
-	if (ctxt->version < GNUM_XML_V10)
+	if (ctxt->version < GNM_XML_V10)
 		for (child = tree->xmlChildrenNode; child != NULL ; child = child->next) {
 			if (xmlIsBlankNode (child))
 				continue;
@@ -2046,7 +1828,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				content = xml_node_get_cstr (child, NULL);
 
 				/* Is this a post 0.52 array */
-				if (ctxt->version == GNUM_XML_V3) {
+				if (ctxt->version == GNM_XML_V3) {
 					is_post_52_array =
 					    xml_node_get_int (child, "Rows", &array_rows) &&
 					    xml_node_get_int (child, "Cols", &array_cols);
@@ -2070,7 +1852,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 			content = xmlNodeGetContent (tree);
 
 		/* Early versions had newlines at the end of their content */
-		if (ctxt->version <= GNUM_XML_V1 && content != NULL) {
+		if (ctxt->version <= GNM_XML_V1 && content != NULL) {
 			char *tmp = strchr (XML2C (content), '\n');
 			if (tmp != NULL)
 				*tmp = '\0';
@@ -2083,7 +1865,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 
 			xml_cell_set_array_expr (ctxt, cell, CXML2C (content + 1),
 						 array_rows, array_cols);
-		} else if (ctxt->version >= GNUM_XML_V3 ||
+		} else if (ctxt->version >= GNM_XML_V3 ||
 			   xml_not_used_old_array_spec (ctxt, cell, XML2C (content))) {
 			if (is_value)
 				cell_set_value (cell,
@@ -3337,7 +3119,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 	gboolean is_post_52_array = FALSE;
 	gboolean is_value = FALSE;
 	GnmValueType value_type = VALUE_EMPTY; /* Make compiler shut up */
-	GnmFormat *value_fmt = NULL;
+	GOFormat *value_fmt = NULL;
 	GnmParsePos pp;
 
 	if (strcmp (tree->name, "Cell")) {
@@ -3397,7 +3179,7 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 		else {
 			GnmValue *val;
 			GnmExpr const *expr;
-			GnmDateConventions const *date_conv =
+			GODateConventions const *date_conv =
 				ctxt->wb ? workbook_date_conv (ctxt->wb) : NULL;
 
 			parse_text_value_or_expr (&pp,
@@ -3474,14 +3256,14 @@ xml_cellregion_read (WorkbookControl *wbc, Sheet *sheet, guchar *buffer, int len
 
 	doc = xmlParseDoc (buffer);
 	if (doc == NULL) {
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (wbc),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (wbc),
 			_("Unparsable xml in clipboard"));
 		return NULL;
 	}
 	clipboard = doc->xmlRootNode;
 	if (clipboard == NULL || strcmp (clipboard->name, "ClipboardRange")) {
 		xmlFreeDoc (doc);
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (wbc),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (wbc),
 			_("Clipboard is in unknown format"));
 		return NULL;
 	}
@@ -3627,16 +3409,16 @@ static const struct {
 	char const * const id;
 	GnumericXMLVersion const version;
 } GnumericVersions [] = {
-	{ "http://www.gnumeric.org/v10.dtd", GNUM_XML_V10 },	/* 1.0.3 */
-	{ "http://www.gnumeric.org/v9.dtd", GNUM_XML_V9 },	/* 0.73 */
-	{ "http://www.gnumeric.org/v8.dtd", GNUM_XML_V8 },	/* 0.71 */
-	{ "http://www.gnome.org/gnumeric/v7", GNUM_XML_V7 },	/* 0.66 */
-	{ "http://www.gnome.org/gnumeric/v6", GNUM_XML_V6 },	/* 0.62 */
-	{ "http://www.gnome.org/gnumeric/v5", GNUM_XML_V5 },
-	{ "http://www.gnome.org/gnumeric/v4", GNUM_XML_V4 },
-	{ "http://www.gnome.org/gnumeric/v3", GNUM_XML_V3 },
-	{ "http://www.gnome.org/gnumeric/v2", GNUM_XML_V2 },
-	{ "http://www.gnome.org/gnumeric/", GNUM_XML_V1 },
+	{ "http://www.gnumeric.org/v10.dtd", GNM_XML_V10 },	/* 1.0.3 */
+	{ "http://www.gnumeric.org/v9.dtd", GNM_XML_V9 },	/* 0.73 */
+	{ "http://www.gnumeric.org/v8.dtd", GNM_XML_V8 },	/* 0.71 */
+	{ "http://www.gnome.org/gnumeric/v7", GNM_XML_V7 },	/* 0.66 */
+	{ "http://www.gnome.org/gnumeric/v6", GNM_XML_V6 },	/* 0.62 */
+	{ "http://www.gnome.org/gnumeric/v5", GNM_XML_V5 },
+	{ "http://www.gnome.org/gnumeric/v4", GNM_XML_V4 },
+	{ "http://www.gnome.org/gnumeric/v3", GNM_XML_V3 },
+	{ "http://www.gnome.org/gnumeric/v2", GNM_XML_V2 },
+	{ "http://www.gnome.org/gnumeric/", GNM_XML_V1 },
 	{ NULL }
 };
 
@@ -3715,7 +3497,7 @@ xml_workbook_write (XmlParseContext *ctxt)
 		xmlAddChild (cur, child);
 
 	{
-		GnmDateConventions const *conv = workbook_date_conv (wb);
+		GODateConventions const *conv = workbook_date_conv (wb);
 		if (conv->use_1904)
 			xmlNewChild (cur, ctxt->ns, CC2XML ("DateConvention"), "1904");
 	}
@@ -3935,7 +3717,7 @@ xml_workbook_read (IOContext *context,
 	io_progress_range_pop (context);
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("Attributes"));
-	if (child && ctxt->version >= GNUM_XML_V5)
+	if (child && ctxt->version >= GNM_XML_V5)
 		xml_read_wbv_attributes (ctxt, child);
 
 	child = e_xml_get_child_by_name (tree, CC2XML ("UIData"));
@@ -4184,7 +3966,7 @@ unref_input:
 static void
 gnumeric_xml_read_workbook (GnmFileOpener const *fo,
                             IOContext *context,
-                            WorkbookView *wb_view,
+                            gpointer wb_view,
                             GsfInput *input)
 {
 	xmlParserCtxtPtr pctxt;
@@ -4248,7 +4030,7 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 	if (gmr == NULL) {
 		if (res != NULL)
 			xmlFreeDoc (res);
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			_("The file is not a Gnumeric Workbook file"));
 		return;
 	}
@@ -4271,7 +4053,7 @@ gnumeric_xml_read_workbook (GnmFileOpener const *fo,
 static void
 gnumeric_xml_write_workbook (GnmFileSaver const *fs,
                              IOContext *context,
-                             WorkbookView const *wb_view,
+                             gconstpointer wb_view,
                              GsfOutput *output)
 {
 	xmlDocPtr xml;
@@ -4285,7 +4067,7 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 
 	xml = xmlNewDoc (CC2XML ("1.0"));
 	if (xml == NULL) {
-		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (context),
+		go_cmd_context_error_export (GO_CMD_CONTEXT (context),
 			_("Failure saving file"));
 		return;
 	}
@@ -4307,7 +4089,7 @@ gnumeric_xml_write_workbook (GnmFileSaver const *fs,
 	}
 	xmlIndentTreeOutput = TRUE;
 	if (gsf_xmlDocFormatDump (output, xml, "UTF-8", TRUE) < 0)
-		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (context),
+		go_cmd_context_error_export (GO_CMD_CONTEXT (context),
 				     "Error saving XML");
 	if (gzout) {
 		gsf_output_close (gzout);

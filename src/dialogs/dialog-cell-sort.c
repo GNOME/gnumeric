@@ -1176,7 +1176,7 @@ dialog_cell_sort (WorkbookControlGUI *wbcg)
 	if (gnumeric_dialog_raise_if_exists (wbcg, CELL_SORT_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"cell-sort.glade", NULL, NULL);
         if (gui == NULL)
                 return;

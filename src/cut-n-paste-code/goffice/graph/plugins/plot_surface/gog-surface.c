@@ -20,6 +20,8 @@
  */
 
 #include <goffice/goffice-config.h>
+#include "gog-surface.h"
+
 #include <goffice/graph/go-data.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/gog-renderer.h>
@@ -27,9 +29,8 @@
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
 #include <goffice/utils/go-color.h>
-#include "gog-surface.h"
+#include <goffice/app/module-plugin-defs.h>
 
-#include <module-plugin-defs.h>
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
 
@@ -101,11 +102,11 @@ gog_contour_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotContour");
 }
 
-extern gpointer gog_contour_plot_pref (GogContourPlot *plot, GnmCmdContext *cc);
+extern gpointer gog_contour_plot_pref (GogContourPlot *plot, GOCmdContext *cc);
 static gpointer
 gog_contour_plot_editor (GogObject *item,
 		    G_GNUC_UNUSED GogDataAllocator *dalloc,
-		    GnmCmdContext *cc)
+		    GOCmdContext *cc)
 {
 	return gog_contour_plot_pref (GOG_CONTOUR_PLOT (item), cc);
 }
@@ -1311,13 +1312,13 @@ GSF_CLASS (GogSurfaceSeries, gog_surface_series,
 	   gog_surface_series_class_init, NULL,
 	   GOG_SERIES_TYPE)
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	gog_contour_plot_get_type ();
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 }

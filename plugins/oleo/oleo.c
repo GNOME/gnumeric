@@ -19,7 +19,6 @@
 #include <value.h>
 #include <parse-util.h>
 #include <expr.h>
-#include <plugin-util.h>
 #include <sheet-style.h>
 #include <mstyle.h>
 #include <ranges.h>

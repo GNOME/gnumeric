@@ -1154,7 +1154,7 @@ gnm_float lpx_get_mip_col(LPX *lp, int j)
       else
       {  vx = lp->mipx[lp->m+j];
          if (lp->kind[j] == LPX_IV)
-            insist(vx == floorgnum(vx));
+            insist(vx == gnm_floor(vx));
          else if (lp->round)
          {  gnm_float eps = lp->tol_bnd * lp->rs[lp->m+j];
             if (gnumabs(vx) <= eps) vx = 0.0;

@@ -108,9 +108,9 @@ double              mstyle_get_font_size   (const GnmStyle *st);
 GnmFont          *mstyle_get_font        (const GnmStyle *st,
 					    PangoContext *context,
 					    double zoom);
-void                mstyle_set_format      (GnmStyle *st, GnmFormat *);
+void                mstyle_set_format      (GnmStyle *st, GOFormat *);
 void                mstyle_set_format_text (GnmStyle *st, const char *format);
-GnmFormat          *mstyle_get_format      (const GnmStyle *st);
+GOFormat          *mstyle_get_format      (const GnmStyle *st);
 void                mstyle_set_align_h     (GnmStyle *st, StyleHAlignFlags a);
 StyleHAlignFlags    mstyle_get_align_h     (const GnmStyle *st);
 void                mstyle_set_align_v     (GnmStyle *st, StyleVAlignFlags a);

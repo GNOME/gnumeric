@@ -28,7 +28,7 @@
 
 #include "gnumeric-config.h"
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 
 #define spm_create            glp_spm_create
 #define spm_check_data        glp_spm_check_data

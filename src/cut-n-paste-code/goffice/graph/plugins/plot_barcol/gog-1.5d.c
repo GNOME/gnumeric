@@ -33,8 +33,8 @@
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/app/module-plugin-defs.h>
 
-#include <module-plugin-defs.h>
 #include <glib/gi18n.h>
 #include <gtk/gtklabel.h>
 #include <gsf/gsf-impl-utils.h>
@@ -452,7 +452,7 @@ static void
 gog_series1_5d_populate_editor (GogSeries *series,
 				GtkNotebook *book,
 				GogDataAllocator *dalloc,
-				GnmCmdContext *cc)
+				GOCmdContext *cc)
 {
 	GtkWidget * error_page;
 	gboolean horizontal;
@@ -498,8 +498,8 @@ GSF_CLASS (GogSeries1_5d, gog_series1_5d,
 
 /* Plugin initialization */
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	gog_plot1_5d_get_type ();
 	gog_line_plot_get_type ();
@@ -507,7 +507,7 @@ plugin_init (void)
 	gog_barcol_plot_get_type ();
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 }

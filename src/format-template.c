@@ -34,6 +34,7 @@
 #include "xml-io.h"
 #include "io-context.h"
 #include <string.h>
+#include <goffice/utils/go-libxml-extras.h>
 #include <libxml/parser.h>
 
 #define CC2XML(s) ((const xmlChar *)(s))
@@ -451,7 +452,7 @@ xml_read_format_template_members (XmlParseContext *ctxt, FormatTemplate *ft, xml
  * Return value: a new FormatTemplate (or NULL on error)
  **/
 FormatTemplate *
-format_template_new_from_file (char const *filename, GnmCmdContext *cc)
+format_template_new_from_file (char const *filename, GOCmdContext *cc)
 {
 	FormatTemplate	*ft = NULL;
 	xmlDoc		*doc;
@@ -463,7 +464,7 @@ format_template_new_from_file (char const *filename, GnmCmdContext *cc)
 
 	doc = xmlParseFile (filename);
 	if (doc == NULL) {
-		gnm_cmd_context_error_import (cc,
+		go_cmd_context_error_import (cc,
 			_("Error while trying to load autoformat template"));
 		return NULL;
 	}
@@ -480,16 +481,16 @@ format_template_new_from_file (char const *filename, GnmCmdContext *cc)
 			} else {
 				format_template_free (ft);
 				ft = NULL;
-				gnm_cmd_context_error_import (cc,
+				go_cmd_context_error_import (cc,
 					_("Error while trying to build tree from autoformat template file"));
 			}
 
 			xml_parse_ctx_destroy (ctxt);
 		} else
-			gnm_cmd_context_error_import (cc,
+			go_cmd_context_error_import (cc,
 				_("Is not an autoformat template file"));
 	} else
-		gnm_cmd_context_error_import (cc,
+		go_cmd_context_error_import (cc,
 			_("Invalid xml file. Tree is empty?"));
 
 	xmlFreeDoc (doc);
@@ -746,7 +747,7 @@ typedef void (* PCalcCallback) (FormatTemplate *ft, GnmRange *r, GnmStyle *mstyl
  **/
 static gboolean
 format_template_range_check (FormatTemplate *ft, GnmRange const *r,
-			     GnmCmdContext *optional_cc)
+			     GOCmdContext *optional_cc)
 {
 	GSList *iterator;
 	int diff_col_high = -1;
@@ -799,7 +800,7 @@ format_template_range_check (FormatTemplate *ft, GnmRange const *r,
 		}
 
 		if (errmsg != NULL) {
-			gnm_cmd_context_error_system (optional_cc, errmsg);
+			go_cmd_context_error_system (optional_cc, errmsg);
 			g_free (errmsg);
 		}
 	}
@@ -1102,7 +1103,7 @@ cb_format_sheet_style (FormatTemplate *ft, GnmRange *r, GnmStyle *mstyle, Sheet 
  * supplied.
  */
 gboolean
-format_template_check_valid (FormatTemplate *ft, GSList *regions, GnmCmdContext *cc)
+format_template_check_valid (FormatTemplate *ft, GSList *regions, GOCmdContext *cc)
 {
 	g_return_val_if_fail (cc != NULL, FALSE);
 

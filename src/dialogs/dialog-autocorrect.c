@@ -316,7 +316,7 @@ dialog_autocorrect (WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, AUTO_CORRECT_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"autocorrect.glade", NULL, NULL);
         if (gui == NULL)
                 return;

@@ -38,7 +38,7 @@
 #include "workbook.h"
 #include "workbook-control.h"
 #include "command-context.h"
-#include "format.h"
+#include <src/gnm-format.h>
 #include "sheet-object-cell-comment.h"
 #include "commands.h"
 #include "style-color.h"
@@ -263,7 +263,7 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 
 	if (dao->type == RangeOutput
 	    && sheet_range_splits_region (dao->sheet, &range, NULL,
-					  GNM_CMD_CONTEXT (dao->wbc), cmd))
+					  GO_CMD_CONTEXT (dao->wbc), cmd))
 		return TRUE;
 
 	if (dao->clear_outputrange)
@@ -277,7 +277,7 @@ dao_format_output (data_analysis_output_t *dao, char const *cmd)
 			    range.start.col, range.start.row,
 			    range.end.col, range.end.row,
 			    clear_flags | CLEAR_NOCHECKARRAY | CLEAR_MERGES,
-			    GNM_CMD_CONTEXT (dao->wbc));
+			    GO_CMD_CONTEXT (dao->wbc));
 	return FALSE;
 }
 
@@ -740,7 +740,7 @@ dao_set_percent (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
 {
 	GnmStyle *mstyle = mstyle_new ();
-	GnmFormat *style_format = NULL;
+	GOFormat *style_format = NULL;
 
 	style_format = style_format_default_percentage ();
 	mstyle_set_format (mstyle, style_format);
@@ -765,7 +765,7 @@ dao_set_date (data_analysis_output_t *dao, int col1, int row1,
 		 int col2, int row2)
 {
 	GnmStyle *mstyle = mstyle_new ();
-	GnmFormat *style_format = NULL;
+	GOFormat *style_format = NULL;
 
 	style_format = style_format_default_date ();
 	mstyle_set_format (mstyle, style_format);

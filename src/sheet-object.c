@@ -209,14 +209,14 @@ sheet_object_class_init (GObjectClass *klass)
 		SHEET_OBJECT_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (SheetObjectClass, bounds_changed),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 	signals [UNREALIZED] = g_signal_new ("unrealized",
 		SHEET_OBJECT_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (SheetObjectClass, unrealized),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 }

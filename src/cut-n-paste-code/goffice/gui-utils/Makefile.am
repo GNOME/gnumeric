@@ -19,6 +19,13 @@ libgoffice_gui_utils_la_SOURCES =	\
 	go-combo-text.c			\
 	go-combo-text.h			\
 	\
+	go-font-sel.c			\
+	go-font-sel.h			\
+	go-format-sel.c			\
+	go-format-sel.h			\
+	go-gui-utils.c			\
+	go-gui-utils.h			\
+	\
 	go-action-combo-color.c 	\
 	go-action-combo-color.h 	\
 	go-action-combo-pixmaps.c 	\
@@ -40,3 +47,8 @@ go-marshalers.c : go-marshalers.list $(GLIB_GENMARSHAL)
 EXTRA_DIST = go-marshalers.list
 
 include $(srcdir)/../goffice.mk
+
+gladedir   = $(gnumeric_gladedir)
+glade_DATA = \
+	go-font-sel.glade 	\
+	go-format-sel.glade 

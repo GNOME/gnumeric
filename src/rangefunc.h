@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_RANGEFUNC_H
 #define GNUMERIC_RANGEFUNC_H
 
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 
 int range_count (const gnm_float *xs, int n, gnm_float *res);
 

@@ -93,7 +93,7 @@ typedef struct {
 
 typedef struct {
 	char		*str;
-	GnmFormat	*markup;
+	GOFormat	*markup;
 } ExcelStringEntry;
 
 struct _ExcelWorkbook {

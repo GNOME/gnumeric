@@ -22,7 +22,7 @@
 #include "go-action-combo-text.h"
 #include "go-combo-box.h"
 #include "go-combo-text.h"
-#include <src/gui-util.h>
+#include "go-gui-utils.h"
 
 #include <gtk/gtkaction.h>
 #include <gtk/gtktoolitem.h>
@@ -125,14 +125,14 @@ go_action_combo_create_tool_item (GtkAction *act)
 
 	tool->combo = (GoComboText *)go_combo_text_new (NULL);
 	if (taction->largest_elem != NULL)
-		w = gnm_measure_string (
+		w = go_measure_string (
 			gtk_widget_get_pango_context (GTK_WIDGET (tool->combo)),
 			go_combo_text_get_entry (tool->combo)->style->font_desc, 
 			taction->largest_elem);
 	for (ptr = taction->elements; ptr != NULL ; ptr = ptr->next) {
 		go_combo_text_add_item	(tool->combo, ptr->data);
 		if (taction->largest_elem == NULL) {
-			tmp = gnm_measure_string (
+			tmp = go_measure_string (
 				gtk_widget_get_pango_context (GTK_WIDGET (tool->combo)),
 				go_combo_text_get_entry (tool->combo)->style->font_desc, 
 				ptr->data);

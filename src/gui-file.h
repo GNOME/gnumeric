@@ -18,7 +18,6 @@ void     gui_wb_view_show   (WorkbookControlGUI *wbcg, WorkbookView *wbv);
 gboolean gui_file_read	    (WorkbookControlGUI *wbcg, char const *file_name,
 			     GnmFileOpener const *optional_format,
 			     gchar const *optional_encoding);
-char *   gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial);
 char *   gui_get_image_save_info (WorkbookControlGUI *wbcg, GSList *formats, 
 				  GnmImageFormat **ret_format);
 

@@ -12,8 +12,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <command-context.h>
 #include <workbook-control-gui.h>
-#include <plugin.h>
-#include <module-plugin-defs.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "gnm-python.h"
 #include "python-loader.h"
 #include "py-interpreter-selector.h"
@@ -151,7 +151,7 @@ show_python_console (GnmAction const *action, WorkbookControl *wbc)
 
 	sel = gnm_py_interpreter_selector_new (&err);
 	if (err != NULL) {
-		gnm_cmd_context_error_info (GNM_CMD_CONTEXT (wbc), err);
+		go_cmd_context_error_info (GO_CMD_CONTEXT (wbc), err);
 		error_info_free (err);
 		return;
 	}

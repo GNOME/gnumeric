@@ -2,6 +2,7 @@
 #define GNUMERIC_DEPENDENT_H
 
 #include "gnumeric.h"
+#include <goffice/utils/goffice-utils.h>
 #include <stdio.h>
 
 struct _GnmDependent
@@ -61,13 +62,13 @@ struct _GnmDepContainer {
 	 * is tranversed by g_hash_table_foreach mostly.
 	 */
 	GHashTable **range_hash;
-	GnmMemChunk *range_pool;
+	GOMemChunk *range_pool;
 
 	/* Single ranges, this maps an GnmEvalPos * to a GSList of its
 	 * dependencies.
 	 */
 	GHashTable *single_hash;
-	GnmMemChunk *single_pool;
+	GOMemChunk *single_pool;
 
 	/* All of the ExprNames that refer to this container */
 	GHashTable *referencing_names;

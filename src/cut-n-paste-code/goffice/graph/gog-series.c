@@ -27,10 +27,10 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/graph/gog-error-bar.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
-#include <src/gui-util.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkhseparator.h>
@@ -126,7 +126,7 @@ cb_index_changed (GtkSpinButton *spin_button, GogSeriesElement *element)
 static gpointer
 gog_series_element_editor (GogObject *gobj,
 			   GogDataAllocator *dalloc,
-			   GnmCmdContext *cc)
+			   GOCmdContext *cc)
 {
 	static guint series_element_pref_page = 1;
 	GtkWidget *w, *vbox, *spin_button = NULL;
@@ -345,7 +345,7 @@ cb_show_in_legend (GtkToggleButton *b, GObject *series)
 static gpointer
 gog_series_editor (GogObject *gobj,
 		   GogDataAllocator *dalloc,
-		   GnmCmdContext *cc)
+		   GOCmdContext *cc)
 {
 	static guint series_pref_page = 1;
 	GtkWidget *w;

@@ -17,8 +17,8 @@
 #include <io-context.h>
 #include <workbook-view.h>
 #include <workbook.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
+#include <goffice/app/module-plugin-defs.h>
+#include <goffice/app/error-info.h>
 
 #include <gsf/gsf-input-textline.h>
 #include <gsf/gsf-output.h>

@@ -15,7 +15,7 @@
 
 #include "parse-util.h"
 #include "style.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "str.h"
 #include "position.h"
 #include "mathfunc.h"
@@ -36,8 +36,8 @@
 #endif
 
 #if USE_VALUE_POOLS
-#define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
-#define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
+#define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
+#define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
 #else
 #define CHUNK_ALLOC(T,c) g_new (T,1)
 #define CHUNK_FREE(p,v) g_free ((v))
@@ -70,7 +70,7 @@ value_new_empty (void)
 }
 
 /* Memory pool for ints and bools.  */
-static GnmMemChunk *value_int_pool;
+static GOMemChunk *value_int_pool;
 GnmValue *
 value_new_bool (gboolean b)
 {
@@ -91,11 +91,11 @@ value_new_int (int i)
 	return (GnmValue *)v;
 }
 
-static GnmMemChunk *value_float_pool;
+static GOMemChunk *value_float_pool;
 GnmValue *
 value_new_float (gnm_float f)
 {
-	if (finitegnum (f)) {
+	if (gnm_finite (f)) {
 		GnmValueFloat *v = CHUNK_ALLOC (GnmValueFloat, value_float_pool);
 		*((GnmValueType *)&(v->type)) = VALUE_FLOAT;
 		v->fmt = NULL;
@@ -108,7 +108,7 @@ value_new_float (gnm_float f)
 }
 
 /* Memory pool for error values.  */
-static GnmMemChunk *value_error_pool;
+static GOMemChunk *value_error_pool;
 GnmValue *
 value_new_error (GnmEvalPos const *ep, char const *mesg)
 {
@@ -234,7 +234,7 @@ value_error_classify (GnmValue const *v)
 }
 
 
-static GnmMemChunk *value_string_pool;
+static GOMemChunk *value_string_pool;
 
 /* NOTE : absorbs the reference */
 GnmValue *
@@ -259,7 +259,7 @@ value_new_string_nocopy (char *str)
 	return value_new_string_str (gnm_string_get_nocopy (str));
 }
 
-static GnmMemChunk *value_range_pool;
+static GOMemChunk *value_range_pool;
 GnmValue *
 value_new_cellrange_unsafe (GnmCellRef const *a, GnmCellRef const *b)
 {
@@ -349,7 +349,7 @@ value_new_cellrange_r (Sheet *sheet, GnmRange const *r)
 	return (GnmValue *)v;
 }
 
-static GnmMemChunk *value_array_pool;
+static GOMemChunk *value_array_pool;
 GnmValue *
 value_new_array_non_init (guint cols, guint rows)
 {
@@ -391,7 +391,7 @@ value_new_array_empty (guint cols, guint rows)
 }
 
 GnmValue *
-value_new_from_string (GnmValueType t, char const *str, GnmFormat *sf,
+value_new_from_string (GnmValueType t, char const *str, GOFormat *sf,
 		       gboolean translated)
 {
 	GnmValue *res = NULL;
@@ -431,7 +431,7 @@ value_new_from_string (GnmValueType t, char const *str, GnmFormat *sf,
 		gnm_float d;
 
 		errno = 0;
-		d = strtognum (str, &end);
+		d = gnm_strto (str, &end);
 		if (str != end && *end == '\0' && errno != ERANGE)
 			res = value_new_float (d);
 		break;
@@ -714,7 +714,7 @@ value_hash (GnmValue const *v)
 
 	case VALUE_FLOAT: {
 		int expt;
-		gnm_float mant = frexpgnum (gnumabs (v->v_float.val), &expt);
+		gnm_float mant = gnm_frexp (gnumabs (v->v_float.val), &expt);
 		guint h = ((guint)(0x80000000u * mant)) ^ expt;
 		if (v->v_float.val >= 0)
 			h ^= 0x55555555;
@@ -840,7 +840,7 @@ value_get_as_gstring (GnmValue const *v, GString *target,
 		return;
 
 	case VALUE_FLOAT:
-		g_string_append_printf (target, "%.*" GNUM_FORMAT_g, GNUM_DIG,
+		g_string_append_printf (target, "%.*" GNM_FORMAT_g, GNM_DIG,
 					v->v_float.val);
 		return;
 
@@ -975,7 +975,7 @@ value_get_as_int (GnmValue const *v)
 		return 0;
 
 	case VALUE_FLOAT:
-		return (int) gnumeric_fake_trunc (v->v_float.val);
+		return (int) gnm_fake_trunc (v->v_float.val);
 
 	case VALUE_BOOLEAN:
 		return v->v_bool.val ? 1 : 0;
@@ -1004,7 +1004,7 @@ value_get_as_float (GnmValue const *v)
 		return 0.;
 
 	case VALUE_STRING:
-		return strtognum (v->v_str.val->str, NULL);
+		return gnm_strto (v->v_str.val->str, NULL);
 
 	case VALUE_CELLRANGE:
 		g_warning ("Getting range as a double: what to do?");
@@ -1348,13 +1348,13 @@ value_compare (GnmValue const *a, GnmValue const *b, gboolean case_sensitive)
 }
 
 void
-value_set_fmt (GnmValue *v, GnmFormat const *fmt)
+value_set_fmt (GnmValue *v, GOFormat const *fmt)
 {
 	if (fmt != NULL)
-		style_format_ref ((GnmFormat *)fmt);
+		style_format_ref ((GOFormat *)fmt);
 	if (VALUE_FMT (v) != NULL)
 		style_format_unref (VALUE_FMT (v));
-	VALUE_FMT (v) = (GnmFormat *)fmt;
+	VALUE_FMT (v) = (GOFormat *)fmt;
 }
 
 /****************************************************************************/
@@ -1515,7 +1515,7 @@ free_criterias (GSList *criterias)
  * @fun : #criteria_test_fun_t result
  * @test_value : #GnmValue the value to compare against.
  * @iter_flags :
- * @date_conv : #GnmDateConventions
+ * @date_conv : #GODateConventions
  *
  * If @crit_val is a number set @text_val and @fun to test for equality, other
  * wise parse it as a string and see if it matches one of the available
@@ -1523,7 +1523,7 @@ free_criterias (GSList *criterias)
  **/
 void
 parse_criteria (GnmValue *crit_val, criteria_test_fun_t *fun, GnmValue **test_value,
-		CellIterFlags *iter_flags, GnmDateConventions const *date_conv)
+		CellIterFlags *iter_flags, GODateConventions const *date_conv)
 {
 	int len;
 	char const *criteria;
@@ -1577,7 +1577,7 @@ parse_criteria_range (Sheet *sheet, int b_col, int b_row, int e_col, int e_row,
 	GSList              *conditions;
 	GnmCell 		    *cell;
 	func_criteria_t     *cond;
-	GnmDateConventions const *date_conv = workbook_date_conv (sheet->workbook);
+	GODateConventions const *date_conv = workbook_date_conv (sheet->workbook);
 
         int i, j;
 
@@ -1746,32 +1746,32 @@ value_init (void)
 #if USE_VALUE_POOLS
 	/* GnmValueInt and GnmValueBool ought to have the same size.  */
 	value_int_pool =
-		gnm_mem_chunk_new ("value int/bool pool",
+		go_mem_chunk_new ("value int/bool pool",
 				   MAX (sizeof (GnmValueInt), sizeof (GnmValueBool)),
 				   16 * 1024 - 128);
 
 	value_float_pool =
-		gnm_mem_chunk_new ("value float pool",
+		go_mem_chunk_new ("value float pool",
 				   sizeof (GnmValueFloat),
 				   16 * 1024 - 128);
 
 	value_error_pool =
-		gnm_mem_chunk_new ("value error pool",
+		go_mem_chunk_new ("value error pool",
 				   sizeof (GnmValueErr),
 				   16 * 1024 - 128);
 
 	value_string_pool =
-		gnm_mem_chunk_new ("value string pool",
+		go_mem_chunk_new ("value string pool",
 				   sizeof (GnmValueStr),
 				   16 * 1024 - 128);
 
 	value_range_pool =
-		gnm_mem_chunk_new ("value range pool",
+		go_mem_chunk_new ("value range pool",
 				   sizeof (GnmValueRange),
 				   16 * 1024 - 128);
 
 	value_array_pool =
-		gnm_mem_chunk_new ("value array pool",
+		go_mem_chunk_new ("value array pool",
 				   sizeof (GnmValueArray),
 				   16 * 1024 - 128);
 #endif
@@ -1788,22 +1788,22 @@ value_shutdown (void)
 	}
 
 #if USE_VALUE_POOLS
-	gnm_mem_chunk_destroy (value_int_pool, FALSE);
+	go_mem_chunk_destroy (value_int_pool, FALSE);
 	value_int_pool = NULL;
 
-	gnm_mem_chunk_destroy (value_float_pool, FALSE);
+	go_mem_chunk_destroy (value_float_pool, FALSE);
 	value_float_pool = NULL;
 
-	gnm_mem_chunk_destroy (value_error_pool, FALSE);
+	go_mem_chunk_destroy (value_error_pool, FALSE);
 	value_error_pool = NULL;
 
-	gnm_mem_chunk_destroy (value_string_pool, FALSE);
+	go_mem_chunk_destroy (value_string_pool, FALSE);
 	value_string_pool = NULL;
 
-	gnm_mem_chunk_destroy (value_range_pool, FALSE);
+	go_mem_chunk_destroy (value_range_pool, FALSE);
 	value_range_pool = NULL;
 
-	gnm_mem_chunk_destroy (value_array_pool, FALSE);
+	go_mem_chunk_destroy (value_array_pool, FALSE);
 	value_array_pool = NULL;
 #endif
 }

@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_MATHFUNC_H
 #define GNUMERIC_MATHFUNC_H
 
-#include "numbers.h"
+#include <goffice/utils/go-math.h>
 #include <math.h>
 #include <glib.h>
 
@@ -15,22 +15,13 @@
 #define M_PIgnum GNM_const(3.141592653589793238462643383279502884197169399375105820974944592307816406286208998628034825342117)
 #define M_PI_2gnum (M_PIgnum / 2)
 /* The following are very good given a good compiler.  */
-#define M_LN2gnum (loggnum (2))
-#define M_LN10gnum (loggnum (10))
-#define M_SQRT2gnum (sqrtgnum (2))
+#define M_LN2gnum (gnm_log (2))
+#define M_LN10gnum (gnm_log (10))
+#define M_SQRT2gnum (gnm_sqrt (2))
 
 extern gnm_float gnm_nan;
 extern gnm_float gnm_pinf;
 extern gnm_float gnm_ninf;
-
-/* ------------------------------------------------------------------------- */
-
-gnm_float gnumeric_add_epsilon (gnm_float x);
-gnm_float gnumeric_sub_epsilon (gnm_float x);
-gnm_float gnumeric_fake_floor (gnm_float x);
-gnm_float gnumeric_fake_ceil (gnm_float x);
-gnm_float gnumeric_fake_round (gnm_float x);
-gnm_float gnumeric_fake_trunc (gnm_float x);
 
 /* ------------------------------------------------------------------------- */
 
@@ -165,20 +156,10 @@ void    mmult (gnm_float *A, gnm_float *B, int cols_a, int rows_a, int cols_b,
 
 /* ------------------------------------------------------------------------- */
 
-/* Misc. */
-gnm_float     gpow10 (int n);
-gnm_float     gpow2  (int n);
-int           gcd    (int a, int b);
-gnm_float     combin (int n, int k);
-gnm_float     permut (int n, int k);
-gnm_float     fact   (int n);
-
-/* ------------------------------------------------------------------------- */
-
-void continued_fraction (gnm_float val, int max_denom, int *res_num, int *res_denom);
-void stern_brocot (float val, int max_denom, int *res_num, int *res_denom);
-
-/* ------------------------------------------------------------------------- */
+int       gcd    (int a, int b);
+gnm_float combin (int n, int k);
+gnm_float permut (int n, int k);
+gnm_float fact   (int n);
 
 void mathfunc_init (void);
 

@@ -5,6 +5,7 @@
  */
 
 #include <gnumeric-config.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <string.h>
 #include <glib-object.h>
 #include <gtk/gtkentry.h>
@@ -12,7 +13,7 @@
 #include <gsf/gsf-impl-utils.h>
 #include <gnumeric.h>
 #include <gutils.h>
-#include <module-plugin-defs.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "py-command-line.h"
 
 #define MAX_HISTORY_SIZE  100

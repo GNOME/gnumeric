@@ -36,7 +36,7 @@
 
 #include "gnumeric-config.h"
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 
 #include "glpstr.h"
 

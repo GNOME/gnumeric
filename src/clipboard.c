@@ -264,7 +264,7 @@ paste_object (GnmPasteTarget const *pt, SheetObject const *src, int left, int to
 gboolean
 clipboard_paste_region (GnmCellRegion const *content,
 			GnmPasteTarget const *pt,
-			GnmCmdContext *cc)
+			GOCmdContext *cc)
 {
 	int repeat_horizontal, repeat_vertical, clearFlags;
 	int dst_cols, dst_rows, src_cols, src_rows;
@@ -312,7 +312,7 @@ clipboard_paste_region (GnmCellRegion const *content,
 	}
 
 	if (content->not_as_content && (pt->paste_flags & PASTE_CONTENT)) {
-		gnm_cmd_context_error_invalid (cc,
+		go_cmd_context_error_invalid (cc,
 					_("Unable to paste"),
 					_("Content can only be pasted by value or by link."));
 		return TRUE;
@@ -325,7 +325,7 @@ clipboard_paste_region (GnmCellRegion const *content,
 			_("destination does not have an even multiple of source columns (%d vs %d)\n\n"
 			  "Try selecting a single cell or an area of the same shape and size."),
 			dst_cols, src_cols);
-		gnm_cmd_context_error_invalid (cc, _("Unable to paste"), msg);
+		go_cmd_context_error_invalid (cc, _("Unable to paste"), msg);
 		g_free (msg);
 		return TRUE;
 	}
@@ -336,14 +336,14 @@ clipboard_paste_region (GnmCellRegion const *content,
 			_("destination does not have an even multiple of source rows (%d vs %d)\n\n"
 			  "Try selecting a single cell or an area of the same shape and size."),
 			dst_rows, src_rows);
-		gnm_cmd_context_error_invalid (cc, _("Unable to paste"), msg);
+		go_cmd_context_error_invalid (cc, _("Unable to paste"), msg);
 		g_free (msg);
 		return TRUE;
 	}
 
 	if ((pt->range.start.col + dst_cols) > SHEET_MAX_COLS ||
 	    (pt->range.start.row + dst_rows) > SHEET_MAX_ROWS) {
-		gnm_cmd_context_error_invalid (cc,
+		go_cmd_context_error_invalid (cc,
 					_("Unable to paste"),
 					_("result passes the sheet boundary"));
 		return TRUE;

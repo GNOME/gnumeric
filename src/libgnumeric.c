@@ -14,8 +14,8 @@
 
 #include "application.h"
 #include "stf.h"
-#include "plugin.h"
-#include "format.h"
+#include <goffice/app/go-plugin.h>
+#include "gnm-format.h"
 #include "command-context.h"
 #include "command-context-stderr.h"
 #include "workbook.h"
@@ -25,7 +25,6 @@
 #include "func.h"
 #include "application.h"
 #include "print-info.h"
-#include "global-gnome-font.h"
 #include "style.h"
 #include "mstyle.h"
 #include "style-color.h"
@@ -39,11 +38,14 @@
 #include "parse-util.h"
 #include "rendered-value.h"
 #include "gnumeric-gconf.h"
-#include "plugin-service.h"
+#include "gnm-plugin.h"
 #include "mathfunc.h"
 #include "hlink.h"
 #include "gnumeric-paths.h"
+#include "gnm-plugin.h"
 #include <goffice/goffice.h>
+#include <goffice/app/go-plugin-service.h>
+#include <goffice/app/go-cmd-context.h>
 
 #include <locale.h>
 #include <glade/glade.h>
@@ -121,8 +123,11 @@ extern void libgoffice_init (void);
 void
 gnm_common_init (gboolean fast)
 {
-	plugin_services_init ();
 	libgoffice_init ();
+	plugin_service_define ("function_group",
+		&plugin_service_function_group_get_type);
+	plugin_service_define ("ui",
+		&plugin_service_ui_get_type);
 
 	g_object_new (GNM_APP_TYPE, NULL);
 	mathfunc_init ();
@@ -162,9 +167,9 @@ int
 gnm_dump_func_defs (char const* filename, gboolean def_or_state)
 {
 	int retval;
-	GnmCmdContext *cc = cmd_context_stderr_new ();
+	GOCmdContext *cc = cmd_context_stderr_new ();
 
-	plugins_init (cc);
+	gnm_plugins_init (cc);
 	if ((retval = cmd_context_stderr_get_status (COMMAND_CONTEXT_STDERR (cc))) == 0)
 		function_dump_defs (filename, def_or_state);
 
@@ -174,10 +179,17 @@ gnm_dump_func_defs (char const* filename, gboolean def_or_state)
 void
 gnm_shutdown (void)
 {
+	GSList *plugin_states;
+
 	gnm_app_release_pref_dialog ();
 	gnm_app_clipboard_clear (TRUE);
 
-	plugins_shutdown ();
+	plugin_states = go_plugins_shutdown ();
+	if (NULL != plugin_states) {
+		gnm_gconf_set_plugin_file_states (plugin_states);
+		go_conf_sync ();
+	}
+
 	print_shutdown ();
 	functions_shutdown ();
 	/* e_cursors_shutdown (); */

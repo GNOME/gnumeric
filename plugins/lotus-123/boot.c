@@ -11,12 +11,11 @@
 #include "lotus.h"
 #include "lotus-types.h"
 
-#include <file.h>
+#include <goffice/app/file.h>
 #include <workbook-view.h>
-#include <plugin.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
-#include <error-info.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
+#include <goffice/app/error-info.h>
 #include <gutils.h>
 #include <io-context.h>
 

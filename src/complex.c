@@ -95,7 +95,7 @@ complex_from_string (complex_t *dst, const char *src, char *imunit)
 	}
 
 	errno = 0;
-	x = strtognum (src, &end);
+	x = gnm_strto (src, &end);
 	if (src == end || errno == ERANGE)
 		return -1;
 	src = end;
@@ -120,7 +120,7 @@ complex_from_string (complex_t *dst, const char *src, char *imunit)
 		return 0;
 	}
 
-	y = strtognum (src, &end);
+	y = gnm_strto (src, &end);
 	if (src == end || errno == ERANGE)
 		return -1;
 	src = end;
@@ -149,7 +149,7 @@ complex_to_polar (gnm_float *mod, gnm_float *angle, const complex_t *src)
 void
 complex_from_polar (complex_t *dst, gnm_float mod, gnm_float angle)
 {
-	complex_init (dst, mod * cosgnum (angle), mod * singnum (angle));
+	complex_init (dst, mod * gnm_cos (angle), mod * gnm_sin (angle));
 }
 
 /* ------------------------------------------------------------------------- */
@@ -193,12 +193,12 @@ complex_sqrt (complex_t *dst, const complex_t *src)
 {
 	if (complex_real_p (src)) {
 		if (src->re >= 0)
-			complex_init (dst, sqrtgnum (src->re), 0);
+			complex_init (dst, gnm_sqrt (src->re), 0);
 		else
-			complex_init (dst, 0, sqrtgnum (-src->re));
+			complex_init (dst, 0, gnm_sqrt (-src->re));
 	} else
 		complex_from_polar (dst,
-				    sqrtgnum (complex_mod (src)),
+				    gnm_sqrt (complex_mod (src)),
 				    complex_angle (src) / 2);
 }
 
@@ -211,7 +211,7 @@ complex_pow (complex_t *dst, const complex_t *a, const complex_t *b)
 
 	/* ln is not defined for reals less than or equal to zero.  */
 	if (complex_real_p (a) && complex_real_p (b))
-		complex_init (dst, powgnum (a->re, b->re), 0);
+		complex_init (dst, gnm_pow (a->re, b->re), 0);
 	else {
 		complex_ln (&lna, a);
 		complex_mul (&b_lna, b, &lna);

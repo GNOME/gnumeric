@@ -42,6 +42,7 @@
 #include <value.h>
 #include <commands.h>
 #include <widgets/gnumeric-expr-entry.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <glade/glade.h>
 #include <gtk/gtktreeselection.h>
@@ -463,7 +464,7 @@ name_guru_init (NameGuruState *state, WorkbookControlGUI *wbcg)
 	state->wb   = wb;
 	state->sv = wb_control_cur_sheet_view (WORKBOOK_CONTROL (wbcg));
 	state->sheet = sv_sheet (state->sv);
-	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"names.glade", NULL, NULL);
         if (state->gui == NULL)
                 return TRUE;

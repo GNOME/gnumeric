@@ -32,9 +32,9 @@
 #include <goffice/graph/gog-plot-engine.h>
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-control-foocanvas.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <glib/gi18n.h>
-#include <gui-util.h>
 
 #include <libxml/parser.h>
 #include <libfoocanvas/foo-canvas.h>
@@ -43,6 +43,8 @@
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtknotebook.h>
 #include <gtk/gtklabel.h>
+#include <gtk/gtkbutton.h>
+#include <gtk/gtkentry.h>
 #include <gtk/gtktreeselection.h>
 #include <gtk/gtktreeview.h>
 #include <gtk/gtktreestore.h>
@@ -66,7 +68,7 @@ struct _GraphGuruState {
 	GogChart    *chart;
 	GogPlot	    *plot;
 
-	GnmCmdContext	 *cc;
+	GOCmdContext	 *cc;
 	GogDataAllocator *dalloc;
 	GClosure         *register_closure;
 
@@ -1209,7 +1211,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 	GtkWidget *selector;
 	GladeXML *gui;
 
-	gui = gnm_glade_xml_new (s->cc, "gog-guru-type-selector.glade", "type_selector", NULL);
+	gui = go_libglade_new ("gog-guru-type-selector.glade", "type_selector", NULL, s->cc);
 
 	typesel = g_new0 (GraphGuruTypeSelector, 1);
 	typesel->state = s;
@@ -1302,7 +1304,7 @@ graph_guru_type_selector_new (GraphGuruState *s)
 static gboolean
 graph_guru_init (GraphGuruState *s)
 {
-	s->gui = gnm_glade_xml_new (s->cc, "gog-guru.glade", NULL, NULL);
+	s->gui = go_libglade_new ("gog-guru.glade", NULL, NULL, s->cc);
         if (s->gui == NULL)
                 return TRUE;
 
@@ -1331,7 +1333,7 @@ graph_guru_init (GraphGuruState *s)
  */
 GtkWidget *
 gog_guru (GogGraph *graph, GogDataAllocator *dalloc,
-	  GnmCmdContext *cc, GtkWindow *toplevel,
+	  GOCmdContext *cc, GtkWindow *toplevel,
 	  GClosure *closure)
 {
 	int page = (graph != NULL) ? 1 : 0;

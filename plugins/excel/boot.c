@@ -12,14 +12,13 @@
 #include <glib/gi18n.h>
 #include <gnumeric.h>
 
-#include "file.h"
+#include <goffice/app/file.h>
 #include "libgnumeric.h"
 #include "io-context.h"
 #include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/module-plugin-defs.h>
 
 #include "excel.h"
 #include "ms-excel-write.h"
@@ -65,7 +64,6 @@ void excel_file_open (GnmFileOpener const *fo, IOContext *context, WorkbookView 
 void excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void excel_biff8_file_save (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
 void excel_dsf_file_save   (GnmFileSaver const *fs, IOContext *context, WorkbookView const *wbv, GsfOutput *output);
-void plugin_cleanup (void);
 
 static GsfInput *
 find_content_stream (GsfInfile *ole, gboolean *is_97)
@@ -171,7 +169,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 
 		/* OK, it really isn't an Excel file */
 		g_return_if_fail (err != NULL);
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			err->message);
 		g_error_free (err);
 		return;
@@ -179,7 +177,7 @@ excel_file_open (GnmFileOpener const *fo, IOContext *context,
 
 	stream = find_content_stream (ole, &is_97);
 	if (stream == NULL) {
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 			 _("No Workbook or Book streams found."));
 		g_object_unref (G_OBJECT (ole));
 		return;
@@ -304,8 +302,8 @@ excel_biff7_file_save (GnmFileSaver const *fs, IOContext *context,
 
 
 #include <formula-types.h>
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	excel_read_init ();
 	excel_xml_read_init ();
@@ -354,8 +352,8 @@ plugin_init (void)
  * Cleanup allocations made by this plugin.
  * (Called right before we are unloaded.)
  */
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 	destroy_xl_font_widths ();
 	excel_read_cleanup ();

@@ -24,8 +24,9 @@
 #include "gnumeric.h"
 #include "gnm-so-line.h"
 #include "sheet-object-impl.h"
+#include "xml-io.h"
 
-#include <src/xml-io.h>
+#include <goffice/utils/go-libxml-extras.h>
 #include <goffice/graph/gog-style.h>
 #include <goffice/utils/go-color.h>
 #include <gsf/gsf-impl-utils.h>

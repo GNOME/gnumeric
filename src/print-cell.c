@@ -11,7 +11,7 @@
 #include "print-cell.h"
 
 #include "dependent.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "style-color.h"
 #include "style-font.h"
 #include "parse-util.h"
@@ -79,7 +79,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	    double x1, double y1, double width, double height, double h_center)
 {
 	RenderedValue *rv, *cell_rv = cell->rendered_value;
-	GdkColor *color; 
+	GOColor fore_color; 
 	gint x, y;
 	ColRowInfo const * const ci = cell->col_info;
 	ColRowInfo const * const ri = cell->row_info;
@@ -99,7 +99,7 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 			      (int)(width * PANGO_SCALE),
 			      (int)(height * PANGO_SCALE),
 			      (int)h_center == -1 ? -1 : (int)(h_center * PANGO_SCALE),
-			      &color, &x, &y)) {
+			      &fore_color, &x, &y)) {
 		double x0 = x1 + 1 + ci->margin_a;
 		double y0 = y1 - (1 + ri->margin_a);
 		double px = x1 + x / (double)PANGO_SCALE;
@@ -114,9 +114,9 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 
 		/* Set the font colour */
 		gnome_print_setrgbcolor (context,
-					 color->red   / (double)0xffff,
-					 color->green / (double)0xffff,
-					 color->blue  / (double)0xffff);
+			UINT_RGBA_R (fore_color) / 255.,
+			UINT_RGBA_G (fore_color) / 255.,
+			UINT_RGBA_B (fore_color) / 255.);
 
 		if (rv->rotation) {
 			int width, height;

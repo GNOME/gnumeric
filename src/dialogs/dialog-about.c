@@ -335,7 +335,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 	GOG_STYLED_OBJECT (tmp)->style->line.auto_dash = FALSE;
 	tmp = gog_object_get_child_by_role (chart,
 		gog_object_find_role_by_name (chart, "Y-Axis"));
-	gog_style_set_font (GOG_STYLED_OBJECT (tmp)->style,
+	gog_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
 		pango_font_description_from_string ("Sans 10"));
 
 	tmp = gog_object_add_by_name (chart, "Title", NULL);
@@ -343,7 +343,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 	state->contributor_name = go_data_scalar_str_new ("", FALSE);
 	gog_dataset_set_dim (GOG_DATASET (tmp), 0, state->contributor_name, NULL);
 	state->contributor_style = GOG_STYLED_OBJECT (tmp)->style;
-	gog_style_set_font (GOG_STYLED_OBJECT (tmp)->style,
+	gog_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
 		pango_font_description_from_string ("Sans Bold 10"));
 
 	/* A pie of the cumulative contributions */
@@ -379,7 +379,7 @@ dialog_about (WorkbookControlGUI *wbcg)
 			"Copyright \xc2\xa9 2001-2004 Jody Goldberg\n"
 			"Copyright \xc2\xa9 1998-2000 Miguel de Icaza", FALSE),
 		NULL);
-	gog_style_set_font (GOG_STYLED_OBJECT (tmp)->style,
+	gog_style_set_font_desc (GOG_STYLED_OBJECT (tmp)->style,
 		pango_font_description_from_string ("Sans Bold 12"));
 
 	state->canvas = foo_canvas_new ();

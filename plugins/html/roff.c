@@ -30,8 +30,7 @@
 #include "font.h"
 #include "cell.h"
 #include "io-context.h"
-#include "error-info.h"
-#include "plugin-util.h"
+#include <goffice/app/error-info.h>
 #include "cellspan.h"
 
 #include <string.h>

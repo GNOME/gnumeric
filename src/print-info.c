@@ -15,18 +15,20 @@
 
 #include "gutils.h"
 #include "ranges.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "func.h"
-#include "datetime.h"
 #include "sheet.h"
 #include "value.h"
 #include "workbook.h"
 #include "gnumeric-gconf.h"
 #include "gnumeric-gconf-priv.h"
+
 #include <goffice/utils/go-file.h>
+#include <goffice/utils/datetime.h>
 
 #include <string.h>
 #include <locale.h>
+#include <time.h>
 
 #define MAX_SAVED_CUSTOM_HF_FORMATS 9
 
@@ -420,7 +422,7 @@ render_pages (GString *target, HFRenderInfo *info, char const *args)
 static void
 render_value_with_format (GString *target, char const *number_format, HFRenderInfo *info)
 {
-	GnmFormat *format;
+	GOFormat *format;
 
 	/* TODO : Check this assumption.  Is it a localized format ?? */
 	format = style_format_new_XL (number_format, FALSE);

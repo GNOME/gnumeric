@@ -30,10 +30,10 @@
 #include <goffice/graph/gog-theme.h>
 #include <goffice/graph/gog-renderer.h>
 
-#include <src/gui-util.h>
 #include <glib/gi18n.h>
 
 #include <gsf/gsf-impl-utils.h>
+#include <math.h>
 
 struct _GogGridLine {
 	GogStyledObject	base;
@@ -42,7 +42,6 @@ struct _GogGridLine {
 };
 
 typedef GogStyledObjectClass GogGridLineClass;
-
 
 static GType gog_grid_line_view_get_type (void);
 static GogViewClass *gview_parent_klass;

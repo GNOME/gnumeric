@@ -15,7 +15,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
-#include "file.h"
+#include <goffice/app/file.h>
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
@@ -23,16 +23,15 @@
 #include "sheet.h"
 #include "value.h"
 #include "expr.h"
-#include "format.h"
+#include <src/gnm-format.h>
 #include "mstyle.h"
 #include "style-border.h"
 #include "style-color.h"
 #include "sheet-style.h"
 #include "number-match.h"
-#include "error-info.h"
-#include "plugin-util.h"
-#include "plugin.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/error-info.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 #include <string.h>
 #include <errno.h>

@@ -11,9 +11,8 @@
 #include "oleo.h"
 
 #include <workbook-view.h>
-#include <plugin.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

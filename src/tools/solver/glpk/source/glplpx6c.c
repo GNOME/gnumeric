@@ -57,7 +57,7 @@ static void branch_first(MIPTREE *tree)
       ies_get_col_info(tree->tree, tree->col[tree->j_br]->col, NULL,
          &beta, NULL);
       /* select a branch to be solved next */
-      if (beta - floorgnum(beta) < ceilgnum(beta) - beta)
+      if (beta - gnm_floor(beta) < gnm_ceil(beta) - beta)
          tree->heir = 1; /* down branch */
       else
          tree->heir = 2; /* up branch */
@@ -92,7 +92,7 @@ static void branch_last(MIPTREE *tree)
       ies_get_col_info(tree->tree, tree->col[tree->j_br]->col, NULL,
          &beta, NULL);
       /* select a branch to be solved next */
-      if (beta - floorgnum(beta) < ceilgnum(beta) - beta)
+      if (beta - gnm_floor(beta) < gnm_ceil(beta) - beta)
          tree->heir = 1; /* down branch */
       else
          tree->heir = 2; /* up branch */
@@ -162,9 +162,9 @@ static void branch_drtom(MIPTREE *tree)
             function delta Z = new Z - old Z, where old Z is a value of
             the objective function in the current optimal basis, new Z
             is its value in an adjacent basis, for two cases:
-            a) when new upper bound ub = floorgnum(x[j]) is introduced for
+            a) when new upper bound ub = gnm_floor(x[j]) is introduced for
                j-th variable;
-            b) when new lower bound lb = ceilgnum(x[j]) is introduced for
+            b) when new lower bound lb = gnm_ceil(x[j]) is introduced for
                j-th variable;
             since in both cases the current basic solution remaining
             dual feasible becomes primal infeasible, one implicit dual
@@ -205,7 +205,7 @@ static void branch_drtom(MIPTREE *tree)
             /* since in the adjacent basis the variable x[j] becomes
                non-basic, knowing its value in the current basis we can
                determine its change delta x[j] = new x[j] - old x[j] */
-            delta_j = (how < 0 ? floorgnum(beta) : ceilgnum(beta)) - beta;
+            delta_j = (how < 0 ? gnm_floor(beta) : gnm_ceil(beta)) - beta;
             /* and knowing the coefficient alfa we can determine the
                corresponding change x[q] = new x[q] - old x[q], where
                old x[q] is a value of x[q] in the current basis, and
@@ -222,11 +222,11 @@ static void branch_drtom(MIPTREE *tree)
                {  /* x[q] is of integer kind */
                   /* we should avoid rounding delta x[q] if it is close
                      to the nearest integer */
-                  if (gnumabs(delta_q - floorgnum(delta_q + 0.5)) > 1e-3)
+                  if (gnumabs(delta_q - gnm_floor(delta_q + 0.5)) > 1e-3)
                   {  if (delta_q > 0.0)
-                        delta_q = ceilgnum(delta_q);  /* +3.14 -> +4 */
+                        delta_q = gnm_ceil(delta_q);  /* +3.14 -> +4 */
                      else
-                        delta_q = floorgnum(delta_q); /* -3.14 -> -4 */
+                        delta_q = gnm_floor(delta_q); /* -3.14 -> -4 */
                   }
                }
             }
@@ -584,9 +584,9 @@ int lpx_integer(LPX *mip)
          if (lpx_get_col_kind(mip, j) != LPX_IV) continue;
          lpx_get_col_bnds(mip, j, &typx, &lb, &ub);
          if (typx == LPX_LO || typx == LPX_DB || typx == LPX_FX)
-         {  temp = floorgnum(lb + 0.5);
+         {  temp = gnm_floor(lb + 0.5);
             if (gnumabs(lb - temp) <= 1e-12 * (1.0 + gnumabs(lb))) lb = temp;
-            if (lb != floorgnum(lb))
+            if (lb != gnm_floor(lb))
             {  print(prefix "integer column %d has non-integer lower bo"
                   "und %g", j, lb);
                ret = LPX_E_FAULT;
@@ -594,9 +594,9 @@ int lpx_integer(LPX *mip)
             }
          }
          if (typx == LPX_UP || typx == LPX_DB)
-         {  temp = floorgnum(ub + 0.5);
+         {  temp = gnm_floor(ub + 0.5);
             if (gnumabs(ub - temp) <= 1e-12 *(1.0 + gnumabs(ub))) ub = temp;
-            if (ub != floorgnum(ub))
+            if (ub != gnm_floor(ub))
             {  print(prefix "integer column %d has non-integer upper bo"
                   "und %g", j, ub);
                ret = LPX_E_FAULT;

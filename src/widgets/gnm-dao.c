@@ -20,19 +20,20 @@
  **/
 
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include "gnm-dao.h"
 
 #include "gnumeric-expr-entry.h"
 #include "tools/dao.h"
 #include "value.h"
 #include "workbook-control.h"
+#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtktable.h>
 #include <gtk/gtkhbox.h>
 #include <gtk/gtktogglebutton.h>
+#include <glib/gi18n.h>
 
 struct  _GnmDao {
 	GtkHBox 	box;

@@ -39,9 +39,8 @@
 #include <math.h>
 #include <string.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -166,7 +165,7 @@ range_gcd (gnm_float const *xs, int n, gnm_float *res)
 		int gcd_so_far = 0;
 
 		for (i = 0; i < n; i++) {
-			gnm_float thisx = gnumeric_fake_floor (xs[i]);
+			gnm_float thisx = gnm_fake_floor (xs[i]);
 			if (thisx <= 0 || thisx > INT_MAX)
 				return 1;
 			else
@@ -219,7 +218,7 @@ range_lcm (gnm_float const *xs, int n, gnm_float *res)
 		int lcm_so_far = 1;
 
 		for (i = 0; i < n; i++) {
-			gnm_float x = gnumeric_fake_floor (xs[i]);
+			gnm_float x = gnm_fake_floor (xs[i]);
 			if (x <= 0 || x > INT_MAX)
 				return 1;
 			else {
@@ -329,7 +328,7 @@ gnumeric_acos (FunctionEvalInfo *ei, GnmValue **args)
 	if ((t < -1.0) || (t > 1.0))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (acosgnum (t));
+	return value_new_float (gnm_acos (t));
 }
 
 /***************************************************************************/
@@ -362,7 +361,7 @@ gnumeric_acosh (FunctionEvalInfo *ei, GnmValue **args)
 	if (t < 1.0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (acoshgnum (t));
+	return value_new_float (gnm_acosh (t));
 }
 
 /***************************************************************************/
@@ -395,7 +394,7 @@ gnumeric_asin (FunctionEvalInfo *ei, GnmValue **args)
 	if ((t < -1.0) || (t > 1.0))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (asingnum (t));
+	return value_new_float (gnm_asin (t));
 }
 
 /***************************************************************************/
@@ -419,7 +418,7 @@ static char const *help_asinh = {
 static GnmValue *
 gnumeric_asinh (FunctionEvalInfo *ei, GnmValue **args)
 {
-	return value_new_float (asinhgnum (value_get_as_float (args [0])));
+	return value_new_float (gnm_asinh (value_get_as_float (args [0])));
 }
 
 /***************************************************************************/
@@ -444,7 +443,7 @@ static char const *help_atan = {
 static GnmValue *
 gnumeric_atan (FunctionEvalInfo *ei, GnmValue **args)
 {
-	return value_new_float (atangnum (value_get_as_float (args [0])));
+	return value_new_float (gnm_atan (value_get_as_float (args [0])));
 }
 
 /***************************************************************************/
@@ -477,7 +476,7 @@ gnumeric_atanh (FunctionEvalInfo *ei, GnmValue **args)
 	if ((t <= -1.0) || (t >= 1.0))
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (atanhgnum (value_get_as_float (args [0])));
+	return value_new_float (gnm_atanh (value_get_as_float (args [0])));
 }
 
 /***************************************************************************/
@@ -504,7 +503,7 @@ static char const *help_atan2 = {
 static GnmValue *
 gnumeric_atan2 (FunctionEvalInfo *ei, GnmValue **args)
 {
-	return value_new_float (atan2gnum (value_get_as_float (args [1]),
+	return value_new_float (gnm_atan2 (value_get_as_float (args [1]),
 					   value_get_as_float (args [0])));
 }
 
@@ -528,7 +527,7 @@ static char const *help_ceil = {
 static GnmValue *
 gnumeric_ceil (FunctionEvalInfo *ei, GnmValue **args)
 {
-	return value_new_float (gnumeric_fake_ceil
+	return value_new_float (gnm_fake_ceil
 				(value_get_as_float (args [0])));
 }
 
@@ -791,7 +790,7 @@ gnumeric_ceiling (FunctionEvalInfo *ei, GnmValue **argv)
 	if (number / s < 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (gnumeric_fake_ceil (number / s) * s);
+	return value_new_float (gnm_fake_ceil (number / s) * s);
 }
 
 /***************************************************************************/
@@ -815,7 +814,7 @@ static char const *help_cos = {
 static GnmValue *
 gnumeric_cos (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return value_new_float (cosgnum (value_get_as_float (argv [0])));
+	return value_new_float (gnm_cos (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -840,7 +839,7 @@ static char const *help_cosh = {
 static GnmValue *
 gnumeric_cosh (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return value_new_float (coshgnum (value_get_as_float (argv [0])));
+	return value_new_float (gnm_cosh (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -887,7 +886,7 @@ static char const *help_exp = {
 static GnmValue *
 gnumeric_exp (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return value_new_float (expgnum (value_get_as_float (argv [0])));
+	return value_new_float (gnm_exp (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -908,7 +907,7 @@ static char const *help_expm1 = {
 static GnmValue *
 gnumeric_expm1 (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return value_new_float (expm1gnum (value_get_as_float (argv [0])));
+	return value_new_float (gnm_expm1 (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -932,7 +931,7 @@ static GnmValue *
 gnumeric_fact (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float x = value_get_as_float (argv[0]);
-	gboolean x_is_integer = (x == floorgnum (x));
+	gboolean x_is_integer = (x == gnm_floor (x));
 
 	if (x < 0 && x_is_integer)
 		return value_new_error_NUM (ei->pos);
@@ -940,9 +939,9 @@ gnumeric_fact (FunctionEvalInfo *ei, GnmValue **argv)
 	if (x > 12 || !x_is_integer) {
 		int sign;
 		gnm_float tmp = lgamma_rgnum (x + 1, &sign);
-		gnm_float res = sign * expgnum (tmp);
+		gnm_float res = sign * gnm_exp (tmp);
 		if (x_is_integer)
-			res = floorgnum (res + 0.5);  /* Round, just in case. */
+			res = gnm_floor (res + 0.5);  /* Round, just in case. */
 		return value_new_float (res);
 	} else
 		return value_new_int (fact (x));
@@ -1081,7 +1080,7 @@ gnumeric_floor (FunctionEvalInfo *ei, GnmValue **argv)
 	if (number / s < 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (gnumeric_fake_floor (number / s) * s);
+	return value_new_float (gnm_fake_floor (number / s) * s);
 }
 
 /***************************************************************************/
@@ -1105,7 +1104,7 @@ static char const *help_int = {
 static GnmValue *
 gnumeric_int (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return value_new_float (gnumeric_fake_floor
+	return value_new_float (gnm_fake_floor
 				(value_get_as_float (argv [0])));
 }
 
@@ -1140,7 +1139,7 @@ gnumeric_log (FunctionEvalInfo *ei, GnmValue **argv)
 	if (t <= 0.0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (loggnum (t) / loggnum (base));
+	return value_new_float (gnm_log (t) / gnm_log (base));
 }
 
 /***************************************************************************/
@@ -1169,7 +1168,7 @@ gnumeric_ln (FunctionEvalInfo *ei, GnmValue **argv)
 	if (t <= 0.0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (loggnum (t));
+	return value_new_float (gnm_log (t));
 }
 
 /***************************************************************************/
@@ -1198,7 +1197,7 @@ gnumeric_ln1p (FunctionEvalInfo *ei, GnmValue **argv)
 	if (t <= -1)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (log1pgnum (t));
+	return value_new_float (gnm_log1p (t));
 }
 
 /***************************************************************************/
@@ -1228,8 +1227,8 @@ gnumeric_power (FunctionEvalInfo *ei, GnmValue **argv)
 	gnm_float x = value_get_as_float (argv [0]);
 	gnm_float y = value_get_as_float (argv [1]);
 
-	if ((x > 0) || (x == 0 && y > 0) || (x < 0 && y == floorgnum (y)))
-		return value_new_float (powgnum (x, y));
+	if ((x > 0) || (x == 0 && y > 0) || (x < 0 && y == gnm_floor (y)))
+		return value_new_float (gnm_pow (x, y));
 
 	if (x == 0 && y != 0)
 		return value_new_error_DIV0 (ei->pos);
@@ -1260,7 +1259,7 @@ gnumeric_log2 (FunctionEvalInfo *ei, GnmValue **argv)
 	if (t <= 0.0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (loggnum (t) / M_LN2gnum);
+	return value_new_float (gnm_log (t) / M_LN2gnum);
 }
 
 /***************************************************************************/
@@ -1289,7 +1288,7 @@ gnumeric_log10 (FunctionEvalInfo *ei, GnmValue **argv)
 	if (t <= 0.0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (log10gnum (t));
+	return value_new_float (gnm_log10 (t));
 }
 
 /***************************************************************************/
@@ -1332,7 +1331,7 @@ gnumeric_mod (FunctionEvalInfo *ei, GnmValue **argv)
 		return value_new_error_DIV0 (ei->pos);
 
 	babs = gnumabs (b);
-	r = fmodgnum (gnumabs (a), babs);
+	r = gnm_fmod (gnumabs (a), babs);
 	if (r > 0) {
 		if ((a < 0) != (b < 0))
 			r = babs - r;
@@ -1387,7 +1386,7 @@ static char const *help_sin = {
 static GnmValue *
 gnumeric_sin (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return value_new_float (singnum (value_get_as_float (argv [0])));
+	return value_new_float (gnm_sin (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -1411,7 +1410,7 @@ static char const *help_sinh = {
 static GnmValue *
 gnumeric_sinh (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return value_new_float (sinhgnum (value_get_as_float (argv [0])));
+	return value_new_float (gnm_sinh (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -1439,7 +1438,7 @@ gnumeric_sqrt (FunctionEvalInfo *ei, GnmValue **argv)
 	if (x < 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (sqrtgnum (x));
+	return value_new_float (gnm_sqrt (x));
 }
 
 /***************************************************************************/
@@ -1582,7 +1581,7 @@ static char const *help_tan = {
 static GnmValue *
 gnumeric_tan (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return value_new_float (tangnum (value_get_as_float (argv [0])));
+	return value_new_float (gnm_tan (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -1605,7 +1604,7 @@ static char const *help_tanh = {
 static GnmValue *
 gnumeric_tanh (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	return value_new_float (tanhgnum (value_get_as_float (argv [0])));
+	return value_new_float (gnm_tanh (value_get_as_float (argv [0])));
 }
 
 /***************************************************************************/
@@ -1665,8 +1664,8 @@ gnumeric_trunc (FunctionEvalInfo *ei, GnmValue **argv)
 	else
 	        digits = value_get_as_int (argv[1]);
 
-	p10 = gpow10 (digits);
-	return value_new_float (gnumeric_fake_trunc (number * p10) / p10);
+	p10 = gnm_pow10 (digits);
+	return value_new_float (gnm_fake_trunc (number * p10) / p10);
 }
 
 /***************************************************************************/
@@ -1698,8 +1697,8 @@ gnumeric_even (FunctionEvalInfo *ei, GnmValue **argv)
 	        sign = -1;
 		number = -number;
 	}
-	ceiled = ceilgnum (number);
-	if (fmodgnum (ceiled, 2) == 0)
+	ceiled = gnm_ceil (number);
+	if (gnm_fmod (ceiled, 2) == 0)
 	        if (number > ceiled)
 		        return value_new_int ((int) (sign * (ceiled + 2)));
 		else
@@ -1737,8 +1736,8 @@ gnumeric_odd (FunctionEvalInfo *ei, GnmValue **argv)
 	        sign = -1;
 		number = -number;
 	}
-	ceiled = ceilgnum (number);
-	if (fmodgnum (ceiled, 2) == 1)
+	ceiled = gnm_ceil (number);
+	if (gnm_fmod (ceiled, 2) == 1)
 	        if (number > ceiled)
 		        return value_new_int ((int) (sign * (ceiled + 2)));
 		else
@@ -1825,11 +1824,11 @@ gnumeric_fib (FunctionEvalInfo *ei, GnmValue **argv)
 		}
 		return value_new_int (fibs[n]);
 	} else {
-		gnm_float s5 = sqrtgnum (5.0);
+		gnm_float s5 = gnm_sqrt (5.0);
 		gnm_float r1 = (1 + s5) / 2;
 		gnm_float r2 = (1 - s5) / 2;
 		/* Use the Binet form. */
-		return value_new_float ((powgnum (r1, n) - powgnum (r2, n)) / s5);
+		return value_new_float ((gnm_pow (r1, n) - gnm_pow (r2, n)) / s5);
 	}
 }
 
@@ -1925,7 +1924,7 @@ gnumeric_sqrtpi (FunctionEvalInfo *ei, GnmValue **argv)
 	if (n < 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (sqrtgnum (M_PIgnum * n));
+	return value_new_float (gnm_sqrt (M_PIgnum * n));
 }
 
 /***************************************************************************/
@@ -1968,8 +1967,8 @@ gnumeric_rounddown (FunctionEvalInfo *ei, GnmValue **argv)
 	else
 	        digits = value_get_as_int (argv[1]);
 
-	p10 = gpow10 (digits);
-	return value_new_float (gnumeric_fake_floor (number * p10) / p10);
+	p10 = gnm_pow10 (digits);
+	return value_new_float (gnm_fake_floor (number * p10) / p10);
 }
 
 /***************************************************************************/
@@ -2009,8 +2008,8 @@ gnumeric_round (FunctionEvalInfo *ei, GnmValue **argv)
 	number = value_get_as_float (argv[0]);
 	digits = argv[1] ? value_get_as_int (argv[1]) : 0;
 
-	p10 = gpow10 (digits);
-	return value_new_float (gnumeric_fake_round (number * p10) / p10);
+	p10 = gnm_pow10 (digits);
+	return value_new_float (gnm_fake_round (number * p10) / p10);
 }
 
 /***************************************************************************/
@@ -2053,8 +2052,8 @@ gnumeric_roundup (FunctionEvalInfo *ei, GnmValue **argv)
 	else
 	        digits = value_get_as_int (argv[1]);
 
-	p10 = gpow10 (digits);
-	return value_new_float (gnumeric_fake_ceil (number * p10) / p10);
+	p10 = gnm_pow10 (digits);
+	return value_new_float (gnm_fake_ceil (number * p10) / p10);
 }
 
 /***************************************************************************/
@@ -2104,7 +2103,7 @@ gnumeric_mround (FunctionEvalInfo *ei, GnmValue **argv)
 		multiple = -multiple;
 	}
 
-	mod = fmodgnum (number, multiple);
+	mod = gnm_fmod (number, multiple);
 	div = number - mod;
 
         return value_new_float (sign * (
@@ -2746,8 +2745,8 @@ range_seriessum (gnm_float const *xs, int n, gnm_float *res)
 		gnm_float m = xs[2];
 		gnm_float sum = 0;
 
-		gnm_float x_m = powgnum (x, m);
-		gnm_float xpow = powgnum (x, N);
+		gnm_float x_m = gnm_pow (x, m);
+		gnm_float xpow = gnm_pow (x, N);
 		int i;
 
 		for (i = 3; i < n; i++) {

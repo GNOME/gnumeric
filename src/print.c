@@ -1144,7 +1144,7 @@ sheet_print_selection (PrintJobInfo *pj, Sheet const *sheet,
 	GnmRange extent;
 
 	if (!(sel = selection_first_range (sheet_get_view (sheet, wb_control_view (wbc)),
-					   GNM_CMD_CONTEXT (wbc), _("Print Region"))))
+					   GO_CMD_CONTEXT (wbc), _("Print Region"))))
 		return;
 
 	extent = *sel;

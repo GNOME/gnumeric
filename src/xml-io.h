@@ -4,7 +4,7 @@
 #include <gdk/gdktypes.h>
 #include "gnumeric.h"
 #include "xml-io-version.h"
-#include "file.h"
+#include <goffice/app/file.h>
 #include <gsf/gsf-libxml.h>
 #include <libxml/tree.h>
 #include <libxml/xmlmemory.h>
@@ -45,17 +45,6 @@ xmlChar	   *xml_cellregion_write (WorkbookControl *context,
 GnmCellRegion *xml_cellregion_read  (WorkbookControl *context, Sheet *sheet,
 				  guchar *buffer, int length);
 
-/* Some utility routines for setting attributes or content */
-xmlChar   *xml_node_get_cstr	(xmlNodePtr node, char const *name);
-void	   xml_node_set_cstr	(xmlNodePtr node, char const *name, char const *val);
-gboolean   xml_node_get_bool	(xmlNodePtr node, char const *name, gboolean *result);
-void       xml_node_set_bool	(xmlNodePtr node, char const *name, gboolean val);
-gboolean   xml_node_get_int	(xmlNodePtr node, char const *name, int *result);
-void       xml_node_set_int	(xmlNodePtr node, char const *name, int  val);
-gboolean   xml_node_get_double	(xmlNodePtr node, char const *name, double *result);
-void       xml_node_set_double	(xmlNodePtr node, char const *name, double  val, int precision);
-gboolean   xml_node_get_gocolor (xmlNodePtr node, char const *name, GOColor *result);
-void	   xml_node_set_gocolor (xmlNodePtr node, char const *name, GOColor  val);
 GnmColor  *xml_node_get_color	(xmlNodePtr node, char const *name);
 void       xml_node_set_color	(xmlNodePtr node, char const *name, GnmColor const *color);
 
@@ -63,11 +52,6 @@ xmlNodePtr   xml_write_style    (XmlParseContext *ctxt, GnmStyle *style);
 GnmStyle      *xml_read_style     (XmlParseContext *ctxt, xmlNodePtr tree);
 
 void      xml_init (void);
-
-xmlNode *e_xml_get_child_by_name	 (xmlNode const *tree, char const *name);
-xmlNode *e_xml_get_child_by_name_no_lang (xmlNode const *tree, char const *name);
-xmlNode *e_xml_get_child_by_name_by_lang (xmlNode const *tree, char const *name);
-
 /* Gnumeric specific SAX utilities */
 void gnm_xml_out_add_color   (GsfXMLOut *o, char const *id, GnmColor const *c);
 void gnm_xml_out_add_gocolor (GsfXMLOut *o, char const *id, GOColor c);

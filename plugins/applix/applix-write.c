@@ -43,7 +43,7 @@
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "error-info.h"
+#include <goffice/app/error-info.h>
 
 #include <string.h>
 #include <gsf/gsf-output.h>

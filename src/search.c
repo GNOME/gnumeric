@@ -17,8 +17,8 @@
 #include "position.h"
 #include "cell.h"
 #include "value.h"
-#include "regutf8.h"
 #include "sheet-object-cell-comment.h"
+#include <goffice/utils/regutf8.h>
 
 #include <string.h>
 #include <stdlib.h>

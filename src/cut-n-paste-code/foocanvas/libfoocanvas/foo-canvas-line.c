@@ -3,7 +3,6 @@
 #undef GTK_DISABLE_DEPRECATED
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
-#include <gnumeric.h>
 
 /*
  * Copyright (C) 1997, 1998, 1999, 2000 Free Software Foundation

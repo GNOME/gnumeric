@@ -3,9 +3,9 @@
 
 #include "workbook.h"
 #include "summary.h"
-#include "datetime.h"
-#include "file.h"
+#include <goffice/app/file.h>
 #include <goffice/app/go-doc-impl.h>
+#include <goffice/utils/datetime.h>
 
 struct _Workbook {
 	GODoc base;
@@ -39,7 +39,7 @@ struct _Workbook {
 		double   tolerance;
 	} iteration;
 	gboolean recalc_auto;
-	GnmDateConventions date_conv;
+	GODateConventions date_conv;
 
 	gboolean during_destruction;
 	gboolean being_reordered;

@@ -2,8 +2,9 @@
 #define GNUMERIC_GUI_UTIL_H
 
 #include "workbook-control-gui.h"
-#include "error-info.h"
+#include <goffice/app/error-info.h>
 #include "command-context.h"
+#include <goffice/utils/numbers.h>
 #include "gutils.h"
 #include <gtk/gtkbutton.h>
 #include <gtk/gtkcombo.h>
@@ -20,19 +21,15 @@
 gboolean   gnumeric_dialog_question_yes_no (GtkWindow *toplevel,
                                             char const *message,
                                             gboolean default_answer);
-gboolean   gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, 
-					   GtkWidget *w);
 void       gnumeric_notice (GtkWindow *parent, GtkMessageType type, 
 			    char const *str);
 void       gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref,
 				     GtkMessageType type, char const *str);
 
-void       gnumeric_non_modal_dialog (GtkWindow *toplevel, GtkWindow *dialog);
 gint       gnumeric_dialog_run  (GtkWindow *parent, GtkDialog *dialog);
 GtkWidget* gnumeric_error_info_dialog_new (ErrorInfo *error);
 void       gnumeric_error_info_dialog_show (GtkWindow *parent,
                                             ErrorInfo *error);
-void       gnumeric_set_transient (GtkWindow *parent, GtkWindow *window);
 void       gnumeric_keyed_dialog (WorkbookControlGUI *wbcg,
 				  GtkWindow *dialog,
 				  char const *key);
@@ -54,7 +51,7 @@ void gnumeric_popup_menu (GtkMenu *menu, GdkEventButton *event);
 void        gnumeric_position_tooltip (GtkWidget *tip, int horizontal);
 GtkWidget  *gnumeric_create_tooltip (void);
 
-GladeXML   *gnm_glade_xml_new (GnmCmdContext *cc, char const *gladefile,
+GladeXML   *gnm_glade_xml_new (GOCmdContext *cc, char const *gladefile,
 			       char const *root, char const *domain);
 
 typedef struct {
@@ -94,9 +91,9 @@ void focus_on_entry (GtkEntry *entry);
 #define entry_to_float(entry, the_float, update)	\
 	entry_to_float_with_format (entry, the_float, update, NULL)
 gboolean entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float, gboolean update,
-				     GnmFormat *format);
+				     GOFormat *format);
 gboolean entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gboolean update,
-					     GnmFormat *format, gnm_float num);
+					     GOFormat *format, gnm_float num);
 gboolean entry_to_int	(GtkEntry *entry, gint *the_int, gboolean update);
 void	 float_to_entry	(GtkEntry *entry, gnm_float the_float);
 void	 int_to_entry	(GtkEntry *entry, gint the_int);
@@ -107,17 +104,12 @@ char	  *gnumeric_icondir     (char const *subdir);
 
 GdkPixbuf *gnm_pixbuf_tile (GdkPixbuf const *src, int w, int h);
 
-void gnm_setup_label_atk (GtkWidget *label, GtkWidget *target);
-
-int gnm_measure_string (PangoContext *context, PangoFontDescription const *font_desc, char const *str);
-
 void gnm_link_button_and_entry (GtkWidget *button, GtkWidget *entry);
 
 void gnm_widget_set_cursor_type (GtkWidget *w, GdkCursorType ct);
 void gnm_widget_set_cursor (GtkWidget *w, GdkCursor *ct);
 GdkCursor *gnm_fat_cross_cursor (GdkDisplay *display);
 
-GtkWidget * gnumeric_button_new_with_stock_image (char const *text, char const *stock_id);
 GtkWidget * gnumeric_dialog_add_button (GtkDialog *dialog, char const *text, char const *stock_id,
 					gint response_id);
 GtkWidget * gnumeric_message_dialog_new (GtkWindow * parent,
@@ -125,10 +117,6 @@ GtkWidget * gnumeric_message_dialog_new (GtkWindow * parent,
 					 GtkMessageType type,
 					 char const *primary_message,
 					 char const *secondary_message);
-
-GdkPixbuf* gnm_pixbuf_intelligent_scale (GdkPixbuf *pixbuf, 
-					 guint width, guint height);
-void	   gnm_widget_disable_focus (GtkWidget *w);
 
 typedef gboolean gnm_iter_search_t (GtkTreeModel *model, GtkTreeIter* iter);
 #define gnm_tree_model_iter_next gtk_tree_model_iter_next

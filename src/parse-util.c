@@ -33,7 +33,7 @@
 #include "cell.h"
 #include "expr.h"
 #include "number-match.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "expr-name.h"
 #include "str.h"
 /* For def_expr_name_handler: */
@@ -568,7 +568,7 @@ gnm_expr_char_start_p (char const * c)
 		 * just checks for C-syntax numbers.
 		 */
 		errno = 0;
-		(void) strtognum (c, &end);
+		(void) gnm_strto (c, &end);
 		if (errno || *end != 0 || end == c)
 			return (c0 == '+') ? c + 1 : c;
 		/* Otherwise, it's a number.  */
@@ -593,8 +593,8 @@ gnm_expr_char_start_p (char const * c)
 void
 parse_text_value_or_expr (GnmParsePos const *pos, char const *text,
 			  GnmValue **val, GnmExpr const **expr,
-			  GnmFormat *cur_fmt,
-			  GnmDateConventions const *date_conv)
+			  GOFormat *cur_fmt,
+			  GODateConventions const *date_conv)
 {
 	char const *expr_start;
 

@@ -26,7 +26,7 @@
 #include "dialog-stf-preview.h"
 #include "dialog-stf.h"
 
-#include <format.h>
+#include <src/gnm-format.h>
 #include <number-match.h>
 #include <value.h>
 #include <style.h>
@@ -81,7 +81,7 @@ render_get_value (gint row, gint column, gpointer _rd, GValue *value)
  **/
 RenderData_t*
 stf_preview_new (GtkWidget *data_container,
-		 GnmDateConventions const *date_conv)
+		 GODateConventions const *date_conv)
 {
 	RenderData_t* renderdata;
 
@@ -282,7 +282,7 @@ stf_preview_colformats_clear (RenderData_t *renderdata)
  * returns : nothing
  **/
 void
-stf_preview_colformats_add (RenderData_t *renderdata, GnmFormat *format)
+stf_preview_colformats_add (RenderData_t *renderdata, GOFormat *format)
 {
 
 	g_return_if_fail (renderdata != NULL);

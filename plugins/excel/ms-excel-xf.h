@@ -26,7 +26,7 @@
 typedef struct _BiffXFData {
 	guint16 font_idx;
 	guint16 format_idx;
-	GnmFormat *style_format;
+	GOFormat *style_format;
 	gboolean   is_simple_format;
 
 	gboolean hidden;

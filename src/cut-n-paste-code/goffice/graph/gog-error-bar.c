@@ -20,7 +20,6 @@
  */
 
 #include <goffice/goffice-config.h>
-#include <src/gui-util.h>
 #include "gog-error-bar.h"
 #include "gog-series-impl.h"
 #include "gog-plot-impl.h"
@@ -33,6 +32,7 @@
 #include <goffice/gui-utils/go-color-palette.h>
 #include <goffice/gui-utils/go-combo-color.h>
 #include <goffice/gui-utils/go-combo-pixmaps.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 #include <goffice/utils/go-math.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkspinbutton.h>
@@ -171,7 +171,7 @@ gog_error_bar_prefs (GogSeries *series,
 			char const* property,
 			gboolean horizontal,
 			GogDataAllocator *dalloc,
-			GnmCmdContext *cc)
+			GOCmdContext *cc)
 {
 	GladeXML *gui;
 	GtkWidget *w, *bar_prefs;
@@ -200,7 +200,7 @@ gog_error_bar_prefs (GogSeries *series,
 	}
 	set = GOG_DATASET (series);
 
-	gui = gnm_glade_xml_new (cc, "gog-error-bar-prefs.glade", "gog_error_bar_prefs", NULL);
+	gui = go_libglade_new ("gog-error-bar-prefs.glade", "gog_error_bar_prefs", NULL, cc);
 
 	/* Style properties */
 

@@ -19,7 +19,7 @@
 #include "value.h"
 #include "str.h"
 #include "style.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "sheet-object-cell-comment.h"
 #include "sheet-style.h"
 #include "parse-util.h"
@@ -86,7 +86,7 @@ cell_cleanout (GnmCell *cell)
 }
 
 /* The pool from which all cells are allocated.  */
-static GnmMemChunk *cell_pool;
+static GOMemChunk *cell_pool;
 
 /**
  * cell_new:
@@ -97,7 +97,7 @@ static GnmMemChunk *cell_pool;
 GnmCell *
 cell_new (void)
 {
-	GnmCell *cell = USE_CELL_POOL ? gnm_mem_chunk_alloc0 (cell_pool) : g_new0 (GnmCell, 1);
+	GnmCell *cell = USE_CELL_POOL ? go_mem_chunk_alloc0 (cell_pool) : g_new0 (GnmCell, 1);
 	cell->base.flags = DEPENDENT_CELL;
 	return cell;
 }
@@ -152,7 +152,7 @@ cell_destroy (GnmCell *cell)
 	g_return_if_fail (cell != NULL);
 
 	cell_cleanout (cell);
-	if (USE_CELL_POOL) gnm_mem_chunk_free (cell_pool, cell); else g_free (cell);
+	if (USE_CELL_POOL) go_mem_chunk_free (cell_pool, cell); else g_free (cell);
 }
 
 /*
@@ -596,10 +596,10 @@ cell_get_mstyle (GnmCell const *cell)
  * Get the display format.  If the assigned format is General,
  * the format of the value will be used.
  */
-GnmFormat *
+GOFormat *
 cell_get_format (GnmCell const *cell)
 {
-	GnmFormat *fmt;
+	GOFormat *fmt;
 
 	g_return_val_if_fail (cell != NULL, style_format_general ());
 
@@ -698,7 +698,7 @@ void
 cell_init (void)
 {
 #if USE_CELL_POOL
-	cell_pool = gnm_mem_chunk_new ("cell pool",
+	cell_pool = go_mem_chunk_new ("cell pool",
 				       sizeof (GnmCell),
 				       128 * 1024 - 128);
 #endif
@@ -717,8 +717,8 @@ void
 cell_shutdown (void)
 {
 #if USE_CELL_POOL
-	gnm_mem_chunk_foreach_leak (cell_pool, cb_cell_pool_leak, NULL);
-	gnm_mem_chunk_destroy (cell_pool, FALSE);
+	go_mem_chunk_foreach_leak (cell_pool, cb_cell_pool_leak, NULL);
+	go_mem_chunk_destroy (cell_pool, FALSE);
 	cell_pool = NULL;
 #endif
 }

@@ -25,7 +25,7 @@
 #include "html.h"
 #include "latex.h"
 #include "roff.h"
-#include "file.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/file.h>
+#include <goffice/app/module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;

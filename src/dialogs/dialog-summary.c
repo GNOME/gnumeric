@@ -218,7 +218,7 @@ dialog_summary_update (WorkbookControlGUI *wbcg, gboolean open_dialog)
 	if (!open_dialog)
 		return;
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg), GLADE_FILE, NULL, NULL);
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg), GLADE_FILE, NULL, NULL);
 	if (gui == NULL)
 		return;
 

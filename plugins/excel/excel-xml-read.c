@@ -25,9 +25,8 @@
 #include "excel-xml-read.h"
 #include "xml-io-version.h"
 #include "io-context.h"
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "sheet-view.h"
 #include "sheet-style.h"
 #include "sheet-merge.h"
@@ -36,7 +35,7 @@
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "cell.h"
 #include "position.h"
 #include "expr.h"
@@ -48,7 +47,7 @@
 #include "command-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "error-info.h"
+#include <goffice/app/error-info.h>
 
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
@@ -80,7 +79,7 @@ unknown_attr (ExcelXMLReadState *state,
 {
 	g_return_if_fail (attrs != NULL);
 
-	if (state->version == GNUM_XML_LATEST)
+	if (state->version == GNM_XML_LATEST)
 		gnm_io_warning (state->context,
 			_("Unexpected attribute %s::%s == '%s'."),
 			name, attrs[0], attrs[1]);

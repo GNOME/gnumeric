@@ -2,6 +2,8 @@
 #define GNUMERIC_H
 
 #include <glib.h>
+#include <goffice/app/goffice-app.h>
+#include <goffice/utils/goffice-utils.h>
 
 #ifndef __attribute__
 # if !defined(__GNUC__) || __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 5)
@@ -74,8 +76,6 @@ typedef struct _GnmExprRelocateInfo	GnmExprRelocateInfo;
 typedef struct _GnmExprRewriteInfo 	GnmExprRewriteInfo;
 
 typedef struct _GnmExprConventions      GnmExprConventions;
-typedef struct _GnmDateConventions      GnmDateConventions;
-
 
 typedef struct _GnmNamedExpr		GnmNamedExpr;
 typedef struct _GnmNamedExprCollection	GnmNamedExprCollection;
@@ -86,17 +86,16 @@ typedef struct _GnmCellRegion		GnmCellRegion;
 typedef struct _ColRowInfo	 	ColRowInfo;
 typedef struct _ColRowCollection	ColRowCollection;
 typedef struct _ColRowSegment	 	ColRowSegment;
-typedef GSList  ColRowVisList;
-typedef GSList  ColRowStateGroup;
-typedef GSList  ColRowStateList;
-typedef GList   ColRowIndexList;
+typedef GSList  			ColRowVisList;
+typedef GSList  			ColRowStateGroup;
+typedef GSList  			ColRowStateList;
+typedef GList   			ColRowIndexList;
 typedef struct _ColRowIndexSet          ColRowIndexSet;
 
-typedef struct _GnmFormat	        GnmFormat;
-typedef struct _GnmFont	        GnmFont;
+typedef struct _GnmFont	        	GnmFont;
 typedef struct _GnmColor	        GnmColor;
 typedef struct _GnmBorder	        GnmBorder;
-typedef struct _GnmRow	        GnmRow;
+typedef struct _GnmRow	        	GnmRow;
 typedef struct _GnmStyle		GnmStyle;
 
 typedef struct _SheetStyleData	        SheetStyleData;
@@ -122,7 +121,9 @@ typedef struct _GnmParsePos	        GnmParsePos;
 typedef struct _GnmParseError	        GnmParseError;
 typedef struct _FunctionEvalInfo        FunctionEvalInfo;
 typedef struct _GnmFunc			GnmFunc;
-typedef struct _ErrorInfo		ErrorInfo;
+typedef struct _GnmFuncGroup		GnmFuncGroup;
+typedef struct _GnmFuncDescriptor	GnmFuncDescriptor;
+typedef struct _GnmAction		GnmAction;
 
 typedef enum {
 	CELL_ITER_ALL			= 0,
@@ -151,18 +152,9 @@ typedef enum {
 	GNM_EXPR_EVAL_PERMIT_EMPTY	= 0x2
 } GnmExprEvalFlags;
 
-typedef struct _GnmMemChunk		GnmMemChunk;
 typedef struct _GnmString 	        GnmString;
 
-typedef struct _GnmCmdContext		GnmCmdContext;
-typedef struct _IOContext		IOContext;
-typedef struct _GnmFileSaver 		GnmFileSaver;
-typedef struct _GnmFileOpener		GnmFileOpener;
 typedef struct _XmlParseContext		XmlParseContext;
-
-typedef struct _GnmPlugin		GnmPlugin;
-typedef struct _GnmPluginService	GnmPluginService;
-typedef struct _GnmPluginLoader		GnmPluginLoader;
 
 typedef struct _GnmSortData		GnmSortData;
 typedef struct _GnmSearchReplace	GnmSearchReplace;

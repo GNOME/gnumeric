@@ -21,15 +21,14 @@
 
 #include <goffice/goffice-config.h>
 #include "gog-surface.h"
-#include <src/plugin.h>
-#include <src/gui-util.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/go-plugin.h>
 
-#include <glade/glade-xml.h>
 #include <gtk/gtkspinbutton.h>
 
 #include <string.h>
 
-GtkWidget *gog_contour_plot_pref   (GogContourPlot *plot, GnmCmdContext *cc);
+GtkWidget *gog_contour_plot_pref   (GogContourPlot *plot, GOCmdContext *cc);
 
 static void
 cb_levels_changed (GtkSpinButton *btn, GObject *plot)
@@ -38,13 +37,13 @@ cb_levels_changed (GtkSpinButton *btn, GObject *plot)
 }
 
 GtkWidget *
-gog_contour_plot_pref (GogContourPlot *plot, GnmCmdContext *cc)
+gog_contour_plot_pref (GogContourPlot *plot, GOCmdContext *cc)
 {
 	GtkWidget  *w;
 	char const *dir = gnm_plugin_get_dir_name (
 		plugins_get_plugin_by_id ("GOffice_plot_surface"));
 	char	 *path = g_build_filename (dir, "gog-contour-prefs.glade", NULL);
-	GladeXML *gui = gnm_glade_xml_new (cc, path, "gog_contour_prefs", NULL);
+	GladeXML *gui = go_libglade_new (path, "gog_contour_prefs", NULL, cc);
 
 	g_free (path);
         if (gui == NULL)

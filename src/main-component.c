@@ -19,7 +19,7 @@
 
 #include <bonobo/bonobo-control.h>
 #include "workbook-control-component-priv.h"
-#include "plugin.h"
+#include <goffice/app/go-plugin.h>
 #define DISABLE_DEBUG
 #ifndef DISABLE_DEBUG
 #define d(code)	do { code; } while (0)
@@ -235,7 +235,7 @@ gnm_component_factory (BonoboGenericFactory *this,
 		static gboolean p_initialized = FALSE;
 
 		if (!p_initialized) {
-			plugins_init (GNM_CMD_CONTEXT (wbc));
+			gnm_plugins_init (GO_CMD_CONTEXT (wbc));
 			p_initialized = TRUE;
 		}
 	}

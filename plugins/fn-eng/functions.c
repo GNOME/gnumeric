@@ -39,9 +39,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -100,7 +99,7 @@ val_to_base (FunctionEvalInfo *ei,
 	if (!ok)
 		return value_new_error_NUM (ei->pos);
 
-	b10 = powgnum (src_base, 10);
+	b10 = gnm_pow (src_base, 10);
 	if (v >= b10 / 2) /* N's complement */
 		v = v - b10;
 
@@ -109,13 +108,13 @@ val_to_base (FunctionEvalInfo *ei,
 
 	if (v < 0) {
 		max = 10;
-		v += powgnum (dest_base, max);
+		v += gnm_pow (dest_base, max);
 	} else {
 		if (v == 0)
 			max = 1;
 		else
-			max = (int)(loggnum (v + 0.5) /
-				    loggnum (dest_base)) + 1;
+			max = (int)(gnm_log (v + 0.5) /
+				    gnm_log (dest_base)) + 1;
 	}
 
 	if (places > max)
@@ -125,8 +124,8 @@ val_to_base (FunctionEvalInfo *ei,
 	g_string_set_size (buffer, max);
 
 	for (digit = max - 1; digit >= 0; digit--) {
-		int thisdigit = fmodgnum (v + 0.5, dest_base);
-		v = floorgnum ((v + 0.5) / dest_base);
+		int thisdigit = gnm_fmod (v + 0.5, dest_base);
+		v = gnm_floor ((v + 0.5) / dest_base);
 		buffer->str[digit] = 
 			thisdigit["0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 	}
@@ -648,7 +647,7 @@ gnumeric_bessely (FunctionEvalInfo *ei, GnmValue **argv)
 	if ((y = value_get_as_int (argv[1])) < 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (yngnum (y, value_get_as_float (argv[0])));
+	return value_new_float (gnm_yn (y, value_get_as_float (argv[0])));
 }
 
 /***************************************************************************/
@@ -1107,11 +1106,11 @@ gnumeric_erf (FunctionEvalInfo *ei, GnmValue **argv)
 	gnm_float ans, lower, upper;
 
 	lower = value_get_as_float (argv[0]);
-	ans = erfgnum (lower);
+	ans = gnm_erf (lower);
 
 	if (argv[1]) {
 		upper = value_get_as_float (argv[1]);
-		ans = erfgnum (upper) - ans;
+		ans = gnm_erf (upper) - ans;
 	}
 
 	return value_new_float (ans);
@@ -1144,7 +1143,7 @@ gnumeric_erfc (FunctionEvalInfo *ei, GnmValue **argv)
 
 	x = value_get_as_float (argv[0]);
 
-	return value_new_float (erfcgnum (x));
+	return value_new_float (gnm_erfc (x));
 }
 
 /***************************************************************************/

@@ -199,14 +199,14 @@ icg_user_is_impatient (IOContextGtk *icg)
 }
 
 static char *
-icg_get_password (GnmCmdContext *cc, char const *filename)
+icg_get_password (GOCmdContext *cc, char const *filename)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 	return dialog_get_password (icg->window, filename);
 }
 
 static void
-icg_progress_set (GnmCmdContext *cc, gfloat val)
+icg_progress_set (GOCmdContext *cc, gfloat val)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 
@@ -223,7 +223,7 @@ icg_progress_set (GnmCmdContext *cc, gfloat val)
 }
 
 static void
-icg_progress_message_set (GnmCmdContext *cc, gchar const *msg)
+icg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 {
 	IOContextGtk *icg = IO_CONTEXT_GTK (cc);
 
@@ -242,7 +242,7 @@ icg_progress_message_set (GnmCmdContext *cc, gchar const *msg)
 }
 
 static void
-icg_error_error_info (G_GNUC_UNUSED GnmCmdContext *cc,
+icg_error_error_info (G_GNUC_UNUSED GOCmdContext *cc,
 		      ErrorInfo *error)
 {
 	GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
@@ -333,7 +333,7 @@ icg_finalize (GObject *obj)
 }
 
 static void
-icg_gnm_cmd_context_init (GnmCmdContextClass *cc_class)
+icg_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 {
 	cc_class->get_password         = icg_get_password;
 	cc_class->progress_set         = icg_progress_set;
@@ -369,7 +369,7 @@ icg_init (IOContextGtk *icg)
 GSF_CLASS_FULL (IOContextGtk, io_context_gtk,
 		icg_class_init, icg_init,
 		TYPE_IO_CONTEXT, 0,
-		GSF_INTERFACE (icg_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))
+		GSF_INTERFACE (icg_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))
 
 void
 icg_set_transient_for (IOContextGtk *icg, GtkWindow *parent_window)

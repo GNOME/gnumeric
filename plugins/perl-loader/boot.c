@@ -6,8 +6,8 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <glib.h>
-#include "error-info.h"
-#include <module-plugin-defs.h>
+#include <goffice/app/error-info.h>
+#include <goffice/app/module-plugin-defs.h>
 
 #include "perl-loader.h"
 
@@ -22,12 +22,12 @@ perl_get_loader_type (ErrorInfo **ret_error)
 	return TYPE_GNM_PLUGIN_LOADER_PERL;
 }
 
-void
-plugin_cleanup(void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 }
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 }

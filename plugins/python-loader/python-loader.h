@@ -1,14 +1,12 @@
-#ifndef PLUGIN_PYTHON_LOADER_H
-#define PLUGIN_PYTHON_LOADER_H
+#ifndef GNM_PYTHON_PLUGIN_LOADER_H
+#define GNM_PYTHON_PLUGIN_LOADER_H
 
-#include <glib.h>
-#include <gnumeric.h>
-#include <workbook-control-gui.h>
+#include <glib-object.h>
 
-#define TYPE_GNM_PLUGIN_LOADER_PYTHON            (gnm_plugin_loader_python_get_type ())
-#define GNM_PLUGIN_LOADER_PYTHON(obj)            (G_TYPE_CHECK_INSTANCE_CAST ((obj), TYPE_GNM_PLUGIN_LOADER_PYTHON, GnmPluginLoaderPython))
-#define IS_GNM_PLUGIN_LOADER_PYTHON(obj)         (G_TYPE_CHECK_INSTANCE_TYPE ((obj), TYPE_GNM_PLUGIN_LOADER_PYTHON))
+#define TYPE_GNM_PYTHON_PLUGIN_LOADER	(gnm_python_plugin_loader_get_type ())
+#define GNM_PYTHON_PLUGIN_LOADER(o)	(G_TYPE_CHECK_INSTANCE_CAST ((o), TYPE_GNM_PYTHON_PLUGIN_LOADER, GnmPythonPluginLoader))
+#define IS_GNM_PYTHON_PLUGIN_LOADER(o)	(G_TYPE_CHECK_INSTANCE_TYPE ((o), TYPE_GNM_PYTHON_PLUGIN_LOADER))
 
-GType gnm_plugin_loader_python_get_type (void);
+GType gnm_python_plugin_loader_get_type (void);
 
-#endif /* PLUGIN_PYTHON_LOADER_H */
+#endif /* GNM_PYTHON_PLUGIN_LOADER_H */

@@ -17,7 +17,7 @@ typedef struct {
 	GnmExpr const * (*parse_expr)	(MSContainer *c,
 					 guint8 const *expr, int length);
 	Sheet	      * (*sheet)	(MSContainer const *c);
-	GnmFormat     * (*get_fmt)	(MSContainer const *c, unsigned indx);
+	GOFormat     * (*get_fmt)	(MSContainer const *c, unsigned indx);
 	PangoAttrList * (*get_markup)	(MSContainer const *c, unsigned indx);
 } MSContainerClass;
 
@@ -55,7 +55,7 @@ GnmExpr	const *ms_container_parse_expr   (MSContainer *c,
 					  guint8 const *data, int length);
 
 Sheet       *ms_container_sheet	    (MSContainer const *c);
-GnmFormat	*ms_container_get_fmt	 (MSContainer const *c, unsigned indx);
+GOFormat	*ms_container_get_fmt	 (MSContainer const *c, unsigned indx);
 PangoAttrList	*ms_container_get_markup (MSContainer const *c, unsigned indx);
 PangoAttrList	*ms_container_read_markup (MSContainer const *c,
 					   guint8 const *data, int txo_len,

@@ -44,6 +44,7 @@
 #include <commands.h>
 #include <selection.h>
 #include <ranges.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
@@ -226,7 +227,7 @@ templates_load (AutoFormatState *state)
 		return FALSE;
 
 	state->templates = category_group_get_templates_list (
-		state->current_category_group, GNM_CMD_CONTEXT (state->wbcg));
+		state->current_category_group, GO_CMD_CONTEXT (state->wbcg));
 	for (l = state->templates; l != NULL; l = l->next) {
 		FormatTemplate *ft = l->data;
 		range_init (&ft->dimension,
@@ -555,7 +556,7 @@ dialog_autoformat (WorkbookControlGUI *wbcg)
 	AutoFormatState *state;
 	int i;
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"autoformat.glade", NULL, NULL);
 	if (gui == NULL)
 		return;

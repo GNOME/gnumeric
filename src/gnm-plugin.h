@@ -1,0 +1,48 @@
+#ifndef GNM_PLUGIN_H
+#define GNM_PLUGIN_H
+
+#include <gnumeric.h>
+#include <goffice/app/goffice-app.h>
+#include <goffice/app/go-plugin.h>
+#include <glib.h>
+#include <gmodule.h>
+#include <libxml/tree.h>
+#include <gsf/gsf.h>
+
+#define GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE  (plugin_service_function_group_get_type ())
+#define GNM_PLUGIN_SERVICE_FUNCTION_GROUP(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE, PluginServiceFunctionGroup))
+#define IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_FUNCTION_GROUP_TYPE))
+
+GType plugin_service_function_group_get_type (void);
+typedef struct _PluginServiceFunctionGroup	PluginServiceFunctionGroup;
+typedef struct {
+	gboolean (*func_desc_load) (GOPluginService *service, char const *name,
+				    GnmFuncDescriptor *res);
+} PluginServiceFunctionGroupCallbacks;
+
+#define GNM_PLUGIN_SERVICE_UI_TYPE  (plugin_service_ui_get_type ())
+#define GNM_PLUGIN_SERVICE_UI(o)    (G_TYPE_CHECK_INSTANCE_CAST ((o), GNM_PLUGIN_SERVICE_UI_TYPE, PluginServiceUI))
+#define IS_GNM_PLUGIN_SERVICE_UI(o) (G_TYPE_CHECK_INSTANCE_TYPE ((o), GNM_PLUGIN_SERVICE_UI_TYPE))
+
+GType plugin_service_ui_get_type (void);
+typedef struct _PluginServiceUI PluginServiceUI;
+typedef struct {
+	void (*plugin_func_exec_action) (
+		GOPluginService *service, GnmAction const *action,
+		WorkbookControl *wbc, ErrorInfo **ret_error);
+} PluginServiceUICallbacks;
+
+/* This type is intended for use with "ui" service.
+ * Plugins should define arrays of structs of the form:
+ * ModulePluginUIActions <service-id>_actions[] = { ... };
+ */
+typedef struct {
+	char const *name;
+	void (*handler) (GnmAction const *action, WorkbookControl *wbc);
+} ModulePluginUIActions;
+
+/**************************************************************************/
+
+void gnm_plugins_init (GOCmdContext *c);
+
+#endif /* GNM_PLUGIN_H */

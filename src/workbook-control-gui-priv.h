@@ -4,7 +4,7 @@
 #include "gnumeric.h"
 #include "workbook-control-gui.h"
 #include "workbook-control-priv.h"
-#include "file.h"
+#include <goffice/app/file.h>
 #include "style.h"
 #include "widgets/gnumeric-expr-entry.h"
 

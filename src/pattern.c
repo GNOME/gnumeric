@@ -126,7 +126,7 @@ gnumeric_background_set_gc (GnmStyle const *mstyle, GdkGC *gc,
 			mstyle_get_color (mstyle, MSTYLE_COLOR_BACK);
 		g_return_val_if_fail (back_col != NULL, FALSE);
 
-		back = is_selected ? &back_col->selected_color : &back_col->color;
+		back = is_selected ? &back_col->gdk_selected_color : &back_col->gdk_color;
 
 		if (pattern > 1) {
 			GdkScreen *screen = gtk_widget_get_screen (GTK_WIDGET (canvas));
@@ -137,7 +137,7 @@ gnumeric_background_set_gc (GnmStyle const *mstyle, GdkGC *gc,
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
 			values.fill = GDK_OPAQUE_STIPPLED;
-			values.foreground = pat_col->color;
+			values.foreground = pat_col->gdk_color;
 			gdk_rgb_find_color (cmap, &values.foreground);
 			values.background = *back;
 			gdk_rgb_find_color (cmap, &values.background);
@@ -211,9 +211,9 @@ gnumeric_background_set_pc (GnmStyle const *mstyle, GnomePrintContext *context)
 #endif
 
 			gnome_print_setrgbcolor (context,
-				back_col->color.red * grey[pattern]    / (double) 0xffff,
-				back_col->color.green * grey[pattern]  / (double) 0xffff,
-				back_col->color.blue * grey[pattern]   / (double) 0xffff);
+				back_col->gdk_color.red * grey[pattern]    / (double) 0xffff,
+				back_col->gdk_color.green * grey[pattern]  / (double) 0xffff,
+				back_col->gdk_color.blue * grey[pattern]   / (double) 0xffff);
 		}
 
 		/* This is a special case where the user has selected
@@ -226,9 +226,9 @@ gnumeric_background_set_pc (GnmStyle const *mstyle, GnomePrintContext *context)
 			g_return_val_if_fail (pat_col != NULL, FALSE);
 
 			gnome_print_setrgbcolor (context,
-				pat_col->color.red   / (double) 0xffff,
-				pat_col->color.green / (double) 0xffff,
-				pat_col->color.blue  / (double) 0xffff);
+				pat_col->gdk_color.red   / (double) 0xffff,
+				pat_col->gdk_color.green / (double) 0xffff,
+				pat_col->gdk_color.blue  / (double) 0xffff);
 
 		}
 #if 0

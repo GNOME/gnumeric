@@ -29,10 +29,9 @@
 #include <gbrun/libgbrun.h>
 #include <libole2/ms-ole-vba.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "error-info.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/error-info.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "expr.h"
 #include "func.h"
 #include "sheet.h"
@@ -60,10 +59,9 @@ typedef struct {
 
 int gb_debug = 0;
 
-void
-plugin_cleanup_general (ErrorInfo **ret_error)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *p, GOCmdContext *cc)
 {
-	*ret_error = NULL;
 	gbrun_shutdown ();
 	gb_shutdown ();
 }
@@ -346,8 +344,8 @@ file_provider (GBRunEvalContext *ec,
 	return ret;
 }
 
-void
-plugin_init_general (ErrorInfo **err)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *p, GOCmdContext *cc)
 {
 	GBEvalContext *ec;
 	GBLexerStream *proj_stream;

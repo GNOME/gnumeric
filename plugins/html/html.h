@@ -23,8 +23,7 @@
 #define GNUMERIC_PLUGIN_HTML_H
 
 #include "gnumeric.h"
-#include "file.h"
-#include "error-info.h"
+#include <goffice/app/file.h>
 
 void html32_file_save	  (GnmFileSaver const *fs, IOContext *io_context, 
 			   WorkbookView const  *wb_view, GsfOutput *output);

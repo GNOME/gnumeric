@@ -552,7 +552,7 @@ stf_export_dialog (WorkbookControlGUI *wbcg, Workbook *wb)
 
 	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
 
-	state.gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	state.gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"dialog-stf-export.glade", NULL, NULL);
 	if (state.gui == NULL)
 		return NULL;

@@ -22,11 +22,22 @@
 #include <goffice/goffice-config.h>
 #include "go-font.h"
 #include <gmodule.h>
+#include <pango/pangoft2.h>
 
-static GHashTable   *font_hash;
-static GPtrArray    *font_array;
-static GSList	    *font_watchers;
-static GOFont const *font_default;
+static GHashTable	*font_hash;
+static GPtrArray	*font_array;
+static GSList		*font_watchers;
+static GOFont const	*font_default;
+static PangoFontFamily	**pango_families;
+       GSList		*go_fonts_family_names = NULL;
+static GStringChunk	*go_fonts_size_name_storage;
+       GSList		*go_fonts_size_names = NULL;
+       int const	 go_fonts_size_pts [] = {
+	4, 8, 9, 10, 11, 12, 14, 16, 18,
+	20, 22, 24, 26, 28, 36, 48, 72,
+	0
+};
+
 
 #if 0
 #define ref_debug(x)	x
@@ -168,12 +179,25 @@ go_pango_fc_font_map_cache_clear (PangoFcFontMap *font_map)
 		fake_pango_fc_font_map_cache_clear (font_map);
 }
 
+static int
+compare_family_pointers_by_name (gconstpointer a, gconstpointer b)
+{
+	PangoFontFamily * const * const fa = a;
+	PangoFontFamily * const * const fb = b;
+	return g_utf8_collate (pango_font_family_get_name (*fa),
+			       pango_font_family_get_name (*fb));
+}
+
 /* private */
 void
-go_font_init (void)
+go_fonts_init (void)
 {
-	GModule *self = g_module_open (NULL, 0);
-	if (self) {
+	PangoFontMap *fontmap;
+	PangoContext *context;
+	GModule *self;
+	int n_families, i;
+
+	if (NULL != (self = g_module_open (NULL, 0))) {
 		gpointer sym;
 		if (g_module_symbol (self, "pango_fc_font_map_cache_clear", &sym))
 			fake_pango_fc_font_map_cache_clear = sym;
@@ -187,11 +211,42 @@ go_font_init (void)
 		NULL, (GDestroyNotify) go_font_free);
 	font_default = go_font_new_by_desc (
 		pango_font_description_from_string ("Sans 8"));
+
+	fontmap = pango_ft2_font_map_new ();
+	pango_ft2_font_map_set_resolution (PANGO_FT2_FONT_MAP (fontmap), 96, 96);
+	context = pango_ft2_font_map_create_context (PANGO_FT2_FONT_MAP (fontmap));
+
+	pango_context_list_families (context, &pango_families, &n_families);
+	qsort (pango_families, n_families, sizeof (*pango_families),
+	       compare_family_pointers_by_name);
+
+	for (i = 0 ; i < n_families ; i++)
+		go_fonts_family_names = g_slist_prepend (
+			go_fonts_family_names,
+			(gpointer) pango_font_family_get_name (pango_families[i]));
+	go_fonts_family_names = g_slist_reverse (go_fonts_family_names);
+
+	go_fonts_size_name_storage = g_string_chunk_new (128);
+	for (i = 0; go_fonts_size_pts [i] != 0; i++){
+		char buffer[4 * sizeof (int)];
+		sprintf (buffer, "%d", go_fonts_size_pts [i]);
+		go_fonts_size_names = g_slist_prepend (
+			go_fonts_size_names,
+			g_string_chunk_insert (go_fonts_size_name_storage, buffer));
+	}
+	g_object_unref (G_OBJECT (context));
 }
 
 void
-go_font_shutdown (void)
+go_fonts_shutdown (void)
 {
+	g_free (pango_families);
+	pango_families = NULL;
+	g_slist_free (go_fonts_family_names);
+	go_fonts_family_names = NULL;
+	g_slist_free (go_fonts_size_names);
+	go_fonts_size_names = NULL;
+
 	go_font_unref (font_default);
 	font_default = NULL;
 	g_ptr_array_free (font_array, TRUE);
@@ -204,4 +259,6 @@ go_font_shutdown (void)
 		/* be careful and _leak_ the closured in case they are already freed */
 		g_slist_free (font_watchers);
 	}
+	g_string_chunk_free (go_fonts_size_name_storage);
+	go_fonts_size_name_storage = NULL;
 }

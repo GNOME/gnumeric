@@ -42,9 +42,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -683,7 +682,7 @@ gnumeric_fisherinv (FunctionEvalInfo *ei, GnmValue **argv)
 {
        gnm_float y = value_get_as_float (argv[0]);
 
-       return value_new_float (expm1gnum (2 * y) / (expgnum (2 * y) + 1.0));
+       return value_new_float (gnm_expm1 (2 * y) / (gnm_exp (2 * y) + 1.0));
 }
 
 /***************************************************************************/
@@ -1177,7 +1176,7 @@ gnumeric_gammaln (FunctionEvalInfo *ei, GnmValue **argv)
 	if (x <= 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (lgammagnum (x));
+	return value_new_float (gnm_lgamma (x));
 }
 
 /***************************************************************************/
@@ -1742,12 +1741,12 @@ random_landau_pdf (gnm_float x)
 
 	V = x;
 	if (V < -5.5) {
-	        U      = expgnum (V + 1.0);
-		DENLAN = 0.3989422803 * (expgnum ( -1 / U) / sqrtgnum (U)) *
+	        U      = gnm_exp (V + 1.0);
+		DENLAN = 0.3989422803 * (gnm_exp ( -1 / U) / gnm_sqrt (U)) *
 		        (1 + (A1[0] + (A1[1] + A1[2] * U) * U) * U);
 	} else if (V < -1) {
-	        U = expgnum (-V - 1);
-		DENLAN = expgnum ( -U) * sqrtgnum (U) *
+	        U = gnm_exp (-V - 1);
+		DENLAN = gnm_exp ( -U) * gnm_sqrt (U) *
 		        (P1[0] + (P1[1] + (P1[2] + (P1[3] + P1[4] * V) * V)
 				  * V) * V) /
 		        (Q1[0] + (Q1[1] + (Q1[2] + (Q1[3] + Q1[4] * V) * V)
@@ -2079,7 +2078,7 @@ gnumeric_confidence (FunctionEvalInfo *ei, GnmValue **argv)
 	if (size < 0)
 		return value_new_error_NUM (ei->pos);
 
-	return value_new_float (-qnorm (x / 2, 0, 1, TRUE, FALSE) * (stddev / sqrtgnum (size)));
+	return value_new_float (-qnorm (x / 2, 0, 1, TRUE, FALSE) * (stddev / gnm_sqrt (size)));
 }
 
 /***************************************************************************/
@@ -2417,7 +2416,7 @@ gnumeric_fisher (FunctionEvalInfo *ei, GnmValue **argv)
         if (x <= -1.0 || x >= 1.0)
                 return value_new_error_NUM (ei->pos);
 
-        return value_new_float (0.5 * (log1pgnum (x) - log1pgnum (-x)));
+        return value_new_float (0.5 * (gnm_log1p (x) - gnm_log1p (-x)));
 }
 
 /***************************************************************************/
@@ -2851,7 +2850,7 @@ gnumeric_prob (FunctionEvalInfo *ei, GnmValue **argv)
 		        sum += prob;
 	}
 
-	if (gnumabs (total_sum - 1) > x_n * 2 * GNUM_EPSILON) {
+	if (gnumabs (total_sum - 1) > x_n * 2 * GNM_EPSILON) {
 	        res = value_new_error_NUM (ei->pos);
 		goto out;
 	}
@@ -3016,7 +3015,7 @@ gnumeric_steyx (FunctionEvalInfo *ei, GnmValue **argv)
 	if (den == 0)
 	        return value_new_error_NUM (ei->pos);
 
-	return value_new_float (sqrtgnum (k * (n * sqrsum_y - sum_y * sum_y - num / den)));
+	return value_new_float (gnm_sqrt (k * (n * sqrsum_y - sum_y * sum_y - num / den)));
 }
 
 /***************************************************************************/
@@ -3057,7 +3056,7 @@ range_ztest (const gnm_float *xs, int n, gnm_float *res)
 	if (range_stddev_est (xs, n, &s) || s == 0)
 	        return 1;
 
-	*res = pnorm (x, m, s / sqrtgnum (n), TRUE, FALSE);
+	*res = pnorm (x, m, s / gnm_sqrt (n), TRUE, FALSE);
 	return 0;
 }
 
@@ -3447,8 +3446,8 @@ gnumeric_percentrank (FunctionEvalInfo *ei, GnmValue **argv)
 	        pr = (p.smaller + 0.5 * p.equal) /
 		  (p.smaller + p.equal + p.greater);
 
-	k = gpow10 (significance);
-	return value_new_float (gnumeric_fake_trunc (pr * k) / k);
+	k = gnm_pow10 (significance);
+	return value_new_float (gnm_fake_trunc (pr * k) / k);
 }
 
 /***************************************************************************/
@@ -3748,9 +3747,9 @@ gnumeric_ttest (FunctionEvalInfo *ei, GnmValue *argv[])
 		if (N - 1 == 0 || N == 0)
 		        return value_new_error_NUM (ei->pos);
 
-		s = sqrtgnum (Q / (N - 1));
+		s = gnm_sqrt (Q / (N - 1));
 		mean1 = sum / N;
-		x = mean1 / (s / sqrtgnum (N));
+		x = mean1 / (s / gnm_sqrt (N));
 		dof = N - 1;
 	} else {
 	        if ((err = stat_helper (&cl, ei->pos, argv [0])))
@@ -3772,7 +3771,7 @@ gnumeric_ttest (FunctionEvalInfo *ei, GnmValue *argv[])
 		} else
 		        dof = n1 + n2 - 2;
 
-		x = (mean1 - mean2) / sqrtgnum (var1 / n1 + var2 / n2);
+		x = (mean1 - mean2) / gnm_sqrt (var1 / n1 + var2 / n2);
 	}
 
 	return value_new_float (tails * pt (gnumabs (x), dof, FALSE, FALSE));
@@ -4092,7 +4091,7 @@ gnumeric_linest (FunctionEvalInfo *ei, GnmValue *argv[])
 		value_array_set (result, 0, 2,
 				 value_new_float (extra_stat->sqr_r));
 		value_array_set (result, 1, 2,
-				 value_new_float (sqrtgnum (extra_stat->var)));
+				 value_new_float (gnm_sqrt (extra_stat->var)));
 		value_array_set (result, 0, 3,
 				 value_new_float (extra_stat->F));
 		value_array_set (result, 1, 3,
@@ -4369,7 +4368,7 @@ gnumeric_logreg (FunctionEvalInfo *ei, GnmValue *argv[])
 		value_array_set (result, 0, 2,
 				 value_new_float (extra_stat->sqr_r));
 		value_array_set (result, 1, 2,
-				 value_new_float (sqrtgnum (extra_stat->var)));
+				 value_new_float (gnm_sqrt (extra_stat->var)));
 		value_array_set (result, 0, 3,
 				 value_new_float (extra_stat->F));
 		value_array_set (result, 1, 3,
@@ -4838,7 +4837,7 @@ gnumeric_logest (FunctionEvalInfo *ei, GnmValue *argv[])
 		value_array_set (result, 0, 2,
 				 value_new_float (extra_stat->sqr_r));
 		value_array_set (result, 1, 2,
-				 value_new_float (sqrtgnum (extra_stat->var))); /* Still wrong ! */
+				 value_new_float (gnm_sqrt (extra_stat->var))); /* Still wrong ! */
 		value_array_set (result, 0, 3,
 				 value_new_float (extra_stat->F));
 		value_array_set (result, 1, 3,
@@ -4974,7 +4973,7 @@ gnumeric_growth (FunctionEvalInfo *ei, GnmValue *argv[])
 	result = value_new_array (1, nnx);
 	for (i = 0; i < nnx; i++)
 	        value_array_set (result, 0, i,
-				 value_new_float (powgnum (expres[1], nxs[i]) *
+				 value_new_float (gnm_pow (expres[1], nxs[i]) *
 						  expres[0]));
 
  out:
@@ -5433,7 +5432,7 @@ static char const *help_logistic = {
 static gnm_float
 random_logistic_pdf (gnm_float x, gnm_float a)
 {
-        gnm_float u = expgnum (-gnumabs (x) / a);
+        gnm_float u = gnm_exp (-gnumabs (x) / a);
 
 	return u / (gnumabs (a) * (1 + u) * (1 + u));
 }
@@ -5470,7 +5469,7 @@ static gnm_float
 random_pareto_pdf (gnm_float x, gnm_float a, gnm_float b)
 {
         if (x >= b)
-	        return (a / b) / powgnum (x / b, a + 1);
+	        return (a / b) / gnm_pow (x / b, a + 1);
 	else
 	        return 0;
 }
@@ -5512,7 +5511,7 @@ random_rayleigh_pdf (gnm_float x, gnm_float sigma)
 	else {
 	        gnm_float u = x / sigma;
 
-		return (u / sigma) * expgnum (-u * u / 2.0);
+		return (u / sigma) * gnm_exp (-u * u / 2.0);
 	}
 }
 
@@ -5554,7 +5553,7 @@ random_rayleigh_tail_pdf (gnm_float x, gnm_float a, gnm_float sigma)
 	        gnm_float u = x / sigma ;
 		gnm_float v = a / sigma ;
 
-		return (u / sigma) * expgnum ((v + u) * (v - u) / 2.0) ;
+		return (u / sigma) * gnm_exp ((v + u) * (v - u) / 2.0) ;
 	}
 }
 

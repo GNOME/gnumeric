@@ -18,588 +18,28 @@
 #include "gnumeric.h"
 #include "number-match.h"
 
-#include "dates.h"
-#include "numbers.h"
 #include "gutils.h"
-#include "datetime.h"
 #include "style.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "value.h"
 #include "mathfunc.h"
 #include "str.h"
-#include "regutf8.h"
+#include <goffice/utils/numbers.h>
+#include <goffice/utils/go-format-match.h>
+#include <goffice/utils/regutf8.h>
+#include <goffice/utils/datetime.h>
 
 #include <stdio.h>
 #include <string.h>
 #include <errno.h>
 #include <locale.h>
 #include <math.h>
+#include <time.h>
 #undef DEBUG_NUMBER_MATCH
-
-/*
- * Takes a list of strings (optionally include an * at the beginning
- * that gets stripped, for i18n purposes). and returns a regexp that
- * would match them
- */
-static char *
-create_option_list (char const *const *list)
-{
-	int len = 0;
-	char const *const *p;
-	char *res;
-
-	for (p = list; *p; p++) {
-		char const *v = _(*p);
-
-		if (*v == '*')
-			v++;
-		len += strlen (v) + 1;
-	}
-	len += 5;
-
-	res = g_malloc (len);
-	res[0] = '(';
-	res[1] = 0;
-	for (p = list; *p; p++) {
-		char const *v = _(*p);
-
-		if (*v == '*')
-			v++;
-
-		strcat (res, v);
-		if (*(p + 1))
-		    strcat (res, "|");
-	}
-	strcat (res, ")");
-
-	return res;
-}
-
-typedef enum {
-	MATCH_DAY_FULL 		  = 1,
-	MATCH_DAY_NUMBER	  = 2,
-	MATCH_MONTH_FULL	  = 3,
-	MATCH_MONTH_SHORT	  = 4,
-	MATCH_MONTH_NUMBER	  = 5,
-	MATCH_YEAR_FULL		  = 6,
-	MATCH_YEAR_SHORT	  = 7,
-	MATCH_HOUR		  = 8,
-	MATCH_MINUTE		  = 9,
-	MATCH_SECOND		  = 10,
-	MATCH_AMPM		  = 11,
-	MATCH_NUMBER		  = 12,
-	MATCH_NUMBER_DECIMALS	  = 13,
-	MATCH_PERCENT		  = 14,
-	MATCH_SKIP		  = 15,
-	MATCH_STRING_CONSTANT	  = 16,
-	MATCH_CUMMULATIVE_HOURS	  = 17,
-	MATCH_CUMMULATIVE_MINUTES = 18,
-	MATCH_CUMMULATIVE_SECONDS = 19,
-	MATCH_NUMERATOR           = 20,
-	MATCH_DENOMINATOR         = 21
-} MatchType;
-
-#define append_type(t) do { guint8 x = t; match_types = g_byte_array_append (match_types, &x, 1); } while (0)
-
-/*
- * format_create_regexp:
- * Create a regular expression for the given XL-style format.  Note:
- * the format as well as the regexp are UTF-8 encoded.
- */
-static char *
-format_create_regexp (unsigned char const *format, GByteArray **dest)
-{
-	GString *regexp;
-	GByteArray *match_types;
-	char *str;
-	gboolean hour_seen = FALSE;
-	gboolean number_seen = FALSE;
-	gboolean fraction = FALSE;
-
-	g_return_val_if_fail (format != NULL, NULL);
-
-#ifdef DEBUG_NUMBER_MATCH
-	printf ("'%s' = ", format);
-#endif
-	regexp = g_string_new ("^");
-	match_types = g_byte_array_new ();
-
-	for (; *format; format = g_utf8_next_char (format)) {
-		gunichar c = g_utf8_get_char (format);
-		switch (c) {
-		case '*':
-			/* FIXME: I don't think this will work for '^'.  */
-			if (format[1]) {
-				format++;
-				g_string_append_c (regexp, '[');
-				g_string_append_unichar (regexp, g_utf8_get_char (format));
-				g_string_append_c (regexp, ']');
-				g_string_append_c (regexp, '*');
-			}
-			break;
-
-		case 'P': case 'p':
-			if (format[1] == 'm' || format[1] == 'M')
-				format++;
-			break;
-
-		case '\\': {
-			if (format[1] != '\0')
-				format++;
-			gnumeric_regexp_quote1 (regexp, format);
-			break;
-		}
-
-		case '[' :
-			/* Currency symbol */
-			if (format[1] == '$') {
-				for (format += 2; *format && *format != ']' ; ++format)
-					g_string_append_c (regexp, *format);
-				if (*format == ']')
-					++format;
-				break;
-			} else if (format[1] == 'h' && format[2] == ']') {
-				g_string_append (regexp, "([-+]?[0-9]+)");
-				append_type (MATCH_CUMMULATIVE_HOURS);
-				hour_seen = TRUE;
-				format += 2;
-				break;
-			} else if (format[1] == 'm' && format[2] == ']') {
-				g_string_append (regexp, "([-+]?[0-9]+)");
-				append_type (hour_seen ? MATCH_MINUTE : MATCH_CUMMULATIVE_MINUTES);
-				format += 2;
-				break;
-			} else if (format[1] == 's' && format[2] == ']') {
-				g_string_append (regexp, "([-+]?[0-9]+)");
-				append_type (MATCH_CUMMULATIVE_SECONDS);
-				format += 2;
-				break;
-			}
-
-		case '%':
-			g_string_append (regexp, "%");
-			append_type (MATCH_PERCENT);
-			break;
-
-		case '#': case '0': case '.': case '+': case '?': {
-			gboolean include_sep = FALSE;
-			gboolean include_decimal = FALSE;
-
-			while (*format == '#' || *format == '0' || *format == '.' ||
-			       *format == '-' || *format == 'E' || *format == 'e' ||
-			       *format == '+' || *format == '?' || *format == ',') {
-				switch (*format) {
-				case ',': include_sep = TRUE; break;
-				case '.': include_decimal = TRUE; break;
-				}
-				format++;
-			}
-			format--;
-
-			if (format[1] == '/' && number_seen)
-				append_type (MATCH_NUMERATOR);
-			else
-				append_type (MATCH_NUMBER);
-
-			if (include_sep) {
-				/* Not strictly correct.
-				 * There should be a limit of 1-3 digits.
-				 * However, that creates problems when
-				 * There are formats like
-				 *  $#,##0.00
-				 * but not
-				 *  $###0.00
-				 * as a result $1000 would not be recognized.
-				 */
-				g_string_append (regexp, "([-+]?[0-9]+(");
-				gnumeric_regexp_quote (regexp, format_get_thousand ()->str);
-				g_string_append (regexp, "[0-9]{3})*)");
-				append_type (MATCH_SKIP);
-			} else {
-				g_string_append (regexp, "([-+]?[0-9]+)");
-			}
-
-			if (include_decimal) {
-				g_string_append (regexp, "?(");
-				gnumeric_regexp_quote (regexp, format_get_decimal ()->str);
-				g_string_append (regexp, "[0-9]+([Ee][-+]?[0-9]+)?)");
-				append_type (MATCH_NUMBER_DECIMALS);
-			}
-
-			number_seen = TRUE;
-			break;
-		}
-
-		case 'h':
-		case 'H':
-			hour_seen = TRUE;
-			if (format[1] == 'h' || format[1] == 'H')
-				format++;
-
-			g_string_append (regexp, "([0-9][0-9]?)");
-			append_type (MATCH_HOUR);
-			break;
-
-		case 'M':
-		case 'm':
-			if (hour_seen) {
-				if (format[1] == 'm' || format[1] == 'M')
-					format++;
-				g_string_append (regexp, "([0-9][0-9]?)");
-				append_type (MATCH_MINUTE);
-				hour_seen = FALSE;
-			} else {
-				if (format[1] == 'm' || format[1] == 'M') {
-					if (format[2] == 'm' || format[2] == 'M') {
-						if (format[3] == 'm' || format[3] == 'M') {
-							char *l;
-
-							l = create_option_list (month_long);
-							g_string_append (regexp, l);
-							g_free (l);
-
-							append_type (MATCH_MONTH_FULL);
-							format++;
-						} else {
-							char *l;
-
-							l = create_option_list (month_short);
-							g_string_append (regexp, l);
-							g_free (l);
-
-							append_type (MATCH_MONTH_SHORT);
-						}
-						format++;
-					} else {
-						g_string_append (regexp, "([0-9][0-9]?)");
-						append_type (MATCH_MONTH_NUMBER);
-					}
-					format++;
-				} else {
-					g_string_append (regexp, "([0-9][0-9]?)");
-					append_type (MATCH_MONTH_NUMBER);
-				}
-			}
-			break;
-
-		case 's':
-		case 'S':
-			/* ICK!
-			 * ICK!
-			 * 'm' is ambiguous.  It can be months or minutes.
-			 */
-			{
-				int l = match_types->len;
-				if (l > 0 && match_types->data[l - 1] == MATCH_MONTH_NUMBER)
-					match_types->data[l - 1] = MATCH_MINUTE;
-			}
-
-			if (format[1] == 's' || format[1] == 'S')
-				format++;
-			g_string_append (regexp, "([0-9][0-9]?)");
-			append_type (MATCH_SECOND);
-			break;
-
-		case 'D':
-		case 'd':
-			if (format[1] == 'd' || format[1] == 'D') {
-				if (format[2] == 'd' || format[2] == 'D') {
-					if (format[3] == 'd' || format[3] == 'D') {
-						char *l;
-
-						l = create_option_list (day_long);
-						g_string_append (regexp, l);
-						g_free (l);
-
-						append_type (MATCH_DAY_FULL);
-						format++;
-					} else {
-						char *l;
-
-						l = create_option_list (day_short);
-						g_string_append (regexp, l);
-						g_free (l);
-					}
-					format++;
-				} else {
-					g_string_append (regexp, "([0-9][0-9]?)");
-					append_type (MATCH_DAY_NUMBER);
-				}
-				format++;
-			} else {
-				g_string_append (regexp, "([0-9][0-9]?)");
-				append_type (MATCH_DAY_NUMBER);
-			}
-			break;
-
-		case 'Y':
-		case 'y':
-			if (format[1] == 'y' || format[1] == 'Y') {
-				if (format[2] == 'y' || format[2] == 'Y') {
-					if (format[3] == 'y' || format[3] == 'Y') {
-						g_string_append (regexp, "([0-9][0-9][0-9][0-9])");
-						append_type (MATCH_YEAR_FULL);
-						format++;
-					}
-					format++;
-				} else {
-					g_string_append (regexp, "([0-9][0-9]?)");
-					append_type (MATCH_YEAR_SHORT);
-				}
-				format++;
-			} else {
-				g_string_append (regexp, "([0-9][0-9]?)");
-				append_type (MATCH_YEAR_SHORT);
-			}
-			break;
-
-		case ';':
-			/* TODO : Is it ok to only match the first entry ?? */
-			/* FIXME: What is this?  */
-			while (*format)
-				format = g_utf8_next_char (format);
-			format = g_utf8_prev_char (format);
-			break;
-
-		case 'A': case 'a':
-			if (*(format + 1) == 'm' || *(format + 1) == 'M') {
-				if (*(format + 2) == '/') {
-					if (*(format + 3) == 'P' || *(format + 3) == 'p') {
-						if (*(format + 4) == 'm' || *(format + 4) == 'M') {
-							format++;
-						}
-						format++;
-					}
-					format++;
-				}
-				format++;
-			}
-			g_string_append (regexp, "([Aa]|[Pp])[Mm]?");
-			append_type (MATCH_AMPM);
-			break;
-
-		case '"':
-			/* Matches a string */
-			format++;
-			while (*format != '"') {
-				if (*format == 0)
-					goto error;
-				format = gnumeric_regexp_quote1 (regexp, format);
-			}
-			break;
-
-		case '@':
-			g_string_append (regexp, "(.*)");
-			append_type (MATCH_STRING_CONSTANT);
-			break;
-
-		case '_':
-			if (format[1]) {
-				g_string_append (regexp, "[ ]?");
-				format++;
-			}
-			break;
-
-		case '/':
-			g_string_append_c (regexp, '/');
-			if (number_seen) {
-				fraction = TRUE;
-				/* Fraction.  Ick.  */
-				if (strncmp (regexp->str, "^([-+]?[0-9]+) ", 15) == 0) {
-					g_string_erase (regexp, 14, 1);
-					g_string_insert (regexp, 13, " +|");
-					/* FIXME: The final regexp won't match a plain digit sequence.  */
-				}
-
-				while (format[1] == '?' || g_ascii_isdigit (format[1]))
-					format++;
-
-				g_string_append (regexp, "([0-9]+) *");
-				append_type (MATCH_DENOMINATOR);
-			}
-			break;
-
-#if 0
-		/* these were here explicitly before adding default.
-		 * Leave them explicit for now as documentation.
-		 */
-			/* Default appears fine for this.  */
-		case 0x00a3: /* GBP sign. */
-		case 0x00a5: /* JPY sign. */
-		case 0x20ac: /* EUR sign. */
-		case '^':
-		case '|':
-		case ']':
-		case '$':
-		case ':':
-		case '-':
-		case ' ':
-		case '(':
-		case ')':
-
-#endif
-		default :
-			gnumeric_regexp_quote1 (regexp, format);
-		}
-	}
-
-	g_string_append_c (regexp, '$');
-
-	str = g_string_free (regexp, FALSE);
-	*dest = match_types;
-
-#ifdef DEBUG_NUMBER_MATCH
-	printf ("'%s'\n",str);
-#endif
-	return str;
-
- error:
-	g_string_free (regexp, TRUE);
-	g_byte_array_free (match_types, TRUE);
-	return NULL;
-}
-
-static void
-print_regex_error (int ret)
-{
-	switch (ret) {
-	case REG_BADBR:
-		fprintf (stderr,
-			 "There was an invalid `\\{...\\}' construct in the regular\n"
-			 "expression.  A valid `\\{...\\}' construct must contain either a\n"
-			 "single number, or two numbers in increasing order separated by a\n"
-			 "comma.\n");
-		break;
-
-	case REG_BADPAT:
-		fprintf (stderr,
-			 "There was a syntax error in the regular expression.\n");
-		break;
-
-	case REG_BADRPT:
-		fprintf (stderr,
-			 "A repetition operator such as `?' or `*' appeared in a bad\n"
-			 "position (with no preceding subexpression to act on).\n");
-		break;
-
-	case REG_ECOLLATE:
-		fprintf (stderr,
-			 "The regular expression referred to an invalid collating element\n"
-			 "(one not defined in the current locale for string collation).\n");
-		break;
-
-	case REG_ECTYPE:
-		fprintf (stderr,
-			 "The regular expression referred to an invalid character class name.\n");
-		break;
-
-#if REG_EESCAPE != REG_BADPAT
-	case REG_EESCAPE:
-		fprintf (stderr,
-			 "The regular expression ended with `\\'.\n");
-		break;
-#endif
-
-	case REG_ESUBREG:
-		fprintf (stderr,
-			 "There was an invalid number in the `\\DIGIT' construct.\n");
-		break;
-
-	case REG_EBRACK:
-		fprintf (stderr,
-			 "There were unbalanced square brackets in the regular expression.\n");
-		break;
-
-#if REG_EPAREN != REG_BADPAT
-	case REG_EPAREN:
-		fprintf (stderr,
-			 "An extended regular expression had unbalanced parentheses, or a\n"
-			 "basic regular expression had unbalanced `\\(' and `\\)'.\n");
-		break;
-#endif
-
-#if REG_EBRACE != REG_BADPAT
-	case REG_EBRACE:
-		fprintf (stderr,
-			 "The regular expression had unbalanced `\\{' and `\\}'.\n");
-		break;
-#endif
-
-#ifdef REG_EBOL
-	case REG_EBOL:
-		fprintf (stderr, "Found ^ not at the beginning.\n");
-		break;
-#endif
-
-#ifdef REG_EEOL
-	case REG_EEOL:
-		fprintf (stderr, "Found $ not at the end.\n");
-		break;
-#endif
-
-	case REG_ERANGE:
-		fprintf (stderr,
-			 "One of the endpoints in a range expression was invalid.\n");
-		break;
-
-	case REG_ESPACE:
-		fprintf (stderr,
-			 "`regcomp' ran out of memory.\n");
-		break;
-
-	default:
-		fprintf (stderr, "regexp error %d\n", ret);
-	}
-}
 
 static GSList *format_match_list = NULL;
 static GSList *format_dup_match_list = NULL;
 static GSList *format_failed_match_list = NULL;
-
-void
-format_match_release (GnmFormat *fmt)
-{
-	if (fmt->regexp_str != NULL) {
-		g_free (fmt->regexp_str);
-		go_regfree (&fmt->regexp);
-		g_byte_array_free (fmt->match_tags, TRUE);
-	}
-}
-
-gboolean
-format_match_create (GnmFormat *fmt)
-{
-	GByteArray *match_tags;
-	char *regexp;
-	go_regex_t r;
-	int ret;
-
-	g_return_val_if_fail (fmt != NULL, FALSE);
-	g_return_val_if_fail (fmt->regexp_str == NULL, FALSE);
-	g_return_val_if_fail (fmt->match_tags == NULL, FALSE);
-	g_return_val_if_fail (strcmp (fmt->format, "General"), FALSE);
-
-	regexp = format_create_regexp (fmt->format, &match_tags);
-	if (!regexp) {
-		fmt->regexp_str = NULL;
-		fmt->match_tags = NULL;
-		return FALSE;
-	}
-
-	ret = go_regcomp (&r, regexp, REG_EXTENDED | REG_ICASE);
-	if (ret != 0) {
-		g_warning ("expression [%s] produced [%s]", fmt->format, regexp);
-		print_regex_error (ret);
-		g_free (regexp);
-		return FALSE;
-	}
-
-	fmt->regexp_str = regexp;
-	fmt->regexp     = r;
-	fmt->match_tags = match_tags;
-
-	return TRUE;
-}
 
 /*
  * value_is_error : Check to see if a string begins with one of the magic
@@ -628,7 +68,7 @@ void
 format_match_init (void)
 {
 	int i;
-	GnmFormat *fmt;
+	GOFormat *fmt;
 	GHashTable *hash;
 
 	currency_date_format_init ();
@@ -737,7 +177,7 @@ extract_text (char const *str, const regmatch_t *mp)
  */
 static GnmValue *
 compute_value (char const *s, const regmatch_t *mp,
-	       GByteArray *array, GnmDateConventions const *date_conv)
+	       GByteArray *array, GODateConventions const *date_conv)
 {
 	int const len = array->len;
 	gnm_float number = 0.0;
@@ -874,7 +314,7 @@ compute_value (char const *s, const regmatch_t *mp,
 			char *exppart = NULL;
 			if (strncmp (str, decimal->str, decimal->len) == 0) {
 				char *end;
-				errno = 0; /* strtognum sets errno, but does not clear it.  */
+				errno = 0; /* gnm_strto sets errno, but does not clear it.  */
 				if (seconds < 0) {
 					gnm_float fraction;
 
@@ -885,14 +325,14 @@ compute_value (char const *s, const regmatch_t *mp,
 						*end = 0;
 					}
 
-					fraction = strtognum (str, &end);
+					fraction = gnm_strto (str, &end);
 					if (is_neg)
 						number -= fraction;
 					else
 						number += fraction;
 					is_number = TRUE;
 				} else
-					seconds += strtognum (str, &end);
+					seconds += gnm_strto (str, &end);
 			}
 			if (exppart) {
 				char *end;
@@ -900,7 +340,7 @@ compute_value (char const *s, const regmatch_t *mp,
 
 				errno = 0; /* strtol sets errno, but does not clear it.  */
 				exponent = strtol (exppart, &end, 10);
-				number *= gpow10 (exponent);
+				number *= gnm_pow10 (exponent);
 			}
 			break;
 		}
@@ -1142,8 +582,8 @@ format_match_simple (char const *text)
 		char *end;
 		gnm_float d;
 
-		errno = 0; /* strtognum sets errno, but does not clear it.  */
-		d = strtognum (text, &end);
+		errno = 0; /* gnm_strto sets errno, but does not clear it.  */
+		d = gnm_strto (text, &end);
 		if (text != end && errno != ERANGE) {
 			/* Allow and ignore spaces at the end.  */
 			while (*end == ' ')
@@ -1169,8 +609,8 @@ format_match_simple (char const *text)
  * format.  The caller is responsible for releasing the resulting value.
  **/
 GnmValue *
-format_match (char const *text, GnmFormat *cur_fmt,
-	      GnmDateConventions const *date_conv)
+format_match (char const *text, GOFormat *cur_fmt,
+	      GODateConventions const *date_conv)
 {
 	GnmValue  *v;
 	GSList *l;
@@ -1226,7 +666,7 @@ format_match (char const *text, GnmFormat *cur_fmt,
 
 	/* Fall back to checking the set of canned formats */
 	for (l = format_match_list; l; l = l->next) {
-		GnmFormat *fmt = l->data;
+		GOFormat *fmt = l->data;
 #ifdef DEBUG_NUMBER_MATCH
 		printf ("test: %s \'%s\'\n", fmt->format, fmt->regexp_str);
 #endif
@@ -1281,8 +721,8 @@ format_match (char const *text, GnmFormat *cur_fmt,
  * resulting value.  Will ONLY return numbers.
  */
 GnmValue *
-format_match_number (char const *text, GnmFormat *cur_fmt,
-		     GnmDateConventions const *date_conv)
+format_match_number (char const *text, GOFormat *cur_fmt,
+		     GODateConventions const *date_conv)
 {
 	GnmValue *res = format_match (text, cur_fmt, date_conv);
 

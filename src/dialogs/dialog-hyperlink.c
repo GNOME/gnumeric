@@ -37,7 +37,8 @@
 #include <sheet-style.h>
 #include <value.h>
 #include <workbook-edit.h>
-#include <glib/gi18n.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/utils/go-file.h>
 
 #include <gtk/gtkbox.h>
 #include <gtk/gtkimage.h>
@@ -49,7 +50,8 @@
 #include <gtk/gtkcelllayout.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gtk/gtkcellrendererpixbuf.h>
-#include <goffice/utils/go-file.h>
+#include <glib/gi18n.h>
+
 #include <string.h>
 
 typedef struct {
@@ -511,7 +513,7 @@ dialog_hyperlink (WorkbookControlGUI *wbcg, SheetControl *sc)
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"hyperlink.glade", NULL, NULL);
         if (gui == NULL)
                 return;

@@ -41,7 +41,7 @@
 #include "mathfunc.h"
 #include "cell.h"
 #include "commands.h"
-#include "format.h"
+#include <src/gnm-format.h>
 #include "number-match.h"
 #include "mstyle.h"
 #include "style-border.h"
@@ -143,7 +143,7 @@ get_table_float_entry (GtkTable *t, int y, int x, GnmCell *cell, gnm_float *numb
 		       GtkEntry **wp, gboolean with_default, gnm_float default_float)
 {
 	GList *l;
-	GnmFormat *format;
+	GOFormat *format;
 
 	*wp = NULL;
 	for (l = t->children; l; l = l->next) {
@@ -330,7 +330,7 @@ dialog_tabulate (WorkbookControlGUI *wbcg, Sheet *sheet)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, TABULATE_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"tabulate.glade", NULL, NULL);
         if (gui == NULL)
                 return;

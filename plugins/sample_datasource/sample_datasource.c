@@ -25,12 +25,11 @@
 #include <gnumeric.h>
 
 #include "func.h"
-#include "plugin.h"
+#include <goffice/app/go-plugin.h>
 #include "value.h"
 #include "workbook.h"
 #include "sheet.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/module-plugin-defs.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -141,8 +140,8 @@ cb_atl_input (GIOChannel *gioc, GIOCondition cond, gpointer ignored)
 	return TRUE;
 }
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	GIOChannel *channel = NULL;
 	char *filename;
@@ -180,8 +179,8 @@ plugin_init (void)
 /* TODO : init and cleanup should be given CommandContexts
  * to make things tidier
  */
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 	fprintf (stderr, "UNLOAD ATL >>>>>>>>>>>>>>>>>>>>>>>>>>>>\n");
 

@@ -32,10 +32,9 @@
 #include <guile/gh.h>
 #include <gnome.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "error-info.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/error-info.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "expr.h"
 #include "expr-impl.h"
 #include "gutils.h"
@@ -214,14 +213,8 @@ scm_register_function (SCM scm_name, SCM scm_args, SCM scm_help, SCM scm_categor
 	return SCM_UNSPECIFIED;
 }
 
-void
-plugin_cleanup_general (ErrorInfo **ret_error)
-{
-	*ret_error = NULL;
-}
-
-void
-plugin_init_general (ErrorInfo **ret_error)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *p, GOCmdContext *cc)
 {
 	char *name, *dir;
 

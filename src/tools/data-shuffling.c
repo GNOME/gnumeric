@@ -134,14 +134,14 @@ do_swap_cells (data_shuffling_t *st, swap_t *sw)
 		    sw->a.row);
         reverse.col_offset = st->tmp_area.start.col - sw->a.col;
         reverse.row_offset = st->tmp_area.start.row - sw->a.row;
-	sheet_move_range (&reverse, NULL, GNM_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
 
 	/* Move B to A. */
 	range_init (&reverse.origin, sw->b.col, sw->b.row, sw->b.col,
 		    sw->b.row);
         reverse.col_offset = sw->a.col - sw->b.col;
         reverse.row_offset = sw->a.row - sw->b.row;
-	sheet_move_range (&reverse, NULL, GNM_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
 
 	/* Move tmp_area to B. */
 	range_init (&reverse.origin, st->tmp_area.start.col,
@@ -149,7 +149,7 @@ do_swap_cells (data_shuffling_t *st, swap_t *sw)
 		    st->tmp_area.end.col, st->tmp_area.end.row);
         reverse.col_offset = sw->b.col - st->tmp_area.start.col;
         reverse.row_offset = sw->b.row - st->tmp_area.start.row;
-	sheet_move_range (&reverse, NULL, GNM_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
 }
 
 static void
@@ -167,14 +167,14 @@ do_swap_cols (data_shuffling_t *st, swap_t *sw)
 		    st->b_row);
         reverse.col_offset = st->tmp_area.start.col - sw->a.col;
         reverse.row_offset = st->tmp_area.start.row - st->a_row;
-	sheet_move_range (&reverse, NULL, GNM_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
 
 	/* Move B to A. */
 	range_init (&reverse.origin, sw->b.col, st->a_row, sw->b.col,
 		    st->b_row);
         reverse.col_offset = sw->a.col - sw->b.col;
         reverse.row_offset = 0;
-	sheet_move_range (&reverse, NULL, GNM_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
 
 	/* Move tmp_area to B. */
 	range_init (&reverse.origin, st->tmp_area.start.col,
@@ -182,7 +182,7 @@ do_swap_cols (data_shuffling_t *st, swap_t *sw)
 		    st->tmp_area.end.col, st->tmp_area.end.row);
         reverse.col_offset = sw->b.col - st->tmp_area.start.col;
         reverse.row_offset = st->a_row - st->tmp_area.start.row;
-	sheet_move_range (&reverse, NULL, GNM_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
 }
 
 static void
@@ -200,14 +200,14 @@ do_swap_rows (data_shuffling_t *st, swap_t *sw)
 		    sw->a.row);
         reverse.col_offset = st->tmp_area.start.col - st->a_col;
         reverse.row_offset = st->tmp_area.start.row - sw->a.row;
-	sheet_move_range (&reverse, NULL, GNM_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
 
 	/* Move B to A. */
 	range_init (&reverse.origin, st->a_col, sw->b.row, st->b_col,
 		    sw->b.row);
         reverse.col_offset = 0;
         reverse.row_offset = sw->a.row - sw->b.row;
-	sheet_move_range (&reverse, NULL, GNM_CMD_CONTEXT (st->wbc));
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));
 
 	/* Move tmp_area to B. */
 	range_init (&reverse.origin, st->tmp_area.start.col,
@@ -215,7 +215,7 @@ do_swap_rows (data_shuffling_t *st, swap_t *sw)
 		    st->tmp_area.end.col, st->tmp_area.end.row);
         reverse.col_offset = st->a_col - st->tmp_area.start.col;
         reverse.row_offset = sw->b.row - st->tmp_area.start.row;
-	sheet_move_range (&reverse, NULL, GNM_CMD_CONTEXT (st->wbc));	
+	sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (st->wbc));	
 }
 
 static void

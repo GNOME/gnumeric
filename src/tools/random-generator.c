@@ -39,7 +39,7 @@
 #include "style.h"
 #include "sheet-style.h"
 #include "workbook.h"
-#include "format.h"
+#include <src/gnm-format.h>
 #include "command-context.h"
 #include "sheet-object-cell-comment.h"
 
@@ -103,7 +103,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 		if (cell == NULL ||
 		    (v = cell->value) == NULL ||
 		    !VALUE_IS_NUMBER (v)) {
-			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->wbc),
+			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
 					 _("The probability input range "
 					   "contains a non-numeric value.\n"
 					   "All probabilities must be "
@@ -111,7 +111,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 			goto random_tool_discrete_out;
 		}
 		if ((thisprob = value_get_as_float (v)) < 0) {
-			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->wbc),
+			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
 					 _("The probability input range "
 					   "contains a negative number.\n"
 					   "All probabilities must be "
@@ -126,7 +126,7 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 				       range->v_range.cell.a.col, i);
 
 		if (cell == NULL || cell->value == NULL) {
-			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->wbc),
+			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
 					 _("None of the values in the value "
 					   "range may be empty!"));
 			goto random_tool_discrete_out;
@@ -142,8 +142,8 @@ tool_random_engine_run_discrete_last_check (G_GNUC_UNUSED data_analysis_output_t
 		}
 		return FALSE;
 	}
-	gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->wbc),
-			 _("The probabilities may not all be 0!"));
+	gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
+		_("The probabilities may not all be 0!"));
 
  random_tool_discrete_out:
 	tool_random_engine_run_discrete_clear_continuity (continuity);
@@ -200,13 +200,13 @@ tool_random_engine_run_uniform_int (data_analysis_output_t *dao,
 				    uniform_random_tool_t *param)
 {
 	int        i, n;
-	gnm_float lower = floorgnum (param->lower_limit);
-	gnm_float range = floorgnum (param->upper_limit) - lower;
+	gnm_float lower = gnm_floor (param->lower_limit);
+	gnm_float range = gnm_floor (param->upper_limit) - lower;
 
 	for (i = 0; i < info->n_vars; i++) {
 		for (n = 0; n < info->count; n++) {
 			gnm_float v;
-			v = floorgnum (0.5 + range * random_01 ()) + lower;
+			v = gnm_floor (0.5 + range * random_01 ()) + lower;
 			dao_set_cell_float (dao, i, n, v);
 		}
 	}

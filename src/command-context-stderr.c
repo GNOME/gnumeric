@@ -1,20 +1,20 @@
 /* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
- * command-context-stderr.c : Error dispatch for line oriented clients
+ * command-context-stderr.c : Error dispatch for line oriented client
  *
  * Author:
  * 	Jon K Hellan <hellan@acm.org>
  *
- * (C) 2002 Jon K Hellan
+ * (C) 2002-2005 Jon K Hellan
  */
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <stdio.h>
 #include "gnumeric.h"
 #include "command-context-stderr.h"
-#include "command-context-priv.h"
 #include <gsf/gsf-impl-utils.h>
-#include "error-info.h"
+#include <goffice/app/error-info.h>
+#include <goffice/app/go-cmd-context-impl.h>
 #include "ranges.h"
 
 struct _CmdContextStderr {
@@ -26,7 +26,7 @@ typedef GObjectClass CmdContextStderrClass;
 #define COMMAND_CONTEXT_STDERR_CLASS(k) \
 	(G_TYPE_CHECK_CLASS_CAST ((k), CMD_CONTEXT_STDERR_TYPE, CmdContextStderrClass))
 
-GnmCmdContext *
+GOCmdContext *
 cmd_context_stderr_new (void)
 {
 	return g_object_new (CMD_CONTEXT_STDERR_TYPE, NULL);
@@ -51,7 +51,7 @@ cmd_context_stderr_get_status (CmdContextStderr *ccs)
 }
 
 static void
-ccs_error_error (GnmCmdContext *cc, GError *error)
+ccs_error_error (GOCmdContext *cc, GError *error)
 {
 	CmdContextStderr *ccs = COMMAND_CONTEXT_STDERR (cc);
 
@@ -59,7 +59,7 @@ ccs_error_error (GnmCmdContext *cc, GError *error)
 	ccs->status = -1;
 }
 static void
-ccs_error_info (GnmCmdContext *cc, ErrorInfo *error)
+ccs_error_info (GOCmdContext *cc, ErrorInfo *error)
 {
 	CmdContextStderr *ccs = COMMAND_CONTEXT_STDERR (cc);
 
@@ -68,24 +68,24 @@ ccs_error_info (GnmCmdContext *cc, ErrorInfo *error)
 }
 
 static char *
-ccs_get_password (G_GNUC_UNUSED GnmCmdContext *cc,
+ccs_get_password (G_GNUC_UNUSED GOCmdContext *cc,
 		  G_GNUC_UNUSED char const* filename)
 {
 	return NULL;
 }
 static void
-ccs_set_sensitive (G_GNUC_UNUSED GnmCmdContext *cc,
+ccs_set_sensitive (G_GNUC_UNUSED GOCmdContext *cc,
 		   G_GNUC_UNUSED gboolean sensitive)
 {
 }
 
 static void
-ccs_progress_set (GnmCmdContext *cc, gfloat val)
+ccs_progress_set (GOCmdContext *cc, gfloat val)
 {
 }
 
 static void
-ccs_progress_message_set (GnmCmdContext *cc, gchar const *msg)
+ccs_progress_message_set (GOCmdContext *cc, gchar const *msg)
 {
 }
 
@@ -96,7 +96,7 @@ ccs_init (CmdContextStderr *ccs)
 }
 
 static void
-ccs_gnm_cmd_context_init (GnmCmdContextClass *cc_class)
+ccs_gnm_cmd_context_init (GOCmdContextClass *cc_class)
 {
 	cc_class->get_password		= ccs_get_password;
 	cc_class->set_sensitive	   	= ccs_set_sensitive;
@@ -109,4 +109,4 @@ ccs_gnm_cmd_context_init (GnmCmdContextClass *cc_class)
 GSF_CLASS_FULL (CmdContextStderr, cmd_context_stderr,
 		NULL, ccs_init,
 		G_TYPE_OBJECT, 0,
-		GSF_INTERFACE (ccs_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))
+		GSF_INTERFACE (ccs_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))

@@ -2,7 +2,7 @@
 #define GNUMERIC_TABULATE_H
 
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 #include "dao.h"
 #include "tools.h"
 

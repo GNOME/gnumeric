@@ -1,5 +1,5 @@
 /*
- * error-info.c: ErrorInfo structure.
+ * error-info.c:<goffice/app/ErrorInfo structure>
  *
  * Author:
  *   Zbigniew Chyla (cyba@gnome.pl)
@@ -7,7 +7,7 @@
 
 #include <gnumeric-config.h>
 #include "gnumeric.h"
-#include "error-info.h"
+#include <goffice/app/error-info.h>
 
 #include <stdio.h>
 #include <errno.h>

@@ -19,11 +19,12 @@
 #ifndef GO_GUI_UTILS_H
 #define GO_GUI_UTILS_H
 
-G_BEGIN_DECLS
-
 #include <gtk/gtkwidget.h>
 #include <glade/glade-xml.h>
+#include <gtk/gtkfilechooser.h>
 #include <goffice/app/goffice-app.h>
+
+G_BEGIN_DECLS
 
 void	   go_editable_enters (GtkWindow *window, GtkWidget *w);
 
@@ -35,6 +36,19 @@ GladeXML  *go_libglade_new (char const *gladefile, char const *root,
 
 GdkPixbuf *go_pixbuf_intelligent_scale (GdkPixbuf *pixbuf, 
 					guint width, guint height);
+
+void	   go_widget_disable_focus	  (GtkWidget *w);
+int	   go_measure_string		  (PangoContext *context,
+					   PangoFontDescription const *font_desc,
+					   char const *str);
+
+void       go_window_set_transient   (GtkWindow *parent, GtkWindow *window);
+void       gnumeric_non_modal_dialog (GtkWindow *toplevel, GtkWindow *dialog);
+char	  *gui_image_file_select     (GtkWindow *toplevel, const char *initial);
+GtkFileChooser *gui_image_chooser_new (gboolean is_save);
+void	   gnm_setup_label_atk	     (GtkWidget *label, GtkWidget *target);
+gboolean   gnumeric_dialog_file_selection (GtkWindow *toplevel, 
+					   GtkWidget *w);
 
 G_END_DECLS
 

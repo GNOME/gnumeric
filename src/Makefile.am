@@ -67,7 +67,6 @@ GNUMERIC_BASE =					\
 	complete-sheet.h			\
 	command-context.c			\
 	command-context.h			\
-	command-context-priv.h			\
 	command-context-stderr.c		\
 	command-context-stderr.h		\
 	consolidate.c				\
@@ -77,10 +76,6 @@ GNUMERIC_BASE =					\
 	io-context-priv.h			\
 	complex.h				\
 	complex.c				\
-	dates.c					\
-	dates.h					\
-	datetime.c				\
-	datetime.h				\
 	dependent.h				\
 	dependent.c				\
 	error-info.c				\
@@ -90,22 +85,18 @@ GNUMERIC_BASE =					\
 	expr-impl.h				\
 	expr-name.c				\
 	expr-name.h				\
-	file.c					\
-	file.h					\
-	file-priv.h				\
 	file-autoft.c				\
 	file-autoft.h				\
 	format-template.h			\
 	format-template.c			\
-	formats.c				\
 	func.c					\
 	func.h					\
 	func-builtin.c				\
 	func-builtin.h				\
-	format.c				\
-	format.h				\
-	global-gnome-font.c			\
-	global-gnome-font.h			\
+	gnm-format.c				\
+	gnm-format.h				\
+	gnm-datetime.c				\
+	gnm-datetime.h				\
 	gnumeric-simple-canvas.c		\
 	gnumeric-simple-canvas.h		\
 	gnumeric-canvas.c			\
@@ -115,6 +106,8 @@ GNUMERIC_BASE =					\
 	gnumeric.h				\
 	graph.c					\
 	graph.h					\
+	gutils.c				\
+	gutils.h				\
 	gui-clipboard.c				\
 	gui-clipboard.h				\
 	gui-file.c				\
@@ -122,8 +115,6 @@ GNUMERIC_BASE =					\
 	gui-util.c				\
 	gui-util.h				\
 	gui-gnumeric.h				\
-	gutils.c				\
-	gutils.h				\
 	hlink.c					\
 	hlink.h					\
 	hlink-impl.h				\
@@ -147,12 +138,10 @@ GNUMERIC_BASE =					\
 	libgnumeric.c				\
 	mathfunc.c				\
 	mathfunc.h				\
-	module-plugin-defs.h			\
 	mstyle.c				\
 	mstyle.h				\
 	number-match.c				\
 	number-match.h				\
-	numbers.h				\
 	parser.y				\
 	parse-util.c				\
 	parse-util.h				\
@@ -160,17 +149,6 @@ GNUMERIC_BASE =					\
 	pattern.c				\
 	pivottable.h				\
 	pivottable.c				\
-	plugin-loader-module.c			\
-	plugin-loader-module.h			\
-	plugin-loader.c				\
-	plugin-loader.h				\
-	plugin-service.c			\
-	plugin-service.h			\
-	plugin-service-impl.h			\
-	plugin-util.c				\
-	plugin-util.h				\
-	plugin.c				\
-	plugin.h				\
 	position.c				\
 	position.h				\
 	preview-grid.c				\
@@ -190,8 +168,6 @@ GNUMERIC_BASE =					\
 	ranges.h				\
 	regression.c				\
 	regression.h				\
-	regutf8.c				\
-	regutf8.h				\
 	rendered-value.c			\
 	rendered-value.h			\
 	search.h				\
@@ -234,6 +210,8 @@ GNUMERIC_BASE =					\
 	sheet-object-widget.h			\
 	sheet-style.c				\
 	sheet-style.h				\
+	gnm-plugin.c				\
+	gnm-plugin.h				\
 	solver.h				\
 	sort.c					\
 	sort.h					\

@@ -307,6 +307,7 @@ go_locale_languages (void)
   return list;
 }
 #else
+#undef GNOME_DISABLE_DEPRECATED
 #include <libgnome/gnome-i18n.h>
 
 GList const *

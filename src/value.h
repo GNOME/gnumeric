@@ -4,7 +4,7 @@
 #include <glib.h>
 #include "gnumeric.h"
 #include "position.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 
 typedef enum {
 	/* Use magic values to act as a signature
@@ -24,43 +24,43 @@ typedef enum {
 
 typedef struct {
 	GnmValueType const type;
-	GnmFormat *fmt;
+	GOFormat *fmt;
 } GnmValueAny;
 struct _GnmValueBool {
 	GnmValueType const type;
-	GnmFormat *fmt;
+	GOFormat *fmt;
 	gboolean val;
 };
 struct _GnmValueInt {
 	GnmValueType const type;
-	GnmFormat *fmt;
+	GOFormat *fmt;
 	int val;
 };
 struct _GnmValueFloat {
 	GnmValueType const type;
-	GnmFormat *fmt;
+	GOFormat *fmt;
 	gnm_float val;
 };
 struct _GnmValueErr {
 	GnmValueType const type;
-	GnmFormat *fmt;
+	GOFormat *fmt;
 	GnmString   *mesg;
 	/* Currently unused.  Intended to support audit functions */
 	GnmEvalPos  src;
 };
 struct _GnmValueStr {
 	GnmValueType const type;
-	GnmFormat *fmt;
+	GOFormat *fmt;
 	GnmString   *val;
 };
 struct _GnmValueRange {
 	GnmValueType const type;
-	GnmFormat *fmt;
+	GOFormat *fmt;
 	GnmRangeRef cell;
 };
 struct _GnmValueArray {
 	GnmValueType const type;
-	GnmFormat *fmt;
+	GOFormat *fmt;
 	int x, y;
 	GnmValue ***vals;  /* Array [x][y] */
 };
@@ -120,10 +120,10 @@ GnmValue *value_new_array            (guint cols, guint rows);
 GnmValue *value_new_array_empty      (guint cols, guint rows);
 GnmValue *value_new_array_non_init   (guint cols, guint rows);
 GnmValue *value_new_from_string	     (GnmValueType t, char const *str,
-				      GnmFormat *sf, gboolean translated);
+				      GOFormat *sf, gboolean translated);
 
 void        value_release	   (GnmValue *v);
-void	    value_set_fmt	   (GnmValue *v, GnmFormat const *fmt);
+void	    value_set_fmt	   (GnmValue *v, GOFormat const *fmt);
 void        value_dump		   (GnmValue const *v);
 GnmValue   *value_dup		   (GnmValue const *v);
 
@@ -191,7 +191,7 @@ void	parse_criteria		(GnmValue *criteria,
 				 criteria_test_fun_t *fun,
 				 GnmValue **test_value,
 				 CellIterFlags *iter_flags,
-				 GnmDateConventions const *date_conv);
+				 GODateConventions const *date_conv);
 void	free_criterias		(GSList *criterias);
 GSList *find_rows_that_match	(Sheet *sheet, int first_col,
 				 int first_row, int last_col, int last_row,

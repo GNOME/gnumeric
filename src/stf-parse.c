@@ -39,8 +39,8 @@
 #include "number-match.h"
 #include "gutils.h"
 #include "parse-util.h"
-#include "format.h"
-#include "datetime.h"
+#include "gnm-format.h"
+#include <goffice/utils/datetime.h>
 
 #include <stdlib.h>
 #include <locale.h>
@@ -207,7 +207,7 @@ stf_parse_options_free (StfParseOptions_t *parseoptions)
 		GPtrArray *formats = parseoptions->formats;
 
 		for (ui = 0; ui < formats->len; ui++) {
-			GnmFormat *sf = g_ptr_array_index (formats, ui);
+			GOFormat *sf = g_ptr_array_index (formats, ui);
 			style_format_unref (sf);
 		}
 		g_ptr_array_free (formats, TRUE);
@@ -1146,7 +1146,7 @@ stf_parse_sheet (StfParseOptions_t *parseoptions,
 {
 	int row, col;
 	unsigned int lrow, lcol;
-	GnmDateConventions const *date_conv;
+	GODateConventions const *date_conv;
 	GStringChunk *lines_chunk;
 	GPtrArray *lines, *line;
 
@@ -1221,7 +1221,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 		GPtrArray *line = g_ptr_array_index (lines, row);
 		unsigned int col, targetcol = 0;
 #warning "FIXME: We should not just assume the 1900 convention "
-		GnmDateConventions date_conv = {FALSE};
+		GODateConventions date_conv = {FALSE};
 
 		for (col = 0; col < line->len; col++) {
 			if (parseoptions->col_import_array == NULL ||
@@ -1232,7 +1232,7 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 				if (text) {
 					CellCopy *ccopy;
 					GnmValue *v;
-					GnmFormat *fmt = g_ptr_array_index
+					GOFormat *fmt = g_ptr_array_index
 						(parseoptions->formats, col);
 
 					v = format_match (text, fmt, &date_conv);

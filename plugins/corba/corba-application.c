@@ -29,8 +29,7 @@
 #include <application.h>
 #include <workbook-priv.h>
 #include <workbook-view.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
+#include <goffice/app/module-plugin-defs.h>
 #include <io-context.h>
 #include <command-context.h>
 #include <command-context-stderr.h>
@@ -66,7 +65,7 @@ capp_workbook_open (PortableServer_Servant ignore,
 		else
 			wbv = NULL;
 	} else {
-		GnmCmdContext *cc = cmd_context_stderr_new ();
+		GOCmdContext *cc = cmd_context_stderr_new ();
 		IOContext *io_context = gnumeric_io_context_new (cc);
 		wbv = wb_view_new_from_uri (file_name, NULL, io_context, NULL);
 		g_object_unref (G_OBJECT (io_context));
@@ -113,8 +112,8 @@ static BONOBO_TYPE_FUNC_FULL (CorbaApplication,
 /***************************************************************/
 static CorbaApplication *capp = NULL;
 
-void
-plugin_init_general (ErrorInfo **ret_error)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *p, GOCmdContext *cc)
 {
 	if (capp)
 		return;
@@ -138,8 +137,8 @@ plugin_init_general (ErrorInfo **ret_error)
 	}
 }
 
-void
-plugin_cleanup_general (ErrorInfo **ret_error)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *p, GOCmdContext *cc)
 {
 	if (capp) {
 		bonobo_activation_unregister_active_server (

@@ -27,7 +27,7 @@
 #include "ranges.h"
 #include "sheet.h"
 #include "expr.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "style.h"
 #include "style-border.h"
 #include "style-color.h"
@@ -270,9 +270,9 @@ union _CellTile {
 
 #if USE_TILE_POOLS
 static int tile_pool_users;
-static GnmMemChunk *tile_pools[5];
-#define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
-#define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
+static GOMemChunk *tile_pools[5];
+#define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
+#define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
 #else
 #define CHUNK_ALLOC(T,c) g_new (T,1)
 #define CHUNK_FREE(p,v) g_free ((v))
@@ -466,19 +466,19 @@ sheet_style_init (Sheet *sheet)
 #if USE_TILE_POOLS
 	if (tile_pool_users++ == 0) {
 		tile_pools[TILE_SIMPLE] =
-			gnm_mem_chunk_new ("simple tile pool",
+			go_mem_chunk_new ("simple tile pool",
 					   sizeof (CellTileStyleSimple),
 					   16 * 1024 - 128);
 		tile_pools[TILE_COL] =
-			gnm_mem_chunk_new ("column tile pool",
+			go_mem_chunk_new ("column tile pool",
 					   sizeof (CellTileStyleCol),
 					   16 * 1024 - 128);
 		tile_pools[TILE_ROW] =
-			gnm_mem_chunk_new ("row tile pool",
+			go_mem_chunk_new ("row tile pool",
 					   sizeof (CellTileStyleRow),
 					   16 * 1024 - 128);
 		tile_pools[TILE_MATRIX] =
-			gnm_mem_chunk_new ("matrix tile pool",
+			go_mem_chunk_new ("matrix tile pool",
 					   sizeof (CellTileStyleMatrix),
 					   MAX (16 * 1024 - 128,
 						100 * sizeof (CellTileStyleMatrix)));
@@ -568,24 +568,24 @@ sheet_style_shutdown (Sheet *sheet)
 
 #if USE_TILE_POOLS
 	if (--tile_pool_users == 0) {
-		gnm_mem_chunk_foreach_leak (tile_pools[TILE_SIMPLE],
+		go_mem_chunk_foreach_leak (tile_pools[TILE_SIMPLE],
 					    cb_tile_pool_leak, NULL);
-		gnm_mem_chunk_destroy (tile_pools[TILE_SIMPLE], FALSE);
+		go_mem_chunk_destroy (tile_pools[TILE_SIMPLE], FALSE);
 		tile_pools[TILE_SIMPLE] = NULL;
 
-		gnm_mem_chunk_foreach_leak (tile_pools[TILE_COL],
+		go_mem_chunk_foreach_leak (tile_pools[TILE_COL],
 					    cb_tile_pool_leak, NULL);
-		gnm_mem_chunk_destroy (tile_pools[TILE_COL], FALSE);
+		go_mem_chunk_destroy (tile_pools[TILE_COL], FALSE);
 		tile_pools[TILE_COL] = NULL;
 
-		gnm_mem_chunk_foreach_leak (tile_pools[TILE_ROW],
+		go_mem_chunk_foreach_leak (tile_pools[TILE_ROW],
 					    cb_tile_pool_leak, NULL);
-		gnm_mem_chunk_destroy (tile_pools[TILE_ROW], FALSE);
+		go_mem_chunk_destroy (tile_pools[TILE_ROW], FALSE);
 		tile_pools[TILE_ROW] = NULL;
 
-		gnm_mem_chunk_foreach_leak (tile_pools[TILE_MATRIX],
+		go_mem_chunk_foreach_leak (tile_pools[TILE_MATRIX],
 					    cb_tile_pool_leak, NULL);
-		gnm_mem_chunk_destroy (tile_pools[TILE_MATRIX], FALSE);
+		go_mem_chunk_destroy (tile_pools[TILE_MATRIX], FALSE);
 		tile_pools[TILE_MATRIX] = NULL;
 
 		/* If this fails one day, just make two pools.  */

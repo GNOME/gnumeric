@@ -201,7 +201,7 @@ char const *gnm_expr_char_start_p (char const *c);
 void	    parse_text_value_or_expr (GnmParsePos const *pos,
 				      char const *text,
 				      GnmValue **val, GnmExpr const **expr,
-				      GnmFormat *current_format,
-				      GnmDateConventions const *date_conv);
+				      GOFormat *current_format,
+				      GODateConventions const *date_conv);
 
 #endif /* GNUMERIC_PARSE_UTIL_H */

@@ -37,9 +37,8 @@
 #include <cell.h>
 #include <collect.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -342,7 +341,7 @@ gnumeric_randbetween (FunctionEvalInfo *ei, GnmValue **argv)
 	if (bottom > top)
 		return value_new_error_NUM (ei->pos);
 
-	r = bottom + floorgnum ((top + 1.0 - bottom) * random_01 ());
+	r = bottom + gnm_floor ((top + 1.0 - bottom) * random_01 ());
 	return value_new_int ((int)r);
 }
 

@@ -19,7 +19,7 @@
 #include "workbook.h"
 #include "application.h"
 #include "dialogs.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "sheet.h"
 #include "commands.h"
 #include "style-border.h"

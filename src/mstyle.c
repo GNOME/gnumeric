@@ -18,7 +18,7 @@
 #include "style-font.h"
 #include "validation.h"
 #include "pattern.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "sheet-style.h"
 #include "application.h"
 #include "gutils.h"
@@ -32,10 +32,10 @@
 
 #if USE_MSTYLE_POOL
 /* Memory pool for mstyles.  */
-static GnmMemChunk *mstyle_pool;
-#define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
-#define CHUNK_ALLOC0(T,p) ((T*)gnm_mem_chunk_alloc0 (p))
-#define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
+static GOMemChunk *mstyle_pool;
+#define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
+#define CHUNK_ALLOC0(T,p) ((T*)go_mem_chunk_alloc0 (p))
+#define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
 #else
 #define CHUNK_ALLOC(T,c) g_new (T,1)
 #define CHUNK_ALLOC0(T,c) g_new0 (T,1)
@@ -72,7 +72,7 @@ typedef struct {
 			gboolean  strikethrough;
 			float     size;
 		}                font;
-		GnmFormat     *format;
+		GOFormat     *format;
 		union {
 			guint16   v;
 			guint16   h;
@@ -273,15 +273,15 @@ mstyle_element_dump (const MStyleElement *e)
 		break;
 	case MSTYLE_COLOR_BACK:
 		g_string_printf (ans, "\tbackground col %hx:%hx:%hx\n",
-				 e->u.color.any->color.red,
-				 e->u.color.any->color.green,
-				 e->u.color.any->color.blue);
+				 e->u.color.any->gdk_color.red,
+				 e->u.color.any->gdk_color.green,
+				 e->u.color.any->gdk_color.blue);
 		break;
 	case MSTYLE_COLOR_PATTERN:
 		g_string_printf (ans, "\tpattern col %hx:%hx:%hx\n",
-				 e->u.color.any->color.red,
-				 e->u.color.any->color.green,
-				 e->u.color.any->color.blue);
+				 e->u.color.any->gdk_color.red,
+				 e->u.color.any->gdk_color.green,
+				 e->u.color.any->gdk_color.blue);
 		break;
 	case MSTYLE_BORDER_TOP:
 	case MSTYLE_BORDER_BOTTOM:
@@ -301,9 +301,9 @@ mstyle_element_dump (const MStyleElement *e)
 
 	case MSTYLE_COLOR_FORE:
 		g_string_printf (ans, "\tforegnd col %hx:%hx:%hx\n",
-				 e->u.color.any->color.red,
-				 e->u.color.any->color.green,
-				 e->u.color.any->color.blue);
+				 e->u.color.any->gdk_color.red,
+				 e->u.color.any->gdk_color.green,
+				 e->u.color.any->gdk_color.blue);
 		break;
 	case MSTYLE_FONT_NAME:
 		g_string_printf (ans, "\tname '%s'\n", e->u.font.name->str);
@@ -1359,7 +1359,7 @@ mstyle_get_font_size (const GnmStyle *style)
 }
 
 void
-mstyle_set_format (GnmStyle *style, GnmFormat *format)
+mstyle_set_format (GnmStyle *style, GOFormat *format)
 {
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (format != NULL);
@@ -1373,7 +1373,7 @@ mstyle_set_format (GnmStyle *style, GnmFormat *format)
 void
 mstyle_set_format_text (GnmStyle *style, const char *format)
 {
-	GnmFormat *sf;
+	GOFormat *sf;
 
 	g_return_if_fail (style != NULL);
 	g_return_if_fail (format != NULL);
@@ -1387,7 +1387,7 @@ mstyle_set_format_text (GnmStyle *style, const char *format)
 	style_format_unref (sf);
 }
 
-GnmFormat *
+GOFormat *
 mstyle_get_format (GnmStyle const *style)
 {
 	g_return_val_if_fail (mstyle_is_element_set (style, MSTYLE_FORMAT), NULL);
@@ -1669,7 +1669,7 @@ mstyle_get_pango_attrs (const GnmStyle *mstyle,
 	if (0) {
 		const GnmColor *fore = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
 		add_attr (l, pango_attr_foreground_new (
-			fore->color.red, fore->color.green, fore->color.blue));
+			fore->gdk_color.red, fore->gdk_color.green, fore->gdk_color.blue));
 	}
 
 	/* Handle underlining.  */
@@ -1711,7 +1711,7 @@ mstyle_generate_attrs_full (GnmStyle const *st)
 	add_attr (l, pango_attr_weight_new (mstyle_get_font_bold (st)
 		? PANGO_WEIGHT_BOLD : PANGO_WEIGHT_NORMAL));
 	add_attr (l, pango_attr_foreground_new (
-		fore->color.red, fore->color.green, fore->color.blue));
+		fore->gdk_color.red, fore->gdk_color.green, fore->gdk_color.blue));
 	add_attr (l, pango_attr_strikethrough_new (mstyle_get_font_strike (st)));
 	switch (mstyle_get_font_uline (st)) {
 	case UNDERLINE_SINGLE :
@@ -1781,7 +1781,7 @@ mstyle_init (void)
 {
 #if USE_MSTYLE_POOL
 	mstyle_pool =
-		gnm_mem_chunk_new ("mstyle pool",
+		go_mem_chunk_new ("mstyle pool",
 				   sizeof (GnmStyle),
 				   16 * 1024 - 128);
 #endif
@@ -1801,8 +1801,8 @@ void
 mstyle_shutdown (void)
 {
 #if USE_MSTYLE_POOL
-	gnm_mem_chunk_foreach_leak (mstyle_pool, cb_mstyle_pool_leak, NULL);
-	gnm_mem_chunk_destroy (mstyle_pool, FALSE);
+	go_mem_chunk_foreach_leak (mstyle_pool, cb_mstyle_pool_leak, NULL);
+	go_mem_chunk_destroy (mstyle_pool, FALSE);
 	mstyle_pool = NULL;
 #endif
 }

@@ -27,6 +27,8 @@
 #define GNUMERIC_PLUGINS_MPS_H 1
 
 #include <gsf/gsf-input-textline.h>
+#include <goffice/utils/numbers.h>
+#include <gnumeric.h>
 
 #define N_INPUT_LINES_BETWEEN_UPDATES   50
 #define MAX_COL                         160

@@ -29,7 +29,7 @@
 
 #include <parse-util.h>
 #include <cell.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <str.h>
 #include <sheet.h>
 #include <workbook.h>
@@ -39,16 +39,15 @@
 #include <mathfunc.h>
 #include <rangefunc-strings.h>
 #include <collect.h>
-#include <regutf8.h>
+#include <goffice/utils/regutf8.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-msole-utils.h>
 
 #include <limits.h>
 #include <string.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -639,8 +638,8 @@ gnumeric_fixed (FunctionEvalInfo *ei, GnmValue **argv)
 
 	if (decimals <= 0) {
 		/* no decimal point : just round and pad 0's */
-		gnm_float mult = gpow10 (decimals);
-		num = (gnumeric_fake_round (num * mult) / mult);
+		gnm_float mult = gnm_pow10 (decimals);
+		num = (gnm_fake_round (num * mult) / mult);
 		fmt.right_req = fmt.right_allowed = 0;
 	} else /* decimal point format */
 		fmt.right_req = fmt.right_allowed = decimals;
@@ -814,8 +813,8 @@ gnumeric_text (FunctionEvalInfo *ei, GnmValue **args)
 {
 	GnmValue       *res, *match = NULL;
 	GnmValue const *v  = args[0];
-	GnmFormat *fmt;
-	GnmDateConventions const *conv =
+	GOFormat *fmt;
+	GODateConventions const *conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	if (v->type == VALUE_STRING) {
@@ -1014,7 +1013,7 @@ static GnmValue *
 gnumeric_dollar (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	FormatCharacteristics info;
-	GnmFormat *sf;
+	GOFormat *sf;
 	gnm_float p10;
 	GnmValue *v;
 	char *s, *end;
@@ -1026,11 +1025,11 @@ gnumeric_dollar (FunctionEvalInfo *ei, GnmValue **argv)
 		return value_new_error_VALUE (ei->pos);
 
 	/* Since decimals can be negative, round the number.  */
-	p10 = gpow10 (decimals);
+	p10 = gnm_pow10 (decimals);
 	if (p10 == 0)
 		number = 0; /* Underflow.  */
 	else
-		number = gnumeric_fake_round (number * p10) / p10;
+		number = gnm_fake_round (number * p10) / p10;
 
 	info = style_format_default_money ()->family_info;
 	info.num_decimals = MAX (decimals, 0);
@@ -1208,16 +1207,16 @@ const GnmFuncDescriptor string_functions[] = {
 };
 
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	int codepage = gsf_msole_iconv_win_codepage ();
 	CHAR_iconv = gsf_msole_iconv_open_for_import (codepage);
 	CODE_iconv = gsf_msole_iconv_open_for_export ();
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 	gsf_iconv_close (CHAR_iconv);
 	gsf_iconv_close (CODE_iconv);

@@ -1127,7 +1127,7 @@ yylex (void)
 			gnm_float d;
 
 			errno = 0;
-			d = strtognum (start, &end);
+			d = gnm_strto (start, &end);
 			if (start == end) {
 				g_warning ("%s is not a double, but was expected to be one", start);
 			}  else if (errno != ERANGE) {
@@ -1163,7 +1163,7 @@ yylex (void)
 				gnm_float d;
 
 				errno = 0;
-				d = strtognum (start, &end);
+				d = gnm_strto (start, &end);
 				if (errno != ERANGE) {
 					v = value_new_float (d);
 					state->ptr = end;

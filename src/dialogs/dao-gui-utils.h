@@ -29,7 +29,7 @@
 #define GNUMERIC_DAO_GUI_UTILS_H
 
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <glade/glade.h>
 #include "tool-dialogs.h"

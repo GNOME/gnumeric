@@ -33,7 +33,7 @@
 #include <expr.h>
 #include <commands.h>
 #include <dependent.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <value.h>
 #include <mstyle.h>
 #include <ranges.h>
@@ -102,7 +102,7 @@ goal_seek_eval (gnm_float x, gnm_float *y, void *vevaldata)
 
 	if (evaldata->ycell->value) {
 	        *y = value_get_as_float (evaldata->ycell->value) - evaldata->ytarget;
-		if (finitegnum (*y))
+		if (gnm_finite (*y))
 			return GOAL_SEEK_OK;
 	}
 
@@ -347,7 +347,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
   	gnm_float max_range_val = 1e24;
 	GnmValue *target;
 	GnmRangeRef const *r;
-	GnmFormat *format;
+	GOFormat *format;
 
 	if (state->warning_dialog != NULL)
 		gtk_widget_destroy (state->warning_dialog);
@@ -444,7 +444,7 @@ cb_dialog_apply_clicked (G_GNUC_UNUSED GtkWidget *button,
 	case GOAL_SEEK_OK: {
 		const char *actual_str;
 		const char *solution_str;
-		GnmFormat *format = style_format_general ();
+		GOFormat *format = style_format_general ();
 		GnmValue *error_value = value_new_float (state->target_value -
 						      value_get_as_float (state->set_cell->value));
   		char *target_str = format_value (format, error_value, NULL, 0,
@@ -637,7 +637,7 @@ dialog_goal_seek (WorkbookControlGUI *wbcg, Sheet *sheet)
 	/* Only pop up one copy per workbook */
 	if (gnumeric_dialog_raise_if_exists (wbcg, GOALSEEK_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"goalseek.glade", NULL, NULL);
         if (gui == NULL)
                 return;

@@ -37,7 +37,7 @@
 #include "workbook.h"
 #include "cell.h"
 #include "commands.h"
-#include "format.h"
+#include <src/gnm-format.h>
 #include "number-match.h"
 #include "mstyle.h"
 #include "style-border.h"
@@ -63,10 +63,10 @@ tabulation_eval (Workbook *wb, int dims, gnm_float const *x,
 		: value_new_error_VALUE (NULL);
 }
 
-static GnmFormat const *
+static GOFormat const *
 my_get_format (GnmCell const *cell)
 {
-	GnmFormat const *format = mstyle_get_format (cell_get_mstyle (cell));
+	GOFormat const *format = mstyle_get_format (cell_get_mstyle (cell));
 
 	if (style_format_is_general (format) &&
 	    cell->value != NULL && VALUE_FMT (cell->value) != NULL)
@@ -82,14 +82,14 @@ do_tabulation (WorkbookControl *wbc,
 	GSList *sheet_idx = NULL;
 	Sheet *sheet = NULL;
 	gboolean sheetdim = (!data->with_coordinates && data->dims >= 3);
-	GnmFormat const *targetformat = my_get_format (data->target);
+	GOFormat const *targetformat = my_get_format (data->target);
 	int row = 0;
 
 	gnm_float *values = g_new (gnm_float, data->dims);
 	int *index = g_new (int, data->dims);
 	int *counts = g_new (int, data->dims);
 	Sheet **sheets = NULL;
-	GnmFormat const **formats = g_new (GnmFormat const *, data->dims);
+	GOFormat const **formats = g_new (GOFormat const *, data->dims);
 
 	{
 		int i;
@@ -98,7 +98,7 @@ do_tabulation (WorkbookControl *wbc,
 			index[i] = 0;
 			formats[i] = my_get_format (data->cells[i]);
 
-			counts[i] = 1 + gnumeric_fake_floor ((data->maxima[i] - data->minima[i]) / data->steps[i]);
+			counts[i] = 1 + gnm_fake_floor ((data->maxima[i] - data->minima[i]) / data->steps[i]);
 			/* Silently truncate at the edges.  */
 			if (!data->with_coordinates && i == 0 && counts[i] > SHEET_MAX_COLS - 1) {
 				counts[i] = SHEET_MAX_COLS - 1;
@@ -111,7 +111,7 @@ do_tabulation (WorkbookControl *wbc,
 	if (sheetdim) {
 		int dim = 2;
 		gnm_float val = data->minima[dim];
-		GnmFormat const *sf = my_get_format (data->cells[dim]);
+		GOFormat const *sf = my_get_format (data->cells[dim]);
 		int i;
 
 		sheets = g_new (Sheet *, counts[dim]);

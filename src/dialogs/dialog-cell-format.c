@@ -40,7 +40,7 @@
 #include <cell.h>
 #include <expr.h>
 #include <value.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <pattern.h>
 #include <position.h>
 #include <mstyle.h>
@@ -55,7 +55,8 @@
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/widget-font-selector.h>
 #include <widgets/gnumeric-dashed-canvas-line.h>
-#include <widgets/widget-format-selector.h>
+#include <widgets/gnm-format-sel.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 #include <goffice/gui-utils/go-combo-color.h>
 #include <goffice/gui-utils/go-combo-box.h>
 #include <goffice/gui-utils/go-combo-text.h>
@@ -157,7 +158,7 @@ typedef struct _FormatState
 	int	 	 selection_mask;
 	gboolean	 enable_edit;
 
-	GtkWidget *	number_format_selector;
+	GtkWidget *	format_sel;
 
 	struct {
 		GtkCheckButton	*wrap;
@@ -385,7 +386,7 @@ setup_color_pickers (ColorPicker *picker,
 	cg = go_color_group_fetch (color_group,
 		 wb_control_view (WORKBOOK_CONTROL (state->wbcg)));
 	combo = go_combo_color_new (NULL, default_caption, 
-		def_sc ? GDK_TO_UINT (def_sc->color) : RGBA_BLACK, cg);
+		def_sc ? GDK_TO_UINT (def_sc->gdk_color) : RGBA_BLACK, cg);
 	go_combo_box_set_title (GO_COMBO_BOX (combo), caption);
 
 	/* Connect to the sample canvas and redraw it */
@@ -394,7 +395,7 @@ setup_color_pickers (ColorPicker *picker,
 		G_CALLBACK (preview_update), state);
 
 	go_combo_color_set_color_gdk (GO_COMBO_COLOR (combo),
-		(mcolor && !mcolor->is_auto) ? &mcolor->color : NULL);
+		(mcolor && !mcolor->is_auto) ? &mcolor->gdk_color : NULL);
 
 	frame = gtk_frame_new (NULL);
 	gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_OUT);
@@ -460,28 +461,27 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 static void
 fmt_dialog_init_format_page (FormatState *state)
 {
-	NumberFormatSelector *nfs;
+	GOFormatSel *gfs;
 
-	state->number_format_selector = number_format_selector_new ();
-	nfs = NUMBER_FORMAT_SELECTOR (state->number_format_selector);
+	state->format_sel = gnm_format_sel_new ();
+	gfs = GO_FORMAT_SEL (state->format_sel);
 
 	gtk_notebook_prepend_page (GTK_NOTEBOOK (state->notebook),
-				   state->number_format_selector,
+				   state->format_sel,
 				   gtk_label_new (_("Number")));
-	gtk_widget_show (GTK_WIDGET (nfs));
+	gtk_widget_show (GTK_WIDGET (gfs));
 
 	if (!mstyle_is_element_conflict (state->style, MSTYLE_FORMAT))
-		number_format_selector_set_style_format (nfs,
-							 mstyle_get_format (state->style));
+		go_format_sel_set_style_format (gfs,
+			mstyle_get_format (state->style));
 	if (state->value)
-		number_format_selector_set_value (nfs, state->value);
-	number_format_selector_set_date_conv (nfs,
-					      workbook_date_conv (state->sheet->workbook));
-	number_format_selector_editable_enters (nfs, GTK_WINDOW (state->dialog));
+		gnm_format_sel_set_value (gfs, state->value);
+	go_format_sel_set_dateconv (gfs,
+		workbook_date_conv (state->sheet->workbook));
+	go_format_sel_editable_enters (gfs, GTK_WINDOW (state->dialog));
 
-	g_signal_connect (G_OBJECT (state->number_format_selector),
-			  "number_format_changed",
-			  G_CALLBACK (cb_number_format_changed), state);
+	g_signal_connect (G_OBJECT (state->format_sel), "format_changed",
+		G_CALLBACK (cb_number_format_changed), state);
 }
 
 /*****************************************************************************/
@@ -749,7 +749,7 @@ set_rot_from_point (FormatState *state, GnomeCanvas *canvas, double x, double y)
 	degrees = atan2 (-y, x) * 180 / M_PIgnum;
 
 	gtk_spin_button_set_value (GTK_SPIN_BUTTON (state->align.rotate_spinner),
-				   gnumeric_fake_round (degrees));
+				   gnm_fake_round (degrees));
 }
 
 static gboolean
@@ -1618,10 +1618,10 @@ init_border_button (FormatState *state, StyleBorderLocation const i,
 		state->border.edge[i].is_selected = TRUE;
 	} else {
 		GnmColor const *c = border->color;
-		state->border.edge[i].rgba =
-		    GNOME_CANVAS_COLOR (c->color.red >> 8,
-					c->color.green >> 8,
-					c->color.blue >> 8);
+		state->border.edge[i].rgba = GNOME_CANVAS_COLOR (
+			c->gdk_color.red >> 8,
+			c->gdk_color.green >> 8,
+			c->gdk_color.blue >> 8);
 		state->border.edge[i].is_auto_color = c->is_auto;
 		state->border.edge[i].pattern_index = border->line_type;
 		state->border.edge[i].is_selected = (border->line_type != STYLE_BORDER_NONE);
@@ -2204,12 +2204,10 @@ set_initial_focus (FormatState *s)
 	pagew = gtk_notebook_get_nth_page (s->notebook, fmt_dialog_page);
 	name = gtk_widget_get_name (pagew);
 
-	if (strcmp (name, "number_box") == 0)
-	{
-		number_format_selector_set_focus (NUMBER_FORMAT_SELECTOR(s->number_format_selector));
+	if (strcmp (name, "number_box") == 0) {
+		go_format_sel_set_focus (GO_FORMAT_SEL (s->format_sel));
 		return;
-	}
-	else if (strcmp (name, "alignment_box") == 0)
+	} else if (strcmp (name, "alignment_box") == 0)
 	      focus_widget = glade_xml_get_widget (s->gui, "halign_left");
 	else if (strcmp (name, "font_box") == 0)
 	      focus_widget = GTK_WIDGET (s->font.selector);
@@ -2353,7 +2351,7 @@ fmt_dialog_impl (FormatState *state, FormatDialogPosition_t pageno)
 	for (i = MSTYLE_BORDER_TOP; i < MSTYLE_BORDER_DIAGONAL; i++) {
 		GnmBorder const *border = mstyle_get_border (state->style, i);
 		if (!style_border_is_blank (border)) {
-			default_border_color = &border->color->color;
+			default_border_color = &border->color->gdk_color;
 			default_border_style = border->line_type;
 			break;
 		}
@@ -2533,7 +2531,7 @@ dialog_cell_format (WorkbookControlGUI *wbcg, FormatDialogPosition_t pageno)
 
 	g_return_if_fail (wbcg != NULL);
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"cell-format.glade", NULL, NULL);
         if (gui == NULL)
                 return;

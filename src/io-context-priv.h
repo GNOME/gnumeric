@@ -3,8 +3,8 @@
 
 #include "gnumeric.h"
 #include "io-context.h"
-#include "error-info.h"
-#include "command-context-priv.h"
+#include <goffice/app/error-info.h>
+#include <goffice/app/go-cmd-context-impl.h>
 #include <stdio.h>
 
 #define IO_CONTEXT_CLASS(klass)     (G_TYPE_CHECK_CLASS_CAST ((klass), TYPE_IO_CONTEXT, IOContextClass))
@@ -49,7 +49,7 @@ typedef struct {
 struct _IOContext {
 	GObject base;
 
-	GnmCmdContext	*impl;
+	GOCmdContext	*impl;
 	ErrorInfo	*info;
 	gboolean	 error_occurred;
 	gboolean	 warning_occurred;

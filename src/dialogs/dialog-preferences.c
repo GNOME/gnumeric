@@ -31,7 +31,7 @@
 
 #include "mstyle.h"
 #include "value.h"
-#include "format.h"
+#include <src/gnm-format.h>
 #include "workbook.h"
 #include "number-match.h"
 #include "widgets/widget-font-selector.h"
@@ -864,7 +864,7 @@ dialog_preferences (WorkbookControlGUI *wbcg, gint page)
 		return;
 	}
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"preferences.glade", NULL, NULL);
 	if (gui == NULL)
 		return;

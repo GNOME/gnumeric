@@ -11,7 +11,7 @@
 #include "gnumeric.h"
 
 #include "value.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "ranges.h"
 #include "str.h"
 #include "sheet.h"
@@ -45,7 +45,7 @@ value_dump (GnmValue const *value)
 		break;
 
 	case VALUE_FLOAT:
-		printf ("Float: %" GNUM_FORMAT_f "\n", value->v_float.val);
+		printf ("Float: %" GNM_FORMAT_f "\n", value->v_float.val);
 		break;
 
 	case VALUE_ARRAY: {

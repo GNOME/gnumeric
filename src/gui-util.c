@@ -17,15 +17,16 @@
 #include "parse-util.h"
 #include "style.h"
 #include "style-color.h"
-#include "error-info.h"
+#include <goffice/app/error-info.h>
 #include "value.h"
 #include "number-match.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "application.h"
 #include "workbook.h"
 #include "libgnumeric.h"
 
 #include <goffice/gui-utils/go-combo-color.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 #include <glade/glade.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkfilechooser.h>
@@ -102,63 +103,6 @@ gnumeric_notice_nonmodal (GtkWindow *parent, GtkWidget **ref, GtkMessageType typ
 	return;
 }
 
-static void
-fsel_response_cb (GtkFileChooser *dialog,
-		  gint response_id,
-		  gboolean *result)
-{
-  if (response_id == GTK_RESPONSE_OK) {
-	  char *uri = gtk_file_chooser_get_uri (dialog);
-
-	  if (uri) {
-		  g_free (uri);
-		  *result = TRUE;
-	  }
-  }
-
-  gtk_main_quit ();
-}
-
-static gint
-gu_delete_handler (GtkDialog *dialog,
-		   GdkEventAny *event,
-		   gpointer data)
-{
-	gtk_dialog_response (dialog, GTK_RESPONSE_CANCEL);
-	return TRUE; /* Do not destroy */
-}
-
-gboolean
-gnumeric_dialog_file_selection (WorkbookControlGUI *wbcg, GtkWidget *w)
-{
-	/* Note: wbcg will be NULL if called (indirectly) from gog-style.c  */
-	gboolean result = FALSE;
-	gulong delete_handler;
-
-	g_return_val_if_fail (GTK_IS_FILE_CHOOSER (w), FALSE);
-
-	gtk_window_set_modal (GTK_WINDOW (w), TRUE);
-	if (wbcg)
-		gnumeric_set_transient (wbcg_toplevel (wbcg), 
-					GTK_WINDOW (w));
-	g_signal_connect (w, "response",
-			  G_CALLBACK (fsel_response_cb), &result);
-	delete_handler =
-		g_signal_connect (w,
-				  "delete_event",
-				  G_CALLBACK (gu_delete_handler),
-				  NULL);
-
-	gtk_widget_show_all (w);
-	gtk_grab_add (w);
-	gtk_main ();
-
-	g_signal_handler_disconnect (w, delete_handler);
-
-	return result;
-}
-
-
 static gint
 cb_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
 {
@@ -185,7 +129,7 @@ gnumeric_dialog_run (GtkWindow *parent, GtkDialog *dialog)
 	if (parent) {
 		g_return_val_if_fail (GTK_IS_WINDOW (parent), GTK_RESPONSE_NONE);
 
-		gnumeric_set_transient (parent, GTK_WINDOW (dialog));
+		go_window_set_transient (parent, GTK_WINDOW (dialog));
 	}
 
 	g_signal_connect (G_OBJECT (dialog),
@@ -305,49 +249,6 @@ gnumeric_error_info_dialog_show (GtkWindow *parent, ErrorInfo *error)
 {
 	GtkWidget *dialog = gnumeric_error_info_dialog_new (error);
 	gnumeric_dialog_run (parent, GTK_DIALOG (dialog));
-}
-
-static void
-cb_parent_mapped (GtkWidget *parent, GtkWindow *window)
-{
-	if (GTK_WIDGET_MAPPED (window)) {
-		gtk_window_present (window);
-		g_signal_handlers_disconnect_by_func (G_OBJECT (parent),
-			G_CALLBACK (cb_parent_mapped), window);
-	}
-}
-
-/**
- * gnumeric_set_transient
- * @wbcg	: The calling window
- * @window      : the transient window
- *
- * Make the window a child of the workbook in the command context, if there is
- * one.
- * The function duplicates the positioning functionality in
- * gnome_dialog_set_parent, but does not require the transient window to be
- * a GnomeDialog.
- */
-void
-gnumeric_set_transient (GtkWindow *toplevel, GtkWindow *window)
-{
-/* FIXME:                                                                     */
-/* 	GtkWindowPosition position = gnome_preferences_get_dialog_position(); */
-	GtkWindowPosition position = GTK_WIN_POS_CENTER_ON_PARENT;
-
-	g_return_if_fail (GTK_IS_WINDOW (toplevel));
-	g_return_if_fail (GTK_IS_WINDOW (window));
-
-	gtk_window_set_transient_for (window, toplevel);
-
-	if (position == GTK_WIN_POS_NONE)
-		position = GTK_WIN_POS_CENTER_ON_PARENT;
-	gtk_window_set_position (window, position);
-
-	if (!GTK_WIDGET_MAPPED (toplevel))
-		g_signal_connect_after (G_OBJECT (toplevel),
-			"map",
-			G_CALLBACK (cb_parent_mapped), window);
 }
 
 typedef struct {
@@ -612,13 +513,13 @@ gnumeric_position_tooltip (GtkWidget *tip, int horizontal)
 
 /**
  * gnm_glade_xml_new :
- * @cc : #GnmCmdContext
+ * @cc : #GOCmdContext
  * @gladefile :
  *
  * Simple utility to open glade files
  **/
 GladeXML *
-gnm_glade_xml_new (GnmCmdContext *cc, char const *gladefile,
+gnm_glade_xml_new (GOCmdContext *cc, char const *gladefile,
 		   char const *root, char const *domain)
 {
 	GladeXML *gui;
@@ -636,32 +537,12 @@ gnm_glade_xml_new (GnmCmdContext *cc, char const *gladefile,
 	gui = glade_xml_new (f, root, domain);
 	if (gui == NULL && cc != NULL) {
 		char *msg = g_strdup_printf (_("Unable to open file '%s'"), f);
-		gnm_cmd_context_error_system (cc, msg);
+		go_cmd_context_error_system (cc, msg);
 		g_free (msg);
 	}
 	g_free (f);
 
 	return gui;
-}
-
-static gint
-cb_non_modal_dialog_keypress (GtkWidget *w, GdkEventKey *e)
-{
-	if(e->keyval == GDK_Escape) {
-		gtk_widget_destroy (w);
-		return TRUE;
-	}
-
-	return FALSE;
-}
-
-void
-gnumeric_non_modal_dialog (GtkWindow *toplevel, GtkWindow *dialog)
-{
-	gnumeric_set_transient (toplevel, dialog);
-	g_signal_connect (G_OBJECT (dialog),
-		"key-press-event",
-		G_CALLBACK (cb_non_modal_dialog_keypress), NULL);
 }
 
 static void
@@ -894,7 +775,7 @@ focus_on_entry (GtkEntry *entry)
 
 gboolean
 entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gboolean update,
-				    GnmFormat *format, gnm_float num)
+				    GOFormat *format, gnm_float num)
 {
 	char const *text = gtk_entry_get_text (entry);
 	gboolean need_default = (text == NULL);
@@ -918,7 +799,7 @@ entry_to_float_with_format_default (GtkEntry *entry, gnm_float *the_float, gbool
 
 gboolean
 entry_to_float_with_format (GtkEntry *entry, gnm_float *the_float, gboolean update,
-			    GnmFormat *format)
+			    GOFormat *format)
 {
 	GnmValue *value = format_match_number (gtk_entry_get_text (entry), format, NULL);
 
@@ -1115,50 +996,6 @@ gnm_pixbuf_tile (const GdkPixbuf *src, int w, int h)
 	return dst;
 }
 
-
-static void
-add_atk_relation (GtkWidget *w0, GtkWidget *w1, AtkRelationType type)
-{
-	AtkObject *atk0 = gtk_widget_get_accessible(w0);
-	AtkObject *atk1 = gtk_widget_get_accessible(w1);
-	AtkRelationSet *relation_set = atk_object_ref_relation_set (atk0);
-	AtkRelation *relation = atk_relation_new (&atk1, 1, type);
-	atk_relation_set_add (relation_set, relation);
-	g_object_unref (relation_set);
-	g_object_unref (relation);
-}
-
-/**
- * gnm_setup_label_atk :
- * @label : #GtkWidget
- * @target : #GtkWidget
- *
- * A convenience routine to setup label-for/labeled-by relationship between a
- * pair of widgets
- **/
-void
-gnm_setup_label_atk (GtkWidget *label, GtkWidget *target)
-{
-	 add_atk_relation (label, target, ATK_RELATION_LABEL_FOR);
-	 add_atk_relation (target, label, ATK_RELATION_LABELLED_BY);
-}
-
-
-int
-gnm_measure_string (PangoContext *context, const PangoFontDescription *font_desc, const char *str)
-{
-	PangoLayout *layout = pango_layout_new (context);
-	int width;
-
-	pango_layout_set_text (layout, str, -1);
-	pango_layout_set_font_description (layout, font_desc);
-	pango_layout_get_pixel_size (layout, &width, NULL);
-
-	g_object_unref (layout);
-
-	return width;
-}
-
 static void
 cb_focus_to_entry (GtkWidget *button, GtkWidget *entry)
 {
@@ -1217,67 +1054,6 @@ gnm_fat_cross_cursor (GdkDisplay *display)
 /* ------------------------------------------------------------------------- */
 
 /**
- * gnumeric_button_new_with_stock_image
- *
- * Code from gedit
- *
- * Creates a new GtkButton with custom label and stock image.
- * 
- * text : button label
- * sotck_id : id for stock icon
- *
- * return : newly created button
- *
- **/
-
-GtkWidget* 
-gnumeric_button_new_with_stock_image (const gchar* text, const gchar* stock_id)
-{
-	GtkWidget *button;
-	GtkStockItem item;
-	GtkWidget *label;
-	GtkWidget *image;
-	GtkWidget *hbox;
-	GtkWidget *align;
-
-	button = gtk_button_new ();
-
-	if (GTK_BIN (button)->child)
-		gtk_container_remove (GTK_CONTAINER (button),
-				      GTK_BIN (button)->child);
-
-	if (gtk_stock_lookup (stock_id, &item)) {
-		label = gtk_label_new_with_mnemonic (text);
-
-		gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (button));
-
-		image = gtk_image_new_from_stock (stock_id, GTK_ICON_SIZE_BUTTON);
-		hbox = gtk_hbox_new (FALSE, 2);
-
-		align = gtk_alignment_new (0.5, 0.5, 0.0, 0.0);
-
-		gtk_box_pack_start (GTK_BOX (hbox), image, FALSE, FALSE, 0);
-		gtk_box_pack_end (GTK_BOX (hbox), label, FALSE, FALSE, 0);
-
-		gtk_container_add (GTK_CONTAINER (button), align);
-		gtk_container_add (GTK_CONTAINER (align), hbox);
-		gtk_widget_show_all (align);
-
-		return button;
-	}
-
-	label = gtk_label_new_with_mnemonic (text);
-	gtk_label_set_mnemonic_widget (GTK_LABEL (label), GTK_WIDGET (button));
-
-	gtk_misc_set_alignment (GTK_MISC (label), 0.5, 0.5);
-
-	gtk_widget_show (label);
-	gtk_container_add (GTK_CONTAINER (button), label);
-
-	return button;
-}
-
-/**
  * gnumeric_dialog_add_button
  *
  * Code from gedit
@@ -1303,7 +1079,7 @@ gnumeric_dialog_add_button (GtkDialog *dialog, const gchar* text, const gchar* s
 	g_return_val_if_fail (text != NULL, NULL);
 	g_return_val_if_fail (stock_id != NULL, NULL);
 
-	button = gnumeric_button_new_with_stock_image (text, stock_id);
+	button = go_gtk_button_new_with_stock_image (text, stock_id);
 	g_return_val_if_fail (button != NULL, NULL);
 
 	GTK_WIDGET_SET_FLAGS (button, GTK_CAN_DEFAULT);
@@ -1419,45 +1195,6 @@ gnumeric_message_dialog_new (GtkWindow * parent,
 
 	return dialog;
 }
-
-GdkPixbuf*
-gnm_pixbuf_intelligent_scale (GdkPixbuf *buf, guint width, guint height)
-{
-	GdkPixbuf *scaled;
-	int w, h;
-	unsigned long int ow = gdk_pixbuf_get_width (buf);
-	unsigned long int oh = gdk_pixbuf_get_height (buf);
-
-	if (ow <= width && oh <= height)
-		scaled = g_object_ref (buf);
-	else
-	{
-		if (ow * height > oh * width)
-		{
-			w = width;
-			h = width * (((double)oh)/(double)ow);
-		}
-		else
-		{
-			h = height;
-			w = height * (((double)ow)/(double)oh);
-		}
-			
-		scaled = gdk_pixbuf_scale_simple (buf, w, h, GDK_INTERP_BILINEAR);
-	}
-	
-	return scaled;
-}
-
-void
-gnm_widget_disable_focus (GtkWidget *w)
-{
-	if (GTK_IS_CONTAINER (w))
-		gtk_container_foreach (GTK_CONTAINER (w),
-			(GtkCallback) gnm_widget_disable_focus, NULL);
-	GTK_WIDGET_UNSET_FLAGS (w, GTK_CAN_FOCUS);
-}
-
 
 gboolean 
 gnm_tree_model_iter_prev (GtkTreeModel *model, GtkTreeIter* iter)

@@ -35,7 +35,7 @@
 #include "sheet.h"
 #include "sheet-merge.h"
 #include "sheet-style.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "value.h"
 #include "parse-util.h"
 #include "sheet-control-gui.h"
@@ -54,9 +54,9 @@
 
 #if USE_RV_POOLS
 /* Memory pool for strings.  */
-static GnmMemChunk *rendered_value_pool;
-#define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
-#define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
+static GOMemChunk *rendered_value_pool;
+#define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
+#define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
 #else
 #define CHUNK_ALLOC(T,c) g_new (T,1)
 #define CHUNK_FREE(p,v) g_free ((v))
@@ -89,7 +89,7 @@ rendered_value_render (GString *str,
 		       GnmCell const *cell,
 		       PangoContext *context, GnmStyle const *mstyle,
 		       gboolean allow_variable_width, gboolean *display_formula,
-		       GnmColor **color)
+		       GOColor *go_color)
 {
 	Sheet const *sheet = cell->base.sheet;
 
@@ -105,13 +105,13 @@ rendered_value_render (GString *str,
 		gnm_expr_as_gstring (str, cell->base.expression,
 				     parse_pos_init_cell (&pp, cell),
 				     gnm_expr_conventions_default);
-		*color = NULL;
+		*go_color = 0;
 	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
-		*color = NULL;
+		*go_color = 0;
 	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
 		double col_width = -1.;
 		/* entered text CAN be null if called by set_value */
-		GnmFormat *format = mstyle_get_format (mstyle);
+		GOFormat *format = mstyle_get_format (mstyle);
 
 		/* For format general approximate the cell width in characters */
 		if (style_format_is_var_width (format)) {
@@ -152,7 +152,7 @@ rendered_value_render (GString *str,
 			} else if (style_format_is_general (format))
 				format = VALUE_FMT (cell->value);
 		}
-		format_value_gstring (str, format, cell->value, color,
+		format_value_gstring (str, format, cell->value, go_color,
 				      col_width,
 				      sheet ? workbook_date_conv (sheet->workbook) : NULL);
 	} else {
@@ -244,10 +244,9 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 {
 	RenderedValue	*res;
 	Sheet		*sheet;
-	GnmColor	*color;
+	GOColor		 fore;
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
-	GnmColor const *fore;
 	gboolean        display_formula;
 	double          zoom;
 
@@ -274,7 +273,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
 	res->variable_width = rendered_value_render (str, cell, context, mstyle,
-		allow_variable_width, &display_formula, &color);
+		allow_variable_width, &display_formula, &fore);
 	res->indent_left = res->indent_right = 0;
 	res->numeric_overflow = FALSE;
 	res->hfilled = FALSE;
@@ -297,9 +296,11 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	attrs = mstyle_get_pango_attrs (mstyle, context, zoom);
 #ifdef BUG_105322
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
-	fore = color ? color : mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
-	res->color = fore->color;
-	if (color) style_color_unref (color);
+	if (0 == fore) {
+		GnmColor const *c = mstyle_get_color (mstyle, MSTYLE_COLOR_FORE);
+		res->go_fore_color = c->go_color;
+	} else
+		res->go_fore_color = fore;
 #else
 	if (color) {
 		PangoAttrList *new_attrs = pango_attr_list_copy (attrs);
@@ -307,7 +308,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 		pango_attr_list_unref (attrs);
 		attrs = new_attrs;
-		attr = pango_attr_foreground_new (color->red, color->green, color->blue);
+		attr = go_color_to_pango (fore, TRUE);
 		attr->start_index = 0;
 		attr->end_index = -1;
 		pango_attr_list_insert (attrs, attr);
@@ -331,7 +332,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 #endif
 
 	if (cell->value != NULL) {
-		GnmFormat const *fmt = VALUE_FMT (cell->value);
+		GOFormat const *fmt = VALUE_FMT (cell->value);
 		if (fmt != NULL && style_format_is_markup (fmt)) {
 			PangoAttrList *orig = attrs;
 			attrs = pango_attr_list_copy (attrs);
@@ -451,7 +452,7 @@ rendered_value_get_text (RenderedValue const *rv)
  * The returned value is a pointer to a PangoColor describing
  * the foreground colour.
  */
-const PangoColor *
+GOColor
 cell_get_render_color (GnmCell const *cell)
 {
 #ifndef BUG_105322
@@ -460,20 +461,14 @@ cell_get_render_color (GnmCell const *cell)
 	PangoAttribute *attr;
 #endif
 
-	g_return_val_if_fail (cell != NULL, NULL);
+	g_return_val_if_fail (cell != NULL, 0);
 
 	/* A precursor to just in time rendering Ick! */
 	if (cell->rendered_value == NULL)
 		cell_render_value ((GnmCell *)cell, TRUE);
 
 #ifdef BUG_105322
-	{
-		static PangoColor ick;
-		ick.red = cell->rendered_value->color.red;
-		ick.green = cell->rendered_value->color.green;
-		ick.blue = cell->rendered_value->color.blue;
-		return &ick;
-	}
+	return cell->rendered_value->go_fore_color;
 #else
 	attrs = pango_layout_get_attributes (cell->rendered_value->layout);
 	g_return_val_if_fail (attrs != NULL, NULL);
@@ -585,7 +580,7 @@ rendered_value_init (void)
 {
 #if USE_RV_POOLS
 	rendered_value_pool =
-		gnm_mem_chunk_new ("rendered value pool",
+		go_mem_chunk_new ("rendered value pool",
 				   sizeof (RenderedValue),
 				   16 * 1024 - 128);
 #endif
@@ -605,8 +600,8 @@ void
 rendered_value_shutdown (void)
 {
 #if USE_RV_POOLS
-	gnm_mem_chunk_foreach_leak (rendered_value_pool, cb_rendered_value_pool_leak, NULL);
-	gnm_mem_chunk_destroy (rendered_value_pool, FALSE);
+	go_mem_chunk_foreach_leak (rendered_value_pool, cb_rendered_value_pool_leak, NULL);
+	go_mem_chunk_destroy (rendered_value_pool, FALSE);
 	rendered_value_pool = NULL;
 #endif
 }

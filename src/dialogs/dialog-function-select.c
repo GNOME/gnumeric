@@ -504,7 +504,7 @@ dialog_function_select (WorkbookControlGUI *wbcg, char const *key)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, FUNCTION_SELECT_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"function-select.glade", NULL, NULL);
         if (gui == NULL)
 		return;

@@ -238,7 +238,7 @@ el_class_init (GtkObjectClass *object_class)
 		EDITABLE_LABEL_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (EditableLabelClass, edit_finished),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		gnm__BOOLEAN__POINTER,
 		G_TYPE_BOOLEAN, 1, G_TYPE_POINTER);
 }

@@ -23,11 +23,10 @@
 #include "value.h"
 #include "workbook.h"
 #include "sheet-style.h"
-#include "dates.h"
 #include "expr.h"
 #include "expr-impl.h"
-#include "format.h"
-#include "datetime.h"
+#include "gnm-format.h"
+#include "gnm-datetime.h"
 #include "mstyle.h"
 #include "ranges.h"
 #include "sheet-merge.h"
@@ -102,7 +101,7 @@ typedef struct {
 
 typedef struct _FillItem {
 	FillType     type;
-	GnmFormat *fmt;
+	GOFormat *fmt;
 	GnmStyle	    *style;
 
 	GnmCellPos	     merged_size;
@@ -131,7 +130,7 @@ typedef struct _FillItem {
 	} delta;
 
 	struct _FillItem *group_last;
-	GnmDateConventions const *date_conv;
+	GODateConventions const *date_conv;
 } FillItem;
 
 static GList *autofill_lists;
@@ -303,7 +302,7 @@ fill_item_new (Sheet *sheet, int col, int row)
 	value_type = VALUE_TYPE (value);
 
 	if (value_type == VALUE_INTEGER || value_type == VALUE_FLOAT) {
-		const GnmFormat *sf = cell_get_format (cell);
+		const GOFormat *sf = cell_get_format (cell);
 
 		fi->type    = FILL_NUMBER;
 		fi->v.value = value;
@@ -694,7 +693,7 @@ autofill_cell (FillItem *fi, GnmCell *cell, int idx, int limit_x, int limit_y)
 		}
 		d = datetime_g_to_serial (&date, fi->date_conv);
 
-		res -= gnumeric_fake_floor (res);
+		res -= gnm_fake_floor (res);
 		v = (res < 1e-6) ? value_new_int (d)
 			: value_new_float (((gnm_float)d) + res);
 		break;

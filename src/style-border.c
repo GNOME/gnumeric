@@ -183,7 +183,7 @@ style_border_none_set_color (GnmColor *color)
 	style_color_unref (nc);
 
 	if (none->gc) {
-		gdk_gc_set_rgb_fg_color (none->gc, &none->color->color);
+		gdk_gc_set_rgb_fg_color (none->gc, &none->color->gdk_color);
 	}
 }
 
@@ -334,7 +334,7 @@ style_border_get_gc (GnmBorder const *border, GdkDrawable *drawable)
 		((GnmBorder *)border)->gc_screen = this_screen;
 		g_object_ref (this_screen);
 		style_border_set_gc_dash (border->gc, border->line_type);
-		gdk_gc_set_rgb_fg_color (border->gc, &border->color->color);
+		gdk_gc_set_rgb_fg_color (border->gc, &border->color->gdk_color);
 	}
 
 	return border->gc;
@@ -380,9 +380,9 @@ style_border_set_pc (GnmBorder const * const border,
 	gnome_print_gsave (context);
 	style_border_set_pc_dash (border->line_type, context);
 	gnome_print_setrgbcolor (context,
-				 border->color->color.red   / (double) 0xffff,
-				 border->color->color.green / (double) 0xffff,
-				 border->color->color.blue  / (double) 0xffff);
+				 border->color->gdk_color.red   / (double) 0xffff,
+				 border->color->gdk_color.green / (double) 0xffff,
+				 border->color->gdk_color.blue  / (double) 0xffff);
 	return TRUE;
 }
 

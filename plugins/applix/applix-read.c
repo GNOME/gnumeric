@@ -52,7 +52,7 @@
 #include <command-context.h>
 #include <workbook-view.h>
 #include <workbook.h>
-#include <error-info.h>
+#include <goffice/app/error-info.h>
 #include <parse-util.h>
 
 #include <gsf/gsf-input-textline.h>
@@ -1556,7 +1556,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	renamed_sheets = g_slist_reverse (renamed_sheets);
 	workbook_sheet_rename (state.wb, renamed_sheets,
 			       state.real_names, 
-			       GNM_CMD_CONTEXT (io_context));
+			       GO_CMD_CONTEXT (io_context));
 	g_slist_free (renamed_sheets);
 	g_slist_foreach (state.std_names, (GFunc)g_free, NULL);
 	g_slist_free (state.std_names);

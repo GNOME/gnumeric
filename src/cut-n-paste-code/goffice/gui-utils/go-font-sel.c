@@ -160,14 +160,14 @@ gfs_fill_font_name_list (GOFontSel *gfs)
 
 	list_init (gfs->font_name_list);
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (gfs->font_name_list));
-	 for (ptr = go_font_family_list; ptr != NULL; ptr = ptr->next) {
+	for (ptr = go_fonts_family_names; ptr != NULL; ptr = ptr->next) {
 		gtk_list_store_append (store, &iter);
 		gtk_list_store_set (store, &iter, 0, ptr->data, -1);
-	 }
+	}
 
-	 g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (gfs->font_name_list)),
-		"changed",
-		G_CALLBACK (font_selected), gfs);
+	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (gfs->font_name_list)),
+			  "changed",
+			  G_CALLBACK (font_selected), gfs);
 }
 
 static char const *styles[] = {
@@ -277,13 +277,13 @@ size_changed (GtkEntry *entry, GOFontSel *gfs)
 	float size = size_set_text (gfs, gtk_entry_get_text (entry));
 
 	if (size > 0) {
-		for (i = 0; go_font_sizes [i] != 0; i++)
-			if (go_font_sizes [i] == size)
+		for (i = 0; go_fonts_size_pts [i] != 0; i++)
+			if (go_fonts_size_pts [i] == size)
 				break;
 		g_signal_handlers_block_by_func (
 			gtk_tree_view_get_selection (gfs->font_size_list),
 			size_selected, gfs);
-		select_row (gfs->font_size_list, (go_font_sizes [i] != 0) ? i : -1);
+		select_row (gfs->font_size_list, (go_fonts_size_pts [i] != 0) ? i : -1);
 		g_signal_handlers_unblock_by_func (
 			gtk_tree_view_get_selection (gfs->font_size_list),
 			size_selected, gfs);
@@ -293,17 +293,15 @@ size_changed (GtkEntry *entry, GOFontSel *gfs)
 static void
 gfs_fill_font_size_list (GOFontSel *gfs)
 {
-	int i;
 	GtkListStore *store;
-	GtkTreeIter iter;
+	GtkTreeIter   iter;
+	GSList       *ptr;
 
 	list_init (gfs->font_size_list);
 	store = GTK_LIST_STORE (gtk_tree_view_get_model (gfs->font_size_list));
-	for (i = 0; go_font_sizes [i] != 0; i++) {
-		char buffer[4 * sizeof (int)];
-		sprintf (buffer, "%d", go_font_sizes [i]);
+	for (ptr = go_fonts_size_names; ptr != NULL ; ptr = ptr->next) {
 		gtk_list_store_append (store, &iter);
-		gtk_list_store_set (store, &iter, 0, buffer, -1);
+		gtk_list_store_set (store, &iter, 0, ptr->data, -1);
 	}
 	g_signal_connect (G_OBJECT (gtk_tree_view_get_selection (gfs->font_size_list)),
 		"changed",
@@ -321,9 +319,9 @@ canvas_size_changed (G_GNUC_UNUSED GtkWidget *widget,
 	int height = allocation->height - 1;
 
 	foo_canvas_item_set (gfs->font_preview_text,
-                 "default-col-width",  width,
-                 "default-row-height", height,
-		 NULL);
+		"x1", 0., "width", (double)width,
+		"y1", 0., "height", (double)height,
+		NULL);
 
 	foo_canvas_set_scroll_region (gfs->font_preview_canvas, 0, 0,
 				      width, height);
@@ -462,7 +460,7 @@ go_font_sel_set_name (GOFontSel *gfs, char const *font_name)
 	GSList *ptr;
 	int row;
 
-	for (row = 0, ptr = go_font_family_list; ptr != NULL; ptr = ptr->next, row++)
+	for (row = 0, ptr = go_fonts_family_names; ptr != NULL; ptr = ptr->next, row++)
 		if (g_ascii_strcasecmp (font_name, ptr->data) == 0)
 			break;
 	select_row (gfs->font_name_list, (ptr != NULL) ? row : -1);
@@ -498,18 +496,33 @@ go_font_sel_set_points (GOFontSel *gfs,
 {
 	int i;
 
-	for (i = 0; go_font_sizes [i] != 0; i++)
-		if (go_font_sizes [i] == point_size) {
+	for (i = 0; go_fonts_size_pts [i] != 0; i++)
+		if (go_fonts_size_pts [i] == point_size) {
 			select_row (gfs->font_size_list, i);
 			break;
 		}
 
-	if (go_font_sizes [i] == 0) {
+	if (go_fonts_size_pts [i] == 0) {
 		char *buffer;
 		buffer = g_strdup_printf ("%g", point_size);
 		gtk_entry_set_text (GTK_ENTRY (gfs->font_size_entry), buffer);
 		g_free (buffer);
 	}
+}
+
+static void
+go_font_sel_set_strike (GOFontSel *gfs, gboolean strike)
+{
+}
+
+static void
+go_font_sel_set_uline (GOFontSel *gfs, int uline)
+{
+}
+
+static void
+go_font_sel_set_color (GOFontSel *gfs, GOColor c)
+{
 }
 
 void
@@ -523,7 +536,7 @@ go_font_sel_set_font (GOFontSel *gfs, GOFont const *font)
 		pango_font_description_get_style (font->desc) != PANGO_STYLE_NORMAL);
 	go_font_sel_set_points (gfs,
 		pango_font_description_get_size (font->desc) / PANGO_SCALE);
-	go_font_sel_set_strike (gfs, font->has_strike);
+	go_font_sel_set_strike (gfs, font->strikethrough);
 	go_font_sel_set_uline (gfs, font->underline);
 	go_font_sel_set_color (gfs, font->color);
 }

@@ -26,8 +26,8 @@
 #include "qpro.h"
 
 #include <gutils.h>
-#include <plugin-util.h>
-#include <file.h>
+#include <func.h>
+#include <goffice/app/file.h>
 #include <workbook-view.h>
 #include <workbook.h>
 #include <sheet.h>
@@ -37,7 +37,7 @@
 #include <sheet-style.h>
 #include <style-color.h>
 #include <parse-util.h>
-#include <module-plugin-defs.h>
+#include <goffice/app/module-plugin-defs.h>
 #include <io-context.h>
 
 #include <gsf/gsf-utils.h>

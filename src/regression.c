@@ -54,7 +54,7 @@
 	for (_i = 0; _i < _d1; _i++)					\
 	  {								\
 	    for (_j = 0; _j < _d2; _j++)				\
-	      fprintf (stderr, " %19.10" GNUM_FORMAT_g, (var)[_i][_j]);	\
+	      fprintf (stderr, " %19.10" GNM_FORMAT_g, (var)[_i][_j]);	\
 	    fprintf (stderr, "\n");					\
 	  }								\
   } while (0)
@@ -115,10 +115,10 @@ rescale (gnm_float **A, gnm_float *b, int n, gnm_float *pdet)
 			return REG_singular;
 
 		/* Use a power of 2 near sqrt (max) as scale.  */
-		(void)frexpgnum (sqrtgnum (max), &expn);
-		scale = ldexpgnum (1, expn);
+		(void)gnm_frexp (gnm_sqrt (max), &expn);
+		scale = gnm_ldexp (1, expn);
 #ifdef DEBUG_NEAR_SINGULAR
-		printf ("scale[%d]=%" GNUM_FORMAT_g "\n",
+		printf ("scale[%d]=%" GNM_FORMAT_g "\n",
 			i, scale);
 #endif
 
@@ -148,7 +148,7 @@ LUPDecomp (gnm_float **A, gnm_float **LU, int *P, int n, gnm_float *b_scaled,
 {
 	int i, j, k, tempint;
 	gnm_float highest = 0;
-	gnm_float lowest = GNUM_MAX;
+	gnm_float lowest = GNM_MAX;
 	gnm_float cond;
 	gboolean odd_parity = FALSE;
 	gnm_float det = 1;
@@ -180,7 +180,7 @@ LUPDecomp (gnm_float **A, gnm_float **LU, int *P, int n, gnm_float *b_scaled,
 			}
 #ifdef DEBUG_NEAR_SINGULAR
 		PRINT_MATRIX (LU, n, n);
-		printf ("max[%d]=%" GNUM_FORMAT_g " at %d\n",
+		printf ("max[%d]=%" GNM_FORMAT_g " at %d\n",
 			i, max, mov);
 #endif
 		if (max == 0)
@@ -216,15 +216,15 @@ LUPDecomp (gnm_float **A, gnm_float **LU, int *P, int n, gnm_float *b_scaled,
 		det *= LU[i][i];
 	*pdet = det;
 
-	cond = (loggnum (highest) - loggnum (lowest)) / loggnum (2);
+	cond = (gnm_log (highest) - gnm_log (lowest)) / gnm_log (2);
 #ifdef DEBUG_NEAR_SINGULAR
-	printf ("cond=%.20" GNUM_FORMAT_g "\n", cond);
+	printf ("cond=%.20" GNM_FORMAT_g "\n", cond);
 #endif
 
 	/* FIXME: make some science out of this.  */
-	if (cond > GNUM_MANT_DIG * 0.75)
+	if (cond > GNM_MANT_DIG * 0.75)
 		return REG_near_singular_bad;
-	else if (cond > GNUM_MANT_DIG * 0.50)
+	else if (cond > GNM_MANT_DIG * 0.50)
 		return REG_near_singular_good;
 	else
 		return REG_ok;
@@ -509,7 +509,7 @@ general_linear_regression (gnm_float **xss, int xdim,
 					regerr = REG_near_singular_bad;
 				}
 				regression_stat->se[i] =
-					sqrtgnum (regression_stat->var * inv[i]);
+					gnm_sqrt (regression_stat->var * inv[i]);
 				e[i] = 0;
 			}
 			g_free (e);
@@ -544,7 +544,7 @@ general_linear_regression (gnm_float **xss, int xdim,
 			   (1 - regression_stat->sqr_r) * regression_stat->df_resid);
 
 		regression_stat->ss_reg =  regression_stat->ss_total - regression_stat->ss_resid;
-		regression_stat->se_y = sqrtgnum (regression_stat->ss_total / n);
+		regression_stat->se_y = gnm_sqrt (regression_stat->ss_total / n);
 		regression_stat->ms_reg = (regression_stat->df_reg == 0)
 			? 0
 			: regression_stat->ss_reg / regression_stat->df_reg;
@@ -598,7 +598,7 @@ transform_x_and_linear_regression_log_fitting (gnm_float *xs,
 
 	/* log (always > 0) */
 	for (i=0; i<n; i++)
-	        transf_xs[i] = loggnum (res[0] * (xs[i] - res[3]));
+	        transf_xs[i] = gnm_log (res[0] * (xs[i] - res[3]));
 	range_average (transf_xs, n, &mean_transf_x);
 	for (i=0; i<n; i++) {
 	        diff_x = transf_xs[i] - mean_transf_x;
@@ -632,13 +632,13 @@ log_fitting (gnm_float *xs, const gnm_float *ys, int n,
 	transf_xs = g_new (gnm_float, n);
 	/* Choose final accuracy of c with respect to range of xs.
 	 * Make accuracy be a whole power of 10. */
-	c_accuracy = log10gnum (x_range);
+	c_accuracy = gnm_log10 (x_range);
 	if (c_accuracy < 0)
-	        if (modfgnum (c_accuracy, &c_accuracy_int) != 0)
+	        if (gnm_modf (c_accuracy, &c_accuracy_int) != 0)
 		        c_accuracy--;
-	modfgnum (c_accuracy, &c_accuracy_int);
+	gnm_modf (c_accuracy, &c_accuracy_int);
 	c_accuracy = c_accuracy_int;
-	c_accuracy = powgnum (10, c_accuracy);
+	c_accuracy = gnm_pow (10, c_accuracy);
 	c_accuracy *= LOGFIT_C_ACCURACY;
 
 	/* Determine sign. Take a c which is ``much to small'' since the part
@@ -685,8 +685,8 @@ log_fitting (gnm_float *xs, const gnm_float *ys, int n,
 	/* Start of fitted c-range. Rounded to final accuracy of c. */
 	c_offset = (res[0] == 1) ? point_cloud->min_x : point_cloud->max_x;
 	c_offset = c_accuracy * ((res[0] == 1) ?
-				 floorgnum (c_offset / c_accuracy)
-				 : ceilgnum (c_offset /c_accuracy));
+				 gnm_floor (c_offset / c_accuracy)
+				 : gnm_ceil (c_offset /c_accuracy));
 
 	/* Now the adapting of c starts. Find a local minimum of sum
 	 * of squared residuals. */
@@ -732,7 +732,7 @@ log_fitting (gnm_float *xs, const gnm_float *ys, int n,
 		}
 	} while (c_dist > c_accuracy);
 
-	res[3] = c_accuracy * gnumeric_fake_round (res[3] / c_accuracy);
+	res[3] = c_accuracy * gnm_fake_round (res[3] / c_accuracy);
 	transform_x_and_linear_regression_log_fitting (xs, transf_xs, ys, n,
 						       res, point_cloud);
 
@@ -802,7 +802,7 @@ exponential_regression (gnm_float **xss, int dim,
 	log_ys = g_new (gnm_float, n);
 	for (i = 0; i < n; i++)
 		if (ys[i] > 0)
-			log_ys[i] = loggnum (ys[i]);
+			log_ys[i] = gnm_log (ys[i]);
 		else {
 			result = REG_invalid_data;
 			goto out;
@@ -825,7 +825,7 @@ exponential_regression (gnm_float **xss, int dim,
 
 	if (result == 0)
 		for (i = 0; i < dim + 1; i++)
-			res[i] = expgnum (res[i]);
+			res[i] = gnm_exp (res[i]);
 
  out:
 	g_free (log_ys);
@@ -853,7 +853,7 @@ logarithmic_regression (gnm_float **xss, int dim,
 	for (i = 0; i < dim; i++)
 	        for (j = 0; j < n; j++)
 		        if (xss[i][j] > 0)
-		                log_xss[i][j] = loggnum (xss[i][j]);
+		                log_xss[i][j] = gnm_log (xss[i][j]);
 			else {
 			        result = REG_invalid_data;
 				goto out;
@@ -1222,7 +1222,7 @@ parameter_errors (RegressionFunction f,
 		for (i = 0; i < p_dim; i++)
 			/* FIXME: these were "[i][j]" which makes no sense.  */
 			errors[i] = (A[i][i] != 0
-				     ? 1 / sqrtgnum (A[i][i])
+				     ? 1 / gnm_sqrt (A[i][i])
 				     : -1);
 	}
 

@@ -33,16 +33,16 @@
 #include "application.h"
 #include "history.h"
 #include "style-color.h"
-#include "global-gnome-font.h"
 #include "workbook-edit.h"
-#include "command-context-priv.h"
 
 #include <goffice/gui-utils/go-action-combo-stack.h>
 #include <goffice/gui-utils/go-action-combo-color.h>
 #include <goffice/gui-utils/go-action-combo-text.h>
 #include <goffice/gui-utils/go-action-combo-pixmaps.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-font.h>
 #include <goffice/utils/go-file.h>
+#include <goffice/app/go-cmd-context-impl.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkactiongroup.h>
 #include <gtk/gtkuimanager.h>
@@ -492,7 +492,7 @@ static void
 cb_custom_color_created (GOActionComboColor *caction, GtkWidget *dialog, WorkbookControlGUI *wbcg)
 {
 	wbcg_edit_attach_guru (wbcg, dialog);
-	gnumeric_set_transient (wbcg_toplevel (wbcg), GTK_WINDOW (dialog));
+	wbcg_set_transient_for (wbcg, GTK_WINDOW (dialog));
 	g_signal_connect_object (dialog,
 		"destroy",
 		G_CALLBACK (wbcg_edit_detach_guru), wbcg, G_CONNECT_SWAPPED);
@@ -513,7 +513,7 @@ cb_fore_color_changed (GOActionComboColor *a, WorkbookControlGUI *wbcg)
 	if (wbcg_is_editing (wbcg)) {
 		GnmColor *color = style_color_new_go (is_default ? RGBA_BLACK : c);
 		wbcg_edit_add_markup (wbcg, pango_attr_foreground_new (
-			color->color.red, color->color.green, color->color.blue));
+			color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue));
 		style_color_unref (color);
 		return;
 	}
@@ -529,7 +529,7 @@ static void
 wbc_gtk_init_color_fore (WBCgtk *gtk)
 {
 	GnmColor *sc_auto_font = style_color_auto_font ();
-	GOColor   default_color = GDK_TO_UINT(sc_auto_font->color);
+	GOColor   default_color = GDK_TO_UINT(sc_auto_font->gdk_color);
 	style_color_unref (sc_auto_font);
 
 	gtk->fore_color = go_action_combo_color_new ("ColorFore", "font",
@@ -626,12 +626,12 @@ cb_font_name_changed (GOActionComboText *a, WBCgtk *gtk)
 static void
 wbc_gtk_init_font_name (WBCgtk *gtk)
 {
-	GList *ptr;
+	GSList *ptr;
 
 	gtk->font_name = g_object_new (go_action_combo_text_get_type (),
 		"name",     "FontName",
 		NULL);
-	for (ptr = gnumeric_font_family_list; ptr != NULL; ptr = ptr->next)
+	for (ptr = go_fonts_family_names; ptr != NULL; ptr = ptr->next)
 		if (ptr->data) 
 			go_action_combo_text_add_item (gtk->font_name, ptr->data);
 	g_signal_connect (G_OBJECT (gtk->font_name),
@@ -674,16 +674,13 @@ cb_font_size_changed (GOActionComboText *a, WBCgtk *gtk)
 static void
 wbc_gtk_init_font_size (WBCgtk *gtk)
 {
-	unsigned i;
+	GSList *ptr;
 
 	gtk->font_size = g_object_new (go_action_combo_text_get_type (),
 		"name",     "FontSize",
 		NULL);
-	for (i = 0; gnumeric_point_sizes[i] != 0; i++) {
-		char *buffer = g_strdup_printf ("%d", gnumeric_point_sizes[i]);
-		go_action_combo_text_add_item (gtk->font_size, buffer);
-		g_free (buffer);
-	}
+	for (ptr = go_fonts_size_names; ptr != NULL ; ptr = ptr->next)
+		go_action_combo_text_add_item (gtk->font_size, ptr->data);
 	go_action_combo_text_set_width (gtk->font_size, "888");
 	g_signal_connect (G_OBJECT (gtk->font_size),
 		"activate",
@@ -1227,27 +1224,27 @@ cb_add_menus_toolbars (G_GNUC_UNUSED GtkUIManager *ui,
 }
 
 static void
-cb_show_menu_tip (GtkWidget *proxy, GnmCmdContext *cc)
+cb_show_menu_tip (GtkWidget *proxy, GOCmdContext *cc)
 {
 	GtkAction *action = g_object_get_data (G_OBJECT (proxy), "GtkAction");
 	char *tip;
 	g_object_get (action, "tooltip", &tip, NULL);
 	if (tip == NULL) tip = g_strdup (" "); /* empty has no height */
-	cmd_context_progress_message_set (cc, _(tip));
+	go_cmd_context_progress_message_set (cc, _(tip));
 	g_free (tip);
 }
 
 static void
-cb_clear_menu_tip (GnmCmdContext *cc)
+cb_clear_menu_tip (GOCmdContext *cc)
 {
-	cmd_context_progress_message_set (cc, " ");
+	go_cmd_context_progress_message_set (cc, " ");
 }
 
 static void
 cb_connect_proxy (G_GNUC_UNUSED GtkUIManager *ui,
 		  GtkAction    *action,
 		  GtkWidget    *proxy, 
-		  GnmCmdContext *cc)
+		  GOCmdContext *cc)
 {
 	/* connect whether there is a tip or not it may change later */
 	if (GTK_IS_MENU_ITEM (proxy)) {
@@ -1263,7 +1260,7 @@ static void
 cb_disconnect_proxy (G_GNUC_UNUSED GtkUIManager *ui,
 		     G_GNUC_UNUSED GtkAction    *action,
 		     GtkWidget    *proxy, 
-		     GnmCmdContext *cc)
+		     GOCmdContext *cc)
 {
 	if (GTK_IS_MENU_ITEM (proxy)) {
 		g_object_set_data (G_OBJECT (proxy), "GtkAction", NULL);

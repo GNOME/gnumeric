@@ -25,9 +25,9 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <workbook-view.h>
-#include <file.h>
+#include <goffice/app/file.h>
 #include <io-context.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <workbook.h>
 #include <workbook-priv.h> /* Workbook::names */
 #include <cell.h>
@@ -35,7 +35,6 @@
 #include <sheet-view.h>
 #include <sheet-style.h>
 #include <summary.h>
-#include <datetime.h>
 #include <style-color.h>
 #include <expr.h>
 #include <expr-impl.h>

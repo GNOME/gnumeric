@@ -25,10 +25,10 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 #include "reports-write.h"
 
-#include "format.h"
+#include <src/gnm-format.h>
 #include "parse-util.h"
 #include "solver.h"
 #include "func.h"
@@ -654,7 +654,7 @@ solver_performance_report (WorkbookControl *wbc,
 
 	/* Set the `Real Time'. */
 	dao_set_cell_value (&dao, 4, 25,
-			    value_new_float (gnumeric_fake_round
+			    value_new_float (gnm_fake_round
 					     (res->time_real * 100) / 100.0));
 
 

@@ -28,7 +28,7 @@
 #include "sheet.h"
 #include "cell.h"
 #include "expr.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "number-match.h"
 #include "parse-util.h"
 #include "validation.h"
@@ -683,7 +683,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 	    mstyle_get_content_locked (sheet_style_get (sv->sheet, col, row))) {
 		char *pos =  g_strdup_printf ( _("%s!%s is locked"),
 			sv->sheet->name_quoted, cell_coord_name (col, row));
-		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbcg), pos,
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbcg), pos,
 			wb_view_is_protected (wbv, FALSE)
 			 ? _("Unprotect the workbook to enable editing.")
 			 : _("Unprotect the sheet to enable editing."));
@@ -708,7 +708,7 @@ wbcg_edit_start (WorkbookControlGUI *wbcg,
 			gtk_entry_set_text (wbcg_get_entry (wbcg), text);
 
 		if (cell->value != NULL) {
-			GnmFormat *fmt = VALUE_FMT (cell->value);
+			GOFormat *fmt = VALUE_FMT (cell->value);
 			if (fmt != NULL && style_format_is_markup (fmt))
 				wbcg_edit_init_markup (wbcg,
 					pango_attr_list_copy (fmt->markup));

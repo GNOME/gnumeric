@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_REGRESSION_H
 #define GNUMERIC_REGRESSION_H
 
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 
 
 typedef enum {

@@ -219,7 +219,7 @@ ms_container_sheet (MSContainer const *c)
 	return (*c->vtbl->sheet) (c);
 }
 
-GnmFormat *
+GOFormat *
 ms_container_get_fmt (MSContainer const *c, unsigned indx)
 {
 	for ( ; TRUE ; c = c->parent) {

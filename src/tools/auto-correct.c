@@ -29,10 +29,10 @@
 #include "gnumeric.h"
 #include "auto-correct.h"
 
-#include "dates.h"
 #include "application.h"
 #include "gutils.h"
 #include "gnumeric-gconf.h"
+#include <goffice/utils/format.h>
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>
 

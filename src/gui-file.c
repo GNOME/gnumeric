@@ -24,6 +24,7 @@
 #include "gnumeric-gconf.h"
 #include "widgets/widget-charmap-selector.h"
 #include <goffice/utils/go-file.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtklabel.h>
@@ -39,11 +40,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#define PREVIEW_HSIZE 150
-#define PREVIEW_VSIZE 150
-
-typedef struct 
-{
+typedef struct {
 	CharmapSelector *charmap_selector;
 	GtkWidget	*charmap_label;
 	GList *openers;
@@ -123,8 +120,8 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *uri,
 	IOContext *io_context;
 	WorkbookView *wbv;
 
-	gnm_cmd_context_set_sensitive (GNM_CMD_CONTEXT (wbcg), FALSE);
-	io_context = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
+	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), FALSE);
+	io_context = gnumeric_io_context_new (GO_CMD_CONTEXT (wbcg));
 	wbv = wb_view_new_from_uri (uri, optional_format, io_context, 
 				    optional_encoding);
 
@@ -133,7 +130,7 @@ gui_file_read (WorkbookControlGUI *wbcg, char const *uri,
 		gnumeric_io_error_display (io_context);
 
 	g_object_unref (G_OBJECT (io_context));
-	gnm_cmd_context_set_sensitive (GNM_CMD_CONTEXT (wbcg), TRUE);
+	go_cmd_context_set_sensitive (GO_CMD_CONTEXT (wbcg), TRUE);
 
 	if (wbv != NULL) {
 		gui_wb_view_show (wbcg, wbv);
@@ -294,7 +291,7 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 	}
 
 	/* Show file selector */
-	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
+	if (!gnumeric_dialog_file_selection (wbcg_toplevel (wbcg), GTK_WIDGET (fsel)))
 		goto out;
 
 	uri = gtk_file_chooser_get_uri (fsel);
@@ -311,57 +308,6 @@ gui_file_open (WorkbookControlGUI *wbcg, char const *default_format)
 
 		gui_file_read (wbcg, uri, fo, encoding);
 		g_free (uri);
-	}
-}
-
-static void
-update_preview_cb (GtkFileChooser *chooser)
-{
-	gchar *filename = gtk_file_chooser_get_preview_filename (chooser);
-	GtkWidget *label = g_object_get_data (G_OBJECT (chooser), "label-widget");
-	GtkWidget *image = g_object_get_data (G_OBJECT (chooser), "image-widget");
-
-	if (filename == NULL) {
-		gtk_widget_hide (image);
-		gtk_widget_hide (label);
-	} else if (g_file_test (filename, G_FILE_TEST_IS_DIR)) {
-		/* Not quite sure what to do here.  */
-		gtk_widget_hide (image);
-		gtk_widget_hide (label);
-	} else {
-		GdkPixbuf *buf;
-		gboolean dummy;
-
-		buf = gdk_pixbuf_new_from_file (filename, NULL);
-		if (buf) {
-			dummy = FALSE;
-		} else {
-			buf = gnm_app_get_pixbuf ("unknown_image");
-			g_object_ref (buf);
-			dummy = TRUE;
-		}
-
-		if (buf) {
-			GdkPixbuf *pixbuf = gnm_pixbuf_intelligent_scale (buf, PREVIEW_HSIZE, PREVIEW_VSIZE);
-			gtk_image_set_from_pixbuf (GTK_IMAGE (image), pixbuf);
-			g_object_unref (pixbuf);
-			gtk_widget_show (image);
-
-			if (dummy)
-				gtk_label_set_text (GTK_LABEL (label), "");
-			else {
-				int w = gdk_pixbuf_get_width (buf);
-				int h = gdk_pixbuf_get_height (buf);
-				char *size = g_strdup_printf (_("%d x %d"), w, h);
-				gtk_label_set_text (GTK_LABEL (label), size);
-				g_free (size);
-			}
-			gtk_widget_show (label);
-
-			g_object_unref (buf);
-		}
-
-		g_free (filename);
 	}
 }
 
@@ -432,69 +378,6 @@ go_file_is_writable (char const *uri, GtkWindow *parent)
 	return result;
 }
 
-static gboolean
-filter_images (const GtkFileFilterInfo *filter_info, gpointer data)
-{
-	return filter_info->mime_type &&
-		strncmp (filter_info->mime_type, "image/", 6) == 0;
-}
-
-static GtkFileChooser *
-gui_image_chooser_new (WorkbookControlGUI *wbcg, gboolean is_save)
-{
-	GtkFileChooser *fsel;
-
-	fsel = GTK_FILE_CHOOSER
-		(g_object_new (GTK_TYPE_FILE_CHOOSER_DIALOG,
-			       "action", is_save ? GTK_FILE_CHOOSER_ACTION_SAVE : GTK_FILE_CHOOSER_ACTION_OPEN,
-			       "local-only", FALSE,
-			       "use-preview-label", FALSE,
-			       NULL));
-	gtk_dialog_add_buttons (GTK_DIALOG (fsel),
-				GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
-				is_save ? GTK_STOCK_SAVE : GTK_STOCK_OPEN, 
-				GTK_RESPONSE_OK,
-				NULL);
-	gtk_dialog_set_default_response (GTK_DIALOG (fsel), GTK_RESPONSE_OK);
-	/* Filters */
-	{	
-		GtkFileFilter *filter;
-
-		filter = gtk_file_filter_new ();
-		gtk_file_filter_set_name (filter, _("All Files"));
-		gtk_file_filter_add_pattern (filter, "*");
-		gtk_file_chooser_add_filter (fsel, filter);
-
-		filter = gtk_file_filter_new ();
-		gtk_file_filter_set_name (filter, _("Images"));
-		gtk_file_filter_add_custom (filter, GTK_FILE_FILTER_MIME_TYPE,
-					    filter_images, NULL, NULL);
-		gtk_file_chooser_add_filter (fsel, filter);
-		/* Make this filter the default */
-		gtk_file_chooser_set_filter (fsel, filter);
-	}
-
-	/* Preview */
-	{
-		GtkWidget *vbox = gtk_vbox_new (FALSE, 2);
-		GtkWidget *preview_image = gtk_image_new ();
-		GtkWidget *preview_label = gtk_label_new ("");
-
-		g_object_set_data (G_OBJECT (fsel), "image-widget", preview_image);
-		g_object_set_data (G_OBJECT (fsel), "label-widget", preview_label);
-
-		gtk_widget_set_size_request (vbox, PREVIEW_HSIZE, -1);
-
-		gtk_box_pack_start (GTK_BOX (vbox), preview_image, FALSE, FALSE, 0);
-		gtk_box_pack_start (GTK_BOX (vbox), preview_label, FALSE, FALSE, 0);
-		gtk_file_chooser_set_preview_widget (fsel, vbox);
-		g_signal_connect (fsel, "update-preview",
-				  G_CALLBACK (update_preview_cb), NULL);
-		update_preview_cb (fsel);
-	}
-	return fsel;
-}
-
 char *
 gui_get_image_save_info (WorkbookControlGUI *wbcg,
 			 GSList *formats, 
@@ -505,7 +388,7 @@ gui_get_image_save_info (WorkbookControlGUI *wbcg,
 	GtkComboBox *format_combo = NULL;
 	char *uri = NULL;
 
-	fsel = gui_image_chooser_new (wbcg, TRUE);
+	fsel = gui_image_chooser_new (TRUE);
 	g_object_set (G_OBJECT (fsel), "title", _("Save as"), NULL);
 	
 	/* Make format chooser */
@@ -539,7 +422,7 @@ gui_get_image_save_info (WorkbookControlGUI *wbcg,
 
 	/* Show file selector */
  loop:
-	if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
+	if (!gnumeric_dialog_file_selection (wbcg_toplevel (wbcg), GTK_WIDGET (fsel)))
 		goto out;
 	uri = gtk_file_chooser_get_uri (fsel);
 	if (format_combo) {
@@ -570,24 +453,6 @@ gui_get_image_save_info (WorkbookControlGUI *wbcg,
 		goto loop;
 	}
  out:
-	gtk_widget_destroy (GTK_WIDGET (fsel));
-	return uri;
-}
-
-char *
-gui_image_file_select (WorkbookControlGUI *wbcg, const char *initial)
-{
-	GtkFileChooser *fsel;
-	char *uri = NULL;
-
-	fsel = gui_image_chooser_new (wbcg, FALSE);
-	if (initial)
-		gtk_file_chooser_set_uri (fsel, initial);
-	g_object_set (G_OBJECT (fsel), "title", _("Select an Image"), NULL);
-	
-	/* Show file selector */
-	if (gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
-		uri = gtk_file_chooser_get_uri (fsel);
 	gtk_widget_destroy (GTK_WIDGET (fsel));
 	return uri;
 }
@@ -630,7 +495,7 @@ do_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view,
 	success = check_multiple_sheet_support_if_needed (fs, parent, wb_view);
 	if (!success) goto out;
 
-	success = wb_view_save_as (wb_view, fs, uri, GNM_CMD_CONTEXT (wbcg));
+	success = wb_view_save_as (wb_view, fs, uri, GO_CMD_CONTEXT (wbcg));
 
 out:
 	return success;
@@ -743,7 +608,7 @@ gui_file_save_as (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 		char *uri2 = NULL;
 
 		/* Show file selector */
-		if (!gnumeric_dialog_file_selection (wbcg, GTK_WIDGET (fsel)))
+		if (!gnumeric_dialog_file_selection (wbcg_toplevel (wbcg), GTK_WIDGET (fsel)))
 			goto out;
 		fs = g_list_nth_data (savers, gtk_combo_box_get_active (format_combo));
 		if (!fs)
@@ -796,5 +661,5 @@ gui_file_save (WorkbookControlGUI *wbcg, WorkbookView *wb_view)
 	if (wb->file_format_level < FILE_FL_AUTO)
 		return gui_file_save_as (wbcg, wb_view);
 	else
-		return wb_view_save (wb_view, GNM_CMD_CONTEXT (wbcg));
+		return wb_view_save (wb_view, GO_CMD_CONTEXT (wbcg));
 }

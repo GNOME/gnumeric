@@ -11,6 +11,8 @@ noinst_LIBRARIES = libwidgets.a
 libwidgets_a_SOURCES =				\
 	gnm-dao.c				\
 	gnm-dao.h				\
+	gnm-format-sel.c			\
+	gnm-format-sel.h			\
 	widget-charmap-selector.c		\
 	widget-charmap-selector.h		\
 	widget-locale-selector.c		\
@@ -19,8 +21,6 @@ libwidgets_a_SOURCES =				\
 	widget-editable-label.h			\
 	widget-font-selector.c			\
 	widget-font-selector.h			\
-	widget-format-selector.c		\
-	widget-format-selector.h		\
 	gnumeric-cell-renderer-text.c		\
 	gnumeric-cell-renderer-text.h		\
 	gnumeric-cell-renderer-expr-entry.c	\

@@ -249,7 +249,7 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 		if (nexpr == NULL || expr_name_is_placeholder (nexpr)) {
 			GnmRange const *r = selection_first_range (
 				wb_control_cur_sheet_view (wbc),
-				GNM_CMD_CONTEXT (wbc),
+				GO_CMD_CONTEXT (wbc),
 				_("Define Name"));
 			if (r != NULL) {
 				GnmCellRef a, b;
@@ -270,7 +270,8 @@ wb_control_parse_and_jump (WorkbookControl *wbc, char const *text)
 		} else {
 			target = gnm_expr_get_range (nexpr->expr);
 			if (target == NULL) {
-				gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), _("Address"), text);
+				go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
+					_("Address"), text);
 				return FALSE;
 			}
 		}

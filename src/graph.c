@@ -31,7 +31,7 @@
 #include "workbook.h"
 #include "str.h"
 #include "position.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "auto-format.h"
 #include "ranges.h"
 #include "parse-util.h"
@@ -592,8 +592,8 @@ gnm_go_data_vector_get_str (GODataVector *dat, unsigned i)
 	GnmGODataVector *vec = (GnmGODataVector *)dat;
 	GnmValue const *v;
 	GnmEvalPos ep;
-	GnmFormat const *format = NULL;
-	GnmDateConventions const *date_conv = NULL;
+	GOFormat const *format = NULL;
+	GODateConventions const *date_conv = NULL;
 
 	if (vec->val == NULL)
 		gnm_go_data_vector_load_len (dat);
@@ -996,8 +996,8 @@ gnm_go_data_matrix_get_str (GODataMatrix *dat, unsigned i, unsigned j)
 	GnmGODataMatrix *mat = (GnmGODataMatrix *)dat;
 	GnmValue const *v;
 	GnmEvalPos ep;
-	GnmFormat const *format = NULL;
-	GnmDateConventions const *date_conv = NULL;
+	GOFormat const *format = NULL;
+	GODateConventions const *date_conv = NULL;
 
 	if (mat->val == NULL)
 		gnm_go_data_matrix_load_size (dat);

@@ -12,11 +12,11 @@
 #include "gnumeric.h"
 #include "libgnumeric.h"
 #include "gnumeric-paths.h"
-#include "plugin.h"
+#include <goffice/app/go-plugin.h>
 #include "command-context-stderr.h"
 #include "io-context.h"
 #include "workbook-view.h"
-#include "file.h"
+#include <goffice/app/file.h>
 #include "workbook.h"
 #include "sheet.h"
 #include "cell.h"
@@ -27,6 +27,7 @@
 #include "sheet-object-graph.h"
 
 #include <goffice/utils/go-file.h>
+#include <goffice/app/go-cmd-context.h>
 #include <goffice/graph/gog-object.h>
 #include <gsf/gsf-utils.h>
 #include <gsf/gsf-libxml.h>
@@ -182,7 +183,7 @@ main (int argc, char const *argv [])
 {
 	ErrorInfo	*plugin_errs;
 	int		 res = 0;
-	GnmCmdContext	*cc;
+	GOCmdContext	*cc;
 	poptContext ctx;
 
 	gnm_pre_parse_init (argv[0]);
@@ -204,7 +205,7 @@ main (int argc, char const *argv [])
 	gnm_common_init (FALSE);
 
 	cc = cmd_context_stderr_new ();
-	plugins_init (cc);
+	gnm_plugins_init (GO_CMD_CONTEXT (cc));
 	plugin_db_activate_plugin_list (
 		plugins_get_available_plugins (), &plugin_errs);
 

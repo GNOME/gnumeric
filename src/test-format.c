@@ -5,7 +5,7 @@
 #include <string.h>
 #include <time.h>
 #include <math.h>
-#include "format.h"
+#include "gnm-format.h"
 
 void
 test ()

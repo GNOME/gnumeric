@@ -12,7 +12,7 @@ typedef struct {
 					 gboolean sensitive);
 	struct {
 		void (*error)		(GOCmdContext *gcc, GError *err);
-		void (*error_info)  	(GOCmdContext *gcc, GOErrorStack *stack);
+		void (*error_info)  	(GOCmdContext *gcc, ErrorInfo *err);
 	} error;
 
 	void    (*progress_set)		(GOCmdContext *gcc, float val);
@@ -23,7 +23,7 @@ typedef struct {
 #define IS_GO_CMD_CONTEXT_CLASS(k) (G_TYPE_CHECK_CLASS_TYPE((k), GO_CMD_CONTEXT_TYPE))
 
 /* protected, these do not really belong here, they are associated with io-context */
-void  cmd_context_progress_set	       (GOCmdContext *gcc, float f);
-void  cmd_context_progress_message_set (GOCmdContext *gcc, char const *msg);
+void  go_cmd_context_progress_set	  (GOCmdContext *gcc, float f);
+void  go_cmd_context_progress_message_set (GOCmdContext *gcc, char const *msg);
 
 #endif /* GO_CMD_CONTEXT_IMPL_H */

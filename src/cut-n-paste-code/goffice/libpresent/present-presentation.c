@@ -24,7 +24,7 @@
  * USA
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "libpresent/present-presentation.h"
 #include <gsf/gsf-impl-utils.h>
 #include <string.h>

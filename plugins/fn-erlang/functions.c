@@ -34,7 +34,7 @@
 #include <cell.h>
 #include <value.h>
 #include <mathfunc.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <workbook.h>
 #include <sheet.h>
 #include <tools/goal-seek.h>
@@ -43,9 +43,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 /*
  * comp_gos == 1 - gos
@@ -68,13 +67,13 @@ calculate_loggos (gnm_float traffic, gnm_float circuits)
 
 #ifdef CANCELLATION
 	/* Calculated this way we get cancellation.  */
-	f = circuits * loggnum (traffic) - lgamma1p (circuits) - traffic;
+	f = circuits * gnm_log (traffic) - lgamma1p (circuits) - traffic;
 #else
 	f = (circuits - traffic) +
-		(1 - loggnum (sqrtgnum (2 * M_PIgnum))) -
-		loggnum (circuits + 1) / 2.0 -
+		(1 - gnm_log (gnm_sqrt (2 * M_PIgnum))) -
+		gnm_log (circuits + 1) / 2.0 -
 		logfbit (circuits) +
-		circuits * (loggnum (traffic / (circuits + 1)));
+		circuits * (gnm_log (traffic / (circuits + 1)));
 #endif
 
 	return f - pgamma (traffic, circuits + 1, 1, FALSE, TRUE);
@@ -101,7 +100,7 @@ calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 		gnm_float sum = 0, term = 1, n = circuits;
 		while (n > 1) {
 			term *= n / traffic;
-			if (term < GNUM_EPSILON * sum)
+			if (term < GNM_EPSILON * sum)
 				break;
 			sum += term;
 			n--;
@@ -109,7 +108,7 @@ calculate_gos (gnm_float traffic, gnm_float circuits, gboolean comp)
 		gos = comp ? sum / (1 + sum) : 1 / (1 + sum);
 	} else {
 		gnm_float loggos = calculate_loggos (traffic, circuits);
-		gos = comp ? -expm1gnum (loggos) : expgnum (loggos);
+		gos = comp ? -gnm_expm1 (loggos) : gnm_exp (loggos);
 	}
 
 	return gos;
@@ -244,7 +243,7 @@ gnumeric_dimcirc (FunctionEvalInfo *ei, GnmValue **argv)
 	}
 
 	while (high - low > 1.5) {
-		gnm_float mid = floorgnum ((high + low) / 2 + 0.1);
+		gnm_float mid = gnm_floor ((high + low) / 2 + 0.1);
 		gnm_float gos = calculate_gos (traffic, mid, FALSE);
 		if (gos > des_gos)
 			low = mid;

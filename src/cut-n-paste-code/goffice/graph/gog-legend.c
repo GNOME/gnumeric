@@ -154,7 +154,7 @@ gog_legend_update (GogObject *obj)
 }
 
 static gpointer
-gog_legend_editor (GogObject *gobj, GogDataAllocator *dalloc, GnmCmdContext *cc)
+gog_legend_editor (GogObject *gobj, GogDataAllocator *dalloc, GOCmdContext *cc)
 {
 	static guint legend_pref_page = 0;
 	GtkWidget *notebook = gtk_notebook_new ();

@@ -8,7 +8,4 @@
 	<loader type="Gnumeric_Builtin:module">
 		<attribute name="module_file" value="corba"/>
 	</loader>
-	<services>
-		<service type="general"></service>
-	</services>
 </plugin>

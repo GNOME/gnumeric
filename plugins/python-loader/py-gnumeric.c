@@ -22,7 +22,7 @@
 #include "expr.h"
 #include "func.h"
 #include "str.h"
-#include "plugin.h"
+#include <goffice/app/go-plugin.h>
 #include "parse-util.h"
 #include "gnm-py-interpreter.h"
 #include "py-gnumeric.h"
@@ -156,7 +156,7 @@ GnumericFunc:
 GnumericFuncDict:
 	subscript
 
-GnmPlugin:
+GOPlugin:
 	Methods:
 	- get_dir_name
 	- get_id
@@ -168,7 +168,7 @@ Module Gnumeric:
 	- TRUE/FALSE    (values of type Boolean)
 	- GnumericError (exception), GnumericError* (std exception values)
 	- functions     (dictionary containing all Gnumeric functions)
-	- plugin_info   (value of type GnmPlugin)
+	- plugin_info   (value of type GOPlugin)
 	Methods:
 	- GnmStyle   (creates GnmStyle object with default style, uses mstyle_new_default())
 	- GnmCellPos  (creates GnmCellPos object)
@@ -2047,12 +2047,12 @@ static PyTypeObject py_GnumericFuncDict_object_type = {
 };
 
 /*
- * GnmPlugin
+ * GOPlugin
  */
 
 struct _py_GnmPlugin_object {
 	PyObject_HEAD
-	GnmPlugin *pinfo;
+	GOPlugin *pinfo;
 };
 
 static PyObject *
@@ -2116,7 +2116,7 @@ py_GnmPlugin_get_description_method (py_GnmPlugin_object *self, PyObject *args)
 	return PyString_FromString (gnm_plugin_get_description (self->pinfo));
 }
 
-static GnmPlugin *
+static GOPlugin *
 py_GnmPlugin_as_GnmPlugin (py_GnmPlugin_object *self)
 {
 	return self->pinfo;
@@ -2138,7 +2138,7 @@ py_GnmPlugin_object_dealloc (py_GnmPlugin_object *self)
 }
 
 static PyObject *
-py_new_GnmPlugin_object (GnmPlugin *pinfo)
+py_new_GnmPlugin_object (GOPlugin *pinfo)
 {
 	py_GnmPlugin_object *self;
 
@@ -2155,7 +2155,7 @@ py_new_GnmPlugin_object (GnmPlugin *pinfo)
 static PyTypeObject py_GnmPlugin_object_type = {
 	PyObject_HEAD_INIT(0)
 	0, /* ob_size */
-	(char *) "GnmPlugin",                                /* tp_name */
+	(char *) "GOPlugin",                                /* tp_name */
 	sizeof (py_GnmPlugin_object),               /* tp_size */
 	0, /* tp_itemsize */
 	(destructor) &py_GnmPlugin_object_dealloc,  /* tp_dealloc */
@@ -2314,7 +2314,7 @@ void
 py_initgnumeric (GnmPyInterpreter *interpreter)
 {
 	PyObject *module, *module_dict, *py_pinfo;
-	GnmPlugin *pinfo;
+	GOPlugin *pinfo;
 
 	py_Boolean_object_type.ob_type          =
 	py_CellPos_object_type.ob_type          =

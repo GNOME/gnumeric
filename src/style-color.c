@@ -41,10 +41,11 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 {
 	GnmColor *sc = g_new (GnmColor, 1);
 
-	sc->color.red = red;
-	sc->color.green = green;
-	sc->color.blue = blue;
-	sc->color.pixel = gs_white.pixel;
+	sc->gdk_color.red = red;
+	sc->gdk_color.green = green;
+	sc->gdk_color.blue = blue;
+	sc->gdk_color.pixel = gs_white.pixel;
+	sc->go_color = RGBA_TO_UINT (red>>8,green>>8,blue>>8,0);
 	sc->name = NULL;
 	sc->is_auto = is_auto;
 
@@ -52,10 +53,10 @@ style_color_new_uninterned (gushort red, gushort green, gushort blue,
 	red   += (gs_lavender.red   - red)/2;
 	green += (gs_lavender.green - green)/2;
 	blue  += (gs_lavender.blue  - blue)/2;
-	sc->selected_color.red = red;
-	sc->selected_color.green = green;
-	sc->selected_color.blue = blue;
-	sc->selected_color.pixel = gs_white.pixel;
+	sc->gdk_selected_color.red = red;
+	sc->gdk_selected_color.green = green;
+	sc->gdk_selected_color.blue = blue;
+	sc->gdk_selected_color.pixel = gs_white.pixel;
 
 	sc->ref_count = 1;
 
@@ -68,9 +69,9 @@ style_color_new (gushort red, gushort green, gushort blue)
 	GnmColor *sc;
 	GnmColor key;
 
-	key.color.red   = red;
-	key.color.green = green;
-	key.color.blue  = blue;
+	key.gdk_color.red   = red;
+	key.gdk_color.green = green;
+	key.gdk_color.blue  = blue;
 	key.is_auto = FALSE;
 
 	sc = g_hash_table_lookup (style_color_hash, &key);
@@ -208,9 +209,9 @@ style_color_unref (GnmColor *sc)
 gint
 style_color_equal (const GnmColor *k1, const GnmColor *k2)
 {
-	if (k1->color.red   == k2->color.red &&
-	    k1->color.green == k2->color.green &&
-	    k1->color.blue  == k2->color.blue &&
+	if (k1->gdk_color.red   == k2->gdk_color.red &&
+	    k1->gdk_color.green == k2->gdk_color.green &&
+	    k1->gdk_color.blue  == k2->gdk_color.blue &&
 	    k1->is_auto == k2->is_auto)
 		return 1;
 
@@ -222,7 +223,7 @@ color_hash (gconstpointer v)
 {
 	const GnmColor *k = (const GnmColor *)v;
 
-	return (k->color.red << 16) ^ (k->color.green << 8) ^ (k->color.blue << 0) ^
+	return (k->gdk_color.red << 16) ^ (k->gdk_color.green << 8) ^ (k->gdk_color.blue << 0) ^
 		(k->is_auto);
 }
 
@@ -261,7 +262,7 @@ cb_color_leak (gpointer key, gpointer value, gpointer user_data)
 	GnmColor *color = value;
 
 	fprintf (stderr, "Leaking style-color at %p [%04x:%04x:%04x].\n",
-		 color, color->color.red, color->color.green, color->color.blue);
+		 color, color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue);
 }
 
 void

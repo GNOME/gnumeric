@@ -67,11 +67,11 @@ range_hypot (const gnm_float *xs, int n, gnm_float *res)
 	switch (n) {
 	case 0: *res = 0; return 0;
 	case 1: *res = gnumabs (xs[0]); return 0;
-	case 2: *res = hypotgnum (xs[0], xs[1]); return 0;
+	case 2: *res = gnm_hypot (xs[0], xs[1]); return 0;
 	default:
 		if (range_sumsq (xs, n, res))
 			return 1;
-		*res = sqrtgnum (*res);
+		*res = gnm_sqrt (*res);
 		return 0;
 	}
 }
@@ -228,7 +228,7 @@ range_stddev_pop (const gnm_float *xs, int n, gnm_float *res)
 	if (range_var_pop (xs, n, res))
 		return 1;
 	else {
-		*res = sqrtgnum (*res);
+		*res = gnm_sqrt (*res);
 		return 0;
 	}
 }
@@ -240,7 +240,7 @@ range_stddev_est (const gnm_float *xs, int n, gnm_float *res)
 	if (range_var_est (xs, n, res))
 		return 1;
 	else {
-		*res = sqrtgnum (*res);
+		*res = gnm_sqrt (*res);
 		return 0;
 	}
 }
@@ -367,7 +367,7 @@ product_helper (const gnm_float *xs, int n,
 		*exp2 = 0;
 	} else {
 		int e;
-		gnm_float mant = frexpgnum (x0, &e);
+		gnm_float mant = gnm_frexp (x0, &e);
 		int i;
 
 		for (i = 1; i < n; i++) {
@@ -382,7 +382,7 @@ product_helper (const gnm_float *xs, int n,
 			}
 			if (x < 0) *anynegp = TRUE;
 
-			mant *= frexpgnum (x, &thise);
+			mant *= gnm_frexp (x, &thise);
 			e += thise;
 
 			/* Keep 0.5 < |mant| <= 1.  */
@@ -416,9 +416,9 @@ range_geometric_mean (const gnm_float *xs, int n, gnm_float *res)
 
 	/* Now compute (res * 2^exp2) ^ (1/n).  */
 	if (exp2 >= 0)
-		*res = powgnum (*res * gpow2 (exp2 % n), 1.0 / n) * gpow2 (exp2 / n);
+		*res = gnm_pow (*res * gnm_pow2 (exp2 % n), 1.0 / n) * gnm_pow2 (exp2 / n);
 	else
-		*res = powgnum (*res / gpow2 ((-exp2) % n), 1.0 / n) / gpow2 ((-exp2) / n);
+		*res = gnm_pow (*res / gnm_pow2 ((-exp2) % n), 1.0 / n) / gnm_pow2 ((-exp2) / n);
 
 	return 0;
 }
@@ -436,7 +436,7 @@ range_product (const gnm_float *xs, int n, gnm_float *res)
 
 		product_helper (xs, n, res, &exp2, &zerop, &anynegp);
 		if (exp2)
-			*res = ldexpgnum (*res, exp2);
+			*res = gnm_ldexp (*res, exp2);
 	}
 
 	return 0;
@@ -550,7 +550,7 @@ static guint
 float_hash (const gnm_float *d)
 {
 	int expt;
-	gnm_float mant = frexpgnum (gnumabs (*d), &expt);
+	gnm_float mant = gnm_frexp (gnumabs (*d), &expt);
 	guint h = ((guint)(0x80000000u * mant)) ^ expt;
 	if (*d >= 0)
 		h ^= 0x55555555;

@@ -6,12 +6,14 @@
  */
 
 #include <gnumeric-config.h>
-#include <Python.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
+#include "python-loader.h"
+
+#include <Python.h>
 #include "pygobject.h"
-#include <stdlib.h>
-#include <glib.h>
+#include "py-gnumeric.h"
+#include "gnm-python.h"
+
 #include "application.h"
 #include "workbook.h"
 #include "sheet.h"
@@ -21,20 +23,21 @@
 #include "value.h"
 #include "expr.h"
 #include "expr-impl.h"
+#include "func.h"
 #include "io-context.h"
-#include "plugin-util.h"
-#include "plugin.h"
-#include "plugin-service.h"
-#include "plugin-loader.h"
-#include "module-plugin-defs.h"
-#include "py-gnumeric.h"
-#include "gnm-python.h"
-#include "python-loader.h"
+#include "gnm-plugin.h"
 
-typedef struct _GnmPluginLoaderPython GnmPluginLoaderPython;
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/go-plugin-service.h>
+#include <goffice/app/go-plugin-loader.h>
+#include <goffice/app/module-plugin-defs.h>
+#include <gsf/gsf-impl-utils.h>
+#include <glib/gi18n.h>
+#include <stdlib.h>
+#include <glib.h>
 
-struct _GnmPluginLoaderPython {
-	GnmPluginLoader loader;
+typedef struct {
+	GObject base;
 
 	gchar *module_name;
 
@@ -42,35 +45,20 @@ struct _GnmPluginLoaderPython {
 	GnmPyInterpreter *py_interpreter_info;
 	PyObject *main_module;
 	PyObject *main_module_dict;
-};
-
-typedef struct {
-	GnmPluginLoaderClass parent_class;
-} GnmPluginLoaderPythonClass;
-
-static GObjectClass *parent_class = NULL;
-
-static void gplp_set_attributes (GnmPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error);
-static void gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error);
-static void gplp_unload_base (GnmPluginLoader *loader, ErrorInfo **ret_error);
-static void gplp_load_service_file_opener (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
-static void gplp_load_service_file_saver (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
-static void gplp_load_service_function_group (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
-static void gplp_unload_service_function_group (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
-static void gplp_load_service_ui (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
+} GnmPythonPluginLoader;
+typedef GObjectClass GnmPythonPluginLoaderClass;
 
 #define PLUGIN_GET_LOADER(plugin) \
-	GNM_PLUGIN_LOADER_PYTHON (g_object_get_data (G_OBJECT (plugin), "python-loader"))
+	GNM_PYTHON_PLUGIN_LOADER (g_object_get_data (G_OBJECT (plugin), "python-loader"))
 #define SERVICE_GET_LOADER(service) \
 	PLUGIN_GET_LOADER (plugin_service_get_plugin (service))
 #define SWITCH_TO_PLUGIN(plugin) \
 	gnm_py_interpreter_switch_to (PLUGIN_GET_LOADER (plugin)->py_interpreter_info)
 
-
 static void
-gplp_set_attributes (GnmPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error)
+gplp_set_attributes (GOPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret_error)
 {
-	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
+	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
 	gchar *module_name = NULL;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
@@ -83,26 +71,54 @@ gplp_set_attributes (GnmPluginLoader *loader, GHashTable *attrs, ErrorInfo **ret
 	}
 }
 
-static void
-gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
+static FILE *
+gnumeric_fopen_error_info (const char *file_name, const char *mode, ErrorInfo **ret_error)
 {
-	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
-	const gchar *python_file_extensions[]
-		= {"py", "pyc", "pyo", NULL}, **file_ext;
+	FILE *f;
+
+	g_return_val_if_fail (file_name != NULL, NULL);
+	g_return_val_if_fail (mode != NULL, NULL);
+	g_return_val_if_fail (ret_error != NULL, NULL);
+
+	*ret_error = NULL;
+	f = fopen (file_name, mode);
+	if (f == NULL) {
+		if (strchr (mode, 'w') != NULL && strchr (mode, 'r') == NULL) {
+			*ret_error = error_info_new_printf (
+			             _("Error while opening file \"%s\" for writing."),
+			             file_name);
+		} else {
+			*ret_error = error_info_new_printf (
+			             _("Error while opening file \"%s\" for reading."),
+			             file_name);
+		}
+		error_info_add_details (*ret_error, error_info_new_from_errno ());
+	}
+
+	return f;
+}
+static void
+gplp_load_base (GOPluginLoader *loader, ErrorInfo **ret_error)
+{
+	static gchar const *python_file_extensions[] = {"py", "pyc", "pyo", NULL};
+
+	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
+	gchar const **file_ext;
 	GnmPython *py_object;
 	GnmPyInterpreter *py_interpreter_info;
 	gchar *full_module_file_name = NULL;
 	FILE *f;
+	GOPlugin *plugin = go_plugin_loader_get_plugin (loader);
 	ErrorInfo *open_error;
 	PyObject *modules, *main_module, *main_module_dict;
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	g_object_set_data (G_OBJECT (loader->plugin), "python-loader", loader);
+	g_object_set_data (G_OBJECT (plugin), "python-loader", loader);
 
 	py_object = gnm_python_object_get (ret_error);
 	if (py_object == NULL)
 		return;		/* gnm_python_object_get sets ret_error */
-	py_interpreter_info = gnm_python_new_interpreter (py_object, loader->plugin);
+	py_interpreter_info = gnm_python_new_interpreter (py_object, plugin);
 	if (py_interpreter_info == NULL) {
 		*ret_error = error_info_new_str (_("Cannot create new Python interpreter."));
 		gnm_python_clear_error_if_needed (py_object);
@@ -114,7 +130,7 @@ gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 		gchar *file_name = g_strconcat (
 			loader_python->module_name, ".", *file_ext, NULL);
 		gchar *path = g_build_filename (
-			gnm_plugin_get_dir_name (loader->plugin),
+			gnm_plugin_get_dir_name (plugin),
 			file_name, NULL);
 		g_free (file_name);
 		if (g_file_test (path, G_FILE_TEST_EXISTS)) {
@@ -164,60 +180,17 @@ gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 }
 
 static void
-gplp_unload_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
+gplp_unload_base (GOPluginLoader *loader, ErrorInfo **ret_error)
 {
-	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
+	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
+	GOPlugin *plugin = go_plugin_loader_get_plugin (loader);
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
-	g_object_steal_data (G_OBJECT (loader->plugin), "python-loader");
+	g_object_steal_data (G_OBJECT (plugin), "python-loader");
 	gnm_python_destroy_interpreter (
 		loader_python->py_object, loader_python->py_interpreter_info);
 	g_object_unref (loader_python->py_object);
 }
-
-static void
-gplp_init (GnmPluginLoaderPython *loader_python)
-{
-	g_return_if_fail (IS_GNM_PLUGIN_LOADER_PYTHON (loader_python));
-
-	loader_python->module_name = NULL;
-	loader_python->py_object = NULL;
-	loader_python->py_interpreter_info = NULL;
-}
-
-static void
-gplp_finalize (GObject *obj)
-{
-	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (obj);
-
-	g_free (loader_python->module_name);
-	loader_python->module_name = NULL;
-
-	parent_class->finalize (obj);
-}
-
-static void
-gplp_class_init (GObjectClass *gobject_class)
-{
-	GnmPluginLoaderClass *loader_class =  GNM_PLUGIN_LOADER_CLASS (gobject_class);
-
-	parent_class = g_type_class_peek_parent (gobject_class);
-
-	gobject_class->finalize = gplp_finalize;
-
-	loader_class->set_attributes = gplp_set_attributes;
-	loader_class->load_base = gplp_load_base;
-	loader_class->unload_base = gplp_unload_base;
-	loader_class->load_service_file_opener = gplp_load_service_file_opener;
-	loader_class->load_service_file_saver = gplp_load_service_file_saver;
-	loader_class->load_service_function_group = gplp_load_service_function_group;
-	loader_class->unload_service_function_group = gplp_unload_service_function_group;
-	loader_class->load_service_ui = gplp_load_service_ui;
-}
-
-PLUGIN_CLASS (GnmPluginLoaderPython, gnm_plugin_loader_python,
-	      gplp_class_init, gplp_init,
-	      TYPE_GNM_PLUGIN_LOADER)
 
 /*
  * Service - file_opener
@@ -237,7 +210,7 @@ gplp_loader_data_opener_free (ServiceLoaderDataFileOpener *loader_data)
 }
 
 static gboolean
-gplp_func_file_probe (GnmFileOpener const *fo, GnmPluginService *service,
+gplp_func_file_probe (GnmFileOpener const *fo, GOPluginService *service,
 		      GsfInput *input, FileProbeLevel pl)
 {
 	ServiceLoaderDataFileOpener *loader_data;
@@ -277,9 +250,9 @@ gplp_func_file_probe (GnmFileOpener const *fo, GnmPluginService *service,
 
 static void
 gplp_func_file_open (GnmFileOpener const *fo, 
-		     GnmPluginService *service,
+		     GOPluginService *service,
 		     IOContext *io_context, 
-		     WorkbookView *wb_view,
+		     gpointer wb_view,
 		     GsfInput *input)
 {
 	ServiceLoaderDataFileOpener *loader_data;
@@ -315,11 +288,11 @@ gplp_func_file_open (GnmFileOpener const *fo,
 }
 
 static void
-gplp_load_service_file_opener (GnmPluginLoader *loader,
-			       GnmPluginService *service,
+gplp_load_service_file_opener (GOPluginLoader *loader,
+			       GOPluginService *service,
 			       ErrorInfo **ret_error)
 {
-	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
+	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
 	gchar *func_name_file_probe, *func_name_file_open;
 	PyObject *python_func_file_probe, *python_func_file_open;
 
@@ -382,8 +355,8 @@ gplp_loader_data_saver_free (ServiceLoaderDataFileSaver *loader_data)
 }
 
 static void
-gplp_func_file_save (GnmFileSaver const *fs, GnmPluginService *service,
-		     IOContext *io_context, WorkbookView const *wb_view,
+gplp_func_file_save (GnmFileSaver const *fs, GOPluginService *service,
+		     IOContext *io_context, gconstpointer wb_view,
 		     GsfOutput *output)
 {
 	ServiceLoaderDataFileSaver *saver_data;
@@ -416,11 +389,11 @@ gplp_func_file_save (GnmFileSaver const *fs, GnmPluginService *service,
 }
 
 static void
-gplp_load_service_file_saver (GnmPluginLoader *loader,
-			      GnmPluginService *service,
+gplp_load_service_file_saver (GOPluginLoader *loader,
+			      GOPluginService *service,
 			      ErrorInfo **ret_error)
 {
-	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
+	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
 	gchar *func_name_file_save;
 	PyObject *python_func_file_save;
 
@@ -479,7 +452,7 @@ gplp_loader_data_fngroup_free (ServiceLoaderDataFunctionGroup *loader_data)
 static GnmValue *
 call_python_function_args (FunctionEvalInfo *ei, GnmValue **args)
 {
-	GnmPluginService *service;
+	GOPluginService *service;
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *fn_info_tuple;
 	PyObject *python_fn;
@@ -492,7 +465,7 @@ call_python_function_args (FunctionEvalInfo *ei, GnmValue **args)
 	g_return_val_if_fail (args != NULL, NULL);
 
 	fndef = ei->func_call->func;
-	service = (GnmPluginService *) gnm_func_get_user_data (fndef);
+	service = (GOPluginService *) gnm_func_get_user_data (fndef);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	fn_info_tuple = PyDict_GetItemString (loader_data->python_fn_info_dict,
@@ -509,7 +482,7 @@ call_python_function_args (FunctionEvalInfo *ei, GnmValue **args)
 static GnmValue *
 call_python_function_nodes (FunctionEvalInfo *ei, GnmExprList *expr_tree_list)
 {
-	GnmPluginService *service;
+	GOPluginService *service;
 	ServiceLoaderDataFunctionGroup *loader_data;
 	PyObject *python_fn;
 	GnmFunc const * fndef;
@@ -522,7 +495,7 @@ call_python_function_nodes (FunctionEvalInfo *ei, GnmExprList *expr_tree_list)
 	g_return_val_if_fail (ei->func_call != NULL, NULL);
 
 	fndef = ei->func_call->func;
-	service = (GnmPluginService *) gnm_func_get_user_data (fndef);
+	service = (GOPluginService *) gnm_func_get_user_data (fndef);
 	loader_data = g_object_get_data (G_OBJECT (service), "loader_data");
 	SWITCH_TO_PLUGIN (plugin_service_get_plugin (service));
 	python_fn = PyDict_GetItemString (loader_data->python_fn_info_dict,
@@ -573,7 +546,7 @@ python_function_get_gnumeric_help (PyObject *python_fn_info_dict, PyObject *pyth
 }
 
 static gboolean
-gplp_func_desc_load (GnmPluginService *service,
+gplp_func_desc_load (GOPluginService *service,
 		     char const *name,
 		     GnmFuncDescriptor *res)
 {
@@ -639,11 +612,11 @@ gplp_func_desc_load (GnmPluginService *service,
 }
 
 static void
-gplp_load_service_function_group (GnmPluginLoader *loader,
-				  GnmPluginService *service,
+gplp_load_service_function_group (GOPluginLoader *loader,
+				  GOPluginService *service,
 				  ErrorInfo **ret_error)
 {
-	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
+	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
 	gchar *fn_info_dict_name;
 	PyObject *python_fn_info_dict;
 
@@ -689,13 +662,13 @@ gplp_load_service_function_group (GnmPluginLoader *loader,
 }
 
 static void
-gplp_unload_service_function_group (GnmPluginLoader *loader,
-				    GnmPluginService *service,
+gplp_unload_service_function_group (GOPluginLoader *loader,
+				    GOPluginService *service,
 				    ErrorInfo **ret_error)
 {
 	ServiceLoaderDataFunctionGroup *loader_data;
 
-	g_return_if_fail (IS_GNM_PLUGIN_LOADER_PYTHON (loader));
+	g_return_if_fail (IS_GNM_PYTHON_PLUGIN_LOADER (loader));
 	g_return_if_fail (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (service));
 
 	GNM_INIT_RET_ERROR_INFO (ret_error);
@@ -716,7 +689,7 @@ gplp_loader_data_ui_free (ServiceLoaderDataUI *loader_data)
 }
 
 static void
-gplp_func_exec_action (GnmPluginService *service,
+gplp_func_exec_action (GOPluginService *service,
 		       GnmAction const *action,
 		       WorkbookControl *wbc,
 		       ErrorInfo **ret_error)
@@ -750,12 +723,12 @@ gplp_func_exec_action (GnmPluginService *service,
 }
 
 static void 
-gplp_load_service_ui (GnmPluginLoader *loader,
-		      GnmPluginService *service,
+gplp_load_service_ui (GOPluginLoader *loader,
+		      GOPluginService *service,
 		      ErrorInfo **ret_error)
 {
 
-	GnmPluginLoaderPython *loader_python = GNM_PLUGIN_LOADER_PYTHON (loader);
+	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (loader);
 	gchar *ui_action_names;
 	PyObject *ui_actions;
 
@@ -799,3 +772,71 @@ gplp_load_service_ui (GnmPluginLoader *loader,
 	}
 	g_free (ui_action_names);
 }
+
+static gboolean
+gplp_service_load (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
+{
+	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s))
+		gplp_load_service_function_group (l, s, err);
+	else if (IS_GNM_PLUGIN_SERVICE_UI (s))
+		gplp_load_service_ui (l, s, err);
+	else
+		return FALSE;
+	return TRUE;
+}
+
+static gboolean
+gplp_service_unload (GOPluginLoader *l, GOPluginService *s, ErrorInfo **err)
+{
+	if (IS_GNM_PLUGIN_SERVICE_FUNCTION_GROUP (s))
+		;
+	else if (IS_GNM_PLUGIN_SERVICE_UI (s))
+		gplp_unload_service_function_group (l, s, err);
+	else
+		return FALSE;
+	return TRUE;
+}
+
+static void
+gplp_finalize (GObject *obj)
+{
+	GnmPythonPluginLoader *loader_python = GNM_PYTHON_PLUGIN_LOADER (obj);
+
+	g_free (loader_python->module_name);
+	loader_python->module_name = NULL;
+
+	G_OBJECT_CLASS (g_type_class_peek (G_TYPE_OBJECT))->finalize (obj);
+}
+
+static void
+gplp_init (GnmPythonPluginLoader *loader_python)
+{
+	g_return_if_fail (IS_GNM_PYTHON_PLUGIN_LOADER (loader_python));
+
+	loader_python->module_name = NULL;
+	loader_python->py_object = NULL;
+	loader_python->py_interpreter_info = NULL;
+}
+
+static void
+gplp_class_init (GObjectClass *gobject_class)
+{
+	gobject_class->finalize = gplp_finalize;
+}
+static void
+go_plugin_loader_init (GOPluginLoaderClass *iface)
+{
+	iface->set_attributes		= gplp_set_attributes;
+	iface->load_base		= gplp_load_base;
+	iface->unload_base		= gplp_unload_base;
+	iface->load_service_file_opener	= gplp_load_service_file_opener;
+	iface->load_service_file_saver	= gplp_load_service_file_saver;
+
+	iface->service_load		= gplp_service_load;
+	iface->service_unload		= gplp_service_unload;
+}
+
+GSF_CLASS_FULL (GnmPythonPluginLoader, gnm_python_plugin_loader,
+		gplp_class_init, gplp_init,
+		G_TYPE_OBJECT, 0,
+		GSF_INTERFACE (go_plugin_loader_init, GO_PLUGIN_LOADER_TYPE))

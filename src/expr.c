@@ -27,7 +27,7 @@
 #include "expr-impl.h"
 #include "expr-name.h"
 #include "dependent.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "func.h"
 #include "cell.h"
 #include "sheet.h"
@@ -55,9 +55,9 @@
 
 #if USE_EXPR_POOLS
 /* Memory pool for expressions.  */
-static GnmMemChunk *expression_pool;
-#define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
-#define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
+static GOMemChunk *expression_pool;
+#define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
+#define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
 #else
 #define CHUNK_ALLOC(T,c) g_new (T,1)
 #define CHUNK_FREE(p,v) g_free ((v))
@@ -667,8 +667,8 @@ bin_arith (GnmExpr const *expr, GnmEvalPos const *ep,
 		case GNM_EXPR_OP_EXP:
 			if (ia == 0 && ib <= 0)
 				return value_new_error_NUM (ep);
-			dres = powgnum ((gnm_float)ia, (gnm_float)ib);
-			if (!finitegnum (dres))
+			dres = gnm_pow ((gnm_float)ia, (gnm_float)ib);
+			if (!gnm_finite (dres))
 				return value_new_error_NUM (ep);
 			break;
 
@@ -706,8 +706,8 @@ bin_arith (GnmExpr const *expr, GnmEvalPos const *ep,
 			    (va < 0 && vb != (int)vb))
 				return value_new_error_NUM (ep);
 
-			res = powgnum (va, vb);
-			return finitegnum (res)
+			res = gnm_pow (va, vb);
+			return gnm_finite (res)
 				? value_new_float (res)
 				: value_new_error_NUM (ep);
 		}
@@ -904,7 +904,7 @@ static inline GnmValue *
 negate_value (GnmValue const *v)
 {
 	GnmValue *tmp;
-	GnmFormat *fmt; 
+	GOFormat *fmt; 
 
 	if (v->type == VALUE_INTEGER) {
 		int i = v->v_int.val;
@@ -2763,7 +2763,7 @@ expr_init (void)
 {
 #if USE_EXPR_POOLS
 	expression_pool =
-		gnm_mem_chunk_new ("expression pool",
+		go_mem_chunk_new ("expression pool",
 				   sizeof (GnmExpr),
 				   16 * 1024 - 128);
 #endif
@@ -2791,8 +2791,8 @@ void
 expr_shutdown (void)
 {
 #if USE_EXPR_POOLS
-	gnm_mem_chunk_foreach_leak (expression_pool, cb_expression_pool_leak, NULL);
-	gnm_mem_chunk_destroy (expression_pool, FALSE);
+	go_mem_chunk_foreach_leak (expression_pool, cb_expression_pool_leak, NULL);
+	go_mem_chunk_destroy (expression_pool, FALSE);
 	expression_pool = NULL;
 #endif
 }

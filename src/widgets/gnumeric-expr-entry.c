@@ -27,7 +27,7 @@
 #include <sheet-view.h>
 #include <selection.h>
 #include <commands.h>
-#include <format.h>
+#include <src/gnm-format.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkentry.h>
@@ -422,7 +422,7 @@ gee_class_init (GObjectClass *gobject_class)
 		GNM_EXPR_ENTRY_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmExprEntryClass, update),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		g_cclosure_marshal_VOID__BOOLEAN,
 		G_TYPE_NONE,
 		1, G_TYPE_BOOLEAN);
@@ -430,7 +430,7 @@ gee_class_init (GObjectClass *gobject_class)
 		GNM_EXPR_ENTRY_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GnmExprEntryClass, changed),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 	signals[ACTIVATE] =
@@ -438,7 +438,7 @@ gee_class_init (GObjectClass *gobject_class)
 		G_OBJECT_CLASS_TYPE (gobject_class),
 		G_SIGNAL_RUN_LAST | G_SIGNAL_ACTION,
 		G_STRUCT_OFFSET (GnmExprEntryClass, activate),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE, 0);
 

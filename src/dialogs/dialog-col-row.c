@@ -102,7 +102,7 @@ dialog_col_row (WorkbookControlGUI *wbcg,  char const *operation,
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, COL_ROW_DIALOG_KEY))
 		return NULL;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"colrow.glade", NULL, NULL);
 	if (gui == NULL)
 		return NULL;

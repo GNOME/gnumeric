@@ -583,12 +583,12 @@ gog_object_reorder (GogObject const *obj, gboolean inc, gboolean goto_max)
  * gog_object_get_editor :
  * @obj   : #GogObject
  * @dalloc : #GogDataAllocator
- * @cc     : #GnmCmdContext
+ * @cc     : #GOCmdContext
  *
  **/
 gpointer
 gog_object_get_editor (GogObject *obj, GogDataAllocator *dalloc,
-		       GnmCmdContext *cc)
+		       GOCmdContext *cc)
 {
 	GogObjectClass *klass = GOG_OBJECT_GET_CLASS (obj);
 	g_return_val_if_fail (klass != NULL, NULL);

@@ -44,9 +44,11 @@
 #include "mathfunc.h"
 #include "gnumeric-expr-entry.h"
 #include "dialogs.h"
-#include "xml-io.h"
 #include "dialogs/help.h"
+#include "xml-io.h"
+#include <goffice/gui-utils/go-gui-utils.h>
 #include <goffice/gui-utils/go-combo-text.h>
+#include <goffice/utils/go-libxml-extras.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <libxml/globals.h>
@@ -419,7 +421,7 @@ sheet_widget_frame_user_config (SheetObject *so, SheetControl *sc)
   	state->sheet = sc_sheet	(sc);
   	state->old_focus = NULL;
   	state->old_label = g_strdup(swc->label);
-  	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+  	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"so-frame.glade", NULL, NULL);
   	state->dialog = glade_xml_get_widget (state->gui, "so_frame");
 
@@ -761,7 +763,7 @@ cb_adjustment_value_changed (GtkAdjustment *adjustment,
 	if (sheet_widget_adjustment_get_ref (swa, &ref, TRUE) != NULL) {
 		GnmCell *cell = sheet_cell_fetch (ref.sheet, ref.col, ref.row);
 		/* TODO : add more control for precision, XL is stupid */
-		int new_val = gnumeric_fake_round (swa->adjustment->value);
+		int new_val = gnm_fake_round (swa->adjustment->value);
 		if (cell->value != NULL &&
 		    cell->value->type == VALUE_INTEGER &&
 		    cell->value->v_int.val == new_val)
@@ -944,7 +946,7 @@ sheet_widget_adjustment_user_config (SheetObject *so, SheetControl *sc)
 	state->wbcg = wbcg;
 	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
-	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"so-scrollbar.glade", NULL, NULL);
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Scrollbar");
 
@@ -1561,7 +1563,7 @@ sheet_widget_checkbox_user_config (SheetObject *so, SheetControl *sc)
 	state->sheet = sc_sheet	(sc);
 	state->old_focus = NULL;
 	state->old_label = g_strdup (swc->label);
-	state->gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	state->gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"so-checkbox.glade", NULL, NULL);
 	state->dialog = glade_xml_get_widget (state->gui, "SO-Checkbox");
 

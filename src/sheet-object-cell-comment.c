@@ -32,7 +32,7 @@
 #include "sheet-control-gui-priv.h"
 #include "dialogs.h"
 #include "gui-util.h"
-#include "xml-io.h"
+#include <goffice/utils/go-libxml-extras.h>
 
 #include <libxml/globals.h>
 #include <gsf/gsf-impl-utils.h>
@@ -68,7 +68,7 @@ comment_view_set_bounds (SheetObjectView *sov, double const *coords, gboolean vi
 		SheetObject *so = sheet_object_view_get_so (sov);
 		SheetControlGUI const *scg = GNM_SIMPLE_CANVAS (view->canvas)->scg;
 		double scale;
-		int x, y, i, far_col;
+		int x, y, far_col;
 		FooCanvasPoints *points = foo_canvas_points_new (3);
 		GnmRange const *r = sheet_merge_is_corner (so->sheet,
 			&so->anchor.cell_bound.start);

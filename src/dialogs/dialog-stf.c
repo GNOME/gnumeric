@@ -24,14 +24,15 @@
 #include <gnumeric.h>
 #include "dialog-stf.h"
 
-#include <format.h>
+#include <src/gnm-format.h>
 #include <command-context.h>
 #include <gui-util.h>
-#include <gdk/gdkkeysyms.h>
 #include <sheet-style.h>
 #include <mstyle.h>
 #include <clipboard.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 #include <gtk/gtkmain.h>
+#include <gdk/gdkkeysyms.h>
 
 /**********************************************************************************************
  * DIALOG CONTROLLING CODE
@@ -61,7 +62,7 @@ stf_dialog_set_initial_keyboard_focus (StfDialogData *pagedata)
 		focus_widget = GTK_WIDGET (pagedata->fixed.fixed_auto);
 		break;
 	case DPG_FORMAT:
-		number_format_selector_set_focus (pagedata->format.format_selector);
+		go_format_sel_set_focus (pagedata->format.format_selector);
 		break;
 	default:
 		g_assert_not_reached ();
@@ -298,7 +299,7 @@ stf_dialog_editables_enter (StfDialogData *pagedata)
 	gnumeric_editable_enters
 		(pagedata->window,
 		 GTK_WIDGET (&pagedata->fixed.fixed_colend->entry));
-	number_format_selector_editable_enters
+	go_format_sel_editable_enters
 		(pagedata->format.format_selector,
 	         pagedata->window);
 #endif
@@ -334,7 +335,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	g_return_val_if_fail (source != NULL, NULL);
 	g_return_val_if_fail (data != NULL, NULL);
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"dialog-stf.glade", NULL, NULL);
 	if (gui == NULL)
 		return NULL;
@@ -377,7 +378,7 @@ stf_dialog (WorkbookControlGUI *wbcg,
 	prepare_page (&pagedata);
 	frob_buttons (&pagedata);
 
-	gnumeric_set_transient (wbcg_toplevel (wbcg), GTK_WINDOW (pagedata.dialog));
+	wbcg_set_transient_for (wbcg, GTK_WINDOW (pagedata.dialog));
 	gtk_widget_show (GTK_WIDGET (pagedata.dialog));
 	gtk_main ();
 
@@ -474,7 +475,7 @@ stf_dialog_result_attach_formats_to_cr (DialogStfResult_t *dialogresult,
 	targetcol = 0;
 	for (col = 0; col < dialogresult->parseoptions->formats->len; col++) {
 		if (dialogresult->parseoptions->col_import_array[col]) {
-			GnmFormat *sf = g_ptr_array_index 
+			GOFormat *sf = g_ptr_array_index 
 				(dialogresult->parseoptions->formats, col);
 			GnmStyleRegion *sr = g_new (GnmStyleRegion, 1);
 			

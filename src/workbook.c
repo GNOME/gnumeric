@@ -32,7 +32,7 @@
 #include "history.h"
 #include "commands.h"
 #include "libgnumeric.h"
-#include "file.h"
+#include <goffice/app/file.h>
 #include "io-context.h"
 #include "gutils.h"
 #include "gnm-marshalers.h"
@@ -357,7 +357,7 @@ workbook_class_init (GObjectClass *object_class)
 		WORKBOOK_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, summary_changed),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
@@ -366,7 +366,7 @@ workbook_class_init (GObjectClass *object_class)
 		WORKBOOK_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, filename_changed),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
@@ -375,7 +375,7 @@ workbook_class_init (GObjectClass *object_class)
 		WORKBOOK_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, sheet_order_changed),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
@@ -384,7 +384,7 @@ workbook_class_init (GObjectClass *object_class)
 		WORKBOOK_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, sheet_added),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
@@ -393,7 +393,7 @@ workbook_class_init (GObjectClass *object_class)
 		WORKBOOK_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookClass, sheet_deleted),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
@@ -1267,7 +1267,7 @@ workbook_sheet_rename_check (Workbook *wb,
 			     GSList *sheet_indices,
 			     GSList *new_names,
 			     GSList *sheet_indices_deleted,
-			     GnmCmdContext *cc)
+			     GOCmdContext *cc)
 {
 	GSList *sheet_index = sheet_indices;
 	GSList *new_name = new_names;
@@ -1293,10 +1293,8 @@ workbook_sheet_rename_check (Workbook *wb,
 
 			if (the_new_name == NULL && 
 			    GPOINTER_TO_INT (sheet_index->data) != -1) {
-				gnm_cmd_context_error_invalid 
-					(cc, 
-					 _("Sheet name is NULL"),
-					 the_new_name);
+				go_cmd_context_error_invalid (cc, 
+					_("Sheet name is NULL"), the_new_name);
 				return FALSE;
 			}
 
@@ -1304,20 +1302,17 @@ workbook_sheet_rename_check (Workbook *wb,
 				
 				/* Is the sheet name valid utf-8 ?*/
 				if (!g_utf8_validate (the_new_name, -1, NULL)) {
-					gnm_cmd_context_error_invalid 
-						(cc, 
-						 _("Sheet name is not valid utf-8"),
-						 the_new_name);
+					go_cmd_context_error_invalid (cc, 
+						_("Sheet name is not valid utf-8"),
+						the_new_name);
 					return FALSE;
 				}
 				
 				/* Is the sheet name to short ?*/
 				if (1 > g_utf8_strlen (the_new_name, -1)) {
-					gnm_cmd_context_error_invalid 
-						(cc,
-						 _("Sheet name must have at "
-						   "least 1 letter"),
-						 the_new_name);
+					go_cmd_context_error_invalid (cc,
+						_("Sheet name must have at least 1 letter"),
+						the_new_name);
 					return FALSE;
 				}
 				
@@ -1337,11 +1332,9 @@ workbook_sheet_rename_check (Workbook *wb,
 					}
 
 					if (NULL == tmp_sheets) {
-						gnm_cmd_context_error_invalid 
-							(cc,
-							 _("There is already a "
-							   "sheet named"),
-							 the_new_name);
+						go_cmd_context_error_invalid (cc,
+							_("There is already a sheet named"),
+							the_new_name);
 						return FALSE;
 					}
 				}
@@ -1351,10 +1344,9 @@ workbook_sheet_rename_check (Workbook *wb,
 				    g_slist_find_custom (new_name->next, 
 							 the_new_name, 
 							 gnm_str_compare) != NULL) {
-					gnm_cmd_context_error_invalid 
-						(cc,
-						 _("You may not use this name twice"),
-						 the_new_name);
+					go_cmd_context_error_invalid (cc,
+						_("You may not use this name twice"),
+						the_new_name);
 					return FALSE;
 				}
 			}
@@ -1381,7 +1373,7 @@ gboolean
 workbook_sheet_rename (Workbook *wb,
 		       GSList *sheet_indices,
 		       GSList *new_names,
-		       GnmCmdContext *cc)
+		       GOCmdContext *cc)
 {
 	GSList *sheet_index = sheet_indices;
 	GSList *new_name = new_names;
@@ -1648,7 +1640,7 @@ workbook_sheet_reorder_by_idx (Workbook *wb, GSList *new_order)
  * locale globally and there is not much that I can think of to put in here for
  * now.  Hence I'll leave it as a boolean.
  **/
-GnmDateConventions const *
+GODateConventions const *
 workbook_date_conv (Workbook const *wb)
 {
 	g_return_val_if_fail (wb != NULL, NULL);

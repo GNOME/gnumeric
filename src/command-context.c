@@ -1,20 +1,32 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
+
 /*
- * command-context.c : Error dispatch utilities.
+ * command-context.c: Gnumeric specific extensions to GOCmdContext
  *
- * Author:
- * 	Jody Goldberg <jody@gnome.org>
+ * Copyright (C) 1999-2005 Jody Goldberg (jody@gnome.org)
  *
- * (C) 1999-2001 Jody Goldberg
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of version 2 of the GNU General Public
+ * License as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include "gnumeric.h"
-#include "command-context-priv.h"
+#include "command-context.h"
 #include "ranges.h"
 
-#include <gsf/gsf-impl-utils.h>
+#include <glib/gi18n.h>
 
-#define CC_CLASS(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), GNM_CMD_CONTEXT_TYPE, GnmCmdContextClass))
+#define CC_CLASS(o) (G_TYPE_INSTANCE_GET_INTERFACE ((o), GO_CMD_CONTEXT_TYPE, GOCmdContextClass))
 
 static GError *
 format_message (GQuark id, char const *message)
@@ -24,61 +36,15 @@ format_message (GQuark id, char const *message)
 }
 
 void
-gnm_cmd_context_error (GnmCmdContext *context, GError *err)
-{
-	g_return_if_fail (IS_GNM_CMD_CONTEXT (context));
-	CC_CLASS (context)->error.error (context, err);
-}
-
-void
-gnm_cmd_context_error_info (GnmCmdContext *context, ErrorInfo *error)
-{
-	g_return_if_fail (IS_GNM_CMD_CONTEXT (context));
-	CC_CLASS (context)->error.error_info (context, error);
-}
-
-void
-gnm_cmd_context_error_system (GnmCmdContext *context, char const *message)
-{
-	GError *err = format_message (gnm_error_system (), message);
-	gnm_cmd_context_error (context, err);
-	g_error_free (err);
-}
-
-void
-gnm_cmd_context_error_import (GnmCmdContext *context, char const *message)
-{
-	GError *err = format_message (gnm_error_import (), message);
-	gnm_cmd_context_error (context, err);
-	g_error_free (err);
-}
-
-void
-gnm_cmd_context_error_export (GnmCmdContext *context, char const *message)
-{
-	GError *err = format_message (gnm_error_export (), message);
-	gnm_cmd_context_error (context, err);
-	g_error_free (err);
-}
-
-void
-gnm_cmd_context_error_invalid (GnmCmdContext *context, char const *msg, char const *val)
-{
-	GError *err = g_error_new (gnm_error_invalid(), 0, "Invalid %s : '%s'", msg, val);
-	gnm_cmd_context_error (context, err);
-	g_error_free (err);
-}
-
-void
-gnm_cmd_context_error_calc (GnmCmdContext *context, char const *msg)
+gnm_cmd_context_error_calc (GOCmdContext *context, char const *msg)
 {
 	GError *err = format_message (gnm_error_calc (), msg);
-	gnm_cmd_context_error (context, err);
+	go_cmd_context_error (context, err);
 	g_error_free (err);
 }
 
 void
-gnm_cmd_context_error_splits_array (GnmCmdContext *context,
+gnm_cmd_context_error_splits_array (GOCmdContext *context,
 			     G_GNUC_UNUSED char const *cmd,
 			     GnmRange const *array)
 {
@@ -90,33 +56,9 @@ gnm_cmd_context_error_splits_array (GnmCmdContext *context,
 	else
 		err = g_error_new (gnm_error_array(), 0,
 			_("Would split an array"));
-	gnm_cmd_context_error (context, err);
+	go_cmd_context_error (context, err);
 }
 
-GQuark
-gnm_error_system (void)
-{
-	static GQuark quark;
-	if (!quark)
-		quark = g_quark_from_static_string ("gnm_error_system");
-	return quark;
-}
-GQuark
-gnm_error_import (void)
-{
-	static GQuark quark;
-	if (!quark)
-		quark = g_quark_from_static_string ("gnm_error_import");
-	return quark;
-}
-GQuark
-gnm_error_export (void)
-{
-	static GQuark quark;
-	if (!quark)
-		quark = g_quark_from_static_string ("gnm_error_export");
-	return quark;
-}
 GQuark
 gnm_error_array (void)
 {
@@ -134,66 +76,3 @@ gnm_error_calc (void)
 		quark = g_quark_from_static_string ("gnm_error_calc");
 	return quark;
 }
-
-GQuark
-gnm_error_invalid (void)
-{
-	static GQuark quark;
-	if (!quark)
-		quark = g_quark_from_static_string ("gnm_error_invalid");
-	return quark;
-}
-
-void
-cmd_context_progress_set (GnmCmdContext *context, gfloat f)
-{
-	g_return_if_fail (IS_GNM_CMD_CONTEXT (context));
-
-	CC_CLASS (context)->progress_set (context, f);
-}
-
-void
-cmd_context_progress_message_set (GnmCmdContext *context, gchar const *msg)
-{
-	g_return_if_fail (IS_GNM_CMD_CONTEXT (context));
-
-	if (msg == NULL)
-		msg = " ";
-	CC_CLASS (context)->progress_message_set (context, msg);
-}
-
-char *
-gnm_cmd_context_get_password (GnmCmdContext *cc, char const *filename)
-{
-	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (cc), NULL);
-
-	return CC_CLASS (cc)->get_password (cc, filename);
-}
-
-void
-gnm_cmd_context_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
-{
-	g_return_if_fail (IS_GNM_CMD_CONTEXT (cc));
-
-	CC_CLASS (cc)->set_sensitive (cc, sensitive);
-}
-
-GType
-gnm_cmd_context_get_type (void)
-{
-	static GType gnm_cmd_context_type = 0;
-
-	if (!gnm_cmd_context_type) {
-		static GTypeInfo const gnm_cmd_context_info = {
-			sizeof (GnmCmdContextClass),	/* class_size */
-			NULL,				/* base_init */
-			NULL,				/* base_finalize */
-		};
-
-		gnm_cmd_context_type = g_type_register_static (G_TYPE_INTERFACE,
-			"GnmCmdContext", &gnm_cmd_context_info, 0);
-	}
-
-	return gnm_cmd_context_type;
-}
-

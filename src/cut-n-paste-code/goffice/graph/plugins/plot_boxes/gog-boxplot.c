@@ -27,10 +27,9 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/go-data.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/app/module-plugin-defs.h>
 
-#include <src/gui-util.h>
-
-#include <module-plugin-defs.h>
 #include <glib/gi18n.h>
 #include <glade/glade-xml.h>
 #include <gtk/gtkspinbutton.h>
@@ -47,14 +46,14 @@ cb_gap_changed (GtkAdjustment *adj, GObject *boxplot)
 
 static gpointer
 gog_box_plot_pref (GogObject *obj,
-		   GogDataAllocator *dalloc, GnmCmdContext *cc)
+		   GogDataAllocator *dalloc, GOCmdContext *cc)
 {
 	GtkWidget  *w;
 	GogBoxPlot *boxplot = GOG_BOX_PLOT (obj);
 	char const *dir = gnm_plugin_get_dir_name (
 		plugins_get_plugin_by_id ("GOffice_plot_boxes"));
 	char	 *path = g_build_filename (dir, "gog-boxplot-prefs.glade", NULL);
-	GladeXML *gui = gnm_glade_xml_new (cc, path, "gog_box_plot_prefs", NULL);
+	GladeXML *gui = go_libglade_new (path, "gog_box_plot_prefs", NULL, cc);
 
 	g_free (path);
         if (gui == NULL)
@@ -412,13 +411,13 @@ GSF_CLASS (GogBoxPlotSeries, gog_box_plot_series,
 
 /* Plugin initialization */
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	gog_box_plot_get_type ();
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 }

@@ -10,9 +10,9 @@
 #define _perl_dirty dirty
 #undef dirty
 #include <glib.h>
-#include "plugin.h"
-#include "error-info.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/error-info.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "gutils.h"
 #define dirty _perl_dirty
 #undef _perl_dirty
@@ -23,14 +23,8 @@ extern void xs_init(void);
 
 static PerlInterpreter *gnumeric_perl_interp;
 
-void
-plugin_cleanup_general (ErrorInfo **ret_error)
-{
-	*ret_error = NULL;
-}
-
-void
-plugin_init_general (ErrorInfo **ret_error)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *p, GOCmdContext *cc)
 {
 	char *argv[] = { "", NULL, NULL, NULL };
 	char *arg;

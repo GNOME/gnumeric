@@ -36,6 +36,7 @@
 #include <workbook-edit.h>
 #include <style.h>
 #include <gnumeric-gconf.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <libgnomeprint/gnome-print-job.h>
 #include <libgnomeprint/gnome-print-unit.h>
@@ -622,7 +623,7 @@ unit_editor_configure (UnitInfo *target, PrinterSetupState *state,
 	target->spin = spin;
 	gtk_spin_button_configure (spin, target->adj, 1, 1);
 	gtk_widget_ensure_style (GTK_WIDGET (spin));
-	len = gnm_measure_string (
+	len = go_measure_string (
 		gtk_widget_get_pango_context (gtk_widget_get_toplevel (GTK_WIDGET (spin))),
 		GTK_WIDGET (spin)->style->font_desc,
 		"123.45XXX");
@@ -1006,7 +1007,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
 		return;
 	}
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (state->wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (state->wbcg),
 		"hf-config.glade", NULL, NULL);
         if (gui == NULL)
                 return;
@@ -1649,7 +1650,7 @@ printer_setup_state_new (WorkbookControlGUI *wbcg, Sheet *sheet)
 	PrinterSetupState *state;
 	GladeXML *gui;
 
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"print.glade", NULL, NULL);
         if (gui == NULL)
                 return NULL;

@@ -159,7 +159,7 @@ dialog_autosave (WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, AUTOSAVE_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"autosave.glade", NULL, NULL);
         if (gui == NULL)
                 return;

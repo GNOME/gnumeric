@@ -31,8 +31,9 @@
 #include <goffice/gui-utils/go-color-palette.h>
 #include <goffice/gui-utils/go-combo-color.h>
 #include <goffice/gui-utils/go-combo-pixmaps.h>
+#include <goffice/gui-utils/go-gui-utils.h>
+#include <goffice/gui-utils/go-font-sel.h>
 
-#include <src/gui-util.h>
 #include <glade/glade-xml.h>
 #include <gtk/gtkcheckbutton.h>
 #include <gtk/gtkspinbutton.h>
@@ -43,13 +44,12 @@
 #include <gtk/gtkrange.h>
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtknotebook.h>
-#include <widgets/widget-font-selector.h>
-#include <gui-file.h>
 #include <gdk-pixbuf/gdk-pixdata.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 #include <string.h>
+#include <math.h>
 
 #define HSCALE 100
 #define VSCALE 120
@@ -148,7 +148,7 @@ gog_style_set_image_preview (GdkPixbuf *pix, StylePrefState *state)
 
 	w = glade_xml_get_widget (state->gui, "fill_image_sample");
 
-	scaled = gnm_pixbuf_intelligent_scale (pix, HSCALE, VSCALE);
+	scaled = go_pixbuf_intelligent_scale (pix, HSCALE, VSCALE);
 	gtk_image_set_from_pixbuf (GTK_IMAGE (w), scaled);
 	g_object_unref (scaled);
 
@@ -837,14 +837,11 @@ marker_init (StylePrefState *state, gboolean enable)
 /************************************************************************/
 
 static void
-cb_font_changed (FontSelector *fs, G_GNUC_UNUSED gpointer mstyle,
+cb_font_changed (GOFontSel *fs, G_GNUC_UNUSED gpointer mstyle,
 		 StylePrefState *state)
 {
-	GogStyle *style = state->style;
-	PangoFontDescription *new_font = pango_font_description_copy (style->font.font->desc);
-
-	font_selector_get_pango (fs, new_font);
-	gog_style_set_font (style, new_font);
+	gog_style_set_font (state->style,
+		go_font_sel_get_font (fs));
 	set_style (state);
 }
 
@@ -869,8 +866,8 @@ font_init (StylePrefState *state, guint32 enable, gpointer optional_notebook)
 #endif
 	gtk_widget_show_all (box);
 
-	w = font_selector_new ();
-	font_selector_set_from_pango  (FONT_SELECTOR (w), style->font.font->desc);
+	w = go_font_sel_new ();
+	go_font_sel_set_font (GO_FONT_SEL (w), style->font.font);
 	g_signal_connect (G_OBJECT (w),
 		"font_changed",
 		G_CALLBACK (cb_font_changed), state);
@@ -915,7 +912,7 @@ gog_style_pref_state_free (StylePrefState *state)
 static gpointer
 style_editor (GogStyle *style,
 	      GogStyle *default_style,
-	      GnmCmdContext *cc,
+	      GOCmdContext *cc,
 	      gpointer	 optional_notebook,
 	      GObject	*object_with_style,
 	      gboolean   watch_for_external_change)
@@ -930,7 +927,7 @@ style_editor (GogStyle *style,
 
 	enable = style->interesting_fields;
 
-	gui = gnm_glade_xml_new (cc, "gog-style-prefs.glade", "gog_style_prefs", NULL);
+	gui = go_libglade_new ("gog-style-prefs.glade", "gog_style_prefs", NULL, cc);
 	if (gui == NULL)
 		return NULL;
 
@@ -975,7 +972,7 @@ style_editor (GogStyle *style,
 gpointer
 gog_style_editor (GogStyle *style,
 		  GogStyle *default_style,
-		  GnmCmdContext *cc,
+		  GOCmdContext *cc,
 		  gpointer optional_notebook,
 		  GObject *object_with_style)
 {
@@ -984,7 +981,7 @@ gog_style_editor (GogStyle *style,
 }
 
 gpointer
-gog_styled_object_editor (GogStyledObject *gso, GnmCmdContext *cc, gpointer optional_notebook)
+gog_styled_object_editor (GogStyledObject *gso, GOCmdContext *cc, gpointer optional_notebook)
 {
 	GogStyle *style = gog_style_dup (gog_styled_object_get_style (gso));
 	GogStyle *default_style = gog_styled_object_get_auto_style (gso);
@@ -1577,7 +1574,7 @@ gog_style_font_load (xmlNode *node, GogStyle *style)
 
 		desc = pango_font_description_from_string (str);
 		if (desc != NULL)
-			gog_style_set_font (style, desc);
+			gog_style_set_font_desc (style, desc);
 		xmlFree (str);
 	}
 	if (bool_prop (node, "auto-scale", &tmp))
@@ -1767,13 +1764,24 @@ gog_style_set_marker (GogStyle *style, GOMarker *marker)
 }
 
 void
-gog_style_set_font (GogStyle *style, PangoFontDescription *desc)
+gog_style_set_font_desc (GogStyle *style, PangoFontDescription *desc)
 {
 	GOFont const *font;
 
 	g_return_if_fail (GOG_STYLE (style) != NULL);
 
 	font = go_font_new_by_desc (desc);
+	if (font != NULL) {
+		go_font_unref (style->font.font);
+		style->font.font = font;
+	}
+}
+
+void
+gog_style_set_font (GogStyle *style, GOFont const *font)
+{
+	g_return_if_fail (GOG_STYLE (style) != NULL);
+
 	if (font != NULL) {
 		go_font_unref (style->font.font);
 		style->font.font = font;

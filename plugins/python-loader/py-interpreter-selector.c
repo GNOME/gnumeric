@@ -6,19 +6,21 @@
  */
 
 #include <gnumeric-config.h>
-#include <string.h>
-#include <glib.h>
+#include <goffice/utils/go-glib-extras.h>
+
 #include <gtk/gtkcombobox.h>
 #include <gtk/gtkcelllayout.h>
 #include <gtk/gtkcellrenderertext.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gnumeric.h>
-#include <gutils.h>
 #include <gui-util.h>
-#include <module-plugin-defs.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "gnm-python.h"
 #include "gnm-py-interpreter.h"
 #include "py-interpreter-selector.h"
+
+#include <string.h>
+#include <glib.h>
 
 struct _GnmPyInterpreterSelector {
 	GtkComboBox parent;

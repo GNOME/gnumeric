@@ -2,7 +2,7 @@
 #define GNUMERIC_RANDOM_GENERATOR_H
 
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 #include "dao.h"
 #include "tools.h"
 

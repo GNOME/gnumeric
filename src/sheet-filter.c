@@ -37,8 +37,8 @@
 #include "str.h"
 #include "number-match.h"
 #include "dialogs.h"
-#include "regutf8.h"
 #include "style-color.h"
+#include <goffice/utils/regutf8.h>
 
 #include <libfoocanvas/foo-canvas-widget.h>
 #include <gtk/gtk.h>
@@ -629,7 +629,7 @@ typedef struct  {
 	GnmFilterCondition const *cond;
 	GnmValue		 *val[2];
 	go_regex_t  regexp[2];
-	GnmDateConventions const *date_conv;
+	GODateConventions const *date_conv;
 } FilterExpr;
 
 static void

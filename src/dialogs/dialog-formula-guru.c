@@ -40,7 +40,7 @@
 #include <expr.h>
 #include <expr-impl.h>
 #include <func.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <widgets/gnumeric-expr-entry.h>
 #include <widgets/gnumeric-cell-renderer-expr-entry.h>
 
@@ -926,7 +926,7 @@ dialog_formula_guru (WorkbookControlGUI *wbcg, GnmFunc const *fd)
 	}
 
 	/* Get the dialog and check for errors */
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"formula-guru.glade", NULL, NULL);
 	if (gui == NULL)
 		return;

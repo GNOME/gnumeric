@@ -25,7 +25,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 
 #include "solver.h"
 #include "func.h"
@@ -670,14 +670,14 @@ w_qp_dummy_set_minim (SolverProgram program)
 static void
 w_qp_dummy_set_obj_fn (SolverProgram program, int col, gnm_float value)
 {
-        printf ("w_qp_dummy_set_obj_fn %d, %" GNUM_FORMAT_g "\n", col, value);
+        printf ("w_qp_dummy_set_obj_fn %d, %" GNM_FORMAT_g "\n", col, value);
 }
 
 static void
 w_qp_dummy_set_constr_mat (SolverProgram program, int col, int row,
 			   gnm_float value)
 {
-        printf ("w_qp_dummy_set_constr_mat %d, %d, %" GNUM_FORMAT_g "\n",
+        printf ("w_qp_dummy_set_constr_mat %d, %d, %" GNM_FORMAT_g "\n",
 		col, row, value);
 }
 
@@ -686,7 +686,7 @@ w_qp_dummy_set_constr (SolverProgram program, int row,
 		       SolverConstraintType type,
 		       gnm_float value)
 {
-        printf ("w_qp_dummy_set_constr %d, %d, %" GNUM_FORMAT_g "\n",
+        printf ("w_qp_dummy_set_constr %d, %d, %" GNM_FORMAT_g "\n",
 		row, type, value);
 }
 

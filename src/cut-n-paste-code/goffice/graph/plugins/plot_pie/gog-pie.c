@@ -28,9 +28,9 @@
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/app/module-plugin-defs.h>
 
-#include <module-plugin-defs.h>
-#include <numbers.h>
+#include <goffice/utils/numbers.h>
 
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
@@ -77,10 +77,10 @@ gog_pie_series_element_get_property (GObject *obj, guint param_id,
 	}
 }
 
-extern gpointer gog_pie_series_element_pref (GogPieSeriesElement *element, GnmCmdContext *cc);
+extern gpointer gog_pie_series_element_pref (GogPieSeriesElement *element, GOCmdContext *cc);
 static gpointer
 gog_pie_series_element_editor (GogObject *gobj,
-			       GnmCmdContext *cc)
+			       GOCmdContext *cc)
 {
 	return gog_pie_series_element_pref (GOG_PIE_SERIES_ELEMENT (gobj), cc);
 }
@@ -180,11 +180,11 @@ gog_pie_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotPie");
 }
 
-extern gpointer gog_pie_plot_pref (GogPiePlot *pie, GnmCmdContext *cc);
+extern gpointer gog_pie_plot_pref (GogPiePlot *pie, GOCmdContext *cc);
 static gpointer
 gog_pie_plot_editor (GogObject *item,
 		    G_GNUC_UNUSED GogDataAllocator *dalloc,
-		    GnmCmdContext *cc)
+		    GOCmdContext *cc)
 {
 	return gog_pie_plot_pref (GOG_PIE_PLOT (item), cc);
 }
@@ -303,11 +303,11 @@ gog_ring_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotRing");
 }
 
-extern gpointer gog_ring_plot_pref (GogRingPlot *ring, GnmCmdContext *cc);
+extern gpointer gog_ring_plot_pref (GogRingPlot *ring, GOCmdContext *cc);
 static gpointer
 gog_ring_plot_editor (GogObject *item,
 		      G_GNUC_UNUSED GogDataAllocator *dalloc,
-		      GnmCmdContext *cc)
+		      GOCmdContext *cc)
 {
 	return gog_ring_plot_pref (GOG_RING_PLOT (item), cc);
 }
@@ -715,15 +715,15 @@ GSF_CLASS (GogPieSeries, gog_pie_series,
 	   gog_pie_series_class_init, NULL,
 	   GOG_SERIES_TYPE)
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	gog_pie_series_element_get_type ();
 	gog_pie_plot_get_type ();
 	gog_ring_plot_get_type ();
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 }

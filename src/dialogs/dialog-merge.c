@@ -40,6 +40,7 @@
 #include <commands.h>
 #include <selection.h>
 #include <widgets/gnumeric-expr-entry.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 
 #include <glade/glade.h>
 #include <gtk/gtktreeview.h>
@@ -328,7 +329,7 @@ dialog_merge (WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, MERGE_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"merge.glade", NULL, NULL);
         if (gui == NULL)
                 return;

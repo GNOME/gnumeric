@@ -63,7 +63,7 @@ GogErrorBar  	*gog_error_bar_dup		(GogErrorBar const *bar);
 #ifdef WITH_GTK
 gpointer 	 gog_error_bar_prefs (GogSeries *series, char const* property, 
 				      gboolean horizontal, GogDataAllocator *dalloc, 
-				      GnmCmdContext *cc);
+				      GOCmdContext *cc);
 #endif
 
 gboolean 	 gog_error_bar_get_bounds (const GogErrorBar *bar, int index, 

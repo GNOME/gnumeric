@@ -36,7 +36,7 @@
 #include <workbook-view.h>
 #include <gui-util.h>
 #include <parse-util.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <dao-gui-utils.h>
 #include <sheet.h>
 #include <expr.h>

@@ -341,7 +341,7 @@ dialog_goto_cell (WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, GOTO_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 		"goto.glade", NULL, NULL);
         if (gui == NULL)
                 return;

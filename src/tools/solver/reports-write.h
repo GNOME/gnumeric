@@ -25,7 +25,7 @@
 #define GNUMERIC_SOLVER_REPORTS_WRITE_H
 
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 #include "solver.h"
 
 void

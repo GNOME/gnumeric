@@ -45,7 +45,7 @@
 #include "regression.h"
 #include "sheet-style.h"
 #include "workbook.h"
-#include "format.h"
+#include <src/gnm-format.h>
 #include "sheet-object-cell-comment.h"
 #include "workbook-control.h"
 #include "command-context.h"
@@ -1227,7 +1227,7 @@ confidence_level (data_analysis_output_t *dao,
 	GnmFunc *fd_tinv;
 
 	format = g_strdup_printf (_("/%%%s%%%% CI for the Mean from"
-				    "/to"), GNUM_FORMAT_g);
+				    "/to"), GNM_FORMAT_g);
 	buffer = g_strdup_printf (format, info->c_level * 100);
 	g_free (format);
 	set_cell_text_col (dao, 0, 1, buffer);
@@ -1458,7 +1458,7 @@ analysis_tool_sampling_engine_run (data_analysis_output_t *dao,
 			if (info->periodic) {
 				if ((info->size < 0) || (info->size > data_len)) {
 					destroy_data_set_list (data);
-					gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
+					gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
 						_("The requested sample size is too large for a periodic sample."));
 					return TRUE;
 				}
@@ -3322,7 +3322,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	if (y_data->data->len != ((data_set_t *)g_ptr_array_index (x_data, 0))->data->len) {
 		destroy_data_set (y_data);
 		destroy_data_set_list (x_data);
-		gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
+		gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
 			_("There must be an equal number of entries for each variable in the regression."));
 		info->base.err = analysis_tools_reported_err_input;
 		return TRUE;
@@ -3375,7 +3375,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		g_free (res);
 		switch (regerr) {
 		case REG_not_enough_data:
-			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
+			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
 					 _("There are too few data points to conduct this "
 					   "regression.\nThere must be at least as many "
 					   "data points as free variables."));
@@ -3383,7 +3383,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 			break;
 
 		case REG_near_singular_bad:
-			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
+			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
 					 _("Two or more of the independent variables "
 					   "are nearly linearly\ndependent.  All numerical "
 					   "precision was lost in the computation."));
@@ -3391,7 +3391,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 			break;
 
 		case REG_singular:
-			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
+			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
 					 _("Two or more of the independent variables "
 					   "are linearly\ndependent, and the regression "
 					   "cannot be calculated.\n\nRemove one of these\n"
@@ -3401,7 +3401,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 
 		case REG_invalid_data:
 		case REG_invalid_dimensions:
-			gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
+			gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
 					 _("There must be an equal number of entries "
 					   "for each variable in the regression."));
 			info->base.err = analysis_tools_reported_err_input;
@@ -3455,8 +3455,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 				    "/P-value"
 				    "/Lower %%0.0%s%%%%"
 				    "/Upper %%0.0%s%%%%"),
-				  GNUM_FORMAT_f,
-				  GNUM_FORMAT_f);
+				  GNM_FORMAT_f,
+				  GNM_FORMAT_f);
 	text = g_strdup_printf (format,
 				(1.0 - info->alpha) * 100,
 				(1.0 - info->alpha) * 100);
@@ -3471,7 +3471,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	if (xdim == 1)
 		cor_err =  range_correl_pop (xss[0], (gnm_float *)(y_data->data->data),
 					     y_data->data->len, &r);
-	else r = sqrtgnum (regression_stat->sqr_r);
+	else r = gnm_sqrt (regression_stat->sqr_r);
 
 	/* Multiple R */
 	dao_set_cell_float_na (dao, 1, 3, r, cor_err == 0);
@@ -3483,7 +3483,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	dao_set_cell_float (dao, 1, 5, regression_stat->adj_sqr_r);
 
 	/* Standard Error */
-	dao_set_cell_float (dao, 1, 6, sqrtgnum (regression_stat->var));
+	dao_set_cell_float (dao, 1, 6, gnm_sqrt (regression_stat->var));
 
 	/* Observations */
 	dao_set_cell_float (dao, 1, 7, y_data->data->len);
@@ -3549,7 +3549,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		dao_set_cell_float (dao, 3, 17 + i, this_tval);
 
 		/* P values */
-		P = finitegnum (this_tval)
+		P = gnm_finite (this_tval)
 			? 2 * pt (gnumabs (this_tval), regression_stat->df_resid, FALSE, FALSE)
 			: 0;
 		dao_set_cell_float (dao, 4, 17 + i, P);
@@ -3573,7 +3573,7 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	g_free (res);
 
 	if (regerr == REG_near_singular_good) 
-		gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->base.wbc),
+		gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->base.wbc),
 			_("Two or more of the independent variables "
 			  "are nearly linearly\ndependent.  Treat the "
 			  "regression result with great care!"));
@@ -3681,7 +3681,7 @@ analysis_tool_moving_average_engine_run (data_analysis_output_t *dao,
 					(prev[add_cursor] - prev_av[add_cursor]);
 				if (row >= 2 * info->interval - 2) {
 					dao_set_cell_float (dao, col + 1, row + 1,
-							sqrtgnum (std_err / info->interval));
+							gnm_sqrt (std_err / info->interval));
 					std_err -= (prev[del_cursor] - prev_av[del_cursor]) *
 						(prev[del_cursor] - prev_av[del_cursor]);
 				} else {
@@ -4478,7 +4478,7 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 	    check_data_for_missing (col_data)) {
 		destroy_data_set_list (row_data);
 		destroy_data_set_list (col_data);
-		gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->wbc),
+		gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
 			_("The input range contains non-numeric data."));
 		return TRUE;
 	}
@@ -4696,7 +4696,7 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 	}
 
 	if (empty_sample) {
-		gnm_cmd_context_error_calc (GNM_CMD_CONTEXT (info->wbc),
+		gnm_cmd_context_error_calc (GO_CMD_CONTEXT (info->wbc),
 				 _("One of the factor combinations does not contain "
 				   "any observations!"));
 		return_value =  TRUE;

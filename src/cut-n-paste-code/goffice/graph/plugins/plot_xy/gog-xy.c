@@ -33,8 +33,8 @@
 #include <goffice/utils/go-format.h>
 #include <goffice/utils/go-math.h>
 #include <goffice/utils/go-line.h>
+#include <goffice/app/module-plugin-defs.h>
 
-#include <module-plugin-defs.h>
 #include <glib/gi18n.h>
 #include <gtk/gtklabel.h>
 #include <gsf/gsf-impl-utils.h>
@@ -391,10 +391,10 @@ gog_bubble_plot_type_name (G_GNUC_UNUSED GogObject const *item)
 	return N_("PlotBubble");
 }
 
-extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GnmCmdContext *cc);
+extern gpointer gog_bubble_plot_pref (GogBubblePlot *bubble, GOCmdContext *cc);
 static gpointer
 gog_bubble_plot_editor (GogObject *item, G_GNUC_UNUSED GogDataAllocator *dalloc,
-			GnmCmdContext *cc)
+			GOCmdContext *cc)
 {
 	return gog_bubble_plot_pref (GOG_BUBBLE_PLOT (item), cc);
 }
@@ -1033,7 +1033,7 @@ static void
 gog_xy_series_populate_editor (GogSeries *series,
 				GtkNotebook *book,
 				GogDataAllocator *dalloc,
-				GnmCmdContext *cc)
+				GOCmdContext *cc)
 {
 	GtkWidget *error_page;
 	error_page = gog_error_bar_prefs (series, "y-errors", FALSE, dalloc, cc);
@@ -1071,14 +1071,14 @@ static GSF_CLASS (GogXYSeries, gog_xy_series,
 	   gog_xy_series_class_init, gog_xy_series_init,
 	   GOG_SERIES_TYPE)
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	gog_xy_plot_get_type ();
 	gog_bubble_plot_get_type ();
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 }

@@ -29,7 +29,7 @@
 #define GNUMERIC_DAO_H
 
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 #include "style.h"
 
 typedef enum {

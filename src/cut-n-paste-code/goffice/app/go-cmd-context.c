@@ -29,7 +29,7 @@ go_cmd_context_error (GOCmdContext *context, GError *err)
 }
 
 void
-go_cmd_context_error_info (GOCmdContext *context, GOErrorStack *stack)
+go_cmd_context_error_info (GOCmdContext *context, ErrorInfo *stack)
 {
 	g_return_if_fail (IS_GO_CMD_CONTEXT (context));
 	GCC_CLASS (context)->error.error_info (context, stack);
@@ -101,7 +101,7 @@ go_error_invalid (void)
 }
 
 void
-cmd_context_progress_set (GOCmdContext *context, gfloat f)
+go_cmd_context_progress_set (GOCmdContext *context, gfloat f)
 {
 	g_return_if_fail (IS_GO_CMD_CONTEXT (context));
 
@@ -109,7 +109,7 @@ cmd_context_progress_set (GOCmdContext *context, gfloat f)
 }
 
 void
-cmd_context_progress_message_set (GOCmdContext *context, gchar const *msg)
+go_cmd_context_progress_message_set (GOCmdContext *context, gchar const *msg)
 {
 	g_return_if_fail (IS_GO_CMD_CONTEXT (context));
 

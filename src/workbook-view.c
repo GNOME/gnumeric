@@ -32,9 +32,9 @@
 #include "sheet-merge.h"
 #include "sheet-style.h"
 #include "str.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "func.h"
-#include "file.h"
+#include <goffice/app/file.h>
 #include "expr.h"
 #include "expr-name.h"
 #include "expr-impl.h"
@@ -189,7 +189,7 @@ wb_view_format_feedback (WorkbookView *wbv, gboolean display)
 {
 	SheetView *sv;
 	GnmStyle *style;
-	GnmFormat *sf_style, *sf_cell;
+	GOFormat *sf_style, *sf_cell;
 	GnmCell *cell;
 
 	g_return_if_fail (IS_WORKBOOK_VIEW (wbv));
@@ -567,7 +567,7 @@ wbv_save_to_uri (WorkbookView *wbv, GnmFileSaver const *fs,
 	if (output == NULL) {
 		char *str = g_strdup_printf (_("Can't open '%s' for writing: %s"),
 					     uri, err->message);
-		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context), str);
+		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), str);
 		g_error_free (err);
 		g_free (str);
 		return;
@@ -592,7 +592,7 @@ wbv_save_to_uri (WorkbookView *wbv, GnmFileSaver const *fs,
 		msg = g_strdup_printf (_("An unexplained error happened while saving %s"),
 				       uri);
 
-	gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context), msg);
+	go_cmd_context_error_export (GO_CMD_CONTEXT (io_context), msg);
 	g_free (msg);
 }
 
@@ -611,7 +611,7 @@ wbv_save_to_uri (WorkbookView *wbv, GnmFileSaver const *fs,
  */
 gboolean
 wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *uri,
-		 GnmCmdContext *context)
+		 GOCmdContext *context)
 {
 	IOContext *io_context;
 	Workbook  *wb;
@@ -620,14 +620,14 @@ wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *uri,
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
 	g_return_val_if_fail (IS_GNM_FILE_SAVER (fs), FALSE);
 	g_return_val_if_fail (uri != NULL, FALSE);
-	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (context), FALSE);
+	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_workbook (wbv);
 	io_context = gnumeric_io_context_new (context);
 
-	gnm_cmd_context_set_sensitive (context, FALSE);
+	go_cmd_context_set_sensitive (context, FALSE);
 	wbv_save_to_uri (wbv, fs, uri, io_context);
-	gnm_cmd_context_set_sensitive (context, TRUE);
+	go_cmd_context_set_sensitive (context, TRUE);
 
 	has_error   = gnumeric_io_error_occurred (io_context);
 	has_warning = gnumeric_io_warning_occurred (io_context);
@@ -656,7 +656,7 @@ wb_view_save_as (WorkbookView *wbv, GnmFileSaver *fs, char const *uri,
  * Return value: TRUE if file was successfully saved and FALSE otherwise.
  */
 gboolean
-wb_view_save (WorkbookView *wbv, GnmCmdContext *context)
+wb_view_save (WorkbookView *wbv, GOCmdContext *context)
 {
 	IOContext	*io_context;
 	Workbook	*wb;
@@ -664,7 +664,7 @@ wb_view_save (WorkbookView *wbv, GnmCmdContext *context)
 	gboolean has_error, has_warning;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
-	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (context), FALSE);
+	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_workbook (wbv);
 	fs = workbook_get_file_saver (wb);
@@ -673,7 +673,7 @@ wb_view_save (WorkbookView *wbv, GnmCmdContext *context)
 
 	io_context = gnumeric_io_context_new (context);
 	if (fs == NULL)
-		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context),
+		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
 	else {
 		char const *uri = workbook_get_uri (wb);
@@ -731,7 +731,7 @@ gnm_mailto_url_show (char const *url, char const *working_dir, GError **err)
 	}
 
 	if (err)
-		*err = g_error_new (gnm_error_invalid (), 0,
+		*err = g_error_new (go_error_invalid (), 0,
 				    "Missing handler for mailto URLs.");
 }
 #endif
@@ -746,7 +746,7 @@ cb_cleanup_sendto (gpointer path)
 }
 
 gboolean
-wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
+wb_view_sendto (WorkbookView *wbv, GOCmdContext *context)
 {
 	gboolean problem;
 	IOContext	*io_context;
@@ -754,7 +754,7 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 	GnmFileSaver	*fs;
 
 	g_return_val_if_fail (IS_WORKBOOK_VIEW (wbv), FALSE);
-	g_return_val_if_fail (IS_GNM_CMD_CONTEXT (context), FALSE);
+	g_return_val_if_fail (IS_GO_CMD_CONTEXT (context), FALSE);
 
 	wb = wb_view_workbook (wbv);
 	fs = workbook_get_file_saver (wb);
@@ -794,7 +794,7 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 			if (errno != EEXIST) {
 				g_free (template);
 
-				gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context),
+				go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
 					_("Failed to create temporary file for sending."));
 				gnumeric_io_error_display (io_context);
 				problem = TRUE;
@@ -832,7 +832,7 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 			gnm_mailto_url_show (url, template, &err);
 #endif
 			if (err != NULL) {
-				gnm_cmd_context_error (GNM_CMD_CONTEXT (io_context), err);
+				go_cmd_context_error (GO_CMD_CONTEXT (io_context), err);
 				g_error_free (err);
 				gnumeric_io_error_display (io_context);
 				problem = TRUE;
@@ -848,7 +848,7 @@ wb_view_sendto (WorkbookView *wbv, GnmCmdContext *context)
 		g_timeout_add (1000 * 10, cb_cleanup_sendto, full_name);
 		g_free (uri);
 	} else {
-		gnm_cmd_context_error_export (GNM_CMD_CONTEXT (io_context),
+		go_cmd_context_error_export (GO_CMD_CONTEXT (io_context),
 			_("Default file saver is not available."));
 		gnumeric_io_error_display (io_context);
 		problem = TRUE;
@@ -936,7 +936,7 @@ wb_view_new_from_input  (GsfInput *input,
 			workbook_set_dirty (new_wb, FALSE);
 		}
 	} else
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
 			_("Unsupported file format."));
 
 	return new_wbv;
@@ -988,7 +988,7 @@ wb_view_new_from_uri (char const *uri,
 		msg = g_strdup_printf (_("An unexplained error happened while opening %s"),
 				       uri);
 
-	gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context), msg);
+	go_cmd_context_error_import (GO_CMD_CONTEXT (io_context), msg);
 	g_free (msg);
 
 	return NULL;

@@ -6,24 +6,23 @@
  *    Sean Atkinson <sca20@cam.ac.uk>
  **/
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
-#include <gnumeric.h>
 #include "xbase.h"
+#include <gnumeric.h>
 
 #include <workbook-view.h>
 #include <workbook.h>
 #include <cell.h>
 #include <value.h>
-#include <plugin.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
 #include <sheet.h>
-#include <datetime.h>
 #include <ranges.h>
 #include <mstyle.h>
 #include <sheet-style.h>
 #include <io-context.h>
-
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/error-info.h>
+#include <goffice/app/module-plugin-defs.h>
+#include <goffice/utils/datetime.h>
+#include <glib/gi18n.h>
 #include <stdlib.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;

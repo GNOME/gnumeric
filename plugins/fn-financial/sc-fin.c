@@ -36,7 +36,7 @@
 
 #include <gnumeric-config.h>
 #include <gnumeric.h>
-#include <datetime.h>
+#include <gnm-datetime.h>
 #include <math.h>
 #include <value.h>
 #include "sc-fin.h"
@@ -51,7 +51,7 @@ GetRmz ( gnm_float fZins, gnm_float fZzr, gnm_float fBw, gnm_float fZw,
         if ( fZins == 0.0 )
                 fRmz = ( fBw + fZw ) / fZzr;
         else {
-                gnm_float fTerm = powgnum ( 1.0 + fZins, fZzr );
+                gnm_float fTerm = gnm_pow ( 1.0 + fZins, fZzr );
                 if ( nF > 0 )
                         fRmz = ( fZw * fZins / ( fTerm - 1.0 ) + fBw * fZins /
 				 ( 1.0 - 1.0 / fTerm ) ) / ( 1.0 + fZins );
@@ -72,7 +72,7 @@ GetZw ( gnm_float fZins, gnm_float fZzr, gnm_float fRmz, gnm_float fBw,
         if ( fZins == 0.0 )
                 fZw = fBw + fRmz * fZzr;
         else {
-                gnm_float fTerm = powgnum ( 1.0 + fZins, fZzr );
+                gnm_float fTerm = gnm_pow ( 1.0 + fZins, fZzr );
                 if ( nF > 0 )
                         fZw = fBw * fTerm + fRmz * ( 1.0 + fZins ) *
 				( fTerm - 1.0 ) / fZins;
@@ -98,14 +98,14 @@ Duration (GDate *nSettle, GDate *nMat, gnm_float fCoup, gnm_float fYield,
         fYield += 1.0;
 
         for ( t = 1.0 ; t < fNumOfCoups ; t++ )
-                fDur += t * ( fCoup ) / powgnum ( fYield, t );
+                fDur += t * ( fCoup ) / gnm_pow ( fYield, t );
 
-        fDur += fNumOfCoups * ( fCoup + f100 ) / powgnum ( fYield, fNumOfCoups );
+        fDur += fNumOfCoups * ( fCoup + f100 ) / gnm_pow ( fYield, fNumOfCoups );
 
         for ( t = 1.0 ; t < fNumOfCoups ; t++ )
-                p += fCoup / powgnum ( fYield, t );
+                p += fCoup / gnm_pow ( fYield, t );
 
-        p += ( fCoup + f100 ) / powgnum ( fYield, fNumOfCoups );
+        p += ( fCoup + f100 ) / gnm_pow ( fYield, fNumOfCoups );
 
         fDur /= p;
         fDur /= (gnm_float) nFreq;
@@ -123,7 +123,7 @@ get_amordegrc (gnm_float fCost, GDate *nDate, GDate *nFirstPer,
         gint       n;
 	gnm_float fAmorCoeff, fNRate, fRest, fUsePer;
 
-#define Round(x,y) (floorgnum ((x) + 0.5))
+#define Round(x,y) (gnm_floor ((x) + 0.5))
 
         fUsePer = 1.0 / fRate;
 
@@ -327,8 +327,8 @@ ScGetGDA (gnm_float fWert, gnm_float fRest, gnm_float fDauer,
                 else
                         fAlterWert = 0.0;
         } else
-                fAlterWert = fWert * powgnum (1.0 - fZins, fPeriode - 1.0);
-        fNeuerWert = fWert * powgnum (1.0 - fZins, fPeriode);
+                fAlterWert = fWert * gnm_pow (1.0 - fZins, fPeriode - 1.0);
+        fNeuerWert = fWert * gnm_pow (1.0 - fZins, fPeriode);
 
         if (fNeuerWert < fRest)
                 fGda = fAlterWert - fRest;
@@ -344,7 +344,7 @@ ScInterVDB (gnm_float cost, gnm_float salvage, gnm_float life,
 	    gnm_float life1, gnm_float period, gnm_float factor)
 {
         gnm_float fVdb       = 0;
-        gnm_float fIntEnd    = ceilgnum (period);
+        gnm_float fIntEnd    = gnm_ceil (period);
         int        nLoopEnd   = fIntEnd;
 
         gnm_float fTerm, fLia;
@@ -384,8 +384,8 @@ get_vdb (gnm_float cost, gnm_float salvage, gnm_float life,
 	 gboolean flag)
 {
 	gnm_float fVdb;
-	gnm_float fIntStart = floorgnum (start_period);
-	gnm_float fIntEnd   = ceilgnum (end_period);
+	gnm_float fIntStart = gnm_floor (start_period);
+	gnm_float fIntEnd   = gnm_ceil (end_period);
 	int        i;
 	int        nLoopStart = (int) fIntStart;
 	int        nLoopEnd   = (int) fIntEnd;
@@ -408,7 +408,7 @@ get_vdb (gnm_float cost, gnm_float salvage, gnm_float life,
 		gnm_float life1 = life;
 		gnm_float fPart;
 
-		if ( start_period != floorgnum (start_period) )
+		if ( start_period != gnm_floor (start_period) )
 			if (factor > 1) {
 				if (start_period >= life / 2) {
 					fPart        = start_period - life / 2;

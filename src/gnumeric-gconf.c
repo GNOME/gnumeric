@@ -35,7 +35,7 @@ static GnmAppPrefs prefs;
 GnmAppPrefs const *gnm_app_prefs = &prefs;
 
 #ifdef WITH_GNOME
-#include <format.h>
+#include <goffice/utils/format.h>
 #include <value.h>
 #include <number-match.h>
 #include <gconf/gconf-client.h>
@@ -305,7 +305,7 @@ go_conf_set_value_from_str (char const *key, char const *val_str)
 		go_conf_set_string (key, val_str);
 		break;
 	case G_TYPE_FLOAT: {
-		GnmDateConventions const *conv = NULL;  /* workbook_date_conv (state->wb); */
+		GODateConventions const *conv = NULL;  /* workbook_date_conv (state->wb); */
 		GnmValue *value = format_match_number (val_str, NULL, conv);
 		if (value != NULL) {
 			gnm_float the_float = value_get_as_float (value);
@@ -316,7 +316,7 @@ go_conf_set_value_from_str (char const *key, char const *val_str)
 		break;
 	}
 	case G_TYPE_INT: {
-		GnmDateConventions const *conv = NULL;  /* workbook_date_conv (state->wb); */
+		GODateConventions const *conv = NULL;  /* workbook_date_conv (state->wb); */
 		GnmValue *value = format_match_number (val_str, NULL, conv);
 		if (value != NULL) {
 			int the_int = value_get_as_int (value);
@@ -327,7 +327,7 @@ go_conf_set_value_from_str (char const *key, char const *val_str)
 		break;
 	}
 	case G_TYPE_BOOLEAN: {
-		GnmDateConventions const *conv = NULL;  /* workbook_date_conv (state->wb); */
+		GODateConventions const *conv = NULL;  /* workbook_date_conv (state->wb); */
 		GnmValue *value = format_match_number (val_str, NULL, conv);
 		gboolean err, the_bool;
 		if (value != NULL) {

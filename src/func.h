@@ -14,11 +14,11 @@ void function_dump_defs (char const *filename, gboolean def_or_state);
 /******************************************************************************/
 /* Function group support */
 
-typedef struct {
+struct _GnmFuncGroup {
 	GnmString *internal_name, *display_name;
 	gboolean has_translation;
 	GSList *functions;
-} GnmFuncGroup;
+};
 
 GnmFuncGroup *gnm_func_group_get_nth (gint n);
 GnmFuncGroup *gnm_func_group_fetch     		    (char const *name);
@@ -119,7 +119,6 @@ typedef enum {
 	GNM_FUNC_TEST_STATUS_EXHAUSTIVE,
 	GNM_FUNC_TEST_STATUS_UNDER_DEVELOPMENT
 } GnmFuncTestStatus;
-typedef struct _GnmFuncDescriptor GnmFuncDescriptor;
 
 typedef GnmValue 	*(*GnmFuncArgs)	  (FunctionEvalInfo *ei, GnmValue **args);
 typedef GnmValue 	*(*GnmFuncNodes)  (FunctionEvalInfo *ei, GnmExprList *l);

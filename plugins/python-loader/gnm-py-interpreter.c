@@ -10,9 +10,9 @@
 #include <stdio.h>
 #include <glib.h>
 #include <gnumeric.h>
-#include <plugin.h>
+#include <goffice/app/go-plugin.h>
 #include <gutils.h>
-#include <module-plugin-defs.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "py-gnumeric.h"
 #include "gnm-py-interpreter.h"
 
@@ -22,7 +22,7 @@ struct _GnmPyInterpreter {
 
 	PyThreadState *py_thread_state;
 	PyObject      *stringio_class;
-	GnmPlugin *plugin;
+	GOPlugin *plugin;
 };
 
 typedef struct {
@@ -85,7 +85,7 @@ PLUGIN_CLASS (
 static char *plugin_argv[] = {(char *) "gnumeric", NULL};
 
 GnmPyInterpreter *
-gnm_py_interpreter_new (GnmPlugin *plugin)
+gnm_py_interpreter_new (GOPlugin *plugin)
 {
 	GnmPyInterpreter *interpreter;
 	PyThreadState *py_thread_state;
@@ -259,7 +259,7 @@ gnm_py_interpreter_get_name (GnmPyInterpreter *interpreter)
 	}
 }
 
-GnmPlugin *
+GOPlugin *
 gnm_py_interpreter_get_plugin (GnmPyInterpreter *interpreter)
 {
 	g_return_val_if_fail (IS_GNM_PY_INTERPRETER (interpreter), NULL);

@@ -16,8 +16,8 @@
 #include "gnumeric-pane.h"
 #include "gui-file.h"
 #include "application.h"
-#include "xml-io.h"
 
+#include <goffice/utils/go-libxml-extras.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gsf/gsf-output-stdio.h>
 #include <gsf/gsf-utils.h>
@@ -472,7 +472,7 @@ soi_cb_save_as (SheetObject *so, SheetControl *sc)
 		err = g_error_new (gsf_output_error_id (), 0,
 				   _("Unknown failure while saving image"));
 	if (!res)
-		gnm_cmd_context_error (GNM_CMD_CONTEXT (wbcg), err);
+		go_cmd_context_error (GO_CMD_CONTEXT (wbcg), err);
 
 out:
 	if (pixbuf)

@@ -43,6 +43,7 @@
 #include <cell.h>
 #include <ranges.h>
 #include <io-context.h>
+#include <goffice/app/error-info.h>
 
 #include <gsf/gsf-input.h>
 #include <libxml/HTMLparser.h>

@@ -9,14 +9,14 @@
 #include <glib/gi18n.h>
 #include <pygobject.h>
 #include <glib.h>
-#include <gutils.h>
-#include <plugin.h>
-#include <error-info.h>
-#include <module-plugin-defs.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/error-info.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "gnm-py-interpreter.h"
 #include "gnm-python.h"
 #include "py-gnumeric.h"
 
+#include <goffice/utils/go-glib-extras.h>
 #include <unistd.h>
 
 struct _GnmPython {
@@ -201,7 +201,7 @@ cb_interpreter_switched (GnmPyInterpreter *interpreter, GnmPython *gpy)
 }
 
 GnmPyInterpreter *
-gnm_python_new_interpreter (GnmPython *gpy, GnmPlugin *plugin)
+gnm_python_new_interpreter (GnmPython *gpy, GOPlugin *plugin)
 {
 	GnmPyInterpreter *interpreter;
 

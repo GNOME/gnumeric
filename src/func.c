@@ -25,7 +25,7 @@
 #include "sheet.h"
 #include "value.h"
 #include "number-match.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "func-builtin.h"
 
 #include <string.h>

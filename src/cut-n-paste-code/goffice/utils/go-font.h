@@ -29,7 +29,11 @@
 G_BEGIN_DECLS
 
 struct _GOFont {
-	PangoFontDescription *desc;
+	PangoFontDescription	*desc;
+	int			 underline;
+	gboolean		 strikethrough;
+	GOColor			 color;
+
 	int	 ref_count;
 	int	 font_index; /* each renderer keeps an array for lookup */
 };
@@ -47,8 +51,12 @@ void go_font_cache_register   (GClosure *callback);
 void go_font_cache_unregister (GClosure *callback);
 
 /* private */
-void go_font_init     (void);
-void go_font_shutdown (void);
+void go_fonts_init     (void);
+void go_fonts_shutdown (void);
+
+extern GSList	 *go_fonts_family_names;
+extern GSList	 *go_fonts_size_names;
+extern int const  go_fonts_size_pts [];
 
 /* See http://bugzilla.gnome.org/show_bug.cgi?id=143542 */
 void go_pango_fc_font_map_cache_clear (PangoFcFontMap *font_map);

@@ -39,7 +39,6 @@
 #include "sheet-object.h"
 #include "dialogs.h"
 #include "commands.h"
-#include "datetime.h"
 #include "cmd-edit.h"
 #include "workbook-cmd-format.h"
 #include "selection.h"
@@ -58,23 +57,23 @@
 #include "style-color.h"
 #include "str.h"
 #include "cell.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "gui-file.h"
 #include "search.h"
-#include "error-info.h"
+#include <goffice/app/error-info.h>
 #include "gui-util.h"
 #include "widgets/widget-editable-label.h"
-#include "src/plugin-util.h"
 #include "sheet-object-image.h"
 #include "gnumeric-gconf.h"
 #include "filter.h"
 #include "io-context.h"
-#include "command-context-priv.h"
 #include "stf.h"
 #include "rendered-value.h"
 #include "sort.h"
 #include <goffice/graph/gog-data-set.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 #include <goffice/utils/go-file.h>
+#include <goffice/app/go-cmd-context-impl.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -187,10 +186,10 @@ wbcg_toplevel (WorkbookControlGUI *wbcg)
 	return wbcg->toplevel;
 }
 
-static void
+void
 wbcg_set_transient_for (WorkbookControlGUI *wbcg, GtkWindow *window)
 {
-	gnumeric_set_transient (wbcg_toplevel (wbcg), window);
+	go_window_set_transient (wbcg_toplevel (wbcg), window);
 }
 
 /*#warning merge these and clarfy whether we want the visible scg, or the logical (view) scg */
@@ -391,7 +390,7 @@ wbcg_edit_selection_descr_set (WorkbookControl *wbc, char const *text)
 }
 
 static void
-wbcg_set_sensitive (GnmCmdContext *cc, gboolean sensitive)
+wbcg_set_sensitive (GOCmdContext *cc, gboolean sensitive)
 {
 	GtkWindow *toplevel = wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc));
 
@@ -815,8 +814,8 @@ wbcg_sheet_add (WorkbookControl *wbc, SheetView *sv)
 	 * gtk_notebook_set_tab_label kills our widget & replaces with a label.
 	 */
 	scg->label = editable_label_new (sheet->name_unquoted,
-			sheet->tab_color ? &sheet->tab_color->color : NULL,
-			sheet->tab_text_color ? &sheet->tab_text_color->color : NULL);
+			sheet->tab_color ? &sheet->tab_color->gdk_color : NULL,
+			sheet->tab_text_color ? &sheet->tab_text_color->gdk_color : NULL);
 	g_signal_connect_after (G_OBJECT (scg->label),
 		"edit_finished",
 		G_CALLBACK (cb_sheet_label_edit_finished), wbcg);
@@ -895,7 +894,7 @@ wbcg_sheet_rename (WorkbookControl *wbc, Sheet *sheet)
 	label = gtk_notebook_get_tab_label (wbcg->notebook, GTK_WIDGET (scg->table));
 	editable_label_set_text (EDITABLE_LABEL (label), sheet->name_unquoted);
 	editable_label_set_color (EDITABLE_LABEL (label),
-		&sheet->tab_color->color, &sheet->tab_text_color->color);
+		&sheet->tab_color->gdk_color, &sheet->tab_text_color->gdk_color);
 }
 
 static void
@@ -1104,7 +1103,7 @@ wbcg_claim_selection (WorkbookControl *wbc)
 }
 
 static char *
-wbcg_get_password (GnmCmdContext *cc, char const* filename)
+wbcg_get_password (GOCmdContext *cc, char const* filename)
 {
 	WorkbookControlGUI *wbcg = WORKBOOK_CONTROL_GUI (cc);
 
@@ -1112,14 +1111,14 @@ wbcg_get_password (GnmCmdContext *cc, char const* filename)
 }
 
 static void
-wbcg_error_error (GnmCmdContext *cc, GError *err)
+wbcg_error_error (GOCmdContext *cc, GError *err)
 {
 	gnumeric_notice (wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc)),
 		GTK_MESSAGE_ERROR, err->message);
 }
 
 static void
-wbcg_error_error_info (GnmCmdContext *cc, ErrorInfo *error)
+wbcg_error_error_info (GOCmdContext *cc, ErrorInfo *error)
 {
 	gnumeric_error_info_dialog_show (
 		wbcg_toplevel (WORKBOOK_CONTROL_GUI (cc)), error);
@@ -2028,7 +2027,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 
 	if (!strcmp (target_type, "text/uri-list")) { /* filenames from nautilus */
 		WorkbookView *wbv;
-		IOContext *ioc = gnumeric_io_context_new (GNM_CMD_CONTEXT (wbcg));
+		IOContext *ioc = gnumeric_io_context_new (GO_CMD_CONTEXT (wbcg));
 		char *cdata = g_strndup (selection_data->data, selection_data->length);
 		GSList *l, *uris = go_file_split_uris (cdata);
 
@@ -2042,7 +2041,7 @@ cb_wbcg_drag_data_received (GtkWidget *widget, GdkDragContext *context,
 				if (wbv != NULL)
 					gui_wb_view_show (wbcg, wbv);
 			} else {
-				gnm_cmd_context_error_import (GNM_CMD_CONTEXT (ioc),
+				go_cmd_context_error_import (GO_CMD_CONTEXT (ioc),
 					err->message);
 			}
 			if (gnumeric_io_error_occurred (ioc) ||
@@ -2083,7 +2082,7 @@ wbcg_create_edit_area (WorkbookControlGUI *wbcg)
 	box2  = gtk_hbox_new (FALSE, 0);
 
 	/* Set a reasonable width for the selection box. */
-	len = gnm_measure_string (
+	len = go_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		GTK_WIDGET (entry)->style->font_desc,
 		cell_coord_name (SHEET_MAX_COLS - 1, SHEET_MAX_ROWS - 1));
@@ -2153,10 +2152,10 @@ wbcg_create_status_area (WorkbookControlGUI *wbcg)
 	wbcg->auto_expr_label = tmp = gtk_label_new ("");
 	GTK_WIDGET_UNSET_FLAGS (tmp, GTK_CAN_FOCUS);
 	gtk_widget_ensure_style (tmp);
-	gtk_widget_set_size_request (tmp, gnm_measure_string (
-					     gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
-					     tmp->style->font_desc,
-					     "W") * 15, -1);
+	gtk_widget_set_size_request (tmp, go_measure_string (
+			gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
+			tmp->style->font_desc,
+			"W") * 15, -1);
 	tmp = gtk_event_box_new ();
 	gtk_container_add (GTK_CONTAINER (tmp), wbcg->auto_expr_label);
 	g_signal_connect (G_OBJECT (tmp),
@@ -2168,7 +2167,7 @@ wbcg_create_status_area (WorkbookControlGUI *wbcg)
 
 	wbcg->status_text = tmp = gtk_statusbar_new ();
 	gtk_widget_ensure_style (tmp);
-	gtk_widget_set_size_request (tmp, gnm_measure_string (
+	gtk_widget_set_size_request (tmp, go_measure_string (
 		gtk_widget_get_pango_context (GTK_WIDGET (wbcg->toplevel)),
 		tmp->style->font_desc, "W") * 15, -1);
 
@@ -2274,14 +2273,14 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 }
 
 static void
-wbcg_progress_set (GnmCmdContext *cc, gfloat val)
+wbcg_progress_set (GOCmdContext *cc, gfloat val)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)cc;
 	gtk_progress_bar_set_fraction (GTK_PROGRESS_BAR (wbcg->progress_bar), val);
 }
 
 static void
-wbcg_progress_message_set (GnmCmdContext *cc, gchar const *msg)
+wbcg_progress_message_set (GOCmdContext *cc, gchar const *msg)
 {
 	WorkbookControlGUI *wbcg = (WorkbookControlGUI *)cc;
 	gtk_progress_bar_set_text (GTK_PROGRESS_BAR (wbcg->progress_bar), msg);
@@ -2477,7 +2476,7 @@ wbcg_go_plot_data_allocator_init (GogDataAllocatorClass *iface)
 
 guint wbcg_signals [WBCG_LAST_SIGNAL];
 static void
-wbcg_gnm_cmd_context_init (GnmCmdContextClass *iface)
+wbcg_gnm_cmd_context_init (GOCmdContextClass *iface)
 {
 	iface->get_password	    = wbcg_get_password;
 	iface->set_sensitive	    = wbcg_set_sensitive;
@@ -2530,7 +2529,7 @@ workbook_control_gui_class_init (GObjectClass *object_class)
 		WORKBOOK_CONTROL_GUI_TYPE,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (WorkbookControlGUIClass, markup_changed),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		g_cclosure_marshal_VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
@@ -2574,7 +2573,7 @@ GSF_CLASS_FULL (WorkbookControlGUI, workbook_control_gui,
 		workbook_control_gui_class_init, workbook_control_gui_init,
 		WORKBOOK_CONTROL_TYPE, G_TYPE_FLAG_ABSTRACT,
 		GSF_INTERFACE (wbcg_go_plot_data_allocator_init, GOG_DATA_ALLOCATOR_TYPE);
-		GSF_INTERFACE (wbcg_gnm_cmd_context_init, GNM_CMD_CONTEXT_TYPE))
+		GSF_INTERFACE (wbcg_gnm_cmd_context_init, GO_CMD_CONTEXT_TYPE))
 
 static void
 wbcg_create (WorkbookControlGUI *wbcg,

@@ -25,9 +25,8 @@
 #include <gnumeric.h>
 #include "applix.h"
 
-#include <plugin.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 #include <workbook-view.h>
 #include <workbook.h>
 #include <io-context.h>

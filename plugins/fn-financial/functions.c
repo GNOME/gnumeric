@@ -31,21 +31,20 @@
 #include <cell.h>
 #include <tools/goal-seek.h>
 #include <collect.h>
-#include <datetime.h>
 #include <value.h>
 #include <str.h>
 #include <mathfunc.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <workbook.h>
 #include <sheet.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
+#include <gnm-datetime.h>
 
 #include <math.h>
 #include <limits.h>
 #include <string.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
 #include "sc-fin.h"
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
@@ -140,7 +139,7 @@ calculate_pmt (gnm_float rate, gnm_float nper, gnm_float pv, gnm_float fv,
  */
 static int
 days_monthly_basis (GnmValue *issue_date, GnmValue *maturity_date, int basis,
-		    GnmDateConventions const *date_conv)
+		    GODateConventions const *date_conv)
 {
         GDate    date_i, date_m;
 	int      issue_day, issue_month, issue_year;
@@ -349,7 +348,7 @@ gnumeric_accrint (FunctionEvalInfo *ei, GnmValue **argv)
         GDate      issue, first_interest, settlement;
 	gnm_float rate, a, d, par, freq;
 	int        basis;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
         if (!datetime_value_to_g (&issue, argv[0], date_conv) ||
@@ -424,7 +423,7 @@ gnumeric_accrintm (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float rate, a, d, par;
 	int basis;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	rate  = value_get_as_float (argv[2]);
@@ -486,7 +485,7 @@ gnumeric_intrate (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float investment, redemption, a, d;
 	int basis;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	investment = value_get_as_float (argv[2]);
@@ -542,7 +541,7 @@ gnumeric_received (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float investment, discount, a, d, n;
 	int basis;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	investment = value_get_as_float (argv[2]);
@@ -600,7 +599,7 @@ gnumeric_pricedisc (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float discount, redemption, a, d;
 	int basis;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	discount   = value_get_as_float (argv[2]);
@@ -653,7 +652,7 @@ gnumeric_pricemat (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float discount, yield, a, b, dsm, dim, n;
 	int basis;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	discount = value_get_as_float (argv[3]);
@@ -713,7 +712,7 @@ gnumeric_disc (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float par, redemption, dsm, b;
 	int basis;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	par        = value_get_as_float (argv[2]);
@@ -895,9 +894,9 @@ gnumeric_db (FunctionEvalInfo *ei, GnmValue **argv)
 	if (cost == 0 || life <= 0 || salvage / cost < 0)
 	        return value_new_error_NUM (ei->pos);
 
-	rate  = 1 - powgnum ((salvage / cost), (1 / life));
+	rate  = 1 - gnm_pow ((salvage / cost), (1 / life));
 	rate *= 1000;
-	rate  = floorgnum (rate + 0.5) / 1000;
+	rate  = gnm_floor (rate + 0.5) / 1000;
 
 	total = cost * rate * month / 12;
 
@@ -1112,10 +1111,10 @@ gnumeric_dollarde (FunctionEvalInfo *ei, GnmValue **argv)
 	for (n = 0; tmp; n++)
 	        tmp /= 10;
 
-	floored = floorgnum (fractional_dollar);
+	floored = gnm_floor (fractional_dollar);
 	rest = fractional_dollar - floored;
 
-	return value_new_float (floored + rest * gpow10 (n) / fraction);
+	return value_new_float (floored + rest * gnm_pow10 (n) / fraction);
 }
 
 /***************************************************************************/
@@ -1153,10 +1152,10 @@ gnumeric_dollarfr (FunctionEvalInfo *ei, GnmValue **argv)
 	for (n = 0; tmp; n++)
 	        tmp /= 10;
 
-	floored = floorgnum (fractional_dollar);
+	floored = gnm_floor (fractional_dollar);
 	rest = fractional_dollar - floored;
 
-	return value_new_float (floored + rest * fraction / gpow10 (n));
+	return value_new_float (floored + rest * fraction / gnm_pow10 (n));
 }
 
 /***************************************************************************/
@@ -1209,7 +1208,7 @@ gnumeric_mirr (FunctionEvalInfo *ei, GnmValue **argv)
 	 * the one Microsoft claims to use and it produces the results
 	 * that Excel does.  -- MW.
 	 */
-	res = powgnum ((-npv_pos * pow1p (rrate, n)) / (npv_neg * (1 + rrate)),
+	res = gnm_pow ((-npv_pos * pow1p (rrate, n)) / (npv_neg * (1 + rrate)),
 		       (1.0 / (n - 1))) - 1.0;
 
 	result = value_new_float (res);
@@ -1246,7 +1245,7 @@ gnumeric_tbilleq (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float settlement, maturity, discount;
 	gnm_float dsm, divisor;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	settlement = datetime_value_to_serial (argv[0], date_conv);
@@ -1293,7 +1292,7 @@ gnumeric_tbillprice (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float settlement, maturity, discount;
 	gnm_float res, dsm;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	settlement = datetime_value_to_serial (argv[0], date_conv);
@@ -1336,7 +1335,7 @@ gnumeric_tbillyield (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	gnm_float settlement, maturity, pr;
 	gnm_float res, dsm;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	settlement = datetime_value_to_serial (argv[0], date_conv);
@@ -1432,9 +1431,9 @@ gnumeric_rate (FunctionEvalInfo *ei, GnmValue **argv)
 	goal_seek_initialize (&data);
 
 	data.xmin = MAX (data.xmin,
-			 -powgnum (DBL_MAX / 1e10, 1.0 / udata.nper) + 1);
+			 -gnm_pow (DBL_MAX / 1e10, 1.0 / udata.nper) + 1);
 	data.xmax = MIN (data.xmax,
-			 powgnum (DBL_MAX / 1e10, 1.0 / udata.nper) - 1);
+			 gnm_pow (DBL_MAX / 1e10, 1.0 / udata.nper) - 1);
 
 	/* Newton search from guess.  */
 	status = goal_seek_newton (&gnumeric_rate_f, &gnumeric_rate_df,
@@ -1561,9 +1560,9 @@ gnumeric_irr (FunctionEvalInfo *ei, GnmValue **argv)
 	goal_seek_initialize (&data);
 
 	data.xmin = MAX (data.xmin,
-			 -powgnum (DBL_MAX / 1e10, 1.0 / p.n) + 1);
+			 -gnm_pow (DBL_MAX / 1e10, 1.0 / p.n) + 1);
 	data.xmax = MIN (data.xmax,
-			 powgnum (DBL_MAX / 1e10, 1.0 / p.n) - 1);
+			 gnm_pow (DBL_MAX / 1e10, 1.0 / p.n) - 1);
 
 	status = goal_seek_newton (&irr_npv, &irr_npv_df, &data, &p, rate0);
 	if (status != GOAL_SEEK_OK) {
@@ -2072,7 +2071,7 @@ gnumeric_nper (FunctionEvalInfo *ei, GnmValue **argv)
 	if (tmp <= 0.0)
 		return value_new_error_VALUE (ei->pos);
 
-        return value_new_float (loggnum (tmp) / log1pgnum (rate));
+        return value_new_float (gnm_log (tmp) / gnm_log1p (rate));
 }
 
 /***************************************************************************/
@@ -2171,7 +2170,7 @@ gnumeric_g_duration (FunctionEvalInfo *ei, GnmValue **argv)
 	else if (fv / pv < 0)
 		return value_new_error_VALUE (ei->pos);
 
-        return value_new_float (loggnum (fv / pv) / log1pgnum (rate));
+        return value_new_float (gnm_log (fv / pv) / gnm_log1p (rate));
 
 }
 
@@ -2595,7 +2594,7 @@ gnumeric_yielddisc (FunctionEvalInfo *ei, GnmValue **argv)
 	gnm_float fPrice, fRedemp;
 	gint      nBase;
 	gnm_float ret, yfrac;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	fPrice     = value_get_as_float (argv[2]);
@@ -2654,7 +2653,7 @@ gnumeric_yieldmat (FunctionEvalInfo *ei, GnmValue **argv)
         GDate     nSettle, nMat, nIssue;
 	gnm_float fRate, fPrice;
 	gint      nBase;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	fRate      = value_get_as_float (argv[3]);
@@ -2752,7 +2751,7 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 		case BASIS_MSRB_30_360:
 		case BASIS_30E_360: {
 			int cdays = days_between_basis (first_coupon, maturity, conv->basis);
-			n = 1 + (int)ceilgnum (cdays / e);
+			n = 1 + (int)gnm_ceil (cdays / e);
 			break;
 		}
 
@@ -2763,7 +2762,7 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 				GDate prev_date = d;
 				g_date_add_months (&d, 12 / conv->freq);
 				if (g_date_compare (&d, maturity) >= 0) {
-					n += (int)ceilgnum (days_between_basis (&prev_date, maturity, conv->basis) /
+					n += (int)gnm_ceil (days_between_basis (&prev_date, maturity, conv->basis) /
 							    coupdays (&prev_date, &d, conv))
 						+ 1;
 					break;
@@ -2776,10 +2775,10 @@ calc_oddfprice (const GDate *settlement, const GDate *maturity,
 		}
 	}
 
-	term1 = redemption / powgnum (f, n - 1.0 + ds / e);
-	term2 = (df / e) / powgnum (f, ds / e);
-	sum = powgnum (f, -ds / e) *
-		(powgnum (f, -n) - 1 / f) / (1 / f - 1);
+	term1 = redemption / gnm_pow (f, n - 1.0 + ds / e);
+	term2 = (df / e) / gnm_pow (f, ds / e);
+	sum = gnm_pow (f, -ds / e) *
+		(gnm_pow (f, -n) - 1 / f) / (1 / f - 1);
 
 	return term1 + scale * (term2 + sum - a / e);
 }
@@ -3157,7 +3156,7 @@ gnumeric_amordegrc (FunctionEvalInfo *ei, GnmValue **argv)
         GDate     nDate, nFirstPer;
 	gnm_float fRestVal, fRate, fCost;
 	gint      nBase, nPer;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	fCost      = value_get_as_float (argv[0]);
@@ -3217,7 +3216,7 @@ gnumeric_amorlinc (FunctionEvalInfo *ei, GnmValue **argv)
         GDate     nDate, nFirstPer;
 	gnm_float fCost, fRestVal, fRate;
 	gint      nPer, nBase;
-	GnmDateConventions const *date_conv =
+	GODateConventions const *date_conv =
 		workbook_date_conv (ei->pos->sheet->workbook);
 
 	fCost      = value_get_as_float (argv[0]);

@@ -36,6 +36,7 @@
 #include <goffice/graph/go-data-simple.h>
 #include <goffice/utils/go-font.h>
 #include <goffice/utils/go-math.h>
+#include <goffice/app/go-plugin-service.h>
 #include <gsf/gsf-utils.h>
 
 int goffice_graph_debug_level = 0;
@@ -43,11 +44,12 @@ int goffice_graph_debug_level = 0;
 void
 libgoffice_init (void)
 {
-	go_font_init ();
+	go_fonts_init ();
 	go_math_init ();
 	gsf_init ();
 
 	/* keep trigger happy linkers from leaving things out */
+	plugin_services_init ();
 	gog_plugin_services_init ();
 	(void) GOG_GRAPH_TYPE;
 	(void) GOG_CHART_TYPE;
@@ -69,6 +71,6 @@ void
 libgoffice_shutdown (void)
 {
 	gog_themes_shutdown ();
-	go_font_shutdown ();
+	go_fonts_shutdown ();
 	gog_plugin_services_shutdown ();
 }

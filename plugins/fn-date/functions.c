@@ -29,10 +29,10 @@
 #include <parse-util.h>
 #include <str.h>
 #include <cell.h>
-#include <datetime.h>
+#include <gnm-datetime.h>
 #include <value.h>
 #include <mathfunc.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <workbook.h>
 #include <sheet.h>
 
@@ -40,9 +40,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
@@ -84,7 +83,7 @@ gnumeric_date (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	int year, month, day;
 	GDate date;
-	GnmDateConventions const *conv = DATE_CONV (ei->pos);
+	GODateConventions const *conv = DATE_CONV (ei->pos);
 
 	year  = value_get_as_int (argv [0]);
 	month = value_get_as_int (argv [1]);
@@ -188,7 +187,7 @@ gnumeric_date2unix (FunctionEvalInfo *ei, GnmValue **argv)
 		return value_new_error_VALUE (ei->pos);
 
 	return value_new_int (utime +
-		gnumeric_fake_round (DAY_SECONDS * (fserial - serial)));
+		gnm_fake_round (DAY_SECONDS * (fserial - serial)));
 }
 
 /***************************************************************************/
@@ -335,10 +334,10 @@ gnumeric_datedif (FunctionEvalInfo *ei, GnmValue **argv)
 	int date1, date2;
 	char const *opt;
 	GDate d1, d2;
-	GnmDateConventions const *conv = DATE_CONV (ei->pos);
+	GODateConventions const *conv = DATE_CONV (ei->pos);
 
-	date1 = floorgnum (value_get_as_float (argv [0]));
-	date2 = floorgnum (value_get_as_float (argv [1]));
+	date1 = gnm_floor (value_get_as_float (argv [0]));
+	date2 = gnm_floor (value_get_as_float (argv [1]));
 	opt = value_peek_string (argv[2]);
 
 	if (date1 > date2)
@@ -393,7 +392,7 @@ gnumeric_edate (FunctionEvalInfo *ei, GnmValue **argv)
 	int    serial, months;
 	GDate  date;
 	GnmValue *res;
-	GnmDateConventions const *conv = DATE_CONV (ei->pos);
+	GODateConventions const *conv = DATE_CONV (ei->pos);
 
 	serial = value_get_as_int(argv[0]);
 	months = value_get_as_int(argv[1]);
@@ -793,7 +792,7 @@ gnumeric_days360 (FunctionEvalInfo *ei, GnmValue **argv)
 {
 	basis_t basis;
 	GDate date1, date2;
-	GnmDateConventions const *date_conv = DATE_CONV (ei->pos);
+	GODateConventions const *date_conv = DATE_CONV (ei->pos);
 	gnm_float serial1 = datetime_value_to_serial (argv[0], date_conv);
 	gnm_float serial2 = datetime_value_to_serial (argv[1], date_conv);
 	int method = argv[2] ? value_get_as_int (argv[2]) : 0;
@@ -836,7 +835,7 @@ gnumeric_eomonth (FunctionEvalInfo *ei, GnmValue **argv)
 	GnmValue *res;
 	int months = 0;
 	GDate date;
-	GnmDateConventions const *conv = DATE_CONV (ei->pos);
+	GODateConventions const *conv = DATE_CONV (ei->pos);
 
 	datetime_value_to_g (&date, argv[0], conv);
 	if (!g_date_valid (&date))
@@ -886,7 +885,7 @@ gnumeric_workday (FunctionEvalInfo *ei, GnmValue **argv)
 	int days;
 	GDateWeekday weekday;
 	GDate date;
-	GnmDateConventions const *conv = DATE_CONV (ei->pos);
+	GODateConventions const *conv = DATE_CONV (ei->pos);
 
 	datetime_value_to_g (&date, argv[0], conv);
 	if (!g_date_valid (&date))
@@ -953,7 +952,7 @@ static char const *help_networkdays = {
  * Returns -1 on error
  */
 static int
-get_serial_weekday (int serial, int *offset, GnmDateConventions const *conv)
+get_serial_weekday (int serial, int *offset, GODateConventions const *conv)
 {
 	GDate date;
 
@@ -985,7 +984,7 @@ networkdays_holiday_callback (GnmValue const *v, GnmEvalPos const *ep,
 	    (networkdays_holiday_closure *)user_data;
 	int serial;
 	GDate date;
-	GnmDateConventions const *conv = DATE_CONV (ep);
+	GODateConventions const *conv = DATE_CONV (ep);
 
 	if (v->type == VALUE_ERROR)
 		return value_dup (v);
@@ -1012,7 +1011,7 @@ gnumeric_networkdays (FunctionEvalInfo *ei, GnmValue **argv)
 	int start_offset, end_offset, res;
 	networkdays_holiday_closure close;
 	GDate start_date;
-	GnmDateConventions const *conv = DATE_CONV (ei->pos);
+	GODateConventions const *conv = DATE_CONV (ei->pos);
 
 	start_serial = datetime_value_to_serial (argv[0], conv);
 	end_serial = datetime_value_to_serial (argv[1], conv);
@@ -1196,7 +1195,7 @@ static char const *help_yearfrac = {
 static GnmValue *
 gnumeric_yearfrac (FunctionEvalInfo *ei, GnmValue **argv)
 {
-	GnmDateConventions const *conv = DATE_CONV (ei->pos);
+	GODateConventions const *conv = DATE_CONV (ei->pos);
 	GDate start_date, end_date;
 	int basis = (argv[2] != NULL)
 		? value_get_as_int (argv[2])

@@ -18,7 +18,7 @@
 #define GNUMERIC_TOOL_DIALOGS_H
 
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 #include "widgets/gnumeric-expr-entry.h"
 #include <glade/glade-xml.h>
 

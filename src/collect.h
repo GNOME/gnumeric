@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_COLLECT_H
 #define GNUMERIC_COLLECT_H
 
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 #include "gnumeric.h"
 
 typedef enum {

@@ -126,7 +126,7 @@ dialog_new_view (WorkbookControlGUI *wbcg)
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, VIEW_DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 				 "view.glade", NULL, NULL);
 	if (gui == NULL)
 		return;

@@ -40,12 +40,12 @@ typedef struct {
 	GPtrArray        *colformats;     /* Array containing the desired column formats */
 	gboolean         ignore_formats;
 
-	GnmDateConventions const *date_conv;
+	GODateConventions const *date_conv;
 } RenderData_t;
 
 /* These are for creation/deletion */
 RenderData_t*      stf_preview_new                       (GtkWidget *data_container,
-							  GnmDateConventions const *date_conv);
+							  GODateConventions const *date_conv);
 void               stf_preview_free                      (RenderData_t *data);
 
 /* These are for manipulation */
@@ -55,7 +55,7 @@ void               stf_preview_set_lines                 (RenderData_t *data,
 void               stf_preview_set_startrow              (RenderData_t *data, int startrow);
 
 void               stf_preview_colformats_clear          (RenderData_t *renderdata);
-void               stf_preview_colformats_add            (RenderData_t *renderdata, GnmFormat *format);
+void               stf_preview_colformats_add            (RenderData_t *renderdata, GOFormat *format);
 
 
 GtkTreeViewColumn *stf_preview_get_column                (RenderData_t *renderdata, int col);

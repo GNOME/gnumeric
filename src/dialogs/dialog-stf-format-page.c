@@ -23,7 +23,7 @@
 #include <glib/gi18n.h>
 #include <gnumeric.h>
 #include "dialog-stf.h"
-#include <format.h>
+#include <src/gnm-format.h>
 #include <workbook.h>
 #include <gui-util.h>
 #include <gtk/gtktable.h>
@@ -88,7 +88,7 @@ format_page_trim_menu_changed (G_GNUC_UNUSED GtkMenu *menu,
 static void
 activate_column (StfDialogData *pagedata, int i)
 {
-	GnmFormat *colformat;
+	GOFormat *colformat;
 	GtkCellRenderer *cell;
 	RenderData_t *renderdata = pagedata->format.renderdata;
 
@@ -116,7 +116,7 @@ activate_column (StfDialogData *pagedata, int i)
 	if (colformat) {
 	     g_signal_handler_block(pagedata->format.format_selector,
 				    pagedata->format.format_changed_handler_id);
-	     number_format_selector_set_style_format 
+	     go_format_sel_set_style_format 
 		  (pagedata->format.format_selector, colformat);
 	     g_signal_handler_unblock(pagedata->format.format_selector,
 				      pagedata->format.format_changed_handler_id);
@@ -251,11 +251,11 @@ cb_popup_menu_extend_format (GtkWidget *widget, gpointer data)
 {
 	StfDialogData *pagedata = data;
 	guint index = pagedata->format.index;
-	GnmFormat *colformat = g_ptr_array_index 
+	GOFormat *colformat = g_ptr_array_index 
 		(pagedata->format.formats, pagedata->format.index);
 
 	for (index++; index < pagedata->format.formats->len; index++) {
-		GnmFormat *sf = g_ptr_array_index 
+		GOFormat *sf = g_ptr_array_index 
 			(pagedata->format.formats, index);
 		style_format_unref (sf);
 		style_format_ref (colformat); 
@@ -372,7 +372,7 @@ format_page_update_preview (StfDialogData *pagedata)
 
 	stf_preview_colformats_clear (renderdata);
 	for (ui = 0; ui < pagedata->format.formats->len; ui++) {
-		GnmFormat *sf = g_ptr_array_index (pagedata->format.formats, ui);
+		GOFormat *sf = g_ptr_array_index (pagedata->format.formats, ui);
 		stf_preview_colformats_add (renderdata, sf);
 	}
 
@@ -424,9 +424,9 @@ format_page_update_preview (StfDialogData *pagedata)
 			char * label_text = g_strdup_printf 
 				(pagedata->format.col_header, i+1);
 			GtkWidget *label = gtk_label_new (label_text);
-			const GnmFormat *sfg = style_format_general ();
+			const GOFormat *sfg = style_format_general ();
 			GtkWidget *format_label = gtk_label_new 
-				(number_format_selector_format_classification (sfg));
+				(go_format_sel_format_classification (sfg));
 			
 			g_free (label_text);
 			gtk_misc_set_alignment (GTK_MISC (format_label), 0, 0);
@@ -487,7 +487,7 @@ locale_changed_cb (LocaleSelector *ls, char const *new_locale,
 	g_free (pagedata->locale);
 	pagedata->locale = g_strdup (new_locale);
 
-	number_format_selector_set_locale (pagedata->format.format_selector,
+	go_format_sel_set_locale (pagedata->format.format_selector,
 					   new_locale);
 }
 
@@ -509,7 +509,7 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 			  StfDialogData *data)
 {
 	if (data->format.index >= 0) {
-		GnmFormat *sf;
+		GOFormat *sf;
 		GtkTreeViewColumn* column = 
 			stf_preview_get_column (data->format.renderdata, 
 						data->format.index);
@@ -522,7 +522,7 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 
 		sf = style_format_new_XL (fmt, FALSE);
 		gtk_label_set_text (GTK_LABEL (w), 
-				    number_format_selector_format_classification (sf));
+				    go_format_sel_format_classification (sf));
 		g_ptr_array_index (data->format.formats, data->format.index) =
 			sf;
 	}
@@ -542,7 +542,7 @@ cb_number_format_changed (G_GNUC_UNUSED GtkWidget *widget,
 void
 stf_dialog_format_page_prepare (StfDialogData *data)
 {
-	GnmFormat *sf;
+	GOFormat *sf;
 
 	/* Set the trim.  */
 	format_page_trim_menu_changed (NULL, data);
@@ -557,7 +557,7 @@ stf_dialog_format_page_prepare (StfDialogData *data)
 	activate_column (data, 0);
 
 	sf = g_ptr_array_index (data->format.formats, 0);
-	number_format_selector_set_style_format (data->format.format_selector,
+	go_format_sel_set_style_format (data->format.format_selector,
 						 sf);
 }
 
@@ -572,7 +572,7 @@ stf_dialog_format_page_cleanup (StfDialogData *pagedata)
 	if (formats) {
 		unsigned int ui;
 		for (ui = 0; ui < formats->len; ui++) {
-			GnmFormat *sf = g_ptr_array_index (formats, ui);
+			GOFormat *sf = g_ptr_array_index (formats, ui);
 			style_format_unref (sf);
 		}
 		g_ptr_array_free (formats, TRUE);
@@ -599,7 +599,7 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	pagedata->format.col_import_count = 0;
 	pagedata->format.col_header = _("Column %d");
 	
-	pagedata->format.format_selector      = NUMBER_FORMAT_SELECTOR( number_format_selector_new ());
+	pagedata->format.format_selector      = GO_FORMAT_SEL( go_format_sel_new ());
 
 	pagedata->format.format_data_container = glade_xml_get_widget (gui, "format_data_container");
 	pagedata->format.format_trim   = glade_xml_get_widget (gui, "format_trim");
@@ -631,9 +631,8 @@ stf_dialog_format_page_init (GladeXML *gui, StfDialogData *pagedata)
 	/* Connect signals */
 	pagedata->format.format_changed_handler_id = 
 	     g_signal_connect (G_OBJECT (pagedata->format.format_selector),
-			       "number_format_changed",
-			       G_CALLBACK (cb_number_format_changed),
-			       pagedata);
+		    "format_changed",
+		    G_CALLBACK (cb_number_format_changed), pagedata);
 	g_signal_connect (G_OBJECT (pagedata->format.locale_selector),
 			  "locale_changed",
 			  G_CALLBACK (locale_changed_cb), pagedata);

@@ -30,10 +30,12 @@
 #include <src/workbook-edit.h>
 #include <src/commands.h>
 #include <src/sheet-object.h>
+#include <goffice/app/go-cmd-context.h>
+#include <goffice/graph/gog-style.h>
+#include <goffice/gui-utils/go-gui-utils.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkdialog.h>
 #include <gtk/gtkbox.h>
-#include <goffice/graph/gog-style.h>
 
 typedef struct {
 	GObject			*so;
@@ -101,7 +103,7 @@ dialog_so_styled (WorkbookControlGUI *wbcg,
 
 	gtk_box_pack_start (GTK_BOX (GTK_DIALOG (dialog)->vbox),
 		gog_style_editor (orig, default_style,
-			GNM_CMD_CONTEXT (wbcg), NULL, G_OBJECT (so)),
+			GO_CMD_CONTEXT (wbcg), NULL, G_OBJECT (so)),
 		TRUE, TRUE, TRUE);
 	g_object_unref (default_style);
 	g_signal_connect (G_OBJECT (dialog), "response",

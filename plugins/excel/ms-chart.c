@@ -20,7 +20,7 @@
 #include "ms-formula-write.h"
 
 #include <parse-util.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <expr.h>
 #include <value.h>
 #include <gutils.h>
@@ -250,7 +250,7 @@ BC_R(ai)(XLChartHandler const *handle,
 
 	/* Rest are 0 */
 	if (flags&0x01) {
-		GnmFormat *fmt = ms_container_get_fmt (&s->container,
+		GOFormat *fmt = ms_container_get_fmt (&s->container,
 			GSF_LE_GET_GUINT16 (q->data + 4));
 		d (2, fputs ("Has Custom number format;\n", stderr););
 		if (fmt != NULL) {
@@ -882,7 +882,7 @@ ms_chart_map_color (XLChartReadState const *s, guint32 raw, guint32 alpha)
 	if ((~0x7ffffff) & raw) {
 		GnmColor *c= excel_palette_get (s->container.ewb->palette,
 			(0x7ffffff & raw));
-		res = GDK_TO_UINT (c->color);
+		res = GDK_TO_UINT (c->gdk_color);
 		style_color_unref (c);
 	} else {
 		guint8 r, g, b;
@@ -1006,7 +1006,7 @@ static gboolean
 BC_R(ifmt)(XLChartHandler const *handle,
 	   XLChartReadState *s, BiffQuery *q)
 {
-	GnmFormat *fmt = ms_container_get_fmt (&s->container,
+	GOFormat *fmt = ms_container_get_fmt (&s->container,
 		GSF_LE_GET_GUINT16 (q->data));
 
 	if (fmt != NULL) {
@@ -2816,12 +2816,12 @@ store_dim (GogSeries const *series, GogMSDimType t,
 	} else if (IS_GO_DATA_SCALAR (dat)) {
 		/* cheesy test to see if the content is strings or numbers */
 		double tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
-		type = finitegnum (tmp) ? 1 : 3;
+		type = gnm_finite (tmp) ? 1 : 3;
 		count = 1;
 	} else if (IS_GO_DATA_VECTOR (dat)) {
 		/* cheesy test to see if the content is strings or numbers */
 		double tmp = go_data_vector_get_value (GO_DATA_VECTOR (dat), 0);
-		type = finitegnum (tmp) ? 1 : 3;
+		type = gnm_finite (tmp) ? 1 : 3;
 		count = go_data_vector_get_len (GO_DATA_VECTOR (dat));
 		if (count > 30000) /* XL limit */
 			count = 30000;

@@ -75,7 +75,7 @@ go_color_group_class_init (GOColorGroupClass *klass)
 			GO_COLOR_GROUP_TYPE,
 			G_SIGNAL_RUN_LAST,
 			G_STRUCT_OFFSET (GOColorGroupClass, history_changed),
-			(GSignalAccumulator) NULL, NULL,
+			NULL, NULL,
 			g_cclosure_marshal_VOID__VOID,
 			G_TYPE_NONE, 0);
 }

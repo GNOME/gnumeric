@@ -7,7 +7,7 @@
 
 #include "gnumeric.h"
 #include "summary.h"
-#include "file.h"
+#include <goffice/app/file.h>
 #include <glib-object.h>
 
 GType       workbook_get_type            (void);
@@ -45,12 +45,12 @@ gboolean    workbook_sheet_recolor       (Workbook *wb,
 gboolean    workbook_sheet_rename        (Workbook *wb,
 					  GSList *sheet_indices,
 					  GSList *new_names,
-					  GnmCmdContext *cc);
+					  GOCmdContext *cc);
 gboolean    workbook_sheet_rename_check  (Workbook *wb,
 					  GSList *sheet_indices,
 					  GSList *new_names,
 					  GSList *sheet_indices_deleted,
-					  GnmCmdContext *cc);
+					  GOCmdContext *cc);
 gboolean    workbook_sheet_change_protection  (Workbook *wb,
 					       GSList *sheets,
 					       GSList *locks);
@@ -99,7 +99,7 @@ void     workbook_iteration_enabled	 (Workbook *wb, gboolean enable);
 void     workbook_iteration_max_number	 (Workbook *wb, int max_number);
 void     workbook_iteration_tolerance	 (Workbook *wb, double tolerance);
 
-GnmDateConventions const *workbook_date_conv (Workbook const *wb);
+GODateConventions const *workbook_date_conv (Workbook const *wb);
 gboolean workbook_set_1904 (Workbook *wb, gboolean flag);
 
 void workbook_attach_view (Workbook *wb, WorkbookView *wbv);

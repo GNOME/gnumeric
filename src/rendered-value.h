@@ -3,7 +3,6 @@
 
 #include "gnumeric.h"
 #include <pango/pango.h>
-#include <gdk/gdkcolor.h>
 
 /**
  * RenderedValue:
@@ -18,7 +17,7 @@ struct _RenderedValue {
 	guint16 indent_left, indent_right;
 
 	/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
-	GdkColor color;
+	GOColor go_fore_color;
 
 	guint effective_halign : 8; /* 7 bits would be enough.  */
 	guint effective_valign : 8; /* 4 bits would be enough.  */

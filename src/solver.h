@@ -27,7 +27,7 @@
 #ifdef ENABLE_SOLVER
 
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 
 
 typedef enum {

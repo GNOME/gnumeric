@@ -33,16 +33,15 @@
 #include <cell.h>
 #include <ranges.h>
 #include <value.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <workbook.h>
 #include "tools.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 
 #include "mathfunc.h"
 #include "fill-series.h"
 #include "dao.h"
-#include "datetime.h"
-
+#include <goffice/utils/datetime.h>
 
 static void
 do_row_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
@@ -50,7 +49,7 @@ do_row_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 	int i;
 	gnm_float start = info->start_value;
 	GDate        date;
-	GnmDateConventions const *conv =
+	GODateConventions const *conv =
 		workbook_date_conv (dao->sheet->workbook);
 
 	
@@ -80,7 +79,7 @@ do_column_filling_wday (data_analysis_output_t *dao, fill_series_t *info)
 	int i;
 	gnm_float start = info->start_value;
 	GDate        date;
-	GnmDateConventions const *conv =
+	GODateConventions const *conv =
 		workbook_date_conv (dao->sheet->workbook);
 
 	
@@ -111,7 +110,7 @@ do_row_filling_month (data_analysis_output_t *dao, fill_series_t *info)
 	int i;
 	gnm_float start = info->start_value;
 	GDate        date;
-	GnmDateConventions const *conv =
+	GODateConventions const *conv =
 		workbook_date_conv (dao->sheet->workbook);
 
 	
@@ -133,7 +132,7 @@ do_column_filling_month (data_analysis_output_t *dao, fill_series_t *info)
 	int i;
 	gnm_float start = info->start_value;
 	GDate        date;
-	GnmDateConventions const *conv =
+	GODateConventions const *conv =
 		workbook_date_conv (dao->sheet->workbook);
 
 	
@@ -155,7 +154,7 @@ do_row_filling_year (data_analysis_output_t *dao, fill_series_t *info)
 	int i;
 	gnm_float start = info->start_value;
 	GDate        date;
-	GnmDateConventions const *conv =
+	GODateConventions const *conv =
 		workbook_date_conv (dao->sheet->workbook);
 
 	
@@ -177,7 +176,7 @@ do_column_filling_year (data_analysis_output_t *dao, fill_series_t *info)
 	int i;
 	gnm_float start = info->start_value;
 	GDate        date;
-	GnmDateConventions const *conv =
+	GODateConventions const *conv =
 		workbook_date_conv (dao->sheet->workbook);
 
 	
@@ -255,12 +254,12 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 	if (info->type == FillSeriesTypeDate && 
 	    info->date_unit != FillSeriesUnitDay) {
 		if (info->is_step_set)
-			info->step_value = floorgnum (info->step_value + 0.5);
+			info->step_value = gnm_floor (info->step_value + 0.5);
 		else    /* FIXME */
 			info->step_value = 1;
 		if (info->is_stop_set) {
 			GDate        from_date, to_date;
-			GnmDateConventions const *conv =
+			GODateConventions const *conv =
 				workbook_date_conv (dao->sheet->workbook);
 
 			if (info->step_value < 0) {
@@ -345,7 +344,7 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 				break;
 			case FillSeriesTypeGrowth:
 				info->step_value = 
-					expgnum((loggnum(info->stop_value
+					gnm_exp((gnm_log(info->stop_value
 							 /info->start_value))/
 						(length_of_space - 1));
 				break;
@@ -356,7 +355,7 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 			case FillSeriesTypeDate:
 			case FillSeriesTypeLinear:
 				length_of_series 
-					= floorgnum(GNUM_EPSILON + 1 +
+					= gnm_floor(GNM_EPSILON + 1 +
 						    (info->stop_value 
 						     - info->start_value)/
 						    info->step_value);
@@ -365,10 +364,10 @@ fill_series_adjust_variables (data_analysis_output_t *dao, fill_series_t *info)
 				break;
 			case FillSeriesTypeGrowth:
 				length_of_series 
-					= floorgnum(GNUM_EPSILON + 1 +
-						    (loggnum(info->stop_value
+					= gnm_floor(GNM_EPSILON + 1 +
+						    (gnm_log(info->stop_value
 							     /info->start_value))/
-						    loggnum(info->step_value));
+						    gnm_log(info->step_value));
 				if (length_of_series < 0)
 					length_of_series = 1;
 				break;

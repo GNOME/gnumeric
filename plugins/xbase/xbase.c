@@ -4,10 +4,10 @@
 #include <gnumeric.h>
 #include "xbase.h"
 
-#include <format.h>
+#include <src/gnm-format.h>
 #include <gutils.h>
 #include <io-context.h>
-#include <error-info.h>
+#include <goffice/app/error-info.h>
 
 #include <string.h>
 #include <stdio.h>

@@ -24,12 +24,12 @@
  * USA
  */
 
-#include <gnumeric-config.h>
+#include <goffice/goffice-config.h>
 #include "libpresent/present-view.h"
+#include <goffice/drawing/god-drawing-view.h>
 #include <gsf/gsf-impl-utils.h>
-#include <string.h>
-#include <drawing/god-drawing-view.h>
 #include <gdk/gdkkeysyms.h>
+#include <string.h>
 
 static GObjectClass *parent_class;
 

@@ -6,7 +6,7 @@
 #include <stf-parse.h>
 #include "widgets/widget-charmap-selector.h"
 #include "widgets/widget-locale-selector.h"
-#include "widgets/widget-format-selector.h"
+#include <goffice/gui-utils/go-format-sel.h>
 
 #include <gtk/gtkradiobutton.h>
 #include <gtk/gtkspinbutton.h>
@@ -63,7 +63,7 @@ typedef struct {
 typedef struct {
 	GtkWidget         *format_data_container;
         GtkWidget	  *format_trim;
-	NumberFormatSelector *format_selector;
+	GOFormatSel	  *format_selector;
 	GtkWidget         *column_selection_label;
      
 	/* Page members that are created at run-time */

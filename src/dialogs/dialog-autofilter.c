@@ -233,7 +233,7 @@ dialog_auto_filter (WorkbookControlGUI *wbcg,
 
 	if (gnumeric_dialog_raise_if_exists (wbcg, DIALOG_KEY))
 		return;
-	gui = gnm_glade_xml_new (GNM_CMD_CONTEXT (wbcg),
+	gui = gnm_glade_xml_new (GO_CMD_CONTEXT (wbcg),
 			(is_expr ? "autofilter-expression.glade" : "autofilter-top10.glade"),
 			NULL, NULL);
 	if (gui == NULL)

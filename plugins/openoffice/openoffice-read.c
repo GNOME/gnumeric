@@ -23,7 +23,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 
-#include <module-plugin-defs.h>
+#include <goffice/app/module-plugin-defs.h>
 #include <workbook-view.h>
 #include <workbook.h>
 #include <sheet.h>
@@ -35,20 +35,20 @@
 #include <expr-impl.h>
 #include <expr-name.h>
 #include <parse-util.h>
-#include <datetime.h>
 #include <style-color.h>
 #include <sheet-style.h>
 #include <mstyle.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <command-context.h>
 #include <io-context.h>
 #include <goffice/utils/go-units.h>
+#include <goffice/utils/datetime.h>
 
-#include <glib/gi18n.h>
 #include <gsf/gsf-libxml.h>
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-infile.h>
 #include <gsf/gsf-infile-zip.h>
+#include <glib/gi18n.h>
 
 #include <string.h>
 #include <locale.h>
@@ -179,7 +179,7 @@ oo_attr_float (OOParseState *state, xmlChar const * const *attrs,
 	if (!gsf_xml_in_namecmp (&state->base, attrs[0], ns_id, name))
 		return FALSE;
 
-	tmp = strtognum ((gchar *)attrs[1], &end);
+	tmp = gnm_strto ((gchar *)attrs[1], &end);
 	if (*end)
 		return oo_warning (state, "Invalid attribute '%s', expected number, received '%s'",
 				   name, attrs[1]);
@@ -757,7 +757,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 	xmlChar const *name = NULL;
 	xmlChar const *parent_name = NULL;
 	GnmStyle *style;
-	GnmFormat *fmt = NULL;
+	GOFormat *fmt = NULL;
 	int tmp;
 
 	g_return_if_fail (state->cur_style_type == OO_STYLE_UNKNOWN);
@@ -770,7 +770,7 @@ oo_style (GsfXMLIn *xin, xmlChar const **attrs)
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "parent-style-name"))
 			parent_name = attrs[1];
 		else if (gsf_xml_in_namecmp (xin, attrs[0], OO_NS_STYLE, "data-style-name")) {
-			GnmFormat *tmp = g_hash_table_lookup (state->formats, attrs[1]);
+			GOFormat *tmp = g_hash_table_lookup (state->formats, attrs[1]);
 			if (tmp != NULL)
 				fmt = tmp;
 		}
@@ -1427,7 +1427,7 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	zip = gsf_infile_zip_new (input, &err);
 	if (zip == NULL) {
 		g_return_if_fail (err != NULL);
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
 			err->message);
 		g_error_free (err);
 		return;
@@ -1435,14 +1435,14 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 
 	content = gsf_infile_child_by_name (zip, "content.xml");
 	if (content == NULL) {
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
 			 _("No stream named content.xml found."));
 		g_object_unref (G_OBJECT (zip));
 		return;
 	}
 	styles = gsf_infile_child_by_name (zip, "styles.xml");
 	if (styles == NULL) {
-		gnm_cmd_context_error_import (GNM_CMD_CONTEXT (io_context),
+		go_cmd_context_error_import (GO_CMD_CONTEXT (io_context),
 			 _("No stream named styles.xml found."));
 		g_object_unref (G_OBJECT (zip));
 		return;
@@ -1521,15 +1521,15 @@ openoffice_file_open (GnmFileOpener const *fo, IOContext *io_context,
 	g_free (old_num_locale);
 }
 
-void
-plugin_init (void)
+G_MODULE_EXPORT void
+go_plugin_init (GOPlugin *plugin, GOCmdContext *cc)
 {
 	styles_doc   = gsf_xml_in_doc_new (opencalc_styles_dtd, content_ns);
 	content_doc  = gsf_xml_in_doc_new (opencalc_content_dtd, content_ns);
 	settings_doc = gsf_xml_in_doc_new (opencalc_settings_dtd, content_ns);
 }
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 	gsf_xml_in_doc_free (styles_doc);
 	gsf_xml_in_doc_free (content_doc);

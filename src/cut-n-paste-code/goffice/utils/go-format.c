@@ -21,9 +21,9 @@
 
 #include <goffice/goffice-config.h>
 #include "go-format.h"
-#include <src/format.h>
-#include <src/value.h>
-#include <src/datetime.h>
+#include "format.h"
+#include "datetime.h"
+#include "format-impl.h"
 
 GOFormat *
 go_format_new_from_XL (char const *descriptor_string, gboolean delocalize)
@@ -53,10 +53,18 @@ go_format_unref (GOFormat *fmt)
 char *
 go_format_value (GOFormat const *fmt, double val)
 {
-	static GnmValueFloat	  tmp  = { VALUE_FLOAT, NULL, 0. };
-	static GnmDateConventions conv = { FALSE };
-	tmp.val = val;
-	return format_value (fmt, (GnmValue *)&tmp, NULL, -1, &conv);
+	/*static GnmDateConventions conv = { FALSE }; */
+	GString *res;
+#warning FIXME FIXME FIXME : restore conditional support
+
+	if (!gnm_finite (val))
+		return g_strdup ("#VALUE!");
+	res = g_string_sized_new (20);
+	if (INT_MAX >= val && val >= INT_MIN && val == gnm_floor (val))
+		fmt_general_int (res, (int)val, -1);
+	else
+		fmt_general_float (res, val, -1);
+	return g_string_free (res, FALSE);
 }
 
 gboolean

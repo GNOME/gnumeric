@@ -258,14 +258,14 @@ go_combo_text_class_init (GtkObjectClass *klass)
 		GO_TYPE_COMBO_TEXT,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GoComboTextClass, selection_changed),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		go__BOOLEAN__POINTER,
 		G_TYPE_BOOLEAN, 1, G_TYPE_POINTER);
 	combo_text_signals [ENTRY_CHANGED] = g_signal_new ("entry_changed",
 		GO_TYPE_COMBO_TEXT,
 		G_SIGNAL_RUN_LAST,
 		G_STRUCT_OFFSET (GoComboTextClass, entry_changed),
-		(GSignalAccumulator) NULL, NULL,
+		NULL, NULL,
 		go__BOOLEAN__POINTER,
 		G_TYPE_BOOLEAN, 1, G_TYPE_POINTER);
 }

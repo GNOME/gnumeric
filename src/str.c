@@ -18,9 +18,9 @@
 
 #if USE_STRING_POOLS
 /* Memory pool for strings.  */
-static GnmMemChunk *string_pool;
-#define CHUNK_ALLOC(T,p) ((T*)gnm_mem_chunk_alloc (p))
-#define CHUNK_FREE(p,v) gnm_mem_chunk_free ((p), (v))
+static GOMemChunk *string_pool;
+#define CHUNK_ALLOC(T,p) ((T*)go_mem_chunk_alloc (p))
+#define CHUNK_FREE(p,v) go_mem_chunk_free ((p), (v))
 #else
 #define CHUNK_ALLOC(T,c) g_new (T,1)
 #define CHUNK_FREE(p,v) g_free ((v))
@@ -109,7 +109,7 @@ gnm_string_init (void)
 	string_hash_table = g_hash_table_new (g_str_hash, g_str_equal);
 #if USE_STRING_POOLS
 	string_pool =
-		gnm_mem_chunk_new ("string pool",
+		go_mem_chunk_new ("string pool",
 				   sizeof (GnmString),
 				   16 * 1024 - 128);
 #endif
@@ -131,8 +131,8 @@ gnm_string_shutdown (void)
 	g_hash_table_destroy (string_hash_table);
 	string_hash_table = NULL;
 #if USE_STRING_POOLS
-	gnm_mem_chunk_foreach_leak (string_pool, cb_string_pool_leak, NULL);
-	gnm_mem_chunk_destroy (string_pool, FALSE);
+	go_mem_chunk_foreach_leak (string_pool, cb_string_pool_leak, NULL);
+	go_mem_chunk_destroy (string_pool, FALSE);
 	string_pool = NULL;
 #endif
 }

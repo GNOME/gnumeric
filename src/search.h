@@ -1,10 +1,10 @@
 #ifndef GNUMERIC_SEARCH_H
 #define GNUMERIC_SEARCH_H
 
-#include "gnumeric.h"
-#include "position.h"
+#include <src/gnumeric.h>
+#include <src/position.h>
+#include <goffice/utils/regutf8.h>
 #include <sys/types.h>
-#include "regutf8.h"
 
 typedef enum { SRE_fail = 0,
 	       SRE_skip,

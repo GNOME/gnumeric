@@ -23,7 +23,7 @@
 #define GNUMERIC_PLUGIN_LATEX_H
 
 #include <gnumeric.h>
-#include <file.h>
+#include <goffice/app/file.h>
 
 void latex_file_save (GnmFileSaver const *fs, IOContext *io_context,
 		      WorkbookView const *wb_view, GsfOutput *output);

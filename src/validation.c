@@ -25,7 +25,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 #include "mathfunc.h"
 #include "validation.h"
 #include "expr.h"
@@ -188,7 +188,7 @@ validation_eval (WorkbookControl *wbc, GnmStyle const *mstyle,
 			if (v->type == VALIDATION_TYPE_AS_INT &&
 			    res != NULL && res->type == VALUE_FLOAT) {
 				gnm_float f = value_get_as_float (res);
-				gboolean isint = gnumabs (f - gnumeric_fake_round (f)) < 1e-10;
+				gboolean isint = gnumabs (f - gnm_fake_round (f)) < 1e-10;
 				if (!isint) {
 					char const *valstr = value_peek_string (val);
 					msg = g_strdup_printf (_("'%s' is not an integer"), valstr);

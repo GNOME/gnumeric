@@ -3,7 +3,3 @@ src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas.c
 src/test-pango.c
 src/cut-n-paste-code/goffice/app/go-object.c
 src/cut-n-paste-code/goffice/graph/gog-guru-type-selector.glade
-src/cut-n-paste-code/goffice/gui-utils/go-font-sel.c
-src/cut-n-paste-code/goffice/gui-utils/go-font-sel.glade
-src/cut-n-paste-code/goffice/gui-utils/go-gui-utils.c
-

@@ -14,12 +14,14 @@
 #include "gnumeric.h"
 #include "libgnumeric.h"
 #include "gnumeric-paths.h"
-#include "plugin.h"
+#include "gnm-plugin.h"
 #include "command-context-stderr.h"
+#include "command-context.h"
 #include "io-context.h"
 #include "workbook-view.h"
-#include "file.h"
+#include <goffice/app/file.h>
 #include <goffice/utils/go-file.h>
+#include <goffice/app/go-cmd-context.h>
 #include <gsf/gsf-utils.h>
 #include <string.h>
 
@@ -92,7 +94,7 @@ list_them (get_them_f get_them,
 }
 
 static int
-convert (char const **args, GnmCmdContext *cc)
+convert (char const **args, GOCmdContext *cc)
 {
 	int res = 0;
 	GnmFileSaver *fs = NULL;
@@ -163,7 +165,7 @@ main (int argc, char const *argv [])
 {
 	ErrorInfo	*plugin_errs;
 	int		 res = 0;
-	GnmCmdContext	*cc;
+	GOCmdContext	*cc;
 	poptContext ctx;
 
 	gnm_pre_parse_init (argv[0]);
@@ -187,7 +189,7 @@ main (int argc, char const *argv [])
 	gnm_common_init (FALSE);
 
 	cc = cmd_context_stderr_new ();
-	plugins_init (cc);
+	gnm_plugins_init (GO_CMD_CONTEXT (cc));
 	plugin_db_activate_plugin_list (
 		plugins_get_available_plugins (), &plugin_errs);
 

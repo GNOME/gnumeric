@@ -27,10 +27,9 @@
 #endif
 
 #include "func.h"
-#include "plugin.h"
-#include "plugin-util.h"
-#include "error-info.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/error-info.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "expr.h"
 #include "value.h"
 
@@ -260,8 +259,8 @@ gnumeric_readDBTable (FunctionEvalInfo *ei, GnmValue **args)
 	return ret;
 }
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 	/* close the connection pool */
 	if (GDA_IS_CLIENT (connection_pool)) {

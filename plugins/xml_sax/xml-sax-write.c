@@ -25,8 +25,8 @@
 #include <gnumeric-config.h>
 #include <gnumeric.h>
 #include <workbook-view.h>
-#include <file.h>
-#include <format.h>
+#include <goffice/app/file.h>
+#include <src/gnm-format.h>
 #include <workbook.h>
 #include <workbook-priv.h> /* Workbook::names */
 #include <cell.h>
@@ -34,7 +34,6 @@
 #include <sheet-view.h>
 #include <sheet-style.h>
 #include <summary.h>
-#include <datetime.h>
 #include <style-color.h>
 #include <expr.h>
 #include <expr-impl.h>
@@ -172,7 +171,7 @@ xml_write_summary (GnmOutputXML *state)
 static void
 xml_write_conventions (GnmOutputXML *state)
 {
-	GnmDateConventions const *conv = workbook_date_conv (state->wb);
+	GODateConventions const *conv = workbook_date_conv (state->wb);
 	if (conv->use_1904)
 		gsf_xml_out_simple_element (state->output, GMR "DateConvention", "1904");
 }

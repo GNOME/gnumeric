@@ -1,3 +1,12 @@
+2005-02-07  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-write.c (excel_write_SETUP) : store the fit to pages width
+	  and height.
+	(excel_write_WSBOOL) : set the fit to page flag.
+
+	* ms-excel-read.c (excel_read_WSBOOL) : read the fit to page flag.
+	(excel_read_SETUP) : read the fit to pages width and height.
+
 2005-02-08  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.5.0

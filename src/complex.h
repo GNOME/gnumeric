@@ -1,7 +1,7 @@
 #ifndef GNUMERIC_COMPLEX_H
 #define GNUMERIC_COMPLEX_H
 
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 #include <math.h>
 
 typedef struct {
@@ -88,7 +88,7 @@ GNUMERIC_COMPLEX_PROTO (int complex_zero_p (const complex_t *src))
 GNUMERIC_COMPLEX_PROTO (gnm_float complex_mod (const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
-	return hypotgnum (src->re, src->im);
+	return gnm_hypot (src->re, src->im);
 }
 #endif
 
@@ -97,7 +97,7 @@ GNUMERIC_COMPLEX_PROTO (gnm_float complex_mod (const complex_t *src))
 GNUMERIC_COMPLEX_PROTO (gnm_float complex_angle (const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
-	return atan2gnum (src->im, src->re);
+	return gnm_atan2 (src->im, src->re);
 }
 #endif
 
@@ -144,8 +144,8 @@ GNUMERIC_COMPLEX_PROTO (void complex_exp (complex_t *dst, const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
-		      expgnum (src->re) * cosgnum (src->im),
-		      expgnum (src->re) * singnum (src->im));
+		      gnm_exp (src->re) * gnm_cos (src->im),
+		      gnm_exp (src->re) * gnm_sin (src->im));
 }
 #endif
 
@@ -155,7 +155,7 @@ GNUMERIC_COMPLEX_PROTO (void complex_ln (complex_t *dst, const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
-		      loggnum (complex_mod (src)),
+		      gnm_log (complex_mod (src)),
 		      complex_angle (src));
 }
 #endif
@@ -166,8 +166,8 @@ GNUMERIC_COMPLEX_PROTO (void complex_sin (complex_t *dst, const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
-		      singnum (src->re) * coshgnum (src->im),
-		      cosgnum (src->re) * sinhgnum (src->im));
+		      gnm_sin (src->re) * gnm_cosh (src->im),
+		      gnm_cos (src->re) * gnm_sinh (src->im));
 }
 #endif
 
@@ -177,8 +177,8 @@ GNUMERIC_COMPLEX_PROTO (void complex_cos (complex_t *dst, const complex_t *src))
 #ifdef GNUMERIC_COMPLEX_BODY
 {
 	complex_init (dst,
-		      cosgnum (src->re) * coshgnum (src->im),
-		      -singnum (src->re) * sinhgnum (src->im));
+		      gnm_cos (src->re) * gnm_cosh (src->im),
+		      -gnm_sin (src->re) * gnm_sinh (src->im));
 }
 #endif
 

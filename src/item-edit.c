@@ -274,14 +274,14 @@ ie_layout (FooCanvasItem *item)
 
 		color = mstyle_get_color (ie->style, MSTYLE_COLOR_FORE);
 		attr = pango_attr_background_new (
-			color->color.red, color->color.green, color->color.blue);
+			color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue);
 		attr->start_index = start;
 		attr->end_index = G_MAXINT;
 		pango_attr_list_insert (attrs, attr);
 
 		color = mstyle_get_color (ie->style, MSTYLE_COLOR_BACK);
 		attr = pango_attr_foreground_new (
-			color->color.red, color->color.green, color->color.blue);
+			color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue);
 		attr->start_index = start;
 		attr->end_index = G_MAXINT;
 		pango_attr_list_insert (attrs, attr);

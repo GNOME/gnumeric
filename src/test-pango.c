@@ -10,7 +10,7 @@
 #include "command-context-stderr.h"
 #include "workbook-control-gui.h"
 #include "workbook-view.h"
-#include "plugin.h"
+#include <goffice/app/go-plugin.h>
 #include "selection.h"
 #include "sheet-view.h"
 #include "commands.h"
@@ -73,7 +73,7 @@ cb_exercise_pango (gpointer data)
 int
 main (int argc, char *argv [])
 {
-	GnmCmdContext *cc;
+	GOCmdContext *cc;
 	WorkbookControl *wbc;
 	IOContext *ioc;
 	poptContext ctx;
@@ -86,7 +86,7 @@ main (int argc, char *argv [])
 	ioc = gnumeric_io_context_new (cc);
 	g_object_unref (cc);
 
- 	plugins_init (GNM_CMD_CONTEXT (ioc));
+ 	gnm_plugins_init (GO_CMD_CONTEXT (ioc));
 	g_object_unref (ioc);
 
 	initial_workbook_open_complete = TRUE; /* make the last unref exit */

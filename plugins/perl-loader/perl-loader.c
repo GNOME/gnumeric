@@ -21,11 +21,10 @@
 #include "expr.h"
 #include "expr-impl.h"
 #include "io-context.h"
-#include "plugin-util.h"
-#include "plugin.h"
-#include "plugin-service.h"
-#include "plugin-loader.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/go-plugin-service.h>
+#include <goffice/app/go-plugin-loader.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "perl-loader.h"
 
 #define dirty _perl_dirty
@@ -50,8 +49,8 @@ static GObjectClass *parent_class = NULL;
 
 static void gplp_set_attributes (GnmPluginLoader *loader, GHashTable* attrs, ErrorInfo **ret_error);
 static void gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error);
-static void gplp_load_service_function_group (GnmPluginLoader *loader, GnmPluginService *service, ErrorInfo **ret_error);
-static gboolean gplp_func_desc_load (GnmPluginService *service, char const *name, GnmFuncDescriptor *res);
+static void gplp_load_service_function_group (GnmPluginLoader *loader, GOPluginService *service, ErrorInfo **ret_error);
+static gboolean gplp_func_desc_load (GOPluginService *service, char const *name, GnmFuncDescriptor *res);
 static GnmValue* call_perl_function_args (FunctionEvalInfo *ei, GnmValue **args);
 static GnmValue* call_perl_function_nodes (FunctionEvalInfo *ei, GnmExprList *expr_tree_list);
 static void gplp_finalize (GObject *obj);
@@ -141,7 +140,7 @@ gplp_load_base (GnmPluginLoader *loader, ErrorInfo **ret_error)
 
 static void
 gplp_load_service_function_group (GnmPluginLoader *loader,
-				  GnmPluginService *service,
+				  GOPluginService *service,
 				  ErrorInfo **ret_error)
 {
 	PluginServiceFunctionGroupCallbacks *cbs;
@@ -155,7 +154,7 @@ gplp_load_service_function_group (GnmPluginLoader *loader,
 }
 
 static gboolean
-gplp_func_desc_load (GnmPluginService *service,
+gplp_func_desc_load (GOPluginService *service,
 		     char const *name,
 		     GnmFuncDescriptor *res)
 {

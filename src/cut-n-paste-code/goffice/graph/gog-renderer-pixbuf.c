@@ -35,7 +35,6 @@
 #include <libart_lgpl/art_render_mask.h>
 #include <pango/pangoft2.h>
 #include <gsf/gsf-impl-utils.h>
-#include <src/application.h>
 
 #include <math.h>
 

@@ -29,11 +29,10 @@
 
 #include <goffice/goffice-config.h>
 #include "go-color-palette.h"
+#include "go-gui-utils.h"
 #include "go-marshalers.h"
 
 #include <goffice/utils/go-color.h>
-#include <gui-util.h>
-#include <style-color.h>
 #include <gtk/gtklabel.h>
 #include <gtk/gtkvbox.h>
 #include <gtk/gtktable.h>
@@ -42,12 +41,12 @@
 #include <gtk/gtkimage.h>
 #include <gtk/gtkstock.h>
 #include <gtk/gtkbutton.h>
+#include <gtk/gtktooltips.h>
 #include <gtk/gtkcolorseldialog.h>
 #include <gdk/gdkkeysyms.h>
 #include <gdk/gdkcolor.h>
 #include <glib/gi18n.h>
 #include <gsf/gsf-impl-utils.h>
-
 
 #include <string.h>
 
@@ -477,8 +476,8 @@ custom_colors :
 			&color_name, col, row + 1);
 	}
 
-	w = gnumeric_button_new_with_stock_image (_("Custom Color..."),
-						  GTK_STOCK_SELECT_COLOR);
+	w = go_gtk_button_new_with_stock_image (_("Custom Color..."),
+		GTK_STOCK_SELECT_COLOR);
 	gtk_button_set_alignment (GTK_BUTTON (w), 0., .5);
 	gtk_table_attach (GTK_TABLE (table), w, 0, cols,
 		row + 2, row + 3, GTK_FILL | GTK_EXPAND, 0, 0, 0);

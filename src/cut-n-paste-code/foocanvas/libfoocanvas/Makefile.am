@@ -1,8 +1,8 @@
 INCLUDES = \
-	-I$(top_srcdir) 				\
+	-I$(srcdir)/..	 				\
 	-I$(top_builddir)				\
 	$(WARN_CFLAGS) 					\
-	$(GNUMERIC_CFLAGS) -I$(top_srcdir)/src			\
+	$(GNUMERIC_CFLAGS) 				\
         -DFOOCANVASLIBDIR=\""$(libdir)"\" 		\
         -DFOOCANVASDATADIR=\""$(datadir)"\" 		\
         -DFOOCANVASPIXMAPDIR=\""$(datadir)/pixmaps"\"	\

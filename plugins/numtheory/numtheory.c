@@ -26,9 +26,8 @@
 #include <glib.h>
 
 #include "func.h"
-#include "plugin.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 #include "value.h"
 #include <limits.h>
 
@@ -592,8 +591,8 @@ func_bitrshift (FunctionEvalInfo *ei, GnmValue *argv [])
 
 /* ------------------------------------------------------------------------- */
 
-void
-plugin_cleanup (void)
+G_MODULE_EXPORT void
+go_plugin_shutdown (GOPlugin *plugin, GOCmdContext *cc)
 {
 	g_free (prime_table);
 	prime_table = NULL;

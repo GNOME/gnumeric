@@ -31,7 +31,7 @@
 #include "sheet.h"
 #include "sheet-view.h"
 #include "sheet-style.h"
-#include "format.h"
+#include "gnm-format.h"
 #include "format-template.h"
 #include "command-context.h"
 #include "workbook-control.h"
@@ -49,7 +49,6 @@
 #include "print-info.h"
 #include "clipboard.h"
 #include "selection.h"
-#include "datetime.h"
 #include "colrow.h"
 #include "style-border.h"
 #include "auto-correct.h"
@@ -247,14 +246,12 @@ cmd_cell_range_is_locked_effective (Sheet *sheet, GnmRange *range,
 		for (i = range->start.row; i <= range->end.row; i++)
 			for (j = range->start.col; j <= range->end.col; j++)
 				if (mstyle_get_content_locked (sheet_style_get (sheet, j, i))) {
-					char *text;
-					text = g_strdup_printf (wbv->is_protected  ?
-				 _("%s is locked. Unprotect the workbook to enable editing.") :
-				 _("%s is locked. Unprotect the sheet to enable editing."),
-								undo_global_range_name (
-									sheet, range));
-					gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), cmd_name,
-								text);
+					char *text = g_strdup_printf (wbv->is_protected  ?
+						_("%s is locked. Unprotect the workbook to enable editing.") :
+						_("%s is locked. Unprotect the sheet to enable editing."),
+						undo_global_range_name (sheet, range));
+					go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
+						cmd_name, text);
 					g_free (text);
 					return TRUE;
 				}
@@ -890,7 +887,7 @@ cmd_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	r.start = r.end = me->pos.eval;
 	clipboard_paste_region (me->old_contents,
 		paste_target_init (&pt, me->cmd.sheet, &r, PASTE_CONTENT | PASTE_FORMATS),
-		GNM_CMD_CONTEXT (wbc));
+		GO_CMD_CONTEXT (wbc));
 
 	return FALSE;
 }
@@ -908,7 +905,7 @@ cmd_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	if (!me->has_user_format && expr) {
 		GnmEvalPos ep;
-		GnmFormat *sf = auto_style_format_suggest (expr,
+		GOFormat *sf = auto_style_format_suggest (expr,
 			eval_pos_init (&ep, me->cmd.sheet, &me->pos.eval));
 		if (sf) {
 			GnmStyle *new_style = mstyle_new ();
@@ -956,8 +953,8 @@ cmd_set_text (WorkbookControl *wbc,
 	/* Ensure that we are not splitting up an array */
 	cell = sheet_cell_get (sheet, pos->col, pos->row);
 	if (cell_is_partial_array (cell)) {
-		gnm_cmd_context_error_splits_array (GNM_CMD_CONTEXT (wbc),
-					     _("Set Text"), NULL);
+		gnm_cmd_context_error_splits_array (GO_CMD_CONTEXT (wbc),
+			_("Set Text"), NULL);
 		return TRUE;
 	}
 
@@ -1040,7 +1037,7 @@ cmd_area_set_text_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		c = me->old_content->data;
 		clipboard_paste_region (c,
 			paste_target_init (&pt, me->cmd.sheet, r, PASTE_CONTENT | PASTE_FORMATS),
-			GNM_CMD_CONTEXT (wbc));
+			GO_CMD_CONTEXT (wbc));
 		cellregion_unref (c);
 		me->old_content = g_slist_remove (me->old_content, c);
 	}
@@ -1062,7 +1059,7 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	/* Check for array subdivision */
 	if (sheet_ranges_split_region (me->cmd.sheet, me->selection,
-				       GNM_CMD_CONTEXT (wbc), _("Set Text")))
+				       GO_CMD_CONTEXT (wbc), _("Set Text")))
 		return TRUE;
 
 	/* Check for locked cells */
@@ -1078,7 +1075,7 @@ cmd_area_set_text_redo (GnmCommand *cmd, WorkbookControl *wbc)
 			return TRUE;
 	} else if (expr != NULL) {
 		GnmEvalPos ep;
-		GnmFormat *sf = auto_style_format_suggest (expr,
+		GOFormat *sf = auto_style_format_suggest (expr,
 			eval_pos_init (&ep, me->cmd.sheet, &me->pp.eval));
 		gnm_expr_unref (expr);
 		expr = NULL;
@@ -1222,7 +1219,7 @@ cmd_ins_del_colrow_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	CmdInsDelColRow const *orig = (CmdInsDelColRow const *) cmd;
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GnmRange const	*r = selection_first_range (sv,
-		GNM_CMD_CONTEXT (wbc), _("Ins/Del Column/Row"));
+		GO_CMD_CONTEXT (wbc), _("Ins/Del Column/Row"));
 	if (r == NULL)
 		return;
 	if (orig->is_insert) {
@@ -1257,18 +1254,18 @@ cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		index = me->index;
 		if (me->is_cols)
 			trouble = sheet_insert_cols (me->sheet, me->index, me->count,
-						     me->saved_states, &tmp, GNM_CMD_CONTEXT (wbc));
+						     me->saved_states, &tmp, GO_CMD_CONTEXT (wbc));
 		else
 			trouble = sheet_insert_rows (me->sheet, me->index, me->count,
-						     me->saved_states, &tmp, GNM_CMD_CONTEXT (wbc));
+						     me->saved_states, &tmp, GO_CMD_CONTEXT (wbc));
 	} else {
 		index = colrow_max (me->is_cols) - me->count;
 		if (me->is_cols)
 			trouble = sheet_delete_cols (me->sheet, me->index, me->count,
-						     me->saved_states, &tmp, GNM_CMD_CONTEXT (wbc));
+						     me->saved_states, &tmp, GO_CMD_CONTEXT (wbc));
 		else
 			trouble = sheet_delete_rows (me->sheet, me->index, me->count,
-						     me->saved_states, &tmp, GNM_CMD_CONTEXT (wbc));
+						     me->saved_states, &tmp, GO_CMD_CONTEXT (wbc));
 	}
 	me->saved_states = NULL;
 
@@ -1284,7 +1281,7 @@ cmd_ins_del_colrow_undo (GnmCommand *cmd, WorkbookControl *wbc)
 #warning fix object handling
 	clipboard_paste_region (me->contents,
 		paste_target_init (&pt, me->sheet, &r, PASTE_ALL_TYPES),
-		GNM_CMD_CONTEXT (wbc));
+		GO_CMD_CONTEXT (wbc));
 	cellregion_unref (me->contents);
 	me->contents = NULL;
 
@@ -1326,7 +1323,7 @@ cmd_ins_del_colrow_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	/* Check for array subdivision */
 	if (!me->is_insert && sheet_range_splits_region
-	    (me->sheet, &r, NULL, GNM_CMD_CONTEXT (wbc),
+	    (me->sheet, &r, NULL, GO_CMD_CONTEXT (wbc),
 	     (me->is_cols) ? _("Delete Columns") :  _("Delete Rows")))
 		return TRUE;
 
@@ -1366,20 +1363,20 @@ cmd_ins_del_colrow_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 		if (me->is_cols)
 			trouble = sheet_insert_cols (me->sheet, me->index, me->count, state,
-						     &me->reloc_storage, GNM_CMD_CONTEXT (wbc));
+						     &me->reloc_storage, GO_CMD_CONTEXT (wbc));
 		else
 			trouble = sheet_insert_rows (me->sheet, me->index, me->count,
-						     state, &me->reloc_storage, GNM_CMD_CONTEXT (wbc));
+						     state, &me->reloc_storage, GO_CMD_CONTEXT (wbc));
 
 		if (trouble)
 			colrow_state_list_destroy (state);
 	} else {
 		if (me->is_cols)
 			trouble = sheet_delete_cols (me->sheet, me->index, me->count,
-						     NULL, &me->reloc_storage, GNM_CMD_CONTEXT (wbc));
+						     NULL, &me->reloc_storage, GO_CMD_CONTEXT (wbc));
 		else
 			trouble = sheet_delete_rows (me->sheet, me->index, me->count,
-						     NULL, &me->reloc_storage, GNM_CMD_CONTEXT (wbc));
+						     NULL, &me->reloc_storage, GO_CMD_CONTEXT (wbc));
 	}
 
 	/* Ins/Del Row/Col re-ants things completely to account
@@ -1576,7 +1573,7 @@ cmd_clear_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		if (me->clear_flags)
 			clipboard_paste_region (c,
 				paste_target_init (&pt, me->cmd.sheet, r, me->paste_flags),
-				GNM_CMD_CONTEXT (wbc));
+				GO_CMD_CONTEXT (wbc));
 
 		cellregion_unref (c);
 		me->old_content = g_slist_remove (me->old_content, c);
@@ -1602,7 +1599,7 @@ cmd_clear_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	/* Check for array subdivision */
 	if (sheet_ranges_split_region (me->cmd.sheet, me->selection,
-				       GNM_CMD_CONTEXT (wbc), _("Clear")))
+				       GO_CMD_CONTEXT (wbc), _("Clear")))
 		return TRUE;
 
 	/* Check for locked cells */
@@ -1619,7 +1616,7 @@ cmd_clear_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		sheet_clear_region (me->cmd.sheet,
 			r->start.col, r->start.row, r->end.col, r->end.row,
 			me->clear_flags|CLEAR_NOCHECKARRAY|CLEAR_RECALC_DEPS,
-			GNM_CMD_CONTEXT (wbc));
+			GO_CMD_CONTEXT (wbc));
 	}
 	me->old_content = g_slist_reverse (me->old_content);
 
@@ -2106,7 +2103,7 @@ cmd_sort_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	if (!me->inv) {
 		me->inv = sort_permute_invert (me->perm, sort_data_length (me->data));
 	}
-	sort_position (me->data, me->inv, GNM_CMD_CONTEXT (wbc));
+	sort_position (me->data, me->inv, GO_CMD_CONTEXT (wbc));
 
 	return FALSE;
 }
@@ -2124,10 +2121,10 @@ cmd_sort_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	if (!me->perm) {
-		me->perm = sort_contents (me->data, GNM_CMD_CONTEXT (wbc));
+		me->perm = sort_contents (me->data, GO_CMD_CONTEXT (wbc));
 		me->cmd.size += 2 * sort_data_length (me->data);
 	} else
-		sort_position (me->data, me->perm, GNM_CMD_CONTEXT (wbc));
+		sort_position (me->data, me->perm, GO_CMD_CONTEXT (wbc));
 
 	return FALSE;
 }
@@ -2141,7 +2138,7 @@ cmd_sort (WorkbookControl *wbc, GnmSortData *data)
 	g_return_val_if_fail (data != NULL, TRUE);
 
 	desc = g_strdup_printf (_("Sorting %s"), range_name (data->range));
-	if (sheet_range_contains_region (data->sheet, data->range, GNM_CMD_CONTEXT (wbc), desc)) {
+	if (sheet_range_contains_region (data->sheet, data->range, GO_CMD_CONTEXT (wbc), desc)) {
 		sort_data_destroy (data);
 		g_free (desc);
 		return TRUE;
@@ -2462,7 +2459,7 @@ cmd_selection_group (WorkbookControl *wbc,
 	/* Check if this really is possible and display an error if it's not */
 	if (sheet_colrow_can_group (sv->sheet, &r, is_cols) != group) {
 		if (group) {
-			gnm_cmd_context_error_system (GNM_CMD_CONTEXT (wbc), is_cols
+			go_cmd_context_error_system (GO_CMD_CONTEXT (wbc), is_cols
 					       ? _("Those columns are already grouped")
 					       : _("Those rows are already grouped"));
 			return TRUE;
@@ -2486,7 +2483,7 @@ cmd_selection_group (WorkbookControl *wbc,
 		}
 
 		if (sheet_colrow_can_group (sv->sheet, &r, is_cols) != group) {
-			gnm_cmd_context_error_system (GNM_CMD_CONTEXT (wbc), is_cols
+			go_cmd_context_error_system (GO_CMD_CONTEXT (wbc), is_cols
 					       ? _("Those columns are not grouped, you can't ungroup them")
 					       : _("Those rows are not grouped, you can't ungroup them"));
 			return TRUE;
@@ -2580,7 +2577,7 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	/* Move things back being careful NOT to invalidate the src region */
 	if (IS_SHEET (me->info.origin_sheet))
-		sheet_move_range (&reverse, NULL, GNM_CMD_CONTEXT (wbc));
+		sheet_move_range (&reverse, NULL, GO_CMD_CONTEXT (wbc));
 	else
 		me->deleted_sheet_contents = clipboard_copy_range (
 			reverse.origin_sheet, &reverse.origin);
@@ -2597,7 +2594,7 @@ cmd_paste_cut_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		PasteContent *pc = me->paste_content->data;
 		me->paste_content = g_slist_remove (me->paste_content, pc);
 
-		clipboard_paste_region (pc->contents, &pc->pt, GNM_CMD_CONTEXT (wbc));
+		clipboard_paste_region (pc->contents, &pc->pt, GO_CMD_CONTEXT (wbc));
 		cellregion_unref (pc->contents);
 		g_free (pc);
 	}
@@ -2672,13 +2669,13 @@ cmd_paste_cut_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		sheet_clear_region (pt.sheet,
 			tmp.start.col, tmp.start.row, tmp.end.col,   tmp.end.row,
 			CLEAR_VALUES | CLEAR_MERGES | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS,
-			GNM_CMD_CONTEXT (wbc));
+			GO_CMD_CONTEXT (wbc));
 		clipboard_paste_region (me->deleted_sheet_contents,
-			&pt, GNM_CMD_CONTEXT (wbc));
+			&pt, GO_CMD_CONTEXT (wbc));
 		cellregion_unref (me->deleted_sheet_contents);
 		me->deleted_sheet_contents = NULL;
 	} else
-		sheet_move_range (&me->info, &me->reloc_storage, GNM_CMD_CONTEXT (wbc));
+		sheet_move_range (&me->info, &me->reloc_storage, GO_CMD_CONTEXT (wbc));
 
 	cmd_paste_cut_update_origin (&me->info, wbc);
 
@@ -2745,7 +2742,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	r = info->origin;
 	if (range_translate (&r, info->col_offset, info->row_offset)) {
 
-		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), descriptor,
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), descriptor,
 					_("is beyond sheet boundaries"));
 		g_free (descriptor);
 		return TRUE;
@@ -2754,7 +2751,7 @@ cmd_paste_cut (WorkbookControl *wbc, GnmExprRelocateInfo const *info,
 	/* Check array subdivision & merged regions */
 	if (sheet_range_splits_region (info->target_sheet, &r,
 		(info->origin_sheet == info->target_sheet)
-		? &info->origin : NULL, GNM_CMD_CONTEXT (wbc), descriptor)) {
+		? &info->origin : NULL, GO_CMD_CONTEXT (wbc), descriptor)) {
 		g_free (descriptor);
 		return TRUE;
 	}
@@ -2810,7 +2807,7 @@ cmd_paste_copy_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	GnmPasteTarget  new_dst;
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GnmRange const	*r = selection_first_range (sv,
-		GNM_CMD_CONTEXT (wbc), _("Paste Copy"));
+		GO_CMD_CONTEXT (wbc), _("Paste Copy"));
 
 	if (r == NULL)
 		return;
@@ -2833,7 +2830,7 @@ cmd_paste_copy_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	g_return_val_if_fail (me->content != NULL, TRUE);
 
 	content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
-	if (clipboard_paste_region (me->content, &me->dst, GNM_CMD_CONTEXT (wbc))) {
+	if (clipboard_paste_region (me->content, &me->dst, GO_CMD_CONTEXT (wbc))) {
 		/* There was a problem, avoid leaking */
 		cellregion_unref (content);
 		return TRUE;
@@ -2972,7 +2969,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 
 	/* Use translate to do a quiet sanity check */
 	if (range_translate (&me->dst.range, 0, 0)) {
-		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc),
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
 					me->cmd.cmd_descriptor,
 					_("is beyond sheet boundaries"));
 		g_object_unref (G_OBJECT (me));
@@ -2982,7 +2979,7 @@ cmd_paste_copy (WorkbookControl *wbc,
 	/* no need to test if all we have are objects */
 	if (cr->cols > 0 && cr->rows > 0 &&
 	    sheet_range_splits_region (pt->sheet, &me->dst.range,
-				       NULL, GNM_CMD_CONTEXT (wbc), me->cmd.cmd_descriptor)) {
+				       NULL, GO_CMD_CONTEXT (wbc), me->cmd.cmd_descriptor)) {
 		g_object_unref (G_OBJECT (me));
 		return TRUE;
 	}
@@ -3011,7 +3008,7 @@ cmd_autofill_repeat (GnmCommand const *cmd, WorkbookControl *wbc)
 	CmdAutofill const *orig = (CmdAutofill const *) cmd;
 	SheetView *sv = wb_control_cur_sheet_view (wbc);
 	GnmRange const	*r = selection_first_range (sv,
-		GNM_CMD_CONTEXT (wbc), _("Autofill"));
+		GO_CMD_CONTEXT (wbc), _("Autofill"));
 
 	if (r == NULL)
 		return;
@@ -3035,7 +3032,7 @@ cmd_autofill_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->content != NULL, TRUE);
 
-	res = clipboard_paste_region (me->content, &me->dst, GNM_CMD_CONTEXT (wbc));
+	res = clipboard_paste_region (me->content, &me->dst, GO_CMD_CONTEXT (wbc));
 	cellregion_unref (me->content);
 	me->content = NULL;
 
@@ -3075,7 +3072,7 @@ cmd_autofill_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		me->dst.range.start.col, me->dst.range.start.row,
 		me->dst.range.end.col,   me->dst.range.end.row,
 		CLEAR_VALUES | CLEAR_MERGES | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS,
-		GNM_CMD_CONTEXT (wbc));
+		GO_CMD_CONTEXT (wbc));
 
 	if (me->cmd.size == 1)
 		me->cmd.size += (g_slist_length (me->content->content) +
@@ -3168,8 +3165,8 @@ cmd_autofill (WorkbookControl *wbc, Sheet *sheet,
 		return TRUE;
 
 	/* Check arrays or merged regions in src or target regions */
-	if (sheet_range_splits_region (sheet, &target, NULL, GNM_CMD_CONTEXT (wbc), _("Autofill")) ||
-	    sheet_range_splits_region (sheet, &src, NULL, GNM_CMD_CONTEXT (wbc), _("Autofill")))
+	if (sheet_range_splits_region (sheet, &target, NULL, GO_CMD_CONTEXT (wbc), _("Autofill")) ||
+	    sheet_range_splits_region (sheet, &src, NULL, GO_CMD_CONTEXT (wbc), _("Autofill")))
 		return TRUE;
 
 	obj = g_object_new (CMD_AUTOFILL_TYPE, NULL);
@@ -3230,7 +3227,7 @@ cmd_copyrel_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 	g_return_val_if_fail (me->content != NULL, TRUE);
 
-	res = clipboard_paste_region (me->content, &me->dst, GNM_CMD_CONTEXT (wbc));
+	res = clipboard_paste_region (me->content, &me->dst, GO_CMD_CONTEXT (wbc));
 	cellregion_unref (me->content);
 	me->content = NULL;
 
@@ -3270,10 +3267,10 @@ cmd_copyrel_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		me->dst.range.start.col, me->dst.range.start.row,
 		me->dst.range.end.col,   me->dst.range.end.row,
 		CLEAR_VALUES | CLEAR_MERGES | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS,
-		GNM_CMD_CONTEXT (wbc));
+		GO_CMD_CONTEXT (wbc));
 
 	content = clipboard_copy_range (me->src.sheet, &me->src.range);
-	res = clipboard_paste_region (content, &me->dst, GNM_CMD_CONTEXT (wbc));
+	res = clipboard_paste_region (content, &me->dst, GO_CMD_CONTEXT (wbc));
 	cellregion_unref (content);
 	if (res)
 		return TRUE;
@@ -3335,8 +3332,8 @@ cmd_copyrel (WorkbookControl *wbc,
 		return FALSE;
 
 	/* Check arrays or merged regions in src or target regions */
-	if (sheet_range_splits_region (sheet, &target, NULL, GNM_CMD_CONTEXT (wbc), name) ||
-	    sheet_range_splits_region (sheet, &src, NULL, GNM_CMD_CONTEXT (wbc), name))
+	if (sheet_range_splits_region (sheet, &target, NULL, GO_CMD_CONTEXT (wbc), name) ||
+	    sheet_range_splits_region (sheet, &src, NULL, GO_CMD_CONTEXT (wbc), name))
 		return TRUE;
 
 	obj = g_object_new (CMD_COPYREL_TYPE, NULL);
@@ -3484,7 +3481,7 @@ cmd_selection_autoformat (WorkbookControl *wbc, FormatTemplate *ft)
 	me->cmd.sheet = sv_sheet (sv);
 	me->cmd.size = 1;  /* FIXME?  */
 
-	if (!format_template_check_valid (ft, me->selection, GNM_CMD_CONTEXT (wbc))) {
+	if (!format_template_check_valid (ft, me->selection, GO_CMD_CONTEXT (wbc))) {
 		g_object_unref (G_OBJECT (me));
 		return TRUE;
 	}
@@ -3551,7 +3548,7 @@ cmd_unmerge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 	for (i = 0 ; i < me->unmerged_regions->len ; ++i) {
 		GnmRange const *tmp = &(g_array_index (me->unmerged_regions, GnmRange, i));
 		sheet_redraw_range (me->cmd.sheet, tmp);
-		sheet_merge_add (me->cmd.sheet, tmp, FALSE, GNM_CMD_CONTEXT (wbc));
+		sheet_merge_add (me->cmd.sheet, tmp, FALSE, GO_CMD_CONTEXT (wbc));
 		sheet_range_calc_spans (me->cmd.sheet, tmp, SPANCALC_RE_RENDER);
 	}
 
@@ -3577,7 +3574,7 @@ cmd_unmerge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next) {
 			GnmRange const tmp = *(GnmRange *)(ptr->data);
 			g_array_append_val (me->unmerged_regions, tmp);
-			sheet_merge_remove (me->cmd.sheet, &tmp, GNM_CMD_CONTEXT (wbc));
+			sheet_merge_remove (me->cmd.sheet, &tmp, GO_CMD_CONTEXT (wbc));
 			sheet_range_calc_spans (me->cmd.sheet, &tmp,
 						SPANCALC_RE_RENDER);
 		}
@@ -3684,7 +3681,7 @@ cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	for (i = 0 ; i < me->ranges->len ; ++i) {
 		GnmRange const *r = &(g_array_index (me->ranges, GnmRange, i));
-		sheet_merge_remove (me->cmd.sheet, r, GNM_CMD_CONTEXT (wbc));
+		sheet_merge_remove (me->cmd.sheet, r, GO_CMD_CONTEXT (wbc));
 	}
 
 	flags = PASTE_CONTENT | PASTE_FORMATS | PASTE_IGNORE_COMMENTS;
@@ -3700,7 +3697,7 @@ cmd_merge_cells_undo (GnmCommand *cmd, WorkbookControl *wbc)
 		c = me->old_content->data;
 		clipboard_paste_region (c,
 			paste_target_init (&pt, me->cmd.sheet, r, flags),
-			GNM_CMD_CONTEXT (wbc));
+			GO_CMD_CONTEXT (wbc));
 		cellregion_unref (c);
 		me->old_content = g_slist_remove (me->old_content, c);
 	}
@@ -3732,10 +3729,10 @@ cmd_merge_cells_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		me->old_content = g_slist_prepend (me->old_content,
 			clipboard_copy_range (sheet, r));
 		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
-			sheet_merge_remove (sheet, ptr->data, GNM_CMD_CONTEXT (wbc));
+			sheet_merge_remove (sheet, ptr->data, GO_CMD_CONTEXT (wbc));
 		g_slist_free (merged);
 
-		sheet_merge_add (sheet, r, TRUE, GNM_CMD_CONTEXT (wbc));
+		sheet_merge_add (sheet, r, TRUE, GO_CMD_CONTEXT (wbc));
 		if (me->center)
 			sheet_apply_style (me->cmd.sheet, r, align_center);
 	}
@@ -4818,7 +4815,7 @@ cmd_reorganize_sheets_delete_recreate_sheet (WorkbookControl *wbc, Workbook *wb,
 					paste_target_init (&pt, a_new_sheet, 
 							   range_init_full_sheet(&r), 
 							   PASTE_ALL_TYPES), 
-					GNM_CMD_CONTEXT (wbc));
+					GO_CMD_CONTEXT (wbc));
 	}
 	if (sheet->col_info)
 		colrow_set_states (a_new_sheet, TRUE, 0, sheet->col_info);
@@ -4917,7 +4914,7 @@ cmd_reorganize_sheets_undo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	/* undo renaming sheets */
 	if (workbook_sheet_rename (me->wb, me->changed_names, me->old_names, 
-				   GNM_CMD_CONTEXT (wbc)))
+				   GO_CMD_CONTEXT (wbc)))
 		return TRUE;
 
 	/* undo deleting sheets */
@@ -4952,7 +4949,7 @@ cmd_reorganize_sheets_redo (GnmCommand *cmd, WorkbookControl *wbc)
 
 	/* renaming sheets */
 	if (workbook_sheet_rename (me->wb, me->changed_names, me->new_names, 
-				   GNM_CMD_CONTEXT (wbc)))
+				   GO_CMD_CONTEXT (wbc)))
 		return TRUE;
 
 	/* adding sheets */
@@ -5178,10 +5175,10 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *new_order,
 		} else {
 			me->old_colors_fore = g_slist_prepend (me->old_colors_fore,
 				   sheet->tab_text_color ?
-				   gdk_color_copy (&sheet->tab_text_color->color) : NULL);
+				   gdk_color_copy (&sheet->tab_text_color->gdk_color) : NULL);
 			me->old_colors_back = g_slist_prepend (me->old_colors_back,
 				   sheet->tab_color ?
-				   gdk_color_copy (&sheet->tab_color->color) : NULL);
+				   gdk_color_copy (&sheet->tab_color->gdk_color) : NULL);
 		}
 		the_sheets = the_sheets->next;
 	}
@@ -5273,7 +5270,7 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *new_order,
 	if (!workbook_sheet_rename_check (me->wb, me->changed_names, 
 					  me->new_names, 
 					  me->deleted_sheets,
-					 GNM_CMD_CONTEXT (wbc))) {
+					 GO_CMD_CONTEXT (wbc))) {
 		g_object_unref (obj);
 		return TRUE;
 	}
@@ -5478,10 +5475,10 @@ cmd_analysis_tool_undo (GnmCommand *cmd, WorkbookControl *wbc)
 				    me->old_range.end.col, me->old_range.end.row,
 				    CLEAR_COMMENTS | CLEAR_FORMATS | CLEAR_NOCHECKARRAY |
 				    CLEAR_RECALC_DEPS | CLEAR_VALUES | CLEAR_MERGES,
-				    GNM_CMD_CONTEXT (wbc));
+				    GO_CMD_CONTEXT (wbc));
 		clipboard_paste_region (me->old_content,
 			paste_target_init (&pt, me->dao->sheet, &me->old_range, PASTE_ALL_TYPES),
-			GNM_CMD_CONTEXT (wbc));
+			GO_CMD_CONTEXT (wbc));
 		cellregion_unref (me->old_content);
 		me->old_content = NULL;
 		if (me->col_info) {
@@ -5712,7 +5709,7 @@ cmd_merge_data_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		sheet_object_clone_sheet (source_sheet, new_sheet, &target_range);
 		clipboard_paste_region (merge_content,
 			paste_target_init (&pt, new_sheet, &target_range, PASTE_ALL_TYPES),
-			GNM_CMD_CONTEXT (wbc));
+			GO_CMD_CONTEXT (wbc));
 	}
 	me->sheet_list = g_slist_reverse (me->sheet_list);
 	colrow_state_list_destroy (state_col);
@@ -6172,7 +6169,7 @@ cmd_define_name_redo (GnmCommand *cmd, WorkbookControl *wbc)
 		char *err = NULL;
 		nexpr = expr_name_add (&me->pp, me->name, me->expr, &err, TRUE);
 		if (nexpr == NULL) {
-			gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), _("Name"), err);
+			go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), _("Name"), err);
 			g_free (err);
 			return TRUE;
 		}
@@ -6228,7 +6225,7 @@ cmd_define_name (WorkbookControl *wbc, char const *name,
 	g_return_val_if_fail (expr != NULL, TRUE);
 
 	if (expr_name_check_for_loop (name, expr)) {
-		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), name,
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), name,
 					_("has a circular reference"));
 		gnm_expr_unref (expr);
 		return TRUE;
@@ -6492,7 +6489,7 @@ cmd_text_to_columns_impl (GnmCommand *cmd, WorkbookControl *wbc,
 	g_return_val_if_fail (me->content != NULL, TRUE);
 
 	content = clipboard_copy_range (me->dst.sheet, &me->dst.range);
-	if (clipboard_paste_region (me->content, &me->dst, GNM_CMD_CONTEXT (wbc))) {
+	if (clipboard_paste_region (me->content, &me->dst, GO_CMD_CONTEXT (wbc))) {
 		/* There was a problem, avoid leaking */
 		cellregion_unref (content);
 		return TRUE;
@@ -6581,7 +6578,7 @@ cmd_text_to_columns (WorkbookControl *wbc,
 
 	/* Check array subdivision & merged regions */
 	if (sheet_range_splits_region (target_sheet, &me->dst.range,
-				       NULL, GNM_CMD_CONTEXT (wbc), me->cmd.cmd_descriptor)) {
+				       NULL, GO_CMD_CONTEXT (wbc), me->cmd.cmd_descriptor)) {
 		g_object_unref (G_OBJECT (me));
 		return TRUE;
 	}

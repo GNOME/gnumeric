@@ -16,6 +16,7 @@
 #include "sheet.h"
 #include "rendered-value.h"
 #include "parse-util.h"
+#include <goffice/utils/go-color.h>
 
 #include <gdk/gdk.h>
 #include <string.h>
@@ -44,11 +45,10 @@ gunichar const zero_width_space = 0x200b;
  *             of the cell.  NOTE This can be asymetric.  Passing
  *             <= 0 will use width / 2
  */
-
 gboolean
 cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 		  int width, int height, int h_center,
-		  GdkColor **res_color, gint *res_x, gint *res_y)
+		  GOColor *res_color, gint *res_x, gint *res_y)
 {
 	ColRowInfo const * const ci = cell->col_info; /* DEPRECATED */
 	ColRowInfo const * const ri = cell->row_info; /* DEPRECATED */
@@ -189,7 +189,7 @@ cell_calc_layout (GnmCell const *cell, RenderedValue *rv, int y_direction,
 			 rv->layout_natural_width, rv->layout_natural_height);
 #endif
 
-	*res_color = &rv->color;
+	*res_color = rv->go_fore_color;
 	*res_x = rect_x + hoffset;
 	*res_y = text_base;
 
@@ -201,7 +201,8 @@ void
 cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 	   int x1, int y1, int width, int height, int h_center)
 {
-	GdkColor *color;
+	GOColor fore_color;
+	GdkColor tmp;
 	gint x;
 	gint y;
 	RenderedValue *rv = cell->rendered_value;
@@ -220,7 +221,7 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 			      width * PANGO_SCALE,
 			      height * PANGO_SCALE,
 			      h_center == -1 ? -1 : (h_center * PANGO_SCALE),
-			      &color, &x, &y)) {
+			      &fore_color, &x, &y)) {
 		PangoContext *context = NULL;
 
 		/* +1 to get past left grid-line.  */
@@ -243,7 +244,8 @@ cell_draw (GnmCell const *cell, GdkGC *gc, GdkDrawable *drawable,
 		gdk_gc_set_clip_rectangle (gc, &rect);
 
 		/* See http://bugzilla.gnome.org/show_bug.cgi?id=105322 */
-		gdk_gc_set_rgb_fg_color (gc, color);
+		gdk_gc_set_rgb_fg_color (gc,
+			go_color_to_gdk (fore_color, &tmp));
 
 		if (rv->rotation) {
 			PangoMatrix rotmat = PANGO_MATRIX_INIT;

@@ -3,8 +3,9 @@
 
 #include <Python.h>
 #include <glib.h>
-#include <plugin.h>
+#include <goffice/app/go-plugin.h>
 #include "gnm-py-interpreter.h"
+#include <gui-gnumeric.h>
 
 void     py_initgnumeric (GnmPyInterpreter *interpreter);
 

@@ -22,16 +22,18 @@
 #include "command-context-stderr.h"
 #include "workbook-control-gui.h"
 #include "workbook-view.h"
-#include "plugin.h"
+#include <goffice/app/go-plugin.h>
 #include "workbook.h"
 #include "gui-file.h"
 #include "gnumeric-gconf.h"
 #include "gnumeric-paths.h"
 #include "session.h"
 #include "sheet.h"
+#include "gnm-plugin.h"
 
 #include <gtk/gtkmain.h>
 #include <goffice/utils/go-file.h>
+#include <goffice/app/go-cmd-context.h>
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -112,7 +114,7 @@ warn_about_ancient_gnumerics (const char *binary, IOContext *ioc)
 	    now - buf.st_mtime > days * 24 * 60 * 60) {
 		handle_paint_events ();
 
-		gnm_cmd_context_error_system (GNM_CMD_CONTEXT (ioc),
+		go_cmd_context_error_system (GO_CMD_CONTEXT (ioc),
 			_("Thank you for using Gnumeric!\n"
 			  "\n"
 			  "The version of Gnumeric you are using is quite old\n"
@@ -244,6 +246,19 @@ gnumeric_arg_parse (int argc, char const *argv [])
 }
 #endif
 
+/*
+ * WARNING WARNING WARNING
+ * This does not belong here
+ * but it is expedient for now to get things to compile
+ */
+#warning REMOVE REMOVE REMOVE
+static void
+store_plugin_state ()
+{
+	GSList *active_plugins = plugins_get_active_plugins ();
+	gnm_gconf_set_active_plugins (active_plugins);
+	g_slist_free (active_plugins);
+}
 int
 main (int argc, char const *argv [])
 {
@@ -279,7 +294,7 @@ main (int argc, char const *argv [])
 		handle_paint_events ();
 	} else {
 		/* TODO: Make this inconsistency go away */
-		GnmCmdContext *cc = cmd_context_stderr_new ();
+		GOCmdContext *cc = cmd_context_stderr_new ();
 		ioc = gnumeric_io_context_new (cc);
 		g_object_unref (cc);
 	}
@@ -291,7 +306,7 @@ main (int argc, char const *argv [])
 
 	/* Keep in sync with .desktop file */
 	g_set_application_name (_("Gnumeric Spreadsheet"));
- 	plugins_init (GNM_CMD_CONTEXT (ioc));
+ 	gnm_plugins_init (GO_CMD_CONTEXT (ioc));
 
 	/* Load selected files */
 	if (ctx)
@@ -370,6 +385,7 @@ main (int argc, char const *argv [])
 	}
 
 	gnumeric_arg_shutdown ();
+	store_plugin_state ();
 	gnm_shutdown ();
 
 #ifdef WITH_GNOME

@@ -28,7 +28,7 @@
 
 #include "gnumeric-config.h"
 #include "gnumeric.h"
-#include "numbers.h"
+#include <goffice/utils/numbers.h>
 
 #define lib_set_ptr           glp_lib_set_ptr
 #define lib_get_ptr           glp_lib_get_ptr

@@ -560,7 +560,7 @@ link_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *ref
 	cellref_get_abs_pos (ref, pos, &lookup.pos);
 	single = g_hash_table_lookup (deps->single_hash, &lookup);
 	if (single == NULL) {
-		single = gnm_mem_chunk_alloc (deps->single_pool);
+		single = go_mem_chunk_alloc (deps->single_pool);
 		*single = lookup;
 		micro_hash_init (&single->deps, dep);
 		g_hash_table_insert (deps->single_hash, single, single);
@@ -587,7 +587,7 @@ unlink_single_dep (GnmDependent *dep, GnmCellPos const *pos, GnmCellRef const *a
 		if (micro_hash_is_empty (&single->deps)) {
 			g_hash_table_remove (deps->single_hash, single);
 			micro_hash_release (&single->deps);
-			gnm_mem_chunk_free (deps->single_pool, single);
+			go_mem_chunk_free (deps->single_pool, single);
 		}
 	}
 }
@@ -618,7 +618,7 @@ link_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 		}
 
 		/* Create a new DependencyRange structure */
-		result = gnm_mem_chunk_alloc (deps->range_pool);
+		result = go_mem_chunk_alloc (deps->range_pool);
 		*result = *r;
 		micro_hash_init (&result->deps, dep);
 		g_hash_table_insert (deps->range_hash[i], result, result);
@@ -643,7 +643,7 @@ unlink_range_dep (GnmDepContainer *deps, GnmDependent *dep,
 			if (micro_hash_is_empty (&result->deps)) {
 				g_hash_table_remove (deps->range_hash[i], result);
 				micro_hash_release (&result->deps);
-				gnm_mem_chunk_free (deps->range_pool, result);
+				go_mem_chunk_free (deps->range_pool, result);
 			}
 		}
 	}
@@ -1892,7 +1892,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 		deps->range_hash = NULL;
 	}
 	if (deps->range_pool) {
-		gnm_mem_chunk_destroy (deps->range_pool, TRUE);
+		go_mem_chunk_destroy (deps->range_pool, TRUE);
 		deps->range_pool = NULL;
 	}
 
@@ -1901,7 +1901,7 @@ do_deps_destroy (Sheet *sheet, GnmExprRewriteInfo const *rwinfo)
 		deps->single_hash = NULL;
 	}
 	if (deps->single_pool) {
-		gnm_mem_chunk_destroy (deps->single_pool, TRUE);
+		go_mem_chunk_destroy (deps->single_pool, TRUE);
 		deps->single_pool = NULL;
 	}
 
@@ -2121,12 +2121,12 @@ gnm_dep_container_new (void)
 
 	deps->range_hash  = g_new0 (GHashTable *,
 				    (SHEET_MAX_ROWS-1)/BUCKET_SIZE + 1);
-	deps->range_pool  = gnm_mem_chunk_new ("range pool",
+	deps->range_pool  = go_mem_chunk_new ("range pool",
 					       sizeof (DependencyRange),
 					       16 * 1024 - 100);
 	deps->single_hash = g_hash_table_new ((GHashFunc) depsingle_hash,
 					      (GEqualFunc) depsingle_equal);
-	deps->single_pool = gnm_mem_chunk_new ("single pool",
+	deps->single_pool = go_mem_chunk_new ("single pool",
 					       sizeof (DependencySingle),
 					       16 * 1024 - 100);
 	deps->referencing_names = g_hash_table_new (g_direct_hash,

@@ -15,9 +15,8 @@
 #include <workbook.h>
 #include <cell.h>
 #include <value.h>
-#include <plugin.h>
-#include <plugin-util.h>
-#include <module-plugin-defs.h>
+#include <goffice/app/go-plugin.h>
+#include <goffice/app/module-plugin-defs.h>
 #include <sheet.h>
 #include <datetime.h>
 #include <ranges.h>

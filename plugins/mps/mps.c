@@ -30,21 +30,15 @@
  * Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 #include <gnumeric-config.h>
-#include <glib/gi18n.h>
 #include <gnumeric.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdlib.h>
-#include <string.h>
+#include "mps.h"
 #include "cell.h"
 #include "sheet.h"
 #include "value.h"
-#include "file.h"
 #include "io-context.h"
 #include "workbook-view.h"
 #include "workbook.h"
-#include "plugin-util.h"
-#include "module-plugin-defs.h"
+#include <goffice/app/module-plugin-defs.h>
 #include "ranges.h"
 #include "style.h"
 #include "value.h"
@@ -53,7 +47,13 @@
 #include "parse-util.h"
 #include "func.h"
 #include "expr.h"
-#include "mps.h"
+#include <goffice/app/file.h>
+#include <goffice/app/error-info.h>
+#include <glib/gi18n.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include <string.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 

@@ -3,7 +3,7 @@
 /*
  * hlink.c: hyperlink support
  *
- * Copyright (C) 2000-2002 Jody Goldberg (jody@gnome.org)
+ * Copyright (C) 2000-2005 Jody Goldberg (jody@gnome.org)
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of version 2 of the GNU General Public
@@ -166,9 +166,8 @@ gnm_hlink_cur_wb_activate (GnmHLink *lnk, WorkbookControl *wbc)
 			target = gnm_expr_get_range (nexpr->expr);
 	}
 	if (target == NULL) {
-		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc),
-					_("Link target"),
-					lnk->target);
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc),
+			_("Link target"), lnk->target);
 		return FALSE;
 	}
 
@@ -220,8 +219,8 @@ gnm_hlink_url_activate (GnmHLink *lnk, WorkbookControl *wbc)
 	err = go_url_show (lnk->target);
 
 	if (err != NULL) {
-		char *msg = g_strdup_printf(_("Unable to activate the url '%s'"), lnk->target);
-		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), msg, err->message);
+		char *msg = g_strdup_printf (_("Unable to activate the url '%s'"), lnk->target);
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), msg, err->message);
 		g_free (msg);
 		g_error_free (err);
 	}
@@ -271,7 +270,7 @@ gnm_hlink_external_activate (GnmHLink *lnk, WorkbookControl *wbc)
 #warning TODO
 	if (err != NULL) {
 		char *msg = g_strdup_printf(_("Unable to open '%s'"), lnk->target);
-		gnm_cmd_context_error_invalid (GNM_CMD_CONTEXT (wbc), msg, err->message);
+		go_cmd_context_error_invalid (GO_CMD_CONTEXT (wbc), msg, err->message);
 		g_free (msg);
 		g_error_free (err);
 	}

@@ -20,7 +20,6 @@
 #include <expr.h>
 #include <value.h>
 #include <gutils.h>
-#include <plugin-util.h>
 #include <parse-util.h>
 
 #include <gsf/gsf-input.h>

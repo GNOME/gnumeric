@@ -26,7 +26,7 @@
 #include <glib/gi18n.h>
 #include "reports.h"
 
-#include "format.h"
+#include <src/gnm-format.h>
 #include "solver.h"
 #include "func.h"
 #include "cell.h"

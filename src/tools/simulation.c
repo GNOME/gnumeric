@@ -214,7 +214,7 @@ create_stats (simulation_t *sim, gnm_float **outputs, simstats_t *stats)
 
 		/* Confidence (95%) */
 		stats->confidence [i] = -qnorm (0.05, 0, 1, TRUE, FALSE)
-			* (stats->stddev [i] / sqrtgnum (sim->n_iterations));
+			* (stats->stddev [i] / gnm_sqrt (sim->n_iterations));
 
 		/* Lower Confidence (95%) */
 		stats->lower [i] = stats->mean [i] - stats->confidence [i] / 2;

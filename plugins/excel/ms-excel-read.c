@@ -41,7 +41,7 @@
 #include <sheet-filter.h>
 #include <cell.h>
 #include <style.h>
-#include <format.h>
+#include <src/gnm-format.h>
 #include <print-info.h>
 #include <selection.h>
 #include <validation.h>
@@ -52,7 +52,6 @@
 #include <expr-name.h>
 #include <value.h>
 #include <hlink.h>
-#include <gutils.h>
 #include <application.h>
 #include <io-context.h>
 #include <command-context.h>
@@ -63,6 +62,7 @@
 #include <sheet-object-graph.h>
 #include <sheet-object-image.h>
 #include <goffice/utils/go-units.h>
+#include <goffice/utils/go-glib-extras.h>
 #include <goffice/graph/gog-style.h>
 
 #include <gsf/gsf-input.h>
@@ -155,7 +155,7 @@ excel_iconv_open_for_import (guint codepage)
 	return gsf_msole_iconv_open_for_import (codepage);
 }
 
-static GnmFormat *
+static GOFormat *
 excel_wb_get_fmt (ExcelWorkbook *ewb, unsigned idx)
 {
 	char const *ans = NULL;
@@ -213,7 +213,7 @@ ms_sheet_get_sheet (MSContainer const *container)
 	return ((ExcelReadSheet const *)container)->sheet;
 }
 
-static GnmFormat *
+static GOFormat *
 ms_sheet_get_fmt (MSContainer const *container, unsigned indx)
 {
 	return excel_wb_get_fmt (container->ewb, indx);
@@ -232,9 +232,9 @@ ms_sheet_map_color (ExcelReadSheet const *esheet, MSObj const *obj, MSObjAttrID 
 		GnmColor *c = excel_palette_get (esheet->container.ewb->palette,
 			(0x7ffffff & attr->v.v_uint));
 
-		r = c->color.red >> 8;
-		g = c->color.green >> 8;
-		b = c->color.blue >> 8;
+		r = c->gdk_color.red >> 8;
+		g = c->gdk_color.green >> 8;
+		b = c->gdk_color.blue >> 8;
 		style_color_unref (c);
 	} else {
 		r = (attr->v.v_uint)       & 0xff;
@@ -848,7 +848,7 @@ append_markup (PangoAttribute *src, TXORun *run)
 	return FALSE;
 }
 
-static GnmFormat *
+static GOFormat *
 excel_read_LABEL_markup (BiffQuery *q, ExcelReadSheet *esheet,
 			 char const *str, unsigned str_len)
 {
@@ -1466,7 +1466,7 @@ excel_palette_get (ExcelPalette const *pal, gint idx)
 		d (1, {
 			GnmColor *c = pal->gnm_colors[idx];
 			fprintf (stderr,"New color in slot %d: RGB= %x,%x,%x\n",
-				idx, c->color.red, c->color.green, c->color.blue);
+				idx, c->gdk_color.red, c->gdk_color.green, c->gdk_color.blue);
 		});
 	}
 
@@ -1694,9 +1694,9 @@ excel_get_style_from_xf (ExcelReadSheet *esheet, BiffXFData const *xf)
 	g_return_val_if_fail (back_color && pattern_color && font_color, NULL);
 
 	d (4, fprintf (stderr,"back = #%02x%02x%02x, pat = #%02x%02x%02x, font = #%02x%02x%02x, pat_style = %d\n",
-		      back_color->color.red>>8, back_color->color.green>>8, back_color->color.blue>>8,
-		      pattern_color->color.red>>8, pattern_color->color.green>>8, pattern_color->color.blue>>8,
-		      font_color->color.red>>8, font_color->color.green>>8, font_color->color.blue>>8,
+		      back_color->gdk_color.red>>8, back_color->gdk_color.green>>8, back_color->gdk_color.blue>>8,
+		      pattern_color->gdk_color.red>>8, pattern_color->gdk_color.green>>8, pattern_color->gdk_color.blue>>8,
+		      font_color->gdk_color.red>>8, font_color->gdk_color.green>>8, font_color->gdk_color.blue>>8,
 		      xf->fill_pattern_idx););
 
 	mstyle_set_color (mstyle, MSTYLE_COLOR_FORE, font_color);
@@ -2624,7 +2624,7 @@ ms_wb_parse_expr (MSContainer *container, guint8 const *data, int length)
 	return ms_sheet_parse_expr_internal (&dummy_sheet, data, length);
 }
 
-static GnmFormat *
+static GOFormat *
 ms_wb_get_fmt (MSContainer const *container, unsigned indx)
 {
 	return excel_wb_get_fmt (((ExcelWorkbook *)container), indx);
@@ -2682,7 +2682,7 @@ ms_wb_get_font_markup (MSContainer const *c, unsigned indx)
 		color = (fd->color_idx == 127) ? style_color_black ()
 			: excel_palette_get (ewb->palette, fd->color_idx);
 		add_attr (attrs, pango_attr_foreground_new (
-			color->color.red, color->color.green, color->color.blue));
+			color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue));
 		style_color_unref (color);
 
 		((BiffFontData *)fd)->attrs = attrs;
@@ -3447,7 +3447,7 @@ excel_read_TAB_COLOR (BiffQuery *q, ExcelReadSheet *esheet)
 	 */
 	color_index = GSF_LE_GET_GUINT8 (q->data + 16);
 	color = excel_palette_get (esheet->container.ewb->palette, color_index);
-	contrast = color->color.red + color->color.green + color->color.blue;
+	contrast = color->gdk_color.red + color->gdk_color.green + color->gdk_color.blue;
 	if (contrast >= 0x18000)
 		text_color = style_color_black ();
 	else
@@ -3456,7 +3456,7 @@ excel_read_TAB_COLOR (BiffQuery *q, ExcelReadSheet *esheet)
 	if (color != NULL) {
 		d (1, fprintf (stderr,"%s tab colour = %04hx:%04hx:%04hx\n",
 			      esheet->sheet->name_unquoted,
-			      color->color.red, color->color.green, color->color.blue););
+			      color->gdk_color.red, color->gdk_color.green, color->gdk_color.blue););
 	}
 }
 
@@ -3901,16 +3901,26 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 		? PRINT_ORDER_RIGHT_THEN_DOWN
 		: PRINT_ORDER_DOWN_THEN_RIGHT;
 
-	/* If the extra info is valid use it */
+	/* If the extra info is invalid ignore it */
 	if ((grbit & 0x4) != 0x4) {
-		print_info_set_n_copies (pi, 
-					 GSF_LE_GET_GUINT16 (q->data + 32));
+		guint16 n_across = GSF_LE_GET_GUINT16 (q->data + 6);
+		guint16 n_tall   = GSF_LE_GET_GUINT16 (q->data + 8);
+
+		g_warning ("%hd : %hd", n_across, n_tall);
+
+		if (n_across > 0 && n_tall > 0) {
+			pi->scaling.dim.cols = n_across;
+			pi->scaling.dim.rows = n_tall;
+		}
+
+		print_info_set_n_copies (pi, GSF_LE_GET_GUINT16 (q->data + 32));
+
 		/* 0x40 == orientation is set */
-		if ((grbit & 0x40) != 0x40) {
+		if ((grbit & 0x40) != 0x40)
 			print_info_set_orientation (pi, (grbit & 0x2)
 						    ? PRINT_ORIENT_VERTICAL
 						    : PRINT_ORIENT_HORIZONTAL);
-		}
+
 		pi->scaling.percentage.x = pi->scaling.percentage.y = GSF_LE_GET_GUINT16 (q->data + 2);
 		if (pi->scaling.percentage.x < 1. || pi->scaling.percentage.x > 1000.) {
 			g_warning ("setting invalid print scaling (%f) to 100%%",
@@ -3948,21 +3958,6 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 	if ((grbit & 0x80) == 0x80)
 		fprintf (stderr,"Starting page number %d\n",
 			GSF_LE_GET_GUINT16 (q->data +  4));
-#endif
-
-	/* We do not support SIZE_FIT yet */
-	pi->scaling.type = PERCENTAGE;
-#if 0
-	{
-		guint16  fw, fh;
-		fw = GSF_LE_GET_GUINT16 (q->data + 6);
-		fh = GSF_LE_GET_GUINT16 (q->data + 8);
-		if (fw > 0 && fh > 0) {
-			pi->scaling.type = SIZE_FIT;
-			pi->scaling.dim.cols = fw;
-			pi->scaling.dim.rows = fh;
-		}
-	}
 #endif
 
 	print_info_set_margin_header 
@@ -4073,7 +4068,7 @@ excel_read_MERGECELLS (BiffQuery *q, ExcelReadSheet *esheet)
 	while (num_merged-- > 0) {
 		data = excel_read_range (&r, data);
 		sheet_merge_add (esheet->sheet, &r, FALSE,
-			GNM_CMD_CONTEXT (esheet->container.ewb->context));
+			GO_CMD_CONTEXT (esheet->container.ewb->context));
 	}
 }
 
@@ -4140,7 +4135,10 @@ excel_read_WSBOOL (BiffQuery *q, ExcelReadSheet *esheet)
 	/* 0x0020 automatic styles are not applied to an outline */
 	esheet->sheet->outline_symbols_below = 0 != (options & 0x040);
 	esheet->sheet->outline_symbols_right = 0 != (options & 0x080);
-	/* 0x0100  0 == scale printout as percent, 1 == fit printout to num page */
+	if (NULL != esheet->sheet->print_info)
+		esheet->sheet->print_info->scaling.type =
+			(options & 0x100) ? SIZE_FIT : PERCENTAGE;
+
 	/* 0x0200 biff 3-4 0 == save external linked values, 1 == do not save */
 	/* XL docs wrong 0xc00 no 0x600, OOo docs wrong no distinct row vs col */
 	esheet->sheet->display_outlines      = 0 != (options & 0xc00);
@@ -4300,9 +4298,9 @@ excel_read_WINDOW2 (BiffQuery *q, ExcelReadSheet *esheet, WorkbookView *wb_view)
 		}
 		d (2, fprintf (stderr,"auto pattern color "
 			      "0x%x 0x%x 0x%x\n",
-			      pattern_color->color.red,
-			      pattern_color->color.green,
-			      pattern_color->color.blue););
+			      pattern_color->gdk_color.red,
+			      pattern_color->gdk_color.green,
+			      pattern_color->gdk_color.blue););
 		sheet_style_set_auto_pattern_color (
 			esheet->sheet, pattern_color);
 	}
@@ -5164,8 +5162,9 @@ excel_read_FILEPASS (BiffQuery *q, ExcelWorkbook *ewb)
 		return NULL;
 
 	while (TRUE) {
-		char *passwd = gnm_cmd_context_get_password (GNM_CMD_CONTEXT (ewb->context),
-							     workbook_get_uri (ewb->gnum_wb));
+		char *passwd = go_cmd_context_get_password (
+			GO_CMD_CONTEXT (ewb->context),
+			workbook_get_uri (ewb->gnum_wb));
 		if (passwd == NULL)
 			return _("No password supplied");
 		if (ms_biff_query_set_decrypt (q, ewb->container.ver, passwd))
@@ -5195,7 +5194,7 @@ excel_read_LABEL (BiffQuery *q, ExcelReadSheet *esheet, gboolean has_markup)
 
 	excel_set_xf (esheet, q);
 	if (txt != NULL) {
-		GnmFormat *fmt = NULL;
+		GOFormat *fmt = NULL;
 		if (has_markup)
 			fmt = excel_read_LABEL_markup (q, esheet,
 						       txt, str_len);
@@ -5550,7 +5549,7 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 		case BIFF_FILEPASS: {
 			char *problem = excel_read_FILEPASS (q, ewb);
 			if (problem != NULL) {
-				gnm_cmd_context_error_import (GNM_CMD_CONTEXT (ewb->context), problem);
+				go_cmd_context_error_import (GO_CMD_CONTEXT (ewb->context), problem);
 				return FALSE;
 			}
 			break;
@@ -6057,11 +6056,11 @@ excel_read_workbook (IOContext *context, WorkbookView *wb_view,
 
 		/* If we were forced to stop then the load failed */
 		if (problem_loading != NULL)
-			gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context), problem_loading);
+			go_cmd_context_error_import (GO_CMD_CONTEXT (context), problem_loading);
 		return;
 	}
 
-	gnm_cmd_context_error_import (GNM_CMD_CONTEXT (context),
+	go_cmd_context_error_import (GO_CMD_CONTEXT (context),
 		_("Unable to locate valid MS Excel workbook"));
 }
 

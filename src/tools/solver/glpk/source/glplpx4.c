@@ -182,7 +182,7 @@ static void eq_scal(int m, int n, void *info,
 -- for the same row and column numbers.
 --
 -- To perform geometric mean scaling the routine gm_scal divides all
--- elements of each row (column) by sqrtgnum(beta/alfa), where alfa and beta
+-- elements of each row (column) by gnm_sqrt(beta/alfa), where alfa and beta
 -- are, respectively, smallest and largest absolute values of non-zero
 -- elements of the corresponding row (column). In order to improve the
 -- scaling quality the routine scales rows and columns several times.
@@ -279,7 +279,7 @@ err2:                   fault("gm_scal: i = %d; j = %d; invalid column "
                      if (beta < temp) beta = temp;
                   }
                   /* scale the i-th row */
-                  if (beta != 0.0) R[i] /= sqrtgnum(alfa * beta);
+                  if (beta != 0.0) R[i] /= gnm_sqrt(alfa * beta);
                }
             }
             else
@@ -304,7 +304,7 @@ err2:                   fault("gm_scal: i = %d; j = %d; invalid column "
                      if (beta < temp) beta = temp;
                   }
                   /* scale the j-th column */
-                  if (beta != 0.0) S[j] /= sqrtgnum(alfa * beta);
+                  if (beta != 0.0) S[j] /= gnm_sqrt(alfa * beta);
                }
             }
          }

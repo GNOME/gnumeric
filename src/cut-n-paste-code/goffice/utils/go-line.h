@@ -54,4 +54,4 @@ ArtBpath *go_line_build_bpath (double const *x, double const *y, int n);
 
 G_END_DECLS
 
-#endif
+#endif /* GO_LINE_H */

@@ -28,12 +28,11 @@
 #include "command-context.h"
 #include "workbook-control.h"
 #include "str.h"
-#include "xml-io.h"
 #include "format-template.h"
 #include "gutils.h"
-#include "plugin-util.h"
 #include "mstyle.h"
 
+#include <goffice/utils/go-libxml-extras.h>
 #include <libxml/parserInternals.h>
 #include <libxml/xmlmemory.h>
 #include <unistd.h>
