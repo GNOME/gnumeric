@@ -1,5 +1,14 @@
 2004-10-12  Morten Welinder  <terra@gnome.org>
 
+	* graph/gog-axis.h (GogAxisTickTypes): Fix namespace.
+
+	* graph/gog-axis.c (GogAxisElemType): Name this type and move it
+	from gog-axis.h.
+	(gog_axis_get_entry): Make this static and use GogAxisElemType,
+	not unsigned int, for the index argument.
+
+2004-10-12  Morten Welinder  <terra@gnome.org>
+
 	* graph/gog-axis.c (map_linear_auto_bound): Fix gnm_float/double
 	confusion.
 	(gog_axis_get_entry): Temporary fix for user-defined axis limits.
