@@ -2952,32 +2952,15 @@ workbook_selection_to_string (Workbook *wb, Sheet *base_sheet)
 CommandContext *
 workbook_command_context_gui (Workbook *wb)
 {
-	/*
-	 * Mhm.  Why is this invoked sometimes with WB == NULL?
+	/* When we are operating before a workbook is created
+	 * wb can be NULL
 	 */
-	if (wb == NULL){
-		static CommandContextGui *cc;
-		
-		{
-			static int error_shown;
-
-			/*
-			 * We can workaround this problem without much pain,
-			 * I just want to know what was the plan for this
-			 *
-			 * We can go back to a single global if required, but
-			 * I dislike that plan -mig
-			 */
-			if (!error_shown){
-				g_warning ("NULL wb should never happen, Jody can you check this?");
-				error_shown = 1;
-			}
-		}
-
+	if (wb == NULL) {
+		static CommandContext *cc = NULL;
 		if (cc == NULL)
 			cc = command_context_gui_new (NULL);
 		return cc;
 	}
-	
+
 	return wb->priv->gui_context;
 }

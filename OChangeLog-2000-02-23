@@ -1,3 +1,11 @@
+1999-12-30  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_command_context_gui) : minor warning
+	  supression and adjustment of the comment to explain why we may
+	  be called with a NULL workbook.  That occurs when an operation
+	  occurs BEFORE a gui is available but we will be creating a gui
+	  and want graphical error messages.
+
 1999-12-30  Ariel Rios <jarios@usa.net>
 
 	* doc/Makefile.am: Added guile-gnumeric.txt to dist files.
