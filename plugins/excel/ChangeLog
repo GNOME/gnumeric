@@ -1,3 +1,29 @@
+1999-04-13  Michael Meeks <michael@imaginator.com>
+
+	* ms-ole.c(ms_biff_query_copy): Fix nasty bug: duplicate
+	stream pos record too.
+
+	* escher-types.h: Created to hold the drawing layer types.
+
+	* ole.c (read_types): Expanded to cope with escher types.
+	(get_opcode_name): Duplicated into:
+	(get_biff_opcode_name, get_escher_opcode_name): Created.
+	(main): Updated biff section.
+	Added 'draw' = search for drawings and dump section.
+
+	* README: Updated to doc. 'draw'
+	
+1999-04-12  Michael Meeks <michael@imaginator.com>
+
+	* ms-objc.c/h renamed ms_obj_read_graphic to
+	ms_obj_read_obj, the real graphic lurks elsewhere...
+
+	* ms-escher.c/h: Created to handle the 'Office drawing layer'
+	This is a hack and needs better OLE support code.
+
+	* ms-ole.c (ms_ole_stream_duplicate): Created, not too bad a hack
+	(ms_biff_query_data_to_stream): Nasty hack for ms-escher
+	
 1999-04-12  Michael Meeks <michael@imaginator.com>
 
 	* ms-obj.c: Created to deal with the horrors of embedded graphic

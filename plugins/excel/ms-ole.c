@@ -1228,6 +1228,16 @@ ms_ole_stream_open (MS_OLE_DIRECTORY *d, char mode)
 	return s;
 }
 
+/* FIXME: This needs to be more cunning and have new write / read
+   functions that inser CONTINUE records etc. */
+static MS_OLE_STREAM *
+ms_ole_stream_duplicate (MS_OLE_STREAM *s)
+{
+	MS_OLE_STREAM *ans = g_new (MS_OLE_STREAM, 1);
+	memcpy (ans, s, sizeof(MS_OLE_STREAM));
+	return ans;
+}
+
 void
 ms_ole_stream_close (MS_OLE_STREAM *s)
 {
@@ -1490,6 +1500,7 @@ ms_biff_query_copy (const BIFF_QUERY *p)
 		bf->data = (guint8 *)g_malloc (p->length);
 		memcpy (bf->data, p->data, p->length);
 	}
+	bf->pos=ms_ole_stream_duplicate (p->pos);
 	return bf;
 }
 
@@ -1543,6 +1554,21 @@ ms_biff_query_destroy (BIFF_QUERY *bq)
 			g_free (bq->data);
 		g_free (bq);
 	}
+}
+
+/* FIXME: Too nasty ! */
+MS_OLE_STREAM *
+ms_biff_query_data_to_stream (BIFF_QUERY *bq)
+{
+	MS_OLE_STREAM *ans=ms_ole_stream_duplicate (bq->pos);
+/*	ans->advance(ans, -bq->length); 
+	This will never work !
+*/
+	/* Hack size down to biff length */
+	/* Can't be done non-destructively ! sod ! */
+	/* Should cut the length down a lot, hope we can know where
+	   the end is somehow */
+	return ans;
 }
 
 #if G_BYTE_ORDER != G_LITTLE_ENDIAN

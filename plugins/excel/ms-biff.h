@@ -55,4 +55,6 @@ extern BIFF_QUERY *ms_biff_query_copy (const BIFF_QUERY *p) ;
  **/
 extern int ms_biff_query_next (BIFF_QUERY *) ;
 extern void ms_biff_query_destroy (BIFF_QUERY *) ;
+/* Returns a stream which contains the data in the BIFF record. */
+extern MS_OLE_STREAM *ms_biff_query_data_to_stream (BIFF_QUERY *);
 #endif

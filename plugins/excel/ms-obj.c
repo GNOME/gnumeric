@@ -80,7 +80,7 @@ object_type_names[] =
 };
 
 void
-ms_obj_read_graphic (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
+ms_obj_read_obj (MS_EXCEL_SHEET *sheet, BIFF_QUERY *q)
 {
 	guint8 *data;
 	gint32 data_len_left;

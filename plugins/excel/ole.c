@@ -14,24 +14,28 @@
 
 #include "ms-ole.h"
 #include "ms-biff.h"
+#include "biff-types.h"
 
-#define TYPES_FILE "biff-types.h"
+#define BIFF_TYPES_FILE    "biff-types.h"
+#define ESCHER_TYPES_FILE  "escher-types.h"
 
 typedef struct {
 	guint16 opcode;
 	char *name;
-} BIFF_TYPE;
+} GENERIC_TYPE;
 
-static GPtrArray *types=NULL;
+static GPtrArray *biff_types   = NULL;
+static GPtrArray *escher_types = NULL;
+typedef enum { eBiff=0, eEscher=1 } typeType;
 
 static void
-read_types ()
+read_types (char *fname, GPtrArray **types, typeType t)
 {
-	FILE *file = fopen(TYPES_FILE, "r");
+	FILE *file = fopen(fname, "r");
 	char buffer[1024];
-	types = g_ptr_array_new ();
+	*types = g_ptr_array_new ();
 	if (!file) {
-		printf ("Can't find vital file '%s'\n", TYPES_FILE);
+		printf ("Can't find vital file '%s'\n", fname);
 		return;
 	}
 	while (!feof(file)) {
@@ -39,18 +43,21 @@ read_types ()
 		fgets(buffer,1023,file);
 		for (p=buffer;*p;p++)
 			if (*p=='0' && *(p+1)=='x') {
-				BIFF_TYPE *bt = g_new (BIFF_TYPE,1);
+				GENERIC_TYPE *bt = g_new (GENERIC_TYPE,1);
 				char *name, *pt;
 				bt->opcode=strtol(p+2,0,16);
 				pt = buffer;
 				while (*pt && *pt != '#') pt++;      /* # */
 				while (*pt && !isspace(*pt)) pt++;  /* define */
 				while (*pt &&  isspace(*pt)) pt++;  /* '   ' */
-				while (*pt && *pt != '_') pt++;     /* BIFF_ */
-				name = *pt?pt+1:pt;
+				if (t==eBiff) {
+					while (*pt && *pt != '_') pt++;     /* BIFF_ */
+					name = *pt?pt+1:pt;
+				} else
+					name = pt;
 				while (*pt && !isspace(*pt)) pt++;
 				bt->name=g_strndup(name, (pt-name));
-				g_ptr_array_add (types, bt);
+				g_ptr_array_add (*types, bt);
 				break;
 			}
 	}
@@ -58,13 +65,32 @@ read_types ()
 }
 
 static char*
-get_opcode_name (guint16 opcode)
+get_biff_opcode_name (guint16 opcode)
 {
 	int lp;
-	if (!types)
-		read_types ();
-	for (lp=0;lp<types->len;lp++) {
-		BIFF_TYPE *bt = g_ptr_array_index (types, lp);
+	if (!biff_types)
+		read_types (BIFF_TYPES_FILE, &biff_types, eBiff);
+	for (lp=0;lp<biff_types->len;lp++) {
+		GENERIC_TYPE *bt = g_ptr_array_index (biff_types, lp);
+		if (bt->opcode>0xff) {
+			if (bt->opcode == opcode)
+				return bt->name;
+		} else {
+			if (bt->opcode == (opcode&0xff))
+				return bt->name;
+		}
+	}
+	return "Unknown";
+}
+
+static char*
+get_escher_opcode_name (guint16 opcode)
+{
+	int lp;
+	if (!escher_types)
+		read_types (ESCHER_TYPES_FILE, &escher_types, eEscher);
+	for (lp=0;lp<escher_types->len;lp++) {
+		GENERIC_TYPE *bt = g_ptr_array_index (escher_types, lp);
 		if (bt->opcode>0xff) {
 			if (bt->opcode == opcode)
 				return bt->name;
@@ -115,10 +141,91 @@ syntax_error(char *err)
 	printf (" -i: Interactive, queries for fresh commands\n\n");
 	printf ("command can be one or all of:\n");
 	printf (" * ls:                   list files\n");
+	printf (" * biff <stream name>:   dump biff records\n");
+	printf (" * draw <stream name>:   dump drawing records\n");
 	printf (" * dump <stream name>:   dump stream\n");
 	printf (" * quit,exit,bye:        exit\n");
 	exit(1);
 }
+
+/* ---------------------------- Start cut from ms-escher.c ---------------------------- */
+
+typedef struct { /* See: S59FDA.HTM */
+	guint   ver:4;
+	guint   instance:12;
+	guint16 type;   /* fbt */
+	gint32  length; /* Misleading really 16bits */
+	guint8 *data;
+	gint32  length_left;
+} ESH_HEADER;
+
+static ESH_HEADER *
+esh_header_new (guint8 *data, gint32 length)
+{
+	ESH_HEADER *h = g_new (ESH_HEADER,1);
+	h->length=-6;
+	h->type=0;
+	h->instance=0;
+	h->data=data;
+	h->length_left=length;
+	return h;
+}
+
+static int
+esh_header_next (ESH_HEADER *h)
+{
+	guint16 split;
+	g_return_val_if_fail(h, 0);
+	g_return_val_if_fail(h->data, 0);
+
+	h->data+=h->length+6;
+	h->length_left-=h->length+6;
+
+	if (h->length_left<=5)
+		return 0;
+	h->length   = BIFF_GETWORD(h->data+4);
+	h->type     = BIFF_GETWORD(h->data+2);
+	split       = BIFF_GETWORD(h->data+0);
+	h->ver      = (split&0x0f);
+	h->instance = (split>>4);
+	return 1;
+}
+static void
+esh_header_destroy (ESH_HEADER *h)
+{
+	if (h)
+		g_free(h);
+}
+
+/**
+ *  Builds a flat record by merging CONTINUE records,
+ *  Have to do until we move this into ms_ole.c
+ *  pass pointers to your length & data variables.
+ *  This is dead sluggish.
+ **/
+static void
+biff_to_flat_data (const BIFF_QUERY *q, guint8 **data, guint32 *length)
+{
+	BIFF_QUERY *nq = ms_biff_query_copy (q);
+	guint8 *ptr;
+
+	*length=0;
+	do {
+		*length+=nq->length;
+		ms_biff_query_next(nq);
+	} while (nq->opcode == BIFF_CONTINUE);
+
+	(*data) = g_malloc (*length);
+	ptr=(*data);
+	nq = ms_biff_query_copy (q);
+	do {
+		memcpy (ptr, nq->data, nq->length);
+		ptr+=nq->length;
+		ms_biff_query_next(nq);
+	} while (nq->opcode == BIFF_CONTINUE);
+}
+
+/* ---------------------------- End cut ---------------------------- */
 
 int main (int argc, char **argv)
 {
@@ -201,7 +308,7 @@ int main (int argc, char **argv)
 							printf ("\n");
 						count=0;
 						printf ("Opcode 0x%3x : %15s, length %d",
-							q->opcode, get_opcode_name (q->opcode), q->length);
+							q->opcode, get_biff_opcode_name (q->opcode), q->length);
 					}
 					last_opcode=q->opcode;
 					last_length=q->length;
@@ -212,6 +319,38 @@ int main (int argc, char **argv)
 				printf ("Need a stream name\n");
 				return 0;
 			}
+		} else if (g_strcasecmp(ptr, "draw")==0) { /* Assume its in a BIFF file */
+			MS_OLE_DIRECTORY *dir;
+			ptr = strtok (NULL, delim);
+			if ((dir = get_file_handle (ole, ptr)))
+			{
+				MS_OLE_STREAM *stream = ms_ole_stream_open (dir, 'r');
+				BIFF_QUERY *q = ms_biff_query_new (stream);
+				while (ms_biff_query_next(q)) {
+					if (q->ls_op == BIFF_MS_O_DRAWING ||
+					    q->ls_op == BIFF_MS_O_DRAWING_GROUP ||
+					    q->ls_op == BIFF_MS_O_DRAWING_SELECTION) {
+						guint8 *data;
+						guint32 len;
+						guint32 str_pos=q->streamPos;
+						ESH_HEADER *h ;
+						printf("Drawing: '%s'\n", get_biff_opcode_name(q->opcode));
+						biff_to_flat_data (q, &data, &len);
+						h = esh_header_new (data, len);
+						while (esh_header_next(h)) {
+							printf ("Header: type 0x%4x : '%s', inst 0x%x ver 0x%x len 0x%x\n",
+								h->type, get_escher_opcode_name (h->type), h->instance,
+								h->ver, h->length);
+						}
+						esh_header_destroy (h); 
+					}
+				}
+				printf ("\n");
+				ms_ole_stream_close (stream);
+			} else {
+				printf ("Need a stream name\n");
+				return 0;
+			}			
 		} else if (g_strcasecmp(ptr,"exit")==0 ||
 			   g_strcasecmp(ptr,"quit")==0 ||
 			   g_strcasecmp(ptr,"bye")==0)

@@ -31,6 +31,7 @@
 #include "ms-excel.h"
 #include "ms-excel-biff.h"
 #include "ms-obj.h"
+#include "ms-escher.h"
 
 #define EXCEL_DEBUG 0
 
@@ -1857,7 +1858,7 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			return;
 			break;
 		case BIFF_OBJ: /* See: ms-obj.c and S59DAD.HTM */
-			ms_obj_read_graphic (sheet, q);
+			ms_obj_read_obj (sheet, q);
 			break;
 		case BIFF_SELECTION: /* S59DE2.HTM */
 		{
@@ -1891,8 +1892,8 @@ ms_excel_read_sheet (MS_EXCEL_SHEET *sheet, BIFF_QUERY * q, MS_EXCEL_WORKBOOK * 
 			sheet_cursor_set (sheet->gnum_sheet, act_col, act_row, act_col, act_row, act_col, act_row) ;
 			break ;
 		}
-		case BIFF_MS_O_DRAWING: /* FIXME: See: S59DA4.HTM */
-			printf ("FIXME: MS Drawing\n");
+		case BIFF_MS_O_DRAWING: /* FIXME: See: ms-escher.c and S59DA4.HTM */
+			ms_escher_hack_get_drawing (q);
 			break;
 		case BIFF_NOTE: /* See: S59DAB.HTM */
 		{
@@ -2161,6 +2162,7 @@ ms_excelReadWorkbook (MS_OLE * file)
 				break;
 			case BIFF_MS_O_DRAWING_GROUP: /* FIXME: See: S59DA5.HTM */
 				printf ("FIXME: MS Drawing Group\n");
+				ms_escher_hack_get_drawing (q);
 				break;
 			case BIFF_EXTERNSHEET:
 			{
