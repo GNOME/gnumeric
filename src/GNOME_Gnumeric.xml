@@ -657,11 +657,11 @@
 
 	<separator/>
 
-	<control name="BorderSelector" _tip="Borders" behavior="pack-end"/>
+	<control name="BorderSelector" _tip="Borders" />
 
-	<control name="BackgroundColor" _tip="Background" behavior="pack-end"/>
+	<control name="BackgroundColor" _tip="Background" />
 
-	<control name="ForegroundColor" _tip="Foreground" behavior="pack-end"/>
+	<control name="ForegroundColor" _tip="Foreground" />
     </dockitem>
 
     <dockitem name="ObjectToolbar" band_num="2" placement="left"

@@ -1,3 +1,12 @@
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/gnumeric.xml : remove the 'pack-end' from some of the format
+	  controls too.
+
+2001-02-16  Jody Goldberg <jgoldberg@home.com>
+
+	* src/cell-draw.c (cell_draw) : fix some warnings.
+
 2001-02-15  Jody Goldberg <jgoldberg@home.com>
 
 	* src/number-match.c (compute_value) : check for overflow.
