@@ -1,20 +1,22 @@
+# translation of sk.po to Slovak
 # Slovak translation of sk.po
 # Gnumeric Slovak translation
 # Copyright (c) 1999,2000,2001,2002 The Free Software Foundation
 # 1999 Bobo Rajec
 # 2000,2001,2002 Stanislav Visnovsky
 # Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>, 2002
+# Stanislav Vi¹òovský <visnovsky@nenya.ms.mff.cuni.cz>, 2002
 msgid ""
 msgstr ""
 "Project-Id-Version: sk\n"
-"POT-Creation-Date: 2002-05-10 16:44+0200\n"
-"PO-Revision-Date: 2002-05-10 16:44+0200\n"
-"Last-Translator: Stanislav Visnovsky <visnovsky@nenya.ms.mff.cuni.cz>\n"
+"POT-Creation-Date: 2002-05-28 09:24+0200\n"
+"PO-Revision-Date: 2002-05-28 09:25+0200\n"
+"Last-Translator: Stanislav Vi¹òovský <visnovsky@nenya.ms.mff.cuni.cz>\n"
 "Language-Team: Slovak <sk-i18n@lists.linux.sk>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-2\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: KBabel 1.0beta1\n"
+"X-Generator: KBabel 1.0beta2\n"
 
 #: gnumeric.desktop.in.h:1 src/dialogs/dialog-about.c:81
 #: src/functions/fn-sheet.c:143
@@ -388,7 +390,7 @@ msgstr ""
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_put_theta, opt_bs_call_theta, "
 "opt_bs_gamma"
 
-#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4531
+#: plugins/dif/dif.c:77 plugins/excel/ms-excel-read.c:4536
 #: plugins/mps/mps.c:579 src/xml-io.c:3386
 msgid "Reading file..."
 msgstr "Èítam súbor..."
@@ -509,25 +511,25 @@ msgstr "Graf%d"
 msgid "Module%d"
 msgstr "Modul%d"
 
-#: plugins/excel/ms-excel-read.c:4526
+#: plugins/excel/ms-excel-read.c:4531
 msgid "No book or workbook streams found."
 msgstr "Neboli nájdené ¾iadne zo¹itové kanále."
 
 #. All records after this are encrypted
-#: plugins/excel/ms-excel-read.c:4690
+#: plugins/excel/ms-excel-read.c:4695
 msgid "Password protected workbooks are not supported yet."
 msgstr "Zo¹ity chránené heslom zatiaµ nie sú podporované."
 
-#: plugins/excel/ms-excel-read.c:4803
+#: plugins/excel/ms-excel-read.c:4808
 msgid "Unable to locate valid MS Excel workbook"
 msgstr "Nepodarilo sa nájs» platný zo¹it MS Excel"
 
-#: plugins/excel/ms-excel-write.c:3574
+#: plugins/excel/ms-excel-write.c:3579
 #, c-format
 msgid "Too many rows for this format (%d > %d)"
 msgstr "Príli¹ veµa riadkov pre tento formát (%d > %d)"
 
-#: plugins/excel/ms-excel-write.c:3800
+#: plugins/excel/ms-excel-write.c:3805
 msgid "Can't open stream for writing\n"
 msgstr "Nepodarilo sa otvori» kanál pre zápis\n"
 
@@ -737,7 +739,7 @@ msgstr "Obmedzenia:"
 
 #. Print constraint titles.
 #: plugins/mps/mps.c:335 src/dialogs/plugin-manager.glade.h:10
-#: src/format-template.c:510 src/solver-lp.c:898 src/solver-lp.c:922
+#: src/format-template.c:511 src/solver-lp.c:898 src/solver-lp.c:922
 #: src/solver-lp.c:955 src/solver-lp.c:1049 src/solver-lp.c:1096
 #: src/workbook-control.c:234
 msgid "Name"
@@ -4369,36 +4371,36 @@ msgid "_Wrap text"
 msgstr "_Zalamova» text"
 
 #: src/dialogs/cell-format.glade.h:129
-msgid "min &lt;= val &lt;= max         (between)"
-msgstr "min &lt;= hodnota &lt;= max       (medzi)"
+msgid "min <= val <= max         (between)"
+msgstr "min <= hodnota <= max       (medzi)"
 
 #: src/dialogs/cell-format.glade.h:130
 msgid "val != bound                  (not equal to)"
 msgstr "hod != limit                 (nerovná sa)"
 
 #: src/dialogs/cell-format.glade.h:131
-msgid "val &gt;  bound                  (greater than)"
-msgstr "hodnota &gt;  hranica                 (väè¹ia)"
+msgid "val <  bound                  (less than)"
+msgstr "hodnota <  hranica                 (men¹ia)"
 
 #: src/dialogs/cell-format.glade.h:132
-msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "hodnota &gt;= hranica                 (väè¹ia alebo rovná)"
+msgid "val <= min || max <= val (not between)"
+msgstr "hodnota <= min || max <= hodnota (nie medzi)"
 
 #: src/dialogs/cell-format.glade.h:133
-msgid "val &lt;  bound                  (less than)"
-msgstr "hodnota &lt;  hranica                 (men¹ia)"
+msgid "val <=bound                  (less than or equal to)"
+msgstr "hodnota <= hranica                 (men¹ia alebo rovná)"
 
 #: src/dialogs/cell-format.glade.h:134
-msgid "val &lt;= min || max &lt;= val (not between)"
-msgstr "hodnota &lt;= min || max &lt;= hodnota (nie medzi)"
-
-#: src/dialogs/cell-format.glade.h:135
-msgid "val &lt;=bound                  (less than or equal to)"
-msgstr "hodnota &lt;= hranica                 (men¹ia alebo rovná)"
-
-#: src/dialogs/cell-format.glade.h:136
 msgid "val == bound                 (equal to)"
 msgstr "hod == limit                (je rovná)"
+
+#: src/dialogs/cell-format.glade.h:135
+msgid "val >  bound                  (greater than)"
+msgstr "hodnota >  hranica                 (väè¹ia)"
+
+#: src/dialogs/cell-format.glade.h:136
+msgid "val >=bound                  (greater than or equal to)"
+msgstr "hodnota >= hranica                 (väè¹ia alebo rovná)"
 
 #: src/dialogs/cell-sort.glade.h:1
 msgid "A _header"
@@ -5644,15 +5646,15 @@ msgstr "Komentár"
 msgid "Are you sure you want to remove the sheet called `%s'?"
 msgstr "Ste si istý, ¾e chcete odstráni» list nazvaný `%s'?"
 
-#: src/dialogs/dialog-solver.c:65
+#: src/dialogs/dialog-solver.c:65 src/dialogs/solver.glade.h:1
 msgid "<="
 msgstr "<="
 
-#: src/dialogs/dialog-solver.c:66
+#: src/dialogs/dialog-solver.c:66 src/dialogs/solver.glade.h:3
 msgid ">="
 msgstr ">="
 
-#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:3
+#: src/dialogs/dialog-solver.c:67 src/dialogs/solver.glade.h:2
 msgid "="
 msgstr "="
 
@@ -5699,25 +5701,25 @@ msgstr "Naozaj chcete zru¹i»?"
 msgid "\""
 msgstr "\""
 
-#: src/dialogs/dialog-stf-export.glade.h:2
-msgid "&lt;- Remove"
-msgstr "&lt;- Odstráni»"
-
-#: src/dialogs/dialog-stf-export.glade.h:3
-msgid "&lt;- Remove all"
-msgstr "&lt;- Odstráni» v¹etky"
-
-#: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
+#: src/dialogs/dialog-stf-export.glade.h:2 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "'"
 
+#: src/dialogs/dialog-stf-export.glade.h:3
+msgid "<- Remove"
+msgstr "<- Odstráni»"
+
+#: src/dialogs/dialog-stf-export.glade.h:4
+msgid "<- Remove all"
+msgstr "<- Odstráni» v¹etky"
+
 #: src/dialogs/dialog-stf-export.glade.h:5
-msgid "Add -&gt;"
-msgstr "Prida» -&gt;"
+msgid "Add ->"
+msgstr "Prida» ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-msgid "Add all -&gt;"
-msgstr "Prida» v¹etky -&gt;"
+msgid "Add all ->"
+msgstr "Prida» v¹etky ->"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -7202,14 +7204,6 @@ msgstr "Zadajte nové meno _listu:"
 msgid "Rename sheet"
 msgstr "Premenova» list"
 
-#: src/dialogs/solver.glade.h:1
-msgid "&gt;="
-msgstr "&gt;="
-
-#: src/dialogs/solver.glade.h:2
-msgid "&lt;="
-msgstr "&lt;="
-
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
 msgstr "Predpoklada» _lineárny model"
@@ -7423,15 +7417,15 @@ msgstr "Zabudovaný"
 msgid "Error: no sheet"
 msgstr "Chyba: ¾iadny list"
 
-#: src/expr.c:557
+#: src/expr.c:558
 msgid "Internal type error"
 msgstr "Interná chyba typu"
 
-#: src/expr.c:736
+#: src/expr.c:737
 msgid "Unknown operator"
 msgstr "Neznámy operátor"
 
-#: src/expr.c:965
+#: src/expr.c:966
 msgid "Unknown evaluation error"
 msgstr "Neznáma chyba pri vyhodnocovaní"
 
@@ -7474,17 +7468,17 @@ msgstr ""
 "Túto funkciu mô¾ete bezpeène vypnú» úpravou zodpovedajúceho súboru plugin."
 "xml."
 
-#: src/format-template.c:874
+#: src/format-template.c:875
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr "Cieµová oblas» je príli¹ malá, mala by by» aspoò %d riadkov a %d ståpcov"
 
-#: src/format-template.c:877
+#: src/format-template.c:878
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
 msgstr "Cieµová oblas» je príli¹ malá, mala by by» ¹iroká aspoò %d ståpcov"
 
-#: src/format-template.c:880
+#: src/format-template.c:881
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
 msgstr "Cieµová oblas» je príli¹ malá, mala by by» vysoká aspoò %d riadkov"
@@ -20089,42 +20083,42 @@ msgstr "Va¹a mapa písiem fontmap2 neobsahuje platné informácie o Helvetica."
 msgid "Your fontmap2 file could not be found in the expected location."
 msgstr "Va¹a mapa písiem fontmap2 nebola nájdená na oèakávanom mieste."
 
-#: src/validation.c:139
+#: src/validation.c:140
 #, c-format
 msgid "Cell %s is not permitted to be blank"
 msgstr "Bunka %s nesmie by» prázdna"
 
-#: src/validation.c:156
+#: src/validation.c:157
 #, c-format
 msgid "'%s' is an error"
 msgstr "'%s' je chyba"
 
-#: src/validation.c:166
+#: src/validation.c:167
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "%s nie je platný dátum"
 
-#: src/validation.c:168
+#: src/validation.c:169
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "'%s' nie je paltný èas"
 
-#: src/validation.c:170
+#: src/validation.c:171
 #, c-format
 msgid "'%s' is not a number"
 msgstr "'%s' nie je èíslo"
 
-#: src/validation.c:183
+#: src/validation.c:184
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "'%s' nie je celé èíslo"
 
-#: src/validation.c:276
+#: src/validation.c:277
 #, c-format
 msgid "%s is not true."
 msgstr "%s neplatí."
 
-#: src/validation.c:289
+#: src/validation.c:290
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's content."
@@ -20132,7 +20126,7 @@ msgstr ""
 "Hodnota nie je platná.\n"
 "Na obsah tejto bunky sú kladené obmedzenia."
 
-#: src/validation.c:296
+#: src/validation.c:297
 msgid "Gnumeric : Validation"
 msgstr "Gnumeric: Overenie"
 
@@ -20742,6 +20736,24 @@ msgstr "Nie je súbor so zo¹itom Gnumeric"
 msgid "Gnumeric XML file format"
 msgstr "Súborový formát Gnumeric XML"
 
+#~ msgid "&lt;- Remove"
+#~ msgstr "&lt;- Odstráni»"
+
+#~ msgid "&lt;- Remove all"
+#~ msgstr "&lt;- Odstráni» v¹etky"
+
+#~ msgid "Add -&gt;"
+#~ msgstr "Prida» -&gt;"
+
+#~ msgid "Add all -&gt;"
+#~ msgstr "Prida» v¹etky -&gt;"
+
+#~ msgid "&gt;="
+#~ msgstr "&gt;="
+
+#~ msgid "&lt;="
+#~ msgstr "&lt;="
+
 #~ msgid "First argument to SCM must be a Guile expression"
 #~ msgstr "Prvý argument pre SCM musí by» Guile výraz"
 
@@ -20750,22 +20762,6 @@ msgstr "Súborový formát Gnumeric XML"
 
 #~ msgid "Could not evaluate argument"
 #~ msgstr "Argument sa nedá vyhodnoti»"
-
-#, fuzzy
-#~ msgid "<- Remove"
-#~ msgstr "Odstráni»"
-
-#, fuzzy
-#~ msgid "<- Remove all"
-#~ msgstr "&lt;- Odstráni» v¹etky"
-
-#, fuzzy
-#~ msgid "Add ->"
-#~ msgstr "Prida»"
-
-#, fuzzy
-#~ msgid "Add all ->"
-#~ msgstr "Prida» v¹etky -&gt;"
 
 #~ msgid ""
 #~ "Thank you for using Gnumeric!\n"
