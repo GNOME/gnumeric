@@ -24,10 +24,6 @@ Release Critical
     : F4 is not working
     : Make 'save or discard' dialog a proper transient 
 
-    s/might be/is/
-    > sheet-object-graphic.c:1312: warning: `sheet_object_class' might be used
-    > uninitialized in this function
-
 Worries
 
     We init gnome_print at sheet creation time.  With cups this can cause
