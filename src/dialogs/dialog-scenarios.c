@@ -263,7 +263,7 @@ set_selection_state (ScenariosState *state, gboolean f)
 				    &cells, &comment);
 		update_comment (state, cells, comment);
 	} else
-		update_comment (state, _(""), _(""));
+		update_comment (state, "", "");
 }
 
 static void
