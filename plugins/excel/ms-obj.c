@@ -606,11 +606,8 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, GHashTable *attrs)
 	}
 #endif
 
-	obj->gnum_obj = (*container->vtbl->create_obj) (container, obj);
-	if (obj->gnum_obj == NULL) {
-		ms_obj_delete (obj);
-		return;
-	}
+	if (container->vtbl->create_obj != NULL)
+		obj->gnum_obj = (*container->vtbl->create_obj) (container, obj);
 
 	/* Chart, There should be a BOF next */
 	if (obj->excel_type == 0x5) {
@@ -620,6 +617,10 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, GHashTable *attrs)
 		}
 	}
 
+	if (obj->gnum_obj == NULL) {
+		ms_obj_delete (obj);
+		return;
+	}
 #if 0
 	printf ("Registered object 0x%p\n", obj);
 #endif

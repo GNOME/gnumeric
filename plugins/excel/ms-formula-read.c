@@ -1267,6 +1267,16 @@ ms_excel_parse_formula (ExcelSheet const *sheet, guint8 const *mem,
 		}
 		break;
 
+		case FORMULA_PTG_REF_ERR:
+			ptg_length = (ver >= MS_BIFF_V8) ? 4 : 3;
+			parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
+			break;
+
+		case FORMULA_PTG_AREA_ERR:
+			ptg_length = (ver >= MS_BIFF_V8) ? 8 : 6;
+			parse_list_push_raw (&stack, value_new_error (NULL, gnumeric_err_REF));
+			break;
+
 		case FORMULA_PTG_REF: case FORMULA_PTG_REFN: {
 			CellRef *ref=0;
 			if (ver >= MS_BIFF_V8) {

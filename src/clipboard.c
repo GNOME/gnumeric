@@ -260,7 +260,7 @@ clipboard_paste_region (WorkbookControl *wbc,
 			PasteTarget const *pt,
 			CellRegion const *content)
 {
-	int repeat_horizontal, repeat_vertical;
+	int repeat_horizontal, repeat_vertical, clearFlags;
 	int dst_cols, dst_rows, src_cols, src_rows, min_col, max_col, tmp;
 	Range const *r;
 	gboolean has_content, adjust_merges = TRUE;
@@ -283,7 +283,9 @@ clipboard_paste_region (WorkbookControl *wbc,
 			dst_cols = dst_rows = 1;
 			adjust_merges = FALSE;
 		}
-	}
+	/* Apparently links do not supercede merges */
+	} else if (pt->paste_flags & PASTE_LINK)
+		adjust_merges = FALSE;
 
 	has_content = pt->paste_flags & (PASTE_CONTENT|PASTE_AS_VALUES|PASTE_LINK);
 
@@ -292,7 +294,6 @@ clipboard_paste_region (WorkbookControl *wbc,
 		src_cols = src_rows;
 		src_rows = tmp;
 	} 
-
 
 	if (content->not_as_content && (pt->paste_flags & PASTE_CONTENT)) {
 		gnumeric_error_invalid (COMMAND_CONTEXT (wbc),
@@ -334,35 +335,32 @@ clipboard_paste_region (WorkbookControl *wbc,
 		return TRUE;
 	}
 
-	tmp = 0;
+	clearFlags = 0;
 	/* clear the region where we will paste */
 	if (has_content) {
-		tmp = CLEAR_VALUES | CLEAR_NORESPAN;
+		clearFlags = CLEAR_VALUES | CLEAR_NORESPAN;
 		if (!(pt->paste_flags & PASTE_IGNORE_COMMENTS))
-			tmp |= CLEAR_COMMENTS;
+			clearFlags |= CLEAR_COMMENTS;
 	}
 
 	/* No need to clear the formats.  We will paste over top of these. */
-	/* if (pt->paste_flags & PASTE_FORMATS) tmp |= CLEAR_FORMATS; */
+	/* if (pt->paste_flags & PASTE_FORMATS) clearFlags |= CLEAR_FORMATS; */
 
 	if (pt->paste_flags & (PASTE_OPER_MASK | PASTE_SKIP_BLANKS))
-		tmp = 0;
-	if (tmp) {
+		clearFlags = 0;
+
+	/* remove merged regions even for operations, or blanks */
+	if (has_content && adjust_merges)
+		clearFlags |= CLEAR_MERGES;
+
+	if (clearFlags != 0) {
 		int const dst_col = pt->range.start.col;
 		int const dst_row = pt->range.start.row;
 		sheet_clear_region (wbc, pt->sheet,
 				    dst_col, dst_row,
 				    dst_col + dst_cols - 1,
 				    dst_row + dst_rows - 1,
-				    tmp);
-	}
-
-	/* remove and merged regions in the target range */
-	if (has_content && adjust_merges) {
-		GSList *merged, *ptr;
-		merged = sheet_merge_get_overlap (pt->sheet, &pt->range);
-		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
-			sheet_merge_remove (wbc, pt->sheet, ptr->data);
+				    clearFlags);
 	}
 
 	for (tmp = repeat_vertical; repeat_horizontal-- > 0 ; repeat_vertical = tmp)
@@ -406,6 +404,11 @@ clipboard_paste_region (WorkbookControl *wbc,
 				GSList *ptr;
 				for (ptr = content->merged; ptr != NULL ; ptr = ptr->next) {
 					Range tmp = *((Range const *)ptr->data);
+					if (pt->paste_flags & PASTE_TRANSPOSE) {
+						int x;
+						x = tmp.start.col; tmp.start.col = tmp.start.row;  tmp.start.row = x;
+						x = tmp.end.col; tmp.end.col = tmp.end.row;  tmp.end.row = x;
+					}
 					if (!range_translate (&tmp, left, top))
 						sheet_merge_add (wbc, pt->sheet, &tmp, TRUE);
 				}

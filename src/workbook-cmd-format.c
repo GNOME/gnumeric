@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * workbook.c:  Workbook format commands hooked to the menus
  *
@@ -44,7 +45,7 @@ workbook_cmd_mutate_borders (WorkbookControl *wbc, Sheet *sheet, gboolean add)
 				style_color_black (), style_border_get_orientation (i));
 		else
 			borders[i] = NULL;
-								  
+
 	cmd_format (wbc, sheet, NULL, borders,
 		    add ? _("Add Borders") : _("Remove borders"));
 }
@@ -96,6 +97,7 @@ sheet_dialog_set_column_width (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	GList *l;
 	double value = 0.0;
+	double min = 5.;
 
 	/* Find out the initial value to display */
 	for (l = sheet->selections; l; l = l->next) {
@@ -111,6 +113,8 @@ sheet_dialog_set_column_width (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 				value = 0.0;
 				break;
 			}
+			if (min > (ci->margin_a + ci->margin_b))
+			    min = (ci->margin_a + ci->margin_b);
 		}
 	}
 
@@ -123,10 +127,12 @@ loop :
 	if (!dialog_get_number (wbcg, "col-width.glade", &value))
 		return;
 
-	if (value <= 0.0) {
-		gnumeric_notice (
-			wbcg, GNOME_MESSAGE_BOX_ERROR,
-			N_("You entered an invalid column width value.  It must be bigger than 0"));
+	if (value <= min) {
+		char *msg = g_strdup_printf (
+			_("You entered an invalid column width value.  It must be bigger than %d"),
+			(int)min);
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		g_free (msg);
 		goto loop;
 	}
 	{
@@ -152,6 +158,7 @@ sheet_dialog_set_row_height (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 	Sheet *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	GList *l;
 	double value = 0.0;
+	double min = 5.;
 
 	/*
 	 * Find out the initial value to display
@@ -169,6 +176,8 @@ sheet_dialog_set_row_height (GtkWidget *ignored, WorkbookControlGUI *wbcg)
 				value = 0.0;
 				break;
 			}
+			if (min > (ri->margin_a + ri->margin_b))
+			    min = (ri->margin_a + ri->margin_b);
 		}
 	}
 
@@ -181,10 +190,12 @@ loop :
 	if (!dialog_get_number (wbcg, "row-height.glade", &value))
 		return;
 
-	if (value <= 0.0) {
-		gnumeric_notice (
-			wbcg, GNOME_MESSAGE_BOX_ERROR,
-			N_("You entered an invalid row height value.  It must be bigger than 0"));
+	if (value <= min) {
+		char *msg = g_strdup_printf(
+			_("You entered an invalid row height value.  It must be bigger than %d"),
+			(int)min);
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		g_free (msg);
 		goto loop;
 	}
 	{
@@ -217,6 +228,9 @@ workbook_cmd_format_column_std_width (GtkWidget *widget, WorkbookControl *wbc)
 	WorkbookControlGUI *wbcg  = (WorkbookControlGUI *)wbc;
 	Sheet              *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	double              value = sheet_col_get_default_size_pts (sheet);
+	double const 	    min   = sheet->cols.default_style.margin_a +
+				    sheet->cols.default_style.margin_b;
+	char *msg;
 
 	/* Scale and round to 3 decimal places */
 	value *= 1000.;
@@ -226,17 +240,16 @@ workbook_cmd_format_column_std_width (GtkWidget *widget, WorkbookControl *wbc)
 	do {
 		if (!dialog_get_number (wbcg, "col-width.glade", &value))
 			return;
-
-		if (value > 0.0)
+		if (value > min)
 			break;
-			
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
-				 N_("You entered an invalid default column width value.  It must be bigger than 0"));
+		msg = g_strdup_printf (
+			_("The default column width must be > %d."), (int)min);
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		g_free (msg);
 	} while (1);
 
 	cmd_colrow_std_size (wbc, sheet, TRUE, value);
 }
-
 
 void
 workbook_cmd_format_row_std_height (GtkWidget *widget, WorkbookControl *wbc)
@@ -244,6 +257,9 @@ workbook_cmd_format_row_std_height (GtkWidget *widget, WorkbookControl *wbc)
 	WorkbookControlGUI *wbcg  = (WorkbookControlGUI *)wbc;
 	Sheet              *sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
 	double              value = sheet_row_get_default_size_pts (sheet);
+	double const 	    min   = sheet->rows.default_style.margin_a +
+				    sheet->rows.default_style.margin_b;
+	char *msg;
 
 
 	/* Scale and round to 3 decimal places */
@@ -254,12 +270,12 @@ workbook_cmd_format_row_std_height (GtkWidget *widget, WorkbookControl *wbc)
 	do {
 		if (!dialog_get_number (wbcg, "row-height.glade", &value))
 			return;
-
-		if (value > 0.0)
+		if (value > min)
 			break;
-			
-		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR,
-				 N_("You entered an invalid default row height value.  It must be bigger than 0"));
+		msg = g_strdup_printf (
+			_("The default row height must be > %d."), (int)min);
+		gnumeric_notice (wbcg, GNOME_MESSAGE_BOX_ERROR, msg);
+		g_free (msg);
 	} while (1);
 
 	cmd_colrow_std_size (wbc, sheet, FALSE, value);

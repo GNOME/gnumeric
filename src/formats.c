@@ -65,40 +65,41 @@ cell_format_account [] = {
 /* the generated versions and the excel plugin assume this order */
 static char const *
 cell_format_date [] = {
-	"m/d/yy",
-	"m/d/yyyy",
-	"d-mmm-yy",
-	"d-mmm-yyyy",
-	"d-mmm",
-	"d-mm",
-	"mmm/d",
-	"mm/d",
-	"mm/dd/yy",
-	"mm/dd/yyyy",
-	"mmm/dd/yy",
-	"mmm/dd/yyyy",
-	"mmm/ddd/yy",
-	"mmm/ddd/yyyy",
-	"mm/ddd/yy",
-	"mm/ddd/yyyy",
-	"mmm-yy",
-	"mmm-yyyy",
-	"mmmm-yy",
-	"mmmm-yyyy",
-	"m/d/yy h:mm",
-	"m/d/yyyy h:mm",
-	"yyyy/mm/d",
-	"yyyy/mmm/d",
-	"yyyy/mm/dd",
-	"yyyy/mmm/dd",
-	"yyyy-mm-d",
-	"yyyy-mmm-d",
-	"yyyy-mm-dd",
-	"yyyy-mmm-dd",
-	"yy",
-	"yyyy",
+	"m/d/yy",		/* 0 */
+	"m/d/yyyy",		/* 1 */
+	"d-mmm-yy",		/* 2 */
+	"d-mmm-yyyy",		/* 3 */
+	"d-mmm",		/* 4 */
+	"d-mm",			/* 5 */
+	"mmm/d",		/* 6 */
+	"mm/d",			/* 7 */
+	"mm/dd/yy",		/* 8 */
+	"mm/dd/yyyy",		/* 9 */
+	"mmm/dd/yy",		/* 10 */
+	"mmm/dd/yyyy",		/* 11 */
+	"mmm/ddd/yy",		/* 12 */
+	"mmm/ddd/yyyy",		/* 13 */
+	"mm/ddd/yy",		/* 14 */
+	"mm/ddd/yyyy",		/* 15 */
+	"mmm-yy",		/* 16 */
+	"mmm-yyyy",		/* 17 */
+	"mmmm-yy",		/* 18 */
+	"mmmm-yyyy",		/* 19 */
+	"m/d/yy h:mm",		/* 20 */
+	"m/d/yyyy h:mm",	/* 21 */
+	"yyyy/mm/d",		/* 22 */
+	"yyyy/mmm/d",		/* 23 */
+	"yyyy/mm/dd",		/* 24 */
+	"yyyy/mmm/dd",		/* 25 */
+	"yyyy-mm-d",		/* 26 */
+	"yyyy-mmm-d",		/* 27 */
+	"yyyy-mm-dd",		/* 28 */
+	"yyyy-mmm-dd",		/* 29 */
+	"yy",			/* 30 */
+	"yyyy",			/* 31 */
 	NULL
 };
+	
 /*****************************************************/
 
 /* Some are generated */

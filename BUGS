@@ -8,24 +8,20 @@ Release Critical
 ----------------
 
 - name refering to deleted sheet
-- ensure that minimum sizes for cols/rows are not violated
 
   > 0. Start gnumeric.
   > 1. Select b4:c5.
   > 2. =2 ctrl-shift-enter
   > 3. Drag-fill one row down.
   > ==> b6:c6 now contains half an array, :-)
-
-  > 0. Start gnumeric.
-  > 1. Select b4:c5.
-  > 2. Merge
-  > 3. Enter 11 in merged cell.
-  > 4. Drag-fill cell b4(:c5) onto b6:c7.
-  > 5. Drag-fill cell b4(:c5) onto b6:c7.
-  > ==> Gtk-WARNING **: invalid cast from (NULL) pointer to `CommandContext'
-  > ==> ** CRITICAL **: file command-context.c: line 85
-  > (gnumeric_error_invalid): assertion `IS_COMMAND_CONTEXT (context)' failed.
-
+  * this is sort of ok, for forward autofill (although the array size needs to
+    be adjsuted).  However it is completely broken for inverse autofill.
+    XL always creates a new array.  I think it would be useful to resize an
+    existing array if possible, but that will take some thought.
+- autofill with merges and partial regions can overflow the target with the
+  final merge.
+- Various pasting & merging bugs.
+- Tino's INDEX error issue.
 
 Pending Patches
 ---------------

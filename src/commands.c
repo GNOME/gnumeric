@@ -2665,19 +2665,18 @@ cmd_autofill_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me->content != NULL, TRUE);
 
+	/* FIXME : when we split autofill to support hints and better validation
+	 * move this in there.
+	 */
 	sheet_clear_region (wbc, me->dst.sheet,
-			    me->dst.range.start.col, me->dst.range.start.row,
-			    me->dst.range.end.col,   me->dst.range.end.row,
-			    CLEAR_VALUES | CLEAR_NOCHECKARRAY);
-
+		me->dst.range.start.col, me->dst.range.start.row,
+		me->dst.range.end.col,   me->dst.range.end.row,
+		CLEAR_VALUES | CLEAR_MERGES | CLEAR_NOCHECKARRAY | CLEAR_RECALC_DEPS);
 
 	if (me->parent.size == 1)
 		me->parent.size += (g_list_length (me->content->content) +
 				    g_slist_length (me->content->styles) +
 				    1);
-	/* Queue depends of region as a block beforehand */
-	sheet_region_queue_recalc (me->dst.sheet, &me->dst.range);
-
 	if (me->inverse_autofill)
 		sheet_autofill (me->dst.sheet, me->default_increment,
 			me->end_col, me->end_row, me->w, me->h,

@@ -3087,6 +3087,14 @@ sheet_clear_region (WorkbookControl *wbc, Sheet *sheet,
 		}
 	}
 
+	if (clear_flags & CLEAR_MERGES) {
+		GSList *merged, *ptr;
+		merged = sheet_merge_get_overlap (sheet, &r);
+		for (ptr = merged ; ptr != NULL ; ptr = ptr->next)
+			sheet_merge_remove (wbc, sheet, ptr->data);
+		g_slist_free (merged);
+	}
+
 	if (clear_flags & CLEAR_RECALC_DEPS)
 		sheet_region_queue_recalc (sheet, &r);
 

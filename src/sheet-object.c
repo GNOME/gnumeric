@@ -797,7 +797,6 @@ sheet_objects_get (Sheet const *sheet, Range const *r, GtkType t)
 void
 sheet_objects_clear (Sheet const *sheet, Range const *r, GtkType t)
 {
-	GSList *res = NULL;
 	GList *ptr, *next;
 
 	g_return_if_fail (IS_SHEET (sheet));

@@ -104,7 +104,6 @@ typedef struct _FillItem {
 	StyleFormat *fmt;
 	MStyle	    *style;
 
-	gboolean     is_merged;
 	CellPos	     merged_size;
 
 	union {
@@ -289,10 +288,11 @@ fill_item_new (Sheet *sheet, int col, int row)
 	fi->type = FILL_EMPTY;
 	mstyle_ref ((fi->style = sheet_style_get (sheet, col, row)));
 	merged = sheet_merge_is_corner (sheet, &pos);
-	if ((fi->is_merged = (merged != NULL))) {
-		fi->merged_size.col = merged->end.col - col;
-		fi->merged_size.row = merged->end.row - row;
-	}
+	if (merged != NULL) {
+		fi->merged_size.col = merged->end.col - col + 1;
+		fi->merged_size.row = merged->end.row - row + 1;
+	} else
+		fi->merged_size.col = fi->merged_size.row = 1;
 
 	cell = sheet_cell_get (sheet, col, row);
 	if (!cell)
@@ -520,7 +520,7 @@ type_is_compatible (FillItem *last, FillItem *current)
 static GList *
 autofill_create_fill_items (Sheet *sheet, gboolean singleton_increment,
 			    int col, int row,
-			    int region_count, int col_inc, int row_inc)
+			    int region_size, int col_inc, int row_inc)
 {
 	FillItem *last;
 	GList *item_list, *all_items, *major;
@@ -529,7 +529,7 @@ autofill_create_fill_items (Sheet *sheet, gboolean singleton_increment,
 	last = NULL;
 	item_list = all_items = NULL;
 
-	for (i = 0; i < region_count; i++) {
+	for (i = 0; i < region_size;) {
 		FillItem *fi = fill_item_new (sheet, col, row);
 
 		if (!type_is_compatible (last, fi)) {
@@ -543,8 +543,13 @@ autofill_create_fill_items (Sheet *sheet, gboolean singleton_increment,
 
 		item_list = g_list_append (item_list, fi);
 
-		col += col_inc;
-		row += row_inc;
+		if (col_inc != 0) {
+			col += col_inc * fi->merged_size.col;
+			i += fi->merged_size.col;
+		} else {
+			row += row_inc * fi->merged_size.row;
+			i += fi->merged_size.row;
+		}
 	}
 
 	if (item_list)
@@ -739,7 +744,7 @@ autofill_cell (Cell *cell, int idx, FillItem *fi)
 static void
 sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 		    int base_col,     int base_row,
-		    int region_count,
+		    int region_size,
 		    int start_pos,    int end_pos,
 		    int col_inc,      int row_inc)
 {
@@ -751,19 +756,20 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 
 	/* Create the fill items */
 	all_items = autofill_create_fill_items (sheet, singleton_increment,
-		base_col, base_row, region_count, col_inc, row_inc);
+		base_col, base_row, region_size, col_inc, row_inc);
 
-	col = base_col + region_count * col_inc;
-	row = base_row + region_count * row_inc;
+	col = base_col + region_size * col_inc;
+	row = base_row + region_size * row_inc;
 
 	/* Do the autofill */
 	major = all_items;
 	minor = NULL;
 	loops = sub_index = group_count = 0;
 
-	count_max = (start_pos < end_pos) ? end_pos - start_pos - region_count 
-					  : start_pos - end_pos - region_count;
-	for (count = 0; count < count_max; count++) {
+	count_max = (start_pos < end_pos)
+		? end_pos - start_pos - region_size 
+		: start_pos - end_pos - region_size;
+	for (count = 0; count < count_max; ) {
 		FillItem *fi;
 		Cell *cell;
 
@@ -796,22 +802,27 @@ sheet_autofill_dir (Sheet *sheet, gboolean singleton_increment,
 				       loops * group_count + sub_index, fi);
 		}
 
-		if (fi->is_merged) {
+		if (fi->merged_size.col != 1 || fi->merged_size.row != 1) {
 			Range tmp;
 			range_init (&tmp, col, row,
-				    col + fi->merged_size.col,
-				    row + fi->merged_size.row);
+				    col + fi->merged_size.col - 1,
+				    row + fi->merged_size.row - 1);
 			sheet_merge_add	(NULL, sheet, &tmp, TRUE);
 		}
 
-		col += col_inc;
-		row += row_inc;
+		if (col_inc != 0) {
+			col += col_inc * fi->merged_size.col;
+			count += fi->merged_size.col;
+		} else {
+			row += row_inc * fi->merged_size.row;
+			count += fi->merged_size.row;
+		}
 	}
 
 	autofill_destroy_fill_items (all_items);
 }
 
-static void
+void
 autofill_init (void)
 {
 	autofill_register_list (day_short);
@@ -832,15 +843,9 @@ sheet_autofill (Sheet *sheet, gboolean singleton_increment,
 		int w,		int h,
 		int end_col,	int end_row)
 {
-	static int autofill_inited;
 	int series;
 
 	g_return_if_fail (IS_SHEET (sheet));
-
-	if (!autofill_inited) {
-		autofill_init ();
-		autofill_inited = TRUE;
-	}
 
 	if (base_col > end_col || base_row > end_row) {
 		/* Inverse Auto-fill */

@@ -1,3 +1,15 @@
+2001-12-20  Jody Goldberg <jody@gnome.org>
+
+	* ms-formula-read.c (ms_excel_parse_formula) : add support for
+	    FORMULA_PTG_REF_ERR.
+	    FORMULA_PTG_AREA_ERR.
+
+	* ms-obj.c (ms_read_OBJ) : add protection against missing virtuals.
+	  If the object is a graph read it even if we do not support them in
+	  this context (embedded in another object) or if we do not support
+	  graphs at all.  This enables us to read embedded graphs without
+	  throwing off the rest of the parsing.
+
 2001-12-15  Jody Goldberg <jody@gnome.org>
 
 	* Release 0.99.0

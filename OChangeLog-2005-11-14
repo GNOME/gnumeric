@@ -1,3 +1,34 @@
+2001-12-21  Jody Goldberg <jody@gnome.org>
+
+	* src/clipboard.c (clipboard_paste_region) : transpose merges too.
+
+	* src/colrow.c (colrow_compute_pixels_from_pts) : ensure that things
+	  do not get too small.
+
+2001-12-20  Jody Goldberg <jody@gnome.org>
+
+	* src/commands.c (cmd_autofill_redo) : clear merges before filling.
+
+	* src/sheet.c (sheet_clear_region) : Add CLEAR_MERGED.
+
+	* src/clipboard.c (clipboard_paste_region) : use sheet_clear_region to
+	  remove the merges.
+
+	* src/sheet-autofill.c (fill_item_new) : init the merge sizze to 1x1
+	  if we are not merged.  This simplifies logic later.  Remove the
+	  'is_merged' flag it was redundant.
+	(autofill_create_fill_items) : rename region_count -> region_size
+	  it is clearer.  If a cell is merged be smarter about incrementing
+	  in a way consistent with what the user sees.
+	(sheet_autofill_dir) : ditto.
+
+	* src/workbook-cmd-format.c (sheet_dialog_set_row_height) : honour
+	  minima.
+	(sheet_dialog_set_column_width) : ditto.
+
+	* src/colrow.c (colrow_compute_pixels_from_pts) : don't let the pixel
+	  size shrink below the margin size.
+
 2001-12-19  Jody Goldberg <jody@gnome.org>
 
 	* src/sheet.c (sheet_delete_cols) : remove objects before relocations.

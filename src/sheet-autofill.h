@@ -3,6 +3,7 @@
 
 #include "gnumeric.h"
 
+void autofill_init  (void);
 void sheet_autofill (Sheet *sheet, gboolean default_increment,
 		     int base_col, int base_row,
 		     int w,        int h,

@@ -19,6 +19,11 @@ Jody:
 	* Autofill includes autoformats for expressions.
 	* Edit position after undoing a merge.
 	* Partial fix for del col/row undo with dependent objects.
+	* Support some additional forms of #!REF in XL import.
+	* Fix importing of graphs with embedded graphs.
+	* Improve autofill handling of merges.
+	* Support pasting transposed merges.
+	* Ensure that cell sizes never violate absolute minima.
 
 Morten:
 	* Fix DATE.
