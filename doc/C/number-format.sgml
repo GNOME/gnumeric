@@ -315,7 +315,8 @@ as needed. There are several justification options. See
 
   <para> <xref linkend="number-format-list"> The available catagories of
   pre-defined formats are :
-  <example id="formula-format-overview">
+  <example id="number-format-list">
+    <title>Number Format Categories</title>
     <programlisting>
   General		A swiss army knife of a format.  It will attempt
                         to display a value it the 'best' way possible.
@@ -347,7 +348,7 @@ as needed. There are several justification options. See
   Date			The various permutations and combinations of
 			predefined date representations big to expose the
 			underlying format specification language
-			<xref linkend="format-specification-language">.
+			<xref linkend="number-format-date-time-examples">
 			The short version is that years can be 2 or 4 digit
 			(yy or yyyy).  Months can be as many digits as needed
 			(m), always 2 digits (mm), or as the short form (mmm).

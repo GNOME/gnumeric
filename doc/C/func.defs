@@ -9,7 +9,8 @@ LCM(4,7,5) equals to 140.
 @SEEALSO=GCD
 
 @FUNCTION=PRICEDISC
-@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis]@DESCRIPTION=PRICEDISC calculates and returns the price per $100 face value of a security bond.  The security does not pay interest at maturity.  @discount is the rate for which the security is discounted.  @redemption is the amount to be received on @maturity date.  @basis is the type of day counting system you want to use:
+@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])
+@DESCRIPTION=PRICEDISC calculates and returns the price per $100 face value of a security bond.  The security does not pay interest at maturity.  @discount is the rate for which the security is discounted.  @redemption is the amount to be received on @maturity date.  @basis is the type of day counting system you want to use:
 
 0  US 30/360
 1  actual days/actual days
@@ -18,6 +19,8 @@ LCM(4,7,5) equals to 140.
 4  European 30/360
 
 If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEDISC returns NUM! error. If @basis < 0 or @basis > 4, PRICEDISC returns NUM! error. If settlement date is after maturity date or they are the same, PRICEDISC returns NUM! error. 
+@EXAMPLES=
+
 @SEEALSO=PRICEMAT
 
 @FUNCTION=IMARGUMENT
@@ -95,7 +98,7 @@ nper = number of periods used for compounding
 Strings and empty cells are simply ignored. This function is Excel compatible. 
 @EXAMPLES=
 
-@SEEALSO=CORREL,COVAR,INTERPCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND
+@SEEALSO=CORREL,COVAR,INTERCEPT,LINEST,LOGEST,PEARSON,SLOPE,STEYX,TREND
 
 @FUNCTION=ODDLYIELD
 @SYNTAX=ODDLYIELD(settlement,maturity,last_interest,rate,pr,redemption,frequency,basis)
@@ -641,7 +644,7 @@ If @x is negative, SQRT returns #NUM! error.
 @EXAMPLES=
 SQRT(2) equals 1.4142136.
 
-@SEEALSO=POW
+@SEEALSO=POWER
 
 @FUNCTION=INTERCEPT
 @SYNTAX=INTERCEPT(known_y's,known_x's)
@@ -740,7 +743,8 @@ OCT2BIN("213") equals 10001011.
 @SEEALSO=BIN2OCT, OCT2DEC, OCT2HEX
 
 @FUNCTION=PRICEMAT
-@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis]@DESCRIPTION=PRICEMAT calculates and returns the price per $100 face value of a security.  The security pays interest at maturity. @basis is the type of day counting system you want to use:
+@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])
+@DESCRIPTION=PRICEMAT calculates and returns the price per $100 face value of a security.  The security pays interest at maturity. @basis is the type of day counting system you want to use:
 
 0  US 30/360
 1  actual days/actual days
@@ -749,6 +753,8 @@ OCT2BIN("213") equals 10001011.
 4  European 30/360
 
 If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, PRICEMAT returns NUM! error. If @basis < 0 or @basis > 4, PRICEMAT returns NUM! error. If settlement date is after maturity date or they are the same, PRICEMAT returns NUM! error. 
+@EXAMPLES=
+
 @SEEALSO=PRICEDISC
 
 @FUNCTION=IMCONJUGATE
@@ -3059,7 +3065,8 @@ EVEN(5.4) equals 6.
 @SEEALSO=ODD
 
 @FUNCTION=RECEIVED
-@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis]@DESCRIPTION=RECEIVED calculates and returns the amount to be received at @maturity date for a security bond. @basis is the type of day counting system you want to use:
+@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])
+@DESCRIPTION=RECEIVED calculates and returns the amount to be received at @maturity date for a security bond. @basis is the type of day counting system you want to use:
 
 0  US 30/360
 1  actual days/actual days
@@ -3068,6 +3075,8 @@ EVEN(5.4) equals 6.
 4  European 30/360
 
 If @basis is omitted, US 30/360 is applied. If settlement date or maturity date is not valid, RECEIVED returns NUM! error. If @basis < 0 or @basis > 4, RECEIVED returns NUM! error. If settlement date is after maturity date or they are the same, RECEIVED returns NUM! error. 
+@EXAMPLES=
+
 @SEEALSO=INTRATE
 
 @FUNCTION=IF

@@ -36,10 +36,22 @@ while (<>){
     next;
   } 
 
+  if (/^\@EXAMPLES=(.*)/){
+    if ($state){
+      print "\n    </refsect1>";
+    }
+    print "      <refsect1>\n";
+    print "        <title>Examples</title>\n";
+    print "        <para>$1</para>\n";
+    $state = 2;
+    next;
+  } 
   if (/^\@SEEALSO=(.*)/){
     @links = split (/,/, $1);
 
-    print "\n    </refsect1>";
+    if ($state){
+      print "\n    </refsect1>";
+    }
     print "\n    <refsect1><title>See also</title>\n";
     @a = ();
     print   "      <para>";

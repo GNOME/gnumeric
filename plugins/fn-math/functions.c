@@ -1460,7 +1460,7 @@ static char *help_sqrt = {
 	   "@EXAMPLES=\n"
 	   "SQRT(2) equals 1.4142136.\n"
 	   "\n"
-	   "@SEEALSO=POW")
+	   "@SEEALSO=POWER")
 };
 
 static Value *

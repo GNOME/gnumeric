@@ -1,0 +1,5 @@
+2000-04-01  Jody Goldberg <jgoldberg@home.com>
+
+	* make-docbook.pl : Update the include Example.
+	  Add more safety when missing @DESCRIPTION.
+

@@ -376,7 +376,7 @@ gnumeric_intrate (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_received = {
 	N_("@FUNCTION=RECEIVED\n"
-	   "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis]"
+	   "@SYNTAX=RECEIVED(settlement,maturity,investment,rate[,basis])\n"
 	   "@DESCRIPTION="
 	   "RECEIVED calculates and returns the amount to be received at "
 	   "@maturity date for a security bond. "
@@ -395,6 +395,8 @@ static char *help_received = {
 	   "If @basis < 0 or @basis > 4, RECEIVED returns NUM! error. "
 	   "If settlement date is after maturity date or they are the same, "
 	   "RECEIVED returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=INTRATE")
 };
@@ -426,7 +428,7 @@ gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_pricedisc = {
 	N_("@FUNCTION=PRICEDISC\n"
-	   "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis]"
+	   "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
 	   "@DESCRIPTION="
 	   "PRICEDISC calculates and returns the price per $100 face value "
 	   "of a security bond.  The security does not pay interest at "
@@ -447,6 +449,8 @@ static char *help_pricedisc = {
 	   "If @basis < 0 or @basis > 4, PRICEDISC returns NUM! error. "
 	   "If settlement date is after maturity date or they are the same, "
 	   "PRICEDISC returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PRICEMAT")
 };
@@ -474,7 +478,7 @@ gnumeric_pricedisc (FunctionEvalInfo *ei, Value **argv)
 
 static char *help_pricemat = {
 	N_("@FUNCTION=PRICEMAT\n"
-	   "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis]"
+	   "@SYNTAX=PRICEMAT(settlement,maturity,issue,rate,yield[,basis])\n"
 	   "@DESCRIPTION="
 	   "PRICEMAT calculates and returns the price per $100 face value "
 	   "of a security.  The security pays interest at maturity. "
@@ -492,6 +496,8 @@ static char *help_pricemat = {
 	   "If @basis < 0 or @basis > 4, PRICEMAT returns NUM! error. "
 	   "If settlement date is after maturity date or they are the same, "
 	   "PRICEMAT returns NUM! error. "
+	   "\n"
+	   "@EXAMPLES=\n"
 	   "\n"
 	   "@SEEALSO=PRICEDISC")
 };
