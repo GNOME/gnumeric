@@ -2611,3 +2611,157 @@ int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 
 	return 0;
 }
+
+/************* Anova: Two-Factor With Replication Tool *******************
+ *
+ * The results are given in a table which can be printed out in a new
+ * sheet, in a new workbook, or simply into an existing sheet.
+ *
+ **/
+
+int anova_two_factor_with_r_tool (Workbook *wb, Sheet *sheet, Range *range,
+				  int rows_per_sample, float_t alpha,
+				  data_analysis_output_t *dao)
+{
+	int        cols, rows, i, j, k, n;
+	int        count, gr_count;
+	float_t    sum, sqrsum, x, v;
+	float_t    gr_sum, gr_sqrsum;
+	int        *col_count;
+	float_t    *col_sum, *col_sqrsum;
+	Cell       *cell;
+
+	cols = range->end.col - range->start.col + 1;
+	rows = range->end.row - range->start.row + 1;
+
+	/* Check that correct number of rows per sample */
+	if ((rows-1) % rows_per_sample != 0)
+	        return 1;
+
+	/* Check that at least two columns of data are given */
+	if (cols < 3)
+	        return 3;
+
+	/* Check that the data contains numbers only */
+	for (i=1; i<rows; i++) {
+	       for (j=1; j<cols; j++) {
+		       cell = sheet_cell_get (sheet, range->start.col + j,
+						     range->start.row + i);
+			      if (cell == NULL 
+				  || !VALUE_IS_NUMBER(cell->value))
+				      return 2;
+	       }
+	}
+
+	prepare_output (wb, dao, _("Anova"));
+
+	set_cell (dao, 0, 0, _("Anova: Two-Factor With Replication"));
+	set_cell (dao, 0, 2, _("SUMMARY"));
+
+	col_count = g_new (int, cols);
+	col_sum = g_new (float_t, cols);
+	col_sqrsum = g_new (float_t, cols);
+
+	for (i=1; i<cols; i++) {
+	       cell = sheet_cell_get (sheet, range->start.col+i,
+				      range->start.row);
+	       if (cell->value != NULL)
+		       set_cell_value (dao, i, 2, cell->value);
+	       col_count[i-1] = 0;
+	       col_sum[i-1] = 0;
+	       col_sqrsum[i-1] = 0;
+	}
+	set_italic (dao, 1, 2, i-1, 2);
+	set_cell (dao, i, 2, _("Total"));
+
+	for (i=n=0; i<rows-1; i+=rows_per_sample) {
+	       cell = sheet_cell_get (sheet, range->start.col,
+				      range->start.row+i+1);
+
+	       /* Print the names of the groups */
+	       if (cell != NULL)
+		       set_cell_value (dao, 0, n*6+3, cell->value);
+	       set_italic (dao, 0, n*6+3, 0, n*6+3);
+
+	       set_cell (dao, 0, n*6+4, "Count");
+	       set_cell (dao, 0, n*6+5, "Sum");
+	       set_cell (dao, 0, n*6+6, "Average");
+	       set_cell (dao, 0, n*6+7, "Variance");
+
+	       gr_count = 0;
+	       gr_sum = 0;
+	       gr_sqrsum = 0;
+
+	       for (j=1; j<cols; j++) {
+		      count = 0;
+		      sum = 0;
+		      sqrsum = 0;
+		      for (k=0; k<rows_per_sample; k++) {
+			      cell = sheet_cell_get (sheet, range->start.col+j,
+						     range->start.row + k + 1 +
+						     n*rows_per_sample);
+			      ++count;
+			      x = value_get_as_float (cell->value);
+			      sum += x;
+			      sqrsum += x * x;
+			      col_count[j-1]++;
+			      col_sum[j-1] += x;
+			      col_sqrsum[j-1] += x * x;
+		      }
+		      v = (sqrsum - (sum * sum) / count) / (count - 1);
+		      gr_count += count;
+		      gr_sum += sum;
+		      gr_sqrsum += sqrsum;
+
+		      set_cell_int   (dao, j, n*6+4, count);
+		      set_cell_float (dao, j, n*6+5, sum);
+		      set_cell_float (dao, j, n*6+6, sum / count);
+		      set_cell_float (dao, j, n*6+7, v);
+	       }
+	       v = (gr_sqrsum - (gr_sum * gr_sum) / gr_count) / (gr_count - 1);
+	       set_cell_int   (dao, j, n*6+4, gr_count);
+	       set_cell_float (dao, j, n*6+5, gr_sum);
+	       set_cell_float (dao, j, n*6+6, gr_sum / gr_count);
+	       set_cell_float (dao, j, n*6+7, v);
+
+	       ++n;
+	}
+
+	set_cell (dao, 0, n*6+3, _("Total"));
+	set_italic (dao, 0, n*6+3, 0, n*6+3);
+	set_cell (dao, 0, n*6+4, _("Count"));
+	set_cell (dao, 0, n*6+5, _("Sum"));
+	set_cell (dao, 0, n*6+6, _("Average"));
+	set_cell (dao, 0, n*6+7, _("Variance"));
+
+	for (i=1; i<cols; i++) {
+	        v = (col_sqrsum[i-1] - (col_sum[i-1] * col_sum[i-1]) / 
+		     col_count[i-1]) / (col_count[i-1] - 1);
+	        set_cell_int   (dao, i, n*6+4, col_count[i-1]);
+	        set_cell_float (dao, i, n*6+5, col_sum[i-1]);
+	        set_cell_float (dao, i, n*6+6, col_sum[i-1] / col_count[i-1]);
+	        set_cell_float (dao, i, n*6+7, v);
+	}
+
+	set_cell (dao, 0, n*6+10, _("ANOVA"));
+	set_cell (dao, 0, n*6+11, _("Source of Variation"));
+	set_cell (dao, 0, n*6+12, _("Sample"));
+	set_cell (dao, 0, n*6+13, _("Columns"));
+	set_cell (dao, 0, n*6+14, _("Interaction"));
+	set_cell (dao, 0, n*6+15, _("Within"));
+	set_cell (dao, 0, n*6+17, _("Total"));
+
+	set_cell (dao, 1, n*6+11, _("SS"));
+	set_cell (dao, 2, n*6+11, _("df"));
+	set_cell (dao, 3, n*6+11, _("MS"));
+	set_cell (dao, 4, n*6+11, _("F"));
+	set_cell (dao, 5, n*6+11, _("P-value"));
+	set_cell (dao, 6, n*6+11, _("F crit"));
+
+	set_italic (dao, 0, n*6+11, 6, n*6+11);
+
+	/* FIXME: Implement the rest of the ANOVA computations. */
+
+	return 0;
+}
+

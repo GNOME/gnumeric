@@ -1,3 +1,20 @@
+2000-07-03  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/functions/fn-financial.c: Implemented COUPNUM().
+
+	* src/analysis-tools.c: Started the implementation of the third
+	anova tool (two-factor with replication).
+	
+	* src/dialogs/analysis-tools.glade: Added dialog for the new
+	tool.  Fixed the `Correlation' dialog.
+	
+	* src/dialogs/dialog-analysis-tools.c: Added 
+	dialog_anova_two_factor_without_r_tool().
+
+	* src/dialogs/tools.h: Related changes.
+
+	* TODO: Added `Data analysis tools' section.
+
 2000-07-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/parser.y (exp) : Add production for sheet specific names.

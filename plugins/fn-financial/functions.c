@@ -216,6 +216,41 @@ coupdays(GDate *settlement, GDate *maturity, int freq, int basis)
         }
 }
 
+static int
+coupnum(GDate *settlement, GDate *maturity, int freq, int basis)
+{
+        int        years, months, days;
+	GDateYear  sy;
+	GDateMonth sm;
+	GDateDay   sd;
+
+	sy = g_date_year (settlement);
+	sm = g_date_month (settlement);
+	sd = g_date_day (settlement);
+
+	years = g_date_year (maturity) - sy;
+	months = g_date_month (maturity) - sm;
+	days = g_date_day (maturity) - sd
+	        + (g_date_is_leap_year (sy) && sd==28 && sm==2);
+
+	if (freq == 1)
+	        return years + (months > 0 || days > 0);
+	else if (freq == 2)
+	        return years*2
+		        + (months > 6) + (months == 6 && days > 0)
+		        + (months > 0) + (months == 0 && days > 0)
+		        - (months <= -6);
+	else
+	        return years*4
+		        + (months > 9) + (months == 9 && days > 0)
+		        + (months > 6) + (months == 6 && days > 0)
+		        + (months > 3) + (months == 3 && days > 0)
+		        + (months > 0) + (months == 0 && days > 0)
+		        - (months <= -3)
+		        - (months <= -6)
+		        - (months <= -9);
+}
+
 
 /***************************************************************************/
 
@@ -2258,7 +2293,10 @@ gnumeric_coupdays (FunctionEvalInfo *ei, Value **argv)
         settlement = datetime_value_to_g(argv[0]);
         maturity = datetime_value_to_g(argv[1]);
         freq = value_get_as_int (argv[2]);
-        basis = value_get_as_int (argv[3]);
+	if (argv[3] != NULL)
+	        basis = value_get_as_int (argv[3]);
+	else
+	        basis = 0;
 
         if (settlement == NULL || maturity == NULL)
                 return value_new_error (ei->pos, gnumeric_err_VALUE);
@@ -2346,7 +2384,29 @@ static char *help_coupnum = {
 static Value *
 gnumeric_coupnum (FunctionEvalInfo *ei, Value **argv)
 {
-	return value_new_error (ei->pos, "#UNIMPLEMENTED!");
+        GDate   *settlement;
+        GDate   *maturity;
+        int     freq, basis;
+        float_t n;
+
+        settlement = datetime_value_to_g(argv[0]);
+        maturity = datetime_value_to_g(argv[1]);
+        freq = value_get_as_int (argv[2]);
+	if (argv[3] != NULL)
+	        basis = value_get_as_int (argv[3]);
+	else
+	        basis = 0;
+
+        if (settlement == NULL || maturity == NULL)
+                return value_new_error (ei->pos, gnumeric_err_VALUE);
+
+        if (basis < 0 || basis > 4 || (freq != 1 && freq != 2 && freq != 4)
+	    || g_date_compare(settlement, maturity) > 0)
+                return value_new_error (ei->pos, gnumeric_err_NUM);
+
+        n = coupnum (settlement, maturity, freq, basis);
+
+        return value_new_float (n);
 }
 
 /***************************************************************************/

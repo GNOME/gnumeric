@@ -50,5 +50,8 @@ int anova_single_factor_tool        (Workbook *wb, Sheet *sheet, Range *range,
 int anova_two_factor_without_r_tool (Workbook *wb, Sheet *sheet, Range *range,
 				     float_t alpha, 
 				     data_analysis_output_t *dao);
+int anova_two_factor_with_r_tool (Workbook *wb, Sheet *sheet, Range *range,
+				  int rows_per_sample, float_t alpha, 
+				  data_analysis_output_t *dao);
 
 #endif

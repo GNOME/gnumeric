@@ -36,6 +36,7 @@ static int dialog_random_tool       	    (Workbook *wb, Sheet *sheet);
 static int dialog_regression_tool   	    (Workbook *wb, Sheet *sheet);
 static int dialog_anova_single_factor_tool (Workbook *wb, Sheet *sheet);
 static int dialog_anova_two_factor_without_r_tool(Workbook *wb, Sheet *sheet);
+static int dialog_anova_two_factor_with_r_tool(Workbook *wb, Sheet *sheet);
 
 
 static descriptive_stat_tool_t ds;
@@ -75,6 +76,8 @@ typedef struct {
 static tool_list_t tools[] = {
         { N_("Anova: Single Factor"),
 	  dialog_anova_single_factor_tool },
+        { N_("Anova: Two-Factor With Replication"),
+	  dialog_anova_two_factor_with_r_tool },
         { N_("Anova: Two-Factor Without Replication"),
 	  dialog_anova_two_factor_without_r_tool },
         { N_("Correlation"),
@@ -2516,6 +2519,133 @@ dialog_loop:
 
 	if (anova_two_factor_without_r_tool (wb, sheet, &range, alpha, &dao))
 	        goto dialog_loop;
+
+	workbook_focus_sheet(sheet);
+
+	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (gui));
+
+	return 0;
+}
+
+static int
+dialog_anova_two_factor_with_r_tool (Workbook *wb, Sheet *sheet)
+{
+        GladeXML  *gui;
+	GtkWidget *range_entry;
+	GtkWidget *dialog;
+	GtkWidget *rows_entry;
+	GtkWidget *output_range_entry;
+	GtkWidget *alpha_entry;
+
+	data_analysis_output_t dao;
+
+	char     *text;
+	float_t  alpha;
+	int      selection, x1, x2, y1, y2, rows, err;
+	Range    range;
+
+	gui = gnumeric_glade_xml_new (workbook_command_context_gui (wb),
+				      "analysis-tools.glade");
+        if (gui == NULL)
+                return 0;
+
+	dao.type = NewSheetOutput;
+
+	dialog = glade_xml_get_widget (gui, "Anova3");
+        range_entry = glade_xml_get_widget (gui, "anova3_entry1");
+	rows_entry = glade_xml_get_widget (gui, "anova3_entry2");
+	alpha_entry = glade_xml_get_widget (gui, "anova3_entry3");
+	output_range_entry
+		= glade_xml_get_widget (gui, "anova3_output_range_entry");
+
+        if (!dialog || !range_entry || !output_range_entry || !rows_entry ||
+	    !alpha_entry) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return 0;
+        }
+
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (range_entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (rows_entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (alpha_entry));
+	gnome_dialog_editable_enters (GNOME_DIALOG (dialog),
+				      GTK_EDITABLE (output_range_entry));
+
+	if (set_output_option_signals (gui, &dao, "anova3"))
+	        return 0;
+
+	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
+
+        gtk_widget_grab_focus (range_entry);
+
+dialog_loop:
+
+	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
+	if (selection == -1) {
+	        gtk_object_unref (GTK_OBJECT (gui));
+		return 1;
+	}
+	
+	if (selection != 0) {
+		gtk_object_destroy (GTK_OBJECT (dialog));
+		return 1;
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
+	if (!parse_range (text, &range.start.col,
+			  &range.start.row,
+			  &range.end.col,
+			  &range.end.row)) {
+	        error_in_entry(wb, range_entry, 
+			       _("You should introduce a valid cell range "
+			       "in 'Range:'"));
+		goto dialog_loop;
+	}
+
+	if (dao.type == RangeOutput) {
+	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
+	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
+		        error_in_entry(wb, output_range_entry, 
+				       _("You should introduce a valid cell "
+					 "range in 'Output Range:'"));
+			goto dialog_loop;
+		} else {
+		        dao.start_col = x1;
+		        dao.start_row = y1;
+			dao.cols = x2-x1+1;
+			dao.rows = y2-y1+1;
+			dao.sheet = sheet;
+		}
+	}
+
+	text = gtk_entry_get_text (GTK_ENTRY (rows_entry));
+	rows = atoi (text);
+
+	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
+	alpha = atof (text);
+
+	err = anova_two_factor_with_r_tool (wb, sheet, &range, rows, 
+					    alpha, &dao);
+	if (err == 1) {
+	        error_in_entry(wb, rows_entry, 
+			       _("Each sample should contain the same number "
+				 "of rows (`Rows per sample:')")); 
+	        goto dialog_loop;
+	} else if (err == 2) {
+	        error_in_entry(wb, rows_entry, 
+			       _("Given input range contains non-numeric "
+				 "data.")); 
+	        goto dialog_loop;
+	} else if (err == 3) {
+	        error_in_entry(wb, range_entry, 
+			       _("The given input range should contain at "
+				 "least two columns of data and the "
+				 "labels.")); 
+	        goto dialog_loop;
+	}
 
 	workbook_focus_sheet(sheet);
 

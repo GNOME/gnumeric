@@ -52,6 +52,26 @@
   </sect2>
 
   <sect2>
+     <title>Anova: Two-Factor With Replication Tool</title>
+
+     <para>For this tool, the given input range should contain at least
+     two columns of numeric data and the labels of the columns and the
+     labels of the groups.  The labels of the columns are given as the
+     usual way; if you give an input range A1:D10, for example, the
+     labels of the columns should be placed in B1, C1, and D1.  The 
+     labels of the groups should be placed into the first column, each
+     one of them at the first row of the group.  For example, if we have
+     three groups in our A1:D10 range (rows per sample is set to three),
+     the group names should be placed at A2, A5, and A8.</para>
+
+  </sect2>
+
+  <sect2>
+     <title>Anova: Two-Factor Without Replication Tool</title>
+
+  </sect2>
+
+  <sect2>
      <title>Correlation Tool</title>
 
      <para>The correlation tool calculates correlation coefficients of
@@ -185,6 +205,10 @@
      Type I error of one-tailed test.</para>
   </sect2>
 
+  <sect2>
+     <title>Moving Average Tool</title>
+
+  </sect2>
 
   <sect2>
      <title>Random Number Generation Tool</title>
@@ -236,6 +260,15 @@
      </sect3>
   </sect2>
 
+  <sect2>
+     <title>Rank and Percentile Tool</title>
+
+  </sect2>
+
+  <sect2>
+     <title>Regression Tool</title>
+
+  </sect2>
 
   <sect2>
      <title>Sampling Tool</title>
@@ -257,6 +290,20 @@
      the original data set is taken at most once to the sample.</para>
   </sect2>
 
+  <sect2>
+     <title>t-Test: Paired Two Sample for Means Tool</title>
+
+  </sect2>
+
+  <sect2>
+     <title>t-Test: Two-Sample Assuming Equal Variances Tool</title>
+
+  </sect2>
+
+  <sect2>
+     <title>t-Test: Two-Sample Assuming Unequal Variances Tool</title>
+
+  </sect2>
 
   <sect2>
      <title>z-Test:Two Samples for Means Tool</title>
