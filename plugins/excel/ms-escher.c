@@ -1786,10 +1786,24 @@ ms_escher_read_ClientData (MSEscherState *state, MSEscherHeader *h)
 		if (blip == NULL) {
 			gtk_object_unref (obj->gnum_obj);
 			obj->gnum_obj = GTK_OBJECT (sheet_object_box_new (FALSE));
-		} else if (!sheet_object_bonobo_set_object_iid (sob, blip->obj_id) ||
-			   !sheet_object_bonobo_load_stream (sob, blip->stream))
-			g_warning ("Failed to load '%s' from stream",
-				   blip->obj_id);
+		} else {
+			if (!sheet_object_bonobo_set_object_iid (sob, blip->obj_id)) {
+				g_warning ("Could not set object iid '%s'!",
+					   blip->obj_id);
+			} else {
+				CORBA_Environment ev;
+
+				CORBA_exception_init (&ev);
+				sheet_object_bonobo_load_persist_stream (
+							sob, blip->stream, &ev);
+				if (BONOBO_EX (&ev)) {
+					g_warning ("Failed to load '%s' from "
+						   "stream: %s", blip->obj_id,
+						   bonobo_exception_get_text (&ev));
+				}
+				CORBA_exception_free (&ev);
+			}
+		}
 	}
 #endif
 
