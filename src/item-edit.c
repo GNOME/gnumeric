@@ -318,7 +318,8 @@ recalc_spans (GnomeCanvasItem *item)
 		while (left_in_col < pos_size) {
 			do {
 				++cur_col;
-				if (cur_col > gsheet->col.last_full || cur_col >= SHEET_MAX_COLS) {
+				if (cur_col > gsheet->last_full.col || cur_col >= SHEET_MAX_COLS) {
+					int height = GTK_WIDGET (gsheet)->allocation.height;
 					int offset = text - start - 1;
 					if (offset < 0)
 						offset = 0;
@@ -328,7 +329,7 @@ recalc_spans (GnomeCanvasItem *item)
 					text_offsets = g_slist_prepend (text_offsets,
 									GINT_TO_POINTER(offset));
 					if (item->y1 + cur_line * item_edit->font_height >
-					    gsheet->row_offset.last_visible)
+					    (gsheet->first_offset.row + height))
 						ignore_rows++;
 				} else if (max_col < cur_col)
 					max_col = cur_col;
@@ -546,12 +547,12 @@ item_edit_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 		style_font_unref (sf);
 
 		/* move inwards 1 pixel for the grid line */
-		item->x1 = 1 + gsheet->col_offset.first +
+		item->x1 = 1 + gsheet->first_offset.col +
 			scg_colrow_distance_get (item_edit->scg, TRUE,
-					  gsheet->col.first, item_edit->pos.col);
-		item->y1 = 1 + gsheet->row_offset.first +
+					  gsheet->first.col, item_edit->pos.col);
+		item->y1 = 1 + gsheet->first_offset.row +
 			scg_colrow_distance_get (item_edit->scg, FALSE,
-					  gsheet->row.first, item_edit->pos.row);
+					  gsheet->first.row, item_edit->pos.row);
 
 		item->x2 = item->x1 + 1;
 		item->y2 = item->y2 + 1;

@@ -12,7 +12,6 @@ Release Critical
       evo and guppi.  They should only be enabled if they are available.
     - non-bonobo frozen menu accelerator
     - bonobo toolbar undo/redo sensitivity after edit
-    - Almer's reported autoscroll bound bug.
 
 Pending Patches
 ---------------

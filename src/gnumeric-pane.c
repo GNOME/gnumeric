@@ -130,18 +130,18 @@ gnumeric_pane_colrow_resize_start (GnumericPane *pane,
 					0, resize_pos) / zoom;
 		points->coords [0] = x;
 		points->coords [1] = scg_colrow_distance_get (scg, FALSE,
-					0, gsheet->row.first) / zoom;
+					0, gsheet->first.row) / zoom;
 		points->coords [2] = x;
 		points->coords [3] = scg_colrow_distance_get (scg, FALSE,
-					0, gsheet->row.last_visible+1) / zoom;
+					0, gsheet->last_visible.row+1) / zoom;
 	} else {
 		double const y = scg_colrow_distance_get (scg, FALSE,
 					0, resize_pos) / zoom;
 		points->coords [0] = scg_colrow_distance_get (scg, TRUE,
-					0, gsheet->col.first) / zoom;
+					0, gsheet->first.col) / zoom;
 		points->coords [1] = y;
 		points->coords [2] = scg_colrow_distance_get (scg, TRUE,
-					0, gsheet->col.last_visible+1) / zoom;
+					0, gsheet->last_visible.col+1) / zoom;
 		points->coords [3] = y;
 	}
 

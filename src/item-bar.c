@@ -273,8 +273,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		int const len = (inc > 4) ? 4 : inc;
 
 		/* See comment above for explaination of the extra 1 pixel */
-		int total = 1 + gsheet->col_offset.first - x;
-		int col = gsheet->col.first;
+		int total = 1 + gsheet->first_offset.col - x;
+		int col = gsheet->first.col;
 
 		rect.y = ib->indent - y;
 		rect.height = ib->cell_height;
@@ -395,8 +395,8 @@ item_bar_draw (GnomeCanvasItem *item, GdkDrawable *drawable, int x, int y, int w
 		 * compatible with the default colour used on the bottom of the
 		 * cell shadows.
 		 */
-		int total = 1 + gsheet->row_offset.first - y;
-		int row = gsheet->row.first;
+		int total = 1 + gsheet->first_offset.row - y;
+		int row = gsheet->first.row;
 
 		rect.x = ib->indent - x;
 		rect.width = ib->cell_width;
@@ -722,14 +722,14 @@ item_bar_event (GnomeCanvasItem *item, GdkEvent *e)
 			if (new_size <= (cri->margin_a + cri->margin_b)) {
 				new_size = cri->margin_a + cri->margin_b + 1;
 				if (is_cols)
-					pos = gsheet->col_offset.first +
+					pos = gsheet->first_offset.col +
 						scg_colrow_distance_get (scg, TRUE,
-							gsheet->col.first,
+							gsheet->first.col,
 							ib->colrow_being_resized);
 				else
-					pos = gsheet->row_offset.first +
+					pos = gsheet->first_offset.row +
 						scg_colrow_distance_get (scg, FALSE,
-							gsheet->row.first,
+							gsheet->first.row,
 							ib->colrow_being_resized);
 				pos += new_size;
 			}

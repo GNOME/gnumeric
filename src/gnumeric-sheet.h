@@ -18,9 +18,7 @@ struct _GnumericSheet {
 	SheetControlGUI *scg;
 	GnumericPane *pane;
 
-	struct {
-		int first, last_full, last_visible;
-	} row, col, row_offset, col_offset;
+	CellPos first, last_full, last_visible, first_offset;
 
 	ItemGrid      *item_grid;
 	ItemEdit      *item_editor;

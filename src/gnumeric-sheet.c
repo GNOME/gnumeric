@@ -169,8 +169,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_Left:
 		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
 			scg_set_left_col (gsheet->scg,
-					  gsheet->col.first > 0
-					  ? gsheet->col.first - 1
+					  gsheet->first.col > 0
+					  ? gsheet->first.col - 1
 					  : 0);
 		else
 			(*movefn) (gsheet->scg, -1, jump_to_bounds, TRUE);
@@ -180,8 +180,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_Right:
 		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
 			scg_set_left_col (gsheet->scg,
-					  gsheet->col.first < SHEET_MAX_COLS - 1
-					  ? gsheet->col.first + 1
+					  gsheet->first.col < SHEET_MAX_COLS - 1
+					  ? gsheet->first.col + 1
 					  : SHEET_MAX_COLS - 1);
 		else
 			(*movefn) (gsheet->scg, 1, jump_to_bounds, TRUE);
@@ -191,8 +191,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_Up:
 		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
 			scg_set_top_row (gsheet->scg,
-					 gsheet->row.first > 0
-					 ? gsheet->row.first - 1
+					 gsheet->first.row > 0
+					 ? gsheet->first.row - 1
 					 : 0);
 		else
 			(*movefn) (gsheet->scg, -1, jump_to_bounds, FALSE);
@@ -202,8 +202,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_Down:
 		if (event->state & GDK_MOD5_MASK) /* Scroll Lock */
 			scg_set_top_row (gsheet->scg,
-					 gsheet->row.first < SHEET_MAX_ROWS - 1
-					 ? gsheet->row.first + 1
+					 gsheet->first.row < SHEET_MAX_ROWS - 1
+					 ? gsheet->first.row + 1
 					 : SHEET_MAX_ROWS - 1);
 		else
 			(*movefn) (gsheet->scg, 1, jump_to_bounds, FALSE);
@@ -215,11 +215,11 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			gtk_notebook_prev_page (wbcg->notebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0)
 			(*movefn)( gsheet->scg,
-				   -(gsheet->row.last_visible-gsheet->row.first),
+				   -(gsheet->last_visible.row-gsheet->first.row),
 				   FALSE, FALSE);
 		else
 			(*movefn)(gsheet->scg,
-				  -(gsheet->col.last_visible-gsheet->col.first),
+				  -(gsheet->last_visible.col-gsheet->first.col),
 				  FALSE, TRUE);
 		break;
 
@@ -229,11 +229,11 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 			gtk_notebook_next_page (wbcg->notebook);
 		else if ((event->state & GDK_MOD1_MASK) == 0)
 			(*movefn)(gsheet->scg,
-				  gsheet->row.last_visible-gsheet->row.first,
+				  gsheet->last_visible.row-gsheet->first.row,
 				  FALSE, FALSE);
 		else
 			(*movefn)(gsheet->scg,
-				  gsheet->col.last_visible-gsheet->col.first,
+				  gsheet->last_visible.col-gsheet->first.col,
 				  FALSE, TRUE);
 		break;
 
@@ -253,8 +253,8 @@ gnumeric_sheet_key_mode_sheet (GnumericSheet *gsheet, GdkEventKey *event)
 	case GDK_KP_End:
 	case GDK_End:
 		if (event->state & GDK_MOD5_MASK) { /* Scroll Lock */
-			int new_col = sheet->edit_pos.col - (gsheet->col.last_full - gsheet->col.first);
-			int new_row = sheet->edit_pos.row - (gsheet->row.last_full - gsheet->row.first);
+			int new_col = sheet->edit_pos.col - (gsheet->last_full.col - gsheet->first.col);
+			int new_row = sheet->edit_pos.row - (gsheet->last_full.row - gsheet->first.row);
 			
 			if (new_col > 0)
 				scg_set_left_col (gsheet->scg, new_col);
@@ -439,24 +439,24 @@ gnumeric_sheet_button_release (GtkWidget *widget, GdkEventButton *button)
 	/* Roll Up or Left */
 	/* Roll Down or Right */
 	if ((button->state & GDK_MOD1_MASK)) {
-		int col = (gsheet->col.last_full - gsheet->col.first) / 4;
+		int col = (gsheet->last_full.col - gsheet->first.col) / 4;
 		if (col < 1)
 			col = 1;
 		if (button->button == 4)
-			col = gsheet->col.first - col;
+			col = gsheet->first.col - col;
 		else
-			col = gsheet->col.first + col;
+			col = gsheet->first.col + col;
 
 		if (0 <= col && col <= SHEET_MAX_COLS-1)
 			scg_set_left_col (gsheet->scg, col);
 	} else {
-		int row = (gsheet->row.last_full - gsheet->row.first) / 4;
+		int row = (gsheet->last_full.row - gsheet->first.row) / 4;
 		if (row < 1)
 			row = 1;
 		if (button->button == 4)
-			row = gsheet->row.first - row;
+			row = gsheet->first.row - row;
 		else
-			row = gsheet->row.first + row;
+			row = gsheet->first.row + row;
 
 		if (0 <= row && row <= SHEET_MAX_ROWS-1)
 			scg_set_top_row (gsheet->scg, row);
@@ -692,10 +692,10 @@ gnumeric_sheet_init (GnumericSheet *gsheet)
 
 	gsheet->ic = NULL;
 	gsheet->ic_attr = NULL;
-	gsheet->col.first = gsheet->col.last_full = gsheet->col.last_visible = 0;
-	gsheet->row.first = gsheet->row.last_full = gsheet->row.last_visible = 0;
-	gsheet->col_offset.first = gsheet->col_offset.last_full = gsheet->col_offset.last_visible = 0;
-	gsheet->row_offset.first = gsheet->row_offset.last_full = gsheet->row_offset.last_visible = 0;
+	gsheet->first.col = gsheet->last_full.col = gsheet->last_visible.col = 0;
+	gsheet->first.row = gsheet->last_full.row = gsheet->last_visible.row = 0;
+	gsheet->first_offset.col = 0;
+	gsheet->first_offset.row = 0;
 
 	gsheet->slide_handler = NULL;
 	gsheet->slide_data = NULL;
@@ -790,8 +790,8 @@ int
 gnumeric_sheet_find_col (GnumericSheet *gsheet, int x, int *col_origin)
 {
 	Sheet *sheet = ((SheetControl *) gsheet->scg)->sheet;
-	int col   = gsheet->col.first;
-	int pixel = gsheet->col_offset.first;
+	int col   = gsheet->first.col;
+	int pixel = gsheet->first_offset.col;
 
 	if (x < pixel) {
 		while (col > 0) {
@@ -834,8 +834,8 @@ int
 gnumeric_sheet_find_row (GnumericSheet *gsheet, int y, int *row_origin)
 {
 	Sheet *sheet = ((SheetControl *) gsheet->scg)->sheet;
-	int row   = gsheet->row.first;
-	int pixel = gsheet->row_offset.first;
+	int row   = gsheet->first.row;
+	int pixel = gsheet->first_offset.row;
 
 	if (y < pixel) {
 		while (row > 0) {
@@ -885,10 +885,10 @@ gnumeric_sheet_create_editor (GnumericSheet *gsheet)
 	 * entire region rather than only its canvas.
 	 */
 	edit_pos = &(((SheetControl *) gsheet->scg)->sheet->edit_pos);
-	if (edit_pos->col >= gsheet->col.first &&
-	    edit_pos->col <= gsheet->col.last_visible &&
-	    edit_pos->row >= gsheet->row.first &&
-	    edit_pos->row <= gsheet->row.last_visible) {
+	if (edit_pos->col >= gsheet->first.col &&
+	    edit_pos->col <= gsheet->last_visible.col &&
+	    edit_pos->row >= gsheet->first.row &&
+	    edit_pos->row <= gsheet->last_visible.row) {
 		GnomeCanvas *canvas = GNOME_CANVAS (gsheet);
 		GnomeCanvasItem *item;
 
@@ -994,26 +994,26 @@ gsheet_compute_visible_region (GnumericSheet *gsheet,
 
 	/* When col/row sizes change we need to do a full recompute */
 	if (full_recompute) {
-		gsheet->col_offset.first = scg_colrow_distance_get (scg,
-			TRUE, 0, gsheet->col.first);
+		gsheet->first_offset.col = scg_colrow_distance_get (scg,
+			TRUE, 0, gsheet->first.col);
 		if (NULL != gsheet->pane->col.canvas)
 			gnome_canvas_scroll_to (gsheet->pane->col.canvas,
-				gsheet->col_offset.first, 0);
+				gsheet->first_offset.col, 0);
 
-		gsheet->row_offset.first = scg_colrow_distance_get (scg,
-			FALSE, 0, gsheet->row.first);
+		gsheet->first_offset.row = scg_colrow_distance_get (scg,
+			FALSE, 0, gsheet->first.row);
 		if (NULL != gsheet->pane->row.canvas)
 			gnome_canvas_scroll_to (gsheet->pane->row.canvas,
-				0, gsheet->row_offset.first);
+				0, gsheet->first_offset.row);
 
 		gnome_canvas_scroll_to (GNOME_CANVAS (gsheet),
-					gsheet->col_offset.first,
-					gsheet->row_offset.first);
+					gsheet->first_offset.col,
+					gsheet->first_offset.row);
 	}
 
 	/* Find out the last visible col and the last full visible column */
 	pixels = 0;
-	col = gsheet->col.first;
+	col = gsheet->first.col;
 	width = GTK_WIDGET (canvas)->allocation.width;
 
 	do {
@@ -1022,16 +1022,16 @@ gsheet_compute_visible_region (GnumericSheet *gsheet,
 			int const bound = pixels + ci->size_pixels;
 
 			if (bound == width) {
-				gsheet->col.last_visible = col;
-				gsheet->col.last_full = col;
+				gsheet->last_visible.col = col;
+				gsheet->last_full.col = col;
 				break;
 			}
 			if (bound > width) {
-				gsheet->col.last_visible = col;
-				if (col == gsheet->col.first)
-					gsheet->col.last_full = gsheet->col.first;
+				gsheet->last_visible.col = col;
+				if (col == gsheet->first.col)
+					gsheet->last_full.col = gsheet->first.col;
 				else
-					gsheet->col.last_full = col - 1;
+					gsheet->last_full.col = col - 1;
 				break;
 			}
 			pixels = bound;
@@ -1040,13 +1040,13 @@ gsheet_compute_visible_region (GnumericSheet *gsheet,
 	} while (pixels < width && col < SHEET_MAX_COLS);
 
 	if (col >= SHEET_MAX_COLS) {
-		gsheet->col.last_visible = SHEET_MAX_COLS-1;
-		gsheet->col.last_full = SHEET_MAX_COLS-1;
+		gsheet->last_visible.col = SHEET_MAX_COLS-1;
+		gsheet->last_full.col = SHEET_MAX_COLS-1;
 	}
 
 	/* Find out the last visible row and the last fully visible row */
 	pixels = 0;
-	row = gsheet->row.first;
+	row = gsheet->first.row;
 	height = GTK_WIDGET (canvas)->allocation.height;
 	do {
 		ColRowInfo const * const ri = sheet_row_get_info (sheet, row);
@@ -1054,16 +1054,16 @@ gsheet_compute_visible_region (GnumericSheet *gsheet,
 			int const bound = pixels + ri->size_pixels;
 
 			if (bound == height) {
-				gsheet->row.last_visible = row;
-				gsheet->row.last_full = row;
+				gsheet->last_visible.row = row;
+				gsheet->last_full.row = row;
 				break;
 			}
 			if (bound > height) {
-				gsheet->row.last_visible = row;
-				if (row == gsheet->row.first)
-					gsheet->row.last_full = gsheet->row.first;
+				gsheet->last_visible.row = row;
+				if (row == gsheet->first.row)
+					gsheet->last_full.row = gsheet->first.row;
 				else
-					gsheet->row.last_full = row - 1;
+					gsheet->last_full.row = row - 1;
 				break;
 			}
 			pixels = bound;
@@ -1072,8 +1072,8 @@ gsheet_compute_visible_region (GnumericSheet *gsheet,
 	} while (pixels < height && row < SHEET_MAX_ROWS);
 
 	if (row >= SHEET_MAX_ROWS) {
-		gsheet->row.last_visible = SHEET_MAX_ROWS-1;
-		gsheet->row.last_full = SHEET_MAX_ROWS-1;
+		gsheet->last_visible.row = SHEET_MAX_ROWS-1;
+		gsheet->last_full.row = SHEET_MAX_ROWS-1;
 	}
 
 	/* Update the scrollbar sizes for the primary pane */
@@ -1102,25 +1102,25 @@ gnumeric_sheet_redraw_region (GnumericSheet *gsheet,
 	scg = gsheet->scg;
 	canvas = GNOME_CANVAS (gsheet);
 
-	if ((end_col < gsheet->col.first) ||
-	    (end_row < gsheet->row.first) ||
-	    (start_col > gsheet->col.last_visible) ||
-	    (start_row > gsheet->row.last_visible))
+	if ((end_col < gsheet->first.col) ||
+	    (end_row < gsheet->first.row) ||
+	    (start_col > gsheet->last_visible.col) ||
+	    (start_row > gsheet->last_visible.row))
 		return;
 
 	/* Only draw those regions that are visible */
-	start_col = MAX (gsheet->col.first, start_col);
-	start_row = MAX (gsheet->row.first, start_row);
-	end_col =  MIN (gsheet->col.last_visible, end_col);
-	end_row =  MIN (gsheet->row.last_visible, end_row);
+	start_col = MAX (gsheet->first.col, start_col);
+	start_row = MAX (gsheet->first.row, start_row);
+	end_col =  MIN (gsheet->last_visible.col, end_col);
+	end_row =  MIN (gsheet->last_visible.row, end_row);
 
 	/* redraw a border of 2 pixels around the region to handle thick borders
 	 * NOTE the 2nd coordinates are excluded so add 1 extra (+2border +1include)
 	 */
-	x1 = scg_colrow_distance_get (scg, TRUE, gsheet->col.first, start_col) +
-		gsheet->col_offset.first;
-	y1 = scg_colrow_distance_get (scg, FALSE, gsheet->row.first, start_row) +
-		gsheet->row_offset.first;
+	x1 = scg_colrow_distance_get (scg, TRUE, gsheet->first.col, start_col) +
+		gsheet->first_offset.col;
+	y1 = scg_colrow_distance_get (scg, FALSE, gsheet->first.row, start_row) +
+		gsheet->first_offset.row;
 	x2 = (end_col < (SHEET_MAX_COLS-1))
 		? 4 + 1 + x1 + scg_colrow_distance_get (scg, TRUE,
 							start_col, end_col+1)
@@ -1193,8 +1193,8 @@ gsheet_sliding_callback (gpointer data)
 	int const pane_index = gsheet->pane->index;
 	Sheet const *sheet = sc_sheet (SHEET_CONTROL (gsheet->scg));
 	GnumericSheet *gsheet0 = scg_pane (gsheet->scg, 0);
-	GnumericSheet *gsheet2 = sheet_is_frozen (sheet)
-		? scg_pane (gsheet->scg, 2) : NULL;
+	GnumericSheet *gsheet1 = scg_pane (gsheet->scg, 1);
+	GnumericSheet *gsheet3 = scg_pane (gsheet->scg, 3);
 	gboolean slide_x = FALSE, slide_y = FALSE;
 	int col = -1, row = -1;
 
@@ -1205,21 +1205,22 @@ gsheet_sliding_callback (gpointer data)
 		if (pane_index == 1 || pane_index == 2) {
 			if (!gsheet->sliding_adjacent_h) {
 				int width = GTK_WIDGET (gsheet)->allocation.width;
-				int x = gsheet->col_offset.first + width + gsheet->sliding_dx;
+				int x = gsheet->first_offset.col + width + gsheet->sliding_dx;
 
 				/* in case pane is narrow */
 				col = gnumeric_sheet_find_col (gsheet, x, NULL);
-				if (col > gsheet0->col.last_full) {
+				if (col > gsheet0->last_full.col) {
 					gsheet->sliding_adjacent_h = TRUE;
 					gsheet->sliding_dx = 1; /* good enough */
 				} else
 					slide_x = FALSE;
 			} else
 				target_gsheet = gsheet0;
-		}
+		} else
+			gsheet->sliding_adjacent_h = FALSE;
 
 		if (slide_x) {
-			col = target_gsheet->col.last_full + 
+			col = target_gsheet->last_full.col + 
 				col_scroll_step (gsheet->sliding_dx);
 			if (col >= SHEET_MAX_COLS-1) {
 				col = SHEET_MAX_COLS-1;
@@ -1228,21 +1229,21 @@ gsheet_sliding_callback (gpointer data)
 		}
 	} else if (gsheet->sliding_dx < 0) {
 		slide_x = TRUE;
-		col = gsheet0->col.first - col_scroll_step (-gsheet->sliding_dx);
+		col = gsheet0->first.col - col_scroll_step (-gsheet->sliding_dx);
 
-		if (gsheet2 != NULL) {
+		if (gsheet1 != NULL) {
 			if (pane_index == 0 || pane_index == 3) {
-				int width = GTK_WIDGET (gsheet2)->allocation.width;
+				int width = GTK_WIDGET (gsheet1)->allocation.width;
 				if (gsheet->sliding_dx > (-width) &&
-				    col <= gsheet2->col.last_visible) {
-					int x = gsheet2->col_offset.first + width + gsheet->sliding_dx;
-					col = gnumeric_sheet_find_col (gsheet2, x, NULL);
+				    col <= gsheet1->last_visible.col) {
+					int x = gsheet1->first_offset.col + width + gsheet->sliding_dx;
+					col = gnumeric_sheet_find_col (gsheet1, x, NULL);
 					slide_x = FALSE;
 				}
 			} 
 
-			if (col <= gsheet2->col.first) {
-				col = gsheet2->col.first;
+			if (col <= gsheet1->first.col) {
+				col = gsheet1->first.col;
 				slide_x = FALSE;
 			}
 		} else if (col <= 0) {
@@ -1258,21 +1259,22 @@ gsheet_sliding_callback (gpointer data)
 		if (pane_index == 3 || pane_index == 2) {
 			if (!gsheet->sliding_adjacent_v) {
 				int height = GTK_WIDGET (gsheet)->allocation.height;
-				int y = gsheet->row_offset.first + height + gsheet->sliding_dy;
+				int y = gsheet->first_offset.row + height + gsheet->sliding_dy;
 
 				/* in case pane is short */
 				row = gnumeric_sheet_find_row (gsheet, y, NULL);
-				if (row > gsheet0->row.last_full) {
+				if (row > gsheet0->last_full.row) {
 					gsheet->sliding_adjacent_v = TRUE;
 					gsheet->sliding_dy = 1; /* good enough */
 				} else
 					slide_y = FALSE;
 			} else
 				target_gsheet = gsheet0;
-		}
+		} else
+			gsheet->sliding_adjacent_v = FALSE;
 
 		if (slide_y) {
-			row = target_gsheet->row.last_full + 
+			row = target_gsheet->last_full.row + 
 				row_scroll_step (gsheet->sliding_dy);
 			if (row >= SHEET_MAX_ROWS-1) {
 				row = SHEET_MAX_ROWS-1;
@@ -1281,21 +1283,21 @@ gsheet_sliding_callback (gpointer data)
 		}
 	} else if (gsheet->sliding_dy < 0) {
 		slide_y = TRUE;
-		row = gsheet0->row.first - row_scroll_step (-gsheet->sliding_dy);
+		row = gsheet0->first.row - row_scroll_step (-gsheet->sliding_dy);
 
-		if (gsheet2 != NULL) {
+		if (gsheet3 != NULL) {
 			if (pane_index == 0 || pane_index == 1) {
-				int height = GTK_WIDGET (gsheet2)->allocation.height;
+				int height = GTK_WIDGET (gsheet3)->allocation.height;
 				if (gsheet->sliding_dy > (-height) &&
-				    row <= gsheet2->row.last_visible) {
-					int y = gsheet2->row_offset.first + height + gsheet->sliding_dy;
-					row = gnumeric_sheet_find_row (gsheet2, y, NULL);
+				    row <= gsheet3->last_visible.row) {
+					int y = gsheet3->first_offset.row + height + gsheet->sliding_dy;
+					row = gnumeric_sheet_find_row (gsheet3, y, NULL);
 					slide_y = FALSE;
 				}
 			} 
 
-			if (row <= gsheet2->row.first) {
-				row = gsheet2->row.first;
+			if (row <= gsheet3->first.row) {
+				row = gsheet3->first.row;
 				slide_y = FALSE;
 			}
 		} else if (row <= 0) {
@@ -1349,9 +1351,8 @@ gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
 			      GnumericSheetSlideHandler slide_handler,
 			      gpointer user_data)
 {
-	Sheet const *sheet;
-	GnumericSheet *gsheet0;
-	int left, top, x, y, width, height;
+	GnumericSheet *gsheet0, *gsheet1, *gsheet3;
+	int pane, left, top, x, y, width, height;
 	int dx = 0, dy = 0;
 
 	g_return_val_if_fail (GNUMERIC_IS_SHEET (gsheet), FALSE);
@@ -1361,13 +1362,15 @@ gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
 
 	gnome_canvas_w2c (canvas, event->x, event->y, &x, &y);
 
-	left = gsheet->col_offset.first;
-	top = gsheet->row_offset.first;
+	pane = gsheet->pane->index;
+	left = gsheet->first_offset.col;
+	top = gsheet->first_offset.row;
 	width = GTK_WIDGET (gsheet)->allocation.width;
 	height = GTK_WIDGET (gsheet)->allocation.height;
 
-	sheet = sc_sheet (SHEET_CONTROL (gsheet->scg));
 	gsheet0 = scg_pane (gsheet->scg, 0);
+	gsheet1 = scg_pane (gsheet->scg, 1);
+	gsheet3 = scg_pane (gsheet->scg, 3);
 
 	if (slide_flags & GNM_SLIDE_X) {
 		if (x < left)
@@ -1383,56 +1386,56 @@ gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
 			dy = y - height - top;
 	}
 
-	if (sheet_is_frozen (sheet)) {
-		int const pane = gsheet->pane->index;
-		GnumericSheet *gsheet2 = scg_pane (gsheet->scg, 2);
-
-		if (gsheet->sliding_adjacent_h) {
-			if (pane == 0 || pane == 3) {
-				if (dx < 0) {
-					dx += GTK_WIDGET (gsheet2)->allocation.width;
-					x = gsheet2->col_offset.first + dx;
-					if (dx > 0)
-						dx = 0;
-				}
-			} else {
-				if (dx > 0) {
-					x = gsheet0->col_offset.first + dx;
-					dx -= GTK_WIDGET (gsheet0)->allocation.width;
-					if (dx < 0)
-						dx = 0;
-				} else if (dx == 0) {
-					/* initiate a reverse scroll of panes 0,3 */
-					if ((gsheet2->col.last_visible+1) != gsheet0->col.first)
-						dx = x - (left + width);
-				} else
+	if (gsheet->sliding_adjacent_h) {
+		if (pane == 0 || pane == 3) {
+			if (dx < 0) {
+				x = gsheet1->first_offset.col;
+				dx += GTK_WIDGET (gsheet1)->allocation.width;
+				if (dx > 0)
+					x += dx;
+				dx = 0;
+			} else
+				gsheet->sliding_adjacent_h = FALSE;
+		} else {
+			if (dx > 0) {
+				x = gsheet0->first_offset.col + dx;
+				dx -= GTK_WIDGET (gsheet0)->allocation.width;
+				if (dx < 0)
 					dx = 0;
-			}
-		}
-
-		if (gsheet->sliding_adjacent_v) {
-			if (pane == 0 || pane == 1) {
-				if (dy < 0) {
-					dy += GTK_WIDGET (gsheet2)->allocation.height;
-					y = gsheet2->row_offset.first +  dy;
-					if (dy > 0)
-						dy = 0;
-				}
-			} else {
-				if (dy > 0) {
-					y = gsheet0->row_offset.first + dy;
-					dy -= GTK_WIDGET (gsheet0)->allocation.height;
-					if (dy < 0)
-						dy = 0;
-				} else if (dy == 0) {
-					/* initiate a reverse scroll of panes 0,1 */
-					if ((gsheet2->row.last_visible+1) != gsheet0->row.first)
-						dy = y - (top + height);
-				} else
-					dy = 0;
-			}
+			} else if (dx == 0) {
+				/* initiate a reverse scroll of panes 0,3 */
+				if ((gsheet1->last_visible.col+1) != gsheet0->first.col)
+					dx = x - (left + width);
+			} else
+				dx = 0;
 		}
 	}
+
+	if (gsheet->sliding_adjacent_v) {
+		if (pane == 0 || pane == 1) {
+			if (dy < 0) {
+				y = gsheet3->first_offset.row;
+				dy += GTK_WIDGET (gsheet3)->allocation.height;
+				if (dy > 0)
+					y += dy;
+				dy = 0;
+			} else
+				gsheet->sliding_adjacent_v = FALSE;
+		} else {
+			if (dy > 0) {
+				y = gsheet0->first_offset.row + dy;
+				dy -= GTK_WIDGET (gsheet0)->allocation.height;
+				if (dy < 0)
+					dy = 0;
+			} else if (dy == 0) {
+				/* initiate a reverse scroll of panes 0,1 */
+				if ((gsheet3->last_visible.row+1) != gsheet0->first.row)
+					dy = y - (top + height);
+			} else
+				dy = 0;
+		}
+	}
+
 	/* Movement is inside the visible region */
 	if (dx == 0 && dy == 0) {
 		if (!(slide_flags & GNM_SLIDE_EXTERIOR_ONLY)) {
@@ -1466,22 +1469,18 @@ gnumeric_sheet_handle_motion (GnumericSheet *gsheet,
 void
 gnumeric_sheet_slide_init (GnumericSheet *gsheet)
 {
-	Sheet const *sheet;
-	GnumericSheet *gsheet0;
+	GnumericSheet *gsheet0, *gsheet1, *gsheet3;
 
 	g_return_if_fail (GNUMERIC_IS_SHEET (gsheet));
 
-	sheet = sc_sheet (SHEET_CONTROL (gsheet->scg));
 	gsheet0 = scg_pane (gsheet->scg, 0);
+	gsheet1 = scg_pane (gsheet->scg, 1);
+	gsheet3 = scg_pane (gsheet->scg, 3);
 
-	if (sheet_is_frozen (sheet)) {
-		GnumericSheet const *gsheet2 = scg_pane (gsheet->scg, 2);
-
-		gsheet->sliding_adjacent_h =
-			gsheet2->col.last_full == (gsheet0->col.first - 1);
-		gsheet->sliding_adjacent_v =
-			gsheet2->row.last_full == (gsheet0->row.first - 1);
-	} else
-		gsheet->sliding_adjacent_h = gsheet->sliding_adjacent_v = FALSE;
-
+	gsheet->sliding_adjacent_h = (gsheet1 != NULL)
+		? (gsheet1->last_full.col == (gsheet0->first.col - 1))
+		: FALSE;
+	gsheet->sliding_adjacent_v = (gsheet3 != NULL)
+		? (gsheet3->last_full.row == (gsheet0->first.row - 1))
+		: FALSE;
 }
