@@ -255,6 +255,7 @@ gnm_session_init (const char *argv0)
 
 
 #else
+#include "session.h"
 void
 gnm_session_init (const char *argv0)
 {

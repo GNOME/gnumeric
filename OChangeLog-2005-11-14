@@ -1,5 +1,7 @@
 2004-09-29  Jody Goldberg <jody@gnome.org>
 
+	* src/session.c : suppress warning in the --without-gnome case
+
 	* src/sheet-control-gui.c (scg_set_current_object) : new. uses the
 	  handy dandy unrealized signal on a SheetObject.  With code split from
 	(scg_object_stop_editing) : here.
