@@ -2048,6 +2048,8 @@ ms_excelReadWorkbook (MS_OLE * file)
 	MS_EXCEL_WORKBOOK *wb = NULL;
 	xmlNodePtr child;
 
+	cell_freeze_redraws ();
+
 	if (1){ /* ? */
 		MS_OLE_STREAM *stream;
 		BIFF_QUERY *q;
@@ -2283,6 +2285,9 @@ ms_excelReadWorkbook (MS_OLE * file)
 			ms_biff_bof_data_destroy (ver);
 		ms_ole_stream_close (stream);
 	}
+
+	cell_thaw_redraws ();
+	
 	if (wb)
 	{
 		workbook_recalc (wb->gnum_wb);

@@ -1,3 +1,14 @@
+1999-05-06  Michael Meeks  <michael@imaginator.com>
+
+	* ms-excel.c (ms_excelReadWorkbook): Added freeze /
+	thaw redraws for speed.
+
+	* ms-escher.c (OPT_new): Expanded.
+	(BStoreContainer_destroy): Added debug.
+
+	* ole.c: Updated functions from ms-escher.c
+	(main): Correctly skip over previously merged stuff.
+
 1999-05-05  Michael Meeks  <michael@imaginator.com>
 
 	* ms-formula.c (parse_list_push_raw): Cleaned debug.

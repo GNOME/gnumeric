@@ -3,6 +3,8 @@
  *
  * Author:
  *    Michael Meeks (michael@imaginator.com)
+ *
+ * See S59FD6.HTM for an overview...
  **/
 
 #include <stdio.h>
@@ -37,11 +39,13 @@
 
 #define ESH_BITMAP_DUMP 0
 #define ESH_OPT_DUMP 0
-#define ESH_HEADER_DEBUG 0
+#define ESH_HEADER_DEBUG 3
 
 /**
  * NB. SP = ShaPe
  *     GR = GRoup
+ *
+ *     sizeof (MSOSPID) = 32 bits.
  **/
 
 typedef struct { /* See: S59FDA.HTM */
@@ -354,6 +358,7 @@ typedef struct {
 	guint   bid:1;
 	guint   complex:1;
 	guint32 op; /* or value */
+	guint16 num_properties;
 } OPT_DATA;
 
 static OPT_DATA *
@@ -366,8 +371,9 @@ OPT_new (ESH_HEADER *h) /*See: S59FFB.HTM */
 	od->bid = (d & 0x4000)!=0;
 	od->complex = (d &0x8000)!=0;
 	od->op = BIFF_GETLONG(data+2);
-	printf ("OPT : 0x%x %d %d 0x%x\n", od->pid,
-		od->bid, od->complex, od->op);
+	od->num_properties = h->instance;
+	printf ("OPT: 0x%x %d %d 0x%x, %d props.\n", od->pid,
+		od->bid, od->complex, od->op, od->num_properties);
 #if ESH_OPT_DUMP > 0
 	dump (h->data, h->length);
 #endif
@@ -390,6 +396,9 @@ BStoreContainer_new (ESH_HEADER *h) /* See: S59FE3.HTM */
 			break;
 		}
 	}
+	if (!bsc || bsc->len < h->ver)
+		printf ("Too few BLIP entries, are %d should be %d\n",
+			bsc->len, h->ver);
 	return bsc;
 }
 static void
@@ -427,12 +436,32 @@ read_DggContainer (ESH_HEADER *h)
 	}
 }
 
+/**
+ *  A Shape ... it contains details about it self generaly,
+ * only one real shape in inside the container though.
+ **/
 static void
 SpContainer_new (ESH_HEADER *h)  /* See: S59FEB.HTM */
 {
 	ESH_HEADER *c = esh_header_contained (h);
 	while (esh_header_next (c)) {
 		switch (c->type) {
+		case Sp: /* See S59A001.HTM for Real Geometry Data... */
+		{
+			guint8 *data = c->data + ESH_HEADER_LEN;
+			guint32 spid  = BIFF_GETLONG (data+0);
+			guint32 flags = BIFF_GETLONG (data+4);
+			enum  { Group=1, Child=2, Patriarch=4, Deleted=8, OleShape=16,
+				HaveMaster=32, FlipH=64, FlipV=128, Connector=256,
+				HasAnchor=512, TypeProp=1024 };
+			printf ("Sp: SPID %d, Type %d group? %d, Child? %d, Patriarch? %d, Deleted? %d, OleShape? %d\n",
+				spid, c->instance, ((flags&Group)!=0), ((flags&Child)!=0), ((flags&Patriarch)!=0),
+				((flags&Deleted)!=0), ((flags&OleShape)!=0));
+			break;
+		case SpgrContainer:
+			printf ("SpgrContainer...\n");
+			break;
+		}
 		default:
 			printf ("Unknown shape container thing : type 0x%x, inst 0x%x ver 0x%x len 0x%x\n",
 				c->type, c->instance, c->ver, c->length);
@@ -486,6 +515,8 @@ read_DgContainer (ESH_HEADER *h) /* See S59FE7.HTM */
 			guint32 num_shapes = BIFF_GETLONG(c->data+ESH_HEADER_LEN);
 			/* spid_cur = last SPID given to an SP in this DG :-)  */
 			guint32 spid_cur   = BIFF_GETLONG(c->data+ESH_HEADER_LEN+4);
+			guint32 drawing_id = c->instance;
+			/* This drawing has these num_shapes shapes, with a pointer to the last SPID given to it */
 			break;
 		}
 		case SpgrContainer: /* See: S59FEA.HTM */

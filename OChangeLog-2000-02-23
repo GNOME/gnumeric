@@ -1,3 +1,9 @@
+1999-05-06  Michael Meeks  <michael@imaginator.com>
+
+	* src/workbook.c: Moved 'Sort' to the tools menu.
+
+	* HACKING: Pedantic clean.
+
 1999-05-06  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-date.c: Added EDATE().

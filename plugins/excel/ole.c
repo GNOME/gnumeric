@@ -151,6 +151,7 @@ syntax_error(char *err)
 
 /* ---------------------------- Start cut from ms-escher.c ---------------------------- */
 
+
 typedef struct { /* See: S59FDA.HTM */
 	guint    ver:4;
 	guint    instance:12;
@@ -197,33 +198,53 @@ esh_header_next (ESH_HEADER *h)
 	split       = BIFF_GETWORD(h->data+0);
 	h->ver      = (split&0x0f);
 	h->instance = (split>>4);
+#if ESH_HEADER_DEBUG > 0
+	printf ("Next header length 0x%x(=%d), type 0x%x, ver 0x%x, instance 0x%x\n",
+		h->length, h->length, h->type, h->ver, h->instance);
+#endif
 	return 1;
 }
+
+static ESH_HEADER *
+esh_header_contained (ESH_HEADER *h)
+{
+	if (h->length_left<ESH_HEADER_LEN)
+		return NULL;
+	g_assert (h->data[h->length_left-1] == /* Check that pointer */
+		  h->data[h->length_left-1]);
+	return esh_header_new (h->data+ESH_HEADER_LEN,
+			       h->length-ESH_HEADER_LEN);
+}
+
 static void
 esh_header_destroy (ESH_HEADER *h)
 {
 	if (h)
 		g_free(h);
 }
-
 /**
  *  Builds a flat record by merging CONTINUE records,
  *  Have to do until we move this into ms_ole.c
  *  pass pointers to your length & data variables.
  *  This is dead sluggish.
  **/
-static void
+static int
 biff_to_flat_data (const BIFF_QUERY *q, guint8 **data, guint32 *length)
 {
 	BIFF_QUERY *nq = ms_biff_query_copy (q);
 	guint8 *ptr;
+	int cnt=0;
 
 	*length=0;
 	do {
 		*length+=nq->length;
 		ms_biff_query_next(nq);
-	} while (nq->opcode == BIFF_CONTINUE);
+		cnt++;
+	} while (nq->opcode == BIFF_CONTINUE ||
+		 nq->opcode == BIFF_MS_O_DRAWING ||
+		 nq->opcode == BIFF_MS_O_DRAWING_GROUP);
 
+	printf ("MERGING %d continues\n", cnt);
 	(*data) = g_malloc (*length);
 	ptr=(*data);
 	nq = ms_biff_query_copy (q);
@@ -231,7 +252,10 @@ biff_to_flat_data (const BIFF_QUERY *q, guint8 **data, guint32 *length)
 		memcpy (ptr, nq->data, nq->length);
 		ptr+=nq->length;
 		ms_biff_query_next(nq);
-	} while (nq->opcode == BIFF_CONTINUE);
+	} while (nq->opcode == BIFF_CONTINUE ||
+		 nq->opcode == BIFF_MS_O_DRAWING ||
+		 nq->opcode == BIFF_MS_O_DRAWING_GROUP);
+	return cnt;
 }
 
 /* ---------------------------- End cut ---------------------------- */
@@ -383,9 +407,10 @@ int main (int argc, char **argv)
 						guint8 *data;
 						guint32 len;
 						guint32 str_pos=q->streamPos;
-						biff_to_flat_data (q, &data, &len);
+						guint skip = biff_to_flat_data (q, &data, &len) - 1;
 						printf("Drawing: '%s'\n", get_biff_opcode_name(q->opcode));
 						dump_escher (data, len, 0);
+						while (skip > 0 && ms_biff_query_next(q)) skip--;
 					}
 				}
 				printf ("\n");
