@@ -190,6 +190,15 @@ gnm_conf_init_essential (void)
 
 	prefs.printer_config = gconf_client_get_string (client,
 		PRINTSETUP_GCONF_PRINTER_CONFIG, NULL);
+	prefs.printer_header = gconf_client_get_list (client,
+		PRINTSETUP_GCONF_HEADER, GCONF_VALUE_STRING, NULL);
+	prefs.printer_footer = gconf_client_get_list (client,
+		PRINTSETUP_GCONF_FOOTER, GCONF_VALUE_STRING, NULL);
+
+	prefs.auto_complete = gnm_gconf_get_bool (client,
+		GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE, TRUE);
+	prefs.live_scrolling = gnm_gconf_get_bool (client,
+		GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, TRUE);
 }
 
 static gboolean
@@ -203,12 +212,8 @@ gnm_conf_init_extras (void)
 	prefs.recent_funcs = gconf_client_get_list (client,
 		FUNCTION_SELECT_GCONF_RECENT, GCONF_VALUE_STRING, NULL);
 
-	prefs.auto_complete = gnm_gconf_get_bool (client,
-		GNUMERIC_GCONF_GUI_ED_AUTOCOMPLETE, TRUE);
 	prefs.transition_keys = gnm_gconf_get_bool (client,
 		GNUMERIC_GCONF_GUI_ED_TRANSITION_KEYS, FALSE);
-	prefs.live_scrolling = gnm_gconf_get_bool (client,
-		GNUMERIC_GCONF_GUI_ED_LIVESCROLLING, TRUE);
 	prefs.recalc_lag = gnm_gconf_get_int (client,
 		GNUMERIC_GCONF_GUI_ED_RECALC_LAG, -5000, 5000, 200);
 	prefs.show_sheet_name = gnm_gconf_get_bool (client,
@@ -251,10 +256,6 @@ gnm_conf_init_extras (void)
 		GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL, 0, 256, 10);
 	prefs.print_all_sheets = gnm_gconf_get_bool (client,
 		PRINTSETUP_GCONF_ALL_SHEETS, TRUE);
-	prefs.printer_header = gconf_client_get_list (client,
-		PRINTSETUP_GCONF_HEADER, GCONF_VALUE_STRING, NULL);
-	prefs.printer_footer = gconf_client_get_list (client,
-		PRINTSETUP_GCONF_FOOTER, GCONF_VALUE_STRING, NULL);
 	prefs.unfocused_range_selection = gnm_gconf_get_bool (client,
 		DIALOGS_GCONF_UNFOCUSED_RS, TRUE);
 	prefs.prefer_clipboard_selection = gnm_gconf_get_bool (client,
