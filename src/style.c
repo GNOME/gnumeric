@@ -387,9 +387,10 @@ style_new (void)
 	style->valign      = VALIGN_CENTER;
 	style->orientation = ORIENT_HORIZ;
 
-	{
+	if (0) {
 		static int warning_shown;
 
+		/* Why this warning?  */
 		if (!warning_shown){
 			g_message ("Font style created at zoom factor 1.0");
 			warning_shown = TRUE;

@@ -1,3 +1,10 @@
+1999-09-18  Morten Welinder  <terra@diku.dk>
+
+	* src/style.c (style_new): Silence.
+
+	* src/sheet.c (sheet_update_controls): Initialize all closure
+ 	members.
+
 1999-09-17  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/dialogs/dialog-summary.c (dialog_summary_update): Change to

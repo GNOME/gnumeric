@@ -1274,10 +1274,12 @@ sheet_update_controls (Sheet *sheet)
 	range_homogeneous_style_p closure;
 	int flags;
 	
+	memset (&closure, 0, sizeof (closure));
 	closure.first = TRUE;
 	closure.bold_common = TRUE;
 	closure.italic_common = TRUE;
 	closure.font_common = TRUE;
+	closure.font_size_common = TRUE;
 
 	/* Double counting is ok, don't bother breaking up the regions */
 	selection_apply (sheet, &range_is_homogeneous,
