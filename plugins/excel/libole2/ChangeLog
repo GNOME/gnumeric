@@ -1,3 +1,7 @@
+1999-05-21  Michael Meeks  <michael@imaginator.com>
+
+	* ms-ole.c (ms_ole_stream_close): Leak fixed: thanks Morten.
+
 1999-05-20  Michael Meeks  <michael@imaginator.com>
 
 	* ms-ole.c: Whole Block structure totaly re-written for the

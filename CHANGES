@@ -15,8 +15,12 @@ Miguel
 	*
 
 Michael
-	*
+	* Re-wrote the OLE block layer again...
+
+Nick Lamb
+	* Lots of work adding excel function mappings.
 
 Several translations updated: thanks to our translators
 
 And lots of bugs fixed.
+

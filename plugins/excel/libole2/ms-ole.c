@@ -1263,7 +1263,7 @@ ms_ole_stream_close (MS_OLE_STREAM *s)
 			p->size = s->size;
 		}
 
-		g_array_free (s->blocks, 0);
+		g_array_free (s->blocks, TRUE);
 		g_free (s);
 	}
 }
