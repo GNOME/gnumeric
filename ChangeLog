@@ -1,3 +1,9 @@
+2000-03-10 Alastair McKinstry <mckinstry@computer.org>
+
+	* configure.in (ALL_LINGUAS): Added ga (Irish) translation.
+
+	 * gnumeric.desktop: Added Irish (ga) translation.
+
 2000-03-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/func.c (tokenized_help_new) : Constness.
@@ -267,6 +273,7 @@
 	* src/dialogs/dialog-plugin-manager.c (refresh_right_frame): Kill
  	a warning.
 
+>>>>>>> 1.58
 2000-03-03  Jody Goldberg <jgoldberg@home.com>
 
 	* src/cell-draw.c (cell_draw) : Correct off by one error for
