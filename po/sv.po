@@ -30,8 +30,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2003-09-06 20:24+0200\n"
-"PO-Revision-Date: 2003-09-06 20:28+0200\n"
+"POT-Creation-Date: 2003-09-07 11:28+0200\n"
+"PO-Revision-Date: 2003-09-07 11:31+0200\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -17911,7 +17911,7 @@ msgstr "Fel vid öppnande av xbase-fil."
 
 #: plugins/xbase/boot.c:175 src/commands.c:4547
 #: src/dialogs/dialog-goto-cell.c:284 src/dialogs/dialog-search.c:391
-#: src/dialogs/print.glade.h:21 src/workbook.c:1040 src/xml-io.c:3585
+#: src/dialogs/print.glade.h:21 src/workbook.c:1041 src/xml-io.c:3585
 msgid "Sheet"
 msgstr "Blad"
 
@@ -20021,16 +20021,16 @@ msgstr "_Kopiera celler"
 msgid "_Paste Cells"
 msgstr "Klistra _in celler"
 
-#: src/clipboard.c:300 src/clipboard.c:312 src/clipboard.c:323
-#: src/clipboard.c:331
+#: src/clipboard.c:301 src/clipboard.c:313 src/clipboard.c:324
+#: src/clipboard.c:332
 msgid "Unable to paste"
 msgstr "Kan inte klistra in"
 
-#: src/clipboard.c:301
+#: src/clipboard.c:302
 msgid "Content can only be pasted by value or by link."
 msgstr "Innehåll kan endast klistras in via värde eller genom länk."
 
-#: src/clipboard.c:309
+#: src/clipboard.c:310
 #, c-format
 msgid ""
 "destination does not have an even multiple of source columns (%d vs %d)\n"
@@ -20041,7 +20041,7 @@ msgstr ""
 "\n"
 "Försök markera en enstaka cell eller en yta med samma form och storlek."
 
-#: src/clipboard.c:320
+#: src/clipboard.c:321
 #, c-format
 msgid ""
 "destination does not have an even multiple of source rows (%d vs %d)\n"
@@ -20052,7 +20052,7 @@ msgstr ""
 "\n"
 "Försök markera en enstaka cell eller en yta med samma form och storlek."
 
-#: src/clipboard.c:332
+#: src/clipboard.c:333
 msgid "result passes the sheet boundary"
 msgstr "resultatet går utanför bladets kant"
 
@@ -20859,7 +20859,7 @@ msgid "Triangle up"
 msgstr "Triangel uppåt"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:128
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:127
 msgid "X"
 msgstr "X"
 
@@ -20996,7 +20996,7 @@ msgstr "_Överlappning:"
 #. * eg The 2nd bar/col plot in a chart will be called
 #. * 	PlotBarCol2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:96
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol.c:95
 msgid "PlotBarCol"
 msgstr "PlotStapKol"
 
@@ -21361,11 +21361,11 @@ msgstr "Cirkeldiagramsritmotor"
 msgid "Ring plotting engine"
 msgstr "Cirkeldiagramsritmotor"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:53
-msgid "PlotXY"
-msgstr "PlotXY"
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:55
+msgid "XYPlot"
+msgstr "XYGraf"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:130
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:129
 msgid "Y"
 msgstr "Y"
 
@@ -31254,23 +31254,23 @@ msgstr "Ett oförklarat fel inträffade vid öppnande av %s"
 msgid "Book%d.%s"
 msgstr "Blad%d.%s"
 
-#: src/workbook.c:1246
+#: src/workbook.c:1247
 msgid "Sheet name is NULL"
 msgstr "Bladnamn är NULL"
 
-#: src/workbook.c:1257
+#: src/workbook.c:1258
 msgid "Sheet name is not valid utf-8"
 msgstr "Bladnamn är inte giltig UTF-8"
 
-#: src/workbook.c:1266
+#: src/workbook.c:1267
 msgid "Sheet name must have at least 1 letter"
 msgstr "Bladnamnet måste ha åtminstone 1 bokstav"
 
-#: src/workbook.c:1290
+#: src/workbook.c:1291
 msgid "There is already a sheet named"
 msgstr "Det finns redan ett blad med namnet"
 
-#: src/workbook.c:1304
+#: src/workbook.c:1305
 msgid "You may not use this name twice"
 msgstr "Du kan inte använda detta namn två gånger"
 
@@ -31300,6 +31300,9 @@ msgstr "Fel vid sparande av fil"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid "PlotXY"
+#~ msgstr "PlotXY"
 
 #~ msgid "S_ize:"
 #~ msgstr "S_torlek:"
