@@ -1,6 +1,6 @@
 2002-12-31  Morten Welinder  <terra@diku.dk>
 
-	* functions.c (gnumeric_unichar): New function.
+	* functions.c (gnumeric_unichar, gnumeric_unicode): New functions.
 
 2002-12-22  Jody Goldberg <jody@gnome.org>
 

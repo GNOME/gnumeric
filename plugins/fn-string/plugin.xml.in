@@ -12,7 +12,6 @@
 			<_category>String</_category>
 			<functions>
 				<function name="char"/>
-				<function name="unichar"/>
 				<function name="clean"/>
 				<function name="code"/>
 				<function name="concatenate"/>
@@ -23,8 +22,8 @@
 				<function name="left"/>
 				<function name="len"/>
 				<function name="lower"/>
-				<function name="proper"/>
 				<function name="mid"/>
+				<function name="proper"/>
 				<function name="replace"/>
 				<function name="rept"/>
 				<function name="right"/>
@@ -33,6 +32,8 @@
 				<function name="t"/>
 				<function name="text"/>
 				<function name="trim"/>
+				<function name="unichar"/>
+				<function name="unicode"/>
 				<function name="upper"/>
 				<function name="value"/>
 			</functions>

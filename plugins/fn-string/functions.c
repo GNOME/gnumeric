@@ -108,7 +108,7 @@ static const char *help_unichar = {
 	   "UNICHAR(65) equals A.\n"
 	   "CHAR(8232) equals an carriage return error.\n"
 	   "\n"
-	   "@SEEALSO=UNICHAR,CODE")
+	   "@SEEALSO=CHAR,UNICODE,CODE")
 };
 
 static Value *
@@ -170,6 +170,32 @@ gnumeric_code (FunctionEvalInfo *ei, Value **argv)
 	g_free (str);
 
 	return res;
+}
+
+/***************************************************************************/
+
+static const char *help_unicode = {
+	N_("@FUNCTION=UNICODE\n"
+	   "@SYNTAX=UNICODE(char)\n"
+
+	   "@DESCRIPTION="
+	   "UNICODE returns the unicode number for the character @char.\n\n"
+	   "\n"
+	   "@EXAMPLES=\n"
+	   "UNICODE(\"A\") equals 65.\n"
+	   "\n"
+	   "@SEEALSO=UNICHAR,CODE,CHAR")
+};
+
+static Value *
+gnumeric_unicode (FunctionEvalInfo *ei, Value **argv)
+{
+	const char *s = value_peek_string (argv[0]);
+
+	if (*s == 0)
+		value_new_error_VALUE (ei->pos);
+	else
+		return value_new_int (g_utf8_get_char (s));
 }
 
 /***************************************************************************/
@@ -1106,6 +1132,9 @@ const GnmFuncDescriptor string_functions[] = {
         { "code",       "S",     N_("text"),                    &help_code,
 	  gnumeric_code, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
+        { "unicode",    "S",     N_("text"),                    &help_unicode,
+	  gnumeric_unicode, NULL, NULL, NULL, NULL,
+	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
         { "concatenate", 0,      N_("text,text,"),            &help_concatenate,
 	  NULL, gnumeric_concatenate, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
