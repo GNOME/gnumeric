@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-03-30 23:33-0500\n"
-"PO-Revision-Date: 2005-03-30 11:36-0400\n"
+"POT-Creation-Date: 2005-04-01 12:47-0500\n"
+"PO-Revision-Date: 2005-04-01 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1494,7 +1494,7 @@ msgstr "Constraints:"
 #: ../src/tools/solver/reports-write.c:281
 #: ../src/tools/solver/reports-write.c:393
 #: ../src/tools/solver/reports-write.c:400
-#: ../src/tools/solver/reports-write.c:668 ../src/commands.c:6169
+#: ../src/tools/solver/reports-write.c:668 ../src/commands.c:6242
 #: ../src/format-template.c:248
 msgid "Name"
 msgstr "Name"
@@ -1511,7 +1511,7 @@ msgstr "Value"
 #. * Fill in the labels of `General Info' section.
 #.
 #: ../plugins/mps/mps.c:273 ../src/dialogs/dialog-formula-guru.c:804
-#: ../src/dialogs/dialog-search.c:422 ../src/tools/solver/reports-write.c:515
+#: ../src/dialogs/dialog-search.c:424 ../src/tools/solver/reports-write.c:515
 msgid "Type"
 msgstr "Type"
 
@@ -2047,8 +2047,8 @@ msgid "Error while opening xbase file."
 msgstr "Error while opening xbase file."
 
 #: ../plugins/xbase/boot.c:176 ../src/dialogs/dialog-goto-cell.c:289
-#: ../src/dialogs/dialog-search.c:420 ../src/dialogs/dialog-stf-export.c:444
-#: ../src/dialogs/print.glade.h:21 ../src/commands.c:4963
+#: ../src/dialogs/dialog-search.c:422 ../src/dialogs/dialog-stf-export.c:450
+#: ../src/dialogs/print.glade.h:21 ../src/commands.c:5036
 #: ../src/print-info.c:398 ../src/workbook.c:1083 ../src/xml-io.c:3525
 msgid "Sheet"
 msgstr "Sheet"
@@ -4973,7 +4973,7 @@ msgstr "Workbook Level"
 #.
 #. * Fill in the labels of `Constraints' section.
 #.
-#: ../src/dialogs/dialog-goto-cell.c:295 ../src/dialogs/dialog-search.c:421
+#: ../src/dialogs/dialog-goto-cell.c:295 ../src/dialogs/dialog-search.c:423
 #: ../src/dialogs/tabulate.glade.h:2 ../src/tools/solver/reports-write.c:78
 #: ../src/tools/solver/reports-write.c:100
 #: ../src/tools/solver/reports-write.c:127
@@ -5308,7 +5308,7 @@ msgstr "Windows"
 msgid "Header/Footer"
 msgstr "Header/Footer"
 
-#: ../src/dialogs/dialog-preferences.c:770 ../src/commands.c:2120
+#: ../src/dialogs/dialog-preferences.c:770 ../src/commands.c:2181
 msgid "Sorting"
 msgstr "Sorting"
 
@@ -5644,24 +5644,24 @@ msgstr "Integer"
 msgid "Other value"
 msgstr "Other value"
 
-#: ../src/dialogs/dialog-search.c:344
-#: ../src/dialogs/dialog-search-replace.c:142
+#: ../src/dialogs/dialog-search.c:346
+#: ../src/dialogs/dialog-search-replace.c:144
 msgid "You must select some cell types to search."
 msgstr "You must select some cell types to search."
 
-#: ../src/dialogs/dialog-search.c:423
+#: ../src/dialogs/dialog-search.c:425
 msgid "Content"
 msgstr "Content"
 
-#: ../src/dialogs/dialog-search-replace.c:318
+#: ../src/dialogs/dialog-search-replace.c:320
 msgid "Perform no more replacements"
 msgstr "Perform no more replacements"
 
-#: ../src/dialogs/dialog-search-replace.c:322
+#: ../src/dialogs/dialog-search-replace.c:324
 msgid "Do not perform this replacement"
 msgstr "Do not perform this replacement"
 
-#: ../src/dialogs/dialog-search-replace.c:326
+#: ../src/dialogs/dialog-search-replace.c:328
 msgid "Perform this replacement"
 msgstr "Perform this replacement"
 
@@ -5871,20 +5871,20 @@ msgstr "Could not create the Solver dialogue."
 msgid "Are you sure you want to cancel?"
 msgstr "Are you sure you want to cancel?"
 
-#: ../src/dialogs/dialog-stf-export.c:438
+#: ../src/dialogs/dialog-stf-export.c:444
 msgid "Export"
 msgstr "Export"
 
-#: ../src/dialogs/dialog-stf-export.c:511
+#: ../src/dialogs/dialog-stf-export.c:517
 #: ../src/dialogs/dialog-stf-export.glade.h:38
 msgid "_Next"
 msgstr "_Next"
 
-#: ../src/dialogs/dialog-stf-export.c:514
+#: ../src/dialogs/dialog-stf-export.c:520
 msgid "_Finish"
 msgstr "_Finish"
 
-#: ../src/dialogs/dialog-stf-export.c:573
+#: ../src/dialogs/dialog-stf-export.c:579
 msgid "This workbook does not contain any exportable content."
 msgstr "This workbook does not contain any exportable content."
 
@@ -6438,21 +6438,21 @@ msgstr "You should introduce a single valid cell as result cell"
 msgid "The target cell should contain an expression"
 msgstr "The target cell should contain an expression"
 
-#: ../src/dialogs/dialog-view.c:80
+#: ../src/dialogs/dialog-view.c:81
 #, c-format
 msgid "Display \"%s\" could not be opened."
 msgstr "Display \"%s\" could not be opened."
 
-#: ../src/dialogs/dialog-view.c:157
+#: ../src/dialogs/dialog-view.c:159
 msgid "This screen"
 msgstr "This screen"
 
-#: ../src/dialogs/dialog-view.c:158
+#: ../src/dialogs/dialog-view.c:160
 #, c-format
 msgid "Screen %d [This screen]"
 msgstr "Screen %d [This screen]"
 
-#: ../src/dialogs/dialog-view.c:159
+#: ../src/dialogs/dialog-view.c:161
 #, c-format
 msgid "Screen %d"
 msgstr "Screen %d"
@@ -7560,7 +7560,7 @@ msgstr "Query for replacement"
 msgid "Ra_nge"
 msgstr "Ra_nge"
 
-#: ../src/dialogs/search-replace.glade.h:22
+#: ../src/dialogs/search-replace.glade.h:22 ../src/search.c:606
 msgid "Scope"
 msgstr "Scope"
 
@@ -7569,7 +7569,7 @@ msgid "Search"
 msgstr "Search"
 
 #. Corrected below.
-#: ../src/dialogs/search-replace.glade.h:24 ../src/commands.c:4168
+#: ../src/dialogs/search-replace.glade.h:24 ../src/commands.c:4241
 msgid "Search and Replace"
 msgstr "Search and Replace"
 
@@ -7827,7 +7827,7 @@ msgstr "Solve"
 #: ../src/tools/solver/reports-write.c:484
 #: ../src/tools/solver/reports-write.c:743
 #: ../src/tools/solver/reports-write.c:907
-#: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6709
+#: ../src/tools/solver/reports-write.c:958 ../src/commands.c:6782
 msgid "Solver"
 msgstr "Solver"
 
@@ -9224,460 +9224,465 @@ msgstr "%s is locked. Unprotect the sheet to enable editing."
 msgid "..."
 msgstr "..."
 
-#: ../src/commands.c:957 ../src/commands.c:1062 ../src/commands.c:1067
+#: ../src/commands.c:996 ../src/commands.c:1123 ../src/commands.c:1128
 msgid "Set Text"
 msgstr "Set Text"
 
-#: ../src/commands.c:982
+#: ../src/commands.c:1042
+#, c-format
+msgid "Editing style in %s"
+msgstr "Editing style in %s"
+
+#: ../src/commands.c:1043
 #, c-format
 msgid "Typing \"%s%s\" in %s"
 msgstr "Typing \"%s%s\" in %s"
 
-#: ../src/commands.c:1185
+#: ../src/commands.c:1246
 #, c-format
 msgid "Typing \"%s%s\""
 msgstr "Typing \"%s%s\""
 
-#: ../src/commands.c:1222
+#: ../src/commands.c:1283
 msgid "Ins/Del Column/Row"
 msgstr "Ins/Del Column/Row"
 
-#: ../src/commands.c:1327 ../src/commands.c:1332 ../src/sheet.c:3343
+#: ../src/commands.c:1388 ../src/commands.c:1393 ../src/sheet.c:3343
 msgid "Delete Columns"
 msgstr "Delete Columns"
 
-#: ../src/commands.c:1327 ../src/commands.c:1332 ../src/sheet.c:3465
+#: ../src/commands.c:1388 ../src/commands.c:1393 ../src/sheet.c:3465
 msgid "Delete Rows"
 msgstr "Delete Rows"
 
-#: ../src/commands.c:1480
+#: ../src/commands.c:1541
 #, c-format
 msgid "Inserting %d columns before %s"
 msgstr "Inserting %d columns before %s"
 
-#: ../src/commands.c:1481
+#: ../src/commands.c:1542
 #, c-format
 msgid "Inserting %d column before %s"
 msgstr "Inserting %d column before %s"
 
-#: ../src/commands.c:1496
+#: ../src/commands.c:1557
 #, c-format
 msgid "Inserting %d rows before %s"
 msgstr "Inserting %d rows before %s"
 
-#: ../src/commands.c:1497
+#: ../src/commands.c:1558
 #, c-format
 msgid "Inserting %d row before %s"
 msgstr "Inserting %d row before %s"
 
-#: ../src/commands.c:1508
+#: ../src/commands.c:1569
 #, c-format
 msgid "Deleting columns %s"
 msgstr "Deleting columns %s"
 
-#: ../src/commands.c:1509
+#: ../src/commands.c:1570
 #, c-format
 msgid "Deleting column %s"
 msgstr "Deleting column %s"
 
-#: ../src/commands.c:1519
+#: ../src/commands.c:1580
 #, c-format
 msgid "Deleting rows %s"
 msgstr "Deleting rows %s"
 
-#: ../src/commands.c:1520
+#: ../src/commands.c:1581
 #, c-format
 msgid "Deleting row %s"
 msgstr "Deleting row %s"
 
 #. Check for locked cells
-#: ../src/commands.c:1602 ../src/commands.c:1606 ../src/sheet.c:2946
+#: ../src/commands.c:1663 ../src/commands.c:1667 ../src/sheet.c:2946
 msgid "Clear"
 msgstr "Clear"
 
-#: ../src/commands.c:1677
+#: ../src/commands.c:1738
 msgid "contents"
 msgstr "contents"
 
-#: ../src/commands.c:1679
+#: ../src/commands.c:1740
 msgid "formats"
 msgstr "formats"
 
-#: ../src/commands.c:1681
+#: ../src/commands.c:1742
 msgid "comments"
 msgstr "comments"
 
-#: ../src/commands.c:1697
+#: ../src/commands.c:1758
 msgid "all"
 msgstr "all"
 
-#: ../src/commands.c:1704
+#: ../src/commands.c:1765
 #, c-format
 msgid "Clearing %s in %s"
 msgstr "Clearing %s in %s"
 
-#: ../src/commands.c:1791
+#: ../src/commands.c:1852
 msgid "Changing Format"
 msgstr "Changing Format"
 
-#: ../src/commands.c:1916
+#: ../src/commands.c:1977
 #, c-format
 msgid "Changing format of %s"
 msgstr "Changing format of %s"
 
-#: ../src/commands.c:2026
+#: ../src/commands.c:2087
 #, c-format
 msgid "Autofitting column %s"
 msgstr "Autofitting column %s"
 
-#: ../src/commands.c:2027
+#: ../src/commands.c:2088
 #, c-format
 msgid "Autofitting row %s"
 msgstr "Autofitting row %s"
 
-#: ../src/commands.c:2030
+#: ../src/commands.c:2091
 #, c-format
 msgid "Setting width of column %s to %d pixels"
 msgstr "Setting width of column %s to %d pixels"
 
-#: ../src/commands.c:2032
+#: ../src/commands.c:2093
 #, c-format
 msgid "Setting height of row %s to %d pixels"
 msgstr "Setting height of row %s to %d pixels"
 
-#: ../src/commands.c:2035
+#: ../src/commands.c:2096
 #, c-format
 msgid "Setting width of column %s to default"
 msgstr "Setting width of column %s to default"
 
-#: ../src/commands.c:2038
+#: ../src/commands.c:2099
 #, c-format
 msgid "Setting height of row %s to default"
 msgstr "Setting height of row %s to default"
 
-#: ../src/commands.c:2042
+#: ../src/commands.c:2103
 #, c-format
 msgid "Autofitting columns %s"
 msgstr "Autofitting columns %s"
 
-#: ../src/commands.c:2043
+#: ../src/commands.c:2104
 #, c-format
 msgid "Autofitting rows %s"
 msgstr "Autofitting rows %s"
 
-#: ../src/commands.c:2046
+#: ../src/commands.c:2107
 #, c-format
 msgid "Setting width of columns %s to %d pixels"
 msgstr "Setting width of columns %s to %d pixels"
 
-#: ../src/commands.c:2048
+#: ../src/commands.c:2109
 #, c-format
 msgid "Setting height of rows %s to %d pixels"
 msgstr "Setting height of rows %s to %d pixels"
 
-#: ../src/commands.c:2052
+#: ../src/commands.c:2113
 #, c-format
 msgid "Setting width of columns %s to default"
 msgstr "Setting width of columns %s to default"
 
-#: ../src/commands.c:2054
+#: ../src/commands.c:2115
 #, c-format
 msgid "Setting height of rows %s to default"
 msgstr "Setting height of rows %s to default"
 
-#: ../src/commands.c:2140
+#: ../src/commands.c:2201
 #, c-format
 msgid "Sorting %s"
 msgstr "Sorting %s"
 
-#: ../src/commands.c:2283
+#: ../src/commands.c:2344
 msgid "Unhide columns"
 msgstr "Unhide columns"
 
-#: ../src/commands.c:2283
+#: ../src/commands.c:2344
 msgid "Hide columns"
 msgstr "Hide columns"
 
-#: ../src/commands.c:2284
+#: ../src/commands.c:2345
 msgid "Unhide rows"
 msgstr "Unhide rows"
 
-#: ../src/commands.c:2284
+#: ../src/commands.c:2345
 msgid "Hide rows"
 msgstr "Hide rows"
 
-#: ../src/commands.c:2366
+#: ../src/commands.c:2427
 msgid "Expand columns"
 msgstr "Expand columns"
 
-#: ../src/commands.c:2366
+#: ../src/commands.c:2427
 msgid "Collapse columns"
 msgstr "Collapse columns"
 
-#: ../src/commands.c:2367
+#: ../src/commands.c:2428
 msgid "Expand rows"
 msgstr "Expand rows"
 
-#: ../src/commands.c:2367
+#: ../src/commands.c:2428
 msgid "Collapse rows"
 msgstr "Collapse rows"
 
-#: ../src/commands.c:2393
+#: ../src/commands.c:2454
 #, c-format
 msgid "Show column outline %d"
 msgstr "Show column outline %d"
 
-#: ../src/commands.c:2393
+#: ../src/commands.c:2454
 #, c-format
 msgid "Show row outline %d"
 msgstr "Show row outline %d"
 
-#: ../src/commands.c:2463
+#: ../src/commands.c:2524
 msgid "Those columns are already grouped"
 msgstr "Those columns are already grouped"
 
-#: ../src/commands.c:2464
+#: ../src/commands.c:2525
 msgid "Those rows are already grouped"
 msgstr "Those rows are already grouped"
 
-#: ../src/commands.c:2487
+#: ../src/commands.c:2548
 msgid "Those columns are not grouped, you can't ungroup them"
 msgstr "Those columns are not grouped, you can't ungroup them"
 
-#: ../src/commands.c:2488
+#: ../src/commands.c:2549
 msgid "Those rows are not grouped, you can't ungroup them"
 msgstr "Those rows are not grouped, you can't ungroup them"
 
-#: ../src/commands.c:2502
+#: ../src/commands.c:2563
 #, c-format
 msgid "Group columns %s"
 msgstr "Group columns %s"
 
-#: ../src/commands.c:2502
+#: ../src/commands.c:2563
 #, c-format
 msgid "Ungroup columns %s"
 msgstr "Ungroup columns %s"
 
-#: ../src/commands.c:2504
+#: ../src/commands.c:2565
 #, c-format
 msgid "Group rows %d:%d"
 msgstr "Group rows %d:%d"
 
-#: ../src/commands.c:2504
+#: ../src/commands.c:2565
 #, c-format
 msgid "Ungroup rows %d:%d"
 msgstr "Ungroup rows %d:%d"
 
-#: ../src/commands.c:2737
+#: ../src/commands.c:2798
 #, c-format
 msgid "Moving %s"
 msgstr "Moving %s"
 
-#: ../src/commands.c:2746 ../src/commands.c:2974
+#: ../src/commands.c:2807 ../src/commands.c:3047
 msgid "is beyond sheet boundaries"
 msgstr "is beyond sheet boundaries"
 
-#: ../src/commands.c:2810
+#: ../src/commands.c:2871
 msgid "Paste Copy"
 msgstr "Paste Copy"
 
 #. FIXME?
-#: ../src/commands.c:2915
+#: ../src/commands.c:2977
 #, c-format
 msgid "Pasting into %s"
 msgstr "Pasting into %s"
 
 #. Check arrays or merged regions in src or target regions
-#: ../src/commands.c:3011 ../src/commands.c:3168 ../src/commands.c:3169
+#: ../src/commands.c:3084 ../src/commands.c:3241 ../src/commands.c:3242
 #: ../src/wbcg-actions.c:423
 msgid "Autofill"
 msgstr "Autofill"
 
 #. Changed in initial redo.
-#: ../src/commands.c:3191
+#: ../src/commands.c:3264
 #, c-format
 msgid "Autofilling %s"
 msgstr "Autofilling %s"
 
-#: ../src/commands.c:3509
+#: ../src/commands.c:3582
 #, c-format
 msgid "Autoformatting %s"
 msgstr "Autoformatting %s"
 
-#: ../src/commands.c:3626
+#: ../src/commands.c:3699
 #, c-format
 msgid "Unmerging %s"
 msgstr "Unmerging %s"
 
-#: ../src/commands.c:3790
+#: ../src/commands.c:3863
 #, c-format
 msgid "Merge and Center %s"
 msgstr "Merge and Centre %s"
 
-#: ../src/commands.c:3790
+#: ../src/commands.c:3863
 #, c-format
 msgid "Merging %s"
 msgstr "Merging %s"
 
-#: ../src/commands.c:4263
+#: ../src/commands.c:4336
 #, c-format
 msgid "Setting default width of columns to %.2fpts"
 msgstr "Setting default width of columns to %.2fpts"
 
-#: ../src/commands.c:4264
+#: ../src/commands.c:4337
 #, c-format
 msgid "Setting default height of rows to %.2fpts"
 msgstr "Setting default height of rows to %.2fpts"
 
-#: ../src/commands.c:4379
+#: ../src/commands.c:4452
 #, c-format
 msgid "Zoom %s to %.0f%%"
 msgstr "Zoom %s to %.0f%%"
 
-#: ../src/commands.c:4477
+#: ../src/commands.c:4550
 msgid "Delete Object"
 msgstr "Delete Object"
 
-#: ../src/commands.c:4638
+#: ../src/commands.c:4711
 msgid "Format Object"
 msgstr "Format Object"
 
-#: ../src/commands.c:5237
+#: ../src/commands.c:5310
 msgid "Reordering Sheets"
 msgstr "Reordering Sheets"
 
-#: ../src/commands.c:5240
+#: ../src/commands.c:5313
 msgid "Renaming Sheets"
 msgstr "Renaming Sheets"
 
-#: ../src/commands.c:5243
+#: ../src/commands.c:5316
 #, c-format
 msgid "Appending %i Sheets"
 msgstr "Appending %i Sheets"
 
-#: ../src/commands.c:5247
+#: ../src/commands.c:5320
 msgid "Changing Tab Colors"
 msgstr "Changing Tab Colours"
 
-#: ../src/commands.c:5250
+#: ../src/commands.c:5323
 msgid "Changing Sheet Protection"
 msgstr "Changing Sheet Protection"
 
-#: ../src/commands.c:5253
+#: ../src/commands.c:5326
 msgid "Delete sheets"
 msgstr "Delete sheets"
 
-#: ../src/commands.c:5256
+#: ../src/commands.c:5329
 msgid "Delete a sheet"
 msgstr "Delete a sheet"
 
-#: ../src/commands.c:5259
+#: ../src/commands.c:5332
 msgid "Changing Sheet Visibility"
 msgstr "Changing Sheet Visibility"
 
-#: ../src/commands.c:5262
+#: ../src/commands.c:5335
 msgid "Reorganizing Sheets"
 msgstr "Reorganizing Sheets"
 
-#: ../src/commands.c:5413
+#: ../src/commands.c:5486
 #, c-format
 msgid "Clearing comment of %s"
 msgstr "Clearing comment of %s"
 
-#: ../src/commands.c:5414
+#: ../src/commands.c:5487
 #, c-format
 msgid "Setting comment of %s"
 msgstr "Setting comment of %s"
 
-#: ../src/commands.c:5794
+#: ../src/commands.c:5867
 #, c-format
 msgid "Merging data into %s"
 msgstr "Merging data into %s"
 
-#: ../src/commands.c:5896
+#: ../src/commands.c:5969
 msgid "Changing summary info"
 msgstr "Changing summary info"
 
-#: ../src/commands.c:5985
+#: ../src/commands.c:6058
 msgid "Pull Object to the Front"
 msgstr "Pull Object to the Front"
 
-#: ../src/commands.c:5988
+#: ../src/commands.c:6061
 msgid "Pull Object Forward"
 msgstr "Pull Object Forward"
 
-#: ../src/commands.c:5991
+#: ../src/commands.c:6064
 msgid "Push Object Backward"
 msgstr "Push Object Backward"
 
-#: ../src/commands.c:5994
+#: ../src/commands.c:6067
 msgid "Push Object to the Back"
 msgstr "Push Object to the Back"
 
-#: ../src/commands.c:6109
+#: ../src/commands.c:6182
 #, c-format
 msgid "Page Setup For %s"
 msgstr "Page Setup For %s"
 
-#: ../src/commands.c:6111
+#: ../src/commands.c:6184
 msgid "Page Setup For All Sheets"
 msgstr "Page Setup For All Sheets"
 
-#: ../src/commands.c:6226
+#: ../src/commands.c:6299
 msgid "has a circular reference"
 msgstr "has a circular reference"
 
-#: ../src/commands.c:6249
+#: ../src/commands.c:6322
 #, c-format
 msgid "Define Name %s"
 msgstr "Define Name %s"
 
-#: ../src/commands.c:6252
+#: ../src/commands.c:6325
 #, c-format
 msgid "Update Name %s"
 msgstr "Update Name %s"
 
-#: ../src/commands.c:6316
+#: ../src/commands.c:6389
 msgid "Add scenario"
 msgstr "Add scenario"
 
-#: ../src/commands.c:6391
+#: ../src/commands.c:6464
 msgid "Scenario Show"
 msgstr "Scenario Show"
 
-#: ../src/commands.c:6455
+#: ../src/commands.c:6528
 msgid "Shuffle Data"
 msgstr "Shuffle Data"
 
 #. FIXME?
-#: ../src/commands.c:6565
+#: ../src/commands.c:6638
 #, c-format
 msgid "Text (%s) to Columns (%s)"
 msgstr "Text (%s) to Columns (%s)"
 
-#: ../src/commands.c:6793
+#: ../src/commands.c:6866
 #, c-format
 msgid "Goal Seek (%s)"
 msgstr "Goal Seek (%s)"
 
-#: ../src/commands.c:6938
+#: ../src/commands.c:7011
 #, c-format
 msgid "Duplicating %s"
 msgstr "Duplicating %s"
 
-#: ../src/commands.c:7017
+#: ../src/commands.c:7090
 msgid "Tabulating Dependencies"
 msgstr "Tabulating Dependencies"
 
-#: ../src/commands.c:7091
+#: ../src/commands.c:7164
 msgid "Reconfigure Graph"
 msgstr "Reconfigure Graph"
 
-#: ../src/commands.c:7134
+#: ../src/commands.c:7207
 msgid "Left to Right"
 msgstr "Left to Right"
 
-#: ../src/commands.c:7134
+#: ../src/commands.c:7207
 msgid "Right to Left"
 msgstr "Right to Left"
 
@@ -10410,77 +10415,81 @@ msgstr "file"
 msgid "path"
 msgstr "path"
 
-#: ../src/search.c:63
+#: ../src/search.c:64
 msgid "You must specify a range to search."
 msgstr "You must specify a range to search."
 
-#: ../src/search.c:67
+#: ../src/search.c:68
 msgid "The search range is invalid."
 msgstr "The search range is invalid."
 
-#: ../src/search.c:510
+#: ../src/search.c:535
 msgid "Search Strings"
 msgstr "Search Strings"
 
-#: ../src/search.c:511
+#: ../src/search.c:536
 msgid "Should strings be searched?"
 msgstr "Should strings be searched?"
 
-#: ../src/search.c:519
+#: ../src/search.c:544
 msgid "Search Other Values"
 msgstr "Search Other Values"
 
-#: ../src/search.c:520
+#: ../src/search.c:545
 msgid "Should non-strings be searched?"
 msgstr "Should non-strings be searched?"
 
-#: ../src/search.c:528
+#: ../src/search.c:553
 msgid "Search Expressions"
 msgstr "Search Expressions"
 
-#: ../src/search.c:529
+#: ../src/search.c:554
 msgid "Should expressions be searched?"
 msgstr "Should expressions be searched?"
 
-#: ../src/search.c:537
+#: ../src/search.c:562
 msgid "Search Expression Results"
 msgstr "Search Expression Results"
 
-#: ../src/search.c:538
+#: ../src/search.c:563
 msgid "Should the results of expressions be searched?"
 msgstr "Should the results of expressions be searched?"
 
-#: ../src/search.c:546
+#: ../src/search.c:571
 msgid "Search Comments"
 msgstr "Search Comments"
 
-#: ../src/search.c:547
+#: ../src/search.c:572
 msgid "Should cell comments be searched?"
 msgstr "Should cell comments be searched?"
 
-#: ../src/search.c:555
+#: ../src/search.c:580
 msgid "By Row"
 msgstr "By Row"
 
-#: ../src/search.c:556
+#: ../src/search.c:581
 msgid "Is the search order by row?"
 msgstr "Is the search order by row?"
 
-#: ../src/search.c:564
+#: ../src/search.c:589
 msgid "Query"
 msgstr "Query"
 
-#: ../src/search.c:565
+#: ../src/search.c:590
 msgid "Should we query for each replacement?"
 msgstr "Query for each replacement?"
 
-#: ../src/search.c:581
+#: ../src/search.c:607
+msgid "Where to search."
+msgstr "Where to search."
+
+#: ../src/search.c:616
 msgid "Range as Text"
 msgstr "Range as Text"
 
-#: ../src/search.c:582
-msgid "The range in which to search"
-msgstr "The range in which to search"
+#: ../src/search.c:617
+msgid "The range in which to search."
+msgstr "The range in which to search."
 
 #: ../src/selection.c:347
 #, c-format
@@ -10904,27 +10913,27 @@ msgstr ""
 msgid "Parse error while trying to parse data into sheet"
 msgstr "Parse error while trying to parse data into sheet"
 
-#: ../src/stf.c:427
+#: ../src/stf.c:419
 msgid "Error while trying to export file as text"
 msgstr "Error while trying to export file as text"
 
-#: ../src/stf.c:447
+#: ../src/stf.c:436
 msgid "Error while trying to write CSV file"
 msgstr "Error while trying to write CSV file"
 
-#: ../src/stf.c:503
+#: ../src/stf.c:492
 msgid "Comma or tab separated values (CSV/TSV)"
 msgstr "Comma or tab separated values (CSV/TSV)"
 
-#: ../src/stf.c:508
+#: ../src/stf.c:497
 msgid "Text import (configurable)"
 msgstr "Text import (configurable)"
 
-#: ../src/stf.c:514
+#: ../src/stf.c:503
 msgid "Text export (configurable)"
 msgstr "Text export (configurable)"
 
-#: ../src/stf.c:518
+#: ../src/stf.c:507
 msgid "Comma separated values (CSV)"
 msgstr "Comma separated values (CSV)"
 
@@ -12695,7 +12704,7 @@ msgstr "Nothing"
 msgid "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 msgstr "In the `%s' menu, the key `%s' is used for both `%s' and `%s'."
 
-#: ../src/wbc-gtk.c:1201
+#: ../src/wbc-gtk.c:1203
 #, c-format
 msgid "Show/Hide toolbar %s"
 msgstr "Show/Hide toolbar %s"
@@ -12877,19 +12886,19 @@ msgstr "Can't open '%s' for writing: %s"
 msgid "An unexplained error happened while saving %s"
 msgstr "An unexplained error happened while saving %s"
 
-#: ../src/workbook-view.c:717 ../src/workbook-view.c:885
+#: ../src/workbook-view.c:718 ../src/workbook-view.c:886
 msgid "Default file saver is not available."
 msgstr "Default file saver is not available."
 
-#: ../src/workbook-view.c:831
+#: ../src/workbook-view.c:832
 msgid "Failed to create temporary file for sending."
 msgstr "Failed to create temporary file for sending."
 
-#: ../src/workbook-view.c:979
+#: ../src/workbook-view.c:980
 msgid "Unsupported file format."
 msgstr "Unsupported file format."
 
-#: ../src/workbook-view.c:1027
+#: ../src/workbook-view.c:1028
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr "An unexplained error happened while opening %s"
