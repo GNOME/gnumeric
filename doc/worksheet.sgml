@@ -2,12 +2,13 @@
   <title>The Worksheet</title>
   
   <para>After opening up gnumeric, you're presented with a view of a
-    worksheet. This is where the majority of the work on the spreadsheet
-    is done, and provides access to all the various sub dialogs of Gnumeric.</para>
+    worksheet. This is where the majority of the work on the
+    spreadsheet is done, and provides access to all the various sub
+    dialogs of Gnumeric.</para>
   
-  <para>The worksheet view is split into several main areas. The menu bar, the 
-    button bar, the entry area, the main cell area, and the info area. See 
-   <xref linkend="worksheet-all-1.jpg"> </para>
+  <para>The worksheet view is split into several main areas. The menu
+    bar, the button bar, the entry area, the main cell area, and the
+    info area. See <xref linkend="worksheet-all-1.jpg"> </para>
   
   <figure id="worksheet-all-1.jpg">
     <title>A example of the entire worksheet.</title>
@@ -15,7 +16,7 @@
       <graphic fileref="images/worksheet-all-1.jpg"></graphic>
     </screenshot>
   </figure>
-
+  
   <sect2 id="menu-bar">
     <title>The Menu bar</title>    
     <para>The default location of the menu bar is the top of the application window.
@@ -23,22 +24,23 @@
       operations available.</para>
     
     <sect3>
-            
+      
       <!-- IF someone knows a more approriate way to document menu
       options, let me know. This seems a bit excessive, and the output
-      from db2html is kind of lame  -->
+      from db2html is kind of lame -->
       
       <title><guimenu><accel>F</accel>ile</guimenu></title>
       <variablelist>
 	<varlistentry>
 	  <term><guimenuitem><accel>N</accel>ew</guimenuitem></term>
-	  <listitem><para>Create a new worksheet. This opens a new worksheet in a window.</para></listitem>
+	  <listitem><para>Create a new worksheet. This opens a new
+	  worksheet in a window.</para></listitem>
 	</varlistentry>
 	
 	<varlistentry>
 	  <term><guimenuitem><accel>O</accel>pen</guimenuitem></term>
-	  <listitem><para>Open an existing worksheet. A new window is created with the file
-	      selected in it.</para></listitem>
+	  <listitem><para>Open an existing worksheet. A new window is
+	  created with the file selected in it.</para></listitem>
 	</varlistentry>
 	
 	<varlistentry>
@@ -49,9 +51,12 @@
 	</varlistentry>
 	
 	<varlistentry>
-	  <term><guimenuitem>S<accel>a</accel>ve as..</guimenuitem></term>
+	  <term><guimenuitem>S<accel>a</accel>ve
+	  as..</guimenuitem></term>
+
 	  <listitem><para>Save a file with a new name. Save a newly created file or save
 	      a file with a different name. </para></listitem>
+
 	</varlistentry>
 	
 	<varlistentry>
@@ -174,7 +179,7 @@
     <para>The Button bar contains many icons representative of some the more common
       operations a user may need to use. It is intended to provide fast access to these
       tools.</para>
-
+    
     <variablelist>
       <varlistentry>
 	<term>
@@ -352,167 +357,169 @@
   
   <sect2 id="worksheet-data-entry">
     <title>Data entry area.</title>
-
-    <para>Immediately under the button bar is the data entry area. This is a small
-      area, which contains a current cell indicator, a <guibutton>confirm</guibutton> 
-      and a <guibutton>cancel</guibutton> button,
-      and an entry area for detailed editing of the cell contents.
-      See <xref linkend="worksheet-data-1"><para>
-
-
-	  <figure id="worksheet-data-1">
-	    <title>The Data Entry area.</title>
-	    <screenshot>
-	      <graphic fileref="images/worksheet-data-1.jpg"></graphic>
-	    </screenshot>
-	  </figure>
-
-	  <sect3>
-	    <title>Current Cell Indicator.</title>
-	    <para>On the far left of the Data Entry area is the current cell indicator
-	      area.  If a single cell is selected, it will show the address for the cell.
-	      If a region is selected, it shows the size of the region in the format:</para>
-	    
-	    <blockquote><para>4Lx5C</para></blockquote>
-
-	    <para>Where L is the number of rows and C is the number of columns. In the example
-	      above, this would be a selection of 4 rows by 5 columns.</para>
-	    
-	    
-	    <figure id="worksheet-data-2">
-	      <title>The Current Cell Indicator.</title>
-	      <screenshot>
-		<graphic fileref="images/worksheet-data-2.jpg"></graphic>
-	      </screenshot>
-	    </figure>
-	    
-	  </sect3>
-
-	  <sect3>
-	    <title><guibutton>The Confirm Button</guibutton></title>
-	    
-	    <para>While entering data in the entry area, you can confirm the
-	      current cell contents by pressing the green return button
-	      <guibutton>
-		<inlinegraphic fileref="images/worksheet-data-3.jpg">
-		</inlinegraphic>
-	      </guibutton>.
-	    </para>
-	    
-	  </sect3>
-
-	  <sect3>
-	    <title><guibutton>The Cancel Button</guibutton></title>
-	    
-	    <para>If a user decides that the data entered into a cell is
-	      not what they want, the Cancel button will cancel the current
-	      data and return the cell to the state it was at before. The
-	      data being entered into the cell can be canceled by pressing
-	      the red X button
-	      <guibutton>
-		<inlinegraphic fileref="images/worksheet-data-4.jpg">
-		</inlinegraphic>
-	      </guibutton>.
-	    </para>
-
-	    <para>The most common use of this is when overwriting the contents
-	      of a cell with new data. If the user decided to revert the change
-	      before confirming it, the cancel button is the answer.</para>
-
-	  </sect3>
-	  
-	  <sect2>
-	    <title>The Cell area</title>
-	    
-	    <para>Most of the work done on a spreadsheet is done to the main Cell area, the large
-	      grid like part of the worksheet. This is where all the formulas and data are entered,
-	      and is the center of activity for the spreadsheet.</para>
-
-	    <para>The sheet is bordered by a column label and a row label. Columns are labeled
-	      alphabetically and are labeled horizontally across the top of the sheet. See <xref
-		linkend="worksheet-cols-1">. Rows are
-		labeled vertically along size the left side of the sheet and are sorted numerically.
-		See <xref linkend="worksheet-rows-1"></para>
-
-	    <figure id="worksheet-cols-1">
-	      <title>The column labels at the top of the worksheet.</title>
-	      <screenshot>
-		<graphic fileref="images/worksheet-cols-1.jpg"></graphic>
-	      </screenshot>
-	    </figure>
-	    
-	    <figure id="worksheet-rows-1">
-	      <title>The row labels at the left side of the worksheet.</title>
-	      <screenshot>
-		<graphic fileref="images/worksheet-rows-1.jpg"></graphic>
-	      </screenshot>
-	    </figure>
-
-
-	  </sect2>
-
-	  <sect2>
-	    <title>The Info Area</title>
-
-	    <para>The section at the very bottom of the worksheet view is the info area. It contains
-	      information about the currently selected cells, and also provides access to buttons
-	      for zooming in and out. This is also where the sheet indicator lives.</para>
-
-	    <figure id="worksheet-info-1">
-	      <title>The info area.</title>
-	      <screenshot>
-		<graphic fileref="images/worksheet-info-1.jpg"></graphic>
-	      </screenshot>
-	    </figure>
-
-	    <sect3>
-	      <title>Sheet indicator</title>
-	      <para>To the left side is the sheet indicator. In workbooks where there are more
-		than one sheet, this indicates how many sheets are there, and also allows the user to 
-		move to another sheet by clicking the proper tag. This is not implemented yet. </para>
-	    </sect3>
-
-	    <sect3>
-	      <title>The Zoom buttons</title>
-	      <para>The <guibutton>Zoom in</guibutton> (<xref linkend="worksheet-zoomin-1">) and
-		  <guibutton>Zoom out</guibutton> (<xref linkend="worksheet-zoomout-1">) buttons are also in the info area.
-		    Pressing <guibutton>Zoom in</guibutton> enlarges the spreadsheet and shows a more detailed 
-		    view of the sheet. <guibutton>Zoom out</guibutton> shows a wider area of the spreadsheet
-		    with less detail. The view of the sheet can also be changed by using the <guimenu>View</guimenu>
-		    menu and the <guimenuitem>Zoom</guimenuitem> option. </para>
-	      
-	      <figure id="worksheet-zoomin-1">
-		<title>The Zoom in button.</title>
-		<screenshot>
-		  <graphic fileref="images/worksheet-zoomin-1.jpg"></graphic>
-		</screenshot>
-	      </figure>
-
-	      <figure id="worksheet-zoomout-1">
-		<title>The Zoom out button</title>
-		<screenshot>
-		  <graphic fileref="images/worksheet-zoomout-1.jpg"></graphic>
-		</screenshot>
-	      </figure>
-	      
-	    </sect3>
-
-	    <sect3>
-	      <title>The running calculation area</title>
-	      
-	      <para>In the bottom right hand corner, is an info area that shows some constantly calculated
-		values. The default set is to show the Sum of all the currently selected cells.</para>
-
-	      <para>There is a right click option that includes a few more options.  This can include
-		Sum, Min, Max, Average, Count.</para>
-
-	      <figure id="worksheet-running-calc-1">
-		<title>The running calculation area.</title>
-		<screenshot>
-		  <graphic fileref="images/worksheet-running-calc-1.jpg"></graphic>
-		</screenshot>
-	      </figure>
-	      
+    
+    <para>Immediately under the button bar is the data entry
+      area. This is a small area, which contains a current cell
+      indicator, a <guibutton>confirm</guibutton> and a
+      <guibutton>cancel</guibutton> button, and an entry area for
+      detailed editing of the cell contents.  See <xref
+	linkend="worksheet-data-1"></para>
+    
+    
+    <figure id="worksheet-data-1">
+      <title>The Data Entry area.</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-data-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <sect3>
+      <title>Current Cell Indicator.</title>
+      <para>On the far left of the Data Entry area is the current cell indicator
+	area.  If a single cell is selected, it will show the address for the cell.
+	If a region is selected, it shows the size of the region in the format:</para>
+      
+      <blockquote><para>4Lx5C</para></blockquote>
+      
+      <para>Where L is the number of rows and C is the number of columns. In the example
+	above, this would be a selection of 4 rows by 5 columns.</para>
+      
+      
+      <figure id="worksheet-data-2">
+	<title>The Current Cell Indicator.</title>
+	<screenshot>
+	  <graphic fileref="images/worksheet-data-2.jpg"></graphic>
+	</screenshot>
+      </figure>
+      
+    </sect3>
+    
+    <sect3>
+      <title><guibutton>The Confirm Button</guibutton></title>
+      
+      <para>While entering data in the entry area, you can confirm the
+	current cell contents by pressing the green return button
+	<guibutton>
+	  <inlinegraphic fileref="images/worksheet-data-3.jpg">
+	  </inlinegraphic>
+	</guibutton>.
+      </para>
+      
+    </sect3>
+    
+    <sect3>
+      <title><guibutton>The Cancel Button</guibutton></title>
+      
+      <para>If a user decides that the data entered into a cell is
+	not what they want, the Cancel button will cancel the current
+	data and return the cell to the state it was at before. The
+	data being entered into the cell can be canceled by pressing
+	the red X button
+	<guibutton>
+	  <inlinegraphic fileref="images/worksheet-data-4.jpg">
+	  </inlinegraphic>
+	</guibutton>.
+      </para>
+      
+      <para>The most common use of this is when overwriting the contents
+	of a cell with new data. If the user decided to revert the change
+	before confirming it, the cancel button is the answer.</para>
+    </sect3>
+  </sect2>
+  
+  <sect2>
+    <title>The Cell area</title>
+      
+    <para>Most of the work done on a spreadsheet is done to the main Cell area, the large
+      grid like part of the worksheet. This is where all the formulas and data are entered,
+      and is the center of activity for the spreadsheet.</para>
+    
+    <para>The sheet is bordered by a column label and a row label. Columns are labeled
+      alphabetically and are labeled horizontally across the top of the sheet. See <xref
+	linkend="worksheet-cols-1">. Rows are
+	labeled vertically along size the left side of the sheet and are sorted numerically.
+	See <xref linkend="worksheet-rows-1"></para>
+    
+    <figure id="worksheet-cols-1">
+      <title>The column labels at the top of the worksheet.</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-cols-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <figure id="worksheet-rows-1">
+      <title>The row labels at the left side of the worksheet.</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-rows-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    
+  </sect2>
+  
+  <sect2>
+    <title>The Info Area</title>
+    
+    <para>The section at the very bottom of the worksheet view is the info area. It contains
+      information about the currently selected cells, and also provides access to buttons
+      for zooming in and out. This is also where the sheet indicator lives.</para>
+    
+    <figure id="worksheet-info-1">
+      <title>The info area.</title>
+      <screenshot>
+	<graphic fileref="images/worksheet-info-1.jpg"></graphic>
+      </screenshot>
+    </figure>
+    
+    <sect3>
+      <title>Sheet indicator</title>
+      <para>To the left side is the sheet indicator. In workbooks where there are more
+	than one sheet, this indicates how many sheets are there, and also allows the user to 
+	move to another sheet by clicking the proper tag. This is not implemented yet. </para>
+    </sect3>
+    
+    <sect3>
+      <title>The Zoom buttons</title>
+      <para>The <guibutton>Zoom in</guibutton> (<xref linkend="worksheet-zoomin-1">) and
+	  <guibutton>Zoom out</guibutton> (<xref linkend="worksheet-zoomout-1">) buttons are also in the info area.
+	    Pressing <guibutton>Zoom in</guibutton> enlarges the spreadsheet and shows a more detailed 
+	    view of the sheet. <guibutton>Zoom out</guibutton> shows a wider area of the spreadsheet
+	    with less detail. The view of the sheet can also be changed by using the <guimenu>View</guimenu>
+	    menu and the <guimenuitem>Zoom</guimenuitem> option. </para>
+      
+      <figure id="worksheet-zoomin-1">
+	<title>The Zoom in button.</title>
+	<screenshot>
+	  <graphic fileref="images/worksheet-zoomin-1.jpg"></graphic>
+	</screenshot>
+      </figure>
+      
+      <figure id="worksheet-zoomout-1">
+	<title>The Zoom out button</title>
+	<screenshot>
+	  <graphic fileref="images/worksheet-zoomout-1.jpg"></graphic>
+	</screenshot>
+      </figure>
+      
+    </sect3>
+    
+    <sect3>
+      <title>The running calculation area</title>
+      
+      <para>In the bottom right hand corner, is an info area that shows some constantly calculated
+	values. The default set is to show the Sum of all the currently selected cells.</para>
+      
+      <para>There is a right click option that includes a few more options.  This can include
+	Sum, Min, Max, Average, Count.</para>
+      
+      <figure id="worksheet-running-calc-1">
+	<title>The running calculation area.</title>
+	<screenshot>
+	  <graphic fileref="images/worksheet-running-calc-1.jpg"></graphic>
+	</screenshot>
+      </figure>
+    </sect3>
+  </sect2>
 </sect1>
 
 

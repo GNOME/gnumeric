@@ -806,7 +806,7 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 	 * Now, the background
 	 * FIXME: What about the cell pattern?
 	 */
-	switch (gtk_radio_group_get_selected (background_radio_list)) {
+	switch (gtk_radio_group_get_selected (background_radio_list)){
 	/*
 	 * case 0 means no background
 	 */
@@ -834,7 +834,7 @@ apply_coloring_format (Style *style, Sheet *sheet, CellList *cells)
 	/*
 	 * case 2 means a pattern background
 	 */
-	case 2:
+	default:
 		style->valid_flags &= ~STYLE_BACK_COLOR;
 		style->valid_flags |= STYLE_PATTERN;
 		break;
@@ -925,9 +925,11 @@ cell_properties_close (void)
 void
 dialog_cell_format (Workbook *wb, Sheet *sheet)
 {
+	static GnomeHelpMenuEntry help_ref = { "gnumeric", "formatting.html" };
 	GtkWidget *prop_win;
 	CellList  *cells;
 	int i;
+
 
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
@@ -955,6 +957,9 @@ dialog_cell_format (Workbook *wb, Sheet *sheet)
 
 	gtk_signal_connect (GTK_OBJECT (prop_win), "apply",
 			    GTK_SIGNAL_FUNC (cell_properties_apply), cells);
+	gtk_signal_connect (GTK_OBJECT (prop_win), "help",
+			    GTK_SIGNAL_FUNC (gnome_help_pbox_goto), &help_ref);
+	
 	gtk_object_set_data (GTK_OBJECT (prop_win), "Sheet", sheet);
 	
 	gtk_signal_connect (GTK_OBJECT (prop_win), "destroy",

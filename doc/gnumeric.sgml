@@ -21,9 +21,17 @@
 	  </address>
 	</affiliation>
       </author>
+      <author>
+	<firstname>Adrian</firstname> <surname>Likins</surname>
+	<affiliation>
+	  <address>
+	    <email>adrian@gimp.org</email>
+	  </address>
+	</affiliation>
+      </author>
     </authorgroup>
     <copyright>
-      <year>1998</year> <holder>Miguel de Icaza (n.)</holder>
+      <year>1998, 1989</year> <holder>Miguel de Icaza (n.)</holder>
     </copyright>
     <legalnotice>
       <para>This documentation is free software; you can redistribute

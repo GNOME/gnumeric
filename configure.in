@@ -17,7 +17,9 @@ AM_PROG_LIBTOOL
 GNOME_COMPILE_WARNINGS
 GNOME_X_CHECKS
 GNOME_XML_CHECK
-GNOME_CHECK_GUILE
+
+AC_ARG_WITH(guile,[--with-guile   Include Guile support],
+  GNOME_CHECK_GUILE)
 
 AC_SUBST(CFLAGS)
 AC_SUBST(CPPFLAGS)
@@ -70,7 +72,6 @@ if $perl_val; then
     AC_MSG_RESULT(no)
     perl_val=false
   fi
-
 fi
 AM_CONDITIONAL(WITH_PERL, $perl_val)
 
@@ -80,33 +81,34 @@ dnl **************************************************
 dnl
 AC_CHECK_PROG(python_val, python, true, false)
 if $python_val; then
-	PY_PREFIX=`python -c 'import sys ; print sys.prefix'`
-	PY_EXEC_PREFIX=`python -c 'import sys ; print sys.exec_prefix'`
-	changequote(<<, >>)dnl
-	PY_VERSION=`python -c 'import sys ; print sys.version[0:3]'`
-	changequote([, ])dnl
-	if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
-		PY_LIBS="python$PY_VERSION"
-		PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
-		PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
-		PY_MAKEFILE="$PY_EXEC_PREFIX/lib/python$PY_VERSION/config/Makefile"
-		PY_LOCALMODLIBS=`sed -n -e 's/^LOCALMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
-		PY_BASEMODLIBS=`sed -n -e 's/^BASEMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
-		PY_OTHER_LIBS=`sed -n -e 's/^LIBS=\(.*\)/\1/p' $PY_MAKEFILE`
-		PY_EXTRA_LIBS="$PY_LOCALMODLIBS $PY_BASEMODLIBS $PY_OTHER_LIBS"
-		AC_SUBST(PY_LIBS)
-		AC_SUBST(PY_LIB_LOC)
-		AC_SUBST(PY_CFLAGS)
-		AC_SUBST(PY_EXTRA_LIBS)
-	else
-		python_val=false
-	fi
+	  PY_PREFIX=`python -c 'import sys ; print sys.prefix'`
+	  PY_EXEC_PREFIX=`python -c 'import sys ; print sys.exec_prefix'`
+	  changequote(<<, >>)dnl
+	  PY_VERSION=`python -c 'import sys ; print sys.version[0:3]'`
+	  changequote([, ])dnl
+	  if test -f $PY_PREFIX/include/python$PY_VERSION/Python.h; then
+		  PY_LIBS="python$PY_VERSION"
+		  PY_LIB_LOC="-L$PY_EXEC_PREFIX/lib/python$PY_VERSION/config"
+		  PY_CFLAGS="-I$PY_PREFIX/include/python$PY_VERSION"
+		  PY_MAKEFILE="$PY_EXEC_PREFIX/lib/python$PY_VERSION/config/Makefile"
+		  PY_LOCALMODLIBS=`sed -n -e 's/^LOCALMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+		  PY_BASEMODLIBS=`sed -n -e 's/^BASEMODLIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+		  PY_OTHER_LIBS=`sed -n -e 's/^LIBS=\(.*\)/\1/p' $PY_MAKEFILE`
+		  PY_EXTRA_LIBS="$PY_LOCALMODLIBS $PY_BASEMODLIBS $PY_OTHER_LIBS"
+		  AC_SUBST(PY_LIBS)
+		  AC_SUBST(PY_LIB_LOC)
+		  AC_SUBST(PY_CFLAGS)
+		  AC_SUBST(PY_EXTRA_LIBS)
+	  else
+		  python_val=false
+	  fi
 fi
 AM_CONDITIONAL(WITH_PYTHON, $python_val)
 
 AC_OUTPUT([
 Makefile
 src/Makefile
+doc/Makefile
 plugins/Makefile
 plugins/sample/Makefile
 plugins/excel/Makefile

@@ -1,27 +1,32 @@
 <sect1>
   <title>Cell Formatting</title>
 
-  <para>Cell formats allow you to change the way cell data appears in the 
-    spreadsheet. It is important to keep in mind that it only alters the way the 
-  data is presented, and does not change the value of the data. </para>
+  <para>Cell formats allow you to change the way cell data appears in
+    the spreadsheet. It is important to keep in mind that it only
+    alters the way the data is presented, and does not change the
+    value of the data. </para>
   
-  <para>The formatting options allows for monetary units, scientific options,
-     dates, times, fractions,and more. Positive and negative values can have different colors and formats
-    for aiding in keeping track of values. There are also a large variety of
-    date and time formats for virtually any time and date format one can think of.
+  <para>The formatting options allows for monetary units, scientific
+     options, dates, times, fractions,and more. Positive and negative
+     values can have different colors and formats for aiding in
+     keeping track of values. There are also a large variety of date
+     and time formats for virtually any time and date format one can
+     think of.
     </para>
     
   <para>To change the formatting style for a cell or a range of cells,
-    you only need to select the range of cells (see <xref linkend="editing-selections">)
-      where you want to
-      apply/change the format and then select from the
-      <guimenu>Format</guimenu>/<guimenuitem>Cells</guimenuitem>/Numbers menu 
-      (or from the context sensitive popup menu
-      bound to the right mouse button) the appropriate format.</para>
+    you only need to select the range of cells (see <xref
+    linkend="editing-selections">) where you want to apply/change the
+    format and then select from the
+    <guimenu>Format</guimenu>/<guimenuitem>Cells</guimenuitem>/Numbers
+    menu (or from the context sensitive popup menu bound to the right
+    mouse button) the appropriate format.</para>
   
-  <para>The quickest way to access the cell format dialog is to use its 
-        keyboard shortcut, <keycombo><keycap>Ctrl</keycap><keycap>1</keycap></keycombo>.
-        This is equilivent to selecting the cell format item from the menus.</para>
+  <para>The quickest way to access the cell format dialog is to use
+        its keyboard shortcut,
+        <keycombo><keycap>Ctrl</keycap><keycap>1</keycap></keycombo>.
+        This is equilivent to selecting the cell format item from the
+        menus.</para>
 
   <para>Gnumeric provides a wide range of predetermined formatting
     styles.  These formatting styles are shown by category in the
@@ -31,8 +36,8 @@
   
   <para>If none of the predetermined formatting styles fits your
     needs, you can define your own number formatting style by using a
-    custom formatting expression: the custom formatting expressions give
-    you more flexibility in number display.</para>
+    custom formatting expression: the custom formatting expressions
+    give you more flexibility in number display.</para>
 
 <sect2 id="format-dialog">
   <title>The Format Dialog</title>
@@ -99,7 +104,9 @@ tab. This will open the standard Gnome font selection dialog.</para>
    <step>
       <para>Select the font tab in the dialog box notebook. This will open
             the font selection part of the dialog. See
-            <xref linkend="number-format-font-dialog"> for a look at the dialog.</para>
+            <xref linkend="number-format-font-dialog"> for a look at
+            the dialog.</para>
+</step>
    <step><para>TELL PEOPLE HOW TO USE THE FONT DIALOG HERE</para></step>
 
 </procedure>
