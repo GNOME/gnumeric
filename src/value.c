@@ -389,7 +389,8 @@ value_new_array_empty (guint cols, guint rows)
 }
 
 Value *
-value_new_from_string (ValueType t, char const *str, StyleFormat *sf)
+value_new_from_string (ValueType t, char const *str, StyleFormat *sf,
+		       gboolean translated)
 {
 	Value *res = NULL;
 	switch (t) {
@@ -397,13 +398,16 @@ value_new_from_string (ValueType t, char const *str, StyleFormat *sf)
 		res = value_new_empty ();
 		break;
 
-	case VALUE_BOOLEAN:
-		/* Is it a boolean */
-		if (0 == g_ascii_strcasecmp (str, _("TRUE")))
+	case VALUE_BOOLEAN: {
+		const char *C_true = N_("TRUE");
+		const char *C_false = N_("FALSE");
+
+		if (0 == g_ascii_strcasecmp (str, translated ? _(C_true) : C_true))
 			res = value_new_bool (TRUE);
-		else if (0 == g_ascii_strcasecmp (str, _("FALSE")))
+		else if (0 == g_ascii_strcasecmp (str, translated ? _(C_false) : C_false))
 			res = value_new_bool (FALSE);
 		break;
+	}
 
 	case VALUE_INTEGER: {
 		char *end;
@@ -428,7 +432,20 @@ value_new_from_string (ValueType t, char const *str, StyleFormat *sf)
 	}
 
 	case VALUE_ERROR:
-		res = value_new_error (NULL, str);
+		/*
+		 * Tricky.  We are currently storing errors in translated
+		 * format, so we might have to undo that.
+		 */
+		if (!translated) {
+			size_t i;
+			for (i = 0; i < G_N_ELEMENTS (standard_errors); i++)
+				if (strcmp (standard_errors[i].C_name, str) == 0) {
+					res = value_new_error_std (NULL, (GnmStdError)i);
+					break;
+				}					
+		}
+		if (!res)
+			res = value_new_error (NULL, str);
 		break;
 
 	case VALUE_STRING:
@@ -443,7 +460,8 @@ value_new_from_string (ValueType t, char const *str, StyleFormat *sf)
 		return NULL;
 	}
 
-	value_set_fmt (res, sf);
+	if (res)
+		value_set_fmt (res, sf);
 	return res;
 }
 

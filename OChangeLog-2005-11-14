@@ -1,5 +1,9 @@
 2002-12-17  Morten Welinder  <terra@diku.dk>
 
+	* src/value.c (value_new_from_string): Take new "translated"
+	argument and respect it for booleans and errors.  All callers
+	changed.
+
 	* src/format.c (format_get_currency): Make really sure not to
 	return NULL.
 

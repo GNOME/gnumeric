@@ -1189,7 +1189,7 @@ xml_sax_cell_content (GsfXmlSAXState *gsf_state)
 		} else if (state->version >= GNUM_XML_V3 ||
 			   xml_not_used_old_array_spec (cell, content)) {
 			if (value_type > 0) {
-				Value *v = value_new_from_string (value_type, content, value_fmt);
+				Value *v = value_new_from_string (value_type, content, value_fmt, FALSE);
 				cell_set_value (cell, v);
 			} else
 				cell_set_text (cell, content);

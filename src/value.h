@@ -119,7 +119,7 @@ Value       *value_new_cellrange_r      (Sheet *sheet, Range const *r);
 Value       *value_new_array            (guint cols, guint rows);
 Value       *value_new_array_empty      (guint cols, guint rows);
 Value 	    *value_new_array_non_init   (guint cols, guint rows);
-Value 	    *value_new_from_string	(ValueType t, char const *str, StyleFormat *sf);
+Value 	    *value_new_from_string	(ValueType t, char const *str, StyleFormat *sf, gboolean translated);
 
 void         value_release         (Value *v);
 void	     value_set_fmt	   (Value *v, StyleFormat const *fmt);

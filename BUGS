@@ -61,10 +61,6 @@ Pending Patches
 	       for that format
     6.9) autofilter export
 
-7) Expr Parser
-    7.1) Move the host of flags into an GnmExprConventions      (DONE)
-    7.2) Use conventions obj to generate strings		{Morten}
-
 8) Reinstate auto-format
     8.1) Add characterization (units) to StyleFormat
     8.2) Move type information to function flags.		(DONE)
@@ -278,6 +274,9 @@ Plugins
 Finished
 
 4) finish support for h/v only splits				(DONE)
+7) Expr Parser                                                  (DONE)
+    7.1) Move the host of flags into an GnmExprConventions      (DONE)
+    7.2) Use conventions obj to generate strings		(DONE)
 9) Manual recalc						(DONE)
     9.1) finish calculation ui in workbook attr dialog		(DONE)
 10) fix highlighting of completion code				(DONE)

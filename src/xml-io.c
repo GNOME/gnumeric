@@ -1922,7 +1922,7 @@ xml_read_cell (XmlParseContext *ctxt, xmlNodePtr tree)
 				cell_set_value (cell,
 					value_new_from_string (value_type,
 							       CXML2C (content),
-							       value_fmt));
+							       value_fmt, FALSE));
 			else {
 				/* cell_set_text would probably handle this.
 				 * BUT, be extra careful just incase a sheet
@@ -2076,7 +2076,9 @@ xml_read_filter_expr (XmlParseContext *ctxt, xmlNode *field)
 		if (tmp == NULL)
 			break;
 		v[i] = value_new_from_string (value_type,
-			CXML2C (tmp), NULL);
+					      CXML2C (tmp),
+					      NULL,
+					      FALSE);
 		xmlFree (tmp);
 	}
 
@@ -2957,7 +2959,10 @@ xml_read_cell_copy (XmlParseContext *ctxt, xmlNodePtr tree,
 			g_return_if_fail (expr != NULL);
 #warning TODO : arrays
 		} else if (is_value)
-			cell->value = value_new_from_string (value_type, CXML2C (content), value_fmt);
+			cell->value = value_new_from_string (value_type,
+							     CXML2C (content),
+							     value_fmt,
+							     FALSE);
 		else {
 			Value *val;
 			GnmExpr const *expr;

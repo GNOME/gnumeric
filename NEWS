@@ -60,7 +60,7 @@ Morten:
 	* Make print-info use GnomePrintUnit instead of our own half-baked
 	  stuff.
 	* Overhaul error value layers.
-	* Fix saving of error values in xml format.
+	* Fix loading and saving of error values in xml format.
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.12
