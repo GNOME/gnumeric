@@ -29,13 +29,12 @@ msgid "Unknown value type %d at line %d. Ignoring."
 msgstr "Нев╕домий тип значення %d в рядку %d. Про╕╜норовано."
 
 #: plugins/dif/dif.c:293
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "DIF file has more than the maximum number of rows %d. Ignoring remaining "
 "rows."
 msgstr ""
-"Нев╕рний файл PLN м╕стить б╕льше максимально╖\n"
-"к╕лькост╕ %s - %d"
+"DIF ма╓ б╕льше допустимо╖ к╕лькост╕ рядк╕в %d. Про╕╜норовано зайв╕ рядки."
 
 #: plugins/dif/dif.c:297
 #, fuzzy, c-format
@@ -43,18 +42,17 @@ msgid ""
 "DIF file has more than the maximum number of columns %d. Ignoring remaining "
 "columns."
 msgstr ""
-"Нев╕рний файл PLN м╕стить б╕льше максимально╖\n"
-"к╕лькост╕ %s - %d"
+"DIF ма╓ б╕льше допустимо╖ к╕лькост╕ стовпчик╕в %d. Про╕╜норовано зайв╕ стовпчики."
 
 #: plugins/dif/dif.c:309
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
-msgstr ""
+msgstr "Неоч╕куване завершення файлу в рядку %d п╕д час зчитування заголовка."
 
 #: plugins/dif/dif.c:313
 #, c-format
 msgid "Unexpected end of file at line %d while reading data."
-msgstr ""
+msgstr "Неоч╕куване завершення файлу в рядку %d п╕д час зчитування даних."
 
 #: plugins/dif/dif.c:329
 msgid "Error while reading DIF file."
@@ -476,37 +474,36 @@ msgstr "Тло"
 
 #: plugins/python-loader/python-loader.c:215
 msgid "Python module name"
-msgstr ""
+msgstr "Назва Python-модуля"
 
 #: plugins/python-loader/python-loader.c:315
-#, fuzzy
 msgid "Some name"
-msgstr "Назва аркушу"
+msgstr "Якась назва"
 
 #: plugins/python-loader/python-loader.c:376
 #: plugins/python-loader/python-loader.c:460
 #: plugins/python-loader/python-loader.c:660
 #, c-format
 msgid "Python file \"%s\" has invalid format."
-msgstr ""
+msgstr "Python-файл \"%s\" ма╓ нев╕рний формат."
 
 #: plugins/python-loader/python-loader.c:381
 #: plugins/python-loader/python-loader.c:387
 #: plugins/python-loader/python-loader.c:465 src/plugin-loader-module.c:436
 #: src/plugin-loader-module.c:442 src/plugin-loader-module.c:507
-#, fuzzy, c-format
+#, c-format
 msgid "File doesn't contain \"%s\" function."
-msgstr "Доповнення \"%s\" не м╕стить функц╕ю init_plugin."
+msgstr "Файл не м╕стить функц╕ю \"%s\"."
 
 #: plugins/python-loader/python-loader.c:665
-#, fuzzy, c-format
+#, c-format
 msgid "File doesn't contain \"%s\" dictionary."
-msgstr "Доповнення \"%s\" не м╕стить функц╕ю init_plugin."
+msgstr "Файл не м╕стить словник \"%s\"."
 
 #: plugins/python-loader/python-loader.c:670
 #, c-format
 msgid "Object \"%s\" is not a dictionary."
-msgstr ""
+msgstr "Об'╓кт \"%s\" не ╓ словником."
 
 #: plugins/python-loader/py-gnumeric.c:270
 #: plugins/python-loader/py-gnumeric.c:310 src/gnumeric-util.c:192
