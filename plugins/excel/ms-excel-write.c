@@ -29,6 +29,7 @@
 #include "style.h"
 #include "main.h"
 #include "utils.h"
+#include "print-info.h"
 
 #include "ms-ole.h"
 #include "ms-biff.h"
@@ -1045,10 +1046,31 @@ write_mulblank (BiffPut *bp, ExcelSheet *sheet, guint32 end_col, guint32 row, gu
 }
 
 static void
+margin_write (BiffPut *bp, guint16 op, PrintUnit *pu)
+{
+	guint8 *data;
+	double  margin;
+
+	margin = unit_convert (pu->points, UNIT_POINTS, UNIT_INCH);
+
+	data = ms_biff_put_len_next (bp, op, 8);
+	BIFF_SETDOUBLE (data, margin);
+
+	ms_biff_put_commit (bp);
+}
+
+static void
 write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 {
 	guint8 *data;
-/*	eBiff_version ver = sheet->wb->ver; */
+	PrintInformation *pi;
+	eBiff_version ver = sheet->wb->ver;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (sheet->gnum_sheet != NULL);
+	g_return_if_fail (sheet->gnum_sheet->print_info != NULL);
+
+	pi = sheet->gnum_sheet->print_info;
 
 	/* See: S59D63.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_CALCMODE, 2);
@@ -1088,7 +1110,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 
 	/* See: S59DCF.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_PRINTGRIDLINES, 2);
-	MS_OLE_SET_GUINT16 (data, 0x0000);
+	MS_OLE_SET_GUINT16 (data, pi->print_line_divisions);
 	ms_biff_put_commit (bp);
 
 	/* See: S59D91.HTM */
@@ -1129,13 +1151,20 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 
 	/* See: S59D93.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_HCENTER, 2);
-	MS_OLE_SET_GUINT16 (data, 0x0000);
+	MS_OLE_SET_GUINT16 (data, pi->center_horizontally);
 	ms_biff_put_commit (bp);
 
 	/* See: S59E15.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_VCENTER, 2);
-	MS_OLE_SET_GUINT16 (data, 0x0000);
+	MS_OLE_SET_GUINT16 (data, pi->center_vertically);
 	ms_biff_put_commit (bp);
+
+	if (ver >= eBiffV8) {
+		margin_write (bp, BIFF_LEFT_MARGIN,   &pi->margins.left);
+		margin_write (bp, BIFF_RIGHT_MARGIN,  &pi->margins.right);
+		margin_write (bp, BIFF_TOP_MARGIN,    &pi->margins.top);
+		margin_write (bp, BIFF_BOTTOM_MARGIN, &pi->margins.bottom);
+	}
 
 	/* See: S59DE3.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);
@@ -1168,7 +1197,7 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	ms_biff_put_commit (bp);
 
 	/* See: S59D76.HTM */
-	if (sheet->wb->ver >= eBiffV8) {
+	if (ver >= eBiffV8) {
 		data = ms_biff_put_len_next (bp, BIFF_DIMENSIONS, 14);
 		MS_OLE_SET_GUINT32 (data +  0, 0);
 		MS_OLE_SET_GUINT32 (data +  4, sheet->maxy-1);

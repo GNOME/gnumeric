@@ -45,10 +45,10 @@
 #define BIFF_1904                       0x22	/* 0, NOT 1,10 */
 #define BIFF_EXTERNNAME                 0x23	/* 2 */
 #define BIFF_DEFAULTROWHEIGHT	        0x25	/* 2, NOT 10 */
-#define BIFF_LEFTMARGIN                 0x26	/* 0, NOT 10 */
-#define BIFF_RIGHTMARGIN                0x27	/* 0, NOT 10 */
-#define BIFF_TOPMARGIN                  0x28	/* 0 */
-#define BIFF_BOTTOMMARGIN               0x29	/* 0 */
+#define BIFF_LEFT_MARGIN                0x26	/* 0, NOT 10 */
+#define BIFF_RIGHT_MARGIN               0x27	/* 0, NOT 10 */
+#define BIFF_TOP_MARGIN                 0x28	/* 0 */
+#define BIFF_BOTTOM_MARGIN              0x29	/* 0 */
 #define BIFF_PRINTHEADERS               0x2a	/* 0 */
 #define BIFF_PRINTGRIDLINES             0x2b	/* 0 */
 #define BIFF_FILEPASS                   0x2f	/* 0 */

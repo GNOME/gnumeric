@@ -1,4 +1,18 @@
+1999-09-13  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/dialogs/dialog-printer-setup.c (do_setup_page_info): Fix initial display
+	of icon: lr/td first.
+
+	* src/xml-io.c (xml_sheet_read, xml_sheet_write): Add print info R/W.
+
 1999-09-12  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* src/print-info.h: UnitName typo corrected.
+
+	* src/dialogs/dialog-printer-setup.c (convert_to_mm, unit_editor_new): ditto.
+
+	* src/xml-io.c (xml_read_print_info, xml_write_print_info): Implemented.
+	(xml_read_summary): Cleaned preconditions to make Miguel happy.
 
 	* src/print-preview.c (preview_destroyed, print_preview_new): Attach signal
 	to the workbook and warn.

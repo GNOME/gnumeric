@@ -13,6 +13,7 @@
 #include "gnumeric-chart.h"
 #include "ms-escher.h"
 
+#include "print-info.h"
 #include "selection.h"
 #include "utils.h"	/* for cell_name */
 
@@ -2315,6 +2316,13 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 	}
 }
 
+static void
+margin_read (PrintUnit *pu, double val)
+{
+	pu->points = unit_convert (val, UNIT_INCH, UNIT_POINTS);
+	pu->desired_display = UNIT_INCH; /* FIXME: should be more global */
+}
+
 /* S59DE2.HTM */
 static void
 ms_excel_read_selection (ExcelSheet *sheet, BiffQuery *q)
@@ -2369,6 +2377,14 @@ static void
 ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 {
 	guint32 const blankSheetPos = q->streamPos + q->length + 4;
+	PrintInformation *pi;
+
+	g_return_if_fail (wb != NULL);
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (sheet->gnum_sheet != NULL);
+	g_return_if_fail (sheet->gnum_sheet->print_info != NULL);
+
+	pi = sheet->gnum_sheet->print_info;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_read_debug > 1) {
@@ -2459,9 +2475,11 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			}
 			break;
 		}
+
 		case BIFF_PRINTGRIDLINES :
-			printf ("Grid lines: %d\n", MS_OLE_GET_GUINT16 (q->data));
+			pi->print_line_divisions = (MS_OLE_GET_GUINT16 (q->data) == 1);
 			break;
+
 		case BIFF_GRIDSET:
 		case BIFF_INDEX:
 		case BIFF_CALCMODE:
@@ -2512,17 +2530,21 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		}
 		break;
 
-		case BIFF_LEFTMARGIN:
-		case BIFF_RIGHTMARGIN:
-		case BIFF_TOPMARGIN:
-		case BIFF_BOTTOMMARGIN:
-		{
-			double margin;
-
-			margin = BIFF_GETDOUBLE(q->data);
-			printf ("%d margin : %f\n", q->opcode, margin);
+		case BIFF_LEFT_MARGIN:
+			margin_read (&pi->margins.left,   BIFF_GETDOUBLE (q->data));
 			break;
-		}
+
+		case BIFF_RIGHT_MARGIN:
+			margin_read (&pi->margins.right,  BIFF_GETDOUBLE (q->data));
+			break;
+
+		case BIFF_TOP_MARGIN:
+			margin_read (&pi->margins.top,    BIFF_GETDOUBLE (q->data));
+			break;
+
+		case BIFF_BOTTOM_MARGIN:
+			margin_read (&pi->margins.bottom, BIFF_GETDOUBLE (q->data));
+			break;
 
 		case BIFF_OBJPROTECT:
 		case BIFF_PROTECT:
@@ -2534,13 +2556,11 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		}
 
 		case BIFF_HCENTER:
-			printf ("Center between hmargins? %d\n",
-				MS_OLE_GET_GUINT16 (q->data) == 0x1);
+			pi->center_horizontally = MS_OLE_GET_GUINT16 (q->data) == 0x1;
 			break;
 
 		case BIFF_VCENTER:
-			printf ("Center between vmargins? %d\n",
-				MS_OLE_GET_GUINT16 (q->data) == 0x1);
+			pi->center_vertically   = MS_OLE_GET_GUINT16 (q->data) == 0x1;
 			break;
 
 		case BIFF_PLS:
@@ -2557,38 +2577,53 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 			}
 			break;
 
-		case BIFF_SETUP:
+		case BIFF_SETUP: /* See: S59DE3.HTM */
 			if (q->length == 34) { 
-				guint16  grbit;
+				guint16  grbit, fw, fh;
 				gboolean valid;
 
-				printf ("Print Setup:\n");
-
 				grbit = MS_OLE_GET_GUINT16 (q->data + 10);
-				if ((grbit & 0x80) == 0x80)
+
+/*				if ((grbit & 0x80) == 0x80) -- We probably can't map page->page accurately.
 					printf ("Starting page number %d\n",
-						MS_OLE_GET_GUINT16 (q->data +  4));
+					MS_OLE_GET_GUINT16 (q->data +  4));*/
 
 				valid = (grbit & 0x4) != 0x4;
 				if (valid) {
-					if ((grbit & 0x40) != 0x40)
-						printf ("portrait? %d\n", (grbit & 0x2) == 0x2);
-					printf ("Paper size %d scale %d resolution %d vert. res. %d num copies %d\n",
+					if ((grbit & 0x40) != 0x40) {
+						if ((grbit & 0x2) == 0x2)
+							pi->orientation = PRINT_ORIENT_VERTICAL;
+						else
+							pi->orientation = PRINT_ORIENT_HORIZONTAL;
+					}
+					/* FIXME: use this information */
+/*					printf ("Paper size %d scale %d resolution %d vert. res. %d num copies %d\n",
 						MS_OLE_GET_GUINT16 (q->data +  0),
 						MS_OLE_GET_GUINT16 (q->data +  2),
 						MS_OLE_GET_GUINT16 (q->data + 12),
 						MS_OLE_GET_GUINT16 (q->data + 14),
-						MS_OLE_GET_GUINT16 (q->data + 32));						
+						MS_OLE_GET_GUINT16 (q->data + 32));*/
 				}
-				printf ("l->r&down? %d, black&white? %d, draft? %d notes(comments)? %d\n",
-					(grbit & 0x1) == 0x1, (grbit & 0x8) == 0x8,
-					(grbit & 0x10) == 0x10, (grbit & 0x20) == 0x20);
-				printf ("fit to width %d pages, height %d pages\n",
-					MS_OLE_GET_GUINT16 (q->data +  6),
-					MS_OLE_GET_GUINT16 (q->data +  8));
-				printf ("header margin %f, footer margin %f (inches?)\n",
-					BIFF_GETDOUBLE  (q->data + 16),
-					BIFF_GETDOUBLE  (q->data + 24));
+
+				if ((grbit & 0x1) == 0x1)
+					pi->print_order = PRINT_ORDER_RIGHT_THEN_DOWN;
+				else
+					pi->print_order = PRINT_ORDER_DOWN_THEN_RIGHT;
+
+				pi->print_black_and_white = (grbit & 0x8) == 0x8;
+				pi->print_as_draft        = (grbit & 0x10) == 0x10;
+				/* FIXME: print comments (grbit & 0x20) == 0x20 */
+
+				fw = MS_OLE_GET_GUINT16 (q->data + 6);
+				fh = MS_OLE_GET_GUINT16 (q->data + 8);
+				if (fw > 0 && fh > 0) {
+					pi->scaling.type = SIZE_FIT;
+					pi->scaling.dim.cols = fw;
+					pi->scaling.dim.rows = fh;
+				}
+
+				margin_read (&pi->margins.header, BIFF_GETDOUBLE (q->data + 16));
+				margin_read (&pi->margins.footer, BIFF_GETDOUBLE (q->data + 24));
 			} else
 				g_warning ("Duff BIFF_SETUP");
 			break;

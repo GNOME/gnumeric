@@ -1,3 +1,12 @@
+1999-09-12  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* ms-excel-write.c (write_sheet_bools): write grid-lines & margins &
+	scads of other bits.
+
+	* ms-excel-read.c (ms_excel_read_sheet): Add preconditions & load
+	print info for grid-lines, & scads of other stuff. (margin_read): Create.
+	
+
 1999-09-11  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* ms-excel-write.c (write_value): Clean unused 'head'

@@ -12,7 +12,7 @@ typedef enum {
 
 typedef enum {
 	UNIT_POINTS,
-	UNIT_MILLIMITER,
+	UNIT_MILLIMETER,
 	UNIT_CENTIMETER,
 	UNIT_INCH
 } UnitName;
@@ -106,7 +106,6 @@ typedef struct {
 
 PrintInformation *print_info_new         (void);
 void              print_info_save        (PrintInformation *pi);
-
 void              print_info_free        (PrintInformation *pi);
 
 PrintHF          *print_hf_new           (const char *left_side_format,

@@ -230,7 +230,7 @@ convert_to_pt (GtkWidget *widget, UnitInfo *target)
 static void
 convert_to_mm (GtkWidget *widget, UnitInfo *target)
 {
-	do_convert (target, UNIT_MILLIMITER);
+	do_convert (target, UNIT_MILLIMETER);
 }
 
 static void
@@ -304,7 +304,7 @@ unit_editor_new (UnitInfo *target, PrintUnit init)
 		menu = gtk_menu_new ();
 		
 		add_unit (menu, UNIT_POINTS, convert_to_pt, target);
-		add_unit (menu, UNIT_MILLIMITER, convert_to_mm, target);
+		add_unit (menu, UNIT_MILLIMETER, convert_to_mm, target);
 		add_unit (menu, UNIT_CENTIMETER, convert_to_cm, target);
 		add_unit (menu, UNIT_INCH, convert_to_in, target);
 		
@@ -588,7 +588,7 @@ do_setup_page_info (dialog_print_info_t *dpi)
 		GTK_TABLE (table), dpi->icon_dr,
 		1, 2, 0, 2, GTK_FILL | GTK_EXPAND, GTK_FILL | GTK_EXPAND, 0, 0);
 
-	gtk_signal_connect (GTK_OBJECT (order_rd), "toggled", GTK_SIGNAL_FUNC(display_order_icon), dpi);
+	gtk_signal_connect (GTK_OBJECT (order_rd), "toggled", GTK_SIGNAL_FUNC (display_order_icon), dpi);
 	
 	if (dpi->pi->print_line_divisions)
 		gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (divisions), TRUE);
@@ -605,6 +605,7 @@ do_setup_page_info (dialog_print_info_t *dpi)
 		order = order_rd;
 
 	gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (order), TRUE);
+	display_order_icon (GTK_TOGGLE_BUTTON (order_rd), dpi);
 
 	if (dpi->pi->repeat_top.use){
 		char *s;

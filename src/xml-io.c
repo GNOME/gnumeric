@@ -18,6 +18,7 @@
 #include "color.h"
 #include "sheet-object.h"
 #include "sheet-object-graphic.h"
+#include "print-info.h"
 #include "xml-io.h"
 #include "file.h"
 
@@ -280,7 +281,6 @@ xml_set_gnome_canvas_points (xmlNodePtr node, const char *name,
 	g_free (base);
 }
 
-
 /*
  * Set a string value for a node either carried as an attibute or as
  * the content of a child.
@@ -417,6 +417,61 @@ xml_set_value_double (xmlNodePtr node, const char *name, double val)
 		child = child->next;
 	}
 	xmlSetProp (node, name, str);
+}
+
+static void
+xml_set_print_unit (xmlNodePtr node, const char *name,
+		    const PrintUnit * const pu)
+{
+	xmlNodePtr  child;
+	char       *txt;
+
+	if (pu == NULL || name == NULL)
+		return;
+
+	switch (pu->desired_display) {
+	case UNIT_POINTS:
+		txt = "points";
+		break;
+	case UNIT_MILLIMETER:
+		txt = "mm";
+		break;
+	case UNIT_CENTIMETER:
+		txt = "cm";
+		break;
+	case UNIT_INCH:
+		txt = "in";
+		break;
+	}
+
+	child = xmlNewChild (node, NULL, "PrintUnit",
+			     xmlEncodeEntities(node->doc, name));
+	xml_set_value_double (child, "Points", pu->points);
+	xml_set_value (child, "PrefUnit",
+		       xmlEncodeEntities (node->doc, txt));
+}
+
+static void
+xml_get_print_unit (xmlNodePtr node, PrintUnit * const pu)
+{
+	char       *txt;
+	
+	g_return_if_fail (pu != NULL);
+	g_return_if_fail (node != NULL);
+	g_return_if_fail (node->childs != NULL);
+
+	xml_get_value_double (node, "Points", &pu->points);
+	txt = xml_value_get  (node, "PrefUnit");
+	if (txt) {
+		if (!g_strcasecmp (txt, "points"))
+			pu->desired_display = UNIT_POINTS;
+		else if (!g_strcasecmp (txt, "mm"))
+			pu->desired_display = UNIT_MILLIMETER;
+		else if (!g_strcasecmp (txt, "cm"))
+			pu->desired_display = UNIT_CENTIMETER;
+		else if (!g_strcasecmp (txt, "in"))
+			pu->desired_display = UNIT_INCH;
+	}
 }
 
 /*
@@ -791,9 +846,9 @@ xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *summa
 {
 	xmlNodePtr child;
 
-	g_return_if_fail (summary_info);
-	g_return_if_fail (ctxt);
-	g_return_if_fail (tree);
+	g_return_if_fail (ctxt != NULL);
+	g_return_if_fail (tree != NULL);
+	g_return_if_fail (summary_info != NULL);
 
 	child = tree->childs;
 	while (child) {
@@ -827,6 +882,101 @@ xml_read_summary (parse_xml_context_t *ctxt, xmlNodePtr tree, SummaryInfo *summa
 			}
 		}
 		child = child->next;
+	}
+}
+
+static xmlNodePtr
+xml_write_print_info (parse_xml_context_t *ctxt, PrintInformation *pi)
+{
+	xmlNodePtr cur, child;
+
+	g_return_val_if_fail (pi != NULL, NULL);
+
+	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "PrintInformation", NULL);
+
+	xml_set_print_unit (cur, "top",    &pi->margins.top);
+	xml_set_print_unit (cur, "bottom", &pi->margins.bottom);
+	xml_set_print_unit (cur, "left",   &pi->margins.left);
+	xml_set_print_unit (cur, "right",  &pi->margins.right);
+	xml_set_print_unit (cur, "header", &pi->margins.header);
+	xml_set_print_unit (cur, "footer", &pi->margins.footer);
+
+
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "vcenter", NULL);
+	xml_set_value_int  (child, "value", pi->center_vertically);
+	xmlAddChild (cur, child);
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "hcenter", NULL);
+	xml_set_value_int  (child, "value", pi->center_horizontally);
+	xmlAddChild (cur, child);
+
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "grid", NULL);
+	xml_set_value_int  (child, "value",    pi->print_line_divisions);
+	xmlAddChild (cur, child);
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "monochrome", NULL);
+	xml_set_value_int  (child, "value",    pi->print_black_and_white);
+	xmlAddChild (cur, child);
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "draft", NULL);
+	xml_set_value_int  (child, "value",    pi->print_as_draft);
+	xmlAddChild (cur, child);
+	child = xmlNewDocNode (ctxt->doc, ctxt->ns, "titles", NULL);
+	xml_set_value_int  (child, "value",    pi->print_titles);
+	xmlAddChild (cur, child);
+
+	return cur;
+}
+
+static void
+xml_read_print_info (parse_xml_context_t *ctxt, xmlNodePtr tree)
+{
+	xmlNodePtr child;
+	PrintInformation *pi;
+	int b;
+
+	g_return_if_fail (ctxt != NULL);
+	g_return_if_fail (tree != NULL);
+	g_return_if_fail (ctxt->sheet != NULL);
+
+	pi = ctxt->sheet->print_info;
+	
+	g_return_if_fail (pi != NULL);
+
+	if ((child = xml_search_child (tree, "top")))
+		xml_get_print_unit (child, &pi->margins.top);
+	if ((child = xml_search_child (tree, "bottom")))
+		xml_get_print_unit (child, &pi->margins.bottom);
+	if ((child = xml_search_child (tree, "left")))
+		xml_get_print_unit (child, &pi->margins.left);
+	if ((child = xml_search_child (tree, "right")))
+		xml_get_print_unit (child, &pi->margins.right);
+	if ((child = xml_search_child (tree, "header")))
+		xml_get_print_unit (child, &pi->margins.header);
+	if ((child = xml_search_child (tree, "footer")))
+		xml_get_print_unit (child, &pi->margins.footer);
+
+	if ((child = xml_search_child (tree, "vcenter"))) {
+		xml_get_value_int  (child, "value", &b);
+		pi->center_vertically   = (b == 1);
+	}
+	if ((child = xml_search_child (tree, "hcenter"))) {
+		xml_get_value_int  (child, "value", &b);
+		pi->center_horizontally = (b == 1);
+	}
+
+	if ((child = xml_search_child (tree, "grid"))) {
+		xml_get_value_int  (child, "value",    &b);
+		pi->print_line_divisions  = (b == 1);
+	}
+	if ((child = xml_search_child (tree, "monochrome"))) {
+		xml_get_value_int  (child, "value", &b);
+		pi->print_black_and_white = (b == 1);
+	}
+	if ((child = xml_search_child (tree, "draft"))) {
+		xml_get_value_int  (child, "value",   &b);
+		pi->print_as_draft        = (b == 1);
+	}
+	if ((child = xml_search_child (tree, "titles"))) {
+		xml_get_value_int  (child, "value",  &b);
+		pi->print_titles          = (b == 1);
 	}
 }
 
@@ -1418,6 +1568,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	xmlNodePtr cols;
 	xmlNodePtr cells;
 	xmlNodePtr objects;
+	xmlNodePtr printinfo;
 	GList *l;
 	char str[50];
 
@@ -1436,6 +1587,13 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	sprintf (str, "%f", sheet->last_zoom_factor_used);
 	xmlNewChild (cur, ctxt->ns, "Zoom", str);
 
+	/* 
+	 * Print Information
+	 */
+	printinfo = xml_write_print_info (ctxt, sheet->print_info);
+	if (printinfo)
+		xmlAddChild (cur, printinfo);
+	
 	/*
 	 * Styles used by the cells on this sheet
 	 */
@@ -1446,7 +1604,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	 */
 	cols = xmlNewChild (cur, ctxt->ns, "Cols", NULL);
 	l = sheet->cols_info;
-	while (l){
+	while (l) {
 		child = xml_write_colrow_info (ctxt, l->data, 1);
 		if (child)
 			xmlAddChild (cols, child);
@@ -1458,7 +1616,7 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	 */
 	rows = xmlNewChild (cur, ctxt->ns, "Rows", NULL);
 	l = sheet->rows_info;
-	while (l){
+	while (l) {
 		child = xml_write_colrow_info (ctxt, l->data, 0);
 		if (child)
 			xmlAddChild (rows, child);
@@ -1470,16 +1628,16 @@ xml_sheet_write (parse_xml_context_t *ctxt, Sheet *sheet)
 	 * NOTE: seems that objects == NULL while current_object != NULL
 	 * is possible
 	 */
-	if (sheet->objects != NULL){
+	if (sheet->objects != NULL) {
 		objects = xmlNewChild (cur, ctxt->ns, "Objects", NULL);
 		l = sheet->objects;
-		while (l){
+		while (l) {
 			child = xml_write_sheet_object (ctxt, l->data);
 			if (child)
 				xmlAddChild (objects, child);
 			l = l->next;
 		}
-	} else if (sheet->current_object != NULL){
+	} else if (sheet->current_object != NULL) {
 		objects = xmlNewChild (cur, ctxt->ns, "Objects", NULL);
 		child = xml_write_sheet_object (ctxt, sheet->current_object);
 		if (child)
@@ -1626,6 +1784,7 @@ xml_sheet_read (parse_xml_context_t *ctxt, xmlNodePtr tree)
 	xml_get_value_int (tree, "MaxRow", &ret->max_row_used);
 	xml_get_value_double (tree, "Zoom", &ret->last_zoom_factor_used);
 
+	xml_read_print_info (ctxt, tree);
 	xml_read_styles (ctxt, tree);
 	xml_read_cell_styles (ctxt, tree);
 	xml_read_cols_info (ctxt, ret, tree);
