@@ -164,6 +164,7 @@ Dialogs
     : As we auto add new entries for varargs we should make them visible.
     : Editing nested functions.  How best to express this.
     : Switching between multiple function at the same level.
+    : Don't ask to fill arguments for functions without arguments.
 - Import Dialog
     : Rewrite main page preview (see Bug #66393)
 
