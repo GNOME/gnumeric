@@ -1,4 +1,8 @@
-Sun Jun 13 14:59:07 1999  Morten Welinder  <welinder@rentec.com>
+1999-06-13  Morten Welinder  <terra@diku.dk>
+
+	* src/gnumeric-sheet.c (gnumeric_sheet_stop_cell_selection):
+ 	Temporary patch for refcounts until Miguel can fixup things.
+	(destroy_item_editor): Ditto.
 
 	* src/fn-financial.c: s/double/float_t/;
 	(calculate_pvif, calculate_pvifa, calculate_fvif, calculate_fvifa,
@@ -10,8 +14,6 @@ Sun Jun 13 14:59:07 1999  Morten Welinder  <welinder@rentec.com>
 	(gnumeric_sln): Ditto.
 	(gnumeric_pv): Ditto.
 	(gnumeric_fv): Ditto.
-
-1999-06-13  Morten Welinder  <terra@diku.dk>
 
 	* src/fn-information.c: Prune includes.
 	* src/fn-string.c: Ditto.
