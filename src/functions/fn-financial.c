@@ -1,8 +1,9 @@
 /*
  * fn-financial.c:  Built in financial functions and functions registration
  *
- * Author:
+ * Authors:
  *  Vladimir Vuksan (vuksan@veus.hr)
+ *  Jukka-Pekka Iivonen (iivonen@iki.fi)
  *  
 
  */
@@ -270,6 +271,83 @@ gnumeric_syd (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
 }
 
+static char *help_dollarde = {
+	N_("@FUNCTION=DOLLARDE\n"
+	   "@SYNTAX=DOLLARDE(fractional_dollar,fraction)\n"
+	   "@DESCRIPTION=DOLLARDE converts a dollar price expressed as a "
+	   "fraction into a dollar price expressed as a decimal number. "
+	   "\n"
+	   "If fraction is non-integer it is truncated. "
+	   "If fraction<=0 DOLLARDE returns #NUM! error. "
+	   "@SEEALSO=DOLLARFR")
+};
+
+
+static Value *
+gnumeric_dollarde (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t fractional_dollar;
+	int     fraction, n, tmp;
+	float_t floored, rest;
+
+	fractional_dollar = value_get_as_double (argv [0]) ;
+	fraction = value_get_as_int (argv [1]) ;
+
+	if (fraction <= 0) {
+                *error_string = _("#NUM!") ;
+                return NULL;
+	}
+
+	tmp = fraction;
+	/* Count digits in fraction */
+	for (n=0; tmp; n++)
+	        tmp /= 10;
+
+	floored = floorf(fractional_dollar);
+	rest = fractional_dollar - floored;
+	tmp = (int) (rest * pow(10, n));
+
+	return value_float (floored + ((float_t) tmp / fraction)) ;
+}
+
+static char *help_dollarfr = {
+	N_("@FUNCTION=DOLLARFR\n"
+	   "@SYNTAX=DOLLARFR(decimal_dollar,fraction)\n"
+	   "@DESCRIPTION=DOLLARFR converts a decimal dollar price into "
+	   "a dollar price expressed as a fraction. "
+	   "\n"
+	   "If fraction is non-integer it is truncated. "
+	   "If fraction<=0 DOLLARDE returns #NUM! error. "
+	   "@SEEALSO=DOLLARDE")
+};
+
+
+static Value *
+gnumeric_dollarfr (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t fractional_dollar;
+	int     fraction, n, tmp;
+	float_t floored, rest;
+
+	fractional_dollar = value_get_as_double (argv [0]) ;
+	fraction = value_get_as_int (argv [1]) ;
+
+	if (fraction <= 0) {
+                *error_string = _("#NUM!") ;
+                return NULL;
+	}
+
+	tmp = fraction;
+	/* Count digits in fraction */
+	for (n=0; tmp; n++)
+	        tmp /= 10;
+
+	floored = floorf(fractional_dollar);
+	rest = fractional_dollar - floored;
+	tmp = (int) (rest * fraction);
+
+	return value_float (floored + ((float_t) tmp / pow(10, n))) ;
+}
 
 
 static char *help_pv = {
@@ -302,6 +380,65 @@ gnumeric_pv (struct FunctionDefinition *i, Value *argv [], char **error_string)
 
         return value_float  ( ( (-1.0) * fv - pmt * ( 1.0 + rate * type ) * fvifa ) / pvif );
 
+}
+
+static char *help_npv = {
+	N_("@FUNCTION=NPV\n"
+	   "@SYNTAX=NPV(rate,v1,v2,...)\n"
+	   "@DESCRIPTION=Calculates the net present value of an investment."
+	   "@SEEALSO=PV")
+};
+
+typedef struct {
+        int first ;
+        guint32 num ;
+        float_t rate ;
+        float_t sum ;
+} financial_npv_t;
+
+static int
+callback_function_npv (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+        financial_npv_t *mm = closure;
+        float tmp;
+ 
+        switch (value->type){
+        case VALUE_INTEGER:
+	        if (mm->first == TRUE)
+		        mm->rate = value->v.v_int;
+		else
+		        mm->sum += value->v.v_int / pow(1+mm->rate, mm->num);
+		mm->num++ ;
+                break;
+        case VALUE_FLOAT:
+	        if (mm->first == TRUE)
+		        mm->rate = value->v.v_float;
+		else
+		        mm->sum += value->v.v_float / pow(1+mm->rate, mm->num);
+		mm->num++ ;
+                break ;
+        default:
+                /* ignore strings */
+                break;
+        }
+        mm->first = FALSE ;
+        return TRUE;
+}
+
+static Value *
+gnumeric_npv (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+        financial_npv_t p;
+        Sheet *sheet = (Sheet *) tsheet;
+
+	p.first = TRUE;
+	p.sum   = 0.0;
+	p.num   = 0;
+
+        function_iterate_argument_values (sheet, callback_function_npv,
+                                          &p, expr_node_list,
+                                          eval_col, eval_row, error_string);
+	return value_float (p.sum);
 }
 
 
@@ -510,8 +647,11 @@ gnumeric_duration (struct FunctionDefinition *i, Value *argv [], char **error_st
 
 
 FunctionDefinition finance_functions [] = {
+	{ "dollarde", "ff", "fractional_dollar,fraction", &help_dollarde, NULL, gnumeric_dollarde},
+	{ "dollarfr", "ff", "decimal_dollar,fraction", &help_dollarfr, NULL, gnumeric_dollarfr},
 	{ "effect", "ff",    "rate,nper",    &help_effect,   NULL, gnumeric_effect},
 	{ "nominal", "ff",    "rate,nper",    &help_nominal,   NULL, gnumeric_nominal},
+        { "npv",      0,      "",             &help_npv,      gnumeric_npv, NULL },
 	{ "sln", "fff", "cost,salvagevalue,life", &help_sln, NULL, gnumeric_sln},
 	{ "syd", "ffff", "cost,salvagevalue,life,period", &help_syd, NULL, gnumeric_syd},
 	{ "pv", "ffffi", "rate,nper,pmt,fv,type", &help_pv, NULL, gnumeric_pv},	

@@ -1,3 +1,10 @@
+1999-03-25  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-financial.c: dollarde, dollarfr, and npv added.
+
+	* src/fn-stat.c: correl, covar, mode, negbinomdist, rank, and
+ 	trimmean added.
+
 1999-03-25  Michael Meeks  <michael@imaginator.com>
 
 	* src/expr.c (eval_funcall): Updated to add new optional argument
@@ -15,14 +22,6 @@
 	* src/fn-stat.c: fisherinv, normsdist, and lognormdist added.
 
 	* AUTHORS, src/about.c: added me.
-
-1999-03-21  Jukka-Pekka Iivonen  <iivonen@iki.fi>
-
-	* src/fn-stat.c: avedev, confidence, critbinom, devsq, fisher,
- 	kurt, normdist, permut, skew, standardize, and weibull added.
-	
-	* src/fn-math.c, src/func.h: gnumeric_average and fact made public
- 	(used in src/fn-stat.c).
 
 Tue Mar 23 14:00:37 CET 1999 Daniel Veillard <Daniel.Veillard@w3.org>
 

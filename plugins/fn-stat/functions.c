@@ -14,6 +14,33 @@
 #include "utils.h"
 #include "func.h"
 
+static float_t get_positive_normdist(float_t x);
+
+static guint
+float_hash (const float_t *d)
+{
+        return (guint) ((*d)*100) ;
+}
+
+static gint
+float_equal (const float_t *a, const float_t *b)
+{
+	if (*a==*b)
+	        return 1 ;
+	return 0 ;
+}
+
+static gint
+float_compare (const float_t *a, const float_t *b)
+{
+        if (*a<*b)
+                return -1;
+	else if (*a==*b)
+	        return 0;
+	else
+	        return 1;
+}
+
 #if 0
 /* help template */
 static char *help_ = {
@@ -227,6 +254,668 @@ callback_function_stat_inv_sum (Sheet *sheet, Value *value, char **error_string,
 	}
 	mm->first = FALSE ;
 	return TRUE;
+}
+
+static char *help_rank = {
+	N_("@FUNCTION=RANK\n"
+	   "@SYNTAX=RANK(x,ref,order)\n"
+
+	   "@DESCRIPTION="
+	   "RANK returns the rank of a number in a list of numbers. @x is the "
+	   "number whose rank you want to find, @ref is the list of numbers, "
+	   "and @order specifies how to rank numbers. If order is 0 numbers "
+	   "are rank in descending order, otherwise numbers are rank in "
+	   "ascending order. "
+	   "\n"
+	   "@SEEALSO=PERCENTRANK")
+};
+
+typedef struct {
+	int     first ;
+	guint32 num ;
+        float_t x ;
+        float_t last ;
+        GSList  *list;
+} stat_rank_t;
+
+static int
+callback_function_rank (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+	stat_rank_t *mm = closure;
+	gpointer     p;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+	        if (mm->first == TRUE)
+		        mm->x = value->v.v_int;
+		else if (mm->num == 1)
+		        mm->last = value->v.v_int;
+		else {
+	                p = g_new(float_t, 1);
+			*((float_t *) p) = mm->last;
+			mm->list = g_slist_append(mm->list, p);
+			mm->last = value->v.v_int;
+		}
+		mm->num++ ;
+		break ;
+	case VALUE_FLOAT:
+	        if (mm->first == TRUE)
+		        mm->x = value->v.v_float;
+		else if (mm->num == 1)
+		        mm->last = value->v.v_float;
+		else {
+	                p = g_new(float_t, 1);
+			*((float_t *) p) = mm->last;
+			mm->list = g_slist_append(mm->list, p);
+			mm->last = value->v.v_float;
+		}
+		mm->num++ ;
+		break ;
+	default:
+		/* ignore strings */
+		break;
+	}
+	mm->first = FALSE ;
+	return TRUE;
+}
+
+static Value *
+gnumeric_rank (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_rank_t p;
+	Sheet       *sheet = (Sheet *) tsheet;
+	GSList      *list;
+	int         order, rank;
+
+	p.first = TRUE ;
+	p.num   = 0 ;
+	p.list  = NULL;
+
+	function_iterate_argument_values (sheet, callback_function_rank,
+					  &p, expr_node_list,
+					  eval_col, eval_row, error_string);
+	list  = p.list;
+	order = (int) p.last;
+	rank  = 1;
+
+	while (list != NULL) {
+	        gpointer x;
+		x = list->data;
+		if (order) {
+		        if (*((float_t *) x) < p.x)
+			        rank++;
+		} else {
+		        if (*((float_t *) x) > p.x)
+			        rank++;
+		}
+		g_free(x);
+		list = list->next;
+	}
+
+	g_slist_free(p.list);
+
+	return value_int (rank) ;
+}
+
+static char *help_trimmean = {
+	N_("@FUNCTION=TRIMMEAN\n"
+	   "@SYNTAX=TRIMMEAN(ref,percent)\n"
+
+	   "@DESCRIPTION="
+	   "TRIMMEAN returns the mean of the interior of a data set. @ref "
+	   "is the list of numbers whose mean you want to calculate and "
+	   "@percent is the percentage of number excluded from the mean. "
+	   "For example, if percent=0.2 and the data set contans 40 numbers, "
+	   "8 numbers are trimmed from the data set (40 x 0.2), 4 from the "
+	   "top and 4 from the bottom of the set. "
+	   "\n"
+	   "@SEEALSO=AVERAGE,GEOMEAN,HARMEAN,MEDIAN,MODE")
+};
+
+typedef struct {
+	int     first ;
+	guint32 num ;
+        float_t last ;
+        GSList  *list;
+} stat_trimmean_t;
+
+static int
+callback_function_trimmean (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+	stat_trimmean_t *mm = closure;
+	gpointer        p;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+		if (mm->first == TRUE)
+		        mm->last = value->v.v_int;
+		else {
+	                p = g_new(float_t, 1);
+			*((float_t *) p) = mm->last;
+			mm->list = g_slist_append(mm->list, p);
+			mm->last = value->v.v_int;
+		}
+		mm->num++ ;
+		break ;
+	case VALUE_FLOAT:
+	        if (mm->first == TRUE)
+		        mm->last = value->v.v_float;
+		else {
+	                p = g_new(float_t, 1);
+			*((float_t *) p) = mm->last;
+			mm->list = g_slist_append(mm->list, p);
+			mm->last = value->v.v_float;
+		}
+		mm->num++ ;
+		break ;
+	default:
+		/* ignore strings */
+		break;
+	}
+	mm->first = FALSE ;
+	return TRUE;
+}
+
+static Value *
+gnumeric_trimmean (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_trimmean_t p;
+	Sheet       *sheet = (Sheet *) tsheet;
+	GSList      *list;
+	int         trim_count, n, count;
+	float_t     sum;
+
+	p.first = TRUE ;
+	p.num   = 0 ;
+	p.list  = NULL;
+
+	function_iterate_argument_values (sheet, callback_function_trimmean,
+					  &p, expr_node_list,
+					  eval_col, eval_row, error_string);
+
+	p.num--;
+	trim_count = (p.num * p.last) / 2;
+	count = p.num - 2 * trim_count;
+	p.list = g_slist_sort (p.list, (GCompareFunc) float_compare);
+	list  = p.list;
+
+	/* Skip the trimmed numbers in the beginning of the list */
+	for (n=0; n<trim_count; n++) {
+	        g_free(list->data);
+		list = list->next;
+	}
+
+	/* Count the sum for mean */
+	for (n=sum=0; n<count; n++) {
+	        gpointer x;
+		x = list->data;
+		sum += *((float_t *) x);
+		g_free(x);
+		list = list->next;
+	}
+
+	/* Free the rest of the number on the list */
+	for (n=0; n<trim_count; n++) {
+	        g_free(list->data);
+		list = list->next;
+	}
+
+	g_slist_free(p.list);
+
+	return value_float (sum / count) ;
+}
+
+static char *help_covar = {
+	N_("@FUNCTION=COVAR\n"
+	   "@SYNTAX=COVAR(array1,array2)\n"
+
+	   "@DESCRIPTION="
+	   "COVAR returns the covariance of two data sets. "
+	   "\n"
+	   "Strings and empty cells are simply ignored."
+	   "\n"
+	   "@SEEALSO=CORREL,FISHER,FISHERINV")
+};
+
+typedef struct {
+	int     first ;
+	guint32 num ;
+	int     count ;
+        GSList  *array1;
+        GSList  *array2;
+        float_t sum1;
+        float_t sum2;
+} stat_covar_t;
+
+static int
+callback_function_covar (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+	stat_covar_t *mm = closure;
+	gpointer     p;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+	        p = g_new(float_t, 1);
+		*((float_t *) p) = (float_t) value->v.v_int;
+	        if (mm->num < mm->count) {
+		        mm->array1 = g_slist_append(mm->array1, p);
+			mm->sum1 += value->v.v_int;
+		} else {
+		        mm->array2 = g_slist_append(mm->array2, p);
+			mm->sum2 += value->v.v_int;
+		}
+		mm->num++ ;
+		break ;
+	case VALUE_FLOAT:
+	        p = g_new(float_t, 1);
+		*((float_t *) p) = value->v.v_float;
+	        if (mm->num < mm->count) {
+		        mm->array1 = g_slist_append(mm->array1, p);
+			mm->sum1 += value->v.v_float;
+		} else {
+		        mm->array2 = g_slist_append(mm->array2, p);
+			mm->sum2 += value->v.v_float;
+		}
+		mm->num++ ;
+		break ;
+	default:
+		/* ignore strings */
+		break;
+	}
+	mm->first = FALSE ;
+	return TRUE;
+}
+
+static Value *
+gnumeric_covar (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_covar_t pr;
+	Sheet *sheet = (Sheet *) tsheet;
+	float_t sum, mean1, mean2 ;
+	int     count;
+	GSList  *list1, *list2;
+
+	pr.first   = TRUE ;
+	count = value_get_as_int(gnumeric_count
+	        (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	if (count % 2 > 0) {
+		*error_string = _("#NUM!") ;
+		return NULL;
+	}
+	pr.count  = count / 2;
+	pr.num    = 0 ;
+	pr.sum1   = 0.0 ;
+	pr.sum2   = 0.0 ;
+	pr.array1 = NULL;
+	pr.array2 = NULL;
+
+	function_iterate_argument_values (sheet, callback_function_covar,
+					  &pr, expr_node_list,
+					  eval_col, eval_row, error_string);
+	list1 = pr.array1;
+	list2 = pr.array2;
+	sum = 0.0;
+	mean1 = pr.sum1 / pr.count;
+	mean2 = pr.sum2 / pr.count;
+	while (list1 != NULL && list2 != NULL) {
+	        gpointer x, y;
+		x = list1->data;
+		y = list2->data;
+	        sum += (*((float_t *) x) - mean1) * (*((float_t *) y) - mean2);
+		g_free(x);
+		g_free(y);
+		list1 = list1->next;
+		list2 = list2->next;
+	}
+
+	g_slist_free(pr.array1);
+	g_slist_free(pr.array2);
+
+	return value_float (sum / pr.count) ;
+}
+
+static char *help_correl = {
+	N_("@FUNCTION=CORREL\n"
+	   "@SYNTAX=CORREL(array1,array2)\n"
+
+	   "@DESCRIPTION="
+	   "CORREL returns the correllation coefficient of two data sets. "
+	   "\n"
+	   "Strings and empty cells are simply ignored."
+	   "\n"
+	   "@SEEALSO=COVAR,FISHER,FISHERINV")
+};
+
+typedef struct {
+	int     first ;
+	guint32 num ;
+	int     count ;
+        GSList  *array1;
+        GSList  *array2;
+        float_t sum1;
+        float_t sum2;
+        float_t sqrsum1;
+        float_t sqrsum2;
+} stat_correl_t;
+
+static int
+callback_function_correl (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+	stat_correl_t *mm = closure;
+	gpointer     p;
+
+	switch (value->type){
+	case VALUE_INTEGER:
+	        p = g_new(float_t, 1);
+		*((float_t *) p) = (float_t) value->v.v_int;
+	        if (mm->num < mm->count) {
+		        mm->array1 = g_slist_append(mm->array1, p);
+			mm->sum1 += value->v.v_int;
+			mm->sqrsum1 += value->v.v_int * value->v.v_int;
+		} else {
+		        mm->array2 = g_slist_append(mm->array2, p);
+			mm->sum2 += value->v.v_int;
+			mm->sqrsum2 += value->v.v_int * value->v.v_int;
+		}
+		mm->num++ ;
+		break ;
+	case VALUE_FLOAT:
+	        p = g_new(float_t, 1);
+		*((float_t *) p) = value->v.v_float;
+	        if (mm->num < mm->count) {
+		        mm->array1 = g_slist_append(mm->array1, p);
+			mm->sum1 += value->v.v_float;
+			mm->sqrsum1 += value->v.v_float * value->v.v_float;
+		} else {
+		        mm->array2 = g_slist_append(mm->array2, p);
+			mm->sum2 += value->v.v_float;
+			mm->sqrsum2 += value->v.v_float * value->v.v_float;
+		}
+		mm->num++ ;
+		break ;
+	default:
+		/* ignore strings */
+		break;
+	}
+	mm->first = FALSE ;
+	return TRUE;
+}
+
+static Value *
+gnumeric_correl (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+	stat_correl_t pr;
+	Sheet *sheet = (Sheet *) tsheet;
+	float_t sum ;
+	int     count;
+	GSList  *list1, *list2;
+
+	pr.first   = TRUE ;
+	count = value_get_as_int(gnumeric_count
+	        (tsheet, expr_node_list, eval_col, eval_row, error_string));
+	if (count % 2 > 0) {
+		*error_string = _("#NUM!") ;
+		return NULL;
+	}
+	pr.count   = count / 2;
+	pr.num     = 0 ;
+	pr.sum1    = 0.0 ;
+	pr.sum2    = 0.0 ;
+	pr.sqrsum1 = 0.0 ;
+	pr.sqrsum2 = 0.0 ;
+	pr.array1  = NULL;
+	pr.array2  = NULL;
+
+	function_iterate_argument_values (sheet, callback_function_correl,
+					  &pr, expr_node_list,
+					  eval_col, eval_row, error_string);
+	list1 = pr.array1;
+	list2 = pr.array2;
+	sum = 0.0;
+
+	while (list1 != NULL && list2 != NULL) {
+	        gpointer x, y;
+		x = list1->data;
+		y = list2->data;
+	        sum += (*((float_t *) x)) * (*((float_t *) y));
+		g_free(x);
+		g_free(y);
+		list1 = list1->next;
+		list2 = list2->next;
+	}
+
+	g_slist_free(pr.array1);
+	g_slist_free(pr.array2);
+
+	return value_float ((sum - (pr.sum1*pr.sum2/pr.count)) /
+			    sqrt((pr.sqrsum1-(pr.sum1*pr.sum1)/pr.count) *
+				 (pr.sqrsum2-(pr.sum2*pr.sum2)/pr.count))) ;
+}
+
+static char *help_negbinomdist = {
+	N_("@FUNCTION=NEGBINOMDIST\n"
+	   "@SYNTAX=NEGBINOMDIST(f,t,p)\n"
+
+	   "@DESCRIPTION="
+	   "The NEGBINOMDIST function returns the negative binomial "
+	   "distribution. @f is the number of failures, @t is the threshold "
+	   "number of successes, and @p is the probability of a success. "
+	   "\n"
+	   "Performing this function on a string or empty cell returns an error."
+	   "if f or t is a non-integer it is truncated. "
+	   "if (f + t -1) <= 0 NEGBINOMDIST returns #NUM! error. "
+	   "if p < 0 or p > 1 NEGBINOMDIST returns #NUM! error. "
+	   "\n"
+	   "@SEEALSO=BINOMDIST,COMBIN,FACT,HYPGEOMDIST,PERMUT")
+};
+
+static Value *
+gnumeric_negbinomdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	int x, r;
+	float_t p;
+
+	if (!VALUE_IS_NUMBER(argv[0]) ||
+	    !VALUE_IS_NUMBER(argv[1]) ||
+	    !VALUE_IS_NUMBER(argv[2])){
+		*error_string = _("#VALUE!") ;
+		return NULL;
+	}
+
+	x = value_get_as_int (argv [0]);
+	r = value_get_as_int (argv [1]);
+	p = value_get_as_double (argv[2]);
+	if ((x + r -1)<=0 || p<0 || p>1) {
+		*error_string = _("#NUM!") ;
+		return NULL;
+	}
+
+	return value_float (combin(x+r-1,r-1) * pow(p, r) * pow(1-p, x));
+}
+
+static char *help_normsdist = {
+       N_("@FUNCTION=NORMSDIST\n"
+          "@SYNTAX=NORMSDIST(x)\n"
+
+          "@DESCRIPTION="
+          "The NORMSDIST function returns the standard normal cumulative "
+	  "distribution. @x is the value for which you want the distribution. "
+          "\n"
+          "Performing this function on a string or empty cell simply does nothing. "
+          "\n"
+          "@SEEALSO=NOMRDIST")
+};
+
+static Value *
+gnumeric_normsdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t x;
+
+        x = value_get_as_double (argv [0]);
+
+	if (x < 0)
+	        return value_float (1.0 - get_positive_normdist(fabs(x))) ;
+	else
+		return value_float (get_positive_normdist(x)) ;
+}
+
+static char *help_lognormdist = {
+       N_("@FUNCTION=LOGNORMDIST\n"
+          "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
+
+          "@DESCRIPTION="
+          "The LOGNORMDIST function returns the lognormal distribution. "
+	  "@x is the value for which you want the distribution, @mean is "
+	  "the mean of the distribution, and @stdev is the standard deviation "
+	  "of the distribution. "
+          "\n"
+          "Performing this function on a string or empty cell simply does nothing. "
+          "if stdev = 0 LOGNORMDIST returns #DIV/0! error. "
+	  "if x<0, mean<0 or stdev<0 LOGNORMDIST returns #NUM! error. "
+          "\n"
+          "@SEEALSO=NORMDIST")
+};
+
+static Value *
+gnumeric_lognormdist (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t x, mean, stdev ;
+
+        x = value_get_as_double (argv [0]);
+        mean = value_get_as_double (argv [1]);
+        stdev = value_get_as_double (argv [2]);
+
+        if (stdev==0) {
+                *error_string = _("#DIV/0!") ;
+                return NULL;
+        }
+        if (x<0 || mean<0 || stdev<0) {
+                *error_string = _("#NUM!") ;
+                return NULL;
+        }
+
+	x = ((log(x)-mean) / stdev) ;
+	return value_float (get_positive_normdist(x)) ;
+}
+
+static char *help_fisherinv = {
+       N_("@FUNCTION=FISHERINV\n"
+          "@SYNTAX=FISHERINV(y)\n"
+
+          "@DESCRIPTION="
+          "The FISHERINV function returns the inverse of the Fisher "
+	  "transformation at x. "
+          "\n"
+          "If x is non-number FISHER returns #VALUE! error."
+          "\n"
+          "@SEEALSO=FISHER")
+};
+
+static Value *
+gnumeric_fisherinv (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+       float_t y;
+
+       if (!VALUE_IS_NUMBER(argv [0])) {
+               *error_string = _("#VALUE!") ;
+               return NULL;
+       }
+       y = value_get_as_double (argv [0]);
+       return value_float ((exp(2*y)-1.0) / (exp(2*y)+1.0)) ;
+}
+
+static char *help_mode = {
+       N_("@FUNCTION=MODE\n"
+          "@SYNTAX=MODE(n1, n2, ...)\n"
+
+          "@DESCRIPTION="
+          "MODE returns the most common number of the data set. If the data "
+	  "set has many most common numbers MODE returns the first one of "
+	  "them. "
+          "\n"
+          "Strings and empty cells are simply ignored."
+	  "If the data set does not contain any duplicates MODE returns #N/A! error."
+          "\n"
+          "@SEEALSO=AVERAGE,MEDIAN")
+};
+
+typedef struct {
+       GHashTable *hash_table;
+       GSList     *items;
+       int        first ;
+       float_t    mode ;
+       int        count ;
+} stat_mode_t;
+
+static int
+callback_function_mode (Sheet *sheet, Value *value, char **error_string, void *closure)
+{
+       stat_mode_t *mm = closure;
+       gpointer p;
+       float_t  key;
+       int      count;
+
+       switch (value->type){
+       case VALUE_INTEGER:
+	       key = (float_t) value->v.v_int;
+	       break;
+       case VALUE_FLOAT:
+	       key = value->v.v_float;
+	       break;
+       default:
+               /* ignore strings */
+               break;
+       }
+       p = g_hash_table_lookup(mm->hash_table, &key);
+       if (p == NULL) {
+	       p = g_new(int, 1);
+	       mm->items = g_slist_append(mm->items, p);
+	       *((int *) p) = 1;
+	       g_hash_table_insert(mm->hash_table, &key, p);
+	       count = 1;
+       } else {
+	       *((int *) p) += 1;
+	       count = *((int *) p);
+       }
+       if (count > mm->count) {
+	       mm->count = count;
+	       mm->mode = key;
+       }
+       mm->first = FALSE ;
+       return TRUE;
+}
+
+static Value *
+gnumeric_mode (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
+{
+       GSList *tmp;
+       stat_mode_t pr;
+       Sheet *sheet = (Sheet *) tsheet;
+
+       pr.first = TRUE ;
+
+       pr.hash_table = g_hash_table_new((GHashFunc) float_hash,
+					(GCompareFunc) float_equal);
+       pr.items      = NULL;
+       pr.mode       = 0.0 ;
+       pr.count      = 0;
+
+       function_iterate_argument_values (sheet, callback_function_mode,
+                                         &pr, expr_node_list,
+                                         eval_col, eval_row, error_string);
+
+       g_hash_table_destroy(pr.hash_table);
+       tmp = pr.items;
+       while (tmp != NULL) {
+	       g_free(tmp->data);
+	       tmp = tmp->next;
+       }
+       g_slist_free(pr.items);
+       if (pr.count < 2) {
+		*error_string = _("#N/A!") ;
+		return NULL;
+       }
+       return value_float (pr.mode) ;
 }
 
 static Value *
@@ -1165,21 +1854,30 @@ FunctionDefinition stat_functions [] = {
 	{ "binomdist", "fffb", "n,t,p,c",   &help_binomdist, NULL, gnumeric_binomdist },
 	{ "confidence", "fff",  "x,stddev,size", &help_confidence, NULL, gnumeric_confidence },
 	{ "critbinom",  "fff",  "trials,p,alpha", &help_critbinom, NULL, gnumeric_critbinom },
+        { "correl",     0,      "",         &help_correl,    gnumeric_correl, NULL },
+        { "covar",      0,      "",         &help_covar,     gnumeric_covar, NULL },
         { "devsq",      0,      "",         &help_devsq,     gnumeric_devsq, NULL },
 	{ "permut",    "ff",  "n,k",        &help_permut,    NULL, gnumeric_permut },
 	{ "poisson",   "ffb",  "",          &help_poisson,   NULL, gnumeric_poisson },
 	{ "expondist", "ffb",  "",          &help_expondist, NULL, gnumeric_expondist },
         { "fisher",    "f",    "",          &help_fisher,    NULL, gnumeric_fisher },
+        { "fisherinv", "f",    "",          &help_fisherinv, NULL, gnumeric_fisherinv },
 	{ "gammaln",   "f",    "number",    &help_gammaln,   NULL, gnumeric_gammaln },
 	{ "geomean",   0,      "",          &help_geomean,   gnumeric_geomean, NULL },
 	{ "harmean",   0,      "",          &help_harmean,   gnumeric_harmean, NULL },
 	{ "hypgeomdist", "ffff", "x,n,M,N", &help_hypgeomdist, NULL, gnumeric_hypgeomdist },
         { "kurt",      0,      "",          &help_kurt,      gnumeric_kurt, NULL },
+	{ "lognormdist",  "fff",  "",       &help_lognormdist, NULL, gnumeric_lognormdist },
+	{ "mode",      0,      "",          &help_mode,   gnumeric_mode, NULL },
+	{ "negbinomdist", "fff", "f,t,p",   &help_negbinomdist, NULL, gnumeric_negbinomdist },
 	{ "normdist",   "fffb",  "",        &help_normdist,  NULL, gnumeric_normdist },
+	{ "normsdist",  "f",  "",           &help_normsdist,  NULL, gnumeric_normsdist },
+	{ "rank",      0,      "",          &help_rank,      gnumeric_rank, NULL },
 	{ "skew",      0,      "",          &help_skew,      gnumeric_skew, NULL },
 	{ "standardize", "fff",  "x,mean,stddev", &help_standardize, NULL, gnumeric_standardize },
 	{ "stdev",     0,      "",          &help_stdev,     gnumeric_stdev, NULL },
 	{ "stdevp",    0,      "",          &help_stdevp,    gnumeric_stdevp, NULL },
+	{ "trimmean",  0,      "",          &help_trimmean,  gnumeric_trimmean, NULL },
 	{ "var",       0,      "",          &help_var,       gnumeric_var, NULL },
 	{ "varp",      0,      "",          &help_varp,      gnumeric_varp, NULL },
         { "weibull", "fffb",  "",           &help_weibull, NULL, gnumeric_weibull },

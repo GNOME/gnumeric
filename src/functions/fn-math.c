@@ -18,9 +18,6 @@ static Value *gnumeric_sum         (void *tsheet, GList *expr_node_list,
 				    int eval_col, int eval_row,
 				    char **error_string);
 
-static Value *gnumeric_count       (void *tsheet, GList *expr_node_list,
-				    int eval_col, int eval_row,
-				    char **error_string);
 
 #if 0
 /* help template */
@@ -383,6 +380,62 @@ gnumeric_ceil (struct FunctionDefinition *i, Value *argv [], char **error_string
 	return value_float (ceil (value_get_as_double (argv [0])));
 }
 
+static char *help_ceiling = {
+	N_("@FUNCTION=CEILING\n"
+	   "@SYNTAX=CEILING(x,significance)\n"
+
+	   "@DESCRIPTION=The CEILING function rounds x up to the nearest "
+	   "multiple of significance. "
+	   "\n"
+
+	   "If x or significance is non-numeric CEILING returns #VALUE! error. "
+	   "If n and significance have different signs CEILING returns #NUM! error. "
+	   "\n"
+	   
+	   "@SEEALSO=CEIL")
+};
+
+static Value *
+gnumeric_ceiling (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        float_t k=1;
+	float_t div, mod, ceiled;
+        float_t x, significance;
+	int     n, sign=1;
+
+	if (!VALUE_IS_NUMBER(argv[0]) ||
+	    !VALUE_IS_NUMBER(argv[1])) {
+                *error_string = _("#VALUE!") ;
+                return NULL;
+	}
+	x = value_get_as_double(argv[0]);
+	significance = value_get_as_double(argv[1]);
+	if ((x < 0.0 && significance > 0.0) || 
+	    (x > 0.0 && significance < 0.0)) {
+                *error_string = _("#NUM!") ;
+                return NULL;
+	}
+	if (significance < 0) {
+	        sign=-1;
+		x = -x;
+		significance = -significance;
+	}
+	/* Find significance level */
+	for (n=0; n<12; n++) {
+	        ceiled = ceilf(significance * k);
+		if (fabs(ceiled - (significance * k)) < significance/2)
+		        break;
+		k *= 10;
+	}
+	ceiled *= 10;
+
+	div = ceilf((x * k * 10) / ceiled);
+	mod = ((x * k * 10) / ceiled) - div;
+
+	return value_float (sign * ceiled * div / (k*10) -
+			    sign * significance * (mod > 0));
+}
+
 static char *help_cos = {
 	N_("@FUNCTION=COS\n"
 	   "@SYNTAX=COS(x)\n"
@@ -456,7 +509,7 @@ static char *help_count = {
 	   "@SEEALSO=AVERAGE")
 };
 
-static Value *
+Value *
 gnumeric_count (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, char **error_string)
 {
 	Value *result;
@@ -1262,6 +1315,7 @@ FunctionDefinition math_functions [] = {
 	{ "cosh",    "f",    "number",    &help_cosh,    NULL, gnumeric_cosh },
 	{ "count",   0,      "",          &help_count,   gnumeric_count, NULL },
 	{ "ceil",    "f",    "number",    &help_ceil,    NULL, gnumeric_ceil },
+	{ "ceiling", "ff",   "number,significance",    &help_ceiling, NULL, gnumeric_ceiling },
 	{ "degrees", "f",    "number",    &help_degrees, NULL, gnumeric_degrees },
 	{ "exp",     "f",    "number",    &help_exp,     NULL, gnumeric_exp },
 	{ "fact",    "f",    "number",    &help_fact,    NULL, gnumeric_fact },
