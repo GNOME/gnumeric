@@ -1,3 +1,8 @@
+2001-10-29  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* autocorrect.sgml: Documented the autocorrect tool.  Now it
+	should be integrated somewhere...?
+
 2001-10-25  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* analysis-tools.sgml: Extended with moving average description.
