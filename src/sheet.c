@@ -965,6 +965,9 @@ cb_sheet_get_extent (gpointer ignored, gpointer value, gpointer data)
  *
  * calculates the area occupied by cell data.
  *
+ * NOTE: When spans_and_merges_extend is TRUE, this function will calculate
+ * all spans.  That might be expensive.
+ *
  * Return value: the range.
  **/
 Range
