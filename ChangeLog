@@ -1,3 +1,7 @@
+2001-06-11  Juan Pablo Mendoza <pablo_juan@yahoo.com>
+
+	* .cvsignore: Add GNOME_Gnumeric.oaf.
+
 2001-06-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/format.c (format_value) : if no conditions match treat as
