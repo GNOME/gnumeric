@@ -55,6 +55,7 @@ src/bonobo-io.c
 src/cell.c
 src/clipboard.c
 src/cmd-edit.c
+src/command-context-stderr.c
 src/commands.c
 src/corba-args.c
 src/dates.c

@@ -1,3 +1,8 @@
+2002-03-09  Christian Rose  <menthos@menthos.com>
+
+	* POTFILES.in: Added missing file.
+	* sv.po: Updated Swedish translation.
+
 2002-03-08  Kjartan Maraas  <kmaraas@gnome.org>
 
 	* POTFILES.in: Use .glade, .xml, .xml.in files directly.

@@ -29,8 +29,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"POT-Creation-Date: 2002-03-08 13:44+0100\n"
-"PO-Revision-Date: 2002-03-07 03:25+0100\n"
+"POT-Creation-Date: 2002-03-09 00:30+0100\n"
+"PO-Revision-Date: 2002-03-09 00:31+0100\n"
 "Last-Translator: Christian Rose <menthos@menthos.com>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -60,18 +60,6 @@ msgstr "Applix (*.as)"
 #: plugins/applix/plugin.xml.in.h:3
 msgid "Imports version 4.[234] spreadsheets"
 msgstr "Importerar kalkylblad från version 4.[234]"
-
-#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3125
-msgid "Financial"
-msgstr "Finansiella"
-
-#: plugins/derivatives/plugin.xml.in.h:2
-msgid "Financial Derivatives"
-msgstr "Finansiella derivat"
-
-#: plugins/derivatives/plugin.xml.in.h:3
-msgid "Functions related to financial derivatives"
-msgstr "Funktioner relaterade till finansiella derivat"
 
 # FIXME: Någon som förstår detta?
 #: plugins/derivatives/options.c:291
@@ -444,6 +432,18 @@ msgstr ""
 "@SEEALSO=opt_bs_call, opt_bs_put, opt_bs_call_delta opt_bs_put_delta, "
 "opt_bs_call_rho, opt_bs_put_rho, opt_bs_call_theta, opt_bs_put_rho, "
 "opt_bs_gamma"
+
+#: plugins/derivatives/plugin.xml.in.h:1 src/functions/fn-financial.c:3125
+msgid "Financial"
+msgstr "Finansiella"
+
+#: plugins/derivatives/plugin.xml.in.h:2
+msgid "Financial Derivatives"
+msgstr "Finansiella derivat"
+
+#: plugins/derivatives/plugin.xml.in.h:3
+msgid "Functions related to financial derivatives"
+msgstr "Funktioner relaterade till finansiella derivat"
 
 #: plugins/dif/dif.c:78 plugins/excel/ms-excel-read.c:4483
 #: plugins/mps/mps.c:584 src/xml-io.c:3250
@@ -820,17 +820,17 @@ msgstr "Bivillkor:"
 #. Print constraint titles.
 #: plugins/mps/mps.c:340 src/dialogs/dialog-plugin-manager.c:550
 #: src/dialogs/plugin-manager.glade.h:8 src/format-template.c:405
-#: src/tools/solver/reports.c:144 src/tools/solver/reports.c:168
-#: src/tools/solver/reports.c:196 src/tools/solver/reports.c:294
-#: src/tools/solver/reports.c:323 src/tools/solver/reports.c:403
-#: src/tools/solver/reports.c:410 src/tools/solver/reports.c:630
+#: src/tools/solver/reports.c:145 src/tools/solver/reports.c:169
+#: src/tools/solver/reports.c:197 src/tools/solver/reports.c:295
+#: src/tools/solver/reports.c:324 src/tools/solver/reports.c:404
+#: src/tools/solver/reports.c:411 src/tools/solver/reports.c:635
 #: src/workbook-control.c:233
 msgid "Name"
 msgstr "Namn"
 
 #: plugins/mps/mps.c:344 src/dialogs/dialog-plugin-manager.c:555
-#: src/tools/solver/reports.c:295 src/tools/solver/reports.c:324
-#: src/tools/solver/reports.c:404 src/tools/solver/reports.c:411
+#: src/tools/solver/reports.c:296 src/tools/solver/reports.c:325
+#: src/tools/solver/reports.c:405 src/tools/solver/reports.c:412
 msgid "Value"
 msgstr "Värde"
 
@@ -842,11 +842,11 @@ msgstr "Typ"
 msgid "RHS"
 msgstr "RHS"
 
-#: plugins/mps/mps.c:347 src/tools/solver/reports.c:200
+#: plugins/mps/mps.c:347 src/tools/solver/reports.c:201
 msgid "Slack"
 msgstr "Spelrum"
 
-#: plugins/mps/mps.c:348 src/tools/solver/reports.c:199
+#: plugins/mps/mps.c:348 src/tools/solver/reports.c:200
 msgid "Status"
 msgstr "Status"
 
@@ -1331,7 +1331,7 @@ msgid "Unhandled Python exception: %s"
 msgstr "Ohanterat Python-undantag: %s"
 
 #: plugins/sample_datasource/sample_datasource.c:250
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=atl_last\n"
 "@SYNTAX=atl_last(tag)\n"
@@ -1340,9 +1340,10 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=NAME\n"
-"@SYNTAX=(b1, b2, ...)\n"
-"@DESCRIPTION\n"
+"@FUNCTION=atl_last\n"
+"@SYNTAX=atl_last(tagg)\n"
+"@DESCRIPTION=\n"
+"@EXAMPLES=\n"
 "\n"
 "@SEEALSO="
 
@@ -1832,7 +1833,7 @@ msgid "Format a region of cells according to a pre-defined template"
 msgstr "Formatera ett cellområde enligt en fördefinierad mall"
 
 #: src/GNOME_Gnumeric.xml.h:94 src/dialogs/fourier-analysis.glade.h:2
-#: src/tools/analysis-tools.c:4068 src/workbook-control-gui.c:2991
+#: src/tools/analysis-tools.c:4028 src/workbook-control-gui.c:2991
 msgid "Fourier Analysis"
 msgstr "Fourieranalys"
 
@@ -2124,7 +2125,7 @@ msgstr "Klistra in med filter och transformationer"
 msgid "Pearson Correlation"
 msgstr "Pearson-korrelation"
 
-#: src/GNOME_Gnumeric.xml.h:165 src/tools/analysis-tools.c:2739
+#: src/GNOME_Gnumeric.xml.h:165 src/tools/analysis-tools.c:2767
 #: src/workbook-format-toolbar.c:461
 msgid "Percent"
 msgstr "Procent"
@@ -2890,6 +2891,15 @@ msgstr "Skifta kolumner %s"
 #, c-format
 msgid "Shift column %s"
 msgstr "Skifta kolumner %s"
+
+#: src/command-context-stderr.c:99 src/workbook-control-gui.c:1161
+#, c-format
+msgid "Would split array %s"
+msgstr "Skulle delat vektorn %s"
+
+#: src/command-context-stderr.c:102 src/workbook-control-gui.c:1163
+msgid "Would split an array"
+msgstr "Skulle delat en vektor"
 
 #: src/commands.c:640 src/commands.c:748
 msgid "Set Text"
@@ -3931,7 +3941,7 @@ msgstr "Omvända diagonala ränder"
 msgid "S_ymbol:"
 msgstr "S_ymbol:"
 
-#: src/dialogs/cell-format.glade.h:70 src/tools/analysis-tools.c:1275
+#: src/dialogs/cell-format.glade.h:70 src/tools/analysis-tools.c:1300
 msgid "Sample"
 msgstr "Exempel"
 
@@ -4170,38 +4180,32 @@ msgid "_Wrap text"
 msgstr "_Radbryt text"
 
 #: src/dialogs/cell-format.glade.h:131
-#, fuzzy
 msgid "min &lt;= val &lt;= max         (between)"
-msgstr "min <= värde <= max       (mellan)"
+msgstr "min &lt;= värde &lt;= max       (mellan)"
 
 #: src/dialogs/cell-format.glade.h:132
 msgid "val != bound                  (not equal to)"
 msgstr "värde != gräns                (inte lika med)"
 
 #: src/dialogs/cell-format.glade.h:133
-#, fuzzy
 msgid "val &gt;  bound                  (greater than)"
-msgstr "värde >  gräns                (större än)"
+msgstr "värde &gt;  gräns                (större än)"
 
 #: src/dialogs/cell-format.glade.h:134
-#, fuzzy
 msgid "val &gt;=bound                  (greater than or equal to)"
-msgstr "värde >=gräns                (större än eller lika med)"
+msgstr "värde &gt;=gräns                (större än eller lika med)"
 
 #: src/dialogs/cell-format.glade.h:135
-#, fuzzy
 msgid "val &lt;  bound                  (less than)"
-msgstr "värde >  gräns                (mindre än)"
+msgstr "värde &lt;  gräns                (mindre än)"
 
 #: src/dialogs/cell-format.glade.h:136
-#, fuzzy
 msgid "val &lt;= min || max &lt;= val (not between)"
-msgstr "värde <= min || max <= värde (inte mellan)"
+msgstr "värde &lt;= min || max &lt;= värde (inte mellan)"
 
 #: src/dialogs/cell-format.glade.h:137
-#, fuzzy
 msgid "val &lt;=bound                  (less than or equal to)"
-msgstr "värde <=gräns                (mindre än eller lika med)"
+msgstr "värde &lt;=gräns                (mindre än eller lika med)"
 
 #: src/dialogs/cell-format.glade.h:138
 msgid "val == bound                 (equal to)"
@@ -4416,11 +4420,11 @@ msgstr "Deskriptiv statistik"
 msgid "K = "
 msgstr "K = "
 
-#: src/dialogs/descriptive-stats.glade.h:10 src/tools/analysis-tools.c:1128
+#: src/dialogs/descriptive-stats.glade.h:10 src/tools/analysis-tools.c:1153
 msgid "Kth Largest"
 msgstr "K:te största"
 
-#: src/dialogs/descriptive-stats.glade.h:11 src/tools/analysis-tools.c:1153
+#: src/dialogs/descriptive-stats.glade.h:11 src/tools/analysis-tools.c:1178
 msgid "Kth Smallest"
 msgstr "K:te minsta"
 
@@ -4957,8 +4961,8 @@ msgid "Mrt"
 msgstr "Mrt"
 
 #: src/dialogs/dialog-autoformat.c:67 src/dialogs/dialog-autoformat.c:71
-#: src/tools/analysis-tools.c:3291 src/tools/analysis-tools.c:3301
-#: src/tools/analysis-tools.c:3309
+#: src/tools/analysis-tools.c:3319 src/tools/analysis-tools.c:3329
+#: src/tools/analysis-tools.c:3337
 msgid "Total"
 msgstr "Totalt"
 
@@ -5216,10 +5220,10 @@ msgstr "Kunde inte skapa målsökningsdialogen."
 #. * Fill in the labels of `Target Cell' section.
 #.
 #: src/dialogs/dialog-goto-cell.c:47 src/dialogs/tabulate.glade.h:1
-#: src/tools/solver/reports.c:143 src/tools/solver/reports.c:167
-#: src/tools/solver/reports.c:195 src/tools/solver/reports.c:293
-#: src/tools/solver/reports.c:322 src/tools/solver/reports.c:402
-#: src/tools/solver/reports.c:409
+#: src/tools/solver/reports.c:144 src/tools/solver/reports.c:168
+#: src/tools/solver/reports.c:196 src/tools/solver/reports.c:294
+#: src/tools/solver/reports.c:323 src/tools/solver/reports.c:403
+#: src/tools/solver/reports.c:410
 msgid "Cell"
 msgstr "Cell"
 
@@ -5452,16 +5456,14 @@ msgid "A sheet name must have at least 1 character."
 msgstr "Ett bladnamn måste ha åtminstone 1 tecken."
 
 #: src/dialogs/dialog-sheet-order.c:162
-#, fuzzy
 msgid "You can only remove new sheets."
-msgstr "Ta oåterkalligen bort ett blad"
+msgstr "Du kan bara ta bort nya blad."
 
 #: src/dialogs/dialog-sheet-order.c:202
 msgid "Current Name"
 msgstr "Nuvarande namn"
 
 #: src/dialogs/dialog-sheet-order.c:211
-#, fuzzy
 msgid "Rem"
 msgstr "Ta bort"
 
@@ -5471,7 +5473,7 @@ msgstr "Nytt namn"
 
 #: src/dialogs/dialog-sheet-order.c:294
 msgid "<new>"
-msgstr ""
+msgstr "<nytt>"
 
 #: src/dialogs/dialog-solver.c:64
 msgid "<="
@@ -5490,7 +5492,11 @@ msgstr "="
 msgid "Int"
 msgstr "Heltal"
 
-#: src/dialogs/dialog-solver.c:747
+#: src/dialogs/dialog-solver.c:677
+msgid "You have not specified a problem to be solved"
+msgstr "Du har inte angett ett problem att lösa"
+
+#: src/dialogs/dialog-solver.c:755
 msgid ""
 "Solver found an optimal solution. All constraints and optimality conditions "
 "are satisfied.\n"
@@ -5498,21 +5504,29 @@ msgstr ""
 "Lösaren hittade en optimal lösning. Alla bivillkor och optimalitetsvillkor "
 "är uppfyllda.\n"
 
-#: src/dialogs/dialog-solver.c:754
+#: src/dialogs/dialog-solver.c:763
+msgid ""
+"Sensitivity nor limits report is not meaningful if the program has integer "
+"constraints. These reports will thus not be created."
+msgstr ""
+"Känslighet eller gränsrapport är inte meningsfullt om programmet har "
+"heltalsbegränsningar. Dessa rapporter kan således inte skapas."
+
+#: src/dialogs/dialog-solver.c:776
 msgid "The Target Cell value does not converge!"
 msgstr "Målcellens värde konvergerar inte!"
 
-#: src/dialogs/dialog-solver.c:758
+#: src/dialogs/dialog-solver.c:780
 #, c-format
 msgid "Solver was not successful: %i"
 msgstr "Lösaran lyckades inte: %i"
 
-#: src/dialogs/dialog-solver.c:781
+#: src/dialogs/dialog-solver.c:803
 #, c-format
 msgid "Constraint `%s' is for a cell that is not an input cell."
 msgstr "Bivillkoret \"%s\" är för en cell som inte är en indatacell."
 
-#: src/dialogs/dialog-solver.c:1026
+#: src/dialogs/dialog-solver.c:1048
 msgid "Could not create the Solver dialog."
 msgstr "Kunde inte skapa lösardialogen."
 
@@ -5534,28 +5548,24 @@ msgid "\""
 msgstr "\""
 
 #: src/dialogs/dialog-stf-export.glade.h:2
-#, fuzzy
 msgid "&lt;- Remove"
-msgstr "<- Ta bort"
+msgstr "&lt;- Ta bort"
 
 #: src/dialogs/dialog-stf-export.glade.h:3
-#, fuzzy
 msgid "&lt;- Remove all"
-msgstr "<- Ta bort alla"
+msgstr "&lt;- Ta bort alla"
 
 #: src/dialogs/dialog-stf-export.glade.h:4 src/dialogs/dialog-stf.glade.h:2
 msgid "'"
 msgstr "\""
 
 #: src/dialogs/dialog-stf-export.glade.h:5
-#, fuzzy
 msgid "Add -&gt;"
-msgstr "Lägg till ->"
+msgstr "Lägg till -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:6
-#, fuzzy
 msgid "Add all -&gt;"
-msgstr "Lägg till alla ->"
+msgstr "Lägg till alla -&gt;"
 
 #: src/dialogs/dialog-stf-export.glade.h:7
 msgid "Always"
@@ -6043,7 +6053,7 @@ msgstr "Målcellen måste innehålla ett uttryck"
 msgid "Workbook Attributes"
 msgstr "Arbetsboksattribut"
 
-#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3880
+#: src/dialogs/dialog-zoom.glade.h:2 src/tools/analysis-tools.c:3908
 #, no-c-format
 msgid "%"
 msgstr "%"
@@ -6231,7 +6241,7 @@ msgstr "K_umulativa procent"
 msgid "Chart Output"
 msgstr "Diagramutdata"
 
-#: src/dialogs/histogram.glade.h:7 src/tools/analysis-tools.c:3848
+#: src/dialogs/histogram.glade.h:7 src/tools/analysis-tools.c:3876
 msgid "Histogram"
 msgstr "Histogram"
 
@@ -6674,7 +6684,7 @@ msgstr "0,95"
 msgid "Confidence Level:"
 msgstr "Konfidensnivå:"
 
-#: src/dialogs/regression.glade.h:8 src/tools/analysis-tools.c:2358
+#: src/dialogs/regression.glade.h:8 src/tools/analysis-tools.c:2383
 msgid "Regression"
 msgstr "Regression"
 
@@ -7031,11 +7041,11 @@ msgstr "Byt namn på blad"
 
 #: src/dialogs/solver.glade.h:1
 msgid "&gt;="
-msgstr ""
+msgstr "&gt;="
 
 #: src/dialogs/solver.glade.h:2
 msgid "&lt;="
-msgstr ""
+msgstr "&lt;="
 
 #: src/dialogs/solver.glade.h:4
 msgid "Assume _Linear Model"
@@ -7049,8 +7059,8 @@ msgstr "Antag _icke-negativ"
 msgid "B_y Changing Cells: "
 msgstr "Genom att ändra cellerna:"
 
-#: src/dialogs/solver.glade.h:7 src/tools/solver/reports.c:260
-#: src/tools/solver/reports.c:368 src/tools/solver/reports.c:525
+#: src/dialogs/solver.glade.h:7 src/tools/solver/reports.c:261
+#: src/tools/solver/reports.c:369 src/tools/solver/reports.c:527
 msgid "Constraints"
 msgstr "Bivillkor"
 
@@ -7103,9 +7113,8 @@ msgid "_Max"
 msgstr "_Max"
 
 #: src/dialogs/solver.glade.h:23
-#, fuzzy
 msgid "_Program"
-msgstr "Programnamn"
+msgstr "_Program"
 
 #: src/dialogs/solver.glade.h:24
 msgid "_Right Hand Side:"
@@ -15868,7 +15877,6 @@ msgstr ""
 "@SEEALSO=MMULT, MINVERSE"
 
 #: src/functions/fn-math.c:3236
-#, fuzzy
 msgid ""
 "@FUNCTION=SUMPRODUCT\n"
 "@SYNTAX=SUMPRODUCT(range1,range2,...)\n"
@@ -15895,8 +15903,8 @@ msgstr ""
 "SUMPRODUCT felvärdet #VÄRDE!.\n"
 "Denna funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
-"Antag att att cellerna A1, A2, ..., A5 innehåller talen 11, 15, 17, 21, och "
-"43 och cellerna B1, B2, ..., B5 innehåller talen 13, 22, 31, 33, och 39. Då "
+"Antag att att cellerna A1, A2, ..., A5 innehåller talen 11, 15, 17, 21 och "
+"43 och cellerna B1, B2, ..., B5 innehåller talen 13, 22, 31, 33 och 39. Då "
 "är\n"
 "SUMPRODUCT(A1:A5;B1:B5) lika med 3370.\n"
 "\n"
@@ -19029,13 +19037,12 @@ msgstr ""
 "frexpgnum."
 
 #: src/gutils.c:711
-#, fuzzy
 msgid ""
 "This version of Gnumeric has been compiled with inadequate precision in "
 "yngnum."
 msgstr ""
 "Denna version av Gnumeric har kompilerats med otillräcklig precision i "
-"modfgnum."
+"yngnum."
 
 #.
 #. * xgettext:
@@ -19103,57 +19110,57 @@ msgstr "Skifta celler åt h_öger och flytta"
 msgid "C_ancel"
 msgstr "_Avbryt"
 
-#: src/main.c:81
+#: src/main.c:82
 msgid "Display Gnumeric's version"
 msgstr "Visa Gnumerics versionsnummer"
 
-#: src/main.c:83
+#: src/main.c:84
 msgid "Set the root library directory"
 msgstr "Ställ in rotbibliotekskatalogen"
 
-#: src/main.c:85
+#: src/main.c:86
 msgid "Adjust the root data directory"
 msgstr "Justera rotdatakatalogen"
 
-#: src/main.c:88
+#: src/main.c:89
 msgid "Dumps the function definitions"
 msgstr "Dumpa funktionsdefinitionerna"
 
-#: src/main.c:88
+#: src/main.c:89
 msgid "FILE"
 msgstr "FIL"
 
-#: src/main.c:91
+#: src/main.c:92
 msgid "Enables some debugging functions"
 msgstr "Aktiverar felsökningsfunktioner"
 
-#: src/main.c:91 src/main.c:94 src/main.c:96
+#: src/main.c:92 src/main.c:95 src/main.c:97
 msgid "LEVEL"
 msgstr "NIVÅ"
 
-#: src/main.c:94
+#: src/main.c:95
 msgid "Enables some dependency related debugging functions"
 msgstr "Aktiverar beroenderelaterade felsökningsfunktioner"
 
-#: src/main.c:96
+#: src/main.c:97
 msgid "Enables some print debugging behavior"
 msgstr "Aktiverar felsökningsfunktioner för utskrift"
 
-#: src/main.c:99
+#: src/main.c:100
 msgid "Specify the size and location of the initial window"
 msgstr "Ange storleken på och platsen för det första fönstret"
 
-#: src/main.c:99
+#: src/main.c:100
 msgid "WIDTHxHEIGHT+XOFF+YOFF"
 msgstr "BREDDxHÖJD+XAVST+YAVST"
 
-#: src/main.c:103
+#: src/main.c:104
 msgid "Exit immediately after loading the selected books (useful for testing)."
 msgstr ""
 "Avsluta omedelbart efter öppning av de valda böckerna (användbart för "
 "testning)."
 
-#: src/main.c:132
+#: src/main.c:133
 msgid ""
 "Thank you for using Gnumeric!\n"
 "\n"
@@ -19177,7 +19184,7 @@ msgstr ""
 "\n"
 "-- Gnumeric-teamet."
 
-#: src/main.c:188
+#: src/main.c:189
 #, c-format
 msgid ""
 "gnumeric version '%s'\n"
@@ -19188,11 +19195,11 @@ msgstr ""
 "datakatalog := \"%s\"\n"
 "bibliotekkatalog := \"%s\"\n"
 
-#: src/main.c:248
+#: src/main.c:255
 msgid "Could not initialize Workbook factory"
 msgstr "Kunde inte initiera \"Workbook factory\""
 
-#: src/main.c:252
+#: src/main.c:259
 msgid "Could not initialize EmbeddableGrid factory"
 msgstr "Kunde inte initiera \"EmbeddableGrid factory\""
 
@@ -19366,8 +19373,8 @@ msgstr "Fel vid inläsning av insticksmodul."
 msgid "Initializing function inside plugin returned error."
 msgstr "Initieringsfunktionen i insticksmodulen returnerade ett fel."
 
-#: src/plugin-service.c:130 src/plugin-service.c:1080
-#: src/plugin-service.c:1308
+#: src/plugin-service.c:130 src/plugin-service.c:1086
+#: src/plugin-service.c:1295
 msgid "Error while loading plugin service."
 msgstr "Fel vid inläsning av insticksmodultjänst."
 
@@ -19409,11 +19416,11 @@ msgstr "Grupp-id för funktion saknas."
 msgid "Missing function category name."
 msgstr "Kategorinamn för funktion saknas."
 
-#: src/plugin-service.c:1043
+#: src/plugin-service.c:1049
 msgid "Missing loader id."
 msgstr "Inläsar-id saknas."
 
-#: src/plugin-service.c:1203
+#: src/plugin-service.c:1209
 #, c-format
 msgid "Error while reading service of type \"%s\"."
 msgstr "Fel vid läsning av tjänst av typen \"%s\"."
@@ -19534,57 +19541,57 @@ msgid "We depend on plugin with id=\"%s\" which couldn't be activated."
 msgstr ""
 "Vi är beroende av insticksmodulen med id=\"%s\", som inte kunde aktiveras."
 
-#: src/plugin.c:1042 src/plugin.c:1230
+#: src/plugin.c:1042 src/plugin.c:1231
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which is not available."
 msgstr ""
 "Vi är beroende av insticksmodulen med id=\"%s\", som inte är tillgänglig."
 
-#: src/plugin.c:1055
+#: src/plugin.c:1056
 #, c-format
 msgid "Error while activating plugin service #%d."
 msgstr "Fel vid aktivering av insticksmodultjänst %d."
 
-#: src/plugin.c:1095
+#: src/plugin.c:1096
 #, c-format
 msgid "Error while deactivating plugin service #%d."
 msgstr "Fel vid inaktivering av insticksmodultjänst %d."
 
-#: src/plugin.c:1166 src/plugin.c:1216
+#: src/plugin.c:1167 src/plugin.c:1217
 msgid "Cannot load plugin loader."
 msgstr "Kan inte läsa in insticksmodulinläsare."
 
-#: src/plugin.c:1223
+#: src/plugin.c:1224
 #, c-format
 msgid "We depend on plugin with id=\"%s\" which couldn't be loaded."
 msgstr ""
 "Vi är beroende av insticksmodulen med id=\"%s\" som inte kunde läsas in."
 
-#: src/plugin.c:1306
+#: src/plugin.c:1307
 #, c-format
 msgid "Errors occurred while reading plugin informations from file \"%s\"."
 msgstr ""
 "Fel inträffade vid läsning av insticksmodulinformation från filen \"%s\"."
 
-#: src/plugin.c:1468
+#: src/plugin.c:1470
 #, c-format
 msgid "Couldn't activate plugin \"%s\" (ID: %s)."
 msgstr "Kunde inte aktivera insticksmodulen \"%s\" (ID: %s)."
 
-#: src/plugin.c:1507
+#: src/plugin.c:1509
 #, c-format
 msgid "Couldn't deactivate plugin \"%s\" (ID: %s)."
 msgstr "Kunde inte inaktivera insticksmodulen \"%s\" (ID: %s)."
 
-#: src/plugin.c:1718
+#: src/plugin.c:1721
 msgid "Errors while reading info about available plugins."
 msgstr "Fel vid läsning av information om tillgängliga insticksmoduler."
 
-#: src/plugin.c:1724
+#: src/plugin.c:1727
 msgid "Errors while activating plugins."
 msgstr "Fel vid aktivering av insticksmoduler."
 
-#: src/plugin.c:1730
+#: src/plugin.c:1733
 msgid "Errors while initializing plugin system."
 msgstr "Fel vid initiering av insticksmodulsystem."
 
@@ -19946,35 +19953,35 @@ msgstr "Textimport (konfigurerbar)"
 msgid "Text export (configurable)"
 msgstr "Textexport (konfigurerbar)"
 
-#: src/tools/analysis-tools.c:197 src/tools/analysis-tools.c:3232
+#: src/tools/analysis-tools.c:198 src/tools/analysis-tools.c:3260
 #, c-format
 msgid "Row %i"
 msgstr "Rad %i"
 
-#: src/tools/analysis-tools.c:200 src/tools/analysis-tools.c:3224
+#: src/tools/analysis-tools.c:201 src/tools/analysis-tools.c:3252
 #, c-format
 msgid "Column %i"
 msgstr "Kolumn %i"
 
-#: src/tools/analysis-tools.c:203
+#: src/tools/analysis-tools.c:204
 #, c-format
 msgid "Bin %i"
 msgstr "Bin %i"
 
-#: src/tools/analysis-tools.c:207
+#: src/tools/analysis-tools.c:208
 #, c-format
 msgid "Area %i"
 msgstr "Område %i"
 
-#: src/tools/analysis-tools.c:816 src/tools/analysis-tools.c:819
+#: src/tools/analysis-tools.c:841 src/tools/analysis-tools.c:844
 msgid "Correlations"
 msgstr "Korrelationer"
 
-#: src/tools/analysis-tools.c:908 src/tools/analysis-tools.c:911
+#: src/tools/analysis-tools.c:933 src/tools/analysis-tools.c:936
 msgid "Covariances"
 msgstr "Kovarianser"
 
-#: src/tools/analysis-tools.c:990
+#: src/tools/analysis-tools.c:1015
 msgid "Summary Statistics"
 msgstr "Statistiksammanfattning"
 
@@ -19985,7 +19992,7 @@ msgstr "Statistiksammanfattning"
 #. *
 #. * The items are bundled like this to increase translation context.
 #.
-#: src/tools/analysis-tools.c:1001
+#: src/tools/analysis-tools.c:1026
 msgid ""
 "/Mean/Standard Error/Median/Mode/Standard Deviation/Sample Variance/Kurtosis/"
 "Skewness/Range/Minimum/Maximum/Sum/Count"
@@ -19993,39 +20000,39 @@ msgstr ""
 "/Medelvärde/Standardfel/Median/Läge/Standardavvikelse/Provvarians/Kurtosis/"
 "Skevhet/Intervall/Minimum/Maximum/Summa/Antal"
 
-#: src/tools/analysis-tools.c:1088
+#: src/tools/analysis-tools.c:1113
 msgid "Confidence Interval for the Mean"
 msgstr "Konfidensintervall för medelvärdet"
 
-#: src/tools/analysis-tools.c:1089
+#: src/tools/analysis-tools.c:1114
 #, c-format
 msgid "/%%%s%%%% CI for the Mean from/to"
 msgstr "/%%%s%%%% KI för medelvärdet från/till"
 
-#: src/tools/analysis-tools.c:1129
+#: src/tools/analysis-tools.c:1154
 #, c-format
 msgid "Largest (%d)"
 msgstr "Största (%d)"
 
-#: src/tools/analysis-tools.c:1154
+#: src/tools/analysis-tools.c:1179
 #, c-format
 msgid "Smallest (%d)"
 msgstr "Minsta (%d)"
 
-#: src/tools/analysis-tools.c:1372 src/tools/analysis-tools.c:1374
-#: src/tools/analysis-tools.c:1491 src/tools/analysis-tools.c:1493
-#: src/tools/analysis-tools.c:1650 src/tools/analysis-tools.c:1652
-#: src/tools/analysis-tools.c:1778 src/tools/analysis-tools.c:1780
-#: src/tools/analysis-tools.c:1914 src/tools/analysis-tools.c:1916
+#: src/tools/analysis-tools.c:1397 src/tools/analysis-tools.c:1399
+#: src/tools/analysis-tools.c:1516 src/tools/analysis-tools.c:1518
+#: src/tools/analysis-tools.c:1675 src/tools/analysis-tools.c:1677
+#: src/tools/analysis-tools.c:1803 src/tools/analysis-tools.c:1805
+#: src/tools/analysis-tools.c:1939 src/tools/analysis-tools.c:1941
 #, c-format
 msgid "Variable %i"
 msgstr "Variabel %i"
 
-#: src/tools/analysis-tools.c:1376
+#: src/tools/analysis-tools.c:1401
 msgid "z-Test"
 msgstr "z-Test"
 
-#: src/tools/analysis-tools.c:1379
+#: src/tools/analysis-tools.c:1404
 msgid ""
 "/Mean/Known Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/z/P (Z<=z) one-tail/z Critical one-tail/P (Z<=z) two-tail/z "
@@ -20035,12 +20042,12 @@ msgstr ""
 "(Z<=z) ensvansad/z kritiskt ensvansad/P (Z<=z) tvåsvansad/z kritiskt "
 "tvåsvansad"
 
-#: src/tools/analysis-tools.c:1507 src/tools/analysis-tools.c:1654
-#: src/tools/analysis-tools.c:1782
+#: src/tools/analysis-tools.c:1532 src/tools/analysis-tools.c:1679
+#: src/tools/analysis-tools.c:1807
 msgid "t-Test"
 msgstr "t-test"
 
-#: src/tools/analysis-tools.c:1510
+#: src/tools/analysis-tools.c:1535
 msgid ""
 "/Mean/Variance/Observations/Pearson Correlation/Hypothesized Mean Difference/"
 "df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/t Critical "
@@ -20050,7 +20057,7 @@ msgstr ""
 "medeldifferens/df/t-stat/P (T<=t) ensvansad/t kritiskt ensvansad/P (T<=t) "
 "tvåsvansad/t kritiskt tvåsvansad"
 
-#: src/tools/analysis-tools.c:1657
+#: src/tools/analysis-tools.c:1682
 msgid ""
 "/Mean/Variance/Observations/Pooled Variance/Hypothesized Mean Difference/"
 "Observed Mean Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P "
@@ -20060,7 +20067,7 @@ msgstr ""
 "Observerad medeldifferens/df/t-stat/P (T<=t) ensvansad/t kritiskt ensvansad/"
 "P (T<=t) tvåsvansad/t kritiskt tvåsvansad"
 
-#: src/tools/analysis-tools.c:1785
+#: src/tools/analysis-tools.c:1810
 msgid ""
 "/Mean/Variance/Observations/Hypothesized Mean Difference/Observed Mean "
 "Difference/df/t Stat/P (T<=t) one-tail/t Critical one-tail/P (T<=t) two-tail/"
@@ -20070,11 +20077,11 @@ msgstr ""
 "medeldifferens/df/t-stat/P (T<=t) ensvansad/t kritiskt ensvansad/P (T<=t) "
 "tvåsvansad/t kritiskt tvåsvansad"
 
-#: src/tools/analysis-tools.c:1923
+#: src/tools/analysis-tools.c:1948
 msgid "F-Test"
 msgstr "F-test"
 
-#: src/tools/analysis-tools.c:1929
+#: src/tools/analysis-tools.c:1954
 msgid ""
 "/Mean/Variance/Observations/df/F/P (F<=f) right-tail/F Critical right-tail/P "
 "(f<=F) left-tail/F Critical left-tail/P two-tail/F Critical two-tail"
@@ -20083,19 +20090,19 @@ msgstr ""
 "högersvansad/P (f<=F) vänstersvansad/F kritiskt tvåsvansad/P tvåsvansad/F "
 "kritiskt tvåsvansad"
 
-#: src/tools/analysis-tools.c:2047 src/tools/analysis-tools.c:2105
+#: src/tools/analysis-tools.c:2072 src/tools/analysis-tools.c:2130
 msgid "Random"
 msgstr "Slumpmässig"
 
-#: src/tools/analysis-tools.c:2221
+#: src/tools/analysis-tools.c:2246
 msgid "Not implemented yet.\n"
 msgstr "Inte implementerat än.\n"
 
-#: src/tools/analysis-tools.c:2296
+#: src/tools/analysis-tools.c:2321
 msgid "Y Variable"
 msgstr "Y-variabel"
 
-#: src/tools/analysis-tools.c:2360
+#: src/tools/analysis-tools.c:2385
 msgid ""
 "/SUMMARY OUTPUT//Regression Statistics/Multiple R/R Square/Adjusted R Square/"
 "Standard Error/Observations//ANOVA//Regression/Residual/Total///Intercept"
@@ -20103,11 +20110,11 @@ msgstr ""
 "/SAMMANFATTNINGSUTDATA//Regressionsstatistik/Multipla R/R-kvadrat/Justerad R-"
 "kvadrat/Standardfel/Observationer//ANOVA//Regression/Residual/Total///Gräns"
 
-#: src/tools/analysis-tools.c:2381
+#: src/tools/analysis-tools.c:2406
 msgid "/df/SS/MS/F/Significance of F"
 msgstr "/df/SS/MS/F/F-signifikans"
 
-#: src/tools/analysis-tools.c:2388
+#: src/tools/analysis-tools.c:2413
 #, c-format
 msgid ""
 "/Coefficients/Standard Error/t Stat/P-value/Lower %%0.0%s%%%%/Upper %%0.0%s%%"
@@ -20115,176 +20122,182 @@ msgid ""
 msgstr ""
 "/Koefficienter/Standardfel/t-stat/P-värde/Lägre %%0.0%s%%%%/Övre %%0.0%s%%"
 
-#: src/tools/analysis-tools.c:2544
+#: src/tools/analysis-tools.c:2430
+msgid ""
+"Probability of an observation's absolute value being larger than the t-"
+"value's"
+msgstr ""
+"Sannolikheten för att en observations absolutvärde är större än t-värdets"
+
+#: src/tools/analysis-tools.c:2572
 msgid "Moving Averages"
 msgstr "Rullande medelvärden"
 
-#: src/tools/analysis-tools.c:2559
+#: src/tools/analysis-tools.c:2587
 msgid "Standard Error"
 msgstr "Standardfel"
 
-#: src/tools/analysis-tools.c:2647
+#: src/tools/analysis-tools.c:2675
 msgid "Exponential Smoothing"
 msgstr "Exponentiell utjämning"
 
-#: src/tools/analysis-tools.c:2727
+#: src/tools/analysis-tools.c:2755
 msgid "Ranks"
 msgstr "Områden"
 
-#: src/tools/analysis-tools.c:2736
+#: src/tools/analysis-tools.c:2764
 msgid "Point"
 msgstr "Punkt"
 
-#: src/tools/analysis-tools.c:2738
+#: src/tools/analysis-tools.c:2766
 msgid "Rank"
 msgstr "Rang"
 
 #. We are ready to create the summary table
-#: src/tools/analysis-tools.c:2827 src/tools/analysis-tools.c:3022
-#: src/tools/analysis-tools.c:3284
+#: src/tools/analysis-tools.c:2855 src/tools/analysis-tools.c:3050
+#: src/tools/analysis-tools.c:3312
 msgid "Anova"
 msgstr "Anova"
 
-#: src/tools/analysis-tools.c:2829
+#: src/tools/analysis-tools.c:2857
 msgid "Anova: Single Factor"
 msgstr "Anova: en faktor"
 
-#: src/tools/analysis-tools.c:2830 src/tools/analysis-tools.c:3287
+#: src/tools/analysis-tools.c:2858 src/tools/analysis-tools.c:3315
 msgid "SUMMARY"
 msgstr "SAMMANFATTNING"
 
-#: src/tools/analysis-tools.c:2831
+#: src/tools/analysis-tools.c:2859
 msgid "/Groups/Count/Sum/Average/Variance"
 msgstr "/Grupper/Antal/Summa/Medelvärde/Varians"
 
-#: src/tools/analysis-tools.c:2887
+#: src/tools/analysis-tools.c:2915
 msgid "/ANOVA/Source of Variation/Between Groups/Within Groups/Total"
 msgstr "/ANOVA/Variationskälla/Mellan grupper/Inom grupper/Total"
 
-#: src/tools/analysis-tools.c:2892 src/tools/analysis-tools.c:3104
-#: src/tools/analysis-tools.c:3311
+#: src/tools/analysis-tools.c:2920 src/tools/analysis-tools.c:3132
+#: src/tools/analysis-tools.c:3339
 msgid "/SS/df/MS/F/P-value/F critical"
 msgstr "/SS/df/MS/F/P-värde/F-kritisk"
 
-#: src/tools/analysis-tools.c:3028
+#: src/tools/analysis-tools.c:3056
 msgid "Anova: Two-Factor Without Replication"
 msgstr "Anova: Två faktorer utan upprepning"
 
-#: src/tools/analysis-tools.c:3029
+#: src/tools/analysis-tools.c:3057
 msgid "/SUMMARY/Count/Sum/Average/Variance"
 msgstr "/SAMMANFATTNING/Antal/Summa/Medelvärde/Varians"
 
-#: src/tools/analysis-tools.c:3098
+#: src/tools/analysis-tools.c:3126
 msgid "/ANOVA/Source of Variation/Rows/Columns/Error/Total"
 msgstr "/ANOVA/Variationskälla/Rader/Kolumner/Fel/Total"
 
-#: src/tools/analysis-tools.c:3286
+#: src/tools/analysis-tools.c:3314
 msgid "Anova: Two-Factor With Replication"
 msgstr "Anova: Två faktorer med upprepning"
 
-#: src/tools/analysis-tools.c:3293
+#: src/tools/analysis-tools.c:3321
 msgid "/Count/Sum/Average/Variance"
 msgstr "/Antal/Summa/Medelvärde/Varians"
 
-#: src/tools/analysis-tools.c:3303
+#: src/tools/analysis-tools.c:3331
 msgid "/ANOVA/Source of Variation/Rows/Columns/Interaction/Within"
 msgstr "/ANOVA/Variationskälla/Rader/Kolumner/Interaktion/Inom"
 
-#: src/tools/analysis-tools.c:3774
+#: src/tools/analysis-tools.c:3802
 #, c-format
 msgid "<%s"
 msgstr "<%s"
 
-#: src/tools/analysis-tools.c:3778
+#: src/tools/analysis-tools.c:3806
 msgid "Too Small"
 msgstr "För litet"
 
-#: src/tools/analysis-tools.c:3795
+#: src/tools/analysis-tools.c:3823
 msgid "More"
 msgstr "Mer"
 
-#: src/tools/analysis-tools.c:3803
+#: src/tools/analysis-tools.c:3831
 #, c-format
 msgid ">%s"
 msgstr ">%s"
 
-#: src/tools/analysis-tools.c:3807
+#: src/tools/analysis-tools.c:3835
 msgid "Too Large"
 msgstr "För stort"
 
-#: src/tools/analysis-tools.c:3853
+#: src/tools/analysis-tools.c:3881
 msgid "Bin"
 msgstr "Bin"
 
-#: src/tools/analysis-tools.c:3878
+#: src/tools/analysis-tools.c:3906
 msgid "Frequency"
 msgstr "Frekvens"
 
-#: src/tools/analysis-tools.c:3883
+#: src/tools/analysis-tools.c:3911
 #, no-c-format
 msgid "Cumulative %"
 msgstr "Kumulativ %"
 
-#: src/tools/analysis-tools.c:4088 src/tools/solver/reports.c:609
+#: src/tools/analysis-tools.c:4047 src/tools/solver/reports.c:614
 msgid "Real"
 msgstr "Realdel"
 
-#: src/tools/analysis-tools.c:4089
+#: src/tools/analysis-tools.c:4048
 msgid "Imaginary"
 msgstr "Imaginärdel"
 
-#: src/tools/solver/reports.c:94
-#, fuzzy
+#: src/tools/solver/reports.c:95
 msgid "Gnumeric Solver"
-msgstr "Gnumeric"
+msgstr "Gnumeric-lösare"
 
-#: src/tools/solver/reports.c:100
+#: src/tools/solver/reports.c:101
 msgid "Worksheet:"
-msgstr ""
+msgstr "Blad:"
 
-#: src/tools/solver/reports.c:109
+#: src/tools/solver/reports.c:110
 msgid "Report Created:"
-msgstr ""
+msgstr "Rapport skapad:"
 
 #. Fill in the header titles.
-#: src/tools/solver/reports.c:130 src/tools/solver/reports.c:256
+#: src/tools/solver/reports.c:131 src/tools/solver/reports.c:257
 msgid "Answer Report"
 msgstr "Svarsrapport"
 
-#: src/tools/solver/reports.c:145 src/tools/solver/reports.c:169
+#: src/tools/solver/reports.c:146 src/tools/solver/reports.c:170
 msgid "Original Value"
 msgstr "Originalvärde"
 
-#: src/tools/solver/reports.c:146 src/tools/solver/reports.c:170
+#: src/tools/solver/reports.c:147 src/tools/solver/reports.c:171
 msgid "Final Value"
 msgstr "Slutvärde"
 
-#: src/tools/solver/reports.c:197
+#: src/tools/solver/reports.c:198
 msgid "Cell Value"
 msgstr "Cellvärde"
 
-#: src/tools/solver/reports.c:198
+#: src/tools/solver/reports.c:199
 msgid "Formula"
 msgstr "Formel"
 
-#: src/tools/solver/reports.c:229
+#: src/tools/solver/reports.c:230
 msgid "Binding"
 msgstr "Bindande"
 
-#: src/tools/solver/reports.c:231
+#: src/tools/solver/reports.c:232
 msgid "Not Binding"
 msgstr "Icke bindande"
 
-#: src/tools/solver/reports.c:251
+#: src/tools/solver/reports.c:252
 msgid "Target Cell (Maximize)"
 msgstr "Målcell (maximera)"
 
-#: src/tools/solver/reports.c:253
+#: src/tools/solver/reports.c:254
 msgid "Target Cell (Minimize)"
 msgstr "Målcell (minimera)"
 
 #. Fill in other titles.
-#: src/tools/solver/reports.c:259 src/tools/solver/reports.c:367
+#: src/tools/solver/reports.c:260 src/tools/solver/reports.c:368
 msgid "Adjustable Cells"
 msgstr "Justerbara celler"
 
@@ -20292,205 +20305,189 @@ msgstr "Justerbara celler"
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports.c:277 src/tools/solver/reports.c:364
+#: src/tools/solver/reports.c:278 src/tools/solver/reports.c:365
 msgid "Sensitivity Report"
 msgstr "Känslighetsrapport"
 
 #.
 #. * Fill in the labels of `Adjustable Cells' section.
 #.
-#: src/tools/solver/reports.c:291 src/tools/solver/reports.c:320
+#: src/tools/solver/reports.c:292 src/tools/solver/reports.c:321
 msgid "Final"
 msgstr "Slutgiltigt"
 
-#: src/tools/solver/reports.c:292
+#: src/tools/solver/reports.c:293
 msgid "Reduced"
 msgstr "Minskad"
 
-#: src/tools/solver/reports.c:296
-#, fuzzy
+#: src/tools/solver/reports.c:297
 msgid "Gradient"
-msgstr "Skriv ut"
+msgstr "Gradient"
 
-#: src/tools/solver/reports.c:321
-#, fuzzy
+#: src/tools/solver/reports.c:322
 msgid "Lagrange"
-msgstr "Dataintervall"
+msgstr "Lagrange"
 
-#: src/tools/solver/reports.c:325
-#, fuzzy
+#: src/tools/solver/reports.c:326
 msgid "Multiplier"
-msgstr "Multiplicera"
+msgstr "Multiplikator"
 
 #.
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports.c:385 src/tools/solver/reports.c:493
-#, fuzzy
+#: src/tools/solver/reports.c:386 src/tools/solver/reports.c:494
 msgid "Limits Report"
-msgstr "Känslighetsrapport"
+msgstr "Gränsrapport"
 
 #.
 #. * Fill in the labels.
 #.
-#: src/tools/solver/reports.c:401 src/tools/solver/reports.c:414
-#: src/tools/solver/reports.c:419
-#, fuzzy
+#: src/tools/solver/reports.c:402 src/tools/solver/reports.c:415
+#: src/tools/solver/reports.c:420
 msgid "Target"
-msgstr "För stort"
+msgstr "Mål"
 
-#: src/tools/solver/reports.c:408
-#, fuzzy
+#: src/tools/solver/reports.c:409
 msgid "Adjustable"
-msgstr "Justerbara celler"
+msgstr "Justerbar"
 
-#: src/tools/solver/reports.c:413
-#, fuzzy
+#: src/tools/solver/reports.c:414
 msgid "Lower"
-msgstr "Inläsare"
-
-#: src/tools/solver/reports.c:415 src/tools/solver/reports.c:420
-#, fuzzy
-msgid "Limit"
-msgstr "_Gränser"
+msgstr "Lägre"
 
 #: src/tools/solver/reports.c:416 src/tools/solver/reports.c:421
-#, fuzzy
-msgid "Result"
-msgstr "Resultatcell"
+msgid "Limit"
+msgstr "Gräns"
 
-#: src/tools/solver/reports.c:418
-#, fuzzy
+#: src/tools/solver/reports.c:417 src/tools/solver/reports.c:422
+msgid "Result"
+msgstr "Resultat"
+
+#: src/tools/solver/reports.c:419
 msgid "Upper"
-msgstr "Översta 95%"
+msgstr "Övre"
 
 #.
 #. * Fill in the titles.
 #.
 #. Fill in the header titles.
-#: src/tools/solver/reports.c:511 src/tools/solver/reports.c:666
-#, fuzzy
+#: src/tools/solver/reports.c:513 src/tools/solver/reports.c:671
 msgid "Program Report"
-msgstr "Programnamn"
+msgstr "Programrapport"
 
 #.
 #. * Fill in the labels of `General Statistics' section.
 #.
-#: src/tools/solver/reports.c:524
-#, fuzzy
-msgid "Variables"
-msgstr "X-variabler:"
-
 #: src/tools/solver/reports.c:526
-#, fuzzy
+msgid "Variables"
+msgstr "Variabler"
+
+#: src/tools/solver/reports.c:528
 msgid "Int Constraints"
-msgstr "Bivillkor"
+msgstr "Heltalsvillkor"
 
-#: src/tools/solver/reports.c:527
-#, fuzzy
+#: src/tools/solver/reports.c:529
 msgid "Bool Constraints"
-msgstr "Bivillkor"
+msgstr "Booleanvillkor"
 
-#: src/tools/solver/reports.c:528 src/tools/solver/reports.c:555
-#, fuzzy
+#: src/tools/solver/reports.c:530 src/tools/solver/reports.c:557
 msgid "Number of"
-msgstr "Tal"
+msgstr "Antal"
 
 #. Set the `Nbr of Bool Constraints'.
 #. FIXME: Bools
 #.
 #. * Fill in the labels of `Data Sparsity' section.
 #.
-#: src/tools/solver/reports.c:550
-msgid "Matrix Elements"
-msgstr ""
-
-#: src/tools/solver/reports.c:551
-msgid "Non-zeros (constr.)"
-msgstr ""
-
 #: src/tools/solver/reports.c:552
-msgid "Zeros (constr.)"
-msgstr ""
+msgid "Matrix Elements"
+msgstr "Matriselement"
 
 #: src/tools/solver/reports.c:553
-msgid "Non-zeros (obj. fn)"
-msgstr ""
+msgid "Non-zeros (constr.)"
+msgstr "Ickenollor (villkor)"
 
 #: src/tools/solver/reports.c:554
-msgid "Zeros (obj. fn)"
-msgstr ""
+msgid "Zeros (constr.)"
+msgstr "Nollor (villkor)"
+
+#: src/tools/solver/reports.c:555
+msgid "Non-zeros (obj. fn)"
+msgstr "Ickenollor (objektfunkt.)"
 
 #: src/tools/solver/reports.c:556
+msgid "Zeros (obj. fn)"
+msgstr "Nollor (objektfunkt.)"
+
+#: src/tools/solver/reports.c:558
 msgid "Ratio"
-msgstr ""
+msgstr "Förhållande"
 
 #.
 #. * Fill in the labels of `Computing Time' section.
 #.
-#: src/tools/solver/reports.c:607
+#: src/tools/solver/reports.c:612
 msgid "User"
-msgstr ""
+msgstr "Användare"
 
-#: src/tools/solver/reports.c:608
+#: src/tools/solver/reports.c:613
 msgid "System"
-msgstr ""
+msgstr "System"
 
-#: src/tools/solver/reports.c:610
+#: src/tools/solver/reports.c:615
 msgid "Time (sec.)"
-msgstr ""
+msgstr "Tid (s)"
 
 #.
 #. * Fill in the labels of `System Information' section.
 #.
-#: src/tools/solver/reports.c:628
+#: src/tools/solver/reports.c:633
 msgid "CPU"
-msgstr ""
+msgstr "Processor"
 
-#: src/tools/solver/reports.c:629
+#: src/tools/solver/reports.c:634
 msgid "OS"
-msgstr ""
+msgstr "OS"
 
 #. Set the `CPU Name'.
-#: src/tools/solver/reports.c:635 src/tools/solver/reports.c:639
-#, fuzzy
+#: src/tools/solver/reports.c:640 src/tools/solver/reports.c:644
 msgid "Unknown"
-msgstr "Ok_änd"
+msgstr "Okänt"
 
-#: src/tools/solver/reports.c:644
+#: src/tools/solver/reports.c:649
 #, c-format
 msgid "%s (%s)"
-msgstr ""
+msgstr "%s (%s)"
 
 #. Fill in other titles.
-#: src/tools/solver/reports.c:669
-#, fuzzy
+#: src/tools/solver/reports.c:674
 msgid "General Statistics"
-msgstr "Statistik"
+msgstr "Allmän statistik"
 
-#: src/tools/solver/reports.c:670
+#: src/tools/solver/reports.c:675
 msgid "Data Sparsity"
-msgstr ""
+msgstr "Datagleshet"
 
-#: src/tools/solver/reports.c:671
+#: src/tools/solver/reports.c:676
 msgid "Computing Time"
-msgstr ""
+msgstr "Beräkningstid"
 
-#: src/tools/solver/reports.c:672
-#, fuzzy
+#: src/tools/solver/reports.c:677
 msgid "System Information"
-msgstr "Information"
+msgstr "Systeminformation"
 
-#: src/tools/solver/solver.c:384
+#: src/tools/solver/solver.c:386
 msgid "Target cell is empty. The objective function cannot be determined."
-msgstr ""
+msgstr "Målcellen är tom. Objektivfunktionen kan inte bestämmas."
 
-#: src/tools/solver/solver.c:401
+#: src/tools/solver/solver.c:403
 msgid ""
 "Some of the input cells contain non-numeric values.  Specify a valid input "
 "range."
 msgstr ""
+"En del indataceller innehåller ickenumeriska värden. Ange ett giltigt "
+"indataintervall."
 
 #: src/validation.c:140
 #, c-format
@@ -20502,32 +20499,32 @@ msgstr "Cell %s får inte vara tom"
 msgid "'%s' is an error"
 msgstr "\"%s\" är ett fel"
 
-#: src/validation.c:166
+#: src/validation.c:167
 #, c-format
 msgid "'%s' is not a valid date"
 msgstr "\"%s\" är inte ett giltigt datum"
 
-#: src/validation.c:168
+#: src/validation.c:169
 #, c-format
 msgid "'%s' is not a valid time"
 msgstr "\"%s\" är inte en giltig tid"
 
-#: src/validation.c:170
+#: src/validation.c:171
 #, c-format
 msgid "'%s' is not a number"
 msgstr "\"%s\" är inte ett tal"
 
-#: src/validation.c:183
+#: src/validation.c:184
 #, c-format
 msgid "'%s' is not an integer"
 msgstr "\"%s\" är inte ett heltal"
 
-#: src/validation.c:276
+#: src/validation.c:277
 #, c-format
 msgid "%s is not true."
 msgstr "%s är inte sann."
 
-#: src/validation.c:289
+#: src/validation.c:290
 msgid ""
 "That value is invalid.\n"
 "Restrictions have been placed on this cell's contents."
@@ -20535,11 +20532,11 @@ msgstr ""
 "Det värdet är ogiltigt.\n"
 "Begränsningar har placerats på innehållet i denna cell."
 
-#: src/validation.c:296
+#: src/validation.c:297
 msgid "Gnumeric: Validation"
 msgstr "Gnumeric: Validering"
 
-#: src/value.c:699
+#: src/value.c:701
 msgid "Terminate"
 msgstr "Terminera"
 
@@ -20622,15 +20619,6 @@ msgstr "Ångra"
 #: src/workbook-control-gui.c:3368 src/workbook-control-gui.c:3386
 msgid "Redo"
 msgstr "Gör om"
-
-#: src/workbook-control-gui.c:1161
-#, c-format
-msgid "Would split array %s"
-msgstr "Skulle delat vektorn %s"
-
-#: src/workbook-control-gui.c:1163
-msgid "Would split an array"
-msgstr "Skulle delat en vektor"
 
 #: src/workbook-control-gui.c:1224
 #, c-format
@@ -21115,6 +21103,42 @@ msgstr "Är inte en Gnumeric-arbetsboksfil"
 #: src/xml-io.c:3340
 msgid "Gnumeric XML file format"
 msgstr "Gnumeric XML-filformat"
+
+#~ msgid ""
+#~ "This version of Gnumeric has been compiled with inadequate precision in %"
+#~ "s."
+#~ msgstr ""
+#~ "Denna version av Gnumeric har kompilerats med otillräcklig precision i %s."
+
+#~ msgid "min <= val <= max         (between)"
+#~ msgstr "min <= värde <= max       (mellan)"
+
+#~ msgid "val >  bound                  (greater than)"
+#~ msgstr "värde >  gräns                (större än)"
+
+#~ msgid "val >=bound                  (greater than or equal to)"
+#~ msgstr "värde >=gräns                (större än eller lika med)"
+
+#~ msgid "val >  bound                  (less than)"
+#~ msgstr "värde >  gräns                (mindre än)"
+
+#~ msgid "val <= min || max <= val (not between)"
+#~ msgstr "värde <= min || max <= värde (inte mellan)"
+
+#~ msgid "val <=bound                  (less than or equal to)"
+#~ msgstr "värde <=gräns                (mindre än eller lika med)"
+
+#~ msgid "<- Remove"
+#~ msgstr "<- Ta bort"
+
+#~ msgid "<- Remove all"
+#~ msgstr "<- Ta bort alla"
+
+#~ msgid "Add ->"
+#~ msgstr "Lägg till ->"
+
+#~ msgid "Add all ->"
+#~ msgstr "Lägg till alla ->"
 
 #~ msgid "Gnumeric Solver Answer Report"
 #~ msgstr "Svarsrapport för Gnumerics problemlösning"
