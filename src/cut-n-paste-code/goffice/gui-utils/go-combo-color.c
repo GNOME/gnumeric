@@ -198,6 +198,7 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 		       ColorGroup *color_group)
 {
 	GdkColor *color;
+	GtkWidget *vbox;
 	g_return_if_fail (cc != NULL);
 	g_return_if_fail (IS_COLOR_COMBO (cc));
 
@@ -243,8 +244,14 @@ color_combo_construct (ColorCombo *cc, GdkPixbuf *icon,
 			"width_pixels", 1,
 			NULL);
 
-	gtk_container_add (GTK_CONTAINER (cc->preview_button), GTK_WIDGET (cc->preview_canvas));
 	gtk_widget_set_size_request (GTK_WIDGET (cc->preview_canvas), 24, 22);
+	/* Wrap inside a vbox with border 1 because canvas would
+	 * overpaint focus indicator */
+	vbox = gtk_vbox_new (FALSE, 0);
+	gtk_container_set_border_width (GTK_CONTAINER (vbox), 1);
+ 	gtk_box_pack_start (GTK_BOX (vbox), GTK_WIDGET (cc->preview_canvas), TRUE, TRUE, 0);
+ 	gtk_container_add (GTK_CONTAINER (cc->preview_button), 
+			   GTK_WIDGET (vbox));
 	g_signal_connect (G_OBJECT (cc), "screen-changed", G_CALLBACK (cb_screen_changed), NULL);
 	g_signal_connect (cc->preview_button, "clicked",
 			  G_CALLBACK (preview_clicked), cc);

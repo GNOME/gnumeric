@@ -1,3 +1,9 @@
+2003-06-14  Jon K Hellan  <hellan@acm.org>
+
+	* widget-color-combo.c (color_combo_construct): Wrap preview
+	canvas inside a vbox with border 1 because canvas would overpaint
+	focus indicator.
+
 2003-06-13  Jon K Hellan  <hellan@acm.org>
 
 	* widget-color-combo.c (apply_current_color): New
