@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.34\n"
-"POT-Creation-Date: 1999-09-23 15:23-0500\n"
+"POT-Creation-Date: 1999-09-23 17:49-0500\n"
 "PO-Revision-Date: 1999-09-09 01:40+0100\n"
 "Last-Translator: Tristan Tarrant <tst@decp3229.etnoteam.it>\n"
 "Language-Team: \n"

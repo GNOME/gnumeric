@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.9.3\n"
-"POT-Creation-Date: 1999-09-23 15:23-0500\n"
+"POT-Creation-Date: 1999-09-23 17:49-0500\n"
 "PO-Revision-Date: 1999-02-20 20:00+0800\n"
 "Last-Translator: Pofeng Lee <Pofeng.Lee@ms7.url.com.tw>\n"
 "Language-Team: Chinese <zh@li.org>\n"

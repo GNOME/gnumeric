@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.35\n"
-"POT-Creation-Date: 1999-09-23 15:23-0500\n"
+"POT-Creation-Date: 1999-09-23 17:49-0500\n"
 "PO-Revision-Date: 1998-11-25 18:01:18+0100\n"
 "Last-Translator: Pablo Saratxaga <srtxg@chanae.alphanet.ch>\n"
 "Language-Team: \n"

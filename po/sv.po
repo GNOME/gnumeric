@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.31\n"
-"POT-Creation-Date: 1999-09-23 13:37-0500\n"
+"POT-Creation-Date: 1999-09-23 17:49-0500\n"
 "PO-Revision-Date: 1999-09-23 20:00+0200\n"
 "Last-Translator: Richard Hult <rhult@hem2.passagen.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
@@ -938,7 +938,7 @@ msgstr "Textfärg"
 
 #. The radio buttons
 #: src/dialogs/dialog-cell-format.c:625 src/dialogs/dialog-cell-format.c:661
-#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:95
+#: src/dialogs/dialog-paste-special.c:28 src/widgets/widget-color-combo.c:110
 msgid "None"
 msgstr "Ingen"
 
@@ -1040,7 +1040,7 @@ msgid "Delete cells"
 msgstr "Ta bort celler"
 
 #: src/dialogs/dialog-delete-cells.c:49 src/dialogs/names.glade.h:10
-#: src/item-grid.c:644
+#: src/item-grid.c:649
 msgid "Delete"
 msgstr "Ta bort"
 
@@ -1184,7 +1184,7 @@ msgstr "infoga celler"
 msgid "Insert cells"
 msgstr "Infoga celler"
 
-#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:643
+#: src/dialogs/dialog-insert-cells.c:50 src/item-grid.c:648
 msgid "Insert"
 msgstr "Infoga"
 
@@ -1236,7 +1236,7 @@ msgstr "Multiplicera"
 msgid "Divide"
 msgstr "Dividera"
 
-#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:641
+#: src/dialogs/dialog-paste-special.c:64 src/item-grid.c:646
 msgid "Paste special"
 msgstr "Klistra in special"
 
@@ -2830,8 +2830,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMCOS\n"
 "@SYNTAX=IMCOS(i)\n"
-"@DESCRIPTION=IMCOS returnerar cosinus för ett komplext tal. "
-"Funktionen är kompatibel med Excel.\n"
+"@DESCRIPTION=IMCOS returnerar cosinus för ett komplext tal. Funktionen är "
+"kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "IMCOS(\"1+j\") är lika med 0.833730-0.988898j.\n"
 "\n"
@@ -2849,8 +2849,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMTAN\n"
 "@SYNTAX=IMTAN(i)\n"
-"@DESCRIPTION=IMTAN returnerar tangens för ett komplext tal. "
-"Funktionen är kompatibel med Excel.\n"
+"@DESCRIPTION=IMTAN returnerar tangens för ett komplext tal. Funktionen är "
+"kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=IMSIN,IMCOS"
@@ -2868,8 +2868,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMEXP\n"
 "@SYNTAX=IMEXP(i)\n"
-"@DESCRIPTION=IMEXP returnerar exponentialen av ett komplext tal. "
-"Funktionen är kompatibel med Excel.\n"
+"@DESCRIPTION=IMEXP returnerar exponentialen av ett komplext tal. Funktionen "
+"är kompatibel med Excel.\n"
 "@SEEALSO=IMLN"
 
 #: src/functions/fn-eng.c:882
@@ -2911,8 +2911,8 @@ msgstr ""
 "@DESCRIPTION=IMLN returnerar den naturliga logaritmen för ett komplext tal. "
 "(Resultatet har en imaginärdel mellan -pi och +pi. Den naturliga logaritmen "
 "är inte unikt definierad för komplexa tal, och därför kan du behöva addera "
-"eller subtrahera en jämn multipel av pi på imaginärdelen.) "
-"Denna funtion är kompatibel med Excel.\n"
+"eller subtrahera en jämn multipel av pi på imaginärdelen.) Denna funtion är "
+"kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "IMLN(\"3-j\") är lika med 1.15129-0.32175j.\n"
 "\n"
@@ -2973,8 +2973,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMPOWER\n"
 "@SYNTAX=IMPOWER(i,exp)\n"
-"@DESCRIPTION=IMPOWER returnerar ett komplext tal @i upphöjt till @exp. "
-"Denna funktion är kompatibel med Excel.\n"
+"@DESCRIPTION=IMPOWER returnerar ett komplext tal @i upphöjt till @exp. Denna "
+"funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "IMPOWER(\"4-j\",2) är lika med 15-8j.\n"
 "\n"
@@ -2993,8 +2993,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMDIV\n"
 "@SYNTAX=IMDIV(i,i)\n"
-"@DESCRIPTION=IMDIV returnerar kvoten av två komplexa tal. "
-"Denna funktion är kompatibel med Excel.\n"
+"@DESCRIPTION=IMDIV returnerar kvoten av två komplexa tal. Denna funktion är "
+"kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "IMDIV(\"2-j\",\"2+j\") är lika med 0.6-0.8j.\n"
 "\n"
@@ -3013,8 +3013,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSIN\n"
 "@SYNTAX=IMSIN(i)\n"
-"@DESCRIPTION=IMSIN returnerar sinus för ett komplext tal. "
-"Denna funktion är kompatibel med Excel.\n"
+"@DESCRIPTION=IMSIN returnerar sinus för ett komplext tal. Denna funktion är "
+"kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "IMSIN(\"1+j\") är lika med 1.29846+0.63496j.\n"
 "\n"
@@ -3033,8 +3033,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSQRT\n"
 "@SYNTAX=IMSQRT(i)\n"
-"@DESCRIPTION=IMSQRT returnerar kvadratroten av ett komplext tal. "
-"Denna funktion är kompatibel med Excel.\n"
+"@DESCRIPTION=IMSQRT returnerar kvadratroten av ett komplext tal. Denna "
+"funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "IMSQRT(\"1+j\") är lika med 1.09868+0.4550899j.\n"
 "\n"
@@ -3053,8 +3053,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=IMSUB\n"
 "@SYNTAX=IMSUB(i,i)\n"
-"@DESCRIPTION=IMSUB returnerar skillnaden mellan två komplexa tal. "
-"Denna funktion är kompatibel med Excel.\n"
+"@DESCRIPTION=IMSUB returnerar skillnaden mellan två komplexa tal. Denna "
+"funktion är kompatibel med Excel.\n"
 "@EXAMPLES=\n"
 "IMSUB(\"3-j\",\"2+j\") är lika med 1-2j.\n"
 "\n"
@@ -8435,7 +8435,7 @@ msgstr ""
 "existerande cellerna i det området. Vill du ersätta\n"
 "innehållet i området?"
 
-#: src/item-cursor.c:582 src/item-grid.c:639 src/workbook.c:1065
+#: src/item-cursor.c:582 src/item-grid.c:644 src/workbook.c:1065
 msgid "Copy"
 msgstr "Kopiera"
 
@@ -8467,19 +8467,19 @@ msgstr "Flytta celler nedåt och flytta"
 msgid "Shift cells right and move"
 msgstr "Flytta celler åt höger och flytta"
 
-#: src/item-grid.c:638 src/workbook.c:1062
+#: src/item-grid.c:643 src/workbook.c:1062
 msgid "Cut"
 msgstr "Klipp ut"
 
-#: src/item-grid.c:640 src/workbook.c:1068
+#: src/item-grid.c:645 src/workbook.c:1068
 msgid "Paste"
 msgstr "Klistra in"
 
-#: src/item-grid.c:645
+#: src/item-grid.c:650
 msgid "Erase content"
 msgstr "Ta bort innehåll"
 
-#: src/item-grid.c:647
+#: src/item-grid.c:652
 msgid "Cell format"
 msgstr "Cellformatering"
 
@@ -9291,7 +9291,8 @@ msgstr "Tusentalsseparator"
 
 #: src/workbook-format-toolbar.c:428
 msgid "Sets the format of the selected cells to include a thousands separator"
-msgstr "Ändra formateringen på markerade celler till att använda tusentalsseparator"
+msgstr ""
+"Ändra formateringen på markerade celler till att använda tusentalsseparator"
 
 #: src/workbook-format-toolbar.c:431
 msgid "Add decimals"
@@ -9336,4 +9337,3 @@ msgstr "Du angav en ogiltig radhöjd.  Den måste vara större än 0"
 #: src/xml-io.c:2277
 msgid "Old Gnumeric XML file format"
 msgstr "Gammalt Gnumeric XML filformat"
-

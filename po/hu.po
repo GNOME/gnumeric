@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-09-23 15:23-0500\n"
+"POT-Creation-Date: 1999-09-23 17:49-0500\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
 "Language-Team: Németh Péter <qgenpete@gold.uni-miskolc.hu>\n"
