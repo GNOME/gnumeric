@@ -3511,12 +3511,11 @@ workbook_setup_edit_area (WorkbookControlGUI *wbcg)
 	gtk_box_pack_start (GTK_BOX (box), wbcg->ok_button, 0, 0, 0);
 	gtk_box_pack_start (GTK_BOX (box), wbcg->func_button, 0, 0, 0);
 
-	/* Dependency + Style debugger */
-	if (gnumeric_debugging > 9 ||
-	    style_debugging > 0 || dependency_debugging > 0) {
+	/* Dependency debugger */
+	if (gnumeric_debugging > 9 || dependency_debugging > 0) {
 		GtkWidget *deps_button = edit_area_button (wbcg, TRUE,
 			G_CALLBACK (cb_workbook_debug_info),
-			GNOME_STOCK_PIXMAP_BOOK_RED);
+			GTK_STOCK_DIALOG_INFO);
 		gtk_box_pack_start (GTK_BOX (box), deps_button, 0, 0, 0);
 	}
 
