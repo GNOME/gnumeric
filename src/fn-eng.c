@@ -397,7 +397,7 @@ static char *help_besselj = {
 	   "The BESSELJ function returns the bessel function with "
 	   "x is where the function is evaluated. "
 	   "y is the order of the bessel function, if non-integer it is "
-	   "truncated. "
+	   "truncated."
 	   "\n"
 
 	   "if x or n are not numeric a #VALUE! error is returned."
@@ -434,7 +434,7 @@ static char *help_bessely = {
 	   "function. "
 	   "@x is where the function is evaluated. "
 	   "@y is the order of the bessel function, if non-integer it is "
-	   "truncated. "
+	   "truncated."
 	   "\n"
 
 	   "if x or n are not numeric a #VALUE! error is returned."
@@ -511,7 +511,7 @@ static char *help_complex = {
 	   "COMPLEX returns a complex number of the form x + yi. "
 	   "@real is the real and @im is the imaginary coefficient of "
 	   "the complex number.  @suffix is the suffix for the imaginary "
-	   "coefficient.  If it is omitted, COMPLEX uses 'i' by default. "
+	   "coefficient.  If it is omitted, COMPLEX uses 'i' by default."
 	   "\n"
 	   "If @suffix is neither 'i' nor 'j', COMPLEX returns #VALUE! "
 	   "error. "
@@ -548,7 +548,7 @@ static char *help_imaginary = {
 	   "@SYNTAX=IMAGINARY(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMAGINARY returns the imaginary coefficient of a complex "
-	   "number. "
+	   "number."
 	   "\n"
 	   "@SEEALSO=IMREAL")
 };
@@ -575,7 +575,7 @@ static char *help_imreal = {
 	N_("@FUNCTION=IMREAL\n"
 	   "@SYNTAX=IMREAL(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMREAL returns the real coefficient of a complex number. "
+	   "IMREAL returns the real coefficient of a complex number."
 	   "\n"
 	   "@SEEALSO=IMAGINARY")
 };
@@ -603,7 +603,7 @@ static char *help_imabs = {
 	N_("@FUNCTION=IMABS\n"
 	   "@SYNTAX=IMABS(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMABS returns the absolute value of a complex number. "
+	   "IMABS returns the absolute value of a complex number."
 	   "\n"
 	   "@SEEALSO=IMAGINARY,IMREAL")
 };
@@ -628,7 +628,7 @@ static char *help_imconjugate = {
 	N_("@FUNCTION=IMCONJUGATE\n"
 	   "@SYNTAX=IMCONJUGATE(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMCONJUGATE returns the complex conjugate of a complex number. "
+	   "IMCONJUGATE returns the complex conjugate of a complex number."
 	   "\n"
 	   "@SEEALSO=IMAGINARY,IMREAL")
 };
@@ -653,7 +653,7 @@ static char *help_imcos = {
 	N_("@FUNCTION=IMCOS\n"
 	   "@SYNTAX=IMCOS(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMCOS returns the cosine of a complex number. "
+	   "IMCOS returns the cosine of a complex number."
 	   "\n"
 	   "@SEEALSO=IMSIN")
 };
@@ -678,7 +678,7 @@ static char *help_imtan = {
 	N_("@FUNCTION=IMTAN\n"
 	   "@SYNTAX=IMTAN(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMCOS returns the tangent of a complex number. "
+	   "IMCOS returns the tangent of a complex number."
 	   "\n"
 	   "@SEEALSO=IMTAN")
 };
@@ -703,7 +703,7 @@ static char *help_imexp = {
 	N_("@FUNCTION=IMEXP\n"
 	   "@SYNTAX=IMEXP(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMEXP returns the exponential of a complex number. "
+	   "IMEXP returns the exponential of a complex number."
 	   "\n"
 	   "@SEEALSO=IMLN")
 };
@@ -728,7 +728,7 @@ static char *help_imargument = {
 	N_("@FUNCTION=IMARGUMENT\n"
 	   "@SYNTAX=IMARGUMENT(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMARGUMENT returns the argument theta of a complex number. "
+	   "IMARGUMENT returns the argument theta of a complex number."
 	   "\n"
 	   "@SEEALSO=")
 };
@@ -752,7 +752,10 @@ static char *help_imln = {
 	N_("@FUNCTION=IMLN\n"
 	   "@SYNTAX=IMLN(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMLN returns the natural logarithm of a complex number. "
+	   "IMLN returns the natural logarithm of a complex number. (The result "
+	   "will have an imaginary part between -pi an +pi.  The natural "
+	   "logarithm is not uniquely defined on complex numbers.  You may need "
+	   "to add or subtract an even multiple of pi to the imaginary part.)"
 	   "\n"
 	   "@SEEALSO=IMEXP")
 };
@@ -777,7 +780,7 @@ static char *help_imlog2 = {
 	N_("@FUNCTION=IMLOG2\n"
 	   "@SYNTAX=IMLOG2(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMLOG2 returns the logarithm of a complex number in base 2. "
+	   "IMLOG2 returns the logarithm of a complex number in base 2."
 	   "\n"
 	   "@SEEALSO=IMLN,IMLOG10")
 };
@@ -804,7 +807,7 @@ static char *help_imlog10 = {
 	N_("@FUNCTION=IMLOG10\n"
 	   "@SYNTAX=IMLOG10(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMLOG10 returns the logarithm of a complex number in base 10. "
+	   "IMLOG10 returns the logarithm of a complex number in base 10."
 	   "\n"
 	   "@SEEALSO=IMLN,IMLOG2")
 };
@@ -833,7 +836,7 @@ static char *help_impower = {
 	   "@DESCRIPTION="
 	   "IMPOWER returns a complex number raised to a power.  @inumber is "
 	   "the complex number to be raised to a power and @number is the "
-	   "power to which you want to raise the complex number. "
+	   "power to which you want to raise the complex number."
 	   "\n"
 	   "@SEEALSO=IMEXP,IMLN")
 };
@@ -870,7 +873,7 @@ static char *help_imdiv = {
 	N_("@FUNCTION=IMDIV\n"
 	   "@SYNTAX=IMDIV(inumber,inumber)\n"
 	   "@DESCRIPTION="
-	   "IMDIV returns the quotient of two complex numbers. "
+	   "IMDIV returns the quotient of two complex numbers."
 	   "\n"
 	   "@SEEALSO=IMPRODUCT")
 };
@@ -905,7 +908,7 @@ static char *help_imsin = {
 	N_("@FUNCTION=IMSIN\n"
 	   "@SYNTAX=IMSIN(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMSIN returns the sine of a complex number. "
+	   "IMSIN returns the sine of a complex number."
 	   "\n"
 	   "@SEEALSO=IMCOS")
 };
@@ -930,7 +933,7 @@ static char *help_imsqrt = {
 	N_("@FUNCTION=IMSQRT\n"
 	   "@SYNTAX=IMSQRT(inumber)\n"
 	   "@DESCRIPTION="
-	   "IMSQRT returns the square root of a complex number. "
+	   "IMSQRT returns the square root of a complex number."
 	   "\n"
 	   "@SEEALSO=IMEXP")
 };
@@ -955,7 +958,7 @@ static char *help_imsub = {
 	N_("@FUNCTION=IMSUB\n"
 	   "@SYNTAX=IMSUB(inumber,inumber)\n"
 	   "@DESCRIPTION="
-	   "IMSUB returns the difference of two complex numbers. "
+	   "IMSUB returns the difference of two complex numbers."
 	   "\n"
 	   "@SEEALSO=IMSUM")
 };
@@ -985,7 +988,7 @@ static char *help_improduct = {
 	N_("@FUNCTION=IMPRODUCT\n"
 	   "@SYNTAX=IMPRODUCT(inumber1[,inumber2,...])\n"
 	   "@DESCRIPTION="
-	   "IMPRODUCT returns the product of given complex numbers. "
+	   "IMPRODUCT returns the product of given complex numbers."
 	   "\n"
 	   "@SEEALSO=IMDIV")
 };
@@ -1011,7 +1014,7 @@ callback_function_imoper (Sheet *sheet, Value *value,
 	imptr = VALUE_IS_NUMBER (value) ? &dummy : &result->imunit;
 	if (value_get_as_complex (value, &c, imptr)) {
 		*error_string = gnumeric_err_VALUE;
-		return NULL;
+		FALSE;
 	}
 
 	switch (result->type) {
@@ -1055,7 +1058,7 @@ static char *help_imsum = {
 	N_("@FUNCTION=IMSUM\n"
 	   "@SYNTAX=IMSUM(inumber,inumber)\n"
 	   "@DESCRIPTION="
-	   "IMSUM returns the sum of two complex numbers. "
+	   "IMSUM returns the sum of two complex numbers."
 	   "\n"
 	   "@SEEALSO=IMSUB")
 };
@@ -1089,7 +1092,7 @@ static char *help_convert = {
 	   "another.  For example, you can convert a weight in pounds "
 	   "to a weight in grams.  @number is the value you want to "
 	   "convert, @from_unit specifies the unit of the number, and "
-	   "@to_unit is the unit for the result. "
+	   "@to_unit is the unit for the result."
 	   "\n"
 	   "@from_unit and @to_unit can be any of the following:\n\n"
 	   "Weight and mass:\n"
@@ -1479,11 +1482,11 @@ static char *help_erf = {
 	   "@DESCRIPTION="
 	   "The ERF function returns the integral of the error function "
 	   "between the limits.  If the upper limit ommitted ERF returns "
-	   "the integral between zero and the lower limit"
+	   "the integral between zero and the lower limit."
 	   "\n"
-	   "if either lower or upper are not numeric a #VALUE! error is "
-	   "returned."
-	   "if either lower or upper are < 0 a #NUM! error is returned."
+	   "If either lower or upper are not numeric a #VALUE! error is "
+	   "returned.  "
+	   "If either lower or upper are < 0 a #NUM! error is returned."
 	   "\n"
 	   "@SEEALSO=ERFC")
 };
@@ -1518,11 +1521,11 @@ static char *help_erfc = {
 
 	   "@DESCRIPTION="
 	   "The ERFC function returns the integral of the complimentary "
-	   "error function between the limits 0 and x. "
+	   "error function between the limits 0 and x."
 	   "\n"
 
-	   "if x is not numeric a #VALUE! error is returned."
-	   "if x < 0 a #NUM! error is returned."
+	   "If x is not numeric a #VALUE! error is returned.  "
+	   "If x < 0 a #NUM! error is returned."
 	   "\n"
 	   "@SEEALSO=ERF")
 };
@@ -1546,10 +1549,10 @@ static char *help_delta = {
 	   "@DESCRIPTION="
 	   "The DELTA function test for numerical eqivilance of two "
 	   "arguments returning 1 in equality "
-	   "y is optional, and defaults to 0"
+	   "y is optional, and defaults to 0."
 	   "\n"
 
-	   "if either argument is non-numeric returns a #VALUE! error"
+	   "If either argument is non-numeric returns a #VALUE! error."
 	   "\n"
 	   "@SEEALSO=EXACT,GESTEP")
 };
@@ -1618,10 +1621,10 @@ static char *help_gestep = {
 
 	   "@DESCRIPTION="
 	   "The GESTEP function test for if x is >= y, returning 1 if it "
-	   "is so, and 0 otherwise y is optional, and defaults to 0"
+	   "is so, and 0 otherwise y is optional, and defaults to 0."
 	   "\n"
 
-	   "if either argument is non-numeric returns a #VALUE! error"
+	   "If either argument is non-numeric returns a #VALUE! error."
 	   "\n"
 	   "@SEEALSO=DELTA")
 };
