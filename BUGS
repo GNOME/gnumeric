@@ -15,7 +15,6 @@ Release Critical
 1.2 Targets
 -----------
 
-- PROB sucks right now.
 - load/save of external references
 - String functions need to be UTF8ed.
 
