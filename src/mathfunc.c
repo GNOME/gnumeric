@@ -4749,7 +4749,7 @@ lgamma1p (gnm_float a)
 	int i;
 
 	if (a >= 0.5)
-		return lgamma (a + 1);
+		return lgammagnum (a + 1);
 
 	/* Abramowitz & Stegun 6.1.33 */
 	/* http://functions.wolfram.com/06.11.06.0008.01 */
