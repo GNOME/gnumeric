@@ -68,7 +68,7 @@ gnumeric_popt_options[] = {
 	{ "dump-func-state", '\0', POPT_ARG_STRING, &func_state_file, 0,
 	  N_("Dumps the function definitions"),   N_("FILE") },
 	{ "split-func", '\0', POPT_ARG_NONE, &split_funcdocs, 0,
-	  N_("Generate new help an po files"),   NULL },
+	  N_("Generate new help and po files"),   NULL },
 
 	{ "debug", '\0', POPT_ARG_INT, &gnumeric_debugging, 0,
 	  N_("Enables some debugging functions"), N_("LEVEL") },

@@ -23,6 +23,7 @@ Jon Kåre:
 Morten:
 	* Work around Pango bug causing XL save crash.  [#166532]
 	* Fix Save-As GUI problem causing CRITICALs.
+	* Fix typo that managed to get its up bugzilla entry.  [#167495]
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0

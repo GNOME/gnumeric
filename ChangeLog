@@ -1,5 +1,7 @@
 2005-02-15  Morten Welinder  <terra@gnome.org>
 
+	* src/main-application.c: Typo.  [#167495]
+
 	* src/gui-file.c (do_save_as): Expand into lone caller.  Destroy
 	dialog right after we're done with it, so there user doesn't get
 	to press Save while we save.
