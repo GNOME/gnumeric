@@ -4,6 +4,7 @@ GNOME_Gnumeric.server.in.in
 gnumeric.desktop.in
 plugins/applix/applix-read.c
 plugins/applix/plugin.xml.in
+plugins/corba/plugin.xml.in
 plugins/derivatives/options.c
 plugins/derivatives/plugin.xml.in
 plugins/dif/dif.c

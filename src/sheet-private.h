@@ -14,10 +14,6 @@ struct _SheetPrivate {
 	gboolean	 resize_scrollbar		: 1;
 	gboolean	 resize				: 1;
 	CellPos		 reposition_objects;
-
-#ifdef WITH_BONOBO
-	void            *corba_server;
-#endif
 };
 
 #endif /* GNUMERIC_SHEET_PRIVATE_H */
