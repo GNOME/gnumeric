@@ -214,9 +214,9 @@ gnm_go_data_vector_finalize (GObject *obj)
 		value_release (vec->val);
 		vec->val = NULL;
 	}
-	if (vec->base.vals != NULL) {
-		g_free (vec->base.vals);
-		vec->base.vals = NULL;
+	if (vec->base.values != NULL) {
+		g_free (vec->base.values);
+		vec->base.values = NULL;
 	}
 
 	if (vector_parent_klass->finalize)
