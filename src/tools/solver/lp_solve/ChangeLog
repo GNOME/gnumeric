@@ -1,3 +1,7 @@
+2002-03-21  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* doc.txt: Removed.
+
 2002-03-20  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* lpkit.[ch] (lp_solve_set_max_iter): Wrote.
