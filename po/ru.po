@@ -5,14 +5,14 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2003-09-10 00:27-0400\n"
-"PO-Revision-Date: 2003-07-06 15:22+0400\n"
-"Last-Translator: Dmitry G. Mastrukov <dmitry@taurussoft.org>\n"
+"POT-Creation-Date: 2003-09-13 13:20+0400\n"
+"PO-Revision-Date: 2003-09-13 14:47+0400\n"
+"Last-Translator: Valek Filippov <frob@df.ru>\n"
 "Language-Team: Russian <gnome-cyr@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8-bit\n"
+"Report-Msgid-Bugs-To: \n"
 
 #: GNOME_Gnumeric.server.in.in.h:1
 msgid "Gnumeric Workbook"
@@ -2657,7 +2657,6 @@ msgstr ""
 "@SEEALSO=NOW, DATE, DATE2UNIX"
 
 #: plugins/fn-date/functions.c:163
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
@@ -2673,13 +2672,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=DATE2UNIX\n"
 "@SYNTAX=DATE2UNIX(serial)\n"
-"@DESCRIPTION=DATE2UNIX преобразует последовательный номер даты и времени из "
-"таблицы во время в формате unix.\n"
+"@DESCRIPTION=DATE2UNIX преобразует последовательный номер даты и времени из таблицы во время в формате unix.\n"
 "\n"
-"Время в формате unix -- это число секунд прошедшее с полуночи 1 января 1970 "
-"года.\n"
+"Время в формате unix -- это число секунд прошедшее с полуночи 1 января 1970 года.\n"
 "\n"
 "@EXAMPLES=\n"
+"DATE2UNIX(\"01/01/2000\") равняется 946656000.\n"
 "\n"
 "@SEEALSO=NOW, DATE, UNIX2DATE"
 
@@ -6450,7 +6448,7 @@ msgstr "%s версия %s"
 
 #. Current recalculation mode; returns "Automatic" or "Manual".
 #: plugins/fn-info/functions.c:1308
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:264
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:407
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:109
 #: src/dialogs/dialog-cell-format.c:2265 src/dialogs/dialog-cell-format.c:2270
 #: src/dialogs/dialog-cell-format.c:2280 src/workbook-format-toolbar.c:836
@@ -13669,7 +13667,6 @@ msgstr ""
 "@SEEALSO=CODE"
 
 #: plugins/fn-string/functions.c:102
-#, fuzzy
 msgid ""
 "@FUNCTION=UNICHAR\n"
 "@SYNTAX=UNICHAR(x)\n"
@@ -13688,7 +13685,7 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "UNICHAR(65) равняется A.\n"
-"UNICHAR(8232) равняется символу ошибки возврата каретки.\n"
+"UNICHAR(960) равняется символу греческой строчной буквы пи.\n"
 "\n"
 "@SEEALSO=CHAR,UNICODE,CODE"
 
@@ -13717,7 +13714,6 @@ msgstr ""
 "@SEEALSO=CHAR"
 
 #: plugins/fn-string/functions.c:179
-#, fuzzy
 msgid ""
 "@FUNCTION=UNICODE\n"
 "@SYNTAX=UNICODE(char)\n"
@@ -13737,7 +13733,7 @@ msgstr ""
 "@EXAMPLES=\n"
 "UNICODE(\"A\") равняется 65.\n"
 "\n"
-"@SEEALSO=CHAR"
+"@SEEALSO=UNICHAR,CODE,CHAR"
 
 #: plugins/fn-string/functions.c:205
 msgid ""
@@ -14698,7 +14694,7 @@ msgstr ""
 msgid ""
 "@FUNCTION=NT_MU\n"
 "@SYNTAX=NT_MU(n)\n"
-"@DESCRIPTION=NT_MU function (Möbius mu function) returns \n"
+"@DESCRIPTION=NT_MU function (Mbius mu function) returns \n"
 "0  if @n is divisible by the square of a prime .\n"
 "Otherwise it returns: \n"
 "\n"
@@ -15048,24 +15044,24 @@ msgstr "Интерпретатор по умолчанию"
 
 #: plugins/python-loader/gnm-python.c:130
 #: plugins/python-loader/gnm-python.c:152
-#, fuzzy, c-format
+#, c-format
 msgid "Could not import %s."
-msgstr "Невозможно загрузить файл: %s"
+msgstr "Невозможно импортировать %s."
 
 #: plugins/python-loader/gnm-python.c:137
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s."
-msgstr "Невозможно загрузить файл: %s"
+msgstr "Не удалось найти %s."
 
 #: plugins/python-loader/gnm-python.c:145
 #, c-format
 msgid "Could not initialize Python bindings for Gtk+, etc: %s"
-msgstr ""
+msgstr "Не удалось инициализировать Python для Gtk+: %s"
 
 #: plugins/python-loader/gnm-python.c:159
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find %s"
-msgstr "Невозможно загрузить файл: %s"
+msgstr "Не удалось найти %s"
 
 #: plugins/python-loader/plugin.xml.in.h:1
 msgid "Python plugin loader"
@@ -15339,10 +15335,6 @@ msgstr "ЭКСПЕРИМЕНТАЛЬНЫЙ XML основанный на SAX"
 #: plugins/xml_sax/plugin.xml.in.h:3
 msgid "The next generation sax based xml I/O subsystem"
 msgstr "Подсистема ввода-вывода XML следующего поколения, основанная на SAX"
-
-#: plugins/xml_sax/plugin.xml.in.h:4
-msgid "UNFINISHED Gnumeric XML (*.gnumeric)"
-msgstr "ЭКСПЕРИМЕНТАЛЬНЫЙ формат Gnumeric XML (*.gnumeric)"
 
 #: plugins/xml_sax/xml-sax-read.c:301
 #, c-format
@@ -15774,20 +15766,17 @@ msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:50
 msgid "This variable determines whether autocompletion is set on."
-msgstr ""
+msgstr "Эта переменная определяет установлено ли автозавершение."
 
 #: schemas/gnumeric-general.schemas.in.h:51
 msgid ""
 "This variable determines whether live (versus delayed) scrolling is "
 "performed."
-msgstr ""
+msgstr "Эта переменная определяет будет ли выполняться немедленная прокрутка или отложенная."
 
 #: schemas/gnumeric-general.schemas.in.h:52
-#, fuzzy
 msgid "This variable determines whether transition keys are set on."
 msgstr ""
-"Это значение определяет максимальное число элементов в списке откатов/"
-"возвратов."
 
 #: schemas/gnumeric-general.schemas.in.h:53
 msgid "Toolbar Style"
@@ -16126,14 +16115,12 @@ msgid "Create a scrollbar"
 msgstr "Создать полосу прокрутки"
 
 #: src/GNOME_Gnumeric.xml.h:68 src/workbook-object-toolbar.c:193
-#, fuzzy
 msgid "Create a slider"
-msgstr "Создать список"
+msgstr "Создать ползунок"
 
 #: src/GNOME_Gnumeric.xml.h:69 src/workbook-object-toolbar.c:190
-#, fuzzy
 msgid "Create a spin button"
-msgstr "Создать кнопку"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:70 src/workbook-object-toolbar.c:177
 msgid "Create an arrow object"
@@ -16250,7 +16237,7 @@ msgid "Filter data with given criteria"
 msgstr "Фильтрация данных по заданным критериям"
 
 #: src/GNOME_Gnumeric.xml.h:97
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:843
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:846
 #: src/dialogs/cell-format.glade.h:43 src/dialogs/dialog-preferences.c:1395
 #: src/workbook-format-toolbar.c:411
 msgid "Font"
@@ -16444,8 +16431,8 @@ msgid "Jump to a specified cell"
 msgstr "Перейти к указанной ячейке"
 
 #: src/GNOME_Gnumeric.xml.h:142
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:299
-#: src/sheet-object-graphic.c:1434 src/workbook-object-toolbar.c:147
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:452
+#: src/sheet-object-graphic.c:1440 src/workbook-object-toolbar.c:147
 msgid "Label"
 msgstr "Метка"
 
@@ -16611,7 +16598,7 @@ msgid "Print Preview"
 msgstr "Просмотр печати"
 
 #: src/GNOME_Gnumeric.xml.h:181 src/GNOME_Gnumeric_Component.xml.h:6
-#: src/print.c:1311 src/workbook-control-gui.c:3301
+#: src/print.c:1322 src/workbook-control-gui.c:3301
 #: src/workbook-control-gui.c:3952
 msgid "Print preview"
 msgstr "Просмотр печати"
@@ -16814,9 +16801,8 @@ msgid "Si_mulation..."
 msgstr "Моделирование..."
 
 #: src/GNOME_Gnumeric.xml.h:230 src/workbook-object-toolbar.c:193
-#, fuzzy
 msgid "Slider"
-msgstr "Сплошной"
+msgstr "Ползунок"
 
 #: src/GNOME_Gnumeric.xml.h:232 src/workbook-control-gui.c:3998
 msgid "Sort Descending"
@@ -16843,9 +16829,8 @@ msgstr ""
 "столбца выделения."
 
 #: src/GNOME_Gnumeric.xml.h:236
-#, fuzzy
 msgid "Spin Button"
-msgstr "Кнопка"
+msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:237 src/workbook-format-toolbar.c:456
 msgid "Split"
@@ -17796,9 +17781,9 @@ msgid "Renaming Sheets"
 msgstr "Переименование листов"
 
 #: src/commands.c:4797
-#, fuzzy, c-format
+#, c-format
 msgid "Appending %i Sheets"
-msgstr "Переименование листов"
+msgstr "Пресоединение %i листов"
 
 #: src/commands.c:4801
 msgid "Changing Tab Colors"
@@ -17809,14 +17794,12 @@ msgid "Changing Sheet Protection"
 msgstr "Изменение защиты листа"
 
 #: src/commands.c:4807
-#, fuzzy
 msgid "Delete sheets"
-msgstr "Удалить ячейки"
+msgstr "Удалить листы"
 
 #: src/commands.c:4810
-#, fuzzy
 msgid "Delete a sheet"
-msgstr "Удалить объект"
+msgstr "Удалить лист"
 
 #: src/commands.c:4813
 msgid "Reorganizing Sheets"
@@ -17907,111 +17890,132 @@ msgid "Solver"
 msgstr ""
 
 #: src/commands.c:6365
-#, fuzzy, c-format
+#, c-format
 msgid "Goal Seek (%s)"
-msgstr "Поиск цели"
+msgstr "Поиск цели (%s)"
 
 #: src/commands.c:6509
-#, fuzzy, c-format
+#, c-format
 msgid "Duplicating %s"
-msgstr "Дублировать"
+msgstr "Дублирование %s"
 
 #: src/commands.c:6590
-#, fuzzy
 msgid "Tabulating Dependencies"
-msgstr "Табулировать зависимость"
+msgstr "Табулирование зависимости"
 
 #: src/commands.c:6667
-#, fuzzy
 msgid "Reconfigure Graph"
-msgstr "Настройть график"
+msgstr "Перенастройть график"
 
 #: src/consolidate.c:773
-#, fuzzy, c-format
+#, c-format
 msgid "Consolidating to (%s)"
-msgstr "Консолидировать в %s!%s"
+msgstr "Консолидировать в (%s)"
 
 #: src/consolidate.c:812 src/consolidate.c:815
-#, fuzzy
 msgid "Data Consolidation"
 msgstr "Консолидация данных"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:1
-#, fuzzy
-msgid "_Cross"
-msgstr "Закрыть"
+msgid "<b>Major Ticks:</b>"
+msgstr "<b>Основные деления:</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:2
-#, fuzzy
-msgid "_High"
-msgstr "Высота..."
+msgid "<b>Minor Ticks:</b>"
+msgstr "<b>Вспомогательные деления:</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:3
-#, fuzzy
-msgid "_Invert"
-msgstr "Вставка"
+msgid "I_nside"
+msgstr "Внутри"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:4
-#, fuzzy
-msgid "_Low"
-msgstr "Строка"
+msgid "O_utside"
+msgstr "Снаружи"
 
 #: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:5
-#, fuzzy
-msgid "_Map:"
-msgstr "Зазор:"
+msgid "_Cross"
+msgstr ""
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:6
+msgid "_High"
+msgstr "Высокий"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:7
+msgid "_Inside"
+msgstr "Внутри"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:8
+msgid "_Invert"
+msgstr "Инвертировать"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:9
+msgid "_Low"
+msgstr "Низкий"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:10
+msgid "_Map:"
+msgstr "Карта:"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:11
+msgid "_Outside"
+msgstr "Снаружи"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis-prefs.glade.h:12
+msgid "_Show Labels"
+msgstr "Показать метки"
+
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:380
 #: src/dialogs/solver.glade.h:14
 msgid "M_in"
 msgstr "Мин"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:246
-#, fuzzy
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:380
 msgid "M_ax"
 msgstr "Макс"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:247
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:381
 msgid "Ma_jor Ticks"
-msgstr ""
+msgstr "Основные деления"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:248
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:382
 msgid "Mi_nor Ticks"
-msgstr ""
+msgstr "Вспомогательные деления"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:271
-#, fuzzy
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:415
 msgid "Bounds"
-msgstr "Фон"
+msgstr "Границы"
 
-#: src/cut-n-paste-code/goffice/graph/gog-axis.c:275
-#, fuzzy
+#: src/cut-n-paste-code/goffice/graph/gog-axis.c:419
 msgid "Details"
-msgstr "Скрыть подробности"
+msgstr "Подробности"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:172
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:195
 msgid "Legend"
 msgstr "Подпись"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:175
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:198
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:172
 #: src/cut-n-paste-code/goffice/graph/gog-legend.c:169
 msgid "Title"
 msgstr "Заголовок"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:178
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:201
+msgid "Grid"
+msgstr "Сетка"
+
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:204
 msgid "X-Axis"
-msgstr ""
+msgstr "Оси X"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:182
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:208
 msgid "Y-Axis"
-msgstr ""
+msgstr "Оси Y"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:186
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:212
 msgid "Z-Axis"
-msgstr ""
+msgstr "Оси Z"
 
-#: src/cut-n-paste-code/goffice/graph/gog-chart.c:190
+#: src/cut-n-paste-code/goffice/graph/gog-chart.c:216
 msgid "Plot"
 msgstr "Начертить"
 
@@ -18036,28 +18040,24 @@ msgstr "Ширина"
 #. * support graphs in graphs
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:123
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:230
-#, fuzzy
 msgid "Graph"
-msgstr "Сгруппировать"
+msgstr "График"
 
 #: src/cut-n-paste-code/goffice/graph/gog-graph.c:169
 msgid "Chart"
 msgstr "Диаграмма"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1000
-#, fuzzy
 msgid "Step 1 of 2: Select Chart Type"
-msgstr "Шаг 1 из 2: Выбор типа графика"
+msgstr "Шаг 1 из 2: Выбор типа диаграммы"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1008
-#, fuzzy
 msgid "Step 2 of 2: Customize Chart"
-msgstr "Шаг 2 из 2: Настройка графика"
+msgstr "Шаг 2 из 2: Настройка диаграммы"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1013
-#, fuzzy
 msgid "Customize Chart"
-msgstr "Настроить заголовок"
+msgstr "Настройка диаграмы"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.c:1108
 msgid "_Plot Type"
@@ -18146,14 +18146,12 @@ msgid "Series"
 msgstr "Серии"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:1
-#, fuzzy
 msgid "2 Color"
-msgstr "Цвет:"
+msgstr "Цвет 2:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:2
-#, fuzzy
 msgid "<b>Fill</b>"
-msgstr "<b>Линия</b>"
+msgstr "<b>Заливка</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:3
 #: src/dialogs/cell-format.glade.h:17
@@ -18161,32 +18159,28 @@ msgid "<b>Line</b>"
 msgstr "<b>Линия</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:4
-#, fuzzy
 msgid "<b>Marker</b>"
-msgstr "<b>Шаблон</b>"
+msgstr "<b>Отметка</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:5
-#, fuzzy
 msgid "<b>Outline</b>"
-msgstr "<b>Линия</b>"
+msgstr "<b>Контур</b>"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:6
-#, fuzzy
 msgid "Brightness"
-msgstr "ярко-оранжевый"
+msgstr "Яркость"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:7
-#, fuzzy
 msgid "C_olor:"
 msgstr "Цвет:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:8
 msgid "Fill from start color to end color"
-msgstr ""
+msgstr "Заливка от начального до конечного цвета"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:9
 msgid "Fill from start colour to a darker/lighter version of that color"
-msgstr ""
+msgstr "Заливка от начального цвета до более тёмного/светлого оттенка этого цвета"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:10
 msgid "Gradient"
@@ -18208,74 +18202,60 @@ msgid "Pattern"
 msgstr "Шаблон"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:14
-#, fuzzy
 msgid "Si_ze:"
 msgstr "Размер:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:15
-#, fuzzy
 msgid "T_ype:"
 msgstr "Тип:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:16
-#, fuzzy
 msgid "_Background:"
 msgstr "Фон"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:17
-#, fuzzy
 msgid "_Direction:"
 msgstr "Направление:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:18
-#, fuzzy
 msgid "_End:"
-msgstr "Конец"
+msgstr "Конец:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:19
-#, fuzzy
 msgid "_Fill color:"
 msgstr "Цвет заливки:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:20
-#, fuzzy
 msgid "_Fit:"
-msgstr "Заполнять до:"
+msgstr "Заполнить:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:21
-#, fuzzy
 msgid "_Foreground:"
-msgstr "Передний план"
+msgstr "Передний план:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:22
-#, fuzzy
 msgid "_Outline color:"
 msgstr "Цвет контура:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:23
-#, fuzzy
 msgid "_Pattern:"
-msgstr "Шаблон"
+msgstr "Шаблон:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:24
-#, fuzzy
 msgid "_Select..."
-msgstr "Выделение"
+msgstr "Выделение..."
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:25
-#, fuzzy
 msgid "_Shape:"
-msgstr "Размах:"
+msgstr "Форма:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:26
-#, fuzzy
 msgid "_Size:"
 msgstr "Размер:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:27
-#, fuzzy
 msgid "_Start:"
-msgstr "Состояние"
+msgstr "Начало:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:28
 #: src/dialogs/solver.glade.h:42
@@ -18283,42 +18263,37 @@ msgid "_Type:"
 msgstr "Тип:"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:29
-#, fuzzy
 msgid "_brighter"
-msgstr "ярко-синий"
+msgstr "ярче"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:30
-#, fuzzy
 msgid "_darker"
-msgstr "тёмно-красный"
+msgstr "темнее"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:31
-#, fuzzy
 msgid "pts"
-msgstr "Отчеты:"
+msgstr "тчк"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:32
 msgid "stretched"
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/gog-style-prefs.glade.h:33
-#, fuzzy
 msgid "wallpaper"
 msgstr "Обои"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:169
 #: src/widgets/preview-file-selection.c:167
-#, fuzzy, c-format
+#, c-format
 msgid "%d x %d"
-msgstr "%dR x %dC"
+msgstr "%d x %d"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:535
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:536
 #: src/workbook-control-gui.c:3100
-#, fuzzy
 msgid "Select an image"
-msgstr "Выбрать файл изображения"
+msgstr "Выбрать изображение"
 
-#: src/cut-n-paste-code/goffice/graph/gog-style.c:895
+#: src/cut-n-paste-code/goffice/graph/gog-style.c:898
 #: src/dialogs/pivottable.glade.h:4
 msgid "Style"
 msgstr "Стиль"
@@ -18331,7 +18306,7 @@ msgid "Default"
 msgstr "По умолчанию"
 
 #. Guppi
-#: src/cut-n-paste-code/goffice/graph/gog-theme.c:427
+#: src/cut-n-paste-code/goffice/graph/gog-theme.c:435
 msgid "Guppi"
 msgstr "Guppi"
 
@@ -18382,19 +18357,17 @@ msgstr ""
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotLine2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:44
-#, fuzzy
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:45
 msgid "PlotLine"
-msgstr "Начертить"
+msgstr "Линия"
 
 #. xgettext : the base for how to name bar/col plot objects
 #. * eg The 2nd line plot in a chart will be called
 #. * 	PlotArea2
 #.
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:114
-#, fuzzy
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-line.c:115
 msgid "PlotArea"
-msgstr "Начертить"
+msgstr "Область"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:1
 msgid "3D Adjacent Bars"
@@ -18454,7 +18427,6 @@ msgid "Area plot."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:15
-#, fuzzy
 msgid "Areas"
 msgstr "Области"
 
@@ -18467,14 +18439,12 @@ msgid "Column"
 msgstr "Столбец"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:19
-#, fuzzy
 msgid "Line plot."
-msgstr "Строки для импортирования"
+msgstr "Линейный график"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:20
-#, fuzzy
 msgid "Lines"
-msgstr "Линия"
+msgstr "Линии"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:21
 msgid ""
@@ -18519,9 +18489,8 @@ msgid "Minor categories stacked in vertical columns grouped by major category."
 msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:29
-#, fuzzy
 msgid "Percentage Areas"
-msgstr "Процентные полосы"
+msgstr "Процентные области"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:30
 msgid "Percentage Bars"
@@ -18532,24 +18501,20 @@ msgid "Percentage Columns"
 msgstr "Процентные столбцы"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:32
-#, fuzzy
 msgid "Percentage Lines"
-msgstr "Проценты"
+msgstr "Процентные линии"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:33
-#, fuzzy
 msgid "Percentage area plot."
-msgstr "Процентные полосы"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:34
-#, fuzzy
 msgid "Percentage line plot."
-msgstr "Процентные столбцы"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:35
-#, fuzzy
 msgid "Stacked Areas"
-msgstr "Собранные полосы"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:36
 msgid "Stacked Bars"
@@ -18560,29 +18525,24 @@ msgid "Stacked Columns"
 msgstr "Собранные столбцы"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:38
-#, fuzzy
 msgid "Stacked Lines"
-msgstr "Собранные полосы"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:39
-#, fuzzy
 msgid "Stacked area plot."
-msgstr "Собранные полосы"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plot-types.xml.in.h:40
-#, fuzzy
 msgid "Stacked line plot."
-msgstr "Собранные столбцы"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:1
-#, fuzzy
 msgid "1.5d Charts"
-msgstr "Круговые диаграммы"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:2
-#, fuzzy
 msgid "Area plotting engine"
-msgstr "Модуль отображения круговой диаграммы"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/plugin.xml.in.h:3
 msgid "Bar/Col plotting engine"
@@ -18747,18 +18707,17 @@ msgstr "Модуль отображения кольцевой диаграмм�
 msgid "PlotXY"
 msgstr "Начертить"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:153
-msgid "X"
-msgstr ""
-
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:155
+msgid "X"
+msgstr "X"
+
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/gog-xy.c:157
 msgid "Y"
-msgstr ""
+msgstr "Y"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:1
-#, fuzzy
 msgid "Bubble"
-msgstr "Двойной"
+msgstr "Пузырь"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:2
 msgid ""
@@ -18806,7 +18765,7 @@ msgstr ""
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:12
 msgid "XY"
-msgstr ""
+msgstr "XY"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plugin.xml.in.h:1
 msgid "2D Scatter charts"
@@ -18827,55 +18786,48 @@ msgid "XY Charts"
 msgstr "Круговые диаграммы"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:222
-#, fuzzy
 msgid "none"
-msgstr "Нет"
+msgstr "нет"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:223
 msgid "square"
-msgstr ""
+msgstr "квадрат"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:224
-#, fuzzy
 msgid "diamond"
-msgstr "Медиана"
+msgstr "ромб"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:225
 msgid "triangle down"
-msgstr ""
+msgstr "треугольник вниз"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:226
-#, fuzzy
 msgid "triangle up"
-msgstr "диапазон"
+msgstr "треугольник вверх"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:227
-#, fuzzy
 msgid "triangle right"
-msgstr "Структуры справа"
+msgstr "треугольник направо"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:228
 msgid "triangle left"
-msgstr ""
+msgstr "треугольник налево"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:229
-#, fuzzy
 msgid "circle"
-msgstr "файл"
+msgstr "круг"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:231
 msgid "cross"
-msgstr ""
+msgstr "крест"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:232
-#, fuzzy
 msgid "asterisk"
-msgstr "Вставить ссылку"
+msgstr "звездочка"
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:233
-#, fuzzy
 msgid "bar"
-msgstr "Мар"
+msgstr ""
 
 #: src/cut-n-paste-code/goffice/utils/go-marker.c:234
 msgid "half bar"
@@ -18970,15 +18922,19 @@ msgid "Thin Reverse Diagonal Stripe"
 msgstr "Тонкие обратные диагональные штрихи"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:207
-#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
-#: src/dialogs/cell-format.glade.h:81
-msgid "Thin Diagonal Crosshatch"
-msgstr "Тонкие диагональные крестики"
+#: src/dialogs/cell-format.glade.h:82
+msgid "Thin Diagonal Stripe"
+msgstr "Тонкие диагональные штрихи"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:208
 #: src/dialogs/cell-format.glade.h:83
 msgid "Thin Horizontal Crosshatch"
 msgstr "Тонкие горизонтальные крестики"
+
+#: src/cut-n-paste-code/goffice/utils/go-pattern.c:209
+#: src/dialogs/cell-format.glade.h:81
+msgid "Thin Diagonal Crosshatch"
+msgstr "Тонкие диагональные крестики"
 
 #: src/cut-n-paste-code/goffice/utils/go-pattern.c:210
 #: src/dialogs/cell-format.glade.h:44
@@ -19350,7 +19306,7 @@ msgstr "Ввод"
 #: src/dialogs/correlation.glade.h:11 src/dialogs/covariance.glade.h:11
 #: src/dialogs/descriptive-stats.glade.h:21
 #: src/dialogs/dialog-analysis-tools.c:338
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/dialog-shuffle.c:149
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/dialog-shuffle.c:149
 #: src/dialogs/exp-smoothing.glade.h:14
 #: src/dialogs/fourier-analysis.glade.h:12
 #: src/dialogs/moving-averages.glade.h:16 src/dialogs/rank.glade.h:14
@@ -19659,7 +19615,7 @@ msgid "<b>Error alerts</b>"
 msgstr "<b>Предупреждение об ошибке</b>"
 
 #: src/dialogs/cell-format.glade.h:16
-msgid "<b>Horizontal alignement</b>"
+msgid "<b>Horizontal alignment</b>"
 msgstr "<b>Горизонтальное выравнивание</b>"
 
 #: src/dialogs/cell-format.glade.h:18
@@ -19679,7 +19635,7 @@ msgid "<b>Style</b>"
 msgstr "<b>Стиль</b>"
 
 #: src/dialogs/cell-format.glade.h:22
-msgid "<b>Vertical alignement</b>"
+msgid "<b>Vertical alignment</b>"
 msgstr "<b>Вертикальное выравнивание</b>"
 
 #: src/dialogs/cell-format.glade.h:23
@@ -19851,10 +19807,6 @@ msgstr "По верху"
 #: src/dialogs/cell-format.glade.h:78
 msgid "Text length"
 msgstr "Длина текста"
-
-#: src/dialogs/cell-format.glade.h:82
-msgid "Thin Diagonal Stripe"
-msgstr "Тонкие диагональные штрихи"
 
 #: src/dialogs/cell-format.glade.h:87 src/widgets/widget-format-selector.c:73
 msgid "Time"
@@ -20217,15 +20169,13 @@ msgstr "John Gotts, пакеты rpm."
 #. xgettext:
 #. * The funny character between "G" and "l" here is a \"u.
 #: src/dialogs/dialog-about.c:65
-#, fuzzy
-msgid "Andreas J. Gülzow, Gnumeric hacker."
+msgid "Andreas J. Glzow, Gnumeric hacker."
 msgstr "Andreas J. Guelzow, программист Gnumeric."
 
 #. xgettext:
 #. * The funny character between "K" and "r" here is 'aring'.
 #: src/dialogs/dialog-about.c:68
-#, fuzzy
-msgid "Jon Kåre Hellan, Gnumeric hacker."
+msgid "Jon Kre Hellan, Gnumeric hacker."
 msgstr "Jon K Hellan, программист Gnumeric."
 
 #: src/dialogs/dialog-about.c:69
@@ -20338,10 +20288,10 @@ msgid "No matching records were found."
 msgstr "Не найдено совпадающих записей."
 
 #: src/dialogs/dialog-advanced-filter.c:160
-#: src/dialogs/dialog-analysis-tools.c:583
-#: src/dialogs/dialog-analysis-tools.c:701
-#: src/dialogs/dialog-analysis-tools.c:1983
-#: src/dialogs/dialog-analysis-tools.c:2874
+#: src/dialogs/dialog-analysis-tools.c:585
+#: src/dialogs/dialog-analysis-tools.c:703
+#: src/dialogs/dialog-analysis-tools.c:1985
+#: src/dialogs/dialog-analysis-tools.c:2875
 #, c-format
 msgid "An unexpected error has occurred: %d."
 msgstr "Возникла неожиданная ошибка: %d."
@@ -20354,42 +20304,42 @@ msgstr "Диапазон списка:"
 msgid "Could not create the Advanced Filter dialog."
 msgstr "Невозможно создать диалог расширенной фильтрации."
 
-#: src/dialogs/dialog-analysis-tools.c:569
-#: src/dialogs/dialog-analysis-tools.c:687
+#: src/dialogs/dialog-analysis-tools.c:571
+#: src/dialogs/dialog-analysis-tools.c:689
 msgid "The selected input rows must have equal size!"
 msgstr "Выбранные входные строки должны иметь одинаковый размер!"
 
-#: src/dialogs/dialog-analysis-tools.c:574
-#: src/dialogs/dialog-analysis-tools.c:692
+#: src/dialogs/dialog-analysis-tools.c:576
+#: src/dialogs/dialog-analysis-tools.c:694
 msgid "The selected input columns must have equal size!"
 msgstr "Выбранные входные столбцы должны иметь одинаковый размер!"
 
-#: src/dialogs/dialog-analysis-tools.c:579
-#: src/dialogs/dialog-analysis-tools.c:697
+#: src/dialogs/dialog-analysis-tools.c:581
+#: src/dialogs/dialog-analysis-tools.c:699
 msgid "The selected input areas must have equal size!"
 msgstr "Выбранные входные области должны иметь одинаковый размер!"
 
-#: src/dialogs/dialog-analysis-tools.c:626
+#: src/dialogs/dialog-analysis-tools.c:628
 msgid "Could not create the Correlation Tool dialog."
 msgstr "Невозможно создать диалог расчёта корреляции."
 
-#: src/dialogs/dialog-analysis-tools.c:744
+#: src/dialogs/dialog-analysis-tools.c:746
 msgid "Could not create the Covariance Tool dialog."
 msgstr "Невозможно создать диалог расчёта ковариации."
 
-#: src/dialogs/dialog-analysis-tools.c:833
+#: src/dialogs/dialog-analysis-tools.c:835
 msgid "Could not create the Rank and Percentile Tools dialog."
 msgstr "Невозможно создать диалог расчёта рангов и процентилей."
 
-#: src/dialogs/dialog-analysis-tools.c:923
+#: src/dialogs/dialog-analysis-tools.c:925
 msgid "Could not create the Fourier Analysis Tool dialog."
 msgstr "Невозможно создать диалог Фурье анализа."
 
-#: src/dialogs/dialog-analysis-tools.c:1085
+#: src/dialogs/dialog-analysis-tools.c:1087
 msgid "Could not create the Descriptive Statistics Tool dialog."
 msgstr "Невозможно создать диалог описательной статистики."
 
-#: src/dialogs/dialog-analysis-tools.c:1227
+#: src/dialogs/dialog-analysis-tools.c:1229
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 1."
@@ -20397,7 +20347,7 @@ msgstr ""
 "Введите допустимую дисперсию\n"
 "выборки для переменной 1."
 
-#: src/dialogs/dialog-analysis-tools.c:1236
+#: src/dialogs/dialog-analysis-tools.c:1238
 msgid ""
 "Please enter a valid\n"
 "population variance for variable 2."
@@ -20405,74 +20355,74 @@ msgstr ""
 "Введите допустимую дисперсию\n"
 "выборки для переменной 2."
 
-#: src/dialogs/dialog-analysis-tools.c:1461
+#: src/dialogs/dialog-analysis-tools.c:1463
 msgid "Var_iable 1 Range:"
 msgstr "Диапазон переменной 1:"
 
-#: src/dialogs/dialog-analysis-tools.c:1462
+#: src/dialogs/dialog-analysis-tools.c:1464
 msgid "_Variable 2 Range:"
 msgstr "Диапазон переменной 2:"
 
-#: src/dialogs/dialog-analysis-tools.c:1463
+#: src/dialogs/dialog-analysis-tools.c:1465
 msgid "Could not create the Mean Tests Tool dialog."
 msgstr "Невозможно создать диалог проверки среднего."
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "Var_iable 1 Range"
 msgstr "Диапазон переменной 1"
 
-#: src/dialogs/dialog-analysis-tools.c:1660
+#: src/dialogs/dialog-analysis-tools.c:1662
 msgid "_Variable 2 Range"
 msgstr "Диапазон переменной 2"
 
-#: src/dialogs/dialog-analysis-tools.c:1661
+#: src/dialogs/dialog-analysis-tools.c:1663
 msgid "Could not create the FTest Tool dialog."
 msgstr "Невозможно создать диалог вычисления F-теста."
 
-#: src/dialogs/dialog-analysis-tools.c:1863
+#: src/dialogs/dialog-analysis-tools.c:1865
 msgid "Could not create the Sampling Tool dialog."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:1978 src/tools/analysis-tools.c:2158
+#: src/dialogs/dialog-analysis-tools.c:1980 src/tools/analysis-tools.c:2158
 #: src/tools/analysis-tools.c:2237
 msgid ""
 "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 "Число значений для каждой переменной в регрессии должно быть одинаковым."
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:21
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:21
 msgid "_X Variables:"
 msgstr "Переменные X:"
 
-#: src/dialogs/dialog-analysis-tools.c:2081 src/dialogs/regression.glade.h:22
+#: src/dialogs/dialog-analysis-tools.c:2083 src/dialogs/regression.glade.h:22
 msgid "_Y Variable:"
 msgstr "Переменная Y:"
 
-#: src/dialogs/dialog-analysis-tools.c:2082
+#: src/dialogs/dialog-analysis-tools.c:2084
 msgid "Could not create the Regression Tool dialog."
 msgstr "Невозможно создать диалог расчёта регрессии."
 
-#: src/dialogs/dialog-analysis-tools.c:2218
+#: src/dialogs/dialog-analysis-tools.c:2220
 msgid "Could not create the Exponential Smoothing Tool dialog."
 msgstr "Невозможно создать диалог экспоненциального сглаживания."
 
-#: src/dialogs/dialog-analysis-tools.c:2359
+#: src/dialogs/dialog-analysis-tools.c:2361
 msgid "Could not create the Moving Average Tool dialog."
 msgstr "Невозможно создать диалог скользящих средних."
 
-#: src/dialogs/dialog-analysis-tools.c:2584 src/dialogs/histogram.glade.h:3
+#: src/dialogs/dialog-analysis-tools.c:2583 src/dialogs/histogram.glade.h:3
 msgid "Bin _Range:"
 msgstr "Двоичный диапазон:"
 
-#: src/dialogs/dialog-analysis-tools.c:2585
+#: src/dialogs/dialog-analysis-tools.c:2584
 msgid "Could not create the Histogram Tool dialog."
 msgstr "Невозможно создать диалог расчёта гистограммы."
 
-#: src/dialogs/dialog-analysis-tools.c:2761
+#: src/dialogs/dialog-analysis-tools.c:2762
 msgid "Could not create the ANOVA (single factor) tool dialog."
 msgstr "Невозможно создать диалог однофакторного дисперсионного анализа.."
 
-#: src/dialogs/dialog-analysis-tools.c:2840
+#: src/dialogs/dialog-analysis-tools.c:2841
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data and the labels."
@@ -20480,7 +20430,7 @@ msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы два столбца и две "
 "строки данных и метки."
 
-#: src/dialogs/dialog-analysis-tools.c:2843
+#: src/dialogs/dialog-analysis-tools.c:2844
 msgid ""
 "The given input range should contain at least two columns and two rows of "
 "data."
@@ -20488,7 +20438,7 @@ msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы два столбца и две "
 "строки данных."
 
-#: src/dialogs/dialog-analysis-tools.c:2849
+#: src/dialogs/dialog-analysis-tools.c:2850
 msgid ""
 "The given input range should contain at least two columns of data and the "
 "labels."
@@ -20496,12 +20446,12 @@ msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы два столбца данных и "
 "метки."
 
-#: src/dialogs/dialog-analysis-tools.c:2852
+#: src/dialogs/dialog-analysis-tools.c:2853
 msgid "The given input range should contain at least two columns of data."
 msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы два столбца данных."
 
-#: src/dialogs/dialog-analysis-tools.c:2858
+#: src/dialogs/dialog-analysis-tools.c:2859
 msgid ""
 "The given input range should contain at least two rows of data and the "
 "labels."
@@ -20509,16 +20459,16 @@ msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы две строки данных и "
 "метки."
 
-#: src/dialogs/dialog-analysis-tools.c:2861
+#: src/dialogs/dialog-analysis-tools.c:2862
 msgid "The given input range should contain at least two rows of data."
 msgstr ""
 "Задаваемый входной диапазон должен содержать хотя бы две строки данных."
 
-#: src/dialogs/dialog-analysis-tools.c:2868
+#: src/dialogs/dialog-analysis-tools.c:2869
 msgid "The number of data rows must be a multiple of the replication number."
 msgstr ""
 
-#: src/dialogs/dialog-analysis-tools.c:2965
+#: src/dialogs/dialog-analysis-tools.c:2966
 msgid "Could not create the ANOVA (two factor) tool dialog."
 msgstr "Невозможно создать диалог двухфакторного дисперсионного анализа."
 
@@ -20701,7 +20651,7 @@ msgstr "Чувствительно к регистру"
 msgid "By Value"
 msgstr "По значению"
 
-#: src/dialogs/dialog-cell-sort.c:857
+#: src/dialogs/dialog-cell-sort.c:858
 msgid "Could not create the Cell-Sort dialog."
 msgstr "Невозможно создать диалог сортировки ячеек."
 
@@ -20726,14 +20676,12 @@ msgid "Source region %s overlaps with the destination region"
 msgstr "Область источника %s перекрывается с областью назначения"
 
 #: src/dialogs/dialog-consolidate.c:325
-#, fuzzy
 msgid "The output range overlaps with the input ranges."
-msgstr "Недопустимый диапазон вывода."
+msgstr "Диапазон вывода перекрывается с диапазонами ввода."
 
 #: src/dialogs/dialog-consolidate.c:558
-#, fuzzy
 msgid "Could not create the Consolidate dialog."
-msgstr "Невозможно создать диалог автосохранения."
+msgstr "Невозможно создать диалог консолидации данных."
 
 #: src/dialogs/dialog-define-names.c:351
 msgid "Why would you want to define a name to be #NAME?"
@@ -21088,14 +21036,12 @@ msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 
 #: src/dialogs/dialog-preferences.c:1396
-#, fuzzy
 msgid "Windows"
-msgstr "Скрыть строки"
+msgstr "Окна"
 
 #: src/dialogs/dialog-preferences.c:1397
-#, fuzzy
 msgid "Files"
-msgstr "Файл"
+msgstr "Файлы"
 
 #: src/dialogs/dialog-preferences.c:1398 src/workbook-control-gui.c:1565
 #: src/workbook-control-gui.c:3971 src/workbook-control-gui.c:4199
@@ -21103,14 +21049,12 @@ msgid "Undo"
 msgstr "Откат"
 
 #: src/dialogs/dialog-preferences.c:1400
-#, fuzzy
 msgid "Various"
-msgstr "Переменные"
+msgstr "Разное"
 
 #: src/dialogs/dialog-preferences.c:1401
-#, fuzzy
 msgid "Internal"
-msgstr "Интервал:"
+msgstr "Внутреннее"
 
 #: src/dialogs/dialog-printer-setup.c:855
 msgid "Customize header"
@@ -21820,26 +21764,23 @@ msgstr ""
 
 #: src/dialogs/dialog-stf-fixed-page.c:67
 msgid "Delete and Merge _Left"
-msgstr ""
+msgstr "Удалить и объединить влево"
 
 #: src/dialogs/dialog-stf-fixed-page.c:69
 msgid "Delete and Merge _Right"
-msgstr ""
+msgstr "Удалить и объединить вправо"
 
 #: src/dialogs/dialog-stf-fixed-page.c:72
-#, fuzzy
 msgid "_Split"
-msgstr "Разделение"
+msgstr "Разделить"
 
 #: src/dialogs/dialog-stf-fixed-page.c:75
-#, fuzzy
 msgid "_Widen"
-msgstr "Скрыть"
+msgstr "Шире"
 
 #: src/dialogs/dialog-stf-fixed-page.c:77
-#, fuzzy
 msgid "_Narrow"
-msgstr "Стрелка"
+msgstr "Уже"
 
 #: src/dialogs/dialog-stf-format-page.c:126
 #, c-format
@@ -21848,32 +21789,32 @@ msgstr "Максимально может быть импортировано %d
 
 #: src/dialogs/dialog-stf-format-page.c:254
 msgid "Ignore all columns on right"
-msgstr ""
+msgstr "Пропустить все столбцы справа"
 
 #: src/dialogs/dialog-stf-format-page.c:255
 msgid "Ignore all columns on left"
-msgstr ""
+msgstr "Пропустить все столбцы слева"
 
 #: src/dialogs/dialog-stf-format-page.c:256
 msgid "Import all columns on right"
-msgstr ""
+msgstr "Импортировать все столбцы справа"
 
 #: src/dialogs/dialog-stf-format-page.c:257
 msgid "Import all columns on left"
-msgstr ""
+msgstr "Импортировать все столбцы слева"
 
 #: src/dialogs/dialog-stf-format-page.c:258
 msgid "Copy format to right"
-msgstr ""
+msgstr "Скопировать формат направо"
 
 #: src/dialogs/dialog-stf-format-page.c:382
 msgid ""
 "If this checkbox is selected, the column will be imported into Gnumeric."
-msgstr ""
+msgstr "Если поставлена отметка, то столбец будет импортирован в Gnumeric."
 
 #: src/dialogs/dialog-stf-format-page.c:385
 msgid "At most 256 columns can be imported at one time."
-msgstr ""
+msgstr "Одновременно может быть импортировано Не более 256 столбцов."
 
 #: src/dialogs/dialog-stf-format-page.c:522
 #: src/dialogs/dialog-stf-preview.h:28
@@ -22078,9 +22019,8 @@ msgid "Te_xt indicator: "
 msgstr "Индикатор текста:"
 
 #: src/dialogs/dialog-stf.glade.h:47
-#, fuzzy
 msgid "Text Import Configuration"
-msgstr "Импорт текстового файла (настраиваемый)"
+msgstr "Настройка импорта текста"
 
 #: src/dialogs/dialog-stf.glade.h:48
 msgid "Text indicator"
@@ -22117,7 +22057,6 @@ msgid "_Adjacent text indicators escaped"
 msgstr "Последовательные индикаторы текста удаляются"
 
 #: src/dialogs/dialog-stf.glade.h:55
-#, fuzzy
 msgid "_Auto Column Discovery"
 msgstr "Автоопределение столбца"
 
@@ -22287,9 +22226,8 @@ msgid "D_ay"
 msgstr "День"
 
 #: src/dialogs/fill-series.glade.h:5
-#, fuzzy
 msgid "Date unit:"
-msgstr "Единица измерения"
+msgstr "Единица измерения дат:"
 
 #: src/dialogs/fill-series.glade.h:6 src/tools/fill-series.c:413
 #: src/tools/fill-series.c:416
@@ -22297,27 +22235,22 @@ msgid "Fill Series"
 msgstr "Заполнить серии"
 
 #: src/dialogs/fill-series.glade.h:11
-#, fuzzy
 msgid "Series in:"
-msgstr "Серии в "
+msgstr "Серии в:"
 
 #: src/dialogs/fill-series.glade.h:12
-#, fuzzy
 msgid "Start Value: "
-msgstr "a значение:"
+msgstr "Начальное значение:"
 
 #: src/dialogs/fill-series.glade.h:13
-#, fuzzy
 msgid "Step Value: "
-msgstr "p значение:"
+msgstr "Приращение:"
 
 #: src/dialogs/fill-series.glade.h:14
-#, fuzzy
 msgid "Stop Value: "
-msgstr "p значение:"
+msgstr "Конечное значение:"
 
 #: src/dialogs/fill-series.glade.h:15
-#, fuzzy
 msgid "Type:"
 msgstr "Тип:"
 
@@ -22338,7 +22271,6 @@ msgid "_Month"
 msgstr "Месяц"
 
 #: src/dialogs/fill-series.glade.h:23
-#, fuzzy
 msgid "_Series"
 msgstr "Серии"
 
@@ -22351,14 +22283,12 @@ msgid "_Year"
 msgstr "Год"
 
 #: src/dialogs/fill-series.glade.h:26
-#, fuzzy
 msgid "a _Column"
-msgstr "Столбец"
+msgstr "Начальный столбец"
 
 #: src/dialogs/fill-series.glade.h:27
-#, fuzzy
 msgid "a _Row"
-msgstr "Строка"
+msgstr "Начальная строка"
 
 #: src/dialogs/font-sel.glade.h:2
 msgid "Font style:"
@@ -23702,9 +23632,8 @@ msgid "Max Time (sec.):"
 msgstr "Макс. время (сек.)"
 
 #: src/dialogs/solver.glade.h:17
-#, fuzzy
 msgid "Model"
-msgstr "Режим"
+msgstr "Модель"
 
 #: src/dialogs/solver.glade.h:19
 msgid "P_rogram"
@@ -23715,14 +23644,12 @@ msgid "Parameters"
 msgstr "Параметры"
 
 #: src/dialogs/solver.glade.h:21
-#, fuzzy
 msgid "Reports"
-msgstr "Отчеты:"
+msgstr "Отчеты"
 
 #: src/dialogs/solver.glade.h:22
-#, fuzzy
 msgid "Scenarios"
-msgstr "Сценарии:"
+msgstr "Сценарии"
 
 #: src/dialogs/solver.glade.h:23
 msgid "Solve"
@@ -23758,7 +23685,7 @@ msgstr "Пределы"
 
 #: src/dialogs/solver.glade.h:34
 msgid "_Linear Model (LP/MILP)"
-msgstr ""
+msgstr "Линейная модель (LP/MILP)"
 
 #: src/dialogs/solver.glade.h:35
 msgid "_Max"
@@ -23770,7 +23697,7 @@ msgstr "Производительность"
 
 #: src/dialogs/solver.glade.h:38
 msgid "_Quadratic Model (QP/MIQP)"
-msgstr ""
+msgstr "Квадратичная модель (QP/MIQP)"
 
 #: src/dialogs/solver.glade.h:39
 msgid "_Right Hand Side:"
@@ -24138,7 +24065,7 @@ msgstr "Азербайджанский манат"
 
 #: src/formats.c:399
 msgid "Bosnia and Herzegovina, Convertible Marka"
-msgstr ""
+msgstr "Босния и Герцеговина, Переходная марка"
 
 #: src/formats.c:400
 msgid "Barbados, Dollars"
@@ -24202,7 +24129,7 @@ msgstr "Канадский доллар"
 
 #: src/formats.c:415
 msgid "Congo/Kinshasa, Congolese Francs"
-msgstr ""
+msgstr "Конго/Киншаса, Конголезский франк"
 
 #: src/formats.c:416
 msgid "Switzerland, Francs"
@@ -24995,7 +24922,7 @@ msgstr ""
 msgid ""
 "The given file extension does not match the chosen file type. Do you want to "
 "use this name anyways?"
-msgstr ""
+msgstr "Заданное расширение файла не соответствует выбраному типу. Хотите использовать его?"
 
 #. Pack it into file selector
 #: src/gui-file.c:389
@@ -25509,7 +25436,7 @@ msgstr "Не определены сервисы для дополнения с 
 #: src/plugin.c:836
 #, c-format
 msgid "Plugin id contains invalid characters (%s)."
-msgstr ""
+msgstr "Идентификатор дополнения содержит недопустимые символы (%s)."
 
 #: src/plugin.c:840
 msgid "Unknown plugin name."
@@ -25654,23 +25581,23 @@ msgstr "файл"
 msgid "&[PAGE]"
 msgstr "&[PAGE]"
 
-#: src/print.c:1104
+#: src/print.c:1115
 msgid "Print Region"
 msgstr "Область печати"
 
-#: src/print.c:1229
+#: src/print.c:1240
 msgid "Print Sheets"
 msgstr "Печать листов"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "Act_ive sheet"
 msgstr "Активный лист"
 
-#: src/print.c:1237
+#: src/print.c:1248
 msgid "S_heets"
 msgstr "Листы"
 
-#: src/print.c:1323
+#: src/print.c:1334
 msgid "Printing failed"
 msgstr "Сбой печати"
 
@@ -25707,32 +25634,29 @@ msgid "cannot be performed with multiple ranges selected"
 msgstr "не может быть выполнено при множественных выделениях"
 
 #: src/session.c:110
-#, fuzzy, c-format
+#, c-format
 msgid "Save changes to workbook '%s' before logging out?"
-msgstr "Сохранить изменения в рабочей книге \"%s\" перед закрытием?"
+msgstr "Сохранить изменения в рабочей книге \"%s\" перед отключением?"
 
 #: src/session.c:114
-#, fuzzy
 msgid "Save changes to workbook before logging out?"
-msgstr "Сохранить изменения в рабочей книге перед закрытием?"
+msgstr "Сохранить изменения в рабочей книге перед отключением?"
 
 #: src/session.c:119
 msgid "If you do not save, changes may be discarded."
-msgstr ""
+msgstr "Если не выполнить сохранение, изменения будут утрачены."
 
 #: src/session.c:121
 msgid "Do not save any"
-msgstr ""
+msgstr "Не сохранять ничего"
 
 #: src/session.c:123 src/session.c:126
-#, fuzzy
 msgid "Do not save"
-msgstr "Не закрывать"
+msgstr "Не сохранять"
 
 #: src/session.c:128
-#, fuzzy
 msgid "Do not log out"
-msgstr "Не исправлять:"
+msgstr "Не отключаться"
 
 #: src/sheet-control-gui.c:1483
 msgid "Paste _Special"
@@ -25844,34 +25768,33 @@ msgstr "Невозможно загрузить файл: %s"
 
 #: src/sheet-object-graph.c:158
 msgid "Save graph as image"
-msgstr ""
+msgstr "Сохранить график как изображение"
 
 #: src/sheet-object-graph.c:196
 msgid "Sorry, gnumeric can only save graphs as png images"
-msgstr ""
+msgstr "Gnumeric может сохранять графики только как изображения в формате png."
 
 #: src/sheet-object-graph.c:214
-#, fuzzy
 msgid "_Save as image"
-msgstr "Выбрать файл изображения"
+msgstr "Сохранить как изображение"
 
-#: src/sheet-object-graphic.c:934 src/sheet-object-graphic.c:951
+#: src/sheet-object-graphic.c:936 src/sheet-object-graphic.c:955
 msgid "Transparent"
 msgstr "Прозрачный"
 
-#: src/sheet-object-widget.c:1130
+#: src/sheet-object-widget.c:1132
 #, c-format
 msgid "CheckBox %d"
 msgstr "Графа для отметки %d"
 
-#: src/sheet-object-widget.c:1561 src/workbook-object-toolbar.c:164
+#: src/sheet-object-widget.c:1565 src/workbook-object-toolbar.c:164
 msgid "RadioButton"
 msgstr "Радио-кнопка"
 
 #: src/sheet-object.c:530
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported object type '%s'"
-msgstr "Неподдерживаемый тип загрузчика \"%s\"."
+msgstr "Неподдерживаемый тип объекта \"%s\"."
 
 #. Oh, yeah?
 #: src/sheet-style.c:492
@@ -26416,9 +26339,9 @@ msgid "Report Created: "
 msgstr "Отчёт создан:"
 
 #: src/tools/fill-series.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "Fill Series (%s)"
-msgstr "Заполнить серии"
+msgstr "Заполнить серии (%s)"
 
 #: src/tools/random-generator.c:107
 msgid ""
@@ -26480,7 +26403,7 @@ msgstr ""
 
 #: src/tools/simulation.c:242
 msgid "Simulation Report"
-msgstr ""
+msgstr "Отчёт о моделировании"
 
 #: src/tools/simulation.c:255
 msgid "Mean"
@@ -26810,7 +26733,7 @@ msgstr "%s (%s)"
 
 #: src/tools/solver/reports-write.c:703 src/tools/solver/reports-write.c:711
 msgid "Model Assumptions:"
-msgstr ""
+msgstr "Допущения модели:"
 
 #: src/tools/solver/reports-write.c:704
 msgid "Autoscaling:"
@@ -27108,7 +27031,7 @@ msgstr "серый"
 
 #: src/widgets/color-palette.c:588 src/widgets/color-palette.c:620
 msgid "magenta"
-msgstr ""
+msgstr "сиреневый"
 
 #: src/widgets/color-palette.c:589
 msgid "bright orange"
@@ -27541,19 +27464,19 @@ msgstr "Юникод (UTF-8)"
 
 #: src/widgets/widget-charmap-selector.c:181
 msgid "Unicode (UTF-16BE)"
-msgstr ""
+msgstr "Юникод (UTF-16BE)"
 
 #: src/widgets/widget-charmap-selector.c:182
 msgid "Unicode (UTF-16LE)"
-msgstr ""
+msgstr "Юникод (UTF-16LE)"
 
 #: src/widgets/widget-charmap-selector.c:183
 msgid "Unicode (UTF-32BE)"
-msgstr ""
+msgstr "Юникод (UTF-32BE)"
 
 #: src/widgets/widget-charmap-selector.c:184
 msgid "Unicode (UTF-32LE)"
-msgstr ""
+msgstr "Юникод (UTF-32LE)"
 
 #: src/widgets/widget-charmap-selector.c:185
 msgid "User Defined"
@@ -27789,7 +27712,7 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:129
 msgid "Bosnia and Herzegowina (bs_BA)"
-msgstr ""
+msgstr "Босния и Герцеговина (bs_BA)"
 
 #: src/widgets/widget-locale-selector.c:130
 msgid "Spain/Catalan (ca_ES)"
@@ -27849,7 +27772,7 @@ msgstr "Великобритания (en_GB)"
 
 #: src/widgets/widget-locale-selector.c:144
 msgid "Hong Kong/English (en_HK)"
-msgstr ""
+msgstr "Гонгконг/Английский (en_HK)"
 
 #: src/widgets/widget-locale-selector.c:145
 msgid "Ireland (en_IE)"
@@ -27972,7 +27895,6 @@ msgid "Estonia (et_EE)"
 msgstr "Эстония (et_EE)"
 
 #: src/widgets/widget-locale-selector.c:175
-#, fuzzy
 msgid "Spain/Basque (eu_ES)"
 msgstr "Испания/Баскский (eu_ES)"
 
@@ -27986,7 +27908,7 @@ msgstr "Финляндия/Финский (fi_FI)"
 
 #: src/widgets/widget-locale-selector.c:178
 msgid "Faroe Islands (fo_FO)"
-msgstr ""
+msgstr "Острова Фароэ (fo_FO)"
 
 #: src/widgets/widget-locale-selector.c:179
 msgid "Belgium/French (fr_BE)"
@@ -28050,7 +27972,7 @@ msgstr "Исландия (is_IS)"
 
 #: src/widgets/widget-locale-selector.c:194
 msgid "(iso14651_t1)"
-msgstr ""
+msgstr "(iso14651_t1)"
 
 #: src/widgets/widget-locale-selector.c:195
 msgid "Switzerland/Italian (it_CH)"
@@ -28074,7 +27996,7 @@ msgstr "Грузия (ka_GE)"
 
 #: src/widgets/widget-locale-selector.c:200
 msgid "Greenland (kl_GL)"
-msgstr ""
+msgstr "Гренландия (kl_GL)"
 
 #: src/widgets/widget-locale-selector.c:201
 msgid "Korea (ko_KR)"
@@ -28094,7 +28016,7 @@ msgstr "Латвия (lv_LV)"
 
 #: src/widgets/widget-locale-selector.c:205
 msgid "New Zealand/Maori (mi_NZ)"
-msgstr ""
+msgstr "Новая Зеландия/Маори (mi_NZ)"
 
 #: src/widgets/widget-locale-selector.c:206
 msgid "Macedonia (mk_MK)"
@@ -28114,7 +28036,7 @@ msgstr "Мальта (mt_MT)"
 
 #: src/widgets/widget-locale-selector.c:210
 msgid "Belgium/Flemish (nl_BE)"
-msgstr ""
+msgstr "Бельгия/Фламандский (nl_BE)"
 
 #: src/widgets/widget-locale-selector.c:211
 msgid "The Netherlands (nl_NL)"
@@ -28122,11 +28044,11 @@ msgstr "Голандия (nl_NL)"
 
 #: src/widgets/widget-locale-selector.c:212
 msgid "Norway/Nynorsk (nn_NO)"
-msgstr ""
+msgstr "Норвегия/Новый норвежский (nn_NO)"
 
 #: src/widgets/widget-locale-selector.c:213
 msgid "Norway/Bokmal (no_NO)"
-msgstr ""
+msgstr "Норвегия/Книжный норвежский (no_NO)"
 
 #: src/widgets/widget-locale-selector.c:214
 msgid "France/Occitan (oc_FR)"
@@ -28202,7 +28124,7 @@ msgstr "Таиланд (th_TH)"
 
 #: src/widgets/widget-locale-selector.c:232
 msgid "Eritrea (ti_ER)"
-msgstr ""
+msgstr "Эритрея (ti_ER)"
 
 #: src/widgets/widget-locale-selector.c:233
 msgid "Ethiopia/Tigrinya (ti_ET)"
@@ -28242,7 +28164,7 @@ msgstr ""
 
 #: src/widgets/widget-locale-selector.c:242
 msgid "United States/Yiddish (yi_US)"
-msgstr ""
+msgstr "США/Еврейский (yi_US)"
 
 #: src/widgets/widget-locale-selector.c:243
 msgid "China (zh_CN)"
@@ -28250,7 +28172,7 @@ msgstr "Китай (zh_CN)"
 
 #: src/widgets/widget-locale-selector.c:244
 msgid "Hong Kong/Chinese (zh_HK)"
-msgstr ""
+msgstr "Гонгконг/Китайский (zh_HK)"
 
 #: src/widgets/widget-locale-selector.c:245
 msgid "Singapore/Chinese (zh_SG)"
@@ -28350,7 +28272,7 @@ msgstr "Сохранить изменения в рабочей книге пе�
 
 #: src/workbook-control-gui.c:1765
 msgid "If you close without saving, changes will be discarded."
-msgstr ""
+msgstr "Если закрыть без сохранения, изменения будут утрачены."
 
 #: src/workbook-control-gui.c:1771
 msgid "Discard all"
@@ -28607,9 +28529,8 @@ msgid "Decrease precision"
 msgstr "Уменьшить точность"
 
 #: src/workbook-format-toolbar.c:357
-#, fuzzy
 msgid "Toggle thousands separator"
-msgstr "Разделитель тысяч"
+msgstr "Переключить разделитель тысяч"
 
 #: src/workbook-format-toolbar.c:547
 msgid "Set Foreground Color"
@@ -28667,12 +28588,12 @@ msgstr "Кнопка"
 #: src/workbook-view.c:273
 #, c-format
 msgid "%dC"
-msgstr ""
+msgstr "%dC"
 
 #: src/workbook-view.c:275
 #, c-format
 msgid "%dR"
-msgstr ""
+msgstr "%dR"
 
 #: src/workbook-view.c:277
 #, c-format
@@ -28697,23 +28618,23 @@ msgstr ""
 #. * This should be quite rare.  To provoke, use
 #. * gnumeric `echo -e '\377\376'`
 #.
-#: src/workbook-view.c:608 src/workbook-view.c:967
+#: src/workbook-view.c:608 src/workbook-view.c:964
 msgid "The filename given is not valid in the current encoding."
 msgstr "Заданное имя файла не допустимо для текущей кодировки."
 
-#: src/workbook-view.c:693 src/workbook-view.c:809
+#: src/workbook-view.c:693 src/workbook-view.c:806
 msgid "Default file saver is not available."
 msgstr "Функция сохранения используемая по умолчанию не доступна."
 
-#: src/workbook-view.c:768
+#: src/workbook-view.c:765
 msgid "Failed to create temporary file for sending."
 msgstr ""
 
-#: src/workbook-view.c:902
+#: src/workbook-view.c:899
 msgid "Unsupported file format."
 msgstr "Неподдерживаемый формат файла."
 
-#: src/workbook-view.c:960
+#: src/workbook-view.c:957
 #, c-format
 msgid "An unexplained error happened while opening %s"
 msgstr ""
@@ -28724,14 +28645,12 @@ msgid "Book%d.%s"
 msgstr "Книга%d.%s"
 
 #: src/workbook.c:1247
-#, fuzzy
 msgid "Sheet name is NULL"
 msgstr "Требуется название таблицы"
 
 #: src/workbook.c:1258
-#, fuzzy
 msgid "Sheet name is not valid utf-8"
-msgstr "Требуется название таблицы"
+msgstr "Название таблицы не в utf-8"
 
 #: src/workbook.c:1267
 msgid "Sheet name must have at least 1 letter"
@@ -28771,143 +28690,3 @@ msgstr "Ошибка при сохранении файла"
 #: src/xml-io.c:4040
 msgid "Gnumeric XML file format"
 msgstr "Формат файла Gnumeric XML"
-
-#~ msgid "Sans"
-#~ msgstr "Гельветика"
-
-#, fuzzy
-#~ msgid "S_ize:"
-#~ msgstr "Размер:"
-
-#, fuzzy
-#~ msgid "_Style:"
-#~ msgstr "Стиль:"
-
-#~ msgid "Adding a sheet"
-#~ msgstr "Добавление листа"
-
-#~ msgid "Adding sheet '%s'"
-#~ msgstr "Добавление листа \"%s\""
-
-#~ msgid "Rename sheet '%s' '%s'"
-#~ msgstr "Переименование таблицы '%s' '%s'"
-
-#~ msgid "Fill _Color:"
-#~ msgstr "Цвет заливки:"
-
-#~ msgid "Gradient:"
-#~ msgstr "Градиент:"
-
-#~ msgid "Left to right"
-#~ msgstr "Слева направо"
-
-#~ msgid "Not available..."
-#~ msgstr "Недоступен..."
-
-#~ msgid "S_tart Color:"
-#~ msgstr "Начальный цвет:"
-
-#~ msgid "Select an _image file:"
-#~ msgstr "Выбрать файл изображения:"
-
-#~ msgid "Top left to bottom right"
-#~ msgstr "Из левого верхнего в правый нижний"
-
-#~ msgid "Top right to bottom left"
-#~ msgstr "Из правого верхнего в левый нижний"
-
-#~ msgid "Top to bottom"
-#~ msgstr "Сверху вниз"
-
-#~ msgid "_End Color:"
-#~ msgstr "Конечный цвет:"
-
-#~ msgid "_Fill type:"
-#~ msgstr "Тип заливки:"
-
-#~ msgid "_Destination:"
-#~ msgstr "Назначение:"
-
-#~ msgid "Deletion of sheets is not undoable. Do you want to proceed?"
-#~ msgstr "Удаление листов -- неоткатываемая операция. Хотите продолжить?"
-
-#~ msgid "<span weight=\"bold\">Options</span>"
-#~ msgstr "<span weight=\"bold\">Параметры</span>"
-
-#~ msgid "_Alpha:"
-#~ msgstr "Альфа:"
-
-#~ msgid "Are you sure you want to remove the sheet called `%s'?"
-#~ msgstr "Вы действительно хотите удалить таблицу `%s' ?"
-
-#, fuzzy
-#~ msgid "GraphLabel"
-#~ msgstr "Метка"
-
-#~ msgid "Bar/Col Charts"
-#~ msgstr "Стоблцовые диаграммы"
-
-#~ msgid "You cannot have more than %d columns in this version of Gnumeric."
-#~ msgstr "В этой версии Gnumeric нельзя использовать больше чем %d столбцов."
-
-#~ msgid "Add a new column"
-#~ msgstr "Добавить новый столбец"
-
-#~ msgid "Co_lumn end: "
-#~ msgstr "Конец столбца:"
-
-#~ msgid "Remove selected column"
-#~ msgstr "Удалить выбранный столбец"
-
-#~ msgid "Set the end of this column"
-#~ msgstr "Установить конец этого столбца"
-
-#~ msgid "dialog1"
-#~ msgstr "диалог1"
-
-#~ msgid "Options:"
-#~ msgstr "Параметры:"
-
-#~ msgid "Parse error while trying to parse data into cellregion"
-#~ msgstr ""
-#~ "Ошибка синтаксического анализа при попытке проанализировать данные в "
-#~ "диапазоне ячеек"
-
-#~ msgid ""
-#~ "@FUNCTION=atl_last\n"
-#~ "@SYNTAX=atl_last(tag)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-#~ msgstr ""
-#~ "@FUNCTION=atl_last\n"
-#~ "@SYNTAX=atl_last(tag)\n"
-#~ "@DESCRIPTION=\n"
-#~ "@EXAMPLES=\n"
-#~ "\n"
-#~ "@SEEALSO="
-
-#~ msgid "FillSeries"
-#~ msgstr "Заполнить серии"
-
-#~ msgid "Cancelled"
-#~ msgstr "Отменено"
-
-#~ msgid "Format with thousands separator"
-#~ msgstr "Формат с разделителем тысяч"
-
-#~ msgid "Insert a new spreadsheet"
-#~ msgstr "Вставить новый лист"
-
-#~ msgid "_Risk Simulation..."
-#~ msgstr "Моделирование рисков..."
-
-#~ msgid "Duplicate this sheet"
-#~ msgstr "Сделать копию этого листа"
-
-#~ msgid "Rename this sheet"
-#~ msgstr "Переименовать этот лист"
-
-#~ msgid "Remove this sheet"
-#~ msgstr "Удалить этот лист"
