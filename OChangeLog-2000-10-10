@@ -1,3 +1,12 @@
+2000-05-27  Jody Goldberg <jgoldberg@home.com>
+
+	* src/commands.c (cmd_paste_copy) : Move the handling of singletons
+	  and the setting of the selection here.
+	* src/clipboard.c (clipboard_paste_region) : From here.
+
+	* src/cmd-edit.c (cmd_paste_to_selection) : Remove incorrect
+	  precondition.
+
 2000-05-27  Valek Filippov  <frob@df.ru>
 
 	* src/functions/fn-math.c, fn-stat.c, fn-lookup.c: typos in

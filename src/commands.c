@@ -1,10 +1,26 @@
+/* vim: set sw=8:
+ * $Id$
+ */
+
 /*
- * command.c : Handlers to undo & redo commands
+ * commands.c: Handlers to undo & redo commands
  *
- * Author:
- * 	Jody Goldberg <jgoldberg@home.com>
+ * Copyright (C) 1999, 2000 Jody Goldberg (jgoldberg@home.com)
  *
- * (C) 1999, 2000 Jody Goldberg
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License as
+ * published by the Free Software Foundation; either version 2 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
+ * USA
  */
 #include <config.h>
 #include "gnumeric-type-util.h"
@@ -1825,6 +1841,13 @@ cmd_paste_copy_undo (GnumericCommand *cmd, CommandContext *context)
 	me->content = content;
 	me->release_content = TRUE;
 
+	/* Make the newly pasted content the selection (this queues a redraw) */
+	sheet_selection_reset_only (me->dst.sheet);
+	sheet_selection_add_range (me->dst.sheet,
+				   me->dst.range.start.col, me->dst.range.start.row,
+				   me->dst.range.start.col, me->dst.range.start.row,
+				   me->dst.range.end.col, me->dst.range.end.row);
+
 	sheet_update (me->dst.sheet);
 
 	return FALSE;
@@ -1864,6 +1887,18 @@ cmd_paste_copy (CommandContext *context,
 	me->dst = *pt;
 	me->content = content;
 	me->release_content = FALSE;
+
+	/* If the destination is a singleton paste the entire content */
+	if (range_is_singleton (&me->dst.range)) {
+		if (pt->paste_flags & PASTE_TRANSPOSE) {
+			me->dst.range.end.col = me->dst.range.start.col + content->rows -1;
+			me->dst.range.end.row = me->dst.range.start.row + content->cols -1;
+		} else {
+			me->dst.range.end.col = me->dst.range.start.col + content->cols -1;
+			me->dst.range.end.row = me->dst.range.start.row + content->rows -1;
+		}
+	}
+
 	me->parent.cmd_descriptor = g_strdup_printf (_("Pasting into %s"), range_name(&pt->range));
 
 	/* Register the command object */

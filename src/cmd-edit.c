@@ -352,8 +352,6 @@ cmd_paste_to_selection (CommandContext *context, Sheet *dest_sheet, int paste_fl
 	Range const *dest_range;
 	PasteTarget pt;
 
-	g_return_if_fail (!application_clipboard_is_empty ());
-
 	if (!selection_is_simple (context, dest_sheet, _("Paste")))
 		return;
 

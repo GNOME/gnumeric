@@ -91,6 +91,11 @@ paste_cell_flags (Sheet *dest_sheet, int target_col, int target_row,
  * @context : The context for error handling.
  * @pt : Where to paste the values.
  * @content : The CellRegion to paste.
+ *
+ * Pastes the supplied CellRegion (@content) into the supplied
+ * PasteTarget (@pt).  This operation is not undoable.  It does not auto grow
+ * the destination if the target is a singleton.  This is a simple interface to
+ * paste a region.
  */
 void
 clipboard_paste_region (CommandContext *context,
@@ -111,33 +116,26 @@ clipboard_paste_region (CommandContext *context,
 	}
 
 	/* calculate the tiling */
-	if (dst_cols == 1 && dst_rows == 1) {
-		/* If the destination is a singleton paste the entire content */
-		repeat_horizontal = repeat_vertical = 1;
-		dst_cols = src_cols;
-		dst_rows = src_rows;
-	} else {
-		repeat_horizontal = dst_cols/src_cols;
-		if (repeat_horizontal * src_cols != dst_cols) {
-			char *msg = g_strdup_printf (
-				_("destination does not have an even multiple of source columns (%d vs %d)\n\n"
-				  "Try selecting a single cell or an area of the same shape and size."),
-				dst_cols, src_cols);
-			gnumeric_error_invalid (context, _("Unable to paste"), msg);
-			g_free (msg);
-			return;
-		}
+	repeat_horizontal = dst_cols/src_cols;
+	if (repeat_horizontal * src_cols != dst_cols) {
+		char *msg = g_strdup_printf (
+			_("destination does not have an even multiple of source columns (%d vs %d)\n\n"
+			  "Try selecting a single cell or an area of the same shape and size."),
+			dst_cols, src_cols);
+		gnumeric_error_invalid (context, _("Unable to paste"), msg);
+		g_free (msg);
+		return;
+	}
 
-		repeat_vertical = dst_rows/src_rows;
-		if (repeat_vertical * src_rows != dst_rows) {
-			char *msg = g_strdup_printf (
-				_("destination does not have an even multiple of source rows (%d vs %d)\n\n"
-				  "Try selecting a single cell or an area of the same shape and size."),
-				dst_rows, src_rows);
-			gnumeric_error_invalid (context, _("Unable to paste"), msg);
-			g_free (msg);
-			return;
-		}
+	repeat_vertical = dst_rows/src_rows;
+	if (repeat_vertical * src_rows != dst_rows) {
+		char *msg = g_strdup_printf (
+			_("destination does not have an even multiple of source rows (%d vs %d)\n\n"
+			  "Try selecting a single cell or an area of the same shape and size."),
+			dst_rows, src_rows);
+		gnumeric_error_invalid (context, _("Unable to paste"), msg);
+		g_free (msg);
+		return;
 	}
 
 	if ((pt->range.start.col + dst_cols) >= SHEET_MAX_COLS ||
@@ -201,24 +199,15 @@ clipboard_paste_region (CommandContext *context,
 			}
 		}
 
-        if (pt->paste_flags & (PASTE_VALUES|PASTE_FORMULAS)) {
-		GList *deps =
-			sheet_region_get_deps (pt->sheet,
-					       pt->range.start.col,
-					       pt->range.start.row,
-					       pt->range.start.col + dst_cols - 1,
-					       pt->range.start.row + dst_rows - 1);
+        if (pt->paste_flags & (PASTE_FORMULAS|PASTE_VALUES)) {
+		GList *deps = sheet_region_get_deps (pt->sheet,
+						     pt->range.start.col,
+						     pt->range.start.row,
+						     pt->range.end.col,
+						     pt->range.end.row);
 		if (deps)
 			eval_queue_list (deps, TRUE);
 	}
-
-	/* Make the newly pasted content the selection (this queues a redraw) */
-	sheet_selection_reset_only (pt->sheet);
-	sheet_selection_add_range (pt->sheet,
-				   pt->range.start.col, pt->range.start.row,
-				   pt->range.start.col, pt->range.start.row,
-				   pt->range.start.col + dst_cols - 1,
-				   pt->range.start.row + dst_rows - 1);
 }
 
 typedef struct {

@@ -2,6 +2,8 @@ Gnumeric 0.55
 
 Jody:
 	* Speedup workbook exit, copy/paste.
+	* Improve copy/paste, added undo.
+	* More work on function druid.
 
 Morten:
 	* Changed a bunch of internals to work with StyleFormats instead
