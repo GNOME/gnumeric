@@ -1,3 +1,8 @@
+2004-06-13  Jody Goldberg <jody@gnome.org>
+
+	* graph/plugins/plot_barcol/gog-1.5d.c : tack on a placeholder 'in_3d'
+	  attribute to simplify roundtripping for xls.
+
 2004-06-11  Morten Welinder  <terra@gnome.org>
 
 	* utils/go-file.c: New file.

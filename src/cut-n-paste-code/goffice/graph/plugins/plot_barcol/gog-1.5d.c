@@ -43,7 +43,8 @@ GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
 enum {
 	GOG_1_5D_PROP_0,
-	GOG_1_5D_PROP_TYPE
+	GOG_1_5D_PROP_TYPE,
+	GOG_1_5D_PROP_IN_3D	/* place holder for XL */
 };
 
 static GogObjectClass *plot1_5d_parent_klass;
@@ -69,6 +70,7 @@ gog_plot1_5d_set_property (GObject *obj, guint param_id,
 			    GValue const *value, GParamSpec *pspec)
 {
 	GogPlot1_5d *gog_1_5d = GOG_PLOT1_5D (obj);
+	gboolean tmp;
 
 	switch (param_id) {
 	case GOG_1_5D_PROP_TYPE: {
@@ -84,6 +86,11 @@ gog_plot1_5d_set_property (GObject *obj, guint param_id,
 		else
 			return;
 		break;
+	case GOG_1_5D_PROP_IN_3D :
+		tmp = g_value_get_boolean (value);
+		if ((gog_1_5d->in_3d != 0) == (tmp != 0))
+			return;
+		gog_1_5d->in_3d = tmp;
 	}
 
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -111,6 +118,9 @@ gog_plot1_5d_get_property (GObject *obj, guint param_id,
 			g_value_set_static_string (value, "as_percentage");
 			break;
 		}
+		break;
+	case GOG_1_5D_PROP_IN_3D :
+		g_value_set_boolean (value, gog_1_5d->in_3d);
 		break;
 		
 	default: G_OBJECT_WARN_INVALID_PROPERTY_ID (obj, param_id, pspec);
@@ -304,6 +314,10 @@ gog_plot1_5d_class_init (GogPlotClass *plot_klass)
 		g_param_spec_string ("type", "type",
 			"How to group multiple series, normal, stacked, as_percentage",
 			"normal", G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
+	g_object_class_install_property (gobject_klass, GOG_1_5D_IN_3D,
+		g_param_spec_boolean ("in_3d", "in_3d",
+			"Place holder to all us to round trip pseudo 3d state",
+			FALSE, G_PARAM_READWRITE | GOG_PARAM_PERSISTENT));
 
 	gog_klass->update	= gog_plot1_5d_update;
 
@@ -336,6 +350,7 @@ static void
 gog_plot1_5d_init (GogPlot1_5d *plot)
 {
 	plot->fmt = NULL;
+	plot->in_3d = FALSE;
 }
 
 GSF_CLASS_ABSTRACT (GogPlot1_5d, gog_plot1_5d,

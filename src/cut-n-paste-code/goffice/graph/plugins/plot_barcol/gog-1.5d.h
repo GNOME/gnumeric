@@ -37,6 +37,7 @@ typedef enum {
 typedef struct {
 	GogPlot	base;
 	GogPlot1_5dType type;
+	gboolean	in_3d; /* placeholder */
 
 	/* cached content */
 	unsigned  num_series, num_elements;
