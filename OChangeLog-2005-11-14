@@ -1,5 +1,11 @@
 2001-08-23  Jody Goldberg <jgoldberg@home.com>
 
+	* src/commands.c (cmd_object_move) : init first_time.
+	(cmd_object_move_destroy) : fix cut-n-paste-o.
+	(cmd_object_move_redo) : do even less work.
+
+2001-08-23  Jody Goldberg <jgoldberg@home.com>
+
 	* idl/gnumeric-graphs.idl : reorganize to improve naming.
 	  remove notion of header that was not working well.
 	  remove freeze.

@@ -4110,14 +4110,16 @@ static gboolean
 cmd_object_move_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 {
 	CmdObjectMove *me = CMD_OBJECT_MOVE (cmd);
-	SheetObjectAnchor tmp;
 
-	sheet_object_anchor_cpy	(&tmp, sheet_object_anchor_get (me->so));
 	if (me->first_time)
 		me->first_time = FALSE;
-	else
+	else {
+		SheetObjectAnchor tmp;
+
+		sheet_object_anchor_cpy	(&tmp, sheet_object_anchor_get (me->so));
 		sheet_object_anchor_set	(me->so, &me->anchor);
-	sheet_object_anchor_cpy	(&me->anchor, &tmp);
+		sheet_object_anchor_cpy	(&me->anchor, &tmp);
+	}
 
 	return (FALSE);
 }
@@ -4131,7 +4133,7 @@ cmd_object_move_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 static void
 cmd_object_move_destroy (GtkObject *cmd)
 {
-	CmdObjectDelete *me = CMD_OBJECT_DELETE (cmd);
+	CmdObjectMove *me = CMD_OBJECT_MOVE (cmd);
 	gtk_object_unref (GTK_OBJECT (me->so));
 	gnumeric_command_destroy (cmd);
 }
@@ -4154,6 +4156,7 @@ cmd_object_move (WorkbookControl *wbc, SheetObject *so,
 	object = gtk_type_new (CMD_OBJECT_MOVE_TYPE);
 	me = CMD_OBJECT_MOVE (object);
 
+	me->first_time = TRUE;
 	me->so = so;
 	gtk_object_ref (GTK_OBJECT (so));
 
