@@ -673,11 +673,9 @@ value_get_as_string (Value const *v)
 					g_string_append_c (str, row_sep);
 
 				/* quote strings */
-				if (val->type == VALUE_STRING) {
-					char *tmp = gnumeric_strescape (val->v_str.val->str);
-					g_string_append (str, tmp);
-					g_free (tmp);
-				} else
+				if (val->type == VALUE_STRING)
+					gnm_strescape (str, val->v_str.val->str);
+				else
 					g_string_append (str, value_peek_string (val));
 			}
 			if (y < v->v_array.y-1)

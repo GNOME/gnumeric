@@ -382,32 +382,21 @@ gnumeric_usr_plugin_dir (void)
  *
  * Also adds quotes around the result.
  */
-char *
-gnumeric_strescape (char const *string)
+void
+gnm_strescape (GString *target, char const *string)
 {
-	char *q, *escaped;
-	int escapechars = 0;
-	char const *p;
-
-	g_return_val_if_fail (string != NULL, NULL);
-
-	for (p = string; *p; p = g_utf8_next_char (p))
-		if (*p == '\\' || *p == '\"')
-			escapechars++;
-
-	q = escaped = g_new (char, (p - string) + escapechars + 3);
-	*q++ = '\"';
-	for (p = string; *p; ) {
-		char *next = g_utf8_next_char (p);
-		if (*p == '\\' || *p == '\"')
-			*q++ = '\\';
-		while (p < next)
-			*q++ = *p++;
+	g_string_append_c (target, '"');
+	/* This loop should be UTF-8 safe.  */
+	for (; *string; string++) {
+		switch (*string) {
+		case '"':
+		case '\\':
+			g_string_append_c (target, '\\');
+		default:
+			g_string_append_c (target, *string);
+		}
 	}
-	*q++ = '\"';
-	*q = 0;
-
-	return escaped;
+	g_string_append_c (target, '"');
 }
 
 /* ------------------------------------------------------------------------- */

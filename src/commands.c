@@ -3562,18 +3562,19 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, EvalPos *ep,
 			} else {
 				switch (sr->error_behaviour) {
 				case SRE_error: {
-					char *tmp = gnumeric_strescape (cell_res.new_text);
+					/* FIXME: should go via expression.  */
+					GString *s = g_string_new ("=ERROR(");
+					gnm_strescape (s, cell_res.new_text);
+					g_string_append_c (s, ')');
 					g_free (cell_res.new_text);
-					cell_res.new_text = g_strconcat ("=ERROR(", tmp, ")", NULL);
-					g_free (tmp);
+					cell_res.new_text = g_string_free (s, FALSE);
 					err = FALSE;
 					break;
 				}
 				case SRE_string: {
-					/* FIXME: quoting isn't right.  */
-					char *tmp = gnumeric_strescape (cell_res.new_text);
-					g_free (cell_res.new_text);
-					cell_res.new_text = tmp;
+					GString *s = g_string_new ("");
+					gnm_strescape (s, cell_res.new_text);
+					cell_res.new_text = g_string_free (s, FALSE);
 					err = FALSE;
 					break;
 				}

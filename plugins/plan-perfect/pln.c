@@ -308,7 +308,7 @@ static char *
 pln_convert_expr (ParsePos const *pp, guint8 const *ch)
 {
 	GString *expr = g_string_new ("");
-	guint8 *str, *escaped;
+	guint8 *str;
 	guint8 const *end;
 	int i, len, code;
 
@@ -333,13 +333,11 @@ pln_convert_expr (ParsePos const *pp, guint8 const *ch)
 		case 9:	/* Text constant */
 			len = *ch;
 			str = pln_get_str (ch + 1, len);
-			escaped = gnumeric_strescape (str);
-			g_free (str);
 			g_string_append_c (expr, '\"');
-			g_string_append (expr, escaped);
+			gnm_strescape (expr, str);
 			g_string_append_c (expr, '\"');
-			g_free (escaped);
 			ch += len + 1;
+			g_free (str);
 			break;
 
 		case 10: /* Named block */

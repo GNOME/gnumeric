@@ -1238,9 +1238,7 @@ do_expr_as_string (GString *target, GnmExpr const *expr, ParsePos const *pp,
 		gboolean need_par;
 
 		if (v->type == VALUE_STRING) {
-			char *tmp = gnumeric_strescape (v->v_str.val->str);
-			g_string_append (target, tmp);
-			g_free (tmp);
+			gnm_strescape (target, v->v_str.val->str);
 			return;
 		}
 

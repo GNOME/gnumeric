@@ -1,5 +1,10 @@
 2002-12-13  Morten Welinder  <terra@diku.dk>
 
+	* src/gutils.c (gnm_strescape): Rename from gnumeric_strescape and
+	take GString accumulator argument.  All callers changed.
+
+2002-12-13  Morten Welinder  <terra@diku.dk>
+
 	* src/expr.c (gnm_expr_list_as_string): Take accumulator argument
 	and no prefix.  All callers changed.
 	(do_expr_as_string): Take accumulator argument and clean up
