@@ -58,6 +58,9 @@ functions_shutdown (void)
 	}
 
 	func_builtin_shutdown ();
+
+	symbol_table_destroy (global_symbol_table);
+	global_symbol_table = NULL;
 }
 
 static void

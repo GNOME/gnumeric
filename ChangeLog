@@ -1,5 +1,8 @@
 2002-10-23  Morten Welinder  <terra@diku.dk>
 
+	* src/func.c (functions_shutdown): Get rid of the global symbol
+	table.
+
 	* src/style.c (style_font_new_simple): Don't create a layout until
 	we know we have a font.  Get rid of pango context for negative
 	hash entries.
