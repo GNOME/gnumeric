@@ -614,12 +614,19 @@ apply_font_format (Style *style, Sheet *sheet, CellList *cells)
 	/* Now apply it to every row in the selection */
 	for (l = sheet->selections; l; l = l->next){
 		SheetSelection *ss = l->data;
-		int i;
 
-		for (i = ss->start_row; i <= ss->end_row; i++){
-			ColRowInfo *ri;
+		/* Special case, the whole spreadsheet */
+		if (ss->start_row == 0 && ss->end_row == SHEET_MAX_ROWS-1)
+			sheet_row_set_internal_height (sheet, &sheet->default_row_style, height);
 
-			ri = sheet_row_get (sheet, i);
+		for (l = sheet->rows_info; l; l = l->next){
+			ColRowInfo *ri = l->data;
+
+			if (ri->pos < ss->start_row)
+				break;
+			if (ri->pos > ss->end_row)
+				break;
+			
 			sheet_row_set_internal_height (sheet, ri, height);
 		}
 	}

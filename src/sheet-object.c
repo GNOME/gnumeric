@@ -252,7 +252,7 @@ sheet_object_realize (Sheet *sheet, SheetObject *object)
 	}
 }
 
-static void
+static SheetObject *
 create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 {
 	SheetObject *o = NULL;
@@ -290,6 +290,8 @@ create_object (Sheet *sheet, gdouble to_x, gdouble to_y)
 	}
 
 	sheet_object_realize (sheet, o);
+
+	return o;
 }
 
 static int
@@ -309,9 +311,18 @@ sheet_motion_notify (GnumericSheet *gsheet, GdkEvent *event, Sheet *sheet)
 static int
 sheet_button_release (GnumericSheet *gsheet, GdkEventButton *event, Sheet *sheet)
 {
+	SheetObject *o;
+	
 	/* Do not propagate this event further */
 	gtk_signal_emit_stop_by_name (GTK_OBJECT (gsheet), "button_release_event");
 
+	if (gsheet->sheet_view->temp_item)
+		sheet_object_destroy (gsheet->sheet_view->temp_item);
+	
+	o = create_object (sheet, event->x, event->y);
+
+	sheet_object_make_current (sheet, o);
+	
 	sheet_finish_object_creation (sheet);
 
 	return 1;
@@ -385,4 +396,164 @@ sheet_set_mode_type (Sheet *sheet, SheetModeType mode)
 		gtk_signal_connect (GTK_OBJECT (gsheet), "button_press_event",
 				    GTK_SIGNAL_FUNC (sheet_button_press), sheet);
 	}
+}
+
+static void
+sheet_object_stop_editing (SheetObject *object)
+{
+	Sheet *sheet = object->sheet;
+	GList *l;
+
+	for (l = sheet->sheet_views; l; l = l->next){
+		GList *items;
+		SheetView *sheet_view = l->data;
+
+		for (items = sheet_view->control_points; items; items = items->next){
+			GnomeCanvasItem *item = items->data;
+
+			gtk_object_destroy (GTK_OBJECT (item));
+		}
+		g_list_free (sheet_view->control_points);
+		sheet_view->control_points = NULL;
+	}
+	sheet->current_object = NULL;
+}
+
+/*
+ * This hooks to the event for the handlebox
+ */
+static int
+object_event (GnomeCanvasItem *item, GdkEvent *event, SheetObject *object)
+{
+	int idx;
+	double *points = object->points->coords;
+	double x1, y1, x2, y2;
+	static int last_x, last_y, dx, dy;
+	
+	switch (event->type){
+	case GDK_BUTTON_RELEASE:
+		object->dragging = 0;
+		break;
+
+	case GDK_BUTTON_PRESS:
+		object->dragging = 1;
+		last_x = event->button.x;
+		last_y = event->button.y;
+		break;
+
+	case GDK_MOTION_NOTIFY:
+		if (!object->dragging)
+			return FALSE;
+
+		idx = GPOINTER_TO_INT (gtk_object_get_user_data (item));
+		printf ("HERE: %d\n", idx);
+		switch (idx){
+		case 0:
+		case 2:
+		case 5:
+		case 7:
+			/* borders */
+			dx = event->button.x - last_x;
+			dy = event->button.y - last_y;
+			break;
+			
+		case 1:
+		case 6:
+			dx = 0;
+			dy = event->button.y - last_y;
+			break;
+			
+		case 3:
+		case 4:
+			dy = 0;
+			dx = event->button.x - last_x;
+			break;
+		}
+		last_x = event->button.x;
+		last_y = event->button.y;
+		
+		gnome_canvas_item_move (item, dx, dy);
+		
+		break;
+		
+	default:
+		return FALSE;
+	}		
+	return TRUE;
+}
+
+static GnomeCanvasItem *
+new_control_point (GnomeCanvasGroup *group, SheetObject *object, int idx, double x, double y)
+{
+	GnomeCanvasItem *item;
+
+	item = gnome_canvas_item_new (
+		group,
+		gnome_canvas_rect_get_type (),
+		"x1",    x - 2,
+		"y1",    y - 2,
+		"x2",    x + 2,
+		"y2",    y + 2,
+		"outline_color", "black",
+		"fill_color",    "black",
+		NULL);
+
+	gtk_signal_connect (GTK_OBJECT (item), "event",
+			    GTK_SIGNAL_FUNC (object_event), object);
+	
+	gtk_object_set_user_data (GTK_OBJECT (item), GINT_TO_POINTER (idx));
+	
+	return item;
+}
+
+static void
+sheet_object_start_editing (SheetObject *object)
+{
+	Sheet *sheet = object->sheet;
+	double *points = object->points->coords;
+	GList *l;
+	int i;
+	
+	for (l = sheet->sheet_views; l; l = l->next){
+		SheetView *sheet_view = l->data;
+		GnomeCanvasGroup *group = sheet_view->object_group;
+		GnomeCanvasItem *ul [8];
+		
+		ul [0] = new_control_point (group, object, 0, points [0], points [1]);
+		ul [1] = new_control_point (group, object, 1, (points [0] + points [2]) / 2, points [1]);
+		ul [2] = new_control_point (group, object, 2, points [2], points [1]);
+		ul [3] = new_control_point (group, object, 3, points [0], (points [1] + points [3]) / 2);
+		ul [4] = new_control_point (group, object, 4, points [2], (points [1] + points [3]) / 2);
+		ul [5] = new_control_point (group, object, 5, points [0], points [3]);
+		ul [6] = new_control_point (group, object, 6, (points [0] + points [2]) / 2, points [3]);
+		ul [7] = new_control_point (group, object, 7, points [2], points [3]);
+
+		for (i = 0; i < 8; i++)
+			sheet_view->control_points = g_list_prepend (sheet_view->control_points, ul [i]);
+	}
+}
+
+void
+sheet_object_make_draggable (SheetObject *object)
+{
+}
+
+void
+sheet_object_make_current (Sheet *sheet, SheetObject *object)
+{
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (IS_SHEET (sheet));
+	g_return_if_fail (object != NULL);
+	g_return_if_fail (IS_SHEET_OBJECT (object));
+
+	if (sheet->current_object == object)
+		return;
+	
+	if (sheet->current_object)
+		sheet_object_stop_editing (sheet->current_object);
+
+	sheet_object_make_draggable (object);
+	sheet_object_start_editing (object);
+
+	sheet->current_object = object;
 }

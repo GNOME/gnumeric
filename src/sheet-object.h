@@ -13,6 +13,7 @@ typedef struct {
 	Sheet             *sheet;
 	GList             *realized_list;
 	SheetObjectType   type;
+	int               dragging;
 
 	String            *color;
 	int               width;
@@ -48,6 +49,9 @@ void             sheet_object_destroy        (SheetObject *object);
 GnomeCanvasItem *sheet_view_object_realize   (SheetView *sheet_view,
 					      SheetObject *object);
 void             sheet_view_object_unrealize (SheetView *sheet_view,
+					      SheetObject *object);
+
+void             sheet_object_make_current   (Sheet *sheet,
 					      SheetObject *object);
 
 #endif

@@ -395,7 +395,6 @@ sheet_row_set_internal_height (Sheet *sheet, ColRowInfo *ri, int height)
 	g_return_if_fail (sheet != NULL);
 	g_return_if_fail (IS_SHEET (sheet));
 	g_return_if_fail (ri != NULL);
-	g_return_if_fail (ri != &sheet->default_row_style);
 	
 	pix = sheet->last_zoom_factor_used;
 	

@@ -102,6 +102,7 @@ typedef struct {
 	SheetModeType mode;	/* Sheet mode */
 	GList      *objects;	/* List of objects in the spreadsheet */
 	GList      *coords;	/* During creation time: keeps click coordinates */
+	void       *current_object;
 	
 	/*
 	 * When editing a cell: the cell (may be NULL) and

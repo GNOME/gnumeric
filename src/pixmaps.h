@@ -1,3 +1,6 @@
 #include "pixmaps/align-center.xpm"
 #include "pixmaps/align-left.xpm"
 #include "pixmaps/align-right.xpm"
+#include "pixmaps/rect.xpm"
+#include "pixmaps/line.xpm"
+#include "pixmaps/oval.xpm"

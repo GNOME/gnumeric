@@ -19,10 +19,16 @@ typedef struct {
 	/* Object group */
 	GnomeCanvasGroup *object_group;
 
-	/* Temporary object used during the creation of objects
+	/*
+	 * Temporary object used during the creation of objects
 	 * in the canvas
 	 */
 	void             *temp_item;
+
+	/*
+	 * Control points for the current item
+	 */
+	GList            *control_points;
 	
 	/* Scrolling information */
 	GtkWidget  *vs, *hs;	/* The scrollbars */

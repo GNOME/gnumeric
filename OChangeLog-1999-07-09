@@ -1,5 +1,11 @@
 1998-09-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/dialog-cell-format.c (apply_font_format): Optimization, walk
+	the row list instead of calling repeatedly the sheet_row_get
+	routine. 
+
+1998-09-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
 	* src/style.h: Color style is now a single color
 
 1998-09-06  Miguel de Icaza  <miguel@nuclecu.unam.mx>
@@ -22,6 +28,7 @@
 	an arbitrary cell to the text as if it were typed by the user.
 	(sheet_fill_selection_with): Fill the selection with a string.
 	
+>>>>>>> 1.88
 1998-09-04  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_key): Fix the way the
