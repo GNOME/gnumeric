@@ -18,6 +18,7 @@ void        editable_label_set_text  (EditableLabel *el, char const *text);
 char const *editable_label_get_text  (EditableLabel const *el);
 void        editable_label_set_color (EditableLabel *el, GdkColor *base, GdkColor *text);
 void        editable_label_start_editing (EditableLabel *el);
+void        editable_label_set_editable (EditableLabel *el, gboolean editable);
 
 G_END_DECLS
 

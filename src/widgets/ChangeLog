@@ -2,6 +2,9 @@
 
 	* widget-editable-label.c (el_class_init): Get parent class once
 	and for all.
+	(editable_label_set_editable): New function.
+	(el_cancel_editing): New function.
+	(el_destroy, el_key_press_event): Use el_cancel_editing.
 
 2005-03-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
 

@@ -40,8 +40,8 @@ struct _EditableLabel {
 	GtkEntry  entry;
 
 	GdkColor  base, text;
-	gboolean  base_set, text_set;
 	char	 *unedited_text;
+	unsigned int base_set, text_set, editable : 1;
 };
 
 typedef struct {
@@ -112,6 +112,17 @@ el_stop_editing (EditableLabel *el)
 }
 
 static void
+el_cancel_editing (EditableLabel *el)
+{
+	if (el->unedited_text) {
+		gboolean dummy;
+		el_stop_editing (el);
+		g_signal_emit (G_OBJECT (el), el_signals [EDIT_FINISHED], 0,
+			       NULL, &dummy);
+	}
+}
+
+static void
 el_entry_activate (GtkEntry *entry, G_GNUC_UNUSED gpointer ignored)
 {
 	EditableLabel *el = EDITABLE_LABEL (entry);
@@ -135,7 +146,7 @@ el_destroy (GtkObject *object)
 {
 	EditableLabel *el = EDITABLE_LABEL (object);
 
-	el_stop_editing (el);
+	el_cancel_editing (el);
 
 	parent_class->destroy (object);
 }
@@ -178,10 +189,7 @@ el_key_press_event (GtkWidget *w, GdkEventKey *event)
 		return FALSE;
 
 	if (event->keyval == GDK_Escape) {
-		gboolean dummy;
-		el_stop_editing (el);
-		g_signal_emit (G_OBJECT (el), el_signals [EDIT_FINISHED], 0,
-			       NULL, &dummy);
+		el_cancel_editing (el);
 		return TRUE;
 	}
 
@@ -200,7 +208,7 @@ el_size_request (GtkWidget *el, GtkRequisition *req)
 	line = pango_layout_get_lines (layout)->data;
 	pango_layout_line_get_extents (line, NULL, &logical_rect);
 
-	req->width = logical_rect.width / PANGO_SCALE + 2*2;
+	req->width = logical_rect.width / PANGO_SCALE + 2 * 2;
 }
 
 static void
@@ -243,6 +251,8 @@ cb_el_changed (GtkWidget *w, G_GNUC_UNUSED gpointer ignored)
 static void
 el_init (GObject *obj)
 {
+	EditableLabel *el = EDITABLE_LABEL (obj);
+	el->editable = TRUE;
 	g_signal_connect (obj, "changed", G_CALLBACK (cb_el_changed), NULL);
 }
 
@@ -317,7 +327,7 @@ editable_label_new (char const *text, GdkColor *base_color,
 void
 editable_label_start_editing (EditableLabel *el)
 {
-	if (el->unedited_text != NULL)
+	if (el->unedited_text != NULL || !el->editable)
 		return;
 
 	el->unedited_text = g_strdup (gtk_entry_get_text (GTK_ENTRY (el)));
@@ -332,3 +342,11 @@ editable_label_start_editing (EditableLabel *el)
 	gtk_grab_add (GTK_WIDGET (el));
 }
 
+void
+editable_label_set_editable (EditableLabel *el, gboolean editable)
+{
+	if (!editable)
+		el_cancel_editing (el);
+
+	el->editable = editable ? TRUE : FALSE;
+}

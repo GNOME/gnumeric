@@ -426,13 +426,7 @@ wbcg_update_action_sensitivity (WorkbookControl *wbc)
 		for (i = 0; i < gtk_notebook_get_n_pages (wbcg->notebook); i++) {
 			GtkWidget *page = gtk_notebook_get_nth_page (wbcg->notebook, i);
 			SheetControlGUI *scg = g_object_get_data (G_OBJECT (page), SHEET_CONTROL_KEY);
-			/*
-			 * FIXME: This is somewhat brutal.
-			 *
-			 * We need to prevent the context menu, not sheet-
-			 * changing.  For now, this fixes 170958.
-			 */
-			gtk_widget_set_sensitive (scg->label, enable_actions);
+			editable_label_set_editable (EDITABLE_LABEL (scg->label), enable_actions);
 		}
 	}
 
@@ -541,13 +535,12 @@ sheet_action_reorder_sheet (GtkWidget *widget, SheetControlGUI *scg)
 static void
 sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 {
-#define SHEET_CONTEXT_TEST_SIZE 1
 	SheetControl *sc = (SheetControl *) scg;
 
 	struct {
 		const char *text;
 		void (*function) (GtkWidget *widget, SheetControlGUI *scg);
-		int  flags;
+		enum { SHEET_CONTEXT_TEST_SIZE = 1 } flags;
 	} const sheet_label_context_actions [] = {
 		{ N_("Manage sheets..."), &sheet_action_reorder_sheet, 0},
 		{ "", NULL, 0},
@@ -560,27 +553,30 @@ sheet_menu_label_run (SheetControlGUI *scg, GdkEventButton *event)
 	};
 
 	GtkWidget *menu;
-	GtkWidget *item;
 	int i;
 
 	menu = gtk_menu_new ();
 
 	for (i = 0; sheet_label_context_actions [i].text != NULL; i++){
 		int flags = sheet_label_context_actions [i].flags;
+		GtkWidget *item;
+		gboolean active =
+			((flags & SHEET_CONTEXT_TEST_SIZE) &&
+			 workbook_sheet_count (sc->sheet->workbook) < 2) ||
+			wbcg_edit_get_guru (scg_get_wbcg (scg)) != NULL;
 
-		if (flags & SHEET_CONTEXT_TEST_SIZE &&
-		    workbook_sheet_count (sc->sheet->workbook) < 2)
-				continue;
 		if (sheet_label_context_actions [i].text[0] == '\0') {
 			item = gtk_separator_menu_item_new ();
 		} else {
 			item = gtk_menu_item_new_with_label (
 				_(sheet_label_context_actions [i].text));
-			g_signal_connect (G_OBJECT (item),
-					  "activate",
-					  G_CALLBACK (sheet_label_context_actions [i].function), scg);
+			if (active)
+				g_signal_connect (G_OBJECT (item),
+						  "activate",
+						  G_CALLBACK (sheet_label_context_actions [i].function), scg);
 		}
-		
+
+		gtk_widget_set_sensitive (item, active);
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 		gtk_widget_show (item);
 	}
