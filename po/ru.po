@@ -1,11 +1,11 @@
 # Copyright (C) 1999 Free Software Foundation, Inc.
 # Valek Filippov <val@comptek.ru>, 1999.
 # beta version (some lines aren't translated yet)
-# Gnumeric ver. 0.11
+# Gnumeric ver. 0.12
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-02-17 17:31-0600\n"
+"POT-Creation-Date: 1999-02-21 12:38-0500\n"
 "PO-Revision-Date: 1999-02-03 14:42-0600\n"
 "Last-Translator: Valek Filippov <val@comptek.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -13,7 +13,64 @@ msgstr ""
 "Content-Type: text/plain; charset=koi8-r\n"
 "Content-Transfer-Encoding: 8-bit\n"
 
-#: plugins/stat/stat.c:10
+#: plugins/excel/boot.c:67
+msgid "Microsoft(R) Excel file format"
+msgstr ""
+
+#: plugins/guile/plugin.c:220
+msgid "Argument must be a Guile expression"
+msgstr ""
+
+#: plugins/guile/plugin.c:241 src/expr.c:489 src/fn-math.c:1155
+#: src/fn-sheet.c:38 src/fn-sheet.c:83
+msgid "Invalid number of arguments"
+msgstr "Неверное число аргументов"
+
+#: plugins/guile/plugin.c:248 plugins/guile/plugin.c:254
+msgid "First argument to SCM must be a Guile expression"
+msgstr ""
+
+#: plugins/guile/plugin.c:260
+msgid "Undefined scheme function"
+msgstr ""
+
+#: plugins/guile/plugin.c:272
+msgid "Could not evaluate argument"
+msgstr ""
+
+#: plugins/guile/plugin.c:380
+msgid "Unable to lookup Guile function."
+msgstr "Hе удалось найти функцию языка Guile."
+
+#: plugins/guile/plugin.c:448
+msgid "Guile Plugin"
+msgstr "Дополнениe языка Guile"
+
+#: plugins/python/python.c:99
+msgid "Unable to lookup Python code object."
+msgstr ""
+
+#: plugins/python/python.c:115
+msgid "Python exception."
+msgstr ""
+
+#: plugins/python/python.c:137
+msgid "object must be callable"
+msgstr ""
+
+#: plugins/python/python.c:143
+msgid "could not alloc FuncDef"
+msgstr ""
+
+#: plugins/python/python.c:177
+msgid "Gnumeric/Python module initialized\n"
+msgstr ""
+
+#: plugins/python/python.c:190
+msgid "Python Plugin"
+msgstr ""
+
+#: plugins/stat/stat.c:12
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX = STDEV(value1, value2, ...)@DESCRIPTION=Computes the standard "
@@ -27,7 +84,7 @@ msgstr ""
 "равняется квадратному корню из отклонения (variance).\n"
 "@SEEALSO=VARIANCE"
 
-#: plugins/stat/stat.c:21
+#: plugins/stat/stat.c:23
 msgid ""
 "@FUNCTION=VARIANCE\n"
 "@SYNTAX = VARIANCE(value1, value2, ...)@DESCRIPTION=Computes the variation "
@@ -43,7 +100,7 @@ msgstr ""
 "хотите разделить на N, а не на N - 1, используйте "
 "NVARIANCE.@SEEALSO=AVERAGE, NVARIANCE"
 
-#: plugins/stat/stat.c:32
+#: plugins/stat/stat.c:34
 msgid ""
 "@FUNCTION=NVARIANCE\n"
 "@SYNTAX = NVARIANVE(value1, value2, ...)@DESCRIPTION=Computes the variation "
@@ -59,19 +116,67 @@ msgstr ""
 "разделить на N - 1, а не на N, используйте VARIANCE.@SEEALSO=AVERAGE, "
 "VARIANCE"
 
-#: plugins/stat/stat.c:67
+#: plugins/stat/stat.c:69
 msgid "Statistics Plugin"
-msgstr ""
+msgstr "Дополнение \"Статистика\""
 
-#: plugins/stat/stat.c:100
+#: plugins/stat/stat.c:102
 msgid "variance - division by 0"
 msgstr "variance - деление на 0"
 
-#: src/about.c:38
+#: src/about.c:23
+msgid "Miguel de Icaza, main programmer."
+msgstr ""
+
+#: src/about.c:24
+msgid "Daniel Veillard, XML support."
+msgstr ""
+
+#: src/about.c:25
+msgid "Chris Lahey, Number format engine."
+msgstr ""
+
+#: src/about.c:26
+msgid "Tom Dyas, Plugin support."
+msgstr ""
+
+#: src/about.c:27
+msgid "Federico Mena, Canvas support."
+msgstr ""
+
+#: src/about.c:28
+msgid "Adrian Likins, Documentation, debugging"
+msgstr ""
+
+#: src/about.c:29
+msgid "Jakub Jelinek, Gnumeric hacker"
+msgstr ""
+
+#: src/about.c:30
+msgid "Michael Meeks, Excel and OLE2 importing"
+msgstr ""
+
+#: src/about.c:31
+msgid "Sean Atkinson, Excel functions"
+msgstr ""
+
+#: src/about.c:32
+msgid "Bruno Unna, Excel code"
+msgstr ""
+
+#: src/about.c:33
+msgid "Mark Probst, Guile support"
+msgstr ""
+
+#: src/about.c:34
+msgid "Vincent Renardias, CSV support"
+msgstr ""
+
+#: src/about.c:45
 msgid "Gnumeric"
 msgstr ""
 
-#: src/about.c:41
+#: src/about.c:48
 msgid ""
 "The GNOME spreadsheet.\n"
 "http://www.gnome.org/gnumeric"
@@ -286,7 +391,7 @@ msgstr "Образцы:"
 msgid "Format codes"
 msgstr "Формат кодов"
 
-#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:450
+#: src/dialog-cell-format.c:353 src/formats.c:16 src/number-match.c:455
 msgid "General"
 msgstr "Общий"
 
@@ -348,9 +453,8 @@ msgid "Use this color"
 msgstr "Использовать этот цвет"
 
 #: src/dialog-cell-format.c:605
-#, fuzzy
 msgid "No change"
-msgstr "Нет"
+msgstr "Нет изменений"
 
 #: src/dialog-cell-format.c:628
 msgid "Background configuration"
@@ -388,7 +492,7 @@ msgstr "Определить имена"
 msgid "Add"
 msgstr "Добавить"
 
-#: src/dialog-define-names.c:27 src/plugin-manager.c:131
+#: src/dialog-define-names.c:27 src/plugin-manager.c:132
 msgid "Remove"
 msgstr "Удалить"
 
@@ -526,6 +630,11 @@ msgstr "Значение масштаба должно быть не меньше 50%"
 msgid "Zoom factor should be at most 900%"
 msgstr "Значение масштаба должно быть не больше 900%"
 
+#: src/dump.c:29
+#, c-format
+msgid "Can not create file %s\n"
+msgstr ""
+
 #: src/expr.c:59
 msgid "Syntax error"
 msgstr "Синтаксическая ошибка"
@@ -534,30 +643,26 @@ msgstr "Синтаксическая ошибка"
 msgid "Missing quote"
 msgstr "Ошибочная кавычка"
 
-#: src/expr.c:479 src/fn-math.c:1134 src/fn-sheet.c:38 src/fn-sheet.c:83
-msgid "Invalid number of arguments"
-msgstr "Неверное число аргументов"
-
-#: src/expr.c:707
-msgid "Type error"
-msgstr "Ошибка типа"
-
-#: src/expr.c:765 src/expr.c:927 src/fn-misc.c:34
+#: src/expr.c:509 src/expr.c:514 src/expr.c:793 src/expr.c:959
+#: src/fn-misc.c:35
 msgid "Type mismatch"
 msgstr "Несоответствие типов"
 
-#: src/expr.c:791 src/expr.c:827
+#: src/expr.c:734
+msgid "Type error"
+msgstr "Ошибка типа"
+
+#: src/expr.c:819 src/expr.c:855
 msgid "Division by zero"
 msgstr "Деление на ноль"
 
-#: src/expr.c:942
+#: src/expr.c:974
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
 #: src/file.c:217
-#, fuzzy
 msgid "File format:"
-msgstr "Формат ячейки"
+msgstr "Формат файла:"
 
 #: src/file.c:256
 msgid "Save workbook as"
@@ -838,7 +943,7 @@ msgid ""
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
 "no logical values are provided, then the error '#VALUE!' is returned. \n"
-"@SEEALSO=OR"
+"@SEEALSO=OR, NOT"
 msgstr ""
 "@FUNCTION=AND\n"
 "@SYNTAX=AND(b1, b2, ...)\n"
@@ -849,9 +954,9 @@ msgstr ""
 "остальных случаях его значение - TRUE (истина).\n"
 "Значения содержащие строки или пустые ячейки игнорируются.  Если логическое "
 "значение не поддерживается, то возвращается ошибка '#VALUE!'. \n"
-"@SEEALSO=OR"
+"@SEEALSO=OR, NOT"
 
-#: src/fn-math.c:188 src/fn-math.c:919
+#: src/fn-math.c:188 src/fn-math.c:940
 msgid "#VALUE"
 msgstr ""
 
@@ -1228,6 +1333,16 @@ msgstr ""
 
 #: src/fn-math.c:858
 msgid ""
+"@FUNCTION=NOT\n"
+"@SYNTAX=NOT(number)\n"
+"@DESCRIPTION=Implements the logical NOT function: the result is TRUE if the "
+"number is zero;  othewise the result is FALSE.\n"
+"\n"
+"@SEEALSO=AND, OR"
+msgstr ""
+
+#: src/fn-math.c:879
+msgid ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
 "@DESCRIPTION=Implements the logical OR function: the result is TRUE if any "
@@ -1237,7 +1352,7 @@ msgid ""
 "anything else is TRUE.\n"
 "If the values contain strings or empty cells those values are ignored.  If "
 "no logical values are provided, then the error '#VALUE!'is returned.\n"
-"@SEEALSO=AND"
+"@SEEALSO=AND, NOT"
 msgstr ""
 "@FUNCTION=OR\n"
 "@SYNTAX=OR(b1, b2, ...)\n"
@@ -1248,9 +1363,9 @@ msgstr ""
 "остальных случаях его значение - TRUE (истина).\n"
 "Значения содержащие строки или пустые ячейки игнорируются.  Если логическое "
 "значение не поддерживается, то возвращается ошибка '#VALUE!'. \n"
-"@SEEALSO=AND"
+"@SEEALSO=AND, NOT"
 
-#: src/fn-math.c:926
+#: src/fn-math.c:947
 msgid ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
@@ -1264,7 +1379,7 @@ msgstr ""
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=PI,DEGREES"
 
-#: src/fn-math.c:947
+#: src/fn-math.c:968
 msgid ""
 "@FUNCTION=SIN\n"
 "@SYNTAX=SIN(x)\n"
@@ -1282,7 +1397,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=COS, COSH, SINH, TAN, TANH, RADIANS, DEGREES"
 
-#: src/fn-math.c:967
+#: src/fn-math.c:988
 msgid ""
 "@FUNCTION=SINH\n"
 "@SYNTAX=SINH(x)\n"
@@ -1300,7 +1415,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=SIN, COS, COSH, TAN, TANH, DEGREES, RADIANS, EXP"
 
-#: src/fn-math.c:988
+#: src/fn-math.c:1009
 msgid ""
 "@FUNCTION=SUM\n"
 "@SYNTAX=SUM(value1, value2, ...)\n"
@@ -1314,7 +1429,7 @@ msgstr ""
 "аргументов.\n"
 "@SEEALSO=AVERAGE, COUNT"
 
-#: src/fn-math.c:1055
+#: src/fn-math.c:1076
 msgid ""
 "@FUNCTION=TAN\n"
 "@SYNTAX=TAN(x)\n"
@@ -1332,7 +1447,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=TANH, COS, COSH, SIN, SINH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1075
+#: src/fn-math.c:1096
 msgid ""
 "@FUNCTION=TANH\n"
 "@SYNTAX=TANH(x)\n"
@@ -1350,7 +1465,7 @@ msgstr ""
 "ячейками эта функция ничего не делает.\n"
 "@SEEALSO=TAN, SIN, SINH, COS, COSH, DEGREES, RADIANS"
 
-#: src/fn-math.c:1095
+#: src/fn-math.c:1116
 msgid ""
 "@FUNCTION=PI\n"
 "@SYNTAX=PI()\n"
@@ -1365,8 +1480,7 @@ msgstr ""
 "Эта функция вызывается без аргументов.\n"
 "@SEEALSO="
 
-#: src/fn-math.c:1114
-#, fuzzy
+#: src/fn-math.c:1135
 msgid ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
@@ -1376,11 +1490,12 @@ msgid ""
 "\n"
 "@SEEALSO="
 msgstr ""
-"@FUNCTION=PI\n"
-"@SYNTAX=PI()\n"
-"@DESCRIPTION=Функция PI() возвращает значение числа Пи, которое определяется "
-"как M_PI.\n"
-"Эта функция вызывается без аргументов.\n"
+"@FUNCTION=TRUNC\n"
+"@SYNTAX=TRUNC(number[,digits])\n"
+"@DESCRIPTION=Функция TRUNC возвращает значение числа укороченного до "
+"заданного числа цифр. Если число цифр не заданно, то подразумевается "
+"ноль.\n"
+"\n"
 "@SEEALSO="
 
 #: src/fn-misc.c:18
@@ -1394,6 +1509,24 @@ msgstr ""
 "@SYNTAX=CLEAN(строка)\n"
 "@DESCRIPTION=Очищает строку от любых непечатаемых символов.\n"
 "@SEEALSO="
+
+#: src/fn-misc.c:57
+msgid ""
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Returns a TRUE value if the expression has an error\n"
+"\n"
+"@SEEALSO="
+msgstr ""
+"@FUNCTION=ISERROR\n"
+"@SYNTAX=ISERROR(exp)\n"
+"@DESCRIPTION=Возвращает TRUE(истина) если выражение не корректно\n"
+"\n"
+"@SEEALSO="
+
+#: src/fn-misc.c:73
+msgid "Argument mismatch"
+msgstr "Несоответствие 	аргументов"
 
 #: src/fn-sheet.c:17
 msgid ""
@@ -1430,7 +1563,6 @@ msgstr ""
 "@SEEALSO="
 
 #: src/fn-string.c:17
-#, fuzzy
 msgid ""
 "@FUNCTION=CHAR\n"
 "@SYNTAX=CHAR(x)\n"
@@ -1455,7 +1587,6 @@ msgstr ""
 "@SEEALSO=CHAR"
 
 #: src/fn-string.c:61
-#, fuzzy
 msgid ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
@@ -1465,8 +1596,8 @@ msgid ""
 msgstr ""
 "@FUNCTION=EXACT\n"
 "@SYNTAX=EXACT(string1, string2)\n"
-"@DESCRIPTION=Возвращает TRUE если string1 совпадает с string2 (эта функция "
-"учитывает регистр.\n"
+"@DESCRIPTION=Возвращает TRUE(истина) если string1 совпадает с string2 "
+"(эта функция учитывает регистр).\n"
 "@SEEALSO="
 
 #: src/fn-string.c:83
@@ -1833,6 +1964,9 @@ msgid ""
 "existing cells in that range.  Do you want me to replace\n"
 "the contents in this region?"
 msgstr ""
+"Перенесенные ячейки перепишут содержимое существующих\n"
+"в этом месте ячеек. Вы хотите заменить содержимое\n"
+"в этой области?"
 
 #: src/item-cursor.c:579 src/item-grid.c:527 src/workbook.c:839
 msgid "Copy"
@@ -1902,35 +2036,35 @@ msgstr "УРОВЕНЬ"
 msgid "(([-+]?[0-9,])?(\\.?[0-9]*)?([Ee][-+][0-9]+)?)"
 msgstr ""
 
-#: src/plugin-manager.c:94 src/plugin-manager.c:95
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "Name"
 msgstr "Имя"
 
-#: src/plugin-manager.c:94 src/plugin-manager.c:95
+#: src/plugin-manager.c:95 src/plugin-manager.c:96
 msgid "File"
 msgstr "Файл"
 
-#: src/plugin-manager.c:125
+#: src/plugin-manager.c:126
 msgid "Close"
 msgstr "Закрыть"
 
-#: src/plugin-manager.c:128
+#: src/plugin-manager.c:129
 msgid "Add..."
 msgstr "Добавить..."
 
-#: src/plugin.c:36
+#: src/plugin.c:37
 msgid "unable to open module file: "
 msgstr "не удалось открыть файл модуля: "
 
-#: src/plugin.c:45
+#: src/plugin.c:46
 msgid "Plugin must contain init_plugin function."
 msgstr "Plugin должен содержать функцию init_plugin /!FIXME/"
 
-#: src/plugin.c:51
+#: src/plugin.c:52
 msgid "init_plugin returned error"
 msgstr "init_plugin возвратил ошибку"
 
-#: src/plugin.c:71
+#: src/plugin.c:72
 msgid "Plugin is still in use.\n"
 msgstr "Plugin еще используется.\n"
 
@@ -1979,11 +2113,11 @@ msgstr "Создать новую таблицу"
 
 #: src/workbook.c:673
 msgid "Plu_g-ins..."
-msgstr ""
+msgstr "Дополнение..."
 
 #: src/workbook.c:673
 msgid "Gnumeric plugins"
-msgstr ""
+msgstr "Дополнения Gnumeric"
 
 #: src/workbook.c:687
 msgid "_All"
