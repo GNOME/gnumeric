@@ -7,8 +7,6 @@
 gchar *s = N_("Gnumeric : Exporting structured text");
 gchar *s = N_("Choose sheets to export");
 gchar *s = N_("Please select which sheets you want to export from the current workbook. They will be exported in the same order as in the export list.");
-gchar *s = N_("label2");
-gchar *s = N_("label3");
 gchar *s = N_("Available sheets");
 gchar *s = N_("Sheets to export");
 gchar *s = N_("Add ->");

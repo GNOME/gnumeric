@@ -60,5 +60,4 @@ gchar *s = N_("Per column formatting");
 gchar *s = N_("Column");
 gchar *s = N_("Format");
 gchar *s = N_("_Format :");
-gchar *s = N_("label8");
 gchar *s = N_("Example");

@@ -10,6 +10,3 @@ gchar *s = N_("Font style:");
 gchar *s = N_("Size:");
 gchar *s = N_("Preview");
 gchar *s = N_("AaBbCcDdEe12345");
-gchar *s = N_("label8");
-gchar *s = N_("label7");
-gchar *s = N_("label9");

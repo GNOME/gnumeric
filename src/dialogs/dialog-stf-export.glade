@@ -10,17 +10,6 @@
   <language>C</language>
   <gnome_support>True</gnome_support>
   <gettext_support>True</gettext_support>
-  <use_widget_names>False</use_widget_names>
-  <output_main_file>True</output_main_file>
-  <output_support_files>True</output_support_files>
-  <output_build_files>True</output_build_files>
-  <backup_source_files>True</backup_source_files>
-  <main_source_file>interface.c</main_source_file>
-  <main_header_file>interface.h</main_header_file>
-  <handler_source_file>callbacks.c</handler_source_file>
-  <handler_header_file>callbacks.h</handler_header_file>
-  <support_source_file>support.c</support_source_file>
-  <support_header_file>support.h</support_header_file>
   <output_translatable_strings>True</output_translatable_strings>
   <translatable_strings_file>dialog-stf-export.glade.h</translatable_strings_file>
 </project>
@@ -47,7 +36,7 @@
       <title_color>255,255,255</title_color>
       <background_color>92,51,102</background_color>
       <logo_background_color>92,51,102</logo_background_color>
-      <logo_image>../../pixmaps/gnumeric/stf-druid.png</logo_image>
+      <logo_image>../../../pixmaps/gnumeric/stf-druid.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>
@@ -137,7 +126,7 @@
 		  <class>GtkLabel</class>
 		  <child_name>CList:title</child_name>
 		  <name>label2</name>
-		  <label>label2</label>
+		  <label></label>
 		  <justify>GTK_JUSTIFY_CENTER</justify>
 		  <wrap>False</wrap>
 		  <xalign>0.5</xalign>
@@ -184,7 +173,7 @@
 		  <class>GtkLabel</class>
 		  <child_name>CList:title</child_name>
 		  <name>label3</name>
-		  <label>label3</label>
+		  <label></label>
 		  <justify>GTK_JUSTIFY_CENTER</justify>
 		  <wrap>False</wrap>
 		  <xalign>0.5</xalign>
@@ -410,7 +399,7 @@
       <title_color>255,255,255</title_color>
       <background_color>92,51,102</background_color>
       <logo_background_color>92,51,102</logo_background_color>
-      <logo_image>../../pixmaps/gnumeric/stf-druid.png</logo_image>
+      <logo_image>../../../pixmaps/gnumeric/stf-druid.png</logo_image>
 
       <widget>
 	<class>GtkVBox</class>

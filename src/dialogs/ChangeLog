@@ -9,3 +9,12 @@
 	(dialog_random_tool) : Translate elements.
 	(dialog_data_analysis) : Ditto.
 
+	* dialog-stf.glade{,.h} : adjust to the fact that glade files are
+	  versioned.  Remove the default labels from the Clists, they
+	  were being translated.
+	* dialog-stf-export.glade{,.h} :  Ditto.
+
+	* font-sel.glade{,.h} : Remove default labels from Clists.
+
+	* import.glade{,.h} : Ditto.
+
