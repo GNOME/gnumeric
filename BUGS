@@ -24,6 +24,13 @@ Important
     : loading in XL corrupts.  xbat is being lost when xl modifies it ??
       Likely some libgsf issue
 
+    When entering "ppp/qqq" into a cell with non-fractional format, do not
+    make it a fraction.
+
+    Consider adding "%" to entry text when typing a text with a percentage
+    format.  (I.e., user has "44%" in cell and presses "5" -- that causes
+    "5%" to be shown the the cursor between "5" and "%".)
+
 -------------------------------------------------------------------------------
 Pending Patches
 ---------------
