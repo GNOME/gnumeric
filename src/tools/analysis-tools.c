@@ -157,7 +157,7 @@ new_data_set (Value *range, gboolean ignore_non_num, gboolean read_label,
  *  @data_set:
  */
 static void
-destroy_data_set ( data_set_t *data_set)
+destroy_data_set (data_set_t *data_set)
 {
 
 	if (data_set->data != NULL)
@@ -238,11 +238,10 @@ static void
 destroy_data_set_list (GPtrArray * the_list)
 {
 	guint i;
-	gpointer data;
 
 	for (i = 0; i < the_list->len; i++) {
-		data = g_ptr_array_index (the_list, i);
-		destroy_data_set ((data_set_t *) data);
+		data_set_t *data = g_ptr_array_index (the_list, i);
+		destroy_data_set (data);
 	}
 	g_ptr_array_free (the_list, TRUE);
 }
@@ -519,7 +518,8 @@ check_data_for_missing (GPtrArray *data)
 	guint i;
 
 	for (i = 0; i < data->len; i++) {
-		if (((data_set_t *)g_ptr_array_index (data, i))->missing != NULL)
+		data_set_t *this_data = g_ptr_array_index (data, i);
+		if (this_data->missing != NULL)
 			return TRUE;
 	}
 
@@ -2158,14 +2158,12 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	}
 
 	/* create a list of all missing or incomplete observations */
-	missing = y_data->missing;
-	y_data->missing = NULL;
+	missing = g_slist_copy (y_data->missing);
 	for (i = 0; i < xdim; i++) {
 		data_set_t *this_data = g_ptr_array_index (x_data, i);
 		GSList *this_missing = this_data->missing;
 		GSList *the_union =
 			union_of_int_sets (missing, this_missing);
-		this_data->missing = NULL;
 		g_slist_free (missing);
 		missing = the_union;
 	}
@@ -2175,12 +2173,10 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 		g_array_free (y_data->data, TRUE);
 		y_data->data = cleaned;
 		for (i = 0; i < xdim; i++) {
-			cleaned = strip_missing (((data_set_t *)
-						  g_ptr_array_index (x_data, i))->data,
-						 missing);
-			g_array_free (((data_set_t *)
-				       g_ptr_array_index (x_data, i))->data, TRUE);
-			((data_set_t *) g_ptr_array_index (x_data, i))->data = cleaned;
+			data_set_t *this_data = g_ptr_array_index (x_data, i);
+			cleaned = strip_missing (this_data->data, missing);
+			g_array_free (this_data->data, TRUE);
+			this_data->data = cleaned;
 		}
 		g_slist_free (missing);
 	}
@@ -2190,8 +2186,8 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 	res = g_new (gnm_float, xdim + 1);
 
 	for (i = 0; i < xdim; i++) {
-		xss[i] = (gnm_float *)(((data_set_t *)g_ptr_array_index
-					 (x_data, i))->data->data);
+		data_set_t *this_data = g_ptr_array_index (x_data, i);
+		xss[i] = (gnm_float *)(this_data->data->data);
 	}
 
 	regression_stat = regression_stat_new ();
@@ -2265,8 +2261,10 @@ analysis_tool_regression_engine_run (data_analysis_output_t *dao,
 					"/"
 					"/"
 					"/Intercept"));
-	for (i = 0; i < xdim; i++)
-		dao_set_cell (dao, 0, 17 + i, ((data_set_t *)g_ptr_array_index (x_data, i))->label);
+	for (i = 0; i < xdim; i++) {
+		data_set_t *this_data = g_ptr_array_index (x_data, i);
+		dao_set_cell (dao, 0, 17 + i, this_data->label);
+	}
 	dao_set_italic (dao, 0, 0, 0, 16 + xdim);
 
         set_cell_text_row (dao, 1, 10, _("/df"
@@ -3135,11 +3133,8 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 
 	for (i = 0; i < rows; i++) {
 	        gnm_float v;
-		data_set_t *data_set;
-		gnm_float *the_data;
-
-		data_set = (data_set_t *)g_ptr_array_index (row_data, i);
-		the_data = (gnm_float *)data_set->data->data;
+		data_set_t *data_set = g_ptr_array_index (row_data, i);
+		gnm_float *the_data = (gnm_float *)data_set->data->data;
 
 		dao_set_cell (dao, 0, i + 3, data_set->label);
 		dao_set_cell_int (dao, 1, i + 3, data_set->data->len);
@@ -3158,11 +3153,8 @@ analysis_tool_anova_two_factor_no_rep_engine_run (data_analysis_output_t *dao,
 
 	for (i = 0; i < cols; i++) {
 	        gnm_float v;
-		data_set_t *data_set;
-		gnm_float *the_data;
-
-		data_set = (data_set_t *)g_ptr_array_index (col_data, i);
-		the_data = (gnm_float *)data_set->data->data;
+		data_set_t *data_set = g_ptr_array_index (col_data, i);
+		gnm_float *the_data = (gnm_float *)data_set->data->data;
 
 		dao_set_cell (dao, 0, i + 4 + rows, data_set->label);
 		dao_set_cell_int (dao, 1, i + 4 + rows, data_set->data->len);
@@ -3267,7 +3259,7 @@ make_label (Sheet *sheet, int col, int row, char *default_format, int index,
 
 static gboolean
 analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao, 
-						  analysis_tools_data_anova_two_factor_t *info)
+					   analysis_tools_data_anova_two_factor_t *info)
 {
 	guint i_c, i_r;
 	guint n = 0;
@@ -3329,11 +3321,8 @@ analysis_tool_anova_two_factor_engine_run (data_analysis_output_t *dao,
 
 		data = g_ptr_array_index (row_data, i_r);
 		for (i_c = 0; i_c < info->n_c; i_c++) {
-			data_set_t *cell_data;
-			guint num;
-
-			cell_data = g_ptr_array_index (data, i_c);
-			num = cell_data->data->len;
+			data_set_t *cell_data = g_ptr_array_index (data, i_c);
+			guint num = cell_data->data->len;
 			if (num == 0)
 				empty_sample = TRUE;
 			else {

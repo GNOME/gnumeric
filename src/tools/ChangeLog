@@ -1,5 +1,10 @@
 2002-12-18  Morten Welinder  <terra@diku.dk>
 
+	* analysis-tools.c (analysis_tool_regression_engine_run): Fix it
+	right.
+
+2002-12-18  Morten Welinder  <terra@diku.dk>
+
 	* analysis-tools.c (analysis_tool_regression_engine_run): Fix
  	memory management for ->missing.
 	(union_of_int_sets): Cleanup.
