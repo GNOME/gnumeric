@@ -1,5 +1,8 @@
 1999-04-07  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
+	* src/xml-io.c (xmlGetCoordinates): Include fix from Richard Hult:
+	Seemed to be a cut and paste error.
+
 	* src/cell.c (cell_destroy): From Morten Wellinder: destroy the
 	cell->value only if it does exist.
 

@@ -205,7 +205,7 @@ xmlGetCoordinates (xmlNodePtr node, const char *name,
 	res = sscanf (ret, "(%lf %lf)(%lf %lf)", x1, y1, x2, y2);
 	free(ret);
 	
-	if (res == 2) 
+	if (res == 4) 
 		return 1;
 
 	return 0;
