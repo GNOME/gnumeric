@@ -744,7 +744,7 @@
 	<toolitem name="GraphGuru"
 	    pixtype="stock" pixname="Gnumeric_GraphGuru"
 	    _label="Graph Guru"
-	    _tip="Invoke the graph guru to create a graph"
+	    _tip="Launch the Graph Guru"
 	    verb="GraphGuru" sensitive="0" />
 
         <!-- These don't work yet for Gnome 2 

@@ -1,0 +1,396 @@
+<?xml version="1.0"?>
+<GraphTypes xmlns:graph="http://www.gnumeric.org/graph_v1.dtd">
+  <MajorMinor>
+
+    <Major>
+      <_name>Bar</_name>
+      <sample_image_file>bar.xpm</sample_image_file>
+      <Minor>
+        <_name>Adjacent Bars</_name>
+        <_description>Adjacent horizontal bars grouped by major and minor categories.</_description>
+        <sample_image_file>chart_bar_1_1.png</sample_image_file>
+        <position row="1" col="1" />
+	<graph:Type name="Bar">
+	    <horizontal>true</horizontal>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>Stacked Bars</_name>
+        <_description>Minor categories stacked in horizontal bars that are grouped by major category.</_description>
+        <sample_image_file>chart_bar_1_2.png</sample_image_file>
+        <position row="1" col="2" />
+	<graph:Type name="Bar">
+	    <horizontal>true</horizontal>
+	    <stacked>true</stacked>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>Percentage Bars</_name>
+        <_description>Minor categories stacked as percentages of the minor total, in horizontal bars, grouped by major category.</_description>
+        <sample_image_file>chart_bar_1_3.png</sample_image_file>
+        <position row="1" col="3" />
+	<graph:Type name="Bar">
+	    <horizontal>true</horizontal>
+	    <as_percentage>true</as_percentage>
+	</graph:Type>
+      </Minor>
+      <!-- No 3d yet
+      <Minor>
+        <_name>3D Adjacent Bars</_name>
+        <_description>Adjacent horizontal 3D bars grouped by major and minor categories.</_description>
+        <sample_image_file>chart_bar_2_1.png</sample_image_file>
+        <position row="2" col="1" />
+	<graph:Type name="Bar">
+	    <horizontal>true</horizontal>
+	    <in_3d>true</in_3d>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>3D Stacked Bars</_name>
+        <_description>Minor categories stacked in horizontal 3D bars, grouped by major category.</_description>
+        <sample_image_file>chart_bar_2_2.png</sample_image_file>
+        <position row="2" col="2" />
+	<graph:Type name="Bar">
+	    <horizontal>true</horizontal>
+	    <stacked>true</stacked>
+	    <in_3d>true</in_3d>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>3D Percentage Bars</_name>
+        <_description>Minor categories stacked as percentages of the minor total, in 3D horizontal bars, grouped by major category.</_description>
+        <sample_image_file>chart_bar_2_3.png</sample_image_file>
+        <position row="2" col="3" />
+	<graph:Type name="Bar">
+	    <horizontal>true</horizontal>
+	    <as_percentage>true</as_percentage>
+	    <in_3d>true</in_3d>
+	</graph:Type>
+      </Minor>
+      -->
+    </Major>
+
+    <Major>
+      <_name>Column</_name>
+      <sample_image_file>column.xpm</sample_image_file>
+      <Minor>
+        <_name>Adjacent Columns</_name>
+        <_description>Adjacent vertical columns grouped by major and minor category.</_description>
+        <sample_image_file>chart_column_1_1.png</sample_image_file>
+        <position row="1" col="1" />
+	<graph:Type name="Bar">
+	    <horizontal>false</horizontal>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>Stacked Columns</_name>
+        <_description>Minor categories stacked in vertical columns that are grouped by major category.</_description>
+        <sample_image_file>chart_column_1_2.png</sample_image_file>
+        <position row="1" col="2" />
+	<graph:Type name="Bar">
+	    <horizontal>false</horizontal>
+	    <stacked>true</stacked>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>Percentage Columns</_name>
+        <_description>Minor categories stacked as percentages of the minor total, in vertical columns, grouped by major category.</_description>
+        <sample_image_file>chart_column_1_3.png</sample_image_file>
+        <position row="1" col="3" />
+	<graph:Type name="Bar">
+	    <horizontal>false</horizontal>
+	    <as_percentage>true</as_percentage>
+	</graph:Type>
+      </Minor>
+      <!-- No 3d yet
+      <Minor>
+        <_name>3D Adjacent Columns</_name>
+        <_description>Adjacent vertical 3D columns grouped by major and minor category.</_description>
+        <sample_image_file>chart_column_2_1.png</sample_image_file>
+        <position row="2" col="1" />
+	<graph:Type name="Bar">
+	    <horizontal>false</horizontal>
+	    <in_3d>true</in_3d>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>3D Stacked Columns</_name>
+        <_description>Minor categories stacked in vertical 3D columns, grouped by major category.</_description>
+        <sample_image_file>chart_column_2_2.png</sample_image_file>
+        <position row="2" col="2" />
+	<graph:Type name="Bar">
+	    <horizontal>false</horizontal>
+	    <stacked>true</stacked>
+	    <in_3d>true</in_3d>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>3D Percentage Columns</_name>
+        <_description>Minor categories stacked as percentages of the minor total, in 3D vertical bars, grouped by major category.</_description>
+        <sample_image_file>chart_column_2_3.png</sample_image_file>
+        <position row="2" col="3" />
+	<graph:Type name="Bar">
+	    <horizontal>false</horizontal>
+	    <as_percentage>true</as_percentage>
+	    <in_3d>true</in_3d>
+	</graph:Type>
+      </Minor>
+      -->
+    </Major>
+
+    <Major>
+      <_name>Line</_name>
+      <sample_image_file>linegraph.xpm</sample_image_file>
+      <Minor>
+        <_name>Line</_name>
+        <_description>Category versus value.</_description>
+        <sample_image_file>chart_line_1_1.png</sample_image_file>
+        <position row="1" col="1" />
+	<graph:Type name="Line">
+	</graph:Type>
+      </Minor>
+      <!--  Stacked and percentage are not implemented
+      <Minor>
+        <_name>Stacked lines</_name>
+        <_description>Minor categories stacked in lines that are grouped by major category.</_description>
+        <sample_image_file>chart_line_1_2.png</sample_image_file>
+        <position row="1" col="2" />
+	<graph:Type name="Line">
+	    <stacked>true</stacked>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>Percentage lines</_name>
+        <_description>Minor categories stacked as percentages of the minor total, in lines, grouped by major category.</_description>
+        <sample_image_file>chart_line_1_3.png</sample_image_file>
+        <position row="1" col="3" />
+	<graph:Type name="Line">
+	    <as_percentage>true</as_percentage>
+	</graph:Type>
+      </Minor>
+      -->
+      <Minor>
+        <_name>Marked lines</_name>
+        <_description>Category versus value, with markers at each point.</_description>
+        <sample_image_file>chart_line_2_1.png</sample_image_file>
+        <position row="2" col="1" />
+	<graph:Type name="Line">
+	    <with_markers>true</with_markers>
+	</graph:Type>
+      </Minor>
+      <!-- No 3d yet
+      <Minor>
+        <_name>3D lines</_name>
+        <_description>Category versus value as lines in pseudo-3D.</_description>
+        <sample_image_file>chart_line_3_1.png</sample_image_file>
+        <position row="3" col="1" />
+	<graph:Type name="Line">
+	    <in_3d>true</in_3d>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>3D Stacked Lines</_name>
+        <_description>Minor categories stacked in lines that are grouped by major category, with markers at each point.</_description>
+        <sample_image_file>chart_line_2_2.png</sample_image_file>
+        <position row="2" col="2" />
+	<graph:Type name="Line">
+	    <stacked>true</stacked>
+	    <in_3d>true</in_3d>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>3D Percentage Lines</_name>
+        <_description>Minor categories stacked as percentages of the minor total, in lines, grouped by major category, with markers at each point.</_description>
+        <sample_image_file>chart_line_2_3.png</sample_image_file>
+        <position row="2" col="3" />
+	<graph:Type name="Line">
+	    <in_3d>true</in_3d>
+	    <as_percentage>true</as_percentage>
+	</graph:Type>
+      </Minor>
+      -->
+    </Major>
+
+    <Major>
+      <_name>Pie</_name>
+      <sample_image_file>pie.xpm</sample_image_file>
+      <Minor>
+        <_name>Pie</_name>
+        <_description>Percentage of each contributor.</_description>
+        <sample_image_file>chart_pie_1_1.png</sample_image_file>
+        <position row="1" col="1" />
+	<graph:Type name="Pie">
+	</graph:Type>
+      </Minor>
+      <!--
+      <Minor>
+        <_name>3D Pie</_name>
+        <_description>Percentage of each contributor in 3D pie.</_description>
+        <sample_image_file>chart_pie_1_2.png</sample_image_file>
+        <position row="1" col="2" />
+	<graph:Type name="Pie">
+	    <in_3d>true</in_3d>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>Multi-pie</_name>
+        <_description>Major totals as percentages with each wedge subdivided intosecondary pies.</_description>
+        <sample_image_file>chart_pie_1_3.png</sample_image_file>
+        <position row="1" col="3" />
+	<graph:Type name="MultiPie">
+	</graph:Type>
+      </Minor>
+      -->
+      <Minor>
+        <_name>Split Pie</_name>
+        <_description>Percentage of each contributor with wedges split apart.</_description>
+        <sample_image_file>chart_pie_2_1.png</sample_image_file>
+        <position row="2" col="1" />
+	<graph:Type name="Pie">
+	    <separation_percent_of_radius>20</separation_percent_of_radius>
+	</graph:Type>
+      </Minor>
+      <!--
+      <Minor>
+        <_name>3D Split Pie</_name>
+        <_description>Percentage of each contributor with 3D wedges split apart.</_description>
+        <sample_image_file>chart_pie_2_2.png</sample_image_file>
+        <position row="2" col="2" />
+	<graph:Type name="Pie">
+	    <in_3d>true</in_3d>
+	    <separation_percent_of_radius>20</separation_percent_of_radius>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>Multi-pie-bars</_name>
+        <_description>Major totals as percentages with each wedge subdivided intosecondary stacked bars.</_description>
+        <sample_image_file>chart_pie_2_3.png</sample_image_file>
+        <position row="2" col="3" />
+	<graph:Type name="PieBar">
+	    <in_3d>true</in_3d>
+	    <separation_percent_of_radius>20</separation_percent_of_radius>
+	</graph:Type>
+      </Minor>
+      -->
+    </Major>
+    <Major>
+      <_name>Scatter</_name>
+      <sample_image_file>scatter.xpm</sample_image_file>
+      <Minor>
+        <_name>Points</_name>
+        <_description>Plot one series per axis.</_description>
+        <sample_image_file>chart_scatter_1_1.png</sample_image_file>
+        <position row="1" col="1" />
+	<graph:Type name="Scatter">
+	    <with_marker>true</with_marker>
+	</graph:Type>
+      </Minor>
+      <!-- No lines for scatters yet
+      <Minor>
+        <_name>Marked interpolated points</_name>
+        <_description>Interpolate between multi-dimensional points,with markers at each point.</_description>
+        <sample_image_file>chart_scatter_2_1.png</sample_image_file>
+        <position row="2" col="1" />
+	<graph:Type name="Scatter">
+	    <with_marker>true</with_marker>
+	    <with_line>
+		<Cubic/>
+	    </with_line>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>Interpolated points</_name>
+        <_description>Interpolate between multi-dimensional points.</_description>
+        <sample_image_file>chart_scatter_2_2.png</sample_image_file>
+        <position row="2" col="2" />
+	<graph:Type name="Scatter">
+	    <with_marker>false</with_marker>
+	    <with_line>
+		<Cubic/>
+	    </with_line>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>Marked linearly interpolated points</_name>
+        <_description>Linearly interpolate between multi-dimensional points,with markers at each point.</_description>
+        <sample_image_file>chart_scatter_3_1.png</sample_image_file>
+        <position row="3" col="1" />
+	<graph:Type name="Scatter">
+	    <with_marker>true</with_marker>
+	    <with_line>
+		<Linear/>
+	    </with_line>
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>Linearly interpolated points</_name>
+        <_description>Linearly interpolate between multi-dimensional points.</_description>
+        <sample_image_file>chart_scatter_3_2.png</sample_image_file>
+        <position row="3" col="2" />
+	<graph:Type name="Scatter">
+	    <with_marker>false</with_marker>
+	    <with_line>
+		<Linear/>
+	    </with_line>
+	</graph:Type>
+      </Minor>
+      -->
+    </Major>
+
+    <Major>
+      <_name>Bubble</_name>
+      <sample_image_file>bubble.xpm</sample_image_file>
+      <Minor>
+        <_name>Bubble</_name>
+        <_description>Plot X, Y and bubble size.</_description>
+        <sample_image_file>chart_bubble_1_1.png</sample_image_file>
+        <position row="1" col="1" />
+	<graph:Type name="Scatter">
+	    <with_marker>true</with_marker>
+	    <auto_allocate_bubble_size>true</auto_allocate_bubble_size>
+	</graph:Type>
+      </Minor>
+    </Major>
+
+    <!--
+    <Major>
+      <_name>Stock</_name>
+      <sample_image_file>stock.xpm</sample_image_file>
+      <Minor>
+        <_name>3 series</_name>
+        <_description>High, Low, Close.</_description>
+        <sample_image_file>chart_stock_1_1.png</sample_image_file>
+        <position row="1" col="1" />
+	<graph:Type name="??">
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>4 series</_name>
+        <_description>open, High, Low, Close.</_description>
+        <sample_image_file>chart_stock_1_2.png</sample_image_file>
+        <position row="1" col="2" />
+	<graph:Type name="??">
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>4 series (2)</_name>
+        <_description>Volume, High, Low, Close.</_description>
+        <sample_image_file>chart_stock_2_1.png</sample_image_file>
+        <position row="2" col="1" />
+	<graph:Type name="??">
+	</graph:Type>
+      </Minor>
+      <Minor>
+        <_name>5 series</_name>
+        <_description>Volume, Open, High, Low, Close.</_description>
+        <sample_image_file>chart_stock_2_2.png</sample_image_file>
+        <position row="2" col="2" />
+	<graph:Type name="??">
+	</graph:Type>
+      </Minor>
+    </Major>
+    -->
+  </MajorMinor>
+  <Custom>
+  </Custom>
+</GraphTypes>

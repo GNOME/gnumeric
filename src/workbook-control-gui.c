@@ -3130,8 +3130,12 @@ static GnomeUIInfo workbook_menu_insert [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
+	GNOMEUIINFO_ITEM_STOCK (N_("_Graph..."),
+		N_("Launch the Graph Guru"),
+		cb_launch_graph_guru, "Gnumeric_GraphGuru"),
+
 	GNOMEUIINFO_ITEM_STOCK (N_("_Image..."),
-		N_("Insert an image..."),
+		N_("Insert an image"),
 		cb_insert_image, "Gnumeric_InsertImage"),
 
 	GNOMEUIINFO_ITEM_STOCK (N_("_Function..."),
@@ -3517,19 +3521,28 @@ static GnomeUIInfo workbook_standard_toolbar [] = {
 
 	GNOMEUIINFO_SEPARATOR,
 
-	GNOMEUIINFO_ITEM_STOCK (
-		N_("Sum"), N_("Sum into the current cell."),
+/* TODO : insert hyper link */
+
+	GNOMEUIINFO_ITEM_STOCK (N_("Sum"),
+		N_("Sum into the current cell."),
 		cb_autosum, "Gnumeric_AutoSum"),
-	GNOMEUIINFO_ITEM_STOCK (
-		N_("Function"), N_("Edit a function in the current cell."),
+	GNOMEUIINFO_ITEM_STOCK (N_("Function"),
+		N_("Edit a function in the current cell."),
 		cb_formula_guru, "Gnumeric_FormulaGuru"),
 
-	GNOMEUIINFO_ITEM_STOCK (
-		N_("Sort Ascending"), N_("Sorts the selected region in ascending order based on the first column selected."),
+	GNOMEUIINFO_ITEM_STOCK (N_("Sort Ascending"),
+		N_("Sorts the selected region in ascending order based on the first column selected."),
 		cb_sort_ascending, GTK_STOCK_SORT_ASCENDING),
-	GNOMEUIINFO_ITEM_STOCK (
-		N_("Sort Descending"), N_("Sorts the selected region in descending order based on the first column selected."),
+	GNOMEUIINFO_ITEM_STOCK (N_("Sort Descending"),
+		N_("Sorts the selected region in descending order based on the first column selected."),
 		cb_sort_descending, GTK_STOCK_SORT_DESCENDING),
+
+	GNOMEUIINFO_SEPARATOR,
+
+	GNOMEUIINFO_ITEM_STOCK (N_("_Graph"),
+		N_("Launch the Graph Guru"),
+		cb_launch_graph_guru, "Gnumeric_GraphGuru"),
+
 
 	GNOMEUIINFO_END
 };

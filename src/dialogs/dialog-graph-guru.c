@@ -45,7 +45,9 @@
 #define DATA_GURU		GNOME_Gnumeric_Graph_v2_DataGuru
 #define DATA_GURU1(suffix)	GNOME_Gnumeric_Graph_v2_DataGuru_ ## suffix
 
-typedef struct _GraphGuruState GraphGuruState;
+typedef struct _GraphGuruState		GraphGuruState;
+typedef struct _GraphGuruTypeSelector	GraphGuruTypeSelector;
+
 typedef struct
 {
 	GraphGuruState	*state;
@@ -86,9 +88,10 @@ struct _GraphGuruState
 	GtkWidget *shared_separator;
 
 #if 0
-	CONFIG_GURU type_selector, format_guru;
+	CONFIG_GURU format_guru;
 	DATA_GURU   data_guru;
 #endif
+	GraphGuruTypeSelector *type_selector;
 	GtkWidget *sample;
 	GPtrArray *shared, *unshared;
 
@@ -107,6 +110,385 @@ struct _GraphGuruState
 	SheetView	   *sv;
 	Sheet		   *sheet;
 };
+
+struct _GraphGuruTypeSelector {
+	GtkWidget	*notebook;
+	GtkWidget	*canvas;
+	GtkWidget	*sample_button;
+	GtkLabel	*label;
+	GtkTreeView	*list_view;
+	GtkListStore	*model;
+	GnomeCanvasItem *selector;
+
+	GnomeCanvasItem *sample_plot;
+	GnmGraphPlot	*plot;	/* potentially NULL */
+	GnmGraph	*graph;
+
+	GnomeCanvasGroup *plot_group;
+
+	xmlNode const *plots, *current_major, *current_minor;
+	GnomeCanvasGroup const *current_major_item;
+	GnomeCanvasItem const  *current_minor_item;
+};
+
+enum {
+	MAJOR_TYPE_IMAGE,
+	MAJOR_TYPE_NAME,
+	MAJOR_TYPE_CANVAS_GROUP,
+	NUM_COLUMNS
+};
+
+#define MINOR_PIXMAP_WIDTH	64
+#define MINOR_PIXMAP_HEIGHT	60
+#define BORDER	5
+
+#define MINOR_KEY		"minor_chart_type"
+#define MAJOR_KEY		"major_chart_type"
+#define FIRST_MINOR_TYPE	"first_minor_type"
+
+static GdkPixbuf *
+get_pixbuf (xmlNode const *node)
+{
+	static GHashTable *cache = NULL;
+	xmlChar *sample_image_file;
+	xmlNode *sample_image_file_node;
+	GdkPixbuf *pixbuf;
+
+	g_return_val_if_fail (node != NULL, NULL);
+
+	if (cache != NULL) {
+		pixbuf = g_hash_table_lookup (cache, node);
+		if (pixbuf != NULL)
+			return pixbuf;
+	} else
+		cache = g_hash_table_new (g_direct_hash, g_direct_equal);
+
+	sample_image_file_node = e_xml_get_child_by_name (node, "sample_image_file");
+
+	g_return_val_if_fail (sample_image_file_node != NULL, NULL);
+
+	sample_image_file = xmlNodeGetContent (sample_image_file_node);
+	g_return_val_if_fail (sample_image_file != NULL, NULL);
+
+	pixbuf = gnumeric_load_pixbuf (sample_image_file);
+	xmlFree (sample_image_file);
+	g_hash_table_insert (cache, (gpointer)node, pixbuf);
+
+	return pixbuf;
+}
+
+static void
+get_pos (int col, int row, double *x, double *y)
+{
+	*x = (col-1) * (MINOR_PIXMAP_WIDTH + BORDER) + BORDER;
+	*y = (row-1) * (MINOR_PIXMAP_HEIGHT + BORDER) + BORDER;
+}
+
+/*
+ * graph_typeselect_minor :
+ *
+ * @typesel :
+ * @item : A CanvasItem in the selector.
+ *
+ * Moves the typesel::selector overlay above the @item.
+ * Assumes that the item is visible
+ */
+static void
+graph_typeselect_minor (GraphGuruTypeSelector *typesel,
+			GnomeCanvasItem *item)
+{
+	xmlNode *minor, *tmp;
+	double x1, y1, x2, y2;
+	char *description;
+
+	if (typesel->current_minor_item == item)
+		return;
+
+	minor = g_object_get_data (G_OBJECT (item), MINOR_KEY);
+
+	g_return_if_fail(minor != NULL);
+
+	/* clear the current plot */
+	if (typesel->sample_plot != NULL) {
+		gtk_object_destroy (GTK_OBJECT (typesel->sample_plot));
+		typesel->sample_plot = NULL;
+	}
+
+	tmp = e_xml_get_child_by_name_by_lang_list (
+	       minor, "description", NULL);
+	description = (tmp != NULL) ? xmlNodeGetContent (tmp) : NULL;
+	typesel->current_minor = minor;
+	typesel->current_minor_item = item;
+	gnome_canvas_item_get_bounds (item, &x1, &y1, &x2, &y2);
+	gnome_canvas_item_set (GNOME_CANVAS_ITEM (typesel->selector),
+		"x1", x1-1., "y1", y1-1.,
+		"x2", x2+1., "y2", y2+1.,
+		NULL);
+	gtk_label_set_text (typesel->label, description);
+	gtk_widget_set_sensitive (typesel->sample_button, TRUE);
+
+	if (description != NULL)
+		xmlFree (description);
+
+	gnm_graph_plot_set_type (typesel->plot, minor);
+}
+
+static gboolean
+graph_typeselect_minor_x_y (GraphGuruTypeSelector *typesel,
+			    double x, double y)
+{
+	GnomeCanvasItem *item = gnome_canvas_get_item_at (
+		GNOME_CANVAS (typesel->canvas), x, y);
+
+	if (item != NULL && item != typesel->selector) {
+		graph_typeselect_minor (typesel, item);
+		return TRUE;
+	}
+
+	return FALSE;
+}
+
+static void
+minor_chart_type_get_pos (xmlNode const *node, int *col, int *row)
+{
+	*col = *row = -1;
+	node = e_xml_get_child_by_name (node, "position");
+
+	g_return_if_fail (node != NULL);
+
+	*col = e_xml_get_integer_prop_by_name (node, "col");
+	*row = e_xml_get_integer_prop_by_name (node, "row");
+}
+
+static gboolean
+cb_key_press_event (GtkWidget *wrapper, GdkEventKey *event,
+		    GraphGuruTypeSelector *typesel)
+{
+	GtkCornerType corner;
+	int row, col;
+	double x, y;
+	xmlNode const *minor = g_object_get_data (
+		G_OBJECT (typesel->current_minor_item), MINOR_KEY);
+
+	g_return_val_if_fail (minor != NULL, FALSE);
+
+	minor_chart_type_get_pos (minor, &col, &row);
+
+	switch (event->keyval){
+	case GDK_KP_Left:	case GDK_Left:
+		corner = GTK_CORNER_BOTTOM_RIGHT;
+		--col;
+		break;
+
+	case GDK_KP_Up:	case GDK_Up:
+		corner = GTK_CORNER_BOTTOM_RIGHT;
+		--row;
+		break;
+
+	case GDK_KP_Right:	case GDK_Right:
+		corner = GTK_CORNER_TOP_LEFT;
+		++col;
+		break;
+
+	case GDK_KP_Down:	case GDK_Down:
+		corner = GTK_CORNER_TOP_LEFT;
+		++row;
+		break;
+
+	default:
+		return FALSE;
+	}
+
+	get_pos (col, row, &x, &y);
+	graph_typeselect_minor_x_y (typesel, x, y);
+
+	return TRUE;
+}
+
+static gint
+cb_button_press_event (GtkWidget *widget, GdkEventButton *event,
+		       GraphGuruTypeSelector *typesel)
+{
+	if (event->button == 1) {
+		GnomeCanvas *c = GNOME_CANVAS (widget);
+		double x, y;
+
+		gnome_canvas_window_to_world (c, event->x, event->y, &x, &y);
+
+		graph_typeselect_minor_x_y (typesel, x, y);
+	}
+
+	return FALSE;
+}
+
+static void
+cb_selection_changed (GtkTreeSelection *ignored, GraphGuruTypeSelector *typesel)
+{
+	GtkTreeSelection *selection = gtk_tree_view_get_selection (typesel->list_view);
+	GtkTreeIter  iter;
+	GnomeCanvasItem *item;
+	GnomeCanvasGroup *group;
+
+	if (typesel->current_major_item != NULL)
+		gnome_canvas_item_hide (GNOME_CANVAS_ITEM (typesel->current_major_item));
+	if (!gtk_tree_selection_get_selected (selection, NULL, &iter))
+		return;
+	gtk_tree_model_get (GTK_TREE_MODEL (typesel->model), &iter,
+		MAJOR_TYPE_CANVAS_GROUP, &group,
+		-1);
+
+	gnome_canvas_item_show (GNOME_CANVAS_ITEM (group));
+	typesel->current_major_item = group;
+
+	gnome_canvas_item_hide (GNOME_CANVAS_ITEM (typesel->selector));
+	item = g_object_get_data (G_OBJECT (group), FIRST_MINOR_TYPE);
+	if (item != NULL)
+		graph_typeselect_minor (typesel, item);
+	gnome_canvas_item_show (GNOME_CANVAS_ITEM (typesel->selector));
+}
+
+static void
+cb_sample_pressed (GtkWidget *button, GraphGuruTypeSelector *typesel)
+{
+	if (typesel->current_major_item == NULL)
+		return;
+
+	if (typesel->sample_plot == NULL) {
+#if 0
+		GuppiRootGroupView *plot = gup_gnm_graph_get_view (state->graph);
+
+		g_return_if_fail (plot != NULL);
+
+		typesel->sample_plot = guppi_element_view_make_canvas_item (
+			GUPPI_ELEMENT_VIEW (plot),
+			GNOME_CANVAS (typesel->canvas),
+			typesel->plot_group);
+		guppi_root_group_item_set_resize_semantics (
+			GUPPI_ROOT_GROUP_ITEM (typesel->sample_plot),
+			ROOT_GROUP_RESIZE_FILL_SPACE);
+#endif
+	}
+
+	gnome_canvas_item_hide (GNOME_CANVAS_ITEM (typesel->current_major_item));
+	gnome_canvas_item_hide (GNOME_CANVAS_ITEM (typesel->selector));
+	gnome_canvas_item_show (GNOME_CANVAS_ITEM (typesel->plot_group));
+	/* guppi_root_group_item_best_fit (GUPPI_ROOT_GROUP_ITEM(typesel->sample_plot)); */
+}
+
+static void
+cb_sample_released (GtkWidget *button, GraphGuruTypeSelector *typesel)
+{
+	if (typesel->current_major_item == NULL)
+		return;
+
+	gtk_layout_freeze (GTK_LAYOUT (typesel->canvas));
+	gnome_canvas_item_hide (GNOME_CANVAS_ITEM (typesel->plot_group));
+	gnome_canvas_item_show (GNOME_CANVAS_ITEM (typesel->current_major_item));
+	gnome_canvas_item_show (GNOME_CANVAS_ITEM (typesel->selector));
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (typesel->canvas), 0, 0,
+		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
+		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
+	gtk_layout_thaw (GTK_LAYOUT (typesel->canvas));
+}
+
+typedef struct {
+	GraphGuruTypeSelector	*typesel;
+	GnomeCanvasGroup	*group;
+	GnomeCanvasItem		*current_item;
+	xmlNode 		*current_minor;
+	int col, row;
+} minor_list_closure;
+
+static void
+minor_list_init (xmlNode *minor, minor_list_closure *closure)
+{
+	double x1, y1, w, h;
+	GnomeCanvasItem *item;
+	int col, row;
+	GdkPixbuf *image = get_pixbuf (minor);
+
+	g_return_if_fail (image != NULL);
+
+	minor_chart_type_get_pos (minor, &col, &row);
+
+	get_pos (col, row, &x1, &y1);
+	w = gdk_pixbuf_get_width (image);
+	if (w > MINOR_PIXMAP_WIDTH)
+		w = MINOR_PIXMAP_WIDTH;
+	h = gdk_pixbuf_get_height (image);
+	if (h > MINOR_PIXMAP_HEIGHT)
+		h = MINOR_PIXMAP_HEIGHT;
+
+	item = gnome_canvas_item_new (closure->group,
+		gnome_canvas_pixbuf_get_type (),
+		"x", x1, "y", y1,
+		"width", w, "height", h,
+		"pixbuf", image,
+		NULL);
+	g_object_set_data (G_OBJECT (item), MINOR_KEY, (gpointer)minor);
+
+	if (closure->current_minor == NULL ||
+	    closure->row > row ||
+	    (closure->row == row && closure->col > col)) {
+		closure->current_minor = minor;
+		closure->current_item = item;
+		closure->col = col;
+		closure->row = row;
+	}
+}
+
+static void
+major_list_init (GraphGuruTypeSelector *typesel, xmlNode *major)
+{
+	xmlChar			*name;
+	xmlNode			*node;
+	GnomeCanvasGroup	*group;
+	GtkTreeIter iter;
+	minor_list_closure	 closure;
+
+	/* be really anal when parsing a user editable file */
+	node = e_xml_get_child_by_name_by_lang_list (major, "name", NULL);
+	g_return_if_fail (node != NULL);
+
+	name = xmlNodeGetContent (node);
+	g_return_if_fail (name != NULL);
+
+	/* Define a canvas group for all the minor types */
+	group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (
+		gnome_canvas_root (GNOME_CANVAS (typesel->canvas)),
+		gnome_canvas_group_get_type (),
+		"x", 0.0,
+		"y", 0.0,
+		NULL));
+	gnome_canvas_item_hide (GNOME_CANVAS_ITEM (group));
+	g_object_set_data (G_OBJECT (group), MAJOR_KEY, (gpointer)major);
+
+	gtk_list_store_append (typesel->model, &iter);
+	gtk_list_store_set (typesel->model, &iter,
+		MAJOR_TYPE_IMAGE,	 get_pixbuf (major),
+		MAJOR_TYPE_NAME,	 name,
+		MAJOR_TYPE_CANVAS_GROUP, group,
+		-1);
+	xmlFree (name);
+
+	closure.typesel = typesel;
+	closure.group = group;
+	closure.current_minor = NULL;
+
+	/* Init the list and the canvas group for each major type */
+	for (node = major->xmlChildrenNode; node != NULL; node = node->next)
+		if (!strcmp (node->name, "Minor"))
+			minor_list_init (node, &closure);
+
+	g_object_set_data (G_OBJECT (group), FIRST_MINOR_TYPE,
+		closure.current_item);
+}
+
+static void
+cb_canvas_realized (GtkWidget *widget, gpointer data)
+{
+	/*gdk_window_set_back_pixmap (GTK_LAYOUT (widget)->bin_window, NULL, FALSE); */
+}
 
 static void graph_guru_select_plot (GraphGuruState *s, xmlNode *plot, int seriesID);
 
@@ -233,7 +615,7 @@ graph_guru_get_spec (GraphGuruState *s)
 
 		indx = e_xml_get_integer_prop_by_name_with_default (plot, (xmlChar *)"index", -1);
 		g_return_if_fail (indx >= 0);
-		gtk_object_set_data (GTK_OBJECT (item), "index",
+		g_object_set_data (G_OBJECT (item), "index",
 			GINT_TO_POINTER (indx));
 
 		if (s->current_plot < 0 || s->current_plot == indx)
@@ -446,7 +828,7 @@ vector_state_new (GraphGuruState *state, gboolean shared, int dim_indx)
 	gnumeric_editable_enters (GTK_WINDOW (state->dialog),
 		GTK_WIDGET (vs->entry));
 
-	gtk_object_set_data (GTK_OBJECT (vs->entry), "VectorState", vs);
+	g_object_set_data (G_OBJECT (vs->entry), "VectorState", vs);
 
 	/* flag when things change so we'll know if we need to update the vector */
 	g_signal_connect (G_OBJECT (vs->entry),
@@ -689,7 +1071,7 @@ graph_guru_select_plot (GraphGuruState *s, xmlNode *plot, int seriesID)
 		indx = e_xml_get_integer_prop_by_name_with_default (series, (xmlChar *)"index", -1);
 
 		g_return_if_fail (indx >= 0);
-		gtk_object_set_data (GTK_OBJECT (item), "index",
+		g_object_set_data (G_OBJECT (item), "index",
 			GINT_TO_POINTER (indx));
 		if (s->current_series < 0)
 			graph_guru_select_series (s, series);
@@ -854,7 +1236,7 @@ cb_graph_guru_clicked (GtkWidget *button, GraphGuruState *state)
 			scg_mode_create_object (state->scg, SHEET_OBJECT (state->graph));
 	}
 
-	gtk_object_destroy (GTK_OBJECT (state->dialog));
+	gtk_widget_destroy (GTK_WIDGET (state->dialog));
 }
 
 static GtkWidget *
@@ -892,7 +1274,7 @@ static gboolean
 cb_series_selection_changed (GtkWidget *ct, GtkWidget *item, GraphGuruState *s)
 {
 	if (!s->updating) {
-		gpointer *tmp = gtk_object_get_data (GTK_OBJECT (item), "index");
+		gpointer *tmp = g_object_get_data (G_OBJECT (item), "index");
 		graph_guru_select_series (s, graph_guru_get_series (s,
 			GPOINTER_TO_INT (tmp)));
 	}
@@ -914,7 +1296,7 @@ static gboolean
 cb_plot_selection_changed (GtkWidget *ct, GtkWidget *item, GraphGuruState *s)
 {
 	if (!s->updating) {
-		gpointer *tmp = gtk_object_get_data (GTK_OBJECT (item), "index");
+		gpointer *tmp = g_object_get_data (G_OBJECT (item), "index");
 		graph_guru_select_plot (s, graph_guru_get_plot (s,
 			GPOINTER_TO_INT (tmp)), -1);
 	}
@@ -948,7 +1330,7 @@ cb_graph_guru_focus (GtkWindow *window, GtkWidget *focus, GraphGuruState *state)
 	vector_state_apply_changes (state->current_vector);
 
 	if (focus != NULL) {
-		VectorState *vs = gtk_object_get_data (GTK_OBJECT (focus), "VectorState");
+		VectorState *vs = g_object_get_data (G_OBJECT (focus), "VectorState");
 		if (vs != NULL) {
 			state->current_vector = vs;
 			vs->changed = FALSE;
@@ -1003,6 +1385,144 @@ cb_graph_guru_series_delete (GtkWidget *button, GraphGuruState *s)
 		graph_guru_get_spec (s);
 #endif
 	}
+}
+
+static GtkWidget *
+graph_guru_type_selector_new (void)
+{
+	static xmlDoc *doc;
+	xmlNode *major;
+	GtkTreeSelection  *selection;
+	GraphGuruTypeSelector *typesel;
+	GtkWidget *tmp, *vbox, *hbox;
+
+	typesel = g_new0 (GraphGuruTypeSelector, 1);
+	typesel->current_major_item = NULL;
+	typesel->current_minor_item = NULL;
+	typesel->current_minor = NULL;
+	typesel->sample_plot = NULL;
+
+	hbox = gtk_hbox_new (FALSE, 5);
+
+	/* List of major types */
+	typesel->model = gtk_list_store_new (NUM_COLUMNS,
+					     GDK_TYPE_PIXBUF,
+					     G_TYPE_STRING,
+					     G_TYPE_POINTER);
+	typesel->list_view = GTK_TREE_VIEW (gtk_tree_view_new_with_model (
+		GTK_TREE_MODEL (typesel->model)));
+
+	gtk_tree_view_append_column (typesel->list_view,
+		gtk_tree_view_column_new_with_attributes ("",
+			gtk_cell_renderer_pixbuf_new (),
+			"pixbuf", MAJOR_TYPE_IMAGE, 
+			NULL));
+	gtk_tree_view_append_column (typesel->list_view,
+		gtk_tree_view_column_new_with_attributes (_("Plot Type"),
+			gtk_cell_renderer_text_new (),
+			"text", MAJOR_TYPE_NAME, 
+			NULL));
+	gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (typesel->list_view),
+			    TRUE, TRUE, 0);
+
+	selection = gtk_tree_view_get_selection (typesel->list_view);
+	gtk_tree_selection_set_mode (selection, GTK_SELECTION_BROWSE);
+	g_signal_connect (selection,
+		"changed",
+		G_CALLBACK (cb_selection_changed), typesel);
+
+	/* Setup an aa canvas to display the sample image & the sample plot. */
+	typesel->canvas = gnome_canvas_new_aa ();
+	g_signal_connect (G_OBJECT (typesel->canvas),
+		"realize",
+		G_CALLBACK (cb_canvas_realized), typesel);
+
+	typesel->plot_group = GNOME_CANVAS_GROUP (gnome_canvas_item_new (
+		gnome_canvas_root (GNOME_CANVAS (typesel->canvas)),
+		gnome_canvas_group_get_type (),
+		"x", 0.0,
+		"y", 0.0,
+		NULL));
+
+	/*guppi_plot_canvas_set_insensitive (GUPPI_PLOT_CANVAS (typesel->canvas)); */
+	gtk_widget_set_usize (typesel->canvas,
+		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
+		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
+	gnome_canvas_set_scroll_region (GNOME_CANVAS (typesel->canvas), 0, 0,
+		MINOR_PIXMAP_WIDTH*3 + BORDER*5,
+		MINOR_PIXMAP_HEIGHT*3 + BORDER*5);
+
+	g_signal_connect_after (G_OBJECT (typesel->canvas),
+		"key_press_event",
+		G_CALLBACK (cb_key_press_event), typesel);
+	g_signal_connect (GTK_OBJECT (typesel->canvas),
+		"button_press_event",
+		G_CALLBACK (cb_button_press_event), typesel);
+
+	tmp = gtk_frame_new (NULL);
+	gtk_frame_set_shadow_type (GTK_FRAME (tmp), GTK_SHADOW_IN);
+	gtk_container_add (GTK_CONTAINER (tmp), typesel->canvas);
+	gtk_box_pack_start (GTK_BOX (hbox), tmp, FALSE, TRUE, 0);
+
+	if (doc == NULL) {
+		char *plots_path = g_build_filename (
+			gnumeric_sys_data_dir (NULL), "plot-types.xml", NULL);
+		doc = xmlParseFile (plots_path);
+		g_free (plots_path);
+	}
+
+	g_return_val_if_fail (doc != NULL, NULL);
+
+	/* Init the list and the canvas group for each major type */
+	major = e_xml_get_child_by_name (doc->xmlRootNode, "MajorMinor");
+	for (major = major->xmlChildrenNode; major != NULL; major = major->next)
+		if (!strcmp (major->name, "Major"))
+			major_list_init (typesel, major);
+
+	/* The alpha blended selection box */
+	typesel->selector = gnome_canvas_item_new (
+		gnome_canvas_root (GNOME_CANVAS (typesel->canvas)),
+		gnome_canvas_rect_get_type (),
+		"fill_color_rgba",	0xe090f840,
+		"outline_color_rgba",	0x000000ff,	/* black */
+		"width_pixels", 1,
+		NULL);
+
+	/* Setup the description label */
+	typesel->label = GTK_LABEL (gtk_label_new (""));
+	gtk_label_set_justify (typesel->label, GTK_JUSTIFY_LEFT);
+	gtk_label_set_line_wrap (typesel->label, TRUE);
+	gtk_misc_set_alignment (GTK_MISC (typesel->label), 0., .2);
+	gtk_misc_set_padding (GTK_MISC (typesel->label), 5, 5);
+
+	/* ICK ! How can I set the number of lines without looking at fonts */
+	gtk_widget_set_usize (GTK_WIDGET (typesel->label), 350, 65);
+
+	vbox = gtk_vbox_new (FALSE, 5);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+
+	hbox = gtk_hbox_new (FALSE, 5);
+	gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
+
+	/* Set up sample button */
+	typesel->sample_button = gtk_button_new_with_label (_("Show\nSample"));
+	gtk_widget_set_sensitive (typesel->sample_button, FALSE);
+	g_signal_connect (G_OBJECT (typesel->sample_button),
+		"pressed",
+		G_CALLBACK (cb_sample_pressed), typesel);
+	g_signal_connect (G_OBJECT (typesel->sample_button), "released",
+		G_CALLBACK (cb_sample_released), typesel);
+
+	tmp = gtk_frame_new (_("Description"));
+	gtk_container_add (GTK_CONTAINER (tmp), GTK_WIDGET (typesel->label));
+	gtk_box_pack_start (GTK_BOX (hbox), tmp, TRUE, TRUE, 0);
+	gtk_box_pack_start (GTK_BOX (hbox), typesel->sample_button, FALSE, TRUE, 0);
+
+	typesel->notebook = gtk_notebook_new ();
+	gtk_notebook_append_page (GTK_NOTEBOOK (typesel->notebook),
+		vbox, gtk_label_new (_("Basic Types")));
+
+	return typesel->notebook;
 }
 
 static gboolean
@@ -1138,17 +1658,11 @@ dialog_graph_guru (WorkbookControlGUI *wbcg, GnmGraph *graph, int page)
 	state->valid = TRUE;
 
 	state->initial_page = page;
-#if 0
 	if (page == 0) {
-		GtkWidget *w;
-		state->type_selector = gnm_graph_get_config_control (
-			state->graph, "TypeSelector");
-		w = bonobo_widget_new_control_from_objref (
-			state->type_selector, CORBA_OBJECT_NIL);
-		gtk_widget_show_all (w);
+		GtkWidget *w = graph_guru_type_selector_new ();
 		gtk_notebook_prepend_page (state->steps, w, NULL);
+		gtk_widget_show_all (w);
 	}
-#endif
 
 	gtk_widget_show_all (state->dialog);
 

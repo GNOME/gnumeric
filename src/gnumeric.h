@@ -103,6 +103,8 @@ typedef struct _FormatTemplate          FormatTemplate;
 typedef struct _Validation              Validation;
 
 typedef struct _GnmGraph		GnmGraph;
+typedef struct _GnmGraphPlot		GnmGraphPlot;
+typedef struct _GnmGraphSeries		GnmGraphSeries;
 typedef struct _GnmGraphVector		GnmGraphVector;
 
 /* Used to locate cells in a sheet */

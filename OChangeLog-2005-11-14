@@ -1,3 +1,7 @@
+2002-09-02  Jody Goldberg <jody@gnome.org>
+
+	* src/gui-util.c (gnumeric_load_pixbuf) : new.
+
 2002-09-01  Jody Goldberg <jody@gnome.org>
 
 	* src/gnumeric-graph.c :  disable enough stuff so that it builds

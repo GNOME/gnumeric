@@ -29,7 +29,12 @@ xmlDoc	  *gnm_graph_get_spec		  (GnmGraph *g, gboolean force_update);
 void	   gnm_graph_import_specification (GnmGraph *graph, xmlDoc *spec);
 int	   gnm_graph_add_vector	   	  (GnmGraph *graph, GnmExpr const *expr,
 					   GnmGraphVectorType type, Sheet *s);
+
 GnmGraphVector *gnm_graph_get_vector	  (GnmGraph *graph, int id);
+
+GnmGraphPlot *gnm_graph_add_plot      (GnmGraph *graph);
+void	      gnm_graph_remove_plot   (GnmGraph *graph, GnmGraphPlot *plot);
+void	      gnm_graph_plot_set_type (GnmGraphPlot *plot, xmlNode *type);
 
 extern char const * const gnm_graph_vector_type_name [];
 

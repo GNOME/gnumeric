@@ -1253,3 +1253,19 @@ gnumeric_load_image (char const *filename)
 
 	return image;
 }
+
+/**
+ * gnumeric_load_pixbuf : utility routine to create pixbufs from file named @name.
+ * looking in the gnumeric icondir.
+ **/
+GdkPixbuf *
+gnumeric_load_pixbuf (char const *filename)
+{
+	GdkPixbuf *pixbuf;
+	char *path;
+
+	path = g_strconcat (GNUMERIC_ICONDIR "/", filename, NULL);
+	pixbuf = gdk_pixbuf_new_from_file (path, NULL);
+	g_free (path);
+	return pixbuf;
+}

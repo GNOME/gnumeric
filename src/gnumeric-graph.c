@@ -1283,3 +1283,18 @@ gnm_graph_exception (CORBA_Environment *ev)
 	return NULL;
 #endif
 }
+
+GnmGraphPlot *
+gnm_graph_add_plot (GnmGraph *graph)
+{
+	return NULL;
+}
+
+void
+gnm_graph_remove_plot (GnmGraph *graph, GnmGraphPlot *plot)
+{
+}
+void
+gnm_graph_plot_set_type (GnmGraphPlot *plot, xmlNode *type)
+{
+}

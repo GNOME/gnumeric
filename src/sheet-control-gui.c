@@ -1386,9 +1386,11 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		CONTEXT_DISPLAY_FOR_COLS = 4
 	};
 	enum {
-		CONTEXT_DISABLE_PASTE_SPECIAL = 1,
-		CONTEXT_DISABLE_FOR_ROWS = 2,
-		CONTEXT_DISABLE_FOR_COLS = 4
+		CONTEXT_DISABLE_PASTE_SPECIAL	= 1,
+		CONTEXT_DISABLE_FOR_ROWS	= 2,
+		CONTEXT_DISABLE_FOR_COLS	= 4,
+		CONTEXT_DISABLE_WITH_HYPERLINK	  = 8,
+		CONTEXT_DISABLE_WITHOUT_HYPERLINK = 16
 	};
 
 	static GnumericPopupMenuElement const popup_elements[] = {
@@ -1449,6 +1451,13 @@ scg_context_menu (SheetControlGUI *scg, GdkEventButton *event,
 		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_ROW_HIDE },
 		{ N_("_Unhide"),	  "Gnumeric_RowUnhide",
 		    CONTEXT_DISPLAY_FOR_ROWS, 0, CONTEXT_ROW_UNHIDE },
+
+		{ N_("_Hyperlink"),	  NULL,
+		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_DISABLE_WITH_HYPERLINK },
+		{ N_("Edit _Hyperlink"),	  NULL,
+		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_DISABLE_WITHOUT_HYPERLINK },
+		{ N_("_Remove _Hyperlink"),	  NULL,
+		    CONTEXT_DISPLAY_FOR_CELLS, 0, CONTEXT_DISABLE_WITHOUT_HYPERLINK },
 
 		{ NULL, NULL, 0, 0, 0 },
 	};
