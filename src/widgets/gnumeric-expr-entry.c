@@ -602,7 +602,7 @@ gee_rangesel_update_text (GnmExprEntry *gee)
 void
 gnm_expr_expr_find_range (GnmExprEntry *gee)
 {
-	gboolean  single;
+	gboolean  single, formula_only;
 	char const *text, *cursor, *tmp, *ptr;
 	RangeRef  range;
 	Rangesel *rs;
@@ -612,10 +612,10 @@ gnm_expr_expr_find_range (GnmExprEntry *gee)
 	g_return_if_fail (gee != NULL);
 
 	rs     = &gee->rangesel;
-	single = (gee->flags & (GNM_EE_SINGLE_RANGE != 0));
+	single = (gee->flags & GNM_EE_SINGLE_RANGE) != 0;
+	formula_only = (gee->flags & GNM_EE_FORMULA_ONLY) != 0;
 
 	text = gtk_entry_get_text (gee->entry);
-	cursor = text + gtk_editable_get_position (GTK_EDITABLE (gee->entry));
 
 	rs->ref.a.col_relative = rs->ref.b.col_relative = (gee->flags & GNM_EE_ABS_COL) == 0;
 	rs->ref.a.row_relative = rs->ref.b.row_relative = (gee->flags & GNM_EE_ABS_ROW) == 0;
@@ -623,7 +623,13 @@ gnm_expr_expr_find_range (GnmExprEntry *gee)
 	rs->is_valid = FALSE;
 	if (text == NULL)
 		return;
+
+	if (formula_only && !gnm_expr_char_start_p (text))
+		return;
+
 	len = strlen (text);
+
+	cursor = text + gtk_editable_get_position (GTK_EDITABLE (gee->entry));
 
 	parse_pos_init_sheet (&pp, gee->sheet);
 	ptr = gnm_expr_char_start_p (text);

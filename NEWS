@@ -19,6 +19,7 @@ Morten:
 	* Make pixmap combos multihead safe.
 	* Make color combos multihead safe.  Fix latent memory corruption
 	  problem.
+	* Fix incorrect range highlighting in non-expressions like "10:23".
 
 --------------------------------------------------------------------------
 

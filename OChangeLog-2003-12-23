@@ -1,5 +1,8 @@
 2003-06-10  Morten Welinder  <terra@gnome.org>
 
+	* src/workbook-edit.c (wbcg_edit_start): Make sure we only mark
+	ranges when we are dealing with a formula.
+
 	* src/format-template.c: Apply flame thrower.
 
 	* src/stf.c (stf_read_workbook): Make filename handling UTF-8

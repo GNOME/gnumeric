@@ -41,11 +41,11 @@
 #include <libgnomeprintui/gnome-print-paper-selector.h>
 #include <libgnomeprintui/gnome-print-unit-selector.h>
 
-#include <libgnomecanvas/gnome-canvas.h>
-#include <libgnomecanvas/gnome-canvas-util.h>
-#include <libgnomecanvas/gnome-canvas-line.h>
-#include <libgnomecanvas/gnome-canvas-text.h>
-#include <libgnomecanvas/gnome-canvas-rect-ellipse.h>
+#include <libfoocanvas/foo-canvas.h>
+#include <libfoocanvas/foo-canvas-util.h>
+#include <libfoocanvas/foo-canvas-line.h>
+#include <libfoocanvas/foo-canvas-text.h>
+#include <libfoocanvas/foo-canvas-rect-ellipse.h>
 #include <glade/glade.h>
 
 /* FIXME: do not hardcode pixel counts.  */
@@ -79,7 +79,7 @@ typedef struct {
 	GtkWidget        *canvas;
 
 	/* Objects in the Preview Canvas */
-	GnomeCanvasItem  *group;
+	FooCanvasItem  *group;
 
 	/* Values for the scaling of the nice preview */
 	int offset_x, offset_y;	/* For centering the small page preview */
@@ -91,9 +91,9 @@ typedef struct {
 	GtkWidget        *canvas;
 
 	/* Objects in the Preview Canvas */
-	GnomeCanvasItem  *left;
-	GnomeCanvasItem  *middle;
-	GnomeCanvasItem  *right;
+	FooCanvasItem  *left;
+	FooCanvasItem  *middle;
+	FooCanvasItem  *right;
 
 } HFPreviewInfo;
 
@@ -112,7 +112,7 @@ typedef struct {
 	GtkSpinButton *spin;
 	GtkAdjustment *adj;
 
-	GnomeCanvasItem *line;
+	FooCanvasItem *line;
 	GnomePrintUnit const *unit;
 	MarginOrientation orientation;
 	double bound_x1, bound_y1, bound_x2, bound_y2;
@@ -284,43 +284,43 @@ preview_page_destroy (PrinterSetupState *state)
 }
 
 static void
-move_line (GnomeCanvasItem *item,
+move_line (FooCanvasItem *item,
 	   double x1, double y1,
 	   double x2, double y2)
 {
-	GnomeCanvasPoints *points;
+	FooCanvasPoints *points;
 
-	points = gnome_canvas_points_new (2);
+	points = foo_canvas_points_new (2);
 	points->coords[0] = x1;
 	points->coords[1] = y1;
 	points->coords[2] = x2;
 	points->coords[3] = y2;
 
-	gnome_canvas_item_set (item,
+	foo_canvas_item_set (item,
 			       "points", points,
 			       NULL);
-	gnome_canvas_points_unref (points);
+	foo_canvas_points_unref (points);
 }
 
-static GnomeCanvasItem *
-make_line (GnomeCanvasGroup *g, double x1, double y1, double x2, double y2)
+static FooCanvasItem *
+make_line (FooCanvasGroup *g, double x1, double y1, double x2, double y2)
 {
-	GnomeCanvasPoints *points;
-	GnomeCanvasItem *item;
+	FooCanvasPoints *points;
+	FooCanvasItem *item;
 
-	points = gnome_canvas_points_new (2);
+	points = foo_canvas_points_new (2);
 	points->coords[0] = x1;
 	points->coords[1] = y1;
 	points->coords[2] = x2;
 	points->coords[3] = y2;
 
-	item = gnome_canvas_item_new (
-		GNOME_CANVAS_GROUP (g), gnome_canvas_line_get_type (),
+	item = foo_canvas_item_new (
+		FOO_CANVAS_GROUP (g), foo_canvas_line_get_type (),
 		"points", points,
 		"width_pixels", 1,
 		"fill_color",   MARGIN_COLOR_DEFAULT,
 		NULL);
-	gnome_canvas_points_unref (points);
+	foo_canvas_points_unref (points);
 
 	return item;
 }
@@ -395,7 +395,7 @@ create_margin (PrinterSetupState *state,
 	       double x1, double y1,
 	       double x2, double y2)
 {
-	GnomeCanvasGroup *g = GNOME_CANVAS_GROUP (state->preview.group);
+	FooCanvasGroup *g = FOO_CANVAS_GROUP (state->preview.group);
 
 	uinfo->pi = &state->preview;
 	uinfo->line = make_line (g, x1 + 8, y1, x1 + 8, y2);
@@ -451,15 +451,15 @@ preview_page_create (PrinterSetupState *state)
 	x2 = pi->offset_x + width * pi->scale;
 	y2 = pi->offset_y + height * pi->scale;
 
-	pi->group = gnome_canvas_item_new (
-		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		gnome_canvas_group_get_type (),
+	pi->group = foo_canvas_item_new (
+		foo_canvas_root (FOO_CANVAS (pi->canvas)),
+		foo_canvas_group_get_type (),
 		"x", 0.0,
 		"y", 0.0,
 		NULL);
 
-	gnome_canvas_item_new (GNOME_CANVAS_GROUP (pi->group),
-		GNOME_TYPE_CANVAS_RECT,
+	foo_canvas_item_new (FOO_CANVAS_GROUP (pi->group),
+		FOO_TYPE_CANVAS_RECT,
 		"x1",  	      	 (double) x1+2,
 		"y1",  	      	 (double) y1+2,
 		"x2",  	      	 (double) x2+2,
@@ -469,8 +469,8 @@ preview_page_create (PrinterSetupState *state)
 		"width_pixels",   1,
 		NULL);
 
-	gnome_canvas_item_new (GNOME_CANVAS_GROUP (pi->group),
-		GNOME_TYPE_CANVAS_RECT,
+	foo_canvas_item_new (FOO_CANVAS_GROUP (pi->group),
+		FOO_TYPE_CANVAS_RECT,
 		"x1",  	      	 (double) x1,
 		"y1",  	      	 (double) y1,
 		"x2",  	      	 (double) x2,
@@ -575,7 +575,7 @@ unit_activated (G_GNUC_UNUSED GtkSpinButton *spin_button,
 		G_GNUC_UNUSED GdkEventFocus *event,
 		UnitInfo_cbdata *data)
 {
-	gnome_canvas_item_set (data->target->line,
+	foo_canvas_item_set (data->target->line,
 			       "fill_color", MARGIN_COLOR_ACTIVE,
 			       NULL);
 	return FALSE;
@@ -586,7 +586,7 @@ unit_deactivated (G_GNUC_UNUSED GtkSpinButton *spin_button,
 		  G_GNUC_UNUSED GdkEventFocus *event,
 		  UnitInfo_cbdata *data)
 {
-	gnome_canvas_item_set (data->target->line,
+	foo_canvas_item_set (data->target->line,
 			       "fill_color", MARGIN_COLOR_DEFAULT,
 			       NULL);
 	return FALSE;
@@ -683,9 +683,9 @@ do_setup_margin (PrinterSetupState *state)
 	pm = &state->pi->margins;
 	displayed_unit = pm->top.desired_display;
 
-	state->preview.canvas = gnome_canvas_new ();
-	gnome_canvas_set_scroll_region (
-		GNOME_CANVAS (state->preview.canvas),
+	state->preview.canvas = foo_canvas_new ();
+	foo_canvas_set_scroll_region (
+		FOO_CANVAS (state->preview.canvas),
 		0.0, 0.0, PREVIEW_X, PREVIEW_Y);
 	gtk_widget_set_size_request (state->preview.canvas, PREVIEW_X, PREVIEW_Y);
 	gtk_widget_show (state->preview.canvas);
@@ -749,15 +749,15 @@ display_hf_preview (PrinterSetupState *state, gboolean header)
 	}
 
 	text = hf_format_render (sample->left_format, hfi, HF_RENDER_PRINT);
-	gnome_canvas_item_set (pi->left, "text", (const gchar *) text, NULL);
+	foo_canvas_item_set (pi->left, "text", (const gchar *) text, NULL);
 	g_free (text);
 
 	text = hf_format_render (sample->middle_format, hfi, HF_RENDER_PRINT);
-	gnome_canvas_item_set (pi->middle, "text", text, NULL);
+	foo_canvas_item_set (pi->middle, "text", text, NULL);
 	g_free (text);
 
 	text  = hf_format_render (sample->right_format, hfi, HF_RENDER_PRINT);
-	gnome_canvas_item_set (pi->right, "text", text, NULL);
+	foo_canvas_item_set (pi->right, "text", text, NULL);
 	g_free (text);
 
 	hf_render_info_destroy (hfi);
@@ -1077,7 +1077,7 @@ do_hf_customize (gboolean header, PrinterSetupState *state)
  * They can also do this from the option menu.
  */
 static gboolean
-header_preview_event (G_GNUC_UNUSED GnomeCanvas *canvas,
+header_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
 		      GdkEvent *event, PrinterSetupState *state)
 {
 	if (event == NULL ||
@@ -1089,7 +1089,7 @@ header_preview_event (G_GNUC_UNUSED GnomeCanvas *canvas,
 }
 
 static gboolean
-footer_preview_event (G_GNUC_UNUSED GnomeCanvas *canvas,
+footer_preview_event (G_GNUC_UNUSED FooCanvas *canvas,
 		      GdkEvent *event, PrinterSetupState *state)
 {
 	if (event == NULL ||
@@ -1124,12 +1124,12 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 	else
 		state->pi_footer = pi;
 
-	pi->canvas = gnome_canvas_new ();
+	pi->canvas = foo_canvas_new ();
 
-	gnome_canvas_set_scroll_region (GNOME_CANVAS (pi->canvas), 0.0, 0.0, width, width);
+	foo_canvas_set_scroll_region (FOO_CANVAS (pi->canvas), 0.0, 0.0, width, width);
 
-        gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		GNOME_TYPE_CANVAS_RECT,
+        foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (pi->canvas)),
+		FOO_TYPE_CANVAS_RECT,
 		"x1",		shadow,
 		"y1",		(header ? shadow : 0),
 		"x2",		width + shadow,
@@ -1137,8 +1137,8 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"fill_color",	"black",
 		NULL);
 
-        gnome_canvas_item_new (gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		GNOME_TYPE_CANVAS_RECT,
+        foo_canvas_item_new (foo_canvas_root (FOO_CANVAS (pi->canvas)),
+		FOO_TYPE_CANVAS_RECT,
 		"x1",		0.0,
 		"y1",		0.0,
 		"x2",		width,
@@ -1154,9 +1154,9 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 	pango_font_description_set_weight (font_desc, PANGO_WEIGHT_NORMAL);
 	pango_font_description_set_size (font_desc, 14);
 
-	pi->left = gnome_canvas_item_new (
-		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		gnome_canvas_text_get_type (),
+	pi->left = foo_canvas_item_new (
+		foo_canvas_root (FOO_CANVAS (pi->canvas)),
+		foo_canvas_text_get_type (),
 		"x",		padding,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	GTK_ANCHOR_WEST,
@@ -1165,9 +1165,9 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"text",		"Left",
 		NULL);
 
-	pi->middle = gnome_canvas_item_new (
-		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		gnome_canvas_text_get_type (),
+	pi->middle = foo_canvas_item_new (
+		foo_canvas_root (FOO_CANVAS (pi->canvas)),
+		foo_canvas_text_get_type (),
 		"x",		width / 2,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	GTK_ANCHOR_CENTER,
@@ -1176,9 +1176,9 @@ create_hf_preview_canvas (PrinterSetupState *state, gboolean header)
 		"text",		"Center",
 		NULL);
 
-	pi->right = gnome_canvas_item_new (
-		gnome_canvas_root (GNOME_CANVAS (pi->canvas)),
-		gnome_canvas_text_get_type (),
+	pi->right = foo_canvas_item_new (
+		foo_canvas_root (FOO_CANVAS (pi->canvas)),
+		foo_canvas_text_get_type (),
 		"x",		width - padding,
 		"y",		header ? margin : bottom_margin,
 		"anchor",	GTK_ANCHOR_EAST,
