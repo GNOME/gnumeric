@@ -1745,9 +1745,10 @@ validation_rebuild_validation (FormatState *state)
 		GnmExpr const *expr1 = NULL;
 
 		if (expr0 != NULL) {
-			if (type == VALIDATION_TYPE_CUSTOM || type == VALIDATION_TYPE_IN_LIST)
+			if (type == VALIDATION_TYPE_CUSTOM || type == VALIDATION_TYPE_IN_LIST) {
 				state->validation.valid = 1;
-			else if (op == VALIDATION_OP_BETWEEN || op == VALIDATION_OP_NOT_BETWEEN) {
+				op    = VALIDATION_OP_NONE;
+			} else if (op == VALIDATION_OP_BETWEEN || op == VALIDATION_OP_NOT_BETWEEN) {
 				expr1 = validation_entry_to_expr (state->sheet, state->validation.expr1.entry);
 				if (expr1 != NULL)
 					state->validation.valid = 2;

@@ -91,7 +91,7 @@ rendered_value_render (GString *str, GnmCell const *cell,
 	 * if it is possible */
 	gboolean is_variable_width = FALSE;
 
-	*display_formula = cell_has_expr (cell) && sheet->display_formulas;
+	*display_formula = cell_has_expr (cell) && sheet && sheet->display_formulas;
 
 	if (*display_formula) {
 		GnmParsePos pp;
@@ -100,7 +100,7 @@ rendered_value_render (GString *str, GnmCell const *cell,
 				     parse_pos_init_cell (&pp, cell),
 				     gnm_expr_conventions_default);
 		*color = NULL;
-	} else if (sheet->hide_zero && cell_is_zero (cell)) {
+	} else if (sheet && sheet->hide_zero && cell_is_zero (cell)) {
 		*color = NULL;
 	} else if (mstyle_is_element_set (mstyle, MSTYLE_FORMAT)) {
 		double col_width = -1.;
@@ -119,7 +119,7 @@ rendered_value_render (GString *str, GnmCell const *cell,
 
 				if (wdigit > 0.0) {
 					double cell_width;
-					if (cell_is_merged (cell)) {
+					if (sheet && cell_is_merged (cell)) {
 						GnmRange const *merged =
 							sheet_merge_is_corner (sheet, &cell->pos);
 
@@ -147,7 +147,7 @@ rendered_value_render (GString *str, GnmCell const *cell,
 		}
 		format_value_gstring (str, format, cell->value, color,
 				      col_width,
-				      workbook_date_conv (sheet->workbook));
+				      sheet ? workbook_date_conv (sheet->workbook) : NULL);
 	} else {
 		g_warning ("No format: serious error");
 	}

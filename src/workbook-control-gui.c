@@ -2269,9 +2269,9 @@ wbcg_validation_msg (WorkbookControl *wbc, ValidationStyle v,
 	if (title)
 		gtk_window_set_title (GTK_WINDOW (dialog), title);
 	gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_NO);
-	response = gtk_dialog_run (GTK_DIALOG (dialog));
-	gtk_widget_destroy (dialog);
-	return ((response == GTK_RESPONSE_NO) ? res1 : res0);
+	response = gnumeric_dialog_run (
+		wbcg_toplevel (wbcg), GTK_DIALOG (dialog));
+	return ((response == GTK_RESPONSE_NO || response == GTK_RESPONSE_CANCEL) ? res1 : res0);
 }
 
 static void

@@ -1,6 +1,13 @@
-2005-03-08  Jody Goldberg <jody@gnome.org>
+2005-03-12  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.4.3
+
+2005-03-12  Jody Goldberg <jody@gnome.org>
+
+	* ms-excel-read.c (excel_read_DV) : Lists also have no use for
+	  operators.
+	  Invert the use_dropdown flag.  XL stores that as 'suppress combo'
+	* ms-excel-write.c (excel_write_DV) : invert user_dropdown
 
 2005-02-08  Jody Goldberg <jody@gnome.org>
 

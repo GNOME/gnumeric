@@ -1,3 +1,19 @@
+2005-03-12  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.4.3
+
+2005-03-12  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (wbcg_validation_msg) : Use
+	  gnumeric_dialog_run to get ESC handling and transient.
+
+2005-03-12  Jody Goldberg <jody@gnome.org>
+
+	* src/validation.c (validation_new) : IN_LIST should also use operator
+	  NONE.
+	(cb_validate_custom) : new.
+	(validation_eval) : support IN_LIST.
+
 2005-03-12  Morten Welinder  <terra@gnome.org>
 
 	* src/wbcg-actions.c: Backport control-p accel.
@@ -18,7 +34,7 @@
 	* src/rendered-value.c (rendered_value_recontext) : delete.
 	(calc_indent) : take a zoom factor rather than a Sheet.
 	(rendered_value_new) : pass in a zoom factor explicitly.
-	(rendered_value_render) : ditto.  Sheet can not be null.
+	(rendered_value_render) : ditto.
 	* src/sheet-control-gui.c (scg_get_style_font) : delete.
 
 2005-03-10  Jody Goldberg <jody@gnome.org>

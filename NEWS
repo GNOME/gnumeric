@@ -21,6 +21,8 @@ Jody:
 	* enable gnome_authentication_manager. [#160777]
 	* Honour explicit target sheets for CELL ("contents" [#169802]
 	* Screen zoom should not impact printing.
+	* Fix XL import/export of validation's use dropdown flag.
+	* Implement validate from list.
 
 Jon Kåre:
 	* Avoid a session-end hang.

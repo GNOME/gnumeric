@@ -4587,7 +4587,7 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	if (!(options & 0x80000))
 		style = VALIDATION_STYLE_NONE;
 
-	if (type == VALIDATION_TYPE_CUSTOM)
+	if (type == VALIDATION_TYPE_CUSTOM || type == VALIDATION_TYPE_IN_LIST)
 		op = VALIDATION_OP_NONE;
 	else
 		switch ((options >> 20) & 0x0f) {
@@ -4628,7 +4628,7 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	mstyle = mstyle_new ();
 	mstyle_set_validation (mstyle,
 		validation_new (style, type, op, error_title, error_msg,
-			expr1, expr2, options & 0x0100, options & 0x0200));
+			expr1, expr2, options & 0x0100, 0 == (options & 0x0200)));
 	if (options & 0x40000)
 		mstyle_set_input_msg (mstyle,
 			gnm_input_msg_new (input_msg, input_title));
