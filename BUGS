@@ -12,6 +12,17 @@ Release Critical
     : text in boxes for text-xls/pivot.xls is white ??
     : guia.xls complains of problems importing autofilter
 
+      Start gnumeric
+      Enter 1,2,4,3 in A1:A4 and select.
+      Graph.
+      Line
+      Forward
+      Click "Series 1".
+      ===> property area is blank.
+      move the pane divider a pixel down
+      ===> property sheet gets redrawn and appears.
+
+
 Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=123781
     : non reproducible, possibly hp specific
