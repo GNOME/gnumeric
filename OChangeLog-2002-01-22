@@ -1,3 +1,9 @@
+2000-06-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook-format-toolbar.c
+	  (do_sheet_selection_apply_number_format) : Decrease hackishness and
+	  improve docs for the formats.
+
 2000-06-13  Jody Goldberg <jgoldberg@home.com>
 
 	* src/functions/fn-math.c (callback_function_sumproduct) : Handle

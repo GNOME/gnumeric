@@ -39,20 +39,17 @@
 #include "pixmaps/bucket.xpm"
 
 /*
+ * xgettext:
  * These string control the money and percent formats applied by the toolbar
- * buttons.  The translated strings must be of the form
- *	<potentially empty garbage>:format
- * The ':' is important.
- *
- * Where format currently uses the MS excel representation.
+ * Format currently uses the MS excel representation (check the docs for details)
  * Of particular note are
  * 	- The currency
  * 	- The placement of the currency (pre vs post)
  * No need to translate the decimal point or thousands seperator
  * that is handled automaticly.
  */
-static const char *money_format   = N_("Default Money Format:$#,##0.00_);($#,##0.00)");
-static const char *percent_format = N_("Default Percent Format:0.00%");
+static const char *money_format   = N_("$#,##0.00_);($#,##0.00)");
+static const char *percent_format = N_("0.00%");
 
 static void
 workbook_format_halign_feedback_set (Workbook *wb,
@@ -231,19 +228,12 @@ change_font_size_in_selection_cmd (GtkEntry *entry, Workbook *wb)
 }
 
 static void
-do_sheet_selection_apply_style (Sheet *sheet, const char *format)
+do_sheet_selection_apply_number_format (Sheet *sheet,
+					const char *untranslated_format)
 {
-	const char   *real_format = strchr (_(format), ':');
-	MStyle *mstyle;
+	MStyle *mstyle = mstyle_new ();
 
-	if (real_format)
-		real_format++;
-	else
-		return;
-
-	mstyle = mstyle_new ();
-	mstyle_set_format (mstyle, real_format);
-
+	mstyle_set_format (mstyle, _(untranslated_format));
 	cmd_format (workbook_command_context_gui (sheet->workbook),
 		    sheet, mstyle, NULL);
 }
@@ -253,7 +243,7 @@ workbook_cmd_format_as_money (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	
-	do_sheet_selection_apply_style (sheet, _(money_format));
+	do_sheet_selection_apply_number_format (sheet, _(money_format));
 }
 
 static void
@@ -261,7 +251,7 @@ workbook_cmd_format_as_percent (GtkWidget *widget, Workbook *wb)
 {
 	Sheet *sheet = wb->current_sheet;
 	
-	do_sheet_selection_apply_style (sheet, _(percent_format));
+	do_sheet_selection_apply_number_format (sheet, _(percent_format));
 }
 
 /*
