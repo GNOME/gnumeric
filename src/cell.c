@@ -221,18 +221,21 @@ cell_relocate (Cell *cell, gboolean check_bounds)
 		 * location.  All the move is doing is a bounds check.
 		 */
 		if (check_bounds) {
-			ExprRelocateInfo	rinfo;
-			EvalPos 		pos;
-			ExprTree    	*expr = cell->u.expression;
+			ExprRewriteInfo   rwinfo;
+			ExprRelocateInfo *rinfo;
+			ExprTree    	 *expr = cell->u.expression;
 
-			rinfo.origin.start.col =
-				rinfo.origin.end.col = cell->col_info->pos;
-			rinfo.origin.start.row =
-				rinfo.origin.end.row = cell->row_info->pos;
-			rinfo.origin_sheet = rinfo.target_sheet = cell->sheet;
-			rinfo.col_offset = 0;
-			rinfo.row_offset = 0;
-			expr = expr_relocate (expr, eval_pos_init_cell (&pos, cell), &rinfo);
+			rwinfo.type = EXPR_REWRITE_RELOCATE;
+			rinfo = &rwinfo.u.relocate;
+			rinfo->origin.start.col =
+				rinfo->origin.end.col = cell->col_info->pos;
+			rinfo->origin.start.row =
+				rinfo->origin.end.row = cell->row_info->pos;
+			rinfo->origin_sheet = rinfo->target_sheet = cell->sheet;
+			rinfo->col_offset = 0;
+			rinfo->row_offset = 0;
+			eval_pos_init_cell (&rinfo->pos, cell);
+			expr = expr_rewrite (expr, &rwinfo);
 
 			if (expr != NULL) {
 				/* expression was unlinked above */

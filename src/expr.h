@@ -165,16 +165,28 @@ void	    expr_tree_unref  (ExprTree *tree);
 gboolean    expr_tree_shared (ExprTree const *tree);
 
 struct _ExprRelocateInfo {
-	Range origin;		/* References to cells in origin_sheet!range */
-	Sheet *origin_sheet;	/* should to adjusted */
+	EvalPos pos;
 
-	Sheet *target_sheet;	/* to point at this sheet */
+	Range   origin;	        /* References to cells in origin_sheet!range */
+	Sheet  *origin_sheet;	/* should to adjusted */
+	
+	Sheet  *target_sheet;	/* to point at this sheet */
 	int col_offset, row_offset;/* and offset by this amount */
 };
 
-ExprTree       *expr_relocate (ExprTree const *expr,
-			       EvalPos const *pos,
-			       ExprRelocateInfo const *info);
+struct _ExprRewriteInfo {
+	enum { EXPR_REWRITE_SHEET,
+	       EXPR_REWRITE_WORKBOOK,
+	       EXPR_REWRITE_RELOCATE } type;
+	union {
+		Sheet           *sheet;
+		Workbook        *workbook;
+		ExprRelocateInfo relocate;
+	} u;
+};
+
+ExprTree       *expr_rewrite (ExprTree        const *expr,
+			      ExprRewriteInfo const *rwinfo);
 
 int             expr_tree_get_const_int (ExprTree const *expr);
 char const *	expr_tree_get_const_str (ExprTree const *expr);

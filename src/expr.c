@@ -1398,7 +1398,6 @@ enum CellRefRelocate {
 
 static enum CellRefRelocate
 cellref_relocate (CellRef *ref,
-		  EvalPos const *pos,
 		  ExprRelocateInfo const *rinfo)
 {
 	/* For row or column refs
@@ -1421,16 +1420,16 @@ cellref_relocate (CellRef *ref,
 	 * An action in () is one which is done despite being useless
 	 * to simplify the logic.
 	 */
-	int col = cell_ref_get_abs_col (ref, pos);
-	int row = cell_ref_get_abs_row (ref, pos);
+	int col = cell_ref_get_abs_col (ref, &rinfo->pos);
+	int row = cell_ref_get_abs_row (ref, &rinfo->pos);
 
-	Sheet * ref_sheet = (ref->sheet != NULL) ? ref->sheet : pos->sheet;
+	Sheet * ref_sheet = (ref->sheet != NULL) ? ref->sheet : rinfo->pos.sheet;
 	gboolean const to_inside =
 		(rinfo->target_sheet == ref_sheet) &&
 		range_contains (&rinfo->origin, col, row);
 	gboolean const from_inside =
-		(rinfo->origin_sheet == pos->sheet) &&
-		range_contains (&rinfo->origin, pos->eval.col, pos->eval.row);
+		(rinfo->origin_sheet == rinfo->pos.sheet) &&
+		range_contains (&rinfo->origin, rinfo->pos.eval.col, rinfo->pos.eval.row);
 
 	/* All references should be valid initially.  We assume that later. */
 	if (col < 0 || col >= SHEET_MAX_COLS ||
@@ -1443,7 +1442,7 @@ cellref_relocate (CellRef *ref,
 
 	if (from_inside != to_inside) {
 		if (to_inside) {
-			if (pos->sheet == rinfo->target_sheet)
+			if (rinfo->pos.sheet == rinfo->target_sheet)
 				ref_sheet = NULL;
 		} else {
 			if (ref_sheet == rinfo->target_sheet)
@@ -1462,7 +1461,7 @@ cellref_relocate (CellRef *ref,
 
 		if (col < 0 || col >= SHEET_MAX_COLS ||
 		    row < 0 || row >= SHEET_MAX_ROWS)
-		    return CELLREF_RELOCATE_ERR;
+			return CELLREF_RELOCATE_ERR;
 	} else if (from_inside) {
 		/* Case (c) */
 		if (ref->col_relative)
@@ -1472,9 +1471,9 @@ cellref_relocate (CellRef *ref,
 	}
 
 	if (ref->col_relative)
-		col -= pos->eval.col;
+		col -= rinfo->pos.eval.col;
 	if (ref->row_relative)
-		row -= pos->eval.row;
+		row -= rinfo->pos.eval.row;
 
 	if (ref->sheet != ref_sheet || ref->col != col || ref->row != row) {
 		ref->sheet = ref_sheet;
@@ -1485,31 +1484,91 @@ cellref_relocate (CellRef *ref,
 	return CELLREF_NO_RELOCATE;
 }
 
+static ExprTree *
+cellrange_relocate (const Value *v,
+		    const ExprRelocateInfo *rinfo)
+{
+	/* TODO : Figure out the logic of 1 ref error 1 ok */
+	CellRef ref_a = v->v_range.cell.a;
+	CellRef ref_b = v->v_range.cell.b;
+	gboolean needs_reloc = FALSE;
+
+	switch (cellref_relocate (&ref_a, rinfo)) {
+	case CELLREF_NO_RELOCATE :
+		break;
+	case CELLREF_RELOCATE :
+		needs_reloc = TRUE;
+		break;
+
+	case CELLREF_RELOCATE_ERR :
+		return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+	}
+	switch (cellref_relocate (&ref_b, rinfo)) {
+	case CELLREF_NO_RELOCATE :
+		break;
+	case CELLREF_RELOCATE :
+		needs_reloc = TRUE;
+		break;
+
+	case CELLREF_RELOCATE_ERR :
+		return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+	}
+
+	if (needs_reloc) {
+		Value *res;
+		/* Dont allow creation of 3D references */
+		if (ref_a.sheet == ref_b.sheet)
+			res = value_new_cellrange (&ref_a, &ref_b,
+						   rinfo->pos.eval.col,
+						   rinfo->pos.eval.row);
+		else
+			res = value_new_error (NULL, gnumeric_err_REF);
+		return expr_tree_new_constant (res);
+	}
+
+	return NULL;
+}
+
 /*
- * expr_relocate :
- * @expr  : Expression to fixup
- * @pos   : Location of the cell containing @expr.
- * @rinfo : State information required to adjust the references.
+ * expr_rewrite :
+ * @expr   : Expression to fixup
+ * @pos    : Location of the cell containing @expr.
+ * @rwinfo : State information required to rewrite the reference.
  *
- * Find any references to the specified area and adjust them by the supplied
- * deltas.  Check for out of bounds conditions.  Return NULL if no change is
- * required.
+ * Either:
  *
- * If the expression is within the range to be moved, its relative references
- * to cells outside the range are adjusted to reference the same cell after
- * the move.
+ * EXPR_REWRITE_SHEET:
+ *
+ *	Find any references to rwinfo->u.sheet and re-write them to #REF!
+ *
+ * or
+ *
+ * EXPR_REWRITE_WORKBOOK:
+ *
+ *	Find any references to rwinfo->u.workbook re-write them to #REF!
+ *
+ * or
+ *
+ * EXPR_REWRITE_RELOCATE:
+ *
+ *	Find any references to the specified area and adjust them by the
+ * supplied deltas.  Check for out of bounds conditions.  Return NULL if
+ * no change is required.
+ *
+ *	If the expression is within the range to be moved, its relative
+ * references to cells outside the range are adjusted to reference the
+ * same cell after the move.
  */
 ExprTree *
-expr_relocate (ExprTree const *expr,
-	       EvalPos const *pos,
-	       ExprRelocateInfo const *rinfo)
+expr_rewrite (ExprTree        const *expr,
+	      ExprRewriteInfo const *rwinfo)
 {
 	g_return_val_if_fail (expr != NULL, NULL);
 
 	switch (expr->any.oper) {
 	case OPER_ANY_BINARY: {
-		ExprTree *a = expr_relocate (expr->binary.value_a, pos, rinfo);
-		ExprTree *b = expr_relocate (expr->binary.value_b, pos, rinfo);
+		ExprTree *a = expr_rewrite (expr->binary.value_a, rwinfo);
+		ExprTree *b = expr_rewrite (expr->binary.value_b, rwinfo);
 
 		if (a == NULL && b == NULL)
 			return NULL;
@@ -1523,25 +1582,25 @@ expr_relocate (ExprTree const *expr,
 	}
 
 	case OPER_ANY_UNARY: {
-		ExprTree *a = expr_relocate (expr->unary.value, pos, rinfo);
+		ExprTree *a = expr_rewrite (expr->unary.value, rwinfo);
 		if (a == NULL)
 			return NULL;
 		return expr_tree_new_unary (expr->any.oper, a);
 	}
 
 	case OPER_FUNCALL: {
-		gboolean relocate = FALSE;
+		gboolean rewrite = FALSE;
 		GList *new_args = NULL;
 		GList *l;
 
 		for (l = expr->func.arg_list; l; l = l->next) {
-			ExprTree *arg = expr_relocate (l->data, pos, rinfo);
+			ExprTree *arg = expr_rewrite (l->data, rwinfo);
 			new_args = g_list_append (new_args, arg);
 			if (arg != NULL)
-				relocate = TRUE;
+				rewrite = TRUE;
 		}
 
-		if (relocate) {
+		if (rewrite) {
 			GList *m;
 
 			for (l = expr->func.arg_list, m = new_args; l; l = l->next, m = m->next) {
@@ -1561,67 +1620,75 @@ expr_relocate (ExprTree const *expr,
 
 	case OPER_VAR:
 	{
-		CellRef res = expr->var.ref; /* Copy */
-		switch (cellref_relocate (&res, pos, rinfo)) {
-		case CELLREF_NO_RELOCATE :
-			return NULL;
+		if (rwinfo->type == EXPR_REWRITE_SHEET) {
+			if (expr->var.ref.sheet == rwinfo->u.sheet)
+				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+			else
+				return NULL;
 
-		case CELLREF_RELOCATE :
-			return expr_tree_new_var (&res);
+		} else if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
+			if (expr->var.ref.sheet &&
+			    expr->var.ref.sheet->workbook == rwinfo->u.workbook)
+				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+			else
+				return NULL;
 
-		case CELLREF_RELOCATE_ERR :
-			return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+		} else {
+			CellRef res = expr->var.ref; /* Copy */
+
+			switch (cellref_relocate (&res, &rwinfo->u.relocate)) {
+			case CELLREF_NO_RELOCATE :
+				return NULL;
+				
+			case CELLREF_RELOCATE :
+				return expr_tree_new_var (&res);
+				
+			case CELLREF_RELOCATE_ERR :
+				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+			}
 		}
 	}
 
 	case OPER_CONSTANT: {
-		Value const * const v = expr->constant.value;
-		if  (v->type == VALUE_CELLRANGE) {
-			/* TODO : Figure out the logic of 1 ref error 1 ok */
+		const Value *v = expr->constant.value;
+
+		if (v->type == VALUE_CELLRANGE) {
 			CellRef ref_a = v->v_range.cell.a;
 			CellRef ref_b = v->v_range.cell.b;
-			gboolean needs_reloc = FALSE;
 
-			switch (cellref_relocate (&ref_a, pos, rinfo)) {
-			case CELLREF_NO_RELOCATE :
-				break;
-			case CELLREF_RELOCATE :
-				needs_reloc = TRUE;
-				break;
+			if (rwinfo->type == EXPR_REWRITE_SHEET) {
 
-			case CELLREF_RELOCATE_ERR :
-				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
-			}
-			switch (cellref_relocate (&ref_b, pos, rinfo)) {
-			case CELLREF_NO_RELOCATE :
-				break;
-			case CELLREF_RELOCATE :
-				needs_reloc = TRUE;
-				break;
-
-			case CELLREF_RELOCATE_ERR :
-				return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
-			}
-
-			if (needs_reloc) {
-				Value * res;
-				/* Dont allow creation of 3D references */
-				if (ref_a.sheet == ref_b.sheet)
-					res = value_new_cellrange (&ref_a, &ref_b,
-								   pos->eval.col, pos->eval.row);
+				if (ref_a.sheet == rwinfo->u.sheet ||
+				    ref_b.sheet == rwinfo->u.sheet)
+					return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
 				else
-					res = value_new_error (NULL, gnumeric_err_REF);
-				return expr_tree_new_constant (res);
-			}
-			return NULL;
+					return NULL;
+
+			} else if (rwinfo->type == EXPR_REWRITE_WORKBOOK) {
+
+				if      (ref_a.sheet &&
+					 ref_a.sheet->workbook == rwinfo->u.workbook)
+					return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+
+				else if (ref_b.sheet &&
+					 ref_b.sheet->workbook == rwinfo->u.workbook)
+					return expr_tree_new_constant (value_new_error (NULL, gnumeric_err_REF));
+
+				else
+					return NULL;
+
+			} else
+				return cellrange_relocate (v, &rwinfo->u.relocate);
 		}
+
+		return NULL;
 	}
 
 	case OPER_ARRAY: {
 		ExprArray const * a = &expr->array;
 		if (a->x == 0 && a->y == 0) {
 			ExprTree *func =
-				expr_relocate (a->corner.func.expr, pos, rinfo);
+				expr_rewrite (a->corner.func.expr, rwinfo);
 
 			if (func != NULL) {
 				ExprTree *res =

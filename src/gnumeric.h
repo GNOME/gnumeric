@@ -30,6 +30,7 @@ typedef struct _ExprName	 ExprName;
 typedef struct _ExprVar		 ExprVar;
 typedef struct _ExprArray	 ExprArray;
 typedef struct _ExprRelocateInfo ExprRelocateInfo;
+typedef struct _ExprRewriteInfo  ExprRewriteInfo;
 typedef struct _NamedExpression	 NamedExpression;
 
 typedef struct _CellRegion	CellRegion;

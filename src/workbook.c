@@ -309,10 +309,9 @@ workbook_do_destroy (Workbook *wb)
 			application_clipboard_clear ();
 	}
 
-	/* Erase all cells.  This does NOT remove links between sheets
-	 * but we don't care beacuse the other sheets are going to be
-	 * deleted too.
-	 */
+	workbook_deps_destroy (wb);
+
+	/* Erase all cells. */
 	g_hash_table_foreach (wb->sheets, &cb_sheet_destroy_contents, NULL);
 
 	if (wb->auto_expr_desc)
@@ -3327,9 +3326,13 @@ workbook_expr_relocate (Workbook *wb, ExprRelocateInfo const *info)
 	for (l = cells; l; l = l->next)	{
 		Cell *cell = l->data;
 		EvalPos pos;
-		ExprTree *newtree = expr_relocate (cell->u.expression,
-						   eval_pos_init_cell (&pos, cell),
-						   info);
+		ExprRewriteInfo rwinfo;
+		ExprTree *newtree; 
+		
+		memcpy (&rwinfo.u.relocate, info, sizeof (ExprRelocateInfo));
+		eval_pos_init_cell (&rwinfo.u.relocate.pos, cell);
+
+		newtree = expr_rewrite (cell->u.expression, &rwinfo);
 
 		if (newtree) {
 			/* Don't store relocations if they were inside the region
@@ -3539,7 +3542,8 @@ workbook_delete_sheet (Sheet *sheet)
 
 	wb = sheet->workbook;
 
-	/* FIXME : Deleting a sheet plays havoc with our data structures.
+	/*
+	 * FIXME : Deleting a sheet plays havoc with our data structures.
 	 * Be safe for now and empty the undo/redo queues
 	 */
 	command_list_release (wb->undo_commands);
@@ -3547,23 +3551,7 @@ workbook_delete_sheet (Sheet *sheet)
 	wb->undo_commands = NULL;
 	wb->redo_commands = NULL;
 
-	/*
-	 * Invalidate references to the deleted sheet from other sheets in the
-	 * workbook by pretending to move the contents of the deleted sheet
-	 * to infinity (and beyond)
-	 */
-	{
-		ExprRelocateInfo rinfo;
-		rinfo.origin.start.col = 0;
-		rinfo.origin.start.row = 0;
-		rinfo.origin.end.col = SHEET_MAX_COLS-1;
-		rinfo.origin.end.row = SHEET_MAX_ROWS-1;
-		rinfo.origin_sheet = rinfo.target_sheet = sheet;
-		rinfo.col_offset = SHEET_MAX_COLS-1;
-		rinfo.row_offset = SHEET_MAX_ROWS-1;
-
-		workbook_expr_unrelocate_free (workbook_expr_relocate (wb, &rinfo));
-	}
+	sheet_deps_destroy (sheet);
 
 	/* Clear the cliboard to avoid dangling references to the deleted sheet */
 	if (sheet == application_clipboard_sheet_get ())

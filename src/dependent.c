@@ -135,55 +135,107 @@ dependency_data_new (void)
 	return deps;
 }
 
-static void
-cb_hash_to_list (gpointer key, gpointer value, gpointer closure)
+static gboolean
+dependency_range_destroy (gpointer key, gpointer value, gpointer closure)
 {
-	GSList **list = closure;
-	*list = g_slist_prepend (*list, key);
+	DependencyRange *deprange = value;
+
+	g_list_free (deprange->cell_list);
+	deprange->cell_list = NULL;
+
+	g_free (value);
+
+	return TRUE;
 }
 
-static void
-invalidate_refs (DependencyRange *deprange, Sheet *invalid_sheet)
+static gboolean
+dependency_single_destroy (gpointer key, gpointer value, gpointer closure)
 {
-	ExprRelocateInfo info;
-	/* Copy the list since it will change underneath us.  */
-	GList *cell_list = g_list_copy (deprange->cell_list);
+	DependencySingle *single = value;
 
-	/* Move the cells being depended on to infinity (and beyond) */
-	info.origin = deprange->range;
-	info.origin_sheet = info.target_sheet = invalid_sheet;
-	info.col_offset = SHEET_MAX_COLS;
-	info.row_offset = SHEET_MAX_ROWS;
+	g_list_free (single->cell_list);
+	single->cell_list = NULL;
 
-	while (cell_list != NULL) {
-		EvalPos pos;
-		Cell *cell = cell_list->data;
-		ExprTree *newtree;
+	g_free (value);
 
-		g_return_if_fail (cell != NULL);
-		g_return_if_fail (cell_has_expr (cell));
+	return TRUE;
+}
 
-		newtree = expr_relocate (cell->u.expression,
-					 eval_pos_init_cell (&pos, cell),
-					 &info);
+typedef struct {
+	ExprRewriteInfo *rwinfo;
 
-		/*
-		 * We are told this cell depends on this region
-		 * If this is null then we did not depend on it
-		 * and something is hosed.
-		 */
-		g_return_if_fail (newtree != NULL);
+	GSList          *cell_list;
+} destroy_closure_t;
 
-		sheet_cell_set_expr (cell, newtree);
+static void
+cb_range_hash_to_list (gpointer key, gpointer value, gpointer closure)
+{
+	destroy_closure_t *c = closure;
+	GList             *l;
+	DependencyRange   *dep = value;
 
-		cell_list = g_list_remove (cell_list, cell);
+	for (l = dep->cell_list; l; l = l->next) {
+		Cell *cell = l->data;
+
+		if      (c->rwinfo->type == EXPR_REWRITE_SHEET &&
+			 cell->sheet != c->rwinfo->u.sheet)
+
+			c->cell_list = g_slist_prepend (c->cell_list, l->data);
+
+		else if (c->rwinfo->type == EXPR_REWRITE_WORKBOOK &&
+			 cell->sheet->workbook != c->rwinfo->u.workbook)
+
+			c->cell_list = g_slist_prepend (c->cell_list, l->data);
 	}
 }
 
-void
-dependency_data_destroy (Sheet *sheet)
+static void
+cb_single_hash_to_list (gpointer key, gpointer value, gpointer closure)
 {
-	DependencyData *deps;
+	destroy_closure_t *c = closure;
+	GList             *l;
+	DependencySingle  *dep = value;
+
+	for (l = dep->cell_list; l; l = l->next) {
+		Cell *cell = l->data;
+
+		if      (c->rwinfo->type == EXPR_REWRITE_SHEET &&
+			 cell->sheet != c->rwinfo->u.sheet)
+
+			c->cell_list = g_slist_prepend (c->cell_list, l->data);
+
+		else if (c->rwinfo->type == EXPR_REWRITE_WORKBOOK &&
+			 cell->sheet->workbook != c->rwinfo->u.workbook)
+
+			c->cell_list = g_slist_prepend (c->cell_list, l->data);
+	}
+}
+
+static void
+invalidate_refs (Cell *cell, ExprRewriteInfo *rwinfo)
+{
+	ExprTree *newtree;
+
+	newtree = expr_rewrite (cell->u.expression, rwinfo);
+
+	/*
+	 * We are told this cell depends on this region, hence if
+	 * newtree is null then either we did not depend on it
+	 * ( ie. serious breakage ) or we had a duplicate reference
+	 * and we have already removed it.
+	 */
+/*	fprintf (stderr, "Invalidating to #REF! in %s!%s %p\n",
+	cell->sheet->name_quoted, cell_name (cell), newtree); */
+
+	sheet_cell_set_expr (cell, newtree);
+	
+}
+
+static void
+do_deps_destroy (Sheet *sheet, ExprRewriteInfo *rwinfo)
+{
+	DependencyData   *deps;
+	destroy_closure_t c;
 
 	g_return_if_fail (sheet != NULL);
 
@@ -191,45 +243,77 @@ dependency_data_destroy (Sheet *sheet)
 	if (deps == NULL)
 		return;
 
-	if (deps->range_hash) {
-		if (g_hash_table_size (deps->range_hash) != 0) {
-			/*
-			 * Copy the dangling depends to avoid problems
-			 * as the table empties under us when the danglers
-			 * are invalidated.
-			 */
-			GSList *danglers = NULL;
-			g_hash_table_foreach (deps->range_hash,
-					      &cb_hash_to_list, &danglers);
+	c.rwinfo    = rwinfo;
+	c.cell_list = NULL;
 
-			while (danglers != NULL) {
-				DependencyRange *deprange = danglers->data;
-				invalidate_refs (deprange, sheet);
-				danglers = g_slist_remove (danglers, deprange);
-			}
+	if (deps->range_hash) {
+		g_hash_table_foreach (deps->range_hash,
+				      &cb_range_hash_to_list, &c);
+		
+		while (c.cell_list) {
+			invalidate_refs (c.cell_list->data, rwinfo);
+			c.cell_list = g_slist_remove (c.cell_list, c.cell_list->data);
 		}
 
-		/* If anything is left. there is a problem */
-		if (g_hash_table_size (deps->range_hash) != 0)
-			g_warning ("Dangling dependancies");
+		g_hash_table_foreach_remove (deps->range_hash,
+					     dependency_range_destroy,
+					     NULL);
 
 		g_hash_table_destroy (deps->range_hash);
 		deps->range_hash = NULL;
 	}
 
+	c.cell_list = NULL;
 	if (deps->single_hash) {
-		/*
-		 * There are no intersheet depends for singletons
-		 * so any remaining things are errors
-		 */
-		if (g_hash_table_size (deps->single_hash) != 0)
-			g_warning ("Dangling single dependancies");
+		g_hash_table_foreach (deps->single_hash,
+				      &cb_single_hash_to_list, &c);
+		
+		while (c.cell_list) {
+			invalidate_refs (c.cell_list->data, rwinfo);
+			c.cell_list = g_slist_remove (c.cell_list, c.cell_list->data);
+		}
+
+		g_hash_table_foreach_remove (deps->single_hash,
+					     dependency_single_destroy,
+					     NULL);
 
 		g_hash_table_destroy (deps->single_hash);
 		deps->single_hash = NULL;
 	}
 
 	g_free (deps);
+	sheet->deps = NULL;
+}
+
+void
+sheet_deps_destroy (Sheet *sheet)
+{
+	ExprRewriteInfo rwinfo;
+
+	g_return_if_fail (sheet != NULL);
+
+	rwinfo.type = EXPR_REWRITE_SHEET;
+	rwinfo.u.sheet = sheet;
+	
+	do_deps_destroy (sheet, &rwinfo);
+}
+
+void
+workbook_deps_destroy (Workbook *wb)
+{
+	GList          *sheets, *l;
+	ExprRewriteInfo rwinfo;
+
+	g_return_if_fail (wb != NULL);
+
+	rwinfo.type = EXPR_REWRITE_WORKBOOK;
+	rwinfo.u.workbook = wb;
+
+	sheets = workbook_sheets (wb);
+	for (l = sheets; l; l = l->next)
+		do_deps_destroy (l->data, &rwinfo);
+
+	g_list_free (sheets);
 }
 
 /**
@@ -339,7 +423,12 @@ drop_cell_range_dep (DependencyData *deps, Cell *cell,
 		     const DependencyRange *const range)
 {
 	/* Look it up */
-	DependencyRange *result = g_hash_table_lookup (deps->range_hash, range);
+	DependencyRange *result;
+
+	if (!deps)
+		return;
+
+	result = g_hash_table_lookup (deps->range_hash, range);
 
 #ifdef DEBUG_EVALUATION
 	if (dependency_debugging > 0) {
@@ -409,7 +498,8 @@ handle_cell_single_dep (Cell *cell, const CellRef *a,
 	else
 		deps = a->sheet->deps;
 
-	g_return_if_fail (deps != NULL);
+	if (!deps)
+		return;
 
 	pos.col = cell->col_info->pos;
 	pos.row = cell->row_info->pos;
@@ -467,15 +557,26 @@ handle_cell_range_deps (Cell *cell, const CellRef *a, const CellRef *b,
 
 		handle_cell_single_dep (cell, a, operation);
 
-	else {      /* Large / inter-sheet range */
-		DependencyData *deps;
+	else {      /* Large range */
+		DependencyData *depsa, *depsb;
 
 		dependency_range_ctor (&range, cell, a, b);
-		deps = eval_sheet (a->sheet, cell->sheet)->deps;
+
+		depsa = eval_sheet (a->sheet, cell->sheet)->deps;
 		if (operation)
-			add_cell_range_dep  (deps, cell, &range);
+			add_cell_range_dep  (depsa, cell, &range);
 		else
-			drop_cell_range_dep (deps, cell, &range);
+			drop_cell_range_dep (depsa, cell, &range);
+
+		depsb = eval_sheet (b->sheet, cell->sheet)->deps;
+		if (depsa != depsb) {
+			/* FIXME: we need to iterate sheets between to be correct */
+			if (operation)
+				add_cell_range_dep  (depsb, cell, &range);
+			else
+				drop_cell_range_dep (depsb, cell, &range);
+		}
+
 	}
 }
 
@@ -638,7 +739,6 @@ cell_drop_dependencies (Cell *cell)
 {
 	g_return_if_fail (cell != NULL);
 	g_return_if_fail (cell->sheet != NULL);
-	g_return_if_fail (cell->sheet->deps != NULL);
 
 	if (cell_has_expr (cell))
 		handle_tree_deps (cell, cell->u.expression, REMOVE_DEPS);
@@ -687,7 +787,9 @@ cell_get_range_dependencies (const Cell *cell)
 	get_cell_dep_closure_t closure;
 
 	g_return_val_if_fail (cell != NULL, NULL);
-	g_return_val_if_fail (cell->sheet->deps != NULL, NULL);
+
+	if (!cell->sheet->deps)
+		return NULL;
 
 	closure.col   = cell->col_info->pos;
 	closure.row   = cell->row_info->pos;
@@ -738,6 +840,9 @@ GList *
 cell_get_dependencies (const Cell *cell)
 {
 	GList *deps;
+
+	if (!cell->sheet->deps)
+		return NULL;
 
 	deps = g_list_concat (cell_get_range_dependencies (cell),
 			      get_single_dependencies (cell->sheet,
@@ -819,7 +924,8 @@ cell_queue_recalc_list (GList *list, gboolean freelist)
 		if (dependency_debugging > 2)
 			printf ("Queuing: %s\n", cell_name (cell));
 #endif
-		/* Use the wb associated with the current cell in case we have
+		/*
+		 * Use the wb associated with the current cell in case we have
 		 * cross workbook depends
 		 */
 		wb = cell->sheet->workbook;

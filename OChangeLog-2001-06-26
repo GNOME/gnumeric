@@ -1,3 +1,25 @@
+2000-05-06  Michael Meeks  <michael@helixcode.com>
+
+	* src/eval.c (handle_cell_range_deps): Add 3D dependency support.
+	(cb_single_hash_to_list, cb_range_hash_to_list): Re-arrange handling of
+	where the list is collated. (do_deps_destroy): update.
+	(cell_drop_dependencies): remove cretinism here.
+	(drop_cell_range_dep, handle_cell_single_dep): return on NULL deps structure.
+
+	* src/sheet-style.c (sheet_style_attach): enable cache trash avoidance code.
+
+	* src/sheet.c (sheet_cell_remove_internal): short circuit for NULL
+	deps.
+
+	* src/expr.c (expr_rewrite): update to handle workbook case.
+
+	* src/eval.c (workbook_deps_destroy): update for speed.
+	(sheet_deps_destroy): split body into (do_deps_destroy): here.
+
+	* src/workbook.c (workbook_delete_sheet): destroy the sheet's
+	dependencies here as well; very silly. (workbook_do_destroy): destroy
+	deps of all sheets up front.
+
 2000-05-06  Jody Goldberg <jgoldberg@home.com>
 
 	* src/parse-util.c (parse_text_value_or_expr) : Be sure the clear the
@@ -23,6 +45,30 @@
 	to make the f(x) more clear.
 
 2000-05-05  Michael Meeks  <michael@helixcode.com>
+
+	* src/eval.c (cell_drop_dependencies): silence checks for sheet->deps.
+
+	* src/workbook.c (workbook_expr_relocate): update for expr_rewrite.
+
+	* src/sheet-autofill.c (autofill_cell): update for expr_rewrite.
+
+	* src/sheet.c (sheet_destroy): use sheet_deps_destroy and hoist above
+	destroy_contents.
+
+	* src/cell.c (cell_relocate): update for expr_rewrite.
+
+	* src/eval.c (dependancy_data_destroy): rename to (sheet_deps_destroy),
+	(invalidate_refs): re-write. (dependency_single_destroy, dependency_range_destroy): 
+	implement for non-intersheet deps. (workbook_deps_destroy): implement.
+
+	* src/expr.c (expr_relocate): renamed to (expr_rewrite): update,
+	add sheet re-writing. Fix serious bug with OPER_CONSTANT drop through
+	to OPER_ARRAY. (cellrange_relocate): split out. (cellref_relocate): 
+	update for structure pos.
+
+	* src/expr.h: create ExprRewriteInfo.
+
+	* src/gnumeric.h: add ExprRewriteInfo.
 
 	* src/sheet-object-container.c (sheet_object_container_realize): fix
 	no brainer bug stopping menu's merging.

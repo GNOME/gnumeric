@@ -1909,7 +1909,8 @@ sheet_cell_remove_internal (Sheet *sheet, Cell *cell)
 		sheet_cell_formula_unlink (cell);
 
 	deps = cell_get_dependencies (cell);
-	cell_queue_recalc_list (deps, TRUE);
+	if (deps)
+		cell_queue_recalc_list (deps, TRUE);
 
 	sheet_cell_remove_from_hash (sheet, cell);
 
@@ -2164,13 +2165,13 @@ sheet_destroy (Sheet *sheet)
 #ifdef ENABLE_BONOBO
 	sheet_vectors_shutdown (sheet);
 #endif
+	sheet_deps_destroy (sheet);
 	sheet_destroy_contents (sheet);
 
 	/* Clear the cliboard to avoid dangling references to the deleted sheet */
 	if (sheet == application_clipboard_sheet_get ())
 		application_clipboard_clear ();
 
-	dependency_data_destroy (sheet);
 	sheet->deps = NULL;
 
 	sheet_destroy_styles (sheet);

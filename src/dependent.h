@@ -4,7 +4,9 @@
 #include "gnumeric.h"
 
 DependencyData *dependency_data_new          (void);
-void            dependency_data_destroy      (Sheet *sheet);
+
+void            sheet_deps_destroy           (Sheet    *sheet);
+void            workbook_deps_destroy        (Workbook *wb);
 
 void            cell_eval                    (Cell *cell);
 
