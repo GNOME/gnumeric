@@ -219,8 +219,8 @@ plugin_init_general (ErrorInfo **ret_error)
 
 	init_value_type ();
 
-	scm_make_gsubr ("gnumeric-funcall", 2, 0, 0, scm_gnumeric_funcall);
-	scm_make_gsubr ("register-function", 5, 0, 0, scm_register_function);
+	scm_c_define_gsubr ("gnumeric-funcall", 2, 0, 0, scm_gnumeric_funcall);
+	scm_c_define_gsubr ("register-function", 5, 0, 0, scm_register_function);
 
 	dir = gnumeric_sys_data_dir ("guile");
 	name = g_strconcat (dir, "gnumeric_startup.scm", NULL);

@@ -262,14 +262,14 @@ init_value_type ()
 	scm_set_smob_print (value_tag, print_value);
 	scm_set_smob_equalp (value_tag, equalp_value);
 
-	scm_make_gsubr ("make-value", 1, 0, 0, make_value);
-	scm_make_gsubr ("value-new-bool", 1, 0, 0, scm_value_new_bool);
-	scm_make_gsubr ("value-new-float", 1, 0, 0, scm_value_new_float);
-	scm_make_gsubr ("value-new-string", 1, 0, 0, scm_value_new_string);
-	scm_make_gsubr ("value-get-as-string", 1, 0, 0, scm_value_get_as_string);
-	scm_make_gsubr ("value-get-as-int", 1, 0, 0, scm_value_get_as_int);
-	scm_make_gsubr ("value-get-as-float", 1, 0, 0, scm_value_get_as_float);
-	scm_make_gsubr ("value-get-as-list", 1, 0, 0, scm_value_get_as_list);
+	scm_c_define_gsubr ("make-value", 1, 0, 0, make_value);
+	scm_c_define_gsubr ("value-new-bool", 1, 0, 0, scm_value_new_bool);
+	scm_c_define_gsubr ("value-new-float", 1, 0, 0, scm_value_new_float);
+	scm_c_define_gsubr ("value-new-string", 1, 0, 0, scm_value_new_string);
+	scm_c_define_gsubr ("value-get-as-string", 1, 0, 0, scm_value_get_as_string);
+	scm_c_define_gsubr ("value-get-as-int", 1, 0, 0, scm_value_get_as_int);
+	scm_c_define_gsubr ("value-get-as-float", 1, 0, 0, scm_value_get_as_float);
+	scm_c_define_gsubr ("value-get-as-list", 1, 0, 0, scm_value_get_as_list);
 }
 
 
