@@ -28,6 +28,9 @@
 #include "error-info.h"
 #include "module-plugin-defs.h"
 #include "expr.h"
+#include "value.h"
+
+#include <libgnome/gnome-i18n.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
 
