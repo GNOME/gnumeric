@@ -26,8 +26,6 @@ src/analysis-tools.c
 src/cell.c
 src/clipboard.c
 src/cmd-edit.c
-src/command-context-gui.c
-src/command-context.c
 src/commands.c
 src/corba-args.c
 src/dates.c
@@ -143,6 +141,7 @@ src/workbook-cmd-format.c
 src/workbook-format-toolbar.c
 src/workbook-object-toolbar.c
 src/workbook-view.c
+src/workbook-control-gui.c
 src/workbook-private.c
 src/workbook.c
 src/xml-io.c
