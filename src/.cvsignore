@@ -3,6 +3,7 @@ Makefile
 .deps
 .libs
 gnumeric
+gnumeric-component
 parser.c
 gnm-marshalers.c
 gnm-marshalers.h
