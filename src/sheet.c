@@ -456,38 +456,6 @@ sheet_row_get_info (Sheet const *sheet, int const row)
 	return (ColRowInfo *) &sheet->rows.default_style;
 }
 
-/**
- * sheet_get_extent:
- * @sheet: the sheet
- * 
- * calculates the area occupied by cell data.
- * 
- * Return value: the range.
- **/
-Range
-sheet_get_extent (Sheet const *sheet)
-{
-	Range r;
-
-	r.start.col = 0;
-	r.start.row = 0;
-	r.end.col   = 0;
-	r.end.row   = 0;
-
-	g_return_val_if_fail (sheet != NULL, r);
-	g_return_val_if_fail (IS_SHEET (sheet), r);
-
-	r.end.col   = sheet->cols.max_used;
-	r.end.row   = sheet->rows.max_used;
-
-	if (r.end.col < 0)
-		r.end.col = 0;
-	if (r.end.row < 0)
-		r.end.row = 0;
-
-	return r;
-}
-
 void
 sheet_compute_visible_ranges (Sheet const *sheet)
 {
@@ -584,6 +552,70 @@ sheet_cell_fetch (Sheet *sheet, int col, int row)
 		cell = sheet_cell_new (sheet, col, row);
 
 	return cell;
+}
+
+/**
+ * sheet_get_extent_cb:
+ * 
+ * checks the cell to see if should be used to calculate sheet extent
+ **/
+static void
+sheet_get_extent_cb (gpointer key, gpointer value, gpointer data) {
+
+	Cell *cell = (Cell *) value;
+	if ( cell ) {
+		gchar *text = cell_get_text( cell );
+		if ( strcmp( text, "") ) {
+			Range *range = (Range *)data;
+			if ( cell->row->pos < range->start.row) {
+				range->start.row = cell->row->pos;
+			}
+			if ( cell->row->pos > range->end.row) {
+				range->end.row = cell->row->pos;
+			}
+			if ( cell->col->pos < range->start.col) {
+				range->start.col = cell->col->pos;
+			}
+			if ( cell->col->pos > range->end.col) {
+				range->end.col = cell->col->pos;
+			}
+		}
+	}
+}
+
+/**
+ * sheet_get_extent:
+ * @sheet: the sheet
+ * 
+ * calculates the area occupied by cell data.
+ * 
+ * Return value: the range.
+ **/
+Range
+sheet_get_extent (Sheet const *sheet)
+{
+	Range r;
+
+	r.start.col = SHEET_MAX_COLS - 2;
+	r.start.row = SHEET_MAX_ROWS - 2;
+	r.end.col   = 0;
+	r.end.row   = 0;
+
+	g_return_val_if_fail (sheet != NULL, r);
+	g_return_val_if_fail (IS_SHEET (sheet), r);
+
+	g_hash_table_foreach(sheet->cell_hash, sheet_get_extent_cb, &r);
+
+	if (r.start.col >= SHEET_MAX_COLS - 2)
+		r.start.col = 0;
+	if (r.start.col >= SHEET_MAX_ROWS - 2)
+		r.start.row = 0;
+	if (r.end.col < 0)
+		r.end.col = 0;
+	if (r.end.row < 0)
+		r.end.row = 0;
+
+	return r;
 }
 
 void

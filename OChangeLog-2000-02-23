@@ -1,3 +1,13 @@
+1999-12-13  JP Rosevear  <jpr@arcavia.com>
+
+	* src/dialogs/dialog-cell-sort.c (dialog_cell_sort_adv): use
+	sheet_get_extent if the range is infinite
+	* src/sheet.c (sheet_get_extent): redo to get the Range by
+	iterating over the sheet cell_hash; as a side effect printing now
+	doesn't print blank areas
+	(sheet_get_extent_cb): call back function to iterate over cell
+	hash
+
 1999-12-13  Morten Welinder  <terra@diku.dk>
 
 	* src/functions/fn-stat.c (gnumeric_logest): Plug leaks.

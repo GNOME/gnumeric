@@ -584,6 +584,7 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 	int btn, lp, i;
 	int start_col, start_row, end_col, end_row;
 	const Range *sel;
+	Range range;
 	SortFlow sort_flow;
 
 	g_return_if_fail(inwb);
@@ -597,17 +598,24 @@ dialog_cell_sort (Workbook * inwb, Sheet * sheet)
 		return;
 	}
 
+	if (sel->end.row >= SHEET_MAX_ROWS - 2 ||
+	    sel->end.col >= SHEET_MAX_COLS - 2) {
+		range = sheet_get_extent (sheet);
+		if (sel->end.col >= SHEET_MAX_COLS - 2) {
+			sel->start.col = range.start.col;
+			sel->end.col = range.end.col;
+		}
+		if (sel->end.row >= SHEET_MAX_ROWS - 2) {
+			sel->start.row = range.start.row;
+			sel->end.row = range.end.row;
+		}
+		sel = &range;
+	}
+
 	start_row = sel->start.row;
 	start_col = sel->start.col;
 	end_row   = sel->end.row;
 	end_col   = sel->end.col;
-
-	if (end_row >= SHEET_MAX_ROWS - 2 ||
-	    end_col >= SHEET_MAX_COLS - 2){
-		gnumeric_notice (inwb, GNOME_MESSAGE_BOX_ERROR,
-				 _("Selection must be a finite range"));
-		return;
-	}
 
 	/* Init clauses */
 	sort_flow.max_col_clause = end_col - start_col + 1;
