@@ -315,12 +315,12 @@ static pref_tree_data_t pref_tree_data[] = {
 	{ NULL, NULL, NULL}
 };
 
-/* static pref_tree_data_t pref_tree_data_danger[] = { */
-/* 	{ GNM_CONF_GUI_RES_H, NULL, NULL }, */
-/* 	{ GNM_CONF_GUI_RES_V, NULL, NULL }, */
+static pref_tree_data_t pref_tree_data_danger[] = {
+	{ GNM_CONF_GUI_RES_H, NULL, NULL },
+	{ GNM_CONF_GUI_RES_V, NULL, NULL },
 /* 	{ GNM_CONF_GUI_ED_RECALC_LAG, NULL, NULL }, */
-/* 	{ NULL, NULL, NULL } */
-/* }; */
+	{ NULL, NULL, NULL }
+};
 
 #define OBJECT_DATA_PATH_MODEL "treeview %i"
 
@@ -821,7 +821,7 @@ static page_info_t page_info[] = {
 	{N_("Undo"),          GTK_STOCK_UNDO,		 NULL, &pref_undo_page_initializer,	&pref_undo_page_open,	NULL},
 	{N_("Sorting"),       GTK_STOCK_SORT_ASCENDING,  NULL, &pref_sort_page_initializer,	&pref_sort_page_open,	NULL},
 	{N_("Various"),       GTK_STOCK_PREFERENCES,     NULL, &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data},
-/* 	{N_("Internal"),      GTK_STOCK_DIALOG_ERROR,    "5",  &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data_danger}, */
+	{N_("Internal"),      GTK_STOCK_DIALOG_ERROR,    "5",  &pref_tree_initializer,		&pref_tree_page_open,	pref_tree_data_danger},
 	{N_("Header/Footer"), GTK_STOCK_ITALIC,	         "0",  &pref_font_hf_initializer,	&pref_font_hf_page_open, NULL},
 	{NULL, NULL, NULL, NULL, NULL, NULL},
 };
