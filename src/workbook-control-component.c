@@ -7,6 +7,7 @@
 
 #include "commands.h"
 #include "dialogs.h"
+#include "print.h"
 #include "selection.h"
 #include "sheet.h"
 #include "sheet-control-gui.h"
@@ -191,6 +192,42 @@ bcontrol_get_wbcg (BonoboControl *control)
 }
 
 static void
+cb_file_print_setup (GtkWidget *widget, BonoboControl *control)
+{
+	WorkbookControlGUI *wbcg = bcontrol_get_wbcg (control);
+	Sheet *sheet;
+	
+	g_return_if_fail (wbcg != NULL);
+
+	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	dialog_printer_setup (wbcg, sheet);
+}
+
+static void
+cb_file_print (GtkWidget *widget, BonoboControl *control)
+{
+	WorkbookControlGUI *wbcg = bcontrol_get_wbcg (control);
+	Sheet *sheet;
+
+	g_return_if_fail (wbcg != NULL);
+
+	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	sheet_print (wbcg, sheet, FALSE, PRINT_ACTIVE_SHEET);
+}
+
+static void
+cb_file_print_preview (GtkWidget *widget, BonoboControl *control)
+{
+	WorkbookControlGUI *wbcg = bcontrol_get_wbcg (control);
+	Sheet *sheet;
+
+	g_return_if_fail (wbcg != NULL);
+
+	sheet = wb_control_cur_sheet (WORKBOOK_CONTROL (wbcg));
+	sheet_print (wbcg, sheet, TRUE, PRINT_ACTIVE_SHEET);
+}
+
+static void
 cb_file_summary (GtkWidget *widget, BonoboControl *control)
 {
 	WorkbookControlGUI *wbcg = bcontrol_get_wbcg (control);
@@ -236,6 +273,9 @@ cb_help_about (GtkWidget *widget, BonoboControl *control)
 }
 
 static BonoboUIVerb verbs [] = {
+	BONOBO_UI_UNSAFE_VERB ("FilePrintSetup", cb_file_print_setup),
+	BONOBO_UI_UNSAFE_VERB ("FilePrint", cb_file_print),
+	BONOBO_UI_UNSAFE_VERB ("FilePrintPreview", cb_file_print_preview),
 	BONOBO_UI_UNSAFE_VERB ("FileSummary", cb_file_summary),
 	BONOBO_UI_UNSAFE_VERB ("EditCopy", cb_edit_copy),
 	BONOBO_UI_UNSAFE_VERB ("EditSearch", cb_edit_search),

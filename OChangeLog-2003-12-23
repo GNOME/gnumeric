@@ -1,5 +1,13 @@
 2002-05-14  Jon K Hellan  <hellan@acm.org>
 
+	* src/GNOME_Gnumeric_Component.xml: Add File/Print setup,
+	File/Print, File/Print preview.
+
+	* src/workbook-control-component.c (cb_file_print_setup)
+	(cb_file_print, cb_file_print_preview): New functions. Invoke
+	File/Print setup, File/Print, File/Print preview.
+	(verbs): Add File/Print setup, File/Print, File/Print preview.
+
 	* src/main-component.c (gnumeric_component_factory): Initialize
 	plugins. Yet another bpb.
 
