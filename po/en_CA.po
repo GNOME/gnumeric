@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2005-04-04 16:30-0400\n"
-"PO-Revision-Date: 2005-04-04 11:36-0400\n"
+"POT-Creation-Date: 2005-04-05 14:10-0400\n"
+"PO-Revision-Date: 2005-04-05 11:36-0400\n"
 "Last-Translator: Adam Weinberger <adamw@gnome.org>\n"
 "Language-Team: Canadian English <adamw@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -1703,23 +1703,23 @@ msgstr "Perl functions"
 msgid "Sample Perl plugin providing some (useless) functions."
 msgstr "Sample Perl plugin providing some (useless) functions."
 
-#: ../plugins/perl-loader/perl-loader.c:108
-msgid "Module name not given."
-msgstr "Module name not given."
+#: ../plugins/perl-loader/perl-loader.c:80
+msgid "Perl error: "
+msgstr "Perl error: "
 
-#: ../plugins/perl-loader/perl-loader.c:134
-msgid "perl_func.pl doesn't exist."
-msgstr "perl_func.pl doesn't exist."
-
-#: ../plugins/perl-loader/perl-loader.c:178
-#: ../plugins/perl-loader/perl-loader.c:197
+#: ../plugins/perl-loader/perl-loader.c:120
+#: ../plugins/perl-loader/perl-loader.c:139
 #, c-format
 msgid "Perl error: %s\n"
 msgstr "Perl error: %s\n"
 
-#: ../plugins/perl-loader/perl-loader.c:256
-msgid "Perl error: "
-msgstr "Perl error: "
+#: ../plugins/perl-loader/perl-loader.c:181
+msgid "Module name not given."
+msgstr "Module name not given."
+
+#: ../plugins/perl-loader/perl-loader.c:205
+msgid "perl_func.pl doesn't exist."
+msgstr "perl_func.pl doesn't exist."
 
 #: ../plugins/perl-loader/plugin.xml.in.h:1
 msgid "Perl plugin loader"
@@ -2038,7 +2038,7 @@ msgid "Error while opening xbase file."
 msgstr "Error while opening xbase file."
 
 #: ../plugins/xbase/boot.c:176 ../src/dialogs/dialog-goto-cell.c:289
-#: ../src/dialogs/dialog-search.c:422 ../src/dialogs/dialog-stf-export.c:454
+#: ../src/dialogs/dialog-search.c:422 ../src/dialogs/dialog-stf-export.c:458
 #: ../src/dialogs/print.glade.h:21 ../src/commands.c:5034
 #: ../src/print-info.c:398 ../src/workbook.c:1083 ../src/xml-io.c:3440
 msgid "Sheet"
@@ -5817,20 +5817,20 @@ msgstr "Could not create the Solver dialogue."
 msgid "Are you sure you want to cancel?"
 msgstr "Are you sure you want to cancel?"
 
-#: ../src/dialogs/dialog-stf-export.c:448
+#: ../src/dialogs/dialog-stf-export.c:452
 msgid "Export"
 msgstr "Export"
 
-#: ../src/dialogs/dialog-stf-export.c:521
-#: ../src/dialogs/dialog-stf-export.glade.h:38
+#: ../src/dialogs/dialog-stf-export.c:525
+#: ../src/dialogs/dialog-stf-export.glade.h:42
 msgid "_Next"
 msgstr "_Next"
 
-#: ../src/dialogs/dialog-stf-export.c:524
+#: ../src/dialogs/dialog-stf-export.c:528
 msgid "_Finish"
 msgstr "_Finish"
 
-#: ../src/dialogs/dialog-stf-export.c:584
+#: ../src/dialogs/dialog-stf-export.c:588
 msgid "This workbook does not contain any exportable content."
 msgstr "This workbook does not contain any exportable content."
 
@@ -5846,6 +5846,16 @@ msgstr ""
 
 #: ../src/dialogs/dialog-stf-export.glade.h:5
 msgid ""
+"Auto\n"
+"Raw\n"
+"Preserve"
+msgstr ""
+"Auto\n"
+"Raw\n"
+"Preserve"
+
+#: ../src/dialogs/dialog-stf-export.glade.h:8
+msgid ""
 "Automatic (puts quotes where needed)\n"
 "Always\n"
 "Never"
@@ -5854,27 +5864,27 @@ msgstr ""
 "Always\n"
 "Never"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:8 ../src/gui-file.c:206
+#: ../src/dialogs/dialog-stf-export.glade.h:11 ../src/gui-file.c:206
 msgid "Character _encoding:"
 msgstr "Character _encoding:"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:9
+#: ../src/dialogs/dialog-stf-export.glade.h:12
 msgid "Choose export formatting:"
 msgstr "Choose export formatting:"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:10
+#: ../src/dialogs/dialog-stf-export.glade.h:13
 msgid "Choose sheets to export and determine export ordering of the sheets:"
 msgstr "Choose sheets to export and determine export ordering of the sheets:"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:11
+#: ../src/dialogs/dialog-stf-export.glade.h:14
 msgid "Deselect all sheets for export."
 msgstr "Deselect all sheets for export."
 
-#: ../src/dialogs/dialog-stf-export.glade.h:12
+#: ../src/dialogs/dialog-stf-export.glade.h:15
 msgid "Export as Text"
 msgstr "Export as Text"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:13
+#: ../src/dialogs/dialog-stf-export.glade.h:16
 msgid ""
 "Lower the selected sheet in the list of to be exported sheets to be exported "
 "later."
@@ -5882,7 +5892,7 @@ msgstr ""
 "Lower the selected sheet in the list of to-be-exported sheets to be exported "
 "later."
 
-#: ../src/dialogs/dialog-stf-export.glade.h:14
+#: ../src/dialogs/dialog-stf-export.glade.h:17
 msgid ""
 "Move the selected sheet to the end of the list of to be exported exported "
 "sheets to be exported last."
@@ -5890,7 +5900,7 @@ msgstr ""
 "Move the selected sheet to the end of the list of to-be-exported sheets to "
 "be exported last."
 
-#: ../src/dialogs/dialog-stf-export.glade.h:15
+#: ../src/dialogs/dialog-stf-export.glade.h:18
 msgid ""
 "Move the selected sheet to the top of the list of to be exported sheets to "
 "be exported first."
@@ -5898,15 +5908,15 @@ msgstr ""
 "Move the selected sheet to the top of the list of to-be-exported sheets to "
 "be exported first."
 
-#: ../src/dialogs/dialog-stf-export.glade.h:16
+#: ../src/dialogs/dialog-stf-export.glade.h:19
 msgid "Qu_oting:"
 msgstr "Qu_oting:"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:17
+#: ../src/dialogs/dialog-stf-export.glade.h:20
 msgid "Quote _character:"
 msgstr "Quote _character:"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:18
+#: ../src/dialogs/dialog-stf-export.glade.h:21
 msgid ""
 "Raise the selected sheet in the list of to be exported sheets to be exported "
 "earlier."
@@ -5914,20 +5924,20 @@ msgstr ""
 "Raise the selected sheet in the list of to-be-exported sheets to be exported "
 "earlier."
 
-#: ../src/dialogs/dialog-stf-export.glade.h:19
+#: ../src/dialogs/dialog-stf-export.glade.h:22
 msgid "Select N_one"
 msgstr "Select N_one"
 
 #. Edit -> Select
-#: ../src/dialogs/dialog-stf-export.glade.h:20 ../src/wbcg-actions.c:1545
+#: ../src/dialogs/dialog-stf-export.glade.h:23 ../src/wbcg-actions.c:1545
 msgid "Select _All"
 msgstr "Select _All"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:21
+#: ../src/dialogs/dialog-stf-export.glade.h:24
 msgid "Select all non-empty sheets for export."
 msgstr "Select all non-empty sheets for export."
 
-#: ../src/dialogs/dialog-stf-export.glade.h:22
+#: ../src/dialogs/dialog-stf-export.glade.h:25
 msgid ""
 "Space\n"
 "Tab\n"
@@ -5951,37 +5961,37 @@ msgstr ""
 "Slash (/)\n"
 "Custom"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:32
+#: ../src/dialogs/dialog-stf-export.glade.h:35
 msgid ""
 "Transliterate\n"
 "Escape"
 msgstr ""
 "Transliterate\n"
 "Escape"
-
-#: ../src/dialogs/dialog-stf-export.glade.h:34
-msgid ""
-"Unix (linefeed)\n"
-"Macintosh (carriage return)\n"
-"Windows (carriage return + linefeed)"
-msgstr ""
-"Unix (linefeed)\n"
-"Macintosh (carriage return)\n"
-"Windows (carriage return + linefeed)"
 
 #: ../src/dialogs/dialog-stf-export.glade.h:37
+msgid ""
+"Unix (linefeed)\n"
+"Macintosh (carriage return)\n"
+"Windows (carriage return + linefeed)"
+msgstr ""
+"Unix (linefeed)\n"
+"Macintosh (carriage return)\n"
+"Windows (carriage return + linefeed)"
+
+#: ../src/dialogs/dialog-stf-export.glade.h:40
+msgid "_Format:"
+msgstr "_Format:"
+
+#: ../src/dialogs/dialog-stf-export.glade.h:41
 msgid "_Line termination:"
 msgstr "_Line termination:"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:39
-msgid "_Preserves Formats"
-msgstr "_Preserves Formats"
-
-#: ../src/dialogs/dialog-stf-export.glade.h:40
+#: ../src/dialogs/dialog-stf-export.glade.h:43
 msgid "_Separator:"
 msgstr "_Separator:"
 
-#: ../src/dialogs/dialog-stf-export.glade.h:41
+#: ../src/dialogs/dialog-stf-export.glade.h:44
 msgid "_Unknown characters:"
 msgstr "_Unknown characters:"
 
@@ -6163,7 +6173,7 @@ msgstr "Fi_xed width"
 msgid "Fixed"
 msgstr "Fixed"
 
-#: ../src/dialogs/dialog-stf.glade.h:26
+#: ../src/dialogs/dialog-stf.glade.h:26 ../src/stf-export.c:459
 msgid "Format"
 msgstr "Format"
 
@@ -10889,29 +10899,25 @@ msgstr "Text export (configurable)"
 msgid "Comma separated values (CSV)"
 msgstr "Comma separated values (CSV)"
 
-#: ../src/stf-export.c:360
+#: ../src/stf-export.c:440
 msgid "Character set"
 msgstr "Character set"
 
-#: ../src/stf-export.c:361
+#: ../src/stf-export.c:441
 msgid "The character encoding of the output."
 msgstr "The character encoding of the output."
 
-#: ../src/stf-export.c:369
+#: ../src/stf-export.c:449
 msgid "Transliterate mode"
 msgstr "Transliterate mode"
 
-#: ../src/stf-export.c:370
+#: ../src/stf-export.c:450
 msgid "What to do with unrepresentable characters."
 msgstr "What to do with unrepresentable characters."
 
-#: ../src/stf-export.c:379
-msgid "Preserve Format"
-msgstr "Preserve Format"
-
-#: ../src/stf-export.c:380
-msgid "Should cells' format be preserved"
-msgstr "Should cells' formats be preserved"
+#: ../src/stf-export.c:460
+msgid "How should cells be formatted?"
+msgstr "How should cells be formatted?"
 
 #: ../src/stf-parse.c:58
 #, c-format
