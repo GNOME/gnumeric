@@ -121,6 +121,110 @@ static const char *distribution_strs[] = {
 };
 
 static void
+new_sheet_toggled(GtkWidget *widget, data_analysis_output_type_t *type)
+{
+        if (GTK_TOGGLE_BUTTON (widget)->active) {
+	        *type = NewSheetOutput;
+	}
+}
+
+static void
+new_workbook_toggled(GtkWidget *widget, data_analysis_output_type_t *type)
+{
+        if (GTK_TOGGLE_BUTTON (widget)->active) {
+	        *type = NewWorkbookOutput;
+	}
+}
+
+static void
+range_output_toggled(GtkWidget *widget, data_analysis_output_type_t *type)
+{
+        if (GTK_TOGGLE_BUTTON (widget)->active) {
+	        *type = RangeOutput;
+	}
+}
+
+static void
+columns_toggled(GtkWidget *widget, int *group)
+{
+        if (GTK_TOGGLE_BUTTON (widget)->active) {
+	        *group = 0;
+	}
+}
+
+static void
+rows_toggled(GtkWidget *widget, int *group)
+{
+        if (GTK_TOGGLE_BUTTON (widget)->active) {
+	        *group = 1;
+	}
+}
+
+static int
+set_output_option_signals (GladeXML *gui, data_analysis_output_t *dao)
+{
+	GtkWidget *radiobutton;
+
+	radiobutton = glade_xml_get_widget (gui, "radiobutton1");
+	if (!radiobutton) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return 1;
+        }
+	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
+			    GTK_SIGNAL_FUNC (new_sheet_toggled),
+			    &dao->type);	
+	radiobutton = glade_xml_get_widget (gui, "radiobutton2");
+	if (!radiobutton) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return 1;
+        }
+	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
+			    GTK_SIGNAL_FUNC (new_workbook_toggled),
+			    &dao->type);	
+	radiobutton = glade_xml_get_widget (gui, "radiobutton3");
+	if (!radiobutton) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return 1;
+        }
+	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
+			    GTK_SIGNAL_FUNC (range_output_toggled),
+			    &dao->type);	
+
+	return 0;
+}
+
+static int
+set_group_option_signals (GladeXML *gui, int *group)
+{
+	GtkWidget *radiobutton;
+
+	radiobutton = glade_xml_get_widget (gui, "radiobutton5");
+	if (!radiobutton) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return 1;
+        }
+	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
+			    GTK_SIGNAL_FUNC (columns_toggled),
+			    group);	
+	radiobutton = glade_xml_get_widget (gui, "radiobutton6");
+	if (!radiobutton) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return 1;
+        }
+	gtk_signal_connect (GTK_OBJECT (radiobutton),   "toggled",
+			    GTK_SIGNAL_FUNC (rows_toggled),
+			    group);	
+
+	return 0;
+}
+
+static void
+checkbutton_toggled(GtkWidget *widget, gboolean *flag)
+{
+        *flag = GTK_TOGGLE_BUTTON (widget)->active;
+}
+
+static void
 summary_stat_signal_fun ()
 {
         ds.summary_statistics = !ds.summary_statistics;
@@ -433,62 +537,60 @@ add_groupped_by(GtkWidget *box)
 static void
 dialog_correlation_tool (Workbook *wb, Sheet *sheet)
 {
-        static GtkWidget *dialog, *box;
-	static GtkWidget *range_entry, *output_range_entry;
-	static GSList    *group_ops, *output_ops;
-	static int       labels = 0;
+        GladeXML  *gui;
+	GtkWidget *range_entry;
+	GtkWidget *dialog;
+	GtkWidget *checkbutton;
+	GtkWidget *output_range_entry;
 
-	data_analysis_output_t  dao;
+	data_analysis_output_t dao;
 
-	char  *text;
-	int   selection;
-	static Range range;
-	int   i=0, output;
+	gboolean labels = FALSE;
+	char     *text;
+	int      group, selection, x1, x2, y1, y2;
+	Range    range;
 
-	label_row_flag = labels;
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
 
-	if (!dialog) {
-	        dialog = new_dialog(_("Correlation"));
+        if (!gui) {
+                printf ("Could not find analysis-tools.glade\n");
+                return;
+        }
 
-		box = gtk_vbox_new (FALSE, 0);
+	dao.type = NewSheetOutput;
+	group    = 0;
 
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
+	dialog = glade_xml_get_widget (gui, "Correlation");
+        range_entry = glade_xml_get_widget (gui, "entry5");
+	checkbutton = glade_xml_get_widget (gui, "checkbutton1");
+	output_range_entry = glade_xml_get_widget (gui, "entry4");
 
-		box = new_frame(_("Input:"), box);
+        if (!dialog || !range_entry || !output_range_entry || !checkbutton) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return;
+        }
+	if (set_group_option_signals (gui, &group) ||
+	    set_output_option_signals (gui, &dao))
+	        return;
 
-		range_entry = hbox_pack_label_and_entry
-		  (_("Input Range:"), "", 20, box);
-
-		group_ops = add_groupped_by(box);
-
-		add_check_buttons(box, label_button);
-
-		box = gtk_vbox_new (FALSE, 0);
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-
-		output_range_entry = add_output_frame(box, &output_ops);
-
-		gtk_widget_show_all (dialog);
-	} else
-		gtk_widget_show_all (dialog);
+	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
 
         gtk_widget_grab_focus (range_entry);
 
 correlation_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
-	if (selection == -1)
-		return;
-	
-	if (selection != 0) {
-		gnome_dialog_close (GNOME_DIALOG (dialog));
+	if (selection == -1) {
+	        gtk_object_unref (GTK_OBJECT (gui));
 		return;
 	}
-
-	i = gtk_radio_group_get_selected (group_ops);
-	output = gtk_radio_group_get_selected (output_ops);
+	
+	if (selection != 0) {
+		gtk_object_destroy (GTK_OBJECT (dialog));
+	        gnome_dialog_close (GNOME_DIALOG (dialog));
+		return;
+	}
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
 	if (!parse_range (text, &range.start.col,
@@ -501,77 +603,90 @@ correlation_dialog_loop:
 		goto correlation_dialog_loop;
 	}
 
-	if (parse_output(output, sheet, output_range_entry, wb, &dao))
-	        goto correlation_dialog_loop;
-
-	labels = label_row_flag;
 	dao.labels_flag = labels;
 
-	if (correlation_tool (wb, sheet, &range, !i, &dao))
+	if (dao.type == RangeOutput) {
+	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
+	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
+		        error_in_entry(wb, output_range_entry, 
+				       _("You should introduce a valid cell "
+					 "range in 'Output Range:'"));
+			goto correlation_dialog_loop;
+		} else {
+		        dao.start_col = x1;
+		        dao.start_row = y1;
+			dao.cols = x2-x1+1;
+			dao.rows = y2-y1+1;
+			dao.sheet = sheet;
+		}
+	}
+
+	if (correlation_tool (wb, sheet, &range, !group, &dao))
 	        goto correlation_dialog_loop;
 
 	workbook_focus_sheet(sheet);
- 	gnome_dialog_close (GNOME_DIALOG (dialog));
+
+	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (gui));
 }
 
 static void
 dialog_covariance_tool (Workbook *wb, Sheet *sheet)
 {
-        static GtkWidget *dialog, *box;
-	static GtkWidget *range_entry, *output_range_entry;
-	static GSList    *group_ops, *output_ops;
-	static int       labels = 0;
+        GladeXML  *gui;
+	GtkWidget *range_entry;
+	GtkWidget *dialog;
+	GtkWidget *checkbutton;
+	GtkWidget *output_range_entry;
 
-	data_analysis_output_t  dao;
+	data_analysis_output_t dao;
 
-	char  *text;
-	int   selection, output;
-	static Range range;
-	int   i=0;
+	gboolean labels = FALSE;
+	char     *text;
+	int      group, selection, x1, x2, y1, y2;
+	Range    range;
 
-	label_row_flag = labels;
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
 
-	if (!dialog) {
-	        dialog = new_dialog(_("Covariance"));
+        if (!gui) {
+                printf ("Could not find analysis-tools.glade\n");
+                return;
+        }
 
-		box = gtk_vbox_new (FALSE, 0);
+	dao.type = NewSheetOutput;
+	group    = 0;
 
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
+	dialog = glade_xml_get_widget (gui, "Covariance");
+        range_entry = glade_xml_get_widget (gui, "entry5");
+	checkbutton = glade_xml_get_widget (gui, "checkbutton1");
+	output_range_entry = glade_xml_get_widget (gui, "entry4");
 
-		box = new_frame(_("Input:"), box);
+        if (!dialog || !range_entry || !output_range_entry || !checkbutton) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return;
+        }
+	if (set_group_option_signals (gui, &group) ||
+	    set_output_option_signals (gui, &dao))
+	        return;
 
-		range_entry = hbox_pack_label_and_entry
-		  (_("Input Range:"), "", 20, box);
-
-		group_ops = add_groupped_by(box);
-		add_check_buttons(box, label_button);
-
-		box = gtk_vbox_new (FALSE, 0);
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-
-		output_range_entry = add_output_frame(box, &output_ops);
-
-		gtk_widget_show_all (dialog);
-	} else
-		gtk_widget_show_all (dialog);
+	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
 
         gtk_widget_grab_focus (range_entry);
 
-covariance_dialog_loop:
+dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
-	if (selection == -1)
+	if (selection == -1) {
+	        gtk_object_unref (GTK_OBJECT (gui));
 		return;
+	}
 	
 	if (selection != 0) {
+		gtk_object_destroy (GTK_OBJECT (dialog));
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
-
-	i = gtk_radio_group_get_selected (group_ops);
-	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range_entry));
 	if (!parse_range (text, &range.start.col,
@@ -581,21 +696,36 @@ covariance_dialog_loop:
 	        error_in_entry(wb, range_entry, 
 			       _("You should introduce a valid cell range "
 			       "in 'Range:'"));
-		goto covariance_dialog_loop;
+		goto dialog_loop;
 	}
 
-	if (parse_output(output, sheet, output_range_entry, wb, &dao))
-	        goto covariance_dialog_loop;
-
-	labels = label_row_flag;
 	dao.labels_flag = labels;
 
-	if (covariance_tool (wb, sheet, &range, !i, &dao))
-	        goto covariance_dialog_loop;
+	if (dao.type == RangeOutput) {
+	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
+	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
+		        error_in_entry(wb, output_range_entry, 
+				       _("You should introduce a valid cell "
+					 "range in 'Output Range:'"));
+			goto dialog_loop;
+		} else {
+		        dao.start_col = x1;
+		        dao.start_row = y1;
+			dao.cols = x2-x1+1;
+			dao.rows = y2-y1+1;
+			dao.sheet = sheet;
+		}
+	}
+
+	if (covariance_tool (wb, sheet, &range, !group, &dao))
+	        goto dialog_loop;
 
 	workbook_focus_sheet(sheet);
- 	gnome_dialog_close (GNOME_DIALOG (dialog));
+
+	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (gui));
 }
+
 
 static void
 dialog_sampling_tool (Workbook *wb, Sheet *sheet)
@@ -1250,63 +1380,66 @@ ttest_dialog_loop:
 static void
 dialog_ftest_tool (Workbook *wb, Sheet *sheet)
 {
-        static GtkWidget *dialog, *box, *vbox;
-	static GtkWidget *range1_entry, *range2_entry, *output_range_entry;
-	static GtkWidget *alpha_entry;
-	static GSList    *output_ops;
-	static int       labels = 0;
+        GladeXML  *gui;
+	GtkWidget *range1_entry, *range2_entry;
+	GtkWidget *alpha_entry;
+	GtkWidget *dialog;
+	GtkWidget *checkbutton;
+	GtkWidget *output_range_entry;
 
-	data_analysis_output_t  dao;
-	float_t alpha;
+	data_analysis_output_t dao;
 
-	char  *text;
-	int   selection, output;
-	static Range range_input1, range_input2;
+	gboolean labels = FALSE;
+	float_t  alpha;
+	char     *text;
+	int      selection, x1, x2, y1, y2;
+	Range    range_input1, range_input2;
 
-	if (!dialog) {
-	        dialog = new_dialog(_("F-Test: Two-Sample for Variances"));
+	gui = glade_xml_new (GNUMERIC_GLADEDIR "/analysis-tools.glade", NULL);
 
-		box = gtk_vbox_new (FALSE, 0);
-		vbox = new_frame("Input:", box);
+        if (!gui) {
+                printf ("Could not find analysis-tools.glade\n");
+                return;
+        }
 
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
+	dao.type = NewSheetOutput;
 
-		range1_entry = hbox_pack_label_and_entry
-		  (_("Variable 1 Range:"), "", 20, vbox);
+	dialog = glade_xml_get_widget (gui, "FTest");
+        range1_entry = glade_xml_get_widget (gui, "entry1");
+        range2_entry = glade_xml_get_widget (gui, "entry2");
+	alpha_entry = glade_xml_get_widget (gui, "entry3");
+	checkbutton = glade_xml_get_widget (gui, "checkbutton1");
+	output_range_entry = glade_xml_get_widget (gui, "entry4");
 
-		range2_entry = hbox_pack_label_and_entry
-		  (_("Variable 2 Range:"), "", 20, vbox);
+        if (!dialog || !range1_entry || !range2_entry || 
+	    !output_range_entry || !checkbutton) {
+                printf ("Corrupt file analysis-tools.glade\n");
+                return;
+        }
+	if (set_output_option_signals (gui, &dao))
+	        return;
 
-		alpha_entry = hbox_pack_label_and_entry(_("Alpha:"), "0.95",
-							20, vbox);
+	gtk_entry_set_text (GTK_ENTRY (alpha_entry), "0.95");
 
-		add_check_buttons(vbox, first_row_label_button);
+	gtk_signal_connect (GTK_OBJECT (checkbutton), "toggled",
+			    GTK_SIGNAL_FUNC (checkbutton_toggled), &labels);
 
-		box = gtk_vbox_new (FALSE, 0);
-		gtk_box_pack_start_defaults (GTK_BOX (GNOME_DIALOG
-						      (dialog)->vbox), box);
-
-		output_range_entry = add_output_frame(box, &output_ops);
-
-		gtk_widget_show_all (dialog);
-	} else
-		gtk_widget_show_all (dialog);
 
         gtk_widget_grab_focus (range1_entry);
 
 ftest_dialog_loop:
 
 	selection = gnumeric_dialog_run (wb, GNOME_DIALOG (dialog));
-	if (selection == -1)
+	if (selection == -1) {
+	        gtk_object_unref (GTK_OBJECT (gui));
 		return;
+	}
 	
 	if (selection != 0) {
+		gtk_object_destroy (GTK_OBJECT (dialog));
 	        gnome_dialog_close (GNOME_DIALOG (dialog));
 		return;
 	}
-
-	output = gtk_radio_group_get_selected (output_ops);
 
 	text = gtk_entry_get_text (GTK_ENTRY (range1_entry));
 	if (!parse_range (text, &range_input1.start.col,
@@ -1333,17 +1466,31 @@ ftest_dialog_loop:
 	text = gtk_entry_get_text (GTK_ENTRY (alpha_entry));
 	alpha = atof(text);
 
-	if (parse_output(output, sheet, output_range_entry, wb, &dao))
-	        goto ftest_dialog_loop;
+	if (dao.type == RangeOutput) {
+	        text = gtk_entry_get_text (GTK_ENTRY (output_range_entry));
+	        if (!parse_range (text, &x1, &y1, &x2, &y2)) {
+		        error_in_entry(wb, output_range_entry, 
+				       _("You should introduce a valid cell "
+					 "range in 'Output Range:'"));
+			goto ftest_dialog_loop;
+		} else {
+		        dao.start_col = x1;
+		        dao.start_row = y1;
+			dao.cols = x2-x1+1;
+			dao.rows = y2-y1+1;
+			dao.sheet = sheet;
+		}
+	}
 
-	labels = label_row_flag;
 	dao.labels_flag = labels;
 
 	if (ftest_tool (wb, sheet, &range_input1, &range_input2, alpha, &dao))
 	        goto ftest_dialog_loop;
 
 	workbook_focus_sheet(sheet);
- 	gnome_dialog_close (GNOME_DIALOG (dialog));
+
+	gtk_object_destroy (GTK_OBJECT (dialog));
+	gtk_object_unref (GTK_OBJECT (gui));
 }
 
 

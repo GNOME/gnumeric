@@ -6,3 +6,24 @@
 
 gchar *s = N_("Data Analysis");
 gchar *s = N_("Analysis Tools");
+gchar *s = N_("F-Test: Two-Sample for Variances");
+gchar *s = N_("Input:");
+gchar *s = N_("Labels in First Row");
+gchar *s = N_("Variable 1 Range:");
+gchar *s = N_("Variable 2 Range:");
+gchar *s = N_("                 Alpha:");
+gchar *s = N_("Output options:");
+gchar *s = N_("Output Range: ");
+gchar *s = N_("New Workbook");
+gchar *s = N_("New Sheet     ");
+gchar *s = N_("Correlation");
+gchar *s = N_("Input:");
+gchar *s = N_(" Input Range: ");
+gchar *s = N_("Grouped By:");
+gchar *s = N_("Columns");
+gchar *s = N_("Rows");
+gchar *s = N_("Labels");
+gchar *s = N_("Output options:");
+gchar *s = N_("Output Range: ");
+gchar *s = N_("New Workbook");
+gchar *s = N_("New Sheet     ");

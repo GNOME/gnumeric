@@ -310,7 +310,7 @@ correlation_tool (Workbook *wb, Sheet *sheet,
 
 	prepare_output (wb, dao, _("Correlations"));
 
-	set_cell (dao, 0, 0, "");
+	set_cell (dao, 0, 0, " ");
 
 	if (columns_flag) {
 	        vars = cols;
@@ -458,7 +458,7 @@ covariance_tool (Workbook *wb, Sheet *sheet,
 	cols = input_range->end.col - input_range->start.col + 1;
 	rows = input_range->end.row - input_range->start.row + 1;
 
-	set_cell (dao, 0, 0, "");
+	set_cell (dao, 0, 0, " ");
 
 	if (columns_flag) {
 	        vars = cols;
@@ -627,7 +627,7 @@ summary_statistics (Workbook *wb, data_set_t *data_set, int vars,
 
 	prepare_output (wb, dao, _("Summary Statistics"));
 
-        set_cell (dao, 0, 0, "");
+        set_cell (dao, 0, 0, " ");
 	for (col=0; col<vars; col++) {
 	        sprintf (buf, _("Column %d"), col+1);
 		set_cell (dao, col+1, 0, buf);
@@ -1005,7 +1005,7 @@ int ztest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	get_data (sheet, input_range1, &set_one);
 	get_data (sheet, input_range2, &set_two);
 
-        set_cell (dao, 0, 0, "");
+        set_cell (dao, 0, 0, " ");
 
 	if (dao->labels_flag) {
 	        char *s;
@@ -1135,7 +1135,7 @@ ttest_paired_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 
 	prepare_output (wb, dao, _("t-Test"));
 
-        set_cell (dao, 0, 0, "");
+        set_cell (dao, 0, 0, " ");
 
 	if (dao->labels_flag) {
 	        char *s;
@@ -1282,7 +1282,7 @@ ttest_eq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	get_data (sheet, input_range1, &set_one);
 	get_data (sheet, input_range2, &set_two);
 
-        set_cell (dao, 0, 0, "");
+        set_cell (dao, 0, 0, " ");
 
 	if (dao->labels_flag) {
 	        char *s;
@@ -1408,7 +1408,7 @@ ttest_neq_var_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 	get_data (sheet, input_range1, &set_one);
 	get_data (sheet, input_range2, &set_two);
 
-        set_cell (dao, 0, 0, "");
+        set_cell (dao, 0, 0, " ");
 
 	if (dao->labels_flag) {
 	        char *s;
@@ -1532,7 +1532,7 @@ ftest_tool (Workbook *wb, Sheet *sheet, Range *input_range1,
 
 	prepare_output (wb, dao, _("F-Test"));
 
-        set_cell (dao, 0, 0, "");
+        set_cell (dao, 0, 0, " ");
 
 	if (dao->labels_flag) {
 	        char *s;
