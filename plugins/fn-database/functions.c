@@ -16,13 +16,6 @@
 
 /* Type definitions */
 
-typedef (*condition_test_fun_t) (float_t x, float_t y);
-
-typedef struct {
-        condition_test_fun_t fun;
-        float_t              x;
-} condition_t;
-
 typedef struct {
         int    column;
         GSList *conditions;
@@ -31,56 +24,80 @@ typedef struct {
 
 /* Callback functions */
 
-static int
-test_equal(float_t x, float_t y)
+int
+criteria_test_equal(Value *x, Value *y)
 {
-        if (x == y)
+        if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
+	        if (value_get_as_double(x) == value_get_as_double(y))
+		        return 1;
+		else
+		        return 0;
+	else if (x->type == VALUE_STRING && y->type == VALUE_STRING
+		 && strcmp(x->v.str->str, y->v.str->str) == 0)
 	        return 1;
 	else
 	        return 0;
 }
 
-static int
-test_unequal(float_t x, float_t y)
+int
+criteria_test_unequal(Value *x, Value *y)
 {
-        if (x != y)
+        if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
+	        if (value_get_as_double(x) != value_get_as_double(y))
+		        return 1;
+		else
+		        return 0;
+	else if (x->type == VALUE_STRING && y->type == VALUE_STRING
+		 && strcmp(x->v.str->str, y->v.str->str) != 0)
 	        return 1;
 	else
 	        return 0;
 }
 
-static int
-test_less(float_t x, float_t y)
+int
+criteria_test_less(Value *x, Value *y)
 {
-        if (x < y)
-	        return 1;
+        if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
+	        if (value_get_as_double(x) < value_get_as_double(y))
+		        return 1;
+		else
+		        return 0;
 	else
 	        return 0;
 }
 
-static int
-test_greater(float_t x, float_t y)
+int
+criteria_test_greater(Value *x, Value *y)
 {
-        if (x > y)
-	        return 1;
+        if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
+	        if (value_get_as_double(x) > value_get_as_double(y))
+		        return 1;
+		else
+		        return 0;
 	else
 	        return 0;
 }
 
-static int
-test_less_or_equal(float_t x, float_t y)
+int
+criteria_test_less_or_equal(Value *x, Value *y)
 {
-        if (x <= y)
-	        return 1;
+        if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
+	        if (value_get_as_double(x) <= value_get_as_double(y))
+		        return 1;
+		else
+		        return 0;
 	else
 	        return 0;
 }
 
-static int
-test_greater_or_equal(float_t x, float_t y)
+int
+criteria_test_greater_or_equal(Value *x, Value *y)
 {
-        if (x >= y)
-	        return 1;
+        if (VALUE_IS_NUMBER(x) && VALUE_IS_NUMBER(y))
+	        if (value_get_as_double(x) >= value_get_as_double(y))
+		        return 1;
+		else
+		        return 0;
 	else
 	        return 0;
 }
@@ -144,17 +161,62 @@ free_criterias(GSList *criterias)
 	g_slist_free(list);
 }
 
+void
+parse_criteria(char *criteria, criteria_test_fun_t *fun, Value **test_value)
+{
+	char    *p;
+	float_t tmp;
+	int     len;
+
+        if (strncmp(criteria, "<=", 2) == 0) {
+	        *fun = (criteria_test_fun_t) 
+		  criteria_test_less_or_equal;
+		len=2;
+	} else if (strncmp(criteria, ">=", 2) == 0) {
+	        *fun = (criteria_test_fun_t)
+		  criteria_test_greater_or_equal;
+		len=2;
+	} else if (strncmp(criteria, "<>", 2) == 0) {
+	        *fun = (criteria_test_fun_t)
+		  criteria_test_unequal;
+		len=2;
+	} else if (*criteria == '<') {
+	        *fun = (criteria_test_fun_t)
+		  criteria_test_less;
+		len=1;
+	} else if (*criteria == '=') {
+	        *fun = (criteria_test_fun_t)
+		  criteria_test_equal;
+		len=1;
+	} else if (*criteria == '>') {
+	        *fun = (criteria_test_fun_t)
+		  criteria_test_greater;
+		len=1;
+	} else {
+	        *fun = (criteria_test_fun_t)
+		  criteria_test_equal;
+		len=0;
+	}
+	
+	tmp = strtod(criteria+len, &p);
+
+	if (p == criteria+len || *p != '\0')
+	        *test_value = value_str(criteria+len);
+	else
+	        *test_value = value_float(tmp);
+
+}
+
 /* Parses the criteria cell range.
  */
 static GSList *
-parse_criteria(Value *database, Value *criteria)
+parse_database_criteria(Value *database, Value *criteria)
 {
 	Sheet               *sheet;
 	database_criteria_t *new_criteria;
 	GSList              *criterias;
 	GSList              *conditions;
 	Cell                *cell;
-
         int   i, j;
 	int   b_col, b_row, e_col, e_row;
 	int   field_ind;
@@ -182,56 +244,29 @@ parse_criteria(Value *database, Value *criteria)
 		conditions = NULL;
 
 	        for (j=b_row+1; j<=e_row; j++) {
-		        condition_t *cond;
-		        int         len;
+		        func_criteria_t *cond;
 			gchar       *cell_str;
 
 			cell = sheet_cell_get(sheet, i, j);
 			if (cell == NULL || cell->value == NULL)
 			       continue;
-			cond = g_new(condition_t, 1);
+			cond = g_new(func_criteria_t, 1);
 			if (VALUE_IS_NUMBER(cell->value)) {
-			       cond->x = value_get_as_double (cell->value);
+			       cond->x = cell->value;
 			       cond->fun =
-				 (condition_test_fun_t) test_equal;
+				 (criteria_test_fun_t) criteria_test_equal;
 			       conditions = g_slist_append(conditions, cond);
 			       continue;
 			}
 			cell_str = cell_get_text(cell);
-		        if (strncmp(cell_str, "<=", 2) == 0) {
-			       cond->fun =
-				 (condition_test_fun_t) test_less_or_equal;
-			       len=2;
-			} else if (strncmp(cell_str, ">=", 2) == 0) {
-			       cond->fun =
-				 (condition_test_fun_t) test_greater_or_equal;
-			       len=2;
-			} else if (strncmp(cell_str, "<>", 2) == 0) {
-			       cond->fun =
-				 (condition_test_fun_t) test_unequal;
-			       len=2;
-			} else if (*cell_str == '<') {
-			       cond->fun = (condition_test_fun_t) test_less;
-			       len=1;
-			} else if (*cell_str == '=') {
-			       cond->fun = (condition_test_fun_t) test_equal;
-			       len=1;
-			} else if (*cell_str == '>') {
-			       cond->fun = (condition_test_fun_t) test_greater;
-			       len=1;
-			} else {
-			       free_criterias(criterias);
-			       g_free(cond);
-			       g_slist_free(conditions);
-			       return NULL;
-			}
+			parse_criteria(cell_str, &cond->fun, &cond->x);
 
-			cond->x = atof(cell_str+len);
 			conditions = g_slist_append(conditions, cond);
 		}
 		new_criteria->conditions = conditions;
 		criterias = g_slist_append(criterias, new_criteria);
 	}
+
 	return criterias;
 }
 
@@ -260,7 +295,6 @@ find_cells_that_match(Value *database, int field, GSList *criterias)
 	       for (current = criterias; current != NULL;
 		    current=current->next) {
 		       database_criteria_t *current_criteria;
-		       float_t y;
 
 		       current_criteria = current->data;
 		       test_cell = sheet_cell_get(sheet, 
@@ -268,13 +302,12 @@ find_cells_that_match(Value *database, int field, GSList *criterias)
 						  row);
 		       if (test_cell == NULL || test_cell->value == NULL)
 			       continue;
-		       y = value_get_as_double(test_cell->value);
 		       conditions = current_criteria->conditions;
 		       add_flag = 0;
 		       while (conditions != NULL) {
-			       condition_t *cond = conditions->data;
+			       func_criteria_t *cond = conditions->data;
 
-			       if (cond->fun(y, cond->x)) {
+			       if (cond->fun(test_cell->value, cond->x)) {
 				       add_flag = 1;
 				       break;
 			       }
@@ -334,7 +367,7 @@ gnumeric_daverage (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	criterias = parse_criteria(database, criteria);
+	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
 		*error_string = _("#NUM!");
 		return NULL;
@@ -401,7 +434,7 @@ gnumeric_dcount (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	criterias = parse_criteria(database, criteria);
+	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
 		*error_string = _("#NUM!");
 		return NULL;
@@ -467,7 +500,7 @@ gnumeric_dcounta (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	criterias = parse_criteria(database, criteria);
+	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
 		*error_string = _("#NUM!");
 		return NULL;
@@ -538,7 +571,7 @@ gnumeric_dget (struct FunctionDefinition *i,
 		return NULL;
 	}
 
-	criterias = parse_criteria(database, criteria);
+	criterias = parse_database_criteria(database, criteria);
 
 	if (criterias == NULL) {
 		*error_string = _("#NUM!");
@@ -614,7 +647,7 @@ gnumeric_dmax (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	criterias = parse_criteria(database, criteria);
+	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
 		*error_string = _("#NUM!");
 		return NULL;
@@ -687,7 +720,7 @@ gnumeric_dmin (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	criterias = parse_criteria(database, criteria);
+	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
 		*error_string = _("#NUM!");
 		return NULL;
@@ -760,7 +793,7 @@ gnumeric_dproduct (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	criterias = parse_criteria(database, criteria);
+	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
 		*error_string = _("#NUM!");
 		return NULL;
@@ -833,7 +866,7 @@ gnumeric_dstdev (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	criterias = parse_criteria(database, criteria);
+	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
 		*error_string = _("#NUM!");
 		return NULL;
@@ -909,7 +942,7 @@ gnumeric_dstdevp (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	criterias = parse_criteria(database, criteria);
+	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
 		*error_string = _("#NUM!");
 		return NULL;
@@ -984,7 +1017,7 @@ gnumeric_dsum (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	criterias = parse_criteria(database, criteria);
+	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
 		*error_string = _("#NUM!");
 		return NULL;
@@ -1057,7 +1090,7 @@ gnumeric_dvar (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	criterias = parse_criteria(database, criteria);
+	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
 		*error_string = _("#NUM!");
 		return NULL;
@@ -1133,7 +1166,7 @@ gnumeric_dvarp (struct FunctionDefinition *i,
 		*error_string = _("#NUM!");
 		return NULL;
 	}
-	criterias = parse_criteria(database, criteria);
+	criterias = parse_database_criteria(database, criteria);
 	if (criterias == NULL) {
 		*error_string = _("#NUM!");
 		return NULL;

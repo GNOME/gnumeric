@@ -36,6 +36,85 @@ static char *help_ = {
 
 #endif
 
+
+typedef struct {
+        GSList *list;
+        int    num;
+} math_sums_t;
+
+static int
+callback_function_sumxy (Sheet *sheet, int col, int row,
+			 Cell *cell, void *user_data)
+{
+        math_sums_t *mm = user_data;
+        float_t     x;
+	gpointer    p;
+
+	if (cell == NULL || cell->value == NULL)
+	        return TRUE;
+
+        switch (cell->value->type) {
+	case VALUE_INTEGER:
+	        x = cell->value->v.v_int;
+		break;
+	case VALUE_FLOAT:
+	        x = cell->value->v.v_float;
+		break;
+	default:
+	        return TRUE;
+	}
+
+	p = g_new(float_t, 1);
+	*((float_t *) p) = x;
+	mm->list = g_slist_append(mm->list, p);
+	mm->num++;
+
+	return TRUE;
+}
+
+typedef struct {
+        GSList              *list;
+        criteria_test_fun_t fun;
+        Value               *test_value;
+        int                 num;
+} math_criteria_t;
+
+static int
+callback_function_criteria (Sheet *sheet, int col, int row,
+			    Cell *cell, void *user_data)
+{
+        math_criteria_t *mm = user_data;
+	Value           *v;
+	gpointer        p;
+
+	if (cell == NULL || cell->value == NULL)
+	        return TRUE;
+
+        switch (cell->value->type) {
+	case VALUE_INTEGER:
+	        v = value_int(cell->value->v.v_int);
+		break;
+	case VALUE_FLOAT:
+	        v = value_float(cell->value->v.v_float);
+		break;
+	case VALUE_STRING:
+	        v = value_str(cell->value->v.str->str);
+		break;
+	default:
+	        return TRUE;
+	}
+
+	if (mm->fun(v, mm->test_value)) {
+	        p = g_new(Value, 1);
+		*((Value **) p) = v;
+		mm->list = g_slist_append(mm->list, p);
+		mm->num++;
+	} else
+	        value_release(v);
+
+	return TRUE;
+}
+
 static char *help_abs = {
 	N_("@FUNCTION=ABS\n"
 	   "@SYNTAX=ABS(b1)\n"
@@ -265,6 +344,136 @@ gnumeric_ceil (struct FunctionDefinition *i,
 	       Value *argv [], char **error_string)
 {
 	return value_float (ceil (value_get_as_double (argv [0])));
+}
+
+static char *help_countif = {
+	N_("@FUNCTION=COUNTIF\n"
+	   "@SYNTAX=COUNTIF(range,criteria)\n"
+
+	   "@DESCRIPTION="
+	   "COUNTIF function counts the number of cells in the given range "
+	   "that meet the given criteria. "
+
+	   "\n"
+	   
+	   "@SEEALSO=COUNT,SUMIF")
+};
+
+static Value *
+gnumeric_countif (struct FunctionDefinition *i,
+		  Value *argv [], char **error_string)
+{
+        Value           *range = argv[0];
+	math_criteria_t items;
+	int             ret;
+	GSList          *list;
+
+	items.num  = 0;
+	items.list = NULL;
+
+	if ((!VALUE_IS_NUMBER(argv[1]) && argv[1]->type != VALUE_STRING)
+	    || (range->type != VALUE_CELLRANGE)) {
+	        *error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	if (VALUE_IS_NUMBER(argv[1])) {
+	        items.fun = (criteria_test_fun_t) criteria_test_equal;
+		items.test_value = argv[1];
+	} else
+	        parse_criteria(argv[1]->v.str->str,
+			       &items.fun, &items.test_value);
+
+	ret = sheet_cell_foreach_range (
+	  range->v.cell_range.cell_a.sheet, TRUE,
+	  range->v.cell_range.cell_a.col, 
+	  range->v.cell_range.cell_a.row,
+	  range->v.cell_range.cell_b.col,
+	  range->v.cell_range.cell_b.row,
+	  callback_function_criteria,
+	  &items);
+	if (ret == FALSE) {
+	        *error_string = _("#VALUE!");
+		return NULL;
+	}
+
+        list = items.list;
+
+	while (list != NULL) {
+		g_free(list->data);
+		list = list->next;
+	}
+	g_slist_free(items.list);
+
+	return value_int (items.num);
+}
+
+static char *help_sumif = {
+	N_("@FUNCTION=SUMIF\n"
+	   "@SYNTAX=SUMIF(range,criteria)\n"
+
+	   "@DESCRIPTION="
+	   "SUMIF function sums the values in the given range that meet "
+	   "the given criteria. "
+
+	   "\n"
+	   
+	   "@SEEALSO=COUNTIF,SUM")
+};
+
+static Value *
+gnumeric_sumif (struct FunctionDefinition *i,
+		Value *argv [], char **error_string)
+{
+        Value           *range = argv[0];
+	math_criteria_t items;
+	int             ret;
+	float_t         sum;
+	GSList          *list;
+
+	items.num  = 0;
+	items.list = NULL;
+
+	if ((!VALUE_IS_NUMBER(argv[1]) && argv[1]->type != VALUE_STRING)
+	    || (range->type != VALUE_CELLRANGE)) {
+	        *error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	if (VALUE_IS_NUMBER(argv[1])) {
+	        items.fun = (criteria_test_fun_t) criteria_test_equal;
+		items.test_value = argv[1];
+	} else
+	        parse_criteria(argv[1]->v.str->str,
+			       &items.fun, &items.test_value);
+
+	ret = sheet_cell_foreach_range (
+	  range->v.cell_range.cell_a.sheet, TRUE,
+	  range->v.cell_range.cell_a.col, 
+	  range->v.cell_range.cell_a.row,
+	  range->v.cell_range.cell_b.col,
+	  range->v.cell_range.cell_b.row,
+	  callback_function_criteria,
+	  &items);
+	if (ret == FALSE) {
+	        *error_string = _("#VALUE!");
+		return NULL;
+	}
+
+        list = items.list;
+	sum = 0;
+
+	while (list != NULL) {
+	        Value *v = *((Value **) list->data);
+
+		if (v != NULL)
+		       sum += value_get_as_double(v);
+		g_free(list->data);
+		list = list->next;
+	}
+	g_slist_free(items.list);
+
+	return value_float (sum);
 }
 
 static char *help_ceiling = {
@@ -560,27 +769,59 @@ gnumeric_int (struct FunctionDefinition *i,
 
 static char *help_log = {
 	N_("@FUNCTION=LOG\n"
-	   "@SYNTAX=LOG(x)\n"
+	   "@SYNTAX=LOG(x[,base])\n"
 
 	   "@DESCRIPTION="
-	   "Computes the natural logarithm  of x. "
+	   "Computes the logarithm of x in the given base.  If no base is "
+	   "given LOG returns the logarithm in base 10. "
 	   "\n"
-	   "Performing this function on a string or empty cell returns an error. "
-	   "\n"
-	   "@SEEALSO=EXP, LOG2, LOG10")
+	   "@SEEALSO=LN, LOG2, LOG10")
 };
 
 static Value *
 gnumeric_log (struct FunctionDefinition *i,
 	      Value *argv [], char **error_string)
 {
+	float_t t, base;
+
+	t = value_get_as_double (argv [0]);
+
+	if (argv[1] == NULL)
+	        base = 10;
+	else
+	        base = value_get_as_double (argv[1]);
+
+	if (t <= 0.0) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	}
+
+	return value_float (log (t) / log (base));
+}
+
+static char *help_ln = {
+	N_("@FUNCTION=LN\n"
+	   "@SYNTAX=LN(x)\n"
+
+	   "@DESCRIPTION="
+	   "LN returns the natural logarithm of x. "
+	   "\n"
+	   "@SEEALSO=EXP, LOG2, LOG10")
+};
+
+static Value *
+gnumeric_ln (struct FunctionDefinition *i,
+	     Value *argv [], char **error_string)
+{
 	float_t t;
 
 	t = value_get_as_double (argv [0]);
+
 	if (t <= 0.0){
-		*error_string = _("log: domain error");
+		*error_string = _("#VALUE!");
 		return NULL;
 	}
+
 	return value_float (log (t));
 }
 
@@ -1661,41 +1902,6 @@ gnumeric_roman (struct FunctionDefinition *fd,
 	return value_str (buf);
 }
 
-typedef struct {
-        GSList *list;
-        int    num;
-} math_sums_t;
-
-static int
-callback_function_sumxy (Sheet *sheet, int col, int row,
-			 Cell *cell, void *user_data)
-{
-        math_sums_t *mm = user_data;
-        float_t     x;
-	gpointer    p;
-
-	if (cell == NULL || cell->value == NULL)
-	        return TRUE;
-
-        switch (cell->value->type) {
-	case VALUE_INTEGER:
-	        x = cell->value->v.v_int;
-		break;
-	case VALUE_FLOAT:
-	        x = cell->value->v.v_float;
-		break;
-	default:
-	        return TRUE;
-	}
-
-	p = g_new(float_t, 1);
-	*((float_t *) p) = x;
-	mm->list = g_slist_append(mm->list, p);
-	mm->num++;
-
-	return TRUE;
-}
-
 static char *help_sumx2my2 = {
 	N_("@FUNCTION=SUMX2MY2\n"
 	   "@SYNTAX=SUMX2MY2(array1,array2)\n"
@@ -1998,6 +2204,8 @@ FunctionDefinition math_functions [] = {
 	{ "atan2",   "ff",   "xnum,ynum", &help_atan2, NULL, gnumeric_atan2 },
 	{ "cos",     "f",    "number",    &help_cos,     NULL, gnumeric_cos },
 	{ "cosh",    "f",    "number",    &help_cosh,    NULL, gnumeric_cosh },
+	{ "countif", "r?",   "range,criteria", &help_countif,
+	  NULL, gnumeric_countif },
 	{ "ceil",    "f",    "number",    &help_ceil,    NULL, gnumeric_ceil },
 	{ "ceiling", "ff",   "number,significance",    &help_ceiling,
 	  NULL, gnumeric_ceiling },
@@ -2013,7 +2221,8 @@ FunctionDefinition math_functions [] = {
 	{ "floor",   "f",    "number",    &help_floor,
 	  NULL, gnumeric_floor },
 	{ "int",     "f",    "number",    &help_int,     NULL, gnumeric_int },
-	{ "log",     "f",    "number",    &help_log,     NULL, gnumeric_log },
+	{ "ln",      "f",    "number",    &help_ln,      NULL, gnumeric_ln },
+	{ "log",     "f|f",  "number[,base]", &help_log, NULL, gnumeric_log },
 	{ "log2",    "f",    "number",    &help_log2,    NULL, gnumeric_log2 },
 	{ "log10",   "f",    "number",    &help_log10,
 	  NULL, gnumeric_log10 },
@@ -2050,6 +2259,8 @@ FunctionDefinition math_functions [] = {
 	{ "sqrtpi",  "f",    "number",    &help_sqrtpi,
 	  NULL, gnumeric_sqrtpi},
 	{ "sum",     0,      "number",    &help_sum,     gnumeric_sum, NULL },
+	{ "sumif",   "r?",   "range,criteria", &help_sumif,
+	  NULL, gnumeric_sumif },
 	{ "sumsq",   0,      "number",    &help_sumsq,
 	  gnumeric_sumsq, NULL },
 	{ "sumx2my2", "AA", "array1,array2", &help_sumx2my2,

@@ -110,6 +110,27 @@ Value *gnumeric_sum         (Sheet *sheet, GList *expr_node_list,
 			     int eval_col, int eval_row,
 			     char **error_string);
 
+/* Type definitions and function prototypes for criteria functions.
+ * This includes the database functions and some mathematical functions
+ * like COUNTIF, SUMIF...
+ */
+typedef (*criteria_test_fun_t) (Value *x, Value *y);
+
+typedef struct {
+        criteria_test_fun_t fun;
+        Value                *x;
+} func_criteria_t;
+
+int criteria_test_equal(Value *x, Value *y);
+int criteria_test_unequal(Value *x, Value *y);
+int criteria_test_greater(Value *x, Value *y);
+int criteria_test_less(Value *x, Value *y);
+int criteria_test_greater_or_equal(Value *x, Value *y);
+int criteria_test_less_or_equal(Value *x, Value *y);
+void parse_criteria(char *criteria, criteria_test_fun_t *fun,
+		    Value **test_value);
+
+
 int solver_simplex(Workbook *wb, Sheet *sheet);
 
 #endif /* GNUMERIC_FUNC_H */

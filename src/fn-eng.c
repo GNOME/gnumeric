@@ -878,8 +878,12 @@ static char *help_imln = {
 static void
 complex_ln(float_t *real, float_t *im)
 {
-        *real = log(sqrt(*real * *real + *im * *im));
-	*im = atan(*im / *real);
+        float_t r, i;
+
+        r = log(sqrt(*real * *real + *im * *im));
+	i = atan(*im / *real);
+	*real = r;
+	*im = i;
 }
 
 static Value *
@@ -909,6 +913,86 @@ gnumeric_imln (struct FunctionDefinition *fd,
 	complex_ln(&real, &im);
 
 	return create_inumber (real, im, suffix);
+}
+
+static char *help_imlog2 = {
+	N_("@FUNCTION=IMLOG2\n"
+	   "@SYNTAX=IMLOG2(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMLOG2 returns the logarithm of a complex number in base 2. "
+	   "\n"
+	   "@SEEALSO=IMLN,IMLOG10")
+};
+
+static Value *
+gnumeric_imlog2 (struct FunctionDefinition *fd, 
+		 Value *argv [], char **error_string)
+{
+        float_t real, im;
+	float_t ln_2;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        real = value_get_as_double (argv[0]);
+	        im = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &real, &im, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	
+	if (real == 0) {
+		*error_string = _("#DIV/0!");
+		return NULL;
+	}
+	
+	complex_ln(&real, &im);
+	ln_2 = log(2);
+
+	return create_inumber (real/ln_2, im/ln_2, suffix);
+}
+
+static char *help_imlog10 = {
+	N_("@FUNCTION=IMLOG10\n"
+	   "@SYNTAX=IMLOG10(inumber)\n"
+	   "@DESCRIPTION="
+	   "IMLOG10 returns the logarithm of a complex number in base 10. "
+	   "\n"
+	   "@SEEALSO=IMLN,IMLOG2")
+};
+
+static Value *
+gnumeric_imlog10 (struct FunctionDefinition *fd, 
+		  Value *argv [], char **error_string)
+{
+        float_t real, im;
+	float_t ln_10;
+	char    *suffix;
+
+	if (VALUE_IS_NUMBER(argv[0])) {
+	        real = value_get_as_double (argv[0]);
+	        im = 0;
+	} else if (argv[0]->type != VALUE_STRING) {
+		*error_string = _("#VALUE!");
+		return NULL;
+	} else if (get_real_and_imaginary(argv[0]->v.str->str,
+					  &real, &im, &suffix)) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	
+	if (real == 0) {
+		*error_string = _("#DIV/0!");
+		return NULL;
+	}
+	
+	complex_ln(&real, &im);
+	ln_10 = log(10);
+
+	return create_inumber (real/ln_10, im/ln_10, suffix);
 }
 
 static char *help_impower = {
@@ -1854,6 +1938,10 @@ FunctionDefinition eng_functions [] = {
 	  NULL, gnumeric_imexp },
 	{ "imln",        "?",  "inumber",                    &help_imln,
 	  NULL, gnumeric_imln },
+	{ "imlog10",     "?",  "inumber",                    &help_imlog10,
+	  NULL, gnumeric_imlog10 },
+	{ "imlog2",      "?",  "inumber",                    &help_imlog2,
+	  NULL, gnumeric_imlog2 },
 	{ "impower",     "?f", "inumber,number",             &help_impower,
 	  NULL, gnumeric_impower },
 	{ "improduct",   "??", "inumber,inumber",            &help_improduct,

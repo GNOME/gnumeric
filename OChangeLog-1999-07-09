@@ -1,3 +1,24 @@
+1999-05-12  Jukka-Pekka Iivonen  <iivonen@iki.fi>
+
+	* src/fn-database.c: Database functions accept now string
+ 	criterias too.  In addition, the parsing of criterias and the test
+ 	functions are now public (src/fn-math.c uses these for now on).
+
+	* src/func.h: Added type definitions and function prototypes for
+ 	internal functions that parse and test criterias.
+	
+	* src/fn-math.c: Added LN().  Changed LOG() to take an optional
+ 	second parameter.  LOG() returns the logarithm in base 10 if the
+ 	optional argument is not given, otherwise it returns the logarithm
+ 	in the given base.
+
+	* src/fn-math.c: Added COUNTIF() and SUMIF().
+	
+	* src/fn-eng.c: Added IMLOG10() and IMLOG2().
+	
+	* src/fn-eng.c (complex_ln): Fixed a bug.  Imaginary coefficient
+	was calculated incorrectly.
+
 1999-05-11  Jukka-Pekka Iivonen  <iivonen@iki.fi>
 
 	* src/fn-eng.c: Added CONVERT().  All translations should work.
