@@ -1,0 +1,6 @@
+2002-09-26  Jody Goldberg <jody@gnome.org>
+
+	* openoffice-read.c : whip up a quick initial version that ignores
+	  formats, and expressions but does appear to handle values, and sheet
+	  names.
+

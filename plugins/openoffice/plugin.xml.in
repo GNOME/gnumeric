@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<plugin id="Gnumeric_OpenCalc">
+	<information>
+		<_name>OpenCalc/StarCalc</_name>
+		<_description>Open/Star Office spreadsheet</_description>
+	</information>
+	<loader type="Gnumeric_Builtin:module">
+		<attribute name="module_file" value="openoffice.la"/>
+	</loader>
+	<services>
+		<service type="file_opener" id="openoffice" priority="1" probe="FALSE"
+		         open="TRUE" import="TRUE">
+			<information>
+				<_description>Open/Star Calc (*.sxc)</_description>
+			</information>
+			<file_patterns>
+				<file_pattern type="shell_pattern" value="*.sxc"/>
+			</file_patterns>
+			<save_info saver_id="" format_level="manual_remember"/>
+		</service>
+	</services>
+</plugin>
