@@ -878,16 +878,25 @@ unlink_expr_dep (Dependent *dep, CellPos const *pos, GnmExpr const *tree)
 static void
 workbook_link_3d_dep (Dependent *dep)
 {
-	if (dep->sheet->workbook->sheet_order_dependents == NULL)
-		dep->sheet->workbook->sheet_order_dependents =
+	Workbook *wb = dep->sheet->workbook;
+
+	if (wb->being_reordered)
+		return;
+	if (wb->sheet_order_dependents == NULL)
+		wb->sheet_order_dependents =
 			g_hash_table_new (g_direct_hash, g_direct_equal);
-	g_hash_table_insert (dep->sheet->workbook->sheet_order_dependents, dep, dep);
+	g_hash_table_insert (wb->sheet_order_dependents, dep, dep);
 }
 
 static void
 workbook_unlink_3d_dep (Dependent *dep)
 {
-	g_return_if_fail (dep->sheet->workbook->sheet_order_dependents != NULL);
+	Workbook *wb = dep->sheet->workbook;
+
+	g_return_if_fail (wb->sheet_order_dependents != NULL);
+
+	if (wb->being_reordered)
+		return;
 	g_hash_table_remove (dep->sheet->workbook->sheet_order_dependents, dep);
 }
 

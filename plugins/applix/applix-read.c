@@ -71,6 +71,7 @@ typedef struct {
 	size_t buffer_size;
 	size_t line_len;
 	int zoom;
+	GSList *sheet_order;
 } ApplixReadState;
 
 /* #define NO_DEBUG_APPLIX */
@@ -525,10 +526,10 @@ applix_parse_style (ApplixReadState *state, unsigned char **buffer)
 					/* comma 'CO' */
 					if (sep[1] == 'O') {
 						++sep;
-						format_prefix = "#,###";
+						format_prefix = "#,##0";
 					} else
 						/* FIXME : what currency to use for differnt locales */
-						format_prefix = "$ #,###";
+						format_prefix = "$ #,##0";
 
 					format_suffix = "";
 
@@ -800,8 +801,23 @@ applix_read_attributes (ApplixReadState *state)
 }
 
 static Sheet *
-applix_get_sheet (ApplixReadState *state, unsigned char **buffer,
-		  char const separator)
+applix_fetch_sheet (ApplixReadState *state, char const *name)
+{
+	Sheet *sheet = workbook_sheet_by_name (state->wb, name);
+
+	if (sheet == NULL) {
+		sheet = sheet_new (state->wb, name);
+		workbook_sheet_attach (state->wb, sheet, NULL);
+		sheet_set_zoom_factor (sheet, (double )(state->zoom) / 100., FALSE, FALSE);
+		sheet_flag_recompute_spans (sheet);
+	}
+
+	return sheet;
+}
+
+static Sheet *
+applix_parse_sheet (ApplixReadState *state, unsigned char **buffer,
+		    char const separator)
 {
 	Sheet *sheet;
 
@@ -814,14 +830,7 @@ applix_get_sheet (ApplixReadState *state, unsigned char **buffer,
 	}
 
 	*tmp = '\0';
-	sheet = workbook_sheet_by_name (state->wb, *buffer);
-	if (sheet == NULL) {
-		sheet = sheet_new (state->wb, *buffer);
-		workbook_sheet_attach (state->wb, sheet, NULL);
-		sheet_set_zoom_factor (sheet, (double )(state->zoom) / 100., FALSE, FALSE);
-		sheet_flag_recompute_spans (sheet);
-	}
-
+	sheet = applix_fetch_sheet (state, *buffer);
 	*buffer = tmp+1;
 	return sheet;
 }
@@ -833,7 +842,7 @@ applix_parse_cellref (ApplixReadState *state, unsigned char *buffer,
 {
 	int len;
 
-	*sheet = applix_get_sheet (state, &buffer, separator);
+	*sheet = applix_parse_sheet (state, &buffer, separator);
 
 	/* Get cell addr */
 	if (*sheet && cellpos_parse (buffer, pos, FALSE, &len))
@@ -872,7 +881,7 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 	Sheet *sheet = NULL;
 	unsigned char *name = buffer + 19;
 	gboolean ignore;
-	int len = strlen (name);
+	unsigned len = strlen (name);
 
 	g_return_val_if_fail (len > 1 && name [len-1] == '~', -1);
 
@@ -886,6 +895,14 @@ applix_read_view (ApplixReadState *state, unsigned char *buffer)
 		name [len-1] = '\0';
 
 	ignore = !strcmp (name, "Current"); /* ignore current */
+#define pv ":PrintableView"
+	if (len >= sizeof (pv))
+		ignore |= !strcmp (name+len-sizeof (pv), pv);
+#undef pv
+
+	if (!ignore)
+		state->sheet_order = g_slist_prepend (state->sheet_order,
+			applix_fetch_sheet (state, name));
 
 	while (NULL != (buffer = applix_get_line (state))) {
 		if (!a_strncmp (buffer, "View End, Name: ~"))
@@ -1152,7 +1169,7 @@ applix_read_row_list (ApplixReadState *state, unsigned char *ptr)
 {
 	unsigned char *tmp;
 	Range	r;
-	Sheet *sheet = applix_get_sheet (state, &ptr, ' ');
+	Sheet *sheet = applix_parse_sheet (state, &ptr, ' ');
 
 	if (ptr == NULL)
 		return -1;
@@ -1409,6 +1426,7 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	state.buffer      = NULL;
 	state.buffer_size = 0;
 	state.line_len    = 80;
+	state.sheet_order = NULL;
 
 	/* Actually read the workbook */
 	res = applix_read_impl (&state);
@@ -1416,6 +1434,10 @@ applix_read (IOContext *io_context, WorkbookView *wb_view, GsfInput *src)
 	g_object_unref (G_OBJECT (state.input));
 	if (state.buffer)
 		g_free (state.buffer);
+
+	state.sheet_order = g_slist_reverse (state.sheet_order);
+	workbook_sheet_reorder (state.wb, state.sheet_order,  NULL);
+	g_slist_free (state.sheet_order);
 
 	/* Release the shared expressions and styles */
 	g_hash_table_foreach_remove (state.exprs, &cb_remove_expr, NULL);

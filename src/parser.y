@@ -203,7 +203,8 @@ typedef struct {
 	gunichar array_col_separator;
 
 	/* flags */
-	gboolean use_excel_reference_conventions;
+	gboolean use_excel_conventions;
+	gboolean use_applix_conventions;
 	gboolean use_opencalc_conventions;
 	gboolean create_placeholder_for_unknown_func;
 	gboolean force_absolute_col_references;
@@ -408,20 +409,6 @@ parse_string_as_value_or_name (GnmExpr *str)
 	return parse_string_as_value (str);
 }
 
-static gboolean
-force_explicit_sheet_references (ParserState *state, CellRef *ref)
-{
-	ref->sheet = state->pos->sheet;
-	if (ref->sheet != NULL)
-		return FALSE;
-
-	gnumeric_parse_error (
-		state, PERR_SHEET_IS_REQUIRED,
-		g_strdup (_("Sheet name is required")),
-		state->expr_text - state->expr_backup, 0);
-	return TRUE;
-}
-
 static Sheet *
 parser_sheet_by_name (Workbook *wb, GnmExpr *name_expr)
 {
@@ -435,7 +422,7 @@ parser_sheet_by_name (Workbook *wb, GnmExpr *name_expr)
 
 	/* Applix has absolute and relative sheet references */
 	if (sheet == NULL &&
-	    !state->use_excel_reference_conventions && *name == '$')
+	    !state->use_excel_conventions && *name == '$')
 		sheet = workbook_sheet_by_name (wb, name+1);
 
 	if (sheet == NULL)
@@ -823,7 +810,7 @@ find_matching_close (char const *str, char const **res)
 	return str;
 }
 
-int
+static int
 yylex (void)
 {
 	gunichar c;
@@ -836,7 +823,7 @@ yylex (void)
                 state->expr_text = g_utf8_next_char (state->expr_text);
 		is_space = TRUE;
 	}
-	if (is_space)
+	if (is_space && !state->use_applix_conventions)
 		return ' ';
 
 	start = state->expr_text;
@@ -846,7 +833,7 @@ yylex (void)
 	if (c == '(' || c == ')')
 		return c;
 
-	if (state->use_excel_reference_conventions) {
+	if (state->use_excel_conventions) {
 		if (c == ':')
 			return RANGE_SEP;
 		if (c == '!')
@@ -879,30 +866,65 @@ yylex (void)
 			}
 			if (!strncmp (state->expr_text, "apos;", 5) ||
 			    !strncmp (state->expr_text, "quot;", 5)) {
-				char const *quotes_end = (*state->expr_text == 'q') ? "&quot;" : "&apos;";
+				char const *quotes_end;
 				char const *p;
 				char *string, *s;
 				Value *v;
 
-				state->expr_text += 5;
-				p = state->expr_text;
-				state->expr_text = strstr (state->expr_text, quotes_end);
-				if (!*state->expr_text) {
-					gnumeric_parse_error (state, PERR_MISSING_CLOSING_QUOTE,
-						g_strdup (_("Could not find matching closing quote")),
-						(p - state->expr_backup) + 1, 1);
-					return INVALID_TOKEN;
+				if (*state->expr_text == 'q') {
+					quotes_end = "&quot;";
+					c = '\"';
+				} else {
+					quotes_end = "&apos;";
+					c = '\'';
 				}
 
+				state->expr_text += 5;
+				p = state->expr_text;
+				double_quote_loop :
+					state->expr_text = strstr (state->expr_text, quotes_end);
+					if (!*state->expr_text) {
+						gnumeric_parse_error (state, PERR_MISSING_CLOSING_QUOTE,
+							g_strdup (_("Could not find matching closing quote")),
+							(p - state->expr_backup) + 1, 1);
+						return INVALID_TOKEN;
+					}
+					if (!strncmp (state->expr_text + 6, quotes_end, 6)) {
+						state->expr_text += 2 * 6;
+						goto double_quote_loop; 
+					}
+
 				s = string = (char *) g_alloca (1 + state->expr_text - p);
-				while (p != state->expr_text)
-					if (*p == '\\') {
-						int n = g_utf8_skip [*(guchar *)(++p)];
-						strncpy (s, p, n);
-						s += n;
-						p += n;
-					} else
-						*s++ = *p++;
+				while (p != state->expr_text) {
+					if (*p == '&') {
+						if (!strncmp (p, "&amp;", 5)) {
+							p += 5;
+							*s++ = '&';
+							continue;
+						} else if (!strncmp (p, "&lt;", 4)) {
+							p += 4;
+							*s++ = '<';
+							continue;
+						} else if (!strncmp (p, "&gt;", 4)) {
+							p += 4;
+							*s++ = '>';
+							continue;
+						} else if (!strncmp (p, quotes_end, 6)) {
+							p += 12; /* two in a row is the escape mechanism */
+							*s++ = c;
+							continue;
+						} else if (!strncmp (p, "&quot;", 6)) {
+							p += 6;
+							*s++ = '\"';
+							continue;
+						} else if (!strncmp (p, "&apos;", 6)) {
+							p += 6;
+							*s++ = '\'';
+							continue;
+						}
+					}
+					*s++ = *p++;
+				}
 
 				*s = 0;
 				state->expr_text += 6;
@@ -941,6 +963,38 @@ yylex (void)
 
 	if (start != (end = state->ref_parser (&ref, start, state->pos))) {
 		state->expr_text = end;
+		if (state->force_absolute_col_references) {
+			if (ref.a.col_relative) {
+				ref.a.col += state->pos->eval.col;
+				ref.a.col_relative = FALSE;
+			}
+			if (ref.b.col_relative) {
+				ref.b.col += state->pos->eval.col;
+				ref.b.col_relative = FALSE;
+			}
+		}
+		if (state->force_absolute_row_references) {
+			if (ref.a.row_relative) {
+				ref.a.row += state->pos->eval.row;
+				ref.a.row_relative = FALSE;
+			}
+			if (ref.b.row_relative) {
+				ref.b.row += state->pos->eval.row;
+				ref.b.row_relative = FALSE;
+			}
+		}
+
+		if (ref.a.sheet == NULL && state->force_explicit_sheet_references) {
+			ref.a.sheet = state->pos->sheet;
+			if (ref.a.sheet == NULL) {
+				gnumeric_parse_error (
+					state, PERR_SHEET_IS_REQUIRED,
+					g_strdup (_("Sheet name is required")),
+					state->expr_text - state->expr_backup, 0);
+				return INVALID_TOKEN;
+			}
+		}
+
 		if ((ref.b.sheet == NULL || ref.b.sheet == ref.a.sheet) &&
 		    ref.a.col		== ref.b.col &&
 		    ref.a.col_relative	== ref.b.col_relative &&
@@ -1075,7 +1129,7 @@ yylex (void)
 
 		while ((tmp = g_utf8_get_char (state->expr_text)) != 0 &&
 		       (g_unichar_isalnum (tmp) || tmp == '_' || tmp == '$' ||
-		       (state->use_excel_reference_conventions && tmp == '.')))
+		       (state->use_excel_conventions && tmp == '.')))
 			state->expr_text = g_utf8_next_char (state->expr_text);
 
 		yylval.expr = register_expr_allocation (gnm_expr_new_constant (
@@ -1163,7 +1217,8 @@ gnm_expr_parse_str (char const *expr_text, ParsePos const *pos,
 	pstate.expr_backup = expr_text;
 	pstate.pos	   = pos;
 
-	pstate.use_excel_reference_conventions	   	= !(flags & (GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS | GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS));
+	pstate.use_excel_conventions		   	= !(flags & (GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS | GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS));
+	pstate.use_applix_conventions			= flags & GNM_EXPR_PARSE_USE_APPLIX_CONVENTIONS;
 	pstate.use_opencalc_conventions			= flags & GNM_EXPR_PARSE_USE_OPENCALC_CONVENTIONS;
 	pstate.create_placeholder_for_unknown_func	= flags & GNM_EXPR_PARSE_CREATE_PLACEHOLDER_FOR_UNKNOWN_FUNC;
 	pstate.force_absolute_col_references		= flags & GNM_EXPR_PARSE_FORCE_ABSOLUTE_COL_REFERENCES;

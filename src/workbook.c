@@ -233,7 +233,7 @@ workbook_set_dirty (Workbook *wb, gboolean is_dirty)
 	if (wb->summary_info != NULL)
 		wb->summary_info->modified = is_dirty;
 	g_hash_table_foreach (wb->sheet_hash_private,
-			      cb_sheet_mark_dirty, GINT_TO_POINTER (is_dirty));
+		cb_sheet_mark_dirty, GINT_TO_POINTER (is_dirty));
 }
 
 static void
@@ -260,8 +260,8 @@ workbook_is_dirty (Workbook const *wb)
 	if (wb->summary_info != NULL && wb->summary_info->modified)
 		return TRUE;
 
-	g_hash_table_foreach (wb->sheet_hash_private, cb_sheet_check_dirty,
-			      &dirty);
+	g_hash_table_foreach (wb->sheet_hash_private,
+		cb_sheet_check_dirty, &dirty);
 
 	return dirty;
 }
@@ -300,8 +300,8 @@ workbook_is_pristine (Workbook const *wb)
 		return FALSE;
 
 	/* Check if we seem to contain anything */
-	g_hash_table_foreach (wb->sheet_hash_private, cb_sheet_check_pristine,
-			      &pristine);
+	g_hash_table_foreach (wb->sheet_hash_private,
+		cb_sheet_check_pristine, &pristine);
 
 	return pristine;
 }
@@ -313,8 +313,7 @@ workbook_init (GObject *object)
 
 	wb->wb_views = NULL;
 	wb->sheets = g_ptr_array_new ();
-	wb->sheet_hash_private = g_hash_table_new (gnumeric_strcase_hash,
-						   gnumeric_strcase_equal);
+	wb->sheet_hash_private = g_hash_table_new (g_str_hash, g_str_equal);
 	wb->sheet_order_dependents = NULL;
 	wb->names        = NULL;
 	wb->summary_info = summary_info_new ();
@@ -333,6 +332,7 @@ workbook_init (GObject *object)
 	wb->file_saver        = NULL;
 
 	wb->during_destruction = FALSE;
+	wb->being_reordered    = FALSE;
 	wb->recursive_dirty_enabled = TRUE;
 
 	application_workbook_list_add (wb);
@@ -353,7 +353,7 @@ workbook_class_init (GObjectClass *object_class)
 		gnm__VOID__VOID,
 		G_TYPE_NONE,
 		0, G_TYPE_NONE);
-	
+
 	signals [FILENAME_CHANGED] = g_signal_new ("filename_changed",
 		WORKBOOK_TYPE,
 		G_SIGNAL_RUN_LAST,
@@ -587,7 +587,7 @@ workbook_calc_spans (Workbook *wb, SpanCalcFlags const flags)
 	g_return_if_fail (wb != NULL);
 
 	g_hash_table_foreach (wb->sheet_hash_private,
-			      &cb_sheet_calc_spans, GINT_TO_POINTER (flags));
+		&cb_sheet_calc_spans, GINT_TO_POINTER (flags));
 }
 
 void
@@ -702,7 +702,7 @@ workbook_enable_recursive_dirty (Workbook *wb, gboolean enable)
 	gboolean old;
 
 	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
-	
+
 	old = wb->recursive_dirty_enabled;
 	wb->recursive_dirty_enabled = enable;
 	return old;
@@ -806,13 +806,19 @@ cb_dep_unlink (Dependent *dep, gpointer value, gpointer user_data)
 		pos = &DEP_TO_CELL (dep)->pos;
 	dependent_unlink (dep, pos);
 }
+
 static void
 pre_sheet_index_change (Workbook *wb)
 {
+	g_return_if_fail (!wb->being_reordered);
+
+	wb->being_reordered = TRUE;
+
 	if (wb->sheet_order_dependents != NULL)
 		g_hash_table_foreach (wb->sheet_order_dependents,
 			(GHFunc) cb_dep_unlink, NULL);
 }
+
 static void
 cb_dep_link (Dependent *dep, gpointer value, gpointer user_data)
 {
@@ -824,9 +830,13 @@ cb_dep_link (Dependent *dep, gpointer value, gpointer user_data)
 static void
 post_sheet_index_change (Workbook *wb)
 {
+	g_return_if_fail (wb->being_reordered);
+
 	if (wb->sheet_order_dependents != NULL)
 		g_hash_table_foreach (wb->sheet_order_dependents,
 			(GHFunc) cb_dep_link, NULL);
+
+	wb->being_reordered = FALSE;
 
 	if (wb->during_destruction)
 		return;
@@ -857,18 +867,25 @@ workbook_sheet_by_index (Workbook const *wb, int i)
 /**
  * workbook_sheet_by_name:
  * @wb: workbook to lookup the sheet on
- * @sheet_name: the sheet name we are looking for.
+ * @name: the sheet name we are looking for.
  *
  * Returns a pointer to a Sheet or NULL if the sheet
  * was not found.
  */
 Sheet *
-workbook_sheet_by_name (Workbook const *wb, char const *sheet_name)
+workbook_sheet_by_name (Workbook const *wb, char const *name)
 {
-	g_return_val_if_fail (wb != NULL, NULL);
-	g_return_val_if_fail (sheet_name != NULL, NULL);
+	Sheet *sheet;
+	char *tmp;
 
-	return g_hash_table_lookup (wb->sheet_hash_private, sheet_name);
+	g_return_val_if_fail (IS_WORKBOOK (wb), NULL);
+	g_return_val_if_fail (name != NULL, NULL);
+
+	tmp = g_utf8_casefold (name, -1);
+	sheet = g_hash_table_lookup (wb->sheet_hash_private, tmp);
+	g_free (tmp);
+
+	return sheet;
 }
 
 /**
@@ -898,7 +915,7 @@ workbook_sheet_attach (Workbook *wb, Sheet *new_sheet,
 	}
 
 	g_hash_table_insert (wb->sheet_hash_private,
-			     new_sheet->name_unquoted, new_sheet);
+		new_sheet->name_case_insensitive, new_sheet);
 	post_sheet_index_change (wb);
 
 	WORKBOOK_FOREACH_VIEW (wb, view,
@@ -964,7 +981,7 @@ workbook_sheet_detach (Workbook *wb, Sheet *sheet)
 	g_ptr_array_remove_index (wb->sheets, sheet_index);
 	workbook_sheet_index_update (wb, sheet_index);
 	sheet->index_in_wb = -1;
-	g_hash_table_remove (wb->sheet_hash_private, sheet->name_unquoted);
+	g_hash_table_remove (wb->sheet_hash_private, sheet->name_case_insensitive);
 	sheet_destroy (sheet);
 	post_sheet_index_change (wb);
 
@@ -1077,7 +1094,7 @@ workbook_sheet_move (Sheet *sheet, int direction)
 	if (0 <= new_pos && new_pos < workbook_sheet_count (wb)) {
 		int min_pos = MIN (old_pos, new_pos);
 		int max_pos = MAX (old_pos, new_pos);
-		
+
 		g_ptr_array_remove_index (wb->sheets, old_pos);
 		g_ptr_array_insert (wb->sheets, sheet, new_pos);
 
@@ -1164,9 +1181,12 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order, GSList *new_sheets)
 	GSList *this_sheet;
 	gint old_pos, new_pos = 0;
 
-	if (!new_order)
+	g_return_val_if_fail (IS_WORKBOOK (wb), FALSE);
+
+	if (new_order == NULL)
 		return TRUE;
 
+	pre_sheet_index_change (wb);
 	this_sheet = new_order;
 	while (this_sheet) {
 		gboolean an_old_sheet = TRUE;
@@ -1191,7 +1211,7 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order, GSList *new_sheets)
 					sheet->index_in_wb = max_pos;
 				}
 				WORKBOOK_FOREACH_CONTROL (wb, view, control,
-							  wb_control_sheet_move (control, 
+							  wb_control_sheet_move (control,
 										 sheet, new_pos););
 				if (an_old_sheet)
 					sheet_set_dirty (sheet, TRUE);
@@ -1205,8 +1225,8 @@ workbook_sheet_reorder (Workbook *wb, GSList *new_order, GSList *new_sheets)
 }
 
 gboolean
-workbook_sheet_reorganize (Workbook *wb, 
-			   GSList *changed_names, GSList *new_order,  
+workbook_sheet_reorganize (Workbook *wb,
+			   GSList *changed_names, GSList *new_order,
 			   GSList *new_names,  GSList *old_names,
 			   GSList **new_sheets, GSList *color_changed,
 			   GSList *colors_fore, GSList *colors_back,
@@ -1232,19 +1252,18 @@ workbook_sheet_reorganize (Workbook *wb,
 
 		if (new_name != NULL ) {
 			sheet = the_sheets->data;
-			
+
 			/* Is the sheet name to short ?*/
 			if (1 > strlen (new_name)) {
-				gnumeric_error_invalid (cc, 
+				gnumeric_error_invalid (cc,
 					_("Sheet name must have at least 1 letter"),
 					new_name);
 				return TRUE;
 			}
-			
+
 			/* Is the sheet name already in use ?*/
-			tmp = (Sheet *) g_hash_table_lookup (wb->sheet_hash_private, 
-							     new_name);
-			
+			tmp = workbook_sheet_by_name (wb, new_name);
+
 			if (tmp != NULL) {
 				/* Perhaps it is a sheet also to be renamed */
 				GSList *tmp_sheets = g_slist_find (changed_names, tmp);
@@ -1255,14 +1274,14 @@ workbook_sheet_reorganize (Workbook *wb,
 					return TRUE;
 				}
 			}
-			
+
 			/* Will we try to use the same name a second time ?*/
-			if (the_names->next != NULL && 
+			if (the_names->next != NULL &&
 			    g_slist_find_custom (the_names->next, new_name, g_str_compare) != NULL) {
 				gnumeric_error_invalid (cc,
 					_("You may not use this name twice"),
 					new_name);
-				return TRUE;			
+				return TRUE;
 			}
 		}
 		the_names = the_names->next;
@@ -1287,10 +1306,10 @@ workbook_sheet_reorganize (Workbook *wb,
 		if (sheet != NULL) {
 			sheet_rename (sheet, the_names->data);
 			g_hash_table_insert (wb->sheet_hash_private,
-					     sheet->name_unquoted, sheet);
-			
+					     sheet->name_case_insensitive, sheet);
+
 			sheet_set_dirty (sheet, TRUE);
-			
+
 			WORKBOOK_FOREACH_CONTROL (wb, view, control,
 						  wb_control_sheet_rename (control, sheet););
 		}
@@ -1310,9 +1329,9 @@ workbook_sheet_reorganize (Workbook *wb,
 				char *name = the_names->data;
 				Sheet *a_new_sheet ;
 				gboolean free_name = (name == NULL);
-				
+
 				if (free_name)
-					name = workbook_sheet_get_free_name 
+					name = workbook_sheet_get_free_name
 						(wb, _("Sheet"), TRUE, FALSE);
 				a_new_sheet = sheet_new (wb, name);
 				if (free_name)
@@ -1336,15 +1355,15 @@ workbook_sheet_reorganize (Workbook *wb,
 			sheet = new_sheet->data;
 			new_sheet = new_sheet->next;
 		}
-		
+
 		if (sheet != NULL) {
 			GdkColor *back = (GdkColor *) the_back->data;
 			GdkColor *fore = (GdkColor *) the_fore->data;
-			StyleColor *tab_color = back ? 
-				style_color_new (back->red, back->green, 
+			StyleColor *tab_color = back ?
+				style_color_new (back->red, back->green,
 						 back->blue) : NULL;
 			StyleColor *text_color = fore ?
-				style_color_new (fore->red, fore->green, 
+				style_color_new (fore->red, fore->green,
 						 fore->blue) : NULL;
 			sheet_set_tab_color (sheet, tab_color, text_color);
 		}
@@ -1352,7 +1371,7 @@ workbook_sheet_reorganize (Workbook *wb,
 		the_back = the_back->next;
 		the_sheets = the_sheets->next;
 	}
-	
+
 /* Changing Protection */
 	the_lock = new_locks;
 	the_sheets = protection_changed;

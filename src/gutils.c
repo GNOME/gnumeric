@@ -334,6 +334,7 @@ gnumeric_strcase_hash (gconstpointer v)
 	unsigned const char *p;
 	guint h = 0, g;
 
+#warning THIS IS BROKEN
 	for(p = s; *p != '\0'; p += 1) {
 		h = ( h << 4 ) + tolower (*p);
 		if ( ( g = h & 0xf0000000 ) ) {

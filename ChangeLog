@@ -1,7 +1,42 @@
+2002-10-04  Jody Goldberg <jody@gnome.org>
+
+	* src/gutils.c (gnumeric_strcase_hash) : Mark for fixing.
+
+	* src/dependent.c (workbook_link_3d_dep) : disable unlinking during
+	  reordering.
+	(workbook_unlink_3d_dep) : disable unlinking during reordering.
+
+	* src/commands.c (cmd_rename_sheet) : use workbook_sheet_by_name.
+
+	* src/sheet.c (sheet_rename) : store a case insensitive key.
+	(sheet_new) : ditto.
+	(sheet_destroy) : clear the name.
+
+	* src/workbook.c (workbook_sheet_reorder) : add missing call to
+	  pre_sheet_index_change.
+	(workbook_init) : No need for case insensitive hashing the callers
+	  will do the conversions.
+	(pre_sheet_index_change) : flag the reorder so that we do not remove
+	  the list of things we're reordering when they get unlinked.
+	(post_sheet_index_change) : ditto.
+	(workbook_sheet_by_name) : convert the target_name to casefolded form.
+	(workbook_sheet_attach) : use the case folded form of the name as key
+	  to the hash.
+	(workbook_sheet_detach) : ditto.
+	(workbook_sheet_reorganize) : ditto.
+
 2002-10-04  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-control-gui.c (show_gui): Adapt --geometry handling
 	to gtk2.
+
+2002-10-04  Jody Goldberg <jody@gnome.org>
+
+	* src/parser.y (yylex) : reinstate optionally forcing abs references
+	(yylex) : applix scatters random spaces throughout its
+	  expressions but ignores them.
+	(yylex) : extend handling of xml quoting and opencalc quoting of
+	  strings in expressions.
 
 2002-10-04  Jody Goldberg <jody@gnome.org>
 

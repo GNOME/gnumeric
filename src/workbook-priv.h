@@ -42,8 +42,9 @@ struct _Workbook {
 		int      max_number;
 		double   tolerance;
 	} iteration;
-	gboolean during_destruction;
-	gboolean recursive_dirty_enabled;
+	gboolean during_destruction : 1;
+	gboolean being_reordered : 1;
+	gboolean recursive_dirty_enabled : 1;
 };
 
 typedef struct {

@@ -3,7 +3,6 @@ Near term
 		: Add the ability to name sheets without checking for uniqueness
 - row/col visibility
 - number formats
-- support the extended char encoding the kspread folk found
 
 Long term
 - Locale specific currency ?

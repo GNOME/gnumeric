@@ -1,3 +1,13 @@
+2002-10-04  Jody Goldberg <jody@gnome.org>
+
+	* applix-read.c (applix_parse_style) : improve format generation
+	slightly to be #,##0 rather than #,###
+	(applix_fetch_sheet) : new.
+	(applix_read_view) : ignore PrintView's and keep track of target sheet
+	  order.
+	(applix_read) : set the sheets into the correct order in case any
+	  where implicitly created out of order.
+
 2002-09-30  Jody Goldberg <jody@gnome.org>
 
 	* Release 1.1.9

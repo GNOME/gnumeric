@@ -212,13 +212,13 @@ make_undo_text (const char *src, int max_len, gboolean *truncated)
  *
  * @pos: CellPos
  *
- * Returns : 
+ * Returns :
  */
 static char *
 undo_global_range_name (Sheet *sheet, Range const * const range)
 {
 	gboolean show_sheet_name = gnm_app_prefs->show_sheet_name;
-	return global_range_name (show_sheet_name ? sheet : NULL, range); 
+	return global_range_name (show_sheet_name ? sheet : NULL, range);
 }
 
 /**
@@ -227,12 +227,12 @@ undo_global_range_name (Sheet *sheet, Range const * const range)
  * static gboolean cmd_cell_range_is_locked_effective
  *
  *
- * Do not use this function unless the sheet is part of the 
- * workbook with the given wbcg (otherwise the results may be strange) 
+ * Do not use this function unless the sheet is part of the
+ * workbook with the given wbcg (otherwise the results may be strange)
  *
  */
 
-static gboolean 
+static gboolean
 cmd_cell_range_is_locked_effective (Sheet *sheet, Range *range,
 				    WorkbookControl *wbc, char const *cmd_name)
 {
@@ -244,9 +244,9 @@ cmd_cell_range_is_locked_effective (Sheet *sheet, Range *range,
 			for (j = range->start.col; j <= range->end.col; j++)
 				if (mstyle_get_content_locked (sheet_style_get (sheet, j, i))) {
 					char *text;
-					text = g_strdup_printf (wbv->is_protected  ? 
-				 _("%s is locked. Unprotect the workbook to enable editing.") : 
-				 _("%s is locked. Unprotect the sheet to enable editing."), 
+					text = g_strdup_printf (wbv->is_protected  ?
+				 _("%s is locked. Unprotect the workbook to enable editing.") :
+				 _("%s is locked. Unprotect the sheet to enable editing."),
 								undo_global_range_name (
 									sheet, range));
 					gnumeric_error_invalid (COMMAND_CONTEXT (wbc), cmd_name,
@@ -263,19 +263,19 @@ cmd_cell_range_is_locked_effective (Sheet *sheet, Range *range,
  * static gboolean cmd_dao_is_locked_effective
  *
  *
- * Do not use this function unless the sheet is part of the 
- * workbook with the given wbcg (otherwise the results may be strange) 
+ * Do not use this function unless the sheet is part of the
+ * workbook with the given wbcg (otherwise the results may be strange)
  *
  */
 
-static gboolean 
+static gboolean
 cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
 			     WorkbookControl *wbc, char const *cmd_name)
 {
 	Range range;
 	range_init (&range, dao->start_col, dao->start_row,
 		    dao->start_col +  dao->cols - 1,  dao->start_row +  dao->rows - 1);
-	return (dao->type != NewWorkbookOutput && 
+	return (dao->type != NewWorkbookOutput &&
 		cmd_cell_range_is_locked_effective (dao->sheet, &range, wbc, cmd_name));
 }
 
@@ -285,12 +285,12 @@ cmd_dao_is_locked_effective (data_analysis_output_t  *dao,
  * static gboolean cmd_selection_is_locked_effective
  *
  *
- * Do not use this function unless the sheet is part of the 
- * workbook with the given wbcg (otherwise the results may be strange) 
+ * Do not use this function unless the sheet is part of the
+ * workbook with the given wbcg (otherwise the results may be strange)
  *
  */
 
-static gboolean 
+static gboolean
 cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
 				   WorkbookControl *wbc, char const *cmd_name)
 {
@@ -309,13 +309,13 @@ cmd_selection_is_locked_effective (Sheet *sheet, GSList *selection,
  *
  * @pos: CellPos
  *
- * Returns : 
+ * Returns :
  */
 char *
 cmd_cell_pos_name_utility (Sheet *sheet, CellPos const *pos)
 {
 	Range range;
-	
+
 	range.start = *pos;
 	range.end   = *pos;
 
@@ -604,9 +604,9 @@ truncate_undo_info (Workbook *wb)
 	int ok_count;
 	GSList *l, *prev;
 
-	size_left = gnm_app_prefs->undo_size; 
+	size_left = gnm_app_prefs->undo_size;
 	max_num   = gnm_app_prefs->undo_max_number;
-	
+
 #ifdef DEBUG_TRUNCATE_UNDO
 	fprintf (stderr, "Undo sizes:");
 #endif
@@ -938,7 +938,7 @@ cmd_area_set_text_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		return TRUE;
 
 	/* Check for locked cells */
-	if (cmd_selection_is_locked_effective (me->cmd.sheet, me->selection, 
+	if (cmd_selection_is_locked_effective (me->cmd.sheet, me->selection,
 					       wbc, _("Set Text")))
 		return TRUE;
 
@@ -1164,8 +1164,8 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		: range_init (&r, 0, first, SHEET_MAX_COLS-1, last);
 
 	/* Check for array subdivision */
-	if (!me->is_insert && sheet_range_splits_region 
-	    (me->sheet, &r, NULL, wbc, 
+	if (!me->is_insert && sheet_range_splits_region
+	    (me->sheet, &r, NULL, wbc,
 	     (me->is_cols) ? _("Delete Columns") :  _("Delete Rows")))
 		return TRUE;
 
@@ -1173,7 +1173,7 @@ cmd_ins_del_colrow_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	if (!me->is_insert && cmd_cell_range_is_locked_effective
 	    (me->sheet, &r, wbc, (me->is_cols) ? _("Delete Columns") :  _("Delete Rows")))
 		return TRUE;
-	
+
 	me->saved_states = colrow_get_states (me->sheet, me->is_cols, first, last);
 	me->contents = clipboard_copy_range (me->sheet, &r);
 
@@ -1489,7 +1489,7 @@ cmd_selection_clear (WorkbookControl *wbc, int clear_flags)
 		paste_flags |= PASTE_CONTENT;
 	if (clear_flags & CLEAR_FORMATS)
 		paste_flags |= PASTE_FORMATS;
-	if (clear_flags & CLEAR_COMMENTS) 
+	if (clear_flags & CLEAR_COMMENTS)
 		paste_flags |= PASTE_COMMENTS;
 
 	obj = g_object_new (CMD_CLEAR_TYPE, NULL);
@@ -1608,7 +1608,7 @@ cmd_format_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	/* Check for locked cells */
-	if (cmd_selection_is_locked_effective (me->cmd.sheet, me->selection, 
+	if (cmd_selection_is_locked_effective (me->cmd.sheet, me->selection,
 					       wbc, _("Changing Format")))
 		return TRUE;
 
@@ -1870,7 +1870,7 @@ cmd_resize_colrow (WorkbookControl *wbc, Sheet *sheet,
 						   list->str, new_size)
 				: g_strdup_printf (_("Setting height of rows %s to %d pixels"),
 						   list->str, new_size);
-		else me->cmd.cmd_descriptor = is_cols 
+		else me->cmd.cmd_descriptor = is_cols
 			     ? g_strdup_printf (
 				     _("Setting width of columns %s to default"), list->str)
 			     : g_strdup_printf (
@@ -4212,12 +4212,12 @@ cmd_reorganize_sheets_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 	g_return_val_if_fail (me != NULL, TRUE);
 
 	g_slist_foreach (me->new_sheets, cmd_reorganize_sheets_delete_sheets, NULL);
-	g_slist_free (me->new_sheets);	
+	g_slist_free (me->new_sheets);
 	me->new_sheets = NULL;
 
-	return workbook_sheet_reorganize (me->wb, me->changed_names, me->old_order,  
-					  me->old_names, me->new_names, NULL, 
-					  me->color_changed, 
+	return workbook_sheet_reorganize (me->wb, me->changed_names, me->old_order,
+					  me->old_names, me->new_names, NULL,
+					  me->color_changed,
 					  me->old_colors_fore, me->old_colors_back,
 					  me->protection_changed, me->old_locks,
 					  COMMAND_CONTEXT (wbc));
@@ -4230,9 +4230,9 @@ cmd_reorganize_sheets_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 	g_return_val_if_fail (me != NULL, TRUE);
 
-	return workbook_sheet_reorganize (me->wb, me->changed_names, me->new_order, 
+	return workbook_sheet_reorganize (me->wb, me->changed_names, me->new_order,
 					  me->new_names, me->old_names,
-					  &me->new_sheets, me->color_changed, 
+					  &me->new_sheets, me->color_changed,
 					  me->new_colors_fore, me->new_colors_back,
 					  me->protection_changed, me->new_locks,
 					  COMMAND_CONTEXT (wbc));
@@ -4262,7 +4262,7 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 	me->changed_names = NULL;
 
 	g_slist_free (me->new_sheets);
-	me->new_sheets = NULL;	
+	me->new_sheets = NULL;
 
 	g_slist_foreach (me->old_names, (GFunc)g_free, NULL);
 	g_slist_free (me->old_names);
@@ -4304,10 +4304,10 @@ cmd_reorganize_sheets_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_order, 
+cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_order,
 		       GSList *changed_names, GSList *new_names, GSList *deleted_sheets,
 		       GSList *color_changed, GSList *new_colors_back,
-		       GSList *new_colors_fore, 
+		       GSList *new_colors_fore,
 		       GSList *protection_changed, GSList *new_locks)
 {
 	GObject *obj;
@@ -4315,7 +4315,7 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 	Workbook *wb = wb_control_workbook (wbc);
 	GSList *the_sheets;
 	int selector = 0;
-	
+
 	if (deleted_sheets) {
 		g_warning ("Deletion of existing sheets "
 				 "via this dialog is not yet implemented.");
@@ -4349,7 +4349,7 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 		if (sheet  == NULL)
 			me->old_names = g_slist_prepend (me->old_names, NULL);
 		else
-			me->old_names = g_slist_prepend 
+			me->old_names = g_slist_prepend
 				(me->old_names, g_strdup (sheet->name_unquoted));
 		the_sheets = the_sheets->next;
 	}
@@ -4362,11 +4362,11 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 			me->old_colors_fore = g_slist_prepend (me->old_colors_fore, NULL);
 			me->old_colors_back = g_slist_prepend (me->old_colors_back, NULL);
 		} else {
-			me->old_colors_fore = g_slist_prepend (me->old_colors_fore, 
-				   sheet->tab_text_color ? 
+			me->old_colors_fore = g_slist_prepend (me->old_colors_fore,
+				   sheet->tab_text_color ?
 				   gdk_color_copy (&sheet->tab_text_color->color) : NULL);
 			me->old_colors_back = g_slist_prepend (me->old_colors_back,
-				   sheet->tab_color ? 
+				   sheet->tab_color ?
 				   gdk_color_copy (&sheet->tab_color->color) : NULL);
 		}
 		the_sheets = the_sheets->next;
@@ -4387,18 +4387,18 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 	me->cmd.sheet = NULL;
 	me->cmd.size = 1 + g_slist_length (color_changed) + g_slist_length (changed_names);
 
-	if (new_order != NULL) 
+	if (new_order != NULL)
 		selector += (1 << 0);
-	if (new_names != NULL) { 
+	if (new_names != NULL) {
 		selector += (1 << 1);
 		if (new_names->next == NULL)
 			selector += (1 << 2);
 	}
-	if (color_changed != NULL) 
+	if (color_changed != NULL)
 		selector += (1 << 3);
-	if (protection_changed != NULL) 
+	if (protection_changed != NULL)
 		selector += (1 << 4);
-	
+
 
 	switch (selector) {
 	case 0:
@@ -4415,12 +4415,12 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 			if (new_names->data == NULL)
 				me->cmd.cmd_descriptor = g_strdup (_("Adding a sheet"));
 			else
-				me->cmd.cmd_descriptor 
-					= g_strdup_printf (_("Adding sheet '%s'"), 
+				me->cmd.cmd_descriptor
+					= g_strdup_printf (_("Adding sheet '%s'"),
 							   (const char *)new_names->data);
 		} else
-			me->cmd.cmd_descriptor 
-				= g_strdup_printf (_("Rename sheet '%s' '%s'"), 
+			me->cmd.cmd_descriptor
+				= g_strdup_printf (_("Rename sheet '%s' '%s'"),
 						   ((Sheet *)changed_names->data)->name_unquoted,
 						   (const char *)new_names->data);
 		break;
@@ -4434,35 +4434,33 @@ cmd_reorganize_sheets (WorkbookControl *wbc, GSList *old_order, GSList *new_orde
 		me->cmd.cmd_descriptor = g_strdup (_("Reorganizing Sheets"));
 		break;
 	}
-	
+
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
 }
 
 /* Note:  cmd_rename_sheet does not free old_name or new_name */
 /*        one of sheet and old_name may be NULL               */
-gboolean 
+gboolean
 cmd_rename_sheet (WorkbookControl *wbc, Sheet *sheet, char const *old_name, char const *new_name)
 {
-       
+
 	Workbook *wb = wb_control_workbook (wbc);
 	GSList *changed_names = NULL;
 	GSList *new_names = NULL;
 
 	g_return_val_if_fail (new_name != NULL, TRUE);
 	g_return_val_if_fail (sheet != NULL || old_name != NULL, TRUE);
-	
-	if (sheet == NULL) {
-		sheet = (Sheet *) g_hash_table_lookup (wb->sheet_hash_private, 
-						       old_name);
-	}
+
+	if (sheet == NULL)
+		sheet = workbook_sheet_by_name (wb, old_name);
 
 	g_return_val_if_fail (sheet != NULL, TRUE);
 
 	changed_names = g_slist_prepend (changed_names, sheet);
 	new_names = g_slist_prepend (new_names, g_strdup (new_name));
 
-	return cmd_reorganize_sheets (wbc, NULL, NULL, changed_names, new_names, 
+	return cmd_reorganize_sheets (wbc, NULL, NULL, changed_names, new_names,
 				      NULL, NULL, NULL, NULL, NULL, NULL);
 }
 
@@ -4490,7 +4488,7 @@ cmd_set_comment_apply (Sheet *sheet, CellPos *pos, char const *text)
 
 	comment = cell_has_comment_pos (sheet, pos);
 	if (comment) {
-		if (text) 
+		if (text)
 			cell_comment_text_set (comment, text);
 		else {
 			Range r;
@@ -4559,7 +4557,7 @@ cmd_set_comment (WorkbookControl *wbc,
 		me->new_text    = g_strdup (new_text);
 	where = cmd_cell_pos_name_utility (sheet, pos);
 	me->cmd.cmd_descriptor =
-		g_strdup_printf (me->new_text == NULL ? 
+		g_strdup_printf (me->new_text == NULL ?
 				 _("Clearing comment of %s") :
 				 _("Setting comment of %s"),
 				 where);
@@ -4620,9 +4618,9 @@ cmd_analysis_tool_undo (GnumericCommand *cmd, WorkbookControl *wbc)
 		sheet_clear_region (wbc, me->dao->sheet,
 				    me->old_range.start.col, me->old_range.start.row,
 				    me->old_range.end.col, me->old_range.end.row,
-				    CLEAR_COMMENTS | CLEAR_FORMATS | CLEAR_NOCHECKARRAY | 
+				    CLEAR_COMMENTS | CLEAR_FORMATS | CLEAR_NOCHECKARRAY |
 				    CLEAR_RECALC_DEPS | CLEAR_VALUES | CLEAR_MERGES);
-		clipboard_paste_region (wbc, paste_target_init (&pt, me->dao->sheet, 
+		clipboard_paste_region (wbc, paste_target_init (&pt, me->dao->sheet,
 								&me->old_range, PASTE_ALL_TYPES),
 					me->old_content);
 		cellregion_free (me->old_content);
@@ -4657,7 +4655,7 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	me->row_info = dao_get_colrow_state_list (me->dao, FALSE);
 
 	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PREPARE_OUTPUT_RANGE, NULL)
-	    || me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR, 
+	    || me->engine (me->dao, me->specs, TOOL_ENGINE_UPDATE_DESCRIPTOR,
 			   &me->cmd.cmd_descriptor)
 	    || cmd_dao_is_locked_effective (me->dao, wbc, me->cmd.cmd_descriptor)
 	    || me->engine (me->dao, me->specs, TOOL_ENGINE_LAST_VALIDITY_CHECK, &continuity))
@@ -4674,15 +4672,15 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	case RangeOutput:
 	default:
 		range_init (&me->old_range, me->dao->start_col, me->dao->start_row,
-			    me->dao->start_col + me->dao->cols - 1, 
+			    me->dao->start_col + me->dao->cols - 1,
 			    me->dao->start_row + me->dao->rows - 1);
 		me->old_content = clipboard_copy_range (me->dao->sheet, &me->old_range);
 		break;
 	}
-		
+
 	if (me->engine (me->dao, me->specs, TOOL_ENGINE_FORMAT_OUTPUT_RANGE, NULL))
 		return TRUE;
-		
+
 	if (me->engine (me->dao, me->specs, TOOL_ENGINE_PERFORM_CALC, &continuity)) {
 		if (me->type == RangeOutput) {
 			g_warning ("This is too late for failure! The target region has "
@@ -4693,7 +4691,7 @@ cmd_analysis_tool_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	if (continuity) {
 		g_warning ("There shouldn't be any data left in here!");
 	}
-	
+
 	dao_autofit_columns (me->dao);
 	sheet_set_dirty (me->dao->sheet, TRUE);
 	sheet_update (me->dao->sheet);
@@ -4714,7 +4712,7 @@ cmd_analysis_tool_finalize (GObject *cmd)
 		me->col_info = colrow_state_list_destroy (me->col_info);
 	if (me->row_info)
 		me->row_info = colrow_state_list_destroy (me->row_info);
-	
+
 	me->engine (me->dao, me->specs, TOOL_ENGINE_CLEAN_UP, NULL);
 
 	g_free (me->specs);
@@ -4726,8 +4724,8 @@ cmd_analysis_tool_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_analysis_tool (WorkbookControl *wbc, Sheet *sheet, 
-				data_analysis_output_t *dao, gpointer specs, 
+cmd_analysis_tool (WorkbookControl *wbc, Sheet *sheet,
+				data_analysis_output_t *dao, gpointer specs,
 				analysis_tool_engine engine)
 {
 	GObject *obj;
@@ -4753,10 +4751,10 @@ cmd_analysis_tool (WorkbookControl *wbc, Sheet *sheet,
 	me->cmd.sheet = NULL;
 	me->type = dao->type;
 	me->row_info = NULL;
-	me->col_info = NULL;	
+	me->col_info = NULL;
 
 	/* We divide by 2 since many cells will be empty*/
-	me->cmd.size = 1 + dao->rows * dao->cols / 2; 
+	me->cmd.size = 1 + dao->rows * dao->cols / 2;
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
@@ -4818,7 +4816,7 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	Range target_range;
 	ColRowStateList *state_col;
 	ColRowStateList *state_row;
-	
+
 	range_init (&target_range, cell->a.col, cell->a.row,
 		    cell->b.col, cell->b.row);
 	merge_content = clipboard_copy_range (source_sheet, &target_range);
@@ -4834,9 +4832,9 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		me->sheet_list = g_slist_prepend (me->sheet_list, new_sheet);
 
 		colrow_set_states (new_sheet, TRUE, target_range.start.col, state_col);
-		colrow_set_states (new_sheet, FALSE, target_range.start.row, state_row); 	
+		colrow_set_states (new_sheet, FALSE, target_range.start.row, state_row);
 		sheet_object_clone_sheet (source_sheet, new_sheet, &target_range);
-		clipboard_paste_region (me->wbc, paste_target_init (&pt, new_sheet, 
+		clipboard_paste_region (me->wbc, paste_target_init (&pt, new_sheet,
 								&target_range, PASTE_ALL_TYPES),
 					merge_content);
 	}
@@ -4852,26 +4850,26 @@ cmd_merge_data_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 		cell = &((Value *)this_field->data)->v_range.cell;
 		col_target = cell->a.col;
 		row_target =  cell->a.row;
-		
+
 		cell = &((Value *)this_data->data)->v_range.cell;
 		col_source = cell->a.col;
 		row_source =  cell->a.row;
 		source_sheet = cell->a.sheet;
-			
+
 		target_sheet = me->sheet_list;
 		while (target_sheet) {
-			Cell *source_cell = sheet_cell_get (source_sheet, 
+			Cell *source_cell = sheet_cell_get (source_sheet,
 							      col_source, row_source);
 			if (source_cell == NULL) {
-				Cell *target_cell = sheet_cell_get ((Sheet *)target_sheet->data, 
+				Cell *target_cell = sheet_cell_get ((Sheet *)target_sheet->data,
 								      col_target, row_target);
 				if (target_cell != NULL)
 					cell_assign_value (target_cell,
 							   value_new_empty ());
 			} else {
-				Cell *target_cell = sheet_cell_fetch ((Sheet *)target_sheet->data, 
+				Cell *target_cell = sheet_cell_fetch ((Sheet *)target_sheet->data,
 								      col_target, row_target);
-				cell_assign_value (target_cell, 
+				cell_assign_value (target_cell,
 						   value_duplicate (source_cell->value));
 			}
 			target_sheet = target_sheet->next;
@@ -4889,7 +4887,7 @@ static void
 cmd_merge_data_finalize (GObject *cmd)
 {
 	CmdMergeData *me = CMD_MERGE_DATA (cmd);
-	
+
 	value_release (me->merge_zone);
 	me->merge_zone = NULL;
 	range_list_destroy (me->merge_data);
@@ -4904,7 +4902,7 @@ cmd_merge_data_finalize (GObject *cmd)
 }
 
 gboolean
-cmd_merge_data (WorkbookControl *wbc, Sheet *sheet, 
+cmd_merge_data (WorkbookControl *wbc, Sheet *sheet,
 		Value *merge_zone, GSList *merge_fields, GSList *merge_data)
 {
 	GObject       *obj;
@@ -4930,7 +4928,7 @@ cmd_merge_data (WorkbookControl *wbc, Sheet *sheet,
 	me->merge_fields = merge_fields;
 	me->merge_data = merge_data;
 	me->sheet_list = 0;
-	
+
 	cell = &((Value *)merge_data->data)->v_range.cell;
 	me->n = cell->b.row - cell->a.row + 1;
 
@@ -4963,7 +4961,7 @@ cmd_change_summary_apply (WorkbookControl *wbc, GSList *info)
 {
 	Workbook *wb = wb_control_workbook (wbc);
 
-	g_slist_foreach (info, (GFunc) cb_change_summary_apply_change, wb); 
+	g_slist_foreach (info, (GFunc) cb_change_summary_apply_change, wb);
 
 	/* Set Workbook dirty!? */
 	workbook_set_dirty (wb, TRUE);
@@ -5031,14 +5029,14 @@ cmd_change_summary (WorkbookControl *wbc, GSList *sin_changes)
 
 	me->old_info = NULL;
 	for (sit_l = sin_changes; sit_l; sit_l = sit_l->next) {
-		SummaryItem *sit = summary_item_by_name 
+		SummaryItem *sit = summary_item_by_name
 			(((SummaryItem *)sit_l->data)->name, sin);
 		if (sit == NULL)
-			sit = summary_item_new_string  (((SummaryItem *)sit_l->data)->name, 
+			sit = summary_item_new_string  (((SummaryItem *)sit_l->data)->name,
 							"", TRUE);
 		me->old_info = g_slist_prepend (me->old_info, sit);
 	}
-	
+
 
 	/* Register the command object */
 	return command_push_undo (wbc, obj);
@@ -5189,7 +5187,7 @@ cmd_print_setup_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	int n, i;
 	Workbook *book;
 	gboolean save_pis = (me->old_pi == NULL);
-	
+
 	if (me->cmd.sheet) {
 		if (save_pis)
 			me->old_pi = g_slist_append (me->old_pi, me->cmd.sheet->print_info);
@@ -5218,7 +5216,7 @@ cmd_print_setup_finalize (GObject *cmd)
 {
 	CmdPrintSetup *me = CMD_PRINT_SETUP (cmd);
 	GSList *list = me->old_pi;
-	
+
 	if (me->new_pi)
 		print_info_free (me->new_pi);
 	for (; list; list = list->next)
