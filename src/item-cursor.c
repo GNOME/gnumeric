@@ -747,8 +747,6 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
-		wbcg_edit_finish (ic->scg->wbcg, TRUE);
-
 		if (sheet_is_region_empty (sheet, &ic->pos))
 			return TRUE;
 
@@ -853,6 +851,11 @@ item_cursor_selection_event (GnomeCanvasItem *item, GdkEvent *event)
 	}
 
 	case GDK_BUTTON_PRESS:
+		/* NOTE : this can not be called while we are editing.  because
+		 * the point routine excludes events.  so we do not need to
+		 * call wbcg_edit_finish.
+		 */
+
 		/* scroll wheel events dont have corresponding release events */
 		if (event->button.button > 3)
 			return FALSE;
@@ -1302,7 +1305,6 @@ item_cursor_autofill_event (GnomeCanvasItem *item, GdkEvent *event)
 		gnome_canvas_item_ungrab (item, event->button.time);
 		gdk_flush ();
 
-		wbcg_edit_finish (ic->scg->wbcg, TRUE);
 		cmd_autofill (sc->wbc, sc->sheet,
 			      event->button.state & GDK_CONTROL_MASK,
 			      ic->base.col,    ic->base.row,

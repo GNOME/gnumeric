@@ -824,7 +824,7 @@ item_grid_button_1 (SheetControlGUI *scg, GdkEventButton *event,
 	/* This was a regular click on a cell on the spreadsheet.  Select it.
 	 * but only if the entered expression is valid
 	 */
-	if (wbcg_edit_finish (scg->wbcg, TRUE) == FALSE)
+	if (!wbcg_edit_finish (scg->wbcg, TRUE))
 		return 1;
 
 	if (!(event->state & (GDK_CONTROL_MASK|GDK_SHIFT_MASK)))

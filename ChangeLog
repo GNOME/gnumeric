@@ -1,3 +1,14 @@
+2001-11-03  Jody Goldberg <jgoldberg@home.com>
+
+	* src/item-cursor.c (item_cursor_selection_event) : no need to get
+	fancy with finish_edit.  While editing none of this can be called.
+
+	* src/sheet-object-container.c (cb_user_activation_request) : return
+	  value is ignored.
+
+	* src/sheet-control-gui.c (scg_mode_edit_object) : accept any
+	  pending edits.
+
 2001-11-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-object-bonobo.c (open_cb) : support cancel.

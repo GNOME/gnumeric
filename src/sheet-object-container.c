@@ -31,15 +31,13 @@
 #include <bonobo/bonobo-object-directory.h>
 #include <bonobo/bonobo-exception.h>
 
-static gint
+static void
 cb_user_activation_request (BonoboViewFrame *view_frame, GtkObject *so_view)
 {
 	SheetControlGUI *scg = sheet_object_view_control (so_view);
 	SheetObject *so = sheet_object_view_obj (so_view);
 
 	scg_mode_edit_object (scg, so);
-
-	return FALSE;
 }
 
 static GtkObject *

@@ -1526,7 +1526,8 @@ scg_mode_edit_object (SheetControlGUI *scg, SheetObject *so)
 
 	g_return_if_fail (IS_SHEET_OBJECT (so));
 
-	if (scg_mode_clear (scg)) {
+	if (wbcg_edit_finish (scg->wbcg, TRUE) &&
+	    scg_mode_clear (scg)) {
 		view = sheet_object_get_view (so, SHEET_CONTROL (scg));
 		scg->current_object = so;
 		if (SO_CLASS (so)->set_active != NULL)
@@ -2516,6 +2517,9 @@ scg_cursor_move_to (SheetControlGUI *scg, int col, int row,
 {
 	Sheet *sheet = ((SheetControl *) scg)->sheet;
 
+	if (!wbcg_edit_finish (scg->wbcg, TRUE))
+		return;
+
 	/*
 	 * Please note that the order here is important, as
 	 * the sheet_make_cell_visible call might scroll the
@@ -2527,14 +2531,10 @@ scg_cursor_move_to (SheetControlGUI *scg, int col, int row,
 	 *
 	 * If you dont know what this means, just mail me.
 	 */
-
-	/* Set the cursor BEFORE making it visible to decrease flicker */
-	if (wbcg_edit_finish (scg->wbcg, TRUE) == FALSE)
-		return;
-
 	if (clear_selection)
 		sheet_selection_reset (sheet);
 
+	/* Set the cursor BEFORE making it visible to decrease flicker */
 	sheet_cursor_set (sheet, col, row, col, row, col, row, NULL);
 	sheet_make_cell_visible (sheet, col, row);
 
