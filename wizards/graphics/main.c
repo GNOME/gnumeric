@@ -203,7 +203,7 @@ gnumeric_graph_guru (Workbook *wb)
 		GList *l;
 		
 		sheet_set_mode_type_full (gc->workbook->current_sheet,
-					  SHEET_MODE_CREATE_GRAPHIC, gc->client_site);
+					  SHEET_MODE_CREATE_GRAPH, gc->client_site);
 #warning super hack
 		gtk_object_destroy (GTK_OBJECT(gc->dialog_toplevel));
 
