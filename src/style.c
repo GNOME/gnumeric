@@ -145,6 +145,8 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		font->ref_count = 2;
 
 		font->pango.context = gdk_pango_context_get ();
+		pango_context_set_language (font->pango.context, gtk_get_default_language ();
+
 		desc = pango_context_get_font_description (font->pango.context);
 		pango_font_description_set_family (desc, font_name);
 		pango_font_description_set_weight (desc,
@@ -183,7 +185,7 @@ style_font_new_simple (char const *font_name, double size_pts, double scale,
 		font->pango.layout  = pango_layout_new (font->pango.context);
 
 		font->pango.metrics = pango_font_get_metrics (font->pango.font,
-			gtk_get_default_language ());
+							      gtk_get_default_language ());
 
 		font->gnome_print_font = gnome_font_find_closest_from_weight_slant (font_name, 
 			bold ? GNOME_FONT_BOLD : GNOME_FONT_REGULAR, italic, size_pts);

@@ -1,3 +1,10 @@
+2003-02-21  Morten Welinder  <terra@diku.dk>
+
+	* src/style.c (style_font_new_simple): Set language on pango
+	context.
+	* src/clipboard.c (cellregion_to_string): Ditto.
+	* src/sheet.c (sheet_new): Ditto.
+
 2003-02-18  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-view.c (wb_view_new_from_input) : you can't probe

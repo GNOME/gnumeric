@@ -226,7 +226,9 @@ sheet_new (Workbook *wb, char const *name)
 	sheet->tab_text_color = NULL;
 
 	/* FIXME: probably not here.  */
+	/* See also gtk_widget_create_pango_context ().  */
 	sheet->context = gdk_pango_context_get ();
+	pango_context_set_language (sheet->context, gtk_get_default_language ());
 	/* FIXME: barf!  */
 	gdk_pango_context_set_colormap (sheet->context,
 					gtk_widget_get_default_colormap ());

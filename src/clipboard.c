@@ -654,9 +654,13 @@ cellregion_to_string (CellRegion const *cr)
 				&c_copy->u.cell->pos);
 			/* FIXME: probably not here.  */
 			PangoContext *context = gdk_pango_context_get ();
-			RenderedValue *rv = rendered_value_new (c_copy->u.cell,
-								mstyle, FALSE,
-								context);
+			RenderedValue *rv;
+
+			pango_context_set_language (context, gtk_get_default_language ());
+
+			rv = rendered_value_new (c_copy->u.cell,
+						 mstyle, FALSE,
+						 context);
 			v = g_strdup (rendered_value_get_text (rv));
 			rendered_value_destroy (rv);
 			g_object_unref (G_OBJECT (context));

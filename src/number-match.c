@@ -1146,19 +1146,19 @@ format_match (char const *text, StyleFormat *cur_fmt,
 		    NULL != (v = compute_value (text, mp, cur_fmt->match_tags, 
 						date_conv))) {
 #ifdef DEBUG_NUMBER_MATCH
-		{
-			int i;
-			printf ("matches expression: %s %s\n", cur_fmt->format, cur_fmt->regexp_str);
-			for (i = 0; i < NM; i++) {
-				char *p;
+			{
+				int i;
+				printf ("matches expression: %s %s\n", cur_fmt->format, cur_fmt->regexp_str);
+				for (i = 0; i < NM; i++) {
+					char *p;
 
-				if (mp[i].rm_so == -1)
-					break;
+					if (mp[i].rm_so == -1)
+						break;
 
-				p = extract_text (text, &mp[i]);
-				printf ("%d %d->%s\n", mp[i].rm_so, mp[i].rm_eo, p);
+					p = extract_text (text, &mp[i]);
+					printf ("%d %d->%s\n", mp[i].rm_so, mp[i].rm_eo, p);
+				}
 			}
-		}
 #endif
 
 			value_set_fmt (v, cur_fmt);

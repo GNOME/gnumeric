@@ -12,6 +12,8 @@ Morten:
 	  of a cell.  (Operation Snappiness, Part 3.)
 	* Make mstyle cache pango attributes.  (Operation Snappiness,
           Part 4.)
+	* Make sure our pango contexts have language set.  (Operation
+	  Snappiness, Part 5.)
 
 --------------------------------------------------------------------------
 Gnumeric 1.1.16
