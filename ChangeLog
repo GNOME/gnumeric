@@ -1,3 +1,9 @@
+2003-07-21  Andreas J. Guelzow  <aguelzow@taliesin.ca>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=117409
+	* src/stf-parse.c (stf_parse_region): fix one-off error in 
+	  number of columns
+
 2003-07-21  Morten Welinder  <terra@gnome.org>
 
 	* src/sheet-object-image.c (soi_get_pixbuf): Stop making silly

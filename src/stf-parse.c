@@ -1207,11 +1207,9 @@ stf_parse_region (StfParseOptions_t *parseoptions, char const *data, char const 
 					ccopy->comment = NULL;
 
 					content = g_list_prepend (content, ccopy);
-
+					targetcol++;
 					if (targetcol > colhigh)
 						colhigh = targetcol;
-
-					targetcol++;
 				}
 			}
 		}
