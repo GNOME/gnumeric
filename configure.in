@@ -218,17 +218,15 @@ AM_CONDITIONAL(GB, $have_gb)
 dnl ******************************
 dnl GnomePrint checking
 dnl ******************************
-AC_MSG_CHECKING(for GnomePrint libraries)
+AC_MSG_CHECKING(for GnomePrint libraries >= 0.11)
 if gnome-config --libs print > /dev/null 2>&1; then 
-    AC_MSG_RESULT(found)
-    . `gnome-config --libdir`/printConf.sh
-    AC_MSG_CHECKING(for GnomePrint >= 0.8)
-    case x$MODULE_VERSION in
-	xgnome-print-0.[[01234567]])
-		AC_MSG_ERROR(You need at least GNOME print 0.8 for this version of Gnumeric)
-		;;
-    esac
-    AC_MSG_RESULT(found)
+    vers=`(. \`gnome-config --libdir\`/printConf.sh && echo $MODULE_VERSION | sed -e "s/gnome-print-//" ) | \
+        awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
+    if test "$vers" -ge 8; then
+        AC_MSG_RESULT(found)
+    else
+        AC_MSG_ERROR(You need at least GNOME print 0.8 for this version of Gnumeric)
+    fi
 else
     AC_MSG_ERROR(Did not find GnomePrint installed)
 fi
@@ -238,12 +236,12 @@ dnl LibGlade checking
 dnl ******************************
 AC_MSG_CHECKING(for Glade libraries >= 0.11)
 if gnome-config --libs libglade > /dev/null 2>&1; then 
-	vers=`gnome-config --modversion libglade`
-	case $vers
-	in
-	    libglade-0.1[[123456789]]) AC_MSG_RESULT(found) ;;
-	    *) AC_MSG_ERROR(libglade is too old need >= 0.11) ;;
-	esac
+    vers=`gnome-config --modversion libglade | awk 'BEGIN { FS = "."; } { print $1 * 1000 + $2;}'`
+    if test "$vers" -ge 11; then
+        AC_MSG_RESULT(found)
+    else
+        AC_MSG_ERROR(You need at least libglade 0.11 for this version of Gnumeric)
+    fi
 else
     AC_MSG_ERROR(Did not find libGlade installed)
 fi
@@ -253,8 +251,8 @@ dnl gtk+ checking
 dnl ******************************
 AC_MSG_CHECKING(for GTK >= 1.2.2)
 if gtk-config --version > /dev/null 2>&1; then 
-    vers=`gtk-config --version | awk 'BEGIN { FS = "."; } { print $1 * 10000 + $2 * 100 + $3;}'`
-    if test "$vers" -ge 10202; then
+    vers=`gtk-config --version | awk 'BEGIN { FS = "."; } { print ($1 * 1000 + $2) * 1000 + $3;}'`
+    if test "$vers" -ge 1002002; then
         AC_MSG_RESULT(found)
     else
         AC_MSG_ERROR(You need at least GTK+ 1.2.2 for this version of Gnumeric)

@@ -1,3 +1,8 @@
+2000-01-14  Morten Welinder  <terra@diku.dk>
+
+	* configure.in (GTK+, libglade, gnome-print): Fix version checks.
+  	Use base 1000.  Someone else needs to fix Bonobo check.
+
 2000-01-14  Jody Goldberg <jgoldberg@home.com>
 
 	* src/dialogs/dialog-autocorrect.c (autocorrect_tool) : Suppress
