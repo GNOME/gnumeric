@@ -116,7 +116,8 @@ sub import_file {
 	    s/([-+]?\d*\.(\d{10,})([eE][-+]?\d+)?)/GNUM_const\($1\)/g;
 
 	    # These are made static.
-	    s/^gnum_float\s+(pbeta_both|stirlerr|bd0|dpois_raw|chebyshev_init|chebyshev_eval|lgammacor|lbeta|pbeta_raw|dbinom_raw)/static gnum_float $1/;
+	    s/^gnum_float\s+(pbeta_both|stirlerr|bd0|dpois_raw|chebyshev_eval|lgammacor|lbeta|pbeta_raw|dbinom_raw)/static gnum_float $1/;
+	    s/^int\s+(chebyshev_init)/static int $1/;
 
 	    s/dnorm4/dnorm/g;
 	    s/pnorm5/pnorm/g;
