@@ -44,7 +44,7 @@ msgstr "Hе удалось найти функцию языка Guile."
 
 #: plugins/guile/plugin.c:448
 msgid "Guile Plugin"
-msgstr "Дополнениe языка Guile"
+msgstr "Дополнение языка Guile"
 
 #: plugins/python/python.c:99
 msgid "Unable to lookup Python code object."
@@ -1375,7 +1375,7 @@ msgid ""
 msgstr ""
 "@FUNCTION=RADIANS\n"
 "@SYNTAX=RADIANS(x)\n"
-"@DESCRIPTION=Вычисляет число радиан в x градусах. \n"
+"@DESCRIPTION=Вычисляет число радиант в x градусах. \n"
 "Со строками и пустыми ячейками эта функция ничего не делает.\n"
 "@SEEALSO=PI,DEGREES"
 
@@ -1493,7 +1493,7 @@ msgstr ""
 "@FUNCTION=TRUNC\n"
 "@SYNTAX=TRUNC(number[,digits])\n"
 "@DESCRIPTION=Функция TRUNC возвращает значение числа укороченного до "
-"заданного числа цифр. Если число цифр не заданно, то подразумевается "
+"заданного числа цифр. Если число цифр не задано, то подразумевается "
 "ноль.\n"
 "\n"
 "@SEEALSO="
@@ -2261,7 +2261,7 @@ msgstr "Специальный"
 
 #: src/workbook.c:774 src/workbook.c:780
 msgid "_Autoadjust"
-msgstr "Автоупорядочивание"
+msgstr "Авто-упорядочивание"
 
 #: src/workbook.c:775
 msgid "_Width"
@@ -2333,7 +2333,7 @@ msgstr "Вставить из буфера обмена"
 
 #: src/workbook.c:848
 msgid "Left align"
-msgstr "Выключка влево"
+msgstr "Выровнять влево"
 
 #: src/workbook.c:848
 msgid "Sets the cell alignment to the left"
@@ -2345,7 +2345,7 @@ msgstr "Центрировать содержимое ячеек"
 
 #: src/workbook.c:854
 msgid "Right align"
-msgstr "Выключка вправо"
+msgstr "Выровнять вправо"
 
 #: src/workbook.c:854
 msgid "Sets the cell alignment to the right"
