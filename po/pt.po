@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric CVS\n"
-"POT-Creation-Date: 1999-08-02 00:58-0400\n"
+"POT-Creation-Date: 1999-08-03 00:23-0500\n"
 "PO-Revision-Date: 1998-10-03 17:59+01:00\n"
 "Last-Translator: Nuno Ferreira <nmrf@rnl.ist.utl.pt>\n"
 "Language-Team: Portuguese <pt@li.org>\n"
@@ -644,25 +644,25 @@ msgstr ""
 msgid "Internal error"
 msgstr "Erro de sintaxe"
 
-#: src/expr.c:852
+#: src/expr.c:858
 #, fuzzy
 msgid "Internal type error"
 msgstr "Erro de tipo"
 
-#: src/expr.c:975
+#: src/expr.c:997
 #, fuzzy
 msgid "Unknown operator"
 msgstr "Erro de avaliação desconhecido"
 
-#: src/expr.c:1108
+#: src/expr.c:1130
 msgid "Unknown evaluation error"
 msgstr "Erro de avaliação desconhecido"
 
-#: src/expr.c:1502
+#: src/expr.c:1524
 msgid "#Reference to deleted cell!"
 msgstr ""
 
-#: src/expr.c:1531
+#: src/expr.c:1553
 msgid "#Reference to deleted range!"
 msgstr ""
 
@@ -883,8 +883,7 @@ msgid ""
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
 
-#. Dummy out for now
-#: src/fn-date.c:639 src/fn-date.c:718 src/fn-date.c:721
+#: src/fn-date.c:639
 msgid "Unimplemented"
 msgstr ""
 
@@ -898,7 +897,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/fn-date.c:745
+#: src/fn-date.c:785
 msgid "Date / Time"
 msgstr ""
 

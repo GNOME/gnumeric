@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.9.3\n"
-"POT-Creation-Date: 1999-08-02 00:58-0400\n"
+"POT-Creation-Date: 1999-08-03 00:23-0500\n"
 "PO-Revision-Date: 1999-02-20 20:00+0800\n"
 "Last-Translator: Pofeng Lee <Pofeng.Lee@ms7.url.com.tw>\n"
 "Language-Team: Chinese <zh@li.org>\n"
@@ -652,25 +652,25 @@ msgstr "不可能!"
 msgid "Internal error"
 msgstr "語法錯誤"
 
-#: src/expr.c:852
+#: src/expr.c:858
 #, fuzzy
 msgid "Internal type error"
 msgstr "形態錯誤 (Type error)"
 
-#: src/expr.c:975
+#: src/expr.c:997
 #, fuzzy
 msgid "Unknown operator"
 msgstr "不明的執行錯誤"
 
-#: src/expr.c:1108
+#: src/expr.c:1130
 msgid "Unknown evaluation error"
 msgstr "不明的執行錯誤"
 
-#: src/expr.c:1502
+#: src/expr.c:1524
 msgid "#Reference to deleted cell!"
 msgstr "#指到已刪除的格子!"
 
-#: src/expr.c:1531
+#: src/expr.c:1553
 msgid "#Reference to deleted range!"
 msgstr "#指到已刪除的範圍!"
 
@@ -890,8 +890,7 @@ msgid ""
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
 
-#. Dummy out for now
-#: src/fn-date.c:639 src/fn-date.c:718 src/fn-date.c:721
+#: src/fn-date.c:639
 #, fuzzy
 msgid "Unimplemented"
 msgstr "#未實作的功\能!"
@@ -906,7 +905,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/fn-date.c:745
+#: src/fn-date.c:785
 msgid "Date / Time"
 msgstr ""
 

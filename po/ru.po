@@ -4,7 +4,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 1999-08-02 00:58-0400\n"
+"POT-Creation-Date: 1999-08-03 00:23-0500\n"
 "PO-Revision-Date: 1999-04-19 14:42-0600\n"
 "Last-Translator: Valek Filippov <val@comptek.ru>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -637,24 +637,24 @@ msgstr "Невозможно!"
 msgid "Internal error"
 msgstr "Внутренняя ошибка"
 
-#: src/expr.c:852
+#: src/expr.c:858
 msgid "Internal type error"
 msgstr "Ошибка внутреннего типа"
 
-#: src/expr.c:975
+#: src/expr.c:997
 #, fuzzy
 msgid "Unknown operator"
 msgstr "Неизвестная ошибка в выражении"
 
-#: src/expr.c:1108
+#: src/expr.c:1130
 msgid "Unknown evaluation error"
 msgstr "Неизвестная ошибка в выражении"
 
-#: src/expr.c:1502
+#: src/expr.c:1524
 msgid "#Reference to deleted cell!"
 msgstr "#Ссылка на удаленную ячейку!"
 
-#: src/expr.c:1531
+#: src/expr.c:1553
 msgid "#Reference to deleted range!"
 msgstr "#Ссылка на удаленную область!"
 
@@ -950,8 +950,7 @@ msgid ""
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
 
-#. Dummy out for now
-#: src/fn-date.c:639 src/fn-date.c:718 src/fn-date.c:721
+#: src/fn-date.c:639
 msgid "Unimplemented"
 msgstr ""
 
@@ -965,7 +964,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/fn-date.c:745
+#: src/fn-date.c:785
 msgid "Date / Time"
 msgstr ""
 

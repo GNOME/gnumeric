@@ -6,7 +6,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
-"POT-Creation-Date: 1999-08-02 00:58-0400\n"
+"POT-Creation-Date: 1999-08-03 00:23-0500\n"
 "PO-Revision-Date: 1998-08-01 13:46+0202\n"
 "Last-Translator: Vincent Renardias <vincent@ldsol.com>\n"
 "Language-Team: GNOME French Team <gnomefr@gnomefr.traduc.org>\n"
@@ -641,24 +641,24 @@ msgstr "Impossible!"
 msgid "Internal error"
 msgstr "Erreur interne"
 
-#: src/expr.c:852
+#: src/expr.c:858
 msgid "Internal type error"
 msgstr "Erreur de type interne"
 
-#: src/expr.c:975
+#: src/expr.c:997
 #, fuzzy
 msgid "Unknown operator"
 msgstr "Version Inconnue"
 
-#: src/expr.c:1108
+#: src/expr.c:1130
 msgid "Unknown evaluation error"
 msgstr "Erreur d'évaluation inconnue"
 
-#: src/expr.c:1502
+#: src/expr.c:1524
 msgid "#Reference to deleted cell!"
 msgstr "#Référence à une cellule supprimée!"
 
-#: src/expr.c:1531
+#: src/expr.c:1553
 msgid "#Reference to deleted range!"
 msgstr "#Référence à un ensemble de cellules supprimé!"
 
@@ -982,8 +982,7 @@ msgid ""
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
 
-#. Dummy out for now
-#: src/fn-date.c:639 src/fn-date.c:718 src/fn-date.c:721
+#: src/fn-date.c:639
 msgid "Unimplemented"
 msgstr "Non implémenté"
 
@@ -997,7 +996,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/fn-date.c:745
+#: src/fn-date.c:785
 msgid "Date / Time"
 msgstr "Date / Heure"
 

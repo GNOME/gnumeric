@@ -338,7 +338,7 @@ fill_corba_value (GNOME_Gnumeric_Value *value, Sheet *sheet, CORBA_long col, COR
 			
 		case VALUE_ERROR:
 			value->_d = GNOME_Gnumeric_VALUE_ERROR;
-			value->_u.error = CORBA_string_dup (cell->value->v.error.mesg->str->str);
+			value->_u.error = CORBA_string_dup (cell->value->v.error.mesg->str);
 			break;
 			
 		case VALUE_STRING:
@@ -582,7 +582,7 @@ Sheet_cell_get_foreground (PortableServer_Servant servant,
 {
 	Sheet *sheet = sheet_from_servant (servant);
 
-	g_error ("Foreground");
+	g_error ("Foreground for sheet %p", sheet);
 
 	return NULL;
 }

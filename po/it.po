@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-08-02 00:58-0400\n"
+"POT-Creation-Date: 1999-08-03 00:23-0500\n"
 "Content-Type: text/plain; charset=\n"
 "Date: 1998-09-02 18:03:00+0200\n"
 "From: Tristan Tarrant <tst@decp3229.etnoteam.it>\n"
@@ -665,26 +665,26 @@ msgstr ""
 msgid "Internal error"
 msgstr "Errore di sintassi"
 
-#: src/expr.c:852
+#: src/expr.c:858
 #, fuzzy
 msgid "Internal type error"
 msgstr "Errore di tipo"
 
-#: src/expr.c:975
+#: src/expr.c:997
 #, fuzzy
 msgid "Unknown operator"
 msgstr "Errore di valutazione sconosciuto"
 
-#: src/expr.c:1108
+#: src/expr.c:1130
 msgid "Unknown evaluation error"
 msgstr "Errore di valutazione sconosciuto"
 
-#: src/expr.c:1502
+#: src/expr.c:1524
 #, fuzzy
 msgid "#Reference to deleted cell!"
 msgstr "Centra il contenuto della cella"
 
-#: src/expr.c:1531
+#: src/expr.c:1553
 msgid "#Reference to deleted range!"
 msgstr ""
 
@@ -915,8 +915,7 @@ msgid ""
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
 
-#. Dummy out for now
-#: src/fn-date.c:639 src/fn-date.c:718 src/fn-date.c:721
+#: src/fn-date.c:639
 msgid "Unimplemented"
 msgstr ""
 
@@ -930,7 +929,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/fn-date.c:745
+#: src/fn-date.c:785
 msgid "Date / Time"
 msgstr ""
 

@@ -1,3 +1,13 @@
+1999-08-03  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/corba-sheet.c (fill_corba_value): Corrected the argument here.
+	
+1999-07-27  Miguel de Icaza  <miguel@gnu.org>
+
+	* src/corba-workbook-factory.c (WorkbookFactory_read): Duplicate
+	CORBA Object server here.
+	(WorkbookFactory_create_object): and here.
+
 1999-08-03  Robert Brady  <rwb197@ecs.soton.ac.uk>
  
         * gnumeric.spec.in, README: require gnome-print 0.3 or greater.

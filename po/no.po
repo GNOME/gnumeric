@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric 0.27\n"
-"POT-Creation-Date: 1999-08-02 00:58-0400\n"
+"POT-Creation-Date: 1999-08-03 00:23-0500\n"
 "PO-Revision-Date: 1999-07-30 05:19+02:00\n"
 "Last-Translator: Kjartan Maraas <kmaraas@online.no>\n"
 "Language-Team: Norwegian <no@li.org>\n"
@@ -638,24 +638,24 @@ msgstr "Umulig!"
 msgid "Internal error"
 msgstr "Intern feil"
 
-#: src/expr.c:852
+#: src/expr.c:858
 msgid "Internal type error"
 msgstr "Intern typefeil"
 
-#: src/expr.c:975
+#: src/expr.c:997
 #, fuzzy
 msgid "Unknown operator"
 msgstr "Ukjent evalueringsfeil"
 
-#: src/expr.c:1108
+#: src/expr.c:1130
 msgid "Unknown evaluation error"
 msgstr "Ukjent evalueringsfeil"
 
-#: src/expr.c:1502
+#: src/expr.c:1524
 msgid "#Reference to deleted cell!"
 msgstr "#Referanse til slettet celle!"
 
-#: src/expr.c:1531
+#: src/expr.c:1553
 msgid "#Reference to deleted range!"
 msgstr "#Referanse til slettet område!"
 
@@ -975,8 +975,7 @@ msgid ""
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
 
-#. Dummy out for now
-#: src/fn-date.c:639 src/fn-date.c:718 src/fn-date.c:721
+#: src/fn-date.c:639
 #, fuzzy
 msgid "Unimplemented"
 msgstr "#Uimplementert!"
@@ -991,7 +990,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/fn-date.c:745
+#: src/fn-date.c:785
 msgid "Date / Time"
 msgstr "Dato / Klokkeslett"
 

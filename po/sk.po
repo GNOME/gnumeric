@@ -1,6 +1,6 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 1999-08-02 00:58-0400\n"
+"POT-Creation-Date: 1999-08-03 00:23-0500\n"
 "Content-Type: text/plain; charset=\n"
 "Date: 1999-04-30 12:12:02+0000\n"
 "From: Bobo Rajec,BSP Consulting,+42 7 5330 017,, <bobo@bobo.bspc.sk>\n"
@@ -659,26 +659,26 @@ msgstr "Nemo¾né!"
 msgid "Internal error"
 msgstr "Chyba v syntaxi"
 
-#: src/expr.c:852
+#: src/expr.c:858
 #, fuzzy
 msgid "Internal type error"
 msgstr "Chyba typu"
 
-#: src/expr.c:975
+#: src/expr.c:997
 #, fuzzy
 msgid "Unknown operator"
 msgstr "Neznáma chyba pri vyhodnocovaní"
 
-#: src/expr.c:1108
+#: src/expr.c:1130
 msgid "Unknown evaluation error"
 msgstr "Neznáma chyba pri vyhodnocovaní"
 
-#: src/expr.c:1502
+#: src/expr.c:1524
 #, fuzzy
 msgid "#Reference to deleted cell!"
 msgstr "Referencia na novú bunku"
 
-#: src/expr.c:1531
+#: src/expr.c:1553
 #, fuzzy
 msgid "#Reference to deleted range!"
 msgstr "Referencia na novú bunku"
@@ -900,8 +900,7 @@ msgid ""
 "@SEEALSO=NETWORKDAYS"
 msgstr ""
 
-#. Dummy out for now
-#: src/fn-date.c:639 src/fn-date.c:718 src/fn-date.c:721
+#: src/fn-date.c:639
 msgid "Unimplemented"
 msgstr ""
 
@@ -915,7 +914,7 @@ msgid ""
 "@SEEALSO=WORKDAY"
 msgstr ""
 
-#: src/fn-date.c:745
+#: src/fn-date.c:785
 msgid "Date / Time"
 msgstr ""
 

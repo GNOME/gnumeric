@@ -41,7 +41,7 @@ WorkbookFactory_read (PortableServer_Servant servant, const CORBA_char * filenam
 	gtk_widget_show (workbook->toplevel);
 	
 	if (workbook)
-		return workbook->corba_server;
+		return CORBA_Object_duplicate (workbook->corba_server, ev);
 	else
 		return CORBA_OBJECT_NIL;
 }
@@ -78,7 +78,7 @@ WorkbookFactory_create_object (PortableServer_Servant servant,
 	workbook = workbook_new ();
 	gtk_widget_show (workbook->toplevel);
 
-	return workbook->corba_server;
+	return CORBA_Object_duplicate (workbook->corba_server, ev);
 }
 
 /*
