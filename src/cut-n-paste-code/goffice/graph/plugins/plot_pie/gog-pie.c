@@ -432,7 +432,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 				gog_theme_init_style (theme, style, GOG_OBJECT (series),
 					model->base.index_num + k);
 			gog_renderer_draw_polygon (view->renderer, path,
-				r * len < 5 /* drop outline for thin segments */);
+				r * len < 5 /* drop outline for thin segments */, NULL);
 		}
 
 		gog_renderer_pop_style (view->renderer);

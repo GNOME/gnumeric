@@ -281,22 +281,29 @@ gog_xy_view_render (GogView *view, GogViewAllocation const *bbox)
 #warning move map into axis
 				x = x_off + x_scale * x;
 				y = y_off + y_scale * y;
-				if (show_marks)
-					gog_renderer_draw_marker (view->renderer, x, y);
-
 				if (show_lines) {
 					if (prev_valid) {
 						path[0].x = x;
 						path[0].y = y;
-						gog_renderer_draw_path (view->renderer, path);
+						gog_renderer_draw_path (view->renderer, path, NULL);
 					}
 					path[1].x = x;
 					path[1].y = y;
 					prev_valid = TRUE;
 				}
+
+				/* draw marker after line */
+				if (prev_valid && show_marks)
+					gog_renderer_draw_marker (view->renderer, x, y);
 			} else
 				prev_valid = FALSE;
 		}
+
+		/* draw marker after line */
+		if (prev_valid && show_marks &&
+		    x_min <= x && x <= x_max && y_min <= y && y <= y_max)
+			gog_renderer_draw_marker (view->renderer, x, y);
+
 		gog_renderer_pop_style (view->renderer);
 	}
 }

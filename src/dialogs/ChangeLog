@@ -34,7 +34,7 @@
 
 2003-10-21  Jody Goldberg <jody@gnome.org>
 
-	* function-select.glade (</) : editable ??
+	* function-select.glade : why were the descriptions editable ??
 
 2003-10-13  Morten Welinder  <terra@gnome.org>
 
