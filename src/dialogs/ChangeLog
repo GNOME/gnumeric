@@ -1,5 +1,15 @@
 2001-07-07  Almer S. Tigelaar  <almer@gnome.org>
 
+	* dialog-autoformat.c (cb_get_row_height): Burn.
+	(cb_get_col_width): Burn.
+	(cb_get_cell_style): Tidy and cope for new parameters.
+	(cb_get_cell_value): Idem.
+	(previews_load): Remove setting of callback arguments upon
+	preview-grid creation and connect the get_cell_style and
+	get_cell_value signals.
+
+2001-07-07  Almer S. Tigelaar  <almer@gnome.org>
+
 	* dialog-cell-format.c (cb_font_changed): Adjust to handle
 	new parameters.
 	(cb_font_preview_color): Pass to font selector.

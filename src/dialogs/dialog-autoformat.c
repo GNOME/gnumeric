@@ -125,23 +125,9 @@ typedef struct {
  * CALLBACKS FOR PREVIEW GRID
  ********************************************************************************/
 
-static int
-cb_get_row_height (int row, gpointer data)
-{
-	return -1;
-}
-
-static int
-cb_get_col_width (int col, gpointer data)
-{
-	return -1;
-}
-
 static MStyle *
-cb_get_cell_style (int row, int col, gpointer data)
+cb_get_cell_style (PreviewGrid *pg, int row, int col, FormatTemplate *ft)
 {
-	FormatTemplate *ft = (FormatTemplate *) data;
-
 	/*
 	 * If this happens to be NULL the default style
 	 * will automatically be used.
@@ -150,7 +136,7 @@ cb_get_cell_style (int row, int col, gpointer data)
 }
 
 static Value *
-cb_get_cell_value (int row, int col, gpointer data)
+cb_get_cell_value (PreviewGrid *pg, int row, int col, gpointer data)
 {
 	Value *value;
 	const char *text;
@@ -366,16 +352,16 @@ previews_load (AutoFormatInfo *info, int topindex)
 			info->grid[i] = PREVIEW_GRID (
 				gnome_canvas_item_new (gnome_canvas_root (info->canvas[i]),
 						       preview_grid_get_type (),
-						       "GetRowHeightCb", cb_get_row_height,
-						       "GetColWidthCb", cb_get_col_width,
-						       "GetCellStyleCb", cb_get_cell_style,
-						       "GetCellValueCb", cb_get_cell_value,
 						       "RenderGridlines", info->gridlines->active,
 						       "DefaultRowHeight", DEFAULT_ROW_HEIGHT,
 						       "DefaultColWidth", DEFAULT_COL_WIDTH,
-						       "CbData", ft,
 						       NULL));
-						       
+
+			gtk_signal_connect (GTK_OBJECT (info->grid[i]), "get_cell_style",
+					    GTK_SIGNAL_FUNC (cb_get_cell_style), ft);
+			gtk_signal_connect (GTK_OBJECT (info->grid[i]), "get_cell_value",
+					    GTK_SIGNAL_FUNC (cb_get_cell_value), ft);
+
 			/* Are we selected? Then draw a selection rectangle */
 			if (topindex + i == info->preview_index) {
 				g_return_if_fail (info->selrect == NULL);

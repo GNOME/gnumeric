@@ -1,5 +1,15 @@
 2001-07-07  Almer S. Tigelaar  <almer@gnome.org>
 
+	* widget-font-selector.c (cb_get_row_height): Adjust signature for
+	changes to the preview-grid.
+	(cb_get_col_width): Idem.
+	(cb_get_cell_style): Idem.
+	(cb_get_cell_value): Idem.
+	(fs_init): Remove setting of callback arguments, instead connect signal
+	callbacks to the preview grid.
+
+2001-07-07  Almer S. Tigelaar  <almer@gnome.org>
+
 	* widget-font-selector.c (reload_preview): Drastically revise, burned
 	most of the existing code. Emits the font_changed signal.
 	(font_selected): Set name directly on MStyle.

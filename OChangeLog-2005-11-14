@@ -1,3 +1,14 @@
+2001-07-07  Almer S. Tigelaar  <almer@gnome.org>
+
+	* src/preview-grid.[ch] (marshal_POINTER__INT_INT): New, custom marshaller.
+	(pg_get_row_height): Get default row height by emitting signal.
+	(pg_get_col_width): Idem for column width.
+	(pg_get_style): Idem for style.
+	(pg_construct_cell): Idem for value.
+	(preview_grid_init): Provide sensible defaults.
+	(preview_grid_set_arg): Remove callback related arguments.
+	(preview_grid_class_init): Idem and create all newly added signals.
+
 2001-07-06  Yukihiro Nakai  <nakai@gnome.gr.jp>
 
 	* src/gnumeric-sheet.c (gnumeric_sheet_realize) : Over-the-Spot

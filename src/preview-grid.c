@@ -48,14 +48,6 @@ struct _PreviewGrid {
 		GdkGC *cell;	/* Color used for the cell */
 		GdkGC *empty;	/* GC used for drawing empty cells */
 	} gc;
-	struct { /* Callbacks */
-		PGridGetRowHeight get_row_height;
-		PGridGetColWidth  get_col_width;
-		PGridGetCellStyle get_cell_style;
-		PGridGetCellValue get_cell_value;
-
-		gpointer          user_data;
-	} cb;
 	struct { /* Defaults */
 		MStyle *style;
 		int     row_height;
@@ -67,6 +59,11 @@ struct _PreviewGrid {
 
 typedef struct {
 	GnomeCanvasItemClass parent_class;
+
+	int      (* get_row_height) (PreviewGrid *pg, int row);
+	int      (* get_col_width)  (PreviewGrid *pg, int col);
+	MStyle * (* get_cell_style) (PreviewGrid *pg, int row, int col);
+	Value *  (* get_cell_value) (PreviewGrid *pg, int row, int col);
 } PreviewGridClass;
 
 #define PREVIEW_GRID_CLASS(k) (GTK_CHECK_CLASS_CAST ((k), preview_grid_get_type (), PreviewGridClass))
@@ -77,51 +74,67 @@ static GnomeCanvasItemClass *preview_grid_parent_class;
 enum {
 	ARG_0,
 	
-	/* Callbacks */
-	ARG_GET_ROW_HEIGHT_CB,
-	ARG_GET_COL_WIDTH_CB,
-	ARG_GET_CELL_STYLE_CB,
-	ARG_GET_CELL_VALUE_CB,
-	ARG_CB_DATA,
-
 	/* Options */
 	ARG_RENDER_GRIDLINES,
 	ARG_DEFAULT_ROW_HEIGHT,
 	ARG_DEFAULT_COL_WIDTH,
 };
 
+/* Signals */
+enum {
+	GET_ROW_HEIGHT,
+	GET_COL_WIDTH,
+	GET_CELL_STYLE,
+	GET_CELL_VALUE,
+	LAST_SIGNAL
+};
+
+static guint pg_signals [LAST_SIGNAL] = { 0 };
+
+typedef gpointer (*GtkSignal_POINTER__INT_INT) (GtkObject * object,
+						gint arg1,
+						gint arg2,
+						gpointer user_data);
+static void
+marshal_POINTER__INT_INT (GtkObject * object, GtkSignalFunc func,
+				 gpointer func_data, GtkArg * args)
+{
+	GtkSignal_POINTER__INT_INT rfunc;
+	gpointer *rval;
+	rval = GTK_RETLOC_POINTER (args[2]);
+	rfunc = (GtkSignal_POINTER__INT_INT) func;
+	*rval = (*rfunc) (object,
+			  GTK_VALUE_INT (args[0]),
+			  GTK_VALUE_INT (args[1]),
+			  func_data);
+}
+
 /*****************************************************************************/
 
 static int
 pg_get_row_height (PreviewGrid *pg, int const row)
 {
-	int height;
-
+	int height = pg->def.row_height;
+	
 	g_return_val_if_fail (pg != NULL, 0);
 	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 0);
-	
-	height = pg->cb.get_row_height (row, pg->cb.user_data);
-	
-	if (height < 0)
-		return pg->def.row_height;
-	else
-		return height;
+
+	gtk_signal_emit (GTK_OBJECT (pg), pg_signals [GET_ROW_HEIGHT], row, &height);
+
+	return height;
 }
 
 static int
 pg_get_col_width (PreviewGrid *pg, int const col)
 {
-	int width;
-
+	int width = pg->def.col_width;
+	
 	g_return_val_if_fail (pg != NULL, 0);
 	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 0);
 
-	width = pg->cb.get_col_width (col, pg->cb.user_data);
-	
-	if (width < 0)
-		return pg->def.col_width;
-	else
-		return width;
+	gtk_signal_emit (GTK_OBJECT (pg), pg_signals [GET_COL_WIDTH], col, &width);
+
+	return width;
 }
 
 /**
@@ -200,13 +213,13 @@ pg_get_col_offset (PreviewGrid *pg, int const x, int *col_origin)
 static MStyle *
 pg_get_style (PreviewGrid *pg, int const row, int const col)
 {
-	MStyle *style;
+	MStyle *style = NULL;
 
 	g_return_val_if_fail (pg != NULL, 0);
 	g_return_val_if_fail (row >= 0 && row < SHEET_MAX_ROWS, 0);
 	g_return_val_if_fail (col >= 0 && col < SHEET_MAX_COLS, 0);
-	
-	style = pg->cb.get_cell_style (row, col, pg->cb.user_data);
+
+	gtk_signal_emit (GTK_OBJECT (pg), pg_signals [GET_CELL_STYLE], row, col, &style, NULL);
 	
 	/* If no style was returned, use the default style */
 	if (style == NULL)
@@ -255,8 +268,9 @@ pg_construct_cell (PreviewGrid *pg, int const row, int const col)
 	cell->row_info->size_pixels = pg_get_row_height (pg, row);
 	cell->col_info->size_pixels = pg_get_col_width  (pg, col);
 
-	cell->value = pg->cb.get_cell_value (row, col, pg->cb.user_data);
-	if (!cell->value)
+	cell->value = NULL;
+	gtk_signal_emit (GTK_OBJECT (pg), pg_signals [GET_CELL_VALUE], row, col, &cell->value, NULL);
+	if (cell->value == NULL)
 		cell->value = value_new_empty ();
 		
 	res = rendered_value_new (cell, style, TRUE);
@@ -572,6 +586,11 @@ preview_grid_init (PreviewGrid *preview_grid)
 	item->y1 = 0;
 	item->x2 = 0;
 	item->y2 = 0;
+
+	/* Some sensible hardcoded defaults */
+	preview_grid->gridlines      = FALSE;
+	preview_grid->def.col_width  = 64;
+	preview_grid->def.row_height = 17;
 }
 
 /**
@@ -589,21 +608,6 @@ preview_grid_set_arg (GtkObject *o, GtkArg *arg, guint arg_id)
 	pg = PREVIEW_GRID (o);
 
 	switch (arg_id){
-	case ARG_GET_ROW_HEIGHT_CB :
-		pg->cb.get_row_height = GTK_VALUE_POINTER (*arg);
-		break;
-	case ARG_GET_COL_WIDTH_CB :
-		pg->cb.get_col_width = GTK_VALUE_POINTER (*arg);
-		break;
-	case ARG_CB_DATA :
-		pg->cb.user_data = GTK_VALUE_POINTER (*arg);
-		break;
-	case ARG_GET_CELL_STYLE_CB :
-		pg->cb.get_cell_style = GTK_VALUE_POINTER (*arg);
-		break;
-	case ARG_GET_CELL_VALUE_CB:
-		pg->cb.get_cell_value = GTK_VALUE_POINTER (*arg);
-		break;
 	case ARG_RENDER_GRIDLINES :
 		pg->gridlines = GTK_VALUE_BOOL (*arg);
 		break;
@@ -636,18 +640,6 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 	object_class = (GtkObjectClass *) preview_grid_class;
 	item_class = (GnomeCanvasItemClass *) preview_grid_class;
 
-	/* Callbacks */
-	gtk_object_add_arg_type ("PreviewGrid::GetRowHeightCb", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_GET_ROW_HEIGHT_CB);
-	gtk_object_add_arg_type ("PreviewGrid::GetColWidthCb", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_GET_COL_WIDTH_CB);
-	gtk_object_add_arg_type ("PreviewGrid::GetCellStyleCb", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_GET_CELL_STYLE_CB);
-	gtk_object_add_arg_type ("PreviewGrid::GetCellValueCb", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_GET_CELL_VALUE_CB);
-	gtk_object_add_arg_type ("PreviewGrid::CbData", GTK_TYPE_POINTER,
-				 GTK_ARG_WRITABLE, ARG_CB_DATA);
-
 	/* Manipulation */
 	gtk_object_add_arg_type ("PreviewGrid::RenderGridlines", GTK_TYPE_BOOL,
 				 GTK_ARG_WRITABLE, ARG_RENDER_GRIDLINES);
@@ -671,6 +663,42 @@ preview_grid_class_init (PreviewGridClass *preview_grid_class)
 	item_class->translate   = preview_grid_translate;
 	item_class->event       = preview_grid_event;
 	*/
+
+	/* Create all the signals */
+	pg_signals [GET_ROW_HEIGHT] =
+		gtk_signal_new (
+			"get_row_height",
+			GTK_RUN_LAST,
+			object_class->type,
+			GTK_SIGNAL_OFFSET (PreviewGridClass, get_row_height),
+			gtk_marshal_INT__INT,
+			GTK_TYPE_INT, 1, GTK_TYPE_INT);
+	pg_signals [GET_COL_WIDTH] =
+		gtk_signal_new (
+			"get_col_width",
+			GTK_RUN_LAST,
+			object_class->type,
+			GTK_SIGNAL_OFFSET (PreviewGridClass, get_col_width),
+			gtk_marshal_INT__INT,
+			GTK_TYPE_INT, 1, GTK_TYPE_INT);
+	pg_signals [GET_CELL_STYLE] =
+		gtk_signal_new (
+			"get_cell_style",
+			GTK_RUN_LAST,
+			object_class->type,
+			GTK_SIGNAL_OFFSET (PreviewGridClass, get_cell_value),
+			marshal_POINTER__INT_INT,
+			GTK_TYPE_POINTER, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+	pg_signals [GET_CELL_VALUE] =
+		gtk_signal_new (
+			"get_cell_value",
+			GTK_RUN_LAST,
+			object_class->type,
+			GTK_SIGNAL_OFFSET (PreviewGridClass, get_cell_value),
+			marshal_POINTER__INT_INT,
+			GTK_TYPE_POINTER, 2, GTK_TYPE_INT, GTK_TYPE_INT);
+
+	gtk_object_class_add_signals (object_class, pg_signals, LAST_SIGNAL);
 }
 
 E_MAKE_TYPE (preview_grid, "PreviewGrid", PreviewGrid,

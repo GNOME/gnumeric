@@ -205,26 +205,26 @@ fs_fill_font_size_list (FontSelector *fs)
 }
 
 static int
-cb_get_row_height (int row, FontSelector *fs)
+cb_get_row_height (PreviewGrid *pg, int row, FontSelector *fs)
 {
 	return fs->height;
 }
 
 static int
-cb_get_col_width (int col, FontSelector *fs)
+cb_get_col_width (PreviewGrid *pg, int col, FontSelector *fs)
 {
 	return fs->width;
 }
 
 static MStyle *
-cb_get_cell_style (int row, int col, FontSelector *fs)
+cb_get_cell_style (PreviewGrid *pg, int row, int col, FontSelector *fs)
 {
 	mstyle_ref (fs->mstyle);
 	return fs->mstyle;
 }
 
 static Value *
-cb_get_cell_value (int row, int col, FontSelector *fs)
+cb_get_cell_value (PreviewGrid *pg, int row, int col, FontSelector *fs)
 {
 	/*
 	 * FIXME: :-( Why don't Value *'s support refcounting?
@@ -273,15 +273,21 @@ fs_init (FontSelector *fs)
 	fs->font_preview_grid = PREVIEW_GRID (gnome_canvas_item_new (
 		gnome_canvas_root (fs->font_preview_canvas),
 		preview_grid_get_type (),
-		"GetRowHeightCb", cb_get_row_height,
-		"GetColWidthCb", cb_get_col_width, 
-		"GetCellStyleCb", cb_get_cell_style,
-		"GetCellValueCb", cb_get_cell_value,
 		"RenderGridlines", FALSE,
-		"DefaultRowHeight", 1,
-		"DefaultColWidth", 1,
-		"CbData", fs,
 		NULL));
+
+	gtk_signal_connect (
+		GTK_OBJECT (fs->font_preview_grid), "get_row_height",
+		GTK_SIGNAL_FUNC (cb_get_row_height), fs);
+	gtk_signal_connect (
+		GTK_OBJECT (fs->font_preview_grid), "get_col_width",
+		GTK_SIGNAL_FUNC (cb_get_col_width), fs);
+	gtk_signal_connect (
+		GTK_OBJECT (fs->font_preview_grid), "get_cell_style",
+		GTK_SIGNAL_FUNC (cb_get_cell_style), fs);
+	gtk_signal_connect (
+		GTK_OBJECT (fs->font_preview_grid), "get_cell_value",
+		GTK_SIGNAL_FUNC (cb_get_cell_value), fs);
 		
 	gtk_signal_connect (
 		GTK_OBJECT (fs->font_preview_canvas), "size-allocate",
