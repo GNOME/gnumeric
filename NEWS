@@ -8,6 +8,10 @@ Christian Neumair:
 	* Put delete actions from edit main menu into their own submenu.
 	* HIGify some dialogs when it comes to spacing.
 
+Emmanuel Pacaud:
+	http://bugzilla.gnome.org/show_bug.cgi?id=142212
+	* In a line graph, don't use '0' if Y value is missing.
+
 Jean Brefort:
 	* Add error bars in bars, columns, lines and areas plots.
 

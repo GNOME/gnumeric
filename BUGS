@@ -15,8 +15,6 @@ Release Critical
     http://bugzilla.gnome.org/show_bug.cgi?id=127203	[x axis child pos]
     : X axis label seperation
     : Delete grid then edit chart and see a new grid
-    http://bugzilla.gnome.org/show_bug.cgi?id=142212
-    : missing values in line/area
 
 Worries
     http://bugzilla.gnome.org/show_bug.cgi?id=123403

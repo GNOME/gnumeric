@@ -265,6 +265,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 	styles  = g_alloca (num_series * sizeof (GogStyle *));
 	path    = g_alloca (num_series * sizeof (ArtVpath *));
 	errors = g_alloca (num_series * sizeof (GogErrorBar *));
+
 	i = 0;
 	for (ptr = model->base.series ; ptr != NULL ; ptr = ptr->next) {
 		series = ptr->data;
@@ -307,7 +308,6 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 	for (j = 1; j <= num_elements; j++) {
 		sum = abs_sum = 0.0;
-
 		if (type == GOG_1_5D_AS_PERCENTAGE) {
 			for (i = 0; i < num_series; i++)
 				if (finite (vals[i][j-1]))
@@ -342,7 +342,16 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			}
 
 			path[i][j].x = offset_x + scale_x * (j - 1);
-			path[i][j].code = ART_LINETO;
+			if (type == GOG_1_5D_NORMAL && !is_area_plot) 
+				if (finite (vals[i][j-1])) 
+					if (j > 1 && path[i][j-1].code == ART_MOVETO_OPEN)
+						path[i][j].code = ART_MOVETO;
+					else
+						path[i][j].code = ART_LINETO;
+				else
+					path[i][j].code = ART_MOVETO_OPEN;
+			else
+				path[i][j].code = ART_LINETO;
 
 			sum += value;
 
@@ -368,7 +377,6 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 					}
 					break;
 			}
-
 		}
 	}
 
@@ -397,7 +405,8 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			for (j = 1; j <= lengths[i]; j++) {
 				x = path[i][j].x;
 				y = path[i][j].y;
-				if (min_x <= x && x <= max_x && min_y <= y && y <= max_y)
+				if (min_x <= x && x <= max_x && min_y <= y && y <= max_y &&
+				    path[i][j].code != ART_MOVETO_OPEN)
 					gog_renderer_draw_marker (view->renderer, x, y);
 			}
 		} else {
