@@ -1,3 +1,10 @@
+2001-08-01  Jody Goldberg <jgoldberg@home.com>
+
+	* dialog-cell-format.c (draw_format_preview) : display parse formats
+	  for general.
+	(dialog_cell_format) : init it here.
+	(dialog_cell_number_fmt) : and here.
+
 2001-07-28  Almer S. Tigelaar  <almer@gnome.org>
 
 	* cell-format.glade, font-sel.glade: Slight tweaks.

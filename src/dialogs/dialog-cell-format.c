@@ -93,6 +93,7 @@ typedef struct _FormatState
 
 	Sheet		*sheet;
 	Value		*value;
+	StyleFormat	*parse_format;
 	MStyle		*style, *result;
 	StyleBorder *borders [STYLE_BORDER_EDGE_MAX];
 
@@ -476,6 +477,10 @@ draw_format_preview (FormatState *state)
 		return;
 
 	if (state->value) {
+		if (style_format_is_general (sf) &&
+		    state->parse_format != NULL)
+			sf = state->parse_format;
+
 		preview = format_value (sf, state->value, NULL, -1);
 
 		if (strlen (preview) > FORMAT_PREVIEW_MAX)
@@ -2227,7 +2232,6 @@ void
 dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition_t pageno)
 {
 	GladeXML     *gui;
-	Value	     *sample_val;
 	Cell	     *edit_cell;
 	FormatState  *state;
 
@@ -2242,14 +2246,18 @@ dialog_cell_format (WorkbookControlGUI *wbcg, Sheet *sheet, FormatDialogPosition
 				    sheet->edit_pos.col,
 				    sheet->edit_pos.row);
 
-	sample_val = (edit_cell) ? edit_cell->value : NULL;
-
 	/* Initialize */
 	state = g_new (FormatState, 1);
 	state->wbcg		= wbcg;
 	state->gui		= gui;
 	state->sheet		= sheet;
-	state->value		= sample_val;
+	if (edit_cell) {
+		state->value	    = edit_cell->value;
+		state->parse_format = edit_cell->format;
+	} else  {
+		state->value	    = NULL;
+		state->parse_format = NULL;
+	}
 	state->style		= NULL;
 	state->result		= mstyle_new ();
 	state->selection_mask	= 0;
@@ -2283,6 +2291,7 @@ dialog_cell_number_fmt (WorkbookControlGUI *wbcg, Value *sample_val)
 	state->gui		= NULL;
 	state->sheet		= NULL;
 	state->value		= sample_val;
+	state->parse_format	= NULL;
 	state->style		= mstyle_new (); /* FIXME : this should be passed in */
 	state->result		= mstyle_new ();
 	state->selection_mask	= 0;
