@@ -1,5 +1,8 @@
 2000-12-06  Jody Goldberg <jgoldberg@home.com>
 
+	* dialog-stf-preview.c (stf_preview_format_recalc_colwidths) : Avoid
+	  ansi violation.
+
 	* dialog-printer-setup.c (do_fetch_page_info) : Fix const problem.
 
 2000-12-04  Jody Goldberg <jgoldberg@home.com>

@@ -66,6 +66,7 @@
 #include "format.h"
 #include "number-match.h"
 #include "value.h"
+#include "../portability.h"
 
 #include "dialog-stf.h"
 #include "dialog-stf-preview.h"
@@ -411,7 +412,7 @@ stf_preview_format_recalc_colwidths (RenderData_t *renderdata, GSList *data, int
 	GArray *newwidths;
 	GSList *iterator;
 	int i;
-	int widths[colcount];
+	int *widths = g_alloca (colcount * sizeof (int));
 
 	for (i = 0; i <= colcount; i++) {
 
