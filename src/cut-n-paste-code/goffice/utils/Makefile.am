@@ -18,6 +18,8 @@ libgoffice_utils_la_SOURCES =	\
 	go-pattern.h		\
 	go-locale.c		\
 	go-locale.h		\
-	go-units.h
+	go-units.h		\
+	go-math.c		\
+	go-math.h
 
 include $(srcdir)/../goffice.mk

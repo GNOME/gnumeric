@@ -34,6 +34,7 @@
 #include <goffice/graph/gog-error-bar.h>
 #include <goffice/graph/go-data-simple.h>
 #include <goffice/utils/go-font.h>
+#include <goffice/utils/go-math.h>
 
 int goffice_graph_debug_level = 0;
 
@@ -41,6 +42,7 @@ void
 libgoffice_init (void)
 {
 	go_font_init ();
+	go_math_init ();
 
 	/* keep trigger happy linkers from leaving things out */
 	gog_plugin_services_init ();

@@ -29,10 +29,10 @@
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-math.h>
 
 #include <module-plugin-defs.h>
 #include <glib/gi18n.h>
-#include <src/mathfunc.h>
 #include <gsf/gsf-impl-utils.h>
 
 typedef struct {
@@ -187,7 +187,7 @@ gog_radar_plot_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->val.minima = 0.;
 		bounds->val.maxima = radar->num_elements;
 		bounds->logical.minima = 0.;
-		bounds->logical.maxima = gnm_nan;
+		bounds->logical.maxima = go_nan;
 		bounds->is_discrete    = TRUE;
 
 		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
@@ -346,7 +346,7 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 			double angle_rad = count * 2.0 * M_PI / model->num_elements;
 			double x, y, scale;
 
-			if (!finite (vals [count])) {
+			if (!go_finite (vals [count])) {
 				closed_shape = FALSE;
 				continue;
 			}
@@ -364,7 +364,7 @@ gog_radar_view_render (GogView *view, GogViewAllocation const *bbox)
 		}
 
 		if (series->base.num_elements == model->num_elements
-		    && finite(vals[count-1])) {
+		    && go_finite(vals[count-1])) {
 			path[count].code = ART_LINETO; 
 			path[count].x = path[0].x;
 			path[count].y = path[0].y;

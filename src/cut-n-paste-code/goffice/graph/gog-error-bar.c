@@ -33,6 +33,7 @@
 #include <goffice/gui-utils/go-color-palette.h>
 #include <goffice/gui-utils/go-combo-color.h>
 #include <goffice/gui-utils/go-combo-pixmaps.h>
+#include <goffice/utils/go-math.h>
 #include <gsf/gsf-impl-utils.h>
 #include <gtk/gtkspinbutton.h>
 #include <gtk/gtkcombobox.h>
@@ -507,7 +508,7 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 	double value = go_data_vector_get_values (GO_DATA_VECTOR (bar->series->values[bar->dim_i].data))[index];
 	GOData *data = bar->series->values[bar->error_i].data;
 	int length = (IS_GO_DATA (data))? go_data_vector_get_len (GO_DATA_VECTOR (data)): 0;
-	if ((bar->type == GOG_ERROR_BAR_TYPE_NONE) || isnan (value) || !finite (value))
+	if ((bar->type == GOG_ERROR_BAR_TYPE_NONE) || isnan (value) || !go_finite (value))
 		return FALSE;
 	/* -1 ensures that the bar will not be displayed if the error is not a correct one.
 		With a 0 value, it might be, because of rounding errors */
@@ -525,9 +526,9 @@ gog_error_bar_get_bounds (GogErrorBar const *bar, int index, double *min, double
 		*min = *go_data_vector_get_values (GO_DATA_VECTOR (data));
 	else if (length > index)
 		*min = go_data_vector_get_values (GO_DATA_VECTOR (data))[index];
-	if (isnan (*min) || !finite (*min) || (*min <= 0))
+	if (isnan (*min) || !go_finite (*min) || (*min <= 0))
 		*min = -1.;
-	if (isnan (*max) || !finite (*max) || (*max <= 0))
+	if (isnan (*max) || !go_finite (*max) || (*max <= 0))
 		*max = -1.;
 	switch (bar->type)
 	{

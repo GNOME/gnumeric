@@ -30,8 +30,8 @@
 #include <goffice/graph/gog-graph.h>
 #include <goffice/graph/gog-object-xml.h>
 #include <goffice/graph/go-data.h>
+#include <goffice/utils/go-math.h>
 #include <glib/gi18n.h>
-#include <src/mathfunc.h>
 
 #include <gsf/gsf-impl-utils.h>
 
@@ -415,8 +415,8 @@ gog_plot_get_axis_bounds (GogPlot *plot, GogAxisType axis,
 
 	bounds->val.minima =  DBL_MAX;
 	bounds->val.maxima = -DBL_MAX;
-	bounds->logical.maxima = gnm_nan;
-	bounds->logical.minima = gnm_nan;
+	bounds->logical.maxima = go_nan;
+	bounds->logical.minima = go_nan;
 	bounds->is_discrete = FALSE;
 	if (klass->axis_get_bounds == NULL)
 		return NULL;

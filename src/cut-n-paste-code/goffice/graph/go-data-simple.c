@@ -21,10 +21,10 @@
 #include <goffice/goffice-config.h>
 #include <goffice/graph/go-data-simple.h>
 #include <goffice/graph/go-data-impl.h>
+#include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
-#include <src/mathfunc.h>
 
 #include <string.h>
 #include <errno.h>
@@ -205,7 +205,7 @@ go_data_scalar_str_from_str (GOData *dat, char const *string)
 static double
 go_data_scalar_str_get_value (GODataScalar *dat)
 {
-	return gnm_nan;
+	return go_nan;
 }
 
 static char const *
@@ -425,7 +425,7 @@ go_data_vector_str_load_values (GODataVector *vec)
 static double
 go_data_vector_str_get_value (GODataVector *vec, unsigned i)
 {
-	return gnm_nan;
+	return go_nan;
 }
 static char *
 go_data_vector_str_get_str (GODataVector *vec, unsigned i)
@@ -534,4 +534,4 @@ go_data_vector_str_set_translation_domain (GODataVectorStr *vec,
 
 	go_data_vector_str_set_translate_func (vec, 
 		(GOTranslateFunc)dgettext_swapped, g_strdup (domain), g_free);
-} 
+}

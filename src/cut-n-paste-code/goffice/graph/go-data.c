@@ -22,11 +22,11 @@
 #include <goffice/goffice-config.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/graph/go-data-impl.h>
+#include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 #include <string.h>
-#include <src/mathfunc.h>
 
 #define GO_DATA_CLASS(k)	(G_TYPE_CHECK_CLASS_CAST ((k), GO_DATA_TYPE, GODataClass))
 #define IS_GO_DATA_CLASS(k)	(G_TYPE_CHECK_CLASS_TYPE ((k), GO_DATA_TYPE))
@@ -288,11 +288,11 @@ go_data_vector_get_value (GODataVector *vec, unsigned i)
 {
 	if (! (vec->base.flags & GO_DATA_CACHE_IS_VALID)) {
 		GODataVectorClass const *klass = GO_DATA_VECTOR_GET_CLASS (vec);
-		g_return_val_if_fail (klass != NULL, gnm_nan);
+		g_return_val_if_fail (klass != NULL, go_nan);
 		return (*klass->get_value) (vec, i);
 	}
 
-	g_return_val_if_fail ((int)i < vec->len, gnm_nan);
+	g_return_val_if_fail ((int)i < vec->len, go_nan);
 	return vec->values [i];
 }
 

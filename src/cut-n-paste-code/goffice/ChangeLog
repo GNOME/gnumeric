@@ -1,3 +1,60 @@
+2004-06-23  Jean Brefort  <jean.brefort@ac-dijon.fr>
+
+	* Makefile.am: Added cut-n-paste subdir.
+	* cut-n-paste/Makefile.am: New file.
+	* cut-n-paste/pcre/Makefile.am: pcre tree moved from gnumeric.
+	* cut-n-paste/pcre/get.c: (pcre_get_stringnumber),
+	(pcre_copy_substring), (pcre_copy_named_substring),
+	(pcre_get_substring_list), (pcre_free_substring_list),
+	(pcre_get_substring), (pcre_get_named_substring),
+	(pcre_free_substring): ditto, changed gnumeric_* to go_*
+	* cut-n-paste/pcre/internal.h: ditto.
+	* cut-n-paste/pcre/maketables.c: (pcre_maketables): ditto.
+	* cut-n-paste/pcre/pcre.c: (make_pcre_default_tables), (ord2utf8),
+	(pcre_version), (pcre_info), (pcre_fullinfo), (pcre_config),
+	(pchars), (check_escape), (is_counted_repeat),
+	(read_repeat_counts), (first_significant_code), (find_fixedlength),
+	(find_bracket), (find_recurse), (could_be_empty_branch),
+	(could_be_empty), (check_posix_syntax), (check_posix_name),
+	(adjust_recurse), (compile_branch), (compile_regex), (is_anchored),
+	(is_startline), (find_firstassertedchar), (valid_utf8),
+	(pcre_compile), (match_ref), (match_xclass), (match), (pcre_exec):
+	* cut-n-paste/pcre/pcre.h: ditto.
+	* cut-n-paste/pcre/pcreposix.c: (pcre_posix_error_code),
+	(go_regerror), (go_regfree), (go_regcomp), (go_regexec):
+	* cut-n-paste/pcre/pcreposix.h: ditto.
+	* cut-n-paste/pcre/printint.c: (print_char), (print_internals): ditto.
+	* cut-n-paste/pcre/study.c: (set_bit), (set_start_bits),
+	(pcre_study): ditto.
+	* goffice.c: (libgoffice_init): Added call to go_math_init.
+	* graph/go-data-simple.c: (go_data_scalar_str_get_value),
+	(go_data_vector_str_get_value),
+	(go_data_vector_str_set_translation_domain): use new go_nan and functions in utils/go-math.*
+	* graph/go-data.c: (go_data_vector_get_value): ditto.
+	* graph/gog-axis.c: (gog_axis_get_entry), (gog_axis_update),
+	(cb_enable_dim), (cb_axis_bound_changed), (gog_axis_get_bounds),
+	(gog_axis_num_markers), (gog_axis_view_render): ditto.
+	* graph/gog-error-bar.c: (gog_error_bar_get_bounds): ditto.
+	* graph/gog-plot.c: (gog_plot_get_axis_bounds): ditto.
+	* graph/plugins/plot_barcol/gog-1.5d.c:
+	(gog_plot1_5d_axis_get_bounds): ditto.
+	* graph/plugins/plot_barcol/gog-barcol.c:
+	(gog_barcol_update_stacked_and_percentage),
+	(gog_barcol_view_render): ditto.
+	* graph/plugins/plot_barcol/gog-line.c:
+	(gog_line_update_stacked_and_percentage), (gog_line_view_render): ditto.
+	* graph/plugins/plot_pie/gog-pie.c: (gog_pie_view_render),
+	(gog_pie_series_update): ditto.
+	* graph/plugins/plot_radar/gog-radar.c:
+	(gog_radar_plot_axis_get_bounds), (gog_radar_view_render):
+	* graph/plugins/plot_xy/gog-xy.c: (gog_2d_plot_update),
+	(gog_2d_plot_axis_get_bounds), (gog_xy_view_render): ditto.
+	* utils/go-marker.c: ditto.
+	* utils/Makefile.am: Added go_math.[c,h]
+	* utils/go-math.c: (go_math_init), (go_add_epsilon),
+	(go_sub_epsilon), (go_fake_floor), (go_fake_trunc): imported from gnumeric.
+	* utils/go-math.h: ditto.
+
 2004-06-20  Jody Goldberg <jody@gnome.org>
 
 	* graph/gog-axis.c (gog_axis_view_render) : Ensure that the line

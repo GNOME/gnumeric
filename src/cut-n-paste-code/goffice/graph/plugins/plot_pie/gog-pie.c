@@ -27,10 +27,10 @@
 #include <goffice/graph/gog-style.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-math.h>
 
 #include <module-plugin-defs.h>
 #include <glib/gi18n.h>
-#include <src/mathfunc.h>
 #include <gsf/gsf-impl-utils.h>
 #include <math.h>
 
@@ -449,7 +449,7 @@ gog_pie_view_render (GogView *view, GogViewAllocation const *bbox)
 
 		for (k = 0 ; k < series->base.num_elements; k++) {
 			len = fabs (vals[k]) * scale;
-			if (!finite (len) || len < 1e-3)
+			if (!go_finite (len) || len < 1e-3)
 				continue;
 			
 			gpse = NULL;
@@ -618,7 +618,7 @@ gog_pie_series_update (GogObject *obj)
 	series->base.num_elements = len;
 
 	for (total = 0. ; len-- > 0 ;)
-		if (finite (vals[len]))
+		if (go_finite (vals[len]))
 			total += fabs (vals[len]);
 	series->total = total;
 

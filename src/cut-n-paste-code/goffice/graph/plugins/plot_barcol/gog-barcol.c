@@ -27,9 +27,9 @@
 #include <goffice/graph/gog-axis.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
+#include <goffice/utils/go-math.h>
 
 #include <glib/gi18n.h>
-#include <src/mathfunc.h>
 #include <gsf/gsf-impl-utils.h>
 
 enum {
@@ -125,7 +125,7 @@ gog_barcol_update_stacked_and_percentage (GogPlot1_5d *model,
 			if (i >= lengths[j])
 				continue;
 			tmp = vals[j][i];
-			if (!finite (tmp))
+			if (!go_finite (tmp))
 				continue;
 			if (gog_error_bar_is_visible (errors[j])) {
 					gog_error_bar_get_bounds (errors[j], i, &errminus, &errplus);
@@ -348,7 +348,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 				if (i >= lengths[j])
 					continue;
 				tmp = vals[j][i];
-				if (!finite (tmp))
+				if (!go_finite (tmp))
 					continue;
 				if (tmp > 0.)
 					sum += tmp;
@@ -356,7 +356,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 					sum -= tmp;
 			}
 
-			data_scale = (fabs (gnumeric_sub_epsilon (sum)) > 0) ? scale / sum : scale;
+			data_scale = (fabs (go_sub_epsilon (sum)) > 0) ? scale / sum : scale;
 		}
 
 		pos_base = neg_base = -val_min * scale;
@@ -365,7 +365,7 @@ gog_barcol_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (i >= lengths[j])
 				continue;
 			tmp = vals[j][i];
-			if (!finite (tmp))
+			if (!go_finite (tmp))
 				continue;
 			if (gog_error_bar_is_visible (errors[j])) {
 				gog_error_bar_get_bounds (errors[j], i, &minus, &plus);

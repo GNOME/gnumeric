@@ -34,11 +34,11 @@
 #include <goffice/graph/gog-renderer.h>
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-math.h>
 
 #include <gsf/gsf-impl-utils.h>
 #include <glib/gi18n.h>
 #include <src/gui-util.h>
-#include <src/mathfunc.h>
 #include <src/format.h>
 #include <src/widgets/widget-format-selector.h>
 #include <gtk/gtktable.h>
@@ -517,12 +517,12 @@ gog_axis_get_entry (GogAxis const *axis, unsigned i, gboolean *user_defined)
 	if (user_defined)
 		*user_defined = FALSE;
 
-	g_return_val_if_fail (GOG_AXIS (axis) != NULL, gnm_nan);
+	g_return_val_if_fail (GOG_AXIS (axis) != NULL, go_nan);
 
 	dat = axis->source [i].data;
 	if (dat != NULL && IS_GO_DATA_SCALAR (dat)) {
 		double tmp = go_data_scalar_get_value (GO_DATA_SCALAR (dat));
-		if (finite (tmp)) {
+		if (go_finite (tmp)) {
 			if (user_defined)
 				*user_defined = TRUE;
 			return tmp;
@@ -610,7 +610,7 @@ gog_axis_update (GogObject *obj)
 	range = fabs (maxima - minima);
 
 	/* handle singletons */
-	if (gnumeric_sub_epsilon (range) <= 0.) {
+	if (go_sub_epsilon (range) <= 0.) {
 		if (maxima > 0)
 			minima = 0.;
 		else if (minima < 0.)
@@ -623,7 +623,7 @@ gog_axis_update (GogObject *obj)
 		range = fabs (maxima - minima);
 	}
 
-	step  = pow (10, gnumeric_fake_floor (log10 (range)));
+	step  = pow (10, go_fake_floor (log10 (range)));
 	if (range/step < 1.6)
 		step /= 5.;	/* .2 .4 .6 */
 	else if (range/step < 3)
@@ -663,10 +663,10 @@ gog_axis_update (GogObject *obj)
 	else if (axis->auto_bound [AXIS_ELEM_MAX] > 0 && maxima <= 0.)
 		axis->auto_bound [AXIS_ELEM_MAX] = 0;
 
-	if (finite (axis->logical_min_val) &&
+	if (go_finite (axis->logical_min_val) &&
 	    axis->auto_bound [AXIS_ELEM_MIN] < axis->logical_min_val)
 		axis->auto_bound [AXIS_ELEM_MIN] = axis->logical_min_val;
-	if (finite (axis->logical_max_val) &&
+	if (go_finite (axis->logical_max_val) &&
 	    axis->auto_bound [AXIS_ELEM_MAX] > axis->logical_max_val)
 		axis->auto_bound [AXIS_ELEM_MAX] = axis->logical_max_val;
 
@@ -710,7 +710,7 @@ cb_enable_dim (GtkToggleButton *toggle_button, ElemToggleData *closure)
 	if (is_auto) /* clear the data */
 		gog_dataset_set_dim (closure->set, closure->dim, NULL, NULL);
 
-	if (finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
+	if (go_finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
 		char *str = g_strdup_printf ("%g", bound);
 		g_object_set (closure->editor, "text", str, NULL);
 		g_free (str);
@@ -723,7 +723,7 @@ cb_axis_bound_changed (GogObject *axis, gboolean resize, ElemToggleData *closure
 {
 	if (gtk_toggle_button_get_active (closure->toggle)) {
 		double bound = GOG_AXIS (closure->set)->auto_bound [closure->dim];
-		if (finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
+		if (go_finite (bound) && DBL_MAX > bound && bound > -DBL_MAX) {
 			char *str = g_strdup_printf ("%g", bound);
 			g_object_set (closure->editor, "text", str, NULL);
 			g_free (str);
@@ -1113,7 +1113,7 @@ gog_axis_get_bounds (GogAxis const *axis, double *minima, double *maxima)
 	*minima = gog_axis_get_entry (axis, AXIS_ELEM_MIN, NULL);
 	*maxima = gog_axis_get_entry (axis, AXIS_ELEM_MAX, NULL);
 
-	return finite (*minima) && finite (*maxima) && *minima < *maxima;
+	return go_finite (*minima) && go_finite (*maxima) && *minima < *maxima;
 }
 
 /**
@@ -1251,7 +1251,7 @@ gog_axis_num_markers (GogAxis *axis, double *major_step, double *minor_step)
 	if (axis->is_discrete) {
 		int n = 0;
 		if (axis->max_val >= axis->min_val)	/* case there is no data */
-			n = gnumeric_fake_trunc (axis->max_val);
+			n = go_fake_trunc (axis->max_val);
 		if (n < 1)
 			n = 1;
 		if (major_step != NULL)
@@ -1641,7 +1641,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		for (bound = -1, i = 0 ; i < n ; i++, cur = next) {
 			next = cur + major_step;
-			if (gnumeric_sub_epsilon (i * major_step) > (area->w - pre - post)) 
+			if (go_sub_epsilon (i * major_step) > (area->w - pre - post)) 
 				/* clip */
 				continue;
 			if (draw_minor) {
@@ -1732,7 +1732,7 @@ gog_axis_view_render (GogView *v, GogViewAllocation const *bbox)
 
 		for (bound = DBL_MAX, i = 0 ; i < n ; i++, cur = next) {
 			next = cur - major_step;
-			if (gnumeric_sub_epsilon (i * major_step) > area->h) /* clip */
+			if (go_sub_epsilon (i * major_step) > area->h) /* clip */
 				continue;
 			if (draw_minor) {
 				for (; minor_pos > cur ; minor_pos -= minor_step)

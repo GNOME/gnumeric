@@ -29,9 +29,9 @@
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-marker.h>
+#include <goffice/utils/go-math.h>
 
 #include <glib/gi18n.h>
-#include <src/mathfunc.h>
 #include <gsf/gsf-impl-utils.h>
 
 struct _GogLinePlot {
@@ -107,7 +107,7 @@ gog_line_update_stacked_and_percentage (GogPlot1_5d *model,
 			if (i >= lengths[j])
 				continue;
 			tmp = vals[j][i];
-			if (!finite (tmp))
+			if (!go_finite (tmp))
 				continue;
 		if (gog_error_bar_is_visible (errors[j])) {
 				gog_error_bar_get_bounds (errors[j], i, &errminus, &errplus);
@@ -123,7 +123,7 @@ gog_line_update_stacked_and_percentage (GogPlot1_5d *model,
 				maxima = sum + errplus;
 		}
 		if ((model->type == GOG_1_5D_AS_PERCENTAGE) &&
-		    (gnumeric_sub_epsilon (abs_sum) > 0.)) {
+		    (go_sub_epsilon (abs_sum) > 0.)) {
 			if (model->minima > minima / abs_sum)
 				model->minima = minima / abs_sum;
 			if (model->maxima < maxima / abs_sum)
@@ -312,9 +312,9 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 		sum = abs_sum = 0.0;
 		if (type == GOG_1_5D_AS_PERCENTAGE) {
 			for (i = 0; i < num_series; i++)
-				if (finite (vals[i][j-1]))
+				if (go_finite (vals[i][j-1]))
 					abs_sum += fabs (vals[i][j-1]);
-			is_null = (gnumeric_sub_epsilon (abs_sum) <= 0.);
+			is_null = (go_sub_epsilon (abs_sum) <= 0.);
 		} else
 			is_null = TRUE;
 
@@ -322,7 +322,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 			if (j > lengths[i])
 				continue;
 
-			if (vals[i] && finite (vals[i][j-1])) {
+			if (vals[i] && go_finite (vals[i][j-1])) {
 				value = vals[i][j-1];
 				if (gog_error_bar_is_visible (errors[i]))
 					gog_error_bar_get_bounds (errors[i], j - 1, &plus, &minus);
@@ -345,7 +345,7 @@ gog_line_view_render (GogView *view, GogViewAllocation const *bbox)
 
 			path[i][j].x = offset_x + scale_x * (j - 1);
 			if (type == GOG_1_5D_NORMAL && !is_area_plot) 
-				if (finite (vals[i][j-1])) 
+				if (go_finite (vals[i][j-1])) 
 					if (j > 1 && path[i][j-1].code == ART_MOVETO_OPEN)
 						path[i][j].code = ART_MOVETO;
 					else

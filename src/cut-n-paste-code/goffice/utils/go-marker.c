@@ -24,6 +24,7 @@
 #include "go-color.h"
 #include <goffice/gui-utils/go-combo-color.h>
 #include <goffice/gui-utils/go-combo-pixmaps.h>
+#include <goffice/utils/go-math.h>
 
 #include <libart_lgpl/art_render_gradient.h>
 #include <libart_lgpl/art_render_svp.h>
@@ -32,8 +33,6 @@
 #include <libart_lgpl/art_svp_vpath.h>
 #include <libart_lgpl/art_affine.h>
 #include <libart_lgpl/art_rgb_svp.h>
-
-#include <src/mathfunc.h>
 
 #include <glade/glade-xml.h>
 #include <gdk-pixbuf/gdk-pixdata.h>

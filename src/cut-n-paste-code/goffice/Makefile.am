@@ -1,4 +1,4 @@
-SUBDIRS = app graph utils gui-utils drawing ms-compat libpresent test pixmaps
+SUBDIRS = app graph utils gui-utils drawing ms-compat libpresent test pixmaps cut-n-paste
 
 noinst_LTLIBRARIES = libgoffice.la
 

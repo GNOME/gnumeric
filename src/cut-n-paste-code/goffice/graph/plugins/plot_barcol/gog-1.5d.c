@@ -32,11 +32,11 @@
 #include <goffice/graph/go-data.h>
 #include <goffice/utils/go-color.h>
 #include <goffice/utils/go-format.h>
+#include <goffice/utils/go-math.h>
 
 #include <module-plugin-defs.h>
 #include <glib/gi18n.h>
 #include <gtk/gtklabel.h>
-#include <src/mathfunc.h>
 #include <gsf/gsf-impl-utils.h>
 
 GNUMERIC_MODULE_PLUGIN_INFO_DECL;
@@ -261,7 +261,7 @@ gog_plot1_5d_axis_get_bounds (GogPlot *plot, GogAxisType axis,
 		bounds->val.minima = 0.;
 		bounds->val.maxima = model->num_elements;
 		bounds->logical.minima = 0.;
-		bounds->logical.maxima = gnm_nan;
+		bounds->logical.maxima = go_nan;
 		bounds->is_discrete    = TRUE;
 
 		for (ptr = plot->series; ptr != NULL ; ptr = ptr->next)
