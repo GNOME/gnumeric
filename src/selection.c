@@ -1379,8 +1379,12 @@ sheet_selection_walk_step (Sheet *sheet,
 				full_sheet.start.row = 0;
 				full_sheet.end.row   = SHEET_MAX_ROWS-1;
 			}
+
+			/* Ignore attempts to move outside the boundary region */
 			if (!walk_boundaries (&full_sheet,
-					      inc_x, inc_y, &current, &destination))
+					      inc_x, inc_y, &current, &destination)) {
+
+				/* ensure that the target cell is visible */
 				sheet_make_cell_visible (sheet, 
 							 destination.col,
 							 destination.row);
@@ -1388,6 +1392,8 @@ sheet_selection_walk_step (Sheet *sheet,
 						   destination.col,
 						   destination.row,
 						   TRUE, TRUE);
+			}
+			return;
 		}
 	}
 
