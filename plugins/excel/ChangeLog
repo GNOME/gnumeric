@@ -1,3 +1,12 @@
+1999-06-09  Michael Meeks  <michael@edenproject.org>
+
+	* ms-excel-read.c (ms_excel_read_workbook): Added version
+	printout.
+	(ms_excel_set_cell_colors): More debug.
+	(biff_font_data_new): Added strange truncation of font
+	color_idx.
+	(ms_excel_palette_get): >= 0.
+
 1999-06-08  Michael Meeks  <michael@edenproject.org>
 
 	* ms-formula-read.c (formula_func_data): correct DAYS360,

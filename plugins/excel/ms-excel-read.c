@@ -511,6 +511,7 @@ biff_font_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY *q)
 	fd->italic     = (data & 0x2) == 0x2;
 	fd->struck_out = (data & 0x8) == 0x8;
 	fd->color_idx  = BIFF_GETWORD (q->data + 4);
+	fd->color_idx &= 0x7f; /* Undocumented but a good idea */
 	fd->boldness   = BIFF_GETWORD (q->data + 6);
 	data = BIFF_GETWORD (q->data + 8);
 	switch (data){
@@ -548,8 +549,8 @@ biff_font_data_new (MS_EXCEL_WORKBOOK *wb, BIFF_QUERY *q)
 	fd->fontname = biff_get_text (q->data + 15, BIFF_GETBYTE (q->data + 14), NULL);
 
 #if EXCEL_DEBUG > 0
-		printf ("Insert font '%s' size %d pts\n",
-			fd->fontname, fd->height / 20);
+		printf ("Insert font '%s' size %d pts color %d\n",
+			fd->fontname, fd->height / 20, fd->color_idx);
 #endif
 	fd->style_font = 0 ;
         fd->index = g_hash_table_size (wb->font_data) ;
@@ -697,6 +698,10 @@ biff_name_data_destroy (gpointer key, BIFF_NAME_DATA *bnd, gpointer userdata)
 	return 1 ;
 }
 
+/* NOTE: There is a built in palette, and it seems this may be appended
+  to it, anyway colours are seriously broken ATM, it is a non-trivial
+  fix: Michael. */
+/* See: S59DC9.HTM */
 static MS_EXCEL_PALETTE *
 ms_excel_palette_new (BIFF_QUERY * q)
 {
@@ -719,7 +724,7 @@ ms_excel_palette_new (BIFF_QUERY * q)
 		pal->green[lp] = (num & 0x0000ff00) >> 8;
 		pal->blue[lp] = (num & 0x000000ff) >> 0;
 #if EXCEL_DEBUG > 0
-			printf ("Colour %d : (%d,%d,%d)\n", lp, pal->red[lp], pal->green[lp], pal->blue[lp]);
+			printf ("Colour %d : 0x%8x (%d,%d,%d)\n", lp, num, pal->red[lp], pal->green[lp], pal->blue[lp]);
 #endif
 		pal->gnum_cols[lp] = NULL ;
 	}
@@ -731,7 +736,7 @@ ms_excel_palette_get (MS_EXCEL_PALETTE *pal, guint idx)
 {
 	if (!pal)
 		return NULL ;
-	if (idx < pal->length && idx > 0)
+	if (idx < pal->length && idx >= 0)
 	{
 		if (pal->gnum_cols[idx] == NULL) {
 			gushort r, g, b;
@@ -816,11 +821,21 @@ ms_excel_set_cell_colors (MS_EXCEL_SHEET * sheet, Cell * cell, BIFF_XF_DATA * xf
 	   style->back_color->color.green, style->back_color->color.blue) ; */
 
 	if (!basefore) {
-		fore = ms_excel_palette_get (sheet->wb->palette, xf->pat_foregnd_col);
-		back = ms_excel_palette_get (sheet->wb->palette, xf->pat_backgnd_col);
+#if EXCEL_DEBUG > 0
+		printf ("Cell : '%s' : (%d, %d)\n",
+			cell_name (cell->col->pos, cell->row->pos),
+			xf->pat_foregnd_col&0x3f, xf->pat_backgnd_col&0x3f);
+#endif
+		fore = ms_excel_palette_get (sheet->wb->palette, xf->pat_foregnd_col&0x3f);
+		back = ms_excel_palette_get (sheet->wb->palette, xf->pat_backgnd_col&0x3f);
 	} else {
 		fore = basefore;
-		back = ms_excel_palette_get (sheet->wb->palette, xf->pat_foregnd_col);
+		back = ms_excel_palette_get (sheet->wb->palette, xf->pat_foregnd_col&0x3f);
+#if EXCEL_DEBUG > 0
+			printf ("Cell : '%s' : (Fontcol, %d)\n",
+				cell_name (cell->col->pos, cell->row->pos),
+				xf->pat_foregnd_col);
+#endif
 	}
 	if (fore && back) {
 		if (fore == back)
@@ -2128,6 +2143,10 @@ ms_excel_read_workbook (MS_OLE * file)
 				if (ver->type == eBiffTWorkbook) {
 					wb = ms_excel_workbook_new ();
 					wb->gnum_wb = workbook_new ();
+					if (ver->version >= eBiffV8)
+						printf ("Excel 97 +\n");
+					else
+						printf ("Excel 95 or older\n");
 				} else if (ver->type == eBiffTWorksheet) {
 					BIFF_BOUNDSHEET_DATA *bsh ;
 
