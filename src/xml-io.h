@@ -15,8 +15,8 @@
 #endif
 #include "gnumeric.h"
 #include "file.h"
-#include "gnome-xml/tree.h"
-#include "gnome-xml/xmlmemory.h"
+#include <gnome-xml/tree.h>
+#include <gnome-xml/xmlmemory.h>
 
 typedef enum
 {

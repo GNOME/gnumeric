@@ -878,13 +878,13 @@ format_template_range_check (FormatTemplate *ft, Range s, gboolean display_error
 		char *errmsg;
 
 		if (diff_col_high > 0 && diff_row_high > 0) {
-			errmsg = g_strdup_printf (_("The target region is too small, is should be at least %d rows by %d columns"),
+			errmsg = g_strdup_printf (_("The target region is too small.  It should be at least %d rows by %d columns"),
 							  diff_row_high_ft, diff_col_high_ft);
 		} else if (diff_col_high > 0) {
-			errmsg = g_strdup_printf (_("The target region is too small, it should be at least %d columns wide"),
+			errmsg = g_strdup_printf (_("The target region is too small.  It should be at least %d columns wide"),
 							  diff_col_high_ft);
 		} else if (diff_row_high > 0) {
-			errmsg = g_strdup_printf (_("The target region is too small, it should be at least %d rows high"),
+			errmsg = g_strdup_printf (_("The target region is too small.  It should be at least %d rows high"),
 							  diff_row_high_ft);
 		} else {
 			errmsg = NULL;

@@ -2750,6 +2750,7 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	Sheet *sheet = NULL;
 	double zoom_factor;
 	char *val;
+	int tmp;
 
 	if (strcmp (tree->name, "Sheet")){
 		fprintf (stderr,
@@ -2777,24 +2778,26 @@ xml_sheet_read (XmlParseContext *ctxt, xmlNodePtr tree)
 	ctxt->sheet = sheet;
 
 	sheet->display_formulas = e_xml_get_bool_prop_by_name_with_default (tree,
-		"DisplayFormulas", FALSE);
+		"DisplayFormulas",	FALSE);
 	sheet->hide_zero = e_xml_get_bool_prop_by_name_with_default (tree,
-		"HideZero", FALSE);
+		"HideZero",		FALSE);
 	sheet->hide_grid = e_xml_get_bool_prop_by_name_with_default (tree,
-		"HideGrid", FALSE);
+		"HideGrid",		FALSE);
 	sheet->hide_col_header = e_xml_get_bool_prop_by_name_with_default (tree,
-		"HideColHeader", FALSE);
+		"HideColHeader",	FALSE);
 	sheet->hide_row_header = e_xml_get_bool_prop_by_name_with_default (tree,
-		"HideRowHeader", FALSE);
+		"HideRowHeader",	FALSE);
 	sheet->display_outlines = e_xml_get_bool_prop_by_name_with_default (tree,
-		"DisplayOutlines", TRUE);
+		"DisplayOutlines",	TRUE);
 	sheet->outline_symbols_below = e_xml_get_bool_prop_by_name_with_default (tree,
-		"OutlineSymbolsBelow", TRUE);
+		"OutlineSymbolsBelow",	TRUE);
 	sheet->outline_symbols_right = e_xml_get_bool_prop_by_name_with_default (tree,
-		"OutlineSymbolsRight", TRUE);
+		"OutlineSymbolsRight",	TRUE);
 
-	xml_get_value_int (tree, "MaxCol", &sheet->cols.max_used);
-	xml_get_value_int (tree, "MaxRow", &sheet->rows.max_used);
+	xml_get_value_int (tree, "MaxCol", &tmp);
+	sheet->cols.max_used = (0 <= tmp && tmp < SHEET_MAX_COLS) ? tmp : SHEET_MAX_COLS-1;
+	xml_get_value_int (tree, "MaxRow", &tmp);
+	sheet->rows.max_used = (0 <= tmp && tmp < SHEET_MAX_ROWS) ? tmp : SHEET_MAX_ROWS-1;
 	xml_get_value_double (tree, "Zoom", &zoom_factor);
 
 	xml_read_print_info (ctxt, tree);

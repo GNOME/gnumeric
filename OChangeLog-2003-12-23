@@ -1,5 +1,10 @@
 2001-08-14  Jody Goldberg <jgoldberg@home.com>
 
+	* src/format-template.c (format_template_range_check) : fix typo.
+
+	* src/xml-io.c (xml_sheet_read) : Add some sanity checking for bogus
+	  inputs.
+
 	* src/expr.c (expr_to_graph_vector) : new routine.
 
 2001-08-14  Jody Goldberg <jgoldberg@home.com>
