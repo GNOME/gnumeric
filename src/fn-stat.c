@@ -887,6 +887,58 @@ gnumeric_normsdist (struct FunctionDefinition *i, Value *argv [], char **error_s
 	return value_float (phi (x));
 }
 
+static char *help_normsinv = {
+       N_("@FUNCTION=NORMSINV\n"
+          "@SYNTAX=NORMSINV(p)\n"
+
+          "@DESCRIPTION="
+          "The NORMSINV function returns the inverse of the standard normal "
+	  "cumulative distribution. @p is the given probability corresponding "
+	  "to the normal distribution. NORMSINV uses an iterative algorithm "
+	  "for calculating the result. If NORMSINV does not converge "
+	  "(accuracy within +/- 3x10^7) after 100 iterations, the function "
+	  "returns #N/A! error. "
+          "\n"
+	  "If @p < 0 or @p > 1 NORMSINV returns #NUM! error. "
+	  "\n"
+          "@SEEALSO=NORMDIST,NORMINV,NORMSDIST,STANDARDIZE,ZTEST")
+};
+
+static Value *
+gnumeric_normsinv (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        const int left = 1;
+	const int right = 2;
+        const int iterations = 100;
+	const float_t accuracy_limit = 0.00000003;
+        float_t p, p_test, x = 0, step = 1;
+	int     n, dir = 0;
+
+        p = value_get_as_double (argv [0]);
+	if (p < 0 || p > 1) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	for (n=0; n<iterations; n++) {
+	        p_test = phi(x);
+		if (fabs(p - p_test) < accuracy_limit)
+		        return value_float (x);
+		if (p < p_test) {
+		        if (dir == right)
+			        step /= 2;
+		        x -= step;
+			dir = left;
+		} else {
+		        if (dir == left)
+			        step /= 2;
+		        x += step;
+			dir = right;
+		}
+	}
+	*error_string = _("#N/A!");
+	return NULL;
+}
+
 static char *help_lognormdist = {
        N_("@FUNCTION=LOGNORMDIST\n"
           "@SYNTAX=LOGNORMDIST(x,mean,stdev)\n"
@@ -924,6 +976,65 @@ gnumeric_lognormdist (struct FunctionDefinition *i, Value *argv [], char **error
 
 	x = ((log (x)-mean) / stdev);
 	return value_float (phi (x));
+}
+
+static char *help_loginv = {
+       N_("@FUNCTION=LOGINV\n"
+          "@SYNTAX=LOGINV(p,mean,stdev)\n"
+
+          "@DESCRIPTION="
+          "The LOGINV function returns the inverse of the lognormal "
+	  "cumulative distribution. @p is the given probability corresponding "
+	  "to the normal distribution, @mean is the arithmetic mean of the "
+	  "distribution, and @stdev is the standard deviation of the "
+	  "distribution. LOGINV uses an iterative algorithm "
+	  "for calculating the result. If LOGINV does not converge "
+	  "(accuracy within +/- 3x10^7) after 100 iterations, the function "
+	  "returns #N/A! error. "
+          "\n"
+	  "If @p < 0 or @p > 1 or @stdev <= 0 LOGINV returns #NUM! error. "
+	  "\n"
+          "@SEEALSO=EXP,LN,LOG,LOG10,LOGNORMDIST")
+};
+
+static Value *
+gnumeric_loginv (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        const int left = 1;
+	const int right = 2;
+        const int iterations = 100;
+	const float_t accuracy_limit = 0.00000003;
+        float_t p, p_test, x, step;
+	float_t mean, stdev;
+	int     n, dir = 0;
+
+        p = value_get_as_double (argv [0]);
+        mean = value_get_as_double (argv [1]);
+        stdev = value_get_as_double (argv [2]);
+	if (p < 0 || p > 1 || stdev <= 0) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	x = 0;
+	step = 1;
+	for (n=0; n<iterations; n++) {
+	        p_test = phi(x);
+		if (fabs(p - p_test) < accuracy_limit)
+		        return value_float (exp(mean+stdev*x));
+		if (p < p_test) {
+		        if (dir == right)
+			        step /= 2;
+		        x -= step;
+			dir = left;
+		} else {
+		        if (dir == left)
+			        step /= 2;
+		        x += step;
+			dir = right;
+		}
+	}
+	*error_string = _("#N/A!");
+	return NULL;
 }
 
 static char *help_fisherinv = {
@@ -1623,6 +1734,65 @@ gnumeric_normdist (struct FunctionDefinition *i, Value *argv [], char **error_st
 		*error_string = _("Unimplemented");
 		return NULL;
         }
+}
+
+static char *help_norminv = {
+       N_("@FUNCTION=NORMINV\n"
+          "@SYNTAX=NORMINV(p,mean,stdev)\n"
+
+          "@DESCRIPTION="
+          "The NORMINV function returns the inverse of the normal "
+	  "cumulative distribution. @p is the given probability corresponding "
+	  "to the normal distribution, @mean is the arithmetic mean of the "
+	  "distribution, and @stdev is the standard deviation of the "
+	  "distribution. NORMINV uses an iterative algorithm "
+	  "for calculating the result. If NORMINV does not converge "
+	  "(accuracy within +/- 3x10^7) after 100 iterations, the function "
+	  "returns #N/A! error. "
+          "\n"
+	  "If @p < 0 or @p > 1 or @stdev <= 0 NORMINV returns #NUM! error. "
+	  "\n"
+          "@SEEALSO=NORMDIST,NORMSDIST,NORMSINV,STANDARDIZE,ZTEST")
+};
+
+static Value *
+gnumeric_norminv (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+        const int left = 1;
+	const int right = 2;
+        const int iterations = 100;
+	const float_t accuracy_limit = 0.00000003;
+        float_t p, p_test, x, step;
+	float_t mean, stdev;
+	int     n, dir = 0;
+
+        p = value_get_as_double (argv [0]);
+	mean = value_get_as_double (argv [1]);
+	stdev = value_get_as_double (argv [2]);
+	if (p < 0 || p > 1 || stdev <= 0) {
+		*error_string = _("#NUM!");
+		return NULL;
+	}
+	x = mean;
+	step = stdev;
+	for (n=0; n<iterations; n++) {
+	        p_test = phi((x-mean) / stdev);
+		if (fabs(p - p_test) < accuracy_limit)
+		        return value_float (x);
+		if (p < p_test) {
+		        if (dir == right)
+			        step /= 2;
+		        x -= step;
+			dir = left;
+		} else {
+		        if (dir == left)
+			        step /= 2;
+		        x += step;
+			dir = right;
+		}
+	}
+	*error_string = _("#N/A!");
+	return NULL;
 }
 
 static char *help_kurt = {
@@ -2375,12 +2545,15 @@ FunctionDefinition stat_functions [] = {
 	{ "hypgeomdist", "ffff", "x,n,M,N", &help_hypgeomdist, NULL, gnumeric_hypgeomdist },
         { "kurt",      0,      "",          &help_kurt,      gnumeric_kurt, NULL },
 	{ "large",  0,      "",             &help_large,  gnumeric_large, NULL },
+	{ "loginv",  "fff",  "",            &help_loginv, NULL, gnumeric_loginv },
 	{ "lognormdist",  "fff",  "",       &help_lognormdist, NULL, gnumeric_lognormdist },
 	{ "median",    0,      "",          &help_median,    gnumeric_median, NULL },
 	{ "mode",      0,      "",          &help_mode,   gnumeric_mode, NULL },
 	{ "negbinomdist", "fff", "f,t,p",   &help_negbinomdist, NULL, gnumeric_negbinomdist },
 	{ "normdist",   "fffb",  "",        &help_normdist,  NULL, gnumeric_normdist },
+	{ "norminv",    "fff",  "",         &help_norminv,  NULL, gnumeric_norminv },
 	{ "normsdist",  "f",  "",           &help_normsdist,  NULL, gnumeric_normsdist },
+	{ "normsinv",  "f",  "",            &help_normsinv,  NULL, gnumeric_normsinv },
 	{ "pearson",   0,      "",          &help_pearson,   gnumeric_pearson, NULL },
 	{ "rank",      0,      "",          &help_rank,      gnumeric_rank, NULL },
 	{ "rsq",       0,      "",          &help_rsq,      gnumeric_rsq, NULL },
