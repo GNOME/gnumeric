@@ -40,6 +40,7 @@ void   	 dialog_cell_sort       (WorkbookControlGUI *wbcg);
 void   	 dialog_workbook_attr   (WorkbookControlGUI *wbcg);
 void   	 dialog_goal_seek       (WorkbookControlGUI *wbcg, Sheet *sheet);
 void   	 dialog_solver          (WorkbookControlGUI *wbcg, Sheet *sheet);
+void     dialog_simulation      (WorkbookControlGUI *wbcg, Sheet *sheet);
 void   	 dialog_printer_setup   (WorkbookControlGUI *wbcg, Sheet *sheet);
 void     dialog_autocorrect     (WorkbookControlGUI *wbcg);
 void   	 dialog_advanced_filter (WorkbookControlGUI *wbcg);
