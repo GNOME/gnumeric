@@ -862,7 +862,7 @@ gnumeric_eomonth (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_workday = {
 	N_("@FUNCTION=WORKDAY\n"
-	   "@SYNTAX=WORKDAY (start_date,days,holidays)\n"
+	   "@SYNTAX=WORKDAY (start_date,days[,holidays])\n"
 
 	   "@DESCRIPTION="
 	   "WORKDAY returns the date which is @days working days "
@@ -930,7 +930,7 @@ gnumeric_workday (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_networkdays = {
 	N_("@FUNCTION=NETWORKDAYS\n"
-	   "@SYNTAX=NETWORKDAYS (start_date,end_date,holidays)\n"
+	   "@SYNTAX=NETWORKDAYS (start_date,end_date[,holidays])\n"
 
 	   "@DESCRIPTION="
 	   "NETWORKDAYS returns the number of non-weekend non-holidays between "
@@ -1136,7 +1136,7 @@ gnumeric_isoyear (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_weeknum = {
 	N_("@FUNCTION=WEEKNUM\n"
-	   "@SYNTAX=WEEKNUM (date, method)\n"
+	   "@SYNTAX=WEEKNUM (date[,method])\n"
 
 	   "@DESCRIPTION="
 	   "WEEKNUM returns the week number of @date according to the given "
@@ -1181,7 +1181,7 @@ gnumeric_weeknum (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_yearfrac = {
 	N_("@FUNCTION=YEARFRAC\n"
-	   "@SYNTAX=YEARFRAC (start_date, end_date, basis)\n"
+	   "@SYNTAX=YEARFRAC (start_date, end_date [,basis])\n"
 
 	   "@DESCRIPTION="
 	   "YEARFRAC returns the number of full days between @start_date and "

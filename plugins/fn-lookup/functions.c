@@ -795,7 +795,7 @@ gnumeric_match (FunctionEvalInfo *ei, Value **args)
 
 static char const *help_indirect = {
 	N_("@FUNCTION=INDIRECT\n"
-	   "@SYNTAX=INDIRECT(ref_text,[format])\n"
+	   "@SYNTAX=INDIRECT(ref_text[,format])\n"
 
 	   "@DESCRIPTION="
 	   "INDIRECT function returns the contents of the cell pointed to "
@@ -838,7 +838,7 @@ gnumeric_indirect (FunctionEvalInfo *ei, Value **args)
 static char const *help_index = {
 	N_(
 	"@FUNCTION=INDEX\n"
-	"@SYNTAX=INDEX(array,[row, col, area])\n"
+	"@SYNTAX=INDEX(array[,row, col, area])\n"
 	"@DESCRIPTION="
 	"INDEX gives a reference to a cell in the given @array."
 	"The cell is pointed out by @row and @col, which count the rows and "
@@ -1153,7 +1153,7 @@ gnumeric_rows (FunctionEvalInfo *ei, Value **args)
 
 static char const *help_hyperlink = {
 	N_("@FUNCTION=HYPERLINK\n"
-	   "@SYNTAX=HYPERLINK(link_location, optional_label)\n"
+	   "@SYNTAX=HYPERLINK(link_location[,optional_label])\n"
 
 	   "@DESCRIPTION="
 	   "HYPERLINK function currently returns its 2nd argument, "

@@ -1249,7 +1249,7 @@ static char const *help_imarccsch = {
 	   "@SYNTAX=IMARCCSCH(inumber)\n"
 	   "@DESCRIPTION="
 	   "IMARCCSCH returns the complex hyperbolic arccosecant of the "
-	   "complex number z (@inumber), where\n\n\tarccsch(z) = arcsin(1/z).\n"
+	   "complex number z (@inumber), where\n\n\tarccsch(z) = arcsinh(1/z).\n"
 	   "\n"
 	   "* If @inumber is not a valid complex number, IMARCCSCH returns "
 	   "#VALUE! error.\n"
@@ -1481,7 +1481,7 @@ gnumeric_imsum (FunctionEvalInfo *ei, GnmExprList *expr_node_list)
 /***************************************************************************/
 
 GnmFuncDescriptor const complex_functions[] = {
-        { "complex",     "ff|s", N_("real,im[,suffix]"), &help_complex,
+        { "complex",     "ff|s", N_("real,im,suffix"), &help_complex,
 	  gnumeric_complex, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         { "imabs",       "S",    N_("inumber"), &help_imabs,

@@ -438,8 +438,7 @@ gnumeric_accrintm (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_intrate = {
 	N_("@FUNCTION=INTRATE\n"
-	   "@SYNTAX=INTRATE(settlement,maturity,investment,redemption"
-	   "[,basis])\n"
+	   "@SYNTAX=INTRATE(settlement,maturity,investment,redemption[,basis])\n"
 	   "@DESCRIPTION="
 	   "INTRATE calculates and returns the interest rate of a fully "
 	   "vested security.\n\n"
@@ -560,8 +559,7 @@ gnumeric_received (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_pricedisc = {
 	N_("@FUNCTION=PRICEDISC\n"
-	   "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption"
-	   "[,basis])\n"
+	   "@SYNTAX=PRICEDISC(settlement,maturity,discount,redemption[,basis])\n"
 	   "@DESCRIPTION="
 	   "PRICEDISC calculates and returns the price per $100 face value "
 	   "of a security bond.  The security does not pay interest at "
@@ -2021,7 +2019,7 @@ gnumeric_ppmt (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_nper = {
 	N_("@FUNCTION=NPER\n"
-	   "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
+	   "@SYNTAX=NPER(rate,pmt,pv[,fv,type])\n"
 	   "@DESCRIPTION="
 	   "NPER calculates number of periods of an investment based on "
 	   "periodic constant payments and a constant interest rate.\n"
@@ -2374,8 +2372,7 @@ gnumeric_euroconvert (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_price = {
 	N_("@FUNCTION=PRICE\n"
-	   "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,frequency"
-	   "[,basis])\n"
+	   "@SYNTAX=PRICE(settle,mat,rate,yield,redemption_price,[frequency,basis])\n"
 	   "@DESCRIPTION="
 	   "PRICE returns price per $100 face value of a security. "
 	   "This method can only be used if the security pays periodic "
@@ -2439,8 +2436,7 @@ gnumeric_price (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_yield = {
 	N_("@FUNCTION=YIELD\n"
-	   "@SYNTAX=YIELD(settle,mat,rate,price,redemption_price,frequency"
-	   "[,basis])\n"
+	   "@SYNTAX=YIELD(settlement,maturity,rate,price,redemption_price,frequency[,basis])\n"
 	   "@DESCRIPTION="
 	   "YIELD returns the yield on a security that pays periodic "
 	   "interest.\n"
@@ -3227,7 +3223,7 @@ gnumeric_amorlinc (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_coupdaybs = {
 	N_("@FUNCTION=COUPDAYBS\n"
-	   "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis])\n"
+	   "@SYNTAX=COUPDAYBS(settlement,maturity,frequency[,basis,eom])\n"
 	   "@DESCRIPTION="
 	   "COUPDAYBS returns the number of days from the beginning of the "
 	   "coupon period to the settlement date.\n"
@@ -3597,8 +3593,7 @@ gnumeric_cumprinc (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_mduration = {
 	N_("@FUNCTION=MDURATION\n"
-	   "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency"
-	   "[,basis])\n"
+	   "@SYNTAX=MDURATION(settlement,maturity,coupon,yield,frequency[,basis])\n"
 	   "@DESCRIPTION="
 	   "MDURATION returns the Macauley duration for a security with par "
 	   "value 100.\n"
@@ -3656,8 +3651,7 @@ gnumeric_mduration (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_vdb = {
 	N_("@FUNCTION=VDB\n"
-	   "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor"
-	   ",switch])\n"
+	   "@SYNTAX=VDB(cost,salvage,life,start_period,end_period[,factor,switch])\n"
 	   "@DESCRIPTION="
 	   "VDB calculates the depreciation of an asset for a given period "
 	   "or partial period using the double-declining balance method.\n"
@@ -3700,11 +3694,11 @@ gnumeric_vdb (FunctionEvalInfo *ei, Value **argv)
 /***************************************************************************/
 
 const GnmFuncDescriptor financial_functions[] = {
-	{ "accrint", "ffffff|f", "issue,first_interest,settlement,rate,par,frequency[,basis]",
+	{ "accrint", "ffffff|f", "issue,first_interest,settlement,rate,par,frequency,basis",
 	  &help_accrint, gnumeric_accrint, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "accrintm", "fff|ff", "issue,maturity,rate[,par,basis]",
+	{ "accrintm", "fff|ff", "issue,maturity,rate,par,basis",
 	  &help_accrintm, gnumeric_accrintm, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -3716,23 +3710,23 @@ const GnmFuncDescriptor financial_functions[] = {
 	  &help_amorlinc, gnumeric_amorlinc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "coupdaybs", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
+	{ "coupdaybs", "fff|fb", "settlement,maturity,frequency,basis,eom",
 	  &help_coupdaybs, gnumeric_coupdaybs, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "coupdays", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
+	{ "coupdays", "fff|fb", "settlement,maturity,frequency,basis,eom",
 	  &help_coupdays, gnumeric_coupdays, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "coupdaysnc", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
+	{ "coupdaysnc", "fff|fb", "settlement,maturity,frequency,basis,eom",
 	  &help_coupdaysnc, gnumeric_coupdaysnc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "coupncd", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
+	{ "coupncd", "fff|fb", "settlement,maturity,frequency,basis,eom",
 	  &help_coupncd, gnumeric_coupncd, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_DATE,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "coupnum", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
+	{ "coupnum", "fff|fb", "settlement,maturity,frequency,basis,eom",
 	  &help_coupnum, gnumeric_coupnum, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "couppcd", "fff|fb", "settlement,maturity,frequency[,basis,eom]",
+	{ "couppcd", "fff|fb", "settlement,maturity,frequency,basis,eom",
 	  &help_couppcd, gnumeric_couppcd, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_DATE,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -3744,15 +3738,15 @@ const GnmFuncDescriptor financial_functions[] = {
 	  &help_cumprinc, gnumeric_cumprinc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "db", "ffff|f", "cost,salvage,life,period[,month]",
+	{ "db", "ffff|f", "cost,salvage,life,period,month",
 	  &help_db, gnumeric_db, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "ddb", "ffff|f", "cost,salvage,life,period[,factor]",
+	{ "ddb", "ffff|f", "cost,salvage,life,period,factor",
 	  &help_ddb, gnumeric_ddb, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "disc", "ffff|f", "settlement,maturity,pr,redemption[,basis]",
+	{ "disc", "ffff|f", "settlement,maturity,pr,redemption,basis",
 	  &help_disc, gnumeric_disc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "dollarde", "ff", "fractional_dollar,fraction",
@@ -3786,7 +3780,7 @@ const GnmFuncDescriptor financial_functions[] = {
 	{ "g_duration", "fff", "rate,pv,fv",
 	  &help_g_duration, gnumeric_g_duration, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_UNIQUE_TO_GNUMERIC, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "intrate", "ffff|f", "settlement,maturity,investment,redemption[,basis]",
+	{ "intrate", "ffff|f", "settlement,maturity,investment,redemption,basis",
 	  &help_intrate,  gnumeric_intrate, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_PERCENT,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -3794,7 +3788,7 @@ const GnmFuncDescriptor financial_functions[] = {
 	  &help_ipmt,	  gnumeric_ipmt, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "irr", "A|f", "values[,guess]",
+	{ "irr", "A|f", "values,guess",
 	  &help_irr,	  gnumeric_irr, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_PERCENT,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -3802,7 +3796,7 @@ const GnmFuncDescriptor financial_functions[] = {
 	  &help_ispmt,	gnumeric_ispmt, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "mduration", "fffff|f", "settlement,maturify,coupon,yield,frequency[,basis]",
+	{ "mduration", "fffff|f", "settlement,maturify,coupon,yield,frequency,basis",
 	  &help_mduration, gnumeric_mduration, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
 	{ "mirr", "Aff", "values,finance_rate,reinvest_rate",
@@ -3834,24 +3828,24 @@ const GnmFuncDescriptor financial_functions[] = {
 	{ "oddlyield", "ffffffff", "settlement,maturity,last_interest,rate,pr,redemption,frequency,basis",
 	  &help_oddlyield,  gnumeric_oddlyield, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "pmt", "fff|ff", "rate,nper,pv[,fv,type]",
+	{ "pmt", "fff|ff", "rate,nper,pv,fv,type",
 	  &help_pmt,	  gnumeric_pmt, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "ppmt", "ffff|ff", "rate,per,nper,pv[,fv,type]",
+	{ "ppmt", "ffff|ff", "rate,per,nper,pv,fv,type",
 	  &help_ppmt,	  gnumeric_ppmt, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "price", "fffff|ff", "settlement,maturity,rate,yield,redemption_price,frequency,basis",
+	{ "price", "ffffff|f", "settlement,maturity,rate,yield,redemption_price,frequency,basis",
 	  &help_price, gnumeric_price, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "pricedisc", "ffff|f", "settlement,maturity,discount,redemption[,basis]",
+	{ "pricedisc", "ffff|f", "settlement,maturity,discount,redemption,basis",
 	  &help_pricedisc,  gnumeric_pricedisc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "pricemat", "fffff|f", "settlement,maturity,issue,rate,yield[,basis]",
+	{ "pricemat", "fffff|f", "settlement,maturity,issue,rate,yield,basis",
 	  &help_pricemat,  gnumeric_pricemat, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "pv", "fff|ff", "rate,nper,pmt[,fv,type]",
+	{ "pv", "fff|ff", "rate,nper,pmt,fv,type",
 	  &help_pv,	  gnumeric_pv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -3859,7 +3853,7 @@ const GnmFuncDescriptor financial_functions[] = {
 	  &help_rate,	  gnumeric_rate, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_PERCENT,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "received", "ffff|f", "settlement,maturity,investment,discount[,basis]",
+	{ "received", "ffff|f", "settlement,maturity,investment,discount,basis",
 	  &help_received,  gnumeric_received, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -3881,11 +3875,11 @@ const GnmFuncDescriptor financial_functions[] = {
 	  &help_tbillyield, gnumeric_tbillyield, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_PERCENT,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "vdb", "fffff|ff", "cost,salvage,life,start_period,end_period[,factor,switch]",
+	{ "vdb", "fffff|ff", "cost,salvage,life,start_period,end_period,factor,switch",
 	  &help_vdb, gnumeric_vdb, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "xirr", "AA|f", "values,dates[,guess]",
+	{ "xirr", "AA|f", "values,dates,guess",
 	  &help_xirr,	  gnumeric_xirr, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_PERCENT,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
@@ -3893,14 +3887,14 @@ const GnmFuncDescriptor financial_functions[] = {
 	  &help_xnpv,	  gnumeric_xnpv, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_MONETARY,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "yield", "fffff|ff", "settlement,maturity,rate,price,redemption_price,frequency,basis",
+	{ "yield", "ffffff|f", "settlement,maturity,rate,price,redemption_price,frequency,basis",
 	  &help_yield, gnumeric_yield, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE + GNM_FUNC_AUTO_PERCENT,
 	  GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "yielddisc", "fffff", "settlement,maturity,pr,redemption,basis",
+	{ "yielddisc", "ffff|f", "settlement,maturity,pr,redemption,basis",
 	  &help_yielddisc,  gnumeric_yielddisc, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
-	{ "yieldmat", "ffffff", "settlement,maturity,issue,rate,pr,basis",
+	{ "yieldmat", "fffff|f", "settlement,maturity,issue,rate,pr,basis",
 	  &help_yieldmat,  gnumeric_yieldmat, NULL, NULL, NULL, NULL,
 	  GNM_FUNC_SIMPLE, GNM_FUNC_IMPL_STATUS_COMPLETE, GNM_FUNC_TEST_STATUS_BASIC },
         {NULL}

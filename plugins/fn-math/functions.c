@@ -1004,7 +1004,7 @@ gnumeric_combin (FunctionEvalInfo *ei, Value **argv)
 
 static char const *help_floor = {
 	N_("@FUNCTION=FLOOR\n"
-	   "@SYNTAX=FLOOR(x,significance)\n"
+	   "@SYNTAX=FLOOR(x[,significance])\n"
 
 	   "@DESCRIPTION="
 	   "FLOOR function rounds @x down to the next nearest multiple "
