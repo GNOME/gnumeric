@@ -167,8 +167,7 @@ Transform (UINT4 *buf, UINT4 *in)
     buf[3] += d;
 }
 void
-wvMD5Init (mdContext)
-     MD5_CTX *mdContext;
+wvMD5Init (MD5_CTX *mdContext)
 {
     mdContext->i[0] = mdContext->i[1] = (UINT4) 0;
 
@@ -181,10 +180,7 @@ wvMD5Init (mdContext)
 }
 
 void
-wvMD5Update (mdContext, inBuf, inLen)
-     MD5_CTX *mdContext;
-     unsigned char *inBuf;
-     unsigned int inLen;
+wvMD5Update (MD5_CTX *mdContext, unsigned char *inBuf, unsigned int inLen)
 {
     UINT4 in[16];
     int mdi;

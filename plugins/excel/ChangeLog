@@ -1,3 +1,7 @@
+2004-08-31  Morten Welinder  <terra@gnome.org>
+
+	* md5.c (wvMD5Init, wvMD5Update): Use ANSI prototypes.
+
 2004-08-29  Jody Goldberg <jody@gnome.org>
 
 	* plugin.xml.in : disable the non-functional spreadsheetml importer
