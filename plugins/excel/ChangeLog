@@ -1,3 +1,23 @@
+2001-09-17  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-obj.c (ms_read_OBJ) : init the new object more completely.
+
+2001-09-16  Jody Goldberg <jgoldberg@home.com>
+
+	* ms-chart.c : clean up debug routines.
+	(BC_R(dataformat)) : Use an extra node to handle pt vs series
+	  level formating.
+	(BC_R(end)) : cleanup dataformats.
+	(excel_chart_series_write_xml) : just link in the new child rather
+	  than creating it here.
+	(BC_R(dataformat)) : handle formating pts vs entire series.
+	(BC_R(markerformat)) : implement
+	(BC_R(areaformat)) : implement
+	(BC_R(lineformat)) : implement
+	(BC_R(pieformat)) : implement
+	(BC_R(color)) : tweak interface.
+	(ms_excel_chart) : ignore a few more records.
+
 2001-09-14  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-chart.c (excel_chart_series_write_xml) : Use the gal routines for

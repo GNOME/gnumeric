@@ -437,11 +437,13 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container)
 	};
 
 	gboolean errors;
-	MSObj *obj = g_new(MSObj, 1);
+	MSObj *obj = g_new0 (MSObj, 1);
 
 	obj->excel_type = (unsigned)-1; /* Set to undefined */
+	obj->excel_type_name = NULL;
 	obj->id = -1;
 	obj->anchor_set = FALSE;
+	obj->gnum_obj = NULL;
 
 #ifndef NO_DEBUG_EXCEL
 	if (ms_excel_object_debug > 0)
