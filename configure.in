@@ -1,5 +1,8 @@
 AC_INIT(src/gnumeric.h)
 
+dnl Debian Autoconf 2.13 trips on this configure.in
+dnl AC_PREREQ(2.52)
+
 AM_CONFIG_HEADER(config.h)
 AM_INIT_AUTOMAKE(gnumeric,0.69)
 AM_MAINTAINER_MODE
@@ -62,6 +65,7 @@ AC_SUBST(TERMCAP_LIB)
 AC_SUBST(READLINE_LIB)
 AC_SUBST(GUILE_LIBS)
 AC_SUBST(GUILE_INCS)
+guile_msg='not requested'
 AC_ARG_WITH(guile,[--with-guile   Include Guile support],[GNOME_CHECK_GUILE])
 
 AC_SUBST(CFLAGS)
@@ -676,6 +680,7 @@ Configuration:
 	Compiler:		${CC} 
 
 	Bonobo Support:		${bonobo_msg}
+	Guile Support:		${guile_msg}
 	Evolution Support:      $evolution
 	GB Support:		${gb_msg}
 "

@@ -1,9 +1,18 @@
+2001-08-02  J.H.M. Dassen (Ray) <jdassen@debian.org>
+
+	* configure.in: Use the new improved (functional) guile tests.
+
 2001-08-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/application.c (application_init) : Add search&replace icon from
 	  evo.
 	* src/workbook-control-gui.c (workbook_standard_toolbar_orient) : Use
 	  it.
+
+2001-08-01  Jody Goldberg <jgoldberg@home.com>
+
+	* src/sheet-autofill.c (autofill_compute_delta) : default to copy not
+	  increment.
 
 2001-07-31  Jody Goldberg <jgoldberg@home.com>
 
