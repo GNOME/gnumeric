@@ -1,3 +1,11 @@
+2002-12-06  Jon K Hellan  <hellan@acm.org>
+
+	* src/sheet-filter.c (cb_filter_button_release): Use
+	gtk_get_event_widget to check if release took place inside list.
+	(cb_filter_button_pressed): Call gdk_pointer_grab with
+	owner_events TRUE. Connect the motion_notify callback to the list
+	rather than the popup.
+
 2002-12-06  Jody Goldberg <jody@gnome.org>
 
 	* src/regutf8.c (gnumeric_regcomp_XL) : moved from

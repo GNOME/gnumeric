@@ -177,7 +177,6 @@ cb_filter_button_press (GtkWidget *popup, GdkEventButton *event,
 	if (event->x >= 0 && event->y >= 0 &&
 	    event->x < popup->allocation.width &&
 	    event->y < popup->allocation.height) {
-#warning forward the event to the right place somehow
 		return FALSE;
 	}
 
@@ -194,13 +193,11 @@ cb_filter_button_release (GtkWidget *popup, GdkEventButton *event,
 	GnmFilterField *field;
 	GnmFilterCondition *cond = NULL;
 	WorkbookControlGUI *wbcg;
-
-	/* A release inside popup accepts */
-	if (event->window != popup->window ||
-	    event->x < 0 || event->y < 0 ||
-	    event->x >= popup->allocation.width ||
-	    event->y >= popup->allocation.height)
-		return TRUE;
+	GtkWidget *event_widget = gtk_get_event_widget ((GdkEvent *) event);
+	
+	/* A release inside list accepts */
+	if (event_widget != GTK_WIDGET (list))
+		return FALSE;
 
 	field = g_object_get_data (G_OBJECT (list), FIELD_ID);
 	wbcg  = g_object_get_data (G_OBJECT (list), WBCG_ID);
@@ -471,7 +468,7 @@ cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 	g_signal_connect (popup,
 		"button_release_event",
 		G_CALLBACK (cb_filter_button_release), list);
-	g_signal_connect (popup,
+	g_signal_connect (list,
 		"motion_notify_event",
 		G_CALLBACK (cb_filter_motion_notify_event), list);
 
@@ -487,7 +484,7 @@ cb_filter_button_pressed (GtkButton *button, GnmFilterField *field)
 	}
 
 	gtk_grab_add (popup);
-	gdk_pointer_grab (popup->window, FALSE,
+	gdk_pointer_grab (popup->window, TRUE,
 		GDK_BUTTON_PRESS_MASK | 
 		GDK_BUTTON_RELEASE_MASK |
 		GDK_POINTER_MOTION_MASK, 
