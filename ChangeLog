@@ -1,3 +1,7 @@
+2001-04-23  Morten Welinder  <terra@diku.dk>
+
+	* src/gui-clipboard.c (x_selection_to_cell_region): Plug leak.
+
 2001-04-23  Almer S. Tigelaar  <almer@gnome.org>
 
 	* src/workbook-edit.c (workbook_finish_editing): Give focus

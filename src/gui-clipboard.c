@@ -140,6 +140,7 @@ x_selection_to_cell_region (WorkbookControlGUI *wbcg, const char *src, int len)
 
 			stf_dialog_result_free (dialogresult);
 		} else {
+			g_free (data);
 			return crerr;
 		}
 	}
