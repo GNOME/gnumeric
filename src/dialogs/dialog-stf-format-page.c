@@ -141,6 +141,7 @@ cb_col_check_clicked (GtkToggleButton *togglebutton, gpointer _i)
 
 	renderer = stf_preview_get_cell_renderer (pagedata->format.renderdata, i);
 	g_object_set (G_OBJECT (renderer), "strikethrough", !active, NULL);
+	gtk_widget_queue_draw (GTK_WIDGET (pagedata->format.renderdata->tree_view));
 
 	if (!active) {
 		pagedata->format.col_import_array[i] = FALSE;

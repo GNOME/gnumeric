@@ -53,6 +53,7 @@ Morten:
 	* Fix parsing problem with names that start out with something
 	  that can be parsed as a cell, e.g., "K3P".  [#170465]
 	* Improve auto-fixup of 1.0.x era non-ASCII Gnumeric files.
+	* Fix minor GUI problem with the format page of text import.
 
 --------------------------------------------------------------------------
 Gnumeric 1.5.0
