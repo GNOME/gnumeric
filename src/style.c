@@ -395,7 +395,7 @@ style_new (void)
 		static int warning_shown;
 
 		if (!warning_shown){
-			g_warning ("Font style created at zoom factor 1.0");
+			g_message ("Font style created at zoom factor 1.0");
 			warning_shown = TRUE;
 		}
 	}

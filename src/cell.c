@@ -14,6 +14,7 @@
 #include "color.h"
 #include "cursors.h"
 #include "utils.h"
+#include "gnumeric-util.h"
 #include <ctype.h>
 
 static int         redraws_frozen      = 0;

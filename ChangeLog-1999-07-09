@@ -1,3 +1,17 @@
+1999-07-09  Miguel de Icaza  <miguel@nuclecu.unam.mx>
+
+	* src/analysis-tools.c: Changed prototype of int_compare to
+	eliminate a warning.
+
+	Removed unused variables.
+
+	* src/cell.c: #inlcude gnumeric-util to eliminate warning.
+
+	* src/fn-financial.c: Fixed all the help strings to get the
+	SEELASO correctly done
+
+	* src/style.c: Zoom factor 1.0 is a reminder to me, not a warning.
+
 1999-07-09  Miguel de Icaza  <miguel@gnu.org>
 
 	* src/sheet-view.c (sheet_view_construct): Reverted last plan.  We

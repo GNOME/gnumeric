@@ -199,6 +199,7 @@ static char *help_sln = {
 	   "\tcost = cost of an asset when acquired (market value)"
 	   "\tsalvage_value = amount you get when asset sold at the end of life"
 	   "\tlife = anticipated life of an asset"
+	   "\n"
 	   "@SEEALSO=SYD")
 };
 
@@ -235,6 +236,7 @@ static char *help_syd = {
 	   "\tsalvage_value = amount you get when asset sold at the end of life"
 	   "\tlife = anticipated life of an asset"
 	   "\tperiod = period for which we need the expense"
+	   "\n"
 	   "@SEEALSO=SLN")
 };
 
@@ -263,6 +265,7 @@ static char *help_dollarde = {
 	   "\n"
 	   "If fraction is non-integer it is truncated. "
 	   "If fraction<=0 DOLLARDE returns #NUM! error. "
+	   "\n"
 	   "@SEEALSO=DOLLARFR")
 };
 
@@ -300,6 +303,7 @@ static char *help_dollarfr = {
 	   "\n"
 	   "If fraction is non-integer it is truncated. "
 	   "If fraction<=0 DOLLARDE returns #NUM! error. "
+	   "\n"
 	   "@SEEALSO=DOLLARDE")
 };
 
@@ -334,6 +338,7 @@ static char *help_rate = {
 	N_("@FUNCTION=RATE\n"
 	   "@SYNTAX=RATE(nper,pmt,pv[,fv,type,guess])\n"
 	   "@DESCRIPTION=Calculates rate of an investment."
+	   "\n"
 	   "@SEEALSO=PV,FV")
 };
 
@@ -429,6 +434,7 @@ static char *help_pv = {
 	N_("@FUNCTION=PV\n"
 	   "@SYNTAX=PV(rate,nper,pmt,fv,type)\n"
 	   "@DESCRIPTION=Calculates the present value of an investment."
+	   "\n"
 	   "@SEEALSO=FV")
 };
 
@@ -460,6 +466,7 @@ static char *help_npv = {
 	N_("@FUNCTION=NPV\n"
 	   "@SYNTAX=NPV(rate,v1,v2,...)\n"
 	   "@DESCRIPTION=Calculates the net present value of an investment."
+	   "\n"
 	   "@SEEALSO=PV")
 };
 
@@ -504,6 +511,7 @@ static char *help_fv = {
 	N_("@FUNCTION=FV\n"
 	   "@SYNTAX=FV(rate,nper,pmt,pv,type)\n"
 	   "@DESCRIPTION=Calculates the future value of an investment."
+	   "\n"
 	   "@SEEALSO=PV,PMT,PPMT")
 };
 
@@ -533,6 +541,7 @@ static char *help_pmt = {
 	N_("@FUNCTION=PMT\n"
 	   "@SYNTAX=PMT(rate,nper,pv,fv,type)\n"
 	   "@DESCRIPTION=Calculates the present value of an investment."
+	   "\n"
 	   "@SEEALSO=PPMT,PV,FV")
 };
 
@@ -642,6 +651,7 @@ static char *help_nper = {
 	N_("@FUNCTION=NPER\n"
 	   "@SYNTAX=NPER(rate,pmt,pv,fv,type)\n"
 	   "@DESCRIPTION=Calculates number of periods of an investment."
+	   "\n"
 	   "@SEEALSO=PPMT,PV,FV")
 };
 

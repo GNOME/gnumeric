@@ -33,8 +33,11 @@ typedef struct {
 /***** Some general routines ***********************************************/
 
 static int
-int_compare (const int *x, const int *y)
+int_compare (const void *px, const void *py)
 {
+	const int *x = px;
+	const int *y = py;
+	
         if (*x < *y)
 	        return -1;
 	else if (*x == *y)
@@ -1820,10 +1823,8 @@ int average_tool (Workbook *wb, Sheet *sheet, Range *range, int interval,
         data_set_t data_set;
 	GSList     *current;
 	char       buf[256];
-	Cell       *cell;
 	float_t    *prev, sum;
-	int        cols, rows, row, i, add_cursor, del_cursor, count;
-	int        error;
+	int        cols, rows, row, add_cursor, del_cursor, count;
 
 	/* TODO: Standard error output */
 	cols = range->end_col - range->start_col + 1;
@@ -1895,9 +1896,7 @@ int ranking_tool (Workbook *wb, Sheet *sheet, Range *input_range,
         data_set_t *data_sets;
 	GSList     *current;
 	char       buf[256];
-	Cell       *cell;
-	int        vars, cols, rows, col, row, i, n;
-	int        error;
+	int        vars, cols, rows, col, i, n;
 
 	if (dao->type == NewSheetOutput) {
 	        dao->sheet = sheet_new(wb, "Ranks and Percentiles");
