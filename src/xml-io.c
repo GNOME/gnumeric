@@ -49,6 +49,7 @@ typedef enum
     GNUM_XML_V2,
     GNUM_XML_V3,	/* >= 0.52 */
     GNUM_XML_V4,	/* >= 0.57 */
+    GNUM_XML_V5,	/* >= 0.58 */
 } GnumericXMLVersion;
 
 struct _XmlParseContext {
@@ -1273,7 +1274,6 @@ xml_read_attributes (XmlParseContext *ctxt, xmlNodePtr tree, GList **list)
 
 	g_return_if_fail (ctxt != NULL);
 	g_return_if_fail (tree != NULL);
-	g_return_if_fail (ctxt->wb != NULL);
 
 	child = tree->childs;
 	while (child) {
@@ -3173,7 +3173,7 @@ xml_workbook_read (IOContext *context, WorkbookView *wb_view,
 	}
 
 	child = xml_search_child (tree, "Attributes");
-	if (child) {
+	if (child && ctxt->version >= GNUM_XML_V5) {
 		xml_read_attributes (ctxt, child, &list);
 		wb_view_set_attributev (wb_view, list);
 		xml_free_arg_list (list);
@@ -3203,6 +3203,7 @@ static const struct {
 	char const * const id;
 	GnumericXMLVersion const version;
 } GnumericVersions [] = {
+	{ "http://www.gnome.org/gnumeric/v5", GNUM_XML_V5 },
 	{ "http://www.gnome.org/gnumeric/v4", GNUM_XML_V4 },
 	{ "http://www.gnome.org/gnumeric/v3", GNUM_XML_V3 },
 	{ "http://www.gnome.org/gnumeric/v2", GNUM_XML_V2 },

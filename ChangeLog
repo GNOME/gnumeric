@@ -1,3 +1,10 @@
+2000-11-02  JP Rosevear  <jpr@helixcode.com>
+
+	* src/xml-io.c (xml_read_attributes): Don't check for a workbook,
+	this is redundant and not even true any more.
+	(xml_workbook_read): Only read the attributes if the workbook is
+	version 5 or later.
+
 2000-11-02  Jody Goldberg <jgoldberg@home.com>
 
 	* src/rendered-value.c (rendered_value_new_ext) : Any form of General
