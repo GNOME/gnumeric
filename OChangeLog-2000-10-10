@@ -1,3 +1,8 @@
+2000-08-14  Jody Goldberg <jgoldberg@home.com>
+
+	* src/workbook.c (workbook_menu_edit) : Fix typo that made goto C-I
+	  instead of C-G.
+
 2000-08-12  Jody Goldberg <jgoldberg@home.com>
 
 	* configure.in : Bump bonobo version. 

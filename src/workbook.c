@@ -1255,15 +1255,16 @@ static GnomeUIInfo workbook_menu_edit [] = {
 
 	GNOMEUIINFO_SUBTREE(N_("_Select..."), workbook_menu_edit_select),
 
-	/* Default <Ctrl-I> to be goto */
+	/* Default <Ctrl-G> to be goto */
 	{ GNOME_APP_UI_ITEM, N_("_Goto cell..."),
-	  N_("Jump to a specified cell"), goto_cell_cmd, NULL, NULL,
-	  0, 0, 'i', GDK_CONTROL_MASK },
+	  N_("Jump to a specified cell"), &goto_cell_cmd,
+	  NULL, NULL, 0, 0, GDK_G, GDK_CONTROL_MASK },
 
 	/* Default <F9> to recalculate */
 	{ GNOME_APP_UI_ITEM, N_("_Recalculate"),
-	  N_("Recalculate the spreadsheet"), recalc_cmd, NULL, NULL,
-	  0, 0, GDK_F9, 0 },
+	  N_("Recalculate the spreadsheet"), &recalc_cmd,
+	  NULL, NULL, 0, 0, GDK_F9, 0 },
+
 	GNOMEUIINFO_END
 };
 
