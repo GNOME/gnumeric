@@ -11,8 +11,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-10-05 01:55-0400\n"
-"PO-Revision-Date: 2004-09-28 23:58+0200\n"
+"POT-Creation-Date: 2004-10-08 11:41+0200\n"
+"PO-Revision-Date: 2004-10-08 18:17+0200\n"
 "Last-Translator: Miloslav Trmac <mitr@volny.cz>\n"
 "Language-Team: Czech <cs@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1214,7 +1214,7 @@ msgid ""
 "@time is the initial maturity of the option in years.\n"
 "@rate is the risk annualised free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yeild.\n"
+"stocks, this would be the dividend yield.\n"
 "@volatility is the annualised volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1261,7 +1261,7 @@ msgid ""
 "@time is the initial maturity of the option in years.\n"
 "@rate is the risk annualised free rate of interest.\n"
 "@cost_of_carry is the leakage in value of the underlying asset, for common "
-"stocks, this would be the dividend yeild.\n"
+"stocks, this would be the dividend yield.\n"
 "@volatility is the annualised volatility in price of the underlying asset.\n"
 "\n"
 "@EXAMPLES=\n"
@@ -1297,12 +1297,12 @@ msgid ""
 "strike, time, rate, volatility, cost_of_carry)\n"
 "@DESCRIPTION=OPT_ models the theoretical price of either an American or "
 "European style option using a binomial tree \n"
-"@amer_euro_flag is either \"a\" or \"e\" to indicate weather the option "
+"@amer_euro_flag is either \"a\" or \"e\" to indicate whether the option "
 "being valued is an American or European style option respectively\n"
 "@call_put_flag is 'c' or 'p' to indicate whether the option is a call or a "
 "put.\n"
 "@num_time_steps is the number of time steps used in the valuation, a greater "
-"number of time steps yeilds greater accuracy however is slower to calculate\n"
+"number of time steps yields greater accuracy however is slower to calculate\n"
 "@spot is the spot price of the underlying asset.\n"
 "@strike is the strike price at which the option is struck \n"
 "@time is the initial maturity of the option in years.\n"
@@ -5591,7 +5591,7 @@ msgstr ""
 "\n"
 "@SEEALSO=BESSELI,BESSELJ,BESSELK"
 
-#: plugins/fn-eng/functions.c:569
+#: plugins/fn-eng/functions.c:573
 msgid ""
 "@FUNCTION=CONVERT\n"
 "@SYNTAX=CONVERT(number,from_unit,to_unit)\n"
@@ -5813,7 +5813,7 @@ msgstr ""
 "\n"
 "@SEEALSO="
 
-#: plugins/fn-eng/functions.c:984
+#: plugins/fn-eng/functions.c:988
 msgid ""
 "@FUNCTION=ERF\n"
 "@SYNTAX=ERF([lower limit,]upper_limit)\n"
@@ -5863,7 +5863,7 @@ msgstr ""
 "odchylek od průměru.\n"
 "@SEEALSO=ERFC"
 
-#: plugins/fn-eng/functions.c:1031
+#: plugins/fn-eng/functions.c:1035
 msgid ""
 "@FUNCTION=ERFC\n"
 "@SYNTAX=ERFC(x)\n"
@@ -5897,7 +5897,7 @@ msgstr ""
 "\n"
 "@SEEALSO=ERF"
 
-#: plugins/fn-eng/functions.c:1061
+#: plugins/fn-eng/functions.c:1065
 msgid ""
 "@FUNCTION=DELTA\n"
 "@SYNTAX=DELTA(x[,y])\n"
@@ -5927,11 +5927,11 @@ msgstr ""
 "\n"
 "@SEEALSO=EXACT,GESTEP"
 
-#: plugins/fn-eng/functions.c:1105 plugins/fn-eng/functions.c:1159
+#: plugins/fn-eng/functions.c:1109 plugins/fn-eng/functions.c:1163
 msgid "Impossible"
 msgstr "Nemožné"
 
-#: plugins/fn-eng/functions.c:1116
+#: plugins/fn-eng/functions.c:1120
 msgid ""
 "@FUNCTION=GESTEP\n"
 "@SYNTAX=GESTEP(x[,y])\n"
@@ -5958,7 +5958,7 @@ msgstr ""
 "\n"
 "@SEEALSO=DELTA"
 
-#: plugins/fn-eng/functions.c:1170
+#: plugins/fn-eng/functions.c:1174
 msgid ""
 "@FUNCTION=INVSUMINV\n"
 "@SYNTAX=INVSUMINV(x1,x2,...)\n"
@@ -6387,7 +6387,7 @@ msgid ""
 "@settlement is the settlement date of the security.\n"
 "\n"
 "@maturity is the maturity date of the security.  @par is the price per $100 "
-"face value of the security.  @redemption is the redeption value per $100 "
+"face value of the security.  @redemption is the redemption value per $100 "
 "face value of the security.\n"
 "\n"
 "@basis is the type of day counting system you want to use:\n"
@@ -9867,7 +9867,7 @@ msgid ""
 "is pointed out by @row and @col, which count the rows and columns in the "
 "array.\n"
 "\n"
-"* If @row and @col are omited the are assumed to be 1.\n"
+"* If @row and @col are omitted the are assumed to be 1.\n"
 "* If the reference falls outside the range of the @array, INDEX returns a "
 "#REF! error.\n"
 "\n"
@@ -9878,14 +9878,12 @@ msgid ""
 msgstr ""
 "@FUNCTION=INDEX\n"
 "@SYNTAX=INDEX(pole,[řádek,sloupec,oblast])\n"
-"@DESCRIPTION=INDEX vrací odkaz na buňku zadanou v @poli. Buňka je určená "
-"pomocí @řádku a @sloupci, což představuje počet řádků a sloupců v poli.\n"
+"@DESCRIPTION=INDEX vrací odkaz na buňku zadanou v @poli. Buňka je určená pomocí @řádku a @sloupce, což představuje počet řádků a sloupců v poli.\n"
 "\n"
 "* Pokud není @řádek ani @sloupec zadán, pak se použije hodnota 1.\n"
-"* Pokud spadá odkaz mimo @pole, funkce INDEX vrací chybu #REF!.\n"
+"* Pokud odkaz spadá mimo @pole, INDEX vrací chybu #REF!.\n"
 "\n"
-"@EXAMPLES=Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, "
-"17.3, 21.3, 25.9 a 40.1. Pak INDEX(A1:A5,4,1,1) se rovná 25,9\n"
+"@EXAMPLES=Předpokládejme, že buňky A1, A2, ..., A5 obsahují čísla 11.4, 17.3, 21.3, 25.9 a 40.1. Pak INDEX(A1:A5,4,1,1) se rovná 25,9\n"
 "\n"
 "@SEEALSO="
 
@@ -16656,7 +16654,7 @@ msgid ""
 "\n"
 "@EXAMPLES=\n"
 "UNICHAR(65) equals A.\n"
-"UNICHAR(960) equals a small greek pi.\n"
+"UNICHAR(960) equals a small Greek pi.\n"
 "\n"
 "@SEEALSO=CHAR,UNICODE,CODE"
 msgstr ""
@@ -16666,7 +16664,7 @@ msgstr ""
 "\n"
 "@EXAMPLES=\n"
 "UNICHAR(65) se rovná A.\n"
-"CHAR(8232) se rovná chybě návratu vozíku.\n"
+"CHAR(960) se rovná malému řeckému pi.\n"
 "\n"
 "@SEEALSO=CHAR,UNICODE,CODE"
 
@@ -19268,7 +19266,7 @@ msgstr ""
 msgid "result passes the sheet boundary"
 msgstr "výsledek přesahuje okraje listu"
 
-#: src/cmd-edit.c:319
+#: src/cmd-edit.c:335
 #, c-format
 msgid ""
 "destination has a different shape (%dRx%dC) than the original (%dRx%dC)\n"
@@ -19279,30 +19277,30 @@ msgstr ""
 "\n"
 "Zkuste vybrat jedinou buňku nebo oblast stejného tvaru a velikosti."
 
-#: src/cmd-edit.c:325
+#: src/cmd-edit.c:341
 msgid "Unable to paste into selection"
 msgstr "Není možné vložit do výběru"
 
-#: src/cmd-edit.c:362
+#: src/cmd-edit.c:378
 msgid "Paste"
 msgstr "Vložit"
 
-#: src/cmd-edit.c:406
+#: src/cmd-edit.c:422
 #, c-format
 msgid "Shift rows %s"
 msgstr "Posunout řádky %s"
 
-#: src/cmd-edit.c:407
+#: src/cmd-edit.c:423
 #, c-format
 msgid "Shift row %s"
 msgstr "Posunout řádek %s"
 
-#: src/cmd-edit.c:444
+#: src/cmd-edit.c:460
 #, c-format
 msgid "Shift columns %s"
 msgstr "Posunout sloupce %s"
 
-#: src/cmd-edit.c:445
+#: src/cmd-edit.c:461
 #, c-format
 msgid "Shift column %s"
 msgstr "Posunout sloupec %s"
@@ -19650,27 +19648,22 @@ msgid "Zoom %s to %.0f%%"
 msgstr "Zvětšení %s na %.0f%%"
 
 #: src/commands.c:4413
-#, fuzzy
 msgid "Insert Object"
 msgstr "Vložit objekt"
 
 #: src/commands.c:4473
-#, fuzzy
 msgid "Delete Object"
 msgstr "Odstranit objekt"
 
 #: src/commands.c:4563
-#, fuzzy
 msgid "Duplicate Object"
-msgstr "Duplikovat"
+msgstr "Duplikovat objekt"
 
 #: src/commands.c:4564
-#, fuzzy
 msgid "Resize Object"
 msgstr "Změnit velikost objektu"
 
 #: src/commands.c:4565
-#, fuzzy
 msgid "Move Object"
 msgstr "Přesunout objekt"
 
@@ -19735,22 +19728,18 @@ msgid "Changing summary info"
 msgstr "Změna souhrnných informací"
 
 #: src/commands.c:5983
-#, fuzzy
 msgid "Pull Object to the Front"
 msgstr "Vytáhnout objekt dopředu"
 
 #: src/commands.c:5986
-#, fuzzy
 msgid "Pull Object Forward"
 msgstr "Táhnout objekt vpřed"
 
 #: src/commands.c:5989
-#, fuzzy
 msgid "Push Object Backward"
 msgstr "Tlačit objekt vzad"
 
 #: src/commands.c:5992
-#, fuzzy
 msgid "Push Object to the Back"
 msgstr "Zatlačit objekt dozadu"
 
@@ -20136,22 +20125,18 @@ msgid "GNOME Office Graph"
 msgstr "Graf GNOME Office"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:2
-#, fuzzy
 msgid "Pull f_orward"
 msgstr "Táhnout v_před"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:3
-#, fuzzy
 msgid "Pull to _front"
-msgstr "_Vytáhnout _dopředu"
+msgstr "_Vytáhnout dopředu"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:4
-#, fuzzy
 msgid "Push b_ackward"
 msgstr "T_lačit vzad"
 
 #: src/cut-n-paste-code/goffice/graph/gog-guru.glade.h:5
-#, fuzzy
 msgid "Push to _back"
 msgstr "_Zatlačit dozadu"
 
@@ -20395,7 +20380,6 @@ msgid "How far the bars/cols overlap as a percentage of the width"
 msgstr "Jak moc se pruhy/sloupce překrývají jako procenta šířky"
 
 #: src/cut-n-paste-code/goffice/graph/plugins/plot_barcol/gog-barcol-prefs.glade.h:4
-#, fuzzy
 msgid "O_verlap:"
 msgstr "_Překrytí:"
 
@@ -27323,13 +27307,14 @@ msgstr ""
 "%s"
 
 #: src/gui-file.c:406
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "A file called <i>%s</i> already exists in %s.\n"
 "\n"
 "Do you want to save over it?"
 msgstr ""
-"%s již existuje.\n"
+"Soubor nazvaný <i>%s</i> již v %s existuje.\n"
+"\n"
 "Chcete jej přepsat?"
 
 #: src/gui-file.c:464
@@ -32432,15 +32417,15 @@ msgstr "Nekončit"
 msgid "Don't close"
 msgstr "Nezavírat"
 
-#: src/workbook-control-gui.c:2213 src/workbook-control-gui.c:2228
+#: src/workbook-control-gui.c:2233 src/workbook-control-gui.c:2248
 msgid "_Re-Edit"
 msgstr "Znovu _upravit"
 
-#: src/workbook-control-gui.c:2214 src/workbook-control-gui.c:2219
+#: src/workbook-control-gui.c:2234 src/workbook-control-gui.c:2239
 msgid "_Discard"
 msgstr "Za_hodit"
 
-#: src/workbook-control-gui.c:2218 src/workbook-control-gui.c:2229
+#: src/workbook-control-gui.c:2238 src/workbook-control-gui.c:2249
 msgid "_Accept"
 msgstr "_Přijmout"
 
