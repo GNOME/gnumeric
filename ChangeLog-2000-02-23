@@ -32,7 +32,6 @@
 
 	* gnumeric.desktop: added Estonian strings
 
->>>>>>> 1.864
 1999-09-25  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* src/dialogs/dialog-zoom.c (dialog_zoom): Correct glade name.

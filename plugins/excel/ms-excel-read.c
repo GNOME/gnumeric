@@ -1733,6 +1733,7 @@ ms_excel_sheet_destroy (ExcelSheet *sheet)
 	if (sheet->gnum_sheet)
 		sheet_destroy (sheet->gnum_sheet);
 	sheet->gnum_sheet = NULL;
+	ms_excel_sheet_destroy_objs (sheet);
 
 	g_free (sheet);
 }
@@ -2090,7 +2091,7 @@ ms_excel_read_cell (BiffQuery *q, ExcelSheet *sheet)
 		/* S59DA7.HTM is extremely unclear, this is an educated guess */
 		int col = EX_GETCOL (q);
 		int const row = EX_GETROW (q);
-		int const lastcol = MS_OLE_GET_GUINT16 (q->data + q->length - 2);
+		int lastcol = MS_OLE_GET_GUINT16 (q->data + q->length - 2);
 		guint8 const *ptr = (q->data + 4);
 #ifndef NO_DEBUG_EXCEL
 		if (ms_excel_read_debug > 0) {
@@ -2443,10 +2444,10 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 	guint32 const blankSheetPos = q->streamPos + q->length + 4;
 	PrintInformation *pi;
 
-	g_return_val_if_fail (wb != NULL, NULL);
-	g_return_val_if_fail (sheet != NULL, NULL);
-	g_return_val_if_fail (sheet->gnum_sheet != NULL, NULL);
-	g_return_val_if_fail (sheet->gnum_sheet->print_info != NULL, NULL);
+	g_return_val_if_fail (wb != NULL, FALSE);
+	g_return_val_if_fail (sheet != NULL, FALSE);
+	g_return_val_if_fail (sheet->gnum_sheet != NULL, FALSE);
+	g_return_val_if_fail (sheet->gnum_sheet->print_info != NULL, FALSE);
 
 	pi = sheet->gnum_sheet->print_info;
 
@@ -2472,13 +2473,13 @@ ms_excel_read_sheet (ExcelSheet *sheet, BiffQuery *q, ExcelWorkbook *wb)
 		case BIFF_EOF:
 			if (q->streamPos == blankSheetPos) /* || sheet->blank) */ {
 #ifndef NO_DEBUG_EXCEL
-				if (ms_excel_read_debug > 1) {
+				if (ms_excel_read_debug > 1)
 					printf ("Blank sheet\n");
-				}
 #endif
 				if (ms_excel_workbook_detach (sheet->wb, sheet)) {
 					ms_excel_sheet_destroy (sheet);
 					sheet = NULL;
+					return FALSE;
 				} else
 					printf ("Serious error detaching sheet '%s'\n",
 						sheet->gnum_sheet->name);
@@ -2953,9 +2954,10 @@ ms_excel_read_workbook (Workbook *workbook, MsOle *file)
 				{
 					ExcelSheet *sheet = ms_excel_workbook_get_sheet (wb, current_sheet);
 					ms_excel_sheet_set_version (sheet, ver->version);
-					if (ms_excel_read_sheet   (sheet, q, wb))
+					if (ms_excel_read_sheet   (sheet, q, wb)) {
 						ms_excel_sheet_realize_objs (sheet);
-					ms_excel_sheet_destroy_objs (sheet);
+						ms_excel_sheet_destroy_objs (sheet);
+					}
 					current_sheet++;
 				}
 			} else if (ver->type == eBiffTChart)

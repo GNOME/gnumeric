@@ -1,3 +1,9 @@
+1999-09-26  Michael Meeks  <michael@nuclecu.unam.mx>
+
+	* ms-excel-read.c (ms_excel_read_sheet): return FALSE for
+	blank sheets: duh. (ms_excel_sheet_destroy): add destroy_objs.
+	(ms_excel_read_cell): remove const on lastcol.
+
 1999-09-25  Michael Meeks  <michael@nuclecu.unam.mx>
 
 	* Makefile.am (ole_LDADD): use libole2.la
