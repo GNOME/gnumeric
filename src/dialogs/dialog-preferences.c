@@ -1373,7 +1373,7 @@ cb_dialog_pref_switch_page  (GtkNotebook *notebook,
 		page_info[page_num].page_open (state, page_info[page_num].data,
 					       notebook, page_num);
 	else
-		dialog_pref_page_open (state)
+		dialog_pref_page_open (state);
 }
 
 /* Note: The first page listed below is opened through File/Preferences, */
