@@ -37,7 +37,7 @@
     <title>The Gnumeric worksheet elements</title>
     <mediaobject>
       <imageobject>
-	<imagedata fileref="figures/gnumeric-labelled" format="PNG" />
+	<imagedata fileref="figures/gnumeric-labelled.png" format="PNG" />
       </imageobject>
     </mediaobject>
   </figure>
