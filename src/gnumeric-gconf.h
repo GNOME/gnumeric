@@ -3,6 +3,7 @@
 
 #include <numbers.h>
 #include <gnumeric.h>
+#include <print-info.h>
 
 typedef struct {
 	struct {
@@ -44,8 +45,25 @@ typedef struct {
 	gchar           *printer_config;
 	GSList const    *printer_header;
 	GSList const    *printer_footer;
-	GnmStyle          *printer_decoration_font;
-
+	GSList const    *printer_header_formats_left;
+	GSList const    *printer_header_formats_middle;
+	GSList const    *printer_header_formats_right;
+	GnmStyle        *printer_decoration_font;
+	gboolean         print_center_horizontally;
+	gboolean         print_center_vertically;
+	gboolean         print_grid_lines;
+	gboolean         print_even_if_only_styles;
+	gboolean         print_black_and_white;
+	gboolean         print_titles;
+	gboolean         print_order_right_then_down;
+	gboolean         print_scale_percentage;
+	float            print_scale_percentage_value;
+	gint             print_scale_width;
+	gint             print_scale_height;
+	gchar           *print_repeat_top;
+	gchar           *print_repeat_left;
+	PrintMargins     print_tb_margins;
+	
 	float		 horizontal_dpi;
 	float		 vertical_dpi;
 	gboolean	 auto_complete;
@@ -114,6 +132,22 @@ void     gnm_gconf_set_printer_header (gchar const *left, gchar const *middle,
 				       gchar const *right);
 void     gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle, 
 				       gchar const *right);
+void     gnm_gconf_set_print_center_horizontally (gboolean val);
+void     gnm_gconf_set_print_center_vertically (gboolean val);
+void     gnm_gconf_set_print_grid_lines (gboolean val);
+void     gnm_gconf_set_print_even_if_only_styles (gboolean val);
+void     gnm_gconf_set_print_black_and_white (gboolean val);
+void     gnm_gconf_set_print_titles (gboolean val);
+void     gnm_gconf_set_print_order_right_then_down (gboolean val);
+void     gnm_gconf_set_print_scale_percentage (gboolean val);
+void     gnm_gconf_set_print_scale_percentage_value (gnm_float val);
+void     gnm_gconf_set_print_scale_width (gint val);
+void     gnm_gconf_set_print_scale_height (gint val);
+void     gnm_gconf_set_print_repeat_top (gchar const *str);
+void     gnm_gconf_set_print_repeat_left (gchar const *str);
+void     gnm_gconf_set_print_tb_margins (PrintMargins const *pm);
+void     gnm_gconf_set_print_header_formats (GSList *left, GSList *middle, 
+					     GSList *right);
 
 /* others */
 void     gnm_gconf_set_horizontal_dpi  (gnm_float val);

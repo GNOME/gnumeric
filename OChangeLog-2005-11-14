@@ -1,3 +1,44 @@
+2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/gnumeric-gconf.c (gnm_conf_init_essential): initialize new
+	  configuration variables
+	(gnm_conf_init_extra): move some items to essential
+	(gnm_gconf_set_print_center_horizontally): new stub
+	(gnm_gconf_set_print_center_vertically): new stub
+	(gnm_gconf_set_print_grid_lines): new stub
+	(gnm_gconf_set_print_even_if_only_styles): new stub
+	(gnm_gconf_set_print_black_and_white): new stub
+	(gnm_gconf_set_print_titles): new stub
+	(gnm_gconf_set_print_order_right_then_down): new stub
+	(gnm_gconf_set_print_scale_percentage): new stub
+	(gnm_gconf_set_print_scale_percentage_valuee): new stub
+	(gnm_gconf_set_print_scale_width): new stub
+	(gnm_gconf_set_print_scale_height): new stub
+	(gnm_gconf_set_print_repeat_top): new stub
+	(gnm_gconf_set_print_repeat_left): new stub
+	(gnm_gconf_set_print_tb_margins): new stub
+	(gnm_gconf_set_print_header_formats): new stub
+	* src/gnumeric-gconf.h: various new functions (see above) and 
+	  fields to the pref structure.
+	* src/print-info.c: remove dependence on libgnome/gnome-config.h
+	(load_margin): deleted
+	(load_hf): deleted
+	(load_range): deleted
+	(load_formats): remove gnome-config stuff
+	(print_info_new): switch to gconf functions
+	(save_margin): deleted
+	(save_range): deleted
+	(save_hf): deleted
+	(save_formats): use gconf
+	(print_info_save): use new gconf functions
+	(print_info_set_orientation): new
+	(print_info_get_orientation): new
+	* src/print-info.h: remove orientation field in pi
+	(print_info_set_orientation): new
+	(print_info_get_orientation): new
+	* src/xml-io.c (xml_write_print_info): use print_info_get_orientation
+	(xml_read_print_info): use print_info_set_orientation
+
 2004-01-27  Morten Welinder  <terra@gnome.org>
 
 	* src/gui-file.c (gui_file_save_as): Switch to file chooser.

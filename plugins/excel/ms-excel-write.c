@@ -311,7 +311,7 @@ excel_write_SETUP (BiffPut *bp, ExcelWriteSheet *esheet)
 
 	if (pi->print_order == PRINT_ORDER_RIGHT_THEN_DOWN)
 		options |= 0x01;
-	if (pi->orientation == PRINT_ORIENT_VERTICAL)
+	if (print_info_get_orientation (pi) == PRINT_ORIENT_VERTICAL)
 		options |= 0x02;
 	options |= 0x40; /* orientation is set */
 	options |= 0x04;  /* mark the _invalid_ things as being invalid */

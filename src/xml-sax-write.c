@@ -340,7 +340,7 @@ xml_write_print_info (GnmOutputXML *state, PrintInformation *pi)
 	gsf_xml_out_simple_element (state->output, GMR "order",
 		(pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT) ? "d_then_r" : "r_then_d");
 	gsf_xml_out_simple_element (state->output, GMR "orientation",
-		     (pi->orientation == PRINT_ORIENT_VERTICAL) ? "portrait" : "landscape");
+		     (print_info_get_orientation (pi) == PRINT_ORIENT_VERTICAL) ? "portrait" : "landscape");
 
 	xml_write_print_hf (state, GMR "Header", pi->header);
 	xml_write_print_hf (state, GMR "Footer", pi->footer);

@@ -1193,7 +1193,8 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 		     CC2XML ((pi->print_order == PRINT_ORDER_DOWN_THEN_RIGHT)
 		     ? "d_then_r" : "r_then_d"));
 	xmlNewChild (cur, ctxt->ns, CC2XML ("orientation"),
-		     CC2XML ((pi->orientation == PRINT_ORIENT_VERTICAL)
+		     CC2XML ((print_info_get_orientation (pi) 
+			      == PRINT_ORIENT_VERTICAL)
 		     ? "portrait" : "landscape"));
 
 	xml_node_set_print_hf (cur, "Header", pi->header);
@@ -1392,9 +1393,9 @@ xml_read_print_info (XmlParseContext *ctxt, xmlNodePtr tree)
 	if ((child = e_xml_get_child_by_name (tree, CC2XML ("orientation")))) {
 		xmlChar *txt = xmlNodeGetContent (child);
 		if (!strcmp (CXML2C (txt), "portrait"))
-			pi->orientation = PRINT_ORIENT_VERTICAL;
+			print_info_set_orientation (pi, PRINT_ORIENT_VERTICAL);
 		else
-			pi->orientation = PRINT_ORIENT_HORIZONTAL;
+			print_info_set_orientation (pi, PRINT_ORIENT_HORIZONTAL);
 		xmlFree (txt);
 	}
 

@@ -11,6 +11,7 @@
 #include "gnumeric.h"
 #include "print-info.h"
 
+#include "gutils.h"
 #include "ranges.h"
 #include "format.h"
 #include "func.h"
@@ -20,11 +21,13 @@
 #include "workbook.h"
 #include "gnumeric-gconf.h"
 
-#include <libgnome/gnome-config.h>
 #include <string.h>
 #include <locale.h>
 
+#define MAX_SAVED_CUSTOM_HF_FORMATS 9
+
 GList *hf_formats = NULL;
+gint   hf_formats_base_num = 0;
 
 PrintHF *
 print_hf_new (char const *left_side_format,
@@ -117,52 +120,10 @@ print_info_free (PrintInformation *pi)
 	g_free (pi);
 }
 
-static void
-load_margin (char const *str, PrintUnit *p, char *def)
-{
-	char *pts_units = g_strconcat (str, "_units=centimeter", NULL);
-	char *pts = g_strconcat (str, "=", def, NULL);
-	char *s;
-
-	p->points = gnome_config_get_float (pts);
-	s = gnome_config_get_string (pts_units);
-	p->desired_display = unit_name_to_unit (s);
-	g_free (pts_units);
-	g_free (pts);
-	g_free (s);
-}
-
-static PrintHF *
-load_hf (char const *type, char const *a, char const *b, char const *c)
-{
-	PrintHF *format;
-	char *code_a = g_strconcat (type, "_left=", a, NULL);
-	char *code_b = g_strconcat (type, "_middle=", b, NULL);
-	char *code_c = g_strconcat (type, "_right=", c, NULL);
-
-	format = g_new (PrintHF, 1);
-
-	format->left_format   = gnome_config_get_string (code_a);
-	format->middle_format = gnome_config_get_string (code_b);
-	format->right_format  = gnome_config_get_string (code_c);
-
-	g_free (code_a);
-	g_free (code_b);
-	g_free (code_c);
-
-	return format;
-}
-
 static gboolean
-load_range (char const *name, GnmRange *r)
+load_range (char const *str, GnmRange *r)
 {
-	gboolean success = FALSE;
-	char *str = gnome_config_get_string (name);
-	if (str != NULL) {
-		success = parse_range (str, r);
-		g_free (str);
-	}
-	return success;
+	return ((str != NULL) &&  parse_range (str, r));
 }
 
 static void
@@ -184,13 +145,8 @@ load_formats (void)
 		{ NULL, }
 	};
 
-	int format_count;
-
 	/* Fetch header/footer formats */
-	gnome_config_push_prefix ("/Gnumeric/Headers_and_Footers/");
-
-	format_count = gnome_config_get_int ("formats=0");
-	if (format_count == 0) {
+	{
 		int i;
 
 		for (i = 0; predefined_formats [i].left_format; i++) {
@@ -205,23 +161,14 @@ load_formats (void)
 				_(predefined_formats [i].right_format):"");
 
 			hf_formats = g_list_prepend (hf_formats, format);
+			hf_formats_base_num++;
 		}
-	} else {
-		int i;
+	} 
+	/* Now append the custom formats */
+	
 
-		for (i = 0; i < format_count; i++) {
-			char *str = g_strdup_printf ("FormatHF-%d", i);
-			PrintHF *format;
-
-			format = load_hf (str, "", "", "");
-			hf_formats = g_list_prepend (hf_formats, format);
-
-			g_free (str);
-		}
-	}
 
 	hf_formats = g_list_reverse (hf_formats);
-	gnome_config_pop_prefix ();
 }
 
 /**
@@ -237,146 +184,98 @@ PrintInformation *
 print_info_new (void)
 {
 	PrintInformation *pi;
-	char *s;
-	char *oldlocale;
+	GSList *list;
 
 	pi = g_new0 (PrintInformation, 1);
 
-	/* We shouldn't need to save the locale but due to bugs elsewhere... */
-	oldlocale = g_strdup (setlocale(LC_ALL, NULL));
 	pi->print_config = 
-#warning FIXME
-/* Note: until gnome_print_config_from_string is fixed  */
-/* uncommenting the following yields serious problems   */
-/* gnm_app_prefs->printer_config ? */
-/* 		gnome_print_config_from_string (gnm_app_prefs->printer_config, */
-/* 						0) : */
+		gnm_app_prefs->printer_config ?
+		gnome_print_config_from_string (gnm_app_prefs->printer_config,
+						0) :
 		gnome_print_config_default ();
-	setlocale(LC_ALL, oldlocale);
-	g_free(oldlocale);
-
-	gnome_config_push_prefix ("/Gnumeric/Print/");
-
-	pi->orientation = gnome_config_get_bool ("vertical_print=false")
-		? PRINT_ORIENT_VERTICAL : PRINT_ORIENT_HORIZONTAL;
 
 	/* Scaling */
-	if (gnome_config_get_bool ("do_scale_percent=true"))
+	if (gnm_app_prefs->print_scale_percentage)
 		pi->scaling.type = PERCENTAGE;
 	else
 		pi->scaling.type = SIZE_FIT;
-	pi->scaling.percentage.x = pi->scaling.percentage.y = gnome_config_get_float ("scale_percent=100");
-	pi->scaling.dim.cols = gnome_config_get_int ("scale_width=1");
-	pi->scaling.dim.rows = gnome_config_get_int ("scale_height=1");
+	pi->scaling.percentage.x 
+		= pi->scaling.percentage.y 
+		= gnm_app_prefs->print_scale_percentage_value;
+	pi->scaling.dim.cols = gnm_app_prefs->print_scale_width;
+	pi->scaling.dim.rows = gnm_app_prefs->print_scale_height;
 
-	/* Margins */
-	s = g_strdup_printf ("%.13g", unit_convert (1.0,
-						    gnome_print_unit_get_by_abbreviation ("cm"),
-						    gnome_print_unit_get_by_abbreviation ("pt")));
-	load_margin ("margin_top", &pi->margins.top,       s);
-	load_margin ("margin_bottom", &pi->margins.bottom, s);
-	g_free (s);
+	pi->center_horizontally       
+		= gnm_app_prefs->print_center_horizontally;
+	pi->center_vertically     = gnm_app_prefs->print_center_vertically;
+	pi->print_grid_lines      = gnm_app_prefs->print_grid_lines;
+	pi->print_even_if_only_styles 
+		= gnm_app_prefs->print_even_if_only_styles;
+	pi->print_black_and_white = gnm_app_prefs->print_black_and_white;
+	pi->print_titles          = gnm_app_prefs->print_titles;
 
-	{
-		GSList *list;
-		list = (GSList *) gnm_app_prefs->printer_header;
-		pi->header = list ?
-			load_hf ("header", 
-				 (char *)g_slist_nth_data (list, 0),
-				 (char *)g_slist_nth_data (list, 1),
-				 (char *)g_slist_nth_data (list, 2)) :
-			load_hf ("header", "", _("&[TAB]"), "");
-		list = (GSList *) gnm_app_prefs->printer_footer;
-		pi->footer = list ?
-			load_hf ("footer", 
-				 (char *)g_slist_nth_data (list, 0),
-				 (char *)g_slist_nth_data (list, 1),
-				 (char *)g_slist_nth_data (list, 2)) :
-			load_hf ("footer", "", _("Page &[PAGE]"), "");
-	}
-
-	pi->center_horizontally       = gnome_config_get_bool ("center_horizontally=false");
-	pi->center_vertically         = gnome_config_get_bool ("center_vertically=false");
-	pi->print_grid_lines          = gnome_config_get_bool ("print_grid_lines=false");
-	pi->print_even_if_only_styles = gnome_config_get_bool ("print_even_if_only_styles=false");
-	pi->print_black_and_white     = gnome_config_get_bool ("print_black_and_white=false");
-	pi->print_titles              = gnome_config_get_bool ("print_titles=false");
-
-	if (gnome_config_get_bool ("order_right=true"))
+	if (gnm_app_prefs->print_order_right_then_down)
 		pi->print_order = PRINT_ORDER_RIGHT_THEN_DOWN;
 	else
 		pi->print_order = PRINT_ORDER_DOWN_THEN_RIGHT;
 
-	/* Load the columns/rows to repeat */
-	pi->repeat_top.use  = load_range ("repeat_top_range=",
-					  &pi->repeat_top.range);
-	pi->repeat_left.use = load_range ("repeat_left_range=",
-					  &pi->repeat_left.range);
+	pi->margins = gnm_app_prefs->print_tb_margins;
 
-	gnome_config_pop_prefix ();
-	gnome_config_sync ();
+	list = (GSList *) gnm_app_prefs->printer_header;
+	pi->header = list ?
+		print_hf_new ((char *)g_slist_nth_data (list, 0),
+			      (char *)g_slist_nth_data (list, 1),
+			      (char *)g_slist_nth_data (list, 2)) :
+		print_hf_new ("", _("&[TAB]"), "");
+	list = (GSList *) gnm_app_prefs->printer_footer;
+	pi->footer = list ?
+		print_hf_new ((char *)g_slist_nth_data (list, 0),
+			      (char *)g_slist_nth_data (list, 1),
+			      (char *)g_slist_nth_data (list, 2)) :
+		print_hf_new ("", _("Page &[PAGE]"), "");
+
+	/* Load the columns/rows to repeat */
+	pi->repeat_top.use  = load_range (gnm_app_prefs->print_repeat_top,
+					  &pi->repeat_top.range);
+	pi->repeat_left.use = load_range (gnm_app_prefs->print_repeat_left,
+					  &pi->repeat_left.range);
 
 	return pi;
 }
 
-static void
-save_margin (char const *prefix, PrintUnit const *p)
-{
-	char *x = g_strconcat (prefix, "_units", NULL);
-
-	gnome_config_set_float (prefix, p->points);
-	gnome_config_set_string (x, p->desired_display->name);
-	g_free (x);
-}
-
-static void
-save_range (char const *section, PrintRepeatRange const *repeat)
-{
-	char const *s = (repeat->use) ? range_name (&repeat->range) : "";
-	gnome_config_set_string (section, s);
-}
-
-static void
-save_hf (char const *type, char const *a, char const *b, char const *c)
-{
-	char *code_a = g_strconcat (type, "_left=", a, NULL);
-	char *code_b = g_strconcat (type, "_middle=", b, NULL);
-	char *code_c = g_strconcat (type, "_right=", c, NULL);
-
-	gnome_config_set_string (code_a, a);
-	gnome_config_set_string (code_b, b);
-	gnome_config_set_string (code_c, c);
-
-	g_free (code_a);
-	g_free (code_b);
-	g_free (code_c);
-}
-
 /*
- *   This can get out of hand, we limit the number of stored
+ *   This can get out of hand, we should limit the number of stored
  * formats.
  */
 static void
 save_formats (void)
 {
-	int format_count, i;
+	int base = hf_formats_base_num;
 	GList *l;
+	GSList *left = NULL;
+	GSList *middle = NULL;
+	GSList *right = NULL;
+	int start;
 
-	gnome_config_push_prefix ("/Gnumeric/Headers_and_Footers/");
+	start = g_list_length (hf_formats) - MAX_SAVED_CUSTOM_HF_FORMATS;
+	if (start > base)
+		base = start;
 
-	format_count = g_list_length (hf_formats);
-	gnome_config_set_int ("formats", format_count);
-
-	for (i = 0, l = hf_formats; l; l = l->next, i++) {
+	for (l = hf_formats; l; l = l->next) {
 		PrintHF *hf = l->data;
-		char *name;
 
-		name = g_strdup_printf ("FormatHF-%d", i);
-		save_hf (name, hf->left_format, hf->middle_format, hf->right_format);
-		g_free (name);
+		if (base-- > 0)
+			continue;
+
+		GNM_SLIST_PREPEND (left, g_strdup(hf->left_format));
+		GNM_SLIST_PREPEND (middle, g_strdup(hf->middle_format));
+		GNM_SLIST_PREPEND (right, g_strdup(hf->right_format));
 	}
+	GNM_SLIST_REVERSE(left);
+	GNM_SLIST_REVERSE(middle);
+	GNM_SLIST_REVERSE(right);
 
-	gnome_config_pop_prefix ();
+	gnm_gconf_set_print_header_formats (left, middle, right);
 }
 
 static void
@@ -393,35 +292,29 @@ destroy_formats (void)
 void
 print_info_save (PrintInformation const *pi)
 {
-	/* FIXME: The print_config  configuration should be saved               */
-	/* Specifically we should save the default paper size and formats       */
+	gnm_gconf_set_print_scale_percentage (pi->scaling.type == PERCENTAGE);
+	gnm_gconf_set_print_scale_percentage_value (pi->scaling.percentage.x);
+	gnm_gconf_set_print_scale_width (pi->scaling.dim.cols);
+	gnm_gconf_set_print_scale_height (pi->scaling.dim.rows);
 
-	gnome_config_push_prefix ("/Gnumeric/Print/");
+	gnm_gconf_set_print_tb_margins (&pi->margins);
 
-	gnome_config_set_bool ("vertical_print", pi->orientation == PRINT_ORIENT_VERTICAL);
-	gnome_config_set_bool ("do_scale_percent", pi->scaling.type == PERCENTAGE);
-	gnome_config_set_float ("scale_percent", pi->scaling.percentage.x);
-	gnome_config_set_int ("scale_width", pi->scaling.dim.cols);
-	gnome_config_set_int ("scale_height", pi->scaling.dim.rows);
-
-	save_margin ("margin_top", &pi->margins.top);
-	save_margin ("margin_bottom", &pi->margins.bottom);
-
-	gnome_config_set_bool ("center_horizontally", pi->center_horizontally);
-	gnome_config_set_bool ("center_vertically", pi->center_vertically);
-
-	gnome_config_set_bool ("print_grid_lines", pi->print_grid_lines);
-	gnome_config_set_bool ("print_even_if_only_styles", pi->print_even_if_only_styles);
-	gnome_config_set_bool ("print_black_and_white", pi->print_black_and_white);
-	gnome_config_set_bool ("print_titles", pi->print_titles);
-	gnome_config_set_bool ("order_right", pi->print_order);
-
-	save_range ("repeat_top_range", &pi->repeat_top);
-	save_range ("repeat_left_range", &pi->repeat_left);
-	gnome_config_pop_prefix ();
+	gnm_gconf_set_print_center_horizontally (pi->center_horizontally);
+	gnm_gconf_set_print_center_vertically (pi->center_vertically);
+	gnm_gconf_set_print_grid_lines (pi->print_grid_lines);
+	gnm_gconf_set_print_even_if_only_styles (pi->print_even_if_only_styles);
+	gnm_gconf_set_print_black_and_white (pi->print_black_and_white);
+	gnm_gconf_set_print_titles (pi->print_titles);
+	gnm_gconf_set_print_order_right_then_down (pi->print_order);
+	
+	gnm_gconf_set_print_repeat_top ((pi->repeat_top.use) ? 
+					range_name (&pi->repeat_top.range) 
+					: "");
+	gnm_gconf_set_print_repeat_left ((pi->repeat_left.use) ? 
+					 range_name (&pi->repeat_left.range) 
+					 : "");
 
 	save_formats ();
-	gnome_config_sync ();
 
 	gnm_gconf_set_printer_config
 		(gnome_print_config_to_string (pi->print_config,
@@ -694,8 +587,6 @@ print_info_dup (PrintInformation const *src_pi)
 	gnome_print_config_unref (dst_pi->print_config);
 	dst_pi->print_config       = gnome_print_config_dup (src_pi->print_config);
 
-	dst_pi->orientation        = src_pi->orientation;
-
 	/* Print Scaling */
 	dst_pi->scaling.type       = src_pi->scaling.type;
 	dst_pi->scaling.percentage = src_pi->scaling.percentage;
@@ -814,4 +705,59 @@ print_info_set_n_copies  (PrintInformation *pi, guint copies)
 	gnome_print_config_set_int (pi->print_config, 
 				    GNOME_PRINT_KEY_NUM_COPIES, 
 				    (gint)copies);
+}
+
+void        
+print_info_set_orientation (PrintInformation *pi, PrintOrientation orient)
+{
+	g_return_if_fail (pi->print_config != NULL);
+
+	switch (orient) {
+	case PRINT_ORIENT_HORIZONTAL:
+		gnome_print_config_set (pi->print_config,
+					GNOME_PRINT_KEY_ORIENTATION,
+					"R90");
+		break;		 
+	case PRINT_ORIENT_VERTICAL:
+		gnome_print_config_set (pi->print_config,
+					GNOME_PRINT_KEY_ORIENTATION,
+					"R0");
+		break;		 
+	case PRINT_ORIENT_HORIZONTAL_UPSIDE_DOWN:
+		gnome_print_config_set (pi->print_config,
+					GNOME_PRINT_KEY_ORIENTATION,
+					"R270");
+		break;		 
+	case PRINT_ORIENT_VERTICAL_UPSIDE_DOWN:
+		gnome_print_config_set (pi->print_config,
+					GNOME_PRINT_KEY_ORIENTATION,
+					"R180");
+		break;		 
+	}
+}
+
+PrintOrientation
+print_info_get_orientation (PrintInformation *pi)
+{
+	guchar  *orient = NULL;
+	PrintOrientation res = PRINT_ORIENT_VERTICAL;
+
+	g_return_val_if_fail (pi->print_config != NULL, res);
+	
+	orient = gnome_print_config_get (pi->print_config,
+					 GNOME_PRINT_KEY_ORIENTATION);
+
+	g_warning ("print_info_get_orientation %s", orient);
+	g_return_val_if_fail (orient != NULL, res);
+
+	if (strcmp (orient, "R0") == 0)
+		res = PRINT_ORIENT_VERTICAL;
+	else if (strcmp (orient, "R90") == 0)
+		res = PRINT_ORIENT_HORIZONTAL;
+	else if (strcmp (orient, "R180") == 0)
+		res = PRINT_ORIENT_VERTICAL_UPSIDE_DOWN;
+	else if (strcmp (orient, "R270") == 0)
+		res = PRINT_ORIENT_HORIZONTAL_UPSIDE_DOWN;
+
+	return res;
 }

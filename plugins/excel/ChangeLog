@@ -1,3 +1,8 @@
+2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* ms-excel-read.c (excel_read_SETUP): use print_info_set_orientation
+	* ms-excel-write.c (excel_write_SETUP): ditto                  
+
 2004-01-16  Jody Goldberg <jody@gnome.org>
 
 	* ms-escher.c (ms_escher_get_data) : as pointed out by Nick Lamb

@@ -1669,16 +1669,6 @@ do_fetch_page (PrinterSetupState *state)
 	GtkWidget *w;
 	GladeXML *gui = state->gui;
 
-	double height;
-	double width;
-
-	if (gnome_print_job_get_page_size_from_config (state->pi->print_config,
-							  &width, &height) &&
-	    height > width) {
-		state->pi->orientation = PRINT_ORIENT_VERTICAL;
-	} else
-		state->pi->orientation = PRINT_ORIENT_HORIZONTAL;
-
 	w = glade_xml_get_widget (gui, "scale-percent-radio");
 	if (GTK_TOGGLE_BUTTON (w)->active)
 		state->pi->scaling.type = PERCENTAGE;

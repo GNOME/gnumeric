@@ -1,3 +1,8 @@
+2004-01-28  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-printer-setup.c (do_fetch_page): don't bother setting
+	  orientation
+
 2004-01-24  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* print.glade: a little bit of HIGfication

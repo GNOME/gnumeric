@@ -188,8 +188,39 @@ gnm_conf_init_essential (void)
 	prefs.zoom = gnm_gconf_get_float (client,
 		  GNUMERIC_GCONF_GUI_ZOOM, .1, 5., 1.);
 
+	/* Unfortunately we nee the printing stuff in essentials since the */
+	/* first pi is created for the new sheet */
 	prefs.printer_config = gconf_client_get_string (client,
 		PRINTSETUP_GCONF_PRINTER_CONFIG, NULL);
+	prefs.print_center_horizontally = FALSE;   /* Need schemas */
+	prefs.print_center_vertically = FALSE;
+	prefs.print_grid_lines = FALSE;
+	prefs.print_even_if_only_styles = FALSE;
+	prefs.print_black_and_white = FALSE;
+	prefs.print_titles = FALSE;
+	prefs.print_order_right_then_down = FALSE;
+	prefs.print_scale_percentage = FALSE;
+	prefs.print_scale_percentage_value = 0.0;
+	prefs.print_scale_width = 0;
+        prefs.print_scale_height = 0;
+	prefs.print_repeat_top = NULL;
+	prefs.print_repeat_left = NULL;
+	prefs.print_tb_margins.top.points = 120.0;
+	prefs.print_tb_margins.bottom.points = 120.0;
+	prefs.print_tb_margins.top.desired_display 
+		= gnome_print_unit_get_by_name("cm");
+	prefs.print_tb_margins.bottom.desired_display 
+		= prefs.print_tb_margins.top.desired_display;
+	prefs.print_all_sheets = gnm_gconf_get_bool (client,
+		PRINTSETUP_GCONF_ALL_SHEETS, TRUE);
+	prefs.printer_header = gconf_client_get_list (client,
+		PRINTSETUP_GCONF_HEADER, GCONF_VALUE_STRING, NULL);
+	prefs.printer_footer = gconf_client_get_list (client,
+		PRINTSETUP_GCONF_FOOTER, GCONF_VALUE_STRING, NULL);
+	prefs.printer_header_formats_left = NULL;
+	prefs.printer_header_formats_middle = NULL;
+	prefs.printer_header_formats_right = NULL;
+
 }
 
 static gboolean
@@ -249,12 +280,6 @@ gnm_conf_init_extras (void)
 		GNUMERIC_GCONF_SORT_DEFAULT_ASCENDING, TRUE);
 	prefs.sort_max_initial_clauses = gnm_gconf_get_int (client,
 		GNUMERIC_GCONF_SORT_DIALOG_MAX_INITIAL, 0, 256, 10);
-	prefs.print_all_sheets = gnm_gconf_get_bool (client,
-		PRINTSETUP_GCONF_ALL_SHEETS, TRUE);
-	prefs.printer_header = gconf_client_get_list (client,
-		PRINTSETUP_GCONF_HEADER, GCONF_VALUE_STRING, NULL);
-	prefs.printer_footer = gconf_client_get_list (client,
-		PRINTSETUP_GCONF_FOOTER, GCONF_VALUE_STRING, NULL);
 	prefs.unfocused_range_selection = gnm_gconf_get_bool (client,
 		DIALOGS_GCONF_UNFOCUSED_RS, TRUE);
 	prefs.prefer_clipboard_selection = gnm_gconf_get_bool (client,
@@ -638,6 +663,86 @@ gnm_gconf_set_printer_footer (gchar const *left, gchar const *middle,
 	g_slist_free_custom ((GSList *)prefs.printer_footer, g_free);
 	prefs.printer_footer = list;
 }
+
+void     gnm_gconf_set_print_center_horizontally (gboolean val)
+{
+
+}
+
+void     gnm_gconf_set_print_center_vertically (gboolean val)
+{
+
+}
+
+void     gnm_gconf_set_print_grid_lines (gboolean val)
+{
+
+}
+
+void     gnm_gconf_set_print_even_if_only_styles (gboolean val)
+{
+
+}
+
+void     gnm_gconf_set_print_black_and_white (gboolean val)
+{
+
+}
+
+void     gnm_gconf_set_print_titles (gboolean val)
+{
+
+}
+
+void     gnm_gconf_set_print_order_right_then_down (gboolean val)
+{
+
+}
+
+void     gnm_gconf_set_print_scale_percentage (gboolean val)
+{
+
+}
+
+void     gnm_gconf_set_print_scale_percentage_value (gnm_float val)
+{
+
+}
+
+void     gnm_gconf_set_print_scale_width (gint val)
+{
+
+}
+
+void     gnm_gconf_set_print_scale_height (gint val)
+{
+
+}
+
+void     gnm_gconf_set_print_repeat_top (gchar const *str)
+{
+
+}
+
+void     gnm_gconf_set_print_repeat_left (gchar const *str)
+{
+
+}
+
+void     gnm_gconf_set_print_tb_margins (PrintMargins const *pm)
+{
+
+}
+
+void     gnm_gconf_set_print_header_formats (GSList *left, GSList *middle, 
+					     GSList *right)
+{
+	g_slist_free_custom (left, g_free);
+	g_slist_free_custom (middle, g_free);
+	g_slist_free_custom (right, g_free);
+}
+
+
 
 /*  LATEX  */
 void

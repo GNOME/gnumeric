@@ -3593,9 +3593,9 @@ excel_read_SETUP (BiffQuery *q, ExcelReadSheet *esheet)
 					 GSF_LE_GET_GUINT16 (q->data + 32));
 		/* 0x40 == orientation is set */
 		if ((grbit & 0x40) != 0x40) {
-			pi->orientation = (grbit & 0x2)
-				? PRINT_ORIENT_VERTICAL
-				: PRINT_ORIENT_HORIZONTAL;
+			print_info_set_orientation (pi, (grbit & 0x2)
+						    ? PRINT_ORIENT_VERTICAL
+						    : PRINT_ORIENT_HORIZONTAL);
 		}
 		pi->scaling.percentage.x = pi->scaling.percentage.y = GSF_LE_GET_GUINT16 (q->data + 2);
 		if (pi->scaling.percentage.x < 1. || pi->scaling.percentage.x > 1000.) {

@@ -7,7 +7,9 @@
 
 typedef enum {
 	PRINT_ORIENT_HORIZONTAL,
-	PRINT_ORIENT_VERTICAL
+	PRINT_ORIENT_VERTICAL,
+	PRINT_ORIENT_HORIZONTAL_UPSIDE_DOWN,
+	PRINT_ORIENT_VERTICAL_UPSIDE_DOWN
 } PrintOrientation;
 
 /*
@@ -62,7 +64,6 @@ typedef struct {
 } PrintRepeatRange;
 
 struct _PrintInformation {
-	PrintOrientation orientation;
 	PrintScaling     scaling;
 	PrintMargins     margins;
 	PrintRepeatRange repeat_top, repeat_left;
@@ -130,10 +131,13 @@ gboolean    print_info_get_margins   (PrintInformation const *pi,
 				      double *header, double *footer, double *left, double *right);
 void        print_info_set_margins   (PrintInformation *pi,
 				      double header, double footer, double left, double right);
-void        print_info_set_margin_header   (PrintInformation *pi, double header);
-void        print_info_set_margin_footer   (PrintInformation *pi, double footer);
-void        print_info_set_margin_left     (PrintInformation *pi, double left);
-void        print_info_set_margin_right    (PrintInformation *pi, double right);
+void        print_info_set_margin_header (PrintInformation *pi, double header);
+void        print_info_set_margin_footer (PrintInformation *pi, double footer);
+void        print_info_set_margin_left   (PrintInformation *pi, double left);
+void        print_info_set_margin_right  (PrintInformation *pi, double right);
+void        print_info_set_orientation   (PrintInformation *pi, 
+					  PrintOrientation orient); 
+PrintOrientation print_info_get_orientation   (PrintInformation *pi); 
 
 /* Formats known */
 extern GList *hf_formats;
