@@ -1,3 +1,7 @@
+2001-07-15  German Poo Caaman~o <gpoo@ubiobio.cl>
+
+	* es.po: update and take over maintainership.
+
 2001-07-15  Karl Eichwalder  <ke@suse.de>
 
 	* de.po: Update.
@@ -274,12 +278,6 @@
 2001-04-12  Jody Goldberg <jgoldberg@home.com>
 
 	* POTFILES.in : rename xml2 -> xml_sax
-
-2001-04-11  gettextize  <bug-gnu-utils@gnu.org>
-
-	* Makefile.in.in: Upgrade to gettext-0.10.36.
-	* cat-id-tbl.c: Remove file.
-	* stamp-cat-id: Remove file.
 
 2001-04-01  Zbigniew Chyla  <cyba@gnome.pl>
 
