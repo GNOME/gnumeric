@@ -1,3 +1,9 @@
+src/cut-n-paste-code/egg/menu/egg-action.c
+src/cut-n-paste-code/egg/menu/egg-markup.c
+src/cut-n-paste-code/egg/menu/egg-menu-merge.c
+src/cut-n-paste-code/egg/toolbar/eggtoolbar.c
+src/cut-n-paste-code/egg/toolbar/eggtoolbutton.c
+src/cut-n-paste-code/egg/toolbar/eggtoolitem.c
 src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-text.c
 src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas.c
 src/test-pango.c
