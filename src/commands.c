@@ -332,6 +332,22 @@ cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges)
 	return names;
 }
 
+char *
+cmd_range_to_str_utility (Sheet *sheet, Range const *range)
+{
+	GSList  *list   = NULL;
+	GString *string = NULL;
+	char    *text   = NULL;
+
+	list = g_slist_prepend (list, (Range *)range);
+	string = cmd_range_list_to_string_utility (sheet, list);
+	g_slist_free (list);
+	text = string->str;
+	g_string_free (string, FALSE);
+
+	return text;
+}
+
 /*
  * command_undo : Undo the last command executed.
  *

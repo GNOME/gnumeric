@@ -13,6 +13,7 @@ void command_setup_combos	(WorkbookControl *wbc);
 void command_list_release	(GSList *cmds);
 
 GString *cmd_range_list_to_string_utility (Sheet *sheet, GSList const *ranges);
+char *cmd_range_to_str_utility  (Sheet *sheet, Range const *range);
 char *cmd_cell_pos_name_utility (Sheet *sheet, CellPos const *pos);
 
 gboolean cmd_set_text		(WorkbookControl *wbc, Sheet *sheet,

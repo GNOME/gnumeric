@@ -1,5 +1,10 @@
 2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
+	* src/commands.c (cmd_range_to_str_utility) : new
+	* src/commands.h (cmd_range_to_str_utility) : new
+
+2002-04-13  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
 	* src/value.c (value_get_as_string) : handle VALUE_ARRAY more reasonably
 	(value_peek_string) : initialize all fields of cache
 

@@ -38,6 +38,7 @@
 #include "workbook-control.h"
 #include "format.h"
 #include "sheet-object-cell-comment.h"
+#include "commands.h"
 
 #include <libgnome/gnome-i18n.h>
 #include <gtk/gtk.h>
@@ -90,7 +91,7 @@ dao_range_name (data_analysis_output_t *dao)
 			range_init (&range, dao->start_col, dao->start_row,
 				    dao->start_col + dao->cols - 1, 
 				    dao->start_row + dao->rows - 1);
-			return global_range_name (dao->sheet, &range);
+			return cmd_range_to_str_utility (dao->sheet, &range);
 }
 
 /**
