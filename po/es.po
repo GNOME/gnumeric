@@ -7,11 +7,11 @@
 #: src/main.c:108
 msgid ""
 msgstr ""
-"Project-Id-Version: gnumeric 0.76\n"
+"Project-Id-Version: gnumeric 0.99\n"
 "POT-Creation-Date: 2001-12-21 01:11-0500\n"
-"PO-Revision-Date: 2001-12-21 00:39GMT\n"
-"Last-Translator: German Poo Caaman~o <gpoo@ubiobio.cl>\n"
-"Language-Team: español <traductores@es.gnome.org>\n"
+"PO-Revision-Date: 2001-12-22 11:56GMT\n"
+"Last-Translator: \n"
+"Language-Team:  <de@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -87,8 +87,7 @@ msgstr ""
 #: plugins/dif/dif.c:315
 #, c-format
 msgid "Unexpected end of file at line %d while reading header."
-msgstr ""
-"Fin de archivo inesperado mientras se procesaba el encabezado en la línea %d."
+msgstr "Fin de archivo inesperado mientras se procesaba el encabezado en la línea %d."
 
 #: plugins/dif/dif.c:319
 #, c-format
@@ -118,8 +117,7 @@ msgid "Data Interchange Format (DIF) module"
 msgstr "Módulo de formato de intercambio de datos (DIF)"
 
 #: plugins/dif/plugin.xml.in.h:3
-msgid ""
-"Reads and writes information stored in the Data Interchange Format (*.dif)"
+msgid "Reads and writes information stored in the Data Interchange Format (*.dif)"
 msgstr ""
 "Lee y escribe información almacenada en formato de intercambio de datos (*."
 "dif)"
@@ -173,7 +171,7 @@ msgstr "Módulo %d"
 
 #: plugins/excel/ms-excel-read.c:4460
 msgid "No book or workbook streams found."
-msgstr ""
+msgstr "No se ha encontrado ningún flujo de libro de trabajo."
 
 #. All records after this are encrypted
 #: plugins/excel/ms-excel-read.c:4624
@@ -191,7 +189,7 @@ msgstr "Muchas filas para este formato (%d > %d)"
 
 #: plugins/excel/ms-excel-write.c:3732
 msgid "Can't open stream for writing\n"
-msgstr ""
+msgstr "No se puede abrir el flujo para escritura\n"
 
 #: plugins/excel/ms-formula-read.c:642
 msgid "Broken function"
@@ -353,9 +351,8 @@ msgid "Import/Export of HTML, TeX, DVI, roff"
 msgstr "Importa/exporta HTML, TeX, DVI, roff"
 
 #: plugins/html/plugin.xml.in.h:7
-#, fuzzy
 msgid "LaTeX 2e (*.tex)"
-msgstr "LaTeX2e (*.tex)"
+msgstr "LaTeX 2e (*.tex)"
 
 #: plugins/html/plugin.xml.in.h:8
 msgid "TROFF (*.me)"
@@ -434,7 +431,7 @@ msgstr "Tipo"
 
 #: plugins/mps/mps.c:338
 msgid "RHS"
-msgstr ""
+msgstr "Lado derecho"
 
 #: plugins/mps/mps.c:339 src/solver-lp.c:958
 msgid "Slack"
@@ -1050,8 +1047,7 @@ msgstr "Efectuar una corrección ortográfica simple en forma automática"
 
 #: src/GNOME_Gnumeric.xml.h:11 src/workbook-control-gui.c:2837
 msgid "Automatically save the current document at regular intervals"
-msgstr ""
-"Guardar el documento en forma automática en intervalos de tiempo regulares"
+msgstr "Guardar el documento en forma automática en intervalos de tiempo regulares"
 
 #: src/GNOME_Gnumeric.xml.h:12 src/dialogs/cell-format.glade.h:16
 #: src/dialogs/dialog-cell-format.c:2695 src/workbook-format-toolbar.c:840
@@ -1142,8 +1138,7 @@ msgstr "Elimina los formatos de las celdas seleccionadas"
 
 #: src/GNOME_Gnumeric.xml.h:32 src/workbook-control-gui.c:2499
 msgid "Clear the selected cells' formats, comments, and contents"
-msgstr ""
-"Limpia los formatos, comentarios y contenidos de las celdas seleccionadas"
+msgstr "Limpia los formatos, comentarios y contenidos de las celdas seleccionadas"
 
 #: src/GNOME_Gnumeric.xml.h:33
 msgid "Close the current file"
@@ -1320,8 +1315,7 @@ msgstr ""
 
 #: src/GNOME_Gnumeric.xml.h:74 src/workbook-control-gui.c:2748
 msgid "Ensure rows are just tall enough to display content"
-msgstr ""
-"Asegura que las filas sean lo suficientemente altas para mostrar el contenido"
+msgstr "Asegura que las filas sean lo suficientemente altas para mostrar el contenido"
 
 #: src/GNOME_Gnumeric.xml.h:75
 msgid "Exit the program"
@@ -1434,7 +1428,7 @@ msgstr "Insertar componente"
 
 #: src/GNOME_Gnumeric.xml.h:101
 msgid "Insert Shaped Component"
-msgstr ""
+msgstr "Insertar componente de figura"
 
 #: src/GNOME_Gnumeric.xml.h:102 src/workbook-control-gui.c:2558
 msgid "Insert a new sheet"
@@ -1446,7 +1440,7 @@ msgstr "Inserta una nueva hoja de cálculo en este libro de trabajo"
 
 #: src/GNOME_Gnumeric.xml.h:104
 msgid "Insert a shaped component into the spreadsheet"
-msgstr ""
+msgstr "Inserta un componente de figura en la planilla."
 
 #: src/GNOME_Gnumeric.xml.h:105
 msgid "Insert an object into the spreadsheet"
@@ -1494,8 +1488,7 @@ msgstr "Recalcular iterativamente hasta encontrar el valor objetivo"
 
 #: src/GNOME_Gnumeric.xml.h:116 src/workbook-control-gui.c:2846
 msgid "Iteratively recalculate with constraints to approach a target value"
-msgstr ""
-"Recalcular iterativamente con restricciones para encontrar el valor objetivo"
+msgstr "Recalcular iterativamente con restricciones para encontrar el valor objetivo"
 
 #: src/GNOME_Gnumeric.xml.h:117 src/workbook-control-gui.c:2634
 msgid "Jump to a specified cell"
@@ -1629,7 +1622,7 @@ msgstr "Pega el contenido del portapapeles"
 
 #: src/GNOME_Gnumeric.xml.h:148
 msgid "Paste the contents of the clipboard or cut buffer"
-msgstr ""
+msgstr "Pegar el contenido del portapapeles o cortar el buffer"
 
 #: src/GNOME_Gnumeric.xml.h:149 src/workbook-control-gui.c:2603
 msgid "Paste with optional filters and transformations"
@@ -1893,8 +1886,7 @@ msgstr "Mostrar los ceros como blancos"
 
 #: src/GNOME_Gnumeric.xml.h:210 src/workbook-control-gui.c:2888
 msgid "Toggle whether to display column outlines on the left or right"
-msgstr ""
-"Cambia la visualización de los esquemas de columna entre izquieda y derecha"
+msgstr "Cambia la visualización de los esquemas de columna entre izquieda y derecha"
 
 #: src/GNOME_Gnumeric.xml.h:211 src/workbook-control-gui.c:2882
 msgid "Toggle whether to display row outlines on top or bottom"
@@ -2041,9 +2033,8 @@ msgid "_Goto cell..."
 msgstr "_Ir a la celda..."
 
 #: src/GNOME_Gnumeric.xml.h:244
-#, fuzzy
 msgid "_Graph"
-msgstr "_Agrupar"
+msgstr "_Gráfico"
 
 #: src/GNOME_Gnumeric.xml.h:245
 msgid "_Group"
@@ -2263,7 +2254,7 @@ msgstr "Nivel de confianza para el promedio"
 #: src/analysis-tools.c:1067
 #, c-format
 msgid "/%g%% CI for the Mean from/to"
-msgstr ""
+msgstr "/%g%% IC para la media desde/a"
 
 #: src/analysis-tools.c:1103 src/dialogs/descriptive-stats.glade.h:9
 msgid "Kth Largest"
@@ -2390,8 +2381,7 @@ msgstr ""
 #: src/analysis-tools.c:2372
 #, c-format
 msgid "/Coefficients/Standard Error/t Stat/P-value/Lower %0.0f%%/Upper %0.0f%%"
-msgstr ""
-"/Coeficientes/Error estándar/t Stat/Valor-P/Inferior %0.0f%%/Superior %0.0f%%"
+msgstr "/Coeficientes/Error estándar/t Stat/Valor-P/Inferior %0.0f%%/Superior %0.0f%%"
 
 #: src/analysis-tools.c:2541
 msgid "Moving Averages"
@@ -2518,7 +2508,7 @@ msgstr "% Acumulado"
 #: src/bonobo-io.c:448
 #, c-format
 msgid "Error '%s' opening workbook stream"
-msgstr ""
+msgstr "Ha ocurrido un error ('%s') al abrir el flujo del libro de trabajo"
 
 #: src/bonobo-io.c:467 src/xml-io-autoft.c:424 src/xml-io.c:3469
 msgid "Invalid xml file. Tree is empty ?"
@@ -2879,7 +2869,7 @@ msgstr "Consolidando en %s!%s"
 #: src/commands.c:3866
 #, c-format
 msgid "Zoom %s to %.0f%%"
-msgstr ""
+msgstr "Acercar %s a %.0f%%"
 
 #: src/commands.c:3935
 msgid "Insert object"
@@ -4332,13 +4322,11 @@ msgstr "No se puede crear el diálogo para la herramienta de covarianza."
 
 #: src/dialogs/dialog-analysis-tools.c:1501
 msgid "Could not create the Descriptive Statistics Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de estadística descriptiva."
+msgstr "No se puede crear el diálogo para la herramienta de estadística descriptiva."
 
 #: src/dialogs/dialog-analysis-tools.c:1600
 msgid "Could not create the Rank and  Percentile Tools dialog."
-msgstr ""
-"No se puede crear el diálogo para las herramientas de rangos y percentiles."
+msgstr "No se puede crear el diálogo para las herramientas de rangos y percentiles."
 
 #: src/dialogs/dialog-analysis-tools.c:1693
 msgid ""
@@ -4492,8 +4480,7 @@ msgstr ""
 "nuevamente."
 
 #: src/dialogs/dialog-analysis-tools.c:3119
-msgid ""
-"There must be an equal number of entries for each variable in the regression."
+msgid "There must be an equal number of entries for each variable in the regression."
 msgstr ""
 "Debe existir un número equivalente de registros por cada variable en la "
 "regresión."
@@ -4516,8 +4503,7 @@ msgstr ""
 
 #: src/dialogs/dialog-analysis-tools.c:3653
 msgid "Could not create the Moving Average Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de las medias móviles."
+msgstr "No se puede crear el diálogo para la herramienta de las medias móviles."
 
 #: src/dialogs/dialog-analysis-tools.c:3703
 msgid "Fourier analysis is not implemented yet.  Sorry."
@@ -4525,8 +4511,7 @@ msgstr "El análisis de Fourier aún no se ha implementado."
 
 #: src/dialogs/dialog-analysis-tools.c:3746
 msgid "Could not create the Fourier Analyis Tool dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de análisis de Fourier."
+msgstr "No se puede crear el diálogo para la herramienta de análisis de Fourier."
 
 #: src/dialogs/dialog-analysis-tools.c:3820
 msgid ""
@@ -4611,8 +4596,7 @@ msgstr "Prueba-z: Dos muestras para las medias"
 
 #: src/dialogs/dialog-autocorrect.c:292
 msgid "Could not create the AutoCorrect dialog."
-msgstr ""
-"No se puede crear el diálogo para la herramienta de Corrección automática."
+msgstr "No se puede crear el diálogo para la herramienta de Corrección automática."
 
 #: src/dialogs/dialog-autoformat.c:77
 msgid " "
@@ -5371,8 +5355,7 @@ msgstr "Columna %d"
 msgid ""
 "Actual processing will start at this line, any previous lines will be "
 "ignored."
-msgstr ""
-"El procesamiento comenzará en esta línea, las líneas previas serán ignoradas."
+msgstr "El procesamiento comenzará en esta línea, las líneas previas serán ignoradas."
 
 #: src/dialogs/dialog-stf.glade.h:4
 msgid "Add a new column"
@@ -5563,10 +5546,8 @@ msgid "See two successive separators as one."
 msgstr "Considerar separadores consecutivos como uno solo"
 
 #: src/dialogs/dialog-stf.glade.h:48
-msgid ""
-"See two successive text indicators as one that does not terminate the cell."
-msgstr ""
-"Ver dos indicadores de texto sucesivos como uno solo que no termina la celda."
+msgid "See two successive text indicators as one that does not terminate the cell."
+msgstr "Ver dos indicadores de texto sucesivos como uno solo que no termina la celda."
 
 #: src/dialogs/dialog-stf.glade.h:49
 msgid ""
@@ -6844,16 +6825,14 @@ msgstr ""
 "antiguo de este tipo."
 
 #: src/file.c:495
-msgid ""
-"You can turn this safety feature off by editing appropriate plugin.xml file."
+msgid "You can turn this safety feature off by editing appropriate plugin.xml file."
 msgstr ""
 "Puede desactivar esta característica en forma segura, para la edición "
 "apropiada del archivo XML de la extensión."
 
 #: src/format-template.c:873
 #, c-format
-msgid ""
-"The target region is too small.  It should be at least %d rows by %d columns"
+msgid "The target region is too small.  It should be at least %d rows by %d columns"
 msgstr ""
 "La región de destino es muy pequeña, debe tener al menos %d filas por %d "
 "columnas"
@@ -6861,14 +6840,12 @@ msgstr ""
 #: src/format-template.c:876
 #, c-format
 msgid "The target region is too small.  It should be at least %d columns wide"
-msgstr ""
-"La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
+msgstr "La región de destino es muy pequeña, debe tener al menos %d columnas de ancho"
 
 #: src/format-template.c:879
 #, c-format
 msgid "The target region is too small.  It should be at least %d rows high"
-msgstr ""
-"La región de destino es muy pequeña, debe tener al menos %d filas de alto"
+msgstr "La región de destino es muy pequeña, debe tener al menos %d filas de alto"
 
 #: src/format.c:605
 msgid "black"
@@ -8481,6 +8458,11 @@ msgid ""
 "of a population based on a sample. The populations consists of numbers that "
 "match conditions specified. \n"
 msgstr ""
+"@FUNCTION=DSTDEV\n"
+"@SYNTAX=DSTDEV(base_de_datos; campo; criterio)\n"
+"@DESCRIPTION=Estima la desviación estándar de la población basado en "
+"una muestra Las poblaciones consisten en números que coinciden con el "
+"criterio especificado.\n"
 
 #: src/functions/fn-database.c:982
 msgid ""
@@ -8506,6 +8488,11 @@ msgid ""
 "based on the entire populations. The populations consists of numbers that "
 "match conditions specified. \n"
 msgstr ""
+"@FUNCTION=DSTDEVP\n"
+"@SYNTAX=DSTDEVP(base_de_datos; campo; criterio)\n"
+"@DESCRIPTION=Estima la desviación estándar de la población basado en "
+"en la población completa. Las poblaciones consisten en números que coinciden con el "
+"criterio especificado.\n"
 
 #: src/functions/fn-database.c:1049
 msgid ""
@@ -8531,7 +8518,7 @@ msgid ""
 "conditions specified. \n"
 msgstr ""
 "@FUNCTION=DSUM\n"
-"@SYNTAX=DSUM(base_de_datos,campo,criterio)\n"
+"@SYNTAX=DSUM(base_de_datos;campo;criterio)\n"
 "@DESCRIPTION=La función DSUM devuelve la suma de los números en una columna "
 "que corresponde al criterio especificado. \n"
 
@@ -8559,6 +8546,11 @@ msgid ""
 "based on a sample. The populations consists of numbers that match conditions "
 "specified. \n"
 msgstr ""
+"@FUNCTION=DVAR\n"
+"@SYNTAX=DVAR(base_de_datos;campo;criterio)\n"
+"@DESCRIPTION=Estima la varianza de una población basado en una muestra. "
+"Las poblaciones consisten en números que coinciden con el "
+"criterio especificado.\n"
 
 #: src/functions/fn-database.c:1186
 msgid ""
@@ -8584,6 +8576,11 @@ msgid ""
 "the entire populations. The populations consists of numbers that match "
 "conditions specified. \n"
 msgstr ""
+"@FUNCTION=DVARP\n"
+"@SYNTAX=DVARP(base_de_datos;campo;criterio)\n"
+"@DESCRIPTION=Estima la varianza de una población basado en la población entera "
+"Las poblaciones consisten en números que coinciden con el "
+"criterio especificado.\n"
 
 #: src/functions/fn-database.c:1255
 msgid ""
@@ -8615,7 +8612,6 @@ msgid ""
 msgstr ""
 
 #: src/functions/fn-date.c:25
-#, fuzzy
 msgid ""
 "@FUNCTION=DATE\n"
 "@SYNTAX=DATE (year,month,day)\n"
@@ -8636,7 +8632,7 @@ msgid ""
 "@SEEALSO=TODAY, NOW"
 msgstr ""
 "@FUNCTION=DATE\n"
-"@SYNTAX=DATE (año,mes,día)\n"
+"@SYNTAX=DATE (año;mes;día)\n"
 "@DESCRIPTION=Calcula la cantidad de días desde el 1º de enero de 1900 (es "
 "decir el número de serie de la fecha), para el año, mes, y día "
 "especificados.\n"
@@ -14180,7 +14176,6 @@ msgstr ""
 "@SEEALSO=AVERAGE,DVAR,DVARP,STDEV,VAR"
 
 #: src/functions/fn-stat.c:223
-#, fuzzy
 msgid ""
 "@FUNCTION=STDEV\n"
 "@SYNTAX=STDEV(b1, b2, ...)\n"
@@ -14195,13 +14190,14 @@ msgid ""
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 msgstr ""
 "@FUNCTION=STDEV\n"
-"@SYNTAX=STDEV(b1, b2, ...)\n"
+"@SYNTAX=STDEV(b1; b2; ...)\n"
 "@DESCRIPTION=STDEV calcula la desviación estándar, cada número es el miembro "
-"de una población. Esta función es compatible con Excel.\n"
+"de una población. "
+"Esta función es compatible con Excel.\n"
 "@EXAMPLES=\n"
-"Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11.4, 17.3, "
-"21.3, 25.9 y 40.1.  Entonces,\n"
-"STDEV(A1:A5) devuelve 10.84619749.\n"
+"Suponiendo que las celdas A1, A2, ..., A5 contengan los números 11,4; 17,3;"
+"21,3; 25,9 y 40,1.  Entonces,\n"
+"STDEV(A1:A5) devuelve 10,84619749.\n"
 "\n"
 "@SEEALSO=AVERAGE,DSTDEV,DSTDEVP,STDEVA,STDEVPA,VAR"
 
@@ -16887,8 +16883,7 @@ msgstr "Datos..."
 
 #: src/gui-clipboard.c:51
 msgid "Error while trying to pre-convert clipboard data"
-msgstr ""
-"Ha ocurrido un error al intentar pre-convertir los datos del portapapeles."
+msgstr "Ha ocurrido un error al intentar pre-convertir los datos del portapapeles."
 
 #: src/gui-clipboard.c:58
 #, c-format
@@ -17302,8 +17297,7 @@ msgstr "Hoja '%s' desconocida"
 #: src/parser.y:651 src/parser.y:665
 #, c-format
 msgid "The character %c cannot be used to separate array elements"
-msgstr ""
-"El caracter %c no se puede emplear para separar los elementos de un arreglo."
+msgstr "El caracter %c no se puede emplear para separar los elementos de un arreglo."
 
 #: src/parser.y:826 src/parser.y:836 src/parser.y:869
 msgid "The number is out of range"
@@ -17319,13 +17313,11 @@ msgstr "En en este contexto no es soportado disponer de múltiples expresiones"
 
 #: src/parser.y:1085
 msgid "Could not find matching opening parenthesis"
-msgstr ""
-"No coinciden los paréntesis abiertos y cerrados (faltan paréntesis abiertos)"
+msgstr "No coinciden los paréntesis abiertos y cerrados (faltan paréntesis abiertos)"
 
 #: src/parser.y:1089
 msgid "Could not find matching closing parenthesis"
-msgstr ""
-"No coinciden los paréntesis abiertos y cerrados (faltan paréntesis cerrados)"
+msgstr "No coinciden los paréntesis abiertos y cerrados (faltan paréntesis cerrados)"
 
 #: src/parser.y:1093
 msgid "Invalid expression"
@@ -17363,8 +17355,7 @@ msgstr "El archivo tiene un número mágico erróneo."
 #: src/plugin-loader-module.c:142
 #, c-format
 msgid "Plugin version \"%s\" is different from application \"%s\"."
-msgstr ""
-"La versión de la extensión \"%s\" es diferente de la aplicación \"%s\"."
+msgstr "La versión de la extensión \"%s\" es diferente de la aplicación \"%s\"."
 
 #: src/plugin-loader-module.c:151
 msgid "Dynamic module loading is not supported in this system."
@@ -17548,8 +17539,7 @@ msgstr "No se puede leer el archivo de información de la extensión (\"%s\")."
 #: src/plugin.c:731
 #, c-format
 msgid "File \"%s\" is not valid plugin info file."
-msgstr ""
-"El archivo \"%s\" tiene un formato válido de información de extensiones."
+msgstr "El archivo \"%s\" tiene un formato válido de información de extensiones."
 
 #: src/plugin.c:814
 msgid "Plugin has no id."
@@ -17583,8 +17573,7 @@ msgstr ""
 #: src/plugin.c:846
 #, c-format
 msgid "No services defined for plugin with id=\"%s\"."
-msgstr ""
-"No hay servicios definidos para la extensión cuyo identificador es \"%s\"."
+msgstr "No hay servicios definidos para la extensión cuyo identificador es \"%s\"."
 
 #: src/plugin.c:996
 #, c-format
@@ -18191,13 +18180,11 @@ msgid "You entered an invalid row height value.  It must be bigger than %d"
 msgstr "La altura ingresada para la fila no es válida.  Debe ser superior a 0"
 
 #: src/workbook-cmd-format.c:245
-msgid ""
-"You entered an invalid default column width value.  It must be bigger than 0"
+msgid "You entered an invalid default column width value.  It must be bigger than 0"
 msgstr "El ancho ingresado para la columa no es válido.  Debe ser superior a 0"
 
 #: src/workbook-cmd-format.c:274
-msgid ""
-"You entered an invalid default row height value.  It must be bigger than 0"
+msgid "You entered an invalid default row height value.  It must be bigger than 0"
 msgstr "La altura ingresada para la fila no es válida.  Debe ser superior a 0"
 
 #: src/workbook-control-gui.c:290
@@ -18337,8 +18324,7 @@ msgstr "Guardar con un nuevo nombre o formato"
 
 #: src/workbook-control-gui.c:2537
 msgid "Select all the cells that depend on the current edit cell."
-msgstr ""
-"Seleccionar todas las celdas que dependen de la celda actualmente en edición."
+msgstr "Seleccionar todas las celdas que dependen de la celda actualmente en edición."
 
 #: src/workbook-control-gui.c:2602
 msgid "P_aste special..."
@@ -18785,33 +18771,3 @@ msgstr "Formato de archivo XML de Gnumeric"
 msgid "The GNOME Spreadsheet"
 msgstr "La planilla de cálculo de GNOME"
 
-#~ msgid "LaTeX 2.09 (*.tex)"
-#~ msgstr "LaTeX 2.09 (*.tex)"
-
-#~ msgid "Row %d"
-#~ msgstr "Fila %d"
-
-#~ msgid "Variance"
-#~ msgstr "Varianza"
-
-#~ msgid "F"
-#~ msgstr "F"
-
-#~ msgid "P-value"
-#~ msgstr "Valor-P"
-
-#~ msgid "F crit"
-#~ msgstr "F crítico"
-
-#~ msgid "(1 - _Alpha) = "
-#~ msgstr "(1 - _Alfa) = "
-
-#~ msgid "Correct accidental use of _cAPS LOCK key"
-#~ msgstr "Corregir el uso accidental de _bLOQUEO dE mAYÚSCULAS"
-
-#~ msgid "Invalid day"
-#~ msgstr "Día inválido"
-
-#~ msgid "Invalid xml clipboard data. Tree is empty ?"
-#~ msgstr ""
-#~ "Los datos XML del portapapeles no son válidos. ¿El árbol está vacío?"
