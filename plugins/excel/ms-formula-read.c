@@ -1417,9 +1417,9 @@ excel_parse_formula (MSContainer const *container,
 				ptg_length = 6;
 			} else {
 				gint16 sheet_idx = GSF_LE_GET_GINT16 (cur);
+				name_idx  = GSF_LE_GET_GUINT16 (cur+10);
 #if 0
 				gsf_mem_dump (cur, 24);
-				name_idx  = GSF_LE_GET_GUINT16 (cur+10);
 				d (-2, fprintf (stderr, "name = %hu, externsheet = %hd\n",
 					       name_idx, sheet_idx););
 #endif

@@ -4045,10 +4045,6 @@ excel_read_DV (BiffQuery *q, ExcelReadSheet *esheet)
 	if (options & 0x40000)
 		mstyle_set_input_msg (mstyle,
 			gnm_input_msg_new (input_msg, input_title));
-	else {
-		g_free (input_msg);
-		g_free (input_title);
-	}
 
 	for (ptr = ranges; ptr != NULL ; ptr = ptr->next) {
 		Range *r = ptr->data;

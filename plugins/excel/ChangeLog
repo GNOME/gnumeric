@@ -1,10 +1,16 @@
 2002-12-24  Jody Goldberg <jody@gnome.org>
 
+	* ms-formula-read.c (excel_parse_formula) : disabled a bit too much
+	  debug info and broke the code.
+
+2002-12-24  Jody Goldberg <jody@gnome.org>
+
 	* ms-excel-read.c (ms_sheet_create_obj) : cut-n-paste-o in line creation
 	  support font color for text boxes.
 	  (excel_palette_get) : just call colour 64 black if it gets this far.
 	    It only happens for shet objects and we need to do more research
 	    on how to handle these.
+	(excel_read_DV) : fix double free
 
 	* ms-obj.c (ms_obj_read_pre_biff8_obj) : be more picky about what we
 	  call an arrow head.  Fix the directions for lines.  Find the
