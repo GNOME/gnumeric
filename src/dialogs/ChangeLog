@@ -1,6 +1,14 @@
 2003-07-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
 	* dialog-function-select.c 
+	(cb_dialog_function_select_fun_selection_changed): fix the offset 
+	  into the description for formatting. Make the syntax bold rather
+	  than the first occurrence of the function name (which did not 
+	  work anyways.)
+	
+2003-07-16  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* dialog-function-select.c 
 	(cb_dialog_function_select_cat_selection_changed): show the
 	  function names only
 	(cb_dialog_function_select_fun_selection_changed): prepend the

@@ -245,7 +245,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 			GString    * buf = g_string_new (NULL);
 			GtkTextIter  start, end;
 			GtkTextTag * tag;
-			int          i;
+			int          syntax_length =  g_utf8_strlen (f_syntax,-1);
 
 			g_string_append (buf, f_syntax);
 			g_string_append (buf, "\n\n");
@@ -253,13 +253,7 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 			gtk_text_buffer_set_text (state->description, buf->str,
 						  -1);
 
-			/* Set the fn name Bold */
-			cursor = f_desc;
-			for (i = 0;
-			     g_unichar_isspace (g_utf8_get_char (cursor));
-			     i++)
-				cursor = g_utf8_next_char (cursor);
-
+			/* Set the syntax Bold */
 			tag = gtk_text_buffer_create_tag (state->description,
 							  NULL,
 							  "weight",
@@ -268,12 +262,14 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 			gtk_text_buffer_get_iter_at_offset (state->description,
 							    &start, 0);
 			gtk_text_buffer_get_iter_at_offset (state->description,
-							    &end, i);
+							    &end, syntax_length);
 			gtk_text_buffer_apply_tag (state->description, tag,
 						   &start, &end);
+			syntax_length += 2;
 
 			/* Set the arguments and errors Italic */
-			for (; *cursor; cursor = g_utf8_next_char (cursor)) {
+			for (cursor = f_desc; *cursor; cursor = g_utf8_next_char (cursor)) {
+				int i;
 				if (*cursor == '@' || *cursor == '#') {
 					int j;
 
@@ -294,10 +290,10 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 						 PANGO_STYLE_ITALIC, NULL);
 					gtk_text_buffer_get_iter_at_offset
 						(state->description, &start,
-						 j - i);
+						 j - i + syntax_length);
 					gtk_text_buffer_get_iter_at_offset
 						(state->description, &end,
-						 j);
+						 j + syntax_length);
 					gtk_text_buffer_apply_tag
 						(state->description, tag,
 						 &start, &end);
@@ -313,10 +309,10 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 						 NULL);
 					gtk_text_buffer_get_iter_at_offset
 						(state->description, &start,
-						 j + 1);
+						 j + 1 + syntax_length);
 					gtk_text_buffer_get_iter_at_offset
 						(state->description, &end,
-						 j + 2);
+						 j + 2 + syntax_length);
 					gtk_text_buffer_apply_tag
 						(state->description, tag,
 						 &start, &end);
@@ -332,10 +328,10 @@ cb_dialog_function_select_fun_selection_changed (GtkTreeSelection *the_selection
 
 					gtk_text_buffer_get_iter_at_offset
 						(state->description,
-						 &start, j + 1);
+						 &start, j + 1 + syntax_length);
 					gtk_text_buffer_get_iter_at_offset
 						(state->description, &end,
-						 j + i + 1);
+						 j + i + 1 + syntax_length);
 					gtk_text_buffer_apply_tag
 						(state->description, tag,
 						 &start, &end);
