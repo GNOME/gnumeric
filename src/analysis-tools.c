@@ -2398,7 +2398,7 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 
 	if (xdim == 1)
 		cor_err =  range_correl_pop (xss[0], (gnum_float *)(y_data->data->data),
-					  y_data->data->len, &r);
+					     y_data->data->len, &r);
 	else r = sqrtgnum (regression_stat->sqr_r);
 
 	/* Multiple R */
@@ -2464,30 +2464,33 @@ regression_tool (WorkbookControl *wbc, Sheet *sheet,
 		 * with intercept, se[1] is the first slope se
 		 */
 		gnum_float this_se = regression_stat->se[intercept + i];
-		gnum_float this_t = regression_stat->t[intercept + i];
-		gnum_float t;
+		gnum_float this_tval = regression_stat->t[intercept + i];
+		gnum_float t, P;
 
-		/* Slopes / Coefficient */
+		/* Coefficient */
 		set_cell_float (dao, 1, 17 + i, this_res);
 
-		/* Slopes / Standard Error */
+		/* Standard Error */
 		set_cell_float (dao, 2, 17 + i, this_se);
 
-		/* Slopes / t Stat */
-		set_cell_float (dao, 3, 17 + i, this_t);
+		/* t Stat */
+		set_cell_float (dao, 3, 17 + i, this_tval);
 
-		/* Slopes / p values */
-		set_cell_float (dao, 4, 17 + i,
-				2.0 * (pt (this_t,
-					   y_data->data->len - xdim - intercept, FALSE, FALSE)));
+		/* P values */
+		P = finitegnum (this_tval)
+			? 2 * pt (gnumabs (this_tval), regression_stat->df_resid, FALSE, FALSE)
+			: 0;
+		set_cell_float (dao, 4, 17 + i, P);
 
-		t = qt (alpha / 2, y_data->data->len - xdim - intercept,
-			FALSE, FALSE);
+		t = (this_se == 0)
+			? 0
+			: qt (alpha / 2, regression_stat->df_resid,
+			      FALSE, FALSE);
 
-		/* Slope / Lower 95% */
+		/* Lower 95% */
 		set_cell_float (dao, 5, 17 + i, this_res - t * this_se);
 
-		/* Slope / Upper 95% */
+		/* Upper 95% */
 		set_cell_float (dao, 6, 17 + i, this_res + t * this_se);
 	}
 

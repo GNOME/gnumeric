@@ -408,9 +408,8 @@ general_linear_regression (gnum_float **xss, int xdim,
 			g_free (inv);
 		} else {
 			g_assert_not_reached ();
-			/* FIXME: got any better idea?  */
 			for (i = 0; i < xdim; i++)
-				regression_stat->se[i] = 1;
+				regression_stat->se[i] = 0;
 		}
 		FREE_MATRIX (LU, xdim, xdim);
 		g_free (P);
@@ -419,19 +418,27 @@ general_linear_regression (gnum_float **xss, int xdim,
 		regression_stat->t = g_new (gnum_float, xdim);
 
 		for (i = 0; i < xdim; i++)
-			regression_stat->t[i] = result[i] / regression_stat->se[i];
+			regression_stat->t[i] = (regression_stat->se[i] == 0)
+				? +HUGE_VAL
+				: result[i] / regression_stat->se[i];
 
 		regression_stat->df_resid = n - xdim;
 		regression_stat->df_reg = xdim - (affine ? 1 : 0);
 		regression_stat->df_total = regression_stat->df_resid + regression_stat->df_reg;
 
-		regression_stat->F = (regression_stat->sqr_r / regression_stat->df_reg) /
-			((1 - regression_stat->sqr_r) / regression_stat->df_resid);
+		regression_stat->F = (regression_stat->sqr_r == 1)
+			? HUGE_VAL
+			: ((regression_stat->sqr_r / regression_stat->df_reg) /
+			   (1 - regression_stat->sqr_r) * regression_stat->df_resid);
 
 		regression_stat->ss_reg =  regression_stat->ss_total - regression_stat->ss_resid;
 		regression_stat->se_y = sqrtgnum (regression_stat->ss_total / n);
-		regression_stat->ms_reg = regression_stat->ss_reg / regression_stat->df_reg;
-		regression_stat->ms_resid = regression_stat->ss_resid / regression_stat->df_resid;
+		regression_stat->ms_reg = (regression_stat->df_reg == 0)
+			? 0
+			: regression_stat->ss_reg / regression_stat->df_reg;
+		regression_stat->ms_resid = (regression_stat->df_resid == 0)
+			? 0
+			: regression_stat->ss_resid / regression_stat->df_resid;
 
 		g_free (residuals);
 	}

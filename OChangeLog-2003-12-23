@@ -1,5 +1,7 @@
 2002-03-01  Morten Welinder  <terra@diku.dk>
 
+	* src/analysis-tools.c (regression_tool): Fix P values.
+
 	* src/regression.c (general_linear_regression): Fix ->var in the
 	trivial n==xdim case.
 
