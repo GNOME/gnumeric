@@ -191,12 +191,3 @@ search_replace_string (SearchReplace *sr, const char *src)
 }
 
 /* ------------------------------------------------------------------------- */
-
-void
-search_replace (Workbook *wb, const SearchReplace *sr)
-{
-	/* FIXME */
-	g_warning ("Umplemented.");
-}
-
-/* ------------------------------------------------------------------------- */

@@ -2686,6 +2686,12 @@ typedef struct
 	 * multiple times in the list.
 	 */
 	GList *cells;
+
+	/*
+	 * Gross hack.  We don't want the initial redo done by the
+	 * push.
+	 */
+	gboolean redo_is_null;
 } CmdSearchReplace;
 
 GNUMERIC_MAKE_COMMAND (CmdSearchReplace, cmd_search_replace);
@@ -2744,6 +2750,12 @@ cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 	CmdSearchReplace *me = CMD_SEARCH_REPLACE (cmd);
 	GList *tmp;
 
+	if (me->redo_is_null) {
+		/* See comment above.  */
+		me->redo_is_null = FALSE;
+		return FALSE;
+	}
+
 	/* Redo does replacements forward.  */
 	for (tmp = me->cells; tmp; tmp = tmp->next) {
 		SearchReplaceItem *sri = tmp->data;
@@ -2776,11 +2788,50 @@ cmd_search_replace_redo (GnumericCommand *cmd, WorkbookControl *wbc)
 
 static gboolean
 cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControl *wbc,
-			    Cell *cell, gboolean test_run)
+			    Sheet *sheet, Cell *cell, gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
 
-	/* FIXME */
+	if (cell_has_expr (cell)) {
+		if (sr->replace_expressions) {
+			g_warning ("Unimplemented.");
+		}
+	} else if (!cell_is_blank (cell) && cell->value && !test_run) {
+		Value *v = cell->value;
+		switch (v->type) {
+		case VALUE_STRING:
+			if (sr->replace_strings) {
+				const char *old_text = v->v_str.val->str;
+				char *new_text = search_replace_string (sr, old_text);
+				if (new_text) {
+					gboolean doit = TRUE;
+
+					if (sr->query) {
+						/* FIXME. */
+					}
+
+					if (doit) {
+						SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
+						sri->pos.sheet = sheet;
+						sri->pos.eval = cell->pos;
+						sri->old_type = sri->new_type = SRI_text;
+						sri->old.text = g_strdup (old_text);
+						sri->new.text = new_text;
+						me->cells = g_list_prepend (me->cells, sri);
+
+						sheet_cell_set_text (cell, new_text);
+					} else
+						g_free (new_text);
+				}
+			}
+			break;
+		default:
+			if (sr->replace_other_values) {
+				g_warning ("Unimplemented.");
+			}
+			break;
+		}
+	}
 
 	if (!test_run && sr->replace_comments) {
 		CellComment *comment = NULL /* cell_has_comment (cell) */;
@@ -2795,6 +2846,8 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControl *wbc,
 
 				if (doit) {
 					SearchReplaceItem *sri = g_new (SearchReplaceItem, 1);
+					sri->pos.sheet = sheet;
+					sri->pos.eval = cell->pos;
 					sri->old_type = sri->new_type = SRI_comment;
 					sri->old.comment = g_strdup (old_text);
 					sri->new.comment = new_text;
@@ -2810,11 +2863,49 @@ cmd_search_replace_do_cell (CmdSearchReplace *me, WorkbookControl *wbc,
 	return FALSE;
 }
 
+static Value *
+cb_search_replace_collect (Sheet *sheet, int col, int row,
+			   Cell *cell, void *user_data)
+{
+	GPtrArray *cells = user_data;
+	EvalPos *ep = g_new (EvalPos, 1);
+
+	ep->sheet = sheet;
+	ep->eval.col = col;
+	ep->eval.row = row;
+
+	g_ptr_array_add (cells, ep);
+
+	return NULL;
+}
+
+static int
+cb_order_sheet_row_col (const void *_a, const void *_b)
+{
+	const EvalPos *a = *(const EvalPos **)_a;
+	const EvalPos *b = *(const EvalPos **)_b;
+	int i;
+
+	/* By sheet name.  FIXME: Any better that this?  */
+	i = strcmp (a->sheet->name_unquoted, b->sheet->name_unquoted);
+
+	/* By row number.  */
+	if (!i) i = (a->eval.row - b->eval.row);
+
+	/* By column number.  */
+	if (!i) i = (a->eval.col - b->eval.col);
+
+	return i;
+}
 
 static gboolean
 cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc, gboolean test_run)
 {
 	SearchReplace *sr = me->sr;
+	Workbook *wb = wb_control_workbook (wbc);
+	GPtrArray *cells = g_ptr_array_new ();
+	gboolean result = FALSE;
+	int i;
 
 	if (test_run) {
 		/*
@@ -2827,14 +2918,55 @@ cmd_search_replace_do (CmdSearchReplace *me, WorkbookControl *wbc, gboolean test
 			return FALSE;
 	}
 
-	/* FIXME */
+	/* Collect a list of all cells subject to search.  */
+	switch (sr->scope) {
+	case SRS_workbook:
+	{
+		(void)wb;
+		g_warning ("Unimplemented.");
+		/* break; */
+	}
+
+	case SRS_sheet:
+		sheet_foreach_cell_in_range (me->parent.sheet, TRUE,
+					     0, 0,
+					     SHEET_MAX_COLS, SHEET_MAX_ROWS,
+					     cb_search_replace_collect,
+					     cells);
+		break;
+
+	case SRS_range:
+		g_warning ("Unimplemented.");
+		break;
+	default:
+		g_assert_not_reached ();
+	}
+
+	/* Sort our list of cells.  */
+	qsort (&g_ptr_array_index (cells, 0),
+	       cells->len,
+	       sizeof (gpointer),
+	       cb_order_sheet_row_col);
+
+	for (i = 0; i < cells->len; i++) {
+		EvalPos *ep = g_ptr_array_index (cells, i);
+		if (!result) {
+			Cell *cell = sheet_cell_get (ep->sheet,
+						     ep->eval.col,
+						     ep->eval.row);
+			result = cmd_search_replace_do_cell (me, wbc, ep->sheet, cell, test_run);
+		}
+		g_free (ep);
+	}
+
+	g_ptr_array_free (cells, TRUE);
 
 	if (!test_run) {
 		/* Cells are added in the wrong order.  */
 		me->cells = g_list_reverse (me->cells);
 	}
 
-	return FALSE;
+	return result;
 }
 
 
@@ -2876,7 +3008,7 @@ cmd_search_replace_destroy (GtkObject *cmd)
 }
 
 gboolean
-cmd_search_replace (WorkbookControl *wbc, SearchReplace *sr)
+cmd_search_replace (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr)
 {
 	GtkObject *obj;
 	CmdSearchReplace *me;
@@ -2888,8 +3020,9 @@ cmd_search_replace (WorkbookControl *wbc, SearchReplace *sr)
 
 	me->cells = NULL;
 	me->sr = search_replace_copy (sr);
+	me->redo_is_null = TRUE;
 
-	me->parent.sheet = NULL/* sheet */;
+	me->parent.sheet = sheet;  /* FIXME?  */
 	me->parent.size = 1;  /* Corrected below. */
 	me->parent.cmd_descriptor = g_strdup (_("Search and Replace"));
 

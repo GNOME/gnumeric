@@ -44,6 +44,4 @@ char *search_replace_verify (SearchReplace *sr);
 
 char *search_replace_string (SearchReplace *sr, const char *src);
 
-void search_replace (Workbook *wb, const SearchReplace *sr);
-
 #endif

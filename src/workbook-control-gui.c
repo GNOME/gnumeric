@@ -1288,11 +1288,12 @@ static void
 cb_edit_search_replace (GtkWidget *unused, WorkbookControlGUI *wbcg)
 {
 	WorkbookControl *wbc = WORKBOOK_CONTROL (wbcg);
+	Sheet *sheet = wb_control_cur_sheet (wbc);
 	SearchReplace *sr = dialog_search_replace (wbcg);
+
 	if (!sr) return;
 
-	/* FIXME: undo/redo needs to be considered.  */
-	search_replace (wb_control_workbook (wbc), sr);
+	cmd_search_replace (wbc, sheet, sr);
 
 	search_replace_free (sr);
 }

@@ -60,6 +60,6 @@ gboolean cmd_hide_selection_colrow (WorkbookControl *wbc, Sheet *sheet,
 gboolean cmd_merge_cells	(WorkbookControl *wbc, Sheet *sheet, GList *selection);
 gboolean cmd_unmerge_cells	(WorkbookControl *wbc, Sheet *sheet, GList *selection);
 
-gboolean cmd_search_replace     (WorkbookControl *wbc, SearchReplace *sr);
+gboolean cmd_search_replace     (WorkbookControl *wbc, Sheet *sheet, SearchReplace *sr);
 
 #endif /* GNUMERIC_COMMANDS_H */
