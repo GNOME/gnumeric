@@ -1,3 +1,9 @@
+2002-05-03  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/func-builtin.c : mark argument names for translation and adjust 
+	  them for use by the formula guru.
+	* src/func.c (function_def_get_arg_name) : translate argument name 
+
 2002-05-03  Morten Welinder  <terra@diku.dk>
 
 	* src/workbook-control-gui.c (cb_select_auto_expr): Filter out

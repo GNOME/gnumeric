@@ -225,20 +225,21 @@ func_builtin_init (void)
 		(sheetcatname, _(sheetcatname));
 
 	def = function_add_nodes (mathcat, "sum",     0,
-				  "number1,number2,...",
+				  N_("number,number,"),
 				  &help_sum, gnumeric_sum);
 	auto_format_function_result (def, AF_FIRST_ARG_FORMAT);
 	mathfuncs = g_slist_prepend (mathfuncs, def);
 
 	def = function_add_nodes (mathcat, "product", 0,
-				  "number",    &help_product,  gnumeric_product);
+				  N_("number,number,"),    
+				  &help_product, gnumeric_product);
 	mathfuncs = g_slist_prepend (mathfuncs, def);
 
 	def = function_add_args (gnumericcat, "gnumeric_version", "",  "",
 				 &help_gnumeric_version, gnumeric_version);
 	gnumericfuncs = g_slist_prepend (gnumericfuncs, def);
 
-	def = function_add_args (sheetcat, "selection", "b",  "permit_intersection",
+	def = function_add_args (sheetcat, "selection", "b",  N_("permit_intersection"),
 				 &help_selection, gnumeric_selection);
 	sheetfuncs = g_slist_prepend (sheetfuncs, def);
 }

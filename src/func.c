@@ -651,6 +651,7 @@ function_def_get_arg_name (FunctionDefinition const *fn_def,
 {
 	gchar **names, **o_names;
 	gchar *name;
+	gchar *translated_arguments;
 
 	g_return_val_if_fail (arg_idx >= 0, NULL);
 	g_return_val_if_fail (fn_def != NULL, NULL);
@@ -661,7 +662,10 @@ function_def_get_arg_name (FunctionDefinition const *fn_def,
 	if (!fn_def->named_arguments)
 		return NULL;
 
-	names = g_strsplit (fn_def->named_arguments, ",", G_MAXINT);
+	translated_arguments = _(fn_def->named_arguments);
+	names = g_strsplit (translated_arguments, 
+			    strcmp (translated_arguments, fn_def->named_arguments) == 0 ? 
+			    "," : format_get_arg_sep (), G_MAXINT);
 	o_names = names;
 
 	while (arg_idx-- && *names) {
