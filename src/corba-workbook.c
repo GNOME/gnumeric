@@ -182,7 +182,7 @@ Workbook_show (PortableServer_Servant servant, CORBA_boolean show_toplevel, CORB
 }
 
 static void
-Workbook_corba_class_init ()
+Workbook_corba_class_init (void)
 {
 	static int inited;
 

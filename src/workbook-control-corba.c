@@ -64,7 +64,7 @@ ccc_init_class (GtkObjectClass *object_class)
 GNUMERIC_MAKE_TYPE(command_context_corba, "CommandContextCorba", CommandContextCorba, ccc_init_class, NULL, PARENT_TYPE)
 
 CommandContext *
-command_context_corba_new ()
+command_context_corba_new (void)
 {
 	CommandContextCorba *ccg;
 

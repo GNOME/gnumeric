@@ -220,7 +220,7 @@ gnumeric_main (void *closure, int argc, char *argv [])
 
 #ifdef HAVE_GUILE
 gboolean
-has_gnumeric_been_compiled_with_guile_support ()
+has_gnumeric_been_compiled_with_guile_support (void)
 {
 	return TRUE;
 }
@@ -262,7 +262,7 @@ main (int argc, char *argv [])
 }
 #else
 gboolean
-has_gnumeric_been_compiled_with_guile_support ()
+has_gnumeric_been_compiled_with_guile_support (void)
 {
 	return FALSE;
 }

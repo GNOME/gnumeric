@@ -1435,7 +1435,7 @@ format_value (StyleFormat *format, const Value *value, StyleColor **color,
 }
 
 char *
-format_get_thousand ()
+format_get_thousand (void)
 {
 	if (!lc)
 		lc = localeconv ();
@@ -1444,11 +1444,10 @@ format_get_thousand ()
 }
 
 char *
-format_get_decimal ()
+format_get_decimal (void)
 {
 	if (!lc)
 		lc = localeconv ();
 
 	return (lc)->decimal_point[0] ? (lc)->decimal_point : ".";
 }
-

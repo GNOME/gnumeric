@@ -1,5 +1,8 @@
 2000-05-01  Morten Welinder  <terra@diku.dk>
 
+	* src/main.c (has_gnumeric_been_compiled_with_guile_support): Fix
+ 	prototype.
+
 	* src/gutils.c (gnumeric_usr_plugin_dir, gnumeric_sys_plugin_dir,
  	gnumeric_sys_glade_dir): fix prototype.  (C isn't C++.)
 
