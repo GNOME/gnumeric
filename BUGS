@@ -9,7 +9,6 @@ Release Critical
 ----------------
 
     http://bugzilla.gnome.org/show_bug.cgi?id=65112
-    Correct suffix for plugins (eg osx .sa and hpux .sl)
 
 Pending Patches
 ---------------
