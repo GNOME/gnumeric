@@ -23,7 +23,7 @@
 /* Sizes for column/row headers */
 
 #define COLUMN_HEADER_HEIGHT 20
-#define ROW_HEADER_WIDTH 60
+#define ROW_HEADER_WIDTH 50
 
 static GtkTableClass *sheet_view_parent_class;
 
