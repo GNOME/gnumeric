@@ -27,6 +27,7 @@ Jody:
 	* Fix minor leaks.
 	* Improve recognition of values vs expressions
 	* Reset grid display cursor after editing an object.
+	* Resize frozen panes after ins/del col/row.
 
 Jukka:
 	* Improved MPS plugin.

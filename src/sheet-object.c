@@ -695,11 +695,14 @@ sheet_object_position_pts_get (SheetObject const *so, double *coords)
 /**
  * sheet_relocate_objects :
  *
- * @sheet : the sheet.
  * @rinfo : details on what should be moved.
+ * @update : Should we do the bound_update now, or leave it for later.
+ *
+ * Uses the relocation info and the anchors to decide whether or not, and how
+ * to relocate objects when the grid moves (eg ins/del col/row).
  */
 void
-sheet_relocate_objects (ExprRelocateInfo const *rinfo)
+sheet_relocate_objects (ExprRelocateInfo const *rinfo, gboolean update)
 {
 	GList   *ptr, *next;
 	Range	 dest;
@@ -742,7 +745,7 @@ sheet_relocate_objects (ExprRelocateInfo const *rinfo)
 			if (change_sheets) {
 				sheet_object_clear_sheet (so);
 				sheet_object_set_sheet (so, rinfo->target_sheet);
-			} else
+			} else if (update)
 				sheet_object_update_bounds (so, NULL);
 		} else if (!change_sheets &&
 			   range_contains (&dest, r->start.col, r->start.row)) {

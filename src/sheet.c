@@ -3415,7 +3415,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 4. Slide the StyleRegions and Merged regions to the right */
 	sheet_merge_relocate (&reloc_info);
-	sheet_relocate_objects (&reloc_info);
+	sheet_relocate_objects (&reloc_info, FALSE);
 	sheet_style_insert_colrow (&reloc_info);
 
 	/* 5. Queue entire sheet for recalc */
@@ -3425,6 +3425,7 @@ sheet_insert_cols (WorkbookControl *wbc, Sheet *sheet,
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
+	sheet->priv->reposition_objects.col = col;
 
 	return FALSE;
 }
@@ -3485,7 +3486,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 5. Slide the StyleRegions and Merge regions left */
 	sheet_merge_relocate (&reloc_info);
-	sheet_relocate_objects (&reloc_info);
+	sheet_relocate_objects (&reloc_info, FALSE);
 	sheet_style_relocate (&reloc_info);
 
 	/* 6. Queue entire sheet for recalc */
@@ -3495,6 +3496,7 @@ sheet_delete_cols (WorkbookControl *wbc, Sheet *sheet,
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
+	sheet->priv->reposition_objects.col = col;
 
 	return FALSE;
 }
@@ -3547,7 +3549,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 4. Slide the StyleRegions and Merge regions down */
 	sheet_merge_relocate (&reloc_info);
-	sheet_relocate_objects (&reloc_info);
+	sheet_relocate_objects (&reloc_info, FALSE);
 	sheet_style_insert_colrow (&reloc_info);
 
 	/* 5. Queue entire sheet for recalc */
@@ -3557,6 +3559,7 @@ sheet_insert_rows (WorkbookControl *wbc, Sheet *sheet,
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
+	sheet->priv->reposition_objects.row = row;
 
 	return FALSE;
 }
@@ -3617,7 +3620,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 
 	/* 5. Slide the StyleRegions and Merge regions up */
 	sheet_merge_relocate (&reloc_info);
-	sheet_relocate_objects (&reloc_info);
+	sheet_relocate_objects (&reloc_info, FALSE);
 	sheet_style_relocate (&reloc_info);
 
 	/* 6. Queue entire sheet for recalc */
@@ -3627,6 +3630,7 @@ sheet_delete_rows (WorkbookControl *wbc, Sheet *sheet,
 	sheet->priv->recompute_visibility = TRUE;
 	sheet_flag_recompute_spans (sheet);
 	sheet_flag_status_update_range (sheet, &reloc_info.origin);
+	sheet->priv->reposition_objects.row = row;
 
 	return FALSE;
 }
@@ -3757,7 +3761,7 @@ sheet_move_range (WorkbookControl *wbc,
 	}
 
 	/* 7. Move objects in the range */
-	sheet_relocate_objects (rinfo);
+	sheet_relocate_objects (rinfo, TRUE);
 	sheet_merge_relocate (rinfo);
 
 	/* 8. Queue entire sheet for recalc */

@@ -1,5 +1,14 @@
 2001-10-27  Jody Goldberg <jgoldberg@home.com>
 
+	* src/sheet.c (sheet_{insert,delete}_{cols,rows}) : don't have
+	  sheet_relocate_objects update the bounds.  Save it for sheet_update.
+	  This allows us to use reposition_objects which does double duty to
+	  help with resizing frozen panes too.
+
+	* src/sheet-object.c (sheet_relocate_objects) : only update if requested.
+
+2001-10-27  Jody Goldberg <jgoldberg@home.com>
+
 	* src/sheet-control-gui.c (scg_colrow_select) : be smarter about
 	  edit_pos placement when there are frozen panes.
 
