@@ -1,5 +1,7 @@
 1999-06-15  Morten Welinder  <terra@diku.dk>
 
+	* src/style.c (style_font_new_simple): Fix memory access problem.
+
 	* src/style.c (font_init): Rework.  (Work in progress.  Things
  	should work ok, but will become even better.)
 	(style_font_new_simple): Revert to loading a font, not a fontset.

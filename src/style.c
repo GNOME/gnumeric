@@ -154,10 +154,14 @@ style_font_new_simple (const char *font_name, int units)
 #endif
 		g_free (font_name_with_size);
 
+		font = g_new0 (StyleFont, 1);
+		font->font_name = font_name_copy;
+		font->units    = units;
+		font->font     = gdk_font;
+
 		if (!gdk_font) {
-			key.font_name = font_name_copy;
 			g_hash_table_insert (style_font_negative_hash,
-					     &key, &key);
+					     font, font);
 #ifdef DEBUG_FONTS
 			printf ("was not resolved.\n\n");
 #endif
@@ -168,11 +172,6 @@ style_font_new_simple (const char *font_name, int units)
 		printf ("was resolved as \"%s\".\n\n",
 			my_gdk_actual_font_name (gdk_font));
 #endif
-
-		font = g_new0 (StyleFont, 1);
-		font->font_name = font_name_copy;
-		font->units    = units;
-		font->font     = gdk_font;
 
 		font_compute_hints (font);
 
