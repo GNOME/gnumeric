@@ -2,7 +2,6 @@
 <!DOCTYPE glade-interface SYSTEM "http://glade.gnome.org/glade-2.0.dtd">
 
 <glade-interface>
-<requires lib="gnome"/>
 
 <widget class="GtkDialog" id="MeanTests">
   <property name="title" translatable="yes">Testing the Difference of 2 Means</property>
@@ -394,7 +393,7 @@
 	      <child>
 		<widget class="GtkLabel" id="var2_variance-label">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Variable _2 Pop. Variance:</property>
+		  <property name="label" translatable="yes">Variable _2 Population Variance:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
@@ -440,7 +439,7 @@
 	      <child>
 		<widget class="GtkLabel" id="varianceequal-label">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Unknown _Pop. Var. are:</property>
+		  <property name="label" translatable="yes">_Population Variances are:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_RIGHT</property>
@@ -465,7 +464,7 @@
 	      <child>
 		<widget class="GtkLabel" id="var1_variance-label">
 		  <property name="visible">True</property>
-		  <property name="label" translatable="yes">Variable _1 Pop. Variance:</property>
+		  <property name="label" translatable="yes">Variable _1 Population Variance:</property>
 		  <property name="use_underline">True</property>
 		  <property name="use_markup">False</property>
 		  <property name="justify">GTK_JUSTIFY_RIGHT</property>

@@ -1,3 +1,7 @@
+2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* src/workbook-control-gui.c: Improve the description of the mean test. 
+
 2003-06-11  Jody Goldberg <jody@gnome.org>
 
 	* src/workbook-control-gui.c (workbook_setup_sheets) : Fix my

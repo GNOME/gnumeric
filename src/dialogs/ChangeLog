@@ -1,3 +1,8 @@
+2003-06-12  Andreas J. Guelzow <aguelzow@taliesin.ca>
+
+	* mean-tests.glade: replace some abbreviations with the 
+	  complete name
+
 2003-06-12  Morten Welinder  <terra@gnome.org>
 
 	* dialog-stf-preview.c (stf_preview_render): Fix preconditions,

@@ -3791,16 +3791,17 @@ static GnomeUIInfo workbook_menu_tools_two_means [] = {
 
 	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, _Equal Var.: T-Test"),
 		N_("Comparing two population means for two unpaired samples "
-		   "from pop. with equal var.: t-test"),
+		   "from populations with equal variances: t-test"),
 		cb_tools_ttest_equal_var),
 
 	GNOMEUIINFO_ITEM_NONE (N_("Unpaired Samples, _Unequal Var.: T-Test"),
 		N_("Comparing two population means for two unpaired samples "
-		   "from pop. with unequal var.: t-test"),
+		   "from populations with unequal variances: t-test"),
 		cb_tools_ttest_unequal_var),
 
 	GNOMEUIINFO_ITEM_NONE (N_("_Known Variances or Large Sample: Z-Test"),
-		N_("Comparing two population means from pop. with known variances "
+		N_("Comparing two population means from populations "
+		   "with known variances "
 		   "or using a large sample: z- test"),
 		cb_tools_ztest),
 
