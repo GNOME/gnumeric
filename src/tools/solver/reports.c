@@ -1,3 +1,4 @@
+/* vim: set sw=8: -*- Mode: C; tab-width: 8; indent-tabs-mode: t; c-basic-offset: 8 -*- */
 /*
  * reports.c:  Solver report generation.
  *
@@ -274,7 +275,7 @@ solver_prepare_reports_success (SolverProgram *program, SolverResults *res,
 	/*
 	 * Go through the constraints; save LHS, RHS, slack
 	 */
-	for (i = 0; i < param->n_total_constraints; i++) {
+	for (i = 0; i < param->n_constraints; i++) {
 	        SolverConstraint *c = solver_get_constraint (res, i);
 
 		res->shadow_prizes[i] = alg->get_shadow_prize_fn (program, i);
