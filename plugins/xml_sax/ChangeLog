@@ -1,3 +1,7 @@
+2003-01-28  Jody Goldberg <jody@gnome.org>
+
+	* Release 1.1.16
+
 2003-01-22  Jody Goldberg <jody@gnome.org>
 
 	* xml-sax-read.c : Convert to the new gsf xml utilities to get
