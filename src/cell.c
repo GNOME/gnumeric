@@ -546,15 +546,15 @@ void
 cell_render_value (GnmCell *cell, gboolean allow_variable_width)
 {
 	RenderedValue *rv;
-	GnmStyle *mstyle;
-	PangoContext *context;
+	Sheet *sheet;
 
 	g_return_if_fail (cell != NULL);
 
-	mstyle = cell_get_mstyle (cell);
-	context = cell->base.sheet->context;
-
-	rv = rendered_value_new (cell, mstyle, allow_variable_width, context);
+	sheet = cell->base.sheet;
+	rv = rendered_value_new (cell, cell_get_mstyle (cell),
+				 allow_variable_width,
+				 sheet->context,
+				 sheet->last_zoom_factor_used);
 	if (cell->rendered_value)
 		rendered_value_destroy (cell->rendered_value);
 	cell->rendered_value = rv;

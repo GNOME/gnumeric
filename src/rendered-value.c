@@ -67,14 +67,13 @@ static int minus_utf8_len;
 static char minus_utf8[6];
 
 static guint16
-calc_indent (PangoContext *context, const GnmStyle *mstyle, Sheet *sheet)
+calc_indent (PangoContext *context, const GnmStyle *mstyle, double zoom)
 {
 	int indent = 0;
 	if (mstyle_is_element_set (mstyle, MSTYLE_INDENT)) {
 		indent = mstyle_get_indent (mstyle);
 		if (indent) {
-			GnmFont *style_font =
-				scg_get_style_font (context, sheet, mstyle);
+			GnmFont *style_font = mstyle_get_font (mstyle, context, zoom);
 			indent *= style_font->approx_width.pixels.digit;
 			style_font_unref (style_font);
 		}
@@ -91,7 +90,8 @@ static gboolean
 rendered_value_render (GString *str,
 		       GnmCell const *cell,
 		       PangoContext *context, GnmStyle const *mstyle,
-		       gboolean allow_variable_width, gboolean *display_formula,
+		       gboolean allow_variable_width, double zoom,
+		       gboolean *display_formula,
 		       GOColor *go_color)
 {
 	Sheet const *sheet = cell->base.sheet;
@@ -124,8 +124,7 @@ rendered_value_render (GString *str,
 				(VALUE_FMT (cell->value) == NULL ||
 				 style_format_is_var_width (VALUE_FMT (cell->value)));
 			if (is_variable_width && allow_variable_width) {
-				GnmFont *style_font =
-					scg_get_style_font (context, sheet, mstyle);
+				GnmFont *style_font = mstyle_get_font (mstyle, context, zoom);
 				double wdigit = style_font->approx_width.pts.digit;
 
 				if (wdigit > 0.0) {
@@ -264,7 +263,8 @@ rendered_value_remeasure (RenderedValue *rv)
 RenderedValue *
 rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		    gboolean allow_variable_width,
-		    PangoContext *context)
+		    PangoContext *context,
+		    double zoom)
 {
 	RenderedValue	*res;
 	Sheet		*sheet;
@@ -272,7 +272,6 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 	PangoLayout     *layout;
 	PangoAttrList   *attrs;
 	gboolean        display_formula;
-	double          zoom;
 
 	/* This screws thread safety (which we don't need).  */
 	static GString  *str = NULL;
@@ -296,8 +295,10 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		str = g_string_sized_new (100);
 
 	res = CHUNK_ALLOC (RenderedValue, rendered_value_pool);
-	res->variable_width = rendered_value_render (str, cell, context, mstyle,
-		allow_variable_width, &display_formula, &fore);
+	res->variable_width = rendered_value_render
+		(str, cell, context, mstyle,
+		 allow_variable_width, zoom,
+		 &display_formula, &fore);
 	res->indent_left = res->indent_right = 0;
 	res->numeric_overflow = FALSE;
 	res->hfilled = FALSE;
@@ -313,9 +314,6 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 	res->layout = layout = pango_layout_new (context);
 	pango_layout_set_text (layout, str->str, str->len);
-
-	/* FIXME: this should be per view.  */
-	zoom = sheet ? sheet->last_zoom_factor_used : 1;
 
 	attrs = mstyle_get_pango_attrs (mstyle, context, zoom);
 #ifdef BUG_105322
@@ -369,7 +367,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 
 	switch (res->effective_halign) {
 	case HALIGN_LEFT:
-		res->indent_left = calc_indent (context, mstyle, sheet);
+		res->indent_left = calc_indent (context, mstyle, zoom);
 		pango_layout_set_alignment (layout, PANGO_ALIGN_LEFT);
 		break;
 
@@ -392,7 +390,7 @@ rendered_value_new (GnmCell *cell, GnmStyle const *mstyle,
 		break;
 
 	case HALIGN_RIGHT:
-		res->indent_right = calc_indent (context, mstyle, sheet);
+		res->indent_right = calc_indent (context, mstyle, zoom);
 		pango_layout_set_alignment (layout, PANGO_ALIGN_RIGHT);
 		break;
 

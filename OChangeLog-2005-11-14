@@ -1,3 +1,15 @@
+2005-03-10  Morten Welinder  <terra@gnome.org>
+
+	* src/print-cell.c (print_cell): Pretend to have zoom=100%.
+
+	* src/sheet-control-gui.h (scg_get_style_font): Delete.  Expand
+	into all callers.
+
+	* src/rendered-value.c (rendered_value_new,
+	rendered_value_render): Take zoom as a parameter.  All callers
+	changed.
+	(calc_indent): Take zoom instead of sheet as parameter.
+
 2005-03-11  Jon K Hellan  <hellan@acm.org>
 
 	* src/gnumeric-pane.c (gnm_pane_init): Add drag action

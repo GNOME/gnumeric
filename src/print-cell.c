@@ -78,11 +78,12 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 	    GnomePrintContext *context, PangoContext *pcontext,
 	    double x1, double y1, double width, double height, double h_center)
 {
-	RenderedValue *rv, *cell_rv = cell->rendered_value;
+	RenderedValue *rv, *cell_rv = cell->rendered_value, *cell_rv100 = NULL;
 	GOColor fore_color; 
 	gint x, y;
 	ColRowInfo const * const ci = cell->col_info;
 	ColRowInfo const * const ri = cell->row_info;
+	Sheet *sheet;
 
 	/* Get the sizes exclusive of margins and grids */
 	/* FIXME : all callers will eventually pass in their cell size */
@@ -93,7 +94,25 @@ print_cell (GnmCell const *cell, GnmStyle const *mstyle,
 		height = ri->size_pts - (ri->margin_b + ri->margin_a + 1);
 
 	/* Create a rendered value for printing */
+	sheet = cell->base.sheet;
+	if (sheet->last_zoom_factor_used != 1) {
+		/*
+		 * We're zoomed and we don't want printing to reflect that.
+		 * Simply create a new RenderedValue at zoom 100% for the
+		 * _screen_ context.
+		 */		   
+		cell_rv = cell_rv100 =
+			rendered_value_new ((GnmCell *)cell, mstyle,
+					    cell_rv->variable_width,
+					    pango_layout_get_context (cell_rv->layout),
+					    1.0);
+	}
+
+	/* Now pretend it was made for printing.  */
 	rv = rendered_value_recontext (cell_rv, pcontext);
+
+	if (cell_rv100)
+		rendered_value_destroy (cell_rv100);
 
 	if (cell_calc_layout (cell, rv, -1,
 			      (int)(width * PANGO_SCALE),

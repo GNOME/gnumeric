@@ -32,7 +32,8 @@ struct _RenderedValue {
 
 RenderedValue *rendered_value_new     (GnmCell *cell, GnmStyle const *mstyle,
 				       gboolean variable_width,
-				       PangoContext *context);
+				       PangoContext *context,
+				       double zoom);
 void           rendered_value_destroy (RenderedValue *rv);
 
 RenderedValue *rendered_value_recontext (RenderedValue *rv,

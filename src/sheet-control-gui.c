@@ -1376,17 +1376,6 @@ scg_adjust_preferences (SheetControl *sc)
 	}
 }
 
-GnmFont *
-scg_get_style_font (PangoContext *context,
-		    Sheet const *sheet,
-		    GnmStyle const *mstyle)
-{
-	/* When previewing sheet can == NULL */
-	double const zoom = (sheet) ? sheet->last_zoom_factor_used : 1.;
-
-	return mstyle_get_font (mstyle, context, zoom);
-}
-
 /***************************************************************************/
 
 enum {

@@ -154,7 +154,7 @@ pg_construct_cell (PreviewGrid *pg, int col, int row, PangoContext *context)
 		cell->value = (klass->get_cell_value) (pg, col, row);
 	if (cell->value == NULL)
 		cell->value = value_dup (pg->defaults.value);
-	cell->rendered_value = rendered_value_new (cell, style, TRUE, context);
+	cell->rendered_value = rendered_value_new (cell, style, TRUE, context, 1.0);
 
 	return cell;
 }
