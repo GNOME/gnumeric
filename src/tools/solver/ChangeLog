@@ -1,3 +1,8 @@
+2002-03-09  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
+
+	* solver.c (solver_results_free): Plugged a leak.
+	(solver): Plugged a leak.
+
 2002-03-08  Jukka-Pekka Iivonen  <jiivonen@hutcs.cs.hut.fi>
 
 	* reports.c (solver_lp_reports): Do not generate sensitivity and

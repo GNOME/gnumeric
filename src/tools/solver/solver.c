@@ -118,6 +118,7 @@ solver_results_free (SolverResults *res)
 	g_free (res->original_values);
 	g_free (res->variable_names);
 	g_free (res->constraint_names);
+	g_free (res->shadow_prizes);
 	g_free (res);
 }
 
@@ -462,7 +463,7 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	SolverResults    *res;
 	Cell             *cell;
 	int               i;
-	GTimeVal         start, end;
+	GTimeVal          start, end;
 
 	if (check_program_definition_failures (sheet, param, errmsg))
 	        return NULL;
@@ -478,6 +479,8 @@ solver (WorkbookControl *wbc, Sheet *sheet, gchar **errmsg)
 	g_get_current_time (&end);
 	res->time_real = end.tv_sec - start.tv_sec
 	        + (end.tv_usec - start.tv_usec) / 1000000.0;
+
+	lp_algorithm[param->options.algorithm].remove_fn (program);
 
 	if (res->status == SOLVER_LP_OPTIMAL) {
 	        res->value_of_obj_fn = lp_algorithm[param->options.algorithm]
