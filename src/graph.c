@@ -71,7 +71,7 @@ static void
 gnm_go_data_scalar_eval (Dependent *dep)
 {
 	GnmGODataScalar *scalar = DEP_TO_SCALAR (dep);
-	go_data_vector_emit_changed (GO_DATA_VECTOR (scalar));
+	go_data_scalar_emit_changed (GO_DATA_SCALAR (scalar));
 }
 
 static void
@@ -346,7 +346,7 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 	Range r;
 	Sheet *start_sheet, *end_sheet;
 	int len = go_data_vector_get_len (dat); /* force calculation */
-	double *vals;
+	double *vals, minimum, maximum;
 	Value *v;
 	struct assign_closure closure;
 
@@ -373,18 +373,22 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 			if (r.end.col > start_sheet->cols.max_used)
 				r.end.col = start_sheet->cols.max_used;
 		}
-		closure.minimum = G_MINDOUBLE;
-		closure.maximum = G_MAXDOUBLE;
+		closure.maximum = G_MINDOUBLE;
+		closure.minimum = G_MAXDOUBLE;
 		closure.vals = dat->values;
 		closure.last = -1;
 		closure.i = 0;
 		sheet_foreach_cell_in_range (start_sheet, CELL_ITER_ALL,
 			r.start.col, r.start.row, r.end.col, r.end.row,
 			(CellIterFunc)cb_assign_val, &closure);
-		dat->len = closure.last + 1;
+		dat->len = closure.last + 1; /* clip */
+		minimum = closure.minimum;
+		maximum = closure.maximum;
 		break;
 
 	case VALUE_ARRAY :
+		maximum = G_MINDOUBLE;
+		minimum = G_MAXDOUBLE;
 		while (len-- > 0) {
 			v = vec->as_col
 				? vec->val->v_array.vals [0][len]
@@ -403,6 +407,10 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 				}
 			}
 			vals[len] = value_get_as_float (v);
+			if (minimum > vals[len])
+				minimum = vals[len];
+			if (maximum < vals[len])
+				maximum = vals[len];
 		}
 		break;
 
@@ -418,14 +426,16 @@ gnm_go_data_vector_load_values (GODataVector *dat)
 
 	case VALUE_EMPTY :
 	case VALUE_ERROR :
-		vals[0] = gnm_nan;
+		minimum = maximum = vals[0] = gnm_nan;
 		break;
 	default :
-		vals[0] = value_get_as_float (vec->val);
+		minimum = maximum = vals[0] = value_get_as_float (vec->val);
 		break;
 	}
 
 	dat->values = vals;
+	dat->minimum = minimum;
+	dat->maximum = maximum;
 	dat->base.flags |= GO_DATA_CACHE_IS_VALID;
 }
 

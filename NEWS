@@ -18,6 +18,11 @@ Jody:
 	* Sheet data -> charts begins working.
 	* Some minor tweaking for xls escher import to handle gradients
 	* Clean up edit item, and support spanning autocompletion
+	* Fixes for sheet object dependencies
+	* Fixes for chart series generation
+	* Basic Pie & Bar/Col plots
+	* Initial xls import for new plots (no formatting)
+	* Have HTML exporters handle utf8
 
 Morten:
 	* New function COLUMNNUMBER.

@@ -6,7 +6,7 @@
  *    Jody Goldberg (jody@gnome.org)
  *    Michael Meeks (michael@ximian.com)
  *
- * (C) 1998-2002 Michael Meeks, Jody Goldberg
+ * (C) 1998-2003 Michael Meeks, Jody Goldberg
  **/
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
@@ -49,8 +49,8 @@
 #include <sheet-object-cell-comment.h>
 #include <sheet-object-widget.h>
 #include <sheet-object-graphic.h>
+#include <sheet-object-graph.h>
 #include <sheet-object-image.h>
-#include <gnumeric-graph.h>
 
 #include <gsf/gsf-input.h>
 #include <gsf/gsf-utils.h>
@@ -360,17 +360,17 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 		sheet_object_anchor_init (&anchor, &range,
 					  offsets, anchor_types,
 					  direction);
-		sheet_object_anchor_set (SHEET_OBJECT (obj->gnum_obj),
+		sheet_object_anchor_set (obj->gnum_obj,
 					 &anchor);
-		sheet_object_set_sheet (SHEET_OBJECT (obj->gnum_obj),
+		sheet_object_set_sheet (obj->gnum_obj,
 					esheet->sheet);
 
 		/* cannot be done until we have set the sheet */
 		if (obj->excel_type == 0x0B) {
-			sheet_widget_checkbox_set_link (SHEET_OBJECT (obj->gnum_obj),
+			sheet_widget_checkbox_set_link (obj->gnum_obj,
 				ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_CHECKBOX_LINK, NULL));
 		} else if (obj->excel_type == 0x11) {
-			sheet_widget_scrollbar_set_details (SHEET_OBJECT (obj->gnum_obj),
+			sheet_widget_scrollbar_set_details (obj->gnum_obj,
 				ms_obj_attr_get_expr (obj, MS_OBJ_ATTR_SCROLLBAR_LINK, NULL),
 				0,
 				ms_obj_attr_get_int  (obj, MS_OBJ_ATTR_SCROLLBAR_MIN, 0),
@@ -381,7 +381,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 
 		label = ms_obj_attr_get_ptr (obj, MS_OBJ_ATTR_TEXT, NULL);
 		if (label != NULL) {
-			SheetObject *so = SHEET_OBJECT (obj->gnum_obj);
+			SheetObject *so = obj->gnum_obj;
 			switch (obj->excel_type) {
 			case 0x07: sheet_widget_button_set_label (so, label);
 				   break;
@@ -398,7 +398,7 @@ ms_sheet_realize_obj (MSContainer *container, MSObj *obj)
 	return FALSE;
 }
 
-static GObject *
+static SheetObject *
 ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 {
 	SheetObject *so = NULL;
@@ -444,7 +444,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 	}
 
 	case 0x05: /* Chart */
-		so = SHEET_OBJECT (gnm_graph_new ());
+		so = sheet_object_graph_new (NULL);
 		break;
 
 	case 0x0E: /* Label */
@@ -530,7 +530,7 @@ ms_sheet_create_obj (MSContainer *container, MSObj *obj)
 		return NULL;
 	}
 
-	return so ? G_OBJECT (so) : NULL;
+	return so;
 }
 
 static double
@@ -4582,13 +4582,12 @@ excel_read_sheet (BiffQuery *q, ExcelWorkbook *ewb,
 			 * jump to the chart handler which then starts parsing
 			 * at the NEXT record.
 			 */
-			if (q->opcode == BIFF_CHART_units) {
-				GObject *graph = gnm_graph_new ();
-				ms_excel_chart (q, sheet_container (esheet),
-						esheet->container.ver,
-						graph);
-			} else
-				puts ("EXCEL: How are we seeing chart records in a sheet ?");
+			if (q->opcode == BIFF_CHART_units)
+				ms_excel_read_chart (q, sheet_container (esheet),
+						     esheet->container.ver,
+						     sheet_object_graph_new (NULL));
+			else
+				g_warning ("EXCEL: How are we seeing chart records in a sheet ?");
 			continue;
 		} else if (q->ms_op == 0x01) {
 			switch (q->opcode) {
@@ -5078,15 +5077,11 @@ excel_read_BOF (BiffQuery	 *q,
 		} else
 			fprintf (stderr,"Sheet offset in stream of %x not found in list\n", q->streamPos);
 	} else if (ver->type == MS_BIFF_TYPE_Chart) {
-		GObject *graph =
 #if 0
 			/* enable when we support workbooklevel objects */
-			gnm_graph_new ();
-#else
-			NULL;
+			sheet_object_graph_new (NULL)
 #endif
-		ms_excel_chart (q, &ewb->container, ver->version,
-				graph);
+		ms_excel_read_chart (q, &ewb->container, ver->version, NULL);
 	} else if (ver->type == MS_BIFF_TYPE_VBModule ||
 		 ver->type == MS_BIFF_TYPE_Macrosheet) {
 		/* Skip contents of Module, or MacroSheet */

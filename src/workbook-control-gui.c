@@ -805,7 +805,8 @@ cb_sheet_label_drag_begin (GtkWidget *widget, GdkDragContext *context,
 	image = gtk_image_new_from_pixbuf (pixbuf);
 	gtk_widget_show (image);
 	gtk_container_add (GTK_CONTAINER (arrow), image);
-	gdk_pixbuf_render_pixmap_and_mask (pixbuf, NULL, &bitmap, 128);
+	gdk_pixbuf_render_pixmap_and_mask_for_colormap (pixbuf,
+		gtk_widget_get_colormap (widget), NULL, &bitmap, 0x7f);
 	g_object_unref (G_OBJECT (pixbuf));
 	gtk_widget_shape_combine_mask (arrow, bitmap, 0, 0);
 	g_object_unref (bitmap);

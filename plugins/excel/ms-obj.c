@@ -892,11 +892,10 @@ ms_read_OBJ (BiffQuery *q, MSContainer *container, MSObjAttrBag *attrs)
 		obj->gnum_obj = (*container->vtbl->create_obj) (container, obj);
 
 	/* Chart, There should be a BOF next */
-	if (obj->excel_type == 0x5) {
-		if (ms_excel_read_chart (q, container, obj->gnum_obj)) {
-			ms_obj_delete (obj);
-			return;
-		}
+	if (obj->excel_type == 0x5 &&
+	    ms_excel_read_chart_BOF (q, container, obj->gnum_obj)) {
+		ms_obj_delete (obj);
+		return;
 	}
 
 	if (obj->gnum_obj == NULL) {

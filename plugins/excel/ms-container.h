@@ -12,7 +12,7 @@ typedef struct _MSObj MSObj;
 
 typedef struct {
 	gboolean        (*realize_obj)	(MSContainer *container, MSObj *obj);
-	GObject       * (*create_obj)	(MSContainer *container, MSObj *obj);
+	SheetObject   * (*create_obj)	(MSContainer *container, MSObj *obj);
 	GnmExpr const * (*parse_expr)	(MSContainer *container,
 					 guint8 const *data, int length);
 	Sheet	      * (*sheet)	(MSContainer const *container);
@@ -34,11 +34,11 @@ struct _MSContainer {
 	} v7;	/* biff7 does this at the container level */
 
 	/* This is the container containing this container */
-	MSContainer	*parent_container;
+	MSContainer	*parent;
 };
 
 void ms_container_init (MSContainer *container, MSContainerClass const *vtbl,
-			MSContainer *parent_container,
+			MSContainer *parent,
 			ExcelWorkbook *ewb, MsBiffVersion ver);
 void ms_container_finalize (MSContainer *container);
 

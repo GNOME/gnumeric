@@ -13,7 +13,8 @@
 
 GType	     sheet_object_graph_get_type (void);
 #ifdef NEW_GRAPHS
-SheetObject *sheet_object_graph_new (GogGraph *graph);
+SheetObject *sheet_object_graph_new  (GogGraph *graph);
+GogGraph *sheet_object_graph_get_gog (SheetObject *sog);
 
 void sheet_object_graph_guru (WorkbookControlGUI *wbcg, GogGraph *graph,
 			      GogGuruRegister handler, gpointer handler_data);

@@ -1,3 +1,13 @@
+2003-05-24  Jody Goldberg <jody@gnome.org>
+
+	* src/workbook-control-gui.c (cb_sheet_label_drag_begin) : remove
+	  deprecation.
+
+2003-05-23  Jody Goldberg <jody@gnome.org>
+
+	* src/selection.c (sv_selection_to_plot) : skip the dimension if its
+	  can't be filled, don't just keep looking for data to put in it.
+
 2003-05-23  Morten Welinder  <terra@gnome.org>
 
 	* src/style-border.c (style_border_get_gc): Fix ref count error.

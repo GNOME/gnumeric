@@ -131,7 +131,6 @@ under "1.0" are more important.
 * Conditional Formatting
 
    + Conceptual progress being made, nothing concrete yet.
-    Very tightly coupled with Data Validation, see below.
 
 * Pivot Tables (!)
   
@@ -147,6 +146,3 @@ under "1.0" are more important.
    + There is some function documentation already, but
      it's incomplete.
 
-* Edit->Fill->Series...
-
-   + Implement `Fill Series' tool with linear, growth and date filling.

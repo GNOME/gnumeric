@@ -136,11 +136,6 @@ typedef struct _Validation              Validation;
 typedef struct _GnmFilter		GnmFilter;
 typedef struct _GnmFilterCondition	GnmFilterCondition;
 
-typedef struct _GnmGraph		GnmGraph;
-typedef struct _GnmGraphPlot		GnmGraphPlot;
-typedef struct _GnmGraphSeries		GnmGraphSeries;
-typedef struct _GnmGraphVector		GnmGraphVector;
-
 /* Used to locate cells in a sheet */
 struct _CellPos {
 	int col, row;

@@ -1313,8 +1313,8 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 	unsigned i, count, cur_dim = 0, num_series = 1;
 	gboolean has_header, as_cols;
 
-	/* Excel docs claim that rows == cols uses rows */
-	gboolean default_to_cols = (num_cols < num_rows);
+	/* Excel docs claim that rows == cols uses cols */
+	gboolean default_to_cols = (num_cols <= num_rows);
 
 	desc = gog_plot_description (plot);
 	series = gog_plot_new_series (plot);
@@ -1351,7 +1351,7 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 		}
 
 		for (i = 0 ; i <= count ; ) {
-			if (cur_dim > desc->series.num_dim) {
+			if (cur_dim >= desc->series.num_dim) {
 				if (num_series >= desc->num_series_max)
 					break;
 
@@ -1369,13 +1369,11 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 
 			is_string_vec = characterize_vec (sheet, &vector, as_cols,
 				desc->series.dim[cur_dim].val_type == GOG_DIM_LABEL);
-
-			if ((desc->series.dim[cur_dim].val_type == GOG_DIM_LABEL && !is_string_vec) ||
-			    (desc->series.dim[cur_dim].val_type == GOG_DIM_VALUE && is_string_vec)) {
-				/* type mismatch we don't have much choice here, even if the dim is non optional we
-				 * can't assign to it.  Be smarter in the future and maybe reallocate preceding
-				 * optional dimensions, start a new plot for unexpected strings  */
-				goto skip;
+			while ((desc->series.dim[cur_dim].val_type == GOG_DIM_LABEL && !is_string_vec) ||
+			       (desc->series.dim[cur_dim].val_type == GOG_DIM_VALUE && is_string_vec)) {
+				if (desc->series.dim[cur_dim].priority == GOG_SERIES_REQUIRED)
+					goto skip;
+				cur_dim++;
 			}
 
 			gog_series_set_dim (series, cur_dim,
@@ -1390,9 +1388,10 @@ sv_selection_to_plot (SheetView *sv, gpointer go_plot)
 					GO_DATA_SCALAR (gnm_go_data_scalar_new_expr (sheet,
 						gnm_expr_new_cellref (&header))), NULL);
 			}
-			cur_dim++;
 
+			cur_dim++;
 skip :
+
 			if (as_cols) {
 				i += range_width (&vector);
 				header.col = vector.start.col = ++vector.end.col;

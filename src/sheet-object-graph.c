@@ -38,8 +38,8 @@
 #include <goffice/graph/gog-data-allocator.h>
 #include <goffice/graph/gog-renderer-pixbuf.h>
 #include <goffice/graph/gog-control-foocanvas.h>
-#include <graph.h>
 #endif
+#include <graph.h>
 
 #include <gdk/gdkkeysyms.h>
 #include <gsf/gsf-impl-utils.h>
@@ -102,8 +102,12 @@ SheetObject *
 sheet_object_graph_new (GogGraph *graph)
 {
 	SheetObjectGraph *sog = g_object_new (SHEET_OBJECT_GRAPH_TYPE, NULL);
+
+	if (graph != NULL)
+		g_object_ref (G_OBJECT (graph));
+	else
+		graph = g_object_new (GOG_GRAPH_TYPE, NULL);
 	sog->graph = graph;
-	g_object_ref (G_OBJECT (sog->graph));
 
 	sog->renderer = g_object_new (GOG_RENDERER_PIXBUF_TYPE,
 				      "model", sog->graph,
@@ -244,7 +248,7 @@ sheet_object_graph_user_config (SheetObject *so, SheetControl *sc)
 
 #ifdef NEW_GRAPHS
 	sheet_object_graph_guru (wbcg, sog->graph,
-				 (GogGuruRegister)cb_update_graph, so);
+		(GogGuruRegister)cb_update_graph, so);
 #endif
 }
 
@@ -351,6 +355,14 @@ cb_graph_guru_done (WorkbookControlGUI *wbcg)
 {
 	wbcg_edit_detach_guru (wbcg);
 	wbcg_edit_finish (wbcg, FALSE);
+}
+
+GogGraph *
+sheet_object_graph_get_gog (SheetObject *sog)
+{
+	g_return_val_if_fail (IS_SHEET_OBJECT_GRAPH (sog), NULL);
+
+	return ((SheetObjectGraph *)sog)->graph;
 }
 
 void

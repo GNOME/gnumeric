@@ -22,6 +22,7 @@
 #include <gnumeric-config.h>
 #include <gnumeric-i18n.h>
 #include <gnumeric.h>
+#include "excel-xml-read.h"
 #include "xml-io-version.h"
 #include "io-context.h"
 #include "plugin.h"
@@ -72,32 +73,32 @@ typedef struct {
 
 /****************************************************************************/
 
+#if 0
 static void
 unknown_attr (ExcelXMLReadState *state,
 	      xmlChar const * const *attrs, char const *name)
 {
 	g_return_if_fail (attrs != NULL);
 
-#if 0
 	if (state->version == GNUM_XML_LATEST)
 		gnm_io_warning (state->context,
 			_("Unexpected attribute %s::%s == '%s'."),
 			name, attrs[0], attrs[1]);
-#endif
 }
+#endif
 
+#if 0
 static void
 xl_xml_wb (GsfXMLIn *xin, xmlChar const **attrs)
 {
 	ExcelXMLReadState *state = (ExcelXMLReadState *)xin;
 
-#if 0
 	for (; attrs != NULL && attrs[0] && attrs[1] ; attrs += 2)
 		if (gsf_xml_in_namecmp (xin, attrs[0], "schemaLocation")) {
 		} else
 			unknown_attr (state, attrs, "Workbook");
-#endif
 }
+#endif
 
 /****************************************************************************/
 

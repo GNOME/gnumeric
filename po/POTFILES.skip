@@ -1,3 +1,4 @@
 src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas-text.c
 src/cut-n-paste-code/foocanvas/libfoocanvas/foo-canvas.c
 src/test-pango.c
+schemas/plot-types.xml.in

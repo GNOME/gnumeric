@@ -22,7 +22,7 @@
 
 void
 ms_container_init (MSContainer *container, MSContainerClass const *vtbl,
-		   MSContainer *parent_container,
+		   MSContainer *parent,
 		   ExcelWorkbook *ewb, MsBiffVersion ver)
 {
 	container->vtbl = vtbl;
@@ -31,7 +31,7 @@ ms_container_init (MSContainer *container, MSContainerClass const *vtbl,
 	container->free_blips = TRUE;
 	container->blips = NULL;
 	container->obj_queue  = NULL;
-	container->parent_container = parent_container;
+	container->parent = parent;
 
 	container->names = NULL;
 	container->v7.externsheet = NULL;
@@ -99,10 +99,9 @@ ms_container_get_blip (MSContainer *container, int blip_id)
 	g_return_val_if_fail (container != NULL, NULL);
 	g_return_val_if_fail (blip_id >= 0, NULL);
 
-	if (container->parent_container != NULL &&
+	if (container->parent != NULL &&
 	    (container->blips == NULL || container->blips->len == 0))
-		    return ms_container_get_blip (container->parent_container,
-						  blip_id);
+		    return ms_container_get_blip (container->parent, blip_id);
 
 	g_return_val_if_fail (blip_id < (int)container->blips->len, NULL);
 

@@ -36,6 +36,9 @@ Pending Patches
     0.8)  Queue update for changed/deleted in ExprEntry ?
     0.9)  menu mnemonics for Edit -> Fill -> merge & series
     0.10) Fix warning on destruction of torn off combo		(DONE)
+    0.11) Use 'Chart' in the ui to be compatible
+    0.12) giving focus to an expr entry with a single rangeref
+    	  in another sheet should make that range visible.
 
 1) graphs							{Jody}
     1.1) Split plot xml file engine, type, and family plugins	(DONE)
@@ -48,14 +51,28 @@ Pending Patches
 	1.5.3) Rings
 	1.5.4) Radial plots
     1.6) 1st pass at Graph Guru					(DONE)
+	1.6.1) update when someone else changes the model	(DONE)
+	1.6.2) remove prop pages for deleted items		(DONE)
     1.7) data allocator in gnumeric				(DONE)
-    1.8) handle short series with early optionals in allocator
+    1.8) XLS import
+	1.8.1) check overlap percentage for bars		(DONE)
+	1.8.2) Add gog_object_set_position
+	1.8.3) Handle 'use_one_style' for pies
+	1.8.4) override auto series indexing for xls
+	1.8.5) styles
     1.9) data sources
 	1.9.1) vector and scalar data sources from gnumeric	(DONE)
 	1.9.2) static vector and scalar data sources for utils
 	1.9.3) an index source
-	1.9.4) Add min/max elements to vector
-    1.10) merge bar/col stack type bools into 1 enum		(DONE)
+	1.9.4) Add min/max elements to vector			(DONE)
+    1.10) Bar/Col Plot						(DONE)
+	1.10.1) merge bar/col stack type bools into 1 enum	(DONE)
+	1.10.2) normal						(DONE)
+	1.10.3) stacked						(DONE)
+	1.10.4) percentage					(DONE)
+	1.10.5) Skip over bars/cols when too narrow
+	1.10.6) Work around bleed through with overlap 100
+	1.10.7) Check for short vectors				(DONE)
     1.11) Rethink GraphItem lifecyle to simplify removal	(DONE)
     1.12) Extend GogObjectRole to include more handlers		(DONE)
     1.13) Decide on recalc strategy				(DONE)
@@ -65,12 +82,12 @@ Pending Patches
     1.15) per series plot type specific data			(DONE)
     1.16) libart based render akin to guppicanvas.		(DONE)
 	1.16.1) Solid background fills				(DONE)
-	    1.16.1.1) Use ArtRender interface
+->	    1.16.1.1) Use ArtRender interface
 	1.16.2) Gradient fills (basic)				(DONE)
 	    1.16.2.1) use bbox.x2-bbox.x1 + 1 for size		(DONE)
 	1.16.3) Image fills
 	1.16.4) path						(DONE)
-	    1.16.4.1) Use ArtRender interface
+->	    1.16.4.1) Use ArtRender interface
 	1.16.5) text
 	1.16.6) markers
     1.17) Connect the user_config handler for SheetObjectGraph	(DONE)
@@ -85,6 +102,8 @@ Pending Patches
 	1.19.4) api for changing order
 	1.19.5) Extend Guru to support changing precedence
     1.20) GogStyle Editor page
+	1.20.1) fill type
+	1.20.2) outline style
     1.21) theme
 	1.21.1) load from xml
 	1.21.2) selector for graphs
@@ -247,6 +266,8 @@ Pending Patches
 26) Format characterization
     26.1) Add characterization (units) to StyleFormat
 
+27) audit all of the export plugins to handle utf8
+
 Functions
     ODDFPRICE	(test fails)
     ODDFYEILD	(unimplementeD)
@@ -380,6 +401,9 @@ Misc stuff that should be fixed
     : Honour rubber_band_directly during resize too
     : research the other xl object flags.
     : remove update_view_bounds and have the model emit a bound_changed signal
+    : double click to bring up prefs dialog
+    : selecting object with other objects on top of it should hide them while
+      editing
 
 Dialogs
 -------

@@ -104,8 +104,6 @@ GNUMERIC_BASE =					\
 	gnumeric-gconf.c			\
 	gnumeric-gconf.h			\
 	gnumeric-gconf-priv.h			\
-	gnumeric-graph.c			\
-	gnumeric-graph.h			\
 	gnumeric-pane.c				\
 	gnumeric-pane.h				\
 	gnumeric-i18n.c				\
@@ -330,6 +328,7 @@ gnumeric_app_libs =				\
 	tools/solver/libsolver.a		\
 	tools/solver/glpk/source/libglpk.a	\
 	tools/solver/lp_solve/liblp_solve.a	\
+	cut-n-paste-code/goffice/graph/libgoffice-graph.a \
 	cut-n-paste-code/pcre/libpcre.a		\
 	cut-n-paste-code/foocanvas/libfoocanvas/libfoocanvas.a
 
