@@ -31,8 +31,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: gnumeric\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-11-07 01:25-0500\n"
-"PO-Revision-Date: 2004-11-03 15:00+0900\n"
+"POT-Creation-Date: 2004-11-10 16:49+0900\n"
+"PO-Revision-Date: 2004-11-10 16:51+0900\n"
 "Last-Translator: Jan Morén <jan.moren@lucs.lu.se>\n"
 "Language-Team: Swedish <sv@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -816,7 +816,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1366
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FORWARD_START\n"
 "@SYNTAX=OPT_FORWARD_START(call_put_flag,spot,alpha,time1,time,rate,"
@@ -844,12 +844,12 @@ msgstr ""
 "framåtvisande startoptioner.\n"
 "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
 "säljoption.\n"
-"@avista är avistapriset för den underliggande tillgången\n"
-"@alfa är andelen som sätter slagpriset för tid @tid1\n"
-"@tid1 är tiden tills optionen börjar \n"
-"@tid är tiden till förfallodatumet i dagar\n"
-"@ränta är den riskfria årliga räntan\n"
-"@flyktighet är den årliga flyktigheten av tillgången\n"
+"@avista är avistapriset för den underliggande tillgången.\n"
+"@alfa är andelen som sätter slagpriset för tid @tid1.\n"
+"@tid1 är tiden tills optionen börjar.\n"
+"@tid är tiden till förfallodatumet i dagar.\n"
+"@ränta är den riskfria årliga räntan.\n"
+"@flyktighet är den årliga flyktigheten av den underliggande tillgången.\n"
 "@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
 "aktier är det den årliga utdelningen.\n"
 "@EXAMPLES=\n"
@@ -857,7 +857,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1429
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_TIME_SWITCH\n"
 "@SYNTAX=OPT_TIME_SWITCH(call_put_flag,spot,strike,a,time,m,dt,rate,"
@@ -888,16 +888,17 @@ msgstr ""
 "@DESCRIPTION=OPT_TIME_SWITCH modellerar det teoretiska priset på "
 "tidsbytesoptioner (Pechtl 1995).\n"
 "Ägaren får @a * @dt för varje period @dt som tillgångens pris var högre än "
-"slagpriset (för köp) eller under (för sälj) \n"
+"slagpriset (för köp) eller under (för sälj). \n"
 "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
 "säljoption.\n"
-"@avista är avistapriset för den underliggande tillgången\n"
-"@slag är slagpriset på optionen\n"
-"@a är den erhållna mängden för varje period enligt ovan\n"
-"@tid är tiden till förfallodatumet i dagar\n"
-"@m är antalet didsenheter som optionen har uppfyllt vilkoren\n"
-"@dt är den överenskomna didsperion (ofta en dag) uttryckt som del av et år \n"
-"@ränta är den riskfria årliga räntan\n"
+"@avista är avistapriset för den underliggande tillgången.\n"
+"@slag är slagpriset på optionen.\n"
+"@a är den erhållna summan för varje period enligt ovan.\n"
+"@tid är tiden till förfallodatumet i år.\n"
+"@m är antalet didsenheter som optionen redan har uppfyllt vilkoren.\n"
+"@dt är den överenskomna tidsperioden (ofta en dag) uttryckt som andel av ett "
+"år.\n"
+"@ränta är den riskfria årliga räntan.\n"
 "@flyktighet är den årliga flyktigheten av tillgången\n"
 "@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
 "aktier är det den årliga utdelningen.\n"
@@ -906,7 +907,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1486
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_SIMPLE_CHOOSER\n"
 "@SYNTAX=OPT_SIMPLE_CHOOSER(call_put_flag,spot,strike,time1,time2,rate,"
@@ -934,11 +935,11 @@ msgstr ""
 "valoptioner.\n"
 "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
 "säljoption.\n"
-"@avista är avistapriset för den underliggande tillgången\n"
-"@slag är slagpriset på optionen\n"
-"@tid1 är tiden tills ägaren väljer en köp- eller säljoption i år\n"
-"@tid2 är tiden till förfallodatumet i år\n"
-"@ränta är den riskfria årliga räntan\n"
+"@avista är avistapriset för den underliggande tillgången.\n"
+"@slag är slagpriset på optionen.\n"
+"@tid1 är tiden tills ägaren väljer en köp- eller säljoption angivet i år.\n"
+"@tid2 är tiden till förfallodatumet angivet i år.\n"
+"@ränta är den riskfria årliga räntan.\n"
 "@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
 "aktier är det den årliga utdelningen.\n"
 "@EXAMPLES=\n"
@@ -946,7 +947,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1547
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_COMPLEX_CHOOSER\n"
 "@SYNTAX=OPT_COMPLEX_CHOOSER(call_put_flag,spot,strike_call,strike_put,time,"
@@ -980,23 +981,25 @@ msgstr ""
 "komplexa valoptioner.\n"
 "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
 "säljoption.\n"
-"@avista är avistapriset för den underliggande tillgången\n"
-"@slag_köp är slagpriset på optionen\n"
-"@slag_sälj är slagpriset på optionen\n"
-"@tid är tiden tills ägaren väljer en köp- eller säljoption i år\n"
-"@tid_köp är tiden till förfallodatumet i år på köpoptionen om vald\n"
-"@tid_sälj är tiden till förfallodatumet i år på säljoptionen om vald\n"
-"@ränta är den riskfria årliga räntan\n"
+"@avista är avistapriset för den underliggande tillgången.\n"
+"@slag_köp är slagpriset på optionen; giltigt om den används som köpoption.\n"
+"@slag_sälj är slagpriset på optionen; giltigt om den används som "
+"säljoption.\n"
+"@tid är tiden tills ägaren väljer en köp- eller säljoption i år.\n"
+"@tid_köp är tiden till förfallodatumet,angivet i år, om vald som köpoption.\n"
+"@tid_sälj är tiden till förfallodatumet, angivet i år, om vald som "
+"säljoption.\n"
+"@ränta är den riskfria årliga räntan.\n"
 "@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
 "aktier är det den årliga utdelningen.\n"
-"@flyktighet är den årliga flyktigheten av tillgången\n"
+"@flyktighet är den årliga flyktigheten av den underliggande tillgången.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1662
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_ON_OPTIONS\n"
 "@SYNTAX=OPT_ON_OPTIONS(type_flag,spot,strike1,strike2,time1,time2,rate,"
@@ -1026,25 +1029,26 @@ msgstr ""
 "cost_of_carry;flyktighet)\n"
 "@DESCRIPTION=OPT_ON_OPTIONS modellerar det teoretiska priset på optioner på "
 "optioner.\n"
-"@typflagga är \"cc\" för köp påköp, \"cp\" för sälj på köp och så vidare för "
-"\"pc\" och \"pp\"\n"
+"@typflagga är \"cc\" för köp på köp, \"cp\" för sälj på köp och så vidare "
+"för \"pc\" och \"pp\".\n"
 "@avista är avistapriset för den underliggande tillgången.\n"
 "@slag1 är slagpriset på optionen som värderas.\n"
-"@slag1 är slagpriset på optionen som värderas.\n"
+"@slag2 är slagpriset på den underliggande optionen.\n"
 "@tid1 är tiden till förfallodatumet i år på optionen.\n"
 "@tid2 är tiden till förfallodatumet i år på den underliggande optionen.\n"
-"(@tid2 >= @tid1)\n"
-"@ränta är den riskfria årliga räntan\n"
+"(@tid2 >= @tid1).\n"
+"@ränta är den riskfria årliga räntan.\n"
 "@cost_of_carry är värdeläckaget på den underliggande tillgången på den "
 "underliggande optionen, för vanliga aktier är det den årliga utdelningen.\n"
 "@flyktighet är den årliga flyktigheten av priset på den underliggande "
 "tillgången på den underliggande optionen\n"
+"\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1747
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(call_put_flag,spot,strike1,strike2,time1,time2,"
@@ -1073,31 +1077,31 @@ msgstr ""
 "@FUNCTION=OPT_EXTENDIBLE_WRITER\n"
 "@SYNTAX=OPT_EXTENDIBLE_WRITER(fjäril;avista;slag1;slag2;tid1;tid2;ränta;"
 "cost_of_carry;flyktighet)\n"
-"@DESCRIPTION=OPT_ON_OPTIONS modellerar det teoretiska priset på "
+"@DESCRIPTION=OPT_EXTENDIBLE_WRITER modellerar det teoretiska priset på "
 "utökningsbara utgivaroptioner. Detta är optioner som kan lösas in vid en "
 "tidigare tidpunkt @tid1 eller utöka inlösentiden till @tid2 om optionen inte "
-"är värd någonting vid @tid1 \n"
+"är värd någonting vid @tid1.\n"
 "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
 "säljoption.\n"
-"@avista är avistapriset för den underliggande tillgången\n"
-"@slag1 är slagpriset på optionen\n"
+"@avista är avistapriset för den underliggande tillgången.\n"
+"@slag1 är slagpriset på optionen.\n"
 "@slag2 är slagpriset då optionen slås igen om det inte finns pengar kvar vid "
 "@tid1.\n"
 "@tid1 är tiden till förfallodatumet i år på första inlösentiden.\n"
 "@tid2 är tiden till förfallodatumet i år på den utökade inlösentiden om "
 "vald.\n"
-"@ränta är den riskfria årliga räntan\n"
+"@ränta är den riskfria årliga räntan.\n"
 "@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
 "aktier är det den årliga utdelningen.\n"
 "@flyktighet är den årliga flyktigheten av priset på den underliggande "
-"tillgången\n"
+"tillgången.\n"
 "\n"
 "@EXAMPLES=\n"
 "\n"
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1809
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_2_ASSET_CORRELATION\n"
 "@SYNTAX=OPT_2_ASSSET_CORRELATION(call_put_flag,spot1,spot2,strike1,strike2,"
@@ -1147,7 +1151,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1862
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_EURO_EXCHANGE\n"
 "@SYNTAX=OPT_EURO_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1173,7 +1177,7 @@ msgstr ""
 "cost_of_carry1;cost_of_carry2;flyktighet1;flyktighet2;rho)\n"
 "@DESCRIPTION=OPT_EURO_EXCHANGE modellerar det teoretiska priset på en "
 "Europeisk option att växla en tillgång med kvantitet @kvant2 och avista "
-"@avista2 för en annan, med kvantitet @kvant1 och avista @avista1 \n"
+"@avista2 för en annan, med kvantitet @kvant1 och avista @avista1.\n"
 "@tid är tiden till förfallodatumet i år.\n"
 "@ränta är den riskfria årliga räntan.\n"
 "@cost_of_carry1 och @cost_of_carry2 är värdeläckaget på de underliggande "
@@ -1188,7 +1192,7 @@ msgstr ""
 "OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:1905
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_AMER_EXCHANGE\n"
 "@SYNTAX=OPT_AMER_EXCHANGE(spot1,spot2,qty1,qty2,time,rate,cost_of_carry1,"
@@ -1214,7 +1218,7 @@ msgstr ""
 "cost_of_carry1;cost_of_carry2;flyktighet1;flyktighet2;rho)\n"
 "@DESCRIPTION=OPT_AMER_EXCHANGE modellerar det teoretiska priset på en "
 "amerikansk option att växla en tillgång med kvantitet @kvant2 och avista "
-"@avista2 för en annan, med kvantitet @kvant1 och avista @avista1 \n"
+"@avista2 för en annan, med kvantitet @kvant1 och avista @avista1.\n"
 "@tid är tiden till förfallodatumet i år.\n"
 "@ränta är den riskfria årliga räntan.\n"
 "@cost_of_carry1 och @cost_of_carry2 är värdeläckaget på de underliggande "
@@ -1230,7 +1234,7 @@ msgstr ""
 
 # FIXME: Någon som förstår detta?
 #: plugins/derivatives/options.c:1949
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_SPREAD_APPROX\n"
 "@SYNTAX=OPT_SPREAD_APPROX(call_put_flag,fut_price1,fut_price2,strike,time, "
@@ -1260,9 +1264,9 @@ msgstr ""
 "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
 "säljoption.\n"
 "@frampris1 och @frampris2 är priserna på framtidskontrakten.\n"
-"@slag är slagpriset på optionen\n"
-"@tid är tiden till förfallodatumet i dagar\n"
-"@ränta är den riskfria årliga räntan\n"
+"@slag är slagpriset på optionen.\n"
+"@tid är tiden till förfallodatumet i dagar.\n"
+"@ränta är den riskfria årliga räntan.\n"
 "@flyktighet1 och @flyktighet2 är den årliga flyktigheten av de underliggande "
 "kontrakten.\n"
 "@rho är korrelationen mellan de två kontrakten.\n"
@@ -1272,7 +1276,7 @@ msgstr ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 
 #: plugins/derivatives/options.c:2002
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FLOAT_STRK_LKBK\n"
 "@SYNTAX=OPT_FLOAT_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,time,rate,"
@@ -1302,7 +1306,7 @@ msgstr ""
 "cost_of_carry;flyktighet)\n"
 "@DESCRIPTION=OPT_FLOAT_STRK_LKBK modellerar det teoretiska priset på en "
 "option där optionens ägare kan nyttja den vid förfallodatumet till det mest "
-"fördelaktiga priset på den underliggande tillgången som boserverats under "
+"fördelaktiga priset på den underliggande tillgången som observerats under "
 "optionens livstid.\n"
 "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
 "säljoption.\n"
@@ -1323,7 +1327,7 @@ msgstr ""
 
 # "en option" saknades i orginaltexten
 #: plugins/derivatives/options.c:2067
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
 "@SYNTAX=OPT_FIXED_STRK_LKBK(call_put_flag,spot,spot_min,spot_max,strike,time,"
@@ -1350,11 +1354,11 @@ msgid ""
 "@SEEALSO=OPT_BS, OPT_BS_DELTA, OPT_BS_RHO, OPT_BS_THETA, OPT_BS_GAMMA"
 msgstr ""
 "@FUNCTION=OPT_FIXED_STRK_LKBK\n"
-"@SYNTAX=OPT_FIXED_STRK_LKBK(fjäril;avista;avista_max;avista_min;slag;tid;"
+"@SYNTAX=OPT_FIXED_STRK_LKBK(fjäril;avista;avista_min;avista_max;slag;tid;"
 "ränta;cost_of_carry;flyktighet)\n"
 "@DESCRIPTION=OPT_FIXED_STRK_LKBK modellerar det teoretiska priset på en "
 "option där optionens ägare kan nyttja den vid förfallodatumet till det mest "
-"fördelaktiga priset på den underliggande tillgången som boserverats under "
+"fördelaktiga priset på den underliggande tillgången som observerats under "
 "optionens livstid.\n"
 "@fjäril är \"c\" eller \"p\" beroende på om optionen är köp- eller "
 "säljoption.\n"
@@ -1375,7 +1379,7 @@ msgstr ""
 
 # FIXME: Någon som förstår detta?
 #: plugins/derivatives/options.c:2148
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "@FUNCTION=OPT_BINOMIAL\n"
 "@SYNTAX=OPT_BINOMIAL(amer_euro_flag,call_put_flag,num_time_steps, spot, "
@@ -1411,11 +1415,11 @@ msgstr ""
 "säljoption.\n"
 "@tidssteg är antalet steg i värderingen; ett större antal leder till bättre "
 "noggrannhet, men tar längre tid att beräkna.\n"
-"@avista är avistapriset för den underliggande tillgången\n"
-"@slag är slagpriset på optionen\n"
-"@tid är tiden till förfallodatumet i dagar\n"
-"@ränta är den riskfria årliga räntan\n"
-"@flyktighet är den årliga flyktigheten av tillgången\n"
+"@avista är avistapriset för den underliggande tillgången.\n"
+"@slag är slagpriset på optionen.\n"
+"@tid är tiden till förfallodatumet angivet i år.\n"
+"@ränta är den riskfria årliga räntan.\n"
+"@flyktighet är den årliga flyktigheten av den underliggande tillgången.\n"
 "@cost_of_carry är värdeläckaget på den underliggande tillgången, för vanliga "
 "aktier är det den årliga utdelningen.\n"
 "@EXAMPLES=\n"
@@ -1797,9 +1801,8 @@ msgid "MS Excel (tm) 97/2000/XP"
 msgstr "MS Excel (tm) 97/2000/XP"
 
 #: plugins/excel/plugin.xml.in.h:6
-#, fuzzy
 msgid "MS Excel (tm) 97/2000/XP &amp; 5.0/95"
-msgstr "MS Excel (tm) 97/2000/XP & 5.0/95"
+msgstr "MS Excel (tm) 97/2000/XP och 5.0/95"
 
 #: plugins/excel/plugin.xml.in.h:7
 msgid "MS Excel (tm) SpreadsheetML"
@@ -6074,6 +6077,17 @@ msgid ""
 "\n"
 "@SEEALSO=OFFTRAF, DIMCIRC, OFFCAP"
 msgstr ""
+"@FUNCTION=PROBBLOCK\n"
+"@SYNTAX=PROBBLOCK(trafik,kretsar)\n"
+"@DESCRIPTION=PROBBLOCK anger sannolikheten för att blocka när ett antal "
+"@trafik laddas in i ett antal @kretsar (servrar).\n"
+"\n"
+"* @trafik kan inte vara större än @kretsar\n"
+"\n"
+"@EXAMPLES=\n"
+"PROBBLOCK(24;30) returnerar 0,4012.\n"
+"\n"
+"@SEEALSO=OFFTRAF, DIMCIRC, OFFCAP"
 
 #: plugins/fn-erlang/functions.c:151
 msgid ""
@@ -6130,19 +6144,16 @@ msgid "circuits,gos"
 msgstr ""
 
 #: plugins/fn-erlang/plugin.xml.in.h:1
-#, fuzzy
 msgid "Erlang"
-msgstr "område"
+msgstr "Erlang"
 
 #: plugins/fn-erlang/plugin.xml.in.h:2
-#, fuzzy
 msgid "Erlang Functions"
-msgstr "Strängfunktioner"
+msgstr "Erlang-funktioner"
 
 #: plugins/fn-erlang/plugin.xml.in.h:3
-#, fuzzy
 msgid "Functions to help Erlang Analysis"
-msgstr "Funktioner för manipulering av strängar"
+msgstr "Funktioner för att hjälpa till med Erlang-analys"
 
 # FIXME: rate!=hastighet här. Vad är par? - 'parvärde' (ev. siktvärde)
 #
@@ -18795,6 +18806,7 @@ msgid "Activate New Plugins"
 msgstr "Aktivera nya insticksmoduler"
 
 #: schemas/gnumeric-dialogs.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:708
 msgid "Allow Unfocused Range Selections"
 msgstr "Tillåt ofokuserade områdesval"
 
@@ -18931,6 +18943,7 @@ msgid "List of recently used functions."
 msgstr "Lista över nyligen använda funktioner."
 
 #: schemas/gnumeric-dialogs.schemas.in.h:38
+#: src/dialogs/dialog-preferences.c:699
 msgid "Maximum Length of Recently Used Functions List"
 msgstr "Maximal längd på lista över nyligen använda funktioner"
 
@@ -19225,6 +19238,7 @@ msgid "Auto Expression Recalculation Lag"
 msgstr "Fördröjning för automatisk omberäkning av uttryck"
 
 #: schemas/gnumeric-general.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:704
 msgid "Autocomplete"
 msgstr "Autokomplettera"
 
@@ -19238,6 +19252,7 @@ msgstr ""
 "här alternativet sätter överskrivningsknappen som standardvalet."
 
 #: schemas/gnumeric-general.schemas.in.h:4
+#: src/dialogs/dialog-preferences.c:616
 msgid "Default Compression Level For Gnumeric Files"
 msgstr "Standardkompressionsnivå för Gnumeric-filer"
 
@@ -19246,22 +19261,27 @@ msgid "Default Font Size"
 msgstr "Standard typsnittstorlek"
 
 #: schemas/gnumeric-general.schemas.in.h:6
+#: src/dialogs/dialog-preferences.c:564
 msgid "Default Horizontal Window Size"
 msgstr "Standard horisontell fönsterstorlek"
 
 #: schemas/gnumeric-general.schemas.in.h:7
+#: src/dialogs/dialog-preferences.c:572
 msgid "Default Number of Sheets"
 msgstr "Standardantal blad"
 
 #: schemas/gnumeric-general.schemas.in.h:8
+#: src/dialogs/dialog-preferences.c:621
 msgid "Default To Overwriting Files"
 msgstr "Standardinställning för att skriva över filer"
 
 #: schemas/gnumeric-general.schemas.in.h:9
+#: src/dialogs/dialog-preferences.c:560
 msgid "Default Vertical Window Size"
 msgstr "Standard vertikal fönsterstorlek"
 
 #: schemas/gnumeric-general.schemas.in.h:10
+#: src/dialogs/dialog-preferences.c:568
 msgid "Default Zoom Factor"
 msgstr "Standard zoomvärde"
 
@@ -19270,6 +19290,7 @@ msgid "Default font name"
 msgstr "Standardtypsnitt"
 
 #: schemas/gnumeric-general.schemas.in.h:12
+#: src/dialogs/dialog-preferences.c:662
 msgid "Horizontal DPI"
 msgstr "Horisontell PPT"
 
@@ -19285,6 +19306,7 @@ msgid ""
 msgstr ""
 
 #: schemas/gnumeric-general.schemas.in.h:14
+#: src/dialogs/dialog-preferences.c:612
 msgid "Length of File History"
 msgstr "Längden på filhistoriken"
 
@@ -19297,22 +19319,27 @@ msgid "List of recently used files"
 msgstr "Lista på nyligen använda filer"
 
 #: schemas/gnumeric-general.schemas.in.h:17
+#: src/dialogs/dialog-preferences.c:580
 msgid "Live Scrolling"
 msgstr "Realtidsrullning"
 
 #: schemas/gnumeric-general.schemas.in.h:18
+#: src/dialogs/dialog-preferences.c:474
 msgid "Maximal Undo Size"
 msgstr "Maximal ångrastorlek"
 
 #: schemas/gnumeric-general.schemas.in.h:19
+#: src/dialogs/dialog-preferences.c:515
 msgid "Number of Automatic Clauses"
 msgstr "Antal automatiska satser"
 
 #: schemas/gnumeric-general.schemas.in.h:20
+#: src/dialogs/dialog-preferences.c:478
 msgid "Number of Undo Items"
 msgstr "Antal ångraenheter"
 
 #: schemas/gnumeric-general.schemas.in.h:21
+#: src/dialogs/dialog-preferences.c:741
 msgid "Prefer CLIPBOARD over PRIMARY selection"
 msgstr "Föredrar CLIPBOARD över huvudurklippet"
 
@@ -19345,6 +19372,7 @@ msgstr ""
 "kryssrytan för behåll-cellformat i sorteringsdialogen."
 
 #: schemas/gnumeric-general.schemas.in.h:27
+#: src/dialogs/dialog-preferences.c:482
 msgid "Show Sheet Name in Undo List"
 msgstr "Visa bladnamn i ångralistan"
 
@@ -19358,7 +19386,8 @@ msgstr ""
 "användaren blir varnad om endast ett blad i en arbetsbok med flera blad "
 "kommer att sparas."
 
-#: schemas/gnumeric-general.schemas.in.h:29 src/wbcg-actions.c:1903
+#: schemas/gnumeric-general.schemas.in.h:29
+#: src/dialogs/dialog-preferences.c:527 src/wbcg-actions.c:1903
 msgid "Sort Ascending"
 msgstr "Sortera stigande"
 
@@ -19367,6 +19396,7 @@ msgid "Sort is Case-Sensitive"
 msgstr "Sortering gör skillnad på gemener/VERSALER"
 
 #: schemas/gnumeric-general.schemas.in.h:31
+#: src/dialogs/dialog-preferences.c:519
 msgid "Sorting Preserves Formats"
 msgstr "Sortering bevarar format"
 
@@ -19509,14 +19539,17 @@ msgstr ""
 "Stil på verktygsrad. Godkända värden är both, both_horiz, icon, och text"
 
 #: schemas/gnumeric-general.schemas.in.h:55
+#: src/dialogs/dialog-preferences.c:576
 msgid "Transition Keys"
 msgstr "Övergångsnycklar"
 
 #: schemas/gnumeric-general.schemas.in.h:56
+#: src/dialogs/dialog-preferences.c:666
 msgid "Vertical DPI"
 msgstr "Vertikal PPT"
 
 #: schemas/gnumeric-general.schemas.in.h:57
+#: src/dialogs/dialog-preferences.c:625
 msgid "Warn When Exporting Into Single Sheet Format"
 msgstr "Varna när export sker till ett enkelbladsformat"
 
@@ -19551,6 +19584,7 @@ msgstr ""
 "paketet installerat."
 
 #: schemas/gnumeric-plugins.schemas.in.h:2
+#: src/dialogs/dialog-preferences.c:630
 msgid "Use UTF-8 in LaTeX Export"
 msgstr "Använd UTF-8 i LaTeX-export"
 
@@ -19820,7 +19854,7 @@ msgstr "Ställer in bredd på kolumner %s till standardbredden"
 msgid "Setting height of rows %s to default"
 msgstr "Ställer in höjd på rader %s till standardhöjden"
 
-#: src/commands.c:2089 src/dialogs/dialog-preferences.c:704
+#: src/commands.c:2089 src/dialogs/dialog-preferences.c:770
 msgid "Sorting"
 msgstr "Sorterar"
 
@@ -20507,7 +20541,7 @@ msgid "%d x %d"
 msgstr "%d × %d"
 
 #: src/cut-n-paste-code/goffice/graph/gog-style.c:881
-#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:697
+#: src/dialogs/cell-format.glade.h:48 src/dialogs/dialog-preferences.c:763
 msgid "Font"
 msgstr "Typsnitt"
 
@@ -21307,16 +21341,15 @@ msgstr "Multidimensionella punkter, med cirkel i varje punkt."
 msgid "Plot X, Y and bubble size."
 msgstr "Plotta X, Y och bubbelstorlek."
 
-#. really 3_1
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:7
 msgid "XY"
 msgstr "XY"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:8
 msgid "XY Lines"
 msgstr "XY-linjer"
 
-#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:10
+#: src/cut-n-paste-code/goffice/graph/plugins/plot_xy/plot-types.xml.in.h:9
 msgid "XY Points"
 msgstr "XY-punkter"
 
@@ -24131,11 +24164,16 @@ msgstr "ID"
 msgid "Directory"
 msgstr "Katalog"
 
-#: src/dialogs/dialog-preferences.c:442
+#: src/dialogs/dialog-preferences.c:455
 msgid "The items on this page customize the behaviour of the undo/redo system."
 msgstr "Objekten på denna sida anpassar beteendet på ångra-/gör om-systemet."
 
-#: src/dialogs/dialog-preferences.c:477
+#: src/dialogs/dialog-preferences.c:470
+#, fuzzy
+msgid "Length of Undo Descriptors"
+msgstr "Längden på ångrabeskrivningarna"
+
+#: src/dialogs/dialog-preferences.c:498
 msgid ""
 "The items on this page customize the inital settings of the sort dialog and "
 "the behaviour of the sort toolbar buttons."
@@ -24143,22 +24181,27 @@ msgstr ""
 "Objekten på denna sida anpassar de ursprungliga inställningarna för "
 "sorteringsdialogen och beteendet på verktygsradsknapparna."
 
-#: src/dialogs/dialog-preferences.c:515
+#: src/dialogs/dialog-preferences.c:523
+#, fuzzy
+msgid "Sorting is Case-Sensitive"
+msgstr "Sortering gör skillnad på gemener/VERSALER"
+
+#: src/dialogs/dialog-preferences.c:544
 msgid "The items on this page customize the new default workbook."
 msgstr "Objekten på denna sida anpassar den nya standardarbetsboken."
 
-#: src/dialogs/dialog-preferences.c:555
+#: src/dialogs/dialog-preferences.c:596
 msgid "The items on this page are related to the saving and opening of files."
 msgstr ""
 "Objekten på denna sida är relaterade till sparandet och öppnandet av filer."
 
-#: src/dialogs/dialog-preferences.c:593
+#: src/dialogs/dialog-preferences.c:646
 #, fuzzy
 msgid "The items on this page are related to the screen layout and resolution."
 msgstr ""
 "Objekten på denna sida är relaterade till sparandet och öppnandet av filer."
 
-#: src/dialogs/dialog-preferences.c:625
+#: src/dialogs/dialog-preferences.c:682
 #, fuzzy
 msgid ""
 "The items on this page and its subpages are related to various gnumeric "
@@ -24166,38 +24209,38 @@ msgid ""
 msgstr ""
 "Objekten på denna sida är relaterade till sparandet och öppnandet av filer."
 
-#: src/dialogs/dialog-preferences.c:660
+#: src/dialogs/dialog-preferences.c:724
 #, fuzzy
 msgid "The items on this page arerelated to copy. cut and paste."
 msgstr ""
 "Objekten på denna sida är relaterade till sparandet och öppnandet av filer."
 
-#: src/dialogs/dialog-preferences.c:698
+#: src/dialogs/dialog-preferences.c:764
 msgid "Copy and Paste"
 msgstr ""
 
-#: src/dialogs/dialog-preferences.c:699
+#: src/dialogs/dialog-preferences.c:765
 msgid "Files"
 msgstr "Filer"
 
-#: src/dialogs/dialog-preferences.c:700
+#: src/dialogs/dialog-preferences.c:766
 #, fuzzy
 msgid "Tools"
 msgstr "Verk_tyg"
 
-#: src/dialogs/dialog-preferences.c:701 src/wbc-gtk.c:472
+#: src/dialogs/dialog-preferences.c:767 src/wbc-gtk.c:472
 msgid "Undo"
 msgstr "Ångra"
 
-#: src/dialogs/dialog-preferences.c:702
+#: src/dialogs/dialog-preferences.c:768
 msgid "Windows"
 msgstr "Windows"
 
-#: src/dialogs/dialog-preferences.c:703
+#: src/dialogs/dialog-preferences.c:769
 msgid "Header/Footer"
 msgstr "Sidhuvud/sidfot"
 
-#: src/dialogs/dialog-preferences.c:705
+#: src/dialogs/dialog-preferences.c:771
 #, fuzzy
 msgid "Screen"
 msgstr "Skärm %d"
