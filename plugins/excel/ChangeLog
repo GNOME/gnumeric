@@ -1,3 +1,12 @@
+2001-02-10  Jon K Hellan  <hellan@acm.org>
+
+	* ms-excel-read.c (ms_excel_init_margins): New
+	function. Initialize margins to Excel defaults.
+	(ms_excel_sheet_new): Call ms_excel_init_margins.
+
+	* ms-excel-write.c (write_sheet_bools): Write margins also for
+	biff 7 (which is what we actually use).
+
 2001-02-09  Jody Goldberg <jgoldberg@home.com>
 
 	* ms-excel-read.c (ms_sheet_obj_create) : don't free the object on

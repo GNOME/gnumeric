@@ -2959,12 +2959,10 @@ write_sheet_bools (BiffPut *bp, ExcelSheet *sheet)
 	MS_OLE_SET_GUINT16 (data, pi->center_vertically);
 	ms_biff_put_commit (bp);
 
-	if (ver >= MS_BIFF_V8) {
-		margin_write (bp, BIFF_LEFT_MARGIN,   &pi->margins.left);
-		margin_write (bp, BIFF_RIGHT_MARGIN,  &pi->margins.right);
-		margin_write (bp, BIFF_TOP_MARGIN,    &pi->margins.top);
-		margin_write (bp, BIFF_BOTTOM_MARGIN, &pi->margins.bottom);
-	}
+	margin_write (bp, BIFF_LEFT_MARGIN,   &pi->margins.left);
+	margin_write (bp, BIFF_RIGHT_MARGIN,  &pi->margins.right);
+	margin_write (bp, BIFF_TOP_MARGIN,    &pi->margins.top);
+	margin_write (bp, BIFF_BOTTOM_MARGIN, &pi->margins.bottom);
 
 	/* See: S59DE3.HTM */
 	data = ms_biff_put_len_next (bp, BIFF_SETUP, 34);

@@ -393,7 +393,7 @@ xml_set_value_double (xmlNodePtr node, const char *name, double val,
 
 	if (precision < 0 || precision > DBL_DIG)
 		precision = DBL_DIG;
-	
+
 	if (fabs (val) < 1e9 && fabs (val) > 1e-5)
 		snprintf (str, 100 + DBL_DIG, "%.*g", precision, val);
 	else
@@ -813,7 +813,7 @@ xml_write_names (XmlParseContext *ctxt, GList *names)
 	   */
 	if (!names)
 		return NULL;
-#endif	
+#endif
 
 	cur = xmlNewDocNode (ctxt->doc, ctxt->ns, "Names", NULL);
 
@@ -1252,6 +1252,22 @@ xml_write_print_info (XmlParseContext *ctxt, PrintInformation *pi)
 	return cur;
 }
 
+/*
+ * Earlier versions of Gnumeric confused top margin with header, bottom margin
+ * with footer (see comment at top of print.c). We fix this by making sure
+ * that top > header and bottom > footer.
+ */
+#define DSWAP(a,b) { double tmp; tmp = a; a = b; b = tmp; }
+static void
+xml_print_info_fix_margins (PrintInformation *pi)
+{
+	if (pi->margins.top.points < pi->margins.header.points)
+		DSWAP (pi->margins.top.points, pi->margins.header.points);
+	if (pi->margins.bottom.points < pi->margins.footer.points)
+		DSWAP (pi->margins.bottom.points, pi->margins.footer.points);
+
+}
+
 static void
 xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 {
@@ -1278,6 +1294,7 @@ xml_read_print_margins (XmlParseContext *ctxt, xmlNodePtr tree)
 		xml_get_print_unit (child, &pi->margins.header);
 	if ((child = e_xml_get_child_by_name (tree, "footer")))
 		xml_get_print_unit (child, &pi->margins.footer);
+	xml_print_info_fix_margins (pi);
 }
 
 static void

@@ -1,3 +1,10 @@
+2001-02-10  Jon K Hellan  <hellan@acm.org>
+
+	* dialog-printer-setup.c (do_fetch_margins, do_setup_margin):
+	Header, not top margin, should be top of header area and footer,
+	not bottom margin, should be top of footer area.
+
+
 2001-01-23  Morten Welinder  <terra@diku.dk>
 
 	* dialog-search-replace.c (dialog_search_replace): Renamed dialog

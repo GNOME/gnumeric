@@ -60,6 +60,7 @@ static ExcelSheet *ms_excel_sheet_new       (ExcelWorkbook *wb,
 					     const char *name);
 static void        ms_excel_workbook_attach (ExcelWorkbook *wb,
 					     ExcelSheet *ans);
+static void        margin_read (PrintUnit *pu, double val);
 
 void
 ms_excel_unexpected_biff (BiffQuery *q, char const *state,
@@ -2278,6 +2279,35 @@ ms_sheet_parse_expr (MSContainer *container, guint8 const *data, int length)
 					     data, length);
 }
 
+/*
+ * ms_excel_init_margins
+ * @sheet ExcelSheet
+ *
+ * Excel only saves margins when any of the margins differs from the
+ * default. So we must initialize the margins to Excel's defaults, which
+ * are:
+ * Top, bottom:    1 in   - 72 pt
+ * Left, right:    3/4 in - 48 pt
+ * Header, footer: 1/2 in - 36 pt
+ */
+static void
+ms_excel_init_margins (ExcelSheet *sheet)
+{
+	PrintInformation *pi;
+
+	g_return_if_fail (sheet != NULL);
+	g_return_if_fail (sheet->gnum_sheet != NULL);
+	g_return_if_fail (sheet->gnum_sheet->print_info != NULL);
+
+	pi = sheet->gnum_sheet->print_info;
+	margin_read (&pi->margins.top, 1.0);
+	margin_read (&pi->margins.bottom, 1.0);
+	margin_read (&pi->margins.left, 0.75);
+	margin_read (&pi->margins.right, 0.75);
+	margin_read (&pi->margins.header, 0.5);
+	margin_read (&pi->margins.footer, 0.5);
+}
+
 static ExcelSheet *
 ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 {
@@ -2302,6 +2332,8 @@ ms_excel_sheet_new (ExcelWorkbook *wb, const char *name)
 	ans->base_char_width          = -1;
 	ans->base_char_width_default  = -1;
 
+	ms_excel_init_margins (ans);
+	
 	return ans;
 }
 

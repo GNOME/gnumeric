@@ -40,6 +40,40 @@
 
 extern int print_debugging;
 
+/*
+ * Margins
+ *
+ * In the internal format, top and bottom margins, header and footer have
+ * the same semantics as in Excel.  That is:
+ *
+ * +----------------------------------------+
+ * |   ^            ^                       |
+ * |   | top        |header                 |
+ * |   |margin      v                       |
+ * |-- |-------------                       |
+ * |   v           header text              |
+ * |------+--------------------------+------|
+ * |      |                          |      |
+ * |<---->|                          |<---->| ^
+ * | left |           Cell           |right | |Increasing
+ * |margin|                          |margin| |y
+ * |      |           Grid           |      | |
+ *
+ * ~      ~                          ~      ~
+ *
+ * |      |                          |      |
+ * |------+--------------------------+------|
+ * |   ^           footer text              |
+ * |-- |------------------------------------|
+ * |   |bottom      ^                       |
+ * |   |margin      |footer                 |
+ * |   v            v                       |
+ * +----------------------------------------+
+ *
+ * In the GUI on the other hand, top margin means the empty space above the
+ * header text, and header area means the area from the top of the header
+ * text to the top of the cell grid.  */
+
 typedef struct {
 	/*
 	 * Part 1: The information the user configures on the Print Dialog
@@ -288,11 +322,11 @@ print_hf_line (PrintJobInfo *pj, PrintHF *hf, double y,
 	/* Check if there's room to print. top and bottom are on the clip
 	 * path, so we are actually requiring room for a 6x4 pt
 	 * character. */
-	if (ABS (top - bottom) < 8) 
+	if (ABS (top - bottom) < 8)
 		return;
 	if (ABS (left - right) < 6)
 		return;
-	
+
 	gnome_print_gsave (pj->print_context);
 
 	print_make_rectangle_path (pj->print_context,
@@ -302,7 +336,7 @@ print_hf_line (PrintJobInfo *pj, PrintHF *hf, double y,
 	if (print_debugging > 0) {
 		static double dash[] = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};
 		static gint n_dash = 6;
-		
+
 		gnome_print_gsave (pj->print_context);
 		gnome_print_setdash (pj->print_context, n_dash, dash, 0.0);
 		gnome_print_stroke  (pj->print_context);
@@ -332,7 +366,7 @@ print_headers (PrintJobInfo *pj)
 	double top, bottom, y, ascender;
 
 	ascender = gnome_font_get_ascender (pj->decoration_font);
-	y = pj->height - pm->top.points - ascender;
+	y = pj->height - pm->header.points - ascender;
 	top    =  1 + pj->height - MIN (pm->header.points, pm->top.points);
 	bottom = -1 + pj->height - MAX (pm->header.points, pm->top.points);
 
@@ -354,7 +388,7 @@ print_footers (PrintJobInfo *pj)
 	PrintMargins *pm = &pj->pi->margins;
 	double top, bottom, y;
 
-	y = pm->bottom.points
+	y = pm->footer.points
 		+ gnome_font_get_descender (pj->decoration_font);
 	top    =  1 + MAX (pm->footer.points, pm->bottom.points);
 	bottom = -1 + MIN (pm->footer.points, pm->bottom.points);
@@ -1120,7 +1154,7 @@ sheet_print (WorkbookControlGUI *wbcg, Sheet *sheet,
 			GNOME_PRINT_DIALOG_RANGE|GNOME_PRINT_DIALOG_COPIES);
 
 		g_return_if_fail (gpd != NULL);
-		
+
 		gnome_print_dialog_construct_range_page (
 			gpd,
 			GNOME_PRINT_RANGE_CURRENT|GNOME_PRINT_RANGE_ALL|

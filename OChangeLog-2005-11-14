@@ -1,3 +1,15 @@
+2001-02-10  Jon K Hellan  <hellan@acm.org>
+
+	* src/print.c: Illustrate margin definitions.
+	(print_headers): Header, not top margin, should be top of header
+	area.
+	(print_footers): Footer, not bottom margin, should be top of
+	footer area.
+
+	* src/xml-io.c (xml_print_info_fix_margins): New function fix up
+	incorrectly stored margins.
+	(xml_read_print_margins): Use it.
+
 2001-02-10  Jody Goldberg <jgoldberg@home.com>
 
 	* src/sheet-style.c (foreach_tile) : Only apply to applicable row or

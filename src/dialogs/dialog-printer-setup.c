@@ -777,19 +777,19 @@ do_setup_margin (dialog_print_info_t *dpi)
 				     displayed_unit);
 
 	unit_editor_configure (&dpi->margins.top, dpi, "spin-top",
-			       pm->top.points,
+			       pm->header.points,
 			       displayed_unit);
 	unit_editor_configure (&dpi->margins.header, dpi, "spin-header",
-			       MAX (pm->header.points - pm->top.points, 0),
+			       MAX (pm->top.points - pm->header.points, 0),
 			       displayed_unit);
 	unit_editor_configure (&dpi->margins.left, dpi, "spin-left",
 			       pm->left.points, displayed_unit);
 	unit_editor_configure (&dpi->margins.right, dpi, "spin-right",
 			       pm->right.points, displayed_unit);
 	unit_editor_configure (&dpi->margins.bottom, dpi, "spin-bottom",
-			       pm->bottom.points, displayed_unit);
+			       pm->footer.points, displayed_unit);
 	unit_editor_configure (&dpi->margins.footer, dpi, "spin-footer",
-			       MAX (pm->footer.points - pm->bottom.points, 0),
+			       MAX (pm->bottom.points - pm->footer.points, 0),
 			       displayed_unit);
 
 	container = GTK_BOX (glade_xml_get_widget (dpi->gui,
@@ -1374,24 +1374,25 @@ unit_info_to_print_unit (UnitInfo *ui)
 /*
  * Header and footer are stored with Excel semantics, but displayed with
  * more natural semantics. In Excel, both top margin and header are measured
- * from top of sheet. The Gnumeric user interface presents header as the
- * band between top margin and the print area. Bottom margin and footer are
- * handled likewise.  */
+ * from top of sheet. See illustration at start of src/print.c. The Gnumeric
+ * user interface presents header as the band between top margin and the
+ * print area. Bottom margin and footer are handled likewise.
+ */
 static void
 do_fetch_margins (dialog_print_info_t *dpi)
 {
 	PrintMargins *m = &dpi->pi->margins;
 	GtkToggleButton *t;
 
-	m->top    = unit_info_to_print_unit (&dpi->margins.top);
-	m->bottom = unit_info_to_print_unit (&dpi->margins.bottom);
+	m->header = unit_info_to_print_unit (&dpi->margins.top);
+	m->footer = unit_info_to_print_unit (&dpi->margins.bottom);
 	m->left   = unit_info_to_print_unit (&dpi->margins.left);
 	m->right  = unit_info_to_print_unit (&dpi->margins.right);
-	m->header = unit_info_to_print_unit (&dpi->margins.header);
-	m->footer = unit_info_to_print_unit (&dpi->margins.footer);
+	m->top    = unit_info_to_print_unit (&dpi->margins.header);
+	m->bottom = unit_info_to_print_unit (&dpi->margins.footer);
 
-	m->header.points += m->top.points;
-	m->footer.points += m->bottom.points;
+	m->top.points    += m->header.points;
+	m->bottom.points += m->footer.points;
 
 	t = GTK_TOGGLE_BUTTON (glade_xml_get_widget (dpi->gui, "center-horizontal"));
 	dpi->pi->center_horizontally = t->active;
