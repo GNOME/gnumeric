@@ -100,7 +100,7 @@ function_iterate_do_value (Sheet                   *sheet,
 				      &end_col, &end_row);
 
 		ret = sheet_cell_foreach_range (
-			sheet, TRUE,
+			value->v.cell_range.cell_a.sheet, TRUE,
 			start_col, start_row,
 			end_col, end_row,
 			iterate_cellrange_callback,

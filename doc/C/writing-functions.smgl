@@ -102,10 +102,13 @@ add2numbers (FunctionDefinition *fn_def, Value *argv [], char **error_string)
 	return result;
 }
 
-Note that the typechecking is done in the routine itself, it is not
-done by the upper layers.  If there is an error during the function
-processing, *error_string should be set to the error message
-describing what went wrong and the NULL value should be returned.
+Note that although typechecking is done in upper layers, both INTEGER
+and FLOAT types are passed through the 'f' function declaration token.
+It is of course good practice to provide a sensible default: case.
+
+If there is an error during the function processing, *error_string
+should be set to the error message describing what went wrong and the
+NULL value should be returned.
 
 Return values and Strings.
 --------------------------
@@ -147,14 +150,53 @@ When you are done with a String, you should call the string_unref
 routine on the String. 
 
 
+Functions with some optional arguments
+--------------------------------------
+
+Gnumeric support three types of functions:
+
+* Fixed number of arguments ( dealt with above )
+* Optional argument functions and
+* Variable argument functions.
+
+The difference between the latter two is that eg. the SUM ()
+function will take an indefinate amount of arguments, whereas the
+ERF function is best described ERF(lower limit[,upper_limit]).
+In this instance, it is not worth the complexity of manualy
+traversing the raw expression tree as in SUM. Instead using the
+standard type checking the argument can be specified as optional,
+and if unspecified a NULL will be passed in the appropriate
+argv[] entry. Hence for erf (fn-eng.c):
+
+{ "erf",  "f|f",  "lower,upper", &help_erf, NULL, gnumeric_erf  },
+
+	Note "f|f" specifying  'upper' is optional. Any arguments that
+appear after a '|' symbol in the function definition string are
+deemed optional.
+
+	Hence in the code, it is vital to check optional pointers
+before assuming they are valid hence:
+
+static Value *
+gnumeric_erf (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	float_t ans, lower, upper=0.0 ;
+
+	lower = value_get_as_double(argv[0]) ;
+	if (argv[1])
+		upper = value_get_as_double(argv[1]) ;
+...
+}
+
+	Note there must be a default value for optional arguments.
+Here upper has a default value of 0.0.
+
+
 Functions with a variable number of arguments
 ---------------------------------------------
 
-Gnumeric supports two types of functions: those that take a fixed
-number of arguments and those that do take a variable number of
-arguments.  In the former case, the Gnumeric engine does some work to
-simplify function coding, in the later case, the function writer is
-pretty much presented with the raw expression tree data as a list. 
+In this case, the function writer is presented with the raw expression
+tree data as a list, to traverse himself.
 
 If you want to implement a function that takes a variable number of
 arguments you have to change your FunctionDefinition:  instead of
@@ -195,4 +237,8 @@ The eval_col and eval_row parameters are used to inform the function
 in which context the expression should be evaluated (ie, from which
 cell it is being invoked) and it is used when invoking the expr_eval
 function.
+
+
+
+
 

@@ -161,7 +161,7 @@ gnumeric_bin2dec (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_bin2oct = {
 	N_("@FUNCTION=BIN2OCT\n"
-	   "@SYNTAX=BIN2OCT(number,places)\n"
+	   "@SYNTAX=BIN2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
 	   "The BIN2OCT function converts a binary number to an octal number."
@@ -180,7 +180,7 @@ gnumeric_bin2oct (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_bin2hex = {
 	N_("@FUNCTION=BIN2HEX\n"
-	   "@SYNTAX=BIN2HEX(number,places)\n"
+	   "@SYNTAX=BIN2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
 	   "The BIN2HEX function converts a binary number to a hexadecimal number."
@@ -199,7 +199,7 @@ gnumeric_bin2hex (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_dec2bin = {
 	N_("@FUNCTION=DEC2BIN\n"
-	   "@SYNTAX=DEC2BIN(number,places)\n"
+	   "@SYNTAX=DEC2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
 	   "The DEC2BIN function converts a binary number to an octal number."
@@ -218,7 +218,7 @@ gnumeric_dec2bin (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_dec2oct = {
 	N_("@FUNCTION=DEC2OCT\n"
-	   "@SYNTAX=DEC2OCT(number,places)\n"
+	   "@SYNTAX=DEC2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
 	   "The DEC2OCT function converts a binary number to an octal number."
@@ -237,7 +237,7 @@ gnumeric_dec2oct (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_dec2hex = {
 	N_("@FUNCTION=DEC2HEX\n"
-	   "@SYNTAX=DEC2HEX(number,places)\n"
+	   "@SYNTAX=DEC2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
 	   "The DEC2HEX function converts a binary number to an octal number."
@@ -274,7 +274,7 @@ gnumeric_oct2dec (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_oct2bin = {
 	N_("@FUNCTION=OCT2BIN\n"
-	   "@SYNTAX=OCT2BIN(number,places)\n"
+	   "@SYNTAX=OCT2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
 	   "The OCT2BIN function converts a binary number to a hexadecimal number."
@@ -293,7 +293,7 @@ gnumeric_oct2bin (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_oct2hex = {
 	N_("@FUNCTION=OCT2HEX\n"
-	   "@SYNTAX=OCT2HEX(number,places)\n"
+	   "@SYNTAX=OCT2HEX(number[,places])\n"
 
 	   "@DESCRIPTION="
 	   "The OCT2HEX function converts a binary number to a hexadecimal number."
@@ -312,7 +312,7 @@ gnumeric_oct2hex (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_hex2bin = {
 	N_("@FUNCTION=HEX2BIN\n"
-	   "@SYNTAX=HEX2BIN(number,places)\n"
+	   "@SYNTAX=HEX2BIN(number[,places])\n"
 
 	   "@DESCRIPTION="
 	   "The HEX2BIN function converts a binary number to a hexadecimal number."
@@ -331,7 +331,7 @@ gnumeric_hex2bin (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_hex2oct = {
 	N_("@FUNCTION=HEX2OCT\n"
-	   "@SYNTAX=HEX2OCT(number,places)\n"
+	   "@SYNTAX=HEX2OCT(number[,places])\n"
 
 	   "@DESCRIPTION="
 	   "The HEX2OCT function converts a binary number to a hexadecimal number."
@@ -436,7 +436,7 @@ gnumeric_bessely (struct FunctionDefinition *i, Value *argv [], char **error_str
 
 static char *help_erf = {
 	N_("@FUNCTION=ERF\n"
-	   "@SYNTAX=ERF(lower limit, upper_limit)\n"
+	   "@SYNTAX=ERF(lower limit[,upper_limit])\n"
 
 	   "@DESCRIPTION="
 	   "The ERF function returns the integral of the error function between the limits. "
@@ -498,7 +498,7 @@ gnumeric_erfc (struct FunctionDefinition *i, Value *argv [], char **error_string
 
 static char *help_delta = {
 	N_("@FUNCTION=DELTA\n"
-	   "@SYNTAX=DELTA(x,y)\n"
+	   "@SYNTAX=DELTA(x[,y])\n"
 
 	   "@DESCRIPTION="
 	   "The DELTA function test for numerical eqivilance of two arguments returning 1 in equality "
@@ -569,7 +569,7 @@ gnumeric_delta (struct FunctionDefinition *i, Value *argv [], char **error_strin
 
 static char *help_gestep = {
 	N_("@FUNCTION=GESTEP\n"
-	   "@SYNTAX=GESTEP(x,y)\n"
+	   "@SYNTAX=GESTEP(x[,y])\n"
 
 	   "@DESCRIPTION="
 	   "The GESTEP function test for if x is >= y, returning 1 if it is so, and 0 otherwise "

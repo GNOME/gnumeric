@@ -1,3 +1,38 @@
+1999-03-30  Michael Meeks  <michael@imaginator.com>
+
+	* src/sheet.c (sheet_selection_first_range): This returns
+	the co-ordinates of the first range, and a flag as to whether
+	the selection is simply one range. This keeps things simple
+	for sort.
+
+	* src/utils.c (col_from_name): Created.
+
+	* src/utils.h: Added prototype.
+
+	* src/dialog-cell-sort.c: Created
+
+	* src/workbook.c (workbook_menu_format): Added 'Sort'.
+	(sort_cells_cmd): Created.
+
+	* src/dialogs.h: Added dialog_cell_sort.
+	
+1999-03-30  Michael Meeks  <michael@imaginator.com>
+
+	* src/fn-lookup.c (gnumeric_vlookup, gnumeric_hlookup):
+	Removed check for same sheets in each cell reference, in
+	intersheet references only a->sheet points to the other sheet.
+
+	* src/func.c (function_iterate_do_value): Change CELLRANGE's
+	sheet reference to cell_range.cell_a.sheet, since could be an
+	inter-sheet reference. This fixes: Sum(Sheet1!A1:B3)
+
+	* src/fn-eng.c: Cleaned function documentation.
+
+	* docs/C/writing-functions.smgl: Updated for option function
+	arguments.
+
+	* src/fn-math.c (gnumeric_mod): Implemented.
+	
 1999-03-30  Miguel de Icaza  <miguel@nuclecu.unam.mx>
 
 	* src/expr.c (eval_expr): Fix from Ian Campbell for fixing the
@@ -7,6 +42,40 @@
 
 	* src/fn-stat.c: Added large, median, pearson, and small. 
 	
+1999-03-28  Michael Meeks  <michael@imaginator.com>
+
+	* src/parser.y (yylex): Added digits count to stop
+	overflow of integers above 9 digits.
+
+1999-03-27  Michael Meeks  <michael@imaginator.com>
+
+        * src/sheet.c (fail_if_found): Renamed to
+        (fail_if_not_selected): Added check for selection
+        (sheet_is_region_empty): Renamed to
+        (sheet_is_region_empty_or_selected): Better
+        described new function.
+
+        * src/item-cursor.c (item_cursor_target_region_ok):
+        Uses sheet_is_region_empty_or_selected.
+
+1999-03-27  Michael Meeks  <michael@imaginator.com>
+
+        * src/expr.c (eval_funcall): Add vital 'break'
+        statement :-)
+
+1999-03-27  Michael Meeks  <michael@imaginator.com>
+
+        * src/eval.c (cell_eval): Set default value of
+        error_msg so cell doesn't get null text on
+        g_return_val_if_fail (condition, NULL) ;
+
+        * src/sheet.c (sheet_update_auto_expr):
+        Internationalized ERROR string.
+
+        * src/fn-lookup.c (gnumeric_column, gnumeric_columns)
+        (gnumeric_row, gnumeric_rows): Hacked; best can do for
+        now.
+
 1999-03-26  Michael Meeks  <michael@imaginator.com>
 
 	* src/fn-eng.c (gnumeric_delta): Fix memory leak

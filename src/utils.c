@@ -110,6 +110,25 @@ col_name (int col)
 	return buffer;
 }
 
+/**
+ * Converts a column name into an integer
+ **/
+int
+col_from_name (char *cell_str)
+{
+	int col = 0 ;
+
+	if (!isalpha (*cell_str))
+		return FALSE;
+
+	col = toupper (*cell_str++) - 'A';
+
+	if (isalpha (*cell_str))
+		col = ((col+1) * ('Z' - 'A' + 1)) +
+			(toupper (*cell_str++) - 'A');
+	return col ;
+}
+
 /*
  * parse_cell_name
  * @cell_name:   a string representation of a cell name.

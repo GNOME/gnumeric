@@ -560,6 +560,14 @@ format_cells_cmd (GtkWidget *widget, Workbook *wb)
 }
 
 static void
+sort_cells_cmd (GtkWidget *widget, Workbook *wb)
+{
+	Sheet *sheet;
+	sheet = workbook_get_current_sheet (wb) ;
+	dialog_cell_sort (wb, sheet) ;
+}
+
+static void
 recalc_cmd (GtkWidget *widget, Workbook *wb)
 {
 	workbook_recalc_all (wb);
@@ -792,6 +800,8 @@ static GnomeUIInfo workbook_menu_format [] = {
 	{ GNOME_APP_UI_ITEM, N_("_Cells..."),
 	  N_("Modify the formatting of the selected cells"),
 	  format_cells_cmd, NULL, NULL, 0, 0, GDK_1, GDK_CONTROL_MASK },
+	{ GNOME_APP_UI_ITEM, N_("_Sort"),
+	  N_("Sort the selected cells"), sort_cells_cmd },
 #if 0
 	{ GNOME_APP_UI_SUBTREE, N_("C_olumn"), NULL, workbook_menu_format_column },
 	{ GNOME_APP_UI_SUBTREE, N_("_Row"),    NULL, workbook_menu_format_row },

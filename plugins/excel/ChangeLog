@@ -1,3 +1,14 @@
+1999-03-30  Michael Meeks  <michael@imaginator.com>
+
+	* ms-formula.c (ms_excel_parse_formula): Rehashed function
+	and operator search function so it uses a flat array instead
+	of a linear search.
+	fully populated formula_func_data array, and removed unused /
+	constant fields.
+
+	* ms-formula.h: Removed dead wood from OP_DATAa & FUNC_DATA
+	structs.
+
 1999-03-26  Michael Meeks  <michael@imaginator.com>
 
 	* ms-formula.c: Removed duplicate for fn 0x65

@@ -74,6 +74,7 @@ extern void free_ms_biff_bof_data (BIFF_BOF_DATA *data) ;
 #define BIFF_FOOTER                     0x15
 #define BIFF_EXTERNCOUNT                0x16 /* number of external references*/
 #define BIFF_EXTERNSHEET                0x17
+#define BIFF_SELECTION                  0x1d
 #define BIFF_FORMAT                     0x1e
 #define BIFF_ARRAY                      0x21
 #define BIFF_EXTERNNAME                 0x23

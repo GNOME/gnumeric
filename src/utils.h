@@ -8,6 +8,7 @@ void      float_get_from_range   (char *start, char *end, float_t *t);
 char      *cell_name             (int col, int row);
 int       parse_cell_name        (char *cell_str, int *col, int *row);
 char      *col_name              (int col);
+int       col_from_name          (char *cell_str);
 
 guint     gnumeric_strcase_hash  (gconstpointer v);
 gint      gnumeric_strcase_equal (gconstpointer v, gconstpointer v2);

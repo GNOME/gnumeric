@@ -363,7 +363,7 @@ int yylex (void)
 {
 	int c;
 	char *p, *tmp;
-	int is_float;
+	int is_float, digits;
 	
         while(isspace (*parser_expr))
                 parser_expr++;                                                                                       
@@ -382,10 +382,16 @@ int yylex (void)
 		is_float = c == '.';
 		p = parser_expr-1;
 		tmp = parser_expr;
-		
-                while (isdigit (*tmp) || (!is_float && *tmp=='.' && ++is_float))
-                        tmp++;
-		
+
+		digits = 1 ;
+		while (isdigit (*tmp) || (!is_float && *tmp=='.' && ++is_float)) {
+			tmp++ ;
+			digits++;
+		}
+
+		/* Can't store it in a gint32 */
+		is_float |= (digits > 9) ;
+
 		if (*tmp == 'e' || *tmp == 'E') {
 			is_float = 1;
 			tmp++;

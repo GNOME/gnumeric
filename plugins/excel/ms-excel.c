@@ -1858,6 +1858,11 @@ ms_excelReadWorkbook (MS_OLE * file)
 				}
 				break ;
 			}
+			case BIFF_SELECTION: /* S59DE2.HTM */
+			{
+				printf ("FIXME: Selection data\n") ;
+				break ;
+			}
 			case BIFF_FORMAT: /* S59D8E.HTM */
 			{
 				BIFF_FORMAT_DATA *d = g_new(BIFF_FORMAT_DATA,1) ;

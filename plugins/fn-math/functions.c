@@ -921,6 +921,47 @@ gnumeric_max (void *tsheet, GList *expr_node_list, int eval_col, int eval_row, c
 	return 	closure.result;
 }
 
+static char *help_mod = {
+	N_("@FUNCTION=MOD\n"
+	   "@SYNTAX=MOD(number,divisor)\n"
+
+	   "@DESCRIPTION="
+	   "Implements modulo arithmetic."
+	   "Returns the remainder when divisor is divided into abs(number)."
+	   "\n"
+	   "Returns #DIV/0! if divisor is zero."
+	   "@SEEALSO=INT,FLOOR,CEIL")
+};
+
+static Value *
+gnumeric_mod (struct FunctionDefinition *i, Value *argv [], char **error_string)
+{
+	int a,b;
+	
+	a = value_get_as_int (argv[0]) ;
+	b = value_get_as_int (argv[1]) ;
+	/* Obscure handling of C's mod function */
+	if (a<0) a = -a ;
+	if (a<0) { /* -0 */
+		*error_string = _("#NUM!") ;
+		return NULL ;
+	}
+	if (b<0) {
+		a = -a ;
+		b = -b ;
+	}
+	if (b<0) { /* -0 */
+		*error_string = _("#NUM!") ;
+		return NULL ;
+	}
+	if (b==0) {
+		*error_string = _("#DIV/0!") ;
+		return NULL ;
+	}
+	
+	return value_int(a%b) ;
+}
+
 static char *help_not = {
 	N_("@FUNCTION=NOT\n"
 	   "@SYNTAX=NOT(number)\n"
@@ -1325,8 +1366,9 @@ FunctionDefinition math_functions [] = {
 	{ "log",     "f",    "number",    &help_log,     NULL, gnumeric_log },
 	{ "log2",    "f",    "number",    &help_log2,    NULL, gnumeric_log2 },
 	{ "log10",   "f",    "number",    &help_log10,   NULL, gnumeric_log10 },
-	{ "min",     0,      "",          &help_min,     gnumeric_min, NULL },
 	{ "max",     0,      "",          &help_max,     gnumeric_max, NULL },
+	{ "min",     0,      "",          &help_min,     gnumeric_min, NULL },
+	{ "mod",     "ff",   "num,denom", &help_mod,     NULL, gnumeric_mod },
 	{ "not",     "f",    "number",    &help_not,     NULL, gnumeric_not },
 	{ "or",      0,      "",          &help_or,      gnumeric_or, NULL },
 	{ "power",   "ff",   "x,y",       &help_power,   NULL, gnumeric_power },

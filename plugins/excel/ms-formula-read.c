@@ -27,27 +27,28 @@
  **/
 FORMULA_OP_DATA formula_op_data[] = {
   /* Binary operator tokens */
-  { 0x03, 1, "+",  30  }, /* ptgAdd : Addition */
-  { 0x04, 1, "-",  30  }, /* ptgSub : Subtraction */
-  { 0x05, 1, "*",  48 }, /* ptgMul : Multiplication */
-  { 0x06, 1, "/",  32 }, /* ptgDiv : Division */
-  { 0x07, 1, "^",  60 }, /* ptgPower : Exponentiation */
-  { 0x08, 1, "&",  28 }, /* ptgConcat : Concatenation */
-  { 0x09, 1, "<",  24 }, /* ptgLT : Less Than */
-  { 0x0a, 1, "<=", 24 }, /* ptgLTE : Less Than or Equal */
-  { 0x0b, 1, "=",  20 }, /* ptgEQ : Equal */
-  { 0x0c, 1, ">=", 24 }, /* ptgGTE : Greater Than or Equal */
-  { 0x0d, 1, ">" , 24 }, /* ptgGT : Greater Than */
-  { 0x0e, 1, "<>", 20 }, /* ptgNE : Not Equal */
-  { 0x0f, 1, " " , 62 }, /* ptgIsect : Intersection */
-  { 0x10, 1, "," , 62 }, /* ptgUnion : Union */
-  { 0x11, 1, ":" , 63 }, /* ptgRange : Range */
+  { 1, "+",  30  }, /* ptgAdd : Addition */
+  { 1, "-",  30  }, /* ptgSub : Subtraction */
+  { 1, "*",  48 }, /* ptgMul : Multiplication */
+  { 1, "/",  32 }, /* ptgDiv : Division */
+  { 1, "^",  60 }, /* ptgPower : Exponentiation */
+  { 1, "&",  28 }, /* ptgConcat : Concatenation */
+  { 1, "<",  24 }, /* ptgLT : Less Than */
+  { 1, "<=", 24 }, /* ptgLTE : Less Than or Equal */
+  { 1, "=",  20 }, /* ptgEQ : Equal */
+  { 1, ">=", 24 }, /* ptgGTE : Greater Than or Equal */
+  { 1, ">" , 24 }, /* ptgGT : Greater Than */
+  { 1, "<>", 20 }, /* ptgNE : Not Equal */
+  { 1, " " , 62 }, /* ptgIsect : Intersection */
+  { 1, "," , 62 }, /* ptgUnion : Union */
+  { 1, ":" , 63 }, /* ptgRange : Range */
   /* Unary operator tokens */
-  { 0x12, 0, "+",  64 }, /* ptgUplus : Unary Plus */
-  { 0x13, 0, "-",  64 }, /* ptgUminux : Unary Minus */
-  { 0x14, 0, "%",  64 }  /* ptgPercent : Percent Sign */
+  { 0, "+",  64 }, /* ptgUplus : Unary Plus */
+  { 0, "-",  64 }, /* ptgUminux : Unary Minus */
+  { 0, "%",  64 }  /* ptgPercent : Percent Sign */
 } ;
 #define FORMULA_OP_DATA_LEN   (sizeof(formula_op_data)/sizeof(FORMULA_OP_DATA))
+#define FORMULA_OP_START      0x03
 
 /* FIXME: the standard function indexes need to be found from xlcall.h */
 /**
@@ -56,231 +57,366 @@ FORMULA_OP_DATA formula_op_data[] = {
  **/
 FORMULA_FUNC_DATA formula_func_data[] =
 {
-  { 0x00, "COUNT (", 0, ")", 2, 0 },
-  { 0x01, "0x1 (", 0, ")", 8, 0 },
-  { 0x02, "ISNA (", 0, ")", 1, 0 },
-  { 0x03, "ISERROR (", 0, ")", 1, 0 },
-  { 0x04, "SUM (", 0,  ")", -1, 0 },
-  { 0x05, "AVERAGE (", 0,  ")", -1, 0 },
-  { 0x06, "MIN (", 0,  ")", -1, 0 },
-  { 0x07, "MAX (", 0,  ")", -1, 0 },
-  { 0x08, "0x8 (", 0, ")", 8, 0 },
-  { 0x09, "COLUMN (", 0, ")", -1, 0 },
-  { 0x0a, "0xa (", 0, ")", 8, 0 },
-  { 0x0b, "0xb (", 0, ")", 8, 0 },
-  { 0x0c, "STDEV (", 0, ")", -1, 0 },
-  { 0x0d, "DOLLAR (", 0, ")", 1, 0 },
-  { 0x0e, "FIXED (", 0, ")", 1, 0 },
-  { 0x0f, "SIN (", 0, ")", 1, 0 },
-  { 0x10, "COS (", 0, ")", 1, 0 },
-  { 0x11, "TAN (", 0, ")", 1, 0 },
-  { 0x12, "ATAN (", 0, ")", 1, 0 },
-  { 0x14, "SQRT (", 0, ")", 1, 0 },
-  { 0x15, "EXP (", 0, ")", 1, 0 },
-  { 0x16, "LN (", 0, ")", 1, 0 },
-  { 0x17, "LOG10 (", 0, ")", 1, 0 },
-  { 0x1a, "SIGN (", 0, ")", 1, 0 },
-  { 0x1b, "0x1b (", 0, ")", 8, 0 },
-  { 0x1c, "0x1c (", 0, ")", 8, 0 },
-  { 0x1d, "0x1d (", 0, ")", 8, 0 },
-  { 0x1e, "REPT (", 0, ")", 2, 0 },
-  { 0x1f, "MID (", 0, ")", 3, 0 },
-  { 0x20, "LEN (", 0,  ")", 1, 0 },
-  { 0x21, "VALUE (", 0,  ")", 1, 0 },
-  { 0x22, "0x22 (", 0, ")", 8, 0 },
-  { 0x23, "0x23 (", 0, ")", 8, 0 },
-  { 0x24, "AND (", 0,  ")", -1, 0 },
-  { 0x25, "OR (",  0,  ")", -1, 0 },
-  { 0x26, "NOT (",  0,  ")", 1, 0 },
-  { 0x27, "MOD (", 0, ")", 2, 0 },
-  { 0x28, "0x28 (", 0, ")", 8, 0 },
-  { 0x29, "0x29 (", 0, ")", 8, 0 },
-  { 0x2a, "0x2a (", 0, ")", 8, 0 },
-  { 0x2b, "0x2b (", 0, ")", 8, 0 },
-  { 0x2c, "0x2c (", 0, ")", 8, 0 },
-  { 0x2d, "0x2d (", 0, ")", 8, 0 },
-  { 0x2e, "VAR (", 0, ")", -1, 0 },
-  { 0x30, "REPLACE (", 0, ")", 2, 0 },
-  { 0x31, "LINEST (", 0, ")", 2, 0 },
-  { 0x32, "TREND (", 0, ")", 4, 0 },
-  { 0x33, "LOGEST (", 0, ")", 1, 0 },
-  { 0x34, "GROWTH (", 0, ")", -1, 0 },
-  { 0x35, "0x35 (", 0, ")", 8, 0 },
-  { 0x36, "0x36 (", 0, ")", 8, 0 },
-  { 0x37, "0x37 (", 0, ")", 8, 0 },
-  { 0x38, "0x38 (", 0, ")", 8, 0 },
-  { 0x39, "0x39 (", 0, ")", 8, 0 },
-  { 0x3a, "0x3a (", 0, ")", 8, 0 },
-  { 0x3b, "0x3b (", 0, ")", 8, 0 },
-  { 0x3c, "0x3c (", 0, ")", 8, 0 },
-  { 0x3d, "0x3d (", 0, ")", 8, 0 },
-  { 0x3e, "0x3e (", 0, ")", 8, 0 },
-  { 0x3f, "RAND (", 0, ")", 0, 0 },
-  { 0x40, "0x40 (", 0, ")", 8, 0 },
-  { 0x41, "DATE (", 0, ")", 3, 0 },
-  { 0x42, "TIME (", 0, ")", 3, 0 },
-  { 0x43, "DAY (", 0, ")", 1, 0 },
-  { 0x44, "MONTH (", 0, ")", 1, 0 },
-  { 0x45, "YEAR (", 0, ")", 1, 0 },
-  { 0x46, "WEEKDAY (", 0, ")", 1, 0 },
-  { 0x47, "HOUR (", 0, ")", 1, 0 },
-  { 0x48, "MINUTE (", 0, ")", 1, 0 },
-  { 0x49, "SECOND (", 0, ")", 1, 0 },
-  { 0x4a, "NOW (", 0, ")", 0, 0 },
-  { 0x4b, "AREAS (", 0, ")", 1, 0 },
-  { 0x4c, "0x4c (", 0, ")", 8, 0 },
-  { 0x4d, "COLUMNS (", 0, ")", 1, 0 },
-  { 0x4e, "OFFSET (", 0, ")", -1, 0 },
-  { 0x4f, "0x4f (", 0, ")", 8, 0 },
-  { 0x50, "0x50 (", 0, ")", 8, 0 },
-  { 0x51, "0x51 (", 0, ")", 8, 0 },
-  { 0x52, "SEARCH (", 0, ")", 3, 0 },
-  { 0x53, "0x53 (", 0, ")", 8, 0 },
-  { 0x54, "0x54 (", 0, ")", 8, 0 },
-  { 0x55, "0x55 (", 0, ")", 8, 0 },
-  { 0x56, "TYPE (", 0, ")", 1, 0 },
-  { 0x57, "0x57 (", 0, ")", 8, 0 },
-  { 0x58, "0x58 (", 0, ")", 8, 0 },
-  { 0x59, "0x59 (", 0, ")", 8, 0 },
-  { 0x5a, "0x5a (", 0, ")", 8, 0 },
-  { 0x5b, "0x5b (", 0, ")", 8, 0 },
-  { 0x5c, "0x5c (", 0, ")", 8, 0 },
-  { 0x5d, "0x5d (", 0, ")", 8, 0 },
-  { 0x5e, "0x5e (", 0, ")", 8, 0 },
-  { 0x5f, "0x5f (", 0, ")", 8, 0 },
-  { 0x60, "0x60 (", 0, ")", 8, 0 },
-  { 0x61, "ATAN2 (", 0, ")", 2, 0 },
-  { 0x62, "ASIN (", 0, ")", 1, 0 },
-  { 0x63, "ACOS (", 0, ")", 1, 0 },
-  { 0x64, "0x64 (", 0, ")", 8, 0 },
-  { 0x65, "HLOOKUP (", 0, ")", -1, 0 },
-  { 0x66, "VLOOKUP (", 0, ")", -1, 0 },
-  { 0x67, "0x67 (", 0, ")", 8, 0 },
-  { 0x68, "0x68 (", 0, ")", 8, 0 },
-  { 0x69, "ISREF (", 0, ")", 1, 0 },
-  { 0x6a, "0x6a (", 0, ")", 8, 0 },
-  { 0x6b, "0x6b (", 0, ")", 8, 0 },
-  { 0x6c, "0x6c (", 0, ")", 8, 0 },
-  { 0x6d, "LOG (", 0, ")", 1, 0 },
-  { 0x6e, "0x6e (", 0, ")", 8, 0 },
-  { 0x6f, "CHAR (", 0, ")", 1, 0 },
-  { 0x70, "LOWER (",   0, ")", 1, 0 },
-  { 0x71, "UPPER (",   0, ")", 1, 0 },
-  { 0x72, "PROPER (",   0, ")", 1, 0 },
-  { 0x73, "LEFT (",   0, ")", 2, 0 },
-  { 0x74, "RIGHT (",   0, ")", 2, 0 },
-  { 0x75, "EXACT (",   0, ")", 2, 0 },
-  { 0x76, "TRIM (",   0, ")", 1, 0 },
-  { 0x77, "0x77 (",   0, ")", 2, 0 },
-  { 0x78, "SUBSTITUTE (",   0, ")", -1, 0 },
-  { 0x79, "CODE (",   0, ")", 1, 0 },
-  { 0x7a, "0x7a (", 0, ")", 8, 0 },
-  { 0x7b, "0x7b (", 0, ")", 8, 0 },
-  { 0x7c, "FIND (",   0, ")", -1, 0 },
-  { 0x7d, "CELL (",   0, ")", 2, 0 },
-  { 0x7e, "ISERR (", 0, ")", 1, 0 },
-  { 0x7f, "ISTEXT (", 0, ")", 1, 0 },
-  { 0x80, "ISNUMBER (", 0, ")", 1, 0 },
-  { 0x81, "ISBLANK (", 0, ")", 1, 0 },
-  { 0x82, "T (", 0, ")", 1, 0 },
-  { 0x83, "N (", 0, ")", 1, 0 },
-  { 0x84, "0x84 (", 0, ")", 8, 0 },
-  { 0x85, "0x85 (", 0, ")", 8, 0 },
-  { 0x86, "0x86 (", 0, ")", 8, 0 },
-  { 0x87, "0x87 (", 0, ")", 8, 0 },
-  { 0x88, "0x88 (", 0, ")", 8, 0 },
-  { 0x89, "0x89 (", 0, ")", 8, 0 },
-  { 0x8a, "0x8a (", 0, ")", 8, 0 },
-  { 0x8b, "0x8b (", 0, ")", 8, 0 },
-  { 0x8c, "DATEVALUE (", 0, ")", 1, 0 },
-  { 0x8d, "0x8d (", 0, ")", 8, 0 },
-  { 0x8e, "0x8e (", 0, ")", 8, 0 },
-  { 0x8f, "0x8f (", 0, ")", 8, 0 },
-  { 0xa2, "CLEAN (", 0, ")", 1, 0 },
-  { 0xa9, "COUNTA (", 0, ")", -1, 0 },
-  { 0xbe, "ISNONTEXT (", 0, ")", 1, 0 },
-  { 0xc1, "STDEVP (", 0, ")", -1, 0 },
-  { 0xc2, "VARP (", 0, ")", -1, 0 },
-  { 0xc5, "TRUNC (", 0, ")", 1, 0 },
-  { 0xc6, "ISLOGICAL (", 0, ")", 1, 0 },
-  { 0xdb, "ADDRESS (", 0, ")", -1, 0 },
-  { 0xdc, "DAYS360 (", 0, ")", 2, 0 },
-  { 0xdd, "TODAY (", 0, ")", 0, 0 },
-  { 0xe3, "MEDIAN (", 0, ")", -1, 0 },
-  { 0xe5, "SINH (", 0, ")", 1, 0 },
-  { 0xe6, "COSH (", 0, ")", 1, 0 },
-  { 0xe7, "TANH (", 0, ")", 1, 0 },
-  { 0xe8, "ASINH (", 0, ")", 1, 0 },
-  { 0xe9, "ACOSH (", 0, ")", 1, 0 },
-  { 0xea, "ATANH (", 0, ")", 1, 0 },
-  { 0xf4, "INFO (", 0, ")", 1, 0 },
-  { 0xfc, "FREQUENCY (", 0, ")", 2, 0 },
-  { 0xff, "MAGIC (", 0, ")", -1, 0 }, /* Dodgy Special Case ! */
-  { 0x105, "ERROR.TYPE (", 0, ")", 1, 0 },
-  { 0x10d, "AVEDEV (", 0, ")", -1, 0 },
-  { 0x10e, "BETADIST (", 0, ")", 3, 0 },
-  { 0x10f, "GAMMALN (", 0, ")", 1, 0 },
-  { 0x110, "BETAINV (", 0, ")", 3, 0 },
-  { 0x111, "BINOMDIST (", 0, ")", 4, 0 },
-  { 0x112, "CHIDIST (", 0, ")", 2, 0 },
-  { 0x113, "CHIINV (", 0, ")", 2, 0 },
-  { 0x114, "0x114 (", 0, ")", 3, 0 },
-  { 0x115, "CONFIDENCE (", 0, ")", 3, 0 },
-  { 0x116, "CRITBINOM (", 0, ")", 3, 0 },
-  { 0x117, "0x117 (", 0, ")", 8, 0 },
-  { 0x118, "EXPONDIST (", 0, ")", 3, 0 },
-  { 0x119, "FDIST (", 0, ")", 3, 0 },
-  { 0x11a, "FINV (", 0, ")", 3, 0 },
-  { 0x11b, "FISHER (", 0, ")", 1, 0 },
-  { 0x11c, "FISHERINV (", 0, ")", 1, 0 },
-  { 0x11e, "GAMMADIST (", 0, ")", 4, 0 },
-  { 0x11f, "GAMMAINV (", 0, ")", 3, 0 },
-  { 0x120, "CEILING (", 0, ")", 2, 0 },
-  { 0x121, "HYPGEOMDIST (", 0, ")", 4, 0 },
-  { 0x122, "LOGNOMRDIST (", 0, ")", 3, 0 },
-  { 0x123, "LOGINV (", 0, ")", 3, 0 },
-  { 0x124, "NEGBINOMDIST (", 0, ")", 3, 0 },
-  { 0x125, "NORMDIST (", 0, ")", 4, 0 },
-  { 0x126, "NOMRSDIST (", 0, ")", 1, 0 },
-  { 0x127, "NORMINV (", 0, ")", 3, 0 },
-  { 0x128, "NORMSINV (", 0, ")", 1, 0 },
-  { 0x129, "STANDARDIZE (", 0, ")", 3, 0 },
-  { 0x12a, "0x12a (", 0, ")", 8, 0 },
-  { 0x12b, "PERMUT (", 0, ")", 2, 0 },
-  { 0x12c, "POISSON (", 0, ")", 3, 0 },
-  { 0x12d, "TDIST (", 0, ")", 3, 0 },
-  { 0x12e, "WEIBULL (", 0, ")", 4, 0 },
-  { 0x12f, "ZTEST (", 0, ")", 3, 0 },
-  { 0x132, "CHITEST (", 0, ")", 2, 0 },
-  { 0x133, "CORREL (", 0, ")", 2, 0 },
-  { 0x134, "COVAR (", 0, ")", 2, 0 },
-  { 0x135, "FORECAST (", 0, ")", 3, 0 },
-  { 0x136, "FTEST (", 0, ")", 2, 0 },
-  { 0x137, "INTERCEPT (", 0, ")", 2, 0 },
-  { 0x138, "PEARSON (", 0, ")", 2, 0 },
-  { 0x139, "RSQ (", 0, ")", 2, 0 },
-  { 0x13a, "STEYX (", 0, ")", 2, 0 },
-  { 0x13b, "SLOPE (", 0, ")", 2, 0 },
-  { 0x13c, "TTEST (", 0, ")", 4, 0 },
-  { 0x13d, "PROB (", 0, ")", 3, 0 },
-  { 0x13e, "DEVSQ (", 0, ")", -1, 0 },
-  { 0x13f, "GEOMEAN (", 0, ")", -1, 0 },
-  { 0x140, "HARMEAN (", 0, ")", -1, 0 },
-  { 0x142, "KURT (", 0, ")", -1, 0 },
-  { 0x143, "SKEW (", 0, ")", -1, 0 },
-  { 0x144, "ZTEST (", 0, ")", 3, 0 },
-  { 0x145, "LARGE (", 0, ")", 2, 0 },
-  { 0x146, "SMALL (", 0, ")", 2, 0 },
-  { 0x147, "QUARTILE (", 0, ")", 2, 0 },
-  { 0x148, "PERCENTILE (", 0, ")", 2, 0 },
-  { 0x149, "PERCENTRANK (", 0, ")", 2, 0 },
-  { 0x14a, "MODE (", 0, ")", -1, 0 },
-  { 0x14b, "TRIMMEAN (", 0, ")", 2, 0 },
-  { 0x14c, "TINV (", 0, ")", 2, 0 },
-  { 0x150, "CONCATENATE (", 0, ")", 2, 0 },
-  { 0x156, "RADIANS (", 0, ")", 1, 0 },
-  { 0x15b, "COUNTBLANK (", 0, ")", 1, 0 },
-  { 0x167, "HYPERLINK (", 0, ")", -1, 0 }
+	{ "COUNT", 2 },
+	{ "0x1", 8 },
+	{ "ISNA", 1 },
+	{ "ISERROR", 1 },
+	{ "SUM", -1 },
+	{ "AVERAGE", -1 },
+	{ "MIN", -1 },
+	{ "MAX", -1 },
+	{ "0x8", 8 },
+	{ "COLUMN", -1 },
+	{ "0xa", 8 },
+	{ "0xb", 8 },
+	{ "STDEV", -1 },
+	{ "DOLLAR", 1 },
+	{ "FIXED", 1 },
+	{ "SIN", 1 },
+	{ "COS", 1 },
+	{ "TAN", 1 },
+	{ "ATAN", 1 },
+	{ "0x13", 8 },
+	{ "SQRT", 1 },
+	{ "EXP", 1 },
+	{ "LN", 1 },
+	{ "LOG10", 1 },
+	{ "0x18", 8 },
+	{ "0x19", 8 },
+	{ "SIGN", 1 },
+	{ "0x1b", 8 },
+	{ "0x1c", 8 },
+	{ "0x1d", 8 },
+	{ "REPT", 2 },
+	{ "MID", 3 },
+	{ "LEN", 1 },
+	{ "VALUE", 1 },
+	{ "0x22", 8 },
+	{ "0x23", 8 },
+	{ "AND", -1 },
+	{ "OR", -1 },
+	{ "NOT", 1 },
+	{ "MOD", 2 },
+	{ "0x28", 8 },
+	{ "0x29", 8 },
+	{ "0x2a", 8 },
+	{ "0x2b", 8 },
+	{ "0x2c", 8 },
+	{ "0x2d", 8 },
+	{ "VAR", -1 },
+	{ "0x2f", 8 },
+	{ "REPLACE", 2 },
+	{ "LINEST", 2 },
+	{ "TREND", 4 },
+	{ "LOGEST", 1 },
+	{ "GROWTH", -1 },
+	{ "0x35", 8 },
+	{ "0x36", 8 },
+	{ "0x37", 8 },
+	{ "0x38", 8 },
+	{ "0x39", 8 },
+	{ "0x3a", 8 },
+	{ "0x3b", 8 },
+	{ "0x3c", 8 },
+	{ "0x3d", 8 },
+	{ "0x3e", 8 },
+	{ "RAND", 0 },
+	{ "0x40", 8 },
+	{ "DATE", 3 },
+	{ "TIME", 3 },
+	{ "DAY", 1 },
+	{ "MONTH", 1 },
+	{ "YEAR", 1 },
+	{ "WEEKDAY", 1 },
+	{ "HOUR", 1 },
+	{ "MINUTE", 1 },
+	{ "SECOND", 1 },
+	{ "NOW", 0 },
+	{ "AREAS", 1 },
+	{ "0x4c", 8 },
+	{ "COLUMNS", 1 },
+	{ "OFFSET", -1 },
+	{ "0x4f", 8 },
+	{ "0x50", 8 },
+	{ "0x51", 8 },
+	{ "SEARCH", 3 },
+	{ "0x53", 8 },
+	{ "0x54", 8 },
+	{ "0x55", 8 },
+	{ "TYPE", 1 },
+	{ "0x57", 8 },
+	{ "0x58", 8 },
+	{ "0x59", 8 },
+	{ "0x5a", 8 },
+	{ "0x5b", 8 },
+	{ "0x5c", 8 },
+	{ "0x5d", 8 },
+	{ "0x5e", 8 },
+	{ "0x5f", 8 },
+	{ "0x60", 8 },
+	{ "ATAN2", 2 },
+	{ "ASIN", 1 },
+	{ "ACOS", 1 },
+	{ "0x64", 8 },
+	{ "HLOOKUP", -1 },
+	{ "VLOOKUP", -1 },
+	{ "0x67", 8 },
+	{ "0x68", 8 },
+	{ "ISREF", 1 },
+	{ "0x6a", 8 },
+	{ "0x6b", 8 },
+	{ "0x6c", 8 },
+	{ "LOG", 1 },
+	{ "0x6e", 8 },
+	{ "CHAR", 1 },
+	{ "LOWER", 1 },
+	{ "UPPER", 1 },
+	{ "PROPER", 1 },
+	{ "LEFT", 2 },
+	{ "RIGHT", 2 },
+	{ "EXACT", 2 },
+	{ "TRIM", 1 },
+	{ "0x77", 2 },
+	{ "SUBSTITUTE", -1 },
+	{ "CODE", 1 },
+	{ "0x7a", 8 },
+	{ "0x7b", 8 },
+	{ "FIND", -1 },
+	{ "CELL", 2 },
+	{ "ISERR", 1 },
+	{ "ISTEXT", 1 },
+	{ "ISNUMBER", 1 },
+	{ "ISBLANK", 1 },
+	{ "T", 1 },
+	{ "N", 1 },
+	{ "0x84", 8 },
+	{ "0x85", 8 },
+	{ "0x86", 8 },
+	{ "0x87", 8 },
+	{ "0x88", 8 },
+	{ "0x89", 8 },
+	{ "0x8a", 8 },
+	{ "0x8b", 8 },
+	{ "DATEVALUE", 1 },
+	{ "0x8d", 8 },
+	{ "0x8e", 8 },
+	{ "0x8f", 8 },
+	{ "0x90", 8 },
+	{ "0x91", 8 },
+	{ "0x92", 8 },
+	{ "0x93", 8 },
+	{ "0x94", 8 },
+	{ "0x95", 8 },
+	{ "0x96", 8 },
+	{ "0x97", 8 },
+	{ "0x98", 8 },
+	{ "0x99", 8 },
+	{ "0x9a", 8 },
+	{ "0x9b", 8 },
+	{ "0x9c", 8 },
+	{ "0x9d", 8 },
+	{ "0x9e", 8 },
+	{ "0x9f", 8 },
+	{ "0xa0", 8 },
+	{ "0xa1", 8 },
+	{ "CLEAN", 1 },
+	{ "0xa3", 8 },
+	{ "0xa4", 8 },
+	{ "0xa5", 8 },
+	{ "0xa6", 8 },
+	{ "0xa7", 8 },
+	{ "0xa8", 8 },
+	{ "COUNTA", -1 },
+	{ "0xaa", 8 },
+	{ "0xab", 8 },
+	{ "0xac", 8 },
+	{ "0xa8", 8 },
+	{ "0xae", 8 },
+	{ "0xaf", 8 },
+	{ "0xb0", 8 },
+	{ "0xb1", 8 },
+	{ "0xb2", 8 },
+	{ "0xb3", 8 },
+	{ "0xb4", 8 },
+	{ "0xb5", 8 },
+	{ "0xb6", 8 },
+	{ "0xb7", 8 },
+	{ "0xb8", 8 },
+	{ "0xb9", 8 },
+	{ "0xba", 8 },
+	{ "0xbb", 8 },
+	{ "0xbc", 8 },
+	{ "0xbd", 8 },
+	{ "ISNONTEXT", 1 },
+	{ "0xbf", 8 },
+	{ "0xc0", 8 },
+	{ "STDEVP", -1 },
+	{ "VARP", -1 },
+	{ "0xc3", 8 },
+	{ "0xc4", 8 },
+	{ "TRUNC", 1 },
+	{ "ISLOGICAL", 1 },
+	{ "0xc7", 8 },
+	{ "0xc8", 8 },
+	{ "0xc9", 8 },
+	{ "0xca", 8 },
+	{ "0xcb", 8 },
+	{ "0xcc", 8 },
+	{ "0xcd", 8 },
+	{ "0xce", 8 },
+	{ "0xcf", 8 },
+	{ "0xd0", 8 },
+	{ "0xd1", 8 },
+	{ "0xd2", 8 },
+	{ "0xd3", 8 },
+	{ "0xd4", 8 },
+	{ "0xd5", 8 },
+	{ "0xd6", 8 },
+	{ "0xd7", 8 },
+	{ "0xd8", 8 },
+	{ "0xd9", 8 },
+	{ "0xda", 8 },
+	{ "ADDRESS", -1 },
+	{ "DAYS360", 2 },
+	{ "TODAY", 0 },
+	{ "0xde", 8 },
+	{ "0xdf", 8 },
+	{ "0xe0", 8 },
+	{ "0xe1", 8 },
+	{ "0xe2", 8 },
+	{ "MEDIAN", -1 },
+	{ "0xe4", 8 },
+	{ "SINH", 1 },
+	{ "COSH", 1 },
+	{ "TANH", 1 },
+	{ "ASINH", 1 },
+	{ "ACOSH", 1 },
+	{ "ATANH", 1 },
+	{ "0xeb", 8 },
+	{ "0xec", 8 },
+	{ "0xed", 8 },
+	{ "0xee", 8 },
+	{ "0xef", 8 },
+	{ "0xf0", 8 },
+	{ "0xf1", 8 },
+	{ "0xf2", 8 },
+	{ "0xf3", 8 },
+	{ "INFO", 1 },
+	{ "0xf5", 8 },
+	{ "0xf6", 8 },
+	{ "0xf7", 8 },
+	{ "0xf8", 8 },
+	{ "0xf9", 8 },
+	{ "0xfa", 8 },
+	{ "0xfb", 8 },
+	{ "FREQUENCY", 2 },
+	{ "0xfd", 8 },
+	{ "0xfe", 8 },
+	{ "MAGIC", -1 }, /* Dodgy special case */
+	{ "0x100", 8 },
+	{ "0x101", 8 },
+	{ "0x102", 8 },
+	{ "0x103", 8 },
+	{ "0x104", 8 },
+	{ "ERROR.TYPE", 1 },
+	{ "0x106", 8 },
+	{ "0x107", 8 },
+	{ "0x108", 8 },
+	{ "0x109", 8 },
+	{ "0x10a", 8 },
+	{ "0x10b", 8 },
+	{ "0x10c", 8 },
+	{ "AVEDEV", -1 },
+	{ "BETADIST", 3 },
+	{ "GAMMALN", 1 },
+	{ "BETAINV", 3 },
+	{ "BINOMDIST", 4 },
+	{ "CHIDIST", 2 },
+	{ "CHIINV", 2 },
+	{ "0x114", 3 },
+	{ "CONFIDENCE", 3 },
+	{ "CRITBINOM", 3 },
+	{ "0x117", 8 },
+	{ "EXPONDIST", 3 },
+	{ "FDIST", 3 },
+	{ "FINV", 3 },
+	{ "FISHER", 1 },
+	{ "FISHERINV", 1 },
+	{ "0x11d", 8 },
+	{ "GAMMADIST", 4 },
+	{ "GAMMAINV", 3 },
+	{ "CEILING", 2 },
+	{ "HYPGEOMDIST", 4 },
+	{ "LOGNOMRDIST", 3 },
+	{ "LOGINV", 3 },
+	{ "NEGBINOMDIST", 3 },
+	{ "NORMDIST", 4 },
+	{ "NOMRSDIST", 1 },
+	{ "NORMINV", 3 },
+	{ "NORMSINV", 1 },
+	{ "STANDARDIZE", 3 },
+	{ "0x12a", 8 },
+	{ "PERMUT", 2 },
+	{ "POISSON", 3 },
+	{ "TDIST", 3 },
+	{ "WEIBULL", 4 },
+	{ "ZTEST", 3 },
+	{ "0x130", 8 },
+	{ "0x131", 8 },
+	{ "CHITEST", 2 },
+	{ "CORREL", 2 },
+	{ "COVAR", 2 },
+	{ "FORECAST", 3 },
+	{ "FTEST", 2 },
+	{ "INTERCEPT", 2 },
+	{ "PEARSON", 2 },
+	{ "RSQ", 2 },
+	{ "STEYX", 2 },
+	{ "SLOPE", 2 },
+	{ "TTEST", 4 },
+	{ "PROB", 3 },
+	{ "DEVSQ", -1 },
+	{ "GEOMEAN", -1 },
+	{ "HARMEAN", -1 },
+	{ "0x141", 8 },
+	{ "KURT", -1 },
+	{ "SKEW", -1 },
+	{ "ZTEST", 3 },
+	{ "LARGE", 2 },
+	{ "SMALL", 2 },
+	{ "QUARTILE", 2 },
+	{ "PERCENTILE", 2 },
+	{ "PERCENTRANK", 2 },
+	{ "MODE", -1 },
+	{ "TRIMMEAN", 2 },
+	{ "TINV", 2 },
+	{ "0x14d", 8 },
+	{ "0x14e", 8 },
+	{ "0x14f", 8 },
+	{ "CONCATENATE", 2 },
+	{ "0x151", 8 },
+	{ "0x152", 8 },
+	{ "0x153", 8 },
+	{ "0x154", 8 },
+	{ "0x155", 8 },
+	{ "RADIANS", 1 },
+	{ "0x157", 8 },
+	{ "0x158", 8 },
+	{ "0x159", 8 },
+	{ "0x15a", 8 },
+	{ "COUNTBLANK", 1 },
+	{ "0x15c", 8 },
+	{ "0x15d", 8 },
+	{ "0x15e", 8 },
+	{ "0x15f", 8 },
+	{ "0x160", 8 },
+	{ "0x161", 8 },
+	{ "0x162", 8 },
+	{ "0x163", 8 },
+	{ "0x164", 8 },
+	{ "0x165", 8 },
+	{ "0x166", 8 },
+	{ "HYPERLINK", -1 },
 };
 #define FORMULA_FUNC_DATA_LEN (sizeof(formula_func_data)/sizeof(FORMULA_FUNC_DATA))
 
@@ -400,7 +536,7 @@ static void parse_list_free (PARSE_LIST *list)
  **/
 static void 
 parse_list_comma_delimit_n (PARSE_LIST *stack, char *prefix,
-					int n, char *suffix, int precedence)
+					int n, int precedence)
 {
 	char **args, *ans, *put ;
 	guint32 slen = 0 ;
@@ -416,18 +552,18 @@ parse_list_comma_delimit_n (PARSE_LIST *stack, char *prefix,
 		g_free (dat) ;
 	}
 	slen+= prefix?strlen(prefix):0 ;
-	slen+= suffix?strlen(suffix):0 ;
-	slen+= 1 + n ; /* Commas and termination */
+	slen+= 2 + 1 + n ; /* Brackets Commas and termination */
 
 	ans = g_new (char, slen) ;
 
 	strcpy (ans, prefix) ;
+	strcat (ans, "(") ;
 	put = ans + strlen(ans) ;
 
 	for (lp=0;lp<n;lp++)
 		put += g_snprintf (put, slen, "%c%s", lp?',':' ', args[lp]) ;
 
-	strcat (put, suffix) ;
+	strcat (put, ")") ;
 	parse_list_push_raw (stack, ans, precedence) ;
 }
 
@@ -512,7 +648,7 @@ make_function (PARSE_LIST *stack, int fn_idx, int numargs)
 	{
 		PARSE_DATA *fn, *args ;
 
-		parse_list_comma_delimit_n (stack, "(", numargs-1, ")", NO_PRECEDENCE) ;
+		parse_list_comma_delimit_n (stack, "", numargs-1, NO_PRECEDENCE) ;
 		args = parse_list_pop (stack) ;
 		fn   = parse_list_pop (stack) ;
 		if (!args || !fn || !args->name || !fn->name)
@@ -526,23 +662,19 @@ make_function (PARSE_LIST *stack, int fn_idx, int numargs)
 		return 1 ;
 	}
 	else
-		for (lp=0;lp<FORMULA_FUNC_DATA_LEN;lp++)
+		if (fn_idx > 0 && fn_idx < FORMULA_FUNC_DATA_LEN)
 		{
-			if (formula_func_data[lp].function_idx == fn_idx)
-			{
-				const FORMULA_FUNC_DATA *fd = &formula_func_data[lp] ;
-				
-				if (fd->num_args != -1)
-					numargs = fd->num_args ;
-				
-				parse_list_comma_delimit_n (stack, (fd->prefix)?fd->prefix:"",
-							    numargs,
-							    fd->suffix?fd->suffix:"", fd->precedence) ;
-				return 1 ;
-			}
+			const FORMULA_FUNC_DATA *fd = &formula_func_data[fn_idx] ;
+			
+			if (fd->num_args != -1)
+				numargs = fd->num_args ;
+			
+			parse_list_comma_delimit_n (stack, (fd->prefix)?fd->prefix:"",
+						    numargs, 0) ;
+			return 1 ;
 		}
-	if (lp==FORMULA_FUNC_DATA_LEN)
-		printf ("FIXME, unimplemented fn 0x%x, with %d args\n", fn_idx, numargs) ;
+		else
+			printf ("FIXME, unimplemented fn 0x%x, with %d args\n", fn_idx, numargs) ;
 	return 0 ;
 }
 
@@ -859,64 +991,59 @@ char *ms_excel_parse_formula (MS_EXCEL_SHEET *sheet, guint8 *mem,
 		}
 		default:
 		{
-			int lp ;
-			
 /*	    printf ("Search %d records\n", (int)FORMULA_OP_DATA_LEN) ; */
-			for (lp=0;lp<FORMULA_OP_DATA_LEN;lp++)
+			if (ptgbase >= FORMULA_OP_START && ptgbase < FORMULA_OP_START+FORMULA_OP_DATA_LEN)
 			{
-				if (ptgbase == formula_op_data[lp].formula_ptg)
+				PARSE_DATA *arg1=0, *arg2 ;
+				GList *tmp ;
+				char *buffer=0 ;
+				gint len = 0 ;
+				FORMULA_OP_DATA *fd = &formula_op_data[ptgbase - FORMULA_OP_START] ;
+				int bracket_arg2 ;
+				int bracket_arg1 ;
+				
+				arg2 = parse_list_pop (stack) ;
+				bracket_arg2 = arg2->precedence<fd->precedence ;
+				len = strlen(arg2->name) + (fd->mid?strlen(fd->mid):0) + 
+					(bracket_arg2?2:0) + 1 ;
+				
+				if (fd->infix)
 				{
-					PARSE_DATA *arg1=0, *arg2 ;
-					GList *tmp ;
-					char *buffer=0 ;
-					gint len = 0 ;
-					FORMULA_OP_DATA *fd = &formula_op_data[lp] ;
-					int bracket_arg2 ;
-					int bracket_arg1 ;
+					arg1 = parse_list_pop (stack) ;
+					bracket_arg1 = arg1->precedence<fd->precedence ;
+					len += strlen (arg1->name) + (bracket_arg1?2:0) ;
+					buffer = g_new (char, len) ;
+					buffer[0] = '\0' ;
 					
-					arg2 = parse_list_pop (stack) ;
-					bracket_arg2 = arg2->precedence<fd->precedence ;
-					len = strlen(arg2->name) + (fd->mid?strlen(fd->mid):0) + 
-					      (bracket_arg2?2:0) + 1 ;
-
-					if (fd->infix)
-					{
-						arg1 = parse_list_pop (stack) ;
-						bracket_arg1 = arg1->precedence<fd->precedence ;
-						len += strlen (arg1->name) + (bracket_arg1?2:0) ;
-						buffer = g_new (char, len) ;
-						buffer[0] = '\0' ;
-
-						if (bracket_arg1)
-							strcat (buffer, "(") ;
-						strcat (buffer, arg1->name) ;
-						if (bracket_arg1)
-							strcat (buffer, ")") ;
-					}
-					else
-					{
-						buffer = g_new (char, len) ;
-						buffer[0] = '\0' ;
-					}
-
-					strcat (buffer, fd->mid?fd->mid:"") ;
-					if (bracket_arg2)
+					if (bracket_arg1)
 						strcat (buffer, "(") ;
-					strcat (buffer, arg2->name) ;
-					if (bracket_arg2)
+					strcat (buffer, arg1->name) ;
+					if (bracket_arg1)
 						strcat (buffer, ")") ;
-					
-/*		    printf ("Op : '%s'\n", buffer) ; */
-					parse_list_push_raw(stack, buffer, fd->precedence) ;
-					if (fd->infix)
-						parse_data_free (arg1) ;
-					parse_data_free (arg2) ;
-					break ;
 				}
+				else
+				{
+					buffer = g_new (char, len) ;
+					buffer[0] = '\0' ;
+				}
+				
+				strcat (buffer, fd->mid?fd->mid:"") ;
+				if (bracket_arg2)
+					strcat (buffer, "(") ;
+				strcat (buffer, arg2->name) ;
+				if (bracket_arg2)
+					strcat (buffer, ")") ;
+				
+/*		    printf ("Op : '%s'\n", buffer) ; */
+				parse_list_push_raw(stack, buffer, fd->precedence) ;
+				if (fd->infix)
+					parse_data_free (arg1) ;
+				parse_data_free (arg2) ;
 			}
-			if (lp==FORMULA_OP_DATA_LEN)
+			else
 				printf ("Unknown PTG 0x%x base %x\n", ptg, ptgbase), error=1 ;
 		}
+		break ;
 		}
 /*		printf ("Ptg 0x%x length (not inc. ptg byte) %d\n", ptgbase, ptg_length) ; */
 		cur+=    (ptg_length+1) ;

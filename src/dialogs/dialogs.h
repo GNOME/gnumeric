@@ -11,5 +11,6 @@ char *dialog_query_load_file (Workbook *wb);
 void  dialog_about           (Workbook *wb);
 void  dialog_define_names    (Workbook *wb);
 void  dialog_cell_comment    (Workbook *wb, Cell *cell);
+void  dialog_cell_sort       (Workbook *wb, Sheet *sheet);
 
 #endif /* GNUMERIC_DIALOGS_H */

@@ -179,6 +179,10 @@ void        sheet_selection_append_range (Sheet *sheet,
 					  int base_col,  int base_row,
 					  int start_col, int start_row,
 					  int end_col,   int end_row);
+int         sheet_selection_first_range  (Sheet *sheet,
+					  int *base_col,  int *base_row,
+					  int *start_col, int *start_row,
+					  int *end_col,   int *end_row);
 CellList   *sheet_selection_to_list      (Sheet *sheet);
 
 /* Operations on the selection */
@@ -222,8 +226,8 @@ void        sheet_cell_comment_unlink     (Cell *cell);
 
 void        sheet_cell_formula_link       (Cell *cell);
 void        sheet_cell_formula_unlink     (Cell *cell);
-gboolean    sheet_is_region_empty         (Sheet *sheet, int start_col, int start_row,
-					   int end_col, int end_row);
+gboolean    sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row,
+					       int end_col, int end_row);
 
 /* Create new ColRowInfos from the default sheet style */
 ColRowInfo *sheet_col_new                  (Sheet *sheet);

@@ -100,7 +100,8 @@ gnumeric_vlookup (struct FunctionDefinition *i, Value *argv [], char **error_str
 	a = &argv[1]->v.cell_range.cell_a ;
 	b = &argv[1]->v.cell_range.cell_b ;
 	g_return_val_if_fail (a->sheet != NULL, NULL) ;
-	g_return_val_if_fail (a->sheet == b->sheet, NULL) ;
+/* a->sheet must be used as inter-sheet references specify the other sheet in 'a' */
+/*	g_return_val_if_fail (a->sheet == b->sheet, NULL) ; */
 	g_return_val_if_fail (!a->col_relative, NULL) ;
 	g_return_val_if_fail (!b->col_relative, NULL) ;
 	g_return_val_if_fail (!a->row_relative, NULL) ;
@@ -189,7 +190,8 @@ gnumeric_hlookup (struct FunctionDefinition *i, Value *argv [], char **error_str
 	a = &argv[1]->v.cell_range.cell_a ;
 	b = &argv[1]->v.cell_range.cell_b ;
 	g_return_val_if_fail (a->sheet != NULL, NULL) ;
-	g_return_val_if_fail (a->sheet == b->sheet, NULL) ;
+/* a->sheet must be used as inter-sheet references specify the other sheet in 'a' */
+/*	g_return_val_if_fail (a->sheet == b->sheet, NULL) ; */
 	g_return_val_if_fail (!a->col_relative, NULL) ;
 	g_return_val_if_fail (!b->col_relative, NULL) ;
 	g_return_val_if_fail (!a->row_relative, NULL) ;

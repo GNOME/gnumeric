@@ -485,8 +485,8 @@ item_cursor_target_region_ok (ItemCursor *item_cursor)
 	GnomeCanvas *canvas = GNOME_CANVAS_ITEM (item_cursor)->canvas;
 	GtkWidget *window;
 	int v;
-	
-	v = sheet_is_region_empty (
+
+	v = sheet_is_region_empty_or_selected (
 		item_cursor->sheet,
 		item_cursor->start_col, item_cursor->start_row,
 		item_cursor->end_col, item_cursor->end_row);

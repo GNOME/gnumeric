@@ -1010,6 +1010,38 @@ sheet_selection_append_range (Sheet *sheet,
 	sheet_selection_changed_hook (sheet);
 }
 
+/**
+ * If returns true selection is just one range.
+ * If returns false, range data: indeterminate
+ **/
+int
+sheet_selection_first_range (Sheet *sheet,
+			      int *base_col,  int *base_row,
+			      int *start_col, int *start_row,
+			      int *end_col,   int *end_row)
+{
+	SheetSelection *ss;
+	GList *l;
+
+	g_return_val_if_fail (sheet != NULL, 0);
+	g_return_val_if_fail (IS_SHEET (sheet), 0); 
+	if (!sheet->selections)
+		return 0 ;
+	l = g_list_first (sheet->selections) ;
+	if (!l || !l->data)
+		return 0 ;
+	ss = l->data ;
+	*base_col = ss->base_col ;
+	*base_row = ss->base_row ;
+	*start_col = ss->start_col ;
+	*start_row = ss->start_row ;
+	*end_col = ss->end_col ;
+	*end_row = ss->end_row ;
+	if ((l=g_list_next(l)))
+		return 0 ;
+	return 1 ;
+}
+
 void
 sheet_selection_append (Sheet *sheet, int col, int row)
 {
@@ -1877,9 +1909,12 @@ sheet_cell_foreach_range (Sheet *sheet, int only_existing,
 }
 
 static gboolean
-fail_if_found (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
+fail_if_not_selected (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
 {
-	return FALSE;
+ 	if (!sheet_selection_is_cell_selected (sheet, col, row))
+  		return FALSE;
+ 	else
+ 		return TRUE ;
 }
 
 /**
@@ -1897,7 +1932,7 @@ fail_if_found (Sheet *sheet, int col, int row, Cell *cell, void *user_data)
  * features of a cell rather than just the existance of the cell.
  */
 gboolean
-sheet_is_region_empty (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
+sheet_is_region_empty_or_selected (Sheet *sheet, int start_col, int start_row, int end_col, int end_row)
 {
 	g_return_val_if_fail (sheet != NULL, TRUE);
 	g_return_val_if_fail (IS_SHEET (sheet), TRUE);
@@ -1906,7 +1941,7 @@ sheet_is_region_empty (Sheet *sheet, int start_col, int start_row, int end_col, 
 
 	return sheet_cell_foreach_range (
 		sheet, TRUE, start_col, start_row, end_col, end_row,
-		fail_if_found, NULL);
+		fail_if_not_selected, NULL);
 		
 }
 
