@@ -1760,7 +1760,7 @@ scg_object_calc_position (SheetControlGUI *scg, SheetObject *so, double const *c
 	for (i = 4; i-- > 0 ;)
 		scg->object_coords [i] = coords [i];
 
-	/* FIXME : how to deal with objects and panes ? */
+	/* pane 0 always exists and the others are always use the same basis */
 	gcanvas = scg_pane (scg, 0);
 	gnome_canvas_w2c (GNOME_CANVAS (gcanvas),
 		tmp [0], tmp [1],
@@ -1785,7 +1785,7 @@ scg_object_view_position (SheetControlGUI *scg, SheetObject *so, double *coords)
 {
 	SheetObjectDirection direction;
 	double pixels [4];
-	/* FIXME : how to deal with objects and panes ? */
+	/* pane 0 always exists and the others are always use the same basis */
 	GnomeCanvas *canvas = GNOME_CANVAS (scg_pane (scg, 0));
 
 	sheet_object_position_pixels_get (so, SHEET_CONTROL (scg), pixels);
