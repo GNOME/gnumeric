@@ -4,6 +4,7 @@ Michael:
 	* Totaly re-wrote style engine.
 
 Jukka:
+	* Implemented IRR function
 	* Fixed the handling of the database function criterias
 	* Fixed the non-numeric return values of DGET
 	* One-dimensional GROWTH and TREND should work now
