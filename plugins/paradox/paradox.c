@@ -8,6 +8,7 @@
 #include <gnumeric-config.h>
 #include <glib/gi18n.h>
 #include <gnumeric.h>
+#include <string.h>
 #include "px.h"
 
 #include <workbook-view.h>
@@ -87,10 +88,25 @@ paradox_file_open (GnmFileOpener const *fo, IOContext *io_context,
 
 	pxf = pxh->px_fields;
 	for (i = 0 ; i < (guint) pxh->px_numfields; i++) {
-		char str[30];
+		char str[30], *str2;
+		char ctypes[26] = {'?',
+		                   'A', 'D', 'S', 'I', '$', 'N', '?', '?',
+		                   'L', '?', '?', 'M', 'B', 'F', 'O', 'G',
+		                   '?', '?', '?', 'T', '@', '+', '#', 'Y',
+		                   };
 		cell = sheet_cell_fetch (sheet, i, 0);
-		snprintf (str, 30, "%s,%d,%d", pxf->px_fname, pxf->px_ftype, pxf->px_flen);
+		snprintf (str, 30, "%s,%c,%d", pxf->px_fname, ctypes[(int)pxf->px_ftype], pxf->px_flen);
+#if PXLIB_MAJOR_VERSION == 0 && (PXLIB_MINOR_VERION < 3 || (PXLIB_MAJOR_VERSION == 3 && PXLIB_MICRO_VERSION == 0))
+		/* Convert the field names to utf-8. This is actually in pxlib
+		 * responsibility, but hasn't been implemented. For the mean time
+		 * we *misuse* PX_get_data_alpha()
+		 */
+		PX_get_data_alpha(pxdoc, str, strlen(str), &str2);
+		fprintf(stderr, "%s\n", str2);
+		cell_set_text (cell, str2);
+#else
 		cell_set_text (cell, str);
+#endif
 		pxf++;
 	}
 	{

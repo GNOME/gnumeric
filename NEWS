@@ -26,6 +26,9 @@ Jody:
 	* Fix object positioning when zoomed
 	* Make the status area shorter with GtkStatusbar and fewer frames
 
+Uwe Steinmann:
+	* Validate the field names for paradox databases
+
 --------------------------------------------------------------------------
 
 Gnumeric 1.3.90

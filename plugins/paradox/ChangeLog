@@ -1,0 +1,7 @@
+2004-09-16  Jody Goldberg <jody@gnome.org>
+
+	From: Uwe Steinmann <uwe@steinmann.cx>
+	* paradox.c (paradox_file_open) : use *official* character for field
+	  type in the first row containing the database structure.
+	  Fixed a segm fault when a database is loaded which has a german
+	  umlaut in one of its field names.
