@@ -1202,20 +1202,35 @@ fmt_dialog_init_align_page (FormatState *state)
 static void
 cb_font_changed (GtkWidget *widget, MStyle *mstyle, FormatState *state)
 {
+	static MStyleElementType const font_types [] = {
+		MSTYLE_FONT_NAME,
+		MSTYLE_FONT_SIZE,
+		MSTYLE_FONT_BOLD,
+		MSTYLE_FONT_ITALIC,
+		MSTYLE_FONT_UNDERLINE,
+		MSTYLE_FONT_STRIKETHROUGH,
+		MSTYLE_COLOR_FORE
+	};
+	int i;
+	static int const num_font_types = sizeof (font_types) /
+		sizeof (MStyleElementType);
+
+	gboolean changed = FALSE;
 	g_return_if_fail (state != NULL);
 
 	if (!state->enable_edit)
 		return;
 
-	mstyle_replace_element (mstyle, state->result, MSTYLE_FONT_NAME);
-	mstyle_replace_element (mstyle, state->result, MSTYLE_FONT_SIZE);
-	mstyle_replace_element (mstyle, state->result, MSTYLE_FONT_BOLD);
-	mstyle_replace_element (mstyle, state->result, MSTYLE_FONT_ITALIC);
-	mstyle_replace_element (mstyle, state->result, MSTYLE_FONT_UNDERLINE);
-	mstyle_replace_element (mstyle, state->result, MSTYLE_FONT_STRIKETHROUGH);
-	mstyle_replace_element (mstyle, state->result, MSTYLE_COLOR_FORE);
+	for (i = 0 ; i < num_font_types; i++) { 
+		MStyleElementType const t = font_types [i];
+		if (mstyle_is_element_set (mstyle, t)) {
+			mstyle_replace_element (mstyle, state->result, t);
+			changed = TRUE;
+		}
+	}
 				
-	fmt_dialog_changed (state);
+	if (changed)
+		fmt_dialog_changed (state);
 }
 
 /*

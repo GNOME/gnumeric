@@ -1,3 +1,19 @@
+2001-10-10  Jody Goldberg <jgoldberg@home.com>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=62109
+	* widget-font-selector.c (reload_preview) : send a style with only the
+	  elements that changed, not the entire format.  Only send the signal
+	  if something actually changed.
+	(font_selected) : signature change for reload_preview.
+	(style_selected) : Ditto.
+	(size_changed) : Ditto.
+	(canvas_size_changed) : Ditto.
+	(font_selector_set_value) : Ditto.
+	(font_selector_set_style) : Ditto.
+	(font_selector_set_strike) : Ditto.
+	(font_selector_set_underline) : Ditto.
+	(font_selector_set_color) : Ditto.
+
 2001-10-07  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.71

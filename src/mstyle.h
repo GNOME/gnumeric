@@ -128,7 +128,6 @@ const char         *mstyle_get_validation_msg   (const MStyle *st);
 
 gboolean            mstyle_visible_in_blank(const MStyle *st);
 
-MStyle     *mstyle_merge       (const MStyle *master, MStyle *slave);
 char       *mstyle_to_string   (const MStyle *st); /* Debug only ! leaks like a sieve */
 void        mstyle_dump        (const MStyle *st);
 

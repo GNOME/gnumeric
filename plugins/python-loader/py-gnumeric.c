@@ -59,7 +59,6 @@ MStyle:
 	- get_font_size
 	- set_wrap_text
 	- get_wrap_text
-	- merge
 
 Cell:
 	Methods:
@@ -914,8 +913,6 @@ static PyObject *
 py_mstyle_set_wrap_text_method (py_MStyle_object *self, PyObject *args);
 static PyObject *
 py_mstyle_get_wrap_text_method (py_MStyle_object *self, PyObject *args);
-static PyObject *
-py_mstyle_merge_method (py_MStyle_object *self, PyObject *args);
 
 static struct PyMethodDef py_MStyle_object_methods[] = {
 	{"set_font_bold",   (PyCFunction) py_mstyle_set_font_bold_method,   METH_VARARGS},
@@ -928,7 +925,6 @@ static struct PyMethodDef py_MStyle_object_methods[] = {
 	{"get_font_size",   (PyCFunction) py_mstyle_get_font_size_method,   METH_VARARGS},
 	{"set_wrap_text",   (PyCFunction) py_mstyle_set_wrap_text_method,   METH_VARARGS},
 	{"get_wrap_text",   (PyCFunction) py_mstyle_get_wrap_text_method,   METH_VARARGS},
-	{"merge",           (PyCFunction) py_mstyle_merge_method,           METH_VARARGS},
 	{NULL, NULL}
 };
 
@@ -1061,21 +1057,6 @@ py_mstyle_get_wrap_text_method (py_MStyle_object *self, PyObject *args)
 	}
 
 	return Py_BuildValue ("i", mstyle_get_wrap_text (self->mstyle));
-}
-
-static PyObject *
-py_mstyle_merge_method (py_MStyle_object *self, PyObject *args)
-{
-	py_MStyle_object *other;
-
-	if (!PyArg_ParseTuple (args, "O!:merge", &py_MStyle_object_type, &other)) {
-		return NULL;
-	}
-
-	mstyle_merge (self->mstyle, other->mstyle);
-
-	Py_INCREF (Py_None);
-	return Py_None;
 }
 
 static PyObject *

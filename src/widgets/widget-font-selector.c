@@ -44,9 +44,15 @@ enum {
 static guint fs_signals [LAST_SIGNAL] = { 0 };
 
 static void
-reload_preview (FontSelector *fs)
+reload_preview (FontSelector *fs, MStyle *style)
 {
-	gtk_signal_emit (GTK_OBJECT (fs), fs_signals [FONT_CHANGED], fs->mstyle, NULL);
+	if (style != NULL) {
+		MStyle *old = fs->mstyle;
+		gtk_signal_emit (GTK_OBJECT (fs),
+			fs_signals [FONT_CHANGED], style);
+		fs->mstyle = mstyle_copy_merge (old, style);
+		mstyle_unref (old);
+	}
 
 	gnome_canvas_request_redraw (fs->font_preview_canvas, INT_MIN, INT_MIN,
 				     INT_MAX/2, INT_MAX/2);
@@ -70,12 +76,14 @@ static void
 font_selected (GtkCList *font_list, int col, int row, GdkEvent *event, FontSelector *fs)
 {
 	 gchar *text;
+	 MStyle *change;
 
 	 gtk_clist_get_text (font_list, GPOINTER_TO_INT (font_list->selection->data), 0, &text);
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_name_entry), text);
 
-	 mstyle_set_font_name (fs->mstyle, text);
-	 reload_preview (fs);
+	 change = mstyle_new ();
+	 mstyle_set_font_name (change, text);
+	 reload_preview (fs, change);
 }
 
 static void
@@ -111,30 +119,31 @@ static char *styles [] = {
 static void
 style_selected (GtkCList *style_list, int col, int row, GdkEvent *event, FontSelector *fs)
 {
+	 MStyle *change = mstyle_new ();
 	 row = GPOINTER_TO_INT (style_list->selection->data);
 
 	 switch (row) {
 	 case 0:
-		 mstyle_set_font_bold (fs->mstyle, FALSE);
-		 mstyle_set_font_italic (fs->mstyle, FALSE);
+		 mstyle_set_font_bold (change, FALSE);
+		 mstyle_set_font_italic (change, FALSE);
 		 break;
 	 case 1:
-		 mstyle_set_font_bold (fs->mstyle, TRUE);
-		 mstyle_set_font_italic (fs->mstyle, FALSE);
+		 mstyle_set_font_bold (change, TRUE);
+		 mstyle_set_font_italic (change, FALSE);
 		 break;
 
 	 case 2:
-		 mstyle_set_font_bold (fs->mstyle, TRUE);
-		 mstyle_set_font_italic (fs->mstyle, TRUE);
+		 mstyle_set_font_bold (change, TRUE);
+		 mstyle_set_font_italic (change, TRUE);
 		 break;
 	 case 3:
-		 mstyle_set_font_bold (fs->mstyle, FALSE);
-		 mstyle_set_font_italic (fs->mstyle, TRUE);
+		 mstyle_set_font_bold (change, FALSE);
+		 mstyle_set_font_italic (change, TRUE);
 		 break;
 	 }
 
 	 gtk_entry_set_text (GTK_ENTRY (fs->font_style_entry), _(styles [row]));
-	 reload_preview (fs);
+	 reload_preview (fs, change);
 }
 
 static void
@@ -177,8 +186,9 @@ size_changed (GtkEntry *entry, FontSelector *fs)
 	 text = gtk_entry_get_text (entry);
 	 size = atof (text);
 	 if (size >= 1. && size < 128) {
-		 mstyle_set_font_size (fs->mstyle, size);
-		 reload_preview (fs);
+		 MStyle *change = mstyle_new ();
+		 mstyle_set_font_size (change, size);
+		 reload_preview (fs, change);
 	 }
 }
 
@@ -243,7 +253,7 @@ canvas_size_changed (GtkWidget *widget, GtkAllocation *allocation, FontSelector 
 	
 	gnome_canvas_set_scroll_region (fs->font_preview_canvas, 0, 0,
 					fs->width, fs->height);
-	reload_preview (fs);
+	reload_preview (fs, NULL);
 }
 
 static void
@@ -389,7 +399,7 @@ font_selector_set_value (FontSelector *fs, const Value *v)
 	else
 		fs->value = value_new_string ("AaBbCcDdEe12345");
 
-	reload_preview (fs);
+	reload_preview (fs, NULL);
 }
 
 void
@@ -419,6 +429,7 @@ font_selector_set_style (FontSelector *fs,
 			 gboolean is_italic)
 {
 	int n;
+	MStyle *change;
 
 	g_return_if_fail (fs != NULL);
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
@@ -436,39 +447,46 @@ font_selector_set_style (FontSelector *fs,
 	}
 	select_row (fs->font_style_list, n);
 
-	mstyle_set_font_bold   (fs->mstyle, is_bold);
-	mstyle_set_font_italic (fs->mstyle, is_italic);
-	reload_preview (fs);
+	change = mstyle_new ();
+	mstyle_set_font_bold   (change, is_bold);
+	mstyle_set_font_italic (change, is_italic);
+	reload_preview (fs, change);
 }
 
 void
 font_selector_set_strike (FontSelector *fs, gboolean strikethrough)
 {
+	MStyle *change;
 	g_return_if_fail (fs != NULL);
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
-	mstyle_set_font_strike (fs->mstyle, strikethrough);
-	reload_preview (fs);
+	change = mstyle_new ();
+	mstyle_set_font_strike (change, strikethrough);
+	reload_preview (fs, change);
 }
 
 void
-font_selector_set_underline (FontSelector *fs, StyleUnderlineType sut)
+font_selector_set_underline (FontSelector *fs, StyleUnderlineType underline)
 {
+	MStyle *change;
 	g_return_if_fail (fs != NULL);
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
-	mstyle_set_font_uline (fs->mstyle, sut);
-	reload_preview (fs);
+	change = mstyle_new ();
+	mstyle_set_font_uline (change, underline);
+	reload_preview (fs, change);
 }
 
 void
 font_selector_set_color (FontSelector *fs, StyleColor *color)
 {
+	MStyle *change;
 	g_return_if_fail (fs != NULL);
 	g_return_if_fail (IS_FONT_SELECTOR (fs));
 
-	mstyle_set_color (fs->mstyle, MSTYLE_COLOR_FORE, color);
-	reload_preview (fs);
+	change = mstyle_new ();
+	mstyle_set_color (change, MSTYLE_COLOR_FORE, color);
+	reload_preview (fs, change);
 }
 
 void

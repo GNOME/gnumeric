@@ -1,3 +1,8 @@
+2001-10-10  Jody Goldberg <jgoldberg@home.com>
+
+	* py-gnumeric.c (py_mstyle_merge_method) : delete.
+	(py_MStyle_object_methods) : remove mstyle_merge.
+
 2001-10-07  Jody Goldberg <jgoldberg@home.com>
 
 	* Release 0.71

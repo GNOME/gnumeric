@@ -1,5 +1,9 @@
 2001-10-10  Jody Goldberg <jgoldberg@home.com>
 
+	* src/mstyle.c (mstyle_merge) : delete.
+
+2001-10-10  Jody Goldberg <jgoldberg@home.com>
+
 	* src/plugin-util.c (gnumeric_fopen) : be smarter about what type of
 	  error to report.
 

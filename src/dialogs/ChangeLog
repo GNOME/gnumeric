@@ -1,3 +1,9 @@
+2001-10-10  Jody Goldberg <jgoldberg@home.com>
+
+	http://bugzilla.gnome.org/show_bug.cgi?id=62109
+	* dialog-cell-format.c (cb_font_changed) : Only set elements that
+	  changed.
+
 2001-10-10  Andreas J. Guelzow <aguelzow@taliesin.ca>
 
         * Makefile.am : Add anova-one.glade, anova-two.glade, fourier-analysis.glade,

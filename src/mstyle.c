@@ -687,44 +687,6 @@ mstyle_unref (MStyle *style)
 		mstyle_destroy (style);
 }
 
-/**
- * mstyle_merge:
- * @master: the master style
- * @slave:  the slave style
- *
- *   This function removes any style elements from the slave
- * that are masked by the master style. Thus eventualy the
- * slave style becomes redundant and can be removed.
- * NB. if slave->ref_count == 1 we operate on it directly
- * otherwise we must copy.
- *
- * Returns: the masked style.
- **/
-MStyle *
-mstyle_merge (const MStyle *master, MStyle *slave)
-{
-	MStyle *psts;
-	int i;
-
-	g_return_val_if_fail (slave != NULL, NULL);
-	g_return_val_if_fail (master != NULL, NULL);
-
-	psts = slave;
-
-	for (i = 0; i < MSTYLE_ELEMENT_MAX; i++) {
-		if (master->elements[i].type && psts->elements[i].type) {
-			if (psts->ref_count > 1) {
-				psts = mstyle_copy (slave);
-				mstyle_unref (slave);
-			}
-			mstyle_element_unref (psts->elements[i]);
-			psts->elements[i].type = MSTYLE_ELEMENT_UNSET;
-		}
-	}
-
-	return psts;
-}
-
 char *
 mstyle_to_string (const MStyle *style)
 {
